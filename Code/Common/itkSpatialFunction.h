@@ -95,6 +95,7 @@ public:
 protected:
   SpatialFunction();
   virtual ~SpatialFunction();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   SpatialFunction(const Self&); //purposely not implemented

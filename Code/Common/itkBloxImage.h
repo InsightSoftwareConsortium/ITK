@@ -134,6 +134,7 @@ public:
 protected:
   BloxImage();
   virtual ~BloxImage();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   BloxImage(const Self&); //purposely not implemented

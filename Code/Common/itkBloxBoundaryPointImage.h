@@ -131,6 +131,7 @@ public:
 protected:
   BloxBoundaryPointImage();
   virtual ~BloxBoundaryPointImage();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   BloxBoundaryPointImage(const Self&); //purposely not implemented

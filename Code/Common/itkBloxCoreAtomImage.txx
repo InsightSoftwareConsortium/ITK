@@ -341,6 +341,36 @@ DoCoreAtomVoting()
     }
 }
 
+template<class TBoundaryPointImage, class TImageTraits>
+void
+BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Number of core atoms: " << m_NumCoreAtoms << std::endl;
+
+  unsigned int i;
+  os << indent << "Boundary point image origin: [";
+  for (i=0; i < NDimensions - 1; i++)
+    {
+    os << m_BPImageOrigin[i] << ", ";
+    }
+  os << "]" << std::endl;
+
+  os << indent << "Boundary point image spacing: [";
+  for (i=0; i < NDimensions - 1; i++)
+    {
+    os << m_BPImageSpacing[i] << ", ";
+    }
+  os << "]" << std::endl;
+
+  os << indent << "Minimum core atom search distance: " << m_DistanceMin << std::endl;
+  os << indent << "Maximum core atom search distance: " << m_DistanceMax << std::endl;
+  os << indent << "Core atom search epsilon: " << m_Epsilon << std::endl;
+  os << indent << "Core atom search polarity: " << m_Polarity << std::endl;
+}
+
 } // end namespace itk
 
 #endif

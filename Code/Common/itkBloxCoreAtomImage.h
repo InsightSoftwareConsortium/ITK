@@ -162,6 +162,7 @@ public:
 protected:
   BloxCoreAtomImage();
   virtual ~BloxCoreAtomImage();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   BloxCoreAtomImage(const Self&); //purposely not implemented

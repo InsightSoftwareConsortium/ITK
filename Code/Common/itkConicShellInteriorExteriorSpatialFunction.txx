@@ -149,6 +149,34 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>
 
 }
 
+template <unsigned int VImageDimension>
+void
+ConicShellInteriorExteriorSpatialFunction<VImageDimension>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  unsigned int i;
+  os << indent << "Origin: [";
+  for (i=0; i < VImageDimension - 1; i++)
+    {
+    os << m_Origin[i] << ", ";
+    }
+  os << "]" << std::endl;
+
+  os << indent << "Gradient at origin: [";
+  for (i=0; i < VImageDimension - 1; i++)
+    {
+    os << m_OriginGradient[i] << ", ";
+    }
+  os << "]" << std::endl;
+
+  os << indent << "DistanceMin: " << m_DistanceMin << std::endl;
+  os << indent << "DistanceMax: " << m_DistanceMax << std::endl;
+  os << indent << "Epsilon: " << m_Epsilon << std::endl;
+  os << indent << "Polarity: " << m_Polarity << std::endl;
+}
+
 } // end namespace itk
 
 #endif

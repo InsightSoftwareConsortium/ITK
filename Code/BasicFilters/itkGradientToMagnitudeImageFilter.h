@@ -92,6 +92,7 @@ protected:
 
   GradientToMagnitudeImageFilter();
   virtual ~GradientToMagnitudeImageFilter() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   GradientToMagnitudeImageFilter(const Self&); //purposely not implemented

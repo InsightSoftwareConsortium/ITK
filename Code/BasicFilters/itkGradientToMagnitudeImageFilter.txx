@@ -105,6 +105,14 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
   itkDebugMacro(<< "GradientToMagnitudeImageFilter::GenerateData() finished");
 }
 
+template< class TInputImage, class TOutputImage >
+void
+GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+}
+
 } // end namespace
 
 #endif

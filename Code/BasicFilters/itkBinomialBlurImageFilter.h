@@ -103,6 +103,7 @@ public:
 protected:
   BinomialBlurImageFilter();
   virtual ~BinomialBlurImageFilter() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Method for evaluating the implicit function over the image. */
   void GenerateData();

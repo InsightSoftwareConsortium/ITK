@@ -61,6 +61,14 @@ BloxImage<TBloxPixelType, VImageDimension, TImageTraits>
 
 }
 
+template<typename TBloxPixelType, unsigned int VImageDimension, class TImageTraits>
+void
+BloxImage<TBloxPixelType, VImageDimension, TImageTraits>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+}
+
 } // end namespace itk
 
 #endif

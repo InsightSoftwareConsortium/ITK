@@ -103,6 +103,32 @@ GaussianSpatialFunction<TOutput, VImageDimension, TInput>
   return (TOutput) value;
 }
 
+template <typename TOutput, unsigned int VImageDimension, typename TInput>
+void
+GaussianSpatialFunction<TOutput, VImageDimension, TInput>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  unsigned int i;
+  os << indent << "Sigma: [";
+  for (i=0; i < VImageDimension - 1; i++)
+    {
+    os << m_Sigma[i] << ", ";
+    }
+  os << "]" << std::endl;
+
+  os << indent << "Mean: [";
+  for (i=0; i < VImageDimension - 1; i++)
+    {
+    os << m_Mean[i] << ", ";
+    }
+  os << "]" << std::endl;
+
+  os << indent << "Scale: " << m_Scale << std::endl;
+  os << indent << "Normalized?: " << m_Normalized << std::endl;
+}
+
 
 } // end namespace itk
 

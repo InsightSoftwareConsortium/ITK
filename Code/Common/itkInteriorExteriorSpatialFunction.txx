@@ -47,15 +47,25 @@ namespace itk
 {
 
 template <unsigned int VImageDimension,typename TInput>
-InteriorExteriorSpatialFunction<VImageDimension,TInput>::InteriorExteriorSpatialFunction()
+InteriorExteriorSpatialFunction<VImageDimension,TInput>
+::InteriorExteriorSpatialFunction()
 {
 
 }
 
 template <unsigned int VImageDimension,typename TInput>
-InteriorExteriorSpatialFunction<VImageDimension,TInput>::~InteriorExteriorSpatialFunction()
+InteriorExteriorSpatialFunction<VImageDimension,TInput>
+::~InteriorExteriorSpatialFunction()
 {
 
+}
+
+template <unsigned int VImageDimension,typename TInput>
+void
+InteriorExteriorSpatialFunction<VImageDimension,TInput>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
 }
 
 } // end namespace itk

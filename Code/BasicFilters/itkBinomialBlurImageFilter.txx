@@ -296,6 +296,17 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   itkDebugMacro(<< "Binomial blur filter executed " << num_reps << " times");
 }
 
+template< class TInputImage, class TOutputImage >
+void
+BinomialBlurImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  
+  os << indent << "Number of repetitions: " << m_Repetitions << std::endl;
+  
+}
+
 } // end namespace
 
 #endif

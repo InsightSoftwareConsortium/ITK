@@ -89,6 +89,46 @@ GaussianImageSource<TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+
+  unsigned int i;
+    
+  os << indent << "Size: [";
+  for (i=0; i < NDimensions - 1; i++)
+    {
+    os << m_Size[i] << ", ";
+    }
+  os << "]" << std::endl;
+
+  os << indent << "Origin: [";
+  for (i=0; i < NDimensions - 1; i++)
+    {
+    os << m_Origin[i] << ", ";
+    }
+  os << "]" << std::endl;
+
+  os << indent << "Spacing: [";
+  for (i=0; i < NDimensions - 1; i++)
+    {
+    os << m_Spacing[i] << ", ";
+    }
+  os << "]" << std::endl;
+
+  os << indent << "Gaussian sigma: [";
+  for (i=0; i < NDimensions - 1; i++)
+    {
+    os << m_Sigma[i] << ", ";
+    }
+  os << "]" << std::endl;
+
+  os << indent << "Gaussian mean: [";
+  for (i=0; i < NDimensions - 1; i++)
+    {
+    os << m_Mean[i] << ", ";
+    }
+  os << "]" << std::endl;
+
+  os << indent << "Gaussian scale: " << m_Scale << std::endl;
+  os << indent << "Normalized Gaussian?: " << m_Normalized << std::endl;
 }
 
 template <typename TOutputImage>

@@ -149,7 +149,32 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
   itkDebugMacro(<< "Finished looking for boundary points\n"
                 << "I found " << numBP << " points\n"
                 << "I added " << numBPadded << " points\n");
-} 
+}
+
+template<class TSourceImage, class TImageTraits>
+void
+BloxBoundaryPointImage<TSourceImage, TImageTraits>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Threshold: " << m_Threshold << std::endl;
+
+  unsigned int i;
+  os << indent << "Source origin: [";
+  for (i=0; i < NDimensions - 1; i++)
+    {
+    os << m_SourceOrigin[i] << ", ";
+    }
+  os << "]" << std::endl;
+
+  os << indent << "Source spacing: [";
+  for (i=0; i < NDimensions - 1; i++)
+    {
+    os << m_SourceSpacing[i] << ", ";
+    }
+  os << "]" << std::endl;
+}
 
 } // end namespace itk
 

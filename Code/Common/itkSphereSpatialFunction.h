@@ -92,6 +92,7 @@ public:
 protected:
   SphereSpatialFunction();
   virtual ~SphereSpatialFunction();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   SphereSpatialFunction(const Self&); //purposely not implemented

@@ -168,6 +168,16 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
   itkDebugMacro(<< "DifferenceOfGaussiansGradientImageFilter::GenerateData() finished");
 }
 
+template<typename TInputImage, typename TDataType>
+void
+DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Width is " << m_Width << std::endl;
+}
+
 } // end namespace
 
 #endif
