@@ -115,7 +115,7 @@ protected:
   GMatrixType ComputeG(const InputVectorType & x) const;
 
  private:
-  ThinPlateSplineTransform(const Self&); //purposely not implemented
+  ThinPlateSplineKernelTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };
