@@ -81,8 +81,8 @@ void printnb( const
   typedef itk::RandomAccessNeighborhoodIterator< itk::Image<itk::Index<N>, N> > 
     IteratorType;
 
-  typename IteratorType::ConstIterator it;
-  it = nb.begin();
+  // typename IteratorType::ConstIterator it;
+  //  it = nb.begin();
 
   //  while (it != nb.end() )
   //    {
@@ -101,9 +101,8 @@ void FillImage(itk::Image<itk::Index<N>,N> *img)
   const itk::Size<N> size = img->GetRequestedRegion().GetSize();
 
   unsigned int i;
-  itk::Size<N> loop;
-  for (i=0; i<N; ++i) loop[i] = 0;
-  
+  IndexType loop;
+  loop.Fill(0);
   itk::ImageRegionIterator<ImageType> it(img, img->GetRequestedRegion());
   
   it.Begin();
@@ -113,7 +112,7 @@ void FillImage(itk::Image<itk::Index<N>,N> *img)
       for (i = 0; i <N; ++i)
         {
           loop[i]++;
-          if ( loop[i] == size[i] )
+          if ( (unsigned int)(loop[i]) == size[i] )
             {
               loop[i]= 0;
             }
