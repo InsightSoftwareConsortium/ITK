@@ -64,8 +64,8 @@ FirstDerivativeRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputati
   w1 = TComputation(  2.0720 );
 
   const TComputation sigmad = GetSigma() / m_Spacing;
-  K = 1.0 / ( sigmad * sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
-//K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0 ) ) ) );
+//  K = 1.0 / ( sigmad * sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
+  K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0 ) ) ) );
 
   const bool symmetric = false;
   ComputeFilterCoefficients(symmetric);

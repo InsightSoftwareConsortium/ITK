@@ -82,8 +82,8 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
   
   const TComputation sigmad = m_Sigma/m_Spacing;
 
-  K = 1.0 / ( sigmad * sigmad * sqrt( 2.0 * ( 4.0 * atan(1.0f) )));
-//  K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
+//  K = 1.0 / ( sigmad * sigmad * sqrt( 2.0 * ( 4.0 * atan(1.0f) )));
+  K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0f ) ) ) );
   
   const bool symmetric = true;
   ComputeFilterCoefficients(symmetric);
