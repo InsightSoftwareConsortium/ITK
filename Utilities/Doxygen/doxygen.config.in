@@ -20,7 +20,7 @@ PROJECT_NAME          = ITK
 # This could be handy for archiving the generated documentation or 
 # if some version control system is used.
 
-PROJECT_NUMBER        = 0.0.1
+PROJECT_NUMBER        = 1.0
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
 # base path where the generated documentation will be put. 
@@ -232,12 +232,12 @@ WARN_FORMAT           = "$file:$line: $text"
 # configuration options related to the input files
 #---------------------------------------------------------------------------
 
-# The INPUT tag can be used to specify the files and/or directories that contain 
-# documented source files. You may enter file names like "myfile.cpp" or 
-# directories like "/usr/src/myproject". Separate the files or directories 
-# with spaces. 
+# The INPUT tag can be used to specify the files and/or directories that
+# contain documented source files. You may enter file names like "myfile.cpp"
+# or directories like "/usr/src/myproject". Separate the files or directories
+# with spaces.
 
-INPUT                 = "@ITK_SOURCE_DIR@/Code" "@ITK_SOURCE_DIR@/Documentation"
+INPUT    = "@ITK_SOURCE_DIR@/Code" "@ITK_SOURCE_DIR@/Documentation/Doxygen"
 
 # If the value of the INPUT tag contains directories, you can use the 
 # FILE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
@@ -270,7 +270,7 @@ EXCLUDE_PATTERNS      = "*/vxl_copyright.h" "*/vcl/*" "*/dll.h" \
 # directories that contain example code fragments that are included (see 
 # the \include command). 
 
-EXAMPLE_PATH          = "@ITK_SOURCE_DIR@/Testing/Code" "@ITK_SOURCE_DIR@/Examples"
+EXAMPLE_PATH     = "@ITK_SOURCE_DIR@/Testing/Code" "@ITK_SOURCE_DIR@/Examples"
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the 
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
@@ -336,20 +336,20 @@ HTML_OUTPUT           = html
 # each generated HTML page. If it is left blank doxygen will generate a 
 # standard header.
 
-HTML_HEADER           = "@ITK_SOURCE_DIR@/Documentation/DoxygenHeader.html"
+HTML_HEADER       = "@ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenHeader.html"
 
 # The HTML_FOOTER tag can be used to specify a personal HTML footer for 
 # each generated HTML page. If it is left blank doxygen will generate a 
 # standard footer.
 
-HTML_FOOTER           = "@ITK_SOURCE_DIR@/Documentation/DoxygenFooter.html"
+HTML_FOOTER       = "@ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenFooter.html"
 
 # The HTML_STYLESHEET tag can be used to specify a user defined cascading 
 # style sheet that is used by each HTML page. It can be used to 
 # fine-tune the look of the HTML output. If the tag is left blank doxygen 
 # will generate a default style sheet 
 
-HTML_STYLESHEET       =  "@ITK_SOURCE_DIR@/Documentation/DoxygenStyle.css"
+HTML_STYLESHEET   =  "@ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenStyle.css"
 
 # If the HTML_ALIGN_MEMBERS tag is set to YES, the members of classes, 
 # files or namespaces will be aligned in HTML using tables. If set to 
