@@ -1839,7 +1839,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
                              int InOrOut, int BufferLayerNumber, int ThreadId)
 {
   int i;
-  LayerNodeType* nodePtr= 0;
+  LayerNodeType* nodePtr;
   StatusType neighbor_status;
   
   IndexType   center_index, n_index;
@@ -2269,7 +2269,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       }
     }
   
-  LayerNodeType * nodePtr= 0;
+  LayerNodeType * nodePtr;
   for (i = 0; i < 2 * m_NumberOfLayers + 1; i++) // for all layers
     {
     typename LayerType::Iterator layerIt  = m_Data[ThreadId].m_Layers[i]->Begin();
