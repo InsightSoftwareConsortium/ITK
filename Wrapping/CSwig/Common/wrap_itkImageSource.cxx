@@ -31,6 +31,7 @@ namespace _cable_
     ITK_WRAP_OBJECT1(ImageSource, image::UC2, itkImageSourceUC2);
     ITK_WRAP_OBJECT1(ImageSource, image::US2, itkImageSourceUS2);
     ITK_WRAP_OBJECT1(ImageSource, image::UI2, itkImageSourceUI2);
+    ITK_WRAP_OBJECT1(ImageSource, image::UL2, itkImageSourceUL2);
     ITK_WRAP_OBJECT1(ImageSource, image::SC2, itkImageSourceSC2);
     ITK_WRAP_OBJECT1(ImageSource, image::SS2, itkImageSourceSS2);
     ITK_WRAP_OBJECT1(ImageSource, image::SI2, itkImageSourceSI2);
@@ -40,6 +41,7 @@ namespace _cable_
     ITK_WRAP_OBJECT1(ImageSource, image::UC3, itkImageSourceUC3);
     ITK_WRAP_OBJECT1(ImageSource, image::US3, itkImageSourceUS3);
     ITK_WRAP_OBJECT1(ImageSource, image::UI3, itkImageSourceUI3);
+    ITK_WRAP_OBJECT1(ImageSource, image::UL3, itkImageSourceUL3);
     ITK_WRAP_OBJECT1(ImageSource, image::SC3, itkImageSourceSC3);
     ITK_WRAP_OBJECT1(ImageSource, image::SS3, itkImageSourceSS3);
     ITK_WRAP_OBJECT1(ImageSource, image::SI3, itkImageSourceSI3);

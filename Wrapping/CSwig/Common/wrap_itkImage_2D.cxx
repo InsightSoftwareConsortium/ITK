@@ -31,6 +31,7 @@ namespace _cable_
     ITK_WRAP_OBJECT2(Image, unsigned char, 2, itkImageUC2);
     ITK_WRAP_OBJECT2(Image, unsigned short, 2, itkImageUS2);
     ITK_WRAP_OBJECT2(Image, unsigned int, 2, itkImageUI2);
+    ITK_WRAP_OBJECT2(Image, unsigned long, 2, itkImageUL2);
     ITK_WRAP_OBJECT2(Image, signed char, 2, itkImageSC2);
     ITK_WRAP_OBJECT2(Image, signed short, 2, itkImageSS2);
     ITK_WRAP_OBJECT2(Image, signed int, 2, itkImageSI2);
