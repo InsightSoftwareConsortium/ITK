@@ -107,8 +107,11 @@ public:
   /** Output of this algorithm */
   typedef SubsampleType OutputType ;
 
+  /** Output of this algorithm */
+  typedef typename SubsampleType::Pointer OutputPointer ;
+
   /** Gets the Subsample */
-  OutputType* GetOutput() ;
+  OutputPointer GetOutput() ;
 
 protected:
   NeighborhoodSampler() ;

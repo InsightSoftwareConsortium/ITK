@@ -39,18 +39,36 @@ NeighborhoodSampler< TSample >
 {
   Superclass::PrintSelf(os,indent) ;
 
-  os << indent << "Center      " << (*m_Center) << std::endl;
-  os << indent << "Radius      " << (*m_Radius) << std::endl;
+  os << indent << "Center: " ;
+  if ( m_Center != 0 )
+    {
+     os << (*m_Center) << std::endl;
+    }
+  else
+    {
+    os << "not set. " << std::endl ;
+    }
+
+  os << indent << "Radius: " ;
+  if ( m_Radius != 0 )
+    {
+    os << (*m_Radius) << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
   os << indent << "Output      " << m_Subsample << std::endl;
   os << indent << "Output Size " << m_Subsample->Size() << std::endl ;
 }
 
 template< class TSample >
-typename NeighborhoodSampler< TSample >::OutputType*
+typename NeighborhoodSampler< TSample >::OutputPointer
 NeighborhoodSampler< TSample >
 ::GetOutput()
 {
-  return m_Subsample.GetPointer() ;
+  return m_Subsample ;
 }
 
 template< class TSample >
