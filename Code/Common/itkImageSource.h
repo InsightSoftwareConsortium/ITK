@@ -55,15 +55,21 @@ public:
   itkTypeMacro(ImageSource,ProcessObject);
 
   /** 
+   * Some typedefs.
+   */
+  typedef TOutputImage OutputImage;
+  typedef typename OutputImage::Pointer OutputImagePointer;
+
+  /** 
    * Get the image output of this process object. 
    */
-  TOutputImage *GetOutput();
-  TOutputImage *GetOutput(unsigned int idx);
+  OutputImagePointer GetOutput();
+  OutputImagePointer GetOutput(unsigned int idx);
 
   /** 
    * Set the image output of this process object. 
    */
-  void SetOutput(TOutputImage *output);
+  void SetOutput(OutputImage *output);
 
 protected:
   ImageSource();

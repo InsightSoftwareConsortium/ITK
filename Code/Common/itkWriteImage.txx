@@ -29,9 +29,8 @@ WriteImage<TInputImage>
   this->ProcessObject::SetNthInput(0, input);
 }
 
-
 template <class TInputImage>
-TInputImage *
+WriteImage<TInputImage>::InputImagePointer 
 WriteImage<TInputImage>
 ::GetInput()
 {
@@ -40,7 +39,8 @@ WriteImage<TInputImage>
     return 0;
     }
   
-  return static_cast<TInputImage *>(this->ProcessObject::GetInput(0));
+  return static_cast<TInputImage*>
+                    ((DataObject*)(this->ProcessObject::GetInput(0)));
 }
 
 

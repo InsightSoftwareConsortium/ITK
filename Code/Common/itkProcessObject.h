@@ -19,6 +19,7 @@
 #include "itkObject.h"
 #include "itkDataObject.h"
 #include "itkObjectFactory.h"
+#include <vector>
 
 namespace itk
 {
@@ -67,7 +68,7 @@ public:
    */
   typedef ProcessObject       Self;
   typedef SmartPointer<Self>  Pointer;
-
+  
   /**
    * Method for creation through the object factory.
    */
@@ -82,25 +83,30 @@ public:
    * Smart Pointer type to a DataObject.
    */
   typedef DataObject::Pointer DataObjectPointer;
+  /** 
+   * STL Array of SmartPointers to DataObjects
+   */
+  typedef std::vector<DataObjectPointer> DataObjectPointerArray;
 
   /** 
    * Return an array with all the inputs of this process object.
    * This is useful for tracing back in the pipeline to construct
    * graphs etc. 
    */
-  DataObjectPointer *GetInputs() 
+  DataObjectPointerArray GetInputs() 
     {return m_Inputs;};
   int GetNumberOfInputs() const
-    {return m_NumberOfInputs;}
+    {return m_Inputs.size();}
 
   /** 
    * Return an array with all the inputs of this process object.
    * This is useful for tracing back in the pipeline to contruct
    * graphs etc. 
    */
-  DataObjectPointer **GetOutputs();
+  DataObjectPointerArray GetOutputs()
+    { return m_Outputs; }
   int GetNumberOfOutputs() const
-    {return m_NumberOfOutputs;}
+    {return m_Outputs.size();}
     
   /** 
    * Specify function to be called before object executes. 
@@ -299,7 +305,7 @@ protected:
   /**
    * method used internally for getting an input.
    */
-  DataObject *GetInput(unsigned int idx);
+  DataObjectPointer GetInput(unsigned int idx);
 
   /**
    * Called to allocate the output array.  Copies old outputs.
@@ -309,7 +315,7 @@ protected:
   /**
    * method used internally for getting an output.
    */
-  DataObject *GetOutput(unsigned int idx);
+  DataObjectPointer GetOutput(unsigned int idx);
 
   /**
    * By default, UpdateInformation calls this method to copy information
@@ -334,15 +340,13 @@ private:
   /**
    * An Array of the inputs to the filter
    */
-  DataObjectPointer *m_Inputs;
-  unsigned int m_NumberOfInputs;
+  std::vector<DataObjectPointer> m_Inputs;
   unsigned int m_NumberOfRequiredInputs;
 
   /**
    * An Array of the outputs to the filter
    */
-  DataObjectPointer *m_Outputs;
-  unsigned int m_NumberOfOutputs;
+  std::vector<DataObjectPointer> m_Outputs;
   unsigned int m_NumberOfRequiredOutputs;
 
   /**

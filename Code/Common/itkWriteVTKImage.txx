@@ -41,14 +41,15 @@ WriteVTKImage<TInputImage>
 {
   const char *name;// = PixelTraits<TInputImage::PixelValueType>::Name;
   std::ostream *fp;
-  TInputImage *input;
+  typename TInputImage::Pointer input;
   const unsigned long *dims;
   const float *spacing;
   const float *origin;
 
   itkDebugMacro(<<"Writing image in VTK format");
   
-  input = static_cast<TInputImage *>(this->GetInput());
+  input = static_cast<TInputImage *>((DataObject*)(this->GetInput()));
+
   if ( TInputImage::ImageDimension > 3 )
     {
     itkErrorMacro(<<"VTK File format supports images of dimension 3 or less");
@@ -109,7 +110,7 @@ WriteVTKImage<TInputImage>
 ::OpenVTKFile()
 {
   std::ostream *fptr;
-  DataObject *input = this->GetInput();
+  typename TInputImage::Pointer input = this->GetInput();
   
   if ( !m_WriteToOutputString && !this->GetFileName() )
     {
@@ -122,7 +123,7 @@ WriteVTKImage<TInputImage>
   if (m_WriteToOutputString)
     {
     // Allocate the new output string. (Note: this will only work with binary).
-    if (input == NULL)
+    if (input)
       {
       itkErrorMacro(<< "No input! Can't write!");
       return NULL;    

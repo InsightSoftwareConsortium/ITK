@@ -46,6 +46,12 @@ public:
   itkNewMacro(Self);
   
   /** 
+   * Some typedefs
+   */
+  typedef TInputImage InputImage;
+  typedef typename InputImage::Pointer InputImagePointer;
+
+  /** 
    * Run-time type information (and related methods).
    */
   itkTypeMacro(WriteImage,Writer);
@@ -53,12 +59,12 @@ public:
   /** 
    * Set the input image of this writer. 
    */
-  void SetInput(TInputImage *input);
+  void SetInput(InputImage *input);
 
   /** 
    * Get the input image of this writer.
    */
-  TInputImage *GetInput();
+  InputImagePointer GetInput();
 
 protected:
   WriteImage() {}

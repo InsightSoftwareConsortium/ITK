@@ -41,7 +41,7 @@ ImageSource<TOutputImage>
  *
  */
 template<class TOutputImage>
-TOutputImage *
+ImageSource<TOutputImage>::OutputImagePointer 
 ImageSource<TOutputImage>
 ::GetOutput()
 {
@@ -50,7 +50,8 @@ ImageSource<TOutputImage>
     return 0;
     }
   
-  return (TOutputImage *)(this->GetOutput(0));
+  return static_cast<TOutputImage*>
+                    ((DataObject*)(this->ProcessObject::GetOutput(0)));
 }
 
   
@@ -58,11 +59,12 @@ ImageSource<TOutputImage>
  *
  */
 template<class TOutputImage>
-TOutputImage *
+ImageSource<TOutputImage>::OutputImagePointer 
 ImageSource<TOutputImage>
 ::GetOutput(unsigned int idx)
 {
-  return static_cast<TOutputImage *>(this->ProcessObject::GetOutput(idx));
+  return static_cast<TOutputImage*>
+                    ((DataObject*)(this->ProcessObject::GetOutput(idx)));
 }
 
 

@@ -48,7 +48,7 @@ FilterImageToImage<TInputImage,TOutputImage>
  *
  */
 template <class TInputImage, class TOutputImage>
-TInputImage *
+FilterImageToImage<TInputImage,TOutputImage>::InputImagePointer
 FilterImageToImage<TInputImage,TOutputImage>
 ::GetInput()
 {
@@ -57,19 +57,20 @@ FilterImageToImage<TInputImage,TOutputImage>
     return 0;
     }
   
-  return (TInputImage *)(this->GetInput(0));
+  return static_cast<TInputImage*>
+                    ((DataObject*)(this->ProcessObject::GetInput(0)));
 }
-
   
 /**
  *
  */
 template <class TInputImage, class TOutputImage>
-TInputImage *
+FilterImageToImage<TInputImage,TOutputImage>::InputImagePointer
 FilterImageToImage<TInputImage,TOutputImage>
 ::GetInput(unsigned int idx)
 {
-  return static_cast<TInputImage *>(this->ProcessObject::GetInput(idx));
+  return static_cast<TInputImage*>
+                    ((DataObject*)(this->ProcessObject::GetInput(idx)));
 }
 
 

@@ -53,15 +53,21 @@ public:
   itkTypeMacro(FilterImageToImage,ImageSource);
 
   /** 
+   * Some typedefs.
+   */
+  typedef TInputImage InputImage;
+  typedef typename InputImage::Pointer InputImagePointer;
+
+  /** 
    * Set the image input of this process object. 
    */
-  void SetInput(TInputImage *input);
+  void SetInput(InputImage *input);
 
   /** 
    * Get the image input of this process object. 
    */
-  TInputImage *GetInput();
-  TInputImage *GetInput(unsigned int idx);
+  InputImagePointer GetInput();
+  InputImagePointer GetInput(unsigned int idx);
 
 protected:
   FilterImageToImage();

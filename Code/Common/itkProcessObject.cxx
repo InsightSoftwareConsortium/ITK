@@ -16,6 +16,7 @@
 #include "itkProcessObject.h"
 #include "itkDataObject.h"
 #include "itkObjectFactory.h"
+#include <algorithm>
 
 namespace itk
 {
@@ -26,13 +27,9 @@ namespace itk
 ProcessObject
 ::ProcessObject()
 {
-  m_NumberOfInputs = 0;
   m_NumberOfRequiredInputs = 0;
-  m_Inputs = NULL;
 
-  m_NumberOfOutputs = 0;
   m_NumberOfRequiredOutputs = 0;
-  m_Outputs = NULL;
 
   m_StartMethod = NULL;
   m_StartMethodArgDelete = NULL;
@@ -69,37 +66,6 @@ ProcessObject
     (*m_EndMethodArgDelete)(m_EndMethodArg);
     }
 
-  unsigned int idx;
-  
-  for (idx = 0; idx < m_NumberOfInputs; ++idx)
-    {
-    if (m_Inputs[idx])
-      {
-      m_Inputs[idx]->UnRegister();
-      m_Inputs[idx] = NULL;
-      }
-    }
-  if (m_Inputs)
-    {
-    delete [] m_Inputs;
-    m_Inputs = NULL;
-    m_NumberOfInputs = 0;
-    }
-
-  for (idx = 0; idx < m_NumberOfOutputs; ++idx)
-    {
-    if (m_Outputs[idx])
-      {
-      m_Outputs[idx]->UnRegister();
-      m_Outputs[idx] = NULL;
-      }
-    }
-  if (m_Outputs)
-    {
-    delete [] m_Outputs;
-    m_Outputs = NULL;
-    m_NumberOfOutputs = 0;
-    }
 }
 
 typedef DataObject *DataObjectPointer;
@@ -111,54 +77,12 @@ void
 ProcessObject
 ::SetNumberOfInputs(unsigned int num)
 {
-  unsigned int idx;
-  DataObjectPointer *inputs;
-
-  /**
-   * in case nothing has changed.
-   */
-  if (num == m_NumberOfInputs)
+  // in case nothing has changed.
+  if (num == m_Inputs.size())
     {
     return;
     }
-  
-  /**
-   * Allocate new arrays.
-   */
-  inputs = new DataObjectPointer[num];
-
-  /**
-   * Initialize with NULLs.
-   */
-  for (idx = 0; idx < num; ++idx)
-    {
-    inputs[idx] = NULL;
-    }
-
-  /**
-   * Copy old inputs
-   */
-  for (idx = 0; idx < num && idx < m_NumberOfInputs; ++idx)
-    {
-    inputs[idx] = m_Inputs[idx];
-    }
-  
-  /**
-   * delete the previous arrays
-   */
-  if (m_Inputs)
-    {
-    delete [] m_Inputs;
-    m_Inputs = NULL;
-    m_NumberOfInputs = 0;
-    }
-  
-  /**
-   * Set the new arrays
-   */
-  m_Inputs = inputs;
-  
-  m_NumberOfInputs = num;
+  m_Inputs.resize(num);
   this->Modified();
 }
 
@@ -173,23 +97,19 @@ ProcessObject
 {
   unsigned int idx;
   
-  if (input)
-    {
-    input->Register();
-    }
   this->Modified();
   
-  for (idx = 0; idx < m_NumberOfInputs; ++idx)
+  for (idx = 0; idx < m_Inputs.size(); ++idx)
     {
-    if (m_Inputs[idx] == NULL)
+    if (!m_Inputs[idx])
       {
       m_Inputs[idx] = input;
       return;
       }
     }
   
-  this->SetNumberOfInputs(m_NumberOfInputs + 1);
-  m_Inputs[m_NumberOfInputs - 1] = input;
+  this->SetNumberOfInputs(m_Inputs.size() + 1);
+  m_Inputs[m_Inputs.size() - 1] = input;
 }
 
 
@@ -201,41 +121,30 @@ void
 ProcessObject
 ::RemoveInput(DataObject *input)
 {
-  unsigned int idx;
-  
   if (!input)
     {
     return;
     }
   
-  /**
-   * find the input in the list of inputs
-   */
-  int loc = -1;
-  for (idx = 0; idx < m_NumberOfInputs; ++idx)
-    {
-    if (m_Inputs[idx] == input)
-      {
-      loc = idx;
-      }
-    }
-  if (loc == -1)
+  // find the input in the list of inputs
+  DataObjectPointerArray::iterator pos = 
+    std::find(m_Inputs.begin(), m_Inputs.end(), input);
+
+  if(pos == m_Inputs.end())
     {
     itkDebugMacro("tried to remove an input that was not in the list");
     return;
     }
-  
-  m_Inputs[loc]->UnRegister();
-  m_Inputs[loc] = NULL;
 
-  /**
-   * if that was the last input, then shrink the list
-   */
-  if (loc == int(m_NumberOfInputs) - 1 )
+  // Set the position in the m_Inputs containing input to 0
+  *pos = 0;
+
+  // if that was the last input, then shrink the list
+  if (pos == m_Inputs.end() - 1 )
     {
-    this->SetNumberOfInputs(m_NumberOfInputs - 1);
+    this->SetNumberOfInputs(m_Inputs.size() - 1);
     }
-  
+
   this->Modified();
 }
 
@@ -247,38 +156,18 @@ void
 ProcessObject
 ::SetNthInput(unsigned int idx, DataObject *input)
 {
-  if (idx < 0)
+  // does this change anything?
+  if ( idx < m_Inputs.size() && input == m_Inputs[idx])
     {
-    itkErrorMacro(<< "SetNthInput: " << idx << ", cannot set input. ");
     return;
     }
-  /**
-   * Expand array if necessary.
-   */
-  if (idx >= m_NumberOfInputs)
+  
+  // Expand array if necessary.
+  if (idx >= m_Inputs.size())
     {
     this->SetNumberOfInputs(idx + 1);
     }
   
-  /**
-   * does this change anything?
-   */
-  if (input == m_Inputs[idx])
-    {
-    return;
-    }
-  
-  if (m_Inputs[idx])
-    {
-    m_Inputs[idx]->UnRegister();
-    m_Inputs[idx] = NULL;
-    }
-  
-  if (input)
-    {
-    input->Register();
-    }
-
   m_Inputs[idx] = input;
   this->Modified();
 }
@@ -287,42 +176,30 @@ void
 ProcessObject
 ::RemoveOutput(DataObject *output)
 {
-  unsigned int idx;
-  
   if (!output)
     {
     return;
     }
   
-  /**
-   * find the output in the list of outputs
-   */
-  int loc = -1;
-  for (idx = 0; idx < m_NumberOfOutputs; ++idx)
-    {
-    if ( m_Outputs[idx] == output)
-      {
-      loc = idx;
-      }
-    }
-  if (loc == -1)
+  // find the input in the list of inputs
+  DataObjectPointerArray::iterator pos = 
+    std::find(m_Outputs.begin(), m_Outputs.end(), output);
+
+  if(pos == m_Outputs.end())
     {
     itkDebugMacro("tried to remove an output that was not in the list");
     return;
     }
-  
-  m_Outputs[loc]->SetSource(NULL);
-  m_Outputs[loc]->UnRegister();
-  m_Outputs[loc] = NULL;
 
-  /**
-   * if that was the last output, then shrink the list
-   */
-  if (loc == int(m_NumberOfOutputs) - 1)
+  // Set the position in the m_Outputs containing output to 0
+  *pos = 0;
+
+  // if that was the last output, then shrink the list
+  if (pos == m_Outputs.end() - 1 )
     {
-    this->SetNumberOfOutputs(m_NumberOfOutputs - 1);
+    this->SetNumberOfOutputs(m_Outputs.size() - 1);
     }
-  
+
   this->Modified();
 }
 
@@ -334,65 +211,38 @@ ProcessObject
  */
 void 
 ProcessObject
-::SetNthOutput(unsigned int idx, DataObject *newOutput)
+::SetNthOutput(unsigned int idx, DataObject *output)
 {
-  DataObject *oldOutput;
-  
-  if (idx < 0)
+  // does this change anything?
+  if ( idx < m_Outputs.size() && output == m_Outputs[idx])
     {
-    itkErrorMacro(<< "SetNthOutput: " << idx << ", cannot set output. ");
     return;
     }
-  /**
-   * Expand array if necessary.
-   */
-  if (idx >= m_NumberOfOutputs)
+  
+  // Expand array if necessary.
+  if (idx >= m_Outputs.size())
     {
     this->SetNumberOfOutputs(idx + 1);
     }
-  
-  /**
-   * does this change anything?
-   */
-  oldOutput = m_Outputs[idx];
-  if (newOutput == oldOutput)
+  if(m_Outputs[idx])
     {
-    return;
+    m_Outputs[idx]->SetSource(0);
     }
-  
-  /**
-   * disconnect first existing source-output relationship.
-   */
-  if (oldOutput)
+  if (output)
     {
-    oldOutput->SetSource(NULL);
-    oldOutput->UnRegister();
-    m_Outputs[idx] = NULL;
-    }
-  
-  if (newOutput)
-    {
-    ProcessObject *newOutputOldSource = newOutput->GetSource();
+    ProcessObject::Pointer newOutputOldSource = output->GetSource();
 
-    /**
-     * Register the newOutput so it does not get deleted.
-     * Don't set the link yet until previous links is disconnected.
-     */
-    newOutput->Register();
-    
     /**
      * disconnect second existing source-output relationship
      */
     if (newOutputOldSource)
       {
-      newOutputOldSource->RemoveOutput(newOutput);
+      newOutputOldSource->RemoveOutput(output);
       }
-    newOutput->SetSource(this);
+    output->SetSource(this);
+    m_Outputs[idx] = output;
     }
-  /**
-   * now actually make the link that was registered previously.
-   */
-  m_Outputs[idx] = newOutput;
+  this->Modified();
 }
 
 /**
@@ -408,21 +258,20 @@ ProcessObject
   if (output)
     {
     output->SetSource(this);
-    output->Register();
     }
   this->Modified();
   
-  for (idx = 0; idx < m_NumberOfOutputs; ++idx)
+  for (idx = 0; idx < m_Outputs.size(); ++idx)
     {
-    if (m_Outputs[idx] == NULL)
+    if (m_Outputs[idx] == 0)
       {
       m_Outputs[idx] = output;
       return;
       }
     }
   
-  this->SetNumberOfOutputs(m_NumberOfOutputs + 1);
-  m_Outputs[m_NumberOfOutputs - 1] = output;
+  this->SetNumberOfOutputs(m_Outputs.size() + 1);
+  m_Outputs[m_Outputs.size() - 1] = output;
 }
 
 /**
@@ -432,54 +281,13 @@ void
 ProcessObject
 ::SetNumberOfOutputs(unsigned int num)
 {
-  unsigned int idx;
-  DataObjectPointer *outputs;
 
-  /**
-   * in case nothing has changed.
-   */
-  if (num == m_NumberOfOutputs)
+  // in case nothing has changed.
+  if (num == m_Outputs.size())
     {
     return;
     }
-  
-  /**
-   * Allocate new arrays.
-   */
-  outputs = new DataObjectPointer [num];
-
-  /**
-   * Initialize with NULLs.
-   */
-  for (idx = 0; idx < num; ++idx)
-    {
-    outputs[idx] = NULL;
-    }
-
-  /**
-   * Copy old outputs
-   */
-  for (idx = 0; idx < num && idx < m_NumberOfOutputs; ++idx)
-    {
-    outputs[idx] = m_Outputs[idx];
-    }
-  
-  /**
-   * delete the previous arrays
-   */
-  if (m_Outputs)
-    {
-    delete [] m_Outputs;
-    m_Outputs = NULL;
-    m_NumberOfOutputs = 0;
-    }
-  
-  /**
-   * Set the new arrays
-   */
-  m_Outputs = outputs;
-  
-  m_NumberOfOutputs = num;
+  m_Outputs.resize(num);
   this->Modified();
 }
 
@@ -487,11 +295,11 @@ ProcessObject
 /**
  *
  */
-DataObject *
+DataObject::Pointer
 ProcessObject
 ::GetOutput(unsigned int i)
 {
-  if (m_NumberOfOutputs < i+1)
+  if (m_Outputs.size() < i+1)
     {
     return NULL;
     }
@@ -503,11 +311,11 @@ ProcessObject
 /**
  *
  */
-DataObject *
+DataObject::Pointer
 ProcessObject
 ::GetInput(unsigned int i)
 {
-  if (m_NumberOfInputs < i+1)
+  if (m_Inputs.size() < i+1)
     {
     return NULL;
     }
@@ -672,7 +480,7 @@ ProcessObject
 {
   unsigned int idx;
   
-  for (idx = 0; idx < m_NumberOfOutputs; idx++)
+  for (idx = 0; idx < m_Outputs.size(); idx++)
     {
     if (m_Outputs[idx])
       {
@@ -694,10 +502,10 @@ ProcessObject
   os << indent << "Number Of Required Inputs: "
      << m_NumberOfRequiredInputs << std::endl;
 
-  if ( m_NumberOfInputs)
+  if ( m_Inputs.size())
     {
     unsigned int idx;
-    for (idx = 0; idx < m_NumberOfInputs; ++idx)
+    for (idx = 0; idx < m_Inputs.size(); ++idx)
       {
       os << indent << "Input " << idx << ": (" << m_Inputs[idx] << ")\n";
       }
@@ -705,6 +513,18 @@ ProcessObject
   else
     {
     os << indent <<"No Inputs\n";
+    }
+  if ( m_Outputs.size())
+    {
+    unsigned int idx;
+    for (idx = 0; idx < m_Outputs.size(); ++idx)
+      {
+      os << indent << "Output " << idx << ": (" << m_Outputs[idx] << ")\n";
+      }
+    }
+  else
+    {
+    os << indent <<"No Output\n";
     }
 
   if ( m_StartMethod )
@@ -796,7 +616,7 @@ ProcessObject
   /**
    * Loop through the inputs
    */
-  for (idx = 0; idx < m_NumberOfInputs; ++idx)
+  for (idx = 0; idx < m_Inputs.size(); ++idx)
     {
     if (m_Inputs[idx] != NULL)
       {
@@ -841,7 +661,7 @@ ProcessObject
    */
   if (t1 > m_InformationTime.GetMTime())
     {
-    for (idx = 0; idx < m_NumberOfOutputs; ++idx)
+    for (idx = 0; idx < m_Outputs.size(); ++idx)
       {
       output = this->GetOutput(idx);
       if (output)
@@ -894,7 +714,7 @@ ProcessObject
    * through all the inputs.
    */
   m_Updating = true;
-  for (unsigned int idx = 0; idx < m_NumberOfInputs; ++idx)
+  for (unsigned int idx = 0; idx < m_Inputs.size(); ++idx)
     {
     if (m_Inputs[idx] != NULL)
       {
@@ -914,7 +734,7 @@ void
 ProcessObject
 ::ComputeInputUpdateExtents( DataObject *itkNotUsed(output) )
 {
-  for (unsigned int idx = 0; idx < m_NumberOfInputs; ++idx)
+  for (unsigned int idx = 0; idx < m_Inputs.size(); ++idx)
     {
     if (m_Inputs[idx] != NULL)
       {
@@ -943,7 +763,7 @@ ProcessObject
    * Propagate the trigger to all the inputs
    */
   m_Updating = true;
-  for (unsigned int idx = 0; idx < m_NumberOfInputs; ++idx)
+  for (unsigned int idx = 0; idx < m_Inputs.size(); ++idx)
     {
     if (m_Inputs[idx] != NULL)
       {
@@ -978,7 +798,7 @@ ProcessObject
    * inputs since they may lead back to the same data object.
    */
   m_Updating = true;
-  if ( m_NumberOfInputs == 1 )
+  if ( m_Inputs.size() == 1 )
     {
     if (m_Inputs[0] != NULL)
       {
@@ -987,7 +807,7 @@ ProcessObject
     }
   else
     {
-    for (idx = 0; idx < m_NumberOfInputs; ++idx)
+    for (idx = 0; idx < m_Inputs.size(); ++idx)
       {
       if (m_Inputs[idx] != NULL)
         {
@@ -1001,7 +821,7 @@ ProcessObject
   /**
    * Initialize all the outputs
    */
-  for (idx = 0; idx < m_NumberOfOutputs; idx++)
+  for (idx = 0; idx < m_Outputs.size(); idx++)
     {
     if (m_Outputs[idx])
       {
@@ -1023,9 +843,9 @@ ProcessObject
    */
   m_AbortExecute = 0;
   m_Progress = 0.0;
-  if (m_NumberOfInputs < m_NumberOfRequiredInputs)
+  if (m_Inputs.size() < m_NumberOfRequiredInputs)
     {
-    itkErrorMacro(<< "At least " << m_NumberOfRequiredInputs << " inputs are required but only " << m_NumberOfInputs << " are specified");
+    itkErrorMacro(<< "At least " << m_NumberOfRequiredInputs << " inputs are required but only " << m_Inputs.size() << " are specified");
     }
   else
     {
@@ -1052,7 +872,7 @@ ProcessObject
   /**
    * Now we have to mark the data as up to data.
    */
-  for (idx = 0; idx < m_NumberOfOutputs; ++idx)
+  for (idx = 0; idx < m_Outputs.size(); ++idx)
     {
     if (m_Outputs[idx])
       {
@@ -1063,7 +883,7 @@ ProcessObject
   /**
    * Release any inputs if marked for release
    */
-  for (idx = 0; idx < m_NumberOfInputs; ++idx)
+  for (idx = 0; idx < m_Inputs.size(); ++idx)
     {
     if (m_Inputs[idx] != NULL)
       {
@@ -1101,9 +921,9 @@ ProcessObject
   /**
    * We need some space to store the input sizes if there are any inputs
    */
-  if ( m_NumberOfInputs > 0 )
+  if ( m_Inputs.size() > 0 )
     {
-    inputSize = new unsigned long[m_NumberOfInputs];
+    inputSize = new unsigned long[m_Inputs.size()];
     }
 
   /**
@@ -1112,7 +932,7 @@ ProcessObject
    * the size of each input, and the memory required by this filter when
    * it executes.
    */
-  for (idx = 0; idx < m_NumberOfInputs; ++idx)
+  for (idx = 0; idx < m_Inputs.size(); ++idx)
     {
     if (m_Inputs[idx])
       {
@@ -1232,7 +1052,7 @@ ProcessObject
    * the size of the specified output in size[0], and the sum of all
    * output size in size[1]. Ignore input sizes in this default implementation.
    */
-  for (idx = 0; idx < m_NumberOfOutputs; ++idx)
+  for (idx = 0; idx < m_Outputs.size(); ++idx)
     {
     if (m_Outputs[idx])
       {
@@ -1254,13 +1074,13 @@ void
 ProcessObject
 ::ExecuteInformation()
 {
-  DataObject *input, *output;
+  DataObjectPointer input, output;
 
-  if (m_Inputs && m_Inputs[0])
+  if (m_Inputs.size() && m_Inputs[0])
     {
     input = m_Inputs[0];
 
-    for (unsigned int idx = 0; idx < m_NumberOfOutputs; ++idx)
+    for (unsigned int idx = 0; idx < m_Outputs.size(); ++idx)
       {
       output = this->GetOutput(idx);
       if (output)
