@@ -23,9 +23,9 @@ namespace itk
 {
   
 /** \class MinimumImageFilter
- * \brief Implements a pixel-wise operator Max(a,b) between two images.
+ * \brief Implements a pixel-wise operator Min(a,b) between two images.
  *
- * The pixel values of the output image are the maximum between the 
+ * The pixel values of the output image are the minimum between the 
  * corresponding pixels of the two input images.
  *
  * This class is parametrized over the types of the two 
