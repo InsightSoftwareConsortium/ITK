@@ -88,7 +88,7 @@ public:
     { return m_DeformationField; }
 
 
-  void SetEnergy( double e) { m_Energy=0.0;}
+  void SetEnergy( double e) { m_Energy=e;}
   double GetEnergy( ) { return m_Energy;}
   void SetGradientStep( double e) { m_GradientStep = e;}
   double GetGradientStep( ) { return m_GradientStep ;}
