@@ -47,7 +47,7 @@ SobelOperator <TPixel, VDimension, TAllocator>
                 {
                   pos = center + z * this->GetStride(2) + y * this->GetStride(1) +
                     x * this->GetStride(0);
-                  this->operator[](pos) = coeff[i];
+                  this->operator[](pos) = static_cast<TPixel>(coeff[i]);
                   i++;
                 }
             }
@@ -61,7 +61,7 @@ SobelOperator <TPixel, VDimension, TAllocator>
           for (x = -1; x <= 1; x++)
             {
               pos = center + y * this->GetStride(1) + x * this->GetStride(0);
-              this->operator[](pos) = coeff[i];
+              this->operator[](pos) = static_cast<TPixel>(coeff[i]);
               i++;
             }
         } 
