@@ -202,7 +202,7 @@ GetJacobian( const InputPointType & p ) const
 
   // derivatives with respect to the scale
   m_Jacobian[0][0] =    ca * ( p[0] - cx ) - sa * ( p[1] - cy );
-  m_Jacobian[1][0] =    sa * ( p[0] - cx ) - ca * ( p[1] - cy ); 
+  m_Jacobian[1][0] =    sa * ( p[0] - cx ) + ca * ( p[1] - cy ); 
 
   // derivatives with respect to the angle
   m_Jacobian[0][1] = ( -sa * ( p[0] - cx ) - ca * ( p[1] - cy ) ) * m_Scale;
