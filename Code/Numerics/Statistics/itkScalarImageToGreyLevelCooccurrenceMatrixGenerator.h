@@ -160,16 +160,20 @@ class ScalarImageToGreyLevelCooccurrenceMatrixGenerator : public Object
     void PrintSelf(std::ostream& os, Indent indent) const;
     virtual void FillHistogram( RadiusType radius, RegionType region );
     
-    // Leave these protected so that derived classes can access them.
+    itkGetMacro(Image,ImagePointer);
+    itkGetMacro(Histogram,HistogramPointer);
+    itkGetMacro(Offsets,OffsetVectorPointer);
+    itkGetMacro(Min,PixelType);
+    itkGetMacro(Max,PixelType);
+    
+   private:
+    void NormalizeHistogram( void );
+  
     ImagePointer           m_Image;
     HistogramPointer       m_Histogram;
     OffsetVectorPointer    m_Offsets;
     PixelType              m_Min, m_Max;
 
-    
-   private:
-    void NormalizeHistogram( void );
-  
     unsigned int           m_BinsPerAxis;
     MeasurementVectorType  m_LowerBound, m_UpperBound;
     bool                   m_Normalize;

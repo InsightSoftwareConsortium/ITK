@@ -467,12 +467,6 @@ protected:
   // The number of bins for each dimension
   SizeType m_Size ;
   
-  // lower bound of each bin
-  std::vector< std::vector<MeasurementType> > m_Min ;
-  
-  // upper bound of each bin
-  std::vector< std::vector<MeasurementType> > m_Max ;
-  
 private:
   Histogram(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -481,6 +475,12 @@ private:
   FrequencyContainerPointer   m_FrequencyContainer ;
   unsigned int                m_NumberOfInstances ;
 
+  // lower bound of each bin
+  std::vector< std::vector<MeasurementType> > m_Min ;
+  
+  // upper bound of each bin
+  std::vector< std::vector<MeasurementType> > m_Max ;
+  
   mutable MeasurementVectorType   m_TempMeasurementVector ;
   mutable IndexType               m_TempIndex ;
 

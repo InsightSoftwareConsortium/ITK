@@ -278,14 +278,19 @@ protected:
   virtual ~ImageToListAdaptor() {}
   void PrintSelf(std::ostream& os, Indent indent) const;  
 
-  PixelContainerConstPointer m_PixelContainer ;
-  bool m_UseBuffer ;
-  typename TImage::IndexType m_ImageBeginIndex ;
-  typename TImage::IndexType m_ImageEndIndex ;
+  itkGetMacro(PixelContainer,PixelContainerConstPointer);
+  itkGetMacro(UseBuffer,bool);
+  itkGetMacro(ImageBeginIndex,TImage::IndexType);
+  itkGetMacro(ImageEndIndex,TImage::IndexType);
 
 private:
   ImageToListAdaptor(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
+
+  PixelContainerConstPointer m_PixelContainer ;
+  bool m_UseBuffer ;
+  typename TImage::IndexType m_ImageBeginIndex ;
+  typename TImage::IndexType m_ImageEndIndex ;
 
   ImageConstPointer m_Image ;
 } ; // end of class ImageToListAdaptor

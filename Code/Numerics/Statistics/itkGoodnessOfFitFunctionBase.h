@@ -102,10 +102,13 @@ protected:
   
   virtual void GenerateData() {}
 
+  itkGetMacro(Epsilon,float);
+  itkGetMacro(LogEpsilon,float);
+
+private:
   float m_Epsilon ;
   float m_LogEpsilon ;
 
-private:
   bool m_UseExpectedHistogram ;
 
   InputHistogramType* m_ObservedHistogram ;

@@ -59,6 +59,7 @@ public:
    * version Evaluate() function. This function is necessary part of
    * implementing MembershipFunctionBase's Evaluate() interface */ 
   void SetOrigin(const OriginType& x) ;
+  itkGetMacro(Origin, OriginType) ;
 
   /** Gets the distance between the origin point and x. This function
    * work with SetOrigin() function*/
