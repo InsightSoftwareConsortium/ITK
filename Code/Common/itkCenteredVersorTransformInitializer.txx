@@ -46,8 +46,8 @@ CenteredVersorTransformInitializer<TFixedImage, TMovingImage >
   typedef typename FixedImageCalculatorType::MatrixType   FixedMatrixType;
   typedef typename MovingImageCalculatorType::MatrixType  MovingMatrixType;
   
-  FixedMatrixType   fixedInertia  = this->GetFixedCalculator()->GetSecondMoments(); 
-  MovingMatrixType  movingInertia = this->GetMovingCalculator()->GetSecondMoments(); 
+  FixedMatrixType   fixedPrincipalAxis  = this->GetFixedCalculator()->GetPrincipalAxes(); 
+  MovingMatrixType  movingPrincipalAxis = this->GetMovingCalculator()->GetPrincipalAxes(); 
   
 }
   
