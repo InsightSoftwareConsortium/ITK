@@ -36,6 +36,7 @@
 #include "itkSubtractImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkExtractImageFilter.h"
+#include "itkDifferenceImageFilter.h"
 #include "itkImageRegion.h"
 
 typedef int (*MainFuncPointer)(int , char* [] );
@@ -203,35 +204,24 @@ int RegressionTestImage (char *testImageFilename, char *baselineImageFilename)
     }
 
   // Now compare the two images
-  itk::ImageRegionConstIterator<ImageType> itBase(baselineReader->GetOutput(),baselineReader->GetOutput()->GetLargestPossibleRegion());
-  itk::ImageRegionConstIterator<ImageType> itTest(testReader->GetOutput(),testReader->GetOutput()->GetLargestPossibleRegion());
+  typedef itk::DifferenceImageFilter<ImageType,ImageType> DiffType;
+  DiffType::Pointer diff = DiffType::New();
+    diff->SetValidInput(baselineReader->GetOutput());
+    diff->SetTestInput(testReader->GetOutput());
+    diff->SetDifferenceThreshold(2.0);
+    diff->UpdateLargestPossibleRegion();
 
-  
-  unsigned long status = 0;
-  while (!itBase.IsAtEnd())
-    {
-    if (itBase.Get() != itTest.Get())
-      {
-      status++;
-      } 
-    ++itBase;
-    ++itTest;  
-    }
+  double status = diff->GetTotalDifference();
 
   // if there are discrepencies, create an diff image
   if (status)
     {
-    typedef itk::SubtractImageFilter<ImageType,ImageType,ImageType> DiffType;
     typedef itk::RescaleIntensityImageFilter<ImageType,OutputType> RescaleType;
     typedef itk::ExtractImageFilter<OutputType,DiffOutputType> ExtractType;
     typedef itk::ImageFileWriter<DiffOutputType> WriterType;
     typedef itk::ImageRegion<10> RegionType;
     OutputType::IndexType index; index.Fill(0);
     OutputType::SizeType size; size.Fill(0);
-
-    DiffType::Pointer diff = DiffType::New();
-      diff->SetInput1(baselineReader->GetOutput());
-      diff->SetInput2(testReader->GetOutput());
 
     RescaleType::Pointer rescale = RescaleType::New();
       rescale->SetOutputMinimum(itk::NumericTraits<unsigned char>::NonpositiveMin());
@@ -292,6 +282,6 @@ int RegressionTestImage (char *testImageFilename, char *baselineImageFilename)
 
 
     }
-  return status;
+  return (status != 0) ? 1 : 0;
 }
 
