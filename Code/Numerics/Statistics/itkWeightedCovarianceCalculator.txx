@@ -114,7 +114,6 @@ WeightedCovarianceCalculator< TSample >
         } 
     }
   
-  std::cout << "DEBUG: total weight = " << totalWeight << std::endl ;
   m_Output->GetVnlMatrix() /= totalWeight ;
 }
 
