@@ -11,8 +11,7 @@ PROJECT(vxl)
 # CMAKE_MINIMUM_REQUIRED(VERSION 1.4)
 
 PROJECT(vxl)
-SET(BUILD_TESTING 1)
-SET(BUILD_EXAMPLES 1)
+
 # To avoid typing for the FindXXX.cmake modules
 SET( MODULE_PATH ${vxl_SOURCE_DIR}/config/cmake/Modules CACHE INTERNAL "VXL module path" )
 
