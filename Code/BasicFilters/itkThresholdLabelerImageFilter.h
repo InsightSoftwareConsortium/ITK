@@ -23,7 +23,7 @@
 namespace itk
 {
   
-/** \class itkThresholdLabelerImageFilter
+/** \class ThresholdLabelerImageFilter
  *
  * \brief Label an input image according to a set of thresholds.
  *
