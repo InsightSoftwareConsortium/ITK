@@ -26,13 +26,13 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkThresholdImageFilter);
   namespace wrappers
   {
-    ITK_WRAP_OBJECT1_WITH_SUPERCLASS(ThresholdImageFilter, image::F2,
+    ITK_WRAP_OBJECT1(ThresholdImageFilter, image::F2,
                                      itkThresholdImageFilterF2);
-    ITK_WRAP_OBJECT1_WITH_SUPERCLASS(ThresholdImageFilter, image::US2,
+    ITK_WRAP_OBJECT1(ThresholdImageFilter, image::US2,
                                      itkThresholdImageFilterUS2);
-    ITK_WRAP_OBJECT1_WITH_SUPERCLASS(ThresholdImageFilter, image::F3, 
+    ITK_WRAP_OBJECT1(ThresholdImageFilter, image::F3, 
                                      itkThresholdImageFilterF3);
-    ITK_WRAP_OBJECT1_WITH_SUPERCLASS(ThresholdImageFilter, image::US3, 
+    ITK_WRAP_OBJECT1(ThresholdImageFilter, image::US3, 
                                      itkThresholdImageFilterUS3);
   }
 }
