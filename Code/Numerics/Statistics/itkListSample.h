@@ -22,7 +22,7 @@
 #include <vector>
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 /** \class ListSample 
  *  \brief This class is the base class for containers that have a list
@@ -35,27 +35,28 @@ namespace itk{
  *\sa Sample, Histogram
  */
 
-template <class TMeasurement = float, unsigned int VMeasurementVectorSize = 1>
-class ITK_EXPORT ListSample
-: public Sample<TMeasurement, VMeasurementVectorSize>
+template< class TMeasurementVector >
+class ITK_EXPORT ListSample : public Sample< TMeasurementVector >
 {
 public:
   /** Standard class typedef. */
   typedef ListSample  Self;
-  typedef Sample<TMeasurement, VMeasurementVectorSize> Superclass;
+  typedef Sample< TMeasurementVector > Superclass;
 
   /** Standard macros */
   itkTypeMacro(ListSample, Sample);
 
-  /** Superclass typedefs for Measurement vector, measurement, Instance Identifier, 
+  /** Superclass typedefs for Measurement vector, 
+   * measurement, Instance Identifier, 
    * frequency, size, size element value */
+
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
   typedef typename Superclass::MeasurementType MeasurementType;
   typedef typename Superclass::FrequencyType FrequencyType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
 
   /** VMeasurementVectorSize template argument alias */
-  enum { MeasurementVectorSize = VMeasurementVectorSize } ;
+  enum { MeasurementVectorSize = TMeasurementVector::Length } ;
 
 protected:
   ListSample() ;
@@ -67,7 +68,7 @@ private:
   void operator=(const Self&) ; //purposely not implemented
 };
 
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk 
 
 #ifndef ITK_MANUAL_INSTANTIATION

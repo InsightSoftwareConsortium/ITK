@@ -20,28 +20,22 @@
 #include "itkListSample.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
-template< class TMeasurement, unsigned int VMeasurementVectorSize >
-ListSample< TMeasurement, VMeasurementVectorSize >
+template< class TMeasurementVector >
+ListSample< TMeasurementVector >
 ::ListSample()
 {
-  // all measurement vectors are sored
-  SetSortedFlag(false) ;
-  // supports GetFrequency method
-  SetSupportingFrequencyFlag(false) ;
-  // no dupliates
-  SetAllowingDuplicatesFlag(true) ;
 }
 
-template< class TMeasurement, unsigned int VMeasurementVectorSize >
+template< class TMeasurementVector >
 void 
-ListSample< TMeasurement, VMeasurementVectorSize >
+ListSample< TMeasurementVector >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 }
-  } // end of namespace Statistics
+} // end of namespace Statistics
 } // end of namespace itk 
 
 #endif
