@@ -38,7 +38,7 @@ int itkGEImageIOTest(int ac, char * av[])
     }
   else if(filetype == "GEAdw")
     {
-      io = itk::GE5ImageIO::New();
+      io = itk::GEAdwImageIO::New();
     }
   else if(filetype == "Siemens")
     {
