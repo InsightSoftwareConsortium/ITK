@@ -256,6 +256,15 @@ ADD_TEST( SmoothingRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES}
         3
 )
 
+ADD_TEST( SmoothingRecursiveGaussianImageFilter2Test ${FILTERING_EXAMPLES}
+  --compare ${BASELINE}/SmoothingRecursiveGaussianImageFilter2.png
+            ${TEMP}/SmoothingRecursiveGaussianImageFilter2.png
+  SmoothingRecursiveGaussianImageFilter2Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/SmoothingRecursiveGaussianImageFilter2.png
+        3
+)
+
 ADD_TEST( ThresholdAboveImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${BASELINE}/ThresholdAboveImageFilter.png
             ${TEMP}/ThresholdAboveImageFilter.png

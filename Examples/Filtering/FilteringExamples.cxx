@@ -34,6 +34,7 @@ REGISTER_TEST(ResampleImageFilter4Test);
 REGISTER_TEST(ResampleImageFilter5Test);
 REGISTER_TEST(SigmoidImageFilterTest);
 REGISTER_TEST(SmoothingRecursiveGaussianImageFilterTest);
+REGISTER_TEST(SmoothingRecursiveGaussianImageFilter2Test);
 REGISTER_TEST(ThresholdImageFilterTest);
 REGISTER_TEST(VectorCurvatureAnisotropicDiffusionImageFilterTest);
 REGISTER_TEST(VectorGradientAnisotropicDiffusionImageFilterTest);
@@ -150,6 +151,10 @@ REGISTER_TEST(VectorGradientAnisotropicDiffusionImageFilterTest);
 #undef main
 #define main SmoothingRecursiveGaussianImageFilterTest
 #include "SmoothingRecursiveGaussianImageFilter.cxx"
+
+#undef main
+#define main SmoothingRecursiveGaussianImageFilter2Test
+#include "SmoothingRecursiveGaussianImageFilter2.cxx"
 
 #undef main
 #define main ThresholdImageFilterTest
