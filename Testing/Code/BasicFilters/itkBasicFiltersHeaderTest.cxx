@@ -67,6 +67,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkLaplacianImageFilter.h"
 #include "itkLog10ImageFilter.h"
 #include "itkLogImageFilter.h"
+#include "itkMedianImageFilter.h"
 #include "itkMinimumMaximumImageFilter.h"
 #include "itkMirrorPadImageFilter.h"
 #include "itkMorphologyImageFilter.h"
