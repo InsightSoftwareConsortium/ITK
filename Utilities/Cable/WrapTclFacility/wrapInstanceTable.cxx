@@ -194,4 +194,9 @@ InstanceTable* InstanceTable::GetInterpreterInstanceTable(Tcl_Interp* interp)
 }
 
 
+/**
+ * Map from a Tcl interpreter to the InstanceTable for it.
+ */
+InstanceTable::InterpreterInstanceTableMap InstanceTable::interpreterInstanceTableMap;
+
 } // namespace _wrap_
