@@ -13,14 +13,6 @@ template <unsigned int NDimensions>
 class ITK_EXPORT BloxBoundaryProfilePixel : public BloxPixel< BloxBoundaryProfileItem<NDimensions> >
 {
 public:
-  /** Smart pointer typedef support. */
-  typedef BloxBoundaryProfilePixel Self;
-  typedef BloxPixel  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-
   /** Run-time type information (and related methods). */
   itkTypeMacro( BloxBoundaryProfilePixel, BloxPixel );
 

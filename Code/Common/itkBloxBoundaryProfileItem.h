@@ -10,11 +10,6 @@ template <unsigned int VImageDimension>
 class ITK_EXPORT BloxBoundaryProfileItem : public BloxItem
 {
 public:
-  /** Smart pointer typedef support. */
-  typedef BloxBoundaryProfileItem Self;
-  typedef BloxItem  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
