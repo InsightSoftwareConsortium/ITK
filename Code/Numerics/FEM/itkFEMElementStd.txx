@@ -56,7 +56,7 @@ ElementStd<VNumberOfPoints, VNumberOfDegreesOfFreedomPerNode, TBaseClass>
     for(unsigned int p=0; p<NumberOfNodes; p++)
     {
       SkipWhiteSpace(f); f>>n; if(!f) goto out;
-      m_node[p]=dynamic_cast<const Node*>( &*nodes->Find(n));
+      m_node[p]=dynamic_cast<const ElementNew::Node*>( &*nodes->Find(n));
     }
 
   }
