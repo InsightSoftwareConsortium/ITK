@@ -40,7 +40,11 @@ int itkSpatialObjectToImageFilterTest(int, char* [] )
   SpatialObjectToImageFilterType::Pointer imageFilter = SpatialObjectToImageFilterType::New();
   imageFilter->SetInput(ellipse);
   imageFilter->SetInsideValue(1);
+  imageFilter->GetInsideValue();
   imageFilter->SetOutsideValue(0);
+  imageFilter->GetOutsideValue();
+  imageFilter->SetChildrenDepth(1);
+  imageFilter->GetChildrenDepth();
   ImageType::SizeType size;
   size[0]=50;
   size[1]=50;
