@@ -98,15 +98,13 @@ public:
    *  image type. */
   typedef typename OutputImageType::ValueType ValueType;
 
-  /*
-  
   /** This is the storage type for the nodes on the narrow band */
   typedef BandNode<IndexType,PixelType> BandNodeType;
 
   /** The list type for storing the narrow band. */
   typedef NarrowBand<BandNodeType> NarrowBandType;
-  typedef NarrowBandType::Pointer NarrowBandPointer;
-  typedef NarrowBandType::RegionType RegionType;
+  typedef typename NarrowBandType::Pointer NarrowBandPointer;
+  typedef typename NarrowBandType::RegionType RegionType;
 
   /** Set/Get IsoSurfaceValue to use in the input image */
   itkSetMacro( IsoSurfaceValue, ValueType);
