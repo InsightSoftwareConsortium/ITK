@@ -35,6 +35,20 @@ ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>
 
 }
 
+/** PrintSelf */
+template < class TFixedImage, class TMovingSpatialObject> 
+void
+ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+  os << indent << "Moving Spatial Object: " << m_MovingSpatialObject.GetPointer()  << std::endl;
+  os << indent << "Fixed  Image: " << m_FixedImage.GetPointer()   << std::endl;
+  os << indent << "Transform:    " << m_Transform.GetPointer()    << std::endl;
+  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
+  os << indent << "Last Transform parameters = " << m_LastTransformParameters << std::endl;
+}
+
 
 } // end namespace itk
 

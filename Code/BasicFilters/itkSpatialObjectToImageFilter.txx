@@ -170,6 +170,8 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "Size : " << m_Size << std::endl;
+  os << indent << "Children depth : " << m_ChildrenDepth << std::endl;
 }
 
 

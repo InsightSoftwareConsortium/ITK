@@ -154,6 +154,7 @@ protected:
   virtual ~ImageToSpatialObjectMetric() {};
   ImageToSpatialObjectMetric(const Self&) {}
   void operator=(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   MeasureType                 m_MatchMeasure;
   DerivativeType              m_MatchMeasureDerivatives;
