@@ -18,6 +18,8 @@
 #define __itkBayesianClassifierImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkMaximumRatioDecisionRule.h"
+#include "itkGaussianDensityFunction.h"
 
 namespace itk
 {
@@ -62,6 +64,25 @@ public:
   typedef typename TInputImage::PixelType  InputPixelType;
   typedef typename TOutputImage::PixelType OutputPixelType;
   
+  /** Type of the Measurement */
+  typedef InputPixelType   MeasurementVectorType;
+
+  /** Type of the Gaussian density functions */
+  typedef itk::Statistics::GaussianDensityFunction< MeasurementVectorType > 
+                                                              MembershipFunctionType;
+  typedef typename MembershipFunctionType::ConstPointer       MembershipFunctionConstPointer;
+
+  /** Membership function container */
+  typedef std::vector< MembershipFunctionConstPointer >       MembershipFunctionContainer;
+
+  /** Decision rule to use for defining the label */
+  typedef itk::MaximumRatioDecisionRule                       DecisionRuleType;
+
+  
+  /** Add a membership function to the filter. This is expected to be a Gaussian */
+  void AddMembershipFunction( const MembershipFunctionType * newFunction );
+
+
 protected:
   BayesianClassifierImageFilter();
   virtual ~BayesianClassifierImageFilter() {}
@@ -74,6 +95,7 @@ private:
   BayesianClassifierImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  MembershipFunctionContainer     m_MembershipFunctions;  
 };
 
 } // end namespace itk
