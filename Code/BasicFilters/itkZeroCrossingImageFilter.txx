@@ -183,18 +183,18 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
       for( i = 0; i< ImageDimension * 2; i++)
         {
           that = nit.GetPixel(center + offset[i]);
-          
+          it.Set(m_BackgroundValue);
           if( ((this_one < zero) && (that > zero))
               || ((this_one > zero) && (that < zero)) 
               || ((this_one == zero) && (that != zero))
-            || ((this_one != zero) && (that == zero))  )
+              || ((this_one != zero) && (that == zero))  )
             {
               abs_this_one =  ::abs(this_one);
               abs_that = ::abs(that);
               if(abs_this_one < abs_that)
                 {
-                  it.Value() = one;
-                break;
+                  it.Set(m_ForegroundValue);
+                  break;
                 }
             }
         }
@@ -221,7 +221,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
       while ( ! bit.IsAtEnd() )
         {
           this_one = nit.GetPixel(center);
-          
+          it.Set(m_BackgroundValue);
           for( i = 0; i< ImageDimension * 2; i++)
             {
               that = nit.GetPixel(center + offset[i]);
@@ -234,7 +234,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
                   abs_that = ::abs(that);
                   if(abs_this_one < abs_that)
                     {
-                      it.Value() = one;
+                      it.Set(m_ForegroundValue);
                       break;
                     }
                 }
