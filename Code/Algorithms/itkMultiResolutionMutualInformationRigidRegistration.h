@@ -119,9 +119,9 @@ public:
  * how to set the multi-resolution downsampling schedule.
  *
  * For each resolution level, the user must define the number of 
- * iterations, the learning rate and translation scale to be used
+ * iterations and the learning rate to be used
  * in the registration. These parameters are set via
- * SetNumberOfIterations(), SetLearningRates(), SetTranslationScales.
+ * SetNumberOfIterations() and SetLearningRates().
  * Refer to ImageToImageRigidMutualInformationGradientDescentRegistration
  * for details on these parameters and how to set them.
  *
@@ -218,12 +218,6 @@ public:
    */
   itkSetVectorMacro( LearningRates, double, this->GetNumberOfLevels() );
 
-  /**
-   * Set the translation scales for each level.
-   * The number of levels must be set before calling this method.
-   */
-  itkSetVectorMacro( TranslationScales, double, this->GetNumberOfLevels() );
-
 protected:
 
   MultiResolutionMutualInformationRigidRegistration();
@@ -247,7 +241,6 @@ private:
 
   std::vector<double>           m_LearningRates;
   std::vector<unsigned int>     m_NumberOfIterations;
-  std::vector<double>           m_TranslationScales;
 
 };
 

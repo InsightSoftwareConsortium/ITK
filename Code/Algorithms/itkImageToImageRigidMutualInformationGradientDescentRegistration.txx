@@ -62,7 +62,6 @@ ImageToImageRigidMutualInformationGradientDescentRegistration<TReference, TTarge
   // set default parameters
   m_NumberOfIterations = 1000;
   m_LearningRate = 1.0;
-  m_TranslationScale = 1.0;
 
 }
 
@@ -76,7 +75,6 @@ ImageToImageRigidMutualInformationGradientDescentRegistration<TReference, TTarge
 :Superclass( other )
 {
   m_Parameters = other.m_Parameters;
-  m_TranslationScale = other.m_TranslationScale;
 }
 
 
@@ -102,7 +100,6 @@ ImageToImageRigidMutualInformationGradientDescentRegistration< TReference, TTarg
 {
   Superclass::operator=( other );
   m_Parameters = other.m_Parameters;
-  m_TranslationScale = other.m_TranslationScale;
   return *this;
 }
 
@@ -115,9 +112,6 @@ int
 ImageToImageRigidMutualInformationGradientDescentRegistration<TReference, TTarget>
 ::StartRegistration( void )
 {
-
-  this->GetMetric()->GetMapper()->GetTransform()->
-   SetTranslationScale( m_TranslationScale );
 
   typename OptimizerType::Pointer optimizer;
   optimizer = this->GetOptimizer();
