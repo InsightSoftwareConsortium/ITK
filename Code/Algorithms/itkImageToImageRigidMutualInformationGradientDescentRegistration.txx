@@ -130,8 +130,20 @@ ImageToImageRigidMutualInformationGradientDescentRegistration<TReference, TTarge
   optimizer->SetNumberOfIterations( m_NumberOfIterations );
   optimizer->SetInitialPosition( m_Parameters );
 
-  // do the optimization
-  optimizer->StartOptimization();
+  try
+    {
+    // do the optimization
+    optimizer->StartOptimization();
+    }
+  catch(...)
+    {
+      // An error has occurred in the optimization.
+      // Update the parameters
+      m_Parameters = optimizer->GetCurrentPosition();
+
+      // Pass exception to caller
+      throw;
+    }
 
   // get the results
   m_Parameters = optimizer->GetCurrentPosition();

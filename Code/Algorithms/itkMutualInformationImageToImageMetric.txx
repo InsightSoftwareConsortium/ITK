@@ -62,13 +62,38 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
   m_KernelFunction  = dynamic_cast<KernelFunction*>(
     GaussianKernelFunction::New().GetPointer() );
 
-  m_TargetStandardDeviation = 0.1;
-  m_ReferenceStandardDeviation = 0.1;
+  this->SetTargetStandardDeviation( 0.1 );
+  this->SetReferenceStandardDeviation( 0.1 );
 
   //
   // Following initialization is related to
   // calculating image derivatives
   m_DerivativeCalculator = DerivativeFunctionType::New();
+
+  m_Epsilon = NumericTraits<double>::min();
+
+}
+
+
+/**
+ * Set the number of spatial samples
+ */
+template < class TTarget, class TMapper  >
+void
+MutualInformationImageToImageMetric<TTarget,TMapper>
+::SetNumberOfSpatialSamples( 
+unsigned int num )
+{
+  if ( num == m_NumberOfSpatialSamples ) return;
+
+  this->Modified();
+ 
+  // clamp to minimum of 1
+  m_NumberOfSpatialSamples = ((num > 1) ? num : 1 );
+
+  // resize the storage vectors
+  m_SampleA.resize( m_NumberOfSpatialSamples );
+  m_SampleB.resize( m_NumberOfSpatialSamples );
 
 }
 
@@ -95,6 +120,8 @@ SpatialSampleContainer& samples )
   typename SpatialSampleContainer::iterator iter;
   typename SpatialSampleContainer::const_iterator end = samples.end();
 
+  bool allOutside = true;
+
   for( iter = samples.begin(); iter != end; ++iter )
     {
     // generate a random number between [0,range)
@@ -116,12 +143,22 @@ SpatialSampleContainer& samples )
     if( mapper->IsInside( (*iter).TargetPointValue ) )
       {
       (*iter).ReferenceValue = mapper->Evaluate();
+      allOutside = false;
       }
     else
       {
       (*iter).ReferenceValue = 0;
       }
 
+    }
+
+  if( allOutside )
+    {
+    // if all the samples mapped to the outside throw an exception
+    ExceptionObject err;
+    err.SetLocation( "MutualInformationImageToImageMetric" );
+    err.SetDescription( "All the sampled point mapped to outside of the reference image" );
+    throw err;
     }
 
 }
@@ -161,7 +198,6 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
   double dLogSumRef    = 0.0;
   double dLogSumJoint  = 0.0;
 
-
   typename SpatialSampleContainer::const_iterator aiter;
   typename SpatialSampleContainer::const_iterator aend = m_SampleA.end();
   typename SpatialSampleContainer::const_iterator biter;
@@ -191,6 +227,17 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
       dSumJoint  += valueTarget * valueRef;
 
       } // end of sample A loop
+
+    // check for taking logs of zero
+    if( dSumTarget < m_Epsilon ||
+        dSumRef < m_Epsilon ||
+        dSumJoint < m_Epsilon )
+      {
+      ExceptionObject err;
+      err.SetLocation( "MutualInformationImageToImageMetric" );
+      err.SetDescription( "Standard deviation is too small" );
+      throw err;
+      }
 
     dLogSumTarget -= log( dSumTarget );
     dLogSumRef    -= log( dSumRef );
@@ -222,7 +269,6 @@ const ParametersType& parameters,
 MeasureType& value,
 DerivativeType& derivative)
 {
-
   std::cout << "GetValueAndDerivative( " << parameters << " ) = ";
 
   // reset the derivatives all to zero
@@ -304,6 +350,18 @@ DerivativeType& derivative)
       dSumTarget += valueTarget;
 
       } // end of sample A loop
+
+
+    // check for taking logs of zero
+    if( dSumTarget < m_Epsilon ||
+        dDenominatorRef < m_Epsilon ||
+        dDenominatorJoint < m_Epsilon )
+      {
+      ExceptionObject err;
+      err.SetLocation( "MutualInformationImageToImageMetric" );
+      err.SetDescription( "Standard deviation is too small" );
+      throw err;
+      }
 
     dLogSumTarget -= log( dSumTarget );
     dLogSumRef    -= log( dDenominatorRef );

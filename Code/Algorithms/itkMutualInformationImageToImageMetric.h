@@ -244,14 +244,10 @@ public:
   /**
    * Set the number of spatial samples. This is the number of image
    * samples used to calculate the joint probability distribution.
+   * The number of spatial samples is clamped to be a minimum of 1.
    * Default value is 50.
    */
-  void SetNumberOfSpatialSamples( unsigned int num )
-    {
-    m_NumberOfSpatialSamples = num;
-    m_SampleA.resize( m_NumberOfSpatialSamples );
-    m_SampleB.resize( m_NumberOfSpatialSamples );
-    }
+  void SetNumberOfSpatialSamples( unsigned int num );
 
   /**
    * Get the number of spatial samples.
@@ -263,9 +259,10 @@ public:
    * defines the kernel bandwidth used in the joint probability
    * distribution calculation. Default value is 0.1 which works
    * well for image intensities normalized to between 0 and 1.
+   * Value is clamped to be always greater than zero.
    */
-  itkSetClampMacro( ReferenceStandardDeviation, double, 0.0,
-    NumericTraits<double>::max() );
+  itkSetClampMacro( ReferenceStandardDeviation, double, 
+    NumericTraits<double>::min(), NumericTraits<double>::max() );
 
   /**
    * Get the reference image intensity standard deviation.
@@ -276,10 +273,11 @@ public:
    * Set the target image intensitiy standard deviation. This defines
    * the kernel bandwidth used in the joint probability distribution
    * calculation. Default value is 0.1 which works well for image
-   * intensities normalized to between 0 and 1.
+   * intensities normalized to between 0 and 1. Value is clamped to be
+   * always greater than zero.
    */
-  itkSetClampMacro( TargetStandardDeviation, double, 0.0,
-    NumericTraits<double>::max() );
+  itkSetClampMacro( TargetStandardDeviation, double,
+    NumericTraits<double>::min(), NumericTraits<double>::max() );
 
   /**
    * Get the target image intensity standard deviation.
@@ -366,6 +364,7 @@ private:
   double                              m_ReferenceStandardDeviation;
   double                              m_TargetStandardDeviation;
   typename KernelFunction::Pointer    m_KernelFunction;
+  double                              m_Epsilon;
 
   /**
    * Uniformly select samples from the target image buffer
