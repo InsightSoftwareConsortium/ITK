@@ -181,7 +181,10 @@ public:
    */
   virtual void Execute(LightObject *caller, unsigned long event)
     { 
-      ((*m_This).*(m_MemberFunction))(caller, event);
+      if( m_MemberFunction ) 
+      {
+        ((*m_This).*(m_MemberFunction))(caller, event);
+      }
     }
 
   /**
@@ -189,7 +192,10 @@ public:
    */
   virtual void Execute( const LightObject *caller, unsigned long event)
     { 
-      ((*m_This).*(m_ConstMemberFunction))(caller, event);
+      if( m_ConstMemberFunction ) 
+      {
+        ((*m_This).*(m_ConstMemberFunction))(caller, event);
+      }
     }
 
 
@@ -197,7 +203,10 @@ protected:
   T* m_This;
   TMemberFunctionPointer m_MemberFunction;
   TConstMemberFunctionPointer m_ConstMemberFunction;
-  MemberCommand(){}; 
+  MemberCommand(){
+   m_MemberFunction = 0;
+   m_ConstMemberFunction = 0;
+  }; 
   virtual ~MemberCommand(){}; 
   MemberCommand(const Self&) {}
   void operator=(const Self&) {}
@@ -246,19 +255,27 @@ public:
   
   virtual void Execute(LightObject *, unsigned long)
     { 
-      ((*m_This).*(m_MemberFunction))();
+      if( m_MemberFunction ) 
+      {
+        ((*m_This).*(m_MemberFunction))();
+      }
     }
 
   virtual void Execute(const LightObject *, unsigned long)
     { 
-      ((*m_This).*(m_MemberFunction))();
+      if( m_MemberFunction ) 
+      {
+        ((*m_This).*(m_MemberFunction))();
+      }
     }
 
 
 protected:
   T* m_This;
   TMemberFunctionPointer m_MemberFunction;
-  SimpleMemberCommand(){}; 
+  SimpleMemberCommand(){
+    m_MemberFunction = 0;
+  }; 
   virtual ~SimpleMemberCommand(){}; 
   SimpleMemberCommand(const Self&) {}
   void operator=(const Self&) {}
