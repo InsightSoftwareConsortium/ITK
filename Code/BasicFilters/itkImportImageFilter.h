@@ -167,25 +167,25 @@ public:
    * Set the spacing (size of a pixel) of the image.
    * \sa GetSpacing()
    */
-  itkSetVectorMacro(Spacing, const float, VImageDimension);
+  itkSetVectorMacro(Spacing, const double, VImageDimension);
 
   /** 
    * Get the spacing (size of a pixel) of the image.
    * \sa SetSpacing()
    */
-  itkGetVectorMacro(Spacing, const float, VImageDimension);
+  itkGetVectorMacro(Spacing, const double, VImageDimension);
   
   /** 
    * Set the origin of the image.
    * \sa GetOrigin()
    */
-  itkSetVectorMacro(Origin, const float, VImageDimension);
+  itkSetVectorMacro(Origin, const double, VImageDimension);
 
   /** 
    * Get the origin of the image.
    * \sa SetOrigin()
    */
-  itkGetVectorMacro(Origin, const float, VImageDimension);
+  itkGetVectorMacro(Origin, const double, VImageDimension);
 
 
 protected:
