@@ -48,7 +48,7 @@ public:
   /** Space dimension is the dimension of parameters space. */
   itkStaticConstMacro(SpaceDimension, unsigned int,
                       TMapper::SpaceDimension);
-  itkStaticConstMacro(RangeDimension, unsigned int, 9};
+  itkStaticConstMacro(RangeDimension, unsigned int, 9);
 
   /** Standard class typedefs. */
   typedef MeanSquaresPointSetToImageMetric  Self;
