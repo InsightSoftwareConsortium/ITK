@@ -34,7 +34,7 @@
 #include "itkCreateObjectFunction.h"
 #include <list>
 #include <vector>
-#include <map>
+class itkOverRideMap;
 
 class ITK_EXPORT itkObjectFactoryBase : public itkObject
 {
@@ -174,8 +174,7 @@ protected:
     bool m_EnabledFlag;
     itkCreateObjectFunctionBase::Pointer m_CreateObject;
   };
-  typedef std::multimap<std::string, OverrideInformation> OverRideMap;
-  OverRideMap m_OverrideMap;
+  itkOverRideMap* m_OverrideMap;
 
 private:
   /**

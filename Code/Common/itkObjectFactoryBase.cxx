@@ -1,3 +1,6 @@
+// Disable warning for long symbol names in this file only
+#pragma warning ( disable : 4786 )
+
 #include "itkObjectFactoryBase.h"
 #include "itkDynamicLoader.h"
 #include "itkDirectory.h"
@@ -5,6 +8,20 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <algorithm>
+#include <map>
+
+
+// Create a sub class to shrink the size of the symbols
+// Also, so a forward reference can be put in itkObjectFactoryBase.h
+// and a pointer member can be used.  This avoids other
+// classes including <map> and getting long symbol warnings.
+
+class itkOverRideMap : public std::multimap<std::string, 
+		       itkObjectFactoryBase::OverrideInformation>
+{
+public:
+};
+
 
 // Initialize static list of factories.
 //
@@ -64,7 +81,6 @@ itkObjectFactoryBase
 {
 }
 
-//----------------------------------------------------------------------------
 // Load all libraries in ITK_AUTOLOAD_PATH
 void 
 itkObjectFactoryBase
@@ -211,6 +227,7 @@ itkObjectFactoryBase::itkObjectFactoryBase()
 {
   m_LibraryHandle = 0;
   m_LibraryDate = 0;
+  m_OverrideMap = new itkOverRideMap;
 }
 
 //----------------------------------------------------------------------------
@@ -245,6 +262,8 @@ itkObjectFactoryBase
   factory->Register();
 }
 
+
+
 //----------------------------------------------------------------------------
 void 
 itkObjectFactoryBase
@@ -255,12 +274,12 @@ itkObjectFactoryBase
   os << indent << "Factory DLL path: " << m_LibraryPath << "\n";
   os << indent << "Factory description: " << this->GetDescription() << endl;
 
-  int num = m_OverrideMap.size();
+  int num = m_OverrideMap->size();
   os << indent << "Factory overides " << num << " classes:" << endl;
 
   indent = indent.GetNextIndent();
-  for(itkObjectFactoryBase::OverRideMap::iterator i = m_OverrideMap.begin();
-      i != m_OverrideMap.end(); ++i)
+  for(itkOverRideMap::iterator i = m_OverrideMap->begin();
+      i != m_OverrideMap->end(); ++i)
     {
     os << indent << "Class : " <<  (*i).first 
        << std::endl;
@@ -308,6 +327,7 @@ itkObjectFactoryBase
   itkObjectFactoryBase::m_RegisteredFactories = 0;
 }
 
+
 //----------------------------------------------------------------------------
 void 
 itkObjectFactoryBase
@@ -323,7 +343,7 @@ itkObjectFactoryBase
   info.m_OverrideWithName = subclass;
   info.m_EnabledFlag = enableFlag;
   info.m_CreateObject = createFunction;
-  m_OverrideMap.insert(OverRideMap::value_type(classOverride, info));
+  m_OverrideMap->insert(itkOverRideMap::value_type(classOverride, info));
 }
 
 //----------------------------------------------------------------------------
@@ -331,9 +351,9 @@ itkObject*
 itkObjectFactoryBase
 ::CreateObject(const char* itkclassname)
 {
-  m_OverrideMap.find(itkclassname);
-  OverRideMap::iterator pos = m_OverrideMap.find(itkclassname);
-  if ( pos != m_OverrideMap.end() )
+  m_OverrideMap->find(itkclassname);
+  itkOverRideMap::iterator pos = m_OverrideMap->find(itkclassname);
+  if ( pos != m_OverrideMap->end() )
     {
     return (*pos).second.m_CreateObject->CreateObject();
     }
@@ -347,9 +367,9 @@ itkObjectFactoryBase
                 const char* className,
                 const char* subclassName)
 {
-  OverRideMap::iterator start = m_OverrideMap.lower_bound(className);
-  OverRideMap::iterator end = m_OverrideMap.upper_bound(className);
-  for ( OverRideMap::iterator i = start; i != end; ++i )
+  itkOverRideMap::iterator start = m_OverrideMap->lower_bound(className);
+  itkOverRideMap::iterator end = m_OverrideMap->upper_bound(className);
+  for ( itkOverRideMap::iterator i = start; i != end; ++i )
     {
     if ( (*i).second.m_OverrideWithName == subclassName )
       {
@@ -363,9 +383,9 @@ bool
 itkObjectFactoryBase
 ::GetEnableFlag(const char* className, const char* subclassName)
 {
-  OverRideMap::iterator start = m_OverrideMap.lower_bound(className);
-  OverRideMap::iterator end = m_OverrideMap.upper_bound(className);
-  for ( OverRideMap::iterator i = start; i != end; ++i )
+  itkOverRideMap::iterator start = m_OverrideMap->lower_bound(className);
+  itkOverRideMap::iterator end = m_OverrideMap->upper_bound(className);
+  for ( itkOverRideMap::iterator i = start; i != end; ++i )
     {
     if ( (*i).second.m_OverrideWithName == subclassName )
       {
@@ -380,9 +400,9 @@ void
 itkObjectFactoryBase
 ::Disable(const char* className)
 {
-  OverRideMap::iterator start = m_OverrideMap.lower_bound(className);
-  OverRideMap::iterator end = m_OverrideMap.upper_bound(className);
-  for ( OverRideMap::iterator i = start; i != end; ++i )
+  itkOverRideMap::iterator start = m_OverrideMap->lower_bound(className);
+  itkOverRideMap::iterator end = m_OverrideMap->upper_bound(className);
+  for ( itkOverRideMap::iterator i = start; i != end; ++i )
     {
     (*i).second.m_EnabledFlag = 0;
     }
@@ -403,8 +423,8 @@ itkObjectFactoryBase
 ::GetClassOverrideNames()
 {
   std::list<std::string> ret;
-  for ( OverRideMap::iterator i = m_OverrideMap.begin();
-      i != m_OverrideMap.end(); ++i )
+  for ( itkOverRideMap::iterator i = m_OverrideMap->begin();
+      i != m_OverrideMap->end(); ++i )
     {
     ret.push_back((*i).first);
     }
@@ -418,8 +438,8 @@ itkObjectFactoryBase
 ::GetClassOverrideWithNames()
 {
   std::list<std::string> ret;
-  for ( OverRideMap::iterator i = m_OverrideMap.begin();
-      i != m_OverrideMap.end(); ++i )
+  for ( itkOverRideMap::iterator i = m_OverrideMap->begin();
+      i != m_OverrideMap->end(); ++i )
     {
     ret.push_back((*i).second.m_OverrideWithName);
     }
@@ -433,8 +453,8 @@ itkObjectFactoryBase
 ::GetClassOverrideDescriptions()
 { 
   std::list<std::string> ret;
-  for ( OverRideMap::iterator i = m_OverrideMap.begin();
-      i != m_OverrideMap.end(); ++i )
+  for ( itkOverRideMap::iterator i = m_OverrideMap->begin();
+      i != m_OverrideMap->end(); ++i )
     {
     ret.push_back((*i).second.m_Description);
     }
@@ -448,8 +468,8 @@ itkObjectFactoryBase
 ::GetEnableFlags()
 {
   std::list<bool> ret;
-  for(OverRideMap::iterator i = m_OverrideMap.begin();
-      i != m_OverrideMap.end(); ++i)
+  for( itkOverRideMap::iterator i = m_OverrideMap->begin();
+      i != m_OverrideMap->end(); ++i)
     {
     ret.push_back((*i).second.m_EnabledFlag);
     }
