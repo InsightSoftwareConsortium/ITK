@@ -23,6 +23,7 @@ See COPYRIGHT.txt for copyright details.
 
 #include "itkBlobSpatialObject.txx"
 #include "itkEllipseSpatialObject.txx"
+#include "itkGroupSpatialObject.txx"
 #include "itkImageSpatialObject.txx"
 #include "itkLineSpatialObject.txx"
 #include "itkLineSpatialObjectPoint.txx"
@@ -34,6 +35,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSpatialObjectProperty.txx"
 #include "itkSurfaceSpatialObject.txx"
 #include "itkSurfaceSpatialObjectPoint.txx"
+#include "itkTubeNetworkSpatialObject.txx"
 #include "itkTubeSpatialObject.txx"
 #include "itkTubeSpatialObjectPoint.txx"
 
