@@ -33,7 +33,7 @@ public:
   /**
    * Standard Superclass typedef
    */
-  typedef Object Superclass;
+  typedef KernelTransform<TScalarType, NDimensions> Superclass;
   /**
    * Run-time type information (and related methods).
    */
