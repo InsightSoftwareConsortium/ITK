@@ -428,8 +428,7 @@ namespace itk
       std::cout << "After adjustment, ther are " << m_Slabs.size() 
                 << " slabs." << std::endl ;
 
-    SlabRegionVectorType::iterator iter = 
-      m_Slabs.begin() ;
+    SlabRegionVectorIteratorType iter = m_Slabs.begin();
     
     BiasField::DomainSizeType biasSize ;
 
@@ -643,7 +642,7 @@ namespace itk
     OutputImageSizeType tempSize = size ;
     OutputImageIndexType tempIndex = indexFirst ;
 
-    SlabRegionVectorType::iterator iter = slabs.begin() ;
+    SlabRegionVectorIteratorType iter = slabs.begin() ;
     while (iter != slabs.end())
       {
         coordFirst2 = (*iter).GetIndex()[m_SlicingDirection] ;

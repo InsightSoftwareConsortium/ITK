@@ -142,7 +142,7 @@ public:
 
   typedef typename TInputImage::RegionType ImageRegionType ;
 
-  typedef std::vector<ImageRegionType> SlabRegionVectorType ; 
+  typedef typename std::vector<ImageRegionType> SlabRegionVectorType ; 
 
   /**
    * Set the input image
