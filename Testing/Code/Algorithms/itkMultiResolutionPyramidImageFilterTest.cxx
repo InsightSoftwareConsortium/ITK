@@ -262,7 +262,7 @@ int main()
   pyramid->GetOutput( testLevel )->Update();
 
 // test output at another level
-  testLevel = 2;
+  testLevel = 1;
 
   // check the output image information
   InputImageType::SizeType inputSize =
