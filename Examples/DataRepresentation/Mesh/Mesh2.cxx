@@ -17,7 +17,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  An \doxygen{Mesh} can contain a variety of cells types. Typical cells are
+//  A \doxygen{Mesh} can contain a variety of cell types. Typical cells are
 //  the \doxygen{LineCell}, \doxygen{TriangleCell}, \doxygen{QuadrilateralCell}
 //  and \doxygen{TetrahedronCell}. A large flexibility is provided for managing
 //  cells at the price of a bit more of complexity than in the case of point
@@ -47,7 +47,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //  
-  //  In order to be consitent with the Mesh, cell types have to be configured
+  //  In order to be consistent with the Mesh, cell types have to be configured
   //  with a number of custom types taken from the mesh traits. The set of
   //  traits relevant to cells are packaged by the Mesh class into the
   //  \code{CellType} trait. This trait needs to be passed to the actual cell
@@ -95,7 +95,7 @@ int main()
   //  possible to combine different cell types in the same
   //  mesh. Points, on the other hand, are of a single type and have a
   //  small memory footprint, which makes it efficient to copy them
-  //  directly inside the container.
+  //  directly into the container.
   //
   //  \index{itk::Cell!CellAutoPointer}
   //  \index{itk::Mesh!CellAutoPointer}
@@ -164,14 +164,15 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The following code creates two CellAutoPointers and initialize them with
-  //  newly created cell objects. The actual cell type created in this case is
-  //  \doxygen{LineCell}. Note that cells are created with the normal
-  //  \code{new} C++ operator. The CellAutoPointer takes ownership of the
-  //  received pointer by using the method \code{TakeOwnership()}. Even though
-  //  this may seem verbose on the code, it results to be necessary to make
-  //  more explicity from the code that the responsibility of memory release is
-  //  assumed by the AutoPointer.
+  //  The following code creates two CellAutoPointers and initializes
+  //  them with newly created cell objects. The actual cell type
+  //  created in this case is \doxygen{LineCell}. Note that cells are
+  //  created with the normal \code{new} C++ operator. The
+  //  CellAutoPointer takes ownership of the received pointer by using
+  //  the method \code{TakeOwnership()}. Even though this may seem
+  //  verbose, it is necessary in order to make it explicit from the
+  //  code that the responsibility of memory release is assumed by the
+  //  AutoPointer.
   //
   //  \index{itk::AutoPointer!TakeOwnership()}
   //  \index{CellAutoPointer!TakeOwnership()}
@@ -197,7 +198,7 @@ int main()
   //  associated with. For example a \doxygen{LineCell} requires two points, a
   //  \doxygen{TriangleCell} requires three and a \doxygen{TetrahedronCell}
   //  requires four. Cells use an internal numbering system for points. It is
-  //  simple an index in the range $\{0,NumberOfPoints-1\}$. The association of
+  //  simply an index in the range $\{0,NumberOfPoints-1\}$. The association of
   //  points and cells is done by the \code{SetPointId()} method which requires
   //  the user to provide the internal index of the point in the cell and the
   //  corresponding pointIdentifier in the Mesh. The internal cell index is the

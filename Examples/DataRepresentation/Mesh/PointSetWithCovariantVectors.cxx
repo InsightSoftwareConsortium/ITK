@@ -21,12 +21,14 @@
 //  and normals associated with those points.  This structure can be easily 
 //  instantiated with the \doxygen{PointSet} class.
 //
-//  The natural class for representing Normals to surfaces and gradients of
-//  functions is the \doxygen{CovariantVector}. A covariant vector differs
-//  from a vector in the way they behave under affine transforms. In particular
-//  under anisotropic scaling. The covariant vector is such that if it is
-//  representing the gradient of a function. The transformed covariant vector
-//  will still be the valid gradient of the transformed function.
+//  The natural class for representing normals to surfaces and
+//  gradients of functions is the \doxygen{CovariantVector}. A
+//  covariant vector differs from a vector in the way they behave
+//  under affine transforms, in particular under anisotropic
+//  scaling. If a covariant vector represents the gradient of a
+//  function, the transformed covariant vector will still be the valid
+//  gradient of the transformed function, a property which would not
+//  hold with a regular vector.
 // 
 //  \index{itk::PointSet!itk::CovariantVector}
 //  \index{itk::CovariantVector!itk::PointSet}

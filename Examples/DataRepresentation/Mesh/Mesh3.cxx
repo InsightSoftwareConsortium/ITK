@@ -83,9 +83,9 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Let's now create a Mesh and insert some points on it. Note that the
+  //  Let's now create a Mesh and insert some points into it. Note that the
   //  dimension of the points matches the dimension of the Mesh. Here we insert
-  //  a sequence of points that look like a plot of the $log()$ function.
+  //  a sequence of points that look like a plot of the $\log()$ function.
   //
   //  \index{itk::Mesh!New()}
   //  \index{itk::Mesh!SetPoint()}
@@ -199,7 +199,7 @@ int main()
   //
   //  Neither \code{SetCellData()} or \code{GetCellData()} are efficient ways
   //  to access cell data. Massive access to cell data can be achieved
-  //  efficently by using the Iterators built-in the \code{CellDataContainer}. 
+  //  efficently by using the Iterators built into the \code{CellDataContainer}. 
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::CellDataContainer::ConstIterator CellDataIterator;

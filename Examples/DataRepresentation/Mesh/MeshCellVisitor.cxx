@@ -346,7 +346,7 @@ int main()
   //  visitor is interested on the current cell type the cell is just ignored
   //  and skipped.
   //
-  //  MultiVisitors facilitate to add behavior to the cells without having to
+  //  MultiVisitors make it possible to add behavior to the cells without having to
   //  create new methods on the cell types or creating a gigantic visitor class
   //  that should know about every CellType.
   //

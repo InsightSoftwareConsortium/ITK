@@ -607,7 +607,7 @@ int main()
   //
   //  The boundary assignments can be recovered with the method
   //  \code{GetBoundaryAssigment()}. For example, the zero-dimensional features
-  //  of the tetrahedron we can obtained with the following code.
+  //  of the tetrahedron can be obtained with the following code.
   //
   // \index{itk::Mesh!GetBoundaryAssignment()}
   // \index{GetBoundaryAssignment()!itk::Mesh}

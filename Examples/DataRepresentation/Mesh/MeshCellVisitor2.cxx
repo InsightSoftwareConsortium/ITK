@@ -17,9 +17,9 @@
 
 //  Software Guide : BeginLatex
 //
-//  The following section illustrate a realistic example of the use of Cell
-//  visitors on the \doxygen{Mesh}. A set of different visitors are defined
-//  here, each one associated with a particular type of cell. All the visitors
+//  The following section illustrates a realistic example of the use of Cell
+//  visitors on the \doxygen{Mesh}. A set of different visitors is defined
+//  here, each visitor associated with a particular type of cell. All the visitors
 //  are registered with a MultiVisitor class which is passed to the
 //  \doxygen{Mesh}.
 // 
@@ -70,7 +70,7 @@
   //
   //  Then, custom CellVisitor classes should be declared. The only requirement
   //  on the declaration of each visitor class is to provide a method named
-  //  \code{Visit()}. This method expect as arguments a cell identifier and a
+  //  \code{Visit()}. This method expects as arguments a cell identifier and a
   //  pointer to the \emph{specific} cell type for which this visitor is
   //  intended. 
   //
@@ -84,7 +84,7 @@
 
   //  Software Guide : BeginLatex
   //
-  //  The following Vertex visitor is simply printing out the identifier of the
+  //  The following Vertex visitor simply prints out the identifier of the
   //  point with which the cell is associated. Note that the cell is using the
   //  method \code{GetPointId()} without any arguments. This method is only
   //  defined on the VertexCell.
@@ -111,7 +111,7 @@
 
   //  Software Guide : BeginLatex
   //
-  //  The following Line visitor is computing the length of the line.  Note
+  //  The following Line visitor computes the length of the line.  Note
   //  that this visitor is slightly more complicated since it needs to get
   //  access to the actual mesh in order to get point coordinates from the
   //  point identifiers returned by the line cell. This is done by holding a
