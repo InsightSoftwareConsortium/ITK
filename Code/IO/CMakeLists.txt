@@ -41,7 +41,6 @@ SET(ITKIO_SRCS
   itkVOLImageIOFactory.cxx
   itkVTKImageIO.cxx
   itkVTKImageIOFactory.cxx
-  itkWriter.cxx
 )
 
 # Add ITKIO library
