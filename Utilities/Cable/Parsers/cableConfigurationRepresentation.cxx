@@ -200,26 +200,43 @@ Namespace
   
 
 /**
- * Add a WrapperSet to the list of wrappers for this Namespace.
+ * Create a PackageNamespace corresponding to this Namespace.
+ *
+ * The result is a copy of this Namespace and all its enclosed namespaces.
+ * Fields in all copied namespaces will still refer to the originals,
+ * except for Namespace fields.
+ *
+ * The argument should be given the pointer to the enclosing
+ * PackageNamespace for the copy.
  */
-void
+SmartPointer<PackageNamespace>
 Namespace
-::AddWrapperSet(WrapperSet* set)
+::MakePackageNamespace(PackageNamespace* in_enclosingNamespace) const
 {
-  m_WrapperList.push_back(set);
+  // Create the new PackageNamespace.
+  PackageNamespace* pns =
+    PackageNamespace::New(this->GetName(), m_PrefixSeparator,
+                          in_enclosingNamespace);
+  
+  // Copy all the fields.
+  for(Fields::const_iterator f = m_Fields.begin(); f != m_Fields.end(); ++f)
+    {
+    // If the field is a namespace, make the PackageNamespace copy of it.
+    if(f->second->IsNamespace())
+      {
+      Namespace* ns = dynamic_cast<Namespace*>(f->second.RealPointer());
+      pns->AddNamespace(ns->MakePackageNamespace(pns));
+      }
+    // Otherwise, just copy the field's pointer.
+    else
+      {
+      pns->AddField(f->second);
+      }
+    }
+  
+  return pns;
 }
-
-
-/**
- * Add a InstantiationSet to the list of instantiations for this Namespace.
- */
-void
-Namespace
-::AddInstantiationSet(InstantiationSet* set)
-{
-  m_WrapperList.push_back(set);
-}
-
+  
 
 /**
  * Add a new Named entity to this Namespace's fields.
@@ -274,18 +291,7 @@ bool
 Namespace
 ::AddNamespace(Namespace* ns)
 {
-  // Try adding the field corresponding to the new Namespace.
-  if(this->AddField(ns))
-    {
-    // Add the new namespace to the ordered list of wrappers.
-    m_WrapperList.push_back(ns);
-
-    return true;
-    }
-  else
-    {
-    return false;
-    }
+  return this->AddField(ns);
 }
 
 
@@ -297,7 +303,7 @@ Namespace
 ::LookupName(const String& name) const
 {
   // Parse the name into its qualifiers.
-  QualifierList qualifierList;
+  Qualifiers qualifierList;
   
   if(this->ParseQualifiedName(name, std::back_inserter(qualifierList)))
     {
@@ -365,7 +371,7 @@ Namespace
   Named* field = this->LookupName(name);
   
   // Make sure it is a Namespace.
-  if(!field || !field->IsNamespace())
+  if(!field || !(field->IsNamespace() || field->IsPackageNamespace()))
     {
     return NULL;
     }
@@ -383,7 +389,7 @@ String
 Namespace
 ::GetQualifierString(const String& name) const
 {
-  QualifierList qualifierList;
+  Qualifiers qualifierList;
   if(this->ParseQualifiedName(name, std::back_inserter(qualifierList)))
     {
     // The name was valid.  Use all but the last qualifier.
@@ -391,7 +397,7 @@ Namespace
       {
       qualifierList.pop_back();
       String qualifiers = "";
-      for(QualifierList::const_iterator q = qualifierList.begin();
+      for(Qualifiers::const_iterator q = qualifierList.begin();
           q != qualifierList.end(); ++q)
         {
         qualifiers.append(*q);
@@ -429,13 +435,13 @@ Namespace
 /**
  * Lookup the given name starting in the scope of this namespace.
  *
- * This internal version takes iterators into a QualifierList describing
+ * This internal version takes iterators into a Qualifiers describing
  * the name.
  */
 Named*
 Namespace
-::LookupName(QualifierListConstIterator first,
-             QualifierListConstIterator last,
+::LookupName(QualifiersConstIterator first,
+             QualifiersConstIterator last,
              bool walkUpEnclosingScopes) const
 {
   // If there is no name, we cannot look it up.
@@ -445,7 +451,7 @@ Namespace
     }
   
   // Get an iterator to the second member of the list (may be the end).
-  QualifierListConstIterator second = first; ++second;
+  QualifiersConstIterator second = first; ++second;
   
   // Try to look up the highest level qualifier in this namespace.
   Fields::const_iterator fieldIter = m_Fields.find(*first);
@@ -453,7 +459,7 @@ Namespace
     {
     // A field was found.  See what type it is.
     Named* field = fieldIter->second;
-    if(!field->IsNamespace())
+    if(!(field->IsNamespace() || field->IsPackageNamespace()))
       {
       // The field is not a namespace.  Make sure it is the last qualifier.
       if(second == last)
@@ -521,7 +527,7 @@ Namespace
 
 /**
  * Parse a ::-separated qualified name into its components.  Write each
- * qualifier out through the QualifierListInserter.  The given name
+ * qualifier out through the QualifiersInserter.  The given name
  * may not end in a ::, but if it begins in a ::, then the first qualifier
  * will be the empty string.
  *
@@ -529,7 +535,7 @@ Namespace
  */
 bool
 Namespace
-::ParseQualifiedName(const String& name, QualifierListInserter qualifiers) const
+::ParseQualifiedName(const String& name, QualifiersInserter qualifiers) const
 {  
   String qualifier = "";
   for(String::const_iterator c = name.begin(); c != name.end(); ++c)
@@ -574,14 +580,85 @@ Namespace
 
 
 /**
- * Given a QualifierListConstIterator "iter", return the equivalent iterator
+ * Given a QualifiersConstIterator "iter", return the equivalent iterator
  * to "++iter".
  */
-Namespace::QualifierListConstIterator
+Namespace::QualifiersConstIterator
 Namespace
-::Next(QualifierListConstIterator iter) const
+::Next(QualifiersConstIterator iter) const
 {
   return ++iter;
+}
+
+
+/**
+ * Create a new PackageNamespace and return a pointer to it.
+ */
+PackageNamespace::Pointer
+PackageNamespace
+::New(const String& in_name, const String& in_prefixSeparator,
+      PackageNamespace* in_enclosingNamespace)
+{
+  return new PackageNamespace(in_name, in_prefixSeparator,
+                              in_enclosingNamespace);
+}
+
+
+/**
+ * Constructor just passes arguments to the Namespace superclass.
+ */
+PackageNamespace
+::PackageNamespace(const String& in_name, const String& in_prefixSeparator,
+                   PackageNamespace* in_enclosingNamespace):
+  Namespace(in_name, in_prefixSeparator, in_enclosingNamespace)
+{
+}
+
+
+/**
+ * Add a WrapperSet to the list of wrappers for this PackageNamespace.
+ */
+void
+PackageNamespace
+::AddWrapperSet(WrapperSet* set)
+{
+  m_Wrappers.push_back(set);
+}
+
+
+/**
+ * Add a InstantiationSet to the list of instantiations for this
+ * PackageNamespace.
+ */
+void
+PackageNamespace
+::AddInstantiationSet(InstantiationSet* set)
+{
+  m_Wrappers.push_back(set);
+}
+
+
+/**
+ * Add a nested Namespace to this PackageNamespace.  This overrides the
+ * Namespace's version to add it to the wrapper set as well.
+ * Returns false only if the Namespace's name already exists.
+ */
+bool
+PackageNamespace
+::AddNamespace(Namespace* ns)
+{
+  // Try to add the field first.
+  if(this->AddField(ns))
+    {
+    // Added the namespace as a field.  Now add it as a wrapper.
+    m_Wrappers.push_back(ns);
+    
+    return true;
+    }
+  else
+    {
+    return false;
+    }
 }
 
 
@@ -603,7 +680,7 @@ void
 Headers
 ::AddFile(const String& name)
 {
-  m_Files.insert(name);
+  m_Files.push_back(name);
 }
 
 
@@ -614,7 +691,7 @@ void
 Headers
 ::AddDirectory(const String& name)
 {
-  m_Directories.insert(name);
+  m_Directories.push_back(name);
 }
 
 
@@ -623,33 +700,53 @@ Headers
  */
 Package::Pointer
 Package
-::New(const String& name)
+::New(const String& name, PackageNamespace* ns)
 {
-  return new Package(name);
+  return new Package(name, ns);
 }
 
 
 /**
- * Constructor sets up the name of the package and allocates the
- * global Namespace (which has no name, prefix separator, or enclosing
- * namespace).
+ * Constructor sets up the name of the package and its namespace.
  */
 Package
-::Package(const String& name):
-  m_Name(name),
+::Package(const String& name, PackageNamespace* ns):
+  Named(name),
+  m_GlobalNamespace(ns)
+{
+}
+
+
+/**
+ * Create a new CableConfiguration and return a pointer to it.
+ */
+CableConfiguration::Pointer
+CableConfiguration
+::New()
+{
+  return new CableConfiguration;
+}
+
+
+/**
+ * Constructor allocates the global Namespace (which has no name,
+ * prefix separator, or enclosing namespace).
+ */
+CableConfiguration
+::CableConfiguration():
   m_GlobalNamespace(Namespace::New("", "", NULL))
 {
 }
 
 
 /**
- * Get the name of this package.
+ * Add a Package to this CableConfiguration.
  */
-const String&
-Package
-::GetName() const
+void
+CableConfiguration
+::AddPackage(Package* package)
 {
-  return m_Name;
+  m_Packages.push_back(package);
 }
 
 

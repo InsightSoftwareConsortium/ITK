@@ -22,7 +22,8 @@ enum TypeOfObject {
   Undefined_id=0,
 
   Dependencies_id, CodeBlock_id, Element_id, Set_id, WrapperSet_id,
-  InstantiationSet_id, Namespace_id, Headers_id, Package_id
+  InstantiationSet_id, Namespace_id, PackageNamespace_id, Headers_id,
+  Package_id, CableConfiguration_id
 };
 
 
@@ -39,15 +40,17 @@ public:
   virtual const char* GetClassName() const { return "ConfigureObject"; }
   virtual TypeOfObject GetTypeOfObject() const;
   
-  bool IsPackage() const          { return (this->GetTypeOfObject() == Package_id); }
-  bool IsDependencies() const     { return (this->GetTypeOfObject() == Dependencies_id); }
-  bool IsHeaders() const          { return (this->GetTypeOfObject() == Headers_id); }
-  bool IsNamespace() const        { return (this->GetTypeOfObject() == Namespace_id); }
-  bool IsCodeBlock() const        { return (this->GetTypeOfObject() == CodeBlock_id); }
-  bool IsSet() const              { return (this->GetTypeOfObject() == Set_id); }
-  bool IsWrapperSet() const       { return (this->GetTypeOfObject() == WrapperSet_id); }
-  bool IsInstantiationSet() const { return (this->GetTypeOfObject() == InstantiationSet_id); }
-  bool IsElement() const          { return (this->GetTypeOfObject() == Element_id); }
+  bool IsCableConfiguration() const { return (this->GetTypeOfObject() == CableConfiguration_id); }
+  bool IsPackage() const            { return (this->GetTypeOfObject() == Package_id); }
+  bool IsDependencies() const       { return (this->GetTypeOfObject() == Dependencies_id); }
+  bool IsHeaders() const            { return (this->GetTypeOfObject() == Headers_id); }
+  bool IsNamespace() const          { return (this->GetTypeOfObject() == Namespace_id); }
+  bool IsPackageNamespace() const   { return (this->GetTypeOfObject() == PackageNamespace_id); }
+  bool IsCodeBlock() const          { return (this->GetTypeOfObject() == CodeBlock_id); }
+  bool IsSet() const                { return (this->GetTypeOfObject() == Set_id); }
+  bool IsWrapperSet() const         { return (this->GetTypeOfObject() == WrapperSet_id); }
+  bool IsInstantiationSet() const   { return (this->GetTypeOfObject() == InstantiationSet_id); }
+  bool IsElement() const            { return (this->GetTypeOfObject() == Element_id); }
 
   virtual void AddCharacterData(const char*, unsigned long, bool);
   
@@ -83,7 +86,7 @@ protected:
   virtual ~Dependencies() {}
   
 private:
-  std::list<String>  m_PackageNames;
+  std::vector<String>  m_PackageNames;
 };
 
 
@@ -105,6 +108,18 @@ public:
   void AddFile(const String&);
   void AddDirectory(const String&);
   
+  typedef std::vector<String> Files;
+  typedef Files::const_iterator FilesIterator;
+  
+  typedef std::vector<String> Directories;
+  typedef Directories::const_iterator DirectoriesIterator;
+  
+  FilesIterator BeginFiles() const { return m_Files.begin(); }
+  FilesIterator EndFiles() const { return m_Files.end(); }  
+  
+  DirectoriesIterator BeginDirectories() const { return m_Directories.begin(); }
+  DirectoriesIterator EndDirectories() const { return m_Directories.end(); }  
+  
 protected:
   Headers() {}
   Headers(const Self&) {}
@@ -112,8 +127,8 @@ protected:
   virtual ~Headers() {}
   
 private:
-  std::set<String>  m_Files;
-  std::set<String>  m_Directories;
+  Files m_Files;
+  Directories m_Directories;
 };
 
 
@@ -310,10 +325,13 @@ protected:
 };
 
 
+// Need forward reference for smart pointer.
+class PackageNamespace;
+
 /**
- * Represent a namespace in the configuration file.  This will correspond
- * to a namespace in the generated wrappers, as well as for Set and CodeBlock names
- * in the configuration itself.
+ * Represent a namespace in the configuration file.  This will
+ * correspond to a namespace in the generated wrappers, as well as for
+ * Set and CodeBlock names in the configuration itself.
  */
 class Namespace: public Named
 {
@@ -326,18 +344,14 @@ public:
   virtual TypeOfObject GetTypeOfObject() const { return Namespace_id; }
   
   static Pointer New(const String&, const String&, Namespace*);
-
-  typedef std::list<Named::Pointer> WrapperList;
-  typedef WrapperList::const_iterator WrapperIterator;
-
-  void AddWrapperSet(WrapperSet*);
-  void AddInstantiationSet(InstantiationSet*);
+  
+  SmartPointer<PackageNamespace> MakePackageNamespace(PackageNamespace*) const;
   
   bool AddField(Named*);
   
   bool AddCode(CodeBlock*);
   bool AddSet(Set*);
-  bool AddNamespace(Namespace*);
+  virtual bool AddNamespace(Namespace*);
   
   Named* LookupName(const String&) const;
   
@@ -345,13 +359,10 @@ public:
   CodeBlock* LookupCode(const String&) const;
   Namespace* LookupNamespace(const String&) const;
   
-  WrapperIterator BeginWrapperList() const { return m_WrapperList.begin(); }
-  WrapperIterator EndWrapperList() const { return m_WrapperList.end(); }
-
   bool IsGlobalNamespace() const { return (m_EnclosingNamespace == NULL); }
   
   String GetQualifierString(const String&) const;
-  
+
 protected:
   Namespace(const String&, const String&, Namespace*);
   Namespace(const Self&): Named("") {}
@@ -359,18 +370,20 @@ protected:
   virtual ~Namespace() {}
   
 private:
-  typedef std::list<String>  QualifierList;
-  typedef QualifierList::const_iterator QualifierListConstIterator;
-  typedef std::back_insert_iterator<QualifierList>  QualifierListInserter;
+  typedef std::vector<String>  Qualifiers;
+  typedef Qualifiers::const_iterator QualifiersConstIterator;
+  typedef std::back_insert_iterator<Qualifiers>  QualifiersInserter;
 
-  Named* LookupName(QualifierListConstIterator,
-                    QualifierListConstIterator,
+  Named* LookupName(QualifiersConstIterator,
+                    QualifiersConstIterator,
                     bool walkUpEnclosingScopes) const;
   
-  bool ParseQualifiedName(const String&, QualifierListInserter) const;
+  bool ParseQualifiedName(const String&, QualifiersInserter) const;
   
-  QualifierListConstIterator Next(QualifierListConstIterator) const;
+  QualifiersConstIterator Next(QualifiersConstIterator) const;
 private:
+  typedef std::map<String, Named::Pointer>  Fields;
+  
   /**
    * The name of this namespace.
    */
@@ -389,24 +402,60 @@ private:
    */
   Namespace* m_EnclosingNamespace;
 
-  typedef std::map<String, Named::Pointer>  Fields;
   /**
    * The set of fields that have been defined in this Namespace.
    */
   Fields m_Fields;
-  
-  /**
-   * List of WrapperSets and Namespaces to that have been defined
-   * in this Namespace, in order.
-   */
-  WrapperList m_WrapperList;
 };
+
+
+/**
+ * Represent the copy of a Namespace used in a Package.  This additionally
+ * stores the WrapperSet and InstantiationSet instances defined in a Package.
+ */
+class PackageNamespace: public Namespace
+{
+public:
+  typedef PackageNamespace          Self;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+
+  virtual const char* GetClassName() const { return "PackageNamespace"; }
+  virtual TypeOfObject GetTypeOfObject() const { return PackageNamespace_id; }
+  
+  static Pointer New(const String&, const String&, PackageNamespace*);
+  
+  void AddWrapperSet(WrapperSet*);
+  void AddInstantiationSet(InstantiationSet*);
+  virtual bool AddNamespace(Namespace*);
+  
+  typedef std::vector<Named::Pointer> Wrappers;
+  typedef Wrappers::const_iterator WrapperIterator;
+
+  const Wrappers& GetWrappers() const { return m_Wrappers; }
+  WrapperIterator BeginWrappers() const { return m_Wrappers.begin(); }
+  WrapperIterator EndWrappers() const { return m_Wrappers.end(); }
+
+protected:
+  PackageNamespace(const String&, const String&, PackageNamespace*);
+  PackageNamespace(const Self&): Namespace("","",NULL) {}
+  void operator=(const Self&) {}
+  virtual ~PackageNamespace() {}
+  
+private:
+  /**
+   * List of WrapperSets and InstantiationSets that have been defined
+   * in this NamespacePackage's Package, in order.
+   */
+  Wrappers m_Wrappers;
+};
+
 
 
 /**
  * A collection of all configuration information for this package of wrappers.
  */
-class Package: public ConfigureObject
+class Package: public Named
 {
 public:
   typedef Package      Self;
@@ -416,10 +465,8 @@ public:
   virtual const char* GetClassName() const { return "Package"; }
   virtual TypeOfObject GetTypeOfObject() const { return Package_id; }
 
-  static Pointer New(const String&);
+  static Pointer New(const String&, PackageNamespace*);
 
-  const String& GetName() const;
-  
   void SetDependencies(Dependencies* dependencies)
     { m_Dependencies = dependencies; }
   Dependencies::Pointer GetDependencies() const
@@ -428,23 +475,18 @@ public:
   void SetHeaders(Headers* headers)
     { m_Headers = headers; }
   Headers::Pointer GetHeaders() const
-    { return m_Headers; }
+    { return m_Headers; }  
   
-  Namespace::Pointer GetGlobalNamespace() const
-    { return m_GlobalNamespace; }
+  PackageNamespace::Pointer GetGlobalNamespace() const
+    { return m_GlobalNamespace; }  
   
 protected:
-  Package(const String&);
-  Package(const Self&) {}
+  Package(const String&, PackageNamespace*);
+  Package(const Self&): Named("") {}
   void operator=(const Self&) {}
   virtual ~Package() {}
   
 private:
-  /**
-   * The name of the package.
-   */
-  String m_Name;
-  
   /**
    * The set of package dependencies for this package.
    */
@@ -454,12 +496,58 @@ private:
    * The set of header files and directories needed for this package.
    */
   Headers::Pointer m_Headers;
-  
+
   /**
-   * The global namespace defined in the package.  All other namespaces
+   * The global namespace defined in the package.  This is a copy of
+   * the real global namespace made when the package is opened.
+   */
+  PackageNamespace::Pointer m_GlobalNamespace;  
+};
+
+
+/**
+ * A collection of all configuration information from an input file.
+ */
+class CableConfiguration: public ConfigureObject
+{
+public:
+  typedef CableConfiguration        Self;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+  
+  virtual const char* GetClassName() const { return "CableConfiguration"; }
+  virtual TypeOfObject GetTypeOfObject() const { return CableConfiguration_id; }
+
+  static Pointer New();
+  
+  Namespace::Pointer GetGlobalNamespace() const
+    { return m_GlobalNamespace; }
+  
+  void AddPackage(Package*);
+  
+  typedef std::vector<Package::Pointer>  Packages;
+  typedef Packages::const_iterator PackageIterator;
+  
+  PackageIterator BeginPackages() const { return m_Packages.begin(); }
+  PackageIterator EndPackages() const { return m_Packages.end(); }  
+  
+protected:
+  CableConfiguration();
+  CableConfiguration(const Self&) {}
+  void operator=(const Self&) {}
+  virtual ~CableConfiguration() {}
+  
+private:
+  /**
+   * The global namespace defined in the configuration.  All other namespaces
    * are contained within it.
    */
   Namespace::Pointer m_GlobalNamespace;
+  
+  /**
+   * All the packages defined in the configuration.
+   */
+  Packages m_Packages;
 };
 
 

@@ -1,5 +1,7 @@
 #include "genCxxGenerator.h"
 
+#include <fstream>
+
 namespace gen
 {
 
@@ -48,23 +50,73 @@ std::ostream& operator<<(std::ostream& os, const String& str)
 
 
 /**
- * Generate the C++ wrappers to the given output stream.
+ * Generate C++ wrappers for all packages specified in the configuration.
  */
 void
 CxxGenerator
-::Generate(std::ostream& os)
+::Generate()
 {
-  Namespace::ConstPointer globalNamespace =
-    m_Package->GetGlobalNamespace().RealPointer();
-  
-  // We want everything in the global namespace to start in the first column.
-  Indent indent(-2);
-  
-  // Start the output with the global namespace of definitions.
-  this->GenerateNamespace(os, indent, globalNamespace);
+  // Just loop over all pacakges in the configuration.
+  for(CableConfiguration::PackageIterator package =
+        m_CableConfiguration->BeginPackages();
+      package != m_CableConfiguration->EndPackages(); ++package)
+    {
+    this->GeneratePackage(*package);
+    }
 }
  
+
+/**
+ * Generate the C++ wrappers for the given package.
+ */
+void
+CxxGenerator
+::GeneratePackage(const Package* package)
+{
+  String fileName = "Cxx/"+package->GetName()+"_cxx.cxx";
   
+  // Open the output file.
+  ofstream out(fileName.c_str());
+  if(!out)
+    {
+    // ERROR!
+    return;
+    }
+  
+  // Be sure to include needed headers.
+  this->GenerateHeaderIncludes(out, package->GetHeaders());
+  
+  // Begin the recursive generation at the global namespace.
+  this->GenerateNamespace(out, Indent(-2),
+                          package->GetGlobalNamespace());
+  
+  out.close();
+}
+
+
+/**
+ * Generate the needed #includes.
+ */
+void
+CxxGenerator
+::GenerateHeaderIncludes(std::ostream& os,
+                         const Headers* headers)
+{
+  // Make sure we have headers to write out.
+  if(!headers)
+    {
+    return;
+    }
+  
+  // Include every header specified.
+  for(Headers::FilesIterator header = headers->BeginFiles();
+      header != headers->EndFiles(); ++header)
+    {
+    os << "#include \"" << header->c_str() << "\"" << std::endl;
+    }
+}
+
+
 /**
  * Generate the C++ wrappers for this namespace and all namespaces
  * nested inside it.
@@ -72,22 +124,29 @@ CxxGenerator
 void
 CxxGenerator
 ::GenerateNamespace(std::ostream& os, const Indent& indent,
-                    const Namespace* ns)
+                    const PackageNamespace* ns)
 {
+  // If the namespace has nothing to wrap in it, don't print anything.
+  if(ns->GetWrappers().empty())
+    {
+    return;
+    }
+  
+  // Only print namespace begin code if not global namespace.
   if(!ns->IsGlobalNamespace())
     {
     os << indent << "namespace " << ns->GetName() << std::endl
        << indent << "{" << std::endl;
     }
 
-  for(Namespace::WrapperIterator wIter = ns->BeginWrapperList();
-      wIter != ns->EndWrapperList(); ++wIter)
+  for(PackageNamespace::WrapperIterator wIter = ns->BeginWrappers();
+      wIter != ns->EndWrappers(); ++wIter)
     {
     const Named* wrapper = *wIter;
-    if(wrapper->IsNamespace())
+    if(wrapper->IsPackageNamespace())
       {
       this->GenerateNamespace(os, indent.Next(),
-                              dynamic_cast<const Namespace*>(wrapper));
+                              dynamic_cast<const PackageNamespace*>(wrapper));
       }
     else if(wrapper->IsWrapperSet())
       {
@@ -105,7 +164,7 @@ CxxGenerator
       }
     }
   
-  
+  // Only print namespace end code if not global namespace.  
   if(!ns->IsGlobalNamespace())
     {
     os << indent << "} // namespace " << ns->GetName() << std::endl;

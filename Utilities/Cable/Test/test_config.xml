@@ -1,15 +1,10 @@
 <?xml version="1.0"?>
-<Package name="Vect3">
-  <Dependencies>
-    <Package name="Numbers"/>
-  </Dependencies>
-
-  <Headers>
-    <Directory name="Code/Common"/>
-    <File name="itkVersion.h"/>
-  </Headers>
+<CableConfiguration>  
+  <Set name="Empty">
+  </Set>
 
   <Set name="Dimension">
+    <Element>$Empty</Element>
     <Element tag="_1">1</Element>
     <Element tag="_2">2</Element>
     <Element tag="_3">3</Element>
@@ -32,23 +27,37 @@
     <Element tag="">$signedness$scalarType</Element>
   </Set>
 
-  <Namespace name="itk" prefix_seperator="">
+  <Namespace name="itk">
     <Set name="ImageType">
       <Element tag="Image"><![CDATA[Image<$BasicScalarType, $Dimension>]]></Element>
     </Set>
-
-    <InstantiationSet>
-      <Element>class $ImageType</Element>
-    </InstantiationSet>
-
-    <WrapperSet>
-      <Element tag="Directory">Directory</Element>
-      <Element>$ImageType</Element>
-    </WrapperSet>
   </Namespace>
 
-  <WrapperSet>
-    <Element tag="Pair"><![CDATA[pair<$itk::ImageType, $Dimension>]]></Element>
-  </WrapperSet>
+  <Package name="Images">
+    <Dependencies>
+      <Package name="Numerics"/>
+    </Dependencies>
 
-</Package>
+    <Headers>
+      <Directory name="Code/Common"/>
+      <File name="itkVersion.h"/>
+    </Headers>
+
+    <InstantiationSet>
+      <Element>class $itk::ImageType</Element>
+    </InstantiationSet>
+
+    <Namespace name="itk">
+      <WrapperSet>
+        <Element tag="Directory">Directory</Element>
+        <Element>$ImageType</Element>
+      </WrapperSet>
+    </Namespace>
+  </Package>
+
+  <Package name="Pairs">
+    <WrapperSet>
+      <Element tag="Pair"><![CDATA[pair<$itk::ImageType, $Dimension>]]></Element>
+    </WrapperSet>
+  </Package>
+</CableConfiguration>

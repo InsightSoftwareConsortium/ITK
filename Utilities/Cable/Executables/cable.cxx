@@ -7,7 +7,7 @@
 #include <fstream>
 
 typedef std::string             String;
-typedef configuration::Package  Package;
+typedef configuration::CableConfiguration  CableConfiguration;
 typedef source::Namespace       Namespace;
 
 
@@ -29,7 +29,7 @@ struct WrapperGenerator
   char* commandLineFlag;         // Command line flag's text.
   bool  flag;                    // Was command line flag given?
   void (*generate)(const Namespace*,
-                   const Package*,
+                   const CableConfiguration*,
                    const char*); // Generation function.
   char* outputDirectory;         // Name of subdirectory where wrappers go.
 };
@@ -72,9 +72,9 @@ int main(int argc, char* argv[])
   
   configurationParser->Parse(inputFile);
 
-  gen::CxxGenerator cxxGenerator(configurationParser->GetPackage());
+  gen::CxxGenerator cxxGenerator(configurationParser->GetCableConfiguration());
   
-  cxxGenerator.Generate(std::cout);
+  cxxGenerator.Generate();
   
 //  source::Parser::Pointer sourceParser = source::Parser::New();
   

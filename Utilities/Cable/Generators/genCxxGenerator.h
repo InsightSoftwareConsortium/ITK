@@ -29,24 +29,25 @@ std::ostream& operator<<(std::ostream&, const Indent&);
 class CxxGenerator
 {
 public:
-  CxxGenerator(const configuration::Package* in_package):
-    m_Package(in_package) {}
+  CxxGenerator(const configuration::CableConfiguration* in_config):
+    m_CableConfiguration(in_config) {}
   ~CxxGenerator() {}
   
-  void Generate(std::ostream&);
+  void Generate();
 private:
-  
+  void GeneratePackage(const configuration::Package*);  
+  void GenerateHeaderIncludes(std::ostream&, const configuration::Headers*);  
   void GenerateNamespace(std::ostream&, const Indent&,
-                         const configuration::Namespace*);
+                         const configuration::PackageNamespace*);
   void GenerateWrapperSet(std::ostream&, const Indent&,
                           const configuration::WrapperSet*);
   void GenerateInstantiationSet(std::ostream&, const Indent&,
                                 const configuration::InstantiationSet*);
 
   /**
-   * The package to generate.
+   * The configuration that controls generation.
    */
-  configuration::Package::ConstPointer m_Package;
+  configuration::CableConfiguration::ConstPointer m_CableConfiguration;
 };
 
 } // namespace gen

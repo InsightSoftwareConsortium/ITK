@@ -28,8 +28,8 @@ public:
   
   void Parse(std::istream&);
   
-  const Package* GetPackage() const
-    { return m_Package.RealPointer(); }
+  const CableConfiguration* GetCableConfiguration() const
+    { return m_CableConfiguration.RealPointer(); }
   
   // Call-backs from the XML parser.
   void BeginElement(const char *name, const char **atts);
@@ -62,9 +62,9 @@ private:
   std::stack<Namespace::Pointer>  m_NamespaceStack;
   
   /**
-   * Store the package configuration instance.
+   * Store the CableConfiguration instance.
    */
-  Package::Pointer m_Package;
+  CableConfiguration::Pointer m_CableConfiguration;
   
   /**
    * Flag for whether a CDATA section is being parsed.
@@ -72,15 +72,17 @@ private:
   bool m_CdataSectionFlag;  
 
   // Access functions for element stack.
-  ConfigureObject::Pointer TopParseElement() const;
-  Package::Pointer         CurrentPackage() const;
-  Dependencies::Pointer    CurrentDependencies() const;
-  Namespace::Pointer       CurrentNamespace() const;
-  CodeBlock::Pointer       CurrentCodeBlock() const;
-  Set::Pointer             CurrentSet() const;
-  Element::Pointer         CurrentElement() const;
-  Headers::Pointer         CurrentHeaders() const;
-  Namespace::Pointer       CurrentNamespaceScope() const;
+  ConfigureObject::Pointer  TopParseElement() const;
+  Package::Pointer          CurrentPackage() const;
+  Dependencies::Pointer     CurrentDependencies() const;
+  Namespace::Pointer        CurrentNamespace() const;
+  PackageNamespace::Pointer CurrentPackageNamespace() const;
+  CodeBlock::Pointer        CurrentCodeBlock() const;
+  Set::Pointer              CurrentSet() const;
+  Element::Pointer          CurrentElement() const;
+  Headers::Pointer          CurrentHeaders() const;
+  Namespace::Pointer        CurrentNamespaceScope() const;
+  PackageNamespace::Pointer CurrentPackageNamespaceScope() const;
 
   // Element stack utilities.
   void PushElement(ConfigureObject*);
@@ -92,6 +94,7 @@ private:
   Namespace::Pointer MostNestedNamespace() const;
 
   // The element begin handlers.
+  void begin_CableConfiguration(const Attributes&);
   void begin_Package(const Attributes&);
   void begin_Dependencies(const Attributes&);
   void begin_Headers(const Attributes&);
@@ -105,6 +108,7 @@ private:
   void begin_InstantiationSet(const Attributes&);
   
   // The element end handlers.
+  void end_CableConfiguration();
   void end_Package();
   void end_Dependencies();
   void end_Headers();

@@ -20,7 +20,7 @@ Parser::New()
 Parser
 ::Parser():
   m_XML_Parser(XML_ParserCreate(NULL)),
-  m_Package(NULL),
+  m_CableConfiguration(NULL),
   m_CdataSectionFlag(false)
 {
   Parser::InitializeHandlers();
@@ -351,11 +351,27 @@ Namespace::Pointer
 Parser
 ::CurrentNamespace() const
 {
-  if(!m_ElementStack.top()->IsNamespace())
+  if(!m_ElementStack.top()->IsNamespace()
+     && !m_ElementStack.top()->IsPackageNamespace())
     throw ElementStackTypeException("Namespace",
                                     m_ElementStack.top()->GetClassName());
 
   return dynamic_cast<Namespace*>(m_ElementStack.top().RealPointer());
+}
+
+
+/**
+ * Get the current PackageNamespace off the top of the element stack.
+ */
+PackageNamespace::Pointer
+Parser
+::CurrentPackageNamespace() const
+{
+  if(!m_ElementStack.top()->IsPackageNamespace())
+    throw ElementStackTypeException("PackageNamespace",
+                                    m_ElementStack.top()->GetClassName());
+
+  return dynamic_cast<PackageNamespace*>(m_ElementStack.top().RealPointer());
 }
 
 
@@ -429,13 +445,36 @@ Namespace::Pointer
 Parser
 ::CurrentNamespaceScope() const
 {
-  if(this->TopParseElement()->IsPackage())
+  if(this->TopParseElement()->IsCableConfiguration())
     {
     return this->GlobalNamespace();
+    }
+  else if(this->TopParseElement()->IsPackage())
+    {
+    return this->CurrentPackage()->GetGlobalNamespace().RealPointer();
     }
   else
     {
     return this->CurrentNamespace();
+    }
+}
+
+
+/**
+ * Get the current PackageNamespace scope.  This is only valid inside a
+ * Package element.
+ */
+PackageNamespace::Pointer
+Parser
+::CurrentPackageNamespaceScope() const
+{
+  if(this->TopParseElement()->IsPackage())
+    {
+    return this->CurrentPackage()->GetGlobalNamespace();
+    }
+  else
+    {
+    return this->CurrentPackageNamespace();
     }
 }
 
@@ -463,7 +502,7 @@ Parser
   // Sanity check.
   if(m_ElementStack.empty())
     {
-    throw String("Main package popped from element stack!");
+    throw String("CableConfiguration popped from element stack!");
     }
 }
 
@@ -508,6 +547,33 @@ Parser
 
 
 /**
+ * Begin handler for CableConfiguration element.
+ */
+void
+Parser
+::begin_CableConfiguration(const Attributes&)
+{
+  // This is the outermost element.
+  m_CableConfiguration = CableConfiguration::New();
+  this->PushElement(m_CableConfiguration);
+  
+  // Push the global namespace onto the namespace stack.
+  this->PushNamespace(this->GlobalNamespace());
+}
+
+/**
+ * End handler for CableConfiguration element.
+ */
+void
+Parser
+::end_CableConfiguration()
+{
+  // Don't pop off the main configuration element!
+}
+
+
+
+/**
  * Begin handler for Package element.
  */
 void
@@ -515,22 +581,44 @@ Parser
 ::begin_Package(const Attributes& atts)
 {
   String name = atts.Get("name");
-  if(!m_Package)
+
+  if(this->TopParseElement()->IsCableConfiguration())
     {
-    // This is the outermost element.
-    m_Package = Package::New(name);
-    this->PushElement(m_Package);
+    // This is a new package definition.
+    
+    // Create a copy of the global namespace for the package.
+    PackageNamespace::Pointer nps =
+      this->GlobalNamespace()->MakePackageNamespace(NULL);
+    
+    // Create the package.
+    Package::Pointer newPackage = Package::New(name, nps);
+    
+    // Add the package to the CableConfiguration.
+    m_CableConfiguration->AddPackage(newPackage);
+    
+    // Put the package on the element stack so it can be filled in.
+    this->PushElement(newPackage);
     
     // Push the Package's global namespace onto the namespace stack.
-    this->PushNamespace(this->GlobalNamespace());
+    this->PushNamespace(nps);
     }
-  else
+  else if(this->TopParseElement()->IsDependencies())
     {
     // This is a package dependency element.
     // Add the dependency.
     this->CurrentDependencies()->Add(name);
+    
+    // Put a dummy element on the stack for the corresponding
+    // end_Package to pop off.
+    this->PushElement(0);
+    }
+  else
+    {
+    throw ElementStackTypeException("CableConfiguration or Dependencies",
+                                    this->TopParseElement()->GetClassName());
     }
 }
+
 
 /**
  * End handler for Package element.
@@ -539,7 +627,13 @@ void
 Parser
 ::end_Package()
 {
-  // Don't pop off the main package element!
+  this->PopElement();
+  if(this->TopParseElement()->IsCableConfiguration())
+    {
+    // This was the end of a package definition.
+    // Pop off the package's namespace from the Namespace stack.
+    this->PopNamespace();
+    }
 }
 
 
@@ -696,15 +790,30 @@ Parser
     {
     // The namespace could not be found.  We must create it.
     // This requires:
-    //  - the prefix_seperator attribute.
+    //  - the prefix_seperator attribute (optional).
     //  - name must not be qualified.
     //  - we are currently in a Namespace element.
-    String prefixSeperator = atts.Get("prefix_seperator");
+    String prefixSeperator = atts.Have("prefix_seperator")
+      ? atts.Get("prefix_seperator") : "";
     
     if(IsValidCxxIdentifier(name))
       {
       Namespace* enclosingNamespace = this->CurrentNamespaceScope();
-      ns = Namespace::New(name, prefixSeperator, enclosingNamespace);
+      
+      if(enclosingNamespace->IsPackageNamespace())
+        {
+        // We are in a PackageNamespace (inside a package definition).
+        // We must create a PackageNamespace.
+        ns = PackageNamespace::New(
+          name, prefixSeperator,
+          dynamic_cast<PackageNamespace*>(enclosingNamespace));
+        }
+      else
+        {
+        // We can create a normal Namespace.
+        ns = Namespace::New(name, prefixSeperator, enclosingNamespace);
+        }
+      
       enclosingNamespace->AddNamespace(ns);
       }
     else
@@ -858,7 +967,7 @@ Parser
   WrapperSet::Pointer newWrapperSet = WrapperSet::New();
     
   // Save the WrapperSet.
-  this->CurrentNamespaceScope()->AddWrapperSet(newWrapperSet);
+  this->CurrentPackageNamespaceScope()->AddWrapperSet(newWrapperSet);
     
   // Put new WrapperSet on the stack so it can be filled.
   this->PushElement(newWrapperSet);
@@ -888,7 +997,8 @@ Parser
   InstantiationSet::Pointer newInstantiationSet = InstantiationSet::New();
     
   // Save the InstantiationSet.
-  this->CurrentNamespaceScope()->AddInstantiationSet(newInstantiationSet);
+  this->CurrentPackageNamespaceScope()
+    ->AddInstantiationSet(newInstantiationSet);
     
   // Put new InstantiationSet on the stack so it can be filled.
   this->PushElement(newInstantiationSet);
@@ -930,29 +1040,31 @@ Parser
   static bool initialized = false;  
   if(initialized) return;
   
-  beginHandlers["Package"]          = &Parser::begin_Package;
-  beginHandlers["Dependencies"]     = &Parser::begin_Dependencies;
-  beginHandlers["Headers"]          = &Parser::begin_Headers;
-  beginHandlers["File"]             = &Parser::begin_File;
-  beginHandlers["Directory"]        = &Parser::begin_Directory;
-  beginHandlers["Namespace"]        = &Parser::begin_Namespace;
-  beginHandlers["Code"]             = &Parser::begin_Code;
-  beginHandlers["Set"]              = &Parser::begin_Set;
-  beginHandlers["Element"]          = &Parser::begin_Element;
-  beginHandlers["WrapperSet"]       = &Parser::begin_WrapperSet;
-  beginHandlers["InstantiationSet"] = &Parser::begin_InstantiationSet;
+  beginHandlers["CableConfiguration"] = &Parser::begin_CableConfiguration;
+  beginHandlers["Package"]            = &Parser::begin_Package;
+  beginHandlers["Dependencies"]       = &Parser::begin_Dependencies;
+  beginHandlers["Headers"]            = &Parser::begin_Headers;
+  beginHandlers["File"]               = &Parser::begin_File;
+  beginHandlers["Directory"]          = &Parser::begin_Directory;
+  beginHandlers["Namespace"]          = &Parser::begin_Namespace;
+  beginHandlers["Code"]               = &Parser::begin_Code;
+  beginHandlers["Set"]                = &Parser::begin_Set;
+  beginHandlers["Element"]            = &Parser::begin_Element;
+  beginHandlers["WrapperSet"]         = &Parser::begin_WrapperSet;
+  beginHandlers["InstantiationSet"]   = &Parser::begin_InstantiationSet;
 
-  endHandlers["Package"]          = &Parser::end_Package;
-  endHandlers["Dependencies"]     = &Parser::end_Dependencies;
-  endHandlers["Headers"]          = &Parser::end_Headers;
-  endHandlers["File"]             = &Parser::end_File;
-  endHandlers["Directory"]        = &Parser::end_Directory;
-  endHandlers["Namespace"]        = &Parser::end_Namespace;
-  endHandlers["Code"]             = &Parser::end_Code;
-  endHandlers["Set"]              = &Parser::end_Set;
-  endHandlers["Element"]          = &Parser::end_Element;
-  endHandlers["WrapperSet"]       = &Parser::end_WrapperSet;
-  endHandlers["InstantiationSet"] = &Parser::end_InstantiationSet;
+  endHandlers["CableConfiguration"] = &Parser::end_CableConfiguration;
+  endHandlers["Package"]            = &Parser::end_Package;
+  endHandlers["Dependencies"]       = &Parser::end_Dependencies;
+  endHandlers["Headers"]            = &Parser::end_Headers;
+  endHandlers["File"]               = &Parser::end_File;
+  endHandlers["Directory"]          = &Parser::end_Directory;
+  endHandlers["Namespace"]          = &Parser::end_Namespace;
+  endHandlers["Code"]               = &Parser::end_Code;
+  endHandlers["Set"]                = &Parser::end_Set;
+  endHandlers["Element"]            = &Parser::end_Element;
+  endHandlers["WrapperSet"]         = &Parser::end_WrapperSet;
+  endHandlers["InstantiationSet"]   = &Parser::end_InstantiationSet;
   
   initialized = true;
 }
@@ -1014,13 +1126,13 @@ Parser
 
 
 /**
- * Get the global namespace in the package configuration.
+ * Get the global namespace in the configuration.
  */
 Namespace*
 Parser
 ::GlobalNamespace() const
 {
-  return m_Package->GetGlobalNamespace().RealPointer();
+  return m_CableConfiguration->GetGlobalNamespace().RealPointer();
 }
 
 
