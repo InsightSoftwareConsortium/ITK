@@ -37,10 +37,10 @@ namespace itk
  * GibbsPriorFilter is a class that apply Gibbs Prior model into 
  * segmentation of MRF images. The core of the method is to minimize
  * a Gibbsian form energy function.
- * The function can be divided into three part: f = f_1 + f_2 + f_3;
- * f_1 for the object homogeneity, f_2 for the boundary smoothness,
- * f_3 is the noise model. f_1 and f_3 is minimized in the function
- * GradientEnergy and f_2 is minized in the function GibbsTotalEnergy
+ * The function can be divided into three parts: \f$ f = f_1 + f_2 + f_3 \f$;
+ * \f$ f_1 \f$ for the object homogeneity, \f$ f_2 \f$ for the boundary smoothness,
+ * \f$ f_3 \f$ is the noise model. \f$ f_1 \f$ and \f$ f_3 \f$ is minimized in the function
+ * GradientEnergy and \f$ f_2 \f$ is minized in the function GibbsTotalEnergy
  *
  * \ingroup MRFFilters 
  */
