@@ -19,11 +19,36 @@
 #include "itkDenseFiniteDifferenceImageFilter.h"
 
 #include <list>
+#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodAlgorithm.h"
 
 namespace itk {
+
+template <class TInputImage, class TOutputImage>
+void
+DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
+::CopyInputToOutput()
+{
+  typename TInputImage::ConstPointer  input  = this->GetInput();
+  typename TOutputImage::Pointer      output = this->GetOutput();
+
+  if ( !input || !output )
+    {
+    itkExceptionMacro(<< "Either input and/or output is NULL.");
+    }
+  
+  ImageRegionConstIterator<TInputImage>  in(input, output->GetRequestedRegion());
+  ImageRegionIterator<TOutputImage> out(output, output->GetRequestedRegion());
+
+  while( ! out.IsAtEnd() )
+    {
+    out.Value() =  in.Get();  // Supports input image adaptors only
+    ++in;
+    ++out;
+    }
+}
 
 template <class TInputImage, class TOutputImage>
 void

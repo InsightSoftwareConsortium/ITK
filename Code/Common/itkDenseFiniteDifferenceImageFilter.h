@@ -102,6 +102,11 @@ protected:
   ~DenseFiniteDifferenceImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  /** A simple method to copy the data from the input to the output.  ( Supports
+   * "read-only" image adaptors in the case where the input image type converts
+   * to a different output image type. )  */
+  virtual void CopyInputToOutput();
+  
 private:
   DenseFiniteDifferenceImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
