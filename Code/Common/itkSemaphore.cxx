@@ -20,6 +20,13 @@
 #include "itkConfigure.h"
 #include "itkSemaphore.h"
 
+/// DEBUG
+extern "C" {
+#include <stdio.h>
+#include <errno.h>
+}
+///
+
 namespace itk {
   
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
@@ -208,7 +215,7 @@ Semaphore::~Semaphore()
 #endif
 }
 
-void Semaphore::Remove ()
+void Semaphore::Remove()
 {
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
   if (m_Sema != -1)
@@ -236,10 +243,12 @@ void Semaphore::Remove ()
     itkExceptionMacro( << "sema_destroy call failed. " );
     }
 #else
+#ifndef __sgi
   if ( sem_destroy(&m_Sema) != 0 )
     {
     itkExceptionMacro( << "sem_destroy call failed. " );
     }
+#endif
 #endif
   
 #endif
