@@ -28,7 +28,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkGaussianMixtureModelComponent.h"
 #include "itkExpectationMaximizationMixtureModelEstimator.h"
 
-int itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char* argv[])
+int itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char** argv)
 {
   namespace stat = itk::Statistics ;
   typedef itk::PointSet< double, 2 > PointSetType ;
