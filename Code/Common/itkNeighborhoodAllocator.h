@@ -141,11 +141,13 @@ template<class TPixel>
 inline std::ostream& operator<<(std::ostream &o, const NeighborhoodAllocator<TPixel>
                                 & a)
 {
-  o << "NeighborhoodAllocator { this = " << &a << ", begin = "
-    << a.begin() << ", size=" << a.size() << " }";
-  //  << ", contents = { ";
-  //  for (int i = 0; i < a.size(); ++i) o << a[i] << " ";
-  //  o << " } }";
+    o << "NeighborhoodAllocator { this = " << &a << ", begin = "
+      << a.begin()
+      << ", size=" << a.size()
+      << " }";
+      //      << ", contents:{ ";
+      //    for (int i = 0; i < a.size(); ++i) o << a[i] << " ";
+    o << " } }";
   return o;
 }
   
