@@ -66,6 +66,24 @@ int itkMeanImageFunctionTest(int, char* [] )
   FunctionType::OutputType  mean;
 
   mean = function->EvaluateAtIndex( index );
+  std::cout << "function->EvaluateAtIndex( index ): " << mean << std::endl;
+
+  // Test Evaluate
+  FunctionType::PointType point;
+  FunctionType::OutputType mean2;
+  mean2 = function->Evaluate(point);
+  std::cout << "function->Evaluate(point): " << mean2 << std::endl;
+
+  // Test EvaluateAtContinuousIndex
+  FunctionType::ContinuousIndexType cindex;
+  FunctionType::OutputType mean3;
+  mean3 = function->EvaluateAtContinuousIndex(cindex);
+  std::cout << "function->EvaluateAtContinuousIndex(cindex): " << mean3 << std::endl;
+
+  // Test GetConstReferenceMacro
+  const unsigned int & neighborhoodRadius = function->GetNeighborhoodRadius();
+  std::cout << "function->GetNeighborhoodRadius(): " << neighborhoodRadius << std::endl;
+
 
   // since the input image is constant 
   // the should be equal to the initial value
