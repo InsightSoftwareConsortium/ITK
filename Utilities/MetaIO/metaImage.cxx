@@ -601,7 +601,6 @@ ElementDataFileName(const char * _elementDataFileName)
 bool MetaImage::
 Read(const char *_headerName, bool _readElements, void * _buffer)
   {
-  std::cout << "MetaImageRead!" << std::endl;
   M_Destroy();
 
   MetaImage::Clear();
@@ -615,6 +614,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
   
   M_PrepareNewReadStream();
   m_ReadStream->open(m_FileName, std::ios::binary | std::ios::in);
+  m_ReadStream->seekg(0,std::ios::beg);
   if(!m_ReadStream->is_open())
     {
     std::cout << "MetaImage: Read: Cannot open file" << std::endl;
@@ -795,12 +795,12 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
       readStreamTemp->close();
       delete readStreamTemp;
       }
-    }
+   }
 
   m_ReadStream->close();
   
   return true;
-  }
+}
 
 
 /** Perform the compression */
