@@ -32,7 +32,8 @@ const unsigned long prime<false>::list_[] =
   1610612741, 3221225473U, 4294967291U
 };
   
-}// end namespace itk
 
 #endif 
+
+}// end namespace itk
 
