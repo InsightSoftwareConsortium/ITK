@@ -64,7 +64,7 @@ static const char GE_PROD_STR[]="SIGNA";
       }
 
 
-    std::ifstream f(imageFileTemplate,std::ifstream::binary);
+    std::ifstream f(imageFileTemplate,std::ios::binary | std::ios::in);
     if(!f.is_open())
       return -1;
 
@@ -185,7 +185,7 @@ static const char GE_PROD_STR[]="SIGNA";
     pixelHdrFlag = false;
 
   
-    std::ifstream f(FileNameToRead,std::ifstream::binary);
+    std::ifstream f(FileNameToRead,std::ios::binary | std::ios::in);
     if(!f.is_open())
       RAISE_EXCEPTION();
     f.read((char *)&imageHdr,sizeof(imageHdr));

@@ -56,7 +56,7 @@ namespace itk
     //this->SetFileName(FileNameToRead);
     //
     // Can you open it?
-    std::ifstream f(FileNameToRead,std::ifstream::binary);
+    std::ifstream f(FileNameToRead,std::ios::binary || std::ios::in);
     if(!f.is_open())
       return false;
     //
@@ -95,7 +95,7 @@ namespace itk
       RAISE_EXCEPTION();
     //
     // Next, can you open it?
-    std::ifstream f(FileNameToRead,std::ifstream::binary);
+    std::ifstream f(FileNameToRead,std::ios::binary | std::ios::in);
     if(!f.is_open())
       RAISE_EXCEPTION();
     

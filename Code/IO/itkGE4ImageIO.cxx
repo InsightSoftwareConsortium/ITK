@@ -46,7 +46,7 @@ namespace itk
   {
     char tmpStr[64];
     //this->SetFileName(FileNameToRead);
-    std::ifstream f(FileNameToRead,std::ifstream::binary);
+    std::ifstream f(FileNameToRead,std::ios::binary | std::ios::in);
     if(!f.is_open())
       return false;
     // This is a weak heuristic but should only be true for GE4 files
@@ -100,7 +100,7 @@ namespace itk
 
     //
     // Next, can you open it?
-    std::ifstream f(FileNameToRead,std::ifstream::binary);
+    std::ifstream f(FileNameToRead,std::ios::binary | std::ios::in);
     //
     // if any operation doesn't succeed we want to get the hell out.
     // I guess since ReadImageInformation returns no error code, the

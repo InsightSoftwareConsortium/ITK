@@ -83,7 +83,7 @@ namespace itk
     S16 *img_buffer = (S16 *)buffer;
     for(i = 0; i < m_fnlist.numImageInfoStructs; i++) 
       {
-  std::ifstream f(m_fnlist.Info[i].imageFileName,std::ifstream::binary);
+  std::ifstream f(m_fnlist.Info[i].imageFileName,std::ios::binary | std::ios::in);
 
   //std::cerr << m_fnlist.Info[i].imageFileName << std::endl; std::cerr.flush();
   if(!f.is_open())
@@ -100,7 +100,7 @@ namespace itk
   img_buffer += m_fnlist.XDim * m_fnlist.YDim;
       }
 #if 0 // Debugging
-      std::ofstream f2("test.img",std::ofstream::binary);
+      std::ofstream f2("test.img",std::ios::binary | std::ios::out);
       f2.write(buffer,(m_fnlist.numImageInfoStructs *
            m_fnlist.XDim * m_fnlist.YDim * sizeof(S16)));
       f2.close();
