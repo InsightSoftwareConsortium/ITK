@@ -132,7 +132,8 @@ public:
    * enlarge the RequestedRegion to the size of the image on disk. */
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
-  
+
+
 protected:
   ImageFileReader();
   ~ImageFileReader();
@@ -140,6 +141,13 @@ protected:
   
   /** Convert a block of pixels from one type to another. */
   void DoConvertBuffer(void* buffer, unsigned long numberOfPixels);
+
+  /** Test whether the given filename exist and it is readable,
+      this is intended to be called before attempting to use 
+      ImageIO classes for actually reading the file. If the file
+      doesn't exist or it is not readable, and exception with an
+      approriate message will be thrown. */
+  void TestFileExistanceAndReadability();
 
   /** Does the real work. */
   virtual void GenerateData();

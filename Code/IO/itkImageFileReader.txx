@@ -23,6 +23,8 @@
 #include "itkConvertPixelBuffer.h"
 #include "itkImageRegion.h"
 
+#include <itksys/SystemTools.hxx>
+
 
 namespace itk
 {
@@ -37,12 +39,14 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
 }
 
 template <class TOutputImage, class ConvertPixelTraits>
-ImageFileReader<TOutputImage, ConvertPixelTraits>::~ImageFileReader()
+ImageFileReader<TOutputImage, ConvertPixelTraits>
+::~ImageFileReader()
 {
 }
 
 template <class TOutputImage, class ConvertPixelTraits>
-void ImageFileReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream& os, Indent indent) const
+void ImageFileReader<TOutputImage, ConvertPixelTraits>
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -90,6 +94,11 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
     {
     throw ImageFileReaderException(__FILE__, __LINE__, "FileName must be specified");
     }
+
+  // Test if the file exist and if it can be open.
+  // and exception will be thrown otherwise.
+  //
+  this->TestFileExistanceAndReadability();
   
   if ( m_UserSpecifiedImageIO == false ) //try creating via factory
     {
@@ -154,6 +163,47 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
 }
 
 
+
+template <class TOutputImage, class ConvertPixelTraits>
+void
+ImageFileReader<TOutputImage, ConvertPixelTraits>
+::TestFileExistanceAndReadability()
+{
+    // Test if the file exists.
+    if( ! itksys::SystemTools::FileExists( m_FileName.c_str() ) )
+      {
+      ImageFileReaderException e(__FILE__, __LINE__);
+      OStringStream msg;
+      msg <<"The file doesn't exists. "
+          << std::endl << "Filename = " << m_FileName
+          << std::endl;
+      e.SetDescription(msg.str().c_str());
+      throw e;
+      return;
+      }
+
+    // Test if the file can be open for reading access.
+    std::ifstream readTester;
+    readTester.open( m_FileName.c_str() );
+    if( readTester.fail() )
+      {
+      readTester.close();
+      ImageFileReaderException e(__FILE__, __LINE__);
+      OStringStream msg;
+      msg <<"The file couldn't be open for reading access. "
+          << std::endl << "Filename = " << m_FileName
+          << std::endl;
+      e.SetDescription(msg.str().c_str());
+      throw e;
+      return;
+
+      }
+    readTester.close();
+}
+
+
+
+
 template <class TOutputImage, class ConvertPixelTraits>
 void
 ImageFileReader<TOutputImage, ConvertPixelTraits>
@@ -179,7 +229,8 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
 
 
 template <class TOutputImage, class ConvertPixelTraits>
-void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
+void ImageFileReader<TOutputImage, ConvertPixelTraits>
+::GenerateData()
 {
 
   typename TOutputImage::Pointer output = this->GetOutput();
@@ -187,6 +238,10 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   // allocate the output buffer
   output->SetBufferedRegion( output->GetRequestedRegion() );
   output->Allocate();
+
+  // Test if the file exist and if it can be open.
+  // and exception will be thrown otherwise.
+  this->TestFileExistanceAndReadability();
 
   // Tell the ImageIO to read the file
   //
