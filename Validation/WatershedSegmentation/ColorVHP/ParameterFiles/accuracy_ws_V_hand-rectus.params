@@ -1,0 +1,12 @@
+(FILENAMES 
+"1r.raw.cropped" 
+"2r.raw.cropped" 
+"3r.raw.cropped"
+"4r.raw.cropped"
+"5r.raw.cropped"
+"6r.raw.cropped"
+"7r.raw.cropped")
+
+(DIMENSIONS 97 114 35)
+
+(GOLD_FILENAME "goldstandard_hand-rectus.raw")

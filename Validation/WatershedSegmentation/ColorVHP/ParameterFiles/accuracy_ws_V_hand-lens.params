@@ -1,0 +1,12 @@
+(FILENAMES 
+"1l.raw.cropped" 
+"2l.raw.cropped" 
+"3l.raw.cropped" 
+"4l.raw.cropped" 
+"5l.raw.cropped" 
+"6l.raw.cropped" 
+"7l.raw.cropped" 
+)
+
+(DIMENSIONS 32 18 49)
+(GOLD_FILENAME "goldstandard_hand-lens.raw")

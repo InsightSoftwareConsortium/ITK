@@ -1,0 +1,12 @@
+(FILENAMES 
+"1o.raw.cropped" 
+"2o.raw.cropped" 
+"3o.raw.cropped" 
+"4o.raw.cropped" 
+"5o.raw.cropped" 
+"6o.raw.cropped" 
+"7o.raw.cropped"
+)
+(DIMENSIONS 254 254 52)
+
+(GOLD_FILENAME "goldstandard_hand-optic.raw")

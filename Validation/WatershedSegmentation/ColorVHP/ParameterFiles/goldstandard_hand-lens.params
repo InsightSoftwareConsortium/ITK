@@ -1,0 +1,11 @@
+(FILENAMES 
+"8l.raw.cropped" 
+"9l.raw.cropped" 
+"10l.raw.cropped" 
+"11l.raw.cropped" 
+)
+
+(DIMENSIONS 32 18 49)
+(THRESHOLD 0.75)
+(OUTPUT_FILENAME "goldstandard_hand-lens.raw")
+

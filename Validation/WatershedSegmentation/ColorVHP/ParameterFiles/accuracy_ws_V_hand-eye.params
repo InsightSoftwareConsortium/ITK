@@ -1,0 +1,13 @@
+(FILENAMES 
+"1e.raw.cropped" 
+"2e.raw.cropped" 
+"3e.raw.cropped"
+"4e.raw.cropped"
+"5e.raw.cropped"
+"6e.raw.cropped"
+"7e.raw.cropped"
+)
+
+(DIMENSIONS 103 103 80)
+
+(GOLD_FILENAME "goldstandard_hand-eye.raw")
