@@ -67,16 +67,22 @@ public:
   /** Returns the sample pointer */
   vnl_vector< double > GetMean() ;
 
-  /** Calculates the mean and save it */
-  void GenerateData() ;
-
   /** Returns the covariance matrix of the target sample data */ 
   OutputType GetOutput() ;
+
+  /** dummy function that calls the GenerateData() function to generate
+   * output. It exists for future compatibility with ProcessObject 
+   * without streaming */
+  void Update()
+  { this->GenerateData() ; }
 
 protected:
   CovarianceCalculator() ;
   virtual ~CovarianceCalculator() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** Calculates the covariance and save it */
+  void GenerateData() ;
 
 private:
   SamplePointer m_Sample ;
