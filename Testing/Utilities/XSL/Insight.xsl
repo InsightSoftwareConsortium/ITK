@@ -144,7 +144,7 @@ function dbAdd(mother,display,URL,indent,top,open) {
 // Record current settings in cookie
 function setCurrState(setting) {
   var expire = new Date();
-  expire.setTime(expire.getTime() + ( 7*24*60*60*1000 ) ); // expire in 1 week
+  expire.setTime(expire.getTime() + ( 60*60*1000 ) ); // expire in 1 hour
   document.cookie = "currState=" + escape(setting) + "; expires=" + expire.toGMTString();
   }
 
