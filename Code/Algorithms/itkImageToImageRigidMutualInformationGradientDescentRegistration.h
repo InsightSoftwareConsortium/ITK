@@ -61,8 +61,7 @@ public:
   typedef MutualInformationImageToImageMetric<TargetType,MapperType> MetricType;
 
   /**  Type of the optimizer.  */
-  typedef QuaternionRigidTransformGradientDescentOptimizer<
-  MetricType>  OptimizerType;
+  typedef QuaternionRigidTransformGradientDescentOptimizer  OptimizerType;
 };
 
 

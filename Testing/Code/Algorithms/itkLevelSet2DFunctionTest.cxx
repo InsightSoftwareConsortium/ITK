@@ -20,7 +20,6 @@
 #include "itkDenseFiniteDifferenceImageFilter.h"
 //#include "itkRawImageWriter.h"
 
-
 /*
  * This test exercises the dense p.d.e. solver framework
  * itkDenseFiniteDifferenceImageFilter and the two-dimensional level

@@ -17,6 +17,7 @@
 #ifndef __itkImageToImageMetric_h
 #define __itkImageToImageMetric_h
 
+#include "itkImageBase.h"
 #include "itkTransform.h"
 #include "itkInterpolateImageFunction.h"
 #include "itkSingleValuedCostFunction.h"
@@ -70,8 +71,8 @@ public:
 
   /**  Type of the Transform Base class */
   typedef Transform<double, 
-                    MovingImageType::ImageDimension,
-                    FixedImageType::ImageDimension > TransformType;
+         ExtractImageDimension<MovingImageType>::ImageDimension,
+         ExtractImageDimension<FixedImageType>::ImageDimension > TransformType;
 
   typedef typename TransformType::Pointer            TransformPointer;
   typedef typename TransformType::InputPointType     InputPointType;

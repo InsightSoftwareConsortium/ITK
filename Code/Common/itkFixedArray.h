@@ -51,7 +51,7 @@ public:
  *
  * \ingroup DataRepresentation 
  */
-template <typename TValueType, unsigned long VLength>
+template <typename TValueType, unsigned long VLength=3>
 class FixedArray
 {
 public:

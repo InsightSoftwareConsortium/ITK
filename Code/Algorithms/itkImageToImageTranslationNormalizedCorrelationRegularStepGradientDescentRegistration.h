@@ -64,7 +64,7 @@ public:
           MetricType;
 
   /**  Type of the optimizer.  */
-  typedef RegularStepGradientDescentOptimizer<MetricType> OptimizerType;
+  typedef RegularStepGradientDescentOptimizer OptimizerType;
 };
 
 

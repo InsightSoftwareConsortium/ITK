@@ -48,8 +48,8 @@ namespace itk
  *
  */
 template <class TScalarType,
-          unsigned int NInputDimensions, 
-          unsigned int NOutputDimensions>
+          unsigned int NInputDimensions=3, 
+          unsigned int NOutputDimensions=3>
 class ITK_EXPORT  Transform  : public Object
 {
 public:

@@ -17,7 +17,7 @@
 #ifndef __itkLightObject_h
 #define __itkLightObject_h
 
-#include "itkMacro.h"
+
 
 #include <iostream>
 #include <typeinfo>
@@ -26,6 +26,8 @@
 #include "itkTimeStamp.h"
 #include "itkIndent.h"
 #include "itkSimpleFastMutexLock.h"
+
+#include "itkMacro.h"
 
 namespace itk
 {

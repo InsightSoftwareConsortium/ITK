@@ -39,10 +39,7 @@ SingleValuedVnlCostFunctionAdaptor
 {
   if( !m_CostFunction )
     {
-    ExceptionObject ex;
-    ex.SetLocation(__FILE__);
-    ex.SetDescription("Attempt to use a SingleValuedVnlCostFunctionAdaptor without any CostFunction plugged in");
-    throw ex;
+    itkGenericExceptionMacro(<<"Attempt to use a SingleValuedVnlCostFunctionAdaptor without any CostFunction plugged in");
     }
 
   ParametersType parameters( inparameters.size() );
@@ -63,11 +60,7 @@ SingleValuedVnlCostFunctionAdaptor
 {
   if( !m_CostFunction )
     {
-    ExceptionObject ex;
-    ex.SetLocation(__FILE__);
-    ex.SetDescription("Attempt to use a SingleValuedVnlCostFunctionAdaptor 
-        without any CostFunction plugged in");
-    throw ex;
+    itkGenericExceptionMacro("Attempt to use a SingleValuedVnlCostFunctionAdaptor without any CostFunction plugged in");
     }
 
   ParametersType parameters( inparameters.size() );

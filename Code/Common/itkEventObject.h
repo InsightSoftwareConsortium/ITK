@@ -21,7 +21,6 @@
 #include "itkIndent.h"
 
 
-
 namespace itk
 {
 

@@ -18,8 +18,6 @@
 #define __itkSize_h
 
 #include "itkMacro.h"
-#include <memory>
-#include "itkExceptionObject.h"
 
 namespace itk
 {

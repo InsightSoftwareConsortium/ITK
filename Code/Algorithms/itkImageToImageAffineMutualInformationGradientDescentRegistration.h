@@ -63,7 +63,7 @@ public:
     MapperType> MetricType;
 
   /**  Type of the optimizer.  */
-  typedef GradientDescentOptimizer<MetricType> OptimizerType;
+  typedef GradientDescentOptimizer OptimizerType;
 };
 
 /** \class ImageToImageAffineMutualInformationGradientDescentRegistration

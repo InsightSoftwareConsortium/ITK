@@ -63,7 +63,7 @@ public:
   typedef PatternIntensityImageToImageMetric<TargetType, MapperType>   MetricType;
 
   /**  Type of the optimizer.  */
-  typedef RegularStepGradientDescentOptimizer<MetricType>           OptimizerType;
+  typedef RegularStepGradientDescentOptimizer           OptimizerType;
 };
 
 /** \class ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration

@@ -73,7 +73,7 @@ public:
   typedef MeanSquaresPointSetToImageMetric<TargetType,MapperType>  MetricType;
 
   /**  Type of the optimizer.  */
-  typedef RegularStepGradientDescentOptimizer<MetricType>   OptimizerType;
+  typedef RegularStepGradientDescentOptimizer   OptimizerType;
 };
 
 /**

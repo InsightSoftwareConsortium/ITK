@@ -63,7 +63,7 @@ public:
   typedef NormalizedCorrelationImageToImageMetric<TargetType, MapperType>   MetricType;
 
   /**  Type of the optimizer.  */
-  typedef GradientDescentOptimizer<MetricType>           OptimizerType;
+  typedef GradientDescentOptimizer           OptimizerType;
 };
 
 /** \class ImageToImageTranslationNormalizedCorrelationGradientDescentRegistration

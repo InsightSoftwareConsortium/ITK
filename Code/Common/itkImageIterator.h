@@ -17,10 +17,10 @@
 #ifndef __itkImageIterator_h
 #define __itkImageIterator_h
 
+#include "itkImage.h"
 #include "itkIndex.h"
 #include "itkSize.h"
 #include "itkOffset.h"
-#include <memory>
 
 namespace itk
 {
