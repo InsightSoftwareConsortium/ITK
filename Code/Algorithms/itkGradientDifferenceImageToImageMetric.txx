@@ -25,7 +25,7 @@
 
 
 
-//#define DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
+#define DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
 //#define DEEP_DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
   
 #ifdef DEEP_DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
@@ -221,11 +221,11 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     }
 
 #ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-  std::std::cout << "Moved image range: ";
+  std::cout << "Moved image range: ";
   for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
-    std::std::cout << " " << m_MinMovedGradient[iDimension] 
+    std::cout << " " << m_MinMovedGradient[iDimension] 
          << ":" << m_MaxMovedGradient[iDimension];
-  std::std::cout << std::endl;
+  std::cout << std::endl;
 #endif
 }
 
@@ -433,7 +433,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
   unsigned int iDimension;
 
 #ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-  std::std::cout << "GradientDifferenceImageToImageMetric::GetValue Parameters: " << parameters << std::std::endl;
+  std::cout << "GradientDifferenceImageToImageMetric::GetValue Parameters: " << parameters << std::endl;
 #endif
 
   this->SetTransformParameters( parameters );
@@ -463,13 +463,13 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
   writer->SetInput( caster->GetOutput()   );
 
   try { 
-    std::std::cout << "Writing image: " << filename << std::std::endl;
+    std::cout << "Writing image: " << filename << std::endl;
     writer->Update();
   } 
   catch( itk::ExceptionObject & err ) { 
     
-    std::cerr << "ERROR: ExceptionObject caught !" << std::std::endl; 
-    std::cerr << err << std::std::endl; 
+    std::cerr << "ERROR: ExceptionObject caught !" << std::endl; 
+    std::cerr << err << std::endl; 
   } 
 
 #endif
@@ -498,14 +498,14 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
       writer->SetInput( castImage->GetOutput() );
       
       try { 
-        std::std::cout << "Writing image: " << filename << std::std::endl;
+        std::cout << "Writing image: " << filename << std::endl;
         //m_MovedSobelFilters[iFilter]->Print(std::cout);
         writer->Update();
       } 
       catch( itk::ExceptionObject & err ) { 
         
-        std::cerr << "ERROR: ExceptionObject caught !" << std::std::endl; 
-        std::cerr << err << std::std::endl; 
+        std::cerr << "ERROR: ExceptionObject caught !" << std::endl; 
+        std::cerr << err << std::endl; 
       } 
 #endif
     }
