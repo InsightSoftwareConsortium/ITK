@@ -93,11 +93,6 @@ ComputeMoments( const ImageType * image )
     IndexType indexPosition = it.GetIndex();
     Point<double, ImageDimension> physicalPosition;
 
-    for(unsigned int i=0; i<ImageType::ImageDimension; i++)
-    {
-      indexPosition[i] = index[i];
-    }
-
     m_M0 += value;
 
     for(unsigned int i=0; i<ImageDimension; i++)
@@ -105,7 +100,8 @@ ComputeMoments( const ImageType * image )
       m_M1[i] += indexPosition[i] * value; 
       for(unsigned int j=0; j<ImageDimension; j++)
       {
-        double weight = value * indexPosition[i] * indexPosition[j];
+        double weight = value * static_cast<double>( indexPosition[i] ) * 
+          static_cast<double>( indexPosition[j] );
         m_M2[i][j] += weight;
       }
     }
