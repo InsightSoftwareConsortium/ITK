@@ -64,6 +64,9 @@ int itkTubeSpatialObjectTest(int, char * [] )
   std::cout<<"Testing SpatialObject:"<<std::endl<<std::endl;
 
   TubePointer tube1 = TubeType::New();
+  tube1->GetProperty()->SetName("Tube 1");
+  tube1->SetId(1);
+
   TubePointListType list;
 
   TubeType::TransformType::OffsetType offset;
@@ -85,8 +88,6 @@ int itkTubeSpatialObjectTest(int, char * [] )
   p.SetRadius(1);
   p.Print(std::cout);
 
-  tube1->GetProperty()->SetName("Tube 1");
-  tube1->SetId(1);
   tube1->SetPoints(list);
   tube1->ComputeBoundingBox();
 
@@ -253,6 +254,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   delete returnedList;
 
   // testing the SetChildren() function...
+  std::cout << "Set children ..." << std::endl;
   tubeNet1->SetChildren(childrenList);
   returnedList = tubeNet1->GetChildren();
 
@@ -293,7 +295,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   tubeNet1->ComputeBoundingBox();
 
   std::cout<<"HasParent()...";
-  if( !tube1->HasParent() )
+  if( !tube2->HasParent() )
     {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -302,15 +304,13 @@ int itkTubeSpatialObjectTest(int, char * [] )
     {
     std::cout<<"[PASSED]"<<std::endl;
     }
-
-
+ 
   translation.Fill(10);
-  tubeNet1->GetObjectToParentTransform()->Translate(translation,false);
+  tubeNet1->GetObjectToParentTransform()->Translate(translation,false);  
   tubeNet1->ComputeObjectToWorldTransform();
-
+  
   axis.Fill(0);
   axis[1] = 1;
-
   angle = vnl_math::pi_over_2;
   tube2->GetObjectToParentTransform()->Rotate3D(axis,angle);
   tube2->ComputeObjectToWorldTransform();
@@ -329,7 +329,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   p2[0]=5;
 
   std::cout<<"IsInside()...";
-  if( !tubeNet1->IsInside(in, true) || tubeNet1->IsInside(out, true) )
+  if( !tubeNet1->IsInside(in,3) || tubeNet1->IsInside(out,3) )
     {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -375,23 +375,23 @@ int itkTubeSpatialObjectTest(int, char * [] )
   netCount = net->GetReferenceCount();
 
   std::cout<<"References test...";
-  if( tubeCount != 1 )
+  if( tubeCount != 2 )
     {
-    std::cout<<"[FAILED]: Problem in Tube initialization of references count"<<std::endl;
+    std::cout<<"[FAILED]: Problem in Tube initialization of references count" << tubeCount <<std::endl;
     return EXIT_FAILURE;
     }
   else
     {
     TubePointer localTube = tube;
     tubeCount = tube->GetReferenceCount();
-    if( tubeCount != 2 )
+    if( tubeCount != 3 )
       {
       std::cout<<"[FAILED]: Problem in Tube with incrementation of references count"<<std::endl;
       return EXIT_FAILURE;
       }
     }
 
-  if( netCount != 1 )
+  if( netCount != 2 )
     {
     std::cout<<"[FAILED]: Problem in TubeNetwork initialization of references count"<<std::endl;
     return EXIT_FAILURE;
@@ -400,7 +400,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
     {
     GroupPointer localNet = net;
     netCount = net->GetReferenceCount();
-    if( netCount != 2 )
+    if( netCount != 3 )
       {
       std::cout<<"[FAILED]: Problem in TubeNetwork with incrementation of references count"<<std::endl;
       return EXIT_FAILURE;
@@ -410,13 +410,13 @@ int itkTubeSpatialObjectTest(int, char * [] )
   tubeCount = tube->GetReferenceCount();
   netCount = net->GetReferenceCount();
 
-  if( tubeCount != 1 )
+  if( tubeCount != 2 )
     {
       std::cout<<"[FAILED]: Problem in Tube with decrementation of references count"<<std::endl;
       return EXIT_FAILURE;
     }
 
-  if( netCount != 1 )
+  if( netCount != 2 )
     {
       std::cout<<"[FAILED]: Problem in TubeNetwork with decrementation of references count"<<std::endl;
       return EXIT_FAILURE;

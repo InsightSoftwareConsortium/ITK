@@ -94,11 +94,12 @@ int itkEllipseSpatialObjectTest(int, char* [])
   offset.Fill(10);
 
   myEllipse->GetObjectToWorldTransform()->SetOffset(offset);
+  myEllipse->ComputeObjectToParentTransform();
 
   EllipseType::TransformType::OffsetType offset2;
   offset2.Fill(15);
   myEllipse2->GetObjectToWorldTransform()->SetOffset(offset2);
-  myEllipse2->ComputeObjectToParentTransform();\
+  myEllipse2->ComputeObjectToParentTransform();
 
   EllipseType::TransformType::OffsetType offset3;
   offset3 = myEllipse2->GetObjectToParentTransform()->GetOffset();
@@ -118,8 +119,8 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   for(unsigned int i=0;i<3;i++)
   {
-    if( (boundingBox->GetBounds()[2*i] != -3 )
-       || (boundingBox->GetBounds()[2*i+1] != 3 )
+    if( (boundingBox->GetBounds()[2*i] != 7 )
+       || (boundingBox->GetBounds()[2*i+1] != 16 )
        )
     {
       std::cout<<"[FAILED]"<<std::endl;
