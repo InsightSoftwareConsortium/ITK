@@ -134,7 +134,7 @@ public:
    * Access an element of the index. Elements are numbered
    * 0, ..., VIndexDimension-1. No bounds checking is performed.
    */
-  long & operator[](unsigned int dim)
+  unsigned long & operator[](unsigned int dim)
     { return m_Index[dim]; }
 
   /**
@@ -142,14 +142,14 @@ public:
    * 0, ..., VIndexDimension-1. This version can only be an rvalue.
    * No bounds checking is performed.
    */
-  long operator[](unsigned int dim) const
+  unsigned long operator[](unsigned int dim) const
     { return m_Index[dim]; }
 
   /**
    * Get the index. This provides a read only reference to the index.
    * \sa SetIndex
    */
-  const long *GetIndex() const { return m_Index; };
+  const unsigned long *GetIndex() const { return m_Index; };
 
   /**
    * Set the index.
@@ -157,8 +157,8 @@ public:
    * memory that is the appropriate size.
    * \sa GetIndex
    */
-  void SetIndex(const long val[VIndexDimension])
-    { memcpy(m_Index, val, sizeof(long)*VIndexDimension); }
+  void SetIndex(const unsigned long val[VIndexDimension])
+    { memcpy(m_Index, val, sizeof(unsigned long)*VIndexDimension); }
 
   /**
    * Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
@@ -174,7 +174,7 @@ public:
    * The following syntax for assigning an index is allowed/suggested:
    *    Index<3> index = {5, 2, 7};
    */
-  long m_Index[VIndexDimension];
+  unsigned long m_Index[VIndexDimension];
   
 public:
 
@@ -189,7 +189,7 @@ Index<VIndexDimension>
 {
   Self ind;
   
-  memset(ind.m_Index, 0, sizeof(long)*VIndexDimension);
+  memset(ind.m_Index, 0, sizeof(unsigned long)*VIndexDimension);
   ind.m_Index[dim] = 1;
   return ind;
 }
