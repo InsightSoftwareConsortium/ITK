@@ -346,6 +346,8 @@ void
 KLMSegmentationRegion<TInputImage,TOutputImage>
 ::PrintRegionInfo()
 {
+  int region1label;
+  int region2label;
   std::cout << "------------------------------" << std::endl;
   std::cout << "Location   : " << this << std::endl;
   std::cout << "Label      : " << (this->GetRegionLabel()) << std::endl;
@@ -357,8 +359,12 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
   // If there are border pointers print the results
   RegionBorderVecIterator tempVecIt = m_RegionBorderVec.begin();
   for( int k = 0; k < m_RegionBorderVec.size(); k++ )
-  {       
-    std::cout << "Border Ptr :" << (*tempVecIt) << std::endl;
+  {      
+    region1label = (*tempVecIt)->GetRegion1()->GetRegionLabel();
+	region2label = (*tempVecIt)->GetRegion2()->GetRegionLabel(); 
+
+    std::cout << "Border Ptr :" << (*tempVecIt) << "( " << 
+	  region1label << " - " << region2label << " )" << std::endl;
     tempVecIt++;
   }// end while
           

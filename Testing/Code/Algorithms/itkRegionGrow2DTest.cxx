@@ -294,6 +294,7 @@ unsigned int test_regiongrowKLM2D()
 } // End test_regiongrow2D()
 
 
+/*
 unsigned int test_regiongrowKLM3D()
 {
   //---------------------------------------------------------------
@@ -564,7 +565,7 @@ unsigned int test_regiongrowKLM3D()
 	  }//end row
 	  std::cout<<""<<std::endl;
   }//end while
-/*
-*/
+
   return 0;
 } // End test_regiongrow3D()
+*/

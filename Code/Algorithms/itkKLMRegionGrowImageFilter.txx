@@ -708,6 +708,13 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
     MergeRegions();
 
+    /*
+	for( unsigned int k = 0; k < m_NumRegions; k++ )
+      {
+      m_pRegions[k]->PrintRegionInfo(); 
+      }
+	*/
+
     // since the number of borders decreases or increases, possibly
     // many times with each iteration, it is reasonable to check
     // for an invalid value 
@@ -1104,7 +1111,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
         m_pRegions[labelValue]->SetRegion( m_InitRegionMean,
                                           m_InitRegionArea,
                                           ( labelValue + 1 ) );
-        m_pRegions[labelValue]->PrintRegionInfo();
                                                         
         }//end col for loop
       }//end row for loop
@@ -1120,7 +1126,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
                nRowSquareBlocks * nSliceSquareBlocks +
                ( nRowSquareBlocks - 1 ) * 
                nColSquareBlocks * nSliceSquareBlocks +
-               ( nSliceSquareBlocks - 2 ) * 
+               ( nSliceSquareBlocks - 1 ) * 
                nRowSquareBlocks * nColSquareBlocks;
 
   // Allow a singe region to pass through; this memory would not be
@@ -1230,7 +1236,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
         // Increment the border counter to go to the next border
         borderCounter += 1;
        
-
         }// end col loop
       }//end row loop
     }// end slice loop
@@ -1292,12 +1297,13 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       }//end row loop
     }//end slice loop
 
+
   // End Vertical border processing
 
   //Slice border initialization
    borderLengthTmp = rowGridSize * colGridSize;
 
-  for( unsigned int s = nSliceSquareBlocks -1; s > 1; s-- )
+  for( unsigned int s = nSliceSquareBlocks -1; s >= 1; s-- )
     {
     for( unsigned int r = 0; r < nRowSquareBlocks; r++ )
       {
@@ -1359,7 +1365,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       colGridSize * sliceGridSize +
     ( nColSquareBlocks - 1 ) * nRowSquareBlocks * nSliceSquareBlocks * 
       rowGridSize * sliceGridSize +
-    ( nSliceSquareBlocks - 2 ) * nRowSquareBlocks * nColSquareBlocks * 
+    ( nSliceSquareBlocks - 1 ) * nRowSquareBlocks * nColSquareBlocks * 
       rowGridSize * colGridSize;
 
   // Verification of the initialization process
@@ -1409,6 +1415,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   std::cout <<"+++++++++++++++++++++++++++++++++"<<std::endl;
 #endif
 
+  //Rearranged list of the borders
+  bool smartPointerUseFlag = true;
+  //PrintAlgorithmBorderStats(smartPointerUseFlag);
 
 }
  
@@ -2132,7 +2141,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   for( unsigned int k = 0; k < m_nBorders; k++ )
   {
     std::cout<<"Stats for Border No: " << ( k + 1 ) << std::endl;
-    m_pBordersDynamicPtrs[ k ].m_Pointer->PrintBorderInfo() ;                 
+    m_pBordersDynPtrs[ k ].m_Pointer->PrintBorderInfo() ;                 
   }//end region printloop
 
 }//end PrintAlgorithmBorderStats
