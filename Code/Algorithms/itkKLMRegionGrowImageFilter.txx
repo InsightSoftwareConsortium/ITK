@@ -338,9 +338,10 @@ void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::ApplyKLM()
 {
-  if( ( m_MaxLambda < 0 ) || ( this->GetMaxNumRegions() <= 0 ) )
+  if( this->GetMaxNumRegions() <= 0 )
+    {
     throw ExceptionObject();
-
+    }
   initializeKLM();
 
   //-----------------------------------------------------------------
@@ -693,8 +694,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   unsigned int row_end     = row_start + regionRowGridSize;
   unsigned int col_start   = regionColIndex;
   unsigned int col_end     = col_start + regionColGridSize;
-  unsigned int image_nrow  = m_imgWidth;
-  unsigned int image_ncol  = m_imgWidth;
 
   m_InitRegionArea         = 0;
 
@@ -1166,8 +1165,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   unsigned int numBlocks = nRowSquareBlocks * nColSquareBlocks;
   int rowGridSize        = this->GetRowGridSize();
   int colGridSize        = this->GetColGridSize();
-  int labelValue         = 0;
-  int newRegionLabel     = 0;
 
   // Scan through the region labels to establish the correspondence
   // between the final region( and label ) and the initial regions.
