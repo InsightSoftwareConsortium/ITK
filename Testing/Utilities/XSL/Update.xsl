@@ -10,7 +10,7 @@
        The proper flags to Xalan are in the form -PARAM DashboardStamp "string('foo')"
        -->
   <xsl:param name="DashboardStamp" select="string('MostRecentResults-Nightly')"/>
-  <xsl:variable name="DashboardDir" select="concat('../../../../Dashboard/', $DashboardStamp)"/>
+  <xsl:variable name="DashboardDir" select="concat('../', $DashboardStamp)"/>
   <xsl:param name="TestDocDir">.</xsl:param>
 
   <xsl:include href="Insight.xsl"/>
@@ -21,7 +21,8 @@
     <xsl:call-template name="InsightHeader">
       <xsl:with-param name="Title">Insight Update</xsl:with-param>
       <xsl:with-param name="IconDir">../../Icons</xsl:with-param>
-      <xsl:with-param name="UpdatesIcon">UpdateBlue.gif</xsl:with-param>
+      <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
+      <xsl:with-param name="UpdatesIcon">UpdatesBlue.gif</xsl:with-param>
     </xsl:call-template>
 
     <h3>Changed files as of  <xsl:value-of select="StartDateTime"/></h3>

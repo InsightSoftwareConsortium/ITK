@@ -21,7 +21,7 @@
       <xsl:with-param name="Title">Coverage Log</xsl:with-param>
       <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
       <xsl:with-param name="CoverageIcon">CoverageBlue.gif</xsl:with-param>
-      <xsl:with-param name="DashboardDir">../../../../Dashboard/</xsl:with-param>
+      <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
     </xsl:call-template>
 
     <h3>Coverage started on <xsl:value-of select="Site/Coverage/StartDateTime"/></h3>
@@ -54,7 +54,11 @@
       </tr>
       <tr>
         <td align="left">Covered &gt; 70.0%</td>
-        <td><xsl:value-of select="count(Site/Coverage/File[@Covered='true']/PercentCoverage[node() &gt;= 70.0])"/> / <xsl:value-of select="count(Site/Coverage/File[@Covered='true']/PercentCoverage[node() &lt; 70.0])"/></td>
+        <td><xsl:value-of select="count(Site/Coverage/File[@Covered='true']/PercentCoverage[node() &gt;= 70.0])"/></td>
+      </tr>
+      <tr>
+        <td align="left">Covered &lt; 70.0%</td>
+        <td><xsl:value-of select="count(Site/Coverage/File[@Covered='true']/PercentCoverage[node() &lt; 70.0])"/></td>
       </tr>
     </table>
 

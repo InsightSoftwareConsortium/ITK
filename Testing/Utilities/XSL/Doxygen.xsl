@@ -10,7 +10,7 @@
        The proper flags to Xalan are in the form -PARAM DashboardStamp "string('foo')"
        -->
   <xsl:param name="DashboardStamp" select="string('MostRecentResults-Nightly')"/>
-  <xsl:variable name="DashboardDir" select="concat('../../Dashboard/', $DashboardStamp)"/>
+  <xsl:variable name="DashboardDir" select="concat('../', $DashboardStamp)"/>
   <xsl:param name="TestDocDir">.</xsl:param>
   <xsl:include href="Insight.xsl"/>
 
@@ -19,6 +19,7 @@
     <xsl:call-template name="InsightHeader">
       <xsl:with-param name="Title">Doxygen log</xsl:with-param>
       <xsl:with-param name="IconDir">../../Icons</xsl:with-param>
+      <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
     </xsl:call-template>
 
     <h2>Doxygen started on <xsl:value-of select="Doxygen/StartDateTime"/></h2>

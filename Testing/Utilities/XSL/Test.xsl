@@ -19,7 +19,7 @@
     <xsl:call-template name="InsightHeader">
       <xsl:with-param name="Title">Test Log</xsl:with-param>
       <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
-      <xsl:with-param name="DashboardDir">../../../../Dashboard/</xsl:with-param>
+      <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
     </xsl:call-template>
     <h2>Testing started on <xsl:value-of select="Site/Testing/StartDateTime"/></h2>
     <h3>
@@ -113,8 +113,14 @@
       <FailedCount><xsl:value-of select="count(Site/Testing/Test[@Status='failed'])"/></FailedCount>
       <NotRunCount><xsl:value-of select="count(Site/Testing/Test[@Status='notrun'])"/></NotRunCount>
       <EndDateTime><xsl:value-of select="Site/Testing/EndDateTime"/></EndDateTime>
-      <xsl:for-each select="Test">
-      </xsl:for-each>
+      <Tests>
+        <xsl:for-each select="Site/Testing/Test">
+            <Test>
+              <FullName><xsl:value-of select="FullName"/></FullName>
+              <Status><xsl:value-of select="@Status"/></Status>
+            </Test>
+        </xsl:for-each>
+      </Tests>
     </Testing>
   </redirect:write>
 </xsl:template>

@@ -188,14 +188,21 @@ foreach Command $Commands \
       if { ![info exists $DashboardIconsDir] } \
       {
 	file mkdir [file join $DashboardIconsDir]
-	set ImageList [glob -nocomplain [file join $IconsSourceDir *]]
-	foreach Image $ImageList \
+	set IconList [glob -nocomplain [file join $IconsSourceDir *]]
+	foreach Icon $IconList \
 	{
-	  if { ![file exists [file join $DashboardIconsDir [file tail $Image]]] } \
+	  if { [file isdir $Icon] } \
 	  {
-	    puts "Copy $Image to $DashboardIconsDir"
+	    continue
+	  }
+	  set TargetIcon [file join $DashboardIconsDir [file tail $Icon]]
+	  set SourceIcon $Icon
+	  # if { ![file exists [file join $DashboardIconsDir [file tail $Icon]]] }
+	  if { ![file exists $TargetIcon] || [expr [file mtime $Icon] > [file mtime $TargetIcon]] } \
+	  {
+	    puts "Copy $Icon to $DashboardIconsDir"
 	    # Copy it over.
-	    file copy $Image $DashboardIconsDir
+	    file copy -force $Icon $DashboardIconsDir
 	  }
 	}
       }
@@ -249,13 +256,14 @@ foreach Command $Commands \
       set Dir [pwd]
       cd $DashboardDir
       puts "Now in [pwd]"
+      set DashboardStamp [file tail $DashboardDir]
 
       # Build the UpdateSummary
       puts "Running $JavaCommand -jar $Xalan -Q -IN Update.xml -OUT Update.html -XSL [file join $XSLDir Update.xsl] -PARAM DashboardDate $DashboardDate -PARAM TestDocDir $DashboardDir"
-      catch { exec $JavaCommand -jar $Xalan -Q -IN Update.xml -OUT Update.html -XSL [file join $XSLDir Update.xsl] -PARAM TestDocDir [pwd] -PARAM DashboardDate $DashboardDate } Result
+      catch { exec $JavaCommand -jar $Xalan -Q -IN Update.xml -OUT Update.html -XSL [file join $XSLDir Update.xsl] -PARAM TestDocDir [pwd] -PARAM DashboardDate $DashboardDate -PARAM DashboardStamp $DashboardStamp } Result
       puts "UpdateSummary: $Result"
       # Build the DoxygenSummary
-      catch { exec $JavaCommand -jar $Xalan -Q -IN Doxygen.xml -OUT DoxygenSummary.xml -XSL [file join $XSLDir DoxygenSummary.xsl] -PARAM DashboardDate $DashboardDate -PARAM TestDocDir [pwd]} Result
+      catch { exec $JavaCommand -jar $Xalan -Q -IN Doxygen.xml -OUT DoxygenSummary.xml -XSL [file join $XSLDir DoxygenSummary.xsl] -PARAM DashboardDate $DashboardDate -PARAM TestDocDir [pwd] -PARAM DashboardStamp $DashboardStamp} Result
       puts "Doxygen: $Result"
 
       set DashboardTargets [open DashboardTargets.txt w]
@@ -266,7 +274,7 @@ foreach Command $Commands \
 
       # Add some information about the dashboard
       puts $DashboardFile "<Information>"
-      puts $DashboardFile "\t<DashboardStamp>[file tail $DashboardDir]</DashboardStamp>"
+      puts $DashboardFile "\t<DashboardStamp>$DashboardStamp</DashboardStamp>"
       set Time [ExpandStamp [file tail $DashboardDir]]
       puts $DashboardFile "\t<Model>$Model</Model>"
       puts $DashboardFile "\t<GMT></GMT>"
@@ -277,7 +285,6 @@ foreach Command $Commands \
       XMLConcat $DashboardFile UpdateSummary.xml
       XMLConcat $DashboardFile DoxygenSummary.xml
 
-      set DashboardStamp [file tail $DashboardDir]
       foreach NightlyBuild $NightlyBuilds \
       {
 	puts "Working on $NightlyBuild"
@@ -304,8 +311,8 @@ foreach Command $Commands \
 
 	  if { [NeedToRemake $XML] } \
 	  {
-	    puts "Running  $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/ ]  -PARAM DashboardDate $DashboardDate"
-	    puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/]  -PARAM DashboardDate $DashboardDate} Result]"
+	    puts "Running  $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/ ]  -PARAM DashboardDate $DashboardDate -PARAM DashboardStamp $DashboardStamp"
+	    puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM TestDocDir [file join $Dir $NightlyBuild/]   -PARAM DashboardStamp $DashboardStamp -PARAM DashboardDate $DashboardDate} Result]"
 	  }
 	}
 	
@@ -324,15 +331,15 @@ foreach Command $Commands \
       close $DashboardTargets
 
       # Now run xalan to build the dashboard
-      foreach XML [list Dashboard Update Doxygen] \
+      foreach XML [list Dashboard Update Doxygen TestOverview] \
       {
 	if { [NeedToRemake $XML] } \
 	{
-	  catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM DashboardDate $DashboardDate } Result
+	  catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] -PARAM DashboardDate $DashboardDate -PARAM DashboardStamp $DashboardStamp -PARAM DashboardPath [pwd] } Result
 	  puts $Result
 	}
-	  catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html -XSL [file join $XSLDir $XML.xsl]  -PARAM DashboardDate $DashboardDate } Result
-	  puts $Result
+	# catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html -XSL [file join $XSLDir $XML.xsl]  -PARAM DashboardDate $DashboardDate -PARAM DashboardStamp $DashboardStamp -PARAM DashboardPath [pwd] } Result
+	  #puts $Result
       }
 
       # Add the softlink from MostRecentResults to latest.

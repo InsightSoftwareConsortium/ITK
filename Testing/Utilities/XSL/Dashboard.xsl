@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    version="1.0"
+    xmlns:lxslt="http://xml.apache.org/xslt"
+    xmlns:redirect="org.apache.xalan.lib.Redirect"
+    extension-element-prefixes="redirect">
 
   <!--
        Use DashboardStamp as a parameter, default to most recent
        The proper flags to Xalan are in the form -PARAM DashboardStamp "string('foo')"
        -->
   <xsl:output method="html"/>
+  <xsl:param name="DashboardPath"/>
   <xsl:param name="DashboardStamp" select="string('MostRecentResults-Nightly')"/>
   <xsl:param name="PreviousDashboardStamp" select="string('')"/>
-  <xsl:variable name="DashboardDir" select="concat('../../../../Dashboard/', $DashboardStamp)"/>
+  <xsl:variable name="DashboardDir" select="concat('../', $DashboardStamp)"/>
   <xsl:variable name="IconDir" select="string('../../Icons')"/>
 
   <xsl:include href="Insight.xsl"/>
 
   <xsl:template match="/Dashboard">
+    <xsl:call-template name="TestOverview"/>
     <xsl:call-template name="InsightHeader">
       <xsl:with-param name="Title">Insight Dashboard</xsl:with-param>
       <xsl:with-param name="IconDir">../../Icons</xsl:with-param>
+      <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
       <xsl:with-param name="HomeIcon">HomeBlue.gif</xsl:with-param>
     </xsl:call-template>
     <h3>
@@ -248,5 +255,28 @@
       <th align="center">NotRun</th>
     </tr>
   </xsl:template>
+
+  <xsl:template name="TestOverview">
+    <redirect:write select="concat ( string('{$DashboardPath}'), '/TestOverview.xml' )">
+      <TestOverview>
+        <xsl:for-each select="/Dashboard/BuildStamp[1]/Testing/Tests/Test">
+          <xsl:sort select="FullName"/>
+            <xsl:variable name="TestName"><xsl:value-of select="FullName"/></xsl:variable>
+            <Test>
+              <Name><xsl:value-of select="$TestName"/></Name>
+              <xsl:for-each select="/Dashboard/BuildStamp/Testing/Tests/Test[FullName=$TestName]">
+                <Result>
+                  <SiteName><xsl:value-of select="../../SiteName"/></SiteName>
+                  <BuildName><xsl:value-of select="../../BuildName"/></BuildName>
+                  <BuildStamp><xsl:value-of select="../../BuildStamp"/></BuildStamp>
+                  <Status><xsl:value-of select="Status"/></Status>
+                </Result>
+              </xsl:for-each>
+            </Test>
+        </xsl:for-each>
+      </TestOverview>
+    </redirect:write>
+  </xsl:template>
+
   
 </xsl:stylesheet>

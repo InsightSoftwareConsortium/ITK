@@ -33,11 +33,12 @@
       <xsl:call-template name="InsightHeader">
         <xsl:with-param name="Title">Insight Errors</xsl:with-param>
         <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
-         <xsl:with-param name="DashboardDir">../../../../Dashboard/</xsl:with-param>
+        <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
       </xsl:call-template>
      <p><b><xsl:text>Site:</xsl:text></b><xsl:value-of select="Site/@Name"/></p><p>
 <b><xsl:text>Build Name:</xsl:text></b><xsl:value-of select="Site/@BuildName"/></p> 
 Found <xsl:value-of select="count(Site/Build/Error)"/> Errors<br/>
+<p><a href="BuildWarning.html">Warnings</a> are here.</p>
       <xsl:for-each select="Site/Build/Error">
         <xsl:call-template name="FormatContext"/>
       </xsl:for-each>
@@ -50,10 +51,12 @@ Found <xsl:value-of select="count(Site/Build/Error)"/> Errors<br/>
       <xsl:call-template name="InsightHeader">
         <xsl:with-param name="Title">Insight Warnings</xsl:with-param>
         <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
+        <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
       </xsl:call-template>
     <p><b><xsl:text>Site:</xsl:text></b><xsl:value-of select="Site/@Name"/></p><p>
 <b><xsl:text>Build Name:</xsl:text></b><xsl:value-of select="Site/@BuildName"/></p>       
  Found <xsl:value-of select="count(Site/Build/Warning)"/> Warnings<br/>
+<p><a href="BuildError.html">Errors</a> are here.</p>
       <xsl:for-each select="Site/Build/Warning">
         <xsl:call-template name="FormatContext"/>
       </xsl:for-each>
