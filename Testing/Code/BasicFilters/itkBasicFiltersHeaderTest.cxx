@@ -96,6 +96,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkTernaryMagnitudeSquaredImageFilter.h"
 #include "itkThresholdImageFilter.h"
 #include "itkTransformMeshFilter.h"
+#include "itkTwoOutputExampleImageFilter.h"
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkVTKImageReader.h"
 #include "itkVTKImageWriter.h"
