@@ -143,8 +143,8 @@ Element2DC1Beam
 
 const unsigned int NDOF=this->GetNumberOfDegreesOfFreedom();
 
-vnl_matrix<Float> k(NDOF,NDOF);
-vnl_matrix<Float> kb(NDOF,NDOF);
+MatrixType k(NDOF,NDOF);
+MatrixType kb(NDOF,NDOF);
 
 Float x=m_node[1]->GetCoordinates()[0]-m_node[0]->GetCoordinates()[0];
 Float y=m_node[1]->GetCoordinates()[1]-m_node[0]->GetCoordinates()[1];
@@ -179,6 +179,51 @@ Float s=y/l;
   k[5][0]= 0; k[5][1]= 0; k[5][2]= 0; k[5][3]= 0; k[5][4]= 0; k[5][5]= 1;
 
   Ke=k.transpose()*kb*k;
+
+}
+
+
+
+
+void
+Element2DC1Beam
+::GetMassMatrix( MatrixType& Me ) const
+{
+
+const unsigned int NDOF=this->GetNumberOfDegreesOfFreedom();
+MatrixType m(NDOF,NDOF,0.0);
+MatrixType mb(NDOF,NDOF,0.0);
+MatrixType k(NDOF,NDOF,0.0);
+
+Float x=m_node[1]->GetCoordinates()[0]-m_node[0]->GetCoordinates()[0];
+Float y=m_node[1]->GetCoordinates()[1]-m_node[0]->GetCoordinates()[1];
+Float l=sqrt(x*x+y*y);
+
+  m[0][0]=2.0; m[0][3]=1.0;
+  m[3][0]=1.0; m[3][3]=2.0;
+
+  m=(this->m_mat->RhoC*this->m_mat->A*l/6.0)*m;
+
+  mb[1][1]=156.0; mb[1][2]=22.0*l; mb[1][4]=54.0; mb[1][5]=-13.0*l;
+  mb[2][1]=22.0*l; mb[2][2]=4.0*l*l; mb[2][4]=13.0*l; mb[2][5]=-3.0*l*l;
+  mb[4][1]=54.0; mb[4][2]=13.0*l; mb[4][4]=156.0; mb[4][5]=-22.0*l;
+  mb[5][1]=-13.0*l; mb[5][2]=-3.0*l*l; mb[5][4]=-22.0*l; mb[5][5]=4.0*l*l;
+
+  mb=(this->m_mat->RhoC*this->m_mat->A*l/420.0)*mb;
+
+  m=m+mb;
+
+  Float c=x/l;
+  Float s=y/l;
+
+  k[0][0]= c; k[0][1]= s; k[0][2]= 0; k[0][3]= 0; k[0][4]= 0; k[0][5]= 0;
+  k[1][0]=-s; k[1][1]= c; k[1][2]= 0; k[1][3]= 0; k[1][4]= 0; k[1][5]= 0;
+  k[2][0]= 0; k[2][1]= 0; k[2][2]= 1; k[2][3]= 0; k[2][4]= 0; k[2][5]= 0;
+  k[3][0]= 0; k[3][1]= 0; k[3][2]= 0; k[3][3]= c; k[3][4]= s; k[3][5]= 0;
+  k[4][0]= 0; k[4][1]= 0; k[4][2]= 0; k[4][3]=-s; k[4][4]= c; k[4][5]= 0;
+  k[5][0]= 0; k[5][1]= 0; k[5][2]= 0; k[5][3]= 0; k[5][4]= 0; k[5][5]= 1;
+
+  Me=k.transpose()*m*k;
 
 }
 

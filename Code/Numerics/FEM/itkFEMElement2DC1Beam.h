@@ -70,6 +70,7 @@ public:
    * Methods related to the physics of the problem.
    */
   virtual void GetStiffnessMatrix( MatrixType& Ke ) const;
+  virtual void GetMassMatrix( MatrixType& Me ) const;
   HANDLE_ELEMENT_LOADS();
 
   virtual void GetStrainDisplacementMatrix( MatrixType& B, const MatrixType& shapeDgl ) const {}
