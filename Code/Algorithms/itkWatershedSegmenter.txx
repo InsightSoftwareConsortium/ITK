@@ -88,10 +88,14 @@ void Segmenter<TInputImage>::GenerateData()
   ImageRegionType regionToProcess       = output->GetRequestedRegion();
   ImageRegionType largestPossibleRegion = this->GetLargestPossibleRegion();
   ImageRegionType thresholdImageRegion  = regionToProcess;
-
+  ImageRegionType thresholdLargestPossibleRegion
+    = this->GetLargestPossibleRegion();
+  
   // First we have to find the boundaries and adjust the threshold image size
   typename ImageRegionType::IndexType  tidx= thresholdImageRegion.GetIndex();
   typename ImageRegionType::SizeType   tsz = thresholdImageRegion.GetSize();
+  typename ImageRegionType::IndexType  tlidx= thresholdLargestPossibleRegion.GetIndex();
+  typename ImageRegionType::SizeType   tlsz = thresholdLargestPossibleRegion.GetSize();
   for (i = 0; i < ImageDimension; ++i)
     {
     ImageRegionType reg;
@@ -109,6 +113,9 @@ void Segmenter<TInputImage>::GenerateData()
       // This is facing a true data set boundary
       tsz[i] += 1; // we need to pad our threshold image on this face
       tidx[i] -=1;
+      tlsz[i] += 1; // we need to pad our threshold image on this face
+      tlidx[i] -=1;
+      
       boundary->SetValid(false, i, 0);
       }
     else
@@ -129,6 +136,7 @@ void Segmenter<TInputImage>::GenerateData()
       {
       // This is facing a true data set boundary
       tsz[i] +=1; // we need to pad our threshold image on this face
+      tlsz[i] +=1; // we need to pad our threshold image on this face
       boundary->SetValid(false, i, 1);
       }
     else
@@ -140,22 +148,43 @@ void Segmenter<TInputImage>::GenerateData()
     }
   thresholdImageRegion.SetSize(tsz);
   thresholdImageRegion.SetIndex(tidx);
+  thresholdLargestPossibleRegion.SetSize(tlsz);
+  thresholdLargestPossibleRegion.SetIndex(tlidx);
 
   // Now create and allocate the threshold image.  We need a single pixel
   // border around the NxM region we are segmenting.  This means that for faces 
   // that have no overlap into another chunk, we have to pad the image.
   typename InputImageType::Pointer thresholdImage = InputImageType::New();
 
-  thresholdImage->SetLargestPossibleRegion(largestPossibleRegion);
+  thresholdImage->SetLargestPossibleRegion(thresholdLargestPossibleRegion);
   thresholdImage->SetBufferedRegion(thresholdImageRegion);
   thresholdImage->SetRequestedRegion(thresholdImageRegion);
   thresholdImage->Allocate();
 
-  // Now threshold the appropriate data into the threshold image.
-  Self::MinMax(input, regionToProcess, m_Minimum, m_Maximum);
-  Self::Threshold(thresholdImage, input, regionToProcess,
-                  regionToProcess, (m_Threshold * (m_Maximum - m_Minimum)) + m_Minimum);
+  // Now threshold the image. First we calculate the dynamic range of
+  // the input.  Then, the threshold operation clamps the lower
+  // intensity values at the prescribed threshold.  If the data is
+  // integral, then any intensity at NumericTraits<>::max() is reduced
+  // by one intensity value.  This allows the watershed algorithm to
+  // build a barrier around the image with values above the maximum
+  // intensity value which trivially stop the steepest descent search
+  // for local minima without requiring expensive boundary conditions.
+  //
+  //
+  InputPixelType minimum, maximum;
+  Self::MinMax(input, regionToProcess, minimum, maximum);
+  // cap the maximum in the image so that we can always define a pixel
+  // value that is one greater than the maximum value in the image.
+  if (NumericTraits<InputPixelType>::is_integer
+      && maximum == NumericTraits<InputPixelType>::max())
+    {
+    maximum -= NumericTraits<InputPixelType>::One;
+    }
+  // threshold the image. 
+  Self::Threshold(thresholdImage, input, regionToProcess, regionToProcess,
+                  (m_Threshold * (maximum - minimum)) + minimum);
 
+  
   //
   // Redefine the regionToProcess in terms of the threshold image.  The region
   // to  process represents all the pixels contained within the 1 pixel padded
@@ -183,7 +212,8 @@ void Segmenter<TInputImage>::GenerateData()
   // can be released at this point if need be.
   //
   thresholdImage->SetRequestedRegion(regionToProcess);
-
+  this->ReleaseInputs();
+  
   //
   // At this point we are ready to define the output
   // buffer and allocate memory for the output image.
@@ -225,6 +255,7 @@ void Segmenter<TInputImage>::GenerateData()
   
   this->UpdateProgress(0.1);
   
+  
   //
   // Analyze the flow at the boundaries.  This method labels all the boundary
   // pixels that flow out of this chunk (either through gradient descent or
@@ -234,7 +265,7 @@ void Segmenter<TInputImage>::GenerateData()
   if (m_DoBoundaryAnalysis == true)
     {
     this->InitializeBoundary();
-    this->AnalyzeBoundaryFlow(thresholdImage, flatRegions, m_Maximum +
+    this->AnalyzeBoundaryFlow(thresholdImage, flatRegions, maximum +
                               NumericTraits<InputPixelType>::One);
     }
 
@@ -249,7 +280,7 @@ void Segmenter<TInputImage>::GenerateData()
   // 
   this->BuildRetainingWall( thresholdImage,
                             thresholdImage->GetBufferedRegion(),
-                            m_Maximum + NumericTraits<InputPixelType>::One );
+                            maximum + NumericTraits<InputPixelType>::One );
 
   //
   // Label all the local minima pixels in the image.  This function also
@@ -257,28 +288,29 @@ void Segmenter<TInputImage>::GenerateData()
   // the same value.
   //
   this->LabelMinima(thresholdImage, thresholdImage->GetRequestedRegion(),
-                    flatRegions, m_Maximum + NumericTraits<InputPixelType>::One);
+                    flatRegions, maximum + NumericTraits<InputPixelType>::One);
   this->UpdateProgress(0.3);
-  
+
   this->GradientDescent(thresholdImage, thresholdImage->GetRequestedRegion());
   this->UpdateProgress(0.4);
-  
+
   this->DescendFlatRegions(flatRegions, thresholdImage->GetRequestedRegion());
   this->UpdateProgress(0.5);
-  
+
   this->UpdateSegmentTable(thresholdImage, thresholdImage->GetRequestedRegion());
   this->UpdateProgress(0.6);
-  
+
   if (m_DoBoundaryAnalysis == true)
     {  this->CollectBoundaryInformation(flatRegions); }
   this->UpdateProgress(0.7);
-  
+
   if (m_SortEdgeLists == true)
     {  this->GetSegmentTable()->SortEdgeLists(); }
   this->UpdateProgress(0.8);
-  
-  this->GetSegmentTable()->SetMaximumDepth(m_Maximum - m_Minimum);
+
+  this->GetSegmentTable()->SetMaximumDepth(maximum - minimum);
   this->UpdateProgress(1.0);
+
 }
 
 template <class TInputImage>
@@ -632,7 +664,8 @@ void Segmenter<TInputImage>
   EquivalencyTable::Pointer equivalentLabels = EquivalencyTable::New();
 
   typename OutputImageType::Pointer output = this->GetOutputImage();
-  
+
+
   // Set up the iterators.
   typename ConstNeighborhoodIterator<InputImageType>::RadiusType rad;
   for (i = 0; i < ImageDimension; ++i) rad[i] = 1;
@@ -712,6 +745,7 @@ void Segmenter<TInputImage>
 
   // Merge the flat regions that we identified as connected components.
   Self::MergeFlatRegions(flatRegions, equivalentLabels);
+
   // Relabel the image with the merged regions.
   Self::RelabelImage(output, region, equivalentLabels);
 
@@ -757,6 +791,7 @@ void Segmenter<TInputImage>
 
   // Merge the flat regions that we identified as connected components.
   Self::MergeFlatRegions(flatRegions, equivalentLabels);
+
   // Relabel the image with the merged regions.
   Self::RelabelImage(output, region, equivalentLabels);
 }
@@ -1124,12 +1159,48 @@ Threshold(InputImageTypePointer destination,
 
   // Assumes that source_region and destination region are the same size.  Does
   // no checking!!
-  while ( ! dIt.IsAtEnd() )
+  if (NumericTraits<InputPixelType>::is_integer)
     {
-    if ( sIt.Get() < threshold ) dIt.Set(threshold);
-    else dIt.Set(sIt.Get());
-    ++dIt;
-    ++sIt;
+    // integral data type, if any pixel is at the maximum possible
+    // value for the data type, then drop the value by one intensity
+    // value. This the watershed algorithm to construct a "barrier" or
+    // "wall" around the image that will stop the watershed without
+    // requiring a expensive boundary condition checks.
+    while ( ! dIt.IsAtEnd() )
+      {
+      InputPixelType tmp = sIt.Get();
+      if ( tmp < threshold )
+        {
+        dIt.Set(threshold);
+        }
+      else if (tmp == NumericTraits<InputPixelType>::max())
+        {
+        dIt.Set(tmp - NumericTraits<InputPixelType>::One);
+        }
+      else
+        {
+        dIt.Set(tmp);
+        }
+      ++dIt;
+      ++sIt;
+      }
+    }
+  else
+    {
+    // floating point data, no need to worry about overflow
+    while ( ! dIt.IsAtEnd() )
+      {
+      if ( sIt.Get() < threshold )
+        {
+        dIt.Set(threshold);
+        }
+      else
+        {
+        dIt.Set(sIt.Get());
+        }
+      ++dIt;
+      ++sIt;
+      }
     }
 }
 
@@ -1396,8 +1467,6 @@ Segmenter<TInputImage>
   m_CurrentLabel = 1;
   m_DoBoundaryAnalysis = false;
   m_SortEdgeLists = true;
-  m_Minimum = 0;
-  m_Maximum = 0;  
   m_Connectivity.direction = 0;
   m_Connectivity.index = 0;
   typename OutputImageType::Pointer img
@@ -1422,8 +1491,6 @@ Segmenter<TInputImage>
   os << indent << "DoBoundaryAnalysis: " << m_DoBoundaryAnalysis << std::endl;
   os << indent << "Threshold: " << m_Threshold << std::endl;
   os << indent << "MaximumFloodLevel: " << m_MaximumFloodLevel << std::endl;
-  os << indent << "Minimum: " << m_Minimum << std::endl;
-  os << indent << "Maximum: " << m_Maximum << std::endl;
   os << indent << "CurrentLabel: " << m_CurrentLabel << std::endl;  
 }
 

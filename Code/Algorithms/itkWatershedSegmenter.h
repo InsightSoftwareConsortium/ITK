@@ -208,14 +208,6 @@ public:
   itkSetMacro(DoBoundaryAnalysis, bool);
   itkGetMacro(DoBoundaryAnalysis, bool);
 
-  /** Prior to thresholding the input image, the filter calculates minimum
-   * and maximum values for the image.  These values are stored as
-   * member variables.   */
-  itkGetMacro(Minimum, InputPixelType);
-  itkSetMacro(Minimum, InputPixelType);
-  itkGetMacro(Maximum, InputPixelType);
-  itkSetMacro(Maximum, InputPixelType);
-  
   /** Determines whether the algorithm will sort the adjacencies in its
    * SegmentTable before returning.  Default is true.  This is an option only
    * useful for streaming applications where the sorting only needs to be done
@@ -321,7 +313,9 @@ protected:
   
   /** Helper function.  Thresholds low values and copies values from one image
    * into another. The source and destination regions must match in size (not
-   * enforced).   */
+   * enforced).  For integral types, the dynamic range of the image is
+   * adjusted such that the maximum value in the image is always at
+   * least one less than the maximum value allowed for that data type. */
   static void Threshold(InputImageTypePointer destination,
                         InputImageTypePointer source,
                         const ImageRegionType source_region,
@@ -366,8 +360,6 @@ private:
   bool m_DoBoundaryAnalysis;
   double m_Threshold;
   double m_MaximumFloodLevel;
-  InputPixelType m_Minimum;
-  InputPixelType m_Maximum;
   unsigned long m_CurrentLabel;
 };
   
