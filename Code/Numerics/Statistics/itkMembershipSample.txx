@@ -47,12 +47,12 @@ MembershipSample< TSample >
 template< class TSample >
 void
 MembershipSample< TSample >
-::SetNumberOfClasses(int numberOfClasses)
+::SetNumberOfClasses(unsigned int numberOfClasses)
 {
   m_NumberOfClasses = numberOfClasses ;
   m_ClassSampleSizes.resize(m_NumberOfClasses) ;
   m_ClassSamples.resize(m_NumberOfClasses) ;
-  for (int i = 0 ; i < m_NumberOfClasses ; i++)
+  for ( unsigned int i = 0 ; i < m_NumberOfClasses ; i++ )
     {
       m_ClassSamples[i] = ClassSampleType::New() ;
       (m_ClassSamples[i])->SetSample(this->GetSample()) ;
@@ -61,7 +61,7 @@ MembershipSample< TSample >
 }
 
 template< class TSample >
-int
+unsigned int
 MembershipSample< TSample >
 ::GetNumberOfClasses() const
 {
@@ -69,7 +69,7 @@ MembershipSample< TSample >
 }
 
 template< class TSample >
-int
+unsigned int
 MembershipSample< TSample >
 ::GetNumberOfInstances() const
 {
@@ -112,15 +112,15 @@ MembershipSample< TSample >
 }
 
 template< class TSample >
-inline int
+inline unsigned int
 MembershipSample< TSample >
-::Size() const
+::Size(void) const
 {
   return m_Sample->Size() ; 
 }
   
 template< class TSample >
-inline int 
+inline unsigned int 
 MembershipSample< TSample >
 ::Size(const unsigned int &dimension) const
 {

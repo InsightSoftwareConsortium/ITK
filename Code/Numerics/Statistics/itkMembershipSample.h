@@ -109,7 +109,7 @@ public:
   ClassSamplePointer GetClassSample(const unsigned int &classLabel) ;
   
   /** returns the number of elements in each dimension */
-  unsigned int Size() const ;
+  unsigned int Size(void) const ;
   
   /** returns the number of elements in the 'dimension' dimension. */
   unsigned int Size(const unsigned int &dimension) const;
