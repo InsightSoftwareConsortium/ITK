@@ -25,6 +25,6 @@ ME = Common
 
 KIT_OBJ = ${SRC_OBJ}
 
-VTK_LIB_FILE  = libITK${ME}${VTK_LIB_EXT}
+ITK_LIB_FILE  = libITK${ME}${ITK_LIB_EXT}
 
 @MAKEINCLUDE@ @MAKEQUOTE@@fullSrcDir@/config/Insight.make@MAKEQUOTE@
