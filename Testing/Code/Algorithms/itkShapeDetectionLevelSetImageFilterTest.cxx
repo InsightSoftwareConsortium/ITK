@@ -38,6 +38,25 @@ int itkShapeDetectionLevelSetImageFilterTest(int, char* [] )
   typedef unsigned char   PixelType;
   typedef float           InternalPixelType;
 
+  {
+  /**
+   *  Test out some vnl functions
+   */
+  InternalPixelType value = 12.3456;
+  InternalPixelType value2 = -9.8765;
+  InternalPixelType results;
+  results = vcl_sqrt( value );
+  std::cout << "vcl_sqrt( " << value << " ) = " << results << std::endl;
+  results = vnl_math_abs( value2 );
+  std::cout << "vnl_math_abs( " << value2 << " ) = " << results << std::endl;
+  results = vnl_math_min( value, value2 );
+  std::cout << "vnl_math_min( " << value << ", " << value2 
+    << " ) = " << results << std::endl;
+  results = vnl_math_max( value, value2 );
+  std::cout << "vnl_math_max( " << value << ", " << value2 
+    << " ) = " << results << std::endl;
+  }
+
   typedef itk::Image<PixelType,ImageDimension> ImageType;
   typedef itk::Image<InternalPixelType,ImageDimension> InternalImageType;
 
