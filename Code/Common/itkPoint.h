@@ -76,12 +76,40 @@ public:
   const CoordRepType* GetCoords() const 
     { return m_Coords;} ;
 
+  /**
+   * Read or write an individual coordinate.
+   */
+  CoordRepType& operator[] (unsigned int i)
+  { return m_Coords[i]; }
+
+  /**
+   * Read an individual coordinate.
+   */
+  CoordRepType operator[] (unsigned int i) const
+  { return m_Coords[i]; }
+
 protected:
   /**
    * Actually store the point's geometrical information.
    */
   CoordRepType m_Coords[PointDimension];
 };
+
+  /**
+   * Print the coordinates of a point
+   **/
+  template<int VPointDimension, typename TCoordRep>
+  std::ostream &
+  operator<< (std::ostream &s, Point<VPointDimension, TCoordRep> &point)
+  {
+    int i;
+    const TCoordRep *coords;
+    coords = point.GetCoords();
+    for (i = 0; i < VPointDimension; i++) {
+        s << coords[i] << "   ";
+    }
+    return s;
+  }
 
 } // end namespace itk
 
