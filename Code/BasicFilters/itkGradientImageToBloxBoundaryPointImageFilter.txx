@@ -108,21 +108,25 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
     }
   
   // we need to compute the input requested region (size and start index)
-  int i;
   const typename TOutputImage::SizeType& outputRequestedRegionSize
     = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
     = outputPtr->GetRequestedRegion().GetIndex();
   
-  typename TInputImage::SizeType  inputRequestedRegionSize;
-  typename TInputImage::IndexType inputRequestedRegionStartIndex;
+  typedef typename TInputImage::SizeType      SizeType;
+  typedef typename TInputImage::IndexType     IndexType;
+  typedef typename SizeType::SizeValueType    SizeValueType;
+  typedef typename IndexType::IndexValueType  IndexValueType;
+
+  SizeType  inputRequestedRegionSize;
+  IndexType inputRequestedRegionStartIndex;
   
-  for (i = 0; i < TInputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
     {
-    inputRequestedRegionSize[i]
-      = outputRequestedRegionSize[i] * m_BloxResolution[i];
-    inputRequestedRegionStartIndex[i]
-      = outputRequestedRegionStartIndex[i] * m_BloxResolution[i];
+    inputRequestedRegionSize[i] =  static_cast<SizeValueType>(
+                outputRequestedRegionSize[i] * m_BloxResolution[i] );
+    inputRequestedRegionStartIndex[i] =  static_cast<IndexValueType>(
+                outputRequestedRegionStartIndex[i] * m_BloxResolution[i] );
     }
   
   typename TInputImage::RegionType inputRequestedRegion;
@@ -151,30 +155,35 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
   
   // we need to compute the output spacing, the output image size, and the
   // output image start index
-  int i;
   const double *inputSpacing = inputPtr->GetSpacing();
   const typename TInputImage::SizeType&   inputSize
-    = inputPtr->GetLargestPossibleRegion().GetSize();
+                    = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TInputImage::IndexType&  inputStartIndex
-    = inputPtr->GetLargestPossibleRegion().GetIndex();
+                    = inputPtr->GetLargestPossibleRegion().GetIndex();
   
-  float    outputSpacing[TOutputImage::ImageDimension];
-  typename TOutputImage::SizeType     outputSize;
-  typename TOutputImage::IndexType    outputStartIndex;
+  float    outputSpacing[ TOutputImage::ImageDimension ];
+  typedef typename TOutputImage::SizeType     SizeType;
+  typedef typename TOutputImage::IndexType    IndexType;
+  typedef typename SizeType::SizeValueType    SizeValueType;
+  typedef typename IndexType::IndexValueType  IndexValueType;
+
+  SizeType  outputSize;
+  IndexType outputStartIndex;
   
-  for (i = 0; i < TOutputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
     {
     
     outputSpacing[i] = inputSpacing[i] * m_BloxResolution[i];
 
-    outputSize[i] = (unsigned long) floor( (float) inputSize[i] / m_BloxResolution[i]);
+    outputSize[i] = static_cast<SizeValueType>(
+         floor( static_cast<float>( inputSize[i] )/ m_BloxResolution[i]));
     if( outputSize[i] < 1 )
       {
       outputSize[i] = 1;
       }
     
-    outputStartIndex[i] = (long)
-      ceil( (float) inputStartIndex[i] / m_BloxResolution[i] );
+    outputStartIndex[i] = static_cast<IndexValueType>(
+      ceil( static_cast<float>( inputStartIndex[i] ) / m_BloxResolution[i] ));
     }
   
   outputPtr->SetSpacing( outputSpacing );
