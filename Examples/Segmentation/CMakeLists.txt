@@ -240,5 +240,23 @@ ADD_TEST(ShapeDetectionLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES}
         40 90 5.0 0.5 -0.3 2.0 0.05
 )
 
+ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/WatershedSegmentation1Test1.png
+            ${TEMP}/WatershedSegmentation1Test1.png
+  WatershedSegmentation1Test
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${TEMP}/WatershedSegmentation1Test1.png
+        2.0 10 0.0 0.05 1
+)
+
+ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/WatershedSegmentation1Test2.png
+            ${TEMP}/WatershedSegmentation1Test2.png
+  WatershedSegmentation1Test
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${TEMP}/WatershedSegmentation1Test2.png
+        2.0 10 0.001 0.15 0
+)
+
 ADD_EXECUTABLE(SegmentationExamples SegmentationExamples.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
