@@ -34,19 +34,55 @@ WrapperBase::WrapperBase(Tcl_Interp* interp, const String& wrappedTypeName):
 {
 }
 
-Tcl_Interp* WrapperBase::GetInterpreter()
+
+/**
+ * Get the interpreter to which this wrapper is attached.
+ */
+Tcl_Interp* WrapperBase::GetInterpreter() const
 {
   return m_Interpreter;
 }
 
-CvQualifiedType WrapperBase::GetType(TypeKey typeKey)
+
+/**
+ * Get the TypeMap entry with the given key.
+ */
+CvQualifiedType WrapperBase::GetType(TypeKey typeKey) const
 {
-  return m_TypeMap[typeKey];
+  TypeMap::const_iterator i = m_TypeMap.find(typeKey);
+  if(i == m_TypeMap.end())
+    {
+    String errorMessage = "Type \"";
+    errorMessage += typeKey;
+    errorMessage += "\" has no entry in type map of wrapper for ";
+    errorMessage += m_WrappedTypeName;
+    this->ReportErrorMessage(errorMessage);
+    // TODO: Throw exception?
+    return CvQualifiedType();
+    }
+  return i->second;
 }
 
 
+/**
+ * Set the TypeMap entry with the given key to the given value.
+ */
+void WrapperBase::SetType(TypeKey typeKey, const CvQualifiedType& type)
+{
+  m_TypeMap[typeKey] = type;
+}
+
+
+/**
+ * When an object is returned, this creates the command to allow wrapper
+ * calls to be made to the object.  The command name is that given.
+ *
+ * If no wrapper exists for the type of the object, methods cannot be
+ * invoked on it, but it can still be passed as an argument to other
+ * wrapper calls.
+ */
 void WrapperBase::CreateResultCommand(const String& name,
-                                      const Type* type)
+                                      const Type* type) const
 {
   if(m_WrapperTable->Exists(type))
     {
@@ -69,7 +105,7 @@ void WrapperBase::CreateResultCommand(const String& name,
  */
 int WrapperBase::ChainMethod(const String& methodName,
                               ClientData clientData,
-                              int objc, Tcl_Obj* CONST objv[])
+                              int objc, Tcl_Obj* CONST objv[]) const
 {
   // MUST BE IMPLEMENTED.
   // For now, just report method not found.
@@ -83,7 +119,7 @@ int WrapperBase::ChainMethod(const String& methodName,
  * to generate the error message.
  */
 void WrapperBase::UnknownMethod(const String& methodName,
-                                int argc, Tcl_Obj*CONST objv[])
+                                int argc, Tcl_Obj*CONST objv[]) const
 {
   String errorMessage = 
     "Unknown method: " + m_WrappedTypeName + "::" + methodName + "(";
@@ -103,7 +139,7 @@ void WrapperBase::UnknownMethod(const String& methodName,
  * a command in the interpreter, this is called to report the error.
  * This should never happen.
  */
-void WrapperBase::UnknownInstance(const String& objectName)
+void WrapperBase::UnknownInstance(const String& objectName) const
 {
   String errorMessage =
     "No instance of \""+m_WrappedTypeName+"\" named \""+objectName+"\".";
@@ -114,7 +150,7 @@ void WrapperBase::UnknownInstance(const String& objectName)
 /**
  * This is called to report an error message to the Tcl interpreter.
  */
-void WrapperBase::ReportErrorMessage(const String& errorMessage)
+void WrapperBase::ReportErrorMessage(const String& errorMessage) const
 {
   Tcl_ResetResult(m_Interpreter);
   Tcl_AppendToObj(Tcl_GetObjResult(m_Interpreter),
@@ -128,7 +164,7 @@ void WrapperBase::ReportErrorMessage(const String& errorMessage)
  * The command (instance) name itself, and any arguments to the methods are
  * possibly temporary objects.
  */
-void WrapperBase::FreeTemporaries(int objc, Tcl_Obj*CONST objv[])
+void WrapperBase::FreeTemporaries(int objc, Tcl_Obj*CONST objv[]) const
 {
   for(int i=0; i < objc; ++i)
     {
@@ -150,71 +186,105 @@ void WrapperBase::FreeTemporaries(int objc, Tcl_Obj*CONST objv[])
     }
 }
 
+
+/**
+ * Register an ArrayType having the given element type and size with this
+ * wrapper's TypeSystem.
+ */
 CvQualifiedType
-WrapperBase::GetArrayType(TypeKey elementType, unsigned long size)
+WrapperBase::GetArrayType(TypeKey elementType, unsigned long size) const
 {
-  return m_TypeSystem->GetArrayType(m_TypeMap[elementType], size)
+  return m_TypeSystem->GetArrayType(this->GetType(elementType), size)
     ->GetCvQualifiedType(false, false);
 }
 
+
+/**
+ * Register a ClassType having the given name, cv-qualifiers, and
+ * (optionally) parents with this wrapper's TypeSystem.
+ */
 CvQualifiedType
 WrapperBase::GetClassType(const String& name,
                           bool isConst, bool isVolatile,
-                          const ClassTypes& parents)
+                          const ClassTypes& parents) const
 {
   return m_TypeSystem->GetClassType(name, parents)
     ->GetCvQualifiedType(isConst, isVolatile);
 }
 
+
+/**
+ * Register a FunctionType having the given return type, argument types,
+ * and cv-qualifiers with this wrapper's TypeSystem.
+ */
 CvQualifiedType
 WrapperBase::GetFunctionType(TypeKey returnType,
                              const TypeKeys& argumentTypes,
-                             bool isConst, bool isVolatile)
+                             bool isConst, bool isVolatile) const
 {
   CvQualifiedTypes cvQualifiedTypes;
   for(TypeKeys::const_iterator k = argumentTypes.begin();
       k != argumentTypes.end(); ++k)
     {
-    cvQualifiedTypes.push_back(m_TypeMap[*k]);
+    cvQualifiedTypes.push_back(this->GetType(*k));
     }
   
-  return m_TypeSystem->GetFunctionType(m_TypeMap[returnType],
+  return m_TypeSystem->GetFunctionType(this->GetType(returnType),
                                        cvQualifiedTypes)
     ->GetCvQualifiedType(isConst, isVolatile);
 }
 
+
+/**
+ * Register a FundamentalType having the given type id and cv-qualifiers
+ * with this wrapper's TypeSystem.
+ */
 CvQualifiedType
 WrapperBase::GetFundamentalType(FundamentalType::Id id,
-                                bool isConst, bool isVolatile)
+                                bool isConst, bool isVolatile) const
 {
   return m_TypeSystem->GetFundamentalType(id)
     ->GetCvQualifiedType(isConst, isVolatile);
 }
 
 
+/**
+ * Register a PointerType pointing to the given type and having the
+ * given cv-qualifiers with this wrapper's TypeSystem.
+ */
 CvQualifiedType
 WrapperBase::GetPointerType(TypeKey referencedType,
-                            bool isConst, bool isVolatile)
+                            bool isConst, bool isVolatile) const
 {
-  return m_TypeSystem->GetPointerType(m_TypeMap[referencedType])
+  return m_TypeSystem->GetPointerType(this->GetType(referencedType))
     ->GetCvQualifiedType(isConst, isVolatile);
 }
 
+
+/**
+ * Register a PointerToMemberType pointing to the given type inside the
+ * given ClassType and having the given cv-qualifiers with this wrapper's
+ * TypeSystem.
+ */
 CvQualifiedType
 WrapperBase::GetPointerToMemberType(TypeKey referencedType,
                                     const ClassType* classScope,
-                                    bool isConst, bool isVolatile)
+                                    bool isConst, bool isVolatile) const
 {
-  return m_TypeSystem->GetPointerToMemberType(m_TypeMap[referencedType],
+  return m_TypeSystem->GetPointerToMemberType(this->GetType(referencedType),
                                               classScope)
     ->GetCvQualifiedType(isConst, isVolatile);
 }
 
 
+/**
+ * Register a ReferenceType referencing the given type with this wrapper's
+ * TypeSystem.
+ */
 CvQualifiedType
-WrapperBase::GetReferenceType(TypeKey referencedType)
+WrapperBase::GetReferenceType(TypeKey referencedType) const
 {
-  return m_TypeSystem->GetReferenceType(m_TypeMap[referencedType])
+  return m_TypeSystem->GetReferenceType(this->GetType(referencedType))
     ->GetCvQualifiedType(false, false);
 }
 

@@ -52,36 +52,37 @@ public:
   
   typedef const char* TypeKey;
 
-  Tcl_Interp* GetInterpreter();
-  CvQualifiedType GetType(TypeKey typeKey);
-  void CreateResultCommand(const String& name,
-                           const Type* type);
+  Tcl_Interp* GetInterpreter() const;
+  CvQualifiedType GetType(TypeKey typeKey) const;
+  void SetType(TypeKey typeKey, const CvQualifiedType&);
+  void CreateResultCommand(const String& name, const Type* type) const;
   
 protected:
   int ChainMethod(const String& methodName, ClientData clientData,
-                  int objc, Tcl_Obj* CONST objv[]);
-  void UnknownMethod(const String& methodName, int objc, Tcl_Obj*CONST objv[]);
-  void UnknownInstance(const String& objectName);
-  void ReportErrorMessage(const String& errorMessage);
-  void FreeTemporaries(int objc, Tcl_Obj*CONST objv[]);
+                  int objc, Tcl_Obj* CONST objv[]) const;
+  void UnknownMethod(const String& methodName, int objc, Tcl_Obj*CONST objv[]) const;
+  void UnknownInstance(const String& objectName) const;
+  void ReportErrorMessage(const String& errorMessage) const;
+  void FreeTemporaries(int objc, Tcl_Obj*CONST objv[]) const;
 
   typedef std::vector<TypeKey> TypeKeys;
-  CvQualifiedType GetArrayType(TypeKey elementType, unsigned long size);
+  CvQualifiedType GetArrayType(TypeKey elementType, unsigned long size) const;
   CvQualifiedType GetClassType(const String& name,
                                bool isConst, bool isVolatile,
-                               const ClassTypes& parents = ClassTypes());
+                               const ClassTypes& parents = ClassTypes()) const;
   CvQualifiedType GetFunctionType(TypeKey returnType,
                                   const TypeKeys& argumentTypes,
-                                  bool isConst, bool isVolatile);
+                                  bool isConst, bool isVolatile) const;
   CvQualifiedType GetFundamentalType(FundamentalType::Id,
-                                     bool isConst, bool isVolatile);
+                                     bool isConst, bool isVolatile) const;
   CvQualifiedType GetPointerType(TypeKey referencedType,
-                                 bool isConst, bool isVolatile);
+                                 bool isConst, bool isVolatile) const;
   CvQualifiedType GetPointerToMemberType(TypeKey referencedType,
                                          const ClassType* classScope,
-                                         bool isConst, bool isVolatile);
-  CvQualifiedType GetReferenceType(TypeKey referencedType);
+                                         bool isConst, bool isVolatile) const;
+  CvQualifiedType GetReferenceType(TypeKey referencedType) const;
 
+protected:
   /**
    * The Tcl interpreter to which this wrapper is attached.
    */
@@ -90,7 +91,7 @@ protected:
   /**
    * The name of the wrapped type.
    */
-  String         m_WrappedTypeName;
+  const String   m_WrappedTypeName;
   
   /**
    * The TypeSystem used to handle type information for this wrapper's
@@ -115,6 +116,12 @@ protected:
   
   typedef std::map<const char*, CvQualifiedType,
                    PointerCompare<const char> >  TypeMap;
+private:
+  /**
+   * Map from const char* to CvQualifiedType.  This allows
+   * wrappers to refer to types through TypeInfo<T>::name keys.
+   * Must be private (with access routines) to prevent DLL address problems.
+   */
   TypeMap        m_TypeMap;
 
 public:
@@ -131,9 +138,39 @@ public:
       {
       Tcl_Interp* interp = wrapper->GetInterpreter();
       CvQualifiedType referencedType = wrapper->GetType(TypeInfo<T>::name);
+      
+      // Set the Tcl result to a PointerType object representing this
+      // pointer return value.
       Tcl_SetPointerObj(Tcl_GetObjResult(interp),
-                        Pointer(const_cast<T*>(result), referencedType,
-                                false, false));
+                        Pointer(const_cast<T*>(result), referencedType));
+      
+      // Create the command to allow methods to be invoked on the
+      // resulting value.
+      wrapper->CreateResultCommand(Tcl_GetString(Tcl_GetObjResult(interp)),
+                                   referencedType.GetType());
+      }
+  };
+  
+  /**
+   * When a method returns a reference type, the wrapper function calls this to
+   * prepare the return.  This creates the ReferenceType Tcl object for the
+   * Tcl object result.
+   */
+  template <typename T>
+  struct ReturnReferenceTo
+  {
+    static void From(WrapperBase* wrapper, T* result)
+      {
+      Tcl_Interp* interp = wrapper->GetInterpreter();
+      CvQualifiedType referencedType = wrapper->GetType(TypeInfo<T>::name);
+      
+      // Set the Tcl result to a ReferenceType object representing this
+      // reference return value.
+      Tcl_SetReferenceObj(Tcl_GetObjResult(interp),
+                          Reference(const_cast<T*>(result), referencedType));
+      
+      // Create the command to allow methods to be invoked on the
+      // resulting value.
       wrapper->CreateResultCommand(Tcl_GetString(Tcl_GetObjResult(interp)),
                                    referencedType.GetType());
       }
