@@ -21,7 +21,7 @@ ADD_TEST(test_real_eigensystem  test_real_eigensystem )
 ADD_TEST(test_complex_eigensystem  test_complex_eigensystem )
 ADD_TEST(test_symmetric_eigensystem  test_symmetric_eigensystem )
 ADD_TEST(test_generalized_eigensystem    test_generalized_eigensystem   )
-ADD_TEST(test_matrix_exp ) test_matrix_exp )
+ADD_TEST(test_matrix_exp  test_matrix_exp )
 
 
 ADD_EXECUTABLE(test_fft1d test_fft1d )
