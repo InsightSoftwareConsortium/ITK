@@ -17,7 +17,7 @@ itkExtractMeshConnectedRegionsTest
 itkFastMarchingTest
 itkGeodesicActiveContoursTest
 itkGradientAnisotropicDiffusionImageFilterTest
-itkHeaderTest
+itkAlgorithmsHeaderTest
 itkImageMomentsTest
 itkInterpolateTest
 itkLevelSetShapeDetectionTest

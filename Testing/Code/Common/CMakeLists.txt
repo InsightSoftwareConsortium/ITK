@@ -5,6 +5,7 @@ itkBoundingBoxTest
 itkByteSwapTest
 itkDataTypeTest
 itkExceptionObjectTest
+itkCommonHeaderTest
 itkImageAdaptorTest
 itkImageIteratorTest
 itkIteratorTests
