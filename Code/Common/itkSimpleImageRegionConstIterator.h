@@ -161,7 +161,7 @@ public:
   /**
    * Default constructor. Needed since we provide a cast constructor.
    */
-  SimpleImageRegionConstIterator() : ImageIteratorWithIndex<TImage>() {}
+  SimpleImageRegionConstIterator() : ImageConstIteratorWithIndex<TImage>() {}
   
   /**
    * Constructor establishes an iterator to walk a particular image and a
