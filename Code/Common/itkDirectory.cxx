@@ -78,7 +78,7 @@ Directory
   os << indent << "Directory for: " << m_Path << "\n";
   os << indent << "Contains the following files:\n";
   indent = indent.GetNextIndent();
-  for(std::vector<std::string>::iterator i = m_Files.begin();
+  for(std::vector<std::string>::const_iterator i = m_Files.begin();
       i != m_Files.end(); ++i)
     {
     os << indent << (*i) << "\n";
