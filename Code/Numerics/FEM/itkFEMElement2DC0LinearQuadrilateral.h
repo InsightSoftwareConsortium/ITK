@@ -78,9 +78,9 @@ public:
    * Methods related to the geometry of an element
    */
 
-  virtual VectorType ShapeFunctions( VectorType pt ) const;
+  virtual VectorType ShapeFunctions( const VectorType& pt ) const;
 
-  virtual void ShapeFunctionDerivatives( VectorType pt, MatrixType& shapeD ) const;
+  virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const;
 
   virtual VectorType GetNodeCoordinates( unsigned int n ) const;
 

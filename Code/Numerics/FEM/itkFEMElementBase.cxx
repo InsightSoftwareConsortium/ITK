@@ -75,10 +75,20 @@ void Element::GetStiffnessMatrix(MatrixType& Ke) const
   Ke.fill(0.0);
   unsigned int Nip=this->GetNumberOfIntegrationPoints();
 
+  VectorType ip;
+  MatrixType J;
+  MatrixType shapeDgl;
+  MatrixType shapeD;
+
   for(unsigned int i=0; i<Nip; i++)
   {
-    this->GetStrainDisplacementMatrix( this->GetIntegrationPoint(i), B );
-    Float detJ=this->JacobianDeterminant( this->GetIntegrationPoint(i) );
+    ip=this->GetIntegrationPoint(i);
+    this->ShapeFunctionDerivatives(ip,shapeD);
+    this->Jacobian(ip,J,&shapeD);
+    this->ShapeFunctionGlobalDerivatives(ip,shapeDgl,&J,&shapeD);
+
+    this->GetStrainDisplacementMatrix( B, shapeDgl );
+    Float detJ=this->JacobianDeterminant( ip, &J );
     Ke+=detJ*GetWeightAtIntegrationPoint(i)*B.transpose()*D*B; // FIXME: write a more efficient way of computing this.
   }
 }
@@ -112,7 +122,7 @@ Element::Me() const
 
 
 Element::VectorType
-Element::InterpolateSolution( VectorType pt, const Solution& sol ) const
+Element::InterpolateSolution( const VectorType& pt, const Solution& sol ) const
 {
 
   VectorType vec( GetNumberOfDegreesOfFreedomPerNode() );
@@ -143,7 +153,7 @@ Element::InterpolateSolution( VectorType pt, const Solution& sol ) const
 
 
 Element::Float
-Element::InterpolateSolution( VectorType pt, const Solution& sol, unsigned int f ) const
+Element::InterpolateSolution( const VectorType& pt, const Solution& sol, unsigned int f ) const
 {
 
   Float value=0.0;
@@ -167,7 +177,7 @@ Element::InterpolateSolution( VectorType pt, const Solution& sol, unsigned int f
  */
 
 void
-Element::Jacobian( VectorType pt, MatrixType& J, MatrixType* pshapeD ) const
+Element::Jacobian( const VectorType& pt, MatrixType& J, const MatrixType* pshapeD ) const
 {
   MatrixType* pshapeDlocal=0;
 
@@ -203,18 +213,32 @@ Element::Jacobian( VectorType pt, MatrixType& J, MatrixType* pshapeD ) const
 
 
 Element::Float
-Element::JacobianDeterminant( VectorType pt ) const
+Element::JacobianDeterminant( const VectorType& pt, const MatrixType* pJ ) const
 {
-  MatrixType J;
-  Jacobian(pt, J);
-  return vnl_svd<Float>(J).determinant_magnitude();
+  MatrixType* pJlocal=0;
+
+  // If Jacobian was not provided, we
+  // need to compute it here
+  if(pJ==0)
+  {
+    pJlocal=new MatrixType();
+    this->Jacobian( pt, *pJlocal );
+    pJ=pJlocal;
+  }
+
+  Float det=vnl_svd<Float>(*pJ).determinant_magnitude();
+
+  delete pJlocal;
+
+  return det;
+
 }
 
 
 
 
 void
-Element::JacobianInverse( VectorType pt, MatrixType& invJ, MatrixType* pJ ) const
+Element::JacobianInverse( const VectorType& pt, MatrixType& invJ, const MatrixType* pJ ) const
 {
 
   MatrixType* pJlocal=0;
@@ -237,7 +261,7 @@ Element::JacobianInverse( VectorType pt, MatrixType& invJ, MatrixType* pJ ) cons
 
 
 
-void Element::ShapeFunctionGlobalDerivatives( VectorType pt, MatrixType& shapeDgl, MatrixType* pJ, MatrixType* pshapeD ) const
+void Element::ShapeFunctionGlobalDerivatives( const VectorType& pt, MatrixType& shapeDgl, const MatrixType* pJ, const MatrixType* pshapeD ) const
 {
 
   MatrixType* pshapeDlocal=0;
@@ -262,7 +286,6 @@ void Element::ShapeFunctionGlobalDerivatives( VectorType pt, MatrixType& shapeDg
   }
 
   MatrixType invJ;
-
   this->JacobianInverse( pt, invJ, pJ );
 
   shapeDgl=invJ*(*pshapeD);
@@ -276,7 +299,7 @@ void Element::ShapeFunctionGlobalDerivatives( VectorType pt, MatrixType& shapeDg
 
 
 Element::VectorType
-Element::GetGlobalFromLocalCoordinates( VectorType pt ) const
+Element::GetGlobalFromLocalCoordinates( const VectorType& pt ) const
 {
   MatrixType nc;
 

@@ -64,30 +64,24 @@ Element2DC0LinearQuadrilateralStress
  */
 
 void Element2DC0LinearQuadrilateralStress
-::GetStrainDisplacementMatrix(VectorType pt, MatrixType& B) const
+::GetStrainDisplacementMatrix(MatrixType& B, const MatrixType& shapeDgl) const
 {
   int p;
-  MatrixType shapeINVD(2,4);
   B.resize(3,8);
   
-  /*
-   * Computes the shape function derivatives in Cartesian coordinates
-   * at integration point
-   */
-  ShapeFunctionGlobalDerivatives(pt, shapeINVD);
-
-  /* Computes the inverse shape function derivatives */
+  // Copy the shape function derivatives wrt global coordinates
+  // in right position in B matrix.
   for (int i=0; i<4; i++) {
-    /* Computes B index */
+    // Compute B index
     p = i << 1;
 
-    /* Compute B elements */
-    B[0][p]   = shapeINVD[0][i];
+    // Compute B elements
+    B[0][p]   = shapeDgl[0][i];
     B[0][p+1] = 0;
     B[1][p]   = 0;
-    B[1][p+1] = shapeINVD[1][i];
-    B[2][p]   = shapeINVD[1][i];
-    B[2][p+1] = shapeINVD[0][i];
+    B[1][p+1] = shapeDgl[1][i];
+    B[2][p]   = shapeDgl[1][i];
+    B[2][p+1] = shapeDgl[0][i];
   }
 }
 

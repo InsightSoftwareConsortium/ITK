@@ -104,7 +104,7 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>::VectorType
 Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
-::ShapeFunctions( VectorType pt ) const
+::ShapeFunctions( const VectorType& pt ) const
 {
   /* Linear quadrilateral element has four shape functions  */
   VectorType shapeF(4);
@@ -136,7 +136,7 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 void
 Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
-::ShapeFunctionDerivatives( VectorType pt, MatrixType& shapeD ) const
+::ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const
 {
   /** functions at directions r and s.  */
   shapeD.resize(2,4);

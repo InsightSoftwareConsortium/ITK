@@ -74,7 +74,7 @@ public:
   /**
    * Compute the B matrix.
    */
-  virtual void GetStrainDisplacementMatrix(VectorType pt, MatrixType& B) const;
+  virtual void GetStrainDisplacementMatrix(MatrixType& B, const MatrixType& shapeDgl) const;
 
   /**
    * Compute the D matrix.

@@ -247,10 +247,11 @@ public:
   /**
    * Compute the strain displacement matrix at local point.
    *
-   * \param pt Point in local element coordinates.
-   * \param B Reference to a matrix object.
+   * \param B Reference to a matrix object that will contain the result
+   * \param shapeDgl Matrix that contains derivatives of shape functions
+   *                 w.r.t. global coordinates.
    */
-  virtual void GetStrainDisplacementMatrix( VectorType pt, MatrixType& B ) const {}// = 0;
+  virtual void GetStrainDisplacementMatrix( MatrixType& B, const MatrixType& shapeDgl ) const {}// = 0;
 
   /**
    * Compute the element material matrix.
@@ -269,7 +270,7 @@ public:
    *            is solved and contains the values of unknown functions
    *            at nodes (degrees of freedom).
    */
-  virtual VectorType InterpolateSolution( VectorType pt, const Solution& sol ) const;
+  virtual VectorType InterpolateSolution( const VectorType& pt, const Solution& sol ) const;
 
   /**
    * Return interpolated value of f-th unknown function at
@@ -283,7 +284,7 @@ public:
    * \param f Number of unknown function to interpolate.
    *          Must be 0 <= f < GetNumberOfDegreesOfFreedomPerNode().
    */
-  virtual Float InterpolateSolution( VectorType pt, const Solution& sol, unsigned int f ) const;
+  virtual Float InterpolateSolution( const VectorType& pt, const Solution& sol, unsigned int f ) const;
 
 
 
@@ -355,14 +356,14 @@ public:
    *
    * \param pt Point in local element coordinates.
    */
-  virtual VectorType GetGlobalFromLocalCoordinates( VectorType pt ) const;
+  virtual VectorType GetGlobalFromLocalCoordinates( const VectorType& pt ) const;
 
   /**
    * Transforms the given global element coordinates into local.
    *
    * \param pt Point in global (world) coordinates.
    */
-  virtual VectorType GetLocalFromGlobalCoordinates( VectorType pt ) const { return VectorType(); } // = 0;
+  virtual VectorType GetLocalFromGlobalCoordinates( const VectorType& pt ) const { return VectorType(); } // = 0;
 
   /**
    * Returns a vector containing the values of all shape functions
@@ -371,7 +372,7 @@ public:
    *
    * \param pt Point in local element coordinates.
    */
-  virtual VectorType ShapeFunctions( VectorType pt ) const { return VectorType(); } // = 0;
+  virtual VectorType ShapeFunctions( const VectorType& pt ) const { return VectorType(); } // = 0;
 
   /**
    * Compute the matrix of values of the shape functions derivatives with
@@ -388,7 +389,7 @@ public:
    *
    * \sa ShapeFunctionGlobalDerivatives
    */
-  virtual void ShapeFunctionDerivatives( VectorType pt, MatrixType& shapeD ) const {} // = 0;
+  virtual void ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const {} // = 0;
 
   /**
    * Compute matrix of shape function derivatives with respect to
@@ -409,7 +410,7 @@ public:
    *
    * \sa ShapeFunctionDerivatives
    */
-  virtual void ShapeFunctionGlobalDerivatives( VectorType pt, MatrixType& shapeDgl, MatrixType* pJ=0, MatrixType* pshapeD=0 ) const;
+  virtual void ShapeFunctionGlobalDerivatives( const VectorType& pt, MatrixType& shapeDgl, const MatrixType* pJ=0, const MatrixType* pshapeD=0 ) const;
 
   /** 
    * Compute the Jacobian matrix of the transformation from local
@@ -432,7 +433,7 @@ public:
    *                If this pointer is 0, derivatives will be computed as
    *                necessary.
    */
-  virtual void Jacobian( VectorType pt, MatrixType& J, MatrixType* pshapeD = 0 ) const;
+  virtual void Jacobian( const VectorType& pt, MatrixType& J, const MatrixType* pshapeD = 0 ) const;
 
   /**
    * Compute the determinant of the Jacobian matrix
@@ -440,8 +441,10 @@ public:
    * coordinate system.
    *
    * \param pt Point in local element coordinates.
+   * \param pJ Optional pointer to Jacobian matrix computed at point pt. If this
+   *           is set to 0, the Jacobian will be computed as necessary.
    */
-  virtual Float JacobianDeterminant( VectorType pt ) const;
+  virtual Float JacobianDeterminant( const VectorType& pt, const MatrixType* pJ = 0 ) const;
 
   /**
    * Compute the inverse of the Jacobian matrix
@@ -454,7 +457,7 @@ public:
    * \param pJ Optional pointer to Jacobian matrix computed at point pt. If this
    *           is set to 0, the Jacobian will be computed as necessary.
    */
-  virtual void JacobianInverse( VectorType pt, MatrixType& invJ, MatrixType* pJ ) const;
+  virtual void JacobianInverse( const VectorType& pt, MatrixType& invJ, const MatrixType* pJ = 0 ) const;
 
 
 
