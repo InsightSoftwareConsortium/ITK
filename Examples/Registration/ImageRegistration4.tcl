@@ -19,30 +19,26 @@
 package require InsightToolkit
 package require itkinteraction
 
-set inputFixedImageFileName  "BrainProtonDensitySliceR10X13Y17.png"
-set inputMovingImageFileName  "BrainT1SliceBorder20.png"
+set registration       [ itkImageRegistrationMethodF2F2_New ]
+set imageMetric        [ itkMattesMutualInformationImageToImageMetricF2F2_New ]
+set transform          [ itkTranslationTransform2_New ]
+set optimizer          [ itkRegularStepGradientDescentOptimizer_New ]
+set interpolator       [ itkLinearInterpolateImageFunctionF2D_New  ]
 
-set registration       [ itk::create ImageRegistrationMethodF2 ]
-set imageMetric        [ itk::create MattesMutualInformationImageToImageMetricF2 ]
-set transform          [ itk::create TranslationTransform2 ]
-set optimizer          [ itk::create RegularStepGradientDescentOptimizer ]
-set interpolator       [ itk::create LinearInterpolateImageFunctionF2  ]
+$imageMetric    SetNumberOfHistogramBins      20
+$imageMetric    SetNumberOfSpatialSamples  10000
+
+$registration   SetOptimizer      [ $optimizer GetPointer ]
+$registration   SetTransform      [ $transform GetPointer ]
+$registration   SetInterpolator   [ $interpolator GetPointer ]
+$registration   SetMetric         [ $imageMetric GetPointer ]
 
 
-$registration   SetOptimizer      $optimizer
-$registration   SetTransform      $transform
-$registration   SetInterpolator   $interpolator
-$registration   SetMetric         $imageMetric
+set fixedImageReader   [ itkImageFileReaderF2_New ]
+set movingImageReader  [ itkImageFileReaderF2_New ]
 
-
-set fixedImageReader   [ itk::create ImageFileReaderF2 ]
-set movingImageReader  [ itk::create ImageFileReaderF2 ]
-
-$fixedImageReader    SetFileName  $inputFixedImageFileName 
-$movingImageReader   SetFileName  $inputMovingImageFileName
-
-$registration  SetFixedImage    [  $fixedImageReader  GetOutput  ]
-$registration  SetMovingImage   [  $movingImageReader GetOutput  ]
+$fixedImageReader    SetFileName  [lindex $argv 0]
+$movingImageReader   SetFileName  [lindex $argv 1]
 
 $fixedImageReader    Update
 $movingImageReader   Update
@@ -50,7 +46,12 @@ $movingImageReader   Update
 set fixedImage  [ $fixedImageReader GetOutput  ]
 set movingImage [ $movingImageReader GetOutput ]
 
-$registration  SetFixedImageRegion   [ $fixedImage  GetBufferedRegion ]
+$registration  SetFixedImage    $fixedImage  
+$registration  SetMovingImage   $movingImage 
+
+set fixedImageRegion [ $fixedImage  GetBufferedRegion ]
+
+$registration  SetFixedImageRegion   $fixedImageRegion
 
 $transform SetIdentity
 set initialParameters [ $transform GetParameters ]
@@ -60,7 +61,7 @@ $registration  SetInitialTransformParameters  $initialParameters
 
 
 $optimizer  SetMaximumStepLength  4.00
-$optimizer  SetMinimumStepLength  0.01
+$optimizer  SetMinimumStepLength  0.005
 $optimizer  SetNumberOfIterations  200
 
 
@@ -87,7 +88,7 @@ puts "Translation Y =  [$finalParameters () 1]"
 # Now, 
 # we use the final transform for resampling the
 # moving image.
-set resampler [itk::create ResampleImageFilterF2 ]
+set resampler [itkResampleImageFilterF2F2_New ]
 
 $resampler SetTransform $transform
 $resampler SetInput     $movingImage
@@ -100,9 +101,9 @@ $resampler SetOutputSpacing [ $fixedImage GetSpacing ]
 $resampler SetOutputOrigin  [ $fixedImage GetOrigin  ]
 $resampler SetDefaultPixelValue 100
 
-set writer [ itk::create ImageFileWriterF2 ]
+set writer [ itkImageFileWriterF2_New ]
 
-$writer SetFileName "ResampledImage.mhd"
+$writer SetFileName [lindex $argv 3]
 $writer SetInput [ $resampler GetOutput ]
 $writer Update
 
