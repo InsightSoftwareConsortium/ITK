@@ -64,7 +64,7 @@ ENDIF(WIN32)
 
 # Need nsl to resolve gethostbyname on SunOS-5.8
 IF(CMAKE_SYSTEM MATCHES "SunOS.*")
-  TARGET_LINK_LIBRARIES(itkgdcm nsl)
+  TARGET_LINK_LIBRARIES(itkgdcm socket nsl)
 ENDIF(CMAKE_SYSTEM MATCHES "SunOS.*")
 
 
