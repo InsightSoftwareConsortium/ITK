@@ -34,4 +34,5 @@ itkUnsupervisedClassifierTest
 itkGibbsTest
 itkDeformableTest
 itkVoronoi2DDiagramTest
+itkVoronoiSegmentationImageFilterTest
 )
