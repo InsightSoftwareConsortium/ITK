@@ -46,7 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkPlaheImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
@@ -215,7 +215,7 @@ PlaheImageFilter<TPixel, VImageDimension>
   
   // Iterators which will travel the center area, not boundary of the image.
   // "it" is for input image and itOut is for output image
-  SimpleImageRegionIterator<ImageFloatType> it(inputFloat, region);
+  ImageRegionIteratorWithIndex<ImageFloatType> it(inputFloat, region);
   ImageRegionIterator<Image<TPixel, VImageDimension> > itOut(output, region);
  
   // Assign the size of the window

@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkFileIOToImageFilter_txx
 
 #include "itkObjectFactory.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
@@ -131,7 +131,7 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
   m_OutputImage->SetSpacing( m_IO->GetSpacing() );
 
   typedef typename TOutputImage::PixelType  OutputPixelType;
-  typedef SimpleImageRegionIterator< TOutputImage> IteratorType;
+  typedef ImageRegionIteratorWithIndex< TOutputImage> IteratorType;
 
   IteratorType it(m_OutputImage,
                   m_OutputImage->GetLargestPossibleRegion());

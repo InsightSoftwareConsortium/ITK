@@ -184,8 +184,8 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
 
 
-  SimpleImageRegionIterator< TInputImage >  it( inputImage,  region );
-  SimpleImageRegionIterator< TOutputImage > ot( voronoiMap,  region );
+  ImageRegionIteratorWithIndex< TInputImage >  it( inputImage,  region );
+  ImageRegionIteratorWithIndex< TOutputImage > ot( voronoiMap,  region );
 
   it.Begin();
   ot.Begin();
@@ -231,7 +231,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   distanceComponents->Allocate();
 
-  SimpleImageRegionIterator< VectorImageType >  ct( distanceComponents,  region );
+  ImageRegionIteratorWithIndex< VectorImageType >  ct( distanceComponents,  region );
 
   typename VectorImageType::PixelType maxValue;
   typename VectorImageType::PixelType minValue;
@@ -278,9 +278,9 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   typename OutputImageType::RegionType region  = voronoiMap->GetRequestedRegion();
 
-  SimpleImageRegionIterator< OutputImageType >  ot( voronoiMap,          region );
-  SimpleImageRegionIterator< VectorImageType >  ct( distanceComponents,  region );
-  SimpleImageRegionIterator< OutputImageType >  dt( distanceMap,         region );
+  ImageRegionIteratorWithIndex< OutputImageType >  ot( voronoiMap,          region );
+  ImageRegionIteratorWithIndex< VectorImageType >  ct( distanceComponents,  region );
+  ImageRegionIteratorWithIndex< OutputImageType >  dt( distanceMap,         region );
 
   ot.Begin();
   ct.Begin();

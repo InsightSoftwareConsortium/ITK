@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkImageFileReader_txx
 
 #include "itkObjectFactory.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
@@ -194,7 +194,7 @@ void ImageFileReader<TOutputImage>::GenerateData()
       }
 
     // Perform the type conversion
-    typedef SimpleImageRegionIterator< TOutputImage> IteratorType;
+    typedef ImageRegionIteratorWithIndex< TOutputImage> IteratorType;
 
     IteratorType it(m_OutputImage,
                     m_OutputImage->GetLargestPossibleRegion());

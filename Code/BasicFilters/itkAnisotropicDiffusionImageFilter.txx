@@ -44,7 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkRegionNonBoundaryNeighborhoodIterator.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
 #include "itkDerivativeOperator.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkNeighborhoodAlgorithm.h"
 namespace itk
 {
@@ -55,8 +55,8 @@ void UpdateStrategyScalar<TInputImage, TOutputImage>
 {
   TInputImage *ip = static_cast<TInputImage *>(d1);
   TOutputImage *op = static_cast<TOutputImage *>(d2);
-  SimpleImageRegionIterator<TInputImage> in(ip, op->GetRequestedRegion());
-  SimpleImageRegionIterator<TOutputImage> out(op, op->GetRequestedRegion());
+  ImageRegionIteratorWithIndex<TInputImage> in(ip, op->GetRequestedRegion());
+  ImageRegionIteratorWithIndex<TOutputImage> out(op, op->GetRequestedRegion());
   in.Begin();
   out.Begin();
 
@@ -74,8 +74,8 @@ void CopyStrategyScalar<TInputImage, TOutputImage>
 {
   TInputImage *ip  = static_cast<TInputImage *>(d1);
   TOutputImage *op = static_cast<TOutputImage *>(d2);
-  SimpleImageRegionIterator<TInputImage>  in(ip, op->GetRequestedRegion());
-  SimpleImageRegionIterator<TOutputImage> out(op, op->GetRequestedRegion());
+  ImageRegionIteratorWithIndex<TInputImage>  in(ip, op->GetRequestedRegion());
+  ImageRegionIteratorWithIndex<TOutputImage> out(op, op->GetRequestedRegion());
   in.Begin();
   out.Begin();
 
