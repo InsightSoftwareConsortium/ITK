@@ -41,7 +41,7 @@ ImageToListAdaptor< TImage >
 }
 
 template < class TImage >
-ImageToListAdaptor< TImage >::ImagePointer
+typename ImageToListAdaptor< TImage >::ImagePointer
 ImageToListAdaptor< TImage >
 ::GetImage() 
 {
@@ -85,7 +85,7 @@ ImageToListAdaptor< TImage >
 
 
 template < class TImage >
-inline ImageToListAdaptor< TImage >::MeasurementVectorType&
+inline typename ImageToListAdaptor< TImage >::MeasurementVectorType&
 ImageToListAdaptor< TImage >
 ::GetMeasurementVector(const InstanceIdentifier &id)
 {
@@ -93,7 +93,7 @@ ImageToListAdaptor< TImage >
 }
 
 template < class TImage >
-inline ImageToListAdaptor< TImage >::FrequencyType
+inline typename ImageToListAdaptor< TImage >::FrequencyType
 ImageToListAdaptor< TImage >
 ::GetFrequency(const InstanceIdentifier &id) const 
 {
@@ -101,7 +101,7 @@ ImageToListAdaptor< TImage >
 }
 
 template < class TImage >
-ImageToListAdaptor< TImage >::FrequencyType
+typename ImageToListAdaptor< TImage >::FrequencyType
 ImageToListAdaptor< TImage >
 ::GetTotalFrequency(const unsigned int &dim) const
 { 

@@ -287,11 +287,11 @@ VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerType>
 
 
 template<class TVisitedClass, class TVisitorBase, class TVisitFunctionPointerType>
-VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerType>::VisitFunctionPointerType
+typename VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerType>::VisitFunctionPointerType
 VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerType>
 ::Visit(VisitorBasePointer l)
 {
-  VisitorsArrayType::const_iterator i = Instance().visitors.find(&typeid(*l));
+  typename VisitorsArrayType::const_iterator i = Instance().visitors.find(&typeid(*l));
   if( i==Instance().visitors.end() )
   {
     // Visitor function not found... FIXME: write the proper error handler.

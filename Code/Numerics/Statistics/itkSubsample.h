@@ -70,7 +70,7 @@ public:
   void InitializeWithAllInstances()
   {
     m_IdHolder.resize(m_Sample->Size()) ;
-    InstanceIdentifierHolder::iterator idIter = m_IdHolder.begin() ;
+    typename InstanceIdentifierHolder::iterator idIter = m_IdHolder.begin() ;
     typename TSample::Iterator iter = m_Sample->Begin() ;
     typename TSample::Iterator last = m_Sample->End() ;
     

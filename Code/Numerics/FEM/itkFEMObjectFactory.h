@@ -125,7 +125,7 @@ public:
   static int ClassName2ID(StrClassName str)
   {
     int j=0;
-    for(COF_Array::const_iterator i=Instance().cofs_.begin(); i!=Instance().cofs_.end(); i++) {
+    for(typename COF_Array::const_iterator i=Instance().cofs_.begin(); i!=Instance().cofs_.end(); i++) {
       if (i->second==str) return j;
       j++;
     }

@@ -102,10 +102,10 @@ public:
  * Find function for for non-const objects
  */
 template<class T>
-FEMPArray<T>::ClassTypePointer FEMPArray<T>::Find(int gn)
+typename FEMPArray<T>::ClassTypePointer FEMPArray<T>::Find(int gn)
 {
 
-  Superclass::iterator i;
+  typename Superclass::iterator i;
 
   /**
    * First take a guess. This only works on sorted
@@ -113,7 +113,7 @@ FEMPArray<T>::ClassTypePointer FEMPArray<T>::Find(int gn)
    */
   if( gn<0 ||
       gn>=(int)size() ||
-      ( *( i=static_cast<Superclass::iterator>(&this->operator[](gn)) ) )->GN!=gn )
+      ( *( i=static_cast<typename Superclass::iterator>(&this->operator[](gn)) ) )->GN!=gn )
   {
     /** 
      * The array is not sorted, we need to search for the correct GN.
@@ -143,14 +143,14 @@ FEMPArray<T>::ClassTypePointer FEMPArray<T>::Find(int gn)
  * Find function for for const objects
  */
 template<class T>
-FEMPArray<T>::ClassTypeConstPointer FEMPArray<T>::Find(int gn) const
+typename FEMPArray<T>::ClassTypeConstPointer FEMPArray<T>::Find(int gn) const
 {
 
-  Superclass::const_iterator i;
+  typename Superclass::const_iterator i;
 
   if( gn<0 ||
       gn>=(int)size() ||
-      ( *( i=static_cast<Superclass::const_iterator>(&this->operator[](gn)) ) )->GN!=gn )
+      ( *( i=static_cast<typename Superclass::const_iterator>(&this->operator[](gn)) ) )->GN!=gn )
   {
     for(i=begin(); i!=end() && (*i)->GN!=gn; i++);
     if(i==end())
@@ -171,7 +171,7 @@ template<class T>
 int FEMPArray<T>::Renumber() 
 {
 
-  Superclass::iterator i;
+  typename Superclass::iterator i;
   int j=0;
 
   for(i=begin(); i!=end(); i++)
