@@ -104,7 +104,7 @@ public:
   
   unsigned int GetClassLabel(const InstanceIdentifier &id) const ;
 
-  int GetClassSampleSize(const unsigned int &classLabel) const ;
+  unsigned int GetClassSampleSize(const unsigned int &classLabel) const ;
 
   ClassSamplePointer GetClassSample(const unsigned int &classLabel) ;
   

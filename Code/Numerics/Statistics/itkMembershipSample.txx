@@ -95,7 +95,7 @@ MembershipSample< TSample >
 }
 
 template< class TSample >
-int
+unsigned int
 MembershipSample< TSample >
 ::GetClassSampleSize(const unsigned int &classLabel) const
 {
