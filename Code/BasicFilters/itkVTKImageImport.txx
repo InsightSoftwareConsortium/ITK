@@ -222,12 +222,18 @@ VTKImageImport<TOutputImage>
     }
   if (m_NumberOfComponentsCallback)
     {
-    unsigned int components =
+    const unsigned int components =
       (m_NumberOfComponentsCallback)(m_CallbackUserData);
-    if(components != 1)
+
+    typedef typename TOutputImage::PixelType                 PixelType;
+    typedef typename PixelTraits< PixelType >::ValueType    ScalarType;
+
+    const unsigned int estimatedNumberOfComponents = sizeof( PixelType ) / sizeof( ScalarType );
+
+    if(components != estimatedNumberOfComponents)
       {
       itkExceptionMacro(<< "Input number of components is " << components
-                        << " but should be 1.");
+                        << " but should be " << estimatedNumberOfComponents);
       }
     }
   if (m_ScalarTypeCallback)
