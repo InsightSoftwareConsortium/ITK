@@ -33,7 +33,7 @@
 //  typedefs and operator overloads are in place.  As a general rule, follow
 //  the example of \doxygen{Vector} in defining your data types.
 //
-//  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter|textbf}
+//  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter}
 //
 //  Software Guide : EndLatex 
 
@@ -50,7 +50,7 @@
 //
 //  The first step required to use this filter is to include its header file.
 //
-//  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!header}
+//  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!header}
 //
 //  Software Guide : EndLatex 
 
@@ -98,9 +98,9 @@ int main( int argc, char * argv[] )
   //  output image types. The filter object is created by the \code{New()}
   //  method.
   //
-  //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!instantiation}
-  //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!New()}
-  //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!Pointer}
+  //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!instantiation}
+  //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!New()}
+  //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -142,11 +142,11 @@ int main( int argc, char * argv[] )
   //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.
   //  The filter can be executed by invoking \code{Update()}.
   //
-  //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!Update()}
-  //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!SetTimeStep()}
-  //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!SetNumberOfIterations()}
-  //  \index{SetTimeStep()!itk::VectorCurvatureAnisotropicDiffusionImageFilter}
-  //  \index{SetNumberOfIterations()!itk::VectorCurvatureAnisotropicDiffusionImageFilter}
+  //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!Update()}
+  //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!SetTimeStep()}
+  //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!SetNumberOfIterations()}
+  //  \index{SetTimeStep()!itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter}
+  //  \index{SetNumberOfIterations()!itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter}
   //
   //  Software Guide : EndLatex 
 
