@@ -17,17 +17,30 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkConstShapedNeighborhoodIterator.h"
-#include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include <math.h>
 
 // Software Guide : BeginLatex
-//  EROSION
+//
+// This example uses \doxygen{ShapedNeighborhoodIterator} to implement a binary
+// erosion algorithm.  If we think of an image $I$ as a set of pixel indicies,
+// then erosion of $I$ by a smaller set $E$, called the \emph{structuring
+// element}, is the set of all indicies at locations $x$ in $I$ such that when
+// $E$ is positioned at $x$, every element in $E$ is also contained in $I$.
+//
+// This type of algorithm is easy to implement with shaped neighborhood
+// iterators because we can use the iterator itself as the structuring element
+// $E$ and move it sequentially through all positions $x$.  The result at $x$
+// is obtained by a simple iteration through the neighborhood stencil.
+//
+// We need two iterators, a shaped iterator for the input image and a regular
+// image iterator for writing results to the output image. 
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-
+#include "itkConstShapedNeighborhoodIterator.h"
+#include "itkImageRegionIterator.h"
 // Software Guide : EndCodeSnippet
 
 int main( int argc, char ** argv )
