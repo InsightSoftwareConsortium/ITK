@@ -265,7 +265,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSegmentationBorder.h"
 #include "itkSegmentationLevelSetFunction.txx"
 #include "itkSegmentationRegion.h"
-#include "itkSemaphore.h"
 #include "itkShapeSignedDistanceFunction.h"
 #include "itkShapedNeighborhoodIterator.txx"
 #include "itkSimilarity2DTransform.txx"
