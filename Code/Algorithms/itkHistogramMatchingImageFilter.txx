@@ -159,13 +159,13 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
 
   if ( m_ThresholdAtMeanIntensity )
     {
-    m_SourceIntensityThreshold    = m_SourceMeanValue;
-    m_ReferenceIntensityThreshold = m_ReferenceMeanValue;
+    m_SourceIntensityThreshold    = static_cast<InputPixelType>(m_SourceMeanValue);
+    m_ReferenceIntensityThreshold = static_cast<InputPixelType>(m_ReferenceMeanValue);
     }
   else
     {
-    m_SourceIntensityThreshold    = m_SourceMinValue;
-    m_ReferenceIntensityThreshold = m_ReferenceMinValue;
+    m_SourceIntensityThreshold    = static_cast<InputPixelType>(m_SourceMinValue);
+    m_ReferenceIntensityThreshold = static_cast<InputPixelType>(m_ReferenceMinValue);
     }
 
   this->ConstructHistogram( source, sourceHistogram, 
