@@ -218,7 +218,7 @@ void TclGenerator::GeneratePackageInitializer()
     "int " << tclName.c_str() << "_Init(Tcl_Interp* interp)\n"
     "{\n"
     "  // Make sure a WrapperFacility has been initialized for this interpreter.\n"
-    "  if(!Tcl_PkgRequire(interp, \"Wrap\", \"1.0\", 0))\n"
+    "  if(!Tcl_PkgRequire(interp, \"WrapTclFacility\", \"1.0\", 0))\n"
     "    {\n"
     "    return TCL_ERROR;\n"
     "    }\n"
