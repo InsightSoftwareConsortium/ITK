@@ -71,7 +71,7 @@ int itkVotingBinaryImageFilterTest(int, char* [] )
   neighRadius[1] = 1;
   voting->SetRadius(neighRadius);
 
-  voting->SetBornThreshold( 5 );
+  voting->SetBirthThreshold( 5 );
   voting->SetSurvivalThreshold( 0 );
 
   // run the algorithm

@@ -85,10 +85,10 @@ public:
   itkGetConstReferenceMacro(BackgroundValue, InputPixelType);
   itkGetConstReferenceMacro(ForegroundValue, InputPixelType);
  
-  /** Born threshold. Pixels that are OFF will turn ON when the number of
+  /** Birth threshold. Pixels that are OFF will turn ON when the number of
    * neighbors ON is larger than the value defined in this threshold. */
-  itkGetConstReferenceMacro(BornThreshold, InputPixelType);
-  itkSetMacro(BornThreshold, InputPixelType);
+  itkGetConstReferenceMacro(BirthThreshold, InputPixelType);
+  itkSetMacro(BirthThreshold, InputPixelType);
 
   /** Survival threshold. Pixels that are ON will turn OFF when the number of
    * neighbors ON is smaller than the value defined in this survival threshold. */
@@ -130,7 +130,7 @@ private:
   InputPixelType     m_ForegroundValue;
   InputPixelType     m_BackgroundValue;
 
-  InputPixelType     m_BornThreshold;
+  InputPixelType     m_BirthThreshold;
   InputPixelType     m_SurvivalThreshold;
 };
   
