@@ -1,6 +1,8 @@
 #ifndef _cxxTypes_h
 #define _cxxTypes_h
 
+#pragma warning (disable: 4786)
+
 #include <string>
 
 namespace _cxx_

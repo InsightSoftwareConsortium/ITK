@@ -190,41 +190,48 @@ TypeSystem
 TypeSystem
 ::~TypeSystem()
 {
+  {
   for(ArrayTypeMap::iterator i = m_ArrayTypeMap.begin();
       i != m_ArrayTypeMap.end(); ++i)
     {
     delete i->second;
     }
-  
+  }
+  {
   for(ClassTypeMap::iterator i = m_ClassTypeMap.begin();
       i != m_ClassTypeMap.end(); ++i)
     {
     delete i->second;
     }
-  
+  }
+  {
   for(FundamentalTypeMap::iterator i = m_FundamentalTypeMap.begin();
       i != m_FundamentalTypeMap.end(); ++i)
     {
     delete i->second;
     }
-  
+  }
+  {
   for(PointerTypeMap::iterator i = m_PointerTypeMap.begin();
       i != m_PointerTypeMap.end(); ++i)
     {
     delete i->second;
     }
-  
+  }
+  {
   for(PointerToMemberTypeMap::iterator i = m_PointerToMemberTypeMap.begin();
       i != m_PointerToMemberTypeMap.end(); ++i)
     {
     delete i->second;
     }
-  
+  }
+  {
   for(ReferenceTypeMap::iterator i = m_ReferenceTypeMap.begin();
       i != m_ReferenceTypeMap.end(); ++i)
     {
     delete i->second;
     }
+  }
 }
 
 

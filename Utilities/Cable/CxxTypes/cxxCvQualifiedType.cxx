@@ -94,8 +94,8 @@ CvQualifiedType
   else // if(m_Type == r.m_Type)
     {
     // The base type is the same.  Compare the cv-qualifiers.
-    unsigned char lhs = ((m_Const << 1) | m_Volatile);
-    unsigned char rhs = ((r.m_Const << 1) | r.m_Volatile);
+    int lhs = (int(m_Const << 1) | int(m_Volatile));
+    int rhs = (int(r.m_Const << 1) | int(r.m_Volatile));
     return (lhs < rhs);
     }
 }

@@ -1,9 +1,9 @@
 #ifndef _cxxCvQualifiedType_h
 #define _cxxCvQualifiedType_h
 
-#include <list>
-
 #include "cxxType.h"
+
+#include <list>
 
 namespace _cxx_
 {

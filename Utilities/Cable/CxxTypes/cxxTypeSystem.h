@@ -1,10 +1,10 @@
 #ifndef _cxxTypeSystem_h
 #define _cxxTypeSystem_h
 
-#include <map>
-
 // Include all the type representations.
 #include "cxxTypes.h"
+
+#include <map>
 
 namespace _cxx_
 {
