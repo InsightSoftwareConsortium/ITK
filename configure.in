@@ -591,6 +591,18 @@ AC_SUBST(BUILDNAME)
 # Create all the Makefiles and CMakeTargets.make files for
 # sub directories found in CMakeLists.txt files
 
+
+# Testing system configuration
+AC_CHECK_PROGS(MAKECOMMAND, gmake make)
+AC_CHECK_PROGS(CVSCOMMAND, cvs )
+AC_CHECK_PROGS(GREPCOMMAND, grep )
+AC_CHECK_PROGS(COMPRESSIONCOMMAND, gzip compress zip )
+
+AC_SUBST(MAKECOMMAND)
+AC_SUBST(CVSCOMMAND)
+AC_SUBST(GREPCOMMAND)
+AC_SUBST(COMPRESSIONCOMMAND)
+
 AC_OUTPUT(
 Makefile
 CMakeTargets.make:CMake/CMakeTargets.make.in 
@@ -602,6 +614,11 @@ CMake/Source/CMakeTargets.make:CMake/dummy.in
 CMake/Source/Makefile
 $SUBDIR_MAKEFILES
 $SUBDIR_CMAKE_TARGETS
+Testing/Utilities/Build.tcl
+Testing/Utilities/Utility.conf
+Testing/Utilities/Utility.tcl
+Testing/Utilities/Test.tcl
+
 )
 
 #
