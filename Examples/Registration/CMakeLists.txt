@@ -62,6 +62,9 @@ IF(NOT BORLAND)
   ADD_EXECUTABLE(ImageRegistration16 ImageRegistration16.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistration16 ITKStatistics ITKNumerics ITKIO)
 
+  ADD_EXECUTABLE(DeformableRegistration6 DeformableRegistration6.cxx )
+  TARGET_LINK_LIBRARIES(DeformableRegistration6 ITKNumerics ITKIO)
+
   ADD_EXECUTABLE(DeformableRegistration7 DeformableRegistration7.cxx )
   TARGET_LINK_LIBRARIES(DeformableRegistration7 ITKNumerics ITKIO)
 
@@ -90,9 +93,6 @@ TARGET_LINK_LIBRARIES(DeformableRegistration4 ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(DeformableRegistration5 DeformableRegistration5.cxx )
 TARGET_LINK_LIBRARIES(DeformableRegistration5 ITKNumerics ITKIO)
-
-ADD_EXECUTABLE(DeformableRegistration6 DeformableRegistration6.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration6 ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(DeformationFieldInitialization DeformationFieldInitialization.cxx )
 TARGET_LINK_LIBRARIES(DeformationFieldInitialization ITKNumerics ITKIO)
