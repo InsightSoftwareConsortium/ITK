@@ -247,40 +247,58 @@ protected:
   void operator=(const ProcessObject&) {};
   void PrintSelf(std::ostream& os, Indent indent);
   
-  // protected methods for setting inputs.
+  /**
+   * protected methods for setting inputs.
+   */
   virtual void SetNthInput(unsigned int num, DataObject *input);
   virtual void AddInput(DataObject *input);
   virtual void RemoveInput(DataObject *input);
   itkSetMacro(NumberOfRequiredInputs,unsigned int);
   itkGetMacro(NumberOfRequiredInputs,unsigned int);
 
-  // protected methods for setting outputs.
+  /**
+   * protected methods for setting outputs.
+   */
   virtual void SetNthOutput(unsigned int num, DataObject *output);
   virtual void AddOutput(DataObject *output);
   virtual void RemoveOutput(DataObject *output);
   itkSetMacro(NumberOfRequiredOutputs,unsigned int);
   itkGetMacro(NumberOfRequiredOutputs,unsigned int);
 
-  // Execute the algorithm
+  /**
+   * Execute the algorithm
+   */
   virtual void Execute() {};
 
-  // Called to allocate the input array.  Copies old inputs.
+  /**
+   * Called to allocate the input array.  Copies old inputs.
+   */
   void SetNumberOfInputs(unsigned int num);
 
-  // method used internally for getting an input.
+  /**
+   * method used internally for getting an input.
+   */
   DataObject *GetInput(unsigned int idx);
 
-  // Called to allocate the output array.  Copies old outputs.
+  /**
+   * Called to allocate the output array.  Copies old outputs.
+   */
   void SetNumberOfOutputs(unsigned int num);
 
-  // method used internally for getting an output.
+  /**
+   * method used internally for getting an output.
+   */
   DataObject *GetOutput(unsigned int idx);
 
-  // By default, UpdateInformation calls this method to copy information
-  // unmodified from the input to the output.
+  /**
+   * By default, UpdateInformation calls this method to copy information
+   * unmodified from the input to the output.
+   */
   virtual void ExecuteInformation();
 
-    // Callbacks to be called during pipeline execution
+  /**
+   * Callbacks to be called during pipeline execution
+   */
   void (*m_StartMethod)(void *);
   void (*m_StartMethodArgDelete)(void *);
   void *m_StartMethodArg;
@@ -292,21 +310,33 @@ protected:
   void *m_EndMethodArg;
 
 private:
-
-  DataObject **m_Inputs;     // An Array of the inputs to the filter
+  /**
+   * An Array of the inputs to the filter
+   */
+  DataObject **m_Inputs;
   unsigned int m_NumberOfInputs;
   unsigned int m_NumberOfRequiredInputs;
 
-  DataObject **m_Outputs;   // An Array of the outputs to the filter
+  /**
+   * An Array of the outputs to the filter
+   */
+  DataObject **m_Outputs;
   unsigned int m_NumberOfOutputs;
   unsigned int m_NumberOfRequiredOutputs;
 
-  bool m_Updating; // This flag indicates when the pipeline is executing
+  /**
+   * This flag indicates when the pipeline is executing
+   */
+  bool m_Updating;
 
-  // Time when ExecuteInformation was last called.
+  /**
+   * Time when ExecuteInformation was last called.
+   */
   TimeStamp m_InformationTime;
 
-  // These support the progress method and aborting filter execution
+  /**
+   * These support the progress method and aborting filter execution
+   */
   bool  m_AbortExecute;
   float m_Progress;
 

@@ -114,28 +114,38 @@ ProcessObject
   unsigned int idx;
   DataObjectPointer *inputs;
 
-  // in case nothing has changed.
+  /**
+   * in case nothing has changed.
+   */
   if (num == m_NumberOfInputs)
     {
     return;
     }
   
-  // Allocate new arrays.
+  /**
+   * Allocate new arrays.
+   */
   inputs = new DataObjectPointer[num];
 
-  // Initialize with NULLs.
+  /**
+   * Initialize with NULLs.
+   */
   for (idx = 0; idx < num; ++idx)
     {
     inputs[idx] = NULL;
     }
 
-  // Copy old inputs
+  /**
+   * Copy old inputs
+   */
   for (idx = 0; idx < num && idx < m_NumberOfInputs; ++idx)
     {
     inputs[idx] = m_Inputs[idx];
     }
   
-  // delete the previous arrays
+  /**
+   * delete the previous arrays
+   */
   if (m_Inputs)
     {
     delete [] m_Inputs;
@@ -143,16 +153,20 @@ ProcessObject
     m_NumberOfInputs = 0;
     }
   
-  // Set the new arrays
+  /**
+   * Set the new arrays
+   */
   m_Inputs = inputs;
   
   m_NumberOfInputs = num;
   this->Modified();
 }
 
-//----------------------------------------------------------------------------
-// Adds an input to the first null position in the input list.
-// Expands the list memory if necessary
+
+/**
+ * Adds an input to the first null position in the input list.
+ * Expands the list memory if necessary
+ */
 void 
 ProcessObject
 ::AddInput(DataObject *input)
@@ -178,9 +192,11 @@ ProcessObject
   m_Inputs[m_NumberOfInputs - 1] = input;
 }
 
-//----------------------------------------------------------------------------
-// Adds an input to the first null position in the input list.
-// Expands the list memory if necessary
+
+/**
+ * Adds an input to the first null position in the input list.
+ * Expands the list memory if necessary
+ */
 void 
 ProcessObject
 ::RemoveInput(DataObject *input)
@@ -192,7 +208,9 @@ ProcessObject
     return;
     }
   
-  // find the input in the list of inputs
+  /**
+   * find the input in the list of inputs
+   */
   int loc = -1;
   for (idx = 0; idx < m_NumberOfInputs; ++idx)
     {
@@ -210,7 +228,9 @@ ProcessObject
   m_Inputs[loc]->UnRegister();
   m_Inputs[loc] = NULL;
 
-  // if that was the last input, then shrink the list
+  /**
+   * if that was the last input, then shrink the list
+   */
   if (loc == int(m_NumberOfInputs) - 1 )
     {
     this->SetNumberOfInputs(m_NumberOfInputs - 1);
@@ -219,8 +239,10 @@ ProcessObject
   this->Modified();
 }
 
-//----------------------------------------------------------------------------
-// Set an Input of this filter. 
+
+/**
+ * Set an Input of this filter. 
+ */
 void 
 ProcessObject
 ::SetNthInput(unsigned int idx, DataObject *input)
@@ -230,13 +252,17 @@ ProcessObject
     itkErrorMacro(<< "SetNthInput: " << idx << ", cannot set input. ");
     return;
     }
-  // Expand array if necessary.
+  /**
+   * Expand array if necessary.
+   */
   if (idx >= m_NumberOfInputs)
     {
     this->SetNumberOfInputs(idx + 1);
     }
   
-  // does this change anything?
+  /**
+   * does this change anything?
+   */
   if (input == m_Inputs[idx])
     {
     return;
@@ -268,7 +294,9 @@ ProcessObject
     return;
     }
   
-  // find the output in the list of outputs
+  /**
+   * find the output in the list of outputs
+   */
   int loc = -1;
   for (idx = 0; idx < m_NumberOfOutputs; ++idx)
     {
@@ -287,7 +315,9 @@ ProcessObject
   m_Outputs[loc]->UnRegister();
   m_Outputs[loc] = NULL;
 
-  // if that was the last output, then shrink the list
+  /**
+   * if that was the last output, then shrink the list
+   */
   if (loc == int(m_NumberOfOutputs) - 1)
     {
     this->SetNumberOfOutputs(m_NumberOfOutputs - 1);
@@ -296,10 +326,12 @@ ProcessObject
   this->Modified();
 }
 
-//----------------------------------------------------------------------------
-// Set an Output of this filter. 
-// tricky because we have to manage the double pointers and keep
-// them consistent.
+
+/**
+ * Set an Output of this filter. 
+ * tricky because we have to manage the double pointers and keep
+ * them consistent.
+ */
 void 
 ProcessObject
 ::SetNthOutput(unsigned int idx, DataObject *newOutput)
@@ -311,20 +343,26 @@ ProcessObject
     itkErrorMacro(<< "SetNthOutput: " << idx << ", cannot set output. ");
     return;
     }
-  // Expand array if necessary.
+  /**
+   * Expand array if necessary.
+   */
   if (idx >= m_NumberOfOutputs)
     {
     this->SetNumberOfOutputs(idx + 1);
     }
   
-  // does this change anything?
+  /**
+   * does this change anything?
+   */
   oldOutput = m_Outputs[idx];
   if (newOutput == oldOutput)
     {
     return;
     }
   
-  // disconnect first existing source-output relationship.
+  /**
+   * disconnect first existing source-output relationship.
+   */
   if (oldOutput)
     {
     oldOutput->SetSource(NULL);
@@ -336,24 +374,31 @@ ProcessObject
     {
     ProcessObject *newOutputOldSource = newOutput->GetSource();
 
-    // Register the newOutput so it does not get deleted.
-    // Don't set the link yet until previous links is disconnected.
+    /**
+     * Register the newOutput so it does not get deleted.
+     * Don't set the link yet until previous links is disconnected.
+     */
     newOutput->Register();
     
-    // disconnect second existing source-output relationship
+    /**
+     * disconnect second existing source-output relationship
+     */
     if (newOutputOldSource)
       {
       newOutputOldSource->RemoveOutput(newOutput);
       }
     newOutput->SetSource(this);
     }
-  // now actually make the link that was registered previously.
+  /**
+   * now actually make the link that was registered previously.
+   */
   m_Outputs[idx] = newOutput;
 }
 
-//----------------------------------------------------------------------------
-// Adds an output to the first null position in the output list.
-// Expands the list memory if necessary
+/**
+ * Adds an output to the first null position in the output list.
+ * Expands the list memory if necessary
+ */
 void 
 ProcessObject
 ::AddOutput(DataObject *output)
@@ -380,7 +425,9 @@ ProcessObject
   m_Outputs[m_NumberOfOutputs - 1] = output;
 }
 
-// Called by constructor to set up output array.
+/**
+ * Called by constructor to set up output array.
+ */
 void 
 ProcessObject
 ::SetNumberOfOutputs(unsigned int num)
@@ -388,28 +435,38 @@ ProcessObject
   unsigned int idx;
   DataObject **outputs;
 
-  // in case nothing has changed.
+  /**
+   * in case nothing has changed.
+   */
   if (num == m_NumberOfOutputs)
     {
     return;
     }
   
-  // Allocate new arrays.
+  /**
+   * Allocate new arrays.
+   */
   outputs = new DataObject *[num];
 
-  // Initialize with NULLs.
+  /**
+   * Initialize with NULLs.
+   */
   for (idx = 0; idx < num; ++idx)
     {
     outputs[idx] = NULL;
     }
 
-  // Copy old outputs
+  /**
+   * Copy old outputs
+   */
   for (idx = 0; idx < num && idx < m_NumberOfOutputs; ++idx)
     {
     outputs[idx] = m_Outputs[idx];
     }
   
-  // delete the previous arrays
+  /**
+   * delete the previous arrays
+   */
   if (m_Outputs)
     {
     delete [] m_Outputs;
@@ -417,14 +474,19 @@ ProcessObject
     m_NumberOfOutputs = 0;
     }
   
-  // Set the new arrays
+  /**
+   * Set the new arrays
+   */
   m_Outputs = outputs;
   
   m_NumberOfOutputs = num;
   this->Modified();
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 DataObject *
 ProcessObject
 ::GetOutput(unsigned int i)
@@ -437,7 +499,10 @@ ProcessObject
   return m_Outputs[i];
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 DataObject *
 ProcessObject
 ::GetInput(unsigned int i)
@@ -450,10 +515,12 @@ ProcessObject
   return m_Inputs[i];
 }
 
-//------------------------------------------------------------------------
-// Update the progress of the process object. If a ProgressMethod exists, 
-// executes it. Then set the Progress ivar to amount. The parameter amount 
-// should range between (0,1).
+
+/**
+ * Update the progress of the process object. If a ProgressMethod exists, 
+ * executes it. Then set the Progress ivar to amount. The parameter amount 
+ * should range between (0,1).
+ */
 void 
 ProcessObject
 ::UpdateProgress(float amount)
@@ -465,15 +532,19 @@ ProcessObject
     }
 }
 
-//------------------------------------------------------------------------
-// Specify function to be called before object executes.
+
+/**
+ * Specify function to be called before object executes.
+ */
 void 
 ProcessObject
 ::SetStartMethod(void (*f)(void *), void *arg)
 {
   if ( f != m_StartMethod || arg != m_StartMethodArg )
     {
-    // delete the current arg if there is one and a delete meth
+    /**
+     * delete the current arg if there is one and a delete meth
+     */
     if ((m_StartMethodArg)&&(m_StartMethodArgDelete))
       {
       (*m_StartMethodArgDelete)(m_StartMethodArg);
@@ -484,15 +555,19 @@ ProcessObject
     }
 }
 
-//------------------------------------------------------------------------
-// Specify function to be called to show progress of filter
+
+/**
+ * Specify function to be called to show progress of filter
+ */
 void 
 ProcessObject
 ::SetProgressMethod(void (*f)(void *), void *arg)
 {
   if ( f != m_ProgressMethod || arg != m_ProgressMethodArg )
     {
-    // delete the current arg if there is one and a delete meth
+    /**
+     * delete the current arg if there is one and a delete meth
+     */
     if ((m_ProgressMethodArg)&&(m_ProgressMethodArgDelete))
       {
       (*m_ProgressMethodArgDelete)(m_ProgressMethodArg);
@@ -503,15 +578,19 @@ ProcessObject
     }
 }
 
-//------------------------------------------------------------------------
-// Specify function to be called after object executes.
+
+/**
+ * Specify function to be called after object executes.
+ */
 void 
 ProcessObject
 ::SetEndMethod(void (*f)(void *), void *arg)
 {
   if ( f != m_EndMethod || arg != m_EndMethodArg )
     {
-    // delete the current arg if there is one and a delete meth
+    /**
+     * delete the current arg if there is one and a delete meth
+     */
     if ((m_EndMethodArg)&&(m_EndMethodArgDelete))
       {
       (*m_EndMethodArgDelete)(m_EndMethodArg);
@@ -523,8 +602,9 @@ ProcessObject
 }
 
 
-//------------------------------------------------------------------------
-// Set the arg delete method. This is used to free user memory.
+/**
+ * Set the arg delete method. This is used to free user memory.
+ */
 void 
 ProcessObject
 ::SetStartMethodArgDelete(void (*f)(void *))
@@ -536,8 +616,10 @@ ProcessObject
     }
 }
 
-//------------------------------------------------------------------------
-// Set the arg delete method. This is used to free user memory.
+
+/**
+ * Set the arg delete method. This is used to free user memory.
+ */
 void 
 ProcessObject
 ::SetProgressMethodArgDelete(void (*f)(void *))
@@ -549,8 +631,10 @@ ProcessObject
     }
 }
 
-//------------------------------------------------------------------------
-// Set the arg delete method. This is used to free user memory.
+
+/**
+ * Set the arg delete method. This is used to free user memory.
+ */
 void 
 ProcessObject
 ::SetEndMethodArgDelete(void (*f)(void *))
@@ -562,7 +646,10 @@ ProcessObject
     }
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 bool 
 ProcessObject
 ::GetReleaseDataFlag()
@@ -575,7 +662,10 @@ ProcessObject
   return false;
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
 ProcessObject
 ::SetReleaseDataFlag(bool val)
@@ -591,6 +681,10 @@ ProcessObject
     }
 }
 
+
+/**
+ *
+ */
 void 
 ProcessObject
 ::PrintSelf(std::ostream& os, Indent indent)
@@ -646,10 +740,15 @@ ProcessObject
 
 
 
-// The following methods are used to coordinate the execution of the
-// data processing pipeline.
+/**
+ * The following methods are used to coordinate the execution of the
+ * data processing pipeline.
+ */
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
 ProcessObject
 ::Update()
@@ -661,7 +760,9 @@ ProcessObject
 }
 
 
-//----------------------------------------------------------------------------
+/**
+ *
+ */
 void 
 ProcessObject
 ::UpdateInformation()
@@ -671,35 +772,47 @@ ProcessObject
   DataObject *input;
   DataObject *output;
 
-  // Watch out for loops in the pipeline
+  /**
+   * Watch out for loops in the pipeline
+   */
   if ( m_Updating )
     {
-    // Since we are in a loop, we will want to update. But if
-    // we don't modify this filter, then we will not execute
-    // because our InformationTime will be more recent than
-    // the MTime of our output.
+    /**
+     * Since we are in a loop, we will want to update. But if
+     * we don't modify this filter, then we will not execute
+     * because our InformationTime will be more recent than
+     * the MTime of our output.
+     */
     this->Modified();
     return;
     }
 
-  // The MTime of this source will be used in determine the PipelineMTime
-  // for the outputs
+  /**
+   * The MTime of this source will be used in determine the PipelineMTime
+   * for the outputs
+   */
   t1 = this->GetMTime();
 
-  // Loop through the inputs
+  /**
+   * Loop through the inputs
+   */
   for (idx = 0; idx < m_NumberOfInputs; ++idx)
     {
     if (m_Inputs[idx] != NULL)
       {
       input = m_Inputs[idx];
 
-      // Propagate the UpdateInformation call
+      /**
+       * Propagate the UpdateInformation call
+       */
       m_Updating = true;
       input->UpdateInformation();
       m_Updating = false;
       
-      // What is the PipelineMTime of this input? Compare this against
-      // our current computation to find the largest one.
+      /**
+       * What is the PipelineMTime of this input? Compare this against
+       * our current computation to find the largest one.
+       */
       t2 = input->GetPipelineMTime();
 
       if (t2 > t1)
@@ -707,8 +820,10 @@ ProcessObject
         t1 = t2;
         }
 
-      // Pipeline MTime of the input does not include the MTime of the 
-      // data object itself. Factor these mtimes into the next PipelineMTime
+      /**
+       * Pipeline MTime of the input does not include the MTime of the 
+       * data object itself. Factor these mtimes into the next PipelineMTime
+       */
       t2 = input->GetMTime();
       if (t2 > t1)
         {
@@ -717,11 +832,13 @@ ProcessObject
       }
     }
 
-  // Call ExecuteInformation for subclass specific information.
-  // Since UpdateInformation propagates all the way up the pipeline,
-  // we need to be careful here to call ExecuteInformation only if necessary.
-  // Otherwise, we may cause this source to be modified which will cause it
-  // to execute again on the next update.
+  /**
+   * Call ExecuteInformation for subclass specific information.
+   * Since UpdateInformation propagates all the way up the pipeline,
+   * we need to be careful here to call ExecuteInformation only if necessary.
+   * Otherwise, we may cause this source to be modified which will cause it
+   * to execute again on the next update.
+   */
   if (t1 > m_InformationTime.GetMTime())
     {
     for (idx = 0; idx < m_NumberOfOutputs; ++idx)
@@ -737,34 +854,45 @@ ProcessObject
     }
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
 ProcessObject
 ::PropagateUpdateExtent(DataObject *output)
 {
-  // check flag to avoid executing forever if there is a loop
+  /**
+   * check flag to avoid executing forever if there is a loop
+   */
   if (m_Updating)
     {
     return;
     }
 
-  // Give the subclass a chance to indicate that it will provide
-  // more data then require for the output. This can happen, for
-  // example, when a source can only produce the whole output.
-  // Although this is being called for a specific output, the source
-  // may need to enlarge all outputs.
+  /**
+   * Give the subclass a chance to indicate that it will provide
+   * more data then require for the output. This can happen, for
+   * example, when a source can only produce the whole output.
+   * Although this is being called for a specific output, the source
+   * may need to enlarge all outputs.
+   */
   this->EnlargeOutputUpdateExtents( output );
 
-  // Give the subclass a chance to request a larger extent on 
-  // the inputs. This is necessary when, for example, a filter
-  // requires more data at the "internal" boundaries to 
-  // produce the boundary values - such as an image filter that
-  // derives a new pixel value by applying some operation to a 
-  // neighborhood of surrounding original values. 
+  /**
+   * Give the subclass a chance to request a larger extent on 
+   * the inputs. This is necessary when, for example, a filter
+   * requires more data at the "internal" boundaries to 
+   * produce the boundary values - such as an image filter that
+   * derives a new pixel value by applying some operation to a 
+   * neighborhood of surrounding original values. 
+   */
   this->ComputeInputUpdateExtents( output );
 
-  // Now that we know the input update extent, propogate this
-  // through all the inputs.
+  /**
+   * Now that we know the input update extent, propogate this
+   * through all the inputs.
+   */
   m_Updating = true;
   for (unsigned int idx = 0; idx < m_NumberOfInputs; ++idx)
     {
@@ -776,11 +904,12 @@ ProcessObject
   m_Updating = false;
 }
 
-//----------------------------------------------------------------------------
-// By default we require all the input to produce the output. This is
-// overridden in the subclasses since we can often produce the output with
-// just a portion of the input data.
 
+/**
+ * By default we require all the input to produce the output. This is
+ * overridden in the subclasses since we can often produce the output with
+ * just a portion of the input data.
+ */
 void 
 ProcessObject
 ::ComputeInputUpdateExtents( DataObject *itkNotUsed(output) )
@@ -794,18 +923,25 @@ ProcessObject
     }  
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
 ProcessObject
 ::TriggerAsynchronousUpdate()
 {
-  // check flag to avoid executing forever if there is a loop
+  /**
+   * check flag to avoid executing forever if there is a loop
+   */
   if (m_Updating)
     {
     return;
     }
 
-  // Propagate the trigger to all the inputs
+  /**
+   * Propagate the trigger to all the inputs
+   */
   m_Updating = true;
   for (unsigned int idx = 0; idx < m_NumberOfInputs; ++idx)
     {
@@ -817,23 +953,30 @@ ProcessObject
   m_Updating = false;
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
 ProcessObject
 ::UpdateData(DataObject *itkNotUsed(output))
 {
   unsigned int idx;
 
-  // prevent chasing our tail
+  /**
+   * prevent chasing our tail
+   */
   if (m_Updating)
     {
     return;
     }
 
-  // Propagate the update call - make sure everything we
-  // might rely on is up-to-date
-  // Must call PropagateUpdateExtent before UpdateData if multiple 
-  // inputs since they may lead back to the same data object.
+  /**
+   * Propagate the update call - make sure everything we
+   * might rely on is up-to-date
+   * Must call PropagateUpdateExtent before UpdateData if multiple 
+   * inputs since they may lead back to the same data object.
+   */
   m_Updating = true;
   if ( m_NumberOfInputs == 1 )
     {
@@ -855,7 +998,9 @@ ProcessObject
     }
   m_Updating = false;     
     
-  // Initialize all the outputs
+  /**
+   * Initialize all the outputs
+   */
   for (idx = 0; idx < m_NumberOfOutputs; idx++)
     {
     if (m_Outputs[idx])
@@ -864,14 +1009,18 @@ ProcessObject
       }
     }
  
-  // If there is a start method, call it
+  /**
+   * If there is a start method, call it
+   */
   if ( m_StartMethod )
     {
     (*m_StartMethod)(m_StartMethodArg);
     }
 
-  // Execute this object - we have not aborted yet, and our progress
-  // before we start to execute is 0.0.
+  /**
+   * Execute this object - we have not aborted yet, and our progress
+   * before we start to execute is 0.0.
+   */
   m_AbortExecute = 0;
   m_Progress = 0.0;
   if (m_NumberOfInputs < m_NumberOfRequiredInputs)
@@ -883,20 +1032,26 @@ ProcessObject
     this->Execute();
     }
 
-  // If we ended due to aborting, push the progress up to 1.0 (since
-  // it probably didn't end there)
+  /**
+   * If we ended due to aborting, push the progress up to 1.0 (since
+   * it probably didn't end there)
+   */
   if ( !m_AbortExecute )
     {
     this->UpdateProgress(1.0);
     }
 
-  // Call the end method, if there is one
+  /**
+   * Call the end method, if there is one
+   */
   if ( m_EndMethod )
     {
     (*m_EndMethod)(m_EndMethodArg);
     }
     
-  // Now we have to mark the data as up to data.
+  /**
+   * Now we have to mark the data as up to data.
+   */
   for (idx = 0; idx < m_NumberOfOutputs; ++idx)
     {
     if (m_Outputs[idx])
@@ -905,7 +1060,9 @@ ProcessObject
       }
     }
   
-  // Release any inputs if marked for release
+  /**
+   * Release any inputs if marked for release
+   */
   for (idx = 0; idx < m_NumberOfInputs; ++idx)
     {
     if (m_Inputs[idx] != NULL)
@@ -917,12 +1074,17 @@ ProcessObject
       }  
     }
   
-  // Information gets invalidated as soon as Update is called,
-  // so validate it again here.
+  /**
+   * Information gets invalidated as soon as Update is called,
+   * so validate it again here.
+   */
   m_InformationTime.Modified();
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
 ProcessObject
 ::ComputeEstimatedPipelineMemorySize(DataObject *output,
@@ -936,36 +1098,48 @@ ProcessObject
   unsigned long *inputSize = NULL;
   unsigned int idx;
 
-  // We need some space to store the input sizes if there are any inputs
+  /**
+   * We need some space to store the input sizes if there are any inputs
+   */
   if ( m_NumberOfInputs > 0 )
     {
     inputSize = new unsigned long[m_NumberOfInputs];
     }
 
-  // Get the pipeline size propagated down each input. Keep track of max
-  // pipeline size, how much memory will be required downstream from here,
-  // the size of each input, and the memory required by this filter when
-  // it executes.
+  /**
+   * Get the pipeline size propagated down each input. Keep track of max
+   * pipeline size, how much memory will be required downstream from here,
+   * the size of each input, and the memory required by this filter when
+   * it executes.
+   */
   for (idx = 0; idx < m_NumberOfInputs; ++idx)
     {
     if (m_Inputs[idx])
       {
 
-      // Get the upstream size of the pipeline, the estimated size of this
-      // input, and the maximum size seen upstream from here.
+      /**
+       * Get the upstream size of the pipeline, the estimated size of this
+       * input, and the maximum size seen upstream from here.
+       */
       m_Inputs[idx]->ComputeEstimatedPipelineMemorySize(inputPipelineSize);
 
-      // Save this input size to possibly be used when estimating output size
+      /**
+       * Save this input size to possibly be used when estimating output size
+       */
       inputSize[idx] = inputPipelineSize[1];
 
-      // Is the max returned bigger than the max we've seen so far?
+      /**
+       * Is the max returned bigger than the max we've seen so far?
+       */
       if ( inputPipelineSize[2] > maxSize )
         {
         maxSize = inputPipelineSize[2];
         }
 
-      // If we are going to release this input, then its size won't matter
-      // downstream from here.
+      /**
+       * If we are going to release this input, then its size won't matter
+       * downstream from here.
+       */
       if ( m_Inputs[idx]->ShouldIReleaseData() )
         {
         goingDownstreamSize += inputPipelineSize[0] - inputPipelineSize[1];
@@ -975,55 +1149,71 @@ ProcessObject
         goingDownstreamSize += inputPipelineSize[0];
         }
 
-      // During execution this filter will need all the input data 
+      /**
+       * During execution this filter will need all the input data 
+       */
       mySize += inputPipelineSize[0];
       }
 
-    // The input was null, so it has no size
+    /**
+     * The input was null, so it has no size
+     */
     else
       {
       inputSize[idx] = 0;
       }
     }
 
-  // Now the we know the size of all input, compute the output size
+  /**
+   * Now the we know the size of all input, compute the output size
+   */
   this->ComputeEstimatedOutputMemorySize( output, inputSize, outputSize );
 
-  // This filter will produce all output so it needs all that memory.
-  // Also, all this data will flow downstream to the next source (if it is
-  // the requested output) or will still exist with no chance of being
-  // released (if it is the non-requested output)
+  /**
+   * This filter will produce all output so it needs all that memory.
+   * Also, all this data will flow downstream to the next source (if it is
+   * the requested output) or will still exist with no chance of being
+   * released (if it is the non-requested output)
+   */
   mySize += outputSize[1];
   goingDownstreamSize += outputSize[1];
 
-  // Is the state of the pipeline during this filter's execution the
-  // largest that it has been so far?
+  /**
+   * Is the state of the pipeline during this filter's execution the
+   * largest that it has been so far?
+   */
   if ( mySize > maxSize )
     {
     maxSize = mySize;
     }
 
-  // The first size is the memory going downstream from here - which is all
-  // the memory coming in minus any data realeased. The second size is the
-  // size of the specified output (which can be used by the downstream 
-  // filter when determining how much data it might release). The final size
-  // is the maximum pipeline size encountered here and upstream from here.
+  /**
+   * The first size is the memory going downstream from here - which is all
+   * the memory coming in minus any data realeased. The second size is the
+   * size of the specified output (which can be used by the downstream 
+   * filter when determining how much data it might release). The final size
+   * is the maximum pipeline size encountered here and upstream from here.
+   */
   size[0] = goingDownstreamSize;
   size[1] = outputSize[0];
   size[2] = maxSize;
 
-  // Delete the space we may have created
+  /**
+   * Delete the space we may have created
+   */
   if ( inputSize )
     {
     delete [] inputSize;
     }
 }
 
-//----------------------------------------------------------------------------
-// This default implementation can be used by any source that will produce
-// only image output. This method should be overridden by anything
-// that will produce mesh (unstructured) output since the
-// output itself cannot estimate its own size.
+
+/**
+ * This default implementation can be used by any source that will produce
+ * only image output. This method should be overridden by anything
+ * that will produce mesh (unstructured) output since the
+ * output itself cannot estimate its own size.
+ */
 void 
 ProcessObject
 ::ComputeEstimatedOutputMemorySize( DataObject *output,
@@ -1036,10 +1226,12 @@ ProcessObject
   size[0] = 0;
   size[1] = 0;
 
-  // loop through all the outputs asking them how big they are given the
-  // information that they have on their update extent. Keep track of 
-  // the size of the specified output in size[0], and the sum of all
-  // output size in size[1]. Ignore input sizes in this default implementation.
+  /**
+   * loop through all the outputs asking them how big they are given the
+   * information that they have on their update extent. Keep track of 
+   * the size of the specified output in size[0], and the sum of all
+   * output size in size[1]. Ignore input sizes in this default implementation.
+   */
   for (idx = 0; idx < m_NumberOfOutputs; ++idx)
     {
     if (m_Outputs[idx])
@@ -1055,7 +1247,9 @@ ProcessObject
 }
 
 
-// Default implementation - copy information from first input to all outputs
+/**
+ * Default implementation - copy information from first input to all outputs
+ */
 void 
 ProcessObject
 ::ExecuteInformation()
@@ -1077,7 +1271,10 @@ ProcessObject
     }
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
 ProcessObject
 ::UpdateWholeExtent()
