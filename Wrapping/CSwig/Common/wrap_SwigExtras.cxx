@@ -20,7 +20,7 @@
 
 #include <vector>
 #include <string>
-
+#include <list>
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
 
@@ -30,6 +30,7 @@ namespace _cable_
   namespace renames
   {
     typedef std::vector<std::string>::vector StringVector;
+    typedef std::list<std::string>::list StringList;
   }
 }
 
