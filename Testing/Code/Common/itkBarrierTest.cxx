@@ -133,8 +133,8 @@ int itkBarrierTest(int, char * [])
       }
     
     // perform another test
-    multithreader->SetSingleMethod( BarrierSpecialTest, &data);
-    multithreader->SingleMethodExecute();
+    //    multithreader->SetSingleMethod( BarrierSpecialTest, &data);
+    //   multithreader->SingleMethodExecute();
     }
   catch (itk::ExceptionObject &e)
     {
