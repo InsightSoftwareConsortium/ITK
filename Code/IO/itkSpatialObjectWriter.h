@@ -28,7 +28,9 @@ namespace itk
 
 template <unsigned int NDimensions = 3, 
           typename PixelType = unsigned char,
-          typename TMeshTraits = DefaultStaticMeshTraits< PixelType , NDimensions, NDimensions >
+          typename TMeshTraits = DefaultStaticMeshTraits< PixelType ,
+                                                          NDimensions,
+                                                          NDimensions >
          >
 class SpatialObjectWriter : public Object
 {
@@ -79,10 +81,11 @@ protected:
 
 private:
 
-  SpatialObjectPointer m_SpatialObject;
-  SceneType * m_Scene;
+  SpatialObjectPointer           m_SpatialObject;
+  SceneType *                    m_Scene;
 
-  MetaSceneConverter<NDimensions,PixelType,TMeshTraits> m_MetaToSpatialConverter;
+  MetaSceneConverter<NDimensions,PixelType,TMeshTraits> 
+                                 m_MetaToSpatialConverter;
 };
 
 } // namespace itk

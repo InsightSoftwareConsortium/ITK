@@ -76,7 +76,8 @@ SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
       {
       typename SceneType::Pointer tScene = SceneType::New();
       tScene->AddSpatialObject(m_SpatialObject);   
-      // Check if IDs are valid because IDs are used to determine parent-child hierarchy
+      // Check if IDs are valid because IDs are used to determine
+      //    parent-child hierarchy
       tScene->FixIdValidity();
      
       m_MetaToSpatialConverter.WriteMeta(tScene,
