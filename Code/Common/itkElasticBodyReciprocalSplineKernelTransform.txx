@@ -25,7 +25,8 @@ template <class TScalarType, unsigned int NDimensions>
 ElasticBodyReciprocalSplineKernelTransform<TScalarType, NDimensions>::
 ElasticBodyReciprocalSplineKernelTransform() 
 {
-  m_Alpha = .25;
+  // Alpha = 8 ( 1 - \nu ) - 1
+  m_Alpha = 8.0 * ( 1.0 - .25 ) - 1;
 }
 
 template <class TScalarType, unsigned int NDimensions>

@@ -67,7 +67,9 @@ public:
   /** Dimension of the domain space. */
   itkStaticConstMacro(SpaceDimension, unsigned int,Superclass::SpaceDimension);
 
-  /** Set alpha */
+  /** Set alpha.  Alpha is related to Poisson's Ratio (\f$\nu\f$) as
+   * \f$\alpha = 8 ( 1 - \nu ) - 1\f$
+   */
   itkSetMacro( Alpha, TScalarType );
   
   /** Get alpha */
@@ -97,7 +99,8 @@ protected:
    * G(x) = [alpha*r(x)*I - 3*x*x'/r(x)]
    * \f$ G(x) = [\alpha*r(x)*I - 3*x*x'/r(x) ]\f$
    * where
-   * alpha is a constant
+   * \f$\alpha = 8 ( 1 - \nu ) - 1\f$
+   * \f$\nu\f$ is Poisson's Ratio
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix */
