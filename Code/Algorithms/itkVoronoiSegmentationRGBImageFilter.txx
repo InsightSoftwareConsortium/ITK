@@ -293,6 +293,14 @@ TakeAPrior(BinaryObjectImage* aprior)
       m_MeanTolerance[i] = fabs(m_Mean[i]*m_MeanPercentError[i]);
   }
 
+  if(objnum<10){ 
+/* a-prior doen's make too much sense */
+    for(i=0;i<6;i++){
+      m_MeanTolerance[i] = 0;
+      m_VarTolerance[i] = 0;
+    } 
+  }
+
 /*  Sorting. */
   unsigned char tmp[6]={0,1,2,3,4,5};
   for(j=0;j<3;j++){
