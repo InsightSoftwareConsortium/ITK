@@ -39,9 +39,7 @@ CylinderSpatialObject ::~CylinderSpatialObject()
  *  check the name of the class and the current depth */ 
 bool CylinderSpatialObject
 ::IsInside( const PointType & point) const
-{
-  double minSquareDist=999999.0;
-  
+{  
   if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
