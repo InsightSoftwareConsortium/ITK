@@ -114,8 +114,8 @@ protected:
   OutputImagePixelType m_ReplaceValue1;
   OutputImagePixelType m_ReplaceValue2;
 
-  GradientMagnitudeImageFilter<TInputImage,TInputImage>::Pointer m_GradientMagnitude;
-  WatershedImageFilter<TInputImage>::Pointer m_Watershed;
+  typename GradientMagnitudeImageFilter<TInputImage,TInputImage>::Pointer m_GradientMagnitude;
+  typename WatershedImageFilter<TInputImage>::Pointer m_Watershed;
 
   double m_Threshold;
   double m_IsolatedValue;
