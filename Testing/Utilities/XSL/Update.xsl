@@ -107,7 +107,7 @@
       </xsl:otherwise>
     </xsl:choose>
 
-    dbAdd ( false, "<xsl:value-of select="normalize-space ( Log )"/>", "", <xsl:value-of select="$Level2"/>, "", 0 )
+    dbAdd ( false, "<xsl:value-of select="translate ( normalize-space ( Log ), '&quot;', ' ' )"/>", "", <xsl:value-of select="$Level2"/>, "", 0 )
   </xsl:template>
 
 <xsl:template match="Updated|Conflicting|Modified">
