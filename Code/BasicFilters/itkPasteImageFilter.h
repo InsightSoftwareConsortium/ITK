@@ -17,7 +17,7 @@
 #ifndef __itkPasteImageFilter_h
 #define __itkPasteImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkInPlaceImageFilter.h"
 #include "itkSmartPointer.h"
 
 namespace itk
@@ -41,12 +41,12 @@ namespace itk
  */
 template <class TInputImage>
 class ITK_EXPORT PasteImageFilter:
-    public ImageToImageFilter<TInputImage,TInputImage>
+    public InPlaceImageFilter<TInputImage,TInputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef PasteImageFilter         Self;
-  typedef ImageToImageFilter<TInputImage,TInputImage>  Superclass;
+  typedef InPlaceImageFilter<TInputImage,TInputImage>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);  
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PasteImageFilter, ImageToImageFilter);
+  itkTypeMacro(PasteImageFilter, InPlaceImageFilter);
 
   /** Typedefs from Superclass */
   typedef typename Superclass::InputImagePointer InputImagePointer;
