@@ -50,7 +50,7 @@ CurvatureFlowFunction<TImage>
 template<class TImage>
 typename CurvatureFlowFunction<TImage>::TimeStepType
 CurvatureFlowFunction<TImage>
-::ComputeGlobalTimeStep( void *gd ) const
+::ComputeGlobalTimeStep( void *itkNotUsed(gd) ) const
 {
 
   return this->GetTimeStep();
