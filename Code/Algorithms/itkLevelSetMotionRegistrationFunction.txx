@@ -39,6 +39,7 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     }
   this->SetRadius(r);
 
+  m_Alpha = 0.1;
   m_GradientMagnitudeThreshold = 1e-9;
   m_IntensityDifferenceThreshold = 0.001;
   m_GradientSmoothingStandardDeviations = 1.0;
@@ -88,6 +89,8 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   os << m_IntensityDifferenceThreshold << std::endl;
   os << indent << "GradientMagnitudeThreshold: ";
   os << m_GradientMagnitudeThreshold << std::endl;
+  os << indent << "Alpha: ";
+  os << m_Alpha << std::endl;
 
   os << indent << "Metric: ";
   os << m_Metric << std::endl;
@@ -102,6 +105,28 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
 }
 
+
+/**
+ *
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+void
+LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+::SetAlpha(double alpha)
+{
+  m_Alpha = alpha;
+}
+
+/**
+ *
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+double
+LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+::GetAlpha() const
+{
+  return m_Alpha;
+}
 
 /**
  *
@@ -344,7 +369,7 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     gradientMagnitude += vnl_math_sqr( gradient[j] );
     }
   gradientMagnitude = vcl_sqrt( gradientMagnitude );
-
+  
   /**
    * Compute Update.
    */
@@ -358,8 +383,8 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     globalData->m_NumberOfPixelsProcessed += 1;
     }
 
-  if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold
-    || gradientMagnitude < m_GradientMagnitudeThreshold )
+  if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold 
+       || gradientMagnitude < m_GradientMagnitudeThreshold )
     {
     for( j = 0; j < ImageDimension; j++ )
       {
@@ -371,7 +396,7 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   double L1norm = 0.0;
   for( j = 0; j < ImageDimension; j++ )
     {
-    update[j] = speedValue * gradient[j] / gradientMagnitude;
+    update[j] = speedValue * gradient[j] / (gradientMagnitude + m_Alpha);
     if ( globalData )
       {
       globalData->m_SumOfSquaredChange += vnl_math_sqr( update[j] );

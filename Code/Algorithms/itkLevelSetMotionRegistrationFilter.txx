@@ -78,7 +78,8 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   /*
    * Unlike demons, we do not smooth the deformation field
    */
-
+//  this->SmoothDeformationField();
+  
 }
 
 /*
@@ -124,6 +125,52 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 
 }
 
+
+/*
+ * 
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+double
+LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::GetAlpha() const
+{
+ 
+  LevelSetMotionFunctionType *drfp = 
+    dynamic_cast<LevelSetMotionFunctionType *>
+      (this->GetDifferenceFunction().GetPointer());
+ 
+  if( !drfp )
+   {
+   itkExceptionMacro( << 
+     "Could not cast difference function to LevelSetMotionRegistrationFunction" );
+   }
+   
+  return drfp->GetAlpha();
+
+}
+
+/*
+ * 
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+void
+LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::SetAlpha(double alpha) 
+{
+ 
+  LevelSetMotionFunctionType *drfp = 
+    dynamic_cast<LevelSetMotionFunctionType *>
+      (this->GetDifferenceFunction().GetPointer());
+ 
+  if( !drfp )
+   {
+   itkExceptionMacro( << 
+     "Could not cast difference function to LevelSetMotionRegistrationFunction" );
+   }
+   
+  drfp->SetAlpha(alpha);
+
+}
 
 /*
  * 

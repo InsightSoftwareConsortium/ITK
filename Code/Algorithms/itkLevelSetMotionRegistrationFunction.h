@@ -47,8 +47,6 @@ namespace itk {
 * \warning This filter assumes that the fixed image type, moving image type
 * and deformation field type all have the same number of dimensions.
 *
-* \todo Incorporate the parameter alpha from equation (16).
-* 
 * \sa LevelSetMotionRegistrationFilter
 * \ingroup FiniteDifferenceFunctions
 */
@@ -169,6 +167,15 @@ FloatOffsetType(0.0));
   virtual double GetRMSChange() const
     { return m_RMSChange; }
 
+  /** Set/Get the parameter alpha.  Alpha is added to the calculated
+   * gradient magnitude prior to normalizing the gradient to protect
+   * against numerical instability as the gradient magnitude
+   * approaches zero.  This should be set as a small fraction of the
+   * intensity dynamic range, for instance 0.04%. Default is the
+   * absolute (not percentage) value of 0.1. */
+  virtual void SetAlpha(double);
+  virtual double GetAlpha() const;
+  
   /** Set/Get the threshold below which the absolute difference of
    * intensity yields a match. When the intensities match between a
    * moving and fixed image pixel, the update vector (for that
@@ -219,6 +226,10 @@ private:
   /** Function to interpolate the moving image. */
   InterpolatorPointer             m_MovingImageInterpolator;
   InterpolatorPointer             m_SmoothMovingImageInterpolator;
+
+  /** Stabilization factor for normalizing gradients to protect
+   * against small gradient magnitudes */
+  double                          m_Alpha;
   
   /** Threshold below which the gradient is considered zero. */
   double                          m_GradientMagnitudeThreshold;

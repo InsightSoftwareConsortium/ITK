@@ -137,6 +137,15 @@ public:
    * NOT the current iteration. */
   virtual double GetMetric() const;
 
+  /** Set/Get the parameter alpha.  Alpha is added to the calculated
+   * gradient magnitude prior to normalizing the gradient to protect
+   * against numerical instability as the gradient magnitude
+   * approaches zero.  This should be set as a small fraction of the
+   * intensity dynamic range, for instance 0.04%. Default is the
+   * absolute (not percentage) value of 0.1. */
+  virtual void SetAlpha(double);
+  virtual double GetAlpha() const;
+
   /** Set/Get the threshold below which the absolute difference of
    * intensity yields a match. When the intensities match between a
    * moving and fixed image pixel, the update vector (for that
