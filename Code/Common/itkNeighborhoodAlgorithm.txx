@@ -66,7 +66,7 @@ ImageBoundaryFacesCalculator<TImage>
   const IndexType rStart = regionToProcess.GetIndex();
   const SizeType  rSize  = regionToProcess.GetSize();
 
-  int  overlapLow, overlapHigh;
+  long  overlapLow, overlapHigh;
   FaceListType faceList;
   IndexType  fStart;         // Boundary, "face"
   SizeType   fSize;          // region data.
@@ -77,8 +77,8 @@ ImageBoundaryFacesCalculator<TImage>
 
   for (i = 0; i < ImageDimension; ++i)
     {
-      overlapLow = (rStart[i] - radius[i]) - bStart[i];
-      overlapHigh= (bStart[i] + bSize[i]) - (rStart[i] + rSize[i] + radius[i]);
+      overlapLow = static_cast<long>((rStart[i] - radius[i]) - bStart[i]);
+      overlapHigh= static_cast<long>((bStart[i] + bSize[i]) - (rStart[i] + rSize[i] + radius[i]));
 
       if (overlapLow < 0) // out of bounds condition, define a region of 
         {                 // iteration along this face
@@ -100,7 +100,7 @@ ImageBoundaryFacesCalculator<TImage>
             {
               if ( j == i )
                 {
-                  fStart[j] = rStart[j] + rSize[j] + overlapHigh;
+                  fStart[j] = rStart[j] + static_cast<IndexValueType>(rSize[j]) + overlapHigh;
                   fSize[j] = -overlapHigh;
                 }
               else

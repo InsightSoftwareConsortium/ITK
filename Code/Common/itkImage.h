@@ -213,7 +213,7 @@ public:
    */
   void SetPixel(const IndexType &index, const TPixel& value)
   {
-    unsigned long offset = this->ComputeOffset(index);
+    OffsetValueType offset = this->ComputeOffset(index);
     (*m_Buffer)[offset] = value;
   }
   
@@ -226,7 +226,7 @@ public:
   const TPixel& GetPixel(const IndexType &index) const
   {
     // std::cerr << "Const GetPixel()" << std::endl;
-    unsigned long offset = this->ComputeOffset(index);
+    OffsetValueType offset = this->ComputeOffset(index);
     return ( (*m_Buffer)[offset] );
   }
 
@@ -238,7 +238,7 @@ public:
    */
   TPixel& GetPixel(const IndexType &index)
   {
-    unsigned long offset = this->ComputeOffset(index);
+    OffsetValueType offset = this->ComputeOffset(index);
     return ( (*m_Buffer)[offset] );
   }
     

@@ -276,7 +276,7 @@ bool
 VTKImageWriter<TInputImage>
 ::VTKImageWriterData(std::ostream *fp, TInputImage *input)
 {
-  int numPixels = input->GetRequestedRegion().GetNumberOfPixels();
+  unsigned long numPixels = input->GetRequestedRegion().GetNumberOfPixels();
   *fp << "POINT_DATA " << numPixels << "\n";
 
   // Write out image 

@@ -81,6 +81,12 @@ public:
   typedef Size  Self;
   
   /**
+   * Compatible Size and value typedef
+   */
+  typedef   Size<VDimension>  SizeType;
+  typedef   unsigned long  SizeValueType;
+
+  /**
    * Get the dimension of the size object.
    */
   static unsigned int GetSizeDimension() { return VDimension; }
@@ -182,7 +188,7 @@ public:
    * Access an element of the size. Elements are numbered
    * 0, ..., VDimension-1. No bounds checking is performed.
    */
-  unsigned long & operator[](unsigned int dim)
+  SizeValueType & operator[](unsigned int dim)
     { return m_Size[dim]; }
 
   /**
@@ -190,14 +196,14 @@ public:
    * 0, ..., VDimension-1. This version can only be an rvalue.
    * No bounds checking is performed.
    */
-  unsigned long operator[](unsigned int dim) const
+  SizeValueType operator[](unsigned int dim) const
     { return m_Size[dim]; }
 
   /**
    * Get the size. This provides a read only reference to the size.
    * \sa SetSize
    */
-  const unsigned long *GetSize() const { return m_Size; };
+  const SizeValueType *GetSize() const { return m_Size; };
 
   /**
    * Set the size.
@@ -205,8 +211,8 @@ public:
    * memory that is the appropriate size.
    * \sa GetSize
    */
-  void SetSize(const unsigned long val[VDimension])
-    { memcpy(m_Size, val, sizeof(unsigned long)*VDimension); }
+  void SetSize(const SizeValueType val[VDimension])
+    { memcpy(m_Size, val, sizeof(SizeValueType)*VDimension); }
 
   /**
    * Size is an "aggregate" class.  Its data is public (m_Size)
@@ -220,7 +226,7 @@ public:
    * (and perhaps other compilers) from complaining about a partly
    * bracketed initializer.
    **/
-  unsigned long m_Size[VDimension];
+  SizeValueType m_Size[VDimension];
   
 public:
 

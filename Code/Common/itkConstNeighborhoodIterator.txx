@@ -53,7 +53,7 @@ ConstNeighborhoodIterator<TImage>
   r = (unsigned long)n;
   for (long i = D-1; i >= 0 ; --i)
     {
-      ans[i] = r / m_StrideTable[i];
+      ans[i] = static_cast<OffsetValueType>(r / m_StrideTable[i]);
       r = r % m_StrideTable[i];
     }
   return ans;
@@ -323,14 +323,15 @@ template<class TImage>
 void ConstNeighborhoodIterator<TImage>
 ::SetBound(const SizeType& size)
 {
-  const unsigned long *offset     = m_ConstImage->GetOffsetTable();
+  const OffsetValueType *offset     = m_ConstImage->GetOffsetTable();
   SizeType bufferSize = m_ConstImage->GetBufferedRegion().GetSize();
 
   // Set the bounds and the wrapping offsets
   for (unsigned int i=0; i<Dimension; ++i)
     {
       m_Bound[i]      = m_BeginIndex[i]+static_cast<long>(size[i]);
-      m_WrapOffset[i] = (static_cast<long>(bufferSize[i]) - (m_Bound[i] - m_BeginIndex[i]))
+      m_WrapOffset[i] = static_cast<OffsetValueType>(
+			      static_cast<IndexValueType>(bufferSize[i]) - (m_Bound[i] - m_BeginIndex[i]))
                         * offset[i];
     }
   m_WrapOffset[Dimension-1] = 0; // last offset is zero because there are no
@@ -355,7 +356,7 @@ void ConstNeighborhoodIterator<TImage>
   InternalPixelType * Iit;
   ImageType *ptr = const_cast<ImageType *>(m_ConstImage.GetPointer());
   const SizeType size = this->GetSize();
-  const unsigned long *OffsetTable = m_ConstImage->GetOffsetTable();
+  const OffsetValueType *OffsetTable = m_ConstImage->GetOffsetTable();
   const SizeType radius = this->GetRadius();
 
   unsigned int i;

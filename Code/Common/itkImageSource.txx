@@ -148,7 +148,7 @@ ImageSource<TOutputImage>
     }
 
   // determine the actual number of pieces that will be generated
-  int range = requestedRegionSize[splitAxis];
+  typename TOutputImage::SizeType::SizeValueType range = requestedRegionSize[splitAxis];
   int valuesPerThread = (int)ceil(range/(double)num);
   int maxThreadIdUsed = (int)ceil(range/(double)valuesPerThread) - 1;
 

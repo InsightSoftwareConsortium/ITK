@@ -93,10 +93,13 @@ public:
    * Typedef support for common objects
    */
   typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::SizeValueType SizeValueType;
   typedef TImage ImageType;
   typedef typename TImage::RegionType RegionType;
   typedef Index<Dimension> IndexType;
+  typedef typename IndexType::IndexValueType IndexValueType;
   typedef Offset<Dimension> OffsetType;
+  typedef typename OffsetType::OffsetValueType OffsetValueType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef Neighborhood<PixelType, Dimension> NeighborhoodType;
   
@@ -243,7 +246,7 @@ public:
    * edges because region memory is not necessarily contiguous within the
    * buffer.
    */
-  long GetWrapOffset(unsigned int n) const
+  OffsetValueType GetWrapOffset(unsigned int n) const
     {    return m_WrapOffsets[n];   }
 
   /**

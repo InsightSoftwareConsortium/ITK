@@ -80,10 +80,13 @@ public:
   typedef typename Superclass::InternalPixelType InternalPixelType;
   typedef typename Superclass::PixelType  PixelType;
   typedef typename Superclass::SizeType   SizeType;
+  typedef typename Superclass::SizeValueType SizeValueType;
   typedef typename Superclass::ImageType  ImageType;
   typedef typename Superclass::RegionType RegionType;
   typedef typename Superclass::IndexType  IndexType;
+  typedef typename Superclass::IndexValueType IndexValueType;
   typedef typename Superclass::OffsetType OffsetType;
+  typedef typename Superclass::OffsetValueType OffsetValueType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   enum {Dimension = Superclass::Dimension };

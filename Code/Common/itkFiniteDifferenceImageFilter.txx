@@ -147,8 +147,8 @@ FiniteDifferenceImageFilter<TInputImage,TOutputImage>
   // ask for.
   for (i = 0; i < TInputImage::ImageDimension; i++)
     {
-      requestedStartIdx[i] = outputStartIdx[i] - radius[i];
-      requestedSz[i] = outputSz[i] + (2*radius[i]);
+      requestedStartIdx[i] = static_cast<TInputImage::IndexType::IndexValueType>(outputStartIdx[i] - radius[i]);
+      requestedSz[i] = static_cast<TInputImage::IndexType::IndexValueType>(outputSz[i] + (2*radius[i]));
       if (requestedStartIdx[i] < largestStartIdx[i])
         {
           requestedSz[i] -= largestStartIdx[i] - requestedStartIdx[i];

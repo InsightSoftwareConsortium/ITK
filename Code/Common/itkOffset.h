@@ -79,7 +79,8 @@ public:
   /**
    * Compatible Offset typedef
    */
-  typedef   Offset<VOffsetDimension>  OfficeType;
+  typedef   Offset<VOffsetDimension>  OffsetType;
+  typedef   long OffsetValueType;
   
   /**
    * Add an offset to an offset.
@@ -167,7 +168,7 @@ public:
    * Access an element of the offset. Elements are numbered
    * 0, ..., VOffsetDimension-1. No bounds checking is performed.
    */
-  long & operator[](unsigned int dim)
+  OffsetValueType & operator[](unsigned int dim)
     { return m_Offset[dim]; }
 
   /**
@@ -175,14 +176,14 @@ public:
    * 0, ..., VOffsetDimension-1. This version can only be an rvalue.
    * No bounds checking is performed.
    */
-  long operator[](unsigned int dim) const
+  OffsetValueType operator[](unsigned int dim) const
     { return m_Offset[dim]; }
 
   /**
    * Get the index. This provides a read only reference to the index.
    * \sa SetOffset()
    */
-  const long *GetOffset() const { return m_Offset; };
+  const OffsetValueType *GetOffset() const { return m_Offset; };
 
   /**
    * Set the index.
@@ -190,8 +191,8 @@ public:
    * memory that is the appropriate size.
    * \sa GetOffset()
    */
-  void SetOffset(const long val[VOffsetDimension])
-    { memcpy(m_Offset, val, sizeof(long)*VOffsetDimension); }
+  void SetOffset(const OffsetValueType val[VOffsetDimension])
+    { memcpy(m_Offset, val, sizeof(OffsetValueType)*VOffsetDimension); }
 
   /**
    * Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
@@ -204,7 +205,7 @@ public:
    * Set one value for the offset in all dimensions.  Useful for initializing
    * an offset to zero.
    */
-  void Fill(long value)
+  void Fill(OffsetValueType value)
     { for(unsigned int i=0;i < VOffsetDimension; ++i) m_Offset[i] = value; }
   
   /**
@@ -214,7 +215,7 @@ public:
    * The following syntax for assigning an index is allowed/suggested:
    *    Offset<3> index = {5, 2, 7};
    */
-  long m_Offset[VOffsetDimension];
+  OffsetValueType m_Offset[VOffsetDimension];
   
 public:
 
@@ -229,7 +230,7 @@ Offset<VOffsetDimension>
 {
   Self ind;
   
-  memset(ind.m_Offset, 0, sizeof(long)*VOffsetDimension);
+  memset(ind.m_Offset, 0, sizeof(OffsetValueType)*VOffsetDimension);
   ind.m_Offset[dim] = 1;
   return ind;
 }

@@ -130,12 +130,20 @@ public:
    * Index typedef support. An index is used to access pixel values.
    */
   typedef Index<ImageDimension>  IndexType;
+  typedef typename IndexType::IndexValueType IndexValueType;
 
   /** 
    * Size typedef support. A size is used to define region bounds.
    */
   typedef Size<ImageDimension>  SizeType;
-
+  typedef typename SizeType::SizeValueType SizeValueType;
+  
+  /** 
+   * Offset typedef support.
+   */
+  typedef Offset<ImageDimension>  OffsetType;
+  typedef typename OffsetType::OffsetValueType OffsetValueType;
+  
   /** 
    * Region typedef support. A region is used to specify a subset of an image.
    */
@@ -260,13 +268,13 @@ public:
   /**
    * Get the OffsetTable from the adapted image
    */
-  const unsigned long *GetOffsetTable() const;
+  const OffsetValueType *GetOffsetTable() const;
 
 
   /**
    * Compute  Index given an Offset
    */
-  IndexType ComputeIndex(unsigned long offset) const;
+  IndexType ComputeIndex(OffsetValueType offset) const;
 
 
 

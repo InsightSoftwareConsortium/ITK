@@ -122,7 +122,7 @@ int main()
 
   //---------Create and initialize a spatial function iterator-----------
   TImageType::IndexType seedPos;
-  const unsigned long pos[] = {10,10,10};
+  const TImageType::IndexValueType pos[] = {10,10,10};
   seedPos.SetIndex(pos);
 
   typedef itk::FloodFilledSpatialFunctionConditionalIterator

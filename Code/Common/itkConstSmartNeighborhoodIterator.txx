@@ -62,7 +62,7 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
         {
           OverlapLow[i] = m_InnerBoundsLow[i] - m_Loop[i];
           OverlapHigh[i]=
-            static_cast<long>(this->GetSize(i)) - ( (m_Loop[i]+2) - m_InnerBoundsHigh[i] );
+            static_cast<OffsetValueType>(this->GetSize(i) - ( (m_Loop[i]+2) - m_InnerBoundsHigh[i] ));
         }
 
       flag = true;
@@ -191,7 +191,7 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
         {
           OverlapLow[i] = m_InnerBoundsLow[i] - m_Loop[i];
           OverlapHigh[i]=
-            static_cast<long>(this->GetSize(i)) - ( (m_Loop[i]+2) - m_InnerBoundsHigh[i] );
+            static_cast<OffsetValueType>(this->GetSize(i)) - ( (m_Loop[i]+2) - m_InnerBoundsHigh[i] );
           temp[i] = 0;
         }
 
@@ -227,7 +227,7 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
           for (i=0; i<Dimension; ++i)  // Update index
             {
               temp[i]++;
-              if ( (unsigned int)(temp[i]) == static_cast<long>(this->GetSize(i)) ) temp[i]= 0; 
+              if ( (unsigned int)(temp[i]) == static_cast<OffsetValueType>(this->GetSize(i)) ) temp[i]= 0; 
               else break;
             }
         } 
@@ -254,7 +254,7 @@ void ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
 ::SetBound(const SizeType& size)
 {
   SizeType radius  = this->GetRadius();
-  const unsigned long *offset   = m_ConstImage->GetOffsetTable();
+  const OffsetValueType *offset   = m_ConstImage->GetOffsetTable();
   const IndexType imageRRStart  = m_ConstImage->GetRequestedRegion().GetIndex();
   SizeType imageRRSize = m_ConstImage->GetRequestedRegion().GetSize();
   SizeType imageBufferSize = m_ConstImage->GetBufferedRegion().GetSize();
@@ -264,10 +264,10 @@ void ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
   // requested region.
   for (unsigned int i=0; i<Dimension; ++i)
     {
-      m_Bound[i]          = m_BeginIndex[i] + static_cast<long>(size[i]);
-      m_InnerBoundsHigh[i]= imageRRStart[i] + ( static_cast<long>(imageRRSize[i]) - static_cast<long>(radius[i]) );
-      m_InnerBoundsLow[i] = imageRRStart[i] + static_cast<long>(radius[i]);
-      m_WrapOffset[i]     = (static_cast<long>(imageBufferSize[i]) - ( m_Bound[i]
+      m_Bound[i]          = m_BeginIndex[i] + static_cast<IndexValueType>(size[i]);
+      m_InnerBoundsHigh[i]= static_cast<IndexValueType>(imageRRStart[i] + ( imageRRSize[i]) - static_cast<SizeValueType>(radius[i]) );
+      m_InnerBoundsLow[i] = static_cast<IndexValueType>(imageRRStart[i] + radius[i]);
+      m_WrapOffset[i]     = (static_cast<OffsetValueType>(imageBufferSize[i]) - ( m_Bound[i]
                               - m_BeginIndex[i] )) * offset[i];
     }
   m_WrapOffset[Dimension-1] = 0; // last offset is zero because there are no

@@ -116,19 +116,22 @@ public:
    * Index typedef support. An index is used to access pixel values.
    */
   typedef Index<VImageDimension>  IndexType;
+  typedef typename IndexType::IndexValueType  IndexValueType;
 
   /** 
    * Offset typedef support. An offset represent relative position
    * between indices.
    */
   typedef Offset<VImageDimension>  OffsetType;
+  typedef typename OffsetType::OffsetValueType OffsetValueType;
 
 
   /** 
    * Size typedef support. A size is used to define region bounds.
    */
   typedef Size<VImageDimension>  SizeType;
-
+  typedef typename SizeType::SizeValueType SizeValueType;
+  
   /** 
    * Region typedef support. A region is used to specify a subset of an image.
    */
@@ -241,16 +244,16 @@ public:
    * [VImageDimension+1] size array, simplifies the implementation of
    * some data accessing algorithms.
    */
-  const unsigned long *GetOffsetTable() const { return m_OffsetTable; };
+  const OffsetValueType *GetOffsetTable() const { return m_OffsetTable; };
   
   /**
    * Compute an offset from the beginning of the buffer for a pixel
    * at the specified index.
    */
-  unsigned long ComputeOffset(const IndexType &ind) const
+  OffsetValueType ComputeOffset(const IndexType &ind) const
   {
     // need to add bounds checking for the region/buffer?
-    unsigned long offset=0;
+    OffsetValueType offset=0;
     const IndexType &bufferedRegionIndex = m_BufferedRegion.GetIndex();
   
     // data is arranged as [][][][slice][row][col]
@@ -268,18 +271,18 @@ public:
    * Compute the index of the pixel at a specified offset from the
    * beginning of the buffered region.
    */
-  IndexType ComputeIndex(unsigned long offset) const
+  IndexType ComputeIndex(OffsetValueType offset) const
   {
     IndexType index;
     const IndexType &bufferedRegionIndex = m_BufferedRegion.GetIndex();
     
     for (int i=VImageDimension-1; i > 0; i--)
       {
-      index[i] = offset / m_OffsetTable[i];
+      index[i] = static_cast<IndexValueType>(offset / m_OffsetTable[i]);
       offset -= (index[i] * m_OffsetTable[i]);
       index[i] += bufferedRegionIndex[i];
       }
-    index[0] = bufferedRegionIndex[0] + offset;
+    index[0] = bufferedRegionIndex[0] + static_cast<IndexValueType>(offset);
 
     return index;
   }
@@ -356,7 +359,7 @@ protected:
   void ComputeOffsetTable();
 
 private:
-  unsigned long   m_OffsetTable[VImageDimension+1];
+  OffsetValueType  m_OffsetTable[VImageDimension+1];
 
   RegionType          m_LargestPossibleRegion;
   RegionType          m_RequestedRegion;

@@ -62,8 +62,8 @@ ConstRandomAccessNeighborhoodIterator<TImage>
   unsigned int i;
   Iterator it;
   const Iterator _end = this->End();
-  unsigned long accumulator = 0;
-  const unsigned long* stride = this->GetImagePointer()->GetOffsetTable();
+  OffsetValueType accumulator = 0;
+  const OffsetValueType* stride = this->GetImagePointer()->GetOffsetTable();
 
   // Offset from the increment in the lowest dimension
   accumulator += idx[0];
@@ -102,8 +102,8 @@ ConstRandomAccessNeighborhoodIterator<TImage>
   unsigned int i;
   Iterator it;
   const Iterator _end = this->End();
-  unsigned long accumulator = 0;
-  const unsigned long* stride = this->GetImagePointer()->GetOffsetTable();
+  OffsetValueType accumulator = 0;
+  const OffsetValueType* stride = this->GetImagePointer()->GetOffsetTable();
 
   // Offset from the increment in the lowest dimension
   accumulator += idx[0];

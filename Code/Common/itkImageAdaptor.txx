@@ -99,7 +99,7 @@ ImageAdaptor<TImage , TAccessor>
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
-const unsigned long * 
+const typename ImageAdaptor<TImage, TAccessor>::OffsetValueType * 
 ImageAdaptor<TImage , TAccessor>
 ::GetOffsetTable( void ) const
 {
@@ -111,7 +111,7 @@ ImageAdaptor<TImage , TAccessor>
 template <class TImage, class TAccessor >
 typename ImageAdaptor<TImage, TAccessor>::IndexType
 ImageAdaptor<TImage , TAccessor>
-::ComputeIndex( unsigned long offset ) const
+::ComputeIndex( OffsetValueType offset ) const
 {
   return m_Image->ComputeIndex( offset );
 }

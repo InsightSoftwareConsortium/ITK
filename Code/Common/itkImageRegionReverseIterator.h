@@ -121,12 +121,21 @@ public:
    * it needs to be redone here for this subclass to compile properly with gcc.
    */
   typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::IndexValueType IndexValueType;
 
   /** 
    * Size typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    */
   typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::SizeValueType SizeValueType;
+
+  /** 
+   * Offset typedef support. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc.
+   */
+  typedef typename Superclass::OffsetType OffsetType;
+  typedef typename Superclass::OffsetValueType OffsetValueType;
 
   /** 
    * Region typedef support.
@@ -259,7 +268,7 @@ public:
       
       // Get the index of the first pixel on the span (row)
       ImageIterator<TImage>::IndexType
-        ind = m_Image->ComputeIndex( m_Offset );
+        ind = m_Image->ComputeIndex( static_cast<OffsetValueType>(m_Offset) );
 
       const ImageIterator<TImage>::IndexType&
         startIndex = m_Region.GetIndex();
@@ -305,7 +314,7 @@ public:
    * to the start of the next row of the region) up until the iterator
    * tries to moves past the last pixel of the region.  Here, the iterator
    * will be set to be one pixel past the end of the region.
-   * \sa operator--(int)
+   * \sa operator--(int)gg
    */
   Self & operator--()
   {
@@ -319,7 +328,7 @@ public:
       
       // Get the index of the last pixel on the span (row)
       ImageIterator<TImage>::IndexType
-        ind = m_Image->ComputeIndex( m_Offset );
+        ind = m_Image->ComputeIndex( static_cast<OffsetValueType>(m_Offset) );
 
       const ImageIterator<TImage>::IndexType&
         startIndex = m_Region.GetIndex();

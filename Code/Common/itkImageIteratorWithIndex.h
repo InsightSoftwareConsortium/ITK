@@ -100,11 +100,19 @@ public:
    * Index typedef support.
    */
   typedef typename TImage::IndexType  IndexType;
+  typedef typename TImage::IndexValueType  IndexValueType;
 
   /** 
    * Size typedef support.
    */
   typedef typename TImage::SizeType    SizeType;
+  typedef typename TImage::SizeValueType    SizeValueType;
+
+  /** 
+   * Offset typedef support.
+   */
+  typedef typename TImage::OffsetType    OffsetType;
+  typedef typename TImage::OffsetValueType    OffsetValueType;
 
   /** 
    * Region typedef support.

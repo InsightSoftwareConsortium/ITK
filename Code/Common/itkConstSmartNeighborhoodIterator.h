@@ -88,9 +88,12 @@ public:
   typedef typename Superclass::ImageType ImageType;
   typedef typename Superclass::RegionType RegionType;
   typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::SizeValueType SizeValueType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::IndexValueType IndexValueType;
   typedef typename Superclass::OffsetType OffsetType;
+  typedef typename Superclass::OffsetValueType OffsetValueType;
 
   /**
    * Typedef for generic boundary condition pointer

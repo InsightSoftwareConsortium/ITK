@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkIndex.h"
 #include "itkSize.h"
+#include "itkOffset.h"
 #include "itkImage.h"
 #include <memory>
 
@@ -99,12 +100,20 @@ public:
    * Index typedef support.
    */
   typedef typename TImage::IndexType  IndexType;
+  typedef typename TImage::IndexValueType  IndexValueType;
 
   /** 
    * Size typedef support.
    */
   typedef typename TImage::SizeType    SizeType;
-
+  typedef typename TImage::SizeValueType  SizeValueType;
+  
+  /** 
+   * Offset typedef support.
+   */
+  typedef typename TImage::OffsetType    OffsetType;
+  typedef typename TImage::OffsetValueType  OffsetValueType;
+  
   /** 
    * Region typedef support.
    */
@@ -303,7 +312,7 @@ public:
    * \sa SetIndex
    */
   const IndexType GetIndex()
-    { return m_Image->ComputeIndex( m_Offset );  }
+    { return m_Image->ComputeIndex( static_cast<OffsetValueType>(m_Offset) );  }
 
   /**
    * Set the index. No bounds checking is performed.

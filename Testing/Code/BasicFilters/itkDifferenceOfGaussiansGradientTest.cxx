@@ -128,7 +128,7 @@ int main()
 
   //---------Create and initialize a spatial function iterator-----------
   TImageType::IndexType seedPos;
-  const unsigned long pos[] = {10,10,10};
+  const TImageType::IndexValueType pos[] = {10,10,10};
   seedPos.SetIndex(pos);
 
   typedef itk::FloodFilledSpatialFunctionConditionalIterator
@@ -184,8 +184,6 @@ int main()
   TGradMagType::Pointer gradMagFilter = TGradMagType::New();
 
   gradMagFilter->SetInput(gradientImage);
-  itk::Image<unsigned char, dim>::Pointer gradientMagImage = gradMagFilter->GetOutput();
-
   gradMagFilter->Update();
 
   return EXIT_SUCCESS;

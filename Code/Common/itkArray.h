@@ -210,6 +210,10 @@ public:
   Array(const Reference& r);
   Array(const ConstReference& r);
   Array(const ValueType r[Length]);
+  /*@{
+   * This destructor is not virtual for performance reasons. However, this
+   * means that subclasses cannot allocate memory.
+   */
   ~Array();
   
   Array& operator= (const Array& r);

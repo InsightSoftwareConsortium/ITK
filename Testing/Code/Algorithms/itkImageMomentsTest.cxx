@@ -71,7 +71,7 @@ main( int argc, char *argv[] )
 
     /* Define positions of the test masses in index coordinates */
     unsigned short mass = 1;           // Test mass
-    unsigned long point[8][3] = {
+    itk::Index<3>::IndexValueType point[8][3] = {
   { 10+8, 20+12, 40+0},
   { 10-8, 20-12, 40-0},
   { 10+3, 20-8,  40+0},

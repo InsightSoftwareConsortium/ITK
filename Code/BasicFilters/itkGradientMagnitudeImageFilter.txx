@@ -75,7 +75,7 @@ GradientMagnitudeImageFilter<TInputImage,TOutputImage>
    oper.SetDirection(0);
    oper.SetOrder(1);
    oper.CreateDirectional();
-  long radius = oper.GetRadius()[0];
+  unsigned long radius = oper.GetRadius()[0];
   
   // get a copy of the input requested region (should equal the output
   // requested region)

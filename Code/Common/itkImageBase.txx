@@ -159,7 +159,7 @@ void
 ImageBase<VImageDimension>
 ::ComputeOffsetTable()
 {
-  unsigned long num=1;
+  OffsetValueType num=1;
   const SizeType& bufferSize = m_BufferedRegion.GetSize();
   
   m_OffsetTable[0] = num;
@@ -258,8 +258,8 @@ ImageBase<VImageDimension>
   for (i=0; i< VImageDimension; i++)
     {
     if ( (requestedRegionIndex[i] < bufferedRegionIndex[i]) ||
-         ((requestedRegionIndex[i] + static_cast<long>(requestedRegionSize[i]))
-          > (bufferedRegionIndex[i] + static_cast<long>(bufferedRegionSize[i]))) )
+         ((requestedRegionIndex[i] + static_cast<OffsetValueType>(requestedRegionSize[i]))
+          > (bufferedRegionIndex[i] + static_cast<OffsetValueType>(bufferedRegionSize[i]))) )
       {
       return true;
       }

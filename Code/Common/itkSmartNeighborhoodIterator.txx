@@ -62,7 +62,7 @@ SmartNeighborhoodIterator<TImage, TBoundaryCondition>
         {
           OverlapLow[i] = m_InnerBoundsLow[i] - m_Loop[i];
           OverlapHigh[i]=
-            this->GetSize(i) - ( (m_Loop[i]+2) - m_InnerBoundsHigh[i] );
+            static_cast<OffsetValueType>(this->GetSize(i) - ( (m_Loop[i]+2) - m_InnerBoundsHigh[i]) );
         }
 
       flag = true;
@@ -123,7 +123,7 @@ SmartNeighborhoodIterator<TImage, TBoundaryCondition>
         {
           OverlapLow[i] =m_InnerBoundsLow[i] - m_Loop[i];
           OverlapHigh[i]=
-            this->GetSize(i) - (m_Loop[i]-m_InnerBoundsHigh[i])-1;
+            static_cast<OffsetValueType>(this->GetSize(i) - (m_Loop[i]-m_InnerBoundsHigh[i])-1);
           temp[i] = 0;
         }
       

@@ -203,7 +203,9 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
   typedef typename OutputImageType::RegionType RegionType;
   typedef typename OutputImageType::SizeType   SizeType;
+  typedef typename OutputImageType::SizeValueType   SizeValueType;
   typedef typename OutputImageType::IndexType  IndexType;
+  typedef typename OutputImageType::IndexValueType  IndexValueType;
   typedef typename FiniteDifferenceEquationType::BoundaryNeighborhoodType
     BoundaryIteratorType;
   typedef typename FiniteDifferenceEquationType::NeighborhoodType
@@ -228,7 +230,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   const SizeType  rSize  = regionToProcess.GetSize();
   const SizeType  radius = df->GetRadius();
 
-  int  overlapLow, overlapHigh;
+  unsigned long  overlapLow, overlapHigh;
   std::list<RegionType> faceList;
   IndexType  fStart;         // Boundary, "face"
   SizeType   fSize;          // region data.
@@ -262,7 +264,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
             {
               if ( j == i )
                 {
-                  fStart[j] = rStart[j] + rSize[j] + overlapHigh;
+                  fStart[j] = rStart[j] + static_cast<IndexValueType>(rSize[j] + overlapHigh);
                   fSize[j] = -overlapHigh;
                 }
               else

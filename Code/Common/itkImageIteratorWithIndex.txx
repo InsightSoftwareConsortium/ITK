@@ -111,7 +111,7 @@ ImageIteratorWithIndex<TImage>
         (ImageIteratorDimension+1)*sizeof(unsigned long));
 
   // Compute the start position
-  long offs =  m_Image->ComputeOffset( m_BeginIndex );
+  unsigned long offs =  static_cast<unsigned long>(m_Image->ComputeOffset( m_BeginIndex ));
   m_Begin = buffer + offs;
   m_Position = m_Begin;
   
@@ -121,13 +121,13 @@ ImageIteratorWithIndex<TImage>
   IndexType pastEnd;
   for (unsigned int i=0; i < ImageIteratorDimension; ++i)
     {
-      unsigned int size = region.GetSize()[i];
+      typename RegionType::SizeValueType size = region.GetSize()[i];
       if( size > 0 )
       {
         m_Remaining = true;
       }
-      m_EndIndex[i] = m_BeginIndex[i] + size;
-      pastEnd[i]    = m_BeginIndex[i] + size-1;
+      m_EndIndex[i] = m_BeginIndex[i] + static_cast<typename RegionType::IndexValueType>(size);
+      pastEnd[i]    = m_BeginIndex[i] + static_cast<typename RegionType::IndexValueType>(size-1);
     }
   m_End = buffer + m_Image->ComputeOffset( pastEnd );
 
@@ -197,7 +197,7 @@ ImageIteratorWithIndex<TImage>
   m_Remaining = false;
   for (unsigned int i=0; i < ImageIteratorDimension; ++i)
   {
-    unsigned int size = m_Region.GetSize()[i];
+    typename TImage::SizeValueType size = m_Region.GetSize()[i];
     if( size > 0 )
     {
       m_Remaining = true;
@@ -236,7 +236,7 @@ ImageIteratorWithIndex<TImage>
   for (unsigned int i=0; i < ImageIteratorDimension; ++i)
   {
     m_PositionIndex[i]  = m_EndIndex[i]-1;
-    unsigned int size = m_Region.GetSize()[i];
+    typename TImage::SizeValueType size = m_Region.GetSize()[i];
     if( size > 0 )
     {
       m_Remaining = true;

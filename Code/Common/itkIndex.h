@@ -92,6 +92,12 @@ public:
   typedef Index  Self;
   
   /**
+   * Compatible Index and value typedef
+   */
+  typedef   Index<VIndexDimension>  IndexType;
+  typedef   long  IndexValueType;
+  
+  /**
    * Get the dimension (size) of the index.
    */
   static unsigned int GetIndexDimension() { return VIndexDimension; }
@@ -107,9 +113,10 @@ public:
   typedef   Size<VIndexDimension>  SizeType;
 
   /**
-   * Compatible Offset typedef
+   * Compatible Offset and Offset value typedef
    */
   typedef   Offset<VIndexDimension>  OffsetType;
+  typedef   typename OffsetType::OffsetValueType OffsetValueType;
 
   /**
    * Add a size to an index. This method models a random access Index.
@@ -119,7 +126,7 @@ public:
     {
     Self result;
     for (unsigned int i=0; i < VIndexDimension; i++)
-      { result[i] = m_Index[i] + static_cast<long>(size[i]); }
+      { result[i] = m_Index[i] + static_cast<IndexValueType>(size[i]); }
     return result;
     }
 
@@ -130,7 +137,7 @@ public:
   operator+=(const SizeType &size)
     {
     for (unsigned int i=0; i < VIndexDimension; i++)
-      { m_Index[i] += static_cast<long>(size[i]); }
+      { m_Index[i] += static_cast<IndexValueType>(size[i]); }
     return *this;
     }
 
@@ -201,7 +208,7 @@ public:
     {
     Self result;
     for (unsigned int i=0; i < VIndexDimension; i++)
-      { result[i] = m_Index[i] * static_cast<long>(vec.m_Size[i]); }
+      { result[i] = m_Index[i] * static_cast<IndexValueType>(vec.m_Size[i]); }
     return result;
     }
 
@@ -233,7 +240,7 @@ public:
    * Access an element of the index. Elements are numbered
    * 0, ..., VIndexDimension-1. No bounds checking is performed.
    */
-  long & operator[](unsigned int dim)
+  IndexValueType & operator[](unsigned int dim)
     { return m_Index[dim]; }
 
   /**
@@ -241,14 +248,14 @@ public:
    * 0, ..., VIndexDimension-1. This version can only be an rvalue.
    * No bounds checking is performed.
    */
-  long operator[](unsigned int dim) const
+  IndexValueType operator[](unsigned int dim) const
     { return m_Index[dim]; }
 
   /**
    * Get the index. This provides a read only reference to the index.
    * \sa SetIndex()
    */
-  const long *GetIndex() const { return m_Index; };
+  const IndexValueType *GetIndex() const { return m_Index; };
 
   /**
    * Set the index.
@@ -256,8 +263,8 @@ public:
    * memory that is the appropriate size.
    * \sa GetIndex()
    */
-  void SetIndex(const unsigned long val[VIndexDimension])
-    { memcpy(m_Index, val, sizeof(unsigned long)*VIndexDimension); }
+  void SetIndex(const IndexValueType val[VIndexDimension])
+    { memcpy(m_Index, val, sizeof(IndexValueType)*VIndexDimension); }
 
   /**
    * Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
@@ -270,7 +277,7 @@ public:
    * Set one value for the index in all dimensions.  Useful for initializing
    * an offset to zero.
    */
-  void Fill(long value)
+  void Fill(IndexValueType value)
     { for(unsigned int i=0;i < VIndexDimension; ++i) m_Index[i] = value; }
 
   /**
@@ -280,7 +287,7 @@ public:
    * The following syntax for assigning an index is allowed/suggested:
    *    Index<3> index = {5, 2, 7};
    */
-  long m_Index[VIndexDimension];
+  IndexValueType m_Index[VIndexDimension];
   
 public:
 
@@ -295,7 +302,7 @@ Index<VIndexDimension>
 {
   Self ind;
   
-  memset(ind.m_Index, 0, sizeof(unsigned long)*VIndexDimension);
+  memset(ind.m_Index, 0, sizeof(IndexValueType)*VIndexDimension);
   ind.m_Index[dim] = 1;
   return ind;
 }

@@ -106,9 +106,10 @@ public:
   typedef typename AllocatorType::const_iterator ConstIterator;
 
   /**
-   * Size typedef support
+   * Size and value typedef support
    */
   typedef Size<VDimension> SizeType;
+  typedef typename SizeType::SizeValueType SizeValueType;
 
   /**
    * Radius typedef support
@@ -181,7 +182,7 @@ public:
   /**
    * Returns the size (total length of sides) of the neighborhood.
    */
-  const SizeType GetSize() const
+  SizeType GetSize() const
   { return m_Size; }
   
   /**
@@ -200,10 +201,10 @@ public:
   Iterator Begin()
   { return m_DataBuffer.begin(); }
   
-  const ConstIterator End() const
+  ConstIterator End() const
   { return m_DataBuffer.end(); }
 
-  const ConstIterator Begin() const
+  ConstIterator Begin() const
   { return m_DataBuffer.begin(); }
 
   /**

@@ -40,11 +40,11 @@ double object_cov2[3][3] =
 		{-21.27,  132.14, 100.63},
 	};
 
-unsigned long Seed1[1][3] = 
+itk::Image<itk::Vector<int,3>,3>::IndexValueType Seed1[1][3] = 
 	{
 		{5, 15,0},
 	};
-unsigned long Seed2[1][3] = 
+itk::Image<itk::Vector<int,3>,3>::IndexValueType Seed2[1][3] = 
 	{
 		{15,5, 0},
 	};

@@ -212,6 +212,7 @@ public:
    * TargetIndex typedef support
    */
   typedef Index<TargetImageDimension> TargetIndexType;
+  typedef typename TargetIndexType::IndexValueType TargetIndexValueType;
 
   /**
    * TargetPoint typedef support

@@ -123,9 +123,9 @@ int main()
               << std::endl;
     std::cout << std::flush;
 
-    short trueValue = (short) (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
+    short trueValue = static_cast<short>((shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
               + (region.GetSize()[0]
-                * shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1]);
+                * shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1]));
 
     if ( iterator2.Get() != trueValue )
       {
@@ -144,7 +144,7 @@ int main()
   std::cout << "Assign an invalid requested region which should throw an exception." << std::endl;
   std::cout << std::flush;
   itk::Index<2> foo;
-  unsigned long fooindex[] = {100, 100};
+  itk::ImageRegion<2>::IndexValueType fooindex[] = {100, 100};
   foo.SetIndex(fooindex);
   itk::ImageRegion<2> fooregion;
   fooregion = shrink->GetOutput()->GetRequestedRegion();
@@ -206,9 +206,9 @@ int main()
               << std::endl;
     std::cout << std::flush;
 
-    short trueValue = (short) (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
+    short trueValue = static_cast<short>((shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
               + (region.GetSize()[0]
-                * shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1]);
+                * shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1]));
 
     if ( iterator2.Get() != trueValue )
       {

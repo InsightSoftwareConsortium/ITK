@@ -119,7 +119,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   output->SetOrigin( m_ImageIO->GetOrigin() );
   output->SetSpacing( m_ImageIO->GetSpacing() );
 
-  const unsigned long startPosition[] = { 0, 0, 0 };
+  const TOutputImage::IndexValueType startPosition[] = { 0, 0, 0 };
   typename TOutputImage::IndexType start;
   start.SetIndex( startPosition );
 

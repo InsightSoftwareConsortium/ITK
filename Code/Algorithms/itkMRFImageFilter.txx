@@ -245,11 +245,11 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   //---------------------------------------------------------------------
   //Get the image width/height and depth
   //---------------------------------------------------------------------       
-  m_imgWidth  = inputImageSize[0];
-  m_imgHeight = inputImageSize[1];
-  m_imgDepth  = inputImageSize[2];
+  m_imgWidth  = static_cast<int>(inputImageSize[0]);
+  m_imgHeight = static_cast<int>(inputImageSize[1]);
+  m_imgDepth  = static_cast<int>(inputImageSize[2]);
  
-  m_LabelStatus = (unsigned int *) new unsigned int[m_imgWidth*m_imgHeight*m_imgDepth]; 
+  m_LabelStatus = new unsigned int[m_imgWidth*m_imgHeight*m_imgDepth]; 
   for( int index = 0; 
        index < ( m_imgWidth * m_imgHeight * m_imgDepth ); 
        index++ ) 
