@@ -25,6 +25,7 @@
 #include "itkBinaryBallStructuringElement.h"
 #include "itkAcosImageFilter.h"
 #include "itkAddImageFilter.h"
+#include "itkAdaptiveHistogramEqualizationImageFilter.h"
 #include "itkAsinImageFilter.h"
 #include "itkAtan2ImageFilter.h"
 #include "itkAtanImageFilter.h"
@@ -119,7 +120,6 @@
 #include "itkParametricSpaceToImageSpaceMeshFilter.h"
 #include "itkPasteImageFilter.h"
 #include "itkPermuteAxesImageFilter.h"
-#include "itkPlaheImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkReflectImageFilter.h"
@@ -225,6 +225,10 @@ int itkBasicFiltersPrintTest(int , char* [])
   itk::AcosImageFilter<InputType,OutputType>::Pointer AcosImageFilterObj =
     itk::AcosImageFilter<InputType,OutputType>::New();
   std::cout << "-------------AcosImageFilter" << AcosImageFilterObj;
+
+  itk::AdaptiveHistogramEqualizationImageFilter<InputType>::Pointer AdaptiveHistogramEqualizationImageFilterObj =
+    itk::AdaptiveHistogramEqualizationImageFilter<InputType>::New();
+  std::cout << "-------------AdaptiveHistogramEqualizationImageFilter" << AdaptiveHistogramEqualizationImageFilterObj;
 
   itk::AddImageFilter<InputType,InputType,OutputType>::Pointer AddImageFilterObj =
     itk::AddImageFilter<InputType,InputType,OutputType>::New();

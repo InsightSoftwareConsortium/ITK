@@ -117,7 +117,6 @@
 #include "itkParametricSpaceToImageSpaceMeshFilter.h"
 #include "itkPasteImageFilter.h"
 #include "itkPermuteAxesImageFilter.h"
-#include "itkPlaheImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkReflectImageFilter.h"
@@ -298,10 +297,6 @@ int itkBasicFiltersPrintTest2(int , char* [])
   itk::PermuteAxesImageFilter<InputType>::Pointer PermuteAxesImageFilterObj =
     itk::PermuteAxesImageFilter<InputType>::New();
   std::cout << "-------------PermuteAxesImageFilter" << PermuteAxesImageFilterObj;
-
-  itk::PlaheImageFilter<InputType>::Pointer PlaheImageFilterObj =
-    itk::PlaheImageFilter<InputType>::New();
-  std::cout << "-------------PlaheImageFilter" << PlaheImageFilterObj;
 
   itk::RandomImageSource<OutputType>::Pointer RandomImageSourceObj =
     itk::RandomImageSource<OutputType>::New();
