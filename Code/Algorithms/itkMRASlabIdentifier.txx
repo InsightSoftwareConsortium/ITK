@@ -19,9 +19,11 @@
 
 #include <algorithm>
 #include <vector>
+#include <queue>
 #include "itkMRASlabIdentifier.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
+#include "vnl/vnl_math.h"
 
 namespace itk
 {
@@ -31,7 +33,9 @@ MRASlabIdentifier<TInputImage>
 ::MRASlabIdentifier()
 {
   m_Image = 0;
-  m_NumberOfMinimumsPerSlice = 10 ;
+  m_NumberOfSamples = 10 ;
+  m_BackgroundMinimumThreshold = NumericTraits< ImagePixelType >::min() ;
+  m_Tolerance = 0.0 ;
   // default slicing axis is z
   m_SlicingDirection = 2 ;
 }
@@ -46,7 +50,7 @@ MRASlabIdentifier<TInputImage>
   // this method only works with 3D MRI image
   if (ImageType::ImageDimension != 3)
     {
-    throw ExceptionObject(__FILE__, __LINE__) ;
+    itkExceptionMacro("ERROR: This algorithm only works with 3D images.") ;
     }
 
   ImageSizeType size ;
@@ -63,13 +67,7 @@ MRASlabIdentifier<TInputImage>
   double sum ;
   std::vector<double> avgMin(totalSlices) ;
   // calculate minimum intensities for each slice
-  std::vector<ImagePixelType> mins(m_NumberOfMinimumsPerSlice, 1000) ;
-
   ImagePixelType pixel ;
-  typename std::vector<ImagePixelType>::iterator target ;
-
-  long currentSlice = firstSlice ;
-
   for (int i = 0 ; i < 3 ; i++)
     {
     if (i != m_SlicingDirection)
@@ -82,6 +80,7 @@ MRASlabIdentifier<TInputImage>
   region.SetSize(size) ;
 
   unsigned long count = 0 ;
+  long currentSlice = firstSlice ;
   while (currentSlice < lastSlice)
     {
     index[m_SlicingDirection] = currentSlice ;
@@ -90,36 +89,41 @@ MRASlabIdentifier<TInputImage>
     ImageRegionConstIterator<TInputImage> iter(m_Image, region) ;
     iter.GoToBegin() ;
 
-    std::fill(mins.begin(), mins.end(), 1000) ;
+    std::priority_queue<ImagePixelType> mins ;
+    for ( unsigned int i = 0 ; i < m_NumberOfSamples ; ++i )
+      {
+      mins.push( NumericTraits< ImagePixelType >::max() ) ;
+      }
+
     while (!iter.IsAtEnd())
       {
       pixel = iter.Get() ;
-      if (pixel > 0)
+      if ( pixel > m_BackgroundMinimumThreshold )
         {
-        target = 
-          std::find_if(mins.begin(), mins.end(), 
-                       std::bind2nd(std::greater<ImagePixelType>(), pixel)) ;
-        *target = pixel ;
+        if ( mins.top() > pixel )
+          {
+          mins.pop() ;
+          mins.push( pixel ) ;
+          }
         }
       ++iter ;
       }
 
-    sum = 0 ;
-    typename std::vector<ImagePixelType>::iterator m_iter = mins.begin() ;
-    while (m_iter != mins.end())
+    sum = 0.0 ;
+    while ( !mins.empty() )
       {
-      sum += *m_iter ;
-      ++m_iter ;
+      sum += mins.top() ;
+      mins.pop() ;
       }
 
-    avgMin[count] = sum / (double) m_NumberOfMinimumsPerSlice ;
+    avgMin[count] = sum / (double) m_NumberOfSamples ;
 
     ++count ;
     ++currentSlice ;
     }
 
   // calculate overall average
-  sum = 0 ;
+  sum = 0.0 ;
   std::vector<double>::iterator am_iter = avgMin.begin() ;
   while (am_iter != avgMin.end())
     {
@@ -147,7 +151,7 @@ MRASlabIdentifier<TInputImage>
     {
     avgMinValue = *am_iter ;
     double sign = avgMinValue - average ;
-    if (sign * prevSign < 0)
+    if ( (sign * prevSign < 0 ) && ( vnl_math_abs(sign) > m_Tolerance ) )
       { 
       slabIndex[m_SlicingDirection] = slabBegin ;
       slabSize[m_SlicingDirection] = slabLength ;
@@ -193,7 +197,7 @@ MRASlabIdentifier<TInputImage>
     {
     os << indent << "Image: " << "(None)" << std::endl;
     }
-  os << indent << "NumberOfMinimumsPerSlice: " << m_NumberOfMinimumsPerSlice << std::endl;
+  os << indent << "NumberOfSamples: " << m_NumberOfSamples << std::endl;
   os << indent << "SlicingDirection: " << m_SlicingDirection << std::endl;
 }
 
