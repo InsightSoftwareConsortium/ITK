@@ -139,18 +139,32 @@ main(
     std::cout << "Back transform a point:" << std::endl
               << v2[0] << " , " << v2[1] << std::endl;
 
-    /* Transform a vector */
+    /* Transform a vnl_vector */
     vnl_vector_fixed<double, 2> x2, y2;
     x2[0] = 1;
     x2[1] = 2;
     y2 = aff2.Transform(x2);
-    std::cout << "Transform a vector:" << std::endl
+    std::cout << "Transform a vnl_vector:" << std::endl
               << y2[0] << " , " << y2[1] << std::endl;
 
     /* Back transform a vector */
     y2 = aff2.BackTransform(x2);
-    std::cout << "Back transform a vector:" << std::endl
+    std::cout << "Back transform a vnl_vector:" << std::endl
               << y2[0] << " , " << y2[1] << std::endl;
+
+    /* Transform a vector */
+    itk::Vector<double, 2> u3, v3;
+    u3[0] = 3;
+    u3[1] = 5;
+    v3 = aff2.Transform(u3);
+    std::cout << "Transform a vector:" << std::endl
+              << v3[0] << " , " << v3[1] << std::endl;
+
+    /* Back transform a vector */
+    v3 = aff2.BackTransform(u3);
+    std::cout << "Back transform a vector :" << std::endl
+              << v3[0] << " , " << v3[1] << std::endl;
+
 
     /* Create a 3D transform and rotate in 3D */
     itk::AffineTransform<double,3> aff3;
