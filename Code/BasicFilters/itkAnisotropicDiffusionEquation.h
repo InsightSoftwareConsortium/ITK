@@ -46,6 +46,48 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
+/**
+ * \class AnisotropicDiffusionEquation
+ *
+ * \brief Base class for anisotropic diffusion equation objects.
+ *
+ * Anisotropic diffusion methods are a tools for calculating multi-scale
+ * descriptions of images. Embed an image \f$U(/mathbf{x})\f$ in a higher
+ * dimensional function of derived images, \f$U(/mathbf{x}, t)\f$.  This higher
+ * dimensional function represents the solution of the heat diffusion equation,
+ *
+ * \f[\frac{d U(\mathbf{x})}{d t} = \nabla \cdot c \nabla U(\mathbf{x})\f]
+ *
+ * with constant \f$c\f$ and initial condition
+ * \f$U(\mathbf{x}, 0) = $U_0(\mathbf{x})\f$, the original image.
+ *
+ * Extending to the case where \f$c\f$ is not a constant, but a function of
+ * \f$\mathbf{x}\f$, gives
+ *
+ * \f[\frac{d U(\mathbf{x})}{d t} = C(\mathbf{x})\Delta U(\mathbf{x})
+ * + \nabla C(\mathbf{x}) \nabla U(\mathbf{x})\f]
+ *
+ * Our choice of \f$C\f$ now varies the strength of diffusion anisotropically.
+ * Typically, \f$C\f$ is chosen as some function of image features to
+ * selectively preserve or remove those features.  For example, edges tend to
+ * be preserved over smoother regions where \f$C\f$ is inversely scaled
+ * according to gradient magnitude as in
+ *
+ * \f[C(\mathbf{x}) = e^{-(\frac{\parallel \nabla U(\mathbf{x}) \parallel}{K})^2}\f].
+ *
+ * Several variations on the scheme presented above are implemented in Itk as
+ * subclasses of this equation.  The equations are solved using an iterative,
+ * finite forward difference technique (see the FiniteDifferenceImageFilter
+ * class).
+ *
+ * \sa GradientAnisotropicDiffusionEquation
+ * \sa CurvatureAnisotropicDiffusionEquation
+ * \sa VectorGradientAnisotropicDiffusionEquation
+ * 
+ * \reference
+ * \reference
+ *
+ * \todo Documentation, references */
 template <class TImage>
 class AnisotropicDiffusionEquation :
     public FiniteDifferenceEquation<TImage>
@@ -67,6 +109,7 @@ public:
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
   typedef typename Superclass::TimeStepType TimeStepType;
   typedef typename Superclass::ScalarValueType ScalarValueType;
+  //  typedef typename Superclass::FloatOffsetType FloatOffsetType;
   enum { ImageDimension = Superclass::ImageDimension };
 
   /** 
