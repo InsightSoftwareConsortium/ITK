@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrap_ITKIO.cxx
+  Module:    wrap_itkTkImageViewer2D.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,18 +14,29 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#include "itkTkImageViewer2D.h"
+
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKIO.h"
+
 namespace _cable_
 {
-  const char* const package = ITK_WRAP_PACKAGE;
-  const char* const package_version = ITK_WRAP_PACKAGE_VERSION;
-  const char* const groups[] =
+  const char* const group = ITK_WRAP_GROUP(itkTkImageViewer2D);
+  namespace wrappers
   {
-    ITK_WRAP_GROUP(IOBase),
-    ITK_WRAP_GROUP(itkImageFileReader),
-    ITK_WRAP_GROUP(itkImageFileWriter),
-    ITK_WRAP_GROUP(itkTkImageViewer2D)
-  };
+    namespace itk
+    {
+      typedef ::itk::TkImageViewer2D TkImageViewer2D;
+      typedef TkImageViewer2D::Pointer TkImageViewer2D_Pointer;
+    }
+  }
 }
+
+void force_instantiate()
+{
+  using namespace _cable_::wrappers::itk;
+  sizeof(TkImageViewer2D);
+  sizeof(TkImageViewer2D_Pointer);
+}
+
 #endif

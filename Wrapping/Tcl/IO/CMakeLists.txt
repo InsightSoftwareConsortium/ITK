@@ -1,12 +1,16 @@
 INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Wrapping/Tcl/IO)
+INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Code/BasicFilters)
 
-ADD_LIBRARY(ITKIOTcl)
+ADD_LIBRARY(ITKIOTcl
+  itkTkImageViewer2D.cxx
+)
 
-CABLE_WRAP_TCL(ITKIOTcl
+ITK_WRAP_TCL(ITKIOTcl
   wrap_ITKIO.cxx
   wrap_IOBase.cxx
   wrap_itkImageFileReader.cxx
   wrap_itkImageFileWriter.cxx
+  wrap_itkTkImageViewer2D.cxx
 )
 
 LINK_LIBRARIES(ITKIO ITKCommon VXLNumerics ${CABLE_TCL_LIBRARY})
