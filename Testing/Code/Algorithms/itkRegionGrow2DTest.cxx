@@ -186,6 +186,12 @@ unsigned int test_regiongrowKLM2D()
   applyRegionGrowImageFilterKLM->Update();
   applyRegionGrowImageFilterKLM->Print(std::cout);
 
+  //Test the functions useful to test the region and border statistics
+  //as the regions are merged. Primarily useful for debug operations and are
+  //called several times, so prudent usage is advisable.
+  applyRegionGrowImageFilterKLM->PrintAlgorithmRegionStats();
+  applyRegionGrowImageFilterKLM->PrintAlgorithmBorderStats();
+
   typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION2D> OutputImageType; 
   OutputImageType::Pointer outImage = applyRegionGrowImageFilterKLM->GetOutput();
 

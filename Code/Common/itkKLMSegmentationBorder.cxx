@@ -142,19 +142,8 @@ KLMSegmentationBorder
   itkDebugMacro(<< "------------------------------" );
   itkDebugMacro(<< "------------------------------" );
   
-  
-  std::cout << "------------------------------"<< std::endl;
   std::cout << "Location      : " << this << std::endl;
   std::cout << "Lambda        : " << m_Lambda << std::endl;
-  std::cout << "Neighbor regions: " << (this->GetRegion1()->GetRegionLabel()) << 
-    " - " << (this->GetRegion2()->GetRegionLabel()) << std::endl;
-  std::cout << "Total neighbor area: " << 
-    ( this->GetRegion1()->GetRegionArea() + this->GetRegion2()->GetRegionArea() ) <<
-    std::endl;
-  std::cout << "++++++++++++++++++++++++++++++"  << std::endl;
-  std::cout << "                             "  << std::endl;
-
-
 }//end PrintBorderResults
 
 
