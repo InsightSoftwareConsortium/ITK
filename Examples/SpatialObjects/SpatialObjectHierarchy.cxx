@@ -33,8 +33,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// First, we create two spatial objects and give them the names "First Object" 
-// and "Second Object" respectively.
+// First, we create two spatial objects and give them the names \code{First
+// Object} and \code{Second Object}, respectively.
 //
 // Software Guide : EndLatex 
 
@@ -50,8 +50,8 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // We then add the second object to the first one by using the
-// AddSpatialObject() method.  As a result object2 becames a child of
-// object1.
+// \code{AddSpatialObject()} method.  As a result \code{object2} becames a
+// child of object1.
 //
 // Software Guide : EndLatex 
 
@@ -61,10 +61,10 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// We can query if an object has a parent by using the HasParent()
-// method. If it has one, the GetParent() method returns a
-// constant pointer to the parent.  In our case, if we ask the parent's name
-// of the object2 we should obtain: "First Object".
+// We can query if an object has a parent by using the HasParent() method. If
+// it has one, the \code{GetParent()} method returns a constant pointer to
+// the parent.  In our case, if we ask the parent's name of the object2 we
+// should obtain: \code{First Object}.
 //
 // Software Guide : EndLatex 
 
@@ -78,7 +78,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// To access the list of children of the object, the GetChildren()
+// To access the list of children of the object, the \code{GetChildren()}
 // method returns a pointer to the (STL) list of children.
 //
 // Software Guide : EndLatex 
@@ -97,7 +97,7 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 // Software Guide : BeginLatex
 //
-// An object can also be removed by using the RemoveSpatialObject()
+// An object can also be removed by using the \code{RemoveSpatialObject()}
 // method.
 //
 // Software Guide : EndLatex 
@@ -108,7 +108,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // We can query the number of children an object has with the
-// GetNumberOfChildren() method.
+// \code{GetNumberOfChildren()} method.
 //
 // Software Guide : EndLatex 
 
@@ -118,7 +118,7 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 // Software Guide : BeginLatex
 //
-// The Clear() method erases all the information regarding the object
+// The \code{Clear()} method erases all the information regarding the object
 // as well as the data. This method is usually overloaded by 
 // derived classes.
 //

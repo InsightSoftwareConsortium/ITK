@@ -46,7 +46,7 @@
 // to exist as a Dirac Delta Function located at the pixel center. Pixel
 // spacing is measured between the pixel centers and can be different along
 // each dimension. The image origin is associated with the coordinates of the
-// first pixel in the image. A \emph{Pixel} is considered to be the
+// first pixel in the image. A \emph{pixel} is considered to be the
 // rectangular region surrounding the pixel center holding the data
 // value. This can be viewed as the Voronoi region of the image grid, as
 // illustrated in the right side of the figure.  Linear interpolation of

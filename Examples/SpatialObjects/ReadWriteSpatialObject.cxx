@@ -18,6 +18,7 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::ReadWriteSpatialObject}
+//
 // Reading and writing SpatialObjects is a fairly simple task. The classes
 // \doxygen{SpatialObjectReader} and \doxygen{SpatialObjectWriter} are used
 // to read and write these objects, respectively. (Note these classes
@@ -63,9 +64,10 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 // Software Guide : BeginLatex
 //
-// Finally, we set to the writer the object to write using the SetInput()
-// method and we set the name of the file with SetFileName() and call the
-// Update() method to actually write the information.
+// Finally, we set to the writer the object to write using the
+// \code{SetInput()} method and we set the name of the file with
+// \code{SetFileName()} and call the \code{Update()} method to actually write
+// the information.
 //
 // Software Guide : EndLatex 
 
@@ -91,8 +93,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Next we set the name of the file to read using SetFileName() and we call
-// the Update() method to read the file.
+// Next we set the name of the file to read using \code{SetFileName()} and we
+// call the \code{Update()} method to read the file.
 //
 // Software Guide : EndLatex 
 
@@ -103,9 +105,9 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// To get the objects in the file you can call the GetScene() method or the
-// GetGroup() method.  GetScene() returns an pointer to a
-// \doxygen{SceneSpatialObject}.
+// To get the objects in the file you can call the \code{GetScene()} method
+// or the \code{GetGroup()} method.  \code{GetScene()} returns an pointer to
+// a \doxygen{SceneSpatialObject}.
 //
 // Software Guide : EndLatex 
 

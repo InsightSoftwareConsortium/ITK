@@ -30,7 +30,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // Like the previous example, we create two spatial objects and give them the
-// names "First Object" and "Second Object" respectively.
+// names \code{First Object} and \code{Second Object}, respectively.
 //
 // Software Guide : EndLatex 
 
@@ -49,13 +49,14 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Instances of SpatialObject maintain three transformations internally that
-// can be used to compute the position and orientation of data and objects.
-// These transformations are: an IndexToObjectTransform, an
-// ObjectToParentTransform, and an ObjectToWorldTransform. As a convenience
-// to the user, the global transformation IndexToWorldTransform and its
-// inverse, WorldToIndexTransform, are also maintained by the class. Methods
-// are provided by SpatialObject to access and manipulate these transforms.
+// Instances of \doxygen{SpatialObject} maintain three transformations
+// internally that can be used to compute the position and orientation of
+// data and objects.  These transformations are: an IndexToObjectTransform,
+// an ObjectToParentTransform, and an ObjectToWorldTransform. As a
+// convenience to the user, the global transformation IndexToWorldTransform
+// and its inverse, WorldToIndexTransform, are also maintained by the
+// class. Methods are provided by SpatialObject to access and manipulate
+// these transforms.
 //
 // The two main transformations, IndexToObjectTransform and
 // ObjectToParentTransform, are applied successively. ObjectToParentTransform

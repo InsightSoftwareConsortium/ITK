@@ -18,9 +18,11 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::EllipseSpatialObject}
-// EllipseSpatialObject defines an n-Dimensional ellipse. Like other
-// SpatialObjects this class derives from \doxygen{SpatialObject}. Let's
-// start by including the appropriate header file.
+//
+// \doxygen{EllipseSpatialObject} defines an n-Dimensional ellipse. Like
+// other spatial objects this class derives from
+// \doxygen{SpatialObject}. Let's start by including the appropriate header
+// file.
 //
 // Software Guide : EndLatex 
 
@@ -67,7 +69,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 // 
-// We can then display the current radius by using the GetRadius()
+// We can then display the current radius by using the \code{GetRadius()}
 // function:
 //
 // Software Guide : EndLatex 
@@ -105,7 +107,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 // 
 // All spatial objects can be queried for a value at a point.  The
-// IsEvaluableAt() function returns a boolean to know if the object is
+// \code{IsEvaluableAt()} function returns a boolean to know if the object is
 // evaluable at a particular point.
 //
 // Software Guide : EndLatex 
@@ -120,9 +122,9 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 // 
-//  If the object is evaluable at that point, the ValueAt() function returns
-//  the current value at that position.  Most of the objects returns a
-//  boolean value which is set to true when the point is inside the object
+//  If the object is evaluable at that point, the \code{ValueAt()} function
+//  returns the current value at that position.  Most of the objects returns
+//  a boolean value which is set to true when the point is inside the object
 //  and false when it is outside. However, for some objects, it is more
 //  interesting to return a value representing, for instance, the distance
 //  from the center of the object or the distance from from the boundary.
@@ -138,8 +140,8 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 // 
 // Like other spatial objects, we can also query the bounding box of the
-// object by using GetBoundingBox(). The resulting bounding box is expressed
-// in the local frame.
+// object by using \code{GetBoundingBox()}. The resulting bounding box is
+// expressed in the local frame.
 //
 // Software Guide : EndLatex 
 

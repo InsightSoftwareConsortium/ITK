@@ -18,8 +18,9 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::LineSpatialObject}
-// LineSpatialObject defines a line in an n-dimensional space. 
-// A Line is defined as a list of points which compose the line, i.e a 
+//
+// \doxygen{LineSpatialObject} defines a line in an n-dimensional space.  A
+// Line is defined as a list of points which compose the line, i.e a
 // polyline. We begin the example by including the appropriate header files.
 //
 // Software Guide : EndLatex 
@@ -54,11 +55,12 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // We create a point list and we set the position of each point in the local
-// coordinate system using the SetPosition() method. We also set the color of
-// each point to red.
+// coordinate system using the \code{SetPosition()} method. We also set the
+// color of each point to red.
 //
-// The two normals are set using the SetNormal() function; the first argument
-// is the normal itself and the second argument is the index of the normal.
+// The two normals are set using the \code{SetNormal()} function; the first
+// argument is the normal itself and the second argument is the index of the
+// normal.
 //
 // Software Guide : EndLatex 
 
@@ -87,8 +89,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Next, we set the name of the object using SetName(). We also set its
-// identification number with SetId() and we set the list of points
+// Next, we set the name of the object using \code{SetName()}. We also set its
+// identification number with \code{SetId()} and we set the list of points
 // previously created.
 //
 // Software Guide : EndLatex 
@@ -101,7 +103,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// The GetPoints() method returns a reference to the internal list of points
+// The \code{GetPoints()} method returns a reference to the internal list of points
 // of the object.
 //
 // Software Guide : EndLatex 
@@ -116,7 +118,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // Then we can access the points using standard STL iterators.  The
-// GetPosition() and GetColor() functions return respectively the position
+// \code{GetPosition()} and \code{GetColor()} functions return respectively the position
 // and the color of the point. Using the GetNormal(unsigned int) function we
 // can access each normal.
 //

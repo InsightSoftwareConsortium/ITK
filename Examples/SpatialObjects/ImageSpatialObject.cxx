@@ -17,10 +17,11 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::ImageSpatialObject} An ImageSpatialObject contains an
-// \doxygen{Image} but adds the notion of spatial transformations and
-// parent-child hierarchy. Let's begin the next example by including the
-// appropriate header file.
+// \index{itk::ImageSpatialObject}
+//
+// An \doxygen{ImageSpatialObject} contains an \doxygen{Image} but adds the
+// notion of spatial transformations and parent-child hierarchy. Let's begin
+// the next example by including the appropriate header file.
 //
 // Software Guide : EndLatex 
 
@@ -79,7 +80,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Then we set the itkImage to the ImageSpatialObject by using the SetImage() function.
+// Then we set the itkImage to the ImageSpatialObject by using the
+// \code{SetImage()} function.
 //
 // Software Guide : EndLatex 
 
@@ -89,9 +91,9 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// At this point we can use IsInside(), ValueAt() and DerivativeAt() functions inherent in
-// SpatialObjects.
-// The IsInside() value can be useful when dealing with registration.
+// At this point we can use \code{IsInside()}, \code{ValueAt()} and
+// \code{DerivativeAt()} functions inherent in SpatialObjects.  The
+// \code{IsInside()} value can be useful when dealing with registration.
 //
 // Software Guide : EndLatex 
 
@@ -108,7 +110,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-//  The ValueAt() returns the value of the closest pixel, i.e no interpolation, to
+//  The \code{ValueAt()} returns the value of the closest pixel, i.e no interpolation, to
 //  a given physical point.
 //
 // Software Guide : EndLatex 
@@ -123,12 +125,12 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 //  The derivative at a specified position in space can be computed using the
-//  DerivativeAt() function. The first argument is the point in physical
-//  coordinates where we are evaluating the derivatives. The second argument
-//  is the order of the derivation, and the third argument is the result
-//  expressed as a \doxygen{Vector}.  Derivatives are computed iteratively
-//  using finite differences and, like the ValueAt(), no interpolator is
-//  used.
+//  \code{DerivativeAt()} function. The first argument is the point in
+//  physical coordinates where we are evaluating the derivatives. The second
+//  argument is the order of the derivation, and the third argument is the
+//  result expressed as a \doxygen{Vector}.  Derivatives are computed
+//  iteratively using finite differences and, like the \code{ValueAt()}, no
+//  interpolator is used.
 //
 // Software Guide : EndLatex 
 

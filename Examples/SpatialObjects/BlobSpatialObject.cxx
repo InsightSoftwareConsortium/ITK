@@ -18,9 +18,10 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::BlobSpatialObject}
-// BlobSpatialObject defines an N-dimensional blob. Like other SpatialObjects
-// this class derives from \doxygen{itkSpatialObject}.
-// A blob is defined as a list of points which compose the object.
+//
+// \doxygen{BlobSpatialObject} defines an N-dimensional blob. Like other
+// SpatialObjects this class derives from \doxygen{itkSpatialObject}.  A blob
+// is defined as a list of points which compose the object.
 //
 // Let's start by including the appropriate header file.
 //
@@ -58,9 +59,9 @@ int main( int, char *[] )
 
 // Software Guide : BeginLatex
 //
-// Then, we create a list of points and we set the position of each point in the local
-// coordinate system using the SetPosition() method. We also set the color of each
-// point to be red.
+// Then, we create a list of points and we set the position of each point in
+// the local coordinate system using the \code{SetPosition()} method. We also
+// set the color of each point to be red.
 //
 // Software Guide : EndLatex 
 
@@ -81,8 +82,9 @@ int main( int, char *[] )
 
 // Software Guide : BeginLatex
 //
-// Next, we create the blob and set its name using the SetName() function. We also set its Identification
-// number with SetId() and we add the list of points previously created.
+// Next, we create the blob and set its name using the \code{SetName()}
+// function. We also set its Identification number with \code{SetId()} and we
+// add the list of points previously created.
 //
 // Software Guide : EndLatex 
 
@@ -95,7 +97,8 @@ int main( int, char *[] )
 
 // Software Guide : BeginLatex
 //
-// The GetPoints() method returns a reference to the internal list of points of the object.
+// The \code{GetPoints()} method returns a reference to the internal list of
+// points of the object.
 //
 // Software Guide : EndLatex 
 
@@ -109,8 +112,8 @@ int main( int, char *[] )
 // Software Guide : BeginLatex
 //
 // Then we can access the points using standard STL iterators and
-// GetPosition() and GetColor() functions return respectively the position and the color
-// of the point.
+// \code{GetPosition()} and \code{GetColor()} functions return respectively
+// the position and the color of the point.
 //
 // Software Guide : EndLatex 
 

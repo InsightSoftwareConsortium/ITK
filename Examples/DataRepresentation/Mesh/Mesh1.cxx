@@ -70,7 +70,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The Mesh type uses extensively the capabilities provided by
+  //  The Mesh type extensively uses the capabilities provided by
   //  \href{http://www.boost.org/more/generic_programming.html}{Generic
   //  Programming}. In particular the Mesh class is parametrized over the
   //  PixelType and the dimension of the space. PixelType is the type of the

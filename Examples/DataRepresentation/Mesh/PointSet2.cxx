@@ -56,7 +56,7 @@ int main()
   //  classes \href{http://www.sgi.com/tech/stl/Map.html}{\code{std::map}}
   //  and \href{http://www.sgi.com/tech/stl/Vector.html}{\code{std::vector}}.
   //  By default, the PointSet uses a static style, hence the default
-  //  type of point container is an \doxygen{VectorContainer}.  Both the map
+  //  type of point container is an VectorContainer.  Both the map
   //  and vector container are templated over the type of the elements they
   //  contain. In this case they are templated over PointType.
   //  Containers are reference counted object. They are then created with the

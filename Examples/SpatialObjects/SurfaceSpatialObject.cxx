@@ -18,10 +18,11 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::SurfaceSpatialObject}
-// SurfaceSpatialObject defines a surface in n-dimensional space.  A
-// SurfaceSpatialObject is defined by a list of points which lie on the
-// surface. Each point has a position and a unique normal. The example
-// begins by including the appropriate header file.
+/
+// \doxygen{SurfaceSpatialObject} defines a surface in n-dimensional space.
+// A SurfaceSpatialObject is defined by a list of points which lie on the
+// surface. Each point has a position and a unique normal. The example begins
+// by including the appropriate header file.
 //
 // Software Guide : EndLatex 
 
@@ -54,8 +55,8 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // We create a point list and we set the position of each point in the local
-// coordinate system using the SetPosition() method. We also set the color of
-// each point to red.
+// coordinate system using the \code{SetPosition()} method. We also set the
+// color of each point to red.
 //
 // Software Guide : EndLatex 
 
@@ -79,9 +80,9 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Next, we create the surface and set his name using SetName(). We also set
-// its Identification number with SetId() and we add the list of points
-// previously created.
+// Next, we create the surface and set his name using \code{SetName()}. We
+// also set its Identification number with \code{SetId()} and we add the list
+// of points previously created.
 //
 // Software Guide : EndLatex 
 
@@ -93,7 +94,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// The GetPoints() method returns a reference to the internal list of points
+// The \code{GetPoints()} method returns a reference to the internal list of points
 // of the object.
 //
 // Software Guide : EndLatex 
@@ -107,9 +108,10 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Then we can access the points using standard STL iterators.  GetPosition()
-// and GetColor() functions return respectively the position and the color of
-// the point. GetNormal() returns the normal as a \doxygen{CovariantVector}.
+// Then we can access the points using standard STL iterators.
+// \code{GetPosition()} and \code{GetColor()} functions return respectively
+// the position and the color of the point. \code{GetNormal()} returns the
+// normal as a \doxygen{CovariantVector}.
 //
 // Software Guide : EndLatex 
 
