@@ -43,7 +43,7 @@
 #include <time.h>
 
 
-bool main(void)
+int main(int, char*[])
 {
   const unsigned int dim = 3;
   const unsigned int size = 20;
