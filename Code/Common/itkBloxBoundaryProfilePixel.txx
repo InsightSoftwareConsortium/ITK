@@ -33,7 +33,7 @@ template <unsigned int NDimensions>
 BloxBoundaryProfilePixel<NDimensions>
 ::~BloxBoundaryProfilePixel()
 {
-  // The default destructor walks the pixel and deletes all bloxitems
+
 }
 
 } // end namespace itk

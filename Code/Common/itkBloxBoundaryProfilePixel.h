@@ -1,14 +1,9 @@
 #ifndef __itkBloxBoundaryProfilePixel_h
 #define __itkBloxBoundaryProfilePixel_h
 
-#include "vnl/vnl_matrix_fixed.h"
-#include "vnl/vnl_vector_fixed.h"
-
-#include "itkObject.h"
 #include "itkBloxBoundaryProfileItem.h"
 #include "itkBloxBoundaryPointItem.h"
 #include "itkPoint.h"
-#include "itkCovariantVector.h"
 #include "itkBloxPixel.h"
 
 namespace itk
@@ -29,11 +24,7 @@ public:
   
   BloxBoundaryProfilePixel();
   ~BloxBoundaryProfilePixel();
-
-private:
-
 };
-
 
 } // end namespace itk
 

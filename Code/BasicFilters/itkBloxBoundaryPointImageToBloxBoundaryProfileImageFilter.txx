@@ -153,7 +153,7 @@ public:
     unsigned valueindex = 0;
 
     double arg = 0;
-    for( unsigned int x = 0; x<m_RangeDimension; x++ ) 
+    for( unsigned int x = 0; x < m_RangeDimension; x++ ) 
       {
       const double xd = static_cast<double>( x );
       
@@ -167,9 +167,9 @@ public:
   }
 
   void GetDerivative( const ParametersType & parameters,
-                            DerivativeType  &) const
+                            DerivativeType  & derivative ) const
   {
-    // double a = parameters[0];  not used
+    // double a = parameters[0]; not used
     double b = parameters[1];
     double c = parameters[2];
     double d = parameters[3];
@@ -179,8 +179,8 @@ public:
   
     double arg = 0;
     for( unsigned int x = 0; x<m_RangeDimension; x++ ) 
-    {
-      arg     = ((x-c)/(d*SQUARE_ROOT_OF_TWO));
+      {
+      arg = ((x-c)/(d*SQUARE_ROOT_OF_TWO));
 
       m_Derivative[0][valueindex] =  1;
       m_Derivative[1][valueindex] =  (.5*(1 + erf(arg)));
@@ -188,7 +188,7 @@ public:
       m_Derivative[3][valueindex] =  -(INV_SQRT_TWO_PI*b*(x - c)*(1/(d*d))*exp(arg*arg));
 
       valueindex++;
-    }
+      }
   }
 
   unsigned int GetNumberOfParameters(void) const
@@ -218,8 +218,6 @@ private:
   unsigned int m_RangeDimension;  
 };
 
-
-
 ////////////////////////////////////////////////////////////////////////////////
 //============================================================================//
 //============================================================================//
@@ -232,30 +230,170 @@ template< typename TSourceImage >
 BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::BloxBoundaryPointImageToBloxBoundaryProfileImageFilter()
 {
+  // NOTE: Be sure to call Initialize function to set variables
   itkDebugMacro(<< "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter::itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter() called");
- 
-  m_NumBoundaryProfiles = 0;  
-  m_UniqueAxis = 0;
-  m_SymmetricAxes = 0;
+}
+
+template< typename TSourceImage >
+bool 
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+::AddSplatToAccumulatorAndNormalizer(int binNumber, double weight, double sourcePixelValue)
+{      
+  // Add results of splat to the accumulator and normalizer
+  if(binNumber >= 0 && static_cast<unsigned int>(binNumber) < m_NumberOfBins)
+    {
+    m_Accumulator[binNumber] += weight * sourcePixelValue;           
+    m_Normalizer[binNumber]  += weight;
+    return(1);
+    }
+  else
+    return(0);
+}
+
+template< typename TSourceImage >
+double 
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+::FindAccumulatorMaximum()
+{
+  // Find the maximum value of the accumulator
+  double maximum = m_NormalizedAccumulator[0];
+
+  for(unsigned int i = 0; i < m_NumberOfBins; ++i)
+    {
+    double temp = m_NormalizedAccumulator[i];
+    for(unsigned int j = 0; j < m_NumberOfBins; ++j)
+      {
+      if(temp >= maximum)
+        {
+        maximum = temp;}
+      }        
+    }
+    return maximum;  
+}
+
+template< typename TSourceImage >
+double 
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+::FindAccumulatorMinimum()
+{
+  // Find the minimum value of the accumulator
+  double minimum = m_NormalizedAccumulator[0];
+  for(unsigned int  i = 0; i < m_NumberOfBins; ++i)
+    {
+    double temp = m_NormalizedAccumulator[i];   
+    for(unsigned int j = 0; j < m_NumberOfBins; ++j)
+      {
+      if(temp <= minimum)
+        minimum = temp;
+      }
+    }
+  return minimum;
+}
+
+template< typename TSourceImage >
+int
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+::FitProfile()
+{
+  m_FinalParameters = new double[BoundaryProfileCostFunction::SpaceDimension];
+
+  typedef LevenbergMarquardtOptimizer OptimizerType;
+
+  typedef OptimizerType::InternalOptimizerType vnlOptimizerType;
+  
+  // Declaration of a itkOptimizer
+  OptimizerType::Pointer  Optimizer = OptimizerType::New();
+
+  // Declaration of the CostFunction adaptor
+  BoundaryProfileCostFunction::Pointer costFunction = BoundaryProfileCostFunction::New();
+
+  costFunction->Initialize(m_NumberOfBins);
+      
+  typedef BoundaryProfileCostFunction::ParametersType ParametersType;
+  ParametersType  parameters(BoundaryProfileCostFunction::SpaceDimension);
+
+  costFunction->SetTheoreticalData(m_NormalizedAccumulator);
+
+  costFunction->GetValue(parameters);
+  
+  try 
+    {
+    Optimizer->SetCostFunction( costFunction.GetPointer() );
+    }
+  catch( ExceptionObject & e )
+    {
+    std::cout << "Exception thrown ! " << std::endl;
+    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << e << std::endl;
+    return EXIT_FAILURE;
+    }
+  
+  const double F_Tolerance      = 1e-15;  // Function value tolerance
+  const double G_Tolerance      = 1e-17;  // Gradient magnitude tolerance 
+  const double X_Tolerance      = 1e-16;  // Search space tolerance
+  const double Epsilon_Function = 1e-10;  // Step
+  const int    Max_Iterations   =    500;  // Maximum number of iterations
+
+  vnlOptimizerType * vnlOptimizer = Optimizer->GetOptimizer();
+
+  vnlOptimizer->set_f_tolerance( F_Tolerance );
+  vnlOptimizer->set_g_tolerance( G_Tolerance );
+  vnlOptimizer->set_x_tolerance( X_Tolerance ); 
+  vnlOptimizer->set_epsilon_function( Epsilon_Function );
+  vnlOptimizer->set_max_function_evals( Max_Iterations );
+
+  // Initialize the optimizer
+  typedef BoundaryProfileCostFunction::ParametersType ParametersType;
+  ParametersType  initialValue(BoundaryProfileCostFunction::SpaceDimension);
+
+  initialValue[0] = FindAccumulatorMinimum();
+  initialValue[1] = FindAccumulatorMaximum() - FindAccumulatorMinimum();
+  initialValue[2] = 5;
+  initialValue[3] = 2;
+
+  OptimizerType::ParametersType currentValue(BoundaryProfileCostFunction::SpaceDimension);
+
+  currentValue = initialValue;
+  
+  Optimizer->SetInitialPosition( currentValue );
+
+  try 
+    {
+    Optimizer->StartOptimization();
+    }
+  catch( ExceptionObject & e )
+    {
+    std::cout << "Exception thrown ! " << std::endl;
+    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "Location    = " << e.GetLocation()    << std::endl;
+    std::cout << "Description = " << e.GetDescription() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  OptimizerType::ParametersType finalPosition;
+  finalPosition = Optimizer->GetCurrentPosition();
+  
+  m_FinalParameters[0] = finalPosition[0];
+  m_FinalParameters[1] = finalPosition[1];
+  m_FinalParameters[2] = finalPosition[2];
+  m_FinalParameters[3] = finalPosition[3];
+
+  return EXIT_SUCCESS;
 }
 
 template< typename TSourceImage >
 void
 BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
-::SetInput1(const SourceImageType * image1 ) 
-{
-
-  // Process object is not const-correct so the const casting is required.
-  SetNthInput(1,  const_cast<SourceImageType *>( image1 ) );
-}
-
-template< typename TSourceImage >
-void
-BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
-::SetInput2(const BoundaryPointImageType * image2 ) 
-{
-  // Process object is not const-correct so the const casting is required.
-  SetNthInput(0, const_cast<BoundaryPointImageType *>( image2 ) );
+::NormalizeSplatAccumulator()
+{  
+  for(unsigned int i = 0; i < m_NumberOfBins; ++i)
+    {      
+    if(m_Normalizer[i] == 0)
+      {
+      m_NormalizedAccumulator[i] = 0;
+      }
+    m_NormalizedAccumulator[i] = m_Accumulator[i] / m_Normalizer[i];
+    }   
 }
 
 template< typename TSourceImage >
@@ -343,10 +481,8 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       typedef typename TSourceImage::IndexValueType IndexValueType;
 
       for(unsigned int i=0; i< NDimensions; i++)
-        {
         seedIndex[i] = static_cast<IndexValueType>( spatialFunctionOrigin[i] );
-        }
-
+        
       // Create and initialize a spatial function iterator
       typedef FloodFilledSpatialFunctionConditionalIterator<TSourceImage, FunctionType> IteratorType;
       IteratorType sfi = IteratorType(sourcePtr, spatialFunc, seedIndex);
@@ -354,6 +490,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       // The index of the pixel
       VectorType indexPosition;
 
+      // Reset these just to be safe
       for(unsigned int i = 0; i < m_NumberOfBins; ++i)
         { 
         m_Accumulator[i] = 0;
@@ -363,15 +500,15 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       // Walk the spatial function
       for( ; !( sfi.IsAtEnd() ); ++sfi)
         {    
-        for(unsigned int i = 0; i < NDimensions; i++)
-          indexPosition[i] = sfi.GetIndex()[i];
-        
+
         VectorType deltaPoint;
-
-      for(unsigned int i = 0; i < NDimensions; i++)
-        // Calculate difference in spatial function index and origin
-        deltaPoint[i] = indexPosition[i] - spatialFunctionOriginVector[i];
-
+        for(unsigned int i = 0; i < NDimensions; i++)
+        {
+          indexPosition[i] = sfi.GetIndex()[i];
+          // Calculate difference in spatial function index and origin
+          deltaPoint[i] = indexPosition[i] - spatialFunctionOriginVector[i];
+        }
+        
         // Project boundary point onto major axis of ellipsoid
         double projOntoMajorAxis = inner_product<double>(deltaPoint.Get_vnl_vector(), orientationVNL.Get_vnl_vector());
 
@@ -388,56 +525,58 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
         double binJitter = (vectorRatio * m_NumberOfBins) - binNumber;
 
         typename TSourceImage::PixelType sourcePixelValue;
-        
+
         // Get the value of the pixel
         sourcePixelValue = sourcePtr->GetPixel(sfi.GetIndex());
 
-        // Gaussian Splat
+        // Gaussian Splat - Project Gaussian weighted pixel intensities along major axis of ellipsoid (sampling region)
         if(m_SplatMethod == 0)
           {         
           double a = 2;
           double b = .6; // for weight .5
 
-          AddSplatToAccumulatorAndNormalizer(binNumber-1, double(a*exp(-.5*(pow((binJitter+1)/b, 2)))),
+          this->AddSplatToAccumulatorAndNormalizer(binNumber-1, double(a*exp(-.5*(pow((binJitter+1)/b, 2)))),
                          sourcePixelValue);
-          AddSplatToAccumulatorAndNormalizer(binNumber,   double(a*exp(-.5*(pow((binJitter  )/b, 2)))),
+          this->AddSplatToAccumulatorAndNormalizer(binNumber,   double(a*exp(-.5*(pow((binJitter  )/b, 2)))),
                          sourcePixelValue);
-          AddSplatToAccumulatorAndNormalizer(binNumber+1, double(a*exp(-.5*(pow((binJitter-1)/b, 2)))),
+          this->AddSplatToAccumulatorAndNormalizer(binNumber+1, double(a*exp(-.5*(pow((binJitter-1)/b, 2)))),
                          sourcePixelValue);
-          AddSplatToAccumulatorAndNormalizer(binNumber+2, double(a*exp(-.5*(pow((binJitter-2)/b, 2)))),
+          this->AddSplatToAccumulatorAndNormalizer(binNumber+2, double(a*exp(-.5*(pow((binJitter-2)/b, 2)))),
                          sourcePixelValue);
           }
         
-        // Triangle splat
+        // Triangle splat - Project Triangular weighted pixel intensities along major axis of ellipsoid (sampling region)
         else if(m_SplatMethod == 1)
           {         
-          AddSplatToAccumulatorAndNormalizer(binNumber-1, 1-binJitter, sourcePixelValue);
-          AddSplatToAccumulatorAndNormalizer(binNumber,   2-binJitter, sourcePixelValue);
-          AddSplatToAccumulatorAndNormalizer(binNumber+1, 1+binJitter, sourcePixelValue);
-          AddSplatToAccumulatorAndNormalizer(binNumber+2,   binJitter, sourcePixelValue);   
+          this->AddSplatToAccumulatorAndNormalizer(binNumber-1, 1-binJitter, sourcePixelValue);
+          this->AddSplatToAccumulatorAndNormalizer(binNumber,   2-binJitter, sourcePixelValue);
+          this->AddSplatToAccumulatorAndNormalizer(binNumber+1, 1+binJitter, sourcePixelValue);
+          this->AddSplatToAccumulatorAndNormalizer(binNumber+2,   binJitter, sourcePixelValue);   
           }
         else
           itkDebugMacro(<< "BloxBoundaryProfileImage::FindBoundaryProfilesAtBoundaryPoint - Inappropriate splat method");
         }
 
         // Normalize the splat accumulator with the normalizer 
-        NormalizeSplatAccumulator();
+        this->NormalizeSplatAccumulator();
 
-        // Fit the intensity profile to a cumulative Gaussian
-        FitProfile();
+        // Fit the intensity profile to a Cumulative Gaussian
+        this->FitProfile();
 
         // Create a new boundary profile if within constraints of imaging modality
-        if(m_FinalParameters[0] <= 255 && m_FinalParameters[1] <= 255 && m_FinalParameters[2] <= m_UniqueAxis)
-          {           
+        if(m_FinalParameters[0] >= 0 && m_FinalParameters[0] <= 255 && 
+           m_FinalParameters[1] >= 0 && m_FinalParameters[1] <= 255 && 
+           m_FinalParameters[2] >= 0 && m_FinalParameters[2] <= m_UniqueAxis &&
+           m_FinalParameters[3] >= 0 && m_FinalParameters[3] <= m_UniqueAxis)
+          {                     
           BloxBoundaryProfileItem<NDimensions>* boundaryProfile = new BloxBoundaryProfileItem<NDimensions>;
 
-          // Set boundary parameters
-          
+          // Set boundary profile parameters          
           boundaryProfile->SetProfileLength(static_cast<unsigned int>(m_UniqueAxis));
-          boundaryProfile->SetLowerIntensity((double)m_FinalParameters[0]);
-          boundaryProfile->SetUpperIntensity((double)m_FinalParameters[1]);
-          boundaryProfile->SetMean((double)m_FinalParameters[2]);
-          boundaryProfile->SetBoundaryWidth((double)m_FinalParameters[3]); 
+          boundaryProfile->SetLowerIntensity(m_FinalParameters[0]);
+          boundaryProfile->SetUpperIntensity(m_FinalParameters[1]);
+          boundaryProfile->SetMean(m_FinalParameters[2]);
+          boundaryProfile->SetStandardDeviation(m_FinalParameters[3]); 
           boundaryProfile->SetMeanNormalized();    
           boundaryProfile->SetStandardDeviationNormalized();
           boundaryProfile->SetOptimalBoundaryLocation(spatialFunctionOriginVector.Get_vnl_vector(), orientationVNL.Get_vnl_vector());
@@ -461,8 +600,8 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       }
     }
 
-  std::cout << "bpCount = " << bpCount << std::endl
-    << "NumBoundaryProfiles = " << m_NumBoundaryProfiles << std::endl;
+  std::cout << "# of boundary points = " << bpCount << std::endl
+    << "# of boundary profiles = " << m_NumBoundaryProfiles << std::endl;
 
   itkDebugMacro(<< "Finished constructing for boundary profiles\n"
                 << "I made " << m_NumBoundaryProfiles << " boundary profiles\n");
@@ -474,173 +613,24 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  
-  // os << indent << "Threshold level: " << m_Threshold << std::endl;
-}
-
-template< typename TSourceImage >
-bool 
-BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
-::AddSplatToAccumulatorAndNormalizer(int binNumber, double weight, double sourcePixelValue)
-{      
-  if(binNumber >= 0 && static_cast<unsigned int>(binNumber) < m_NumberOfBins)
-    {
-    m_Accumulator[binNumber] += weight * sourcePixelValue;           
-    m_Normalizer[binNumber]  += weight;
-    return(1);
-    }
-  else
-    {
-    return(0);
-    }
-}
-
-template< typename TSourceImage >
-double 
-BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
-::FindAccumulatorMinimum()
-{
-  double minimum = m_NormalizedAccumulator[0];
-  for(unsigned int  i = 0; i < m_NumberOfBins; ++i)
-    {
-    double temp = m_NormalizedAccumulator[i];   
-    for(unsigned int j = 0; j < m_NumberOfBins; ++j)
-      {
-      if(temp <= minimum)
-        minimum = temp;
-      }
-    }
-  return minimum;
-}
-
-template< typename TSourceImage >
-double 
-BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
-::FindAccumulatorMaximum()
-{
-  double maximum = m_NormalizedAccumulator[0];
-
-  for(unsigned int i = 0; i < m_NumberOfBins; ++i)
-    {
-    double temp = m_NormalizedAccumulator[i];
-    for(unsigned int j = 0; j < m_NumberOfBins; ++j)
-      {
-      if(temp >= maximum)
-        {
-        maximum = temp;}
-      }        
-    }
-    return maximum;  
-}
-
-
-template< typename TSourceImage >
-int
-BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
-::FitProfile()
-{
-  m_FinalParameters = new double[BoundaryProfileCostFunction::SpaceDimension];
-
-  typedef LevenbergMarquardtOptimizer OptimizerType;
-
-  typedef OptimizerType::InternalOptimizerType vnlOptimizerType;
-  
-  // Declaration of a itkOptimizer
-  OptimizerType::Pointer  Optimizer = OptimizerType::New();
-
-  // Declaration of the CostFunction adaptor
-  BoundaryProfileCostFunction::Pointer costFunction = BoundaryProfileCostFunction::New();
-
-  costFunction->Initialize(m_NumberOfBins);
-      
-  typedef BoundaryProfileCostFunction::ParametersType ParametersType;
-  ParametersType  parameters(BoundaryProfileCostFunction::SpaceDimension);
-
-  costFunction->SetTheoreticalData(m_NormalizedAccumulator);
-
-  costFunction->GetValue(parameters);
-  
-  try 
-    {
-    Optimizer->SetCostFunction( costFunction.GetPointer() );
-    }
-  catch( ExceptionObject & e )
-    {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
-    std::cout << e << std::endl;
-    return EXIT_FAILURE;
-    }
-  
-  const double F_Tolerance      = 1e-15;  // Function value tolerance
-  const double G_Tolerance      = 1e-17;  // Gradient magnitude tolerance 
-  const double X_Tolerance      = 1e-16;  // Search space tolerance
-  const double Epsilon_Function = 1e-10;  // Step
-  const int    Max_Iterations   =    500;  // Maximum number of iterations
-
-  vnlOptimizerType * vnlOptimizer = Optimizer->GetOptimizer();
-
-  vnlOptimizer->set_f_tolerance( F_Tolerance );
-  vnlOptimizer->set_g_tolerance( G_Tolerance );
-  vnlOptimizer->set_x_tolerance( X_Tolerance ); 
-  vnlOptimizer->set_epsilon_function( Epsilon_Function );
-  vnlOptimizer->set_max_function_evals( Max_Iterations );
-
-  // We start not so far from the solution 
-  typedef BoundaryProfileCostFunction::ParametersType ParametersType;
-  ParametersType  initialValue(BoundaryProfileCostFunction::SpaceDimension);
-
-  initialValue[0] = FindAccumulatorMinimum();
-  initialValue[1] = FindAccumulatorMaximum() - FindAccumulatorMinimum();
-  initialValue[2] = 5;
-  initialValue[3] = 2;
-
-  OptimizerType::ParametersType currentValue(BoundaryProfileCostFunction::SpaceDimension);
-
-  currentValue = initialValue;
-  
-  Optimizer->SetInitialPosition( currentValue );
-
-  try 
-    {
-    Optimizer->StartOptimization();
-    }
-  catch( ExceptionObject & e )
-    {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation()    << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  OptimizerType::ParametersType finalPosition;
-  finalPosition = Optimizer->GetCurrentPosition();
-  
-  m_FinalParameters[0] = finalPosition[0];
-  m_FinalParameters[1] = finalPosition[1];
-  m_FinalParameters[2] = finalPosition[2];
-  m_FinalParameters[3] = finalPosition[3];
-
-  return EXIT_SUCCESS;
 }
 
 template< typename TSourceImage >
 void
 BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
-::NormalizeSplatAccumulator()
-{  
-  m_NormalizedAccumulator = new double[m_NumberOfBins];
+::SetInput1(const SourceImageType * image1 ) 
+{
+  // Process object is not const-correct so the const casting is required.
+  SetNthInput(1,  const_cast<SourceImageType *>( image1 ) );
+}
 
-  for(unsigned int i = 0; i < m_NumberOfBins; ++i)
-    {      
-    if(m_Normalizer[i] == 0)
-      {
-      m_NormalizedAccumulator[i] = 0;
-      }
-    m_NormalizedAccumulator[i] = m_Accumulator[i] / m_Normalizer[i];
-    }   
-
+template< typename TSourceImage >
+void
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+::SetInput2(const BoundaryPointImageType * image2 ) 
+{
+  // Process object is not const-correct so the const casting is required.
+  SetNthInput(0, const_cast<BoundaryPointImageType *>( image2 ) );
 }
 
 } // end namespace

@@ -40,9 +40,10 @@
 #include "itkDifferenceOfGaussiansGradientImageFilter.h"
 
 #include "itkExceptionObject.h"
+#include <time.h>
 
 
-int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char* [] )
+bool main(void)
 {
   const unsigned int dim = 3;
   const unsigned int size = 20;
@@ -101,7 +102,8 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char* [] 
 
   // Create and initialize a new sphere function
   FunctionType::Pointer spatialFunc = FunctionType::New();
-  spatialFunc->SetRadius( 7 );
+  unsigned int sphereRadius = 7;
+  spatialFunc->SetRadius( sphereRadius );
 
   // Set center of spatial function to (10,10,10)
   FunctionPositionType center;
@@ -130,7 +132,6 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char* [] 
   printf("Spatial function iterator created, sphere drawn\n");
 
   //--------------------Do blurring and edge detection----------------
-
   typedef ImageType OutputType;
   
   // Create a binomial blur filter
@@ -166,40 +167,57 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char* [] 
 
   //------------------------Blox Boundary Point Analysis-------------------------
 
+  // Typedefs for finding boundary points with GradientImageToBloxBoundaryPointImageFilter
   typedef itk::GradientImageToBloxBoundaryPointImageFilter<DOGFilterType::TOutputImage> TBPFilter;
   typedef TBPFilter::TOutputImage BloxBPImageType;
 
+  // Find boundary points using results of DOG blurring
   TBPFilter::Pointer bpFilter= TBPFilter::New();
   bpFilter->SetInput( DOGFilter->GetOutput() );
 
+  // Get the output of the boundary point filter
   BloxBPImageType::Pointer bloxBoundaryPointImage = bpFilter->GetOutput();
 
+  // Update
   bpFilter->Update();
 
   //------------------------Blox Profile Analysis---------------------------------
 
+  // For calculating total execution time
+  int startTime;
+  int endTime;
+
+  // Time the execution of profiles
+  startTime = clock();
+
+  // Typedefs for bloxboundaryprofile filter and image
   typedef itk::BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< ImageType > TProfileFilter;
   typedef itk::BloxBoundaryProfileImage< dim > BloxProfileImageType;
 
   TProfileFilter::Pointer profileFilter = TProfileFilter::New();
-  std::cerr << "profile filter created" << std::endl;
+  std::cerr << "Profile filter created" << std::endl;
 
+  // Set the inputs need to find profiles
   profileFilter->SetInput1( blurredImage );
   profileFilter->SetInput2( bloxBoundaryPointImage );
-  std::cerr << "input images set" << std::endl;
+  std::cerr << "Input images set" << std::endl;
 
-  double setUniqueAxis = 5;
-  double setSymmetricAxes = 2;
-  unsigned int numberOfBins = 5;
-  unsigned int splatMethod = 0;
-  unsigned int spaceDimension = 4;
+  // Initialize and set required parameters
+  double setUniqueAxis = 10; // major axis of sampling region (ellipsoid)
+  double setSymmetricAxes = 5; // minor axes of sampling region (ellipsoid)
+  unsigned int numberOfBins = setUniqueAxis; // lets make each bin 1 voxel wide
+  unsigned int splatMethod = 0; // method to weight voxel intensities
+                                // 0 - Gaussian, 1 - Triangular
+  unsigned int spaceDimension = 4; // number of cost function parameters
 
   profileFilter->Initialize(setUniqueAxis, setSymmetricAxes, numberOfBins, 
     splatMethod, spaceDimension);
-  std::cerr << "profile filter initialized" << std::endl;
+  std::cerr << "Profile filter initialized" << std::endl;
 
+  // Get the output of the profile filter
   BloxProfileImageType::Pointer bloxBoundaryProfileImage = profileFilter->GetOutput();
 
+  // Try and update profile filter if there are no exceptions
   try{profileFilter->Update();}
   catch( itk::ExceptionObject  & myException )
     {
@@ -208,11 +226,11 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char* [] 
     return EXIT_FAILURE;
     }
 
-  //verification
-
-  // double rad = spatialFunc->GetRadius();
-
   //-------------------Pull boundary profiles out of the image----------------------
+
+  // The test for BloxBoundaryPointImageToBloxBoundaryProfileImageFilter 
+  // requires that the mean of estimated boundary locations is within
+  // 0.1 voxels of the sphere's boundary.
 
   // Create an iterator that will walk the blox image
   typedef itk::ImageRegionIterator<BloxProfileImageType> BloxIterator;
@@ -230,7 +248,11 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char* [] 
   // Position are we at in the list
   int depth = 0;
 
-  for ( bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
+  double radius = 0;
+  double averageRadius = 0;
+  unsigned int profileCount = 1;
+
+  for (bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
     {
     // The iterator for accessing linked list info from profile pixel
     itk::BloxBoundaryProfilePixel<3>::iterator bpiterator;
@@ -246,12 +268,37 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char* [] 
       {
       position = (*bpiterator)->GetOptimalBoundaryLocation();
       depth++;
-      
-      std::cout << "Boundary profile at ";
-      std::cout << "Position=(" << position[0] << " " << position[1] << " " << position[2] << ") ";
-      std::cout << "at index=(" << bloxindex.m_Index[0] << " " << bloxindex.m_Index[1] << " " << bloxindex.m_Index[2] << "),";
-      std::cout << "depth=" << depth << "\n";
+    
+      // Find location of boundary profile on sphere
+      radius = sqrt( pow((position[0] - size/2), 2) + pow((position[1] - size/2), 2)
+        + pow((position[2] - size/2), 2) );
+
+      // Keep running sum of estimated radius to compute average radius
+      averageRadius += radius;
+
+      profileCount++;
       } // end iterate
     }
-  return EXIT_SUCCESS;
+
+  // Compute average radius estimated by boundary profiles
+  averageRadius = averageRadius/profileCount;
+
+  std::cerr << "Sphere Radius = " << sphereRadius << "  Average Radius = " << averageRadius << std::endl;
+
+  // Report time to execute itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter
+  endTime = clock();
+  std::cerr << "Profile calculation time: " << (endTime - startTime)/CLOCKS_PER_SEC 
+            << " seconds" << std::endl;
+
+  // Test passes if estimated radius is within .1 voxel of sphere radius
+  if(fabs(averageRadius - sphereRadius) <= .1)
+    {
+    std::cerr << "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest Passed!!!" << std::endl;
+    return EXIT_SUCCESS;
+    }
+  else
+    {
+    std::cerr << "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest Failed!!!" << std::endl;
+    return EXIT_FAILURE;
+    }
 }

@@ -13,7 +13,6 @@ BloxBoundaryProfileItem<VImageDimension>
   m_LowerIntensity = 0;
   m_UpperIntensity = 0;
   m_Mean = 0;
-  m_BoundaryWidth = 0;
   m_ProfileLength = 0;
   m_MeanNormalized = 0;
   m_StandardDeviation = 0;
@@ -24,9 +23,10 @@ template <unsigned int VImageDimension>
 BloxBoundaryProfileItem<VImageDimension>
 ::~BloxBoundaryProfileItem()
 {
-
+  
 }
 
 } // end namespace itk
 
 #endif
+

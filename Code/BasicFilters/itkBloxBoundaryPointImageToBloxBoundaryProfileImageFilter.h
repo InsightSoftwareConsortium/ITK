@@ -26,11 +26,18 @@ namespace itk
 {
 
 /** \class BloxBoundaryPointImageToBloxBoundaryProfileImageFilter
- * \brief Converts a BloxImage of BloxBoundaryPoints to a BloxImage of BloxBoundaryProfiles
+ * \brief Converts a BloxImage of BloxBoundaryPoints to a BloxImage of 
+ * BloxBoundaryProfiles
  *
- * Samples the boundary point image to produce
- * a BloxBoundaryProfileImage
- * 
+ * Samples the BloxBoundaryPointImage to form a BloxBoundaryProfileImage by
+ * sampling voxels in an ellipsoidal region, where the center of the  
+ * ellipoid is the location of each boundary point. Voxels within these
+ * regions are splatted onto the major axis of the ellipsoid in bins
+ * to form a profile of average intensity traversing blurred boundaries.
+ * Using curve fitting techniques, a cumulative Gaussian is fit to this
+ * intensity profile to yield estimates of actual boundary location,
+ * intensities on both sides of the boundary, and blurred boundary width.
+ *
  * References:
  * Robert J. Tamburo, George D. Stetten: Gradient-Oriented Profiles 
  * for Boundary Parameterization and Their Application to Core Atoms 
@@ -119,7 +126,7 @@ public:
 
   /** Fit the boundary profile to a cumulative Gaussian */
   int FitProfile();
-  
+
   /** Parameters required to find boundary profiles */
   void Initialize(double setUniqueAxis, double setSymmetricAxes, unsigned int numberOfBins,
                   unsigned int splatMethod, unsigned int spaceDimension)
@@ -129,9 +136,10 @@ public:
     m_NumberOfBins = numberOfBins;
     m_SplatMethod = splatMethod;
     m_SpaceDimension = spaceDimension;
-
     m_Accumulator = new double[m_NumberOfBins];
     m_Normalizer = new double[m_NumberOfBins];
+    m_NormalizedAccumulator = new double[m_NumberOfBins];
+    m_FinalParameters = new double[m_SpaceDimension];
     }
 
 protected:
@@ -143,6 +151,7 @@ protected:
     delete [] m_NormalizedAccumulator;
     delete [] m_FinalParameters;
   };
+
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Method for forming the BloxBoundaryProfileImage */
@@ -151,15 +160,7 @@ protected:
 private:
   BloxBoundaryPointImageToBloxBoundaryProfileImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  BoundaryPointImagePointer m_BoundaryPointImage;
-  const double* m_BPImageOrigin;
-  const double* m_BPImageSpacing;
     
-  typename TSourceImage::Pointer m_OriginalImage;
-  const double* m_OriginalImageOrigin;
-  const double* m_OriginalImageSpacing;
-   
   /** Length of major axis of ellipsoid */
   double m_UniqueAxis;
 
