@@ -1077,7 +1077,7 @@ BinaryMask3DMeshSource<TOutputMesh>
 
   /** allocate memory */
   if ( m_RowFlag == 1 ) {
-    if ( (index / m_ImageHeight) != m_LastRowIndex ) {
+    if ( (index / m_ImageWidth) != m_LastRowIndex ) {
       if ( m_LastRowNum == 0 ) m_LastRow = ( unsigned long ** ) malloc( m_CurrentRowIndex*sizeof(unsigned long *) );
       else m_LastRow = ( unsigned long ** ) realloc( m_LastRow, m_CurrentRowIndex*sizeof(unsigned long *) );  
       for ( i=0; i<m_CurrentRowIndex; i++ ) {
@@ -2147,7 +2147,7 @@ BinaryMask3DMeshSource<TOutputMesh>
       test[i] = 1;
 
       new_p[0] = m_LocationOffset[nodesid[i]][0] + ( index % m_ImageWidth );
-      new_p[1] = m_LocationOffset[nodesid[i]][1] + ( (index % (m_ImageWidth*m_ImageHeight)) / m_ImageHeight );
+      new_p[1] = m_LocationOffset[nodesid[i]][1] + ( (index % (m_ImageWidth*m_ImageHeight)) / m_ImageWidth );
       new_p[2] = m_LocationOffset[nodesid[i]][2] + ( index / (m_ImageWidth*m_ImageHeight) );
       this->GetOutput()->SetPoint( m_NumberOfNodes, new_p );
 
@@ -2266,6 +2266,7 @@ BinaryMask3DMeshSource<TOutputMesh>
         if ( m_PointFound != 0 ) continue;
         else {
           if (nodesid[i] == 9) globalnodesid[i] = this->SearchThroughLastRow((index % m_ImageWidth)*13-3, 0, m_LastRowNum-1);
+          if (nodesid[i] == 10) globalnodesid[i] = this->SearchThroughLastRow((index % m_ImageWidth)*13+22, 0, m_LastRowNum-1);
           if ( m_PointFound != 0 ) continue;
         }
       }
