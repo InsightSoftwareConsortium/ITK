@@ -110,8 +110,15 @@ int main()
   // for this to work
   TestUpCastPointer(sc.GetPointer());
 
+  // This will not work, but only in construction
+  //itkTestObject::Pointer p = sc;
+  
+  // For construction use the constructor call:
   // Test casting up the tree, note no explict cast is required
-  itkTestObject::Pointer p = sc;
+  itkTestObject::Pointer p(sc);
+
+  // No cast is required for assignment
+  p = sc;
   
   std::cout <<"second test" << std::endl;
   {
