@@ -52,7 +52,7 @@ namespace itk
  *
  */
 template <class TScalarType, // probably only float and double make sense here
-          int NDimensions>   // Number of dimensions
+          unsigned int NDimensions>   // Number of dimensions
 class ITK_EXPORT KernelTransform : 
                     public Transform<TScalarType, NDimensions,NDimensions>
 {

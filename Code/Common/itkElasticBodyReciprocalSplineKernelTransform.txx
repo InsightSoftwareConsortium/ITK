@@ -21,20 +21,20 @@
 namespace itk
 {
 
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 ElasticBodyReciprocalSplineKernelTransform<TScalarType, NDimensions>::
 ElasticBodyReciprocalSplineKernelTransform() 
 {
   m_Alpha = .25;
 }
 
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 ElasticBodyReciprocalSplineKernelTransform<TScalarType, NDimensions>::
 ~ElasticBodyReciprocalSplineKernelTransform()
 {
 }
 
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 const ElasticBodyReciprocalSplineKernelTransform<TScalarType, NDimensions>::GMatrixType &
 ElasticBodyReciprocalSplineKernelTransform<TScalarType, NDimensions>
 ::ComputeG(const InputVectorType & x) const

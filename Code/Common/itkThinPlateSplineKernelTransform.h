@@ -30,7 +30,7 @@ namespace itk
  * \ingroup Transforms
  */
 template <class TScalarType,         // Data type for scalars (float or double)
-          int NDimensions = 3>          // Number of dimensions
+          unsigned int NDimensions = 3>          // Number of dimensions
 class ThinPlateSplineKernelTransform : 
                 public KernelTransform<   TScalarType, NDimensions>
 {

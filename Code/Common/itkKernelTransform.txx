@@ -25,7 +25,7 @@ namespace itk
 /**
  *
  */
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 KernelTransform<TScalarType, NDimensions>::
 KernelTransform():Superclass(
                       NDimensions,
@@ -47,7 +47,7 @@ KernelTransform():Superclass(
 /**
  *
  */
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 KernelTransform<TScalarType, NDimensions>::
 ~KernelTransform()
 {
@@ -58,7 +58,7 @@ KernelTransform<TScalarType, NDimensions>::
 /**
  *
  */
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 const KernelTransform<TScalarType, NDimensions>::GMatrixType &
 KernelTransform<TScalarType, NDimensions>::
 ComputeG( const InputVectorType & vect ) const
@@ -77,7 +77,7 @@ ComputeG( const InputVectorType & vect ) const
  * Default implementation of the the method. This can be overloaded
  * in transforms whose kernel produce diagonal G matrices.
  */
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 void
 KernelTransform<TScalarType, NDimensions>::
 ComputeDeformationContribution( const InputPointType  & thisPoint,
@@ -107,7 +107,7 @@ ComputeDeformationContribution( const InputPointType  & thisPoint,
 /**
  *
  */
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 void KernelTransform<TScalarType, NDimensions>
 ::ComputeD(void)
 {
@@ -132,7 +132,7 @@ void KernelTransform<TScalarType, NDimensions>
 /**
  *
  */
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 void KernelTransform<TScalarType, NDimensions>
 ::ComputeWMatrix(void)
 {
@@ -151,7 +151,7 @@ void KernelTransform<TScalarType, NDimensions>
 /**
  *
  */
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::
 ComputeL(void)
 {
@@ -177,7 +177,7 @@ ComputeL(void)
 /**
  *
  */
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::
 ComputeK(void)
 {
@@ -217,7 +217,7 @@ ComputeK(void)
 /**
  *
  */
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::
 ComputeP()
 {
@@ -247,7 +247,7 @@ ComputeP()
 /**
  *
  */
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::
 ComputeY(void)
 {
@@ -278,7 +278,7 @@ ComputeY(void)
 /**
  *
  */
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 void
 KernelTransform<TScalarType, NDimensions>
 ::ReorganizeW(void) 
@@ -321,7 +321,7 @@ KernelTransform<TScalarType, NDimensions>
 /**
  *
  */
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 KernelTransform<TScalarType, NDimensions>::OutputPointType
 KernelTransform<TScalarType, NDimensions>
 ::TransformPoint(const InputPointType& thisPoint) const
@@ -360,7 +360,7 @@ KernelTransform<TScalarType, NDimensions>
 
 
 // Compute the Jacobian in one position 
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 const KernelTransform<TScalarType,NDimensions>::JacobianType & 
 KernelTransform< TScalarType,NDimensions>::
 GetJacobian( const InputPointType & p ) const
@@ -384,10 +384,10 @@ GetJacobian( const InputPointType & p ) const
 // here that the Target landmarks are provided by the user and
 // are not changed during the optimization process required for
 // registration.
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 void
-KernelTransform<TScalarType, NDimensions>
-::SetParameters( const ParametersType & parameters )
+KernelTransform<TScalarType, NDimensions>::
+SetParameters( const ParametersType & parameters )
 {
   Superclass::SetParameters( parameters );
 
@@ -421,9 +421,9 @@ KernelTransform<TScalarType, NDimensions>
 // Get the parameters
 // They are the components of all the landmarks in the source space
 template <class TScalarType, unsigned int NDimensions>
-const typename KernelTransform<TScalarType, NDimensions>::ParametersType &
-KernelTransform<TScalarType, NDimensions>
-::GetParameters( void ) const
+const KernelTransform<TScalarType, NDimensions>::ParametersType &
+KernelTransform<TScalarType, NDimensions>::
+GetParameters( void ) const
 {
 
   m_Parameters = ParametersType( m_SourceLandmarks->GetNumberOfPoints() * NDimensions );
@@ -449,7 +449,7 @@ KernelTransform<TScalarType, NDimensions>
 
 
 
-template <class TScalarType, int NDimensions>
+template <class TScalarType, unsigned int NDimensions>
 void
 KernelTransform<TScalarType, NDimensions>::
 PrintSelf(std::ostream& os, Indent indent) const
