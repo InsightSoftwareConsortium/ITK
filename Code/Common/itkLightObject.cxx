@@ -193,27 +193,32 @@ LightObject
  * Avoid DLL boundary problems.
  */
 #ifdef _WIN32
-void* 
+void*
 LightObject
-::operator new(size_t nSize, const char *, int)
+::operator new(size_t n)
 {
-  void* p=malloc(nSize);
-  return p;
+  return new char[n];
 }
 
-void* 
+void*
 LightObject
-::operator new(size_t nSize)
+::operator new[](size_t n)
 {
-  void* p=malloc(nSize);
-  return p;
+  return new char[n];
 }
 
-void 
+void
 LightObject
-::operator delete( void *p )
+::operator delete(void* m)
 {
-  free(p);
+  delete [] (char*)m;
+}
+
+void
+LightObject
+::operator delete[](void* m, size_t)
+{
+  delete [] (char*)m;
 }
 #endif 
 

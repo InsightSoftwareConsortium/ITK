@@ -77,9 +77,10 @@ public:
   /** 
    * Used to avoid dll boundary problems. 
    */
-  void* operator new( size_t tSize, const char *, int);
-  void* operator new( size_t tSize );
-  void operator delete( void* p );
+  void* operator new(size_t);
+  void* operator new[](size_t);
+  void operator delete(void*);
+  void operator delete[](void*, size_t);
 #endif 
   
   /** 
