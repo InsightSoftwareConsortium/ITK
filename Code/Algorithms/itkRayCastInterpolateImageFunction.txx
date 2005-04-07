@@ -78,7 +78,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   DirectionType direction = transformedFocalPoint - point;
 
   RayCastHelper ray;
-  ray.SetImage( m_Image );
+  ray.SetImage( this->m_Image );
   ray.ZeroState();
   ray.Initialise();
 
