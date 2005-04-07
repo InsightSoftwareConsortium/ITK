@@ -67,6 +67,9 @@ public:
   
   /** Return a point in the list given the index */
   const SpatialObjectPointType* GetPoint(unsigned long id) const {return &(m_Points[id]);}
+
+  /** Return a point in the list given the index */
+  SpatialObjectPointType* GetPoint(unsigned long id) {return &(m_Points[id]);}
   
   /** Return the number of points in the list */
   unsigned long GetNumberOfPoints(void) const {return m_Points.size();}
