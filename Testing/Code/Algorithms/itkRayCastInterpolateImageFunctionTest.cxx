@@ -122,30 +122,15 @@ itkRayCastInterpolateImageFunctionTest(
     /* Exercise the SetThreshold() method */
     interp->SetThreshold( 1.0 );
 
+    /* Evaluate the function */
+    double integral;
+    PointType query;
+    query[0] = 15;
+    query[1] = 15;
+    query[2] = 15;
 
-    /* Define the ray to cast on the volume */
-    RayCastInterpolatorType::DirectionType      rayDirection;
-    RayCastInterpolatorType::OutputPointType    rayPosition;
-    
-    /* start the ray in the middle of the volume */
-    rayPosition[0] =   15.0;
-    rayPosition[1] =   15.0;
-    rayPosition[2] =   15.0;
-
-    rayDirection[0] = 0.0;
-    rayDirection[1] = 0.0;
-    rayDirection[2] = 1.0;
-
-    interp->SetRay( rayPosition, rayDirection );
+    integral = interp->Evaluate(query);
       
-
-    /* Go to the start of the Ray */
-    interp->Reset();
-
-    double integral = 0.0;
-
-    interp->Integrate( integral );
-
     std::cout << "Integral = " << integral << std::endl;
 
     return EXIT_SUCCESS;
