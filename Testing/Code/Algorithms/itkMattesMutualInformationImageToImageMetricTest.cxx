@@ -289,7 +289,7 @@ TInterpolator * interpolator, bool useSampling )
     std::cout << ratio << "\t";
     std::cout << std::endl;
 
-    if ( vnl_math_abs( ratio - 1.0 ) > 0.01 )
+    if ( vnl_math_abs( ratio - 1.0 ) > 0.012 )
       {
       std::cout << "computed derivative differ from central difference." << std::endl;
       return EXIT_FAILURE;
