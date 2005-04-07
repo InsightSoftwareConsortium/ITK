@@ -71,7 +71,6 @@ public:
   typedef typename OutputImageType::SpacingType SpacingType;
   typedef typename OutputImageType::PointType PointType;
 
-  typedef typename TFunction::OutputPixelType OutputPixelType;
   
   // Define an iterator to iterate through the image
   typedef itk::ImageRegionIteratorWithIndex< Image<OutputPixelType, 
