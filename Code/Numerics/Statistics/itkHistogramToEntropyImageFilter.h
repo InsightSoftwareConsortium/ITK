@@ -72,13 +72,13 @@ public:
       {
       const double p = static_cast<OutputPixelType>(A) / 
         static_cast<OutputPixelType>(m_TotalFrequency);
-      return static_cast<OutputPixelType>( (-1) * p * log(p) / log(2)); 
+      return static_cast<OutputPixelType>( (-1) * p * log(p) / log(2.0)); 
       }
     else
       {
       const double p = static_cast<OutputPixelType>(A+1) / 
         static_cast<OutputPixelType>(m_TotalFrequency);
-      return static_cast<OutputPixelType>( (-1) * p * log(p) / log(2)); 
+      return static_cast<OutputPixelType>( (-1) * p * log(p) / log(2.0)); 
       }
   }
 

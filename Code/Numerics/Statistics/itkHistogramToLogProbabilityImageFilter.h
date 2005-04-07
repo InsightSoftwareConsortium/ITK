@@ -66,12 +66,12 @@ public:
     if( A )
       {
       return static_cast<OutputPixelType>(log( static_cast<OutputPixelType>(A) / 
-        static_cast<OutputPixelType>(m_TotalFrequency)) / log(2) );
+        static_cast<OutputPixelType>(m_TotalFrequency)) / log(2.0) );
       }
     else
       { // Check for Log 0. Always assume that the frequency is atleast 1.
       return static_cast<OutputPixelType>(log( static_cast<OutputPixelType>(A+1) / 
-        static_cast<OutputPixelType>(m_TotalFrequency)) / log(2) );
+        static_cast<OutputPixelType>(m_TotalFrequency)) / log(2.0) );
       }
        
   }
