@@ -90,7 +90,7 @@ public:
     {
       OptimizerPointer optimizer = 
         dynamic_cast< OptimizerPointer >( object );
-      if( typeid( event ) != typeid( itk::IterationEvent ) )
+      if( ! itk::IterationEvent().CheckEvent( &event ) )
         {
         return;
         }

@@ -223,16 +223,20 @@ public:
   //
   //  The next step is to verify that the event invoked is actually the one in
   //  which we are interested. This is checked using the RTTI\footnote{RTTI
-  //  stands for: Run-Time Type Information} support. The \code{typeid}
-  //  function allows us to compare the actual type of two references or pointers.
-  //  In this case we compare the type of the received event with an
-  //  IterationEvent. If they happen to be different, the method
-  //  returns without any further action.
+  //  stands for: Run-Time Type Information} support. The \code{CheckEvent()}
+  //  method allows us to compare the actual type of two events.  In this case
+  //  we compare the type of the received event with an IterationEvent. The
+  //  comparison will return true if \code{event} is of type
+  //  \code{IterationEvent} or derives from \code{IterationEvent}.  If we find
+  //  that the event is not of the expected type then the \code{Execute()}
+  //  method of this command observer should return without any further action. 
+  //
+  // \index{itk::EventObject!CheckEvent}
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-    if( typeid( event ) != typeid( itk::IterationEvent ) )
+    if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
       return;
       }
