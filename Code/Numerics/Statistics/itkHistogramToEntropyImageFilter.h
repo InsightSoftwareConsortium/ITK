@@ -100,7 +100,7 @@ private:
 template <class THistogram >
 class ITK_EXPORT HistogramToEntropyImageFilter :
   public HistogramToImageFilter< THistogram, 
-  typename Function::HistogramEntropyFunction< unsigned long> > 
+  Function::HistogramEntropyFunction< unsigned long> > 
 {
 public:
   
