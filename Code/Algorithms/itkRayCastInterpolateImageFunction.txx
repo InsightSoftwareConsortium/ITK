@@ -26,75 +26,291 @@ PURPOSE.  See the above copyright notices for more information.
 namespace itk
 {
 
-/* -----------------------------------------------------------------------
-   Constructor
-   ----------------------------------------------------------------------- */
+// Put the helper class in an anonymous namespace so that it is not
+// exposed to the user
+namespace {
 
-template<class TInputImage, class TCoordRep>
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastInterpolateImageFunction() 
+/** Helper class to maintain state when casting a ray.  This helper
+ * class keeps the RayCastInterpolateImageFunction thread safe.
+ */
+template <class TInputImage, class TCoordRep = float>
+class RayCastHelper
 {
-  m_Threshold = 0.;
+public:
+  /** Constants for the image dimensions */
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
-  m_FocalPoint[0] = 0.;
-  m_FocalPoint[1] = 0.;
-  m_FocalPoint[2] = 0.;
-}
+  /** 
+   * Type of the Transform Base class 
+   * The fixed image should be a 3D image
+   */
+  typedef Transform<TCoordRep,3,3> TransformType;
 
+  typedef typename TransformType::Pointer            TransformPointer;
+  typedef typename TransformType::InputPointType     InputPointType;
+  typedef typename TransformType::OutputPointType    OutputPointType;
+  typedef typename TransformType::ParametersType     TransformParametersType;
+  typedef typename TransformType::JacobianType       TransformJacobianType;
 
-/* -----------------------------------------------------------------------
-   PrintSelf
-   ----------------------------------------------------------------------- */
+  typedef typename TInputImage::SizeType             SizeType;
+  typedef Vector<TCoordRep, 3>                       DirectionType;
+  typedef Point<TCoordRep, 3>                        PointType;
 
-template<class TInputImage, class TCoordRep>
-void
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  this->Superclass::PrintSelf(os,indent);
+  typedef TInputImage InputImageType;
+  typedef typename InputImageType::PixelType         PixelType;
+  typedef typename InputImageType::IndexType         IndexType;
 
-  os << indent << "Threshold: " << m_Threshold << std::endl;
-  os << indent << "FocalPoint: " << m_FocalPoint << std::endl;
-  os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
-  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
-  
-}
+  /**
+   * Set the image class
+   */
+  void SetImage(const InputImageType *input)
+    {
+      m_Image = input;
+    }
+    
+  /** 
+   *  Initialise the ray using the position and direction of a line.
+   *
+   *  \param RayPosn       The position of the ray in 3D (mm).
+   *  \param RayDirn       The direction of the ray in 3D (mm).
+   *
+   *  \return True if this is a valid ray.
+   */
+  bool SetRay(OutputPointType RayPosn, DirectionType RayDirn);
+    
 
-/* -----------------------------------------------------------------------
-   Evaluate at image index position
-   ----------------------------------------------------------------------- */
+  /** \brief
+   *  Integrate the interpolated intensities along the ray and
+   *  return the result.
+   *
+   *  This routine can be called after instantiating the ray and
+   *  calling SetProjectionCoord2D() or Reset(). It may then be called
+   *  as many times thereafter for different 2D projection
+   *  coordinates.
+   *
+   *  \param integral      The integrated intensities along the ray.
+   *
+   * \return True if a valid ray was specified.  
+   */
+  bool Integrate(double &integral) {
+    return IntegrateAboveThreshold(integral, 0);
+  };
+    
 
-template<class TInputImage, class TCoordRep>
-typename RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::OutputType
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::Evaluate( const PointType& point ) const
-{
-  double integral = 0;
+  /** \brief
+   * Integrate the interpolated intensities above a given threshold,
+   * along the ray and return the result. 
+   *
+   * This routine can be called after instantiating the ray and
+   * calling SetProjectionCoord2D() or Reset(). It may then be called
+   * as many times thereafter for different 2D projection
+   * coordinates.
+   *
+   * \param integral      The integrated intensities along the ray.
+   * \param threshold     The integration threshold [default value: 0] 
+   *
+   * \return True if a valid ray was specified.  
+   */
+  bool IntegrateAboveThreshold(double &integral, double threshold);
 
-  OutputPointType transformedFocalPoint 
-    = m_Transform->TransformPoint( m_FocalPoint );
+  /** \brief
+   * Increment each of the intensities of the 4 planar voxels
+   * surrounding the current ray point.
+   *
+   * \parameter increment      Intensity increment for each of the current 4 voxels
+   */
+  void IncrementIntensities(double increment=1);
 
-  DirectionType direction = transformedFocalPoint - point;
+  /// Reset the iterator to the start of the ray.
+  void Reset(void);
+    
+  /// Return the interpolated intensity of the current ray point.
+  double GetCurrentIntensity(void) const;
+    
+  /// Return the ray point spacing in mm
+  double GetRayPointSpacing(void) const {
+    typename InputImageType::SpacingType spacing=this->m_Image->GetSpacing();
+      
+    if (m_ValidRay)
+      return sqrt(  m_VoxelIncrement[0]*spacing[0]*m_VoxelIncrement[0]*spacing[0]
+                    + m_VoxelIncrement[1]*spacing[1]*m_VoxelIncrement[1]*spacing[1]
+                    + m_VoxelIncrement[2]*spacing[2]*m_VoxelIncrement[2]*spacing[2] );
+    else
+      return 0.;
+  };
 
-  RayCastHelper ray;
-  ray.SetImage( this->m_Image );
-  ray.ZeroState();
-  ray.Initialise();
+  /// Set the initial zero state of the object 
+  void ZeroState();
 
-  ray.SetRay(point, direction);
-  ray.IntegrateAboveThreshold(integral, m_Threshold);
+  /// Initialise the object
+  void Initialise(void);
+    
+protected:
+  /// Calculate the endpoint coordinats of the ray in voxels.
+  void EndPointsInVoxels(void);
+    
+  /** 
+   * Calculate the incremental direction vector in voxels, 'dVoxel',
+   * required to traverse the ray. 
+   */
+  void CalcDirnVector(void);
+    
+  /** 
+   * Reduce the length of the ray until both start and end
+   * coordinates lie inside the volume.
+   *
+   * \return True if a valid ray has been, false otherwise.
+   */
+  bool AdjustRayLength(void);
+    
+  /** 
+   *   Obtain pointers to the four voxels surrounding the point where the ray
+   *   enters the volume. 
+   */ 
+  void InitialiseVoxelPointers(void);
+    
+  /// Increment the voxel pointers surrounding the current point on the ray.
+  void IncrementVoxelPointers(void);
+    
+  /// Record volume dimensions and resolution
+  void RecordVolumeDimensions(void);
+    
+  /// Define the corners of the volume
+  void DefineCorners(void);
+    
+  /** \brief
+   * Calculate the planes which define the volume.
+   *
+   * Member function to calculate the equations of the planes of 4 of
+   * the sides of the volume, calculate the positions of the 8 corners
+   * of the volume in mm in World, also calculate the values of the
+   * slopes of the lines which go to make up the volume( defined as
+   * lines in cube x,y,z dirn and then each of these lines has a slope
+   * in the world x,y,z dirn [3]) and finally also to return the length
+   * of the sides of the lines in mm. 
+   */
+  void CalcPlanesAndCorners(void);
+    
+  /** \brief
+   *  Calculate the ray intercepts with the volume.
+   *
+   *  See where the ray cuts the volume, check that truncation does not occur,
+   *  if not, then start ray where it first intercepts the volume and set 
+   *  x_max to be where it leaves the volume.
+   *
+   *  \return True if a valid ray has been specified, false otherwise.
+   */
+  bool CalcRayIntercepts(void);
 
-  return ( static_cast<OutputType>( integral ));
-}
+  /**
+   *   The ray is traversed by stepping in the axial direction
+   *   that enables the greatest number of planes in the volume to be
+   *   intercepted.
+   */
+  typedef enum {
+    UNDEFINED_DIRECTION=0,        //!< Undefined                         
+    TRANSVERSE_IN_X,              //!< x
+    TRANSVERSE_IN_Y,              //!< y
+    TRANSVERSE_IN_Z,              //!< z
+    LAST_DIRECTION
+  } TraversalDirection;
 
-//--------------------------------------------------------------------------
-//--------------------------------------------------------------------------
-//
-// Remainder of the routines are for the RayCastHelper object
-//
-//--------------------------------------------------------------------------
-//--------------------------------------------------------------------------
+  // Cache the image in the structure. Skip the smart pointer for
+  // efficiency. This inner class will go in/out of scope with every
+  // call to Evaluate()
+  const InputImageType *m_Image;
+    
+  /// Flag indicating whether the current ray is valid
+  bool m_ValidRay;
+    
+  /** \brief
+   * The start position of the ray in voxels. 
+   *
+   * NB. Two of the components of this coordinate (i.e. those lying within
+   * the planes of voxels being traversed) will be shifted by half a
+   * voxel. This enables indices of the neighbouring voxels within the plane
+   * to be determined by simply casting to 'int' and optionally adding 1.
+   */
+  double m_RayVoxelStartPosition[3];
+    
+  /** \brief
+   * The end coordinate of the ray in voxels.
+   *
+   * NB. Two of the components of this coordinate (i.e. those lying within
+   * the planes of voxels being traversed) will be shifted by half a
+   * voxel. This enables indices of the neighbouring voxels within the plane
+   * to be determined by simply casting to 'int' and optionally adding 1.
+   */
+  double m_RayVoxelEndPosition[3];
+    
+    
+  /** \brief
+   * The current coordinate on the ray in voxels.
+   *
+   * NB. Two of the components of this coordinate (i.e. those lying within
+   * the planes of voxels being traversed) will be shifted by half a
+   * voxel. This enables indices of the neighbouring voxels within the plane
+   * to be determined by simply casting to 'int' and optionally adding 1.
+   */
+  double m_Position3Dvox[3];
+    
+  /** The incremental direction vector of the ray in voxels. */
+  double m_VoxelIncrement[3];
+    
+  /// The direction in which the ray is incremented thorough the volume (x, y or z).
+  TraversalDirection m_TraversalDirection;
+    
+  /// The total number of planes of voxels traversed by the ray.
+  int m_TotalRayVoxelPlanes;
+    
+  /// The current number of planes of voxels traversed by the ray.
+  int m_NumVoxelPlanesTraversed;
+    
+  /// Pointers to the current four voxels surrounding the ray's trajectory.
+  const PixelType *m_RayIntersectionVoxels[4];
+    
+  /**
+   * The voxel coordinate of the bottom-left voxel of the current
+   * four voxels surrounding the ray's trajectory. 
+   */
+  int m_RayIntersectionVoxelIndex[3];
+    
+  /// The dimension in voxels of the 3D volume in along the x axis
+  int m_NumberOfVoxelsInX;
+  /// The dimension in voxels of the 3D volume in along the y axis
+  int m_NumberOfVoxelsInY;
+  /// The dimension in voxels of the 3D volume in along the z axis
+  int m_NumberOfVoxelsInZ;
+    
+  /// Voxel dimension in x
+  double m_VoxelDimensionInX;
+  /// Voxel dimension in y
+  double m_VoxelDimensionInY;
+  /// Voxel dimension in z
+  double m_VoxelDimensionInZ;
+    
+  /// The coordinate of the point at which the ray enters the volume in mm.
+  double m_RayStartCoordInMM[3];
+  /// The coordinate of the point at which the ray exits the volume in mm.
+  double m_RayEndCoordInMM[3];
+    
+    
+  /** \brief
+      Planes which define the boundary of the volume in mm 
+      (six planes and four parameters: Ax+By+Cz+D). */
+  double m_BoundingPlane[6][4];
+  /// The eight corners of the volume (x,y,z coordinates for each).
+  double m_BoundingCorner[8][3];
+    
+  /// The position of the ray
+  double m_CurrentRayPositionInMM[3];
+    
+  /// The direction of the ray
+  double m_RayDirectionInMM[3];  
+    
+};
+
 
 
 /* -----------------------------------------------------------------------
@@ -103,8 +319,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 void 
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::Initialise(void) 
 {
   // Save the dimensions of the volume and calculate the bounding box
@@ -122,8 +337,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 void 
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::RecordVolumeDimensions(void) 
 {
   typename InputImageType::SpacingType spacing=this->m_Image->GetSpacing();
@@ -145,8 +359,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 void 
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::DefineCorners(void) 
 {
   // Define corner positions as if at the origin
@@ -194,8 +407,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 void 
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::CalcPlanesAndCorners(void) 
 {
   int j;
@@ -280,8 +492,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 bool 
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::CalcRayIntercepts() 
 {
   double maxInterDist, interDist;
@@ -503,8 +714,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 bool 
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::SetRay(OutputPointType RayPosn, DirectionType RayDirn) 
 {
 
@@ -578,8 +788,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 void 
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::EndPointsInVoxels(void) 
 {
   m_RayVoxelStartPosition[0] = m_RayStartCoordInMM[0]/m_VoxelDimensionInX;
@@ -599,8 +808,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 void 
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::CalcDirnVector(void) 
 {
   double xNum, yNum, zNum;
@@ -785,8 +993,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 bool 
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::AdjustRayLength(void) 
 {
   bool startOK, endOK;
@@ -883,8 +1090,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 void 
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::Reset(void) 
 {
   int i;
@@ -940,8 +1146,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 void 
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::InitialiseVoxelPointers(void) 
 {
   IndexType index;
@@ -1080,8 +1285,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 void 
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::IncrementVoxelPointers(void) 
 {
   double xBefore = m_Position3Dvox[0];
@@ -1116,8 +1320,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 double 
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::GetCurrentIntensity(void) const
 {
   double a, b, c, d;
@@ -1178,8 +1381,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 void 
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::IncrementIntensities(double increment)
 {
   short inc = (short) floor(increment + 0.5);
@@ -1203,8 +1405,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 bool 
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::IntegrateAboveThreshold(double &integral, double threshold) 
 {
   double intensity;
@@ -1251,8 +1452,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 template<class TInputImage, class TCoordRep>
 void  
-RayCastInterpolateImageFunction< TInputImage, TCoordRep >
-::RayCastHelper
+RayCastHelper<TInputImage, TCoordRep>
 ::ZeroState()  
 {
   int i;
@@ -1301,7 +1501,82 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
     m_RayIntersectionVoxelIndex[i] = 0;
     }
 }
+}; // end of anonymous namespace
 
+
+
+/**************************************************************************
+ *
+ *
+ * Rest of this code is the actual RayCastInterpolateImageFunction
+ * class
+ *
+ *
+ **************************************************************************/
+
+
+
+/* -----------------------------------------------------------------------
+   Constructor
+   ----------------------------------------------------------------------- */
+
+template<class TInputImage, class TCoordRep>
+RayCastInterpolateImageFunction< TInputImage, TCoordRep >
+::RayCastInterpolateImageFunction() 
+{
+  m_Threshold = 0.;
+
+  m_FocalPoint[0] = 0.;
+  m_FocalPoint[1] = 0.;
+  m_FocalPoint[2] = 0.;
+}
+
+
+/* -----------------------------------------------------------------------
+   PrintSelf
+   ----------------------------------------------------------------------- */
+
+template<class TInputImage, class TCoordRep>
+void
+RayCastInterpolateImageFunction< TInputImage, TCoordRep >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  this->Superclass::PrintSelf(os,indent);
+
+  os << indent << "Threshold: " << m_Threshold << std::endl;
+  os << indent << "FocalPoint: " << m_FocalPoint << std::endl;
+  os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
+  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
+  
+}
+
+/* -----------------------------------------------------------------------
+   Evaluate at image index position
+   ----------------------------------------------------------------------- */
+
+template<class TInputImage, class TCoordRep>
+typename RayCastInterpolateImageFunction< TInputImage, TCoordRep >
+::OutputType
+RayCastInterpolateImageFunction< TInputImage, TCoordRep >
+::Evaluate( const PointType& point ) const
+{
+  double integral = 0;
+
+  OutputPointType transformedFocalPoint 
+    = m_Transform->TransformPoint( m_FocalPoint );
+
+  DirectionType direction = transformedFocalPoint - point;
+
+  RayCastHelper<TInputImage, TCoordRep> ray;
+  ray.SetImage( m_Image );
+  ray.ZeroState();
+  ray.Initialise();
+
+  ray.SetRay(point, direction);
+  ray.IntegrateAboveThreshold(integral, m_Threshold);
+
+  return ( static_cast<OutputType>( integral ));
+}
 
 } // namespace itk
 
