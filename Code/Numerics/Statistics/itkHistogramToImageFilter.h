@@ -25,6 +25,9 @@
 #include "itkSimpleDataObjectDecorator.h"
 
 
+namespace itk
+{
+
 /** \class HistogramToImageFilter
  *  \brief This class takes a histogram as an input and returns an image of
  *  type specified by the functor. 
@@ -43,9 +46,6 @@
  *  HistogramToIntensityImageFilter, HistogramToEntropyImageFilter
  *
  */
-
-namespace itk
-{
 
 template <class THistogram, class TFunction>
 class ITK_EXPORT HistogramToImageFilter :
