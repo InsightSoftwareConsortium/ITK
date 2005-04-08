@@ -85,7 +85,7 @@ private:
 template <class THistogram >
 class ITK_EXPORT HistogramToProbabilityImageFilter :
   public HistogramToImageFilter< THistogram, 
-  typename Function::HistogramProbabilityFunction< unsigned long> > 
+  Function::HistogramProbabilityFunction< unsigned long> > 
 {
 public:
   

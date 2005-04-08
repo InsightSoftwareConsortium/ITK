@@ -73,7 +73,7 @@ private:
 template <class THistogram >
 class ITK_EXPORT HistogramToIntensityImageFilter :
   public HistogramToImageFilter< THistogram, 
-  typename Function::HistogramIntensityFunction< unsigned long> > 
+  Function::HistogramIntensityFunction< unsigned long> > 
 {
 public:
   
