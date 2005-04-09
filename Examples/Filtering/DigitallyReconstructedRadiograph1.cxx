@@ -431,7 +431,7 @@ int main( int argc, char *argv[] )
 
   if (verbose) 
     {
-    int i;
+    unsigned int i;
     const itk::Vector<double, 3> spacing = image->GetSpacing();  
     std::cout << std::endl << "Input ";
     
