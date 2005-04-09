@@ -23,9 +23,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "vnl/vnl_math.h"
 
 
-namespace itk
-{
-
 // Put the helper class in an anonymous namespace so that it is not
 // exposed to the user
 namespace {
@@ -45,7 +42,7 @@ public:
    * Type of the Transform Base class 
    * The fixed image should be a 3D image
    */
-  typedef Transform<TCoordRep,3,3> TransformType;
+  typedef itk::Transform<TCoordRep,3,3> TransformType;
 
   typedef typename TransformType::Pointer            TransformPointer;
   typedef typename TransformType::InputPointType     InputPointType;
@@ -54,8 +51,8 @@ public:
   typedef typename TransformType::JacobianType       TransformJacobianType;
 
   typedef typename TInputImage::SizeType             SizeType;
-  typedef Vector<TCoordRep, 3>                       DirectionType;
-  typedef Point<TCoordRep, 3>                        PointType;
+  typedef itk::Vector<TCoordRep, 3>                  DirectionType;
+  typedef itk::Point<TCoordRep, 3>                   PointType;
 
   typedef TInputImage InputImageType;
   typedef typename InputImageType::PixelType         PixelType;
@@ -475,7 +472,7 @@ RayCastHelper<TInputImage, TCoordRep>
     
     if ( (A*A + B*B + C*C) == 0 ) 
       {
-      ExceptionObject err(__FILE__, __LINE__);
+      itk::ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation( "RayCastInterpolateImageFunction" );
       err.SetDescription( "Division by zero (planes) "
                           "- CalcPlanesAndCorners().");
@@ -1021,7 +1018,7 @@ RayCastHelper<TInputImage, TCoordRep>
     }
   else 
     {
-    ExceptionObject err(__FILE__, __LINE__);
+    itk::ExceptionObject err(__FILE__, __LINE__);
     err.SetLocation( "RayCastInterpolateImageFunction" );
     err.SetDescription( "The ray traversal direction is unset "
                         "- AdjustRayLength().");
@@ -1266,7 +1263,7 @@ RayCastHelper<TInputImage, TCoordRep>
 
     default: 
     {
-    ExceptionObject err(__FILE__, __LINE__);
+    itk::ExceptionObject err(__FILE__, __LINE__);
     err.SetLocation( "RayCastInterpolateImageFunction" );
     err.SetDescription( "The ray traversal direction is unset "
                         "- InitialiseVoxelPointers().");
@@ -1360,7 +1357,7 @@ RayCastHelper<TInputImage, TCoordRep>
 
     default: 
     {
-    ExceptionObject err(__FILE__, __LINE__);
+    itk::ExceptionObject err(__FILE__, __LINE__);
     err.SetLocation( "RayCastInterpolateImageFunction" );
     err.SetDescription( "The ray traversal direction is unset "
                         "- GetCurrentIntensity().");
@@ -1504,6 +1501,8 @@ RayCastHelper<TInputImage, TCoordRep>
 }; // end of anonymous namespace
 
 
+namespace itk
+{
 
 /**************************************************************************
  *
