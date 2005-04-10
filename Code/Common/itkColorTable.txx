@@ -323,7 +323,7 @@ unsigned int
 ColorTable<TPixel>
 ::GetClosestColorTableId(TPixel r, TPixel g, TPixel b)
   {
-  double match = 0;
+  double match;
   double bestMatch = 0; 
   unsigned int bestMatchColor = 0;
   for(unsigned int i=0; i<m_NumberOfColors; i++)
