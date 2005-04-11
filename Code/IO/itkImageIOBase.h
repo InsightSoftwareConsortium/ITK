@@ -21,6 +21,8 @@
 #include "itkObjectFactory.h"
 #include "itkIndent.h"
 #include "itkImageIORegion.h"
+#include "vnl/vnl_vector.h"
+
 #include <string>
 
 namespace itk
@@ -107,6 +109,13 @@ public:
   virtual void SetSpacing(unsigned int i, double spacing);
   virtual double GetSpacing(unsigned int i) const
   { return m_Spacing[i]; }
+
+  /** Set/Get the image direction on an axis-by-axis basis. The
+   * SetDirection() method is required when writing the image. */
+  virtual void SetDirection(unsigned int i, std::vector<double> &direction);
+  virtual void SetDirection(unsigned int i, vnl_vector<double> &direction);
+  virtual std::vector<double> GetDirection(unsigned int i) const
+  { return m_Direction[i]; }
 
   /** Specify the region of the image data to either read or
    * write. The IORegion specifies the part of the image to read or
@@ -307,6 +316,9 @@ protected:
 
   /** The array which stores the origin of the image. */
   std::vector<double> m_Origin;
+
+  /** The arrays which store the direction cosines of the image. */
+  std::vector<std::vector<double> > m_Direction;
 
   /** Stores the number of bytes it takes to get to the next 'thing'
    * e.g. component, pixel, row, slice, etc. */
