@@ -139,7 +139,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   SizeType dimSize;
   double spacing[ TOutputImage::ImageDimension ];
   double origin[ TOutputImage::ImageDimension ];
-  TOutputImage::DirectionType direction;
+  typename TOutputImage::DirectionType direction;
   std::vector<double> axis;
 
   for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
