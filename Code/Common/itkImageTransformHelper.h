@@ -78,8 +78,8 @@ public:
     }
 
   inline static void TransformIndexToPhysicalPointRow(
-    const MatrixType & matrix, const OriginType  & origin,
-    const IndexType & index, DoublePoint & rindex, DoublePoint & point,
+    const MatrixType &, const OriginType  &,
+    const IndexType &, DoublePoint &, DoublePoint &,
     const Concept::Detail::UniqueType_bool<true>& )
     {
       // Do last row
@@ -102,8 +102,8 @@ public:
     }
 
   inline static void TransformIndexToPhysicalPointCol(
-    const MatrixType & matrix,
-    const DoublePoint & rindex, DoublePoint   & point,
+    const MatrixType &,
+    const DoublePoint &, DoublePoint &,
     const Concept::Detail::UniqueType_bool<true>& )
     {
     }
@@ -146,8 +146,8 @@ public:
     }
 
   inline static void TransformPhysicalPointToIndexRow(
-    const MatrixType & matrix, const OriginType  & origin,
-    const DoublePoint & point, DoublePoint & rindex, IndexType & index,
+    const MatrixType &, const OriginType &,
+    const DoublePoint &, DoublePoint &, IndexType &,
     const Concept::Detail::UniqueType_bool<true>& )
     {
       // Do last row
@@ -170,12 +170,12 @@ public:
     }
 
   inline static void TransformPhysicalPointToIndexCol(
-    const MatrixType & matrix, const OriginType  & origin,
-    const DoublePoint   & point, DoublePoint & rindex, IndexType & index,
+    const MatrixType &, const OriginType  &,
+    const DoublePoint &, DoublePoint &rindex, IndexType &index,
     const Concept::Detail::UniqueType_bool<true>& )
     {
 //      std::cout << "index[" << R << "] = rindex[" << R << "]);" << std::endl;
-      index[R] = static_cast<typename IndexType::IndexValueType>(rindex[R]);
+     index[R] = static_cast<typename IndexType::IndexValueType>(rindex[R]);
     }
 };
 } // end namespace itk
