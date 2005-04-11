@@ -27,10 +27,6 @@
 #include "itkSpatialObjectToImageFilter.h"
 #include "itkBoxSpatialObject.h"
 
-#ifndef PI
-#define PI 3.14159265358979323846
-#endif
-
 int itkBoxSpatialObjectTest( int argc, char *argv[] )
 {
   const int Dimension = 2;
