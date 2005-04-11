@@ -119,7 +119,7 @@ bool
 BoxSpatialObject< TDimension >
 ::ComputeLocalBoundingBox() const
 { 
-  itkDebugMacro( "Computing ellipse bounding box" );
+  itkDebugMacro( "Computing BoxSpatialObject bounding box" );
 
   if( this->GetBoundingBoxChildrenName().empty() 
       || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
@@ -176,7 +176,7 @@ BoxSpatialObject< TDimension >
 ::ValueAt( const PointType & point, double & value, unsigned int depth,
            char * name ) const
 {
-  itkDebugMacro( "Getting the value of the ellipse at " << point );
+  itkDebugMacro( "Getting the value of the BoxSpatialObject at " << point );
   if( IsInside(point, 0, name) )
     {
     value = this->GetDefaultInsideValue();

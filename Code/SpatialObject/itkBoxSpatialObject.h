@@ -20,14 +20,16 @@
 
 #include "itkSpatialObject.h"
 #include "itkAffineTransform.h"
-//#include "itkFixedArray.h"
 
 namespace itk
 {
 
 /** \class BoxSpatialObject
- * 
- * \brief 
+ *  
+ * \brief
+ * The class may be used to represent N-dimensional boxes. In two dimensions it is a
+ * rectangle, In three dimensions it is a cuboid...
+ *  
  */
 
 template < unsigned int TDimension = 3 >
@@ -48,17 +50,11 @@ public:
   typedef typename Superclass::BoundingBoxType        BoundingBoxType;
   typedef typename Superclass::SizeType               SizeType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
-  //typedef SmartPointer<PointContainerType>            PointContainerPointer;
   
-  //typedef FixedArray<double,TDimension> ArrayType;
-  itkStaticConstMacro(NumberOfDimension, unsigned int,
-                      TDimension);
-
   itkNewMacro( Self );
   itkTypeMacro( BoxSpatialObject, SpatialObject );
 
-  void SetBounds(const PointType& p1, const PointType& p2);
-  
+  /** Set/Get the size of the box spatial object. */
   itkSetMacro( Size, SizeType );
   itkGetConstReferenceMacro( Size, SizeType);
 
