@@ -31,8 +31,8 @@
 template <class T>
 void TestTransformIndexToPhysicalPoint(T * image)
 {
-  T::IndexType index3D;
-  T::PointType point3D;
+  typename T::IndexType index3D;
+  typename T::PointType point3D;
 
     for (int k = 0; k < 10; k++)
     {
@@ -52,8 +52,8 @@ void TestTransformIndexToPhysicalPoint(T * image)
 template <class T>
 void TestTransformPhysicalPointToIndex(T * image)
 {
-  T::IndexType index3D;
-  T::PointType point3D;
+  typename T::IndexType index3D;
+  typename T::PointType point3D;
 
     for (double k = 0; k < 10; k++)
     {
