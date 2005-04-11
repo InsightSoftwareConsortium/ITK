@@ -65,7 +65,7 @@ public:
       {
       scale[i][i] = this->m_Spacing[i];
       }
-    m_IndexToPhysicalPoint = m_Direction * scale;
+    m_IndexToPhysicalPoint = this->m_Direction * scale;
     m_PhysicalPointToIndex = m_IndexToPhysicalPoint.GetInverse();
     }
 
@@ -80,7 +80,7 @@ public:
       {
       scale[i][i] = this->m_Spacing[i];
       }
-    m_IndexToPhysicalPoint = m_Direction * scale;
+    m_IndexToPhysicalPoint = this->m_Direction * scale;
     m_PhysicalPointToIndex = m_IndexToPhysicalPoint.GetInverse();
     }
 
