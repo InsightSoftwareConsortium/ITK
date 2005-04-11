@@ -72,7 +72,7 @@ ADD_TEST(ImageAdaptor2Test ${IMAGE_EXAMPLES2}
     ${TEMP}/ImageAdaptor2Test.png
 )
 
-ADD_TEST(ImageAdaptor3Test ${IMAGE_EXAMPLES2}
+ADD_TEST(ImageAdaptor3Test ${IMAGE_EXAMPLES3}
   ImageAdaptor3Test
     ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
     ${TEMP}/ImageAdaptor3Test.mhd 2

@@ -29,9 +29,6 @@ TARGET_LINK_LIBRARIES(FastMarchingImageFilter ITKNumerics ITKIO)
 ADD_EXECUTABLE(ShapeDetectionLevelSetFilter ShapeDetectionLevelSetFilter.cxx )
 TARGET_LINK_LIBRARIES(ShapeDetectionLevelSetFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(GeodesicActiveContourImageFilter GeodesicActiveContourImageFilter.cxx )
-TARGET_LINK_LIBRARIES(GeodesicActiveContourImageFilter ITKNumerics ITKIO)
-
 ADD_EXECUTABLE(CurvesLevelSetImageFilter CurvesLevelSetImageFilter.cxx )
 TARGET_LINK_LIBRARIES(CurvesLevelSetImageFilter ITKNumerics ITKIO)
 
@@ -415,6 +412,9 @@ ADD_TEST(VectorConfidenceConnectedTest3 ${SEGMENTATION_EXAMPLES8}
 )
 
 IF(NOT BORLAND)
+ADD_EXECUTABLE(GeodesicActiveContourImageFilter GeodesicActiveContourImageFilter.cxx )
+TARGET_LINK_LIBRARIES(GeodesicActiveContourImageFilter ITKNumerics ITKIO)
+
 ADD_EXECUTABLE(SegmentationExamples3 SegmentationExamples3.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples3
 ITKAlgorithms 

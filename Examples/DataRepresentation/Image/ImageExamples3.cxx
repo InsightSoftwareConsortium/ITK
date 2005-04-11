@@ -8,8 +8,13 @@
 
 void RegisterTests()
 {
+  REGISTER_TEST(ImageAdaptor3Test);
   REGISTER_TEST(ImageAdaptor4Test);
 }
+
+#undef main
+#define main ImageAdaptor3Test
+#include "ImageAdaptor3.cxx"
 
 #undef main
 #define main ImageAdaptor4Test
