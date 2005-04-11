@@ -41,6 +41,7 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
   m_InverseMatrix.SetIdentity();
   m_InverseMatrixMTime = m_MatrixMTime;
   this->m_FixedParameters.SetSize ( NInputDimensions );
+  this->m_FixedParameters.Fill ( 0.0 );
 }
 
 
