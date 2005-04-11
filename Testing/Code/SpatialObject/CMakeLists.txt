@@ -15,6 +15,13 @@ SET(SPATIAL_OBJECT_HEADER_TEST  ${CXX_TEST_PATH}/itkSpatialObjectHeaderTest)
 
 ADD_TEST( itkAffineGeometryFrameTest ${SPATIAL_OBJECT_TESTS} itkAffineGeometryFrameTest )
 ADD_TEST( itkArrowSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkArrowSpatialObjectTest )
+
+ADD_TEST( itkBoxSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} 
+  --compare ${ITK_DATA_ROOT}/Baseline/SpatialObjects/BoxSpatialObjectTest.png
+            ${ITK_TEST_OUTPUT_DIR}/BoxSpatialObjectTest.png
+  itkBoxSpatialObjectTest 
+            ${ITK_TEST_OUTPUT_DIR}/BoxSpatialObjectTest.png)
+
 ADD_TEST( itkBlobSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkBlobSpatialObjectTest )
 ADD_TEST( itkCylinderSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkCylinderSpatialObjectTest )
 ADD_TEST( itkEllipseSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkEllipseSpatialObjectTest)
@@ -57,6 +64,7 @@ SET(SpatialObject_SRCS2
 )
 
 SET(SpatialObject_SRCS3
+  itkBoxSpatialObjectTest.cxx
   itkLandmarkSpatialObjectTest.cxx
   itkLineSpatialObjectTest.cxx
   itkSpatialObjectPrintTest.cxx

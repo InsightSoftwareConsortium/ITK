@@ -25,6 +25,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkArrowSpatialObject.txx"
 #include "itkAffineGeometryFrame.txx"
 #include "itkBlobSpatialObject.txx"
+#include "itkBoxSpatialObject.h"
+#include "itkBoxSpatialObject.txx"
 #include "itkCylinderSpatialObject.h"
 #include "itkEllipseSpatialObject.txx"
 #include "itkGaussianSpatialObject.txx"
