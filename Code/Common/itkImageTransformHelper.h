@@ -18,6 +18,8 @@
 #define __itkImageTransformHelper_h
 
 #include "itkConceptChecking.h"
+#include "itkPoint.h"
+#include "itkMatrix.h"
 
 namespace itk
 {
@@ -34,8 +36,8 @@ public:
   typedef typename ImageType::SpacingType    SpacingType;
   typedef Matrix<double, NImageDimension, NImageDimension> MatrixType;
   typedef typename ImageType::PointType      OriginType;
-  typedef typename Point<double, NImageDimension> DoublePoint;
-  typedef typename Point<float, NImageDimension> FloatPoint;
+  typedef Point<double, NImageDimension> DoublePoint;
+  typedef Point<float, NImageDimension> FloatPoint;
 
   // IndexToPhysicalPoint with full matrix
   //
@@ -173,7 +175,7 @@ public:
     const Concept::Detail::UniqueType_bool<true>& )
     {
 //      std::cout << "index[" << R << "] = rindex[" << R << "]);" << std::endl;
-      index[R] = static_cast<IndexType::IndexValueType>(rindex[R]);
+      index[R] = static_cast<typename IndexType::IndexValueType>(rindex[R]);
     }
 };
 } // end namespace itk
