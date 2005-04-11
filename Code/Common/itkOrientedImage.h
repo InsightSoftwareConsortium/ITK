@@ -69,6 +69,32 @@ public:
     m_PhysicalPointToIndex = m_IndexToPhysicalPoint.GetInverse();
     }
 
+  virtual void SetSpacing (const double spacing[VImageDimension])
+    {
+    Superclass::SetSpacing(spacing);
+
+    DirectionType scale;
+    for (unsigned int i=0; i < VImageDimension; i++)
+      {
+      scale[i][i] = this->m_Spacing[i];
+      }
+    m_IndexToPhysicalPoint = this->m_Direction * scale;
+    m_PhysicalPointToIndex = m_IndexToPhysicalPoint.GetInverse();
+    }
+
+  virtual void SetSpacing (const float spacing[VImageDimension])
+    {
+    Superclass::SetSpacing(spacing);
+
+    DirectionType scale;
+    for (unsigned int i=0; i < VImageDimension; i++)
+      {
+      scale[i][i] = this->m_Spacing[i];
+      }
+    m_IndexToPhysicalPoint = this->m_Direction * scale;
+    m_PhysicalPointToIndex = m_IndexToPhysicalPoint.GetInverse();
+    }
+
   /** Set the direction of the image and precompute the transforms for
    * the image. */
   virtual void SetDirection (const DirectionType direction)
