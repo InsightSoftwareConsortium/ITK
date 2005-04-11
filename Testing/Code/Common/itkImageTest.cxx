@@ -32,8 +32,14 @@ int itkImageTest(int, char* [] )
 
   Image::SpacingType spacing; spacing.Fill(1.0);
   Image::PointType origin; origin.Fill(1.0);
+  Image::DirectionType direction;
+  direction[0][0] = .5;
+  direction[0][1] = .7;
+  direction[1][0] = .7;
+  direction[1][1] = .5;
   image->SetSpacing (spacing);
   image->SetOrigin (origin);
+  image->SetDirection (direction);
 
   double dspacing[Image::ImageDimension] = {2.0, 2.0};
   double dorigin[Image::ImageDimension] = {2.0, 2.0};
