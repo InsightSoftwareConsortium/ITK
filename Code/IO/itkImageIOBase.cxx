@@ -92,6 +92,26 @@ void ImageIOBase::SetSpacing(unsigned int i, double spacing)
   m_Spacing[i] = spacing;
 }
 
+void ImageIOBase::SetDirection(unsigned int i, std::vector<double> &direction)
+{
+  if (i > m_Direction.size() ) {return;}
+  this->Modified();
+  m_Direction[i] = direction;
+}
+
+void ImageIOBase::SetDirection(unsigned int i, vnl_vector<double> &direction)
+{
+  if (i > m_Direction.size() ) {return;}
+  this->Modified();
+  std::vector<double> v;
+  v.resize(m_Direction.size());
+  for (unsigned int j=0; j < v.size(); j++)
+    {
+    v[j] = direction[j];
+    }
+  m_Direction[i] = v;
+}
+
 const std::type_info& ImageIOBase::GetComponentTypeInfo() const
 {
   switch(m_ComponentType)
@@ -344,11 +364,29 @@ void ImageIOBase::SetNumberOfDimensions(unsigned int dim)
 {
   if(dim != m_NumberOfDimensions)
     {
-    m_Dimensions.resize( dim );
     m_Origin.resize( dim );
     m_Spacing.resize( dim );
+    m_Direction.resize( dim );
     m_Strides.resize( dim+2 );
     m_NumberOfDimensions = dim;
+    m_Dimensions.resize( dim );
+    m_Direction.resize( dim );
+    std::vector<double> axis( dim );
+    for (unsigned int i=0; i<dim; i++)
+      {
+      for (unsigned int j=0; j < dim; j++)
+        {
+        if (i == j)
+          {
+          axis[j] = 1.0;
+          }
+        else
+          {
+          axis[j] = 1.0;
+          }
+        }
+      this->SetDirection(i, axis);
+      }
     this->Modified();
     }
 }

@@ -139,6 +139,8 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   SizeType dimSize;
   double spacing[ TOutputImage::ImageDimension ];
   double origin[ TOutputImage::ImageDimension ];
+  TOutputImage::DirectionType direction;
+  std::vector<double> axis;
 
   for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
     {
@@ -147,20 +149,45 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
       dimSize[i] = m_ImageIO->GetDimensions(i);
       spacing[i] = m_ImageIO->GetSpacing(i);
       origin[i]  = m_ImageIO->GetOrigin(i);
+      axis = m_ImageIO->GetDirection(i);
+      for (unsigned j=0; j<TOutputImage::ImageDimension; j++)
+        {
+        if (j < m_ImageIO->GetNumberOfDimensions())
+          {
+          direction[j][i] = axis[j];
+          }
+        else
+          {
+          direction[j][i] = 0.0;
+          }
+        }
       }
     else
       {
       // Number of dimensions in the output is more than number of dimensions
       // in the ImageIO object (the file).  Use default values for the size,
-      // spacing, and origin for the final (degenerate) dimensions.
+      // spacing, origin and direction for the final (degenerate) dimensions.
       dimSize[i] = 1;  
       spacing[i] = 1.0;
       origin[i] = 0.0;
+      for (unsigned j = 0; j < TOutputImage::ImageDimension; j++)
+        {
+        if (i == j)
+          {
+          direction[j][i] = 1.0;
+          }
+        else
+          {
+          direction[j][i] = 0.0;
+          }
+        }
       }
     }
 
-  output->SetSpacing( spacing );   // Set the image spacing
-  output->SetOrigin( origin );     // Set the image origin
+  output->SetSpacing( spacing );     // Set the image spacing
+  output->SetOrigin( origin );       // Set the image origin
+  output->SetDirection( direction ); // Set the image direction cosines
+
   //Copy MetaDataDictionary from instantiated reader to output image.
   output->SetMetaDataDictionary(m_ImageIO->GetMetaDataDictionary());
   this->SetMetaDataDictionary(m_ImageIO->GetMetaDataDictionary());

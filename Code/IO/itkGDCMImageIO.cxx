@@ -18,6 +18,8 @@
 
 =========================================================================*/
 #include "itkGDCMImageIO.h"
+#include <vnl/vnl_vector.h>
+#include <vnl/vnl_cross.h>
 
 #include "itkMetaDataObject.h"
 #include <itksys/Base64.h>
@@ -38,7 +40,6 @@ GDCMImageIO::GDCMImageIO()
 {
   this->SetNumberOfDimensions(3); //needed for getting the 3 coordinates of 
                                   // the origin, even if it is a 2D slice.
-
   m_ByteOrder = LittleEndian; //default
   m_FileType = Binary;  //default...always true
   m_RescaleSlope = 1.0;
@@ -338,6 +339,24 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   m_Origin[1] = header.GetYOrigin();
   m_Origin[2] = header.GetZOrigin();
 
+  float imageOrientation[6];
+  header.GetImageOrientationPatient(imageOrientation);
+  vnl_vector<double> rowDirection(3), columnDirection(3);
+
+  rowDirection[0] = imageOrientation[0];
+  rowDirection[1] = imageOrientation[1];
+  rowDirection[2] = imageOrientation[2];
+
+  columnDirection[0] = imageOrientation[3];
+  columnDirection[1] = imageOrientation[4];
+  columnDirection[2] = imageOrientation[5];
+
+  vnl_vector<double> sliceDirection = vnl_cross_3d(rowDirection, columnDirection);
+  m_Direction.resize(3);
+  this->SetDirection(0, rowDirection);
+  this->SetDirection(1, columnDirection);
+  this->SetDirection(2, sliceDirection);
+
   //For grayscale image :
   m_RescaleSlope = header.GetRescaleSlope();
   m_RescaleIntercept = header.GetRescaleIntercept();
@@ -543,7 +562,7 @@ void GDCMImageIO::Write(const void* buffer)
   // Handle pixel spacing:
   str.str("");
   str.setf( itksys_ios::ios::fixed ); //forcing precision to 6 digits
-  str << m_Spacing[0] << "\\" << m_Spacing[1];
+  str << m_Spacing[1] << "\\" << m_Spacing[0];
   header->InsertValEntry(str.str(),0x0028,0x0030); // Pixel Spacing
   str.str("");
   str << m_Spacing[2];
@@ -553,6 +572,16 @@ void GDCMImageIO::Write(const void* buffer)
   str.str("");
   str << m_Origin[0] << "\\" << m_Origin[1] << "\\" << m_Origin[2];
   header->InsertValEntry(str.str(),0x0020,0x0032); // Image Position Patient
+
+  // Handle Direction = Image Orientation Patient
+  str.str("");
+  str << m_Direction[0][0] << "\\" 
+      << m_Direction[0][1] << "\\" 
+      << m_Direction[0][2] << "\\" 
+      << m_Direction[1][0] << "\\" 
+      << m_Direction[1][1] << "\\" 
+      << m_Direction[1][2];
+  header->InsertValEntry(str.str(),0x0020,0x0037); // Image Orientation Patient
 
   str.unsetf( itksys_ios::ios::fixed ); // back to normal
   // Handle the bitDepth:
@@ -664,7 +693,7 @@ void GDCMImageIO::GetPatientName( char *name)
 void GDCMImageIO::GetPatientID( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  ExposeMetaData<std::string>(dict, "0010|0020", m_PatientName);
+  ExposeMetaData<std::string>(dict, "0010|0020", m_PatientID);
   strcpy (name, m_PatientID.c_str());
 }
 void GDCMImageIO::GetPatientSex( char *name)
