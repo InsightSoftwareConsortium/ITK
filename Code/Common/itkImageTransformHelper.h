@@ -51,7 +51,7 @@ public:
         TransformIndexToPhysicalPointRow(
           matrix, origin,
           index, rindex, point,
-          Concept::Detail::UniqueType_bool<R==0>());
+          Concept::Detail::UniqueType_bool<(R==0)>());
     }
 
   inline static void TransformIndexToPhysicalPointRow(
@@ -68,13 +68,13 @@ public:
         ::TransformIndexToPhysicalPointCol(
           matrix,
           rindex,point,
-          Concept::Detail::UniqueType_bool<C==0>());
+          Concept::Detail::UniqueType_bool<(C==0)>());
       // Do Next Row
       ImageTransformHelper<NImageDimension,R-1,C>
         ::TransformIndexToPhysicalPointRow(
           matrix,origin,
           index,rindex,point,
-          Concept::Detail::UniqueType_bool<R==0>());
+          Concept::Detail::UniqueType_bool<(R==0)>());
     }
 
   inline static void TransformIndexToPhysicalPointRow(
@@ -98,7 +98,7 @@ public:
         ::TransformIndexToPhysicalPointCol(
           matrix,
           rindex,point,
-          Concept::Detail::UniqueType_bool<C==0>());
+          Concept::Detail::UniqueType_bool<(C==0)>());
     }
 
   inline static void TransformIndexToPhysicalPointCol(
@@ -120,7 +120,7 @@ public:
         TransformPhysicalPointToIndexRow(
           matrix, origin,
           point, rindex, index,
-          Concept::Detail::UniqueType_bool<R==0>());
+          Concept::Detail::UniqueType_bool<(R==0)>());
     }
 
   inline static void TransformPhysicalPointToIndexRow(
@@ -136,13 +136,13 @@ public:
         ::TransformPhysicalPointToIndexCol(
           matrix,origin,
           point,rindex,index,
-          Concept::Detail::UniqueType_bool<C==0>());
+          Concept::Detail::UniqueType_bool<(C==0)>());
       // Do next row
       ImageTransformHelper<NImageDimension,R-1,C>
         ::TransformPhysicalPointToIndexRow(
           matrix,origin,
           point,rindex,index,
-          Concept::Detail::UniqueType_bool<R==0>());
+          Concept::Detail::UniqueType_bool<(R==0)>());
     }
 
   inline static void TransformPhysicalPointToIndexRow(
@@ -166,7 +166,7 @@ public:
         ::TransformPhysicalPointToIndexCol(
           matrix,origin,
           point,rindex,index,
-          Concept::Detail::UniqueType_bool<C==0>());
+          Concept::Detail::UniqueType_bool<(C==0)>());
     }
 
   inline static void TransformPhysicalPointToIndexCol(
