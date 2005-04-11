@@ -19,7 +19,7 @@
 =========================================================================*/
 #ifndef _itkOrientedImage_txx
 #define _itkOrientedImage_txx
-#include "itkOriented.h"
+#include "itkOrientedImage.h"
 
 namespace itk
 {
