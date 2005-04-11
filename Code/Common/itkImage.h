@@ -129,6 +129,9 @@ public:
   /** Size typedef support. A size is used to define region bounds. */
   typedef typename Superclass::SizeType  SizeType;
 
+  /** Direction typedef support. A matrix of direction cosines. */
+  typedef typename Superclass::DirectionType  DirectionType;
+
   /** Region typedef support. A region is used to specify a subset of an image. */
   typedef typename Superclass::RegionType  RegionType;
 

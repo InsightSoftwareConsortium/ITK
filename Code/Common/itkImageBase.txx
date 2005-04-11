@@ -35,6 +35,7 @@ ImageBase<VImageDimension>
   memset( m_OffsetTable, 0, (VImageDimension+1)*sizeof(unsigned long) );
   m_Spacing.Fill(1.0);
   m_Origin.Fill(0.0);
+  m_Direction.SetIdentity();
 }
 
 
@@ -117,6 +118,30 @@ ImageBase<VImageDimension>
   PointType p;
   p.CastFrom( of );
   this->SetOrigin( p );
+}
+
+//----------------------------------------------------------------------------
+template<unsigned int VImageDimension>
+void 
+ImageBase<VImageDimension>
+::SetDirection(const DirectionType direction )
+{
+  bool modified = false;
+  for (unsigned int r = 0; r < VImageDimension; r++)
+    {
+    for (unsigned int c = 0; c < VImageDimension; c++)
+      {
+      if (m_Direction[r][c] != direction[r][c])
+        {
+        m_Direction[r][c] = direction[r][c];
+        modified = true;
+        }
+      }
+    }
+  if (modified)
+    {
+    this->Modified();
+    }
 }
 
 //----------------------------------------------------------------------------
@@ -204,6 +229,7 @@ ImageBase<VImageDimension>
       m_LargestPossibleRegion = imgData->GetLargestPossibleRegion();
       m_Spacing = imgData->m_Spacing;
       m_Origin = imgData->m_Origin;
+      this->SetDirection(imgData->m_Direction);
       }
     else
       {
@@ -376,7 +402,9 @@ ImageBase<VImageDimension>
 
   os << indent << "Spacing: " << m_Spacing << std::endl;
 
-  os << indent << "Origin: " << m_Origin << std::endl;
+  os << indent << "Origin: " << m_Origin << std::endl;\
+
+  os << indent << "Direction: " << std::endl << m_Direction << std::endl;
 }
 
 } // end namespace itk

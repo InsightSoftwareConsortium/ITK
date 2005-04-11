@@ -93,6 +93,8 @@ public:
     Iterator operator--(int)     { return m_Iterator++; }
     Iterator operator->() const  { return (m_Iterator-1); }
     ValueType& operator*() const { return *(m_Iterator-1); }
+    bool operator!=(const ReverseIterator &rit) const {return m_Iterator != rit.m_Iterator;};
+    bool operator==(const ReverseIterator &rit) const {return m_Iterator == rit.m_Iterator;};
   private:
     Iterator m_Iterator;
   };
@@ -108,6 +110,8 @@ public:
     ConstIterator operator--(int)      { return m_Iterator++; }
     ConstIterator operator->() const   { return (m_Iterator-1); }
     const ValueType& operator*() const { return *(m_Iterator-1); }
+    bool operator!=(const ConstReverseIterator &rit) const {return m_Iterator != rit.m_Iterator;};
+    bool operator==(const ConstReverseIterator &rit) const {return m_Iterator == rit.m_Iterator;};
   private:
     ConstIterator m_Iterator;
   };  

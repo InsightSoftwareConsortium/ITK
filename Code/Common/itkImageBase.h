@@ -27,6 +27,9 @@
 #include "itkSize.h"
 #include "itkFixedArray.h"
 #include "itkPoint.h"
+#include "itkMatrix.h"
+#include <vnl/vnl_matrix_fixed.txx>
+
 #include "itkImageRegion.h"
 
 namespace itk
@@ -44,7 +47,6 @@ struct GetImageDimension
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 }; 
   
-
 /** \class ImageBase
  * \brief Base class for templated image classes.
  *
@@ -118,6 +120,10 @@ public:
    * of the index (0,0). */
   typedef Point<double, VImageDimension> PointType;
 
+  /** Direction typedef support.  The Direction is a matix of
+   * direction cosines that specify the direction between samples. */
+  typedef Matrix<double, VImageDimension, VImageDimension> DirectionType;
+
   /** Restore object to initialized state. */
   void Initialize();
 
@@ -133,6 +139,16 @@ public:
   virtual void SetOrigin( const double origin[VImageDimension] );
   virtual void SetOrigin( const float origin[VImageDimension] );
 
+  /** Set the direction cosines of the image. The direction cosines
+   * are vectors that point from one pixel to the next.
+   * \sa GetDirection() */
+  virtual void SetDirection( const DirectionType direction );
+
+  /** Get the direction cosines of the image. The direction cosines
+   * are vectors that point from one pixel to the next.
+   * For ImageBase and Image, the default direction is identity. */
+  itkGetConstReferenceMacro(Direction, DirectionType);
+
   /** Set the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
@@ -141,7 +157,7 @@ public:
   virtual void SetSpacing( const double spacing[VImageDimension] );
   virtual void SetSpacing( const float spacing[VImageDimension] );
 
-  /** Get the spacing (size of a pixel) of the image. The
+  /** Get the spacing (size of a pixel) `of the image. The
    * spacing is the geometric distance between image samples.
    * The value returned is a pointer to a double array.
    * For ImageBase and Image, the default data spacing is unity. */
@@ -339,6 +355,7 @@ protected:
    * inner loop calculations. */
   SpacingType  m_Spacing;
   PointType   m_Origin;
+  DirectionType m_Direction;
 
 private:
   ImageBase(const Self&); //purposely not implemented
