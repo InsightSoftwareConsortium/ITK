@@ -29,7 +29,13 @@
 
 int itkBoxSpatialObjectTest( int argc, char *argv[] )
 {
-  const int Dimension = 2;
+  if (argc < 2)
+    {
+    std::cerr << "Missing Parameters: Usage " << argv[0] << "OutputImageFile" 
+                                        << std::endl;
+    }
+
+  const unsigned int Dimension = 2;
   typedef itk::GroupSpatialObject< Dimension >       SceneType;
   typedef itk::BoxSpatialObject< Dimension >         BoxType;
   typedef itk::Image< unsigned char, Dimension >     OutputImageType;
