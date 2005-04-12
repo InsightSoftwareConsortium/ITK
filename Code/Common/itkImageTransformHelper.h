@@ -40,7 +40,6 @@ public:
   typedef Point<float, NImageDimension> FloatPoint;
   typedef Concept::Detail::UniqueType_bool<false> UniqueTypeBoolFalse;
   typedef Concept::Detail::UniqueType_bool<true> UniqueTypeBoolTrue;
-to evaluate the current state of large data processing and 
   // IndexToPhysicalPoint with full matrix
   //
   //
