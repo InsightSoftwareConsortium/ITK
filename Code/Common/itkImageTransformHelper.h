@@ -38,7 +38,9 @@ public:
   typedef typename ImageType::PointType      OriginType;
   typedef Point<double, NImageDimension> DoublePoint;
   typedef Point<float, NImageDimension> FloatPoint;
-
+  typedef Concept::Detail::UniqueType_bool<false> UniqueTypeBoolFalse;
+  typedef Concept::Detail::UniqueType_bool<true> UniqueTypeBoolTrue;
+to evaluate the current state of large data processing and 
   // IndexToPhysicalPoint with full matrix
   //
   //
@@ -57,7 +59,7 @@ public:
   inline static void TransformIndexToPhysicalPointRow(
     const MatrixType & matrix, const OriginType  & origin,
     const IndexType & index, DoublePoint & rindex, DoublePoint & point,
-    const Concept::Detail::UniqueType_bool<false>& )
+    const UniqueTypeBoolFalse& )
     {
       rindex[R] = index[R];
 //      std::cout << "point[" << R << "] = origin[" << R << "];" << std::endl;
@@ -80,7 +82,7 @@ public:
   inline static void TransformIndexToPhysicalPointRow(
     const MatrixType &, const OriginType  &,
     const IndexType &, DoublePoint &, DoublePoint &,
-    const Concept::Detail::UniqueType_bool<true>& )
+    const UniqueTypeBoolTrue& )
     {
       // Do last row
     }
@@ -88,7 +90,7 @@ public:
   inline static void TransformIndexToPhysicalPointCol(
     const MatrixType & matrix,
     const DoublePoint & rindex, DoublePoint & point,
-    const Concept::Detail::UniqueType_bool<false>& )
+    const UniqueTypeBoolFalse& )
     {
 //      std::cout << "point[" << R << "] = point[" << R << "] + matrix[" << R << "][" << C << "]*rindex[" << C << "];" << std::endl;
       point[R] = point[R] + matrix[R][C]*rindex[C];
@@ -104,7 +106,7 @@ public:
   inline static void TransformIndexToPhysicalPointCol(
     const MatrixType &,
     const DoublePoint &, DoublePoint &,
-    const Concept::Detail::UniqueType_bool<true>& )
+    const UniqueTypeBoolTrue& )
     {
     }
 
@@ -126,7 +128,7 @@ public:
   inline static void TransformPhysicalPointToIndexRow(
     const MatrixType & matrix, const OriginType  & origin,
     const DoublePoint & point, DoublePoint & rindex, IndexType & index,
-    const Concept::Detail::UniqueType_bool<false>& )
+    const UniqueTypeBoolFalse& )
     {
 //      std::cout << "rindex[" << R << "] = 0.0;" << std::endl;
       rindex[R] = 0.0;
@@ -148,7 +150,7 @@ public:
   inline static void TransformPhysicalPointToIndexRow(
     const MatrixType &, const OriginType &,
     const DoublePoint &, DoublePoint &, IndexType &,
-    const Concept::Detail::UniqueType_bool<true>& )
+    const UniqueTypeBoolTrue& )
     {
       // Do last row
     }
@@ -156,7 +158,7 @@ public:
   inline static void TransformPhysicalPointToIndexCol(
     const MatrixType & matrix, const OriginType  & origin,
     const DoublePoint & point, DoublePoint & rindex, IndexType & index,
-    const Concept::Detail::UniqueType_bool<false>& )
+    const UniqueTypeBoolFalse& )
     {
 //      std::cout << "rindex[" << R << "] = rindex[" << R << "] + matrix[" << R << "][" << C << "]*(point[" << C << "] - origin[" << C << "]);" << std::endl;
       rindex[R] = rindex[R] + matrix[R][C]*(point[C] - origin[C]);
@@ -172,7 +174,7 @@ public:
   inline static void TransformPhysicalPointToIndexCol(
     const MatrixType &, const OriginType  &,
     const DoublePoint &, DoublePoint &rindex, IndexType &index,
-    const Concept::Detail::UniqueType_bool<true>& )
+    const UniqueTypeBoolTrue& )
     {
 //      std::cout << "index[" << R << "] = rindex[" << R << "]);" << std::endl;
      index[R] = static_cast<typename IndexType::IndexValueType>(rindex[R]);
