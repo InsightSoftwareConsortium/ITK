@@ -47,40 +47,38 @@ public:
     const MatrixType & matrix, const OriginType  & origin,
     const IndexType & index, DoublePoint & point)
     {
-      DoublePoint rindex;
       ImageTransformHelper<NImageDimension, R, C>::
         TransformIndexToPhysicalPointRow(
           matrix, origin,
-          index, rindex, point,
+          index, point,
           Concept::Detail::UniqueType_bool<(R==0)>());
     }
 
   inline static void TransformIndexToPhysicalPointRow(
     const MatrixType & matrix, const OriginType  & origin,
-    const IndexType & index, DoublePoint & rindex, DoublePoint & point,
+    const IndexType & index, DoublePoint & point,
     const UniqueTypeBoolFalse& )
     {
-      rindex[R] = index[R];
-//      std::cout << "point[" << R << "] = origin[" << R << "];" << std::endl;
+      // std::cout << "point[" << R << "] = origin[" << R << "];" << std::endl;
       point[R] = origin[R];
 
       // Start column
       ImageTransformHelper<NImageDimension,R,C>
         ::TransformIndexToPhysicalPointCol(
           matrix,
-          rindex,point,
+          index,point,
           Concept::Detail::UniqueType_bool<(C==0)>());
       // Do Next Row
       ImageTransformHelper<NImageDimension,R-1,C>
         ::TransformIndexToPhysicalPointRow(
           matrix,origin,
-          index,rindex,point,
+          index,point,
           Concept::Detail::UniqueType_bool<(R==0)>());
     }
 
   inline static void TransformIndexToPhysicalPointRow(
     const MatrixType &, const OriginType  &,
-    const IndexType &, DoublePoint &, DoublePoint &,
+    const IndexType &, DoublePoint &,
     const UniqueTypeBoolTrue& )
     {
       // Do last row
@@ -88,23 +86,23 @@ public:
 
   inline static void TransformIndexToPhysicalPointCol(
     const MatrixType & matrix,
-    const DoublePoint & rindex, DoublePoint & point,
+    const IndexType & index, DoublePoint & point,
     const UniqueTypeBoolFalse& )
     {
-//      std::cout << "point[" << R << "] = point[" << R << "] + matrix[" << R << "][" << C << "]*rindex[" << C << "];" << std::endl;
-      point[R] = point[R] + matrix[R][C]*rindex[C];
+      // std::cout << "point[" << R << "] = point[" << R << "] + matrix[" << R << "][" << C << "]*rindex[" << C << "];" << std::endl;
+      point[R] = point[R] + matrix[R][C]*index[C];
 
       // Do next dimension
       ImageTransformHelper<NImageDimension,R,C-1>
         ::TransformIndexToPhysicalPointCol(
           matrix,
-          rindex,point,
+          index,point,
           Concept::Detail::UniqueType_bool<(C==0)>());
     }
 
   inline static void TransformIndexToPhysicalPointCol(
     const MatrixType &,
-    const DoublePoint &, DoublePoint &,
+    const IndexType &, DoublePoint &,
     const UniqueTypeBoolTrue& )
     {
     }
@@ -131,7 +129,6 @@ public:
     {
 //      std::cout << "rindex[" << R << "] = 0.0;" << std::endl;
       rindex[R] = 0.0;
-
       // Start column
       ImageTransformHelper<NImageDimension,R,C>
         ::TransformPhysicalPointToIndexCol(
