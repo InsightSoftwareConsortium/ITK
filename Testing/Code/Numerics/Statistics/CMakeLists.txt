@@ -41,6 +41,8 @@ ADD_TEST(itkMeanCalculatorTest ${STATISTICS_TESTS} itkMeanCalculatorTest)
 ADD_TEST(itkMembershipSampleTest ${STATISTICS_TESTS} itkMembershipSampleTest)
 ADD_TEST(itkNeighborhoodSamplerTest ${STATISTICS_TESTS} itkNeighborhoodSamplerTest)
 ADD_TEST(itkMembershipSampleGeneratorTest ${STATISTICS_TESTS} itkMembershipSampleGeneratorTest)
+ADD_TEST(itkMersenneTwisterRandomVariateGeneratorTest.cxx ${STATISTICS_TESTS}
+                    itkMersenneTwisterRandomVariateGeneratorTest) 
 ADD_TEST(itkNormalVariateGeneratorTest ${STATISTICS_TESTS} 
                     itkNormalVariateGeneratorTest)
 
@@ -82,6 +84,7 @@ itkMeanCalculatorTest.cxx
 itkMaskedScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest.cxx
 itkMembershipSampleTest.cxx
 itkMembershipSampleGeneratorTest.cxx
+itkMersenneTwisterRandomVariateGeneratorTest.cxx 
 itkNeighborhoodSamplerTest.cxx
 itkNormalVariateGeneratorTest.cxx
 itkSampleClassifierTest.cxx

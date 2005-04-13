@@ -44,6 +44,7 @@ void RegisterTests()
   REGISTER_TEST(itkMaskedScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest);
   REGISTER_TEST(itkMembershipSampleTest);
   REGISTER_TEST(itkMembershipSampleGeneratorTest);
+  REGISTER_TEST(itkMersenneTwisterRandomVariateGeneratorTest);
   REGISTER_TEST(itkMeanCalculatorTest);
   REGISTER_TEST(itkNeighborhoodSamplerTest) ;
   REGISTER_TEST(itkNormalVariateGeneratorTest);

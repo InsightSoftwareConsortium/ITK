@@ -48,6 +48,7 @@
 #include "itkMeanShiftModeCacheMethod.h"
 #include "itkMembershipSample.h"
 #include "itkMembershipSampleGenerator.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkMixtureModelComponentBase.h"
 #include "itkNeighborhoodSampler.h"
 #include "itkNormalVariateGenerator.h"
@@ -184,6 +185,10 @@ int itkStatisticsPrintTest(int , char* [])
   itk::Statistics::MembershipSampleGenerator< SampleType, SampleType >::Pointer MembershipSampleGeneratorObj=
     itk::Statistics::MembershipSampleGenerator< SampleType, SampleType >::New();
   std::cout << "----------MembershipSampleGenerator " << MembershipSampleGeneratorObj;
+
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer MersenneTwisterRandomVariateGeneratorObj=
+    itk::Statistics::MersenneTwisterRandomVariateGenerator::New();
+  std::cout << "----------MersenneTwisterRandomVariateGenerator " << MersenneTwisterRandomVariateGeneratorObj;
 
   itk::Statistics::MixtureModelComponentBase< SampleType >::Pointer MixtureModelComponentBaseObj=
     itk::Statistics::MixtureModelComponentBase< SampleType >::New();
