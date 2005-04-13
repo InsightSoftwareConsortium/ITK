@@ -262,7 +262,7 @@ inline void
   // in each element are discarded.
   // Just call seed() if you want to get array from /dev/urandom
   Initialize(19650218UL);
-  register int i = 1;
+  register IntegerType i = 1;
   register IntegerType j = 0;
   register int k;
   if ( StateVectorLength > seedLength )
@@ -335,7 +335,7 @@ inline void
   // only MSBs of the state array.  Modified 9 Jan 2002 by Makoto Matsumoto.
   register IntegerType *s = state;
   register IntegerType *r = state;
-  register int i = 1;
+  register IntegerType i = 1;
   *s++ = seed & 0xffffffffUL;
   for( ; i < MersenneTwisterRandomVariateGenerator::StateVectorLength; ++i )
     {
