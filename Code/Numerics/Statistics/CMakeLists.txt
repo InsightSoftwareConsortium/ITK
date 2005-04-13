@@ -1,5 +1,8 @@
 # Sources for ITKStatistics library
-ADD_LIBRARY(ITKStatistics itkNormalVariateGenerator.cxx)
+ADD_LIBRARY(ITKStatistics 
+  itkMersenneTwisterRandomVariateGenerator.cxx  
+  itkNormalVariateGenerator.cxx
+ )
 
 TARGET_LINK_LIBRARIES(ITKStatistics ITKCommon)
 
