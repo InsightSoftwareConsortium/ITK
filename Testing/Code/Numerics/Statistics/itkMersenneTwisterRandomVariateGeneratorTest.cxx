@@ -74,7 +74,7 @@ bool ComputeMeanAndVariance(const unsigned long numberOfSamples)
   clockMT1.Start(); 
   for(unsigned int i=0; i < numberOfSamples; i++)
     {
-    double variate = generator->GetUniformVariate(0,10);
+    generator->GetUniformVariate(0,10);
     }
   clockMT1.Stop();
     
@@ -128,7 +128,7 @@ bool ComputeMeanAndVariance(const unsigned long numberOfSamples)
   clockVnl1.Start(); 
   for(unsigned int i=0; i < numberOfSamples; i++)
     {
-    double variate = vnl_sample_uniform(0,10);
+    vnl_sample_uniform(0,10);
     }
   clockVnl1.Stop();
   
