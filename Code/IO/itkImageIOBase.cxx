@@ -382,7 +382,7 @@ void ImageIOBase::SetNumberOfDimensions(unsigned int dim)
           }
         else
           {
-          axis[j] = 1.0;
+          axis[j] = 0.0;
           }
         }
       this->SetDirection(i, axis);
