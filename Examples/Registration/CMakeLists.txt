@@ -5,6 +5,7 @@ SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 SET(REGISTRATION_EXAMPLES ${CXX_TEST_PATH}/RegistrationExamples)
+SET(REGISTRATION_EXAMPLESO ${CXX_TEST_PATH}/RegistrationExamplesO)
 SET(REGISTRATION_EXAMPLES2 ${CXX_TEST_PATH}/RegistrationExamples2)
 SET(REGISTRATION_EXAMPLES3 ${CXX_TEST_PATH}/RegistrationExamples3)
 SET(REGISTRATION_EXAMPLES4 ${CXX_TEST_PATH}/RegistrationExamples4)
@@ -24,6 +25,9 @@ TARGET_LINK_LIBRARIES(ImageRegistration3 ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(ImageRegistration4 ImageRegistration4.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration4 ITKNumerics ITKIO)
+
+ADD_EXECUTABLE(ImageRegistration4o ImageRegistration4o.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration4o ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(ImageRegistration5 ImageRegistration5.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration5 ITKNumerics ITKIO)
@@ -122,6 +126,67 @@ ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlott
 TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter ITKNumerics ITKIO ITKCommon)
 
 IF( NOT ITK_DISABLE_CXX_TESTING )
+
+ADD_TEST(ImageRegistration1oTest ${REGISTRATION_EXAMPLESO}
+  --compare ${BASELINE}/ImageRegistration1Test.png
+            ${TEMP}/ImageRegistration1Test.png
+  ImageRegistration1oTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+        ${TEMP}/ImageRegistration1Test.png
+)
+
+ADD_TEST(ImageRegistration2oTest ${REGISTRATION_EXAMPLESO}
+  ImageRegistration2oTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+        ${TEMP}/ImageRegistration2Test.png
+)
+
+ADD_TEST(ImageRegistration3oTest ${REGISTRATION_EXAMPLESO}
+  --compare ${BASELINE}/ImageRegistration3Test.png
+            ${TEMP}/ImageRegistration3Test.png
+  ImageRegistration3oTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+        ${TEMP}/ImageRegistration3Test.png
+)
+
+ADD_TEST(ImageRegistration4oTest ${REGISTRATION_EXAMPLESO}
+  --compare ${BASELINE}/ImageRegistration4Test.png
+            ${TEMP}/ImageRegistration4Test.png
+  ImageRegistration4oTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+        ${TEMP}/ImageRegistration4Test.png 0
+)
+
+ADD_TEST(ImageRegistration5oTest1 ${REGISTRATION_EXAMPLESO}
+  --compare ${BASELINE}/ImageRegistration5Test1.png
+            ${TEMP}/ImageRegistration5Test1.png
+  ImageRegistration5oTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceRotated10.png
+        ${TEMP}/ImageRegistration5Test1.png
+)
+
+ADD_TEST(ImageRegistration5oTest2 ${REGISTRATION_EXAMPLESO}
+  --compare ${BASELINE}/ImageRegistration5Test2.png
+            ${TEMP}/ImageRegistration5Test2.png
+  ImageRegistration5oTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
+        ${TEMP}/ImageRegistration5Test2.png
+)
+
+ADD_TEST(ImageRegistration6oTest ${REGISTRATION_EXAMPLESO}
+  --compare ${BASELINE}/ImageRegistration6Test.png
+            ${TEMP}/ImageRegistration6Test.png
+  ImageRegistration6oTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
+        ${TEMP}/ImageRegistration6Test.png
+)
 
 ADD_TEST(ImageRegistration1Test ${REGISTRATION_EXAMPLES}
   --compare ${BASELINE}/ImageRegistration1Test.png
@@ -351,6 +416,9 @@ ADD_TEST(ImageRegistration12Test ${REGISTRATION_EXAMPLES4}
 
 ADD_EXECUTABLE(RegistrationExamples RegistrationExamples.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(RegistrationExamplesO RegistrationExamplesO.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamplesO ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
 
 ADD_EXECUTABLE(RegistrationExamples2 RegistrationExamples2.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples2 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
