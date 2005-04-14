@@ -412,7 +412,7 @@ inline MersenneTwisterRandomVariateGenerator::IntegerType
                                         const IntegerType& n )
   {
   // Find which bits are used in n
-  // Optimized by Magnus Jonsson (magnus@smartelectronix.com)
+  // Optimized by Magnus Jonsson magnus at smartelectronix dot com
   IntegerType used = n;
   used |= used >> 1;
   used |= used >> 2;
@@ -481,7 +481,8 @@ inline void
   MersenneTwisterRandomVariateGenerator::reload()
   {
   // Generate N new values in state
-  // Made clearer and faster by Matthew Bellew (matthew.bellew@home.com)
+  // Made clearer and faster by Matthew Bellew 
+  // matthew dot bellew at home dot com
   
   // get rid of VS warning
   register int index = M-MersenneTwisterRandomVariateGenerator::StateVectorLength;
@@ -503,7 +504,7 @@ inline MersenneTwisterRandomVariateGenerator::IntegerType
   {
   // Get a IntegerType from t and c
   // Better than IntegerType(x) in case x is floating point in [0,1]
-  // Based on code by Lawrence Kirby (fred@genesis.demon.co.uk)
+  // Based on code by Lawrence Kirby: fred at genesis dot demon dot co dot uk 
 
   static IntegerType differ = 0;  // guarantee time-based seeds will change
 
