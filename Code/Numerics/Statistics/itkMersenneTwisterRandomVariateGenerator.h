@@ -163,7 +163,7 @@ public:
   
   /** Access to 53-bit random numbers (capacity of IEEE double precision) 
    * in the range [0,1) */
-  inline double Get53BitVariate();
+  double Get53BitVariate();
   
   /* Access to a normal random number distribution 
    * TODO: Compare with vnl_sample_normal */
