@@ -485,7 +485,8 @@ inline void
   // matthew dot bellew at home dot com
   
   // get rid of VS warning
-  register int index = M-MersenneTwisterRandomVariateGenerator::StateVectorLength;
+  register int index = static_cast< int >(
+      M-MersenneTwisterRandomVariateGenerator::StateVectorLength);
     
   register IntegerType *p = state;
   register int i;
