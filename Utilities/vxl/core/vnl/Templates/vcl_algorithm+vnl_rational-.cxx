@@ -5,7 +5,7 @@
 # include <vcl_vector.h>
 VCL_SORT_INSTANTIATE(vcl_vector<vnl_rational>::iterator, vnl_rational);
 namespace std {
-  template vnl_rational* std::fill_n<vnl_rational*, unsigned long, vnl_rational>(vnl_rational*, unsigned long, vnl_rational const&);
+  template vnl_rational* fill_n<vnl_rational*, unsigned long, vnl_rational>(vnl_rational*, unsigned long, vnl_rational const&);
 }
 #endif
 
