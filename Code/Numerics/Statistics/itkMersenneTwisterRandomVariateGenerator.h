@@ -232,22 +232,49 @@ public:
 
 
 // Declare inlined functions.... (must be declared in the header)
+// Declare then in order to keep SGI happy
 
-// Initialization and seeding.....
-//   
-inline void
-  MersenneTwisterRandomVariateGenerator::Initialize()
-  { 
-  SetSeed(); 
+inline void 
+  MersenneTwisterRandomVariateGenerator::Initialize( const IntegerType seed )
+  {
+  // Initialize generator state with seed
+  // See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
+  // In previous versions, most significant bits (MSBs) of the seed affect
+  // only MSBs of the state array.  Modified 9 Jan 2002 by Makoto Matsumoto.
+  register IntegerType *s = state;
+  register IntegerType *r = state;
+  register IntegerType i = 1;
+  *s++ = seed & 0xffffffffUL;
+  for( ; i < MersenneTwisterRandomVariateGenerator::StateVectorLength; ++i )
+    {
+    *s++ = ( 1812433253UL * ( *r ^ (*r >> 30) ) + i ) & 0xffffffffUL;
+    r++;
+    }
   }
 
 inline void 
-  MersenneTwisterRandomVariateGenerator::SetSeed( const IntegerType oneSeed )
+  MersenneTwisterRandomVariateGenerator::reload()
   {
-  // Seed the generator with a simple IntegerType
-  Initialize(oneSeed);
-  reload();
+  // Generate N new values in state
+  // Made clearer and faster by Matthew Bellew 
+  // matthew dot bellew at home dot com
+  
+  // get rid of VS warning
+  register int index = static_cast< int >(
+      M-MersenneTwisterRandomVariateGenerator::StateVectorLength);
+    
+  register IntegerType *p = state;
+  register int i;
+  for( i = MersenneTwisterRandomVariateGenerator::StateVectorLength - M; i--; ++p )
+    *p = twist( p[M], p[0], p[1] );
+  for( i = M; --i; ++p )
+    *p = twist( p[index], p[0], p[1] );
+  *p = twist( p[index], p[0], state[0] );
+
+  left = MersenneTwisterRandomVariateGenerator::StateVectorLength, pNext = state;
   }
+
+
 
 #define SVL 624
 inline void 
@@ -299,6 +326,7 @@ inline void
   reload();
 }
 
+
 inline void 
   MersenneTwisterRandomVariateGenerator::SetSeed()
   {
@@ -326,24 +354,36 @@ inline void
   }
 
 
-inline void 
-  MersenneTwisterRandomVariateGenerator::Initialize( const IntegerType seed )
-  {
-  // Initialize generator state with seed
-  // See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
-  // In previous versions, most significant bits (MSBs) of the seed affect
-  // only MSBs of the state array.  Modified 9 Jan 2002 by Makoto Matsumoto.
-  register IntegerType *s = state;
-  register IntegerType *r = state;
-  register IntegerType i = 1;
-  *s++ = seed & 0xffffffffUL;
-  for( ; i < MersenneTwisterRandomVariateGenerator::StateVectorLength; ++i )
-    {
-    *s++ = ( 1812433253UL * ( *r ^ (*r >> 30) ) + i ) & 0xffffffffUL;
-    r++;
-    }
+inline void
+  MersenneTwisterRandomVariateGenerator::Initialize()
+  { 
+  SetSeed(); 
   }
 
+
+inline void 
+  MersenneTwisterRandomVariateGenerator::SetSeed( const IntegerType oneSeed )
+  {
+  // Seed the generator with a simple IntegerType
+  Initialize(oneSeed);
+  reload();
+  }
+
+
+/** Get an integer variate in [0, 2^32-1] */
+inline MersenneTwisterRandomVariateGenerator::IntegerType 
+  MersenneTwisterRandomVariateGenerator::GetIntegerVariate()
+  {
+  if( left == 0 ) reload();
+  --left;
+
+  register IntegerType s1;
+  s1 = *pNext++;
+  s1 ^= (s1 >> 11);
+  s1 ^= (s1 <<  7) & 0x9d2c5680UL;
+  s1 ^= (s1 << 15) & 0xefc60000UL;
+  return ( s1 ^ (s1 >> 18) );
+  }
 
 
 inline double 
@@ -389,21 +429,6 @@ inline double
                                                   const double& n )
   { 
   return GetVariateWithOpenRange() * n; 
-  }
-
-/** Get an integer variate in [0, 2^32-1] */
-inline MersenneTwisterRandomVariateGenerator::IntegerType 
-  MersenneTwisterRandomVariateGenerator::GetIntegerVariate()
-  {
-  if( left == 0 ) reload();
-  --left;
-
-  register IntegerType s1;
-  s1 = *pNext++;
-  s1 ^= (s1 >> 11);
-  s1 ^= (s1 <<  7) & 0x9d2c5680UL;
-  s1 ^= (s1 << 15) & 0xefc60000UL;
-  return ( s1 ^ (s1 >> 18) );
   }
 
 
@@ -476,29 +501,6 @@ inline double
   }
 
   
-
-inline void 
-  MersenneTwisterRandomVariateGenerator::reload()
-  {
-  // Generate N new values in state
-  // Made clearer and faster by Matthew Bellew 
-  // matthew dot bellew at home dot com
-  
-  // get rid of VS warning
-  register int index = static_cast< int >(
-      M-MersenneTwisterRandomVariateGenerator::StateVectorLength);
-    
-  register IntegerType *p = state;
-  register int i;
-  for( i = MersenneTwisterRandomVariateGenerator::StateVectorLength - M; i--; ++p )
-    *p = twist( p[M], p[0], p[1] );
-  for( i = M; --i; ++p )
-    *p = twist( p[index], p[0], p[1] );
-  *p = twist( p[index], p[0], state[0] );
-
-  left = MersenneTwisterRandomVariateGenerator::StateVectorLength, pNext = state;
-  }
-
 
 inline MersenneTwisterRandomVariateGenerator::IntegerType 
   MersenneTwisterRandomVariateGenerator::hash( vcl_time_t t, vcl_clock_t c )
