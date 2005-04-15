@@ -75,6 +75,8 @@
 #  if (__GNUC_MINOR__>1)
 #   define VCL_GCC_32
 #  endif
+# elif (__GNUC__==4)
+#  define VCL_GCC_40
 # else
 #  error "Dunno about this gcc"
 # endif
@@ -147,7 +149,7 @@
 
 // This *needs* to come after vcl_config_headers.h
 #if defined(__GNUC__) && !defined(__INTEL_COMPILER)
-# ifdef VCL_GCC_30
+# if defined(VCL_GCC_30) || defined(VCL_GCC_40)
 #  define GNU_LIBSTDCXX_V3 1
 # elif !defined(GNU_LIBSTDCXX_V3) && defined(VCL_GCC_295) && VCL_CXX_HAS_HEADER_ISTREAM
 // One difference between v2 and v3 is that the former has
@@ -181,7 +183,7 @@
 
 // if the compiler doesn't understand "export", we just leave it out.
 // gcc and SunPro 5.0 understand it, but they ignore it noisily.
-#if !VCL_HAS_EXPORT || defined(VCL_EGCS) || defined(VCL_GCC_295) || defined(VCL_GCC_30) || defined(VCL_SUNPRO_CC_50)
+#if !VCL_HAS_EXPORT || defined(VCL_EGCS) || defined(VCL_GCC_295) || defined(VCL_GCC_30) || defined(VCL_GCC_40) || defined(VCL_SUNPRO_CC_50)
 # define export /* ignore */
 #endif
 
