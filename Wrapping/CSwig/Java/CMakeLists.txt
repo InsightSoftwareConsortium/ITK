@@ -1,8 +1,13 @@
 SET(ITK_JAVA_CLASSPATH ${ITK_BINARY_DIR}/Wrapping/CSwig/Java)
 SET(ITK_JAVA_OUTPATH ${ITK_BINARY_DIR}/Wrapping/CSwig/Java)
-IF(UNIX)
-  SET(ITK_JAVA_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit)
-ENDIF(UNIX)
+
+# Relative path from InsightToolkit.jar installation to dlls.
+IF(WIN32)
+  SET(ITK_JAVA_INSTALL_DIR "/../../bin")
+ELSE(WIN32)
+  SET(ITK_JAVA_INSTALL_DIR "")
+ENDIF(WIN32)
+
 IF(CMAKE_CONFIGURATION_TYPES)
   SET(ITK_BASE_JAVA_FILE ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/${CMAKE_CFG_INTDIR}/InsightToolkit/itkbase.java)
   FOREACH(config ${CMAKE_CONFIGURATION_TYPES})
@@ -71,6 +76,8 @@ IF(CMAKE_CONFIGURATION_TYPES)
     COMMENT "Java Archive"
     )
   ADD_CUSTOM_TARGET(ITKJavaJar ALL DEPENDS ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/${CMAKE_CFG_INTDIR}/InsightToolkit.jar)
+  SET(DOLLAR "$")
+  INSTALL_FILES(/lib/InsightToolkit FILES ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/${DOLLAR}{BUILD_TYPE}/InsightToolkit.jar)
 ELSE(CMAKE_CONFIGURATION_TYPES)
   ADD_CUSTOM_COMMAND(
     OUTPUT ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit.jar
@@ -81,6 +88,7 @@ ELSE(CMAKE_CONFIGURATION_TYPES)
     COMMENT "Java Archive"
     )
   ADD_CUSTOM_TARGET(ITKJavaJar ALL DEPENDS ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit.jar)
+  INSTALL_FILES(/lib/InsightToolkit FILES ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit.jar)
 ENDIF(CMAKE_CONFIGURATION_TYPES)
 ADD_DEPENDENCIES(ITKJavaJar ${ITK_JAVA_KIT_LIBS} SwigRuntimeJava)
 FOREACH(Kit ${ITK_KITS})

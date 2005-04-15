@@ -67,8 +67,8 @@ ENDIF(ITK_CSWIG_PERL)
 
 IF(ITK_CSWIG_JAVA)
   SET_SOURCE_FILES_PROPERTIES(${WrapITK_BINARY_DIR}/SwigRuntime/JavaCWDJava.cxx GENERATED)
-  ADD_LIBRARY(SwigRuntimeJava SHARED ${WrapITK_BINARY_DIR}/SwigRuntime/JavaCWDJava.cxx JavaCWD.cxx)
-  INSTALL_TARGETS(/lib/InsightToolkit SwigRuntimeJava)
+  ADD_LIBRARY(SwigRuntimeJava MODULE ${WrapITK_BINARY_DIR}/SwigRuntime/JavaCWDJava.cxx JavaCWD.cxx)
+  INSTALL_TARGETS(${ITK_INSTALL_JAVA_LIBS_DIR} SwigRuntimeJava)
   MAKE_DIRECTORY(${WrapITK_BINARY_DIR}/Java/InsightToolkit)
   ADD_CUSTOM_COMMAND(
         COMMENT "run native swig on SwigExtras.i"

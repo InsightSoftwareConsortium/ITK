@@ -16,6 +16,13 @@ IF(ITK_CSWIG_JAVA)
       ${JAVA_INCLUDE_PATH} ${JAVA_INCLUDE_PATH2} ${JAVA_AWT_INCLUDE_PATH})
 ENDIF(ITK_CSWIG_JAVA)
 
+# Choose an install location for the Java wrapper libraries.  This
+# must be next to the ITKCommon shared library.
+IF(WIN32)
+  SET(ITK_INSTALL_JAVA_LIBS_DIR /bin)
+ELSE(WIN32)
+  SET(ITK_INSTALL_JAVA_LIBS_DIR /lib/InsightToolkit)
+ENDIF(WIN32)
 
 # We have found CableSwig.  Use the settings.
 SET(CABLE_INDEX ${CableSwig_cableidx_EXE})
@@ -690,7 +697,7 @@ MACRO(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_
         ADD_DEPENDENCIES(${LIBRARY_NAME}Java ${lib}Java)
       ENDFOREACH(lib)
     ENDIF(ITK_WRAP_NEEDS_DEPEND)
-    INSTALL_TARGETS(/lib/InsightToolkit ${LIBRARY_NAME}Java)
+    INSTALL_TARGETS(${ITK_INSTALL_JAVA_LIBS_DIR} ${LIBRARY_NAME}Java)
     IF(ITK_SWIG_FILE)
       ADD_CUSTOM_COMMAND(
         COMMENT "run native swig on ${ITK_SWIG_FILE}"

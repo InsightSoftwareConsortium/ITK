@@ -25,7 +25,7 @@ public class itkbase
 {
   private static String buildDir = "@ITK_JAVA_BUILD_DIR@";
   private static String installDir = "@ITK_JAVA_INSTALL_DIR@";
-  private static String libDir = installDir;
+  private static String libDir = "/InsightToolkit.jar must be in CLASSPATH";
 
   static
     {
@@ -43,6 +43,11 @@ public class itkbase
         if((new java.io.File(self+"itk_build_tree.mark")).exists())
           {
           libDir = buildDir;
+          break;
+          }
+        else
+          {
+          libDir = dir.substring(0, index-1)+installDir;
           break;
           }
         }
