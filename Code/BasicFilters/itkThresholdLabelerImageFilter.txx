@@ -54,7 +54,7 @@ ThresholdLabelerImageFilter<TInputImage, TOutputImage>
     }
   os << std::endl;
 
-  os << indent << "LabelOffset: " << m_LabelOffset << std::endl;;
+  os << indent << "LabelOffset: " << m_LabelOffset << std::endl;
 }
 
 /**
