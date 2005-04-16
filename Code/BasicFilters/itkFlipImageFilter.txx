@@ -71,6 +71,7 @@ FlipImageFilter<TImage>
 
   const typename TImage::SpacingType& inputSpacing = inputPtr->GetSpacing();
   const typename TImage::PointType& inputOrigin = inputPtr->GetOrigin();
+  const typename TImage::DirectionType& inputDirection = inputPtr->GetDirection();;
   const typename TImage::SizeType& inputSize =
     inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TImage::IndexType& inputStartIndex =
@@ -80,6 +81,9 @@ FlipImageFilter<TImage>
 
   unsigned int j;
 
+  typename TImage::DirectionType flipMatrix;
+  flipMatrix.SetIdentity();
+
   for ( j = 0; j < ImageDimension; j++ )
     {
     if ( m_FlipAxes[j] )
@@ -87,16 +91,15 @@ FlipImageFilter<TImage>
       outputOrigin[j] = - 1 * inputOrigin[j] -
         inputSpacing[j] * ( 2 * static_cast<double>( inputStartIndex[j] ) + 
                             static_cast<double>( inputSize[j] ) - 1.0 );
+      flipMatrix[j][j] = -1.0;
       }
     else
       {
       outputOrigin[j] = inputOrigin[j];
       }
     }
-
+  outputPtr->SetDirection( flipMatrix * inputDirection );
   outputPtr->SetOrigin( outputOrigin );
-
-  
 }
 
 

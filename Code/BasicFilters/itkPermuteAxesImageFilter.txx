@@ -138,6 +138,7 @@ PermuteAxesImageFilter<TImage>
 
   const typename TImage::SpacingType& inputSpacing = inputPtr->GetSpacing();
   const typename TImage::PointType& inputOrigin = inputPtr->GetOrigin();
+  const typename TImage::DirectionType& inputDirection = inputPtr->GetDirection();
   const typename TImage::SizeType& inputSize =
     inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TImage::IndexType& inputStartIndex =
@@ -146,21 +147,26 @@ PermuteAxesImageFilter<TImage>
 
   typename TImage::SpacingType outputSpacing;
   typename TImage::PointType outputOrigin;
+  typename TImage::DirectionType outputDirection;
   typename TImage::SizeType outputSize;
   typename TImage::IndexType outputStartIndex;
 
-  unsigned int j;
-
+  unsigned int i, j;
   for ( j = 0; j < ImageDimension; j++ )
     {
     outputSpacing[j] = inputSpacing[m_Order[j]];
     outputOrigin[j]  = inputOrigin[m_Order[j]];
     outputSize[j]    = inputSize[m_Order[j]];
     outputStartIndex[j] = inputStartIndex[m_Order[j]];
+    for ( i = 0; i < ImageDimension; i++ )
+      {
+      outputDirection[i][j] = inputDirection[i][m_Order[j]];
+      }
     }
 
   outputPtr->SetSpacing( outputSpacing );
   outputPtr->SetOrigin( outputOrigin );
+  outputPtr->SetDirection( outputDirection );
 
   typename TImage::RegionType outputRegion;
   outputRegion.SetSize( outputSize );
