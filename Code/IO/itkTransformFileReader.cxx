@@ -85,11 +85,11 @@ void TransformFileReader
 
   // Read line by line
   vnl_vector<double> VectorBuffer;
-  unsigned int position = 0;
+  std::string::size_type position = 0;
   while ( position < data.size() )
     {
     // Find the next string
-    unsigned int end = data.find ( "\n", position );
+    std::string::size_type end = data.find ( "\n", position );
     std::string line = trim ( data.substr ( position, end - position ) );
     position = end+1;
     itkDebugMacro ("Found line: \"" << line << "\"" );
