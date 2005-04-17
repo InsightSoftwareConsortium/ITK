@@ -25,21 +25,24 @@
 //Simple functor to invert an image for Outside Danielsson distance map
 namespace itk
 {
-  template <class InputPixelType> class InvertIntensityFunctor
-  {
-  public:
-    InputPixelType operator()( InputPixelType input )
-      {
+  namespace Functor
+    {
+    template <class InputPixelType> class InvertIntensityFunctor
+    {
+    public:
+      InputPixelType operator()( InputPixelType input )
+        {
         if (input)
-        {
+          {
           return NumericTraits<InputPixelType>::Zero;
-        }
+          }
         else
-        {
+          {
           return NumericTraits<InputPixelType>::One;
+          }
         }
-      }
-  };
+    };
+  }
 }
 
 

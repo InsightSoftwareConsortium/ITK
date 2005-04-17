@@ -17,8 +17,6 @@
 #ifndef _itkSignedDanielssonDistanceMapImageFilter_txx
 #define _itkSignedDanielssonDistanceMapImageFilter_txx
 
-#include <iostream>
-
 #include "itkSignedDanielssonDistanceMapImageFilter.h"
 #include "itkProgressAccumulator.h"
 #include "itkBinaryBallStructuringElement.h"
@@ -123,19 +121,28 @@ void SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
     
   //Invert input image for second Danielsson filter
   typedef typename InputImageType::PixelType InputPixelType;
-  typedef UnaryFunctorImageFilter< InputImageType, InputImageType,
-    InvertIntensityFunctor<InputPixelType> > 
-    InverterType;
+  typedef Functor::InvertIntensityFunctor< InputPixelType >  FunctorType;
+  
+  typedef UnaryFunctorImageFilter< InputImageType, 
+                                   InputImageType,
+                                   FunctorType >    InverterType;
+
   typename InverterType::Pointer inverter = InverterType::New();
+
   inverter->SetInput(this->GetInput());
  
   //Dilate the inverted image by 1 pixel to give it the same boundary
   //as the univerted input.
   
-  typedef BinaryBallStructuringElement< InputPixelType, 
-    2  > StructuringElementType;  
-  typedef BinaryDilateImageFilter< InputImageType, InputImageType, 
-    StructuringElementType > DilatorType; 
+  typedef BinaryBallStructuringElement< 
+                     InputPixelType, 
+                     InputImageDimension  > StructuringElementType;  
+
+  typedef BinaryDilateImageFilter< 
+                         InputImageType, 
+                         InputImageType, 
+                         StructuringElementType >     DilatorType; 
+
   typename DilatorType::Pointer dilator = DilatorType::New();
 
   StructuringElementType  structuringElement;
@@ -195,6 +202,8 @@ void SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   os << indent << "Squared Distance  : " << m_SquaredDistance << std::endl;
   os << indent << "Inside is positive  : " << m_InsideIsPositive << std::endl;
 }
+
+
 } // end namespace itk
 
 #endif
