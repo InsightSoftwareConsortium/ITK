@@ -192,6 +192,9 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
   LevelSetPixelType dx_backward;
   GradientPixelType gradientPixel;
   
+  const LevelSetIndexType & lastIndex = this->GetLastIndex();
+  const LevelSetIndexType & startIndex = this->GetStartIndex();
+
   const LevelSetPixelType ZERO = 
             NumericTraits< LevelSetPixelType >::Zero;
 
@@ -213,10 +216,10 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
     dx_backward = 0.0;
     neighIndex[j] = index[j] - xStride[j];
 
-    if(! (neighIndex[j] > m_LastIndex[j] || 
-          neighIndex[j] < m_StartIndex[j]) )
+    if(! (neighIndex[j] > lastIndex[j] || 
+          neighIndex[j] < startIndex[j]) )
       {
-      if ( this->GetLabelImage()->GetPixel( neighIndex ) == AlivePoint )
+      if ( this->GetLabelImage()->GetPixel( neighIndex ) == Superclass::AlivePoint )
         {
         dx_backward = centerPixel - output->GetPixel( neighIndex );
         }
@@ -225,10 +228,10 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
     dx_forward = 0.0;
     neighIndex[j] = index[j] + xStride[j];
 
-    if(! (neighIndex[j] > m_LastIndex[j] || 
-          neighIndex[j] < m_StartIndex[j]) )
+    if(! (neighIndex[j] > lastIndex[j] || 
+          neighIndex[j] < startIndex[j]) )
       {
-      if ( this->GetLabelImage()->GetPixel( neighIndex ) == AlivePoint )
+      if ( this->GetLabelImage()->GetPixel( neighIndex ) == Superclass::AlivePoint )
         {
         dx_forward = output->GetPixel( neighIndex ) - centerPixel;
         }

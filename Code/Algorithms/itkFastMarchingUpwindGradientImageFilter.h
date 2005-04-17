@@ -88,9 +88,10 @@ public:
   typedef typename Superclass::NodeContainerPointer  NodeContainerPointer;
   typedef typename Superclass::IndexType  IndexType;
   typedef typename Superclass::OutputSpacingType  OutputSpacingType;
+  typedef typename Superclass::LevelSetIndexType  LevelSetIndexType;
 
-/*   /\** The dimension of the level set. *\/ */
-/*   itkStaticConstMacro(SetDimension, unsigned int,Superclass::SetDimension); */
+  /** The dimension of the level set. */
+  itkStaticConstMacro(SetDimension, unsigned int,Superclass::SetDimension); 
 
   /** Set the container of Target Points.
    * If a target point is reached, the propagation stops.
