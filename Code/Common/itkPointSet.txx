@@ -249,7 +249,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>
-::PassStructure(Self* in_mesh)
+::PassStructure(Self*)
 {
   // IMPLEMENT ME
 }

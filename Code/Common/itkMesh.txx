@@ -463,7 +463,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>
-::PassStructure(Self* in_mesh)
+::PassStructure(Self*)
 {
   // IMPLEMENT ME
 }
