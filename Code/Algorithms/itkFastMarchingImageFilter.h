@@ -283,9 +283,12 @@ protected:
   itkGetConstReferenceMacro( LargeValue, PixelType );
 
   OutputRegionType                              m_BufferedRegion;
-  typename LevelSetImageType::IndexType         m_StartIndex;
-  typename LevelSetImageType::IndexType         m_LastIndex;
+  typedef typename LevelSetImageType::IndexType LevelSetIndexType;
+  LevelSetIndexType                             m_StartIndex;
+  LevelSetIndexType                             m_LastIndex;
 
+  itkGetConstReferenceMacro( StartIndex, LevelSetIndexType );
+  itkGetConstReferenceMacro( LastIndex, LevelSetIndexType );
 
 private:
   FastMarchingImageFilter(const Self&); //purposely not implemented
