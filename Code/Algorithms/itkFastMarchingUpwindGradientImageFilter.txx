@@ -90,7 +90,8 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
                                  m_GradientImage->GetBufferedRegion() );
 
     GradientPixelType zeroGradient;
-    zeroGradient.Fill(NumericTraits<typename GradientPixelType::ValueType>::Zero);
+    typedef typename GradientPixelType::ValueType GradientPixelValueType;
+    zeroGradient.Fill(NumericTraits< GradientPixelValueType >::Zero);
     for ( gradientIt.GoToBegin(); !gradientIt.IsAtEnd(); ++gradientIt )
       {
       gradientIt.Set( zeroGradient );
@@ -185,12 +186,14 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
   GradientImageType * gradientImage)
 {
   IndexType neighIndex = index;
-  typename TLevelSet::PixelType centerPixel;
-  typename TLevelSet::PixelType dx_forward, dx_backward;
+  typedef typename TLevelSet::PixelType LevelSetPixelType;
+  LevelSetPixelType centerPixel;
+  LevelSetPixelType dx_forward;
+  LevelSetPixelType dx_backward;
   GradientPixelType gradientPixel;
   
-  const typename TLevelSet::PixelType ZERO = 
-            NumericTraits<typename TLevelSet::PixelType>::Zero;
+  const LevelSetPixelType ZERO = 
+            NumericTraits< LevelSetPixelType >::Zero;
 
   OutputSpacingType spacing = this->GetOutput()->GetSpacing();
 
