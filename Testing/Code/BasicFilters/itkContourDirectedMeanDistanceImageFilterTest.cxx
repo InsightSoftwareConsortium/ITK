@@ -27,7 +27,8 @@ int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )
 
   typedef unsigned int Pixel1Type;
   typedef float Pixel2Type;
-  enum { ImageDimension = 3 };
+
+  const unsigned int ImageDimension = 3;
 
   typedef itk::Image<Pixel1Type,ImageDimension> Image1Type;
   typedef itk::Image<Pixel2Type,ImageDimension> Image2Type;
@@ -94,8 +95,7 @@ int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )
 
   // check results
   
-  FilterType::RealType trueDistance = 8.07158;
-    // This looks like a typo  should the trueDistance be hardcoded here?  perhaps it is a test vcl_sqrt( static_cast<double>(ImageDimension) );
+  FilterType::RealType trueDistance = 8.37831;
   FilterType::RealType distance = filter->GetContourDirectedMeanDistance();
 
   std::cout << " True     distance: " << trueDistance << std::endl;
@@ -119,7 +119,7 @@ int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )
 
 
   // check results
-  FilterType::RealType trueDistance = 3.58646;
+  FilterType::RealType trueDistance = 4.2053;
   FilterType::RealType distance = filter->GetContourDirectedMeanDistance();
 
   std::cout << " True     distance: " << trueDistance << std::endl;
