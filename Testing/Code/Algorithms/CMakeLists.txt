@@ -51,6 +51,8 @@ ADD_TEST(itkExtractMeshConnectedRegionsTest ${ALGORITHMS_TESTS} itkExtractMeshCo
 ADD_TEST(itkFastChamferDistanceImageFilterTest ${ALGORITHMS_TESTS} itkFastChamferDistanceImageFilterTest)
 ADD_TEST(itkFastMarchingTest ${ALGORITHMS_TESTS} itkFastMarchingTest)
 ADD_TEST(itkFastMarchingExtensionImageFilterTest ${ALGORITHMS_TESTS} itkFastMarchingExtensionImageFilterTest)
+ADD_TEST(itkFastMarchingUpwindGradientTest ${ALGORITHMS_TESTS4} itkFastMarchingUpwindGradientTest)
+ADD_TEST(itkCollidingFrontsImageFilterTest ${ALGORITHMS_TESTS4} itkCollidingFrontsImageFilterTest)
 ADD_TEST(itkFEMRegistrationFilterTest ${ALGORITHMS_TESTS} itkFEMRegistrationFilterTest)
 ADD_TEST(itkGeodesicActiveContourLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkGeodesicActiveContourLevelSetImageFilterTest)
 ADD_TEST(itkGeodesicActiveContourShapePriorLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkGeodesicActiveContourShapePriorLevelSetImageFilterTest)
@@ -298,6 +300,8 @@ itkUnsharpMaskLevelSetImageFilterTest.cxx
 
 SET(AlgorithmsTest4_SRCS
 itkBayesianClassifierImageFilterTest.cxx
+itkFastMarchingUpwindGradientTest.cxx
+itkCollidingFrontsImageFilterTest.cxx
 itkNarrowBandCurvesLevelSetImageFilterTest.cxx
 itkFFTTest.cxx
 itkWatershedImageFilterTest.cxx
