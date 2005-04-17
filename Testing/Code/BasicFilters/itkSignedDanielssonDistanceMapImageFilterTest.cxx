@@ -40,15 +40,22 @@ int itkSignedDanielssonDistanceMapImageFilterTest(int, char* [] )
 void test(int testIdx)
 {
 
-  typedef itk::Image<float, 2>  myImageType2D1;
-  typedef itk::Image<float, 2>  myImageType2D2;
+  const unsigned int Dimension = 2;
+  typedef float      PixelType;
+
+  typedef itk::Image< PixelType, Dimension >  myImageType2D1;
+  typedef itk::Image< PixelType, Dimension >  myImageType2D2;
 
   /* TEST 1: For a point image, SignedDaniessonDistanceMapImageFilter should 
    * give the same output as DaniessonDistanceMapImageFilter  */
   
   /* Allocate the 2D image */
-  myImageType2D1::SizeType size2D = {{9,9}};
-  myImageType2D1::IndexType index2D = {{0,0}};
+  myImageType2D1::SizeType size2D;
+  size2D.Fill( 9 );
+
+  myImageType2D1::IndexType index2D;
+  index2D.Fill( 0 );
+
   myImageType2D1::RegionType region2D;
   region2D.SetSize( size2D );
   region2D.SetIndex( index2D );
@@ -59,20 +66,20 @@ void test(int testIdx)
   inputImage2D->SetRequestedRegion( region2D );
   inputImage2D->Allocate();
   
-  typedef  itk::ImageRegionIteratorWithIndex<myImageType2D1> myIteratorType2D1;
-  typedef  itk::ImageRegionIteratorWithIndex<myImageType2D2> myIteratorType2D2;
+  typedef  itk::ImageRegionIteratorWithIndex< myImageType2D1 > myIteratorType2D1;
+  typedef  itk::ImageRegionIteratorWithIndex< myImageType2D2 > myIteratorType2D2;
 
-  myIteratorType2D1 it2D1(inputImage2D,region2D);
+  myIteratorType2D1 it2D1( inputImage2D, region2D );
 
   // Set the image to 0
   while( !it2D1.IsAtEnd() ) 
-  { 
+    { 
     it2D1.Set( 0 );
     ++it2D1;
-  }
+    }
  
-  if (!testIdx)
-  {  
+  if ( !testIdx )
+    {  
     std::cout 
       << "Compute with a 9x9 image, pixels (4,4) and (1,6) set to ON." 
       << " This subtest is the same as the DanielssonDistanceMapTest "
@@ -92,7 +99,7 @@ void test(int testIdx)
     index2D[0] = 1;
     index2D[1] = 6;
     inputImage2D->SetPixel( index2D, 2);
-  }
+    }
   else
   {
     std::cout << 
@@ -104,7 +111,8 @@ void test(int testIdx)
       {
       for (j=2; j<=6; j++)
         {  
-        index2D[0] = i; index2D[1] = j;
+        index2D[0] = i; 
+        index2D[1] = j;
         inputImage2D->SetPixel( index2D, 1);
         }
       }
@@ -135,20 +143,20 @@ void test(int testIdx)
   it2D2.SetSecondDirection( 1 );
 
   while( !it2D2.IsAtEnd() ) 
-  {
-    while( !it2D2.IsAtEndOfSlice() ) 
     {
-      while( !it2D2.IsAtEndOfLine() ) 
+    while( !it2D2.IsAtEndOfSlice() ) 
       {
+      while( !it2D2.IsAtEndOfLine() ) 
+        {
         std::cout.width(5);
         std::cout << it2D2.Get() << "\t";
         ++it2D2;
-      }
+        }
       std::cout << std::endl;
       it2D2.NextLine();
-    }
+      }
     it2D2.NextSlice();
-  }
+    }
 
   /* Show Closest Points map */
   std::cout << std::endl << std::endl;
@@ -162,20 +170,20 @@ void test(int testIdx)
   it2D3.SetSecondDirection( 1 );
   
   while( !it2D3.IsAtEnd() ) 
-  {
-    while( !it2D3.IsAtEndOfSlice() ) 
     {
-      while( !it2D3.IsAtEndOfLine() ) 
+    while( !it2D3.IsAtEndOfSlice() ) 
       {
+      while( !it2D3.IsAtEndOfLine() ) 
+        {
         std::cout.width(5);
         std::cout << it2D3.Get() << "\t";
         ++it2D3;
-      }
+        }
       std::cout << std::endl;
       it2D3.NextLine();
-    }
+      }
     it2D3.NextSlice();
-  }
+    }
 
   /* Show VectorsComponents Points map */
   std::cout << std::endl << std::endl;
@@ -189,30 +197,30 @@ void test(int testIdx)
   it2D4.SetSecondDirection( 1 );
 
   while( !it2D4.IsAtEnd() ) 
-  {
-    while( !it2D4.IsAtEndOfSlice() ) 
     {
+    while( !it2D4.IsAtEndOfSlice() ) 
+      {
       while( !it2D4.IsAtEndOfLine() ) 
-      { 
+        { 
         std::cout << "[" ;
         for (unsigned int i=0;i<2;i++)
-        {
-          std::cout << it2D4.Get()[i] ;
-          if(i==0) 
           {
+          std::cout << it2D4.Get()[i] ;
+          if( i==0 ) 
+            {
             std::cout << ",";
+            }
           }
-        }
         std::cout << "]";
         std::cout << "\t" ;
         ++it2D4;
 
-      }
+        }
       std::cout << std::endl;
       it2D4.NextLine();
-    }
+      }
     it2D4.NextSlice();
-  }
+    }
 
   /* Test Distance functionality */
   filter2D->Update();
@@ -225,18 +233,18 @@ void test(int testIdx)
   it2D2.SetSecondDirection( 1 );
 
   while( !it2D2.IsAtEnd() ) 
-  {
-    while( !it2D2.IsAtEndOfSlice() ) 
     {
-      while( !it2D2.IsAtEndOfLine() ) 
+    while( !it2D2.IsAtEndOfSlice() ) 
       {
+      while( !it2D2.IsAtEndOfLine() ) 
+        {
         std::cout.width(5);
         std::cout << it2D2.Get() << "\t";
         ++it2D2;
-      }
+        }
       std::cout << std::endl;
       it2D2.NextLine();
-    }
+      }
     it2D2.NextSlice();
-  }
+    }
 }
