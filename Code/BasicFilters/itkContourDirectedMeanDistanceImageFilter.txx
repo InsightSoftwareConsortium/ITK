@@ -28,7 +28,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
-#include "itkDanielssonDistanceMapImageFilter.h"
+#include "itkSignedDanielssonDistanceMapImageFilter.h"
 #include "itkProgressReporter.h"
 
 namespace itk {
@@ -133,8 +133,8 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
   m_MeanDistance.Fill(NumericTraits<RealType>::Zero);
   m_Count.Fill(0);
 
-  // Compute Danielsson distance from non-zero pixels in the second image
-  typedef itk::DanielssonDistanceMapImageFilter<InputImage2Type,DistanceMapType>
+  // Compute SignedDanielsson distance from non-zero pixels in the second image
+  typedef itk::SignedDanielssonDistanceMapImageFilter<InputImage2Type,DistanceMapType>
     FilterType;
 
   typename FilterType::Pointer filter = FilterType::New();
@@ -243,7 +243,8 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
         // set pixel center pixel value whether it is or not on contour
         if( bIsOnContour )
           {
-          m_MeanDistance[threadId] += it2.Get();
+          const RealType value = it2.Get();
+          m_MeanDistance[threadId] += vnl_math_abs( value );
           m_Count[threadId]++;
           }
         }

@@ -37,7 +37,7 @@ namespace itk {
  * to the nearest neighbor in \f$B\f$. Note that this function is not
  * is not symmetric and hence is not a true distance.
  *
- * In particular, this filter uses the DanielssonDistanceMapImageFilter inside
+ * In particular, this filter uses the SignedDanielssonDistanceMapImageFilter inside
  * to compute distance map from all non-zero pixels in the second image. It
  * then computes the mean distance (in pixels) within the boundary pixels of
  * non-zero regions in the first image.
@@ -52,7 +52,7 @@ namespace itk {
  * This filter is templated over the two input image type. It assume
  * both image have the same number of dimensions.
  *
- * \sa DanielssonDistanceMapImageFilter
+ * \sa SignedDanielssonDistanceMapImageFilter
  * \sa MeanDistanceImageFilter
  *
  * \ingroup MultiThreaded
