@@ -27,7 +27,9 @@ void RegisterTests()
   vnl_sample_reseed(8775070);
   REGISTER_TEST(itkBayesianClassifierImageFilterTest );
   REGISTER_TEST(itkCollidingFrontsImageFilterTest );
+  REGISTER_TEST(itkCurvesLevelSetImageFilterZeroSigmaTest );
   REGISTER_TEST(itkFastMarchingUpwindGradientTest );
+  REGISTER_TEST(itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest );
   REGISTER_TEST(itkNarrowBandCurvesLevelSetImageFilterTest );
   REGISTER_TEST(itkVectorThresholdSegmentationLevelSetImageFilterTest );
   REGISTER_TEST(itkWatershedImageFilterTest );
