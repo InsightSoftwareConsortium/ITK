@@ -262,19 +262,44 @@ Matrix<T, NRows, NColumns>
   return *this;
 }
 
-
-
- 
-/**
- *  Assignment
- */
 template<class T, unsigned int NRows, unsigned int NColumns >
 const Matrix<T, NRows, NColumns> &
 Matrix<T, NRows, NColumns>
-::operator=( const vnl_matrix<T> & matrix )
+::operator=( const vnl_matrix<T>  & matrix )
 {
   m_Matrix = matrix;
   return *this;
+}
+
+/**
+ *  Comparison
+ */
+template<class T, unsigned int NRows, unsigned int NColumns >
+const bool
+Matrix<T, NRows, NColumns>
+::operator==( const Self & matrix )
+{
+  bool equal = true;
+  for( unsigned int r=0; r<NRows; r++) 
+    {
+    for( unsigned int c=0; c<NColumns; c++ ) 
+      {
+      if (m_Matrix(r,c) != matrix.m_Matrix(r,c))
+        {
+        equal = false;
+        break;
+        }
+      }
+    }
+  return equal;
+}
+
+template<class T, unsigned int NRows, unsigned int NColumns >
+const bool
+Matrix<T, NRows, NColumns>
+::operator!=( const Self & matrix )
+{
+  return !this->operator==(matrix);
 }
 
 
