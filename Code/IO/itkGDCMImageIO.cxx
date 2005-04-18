@@ -49,7 +49,7 @@ GDCMImageIO::GDCMImageIO()
   // allowing to designate a subspace of the id space for ITK generated DICOM
   m_UIDPrefix = "1.2.826.0.1.3680043.2.1125." "1";
 
-  // Purely internal use no user access:
+  // Purely internal use, no user access:
   m_StudyInstanceUID = "";
   m_SeriesInstanceUID = "";
   m_FrameOfReferenceInstanceUID = "";
@@ -693,60 +693,70 @@ void GDCMImageIO::GetPatientName( char *name)
   ExposeMetaData<std::string>(dict, "0010|0010", m_PatientName);
   strcpy (name, m_PatientName.c_str());
 }
+
 void GDCMImageIO::GetPatientID( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
   ExposeMetaData<std::string>(dict, "0010|0020", m_PatientID);
   strcpy (name, m_PatientID.c_str());
 }
+
 void GDCMImageIO::GetPatientSex( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
   ExposeMetaData<std::string>(dict, "0010|0040", m_PatientSex);
   strcpy (name, m_PatientSex.c_str());
 }
+
 void GDCMImageIO::GetPatientAge( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
   ExposeMetaData<std::string>(dict, "0010|1010", m_PatientAge);
   strcpy (name, m_PatientAge.c_str());
 }
+
 void GDCMImageIO::GetStudyID( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
   ExposeMetaData<std::string>(dict, "0020|0010", m_StudyID);
   strcpy (name, m_StudyID.c_str());
 }
+
 void GDCMImageIO::GetPatientDOB( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
   ExposeMetaData<std::string>(dict, "0010|0030", m_PatientDOB);
   strcpy (name, m_PatientDOB.c_str());
 }
+
 void GDCMImageIO::GetStudyDescription( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
   ExposeMetaData<std::string>(dict, "0008|1030", m_StudyDescription);
   strcpy (name, m_StudyDescription.c_str());
 }
+
 void GDCMImageIO::GetBodyPart( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
   ExposeMetaData<std::string>(dict, "0018|0015", m_BodyPart);
   strcpy (name, m_BodyPart.c_str());
 }
+
 void GDCMImageIO::GetNumberOfSeriesInStudy( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
   ExposeMetaData<std::string>(dict, "0020|1000", m_NumberOfSeriesInStudy);
   strcpy (name, m_NumberOfSeriesInStudy.c_str());
 }
+
 void GDCMImageIO::GetNumberOfStudyRelatedSeries( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
   ExposeMetaData<std::string>(dict, "0020|1206", m_NumberOfStudyRelatedSeries);
   strcpy (name, m_NumberOfStudyRelatedSeries.c_str());
 }
+
 void GDCMImageIO::GetStudyDate( char *name)
 {
   MetaDataDictionary & dict = this->GetMetaDataDictionary();

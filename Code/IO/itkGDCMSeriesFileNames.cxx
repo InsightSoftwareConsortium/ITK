@@ -34,9 +34,9 @@ const std::vector<std::string> &GDCMSeriesFileNames::GetInputFileNames()
   // Get the DICOM filenames from the directory
   gdcm::SerieHelper *helper = new gdcm::SerieHelper();
   helper->SetDirectory( m_InputDirectory );
+  // Accessing the first serie found (assume there is at least one)
   gdcm::GdcmFileList *flist = helper->GetFirstCoherentFileList();
   helper->OrderGdcmFileList(flist);
-  //We assume that there is only one study / one serie
 
   gdcm::GdcmFileList::iterator it;
   if( flist->size() )
@@ -81,7 +81,6 @@ const std::vector<std::string> &GDCMSeriesFileNames::GetOutputFileNames()
   if( m_OutputDirectory.empty() )
     {
     itkDebugMacro(<<"No output directory was specified");
-    m_OutputFileNames.clear();
     return m_OutputFileNames;
     }
 
@@ -94,20 +93,18 @@ const std::vector<std::string> &GDCMSeriesFileNames::GetOutputFileNames()
   if( m_InputFileNames.size() )
     {
     for(std::vector<std::string>::const_iterator it = m_InputFileNames.begin();
-        it != m_InputFileNames.end(); ++it )
-        {
-        std::string filename = 
-          m_OutputDirectory + itksys::SystemTools::GetFilenameName( *it );
-        
-        //std::cerr << "filename:" << filename << std::endl;
-        m_OutputFileNames.push_back( filename );
-        }
-      }
-    else
+      it != m_InputFileNames.end(); ++it )
       {
-      itkDebugMacro(<<"No files were found.");
-      m_OutputFileNames.clear();
+      std::string filename = 
+        m_OutputDirectory + itksys::SystemTools::GetFilenameName( *it );
+
+      m_OutputFileNames.push_back( filename );
       }
+    }
+  else
+    {
+    itkDebugMacro(<<"No files were found.");
+    }
 
   return m_OutputFileNames;
 }
