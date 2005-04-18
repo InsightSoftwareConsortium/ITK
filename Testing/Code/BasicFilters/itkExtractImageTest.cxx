@@ -148,7 +148,7 @@ int itkExtractImageTest(int, char* [] )
       return EXIT_FAILURE;
     }
   
-  
+  extract->GetOutput()->Print(std::cout);   
   // CASE 2
   extractIndex[0] = 1; extractIndex[1] = 1; 
   extractSize[0] = 7; extractSize[1] = 11;
@@ -242,6 +242,7 @@ int itkExtractImageTest(int, char* [] )
 
   lineExtract->SetExtractionRegion( extractRegion );
   lineExtract->UpdateLargestPossibleRegion();
+  lineExtract->GetOutput()->Print(std::cout);   
 
   std::cout << "After 1D extraction. " << std::endl;
   

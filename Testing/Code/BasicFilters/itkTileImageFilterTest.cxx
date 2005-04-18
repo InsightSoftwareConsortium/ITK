@@ -62,7 +62,7 @@ int itkTileImageFilterTest(int argc, char *argv[] )
   itk::RGBPixel<unsigned char> fillPixel = yellow;
   tiler->SetDefaultPixelValue(fillPixel);
   tiler->Update();
-
+  tiler->GetOutput()->Print(std::cout);
 
   tiler->Print( std::cout );
 
