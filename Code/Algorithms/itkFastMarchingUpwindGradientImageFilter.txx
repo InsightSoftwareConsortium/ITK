@@ -114,8 +114,6 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
 {
   Superclass::UpdateNeighbors(index,speedImage,output);
 
-  IndexType neighIndex = index;
-
   if (m_GenerateGradientImage)
     {
     this->ComputeGradient(index, output, this->GetLabelImage(), m_GradientImage);
@@ -182,7 +180,7 @@ void
 FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
 ::ComputeGradient( const IndexType& index,
   const LevelSetImageType * output,
-  const LabelImageType * labelImage,
+  const LabelImageType * itkNotUsed(labelImage),
   GradientImageType * gradientImage)
 {
   IndexType neighIndex = index;
