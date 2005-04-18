@@ -182,10 +182,7 @@ public:
   virtual double GetVariate();
      
   /** Same as GetVariate() */
-  double operator()() 
-    { 
-    return GetVariate(); 
-    }  
+  double operator()(); 
    
 
   // Re-seeding functions with same behavior as initializers
@@ -200,7 +197,7 @@ public:
   */
 
  protected:
-  MersenneTwisterRandomVariateGenerator() { Initialize(); };
+  MersenneTwisterRandomVariateGenerator();
   virtual ~MersenneTwisterRandomVariateGenerator() {}; 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -233,6 +230,33 @@ public:
 
 // Declare inlined functions.... (must be declared in the header)
 // Declare then in order to keep SGI happy
+
+inline MersenneTwisterRandomVariateGenerator::IntegerType 
+  MersenneTwisterRandomVariateGenerator::hash( vcl_time_t t, vcl_clock_t c )
+  {
+  // Get a IntegerType from t and c
+  // Better than IntegerType(x) in case x is floating point in [0,1]
+  // Based on code by Lawrence Kirby: fred at genesis dot demon dot co dot uk 
+
+  static IntegerType differ = 0;  // guarantee time-based seeds will change
+
+  IntegerType h1 = 0;
+  unsigned char *p = (unsigned char *) &t;
+  for( size_t i = 0; i < sizeof(t); ++i )
+    {
+    h1 *= UCHAR_MAX + 2U;
+    h1 += p[i];
+    }
+  IntegerType h2 = 0;
+  p = (unsigned char *) &c;
+  for( size_t j = 0; j < sizeof(c); ++j )
+    {
+    h2 *= UCHAR_MAX + 2U;
+    h2 += p[j];
+    }
+  return ( h1 + differ++ ) ^ h2;
+  }
+
 
 inline void 
   MersenneTwisterRandomVariateGenerator::Initialize( const IntegerType seed )
@@ -500,35 +524,20 @@ inline double
   return GetVariateWithClosedRange();
   }
 
-  
 
-inline MersenneTwisterRandomVariateGenerator::IntegerType 
-  MersenneTwisterRandomVariateGenerator::hash( vcl_time_t t, vcl_clock_t c )
+inline double 
+  MersenneTwisterRandomVariateGenerator::operator()()
+  { 
+  return GetVariate(); 
+  }  
+ 
+
+inline 
+  MersenneTwisterRandomVariateGenerator::MersenneTwisterRandomVariateGenerator()
   {
-  // Get a IntegerType from t and c
-  // Better than IntegerType(x) in case x is floating point in [0,1]
-  // Based on code by Lawrence Kirby: fred at genesis dot demon dot co dot uk 
-
-  static IntegerType differ = 0;  // guarantee time-based seeds will change
-
-  IntegerType h1 = 0;
-  unsigned char *p = (unsigned char *) &t;
-  for( size_t i = 0; i < sizeof(t); ++i )
-    {
-    h1 *= UCHAR_MAX + 2U;
-    h1 += p[i];
-    }
-  IntegerType h2 = 0;
-  p = (unsigned char *) &c;
-  for( size_t j = 0; j < sizeof(c); ++j )
-    {
-    h2 *= UCHAR_MAX + 2U;
-    h2 += p[j];
-    }
-  return ( h1 + differ++ ) ^ h2;
+  Initialize();
   }
-
-
+  
 
 /* Change log from MTRand.h */
 // Change log:
