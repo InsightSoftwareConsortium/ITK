@@ -83,6 +83,7 @@ int itkFlipImageFilterTest(int, char* [] )
   flipper->SetInput( inputImage );
   flipper->Update();
 
+  flipper->GetOutput()->Print( std::cout );
   flipper->Print( std::cout );
 
   // check the output

@@ -95,6 +95,7 @@ int itkPermuteAxesImageFilterTest(int, char* [] )
 
   permuter->Update();
 
+  permuter->GetOutput()->Print( std::cout );
   permuter->Print( std::cout );
 
   // check the output
