@@ -35,6 +35,7 @@ ChangeInformationImageFilter<TInputImage>
 
   m_ChangeSpacing = false;
   m_ChangeOrigin = false;
+  m_ChangeDirection = false;
   m_ChangeRegion = false;
 
   m_CenterImage = false;
@@ -42,6 +43,7 @@ ChangeInformationImageFilter<TInputImage>
   
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
+  m_OutputDirection.SetIdentity();
 
   for (unsigned int i = 0; i < ImageDimension; i++)
     {
@@ -65,6 +67,7 @@ ChangeInformationImageFilter<TInputImage>
   typename TInputImage::IndexType inputIndex;
   PointType origin;
   SpacingType spacing;
+  DirectionType direction;
 
   itkDebugMacro("GenerateOutputInformation Start");
 
@@ -88,6 +91,7 @@ ChangeInformationImageFilter<TInputImage>
     outputIndex = m_ReferenceImage->GetLargestPossibleRegion().GetIndex();
     origin = m_ReferenceImage->GetOrigin();
     spacing = m_ReferenceImage->GetSpacing();
+    direction = m_ReferenceImage->GetDirection();
     m_Shift = outputIndex - inputIndex;
 
     // reset outputIndex to the input index since we add m_Shift to
@@ -99,6 +103,7 @@ ChangeInformationImageFilter<TInputImage>
     outputIndex = input->GetLargestPossibleRegion().GetIndex();
     origin = m_OutputOrigin;
     spacing = m_OutputSpacing;
+    direction = m_OutputDirection;
     for (i = 0; i < ImageDimension; i++)
       {
       m_Shift[i] = m_OutputOffset[i];
@@ -115,6 +120,12 @@ ChangeInformationImageFilter<TInputImage>
   if (m_ChangeOrigin)
     {
     output->SetOrigin(origin);
+    }
+
+  // Change the output direction
+  if (m_ChangeDirection)
+    {
+    output->SetDirection(direction);
     }
 
   // Center the image by changing its origin
@@ -193,6 +204,7 @@ ChangeInformationImageFilter<TInputImage>
   os << indent << "CenterImage: " << (m_CenterImage ? "On" : "Off") << std::endl;
   os << indent << "ChangeSpacing: " << (m_ChangeSpacing ? "On" : "Off") << std::endl;
   os << indent << "ChangeOrigin: " << (m_ChangeOrigin ? "On" : "Off") << std::endl;
+  os << indent << "ChangeDirection: " << (m_ChangeDirection ? "On" : "Off") << std::endl;
   os << indent << "ChangeRegion: " << (m_ChangeRegion ? "On" : "Off") << std::endl;
   os << indent << "UseReferenceImage: " << (m_UseReferenceImage ? "On" : "Off") << std::endl;
   if (m_ReferenceImage)

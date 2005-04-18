@@ -26,15 +26,16 @@ namespace itk
 /** \class ChangeInformationImageFilter
  * \brief Change the origin, spacing and/or region of an Image.
  *
- * Change the origin, spacing and/or buffered region of an itkImage. This
+ * Change the origin, spacing, direction and/or buffered region of an itkImage. This
  * "Information" along with an Image's container comprise the
- * itkImage. By default, the output's information is set to the input's
- * information. The methods ChangeSpacingOn/Off, ChangeOriginOn/Off and
- * ChangeRegionOn/Off control whether the default origin, spacing or
- * buffered region should be changed. If On, the associated information
- * will be replaced with either the ReferenceImage information (if
- * UseReferenceImage is true) or the ivars OutputSpacing, OutputOrigin,
- * OutputOffset.
+ * itkImage. By default, the output's information is set to the
+ * input's information. The methods ChangeSpacingOn/Off,
+ * ChangeOriginOn/Off, ChangeDirectionOn/Off  and ChangeRegionOn/Off
+ * control whether the default origin, spacing, direction or buffered
+ * region should be changed. If On, the associated information will be
+ * replaced with either the ReferenceImage information (if
+ * UseReferenceImage is true) or the ivars OutputSpacing,
+ * OutputOrigin, OutputDirection, OutputOffset. 
  * 
  * In addition, the method CenterImageOn will recompute the output image
  * origin (using the selected output spacing) the align the center of the
@@ -75,14 +76,17 @@ public:
   typedef typename TInputImage::SizeType InputImageSizeType;
   typedef typename TInputImage::OffsetType OutputImageOffsetType;
   typedef typename TInputImage::OffsetType InputImageOffsetType;
+  typedef typename TInputImage::DirectionType OutputImageDirectionType;
+  typedef typename TInputImage::DirectionType InputImageDirectionType;
 
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Image spacing and origin typedefs */
+  /** Image spacing, origin and direction typedefs */
   typedef typename TInputImage::SpacingType SpacingType;
   typedef typename TInputImage::PointType   PointType;
+  typedef typename TInputImage::DirectionType DirectionType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ChangeInformationImageFilter, ImageToImageFilter);
@@ -116,6 +120,12 @@ public:
   itkSetMacro(OutputOrigin, PointType);
   itkGetConstReferenceMacro(OutputOrigin, PointType);
 
+  /** Specify a new direciton cosine matrix explicitly.  The default is to
+   *  use the direction of the Input, or of the ReferenceImage
+   *  if UseReferenceImage is true. */
+  itkSetMacro(OutputDirection, DirectionType);
+  itkGetConstReferenceMacro(OutputDirection, DirectionType);
+
   /** Specify an offset for the buffered region. The default is to
    *  use the same buffered region as the input or an Offset computed from
    *  the ReferenceImage's buffered region (if UseReferenceImage is true.)
@@ -132,15 +142,17 @@ public:
   {
     this->ChangeSpacingOn();
     this->ChangeOriginOn();
+    this->ChangeDirectionOn();
     this->ChangeRegionOn();
   }
 
-  /** Change neither the origin nor spacing nor region of the output image. */
-
+  /** Do not change the origin, spacing, direction or region of the
+   * output image. */
   void ChangeNone()
   {
     this->ChangeSpacingOff();
     this->ChangeOriginOff();
+    this->ChangeDirectionOff();
     this->ChangeRegionOff();
   }
 
@@ -163,6 +175,16 @@ public:
   itkSetMacro(ChangeOrigin, bool);
   itkBooleanMacro(ChangeOrigin);
   itkGetMacro(ChangeOrigin, bool);
+
+  /** Change the direction of the output image. If false, the output
+   *  image direction will be set to the input image direction. If true, the
+   *  output image direction will be set to:
+   *  the ReferenceImage direction (if UseReferenceImage is true) or
+   *  OutputDirection. */
+
+  itkSetMacro(ChangeDirection, bool);
+  itkBooleanMacro(ChangeDirection);
+  itkGetMacro(ChangeDirection, bool);
 
   /** Change the BufferedRegion of the output image. */
 
@@ -200,11 +222,13 @@ private:
   bool m_CenterImage;
   bool m_ChangeSpacing;
   bool m_ChangeOrigin;
+  bool m_ChangeDirection;
   bool m_ChangeRegion;
   bool m_UseReferenceImage;
   
   SpacingType m_OutputSpacing;
   PointType m_OutputOrigin;
+  DirectionType m_OutputDirection;
 
   long m_OutputOffset[ImageDimension];
   OutputImageOffsetType m_Shift;
