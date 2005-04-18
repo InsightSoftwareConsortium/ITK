@@ -27,7 +27,7 @@ typedef ImageType::Pointer ImagePointer;
 
 void PrintInformation(ImagePointer image1, ImagePointer image2)
 {
-  unsigned int i;
+  unsigned int i, j;
   std::cout << "Input  " << "      Output" << std::endl;
   std::cout << "Origin"  << "      Origin"  << std::endl;
   for (i = 0; i < ImageDimension; i++)
@@ -39,11 +39,26 @@ void PrintInformation(ImagePointer image1, ImagePointer image2)
     {
     std::cout << "    " << image1->GetSpacing()[i] << "        " << image2->GetSpacing()[i] << std::endl;
     }
+  std::cout << "Direction" << "  Direction" << std::endl;
+  for (i = 0; i < ImageDimension; i++)
+    {
+    std::cout << "  ";
+    for (j = 0; j < ImageDimension; j++)
+      {
+      std::cout << image1->GetDirection()[i][j] << " ";
+      }
+    std::cout << "     ";
+    for (j = 0; j < ImageDimension; j++)
+      {
+      std::cout << image2->GetDirection()[i][j] << " ";
+      }
+    std::cout << std::endl;
+    }
 }
 
 void PrintInformation3(ImagePointer image1, ImagePointer image2, ImagePointer image3)
 {
-  unsigned int i;
+  unsigned int i, j;
   std::cout << "Input  " << "      Output" << "      Reference" << std::endl;
   std::cout << "Origin"  << "      Origin"  << "      Origin"  << std::endl;
   for (i = 0; i < ImageDimension; i++)
@@ -54,6 +69,26 @@ void PrintInformation3(ImagePointer image1, ImagePointer image2, ImagePointer im
   for (i = 0; i < ImageDimension; i++)
     {
     std::cout << "    " << image1->GetSpacing()[i] << "        " << image2->GetSpacing()[i] << "        " << image3->GetSpacing()[i] << std::endl;
+    }
+  std::cout << "Direction" << "  Direction" << "  Direction" << std::endl;
+  for (i = 0; i < ImageDimension; i++)
+    {
+    std::cout << "  ";
+    for (j = 0; j < ImageDimension; j++)
+      {
+      std::cout << image1->GetDirection()[i][j] << " ";
+      }
+    std::cout << "     ";
+    for (j = 0; j < ImageDimension; j++)
+      {
+      std::cout << image2->GetDirection()[i][j] << " ";
+      }
+    std::cout << "     ";
+    for (j = 0; j < ImageDimension; j++)
+      {
+      std::cout << image3->GetDirection()[i][j] << " ";
+      }
+    std::cout << std::endl;
     }
 }
 
@@ -72,6 +107,16 @@ int itkChangeInformationImageFilterTest(int, char* [] )
   
   double spacing[ImageDimension] = {1, 2, 3};
   double origin[ImageDimension] = {-100, -200, -300};
+  ImageType::DirectionType direction;
+  direction[0][0] = 1.0;
+  direction[1][0] = 0.0;
+  direction[2][0] = 0.0;
+  direction[0][1] = 0.0;
+  direction[1][1] = -1.0;
+  direction[2][1] = 0.0;
+  direction[0][2] = 0.0;
+  direction[1][2] = 0.0;
+  direction[2][2] = 1.0;
   
   typedef itk::ImageRegion<ImageDimension> RegionType;
   typedef itk::Size<ImageDimension> SizeType;
@@ -82,10 +127,23 @@ int itkChangeInformationImageFilterTest(int, char* [] )
   inputImage->SetRegions(size);
   inputImage->Allocate();
 
+  ImageType::DirectionType referenceDirection;
+  referenceDirection[0][0] = 1.0;
+  referenceDirection[1][0] = 0.0;
+  referenceDirection[2][0] = 0.0;
+  referenceDirection[0][1] = 0.0;
+  referenceDirection[1][1] = -1.0;
+  referenceDirection[2][1] = 0.0;
+  referenceDirection[0][2] = 0.0;
+  referenceDirection[1][2] = 0.0;
+  referenceDirection[2][2] = 1.0;
+
   double referenceOrigin[ImageDimension] = {-1000, -2000, -3000};
   double referenceSpacing[ImageDimension] = {1000, 2000, 3000};
+
   referenceImage->SetOrigin(referenceOrigin);
   referenceImage->SetSpacing(referenceSpacing);  
+  referenceImage->SetDirection(referenceDirection);  
 
   referenceImage->SetRegions(size);
   referenceImage->Allocate();
@@ -96,11 +154,23 @@ int itkChangeInformationImageFilterTest(int, char* [] )
   double newOrigin[ImageDimension] = {1000, 2000, 3000};
   double newSpacing[ImageDimension] = {10, 20, 30};
   long newOffset[ImageDimension] = {10, 20, 30};
+
+  ImageType::DirectionType newDirection;
+  newDirection[0][0] = 0.0;
+  newDirection[1][0] = 1.0;
+  newDirection[2][0] = 0.0;
+  newDirection[0][1] = -1.0;
+  newDirection[1][1] = 0.0;
+  newDirection[2][1] = 0.0;
+  newDirection[0][2] = 0.0;
+  newDirection[1][2] = 0.0;
+  newDirection[2][2] = -1.0;
   
   filter->SetInput (inputImage);
   filter->SetOutputSpacing (newSpacing);
   filter->SetOutputOrigin (newOrigin);
   filter->SetOutputOffset (newOffset);
+  filter->SetOutputDirection (newDirection);
   filter->SetReferenceImage (referenceImage);
   
 
@@ -113,14 +183,27 @@ int itkChangeInformationImageFilterTest(int, char* [] )
   std::cout << "filter->GetUseReferenceImage(): " << useReferenceImage << std::endl;
   const ArrayType outputSpacing = filter->GetOutputSpacing();
   std::cout << "filter->GetOutputSpacing(): " << outputSpacing << std::endl;
+
   const ArrayType outputOrigin = filter->GetOutputOrigin();
   std::cout << "filter->GetOutputOrigin(): " << outputOrigin << std::endl;
+
+  const ImageType::DirectionType outputDirection = filter->GetOutputDirection();
+  std::cout << "filter->GetOutputDirection(): "
+            << std::endl
+            << outputDirection << std::endl;
+
   bool changeSpacing = filter->GetChangeSpacing();
   std::cout << "filter->GetChangeSpacing(): " << changeSpacing << std::endl;
+
   bool changeOrigin = filter->GetChangeOrigin();
   std::cout << "filter->GetChangeOrigin(): " << changeOrigin << std::endl;
+
+  bool changeDirection = filter->GetChangeDirection();
+  std::cout << "filter->GetChangeDirection(): " << changeDirection << std::endl;
+
   bool changeRegion = filter->GetChangeRegion();
   std::cout << "filter->GetChangeRegion(): " << changeRegion  << std::endl;
+
   bool centerImage = filter->GetCenterImage();
   std::cout << "filter->GetCenterImage(): " << centerImage << std::endl;
   
@@ -183,6 +266,13 @@ int itkChangeInformationImageFilterTest(int, char* [] )
     filter->ChangeSpacingOn();
     filter->Update();
     std::cout << "-----------ChangeSpacingOn(), UseReferenceOn(): " << std::endl;;
+    PrintInformation3 (inputImage, filter->GetOutput(), referenceImage);
+
+    filter->ChangeOriginOn();
+    filter->ChangeSpacingOff();
+    filter->ChangeDirectionOn();
+    filter->Update();
+    std::cout << "-----------ChangeDirectionOn(), UseReferenceOn(): " << std::endl;;
     PrintInformation3 (inputImage, filter->GetOutput(), referenceImage);
 
     filter->ChangeAll();
