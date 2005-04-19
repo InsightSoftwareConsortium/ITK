@@ -237,6 +237,9 @@ ChangeInformationImageFilter<TInputImage>
     } 
   os << "]" << std::endl;
 
+  os << indent << "OutputDirection:" << std::endl;;
+  os << m_OutputDirection << std::endl;
+
   os << indent << "OutputOffset: [";
   if (ImageDimension >= 1) 
     {
