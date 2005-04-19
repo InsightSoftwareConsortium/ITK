@@ -153,11 +153,13 @@ DTITubeSpatialObjectPoint< TPointDimension >
 ::operator=(const DTITubeSpatialObjectPoint & rhs) 
 {
   // Copy the extra fields
+  m_Fields.clear();
   const FieldListType & fields = rhs.GetFields();
   FieldListType::const_iterator it = fields.begin();
   while(it != fields.end())
     {
     this->AddField((*it).first.c_str(),(*it).second);
+    it++;
     }
 
   this->m_ID = rhs.m_ID;
