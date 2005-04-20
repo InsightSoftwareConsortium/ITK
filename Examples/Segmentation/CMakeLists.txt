@@ -29,9 +29,6 @@ TARGET_LINK_LIBRARIES(FastMarchingImageFilter ITKNumerics ITKIO)
 ADD_EXECUTABLE(ShapeDetectionLevelSetFilter ShapeDetectionLevelSetFilter.cxx )
 TARGET_LINK_LIBRARIES(ShapeDetectionLevelSetFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(CurvesLevelSetImageFilter CurvesLevelSetImageFilter.cxx )
-TARGET_LINK_LIBRARIES(CurvesLevelSetImageFilter ITKNumerics ITKIO)
-
 ADD_EXECUTABLE(LaplacianSegmentationLevelSetImageFilter LaplacianSegmentationLevelSetImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianSegmentationLevelSetImageFilter ITKNumerics ITKIO)
 
@@ -423,6 +420,9 @@ ITKBasicFilters
 ITKCommon
 ITKStatistics
 )
+
+ADD_EXECUTABLE(CurvesLevelSetImageFilter CurvesLevelSetImageFilter.cxx )
+TARGET_LINK_LIBRARIES(CurvesLevelSetImageFilter ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(WatershedSegmentation1 WatershedSegmentation1.cxx )
 TARGET_LINK_LIBRARIES(WatershedSegmentation1 ITKAlgorithms ITKNumerics ITKIO)
