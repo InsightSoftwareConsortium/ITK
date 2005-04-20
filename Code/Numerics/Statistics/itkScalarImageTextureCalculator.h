@@ -45,21 +45,21 @@ namespace Statistics {
  * a large number of bins per axis, a sparse frequency container may be advisable.
  * The default is to use a dense frequency container.
  * Inputs and parameters:
- * (1) An image
- * (2) A mask defining the region over which texture features will be
- * calculated. (Optional)
- * (2a) The pixel value that defines the "inside" of the mask. (Optional, defaults
- * to 1 if a mask is set.)
- * (3) The set of features to be calculated. These features are defined
- * in the GreyLevelCooccurrenceMatrixTextureCoefficientsCalculator class. (Optional,
- * defaults to {Energy, Entropy, InverseDifferenceMoment, Inertia, ClusterShade, 
- * ClusterProminence}, as in Conners, Trivedi and Harlow.)
- * (4) The number of intensity bins. (Optional, defaults to 256.)
- * (5) The set of directions (offsets) to average across. (Optional, defaults to
- * {(-1, 0), (-1, -1), (0, -1), (1, -1)} for 2D images and scales analogously for ND 
- * images.)
- * (6) The pixel intensity range over which the features will be calculated.
- * (Optional, defaults to the full dynamic range of the pixel type.)
+ * -# An image
+ * -# A mask defining the region over which texture features will be
+ *    calculated. (Optional)
+ * -# The pixel value that defines the "inside" of the mask. (Optional, defaults
+ *    to 1 if a mask is set.)
+ * -# The set of features to be calculated. These features are defined
+ *    in the GreyLevelCooccurrenceMatrixTextureCoefficientsCalculator class. (Optional,
+ *    defaults to {Energy, Entropy, InverseDifferenceMoment, Inertia, ClusterShade, 
+ *    ClusterProminence}, as in Conners, Trivedi and Harlow.)
+ * -# The number of intensity bins. (Optional, defaults to 256.)
+ * -# The set of directions (offsets) to average across. (Optional, defaults to
+ *    {(-1, 0), (-1, -1), (0, -1), (1, -1)} for 2D images and scales analogously for ND 
+ *    images.)
+ * -# The pixel intensity range over which the features will be calculated.
+ *    (Optional, defaults to the full dynamic range of the pixel type.)
  * 
  * In general, the default parameter values should be sufficient.
  *
@@ -118,6 +118,7 @@ public:
   typedef typename ImageType::OffsetType              OffsetType;
   typedef VectorContainer<unsigned char, OffsetType>  OffsetVector;
   typedef typename OffsetVector::Pointer              OffsetVectorPointer;
+  typedef typename OffsetVector::ConstPointer         OffsetVectorConstPointer;
 
   typedef MaskedScalarImageToGreyLevelCooccurrenceMatrixGenerator< ImageType,
     FrequencyContainerType > GLCMGeneratorType;
@@ -126,33 +127,34 @@ public:
       
   typedef VectorContainer<unsigned char, TextureFeatureName> FeatureNameVector;
   typedef typename FeatureNameVector::Pointer         FeatureNameVectorPointer;
+  typedef typename FeatureNameVector::ConstPointer    FeatureNameVectorConstPointer;
   typedef VectorContainer<unsigned char, double>      FeatureValueVector;
   typedef typename FeatureValueVector::Pointer        FeatureValueVectorPointer;
-      
      
-      
   /** Triggers the computation of the features */
   void Compute( void );
       
   /** Connects the input image for which the features are going to be computed */
-  void SetInput( const ImagePointer );
+  void SetInput( const ImageType * );
       
   /** Return the feature means and deviations.
       \warning This output is only valid after the Compute() method has been invoked 
       \sa Compute */
-  itkGetMacro(FeatureMeans, FeatureValueVectorPointer);
-  itkGetMacro(FeatureStandardDeviations, FeatureValueVectorPointer);
+  itkGetObjectMacro(FeatureMeans, FeatureValueVector);
+  itkGetObjectMacro(FeatureStandardDeviations, FeatureValueVector);
       
   /** Set the desired feature set. Optional, for default value see above. */
-  itkSetMacro(RequestedFeatures, FeatureNameVectorPointer);
-      
+  itkSetConstObjectMacro(RequestedFeatures, FeatureNameVector);
+  itkGetConstObjectMacro(RequestedFeatures, FeatureNameVector);
+
   /** Set the  offsets over which the co-occurrence pairs will be computed.
       Optional; for default value see above. */
-  itkSetMacro(Offsets, OffsetVectorPointer);      
+  itkSetConstObjectMacro(Offsets, OffsetVector);
+  itkGetConstObjectMacro(Offsets, OffsetVector);
       
   /** Set number of histogram bins along each axis. 
       Optional; for default value see above. */
-  void SetNumberOfBinsPerAxis( unsigned int numberOfBins );
+  void SetNumberOfBinsPerAxis( unsigned int );
       
   /** Set the min and max (inclusive) pixel value that will be used for
       feature calculations. Optional; for default value see above. */
@@ -160,7 +162,7 @@ public:
       
   /** Connects the mask image for which the histogram is going to be computed.
       Optional; for default value see above. */
-  void SetImageMask(ImagePointer ImageMask);
+  void SetImageMask(const ImageType * );
       
   /** Set the pixel value of the mask that should be considered "inside" the 
       object. Optional; for default value see above. */
@@ -175,8 +177,8 @@ protected:
 private:
   typename GLCMGeneratorType::Pointer m_GLCMGenerator;
   FeatureValueVectorPointer m_FeatureMeans, m_FeatureStandardDeviations;
-  FeatureNameVectorPointer m_RequestedFeatures;
-  OffsetVectorPointer m_Offsets;
+  FeatureNameVectorConstPointer m_RequestedFeatures;
+  OffsetVectorConstPointer m_Offsets;
 };    
     
 } // end of namespace Statistics 

@@ -29,20 +29,21 @@ ScalarImageTextureCalculator< TImage, THistogramFrequencyContainer >::
 ScalarImageTextureCalculator()
 {
   m_GLCMGenerator = GLCMGeneratorType::New();
-  m_RequestedFeatures = FeatureNameVector::New();
-  m_Offsets = OffsetVector::New();
   m_FeatureMeans = FeatureValueVector::New();
   m_FeatureStandardDeviations = FeatureValueVector::New();
       
   // Set the requested features to the default value:
   // {Energy, Entropy, InverseDifferenceMoment, Inertia, ClusterShade, ClusterProminence}
-  m_RequestedFeatures->push_back(Energy);
-  m_RequestedFeatures->push_back(Entropy);
-  m_RequestedFeatures->push_back(InverseDifferenceMoment);
-  m_RequestedFeatures->push_back(Inertia);
-  m_RequestedFeatures->push_back(ClusterShade);
-  m_RequestedFeatures->push_back(ClusterProminence);
-
+  FeatureNameVectorPointer requestedFeatures = FeatureNameVector::New(); 
+  // can't directly set m_RequestedFeatures since it is const!
+  requestedFeatures->push_back(Energy);
+  requestedFeatures->push_back(Entropy);
+  requestedFeatures->push_back(InverseDifferenceMoment);
+  requestedFeatures->push_back(Inertia);
+  requestedFeatures->push_back(ClusterShade);
+  requestedFeatures->push_back(ClusterProminence);
+  this->SetRequestedFeatures(requestedFeatures);
+  
   // Set the offset directions to their defaults: half of all the possible
   // directions 1 pixel away. (The other half is included by symmetry.)
   // We use a neighborhood iterator to calculate the appropriate offsets.
@@ -55,11 +56,13 @@ ScalarImageTextureCalculator()
   // connected to the current pixel. do not include the center pixel.
   unsigned int centerIndex = hood.GetCenterNeighborhoodIndex();
   OffsetType offset;
+  OffsetVectorPointer offsets = OffsetVector::New();
   for (unsigned int d=0; d < centerIndex; d++)
     {
     offset = hood.GetOffset(d);
-    m_Offsets->push_back(offset);
+    offsets->push_back(offset);
     }
+  this->SetOffsets(offsets);
 }
     
 template< class TImage, class THistogramFrequencyContainer >
@@ -156,9 +159,11 @@ Compute(void)
 template< class TImage, class THistogramFrequencyContainer >
 void
 ScalarImageTextureCalculator< TImage, THistogramFrequencyContainer >::    
-SetInput( const ImagePointer inputImage )
+SetInput( const ImageType * inputImage )
 {
+  itkDebugMacro("setting Input to " << inputImage);
   m_GLCMGenerator->SetInput(inputImage);
+  this->Modified();
 }
     
 template< class TImage, class THistogramFrequencyContainer >
@@ -166,7 +171,9 @@ void
 ScalarImageTextureCalculator< TImage, THistogramFrequencyContainer >::    
 SetNumberOfBinsPerAxis( unsigned int numberOfBins )
 {
+  itkDebugMacro("setting NumberOfBinsPerAxis to " << numberOfBins);
   m_GLCMGenerator->SetNumberOfBinsPerAxis(numberOfBins);
+  this->Modified();
 }
     
 template< class TImage, class THistogramFrequencyContainer >
@@ -174,23 +181,29 @@ void
 ScalarImageTextureCalculator< TImage, THistogramFrequencyContainer >::    
 SetPixelValueMinMax( PixelType min, PixelType max )
 {
+  itkDebugMacro("setting Min to " << min << "and Max to " << max);
   m_GLCMGenerator->SetPixelValueMinMax(min, max);
+  this->Modified();
 }
     
 template< class TImage, class THistogramFrequencyContainer >
 void
 ScalarImageTextureCalculator< TImage, THistogramFrequencyContainer >::    
-SetImageMask(ImagePointer ImageMask)
+SetImageMask( const ImageType* imageMask)
 {
-  m_GLCMGenerator->SetImageMask(ImageMask);
+  itkDebugMacro("setting ImageMask to " << imageMask);
+  m_GLCMGenerator->SetImageMask(imageMask);
+  this->Modified();
 }
     
 template< class TImage, class THistogramFrequencyContainer >
 void
 ScalarImageTextureCalculator< TImage, THistogramFrequencyContainer >::
-SetInsidePixelValue(PixelType InsidePixelValue)
+SetInsidePixelValue(PixelType insidePixelValue)
 {
-  m_GLCMGenerator->SetInsidePixelValue(InsidePixelValue);
+  itkDebugMacro("setting InsidePixelValue to " << insidePixelValue);
+  m_GLCMGenerator->SetInsidePixelValue(insidePixelValue);
+  this->Modified();
 }
     
 template< class TImage, class THistogramFrequencyContainer >
