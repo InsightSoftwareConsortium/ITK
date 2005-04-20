@@ -130,23 +130,33 @@ class ScalarImageToGreyLevelCooccurrenceMatrixGenerator : public Object
     void Compute( void );
     
     /** Connects the input image for which the histogram is going to be computed */
-    void SetInput( const ImagePointer );
-    
+    itkSetConstObjectMacro( Input, ImageType );
+    itkGetConstObjectMacro( Input, ImageType );
+
     /** Set the offset or offsets over which the co-occurrence pairs will be computed.
         Calling either of these methods clears the previous offsets.*/
-    void SetOffset( const OffsetType );
-    void SetOffsets( const OffsetVectorPointer );
-    
+    itkSetConstObjectMacro( Offsets, OffsetVector );
+    itkGetConstObjectMacro( Offsets, OffsetVector );
+    void SetOffset( const OffsetType offset )
+      {
+      OffsetVectorPointer offsetVector = OffsetVector::New();
+      offsetVector->push_back(offset);
+      this->SetOffsets(offsetVector);
+      }
+        
     /** Return the histogram.
       \warning This output is only valid after the Compute() method has been invoked 
       \sa Compute */
-    HistogramPointer GetOutput( void ) const;
+    itkGetObjectMacro( Output, HistogramType );
     
     /** Set number of histogram bins along each axis */
-    void SetNumberOfBinsPerAxis( unsigned int numberOfBins );
-    
+    itkSetMacro( NumberOfBinsPerAxis, unsigned int );
+    itkGetMacro( NumberOfBinsPerAxis, unsigned int );
+
     /** Set the min and max (inclusive) pixel value that will be placed in the histogram */
     void SetPixelValueMinMax( PixelType min, PixelType max );
+    itkGetMacro(Min, PixelType);
+    itkGetMacro(Max, PixelType);
     
     /** Set the calculator to normalize the histogram (divide all bins by the 
       total frequency). Normalization is off by default.*/
@@ -159,24 +169,18 @@ class ScalarImageToGreyLevelCooccurrenceMatrixGenerator : public Object
     virtual ~ScalarImageToGreyLevelCooccurrenceMatrixGenerator() {};
     void PrintSelf(std::ostream& os, Indent indent) const;
     virtual void FillHistogram( RadiusType radius, RegionType region );
-    
-    itkGetMacro(Image,ImagePointer);
-    itkGetMacro(Histogram,HistogramPointer);
-    itkGetMacro(Offsets,OffsetVectorPointer);
-    itkGetMacro(Min,PixelType);
-    itkGetMacro(Max,PixelType);
-    
+        
    private:
     void NormalizeHistogram( void );
   
-    ImagePointer           m_Image;
-    HistogramPointer       m_Histogram;
-    OffsetVectorPointer    m_Offsets;
-    PixelType              m_Min, m_Max;
+    ImageConstPointer        m_Input;
+    HistogramPointer         m_Output;
+    OffsetVectorConstPointer m_Offsets;
+    PixelType                m_Min, m_Max;
 
-    unsigned int           m_BinsPerAxis;
-    MeasurementVectorType  m_LowerBound, m_UpperBound;
-    bool                   m_Normalize;
+    unsigned int            m_NumberOfBinsPerAxis;
+    MeasurementVectorType   m_LowerBound, m_UpperBound;
+    bool                    m_Normalize;
 
   };
     

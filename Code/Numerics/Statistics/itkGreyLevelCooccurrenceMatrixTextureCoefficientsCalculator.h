@@ -127,7 +127,8 @@ class GreyLevelCooccurrenceMatrixTextureCoefficientsCalculator : public Object
     void Compute( void );
     
     /** Connects the GLCM histogram over which the features are going to be computed */
-    itkSetMacro( Histogram, HistogramPointer );
+    itkSetObjectMacro( Histogram, HistogramType );
+    itkGetObjectMacro( Histogram, HistogramType );
 
     /** Methods to return the feature values.
       \warning These outputs are only valid after the Compute() method has been invoked 

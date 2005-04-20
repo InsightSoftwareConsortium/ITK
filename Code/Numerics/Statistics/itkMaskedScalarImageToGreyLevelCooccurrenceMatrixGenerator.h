@@ -87,12 +87,14 @@ class MaskedScalarImageToGreyLevelCooccurrenceMatrixGenerator :
 
        
     /** Connects the mask image for which the histogram is going to be computed */
-    itkSetMacro(ImageMask, ImagePointer );
-    
+    itkSetConstObjectMacro( ImageMask, ImageType );
+    itkGetConstObjectMacro( ImageMask, ImageType );
+
     /** Set the pixel value of the mask that should be considered "inside" the 
       object. Defaults to one. */
-    itkSetMacro(InsidePixelValue, PixelType );
-      
+    itkSetMacro( InsidePixelValue, PixelType );
+    itkGetMacro( InsidePixelValue, PixelType );
+
   protected:
     MaskedScalarImageToGreyLevelCooccurrenceMatrixGenerator();
     virtual ~MaskedScalarImageToGreyLevelCooccurrenceMatrixGenerator() {};
@@ -100,7 +102,7 @@ class MaskedScalarImageToGreyLevelCooccurrenceMatrixGenerator :
     void FillHistogram( RadiusType radius, RegionType region );
 
    private:    
-    ImagePointer m_ImageMask;
+    ImageConstPointer m_ImageMask;
     PixelType    m_InsidePixelValue;
 
   };

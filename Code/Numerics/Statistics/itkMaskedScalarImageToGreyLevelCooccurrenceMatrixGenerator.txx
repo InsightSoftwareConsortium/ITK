@@ -53,7 +53,7 @@ namespace itk {
       
       typedef ConstNeighborhoodIterator<ImageType> NeighborhoodIteratorType;
       NeighborhoodIteratorType neighborIt, maskNeighborIt;
-      neighborIt = NeighborhoodIteratorType(radius, this->GetImage(), region);
+      neighborIt = NeighborhoodIteratorType(radius, this->GetInput(), region);
       maskNeighborIt = NeighborhoodIteratorType(radius, m_ImageMask, region);
       
       for (neighborIt.GoToBegin(), maskNeighborIt.GoToBegin();
@@ -103,10 +103,10 @@ namespace itk {
           MeasurementVectorType cooccur;
           cooccur[0] = centerPixelIntensity;
           cooccur[1] = pixelIntensity;
-          this->GetHistogram()->IncreaseFrequency(cooccur, 1);
+          this->GetOutput()->IncreaseFrequency(cooccur, 1);
           cooccur[1] = centerPixelIntensity;
           cooccur[0] = pixelIntensity;
-          this->GetHistogram()->IncreaseFrequency(cooccur, 1);
+          this->GetOutput()->IncreaseFrequency(cooccur, 1);
           }
         }
       }

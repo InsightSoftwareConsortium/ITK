@@ -30,7 +30,7 @@ namespace itk {
     ScalarImageToGreyLevelCooccurrenceMatrixGenerator< TImageType,
     THistogramFrequencyContainer >::
     ScalarImageToGreyLevelCooccurrenceMatrixGenerator() : 
-    m_BinsPerAxis(itkGetStaticConstMacro(DefaultBinsPerAxis)), m_Normalize(false)
+    m_NumberOfBinsPerAxis(itkGetStaticConstMacro(DefaultBinsPerAxis)), m_Normalize(false)
       {
       m_LowerBound.Fill(NumericTraits<PixelType>::min());
       m_UpperBound.Fill(NumericTraits<PixelType>::max() + 1);
@@ -47,10 +47,10 @@ namespace itk {
       {
       // First, create an appropriate histogram with the right number of bins
       // and mins and maxes correct for the image type.
-      m_Histogram = HistogramType::New();
+      m_Output = HistogramType::New();
       typename HistogramType::SizeType size;
-      size.Fill(m_BinsPerAxis);
-      m_Histogram->Initialize(size, m_LowerBound, m_UpperBound);
+      size.Fill(m_NumberOfBinsPerAxis);
+      m_Output->Initialize(size, m_LowerBound, m_UpperBound);
       
       // Next, find the minimum radius that encloses all the offsets.
       unsigned int minRadius = 0;
@@ -71,7 +71,7 @@ namespace itk {
       radius.Fill(minRadius);
       
       // Now fill in the histogram
-      this->FillHistogram(radius, m_Image->GetRequestedRegion());
+      this->FillHistogram(radius, m_Input->GetRequestedRegion());
       
       // Normalizse the histogram if requested
       if(m_Normalize)
@@ -92,7 +92,7 @@ namespace itk {
       
       typedef ConstNeighborhoodIterator<ImageType> NeighborhoodIteratorType;
       NeighborhoodIteratorType neighborIt;
-      neighborIt = NeighborhoodIteratorType(radius, m_Image, region);
+      neighborIt = NeighborhoodIteratorType(radius, m_Input, region);
 
       for (neighborIt.GoToBegin(); !neighborIt.IsAtEnd(); ++neighborIt) 
         {
@@ -128,10 +128,10 @@ namespace itk {
           MeasurementVectorType cooccur;
           cooccur[0] = centerPixelIntensity;
           cooccur[1] = pixelIntensity;
-          m_Histogram->IncreaseFrequency(cooccur, 1);
+          m_Output->IncreaseFrequency(cooccur, 1);
           cooccur[1] = centerPixelIntensity;
           cooccur[0] = pixelIntensity;
-          m_Histogram->IncreaseFrequency(cooccur, 1);
+          m_Output->IncreaseFrequency(cooccur, 1);
           }
         }
       }
@@ -144,73 +144,26 @@ namespace itk {
       {
       typename HistogramType::Iterator hit;
       typename HistogramType::FrequencyType totalFrequency = 
-        m_Histogram->GetTotalFrequency();
+        m_Output->GetTotalFrequency();
       
-      for (hit = m_Histogram->Begin(); hit != m_Histogram->End(); ++hit)
+      for (hit = m_Output->Begin(); hit != m_Output->End(); ++hit)
         {
         hit.SetFrequency(hit.GetFrequency() / totalFrequency);
         }
       }
-    
-    template< class TImageType, class THistogramFrequencyContainer >
-    void
-    ScalarImageToGreyLevelCooccurrenceMatrixGenerator< TImageType,
-    THistogramFrequencyContainer >::
-      SetInput( const ImagePointer inputImage )
-      {
-        m_Image = inputImage;
-      }
-    
-    template< class TImageType, class THistogramFrequencyContainer >
-    void
-    ScalarImageToGreyLevelCooccurrenceMatrixGenerator< TImageType,
-    THistogramFrequencyContainer >::
-    SetOffset( const OffsetType offset )
-      {
-      OffsetVectorPointer offsetVector = OffsetVector::New();
-      offsetVector->push_back(offset);
-      this->SetOffsets(offsetVector);
-      }
-    
-    template< class TImageType, class THistogramFrequencyContainer >
-    void
-    ScalarImageToGreyLevelCooccurrenceMatrixGenerator< TImageType,
-    THistogramFrequencyContainer >::
-    SetOffsets( const OffsetVectorPointer offsetsVector )
-      {
-      m_Offsets = offsetsVector;
-      }
-    
-    template< class TImageType, class THistogramFrequencyContainer >
-    typename ScalarImageToGreyLevelCooccurrenceMatrixGenerator< TImageType,
-    THistogramFrequencyContainer >::
-    HistogramPointer
-    ScalarImageToGreyLevelCooccurrenceMatrixGenerator< TImageType,
-    THistogramFrequencyContainer >::
-    GetOutput(void) const
-      {
-      return m_Histogram;
-      }
-    
-    template< class TImageType, class THistogramFrequencyContainer >
-    void
-    ScalarImageToGreyLevelCooccurrenceMatrixGenerator< TImageType,
-    THistogramFrequencyContainer >::
-    SetNumberOfBinsPerAxis( unsigned int numberOfBins )
-      {
-      m_BinsPerAxis = numberOfBins;
-      }
-    
+        
     template< class TImageType, class THistogramFrequencyContainer >
     void
     ScalarImageToGreyLevelCooccurrenceMatrixGenerator< TImageType,
     THistogramFrequencyContainer >::
     SetPixelValueMinMax( PixelType min, PixelType max )
       {
+      itkDebugMacro("setting Min to " << min << "and Max to " << max);
       m_Min = min;
       m_Max = max;
       m_LowerBound.Fill(min);
       m_UpperBound.Fill(max + 1);
+      this->Modified();
       }
     
     template< class TImageType, class THistogramFrequencyContainer >
