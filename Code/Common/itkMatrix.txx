@@ -275,7 +275,7 @@ Matrix<T, NRows, NColumns>
  *  Comparison
  */
 template<class T, unsigned int NRows, unsigned int NColumns >
-const bool
+bool
 Matrix<T, NRows, NColumns>
 ::operator==( const Self & matrix )
 {
@@ -295,7 +295,7 @@ Matrix<T, NRows, NColumns>
 }
 
 template<class T, unsigned int NRows, unsigned int NColumns >
-const bool
+bool
 Matrix<T, NRows, NColumns>
 ::operator!=( const Self & matrix )
 {

@@ -123,8 +123,8 @@ public:
   inline const Self & operator=( const vnl_matrix<T> & matrix);
 
   /** Comparison operators. */
-  inline const bool operator==( const Self & matrix);
-  inline const bool operator!=( const Self & matrix);
+  inline bool operator==( const Self & matrix);
+  inline bool operator!=( const Self & matrix);
 
   /** Assignment operator. */
   inline const Self & operator=( const Self & matrix);
