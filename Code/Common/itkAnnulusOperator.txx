@@ -90,19 +90,20 @@ AnnulusOperator<TPixel, VDimension, TAllocator>
     }
 
   // Compute the size of the kernel in pixels
+  typedef typename SizeType::SizeValueType SizeValueType;
   SizeType r;
   unsigned int i, j;
   double outerRadius = m_InnerRadius + m_Thickness;
   for (i=0; i < VDimension; ++i)
     {
-    r[i] = static_cast<SizeType::SizeValueType>(ceil(outerRadius / m_Spacing[i]));
+    r[i] = static_cast<SizeValueType>(ceil(outerRadius / m_Spacing[i]));
     }
   this->SetRadius(r);
 
   // Use a couple of sphere spatial functions...
-  typedef SphereSpatialFunction<VDimension> SphereType;
-  SphereType::Pointer innerS = SphereType::New();
-  SphereType::Pointer  outerS = SphereType::New();
+  typedef typename SphereSpatialFunction<VDimension> SphereType;
+  typename SphereType::Pointer innerS = SphereType::New();
+  typename SphereType::Pointer  outerS = SphereType::New();
   
   innerS->SetRadius( m_InnerRadius );
   outerS->SetRadius( m_InnerRadius + m_Thickness );
@@ -120,7 +121,7 @@ AnnulusOperator<TPixel, VDimension, TAllocator>
   std::vector<bool> outside(w);
   CoefficientVector coeffP(w);
   OffsetType offset;
-  SphereType::InputType point;
+  typename SphereType::InputType point;
 
   for (i=0; i < w; ++i)
     {
