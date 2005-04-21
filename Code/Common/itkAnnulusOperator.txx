@@ -101,7 +101,7 @@ AnnulusOperator<TPixel, VDimension, TAllocator>
   this->SetRadius(r);
 
   // Use a couple of sphere spatial functions...
-  typedef typename SphereSpatialFunction<VDimension> SphereType;
+  typedef SphereSpatialFunction<VDimension> SphereType;
   typename SphereType::Pointer innerS = SphereType::New();
   typename SphereType::Pointer  outerS = SphereType::New();
   
