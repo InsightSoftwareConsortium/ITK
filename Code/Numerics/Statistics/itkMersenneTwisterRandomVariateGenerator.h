@@ -351,6 +351,22 @@ inline void
 }
 
 
+inline void
+  MersenneTwisterRandomVariateGenerator::Initialize()
+  { 
+  SetSeed(); 
+  }
+
+
+inline void 
+  MersenneTwisterRandomVariateGenerator::SetSeed( const IntegerType oneSeed )
+  {
+  // Seed the generator with a simple IntegerType
+  Initialize(oneSeed);
+  reload();
+  }
+
+
 inline void 
   MersenneTwisterRandomVariateGenerator::SetSeed()
   {
@@ -377,21 +393,6 @@ inline void
   SetSeed( hash( vcl_time(0), vcl_clock() ) );
   }
 
-
-inline void
-  MersenneTwisterRandomVariateGenerator::Initialize()
-  { 
-  SetSeed(); 
-  }
-
-
-inline void 
-  MersenneTwisterRandomVariateGenerator::SetSeed( const IntegerType oneSeed )
-  {
-  // Seed the generator with a simple IntegerType
-  Initialize(oneSeed);
-  reload();
-  }
 
 
 /** Get an integer variate in [0, 2^32-1] */
