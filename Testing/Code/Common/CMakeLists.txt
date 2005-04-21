@@ -22,6 +22,7 @@ SET(SYSTEM_INFORMATION_TEST ${CXX_TEST_PATH}/itkSystemInformationTest)
 
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
+ADD_TEST(itkAnnulusOperatorTest ${COMMON_TESTS} itkAnnulusOperatorTest)
 ADD_TEST(itkChainCodePath2DTest ${COMMON_TESTS} itkChainCodePath2DTest)
 ADD_TEST(itkChainCodePathTest ${COMMON_TESTS} itkChainCodePathTest)
 ADD_TEST(itkCommonPrintTest ${COMMON_TESTS} itkCommonPrintTest)
@@ -202,6 +203,7 @@ itkConditionVariableTest.cxx
 itkModifiedTimeTest.cxx
 itkAdaptorComparisonTest.cxx
 itkAffineTransformTest.cxx
+itkAnnulusOperatorTest.cxx
 itkArrayTest.cxx
 itkArray2DTest.cxx
 itkAutoPointerTest.cxx
@@ -346,7 +348,6 @@ ADD_EXECUTABLE(itkCommonHeaderTest itkCommonHeaderTest.cxx)
 ADD_EXECUTABLE(itkCommonTests itkCommonTests.cxx ${BasicTests_SRCS})
 TARGET_LINK_LIBRARIES(itkCommonHeaderTest ITKCommon)
 TARGET_LINK_LIBRARIES(itkCommonTests ITKIO ITKCommon)
-
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 

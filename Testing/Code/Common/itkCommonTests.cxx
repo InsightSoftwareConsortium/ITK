@@ -13,6 +13,7 @@ REGISTER_TEST(itkCommonPrintTest );
 REGISTER_TEST(itkModifiedTimeTest );
 REGISTER_TEST(itkAdaptorComparisonTest );
 REGISTER_TEST(itkAffineTransformTest );
+REGISTER_TEST(itkAnnulusOperatorTest );
 REGISTER_TEST(itkArrayTest );
 REGISTER_TEST(itkArray2DTest );
 REGISTER_TEST(itkAutoPointerTest );
