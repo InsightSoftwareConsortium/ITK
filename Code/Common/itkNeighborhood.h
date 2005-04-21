@@ -200,7 +200,7 @@ public:
 
   /** Returns the itk::Offset from the center of the Neighborhood to
       the requested neighbor index. */
-  virtual OffsetType GetOffset(unsigned int i) const
+  OffsetType GetOffset(unsigned int i) const
   {    return m_OffsetTable[i];  }
 
   virtual unsigned int GetNeighborhoodIndex(const OffsetType &) const;
