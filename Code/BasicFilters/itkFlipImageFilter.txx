@@ -95,7 +95,7 @@ FlipImageFilter<TImage>
       if ( m_FlipAxes[j] )
         {
         outputOrigin[j] = -inputOrigin[j] -
-          inputSpacing[j] * 2 * (static_cast<double>( inputStartIndex[j] ) + 
+          inputSpacing[j] * (2 * static_cast<double>( inputStartIndex[j] ) + 
                               static_cast<double>( inputSize[j] ) - 1.0 );
          flipMatrix[j][j] = -1.0;
         }
