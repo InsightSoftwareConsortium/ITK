@@ -93,7 +93,7 @@ void ImageSeriesReader<TOutputImage>
         {
         reader2->SetImageIO(m_ImageIO);
         }
-      reader2->Update();
+      reader2->UpdateOutputInformation();
 
       std::string key("ITK_ImageOrigin");
       // Initialize the position to the origin returned by the reader
@@ -101,7 +101,6 @@ void ImageSeriesReader<TOutputImage>
         {
         position2[i] = reader2->GetOutput()->GetOrigin()[i];
         }
-
       // Override the position if there is an ITK_ImageOrigin 
       ExposeMetaData<Array<float> > ( reader2->GetImageIO()->GetMetaDataDictionary(), key, position2);
 
@@ -111,7 +110,7 @@ void ImageSeriesReader<TOutputImage>
         {
         reader1->SetImageIO(m_ImageIO);
         }
-      reader1->Update();
+      reader1->UpdateOutputInformation();
 
       // Initialize the position to the origin returned by the reader
       for (i = 0; i < TOutputImage::ImageDimension; i++)
@@ -160,6 +159,7 @@ void ImageSeriesReader<TOutputImage>
 
     float spacing[TOutputImage::ImageDimension];
     float origin[TOutputImage::ImageDimension];
+    TOutputImage::DirectionType direction;
 
     for (i = 0; i < TOutputImage::ImageDimension; i++)
       {
@@ -177,6 +177,8 @@ void ImageSeriesReader<TOutputImage>
 
     output->SetSpacing( spacing );   // Set the image spacing
     output->SetOrigin( origin );     // Set the image origin
+    output->SetDirection(
+      reader1->GetOutput()->GetDirection());  // Set the image direction
 
     typedef typename TOutputImage::IndexType   IndexType;
 
