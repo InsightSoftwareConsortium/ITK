@@ -20,9 +20,11 @@
 #include "itkGDCMImageIO.h"
 
 #include <vnl/vnl_vector.h>
+#include <vnl/vnl_matrix.h>
 #include <vnl/vnl_cross.h>
 
 #include "itkMetaDataObject.h"
+
 #include <itksys/Base64.h>
 #include "gdcm/src/gdcmValEntry.h" //internal of gdcm
 #include "gdcm/src/gdcmBinEntry.h" //internal of gdcm
@@ -336,9 +338,6 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   m_Spacing[1] = header.GetYSpacing();
   m_Spacing[2] = header.GetZSpacing();
 
-  m_Origin[0] = header.GetXOrigin();
-  m_Origin[1] = header.GetYOrigin();
-  m_Origin[2] = header.GetZOrigin();
 
   float imageOrientation[6];
   header.GetImageOrientationPatient(imageOrientation);
@@ -357,6 +356,35 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   this->SetDirection(0, rowDirection);
   this->SetDirection(1, columnDirection);
   this->SetDirection(2, sliceDirection);
+
+#if 1
+  // DICOM specifies its origin in LPS coordinate, regardless of how
+  // the data is acquired. itk's origin must be in the same
+  // coordinate system as the data. This code transforms the DICOM
+  // origin into the itk origin. The itk origin is computed by
+  // multiplying the inverse(transpose) of the direction cosine times
+  // the dicom origin.
+  vnl_vector<double> itkOrigin(3), dicomOrigin(3);
+  vnl_matrix<double> dicomDirection(3,3);
+  dicomOrigin[0] = header.GetXOrigin();
+  dicomOrigin[1] = header.GetYOrigin();
+  dicomOrigin[2] = header.GetZOrigin();
+  for (unsigned int i = 0; i < 3; i++)
+    {
+    dicomDirection[0][i] = rowDirection[i];
+    dicomDirection[1][i] = columnDirection[i];
+    dicomDirection[2][i] = sliceDirection[i];
+    }
+  itkOrigin = dicomDirection * dicomOrigin;
+  m_Origin[0] = itkOrigin[0];
+  m_Origin[1] = itkOrigin[1];
+  m_Origin[2] = itkOrigin[2];
+
+#else
+  m_Origin[0] = header.GetXOrigin();
+  m_Origin[1] = header.GetYOrigin();
+  m_Origin[2] = header.GetZOrigin();
+#endif
 
   //For grayscale image :
   m_RescaleSlope = header.GetRescaleSlope();
