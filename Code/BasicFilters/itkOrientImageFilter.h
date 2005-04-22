@@ -22,6 +22,8 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkPermuteAxesImageFilter.h"
 #include "itkFlipImageFilter.h"
 #include "itkSpatialOrientation.h"
+#include <map>
+#include <string>
 
 namespace itk {
 
@@ -59,12 +61,16 @@ namespace itk {
  *
  * In order to use this filter, you need to supply an input
  * image, the current orientation of the input image (set with
- * SetGivenCoordinateOrientation) and the desired orientation
+ * SetGivenCoordinateOrientation) and the desired orientation.
  * (set with SetDesiredCoordinateOrientation).
- *
+ * You may explicitly set the DesiredOrientation with
+ * SetDesiredCoordinateOrientation (if UseImageDirection is "off") or
+ * you can use the image's direction cosines to set the
+ * DesiredOrientation (if UseImageDirection is "on").
  * When reading image files that define the coordinate orientation
  * of the image, the current orientation is stored in the MetadataDictionary
- * for the itk::Image object created from the file.
+ * for the itk::Image object and the Image.Direction direction cosine
+ * matrix created from the file.
  *
  * As an example, if you wished to keep all images within your program in the
  * orientation corresponding to the Analyze file format's 'CORONAL' orientation
@@ -94,6 +100,33 @@ namespace itk {
  *   itk::OrientImageFilter<ImageType,ImageType>::Pointer orienter =
  *     itk::OrientImageFilter<ImageType,ImageType>::New();
  *   orienter->SetGivenCoordinateOrientation(fileOrientation);
+ *   orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+ *   orienter->SetInput(rval);
+ *   orienter->Update();
+ *   rval = orienter->GetOutput();
+ *   return rval;
+ * }   
+ * \endcode
+ *
+ * Or, using the direction cosines of the image,
+ * \code
+ * #include "itkAnalyzeImageIO.h"
+ * #include "itkImage.h"
+ * #include "itkOrientImageFilter.h"
+ * typedef itk::Image<unsigned char,3> ImageType;
+ * typedef itk::ImageFileReader< TstImageType > ImageReaderType ;
+ * ImageType::Pointer ReadAnalyzeFile(const char *path)
+ * {
+ *   itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
+ *   ImageReaderType::Pointer fileReader = ImageReaderType::New();
+ *   fileReader->SetImageIO(io);
+ *   fileReader->SetFileName(path);
+ *   fileReader->Update();
+ *   ImageType::Pointer rval = fileReader->GetOutput();
+ *   
+ *   itk::OrientImageFilter<ImageType,ImageType>::Pointer orienter =
+ *     itk::OrientImageFilter<ImageType,ImageType>::New();
+ *   orienter->UseImageDirectionOn();
  *   orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
  *   orienter->SetInput(rval);
  *   orienter->Update();
@@ -157,11 +190,22 @@ public:
   /** Runtime information support. */
   itkTypeMacro(OrientImageFilter, ImageToImageFilter);
 
-  /** Set/Get the orienttion codes to define the coordinate transform. */
+  /** Set/Get the orientation codes to define the coordinate transform. */
   itkGetMacro(GivenCoordinateOrientation, CoordinateOrientationCode);
   void SetGivenCoordinateOrientation(CoordinateOrientationCode newCode);
   itkGetMacro(DesiredCoordinateOrientation, CoordinateOrientationCode);
   void SetDesiredCoordinateOrientation(CoordinateOrientationCode newCode);
+
+  /**  Controls how the GivenCoordinateOrientation is determined.
+   * If "on", the direction cosines determine the coordinate
+   * orientation. If "off", the user must use the
+   * SetGivenCoordinateOrientation method to establis the
+   * orientation. For compatbility with the original API, the default if
+   * "off".
+   */
+  itkBooleanMacro(UseImageDirection);
+  itkGetMacro(UseImageDirection, bool);
+  itkSetMacro(UseImageDirection, bool);
 
   /** Get axes permute order. */
   itkGetConstReferenceMacro( PermuteOrder, PermuteOrderArrayType );
@@ -169,12 +213,38 @@ public:
   /** Get flip axes. */
   itkGetConstReferenceMacro( FlipAxes, FlipAxesArrayType );
 
+  /** Convenience methods to set desired slice orientation
+   *  These methods allow a limited selection of slice orientations
+   *  without having to specify the SpatialOrientation.
+   *
+   *  SetDesiredCoordinateOrientationToAxial is equivalent to
+   *  SetDesiredCoordinateOrientation (ITK_COORDINATE_ORIENTATION_RAI).
+   *
+   *  SetDesiredCoordinateOrientationToCoronal is equivalent to
+   *  SetDesiredCoordinateOrientation (ITK_COORDINATE_ORIENTATION_RSA).
+   *
+   *  SetDesiredCoordinateOrientationToSagittal is equivalent to
+   *  SetDesiredCoordinateOrientation (ITK_COORDINATE_ORIENTATION_ASL).
+   */
+  void SetDesiredCoordinateOrientationToAxial ()
+    {
+   this->SetDesiredCoordinateOrientation (itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI);
+    }
+  void SetDesiredCoordinateOrientationToCoronal ()
+    {
+    this->SetDesiredCoordinateOrientation (itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA);
+    }
+  void SetDesiredCoordinateOrientationToSagittal ()
+    {
+    this->SetDesiredCoordinateOrientation (itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL);
+    }
+
   /** OrientImageFilter produces an image which is a different
-   * dimensionality than its input image, in general.
-   *As such, OrientImageFilter needs to provide an
-   * implementation for GenerateOutputInformation() in order to inform
-   * the pipeline execution model.  The original documentation of this
-   * method is below.
+   * dimensionality than its input image, in general. As such,
+   * OrientImageFilter needs to provide an implementation for
+   * GenerateOutputInformation() in order to inform the pipeline
+   * execution model.  The original documentation of this method is
+   * below.
    * \sa ProcessObject::GenerateOutputInformaton() */
   virtual void GenerateOutputInformation();
 
@@ -192,7 +262,8 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
 
   /*** Member functions used by GenerateData: */
-  void DeterminePermutationsAndFlips(const SpatialOrientation::ValidCoordinateOrientationFlags fixed_orient, const SpatialOrientation::ValidCoordinateOrientationFlags moving_orient);
+  void DeterminePermutationsAndFlips(const SpatialOrientation::ValidCoordinateOrientationFlags fixed_orient,
+                                     const SpatialOrientation::ValidCoordinateOrientationFlags moving_orient);
   bool NeedToPermute();
   bool NeedToFlip();
 
@@ -206,11 +277,18 @@ private:
   OrientImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  CoordinateOrientationCode     m_GivenCoordinateOrientation;
-  CoordinateOrientationCode     m_DesiredCoordinateOrientation;
+  std::string GetMajorAxisFromPatientRelativeDirectionCosine(double x, double y, double z);
 
-  PermuteOrderArrayType              m_PermuteOrder;
-  FlipAxesArrayType                  m_FlipAxes;
+  CoordinateOrientationCode m_GivenCoordinateOrientation;
+  CoordinateOrientationCode m_DesiredCoordinateOrientation;
+  bool                      m_UseImageDirection;
+
+  PermuteOrderArrayType     m_PermuteOrder;
+  FlipAxesArrayType         m_FlipAxes;
+  
+  std::map<std::string,CoordinateOrientationCode> m_StringToCode;
+  std::map<CoordinateOrientationCode,std::string> m_CodeToString;
+
 } ; // end of class
 
 } // end namespace itk
