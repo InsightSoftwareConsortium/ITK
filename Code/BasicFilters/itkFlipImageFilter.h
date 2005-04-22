@@ -83,11 +83,19 @@ public:
   itkSetMacro( FlipAxes, FlipAxesArrayType );
   itkGetMacro( FlipAxes, FlipAxesArrayType );
 
-  /** FlipImageFilter produces an image with different originthan the input image.  
-   * As such, FlipImageFilter needs to provide an
-   * implementation for GenerateOutputInformation() in order to inform
-   * the pipeline execution model.  The original documentation of this
-   * method is below.
+/** Controls how the output origin is computed. If FlipAboutOrigin is
+ * "on", the flip will occur about the origin of the axis, otherwise,
+ * the flip will occur about the center of the axis.
+ */
+  itkBooleanMacro(FlipAboutOrigin);
+  itkGetMacro(FlipAboutOrigin, bool);
+  itkSetMacro(FlipAboutOrigin, bool);
+
+  /** FlipImageFilter produces an image with different origin and
+   * direction than the input image. As such, FlipImageFilter needs to
+   * provide an implementation for GenerateOutputInformation() in
+   * order to inform the pipeline execution model.  The original
+   * documentation of this method is below.
    * \sa ProcessObject::GenerateOutputInformaton() */
   virtual void GenerateOutputInformation();
 
@@ -121,7 +129,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   FlipAxesArrayType       m_FlipAxes;
-
+  bool                    m_FlipAboutOrigin;
 };
 
 } // end namespace itk

@@ -34,6 +34,7 @@ FlipImageFilter<TImage>
 {
 
   m_FlipAxes.Fill( false );
+  m_FlipAboutOrigin = true;
 
 }
 
@@ -48,6 +49,7 @@ FlipImageFilter<TImage>
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "FlipAxes: " << m_FlipAxes << std::endl;
+  os << indent << "FlipAboutOrigin: " << m_FlipAboutOrigin << std::endl;
 
 }
 
@@ -84,22 +86,55 @@ FlipImageFilter<TImage>
   typename TImage::DirectionType flipMatrix;
   flipMatrix.SetIdentity();
 
-  for ( j = 0; j < ImageDimension; j++ )
+  // If FlipOrigin is "on", the flip will occur about the origin. If
+  // "off", the flipped axis will "cover" the original access.
+  if (m_FlipAboutOrigin)
     {
-    if ( m_FlipAxes[j] )
+    for ( j = 0; j < ImageDimension; j++ )
       {
-      outputOrigin[j] = - 1 * inputOrigin[j] -
-        inputSpacing[j] * ( 2 * static_cast<double>( inputStartIndex[j] ) + 
-                            static_cast<double>( inputSize[j] ) - 1.0 );
-      flipMatrix[j][j] = -1.0;
+      if ( m_FlipAxes[j] )
+        {
+        outputOrigin[j] = -inputOrigin[j] -
+          inputSpacing[j] * 2 * (static_cast<double>( inputStartIndex[j] ) + 
+                              static_cast<double>( inputSize[j] ) - 1.0 );
+         flipMatrix[j][j] = -1.0;
+        }
+      else
+        {
+        outputOrigin[j] = inputOrigin[j];
+        }
       }
-    else
+    }
+  else
+    {
+    for ( j = 0; j < ImageDimension; j++ )
       {
-      outputOrigin[j] = inputOrigin[j];
+      if ( m_FlipAxes[j] )
+        {
+        outputOrigin[j] = -inputOrigin[j] -
+          inputSpacing[j] * (static_cast<double>( inputStartIndex[j] ) + 
+                             static_cast<double>( inputSize[j] ) - 1.0);
+        flipMatrix[j][j] = -1.0;
+        }
+      else
+        {
+        outputOrigin[j] = inputOrigin[j];
+        }
       }
     }
   outputPtr->SetDirection( flipMatrix * inputDirection );
   outputPtr->SetOrigin( outputOrigin );
+#if 0
+  Point<double,3> inputMax, outputMax;
+  for (j = 0; j < ImageDimension; j++)
+    {
+    inputMax[j] = inputOrigin[j] + inputSpacing[j] * (inputSize[j] - 1);
+    outputMax[j] = outputOrigin[j] + inputSpacing[j] * (inputSize[j] - 1);
+    }
+  std::cout << "Size, spacing: " << inputSize << " : " << inputSpacing << std::endl;
+  std::cout << "Input range: " << inputOrigin << " -> " << inputMax << std::endl;
+  std::cout << "Output range: " << outputOrigin << " -> " << outputMax << std::endl;
+#endif
 }
 
 
