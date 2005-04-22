@@ -85,6 +85,6 @@ public:
 };
 
 %pragma(java) jniclasscode=%{
-  static { InsightToolkit.itkbase.LoadLibrary("ITKCommonJava"); }
+  static { InsightToolkit.itkbase.LoadLibrary("ITKCommonAJava"); }
 %}
 #endif
