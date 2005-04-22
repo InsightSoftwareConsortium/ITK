@@ -159,7 +159,7 @@ void ImageSeriesReader<TOutputImage>
 
     float spacing[TOutputImage::ImageDimension];
     float origin[TOutputImage::ImageDimension];
-    TOutputImage::DirectionType direction;
+    typename TOutputImage::DirectionType direction;
 
     for (i = 0; i < TOutputImage::ImageDimension; i++)
       {
