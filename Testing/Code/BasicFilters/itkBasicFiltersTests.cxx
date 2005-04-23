@@ -152,6 +152,7 @@ void RegisterTests()
   REGISTER_TEST(itkObjectMorphologyImageFilterTest );
   REGISTER_TEST(itkOrImageFilterTest );
   REGISTER_TEST(itkOrientImageFilterTest);
+  REGISTER_TEST(itkOrientImageFilterTest2);
   REGISTER_TEST(itkParallelSparseFieldLevelSetImageFilterTest );
   REGISTER_TEST(itkPasteImageFilterTest );
   REGISTER_TEST(itkPathToChainCodePathFilterTest );

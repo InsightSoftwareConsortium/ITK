@@ -215,6 +215,7 @@ ADD_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS3
 ADD_TEST(itkZeroCrossingImageFilterTest ${BASIC_FILTERS_TESTS3} itkZeroCrossingImageFilterTest)
 
 ADD_TEST(itkOrientImageFilterTest ${BASIC_FILTERS_TESTS} itkOrientImageFilterTest)
+ADD_TEST(itkOrientImageFilterTest2 ${BASIC_FILTERS_TESTS} itkOrientImageFilterTest2)
 
 IF(ITK_DATA_ROOT)
 ADD_TEST(itkAdaptiveHistogramEqualizationImageFilterTest ${BASIC_FILTERS_TESTS}
@@ -651,6 +652,7 @@ itkNonThreadedShrinkImageTest.cxx
 itkNormalizeImageFilterTest.cxx
 itkOrImageFilterTest.cxx
 itkOrientImageFilterTest.cxx
+itkOrientImageFilterTest2.cxx
 itkObjectMorphologyImageFilterTest.cxx
 itkParallelSparseFieldLevelSetImageFilterTest.cxx
 itkPasteImageFilterTest.cxx
