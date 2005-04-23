@@ -64,7 +64,7 @@ int itkAnnulusOperatorTest(int, char* [] )
             << ", r = " << normalizedAnnulus.GetInnerRadius()
             << ", t = " << normalizedAnnulus.GetThickness()
             << std::endl;
-  int i, j, k;
+  unsigned int i, j, k;
   for (i=0, k=0; i < normalizedAnnulusSize[1]; ++i)
     {
     for (j=0; j < normalizedAnnulusSize[0]; ++j, ++k)
