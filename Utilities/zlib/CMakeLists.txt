@@ -37,4 +37,5 @@ ADD_LIBRARY(itkzlib ${ZLIB_SRCS})
 
 INSTALL_TARGETS(/lib/InsightToolkit itkzlib)
 INSTALL_FILES(${VXL_INSTALL_ROOT}/include/InsightToolkit/Utilities/zlib ".h" zlibDllConfig)
+INSTALL_FILES(/include/InsightToolkit/Utilities/zlib "(\\.h)$")
 
