@@ -145,17 +145,23 @@ ImageSeriesWriter<TInputImage,TOutputImage>
 
   typename OutputImageType::Pointer outputImage = OutputImageType::New();
 
-  // Set the origin and spacing of the output
+  // Set the origin, spacing and direction of the output
   double spacing[TOutputImage::ImageDimension];
   double origin[TOutputImage::ImageDimension];
+  TOutputImage::DirectionType direction;
   for ( unsigned int i=0; i < TOutputImage::ImageDimension; i++ )
     {
     origin[i] = inputImage->GetOrigin()[i];
     spacing[i] = inputImage->GetSpacing()[i];
     outRegion.SetSize(i,inputImage->GetRequestedRegion().GetSize()[i]);
+    for ( unsigned int j=0; j < TOutputImage::ImageDimension; j++ )
+      {
+      direction[j][i] = inputImage->GetDirection()[j][i];
+      }
     }
   outputImage->SetOrigin(origin);
   outputImage->SetSpacing(spacing);
+  outputImage->SetDirection(direction);
 
    // Allocate an image for output and create an iterator for it
     outputImage->SetRegions(outRegion);
@@ -266,15 +272,20 @@ ImageSeriesWriter<TInputImage,TOutputImage>
   // Set the origin and spacing of the output
   double spacing[TOutputImage::ImageDimension];
   double origin[TOutputImage::ImageDimension];
+  TOutputImage::DirectionType direction;
   for ( unsigned int i=0; i < TOutputImage::ImageDimension; i++ )
     {
     origin[i] = inputImage->GetOrigin()[i];
     spacing[i] = inputImage->GetSpacing()[i];
     outRegion.SetSize(i,inputImage->GetRequestedRegion().GetSize()[i]);
+    for ( unsigned int j=0; j < TOutputImage::ImageDimension; j++ )
+      {
+      direction[j][i] = inputImage->GetDirection()[j][i];
+      }
     }
   outputImage->SetOrigin(origin);
   outputImage->SetSpacing(spacing);
-
+  outputImage->SetDirection(direction);
   
   Index<TInputImage::ImageDimension> inIndex;
   Size<TInputImage::ImageDimension> inSize;

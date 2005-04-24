@@ -198,13 +198,19 @@ ImageFileWriter<TInputImage>
   RegionType region = input->GetLargestPossibleRegion();
   const typename TInputImage::SpacingType& spacing = input->GetSpacing();
   const typename TInputImage::PointType& origin = input->GetOrigin();
+  const typename TInputImage::DirectionType& direction = input->GetDirection();
 
   for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
     {
     m_ImageIO->SetDimensions(i,region.GetSize(i));
     m_ImageIO->SetSpacing(i,spacing[i]);
     m_ImageIO->SetOrigin(i,origin[i]);
+    for(unsigned int j=0; j<TInputImage::ImageDimension; j++)
+      {
+      m_ImageIO->GetDirection(i)[j] = direction[i][j];
+      }
     }
+
   m_ImageIO->SetUseCompression(m_UseCompression);
   m_ImageIO->SetIORegion(m_IORegion);
   if( m_UseInputMetaDataDictionary )
