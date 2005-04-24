@@ -18,7 +18,8 @@
 
 =========================================================================*/
 #include "itkGDCMImageIO.h"
-
+#include "itkPoint.h"
+#include "itkMatrix.h"
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_cross.h>
@@ -357,7 +358,6 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   this->SetDirection(1, columnDirection);
   this->SetDirection(2, sliceDirection);
 
-#if 1
   // DICOM specifies its origin in LPS coordinate, regardless of how
   // the data is acquired. itk's origin must be in the same
   // coordinate system as the data. This code transforms the DICOM
@@ -379,12 +379,6 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   m_Origin[0] = itkOrigin[0];
   m_Origin[1] = itkOrigin[1];
   m_Origin[2] = itkOrigin[2];
-
-#else
-  m_Origin[0] = header.GetXOrigin();
-  m_Origin[1] = header.GetYOrigin();
-  m_Origin[2] = header.GetZOrigin();
-#endif
 
   //For grayscale image :
   m_RescaleSlope = header.GetRescaleSlope();
@@ -593,24 +587,56 @@ void GDCMImageIO::Write(const void* buffer)
   str.setf( itksys_ios::ios::fixed ); //forcing precision to 6 digits
   str << m_Spacing[1] << "\\" << m_Spacing[0];
   header->InsertValEntry(str.str(),0x0028,0x0030); // Pixel Spacing
+
+// This code still needs work. Spacing, origin and direction are all
+// 3D, yet the image is 2D. If the user set these, all is well,
+// because the user will pass in the proper number (3) of
+// elements. However, ImageSerierWriter will call ImageFileWriter with
+// 2D images. ImageFileWriter will call its ImageIO with 2D images and
+// only pass in spacing, origin and direction with 2 elements. For
+// now, we expect that the MetaDataDictionary will have the proper
+// settings for pixel spacing, spacing between slices, image position
+// patient and the row/column direction cosines.
+
+#if 0
   str.str("");
   str << m_Spacing[2];
   header->InsertValEntry(str.str(),0x0018,0x0088); // Spacing Between Slices
  
   // Handle Origin = Image Position Patient
+  // Origin must be converted into LPS coordinates
+  // DICOM specifies its origin in LPS coordinate, regardless of how
+  // the data is acquired. itk's origin must be in the same
+  // coordinate system as the data.
+  Point<double,3> itkOrigin, dicomOrigin;
+  Matrix<double,3,3> itkDirection;
+  itkOrigin[0] = m_Origin[0];
+  itkOrigin[1] = m_Origin[1];
+  itkOrigin[2] = m_Origin[2];
+  std::cout << "m_Origin: " << itkOrigin << std::endl;
+  for (unsigned int i = 0; i < 3; i++)
+    {
+    for (unsigned int j = 0; j < 3; j++)
+      {
+      itkDirection[i][j] = m_Direction[i][j];
+      }
+    }
+  dicomOrigin = itkDirection * itkOrigin;
+  std::cout << "Direction: " << itkDirection;
   str.str("");
-  str << m_Origin[0] << "\\" << m_Origin[1] << "\\" << m_Origin[2];
+  str << dicomOrigin[0] << "\\" << dicomOrigin[1] << "\\" << dicomOrigin[2];
   header->InsertValEntry(str.str(),0x0020,0x0032); // Image Position Patient
 
   // Handle Direction = Image Orientation Patient
   str.str("");
   str << m_Direction[0][0] << "\\" 
-      << m_Direction[0][1] << "\\" 
-      << m_Direction[0][2] << "\\" 
       << m_Direction[1][0] << "\\" 
+      << m_Direction[2][0] << "\\" 
+      << m_Direction[0][1] << "\\" 
       << m_Direction[1][1] << "\\" 
-      << m_Direction[1][2];
+      << m_Direction[2][1];
   header->InsertValEntry(str.str(),0x0020,0x0037); // Image Orientation Patient
+#endif
 
   str.unsetf( itksys_ios::ios::fixed ); // back to normal
   // Handle the bitDepth:
