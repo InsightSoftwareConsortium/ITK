@@ -148,7 +148,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
   // Set the origin, spacing and direction of the output
   double spacing[TOutputImage::ImageDimension];
   double origin[TOutputImage::ImageDimension];
-  TOutputImage::DirectionType direction;
+  typename TOutputImage::DirectionType direction;
   for ( unsigned int i=0; i < TOutputImage::ImageDimension; i++ )
     {
     origin[i] = inputImage->GetOrigin()[i];
@@ -272,7 +272,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
   // Set the origin and spacing of the output
   double spacing[TOutputImage::ImageDimension];
   double origin[TOutputImage::ImageDimension];
-  TOutputImage::DirectionType direction;
+  typename TOutputImage::DirectionType direction;
   for ( unsigned int i=0; i < TOutputImage::ImageDimension; i++ )
     {
     origin[i] = inputImage->GetOrigin()[i];
