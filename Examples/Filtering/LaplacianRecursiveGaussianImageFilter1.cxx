@@ -20,14 +20,16 @@
 
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
-//    OUTPUTS: {LaplacianRecursiveGaussianImageFilterOutput3.png}
+//    OUTPUTS: {LaplacianRecursiveGaussianImageFilteroutput3.mha}
 //    3
+//    OUTPUTS: {LaplacianRecursiveGaussianImageFilterOutput3.png}
 //  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
-//    OUTPUTS: {LaplacianRecursiveGaussianImageFilterOutput5.png}
+//    OUTPUTS: {LaplacianRecursiveGaussianImageFilteroutput5.mha}
 //    5
+//    OUTPUTS: {LaplacianRecursiveGaussianImageFilterOutput5.png}
 //  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginLatex
@@ -57,6 +59,7 @@
 // Software Guide : BeginCodeSnippet
 #include "itkRecursiveGaussianImageFilter.h"
 // Software Guide : EndCodeSnippet
+#include "itkRescaleIntensityImageFilter.h"
 
 
 int main( int argc, char * argv[] )
@@ -64,7 +67,7 @@ int main( int argc, char * argv[] )
   if( argc < 4 ) 
     { 
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile  sigma " << std::endl;
+    std::cerr << argv[0] << "  inputImageFile  outputImageFile  sigma [RescaledOutputImageFile] " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -359,6 +362,26 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
 
+  // Rescale float outputs to png for inclusion in the Software guide
+  // 
+  if (argc > 4) 
+    {
+    typedef unsigned char    CharPixelType; 
+    typedef itk::Image<CharPixelType, 2>    CharImageType;
+    typedef itk::RescaleIntensityImageFilter< OutputImageType, CharImageType> 
+                                                            RescaleFilterType;
+    RescaleFilterType::Pointer rescale = RescaleFilterType::New();
+    rescale->SetInput( addFilter->GetOutput() );
+    rescale->SetOutputMinimum(   0 );
+    rescale->SetOutputMaximum( 255 );
+    typedef itk::ImageFileWriter< CharImageType >  CharWriterType;
+    CharWriterType::Pointer charWriter = CharWriterType::New();
+    charWriter->SetFileName( argv[4] );
+    charWriter->SetInput( rescale->GetOutput() );
+    charWriter->Update();
+    }
+     
+  
   return EXIT_SUCCESS;
 }
 
