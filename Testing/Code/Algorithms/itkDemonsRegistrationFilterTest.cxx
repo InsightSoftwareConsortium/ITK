@@ -179,7 +179,6 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   registrator->SetMovingImage( moving );
   registrator->SetFixedImage( fixed );
   registrator->SetNumberOfIterations( 200 );
-  registrator->SetStandardDeviations( 2.0 );
   registrator->SetStandardDeviations( 1.0 );
   registrator->SetMaximumError( 0.08 );
   registrator->SetMaximumKernelWidth( 10 );
