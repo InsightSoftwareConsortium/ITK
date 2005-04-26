@@ -560,7 +560,7 @@ int itkBSplineDeformableTransformTest2()
   try
     {
 
-    // try a point inside the valide region
+    // try a point inside the valid region
     inputPoint.Fill( 10.0 );
     outputPoint = transform->TransformPoint( inputPoint );
     std::cout << " InputPoint: " << inputPoint;
@@ -596,9 +596,149 @@ int itkBSplineDeformableTransformTest2()
     std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
-
+ 
  std::cout << "Test passed." << std::endl;
  return EXIT_SUCCESS;
+}
+
+int itkBSplineDeformableTransformTest3()
+{
+
+  // This function tests the SetParametersByValue interface
+
+  // Comment the following if you want to use the itk text output window
+  itk::OutputWindow::SetInstance(itk::TextOutput::New());
+
+  const unsigned int SpaceDimension = 3;
+  const unsigned int SplineOrder = 3;
+  typedef double CoordinateRepType;
+  typedef itk::BSplineDeformableTransform<CoordinateRepType,SpaceDimension,SplineOrder> 
+    TransformType;
+   
+  typedef TransformType::ParametersType ParametersType;
+
+  unsigned int j;
+
+  /**
+   * Define the deformable grid region, spacing and origin
+   */
+  typedef TransformType::RegionType RegionType;
+  RegionType region;
+  RegionType::SizeType   size;
+  size.Fill( 10 );
+  region.SetSize( size );
+  std::cout << region << std::endl;
+
+  typedef TransformType::SpacingType SpacingType;
+  SpacingType spacing;
+  spacing.Fill( 2.0 );
+
+  typedef TransformType::OriginType OriginType;
+  OriginType origin;
+  origin.Fill( 0.0 );
+
+  /**
+   * Instantiate a transform
+   */
+  TransformType::Pointer transform = TransformType::New();
+
+  transform->SetGridSpacing( spacing );
+  transform->SetGridOrigin( origin );
+  transform->SetGridRegion( region );
+  transform->Print( std::cout );
+  
+  /** 
+   * Allocate memory for the parameters
+   */
+  unsigned long numberOfParameters = transform->GetNumberOfParameters();
+  ParametersType parameters( numberOfParameters );
+
+  /**
+   * Define N * N-D grid of spline coefficients by wrapping the
+   * flat array into N images.
+   * Initialize by setting all elements to zero
+   */
+  typedef ParametersType::ValueType CoefficientType;
+  typedef itk::Image<CoefficientType,SpaceDimension> CoefficientImageType;
+
+  CoefficientImageType::Pointer coeffImage[SpaceDimension];
+  unsigned int numberOfPixels = region.GetNumberOfPixels();
+  CoefficientType * dataPointer = parameters.data_block();
+
+  for ( j = 0; j < SpaceDimension; j++ )
+    {
+    coeffImage[j] = CoefficientImageType::New();
+    coeffImage[j]->SetRegions( region );
+    coeffImage[j]->GetPixelContainer()->
+      SetImportPointer( dataPointer, numberOfPixels );
+    dataPointer += numberOfPixels;
+    coeffImage[j]->FillBuffer( 0.0 );
+    }
+
+
+  /**
+   * Populate the spline coefficients with some values.
+   */
+  CoefficientImageType::IndexType index;
+  index.Fill( 5 );
+
+  coeffImage[1]->SetPixel( index, 1.0 );
+
+  unsigned long n = coeffImage[1]->ComputeOffset( index ) +
+    numberOfPixels;
+
+  /**
+   * Set the parameters in the transform
+   */
+  transform->SetParametersByValue( parameters );
+
+  /**
+   * Transform some points
+   */
+  typedef TransformType::InputPointType PointType;
+
+  PointType inputPoint;
+  PointType outputPoint;
+
+  // point within the grid support region
+  inputPoint.Fill( 9.0 );
+  outputPoint = transform->TransformPoint( inputPoint );
+
+  std::cout << "Input Point: " << inputPoint << std::endl;
+  std::cout << "Output Point: " << outputPoint << std::endl;
+  std::cout << std::endl;
+
+  /**
+   * Get the parameters back
+   */
+
+  // outParametersRef should not point back to parameters
+  const ParametersType & outParametersRef = transform->GetParameters();
+
+  if ( &outParametersRef == &parameters )
+    {
+    std::cout << "outParametersRef should not point to the same memory as parameters";
+    std::cout << std::endl;
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  /**
+   * Internal parameters should remain even when the external parameters
+   *  has been destroyed
+   */
+  parameters = ParametersType(0);
+
+  // point within the grid support region
+  inputPoint.Fill( 9.0 );
+  outputPoint = transform->TransformPoint( inputPoint );
+
+  std::cout << "Input Point: " << inputPoint << std::endl;
+  std::cout << "Output Point: " << outputPoint << std::endl;
+  std::cout << std::endl;
+
+  std::cout << "Test passed." << std::endl;
+  return EXIT_SUCCESS;
 }
 
 int itkBSplineDeformableTransformTest(int, char * [] )
@@ -609,6 +749,9 @@ int itkBSplineDeformableTransformTest(int, char * [] )
   if ( failed ) { return EXIT_FAILURE; }
 
   failed = itkBSplineDeformableTransformTest2();
+  if ( failed ) { return EXIT_FAILURE; }
+
+  failed = itkBSplineDeformableTransformTest3();
   if ( failed ) { return EXIT_FAILURE; }
 
   return EXIT_SUCCESS;

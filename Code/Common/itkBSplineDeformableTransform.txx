@@ -54,6 +54,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   m_GridSpacing.Fill( 1.0 ); // default spacing is all ones
 
   m_InputParametersPointer = NULL;
+  m_InternalParametersBuffer = ParametersType(0);
 
   // Initialize coeffient images
   for ( unsigned int j = 0; j < SpaceDimension; j++ )
@@ -248,16 +249,34 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
                       << " and region size " << m_GridRegion.GetNumberOfPixels() );
     }
 
+  // Clean up buffered parameters
+  m_InternalParametersBuffer = ParametersType( 0 );
+
   // Keep a reference to the input parameters
   m_InputParametersPointer = &parameters;
+
+  // Wrap flat array as images of coefficients
+  this->WrapAsImages();
+
+  // Modified is always called since we just have a pointer to the
+  // parameters and cannot know if the parameters have changed.
+  this->Modified();
+}
+
+
+// Wrap flat parameters as images
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+void
+BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::WrapAsImages()
+{
 
   /**
    * Wrap flat parameters array into SpaceDimension number of ITK images
    * NOTE: For efficiency, parameters are not copied locally. The parameters
    * are assumed to be maintained by the caller.
    */
-  //PixelType * dataPointer = static_cast<PixelType *>( parameters.data_block() );
-  PixelType * dataPointer = const_cast<PixelType *>(( parameters.data_block() ));
+  PixelType * dataPointer = const_cast<PixelType *>(( m_InputParametersPointer->data_block() ));
   unsigned int numberOfPixels = m_GridRegion.GetNumberOfPixels();
 
   for ( unsigned int j = 0; j < SpaceDimension; j++ )
@@ -283,9 +302,35 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
       SetImportPointer( jacobianDataPointer, numberOfPixels );
     jacobianDataPointer += this->GetNumberOfParameters() + numberOfPixels;
     }
+}
+
+
+// Set the parameters by value
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+void
+BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::SetParametersByValue( const ParametersType & parameters )
+{
+
+  // check if the number of parameters match the
+  // expected number of parameters
+  if ( parameters.Size() != this->GetNumberOfParameters() )
+    {
+    itkExceptionMacro(<<"Mismatched between parameters size " << parameters.size() 
+                      << " and region size " << m_GridRegion.GetNumberOfPixels() );
+    }
+
+  // copy it
+  m_InternalParametersBuffer = parameters;
+  m_InputParametersPointer = &m_InternalParametersBuffer;
+
+  // wrap flat array as images of coefficients
+  this->WrapAsImages();
+
   // Modified is always called since we just have a pointer to the
   // parameters and cannot know if the parameters have changed.
   this->Modified();
+
 }
 
 // Get the parameters
@@ -319,7 +364,13 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
       {
       m_CoefficientImage[j] = images[j];
       }
+
+    // Clean up buffered parameters
+    m_InternalParametersBuffer = ParametersType( 0 );
+    m_InputParametersPointer  = NULL;
+
     }
+
 }  
 
 // Print self
@@ -533,6 +584,12 @@ typename BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::GetJacobian( const InputPointType & point ) const
 {
+  // Can only compute Jacobian if parameters are set via
+  // SetParameters or SetParametersByValue
+  if( m_InputParametersPointer == NULL )
+    {
+    itkExceptionMacro( <<"Cannot compute Jacobian: parameters not set" );
+    }
 
   // Zero all components of jacobian
   // NOTE: for efficiency, we only need to zero out the coefficients

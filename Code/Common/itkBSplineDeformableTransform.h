@@ -173,7 +173,8 @@ public:
    *
    * For efficiency, this transform does not make a copy of the parameters.
    * It only keeps a pointer to the input parameters. It assumes that the memory
-   * is managed by the caller.
+   * is managed by the caller. Use SetParametersByValue to force the transform
+   * to call copy the parameters.
    *
    * This method wraps each grid as itk::Image's using the user specified
    * grid region, spacing and origin.
@@ -181,6 +182,25 @@ public:
    *
    */
   void SetParameters(const ParametersType & parameters);
+
+  /** This method sets the parameters of the transform.
+   * For a BSpline deformation transform, the parameters are the BSpline 
+   * coefficients on a sparse grid. 
+   * 
+   * The parameters are N number of N-D grid of coefficients. Each N-D grid 
+   * is represented as a flat array of doubles 
+   * (in the same configuration as an itk::Image).
+   * The N arrays are then concatenated to form one parameter array.
+   *
+   * This methods makes a copy of the parameters while for
+   * efficiency the SetParameters method does not.
+   *
+   * This method wraps each grid as itk::Image's using the user specified
+   * grid region, spacing and origin.
+   * NOTE: The grid region, spacing and origin must be set first.
+   *
+   */
+  void SetParametersByValue(const ParametersType & parameters);
 
   /** This method can ONLY be invoked AFTER calling SetParameters(). 
    *  This restriction is due to the fact that the BSplineDeformableTransform
@@ -327,6 +347,9 @@ protected:
   itkSetObjectMacro( WeightsFunction, WeightsFunctionType );
   itkGetObjectMacro( WeightsFunction, WeightsFunctionType );
 
+  /** Wrap flat array into images of coefficients. */
+  void WrapAsImages();
+
 private:
   BSplineDeformableTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -367,6 +390,9 @@ private:
 
   /** Keep a pointer to the input parameters. */
   const ParametersType *  m_InputParametersPointer;
+
+  /** Internal parameters buffer. */
+  ParametersType          m_InternalParametersBuffer;
 
   /** Pointer to function used to compute Bspline interpolation weights. */
   typename WeightsFunctionType::Pointer  m_WeightsFunction;
