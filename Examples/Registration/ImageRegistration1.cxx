@@ -450,12 +450,12 @@ int main( int argc, char *argv[] )
   //  registration takes 18 iterations and the resulting transform parameters are:
   //
   //  \begin{verbatim}
-  //  Translation X = 12.9903
+  //  Translation X = 12.9959
   //  Translation Y = 17.0001
   //  \end{verbatim}
   // 
-  //  As expected, these values match the misalignment
-  //  intentionally introduced in the moving image quite well.
+  //  As expected, these values match quite well the misalignment that we
+  //  intentionally introduced in the moving image.
   //
   // \begin{figure}
   // \center
@@ -493,8 +493,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  A resampling filter is created and the corresponding transform and
-  //  moving image connected as inputs.
+  //  A resampling filter is created and the moving image is connected as
+  //  its input.
   //
   //  Software Guide : EndLatex 
 
@@ -508,9 +508,15 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The Transform that is produced as output of the Registration method is
-  //  now passed as input to the resampling filter.
+  //  also passed as input to the resampling filter. Note the use of the
+  //  methods \code{GetOutput()} and \code{Get()}. This combination is needed
+  //  here because the registration method acts as a filter whose output is a
+  //  transform decorated in the form of a \doxygen{DataObject}. For details in
+  //  this construction you may want to read the documentation of the
+  //  \doxygen{DataObjectDecorator}.
   //
   //  \index{itk::ImageRegistrationMethod!Resampling image}
+  //  \index{itk::DataObjectDecorator!Use in Registration}
   //
   //  Software Guide : EndLatex 
 
@@ -526,7 +532,7 @@ int main( int argc, char *argv[] )
   //  ResampleImageFilter requires additional parameters to be
   //  specified, in particular, the spacing, origin and size of the output
   //  image. The default pixel value is also set to a distinct gray level in
-  //  order to make the regions that are outside of the mapped image visible.  
+  //  order highlight the regions that are mapped outside of the moving image.  
   //
   //  Software Guide : EndLatex 
 
@@ -620,9 +626,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The fixed image and the transformed moving image can easily be compared
-  //  using the \code{SquaredDifferenceImageFilter}. This pixel-wise
-  //  filter computes the squared value of the difference between homologous
-  //  pixels of its input images.
+  //  using the \doxygen{SquaredDifferenceImageFilter}. This pixel-wise filter
+  //  computes the squared value of the difference between homologous pixels of
+  //  its two input images.
   //
   //  Software Guide : EndLatex 
 
@@ -665,8 +671,8 @@ int main( int argc, char *argv[] )
   //  setting the transform to an identity transform. Note that the resampling
   //  is still necessary because the moving image does not necessarily have the
   //  same spacing, origin and number of pixels of the fixed image. Therefore a
-  //  pixel-by-pixel operation cannot be performed in general. The resampling
-  //  process, even with an identity transform will ensure that we have a
+  //  pixel-by-pixel operation cannot in general be performed. The resampling
+  //  process with an identity transform will ensure that we have a
   //  representation of the moving image in the grid of the fixed image.
   //
   //  Software Guide : EndLatex 
@@ -718,13 +724,13 @@ int main( int argc, char *argv[] )
   //
   //  It is always useful to keep in mind that registration is essentially an
   //  optimization problem. Figure \ref{fig:ImageRegistration1Trace} helps to
-  //  reinforce this notion by showing the trace of translations and values
-  //  of the image metric at each iteration of the optimizer. It can be seen
-  //  from the top figure that the step length is progressively reduced as
-  //  the optimizer gets closer to the metric extrema. The bottom plot
-  //  clearly shows how the metric value decreases as the optimization
-  //  advances. The log plot helps to hightlight the normal oscilations of
-  //  the optimizer around the extrema value.
+  //  reinforce this notion by showing the trace of translations and values of
+  //  the image metric at each iteration of the optimizer. It can be seen from
+  //  the top figure that the step length is reduced progressively as the
+  //  optimizer gets closer to the metric extrema. The bottom plot clearly
+  //  shows how the metric value decreases as the optimization advances. The
+  //  log plot helps to highlight the normal oscilations of the optimizer
+  //  around the extrema value.
   //
   //  Software Guide : EndLatex 
 
