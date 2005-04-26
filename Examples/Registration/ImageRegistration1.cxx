@@ -18,6 +18,14 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySliceBorder20.png}
+//    INPUTS: {BrainProtonDensitySliceShifted13x17y.png}
+//    OUTPUTS: {ImageRegistration1Output.png}
+//    OUTPUTS: {ImageRegistration1DifferenceAfter.png}
+//    OUTPUTS: {ImageRegistration1DifferenceBefore.png}
+//  Software Guide : EndCommandLineArgs
+
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the image registration framework in
@@ -33,7 +41,7 @@
 // images, a transform, a metric, an interpolator and an optimizer. Some of
 // these components are parametrized by the image type for which the
 // registration is intended.  The following header files provide declarations
-// for common types of these components.
+// of common types used for these components.
 //
 // Software Guide : EndLatex 
 
@@ -63,14 +71,15 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << "outputImagefile [differenceImage]" << std::endl;
+    std::cerr << "outputImagefile [differenceImageAfter]";
+    std::cerr << "[differenceImageBefore]" << std::endl;
     return 1;
     }
   
   // Software Guide : BeginLatex
   // 
   // The types of each one of the components in the registration methods should
-  // be instantiated. First, we select the image dimension and the type for
+  // be instantiated. First, we select the image dimension and the type used for
   // representing image pixels.
   //
   // Software Guide : EndLatex 
@@ -211,7 +220,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  In this example, the fixed and moving images are read from files. This
-  //  requires the \doxygen{ImageRegistrationMethod} to acquire its inputs to
+  //  requires the \doxygen{ImageRegistrationMethod} to acquire its inputs from
   //  the output of the readers.
   //
   //  Software Guide : EndLatex 
@@ -228,7 +237,7 @@ int main( int argc, char *argv[] )
   //  of the fixed image as input to the metric computation. This region is
   //  defined by the \code{SetFixedImageRegion()} method.  You could use this
   //  feature to reduce the computational time of the registration or to avoid
-  //  unwanted objects present in the image affecting the registration outcome.
+  //  unwanted objects present in the image from affecting the registration outcome.
   //  In this example we use the full available content of the image. This
   //  region is identified by the \code{BufferedRegion} of the fixed image.
   //  Note that for this region to be valid the reader must first invoke its
@@ -313,7 +322,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  In the case where the optimizer never succeeds in reaching the desired
+  //  In case the optimizer never succeeds reaching the desired
   //  precision tolerance, it is prudent to establish a limit on the number of
   //  iterations to be performed. This maximum number is defined with the
   //  method \code{SetNumberOfIterations()}.
@@ -333,7 +342,7 @@ int main( int argc, char *argv[] )
   //  \code{Update()} method. If something goes wrong during the
   //  initialization or execution of the registration an exception will be
   //  thrown. We should therefore place the \code{Update()} method
-  //  in a \code{try/catch} block as illustrated in the following lines.
+  //  inside a \code{try/catch} block as illustrated in the following lines.
   //
   //  Software Guide : EndLatex 
 
@@ -641,6 +650,41 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
+  if( argc >= 4 )
+    {
+    writer2->SetFileName( argv[4] );
+    writer2->Update();
+    }
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  For the purpose of comparison, the difference between the fixed image and
+  //  the moving image before registration can also be computed by simply
+  //  setting the transform to an identity transform. Note that the resampling
+  //  is still necessary because the moving image does not necessarily have the
+  //  same spacing, origin and number of pixels of the fixed image. Therefore a
+  //  pixel-by-pixel operation cannot be performed in general. The resampling
+  //  process, even with an identity transform will ensure that we have a
+  //  representation of the moving image in the grid of the fixed image.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  transform->SetIdentity();
+  resample->SetTransform( transform );
+  // Software Guide : EndCodeSnippet
+
+
+  if( argc >= 5 )
+    {
+    writer2->SetFileName( argv[5] );
+    writer2->Update();
+    }
+
+
+
   //  Software Guide : BeginLatex
   //  
   //  The complete pipeline structure of the current example is presented in
@@ -659,11 +703,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
 
-  if( argc >= 5 )
-    {
-    writer2->SetFileName( argv[4] );
-    writer2->Update();
-    }
+
 
   //  Software Guide : BeginLatex
   //  
