@@ -572,7 +572,7 @@ int main( int argc, char *argv[] )
   
   // Software Guide : BeginCodeSnippet
 //  typedef unsigned char  OutputPixelType;
-  typedef float OutputPixelType;
+  typedef unsigned char OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter< 
                         FixedImageType,
