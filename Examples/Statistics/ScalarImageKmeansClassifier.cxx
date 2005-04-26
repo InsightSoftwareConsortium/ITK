@@ -160,7 +160,7 @@ int main( int argc, char * argv [] )
     const double userProvidedInitialMean = atof( argv[k+argoffset] );
     kmeansFilter->AddClassWithInitialMean( userProvidedInitialMean );
     }
-// Software Guide : BeginCodeSnippet
+// Software Guide : EndCodeSnippet
 
 
   const char * outputImageFileName = argv[2];
@@ -177,7 +177,7 @@ int main( int argc, char * argv [] )
 //
 // Software Guide : EndLatex 
 
-// Software Guide : EndCodeSnippet
+// Software Guide : BeginCodeSnippet
   typedef KMeansFilterType::OutputImageType  OutputImageType;
 
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
