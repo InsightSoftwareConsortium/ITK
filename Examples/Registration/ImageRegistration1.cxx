@@ -61,7 +61,8 @@
 
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
-#include "itkSquaredDifferenceImageFilter.h"
+#include "itkRescaleIntensityImageFilter.h"
+#include "itkSubtractImageFilter.h"
 
 
 int main( int argc, char *argv[] )
@@ -499,8 +500,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
-  resample->SetInput( movingImageReader->GetOutput() );
+  ResampleFilterType::Pointer resampler = ResampleFilterType::New();
+  resampler->SetInput( movingImageReader->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
@@ -521,7 +522,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  resample->SetTransform( registration->GetOutput()->Get() );
+  resampler->SetTransform( registration->GetOutput()->Get() );
   // Software Guide : EndCodeSnippet
 
 
@@ -538,10 +539,10 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
-  resample->SetSize( fixedImage->GetLargestPossibleRegion().GetSize() );
-  resample->SetOutputOrigin(  fixedImage->GetOrigin() );
-  resample->SetOutputSpacing( fixedImage->GetSpacing() );
-  resample->SetDefaultPixelValue( 100 );
+  resampler->SetSize( fixedImage->GetLargestPossibleRegion().GetSize() );
+  resampler->SetOutputOrigin(  fixedImage->GetOrigin() );
+  resampler->SetOutputSpacing( fixedImage->GetSpacing() );
+  resampler->SetDefaultPixelValue( 100 );
   // Software Guide : EndCodeSnippet
 
 
@@ -570,7 +571,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
   
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char  OutputPixelType;
+//  typedef unsigned char  OutputPixelType;
+  typedef float OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter< 
                         FixedImageType,
@@ -603,7 +605,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  caster->SetInput( resample->GetOutput() );
+  caster->SetInput( resampler->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
   // Software Guide : EndCodeSnippet
@@ -626,21 +628,47 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The fixed image and the transformed moving image can easily be compared
-  //  using the \doxygen{SquaredDifferenceImageFilter}. This pixel-wise filter
-  //  computes the squared value of the difference between homologous pixels of
-  //  its two input images.
+  //  using the \doxygen{SubtractImageFilter}. This pixel-wise filter computes
+  //  the difference between homologous pixels of its two input images. 
+  //  
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef itk::SubtractImageFilter< 
+                                  FixedImageType, 
+                                  FixedImageType, 
+                                  FixedImageType > DifferenceFilterType;
+
+  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+  difference->SetInput1( fixedImageReader->GetOutput() );
+  difference->SetInput2( resampler->GetOutput() );
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  Since the differences between the two images may correspond to very low
+  //  values of intensity, we rescale those intensities with a
+  //  \doxygen{RescaleIntensityImageFilter} in order to make them more visible.
+  //  This rescaling will also make possible to visualize the negative values
+  //  in standard image file formats.  We also reduce the
+  //  \code{DefaultPixelValue} in order to prevent that value from absorving
+  //  the dynamic range of the differences between the two images.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::SquaredDifferenceImageFilter< 
+  typedef itk::RescaleIntensityImageFilter< 
                                   FixedImageType, 
-                                  FixedImageType, 
-                                  OutputImageType > DifferenceFilterType;
+                                  OutputImageType >   RescalerType;
 
-  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
-  difference->SetInput1( fixedImageReader->GetOutput() );
-  difference->SetInput2( resample->GetOutput() );
+  RescalerType::Pointer intensityRescaler = RescalerType::New();
+  
+  intensityRescaler->SetInput( difference->GetOutput() );
+  intensityRescaler->SetOutputMinimum(   0 );
+  intensityRescaler->SetOutputMaximum( 255 );
+
+  resampler->SetDefaultPixelValue( 1 );
   // Software Guide : EndCodeSnippet
 
 
@@ -652,7 +680,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( difference->GetOutput() );  
+  writer2->SetInput( intensityRescaler->GetOutput() );  
   // Software Guide : EndCodeSnippet
 
 
@@ -670,7 +698,7 @@ int main( int argc, char *argv[] )
   //  the moving image before registration can also be computed by simply
   //  setting the transform to an identity transform. Note that the resampling
   //  is still necessary because the moving image does not necessarily have the
-  //  same spacing, origin and number of pixels of the fixed image. Therefore a
+  //  same spacing, origin and number of pixels as the fixed image. Therefore a
   //  pixel-by-pixel operation cannot in general be performed. The resampling
   //  process with an identity transform will ensure that we have a
   //  representation of the moving image in the grid of the fixed image.
@@ -679,7 +707,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   transform->SetIdentity();
-  resample->SetTransform( transform );
+  resampler->SetTransform( transform );
   // Software Guide : EndCodeSnippet
 
 
