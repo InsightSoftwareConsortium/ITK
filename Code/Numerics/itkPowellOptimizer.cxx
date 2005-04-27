@@ -19,13 +19,13 @@
 
 #include "itkPowellOptimizer.h"
 
+namespace itk
+{
+
 const double POWELL_BRACKET_GOLD = 1.618034;
 const double POWELL_BRENT_GOLD = 0.3819660;
 const double POWELL_GLIMIT = 100.0;
 const double POWELL_TINY = 1.0e-20;
-
-namespace itk
-{
 
 PowellOptimizer
 ::PowellOptimizer()
@@ -474,6 +474,8 @@ PowellOptimizer
   os << indent << "LineOrigin        " << m_LineOrigin       << std::endl;
   os << indent << "LineDirection     " << m_LineDirection    << std::endl;
   os << indent << "Current Cost      " << m_CurrentCost      << std::endl;
+  os << indent << "Maximum Line Iteration " << m_MaximumLineIteration << std::endl;
+  os << indent << "Current Line Iteration " << m_CurrentLineIteration << std::endl;
   os << indent << "Stop              " << m_Stop             << std::endl;
 }
 
