@@ -122,7 +122,7 @@ Similarity2DTransform<TScalarType>
 template <class TScalarType>
 void
 Similarity2DTransform<TScalarType>
-::SetScale(TScalarType scale)
+::SetScale( ScaleType scale )
 {
   m_Scale = scale;
   this->ComputeMatrixAndOffset();

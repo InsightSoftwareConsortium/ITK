@@ -56,6 +56,7 @@ public:
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType  ScalarType;
+  typedef          TScalarType             ScaleType;
 
   /** Parameters type. */
   typedef typename Superclass::ParametersType  ParametersType;
@@ -90,8 +91,8 @@ public:
   void SetParameters( const ParametersType & parameters );
 
   /** Set the Scale part of the transform. */
-  void SetScale(TScalarType scale);
-  const TScalarType GetScale() const {return m_Scale;}
+  void SetScale( ScaleType scale );
+  itkGetConstReferenceMacro( Scale, ScaleType );
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
@@ -126,7 +127,7 @@ private:
   Similarity2DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  TScalarType m_Scale; 
+  ScaleType     m_Scale; 
 
 }; //class Similarity2DTransform
 
