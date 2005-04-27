@@ -707,8 +707,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  transform->SetIdentity();
-  resampler->SetTransform( transform );
+  TransformType::Pointer identityTransform = TransformType::New();
+  identityTransform->SetIdentity();
+  resampler->SetTransform( identityTransform );
   // Software Guide : EndCodeSnippet
 
 
