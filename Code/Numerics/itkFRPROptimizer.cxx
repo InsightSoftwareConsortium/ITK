@@ -124,9 +124,9 @@ FRPROptimizer
     fret = fp;
     this->LineOptimize(&p, xi, &fret);
 
-    if(2.0 * vcl_abs(fret - fp) <= 
-       this->GetStepTolerance() * (vcl_abs(fret)*vcl_abs(fp) + FRPR_TINY))
-      {
+    if ( 2.0 * vcl_abs(fret - fp) <= 
+      this->GetValueTolerance() * (vcl_abs(fret)+ vcl_abs(fp) + FRPR_TINY) )
+    {
       if(limitCount < this->GetSpaceDimension())
         {
         this->GetValueAndDerivative(p, &fp, &xi);

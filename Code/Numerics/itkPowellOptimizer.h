@@ -82,6 +82,10 @@ public:
   itkSetMacro( MaximumIteration, unsigned int );
   itkGetConstReferenceMacro( MaximumIteration, unsigned int );
 
+  /** Set/Get the maximum number of line search iterations */
+  itkSetMacro(MaximumLineIteration, unsigned int);
+  itkGetConstMacro(MaximumLineIteration, unsigned int);
+
   /** Set/Get StepLength for the (scaled) spacing of the sampling of
    * parameter space while bracketing the extremum */
   itkSetMacro( StepLength, double ) ;
@@ -103,7 +107,10 @@ public:
   MeasureType GetValue() const { return this->GetCurrentCost(); }
 
   /** Return Current Iteration */
-  itkGetConstReferenceMacro( CurrentIteration, unsigned int) ;
+  itkGetConstReferenceMacro( CurrentIteration, unsigned int);
+
+  /** Get the current line search iteration */
+  itkGetConstReferenceMacro( CurrentLineIteration, unsigned int);
 
   /** Start optimization. */
   void StartOptimization() ;
