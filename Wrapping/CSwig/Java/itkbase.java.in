@@ -36,7 +36,8 @@ public class itkbase
     while(tokenizer.hasMoreTokens())
       {
       String dir = tokenizer.nextToken();
-      if(dir.endsWith("InsightToolkit.jar"))
+      if(dir.endsWith("InsightToolkit.jar") &&
+         (new java.io.File(dir)).exists())
         {
         int index = dir.lastIndexOf("InsightToolkit.jar");
         String self = dir.substring(0, index);
