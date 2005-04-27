@@ -34,6 +34,7 @@ namespace itk
  * ThreadedGenerateData() method for its implementation.
  * 
  * \ingroup GeometricTransforms
+ * \sa WrapPadImageFilter, MirrorPadImageFilter, ConstantPadImageFilter
  *
  */
 template <class TInputImage, class TOutputImage>

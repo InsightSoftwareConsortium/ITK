@@ -27,14 +27,19 @@ namespace itk
  * \brief Increase the image size by padding with replicants of the 
  * input image value.
  *
- * WrapPadImageFilter changes the image bounds of an image.  Added pixels are 
- * filled in with a wrapped replica of the input image.  The image bounds 
- * of the output must be specified.
+ * WrapPadImageFilter changes the image bounds of an image.  Added
+ * pixels are filled in with a wrapped replica of the input image.
+ * For instance, if the output image needs a pixel that is <b>two pixels
+ * to the left of the LargestPossibleRegion</b> of the input image, the
+ * value assigned will be from the pixel <b>two pixels inside the right
+ * boundary of the LargestPossibleRegion</b>. The image bounds of the
+ * output must be specified.
  *
  * This filter is implemented as a multithreaded filter.  It provides a 
  * ThreadedGenerateData() method for its implementation.
  * 
  * \ingroup GeometricTransforms
+ * \sa MirrorPadImageFilter, ConstantPadImageFilter
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT WrapPadImageFilter:
