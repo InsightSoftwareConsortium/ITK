@@ -53,7 +53,7 @@
 // images: the first is an initial level set and the second a feature image
 // that represents the image edge potential. The configuration of this
 // example is quite similar to the example in 
-// Section~\ref{{sec:GeodesicActiveContourImageFilter}}and hence the description 
+// Section~\ref{sec:GeodesicActiveContourImageFilter} and hence the description 
 // will focus on the new objects involved in the segmentation process as shown
 // in Figure~\ref{fig:GeodesicActiveContourShapePriorCollaborationDiagram}.
 //
@@ -88,16 +88,16 @@
 // are used for shape modeling and estimation.
 // The \doxygen{PCAShapeSignedDistanceFunction} represents a statistical
 // shape model defined by a mean signed distance and the first $K$ 
-// prinicpal components modes; while the \doxygen{Euler2DTransform} is used
+// principal components modes; while the \doxygen{Euler2DTransform} is used
 // to represent the pose of the shape. In this implementation, the
 // best-fit shape estimation problem is reformulated as a minimization problem
 // where the \doxygen{ShapePriorMAPCostFunction} is the cost function to
-// to optimized using the \doxygen{OnePlusOneEvolutionaryOptimizer}.
+// be optimized using the \doxygen{OnePlusOneEvolutionaryOptimizer}.
 //
 // It should be noted that, although particular shape model, transform
-// cost function and optimizer are used in this example, the implementation
-// is generic allowing different instances of these components to be
-// plugged in. This flexibility allows a user to talior the behavoir of the
+// cost function, and optimizer are used in this example, the implementation
+// is generic, allowing different instances of these components to be
+// plugged in. This flexibility allows a user to tailor the behavoir of the
 // segmentation process to suit the circumstances of the targeted application. 
 //  
 // Let's start the example by including the headers of the new filters 
@@ -150,7 +150,7 @@
 // purposes it is quite helpful to track the evolution of the
 // segmentation as it progresses. The following defines a 
 // custom \doxygen{Command} class
-// for monitoring the RMS change and shape parameters each iteration.
+// for monitoring the RMS change and shape parameters at each iteration.
 //
 //  \index{itk::Geodesic\-Active\-Contour\-Shape\-Prior\-LevelSet\-Image\-Filter!Monitoring}
 //  \index{itk::Shape\-Prior\-Segmentation\-Level\-Set\-Image\-Filter!Monitoring}
@@ -354,7 +354,7 @@ int main( int argc, char *argv[] )
   //  
   //  In the GeodesicActiveContourShapePriorLevelSetImageFilter, scaling parameters
   //  are used to trade off between the propagation (inflation), the
-  //  curvature (smoothing), the advection terms and the shape influence term. 
+  //  curvature (smoothing), the advection, and the shape influence terms. 
   //  These parameters are set
   //  using methods \code{SetPropagationScaling()},
   //  \code{SetCurvatureScaling()}, \code{SetAdvectionScaling()} and
@@ -400,7 +400,8 @@ int main( int argc, char *argv[] )
   //  Each iteration, the current ``best-fit'' shape is estimated from the
   //  edge potential image and the current contour. To increase speed, only 
   //  information within the sparse field layers of the current contour is used
-  //  in the estimation. The default number of sparse field layers is same as
+  //  in the estimation. The default number of sparse field layers is
+  //  the same as
   //  the ImageDimension which does not contain enough information to get 
   //  a reliable best-fit shape estimate. Thus, we override the default and
   //  set the number of layers to 4.
@@ -456,7 +457,7 @@ int main( int argc, char *argv[] )
 
   //  The FastMarchingImageFilter requires the user to provide a seed
   //  point from which the level set will be generated. The user can actually
-  //  pass not only one seed point but a set of them. Note the the
+  //  pass not only one seed point but a set of them. Note that the
   //  FastMarchingImageFilter is used here only as a helper in the
   //  determination of an initial level set. We could have used the
   //  \doxygen{DanielssonDistanceMapImageFilter} in the same way.
@@ -591,7 +592,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  Next, we define the shape model. In this example, 
-  //  we use an implicit shape model based the principcal components 
+  //  we use an implicit shape model based on the principal components 
   //  such that:
   //
   //  \begin{equation}
@@ -601,11 +602,11 @@ int main( int argc, char *argv[] )
   //  where $\mu(\mathbf{x})$ is the mean signed distance computed from training
   //  set of segmented objects and $u_k(\mathbf{x})$ are the first $K$ principal 
   //  components of the offset (signed distance - mean). 
-  //  The coefficient $\{\alpha_k\}$ form the
+  //  The coefficients $\{\alpha_k\}$ form the
   //  set of \emph{shape} parameters. 
   //
   //  Given a set of training data, the \doxygen{ImagePCAShapeModelEstimator} 
-  //  can be used to obtained
+  //  can be used to obtain
   //  the mean and principal mode shape images required by PCAShapeSignedDistanceFunction.
   //
   //  \index{itk::PCAShapeSignedDistanceFunction!New()}
@@ -670,7 +671,7 @@ int main( int argc, char *argv[] )
   //
   // Further we assume that the shape modes have been normalized 
   // by multiplying with the corresponding singular value. Hence,
-  // will can set the principal component standard deviations to all
+  // we can set the principal component standard deviations to all
   // ones.
   //
   //  \index{itk::PCAShapeSignedDistanceFunction!Set\-Principal\-Component\-Standard\-Deviations()}
@@ -686,7 +687,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // Next we instantiated a \doxygen{Euler2DTransform} and connect it to the
+  // Next, we instantiate a \doxygen{Euler2DTransform} and connect it to the
   // PCASignedDistanceFunction. The transform represent 
   // the pose of the shape. The parameters of the transform
   // forms the set of \emph{pose} parameters.
@@ -733,15 +734,15 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // Contour fit measure the likelihood of seeing the current
+  // Contour fit measures the likelihood of seeing the current
   // evolving contour for a given set of shape/pose parameters. 
   // This is computed by counting the number of pixels inside
   // the current contour but outside the current shape.
   //
-  // Image fit measure the likelihood of seeing certain image
+  // Image fit measures the likelihood of seeing certain image
   // features for a given set of shape/pose parameters. This is
   // computed by assuming that ( 1 - edge potential ) approximates
-  // a zero-mean, unit variancce Gaussian along the normal of
+  // a zero-mean, unit variance Gaussian along the normal of
   // the evolving contour. Image fit is then computed by computing
   // the Laplacian goodness of fit of the Gaussian:
   //
@@ -752,11 +753,11 @@ int main( int argc, char *argv[] )
   // where $G$ is a zero-mean, unit variance Gaussian and $g$ is
   // the edge potential feature image.
   //
-  // The pose parameters are assumed to have an uniform distribution
-  // and hence does not contribute to the cost function. 
+  // The pose parameters are assumed to have a uniform distribution
+  // and hence do not contribute to the cost function. 
   // The shape parameters are assumed to have a Gaussian distribution. 
   // The parameters of the distribution are user-specified. Since we
-  // assumed the the principal modes have already been normalized, 
+  // assumed the principal modes have already been normalized, 
   // we set the distribution to zero mean and unit variance.
   //
   //  \index{itk::ShapePriorMAPCostFunction!SetShapeParameterMeans()}
@@ -792,7 +793,7 @@ int main( int argc, char *argv[] )
   // The evolutionary optimization algorithm is based on testing
   // random permutations of the parameters. As such, we need to provide
   // the optimizer with a random number generator. In the following lines,
-  // we create a \doxygen{NormalVariateGenerator}, seed it and
+  // we create a \doxygen{NormalVariateGenerator}, seed it, and
   // connect it to the optimizer.
   //
   //  \index{itk::Statistics::NormalVariateGenerator!Initialize()}
@@ -813,7 +814,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // The cost function has $K+3$ parameters. The first $K$ 
-  // parameters are the prinicpal component multipliers, follow
+  // parameters are the principal component multipliers, followed
   // by the 2D rotation parameter (in radians) and the x- and
   // y- translation parameters (in mm).  We need to carefully
   // scale the different types of parameters to compensate
@@ -1050,10 +1051,10 @@ int main( int argc, char *argv[] )
   //
   // and is shown in
   // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2} (right). Note that a 
-  // $0.28$ radian ($15.8$ degree) rotation has been introduced to match the model to the
+  // $0.28$ radian ($15.8$ degree) rotation has been introduced to match the model to
   // the corpus callosum in the image. Additionally, a negative weight for the first
-  // mode shrinks the size relative to the mean shape. Negative weight for the second mode
-  // shifts the mass to splenium and positive weight for the third mode
+  // mode shrinks the size relative to the mean shape. A negative weight for the second mode
+  // shifts the mass to splenium, and a positive weight for the third mode
   // increases the curvature. It can also be observed that the final segmentation is
   // a combination of the best-fit shape with additional local deformation. The combination
   // of both global and local shape allows the segmentation to capture fine details not represented
