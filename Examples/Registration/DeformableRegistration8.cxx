@@ -27,7 +27,7 @@
 //
 // \index{itk::BSplineDeformableTransform}
 // \index{itk::BSplineDeformableTransform!DeformableRegistration}
-// \index{itk::LBFGSOptimizer}
+// \index{itk::LBFGSBOptimizer}
 //
 //
 // Software Guide : EndLatex 
@@ -44,7 +44,7 @@
 //  The following are the most relevant headers to this example.
 //
 //  \index{itk::BSplineDeformableTransform!header}
-//  \index{itk::LBFGSOptimizer!header}
+//  \index{itk::LBFGSBOptimizer!header}
 // 
 //  Software Guide : EndLatex 
 
