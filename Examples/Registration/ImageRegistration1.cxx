@@ -77,7 +77,6 @@ int main( int argc, char *argv[] )
     return 1;
     }
   
-  std::cout << "argc = " << argc << std::endl;
 
   // Software Guide : BeginLatex
   // 
@@ -356,8 +355,8 @@ int main( int argc, char *argv[] )
     } 
   catch( itk::ExceptionObject & err ) 
     { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    std::cerr << "ExceptionObject caught !" << std::endl; 
+    std::cerr << err << std::endl; 
     return -1;
     } 
   // Software Guide : EndCodeSnippet
