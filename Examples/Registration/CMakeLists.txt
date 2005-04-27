@@ -134,6 +134,8 @@ ADD_TEST(ImageRegistration1oTest ${REGISTRATION_EXAMPLESO}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration1Test.png
+        ${TEMP}/ImageRegistration1DifferenceAfterTest.png
+        ${TEMP}/ImageRegistration1DifferenceBeforeTest.png
 )
 
 ADD_TEST(ImageRegistration2oTest ${REGISTRATION_EXAMPLESO}
@@ -195,6 +197,8 @@ ADD_TEST(ImageRegistration1Test ${REGISTRATION_EXAMPLES}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration1Test.png
+        ${TEMP}/ImageRegistration1DifferenceAfterTest.png
+        ${TEMP}/ImageRegistration1DifferenceBeforeTest.png
 )
 
 ADD_TEST(ImageRegistration2Test ${REGISTRATION_EXAMPLES}

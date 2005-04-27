@@ -77,6 +77,8 @@ int main( int argc, char *argv[] )
     return 1;
     }
   
+  std::cout << "argc = " << argc << std::endl;
+
   // Software Guide : BeginLatex
   // 
   // The types of each one of the components in the registration methods should
@@ -684,7 +686,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  if( argc >= 4 )
+  if( argc > 4 )
     {
     writer2->SetFileName( argv[4] );
     writer2->Update();
@@ -711,7 +713,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  if( argc >= 5 )
+  if( argc > 5 )
     {
     writer2->SetFileName( argv[5] );
     writer2->Update();
