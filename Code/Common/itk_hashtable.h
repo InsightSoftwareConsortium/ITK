@@ -68,7 +68,7 @@
 #ifndef itk_emulation_hashtable_h
 #define itk_emulation_hashtable_h
 
-#if !defined(__GNUC__) || !((__GNUC__==3) && (__GNUC_MINOR__>=1)) || defined(__INTEL_COMPILER)
+#if !defined(__GNUC__) || !((__GNUC__==3) && (__GNUC_MINOR__>=1) || (__GNUC__>3)) || defined(__INTEL_COMPILER)
 
 /** \brief Hashtable class, used to implement the hashed associative containers
  * itk_hash_set, itk_hash_map, itk_hash_multiset, and itk_hash_multimap.
