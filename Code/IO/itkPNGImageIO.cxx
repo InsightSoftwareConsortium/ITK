@@ -23,6 +23,27 @@
 namespace itk
 {
 
+extern "C"
+{
+  /* The PNG library does not expect the error function to return.
+     Therefore we must use this ugly longjmp call.  */
+  void itkPNGWriteErrorFunction(png_structp png_ptr,
+                                png_const_charp itkNotUsed(error_msg))
+  {
+    longjmp(png_ptr->jmpbuf, 1);
+  }
+}
+
+
+extern "C"
+{
+  void itkPNGWriteWarningFunction(png_structp itkNotUsed(png_ptr),
+                                  png_const_charp itkNotUsed(warning_msg))
+  {
+  }
+}
+
+
 // simple class to call fopen on construct and
 // fclose on destruct
 class PNGFileWrapper
@@ -103,7 +124,7 @@ void PNGImageIO::ReadVolume(void*)
   
 void PNGImageIO::Read(void* buffer)
 {
-  //std::cout << "Read: file dimensions = " << this->GetNumberOfDimensions() << std::endl;
+  itkDebugMacro("Read: file dimensions = " << this->GetNumberOfDimensions() );
   // use this class so return will call close
   PNGFileWrapper pngfp(this->GetFileName(),"rb"); 
   FILE* fp = pngfp.m_FilePointer;
@@ -148,6 +169,13 @@ void PNGImageIO::Read(void* buffer)
     return;
     }
   
+  if( setjmp( png_jmpbuf( png_ptr ) ) )
+    {
+    png_destroy_read_struct( &png_ptr, &info_ptr, &end_info );
+    itkExceptionMacro("Error File is not png type" << this->GetFileName());
+    return;    
+    }
+
   png_init_io(png_ptr, fp);
   png_set_sig_bytes(png_ptr, 8);
 
@@ -442,7 +470,15 @@ void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer)
     }
 
   png_init_io(png_ptr, fp);
-  
+  png_set_error_fn(png_ptr, png_ptr,
+                   itkPNGWriteErrorFunction, itkPNGWriteWarningFunction);
+  if (setjmp(png_ptr->jmpbuf))
+    {
+    fclose(fp);
+    itkExceptionMacro(<<"Error while writing Slice to file "<<this->GetFileName());
+    return;
+    } 
+
   int colorType;
   unsigned int numComp = this->GetNumberOfComponents();
   switch ( numComp )
