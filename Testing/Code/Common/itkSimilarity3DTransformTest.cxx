@@ -100,6 +100,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
     parameters[3] = 0.0;             // Translation
     parameters[4] = 0.0;
     parameters[5] = 0.0;
+    parameters[6] = 1.0;
 
     transform->SetParameters( parameters );
 
@@ -343,6 +344,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
     parameters[3] = 8.0;             // Translation
     parameters[4] = 7.0;
     parameters[5] = 6.0;
+    parameters[6] = 1.0;             // Scale
 
     transform->SetParameters( parameters );
 
@@ -396,13 +398,13 @@ int itkSimilarity3DTransformTest(int, char* [] )
      TheoreticalJacobian[1][5] = 0.0;
      TheoreticalJacobian[2][5] = 1.0;
 
-     TheoreticalJacobian[0][6] = 0.0;
-     TheoreticalJacobian[1][6] = 0.0;
-     TheoreticalJacobian[2][6] = 1.0;
+     TheoreticalJacobian[0][6] =  -21.0;
+     TheoreticalJacobian[1][6] =   42.0;
+     TheoreticalJacobian[2][6] =  103.0;
 
      for(unsigned int ii=0; ii < 3; ii++)
        {
-       for(unsigned int jj=0; jj < 6; jj++)
+       for(unsigned int jj=0; jj < 7; jj++)
          {
          if( vnl_math_abs( TheoreticalJacobian[ii][jj] - jacobian[ii][jj] ) > 1e-5 )
            {
@@ -467,7 +469,65 @@ int itkSimilarity3DTransformTest(int, char* [] )
     }
   std::cout << "Input/Output parameter check Passed !"  << std::endl;
   }
+
+  {
+  std::cout << " Exercise the Scaling methods " << std::endl; 
+  TransformType::Pointer  transform = TransformType::New();
+
+  itk::Vector<double,3> axis(1);
+
+  const double angle = (atan(1.0)/45.0)*30.0; // turn 30 degrees
+
+  transform->SetRotation( axis, angle );
+
+  TransformType::InputPointType  center;
+  center[0] = 31;
+  center[1] = 62;
+  center[2] = 93;
   
+  transform->SetCenter( center );
+
+  const double tolerance = 1e-8;
+
+  const double scale = 2.5;
+
+  transform->SetScale( scale );
+
+  const double rscale = transform->GetScale();
+
+  if( fabs( rscale - scale ) > tolerance )
+    {
+    std::cerr << "Error in Set/Get Scale() " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  const unsigned int np = transform->GetNumberOfParameters();
+
+  ParametersType parameters( np ); // Number of parameters
+
+  VersorType versor;
+
+  parameters[0] = versor.GetX();   // Rotation axis * sin(t/2)
+  parameters[1] = versor.GetY();
+  parameters[2] = versor.GetZ();
+  parameters[3] = 0.0;             // Translation
+  parameters[4] = 0.0;
+  parameters[5] = 0.0;
+  parameters[6] = 19.0;
+
+
+  ParametersType parameters2 = transform->GetParameters();
+
+  for(unsigned int p=0; p<np; p++)
+    {
+    if( fabs( parameters[p] - parameters2[p] ) > tolerance )
+      {
+      std::cerr << "Output parameter does not match input " << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+  std::cout << "Input/Output parameter check Passed !"  << std::endl;
+  }
   std::cout << std::endl << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 
