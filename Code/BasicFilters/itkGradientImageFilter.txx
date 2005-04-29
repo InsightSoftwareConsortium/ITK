@@ -104,8 +104,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   ConstNeighborhoodIterator<InputImageType> bit;
   ImageRegionIterator<OutputImageType> it;
 
-  NeighborhoodInnerProduct<InputImageType, OperatorValueType,
-    OutputValueType> SIP;
+  NeighborhoodInnerProduct<InputImageType, OperatorValueType> SIP;
 
   // Allocate output
   typename OutputImageType::Pointer       output = this->GetOutput();

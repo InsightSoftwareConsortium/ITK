@@ -26,9 +26,9 @@
 namespace itk
 {
 
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage, class TOperatorValueType>
 void 
-NeighborhoodOperatorImageFilter<TInputImage,TOutputImage>
+NeighborhoodOperatorImageFilter<TInputImage,TOutputImage, TOperatorValueType>
 ::GenerateInputRequestedRegion() throw (InvalidRequestedRegionError)
 {
   // call the superclass' implementation of this method. this should
@@ -79,9 +79,9 @@ NeighborhoodOperatorImageFilter<TInputImage,TOutputImage>
 }
 
 
-template< class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage, class TOperatorValueType>
 void
-NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
+NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
@@ -89,7 +89,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
     BFC;
   typedef typename BFC::FaceListType FaceListType;
 
-  NeighborhoodInnerProduct<InputImageType, OutputPixelType> smartInnerProduct;
+  NeighborhoodInnerProduct<InputImageType, OperatorValueType> smartInnerProduct;
   BFC faceCalculator;
   FaceListType faceList;
 

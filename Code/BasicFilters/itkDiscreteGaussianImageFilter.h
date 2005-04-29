@@ -107,6 +107,11 @@ public:
   itkGetMacro(MaximumKernelWidth, int);
   itkSetMacro(MaximumKernelWidth, int);
 
+  /** Set the number of dimensions to smooth. Defaults to the image
+   * dimension. Can be set to less than ImageDimension, smoothing all
+   * the dimensions less than FilterDimensionality.  For instance, to
+   * smooth the slices of a volume without smoothing in Z, set the
+   * FilterDimensionality to 2. */
   itkGetMacro(FilterDimensionality, unsigned int);
   itkSetMacro(FilterDimensionality, unsigned int);
   

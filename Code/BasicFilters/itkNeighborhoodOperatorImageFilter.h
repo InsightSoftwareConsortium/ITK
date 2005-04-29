@@ -41,7 +41,7 @@ namespace itk
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
  */
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage, class TOperatorValueType=ITK_TYPENAME TOutputImage::PixelType>
 class ITK_EXPORT NeighborhoodOperatorImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage > 
 {
@@ -64,6 +64,7 @@ public:
   typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
   typedef typename  TInputImage::PixelType         InputPixelType;
   typedef typename  TInputImage::InternalPixelType InputInternalPixelType;
+  typedef TOperatorValueType                       OperatorValueType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -83,8 +84,8 @@ public:
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
   /** Neighborhood types */
-  typedef Neighborhood<OutputPixelType, itkGetStaticConstMacro(ImageDimension)> OutputNeighborhoodType;
-  typedef Neighborhood<InputPixelType, itkGetStaticConstMacro(ImageDimension)> InputNeighborhoodType;
+  typedef Neighborhood<OperatorValueType,
+               itkGetStaticConstMacro(ImageDimension)> OutputNeighborhoodType;
   
   /** Sets the operator that is used to filter the image. Note
    * that the operator is stored as an internal COPY (it
