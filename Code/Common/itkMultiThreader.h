@@ -88,7 +88,7 @@ namespace itk
 #endif
 
 // mingw threads cause crashes  so limit to 1
-#if defined(__MINGW__)
+#if defined(__MINGW32__)
 #undef ITK_MAX_THREADS
 #define ITK_MAX_THREADS 1 
 #endif
