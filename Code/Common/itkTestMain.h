@@ -72,11 +72,6 @@ int main(int ac, char* av[] )
   char *baselineFilename = NULL;
   char *testFilename = NULL;
 
-// On some sgi machines, threads and stl don't mix.
-#if defined(__sgi) && defined(_COMPILER_VERSION) && _COMPILER_VERSION <= 730
-   itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1);
-#endif
-
   RegisterTests();
   std::string testToRun;
   if(ac < 2)

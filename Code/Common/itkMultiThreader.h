@@ -87,6 +87,18 @@ namespace itk
 #define ITK_MAX_THREADS 128 
 #endif
 
+// mingw threads cause crashes  so limit to 1
+#if defined(__MINGW__)
+#undef ITK_MAX_THREADS
+#define ITK_MAX_THREADS 1 
+#endif
+  
+// On some sgi machines, threads and stl don't mix so limit to 1
+#if defined(__sgi) && defined(_COMPILER_VERSION) && _COMPILER_VERSION <= 730
+#undef ITK_MAX_THREADS
+#define ITK_MAX_THREADS 1 
+#endif
+  
 #ifndef ITK_MAX_THREADS
 #define ITK_MAX_THREADS 1
 #endif
