@@ -75,6 +75,7 @@ public:
   /** MovingImage image type. */
   typedef typename Superclass::MovingImageType     MovingImageType;
   typedef typename Superclass::MovingImagePointer  MovingImagePointer;
+  typedef typename MovingImageType::SpacingType    MovingSpacingType;
 
   /** FixedImage image type. */
   typedef typename Superclass::FixedImageType     FixedImageType;
@@ -236,9 +237,6 @@ private:
 
   /** Threshold below which two intensity value are assumed to match. */
   double                          m_IntensityDifferenceThreshold;
-
-  /** Diagonal of a pizel in the moving image */
-  double                          m_MovingPixelSize;
 
   /** Smoothing parameter for gradient calculation */
   double                          m_GradientSmoothingStandardDeviations;

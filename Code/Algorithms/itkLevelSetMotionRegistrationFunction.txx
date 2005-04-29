@@ -60,8 +60,6 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_RMSChange = NumericTraits<double>::max();
   m_SumOfSquaredChange = 0.0;
 
-  m_MovingPixelSize = 0.0;
-
   m_MovingImageSmoothingFilter = MovingImageSmoothingFilterType::New();
   m_MovingImageSmoothingFilter
     ->SetSigma( m_GradientSmoothingStandardDeviations );
@@ -234,15 +232,6 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_NumberOfPixelsProcessed = 0L;
   m_SumOfSquaredChange      = 0.0;
 
-  m_MovingPixelSize = 0.0;
-  for (unsigned int j=0; j < ImageDimension; j++)
-    {
-    m_MovingPixelSize +=
-      (this->GetMovingImage()->GetSpacing()[j] * this->GetMovingImage()->GetSpacing()[j]);
-    }
-  m_MovingPixelSize = vcl_sqrt( m_MovingPixelSize );
-
-  //std::cout << "Pixel size: " << m_MovingPixelSize << std::endl;
 }
 
 
@@ -303,6 +292,8 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   double centralValue;
   PointType mPoint( mappedPoint );
 
+  MovingSpacingType mSpacing = this->GetMovingImage()->GetSpacing();
+
   // first calculate the forward and backward differences on the
   // smooth image. Do we need to structure the gradient calculation to
   // take into account the Jacobian of the deformation field? i.e. in
@@ -310,24 +301,24 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   centralValue = m_SmoothMovingImageInterpolator->Evaluate( mPoint );
   for (j=0; j < ImageDimension; j++)
     {
-    mPoint[j] += m_MovingPixelSize;
+    mPoint[j] += mSpacing[j];
     if( m_SmoothMovingImageInterpolator->IsInsideBuffer( mPoint ) )
       {
       forwardDifferences[j] = m_SmoothMovingImageInterpolator->Evaluate(mPoint)
         - centralValue;
-      forwardDifferences[j] /= m_MovingPixelSize;
+      forwardDifferences[j] /= mSpacing[j];
       }
     else
       {
       forwardDifferences[j] = 0.0;
       }
 
-    mPoint[j] -= (2.0 * m_MovingPixelSize);
+    mPoint[j] -= (2.0 * mSpacing[j]);
     if( m_SmoothMovingImageInterpolator->IsInsideBuffer( mPoint ) )
       {
       backwardDifferences[j] = centralValue
         - m_SmoothMovingImageInterpolator->Evaluate( mPoint );
-      backwardDifferences[j] /= m_MovingPixelSize;
+      backwardDifferences[j] /= mSpacing[j];
       }
     else
       {
@@ -337,7 +328,7 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     // std::cout << "F(" << j << ") : " << forwardDifferences[j] << std::endl;
     // std::cout << "B(" << j << ") : " << backwardDifferences[j] << std::endl;
 
-    mPoint[j] += m_MovingPixelSize;
+    mPoint[j] += mSpacing[j];
     }
 
   // minmod finite difference
