@@ -89,6 +89,7 @@
 #include "itkHausdorffDistanceImageFilter.h"
 #include "itkHoughTransform2DCirclesImageFilter.h"
 #include "itkHoughTransform2DLinesImageFilter.h"
+#if 0
 #include "itkImageToParametricSpaceFilter.h"
 #include "itkImportImageFilter.h"
 #include "itkIntensityWindowingImageFilter.h"
@@ -101,6 +102,7 @@
 #include "itkLaplacianRecursiveGaussianImageFilter.h"
 #include "itkLog10ImageFilter.h"
 #include "itkLogImageFilter.h"
+#endif
 
 #include <itkSphereSpatialFunction.h>
 #include "itkGaussianSpatialFunction.h"
@@ -404,6 +406,7 @@ int itkBasicFiltersPrintTest(int , char* [])
     itk::HausdorffDistanceImageFilter<InputType,OutputType>::New();
   std::cout << "-------------HausdorffDistanceImageFilter" << HausdorffDistanceImageFilterObj;
 
+#if 0
   itk::ImageToParametricSpaceFilter<InputType,MeshType>::Pointer ImageToParametricSpaceFilterObj =
     itk::ImageToParametricSpaceFilter<InputType,MeshType>::New();
   std::cout << "-------------ImageToParametricSpaceFilter" << ImageToParametricSpaceFilterObj;
@@ -451,6 +454,6 @@ int itkBasicFiltersPrintTest(int , char* [])
   itk::LogImageFilter<InputType,OutputType>::Pointer LogImageFilterObj =
     itk::LogImageFilter<InputType,OutputType>::New();
   std::cout << "-------------LogImageFilter" << LogImageFilterObj;
-
+#endif
   return 0;
 }
