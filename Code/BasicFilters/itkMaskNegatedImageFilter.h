@@ -37,11 +37,11 @@ namespace itk
  * filter will perform the operation
  *
  *        if pixel_from_mask_image != 0 
- *             pixel_output_image = pixel_input_image
- *        else
  *             pixel_output_image = 0
+ *        else
+ *             pixel_output_image = pixel_input_image
  *
- * The pixel from the input 1 is casted to the pixel type of the output image.
+ * The pixel from the input 1 is cast to the pixel type of the output image.
  *
  * Note that the input and the mask images must be of the same size.
  *
