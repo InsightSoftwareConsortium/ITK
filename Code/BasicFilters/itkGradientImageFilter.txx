@@ -101,12 +101,12 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
   ConstNeighborhoodIterator<InputImageType> nit;
-  ConstNeighborhoodIterator<InputImageType> bit;
   ImageRegionIterator<OutputImageType> it;
 
-  NeighborhoodInnerProduct<InputImageType, OperatorValueType> SIP;
+  NeighborhoodInnerProduct<InputImageType, OperatorValueType,
+    OutputValueType> SIP;
 
-  // Allocate output
+  // Get the input and output
   typename OutputImageType::Pointer       output = this->GetOutput();
   typename  InputImageType::ConstPointer  input  = this->GetInput();
   
@@ -155,7 +155,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   // support progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
   
-  // Only use to initialize the x_slice array
+  // Initialize the x_slice array
   nit = ConstNeighborhoodIterator<InputImageType>(radius, input, *fit);
 
   std::slice x_slice[InputImageDimension];
@@ -171,20 +171,20 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   // These are N-d regions which border the edge of the buffer.
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
-    bit = ConstNeighborhoodIterator<InputImageType>(radius,
+    nit = ConstNeighborhoodIterator<InputImageType>(radius,
                                                     input, *fit);
     it = ImageRegionIterator<OutputImageType>(output, *fit);
-    bit.OverrideBoundaryCondition(&nbc);
-    bit.GoToBegin();
+    nit.OverrideBoundaryCondition(&nbc);
+    nit.GoToBegin();
     
-    while ( ! bit.IsAtEnd() )
+    while ( ! nit.IsAtEnd() )
       {
       for (i = 0; i < InputImageDimension; ++i)
         {
-        a[i] = SIP(x_slice[i], bit, op[i]);
+        a[i] = SIP(x_slice[i], nit, op[i]);
         }
       it.Value() = a;          
-      ++bit;
+      ++nit;
       ++it;
       progress.CompletedPixel();
       }
