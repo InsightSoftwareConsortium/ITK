@@ -129,7 +129,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>
     bit.GoToBegin();
     while ( ! bit.IsAtEnd() )
       {
-      it.Value() = smartInnerProduct(bit, m_Operator);
+      it.Value() = static_cast<typename OutputImageType::PixelType>(smartInnerProduct(bit, m_Operator));
       ++bit;
       ++it;
       progress.CompletedPixel();
