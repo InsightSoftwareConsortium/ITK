@@ -154,12 +154,11 @@ bool GDCMImageIO::CanReadFile(const char* filename)
     }
 
   // Check to see if its a valid dicom file gdcm is able to parse:
-  //We are parsing the header one time here:
+  // We are parsing the header one time here:
 
   gdcm::File header( fname );
   if (!header.IsReadable())
     {
-    itkExceptionMacro("Gdcm cannot parse file " << filename );
     return false;
     }
 
