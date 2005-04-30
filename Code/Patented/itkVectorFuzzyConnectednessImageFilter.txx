@@ -235,14 +235,14 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   IndexType  index1,index2;
   InputVectorType value1,value2, mean_neighbor;
   double count_obj,count_nonobj,result;
-  itk::Vector<double,VectorDimension> sum_vector;
+  Vector<double,VectorDimension> sum_vector;
 
-  typename itk::ConstNeighborhoodIterator<InputImageType>::RadiusType radius;
+  typename ConstNeighborhoodIterator<InputImageType>::RadiusType radius;
   radius.Fill(0); 
   radius[0] = 1; // radius along x
   radius[1] = 1; // radius along y
 
-  itk::ConstNeighborhoodIterator<InputImageType> iterN(radius,m_InputImage, m_InputImage->GetRequestedRegion());
+  ConstNeighborhoodIterator<InputImageType> iterN(radius,m_InputImage, m_InputImage->GetRequestedRegion());
   unsigned int neighborhoodSize = iterN.Size();  
   ImageRegionConstIterator <InputImageType> it(m_InputImage,m_InputImage->GetRequestedRegion());
  
@@ -441,7 +441,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 {
   double result,homo_affinity,material,object_affinity1,object_affinity2;
   InputVectorType temp;
-  itk::Vector<double,VectorDimension> temp_vector;
+  Vector<double,VectorDimension> temp_vector;
 
   /* Homogeneity feature-based affinity */
   for(unsigned int i = 0;i<VectorDimension;i++)
