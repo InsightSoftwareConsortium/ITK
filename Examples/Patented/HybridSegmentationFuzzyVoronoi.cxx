@@ -36,6 +36,10 @@
 // \doxygen{VoronoiSegmentationImageFilter} to build a hybrid segmentation that
 // integrates fuzzy connectedness with the Voronoi diagram classification.
 //
+// Please note that the Fuzzy Connectedness algorithm is covered by a Patent
+// \cite{Udupa1998}. For this reason the current example is located in the
+// \texttt{Examples/Patented} subdirectory.
+//
 // First, we include the header files of the two filters.
 //
 // Software Guide : EndLatex 

@@ -26,7 +26,12 @@
 // indicates for every pixels how homogeneous is the path that will link it to
 // the seed point.
 //
-// First, we include the header files of the filter and the image class.
+// Please note that the Fuzzy Connectedness algorithm is covered by a Patent
+// \cite{Udupa1998}. For this reason the current example is located in the
+// \texttt{Examples/Patented} subdirectory.
+//
+// In order to use this algorithim we should first include the header files of
+// the filter and the image class.
 //
 // Software Guide : EndLatex 
 
