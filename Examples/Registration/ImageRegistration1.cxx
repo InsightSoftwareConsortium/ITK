@@ -728,12 +728,16 @@ int main( int argc, char *argv[] )
   //  \ref{fig:ImageRegistration1Output} (left) shows the result of resampling
   //  the moving image in order to map it onto the fixed image space. The top
   //  and right borders of the image appear in the gray level selected with the
-  //  \code{SetDefaultPixelValue()} in the ResampleImageFilter. The
-  //  center image shows the squared difference between the fixed image and
-  //  the moving image. The right image shows the squared difference between
-  //  the fixed image and the transformed moving image.  Both difference images
-  //  are displayed negated in order to accentuate those pixels where differences
-  //  exist. 
+  //  \code{SetDefaultPixelValue()} in the ResampleImageFilter. The center
+  //  image shows the difference between the fixed image and the original
+  //  moving image. That is, the difference before the registration is
+  //  performed. The right image shows the difference between the fixed image
+  //  and the transformed moving image. That is, after the registration has
+  //  been performed.  Both difference images are have been rescaled in
+  //  intensity in order to highlight those pixels where differences exist.
+  //  Note that the final registration is still off by a fraction of a pixel,
+  //  which results in the bands around edges in the difference image. A
+  //  perfect registration would have produced in a null difference image. 
   //
   //  Software Guide : EndLatex 
 
