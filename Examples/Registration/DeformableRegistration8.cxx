@@ -341,10 +341,12 @@ int main( int argc, char *argv[] )
   //  order to collect the samples from the images, it is usually convenient to
   //  initialize the seed of the random number generator.
   //
+  //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!ReinitializeSeed()}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  vnl_sample_reseed( 76926294 );
+  metric->ReinitializeSeed( 76926294 );
   // Software Guide : EndCodeSnippet
 
 
