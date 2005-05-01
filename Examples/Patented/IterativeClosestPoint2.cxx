@@ -43,7 +43,9 @@ int main(int argc, char * argv[] )
   if( argc < 3 )
     {
     std::cerr << "Arguments Missing. " << std::endl;
-    std::cerr << "Usage:  IterativeClosestPoint1   fixedPointsFile  movingPointsFile " << std::endl;
+    std::cerr << 
+      "Usage:  IterativeClosestPoint1   fixedPointsFile  movingPointsFile " 
+      << std::endl;
     return 1;
     }
 
@@ -84,7 +86,9 @@ int main(int argc, char * argv[] )
     pointId++;
     }
   fixedPointSet->SetPoints( fixedPointContainer );
-  std::cout << "Number of fixed Points = " << fixedPointSet->GetNumberOfPoints() << std::endl;
+  std::cout << 
+    "Number of fixed Points = " << fixedPointSet->GetNumberOfPoints() 
+    << std::endl;
 
 
 
@@ -107,7 +111,9 @@ int main(int argc, char * argv[] )
     pointId++;
     }
   movingPointSet->SetPoints( movingPointContainer );
-  std::cout << "Number of moving Points = " << movingPointSet->GetNumberOfPoints() << std::endl;
+  std::cout << 
+    "Number of moving Points = " 
+    << movingPointSet->GetNumberOfPoints() << std::endl;
 
 
 //-----------------------------------------------------------
