@@ -42,7 +42,7 @@
 //
 // Registration is controlled by an \doxygen{Optimizer}, which generally
 // executes an iterative process. Most Optimizer classes invoke an
-// \code{itk::IterationEvent} at the end of each iteration. When an event is
+// \doxygen{IterationEvent} at the end of each iteration. When an event is
 // invoked by an object, this object goes through its list of registered
 // observers (Commands) and checks whether any one of them has expressed
 // interest in the current event type. Whenever such an observer is found,
@@ -454,7 +454,7 @@ int main( int argc, char *argv[] )
   //  is a $2D$ translation transform in this case. By tracking these values as
   //  the registration progresses, you will be able to determine whether the
   //  optimizer is advancing in the right direction and whether the step-length
-  //  is reasonable.  That will allow you to interrupt the registration
+  //  is reasonable or not.  That will allow you to interrupt the registration
   //  process and fine-tune parameters without having to wait until the
   //  optimizer stops by itself.
   //
