@@ -20,15 +20,6 @@
 
 // Software Guide : BeginLatex
 //
-// Some of the most challenging cases of image registration arise when images
-// of different modalities are involved. In such cases, metrics based on
-// direct comparison of gray levels are not applicable. It has been
-// extensively shown that metrics based on the evaluation of mutual
-// information is the best way to overcome the difficulties of multi-modality
-// registration.
-//
-// \index{itk::Image\-Registration\-Method!Multi-Modality}
-//
 // The following simple example illustrates how multiple imaging modalities
 // can be registered using the ITK registration framework. The first
 // difference is the use of the \doxygen{MutualInformationImageToImageMetric} as
