@@ -573,6 +573,8 @@ PREDEFINED  =  "itkNotUsed(x)="\
                   static Pointer New();" \
                "itkTypeMacro(thisClass,superclass)= \
                   virtual const char *GetClassName() const;" \
+               "itkEventMacro(thisClass,superclass)= \
+                  class thisClass : public superclass {};" \
                "itkConceptMacro(name,concept)= \
                   enum { name = 0 };" \
                "vcl_numeric_limits= \
