@@ -19,6 +19,16 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {ImageAdaptorThresholdingA.png}
+//    180
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {ImageAdaptorThresholdingB.png}
+//    220
+//  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
 //

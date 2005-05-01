@@ -17,6 +17,17 @@
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
+  
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainT1Slice.png}
+//    OUTPUTS: {HybridSegmentationFuzzyVoronoiOutput.png}
+//    140 125 140 25 0.2 2.0
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {FatMRISlice.png}
+//    OUTPUTS: {HybridSegmentationFuzzyVoronoiOutput2.png}
+//    80 200 140 300 0.3 3.0
+//  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
 //
