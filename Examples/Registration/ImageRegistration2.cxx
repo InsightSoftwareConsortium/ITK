@@ -240,13 +240,35 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetFixedImageStandardDeviation()}
   //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetMovingImageStandardDeviation()}
-  //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   metric->SetFixedImageStandardDeviation(  0.4 );
   metric->SetMovingImageStandardDeviation( 0.4 );
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The number of spatial samples can usually be as low as $1%$ of the total
+  //  number of pixels in an image. Increasing the number of samples improves
+  //  the smoothness of the metric from one iteration to another and therefore
+  //  helps when this metric is used in conjuction with optimizers that rely of
+  //  the continuity of the metric values. The trade-off, of course, is that a
+  //  larger number of samples result in longer computation times for one
+  //  evaluation of the metrics. It has been demonstrated experimentally that
+  //  the number of samples is not a critical parameter for the registration
+  //  process. When you start fine tuning your own registration process, you
+  //  should start using high values of number of samples, for example in the
+  //  range of $20%$ to $50%$. Once you have succeeded to register your images
+  //  you can then reduce the number of samples progressively.
+  //
+  //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   metric->SetNumberOfSpatialSamples( 50 );
   // Software Guide : EndCodeSnippet
 
