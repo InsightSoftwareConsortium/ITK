@@ -44,7 +44,9 @@ int main( int argc, char * argv[] )
   if( argc < 6 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile factorX factorY factorZ" << std::endl; 
+    std::cerr << argv[0] 
+      << "  inputImageFile  outputImageFile factorX factorY factorZ" 
+      << std::endl; 
     return EXIT_FAILURE;
     }
 
@@ -165,7 +167,8 @@ int main( int argc, char * argv[] )
   resampler->SetOutputOrigin( inputImage->GetOrigin() );
 
 
-  InputImageType::SizeType   inputSize = inputImage->GetLargestPossibleRegion().GetSize();
+  InputImageType::SizeType   inputSize = 
+              inputImage->GetLargestPossibleRegion().GetSize();
   typedef InputImageType::SizeType::SizeValueType SizeValueType;
   InputImageType::SizeType   size;
 
