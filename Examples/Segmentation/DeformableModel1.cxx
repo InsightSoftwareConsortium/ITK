@@ -269,8 +269,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginCodeSnippet
   typedef itk::BinaryMask3DMeshSource< MeshType >  MeshSourceType;
-  // typedef itk::BinaryMaskToNarrowBandPointSetFilter<BinaryImageType, MeshType >  MeshSourceType;
   //  Software Guide : EndCodeSnippet 
+  // typedef itk::BinaryMaskToNarrowBandPointSetFilter< 
+  //                        BinaryImageType, MeshType >  MeshSourceType;
 
 
   //  Software Guide : BeginLatex
