@@ -399,8 +399,8 @@ int itkSimilarity3DTransformTest(int, char* [] )
      TheoreticalJacobian[2][5] = 1.0;
 
      TheoreticalJacobian[0][6] =  -21.0;
-     TheoreticalJacobian[1][6] =   42.0;
-     TheoreticalJacobian[2][6] =  103.0;
+     TheoreticalJacobian[1][6] =  -42.0;
+     TheoreticalJacobian[2][6] = -103.0;
 
      for(unsigned int ii=0; ii < 3; ii++)
        {
@@ -487,13 +487,21 @@ int itkSimilarity3DTransformTest(int, char* [] )
   
   transform->SetCenter( center );
 
-  const double tolerance = 1e-8;
+  TransformType::OutputVectorType translation;
+  translation[0] = 17;
+  translation[1] = 19;
+  translation[2] = 23;
+
+  transform->SetTranslation( translation );
+
 
   const double scale = 2.5;
 
   transform->SetScale( scale );
 
   const double rscale = transform->GetScale();
+
+  const double tolerance = 1e-8;
 
   if( fabs( rscale - scale ) > tolerance )
     {
@@ -506,14 +514,15 @@ int itkSimilarity3DTransformTest(int, char* [] )
   ParametersType parameters( np ); // Number of parameters
 
   VersorType versor;
+  versor.Set( axis, angle );
 
   parameters[0] = versor.GetX();   // Rotation axis * sin(t/2)
   parameters[1] = versor.GetY();
   parameters[2] = versor.GetZ();
-  parameters[3] = 0.0;             // Translation
-  parameters[4] = 0.0;
-  parameters[5] = 0.0;
-  parameters[6] = 19.0;
+  parameters[3] = translation[0];
+  parameters[4] = translation[1];
+  parameters[5] = translation[2];
+  parameters[6] = scale;
 
 
   ParametersType parameters2 = transform->GetParameters();
