@@ -17,6 +17,24 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
+// Software Guide : BeginCommandLineArgs
+// INPUTS: {BinaryThresholdImageFilterOutput.png}
+// OUTPUTS: {VotingBinaryIterativeHoleFillingImageFilterOutput1.png}
+// 1 1 10
+// Software Guide : EndCommandLineArgs
+
+// Software Guide : BeginCommandLineArgs
+// INPUTS: {BinaryThresholdImageFilterOutput.png}
+// OUTPUTS: {VotingBinaryIterativeHoleFillingImageFilterOutput2.png}
+// 2 2 10
+// Software Guide : EndCommandLineArgs
+
+// Software Guide : BeginCommandLineArgs
+// INPUTS: {BinaryThresholdImageFilterOutput.png}
+// OUTPUTS: {VotingBinaryIterativeHoleFillingImageFilterOutput3.png}
+// 3 3 10
+// Software Guide : EndCommandLineArgs
+
 
 //  Software Guide : BeginLatex
 //
@@ -223,7 +241,7 @@ int main( int argc, char * argv[] )
   // 
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilter.eps}
+  // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilterOutput.eps}
   // \includegraphics[width=0.44\textwidth]{VotingBinaryIterativeHoleFillingImageFilterOutput1.eps}
   // \includegraphics[width=0.44\textwidth]{VotingBinaryIterativeHoleFillingImageFilterOutput2.eps}
   // \includegraphics[width=0.44\textwidth]{VotingBinaryIterativeHoleFillingImageFilterOutput3.eps}

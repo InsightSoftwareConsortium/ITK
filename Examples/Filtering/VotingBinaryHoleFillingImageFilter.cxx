@@ -18,6 +18,25 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+// Software Guide : BeginCommandLineArgs
+// INPUTS: {BinaryThresholdImageFilterOutput.png}
+// OUTPUTS: {VotingBinaryHoleFillingImageFilterOutput1.png}
+// 1 1 
+// Software Guide : EndCommandLineArgs
+
+// Software Guide : BeginCommandLineArgs
+// INPUTS: {BinaryThresholdImageFilterOutput.png}
+// OUTPUTS: {VotingBinaryHoleFillingImageFilterOutput2.png}
+// 2 2 
+// Software Guide : EndCommandLineArgs
+
+// Software Guide : BeginCommandLineArgs
+// INPUTS: {BinaryThresholdImageFilterOutput.png}
+// OUTPUTS: {VotingBinaryHoleFillingImageFilterOutput3.png}
+// 3 3 
+// Software Guide : EndCommandLineArgs
+
+
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{VotingBinaryHoleFillingImageFilter} applies a voting operation
@@ -195,7 +214,7 @@ int main( int argc, char * argv[] )
   // 
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilter.eps}
+  // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilterOutput.eps}
   // \includegraphics[width=0.44\textwidth]{VotingBinaryHoleFillingImageFilterOutput1.eps}
   // \includegraphics[width=0.44\textwidth]{VotingBinaryHoleFillingImageFilterOutput2.eps}
   // \includegraphics[width=0.44\textwidth]{VotingBinaryHoleFillingImageFilterOutput3.eps}
