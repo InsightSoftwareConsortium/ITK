@@ -229,16 +229,25 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
     std::cout << "EigenVectors = " << std::endl;
     std::cout << eigenVectors << std::endl;
 
-    const double tolerance = 1e-8;
+    const double tolerance = 1e-4;
 
-    for(unsigned int i=0; i<3; i++)
-      {
-      if( fabs( v[i] - eigenValues[i] ) > tolerance )
+    {
+      Double3DTensorType::EigenValuesArrayType     expectedValues;
+      expectedValues[0] = v[0];
+      expectedValues[1] = v[1];
+      expectedValues[2] = v[2];
+
+      for(unsigned int i=0; i<3; i++)
         {
-        std::cerr << "Eigenvalue computation failed" << std::endl;
-        return EXIT_FAILURE;
+        if( fabs( expectedValues[i] - eigenValues[i] ) > tolerance )
+          {
+          std::cerr << "Eigenvalue computation failed" << std::endl;
+          std::cerr << "expectedValues = " << expectedValues << std::endl;
+          std::cerr << "eigenValues    = " << eigenValues << std::endl;
+          return EXIT_FAILURE;
+          }
         }
-      }
+    }
 
     // Now let's do something more involved...
     tensor(0,0) =  7.0;
@@ -273,6 +282,48 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
         if( fabs( expectedValues[i] - eigenValues[i] ) > tolerance )
           {
           std::cerr << "Eigenvalue computation failed" << std::endl;
+          std::cerr << "expectedValues = " << expectedValues << std::endl;
+          std::cerr << "eigenValues    = " << eigenValues << std::endl;
+          return EXIT_FAILURE;
+          }
+        }
+    }
+
+    // Now let's do one where we know the rotation...
+    tensor(0,0) =  9.0;
+    tensor(0,1) =  0.0; 
+    tensor(0,2) =  7.0;
+    tensor(1,0) =  0.0; // overrides (0,1)
+    tensor(1,1) =  0.0;
+    tensor(1,2) =  0.0; 
+    tensor(2,0) =  7.0; // overrides (0,2)
+    tensor(2,1) =  0.0; // overrides (1,2)
+    tensor(2,2) =  3.0;
+ 
+    std::cout << "SymmetricTensor = " << std::endl;
+    std::cout << tensor << std::endl;
+
+    tensor.ComputeEigenAnalysis( eigenValues, eigenVectors );
+
+    std::cout << "EigenValues = " << std::endl;
+    std::cout << eigenValues << std::endl;
+
+    std::cout << "EigenVectors = " << std::endl;
+    std::cout << eigenVectors << std::endl;
+
+    {
+      Double3DTensorType::EigenValuesArrayType     expectedValues;
+      expectedValues[0] = -1.61577;
+      expectedValues[1] =  0.00000;
+      expectedValues[2] = 13.61580;
+
+      for(unsigned int i=0; i<3; i++)
+        {
+        if( fabs( expectedValues[i] - eigenValues[i] ) > tolerance )
+          {
+          std::cerr << "Eigenvalue computation failed" << std::endl;
+          std::cerr << "expectedValues = " << expectedValues << std::endl;
+          std::cerr << "eigenValues    = " << eigenValues << std::endl;
           return EXIT_FAILURE;
           }
         }
