@@ -468,6 +468,12 @@ LabelStatisticsImageFilter<TImage, TLabelImage>
 
   os << indent << "Number of labels: " << m_LabelStatistics.size()
      << std::endl;
+  os << indent << "Use Histograms: " << m_UseHistograms
+     << std::endl;
+  os << indent << "Histogram Lower Bound: " << m_LowerBound
+     << std::endl;
+  os << indent << "Histogram Upper Bound: " << m_UpperBound
+     << std::endl;
 }
 
 
