@@ -441,7 +441,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 }
 
 template<class TInputImage, class TLabelImage>
-typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::HistogramType::Pointer
+typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::HistogramPointer
 LabelStatisticsImageFilter<TInputImage, TLabelImage>
 ::GetHistogram(LabelPixelType label) const
 {

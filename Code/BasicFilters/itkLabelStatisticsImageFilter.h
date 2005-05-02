@@ -97,6 +97,7 @@ public:
 
   /** Histogram-related typedefs */
   typedef itk::Statistics::Histogram<RealType,1> HistogramType;
+  typedef typename HistogramType::Pointer HistogramPointer;
 
   /** Statistics stored per label */
   class LabelStatistics
@@ -256,7 +257,7 @@ public:
   unsigned long GetCount(LabelPixelType label) const;
 
   /** Return the histogram for a label */
-  typename HistogramType::Pointer GetHistogram(LabelPixelType label) const;
+  HistogramPointer GetHistogram(LabelPixelType label) const;
 
   /** specify Histogram parameters  */
   void SetHistogramParameters(const int numBins, RealType lowerBound,
