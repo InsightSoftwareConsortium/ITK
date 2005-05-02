@@ -38,7 +38,6 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
 {
   m_Threshold = 0; // by default
   m_AngleResolution = 500;
-  m_AngleAxisSize = 500;
   m_NumberOfLines = 1;
   m_DiscRadius = 10;
   m_Variance = 5;
@@ -79,8 +78,8 @@ HoughTransform2DLinesImageFilter<TInputPixelType,TOutputPixelType>
   // Compute the size of the output image
   typename InputImageType::RegionType region;
   Size<2> size;
-  size[0]= (long unsigned int)(sqrt(m_AngleAxisSize*m_AngleAxisSize+input->GetLargestPossibleRegion().GetSize()[0]*input->GetLargestPossibleRegion().GetSize()[0]));
-  size[1]= (long unsigned int)m_AngleAxisSize;
+  size[0]= (long unsigned int)(sqrt(m_AngleResolution*m_AngleResolution+input->GetLargestPossibleRegion().GetSize()[0]*input->GetLargestPossibleRegion().GetSize()[0]));
+  size[1]= (long unsigned int)m_AngleResolution;
   region.SetSize(size);
   region.SetIndex(input->GetLargestPossibleRegion().GetIndex());
 
@@ -131,7 +130,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
       for(double angle=-PI;angle<PI;angle+=PI/m_AngleResolution)
         {  
         index[0]=(long unsigned int)(image_it.GetIndex()[0]*cos(angle)+image_it.GetIndex()[1]*sin(angle)); // m_R
-        index[1]= (long unsigned int)((m_AngleAxisSize/2)+m_AngleAxisSize*angle/(2*PI)); // m_Theta
+        index[1]= (long unsigned int)((m_AngleResolution/2)+m_AngleResolution*angle/(2*PI)); // m_Theta
   
         if ( (index[0]>0) && (index[0]<=(long)outputImage->GetBufferedRegion().GetSize()[0])) // the preceeding "if" should be replacable with "if ( outputImage->GetBufferedRegion().IsInside(index) )" but the algorithm fails if it is
           {
@@ -191,7 +190,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
       for(double angle=-PI;angle<PI;angle+=PI/m_AngleResolution)
         {  
         index[0]= (long int)(image_it.GetIndex()[0]*cos(angle)+image_it.GetIndex()[1]*sin(angle)); // m_R
-        index[1]= (long int)((m_AngleAxisSize/2)+m_AngleAxisSize*angle/(2*PI)); // m_Theta
+        index[1]= (long int)((m_AngleResolution/2)+m_AngleResolution*angle/(2*PI)); // m_Theta
   
         if ( outputImage->GetBufferedRegion().IsInside(index) )
           {
@@ -375,7 +374,6 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
 
   os << "Threshold: " << m_Threshold << std::endl;
   os << "Angle Resolution: " << m_AngleResolution << std::endl;
-  os << "Angle Axis size: " << m_AngleAxisSize << std::endl;
   os << "Number Of Lines: " << m_NumberOfLines << std::endl;
   os << "Disc Radius: " << m_DiscRadius << std::endl;
   os << "Accumulator blur variance: " << m_Variance << std::endl;

@@ -121,13 +121,6 @@ public:
   /** Get the resolution angle */
   itkGetMacro(AngleResolution,float);
 
-  /** Set the angle axis size:
-      This value determine the size (in Y) of the accumulator image */
-  itkSetMacro(AngleAxisSize,unsigned int);
-
-  /** Get the resolution angle */
-  itkGetMacro(AngleAxisSize,float);
-
   /** Simplify the accumulator */
   void Simplify(void);
 
@@ -180,7 +173,6 @@ private:
 
   float m_AngleResolution;
   float m_Threshold;
-  float m_AngleAxisSize;
   OutputImagePointer m_SimplifyAccumulator;
   LinesListType m_LinesList;
   unsigned int  m_NumberOfLines;
