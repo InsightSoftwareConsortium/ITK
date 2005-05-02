@@ -63,7 +63,8 @@ public:
                       TImage::ImageDimension);
 
   /** Type to hold the number of checker boxes per dimension */
-  typedef itk::FixedArray< unsigned int, ImageDimension >  PatternArrayType;
+  typedef FixedArray< unsigned int, 
+      ::itk::GetImageDimension<TImage>::ImageDimension >  PatternArrayType;
   
   /** Connect one of the operands for checker board */
   void SetInput1( const TImage * image1);
