@@ -126,7 +126,7 @@ public:
   /** Return an array containing EigenValues, and a matrix containing eigen
    * vectors. */
   void ComputeEigenAnalysis( EigenValuesArrayType & eigenValues,
-                            EigenVectorsMatrixType & eigenVectors ) const;
+                             EigenVectorsMatrixType & eigenVectors ) const;
   
 private:
 
@@ -134,12 +134,12 @@ private:
 };
 
 
-template< typename TComponent  >  
+template< typename TComponent, unsigned int NDimension  >  
 ITK_EXPORT std::ostream& operator<<(std::ostream& os, 
-                                    const SymmetricSecondRankTensor<TComponent> & c); 
-template< typename TComponent  >  
+              const SymmetricSecondRankTensor<TComponent,NDimension> & c); 
+template< typename TComponent, unsigned int NDimension  >  
 ITK_EXPORT std::istream& operator>>(std::istream& is, 
-                                          SymmetricSecondRankTensor<TComponent> & c); 
+                    SymmetricSecondRankTensor<TComponent,NDimension> & c); 
 
 } // end namespace itk
 
