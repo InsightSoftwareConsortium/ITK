@@ -188,6 +188,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   m_SizeOfObjectsInPixels.resize(m_NumberOfObjects);
   m_SizeOfObjectsInPhysicalUnits.clear();
   m_SizeOfObjectsInPhysicalUnits.resize(m_NumberOfObjects);
+  int NumberOfObjectsRemoved = 0;
   for (i=0, vit = sizeVector.begin(); vit != sizeVector.end(); ++vit, ++i)
     {
 
@@ -195,17 +196,29 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
     // terminate the loop.
     if (m_MinimumObjectSize > 0 && (*vit).m_SizeInPixels < m_MinimumObjectSize)
       {
-      m_NumberOfObjects = i;
-      break;
+      // map small objects to the background
+      NumberOfObjectsRemoved++;
+      relabelMap.insert(RelabelMapType::value_type( (*vit).m_ObjectNumber, 0));
       }
-    
-    // map for input labels to output labels (Note we use i+1 in the
-    // map since index 0 is the background)
-    relabelMap.insert(RelabelMapType::value_type( (*vit).m_ObjectNumber, i+1));
+    else
+      {
+      // map for input labels to output labels (Note we use i+1 in the
+      // map since index 0 is the background)
+      relabelMap.insert(RelabelMapType::value_type( (*vit).m_ObjectNumber, i+1));
+      
+      // cache object sizes for later access by the user
+      m_SizeOfObjectsInPixels[i] = (*vit).m_SizeInPixels;
+      m_SizeOfObjectsInPhysicalUnits[i] = (*vit).m_SizeInPhysicalUnits;
+      }
 
-    // cache object sizes for later access by the user
-    m_SizeOfObjectsInPixels[i] = (*vit).m_SizeInPixels;
-    m_SizeOfObjectsInPhysicalUnits[i] = (*vit).m_SizeInPhysicalUnits;
+    }
+
+  // update number of objects and resize cache vectors if we have removed small objects
+  m_NumberOfObjects -= NumberOfObjectsRemoved;
+  if (NumberOfObjectsRemoved > 0)
+    {
+    m_SizeOfObjectsInPixels.resize(m_NumberOfObjects);
+    m_SizeOfObjectsInPhysicalUnits.resize(m_NumberOfObjects);
     }
 
   // Second pass: walk just the output requested region and relabel
@@ -231,7 +244,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
     inputValue = it.Get();
     // std::cerr << std::endl << "inputValue: " << inputValue << " m_SizeOfObjectsInPixels[inputValue]: " <<
     //  m_SizeOfObjectsInPixels[inputValue] << std::endl;
-    if (inputValue != NumericTraits<InputPixelType>::Zero && m_SizeOfObjectsInPixels[inputValue] != 0)
+    if (inputValue != NumericTraits<InputPixelType>::Zero)
       {
 
       // lookup the mapped label
