@@ -76,6 +76,7 @@ LineSpatialObject< TDimension >
     it++;
     }
    
+  this->ComputeBoundingBox();
   this->Modified();
 }
  

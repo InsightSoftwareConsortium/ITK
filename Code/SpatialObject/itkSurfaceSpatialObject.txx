@@ -75,7 +75,8 @@ SurfaceSpatialObject< TDimension >
     m_Points.push_back(*it);
     it++;
     } 
-   
+    
+  this->ComputeBoundingBox(); 
   this->Modified();
 }
  
