@@ -116,6 +116,7 @@ ADD_TEST(itkGrayscaleFunctionErodeImageFilterTest ${BASIC_FILTERS_TESTS}
 ADD_TEST(itkGradientToMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkGradientToMagnitudeImageFilterTest)
 ADD_TEST(itkHardConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS} itkHardConnectedComponentImageFilterTest)
 ADD_TEST(itkHausdorffDistanceImageFilterTest ${BASIC_FILTERS_TESTS} itkHausdorffDistanceImageFilterTest)
+ADD_TEST(itkHessianRecursiveGaussianFilterTest ${BASIC_FILTERS_TESTS3} itkHessianRecursiveGaussianFilterTest)
 ADD_TEST(itkHoughTransform2DCirclesImageTest ${BASIC_FILTERS_TESTS} itkHoughTransform2DCirclesImageTest)
 ADD_TEST(itkHoughTransform2DLinesImageTest ${BASIC_FILTERS_TESTS} itkHoughTransform2DLinesImageTest)
 ADD_TEST(itkImageAdaptorNthElementTest ${BASIC_FILTERS_TESTS} itkImageAdaptorNthElementTest)
@@ -730,6 +731,7 @@ itkTwoOutputExampleImageFilterTest.cxx
 
 SET(BasicFilters3_SRCS
 itkCheckerBoardImageFilterTest.cxx
+itkHessianRecursiveGaussianFilterTest.cxx
 itkVectorAnisotropicDiffusionImageFilterTest.cxx
 itkVectorExpandImageFilterTest.cxx
 itkVectorGradientMagnitudeImageFilterTest1.cxx

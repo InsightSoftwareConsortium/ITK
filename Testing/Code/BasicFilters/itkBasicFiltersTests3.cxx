@@ -27,6 +27,7 @@
 void RegisterTests()
 {
   REGISTER_TEST(itkCheckerBoardImageFilterTest );
+  REGISTER_TEST(itkHessianRecursiveGaussianFilterTest );
   REGISTER_TEST(itkVectorAnisotropicDiffusionImageFilterTest );
   REGISTER_TEST(itkVectorConfidenceConnectedImageFilterTest );
   REGISTER_TEST(itkVectorExpandImageFilterTest );
