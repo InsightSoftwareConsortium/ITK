@@ -152,15 +152,23 @@ const typename SymmetricSecondRankTensor<T,NDimension>::ValueType &
 SymmetricSecondRankTensor<T,NDimension>
 ::operator()(unsigned int row, unsigned int col) const
 {
-  unsigned int k = 
-    ( row < col ) ? row * Dimension + col : col * Dimension + row;
+  unsigned int k; 
 
-  k -= row * ( row + 1 ) / 2; // correction for triangularity
+  if( row < col ) 
+    {
+    k = row * Dimension + col - row * ( row + 1 ) / 2; 
+    }
+  else
+    {
+    k = col * Dimension + row - col * ( col + 1 ) / 2; 
+    }
+  
 
   if( k >= InternalDimension )
     {
-    return  (*this)[0];
+    k = 0;
     }
+
   return (*this)[k];
 }
 
@@ -174,15 +182,23 @@ typename SymmetricSecondRankTensor<T,NDimension>::ValueType &
 SymmetricSecondRankTensor<T,NDimension>
 ::operator()(unsigned int row, unsigned int col)
 {
-  unsigned int k = 
-    ( row < col ) ? row * Dimension + col : col * Dimension + row;
+  unsigned int k; 
 
-  k -= row * ( row + 1 ) / 2; // correction for triangularity
+  if( row < col ) 
+    {
+    k = row * Dimension + col - row * ( row + 1 ) / 2; 
+    }
+  else
+    {
+    k = col * Dimension + row - col * ( col + 1 ) / 2; 
+    }
+  
 
   if( k >= InternalDimension )
     {
-    return  (*this)[0];
+    k = 0;
     }
+
   return (*this)[k];
 }
 
