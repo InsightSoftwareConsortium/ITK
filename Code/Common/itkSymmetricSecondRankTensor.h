@@ -53,21 +53,26 @@ namespace itk
  * symmetric the representation can be compacted into a N*(N-1)/2 elements
  * array that derives from the itk::FixedArray<T>
  *
+ * \author Torsten Rohlfing from SRI International Neuroscience Program.
+ *
+ * This class was mostly based on files that Torsten Rohlfing contributed to
+ * the ITK users list during a discussion on support for DiffusionTensorImages.
+ *
  * \ingroup ImageObjects
  */
 
 template < typename TComponent = float, unsigned int NDimension=3 >
 class SymmetricSecondRankTensor: public 
-        FixedArray<TComponent,NDimension*(NDimension-1)/2>
+        FixedArray<TComponent,NDimension*(NDimension+1)/2>
 {
 public:
   /** Standard class typedefs. */
   typedef SymmetricSecondRankTensor  Self;
-  typedef FixedArray<TComponent,NDimension*(NDimension-1)/2> SuperClass;
+  typedef FixedArray<TComponent,NDimension*(NDimension+1)/2> SuperClass;
   
   /** Dimension of the vector space. */
   itkStaticConstMacro(Dimension, unsigned int, NDimension);
-  itkStaticConstMacro(InternalDimension, unsigned int, NDimension*(NDimension-1)/2);
+  itkStaticConstMacro(InternalDimension, unsigned int, NDimension*(NDimension+1)/2);
 
   /** Convenience typedefs. */
   typedef FixedArray<TComponent,InternalDimension> BaseArray;
