@@ -53,6 +53,12 @@ namespace itk
  * GetSizeOfObjectsInPixels()[0], the size of object #2 is
  * GetSizeOfObjectsInPixels()[1], etc.
  *
+ * If user sets a minimum object size, all objects with fewer pixelss
+ * than the minimum will be discarded, so that the number of objects
+ * reported will be only those remaining. The
+ * GetOriginalNumberOfObjects method can be called to find out how
+ * many objects were present before the small ones were discarded.
+ *
  * RelabelComponentImageFilter can be run as an "in place" filter,
  * where it will overwrite its output.  The default is run out of
  * place (or generate a separate output).  "In place" operation can be
@@ -117,12 +123,34 @@ public:
   /** Get the number of objects in the image. This information is only
    * valid after the filter has executed. */
   itkGetMacro(NumberOfObjects, unsigned long);
+  
+  /** Get the original number of objects in the image before small
+   * objects were discarded. This information is only valid after
+   * the filter has executed. If the caller has not specified a
+   * minimum object size, OriginalNumberOfObjects is the same as
+   * NumberOfObjects. */
+  itkGetMacro(OriginalNumberOfObjects, unsigned long);
 
   /** Get/Set the number of objects enumerated and described when the
    * filter is printed. */
   itkSetMacro(NumberOfObjectsToPrint, unsigned long);
   itkGetConstReferenceMacro(NumberOfObjectsToPrint, unsigned long);
-  
+
+  /** Set the minimum size in pixels for an object. All objects
+   * smaller than this size will be discarded and will not appear
+   * in the output label map. NumberOfObjects will count only the
+   * objects whose pixel counts are greater than or equal to the
+   * minimum size. Call GetOriginalNumberOfObjects to find out how
+   * many objects were present in the original label map. */
+  itkSetMacro(MinimumObjectSize, unsigned long);
+
+  /** Get the caller-defined minimum size of an object in pixels.
+   * If the caller has not set the minimum, 0 will be returned,
+   * which is to be interpreted as meaning that no minimum exists,
+   * and all objects in the original label map will be passed
+   * through to the output. */
+  itkGetMacro(MinimumObjectSize, unsigned long);
+   
   /** Get the size of each object in pixels. This information is only
    * valid after the filter has executed.  Size of the background is
    * not calculated.  Size of object #1 is
@@ -172,7 +200,8 @@ public:
   
 protected:
   RelabelComponentImageFilter()
-    : m_NumberOfObjects(0), m_NumberOfObjectsToPrint(10)
+    : m_NumberOfObjects(0), m_NumberOfObjectsToPrint(10),
+    m_OriginalNumberOfObjects(0), m_MinimumObjectSize(0)
     { this->InPlaceOff(); }
   virtual ~RelabelComponentImageFilter() {}
   RelabelComponentImageFilter(const Self&) {}
@@ -193,6 +222,8 @@ protected:
 private:
   unsigned long m_NumberOfObjects;
   unsigned long m_NumberOfObjectsToPrint;
+  unsigned long m_MinimumObjectSize;
+  unsigned long m_OriginalNumberOfObjects;
   std::vector<unsigned long> m_SizeOfObjectsInPixels;
   std::vector<float> m_SizeOfObjectsInPhysicalUnits;
 

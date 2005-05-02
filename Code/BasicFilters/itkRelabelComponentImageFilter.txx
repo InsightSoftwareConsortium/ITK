@@ -68,6 +68,7 @@ public:
 
 namespace itk
 {
+
 template< class TInputImage, class TOutputImage >
 void
 RelabelComponentImageFilter< TInputImage, TOutputImage >
@@ -182,12 +183,22 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   // create a lookup table to map the input label to the output label.
   // cache the object sizes for later access by the user
   m_NumberOfObjects = sizeVector.size();
+  m_OriginalNumberOfObjects = sizeVector.size();
   m_SizeOfObjectsInPixels.clear();
   m_SizeOfObjectsInPixels.resize(m_NumberOfObjects);
   m_SizeOfObjectsInPhysicalUnits.clear();
   m_SizeOfObjectsInPhysicalUnits.resize(m_NumberOfObjects);
   for (i=0, vit = sizeVector.begin(); vit != sizeVector.end(); ++vit, ++i)
     {
+
+    // if we find an object smaller than the minimum size, we
+    // terminate the loop.
+    if (m_MinimumObjectSize > 0 && (*vit).m_SizeInPixels < m_MinimumObjectSize)
+      {
+      m_NumberOfObjects = i;
+      break;
+      }
+    
     // map for input labels to output labels (Note we use i+1 in the
     // map since index 0 is the background)
     relabelMap.insert(RelabelMapType::value_type( (*vit).m_ObjectNumber, i+1));
@@ -218,8 +229,11 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   while ( !oit.IsAtEnd() )
     {
     inputValue = it.Get();
-    if (inputValue != NumericTraits<InputPixelType>::Zero)
+    // std::cerr << std::endl << "inputValue: " << inputValue << " m_SizeOfObjectsInPixels[inputValue]: " <<
+    //  m_SizeOfObjectsInPixels[inputValue] << std::endl;
+    if (inputValue != NumericTraits<InputPixelType>::Zero && m_SizeOfObjectsInPixels[inputValue] != 0)
       {
+
       // lookup the mapped label
       outputValue = static_cast<OutputPixelType>(relabelMap[inputValue]); 
       oit.Set( outputValue );
@@ -245,8 +259,10 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   Superclass::PrintSelf(os, indent);
   
   os << indent << "NumberOfObjects: " << m_NumberOfObjects << std::endl;
+  os << indent << "OriginalNumberOfObjects: " << m_OriginalNumberOfObjects << std::endl;
   os << indent << "NumberOfObjectsToPrint: "
      << m_NumberOfObjectsToPrint << std::endl;
+  os << indent << "MinimumObjectSizez: " << m_MinimumObjectSize << std::endl;
 
   std::vector<unsigned long>::const_iterator it;
   std::vector<float>::const_iterator fit;
