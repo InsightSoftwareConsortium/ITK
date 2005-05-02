@@ -108,7 +108,6 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   connected->SetInput (threshold->GetOutput());
   relabel->SetInput( connected->GetOutput() );
   relabel->SetNumberOfObjectsToPrint( 5 );
-  relabel->SetMinimumObjectSize(30000);
   std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << std::endl;
   relabel->Update();
   std::cout << "NumberOfObjects: " << relabel->GetNumberOfObjects() << " OriginalNumberOfObjects: " <<
@@ -120,9 +119,6 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   finalThreshold->SetUpperThreshold( 1 ); // object #1
   finalThreshold->SetInsideValue(255);
   finalThreshold->SetOutsideValue(itk::NumericTraits<WritePixelType>::Zero);
-
-  // turn off multi-threading for debugging
-  itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1);
   
   try
     {
