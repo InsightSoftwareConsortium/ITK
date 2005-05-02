@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLabelStatisticsImageFilter.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkLabelStatisticsImageFilter.txx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) Insight Software Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef _itkLabelStatisticsImageFilter_txx
@@ -30,6 +30,10 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 ::LabelStatisticsImageFilter()
 {
   this->SetNumberOfRequiredInputs(2);
+  m_UseHistograms = false;
+  m_NumBins[0] = 20;
+  m_LowerBound = static_cast<RealType>( NumericTraits<PixelType>::NonpositiveMin() );
+  m_UpperBound = static_cast<RealType>( NumericTraits<PixelType>::max() );
 }
 
 
@@ -80,6 +84,17 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 template<class TInputImage, class TLabelImage>
 void
 LabelStatisticsImageFilter<TInputImage, TLabelImage>
+::SetHistogramParameters(const int numBins, RealType lowerBound, RealType upperBound)
+{
+  m_NumBins[0] = numBins;
+  m_LowerBound = lowerBound;
+  m_UpperBound = upperBound;
+  m_UseHistograms = true;
+}
+
+template<class TInputImage, class TLabelImage>
+void
+LabelStatisticsImageFilter<TInputImage, TLabelImage>
 ::BeforeThreadedGenerateData()
 {
   int numberOfThreads = this->GetNumberOfThreads();
@@ -113,8 +128,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
     {
     // iterate over the map for this thread
     for (threadIt = m_LabelStatisticsPerThread[i].begin();
-         threadIt != m_LabelStatisticsPerThread[i].end();
-         ++threadIt)
+      threadIt != m_LabelStatisticsPerThread[i].end();
+      ++threadIt)
       {
       // does this label exist in the cumulative stucture yet?
       mapIt = m_LabelStatistics.find( (*threadIt).first );
@@ -122,9 +137,16 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
         {
         // create a new entry
         typedef typename MapType::value_type MapValueType;
-        mapIt
-          = m_LabelStatistics.insert(MapValueType((*threadIt).first,
-                                                  LabelStatistics())).first;
+        if (m_UseHistograms)
+          {
+          mapIt = m_LabelStatistics.insert( MapValueType((*threadIt).first, 
+             LabelStatistics(m_NumBins[0], m_LowerBound, m_UpperBound)) ).first;
+          }
+        else
+          {
+          mapIt = m_LabelStatistics.insert( MapValueType((*threadIt).first, 
+              LabelStatistics()) ).first;
+          }
         }
 
       // accumulate the information from this thread
@@ -140,6 +162,17 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
         {
         (*mapIt).second.m_Maximum = (*threadIt).second.m_Maximum;
         }
+
+      // if enabled, update the histogram for this label
+      if (m_UseHistograms)
+        {
+        typename HistogramType::IndexType index;
+        for (int bin=0; bin<m_NumBins[0]; bin++)
+          {
+          index[0] = bin;
+          (*mapIt).second.m_Histogram->IncreaseFrequency(bin, (*threadIt).second.m_Histogram->GetFrequency(bin));
+          }
+        }
       } // end of thread map iterator loop
     } // end of thread loop
   
@@ -151,6 +184,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
     // mean
     (*mapIt).second.m_Mean = (*mapIt).second.m_Sum /
       static_cast<RealType>( (*mapIt).second.m_Count );
+
 
     // variance
     if ((*mapIt).second.m_Count > 1)
@@ -166,29 +200,30 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       {
       (*mapIt).second.m_Variance = NumericTraits<RealType>::Zero;
       }
-
+    
     // sigma
     (*mapIt).second.m_Sigma = sqrt((*mapIt).second.m_Variance);
     }
+  
 }
 
 template<class TInputImage, class TLabelImage>
 void
 LabelStatisticsImageFilter<TInputImage, TLabelImage>
 ::ThreadedGenerateData(const RegionType& outputRegionForThread,
-                       int threadId) 
+         int threadId) 
 {
   RealType value;
   LabelPixelType label;
   ImageRegionConstIterator<TInputImage> it (this->GetInput(),
-                                            outputRegionForThread);
+         outputRegionForThread);
   ImageRegionConstIterator<TLabelImage> labelIt (this->GetLabelInput(),
-                                                 outputRegionForThread);
+       outputRegionForThread);
   MapIterator mapIt;
   
   // support progress methods/callbacks
   ProgressReporter progress(this, threadId,
-                            outputRegionForThread.GetNumberOfPixels());
+       outputRegionForThread.GetNumberOfPixels());
 
   // do the work
   while (!it.IsAtEnd())
@@ -202,7 +237,16 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       {
       // create a new statistics object
       typedef typename MapType::value_type MapValueType;
-      mapIt = m_LabelStatisticsPerThread[threadId].insert( MapValueType(label, LabelStatistics()) ).first;
+      if (m_UseHistograms)
+        {
+        mapIt = m_LabelStatisticsPerThread[threadId].insert( MapValueType(label, 
+               LabelStatistics(m_NumBins[0], m_LowerBound, m_UpperBound)) ).first;
+        }
+      else
+        {
+        mapIt = m_LabelStatisticsPerThread[threadId].insert( MapValueType(label, 
+               LabelStatistics()) ).first;
+        }
       }
 
     // update the values for this label and this thread
@@ -218,6 +262,15 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
     (*mapIt).second.m_Sum += value;
     (*mapIt).second.m_SumOfSquares += (value * value);
     (*mapIt).second.m_Count++;
+
+    // if enabled, update the histogram for this label
+    if (m_UseHistograms)
+      {
+      typename HistogramType::MeasurementVectorType meas;
+      meas[0] = value;
+      (*mapIt).second.m_Histogram->IncreaseFrequency(meas, 1.0F);
+      }
+
     ++it;
     ++labelIt;
     progress.CompletedPixel();
@@ -347,6 +400,62 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
   else
     {
     return (*mapIt).second.m_Count;
+    }
+}
+
+template<class TInputImage, class TLabelImage>
+typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::RealType
+LabelStatisticsImageFilter<TInputImage, TLabelImage>
+::GetMedian(LabelPixelType label) const
+{
+  RealType median = 0.0;
+  MapConstIterator mapIt;
+  mapIt = m_LabelStatistics.find( label );
+  if ( mapIt == m_LabelStatistics.end() || !m_UseHistograms)
+    {
+    // label does not exist OR histograms not enabled, return a default value
+    return median;
+    }
+  else
+    {
+    int bin = 0;
+    typename HistogramType::IndexType index;
+    RealType total = 0;
+
+    // count bins until just over half the distribution is counted
+    while (total <= ((*mapIt).second.m_Count/ 2) && (bin < m_NumBins[0])) 
+      {
+      index[0] = bin;
+      total += (*mapIt).second.m_Histogram->GetFrequency(index);
+      bin++;
+      }
+    bin--;
+    index[0] = bin;
+
+    // return center of bin range
+    RealType lowRange = (*mapIt).second.m_Histogram->GetBinMin(0, bin);
+    RealType highRange  = (*mapIt).second.m_Histogram->GetBinMax(0, bin);
+    median = lowRange + (highRange - lowRange) / 2;
+    return median;
+    }
+}
+
+template<class TInputImage, class TLabelImage>
+typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::HistogramType::Pointer
+LabelStatisticsImageFilter<TInputImage, TLabelImage>
+::GetHistogram(LabelPixelType label) const
+{
+  MapConstIterator mapIt;
+  mapIt = m_LabelStatistics.find( label );
+  if ( mapIt == m_LabelStatistics.end())
+    {
+    // label does not exist, return a default value
+    return 0;
+    }
+  else
+    {
+    // this will be zero if histograms have not been enabled
+    return (*mapIt).second.m_Histogram;
     }
 }
 
