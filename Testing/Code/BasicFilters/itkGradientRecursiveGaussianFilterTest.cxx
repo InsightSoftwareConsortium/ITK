@@ -76,10 +76,10 @@ int itkGradientRecursiveGaussianFilterTest(int, char* [] )
 
   // Initialize the content of Image A
   while( !it.IsAtEnd() ) 
-  {
+    {
     it.Set( 0.0 );
     ++it;
-  }
+    }
 
   size[0] = 4;
   size[1] = 4;
@@ -96,10 +96,10 @@ int itkGradientRecursiveGaussianFilterTest(int, char* [] )
 
   // Initialize the content the internal region
   while( !itb.IsAtEnd() ) 
-  {
+    {
     itb.Set( 100.0 );
     ++itb;
-  }
+    }
 
   // Declare the type for the 
   typedef itk::GradientRecursiveGaussianImageFilter< 
@@ -140,14 +140,14 @@ int itkGradientRecursiveGaussianFilterTest(int, char* [] )
   std::cout << " Result " << std::endl;
   itg.GoToBegin();
   while( !itg.IsAtEnd() ) 
-  {
+    {
     std::cout << itg.Get();
     ++itg;
-  }
+    }
 
 
   // All objects should be automatically destroyed at this point
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 
