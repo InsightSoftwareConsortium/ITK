@@ -239,6 +239,46 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
         return EXIT_FAILURE;
         }
       }
+
+    // Now let's do something more involved...
+    tensor(0,0) =  7.0;
+    tensor(0,1) =  0.0; 
+    tensor(0,2) =  3.0;
+    tensor(1,0) =  0.0; // overrides (0,1)
+    tensor(1,1) =  0.0;
+    tensor(1,2) =  0.0; 
+    tensor(2,0) =  3.0; // overrides (0,2)
+    tensor(2,1) =  0.0; // overrides (1,2)
+    tensor(2,2) =  7.0;
+ 
+    std::cout << "SymmetricTensor = " << std::endl;
+    std::cout << tensor << std::endl;
+
+    tensor.ComputeEigenAnalysis( eigenValues, eigenVectors );
+
+    std::cout << "EigenValues = " << std::endl;
+    std::cout << eigenValues << std::endl;
+
+    std::cout << "EigenVectors = " << std::endl;
+    std::cout << eigenVectors << std::endl;
+
+    {
+      Double3DTensorType::EigenValuesArrayType     expectedValues;
+      expectedValues[0] =  0.0;
+      expectedValues[1] =  4.0;
+      expectedValues[2] = 10.0;
+
+      for(unsigned int i=0; i<3; i++)
+        {
+        if( fabs( expectedValues[i] - eigenValues[i] ) > tolerance )
+          {
+          std::cerr << "Eigenvalue computation failed" << std::endl;
+          return EXIT_FAILURE;
+          }
+        }
+    }
+
+
   }
 
   return EXIT_SUCCESS;
