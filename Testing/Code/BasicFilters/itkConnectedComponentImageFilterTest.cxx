@@ -41,10 +41,10 @@ int itkConnectedComponentImageFilterTest(int argc, char* argv[] )
   const     unsigned int    Dimension = 2;
   
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
-  typedef itk::Image<unsigned short,2> OutputImageType;
+  typedef itk::Image<unsigned short,Dimension> OutputImageType;
 
   typedef itk::RGBPixel<unsigned char>   RGBPixelType;
-  typedef itk::Image<RGBPixelType, 2>    RGBImageType;
+  typedef itk::Image<RGBPixelType, Dimension>    RGBImageType;
 
   typedef itk::ImageFileReader< InternalImageType > ReaderType;
   typedef itk::ImageFileWriter<  RGBImageType  > WriterType;
@@ -84,6 +84,7 @@ int itkConnectedComponentImageFilterTest(int argc, char* argv[] )
     filter->SetFullyConnected( fullyConnected );
     }
   relabel->SetInput( filter->GetOutput() );
+  relabel->SetMinimumObjectSize(100000);
   
   try
     {
