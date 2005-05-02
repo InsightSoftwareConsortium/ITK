@@ -18,6 +18,14 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainT1SliceBorder20.png}
+//    INPUTS: {BrainProtonDensitySliceShifted13x17y.png}
+//    OUTPUTS: {ImageRegistration2Output.png}
+//    OUTPUTS: {ImageRegistration2CheckerboardBefore.png}
+//    OUTPUTS: {ImageRegistration2CheckerboardAfter.png}
+//  Software Guide : EndCommandLineArgs
+
 // Software Guide : BeginLatex
 //
 // The following simple example illustrates how multiple imaging modalities
@@ -79,6 +87,7 @@
 
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
+#include "itkCheckerBoardImageFilter.h"
 
 
 //  The following section of code implements a Command observer
@@ -120,18 +129,19 @@ public:
 
 int main( int argc, char *argv[] )
 {
-  if( argc < 3 )
+  if( argc < 4 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << "outputImagefile [differenceImage]" << std::endl;
+    std::cerr << "outputImagefile ";
+    std::cerr << "[checkerBoardBefore] [checkerBoardAfter]" << std::endl;
     return 1;
     }
   
   // Software Guide : BeginLatex
   // 
-  // The moving and fixed images should be instantiated first. 
+  // The moving and fixed images types should be instantiated first. 
   //
   // Software Guide : EndLatex 
   //
@@ -240,29 +250,6 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
-  //
-  //  The number of spatial samples can usually be as low as $1%$ of the total
-  //  number of pixels in an image. Increasing the number of samples improves
-  //  the smoothness of the metric from one iteration to another and therefore
-  //  helps when this metric is used in conjuction with optimizers that rely of
-  //  the continuity of the metric values. The trade-off, of course, is that a
-  //  larger number of samples result in longer computation times for one
-  //  evaluation of the metrics. It has been demonstrated experimentally that
-  //  the number of samples is not a critical parameter for the registration
-  //  process. When you start fine tuning your own registration process, you
-  //  should start using high values of number of samples, for example in the
-  //  range of $20%$ to $50%$. Once you have succeeded to register your images
-  //  you can then reduce the number of samples progressively.
-  //
-  //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
-  metric->SetNumberOfSpatialSamples( 50 );
-  // Software Guide : EndCodeSnippet
-
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
@@ -303,7 +290,7 @@ int main( int argc, char *argv[] )
   //  
   //  The blurring filters are declared using the internal image type as both
   //  the input and output types. In this example, we will set the variance
-  //  for both blurring filters to 2.
+  //  for both blurring filters to $2.0$.
   //
   //  Software Guide : EndLatex 
 
@@ -323,7 +310,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The output of the readers becomes the input to the normalization
-  //  filters. The outputs of the normalization filters is connected as
+  //  filters. The output of the normalization filters is connected as
   //  input to the blurring filters. The input to the registration method
   //  is taken from the blurring filters.
   //
@@ -342,8 +329,9 @@ int main( int argc, char *argv[] )
 
 
   fixedNormalizer->Update();
-  registration->SetFixedImageRegion( 
-       fixedNormalizer->GetOutput()->GetBufferedRegion() );
+  FixedImageType::RegionType fixedImageRegion =
+       fixedNormalizer->GetOutput()->GetBufferedRegion();
+  registration->SetFixedImageRegion( fixedImageRegion );
 
   typedef RegistrationType::ParametersType ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
@@ -353,6 +341,48 @@ int main( int argc, char *argv[] )
   
   registration->SetInitialTransformParameters( initialParameters );
 
+  //  Software Guide : BeginLatex
+  //
+  //  We should now define the number of spatial samples to be considered in
+  //  the metric computation. Note that we were forced to postpone this setting
+  //  until we had done the preprocessing of the images because the number of
+  //  samples is usually defined as a fraction of the total number of pixels in
+  //  the fixed image.
+  //
+  //  The number of spatial samples can usually be as low as $1\%$ of the total
+  //  number of pixels in the fixed image. Increasing the number of samples
+  //  improves the smoothness of the metric from one iteration to another and
+  //  therefore helps when this metric is used in conjuction with optimizers
+  //  that rely of the continuity of the metric values. The trade-off, of
+  //  course, is that a larger number of samples result in longer computation
+  //  times per every evaluation of the metric. It has been demonstrated
+  //  experimentally that the number of samples is not a critical parameter for
+  //  the registration process. When you start fine tuning your own
+  //  registration process, you should start using high values of number of
+  //  samples, for example in the range of $20\%$ to $50\%$. Once you have
+  //  succeeded to register your images you can then reduce the number of
+  //  samples progressively until you find a good compromise on the time it
+  //  takes to compute one evaluation of the Metric. Note that it is not useful
+  //  to have very fast evaluations if the noise in their values results in
+  //  more iterations being required by the optimizer in order to converge. You
+  //  must then study the behavior of the metric values as the iteration
+  //  progress, just as illustrated in
+  //  section~\ref{sec:MonitoringImageRegistration}.
+  //
+  //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  const unsigned int numberOfPixels = fixedImageRegion.GetNumberOfPixels();
+  
+  const unsigned int numberOfSamples = 
+                        static_cast< unsigned int >( numberOfPixels * 0.01 );
+
+  metric->SetNumberOfSpatialSamples( numberOfSamples );
+  // Software Guide : EndCodeSnippet
+
+std::cout << "number of samples = " << numberOfSamples  << std::endl;
 
   //  Software Guide : BeginLatex
   //  
@@ -371,7 +401,7 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetLearningRate( 20.0 );
+  optimizer->SetLearningRate( 10.0 );
   optimizer->SetNumberOfIterations( 200 );
   optimizer->MaximizeOn();
   // Software Guide : EndCodeSnippet
@@ -490,6 +520,39 @@ int main( int argc, char *argv[] )
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
+
+
+  // Generate checkerboards before and after registration
+  //
+  typedef itk::CheckerBoardImageFilter< FixedImageType > CheckerBoardFilterType;
+
+  CheckerBoardFilterType::Pointer checker = CheckerBoardFilterType::New();
+
+  checker->SetInput1( fixedImage );
+  checker->SetInput2( resample->GetOutput() );
+
+  caster->SetInput( checker->GetOutput() );
+  writer->SetInput( caster->GetOutput()   );
+  
+  // Before registration
+  TransformType::Pointer identityTransform = TransformType::New();
+  identityTransform->SetIdentity();
+  resample->SetTransform( identityTransform );
+
+  if( argc > 4 )
+    {
+    writer->SetFileName( argv[4] );
+    writer->Update();
+    }
+
+ 
+  // After registration
+  resample->SetTransform( finalTransform );
+  if( argc > 5 )
+    {
+    writer->SetFileName( argv[5] );
+    writer->Update();
+    }
 
 
   //  Software Guide : BeginLatex
