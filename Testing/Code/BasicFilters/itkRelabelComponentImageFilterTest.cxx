@@ -26,6 +26,10 @@
 #include "itkFilterWatcher.h"
 #include "itkChangeInformationImageFilter.h"
 #include "itkLabelStatisticsImageFilter.h"
+#include "itkNumericTraits.h"
+#include "itkHistogram.h"
+
+#include "itkMultiThreader.h"
 
 int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
 {
@@ -56,6 +60,13 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   typedef itk::RelabelComponentImageFilter< LabelImageType, LabelImageType > RelabelComponentType;
   typedef itk::BinaryThresholdImageFilter<LabelImageType, WriteImageType> FinalThresholdFilterType;
   typedef itk::LabelStatisticsImageFilter< InternalImageType, LabelImageType> StatisticsFilterType;
+
+  typedef itk::NumericTraits<InternalPixelType>::RealType RealType;
+  typedef itk::Statistics::Histogram<RealType,1> HistogramType;
+  typedef HistogramType::IndexType HIndexType;
+  int NumBins = 13;
+  RealType LowerBound = 51.0;
+  RealType UpperBound = 252.0;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -97,7 +108,11 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   connected->SetInput (threshold->GetOutput());
   relabel->SetInput( connected->GetOutput() );
   relabel->SetNumberOfObjectsToPrint( 5 );
+  relabel->SetMinimumObjectSize(30000);
   std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << std::endl;
+  relabel->Update();
+  std::cout << "NumberOfObjects: " << relabel->GetNumberOfObjects() << " OriginalNumberOfObjects: " <<
+    relabel->GetOriginalNumberOfObjects() << " MinimumObjectSize: " << relabel->GetMinimumObjectSize() << std::endl;
   
   // pull out the largest object
   finalThreshold->SetInput( relabel->GetOutput() );
@@ -105,6 +120,9 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   finalThreshold->SetUpperThreshold( 1 ); // object #1
   finalThreshold->SetInsideValue(255);
   finalThreshold->SetOutsideValue(itk::NumericTraits<WritePixelType>::Zero);
+
+  // turn off multi-threading for debugging
+  itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1);
   
   try
     {
@@ -129,6 +147,8 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
     {
     statistics->SetInput( change->GetOutput() );
     statistics->SetLabelInput( relabel->GetOutput() );
+    statistics->SetHistogramParameters(NumBins, LowerBound, UpperBound);
+    statistics->UseHistogramsOn();
     statistics->Update();
     }
   catch( itk::ExceptionObject & excep )
@@ -139,6 +159,7 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
     }
   try
     {
+    HistogramType::Pointer histogram;
     unsigned long printNum = statistics->GetNumberOfLabels();
     if (printNum > 10)
       {
@@ -154,6 +175,17 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
       std::cout << "\tSigma = " << statistics->GetSigma(ii) << std::endl;
       std::cout << "\tVariance = " << statistics->GetVariance(ii) << std::endl;
       std::cout << "\tSum = " << statistics->GetSum(ii) << std::endl;
+      std::cout << "\tMedian = " << statistics->GetMedian(ii) << std::endl;
+      if (statistics->HasLabel(ii))
+        {
+        std::cout << "\tHistogram Frequencies:" << std::endl;
+        histogram = statistics->GetHistogram(ii);
+        for (int jj=0;jj<=NumBins;jj++)
+          {
+          std::cout << histogram->GetFrequency(jj) << ", ";
+          }
+        std::cout <<  std::endl;
+        }
       }
 
     printNum = 2;
@@ -168,6 +200,17 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
       std::cout << "\tSigma = " << statistics->GetSigma(ii) << std::endl;
       std::cout << "\tVariance = " << statistics->GetVariance(ii) << std::endl;
       std::cout << "\tSum = " << statistics->GetSum(ii) << std::endl;
+      std::cout << "\tMedian = " << statistics->GetMedian(ii) << std::endl;
+      if (statistics->HasLabel(ii))
+        {
+        std::cout << "\tEvery tenth Histogram Frequencies:" << std::endl;
+        histogram = statistics->GetHistogram(ii);
+        for (int jj=0;jj<=NumBins;jj++)
+          {
+          std::cout << histogram->GetFrequency(jj) << ", ";
+          }
+        std::cout <<  std::endl;
+        }
       }
       
     }
