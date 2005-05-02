@@ -33,7 +33,7 @@ int itkConnectedComponentImageFilterTest(int argc, char* argv[] )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage  outputImage threshold_low threshold_hi [fully_connected]" << std::endl;
+    std::cerr << " inputImage  outputImage threshold_low threshold_hi [fully_connected] [minimum_object_size]" << std::endl;
     return 1;
     }
 
@@ -84,7 +84,11 @@ int itkConnectedComponentImageFilterTest(int argc, char* argv[] )
     filter->SetFullyConnected( fullyConnected );
     }
   relabel->SetInput( filter->GetOutput() );
-  relabel->SetMinimumObjectSize(100000);
+  if (argc > 6)
+    {
+    int minSize = atoi( argv[6] );
+    relabel->SetMinimumObjectSize( minSize );
+    }
   
   try
     {
