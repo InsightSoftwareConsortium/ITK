@@ -146,6 +146,7 @@ REGISTER_TEST(itkScaleLogarithmicTransformTest );
 REGISTER_TEST(itkSplineKernelTransformTest );
 REGISTER_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest );
 REGISTER_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest );
+REGISTER_TEST(itkSymmetricSecondRankTensorTest );
 //This is a separate executable REGISTER_TEST(itkSystemInformationTest );
 REGISTER_TEST(itkMetaDataDictionaryTest );
 REGISTER_TEST(itkSTLThreadTest );
