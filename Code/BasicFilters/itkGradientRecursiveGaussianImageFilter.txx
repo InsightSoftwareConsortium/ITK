@@ -34,23 +34,27 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   m_NormalizeAcrossScale = false;
 
-  m_ProgressCommand = CommandType::New();
-  m_ProgressCommand->SetCallbackFunction( this, & Self::ReportProgress );
-  m_Progress  = 0.0f;
+  // Create a process accumulator for tracking the progress of this
+  // minipipeline
+  m_Progress = ProgressAccumulator::New();
+  m_Progress->SetMiniPipelineFilter(this);
+ 
+  // Compute the contribution of each filter to the total progress.
+  const double weight = 1.0 / ( ImageDimension * ImageDimension );
 
   for( unsigned int i = 0; i<ImageDimension-1; i++ )
     {
     m_SmoothingFilters[ i ] = GaussianFilterType::New();
     m_SmoothingFilters[ i ]->SetOrder( GaussianFilterType::ZeroOrder );
     m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
-    m_SmoothingFilters[ i ]->AddObserver( ProgressEvent(), m_ProgressCommand );
     m_SmoothingFilters[ i ]->ReleaseDataFlagOn();
+    m_Progress->RegisterInternalFilter( m_SmoothingFilters[i], weight );
     }
 
   m_DerivativeFilter = DerivativeFilterType::New();
   m_DerivativeFilter->SetOrder( DerivativeFilterType::FirstOrder );
   m_DerivativeFilter->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
-  m_DerivativeFilter->AddObserver( ProgressEvent(), m_ProgressCommand );
+  m_Progress->RegisterInternalFilter( m_DerivativeFilter, weight );
   
   m_DerivativeFilter->SetInput( this->GetInput() );
 
@@ -66,28 +70,6 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   this->SetSigma( 1.0 );
 
-}
-
-
-
-/**
- *  Report progress by weigthing contributions of internal filters
- */
-template <typename TInputImage, typename TOutputImage>
-void 
-GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
-::ReportProgress(const Object * object, const EventObject & event )
-{
-  const ProcessObject * internalFilter = 
-    dynamic_cast<const ProcessObject *>( object );
-
-  if( typeid( event ) == typeid( ProgressEvent() ) )
-    {
-    const float filterProgress    = internalFilter->GetProgress();
-    const float weightedProgress  = filterProgress / ImageDimension;
-    m_Progress += weightedProgress;
-    this->UpdateProgress( m_Progress );
-    }
 }
 
 
@@ -179,7 +161,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 
   itkDebugMacro(<< "GradientRecursiveGaussianImageFilter generating data ");
 
-  m_Progress = 0.0f;
+  m_Progress->ResetProgress();
 
   const typename TInputImage::ConstPointer   inputImage( this->GetInput() );
 
@@ -217,6 +199,8 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
     GaussianFilterPointer lastFilter = m_SmoothingFilters[ImageDimension-2];
 
     lastFilter->Update();
+
+    m_Progress->ResetFilterProgressAndKeepAccumulatedProgress();
 
     // Copy the results to the corresponding component
     // on the output image of vectors

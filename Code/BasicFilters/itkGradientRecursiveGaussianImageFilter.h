@@ -22,7 +22,7 @@
 #include "itkImage.h"
 #include "itkCovariantVector.h"
 #include "itkPixelTraits.h"
-#include "itkCommand.h"
+#include "itkProgressAccumulator.h"
 
 
 namespace itk
@@ -115,10 +115,6 @@ public:
   typedef typename          OutputImageType::PixelType      OutputPixelType;
   typedef typename PixelTraits<OutputPixelType>::ValueType  OutputComponentType;
 
-  /**  Command for observing progress of internal pipeline filters */
-  typedef          MemberCommand< Self >     CommandType;  
-  typedef typename CommandType::Pointer      CommandPointer;
-
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -147,9 +143,6 @@ protected:
   // Override since the filter produces the entire dataset
   void EnlargeOutputRequestedRegion(DataObject *output);
 
-  /** Compute progress by weighting the contributions of the internal filters */
-  void ReportProgress(const Object * object, const EventObject & event );
-
 private:
   GradientRecursiveGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -158,8 +151,7 @@ private:
   DerivativeFilterPointer       m_DerivativeFilter;
   OutputImageAdaptorPointer     m_ImageAdaptor;
 
-  CommandPointer                m_ProgressCommand;
-  float                         m_Progress;
+  ProgressAccumulator::Pointer  m_Progress;
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale; 
