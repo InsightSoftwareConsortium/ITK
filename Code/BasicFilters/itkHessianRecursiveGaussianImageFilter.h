@@ -156,7 +156,8 @@ private:
   HessianRecursiveGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  GaussianFilterPointer         m_SmoothingFilters[ImageDimension-2];
+  GaussianFilterPointer         m_SmoothingFilters[
+                                     itkGetStaticConstMacro(ImageDimension)-2];
   DerivativeFilterAPointer      m_DerivativeFilterA;
   DerivativeFilterBPointer      m_DerivativeFilterB;
   OutputImageAdaptorPointer     m_ImageAdaptor;
