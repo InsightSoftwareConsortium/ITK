@@ -25,6 +25,7 @@
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
 #include "itkSymmetricSecondRankTensor.h"
+#include "itkDiffusionTensor3D.h"
 
 namespace itk
 {
@@ -274,7 +275,15 @@ const std::type_info& ImageIOBase::GetComponentTypeInfo() const
     this->SetNumberOfComponents(7); \
     this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
     this->SetComponentType(ImageIOBase::ntype); \
-    }
+    }\
+  else if ( ptype == typeid(DiffusionTensor3D<type>) ) \
+    { \
+    this->SetNumberOfComponents(3); \
+    this->SetComponentType(ImageIOBase::ntype); \
+    this->SetPixelType(ImageIOBase::DIFFUSIONTENSOR3D); \
+    } 
+ 
+  
  
 
 
@@ -587,6 +596,8 @@ std::string ImageIOBase::GetPixelTypeAsString(IOPixelType t) const
       return (s = "rgba");
     case SYMMETRICSECONDRANKTENSOR:
       return (s = "symmetric_second_rank_tensor");
+    case DIFFUSIONTENSOR3D:
+      return (s = "diffusion_tensor_3D");
     case UNKNOWNPIXELTYPE:
     default:
       itkExceptionMacro ("Unknown pixel type: " << t);
