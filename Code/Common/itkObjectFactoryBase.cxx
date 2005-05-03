@@ -328,20 +328,20 @@ ObjectFactoryBase
       if ( lib )
         {
         /**
-   * Look for the symbol itkLoad in the library
-   */
+         * Look for the symbol itkLoad in the library
+         */
         ITK_LOAD_FUNCTION loadfunction
           = (ITK_LOAD_FUNCTION)DynamicLoader::GetSymbolAddress(lib, "itkLoad");
         /**
-   * if the symbol is found call it to create the factory
+         * if the symbol is found call it to create the factory
          * from the library
-   */
+         */
         if ( loadfunction )
           {
           ObjectFactoryBase* newfactory = (*loadfunction)();
           /**
-     * initialize class members if load worked
-     */
+           * initialize class members if load worked
+           */
           newfactory->m_LibraryHandle = (void*)lib;
           newfactory->m_LibraryPath = fullpath;
           newfactory->m_LibraryDate = 0; // unused for now...
@@ -408,9 +408,10 @@ ObjectFactoryBase
     {
     itkGenericOutputMacro(<< "Possible incompatible factory load:" 
                           << "\nRunning itk version :\n" << Version::GetITKSourceVersion() 
-                          << "\nLoaded Factory version:\n" << factory->GetITKSourceVersion()
+                          << "\nLoaded factory version:\n" << factory->GetITKSourceVersion()
                           << "\nLoading factory:\n" << factory->m_LibraryPath << "\n");
     }
+
   ObjectFactoryBase::Initialize();
   ObjectFactoryBase::m_RegisteredFactories->push_back(factory);
   factory->Register();
