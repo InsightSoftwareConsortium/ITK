@@ -59,6 +59,7 @@ ADD_TEST(itkCovariantVectorGeometryTest ${COMMON_TESTS} itkCovariantVectorGeomet
 ADD_TEST(itkCovarianceImageFunctionTest ${COMMON_TESTS} itkCovarianceImageFunctionTest)
 ADD_TEST(itkDataTypeTest ${COMMON_TESTS} itkDataTypeTest)
 ADD_TEST(itkDynamicMeshTest ${COMMON_TESTS} itkDynamicMeshTest)
+ADD_TEST(itkDiffusionTensor3DTest ${COMMON_TESTS} itkDiffusionTensor3DTest)
 ADD_TEST(itkEuler2DTransformTest ${COMMON_TESTS} itkEuler2DTransformTest)
 ADD_TEST(itkEuler3DTransformTest ${COMMON_TESTS} itkEuler3DTransformTest)
 ADD_TEST(itkEventObjectTest ${COMMON_TESTS} itkEventObjectTest)
@@ -235,6 +236,7 @@ itkDataTypeTest.cxx
 itkDecoratorTest.cxx
 itkDirectoryTest.cxx
 itkDynamicMeshTest.cxx
+itkDiffusionTensor3DTest.cxx
 itkEuler2DTransformTest.cxx
 itkEuler3DTransformTest.cxx
 itkEventObjectTest.cxx

@@ -44,6 +44,7 @@ REGISTER_TEST(itkDataTypeTest );
 REGISTER_TEST(itkDecoratorTest ); 
 REGISTER_TEST(itkDirectoryTest ); 
 REGISTER_TEST(itkDynamicMeshTest );
+REGISTER_TEST(itkDiffusionTensor3DTest );
 REGISTER_TEST(itkEuler2DTransformTest );
 REGISTER_TEST(itkEuler3DTransformTest );
 REGISTER_TEST(itkEventObjectTest );
