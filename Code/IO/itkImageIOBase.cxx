@@ -24,6 +24,7 @@
 #include "itkVector.h"
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
+#include "itkSymmetricSecondRankTensor.h"
 
 namespace itk
 {
@@ -237,8 +238,44 @@ const std::type_info& ImageIOBase::GetComponentTypeInfo() const
     this->SetNumberOfComponents(7); \
     this->SetPixelType(ImageIOBase::COVARIANTVECTOR); \
     this->SetComponentType(ImageIOBase::ntype); \
+    } \
+  else if ( ptype == typeid(SymmetricSecondRankTensor<type,2>) ) \
+    { \
+    this->SetNumberOfComponents(2); \
+    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
+    this->SetComponentType(ImageIOBase::ntype); \
+    } \
+  else if ( ptype == typeid(SymmetricSecondRankTensor<type,3>) ) \
+    { \
+    this->SetNumberOfComponents(3); \
+    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
+    this->SetComponentType(ImageIOBase::ntype); \
+    } \
+  else if ( ptype == typeid(SymmetricSecondRankTensor<type,4>) ) \
+    { \
+    this->SetNumberOfComponents(4); \
+    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
+    this->SetComponentType(ImageIOBase::ntype); \
+    } \
+  else if ( ptype == typeid(SymmetricSecondRankTensor<type,5>) ) \
+    { \
+    this->SetNumberOfComponents(5); \
+    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
+    this->SetComponentType(ImageIOBase::ntype); \
+    } \
+  else if ( ptype == typeid(SymmetricSecondRankTensor<type,6>) ) \
+    { \
+    this->SetNumberOfComponents(6); \
+    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
+    this->SetComponentType(ImageIOBase::ntype); \
+    } \
+  else if ( ptype == typeid(SymmetricSecondRankTensor<type,7>) ) \
+    { \
+    this->SetNumberOfComponents(7); \
+    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
+    this->SetComponentType(ImageIOBase::ntype); \
     }
-
+ 
 
 
 bool ImageIOBase::SetPixelTypeInfo(const std::type_info& ptype)
@@ -548,6 +585,8 @@ std::string ImageIOBase::GetPixelTypeAsString(IOPixelType t) const
       return (s = "rgb");
     case RGBA:
       return (s = "rgba");
+    case SYMMETRICSECONDRANKTENSOR:
+      return (s = "symmetric_second_rank_tensor");
     case UNKNOWNPIXELTYPE:
     default:
       itkExceptionMacro ("Unknown pixel type: " << t);

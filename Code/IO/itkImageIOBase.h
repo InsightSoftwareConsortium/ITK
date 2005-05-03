@@ -76,7 +76,7 @@ public:
    * context for automatic data conversions (for instance, RGB to
    * SCALAR, VECTOR to SCALAR). */
   typedef  enum {UNKNOWNPIXELTYPE,SCALAR,RGB,RGBA,OFFSET,VECTOR,
-                 POINT,COVARIANTVECTOR}  IOPixelType;
+                 POINT,COVARIANTVECTOR,SYMMETRICSECONDRANKTENSOR}  IOPixelType;
 
   /** Enums used to manipulate the component type. The component type
    * refers to the actual storage class associated with either a
