@@ -37,6 +37,7 @@ void RegisterTests()
   REGISTER_TEST(itkVnlFFTTest);
 #if defined(USE_FFTW)
   REGISTER_TEST(itkFFTWFFTTest);
+  REGISTER_TEST(itkCurvatureRegistrationFilterTest);
 #endif
 #if defined(USE_SCSL)
   REGISTER_TEST(itkSCSLFFTTest);

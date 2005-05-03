@@ -157,6 +157,7 @@ ADD_TEST(itkUnsharpMaskLevelSetImageFilterTest ${ALGORITHMS_TESTS3} itkUnsharpMa
 ADD_TEST(itkVnlFFTTest ${ALGORITHMS_TESTS4} itkVnlFFTTest)
 IF(USE_FFTW)
        ADD_TEST(itkFFTWFFTTest ${ALGORITHMS_TESTS4} itkFFTWFFTTest)
+       ADD_TEST(itkCurvatureRegistrationFilterTest ${ALGORITHMS_TESTS4} itkCurvatureRegistrationFilterTest)
 ENDIF(USE_FFTW)
 
 IF(USE_SCSL)
@@ -308,6 +309,7 @@ itkCurvesLevelSetImageFilterZeroSigmaTest.cxx
 itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest.cxx
 itkNarrowBandCurvesLevelSetImageFilterTest.cxx
 itkFFTTest.cxx
+itkCurvatureRegistrationFilterTest.cxx
 itkWatershedImageFilterTest.cxx
 itkVoronoiPartitioningImageFilterTest.cxx
 itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx
