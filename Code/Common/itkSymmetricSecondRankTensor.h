@@ -68,7 +68,7 @@ class SymmetricSecondRankTensor: public
 public:
   /** Standard class typedefs. */
   typedef SymmetricSecondRankTensor  Self;
-  typedef FixedArray<TComponent,NDimension*(NDimension+1)/2> SuperClass;
+  typedef FixedArray<TComponent,NDimension*(NDimension+1)/2> Superclass;
   
   /** Dimension of the vector space. */
   itkStaticConstMacro(Dimension, unsigned int, NDimension);
@@ -87,7 +87,7 @@ public:
   
   /**  Define the component type. */
   typedef TComponent ComponentType;
-  typedef typename SuperClass::ValueType ValueType;
+  typedef typename Superclass::ValueType ValueType;
   
   /** Default constructor has nothing to do. */
   SymmetricSecondRankTensor() {this->Fill(0);}
@@ -101,6 +101,7 @@ public:
   
   /** Pass-through assignment operator for the Array base class. */
   Self& operator= (const Self& r);
+  Self& operator= (const ComponentType& r);
   Self& operator= (const ComponentArrayType r);
 
   /** Aritmetic operations between pixels. Return a new SymmetricSecondRankTensor. */

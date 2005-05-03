@@ -40,6 +40,19 @@ SymmetricSecondRankTensor<T,NDimension>
 
 
 /*
+ * Assignment Operator from a scalar constant
+ */
+template<class T,unsigned int NDimension>
+SymmetricSecondRankTensor<T,NDimension>&
+SymmetricSecondRankTensor<T,NDimension>
+::operator= (const ComponentType & r)
+{
+  BaseArray::operator=(r);
+  return *this;
+}
+
+
+/*
  * Assigment from a plain array
  */
 template<class T,unsigned int NDimension>
