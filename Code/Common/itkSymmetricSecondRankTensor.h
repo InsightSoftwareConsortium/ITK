@@ -138,12 +138,16 @@ private:
   
 };
 
+/** This extra typedef is necessary for preventing an Internal Compiler Error in
+ * Microsoft Visual C++ 6.0. This typedef is not needed for any other compiler. */
+typedef std::ostream               OutputStreamType;
+typedef std::istream               InputStreamType;
 
 template< typename TComponent, unsigned int NDimension  >  
-ITK_EXPORT std::ostream& operator<<(std::ostream& os, 
+ITK_EXPORT OutputStreamType& operator<<(OutputStreamType& os, 
               const SymmetricSecondRankTensor<TComponent,NDimension> & c); 
 template< typename TComponent, unsigned int NDimension  >  
-ITK_EXPORT std::istream& operator>>(std::istream& is, 
+ITK_EXPORT InputStreamType& operator>>(InputStreamType& is, 
                     SymmetricSecondRankTensor<TComponent,NDimension> & c); 
 
 } // end namespace itk
