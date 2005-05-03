@@ -144,13 +144,6 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
 
   houghFilter->SetAngleResolution(500.0f);
 
-  houghFilter->SetAngleAxisSize(500);
-  if(houghFilter->GetAngleAxisSize() != 500)
-  {
-    std::cout << "Failure" << std::endl;
-    return EXIT_FAILURE;
-  }
-
   houghFilter->SetDiscRadius(10.0f);
   if(houghFilter->GetDiscRadius() != 10.0f)
   {
