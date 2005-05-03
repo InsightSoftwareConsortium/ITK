@@ -240,45 +240,33 @@ const std::type_info& ImageIOBase::GetComponentTypeInfo() const
     this->SetPixelType(ImageIOBase::COVARIANTVECTOR); \
     this->SetComponentType(ImageIOBase::ntype); \
     } \
-  else if ( ptype == typeid(SymmetricSecondRankTensor<type,2>) ) \
-    { \
-    this->SetNumberOfComponents(2); \
-    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
   else if ( ptype == typeid(SymmetricSecondRankTensor<type,3>) ) \
-    { \
-    this->SetNumberOfComponents(3); \
-    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(SymmetricSecondRankTensor<type,4>) ) \
-    { \
-    this->SetNumberOfComponents(4); \
-    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(SymmetricSecondRankTensor<type,5>) ) \
-    { \
-    this->SetNumberOfComponents(5); \
-    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(SymmetricSecondRankTensor<type,6>) ) \
     { \
     this->SetNumberOfComponents(6); \
     this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
     this->SetComponentType(ImageIOBase::ntype); \
     } \
-  else if ( ptype == typeid(SymmetricSecondRankTensor<type,7>) ) \
+  else if ( ptype == typeid(SymmetricSecondRankTensor<type,4>) ) \
     { \
-    this->SetNumberOfComponents(7); \
+    this->SetNumberOfComponents(10); \
     this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
     this->SetComponentType(ImageIOBase::ntype); \
-    }\
+    } \
+  else if ( ptype == typeid(SymmetricSecondRankTensor<type,5>) ) \
+    { \
+    this->SetNumberOfComponents(15); \
+    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
+    this->SetComponentType(ImageIOBase::ntype); \
+    } \
+  else if ( ptype == typeid(SymmetricSecondRankTensor<type,6>) ) \
+    { \
+    this->SetNumberOfComponents(21); \
+    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
+    this->SetComponentType(ImageIOBase::ntype); \
+    } \
   else if ( ptype == typeid(DiffusionTensor3D<type>) ) \
     { \
-    this->SetNumberOfComponents(3); \
+    this->SetNumberOfComponents(6); \
     this->SetComponentType(ImageIOBase::ntype); \
     this->SetPixelType(ImageIOBase::DIFFUSIONTENSOR3D); \
     } 
