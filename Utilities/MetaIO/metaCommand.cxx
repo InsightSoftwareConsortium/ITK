@@ -25,7 +25,7 @@ MetaCommand::MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2005-05-03 13:48:22 $ cvs command */
+/** Extract the date from the $Date: 2005-05-03 16:16:44 $ cvs command */
 std::string MetaCommand::ExtractDateFromCVS(std::string date)
 {
   std::string newdate;
@@ -469,7 +469,7 @@ void MetaCommand::ListOptionsSimplified()
     std::vector<Field>::const_iterator itField = (*it).fields.begin();
     while(itField != (*it).fields.end())
       {
-      if((*itField).type != TypeEnumType::FLAG) // only display the type if it's not a type
+      if((*itField).type != FLAG) // only display the type if it's not a type
         {
         if((*itField).required)
           {
