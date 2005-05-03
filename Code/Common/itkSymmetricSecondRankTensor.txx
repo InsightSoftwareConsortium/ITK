@@ -217,6 +217,45 @@ SymmetricSecondRankTensor<T,NDimension>
 
 
 /*
+ * Compute Eigen Values 
+ */
+template<class T,unsigned int NDimension>
+void
+SymmetricSecondRankTensor<T,NDimension>
+::ComputeEigenValues( EigenValuesArrayType & eigenValues ) const
+{
+  const int n = Dimension;
+  const int wantEigenvectors = 0;
+  int errorReturn = 0;
+
+  double workArea1[ Dimension ];
+  double workArea2[ Dimension ];
+
+  double inputMatrix[ Dimension * Dimension ];
+  
+  unsigned int k = 0;
+
+  for( unsigned int row=0; row < Dimension; row++ )
+    {
+    for( unsigned int col=0; col < Dimension; col++ )
+      {
+      inputMatrix[k++] = (*this)(row,col);
+      }
+    }
+
+  //
+  // directly call to Fortran routine from netlib, this is the same routine
+  // that VNL ends up calling when you invoke vnl_symmetric_eigensystem.
+  //
+  rs_( &n, &n, inputMatrix, 
+       eigenValues.GetDataPointer(), 
+       &wantEigenvectors, 
+       NULL, 
+       workArea1, workArea2, &errorReturn );
+}
+
+
+/*
  * Compute Eigen analysis, it returns an array with eigen values
  * and a Matrix with eigen vectors
  */

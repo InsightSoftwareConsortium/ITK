@@ -130,7 +130,10 @@ public:
   ValueType & operator()( unsigned int row, unsigned int col );
   const ValueType & operator()( unsigned int row, unsigned int col ) const;
 
-  /** Return an array containing EigenValues, and a matrix containing eigen
+  /** Return an array containing EigenValues. */
+  void ComputeEigenValues( EigenValuesArrayType & eigenValues ) const;
+ 
+  /** Return an array containing EigenValues, and a matrix containing Eigen
    * vectors. */
   void ComputeEigenAnalysis( EigenValuesArrayType & eigenValues,
                              EigenVectorsMatrixType & eigenVectors ) const;
