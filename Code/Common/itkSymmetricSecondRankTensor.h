@@ -75,7 +75,8 @@ public:
   itkStaticConstMacro(InternalDimension, unsigned int, NDimension*(NDimension+1)/2);
 
   /** Convenience typedefs. */
-  typedef FixedArray<TComponent,InternalDimension> BaseArray;
+  typedef FixedArray<TComponent,
+          itkGetStaticConstMacro(InternalDimension)> BaseArray;
   
   /** Array of eigen-values. */
   typedef FixedArray<TComponent, NDimension> EigenValuesArrayType;
@@ -94,7 +95,8 @@ public:
   
   /** Pass-through constructor for the Array base class. */
   SymmetricSecondRankTensor(const Self& r): BaseArray(r) {}
-  SymmetricSecondRankTensor(const ComponentType  r[InternalDimension]): BaseArray(r) {}  
+  SymmetricSecondRankTensor(const ComponentType  r[
+      itkGetStaticConstMacro(InternalDimension) ]): BaseArray(r) {}  
     
   /** Pass-through assignment operator for the Array base class. */
   Self& operator= (const Self& r);
@@ -109,7 +111,10 @@ public:
 
  
   /** Return the number of components. */
-  static int GetNumberOfComponents(){ return InternalDimension;}
+  static int GetNumberOfComponents() 
+    { 
+    return itkGetStaticConstMacro(InternalDimension);
+    }
 
   /** Return the value for the Nth component. */
   ComponentType GetNthComponent(int c) const
