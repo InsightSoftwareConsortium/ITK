@@ -1,6 +1,8 @@
 ADD_LIBRARY(ITKMetaIO
   metaArrow.cxx
   metaBlob.cxx
+  metaCommand.h
+  metaCommand.cxx
   metaDTITube.cxx
   metaEllipse.cxx
   metaGroup.cxx
