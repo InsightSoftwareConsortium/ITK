@@ -45,7 +45,7 @@ SymmetricSecondRankTensor<T,NDimension>
 template<class T,unsigned int NDimension>
 SymmetricSecondRankTensor<T,NDimension>&
 SymmetricSecondRankTensor<T,NDimension>
-::operator= (const ComponentType r[Dimension])
+::operator= (const ComponentArrayType r )
 {
   BaseArray::operator=(r);
   return *this;

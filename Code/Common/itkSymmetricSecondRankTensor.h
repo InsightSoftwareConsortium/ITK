@@ -93,14 +93,15 @@ public:
   SymmetricSecondRankTensor() {this->Fill(0);}
   SymmetricSecondRankTensor (const ComponentType& r) { this->Fill(r); }
   
+  typedef ComponentType ComponentArrayType[ itkGetStaticConstMacro(InternalDimension) ];
+
   /** Pass-through constructor for the Array base class. */
   SymmetricSecondRankTensor(const Self& r): BaseArray(r) {}
-  SymmetricSecondRankTensor(const ComponentType  r[
-      itkGetStaticConstMacro(InternalDimension) ]): BaseArray(r) {}  
-    
+  SymmetricSecondRankTensor(const ComponentArrayType r): BaseArray(r) {}    
+  
   /** Pass-through assignment operator for the Array base class. */
   Self& operator= (const Self& r);
-  Self& operator= (const ComponentType r[6]);
+  Self& operator= (const ComponentArrayType r);
 
   /** Aritmetic operations between pixels. Return a new SymmetricSecondRankTensor. */
   Self operator+(const Self &vec) const;
