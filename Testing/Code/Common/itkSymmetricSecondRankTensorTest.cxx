@@ -219,9 +219,11 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
     std::cout << tensor << std::endl;
 
     Double3DTensorType::EigenValuesArrayType     eigenValues;
+    Double3DTensorType::EigenValuesArrayType     eigenValues2;
     Double3DTensorType::EigenVectorsMatrixType   eigenVectors;
     
     tensor.ComputeEigenAnalysis( eigenValues, eigenVectors );
+    tensor.ComputeEigenValues( eigenValues2 );
 
     std::cout << "EigenValues = " << std::endl;
     std::cout << eigenValues << std::endl;
@@ -241,12 +243,24 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
         {
         if( fabs( expectedValues[i] - eigenValues[i] ) > tolerance )
           {
-          std::cerr << "Eigenvalue computation failed" << std::endl;
+          std::cerr << "EigenAnalysis computation failed" << std::endl;
           std::cerr << "expectedValues = " << expectedValues << std::endl;
           std::cerr << "eigenValues    = " << eigenValues << std::endl;
           return EXIT_FAILURE;
           }
         }
+
+      for(unsigned int j=0; j<3; j++)
+        {
+        if( fabs( expectedValues[j] - eigenValues2[j] ) > tolerance )
+          {
+          std::cerr << "EigenValues computation failed" << std::endl;
+          std::cerr << "expectedValues = " << expectedValues << std::endl;
+          std::cerr << "eigenValues    = " << eigenValues2 << std::endl;
+          return EXIT_FAILURE;
+          }
+        }
+
     }
 
     // Now let's do something more involved...
@@ -264,6 +278,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
     std::cout << tensor << std::endl;
 
     tensor.ComputeEigenAnalysis( eigenValues, eigenVectors );
+    tensor.ComputeEigenValues( eigenValues2 );
 
     std::cout << "EigenValues = " << std::endl;
     std::cout << eigenValues << std::endl;
@@ -281,12 +296,25 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
         {
         if( fabs( expectedValues[i] - eigenValues[i] ) > tolerance )
           {
-          std::cerr << "Eigenvalue computation failed" << std::endl;
+          std::cerr << "EigenAnalysis computation failed" << std::endl;
           std::cerr << "expectedValues = " << expectedValues << std::endl;
           std::cerr << "eigenValues    = " << eigenValues << std::endl;
           return EXIT_FAILURE;
           }
         }
+
+      for(unsigned int j=0; j<3; j++)
+        {
+        if( fabs( expectedValues[j] - eigenValues2[j] ) > tolerance )
+          {
+          std::cerr << "EigenValues computation failed" << std::endl;
+          std::cerr << "expectedValues = " << expectedValues << std::endl;
+          std::cerr << "eigenValues    = " << eigenValues2 << std::endl;
+          return EXIT_FAILURE;
+          }
+        }
+
+
     }
 
     // Now let's do one where we know the rotation...
@@ -304,6 +332,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
     std::cout << tensor << std::endl;
 
     tensor.ComputeEigenAnalysis( eigenValues, eigenVectors );
+    tensor.ComputeEigenValues( eigenValues2 );
 
     std::cout << "EigenValues = " << std::endl;
     std::cout << eigenValues << std::endl;
@@ -327,6 +356,18 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
           return EXIT_FAILURE;
           }
         }
+
+      for(unsigned int j=0; j<3; j++)
+        {
+        if( fabs( expectedValues[j] - eigenValues2[j] ) > tolerance )
+          {
+          std::cerr << "EigenValues computation failed" << std::endl;
+          std::cerr << "expectedValues = " << expectedValues << std::endl;
+          std::cerr << "eigenValues    = " << eigenValues2 << std::endl;
+          return EXIT_FAILURE;
+          }
+        }
+
     }
 
 
