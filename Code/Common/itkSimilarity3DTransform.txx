@@ -96,7 +96,7 @@ Similarity3DTransform<TScalarType>
     }
   VersorType newVersor;
   newVersor.Set(axis);
-  this->Set_M_Versor( newVersor );
+  this->SetVarVersor( newVersor );
   m_Scale = parameters[6]; // must be set before calling ComputeMatrix();
   this->ComputeMatrix();
 
@@ -108,7 +108,7 @@ Similarity3DTransform<TScalarType>
   newTranslation[0] = parameters[3];
   newTranslation[1] = parameters[4];
   newTranslation[2] = parameters[5];
-  this->Set_M_Translation(newTranslation);
+  this->SetVarTranslation(newTranslation);
   this->ComputeOffset();
 
   itkDebugMacro(<<"After setting paramaters ");
@@ -235,7 +235,7 @@ Similarity3DTransform<TScalarType>
   this->Superclass::ComputeMatrix();
   MatrixType newMatrix = this->GetMatrix();
   newMatrix *= m_Scale;
-  this->Set_M_Matrix(newMatrix);
+  this->SetVarMatrix(newMatrix);
 }
 
  
