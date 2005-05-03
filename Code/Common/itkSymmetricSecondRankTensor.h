@@ -61,7 +61,7 @@ namespace itk
  * \ingroup ImageObjects
  */
 
-template < typename TComponent = float, unsigned int NDimension=3 >
+template < typename TComponent, unsigned int NDimension=3 >
 class SymmetricSecondRankTensor: public 
         FixedArray<TComponent,NDimension*(NDimension+1)/2>
 {
