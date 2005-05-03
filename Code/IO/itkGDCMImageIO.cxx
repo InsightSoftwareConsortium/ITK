@@ -483,7 +483,35 @@ bool GDCMImageIO::CanWriteFile(const char* name)
     return false;
     }
 
-  return true;
+  std::string::size_type dcmPos = filename.rfind(".dcm");
+  if ( (dcmPos != std::string::npos)
+       && (dcmPos == filename.length() - 4) )
+    {
+    return true;
+    }
+
+  dcmPos = filename.rfind(".DCM");
+  if ( (dcmPos != std::string::npos)
+       && (dcmPos == filename.length() - 4) )
+    {
+    return true;
+    }
+  
+  std::string::size_type dicomPos = filename.rfind(".dicom");
+  if ( (dicomPos != std::string::npos)
+       && (dicomPos == filename.length() - 6) )
+    {
+    return true;
+    }
+
+  dicomPos = filename.rfind(".DICOM");
+  if ( (dicomPos != std::string::npos)
+       && (dicomPos == filename.length() - 6) )
+    {
+    return true;
+    }
+    
+  return false;
 }
 
 void GDCMImageIO::WriteImageInformation() 

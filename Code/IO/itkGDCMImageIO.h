@@ -76,8 +76,8 @@ public:
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
-  /** Determine the file type. Returns true if this ImageIO can read the
-   * file specified. */
+  /** Determine the file type. Returns true if this ImageIO can write the
+   * file specified. GDCM triggers on ".dcm" and ".dicom". */
   virtual bool CanWriteFile(const char*);
 
   /** Writes the spacing and dimentions of the image.

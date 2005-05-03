@@ -92,12 +92,60 @@ const std::vector<std::string> &GDCMSeriesFileNames::GetOutputFileNames()
 
   if( m_InputFileNames.size() )
     {
+    bool hasExtension = false;
     for(std::vector<std::string>::const_iterator it = m_InputFileNames.begin();
       it != m_InputFileNames.end(); ++it )
       {
-      std::string filename = 
-        m_OutputDirectory + itksys::SystemTools::GetFilenameName( *it );
+      // look for extension ".dcm" and ".DCM"
+      std::string::size_type dcmPos = (*it).rfind(".dcm");
+      if ( (dcmPos != std::string::npos)
+           && (dcmPos == (*it).length() - 4) )
+        {
+        hasExtension = true;
+        }
+      else
+        {
+        dcmPos = (*it).rfind(".DCM");
+        if ( (dcmPos != std::string::npos)
+             && (dcmPos == (*it).length() - 4) )
+          {
+          hasExtension = true;
+          }
+        }
 
+      // look for extension ".dicom" and ".DICOM"
+      std::string::size_type dicomPos = (*it).rfind(".dicom");
+      if ( (dicomPos != std::string::npos)
+           && (dicomPos == (*it).length() - 6) )
+        {
+        hasExtension = true;
+        }
+      else
+        {
+        dicomPos = (*it).rfind(".DICOM");
+        if ( (dicomPos != std::string::npos)
+             && (dicomPos == (*it).length() - 6) )
+          {
+          hasExtension = true;
+          }
+        }
+
+      // construct a filename, adding an extension if necessary
+      std::string filename;
+      if (hasExtension)
+        {
+        filename = 
+          m_OutputDirectory + itksys::SystemTools::GetFilenameName( *it );
+        }
+      else
+        {
+        // input filename has no extension, add a ".dcm"
+        filename = 
+          m_OutputDirectory + itksys::SystemTools::GetFilenameName( *it )
+          + ".dcm";
+        }
+
+      // Add the file name to the output list
       m_OutputFileNames.push_back( filename );
       }
     }
