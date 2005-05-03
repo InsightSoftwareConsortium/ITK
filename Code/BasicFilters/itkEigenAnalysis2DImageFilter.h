@@ -20,6 +20,8 @@
 #include "itkImageToImageFilter.h"
 
 
+namespace itk {
+  
 /** \class EigenAnalysis2DImageFilter
  * \brief Computes pixel-wise the eigen values and eigen vectors 
  *        of a 2D symmetrical matrix.
@@ -36,7 +38,6 @@
  * 
  * \ingroup ShouldBeThreaded IntensityImageFilters
  */
-namespace itk {
 
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage >
 class ITK_EXPORT EigenAnalysis2DImageFilter:
