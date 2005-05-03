@@ -159,7 +159,7 @@ VersorTransform<TScalarType>
   newMatrix[2][0] = 2.0 * ( xz - yw );
   newMatrix[2][1] = 2.0 * ( yz + xw );
   newMatrix[1][2] = 2.0 * ( yz - xw );
-  this->Set_M_Matrix(newMatrix);
+  this->SetVarMatrix(newMatrix);
 }
 
 // Compute the matrix

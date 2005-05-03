@@ -92,7 +92,7 @@ Translate(const OutputVectorType &trans, bool pre)
     {
     newTranslation += trans;
     }
-  this->Set_M_Translation(newTranslation);
+  this->SetVarTranslation(newTranslation);
   this->ComputeOffset();
   this->Modified();
   return;
@@ -109,17 +109,17 @@ AffineTransform<TScalarType, NDimensions>
     {
     MatrixType newMatrix = this->GetMatrix();
     newMatrix *= factor;
-    this->Set_M_Matrix(newMatrix);
+    this->SetVarMatrix(newMatrix);
     }
   else 
     {
     MatrixType newMatrix = this->GetMatrix();
     newMatrix *= factor;
-    this->Set_M_Matrix(newMatrix);
+    this->SetVarMatrix(newMatrix);
 
     OutputVectorType newTranslation = this->GetTranslation();
     newTranslation *= factor;
-    this->Set_M_Translation(newTranslation);
+    this->SetVarTranslation(newTranslation);
     }
   this->ComputeMatrixParameters();
   this->ComputeOffset();
@@ -148,12 +148,12 @@ AffineTransform<TScalarType, NDimensions>
     }
   if (pre) 
     {
-    this->Set_M_Matrix( this->GetMatrix() * trans );
+    this->SetVarMatrix( this->GetMatrix() * trans );
     }
   else 
     {
-    this->Set_M_Matrix( trans * this->GetMatrix() );
-    this->Set_M_Translation( trans * this->GetTranslation() );
+    this->SetVarMatrix( trans * this->GetMatrix() );
+    this->SetVarTranslation( trans * this->GetTranslation() );
     }
   this->ComputeMatrixParameters();
   this->ComputeOffset();
@@ -186,12 +186,12 @@ AffineTransform<TScalarType, NDimensions>
   trans[axis2][axis2] =  cos(angle);
   if (pre) 
     {
-    this->Set_M_Matrix( this->GetMatrix() * trans );
+    this->SetVarMatrix( this->GetMatrix() * trans );
     }
   else 
     {
-    this->Set_M_Matrix( trans * this->GetMatrix() );
-    this->Set_M_Translation( trans * this->GetTranslation() );
+    this->SetVarMatrix( trans * this->GetMatrix() );
+    this->SetVarTranslation( trans * this->GetTranslation() );
     }
   this->ComputeMatrixParameters();
   this->ComputeOffset();
@@ -216,12 +216,12 @@ AffineTransform<TScalarType, NDimensions>
   trans[1][1] =  cos(angle);
   if (pre) 
     {
-    this->Set_M_Matrix( this->GetMatrix() * trans );
+    this->SetVarMatrix( this->GetMatrix() * trans );
     }
   else 
     {
-    this->Set_M_Matrix( trans * this->GetMatrix() );
-    this->Set_M_Translation( trans * this->GetTranslation() );
+    this->SetVarMatrix( trans * this->GetMatrix() );
+    this->SetVarTranslation( trans * this->GetTranslation() );
     }
   this->ComputeMatrixParameters();
   this->ComputeOffset();
@@ -269,12 +269,12 @@ AffineTransform<TScalarType, NDimensions>
   // Compose rotation matrix with the existing matrix
   if (pre) 
     {
-    this->Set_M_Matrix( this->GetMatrix() * trans );
+    this->SetVarMatrix( this->GetMatrix() * trans );
     }
   else 
     {
-    this->Set_M_Matrix( trans * this->GetMatrix() );
-    this->Set_M_Translation( trans * this->GetTranslation() );
+    this->SetVarMatrix( trans * this->GetMatrix() );
+    this->SetVarTranslation( trans * this->GetTranslation() );
     }
   this->ComputeMatrixParameters();
   this->ComputeOffset();
@@ -303,12 +303,12 @@ AffineTransform<TScalarType, NDimensions>
   trans[axis1][axis2] =  coef;
   if (pre) 
     {
-    this->Set_M_Matrix( this->GetMatrix() * trans );
+    this->SetVarMatrix( this->GetMatrix() * trans );
     }
   else 
     {
-    this->Set_M_Matrix( trans * this->GetMatrix() );
-    this->Set_M_Translation( trans * this->GetTranslation() );
+    this->SetVarMatrix( trans * this->GetMatrix() );
+    this->SetVarTranslation( trans * this->GetTranslation() );
     }
   this->ComputeMatrixParameters();
   this->ComputeOffset();

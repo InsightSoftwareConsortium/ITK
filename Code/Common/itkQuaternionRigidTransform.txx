@@ -115,7 +115,7 @@ QuaternionRigidTransform<TScalarType>
     translation[i] = parameters[par];
     ++par;
     }
-  this->Set_M_Translation( translation );
+  this->SetVarTranslation( translation );
   this->ComputeOffset();
 
 }
@@ -211,9 +211,9 @@ GetInverseMatrix() const
     VnlQuaternionType conjugateRotation = m_Rotation.conjugate();
     VnlQuaternionType inverseRotation = conjugateRotation.inverse();
     newMatrix = inverseRotation.rotation_matrix_transpose();
-    this->Set_M_InverseMatrix(newMatrix);
+    this->SetVarInverseMatrix(newMatrix);
     }
-  return this->Get_M_InverseMatrix();
+  return this->GetVarInverseMatrix();
 }
 
 template<class TScalarType>
@@ -226,7 +226,7 @@ ComputeMatrix()
   // between VNL and ITK
   MatrixType newMatrix;
   newMatrix = conjugateRotation.rotation_matrix_transpose();
-  this->Set_M_Matrix(newMatrix);
+  this->SetVarMatrix(newMatrix);
 }
 
 template<class TScalarType>

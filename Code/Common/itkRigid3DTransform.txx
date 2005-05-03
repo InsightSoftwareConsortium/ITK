@@ -76,7 +76,7 @@ Translate(const OffsetType &offset, bool)
 {
   OutputVectorType newOffset = this->GetOffset();
   newOffset += offset;
-  this->Set_M_Offset(newOffset);
+  this->SetVarOffset(newOffset);
 }
 
 // TransformCovariantVector

@@ -88,7 +88,7 @@ ScaleSkewVersor3DTransform<TScalarType>
     }
   VersorType newVersor;
   newVersor.Set(axis);
-  this->Set_M_Versor( newVersor );
+  this->SetVarVersor( newVersor );
 
   itkDebugMacro( <<"Versor is now " << newVersor );
   
@@ -110,7 +110,7 @@ ScaleSkewVersor3DTransform<TScalarType>
   newTranslation[0] = parameters[3];
   newTranslation[1] = parameters[4];
   newTranslation[2] = parameters[5];
-  this->Set_M_Translation(newTranslation);
+  this->SetVarTranslation(newTranslation);
   this->ComputeMatrix();
   this->ComputeOffset();
 
@@ -224,7 +224,7 @@ ScaleSkewVersor3DTransform<TScalarType>
   newMatrix[1][2] = 2.0 * ( yz - xw )  + ( m_Skew[3] );
   newMatrix[2][0] = 2.0 * ( xz - yw )  + ( m_Skew[4] );
   newMatrix[2][1] = 2.0 * ( yz + xw )  + ( m_Skew[5] );
-  this->Set_M_Matrix ( newMatrix );
+  this->SetVarMatrix ( newMatrix );
 }
 
 template <class TScalarType>

@@ -119,7 +119,7 @@ protected:
 
   void ComputeMatrixParameters();
 
-  void Set_M_Rotation(const VnlQuaternionType & rotation)
+  void SetVarRotation(const VnlQuaternionType & rotation)
     { m_Rotation = rotation; };
 
   const InverseMatrixType & GetInverseMatrix( void ) const;

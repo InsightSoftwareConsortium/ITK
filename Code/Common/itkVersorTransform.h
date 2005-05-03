@@ -144,7 +144,7 @@ public:
      **/
     ~VersorTransform(){};
 
-    void Set_M_Versor(const VersorType & newVersor)
+    void SetVarVersor(const VersorType & newVersor)
       { m_Versor = newVersor; }
 
     /**

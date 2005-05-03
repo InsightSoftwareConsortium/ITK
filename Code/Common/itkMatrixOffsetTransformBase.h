@@ -345,9 +345,9 @@ protected:
   /** Print contents of an MatrixOffsetTransformBase */
   void PrintSelf(std::ostream &s, Indent indent) const;
 
-  InverseMatrixType Get_M_InverseMatrix( void ) const
+  InverseMatrixType GetVarInverseMatrix( void ) const
     { return m_InverseMatrix; };
-  void Set_M_InverseMatrix(const InverseMatrixType & matrix) const
+  void SetVarInverseMatrix(const InverseMatrixType & matrix) const
     { m_InverseMatrix = matrix; m_InverseMatrixMTime.Modified(); };
   bool InverseMatrixIsOld(void) const
     { if(m_MatrixMTime != m_InverseMatrixMTime)
@@ -356,18 +356,18 @@ protected:
   virtual void ComputeMatrixParameters(void);
 
   virtual void ComputeMatrix(void);
-  void Set_M_Matrix(const MatrixType & matrix)
+  void SetVarMatrix(const MatrixType & matrix)
     { m_Matrix = matrix; m_MatrixMTime.Modified(); };
 
   virtual void ComputeTranslation(void);
-  void Set_M_Translation(const OutputVectorType & translation)
+  void SetVarTranslation(const OutputVectorType & translation)
     { m_Translation = translation; };
 
   virtual void ComputeOffset(void);
-  void Set_M_Offset(const OutputVectorType & offset)
+  void SetVarOffset(const OutputVectorType & offset)
     { m_Offset = offset; };
 
-  void Set_M_Center(const InputPointType & center)
+  void SetVarCenter(const InputPointType & center)
     { m_Center = center; };
 
 private:

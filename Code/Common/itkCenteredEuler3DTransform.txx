@@ -75,20 +75,20 @@ CenteredEuler3DTransform<TScalarType>
 {
   itkDebugMacro( << "Setting paramaters " << parameters );
 
-  this->Set_M_Rotation(parameters[0], parameters[1], parameters[2]);
+  this->SetVarRotation(parameters[0], parameters[1], parameters[2]);
 
   CenterType newCenter;
   newCenter[0] = parameters[3];
   newCenter[1] = parameters[4];
   newCenter[2] = parameters[5];
-  this->Set_M_Center(newCenter);
+  this->SetVarCenter(newCenter);
   this->ComputeMatrix();
 
   TranslationType newTranslation;
   newTranslation[0] = parameters[6];
   newTranslation[1] = parameters[7];
   newTranslation[2] = parameters[8];
-  this->Set_M_Translation(newTranslation);
+  this->SetVarTranslation(newTranslation);
   this->ComputeOffset();
 
   itkDebugMacro(<<"After setting parameters ");

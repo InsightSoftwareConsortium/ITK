@@ -177,7 +177,7 @@ ScalableAffineTransform<TScalarType, NDimensions>
         mat.GetVnlMatrix().put(i, i, this->GetMatrix()[i][i]);
         }
       }
-    Superclass::Set_M_Matrix(mat);
+    Superclass::SetVarMatrix(mat);
     }
 }
 

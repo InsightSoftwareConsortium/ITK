@@ -63,7 +63,7 @@ Euler3DTransform<TScalarType>
   newTranslation[0] = parameters[3];
   newTranslation[1] = parameters[4];
   newTranslation[2] = parameters[5];
-  this->Set_M_Translation(newTranslation);
+  this->SetVarTranslation(newTranslation);
   this->ComputeOffset();
 
   itkDebugMacro(<<"After setting paramaters ");
@@ -199,12 +199,12 @@ Euler3DTransform<TScalarType>
   /** Aply the rotation first around Y then X then Z */
   if(m_ComputeZYX)
     {
-    this->Set_M_Matrix(RotationZ*RotationY*RotationX);
+    this->SetVarMatrix(RotationZ*RotationY*RotationX);
     }
   else
     {
     // Like VTK transformation order
-    this->Set_M_Matrix(RotationZ*RotationX*RotationY);
+    this->SetVarMatrix(RotationZ*RotationX*RotationY);
     }
 }
 

@@ -117,10 +117,10 @@ protected:
 
   void PrintSelf(std::ostream &os, Indent indent) const;
 
-  void Set_M_Scale(const ScaleVectorType & scale)
+  void SetVarScale(const ScaleVectorType & scale)
     { m_Scale = scale; };
 
-  void Set_M_Skew(const SkewVectorType & skew)
+  void SetVarSkew(const SkewVectorType & skew)
     { m_Skew = skew; };
 
   /** Compute the components of the rotation matrix in the superclass. */

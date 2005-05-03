@@ -111,7 +111,7 @@ protected:
 
   void PrintSelf(std::ostream &os, Indent indent) const;
 
-  void Set_M_Rotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ)
+  void SetVarRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ)
     { m_AngleX = angleX; m_AngleY = angleY; m_AngleZ = angleZ; };
 
   /** Compute the components of the rotation matrix in the superclass. */
