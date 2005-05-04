@@ -88,6 +88,7 @@ public:
   /**  Define the component type. */
   typedef TComponent ComponentType;
   typedef typename Superclass::ValueType ValueType;
+  typedef typename NumericTraits<ValueType>::AccumulateType AccumulateValueType;
   
   /** Default constructor has nothing to do. */
   SymmetricSecondRankTensor() {this->Fill(0);}
@@ -129,6 +130,9 @@ public:
   /** Matrix notation, in const and non-const forms. */
   ValueType & operator()( unsigned int row, unsigned int col );
   const ValueType & operator()( unsigned int row, unsigned int col ) const;
+
+  /** Get Trace value */
+  AccumulateValueType GetTrace() const;
 
   /** Return an array containing EigenValues. */
   void ComputeEigenValues( EigenValuesArrayType & eigenValues ) const;

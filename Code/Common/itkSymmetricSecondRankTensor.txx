@@ -217,6 +217,25 @@ SymmetricSecondRankTensor<T,NDimension>
 
 
 /*
+ * Get the Trace
+ */
+template<class T,unsigned int NDimension>
+typename SymmetricSecondRankTensor<T,NDimension>::AccumulateValueType
+SymmetricSecondRankTensor<T,NDimension>
+::GetTrace() const
+{
+  AccumulateValueType trace = NumericTraits< AccumulateValueType >::Zero;
+  unsigned int k = 0;
+  for(unsigned int i=0; i<Dimension; i++)
+    {
+    trace += (*this)[k];
+    k += (Dimension-i);
+    }
+  return trace;
+}
+
+
+/*
  * Compute Eigen Values 
  */
 template<class T,unsigned int NDimension>
