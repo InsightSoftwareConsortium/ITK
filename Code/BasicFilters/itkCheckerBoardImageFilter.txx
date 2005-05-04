@@ -89,7 +89,6 @@ CheckerBoardImageFilter<TImage>
 ::ThreadedGenerateData(
   const ImageRegionType& outputRegionForThread, int threadId)
 {
-  unsigned int i;
   
   itkDebugMacro(<<"Actually executing");
 
@@ -132,7 +131,7 @@ CheckerBoardImageFilter<TImage>
   // Walk the output region
   while ( !outItr.IsAtEnd() )
     {
-    const IndexType & index = outItr.GetIndex();
+    IndexType index = outItr.GetIndex();
 
     unsigned int sum = 0;
 
