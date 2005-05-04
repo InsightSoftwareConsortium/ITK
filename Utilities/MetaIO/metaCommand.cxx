@@ -25,7 +25,7 @@ MetaCommand::MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2005-05-04 15:31:47 $ cvs command */
+/** Extract the date from the $Date: 2005-05-04 17:20:23 $ cvs command */
 std::string MetaCommand::ExtractDateFromCVS(std::string date)
 {
   std::string newdate;
@@ -203,7 +203,7 @@ float MetaCommand::GetValueAsFloat(std::string optionName,std::string fieldName)
         {
         if((*itField).name == fieldname)
           {
-          return atof((*itField).value.c_str());
+          return (float)atof((*itField).value.c_str());
           }
         itField++;
         }
@@ -625,7 +625,7 @@ bool MetaCommand::Parse(int argc, char* argv[])
   int currentOption = 0; // id of the option to fill
   unsigned int valuesRemaining=0;
   
-  for(unsigned int i=1;i<argc;i++)
+  for(unsigned int i=1;i<(unsigned int)argc;i++)
     {
     // If this is a tag
     if(argv[i][0] == '-' && (atof(argv[i])==0))
@@ -705,9 +705,9 @@ bool MetaCommand::Parse(int argc, char* argv[])
       }
 
     // We collect the values
-    if(inArgument && i<argc && valuesRemaining>0)
+    if(inArgument && i<(unsigned int)argc && valuesRemaining>0)
       {
-      if(currentOption >=0 && currentOption < m_OptionVector.size())
+      if(currentOption >=0 && currentOption < (int)(m_OptionVector.size()))
         {
         unsigned long s = m_OptionVector[currentOption].fields.size();
         m_OptionVector[currentOption].fields[s-valuesRemaining].value = argv[i];
