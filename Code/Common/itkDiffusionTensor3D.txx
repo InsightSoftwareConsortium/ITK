@@ -134,6 +134,33 @@ DiffusionTensor3D<T>
 
 
 
+/*
+ * Get the Trace, specialized version for 3D.
+ * 
+ * Note that the indices are related to the fact 
+ * that we store only the upper-right triangle of
+ * the matrix. Like
+ *
+ *       | 0  1  2  |
+ *       | X  3  4  |
+ *       | X  X  5  |
+ *
+ * The trace is therefore the sum of the components
+ * M[0], M[3] and M[5].
+ *
+ */
+template<class T>
+typename DiffusionTensor3D<T>::AccumulateValueType
+DiffusionTensor3D<T>
+::GetTrace() const
+{
+  AccumulateValueType trace = (*this)[0];
+  trace += (*this)[3];
+  trace += (*this)[5];
+  return trace;
+}
+
+
 
 
 

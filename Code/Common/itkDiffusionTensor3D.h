@@ -55,6 +55,7 @@ public:
   typedef typename Superclass::ValueType             ValueType;
   typedef typename Superclass::ComponentType         ComponentType;
   typedef typename Superclass::ComponentArrayType    ComponentArrayType;
+  typedef typename Superclass::AccumulateValueType   AccumulateValueType;
 
   /** Default Constructor. */
   DiffusionTensor3D();
@@ -70,6 +71,9 @@ public:
   Self& operator= (const Superclass & r);
   Self& operator= (const ComponentType& r);
   Self& operator= (const ComponentArrayType r);
+
+  /** Get Trace value */
+  AccumulateValueType GetTrace() const;
 
 };
 
