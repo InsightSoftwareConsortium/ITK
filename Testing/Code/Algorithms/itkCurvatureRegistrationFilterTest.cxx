@@ -17,6 +17,9 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
+
+#if defined(USE_FFTW)
+
 #include "itkCurvatureRegistrationFilter.h"
 #include "itkFastSymmetricForcesDemonsRegistrationFunction.h"
 
@@ -333,7 +336,4 @@ int itkCurvatureRegistrationFilterTest(int, char* [] )
 
 }
 
-//main( const int argc, char* argv[] )
-//{
-//  return itkCurvatureRegistrationFilterTest( argc, argv );
-//}
+#endif
