@@ -25,7 +25,7 @@ MetaCommand::MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2005-05-03 16:16:44 $ cvs command */
+/** Extract the date from the $Date: 2005-05-04 15:31:47 $ cvs command */
 std::string MetaCommand::ExtractDateFromCVS(std::string date)
 {
   std::string newdate;
@@ -622,7 +622,7 @@ bool MetaCommand::Parse(int argc, char* argv[])
   std::string args;
   
   unsigned int currentField = 0; // current field position
-  unsigned int currentOption = 0; // id of the option to fill
+  int currentOption = 0; // id of the option to fill
   unsigned int valuesRemaining=0;
   
   for(unsigned int i=1;i<argc;i++)
@@ -646,18 +646,29 @@ bool MetaCommand::Parse(int argc, char* argv[])
         inArgument = true;
         valuesRemaining = this->GetOptionByMinusTag(tag)->fields.size();
         currentOption = this->GetOptionId(this->GetOptionByMinusTag(tag));
-        
-        if(m_OptionVector[currentOption].fields[0].type == FLAG)
+        if(currentOption < 0)
           {
-          m_OptionVector[currentOption].fields[0].value = "true"; // the tag exists by default
-          valuesRemaining = 0;
-          inArgument = false;
+          std::cout << "Error processing tag " << tag.c_str()
+                    << ".  Tag exists but cannot find its Id."
+                    << std::endl;
           }
-        args = "";
+        else
+          {
+          if(m_OptionVector[currentOption].fields[0].type == FLAG)
+            {
+            // the tag exists by default
+            m_OptionVector[currentOption].fields[0].value = "true"; 
+            valuesRemaining = 0;
+            inArgument = false;
+            }
+          args = "";
+          }
         }
       else
         {
-        std::cout << "The tag " << tag.c_str() << " is not a valid argument : skipping this tag" << std::endl;
+        std::cout << "The tag " << tag.c_str() 
+                  << " is not a valid argument : skipping this tag" 
+                  << std::endl;
         }
       if(inArgument)
         {
@@ -685,7 +696,8 @@ bool MetaCommand::Parse(int argc, char* argv[])
 
       if(!found)
         {
-        std::cout << "Too many arguments specified in your command line! skipping extra argument: " << argv[i] << std::endl;
+        std::cout << "Too many arguments specified in your command line! "
+                  << "Skipping extra argument: " << argv[i] << std::endl;
         }
       
       inArgument=true;
@@ -712,8 +724,10 @@ bool MetaCommand::Parse(int argc, char* argv[])
 
   if(valuesRemaining>0)
     {
-    std::cout << "Not enough parameters for " << m_OptionVector[currentOption].name << std::endl;
-    std::cout << "Type " << argv[0] << " -v (or -V or -vxml) for more information" << std::endl;
+    std::cout << "Not enough parameters for " 
+              << m_OptionVector[currentOption].name << std::endl;
+    std::cout << "Type " << argv[0] 
+              << " -v (or -V or -vxml) for more information" << std::endl;
 
     return false;
     }
