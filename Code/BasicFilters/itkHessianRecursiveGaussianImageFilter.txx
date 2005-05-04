@@ -56,10 +56,10 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   m_DerivativeFilterA = DerivativeFilterAType::New();
   m_DerivativeFilterB = DerivativeFilterBType::New();
 
-  m_DerivativeFilterA->SetOrder( DerivativeFilterAType::SecondOrder );
+  m_DerivativeFilterA->SetOrder( DerivativeFilterAType::FirstOrder );
   m_DerivativeFilterA->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
   
-  m_DerivativeFilterB->SetOrder( DerivativeFilterBType::SecondOrder );
+  m_DerivativeFilterB->SetOrder( DerivativeFilterBType::FirstOrder );
   m_DerivativeFilterB->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
   
   m_DerivativeFilterA->SetInput( this->GetInput() );
