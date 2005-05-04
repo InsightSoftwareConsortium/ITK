@@ -37,8 +37,8 @@ ADD_TEST(FuzzyConnectednessImageFilter ${PATENTED_EXAMPLES}
 
 ADD_TEST(IterativeClosestPoint1Test ${PATENTED_EXAMPLES}
   IterativeClosestPoint1Test
-        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPoint1Test
-        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPoint1Test
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints.txt
 )
 
 
