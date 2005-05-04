@@ -88,8 +88,8 @@ public:
   /**  Define the component type. */
   typedef TComponent ComponentType;
   typedef typename Superclass::ValueType ValueType;
-  typedef typename NumericTraits<ValueType>::AccumulateType AccumulateValueType;
-  
+  typedef typename NumericTraits<ValueType>::RealType AccumulateValueType;
+
   /** Default constructor has nothing to do. */
   SymmetricSecondRankTensor() {this->Fill(0);}
   SymmetricSecondRankTensor (const ComponentType& r) { this->Fill(r); }
