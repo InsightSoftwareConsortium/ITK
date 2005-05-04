@@ -67,7 +67,11 @@ public:
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+                      ::itk::GetImageDimension<TInputImage>::ImageDimension);
+
+  /** Number of smoothing filters. */
+  itkStaticConstMacro(NumberOfSmoothingFilters, unsigned int,
+                      ::itk::GetImageDimension<TInputImage>::ImageDimension-2);
 
   /** Define the image type for internal computations 
       RealType is usually 'double' in NumericTraits. 
@@ -75,7 +79,7 @@ public:
 
   typedef float                                            InternalRealType;
   typedef Image<InternalRealType, 
-                itkGetStaticConstMacro(ImageDimension) >   RealImageType;
+                ::itk::GetImageDimension<TInputImage>::ImageDimension >   RealImageType;
 
 
 
@@ -156,7 +160,7 @@ private:
   HessianRecursiveGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  GaussianFilterPointer         m_SmoothingFilters[ImageDimension-2];
+  GaussianFilterPointer         m_SmoothingFilters[ NumberOfSmoothingFilters ];
   DerivativeFilterAPointer      m_DerivativeFilterA;
   DerivativeFilterBPointer      m_DerivativeFilterB;
   OutputImageAdaptorPointer     m_ImageAdaptor;
