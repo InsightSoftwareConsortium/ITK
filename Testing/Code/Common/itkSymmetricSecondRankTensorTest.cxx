@@ -370,8 +370,46 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
 
     }
 
+  } // end of Test Eigen values computation
 
-  }
+
+  // Test GetTrace() method
+  {
+
+    typedef itk::SymmetricSecondRankTensor<double,3>         Double3DTensorType;
+    typedef Double3DTensorType::AccumulateValueType          AccumulateValueType;
+
+    Double3DTensorType tensor;
+
+    tensor(0,0) =  19.0;
+    tensor(0,1) =   0.0; 
+    tensor(0,2) =   0.0;
+    tensor(1,0) =   0.0; // overrides (0,1)
+    tensor(1,1) =  23.0;
+    tensor(1,2) =   0.0; 
+    tensor(2,0) =   7.0; // overrides (0,2)
+    tensor(2,1) =   0.0; // overrides (1,2)
+    tensor(2,2) =  29.0;
+
+    AccumulateValueType expectedTrace = 
+              itk::NumericTraits< AccumulateValueType >::Zero;
+
+    expectedTrace += tensor(0,0);
+    expectedTrace += tensor(1,1);
+    expectedTrace += tensor(2,2);
+
+    const double tolerance = 1e-4;
+
+    AccumulateValueType computedTrace = tensor.GetTrace();
+    if( fabs( computedTrace - expectedTrace ) > tolerance )
+      {
+      std::cerr << "Error computing the Trace" << std::endl;
+      std::cerr << "Expected trace = " << expectedTrace << std::endl;
+      std::cerr << "Computed trace = " << computedTrace << std::endl;
+      return EXIT_FAILURE;
+      }
+
+  } // end of Test GetTrace() method
 
   return EXIT_SUCCESS;
 }
