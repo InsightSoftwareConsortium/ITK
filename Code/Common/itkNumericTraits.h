@@ -54,6 +54,9 @@ public:
   /** Accumulation of addition and multiplication. */
   typedef double AccumulateType; 
 
+  /** Type for real-valued operations.  */
+  typedef double RealType;
+
   /** Additive identity. */
   static const T Zero;
 
