@@ -30,6 +30,9 @@
 #include "itkGDCMImageIO.h"
 #include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
+// In order to manipulate gdcm dictionary
+#include "gdcm/src/gdcmGlobal.h"
+#include "gdcm/src/gdcmDictSet.h"
 
 int main( int argc, char* argv[] )
 {
@@ -71,6 +74,13 @@ int main( int argc, char* argv[] )
   
   typedef itk::MetaDataObject< std::string > MetaDataStringType;
 
+//  Software Guide : BeginLatex
+//
+// Do some gdcm low level access to translate the DICOM Tag into the 
+// associated DICOM name. For example "0010|0010" becomes "Patient's Name"
+//
+//  Software Guide : EndLatex 
+  gdcm::Dict *pubDict = gdcm::Global::GetDicts()->GetDefaultPubDict();
   while( itr != end )
     {
     itk::MetaDataObjectBase::Pointer  entry = itr->second;
@@ -81,8 +91,9 @@ int main( int argc, char* argv[] )
     if( entryvalue )
       {
       std::string tagkey   = itr->first;
+      gdcm::DictEntry *dictentry = pubDict->GetEntry(tagkey);
       std::string tagvalue = entryvalue->GetMetaDataObjectValue();
-      std::cout << tagkey <<  " = " << tagvalue.c_str() << std::endl;
+      std::cout << dictentry->GetName() <<  " = " << tagvalue.c_str() << std::endl;
       }
     ++itr;
     }
