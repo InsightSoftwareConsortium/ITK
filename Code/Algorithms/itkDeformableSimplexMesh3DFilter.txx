@@ -43,11 +43,8 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   m_Alpha = 0.2;
   m_Beta  = 0.01;
   m_Gamma = 0.05;
-  m_Damping = 0.65;
   m_Rigidity = 1;
-  m_Locality = 0;
-  m_Range = 1;
-  m_MaxMagnitude = 1.0;
+ 
 
   this->ProcessObject::SetNumberOfRequiredInputs(1);
 
@@ -56,6 +53,8 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
 
   m_Data = NULL;
+  
+  
 }
 
 template <typename TInputMesh, typename TOutputMesh>
@@ -126,6 +125,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   if ( m_Gradient.IsNotNull() ) 
     {
     GradientImageSizeType imageSize = m_Gradient->GetBufferedRegion().GetSize();
+    
     m_ImageWidth  = imageSize[0];
     m_ImageHeight = imageSize[1];
     m_ImageDepth  = imageSize[2];
@@ -203,8 +203,8 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
     // compute normal
     normal.Fill(0.0);
 
-    z.SetVnlVector( itk_cross_3d( (data->neighbors[1] - data->neighbors[0]).GetVnlVector() ,
-                                    (data->neighbors[2] - data->neighbors[0]).GetVnlVector()) );
+    z.Set_vnl_vector( itk_cross_3d( (data->neighbors[1] - data->neighbors[0]).Get_vnl_vector() ,
+                                    (data->neighbors[2] - data->neighbors[0]).Get_vnl_vector()) );
     z.Normalize();
     normal += z;
 
@@ -218,7 +218,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 
     double D = 1.0/(2*data->sphereRadius); /* */
 
-    double tmpNormalProd = dot_product(tmp.GetVnlVector(),data->normal.GetVnlVector());
+    double tmpNormalProd = dot_product(tmp.Get_vnl_vector(),data->normal.Get_vnl_vector());
 
     double sinphi =  2 * data->circleRadius * D * vnl_math_sgn( tmpNormalProd );
     double phi = asin(sinphi);
@@ -229,7 +229,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 
     //compute the foot of p projection of p onto the triangle spanned by its neighbors
     double distance = -tmpNormalProd;
-    tmp.SetVnlVector((data->pos).GetVnlVector() - distance * normal.GetVnlVector() );
+    tmp.Set_vnl_vector((data->pos).Get_vnl_vector() - distance * normal.Get_vnl_vector() );
     Foot.Fill(0.0);
     Foot += tmp;
 
@@ -250,23 +250,18 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   typename GeometryMapType::Iterator dataIt = m_Data->Begin();
   SimplexMeshGeometry * data;
   VectorType displacement;
- 
-  // iterator going through each vertex (point) in Mesh
-  
+
   while( dataIt != m_Data->End() ) 
     {
-     
     data = dataIt.Value();
-    
+
     this->ComputeInternalForce( data );
-    this->ComputeExternalForce( data );      
-
-    displacement.SetVnlVector( m_Locality    * (m_Alpha * (data->internalForce).GetVnlVector()  +
-                    m_Beta  * (data->externalForce).GetVnlVector()) + 
-             ((1-m_Locality) *  m_Beta  * (data->externalForce).GetVnlVector()) );
-
     
-    //std::cout<< " DISplacement is " << displacement << std::endl; 
+    this->ComputeExternalForce( data );      
+      
+    displacement.Set_vnl_vector( m_Alpha * (data->internalForce).Get_vnl_vector() +
+                                           (data->externalForce).Get_vnl_vector() );
+
     data->pos += displacement;
     inputMesh->GetPoints()->InsertElement( dataIt.Index(), data->pos );
 
@@ -300,9 +295,9 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   eps3Diff = epsRef[2]-eps[2];
   //    diffAbsSum = vcl_abs(eps1Diff)+vcl_abs(eps2Diff)+vcl_abs(eps3Diff);
 
-  tangentForce.SetVnlVector( eps1Diff * (data->neighbors[0]).GetVnlVector() +
-                               eps2Diff * (data->neighbors[1]).GetVnlVector() +
-                               eps3Diff * (data->neighbors[2]).GetVnlVector()
+  tangentForce.Set_vnl_vector( eps1Diff * (data->neighbors[0]).Get_vnl_vector() +
+                               eps2Diff * (data->neighbors[1]).Get_vnl_vector() +
+                               eps3Diff * (data->neighbors[2]).Get_vnl_vector()
     );
 
   r = data->circleRadius;
@@ -323,7 +318,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   double L = L_Func(r,d,phi);
   double L_Ref = L_Func(r,d,phiRef);
 
-  normalForce.SetVnlVector(-1.0 * ( L_Ref - L ) * (data->normal).GetVnlVector());
+  normalForce.Set_vnl_vector(-1.0 * ( L_Ref - L ) * (data->normal).Get_vnl_vector());
 
   data->internalForce.Fill(0.0);
 
@@ -342,78 +337,77 @@ void
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 ::ComputeExternalForce( SimplexMeshGeometry * data)
 {
-  PointType vec_for;
-  GradientIndexType coord, coord2;
-  
-  // probe the data i.e mesh vertex data->pos find the corresponding 
-  // value for the gradient image 
+  PointType vec_for, tmp_vec_1, tmp_vec_2, tmp_vec_3;
+  GradientIndexType coord, coord2, tmp_co_1, tmp_co_2, tmp_co_3;
+
   coord[0] = static_cast<GradientIndexValueType>(data->pos[0]);
   coord[1] = static_cast<GradientIndexValueType>(data->pos[1]);
   coord[2] = static_cast<GradientIndexValueType>(data->pos[2]);
 
-  coord2[0] = static_cast<GradientIndexValueType>( ceil (m_Range * data->normal[0]) );
-  coord2[1] = static_cast<GradientIndexValueType>( ceil (m_Range * data->normal[1]) );
-  coord2[2] = static_cast<GradientIndexValueType>( ceil (m_Range * data->normal[2]) );
+  coord2[0] = static_cast<GradientIndexValueType>( ceil(data->pos[0]) );
+  coord2[1] = static_cast<GradientIndexValueType>( ceil(data->pos[1]) );
+  coord2[2] = static_cast<GradientIndexValueType>( ceil(data->pos[2]) );
 
-  // Translate the index of normal ( coord2) to the mesh vertex (coord) 
-  coord2[0] += coord[0];
-  coord2[1] += coord[1];
-  coord2[2] += coord[2];
+  tmp_co_1[0] = coord2[0];
+  tmp_co_1[1] = coord[1];
+  tmp_co_1[2] = coord[2];
 
-  if ( (coord[0] == coord2[0] && coord[1] == coord2[1] && coord[2] == coord2[2]) ||
-      ( (coord[0] < 0) && (coord[1] < 0) && (coord[2] < 0) && 
-  (coord2[0] > m_ImageWidth) && (coord2[1] > m_ImageHeight) && (coord2[2] > m_ImageDepth) ) )
-    {
-      vec_for.Fill(0);
+  tmp_co_2[0] = coord[0];
+  tmp_co_2[1] = coord2[1];
+  tmp_co_2[2] = coord[2];
+
+  tmp_co_3[0] = coord[0];
+  tmp_co_3[1] = coord[1];
+  tmp_co_3[2] = coord2[2];
+
+  if ( (coord[0] >= 0) && (coord[1] >= 0) && (coord[2] >= 0) && 
+       (coord2[0] < m_ImageWidth) && (coord2[1] < m_ImageHeight) && (coord2[2] < m_ImageDepth) )
+    {      
+    vec_for[0] = m_Gradient->GetPixel(coord)[0];
+    vec_for[1] = m_Gradient->GetPixel(coord)[1];
+    vec_for[2] = m_Gradient->GetPixel(coord)[2];
+
+    tmp_vec_1[0] = m_Gradient->GetPixel(tmp_co_1)[0] - m_Gradient->GetPixel(coord)[0];
+    tmp_vec_1[1] = m_Gradient->GetPixel(tmp_co_1)[1] - m_Gradient->GetPixel(coord)[1];
+    tmp_vec_1[2] = m_Gradient->GetPixel(tmp_co_1)[2] - m_Gradient->GetPixel(coord)[2];
+    tmp_vec_2[0] = m_Gradient->GetPixel(tmp_co_2)[0] - m_Gradient->GetPixel(coord)[0];
+    tmp_vec_2[1] = m_Gradient->GetPixel(tmp_co_2)[1] - m_Gradient->GetPixel(coord)[1];
+    tmp_vec_2[2] = m_Gradient->GetPixel(tmp_co_2)[2] - m_Gradient->GetPixel(coord)[2];
+    tmp_vec_3[0] = m_Gradient->GetPixel(tmp_co_3)[0] - m_Gradient->GetPixel(coord)[0];
+    tmp_vec_3[1] = m_Gradient->GetPixel(tmp_co_3)[1] - m_Gradient->GetPixel(coord)[1];
+    tmp_vec_3[2] = m_Gradient->GetPixel(tmp_co_3)[2] - m_Gradient->GetPixel(coord)[2];
+
+    vec_for[0] = vec_for[0] + ((data->pos)[0]-coord[0])*tmp_vec_1[0] 
+      + ((data->pos)[1]-coord[1])*tmp_vec_2[0] + ((data->pos)[2]-coord[2])*tmp_vec_3[0];
+    vec_for[1] = vec_for[1] + ((data->pos)[1]-coord[1])*tmp_vec_2[1]
+      + ((data->pos)[0]-coord[0])*tmp_vec_1[1] + ((data->pos)[2]-coord[2])*tmp_vec_3[1];
+    vec_for[2] = vec_for[2] + ((data->pos)[2]-coord[2])*tmp_vec_3[2]
+      + ((data->pos)[1]-coord[1])*tmp_vec_2[2] + ((data->pos)[0]-coord[0])*tmp_vec_1[2];
     }
   else
     {
-      
-      GradientIndexType index;
-  
-      index  = this->BresenhamLine(coord, coord2);
+    vec_for.Fill(0);
+    }
 
-      vec_for[0] = m_Gradient->GetPixel(index)[0];
-      vec_for[1] = m_Gradient->GetPixel(index)[1];
-      vec_for[2] = m_Gradient->GetPixel(index)[2];
-  
-      // check to make sure we are consistent with the direction of gradient from lighter-->darker
-      /*  double mag = dot_product(data->normal.GetVnlVector(),vec_for.GetVnlVector());
-      
-       if (mag > 0)
-       {*/
-     
-          vec_for[0] -= m_Gradient->GetPixel(coord)[0];
-    vec_for[1] -= m_Gradient->GetPixel(coord)[1];
-    vec_for[2] -= m_Gradient->GetPixel(coord)[2];
-    
-  
-    double mag = dot_product(data->normal.GetVnlVector(),vec_for.GetVnlVector());
-      
-    vec_for[0] += mag*(data->normal)[0];
-    vec_for[1] += mag*(data->normal)[1];
-    vec_for[2] += mag*(data->normal)[2];
-      
-    mag = vec_for.GetVectorFromOrigin().GetNorm();
+  double mag = dot_product(data->normal.Get_vnl_vector(),vec_for.Get_vnl_vector());
+  //      double mag = vec_for[0]*(data->normal)[0] + vec_for[1]*(data->normal)[1]+ vec_for[2]*(data->normal)[2];
 
-    if (mag > 0.5) 
-      {
-        for (int i=0; i<3; i++) 
+  vec_for[0] = mag*(data->normal)[0]/*num_for*/;
+  vec_for[1] = mag*(data->normal)[1]/*num_for*/; 
+  vec_for[2] = mag*(data->normal)[2]/*num_for*/; 
+
+  mag = vec_for.GetVectorFromOrigin().GetNorm();
+
+  if (mag > 0.5) 
     {
+    for (int i=0; i<3; i++) 
       vec_for[i] = (0.5 * vec_for[i])/mag;
     }
-      }
-    /*
-   }
-       else
-   {
-     vec_for.Fill(0);
-     }*/
-    }
-  data->externalForce[0] = vec_for[0];
-  data->externalForce[1] = vec_for[1];
-  data->externalForce[2] = vec_for[2];
-  
+
+  data->externalForce[0] = m_Beta * vec_for[0];
+  data->externalForce[1] = m_Beta * vec_for[1];
+  data->externalForce[2] = m_Beta * vec_for[2];
+
 }
 
 
@@ -542,162 +536,18 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   c = data->neighbors[2];
 
   VectorType n,na,nb,nc;
-  n.SetVnlVector( itk_cross_3d((b-a).GetVnlVector(), (c-a).GetVnlVector()) );
-  na.SetVnlVector( itk_cross_3d((c-b).GetVnlVector(), (p-b).GetVnlVector()) );
-  nb.SetVnlVector( itk_cross_3d((a-c).GetVnlVector(), (p-c).GetVnlVector()) );
-  nc.SetVnlVector( itk_cross_3d((b-a).GetVnlVector(), (p-a).GetVnlVector()) );
+  n.Set_vnl_vector( itk_cross_3d((b-a).Get_vnl_vector(), (c-a).Get_vnl_vector()) );
+  na.Set_vnl_vector( itk_cross_3d((c-b).Get_vnl_vector(), (p-b).Get_vnl_vector()) );
+  nb.Set_vnl_vector( itk_cross_3d((a-c).Get_vnl_vector(), (p-c).Get_vnl_vector()) );
+  nc.Set_vnl_vector( itk_cross_3d((b-a).Get_vnl_vector(), (p-a).Get_vnl_vector()) );
 
   PointType eps;
-  eps[0] = dot_product(n.GetVnlVector(),na.GetVnlVector()) / n.GetSquaredNorm();
-  eps[1] = dot_product(n.GetVnlVector(),nb.GetVnlVector()) / n.GetSquaredNorm();
-  eps[2] = dot_product(n.GetVnlVector(),nc.GetVnlVector()) / n.GetSquaredNorm();
+  eps[0] = dot_product(n.Get_vnl_vector(),na.Get_vnl_vector()) / n.GetSquaredNorm();
+  eps[1] = dot_product(n.Get_vnl_vector(),nb.Get_vnl_vector()) / n.GetSquaredNorm();
+  eps[2] = dot_product(n.Get_vnl_vector(),nc.Get_vnl_vector()) / n.GetSquaredNorm();
 
   return eps;
 }
-
-
-template <typename TInputMesh, typename TOutputMesh>
-typename DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::GradientIndexType
-DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
-::BresenhamLine(GradientIndexType a,GradientIndexType b)
-{
-  int xchange = 1;
-  int ychange = 1;
-  int zchange = 1;
-  int i = 0;
-  int e1 = 0;
-  int e2 = 0;
-  int length;
-  double magnitude = 0;
-  double mag;
-  GradientIndexType c;
-  int dx = b[0] - a[0];
-  int dy = b[1] - a[1];
-  int dz = b[2] - a[2];
-
-  if( dx < 0 ) 
-    {
-    xchange = -1;
-    dx = - dx;
-    }
-  if( dy < 0 ) 
-    {
-    ychange = -1;
-    dy = -dy;
-    }
-  if( dz < 0 ) 
-    {
-    zchange = -1;
-    dz = -dz;
-    }
-
-  if( dz >= dy && dz >= dx ) 
-    {
-    length = dz;
-    while( i < length) 
-      {
-      a[2] += zchange;
-      e1 += dx;
-      e2 += dy;
-      if( e1 > dz ) 
-        {
-        a[0] += xchange;
-        e1 -= dz;
-        }
-      if( e2 > dz ) 
-        {
-        a[1] += ychange;
-        e2 -= dz;
-        }
-      mag = sqrt(m_Gradient->GetPixel(a)[0] * m_Gradient->GetPixel(a)[0] +
-         m_Gradient->GetPixel(a)[1] * m_Gradient->GetPixel(a)[1] +
-         m_Gradient->GetPixel(a)[2] * m_Gradient->GetPixel(a)[2]);
-      if (mag > magnitude)
-        {
-        magnitude = mag;
-        c[0]=a[0];
-        c[1]=a[1];
-        c[2]=a[2];
-        }
-       ++i;
-       }  
-     return c;
-    }
-  else if( dy >= dz && dy >= dx ) 
-    {
-     length = dy;
-     while( i < length) 
-       {
-       a[1] += ychange;
-       e1 += dz;
-       e2 += dx;
-       if( e1 > dy ) 
-         {
-         a[2] += zchange;
-         e1 -= dy;
-         }
-       if( e2 > dy ) 
-         {
-         a[0] += xchange;
-         e2 -= dy;
-         }
-       mag = sqrt(m_Gradient->GetPixel(a)[0] * m_Gradient->GetPixel(a)[0] +
-         m_Gradient->GetPixel(a)[1] * m_Gradient->GetPixel(a)[1] +
-         m_Gradient->GetPixel(a)[2] * m_Gradient->GetPixel(a)[2]);
-       if (mag > magnitude)
-         {
-         magnitude = mag;
-         c[0]=a[0];
-         c[1]=a[1];
-         c[2]=a[2];
-         }
-       ++i;
-       }
-     return c;
-    }
-  else if ( dx >= dz && dx >= dy )
-    {  
-     length = dx;
-     while( i < length) 
-       {
-       a[0] += xchange;
-       e1 += dz;
-       e2 += dy;
-       if( e1 > dx ) 
-         {
-         a[2] += zchange;
-         e1 -= dx;
-         }
-       if( e2 > dx ) 
-         {
-         a[1] += ychange;
-         e2 -= dx;
-         }
-       mag = sqrt(m_Gradient->GetPixel(a)[0] * m_Gradient->GetPixel(a)[0] +
-         m_Gradient->GetPixel(a)[1] * m_Gradient->GetPixel(a)[1] +
-         m_Gradient->GetPixel(a)[2] * m_Gradient->GetPixel(a)[2]);
-       if (mag > magnitude)
-         {
-         magnitude = mag;
-         c[0]=a[0];
-         c[1]=a[1];
-         c[2]=a[2];
-         }
-    
-       ++i;
-       }
-     return c;
-    }
-  else
-    {
-    // draw one point only        
-   
-    c[0]=a[0];
-    c[1]=a[1];
-    c[2]=a[2];
-    return c;
-    }
-  }
 } /* end namespace itk. */
 
 #endif //__itkDeformableSimplexMesh3DFilter_TXX
