@@ -161,7 +161,7 @@ int main(int ac, char* av[] )
           }
 
         // output the matching baseline
-        std::cout << "<DartMeasurement name=\"BaselineImageMatch\" type=\"text/string\">";
+        std::cout << "<DartMeasurement name=\"BaselineImageName\" type=\"text/string\">";
         std::cout << itksys::SystemTools::GetFilenameName(bestBaseline);
         std::cout << "</DartMeasurement>" << std::endl;
         
