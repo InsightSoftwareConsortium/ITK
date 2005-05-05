@@ -40,6 +40,7 @@
 #include "itkExtractImageFilter.h"
 #include "itkDifferenceImageFilter.h"
 #include "itkImageRegion.h"
+#include "itksys/SystemTools.hxx"
 
 #define ITK_TEST_DIMENSION_MAX 6
 
@@ -158,6 +159,12 @@ int main(int ac, char* av[] )
                                                  bestBaseline.c_str(),
                                                  1);
           }
+
+        // output the matching baseline
+        std::cout << "<DartMeasurement name=\"BaselineImageMatch\" type=\"text/string\">";
+        std::cout << itksys::SystemTools::GetFilenameName(bestBaseline);
+        std::cout << "</DartMeasurement>" << std::endl;
+        
         result += bestBaselineStatus;
         }
       }
@@ -370,7 +377,7 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
 // Generate all of the possible baselines
 // The possible baselines are generated fromn the baselineFilename using the following algorithm:
 // 1) strip the suffix
-// 2) append a digit _x
+// 2) append a digit .x
 // 3) append the original suffix.
 // It the file exists, increment x and continue
 //
