@@ -22,12 +22,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkSimplexMeshGeometry.h"
 #include "itkImage.h"
 #include "itkCovariantVector.h"
-#include "itkVector.h"
-#include "itkSphereSpatialFunction.h"
-#include "itkFloodFilledSpatialFunctionConditionalIterator.h"
-#include "itkVectorGradientMagnitudeImageFilter.h"
-#include "itkBinaryThresholdImageFilter.h"
-#include "itkArray.h"
 
 #include <set>
 
@@ -61,11 +55,7 @@ namespace itk
   * The user has to set the number of iterations for mesh evolution.
   * 
   * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
-  *
-  * \author Leila Baghdadi, MICe, Hospital for Sick Childern, Toronto, Canada,
-  *         Modified in October 26/2004 the definition of External forces to search in the direction of normals,
-  * I acknowldge the helpful insights of Herve Delingette and Maxime Sermesant of INRIA, France.
-  *
+  * 
   * \ingroup MeshFilters
   * \ingroup MeshSegmentation 
   */
@@ -107,16 +97,19 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     /** Image and Image iterator definition. */
     typedef CovariantVector<PixelType, 3>                   GradientType;
     typedef Image<GradientType, 3>                          GradientImageType;
-    typedef Image<unsigned char, 3>                         BinaryOutput;
-    typedef Image<float, 3>                                 MagnitudeOutput;
     typedef typename GradientImageType::Pointer             GradientImagePointer;
     typedef typename GradientImageType::IndexType           GradientIndexType;
     typedef typename GradientImageType::PixelType           GradientPixelType;
     typedef typename GradientIndexType::IndexValueType      GradientIndexValueType;
     typedef typename GradientImageType::SizeType            GradientImageSizeType;
-    
-    typedef std::vector<GradientIndexType>                   ArrayGradientIndexType;
-    
+
+
+    //typedef Image<PixelType, 3>                                   GradientIntensityImageType;
+    //typedef typename GradientIntensityImageType::Pointer          GradientIntensityImagePointer;
+
+    //typedef typename itk::MapContainer<unsigned long, PointType> ForceOriginMapType;
+    //typedef typename itk::MapContainer<unsigned long, VectorType> ForceMapType;
+
     /* Mesh pointer definition. */
     typedef typename InputMeshType::Pointer     InputMeshPointer;
     typedef typename OutputMeshType::Pointer    OutputMeshPointer;
@@ -178,45 +171,17 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     /** Get reference metrics update scaling factor */
     itkGetMacro(Gamma, double);
 
-    /** Set reference metrics update scaling factor */
-    itkSetMacro(Damping, double);
-
-    /** Get reference metrics update scaling factor */
-    itkGetMacro(Damping, double);
-
     /** control smoothness of the mesh */
     itkSetMacro(Rigidity, unsigned int);
 
     /** control smoothness of the mesh */
     itkGetMacro(Rigidity, unsigned int);
 
-    /** control number of degrees of freedom */
-    itkSetMacro(Locality, double);
-    
-    /** control number of degrees of freedom */
-    itkGetMacro(Locality, double);
-
-    /** Set Maximum Gradient Magnitude of Gradient Image */
-    itkSetMacro(MaxMagnitude, float);
-
-
-    /** control the range of search for Bresenham at normal line */
-    itkSetMacro(Range, int);
-    
-    /** control the range of search for Bresenham at normal line */
-    itkGetMacro(Range, int);
-
     itkSetObjectMacro(Data, GeometryMapType );
     itkGetObjectMacro(Data, GeometryMapType );
 
-    /** Width, height and depth opf image */
-    itkGetMacro(ImageWidth,int);
-    itkGetMacro(ImageHeight,int);
-    itkGetMacro(ImageDepth,int);
-
     /** current iteration number */
     itkGetMacro(Step, int);
-
 
   protected:
     DeformableSimplexMesh3DFilter();
@@ -279,11 +244,6 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     double L_Func(double r,double d, double phi);
 
     /**
-     *
-     */
-    GradientIndexType BresenhamLine(GradientIndexType a,GradientIndexType b);
-
-    /**
     *  Method computes the barycentric coordinates of the passed point 
     */
     PointType ComputeBarycentricCoordinates(PointType p, SimplexMeshGeometry* data);
@@ -314,7 +274,6 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     */
     double    m_Gamma;      
 
-    double    m_Damping;
     /**
     * This scalar determines the smoothness of the surface model. Values
     * should range from 0 to 10. It determines the radius of the neighborhood
@@ -322,17 +281,6 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     * The higher the rigidity the higher the smoothness.
     */
     unsigned int m_Rigidity;
-
-    /**
-     * Lambda is called the "locality" parameter and it controls the number of degrees of freedom
-     */
-    double   m_Locality;
-
-
-    /** 
-     * Range of search for Bresenham algorithm (normal line at each vertex)
-     */
-    int m_Range;
 
     // definition of internal parameters
     /** Number of iterations */
@@ -348,7 +296,6 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     int       m_Iterations;
 
 
-    float     m_MaxMagnitude;
     /**
     * map stores a Geometry object for every mesh point 
     */
