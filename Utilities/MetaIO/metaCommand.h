@@ -34,6 +34,7 @@ public:
     std::string description;
     std::string value;
     TypeEnumType type;
+    bool externaldata;
     bool required;
     };
 
@@ -55,7 +56,7 @@ public:
   bool SetOption(std::string name,std::string tag,bool required,std::string description,TypeEnumType type = FLAG,std::string defVal = "");
 
   /** Fields are added in order */
-  bool AddField(std::string name,std::string description,TypeEnumType type);
+  bool AddField(std::string name,std::string description,TypeEnumType type,bool externalData);
   
   /** Add a field to an option */
   bool AddOptionField(std::string optionName,std::string name,TypeEnumType type,bool required=true,std::string defVal = "");

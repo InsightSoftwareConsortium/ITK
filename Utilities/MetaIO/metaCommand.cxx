@@ -25,7 +25,7 @@ MetaCommand::MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2005-05-04 17:20:23 $ cvs command */
+/** Extract the date from the $Date: 2005-05-05 20:15:59 $ cvs command */
 std::string MetaCommand::ExtractDateFromCVS(std::string date)
 {
   std::string newdate;
@@ -85,6 +85,7 @@ bool MetaCommand::SetOption(std::string name,std::string tag,bool required,std::
   // Create a field without description as a flag
   Field field;
   field.name = name;
+  field.externaldata = false;
   field.type = type;
   field.value = defVal;
   field.required = true;
@@ -96,7 +97,7 @@ bool MetaCommand::SetOption(std::string name,std::string tag,bool required,std::
 
 
 /** Add a field */
-bool MetaCommand::AddField(std::string name,std::string description,TypeEnumType type)
+bool MetaCommand::AddField(std::string name,std::string description,TypeEnumType type,bool externalData)
 {
   // need to add some tests here to check if the option is not defined yet
   Option option;
@@ -107,6 +108,7 @@ bool MetaCommand::AddField(std::string name,std::string description,TypeEnumType
   field.name = name;
   field.type = type;
   field.required = true;
+  field.externaldata = externalData;
   option.fields.push_back(field);
 
   option.required = true;
@@ -131,6 +133,7 @@ bool MetaCommand::AddOptionField(std::string optionName,std::string name,TypeEnu
       field.type = type;
       field.required = required;
       field.value = defVal;
+      field.externaldata = false;
             
       // If this is the first field in the list we replace the current field
       if((*it).fields[0].type == FLAG)
