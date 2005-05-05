@@ -22,6 +22,12 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkSimplexMeshGeometry.h"
 #include "itkImage.h"
 #include "itkCovariantVector.h"
+#include "itkVector.h"
+#include "itkSphereSpatialFunction.h"
+#include "itkFloodFilledSpatialFunctionConditionalIterator.h"
+#include "itkVectorGradientMagnitudeImageFilter.h"
+#include "itkBinaryThresholdImageFilter.h"
+#include "itkArray.h"
 
 #include <set>
 
@@ -97,6 +103,9 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     /** Image and Image iterator definition. */
     typedef CovariantVector<PixelType, 3>                   GradientType;
     typedef Image<GradientType, 3>                          GradientImageType;
+    typedef Image<unsigned char, 3>                         BinaryOutput;      
+    typedef Image<float, 3>                                 MagnitudeOutput;
+    
     typedef typename GradientImageType::Pointer             GradientImagePointer;
     typedef typename GradientImageType::IndexType           GradientIndexType;
     typedef typename GradientImageType::PixelType           GradientPixelType;
@@ -167,10 +176,16 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
 
     /** Set reference metrics update scaling factor */
     itkSetMacro(Gamma, double);
-
+    
     /** Get reference metrics update scaling factor */
     itkGetMacro(Gamma, double);
-
+    
+    /** Set reference metrics update scaling factor */
+    itkSetMacro(Damping, double);
+    
+    /** Get reference metrics update scaling factor */
+    itkGetMacro(Damping, double);
+    
     /** control smoothness of the mesh */
     itkSetMacro(Rigidity, unsigned int);
 
@@ -179,7 +194,12 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
 
     itkSetObjectMacro(Data, GeometryMapType );
     itkGetObjectMacro(Data, GeometryMapType );
-
+     
+    /** Width, height and depth opf image */
+    itkGetMacro(ImageWidth,int);
+    itkGetMacro(ImageHeight,int);
+    itkGetMacro(ImageDepth,int);
+    
     /** current iteration number */
     itkGetMacro(Step, int);
 
@@ -273,7 +293,7 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     * density in places of high curvature.
     */
     double    m_Gamma;      
-
+    double    m_Damping;
     /**
     * This scalar determines the smoothness of the surface model. Values
     * should range from 0 to 10. It determines the radius of the neighborhood

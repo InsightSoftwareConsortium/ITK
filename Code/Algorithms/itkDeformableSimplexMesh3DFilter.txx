@@ -43,6 +43,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   m_Alpha = 0.2;
   m_Beta  = 0.01;
   m_Gamma = 0.05;
+  m_Damping = 0.65;
   m_Rigidity = 1;
  
 
