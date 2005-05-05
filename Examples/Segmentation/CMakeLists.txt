@@ -17,9 +17,6 @@ TARGET_LINK_LIBRARIES(NeighborhoodConnectedImageFilter ITKNumerics ITKIO)
 ADD_EXECUTABLE(IsolatedConnectedImageFilter IsolatedConnectedImageFilter.cxx )
 TARGET_LINK_LIBRARIES(IsolatedConnectedImageFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(CannySegmentationLevelSetImageFilter CannySegmentationLevelSetImageFilter.cxx )
-TARGET_LINK_LIBRARIES(CannySegmentationLevelSetImageFilter ITKNumerics ITKIO)
-
 ADD_EXECUTABLE(ConnectedThresholdImageFilter ConnectedThresholdImageFilter.cxx )
 TARGET_LINK_LIBRARIES(ConnectedThresholdImageFilter ITKNumerics ITKIO)
 
@@ -76,16 +73,6 @@ SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
-ADD_TEST(CannySegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES}
-  --compare ${BASELINE}/CannySegmentationLevelSetImageFilterTest.png
-            ${TEMP}/CannySegmentationLevelSetImageFilterTest.png
-  CannySegmentationLevelSetImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${BASELINE}/ThresholdSegmentationLevelSetVentricle.png
-        ${TEMP}/CannySegmentationLevelSetImageFilterTest.png
-        7 0.1 -10.0 127.5 10000
-)
-
 ADD_TEST(ConfidenceConnectedWhiteTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/ConfidenceConnectedWhiteTest.png
             ${TEMP}/ConfidenceConnectedWhiteTest.png
@@ -138,42 +125,6 @@ ADD_TEST(ConnectedThresholdGrayTest ${SEGMENTATION_EXAMPLES}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ConnectedThresholdGrayTest.png
         107 69 180 210
-)
-
-ADD_TEST(NeighborhoodConnectedWhiteTest ${SEGMENTATION_EXAMPLES2}
-  --compare ${BASELINE}/NeighborhoodConnectedWhiteTest.png
-            ${TEMP}/NeighborhoodConnectedWhiteTest.png
-  NeighborhoodConnectedImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${TEMP}/NeighborhoodConnectedWhiteTest.png
-        60 116 150 180
-)
-
-ADD_TEST(NeighborhoodConnectedVentricleTest ${SEGMENTATION_EXAMPLES2}
-  --compare ${BASELINE}/NeighborhoodConnectedVentricleTest.png
-            ${TEMP}/NeighborhoodConnectedVentricleTest.png
-  NeighborhoodConnectedImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${TEMP}/NeighborhoodConnectedVentricleTest.png
-        81 112 210 250
-)
-
-ADD_TEST(NeighborhoodConnectedGrayTest ${SEGMENTATION_EXAMPLES2}
-  --compare ${BASELINE}/NeighborhoodConnectedGrayTest.png
-            ${TEMP}/NeighborhoodConnectedGrayTest.png
-  NeighborhoodConnectedImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${TEMP}/NeighborhoodConnectedGrayTest.png
-        107 69 180 210
-)
-
-ADD_TEST(IsolatedConnectedTest ${SEGMENTATION_EXAMPLES2}
-  --compare ${BASELINE}/IsolatedConnectedTest.png
-            ${TEMP}/IsolatedConnectedTest.png
-  IsolatedConnectedImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${TEMP}/IsolatedConnectedTest.png
-        61 140 150 63 43
 )
 
 ADD_TEST(FastMarchingLeftVentricleTest ${SEGMENTATION_EXAMPLES}
@@ -255,7 +206,6 @@ ADD_TEST(GeodesicActiveContourGrayMatterTest ${SEGMENTATION_EXAMPLES}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/GeodesicActiveContourGrayMatterTest.png
         40 90 5.0 .5 -0.3 2.0 10.0
-
 )
 
 ADD_TEST(HoughTransformTwo2DLinesTest ${SEGMENTATION_EXAMPLES6}
@@ -409,8 +359,20 @@ ADD_TEST(VectorConfidenceConnectedTest3 ${SEGMENTATION_EXAMPLES8}
 )
 
 IF(NOT BORLAND)
+ADD_EXECUTABLE(CannySegmentationLevelSetImageFilter CannySegmentationLevelSetImageFilter.cxx )
+TARGET_LINK_LIBRARIES(CannySegmentationLevelSetImageFilter ITKNumerics ITKIO)
+
 ADD_EXECUTABLE(GeodesicActiveContourImageFilter GeodesicActiveContourImageFilter.cxx )
 TARGET_LINK_LIBRARIES(GeodesicActiveContourImageFilter ITKNumerics ITKIO)
+
+ADD_EXECUTABLE(SegmentationExamples2 SegmentationExamples2.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples2 
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKCommon
+ITKStatistics
+)
 
 ADD_EXECUTABLE(SegmentationExamples3 SegmentationExamples3.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples3
@@ -428,6 +390,16 @@ ADD_EXECUTABLE(WatershedSegmentation1 WatershedSegmentation1.cxx )
 TARGET_LINK_LIBRARIES(WatershedSegmentation1 ITKAlgorithms ITKNumerics ITKIO)
 
 
+ADD_TEST(CannySegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES}
+  --compare ${BASELINE}/CannySegmentationLevelSetImageFilterTest.png
+            ${TEMP}/CannySegmentationLevelSetImageFilterTest.png
+  CannySegmentationLevelSetImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${BASELINE}/ThresholdSegmentationLevelSetVentricle.png
+        ${TEMP}/CannySegmentationLevelSetImageFilterTest.png
+        7 0.1 -10.0 127.5 10000
+)
+
 ADD_TEST(GeodesicActiveContourShapePriorCallosumTest ${SEGMENTATION_EXAMPLES3}
   --compare ${BASELINE}/GeodesicActiveContourShapePriorCallosumTest.png
             ${TEMP}/GeodesicActiveContourShapePriorCallosumTest.png
@@ -437,7 +409,42 @@ ADD_TEST(GeodesicActiveContourShapePriorCallosumTest ${SEGMENTATION_EXAMPLES3}
         120 85 60 102 88 83 6 1.0 0.5 0.02
         ${ITK_SOURCE_DIR}/Examples/Data/CorpusCallosumMeanShape.mha 3 
         ${ITK_SOURCE_DIR}/Examples/Data/CorpusCallosumMode%d.mha 10 0
+)
 
+ADD_TEST(NeighborhoodConnectedWhiteTest ${SEGMENTATION_EXAMPLES2}
+  --compare ${BASELINE}/NeighborhoodConnectedWhiteTest.png
+            ${TEMP}/NeighborhoodConnectedWhiteTest.png
+  NeighborhoodConnectedImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/NeighborhoodConnectedWhiteTest.png
+        60 116 150 180
+)
+
+ADD_TEST(NeighborhoodConnectedVentricleTest ${SEGMENTATION_EXAMPLES2}
+  --compare ${BASELINE}/NeighborhoodConnectedVentricleTest.png
+            ${TEMP}/NeighborhoodConnectedVentricleTest.png
+  NeighborhoodConnectedImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/NeighborhoodConnectedVentricleTest.png
+        81 112 210 250
+)
+
+ADD_TEST(NeighborhoodConnectedGrayTest ${SEGMENTATION_EXAMPLES2}
+  --compare ${BASELINE}/NeighborhoodConnectedGrayTest.png
+            ${TEMP}/NeighborhoodConnectedGrayTest.png
+  NeighborhoodConnectedImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/NeighborhoodConnectedGrayTest.png
+        107 69 180 210
+)
+
+ADD_TEST(IsolatedConnectedTest ${SEGMENTATION_EXAMPLES2}
+  --compare ${BASELINE}/IsolatedConnectedTest.png
+            ${TEMP}/IsolatedConnectedTest.png
+  IsolatedConnectedImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/IsolatedConnectedTest.png
+        61 140 150 63 43
 )
 
 ENDIF(NOT BORLAND)
@@ -449,14 +456,6 @@ ITKIO
 ITKBasicFilters
 ITKCommon)
 
-ADD_EXECUTABLE(SegmentationExamples2 SegmentationExamples2.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples2 
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
-ITKCommon
-ITKStatistics
-)
 
 
 ADD_EXECUTABLE(SegmentationExamples4 SegmentationExamples4.cxx )
