@@ -143,6 +143,7 @@ ADD_TEST(itkThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS2} it
 ADD_TEST(itkGibbsTest ${ALGORITHMS_TESTS3} itkGibbsTest)
 ADD_TEST(itkDeformableTest ${ALGORITHMS_TESTS3} itkDeformableTest)
 ADD_TEST(itkDeformableSimplexMesh3DBalloonForceFilterTest ${ALGORITHMS_TESTS2} itkDeformableSimplexMesh3DBalloonForceFilterTest)
+ADD_TEST(itkDeformableSimplexMesh3DGradientConstaintForceFilterTest ${ALGORITHMS_TESTS2} itkDeformableSimplexMesh3DGradientConstraintForceFilterTest)
 ADD_TEST(itkDeformableSimplexMesh3DFilterTest ${ALGORITHMS_TESTS2} itkDeformableSimplexMesh3DFilterTest)
 ADD_TEST(itk2DDeformableTest ${ALGORITHMS_TESTS3} itk2DDeformableTest)
 ADD_TEST(itkBinaryThinningImageFilterTest ${ALGORITHMS_TESTS3}
@@ -236,6 +237,7 @@ itkLevelSetVelocityNeighborhoodExtractorTest.cxx
 SET(AlgorithmsTest2_SRCS
 itkCompareHistogramImageToImageMetricTest.cxx
 itkDeformableSimplexMesh3DBalloonForceFilterTest.cxx
+itkDeformableSimplexMesh3DGradientConstraintForceFilterTest.cxx
 itkDeformableSimplexMesh3DFilterTest.cxx
 itkGradientDifferenceImageToImageMetricTest.cxx
 itkImagePCADecompositionCalculatorTest.cxx
