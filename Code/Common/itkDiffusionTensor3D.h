@@ -38,6 +38,7 @@ namespace itk
  * most of the Tensor related behavior. At this level we add the methods that
  * are specific to 3D and that are closely related to the concept of diffusion.
  *
+ *
  * \author Jeffrey Duda from School of Engineering at University of Pennsylvania 
  * \author Torsten Rohlfing from SRI International Neuroscience Program.
  *
@@ -49,7 +50,12 @@ namespace itk
  * found in the WIKI pages of NAMIC:
  *
  * http://www.na-mic.org/Wiki/index.php/NAMIC_Wiki:DTI:ITK-DiffusionTensorPixelType
- *
+ * 
+ * \par References
+ * E. R. Melhem, S. Mori, G. Mukundan, M. A. Kraut, M. G. Pomper, and 
+ * P. C. M. van Zijl, "Diffusion tensor MR imaging of the brain and white 
+ * matter tractography," Am. J. Roentgenol., vol. 178, pp. 3-16, 2002.
+*
  * \sa SymmetricSecondRankTensor
  *
  * \ingroup ImageObjects
@@ -68,6 +74,10 @@ public:
   typedef typename Superclass::ComponentType         ComponentType;
   typedef typename Superclass::ComponentArrayType    ComponentArrayType;
   typedef typename Superclass::AccumulateValueType   AccumulateValueType;
+  typedef typename Superclass::RealValueType         RealValueType;
+
+  typedef typename Superclass::EigenValuesArrayType    EigenValuesArrayType;
+  typedef typename Superclass::EigenVectorsMatrixType  EigenVectorsMatrixType;
 
   /** Default Constructor. */
   DiffusionTensor3D();
@@ -86,6 +96,9 @@ public:
 
   /** Get Trace value */
   AccumulateValueType GetTrace() const;
+
+  /** Get the value of Fractional Anisotropy from the Tensor. */
+  RealValueType GetFractionalAnisotropy() const;
 
 };
 

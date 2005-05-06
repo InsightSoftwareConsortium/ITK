@@ -161,6 +161,36 @@ DiffusionTensor3D<T>
 }
 
 
+/**
+ *  Compute the value of fractional anisotropy
+ */
+template<class T>
+typename DiffusionTensor3D<T>::RealValueType
+DiffusionTensor3D<T>
+::GetFractionalAnisotropy() const
+{
+  EigenValuesArrayType eigenValues;
+  this->ComputeEigenValues( eigenValues );
+
+  // trace of the diagonal eigenvalue matrix
+  const RealValueType lambdaMean = 
+    ( eigenValues[0] + eigenValues[1] + eigenValues[2] ) / 3.0;
+
+  const RealValueType tmp0 = eigenValues[0] - lambdaMean;
+  const RealValueType tmp1 = eigenValues[1] - lambdaMean;
+  const RealValueType tmp2 = eigenValues[2] - lambdaMean;
+    
+  const RealValueType faSquare =
+    (3 * (tmp0*tmp0 + tmp1*tmp1 + tmp2*tmp2)) / 
+    (2 * (eigenValues[0]*eigenValues[0] + 
+          eigenValues[1]*eigenValues[1] + 
+          eigenValues[2]*eigenValues[2]));
+  
+  return sqrt( faSquare );
+}
+
+
+
 
 
 
