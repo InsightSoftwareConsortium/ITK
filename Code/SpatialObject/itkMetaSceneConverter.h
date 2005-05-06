@@ -53,11 +53,15 @@ public:
   const MetaEvent* GetEvent() const {return m_Event;}
   void  SetEvent(MetaEvent* event) {m_Event = event;}
 
-  // Set if the points should be saved in binary/ASCII
+  /** Set if the points should be saved in binary/ASCII */
   void SetBinaryPoints(bool binary) {m_BinaryPoints = binary;}
 
   void SetTransformPrecision(unsigned int precision){m_TransformPrecision = precision;}
   unsigned int GetTransformPrecision(){return m_TransformPrecision;}
+
+  /** Set if the images should be written in different files */
+  void SetWriteImagesInSeparateFile(bool separate) {m_WriteImagesInSeparateFile = separate;}
+
 
 private:
 
@@ -82,6 +86,7 @@ private:
 
   MetaEvent* m_Event;
   bool  m_BinaryPoints;
+  bool  m_WriteImagesInSeparateFile;
   unsigned int m_TransformPrecision;
 
 };

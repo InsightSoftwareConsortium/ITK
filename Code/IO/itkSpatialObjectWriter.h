@@ -71,10 +71,16 @@ public:
   void SetTransformPrecision(unsigned int precision);
   unsigned int GetTransformPrecision();
 
+  /** Set/Get if the images should be written in a different file */
+  itkSetMacro(WriteImagesInSeparateFile,bool);
+  itkGetMacro(WriteImagesInSeparateFile,bool);
+
+
 protected:
 
   std::string m_FileName;
   bool        m_BinaryPoints;
+  bool        m_WriteImagesInSeparateFile;
 
   SpatialObjectWriter();
   virtual ~SpatialObjectWriter();

@@ -31,6 +31,7 @@ SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
   m_SpatialObject = 0;
   m_Scene = 0;
   m_BinaryPoints = false;
+  m_WriteImagesInSeparateFile = false;
 }
 
 template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
@@ -65,6 +66,7 @@ SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
 ::Update()
 { 
   m_MetaToSpatialConverter.SetBinaryPoints(m_BinaryPoints);
+  m_MetaToSpatialConverter.SetWriteImagesInSeparateFile(m_WriteImagesInSeparateFile);
 
   if(m_Scene != 0)
     {   

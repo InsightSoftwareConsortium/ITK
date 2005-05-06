@@ -61,6 +61,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
   m_Event = NULL;
   m_BinaryPoints = false;
   m_TransformPrecision = 6;
+  m_WriteImagesInSeparateFile = false;
 }
 
 /** Destructor */ 
@@ -418,6 +419,22 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
         {
         image->ParentID((*it)->GetParent()->GetId());
         }
+
+      if(m_WriteImagesInSeparateFile)
+        {
+        if((*it)->GetProperty()->GetName().size() == 0)
+          {
+          std::cout << "Error: you should set the image name when using WriteImagesInSeparateFile." << std::endl;
+          std::cout << "The image will be written locally." << std::endl;
+          }
+        else
+          {
+          std::string filename = (*it)->GetProperty()->GetName();
+          filename += ".raw";
+          image->ElementDataFileName(filename.c_str());
+          }
+        }
+
       image->Name((*it)->GetProperty()->GetName().c_str());
       this->SetTransform(image, (*it)->GetObjectToParentTransform()) ;
       metaScene->AddObject(image);
