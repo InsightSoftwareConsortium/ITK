@@ -25,7 +25,7 @@ MetaCommand::MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2005-05-05 20:15:59 $ cvs command */
+/** Extract the date from the $Date: 2005-05-06 20:20:14 $ cvs command */
 std::string MetaCommand::ExtractDateFromCVS(std::string date)
 {
   std::string newdate;
@@ -306,6 +306,16 @@ void MetaCommand::ListOptions()
       std::cout << "Description: " << (*itField).description.c_str() << std::endl;
       std::cout << "Type: " << this->TypeToString((*itField).type).c_str() << std::endl;
       std::cout << "Value: " << (*itField).value.c_str() << std::endl;
+      
+      if((*itField).externaldata)
+        {
+        std::cout << "External Data: true" << std::endl;
+        }
+      else
+        {
+        std::cout << "External Data: false" << std::endl;
+        }
+
       if((*itField).required)
         {
         std::cout << "Required: true" << std::endl;
@@ -353,7 +363,16 @@ void MetaCommand::ListOptionsXML()
       std::cout << "<name>" << (*itField).name.c_str() << "</name>" << std::endl;
       std::cout << "<description>" << (*itField).description.c_str() << "</description>" << std::endl;
       std::cout << "<type>" << this->TypeToString((*itField).type).c_str() << "</type>" << std::endl;
-      std::cout << "<value>" << (*itField).value.c_str() << "</value>" << std::endl;
+      std::cout << "<value>" << (*itField).value.c_str() << "</value>" << std::endl; 
+      std::cout << "<external>";
+      if((*itField).externaldata)
+        {
+        std::cout << "1</external>" << std::endl;
+        }
+      else
+        {
+        std::cout << "0</external>" << std::endl;
+        }
       std::cout << "<required>";
       if((*itField).required)
         {
@@ -363,6 +382,8 @@ void MetaCommand::ListOptionsXML()
         {
         std::cout << "0</required>" << std::endl;
         }
+
+
       std::cout << "</field>" << std::endl;
       itField++;
       }
@@ -427,11 +448,17 @@ bool MetaCommand::ParseXML(const char* buffer)
       std::string f = this->GetXML(buf.c_str(),"field",posF);
       Field field;
       field.name = this->GetXML(f.c_str(),"name",0);
-      std::cout << "FIELD  = " << field.name.c_str() << std::endl;
       field.description = this->GetXML(f.c_str(),"description",0);
       field.value = this->GetXML(f.c_str(),"value",0);
       field.type = this->StringToType(this->GetXML(f.c_str(),"type",0).c_str());
-
+      if(atoi(this->GetXML(f.c_str(),"external",0).c_str()) == 0)
+        {
+        field.externaldata = false;
+        }
+      else
+        {
+        field.externaldata = true;
+        }
       if(atoi(this->GetXML(f.c_str(),"required",0).c_str()) == 0)
         {
         field.required = false;
