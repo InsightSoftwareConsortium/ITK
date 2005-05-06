@@ -326,11 +326,12 @@ int itkDiffusionTensor3DTest(int, char* [] )
 
   }
 
-  // Test GetTrace() method
+  // Test GetTrace() and GetFractionalAnisotropy methods
   {
 
     typedef itk::DiffusionTensor3D<double>         Double3DTensorType;
     typedef Double3DTensorType::AccumulateValueType          AccumulateValueType;
+    typedef Double3DTensorType::RealValueType                RealValueType;
 
     Double3DTensorType tensor;
 
@@ -361,6 +362,19 @@ int itkDiffusionTensor3DTest(int, char* [] )
       std::cerr << "Computed trace = " << computedTrace << std::endl;
       return EXIT_FAILURE;
       }
+
+    // Test the value of Fractional Anisotropy
+    const RealValueType expectedFractionalAnisotropy = 0.349177;
+
+    RealValueType computedFractionalAnisotropy = tensor.GetFractionalAnisotropy();
+    if( fabs( computedFractionalAnisotropy - expectedFractionalAnisotropy ) > tolerance )
+      {
+      std::cerr << "Error computing Fractional Anisotropy" << std::endl;
+      std::cerr << "Expected = " << expectedFractionalAnisotropy << std::endl;
+      std::cerr << "Computed = " << computedFractionalAnisotropy << std::endl;
+      return EXIT_FAILURE;
+      }
+
 
   } // end of Test GetTrace() method
 
