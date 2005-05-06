@@ -54,8 +54,13 @@ public:
   /** Accumulation of addition and multiplication. */
   typedef double AccumulateType; 
 
+  // This primary template is never used but we need this definition
+  // to avoid an ICE on VS 7.0.  This definition cannot be present for
+  // VS 7.1 though or it generates bogus errors.
+#if defined(_MSC_VER) && _MSC_VER == 1300
   /** Type for real-valued operations.  */
   typedef double RealType;
+#endif
 
   /** Additive identity. */
   static const T Zero;
