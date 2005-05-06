@@ -38,6 +38,18 @@ namespace itk
  * most of the Tensor related behavior. At this level we add the methods that
  * are specific to 3D and that are closely related to the concept of diffusion.
  *
+ * \author Jeffrey Duda from School of Engineering at University of Pennsylvania 
+ * \author Torsten Rohlfing from SRI International Neuroscience Program.
+ *
+ * This class was mostly based on files that Jeffrey Duda, Torsten Rohlfing and
+ * Martin Styner contributed to the ITK users list during a discussion on
+ * support for DiffusionTensorImages. The funding for creating this class was
+ * largely provided by NAMIC (National Alliance for Medical Image Computing)
+ * (http://www.na-mic.org). A discussion on the design of this class can be
+ * found in the WIKI pages of NAMIC:
+ *
+ * http://www.na-mic.org/Wiki/index.php/NAMIC_Wiki:DTI:ITK-DiffusionTensorPixelType
+ *
  * \sa SymmetricSecondRankTensor
  *
  * \ingroup ImageObjects
