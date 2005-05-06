@@ -93,7 +93,15 @@ int main( int argc, char* argv[] )
       std::string tagkey   = itr->first;
       gdcm::DictEntry *dictentry = pubDict->GetEntry(tagkey);
       std::string tagvalue = entryvalue->GetMetaDataObjectValue();
-      std::cout << dictentry->GetName() <<  " = " << tagvalue.c_str() << std::endl;
+      // If tagkey was found (ie DICOM tag from public dictionary), then display the name:
+      if( dictentry )
+        {
+        std::cout << dictentry->GetName() <<  " = " << tagvalue.c_str() << std::endl;
+        }
+      else
+        {
+        std::cout << tagkey <<  " = " << tagvalue.c_str() << std::endl;
+        }
       }
     ++itr;
     }
