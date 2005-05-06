@@ -44,13 +44,14 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
      1.0 / ( ImageDimension * ( ImageDimension * ( ImageDimension+1 ) / 2 ));
 
 
-  for( unsigned int i = 0; i<ImageDimension-2; i++ )
+  for( unsigned int i = 0; i<NumberOfSmoothingFilters; i++ )
     {
-    m_SmoothingFilters[ i ] = GaussianFilterType::New();
-    m_SmoothingFilters[ i ]->SetOrder( GaussianFilterType::ZeroOrder );
-    m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
-    m_SmoothingFilters[ i ]->ReleaseDataFlagOn();
-    m_Progress->RegisterInternalFilter( m_SmoothingFilters[i], weight );
+    GaussianFilterPointer filter = GaussianFilterType::New();
+    filter->SetOrder( GaussianFilterType::ZeroOrder );
+    filter->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
+    filter->ReleaseDataFlagOn();
+    m_Progress->RegisterInternalFilter( filter, weight );
+    m_SmoothingFilters.push_back( filter );
     }
 
   m_DerivativeFilterA = DerivativeFilterAType::New();
@@ -68,9 +69,13 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   m_Progress->RegisterInternalFilter( m_DerivativeFilterA, weight );
   m_Progress->RegisterInternalFilter( m_DerivativeFilterB, weight );
 
-  m_SmoothingFilters[0]->SetInput( m_DerivativeFilterB->GetOutput() );
+  // Deal with the 2D case.
+  if( NumberOfSmoothingFilters > 0 )
+    {
+    m_SmoothingFilters[0]->SetInput( m_DerivativeFilterB->GetOutput() );
+    }
 
-  for( unsigned int i = 1; i<ImageDimension-2; i++ )
+  for( unsigned int i = 1; i<NumberOfSmoothingFilters; i++ )
     {
     m_SmoothingFilters[ i ]->SetInput( 
       m_SmoothingFilters[i-1]->GetOutput() );
@@ -93,7 +98,7 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::SetSigma( RealType sigma )
 {
 
-  for( unsigned int i = 0; i<ImageDimension-2; i++ )
+  for( unsigned int i = 0; i<NumberOfSmoothingFilters; i++ )
     {
     m_SmoothingFilters[ i ]->SetSigma( sigma );
     }
@@ -117,7 +122,7 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   m_NormalizeAcrossScale = normalize;
 
-  for( unsigned int i = 0; i<ImageDimension-2; i++ )
+  for( unsigned int i = 0; i<NumberOfSmoothingFilters; i++ )
     {
     m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( normalize );
     }
@@ -202,22 +207,38 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage >
       {
       unsigned int i=0; 
       unsigned int j=0;
-      while(  i < ImageDimension)
+      while( i < NumberOfSmoothingFilters )
         {
-        if( i == dima || i == dimb ) 
+        while( j < ImageDimension )
           {
+          if( j != dima && j != dimb ) 
+            {
+            m_SmoothingFilters[ i ]->SetDirection( j );
+            j++;
+            break;
+            }
           j++;
           }
-        m_SmoothingFilters[ i ]->SetDirection( j );
-        i++;
-        j++;
+          i++;
         }
+
       m_DerivativeFilterA->SetDirection( dima );
       m_DerivativeFilterB->SetDirection( dimb );
       
-      GaussianFilterPointer lastFilter = m_SmoothingFilters[ImageDimension-3];
+      typename RealImageType::Pointer derivativeImage; 
 
-      lastFilter->Update();
+      // Deal with the 2D case.
+      if( NumberOfSmoothingFilters > 0 )
+        {
+        GaussianFilterPointer lastFilter = m_SmoothingFilters[ImageDimension-3];
+        lastFilter->Update();
+        derivativeImage = lastFilter->GetOutput(); 
+        }
+      else
+        {
+        m_DerivativeFilterB->Update();
+        derivativeImage = m_DerivativeFilterB->GetOutput(); 
+        }
 
       m_Progress->ResetFilterProgressAndKeepAccumulatedProgress();
 
@@ -225,8 +246,6 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage >
       // on the output image of vectors
       m_ImageAdaptor->SelectNthElement( element++ );
 
-      typename RealImageType::Pointer derivativeImage = 
-                                            lastFilter->GetOutput(); 
 
       ImageRegionIteratorWithIndex< RealImageType > it( 
               derivativeImage, 

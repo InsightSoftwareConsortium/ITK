@@ -111,6 +111,7 @@ public:
 
   /**  Pointer to a gaussian filter.  */
   typedef typename GaussianFilterType::Pointer    GaussianFilterPointer;
+  typedef std::vector< GaussianFilterPointer >    GaussianFiltersArray;
 
   /**  Pointer to a derivative filter.  */
   typedef typename DerivativeFilterAType::Pointer  DerivativeFilterAPointer;
@@ -160,7 +161,7 @@ private:
   HessianRecursiveGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  GaussianFilterPointer         m_SmoothingFilters[ NumberOfSmoothingFilters ];
+  GaussianFiltersArray          m_SmoothingFilters;
   DerivativeFilterAPointer      m_DerivativeFilterA;
   DerivativeFilterBPointer      m_DerivativeFilterB;
   OutputImageAdaptorPointer     m_ImageAdaptor;
