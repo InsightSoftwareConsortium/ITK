@@ -79,7 +79,9 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
   // and also the points are *different* from each other
   if ( !(coord[0]==coord2[0] && coord[1]==coord2[1] && coord[2]==coord2[2]) &&
        (coord[0] >= 0) && (coord[1] >= 0) && (coord[2] >= 0) && 
-       (coord2[0] < m_ImageWidth) && (coord2[1] < m_ImageHeight) && (coord2[2] < m_ImageDepth)  )
+       (coord2[0] < this->m_ImageWidth) && 
+       (coord2[1] < this->m_ImageHeight) &&
+       (coord2[2] < this->m_ImageDepth)  )
     {
       
     GradientIndexType index;
@@ -87,14 +89,14 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
     index  = this->BresenhamLine(coord, coord2);
       
 
-    vec_for[0] = m_Gradient->GetPixel(index)[0];
-    vec_for[1] = m_Gradient->GetPixel(index)[1];
-    vec_for[2] = m_Gradient->GetPixel(index)[2];
+    vec_for[0] = this->m_Gradient->GetPixel(index)[0];
+    vec_for[1] = this->m_Gradient->GetPixel(index)[1];
+    vec_for[2] = this->m_Gradient->GetPixel(index)[2];
   
       
-    vec_for[0] -= m_Gradient->GetPixel(coord)[0];
-    vec_for[1] -= m_Gradient->GetPixel(coord)[1];
-    vec_for[2] -= m_Gradient->GetPixel(coord)[2];
+    vec_for[0] -= this->m_Gradient->GetPixel(coord)[0];
+    vec_for[1] -= this->m_Gradient->GetPixel(coord)[1];
+    vec_for[2] -= this->m_Gradient->GetPixel(coord)[2];
       
   
     double mag = dot_product(data->normal.Get_vnl_vector(),vec_for.Get_vnl_vector());
@@ -177,9 +179,9 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
         a[1] += ychange;
         e2 -= dz;
         }
-      mag = sqrt(m_Gradient->GetPixel(a)[0] * m_Gradient->GetPixel(a)[0] +
-         m_Gradient->GetPixel(a)[1] * m_Gradient->GetPixel(a)[1] +
-         m_Gradient->GetPixel(a)[2] * m_Gradient->GetPixel(a)[2]);
+      mag = sqrt(this->m_Gradient->GetPixel(a)[0] * this->m_Gradient->GetPixel(a)[0] +
+         this->m_Gradient->GetPixel(a)[1] * this->m_Gradient->GetPixel(a)[1] +
+         this->m_Gradient->GetPixel(a)[2] * this->m_Gradient->GetPixel(a)[2]);
       if (mag > magnitude)
         {
         magnitude = mag;
@@ -209,9 +211,9 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
          a[0] += xchange;
          e2 -= dy;
          }
-       mag = sqrt(m_Gradient->GetPixel(a)[0] * m_Gradient->GetPixel(a)[0] +
-         m_Gradient->GetPixel(a)[1] * m_Gradient->GetPixel(a)[1] +
-         m_Gradient->GetPixel(a)[2] * m_Gradient->GetPixel(a)[2]);
+       mag = sqrt(this->m_Gradient->GetPixel(a)[0] * this->m_Gradient->GetPixel(a)[0] +
+         this->m_Gradient->GetPixel(a)[1] * this->m_Gradient->GetPixel(a)[1] +
+         this->m_Gradient->GetPixel(a)[2] * this->m_Gradient->GetPixel(a)[2]);
        if (mag > magnitude)
          {
          magnitude = mag;
@@ -241,9 +243,9 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
          a[1] += ychange;
          e2 -= dx;
          }
-       mag = sqrt(m_Gradient->GetPixel(a)[0] * m_Gradient->GetPixel(a)[0] +
-         m_Gradient->GetPixel(a)[1] * m_Gradient->GetPixel(a)[1] +
-         m_Gradient->GetPixel(a)[2] * m_Gradient->GetPixel(a)[2]);
+       mag = sqrt(this->m_Gradient->GetPixel(a)[0] * this->m_Gradient->GetPixel(a)[0] +
+         this->m_Gradient->GetPixel(a)[1] * this->m_Gradient->GetPixel(a)[1] +
+         this->m_Gradient->GetPixel(a)[2] * this->m_Gradient->GetPixel(a)[2]);
        if (mag > magnitude)
          {
          magnitude = mag;
