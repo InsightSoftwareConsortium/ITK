@@ -222,8 +222,8 @@ protected:
 private:
   unsigned long m_NumberOfObjects;
   unsigned long m_NumberOfObjectsToPrint;
-  unsigned long m_MinimumObjectSize;
   unsigned long m_OriginalNumberOfObjects;
+  unsigned long m_MinimumObjectSize;
   std::vector<unsigned long> m_SizeOfObjectsInPixels;
   std::vector<float> m_SizeOfObjectsInPhysicalUnits;
 

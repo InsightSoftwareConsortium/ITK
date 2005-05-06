@@ -123,7 +123,7 @@ public:
 
  
   /** Return the number of components. */
-  static int GetNumberOfComponents() 
+  static unsigned int GetNumberOfComponents() 
     { 
     return itkGetStaticConstMacro(InternalDimension);
     }

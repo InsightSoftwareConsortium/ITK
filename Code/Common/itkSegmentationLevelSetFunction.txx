@@ -110,7 +110,9 @@ SegmentationLevelSetFunction<TImageType, TFeatureImageType>
     {
     return ( m_VectorCast(m_VectorInterpolator->EvaluateAtContinuousIndex(cdx)));
     }
-  else return ( m_AdvectionImage->GetPixel(idx) );  
+  //Just return the default else
+    return ( m_AdvectionImage->GetPixel(idx) );
+  
 }
 
 } // end namespace itk

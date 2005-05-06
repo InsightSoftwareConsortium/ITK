@@ -125,9 +125,8 @@ int itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char* [] )
               << "itkEllipsoidSpatialFunction ended successfully!" << std::endl;            
     return EXIT_SUCCESS;
     }
-  else
-    {
-    std::cerr << "calculated ellipsoid volume = " << volume << std::endl
+  //Default behavior is to fail
+  std::cerr << "calculated ellipsoid volume = " << volume << std::endl
               << "measured ellipsoid volume = " << interiorPixelCounter << std::endl
               << "volume error = " << volumeError << "%" << std::endl
               << "function value = " << functionValue << std::endl
@@ -137,5 +136,4 @@ int itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char* [] )
               << spatialFunc->GetAxes()[1] << " minor axis 2 length = " << spatialFunc->GetAxes()[2] << std::endl
               << "itkEllipsoidSpatialFunction failed :(" << std::endl;
     return EXIT_FAILURE;
-    }
 }

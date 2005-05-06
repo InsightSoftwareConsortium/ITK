@@ -493,7 +493,7 @@ public:
 
   /** Get the number of components of the last image processed by the
    *  DICOMParser. */
-  int GetNumberOfComponents()
+  unsigned int GetNumberOfComponents()
     {
     if (!this->PhotometricInterpretation)
       {

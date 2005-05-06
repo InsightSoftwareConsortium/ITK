@@ -82,7 +82,7 @@ public:
   RGBAPixel& operator= (const ComponentType r[4]);
   
   /** Return the number of componentsxquery-rep. */
-  static int GetNumberOfComponents(){ return 4;}
+  static unsigned int GetNumberOfComponents(){ return 4;}
 
   /** Return the value for the Nth component. */
   ComponentType GetNthComponent(int c) const

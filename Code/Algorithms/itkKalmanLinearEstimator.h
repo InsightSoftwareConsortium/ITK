@@ -71,7 +71,7 @@ public:
    * The covariance matrix is not changed.
    * \sa Estimator \sa Variance \sa ClearVariance */
   void ClearEstimation(void) 
-  { VectorType v(T(0)); m_Estimator = v; }
+  { m_Estimator = VectorType(T(0)); }
 
   /** This method resets the covariance matrix. It is set to an identity matrix
    * \sa Estimator \sa Variance \sa ClearEstimation */

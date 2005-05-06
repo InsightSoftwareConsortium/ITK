@@ -1732,8 +1732,6 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::ExpandVectorField( ExpandFactor
   m_FieldSize=m_FieldExpander->GetOutput()->GetLargestPossibleRegion().GetSize();
 
   return m_FieldExpander->GetOutput();
-  std::cout << " resized field to " << m_FieldSize << std::endl;
-
 }
 
 template<class TMovingImage,class TFixedImage>

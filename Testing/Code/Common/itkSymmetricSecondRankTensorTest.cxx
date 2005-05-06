@@ -25,9 +25,7 @@
 #include "itkImageRegionIterator.h"
 
 int itkSymmetricSecondRankTensorTest(int, char* [] )
-{
-  int i, j;
-  
+{ 
   // Test it all
   
   float val[6] = {1.8, 0.2, 0.5, 3.4, 2.0, 1.2};
@@ -52,7 +50,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
     }
   std::cout << "pixel.GetNumberOfComponents = " << pixel.GetNumberOfComponents() << std::endl;
   std::cout << "pixel.GetNthComponent()" << std::endl;
-  for (i = 0; i < pixel.GetNumberOfComponents(); i++)
+  for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); i++)
     {
     std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
     }
@@ -68,7 +66,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
   pixel(2,2) = 14.0; 
 
   std::cout << "testing the pixel(i,j) APID" << std::endl;
-  for (i = 0; i < pixel.GetNumberOfComponents(); i++)
+  for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); i++)
     {
     std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
     }
@@ -79,7 +77,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
   pixel[0] = 111; pixel[1] = 222; pixel[2] = 333;
   pixel[3] = 444; pixel[4] = 555; pixel[5] = 666;
 
-  for (i = 0; i < pixel.GetNumberOfComponents(); i++)
+  for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); i++)
     {
     std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
     }
@@ -87,11 +85,11 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
   std::cout << "std::cout << pixel << std::endl;" << std::endl;
   std::cout << "\t" << pixel << std::endl;
   
-  for (j = 0; j < 2; j++)
+  for (unsigned int j = 0; j < 2; j++)
     {
     std::cout << "pixelArray["<< j << "].GetNumberOfComponents = " << pixelArray[j].GetNumberOfComponents() << std::endl;
     std::cout << "pixelArray[" << j << "].GetNthComponent()" << std::endl;
-    for (i = 0; i < pixelArray[j].GetNumberOfComponents(); i++)
+    for (unsigned int i = 0; i < pixelArray[j].GetNumberOfComponents(); i++)
       {
       std::cout << "\tpixelArray[" << j << "].GetNthComponent(" << i << ") = " << static_cast<int>(pixelArray[j].GetNthComponent(i)) << std::endl;
       }

@@ -98,11 +98,8 @@ GetRootName( const std::string& filename )
     std::string baseName( filename, 0, it-fileExt.length() );
     return( baseName );
     }
-  else
-    {
-    // Case when the extension is nothing (Analyze)
-    return( filename );
-    }
+  //Default to return same as input when the extension is nothing (Analyze)
+  return( filename );
 }
 
 

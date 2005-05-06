@@ -145,6 +145,7 @@ MeanShiftModeSeekerBase< TSample >
       }
     ++currentIteration ;
     } // end of while
+    return queryPoint ; //This is here to avoid compiler warning, but should never occur.
 }
 
 } // end of namespace Statistics 

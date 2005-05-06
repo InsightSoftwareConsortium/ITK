@@ -115,8 +115,7 @@ int itkFiniteCylinderSpatialFunctionTest(int, char* [] )
               << "itkFiniteCylinderSpatialFunction test ended successfully!" << std::endl;            
     return EXIT_SUCCESS;
     }
-  else
-    {
+    //Default is to produce error code
     std::cerr << "calculated ellipsoid volume = " << volume << std::endl
               << "measured ellipsoid volume = " << interiorPixelCounter << std::endl
               << "volume error = " << volumeError << "%" << std::endl
@@ -126,5 +125,4 @@ int itkFiniteCylinderSpatialFunctionTest(int, char* [] )
               << "axis length = " << axis << std::endl
               << "itkFiniteCylinderSpatialFunction test failed :(" << std::endl;
     return EXIT_FAILURE;
-    }
 }

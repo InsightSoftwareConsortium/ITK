@@ -216,8 +216,9 @@ TetrahedronCell< TCellInterface >
           }
         }
       }
-    return false;
+    //Just fall through to default return false;
     }
+    return false;
 }
 
 

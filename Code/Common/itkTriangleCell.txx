@@ -668,8 +668,9 @@ TriangleCell< TCellInterface >
       pcoord[1] = pcoords[1];
       pcoord[2] = pcoords[2];
       }
-    return false;
+    //Just fall through to default return false;
     }
+    return false; //Default case that should never be reached.
 }
 
 

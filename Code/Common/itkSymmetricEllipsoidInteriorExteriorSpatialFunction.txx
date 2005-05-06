@@ -65,8 +65,8 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>
     {    
     return 1; // Inside the ellipsoid.                                                                                                            
     }
-  else 
-    return 0; // Outside the ellipsoid.
+  //Default return value assumes outside the ellipsoid 
+  return 0; // Outside the ellipsoid.
 }
 
 template <unsigned int VDimension,typename TInput>

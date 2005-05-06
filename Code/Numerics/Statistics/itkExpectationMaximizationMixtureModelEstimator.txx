@@ -106,11 +106,11 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 }
 
 template< class TSample >
-int
+unsigned int
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetNumberOfComponents()
 {
-  return static_cast<int>( m_ComponentVector.size() );
+  return m_ComponentVector.size();
 }
 
 template< class TSample >

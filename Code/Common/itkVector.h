@@ -167,7 +167,7 @@ public:
   RealValueType GetSquaredNorm( void ) const; 
 
   /** Returns the number of components in this vector type */
-  static int GetNumberOfComponents(){ return NVectorDimension;}
+  static unsigned int GetNumberOfComponents(){ return NVectorDimension;}
   
   /** Divides the vector componets by the vector norm */
   void Normalize(void);

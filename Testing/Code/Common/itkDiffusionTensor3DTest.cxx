@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,12 +26,9 @@
 
 int itkDiffusionTensor3DTest(int, char* [] )
 {
-  int i, j;
-  
   // Test it all
-  
   float val[6] = {1.8, 0.2, 0.5, 3.4, 2.0, 1.2};
-  
+
   typedef itk::DiffusionTensor3D<float>         Float3DTensorType;
   typedef itk::DiffusionTensor3D<unsigned char> Uchar3DTensorType;
 
@@ -43,7 +40,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
   Uchar3DTensorType pixelArray[2];
   pixelArray[0] = pixelInit0;
   pixelArray[1] = pixelInit1;
-  
+
   std::cout << "sizeof(pixel) = " << sizeof (pixel) << std::endl;
   if (sizeof(pixel) != 6 * sizeof(Float3DTensorType::ComponentType))
     {
@@ -52,46 +49,46 @@ int itkDiffusionTensor3DTest(int, char* [] )
     }
   std::cout << "pixel.GetNumberOfComponents = " << pixel.GetNumberOfComponents() << std::endl;
   std::cout << "pixel.GetNthComponent()" << std::endl;
-  for (i = 0; i < pixel.GetNumberOfComponents(); i++)
+  for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); i++)
     {
     std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
     }
 
-  pixel(0,0) = 11.0; 
-  pixel(0,1) = 21.0; 
-  pixel(0,2) = 15.0; 
-  pixel(1,0) = 11.0; 
-  pixel(1,1) = 31.0; 
-  pixel(1,2) = 10.0; 
+  pixel(0,0) = 11.0;
+  pixel(0,1) = 21.0;
+  pixel(0,2) = 15.0;
+  pixel(1,0) = 11.0;
+  pixel(1,1) = 31.0;
+  pixel(1,2) = 10.0;
   pixel(2,0) = 11.0; // these three last element will overwrite its symmetric counterparts
-  pixel(2,1) = 41.0; 
-  pixel(2,2) = 14.0; 
+  pixel(2,1) = 41.0;
+  pixel(2,2) = 14.0;
 
   std::cout << "testing the pixel(i,j) API" << std::endl;
-  for (i = 0; i < pixel.GetNumberOfComponents(); i++)
+  for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); i++)
     {
     std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
     }
-  
+
   std::cout << "pixel[0] = 111; pixel[1] = 222; pixel[2] = 333;" << std::endl;
   std::cout << "pixel[3] = 444; pixel[4] = 555; pixel[5] = 666;" << std::endl;
-  
+
   pixel[0] = 111; pixel[1] = 222; pixel[2] = 333;
   pixel[3] = 444; pixel[4] = 555; pixel[5] = 666;
 
-  for (i = 0; i < pixel.GetNumberOfComponents(); i++)
+  for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); i++)
     {
     std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
     }
-  
+
   std::cout << "std::cout << pixel << std::endl;" << std::endl;
   std::cout << "\t" << pixel << std::endl;
-  
-  for (j = 0; j < 2; j++)
+
+  for (unsigned int j = 0; j < 2; j++)
     {
     std::cout << "pixelArray["<< j << "].GetNumberOfComponents = " << pixelArray[j].GetNumberOfComponents() << std::endl;
     std::cout << "pixelArray[" << j << "].GetNthComponent()" << std::endl;
-    for (i = 0; i < pixelArray[j].GetNumberOfComponents(); i++)
+    for (unsigned int i = 0; i < pixelArray[j].GetNumberOfComponents(); i++)
       {
       std::cout << "\tpixelArray[" << j << "].GetNthComponent(" << i << ") = " << static_cast<int>(pixelArray[j].GetNthComponent(i)) << std::endl;
       }
@@ -116,7 +113,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
   pb[5] = 5.55;
 
   Float3DTensorType pc;
-  
+
   pc = pa + pb;
   std::cout << "addition = " << pc << std::endl;
 
@@ -132,13 +129,10 @@ int itkDiffusionTensor3DTest(int, char* [] )
   pc = pa * 3.2;
   std::cout << "product by scalar = " << pc << std::endl;
 
-
-
-
   /** Create an Image of tensors  */
   typedef Float3DTensorType   PixelType;
   typedef itk::Image< PixelType, 3 >           ImageType;
-  
+
   ImageType::Pointer dti = ImageType::New();
 
   ImageType::SizeType  size;
@@ -158,7 +152,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
 
   dti->SetRegions( region );
   dti->Allocate();
-  
+
   ImageType::SpacingType spacing;
   spacing[0] = 0.5;
   spacing[1] = 0.5;
@@ -182,7 +176,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
   tensor[5] = 6.2;
 
   dti->FillBuffer( tensor );
-  
+
   typedef itk::ImageRegionIterator< ImageType > IteratorType;
 
   IteratorType it( dti, region );
@@ -205,22 +199,22 @@ int itkDiffusionTensor3DTest(int, char* [] )
     v[1] = 23.0;
     v[2] = 29.0;
 
-    tensor(0,0) = v[0]; 
-    tensor(0,1) =  0.0; 
-    tensor(0,2) =  0.0; 
+    tensor(0,0) = v[0];
+    tensor(0,1) =  0.0;
+    tensor(0,2) =  0.0;
     tensor(1,0) =  0.0; // overrides (0,1)
-    tensor(1,1) = v[1]; 
-    tensor(1,2) =  0.0; 
+    tensor(1,1) = v[1];
+    tensor(1,2) =  0.0;
     tensor(2,0) =  0.0; // overrides (0,2)
     tensor(2,1) =  0.0; // overrides (1,2)
-    tensor(2,2) = v[2]; 
-   
+    tensor(2,2) = v[2];
+
     std::cout << "DiffusionTensor3D = " << std::endl;
     std::cout << tensor << std::endl;
 
     Double3DTensorType::EigenValuesArrayType     eigenValues;
     Double3DTensorType::EigenVectorsMatrixType   eigenVectors;
-    
+
     tensor.ComputeEigenAnalysis( eigenValues, eigenVectors );
 
     std::cout << "EigenValues = " << std::endl;
@@ -251,15 +245,15 @@ int itkDiffusionTensor3DTest(int, char* [] )
 
     // Now let's do something more involved...
     tensor(0,0) =  7.0;
-    tensor(0,1) =  0.0; 
+    tensor(0,1) =  0.0;
     tensor(0,2) =  3.0;
     tensor(1,0) =  0.0; // overrides (0,1)
     tensor(1,1) =  0.0;
-    tensor(1,2) =  0.0; 
+    tensor(1,2) =  0.0;
     tensor(2,0) =  3.0; // overrides (0,2)
     tensor(2,1) =  0.0; // overrides (1,2)
     tensor(2,2) =  7.0;
- 
+
     std::cout << "DiffusionTensor3D = " << std::endl;
     std::cout << tensor << std::endl;
 
@@ -291,15 +285,15 @@ int itkDiffusionTensor3DTest(int, char* [] )
 
     // Now let's do one where we know the rotation...
     tensor(0,0) =  9.0;
-    tensor(0,1) =  0.0; 
+    tensor(0,1) =  0.0;
     tensor(0,2) =  7.0;
     tensor(1,0) =  0.0; // overrides (0,1)
     tensor(1,1) =  0.0;
-    tensor(1,2) =  0.0; 
+    tensor(1,2) =  0.0;
     tensor(2,0) =  7.0; // overrides (0,2)
     tensor(2,1) =  0.0; // overrides (1,2)
     tensor(2,2) =  3.0;
- 
+
     std::cout << "DiffusionTensor3D = " << std::endl;
     std::cout << tensor << std::endl;
 
@@ -341,16 +335,16 @@ int itkDiffusionTensor3DTest(int, char* [] )
     Double3DTensorType tensor;
 
     tensor(0,0) =  19.0;
-    tensor(0,1) =   0.0; 
+    tensor(0,1) =   0.0;
     tensor(0,2) =   0.0;
     tensor(1,0) =   0.0; // overrides (0,1)
     tensor(1,1) =  23.0;
-    tensor(1,2) =   0.0; 
+    tensor(1,2) =   0.0;
     tensor(2,0) =   7.0; // overrides (0,2)
     tensor(2,1) =   0.0; // overrides (1,2)
     tensor(2,2) =  29.0;
 
-    AccumulateValueType expectedTrace = 
+    AccumulateValueType expectedTrace =
               itk::NumericTraits< AccumulateValueType >::Zero;
 
     expectedTrace += tensor(0,0);

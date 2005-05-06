@@ -107,7 +107,7 @@ public:
   int AddComponent(ComponentType* component) ;
 
   /** Gets the total number of classes currently plugged in. */
-  int GetNumberOfComponents() ;
+  unsigned int GetNumberOfComponents() ;
 
   /** Runs the optimization process. */
   void Update() ;

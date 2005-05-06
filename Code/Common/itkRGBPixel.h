@@ -87,7 +87,7 @@ public:
 
  
   /** Return the number of components. */
-  static int GetNumberOfComponents(){ return 3;}
+  static unsigned int GetNumberOfComponents(){ return 3;}
 
   /** Return the value for the Nth component. */
   ComponentType GetNthComponent(int c) const

@@ -167,7 +167,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       if (m_UseHistograms)
         {
         typename HistogramType::IndexType index;
-        for (int bin=0; bin<m_NumBins[0]; bin++)
+        for (unsigned int bin=0; bin<m_NumBins[0]; bin++)
           {
           index[0] = bin;
           (*mapIt).second.m_Histogram->IncreaseFrequency(bin, (*threadIt).second.m_Histogram->GetFrequency(bin));
