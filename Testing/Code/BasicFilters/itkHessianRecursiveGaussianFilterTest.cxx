@@ -24,7 +24,6 @@
 #include <itkImage.h>
 #include <itkHessianRecursiveGaussianImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
-#include <itkCovariantVector.h>
 
 
 int itkHessianRecursiveGaussianFilterTest(int, char* [] ) 
