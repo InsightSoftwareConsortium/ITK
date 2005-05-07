@@ -58,7 +58,7 @@ namespace itk
 *
  * \sa SymmetricSecondRankTensor
  *
- * \ingroup ImageObjects
+ * \ingroup ImageObjects   TensorObjects    Geometry
  */
 
 template < typename TComponent >
