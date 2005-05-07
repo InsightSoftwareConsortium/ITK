@@ -169,28 +169,57 @@ typename DiffusionTensor3D<T>::RealValueType
 DiffusionTensor3D<T>
 ::GetFractionalAnisotropy() const
 {
-  EigenValuesArrayType eigenValues;
-  this->ComputeEigenValues( eigenValues );
+  const RealValueType trace = this->GetTrace();
+  const RealValueType isp   = this->GetInnerScalarProduct();
 
-  // trace of the diagonal eigenvalue matrix
-  const RealValueType lambdaMean = 
-    ( eigenValues[0] + eigenValues[1] + eigenValues[2] ) / 3.0;
-
-  const RealValueType tmp0 = eigenValues[0] - lambdaMean;
-  const RealValueType tmp1 = eigenValues[1] - lambdaMean;
-  const RealValueType tmp2 = eigenValues[2] - lambdaMean;
-    
-  const RealValueType faSquare =
-    (3 * (tmp0*tmp0 + tmp1*tmp1 + tmp2*tmp2)) / 
-    (2 * (eigenValues[0]*eigenValues[0] + 
-          eigenValues[1]*eigenValues[1] + 
-          eigenValues[2]*eigenValues[2]));
+  const RealValueType fractionalAnisotropy =
+      static_cast< RealValueType >(
+        sqrt( ( 3.0 * isp - trace * trace ) / ( 2.0 * isp ) ) );
   
-  return sqrt( faSquare );
+  return fractionalAnisotropy;
+}
+
+
+/**
+ *  Compute the value of relative anisotropy
+ */
+template<class T>
+typename DiffusionTensor3D<T>::RealValueType
+DiffusionTensor3D<T>
+::GetRelativeAnisotropy() const
+{
+  const RealValueType trace = this->GetTrace();
+  const RealValueType isp   = this->GetInnerScalarProduct();
+
+  const RealValueType relativeAnisotropy =
+              static_cast< RealValueType >(
+                          sqrt( ( isp - trace * trace / 3.0 ) /
+                                ( sqrt( 3.0 ) * trace / 3.0 )   )  );
+
+  return relativeAnisotropy;
 }
 
 
 
+/**
+ *  Compute the inner scalar product
+ */
+template<class T>
+typename DiffusionTensor3D<T>::RealValueType
+DiffusionTensor3D<T>
+::GetInnerScalarProduct() const
+{
+
+  const RealValueType xx = (*this)[0];
+  const RealValueType xy = (*this)[1];
+  const RealValueType xz = (*this)[2];
+  const RealValueType yy = (*this)[3];
+  const RealValueType yz = (*this)[4];
+  const RealValueType zz = (*this)[5];
+
+  return ( xx*xx + yy*yy + zz*zz + 2.0*(xy*xy + xz*xz + yz*yz) );
+
+}
 
 
 

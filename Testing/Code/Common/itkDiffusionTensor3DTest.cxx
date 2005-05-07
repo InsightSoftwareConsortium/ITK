@@ -363,6 +363,19 @@ int itkDiffusionTensor3DTest(int, char* [] )
       return EXIT_FAILURE;
       }
 
+    // Test the value of internal scalar product 
+    const RealValueType expectedInternalScalarProduct = 1829;
+
+    RealValueType computedInternalScalarProduct = tensor.GetInnerScalarProduct();
+    if( fabs( computedInternalScalarProduct - expectedInternalScalarProduct ) > tolerance )
+      {
+      std::cerr << "Error computing Internal Scalar Product" << std::endl;
+      std::cerr << "Expected = " << expectedInternalScalarProduct << std::endl;
+      std::cerr << "Computed = " << computedInternalScalarProduct << std::endl;
+      return EXIT_FAILURE;
+      }
+
+
     // Test the value of Fractional Anisotropy
     const RealValueType expectedFractionalAnisotropy = 0.349177;
 
@@ -372,6 +385,18 @@ int itkDiffusionTensor3DTest(int, char* [] )
       std::cerr << "Error computing Fractional Anisotropy" << std::endl;
       std::cerr << "Expected = " << expectedFractionalAnisotropy << std::endl;
       std::cerr << "Computed = " << computedFractionalAnisotropy << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    // Test the value of Relative Anisotropy
+    const RealValueType expectedRelativeAnisotropy = 1.9044;
+
+    RealValueType computedRelativeAnisotropy = tensor.GetRelativeAnisotropy();
+    if( fabs( computedRelativeAnisotropy - expectedRelativeAnisotropy ) > tolerance )
+      {
+      std::cerr << "Error computing Relative Anisotropy" << std::endl;
+      std::cerr << "Expected = " << expectedRelativeAnisotropy << std::endl;
+      std::cerr << "Computed = " << computedRelativeAnisotropy << std::endl;
       return EXIT_FAILURE;
       }
 

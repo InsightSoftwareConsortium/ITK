@@ -100,6 +100,12 @@ public:
   /** Get the value of Fractional Anisotropy from the Tensor. */
   RealValueType GetFractionalAnisotropy() const;
 
+  /** Get the value of Relative Anisotropy from the Tensor. */
+  RealValueType GetRelativeAnisotropy() const;
+
+  /** Get the Inner Scalar Product from the Tensor. */
+  RealValueType GetInnerScalarProduct() const;
+
 };
 
 } // end namespace itk
