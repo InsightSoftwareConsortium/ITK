@@ -132,13 +132,13 @@ class vnl_svd
   inline vnl_matrix<T> inverse () const { return pinverse(); }
 
   //: pseudo-inverse (for non-square matrix) of desired rank.
-  vnl_matrix<T> pinverse (unsigned int rank = -1) const;
+  vnl_matrix<T> pinverse (unsigned int rank = 0xffffffff) const; //0xffffffff == (unsigned int)-1
 
   //: Calculate inverse of transpose, using desired rank.
-  vnl_matrix<T> tinverse (unsigned int rank = -1) const;
+  vnl_matrix<T> tinverse (unsigned int rank = 0xffffffff) const; //0xffffffff == (unsigned int)-1
 
   //: Recompose SVD to U*W*V', using desired rank.
-  vnl_matrix<T> recompose (unsigned int rank = -1) const;
+  vnl_matrix<T> recompose (unsigned int rank = 0xffffffff) const; //0xffffffff == (unsigned int)-1
 
   //: Solve the matrix equation M X = B, returning X
   vnl_matrix<T> solve (vnl_matrix<T> const& B) const;
