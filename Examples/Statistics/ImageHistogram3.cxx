@@ -32,7 +32,7 @@
 // helper class \code{ImageToHistogramGenerator}.  In this first example we
 // compute the histogram of each channel independently.
 //
-// We must start by including the header of the
+// We start by including the header of the
 // \subdoxygen{Statistics}{ImageToHistogramGenerator}, as well as the headers
 // for the image class and the RGBPixel class.
 //
@@ -132,8 +132,8 @@ int main( int argc, char * argv [] )
 // the size object and fill in its content. In this particular case, the three
 // components of the size array will correspond to the number of bins used for
 // each one of the RGB components in the color image. The following lines show
-// how to define a histogram on the red component of the image while we
-// disregard the green and blue components.
+// how to define a histogram on the red component of the image while
+// disregarding the green and blue components.
 //
 // Software Guide : EndLatex 
 
@@ -211,10 +211,10 @@ int main( int argc, char * argv [] )
 
 // Software Guide : BeginLatex
 //
-// Just for the sake of exercising the experimental method, we verify that the
-// resulting histogram actually have the size that we requested when we
-// configured the generator. This can be done by invoking the \code{Size()}
-// method of the histogram and printing out the result.
+// Just for the sake of exercising the experimental method~\cite{Popper2002}, we
+// verify that the resulting histogram actually have the size that we requested
+// when we configured the generator. This can be done by invoking the
+// \code{Size()} method of the histogram and printing out the result.
 //
 // \index{itk::Statistics::Histogram!Size()}
 //
@@ -237,8 +237,9 @@ int main( int argc, char * argv [] )
 // and blue channels to be just one bin, the histogram is in practice
 // representing just the red channel.  In the general case, we can alway access
 // the frequency of a particular channel in a joint histogram, thanks to the
-// fact that the histogram class offers a \code{GetFrequency()} that accepts a
-// channel as argument. This is illustrated in the following lines of code.
+// fact that the histogram class offers a \code{GetFrequency()} method that
+// accepts a channel as argument. This is illustrated in the following lines of
+// code.
 //
 // \index{itk::Statistics::Histogram!GetFrequency()}
 //
