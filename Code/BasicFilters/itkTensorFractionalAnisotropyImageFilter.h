@@ -50,7 +50,8 @@ public:
  * input image is expected to implement a method GetFractionalAnisotropy(), and
  * to specify its return type as  RealValueType.
  * 
- * \sa FractionalAnisotropyTensorImageFilter
+ * \sa TensorRelativeAnisotropyImageFilter
+ * \sa DiffusionTensor3D
  * 
  * \ingroup IntensityImageFilters  Multithreaded  TensorObjects
  *
