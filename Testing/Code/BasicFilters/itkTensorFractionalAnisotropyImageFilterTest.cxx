@@ -157,7 +157,7 @@ int itkTensorFractionalAnisotropyImageFilterTest(int, char* [] )
   itg.GoToBegin();
   while( !itg.IsAtEnd() ) 
     {
-    std::cout << itg.Get();
+    std::cout << itg.GetIndex() << " = " << itg.Get() << std::endl;
     ++itg;
     }
 
