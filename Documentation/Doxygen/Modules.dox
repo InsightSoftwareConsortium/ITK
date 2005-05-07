@@ -42,6 +42,13 @@
 */
 
 /**
+  \defgroup TensorObject  Objects Related to Tensor Images
+  \ingroup TensorObjects
+  This category includes the objects required for representing diffusion tensor images in ITK.
+*/
+
+
+/**
 \defgroup ImageAccess Image Access Objects
 \ingroup DataAccess
 */
