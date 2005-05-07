@@ -52,7 +52,7 @@ public:
  * 
  * \sa FractionalAnisotropyTensorImageFilter
  * 
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  Multithreaded  TensorObjects
  *
  */
 template <typename  TInputImage, typename  TOutputImage=TInputImage>
