@@ -23,10 +23,11 @@
 // This example shows how to compute the histogram of a scalar image.  Since
 // the classes of the Statistics framework operate on Samples and
 // ListOfSamples, we need to introduce a class that will make the image look
-// like a list of samples. This class is the \subdoxygen{Statistics}{ScalarImageToListAdaptor}.
-// Once we have connected this adaptor to an image, we can proceed to use the
-// \subdoxygen{Statistics}{ListSampleToHistogramGenerator} in order to compute the
-// \subdoxygen{Statistics}{Histogram} of the image.
+// like a list of samples. This class is the
+// \subdoxygen{Statistics}{ScalarImageToListAdaptor}.  Once we have connected
+// this adaptor to an image, we can proceed to use the
+// \subdoxygen{Statistics}{ListSampleToHistogramGenerator} in order to compute
+// the histogram of the image.
 //
 // First, we need to include the headers for the
 // \subdoxygen{Statistics}{ScalarImageToListAdaptor} and the \doxygen{Image} classes.
@@ -185,7 +186,7 @@ int main( int argc, char * argv [] )
 // histogram will have a single component. For the sake of generality, however,
 // we use the \code{HistogramType} as defined inside of the Generator type. We
 // define also the marginal scale factor that will control the precision used
-// when assigning values to histogram bines. Finally we invoke the
+// when assigning values to histogram bins. Finally we invoke the
 // \code{Update()} method in the generator.
 //
 // Software Guide : EndLatex 
