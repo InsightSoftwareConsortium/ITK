@@ -20,35 +20,70 @@
 
 // Software Guide : BeginLatex
 //
-// This example shows how to compute the Entropy of an image. 
 //
-// More formally this should be said : The reduction in uncertainty gained when
-// we actually measure a randomly selected pixel in this image, given that we
-// already know the intensity distribution of the image.
+// This example shows how to compute the Entropy of an image.  More formally
+// this should be said : The reduction in uncertainty gained when we measure
+// the intensity of \emph{one} randomly selected pixel in this image, given
+// that we already know the statistical distribution of the image intensity
+// values.
+//
+// In practice it is almost never possible to know the real statistical
+// distribution of intensities and we are force to estimate it from the
+// evaluation of the histogram from one or several images of similar nature.
+// We can use the counts in histogram bins in order to compute frequencies and
+// then consider those frequencies to be estimations of the probablility of a
+// new value to belong to the intensity range of that bin.
+//
+// \index{Entropy!Images}
+// \index{Image!Entropy}
+// \index{Image!Amount of information}
+// \index{Amount of information!Image}
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginLatex
+//
+// Since the first stage in estimating the Entropy of an image is to compute
+// its histogram, we must start by including the headers of the classes that
+// will perform such computation. In this case, we are going to use a scalar
+// image as input, therefore we need the
+// \subdoxygen{Statistis}{ScalarImageToHistogramGenerator} class, as well as
+// the image class.
 //
 // Software Guide : EndLatex 
 
 
+// Software Guide : BeginCodeSnippet
 #include "itkScalarImageToHistogramGenerator.h"
 #include "itkImage.h"
+// Software Guide : EndCodeSnippet
 
 #include "itkImageFileReader.h"
 
 int main( int argc, char * argv [] )
 {
 
-  if( argc < 2 )
+  if( argc < 3 )
     {
     std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage :  ImageHistogram1  inputImageFileName " << std::endl;
+    std::cerr << "Usage :  ImageHistogram1  inputImageFileName ";
+    std::cerr << "numberOfHistogramBins" << std::endl;
     return -1;
     }
 
+// Software Guide : BeginLatex
+//
+// The pixel type and dimension of the image are explicitly declared and then
+// used for instantiating the image type.
+//
+// Software Guide : EndLatex 
 
+// Software Guide : BeginCodeSnippet
   typedef unsigned char       PixelType;
-  const unsigned int          Dimension = 2;
+  const   unsigned int        Dimension = 2;
 
-  typedef itk::Image<PixelType, Dimension > ImageType;
+  typedef itk::Image< PixelType, Dimension > ImageType;
+// Software Guide : EndCodeSnippet
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
 
@@ -67,21 +102,79 @@ int main( int argc, char * argv [] )
     return -1;
     }
 
+
+// Software Guide : BeginLatex
+//
+// The image type is used as template parameter for instantiating the histogram
+// generator.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
   typedef itk::Statistics::ScalarImageToHistogramGenerator< 
-                                                    ImageType 
-                                                          >   HistogramGeneratorType;
+                                      ImageType >   HistogramGeneratorType;
 
-  HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
+  HistogramGeneratorType::Pointer histogramGenerator = 
+                                      HistogramGeneratorType::New();
+// Software Guide : EndCodeSnippet
 
-  histogramGenerator->SetInput(  reader->GetOutput() );
 
-  histogramGenerator->SetNumberOfBins( 255 );
+
+
+
+// Software Guide : BeginLatex
+//
+// The parameters of the desired histogram are defined. In particular, the
+// number of bins and the marginal scale. For convenience in this example, we
+// read the number of bins from the command line arguments. In this way we can
+// easily experiment with different values for the number of bins and see how
+// that choice affects the computation of the Entropy.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  const unsigned int numberOfHistogramBins = atoi( argv[2] );
+
+  histogramGenerator->SetNumberOfBins( numberOfHistogramBins );
   histogramGenerator->SetMarginalScale( 10.0 );
-  histogramGenerator->Compute();
+// Software Guide : EndCodeSnippet
 
+
+
+// Software Guide : BeginLatex
+//
+// We can then connect as input the output image from a reader and trigger the
+// histogram computation by invoking the \code{Compute()} method in the
+// generator.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  histogramGenerator->SetInput(  reader->GetOutput() );
+  
+  histogramGenerator->Compute();
+// Software Guide : EndCodeSnippet
+
+
+
+
+
+// Software Guide : BeginLatex
+//
+// The resulting histogram can be recovered from the generator by using the
+// \code{GetOutput()} method. A histogram class can be declared using the
+// \code{HistogramType} trait from the generator.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
   typedef HistogramGeneratorType::HistogramType  HistogramType;
 
   const HistogramType * histogram = histogramGenerator->GetOutput();
+// Software Guide : EndCodeSnippet
+
+
+
 
   const unsigned int histogramSize = histogram->Size();
 
@@ -93,6 +186,10 @@ int main( int argc, char * argv [] )
     std::cout << histogram->GetFrequency( bin, 0 ) << std::endl;
     }
 
+
+
+
+
 // Software Guide : BeginLatex
 //
 // Since the computation of the image histogram itself has been demostrated in
@@ -103,10 +200,15 @@ int main( int argc, char * argv [] )
 // estimate the probability density function \textbf{PDF} of the actual
 // estatistical distribution of pixel values. 
 //
-//  Note that the log(2) is used in order to convert the base of the natural
+//  Note that the $\log{(2)}$ factor is used to convert the base of the natural
 //  logarithm in to the a logarithm of base 2, and make possible to report the
 //  Entropy in its natural unit: the bit.
 //  
+//  First we declare an iterator that will visit all the bins in the histogram.
+//  Then we obtain the total number of counts using the
+//  \code{GetTotalFrequency()} method, and we initialize the Entropy variable
+//  to zero.  
+//
 // Software Guide : EndLatex 
 
 
@@ -117,7 +219,25 @@ int main( int argc, char * argv [] )
   double Sum = histogram->GetTotalFrequency();
 
   double Entropy = 0.0;
+// Software Guide : EndCodeSnippet
 
+
+
+
+
+
+// Software Guide : BeginLatex
+//
+// We start now visiting every bin and estimating the probability of a pixel to
+// have a value in the range of that bin. The base 2 logarithm of that
+// probability is computed, and then weighted by the probability in order to
+// compute the expected amount of information for any given pixel. Note that a
+// minimum value is imposed for the probability in order to avoid computing
+// logarithms of zeros.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
   while( itr != end )
     {
     const double probability = itr.GetFrequency() / Sum;
@@ -128,10 +248,51 @@ int main( int argc, char * argv [] )
       }
     ++itr;
     }
-
-  std::cout << "Image entropy = " << Entropy << " bits " << std::endl;
-
 // Software Guide : EndCodeSnippet
+
+
+
+
+// Software Guide : BeginLatex
+//
+// The result of this sum is considered to be our estimation of the image
+// Entropy. Note that teh Entrpy value will change depending on the number of
+// histogram bins that we use for computing the histogram. This is particularly
+// important when dealing with image whose pixel values have dynamic ranges so
+// large that our number of bins will always underestimate the variability of
+// the data.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  std::cout << "Image entropy = " << Entropy << " bits " << std::endl;
+// Software Guide : EndCodeSnippet
+
+
+
+
+// Software Guide : BeginLatex
+//
+// As an illustration, the application of this program to the image in
+// \code{Examples/Data/} results in the following values of entropy for
+// different values of number of histogram bins.
+//
+// \begin{tabular}{|l|r|r|r|r|r|}
+// \hline
+// Number of Bins & 16 & 32 & 64 & 128 & 255 \\
+// \hline
+// Entropy (bits) 3.02 & 3.98 & 4.92 & 5.89 & 6.88 \\
+// \hline
+// \end{tabular}
+//
+// This table hightlights the importance of carefully considering the
+// characteristics of the histograms used for estimating information theory
+// measures such as the Entropy.
+//
+// Software Guide : EndLatex 
+
+
+
   return 0;
   
 }
