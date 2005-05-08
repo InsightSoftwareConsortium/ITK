@@ -47,7 +47,7 @@
 // its histogram, we must start by including the headers of the classes that
 // will perform such computation. In this case, we are going to use a scalar
 // image as input, therefore we need the
-// \subdoxygen{Statistis}{ScalarImageToHistogramGenerator} class, as well as
+// \subdoxygen{Statistics}{ScalarImageToHistogramGenerator} class, as well as
 // the image class.
 //
 // Software Guide : EndLatex 
@@ -192,18 +192,13 @@ int main( int argc, char * argv [] )
 
 // Software Guide : BeginLatex
 //
-// Since the computation of the image histogram itself has been demostrated in
-// previous examples, we focus here on the \emph{estimation} of Entropy given
-// the histogram. The first conceptual jump to be done here is that we assume
-// that the histogram, which is the simple count of frequency of occurrence for
-// the grayscale values of the image pixels, can be normalized in order to
-// estimate the probability density function \textbf{PDF} of the actual
-// estatistical distribution of pixel values. 
+// We proceed now to compute the \emph{estimation} of Entropy given the
+// histogram. The first conceptual jump to be done here is that we assume that
+// the histogram, which is the simple count of frequency of occurrence for the
+// grayscale values of the image pixels, can be normalized in order to estimate
+// the probability density function \textbf{PDF} of the actual estatistical
+// distribution of pixel values. 
 //
-//  Note that the $\log{(2)}$ factor is used to convert the base of the natural
-//  logarithm in to the a logarithm of base 2, and make possible to report the
-//  Entropy in its natural unit: the bit.
-//  
 //  First we declare an iterator that will visit all the bins in the histogram.
 //  Then we obtain the total number of counts using the
 //  \code{GetTotalFrequency()} method, and we initialize the Entropy variable
@@ -234,6 +229,10 @@ int main( int argc, char * argv [] )
 // compute the expected amount of information for any given pixel. Note that a
 // minimum value is imposed for the probability in order to avoid computing
 // logarithms of zeros.
+//
+//  Note that the $\log{(2)}$ factor is used to convert the base of the natural
+//  logarithm in to the a logarithm of base 2, and make possible to report the
+//  Entropy in its natural unit: the bit.
 //
 // Software Guide : EndLatex 
 
@@ -273,20 +272,28 @@ int main( int argc, char * argv [] )
 
 // Software Guide : BeginLatex
 //
-// As an illustration, the application of this program to the image in
-// \code{Examples/Data/} results in the following values of entropy for
-// different values of number of histogram bins.
+// As an illustration, the application of this program to the image 
 //
+// \begin{itemize}
+// \item \code{Examples/Data/BrainProtonDensitySlice.png}
+// \end{itemize}
+//
+// results in the following values of entropy for different values of number of
+// histogram bins.
+//
+// \begin{center}
 // \begin{tabular}{|l|r|r|r|r|r|}
 // \hline
-// Number of Bins & 16 & 32 & 64 & 128 & 255 \\
+// Number of Bins & 16    & 32    & 64    & 128   & 255 \\
 // \hline
-// Entropy (bits) 3.02 & 3.98 & 4.92 & 5.89 & 6.88 \\
+// Entropy (bits) & 3.02  & 3.98  & 4.92  & 5.89  & 6.88 \\
 // \hline
 // \end{tabular}
+// \end{center}
+// 
 //
 // This table hightlights the importance of carefully considering the
-// characteristics of the histograms used for estimating information theory
+// characteristics of the histograms used for estimating Information Theory
 // measures such as the Entropy.
 //
 // Software Guide : EndLatex 
