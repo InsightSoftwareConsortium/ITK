@@ -100,11 +100,8 @@ public:
   typedef typename NumericTraits<ValueType>::RealType AccumulateValueType;
   typedef typename NumericTraits<ValueType>::RealType RealValueType;
   
-  typedef itk::Matrix< double, Dimension, Dimension > MatrixType;
-
   typedef class SymmetricEigenAnalysis< MatrixType, 
             EigenValuesArrayType, EigenVectorsMatrixType >  SymmetricEigenAnalysisType;
-  
 
   /** Default constructor has nothing to do. */
   SymmetricSecondRankTensor() {this->Fill(0);}

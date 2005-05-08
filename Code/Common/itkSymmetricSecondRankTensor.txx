@@ -248,7 +248,7 @@ SymmetricSecondRankTensor<T,NDimension>
     {
     for( unsigned int col=0; col < Dimension; col++ )
       {
-      tensorMatrix(row,col) = (*this)(row,col);
+      tensorMatrix[row][col] = (*this)(row,col);
       }
     }
   
@@ -273,7 +273,7 @@ SymmetricSecondRankTensor<T,NDimension>
     {
     for( unsigned int col=0; col < Dimension; col++ )
       {
-      tensorMatrix(row,col) = (*this)(row,col);
+      tensorMatrix[row][col] = (*this)(row,col);
       }
     }
   
