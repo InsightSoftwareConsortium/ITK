@@ -186,9 +186,9 @@ public:
    
 
   // Re-seeding functions with same behavior as initializers
-  void SetSeed( const IntegerType oneSeed );
-  void SetSeed( IntegerType * bigSeed, const IntegerType seedLength = StateVectorLength );
-  void SetSeed();
+  inline void SetSeed( const IntegerType oneSeed );
+  inline void SetSeed( IntegerType * bigSeed, const IntegerType seedLength = StateVectorLength );
+  inline void SetSeed();
 
   /*
   // Saving and loading generator state
@@ -197,7 +197,7 @@ public:
   */
 
  protected:
-  MersenneTwisterRandomVariateGenerator();
+  inline MersenneTwisterRandomVariateGenerator();
   virtual ~MersenneTwisterRandomVariateGenerator() {}; 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
