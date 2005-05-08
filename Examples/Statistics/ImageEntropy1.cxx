@@ -230,9 +230,9 @@ int main( int argc, char * argv [] )
 // minimum value is imposed for the probability in order to avoid computing
 // logarithms of zeros.
 //
-//  Note that the $\log{(2)}$ factor is used to convert the base of the natural
-//  logarithm in to the a logarithm of base 2, and make possible to report the
-//  Entropy in its natural unit: the bit.
+//  Note that the $\log{(2)}$ factor is used to convert the natural logarithm
+//  in to a logarithm of base 2, and make possible to report the Entropy in its
+//  natural unit: the bit.
 //
 // Software Guide : EndLatex 
 
@@ -255,9 +255,9 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginLatex
 //
 // The result of this sum is considered to be our estimation of the image
-// Entropy. Note that teh Entrpy value will change depending on the number of
+// Entropy. Note that the Entrpy value will change depending on the number of
 // histogram bins that we use for computing the histogram. This is particularly
-// important when dealing with image whose pixel values have dynamic ranges so
+// important when dealing with images whose pixel values have dynamic ranges so
 // large that our number of bins will always underestimate the variability of
 // the data.
 //
@@ -284,9 +284,9 @@ int main( int argc, char * argv [] )
 // \begin{center}
 // \begin{tabular}{|l|r|r|r|r|r|}
 // \hline
-// Number of Bins & 16    & 32    & 64    & 128   & 255 \\
+// Number of Histogram Bins & 16    & 32    & 64    & 128   & 255 \\
 // \hline
-// Entropy (bits) & 3.02  & 3.98  & 4.92  & 5.89  & 6.88 \\
+// Estimated Entropy (bits) & 3.02  & 3.98  & 4.92  & 5.89  & 6.88 \\
 // \hline
 // \end{tabular}
 // \end{center}
