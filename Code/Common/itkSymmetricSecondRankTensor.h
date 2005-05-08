@@ -25,7 +25,7 @@
 #include <itkIndent.h>
 #include <itkFixedArray.h>
 #include <itkMatrix.h>
-#include "vnl/vnl_math.h"
+#include "itkSymmetricEigenAnalysis.h"
 
 namespace itk
 {
@@ -35,12 +35,12 @@ namespace itk
  *
  * This class implements a ND symmetric tensor of second rank.
  *
- * Since SymmetricSecondRankTensor is a subclass of FixedArray, 
+ * Since SymmetricSecondRankTensor is a subclass of FixedArray,
  * you can access its components as:
  *
  * typedef itk::SymmetricSecondRankTensor< float >    TensorPixelType;
  * TensorPixelType tensor;
- * 
+ *
  *   tensor[0] = 1.233;
  *   tensor[1] = 1.456;
  *
@@ -50,10 +50,10 @@ namespace itk
  *   tensor(2,0) = 1.233;
  *
  * The Tensor in principle represents a NxN matrix, but given that it is always
- * symmetric the representation can be compacted into a N*(N-1)/2 elements
+ * symmetric the representation can be compacted into a N*(N+1)/2 elements
  * array that derives from the itk::FixedArray<T>
  *
- * \author Jeffrey Duda from School of Engineering at University of Pennsylvania 
+ * \author Jeffrey Duda from School of Engineering at University of Pennsylvania
  * \author Torsten Rohlfing from SRI International Neuroscience Program.
  *
  * This class was mostly based on files that Jeffrey Duda, Torsten Rohlfing and
@@ -99,9 +99,16 @@ public:
   typedef typename Superclass::ValueType ValueType;
   typedef typename NumericTraits<ValueType>::RealType AccumulateValueType;
   typedef typename NumericTraits<ValueType>::RealType RealValueType;
+  
+  typedef itk::Matrix< double, Dimension, Dimension > MatrixType;
+
+  typedef class SymmetricEigenAnalysis< MatrixType, 
+            EigenValuesArrayType, EigenVectorsMatrixType >  SymmetricEigenAnalysisType;
+  
 
   /** Default constructor has nothing to do. */
   SymmetricSecondRankTensor() {this->Fill(0);}
+  
   SymmetricSecondRankTensor (const ComponentType& r) { this->Fill(r); }
   
   typedef ComponentType ComponentArrayType[ itkGetStaticConstMacro(InternalDimension) ];
@@ -151,7 +158,7 @@ public:
    * vectors. */
   void ComputeEigenAnalysis( EigenValuesArrayType & eigenValues,
                              EigenVectorsMatrixType & eigenVectors ) const;
-  
+
 private:
 
   

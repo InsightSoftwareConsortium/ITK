@@ -20,9 +20,6 @@
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkNumericTraits.h"
 
-#include <vxl/v3p/netlib/netlib.h> // for eigen system computation
-
-
 namespace itk
 {
 
@@ -241,38 +238,23 @@ SymmetricSecondRankTensor<T,NDimension>
 template<class T,unsigned int NDimension>
 void
 SymmetricSecondRankTensor<T,NDimension>
-::ComputeEigenValues( EigenValuesArrayType & eigenValues ) const
+::ComputeEigenValues( EigenValuesArrayType & eigenValues ) const 
 {
-  const int n = Dimension;
-  const int wantEigenvectors = 0;
-  int errorReturn = 0;
-
-  double workArea1[ Dimension ];
-  double workArea2[ Dimension ];
-
-  double inputMatrix[ Dimension * Dimension ];
   
-  unsigned int k = 0;
+  SymmetricEigenAnalysisType symmetricEigenSystem = SymmetricEigenAnalysisType( Dimension );
 
+  MatrixType tensorMatrix;
   for( unsigned int row=0; row < Dimension; row++ )
     {
     for( unsigned int col=0; col < Dimension; col++ )
       {
-      inputMatrix[k++] = (*this)(row,col);
+      tensorMatrix(row,col) = (*this)(row,col);
       }
     }
-
-  //
-  // directly call to Fortran routine from netlib, this is the same routine
-  // that VNL ends up calling when you invoke vnl_symmetric_eigensystem.
-  //
-  rs_( &n, &n, inputMatrix, 
-       eigenValues.GetDataPointer(), 
-       &wantEigenvectors, 
-       NULL, 
-       workArea1, workArea2, &errorReturn );
+  
+  symmetricEigenSystem.ComputeEigenValues( tensorMatrix, eigenValues );
+  
 }
-
 
 /*
  * Compute Eigen analysis, it returns an array with eigen values
@@ -282,36 +264,22 @@ template<class T,unsigned int NDimension>
 void
 SymmetricSecondRankTensor<T,NDimension>
 ::ComputeEigenAnalysis( EigenValuesArrayType & eigenValues,
-                       EigenVectorsMatrixType & eigenVectors ) const
+                        EigenVectorsMatrixType & eigenVectors ) const
 {
-  const int n = Dimension;
-  const int wantEigenvectors = 1;
-  int errorReturn = 0;
+  SymmetricEigenAnalysisType symmetricEigenSystem = SymmetricEigenAnalysisType( Dimension );
 
-  double workArea1[ Dimension ];
-  double workArea2[ Dimension ];
-
-  double inputMatrix[ Dimension * Dimension ];
-  
-  unsigned int k = 0;
-
+  MatrixType tensorMatrix;
   for( unsigned int row=0; row < Dimension; row++ )
     {
     for( unsigned int col=0; col < Dimension; col++ )
       {
-      inputMatrix[k++] = (*this)(row,col);
+      tensorMatrix(row,col) = (*this)(row,col);
       }
     }
+  
+  symmetricEigenSystem.ComputeEigenValuesAndVectors( 
+                      tensorMatrix, eigenValues, eigenVectors );
 
-  //
-  // directly call to Fortran routine from netlib, this is the same routine
-  // that VNL ends up calling when you invoke vnl_symmetric_eigensystem.
-  //
-  rs_( &n, &n, inputMatrix, 
-       eigenValues.GetDataPointer(), 
-       &wantEigenvectors, 
-       eigenVectors.GetVnlMatrix().data_block(), 
-       workArea1, workArea2, &errorReturn );
 }
 
 
