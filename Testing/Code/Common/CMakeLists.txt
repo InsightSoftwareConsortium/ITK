@@ -160,6 +160,7 @@ ADD_TEST(itkSplineKernelTransformTest ${COMMON_TESTS} itkSplineKernelTransformTe
 ADD_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkEllipsoidInteriorExteriorSpatialFunctionTest)
 ADD_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest)
 ADD_TEST(itkSymmetricSecondRankTensorTest ${COMMON_TESTS} itkSymmetricSecondRankTensorTest)
+ADD_TEST(itkSymmetricEigenAnalysisTest ${COMMON_TESTS} itkSymmetricEigenAnalysisTest)
 ADD_TEST(itkMetaDataDictionaryTest ${COMMON_TESTS} itkMetaDataDictionaryTest)
 ADD_TEST(itkSTLThreadTest ${COMMON_TESTS} itkSTLThreadTest)
 ADD_TEST(itkOctreeTest ${COMMON_TESTS} itkOctreeTest)
@@ -340,6 +341,7 @@ itkWindowedSincInterpolateImageFunctionTest.cxx
 itkEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkSymmetricSecondRankTensorTest.cxx
+itkSymmetricEigenAnalysisTest.cxx
 itkMetaDataDictionaryTest.cxx
 itkSTLThreadTest.cxx
 )
