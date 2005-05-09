@@ -29,18 +29,16 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::
 ComputeEigenValues(const TMatrix  & A,
                          TVector  & D) const
 {
-  const unsigned int n = m_Dimension;
-  
-  double workArea1[ n ];
+  double *workArea1 = new double[ m_Dimension ];
 
   // Copy the input matrix
-  double inputMatrix[ n * n ];
+  double *inputMatrix = new double [ m_Dimension * m_Dimension ];
   
   unsigned int k = 0;
 
-  for( unsigned int row=0; row < n; row++ )
+  for( unsigned int row=0; row < m_Dimension; row++ )
     {
-    for( unsigned int col=0; col < n; col++ )
+    for( unsigned int col=0; col < m_Dimension; col++ )
       {
       inputMatrix[k++] = A[row][col];
       }
@@ -49,6 +47,9 @@ ComputeEigenValues(const TMatrix  & A,
   ReduceToTridiagonalMatrix( inputMatrix, D, workArea1, workArea1 );
   const unsigned int eigenErrIndex = 
           ComputeEigenValuesUsingQL( D, workArea1 );
+  
+  delete[] workArea1;
+  delete[] inputMatrix;
 
   return eigenErrIndex; //index of eigen value that could not be computed
 }
@@ -62,18 +63,17 @@ ComputeEigenValuesAndVectors(
             TVector        & EigenValues,
             TEigenMatrix   & EigenVectors ) const
 {
-  const unsigned int n = m_Dimension;
-  double workArea1[ n ];
-  double workArea2[ n * n ];
+  double *workArea1 = new double[ m_Dimension ];
+  double *workArea2 = new double [ m_Dimension * m_Dimension ];
 
   // Copy the input matrix
-  double inputMatrix[ n * n ];
+  double *inputMatrix = new double [ m_Dimension * m_Dimension ];
   
   unsigned int k = 0;
 
-  for( unsigned int row=0; row < n; row++ )
+  for( unsigned int row=0; row < m_Dimension; row++ )
     {
-    for( unsigned int col=0; col < n; col++ )
+    for( unsigned int col=0; col < m_Dimension; col++ )
       {
       inputMatrix[k++] = A[row][col];
       }
@@ -86,13 +86,17 @@ ComputeEigenValuesAndVectors(
   
   // Copy eigenVectors
   k = 0;
-  for( unsigned int row=0; row < n; row++ )
+  for( unsigned int row=0; row < m_Dimension; row++ )
     {
-    for( unsigned int col=0; col < n; col++ )
+    for( unsigned int col=0; col < m_Dimension; col++ )
       {
       EigenVectors[row][col] = workArea2[k++];
       }
     }
+
+  delete[] workArea2;
+  delete[] workArea1;
+  delete[] inputMatrix;
 
   return eigenErrIndex; //index of eigen value that could not be computed
 }
