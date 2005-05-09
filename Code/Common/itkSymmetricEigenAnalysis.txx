@@ -29,21 +29,18 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::
 ComputeEigenValues(const TMatrix  & A,
                          TVector  & D) const
 {
-       
-  const int n = m_Dimension;
-  const int wantEigenvectors = 0;
-  int       errorReturn = 0;
-
-  double workArea1[ m_Dimension ];
+  const unsigned int n = m_Dimension;
+  
+  double workArea1[ n ];
 
   // Copy the input matrix
-  double inputMatrix[ m_Dimension * m_Dimension ];
+  double inputMatrix[ n * n ];
   
   unsigned int k = 0;
 
-  for( unsigned int row=0; row < m_Dimension; row++ )
+  for( unsigned int row=0; row < n; row++ )
     {
-    for( unsigned int col=0; col < m_Dimension; col++ )
+    for( unsigned int col=0; col < n; col++ )
       {
       inputMatrix[k++] = A[row][col];
       }
@@ -65,22 +62,18 @@ ComputeEigenValuesAndVectors(
             TVector        & EigenValues,
             TEigenMatrix   & EigenVectors ) const
 {
-       
-  const int n = m_Dimension;
-  const int wantEigenvectors = 0;
-  int       errorReturn = 0;
-
-  double workArea1[ m_Dimension ];
-  double workArea2[ m_Dimension * m_Dimension ];
+  const unsigned int n = m_Dimension;
+  double workArea1[ n ];
+  double workArea2[ n * n ];
 
   // Copy the input matrix
-  double inputMatrix[ m_Dimension * m_Dimension ];
+  double inputMatrix[ n * n ];
   
   unsigned int k = 0;
 
-  for( unsigned int row=0; row < m_Dimension; row++ )
+  for( unsigned int row=0; row < n; row++ )
     {
-    for( unsigned int col=0; col < m_Dimension; col++ )
+    for( unsigned int col=0; col < n; col++ )
       {
       inputMatrix[k++] = A[row][col];
       }
@@ -93,9 +86,9 @@ ComputeEigenValuesAndVectors(
   
   // Copy eigenVectors
   k = 0;
-  for( unsigned int row=0; row < m_Dimension; row++ )
+  for( unsigned int row=0; row < n; row++ )
     {
-    for( unsigned int col=0; col < m_Dimension; col++ )
+    for( unsigned int col=0; col < n; col++ )
       {
       EigenVectors[row][col] = workArea2[k++];
       }
@@ -392,7 +385,7 @@ ReduceToTridiagonalMatrixAndGetTransformation(double * a, VectorType &d,
 
 
 template< class TMatrix, class TVector, class TEigenMatrix >
-const unsigned int
+unsigned int
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::
 ComputeEigenValuesUsingQL(VectorType &d, double *e) const
 {
@@ -522,7 +515,7 @@ ComputeEigenValuesUsingQL(VectorType &d, double *e) const
 
 
 template< class TMatrix, class TVector, class TEigenMatrix >
-const unsigned int
+unsigned int
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::
 ComputeEigenValuesAndVectorsUsingQL(VectorType &d, double *e, double *z) const
 {

@@ -68,8 +68,7 @@ public:
   typedef TMatrix      MatrixType;
   typedef TEigenMatrix EigenMatrixType;
   typedef TVector      VectorType;
-  
-  
+
   /** Compute Eigen values of A 
    * A is any type that overloads the [][] operator and contains the 
    * symmetric matrix. In practice only the upper triangle of the
@@ -118,13 +117,13 @@ public:
   /** Get the Matrix order. Will be 0 unless explicitly set, or unless a
    * call to SetDimension has been made in which case it will be the
    * matrix dimension. */
-  const unsigned int GetOrder() const { return m_Order; }
+  unsigned int GetOrder() const { return m_Order; }
 
   /** Set/Get methods to order the eigen values in ascending order. 
    * Default is to order. 
    */
   void SetOrderEigenValues( const bool b ) {  m_OrderEigenValues = b; }
-  const bool GetOrderEigenValues() const { return m_OrderEigenValues; }
+  bool GetOrderEigenValues() const { return m_OrderEigenValues; }
 
   /** Set the dimension of the input matrix A. A is a square matrix of 
    * size m_Dimension. */
@@ -139,7 +138,7 @@ public:
   
   /** Get Matrix dimension, Will be 0 unless explicitly set by a 
    * call to SetDimension. */
-  const unsigned int GetDimension() const { return m_Dimension; }
+  unsigned int GetDimension() const { return m_Dimension; }
 
 
 private:
@@ -227,7 +226,7 @@ private:
    *  Function Adapted from netlib/tql1.c. 
    *  [Changed: remove static vars, enforce const correctness.  
    *            Use vnl routines as necessary]                      */
-  const unsigned int ComputeEigenValuesUsingQL(
+  unsigned int ComputeEigenValuesUsingQL(
                          VectorType &d, double *e) const;
 
   
@@ -268,7 +267,7 @@ private:
    *  [Changed: remove static vars, enforce const correctness.  
    *            Use vnl routines as necessary]                      
    */
-  const unsigned int ComputeEigenValuesAndVectorsUsingQL(
+  unsigned int ComputeEigenValuesAndVectorsUsingQL(
                                    VectorType &d, double *e, double *z) const;
 };
 } // end namespace itk
