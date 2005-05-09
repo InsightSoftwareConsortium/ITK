@@ -116,6 +116,7 @@ ReduceToTridiagonalMatrix(double * a, VectorType &d,
   double f, g, h;
   int i, j, k, l;
   double scale;
+  
   for (i = 0; i < m_Order; ++i) 
     {
     d[i] = a[m_Order-1 + i * m_Dimension];
@@ -232,9 +233,9 @@ ReduceToTridiagonalMatrixAndGetTransformation(double * a, VectorType &d,
 
   /* Local variables */
   double f, g, h;
-  int i, j, k, l;
+  unsigned int i, j, k, l;
   double scale, hh;
-  
+
   for (i = 0; i < m_Order; ++i) 
     {
     for (j = i; j < m_Order; ++j) 
@@ -398,7 +399,7 @@ ComputeEigenValuesUsingQL(VectorType &d, double *e) const
 
   /* Local variables */
   double c, f, g, h;
-  int i, j, l, m;
+  unsigned int i, j, l, m;
   double p, r, s, c2, c3;
   double s2;
   double dl1, el1;
@@ -484,6 +485,10 @@ ComputeEigenValuesUsingQL(VectorType &d, double *e) const
           c = p / r;
           p = c * d[i] - s * g;
           d[i+1] = h + s * (c * g + s * d[i]);
+          if( i == l )
+            { 
+            break;
+            }
           }
 
         p = -s * s2 * c3 * el1 * e[l] / dl1;
@@ -528,11 +533,12 @@ ComputeEigenValuesAndVectorsUsingQL(VectorType &d, double *e, double *z) const
 
   /* Local variables */
   double c, f, g, h;
-  int i, j, k, l, m;
+  unsigned int i, j, k, l, m;
   double p, r, s, c2, c3;
   double s2;
   double dl1, el1;
   double tst1, tst2;
+  int order = static_cast< int >( m_Order );
 
   unsigned int ierr = 0;
   if (m_Order == 1) 
@@ -627,6 +633,10 @@ ComputeEigenValuesAndVectorsUsingQL(VectorType &d, double *e, double *z) const
             z[k + (i + 1) * m_Dimension] = s * z[k + i * m_Dimension] + c * h;
             z[k + i * m_Dimension] = c * z[k + i * m_Dimension] - s * h;
             }
+          if( i == l )
+            { 
+            break;
+            }
           }
 
         p = -s * s2 * c3 * el1 * e[l] / dl1;
@@ -676,6 +686,8 @@ ComputeEigenValuesAndVectorsUsingQL(VectorType &d, double *e, double *z) const
   
   return ierr;
 }
+
+
 
 }  // end namespace itk
  
