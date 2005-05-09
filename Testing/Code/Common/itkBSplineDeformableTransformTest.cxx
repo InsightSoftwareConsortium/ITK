@@ -684,9 +684,6 @@ int itkBSplineDeformableTransformTest3()
 
   coeffImage[1]->SetPixel( index, 1.0 );
 
-  unsigned long n = coeffImage[1]->ComputeOffset( index ) +
-    numberOfPixels;
-
   /**
    * Set the parameters in the transform
    */
