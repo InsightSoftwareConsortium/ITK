@@ -20,9 +20,10 @@
 
 // Software Guide : BeginLatex
 //
-// This example shows how to compute the Mutual Information between two images
-// using classes from the Statistics framework. Note that you could also use
-// the ImageMetrics designed for the image registration framework.
+// This example illustrates how to compute the Mutual Information between two
+// images using classes from the Statistics framework. Note that you could also
+// use for this purpose the ImageMetrics designed for the image registration
+// framework.
 //
 // Software Guide : EndLatex 
 
