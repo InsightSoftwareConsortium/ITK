@@ -269,7 +269,20 @@ private:
    */
   unsigned int ComputeEigenValuesAndVectorsUsingQL(
                                    VectorType &d, double *e, double *z) const;
+  
 };
+
+template< typename TMatrix, typename TVector, typename TEigenMatrix >
+std::ostream & operator<<(std::ostream& os, 
+    const SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix > &s) 
+{
+  os << "[ClassType: SymmetricEigenAnalysis]" << std::endl;
+  os << "  Dimension : " << s.GetDimension() << std::endl;
+  os << "  Order : " << s.GetOrder() << std::endl;
+  os << "  OrderEigenValues: " << s.GetOrderEigenValues() << std::endl;
+  return os;
+}
+
 } // end namespace itk
 
 
