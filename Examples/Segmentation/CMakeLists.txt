@@ -23,9 +23,6 @@ TARGET_LINK_LIBRARIES(ConnectedThresholdImageFilter ITKNumerics ITKIO)
 ADD_EXECUTABLE(FastMarchingImageFilter FastMarchingImageFilter.cxx )
 TARGET_LINK_LIBRARIES(FastMarchingImageFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(ShapeDetectionLevelSetFilter ShapeDetectionLevelSetFilter.cxx )
-TARGET_LINK_LIBRARIES(ShapeDetectionLevelSetFilter ITKNumerics ITKIO)
-
 ADD_EXECUTABLE(LaplacianSegmentationLevelSetImageFilter LaplacianSegmentationLevelSetImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianSegmentationLevelSetImageFilter ITKNumerics ITKIO)
 
@@ -364,6 +361,9 @@ TARGET_LINK_LIBRARIES(CannySegmentationLevelSetImageFilter ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(GeodesicActiveContourImageFilter GeodesicActiveContourImageFilter.cxx )
 TARGET_LINK_LIBRARIES(GeodesicActiveContourImageFilter ITKNumerics ITKIO)
+
+ADD_EXECUTABLE(ShapeDetectionLevelSetFilter ShapeDetectionLevelSetFilter.cxx )
+TARGET_LINK_LIBRARIES(ShapeDetectionLevelSetFilter ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(SegmentationExamples2 SegmentationExamples2.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples2 
