@@ -172,9 +172,10 @@ DiffusionTensor3D<T>
   const RealValueType trace = this->GetTrace();
   const RealValueType isp   = this->GetInnerScalarProduct();
 
+  const RealValueType anisotropy = 3.0 * isp - trace * trace;
+
   const RealValueType fractionalAnisotropy =
-      static_cast< RealValueType >(
-        sqrt( ( 3.0 * isp - trace * trace ) / ( 2.0 * isp ) ) );
+      static_cast< RealValueType >( sqrt( anisotropy / ( 2.0 * isp ) ) );
   
   return fractionalAnisotropy;
 }
@@ -191,10 +192,25 @@ DiffusionTensor3D<T>
   const RealValueType trace = this->GetTrace();
   const RealValueType isp   = this->GetInnerScalarProduct();
 
+  // Avoid negative trace and traces small enough to look like a division by
+  // zero.
+  if( trace < NumericTraits< RealValueType >::min() )
+    {
+    return NumericTraits<RealValueType>::Zero;
+    }
+
+  const RealValueType anisotropy = 3.0 * isp - trace * trace;
+
+  if( anisotropy  < NumericTraits< RealValueType >::Zero )
+    {
+    return NumericTraits<RealValueType>::Zero;
+    }
+
+  const RealValueType relativeAnisotropySquared =
+        static_cast< RealValueType >( anisotropy / ( sqrt( 3.0 ) * trace ) ); 
+
   const RealValueType relativeAnisotropy =
-              static_cast< RealValueType >(
-                          sqrt( ( isp - trace * trace / 3.0 ) /
-                                ( sqrt( 3.0 ) * trace / 3.0 )   )  );
+        static_cast< RealValueType >( sqrt( relativeAnisotropySquared ) );
 
   return relativeAnisotropy;
 }
