@@ -123,7 +123,7 @@ int itkTensorRelativeAnisotropyImageFilterTest(int, char* [] )
   filter->SetInput( inputImage ); 
 
   // Select the value of Sigma
-  filter->SetSigma( 2.5 ); 
+  filter->SetSigma( 8.0 ); 
 
   
   typedef itk::TensorRelativeAnisotropyImageFilter< 
