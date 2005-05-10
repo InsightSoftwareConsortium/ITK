@@ -36,7 +36,16 @@ namespace Statistics {
  * in image classification for biological and medical imaging.
  * This class computes the texture features of an image (optionally in a masked
  * masked region), averaged across several spatial directions so that they are 
- * invariant to rotation.
+ * invariant to rotation. 
+ *
+ * By default, texure features are computed for each spatial
+ * direction and then averaged afterward, so it is possible to access the standard
+ * deviations of the texture features. These values give a clue as to texture 
+ * anisotropy. However, doing this is much more work, because it involved computing
+ * one GLCM for each offset given. To compute a single GLCM for all of the offsets,
+ * call FastCalculationsOn(). If this is called, then the texture standard deviations
+ * will not be computed (and will be set to zero), but texture computation will
+ * be much faster.
  *
  * This class is templated over the input image type.
  *
@@ -44,6 +53,7 @@ namespace Statistics {
  * The image type, and the type of histogram frequency container. If you are using
  * a large number of bins per axis, a sparse frequency container may be advisable.
  * The default is to use a dense frequency container.
+ *
  * Inputs and parameters:
  * -# An image
  * -# A mask defining the region over which texture features will be
@@ -167,18 +177,24 @@ public:
   /** Set the pixel value of the mask that should be considered "inside" the 
       object. Optional; for default value see above. */
   void SetInsidePixelValue(PixelType InsidePixelValue);
-      
+
+  itkGetMacro(FastCalculations, bool);
+  itkSetMacro(FastCalculations, bool);
+  itkBooleanMacro(FastCalculations);
       
 protected:
   ScalarImageTextureCalculator();
   virtual ~ScalarImageTextureCalculator() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
+  void FastCompute();
+  void FullCompute();
       
 private:
   typename GLCMGeneratorType::Pointer m_GLCMGenerator;
   FeatureValueVectorPointer m_FeatureMeans, m_FeatureStandardDeviations;
   FeatureNameVectorConstPointer m_RequestedFeatures;
   OffsetVectorConstPointer m_Offsets;
+  bool m_FastCalculations;
 };    
     
 } // end of namespace Statistics 

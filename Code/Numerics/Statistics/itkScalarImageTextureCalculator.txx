@@ -63,12 +63,28 @@ ScalarImageTextureCalculator()
     offsets->push_back(offset);
     }
   this->SetOffsets(offsets);
+  m_FastCalculations = false;
 }
-    
+
 template< class TImage, class THistogramFrequencyContainer >
 void
 ScalarImageTextureCalculator< TImage, THistogramFrequencyContainer >::    
 Compute(void)
+{
+  if (m_FastCalculations) 
+    {
+    this->FastCompute();
+    }
+  else 
+    {
+    this->FullCompute();
+    }
+}  
+
+template< class TImage, class THistogramFrequencyContainer >
+void
+ScalarImageTextureCalculator< TImage, THistogramFrequencyContainer >::    
+FullCompute(void)
 {
   int numOffsets = m_Offsets->size();
   int numFeatures = m_RequestedFeatures->size();
@@ -156,6 +172,35 @@ Compute(void)
   delete[] features;
 }
     
+template< class TImage, class THistogramFrequencyContainer >
+void
+ScalarImageTextureCalculator< TImage, THistogramFrequencyContainer >::    
+FastCompute(void)
+{      
+  // For each offset, calculate each feature
+  typename OffsetVector::ConstIterator offsetIt;      
+  for(offsetIt = m_Offsets->Begin(); offsetIt != m_Offsets->End(); offsetIt++)
+    {
+    m_GLCMGenerator->SetOffset(offsetIt.Value());
+    }
+  
+  m_GLCMGenerator->Compute();
+  typename GLCMCalculatorType::Pointer glcmCalc = GLCMCalculatorType::New();
+  glcmCalc->SetHistogram(m_GLCMGenerator->GetOutput());
+  glcmCalc->Compute();
+  
+  m_FeatureMeans->clear();
+  m_FeatureStandardDeviations->clear();
+  typename FeatureNameVector::ConstIterator fnameIt;
+  for(fnameIt = m_RequestedFeatures->Begin(); 
+      fnameIt != m_RequestedFeatures->End(); fnameIt++)
+    {
+    m_FeatureMeans->push_back(glcmCalc->GetFeature(fnameIt.Value()));
+    m_FeatureStandardDeviations->push_back(0.0);
+    }
+}
+
+
 template< class TImage, class THistogramFrequencyContainer >
 void
 ScalarImageTextureCalculator< TImage, THistogramFrequencyContainer >::    
