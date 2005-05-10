@@ -8,6 +8,7 @@ ADD_LIBRARY(ITKNumerics
   itkCostFunction.cxx
   itkCumulativeGaussianCostFunction.cxx
   itkCumulativeGaussianOptimizer.cxx
+  itkExhaustiveOptimizer.cxx
   itkFRPROptimizer.cxx
   itkGradientDescentOptimizer.cxx
   itkLBFGSBOptimizer.cxx
