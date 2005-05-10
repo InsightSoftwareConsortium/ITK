@@ -7,11 +7,13 @@ SET(WRAP_SOURCES
   wrap_itkArray
   wrap_itkBinaryBallStructuringElement
   wrap_itkContinuousIndex
-  wrap_itkDenseFiniteDifferenceImageFilter
+  wrap_itkDenseFiniteDifferenceImageFilter_2D
+  wrap_itkDenseFiniteDifferenceImageFilter_3D
   wrap_itkDifferenceImageFilter
   wrap_itkEventObject
   wrap_itkFiniteDifferenceFunction
-  wrap_itkFiniteDifferenceImageFilter
+  wrap_itkFiniteDifferenceImageFilter_2D
+  wrap_itkFiniteDifferenceImageFilter_3D
   wrap_itkFixedArray
   wrap_itkFunctionBase
   wrap_itkImage_2D
