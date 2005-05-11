@@ -163,6 +163,14 @@ public:
    * This method uses ImageBase::ComputeIndex() method */
   const IndexType & GetIndex(const InstanceIdentifier &id) const;
 
+  /** Is set to false if the bins at edges of the histogram extend to
+   *   +/- infinity. */
+  itkGetMacro(ClipBinsAtEnds, bool);
+
+  /** Set to false to have the bins at edges of the histogram extend to
+   *   +/- infinity. */
+  itkSetMacro(ClipBinsAtEnds, bool);
+
   /** returns true if the given index is out of bound meaning one of index
    * is not between [0, last index] */
   bool IsIndexOutOfBounds(const IndexType &index) const;
@@ -502,6 +510,8 @@ private:
   
   mutable MeasurementVectorType   m_TempMeasurementVector ;
   mutable IndexType               m_TempIndex ;
+
+  bool                            m_ClipBinsAtEnds;
 
 } ; // end of class
 

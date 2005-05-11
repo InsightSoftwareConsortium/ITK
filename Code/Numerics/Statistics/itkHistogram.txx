@@ -28,6 +28,7 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::Histogram()
 {
+  m_ClipBinsAtEnds = true;
   m_FrequencyContainer = FrequencyContainerType::New() ;
   for (unsigned int i = 0 ; i < (MeasurementVectorSize + 1) ; ++i )
     {
@@ -110,16 +111,20 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
   float interval ;
   for ( unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
     {
-    interval = (float) (upperBound[i] - lowerBound[i]) / static_cast< MeasurementType >(size[i]) ;
+    interval = (float) (upperBound[i] - lowerBound[i]) 
+                       / static_cast< MeasurementType >(size[i]) ;
 
     // Set the min vector and max vector
     for (unsigned int j = 0; j < (size[i] - 1) ; j++)
       {
-      this->SetBinMin(i, j, (MeasurementType)(lowerBound[i] +  ((float)j * interval))) ;
-      this->SetBinMax(i, j, (MeasurementType)(lowerBound[i] +  (((float)j + 1) * interval)));
+      this->SetBinMin(i, j, (MeasurementType)(lowerBound[i] +  
+                                              ((float)j * interval))) ;
+      this->SetBinMax(i, j, (MeasurementType)(lowerBound[i] +  
+                                              (((float)j + 1) * interval)));
       }
     this->SetBinMin(i, size[i] - 1, 
-                    (MeasurementType)(lowerBound[i] + (((float) size[i] - 1) * interval))) ;
+                    (MeasurementType)(lowerBound[i] + 
+                                      (((float) size[i] - 1) * interval))) ;
     this->SetBinMax(i, size[i] - 1, 
                     (MeasurementType)(upperBound[i])) ;
     }
@@ -127,7 +132,8 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer>
-inline const typename Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>::IndexType &
+inline const typename Histogram<TMeasurement, VMeasurementVectorSize,
+                                TFrequencyContainer>::IndexType &
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::GetIndex(const MeasurementVectorType& measurement) const
 {
@@ -146,16 +152,40 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
     if (tempMeasurement < m_Min[dim][begin])
       {
       // one of measurement is below the minimum
-      m_TempIndex[dim] = (long) m_Size[dim] ;
-      itkWarningMacro(<<"One of the measurement components is below the minimum");
+      if(!m_ClipBinsAtEnds)
+        {
+        m_TempIndex[dim] = (long) 0 ;
+        }
+      else
+        {
+        // If clipping and this is below, then set to an illegal value
+        // then set to m_Size[dim] to flag this as an illegal index;
+        // Must be set to m_Size[dim] since -1 might not be a valid value.
+        // This is why you must call IsIndexOutOfBounds before using the
+        // index returned by this function.
+        m_TempIndex[dim] = (long) m_Size[dim] ;
+        itkWarningMacro(<<"One of the measurements is below the minimum");
+        }
       }
 
     end = m_Min[dim].size() - 1 ;
     if (tempMeasurement >= m_Max[dim][end])
       {
       // one of measurement is above the maximum
-      m_TempIndex[dim] = (long) m_Size[dim] ;
-      itkWarningMacro(<<"One of the measurement components is above the maximum");
+      if(!m_ClipBinsAtEnds)
+        {
+        m_TempIndex[dim] = (long) m_Size[dim] - 1;
+        }
+      else
+        {
+        // If clipping and this is below, then set to an illegal value
+        // then set to m_Size[dim] to flag this as an illegal index;
+        // Must be set to m_Size[dim] since -1 might not be a valid value.
+        // This is why you must call IsIndexOutOfBounds before using the
+        // index returned by this function.
+        m_TempIndex[dim] = (long) m_Size[dim] ;
+        itkWarningMacro(<<"One of the measurements is above the maximum");
+        }
       }
 
     mid = (end + 1) / 2 ;

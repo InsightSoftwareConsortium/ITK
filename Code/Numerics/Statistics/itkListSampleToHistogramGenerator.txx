@@ -17,6 +17,8 @@
 #ifndef __itkListSampleToHistogramGenerator_txx
 #define __itkListSampleToHistogramGenerator_txx
 
+#include <exception>
+
 namespace itk{
 namespace Statistics{
 
@@ -63,17 +65,42 @@ ListSampleToHistogramGenerator< TListSample,
       {
       if ( !NumericTraits< THistogramMeasurement >::is_integer )
         {
-        margin = 
-          ( (THistogramMeasurement)(upper[i] - lower[i]) / 
-            (THistogramMeasurement) m_Sizes[i] ) / 
-          (THistogramMeasurement) m_MarginalScale ;
-        h_upper[i] = (THistogramMeasurement) (upper[i] + 
-          margin) ;
+        try 
+          {
+          margin = 
+            ( (THistogramMeasurement)(upper[i] - lower[i]) / 
+              (THistogramMeasurement) m_Sizes[i] ) / 
+            (THistogramMeasurement) m_MarginalScale ;
+          h_upper[i] = (THistogramMeasurement) (upper[i] + margin) ;
+          }
+        catch(std::overflow_error e)
+          { 
+          // an overflow has occurred therefore set upper to upper
+          h_upper[i] = upper[i];
+          // Histogram measurement type would force the clipping the max value.
+          // Therefore we must call the following to include the max value:
+          m_Histogram->SetClipBinsAtEnds(false);
+          // The above function is okay since here we are within the autoMinMax 
+          // computation and clearly the user intended to include min and max.
+          }
         }
       else
         {
-        h_upper[i] = ((THistogramMeasurement) upper[i]) + 
-          NumericTraits< THistogramMeasurement >::One ;
+        try 
+          {
+          h_upper[i] = ((THistogramMeasurement) upper[i]) + 
+            NumericTraits< THistogramMeasurement >::One ;
+          }
+        catch(std::overflow_error e)
+          { 
+          // an overflow has occurred therefore set upper to upper
+          h_upper[i] = upper[i];
+          // Histogram measurement type would force the clipping the max value.
+          // Therefore we must call the following to include the max value:
+          m_Histogram->SetClipBinsAtEnds(false);
+          // The above function is okay since here we are within the autoMinMax 
+          // computation and clearly the user intended to include min and max.
+          }
         }
       h_lower[i] = ( THistogramMeasurement) lower[i] ;
       }
@@ -101,9 +128,11 @@ ListSampleToHistogramGenerator< TListSample,
     if (!m_Histogram->IsIndexOutOfBounds(index))
       {
       // if the measurement vector is out of bound then
-      // the GetIndex method returns index with the sizes of each dimension
-      // and doesn't increase the frequency
-      //          id = m_Histogram->GetInstanceIdentifier(index) ;
+      // the GetIndex method has returned an index set to the max size of
+      // the invalid dimension - even if the hvector is less than the minimum
+      // bin value.
+      // If the index isn't valid, we don't increase the frequency.
+      // See the comments in Histogram->GetIndex() for more info.
       m_Histogram->IncreaseFrequency(index, 1) ;
       }
     ++iter ;
