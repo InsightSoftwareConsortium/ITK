@@ -145,6 +145,10 @@ public:
   ValueType & operator()( unsigned int row, unsigned int col );
   const ValueType & operator()( unsigned int row, unsigned int col ) const;
 
+  /** Set the tensor to an identity tensor. This has 1 in its diagonal elements
+   * zero elsewhere */
+  void SetIdentity();
+
   /** Get Trace value */
   AccumulateValueType GetTrace() const;
 
@@ -172,6 +176,20 @@ ITK_EXPORT OutputStreamType& operator<<(OutputStreamType& os,
 template< typename TComponent, unsigned int NDimension  >  
 ITK_EXPORT InputStreamType& operator>>(InputStreamType& is, 
                     SymmetricSecondRankTensor<TComponent,NDimension> & c); 
+
+template <typename TValueType, unsigned int VLength>
+inline SymmetricSecondRankTensor< TValueType, VLength> operator* 
+    (double d, const SymmetricSecondRankTensor< TValueType, VLength > & f)
+{
+  SymmetricSecondRankTensor< TValueType, VLength > ret;
+  for (int i=0; i < static_cast<int>(f.GetNumberOfComponents()) ; i++)
+    {
+    ret[i] = f[i] * d;
+    }
+  return ret;
+}
+
+
 
 } // end namespace itk
 
