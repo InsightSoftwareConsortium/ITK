@@ -72,7 +72,7 @@ SymmetricSecondRankTensor<T,NDimension>
 ::operator+(const Self & r) const
 {
   Self result;
-  for( unsigned int i=0; i<Dimension; i++) 
+  for( unsigned int i=0; i<InternalDimension; i++) 
     {
     result[i] = (*this)[i] + r[i];
     }
@@ -91,7 +91,7 @@ SymmetricSecondRankTensor<T,NDimension>
 ::operator-(const Self & r) const
 {
   Self result;
-  for( unsigned int i=0; i<Dimension; i++) 
+  for( unsigned int i=0; i<InternalDimension; i++) 
     {
     result[i] = (*this)[i] - r[i];
     }
@@ -108,7 +108,7 @@ const SymmetricSecondRankTensor<T,NDimension> &
 SymmetricSecondRankTensor<T,NDimension>
 ::operator+=(const Self & r) 
 {
-  for( unsigned int i=0; i<Dimension; i++) 
+  for( unsigned int i=0; i<InternalDimension; i++) 
     {
     (*this)[i] += r[i];
     }
@@ -126,7 +126,7 @@ const SymmetricSecondRankTensor<T,NDimension> &
 SymmetricSecondRankTensor<T,NDimension>
 ::operator-=(const Self & r)
 {
-  for( unsigned int i=0; i<Dimension; i++) 
+  for( unsigned int i=0; i<InternalDimension; i++) 
     {
     (*this)[i] -= r[i];
     }
@@ -146,7 +146,7 @@ SymmetricSecondRankTensor<T,NDimension>
 ::operator*(const ComponentType & r) const
 {
   Self result;
-  for( unsigned int i=0; i<Dimension; i++) 
+  for( unsigned int i=0; i<InternalDimension; i++) 
     {
     result[i] = (*this)[i] * r;
     }
@@ -210,6 +210,22 @@ SymmetricSecondRankTensor<T,NDimension>
     }
 
   return (*this)[k];
+}
+
+
+/*
+ * Get the Trace
+ */
+template<class T,unsigned int NDimension>
+void 
+SymmetricSecondRankTensor<T,NDimension>
+::SetIdentity() 
+{
+  this->Fill(NumericTraits< T >::Zero);
+  for( unsigned int i=0; i < Dimension; i++)
+    {
+    (*this)(i,i) = NumericTraits< T >::One;
+    }
 }
 
 
