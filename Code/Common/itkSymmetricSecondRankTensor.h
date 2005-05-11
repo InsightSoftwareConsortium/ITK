@@ -181,12 +181,7 @@ template <typename TValueType, unsigned int VLength>
 inline SymmetricSecondRankTensor< TValueType, VLength> operator* 
     (double d, const SymmetricSecondRankTensor< TValueType, VLength > & f)
 {
-  SymmetricSecondRankTensor< TValueType, VLength > ret;
-  for (int i=0; i < static_cast<int>(f.GetNumberOfComponents()) ; i++)
-    {
-    ret[i] = f[i] * d;
-    }
-  return ret;
+  return f * d;
 }
 
 
