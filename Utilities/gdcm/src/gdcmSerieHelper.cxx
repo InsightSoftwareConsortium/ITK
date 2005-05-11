@@ -242,11 +242,6 @@ bool SerieHelper::ImagePositionPatientOrdering( GdcmFileList *fileList )
             dist += normal[i]*ipp[i];
          }
     
-         if( dist == 0 )
-         {
-            return false;
-         }
-
          distlist.push_back( dist );
 
          max = min = dist;
@@ -264,11 +259,6 @@ bool SerieHelper::ImagePositionPatientOrdering( GdcmFileList *fileList )
             dist += normal[i]*ipp[i];
          }
 
-         if( dist == 0 )
-         {
-            return false;
-         }
-      
          distlist.push_back( dist );
 
          min = (min < dist) ? min : dist;
