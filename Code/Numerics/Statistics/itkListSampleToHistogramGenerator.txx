@@ -65,15 +65,12 @@ ListSampleToHistogramGenerator< TListSample,
       {
       if ( !NumericTraits< THistogramMeasurement >::is_integer )
         {
-        try 
-          {
-          margin = 
+        margin = 
             ( (THistogramMeasurement)(upper[i] - lower[i]) / 
               (THistogramMeasurement) m_Sizes[i] ) / 
             (THistogramMeasurement) m_MarginalScale ;
-          h_upper[i] = (THistogramMeasurement) (upper[i] + margin) ;
-          }
-        catch(std::overflow_error e)
+        h_upper[i] = (THistogramMeasurement) (upper[i] + margin) ;
+        if(h_upper[i] <= upper[i])
           { 
           // an overflow has occurred therefore set upper to upper
           h_upper[i] = upper[i];
@@ -86,12 +83,9 @@ ListSampleToHistogramGenerator< TListSample,
         }
       else
         {
-        try 
-          {
-          h_upper[i] = ((THistogramMeasurement) upper[i]) + 
-            NumericTraits< THistogramMeasurement >::One ;
-          }
-        catch(std::overflow_error e)
+        h_upper[i] = ((THistogramMeasurement) upper[i]) + 
+          NumericTraits< THistogramMeasurement >::One ;
+        if(h_upper[i] <= upper[i])
           { 
           // an overflow has occurred therefore set upper to upper
           h_upper[i] = upper[i];
