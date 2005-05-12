@@ -64,6 +64,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   typedef typename Superclass::RealType      RealType;
+  typedef typename Superclass::ScalarRealType      ScalarRealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,8 +74,8 @@ public:
 
   /** Set/Get the Sigma, measured in world coordinates, of the Gaussian
    * kernel.  The default is 1.0.  */   
-  itkGetMacro( Sigma, RealType );
-  itkSetMacro( Sigma, RealType );
+  itkGetMacro( Sigma, ScalarRealType );
+  itkSetMacro( Sigma, ScalarRealType );
 
   /** Enum type that indicates if the filter applies the equivalent operation
       of convolving with a gaussian, first derivative of a gaussian or the 
@@ -131,29 +132,29 @@ protected:
    * Here it is used to approximate a Gaussian or one of its
    * derivatives. Parameter is the spacing along the dimension to
    * filter. */
-  virtual void SetUp(RealType spacing);
+  virtual void SetUp(ScalarRealType spacing);
 
 private:  
   RecursiveGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /** Compute the N coefficients in the recursive filter. */
-  void ComputeNCoefficients(RealType sigmad,
-          RealType A1, RealType B1, RealType W1, RealType L1,
-          RealType A2, RealType B2, RealType W2, RealType L2,
-          RealType& N0, RealType& N1,
-          RealType& N2, RealType& N3,
-          RealType& SN, RealType& DN, RealType& EN);
+  void ComputeNCoefficients(ScalarRealType sigmad,
+          ScalarRealType A1, ScalarRealType B1, ScalarRealType W1, ScalarRealType L1,
+          ScalarRealType A2, ScalarRealType B2, ScalarRealType W2, ScalarRealType L2,
+          ScalarRealType& N0, ScalarRealType& N1,
+          ScalarRealType& N2, ScalarRealType& N3,
+          ScalarRealType& SN, ScalarRealType& DN, ScalarRealType& EN);
   /** Compute the D coefficients in the recursive filter. */
-  void ComputeDCoefficients(RealType sigmad,
-          RealType W1, RealType L1, RealType W2, RealType L2,
-          RealType& SD, RealType& DD, RealType& ED);
+  void ComputeDCoefficients(ScalarRealType sigmad,
+          ScalarRealType W1, ScalarRealType L1, ScalarRealType W2, ScalarRealType L2,
+          ScalarRealType& SD, ScalarRealType& DD, ScalarRealType& ED);
   /** Compute the M coefficients and the boundary coefficients in the
    * recursive filter. */
   void ComputeRemainingCoefficients(bool symmetric);
 
   /** Sigma of the gaussian kernel. */   
-  RealType m_Sigma;
+  ScalarRealType m_Sigma;
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale; 

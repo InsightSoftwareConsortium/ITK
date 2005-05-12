@@ -61,9 +61,13 @@ public:
   typedef typename TInputImage::Pointer  InputImagePointer;
   typedef typename TInputImage::ConstPointer  InputImageConstPointer;
 
-  /** Real type to be used in internal computations */
+  /** Real type to be used in internal computations. RealType in general is
+   * templated over the pixel type. (For example for vector or tensor pixels,
+   * RealType is a vector or a tensor of doubles.) ScalarRealType is a type 
+   * meant for scalars.*/
   typedef typename TInputImage::PixelType                   InputPixelType;
   typedef typename NumericTraits<InputPixelType>::RealType  RealType;
+  typedef typename NumericTraits<InputPixelType>::ScalarRealType ScalarRealType;
 
   /** Type of the input image */
   typedef TInputImage      InputImageType;
@@ -105,7 +109,7 @@ protected:
    * Typically it can be used to approximate a Gaussian or one of its
    * derivatives. Parameter is the spacing along the dimension to
    * filter. */
-  virtual void SetUp(RealType spacing) = 0;
+  virtual void SetUp(ScalarRealType spacing) = 0;
 
   /** Apply the Recursive Filter to an array of data.  This method is called
    * for each line of the volume. Parameter "scratch" is a scratch
@@ -126,36 +130,36 @@ private:
 
 protected:
   /** Causal coefficients that multiply the input data. */
-  RealType m_N0;
-  RealType m_N1;
-  RealType m_N2;
-  RealType m_N3; 
+  ScalarRealType m_N0;
+  ScalarRealType m_N1;
+  ScalarRealType m_N2;
+  ScalarRealType m_N3; 
   
   /** Recursive coefficients that multiply previously computed values
    * at the output. These are the same for the causal and
    * anti-causal parts of the filter. */
-  RealType m_D1;
-  RealType m_D2;
-  RealType m_D3;
-  RealType m_D4; 
+  ScalarRealType m_D1;
+  ScalarRealType m_D2;
+  ScalarRealType m_D3;
+  ScalarRealType m_D4; 
   
   /** Anti-causal coefficients that multiply the input data. */
-  RealType m_M1;
-  RealType m_M2;
-  RealType m_M3;
-  RealType m_M4; 
+  ScalarRealType m_M1;
+  ScalarRealType m_M2;
+  ScalarRealType m_M3;
+  ScalarRealType m_M4; 
 
   /** Recursive coefficients to be used at the boundaries to simulate
    * edge extension boundary conditions. */
-  RealType m_BN1;
-  RealType m_BN2;
-  RealType m_BN3;
-  RealType m_BN4; 
+  ScalarRealType m_BN1;
+  ScalarRealType m_BN2;
+  ScalarRealType m_BN3;
+  ScalarRealType m_BN4; 
  
-  RealType m_BM1;
-  RealType m_BM2;
-  RealType m_BM3;
-  RealType m_BM4; 
+  ScalarRealType m_BM1;
+  ScalarRealType m_BM2;
+  ScalarRealType m_BM3;
+  ScalarRealType m_BM4; 
  
 };
 

@@ -75,21 +75,21 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage,TOutputImage>
-::SetUp(RealType spacing)
+::SetUp(ScalarRealType spacing)
 { 
-  const RealType spacingTolerance = 1e-8;
+  const ScalarRealType spacingTolerance = 1e-8;
   
   /**  Parameters of exponential series. */
-  RealType A1[3];
-  RealType B1[3];
-  RealType W1;
-  RealType L1;
-  RealType A2[3];
-  RealType B2[3];
-  RealType W2;
-  RealType L2;
+  ScalarRealType A1[3];
+  ScalarRealType B1[3];
+  ScalarRealType W1;
+  ScalarRealType L1;
+  ScalarRealType A2[3];
+  ScalarRealType B2[3];
+  ScalarRealType W2;
+  ScalarRealType L2;
 
-  RealType direction = 1.0;
+  ScalarRealType direction = 1.0;
   if( spacing < 0.0 )
     {
     direction = -1.0;
@@ -101,35 +101,35 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
     itkExceptionMacro(<<"The spacing " << spacing << "is suspiciosly small in this image");
     } 
   
-  const RealType sigmad = m_Sigma/spacing;
-  RealType across_scale_normalization = 1.0;
+  const ScalarRealType sigmad = m_Sigma/spacing;
+  ScalarRealType across_scale_normalization = 1.0;
   if( this->GetNormalizeAcrossScale() )
     {
     across_scale_normalization = sigmad;
     }
 
-  A1[0] = static_cast<RealType>(  1.3530 );
-  B1[0] = static_cast<RealType>(  1.8151 );
-  W1    = static_cast<RealType>(  0.6681 );
-  L1    = static_cast<RealType>( -1.3932 );
-  A2[0] = static_cast<RealType>( -0.3531 );
-  B2[0] = static_cast<RealType>(  0.0902 );
-  W2    = static_cast<RealType>(  2.0787 );
-  L2    = static_cast<RealType>( -1.3732 );
+  A1[0] = static_cast<ScalarRealType>(  1.3530 );
+  B1[0] = static_cast<ScalarRealType>(  1.8151 );
+  W1    = static_cast<ScalarRealType>(  0.6681 );
+  L1    = static_cast<ScalarRealType>( -1.3932 );
+  A2[0] = static_cast<ScalarRealType>( -0.3531 );
+  B2[0] = static_cast<ScalarRealType>(  0.0902 );
+  W2    = static_cast<ScalarRealType>(  2.0787 );
+  L2    = static_cast<ScalarRealType>( -1.3732 );
 
-  A1[1] = static_cast<RealType>( -0.6724 );
-  B1[1] = static_cast<RealType>( -3.4327 );
-  A2[1] = static_cast<RealType>(  0.6724 );
-  B2[1] = static_cast<RealType>(  0.6100 );
+  A1[1] = static_cast<ScalarRealType>( -0.6724 );
+  B1[1] = static_cast<ScalarRealType>( -3.4327 );
+  A2[1] = static_cast<ScalarRealType>(  0.6724 );
+  B2[1] = static_cast<ScalarRealType>(  0.6100 );
 
-  A1[2] = static_cast<RealType>( -1.3563 );
-  B1[2] = static_cast<RealType>(  5.2318 );
-  A2[2] = static_cast<RealType>(  0.3446 );
-  B2[2] = static_cast<RealType>( -2.2355 );
+  A1[2] = static_cast<ScalarRealType>( -1.3563 );
+  B1[2] = static_cast<ScalarRealType>(  5.2318 );
+  A2[2] = static_cast<ScalarRealType>(  0.3446 );
+  B2[2] = static_cast<ScalarRealType>( -2.2355 );
 
-  RealType SD, DD, ED;
+  ScalarRealType SD, DD, ED;
   this->ComputeDCoefficients(sigmad, W1, L1, W2, L2, SD, DD, ED);
-  RealType SN, DN, EN;
+  ScalarRealType SN, DN, EN;
   
   
   switch( m_Order ) 
@@ -145,7 +145,7 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
          this->m_N3,
          SN, DN, EN);
 
-      RealType alpha0 = 2 * SN / SD - this->m_N0;
+      ScalarRealType alpha0 = 2 * SN / SD - this->m_N0;
       this->m_N0 *= across_scale_normalization / alpha0;
       this->m_N1 *= across_scale_normalization / alpha0;
       this->m_N2 *= across_scale_normalization / alpha0;
@@ -163,7 +163,7 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
          this->m_N0, this->m_N1, this->m_N2, this->m_N3,
          SN, DN, EN);
 
-      RealType alpha1 = 2 * (SN*DD - DN*SD) / (SD*SD);
+      ScalarRealType alpha1 = 2 * (SN*DD - DN*SD) / (SD*SD);
       // If negative spacing, negate the first derivative response.
       alpha1 *= direction;
       
@@ -179,10 +179,10 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
     case SecondOrder: // Approximation of convolution with 
                       // the second derivative of a Gaussian.
       {
-      RealType N0_0, N1_0, N2_0, N3_0;
-      RealType N0_2, N1_2, N2_2, N3_2;
-      RealType SN0, DN0, EN0;
-      RealType SN2, DN2, EN2;
+      ScalarRealType N0_0, N1_0, N2_0, N3_0;
+      ScalarRealType N0_2, N1_2, N2_2, N3_2;
+      ScalarRealType SN0, DN0, EN0;
+      ScalarRealType SN2, DN2, EN2;
       ComputeNCoefficients(sigmad,
          A1[0], B1[0], W1, L1,
          A2[0], B2[0], W2, L2,
@@ -194,7 +194,7 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
          N0_2, N1_2, N2_2, N3_2,
          SN2, DN2, EN2);
 
-      RealType beta = -(2*SN2 - SD*N0_2) / (2*SN0 - SD*N0_0);
+      ScalarRealType beta = -(2*SN2 - SD*N0_2) / (2*SN0 - SD*N0_0);
       this->m_N0 = N0_2 + beta * N0_0;
       this->m_N1 = N1_2 + beta * N1_0;
       this->m_N2 = N2_2 + beta * N2_0;
@@ -203,7 +203,7 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
       DN = DN2 + beta * DN0;
       EN = EN2 + beta * EN0;
 
-      RealType alpha2;
+      ScalarRealType alpha2;
       alpha2  = EN*SD*SD - ED*SN*SD - 2*DN*DD*SD + 2*DD*DD*SN;
       alpha2 /= SD*SD*SD;
       
@@ -231,18 +231,18 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage,TOutputImage>
-::ComputeNCoefficients(RealType sigmad,
-           RealType A1, RealType B1, RealType W1, RealType L1,
-           RealType A2, RealType B2, RealType W2, RealType L2,
-           RealType& N0, RealType& N1, RealType& N2, RealType& N3,
-           RealType& SN, RealType& DN, RealType& EN)
+::ComputeNCoefficients(ScalarRealType sigmad,
+           ScalarRealType A1, ScalarRealType B1, ScalarRealType W1, ScalarRealType L1,
+           ScalarRealType A2, ScalarRealType B2, ScalarRealType W2, ScalarRealType L2,
+           ScalarRealType& N0, ScalarRealType& N1, ScalarRealType& N2, ScalarRealType& N3,
+           ScalarRealType& SN, ScalarRealType& DN, ScalarRealType& EN)
 {
-  RealType Sin1 = sin(W1 / sigmad);
-  RealType Sin2 = sin(W2 / sigmad);
-  RealType Cos1 = cos(W1 / sigmad);
-  RealType Cos2 = cos(W2 / sigmad);
-  RealType Exp1 = exp(L1 / sigmad);
-  RealType Exp2 = exp(L2 / sigmad);
+  ScalarRealType Sin1 = sin(W1 / sigmad);
+  ScalarRealType Sin2 = sin(W2 / sigmad);
+  ScalarRealType Cos1 = cos(W1 / sigmad);
+  ScalarRealType Cos2 = cos(W2 / sigmad);
+  ScalarRealType Exp1 = exp(L1 / sigmad);
+  ScalarRealType Exp2 = exp(L2 / sigmad);
   
   N0  = A1 + A2;
   N1  = Exp2 * (B2*Sin2 - (A2+2*A1) * Cos2); 
@@ -266,16 +266,16 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage,TOutputImage>
-::ComputeDCoefficients(RealType sigmad,
-           RealType W1, RealType L1, RealType W2, RealType L2,
-           RealType& SD, RealType& DD, RealType& ED) 
+::ComputeDCoefficients(ScalarRealType sigmad,
+           ScalarRealType W1, ScalarRealType L1, ScalarRealType W2, ScalarRealType L2,
+           ScalarRealType& SD, ScalarRealType& DD, ScalarRealType& ED) 
 {
-  //  const RealType Sin1 = sin(W1 / sigmad);
-  //  const RealType Sin2 = sin(W2 / sigmad);
-  const RealType Cos1 = cos(W1 / sigmad);
-  const RealType Cos2 = cos(W2 / sigmad);
-  const RealType Exp1 = exp(L1 / sigmad);
-  const RealType Exp2 = exp(L2 / sigmad);
+  //  const ScalarRealType Sin1 = sin(W1 / sigmad);
+  //  const ScalarRealType Sin2 = sin(W2 / sigmad);
+  const ScalarRealType Cos1 = cos(W1 / sigmad);
+  const ScalarRealType Cos2 = cos(W2 / sigmad);
+  const ScalarRealType Exp1 = exp(L1 / sigmad);
+  const ScalarRealType Exp2 = exp(L2 / sigmad);
   
   this->m_D4  =     Exp1*Exp1*Exp2*Exp2;
   this->m_D3  =  -2*Cos1*Exp1*Exp2*Exp2;
@@ -315,9 +315,9 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   // Compute coefficients to be used at the boundaries
   // in order to simulate edge extension boundary conditions.
-  const RealType SN = this->m_N0 + this->m_N1 + this->m_N2 + this->m_N3;
-  const RealType SM = this->m_M1 + this->m_M2 + this->m_M3 + this->m_M4;
-  const RealType SD = 1.0 + this->m_D1 + this->m_D2 + this->m_D3 + this->m_D4;
+  const ScalarRealType SN = this->m_N0 + this->m_N1 + this->m_N2 + this->m_N3;
+  const ScalarRealType SM = this->m_M1 + this->m_M2 + this->m_M3 + this->m_M4;
+  const ScalarRealType SD = 1.0 + this->m_D1 + this->m_D2 + this->m_D3 + this->m_D4;
 
   this->m_BN1 = this->m_D1 * SN / SD;
   this->m_BN2 = this->m_D2 * SN / SD;
