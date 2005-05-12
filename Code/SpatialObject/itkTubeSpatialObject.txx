@@ -384,7 +384,7 @@ TubeSpatialObject< TDimension, TTubePointType >
     l=0;
     for(unsigned int i=0; i<TDimension; i++)
       {
-      t[i] = (x3[i] - x1[i])/2.0;
+      t[i] = (x3[i] - x1[i]);
       l = l + t[i]*t[i];
       }
     
