@@ -96,6 +96,10 @@ public:
     this->Modified();
   }
 
+  /** Get the operator that is used to filter the image. */
+  const OutputNeighborhoodType& GetOperator() const
+    { return m_Operator; } 
+
   /** Allows a user to override the internal boundary condition. Care should be
    * be taken to ensure that the overriding boundary condition is a persistent
    * object during the time it is referenced.  The overriding condition
