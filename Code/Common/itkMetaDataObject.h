@@ -232,12 +232,14 @@ template <class T>
  * \param TYPE_NAME the native type parameter type
  */
 #define NATIVE_TYPE_METADATAPRINT(TYPE_NAME) \
+template <> \
 void \
   itk::MetaDataObject< TYPE_NAME > \
   ::Print(std::ostream& os) const \
 { \
   os << this->m_MetaDataObjectValue << std::endl; \
 } \
+template <> \
 void \
   itk::MetaDataObject< const TYPE_NAME > \
   ::Print(std::ostream& os) const \
@@ -254,12 +256,14 @@ void \
  * \param TYPE_NAME_PART2
  */
 #define ITK_OBJECT_TYPE_METADATAPRINT_1COMMA( TYPE_NAME_PART1 , TYPE_NAME_PART2 ) \
+template <> \
 void \
   itk::MetaDataObject< TYPE_NAME_PART1 , TYPE_NAME_PART2 > \
   ::Print(std::ostream& os) const \
 { \
   this->m_MetaDataObjectValue->Print(os); \
 } \
+template <> \
 void \
   itk::MetaDataObject< const TYPE_NAME_PART1 , TYPE_NAME_PART2 > \
   ::Print(std::ostream& os) const \
