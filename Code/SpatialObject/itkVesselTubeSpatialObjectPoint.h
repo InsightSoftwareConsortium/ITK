@@ -121,9 +121,6 @@ protected:
   /** Is the tube point marked (selected) ? */
   bool m_Mark;
 
-  /** # of dimensions */
-  unsigned short int m_NumDimensions;
-
   /** Print the object */
   void PrintSelf( std::ostream & os, Indent indent) const;
 };

@@ -182,7 +182,7 @@ VesselTubeSpatialObjectPoint< TPointDimension >
   m_Ridgeness = rhs.m_Ridgeness;
   m_Branchness = rhs.m_Branchness;
   m_Mark = rhs.m_Mark;
-  m_NumDimensions = rhs.m_NumDimensions;
+  this->m_NumDimensions = rhs.m_NumDimensions;
   this->m_X = rhs.m_X;
   this->m_T = rhs.m_T;
   this->m_Normal1 = rhs.m_Normal1;

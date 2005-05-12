@@ -169,7 +169,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
     m_TensorMatrix[i] = rhs.m_TensorMatrix[i];
     }
 
-  m_NumDimensions = rhs.m_NumDimensions;
+  this->m_NumDimensions = rhs.m_NumDimensions;
   this->m_X = rhs.m_X;
   this->m_T = rhs.m_T;
   this->m_Normal1 = rhs.m_Normal1;

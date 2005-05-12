@@ -91,9 +91,6 @@ protected:
   float m_TensorMatrix[6];
   FieldListType m_Fields;
 
-  /** # of dimensions */
-  unsigned short int m_NumDimensions;
-
   /** Print the object */
   void PrintSelf( std::ostream & os, Indent indent) const;
 
