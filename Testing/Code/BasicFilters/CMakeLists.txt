@@ -159,6 +159,11 @@ ADD_TEST(itkNoiseImageFilterTest ${BASIC_FILTERS_TESTS}
    itkNoiseImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png)
 ADD_TEST(itkNonThreadedShrinkImageTest ${BASIC_FILTERS_TESTS} itkNonThreadedShrinkImageTest)
 ADD_TEST(itkNormalizeImageFilterTest ${BASIC_FILTERS_TESTS} itkNormalizeImageFilterTest)
+ADD_TEST(itkNormalizedCorrelationImageFilterTest ${BASIC_FILTERS_TESTS3} 
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/NormalizedCorrelationImageFilterTest.png
+             ${ITK_TEST_OUTPUT_DIR}/NormalizedCorrelationImageFilterTest.png
+             itkNormalizedCorrelationImageFilterTest 
+             ${ITK_DATA_ROOT}/Input/sf4.png ${ITK_DATA_ROOT}/Input/circle.png ${ITK_TEST_OUTPUT_DIR}/NormalizedCorrelationImageFilterTest.png)
 ADD_TEST(itkObjectMorphologyImageFilterTest ${BASIC_FILTERS_TESTS} itkObjectMorphologyImageFilterTest)
 ADD_TEST(itkOrImageFilterTest ${BASIC_FILTERS_TESTS} itkOrImageFilterTest)
 ADD_TEST(itkParallelSparseFieldLevelSetImageFilterTest ${BASIC_FILTERS_TESTS} itkParallelSparseFieldLevelSetImageFilterTest)
@@ -736,6 +741,7 @@ itkTwoOutputExampleImageFilterTest.cxx
 SET(BasicFilters3_SRCS
 itkCheckerBoardImageFilterTest.cxx
 itkHessianRecursiveGaussianFilterTest.cxx
+itkNormalizedCorrelationImageFilterTest.cxx
 itkTensorFractionalAnisotropyImageFilterTest.cxx
 itkTensorRelativeAnisotropyImageFilterTest.cxx
 itkVectorAnisotropicDiffusionImageFilterTest.cxx
