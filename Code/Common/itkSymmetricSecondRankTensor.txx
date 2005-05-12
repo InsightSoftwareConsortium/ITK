@@ -18,7 +18,7 @@
 #define _itkSymmetricSecondRankTensor_txx
 
 #include "itkSymmetricSecondRankTensor.h"
-#include "itkNumericTraits.h"
+#include "itkNumericTraitsTensorPixel.h"
 
 namespace itk
 {

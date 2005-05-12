@@ -60,6 +60,7 @@ public:
 #if defined(_MSC_VER) && _MSC_VER == 1300
   /** Type for real-valued operations.  */
   typedef double RealType;
+  typedef RealType ScalarRealType;
 #endif
 
   /** Additive identity. */
@@ -124,6 +125,7 @@ public:
   typedef unsigned char AbsType;
   typedef short AccumulateType;
   typedef double RealType;
+  typedef RealType ScalarRealType;
   static const char ITKCommon_EXPORT Zero;
   static const char ITKCommon_EXPORT One;
 
@@ -149,6 +151,7 @@ public:
   typedef unsigned char AbsType;
   typedef short AccumulateType;
   typedef double RealType;
+  typedef RealType ScalarRealType;
   static const signed char ITKCommon_EXPORT Zero;
   static const signed char ITKCommon_EXPORT One;
 
@@ -174,6 +177,7 @@ public:
   typedef unsigned char AbsType;
   typedef unsigned short AccumulateType;
   typedef double RealType;
+  typedef RealType ScalarRealType;
   static const unsigned char ITKCommon_EXPORT Zero;
   static const unsigned char ITKCommon_EXPORT One;
 
@@ -196,6 +200,7 @@ public:
   typedef unsigned short AbsType;
   typedef int AccumulateType;
   typedef double RealType;
+  typedef RealType ScalarRealType;
   static const short ITKCommon_EXPORT Zero;
   static const short ITKCommon_EXPORT One;
 
@@ -219,6 +224,7 @@ public:
   typedef unsigned short AbsType;
   typedef unsigned int AccumulateType;
   typedef double RealType;
+  typedef RealType ScalarRealType;
   static const unsigned short ITKCommon_EXPORT Zero;
   static const unsigned short ITKCommon_EXPORT One;
 
@@ -241,6 +247,7 @@ public:
   typedef unsigned int AbsType;
   typedef long AccumulateType;
   typedef double RealType;
+  typedef RealType ScalarRealType;
   static const int ITKCommon_EXPORT Zero;
   static const int ITKCommon_EXPORT One;
 
@@ -264,6 +271,7 @@ public:
   typedef unsigned int AbsType;
   typedef unsigned int AccumulateType;
   typedef double RealType;
+  typedef RealType ScalarRealType;
   static const unsigned int ITKCommon_EXPORT Zero;
   static const unsigned int ITKCommon_EXPORT One;
 
@@ -289,6 +297,7 @@ public:
   typedef unsigned long AbsType;
   typedef long AccumulateType;
   typedef double RealType;
+  typedef RealType ScalarRealType;
   static const long ITKCommon_EXPORT Zero;
   static const long ITKCommon_EXPORT One;
 
@@ -312,6 +321,7 @@ public:
   typedef unsigned long AbsType;
   typedef unsigned long AccumulateType;
   typedef double RealType;
+  typedef RealType ScalarRealType;
   static const unsigned long ITKCommon_EXPORT Zero;
   static const unsigned long ITKCommon_EXPORT One;
 
@@ -335,6 +345,7 @@ public:
   typedef float AbsType;
   typedef double AccumulateType;
   typedef double RealType;
+  typedef RealType ScalarRealType;
   static const float ITKCommon_EXPORT Zero;
   static const float ITKCommon_EXPORT One;
 
@@ -358,6 +369,7 @@ public:
   typedef double AbsType;
   typedef double AccumulateType;
   typedef double RealType;
+  typedef RealType ScalarRealType;
   static const double ITKCommon_EXPORT Zero;
   static const double ITKCommon_EXPORT One;
 
@@ -381,6 +393,7 @@ public:
   typedef long double AbsType;
   typedef long double AccumulateType;
   typedef long double RealType;
+  typedef RealType ScalarRealType;
   static const long double ITKCommon_EXPORT Zero;
   static const long double ITKCommon_EXPORT One;
 

@@ -21,6 +21,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned char, NDimensions> AbsType;
   typedef SymmetricSecondRankTensor<unsigned short, NDimensions> AccumulateType;
   typedef SymmetricSecondRankTensor<double, NDimensions> RealType;
+  typedef double ScalarRealType;
 };
 
 
@@ -36,6 +37,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned char, NDimensions> AbsType;
   typedef SymmetricSecondRankTensor<short, NDimensions> AccumulateType;
   typedef SymmetricSecondRankTensor<double, NDimensions> RealType;
+  typedef double ScalarRealType;
 };
 
 
@@ -51,6 +53,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned char, NDimensions> AbsType;
   typedef SymmetricSecondRankTensor<short, NDimensions> AccumulateType;
   typedef SymmetricSecondRankTensor<double, NDimensions> RealType;
+  typedef double ScalarRealType;
 };
 
 
@@ -66,6 +69,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned short, NDimensions> AbsType;
   typedef SymmetricSecondRankTensor<int, NDimensions> AccumulateType;
   typedef SymmetricSecondRankTensor<double, NDimensions> RealType;
+  typedef double ScalarRealType;
 };
 
 /** \class NumericTraits<SymmetricSecondRankTensor< unsigned short> >
@@ -80,6 +84,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned short, NDimensions> AbsType;
   typedef SymmetricSecondRankTensor<unsigned int, NDimensions> AccumulateType;
   typedef SymmetricSecondRankTensor<double, NDimensions> RealType;
+  typedef double ScalarRealType;
 };
 
 
@@ -95,6 +100,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned int, NDimensions> AbsType;
   typedef SymmetricSecondRankTensor<long, NDimensions> AccumulateType;
   typedef SymmetricSecondRankTensor<double, NDimensions> RealType;
+  typedef double ScalarRealType;
 };
 
 /** \class NumericTraits<SymmetricSecondRankTensor< unsigned int> >
@@ -109,6 +115,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned int, NDimensions> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, NDimensions> AccumulateType;
   typedef SymmetricSecondRankTensor<double, NDimensions> RealType;
+  typedef double ScalarRealType;
 };
 
 
@@ -124,6 +131,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned long, NDimensions> AbsType;
   typedef SymmetricSecondRankTensor<long, NDimensions> AccumulateType;
   typedef SymmetricSecondRankTensor<double, NDimensions> RealType;
+  typedef double ScalarRealType;
 };
 
 /** \class NumericTraits<SymmetricSecondRankTensor< unsigned long> >
@@ -153,6 +161,7 @@ public:
   typedef SymmetricSecondRankTensor<float, NDimensions> AbsType;
   typedef SymmetricSecondRankTensor<double, NDimensions> AccumulateType;
   typedef SymmetricSecondRankTensor<double, NDimensions> RealType;
+  typedef double ScalarRealType;
 };
 
 /** \class NumericTraits<SymmetricSecondRankTensor< double> >
@@ -167,6 +176,7 @@ public:
   typedef SymmetricSecondRankTensor<double, NDimensions> AbsType;
   typedef SymmetricSecondRankTensor<long double, NDimensions> AccumulateType;
   typedef SymmetricSecondRankTensor<double, NDimensions> RealType;
+  typedef double ScalarRealType;
 };
 
 /** \class NumericTraits<SymmetricSecondRankTensor< long double> >
@@ -181,8 +191,9 @@ public:
   typedef SymmetricSecondRankTensor<long double, NDimensions> AbsType;
   typedef SymmetricSecondRankTensor<long double, NDimensions> AccumulateType;
   typedef SymmetricSecondRankTensor<long double, NDimensions> RealType;
+  typedef long double ScalarRealType;
 };
 
 } // end namespace itk
 
-#endif // __itkNumericTraitsSymmetricSecondRankTensor_h  
+#endif // __itkNumericTraitsTensorPixel_h  
