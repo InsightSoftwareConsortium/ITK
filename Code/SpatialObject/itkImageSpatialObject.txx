@@ -205,7 +205,7 @@ ImageSpatialObject< TDimension,  PixelType >
     scaling[d] = spacing[d]; 
     offset[d]  = origin[d]; 
     } 
-  this->GetIndexToObjectTransform()->Scale( scaling ); 
+  this->GetIndexToObjectTransform()->SetScale( scaling ); 
   this->GetIndexToObjectTransform()->SetOffset( offset ); 
   this->ComputeObjectToParentTransform(); 
   this->Modified(); 
