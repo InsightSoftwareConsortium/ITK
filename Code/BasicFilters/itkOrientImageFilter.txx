@@ -349,7 +349,6 @@ OrientImageFilter<TInputImage, TOutputImage>
   return false;
 }
 
-
 template<class TInputImage, class TOutputImage>
 void
 OrientImageFilter<TInputImage, TOutputImage>
@@ -360,8 +359,8 @@ OrientImageFilter<TInputImage, TOutputImage>
   typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  // Allocate the output
-  this->AllocateOutputs();
+  // No need to allocate the output since the minipipeline does it
+  // this->AllocateOutputs();
 
   typedef PermuteAxesImageFilter< InputImageType >  PermuteFilterType;
   typedef FlipImageFilter < InputImageType > FlipFilterType;
@@ -370,22 +369,56 @@ OrientImageFilter<TInputImage, TOutputImage>
   typename PermuteFilterType::Pointer permute = PermuteFilterType::New();
   typename FlipFilterType::Pointer flip = FlipFilterType::New();
   typename CastToOutputFilterType::Pointer cast = CastToOutputFilterType::New();
+
   progress->RegisterInternalFilter(permute,.3333333);
   progress->RegisterInternalFilter(flip,.3333333);
   progress->RegisterInternalFilter(cast,.3333333);
 
-  permute->SetInput(this->GetInput());
-  permute->SetOrder(m_PermuteOrder);
-  permute->ReleaseDataFlagOn();
+  InputImagePointer permuteInput = const_cast< TInputImage *> (this->GetInput());
+  InputImagePointer flipInput = permuteInput;
+  InputImagePointer castInput = permuteInput;
 
-  flip->SetInput(permute->GetOutput());
-  flip->SetFlipAxes(m_FlipAxes);
-  flip->ReleaseDataFlagOn();
+  // Only run those filters that will do something
+  if (NeedToPermute())
+    {
+    permute->SetInput(permuteInput);
+    permute->SetOrder(m_PermuteOrder);
+    permute->ReleaseDataFlagOn();
 
-  cast->SetInput(flip->GetOutput());
-  cast->Update();
+    flipInput = permute->GetOutput();
+    castInput = permute->GetOutput();
+    }
+  else
+    {
+    itkDebugMacro("No need to permute");
+    }
+  if (NeedToFlip())
+    {
+    flip->SetInput(flipInput);
+    flip->SetFlipAxes(m_FlipAxes);
+    flip->ReleaseDataFlagOn();
 
-  this->GraftOutput( cast->GetOutput() );
+    castInput = flip->GetOutput();
+    }
+  else
+    {
+    itkDebugMacro( << "No need to flip");
+    }
+
+  if (typeid(TInputImage) != typeid(TOutputImage))
+    {
+    cast->SetInput(castInput);
+    cast->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
+    cast->Update();
+    this->GraftOutput( cast->GetOutput() );
+    }
+  else
+    {
+    castInput->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
+    castInput->Update();
+    this->GraftOutput( castInput );
+    itkDebugMacro( << "No need to cast");
+    }
 
   this->GetOutput()->SetMetaDataDictionary( this->GetInput()->GetMetaDataDictionary() );
 
