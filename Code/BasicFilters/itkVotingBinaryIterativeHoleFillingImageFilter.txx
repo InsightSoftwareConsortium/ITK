@@ -68,22 +68,28 @@ VotingBinaryIterativeHoleFillingImageFilter< TInputImage >
 
   typename OutputImageType::Pointer output;
 
+  ProgressReporter progress(this, 0, m_MaximumNumberOfIterations);
+
   while ( m_CurrentNumberOfIterations < m_MaximumNumberOfIterations )
     {
     filter->SetInput( input );
     filter->Update();
+    
     m_CurrentNumberOfIterations++;
+    progress.CompletedPixel();   // not really a pixel but an iteration
+    this->InvokeEvent( IterationEvent() );
+    
     const unsigned int numberOfPixelsChangedInThisIteration =
                               filter->GetNumberOfPixelsChanged();
+    m_NumberOfPixelsChanged += numberOfPixelsChangedInThisIteration;
+
+    output = filter->GetOutput();
+    output->DisconnectPipeline();
+    input = output;
     if( numberOfPixelsChangedInThisIteration == 0 )
       {
       break;
       }
-    m_NumberOfPixelsChanged += numberOfPixelsChangedInThisIteration;
-    output = filter->GetOutput();
-    output->DisconnectPipeline();
-    input = output;
-    this->InvokeEvent( IterationEvent() );
     }
   this->GraftOutput( output );
 }
