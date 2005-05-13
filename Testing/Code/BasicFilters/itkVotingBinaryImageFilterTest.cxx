@@ -76,6 +76,7 @@ int itkVotingBinaryImageFilterTest(int, char* [] )
 
   // run the algorithm
   voting->Update();
+  voting->Print(std::cout);
 
   itk::ImageRegionIterator<ImageType> it;
   it = itk::ImageRegionIterator<ImageType>(random->GetOutput(),
