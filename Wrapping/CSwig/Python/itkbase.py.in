@@ -16,7 +16,7 @@ pkgdir = @ITK_CSWIG_PACKAGE_DIR@
 #
 # setdlopenflags(...)
 #     setdlopenflags(n) -> None
-#     
+#
 #     Set the flags that will be used for dlopen() calls. Among other
 #     things, this will enable a lazy resolving of symbols when
 #     importing a module, if called as sys.setdlopenflags(0) To share
@@ -27,16 +27,26 @@ pkgdir = @ITK_CSWIG_PACKAGE_DIR@
 # GCC 3.x depends on proper merging of symbols for RTTI:
 #   http://gcc.gnu.org/faq.html#dso
 #
+# The Python setup.py states that the "dl" module
+# requires "sizeof(int) == sizeof(long) == sizeof(char*)".
+# Therefore the dl module is missing on 64-bit platforms.
+# Since RTLD_NOW==0x002 and RTLD_GLOBAL==0x100 very commonly
+# we will just guess that the proper flags are 0x102 when there
+# is no dl module.
 
 def preimport():
   """Called by InsightToolkit packages before loading a C module."""
   # Save the current dlopen flags and set the ones we need.
   try:
     import dl
-    flags = sys.getdlopenflags()
-    sys.setdlopenflags(dl.RTLD_NOW|dl.RTLD_GLOBAL)
+    newflags = dl.RTLD_NOW|dl.RTLD_GLOBAL
   except:
-    flags = None
+    newflags = 0x102  # No dl module, so guess (see above).
+  try:
+    oldflags = sys.getdlopenflags()
+    sys.setdlopenflags(newflags)
+  except:
+    oldflags = None
   # Save the current working directory and change to that containing
   # the python wrapper libraries.  They have '.' in their rpaths, so
   # they will find the libraries on which they depend.
@@ -44,7 +54,7 @@ def preimport():
   os.chdir(pkgdir)
   # Add the binary package directory to the python module search path.
   sys.path.insert(1, pkgdir)
-  return [cwd, flags]
+  return [cwd, oldflags]
 
 def postimport(data):
   """Called by InsightToolkit packages after loading a C module."""
