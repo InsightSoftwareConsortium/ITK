@@ -40,6 +40,7 @@ itkStimulateImageIOTest2.cxx
 itkTIFFImageIOTest.cxx
 itkTransformIOTest.cxx
 itkVTKImageIOTest.cxx
+itkVectorImageReadWriteTest.cxx
 testMetaBlob.cxx
 testMetaGroup.cxx
 testMetaImage.cxx
@@ -85,6 +86,9 @@ ADD_TEST(itkRawImageIOTest3 ${IO_TESTS} itkRawImageIOTest3
 )
 ADD_TEST(itkRawImageIOTest4 ${IO_TESTS} itkRawImageIOTest4
                            ${TEMP}/bigendian.raw ${TEMP}/littleendian.raw
+)
+ADD_TEST(itkVectorImageReadWriteTest ${IO_TESTS} itkVectorImageReadWriteTest
+                           ${TEMP}/VectorImageReadWriteTest.mhd
 )
 
 ADD_TEST(itkStimulateImageIOTest ${IO_TESTS} itkStimulateImageIOTest
