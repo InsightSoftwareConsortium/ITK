@@ -47,16 +47,16 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
 template <class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType>
 void 
 NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperatorValueType>
-::GenerateInputRequestedRegion()
+::GenerateInputRequestedRegion() throw (InvalidRequestedRegionError)
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // Superclass handled the input image, now we just need to handle
   // the mask image is any.
-  typename InputImagePointer  inputPtr = 
+  InputImagePointer  inputPtr = 
     const_cast< TInputImage * >( this->GetInput() );
-  typename MaskImagePointer  maskPtr = 
+  MaskImagePointer  maskPtr = 
     const_cast< TMaskImage * >( this->GetMaskImage() );
   
   if ( !inputPtr || !maskPtr )
@@ -111,14 +111,14 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   // Normalize the template in a local variable. This will simplify
   // the calculations later.
   //
-  typedef Neighborhood<NumericTraits<OperatorValueType>::RealType, ImageDimension> NormalizedTemplateType;
-  typedef NumericTraits<OutputPixelType>::RealType OutputPixelRealType;
+  typedef Neighborhood<typename NumericTraits<OperatorValueType>::RealType, ImageDimension> NormalizedTemplateType;
+  typedef typename NumericTraits<OutputPixelType>::RealType OutputPixelRealType;
 
   NormalizedTemplateType normalizedTemplate;
   normalizedTemplate.SetRadius( this->GetOperator().GetRadius() );
 
-  NormalizedTemplateType::Iterator ntIt;
-  OutputNeighborhoodType::ConstIterator tIt;
+  typename NormalizedTemplateType::Iterator ntIt;
+  typename OutputNeighborhoodType::ConstIterator tIt;
 
   OutputPixelRealType sum = 0.0;
   OutputPixelRealType sumOfSquares = 0.0;
