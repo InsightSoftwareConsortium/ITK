@@ -21,7 +21,6 @@
 
 #include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkReflectiveImageRegionConstIterator.h"
-#include "itkImageRegionExclusionIteratorWithIndex.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk
