@@ -111,7 +111,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   // Normalize the template in a local variable. This will simplify
   // the calculations later.
   //
-  typedef Neighborhood<typename NumericTraits<OperatorValueType>::RealType, ImageDimension> NormalizedTemplateType;
+  typedef Neighborhood<ITK_TYPENAME NumericTraits<OperatorValueType>::RealType, ImageDimension> NormalizedTemplateType;
   typedef typename NumericTraits<OutputPixelType>::RealType OutputPixelRealType;
 
   NormalizedTemplateType normalizedTemplate;
@@ -208,7 +208,6 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
         sum = 0.0;
         sumOfSquares = 0.0;
         numerator = 0.0;
-        denominator = 0.0;
         for (i=0; i < templateSize; ++i)
           {
           value = static_cast<OutputPixelRealType>(bit.GetPixel(i));
@@ -245,7 +244,6 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
           sum = 0.0;
           sumOfSquares = 0.0;
           numerator = 0.0;
-          denominator = 0.0;
           for (i=0; i < templateSize; ++i)
             {
             value = static_cast<OutputPixelRealType>(bit.GetPixel(i));
