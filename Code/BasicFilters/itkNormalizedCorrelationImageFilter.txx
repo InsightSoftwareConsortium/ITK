@@ -170,9 +170,6 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   ProgressReporter progress(this, threadId,
                             outputRegionForThread.GetNumberOfPixels());
     
-  // Set up the boundary condition to have no upwind derivatives
-  ZeroFluxNeumannBoundaryCondition<TInputImage> BC;
-
   // Process non-boundary region and each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
   ConstNeighborhoodIterator<InputImageType> bit;
@@ -193,7 +190,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
     bit =
       ConstNeighborhoodIterator<InputImageType>(normalizedTemplate.GetRadius(),
                                                 input, *fit);
-    bit.OverrideBoundaryCondition(&BC);
+    bit.OverrideBoundaryCondition(this->GetBoundaryCondition());
     bit.GoToBegin();
 
     it = ImageRegionIterator<OutputImageType>(output, *fit);

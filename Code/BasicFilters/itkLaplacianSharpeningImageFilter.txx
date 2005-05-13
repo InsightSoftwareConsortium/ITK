@@ -119,10 +119,10 @@ LaplacianSharpeningImageFilter< TInputImage, TOutputImage >
   // do calculations in floating point
   typedef Image<RealType, ImageDimension> RealImageType;
   typedef NeighborhoodOperatorImageFilter<InputImageType, RealImageType> NOIF;
-  ZeroFluxNeumannBoundaryCondition<RealImageType> nbc;
+  ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
   
   typename NOIF::Pointer filter = NOIF::New();
-  filter->OverrideBoundaryCondition(&nbc);
+  filter->OverrideBoundaryCondition(static_cast<typename NOIF::ImageBoundaryConditionPointerType>(&nbc));
 
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();

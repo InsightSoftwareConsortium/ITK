@@ -125,6 +125,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>
     bit =
       ConstNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(),
                                                 input, *fit);
+    bit.OverrideBoundaryCondition( m_BoundsCondition );
     it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.GoToBegin();
     while ( ! bit.IsAtEnd() )

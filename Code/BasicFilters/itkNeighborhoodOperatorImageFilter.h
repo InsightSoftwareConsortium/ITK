@@ -21,6 +21,7 @@
 #include "itkNeighborhoodOperator.h"
 #include "itkImage.h"
 #include "itkImageBoundaryCondition.h"
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 
 namespace itk
 {
@@ -77,8 +78,11 @@ public:
   typedef typename InputImageType::Pointer InputImagePointer;
   
   /** Typedef for generic boundary condition pointer. */
-  typedef ImageBoundaryCondition<OutputImageType> *
+  typedef ImageBoundaryCondition<InputImageType> *
   ImageBoundaryConditionPointerType;
+
+  /** Typedef for the default boundary condition */
+  typedef ZeroFluxNeumannBoundaryCondition<InputImageType> DefaultBoundaryCondition;
 
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
@@ -108,6 +112,10 @@ public:
   void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
   { m_BoundsCondition = i; }
 
+  /** Get the boundary condition specified */
+  ImageBoundaryConditionPointerType GetBoundaryCondition()
+    { return m_BoundsCondition; }
+  
   /** NeighborhoodOperatorImageFilter needs a larger input requested
    * region than the output requested region.  As such,
    * NeighborhoodOperatorImageFilter needs to provide an implementation for
@@ -118,7 +126,8 @@ public:
   virtual void GenerateInputRequestedRegion() throw (InvalidRequestedRegionError);
 
 protected:
-  NeighborhoodOperatorImageFilter() {}
+  NeighborhoodOperatorImageFilter()
+    { m_BoundsCondition = static_cast<ImageBoundaryConditionPointerType>(&m_DefaultBoundaryCondition); }
   virtual ~NeighborhoodOperatorImageFilter() {}
     
   /** NeighborhoodOperatorImageFilter can be implemented as a
@@ -148,6 +157,9 @@ private:
   /** Pointer to a persistent boundary condition object used
    * for the image iterator. */
   ImageBoundaryConditionPointerType m_BoundsCondition;
+
+  /** Default boundary condition */
+  DefaultBoundaryCondition m_DefaultBoundaryCondition;
 
 };
   
