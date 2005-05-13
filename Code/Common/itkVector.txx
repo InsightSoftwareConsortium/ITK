@@ -22,7 +22,7 @@
 #include <vnl/vnl_math.h>
 #include "vnl/vnl_vector.h"
 #include "itkObject.h"
-
+#include "itkNumericTraitsVectorPixel.h"
 
 namespace itk
 {

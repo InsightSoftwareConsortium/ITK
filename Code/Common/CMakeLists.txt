@@ -31,6 +31,7 @@ SET(ITKCommon_SRCS
   itkMutexLock.cxx
   itkNumericTraits.cxx
   itkNumericTraitsRGBPixel.cxx
+  itkNumericTraitsVectorPixel.cxx
   itkObject.cxx
   itkObjectFactoryBase.cxx
   itkOneWayEquivalencyTable.cxx
