@@ -317,6 +317,7 @@ namespace ImageToImageFilterDetail
                       ComparisonType(),
                       destRegion, srcRegion);
     }
+    virtual ~ImageRegionCopier() {}
   };
 
 

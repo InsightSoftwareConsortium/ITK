@@ -79,6 +79,7 @@ public:
   virtual PixelType operator()(const OffsetType& point_index,
                                const OffsetType &boundary_offset,
                                  const NeighborhoodType *data) const = 0;
+  virtual ~ImageBoundaryCondition() {}
 };
   
 }// end namespace itk

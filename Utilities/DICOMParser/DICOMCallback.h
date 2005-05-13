@@ -53,6 +53,7 @@ class DICOM_EXPORT DICOMCallback
                        DICOMParser::VRTypes type,
                        unsigned char* val,
                        quadbyte len) = 0;
+  virtual ~DICOMCallback() {}
 };
 
 //
