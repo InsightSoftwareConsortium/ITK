@@ -418,7 +418,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
     }
   else
     {
-    int bin = 0;
+    typename HistogramType::SizeType::SizeValueType  bin = 0;
     typename HistogramType::IndexType index;
     RealType total = 0;
 
