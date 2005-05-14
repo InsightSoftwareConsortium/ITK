@@ -57,6 +57,12 @@ ExhaustiveOptimizer
   itkDebugMacro("StartWalking");
   this->InvokeEvent( StartEvent() );
 
+  m_MinimumMetricValuePosition = this->GetInitialPosition();
+  m_MaximumMetricValuePosition = this->GetInitialPosition();
+
+  m_MaximumMetricValue = this->GetValue( m_MaximumMetricValuePosition );
+  m_MinimumMetricValue = this->GetValue( m_MinimumMetricValuePosition );
+  
   m_CurrentIteration          = 0;
   m_MaximumNumberOfIterations = 1;
   
@@ -103,7 +109,7 @@ ExhaustiveOptimizer
       break;
       }
 
-    m_CurrentValue = GetValue( currentPosition );
+    m_CurrentValue = this->GetValue( currentPosition );
     
     if (m_CurrentValue > m_MaximumMetricValue) 
       {
