@@ -538,7 +538,6 @@ ComputeEigenValuesAndVectorsUsingQL(VectorType &d, double *e, double *z) const
   double s2;
   double dl1, el1;
   double tst1, tst2;
-  int order = static_cast< int >( m_Order );
 
   unsigned int ierr = 0;
   if (m_Order == 1) 
