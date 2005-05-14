@@ -52,6 +52,7 @@
 #include "itkNaryFunctorImageFilter.h"
 #include "itkNeighborhoodConnectedImageFilter.h"
 #include "itkNeighborhoodOperatorImageFilter.h"
+#include "itkMaskNeighborhoodOperatorImageFilter.h"
 #include "itkNoiseImageFilter.h"
 #include "itkNonThreadedShrinkImageFilter.h"
 #include "itkNormalizeImageFilter.h"
@@ -252,6 +253,10 @@ int itkBasicFiltersPrintTest2(int , char* [])
   itk::NeighborhoodOperatorImageFilter<InputType,OutputType>::Pointer NeighborhoodOperatorImageFilterObj =
     itk::NeighborhoodOperatorImageFilter<InputType,OutputType>::New();
   std::cout << "-------------NeighborhoodOperatorImageFilter" << NeighborhoodOperatorImageFilterObj;
+
+  itk::MaskNeighborhoodOperatorImageFilter<InputType,InputType,OutputType>::Pointer MaskNeighborhoodOperatorImageFilterObj =
+    itk::MaskNeighborhoodOperatorImageFilter<InputType,InputType,OutputType>::New();
+  std::cout << "-------------MaskNeighborhoodOperatorImageFilter" << MaskNeighborhoodOperatorImageFilterObj;
 
   itk::NoiseImageFilter<InputType,OutputType>::Pointer NoiseImageFilterObj =
     itk::NoiseImageFilter<InputType,OutputType>::New();

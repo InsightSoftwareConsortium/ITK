@@ -175,6 +175,16 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
     }
 }
 
+template< class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType>
+void
+MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOperatorValueType>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  os << indent << "Default value : "
+     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>( m_DefaultValue )<< std::endl;
+}
+
 } // end namespace itk
 
 #endif

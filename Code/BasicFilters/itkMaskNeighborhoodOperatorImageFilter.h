@@ -108,6 +108,7 @@ public:
 protected:
   MaskNeighborhoodOperatorImageFilter() : m_DefaultValue( NumericTraits<OutputPixelType>::Zero ){}
   virtual ~MaskNeighborhoodOperatorImageFilter() {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
     
   /** MaskNeighborhoodOperatorImageFilter needs to request enough of an
    * input image to account for template size.  The input requested
@@ -130,10 +131,6 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
-  /** Standard PrintSelf method */
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {  Superclass::PrintSelf(os, indent); }
-  
 private:
   MaskNeighborhoodOperatorImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
