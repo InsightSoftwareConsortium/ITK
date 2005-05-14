@@ -45,7 +45,7 @@ ExhaustiveOptimizer
 
 void ExhaustiveOptimizer::StartOptimization( void )
 {
-  StartWalking();
+  this->StartWalking();
 }
 
 
@@ -120,7 +120,7 @@ ExhaustiveOptimizer
     
     if( m_Stop )
       {
-      StopWalking();
+      this->StopWalking();
       break;
       }
 
@@ -241,7 +241,6 @@ ExhaustiveOptimizer
   os << indent << "MinimumMetricValue = " << m_MinimumMetricValue << std::endl;
   os << indent << "MinimumMetricValuePosition = " << m_MinimumMetricValuePosition << std::endl;
   os << indent << "MaximumMetricValuePosition = " << m_MaximumMetricValuePosition << std::endl;
-
 }
 
  
