@@ -34,8 +34,6 @@ int itkVectorImageReadWriteTest(int argc, char * argv [])
   // and (1,6) set to 'vector1'. We will filter it using 
   // RecursiveGaussianImageFilter and compare a few filtered pixels.
   // 
-  const double       tolerance = 0.001; 
-  
   //Create ON and OFF vectors
   PixelType vector0(0.0);
   PixelType vector1;
