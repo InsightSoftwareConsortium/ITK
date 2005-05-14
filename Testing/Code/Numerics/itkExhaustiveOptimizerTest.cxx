@@ -136,14 +136,29 @@ int itkExhaustiveOptimizerTest(int, char* [] )
 
   // We start not so far from  | 2 -2 |
   ParametersType  initialPosition( spaceDimension );
-  initialPosition[0] =  100;
-  initialPosition[1] = -100;
+  initialPosition[0] =  0.0;
+  initialPosition[1] = -4.0;
   
+  itkOptimizer->SetInitialPosition( initialPosition );
+
+
   ScalesType    parametersScale( spaceDimension );
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
 
   itkOptimizer->SetScales( parametersScale );
+
+
+  itkOptimizer->SetStepLength( 1.0 );
+
+
+  typedef OptimizerType::StepsType  StepsType;
+  StepsType steps( 2 );
+  steps[0] = 10;
+  steps[1] = 10;
+
+  itkOptimizer->SetNumberOfSteps( steps );
+
 
   try 
     {
@@ -159,7 +174,13 @@ int itkExhaustiveOptimizerTest(int, char* [] )
     }
 
 
-  ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
+  std::cout << "MinimumMetricValue = " << itkOptimizer->GetMinimumMetricValue() << std::endl;
+  std::cout << "Minimum Position = " << itkOptimizer->GetMinimumMetricValuePosition() << std::endl;
+
+  std::cout << "MaximumMetricValue = " << itkOptimizer->GetMaximumMetricValue() << std::endl;
+  std::cout << "Maximum Position = " << itkOptimizer->GetMaximumMetricValuePosition() << std::endl;
+
+  ParametersType finalPosition = itkOptimizer->GetMinimumMetricValuePosition();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << "," ;
   std::cout << finalPosition[1] << ")" << std::endl;  
@@ -184,6 +205,8 @@ int itkExhaustiveOptimizerTest(int, char* [] )
     }
 
 
+  std::cout << "Testing PrintSelf " << std::endl;
+  itkOptimizer->Print( std::cout );
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
