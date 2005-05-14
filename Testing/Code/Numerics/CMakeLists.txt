@@ -18,6 +18,7 @@ ADD_TEST(itkAmoebaOptimizerTest ${NUMERICS_TESTS} itkAmoebaOptimizerTest)
 ADD_TEST(itkCompositeValleyFunctionTest ${NUMERICS_TESTS} itkCompositeValleyFunctionTest)
 ADD_TEST(itkConjugateGradientOptimizerTest ${NUMERICS_TESTS} itkConjugateGradientOptimizerTest)
 ADD_TEST(itkCumulativeGaussianOptimizerTest ${NUMERICS_TESTS} itkCumulativeGaussianOptimizerTest)
+ADD_TEST(itkExhaustiveOptimizerTest ${NUMERICS_TESTS} itkExhaustiveOptimizerTest)
 ADD_TEST(itkFRPROptimizerTest ${NUMERICS_TESTS} itkFRPROptimizerTest)
 ADD_TEST(itkGradientDescentOptimizerTest ${NUMERICS_TESTS} itkGradientDescentOptimizerTest)
 ADD_TEST(itkLBFGSBOptimizerTest ${NUMERICS_TESTS} itkLBFGSBOptimizerTest)
@@ -40,6 +41,7 @@ itkAmoebaOptimizerTest.cxx
 itkCompositeValleyFunctionTest.cxx
 itkConjugateGradientOptimizerTest.cxx
 itkCumulativeGaussianOptimizerTest.cxx
+itkExhaustiveOptimizerTest.cxx
 itkFRPROptimizerTest.cxx
 itkGradientDescentOptimizerTest.cxx
 itkLBFGSBOptimizerTest.cxx
