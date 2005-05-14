@@ -159,8 +159,6 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 ::GenerateData(void)
 {
 
-  itkDebugMacro(<< "GradientRecursiveGaussianImageFilter generating data ");
-
   m_Progress->ResetProgress();
 
   const typename TInputImage::ConstPointer   inputImage( this->GetInput() );
