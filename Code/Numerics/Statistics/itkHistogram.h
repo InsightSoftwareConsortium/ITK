@@ -328,7 +328,11 @@ public:
    * max - ((pp - p) / pb) * interval  */
   double Quantile(const unsigned int dimension, const double &p) const;
 
-  /** iterator support */
+ protected:
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
+public:
+ /** iterator support */
 
   class Iterator
   {
@@ -489,7 +493,6 @@ public:
 protected:
   Histogram() ;
   virtual ~Histogram() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
   // The number of bins for each dimension
   SizeType m_Size ;
