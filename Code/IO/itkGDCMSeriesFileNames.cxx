@@ -20,6 +20,7 @@
 #include "itkGDCMSeriesFileNames.h"
 #include "gdcm/src/gdcmSerieHelper.h"
 #include "gdcm/src/gdcmFile.h"
+#include "gdcm/src/gdcmUtil.h"
 #include <itksys/SystemTools.hxx>
 
 #include <vector>
@@ -28,7 +29,103 @@
 namespace itk
 {
 
-const std::vector<std::string> &GDCMSeriesFileNames::GetInputFileNames() 
+GDCMSeriesFileNames::GDCMSeriesFileNames()
+{
+  m_SerieHelper = new gdcm::SerieHelper();
+  m_Directory = "";
+}
+
+GDCMSeriesFileNames::~GDCMSeriesFileNames()
+{
+  delete m_SerieHelper;
+}
+
+const SerieUIDContainer &GDCMSeriesFileNames::GetSeriesUIDs() 
+{
+  if ( m_Directory == "" )
+    {
+    itkWarningMacro( << "You need to specify a directory where "
+      "the DICOM files are located");
+    }
+  m_SeriesUIDs.clear();
+  // Accessing the first serie found (assume there is at least one)
+  gdcm::GdcmFileList *flist = m_SerieHelper->GetFirstCoherentFileList();
+  while(flist)
+    {
+    if( flist->size() ) //make sure we have at leat one serie
+      {
+      gdcm::File *file = (*flist)[0]; //for example take the first one
+      std::string uid = file->GetEntryValue (0x0020, 0x000e); 
+      m_SeriesUIDs.push_back( uid );
+      }
+    flist = m_SerieHelper->GetNextCoherentFileList();
+    }
+  if( !m_SeriesUIDs.size() )
+    {
+    itkWarningMacro(<<"No Series were found");
+    }
+  return m_SeriesUIDs;
+}
+
+const FilenamesContainer &GDCMSeriesFileNames::GetFileNames(const std::string serie) 
+{
+  m_FileNames.clear();
+  // Accessing the first serie found (assume there is at least one)
+  gdcm::GdcmFileList *flist = m_SerieHelper->GetFirstCoherentFileList();
+  bool found = false;
+  while(flist)
+    {
+    if( flist->size() ) //make sure we have at leat one serie
+      {
+      gdcm::File *file = (*flist)[0]; //for example take the first one
+      std::string uid = file->GetEntryValue (0x0020, 0x000e); 
+      // We need to use a specialized call to compare those two strings:
+      if( gdcm::Util::DicomStringEqual(uid, serie.c_str()) )
+        {
+        found = true; // we found a match
+        break;
+        }
+      }
+    flist = m_SerieHelper->GetNextCoherentFileList();
+    }
+  if( !found)
+    {
+    itkWarningMacro(<<"No Series were found");
+    return m_FileNames;
+    }
+  m_SerieHelper->OrderGdcmFileList(flist);
+
+  gdcm::GdcmFileList::iterator it;
+  if( flist->size() )
+    {
+    for(it = flist->begin(); 
+        it != flist->end(); ++it )
+      {
+        gdcm::File * header = *it;
+        if( !header )
+          {
+          itkWarningMacro( << "GDCMSeriesFileNames got NULL header, "
+            "this is a serious bug" );
+          continue;
+          }
+        if( !header->IsReadable() )
+          {
+          itkWarningMacro( << "GDCMSeriesFileNames got a non DICOM file:" 
+            << header->GetFileName() );
+          continue;
+          }
+        m_FileNames.push_back( header->GetFileName() );
+      }
+    }
+  else
+    {
+    itkDebugMacro(<<"No files were found");
+    }
+
+  return m_FileNames;
+}
+
+const FilenamesContainer &GDCMSeriesFileNames::GetInputFileNames() 
 {
   m_InputFileNames.clear();
   // Get the DICOM filenames from the directory
@@ -47,12 +144,14 @@ const std::vector<std::string> &GDCMSeriesFileNames::GetInputFileNames()
         gdcm::File * header = *it;
         if( !header )
           {
-          std::cerr << "GDCMSeriesFileNames got NULL header, this is a serious bug" << std::endl;
+          itkWarningMacro( << "GDCMSeriesFileNames got NULL header, "
+            "this is a serious bug" );
           continue;
           }
         if( !header->IsReadable() )
           {
-          std::cerr << "GDCMSeriesFileNames got a non DICOM file:" << header->GetFileName() << std::endl;
+          itkWarningMacro( << "GDCMSeriesFileNames got a non DICOM file:" 
+            << header->GetFileName() );
           continue;
           }
         m_InputFileNames.push_back( header->GetFileName() );
@@ -67,7 +166,7 @@ const std::vector<std::string> &GDCMSeriesFileNames::GetInputFileNames()
   return m_InputFileNames;
 }
 
-const std::vector<std::string> &GDCMSeriesFileNames::GetOutputFileNames() 
+const FilenamesContainer &GDCMSeriesFileNames::GetOutputFileNames() 
 {
   // We are trying to extract the original filename and compose it with a path:
 

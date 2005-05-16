@@ -21,6 +21,7 @@
 #include "itkObjectFactory.h"
 #include "itkExceptionObject.h"
 #include <vector>
+#include "gdcm/src/gdcmSerieHelper.h"
 
 namespace itk
 {
@@ -42,6 +43,8 @@ namespace itk
  * \ingroup IOFilters
  *
  */
+typedef std::vector<std::string> FilenamesContainer;
+typedef std::vector<std::string> SerieUIDContainer;
 class ITK_EXPORT GDCMSeriesFileNames : public Object
 {
 public:
@@ -76,9 +79,18 @@ public:
     this->Modified();
     }
 
+  /** Set the directory that contains the DICOM series. */
+  void SetDirectory (std::string const &name)
+    {
+    m_Directory = name;
+    m_SerieHelper->SetDirectory( name ); //as a side effect it also execute
+    m_SerieHelper->Print();
+    this->Modified();
+    }
+
   /** Returns a vector containing the series' file names. The file
    * names are ordered by the strategy define in header. */
-  const std::vector<std::string> &GetInputFileNames () ;
+  const FilenamesContainer &GetInputFileNames () ;
 
   /** Set the directory where the output DICOM serie should be written. */
   void SetOutputDirectory (std::string const &name)
@@ -92,11 +104,24 @@ public:
    * This could be dangerous if the writting has change 3d position
    * or some other DICOM tag in the header
    */
-  const std::vector<std::string> &GetOutputFileNames () ;
+  const FilenamesContainer &GetOutputFileNames () ;
+
+  /** Returns a vector containing the series' file names. The file
+   * names are ordered by the strategy define in header. 
+   * All DICOM files have the same exact UID equal to the one user's 
+   * specified.
+   */
+  const FilenamesContainer &GetFileNames(const std::string serie);
+
+  /** Returns a vector containing all the UIDs found when parsing the
+   * direcory specified via SetDirectory. If no direcory is specified 
+   * return an empty vector
+   */
+  const SerieUIDContainer &GetSeriesUIDs();
 
 protected:
-  GDCMSeriesFileNames() {};
-  ~GDCMSeriesFileNames() {};
+  GDCMSeriesFileNames();
+  ~GDCMSeriesFileNames();
   void PrintSelf(std::ostream& os, Indent indent) const;
   
 private:
@@ -109,9 +134,21 @@ private:
   /** Contains the output directory where the DICOM serie should be written */
   std::string m_OutputDirectory;
 
+  /** Contains the directory where the DICOM serie is found */
+  std::string m_Directory;
+
   /** Internal structure to keep the list of input/output filenames */
-  std::vector<std::string>  m_InputFileNames;
-  std::vector<std::string>  m_OutputFileNames;
+  FilenamesContainer  m_InputFileNames;
+  FilenamesContainer  m_OutputFileNames;
+
+  /** Internal structure to order serie from one directory */
+  gdcm::SerieHelper *m_SerieHelper;
+
+  /** Internal structure to keep the list of input/output filenames */
+  FilenamesContainer  m_FileNames;
+
+  /** Internal structure to keep the list of series UIDs */
+  SerieUIDContainer m_SeriesUIDs;
 };
 
 } //namespace ITK
