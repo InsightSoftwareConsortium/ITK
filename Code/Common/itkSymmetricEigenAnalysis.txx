@@ -40,7 +40,7 @@ ComputeEigenValues(const TMatrix  & A,
     {
     for( unsigned int col=0; col < m_Dimension; col++ )
       {
-      inputMatrix[k++] = A[row][col];
+      inputMatrix[k++] = A(row,col);
       }
     }
 
@@ -75,7 +75,7 @@ ComputeEigenValuesAndVectors(
     {
     for( unsigned int col=0; col < m_Dimension; col++ )
       {
-      inputMatrix[k++] = A[row][col];
+      inputMatrix[k++] = A(row,col);
       }
     }
 
