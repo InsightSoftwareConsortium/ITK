@@ -95,6 +95,14 @@ public:
       result *= value;
       return result; }
 
+  /** Return an element of the matrix. */
+  inline T & operator()( unsigned int row, unsigned int col )
+    { return m_Matrix(row,col); }
+
+  /** Return an element of the matrix. */
+  inline const T & operator()( unsigned int row, unsigned int col ) const
+    { return m_Matrix(row,col); }
+
   /** Return a row of the matrix. */
   inline T * operator[]( unsigned int i )
     { return m_Matrix[i]; }
