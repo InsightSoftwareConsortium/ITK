@@ -108,7 +108,22 @@ int itkMatrixTest(int, char* [] )
     std::cerr << "Problem accessing matrix element " << std::endl;
     return EXIT_FAILURE;
     }
-  
+
+  // Test access with the operator()(row,col)
+  const NumericType value2 = 19;
+  matrix5(1,1) = value2;
+  if( matrix5[1][1] != value2 )
+    {
+    std::cerr << "Problem accessing matrix element " << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( matrix5(1,1) != value2 )
+    {
+    std::cerr << "Problem accessing matrix element " << std::endl;
+    return EXIT_FAILURE;
+    }
+ 
+ 
   MatrixType matrix6 = matrix5 * 2.5;
 
   matrix6 *= 1.3;
