@@ -86,7 +86,7 @@ ConjugateGradientOptimizer
 /** Return Current Value */
 ConjugateGradientOptimizer::MeasureType
 ConjugateGradientOptimizer
-::GetValue()
+::GetValue() const
 {
   ParametersType parameters = this->GetCurrentPosition();
   if(m_ScalesInitialized)

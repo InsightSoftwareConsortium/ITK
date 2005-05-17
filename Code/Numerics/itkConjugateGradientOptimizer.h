@@ -65,7 +65,7 @@ public:
   unsigned long GetCurrentIteration(void) const;
 
   /** Return Current Value */
-  MeasureType GetValue();
+  MeasureType GetValue() const;
 
 protected:
   ConjugateGradientOptimizer();
