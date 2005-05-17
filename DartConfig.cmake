@@ -1,6 +1,6 @@
 # Dashboard is opened for submissions for a 24 hour period starting at
 # the specified NIGHLY_START_TIME. Time is specified in 24 hour format.
-SET (NIGHTLY_START_TIME "1:00:00 EDT")
+SET (NIGHTLY_START_TIME "21:00:00 EDT")
 
 # Dart server to submit results (used by client)
 IF(NOT DROP_METHOD)
@@ -17,14 +17,14 @@ ELSE(DROP_METHOD MATCHES http)
 ENDIF(DROP_METHOD MATCHES http)
 
 SET (TRIGGER_SITE 
-  "http://${DROP_SITE}/cgi-bin/Submit-Insight-TestingResults.pl")
+  "http://${DROP_SITE}/cgi-bin/Submit-Insight-TestingResults.cgi")
 
 # Project Home Page
 SET (PROJECT_URL "http://www.itk.org/")
 
 # Dart server configuration 
 SET (ROLLUP_URL "http://${DROP_SITE}/cgi-bin/insight-rollup-dashboard.sh")
-SET (CVS_WEB_URL "http://${DROP_SITE}/cgi-bin/cvsweb.cgi/Insight/")
+SET (CVS_WEB_URL "http://${DROP_SITE}/cgi-bin/viewcvs.cgi/")
 SET (CVS_WEB_CVSROOT "Insight")
 
 OPTION(BUILD_DOXYGEN "Build source documentation using doxygen" "Off")
