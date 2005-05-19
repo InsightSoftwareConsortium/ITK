@@ -42,8 +42,7 @@ struct GetHistogramDimension
 }; 
   
 /** \class Histogram 
- *  \brief This class stores measurement vectors in the context of n-dimensional
- *  histogram.
+ *  \brief This class stores measurement vectors in the context of n-dimensional histogram.
  *
  * Users can set arbitrary value for each bins min max value for each 
  * dimension (variable interval). Each dimension of the histogram represents
@@ -55,7 +54,7 @@ struct GetHistogramDimension
  * Before any operation, users have to call Initialize(SizeType) method to
  * prepare the indexing mechanism and the internal frequency container.
  * After this, users want to set range of each bin using 
- * SetBinMin(dimension, n) and SetBinMax(dimension, n) methods.
+ * SetBinMin(dimension, nbin, min) and SetBinMax(dimension, nbin, max) methods.
  * 
  * The first two template arguments are same as those of 
  * Sample. The last one, "TFrequencyContainter", is 
@@ -279,40 +278,44 @@ public:
                     const FrequencyType value) ;
 
 
-  /** Method to increase the frequency by one.  This function is convinent
-   * to create a histogram. It returns false if the bin is out of bounds. */
+  /** Method to increase the frequency of an instance identifier.
+   * Frequency is increased by the specified value. Returns false if
+   * the bin is out of bounds. */
   bool IncreaseFrequency(const InstanceIdentifier &id,
                          const FrequencyType value) 
   { return m_FrequencyContainer->IncreaseFrequency(id, value) ; }
 
-  /** Method to increase the frequency by one.  This function is convinent
-   * to create histogram. */
+  /** Method to increase the frequency of an index.  Frequency is
+   * increased by the specified value. Returns false if the bin is out
+   * of bounds. */
   bool IncreaseFrequency(const IndexType &index, 
                          const FrequencyType value) ;
   
-  /** Method to increase the frequency by one.  This function is convinent
-   * to create histogram. */
+  /** Method to increase the frequency of a measurement.  Frequency is
+   * increased by the specified value. Returns false if the
+   * measurement is outside the bounds of the histogram. */
   bool IncreaseFrequency(const MeasurementVectorType &measurement, 
                          const FrequencyType value) ;
   
-  /** Method to get measurement from the histogram using an instance identifier */
+  /** Method to get measurement from the histogram using an instance
+   * identifier */
   const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const;
   
-  /** Method to get measurement from the histogram */
+  /** Method to get measurement from the histogram using an index. */
   const MeasurementVectorType & GetMeasurementVector(const IndexType &index) const;
   
   /** Method to get measurement from the histogram */
   MeasurementType GetMeasurement(const unsigned long n,
                                   const unsigned int dimension) const ;
 
-  /** returns the total frequency*/
+  /** Returns the total frequency*/
   FrequencyType GetTotalFrequency() const ;
 
-  /** returns the frequency of the'dimension' dimension's 'n'th element. */
+  /** Returns the frequency of the'dimension' dimension's 'n'th element. */
   FrequencyType GetFrequency(const unsigned long n,
                              const unsigned int dimension) const ;
 
-  /** returns 'p'th percentile value.
+  /** Returns 'p'th percentile value.
    * Let assume n = the index of the bin where the p-th percentile value is,
    * min = min value of the dimension of the bin,
    * max = max value of the dimension of the bin,
