@@ -269,8 +269,14 @@ const std::type_info& ImageIOBase::GetComponentTypeInfo() const
     this->SetNumberOfComponents(6); \
     this->SetComponentType(ImageIOBase::ntype); \
     this->SetPixelType(ImageIOBase::DIFFUSIONTENSOR3D); \
+    } \
+  else if ( ptype == typeid(std::complex<type>) ) \
+    { \
+    this->SetNumberOfComponents(2); \
+    this->SetComponentType(ImageIOBase::ntype); \
+    this->SetPixelType(ImageIOBase::COMPLEX); \
     } 
- 
+
   
  
 
