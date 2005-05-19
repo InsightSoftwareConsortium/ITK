@@ -104,9 +104,9 @@ public:
   itkSetConstObjectMacro( MovingImage, MovingImageType );
 
   /** Determine the image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TFixedImage::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension );
       
-  typedef typename itk::Point< double, ImageDimension > LandmarkPointType;
+  typedef Point< double, itkGetStaticConstMacro(ImageDimension) > LandmarkPointType;
   typedef std::vector< LandmarkPointType >              LandmarkPointContainer;
 
     
