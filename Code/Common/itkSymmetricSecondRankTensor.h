@@ -100,7 +100,7 @@ public:
   typedef typename NumericTraits<ValueType>::RealType AccumulateValueType;
   typedef typename NumericTraits<ValueType>::RealType RealValueType;
   
-  typedef class SymmetricEigenAnalysis< MatrixType, 
+  typedef SymmetricEigenAnalysis< MatrixType, 
             EigenValuesArrayType, EigenVectorsMatrixType >  SymmetricEigenAnalysisType;
 
   /** Default constructor has nothing to do. */
