@@ -162,6 +162,13 @@ int main( int argc, char * argv [] )
   typedef itk::Image< WritePixelType, Dimension > WriteImageType;
 
 
+  typedef itk::ImageFileWriter< ComplexImageType > ComplexWriterType;
+
+  ComplexWriterType::Pointer complexWriter = ComplexWriterType::New();
+  complexWriter->SetFileName("complexImage.mhd");
+
+  complexWriter->SetInput( filter->GetOutput() );
+  complexWriter->Update();
 
 
 // Software Guide : BeginLatex
