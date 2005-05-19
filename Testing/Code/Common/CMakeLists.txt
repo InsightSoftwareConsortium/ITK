@@ -86,6 +86,7 @@ ADD_TEST(itkImageReverseIteratorTest ${COMMON_TESTS} itkImageReverseIteratorTest
 ADD_TEST(itkImageSliceIteratorTest ${COMMON_TESTS} itkImageSliceIteratorTest)
 ADD_TEST(itkImageTest ${COMMON_TESTS} itkImageTest)
 ADD_TEST(itkIteratorTests ${COMMON_TESTS} itkIteratorTests)
+ADD_TEST(itkLandmarkBasedTransformInitializerTest ${COMMON_TESTS} itkLandmarkBasedTransformInitializerTest)
 ADD_TEST(itkLightObjectTest ${COMMON_TESTS} itkLightObjectTest)
 ADD_TEST(itkLevelSetFunctionTest ${COMMON_TESTS} itkLevelSetFunctionTest)
 ADD_TEST(itkMatrixTest ${COMMON_TESTS} itkMatrixTest)
@@ -266,6 +267,7 @@ itkImageSliceIteratorTest.cxx
 itkImageTest.cxx
 itkIteratorTests.cxx
 itkLevelSetFunctionTest.cxx
+itkLandmarkBasedTransformInitializerTest.cxx
 itkLightObjectTest.cxx
 itkMatrixTest.cxx
 itkMapContainerTest.cxx

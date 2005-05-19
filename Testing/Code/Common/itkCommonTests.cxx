@@ -72,6 +72,7 @@ REGISTER_TEST(itkImageReverseIteratorTest );
 REGISTER_TEST(itkImageSliceIteratorTest );
 REGISTER_TEST(itkImageTest );
 REGISTER_TEST(itkIteratorTests );
+REGISTER_TEST(itkLandmarkBasedTransformInitializerTest );
 REGISTER_TEST(itkLightObjectTest );
 REGISTER_TEST(itkLevelSetFunctionTest );
 REGISTER_TEST(itkMatrixTest );
