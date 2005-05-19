@@ -97,7 +97,6 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
   typedef typename InputImageType::PixelType   InputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType InputRealType;
 
   typedef BinaryThresholdImageFunction<OutputImageType>               SecondFunctionType;
   typedef FloodFilledImageFunctionConditionalIterator<OutputImageType, DistanceThresholdFunctionType> IteratorType;
@@ -136,7 +135,7 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   typedef typename InputPixelType::ValueType                      ComponentPixelType;
   typedef typename NumericTraits< ComponentPixelType >::RealType  ComponentRealType;
 
-  const unsigned int dimension = InputRealType::Dimension;
+  const unsigned int dimension = InputPixelType::Dimension;
 
   covariance = CovarianceMatrixType( dimension, dimension );
   mean       = MeanVectorType( dimension );
