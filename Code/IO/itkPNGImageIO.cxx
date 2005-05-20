@@ -426,7 +426,7 @@ void PNGImageIO::Write(const void* buffer)
   this->WriteSlice(m_FileName, buffer);
 }
 
-void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer)
+void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
 {
   const unsigned char *outPtr = ( (const unsigned char *) buffer);
 
@@ -435,7 +435,8 @@ void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer)
   FILE* fp = pngfp.m_FilePointer;
   if(!fp)
     {
-    itkExceptionMacro("Unable to open file " << fileName);
+    ::itk::ExceptionObject excp(__FILE__, __LINE__, "Problem while opening the file"); 
+    throw excp; 
     }
 
   int bitDepth;
@@ -450,8 +451,10 @@ void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer)
       break;
 
     default:
-      itkExceptionMacro(<<"PNG supports unsigned char and unsigned short");
-      ;
+      {
+      ::itk::ExceptionObject excp(__FILE__, __LINE__, "PNG supports unsigned char and unsigned short");
+      throw excp; 
+      }
     }
   
   png_structp png_ptr = png_create_write_struct

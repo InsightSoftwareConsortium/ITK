@@ -84,7 +84,7 @@ protected:
   ~PNGImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  void WriteSlice(std::string& fileName, const void* buffer);
+  void WriteSlice(const std::string& fileName, const void* buffer);
 
   /** Determines the level of compression for written files. 
    *  Range 0-9; 0 = none, 9 = maximum , default = 4 */
