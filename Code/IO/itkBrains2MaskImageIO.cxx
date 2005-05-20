@@ -21,7 +21,7 @@
 #include "itkMetaDataObject.h"
 #include <stdio.h>
 #include <zlib.h>
-
+#include <time.h>
 #include <itksys/SystemTools.hxx>
 
 static const unsigned char DEF_WHITE_MASK=255;
@@ -376,15 +376,36 @@ Brains2MaskImageIO
   // to do -- add more header crap
   //Write the image Information before writing data
   char buf[16384];
+  time_t rawtime;
+  struct tm *timeinfo;
+  time(&rawtime);
+  timeinfo = localtime(&rawtime);
+  std::string timestr = asctime(timeinfo);
+  for(unsigned i = 0; i < timestr.size(); i++)
+    {
+    if(timestr[i] == ' ')
+      {
+      timestr[i] = '_';
+      }
+    }
+  std::string::size_type newline = timestr.rfind('\n');
+  if(newline != std::string::npos)
+    {
+    timestr.erase(newline);
+    }
+  if(patient_id == "")
+    {
+    patient_id = "00000";
+    }
   sprintf(buf,mask_header_format,
           patient_id.c_str(),
-          "",                 // scan_id
-          "",                 // file_name
-          "",                 // date
-          "",                 // creator
-          "",                 // program
-          "",                 // module
-          "",                 // version
+          "00000",                 // scan_id
+          this->m_FileName.c_str(),                 // file_name
+          timestr.c_str(),                 // date
+          "Anonymous",                 // creator
+          "itkBrains2MaskImageIO",                 // program
+          "None",                 // module
+          "1",                 // version
           itksys::SystemTools::GetFilenameName(m_FileName).c_str(),   // name
           3,                  // num_dims
           xsize,              // xsize
