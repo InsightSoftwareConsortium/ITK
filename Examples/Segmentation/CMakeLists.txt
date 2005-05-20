@@ -26,9 +26,6 @@ TARGET_LINK_LIBRARIES(FastMarchingImageFilter ITKNumerics ITKIO)
 ADD_EXECUTABLE(LaplacianSegmentationLevelSetImageFilter LaplacianSegmentationLevelSetImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianSegmentationLevelSetImageFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(ThresholdSegmentationLevelSetImageFilter ThresholdSegmentationLevelSetImageFilter.cxx )
-TARGET_LINK_LIBRARIES(ThresholdSegmentationLevelSetImageFilter ITKNumerics ITKIO)
-
 ADD_EXECUTABLE(GeodesicActiveContourShapePriorLevelSetImageFilter
 GeodesicActiveContourShapePriorLevelSetImageFilter.cxx )
 TARGET_LINK_LIBRARIES(GeodesicActiveContourShapePriorLevelSetImageFilter 
@@ -178,15 +175,6 @@ ADD_TEST(GeodesicActiveContourRightVentricleTest ${SEGMENTATION_EXAMPLES}
         99 114 5.0 1.0 -0.5 3.0 2.0
 )
 
-ADD_TEST(CurvesLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES4}
-  --compare ${BASELINE}/CurvesLevelSetImageFilterTest.png
-            ${TEMP}/CurvesLevelSetImageFilterTest.png
-  CurvesLevelSetImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${TEMP}/CurvesLevelSetImageFilterTest.png
-        81 114 5.0 1.0 -0.5 3.0 2.0
-)
-
 ADD_TEST(GeodesicActiveContourWhiteMatterTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/GeodesicActiveContourWhiteMatterTest.png
             ${TEMP}/GeodesicActiveContourWhiteMatterTest.png
@@ -318,16 +306,6 @@ ADD_TEST(RelabelComponentImageFilterTest ${SEGMENTATION_EXAMPLES5}
         ${TEMP}/RelabelComponentImageFilter.png
 )
 
-ADD_TEST(LaplacianSegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES7}
-  --compare ${BASELINE}/LaplacianSegmentationLevelSetImageFilter.png
-            ${TEMP}/LaplacianSegmentationLevelSetImageFilter.png
-  LaplacianSegmentationLevelSetImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${BASELINE}/ThresholdSegmentationLevelSetVentricle.png
-        ${TEMP}/LaplacianSegmentationLevelSetImageFilter.png
-        10 2.0 1 127.5 15
-)
-
 ADD_TEST(VectorConfidenceConnectedTest1 ${SEGMENTATION_EXAMPLES8}
   --compare ${BASELINE}/VectorConfidenceConnected1.png
             ${TEMP}/VectorConfidenceConnected1.png
@@ -383,6 +361,24 @@ ITKCommon
 ITKStatistics
 )
 
+ADD_EXECUTABLE(SegmentationExamples4 SegmentationExamples4.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples4
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKCommon
+ITKStatistics
+)
+
+ADD_EXECUTABLE(SegmentationExamples7 SegmentationExamples7.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples7
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKCommon
+ITKStatistics
+)
+
 ADD_EXECUTABLE(CurvesLevelSetImageFilter CurvesLevelSetImageFilter.cxx )
 TARGET_LINK_LIBRARIES(CurvesLevelSetImageFilter ITKNumerics ITKIO)
 
@@ -409,6 +405,15 @@ ADD_TEST(GeodesicActiveContourShapePriorCallosumTest ${SEGMENTATION_EXAMPLES3}
         120 85 60 102 88 83 6 1.0 0.5 0.02
         ${ITK_SOURCE_DIR}/Examples/Data/CorpusCallosumMeanShape.mha 3 
         ${ITK_SOURCE_DIR}/Examples/Data/CorpusCallosumMode%d.mha 10 0
+)
+
+ADD_TEST(CurvesLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES4}
+  --compare ${BASELINE}/CurvesLevelSetImageFilterTest.png
+            ${TEMP}/CurvesLevelSetImageFilterTest.png
+  CurvesLevelSetImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/CurvesLevelSetImageFilterTest.png
+        81 114 5.0 1.0 -0.5 3.0 2.0
 )
 
 ADD_TEST(NeighborhoodConnectedWhiteTest ${SEGMENTATION_EXAMPLES2}
@@ -447,6 +452,19 @@ ADD_TEST(IsolatedConnectedTest ${SEGMENTATION_EXAMPLES2}
         61 140 150 63 43
 )
 
+ADD_EXECUTABLE(ThresholdSegmentationLevelSetImageFilter ThresholdSegmentationLevelSetImageFilter.cxx )
+TARGET_LINK_LIBRARIES(ThresholdSegmentationLevelSetImageFilter ITKNumerics ITKIO)
+
+ADD_TEST(LaplacianSegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES7}
+  --compare ${BASELINE}/LaplacianSegmentationLevelSetImageFilter.png
+            ${TEMP}/LaplacianSegmentationLevelSetImageFilter.png
+  LaplacianSegmentationLevelSetImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${BASELINE}/ThresholdSegmentationLevelSetVentricle.png
+        ${TEMP}/LaplacianSegmentationLevelSetImageFilter.png
+        10 2.0 1 127.5 15
+)
+
 ENDIF(NOT BORLAND)
 
 ADD_EXECUTABLE(SegmentationExamples SegmentationExamples.cxx )
@@ -457,15 +475,6 @@ ITKBasicFilters
 ITKCommon)
 
 
-
-ADD_EXECUTABLE(SegmentationExamples4 SegmentationExamples4.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples4
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
-ITKCommon
-ITKStatistics
-)
 
 ADD_EXECUTABLE(SegmentationExamples5 SegmentationExamples5.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples5
@@ -478,15 +487,6 @@ ITKStatistics
 
 ADD_EXECUTABLE(SegmentationExamples6 SegmentationExamples6.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples6
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
-ITKCommon
-ITKStatistics
-)
-
-ADD_EXECUTABLE(SegmentationExamples7 SegmentationExamples7.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples7
 ITKAlgorithms 
 ITKIO 
 ITKBasicFilters 
