@@ -435,6 +435,10 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
   FILE* fp = pngfp.m_FilePointer;
   if(!fp)
     {
+    // IMPORTANT: The itkExceptionMacro() cannot be used here due to a bug in Visual
+    //            Studio 7.1 in release mode. That compiler will corrupt the RTTI type
+    //            of the Exception and prevent the catch() from recognizing it.
+    //            For details, see Bug # 1872 in the bugtracker.
     ::itk::ExceptionObject excp(__FILE__, __LINE__, "Problem while opening the file"); 
     throw excp; 
     }
@@ -452,6 +456,10 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
 
     default:
       {
+      // IMPORTANT: The itkExceptionMacro() cannot be used here due to a bug in Visual
+      //            Studio 7.1 in release mode. That compiler will corrupt the RTTI type
+      //            of the Exception and prevent the catch() from recognizing it.
+      //            For details, see Bug # 1872 in the bugtracker.
       ::itk::ExceptionObject excp(__FILE__, __LINE__, "PNG supports unsigned char and unsigned short");
       throw excp; 
       }
