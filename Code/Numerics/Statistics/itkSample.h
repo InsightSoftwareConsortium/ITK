@@ -29,48 +29,26 @@ namespace itk{
 namespace Statistics{
 
 /** \class Sample 
- *  \brief Sample defines common iterfaces for each subclasses
+ *  \brief A collection of measurements for statistical analysis
  *
- * A measurement vector is a vector of different types of values. For example,
- * users might have an image with each pixel have a gray level intensity value
- * and a gradient magnitude. In this example, user think each pixel as a 
- * measurement vector that has two types of values, intensity and gradient
- * magnitude. In this sense, the meaning of "measurement" can be interchaneable 
- * with "measurement".
+ * Sample represents a set of measurements for statistical
+ * analysis. Sample is templated over a measurement vector. The
+ * measurement vector encapsulates the set of values associated with a
+ * single measurement.  For instance, a measurement vector may contain
+ * an image intensity of a pixel and the gradient magnitude at that pixel.
  * 
- * The primary purpose of Sample clases are storing such 
- * measurement vectors and providing different types of element access methods.
+ * Data within a sample can be accessed via an
+ * InstanceIdentfier. InstanceIdentifiers have different forms and
+ * meanings depending on the type of sample.  For ListSamples, the
+ * InstanceIdentifier is an index into the corresponding list. In this
+ * case, the InstanceIndentifier corresponds to a particular
+ * measurement stored in the Sample. For Histograms, an
+ * InstanceIdentifier corresponds to a particular bin in the
+ * N-dimensional histogram. In other words, the InstanceIdentifier in
+ * a histogram does not correspond to a specific measurement used to
+ * build the histogram but to the "bin" in which a number of original
+ * measurements were "accumulated".
  *
- * The "TMeasurement" template argument defines the type of each values
- * in a measurement vector. The "VMeasurementVectorSize" template argument 
- * defines 
- * the number of elements in a measurement vector. The type of measurement 
- * vector 
- * is fixed as ITK Point. The resulting measurement vector type is 
- * Point< TMeasurement, VMeasurementVectorSize >.
- *
- * There are two common ways of accessing data. First, users can use 
- * an "InstanceIdentifier", say 'id' which is sequential index of 
- * measurement vectors to access a measurement vector in a container. 
- * Second, users can access a measurement value using dimension and 
- * the index of a measurement value, say 'n' in that dimension. The 'id' and 'n'
- * is equal in the ListSample classes. However, in Histogram class, its
- * different. See Histogram. For algorithms using these indexes, there are
- * methods to get the length of each dimension, GetSize() and 
- * GetSize(dimension). See each method's comment.
- *
- * Users may need to know two other groups of methods to fully utilize
- * Sample. One group of methods is about frequency of measurement
- * vectors. In Histogram classes, you can use such methods to get/set the
- * frequency of each measurement vector. The other group of methods is about
- * characteristics of each subclasses of this class. If user want to 
- * create or know the characteristics of a subclass, use them. The set of
- * characteristics tell that if the data is sorted (true for Histogram),
- * if the each measurement vector is unique (true for Histogram), and if the
- * container supports "meaningful" frequency interfaces. In ListSample
- * classes, users cannot set frequency, and GetFrequency() methods return 
- * one if the element exists, else zero. So, currently ListSample's
- * supporting frequency is set to false. 
  */
 
 template < class TMeasurementVector >
@@ -89,29 +67,33 @@ public:
   /** MeasurementVector typedef support */ 
   typedef TMeasurementVector MeasurementVectorType ;
 
-  /** typedef for each element in a measurement vector*/ 
+  /** ValueType of a measurement (ValueType of a component of the
+   * MeasurementVector */ 
   typedef typename TMeasurementVector::ValueType MeasurementType ;
 
-  /** frequency value typedef*/
+  /** Frequency value type*/
   typedef float FrequencyType ;
 
-  /** Instance Identifier typedef support
-   * this identifier will be unique sequential id for each measurement vector
-   * in a Sample subclass.*/ 
+  /** InstanceIdentifier typedef. This identifier is a unique
+   * sequential id for each measurement vector in a Sample subclass.*/ 
   typedef unsigned long InstanceIdentifier ;
 
+  /** Length of the MeasurementVector */
   itkStaticConstMacro( MeasurementVectorSize, unsigned int,
                        TMeasurementVector::Length ) ;
 
+  /** Get the size of the sample (number of measurements) */
   virtual unsigned int Size() const = 0 ;
 
-  /** returns the measurement of the instance which is identified by the 'id'*/
+  /** Get the measurement associated with a particular
+   * InstanceIdentifier. */
   virtual const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const = 0 ;
 
-  /** returns the frequency of the instance which is identified by the 'id'*/
+  /** Get the frequency of a measurement specified by instance
+   * identifier. */
   virtual FrequencyType GetFrequency(const InstanceIdentifier &id) const = 0 ;
 
-  /** returns the total frequency for the 'd' dimension*/
+  /** Get the total frequency of the sample. */
   virtual FrequencyType GetTotalFrequency() const 
     = 0 ;
 

@@ -30,10 +30,14 @@ namespace Statistics{
 
 /** \class ListSample 
  *  \brief This class is the native implementation of the ListSampleBase
- * 
- * ListSample allows duplicates of measurement vectors. It's not sorted.
- * It doesn't allow users to set frequency. The GetFrequency(...) methods
- * returns 1 if a measurement vector exists, else 0.
+ *
+ * ListSampleBase stores measurements in a list type structure (as
+ * opposed to a Histogram, etc.).  ListSampleBase allows duplicate
+ * measurements. ListSampleBase is not sorted.
+ *
+ * ListSampleBase does not allow the user to specify the frequency of
+ * a measurement directly.  The GetFrequency() methods returns 1 if
+ * the measurement exists in the list, 0 otherwise.
  *
  *\sa ListSampleBase, Histogram
  */
@@ -54,63 +58,63 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self) ;
   
-  /** Superclass typedefs for Measurement vector, 
-   * measurement, Instance Identifier, 
-   * frequency, size, size element value */
-
+  /** Typedefs inherited from the superclass */
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
   typedef typename Superclass::MeasurementType MeasurementType;
   typedef typename Superclass::FrequencyType FrequencyType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
   typedef typename Superclass::SearchResultVectorType SearchResultVectorType ;
 
+  /** Value type of a measurement (component of the measurement
+   * vector) */
   typedef MeasurementVectorType ValueType ;
 
-  /** VMeasurementVectorSize template argument alias */
+  /** Length of the measurement vector */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       Superclass::MeasurementVectorSize);
 
   /** internal data container type */
   typedef std::vector< MeasurementVectorType > InternalDataContainerType ;
 
-  /** resize the container, if this sample is connected to Subsample or
+  /** Resize the container. If this sample is connected to a Subsample or
    * MembershipSample, then this function won't change the size of 
-   * this container, instead, it will throw exception. Before, use this sample
-   * with Subsample or MembershipSample, set the size*/
+   * this container, instead, it will throw exception. Therefore,
+   * resize the container before using the sample in a Subsample or
+   * MembershipSample. */
   void Resize( unsigned int n ) 
   { m_InternalContainer.resize(n) ; }
 
-  /** Removes all the elements */
+  /** Removes all the elements in the Sample*/
   void Clear() 
   { m_InternalContainer.clear() ; }
 
-  /** inserts a new element at the end */
+  /** Inserts a measurement at the end of the list */
   void PushBack( MeasurementVectorType mv )
   { m_InternalContainer.push_back( mv ) ; }
 
-  /** returns the number of measurement vectors in this container*/
+  /** Get the number of measurement vectors in the sample*/
   unsigned int Size() const
   { return static_cast<unsigned int>( m_InternalContainer.size() ); }
 
-  /** returns the measurement vector that is specified by the instance
-   * identifier argument. */
+  /** Get the measurement associated with the specified
+   * InstanceIdentifier */
   const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const;
 
-  /** sets the "dim" dimensional component value of the measurement vector
-   * that is specified by "id". */
+  /** Set a component a measurement to a particular value. */
   void SetMeasurement(const InstanceIdentifier &id, 
                       const unsigned int &dim,
                       const MeasurementType &value) ;
 
-  /** set the measurement vector value that is specified by the instance
-   * identifier argument. */
+  /** Replace a measurement with a different measurement */
   void SetMeasurementVector(const InstanceIdentifier &id, 
                             const MeasurementVectorType &mv) ;
 
-  /** returns 1 as other subclasses of ListSampleBase does */
+  /** Get the frequency of a measurement. Returns 1 if the measurement
+   * exist. */
   FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
 
-  /** returns the size of this container */
+  /** Get the total frequency of the sample.  This is equivalent to
+   * the size of the sample. */
   FrequencyType GetTotalFrequency() const
   { return static_cast<FrequencyType>( m_InternalContainer.size() ); }
 

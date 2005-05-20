@@ -25,12 +25,16 @@ namespace itk{
 namespace Statistics{
 
 /** \class ListSampleBase 
- *  \brief This class is the base class for containers that have a list
- * of measurement vectors
- * 
- * ListSampleBase allows duplicates of measurement vectors. It's not sorted.
- * It doesn't allow users to set frequency. The GetFrequency(...) methods
- * returns 1 if a measurement vector exists, else 0.
+ *  \brief This class is the base class for Samples that store measurements in a list
+ *
+ * ListSampleBase stores measurements in a list type structure (as
+ * opposed to a Histogram, etc.).  ListSampleBase allows duplicate
+ * measurements. ListSampleBase is not sorted.
+ *
+ * ListSampleBase does not allow the user to specify the frequency of
+ * a measurement directly.  The GetFrequency() methods returns 1 if
+ * the measurement exists in the list, 0 otherwise.
+ *
  *
  *\sa Sample, Histogram
  */
@@ -46,21 +50,23 @@ public:
   /** Standard macros */
   itkTypeMacro(ListSampleBase, Sample);
 
-  /** Superclass typedefs for Measurement vector, 
-   * measurement, Instance Identifier, 
-   * frequency, size, size element value */
-
+  /** Typedefs inherited from the superclass */
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
   typedef typename Superclass::MeasurementType MeasurementType;
   typedef typename Superclass::FrequencyType FrequencyType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
-  
+
+  /** Vector of InstanceIdentifiers used for returning search
+   * results. */
   typedef std::vector< InstanceIdentifier > SearchResultVectorType ;
-  /** VMeasurementVectorSize template argument alias */
+
+  /** Length of each measurement */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TMeasurementVector::Length);
 
-  
+
+  /** Search for measurements within the specified radius of a search
+   * point. A vector of InstanceIdentifiers is returned. */
   inline void Search(MeasurementVectorType center, double radius, 
                      SearchResultVectorType& result) const
   {
@@ -105,6 +111,7 @@ public:
         }
       }
   }
+  
 protected:
   ListSampleBase() {}
   virtual ~ListSampleBase() {}
