@@ -96,11 +96,11 @@ int main( int argc, char* argv[] )
       // If tagkey was found (ie DICOM tag from public dictionary), then display the name:
       if( dictentry )
         {
-        std::cout << dictentry->GetName() <<  " = " << tagvalue.c_str() << std::endl;
+        std::cout << dictentry->GetName() <<  "(" << tagkey << ") = " << tagvalue.c_str() << std::endl;
         }
       else
         {
-        std::cout << tagkey <<  " = " << tagvalue.c_str() << std::endl;
+        std::cout << "Unknown(" << tagkey <<  ") = " << tagvalue.c_str() << std::endl;
         }
       }
     ++itr;
