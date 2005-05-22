@@ -23,9 +23,6 @@ TARGET_LINK_LIBRARIES(ConnectedThresholdImageFilter ITKNumerics ITKIO)
 ADD_EXECUTABLE(FastMarchingImageFilter FastMarchingImageFilter.cxx )
 TARGET_LINK_LIBRARIES(FastMarchingImageFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(LaplacianSegmentationLevelSetImageFilter LaplacianSegmentationLevelSetImageFilter.cxx )
-TARGET_LINK_LIBRARIES(LaplacianSegmentationLevelSetImageFilter ITKNumerics ITKIO)
-
 ADD_EXECUTABLE(GeodesicActiveContourShapePriorLevelSetImageFilter
 GeodesicActiveContourShapePriorLevelSetImageFilter.cxx )
 TARGET_LINK_LIBRARIES(GeodesicActiveContourShapePriorLevelSetImageFilter 
@@ -470,6 +467,9 @@ ITKStatistics
 )
 
 IF(NOT BORLAND)
+ADD_EXECUTABLE(LaplacianSegmentationLevelSetImageFilter LaplacianSegmentationLevelSetImageFilter.cxx )
+TARGET_LINK_LIBRARIES(LaplacianSegmentationLevelSetImageFilter ITKNumerics ITKIO)
+
 ADD_EXECUTABLE(ThresholdSegmentationLevelSetImageFilter ThresholdSegmentationLevelSetImageFilter.cxx )
 TARGET_LINK_LIBRARIES(ThresholdSegmentationLevelSetImageFilter ITKNumerics ITKIO)
 
