@@ -17,9 +17,6 @@ SET(REGISTRATION_EXAMPLES8 ${CXX_TEST_PATH}/RegistrationExamples8)
 ADD_EXECUTABLE(ImageRegistration1 ImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration1 ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(ImageRegistration2 ImageRegistration2.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration2 ITKNumerics ITKIO)
-
 ADD_EXECUTABLE(ImageRegistration3 ImageRegistration3.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration3 ITKNumerics ITKIO)
 
@@ -42,6 +39,12 @@ ADD_EXECUTABLE(ImageRegistration10 ImageRegistration10.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration10 ITKNumerics ITKIO)
 
 IF(NOT BORLAND)
+  ADD_EXECUTABLE(DeformableRegistration4 DeformableRegistration4.cxx )
+  TARGET_LINK_LIBRARIES(DeformableRegistration4 ITKNumerics ITKIO)
+
+  ADD_EXECUTABLE(ImageRegistration2 ImageRegistration2.cxx )
+  TARGET_LINK_LIBRARIES(ImageRegistration2 ITKNumerics ITKIO)
+
   ADD_EXECUTABLE(ImageRegistration4 ImageRegistration4.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistration4 ITKNumerics ITKIO)
 
@@ -97,9 +100,6 @@ TARGET_LINK_LIBRARIES(DeformableRegistration2 ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(DeformableRegistration3 DeformableRegistration3.cxx )
 TARGET_LINK_LIBRARIES(DeformableRegistration3 ITKNumerics ITKIO)
-
-ADD_EXECUTABLE(DeformableRegistration4 DeformableRegistration4.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration4 ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(DeformableRegistration5 DeformableRegistration5.cxx )
 TARGET_LINK_LIBRARIES(DeformableRegistration5 ITKNumerics ITKIO)
