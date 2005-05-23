@@ -199,6 +199,57 @@ public:                                                                  \
 //
 
 
+
+
+//
+//  Default traits for the pixel types deriving from std::complex<>
+//
+
+#define ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE( componenttype ) \
+template<>                                                               \
+class DefaultConvertPixelTraits< ::std::complex< componenttype > >       \
+{                                                                        \
+public:                                                                  \
+  typedef ::std::complex< componenttype>  TargetType;                    \
+  typedef componenttype                     ComponentType;               \
+  static unsigned int GetNumberOfComponents()                            \
+    {                                                                    \
+    return 2;                                                  \
+    }                                                                    \
+  static void SetNthComponent(int i, TargetType & pixel, const ComponentType& v)   \
+    {                                                                    \
+    if( i=0 )                                                            \
+      {                                                                  \
+      pixel = TargetType( v, pixel.imag() );                           \
+      }                                                                  \
+    else                                                                 \
+      {                                                                  \
+      pixel = TargetType( pixel.real(), v );                           \
+      }                                                                  \
+    }                                                                    \
+  static ComponentType GetScalarValue(const TargetType& pixel)           \
+    {                                                                    \
+    return std::norm(pixel);                                             \
+    }                                                                    \
+};                                                                       \
+
+ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(float);
+ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(double);
+ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(signed int);
+ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(unsigned int);
+ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(signed char);
+ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(unsigned char);
+ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(signed long);
+ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(unsigned long);
+
+//
+//  End of Traits for the classes deriving from std::complex.
+//
+//
+
+
+
+
   
   } // end namespace itk
 
