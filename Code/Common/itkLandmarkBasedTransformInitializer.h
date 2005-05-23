@@ -21,6 +21,7 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkVersorRigid3DTransform.h"
+#include "itkRigid2DTransform.h"
 #include <vector>
 #include <iostream>
 
@@ -76,16 +77,9 @@ public:
   typedef typename TransformType::Pointer   TransformPointer;
   
   /** Dimension of parameters. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, TransformType::SpaceDimension);
   itkStaticConstMacro(InputSpaceDimension, unsigned int, TransformType::InputSpaceDimension);
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, TransformType::OutputSpaceDimension);
 
-  /** Point type. */
-  typedef typename TransformType::InputPointType   InputPointType;
-  
-  /** Vector type. */
-  typedef typename TransformType::OutputVectorType  OutputVectorType;
-  
   /** Set the transform to be initialized */
   itkSetObjectMacro( Transform,   TransformType   );
 
@@ -106,8 +100,16 @@ public:
   /** Determine the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension );
       
+  /** Convenience typedefs */
+  typedef typename TransformType::InputPointType   InputPointType;
+  typedef typename TransformType::OutputVectorType  OutputVectorType;
   typedef Point< double, itkGetStaticConstMacro(ImageDimension) > LandmarkPointType;
   typedef std::vector< LandmarkPointType >              LandmarkPointContainer;
+  typedef typename
+          LandmarkPointContainer::const_iterator        PointsContainerConstIterator;
+  typedef typename TransformType::ParametersType ParametersType;
+  typedef typename ParametersType::ValueType     ParameterValueType;
+
 
     
   /** Set the Fixed landmark point containers */
@@ -123,18 +125,10 @@ public:
     }
     
 
-  /** Convenient typedefs.*/
-  typedef typename
-          LandmarkPointContainer::const_iterator        PointsContainerConstIterator;
-
-  typedef typename TransformType::ParametersType ParametersType;
-  typedef typename TransformType::InputPointType RotationCenterType;
-  typedef typename ParametersType::ValueType     ParameterValueType;
-
   /**  Supported Transform typedefs */
-  typedef itk::VersorRigid3DTransform< ParameterValueType >   
+  typedef VersorRigid3DTransform< ParameterValueType >   
                                         VersorRigid3DTransformType;
-
+  typedef Rigid2DTransform< ParameterValueType > Rigid2DTransformType;
   
   /** Initialize the transform from the landmarks */
   virtual void InitializeTransform() ;
@@ -149,6 +143,7 @@ protected:
   // Supported Transform types
   typedef enum{
     VersorRigid3Dtransform=1,
+    Rigid2Dtransfrom,
     Else
   }InputTransformType;
 

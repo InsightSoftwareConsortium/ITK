@@ -78,7 +78,10 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
     {  
     transformType = VersorRigid3Dtransform;
     }
-
+  else if( dynamic_cast< Rigid2DTransformType *>(this->m_Transform.GetPointer() ))
+    {
+    transformType = Rigid2Dtransfrom;
+    }
 
   
   unsigned int numberOfLandmarks = m_FixedLandmarks.size();
@@ -95,13 +98,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
     }
 
 
-  InputPointType    rotationCenter;
-  OutputVectorType  translationVector;
-
-
   switch( transformType )
     {
-      
     case VersorRigid3Dtransform:
       {
       // Sanity check
@@ -132,18 +130,24 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
       //
       //----------------------------------------------------------------------------
 
-      RotationCenterType rotationCenter = m_Transform->GetCenter();
+      VersorRigid3DTransformType *transform = dynamic_cast< VersorRigid3DTransformType *>(
+                                                   this->m_Transform.GetPointer() );
       
-      // Compute the centroids
-      typedef typename LandmarkPointType::VectorType VectorType;
+      typedef typename VersorRigid3DTransformType::OutputVectorType VectorType;
+      typedef typename VersorRigid3DTransformType::OutputPointType PointType;
+      typedef typename VersorRigid3DTransformType::CenterType RotationCenterType;
       
+      RotationCenterType rotationCenter = transform->GetCenter();
       VectorType fixedVector;
       fixedVector.Fill( 0.0 );
 
+      // Compute the centroids
       PointsContainerConstIterator fixedItr = m_FixedLandmarks.begin();
       while( fixedItr != m_FixedLandmarks.end() )
         {
-        fixedVector += *fixedItr - rotationCenter;
+        fixedVector[0] += (*fixedItr)[0] - rotationCenter[0];
+        fixedVector[1] += (*fixedItr)[1] - rotationCenter[1];
+        fixedVector[2] += (*fixedItr)[2] - rotationCenter[2];
         ++fixedItr;
         }
 
@@ -153,34 +157,36 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
       PointsContainerConstIterator movingItr = m_MovingLandmarks.begin();
       while( movingItr != m_MovingLandmarks.end() )
         {
-        movingVector += *movingItr - rotationCenter;
+        movingVector[0] += (*movingItr)[0] - rotationCenter[0];
+        movingVector[1] += (*movingItr)[1] - rotationCenter[1];
+        movingVector[2] += (*movingItr)[2] - rotationCenter[2];
         ++movingItr;
         }
 
       VectorType fixedCentroidFromRotationCenter;
       VectorType movingCentroidFromRotationCenter;
 
-      for(unsigned int ic=0; ic<3; ic++)
+      for(unsigned int ic=0; ic<ImageDimension; ic++)
         {
         fixedCentroidFromRotationCenter[ic]  = fixedVector[ic]  / m_FixedLandmarks.size();
         movingCentroidFromRotationCenter[ic] = movingVector[ic] / m_MovingLandmarks.size();
         }
 
-      LandmarkPointType fixedCentroid  = rotationCenter + fixedCentroidFromRotationCenter;
-      LandmarkPointType movingCentroid = rotationCenter + movingCentroidFromRotationCenter;
+      PointType fixedCentroid  = rotationCenter + fixedCentroidFromRotationCenter;
+      PointType movingCentroid = rotationCenter + movingCentroidFromRotationCenter;
       
       itkDebugMacro(<< "fixed centroid  = " <<  fixedCentroid);
       itkDebugMacro(<< "moving centroid  = " << movingCentroid);
       
-      typedef typename TransformType::VersorType VersorType;
+      typedef typename VersorRigid3DTransformType::VersorType VersorType;
 
       VersorType versor;
 
       // If we have at least 3 landmarks, we can compute a rotation.
       // Otherwise the versor will be an identity versor.
-      if( numberOfLandmarks >= 3 )
+      if( numberOfLandmarks >= ImageDimension )
         {
-        itk::Matrix<double,3,3> M;
+        itk::Matrix<double,ImageDimension,ImageDimension> M;
 
         fixedItr  = m_FixedLandmarks.begin();
         movingItr = m_MovingLandmarks.begin();
@@ -195,14 +201,13 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
         // Computations are relative to the Center of Rotation.
         while( movingItr != m_MovingLandmarks.end() )
           {
-          fixedCentered  = *fixedItr  - fixedCentroid;
-          movingCentered = *movingItr - movingCentroid;
-          
-          ++ii;
-          itkDebugMacro(<< "f_" << ii << " = " << fixedCentered );
-          itkDebugMacro(<< "m_" << ii << " = " << movingCentered );
+          for(unsigned int i=0; i<ImageDimension; i++)
+            {
+            fixedCentered[i]  = (*fixedItr)[i]  - fixedCentroid[i];
+            movingCentered[i] = (*movingItr)[i] - movingCentroid[i];
+            }
 
-          for(unsigned int i=0; i<3; i++)
+          for(unsigned int i=0; i<ImageDimension; i++)
             {
             for(unsigned int j=0; j<3; j++)
               {
@@ -210,6 +215,11 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
               M[i][j] += fixedCentered[i] * movingCentered[j];
               }
             }
+          
+          ++ii;
+          itkDebugMacro(<< "f_" << ii << " = " << fixedCentered );
+          itkDebugMacro(<< "m_" << ii << " = " << movingCentered );
+          
           ++movingItr;
           ++fixedItr;
           }
@@ -267,22 +277,163 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
         itkWarningMacro(<< "Less than 3 landmarks available. Rotation is not computed");
         }
       
-      m_Transform->SetCenter(fixedCentroid);
-      m_Transform->SetRotation( versor );
+      transform->SetCenter(fixedCentroid);
+      transform->SetRotation( versor );
 
-      LandmarkPointType fixedCentroidRotated = 
+      PointType fixedCentroidRotated = 
         rotationCenter + versor.Transform(  fixedCentroid - rotationCenter );
 
-      VectorType translation = m_Transform->GetTranslation(); 
-
+      VectorType translation = transform->GetTranslation(); 
       translation += movingCentroid - fixedCentroid;
-     
-      m_Transform->SetTranslation( translation );
+      transform->SetTranslation( translation );
  
       break;
       }  
  
       
+    case Rigid2Dtransfrom:
+      {
+      // Sanity check
+      if( FixedImageType::ImageDimension != 2 )
+        {
+        itkExceptionMacro(
+            "Transform is Rigid2DTransfrom and Fixed image dimension is not 3");
+        return;
+        }
+      if( MovingImageType::ImageDimension != 2 )
+        {
+        itkExceptionMacro(
+         "Transform is VersorRigid3DTransform and Moving image dimension is not 3");
+        return;
+        }
+      
+      Rigid2DTransformType *transform = dynamic_cast< Rigid2DTransformType *>(
+                 this->m_Transform.GetPointer() );
+      
+      typedef typename Rigid2DTransformType::OutputVectorType VectorType;
+      typedef typename Rigid2DTransformType::OutputPointType PointType;
+      PointType rotationCenter = transform->GetCenter();
+      
+      VectorType fixedVector;
+      fixedVector.Fill( 0.0 );
+
+      // Compute the centroids
+      PointsContainerConstIterator fixedItr = m_FixedLandmarks.begin();
+      while( fixedItr != m_FixedLandmarks.end() )
+        {
+        fixedVector[0] += (*fixedItr)[0] - rotationCenter[0];
+        fixedVector[1] += (*fixedItr)[1] - rotationCenter[1];
+        ++fixedItr;
+        }
+
+      VectorType movingVector;
+      movingVector.Fill( 0.0 );
+
+      PointsContainerConstIterator movingItr = m_MovingLandmarks.begin();
+      while( movingItr != m_MovingLandmarks.end() )
+        {
+        movingVector[0] += (*movingItr)[0] - rotationCenter[0];
+        movingVector[1] += (*movingItr)[1] - rotationCenter[1];
+        ++movingItr;
+        }
+
+      VectorType fixedCentroidFromRotationCenter;
+      VectorType movingCentroidFromRotationCenter;
+
+      for(unsigned int ic=0; ic<ImageDimension; ic++)
+        {
+        fixedCentroidFromRotationCenter[ic]  = fixedVector[ic]  / m_FixedLandmarks.size();
+        movingCentroidFromRotationCenter[ic] = movingVector[ic] / m_MovingLandmarks.size();
+        }
+
+      PointType fixedCentroid  = rotationCenter + fixedCentroidFromRotationCenter;
+      PointType movingCentroid = rotationCenter + movingCentroidFromRotationCenter;
+      
+      itkDebugMacro(<< "fixed centroid  = " <<  fixedCentroid);
+      itkDebugMacro(<< "moving centroid  = " << movingCentroid);
+      
+      double rotationAngle;
+
+      // If we have at least 2 landmarks, we can compute a rotation.
+      // Otherwise the rotation matrix will be identity.
+      // 
+      // For the Rigid2DTransform, the least squares error will be minimized
+      // by choosing the offset as the distance between the two centroids,
+      // fixed centroid (after having undergone the rotation transform, that
+      // we must compute) and the moving centroid. 
+      // The rotation angle will be given by the cross and dot products of the
+      // fixed and moving landmark vectors, the vectors being computed relative
+      // to the fixed and moving centroids.
+      if( numberOfLandmarks >= 2 )
+        {
+        fixedItr  = m_FixedLandmarks.begin();
+        movingItr = m_MovingLandmarks.begin();
+
+        VectorType fixedCentered;
+        VectorType movingCentered;
+
+        fixedCentered.Fill( 0.0 );
+        movingCentered.Fill( 0.0 );
+
+        int ii=0;
+
+        double s_dot   = 0;
+        double s_cross = 0;
+        // Computations are relative to the Center of Rotation.
+        while( movingItr != m_MovingLandmarks.end() )
+          {
+          fixedCentered[0]  = (*fixedItr)[0]  - fixedCentroid[0];
+          movingCentered[0] = (*movingItr)[0] - movingCentroid[0];
+          fixedCentered[1]  = (*fixedItr)[1]  - fixedCentroid[1];
+          movingCentered[1] = (*movingItr)[1] - movingCentroid[1];
+          
+          s_dot += (movingCentered[0] * fixedCentered[0]) + 
+                   (movingCentered[1] * fixedCentered[1]);
+          s_cross += (movingCentered[1] * fixedCentered[0]) - 
+                     (movingCentered[0] * fixedCentered[1]);
+          
+          ++ii;
+          itkDebugMacro(<< "f_" << ii << " = " << fixedCentered );
+          itkDebugMacro(<< "m_" << ii << " = " << movingCentered );
+
+          ++movingItr;
+          ++fixedItr;
+          }
+
+        itkDebugMacro(<< "Dot Product of landmarks: " << s_dot << " Cross Product: " << s_cross);
+        if( s_dot > 0.00005 )
+          {
+          rotationAngle = atan2(s_cross, s_dot);
+          }
+        else
+          {
+          rotationAngle = 0.0;
+          }
+        } 
+      else
+        {
+        itkWarningMacro(<< "Less than 2 landmarks available. Rotation is not computed");
+        }
+      
+      typename Rigid2DTransformType::Pointer t = Rigid2DTransformType::New();
+      t->SetIdentity();
+      t->SetAngle( rotationAngle );
+      PointType fixedCentroidRotated = rotationCenter + 
+               t->TransformVector( fixedCentroid - rotationCenter );
+       
+      transform->SetCenter( fixedCentroid );
+      
+      transform->SetAngle( rotationAngle );
+
+      VectorType translation = transform->GetTranslation(); 
+      translation += movingCentroid - fixedCentroid;
+      transform->SetTranslation( translation );
+ 
+      break;
+      }      
+
+
+        
     case Else:
       itkWarningMacro(<< "Landmark initialization using the specified input transform not implemented");
       m_Transform->SetIdentity();
