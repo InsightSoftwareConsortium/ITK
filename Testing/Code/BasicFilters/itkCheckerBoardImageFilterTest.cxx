@@ -48,6 +48,10 @@ int itkCheckerBoardImageFilterTest(int, char* [] )
   typedef itk::CheckerBoardImageFilter<
                                myImageType >   myFilterType;
  
+  // Declare the type of the arrays that define how many 
+  // checkers to have along every dimension.
+  typedef myFilterType::PatternArrayType       myPatternArrayType;
+  
   // Declare the pointers to images
   typedef myImageType::Pointer   myImageTypePointer;
   typedef myFilterType::Pointer  myFilterTypePointer;
@@ -58,9 +62,9 @@ int itkCheckerBoardImageFilterTest(int, char* [] )
   
   // Define their size, and start index
   mySizeType size;
-  size[0] = 4;
-  size[1] = 4;
-  size[2] = 4;
+  size[0] = 40;
+  size[1] = 40;
+  size[2] = 40;
 
   myIndexType start;
   start[0] = 0;
@@ -120,6 +124,13 @@ int itkCheckerBoardImageFilterTest(int, char* [] )
   filter->SetInput1( inputImageA ); 
   filter->SetInput2( inputImageB );
 
+  myPatternArrayType pattern;
+  pattern[0] =  4; // number of checkers along X
+  pattern[1] =  8; // number of checkers along Y
+  pattern[2] = 10; // number of checkers along Z
+
+  filter->SetCheckerPattern( pattern );
+
   // Get the Smart Pointer to the Filter Output 
   myImageTypePointer outputImage = filter->GetOutput();
 
@@ -138,7 +149,19 @@ int itkCheckerBoardImageFilterTest(int, char* [] )
     ++it3;
     }
 
+  // Exerciset the GetCheckerPattern() method
+  myPatternArrayType pattern2 = filter->GetCheckerPattern();
 
+  for(unsigned int k=0; k<3; k++)
+    {
+    if( pattern2[k] != pattern[k] )
+      {
+      std::cerr << "error in SetCheckerPattern()/GetCheckerPattern() " << std::endl;
+      std::cerr << "Expected = " << pattern  << std::endl;
+      std::cerr << "Received = " << pattern2 << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
 
