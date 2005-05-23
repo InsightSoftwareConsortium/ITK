@@ -14,7 +14,7 @@
 // fixed landmarks after transform by the computed transform coincides
 // with the moving landmarks....
 
-int itkLandmarkBasedTransformInitializerTest(int argc, char *argv[])
+int itkLandmarkBasedTransformInitializerTest(int, char * [])
 {
   
   {
