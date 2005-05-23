@@ -170,7 +170,7 @@ int main( int argc, char * argv [] )
   complexWriter->SetInput( filter->GetOutput() );
   complexWriter->Update();
 
-
+  
 // Software Guide : BeginLatex
 //
 // We instantiate now the filter type that will be used for rescaling the
@@ -249,6 +249,17 @@ int main( int argc, char * argv [] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
+
+
+
+  // Illustrating how to read a Complex image
+  // 
+  typedef itk::ImageFileReader< ComplexImageType > ComplexReaderType;
+  ComplexReaderType::Pointer complexReader = ComplexReaderType::New();
+
+  complexReader->SetFileName("complexImage.mhd");
+  complexReader->Update();
+
 
 
   return EXIT_SUCCESS;
