@@ -42,8 +42,8 @@
 */
 
 /**
-  \defgroup TensorObject  Objects Related to Tensor Images
-  \ingroup TensorObjects
+  \defgroup TensorObjects  Objects Related to Tensor Images
+
   This category includes the objects required for representing diffusion tensor images in ITK.
 */
 
