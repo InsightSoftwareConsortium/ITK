@@ -73,6 +73,10 @@ public:
   void SetInput2( const TImage * image2);
 
 
+  /** Set Checker pattern */
+  itkSetMacro( CheckerPattern, PatternArrayType );
+  itkGetConstReferenceMacro( CheckerPattern, PatternArrayType );
+
 protected:
   CheckerBoardImageFilter();
   ~CheckerBoardImageFilter() {};
