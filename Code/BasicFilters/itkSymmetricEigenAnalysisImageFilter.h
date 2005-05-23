@@ -45,6 +45,13 @@ public:
     m_Calculator.ComputeEigenValues( x, eigenValues );
     return eigenValues;
     }
+
+  /** Method to explicitly set the dimension of the matrix */
+  void SetDimension( unsigned int n )
+    {
+    m_Calculator.SetDimension(n);
+    }
+
 private:
   CalculatorType m_Calculator;
 }; 
@@ -99,7 +106,13 @@ public:
   void PrintSelf(std::ostream& os, Indent indent) const
     { this->Superclass::PrintSelf( os, indent ); }
   
-
+  /** Set the dimension of the tensor. (For example the SymmetricSecondRankTensor
+   * is a pxp matrix) */
+  void SetDimension( unsigned int p )
+    {
+    this->GetFunctor().SetDimension(p);
+    }
+    
 protected:
   SymmetricEigenAnalysisImageFilter() {};
   virtual ~SymmetricEigenAnalysisImageFilter() {};
