@@ -35,7 +35,7 @@ namespace itk
 *                     ISIS Center, Georgetown University.
 */
 
-class RealTimeClock : public itk::Object
+class ITKCommon_EXPORT RealTimeClock : public itk::Object
 {
   
 public:
