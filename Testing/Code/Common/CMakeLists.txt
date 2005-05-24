@@ -119,6 +119,7 @@ ADD_TEST(itkPointSetTest ${COMMON_TESTS} itkPointSetTest)
 ADD_TEST(itkPolyLineParametricPathTest ${COMMON_TESTS} itkPolyLineParametricPathTest)
 ADD_TEST(itkPolygonCellTest ${COMMON_TESTS} itkPolygonCellTest)
 ADD_TEST(itkQuaternionRigidTransformTest ${COMMON_TESTS} itkQuaternionRigidTransformTest)
+ADD_TEST(itkRealTimeClockTest ${COMMON_TESTS} itkRealTimeClockTest)
 ADD_TEST(itkRGBPixelTest ${COMMON_TESTS} itkRGBPixelTest)
 ADD_TEST(itkRGBInterpolateImageFunctionTest ${COMMON_TESTS} itkRGBInterpolateImageFunctionTest)
 ADD_TEST(itkRGBToVectorImageAdaptorTest ${COMMON_TESTS} itkRGBToVectorImageAdaptorTest)
@@ -304,6 +305,7 @@ itkQuaternionRigidTransformTest.cxx
 itkRigid2DTransformTest.cxx
 itkRigid3DTransformTest.cxx
 itkRigid3DPerspectiveTransformTest.cxx
+itkRealTimeClockTest.cxx
 itkRGBPixelTest.cxx
 itkRGBInterpolateImageFunctionTest.cxx
 itkRGBToVectorImageAdaptorTest.cxx

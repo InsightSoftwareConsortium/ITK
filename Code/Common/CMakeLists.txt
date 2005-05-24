@@ -42,6 +42,7 @@ SET(ITKCommon_SRCS
   itkProgressReporter.cxx
   itkQuadraticTriangleCellTopology.cxx
   itkQuadrilateralCellTopology.cxx
+  itkRealTimeClock.cxx
   itkRegion.cxx
   itkProgressAccumulator.cxx
   itkSemaphore.cxx
