@@ -25,6 +25,15 @@
 // use for this purpose the ImageMetrics designed for the image registration
 // framework.
 //
+// For example:
+// 
+// \doxygen{MutualInformationImageToImageMetric}
+// \doxygen{MattesMutualInformationImageToImageMetric}
+// \doxygen{MutualInformationHistogramImageToImageMetric}
+// \doxygen{MutualInformationImageToImageMetric}
+// \doxygen{NormalizedMutualInformationHistogramImageToImageMetric}
+// \doxygen{KullbackLeiblerCompareHistogramImageToImageMetric}
+//
 // Software Guide : EndLatex 
 
 
