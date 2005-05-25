@@ -75,10 +75,10 @@ std::ifstream & Brains2HeaderBase::ReadBrains2Header(std::ifstream  & inputstrea
   itk::Brains2HeaderFactory MyBrains2HdrFac;
   long int PreKeyReadPosition=inputstream.tellg();
   inputstream >> Key; //Read key that follows "IPL_HEADER_BEGIN"
-  std::cerr << "ReadBrains2Header: GetHeaderEndTag is |" << this->GetHeaderEndTag() << "|" << std::endl;
+//  std::cout << "ReadBrains2Header: GetHeaderEndTag is |" << this->GetHeaderEndTag() << "|" << std::endl;
   while(Key != this->GetHeaderEndTag() )  //If key = "IPL_HEADER_END", then there is no value
     {
-    std::cerr << "ReadBrains2Header: Key is |" << Key << "|" << std::endl;
+//    std::cerr << "ReadBrains2Header: Key is |" << Key << "|" << std::endl;
     if(inputstream.eof() == true)
       {
       ExceptionObject exception(__FILE__, __LINE__);
