@@ -18,17 +18,6 @@ SUBDIRS(MetaIO)
 SUBDIRS(NrrdIO)
 SUBDIRS(expat)
 SUBDIRS(gdcm)
-#------------------------------------------------------------------------------
-# log4cxx, an experimental Utility package
-
-# For testing, ignore this option
-SET(USE_LOG4CXX OFF)
-
-OPTION(USE_LOG4CXX "Build log4cxx" OFF)
-MARK_AS_ADVANCED(USE_LOG4CXX)
-IF( USE_LOG4CXX )
-  SUBDIRS(log4cxx)
-ENDIF( USE_LOG4CXX )
 
 #------------------------------------------------------------------------------
 # Create the DICOMParse library for ITK
