@@ -24,7 +24,6 @@
 #include <fstream>
 #include "itkStdStreamLogOutput.h"
 #include "itkThreadLogger.h"
-#include "itkLogMacro.h"
 #include "itkLoggerManager.h"
 
 

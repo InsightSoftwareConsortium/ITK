@@ -25,7 +25,6 @@
 
 #include "itkFileLogOutput.h"
 #include "itkLogger.h"
-#include "itkLogMacro.h"
 #include "itkConsoleLogOutput.h"
 
 
