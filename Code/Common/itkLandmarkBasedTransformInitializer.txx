@@ -294,13 +294,13 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
       if( FixedImageType::ImageDimension != 2 )
         {
         itkExceptionMacro(
-            "Transform is Rigid2DTransfrom and Fixed image dimension is not 3");
+            "Transform is Rigid2DTransfrom and Fixed image dimension is not 2");
         return;
         }
       if( MovingImageType::ImageDimension != 2 )
         {
         itkExceptionMacro(
-         "Transform is VersorRigid3DTransform and Moving image dimension is not 3");
+           "Transform is Rigid2DTransform and Moving image dimension is not 2");
         return;
         }
       
