@@ -23,7 +23,7 @@
 {         \
   if (this->GetLogger() ) \
     {  \
-      this->GetLogger()->Write(x, y); \
+    this->GetLogger()->Write(::itk::Logger::x, y); \
     }  \
 }
 
@@ -32,7 +32,7 @@
 {         \
   if (obj->GetLogger() ) \
     {  \
-      obj->GetLogger()->Write(x, y); \
+    obj->GetLogger()->Write(::itk::Logger::x, y); \
     }  \
 }
 
