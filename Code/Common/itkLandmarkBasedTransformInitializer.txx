@@ -280,9 +280,6 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
       transform->SetCenter(fixedCentroid);
       transform->SetRotation( versor );
 
-      PointType fixedCentroidRotated = 
-        rotationCenter + versor.Transform(  fixedCentroid - rotationCenter );
-
       VectorType translation = transform->GetTranslation(); 
       translation += movingCentroid - fixedCentroid;
       transform->SetTranslation( translation );
@@ -418,8 +415,6 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
       typename Rigid2DTransformType::Pointer t = Rigid2DTransformType::New();
       t->SetIdentity();
       t->SetAngle( rotationAngle );
-      PointType fixedCentroidRotated = rotationCenter + 
-               t->TransformVector( fixedCentroid - rotationCenter );
        
       transform->SetCenter( fixedCentroid );
       
