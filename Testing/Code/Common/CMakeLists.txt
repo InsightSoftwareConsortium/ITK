@@ -27,13 +27,16 @@ ADD_TEST(itkChainCodePath2DTest ${COMMON_TESTS} itkChainCodePath2DTest)
 ADD_TEST(itkChainCodePathTest ${COMMON_TESTS} itkChainCodePathTest)
 ADD_TEST(itkCommonPrintTest ${COMMON_TESTS} itkCommonPrintTest)
 ADD_TEST(itkConditionVariableTest ${COMMON_TESTS} itkConditionVariableTest)
+ADD_TEST(itkConsoleLogOutputTest ${COMMON_TESTS} itkConsoleLogOutputTest)
 ADD_TEST(itkDecoratorTest ${COMMON_TESTS} itkDecoratorTest)
 ADD_TEST(itkDirectoryTest ${COMMON_TESTS} itkDirectoryTest ${TEMP})
 ADD_TEST(itkModifiedTimeTest ${COMMON_TESTS} itkModifiedTimeTest)
+ADD_TEST(itkMultipleLogOutputTest ${COMMON_TESTS} itkMultipleLogOutputTest)
 ADD_TEST(itkAdaptorComparisonTest ${COMMON_TESTS} itkAdaptorComparisonTest)
 ADD_TEST(itkAffineTransformTest ${COMMON_TESTS} itkAffineTransformTest)
 ADD_TEST(itkFixedCenterOfRotationAffineTransformTest ${COMMON_TESTS} itkFixedCenterOfRotationAffineTransformTest)
 ADD_TEST(itkFixedArrayTest ${COMMON_TESTS} itkFixedArrayTest)
+ADD_TEST(itkFileLogOutputTest ${COMMON_TESTS} itkFileLogOutputTest)
 ADD_TEST(itkArrayTest ${COMMON_TESTS} itkArrayTest)
 ADD_TEST(itkArray2DTest ${COMMON_TESTS} itkArray2DTest)
 ADD_TEST(itkAutoPointerTest ${COMMON_TESTS} itkAutoPointerTest)
@@ -89,6 +92,9 @@ ADD_TEST(itkIteratorTests ${COMMON_TESTS} itkIteratorTests)
 ADD_TEST(itkLandmarkBasedTransformInitializerTest ${COMMON_TESTS} itkLandmarkBasedTransformInitializerTest)
 ADD_TEST(itkLightObjectTest ${COMMON_TESTS} itkLightObjectTest)
 ADD_TEST(itkLevelSetFunctionTest ${COMMON_TESTS} itkLevelSetFunctionTest)
+ADD_TEST(itkLoggerTest ${COMMON_TESTS} itkLoggerTest)
+ADD_TEST(itkLoggerOutputTest ${COMMON_TESTS} itkLoggerOutputTest)
+ADD_TEST(itkLoggerManagerTest ${COMMON_TESTS} itkLoggerManagerTest)
 ADD_TEST(itkMatrixTest ${COMMON_TESTS} itkMatrixTest)
 ADD_TEST(itkMapContainerTest ${COMMON_TESTS} itkMapContainerTest)
 ADD_TEST(itkMahalanobisDistanceThresholdImageFunctionTest ${COMMON_TESTS} itkMahalanobisDistanceThresholdImageFunctionTest)
@@ -140,9 +146,11 @@ ADD_TEST(itkSpatialFunctionTest ${COMMON_TESTS} itkSpatialFunctionTest)
 ADD_TEST(itkSphereSignedDistanceFunctionTest ${COMMON_TESTS} itkSphereSignedDistanceFunctionTest)
 ADD_TEST(itkSmartPointerTest ${COMMON_TESTS} itkSmartPointerTest)
 ADD_TEST(itkSTLContainerAdaptorTest ${COMMON_TESTS} itkSTLContainerAdaptorTest)
+ADD_TEST(itkStdStreamLogOutputTest ${COMMON_TESTS} itkStdStreamLogOutputTest)
 ADD_TEST(itkTimeProbesTest ${COMMON_TESTS} itkTimeProbesTest)
 ADD_TEST(itkTransformTest ${COMMON_TESTS} itkTransformTest)
 ADD_TEST(itkThreadDefsTest ${COMMON_TESTS} itkThreadDefsTest)
+ADD_TEST(itkThreadLoggerTest ${COMMON_TESTS} itkThreadLoggerTest)
 ADD_TEST(itkTranslationTransformTest ${COMMON_TESTS} itkTranslationTransformTest)
 ADD_TEST(itkTreeContainerTest ${COMMON_TESTS} itkTreeContainerTest)
 ADD_TEST(itkTreeContainerTest2 ${COMMON_TESTS} itkTreeContainerTest2)
@@ -206,7 +214,9 @@ WRITE_FILE(
 SET(BasicTests_SRCS
 itkCommonPrintTest.cxx
 itkConditionVariableTest.cxx
+itkConsoleLogOutputTest.cxx
 itkModifiedTimeTest.cxx
+itkMultipleLogOutputTest.cxx
 itkAdaptorComparisonTest.cxx
 itkAffineTransformTest.cxx
 itkAnnulusOperatorTest.cxx
@@ -247,6 +257,7 @@ itkExceptionObjectTest.cxx
 itkFileOutputWindowTest.cxx
 itkFiniteCylinderSpatialFunctionTest.cxx
 itkFixedArrayTest.cxx
+itkFileLogOutputTest.cxx
 itkFixedCenterOfRotationAffineTransformTest.cxx
 itkFloodFilledSpatialFunctionTest.cxx
 itkFourierSeriesPathTest.cxx
@@ -270,6 +281,9 @@ itkIteratorTests.cxx
 itkLevelSetFunctionTest.cxx
 itkLandmarkBasedTransformInitializerTest.cxx
 itkLightObjectTest.cxx
+itkLoggerTest.cxx
+itkLoggerOutputTest.cxx
+itkLoggerManagerTest.cxx
 itkMatrixTest.cxx
 itkMapContainerTest.cxx
 itkMahalanobisDistanceThresholdImageFunctionTest.cxx
@@ -323,10 +337,12 @@ itkSliceIteratorTest.cxx
 itkSparseImageTest.cxx
 itkSmartPointerTest.cxx
 itkSTLContainerAdaptorTest.cxx
+itkStdStreamLogOutputTest.cxx
 itkSpatialFunctionTest.cxx
 itkSphereSignedDistanceFunctionTest.cxx
 itkSplineKernelTransformTest.cxx
 itkThreadDefsTest.cxx
+itkThreadLoggerTest.cxx
 itkTimeProbesTest.cxx
 itkTransformTest.cxx
 itkTranslationTransformTest.cxx
