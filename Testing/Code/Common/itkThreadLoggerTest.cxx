@@ -34,21 +34,21 @@ public:
   itk::Logger* GetLogger() { return m_Logger; }
   void SetLogger(itk::Logger* logger) { m_Logger = logger; }
   void log() {
-    itkLogMacro(itk::Logger::DEBUG, "DEBUG message by itkLogMacro\n");
-    itkLogMacro(itk::Logger::INFO, "INFO message by itkLogMacro\n");
-    itkLogMacro(itk::Logger::WARNING, "WARNING message by itkLogMacro\n");
-    itkLogMacro(itk::Logger::CRITICAL, "CRITICAL message by itkLogMacro\n");
-    itkLogMacro(itk::Logger::FATAL, "FATAL message by itkLogMacro\n");
-    itkLogMacro(itk::Logger::MUSTFLUSH, "MUSTFLUSH message by itkLogMacro\n");
+    itkLogMacro( DEBUG, "DEBUG message by itkLogMacro\n" );
+    itkLogMacro( INFO, "INFO message by itkLogMacro\n" );
+    itkLogMacro( WARNING, "WARNING message by itkLogMacro\n" );
+    itkLogMacro( CRITICAL, "CRITICAL message by itkLogMacro\n" );
+    itkLogMacro( FATAL, "FATAL message by itkLogMacro\n" );
+    itkLogMacro( MUSTFLUSH, "MUSTFLUSH message by itkLogMacro\n" );
   }
   static void logStatic(LogTester* tester)
   {
-    itkLogMacroStatic(tester, itk::Logger::DEBUG, "DEBUG message by itkLogMacroStatic\n");
-    itkLogMacroStatic(tester, itk::Logger::INFO, "INFO message by itkLogMacroStatic\n");
-    itkLogMacroStatic(tester, itk::Logger::WARNING, "WARNING message by itkLogMacroStatic\n");
-    itkLogMacroStatic(tester, itk::Logger::CRITICAL, "CRITICAL message by itkLogMacroStatic\n");
-    itkLogMacroStatic(tester, itk::Logger::FATAL, "FATAL message by itkLogMacroStatic\n");
-    itkLogMacroStatic(tester, itk::Logger::MUSTFLUSH, "MUSTFLUSH message by itkLogMacroStatic\n");
+    itkLogMacroStatic( tester, DEBUG, "DEBUG message by itkLogMacroStatic\n" );
+    itkLogMacroStatic( tester, INFO, "INFO message by itkLogMacroStatic\n" );
+    itkLogMacroStatic( tester, WARNING, "WARNING message by itkLogMacroStatic\n" );
+    itkLogMacroStatic( tester, CRITICAL, "CRITICAL message by itkLogMacroStatic\n" );
+    itkLogMacroStatic( tester, FATAL, "FATAL message by itkLogMacroStatic\n" );
+    itkLogMacroStatic( tester, MUSTFLUSH, "MUSTFLUSH message by itkLogMacroStatic\n" );
   }
 private:
   itk::Logger* m_Logger;
