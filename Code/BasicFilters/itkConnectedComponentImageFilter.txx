@@ -187,18 +187,12 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage >
             }
           // else if current pixel has a label that is not already
           // equivalent to the label of the previous pixel, then setup
-          // a new equivalence.  note the use of Lookup() and not
-          // RecursiveLookup(). this is possible since we keep the
-          // equivalence table flat.
+          // a new equivalence.  
           else if ((label != neighborLabel)
-                && (eqTable->Lookup(label) != eqTable->Lookup(neighborLabel))) 
+                   && (eqTable->RecursiveLookup(label)
+                       != eqTable->RecursiveLookup(neighborLabel))) 
             {
             eqTable->Add(label, neighborLabel);
-
-            // if we keep the equivalency table up to date, then we
-            // can use straight calls to Lookup() instead of
-            // RecursiveLookUp().  This works out to be 3X faster.
-            eqTable->Flatten();
             }
           }
         }
