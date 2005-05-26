@@ -5,6 +5,7 @@ SET(ITKCommon_SRCS
   itkChainCodePath2D.cxx
   itkCommand.h itkCommand.cxx
   itkConditionVariable.cxx
+  itkConsoleLogOutput.cxx
   itkDataObject.cxx
   itkDecisionRuleBase.cxx
   itkDirectory.cxx
@@ -14,6 +15,7 @@ SET(ITKCommon_SRCS
   itkExceptionObject.cxx
   itkFastMutexLock.cxx
   itkFileOutputWindow.cxx
+  itkFileLogOutput.cxx
   itkGaussianKernelFunction.cxx
   itkHexahedronCellTopology.cxx
   itkIndent.cxx
@@ -23,12 +25,16 @@ SET(ITKCommon_SRCS
   itkKernelFunction.cxx
   itkLightObject.cxx
   itkLightProcessObject.cxx
+  itkLogger.cxx
+  itkLoggerManager.cxx
+  itkLoggerOutput.cxx
   itkMaximumDecisionRule.cxx
   itkMaximumRatioDecisionRule.cxx
   itkMeshRegion.cxx
   itkMinimumDecisionRule.cxx
   itkMultiThreader.cxx
   itkMutexLock.cxx
+  itkMultipleLogOutput.cxx
   itkNumericTraits.cxx
   itkNumericTraitsRGBPixel.cxx
   itkNumericTraitsVectorPixel.cxx
@@ -51,8 +57,10 @@ SET(ITKCommon_SRCS
   itkSimpleFastMutexLock.cxx
   itkSimpleFilterWatcher.cxx
   itkSimplexMeshGeometry.cxx
+  itkStdStreamLogOutput.cxx
   itkTextOutput.cxx
   itkTetrahedronCellTopology.cxx
+  itkThreadLogger.cxx
   itkTimeProbe.cxx
   itkTimeProbesCollectorBase.cxx
   itkTimeStamp.cxx
