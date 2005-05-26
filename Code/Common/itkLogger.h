@@ -26,6 +26,7 @@
 #endif
 
 #include "itkMacro.h"
+#include "itkLogMacro.h"
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkMultipleLogOutput.h"
