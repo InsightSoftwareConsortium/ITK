@@ -39,7 +39,42 @@ bool EquivalencyTable::Add(unsigned long a, unsigned long b)
     }
   else return true;
 }
+
+
+bool EquivalencyTable::AddAndFlatten(unsigned long a, unsigned long b)
+{
+  unsigned long temp;
+  std::pair<Iterator, bool> result;
+  if (a == b) return false;
+  else if (a < b)
+    {  // swap a, b
+    temp = a;
+    a = b;
+    b = temp;
+    }
+
+  unsigned long bFlattened = this->RecursiveLookup(b);
+  result = m_HashMap.insert( ValueType(a, bFlattened) );  
   
+  if (result.second == false)
+    { // Stop endless loops.
+    if ( (*(result.first)).second  == bFlattened ) return false;
+    else return (this->Add((*(result.first)).second, bFlattened));
+    }
+  else
+    {
+    if (b != bFlattened)
+      {
+      // flatten b as well
+      m_HashMap.insert( ValueType(b, bFlattened) );
+      return true;
+      }
+    }
+  
+  return false;
+}
+
+
 //void EquivalencyTable::PrintHashTable()
 //{
 //  ConstIterator it = this->Begin();
@@ -55,7 +90,7 @@ void EquivalencyTable::Flatten()
   Iterator it = this->Begin();
   while ( it != this->End() )
     {
-    (*it).second = this->RecursiveLookup((*it).first);
+    (*it).second = this->RecursiveLookup((*it).second);
     it++;
     }
 }

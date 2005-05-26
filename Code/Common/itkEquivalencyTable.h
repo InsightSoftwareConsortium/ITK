@@ -75,6 +75,15 @@ public:
    * equivalency was already recorded directly or indirectly).  */
   bool Add(unsigned long a, unsigned long b);
 
+  /** Insert an equivalency into the table and flatten that
+   * equivalency. A return value of TRUE indicates that the
+   * equivalency did not previously exist in the table and was
+   * successfully added.  A FALSE return value indicates that the
+   * equivalency was not added to the table because a conflict with an
+   * existing entry occurred (most likely, the equivalency was already
+   * recorded directly or indirectly). */
+  bool AddAndFlatten(unsigned long a, unsigned long b);
+
   /** Lookup an equivalency in the table.  If no entry is found in the
    * table, the method returns its the value of the argument.  Does
    * not recursively descent through equivalencies.  */
