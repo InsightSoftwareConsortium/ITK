@@ -42,7 +42,7 @@ namespace itk
  *  \ingroup OSSystemObjects LoggingObjects                    
  */
 
-class StdStreamLogOutput : public LogOutput
+class ITKCommon_EXPORT StdStreamLogOutput : public LogOutput
 {
 
 public:

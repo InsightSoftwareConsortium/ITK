@@ -50,7 +50,7 @@ namespace itk
  *  \ingroup OSSystemObjects LoggingObjects                    
  */
 
-class ThreadLogger : public Logger
+class ITKCommon_EXPORT ThreadLogger : public Logger
 {
 
 public:

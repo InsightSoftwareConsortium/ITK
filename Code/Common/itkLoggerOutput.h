@@ -40,7 +40,7 @@ namespace itk
  *
  * \ingroup OSSystemObjects
  */
-class LoggerOutput : public OutputWindow 
+class ITKCommon_EXPORT LoggerOutput : public OutputWindow 
 {
 public:
   /** Standard class typedefs. */

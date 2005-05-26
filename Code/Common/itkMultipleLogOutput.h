@@ -45,7 +45,7 @@ namespace itk
  *  \ingroup OSSystemObjects LoggingObjects                    
  */
 
-class MultipleLogOutput : public LogOutput
+class ITKCommon_EXPORT MultipleLogOutput : public LogOutput
 {
 
 public:

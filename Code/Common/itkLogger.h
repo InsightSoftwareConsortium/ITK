@@ -43,7 +43,7 @@ namespace itk
  *  \ingroup OSSystemObjects LoggingObjects                    
 */
 
-class Logger : public Object
+class ITKCommon_EXPORT Logger : public Object
 {
 
 public:

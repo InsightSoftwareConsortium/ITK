@@ -49,7 +49,7 @@ namespace itk
  *
  */
 
-class LoggerManager : public Object
+class ITKCommon_EXPORT LoggerManager : public Object
 {
 
 public:
