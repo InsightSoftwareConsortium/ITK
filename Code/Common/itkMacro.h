@@ -514,6 +514,29 @@ private:
 }
 #endif
 
+
+
+//----------------------------------------------------------------------------
+// Macros for simplifying the use of logging
+//
+#define itkLogMacro( x, y)  \
+{         \
+  if (this->GetLogger() ) \
+    {  \
+    this->GetLogger()->Write(::itk::Logger::x, y); \
+    }  \
+}
+
+
+#define itkLogMacroStatic( obj, x, y)  \
+{         \
+  if (obj->GetLogger() ) \
+    {  \
+    obj->GetLogger()->Write(::itk::Logger::x, y); \
+    }  \
+}
+
+
 //----------------------------------------------------------------------------
 // Setup legacy code policy.
 
