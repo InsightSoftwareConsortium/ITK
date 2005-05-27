@@ -67,17 +67,24 @@ public:
 
   typedef Logger::PriorityLevelType   PriorityLevelType;
 
-  typedef Logger::OutputType   OutputType;
+  typedef Logger::OutputType          OutputType;
+
+  typedef Logger::Pointer             LoggerPointer;
+  typedef ThreadLogger::Pointer       ThreadLoggerPointer;
 
   typedef const std::string   NameType;
 
   /** create a logger and add it into LoggerManager */
-  Logger::Pointer CreateLogger( const NameType &name, PriorityLevelType level, 
-    PriorityLevelType levelForFlushing = Logger::MUSTFLUSH );
+  LoggerPointer CreateLogger( 
+                          const NameType &name, 
+                          PriorityLevelType level, 
+                          PriorityLevelType levelForFlushing = Logger::MUSTFLUSH );
 
   /** create a thread logger and add it into LoggerManager */
-  ThreadLogger::Pointer CreateThreadLogger( const NameType &name, PriorityLevelType level, 
-    PriorityLevelType levelForFlushing = Logger::MUSTFLUSH );
+  ThreadLoggerPointer CreateThreadLogger( 
+                          const NameType &name, 
+                          PriorityLevelType level, 
+                          PriorityLevelType levelForFlushing = Logger::MUSTFLUSH );
 
   /** Registers a logger */
   void AddLogger( const NameType &name, Logger* logger );
@@ -107,9 +114,7 @@ protected:
 
 private:
 
-//  typedef std::set< Logger::Pointer >   ContainerType;
-
-  typedef std::map< NameType, Logger::Pointer >  ContainerType;
+  typedef std::map< NameType, LoggerPointer >  ContainerType;
 
   ContainerType   m_LoggerSet;
 

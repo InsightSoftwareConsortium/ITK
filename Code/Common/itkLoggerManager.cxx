@@ -22,7 +22,8 @@ namespace itk
 {
 
 /** create a logger and add it into LoggerManager */
-Logger::Pointer LoggerManager::CreateLogger( const NameType &name, PriorityLevelType level,
+LoggerManager::LoggerPointer
+LoggerManager::CreateLogger( const NameType &name, PriorityLevelType level,
                                             PriorityLevelType levelForFlushing )
 {
   Logger::Pointer logger = Logger::New();
@@ -35,7 +36,8 @@ Logger::Pointer LoggerManager::CreateLogger( const NameType &name, PriorityLevel
 
 
 /** create a thread logger and add it into LoggerManager */
-ThreadLogger::Pointer LoggerManager::CreateThreadLogger( const NameType &name, PriorityLevelType level, 
+LoggerManager::ThreadLoggerPointer 
+LoggerManager::CreateThreadLogger( const NameType &name, PriorityLevelType level, 
                                         PriorityLevelType levelForFlushing )
 {
   ThreadLogger::Pointer logger = ThreadLogger::New();
@@ -55,15 +57,15 @@ void LoggerManager::AddLogger( const NameType &name, Logger* logger )
 }
 
 
-Logger* LoggerManager::GetLogger( const NameType &name )
+Logger* 
+LoggerManager::GetLogger( const NameType &name ) 
 {
-  /*
-  Logger* logger = this->m_LoggerSet[name];
-  if( logger == this->m_LoggerSet.end() )
+  ContainerType::iterator loggerItr = this->m_LoggerSet.find( name );
+  if( loggerItr == this->m_LoggerSet.end() )
+    {
     return NULL;
-  return logger;
-  */
-  return this->m_LoggerSet[name];
+    }
+  return loggerItr->second.GetPointer();
 }
 
 
