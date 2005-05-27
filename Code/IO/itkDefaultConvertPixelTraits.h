@@ -218,7 +218,7 @@ public:                                                                  \
     }                                                                    \
   static void SetNthComponent(int i, TargetType & pixel, const ComponentType& v)   \
     {                                                                    \
-    if( i=0 )                                                            \
+    if( i == 0 )                                                            \
       {                                                                  \
       pixel = TargetType( v, pixel.imag() );                           \
       }                                                                  \
