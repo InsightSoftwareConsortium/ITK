@@ -30,6 +30,8 @@ void RegisterTests()
   REGISTER_TEST(itkBasicFiltersPrintTest2 );
   REGISTER_TEST(itkComplexToImaginaryFilterAndAdaptorTest );
   REGISTER_TEST(itkComplexToRealFilterAndAdaptorTest );
+  REGISTER_TEST(itkComplexToModulusFilterAndAdaptorTest );
+  REGISTER_TEST(itkComplexToPhaseFilterAndAdaptorTest );
   REGISTER_TEST(itkConstrainedValueAdditionImageFilterTest );
   REGISTER_TEST(itkConstrainedValueDifferenceImageFilterTest );
   REGISTER_TEST(itkContourDirectedMeanDistanceImageFilterTest );
