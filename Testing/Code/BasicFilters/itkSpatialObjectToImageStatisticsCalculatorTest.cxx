@@ -206,9 +206,22 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
     {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+    } 
 
-  std::cout << "[PASSED]" << std::endl;
-
+  std::cout << "Number of pixels = " << calculator3D->GetNumberOfPixels() << std::endl;
+  if(calculator3D->GetNumberOfPixels() != 305)
+     {
+     std::cout << "[FAILED]" << std::endl;
+     return EXIT_FAILURE;
+     }
+ 
+  std::cout << "Sum = " << calculator3D->GetSum() << std::endl;
+  if(calculator3D->GetSum() != 915)
+     {
+     std::cout << "[FAILED]" << std::endl;
+     return EXIT_FAILURE;
+     }
+   
+  std::cout << " [PASSED]" << std::endl;
   return EXIT_SUCCESS;
 }
