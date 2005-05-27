@@ -39,6 +39,8 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   m_SampleDirection = TSampleDimension-1;
   m_InternalImageTime = 0;
   m_InternalSpatialObjectTime = 0;
+  m_Sum = 0;
+  m_NumberOfPixels = 0;;
 }
 
 /** */
@@ -93,6 +95,8 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   typedef itk::Statistics::ListSample< VectorType > SampleType;
   typename SampleType::Pointer sample = SampleType::New();
  
+  m_NumberOfPixels = 0;
+
   while(!it.IsAtEnd())
     {
     IndexType ind = it.GetIndex();
@@ -102,8 +106,10 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
       {
       ind[m_SampleDirection] += 1;
       mv[i]= m_Image->GetPixel(ind);
+      m_Sum += mv[i];
       }
-    sample->PushBack( mv ) ;
+    sample->PushBack( mv );
+    m_NumberOfPixels++;
     ++it;
     }
 
@@ -141,6 +147,8 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   os << indent << "SpatialObject: " << m_SpatialObject << std::endl;
   os << indent << "Mean: " << m_Mean << std::endl;
   os << indent << "Covariance Matrix: " << m_CovarianceMatrix << std::endl;
+  os << indent << "Sum: " << m_Sum << std::endl;
+  os << indent << "m_NumberOfPixels: " << m_NumberOfPixels << std::endl;
   os << indent << "Internal Image Time: " << m_InternalImageTime << std::endl;
   os << indent << "Internal Spatial Object Time: " << m_InternalSpatialObjectTime << std::endl;
   os << indent << "SampleDirection: " << m_SampleDirection << std::endl;

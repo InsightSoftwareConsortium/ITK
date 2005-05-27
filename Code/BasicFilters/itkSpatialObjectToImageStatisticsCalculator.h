@@ -21,6 +21,7 @@
 #include "itkObjectFactory.h"
 #include "itkFloodFilledSpatialFunctionConditionalConstIterator.h"
 #include "itkMatrix.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -51,6 +52,7 @@ public:
   typedef typename TInputImage::ConstPointer ImageConstPointer;
   typedef typename TInputImage::PixelType PixelType;
   typedef typename TInputImage::IndexType IndexType;
+  typedef  typename NumericTraits< PixelType >::AccumulateType AccumulateType;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       ImageType::ImageDimension);
@@ -91,6 +93,12 @@ public:
   /** Get the covariance matrix */
   const MatrixType & GetCovarianceMatrix() const {return m_CovarianceMatrix;}
 
+  /** Get the sum of pixels */
+  AccumulateType GetSum() const {return m_Sum;}
+
+  /** Get the number of pixels inside the object */
+  itkGetConstMacro(NumberOfPixels,unsigned long);
+
   /** Compute of the input image. */
   void Update(void);
 
@@ -106,6 +114,8 @@ private:
   ImageConstPointer          m_Image;
   SpatialObjectPointer       m_SpatialObject;
   VectorType                 m_Mean;
+  AccumulateType             m_Sum;
+  unsigned long              m_NumberOfPixels;
   MatrixType                 m_CovarianceMatrix;
   unsigned int               m_SampleDirection;
   unsigned long              m_InternalImageTime;
