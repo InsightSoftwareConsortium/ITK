@@ -31,8 +31,8 @@
 #include "itkLogger.h"
 #include "itkThreadLogger.h"
 
+#include <string>
 #include <map>
-#include <set>
 
 namespace itk
 {
@@ -72,7 +72,7 @@ public:
   typedef Logger::Pointer             LoggerPointer;
   typedef ThreadLogger::Pointer       ThreadLoggerPointer;
 
-  typedef const std::string   NameType;
+  typedef std::string   NameType;
 
   /** create a logger and add it into LoggerManager */
   LoggerPointer CreateLogger( 
