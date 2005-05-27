@@ -88,7 +88,10 @@ int itkComplexToModulusFilterAndAdaptorTest(int, char* [] )
   // Initialize the content of Image A
   InputPixelType value( 13, 25);
 
-  std::cout << "Modulus of input pixel = " << abs(value) << std::endl;
+  double modulus = sqrt( value.real() * value.real() +
+                         value.imag() * value.imag()  );
+
+  std::cout << "Modulus of input pixel = " << modulus << std::endl;
 
   std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
