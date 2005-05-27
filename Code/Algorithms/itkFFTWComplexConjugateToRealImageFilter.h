@@ -28,14 +28,15 @@ class FFTWComplexConjugateToRealImageFilter :
     public FFTComplexConjugateToRealImageFilter<TPixel,Dimension>
 {
 public:
-  /** Standard class typedefs.*/ 
-  typedef Image< std::complex<TPixel>,Dimension> TInputImageType;
-  typedef Image<TPixel,Dimension> TOutputImageType;
 
   typedef FFTWComplexConjugateToRealImageFilter Self;
   typedef FFTComplexConjugateToRealImageFilter<TPixel,Dimension> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> constPointer;
+
+  /** Standard class typedefs.*/ 
+  typedef typename Superclass::TInputImageType TInputImageType;
+  typedef typename Superclass::TOutputImageType TOutputImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -20,18 +20,29 @@
 #ifdef USE_FFTW
 #include "fftw3.h"
 
+
+
 namespace itk
 {
+/** /class FFTWRealToComplexConjugateImageFilter
+ * /brief 
+ *
+ * \ingroup 
+ */
 template <class TPixel, unsigned int Dimension = 3>
-class FFTWRealToComplexConjugateImageFilter :
+class ITK_EXPORT FFTWRealToComplexConjugateImageFilter :
     public FFTRealToComplexConjugateImageFilter<TPixel,Dimension>
 {
 public:
-  /** Standard class typedefs.*/ 
+
   typedef FFTWRealToComplexConjugateImageFilter Self;
   typedef FFTRealToComplexConjugateImageFilter<TPixel,Dimension> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> constPointer;
+
+  /** Standard class typedefs.*/ 
+  typedef typename Superclass::TInputImageType TInputImageType;
+  typedef typename Superclass::TOutputImageType TOutputImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
