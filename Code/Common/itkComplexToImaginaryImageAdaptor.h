@@ -25,7 +25,7 @@ namespace itk
  
 namespace Accessor {
 /** \class ComplexToImaginaryPixelAccessor
- * \brief Give access to the Real part of a std::complex<> value 
+ * \brief Give access to the Imaginary part of a std::complex<> value 
  *
  * ComplexToImaginaryPixelAccessor is templated over an internal type and an
  * external type representation. The internal type is an std::complex<T> and
