@@ -131,11 +131,11 @@ int itkComplexToModulusFilterAndAdaptorTest(int, char* [] )
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     
-    double norm = sqrt( input.real() * input.real() + 
+    double normd = sqrt( input.real() * input.real() + 
                         input.imag() * input.imag()  );
 
-    const OutputImageType::PixelType imag  = 
-       static_cast<OutputImageType::PixelType>( norm );
+    const OutputImageType::PixelType norm =
+       static_cast<OutputImageType::PixelType>( normd );
 
     std::cout <<  output << " = ";
     std::cout <<  norm  << std::endl; 
