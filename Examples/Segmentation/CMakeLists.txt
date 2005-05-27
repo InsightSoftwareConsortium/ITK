@@ -8,9 +8,6 @@ INCLUDE_REGULAR_EXPRESSION("^.*$")
 ADD_EXECUTABLE(ConfidenceConnected ConfidenceConnected.cxx )
 TARGET_LINK_LIBRARIES(ConfidenceConnected ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(CellularSegmentation1 CellularSegmentation1.cxx )
-TARGET_LINK_LIBRARIES(CellularSegmentation1 ITKAlgorithms ITKCommon ITKNumerics ITKIO)
-
 ADD_EXECUTABLE(NeighborhoodConnectedImageFilter NeighborhoodConnectedImageFilter.cxx )
 TARGET_LINK_LIBRARIES(NeighborhoodConnectedImageFilter ITKNumerics ITKIO)
 
@@ -467,6 +464,9 @@ ITKStatistics
 )
 
 IF(NOT BORLAND)
+ADD_EXECUTABLE(CellularSegmentation1 CellularSegmentation1.cxx )
+TARGET_LINK_LIBRARIES(CellularSegmentation1 ITKAlgorithms ITKCommon ITKNumerics ITKIO)
+
 ADD_EXECUTABLE(LaplacianSegmentationLevelSetImageFilter LaplacianSegmentationLevelSetImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianSegmentationLevelSetImageFilter ITKNumerics ITKIO)
 
