@@ -30,7 +30,7 @@
 namespace itk
 {
 
-/** \class itkBinaryMask3DMeshSource
+/** \class BinaryMask3DMeshSource
  * 
  * 
  * \par
