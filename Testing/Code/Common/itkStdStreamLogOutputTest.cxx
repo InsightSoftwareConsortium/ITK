@@ -49,10 +49,11 @@ int itkStdStreamLogOutputTest( int, char * [] )
     output->Write("This is the test message.\n");
     output->Write("This is the second test message.\n", 1.2345);
     output->Flush();
+    output->Print(std::cout);
     }
   catch(...)
     {
-    std::cerr << "Exception catched !!" << std::endl;
+    std::cerr << "Exception caught !!" << std::endl;
     return EXIT_FAILURE;
     }
 

@@ -62,10 +62,12 @@ int itkFileLogOutputTest( int, char * [] )
     std::cout << "  Priority Level: " << logger->GetPriorityLevel() << std::endl;
     std::cout << "  Level For Flushing: " << logger->GetLevelForFlushing() << std::endl;
 
+    logger->Print(std::cout);
+    fileLog1->Print(std::cout);
     }
   catch(...)
     {
-    std::cerr << "Exception catched !!" << std::endl;
+    std::cerr << "Exception caught !!" << std::endl;
     return EXIT_FAILURE;
     }
 
