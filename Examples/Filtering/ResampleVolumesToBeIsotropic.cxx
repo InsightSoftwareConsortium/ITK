@@ -340,6 +340,9 @@ int main( int argc, char * argv[] )
 
   InternalImageType::ConstPointer smoothedImage = smootherY->GetOutput();
 
+  typedef   unsigned char   OutputPixelType;
+  typedef itk::Image< OutputPixelType,   Dimension >   OutputImageType;
+
   typedef itk::ResampleImageFilter<
                   InternalImageType, OutputImageType >  ResampleFilterType;
 
@@ -394,8 +397,6 @@ int main( int argc, char * argv[] )
 
 
   
-  typedef   unsigned char   OutputPixelType;
-  typedef itk::Image< OutputPixelType,   Dimension >   OutputImageType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
   WriterType::Pointer writer = WriterType::New();
