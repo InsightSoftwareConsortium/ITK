@@ -77,7 +77,7 @@ public:
     
   /** Pass-through assignment operator for the Array base class. */
   Point& operator= (const Self& r);
-  Point& operator= (const ValueType r[PointDimension]);
+  Point& operator= (const ValueType r[NPointDimension]);
     
   /** Compare two points for equality. */
   bool

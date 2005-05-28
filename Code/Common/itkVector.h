@@ -115,7 +115,7 @@ public:
     
   /** Pass-through assignment operator for the Array base class. */
   Vector& operator= (const Self& r);
-  Vector& operator= (const ValueType r[Dimension]);
+  Vector& operator= (const ValueType r[NVectorDimension]);
     
   /** Scalar operator*=.  Scales elements by a scalar. */
   const Self& operator*=(const ValueType &value);
