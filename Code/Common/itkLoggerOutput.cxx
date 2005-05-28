@@ -80,6 +80,11 @@ void LoggerOutput::DisplayDebugText(const char *t)
   }
 }
 
+void LoggerOutput::PrintSelf(std::ostream &os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  os << indent << "Logger: " << m_Logger << std::endl;;
+}
   
 } // end namespace itk
 

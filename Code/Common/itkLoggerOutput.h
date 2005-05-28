@@ -91,7 +91,7 @@ public:
 protected:
   LoggerOutput() {}
   virtual ~LoggerOutput() {}
-  virtual void PrintSelf(std::ostream& os, Indent indent) const {}
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   Logger* m_Logger;

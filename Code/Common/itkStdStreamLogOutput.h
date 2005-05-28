@@ -83,6 +83,8 @@ protected:
   /** Destructor */
   virtual ~StdStreamLogOutput();
 
+  void PrintSelf(std::ostream &os, Indent indent) const;
+
 private:
 
   StreamPointerType m_Stream;

@@ -82,6 +82,8 @@ protected:
   /** Destructor */
   virtual ~FileLogOutput();
 
+  void PrintSelf(std::ostream &os, Indent indent) const;
+
 private:
 
   FilePointerType m_File;

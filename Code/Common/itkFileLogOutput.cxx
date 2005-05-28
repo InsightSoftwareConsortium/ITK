@@ -93,6 +93,11 @@ void FileLogOutput::Write( const std::string & content, double timestamp )
   FileLogOutput::m_Mutex.Unlock();
 }
 
+void FileLogOutput::PrintSelf(std::ostream &os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  os << indent << "FileType: " << m_File << std::endl;;
+}
 
 }
 
