@@ -18,7 +18,56 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+// Software Guide : BeginLatex
+//
+// It is unfortunate that it is still very common to find medical image
+// datasets that have been acquired with large inter-sclice spacings that
+// result in voxels with anisotropic shapes. In many cases these voxels have
+// ratios of $1:5$ or even $1:10$ between the resolution in the plane $(x,y)$
+// and the resolution along the $z$ axis. Such dataset are close to
+// \textbf{useless} for the purpose of computer assiste image analysis. The
+// persistent tendency for acquiring dataset in such formats just reveals how
+// few the understanding of the third dimension have been gained in the
+// clinical setting and in many radiology reading rooms. Datasets that are
+// acquired with such large anisotropies bring with them the retrograde
+// message: "I don't think that 3D is informative". They repeat stubornly that
+// "all that you need to know can be known by looking at individual slices one
+// by one". However, the fallacy of such statement is made evident with the
+// simple act of looking at the slices when reconstructed in any of the
+// ortogonal planes. The uglines of the extreme rectangular shapes of the
+// pixels becomes obvious, along with the clear realization that no decent
+// signal processing or algorithms can be performed in such images.
+// 
+// Image analysists have a long educational battle to fight in the radiological
+// setting in order to bring the message that 3D datasets acquired with
+// anisotropies larger than 1:2 are simply dismissive of the most fundamental
+// concept of digital signal processing: The Shannon Sampling Theorem.
+//
+// Face to the inertia of many clinical imaging departments and their
+// nearsighted insistency in that those malformed images should be good enough
+// for image processing, some image analysist have adopted the stoic position
+// of trying to deal with those poor datasets. These image analysist usually
+// proceed to subsample the high in-plane resolution, and to super-sample the
+// inter-slice resolution, with the purpose to fake the type of dataset that
+// they should have received in the first place: an \textbf{isotropic} dataset.
+//
+// This example is an illustration of how such operation can be performed using
+// the filter available in the Insight toolkit. Note that this example is not
+// presented here as a \em{solution} to the problem of anisotropic datasets.
+// This is simply a dangeros paliative that will help to perpetuate the mistake
+// of the image acquisition departments. The real solution to the problem of
+// atrophic anisotrpic dataset is to educate radiologist on the fundamental
+// principles of image processing. If you really care about the technical
+// decency of the medical image processing field, it is your duty to reject
+// isotropic data set and to patiently explain radiologist why such a barbarity
+// as a 1:5 anisotropi ratio makes a data set to be just "a collection of
+// slices" instead of an authentic 3D datasets.
+//
+// Software Guide : EndLatex 
 
+
+
+// Software Guide : BeginCodeSnippet
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -181,8 +230,8 @@ int main( int argc, char * argv[] )
     std::cerr << "Exception catched !" << std::endl;
     std::cerr << excep << std::endl;
     }
-
-
+// Software Guide : EndCodeSnippet
+//
   return EXIT_SUCCESS;
 }
 
