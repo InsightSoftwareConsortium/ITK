@@ -154,9 +154,6 @@ TARGET_LINK_LIBRARIES(ResampleImageFilter5 ITKCommon ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ResampleImageFilter6 ResampleImageFilter6.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter6 ITKCommon ITKBasicFilters ITKIO)
 
-ADD_EXECUTABLE(ResampleImageFilter7 ResampleImageFilter7.cxx )
-TARGET_LINK_LIBRARIES(ResampleImageFilter7 ITKCommon ITKBasicFilters ITKIO)
-
 ADD_EXECUTABLE(ResampleImageFilter8 ResampleImageFilter8.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter8 ITKCommon ITKBasicFilters ITKIO)
 
@@ -827,6 +824,11 @@ TARGET_LINK_LIBRARIES(FilteringExamples5 ITKIO ITKBasicFilters ITKCommon)
 
 ADD_EXECUTABLE(FilteringExamples6 FilteringExamples6.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples6 ITKIO ITKBasicFilters ITKCommon)
+
+IF(NOT BORLAND)
+  ADD_EXECUTABLE(ResampleImageFilter7 ResampleImageFilter7.cxx )
+  TARGET_LINK_LIBRARIES(ResampleImageFilter7 ITKCommon ITKBasicFilters ITKIO)
+ENDIF(NOT BORLAND)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
