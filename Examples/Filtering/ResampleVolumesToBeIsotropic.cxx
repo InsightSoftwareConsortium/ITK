@@ -23,24 +23,25 @@
 // It is unfortunate that it is still very common to find medical image
 // datasets that have been acquired with large inter-sclice spacings that
 // result in voxels with anisotropic shapes. In many cases these voxels have
-// ratios of $1:5$ or even $1:10$ between the resolution in the plane $(x,y)$
+// ratios of $[1:5]$ or even $[1:10]$ between the resolution in the plane $(x,y)$
 // and the resolution along the $z$ axis. Such dataset are close to
 // \textbf{useless} for the purpose of computer assisted image analysis. The
 // persistent tendency for acquiring dataset in such formats just reveals how
 // small is the understanding of the third dimension that have been gained in
 // the clinical settings and in many radiology reading rooms. Datasets that are
 // acquired with such large anisotropies bring with them the retrograde
-// message: \em{"I do not think 3D is informative"}. They repeat stubornly that
-// \em{"all that you need to know, can be known by looking at individual
-// slices, one by one"}. However, the fallacy of such statement is made evident
-// with the simple act of looking at the slices when reconstructed in any of
-// the ortogonal planes. The ugliness of the extreme rectangular pixel shapes
-// becomes obvious, along with the clear technical realization that no decent
-// signal processing or algorithms can be performed in such images.
+// message: \emph{``I do not think 3D is informative''}. 
+// They repeat stubbornly that: \emph{``all that you need to know, can be known
+// by looking at individual slices, one by one''}. However, the fallacy of such
+// statement is made evident with the simple act of looking at the slices when
+// reconstructed in any of the ortogonal planes. The ugliness of the extreme
+// rectangular pixel shapes becomes obvious, along with the clear technical
+// realization that no decent signal processing or algorithms can be performed
+// in such images.
 // 
 // Image analysists have a long educational battle to fight in the radiological
 // setting in order to bring the message that 3D datasets acquired with
-// anisotropies larger than 1:2 are simply dismissive of the most fundamental
+// anisotropies larger than $[1:2]$ are simply dismissive of the most fundamental
 // concept of digital signal processing: The Shannon Sampling
 // Theorem~\cite{Shannon1948,Shannon1949}.
 //
@@ -48,15 +49,15 @@
 // nearsighted insistency in that those malformed images should be good enough
 // for image processing, some image analysist have adopted the stoic position
 // of trying to deal with those poor datasets. These image analysist usually
-// proceed to subsample the high in-plane resolution, and to super-sample the
-// inter-slice resolution, with the purpose to fake the type of dataset that
+// proceed to subsample the high in-plane resolution and to super-sample the
+// inter-slice resolution with the purpose of faking the type of dataset that
 // they should have received in the first place: an \textbf{isotropic} dataset.
 // This example is an illustration of how such operation can be performed using
 // the filter available in the Insight Toolkit. 
 //
-// Note that this example is not presented here as a \em{solution} to the
+// Note that this example is not presented here as a \emph{solution} to the
 // problem of anisotropic datasets.  On the contrary, this is simply a
-// \em{dangeros palliative} that will help to perpetuate the mistake of the
+// \emph{dangeros palliative} that will help to perpetuate the mistake of the
 // image acquisition departments. This code is just an analgesic that will make
 // you believe that you don't have pain, while a real and lethal disease is
 // growing inside you. The real solution to the problem of atrophic anisotropic
@@ -65,17 +66,19 @@
 // image processing field, and you really care about providing your best effort
 // to the patients who will receive health care directly or indirectly affected
 // by your processed images, then it is your duty to reject isotropic datasets
-// and to patiently explain radiologist why such a barbarity as a $1:5$
-// anisotropy ratio makes a data set to be just "a collection of slices"
-// instead of an authentic 3D datasets. Please, before daring to use the
-// example in this section, do kindly invite your fellow radiologist to see the
-// dataset in an orthogonal slice. Zoom in that image in a viewer without any
-// linear interpolation. Let her/him know how absurd is to process digital data
-// that have been sampled at ratios of 1:5 or 1:10. Then, let them know that
-// the first thing that you are going to do is to throw away all that high
-// in-plane resolution and to \em{make up} data in-between the slices in order
-// to compensate for their low resolution. Only then you have gained the right
-// to use this code.
+// and to patiently explain radiologist why a barbarity such as a $[1:5]$
+// anisotropy ratio makes a data set to be just ``a collection of slices''
+// instead of an authentic 3D datasets. 
+//
+// Please, before daring to use the example in this section, do kindly invite
+// your fellow radiologist to see the dataset in an orthogonal slice. Zoom in
+// that image in a viewer without any linear interpolation until you see the
+// daunting reality of the rectangular pixels. Let her/him know how absurd is
+// to process digital data that have been sampled at ratios of $[1:5]$ or
+// $[1:10]$.  Then, let them know that the first thing that you are going to do
+// is to throw away all that high in-plane resolution and to \emph{make up}
+// data in-between the slices in order to compensate for their low resolution.
+// Only then, you would have gained the right to use this code.
 //
 // \index{Anisotropic data sets}
 // \index{Subsampling}
@@ -99,7 +102,7 @@
 // requires that we preprocess the data with a smoothing filter in order to
 // avoid the ocurrence of aliasing effects due to overlap of the spectrum in
 // the frequency domain~\cite{Shannon1948,Shannon1949}. The smoothing is
-// performed here using the \code{RecursiveGaussian} filter given that it
+// performed here using the \code{RecursiveGaussian} filter, given that it
 // provides a convenient run-time performance.
 //
 // The first thing that you will need to do in order to resample this ugly
@@ -129,10 +132,10 @@
 // preserving the physical extent of the sampled region. The Linear
 // interpolator is used as a common trade-off, although arguably we should use
 // one type of interpolator for the in-plane subsampling process and another
-// one for the inter-slice supersampling~\footnote{again, one should wonder why
-// to enter into technical sophistication here, when what we are doing is to
+// one for the inter-slice supersampling, but again, one should wonder why to
+// enter into technical sophistication here, when what we are doing is to
 // cover-up for an improper acquisition of medical data, and we are just trying
-// to make it look as if it was correctly acquired.}.
+// to make it look as if it was correctly acquired.
 //
 // Software Guide : EndLatex 
 
@@ -282,14 +285,14 @@ int main( int argc, char * argv[] )
   InputImageType::ConstPointer inputImage = reader->GetOutput();
 
   const InputImageType::SpacingType& inputSpacing = inputImage->GetSpacing();
-// Software Guide : BeginCodeSnippet
+// Software Guide : EndCodeSnippet
 
 
 
 
 // Software Guide : BeginLatex
 //
-// and apply our ad-hoc conjecture that the \em{correct} anisotropic resolution
+// and apply our ad-hoc conjecture that the \emph{correct} anisotropic resolution
 // to use is the geometrical mean of the in-plane and inter-slice resolutions.
 // Then set this spacing as the Sigma value to be used for the Gaussian
 // smoothing at the preprocessing stage.
@@ -326,40 +329,82 @@ int main( int argc, char * argv[] )
 // Software Guide : EndCodeSnippet
 
 
+// Software Guide : BeginLatex
+//
+// Now that we have taken care of the smoothing in-plane, we proceed to
+// instantiate the resampling filter that will reconstruct an isotropic image.
+// We start by declaring the pixel type to be use at the output of such filter,
+// then instantiate the image type and the type for the resampling filter.
+// Finally we construct an instantiation of such a filter.
+//
+// Software Guide : EndLatex 
 
-  try 
-    {
-    smootherY->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
-    std::cerr << "Exception catched !" << std::endl;
-    std::cerr << excep << std::endl;
-    }
 
-
-  InternalImageType::ConstPointer smoothedImage = smootherY->GetOutput();
-
+// Software Guide : BeginCodeSnippet
   typedef   unsigned char   OutputPixelType;
+
   typedef itk::Image< OutputPixelType,   Dimension >   OutputImageType;
 
   typedef itk::ResampleImageFilter<
-                  InternalImageType, OutputImageType >  ResampleFilterType;
+                InternalImageType, OutputImageType >  ResampleFilterType;
 
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
+// Software Guide : EndCodeSnippet
 
+
+
+
+// Software Guide : BeginLatex
+//
+// The resampling filter requires that we provide a Transform, that in this
+// particular case can simply be an identity transform.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
   typedef itk::IdentityTransform< double, Dimension >  TransformType;
 
+  TransformType::Pointer transform = TransformType::New();
+  transform->SetIdentity();
+
+  resampler->SetTransform( transform );
+// Software Guide : EndCodeSnippet
+
+
+
+
+// Software Guide : BeginLatex
+//
+// The filter also requires an interpolator to be passed to it. In this case we
+// chose to use a linear interpolator.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
   typedef itk::LinearInterpolateImageFunction< 
-                                   InternalImageType, double >  InterpolatorType;
+                          InternalImageType, double >  InterpolatorType;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   resampler->SetInterpolator( interpolator );
+// Software Guide : EndCodeSnippet
+
+
+
 
   resampler->SetDefaultPixelValue( 255 ); // highlight regions without source
 
 
+
+
+// Software Guide : BeginLatex
+//
+// The pixel spacing of the resampled dataset is loaded in a \code{SpacingType}
+// and passed to the resampling filter.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
   OutputImageType::SpacingType spacing;
 
   spacing[0] = isoSpacing;
@@ -367,32 +412,94 @@ int main( int argc, char * argv[] )
   spacing[2] = isoSpacing;
 
   resampler->SetOutputSpacing( spacing );
+// Software Guide : EndCodeSnippet
 
-  // Use the same origin
+
+// Software Guide : BeginLatex
+//
+// The origin of the output image is maintained, since we decided to resample
+// the image in the same physical extent of the input anisotropic image.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
   resampler->SetOutputOrigin( inputImage->GetOrigin() );
+// Software Guide : EndCodeSnippet
 
 
-  InputImageType::SizeType   inputSize = inputImage->GetLargestPossibleRegion().GetSize();
+
+
+// Software Guide : BeginLatex
+//
+// The number of pixels to use along each dimension in the grid of the
+// resampled image is computed as a ratio between the pixel spacings of the
+// input image and those of the output image. Note that the computation of the
+// number of pixels along the $Z$ direction is slightly different with the
+// purpose of making sure that we don't attempt to compute pixels that are
+// outside of the original anisotropic dataset.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  InputImageType::SizeType   inputSize = 
+                    inputImage->GetLargestPossibleRegion().GetSize();
+  
   typedef InputImageType::SizeType::SizeValueType SizeValueType;
+
+  const double dx = inputSize[0] * inputSpacing[0] / isoSpacing;
+  const double dy = inputSize[1] * inputSpacing[1] / isoSpacing;
+  const double dz = (inputSize[2] - 1 ) * inputSpacing[2] / isoSpacing;
+// Software Guide : EndCodeSnippet
+
+
+
+// Software Guide : BeginLatex
+//
+// Finally the values are stored in a \code{SizeType} and passed to the
+// resampling filter. Note that this process requires a casting since the
+// computation are performed in \code{double}, while the elements of the
+// \code{SizeType} are some sort of integers.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
   InputImageType::SizeType   size;
 
-  size[0] =
-    static_cast<SizeValueType>(inputSize[0] * inputSpacing[0] / isoSpacing);
-  size[1] =
-    static_cast<SizeValueType>(inputSize[1] * inputSpacing[1] / isoSpacing);
-  size[2] =
-    static_cast<SizeValueType>((inputSize[2] - 1 ) * inputSpacing[2] / isoSpacing);
+  size[0] = static_cast<SizeValueType>( dx );
+  size[1] = static_cast<SizeValueType>( dy );
+  size[2] = static_cast<SizeValueType>( dx );
 
   resampler->SetSize( size );
+// Software Guide : EndCodeSnippet
 
-  resampler->SetInput( smoothedImage );
 
 
-  TransformType::Pointer transform = TransformType::New();
 
-  transform->SetIdentity();
+// Software Guide : BeginLatex
+//
+// Our last action is to take the input for the resampling image filter from
+// the output of the cascade of smoothing filters, and then to trigger the
+// execution of the pipeline by invoking the \code{Update()} method on the
+// resampling filter.
+//
+// Software Guide : EndLatex 
 
-  resampler->SetTransform( transform );
+
+// Software Guide : BeginCodeSnippet
+  resampler->SetInput( smootherY->GetOutput() );
+
+  resampler->Update();
+// Software Guide : EndCodeSnippet
+  
+
+// Software Guide : BeginLatex
+//
+// At this point we should take some minutes in silence to reflect on the
+// circumstances that have lead us to accept to cover-up for the improper
+// acquisition of medical data.
+//
+// Software Guide : EndLatex 
+
 
 
 
@@ -413,7 +520,6 @@ int main( int argc, char * argv[] )
     std::cerr << "Exception catched !" << std::endl;
     std::cerr << excep << std::endl;
     }
-// Software Guide : EndCodeSnippet
 
 
   return EXIT_SUCCESS;
