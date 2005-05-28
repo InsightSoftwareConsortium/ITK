@@ -118,7 +118,7 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
     
   /** Pass-through assignment operator for the Array base class. */
   CovariantVector& operator= (const Self& r);
-  CovariantVector& operator= (const ValueType r[Dimension]);
+  CovariantVector& operator= (const ValueType r[NVectorDimension]);
     
   /** Scalar operator*=.  Scales elements by a scalar. */
   const Self& operator*=(const ValueType &value);
