@@ -65,7 +65,7 @@
 // processing. If you really care about the technical decency of the medical
 // image processing field, and you really care about providing your best effort
 // to the patients who will receive health care directly or indirectly affected
-// by your processed images, then it is your duty to reject isotropic datasets
+// by your processed images, then it is your duty to reject anisotropic datasets
 // and to patiently explain radiologist why a barbarity such as a $[1:5]$
 // anisotropy ratio makes a data set to be just ``a collection of slices''
 // instead of an authentic 3D datasets. 
@@ -153,7 +153,7 @@
 // Note that, as part of the preprocessing of the image, in this example we are
 // also rescaling the range of intensities. This operation has already been
 // described as Intensity Windowing. In a real clinical application, this step
-// require careful consideration of the range of intensities that contain
+// requires careful consideration of the range of intensities that contain
 // information about the anatomical structures that are of interest for the
 // current clinical application. It practice you may want to remove this step
 // of intensity rescaling.
@@ -292,7 +292,7 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// and apply our ad-hoc conjecture that the \emph{correct} anisotropic resolution
+// and apply our ad-hoc conjecture that the correct anisotropic resolution
 // to use is the geometrical mean of the in-plane and inter-slice resolutions.
 // Then set this spacing as the Sigma value to be used for the Gaussian
 // smoothing at the preprocessing stage.
@@ -312,7 +312,7 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginLatex
 //
 // We instruct the smoothing filters to act along the $X$ and $Y$ direction
-// respectively. And define the settings for avoiding the lose of intensity as
+// respectively. And define the settings for avoiding the loss of intensity as
 // a result of the diffusion process that is inherited from the use of a
 // Gaussian filter.
 //
@@ -432,7 +432,7 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginLatex
 //
 // The number of pixels to use along each dimension in the grid of the
-// resampled image is computed as a ratio between the pixel spacings of the
+// resampled image is computed using the ratio between the pixel spacings of the
 // input image and those of the output image. Note that the computation of the
 // number of pixels along the $Z$ direction is slightly different with the
 // purpose of making sure that we don't attempt to compute pixels that are
@@ -448,6 +448,7 @@ int main( int argc, char * argv[] )
 
   const double dx = inputSize[0] * inputSpacing[0] / isoSpacing;
   const double dy = inputSize[1] * inputSpacing[1] / isoSpacing;
+
   const double dz = (inputSize[2] - 1 ) * inputSpacing[2] / isoSpacing;
 // Software Guide : EndCodeSnippet
 
@@ -458,7 +459,7 @@ int main( int argc, char * argv[] )
 // Finally the values are stored in a \code{SizeType} and passed to the
 // resampling filter. Note that this process requires a casting since the
 // computation are performed in \code{double}, while the elements of the
-// \code{SizeType} are some sort of integers.
+// \code{SizeType} are integers.
 //
 // Software Guide : EndLatex 
 
