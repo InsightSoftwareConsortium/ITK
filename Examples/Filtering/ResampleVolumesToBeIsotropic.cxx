@@ -468,7 +468,7 @@ int main( int argc, char * argv[] )
 
   size[0] = static_cast<SizeValueType>( dx );
   size[1] = static_cast<SizeValueType>( dy );
-  size[2] = static_cast<SizeValueType>( dx );
+  size[2] = static_cast<SizeValueType>( dz );
 
   resampler->SetSize( size );
 // Software Guide : EndCodeSnippet
@@ -518,7 +518,7 @@ int main( int argc, char * argv[] )
     }
   catch( itk::ExceptionObject & excep )
     {
-    std::cerr << "Exception catched !" << std::endl;
+    std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
     }
 
