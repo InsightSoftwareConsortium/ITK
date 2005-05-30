@@ -114,7 +114,7 @@ ReduceToTridiagonalMatrix(double * a, VectorType &d,
 
   /* Local variables */
   double f, g, h;
-  int i, j, k, l;
+  unsigned int i, j, k, l;
   double scale;
   
   for (i = 0; i < m_Order; ++i) 
