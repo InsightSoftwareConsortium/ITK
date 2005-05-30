@@ -175,29 +175,6 @@ public:
 
     return isInside;
     }
-//#else
-  template<class TCoordRep>
-  bool TransformPhysicalPointToIndex(
-            const Point<TCoordRep, VImageDimension>& point,
-            IndexType & index                                ) const
-    {
-    typedef typename IndexType::IndexValueType IndexValueType;
-    Vector<double, VImageDimension> cvector;
-
-    cvector = m_PhysicalPointToIndex * (point - this->m_Origin);
-
-    // Update the output index
-    for (unsigned int i = 0 ; i < VImageDimension ; i++)
-      {
-      index[i] = static_cast<IndexValueType>(cvector[i]);
-      }
-
-    // Now, check to see if the index is within allowed bounds
-    const bool isInside =
-      this->GetLargestPossibleRegion().IsInside( index );
-
-    return isInside;
-    }
 #endif
   /** Get a physical point (in the space which
    * the origin and spacing infomation comes from)
@@ -249,19 +226,6 @@ public:
       m_IndexToPhysicalPoint[2][0] * index[0] +
       m_IndexToPhysicalPoint[2][1] * index[1] +
       m_IndexToPhysicalPoint[2][2] * index[2];
-    }
-//#else
-  template<class TCoordRep>
-  void TransformIndexToPhysicalPoint(
-                      const IndexType & index,
-                      Point<TCoordRep, VImageDimension>& point ) const
-    {
-    Vector<double, VImageDimension> cvector;    
-    for (unsigned int i = 0 ; i < VImageDimension ; i++)
-      {
-      cvector[i] = index[i];
-      }
-    point = this->m_Origin + m_IndexToPhysicalPoint * cvector;
     }
 #endif
 protected:

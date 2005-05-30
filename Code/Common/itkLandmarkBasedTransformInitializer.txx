@@ -209,7 +209,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
 
           for(unsigned int i=0; i<ImageDimension; i++)
             {
-            for(unsigned int j=0; j<3; j++)
+            for(unsigned int j=0; j<ImageDimension; j++)
               {
               // mmm this indices i,j may have to be reverted...
               M[i][j] += fixedCentered[i] * movingCentered[j];
