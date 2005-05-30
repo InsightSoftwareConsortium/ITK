@@ -309,6 +309,9 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
       
       typedef typename Rigid2DTransformType::OutputVectorType VectorType;
       typedef typename Rigid2DTransformType::OutputPointType PointType;
+
+      //Initialize the transform to identity
+      transform->SetIdentity();
       PointType rotationCenter = transform->GetCenter();
       
       VectorType fixedVector;
@@ -417,11 +420,12 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
       t->SetAngle( rotationAngle );
        
       transform->SetCenter( fixedCentroid );
-      
       transform->SetAngle( rotationAngle );
 
       VectorType translation = transform->GetTranslation(); 
+      itkDebugMacro(<< "Initial transform translation: " << translation);
       translation += movingCentroid - fixedCentroid;
+      itkDebugMacro(<< "translation computed as difference of centroids: " << translation);
       transform->SetTranslation( translation );
  
       break;
