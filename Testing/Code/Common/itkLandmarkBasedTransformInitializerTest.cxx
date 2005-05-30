@@ -220,6 +220,7 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
     typedef itk::LandmarkBasedTransformInitializer< TransformType, 
             FixedImageType, MovingImageType > TransformInitializerType;
     TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+    initializer->DebugOn();
 
     // Set fixed and moving landmarks
     TransformInitializerType::LandmarkPointContainer fixedLandmarks;
