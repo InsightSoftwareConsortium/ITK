@@ -736,6 +736,20 @@ ADD_TEST( FFTImageFilterTest ${FILTERING_EXAMPLES3}
         ${TEMP}/FFTImageFilterImaginary.png
 )
 
+ADD_TEST( FFTImageFilterTest2 ${FILTERING_EXAMPLES3}
+  FFTImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/FFTcenteredDC.png
+        ${TEMP}/FFTImageFilterCenteredDCReal.png
+        ${TEMP}/FFTImageFilterCenteredDCImaginary.png
+)
+
+ADD_TEST( FFTImageFilterTest3 ${FILTERING_EXAMPLES3}
+  FFTImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/FFTcorneredDC.png
+        ${TEMP}/FFTImageFilterCorneredDCReal.png
+        ${TEMP}/FFTImageFilterCorneredDCImaginary.png
+)
+
 ADD_TEST( RGBToGrayscaleTest ${FILTERING_EXAMPLES3}
   --compare ${BASELINE}/RGBToGrayscale.png
             ${TEMP}/RGBToGrayscale.png
