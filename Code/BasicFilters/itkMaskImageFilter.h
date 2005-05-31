@@ -62,13 +62,13 @@ public:
   ~MaskInput() {};
   inline TOutput operator()( const TInput & A, const TMask & B)
   {
-    if (B != NumericTraits< TMask >::Zero ) 
+    if (B != NumericTraits< TMask >::ZeroValue() ) 
       {
       return static_cast<TOutput>( A );
       }
     else
       {
-      return NumericTraits< TOutput >::Zero;
+      return NumericTraits< TOutput >::ZeroValue();
       }
   }
 }; 
