@@ -22,6 +22,7 @@
 #undef max
 
 #include "vcl_limits.h" // for vcl_numeric_limits
+#include <complex>
 
 namespace itk
 {
@@ -403,6 +404,59 @@ public:
   static bool IsNegative(long double val) { return val < Zero; }
   static bool IsNonnegative(long double val) {return val >= Zero; }
   static long double ZeroValue() { return Zero; }
+};
+
+/** \class NumericTraits< std::complex<float> >
+ * \brief Define traits for type std::complex<float>.
+ * \ingroup DataRepresentation 
+ */
+template <>
+class NumericTraits< std::complex<float> >  {
+public:
+  typedef std::complex<float> TheType;
+  typedef float ValueType;
+  typedef TheType PrintType;
+  typedef double AbsType;
+  typedef TheType AccumulateType;
+  typedef std::complex<double> RealType;
+  typedef double ScalarRealType;
+  static const TheType ITKCommon_EXPORT Zero;
+  static const TheType ITKCommon_EXPORT One;
+
+  static TheType NonpositiveMin() { 
+    return TheType(-NumericTraits<float>::NonpositiveMin(),0.0); }
+  static bool IsPositive(TheType val) { return val.real() > 0.0; }
+  static bool IsNonpositive(TheType val) { return val.real() <= 0.0; }
+  static bool IsNegative(TheType val) { return val.real() < 0.0; }
+  static bool IsNonnegative(TheType val) {return val.real() >= 0.0; }
+  static TheType ZeroValue() { return Zero; }
+};
+
+
+/** \class NumericTraits< std::complex<double> >
+ * \brief Define traits for type std::complex<double>.
+ * \ingroup DataRepresentation 
+ */
+template <>
+class NumericTraits< std::complex<double> >  {
+public:
+  typedef std::complex<double> TheType;
+  typedef double ValueType;
+  typedef TheType PrintType;
+  typedef double AbsType;
+  typedef TheType AccumulateType;
+  typedef std::complex<double> RealType;
+  typedef double ScalarRealType;
+  static const TheType ITKCommon_EXPORT Zero;
+  static const TheType ITKCommon_EXPORT One;
+
+  static TheType NonpositiveMin() { 
+    return TheType(-NumericTraits<double>::NonpositiveMin(),0.0); }
+  static bool IsPositive(TheType val) { return val.real() > 0.0; }
+  static bool IsNonpositive(TheType val) { return val.real() <= 0.0; }
+  static bool IsNegative(TheType val) { return val.real() < 0.0; }
+  static bool IsNonnegative(TheType val) {return val.real() >= 0.0; }
+  static TheType ZeroValue() { return Zero; }
 };
 
 

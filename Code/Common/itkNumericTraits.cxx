@@ -58,4 +58,10 @@ const double NumericTraits<double>::One = 1.0;
 const long double NumericTraits<long double>::Zero = 0.0;
 const long double NumericTraits<long double>::One = 1.0;
   
+const std::complex<float>  NumericTraits< std::complex<float> >::Zero = std::complex<float>(0.0,0.0);
+const std::complex<float>  NumericTraits< std::complex<float> >::One  = std::complex<float>(1.0,0.0);
+
+const std::complex<double>  NumericTraits< std::complex<double> >::Zero = std::complex<double>(0.0,0.0);
+const std::complex<double>  NumericTraits< std::complex<double> >::One  = std::complex<double>(1.0,0.0);
+
 } // end namespace itk
