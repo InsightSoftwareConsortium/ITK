@@ -47,10 +47,10 @@
 
 // Software Guide : BeginLatex
 //
-// The representation of unstructured data in ITK is done with the
-// \doxygen{Mesh}, that allows to represent N-Dimensional grids of varied
-// topology. It is natural then that the filter that extracts surfaces from
-// an Image will produce a Mesh as output.
+// The representation of unstructured data in ITK is done with
+// the \doxygen{Mesh}. This class allows to represent N-Dimensional grids of
+// varied topology. It is natural for the filter that extracts surfaces from an
+// Image to produce a Mesh as its output.
 //
 // We initiate our example by including the header files of the surface
 // extraction filter, the image and the Mesh.
@@ -207,8 +207,8 @@ int main(int argc, char * argv[] )
 // Software Guide : BeginLatex
 //
 // Finally we trigger the execution of the pipeline by invoking the
-// \code{Update()} method. Note that given that the pipeline may throw
-// exception, this call must be place inside a \code{try/catch} block.
+// \code{Update()} method. Given that the pipeline may throw an exception this
+// call must be place inside a \code{try/catch} block.
 //
 // Software Guide : EndLatex 
 
