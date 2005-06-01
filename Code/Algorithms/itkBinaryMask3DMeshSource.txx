@@ -23,8 +23,8 @@ PURPOSE.  See the above copyright notices for more information.
 namespace itk
 {
 
-template<class TOutputMesh>
-BinaryMask3DMeshSource<TOutputMesh>
+template<class TInputImage, class TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::BinaryMask3DMeshSource()
 {
   // Modify superclass default values, can be overridden by subclasses
@@ -51,11 +51,11 @@ BinaryMask3DMeshSource<TOutputMesh>
   this->GetOutput()->GetPoints()->Reserve(m_NodeLimit);
   this->GetOutput()->GetCells()->Reserve(m_CellLimit);
 
-  m_ObjectValue = NumericTraits< unsigned short >::Zero;
+  m_ObjectValue = NumericTraits< InputPixelType >::Zero;
 }
 
-template<class TOutputMesh>
-BinaryMask3DMeshSource<TOutputMesh>
+template<class TInputImage, class TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::~BinaryMask3DMeshSource()
 {
   int i;
@@ -95,9 +95,9 @@ BinaryMask3DMeshSource<TOutputMesh>
 }
 
   
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 void
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::SetInput(const InputImageType* image)
 { 
   this->ProcessObject::SetNthInput(0, 
@@ -105,18 +105,18 @@ BinaryMask3DMeshSource<TOutputMesh>
 }
 
 /** Generate the data */
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 void
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::GenerateData()
 {
   this->InitializeLUT();
   this->CreateMesh();
 }
 
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 void
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::XFlip(unsigned char *x)
 {
   unsigned char nodeindex;
@@ -167,9 +167,9 @@ BinaryMask3DMeshSource<TOutputMesh>
     }
 }
 
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 void
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::YFlip(unsigned char *x)
 {
   unsigned char nodeindex;
@@ -220,9 +220,9 @@ BinaryMask3DMeshSource<TOutputMesh>
     }
 }
 
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 void
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::ZFlip(unsigned char *x)
 {
   unsigned char nodeindex;
@@ -273,9 +273,9 @@ BinaryMask3DMeshSource<TOutputMesh>
     }
 }
 
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 void
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::XRotation(unsigned char *x)
 {
   unsigned char nodeindex;
@@ -330,9 +330,9 @@ BinaryMask3DMeshSource<TOutputMesh>
     }
 }
 
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 void
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::YRotation(unsigned char *x)
 {
   unsigned char nodeindex;
@@ -387,9 +387,9 @@ BinaryMask3DMeshSource<TOutputMesh>
     }
 }
 
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 void
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::ZRotation(unsigned char *x)
 {
   unsigned char nodeindex;
@@ -444,9 +444,9 @@ BinaryMask3DMeshSource<TOutputMesh>
     }
 }
 
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 void
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::inverse(unsigned char *x)
 {
   unsigned char tmp;
@@ -455,9 +455,9 @@ BinaryMask3DMeshSource<TOutputMesh>
   x[1] = tmp;
 }
 
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 void
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::InitializeLUT()
 {
   m_LUT[0][0] = 0;
@@ -1015,9 +1015,9 @@ BinaryMask3DMeshSource<TOutputMesh>
 
 }
 
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 void
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::CreateMesh()
 {
   if (this->GetNumberOfInputs() < 1)
@@ -1045,7 +1045,8 @@ BinaryMask3DMeshSource<TOutputMesh>
   m_CurrentRowNum = 200;
   m_CurrentFrameNum = 2000;
 
-  InputImageType::ConstPointer m_InputImage = static_cast<const InputImageType * >(this->ProcessObject::GetInput(0) );
+  InputImageConstPointer m_InputImage = 
+    static_cast<const InputImageType * >(this->ProcessObject::GetInput(0) );
 
   InputImageIterator it1( m_InputImage, m_InputImage->GetBufferedRegion() );
   InputImageIterator it2( m_InputImage, m_InputImage->GetBufferedRegion() );
@@ -1107,12 +1108,16 @@ BinaryMask3DMeshSource<TOutputMesh>
       }
     free (m_CurrentFrame);
     }
+    
   m_CurrentFrame = ( unsigned long ** ) malloc( 2000*sizeof(unsigned short *) );  
+  
   for ( i=0; i<2000; i++ )
     {
     m_CurrentFrame[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
     }
+    
   i = 0;
+
   while ( !it4.IsAtEnd() )
     {
     vertexindex = 0;
@@ -1166,9 +1171,9 @@ BinaryMask3DMeshSource<TOutputMesh>
   
 }
 
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 void
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::AddCells( unsigned char celltype, unsigned char celltran, int index )
 {
   int i;  
@@ -1295,7 +1300,9 @@ BinaryMask3DMeshSource<TOutputMesh>
     if ( index % (m_ImageWidth * m_ImageHeight) == 0 )
       {
       for ( i=0; i<m_LastFrameNum; i++ ) 
+        {
         free (m_LastFrame[i]);
+        }
       free (m_LastFrame);
       m_LastFrame = 0;
       }
@@ -2303,13 +2310,22 @@ BinaryMask3DMeshSource<TOutputMesh>
     i++;
     }
  
-  for ( i=0; i<4; i++ ) free (currentrowtmp[i]); 
+  for ( i=0; i<4; i++ ) 
+    {
+    free (currentrowtmp[i]); 
+    }
   free (currentrowtmp);
-  for ( i=0; i<4; i++ ) free (currentframetmp[i]);
+  
+  for ( i=0; i<4; i++ ) 
+    {
+    free (currentframetmp[i]);
+    }
+
   free (currentframetmp);
 
   free (tp);
   free (tpl);
+
   m_LastVoxel[4] = m_CurrentVoxel[2]; 
   m_LastVoxel[9] = m_CurrentVoxel[10];
   m_LastVoxel[8] = m_CurrentVoxel[6];
@@ -2317,9 +2333,9 @@ BinaryMask3DMeshSource<TOutputMesh>
   for ( i=1; i<14; i++ ) m_CurrentVoxel[i] = 0;
 }
 
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 void
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::AddNodes( int index, unsigned char *nodesid, unsigned long *globalnodesid, unsigned long **currentrowtmp, unsigned long **currentframetmp )
 {
   int i;
@@ -2344,8 +2360,8 @@ BinaryMask3DMeshSource<TOutputMesh>
       // of spacing and origin
       //this->GetInput(0)->TransformIndexToPhysicalPoint(indTemp,new_p);
 
-      InputImageType::SpacingType spacing = this->GetInput(0)->GetSpacing();
-      InputImageType::PointType origin = this->GetInput(0)->GetOrigin();
+      SpacingType spacing = this->GetInput(0)->GetSpacing();
+      OriginType  origin  = this->GetInput(0)->GetOrigin();
       
       new_p[0] = indTemp[0]*spacing[0]+origin[0];
       new_p[1] = indTemp[1]*spacing[1]+origin[1];
@@ -2461,9 +2477,9 @@ BinaryMask3DMeshSource<TOutputMesh>
     }
 }
 
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 void
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::CellTransfer( unsigned char *nodesid, unsigned char celltran )
 {
   if ( (celltran & 1) != 0 )
@@ -2490,9 +2506,9 @@ BinaryMask3DMeshSource<TOutputMesh>
   if ( (celltran & 64) != 0 ) this->inverse(nodesid);
 }
 
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 unsigned long
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::SearchThroughLastRow( int index, int start, int end )
 {
   int mid;
@@ -2533,9 +2549,9 @@ BinaryMask3DMeshSource<TOutputMesh>
   return 0;
 }
 
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 unsigned long
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::SearchThroughLastFrame( int index, int start, int end )
 {
   int mid;
@@ -2578,9 +2594,9 @@ BinaryMask3DMeshSource<TOutputMesh>
 }
 
 /** PrintSelf */
-template<class TOutputMesh>
+template<class TInputImage, class TOutputMesh>
 void
-BinaryMask3DMeshSource<TOutputMesh>
+BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os, indent);

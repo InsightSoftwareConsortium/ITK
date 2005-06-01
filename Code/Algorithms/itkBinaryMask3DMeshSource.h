@@ -40,14 +40,15 @@ namespace itk
  *
  * \par
  * To construct a mesh, we need to construct elements in a voxel and combine
- * those elements later to form the final mesh. Before go through every voxel in the
- * 3D volume, we first construct 2 look up tables. The index of these 2 tables are the 
- * on-off combination of the 8 nodes that form the voxel. So both of these tables has
- * the size of $2^8$ bytes. According to previous work, all those $2^8$ combination of the nodes can 
- * be grouped into 16 final combinations. In the first table, we record the final 
- * combination that can be transformed from the current combination. The entries of the 
- * second table are made up of the transforming sequence that is necessary for the current 
- * combination transform to one of the final combinations.
+ * those elements later to form the final mesh. Before go through every voxel
+ * in the 3D volume, we first construct 2 look up tables. The index of these 2
+ * tables are the on-off combination of the 8 nodes that form the voxel. So
+ * both of these tables has the size of \$2^8\$ bytes. According to previous
+ * work, all those \$2^8\$ combination of the nodes can be grouped into 16
+ * final combinations. In the first table, we record the final combination that
+ * can be transformed from the current combination. The entries of the second
+ * table are made up of the transforming sequence that is necessary for the
+ * current combination transform to one of the final combinations.
  *
  * \par
  * We then go through the 3D volume voxel by voxel, using those two tables we have defined
@@ -55,16 +56,16 @@ namespace itk
  * one 3D mesh.
  * 
  * \par PARAMETERS
- * The objectvalue parameter is used to identify the object. In most applications,
- * pixels in the object region are assigned to "1", so the default value of objectvalue is
+ * The ObjectValue parameter is used to identify the object. In most applications,
+ * pixels in the object region are assigned to "1", so the default value of ObjectValue is
  * set to "1"
  *
  * \par REFERENCE
- * C. Lorenson: Marching Cubes, "A High Resolution 3D Surface Construction Algorithm", 
+ * W. Lorensen and H. Cline, "Marching Cubes: A High Resolution 3D Surface Construction Algorithm", 
  * Computer Graphics 21, pp. 163-169, 1987. 
  * 
  * \par INPUT
- * The input should be a 3D binary image. We assign the pixel type to unsigned short.
+ * The input should be a 3D binary image. 
  *
  *
  *  */
@@ -73,13 +74,13 @@ namespace itk
 template class Image<unsigned short,3>;
 #endif
 
-template <class TOutputMesh>
-class ITK_EXPORT BinaryMask3DMeshSource : public ImageToMeshFilter<Image<unsigned short, 3>,TOutputMesh>
+template <class TInputImage, class TOutputMesh>
+class ITK_EXPORT BinaryMask3DMeshSource : public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
 public:
   /** Standard "Self" typedef. */
   typedef BinaryMask3DMeshSource         Self;
-  typedef ImageToMeshFilter<Image<unsigned short, 3>,TOutputMesh>  Superclass;
+  typedef ImageToMeshFilter< TInputImage, TOutputMesh >  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -112,15 +113,19 @@ public:
   typedef typename TriCell::SelfAutoPointer TriCellAutoPointer;
 
   /** Input Image Type Definition. */
-  typedef Image<unsigned short, 3> InputImageType;
+  typedef TInputImage InputImageType;
   typedef typename InputImageType::Pointer         InputImagePointer;
+  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
+  typedef typename InputImageType::PixelType       InputPixelType;
+  typedef typename InputImageType::SpacingType     SpacingType;
+  typedef typename InputImageType::PointType       OriginType;
      
   /** Type definition for the classified image index type. */
   typedef typename InputImageType::IndexType       InputImageIndexType;
 
-  typedef ImageRegionConstIterator<InputImageType> InputImageIterator;
+  typedef ImageRegionConstIterator< InputImageType > InputImageIterator;
   
-  itkSetMacro(ObjectValue, unsigned char);
+  itkSetMacro(ObjectValue, InputPixelType);
 
   itkGetMacro(NumberOfNodes, unsigned long);
   itkGetMacro(NumberOfCells, unsigned long);
@@ -192,7 +197,7 @@ private:
   int m_LastVoxelIndex;
   int m_LastFrameIndex;
   unsigned char m_PointFound;
-  unsigned char m_ObjectValue;
+  InputPixelType m_ObjectValue;
 };
 
 } // end namespace itk
