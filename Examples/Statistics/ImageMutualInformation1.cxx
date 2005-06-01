@@ -27,12 +27,14 @@
 //
 // For example, you could use:
 // 
-// \doxygen{MutualInformationImageToImageMetric}
-// \doxygen{MattesMutualInformationImageToImageMetric}
-// \doxygen{MutualInformationHistogramImageToImageMetric}
-// \doxygen{MutualInformationImageToImageMetric}
-// \doxygen{NormalizedMutualInformationHistogramImageToImageMetric}
-// \doxygen{KullbackLeiblerCompareHistogramImageToImageMetric}
+// \begin{itemize}
+// \item \doxygen{MutualInformationImageToImageMetric}
+// \item \doxygen{MattesMutualInformationImageToImageMetric}
+// \item \doxygen{MutualInformationHistogramImageToImageMetric}
+// \item \doxygen{MutualInformationImageToImageMetric}
+// \item \doxygen{NormalizedMutualInformationHistogramImageToImageMetric}
+// \item \doxygen{KullbackLeiblerCompareHistogramImageToImageMetric}
+// \end{itemize}
 //
 // Mutual Information as computed in this example, and as commonly used in the
 // context of image registration provides a measure of how much uncertainty on
@@ -65,15 +67,16 @@
 // framework in order to compute the measure of Mutual Information between two
 // images. We assume that both images have the same number of pixels along
 // every dimension and that they have the same origin and spacing. Therefore
-// their pixels.
+// the pixels from one image are perfectly aligned with those of the other
+// image.
 //
 // We must start by including the header files of the image, histogram
 // generator, reader and Join image filter. We will read both images and use
 // the Join image filter in order to compose an image of two components using
 // the information of each one of the input images in one component. This is
-// the natural way o fusing the Statistics framework in ITK given that the
-// fundamental statistical classes are expecting to receive multivalued
-// measured.
+// the natural way of using the Statistics framework in ITK given that the
+// fundamental statistical classes are expecting to receive multi-valued
+// measures.
 //
 // Software Guide : EndLatex 
 
