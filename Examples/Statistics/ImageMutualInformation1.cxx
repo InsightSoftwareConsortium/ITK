@@ -119,7 +119,7 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginLatex
 //
 // Using the image type we proceed to instantiate the readers for both input
-// images. Then, we take their filesnames from the command line arguments.
+// images. Then, we take their filenames from the command line arguments.
 //
 // Software Guide : EndLatex 
 
@@ -266,9 +266,9 @@ int main( int argc, char * argv [] )
 // We now walk over all the bins of the joint histogram and compute their
 // contribution to the value of the joint Entropy. For this purpose we use
 // histogram iterators, and the \code{Begin()} and \code{End()} methods.  Since
-// the values returned from the histogram are frequency we must convert them to
-// an estimation of probability by dividing them over the total sum of
-// frequencies returned by the \code{GetTotalFrequency()} method.
+// the values returned from the histogram are measuring frequency we must
+// convert them to an estimation of probability by dividing them over the total
+// sum of frequencies returned by the \code{GetTotalFrequency()} method.
 //
 // Software Guide : EndLatex 
 
@@ -287,7 +287,7 @@ int main( int argc, char * argv [] )
 //
 // We initialize to zero the variable to use for accumulating the value of the
 // joint entropy, and then use the iterator for visiting all the bins of the
-// joint histogram. At every bin we compute their contribution to the reduction
+// joint histogram. For every bin we compute their contribution to the reduction
 // of uncertainty. Note that in order to avoid logarithmic operations on zero
 // values, we skip over those bins that have less than one count. The entropy
 // contribution must be computed using logarithms in base two in order to be
