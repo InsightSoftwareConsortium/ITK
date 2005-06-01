@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    IsoSurfaceExtraction.cxx
+  Module:    SurfaceExtraction.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

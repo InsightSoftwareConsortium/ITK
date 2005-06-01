@@ -175,8 +175,8 @@ TARGET_LINK_LIBRARIES(LaplacianImageFilter ITKCommon ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(LaplacianSharpeningImageFilter LaplacianSharpeningImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianSharpeningImageFilter ITKCommon ITKBasicFilters ITKIO)
 
-ADD_EXECUTABLE(IsoSurfaceExtraction IsoSurfaceExtraction.cxx )
-TARGET_LINK_LIBRARIES(IsoSurfaceExtraction ITKCommon ITKBasicFilters ITKIO)
+ADD_EXECUTABLE(SurfaceExtraction SurfaceExtraction.cxx )
+TARGET_LINK_LIBRARIES(SurfaceExtraction ITKCommon ITKBasicFilters ITKIO)
 
 ADD_EXECUTABLE(VectorIndexSelection VectorIndexSelection.cxx )
 TARGET_LINK_LIBRARIES(VectorIndexSelection ITKCommon ITKBasicFilters ITKIO)
