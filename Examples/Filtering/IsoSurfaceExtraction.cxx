@@ -28,7 +28,7 @@
 //  segmentation is represented. In its most common form, isosurface extraction
 //  is the equivalent of image thresholding followed by surface extraction.
 //
-//  Probably the best widely known method of surface extraction is the
+//  Probably the most widely known method of surface extraction is the
 //  \emph{Marching Cubes} algorithm~\cite{MarchingCubes}. Although it has been
 //  followed by a number of variants~\cite{VTKBook}, Marching Cubes has become
 //  an icon on medical image processing. The following example illustrates how
@@ -80,6 +80,8 @@ int main(int argc, char * argv[] )
     }
 
 
+
+
 // Software Guide : BeginLatex
 //
 // We define then the pixel type and dimension of the image from which we are
@@ -93,6 +95,9 @@ int main(int argc, char * argv[] )
 
   typedef itk::Image< PixelType, Dimension >   ImageType;
 // Software Guide : EndCodeSnippet
+
+
+
 
 
 // Software Guide : BeginLatex
@@ -121,6 +126,7 @@ int main(int argc, char * argv[] )
 
 
 
+
 // Software Guide : BeginLatex
 //
 // The type of the \doxygen{Mesh} is instantiated by specifying the type to be
@@ -142,6 +148,8 @@ int main(int argc, char * argv[] )
 
 
 
+
+
 // Software Guide : BeginLatex
 //
 // In this particular example, the value to be used for selecting the
@@ -159,9 +167,35 @@ int main(int argc, char * argv[] )
 
 
 
+
+
+// Software Guide : BeginLatex
+//
+// The input to the isosurface extraction filter is taken from the output of
+// the image reader.
+//
+// \index{BinaryMask3DMeshSource!SetInput}
+//
+// Software Guide : EndLatex 
+
+
+// Software Guide : BeginCodeSnippet
   meshSource->SetInput( reader->GetOutput() );
+// Software Guide : EndCodeSnippet
 
 
+
+
+
+// Software Guide : BeginLatex
+//
+// Finally we trigger the execution of the pipeline by invoking the
+// \code{Update()} method. Note that given that the pipeline may throw
+// exception, this call must be place inside a \code{try/catch} block.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
   try
     {
     meshSource->Update();
@@ -172,14 +206,37 @@ int main(int argc, char * argv[] )
     std::cerr << exp << std::endl;
     return EXIT_FAILURE;
     }
-
-  std::cout << meshSource->GetNumberOfNodes() << std::endl;
-  std::cout << meshSource->GetNumberOfCells() << std::endl;
-
-  return EXIT_SUCCESS;
-
 // Software Guide : EndCodeSnippet
 
+
+
+
+// Software Guide : BeginLatex
+//
+// As a way of taking a look at the output Mesh we print out here its number of
+// Nodes and Cells.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  std::cout << "Nodes = " << meshSource->GetNumberOfNodes() << std::endl;
+  std::cout << "Cells = " << meshSource->GetNumberOfCells() << std::endl;
+// Software Guide : EndCodeSnippet
+
+
+
+
+// Software Guide : BeginLatex
+//
+// This resulting Mesh could be used as input for a deformable model
+// segmentation algorithm, or it could be converted to a format suitable for
+// visualization in an interactive application.
+//
+// Software Guide : EndLatex 
+
+
+
+  return EXIT_SUCCESS;
 }
 
 
