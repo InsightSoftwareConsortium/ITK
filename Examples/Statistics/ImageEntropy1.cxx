@@ -241,7 +241,7 @@ int main( int argc, char * argv [] )
     {
     const double probability = itr.GetFrequency() / Sum;
 
-    if( probability > 1e-16 )
+    if( probability > 0.99 / Sum )
       {
       Entropy += - probability * log( probability ) / log( 2.0 );
       }
