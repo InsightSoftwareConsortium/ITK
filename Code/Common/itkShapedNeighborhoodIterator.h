@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -119,25 +119,25 @@ namespace itk {
  *
  * \sa ImageConstIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
- * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
- * \sa FloodFilledFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalIterator 
- * \sa FloodFilledSpatialFunctionConditionalConstIterator 
- * \sa FloodFilledSpatialFunctionConditionalIterator 
- * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
+ * \sa FloodFilledFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalIterator
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator
+ * \sa FloodFilledSpatialFunctionConditionalIterator
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex
  * \sa ImageIterator \sa ImageIteratorWithIndex
- * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
- * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
- * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
- * \sa ImageRegionExclusionConstIteratorWithIndex 
- * \sa ImageRegionExclusionIteratorWithIndex 
- * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
- * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
- * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
- * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
- * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
- * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
+ * \sa ImageRegionExclusionConstIteratorWithIndex
+ * \sa ImageRegionExclusionIteratorWithIndex
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
+ * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
+ * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex */
 template<class TImage,  class TBoundaryCondition
                        = ZeroFluxNeumannBoundaryCondition<TImage> >
@@ -148,10 +148,10 @@ public:
   /** Extract image type information. */
   typedef typename TImage::InternalPixelType InternalPixelType;
   typedef typename TImage::PixelType PixelType;
-    
+
   /** Save the image dimension. */
   itkStaticConstMacro(Dimension, unsigned int, TImage::ImageDimension);
-  
+
   /** Standard class typedefs. */
   typedef ShapedNeighborhoodIterator Self;
   typedef ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition> Superclass;
@@ -159,21 +159,18 @@ public:
   /** Inherit typedefs from superclass */
   typedef typename Superclass::OffsetType OffsetType;
   typedef typename OffsetType::OffsetValueType OffsetValueType;
-  typedef typename Superclass::RadiusType RadiusType;  
+  typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::SizeType SizeType;
   typedef typename Superclass::SizeValueType SizeValueType;
   typedef typename Superclass::ConstIterator ConstIterator;
   typedef typename Superclass::IndexListType  IndexListType;
   typedef typename Superclass::BoundaryConditionType BoundaryConditionType;
-  typedef typename Superclass::ImageBoundaryConditionPointerType
-  ImageBoundaryConditionPointerType;
-  
-  /** Typedef support for common objects */
-  typedef TImage ImageType;
-  typedef typename TImage::RegionType RegionType;
-  typedef Index<itkGetStaticConstMacro(Dimension)> IndexType;
-  typedef typename IndexType::IndexValueType IndexValueType;
-  typedef Neighborhood<PixelType, itkGetStaticConstMacro(Dimension)> NeighborhoodType;
+  typedef typename Superclass::ImageBoundaryConditionPointerType ImageBoundaryConditionPointerType;
+  typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::ImageType ImageType;
+  typedef typename Superclass::RegionType RegionType;
+  typedef typename Superclass::IndexValueType IndexValueType;
 
   /** An  iterator for the ShapedNeighborhood classes.*/
   struct Iterator : public ConstIterator
@@ -187,13 +184,13 @@ public:
       ConstIterator::operator=(o);
       return *this;
     }
-    
+
     // Promote to public
     void Set(const PixelType &v) const
     { ConstIterator::ProtectedSet(v); }
 
   };
-  
+
   /** Default constructor */
   ShapedNeighborhoodIterator()
   {
@@ -201,7 +198,7 @@ public:
     m_EndIterator = Iterator(this);
     m_EndIterator.GoToEnd();
   }
-  
+
   /** Virtual destructor */
   virtual ~ShapedNeighborhoodIterator() {}
 
@@ -217,11 +214,11 @@ public:
     m_EndIterator = Iterator(this);
     m_EndIterator.GoToEnd();
   }
-  
+
   // Expose the following methods from the superclass.  This is a restricted
   // subset of the methods available for ConstNeighborhoodIterator.
   Superclass::SetPixel;
-  
+
   /** Assignment operator */
   Self &operator=(const Self& orig)
   {
@@ -252,7 +249,7 @@ public:
     m_EndIterator.GoToEnd();
     m_BeginIterator.GoToBegin();
   }
-  
+
 protected:
 
    /** Copy constructor */
@@ -274,7 +271,7 @@ protected:
     m_BeginIterator.GoToBegin();
   }
 
-  
+
   Iterator m_EndIterator;
   Iterator m_BeginIterator;
 };

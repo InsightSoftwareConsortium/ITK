@@ -96,7 +96,7 @@ bool ComputeMeanAndVariance(const unsigned long numberOfSamples)
 
     const double uniformVariance = 100.0/12.0;
     std::cout << "Testing Mean " << std::endl;
-    if( fabs(mean - 5) > tolerance )
+    if( vcl_abs(mean - 5) > tolerance )
       {
       pass = false;
       std::cout << "[FAILED]" << std::endl;
@@ -106,7 +106,7 @@ bool ComputeMeanAndVariance(const unsigned long numberOfSamples)
       std::cout << "[PASSED]" << std::endl;
       }
     std::cout << "Testing Variance " << std::endl;
-    if( fabs(variance - uniformVariance) > tolerance )
+    if( vcl_abs(variance - uniformVariance) > tolerance )
       {
       pass = false;
       std::cout << "[FAILED]" << std::endl;
@@ -150,7 +150,7 @@ bool ComputeMeanAndVariance(const unsigned long numberOfSamples)
 
     const double uniformVariance = 100.0/12.0;
     std::cout << "Testing Mean " << std::endl;
-    if( fabs(mean - 5) > tolerance )
+    if( vcl_abs(mean - 5) > tolerance )
       {
       pass = false;
       std::cout << "[FAILED]" << std::endl;
@@ -160,7 +160,7 @@ bool ComputeMeanAndVariance(const unsigned long numberOfSamples)
       std::cout << "[PASSED]" << std::endl;
       }
     std::cout << "Testing Variance " << std::endl;
-    if( fabs(variance - uniformVariance) > tolerance )
+    if( vcl_abs(variance - uniformVariance) > tolerance )
       {
       pass = false;
       std::cout << "[FAILED]" << std::endl;
