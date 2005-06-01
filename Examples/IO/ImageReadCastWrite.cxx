@@ -21,9 +21,9 @@
 //  Software Guide : BeginLatex
 //
 //  Given that \href{http://www.itk.org}{ITK} is based on the Generic
-//  Programming paradigm, most of the types are defined at comipilation
-//  time. It is sometimes important to anticipate conversion from different
-//  types of images. The following example illustres the common case of
+//  Programming paradigm, most of the types are defined at compilation
+//  time. It is sometimes important to anticipate conversion between different
+//  types of images. The following example illustrates the common case of
 //  reading an image of one pixel type and writing it on a different pixel
 //  type. This process not only involves casting but also rescaling the image
 //  intensity since the dynamic range of the input and output pixel types can
@@ -61,7 +61,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Then, as usual, a decision should be made about the type of pixel
+  //  Then, as usual, a decision should be made about the pixel type that
   //  should be used to represent the images. Note that when reading an
   //  image, this pixel type \textbf{is not necessarily} the pixel type of
   //  the image stored in the file.  Instead, it is the type that will be
