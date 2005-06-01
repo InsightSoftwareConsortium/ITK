@@ -152,6 +152,7 @@ void Brains2MaskImageIO::Read(void* buffer)
   //Except for Borland where the operator>> has already gobbled the endline char
 #if !defined(__BORLANDC__)
   local_InputStream.ignore();
+
 #endif
   local_InputStream.read((char *)octreeHdr,6*sizeof(unsigned int));
   if(this->m_ByteOrder != this->m_MachineByteOrder)
@@ -342,6 +343,16 @@ writeOctree (OctreeNode *branch,std::ofstream &output)
 }
 
 
+static  void replace_blanks(std::string &s)
+{
+  for(unsigned i = 0; i < s.size(); i++)
+    {
+    if(s[i] == ' ')
+      {
+      s[i] = '_';
+      }
+    }
+}
 /**
    *
    */
@@ -381,13 +392,7 @@ Brains2MaskImageIO
   time(&rawtime);
   timeinfo = localtime(&rawtime);
   std::string timestr = asctime(timeinfo);
-  for(unsigned i = 0; i < timestr.size(); i++)
-    {
-    if(timestr[i] == ' ')
-      {
-      timestr[i] = '_';
-      }
-    }
+  replace_blanks(timestr);
   std::string::size_type newline = timestr.rfind('\n');
   if(newline != std::string::npos)
     {
@@ -397,25 +402,27 @@ Brains2MaskImageIO
     {
     patient_id = "00000";
     }
+  std::string fname = this->m_FileName;
+  replace_blanks(fname);
   sprintf(buf,mask_header_format,
           patient_id.c_str(),
           "00000",                 // scan_id
-          this->m_FileName.c_str(),                 // file_name
-          timestr.c_str(),                 // date
-          "Anonymous",                 // creator
-          "itkBrains2MaskImageIO",                 // program
-          "None",                 // module
-          "1",                 // version
+          fname.c_str(),           // file_name
+          timestr.c_str(),         // date
+          "Anonymous",             // creator
+          "itkBrains2MaskImageIO", // program
+          "None",                  // module
+          "1",                     // version
           itksys::SystemTools::GetFilenameName(m_FileName).c_str(),   // name
-          3,                  // num_dims
-          xsize,              // xsize
-          1.0,                // x_res
-          ysize,              // ysize
-          1.0,                // y_res
-          zsize,              // zsize
-          1.0,                // z_res
-          0.0,                // threshold
-          -1                 // mask_name
+          3,                       // num_dims
+          xsize,                   // xsize
+          1.0,                     // x_res
+          ysize,                   // ysize
+          1.0,                     // y_res
+          zsize,                   // zsize
+          1.0,                     // z_res
+          0.0,                     // threshold
+          -1                       // mask_name
     );
   output.write(buf,strlen(buf));
   unsigned octreeHdr[6];
