@@ -117,7 +117,7 @@ ReduceToTridiagonalMatrix(double * a, VectorType &d,
   int i, j, k, l;
   double scale;
   
-  for (i = 0; i < m_Order; ++i) 
+  for (i = 0; i < static_cast< int >(m_Order); ++i) 
     {
     d[i] = a[m_Order-1 + i * m_Dimension];
     a[m_Order-1 + i * m_Dimension] = a[i + i * m_Dimension];

@@ -106,7 +106,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
       {
       ind[m_SampleDirection] += 1;
       mv[i]= m_Image->GetPixel(ind);
-      m_Sum += mv[i];
+      m_Sum += static_cast< AccumulateType >(mv[i]);
       }
     sample->PushBack( mv );
     m_NumberOfPixels++;
