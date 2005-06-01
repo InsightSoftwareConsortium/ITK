@@ -53,7 +53,7 @@ int main( int argc, char ** argv )
   // Software Guide : BeginLatex
   //
   // The \doxygen{RGBPixel} class is templated over the type used to
-  // represent each one of the red, green and Blue components. A typical
+  // represent each one of the red, green and blue components. A typical
   // instantiation of the RGB image class might be as follows.
   //
   //  \index{itk::RGBPixel!Instantiation}
