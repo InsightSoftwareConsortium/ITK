@@ -213,7 +213,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< unsigned short, Dimension >   BinaryImageType;
+  typedef itk::Image< unsigned char, Dimension >   BinaryImageType;
   // Software Guide : EndCodeSnippet
 
 
@@ -268,7 +268,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   //  Software Guide : BeginCodeSnippet
-  typedef itk::BinaryMask3DMeshSource< MeshType >  MeshSourceType;
+  typedef itk::BinaryMask3DMeshSource< BinaryImageType, MeshType >  MeshSourceType;
   //  Software Guide : EndCodeSnippet 
   // typedef itk::BinaryMaskToNarrowBandPointSetFilter< 
   //                        BinaryImageType, MeshType >  MeshSourceType;
