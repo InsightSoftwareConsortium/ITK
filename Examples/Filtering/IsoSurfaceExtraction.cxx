@@ -21,13 +21,53 @@
 
 //  Software Guide : BeginLatex
 //
+//  Isosurface extraction has attracted continuous interest since the early
+//  days of image analysis. Although it is commonly associated with image
+//  segmentation, isosurface extraction is not in itself a segmentation
+//  technique, instead it is a transformation that changes the way a
+//  segmentation is represented. In its most common form, isosurface extraction
+//  is the equivalent of image thresholding followed by surface extraction.
+//
+//  Probably the best widely known method of surface extraction is the
+//  \emph{Marching Cubes} algorithm~\cite{MarchingCubes}. Although it has been
+//  followed by a number of variants~\cite{VTKBook}, Marching Cubes has become
+//  an icon on medical image processing. The following example illustrates how
+//  to perform isosurface extraction in ITK using an algorithm similar to
+//  Marching Cubes~\footnote{Note that the Marching Cubes algorithm is covered
+//  by a patent that expired on June 5th 2005}.
+//
 //  Software Guide : EndLatex
+
 
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageRegionIterator.h"
-#include "itkMesh.h"
+
+
+
+
+
+// Software Guide : BeginLatex
+//
+// The representation of unstructured data in ITK is done with the
+// \doxygen{Mesh}, that allows to represent N-Dimensional grids of varied
+// topology. It is natural then that the filter that extracts isosurfaces from
+// an Image will produce a Mesh as output.
+//
+// We initiate our example by including the header files of the isosurface
+// extraction filter and the Mesh.
+//
+// \index{Marching Cubes}
+// \index{Isosurface extraction!Mesh}
+// \index{BinaryMask3DMeshSource!Header}
+// \index{Mesh!Isosurface extraction}
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
 #include "itkBinaryMask3DMeshSource.h"
+#include "itkMesh.h"
+// Software Guide : EndCodeSnippet
 
 
 int main(int argc, char * argv[] ) 
@@ -39,22 +79,34 @@ int main(int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-// Software Guide : BeginCodeSnippet
-  // Define the dimension of the images
-  const unsigned int Dimension = 3;
 
-  // Define the pixel type of the input image
+// Software Guide : BeginLatex
+//
+// We define then the pixel type and dimension of the image from which we are
+// going to extract the isosurface.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  const unsigned int Dimension = 3;
   typedef unsigned short  PixelType;
 
-  // Declare the types of the output images
   typedef itk::Image< PixelType, Dimension >   ImageType;
+// Software Guide : EndCodeSnippet
 
-  // Declare the reader type
+
+// Software Guide : BeginLatex
+//
+// With the same image type we instantiate the type of an ImageFileReader and
+// construct one with the purpose of reading in the input image.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< ImageType >    ReaderType;
-
-  // Instantiate the reader object and attempt to read the image
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
+// Software Guide : EndCodeSnippet
 
   try
     {
@@ -68,19 +120,47 @@ int main(int argc, char * argv[] )
     }
 
 
-  // Declare the type of the Mesh
+
+// Software Guide : BeginLatex
+//
+// The type of the \doxygen{Mesh} is instantiated by specifying the type to be
+// associated with the pixel value of the Mesh nodes. Having declared the Image
+// type and the Mesh type we can also instantiate the isosurface extraction
+// filter, and construct one by invoking its \code{New()} method.
+//
+// \index{BinaryMask3DMeshSource!Instantiation}
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
   typedef itk::Mesh<double>                         MeshType;
 
-  // Declare the Filter for Iso-surface extraction
-  typedef itk::BinaryMask3DMeshSource< MeshType >   MeshSourceType;
+  typedef itk::BinaryMask3DMeshSource< ImageType, MeshType >   MeshSourceType;
 
   MeshSourceType::Pointer meshSource = MeshSourceType::New();
+// Software Guide : EndCodeSnippet
 
-  const PixelType isovalue = static_cast<PixelType>(atof( argv[2] ));
+
+
+// Software Guide : BeginLatex
+//
+// In this particular example, the value to be used for selecting the
+// isosurface is read from the command line arguments and passed to the filter
+// by using the \code{SetObjectValue()} method. Note that at this point this is
+// equivalent to performing thresholding on the input image.
+//
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  const PixelType isovalue = static_cast<PixelType>( atof( argv[2] ) );
+
+  meshSource->SetObjectValue( isovalue );
+// Software Guide : EndCodeSnippet
+
+
 
   meshSource->SetInput( reader->GetOutput() );
 
-  meshSource->SetObjectValue( isovalue );
 
   try
     {
