@@ -137,7 +137,7 @@ int main( int argc, char * argv [] )
 
 // Software Guide : BeginLatex
 //
-// Using the \doxyge{JoinImageFilter} we use the two input images and put them
+// Using the \doxygen{JoinImageFilter} we use the two input images and put them
 // together in an image of two components.
 //
 // Software Guide : EndLatex 
@@ -183,7 +183,7 @@ int main( int argc, char * argv [] )
 // We prepare now the types to be used for the computation of the Joint
 // histogram. For this purpose, we take the type of the image resulting from
 // the JoinImageFilter and use it as template argument of the
-// \doxyge{ImageToHistogramGenerator}. We then construct one by invoking the
+// \doxygen{ImageToHistogramGenerator}. We then construct one by invoking the
 // \code{New()} method. 
 // 
 // Software Guide : EndLatex 
@@ -268,6 +268,8 @@ int main( int argc, char * argv [] )
 // frequencies returned by the \code{GetTotalFrequency()} method.
 //
 // Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
   HistogramType::ConstIterator itr = histogram->Begin();
   HistogramType::ConstIterator end = histogram->End();
  
