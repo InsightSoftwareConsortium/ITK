@@ -66,8 +66,8 @@ int main (int , char* [])
     itk::BalloonForceFilter<MeshType,MeshType>::New();
   std:: cout << "-------------BalloonForceFilter " << BalloonForceFilterObj;
 
-  itk::BinaryMask3DMeshSource<MeshType>::Pointer BinaryMask3DMeshSourceObj =
-    itk::BinaryMask3DMeshSource<MeshType>::New();
+  itk::BinaryMask3DMeshSource<InputType,MeshType>::Pointer BinaryMask3DMeshSourceObj =
+    itk::BinaryMask3DMeshSource<InputType,MeshType>::New();
   std:: cout << "-------------BinaryMask3DMeshSource " << BinaryMask3DMeshSourceObj;
 
   itk::BinaryMinMaxCurvatureFlowFunction<InputType>::Pointer BinaryMinMaxCurvatureFlowFunctionObj =

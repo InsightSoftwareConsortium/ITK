@@ -74,7 +74,7 @@ int itkDeformableTest(int , char *[])
   typedef itk::CovariantVector<double, 3>           double3DVector;
   typedef itk::CovariantVector<int, 2>              int2DVector;
 
-  typedef itk::BinaryMask3DMeshSource<DMesh>  myMeshSource;
+  typedef itk::BinaryMask3DMeshSource<binaryImageType,DMesh>  myMeshSource;
   typedef itk::LaplacianImageFilter<myImageType, myImageType> myLaplacianFilterType;
   typedef itk::GradientVectorFlowImageFilter<myGradientImageType, myGradientImageType>
                                               myGVFFilterType;

@@ -18,21 +18,16 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <math.h>
 #include <iostream>
-#include <time.h>
 
 #include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkMesh.h"
 #include "itkBinaryMask3DMeshSource.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkBinaryMask3DMeshSourceTest(int, char *[])
 {
-  const int WIDTH  = 128;
-  const int HEIGHT = 128;
-  const int DEPTH  = 128;
 
   // Define the dimension of the images
   const unsigned int Dimension = 3;
@@ -44,24 +39,23 @@ int itkBinaryMask3DMeshSourceTest(int, char *[])
   typedef itk::Index<Dimension>                     IndexType;
   typedef itk::Size<Dimension>                      SizeType;
   typedef itk::ImageRegion<Dimension>               RegionType;
-  typedef itk::ImageRegionIterator<ImageType>       IteratorType;
   typedef ImageType::PixelType                      PixelType;
+
+  typedef itk::ImageRegionIteratorWithIndex<ImageType> IteratorType;
 
   // Declare the type of the Mesh
   typedef itk::Mesh<double>                         MeshType;
   typedef MeshType::PointType                       PointType;
 
-  typedef itk::BinaryMask3DMeshSource< MeshType >   MeshSourceType;
+  typedef itk::BinaryMask3DMeshSource< ImageType, MeshType >   MeshSourceType;
 
-  int i, j, k;
-  
-  PixelType backgroundValue = 0;
-  PixelType internalValue   = 1;
+  const PixelType backgroundValue = 0;
+  const PixelType internalValue   = 1;
   
   SizeType size;
-  size[0] = WIDTH;  
-  size[1] = HEIGHT;  
-  size[2] = DEPTH;  
+  size[0] = 128;  
+  size[1] = 128;  
+  size[2] = 128;  
 
   IndexType start;
   start.Fill(0);
@@ -75,54 +69,36 @@ int itkBinaryMask3DMeshSourceTest(int, char *[])
   image->SetRegions( region );
   image->Allocate();
 
+  image->FillBuffer( backgroundValue );
 
   IteratorType it( image, region );
   it.GoToBegin();
 
-  i = 0;
-  j = 0;
-  k = 0;
+  PointType             point;
+  PointType             center;
+  PointType::VectorType radial;
+ 
+  IndexType centralIndex = start;
+  centralIndex[0] += size[0] / 2;
+  centralIndex[1] += size[1] / 2;
+  centralIndex[2] += size[2] / 2;
+
+  image->TransformIndexToPhysicalPoint( centralIndex, center );
+  
+  // 
+  //  Create a digitized sphere in the middle of the image.
+  //
   while( !it.IsAtEnd() ) 
     {
-    if ((i-64)*(i-64)+(j-64)*(j-64)+(k-64)*(k-64) < 200) it.Set( internalValue );
-    else it.Set( backgroundValue );
-    ++it;
-    i++;
-    if (i == WIDTH) 
+    image->TransformIndexToPhysicalPoint( it.GetIndex(), point );
+    radial = point - center;
+    if ( radial.GetNorm() < 60.0)
       {
-      i = 0;
-      j++;
-      if (j == HEIGHT) 
-        {
-        j = 0;
-        k++;
-        }
+      it.Set( internalValue );
       }
+    ++it;
     }
-/*  
-  SizeType smallerSize;
-  smallerSize[0] = 100;
-  smallerSize[1] = 100;
-  smallerSize[2] = 100;
 
-  IndexType internalStart;
-  internalStart[0] = 50;
-  internalStart[1] = 50;
-  internalStart[2] = 50;
-
-  // Create one iterator for an internal region
-  RegionType internalRegion;
-  internalRegion.SetSize( smallerSize );
-  internalRegion.SetIndex( internalStart );
-
-  IteratorType ir( image, internalRegion );
-  ir.GoToBegin();
-  while( !ir.IsAtEnd() )
-    {
-    ir.Set( internalValue );  
-    ++ir;
-    }
-*/
   MeshSourceType::Pointer meshSource = MeshSourceType::New();
 
   meshSource->SetInput( image );
