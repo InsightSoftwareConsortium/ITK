@@ -4,6 +4,9 @@ INCLUDE_REGULAR_EXPRESSION("^.*$")
 ADD_EXECUTABLE(AntiAliasBinaryImageFilter AntiAliasBinaryImageFilter.cxx )
 TARGET_LINK_LIBRARIES(AntiAliasBinaryImageFilter ITKCommon ITKIO)
 
+ADD_EXECUTABLE(CompositeFilterExample CompositeFilterExample.cxx )
+TARGET_LINK_LIBRARIES(CompositeFilterExample ITKCommon ITKIO ITKBasicFilters)
+
 ADD_EXECUTABLE(FlipImageFilter FlipImageFilter.cxx )
 TARGET_LINK_LIBRARIES(FlipImageFilter ITKCommon ITKIO)
 
