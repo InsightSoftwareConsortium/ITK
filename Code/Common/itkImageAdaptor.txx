@@ -162,7 +162,7 @@ ImageAdaptor<TImage , TAccessor>
 ::Update()
 {
   Superclass::Update();
-  
+
   m_Image->Update();
 }
 
@@ -194,6 +194,7 @@ ImageAdaptor<TImage , TAccessor>
 
   // delegation to internal image
   m_Image->UpdateOutputData();
+  SetBufferedRegion( m_Image->GetBufferedRegion() ); 
 }
 
 
