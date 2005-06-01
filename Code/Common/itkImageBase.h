@@ -244,7 +244,7 @@ public:
   {
     // need to add bounds checking for the region/buffer?
     OffsetValueType offset=0;
-    const IndexType &bufferedRegionIndex = m_BufferedRegion.GetIndex();
+    const IndexType &bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
   
     // data is arranged as [][][][slice][row][col]
     // with Index[0] = col, Index[1] = row, Index[2] = slice
@@ -254,7 +254,7 @@ public:
       }
     offset += (ind[0] - bufferedRegionIndex[0]);
 
-    return offset;
+    return offset;    
   }
 
   /** Compute the index of the pixel at a specified offset from the
@@ -267,7 +267,7 @@ public:
   IndexType ComputeIndex(OffsetValueType offset) const
   {
     IndexType index;
-    const IndexType &bufferedRegionIndex = m_BufferedRegion.GetIndex();
+    const IndexType &bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
     
     for (int i=VImageDimension-1; i > 0; i--)
       {
@@ -277,7 +277,7 @@ public:
       }
     index[0] = bufferedRegionIndex[0] + static_cast<IndexValueType>(offset);
 
-    return index;
+    return index;    
   }
 
   /** Copy information from the specified data set.  This method is

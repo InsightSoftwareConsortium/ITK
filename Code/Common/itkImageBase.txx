@@ -151,14 +151,14 @@ ImageBase<VImageDimension>
 ::ComputeOffsetTable()
 {
   OffsetValueType num=1;
-  const SizeType& bufferSize = m_BufferedRegion.GetSize();
+  const SizeType& bufferSize = this->GetBufferedRegion().GetSize();
   
   m_OffsetTable[0] = num;
   for (unsigned int i=0; i < VImageDimension; i++)
     {
     num *= bufferSize[i];
     m_OffsetTable[i+1] = num;
-    }
+    }  
 }
 
 
