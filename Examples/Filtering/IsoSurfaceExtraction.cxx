@@ -21,28 +21,26 @@
 
 //  Software Guide : BeginLatex
 //
-//  Isosurface extraction has attracted continuous interest since the early
-//  days of image analysis. Although it is commonly associated with image
-//  segmentation, isosurface extraction is not in itself a segmentation
-//  technique, instead it is a transformation that changes the way a
-//  segmentation is represented. In its most common form, isosurface extraction
-//  is the equivalent of image thresholding followed by surface extraction.
+//  Surface extraction has attracted continuous interest since the early days
+//  of image analysis, in particular on the context of medical applications.
+//  Although it is commonly associated with image segmentation, surface
+//  extraction is not in itself a segmentation technique, instead it is a
+//  transformation that changes the way a segmentation is represented. In its
+//  most common form, isosurface extraction is the equivalent of image
+//  thresholding followed by surface extraction.
 //
 //  Probably the most widely known method of surface extraction is the
 //  \emph{Marching Cubes} algorithm~\cite{MarchingCubes}. Although it has been
 //  followed by a number of variants~\cite{VTKBook}, Marching Cubes has become
 //  an icon on medical image processing. The following example illustrates how
-//  to perform isosurface extraction in ITK using an algorithm similar to
-//  Marching Cubes~\footnote{Note that the Marching Cubes algorithm is covered
-//  by a patent that expired on June 5th 2005}.
+//  to perform surface extraction in ITK using an algorithm similar to Marching
+//  Cubes~\footnote{Note that the Marching Cubes algorithm is covered by a
+//  patent that expired on June 5th 2005.}.
 //
 //  Software Guide : EndLatex
 
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
-#include "itkImageRegionIterator.h"
-
 
 
 
@@ -51,11 +49,11 @@
 //
 // The representation of unstructured data in ITK is done with the
 // \doxygen{Mesh}, that allows to represent N-Dimensional grids of varied
-// topology. It is natural then that the filter that extracts isosurfaces from
+// topology. It is natural then that the filter that extracts surfaces from
 // an Image will produce a Mesh as output.
 //
-// We initiate our example by including the header files of the isosurface
-// extraction filter and the Mesh.
+// We initiate our example by including the header files of the surface
+// extraction filter, the image and the Mesh.
 //
 // \index{Marching Cubes}
 // \index{Isosurface extraction!Mesh}
@@ -66,6 +64,7 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkBinaryMask3DMeshSource.h"
+#include "itkImage.h"
 #include "itkMesh.h"
 // Software Guide : EndCodeSnippet
 
@@ -75,7 +74,7 @@ int main(int argc, char * argv[] )
 
   if( argc < 3 )
     {
-    std::cerr << "Usage: IsoSurfaceExtraction  inputImageFile   isoValue " << std::endl;
+    std::cerr << "Usage: IsoSurfaceExtraction  inputImageFile   objectValue " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -85,13 +84,13 @@ int main(int argc, char * argv[] )
 // Software Guide : BeginLatex
 //
 // We define then the pixel type and dimension of the image from which we are
-// going to extract the isosurface.
+// going to extract the surface.
 //
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 3;
-  typedef unsigned short  PixelType;
+  typedef unsigned char  PixelType;
 
   typedef itk::Image< PixelType, Dimension >   ImageType;
 // Software Guide : EndCodeSnippet
@@ -130,17 +129,31 @@ int main(int argc, char * argv[] )
 // Software Guide : BeginLatex
 //
 // The type of the \doxygen{Mesh} is instantiated by specifying the type to be
-// associated with the pixel value of the Mesh nodes. Having declared the Image
-// type and the Mesh type we can also instantiate the isosurface extraction
-// filter, and construct one by invoking its \code{New()} method.
-//
+// associated with the pixel value of the Mesh nodes. This particular pixel
+// type happens to be irrelevant for the purpose of extracting the surface.  
+// 
 // \index{BinaryMask3DMeshSource!Instantiation}
 //
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
   typedef itk::Mesh<double>                         MeshType;
+// Software Guide : EndCodeSnippet
 
+
+
+
+// Software Guide : BeginLatex
+//
+// Having declared the Image and Mesh types we can now instantiate the
+// surface extraction filter, and construct one by invoking its \code{New()}
+// method.
+//
+// Software Guide : EndLatex 
+
+
+
+// Software Guide : BeginCodeSnippet
   typedef itk::BinaryMask3DMeshSource< ImageType, MeshType >   MeshSourceType;
 
   MeshSourceType::Pointer meshSource = MeshSourceType::New();
@@ -152,17 +165,21 @@ int main(int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// In this particular example, the value to be used for selecting the
-// isosurface is read from the command line arguments and passed to the filter
-// by using the \code{SetObjectValue()} method. Note that at this point this is
-// equivalent to performing thresholding on the input image.
+// In this particular example, the pixel value to be associated to the object
+// to be extracted is read from the command line arguments and it is passed to
+// the filter by using the \code{SetObjectValue()} method. Note that this is
+// different from the traditional isovalue used in the Marching Cubes
+// algorithm.  In the case of the \code{BinaryMask3DMeshSource} filter, the
+// object values defines the membership of pixels to the object from which the
+// surface will be extracted. In other words, the surface will be surrounding
+// all pixels with value equal to the ObjectValue parameter.
 //
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  const PixelType isovalue = static_cast<PixelType>( atof( argv[2] ) );
+  const PixelType objectValue = static_cast<PixelType>( atof( argv[2] ) );
 
-  meshSource->SetObjectValue( isovalue );
+  meshSource->SetObjectValue( objectValue );
 // Software Guide : EndCodeSnippet
 
 
@@ -171,7 +188,7 @@ int main(int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// The input to the isosurface extraction filter is taken from the output of
+// The input to the surface extraction filter is taken from the output of
 // the image reader.
 //
 // \index{BinaryMask3DMeshSource!SetInput}
