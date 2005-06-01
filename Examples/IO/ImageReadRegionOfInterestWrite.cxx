@@ -27,7 +27,7 @@
 //  common task when we want to apply a computationally intensive method to
 //  the region of interest of an image.
 //
-// As usual with ITK IO, we begin by including the appropriate header files.
+//  As usual with ITK IO, we begin by including the appropriate header files.
 //
 //  Software Guide : EndLatex 
 
@@ -39,8 +39,8 @@
 
 //  Software Guide : BeginLatex
 //  
-//  The filter used to extract a region from an image is the
-//  \doxygen{RegionOfInterestImageFilter}. Its header is included below.
+//  The \doxygen{RegionOfInterestImageFilter} is the filter used to extract a
+//  region from an image. Its header is included below.
 //
 //  \index{itk::RegionOfInterestImageFilter!header}
 //
@@ -105,6 +105,7 @@ int main( int argc, char ** argv )
   // Software Guide : BeginCodeSnippet
   typedef itk::RegionOfInterestImageFilter< InputImageType, 
                                             OutputImageType > FilterType;
+
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -114,9 +115,9 @@ int main( int argc, char ** argv )
   //  The RegionOfInterestImageFilter requires a region to be
   //  defined by the user. The region is specified by an \doxygen{Index}
   //  indicating the pixel where the region starts and an \doxygen{Size}
-  //  indication how many pixels the region has along each dimension. In this
+  //  indicating how many pixels the region has along each dimension. In this
   //  example, the specification of the region is taken from the command line
-  //  arguments (this example assumes a 2D image is being processed).
+  //  arguments (this example assumes that a 2D image is being processed).
   //
   //  Software Guide : EndLatex 
 
