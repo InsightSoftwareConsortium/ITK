@@ -22,15 +22,15 @@
 //
 //  The classes responsible for reading and writing images are located at the
 //  beginning and end of the data processing pipeline. These classes are
-//  known as data sources (readers) and data sinks (mappers or writers).
+//  known as data sources (readers) and data sinks (writers).
 //  Generally speaking they are referred to as filters, although readers have
-//  no pipeline input and mappers have no pipeline output.
+//  no pipeline input and writers have no pipeline output.
 //
 //  The reading of images is managed by the class \doxygen{ImageFileReader}
 //  while writing is performed by the class \doxygen{ImageFileWriter}. These
 //  two classes are independent of any particular file format. The actual low
 //  level task of reading and writing specific file formats is done behind
-//  the scene by a family of classes of type \doxygen{ImageIO}.
+//  the scenes by a family of classes of type \doxygen{ImageIO}.
 //
 //  The first step for performing reading and writing is to include the
 //  following headers.
@@ -174,9 +174,9 @@ int main( int argc, char ** argv )
   //  At first view, this may seem as a quite useless program, but it is
   //  actually implementing a powerful file format conversion tool! The
   //  execution of the pipeline is triggered by the invocation of the
-  //  Update() methods in one of the final objects. In this case, the final
+  //  \code{Update()} methods in one of the final objects. In this case, the final
   //  data pipeline object is the writer. It is a wise practice of defensive
-  //  programming to insert any Update() call inside a \code{try/catch} block
+  //  programming to insert any \code{Update()} call inside a \code{try/catch} block
   //  in case exceptions are thrown during the execution of the pipeline.
   //
   //  Software Guide : EndLatex 
@@ -217,8 +217,8 @@ int main( int argc, char ** argv )
   //
   //  For historical reasons and as a convenience to the user, the
   //  \doxygen{ImageFileWriter} also has a Write() method that is aliased to
-  //  the Update() method. You can in principle use either of them but
-  //  Update() is recommended since Write() may be deprecated in the future.
+  //  the \code{Update()} method. You can in principle use either of them but
+  //  \code{Update()} is recommended since Write() may be deprecated in the future.
   //
   //  Software Guide : EndLatex 
 
