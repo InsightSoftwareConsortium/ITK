@@ -65,7 +65,7 @@ namespace itk
     };
 /** \class TriangleMeshToBinaryImageFilter
  *
- * \brief 3D Rasterization algorithm Curtsey of Dr David Gobbi of Atamai Inc.
+ * \brief 3D Rasterization algorithm Coursesy of Dr David Gobbi of Atamai Inc.
 
  * \author Leila Baghdadi, MICe, Hospital for Sick Childern, Toronto, Canada,
  */

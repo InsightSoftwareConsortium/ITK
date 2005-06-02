@@ -491,7 +491,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>
       
 }
 
-/** raterize : Curtsey of Dr D Gobbi of Atamai Inc.*/
+/** raterize : Courtesy of Dr D Gobbi of Atamai Inc.*/
 template <class TInputMesh, class TOutputImage>
 void
 TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
