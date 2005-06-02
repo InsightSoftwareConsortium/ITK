@@ -77,6 +77,7 @@ REGISTER_TEST(itkImageTest );
 REGISTER_TEST(itkIteratorTests );
 REGISTER_TEST(itkLandmarkBasedTransformInitializerTest );
 REGISTER_TEST(itkLightObjectTest );
+REGISTER_TEST(itkLineIteratorTest );
 REGISTER_TEST(itkLevelSetFunctionTest );
 REGISTER_TEST(itkLoggerTest );
 REGISTER_TEST(itkLoggerOutputTest );

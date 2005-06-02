@@ -19,6 +19,7 @@ ENDIF(ITK_BINARY_DIR)
 SET(COMMON_TESTS ${CXX_TEST_PATH}/itkCommonTests)
 SET(COMMON_HEADER_TEST ${CXX_TEST_PATH}/itkCommonHeaderTest)
 SET(SYSTEM_INFORMATION_TEST ${CXX_TEST_PATH}/itkSystemInformationTest)
+SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Common)
 
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
@@ -91,6 +92,12 @@ ADD_TEST(itkImageTest ${COMMON_TESTS} itkImageTest)
 ADD_TEST(itkIteratorTests ${COMMON_TESTS} itkIteratorTests)
 ADD_TEST(itkLandmarkBasedTransformInitializerTest ${COMMON_TESTS} itkLandmarkBasedTransformInitializerTest)
 ADD_TEST(itkLightObjectTest ${COMMON_TESTS} itkLightObjectTest)
+ADD_TEST(itkLineIteratorTest ${COMMON_TESTS} 
+  --compare ${BASELINE}/itkLineIteratorTest.png
+            ${TEMP}/itkLineIteratorTest.png
+  itkLineIteratorTest
+            ${TEMP}/itkLineIteratorTest.png
+)
 ADD_TEST(itkLevelSetFunctionTest ${COMMON_TESTS} itkLevelSetFunctionTest)
 ADD_TEST(itkLoggerTest ${COMMON_TESTS} itkLoggerTest)
 ADD_TEST(itkLoggerOutputTest ${COMMON_TESTS} itkLoggerOutputTest)
@@ -281,6 +288,7 @@ itkIteratorTests.cxx
 itkLevelSetFunctionTest.cxx
 itkLandmarkBasedTransformInitializerTest.cxx
 itkLightObjectTest.cxx
+itkLineIteratorTest.cxx
 itkLoggerTest.cxx
 itkLoggerOutputTest.cxx
 itkLoggerManagerTest.cxx
