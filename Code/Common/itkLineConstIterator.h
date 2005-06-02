@@ -28,7 +28,7 @@ namespace itk
  * \brief Iterator that walks a Bresenham line through an ND image.
  *
  * LineConstIterator is an iterator that walks a Bresenham line
- * through an image.  The iterator is constructor similar to other
+ * through an image.  The iterator is constructed similar to other
  * image iterators except for instead of specifying a region to
  * traverse, you specify two indices.
  *
