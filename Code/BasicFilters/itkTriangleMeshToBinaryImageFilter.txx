@@ -286,7 +286,6 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
   RasterizeTriangles();
   
   // Get the input and output pointers 
-  const InputMeshType * InputMesh  = this->GetInput();
   OutputImagePointer   OutputImage = this->GetOutput();
 
   if (m_Size[0] == 0 ||  m_Size[1] == 0 ||  m_Size[2] == 0)
@@ -341,7 +340,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
     DataIndex++;
     ++it;
     }
-   itkDebugMacro(<< "TriangleMeshToBinaryImageFilter::Update() finished");
+  itkDebugMacro(<< "TriangleMeshToBinaryImageFilter::Update() finished");
 
 } // end update function  
 
@@ -352,7 +351,7 @@ int
 TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>
 ::PolygonToImageRaster(PointVector coords, Point1DArray & zymatrix, int  extent[6])
 {
-   // convert the polgon into a rasterizable form by finding its
+  // convert the polgon into a rasterizable form by finding its
   // intersection with each z plane, and store the (x,y) coords
   // of each intersection in a vector called "matrix"
   int zSize = extent[5]-extent[4]+1;
@@ -368,63 +367,63 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>
 
   for (int i=0; i < n; i++)
     {
-     PointType p2 = coords[i];
-     // calculate the area (actually double the area) of the polygon's
-     // projection into the zy plane via cross product, one triangle
-     // at a time
-     double v1y = p1[1]-p0[1];
-     double v1z = p1[2]-p0[2];
-     double v2y = p2[1]-p0[1];
-     double v2z = p2[2]-p0[2];
-     area += (v1y*v2z - v2y*v1z);
+    PointType p2 = coords[i];
+    // calculate the area (actually double the area) of the polygon's
+    // projection into the zy plane via cross product, one triangle
+    // at a time
+    double v1y = p1[1]-p0[1];
+    double v1z = p1[2]-p0[2];
+    double v2y = p2[1]-p0[1];
+    double v2z = p2[2]-p0[2];
+    area += (v1y*v2z - v2y*v1z);
      
-     // skip any line segments that are perfectly horizontal
-     if (p1[2] == p2[2])
-       {
-       p1 = coords[i];
-       continue;
-       }
+    // skip any line segments that are perfectly horizontal
+    if (p1[2] == p2[2])
+      {
+      p1 = coords[i];
+      continue;
+      }
      
-     // sort the endpoints, this improves robustness
-     if (p1[2] > p2[2])
-       {
-       std::swap(p1,p2);
-       }
+    // sort the endpoints, this improves robustness
+    if (p1[2] > p2[2])
+      {
+      std::swap(p1,p2);
+      }
 
-     int zmin = (int)(ceil(p1[2]));
-     int zmax = (int)(ceil(p2[2]));
+    int zmin = (int)(ceil(p1[2]));
+    int zmax = (int)(ceil(p2[2]));
 
-     if (zmin > extent[5] || zmax < extent[4])
-       {
-       continue;
-       }
+    if (zmin > extent[5] || zmax < extent[4])
+      {
+      continue;
+      }
 
-     // cap to the volume extents
-     if (zmin < extent[4])
-       {
-       zmin = extent[4];
-       }
-     if (zmax > extent[5])
-       {
-       zmax = extent[5]+1;
-       }
-     double temp = 1.0/(p2[2] - p1[2]);
-     for (int z = zmin; z < zmax; z++)
-       {
-       double r = (p2[2] - (double)(z))*temp;
-       double f = 1.0 - r;
-       Point2DType XY;
-       XY[0] = r*p1[0] + f*p2[0];
-       XY[1] = r*p1[1] + f*p2[1];
-       matrix[z-extent[4]].push_back(XY);
-       }
+    // cap to the volume extents
+    if (zmin < extent[4])
+      {
+      zmin = extent[4];
+      }
+    if (zmax > extent[5])
+      {
+      zmax = extent[5]+1;
+      }
+    double temp = 1.0/(p2[2] - p1[2]);
+    for (int z = zmin; z < zmax; z++)
+      {
+      double r = (p2[2] - (double)(z))*temp;
+      double f = 1.0 - r;
+      Point2DType XY;
+      XY[0] = r*p1[0] + f*p2[0];
+      XY[1] = r*p1[1] + f*p2[1];
+      matrix[z-extent[4]].push_back(XY);
+      }
      
-     p1 = coords[i];
+    p1 = coords[i];
      
     } //end of for loop
 
   // area is not really needed, we just need the sign
-  int sign = 0;
+  int sign;
   if (area < 0.0)
     {
     sign = -1;
@@ -505,8 +504,6 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
   InputPointsContainerIterator     points = myPoints->Begin();
  
   int extent[6];
-  IndexType ImageIndex = m_Index;
-  SizeType ImageSize = m_Size;
 
   // create a similar extent like vtk
   extent[0] = m_Index[0];
@@ -612,7 +609,6 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
         }
       //get the first entry
       double lastx = xlist[0].x;
-      int lastsign = xlist[0].sign;
       int signproduct = 1;
   
       // if adjacent x values are within tolerance of each
@@ -645,17 +641,17 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
           }
         lastx = x;
         }
-        if (signproduct > 0)
-          {
-          nlist.push_back(lastx);
-          }
-        // if xlist length is not divisible by two, then
-        // the polydata isn't a closed surface
-        if ((int)(nlist.size())%2 != 0 && !alreadywarned)
-          {
+      if (signproduct > 0)
+        {
+        nlist.push_back(lastx);
+        }
+      // if xlist length is not divisible by two, then
+      // the polydata isn't a closed surface
+      if ((int)(nlist.size())%2 != 0 && !alreadywarned)
+        {
         alreadywarned = 1;
         itkWarningMacro(<<"RequestInformation: PolyData does not form a closed surface");
-          }
+        }
       // create the stencil extents
       int minx1 = extent[0]; // minimum allowable x1 value
       int n = (int)(nlist.size())/2;
@@ -678,7 +674,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
             {
             StencilIndex.push_back(idX + y * m_Size[0] + z * m_Size[0] * m_Size[1]);
             }
-        }
+          }
         // next x1 value must be at least x2+1
         minx1 = x2+1;
         }   

@@ -80,7 +80,6 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
   typedef typename TOutputImage::IndexType  IndexType;
   typedef typename TOutputImage::SizeType   SizeType;
-  typedef typename TOutputImage::PointType   PointType;
   typedef TOutputImage  OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
   typedef typename OutputImageType::ValueType  ValueType;
