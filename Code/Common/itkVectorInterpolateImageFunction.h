@@ -56,7 +56,7 @@ struct GetDimension
 template <
 class TInputImage,
 class TCoordRep = float,
-class TPixelType = TInputImage::PixelType
+class TPixelType = ITK_TYPENAME TInputImage::PixelType
 >
 class ITK_EXPORT VectorInterpolateImageFunction : 
   public ImageFunction<
