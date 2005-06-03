@@ -27,6 +27,7 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT1(ImageFileReader, image::F3, itkImageFileReaderF3);
+    ITK_WRAP_OBJECT1(ImageFileReader, image::VF3, itkImageFileReaderVF3);
     ITK_WRAP_OBJECT1(ImageFileReader, image::D3, itkImageFileReaderD3);
     ITK_WRAP_OBJECT1(ImageFileReader, image::UC3, itkImageFileReaderUC3);
     ITK_WRAP_OBJECT1(ImageFileReader, image::US3, itkImageFileReaderUS3);

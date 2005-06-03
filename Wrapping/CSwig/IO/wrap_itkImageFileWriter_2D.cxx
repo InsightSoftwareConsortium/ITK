@@ -27,6 +27,7 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_OBJECT1(ImageFileWriter, image::F2, itkImageFileWriterF2);
+    ITK_WRAP_OBJECT1(ImageFileWriter, image::VF2, itkImageFileWriterVF2);     
     ITK_WRAP_OBJECT1(ImageFileWriter, image::D2, itkImageFileWriterD2);
     ITK_WRAP_OBJECT1(ImageFileWriter, image::UC2, itkImageFileWriterUC2);
     ITK_WRAP_OBJECT1(ImageFileWriter, image::US2, itkImageFileWriterUS2);
