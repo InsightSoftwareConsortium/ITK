@@ -37,10 +37,8 @@ int itkLineIteratorTest(int argc, char*argv[])
 
   startIndex[0] = 11;
   startIndex[1] = 13;
-  startIndex[2] = 17;
   endIndex[0] = 11;
   endIndex[1] = 13;
-  endIndex[2] = 17;
 
   typedef itk::LineIterator<ImageType> LineIteratorType;
   LineIteratorType across(output, startIndex, endIndex);
