@@ -25,6 +25,7 @@ SET(WRAP_SOURCES
     wrap_itkWatershedImageFilter
     wrap_itkSegmentationLevelSetImageFilter
     wrap_itkSparseFieldLevelSetImageFilter
+    wrap_itkSymmetricForcesDemonsRegistrationFilter
     wrap_itkTreeNodeSO
     wrap_itkLevelSetFunction
 )
