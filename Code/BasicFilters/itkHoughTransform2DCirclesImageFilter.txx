@@ -55,7 +55,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
 ::SetRadius(double radius)
 {
   this->SetMinimumRadius(radius);
-  this->SetMaximimRadius(radius);
+  this->SetMaximumRadius(radius);
 }
 
 template<typename TInputPixelType, typename TOutputPixelType>
