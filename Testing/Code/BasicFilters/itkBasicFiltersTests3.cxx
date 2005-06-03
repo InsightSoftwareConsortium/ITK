@@ -32,6 +32,7 @@ void RegisterTests()
   REGISTER_TEST(itkNormalizedCorrelationImageFilterTest );
   REGISTER_TEST(itkTensorFractionalAnisotropyImageFilterTest );
   REGISTER_TEST(itkTensorRelativeAnisotropyImageFilterTest );
+  REGISTER_TEST(itkTriangleMeshToBinaryImageFilterTest );
   REGISTER_TEST(itkVectorAnisotropicDiffusionImageFilterTest );
   REGISTER_TEST(itkVectorConfidenceConnectedImageFilterTest );
   REGISTER_TEST(itkVectorExpandImageFilterTest );
