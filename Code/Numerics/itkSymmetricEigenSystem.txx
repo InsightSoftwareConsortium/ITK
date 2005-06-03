@@ -82,7 +82,8 @@ SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 
   InternalEigenSystemType internalEigenSystem(m_Matrix->GetVnlMatrix()) ;
 
-  vnl_vector< double > tempVector ;
+  typedef vnl_vector< TMatrixElement > EigenVectorType; 
+  EigenVectorType tempVector;
 
   for (i = 0 ; i < VNumberOfRows ; i++)
     {
