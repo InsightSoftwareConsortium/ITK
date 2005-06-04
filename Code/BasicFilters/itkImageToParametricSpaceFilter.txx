@@ -74,7 +74,17 @@ ImageToParametricSpaceFilter<TInputImage,TOutputMesh>
 
   OutputMeshPointer          mesh       = this->GetOutput();
   PointsContainerPointer     points     = mesh->GetPoints();
-  PointDataContainerPointer  pointData  = PointDataContainer::New();
+  
+  PointDataContainerPointer  pointData;
+  if( mesh->GetPointData() ) 
+    { 
+    pointData = mesh->GetPointData();
+    }
+  else 
+    { // Create
+    pointData  = PointDataContainer::New();
+    }
+  
   InputImageConstPointer     image      = this->GetInput(0);
 
   const unsigned long numberOfPixels =
