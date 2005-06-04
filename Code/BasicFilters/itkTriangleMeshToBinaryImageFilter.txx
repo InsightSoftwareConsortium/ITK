@@ -18,7 +18,8 @@ PURPOSE.  See the above copyright notices for more information.
 #define _itkTriangleMeshToBinaryImageFilter_txx
 
 #include "itkTriangleMeshToBinaryImageFilter.h"
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkNumericTraits.h"
 
 
 namespace itk
@@ -39,8 +40,8 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
     m_Origin[i] = 0;
     }
 
-  m_InsideValue = 1;
-  m_OutsideValue = 0;
+  m_InsideValue = NumericTraits<ValueType>::One;
+  m_OutsideValue = NumericTraits<ValueType>::Zero;
   
   m_Tolerance = 1e-5;
   
@@ -96,47 +97,10 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
 template <class TInputMesh, class TOutputImage>
 void 
 TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
-::SetSpacing(const SpacingType& spacing )
-{
-  unsigned int i; 
-  for (i=0; i<TOutputImage::ImageDimension; i++)
-    {
-    if ( (double)spacing[i] != m_Spacing[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < TOutputImage::ImageDimension ) 
-    { 
-    for (i=0; i<TOutputImage::ImageDimension; i++)
-      {
-      m_Spacing[i] = spacing[i];
-      }
-    this->Modified();
-    }
-}
-
-//----------------------------------------------------------------------------
-template <class TInputMesh, class TOutputImage>
-void 
-TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
 ::SetSpacing(const double spacing[3] )
 {
-  unsigned int i; 
-  for (i=0; i<3; i++)
-    {
-    if ( spacing[i] != m_Spacing[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < 3 ) 
-    { 
-    for (i=0; i<3; i++)
-      {
-      m_Spacing[i] = spacing[i];
-      }
-    }
+  SpacingType s(spacing);
+  this->SetSpacing(s);
 }
 
 template <class TInputMesh, class TOutputImage>
@@ -144,54 +108,10 @@ void
 TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
 ::SetSpacing(const float spacing[3] )
 {
-  unsigned int i; 
-  for (i=0; i<3; i++)
-    {
-    if ( (double)spacing[i] != m_Spacing[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < 3 ) 
-    { 
-    for (i=0; i<3; i++)
-      {
-      m_Spacing[i] = spacing[i];
-      }
-    }
-}
-
-template <class TInputMesh, class TOutputImage>
-const double * 
-TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
-::GetSpacing() const
-{
-  return m_Spacing;
-}
-
-
-//----------------------------------------------------------------------------
-template <class TInputMesh, class TOutputImage>
-void 
-TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
-::SetOrigin(const PointType& origin)
-{
-  unsigned int i; 
-  for (i=0; i<TOutputImage::ImageDimension; i++)
-    {
-    if ( (double)origin[i] != m_Origin[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < TOutputImage::ImageDimension ) 
-    { 
-    for (i=0; i<TOutputImage::ImageDimension; i++)
-      {
-      m_Origin[i] = origin[i];
-      }
-    this->Modified();
-    }
+  Vector<float, 3> sf(spacing);
+  SpacingType s;
+  s.CastFrom( sf );
+  this->SetSpacing(s);
 }
 
 //----------------------------------------------------------------------------
@@ -200,21 +120,8 @@ void
 TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
 ::SetOrigin(const double origin[3] )
 {
-  unsigned int i; 
-  for (i=0; i<3; i++)
-    {
-    if ( origin[i] != m_Origin[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < 3) 
-    { 
-    for (i=0; i<3; i++)
-      {
-      m_Origin[i] = origin[i];
-      }
-    }
+  PointType p(origin);
+  this->SetOrigin( p );
 }
 
 template <class TInputMesh, class TOutputImage>
@@ -222,29 +129,10 @@ void
 TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
 ::SetOrigin(const float origin[3] )
 {
-  unsigned int i; 
-  for (i=0; i<3; i++)
-    {
-    if ( (double)origin[i] != m_Origin[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < 3 ) 
-    { 
-    for (i=0; i<3; i++)
-      {
-      m_Origin[i] = origin[i];
-      }
-    }
-}
-
-template <class TInputMesh, class TOutputImage>
-const double * 
-TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
-::GetOrigin() const
-{
-  return m_Origin;
+  Point<float, 3> of(origin);
+  PointType p;
+  p.CastFrom( of );
+  this->SetOrigin( p );
 }
 
 // used by an STL sort
@@ -513,14 +401,11 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
   extent[4] = m_Index[2];
   extent[5] = m_Size[2] - 1;
   
-  const double *spacing = m_Spacing;
-  const double *origin  = m_Origin;
-
   // Only divide once
   double invspacing[3];
-  invspacing[0] = 1.0/spacing[0];
-  invspacing[1] = 1.0/spacing[1];
-  invspacing[2] = 1.0/spacing[2];
+  invspacing[0] = 1.0/m_Spacing[0];
+  invspacing[1] = 1.0/m_Spacing[1];
+  invspacing[2] = 1.0/m_Spacing[2];
 
   // need to translate points and create new points
   PointsContainer::Pointer NewPoints = PointsContainer::New();
@@ -535,9 +420,9 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
    
     point = points.Value();
     
-    newpoint[0] = (point[0]-origin[0]) * invspacing[0];
-    newpoint[1] = (point[1]-origin[1]) * invspacing[1];
-    newpoint[2] = (point[2]-origin[2]) * invspacing[2];
+    newpoint[0] = (point[0]-m_Origin[0]) * invspacing[0];
+    newpoint[1] = (point[1]-m_Origin[1]) * invspacing[1];
+    newpoint[2] = (point[2]-m_Origin[2]) * invspacing[2];
 
     NewPoints->InsertElement(pointId++, newpoint);
     
@@ -691,9 +576,16 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
   Superclass::PrintSelf(os, indent);
   os << indent << "Size : " << m_Size << std::endl;
   
-  os << indent << "Inside Value : " << m_InsideValue << std::endl;
-  os << indent << "Outside Value : " << m_OutsideValue << std::endl;
+  os << indent << "Inside Value : "
+     << static_cast<typename NumericTraits<ValueType>::PrintType>(m_InsideValue)
+     << std::endl;
+  os << indent << "Outside Value : "
+     << static_cast<typename NumericTraits<ValueType>::PrintType>(m_OutsideValue)
+     << std::endl;
   os << indent << "Tolerance: " << m_Tolerance << std::endl;
+  os << indent << "Origin: " << m_Origin << std::endl;
+  os << indent << "Spacing: " << m_Spacing << std::endl;
+  os << indent << "Index: " << m_Index << std::endl;
 }
 
 } // end namespace itk

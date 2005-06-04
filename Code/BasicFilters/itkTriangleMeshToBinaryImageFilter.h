@@ -132,10 +132,10 @@ public:
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
-  virtual void SetSpacing( const SpacingType& spacing);
+  itkSetMacro(Spacing, SpacingType);
   virtual void SetSpacing( const double spacing[3] );
   virtual void SetSpacing( const float spacing[3] );
-  virtual const double* GetSpacing() const;
+  itkGetConstReferenceMacro(Spacing, SpacingType);
 
   /** Set/Get the value for pixels inside the spatial object. 
   * By default, this filter will return an image
@@ -157,21 +157,19 @@ public:
    * coordinates of the index (0,0,...,0).  It is stored internally
    * as double but may be set from float.
    * \sa GetOrigin() */
-  virtual void SetOrigin( const PointType& origin);
+  itkSetMacro(Origin, PointType);
   virtual void SetOrigin( const double origin[3] );
   virtual void SetOrigin( const float origin[3] );
-  virtual const double * GetOrigin() const;
+  itkGetConstReferenceMacro(Origin, PointType);
   
   /** Set/Get Index */
   itkSetMacro(Index,IndexType);
   itkGetMacro(Index,IndexType);
 
-
   /** Set/Get Size */
   itkSetMacro(Size,SizeType);
   itkGetMacro(Size,SizeType);
 
-  
   /** Set the mesh input of this process object.  */
   void SetInput(InputMeshType *input);
 
@@ -196,8 +194,8 @@ protected:
 
   IndexType    m_Index;
   SizeType     m_Size;
-  double       m_Spacing[3];
-  double       m_Origin[3]; //start value
+  SpacingType  m_Spacing;
+  PointType    m_Origin; //start value
   double       m_Tolerance;
   ValueType    m_InsideValue;
   ValueType    m_OutsideValue;
