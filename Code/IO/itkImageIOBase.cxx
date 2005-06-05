@@ -592,6 +592,8 @@ std::string ImageIOBase::GetPixelTypeAsString(IOPixelType t) const
       return (s = "symmetric_second_rank_tensor");
     case DIFFUSIONTENSOR3D:
       return (s = "diffusion_tensor_3D");
+    case COMPLEX:
+      return (s = "complex");
     case UNKNOWNPIXELTYPE:
     default:
       itkExceptionMacro ("Unknown pixel type: " << t);
