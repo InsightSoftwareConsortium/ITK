@@ -357,6 +357,12 @@ int main( int argc, char * argv [] )
   complexReader->Update();
 // Software Guide : EndCodeSnippet
 
+  
+  // A way of testing the pixel type of an image in file is to
+  // invoke the ImageIO object from the reader and then call
+  // \code{GetPixelTypeAsString()}
+  complexReader->GetImageIO()->GetPixelTypeAsString(
+                    complexReader->GetImageIO()->GetPixelType() );
 
 
   return EXIT_SUCCESS;
