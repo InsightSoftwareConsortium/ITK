@@ -214,7 +214,8 @@ SymmetricSecondRankTensor<T,NDimension>
 
 
 /*
- * Get the Trace
+ * Set the Tensor to an Identity.
+ * Set ones in the diagonal and zeroes every where else.
  */
 template<class T,unsigned int NDimension>
 void 
