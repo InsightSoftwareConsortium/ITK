@@ -24,8 +24,8 @@ namespace itk
 
 template<class TImage>
 LineIterator<TImage>
-::LineIterator(ImageType *imagePtr, const IndexType &startIndex, const IndexType &endIndex):
-  LineConstIterator<TImage>(imagePtr, startIndex, endIndex)
+::LineIterator(ImageType *imagePtr, const IndexType &firstIndex, const IndexType &lastIndex):
+  LineConstIterator<TImage>(imagePtr, firstIndex, lastIndex)
 {
 }
 

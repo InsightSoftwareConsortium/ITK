@@ -24,22 +24,24 @@ namespace itk
 
 template<class TImage>
 LineConstIterator<TImage>
-::LineConstIterator(const ImageType *imagePtr, const IndexType &startIndex, const IndexType &endIndex)
+::LineConstIterator(const ImageType *imagePtr, const IndexType &firstIndex, const IndexType &lastIndex)
 {
+  int i;
+  
   m_Image = imagePtr;
 
-  m_StartIndex = startIndex;
-  m_EndIndex = endIndex;
+  m_StartIndex = firstIndex;
+  m_LastIndex = lastIndex;
 
   IndexType difference;
   for (int i = 0; i < TImage::ImageDimension; ++i)
     {
-    difference[i] = endIndex[i] - startIndex[i];
+    difference[i] = lastIndex[i] - firstIndex[i];
     }
 
   IndexValueType maxDistance = 0;
   int maxDistanceDimension = 0;
-  for (int i = 0; i < TImage::ImageDimension; ++i)
+  for (i = 0; i < TImage::ImageDimension; ++i)
     {
     IndexValueType distance = abs(difference[i]);
     if (distance > maxDistance)
@@ -53,8 +55,33 @@ LineConstIterator<TImage>
   m_MainDirection = maxDistanceDimension;
   m_MaximalError.Fill(maxDistance);
   m_ReduceErrorAfterIncrement.Fill(2*maxDistance);
+
+  // Need to set m_EndIndex to be one pixel past the m_LastIndex along
+  // the bresenham line. THis is tricky to
+  // do. m_EndIndex[m_MainDirection] is always offset by one from the
+  // m_LastIndex[m_MainDirection].  The other indices may or may not
+  // be incremented depending on the accumulated error to that point.
+  //
+  // To avoid traversing the line to determine whether the other
+  // components need to be adjusted, we merely set the main direction
+  // to be incremented and keep the remaining indices to be same as
+  // LastIndex. THen in the test for IsAtEnd, we just check the
+  // MainDirection component of the index.
+  for (int i = 0; i < TImage::ImageDimension; ++i)
+    {
+    if (i == m_MainDirection)
+      {
+      m_EndIndex[i] = m_LastIndex[i] + m_OverflowIncrement[i];
+      }
+    else
+      {
+      m_EndIndex[i] = m_LastIndex[i];
+      }
+    }
   
-  m_Region = m_Image->GetLargestPossibleRegion();
+
+  
+  m_Region = m_Image->GetBufferedRegion();
   
   this->GoToBegin();
 }
@@ -70,6 +97,7 @@ LineConstIterator<TImage>
   m_IsAtEnd = it.m_IsAtEnd;
   m_CurrentImageIndex   = it.m_CurrentImageIndex;
   m_StartIndex = it.m_StartIndex;
+  m_LastIndex = it.m_LastIndex;
   m_EndIndex = it.m_EndIndex;
   m_MainDirection = it.m_MainDirection;
   m_AccumulateError = it.m_AccumulateError;
@@ -89,7 +117,7 @@ LineConstIterator<TImage>
 {
   m_CurrentImageIndex   = m_StartIndex;
   m_AccumulateError.Fill(0);
-  m_IsAtEnd = (m_StartIndex == m_EndIndex);
+  m_IsAtEnd = (m_StartIndex[m_MainDirection] == m_EndIndex[m_MainDirection]);
 }
 
 
@@ -116,7 +144,7 @@ LineConstIterator<TImage>
       }
     }
 
-  if (m_CurrentImageIndex == m_EndIndex)
+  if (m_CurrentImageIndex[m_MainDirection] == m_EndIndex[m_MainDirection])
     {
     m_IsAtEnd = true;
     }

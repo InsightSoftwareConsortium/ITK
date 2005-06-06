@@ -42,16 +42,25 @@ int itkLineIteratorTest(int argc, char*argv[])
 
   typedef itk::LineIterator<ImageType> LineIteratorType;
   LineIteratorType across(output, startIndex, endIndex);
-  if (!across.IsAtEnd())
-    {
-    std::cerr << "Error! Iterator should be at end.\n";
-    return EXIT_FAILURE;
-    }
 
-  // Second test: currentIndex initialization
+  // First test: currentIndex initialization
   if (startIndex != across.GetIndex())
     {
     std::cerr << "Error! Index should be startIndex.\n";
+    return EXIT_FAILURE;
+    }
+
+  // Second test: IsAtEnd() is one pixel past the endIndex
+  if (across.IsAtEnd())
+    {
+    std::cerr << "Error! Iterator should not be at end.\n";
+    return EXIT_FAILURE;
+    }
+
+  ++across;
+  if (!across.IsAtEnd())
+    {
+    std::cerr << "Error! Iterator should be at end.\n";
     return EXIT_FAILURE;
     }
 

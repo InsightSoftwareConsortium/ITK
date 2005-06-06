@@ -30,7 +30,17 @@ namespace itk
  * LineConstIterator is an iterator that walks a Bresenham line
  * through an image.  The iterator is constructed similar to other
  * image iterators except for instead of specifying a region to
- * traverse, you specify two indices.
+ * traverse, you specify two indices. The interval specified by
+ * the two indices is closed.  So, a line iterator specified with
+ * the same start and end index will visit exactly one pixel.
+ *
+ * \code
+ * LineConstIterator<ImageType> it(image, I1, I2);
+ * while (!it.IsAtEnd())
+ * {
+ *    // visits at least 1 pixel
+ * }
+ * \endcode
  *
  * This class was contributed by Benjamin King, Experimentelle
  * Radiologie, Medizinische Hochschule Hannover.
@@ -128,7 +138,7 @@ public:
   Self &operator=(const Self& it);
 
   /** Constructor establishes an iterator to walk along a line */
-  LineConstIterator(const ImageType *imagePtr, const IndexType &startIndex, const IndexType &endIndex);
+  LineConstIterator(const ImageType *imagePtr, const IndexType &firstIndex, const IndexType &lastIndex);
 
   /** Default Destructor. */
   virtual ~LineConstIterator() {};
@@ -147,7 +157,8 @@ protected: //made protected so other iterators can access
   /** Start, end and current ND index position in the image of the line */
   IndexType m_CurrentImageIndex;
   IndexType m_StartIndex;
-  IndexType m_EndIndex;
+  IndexType m_LastIndex;
+  IndexType m_EndIndex;  // one past the end of the line in the m_MainDirection
 
   /** Variables that drive the Bresenham-Algorithm */
   // The dimension with the largest difference between start and end
