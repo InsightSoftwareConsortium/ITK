@@ -89,15 +89,9 @@ VersorTransformOptimizer
     newParameters[j] = currentPosition[j] + transformedGradient[j] * factor;
     }
 
-  std::cout << "Current position: " << currentPosition << std::endl;
-  std::cout << "New position: " << newParameters << std::endl;
-  std::cout << "transformedGradient: " << transformedGradient << std::endl;
-
   this->SetCurrentPosition( newParameters );
 
 }
-
-
 
 
 } // end namespace itk
