@@ -5,7 +5,6 @@ SET(ITKCommon_SRCS
   itkChainCodePath2D.cxx
   itkCommand.h itkCommand.cxx
   itkConditionVariable.cxx
-  itkConsoleLogOutput.cxx
   itkDataObject.cxx
   itkDecisionRuleBase.cxx
   itkDirectory.cxx
@@ -15,7 +14,6 @@ SET(ITKCommon_SRCS
   itkExceptionObject.cxx
   itkFastMutexLock.cxx
   itkFileOutputWindow.cxx
-  itkFileLogOutput.cxx
   itkGaussianKernelFunction.cxx
   itkHexahedronCellTopology.cxx
   itkIndent.cxx
