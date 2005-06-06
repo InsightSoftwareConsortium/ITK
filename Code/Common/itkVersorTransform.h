@@ -30,7 +30,7 @@ namespace itk
  *
  * VersorTransform of a vector space (e.g. space coordinates)
  *
- * This transform applies a rotation and translation to the space
+ * This transform applies a rotation to the space.
  *
  * \ingroup Transforms
  *
@@ -77,7 +77,6 @@ public:
     typedef typename Superclass::InverseMatrixType      InverseMatrixType;
     typedef typename Superclass::CenterType             CenterType;
     typedef typename Superclass::OffsetType             OffsetType;
-    typedef typename Superclass::TranslationType        TranslationType;
 
     /**
      * VnlQuaternion Type
