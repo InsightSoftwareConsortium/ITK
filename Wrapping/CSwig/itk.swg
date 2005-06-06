@@ -29,3 +29,10 @@
 }
 
 %include std_string.i
+
+/* disable this c linkage warning on windows */
+%{
+#ifdef _WIN32
+#pragma warning ( disable : 4190 )
+#endif
+%}
