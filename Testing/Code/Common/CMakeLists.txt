@@ -28,7 +28,6 @@ ADD_TEST(itkChainCodePath2DTest ${COMMON_TESTS} itkChainCodePath2DTest)
 ADD_TEST(itkChainCodePathTest ${COMMON_TESTS} itkChainCodePathTest)
 ADD_TEST(itkCommonPrintTest ${COMMON_TESTS} itkCommonPrintTest)
 ADD_TEST(itkConditionVariableTest ${COMMON_TESTS} itkConditionVariableTest)
-ADD_TEST(itkConsoleLogOutputTest ${COMMON_TESTS} itkConsoleLogOutputTest)
 ADD_TEST(itkDecoratorTest ${COMMON_TESTS} itkDecoratorTest)
 ADD_TEST(itkDirectoryTest ${COMMON_TESTS} itkDirectoryTest ${TEMP})
 ADD_TEST(itkModifiedTimeTest ${COMMON_TESTS} itkModifiedTimeTest)
@@ -37,7 +36,6 @@ ADD_TEST(itkAdaptorComparisonTest ${COMMON_TESTS} itkAdaptorComparisonTest)
 ADD_TEST(itkAffineTransformTest ${COMMON_TESTS} itkAffineTransformTest)
 ADD_TEST(itkFixedCenterOfRotationAffineTransformTest ${COMMON_TESTS} itkFixedCenterOfRotationAffineTransformTest)
 ADD_TEST(itkFixedArrayTest ${COMMON_TESTS} itkFixedArrayTest)
-ADD_TEST(itkFileLogOutputTest ${COMMON_TESTS} itkFileLogOutputTest)
 ADD_TEST(itkArrayTest ${COMMON_TESTS} itkArrayTest)
 ADD_TEST(itkArray2DTest ${COMMON_TESTS} itkArray2DTest)
 ADD_TEST(itkAutoPointerTest ${COMMON_TESTS} itkAutoPointerTest)
@@ -221,7 +219,6 @@ WRITE_FILE(
 SET(BasicTests_SRCS
 itkCommonPrintTest.cxx
 itkConditionVariableTest.cxx
-itkConsoleLogOutputTest.cxx
 itkModifiedTimeTest.cxx
 itkMultipleLogOutputTest.cxx
 itkAdaptorComparisonTest.cxx
@@ -264,7 +261,6 @@ itkExceptionObjectTest.cxx
 itkFileOutputWindowTest.cxx
 itkFiniteCylinderSpatialFunctionTest.cxx
 itkFixedArrayTest.cxx
-itkFileLogOutputTest.cxx
 itkFixedCenterOfRotationAffineTransformTest.cxx
 itkFloodFilledSpatialFunctionTest.cxx
 itkFourierSeriesPathTest.cxx
