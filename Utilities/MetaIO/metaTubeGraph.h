@@ -56,7 +56,7 @@ class MetaTubeGraph : public MetaObject
   ////
   public:
 
-   typedef std::list<TubeGraphPnt*> PointListType;
+   typedef std::vector<TubeGraphPnt*> PointListType;
     ////
     //
     // Constructors & Destructor
