@@ -27,6 +27,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkGradientRecursiveGaussianImageFilter),
     ITK_WRAP_GROUP(itkMeanImageFilter),
     ITK_WRAP_GROUP(itkMedianImageFilter),
+    ITK_WRAP_GROUP(itkMinimumMaximumImageFilter),
     ITK_WRAP_GROUP(itkNaryAddImageFilter),
     ITK_WRAP_GROUP(itkNormalizeImageFilter),
     ITK_WRAP_GROUP(itkPermuteAxesImageFilter),
@@ -40,6 +41,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkSigmoidImageFilter),
     ITK_WRAP_GROUP(itkSmoothingRecursiveGaussianImageFilter),
     ITK_WRAP_GROUP(itkStatisticsImageFilter),
+    ITK_WRAP_GROUP(itkSubtractImageFilter),
     ITK_WRAP_GROUP(itkThresholdImageFilter),
     ITK_WRAP_GROUP(itkVTKImageExport),
     ITK_WRAP_GROUP(itkVTKImageImport)

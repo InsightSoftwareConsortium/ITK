@@ -5,6 +5,7 @@ SET(WRAP_SOURCES
   wrap_itkGradientRecursiveGaussianImageFilter
   wrap_itkMeanImageFilter
   wrap_itkMedianImageFilter
+  wrap_itkMinimumMaximumImageFilter
   wrap_itkNaryAddImageFilter
   wrap_itkNormalizeImageFilter
   wrap_itkPermuteAxesImageFilter
@@ -18,6 +19,7 @@ SET(WRAP_SOURCES
   wrap_itkSigmoidImageFilter
   wrap_itkSmoothingRecursiveGaussianImageFilter
   wrap_itkStatisticsImageFilter
+  wrap_itkSubtractImageFilter
   wrap_itkThresholdImageFilter
   wrap_itkVTKImageExport
   wrap_itkVTKImageImport
