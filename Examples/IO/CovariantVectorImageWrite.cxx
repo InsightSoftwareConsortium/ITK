@@ -87,6 +87,7 @@ int main( int argc, char ** argv )
   typedef signed short          InputPixelType;
   typedef float                 ComponentType;
   const   unsigned int          Dimension = 2;
+
   typedef itk::CovariantVector< ComponentType, 
                                     Dimension  >      OutputPixelType;
 
@@ -120,6 +121,7 @@ int main( int argc, char ** argv )
   typedef itk::GradientRecursiveGaussianImageFilter< 
                                           InputImageType,
                                           OutputImageType    > FilterType;
+
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
