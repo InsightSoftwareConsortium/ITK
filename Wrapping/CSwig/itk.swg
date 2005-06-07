@@ -34,5 +34,6 @@
 %{
 #ifdef _WIN32
 #pragma warning ( disable : 4190 )
+#pragma warning ( disable : 4049 )
 #endif
 %}

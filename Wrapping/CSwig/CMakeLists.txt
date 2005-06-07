@@ -143,7 +143,7 @@ MACRO(CSWIG_CREATE_TCL_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Lib
           -o ${Bin}/${OutputTclCxx} -tcl -pkgversion "${ITK_VERSION_STRING}" -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
-     DEPENDS ${LibraryIndexFiles} ${Bin}/${InputXml} ${CSWIG} ${ITK_BINARY_DIR}/itkConfigure.h)
+     DEPENDS ${LibraryIndexFiles} ${ITK_TOP}/Wrapping/CSwig/itk.swg ${Bin}/${InputXml} ${CSWIG} ${ITK_BINARY_DIR}/itkConfigure.h)
 #     MESSAGE("depends are ${CABLE_SWIG_DEPEND}")
 ENDMACRO(CSWIG_CREATE_TCL_CXX_FILE)
 
@@ -165,7 +165,7 @@ MACRO(CSWIG_CREATE_PERL_CXX_FILE Bin MasterIdx InputIdx InputXml OutputPerlCxx L
           -o ${Bin}/${OutputPerlCxx} -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputPerlCxx}
-     DEPENDS ${LibraryIndexFiles} ${Bin}/${InputXml} ${CSWIG} ${ITK_BINARY_DIR}/itkConfigure.h)
+     DEPENDS ${LibraryIndexFiles} ${ITK_TOP}/Wrapping/CSwig/itk.swg ${Bin}/${InputXml} ${CSWIG} ${ITK_BINARY_DIR}/itkConfigure.h)
 ENDMACRO(CSWIG_CREATE_PERL_CXX_FILE)
 
 SET(ITK_CSWIG_PYTHON_NO_EXCEPTION_REGEX "(ContinuousIndex|Python)\\.xml$")
@@ -193,7 +193,7 @@ MACRO(CSWIG_CREATE_PYTHON_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx 
           -o ${Bin}/${OutputTclCxx} -python -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
-     DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml} ${CSWIG} )
+     DEPENDS ${LibraryIndexFiles}  ${ITK_TOP}/Wrapping/CSwig/itk.swg ${ITK_TOP}/Wrapping/CSwig/itk.swg ${Bin}/${InputXml} ${CSWIG} )
 ENDMACRO(CSWIG_CREATE_PYTHON_CXX_FILE)
 
 MACRO(CSWIG_CREATE_JAVA_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Library LibraryIndexFiles)
@@ -218,7 +218,7 @@ MACRO(CSWIG_CREATE_JAVA_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Li
           -o ${Bin}/${OutputTclCxx} -package InsightToolkit -java -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
-     DEPENDS ${LibraryIndexFiles}  ${Bin}/${InputXml} ${CSWIG} )
+     DEPENDS ${LibraryIndexFiles} ${ITK_TOP}/Wrapping/CSwig/itk.swg  ${Bin}/${InputXml} ${CSWIG} )
 ENDMACRO(CSWIG_CREATE_JAVA_CXX_FILE)
 
 
