@@ -28,6 +28,11 @@
 namespace itk
 {
 
+namespace Functor
+{
+template<unsigned int VIndexDimension> class IndexLexicographicCompare;
+}
+
 /** \class Index
  * \brief Represent a n-dimensional index in a n-dimensional image.
  *
@@ -57,7 +62,6 @@ namespace itk
  * \ingroup ImageObjects
  */
 
-
 template<unsigned int VIndexDimension=2>
 class Index {
 public:
@@ -77,7 +81,10 @@ public:
   /** Compatible Offset and Offset value typedef. */
   typedef   Offset<VIndexDimension>  OffsetType;
   typedef   typename OffsetType::OffsetValueType OffsetValueType;
-  
+
+  /** Lexicographic ordering functor type.  */
+  typedef Functor::IndexLexicographicCompare<VIndexDimension> LexicographicCompare;
+
   /** Add a size to an index. This method models a random access Index. */
   const Self
   operator+(const SizeType &size) const
@@ -254,6 +261,37 @@ public:
   
 };
 
+namespace Functor
+{
+/** \class IndexLexicographicCompare
+ * \brief Order Index instances lexicographically.
+ *
+ * This is a comparison functor suitable for storing Index instances
+ * in an STL container.  The ordering is total and unique but has
+ * little geometric meaning.
+ */
+template<unsigned int VIndexDimension>
+class IndexLexicographicCompare
+{
+public:
+  bool operator()(Index<VIndexDimension> const& l,
+                  Index<VIndexDimension> const& r)
+    {
+    for(unsigned int i=0; i < VIndexDimension; ++i)
+      {
+      if(l.m_Index[i] < r.m_Index[i])
+        {
+        return true;
+        }
+      else if(l.m_Index[i] > r.m_Index[i])
+        {
+        return false;
+        }
+      }
+    return false;
+    }
+};
+}
 
 template<unsigned int VIndexDimension>
 Index<VIndexDimension> 
