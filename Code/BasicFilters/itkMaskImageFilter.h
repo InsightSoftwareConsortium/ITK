@@ -58,7 +58,7 @@ class MaskInput
 public:
   typedef typename NumericTraits< TInput >::AccumulateType AccumulatorType;
 
-  MaskInput() {};
+  MaskInput(): m_OutsideValue(NumericTraits< TOutput >::ZeroValue()) {};
   ~MaskInput() {};
   inline TOutput operator()( const TInput & A, const TMask & B)
   {
@@ -68,9 +68,24 @@ public:
       }
     else
       {
-      return NumericTraits< TOutput >::ZeroValue();
+      return m_OutsideValue;
       }
   }
+
+  /** Method to explicitly set the outside value of the mask */
+  void SetOutsideValue( const TOutput &outsideValue )
+    {
+    m_OutsideValue = outsideValue;
+    }
+  
+  /** Method to get the outside value of the mask */
+  const TOutput &GetOutsideValue() const
+    {
+    return m_OutsideValue;
+    }
+     
+private:
+  TOutput m_OutsideValue;
 }; 
 
 }
@@ -99,7 +114,13 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+ 
+  /** Method to explicitly set the outside value of the mask. Defaults to 0 */
+  void SetOutsideValue( const typename TOutputImage::PixelType & outsudeValue ) 
+    {
+    this->GetFunctor().SetOutsideValue( outsudeValue );
+    }
+    
 protected:
   MaskImageFilter() {}
   virtual ~MaskImageFilter() {}
