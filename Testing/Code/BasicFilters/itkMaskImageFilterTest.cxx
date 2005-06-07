@@ -114,20 +114,21 @@ int itkMaskImageFilterTest(int, char* [] )
     ++it2;
     }
 
-  // Declare the type for the ADD filter
+  // Declare the type for the Mask image filter
   typedef itk::MaskImageFilter<
                            myImageType1,
                            myImageType2,
                            myImageType3  >       myFilterType;
             
 
-  // Create an ADD Filter                                
+  // Create a mask  Filter                                
   myFilterType::Pointer filter = myFilterType::New();
 
 
   // Connect the input images
   filter->SetInput1( inputImageA ); 
   filter->SetInput2( inputImageB );
+  filter->SetOutsideValue( 50 );
 
   // Get the Smart Pointer to the Filter Output 
   myImageType3::Pointer outputImage = filter->GetOutput();
