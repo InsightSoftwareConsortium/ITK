@@ -103,14 +103,21 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
   typename OutputPointSetType::Pointer  outputPointSet = this->GetOutput();                                             
  
   // Look for the number of points to allocate
-  unsigned long numberOfPoints = static_cast<const PointBasedSpatialObjectType*>(inputObject)->GetNumberOfPoints()/m_SamplingFactor;
+  unsigned long numberOfPoints = 0;
+  if(dynamic_cast<const PointBasedSpatialObjectType*>(inputObject))
+    {
+    numberOfPoints = dynamic_cast<const PointBasedSpatialObjectType*>(inputObject)->GetNumberOfPoints()/m_SamplingFactor;
+    }
 
   ChildrenListType* children = inputObject->GetChildren(m_ChildrenDepth);
   typename ChildrenListType::const_iterator it = children->begin();
 
   for(;it!=children->end();it++)
     {
-    numberOfPoints += static_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetNumberOfPoints()/m_SamplingFactor;
+    if(dynamic_cast<const PointBasedSpatialObjectType*>((*it).GetPointer()))
+      {
+      numberOfPoints += dynamic_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetNumberOfPoints()/m_SamplingFactor;
+      }
     }
   
   typedef typename OutputPointSetType::PointDataContainer DataContainer;
@@ -123,17 +130,22 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
   typename OutputPointSetType::PointType  point;
 
   // add the object it itself
-  unsigned long n = static_cast<const PointBasedSpatialObjectType*>(inputObject)->GetNumberOfPoints();
-  for(unsigned int i=0;i<n;i+=m_SamplingFactor)
+  unsigned long n = 0;
+  if(dynamic_cast<const PointBasedSpatialObjectType*>(inputObject))
     {
-    typename InputSpatialObjectType::PointType transformedPoint
-      =  inputObject->GetIndexToWorldTransform()->TransformPoint(inputObject->GetPoint(i)->GetPosition());
-
-    for(unsigned int j=0;j< itkGetStaticConstMacro(ObjectDimension) ;j++)
+    n = dynamic_cast<const PointBasedSpatialObjectType*>(inputObject)->GetNumberOfPoints();
+    for(unsigned int i=0;i<n;i+=m_SamplingFactor)
       {
-      point[j] = transformedPoint[j];
+      typename InputSpatialObjectType::PointType transformedPoint
+        =  inputObject->GetIndexToWorldTransform()->TransformPoint(
+            dynamic_cast<const PointBasedSpatialObjectType*>(inputObject)->GetPoint(i)->GetPosition());
+
+      for(unsigned int j=0;j< itkGetStaticConstMacro(ObjectDimension) ;j++)
+        {
+        point[j] = transformedPoint[j];
+        }
+      outputPointSet->SetPoint(pointId++, point );
       }
-    outputPointSet->SetPoint(pointId++, point );
     }
 
   // then add children points
@@ -141,18 +153,21 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
 
   for(;it!=children->end();it++)
     {
-    unsigned long n = static_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetNumberOfPoints();
-    for(unsigned int i=0;i<n;i+=m_SamplingFactor)
+    if(dynamic_cast<const PointBasedSpatialObjectType*>((*it).GetPointer()))
       {
-      typename InputSpatialObjectType::PointType transformedPoint
-      =  inputObject->GetIndexToWorldTransform()->TransformPoint(static_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetPoint(i)->GetPosition());
-
-      for(unsigned int j=0;j< itkGetStaticConstMacro(ObjectDimension) ;j++)
+      unsigned long n = dynamic_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetNumberOfPoints();
+      for(unsigned int i=0;i<n;i+=m_SamplingFactor)
         {
-        point[j] = transformedPoint[j];
-        }
-      outputPointSet->SetPoint(pointId++, point );
-      } 
+        typename InputSpatialObjectType::PointType transformedPoint
+        =  inputObject->GetIndexToWorldTransform()->TransformPoint(dynamic_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetPoint(i)->GetPosition());
+
+        for(unsigned int j=0;j< itkGetStaticConstMacro(ObjectDimension) ;j++)
+          {
+          point[j] = transformedPoint[j];
+          }
+        outputPointSet->SetPoint(pointId++, point );
+        } 
+      }
     }
 
   delete children;
