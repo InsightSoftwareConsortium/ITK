@@ -147,7 +147,7 @@ int main(int itkNotUsed(ac), char* itkNotUsed(av)[])
     {
     std::cerr << "Error while reading the transform file" << std::endl;
     std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
 

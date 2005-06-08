@@ -52,7 +52,7 @@ int main( int argc, char ** argv )
   if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "first last  outputImageFile " << std::endl;
+    std::cerr << argv[0] << " firstSliceValue lastSliceValue  outputImageFile " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -120,7 +120,7 @@ int main( int argc, char ** argv )
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  nameGenerator->SetSeriesFormat( "vwe%04d.png" );
+  nameGenerator->SetSeriesFormat( "vwe%03d.png" );
 
   nameGenerator->SetStartIndex( first );
   nameGenerator->SetEndIndex( last );
@@ -189,8 +189,8 @@ int main( int argc, char ** argv )
     } 
   catch( itk::ExceptionObject & err ) 
     { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    std::cerr << "ExceptionObject caught !" << std::endl; 
+    std::cerr << err << std::endl; 
     return EXIT_FAILURE;
     } 
 // Software Guide : EndCodeSnippet

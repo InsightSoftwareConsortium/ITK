@@ -275,8 +275,8 @@ int main( int argc, char ** argv )
     } 
   catch( itk::ExceptionObject & err ) 
     { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    std::cerr << "ExceptionObject caught !" << std::endl; 
+    std::cerr << err << std::endl; 
     return EXIT_FAILURE;
     } 
   // Software Guide : EndCodeSnippet

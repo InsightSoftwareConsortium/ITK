@@ -103,7 +103,7 @@ int main( int argc, char ** argv )
   nameGenerator->SetEndIndex( last );
   nameGenerator->SetIncrementIndex( 1 );
 
-  nameGenerator->SetSeriesFormat( "vwe%04d.png" );
+  nameGenerator->SetSeriesFormat( "vwe%03d.png" );
   // Software Guide : EndCodeSnippet
 
 
