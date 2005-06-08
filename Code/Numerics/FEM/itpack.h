@@ -21,7 +21,12 @@
 
 extern "C" {
 
+/* Avoid conflict with <complex> header when there is no std namespace.  */
+#define real f2cReal
+#define complex f2cComplex
 #include "f2c.h"
+#undef real
+#undef complex
 
 
 /**
@@ -716,7 +721,7 @@ extern doublereal tau_(integer *ii);
 /*
  * FIXME: add doc
  */
-extern E_f timer_(real *timdmy);
+extern E_f timer_(f2cReal *timdmy);
 
 
 /*

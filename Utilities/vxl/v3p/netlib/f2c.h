@@ -7,9 +7,6 @@
 #ifndef F2C_INCLUDE
 #define F2C_INCLUDE
 
-#define real f2cReal
-#define complex f2cComplex
-
 typedef int integer; /* awf changed from long */
 typedef const char *address;
 typedef short int shortint;
