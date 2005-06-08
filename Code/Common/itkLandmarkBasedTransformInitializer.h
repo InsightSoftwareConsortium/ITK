@@ -41,6 +41,7 @@ namespace itk
  * 
  * Currently, the  following transforms are supported by the class:
  *    VersorRigid3DTransform
+ *    Rigid2DTansform
  *
  * The class is based in part on Hybrid/vtkLandmarkTransform originally 
  * implemented in python by David G. Gobbi.
