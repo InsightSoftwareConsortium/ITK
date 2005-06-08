@@ -236,7 +236,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   if( m_UseAllPixels )
     {
-    m_NumberOfSpatialSamples = m_FixedImageRegion.GetNumberOfPixels();
+    m_NumberOfSpatialSamples = 
+              this->GetFixedImageRegion().GetNumberOfPixels();
     }
   
   /**
