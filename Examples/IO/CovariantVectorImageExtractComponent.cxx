@@ -24,10 +24,10 @@
 //  \code{CovariantVector}, extract one of its components to form a scalar
 //  image and finally save this image into a file.
 //
-//  The \doxygen{VectorIndexSelectionCastImageFilter} is used to extract the
+//  The \doxygen{VectorIndexSelectionCastImageFilter} is used to extract 
 //  a scalar from the vector image. It is also possible to cast the component
 //  type when using this filter. It is the user's responsibility to make sure
-//  that the cast will not result in information loss.
+//  that the cast will not result in any information loss.
 //
 //  Let's start by including the relevant header files.
 //
@@ -72,8 +72,10 @@ int main( int argc, char ** argv )
   // Software Guide : BeginCodeSnippet
   typedef float                 ComponentType;
   const   unsigned int          Dimension = 2;
+  
   typedef itk::CovariantVector< ComponentType, 
                                     Dimension  >      InputPixelType;
+
   typedef unsigned short                              OutputPixelType;
   
   typedef itk::Image< InputPixelType,      Dimension >    InputImageType;
@@ -111,6 +113,7 @@ int main( int argc, char ** argv )
   typedef itk::VectorIndexSelectionCastImageFilter< 
                                           InputImageType,
                                           ComponentImageType    > FilterType;
+
   FilterType::Pointer componentExtractor = FilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -155,6 +158,7 @@ int main( int argc, char ** argv )
   typedef itk::RescaleIntensityImageFilter< 
                                   ComponentImageType, 
                                   OutputImageType >      RescaleFilterType; 
+
   RescaleFilterType::Pointer  rescaler = RescaleFilterType::New();
   //  Software Guide : EndCodeSnippet 
 
@@ -165,7 +169,7 @@ int main( int argc, char ** argv )
   //  the following. Note the use of the \doxygen{NumericTraits} class which
   //  allows to define a number of type-related constant in a generic
   //  way. The use of traits is a fundamental characteristic of generic
-  //  programming.
+  //  programming~\cite{Austern1999,Alexandrescu2001}.
   //
   //  \index{RescaleIntensityImageFilter!SetOutputMinimum()}
   //  \index{RescaleIntensityImageFilter!SetOutputMaximum()}
