@@ -21,7 +21,10 @@
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to read and write an image of pixel type
-//  \code{std::complex}.
+//  \code{std::complex}. The complex type is defined as an integral part of the
+//  C++ language. The characteristics of the type are specified in the C++
+//  standard document in Chapter 26 "Numerics Library", page 565, in particular
+//  in section 26.2~\cite{CPPStandard1998}.
 //
 //  We start by including the headers of the complex class, the image, and the
 //  reader and writer classes.
@@ -148,7 +151,8 @@ int main( int argc, char * argv [] )
 //
 // For a more interesting use of this code, you may want to add a filter in
 // between the reader and the writer and perform any complex image to complex
-// image operation.
+// image operation. A practical application of this code is presented in
+// section~\ref{sec:FrequencyDomain} in the context of Fourier analysis.
 //
 // Software Guide : EndLatex 
 
