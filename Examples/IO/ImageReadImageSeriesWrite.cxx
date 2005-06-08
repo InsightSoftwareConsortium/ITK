@@ -235,7 +235,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginLatex
 //
-// Note that by saving data into isolated slices you are lossing information
+// Note that by saving data into isolated slices we are lossing information
 // that may be significant for medical applications, such as the interslice
 // spacing in millimeters.
 //
