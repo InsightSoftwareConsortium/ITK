@@ -62,10 +62,10 @@ int main()
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
   SampleType::Pointer sample = SampleType::New();
   MeasurementVectorType mv;
+
   mv[0] = 1.0;
   mv[1] = 2.0;
   mv[2] = 4.0;
-  
   sample->PushBack(mv);
 
   mv[0] = 2.0;
@@ -165,7 +165,7 @@ int main()
   std::cout << "class label = 0 sample size = " 
             << membershipSample->GetClassSampleSize(0) << std::endl;
   std::cout << "class label = 1 sample size = " 
-            << membershipSample->GetClassSampleSize(0) << std::endl;
+            << membershipSample->GetClassSampleSize(1) << std::endl;
   // Software Guide : EndCodeSnippet
 
 

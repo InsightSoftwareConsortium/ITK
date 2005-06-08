@@ -248,7 +248,7 @@ int main()
   //   \label{eq:bayes2}
   // \end{equation}
   // 
-  // The remainder of the code snippet shows how to use user-specififed class
+  // The remainder of the code snippet shows how to use user-specified class
   // labels. The classification result will be stored in a
   // MembershipSample object, and for each measurement vector, its
   // class label will be one of the two class labels, 100 and 200
@@ -286,7 +286,7 @@ int main()
   // Software Guide : BeginLatex
   //
   // The \code{classifier} is almost ready to perform the classification
-  // except that it needs two membership functions that represents the two
+  // except that it needs two membership functions that represent the two
   // clusters.
   //
   // In this example, we can imagine that the two clusters are modeled by two

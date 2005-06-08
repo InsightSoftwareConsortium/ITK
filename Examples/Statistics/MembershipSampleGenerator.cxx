@@ -62,10 +62,10 @@ int main()
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
   SampleType::Pointer sample = SampleType::New() ;
   MeasurementVectorType mv ;
+
   mv[0] = 1.0 ;
   mv[1] = 2.0 ;
   mv[2] = 4.0 ;
-  
   sample->PushBack(mv) ;
 
   mv[0] = 2.0 ;
