@@ -233,10 +233,16 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   itkDebugMacro( "FixedImageBinSize: " << m_FixedImageBinSize );
   itkDebugMacro( "MovingImageBinSize; " << m_MovingImageBinSize );
   
+
+  if( m_UseAllPixels )
+    {
+    m_NumberOfSpatialSamples = m_FixedImageRegion.GetNumberOfPixels();
+    }
+  
   /**
    * Allocate memory for the fixed image sample container.
    */
-  m_FixedImageSamples.resize( m_NumberOfSpatialSamples);
+  m_FixedImageSamples.resize( m_NumberOfSpatialSamples );
 
   /**
    * Allocate memory for the marginal PDF and initialize values
