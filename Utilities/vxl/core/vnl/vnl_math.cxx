@@ -59,7 +59,7 @@ extern "C" int finitef(float);
 
 #if defined(__APPLE__)
 # include <math.h>
-# define isnan __isnan
+# define isnan(x) __isnand((double)x)
 #endif
 
 //--------------------------------------------------------------------------------
