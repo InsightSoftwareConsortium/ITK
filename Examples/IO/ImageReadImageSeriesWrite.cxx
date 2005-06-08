@@ -198,27 +198,23 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  Finally the list of filename can be passed to the writer and we trigger
-//  the execution of the pipeline with the Update() method on the writer. At
-//  this point the slices of the image will be saved in individual files
-//  containing a single slice per file.
-//
+//  The list of filenames is taken from the names generator and it is passed to
+//  the series writer. 
+//  
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
   writer->SetFileNames( nameGenerator->GetFileNames() );
-
-  writer->SetStartIndex( 0 );
-  writer->SetIncrementIndex( 1 );
 // Software Guide : EndCodeSnippet
 
 
 
 //  Software Guide : BeginLatex
 //
-//  Finally we trigger the execution of the pipeline with the Update()
-//  method on the writer. At this point the slices of the image will be
-//  saved in individual files containing a single slice per file.
+//  Finally we trigger the execution of the pipeline with the Update() method
+//  on the writer. At this point the slices of the image will be saved in
+//  individual files containing a single slice per file. The filenames used for
+//  these slices are those produced by the filenames generator.
 //
 //  Software Guide : EndLatex 
 
@@ -239,11 +235,9 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginLatex
 //
-// At this point, the individual slices from the dataset will be saved in files
-// identified with the names produced by the filenames generator object. Note
-// that by saving data into isolated slices you are lossing information that
-// may be significant for medical applications, such as the interslice spacing
-// in millimeters.
+// Note that by saving data into isolated slices you are lossing information
+// that may be significant for medical applications, such as the interslice
+// spacing in millimeters.
 //
 // Software Guide : EndLatex 
 
