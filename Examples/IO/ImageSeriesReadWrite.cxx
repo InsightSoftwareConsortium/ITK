@@ -27,8 +27,8 @@
 //  particular example we use the \doxygen{NumericSeriesFileNames} class as
 //  filename generator. This generator uses a \code{printf} style of string format
 //  with a ``\code{\%d}'' field that will be succesively replaced by a number specified
-//  by the user. Here we will use a format like ``\code{file\%04d.png}'' for reading 
-//  PNG files named file0001.png, file0002.png, file0003.png... and so on.
+//  by the user. Here we will use a format like ``\code{file\%03d.png}'' for reading 
+//  PNG files named file001.png, file002.png, file003.png... and so on.
 //
 //  This requires the following headers as shown.
 //
