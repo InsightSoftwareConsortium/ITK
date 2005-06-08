@@ -79,8 +79,10 @@ int main( int argc, char ** argv )
   // Software Guide : BeginCodeSnippet
   typedef float                 ComponentType;
   const   unsigned int          Dimension = 2;
+  
   typedef itk::CovariantVector< ComponentType, 
                                     Dimension  >      InputPixelType;
+
   typedef float                                       MagnitudePixelType;
   typedef unsigned short                              OutputPixelType;
   
@@ -119,6 +121,7 @@ int main( int argc, char ** argv )
   typedef itk::GradientToMagnitudeImageFilter< 
                                           InputImageType,
                                           MagnitudeImageType    > FilterType;
+
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -137,6 +140,7 @@ int main( int argc, char ** argv )
   typedef itk::RescaleIntensityImageFilter< 
                                   MagnitudeImageType, 
                                   OutputImageType >      RescaleFilterType; 
+  
   RescaleFilterType::Pointer  rescaler = RescaleFilterType::New();
   //  Software Guide : EndCodeSnippet 
 
@@ -147,7 +151,7 @@ int main( int argc, char ** argv )
   //  are specified. Note the use of the \doxygen{NumericTraits} class which
   //  allows to define a number of type-related constant in a generic
   //  way. The use of traits is a fundamental characteristic of generic
-  //  programming.
+  //  programming~\cite{Austern1999,Alexandrescu2001}.
   //
   //  \index{RescaleIntensityImageFilter!SetOutputMinimum()}
   //  \index{RescaleIntensityImageFilter!SetOutputMaximum()}
