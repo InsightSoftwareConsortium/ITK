@@ -98,15 +98,16 @@ int main(int ac, char* av[])
 // Software Guide : BeginLatex
 //
 // GDCMImageIO is an ImageIO class for reading and writing DICOM v3 and
-// ACR/NEMA images. It uses GDCM, an open source package developed by the
-// CREATIS team at INSA-Lyon \cite{CreatisINSA-Lyon}. The GDCMImageIO object is
-// constructed here and connected to the ImageFileReader. 
+// ACR/NEMA images. The GDCMImageIO object is constructed here and connected to
+// the ImageFileReader. 
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::GDCMImageIO        ImageIOType;
+  typedef itk::GDCMImageIO           ImageIOType;
+
   ImageIOType::Pointer gdcmImageIO = ImageIOType::New();
+  
   reader->SetImageIO( gdcmImageIO );
 // Software Guide : EndCodeSnippet
 
@@ -174,7 +175,7 @@ int main(int ac, char* av[])
 
 //  Software Guide : BeginLatex
 //
-//  We need to explicitely set the proper image IO (GDCMImageIO) to the writer
+//  We need to explicitly set the proper image IO (GDCMImageIO) to the writer
 //  filter since the input DICOM dictionary is being passed along the writting
 //  process. The dictionary contains all necessary information that a valid
 //  DICOM file should contain, like Patient Name, Patient ID, Institution Name,
@@ -216,11 +217,11 @@ int main(int ac, char* av[])
 
 // Software Guide : BeginLatex
 //
-//  We will now rescale the image into a rescaled image one using the
-//  \doxygen{RescaleIntensityImageFilter}. For this purpose we use a better
-//  suited pixel type: \emph{unsigned char} instead of \code{signed short}.
-//  The minimum and maximum values of the output image are explicitly defined
-//  in the rescaling filter.
+//  We will now rescale the image into a rescaled image one using the rescale
+//  intensity image filter. For this purpose we use a better suited pixel type:
+//  \code{unsigned char} instead of \code{signed short}.  The minimum and
+//  maximum values of the output image are explicitly defined in the rescaling
+//  filter.
 //  
 // Software Guide : EndLatex
 
@@ -308,7 +309,7 @@ int main(int ac, char* av[])
 
 //  Software Guide : BeginLatex
 //
-// We now need to explicitely set the proper image IO (GDCMImageIO), but also
+// We now need to explicitly set the proper image IO (GDCMImageIO), but also
 // we must tell the ImageFileWriter to not use the MetaDataDictionary from the
 // input but from the GDCMImageIO since this is the one that contains the DICOM
 // specific information
