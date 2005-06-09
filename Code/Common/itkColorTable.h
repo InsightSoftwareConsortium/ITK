@@ -45,10 +45,21 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ColorTable,Object);
 
+  /** Generate a lookup table of 8 discrete colors. The colors are Red,
+    * Purple, Aqua, Yellow, Green, Blue, Grey0.70, White.
+    */
+  void    UseDiscreteColors(void);
+  /** Generate a lookuptable of n grayscale values. A ramp is
+    * generated from NonpositiveMin() to max() of the pixel type.
+    */
+  void    UseGrayColors(int n=256);
+  void    UseHeatColors(int n=256);
+  void    UseRandomColors(int n=256);
+
   /** Badly named methods that require renaming and documentation. */ 
-  void    useDiscrete(void);
-  void    useGray(int n=256);
-  void    useHeat(int n=256);
+  void    useDiscrete(void){UseDiscreteColors();};
+  void    useGray(int n=256){UseGrayColors(n);};
+  void    useHeat(int n=256){UseHeatColors(n);};
 
   itkGetMacro(NumberOfColors, unsigned int);
   unsigned int     size(void);
@@ -80,6 +91,7 @@ protected:
 private:
   ColorTable(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+  void DeleteColors();
 };
 
 

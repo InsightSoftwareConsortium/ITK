@@ -18,6 +18,7 @@
 #define _itkColorTable_txx
 
 #include "itkColorTable.h"
+#include "vnl/vnl_sample.h"
 #include <stdio.h>
 
 namespace itk
@@ -36,6 +37,14 @@ template<class TPixel>
 ColorTable<TPixel>
 ::~ColorTable()
   {
+  this->DeleteColors();
+  }
+
+template<class TPixel>
+void
+ColorTable<TPixel>
+::DeleteColors()
+{
   if(m_Color != NULL)
     {
     delete [] m_Color;
@@ -52,7 +61,7 @@ ColorTable<TPixel>
     delete [] m_ColorName;
     }
   m_ColorName = NULL;
-  }
+}
 
 template<class TPixel>
 void
@@ -72,25 +81,14 @@ ColorTable<TPixel>
 template<class TPixel>
 void 
 ColorTable<TPixel>
-::useDiscrete(void)
+::UseDiscreteColors(void)
   {
-  if(m_Color != NULL)
-    {
-    delete [] m_Color;
-    }
-  unsigned int i;
-  if(m_ColorName != NULL) 
-    {
-    for(i=0; i<m_NumberOfColors; i++)
-      {
-      delete [] m_ColorName[i];
-      }
-    delete [] m_ColorName;
-    }
+  this->DeleteColors();
+
   m_NumberOfColors = 8;
   m_Color = new RGBPixel<TPixel>[m_NumberOfColors];
   m_ColorName = new char*[m_NumberOfColors];
-  for(i=0; i<m_NumberOfColors; i++)
+  for(unsigned int i=0; i<m_NumberOfColors; i++)
     {
     m_ColorName[i] = new char [80];
     }
@@ -123,21 +121,12 @@ ColorTable<TPixel>
 template<class TPixel>
 void 
 ColorTable<TPixel>
-::useGray(int n)
+::UseGrayColors(int n)
 {
-  if(m_Color != NULL)
-    {
-    delete [] m_Color;
-    }
-  int i;
-  if(m_ColorName != NULL) 
-    {
-    for(i=0; i<m_NumberOfColors; i++)
-      {
-      delete [] m_ColorName[i];
-      }
-    delete [] m_ColorName;
-    }
+  unsigned int i;
+
+  this->DeleteColors();
+
   m_NumberOfColors = n;
   m_Color = new RGBPixel<TPixel>[m_NumberOfColors];
   m_ColorName = new char * [m_NumberOfColors];
@@ -146,31 +135,28 @@ ColorTable<TPixel>
     m_ColorName[i] = new char [80];
     }
 
+  NumericTraits<TPixel>::RealType range =
+    NumericTraits<TPixel>::max() - NumericTraits<TPixel>::NonpositiveMin();
+  NumericTraits<TPixel>::RealType delta = range / (n - 1);  
+  TPixel gray;
   for(i=0; i<n; i++) 
     {
-    m_Color[i].Set(i/(TPixel)n,i/(TPixel)n,i/(TPixel)n);
-    sprintf(m_ColorName[i], "Gray%.02f", m_Color[i].GetRed());
+    gray = NumericTraits<TPixel>::NonpositiveMin()
+      + static_cast<TPixel>(i * delta);
+    m_Color[i].Set(gray, gray, gray);
+    sprintf(m_ColorName[i], "Gray%.02f", static_cast<float>(gray));
     }
   }
 
 template<class TPixel>
 void
 ColorTable<TPixel>
-::useHeat(int n)
+::UseHeatColors(int n)
 {
-  if(m_Color != NULL)
-    {
-    delete [] m_Color;
-    }
-  int i;
-  if(m_ColorName != NULL) 
-    {
-    for(i=0; i<m_NumberOfColors; i++)
-      {
-      delete [] m_ColorName[i];
-      }
-    delete [] m_ColorName;
-    }
+  unsigned int i;
+
+  this->DeleteColors();
+
   m_NumberOfColors = n;
   m_Color = new RGBPixel<TPixel>[m_NumberOfColors];
   m_ColorName = new char * [m_NumberOfColors];
@@ -193,6 +179,38 @@ ColorTable<TPixel>
     m_Color[(int)(i+n/2.0)].SetGreen((i+1)/(TPixel)(n/2.0+1));
     m_Color[(int)(i+n/2.0)].SetBlue((i+1)/(TPixel)(n/2.0+1));
     sprintf(m_ColorName[(int)(i+n/2.0)], "Heat%.02f", (i+n/2.0)/(float)n);
+    }
+  }
+
+template<class TPixel>
+void
+ColorTable<TPixel>
+::UseRandomColors(int n)
+{
+  unsigned int i;
+  this->DeleteColors();
+
+  m_NumberOfColors = n;
+  m_Color = new RGBPixel<TPixel>[m_NumberOfColors];
+  m_ColorName = new char * [m_NumberOfColors];
+  for(i=0; i<m_NumberOfColors; i++)
+    {
+    m_ColorName[i] = new char [80];
+    }
+
+  TPixel r, g, b;
+  for(i=0; i<n; i++) 
+    {
+    r = static_cast<TPixel>(vnl_sample_uniform(NumericTraits<TPixel>::NonpositiveMin(), NumericTraits<TPixel>::max()));
+    m_Color[i].SetRed( r );
+    g = static_cast<TPixel>(vnl_sample_uniform(NumericTraits<TPixel>::NonpositiveMin(), NumericTraits<TPixel>::max()));
+    m_Color[i].SetGreen( g );
+    b = static_cast<TPixel>(vnl_sample_uniform(NumericTraits<TPixel>::NonpositiveMin(), NumericTraits<TPixel>::max()));
+    m_Color[i].SetBlue( b );
+    sprintf(m_ColorName[i], "Random(%.02f,%.02f,%.02f)",
+            static_cast<float>(r),
+            static_cast<float>(g),
+            static_cast<float>(b));
     }
   }
 
