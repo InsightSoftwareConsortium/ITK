@@ -18,6 +18,35 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+
+//====================================================================
+//
+//
+//   WARNING WARNING WARNIG WARNING WARNING WARNIG !!!!
+//   WARNING WARNING WARNIG WARNING WARNING WARNIG !!!!
+//
+//
+//
+//   The DICOM classes illustrated in this example are OBSOLETE and are
+//   scheduled for being removed from the toolkit.
+//
+//   Please refer to DicomSeriesReadImageWrite2.cxx instead, where the GDCM
+//   classes are used. GDCM classes are the ones currently recommended for
+//   performing reading and writing of DICOM images.
+//
+//
+//
+//   WARNING WARNING WARNIG WARNING WARNING WARNIG !!!!
+//   WARNING WARNING WARNIG WARNING WARNING WARNIG !!!!
+//
+//
+//====================================================================
+
+
+
+
+
+
 //  Software Guide : BeginLatex
 //
 //  Probably the most common representation of datasets in clinical
