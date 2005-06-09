@@ -22,10 +22,9 @@
 //
 //  It is often valuable to be able to query the entries from the header of a
 //  DICOM file. This can be used for checking for consistency, or simply for
-//  verifying that we have the correct dataset in our hands.
-//
-//  This example illustrates how to read a DICOM series into a volume and then
-//  print most of the DICOM header information. The binary field are skipped.
+//  verifying that we have the correct dataset in our hands. This example
+//  illustrates how to read a DICOM series into a volume and then print most of
+//  the DICOM header information. The binary field are skipped.
 //
 //  \index{DICOM!Header}
 //  \index{DICOM!Tags}
@@ -118,12 +117,13 @@ int main( int argc, char* argv[] )
 // 
 // A GDCMSeriesFileNames is declared in order to generate the names of DICOM
 // slices. We specify the directory with the \code{SetInputDirectory()} method
-// and take the directory name from the command line arguments.
+// and, in this case, take the directory name from the command line arguments.
+// You could have obtained the directory name from a file dialog in a GUI.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::GDCMSeriesFileNames NamesGeneratorType;
+  typedef itk::GDCMSeriesFileNames     NamesGeneratorType;
   
   NamesGeneratorType::Pointer nameGenerator = NamesGeneratorType::New();
   
@@ -135,15 +135,15 @@ int main( int argc, char* argv[] )
 // Software Guide : BeginLatex
 // 
 // The list of files to read is obtained from the name generator by invoking
-// the \code{GetInputFileNames()} method and received the results in a
+// the \code{GetInputFileNames()} method and receiving the results in a
 // container of strings. The list of filenames is passed to the reader using
 // the \code{SetFileNames()} method.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef std::vector<std::string> fileNamesContainer;
-  fileNamesContainer fileNames = nameGenerator->GetInputFileNames();
+  typedef std::vector<std::string>    FileNamesContainer;
+  FileNamesContainer fileNames = nameGenerator->GetInputFileNames();
 
   reader->SetFileNames( fileNames );
 // Software Guide : EndCodeSnippet
@@ -152,7 +152,9 @@ int main( int argc, char* argv[] )
 
 // Software Guide : BeginLatex
 // 
-// We trigger the reader by invoking the \code{Update()} method.
+// We trigger the reader by invoking the \code{Update()} method. This
+// invokation should normally be done inside a \code{try/catch} block given
+// that it may eventually throw exceptions.
 //
 // Software Guide : EndLatex
 
@@ -175,9 +177,9 @@ int main( int argc, char* argv[] )
 // Software Guide : BeginLatex
 // 
 // ITK internally queries GDCM and obtain all the DICOM tags from the file
-// headers. The tag values are stored in the MetaDataDictionary that is a
-// general purpose container for \{key,value\} pairs. The Meta data dictionary
-// can be recovered from any ImageIO class by invoking the
+// headers. The tag values are stored in the \doxygen{MetaDataDictionary} that
+// is a general purpose container for \{key,value\} pairs. The Meta data
+// dictionary can be recovered from any ImageIO class by invoking the
 // \code{GetMetaDataDictionary()} method.
 //
 // \index{MetaDataDictionary}
@@ -198,8 +200,8 @@ int main( int argc, char* argv[] )
 // Software Guide : BeginLatex
 // 
 // In this example, we are only interested in the DICOM tags that can be
-// represented as strings. We declare therefore a MetaDataObject of string type
-// in order to receive those particular values.
+// represented as strings. We declare therefore a \doxygen{MetaDataObject} of
+// string type in order to receive those particular values.
 //
 // \index{MetaDataDictionary!MetaDataObject}
 // \index{MetaDataDictionary!String entries}
@@ -241,7 +243,7 @@ int main( int argc, char* argv[] )
 // 
 // We are now ready for walking through the list of DICOM tags. For this
 // purpose we use the iterators that we just declared. At every entry we
-// attempt to convert it in to a string entry using the \code{dynamic\_cast}
+// attempt to convert it in to a string entry by using the \code{dynamic\_cast}
 // based on RTTI information\footnote{Run Time Type Information}. The
 // dictionary is organized like a \code{std::map} structure, we should use
 // therfore the \code{first} and \code{second} members of every entry in order
