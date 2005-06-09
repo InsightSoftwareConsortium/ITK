@@ -121,7 +121,7 @@ ColorTable<TPixel>
 template<class TPixel>
 void 
 ColorTable<TPixel>
-::UseGrayColors(int n)
+::UseGrayColors(unsigned int n)
 {
   unsigned int i;
 
@@ -135,9 +135,9 @@ ColorTable<TPixel>
     m_ColorName[i] = new char [80];
     }
 
-  NumericTraits<TPixel>::RealType range =
+  typename NumericTraits<TPixel>::RealType range =
     NumericTraits<TPixel>::max() - NumericTraits<TPixel>::NonpositiveMin();
-  NumericTraits<TPixel>::RealType delta = range / (n - 1);  
+  typename NumericTraits<TPixel>::RealType delta = range / (n - 1);  
   TPixel gray;
   for(i=0; i<n; i++) 
     {
@@ -151,7 +151,7 @@ ColorTable<TPixel>
 template<class TPixel>
 void
 ColorTable<TPixel>
-::UseHeatColors(int n)
+::UseHeatColors(unsigned int n)
 {
   unsigned int i;
 
@@ -175,7 +175,7 @@ ColorTable<TPixel>
 
   for(i=0; i<n/2; i++) 
     {
-    m_Color[(int)(i+n/2.0)].SetRed(1.0);
+    m_Color[(int)(i+n/2.0)].SetRed(static_cast<TPixel>(1));
     m_Color[(int)(i+n/2.0)].SetGreen((i+1)/(TPixel)(n/2.0+1));
     m_Color[(int)(i+n/2.0)].SetBlue((i+1)/(TPixel)(n/2.0+1));
     sprintf(m_ColorName[(int)(i+n/2.0)], "Heat%.02f", (i+n/2.0)/(float)n);
@@ -185,7 +185,7 @@ ColorTable<TPixel>
 template<class TPixel>
 void
 ColorTable<TPixel>
-::UseRandomColors(int n)
+::UseRandomColors(unsigned int n)
 {
   unsigned int i;
   this->DeleteColors();

@@ -52,14 +52,14 @@ public:
   /** Generate a lookuptable of n grayscale values. A ramp is
     * generated from NonpositiveMin() to max() of the pixel type.
     */
-  void    UseGrayColors(int n=256);
-  void    UseHeatColors(int n=256);
-  void    UseRandomColors(int n=256);
+  void    UseGrayColors(unsigned int n=256);
+  void    UseHeatColors(unsigned int n=256);
+  void    UseRandomColors(unsigned int n=256);
 
   /** Badly named methods that require renaming and documentation. */ 
   void    useDiscrete(void){UseDiscreteColors();};
-  void    useGray(int n=256){UseGrayColors(n);};
-  void    useHeat(int n=256){UseHeatColors(n);};
+  void    useGray(unsigned int n=256){UseGrayColors(n);};
+  void    useHeat(unsigned int n=256){UseHeatColors(n);};
 
   itkGetMacro(NumberOfColors, unsigned int);
   unsigned int     size(void);
