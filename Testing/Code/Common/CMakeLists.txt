@@ -26,6 +26,7 @@ SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 ADD_TEST(itkAnnulusOperatorTest ${COMMON_TESTS} itkAnnulusOperatorTest)
 ADD_TEST(itkChainCodePath2DTest ${COMMON_TESTS} itkChainCodePath2DTest)
 ADD_TEST(itkChainCodePathTest ${COMMON_TESTS} itkChainCodePathTest)
+ADD_TEST(itkColorTableTest ${COMMON_TESTS} itkColorTableTest)
 ADD_TEST(itkCommonPrintTest ${COMMON_TESTS} itkCommonPrintTest)
 ADD_TEST(itkConditionVariableTest ${COMMON_TESTS} itkConditionVariableTest)
 ADD_TEST(itkDecoratorTest ${COMMON_TESTS} itkDecoratorTest)
@@ -245,6 +246,7 @@ itkCenteredTransformInitializerTest.cxx
 itkCenteredVersorTransformInitializerTest.cxx
 itkChainCodePath2DTest.cxx
 itkChainCodePathTest.cxx
+itkColorTableTest.cxx
 itkConstNeighborhoodIteratorTest.cxx
 itkConstShapedNeighborhoodIteratorTest.cxx
 itkCovariantVectorGeometryTest.cxx

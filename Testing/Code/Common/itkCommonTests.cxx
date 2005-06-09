@@ -36,6 +36,7 @@ REGISTER_TEST(itkCenteredTransformInitializerTest   );
 REGISTER_TEST(itkCenteredVersorTransformInitializerTest   );
 REGISTER_TEST(itkChainCodePath2DTest );
 REGISTER_TEST(itkChainCodePathTest );
+REGISTER_TEST(itkColorTableTest );
 REGISTER_TEST(itkConditionVariableTest );
 REGISTER_TEST(itkConstNeighborhoodIteratorTest );
 REGISTER_TEST(itkConstShapedNeighborhoodIteratorTest );
