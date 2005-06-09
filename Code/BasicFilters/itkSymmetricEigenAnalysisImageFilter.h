@@ -101,7 +101,7 @@ private:
  * DoNotOrder:        Default order of eigen values obtained after QL method
  *
  * The user of this class is explicitly supposed to set the dimension of the 
- * 2D matrix using the SetDimension() method.
+ * 2D matrix uscvs commit -m "ENH: Add options to order eigen values by magnitude in addition to value, as is common in vessel extraction" itkSymmetricEigenAnalysis.h itkSymmetricEigenAnalysis.ing the SetDimension() method.
  *
  * \sa TensorRelativeAnisotropyImageFilter
  * \sa DiffusionTensor3D
@@ -133,6 +133,7 @@ public:
   typedef typename TOutputImage::PixelType        OutputPixelType;
   typedef typename TInputImage::PixelType         InputPixelType;
   typedef typename InputPixelType::ValueType      InputValueType;
+  typedef typename Superclass::FunctorType    FunctorType; 
 
   /** Typdedefs to order eigen values. 
    * OrderByValue:      lambda_1 < lambda_2 < ....
