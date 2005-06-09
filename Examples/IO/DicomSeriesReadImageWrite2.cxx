@@ -32,9 +32,9 @@
 //  file format.
 //
 //  The example begins by including the appropriate headers. In particular we
-//  will need the GDCMImageIO object in order to have access to the
+//  will need the \doxygen{GDCMImageIO} object in order to have access to the
 //  capabilities of the GDCM library for reading DICOM files, and the
-//  GDCMSeriesFileNames object for generating the lists of filenames
+//  \doxygen{GDCMSeriesFileNames} object for generating the lists of filenames
 //  identifying the slices of a common volumetric dataset.
 //
 //  \index{itk::ImageSeriesReader!header}
@@ -123,12 +123,11 @@ int main( int argc, char* argv[] )
 // those functionalities through an ITK class that encapsulates a communication
 // with GDCM classes. This ITK object is the GDCMSeriesFileNames. Conveniently
 // for us, we only need to pass to this class the name of the directory where
-// the DICOM slices are stored. This is done with the
-// \code{SetInputDirectory()} method. The GDCMSeriesFileNames object will
-// explore the directory and will generate a sequence of filenames for DICOM
-// files for one study/series. 
+// the DICOM slices are stored. This is done with the \code{SetDirectory()}
+// method. The GDCMSeriesFileNames object will explore the directory and will
+// generate a sequence of filenames for DICOM files for one study/series. 
 //
-// \index{itk::GDCMSeriesFileNames!SetInputDirectory()}
+// \index{itk::GDCMSeriesFileNames!SetDirectory()}
 //
 // Software Guide : EndLatex
 
