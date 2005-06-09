@@ -132,6 +132,15 @@ public:
   void GetModel(char* model);
   void GetScanOptions(char *options);
 
+  /** Method for consulting the DICOM dictionary and recovering the text
+   * description of a field using its numeric tag represented as a string.  If
+   * the tagkey is not found in the dictionary then this static method return
+   * false and the value "Unknown " in the labelId. If the tagkey is found then
+   * this static method returns true and the actual string descriptor of the
+   * tagkey is returned in the variable labelId. */
+  static bool GetLabelFromTag( const std::string & tag, 
+                                      std::string & labelId );
+
 protected:
   GDCMImageIO();
   ~GDCMImageIO();

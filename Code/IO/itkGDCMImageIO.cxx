@@ -32,6 +32,9 @@
 #include "gdcm/src/gdcmFile.h"
 #include "gdcm/src/gdcmFileHelper.h"
 #include "gdcm/src/gdcmUtil.h"
+#include "gdcm/src/gdcmGlobal.h"   // access to dictionary
+#include "gdcm/src/gdcmDictSet.h"  // access to dictionary
+
 
 #include <fstream>
 #include <math.h>   //for fabs on SGI
@@ -879,6 +882,32 @@ void GDCMImageIO::GetScanOptions( char *name)
   ExposeMetaData<std::string>(dict, "0018|0022", m_ScanOptions);
   strcpy (name, m_ScanOptions.c_str());
 }
+
+
+bool GDCMImageIO::GetLabelFromTag( const std::string & tagkey, 
+                                         std::string & labelId )
+{
+  gdcm::Dict *pubDict = gdcm::Global::GetDicts()->GetDefaultPubDict();
+
+  gdcm::DictEntry *dictentry = pubDict->GetEntry( tagkey );
+
+  bool found = false;
+  
+  // If tagkey was found (ie DICOM tag from public dictionary), 
+  // then return the name:
+  if( dictentry )
+    {
+    labelId = dictentry->GetName();
+    found = true;
+    }
+  else
+    {
+    labelId = "Unknown";
+    found = false;
+    }
+  return found;
+}
+
 
 void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
