@@ -204,6 +204,10 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
   it.GoToBegin();
   
   int n=StencilIndex.size();
+  if ( n == 0 )
+    {
+    itkExceptionMacro(<< "No Image Indices Found.");
+    }  
   int StencilMin = StencilIndex[0];
   int StencilMax = StencilIndex[n-1];
   
@@ -567,21 +571,15 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
     }
 }
 
-
-template<class TInputMesh, class TOutputImage>
-void 
+template <class TInputMesh, class TOutputImage>
+void
 TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Size : " << m_Size << std::endl;
-  
-  os << indent << "Inside Value : "
-     << static_cast<typename NumericTraits<ValueType>::PrintType>(m_InsideValue)
-     << std::endl;
-  os << indent << "Outside Value : "
-     << static_cast<typename NumericTraits<ValueType>::PrintType>(m_OutsideValue)
-     << std::endl;
+  os << indent << "Inside Value : "  << static_cast<typename NumericTraits<ValueType>::PrintType>(m_InsideValue) << std::endl;
+  os << indent << "Outside Value : "<< static_cast<typename NumericTraits<ValueType>::PrintType>(m_OutsideValue) << std::endl;
   os << indent << "Tolerance: " << m_Tolerance << std::endl;
   os << indent << "Origin: " << m_Origin << std::endl;
   os << indent << "Spacing: " << m_Spacing << std::endl;
