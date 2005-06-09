@@ -21,7 +21,7 @@
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to read a DICOM series into a volume and then
-//  print most of the DICOM header information. The binary field are skipped.
+//  print most of the DICOM header information. The binary fields are skipped.
 //
 //  \index{DICOM!Header}
 //  \index{DICOM!Tags}
