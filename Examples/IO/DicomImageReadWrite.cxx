@@ -46,14 +46,15 @@
 #include <list>
 #include <fstream>
 
-int main(int ac, char* av[])
+int main( int argc, char* argv[] )
 {
 
   // Verify the number of parameters in the command line
-  if(ac < 5)
+  if( argc < 5 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << av[0] << " DicomImage OutputDicomImage OutputImage RescalDicomImage\n";
+    std::cerr << argv[0] << " DicomImage OutputDicomImage ";
+    std::cerr << " OutputImage RescalDicomImage\n";
     return EXIT_FAILURE;
     }
 
@@ -88,7 +89,7 @@ int main(int ac, char* av[])
   typedef itk::ImageFileReader< InputImageType > ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( av[1] );
+  reader->SetFileName( argv[1] );
 // Software Guide : EndCodeSnippet
 
   
@@ -165,7 +166,7 @@ int main(int ac, char* av[])
 
   Writer1Type::Pointer writer1 = Writer1Type::New();
 
-  writer1->SetFileName( av[2] );
+  writer1->SetFileName( argv[2] );
   writer1->SetInput( reader->GetOutput() );
 // Software Guide : EndCodeSnippet
   
@@ -255,7 +256,7 @@ int main(int ac, char* av[])
 
   Writer2Type::Pointer writer2 = Writer2Type::New();
 
-  writer2->SetFileName( av[3] );
+  writer2->SetFileName( argv[3] );
  
   rescaler->SetInput( reader->GetOutput() );
   writer2->SetInput( rescaler->GetOutput() );
@@ -299,7 +300,7 @@ int main(int ac, char* av[])
   
   Writer3Type::Pointer writer3 = Writer3Type::New();
 
-  writer3->SetFileName( av[4] );
+  writer3->SetFileName( argv[4] );
   writer3->SetInput( rescaler->GetOutput() );
 // Software Guide : EndCodeSnippet
 

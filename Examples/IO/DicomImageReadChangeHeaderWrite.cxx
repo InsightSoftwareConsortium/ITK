@@ -40,12 +40,12 @@
 #include <list>
 #include <fstream>
 
-int main(int ac, char* av[])
+int main(int argc, char* argv[])
 {
 
-  if(ac < 5)
+  if( argc < 5 )
     {
-    std::cerr << "Usage: " << av[0] << " DicomImage OutputDicomImage Entry Value\n";
+    std::cerr << "Usage: " << argv[0] << " DicomImage OutputDicomImage Entry Value\n";
     return EXIT_FAILURE;
     }
 
@@ -60,7 +60,7 @@ int main(int ac, char* av[])
 
   ReaderType::Pointer reader = ReaderType::New();
 
-  reader->SetFileName( av[1] );
+  reader->SetFileName( argv[1] );
   
   // Software Guide : BeginCodeSnippet
   typedef itk::GDCMImageIO        ImageIOType;
@@ -86,11 +86,11 @@ int main(int ac, char* av[])
   typedef itk::MetaDataDictionary   DictionaryType;
   DictionaryType & dictionary = reader->GetOutput()->GetMetaDataDictionary();
 
-  for (int i = 3; i < ac; i+=2)
+  for (int i = 3; i < argc; i+=2)
     {
-    std::string entryId(av[i]);
-    std::string value(av[i+1]);
-    itk::EncapsulateMetaData<std::string>(dictionary,entryId, value);
+    std::string entryId( argv[i] );
+    std::string value( argv[i+1] );
+    itk::EncapsulateMetaData<std::string>( dictionary, entryId, value );
     }
 
   // Rewrite the image in DICOM format
@@ -99,7 +99,7 @@ int main(int ac, char* av[])
 
   Writer1Type::Pointer writer1 = Writer1Type::New();
 
-  writer1->SetFileName( av[2] );
+  writer1->SetFileName( argv[2] );
  
   writer1->SetInput( reader->GetOutput() );
   
