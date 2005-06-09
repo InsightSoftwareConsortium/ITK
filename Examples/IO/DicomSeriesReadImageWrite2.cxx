@@ -34,8 +34,8 @@
 //  The example begins by including the appropriate headers. In particular we
 //  will need the GDCMImageIO object in order to have access to the
 //  capabilities of the GDCM library for reading DICOM files, and the
-//  GDCMSeriesFileNames object that is capable of generating the lists of
-//  filenames identifying the slices of a common volumetric dataset.
+//  GDCMSeriesFileNames object for generating the lists of filenames
+//  identifying the slices of a common volumetric dataset.
 //
 //  \index{itk::ImageSeriesReader!header}
 //  \index{itk::GDCMImageIO!header}
@@ -117,15 +117,16 @@ int main( int argc, char* argv[] )
 // Software Guide : BeginLatex
 //
 // Now we face one of the main challenges of the process of reading a DICOM
-// series, that is, to identify from a given directory the set of filenames
+// series. That is, to identify from a given directory the set of filenames
 // that belong together to the same volumetric image. Fortunately for us, GDCM
-// offers a powerful answer to this problem and we just need to invoke that
-// functionality through an ITK class that encapsulates a communication with
-// GDCM classes. This ITK object is the GDCMSeriesFileNames. Conveniently for
-// us, we only need to pass to this class the name of the directory where the
-// DICOM slices are stored. This is done with the \code{SetInputDirectory()}
-// method. The GDCMSeriesFileNames object will explore the directory and will
-// generate a sequence of filenames for DICOM files for one study/series. 
+// offers functionalities for solving this problem and we just need to invoke
+// those functionalities through an ITK class that encapsulates a communication
+// with GDCM classes. This ITK object is the GDCMSeriesFileNames. Conveniently
+// for us, we only need to pass to this class the name of the directory where
+// the DICOM slices are stored. This is done with the
+// \code{SetInputDirectory()} method. The GDCMSeriesFileNames object will
+// explore the directory and will generate a sequence of filenames for DICOM
+// files for one study/series. 
 //
 // \index{itk::GDCMSeriesFileNames!SetInputDirectory()}
 //
@@ -155,17 +156,17 @@ int main( int argc, char* argv[] )
 // to a container of strings and then we can do things like printing out all
 // the series identifiers that the generator had found. Since the process of
 // finding the series identifiers can potentially throw exceptions, it is
-// recommended that you put this code inside a try/catch block.
+// wise to put this code inside a try/catch block.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-    typedef std::vector<std::string> seriesIdContainer;
+    typedef std::vector< std::string >    SeriesIdContainer;
     
-    const seriesIdContainer & seriesUID = nameGenerator->GetSeriesUIDs();
+    const SeriesIdContainer & seriesUID = nameGenerator->GetSeriesUIDs();
     
-    seriesIdContainer::const_iterator seriesItr = seriesUID.begin();
-    seriesIdContainer::const_iterator seriesEnd = seriesUID.end();
+    SeriesIdContainer::const_iterator seriesItr = seriesUID.begin();
+    SeriesIdContainer::const_iterator seriesEnd = seriesUID.end();
     while( seriesItr != seriesEnd )
       {
       std::cout << seriesItr->c_str() << std::endl;
@@ -174,71 +175,143 @@ int main( int argc, char* argv[] )
 // Software Guide : EndCodeSnippet
   
 
-    std::cout << std::endl << std::endl;
-    std::cout << "Now reading series: " << std::endl << std::endl;
-    typedef std::vector<std::string> fileNamesContainer;
-    fileNamesContainer fileNames;
 
-    // Software Guide : BeginLatex
-    // The \code{GetInputFileNames()} method returns a vector container 
-    // containing an ordered list of input file names in the specified 
-    // directory. Which are then pass to the \doxygen{ImageSeriesReader} using SetFileNames
-    //  
-    //  \index{itk::GDCMSeriesFileNames!GetInputFileNames()}
-    //  \index{itk::ImageSeriesReader!SetFileNames()}
-    //
-    // Software Guide : EndLatex
-      
-    if( argc < 4 ) // If no optional third argument
+// Software Guide : BeginLatex
+// 
+// Given that it is common to find multiple DICOM series in the same directory,
+// we must tell the GDCM classes what specific series do we want to read. In
+// this example we do this by checking first if the user has provided a series
+// identifier in the command line arguments. If no series identifier has been
+// passed, then we simply use the first series found during the exploration of
+// the directory.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
+    std::string seriesIdentifier;
+
+    if( argc > 3 ) // If no optional series identifier
       {
-      std::cout << seriesUID.begin()->c_str() << std::endl;
-      fileNames = nameGenerator->GetFileNames(seriesUID.begin()->c_str());
+      seriesIdentifier = argv[3];
       }
     else
       {
-      std::cout << argv[3] << std::endl;
-      fileNames = nameGenerator->GetFileNames( argv[3] );
+      seriesIdentifier = seriesUID.begin()->c_str();
       }
+// Software Guide : EndCodeSnippet
+
+
+    std::cout << std::endl << std::endl;
+    std::cout << "Now reading series: " << std::endl << std::endl;
+    std::cout << seriesIdentifier << std::endl;
     std::cout << std::endl << std::endl;
 
 
-    reader->SetFileNames( fileNames );
 
+
+// Software Guide : BeginLatex
+// 
+// We pass the series identifier to the name generator and ask for all the
+// filenames associated to that series. This list is returned in a container of
+// strings by the \code{GetFileNames()} method. 
+//
+// \index{itk::GDCMSeriesFileNames!GetFileNames()}
+// 
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
+    typedef std::vector< std::string >   FileNamesContainer;
+    FileNamesContainer fileNames;
+
+    fileNames = nameGenerator->GetFileNames( seriesIdentifier );
+// Software Guide : EndCodeSnippet
+
+
+
+
+// Software Guide : BeginLatex
+// 
+//
+// The list of filenames can now be passed to the \doxygen{ImageSeriesReader}
+// using the \code{SetFileNames()} method.
+//  
+//  \index{itk::ImageSeriesReader!SetFileNames()}
+//
+// Software Guide : EndLatex
+  
+// Software Guide : BeginCodeSnippet
+    reader->SetFileNames( fileNames );
+// Software Guide : EndCodeSnippet
+
+
+
+
+
+// Software Guide : BeginLatex
+// 
+// Finally we can trigger the reading process by invoking the \code{Update()}
+// method in the reader. This call as usual is placed inside a \code{try/catch}
+// block.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
     try
       {
-      // Software Guide : BeginCodeSnippet
       reader->Update();
-      // Software Guide : EndCodeSnippet
       }
     catch (itk::ExceptionObject &ex)
       {
       std::cout << ex << std::endl;
       return EXIT_FAILURE;
       }
+// Software Guide : EndCodeSnippet
 
 
-    // Software Guide : BeginLatex
-    // Now we will save the files in another user specified file format. Only the file extension
-    // is needed in this case thanks to the ImageIO factory.
-    // Software Guide : EndLatex
-    // Software Guide : BeginCodeSnippet    
+// Software Guide : BeginLatex
+// 
+// At this point, we have a volumetric image in memory that we can access by
+// invoking the \code{GetOutput()} method of the reader.
+//
+// Software Guide : EndLatex
+
+
+
+
+// Software Guide : BeginLatex
+// 
+// We proceed now to save the volumetric image in another file, as specified by
+// the user in the command line arguments of this program. Thanks to the
+// ImageIO factory mechanism, only the filename extension is needed to identify
+// the fileformat in this case.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet    
     typedef itk::ImageFileWriter< ImageType > WriterType;
     WriterType::Pointer writer = WriterType::New();
-    // Software Guide : EndCodeSnippet    
+    
+    writer->SetFileName( argv[2] );
+
+    writer->SetInput( reader->GetOutput() );
+// Software Guide : EndCodeSnippet    
 
     std::cout  << "Writing the image as " << std::endl << std::endl;
     std::cout  << argv[2] << std::endl << std::endl;
 
-    // Software Guide : BeginCodeSnippet    
-    writer->SetFileName( argv[2] );
-    writer->SetInput( reader->GetOutput() );
-    // Software Guide : EndCodeSnippet    
+
+// Software Guide : BeginLatex
+// 
+// The process of writing the image is initiated by invoking the
+// \code{Update()} method of the writer.
+//
+// Software Guide : EndLatex
 
     try
       {
-      // Software Guide : BeginCodeSnippet    
+// Software Guide : BeginCodeSnippet    
       writer->Update();
-      // Software Guide : EndCodeSnippet    
+// Software Guide : EndCodeSnippet    
       }
     catch (itk::ExceptionObject &ex)
       {
@@ -251,6 +324,19 @@ int main( int argc, char* argv[] )
       std::cout << ex << std::endl;
     return EXIT_FAILURE;
     }
+
+
+
+// Software Guide : BeginLatex
+// 
+// Note that in addition to writing the volumetric image to a file we could
+// have used it as the input for any 3D processing pipeline. Keep in mind that
+// DICOM is simply a file format and a network protocol. Once the image data
+// has been loaded into memory, it behaves as any other volumetric dataset that
+// you could have loaded from any other file format. 
+//
+// Software Guide : EndLatex
+
 
   return EXIT_SUCCESS;
 
