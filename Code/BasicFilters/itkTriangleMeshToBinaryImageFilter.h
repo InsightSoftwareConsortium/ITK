@@ -65,7 +65,7 @@ namespace itk
     };
 /** \class TriangleMeshToBinaryImageFilter
  *
- * \brief 3D Rasterization algorithm Coursesy of Dr David Gobbi of Atamai Inc.
+ * \brief 3D Rasterization algorithm Courtesy of Dr David Gobbi of Atamai Inc.
 
  * \author Leila Baghdadi, MICe, Hospital for Sick Childern, Toronto, Canada,
  */
@@ -191,7 +191,7 @@ protected:
   virtual void RasterizeTriangles();
   static int PolygonToImageRaster( PointVector coords, Point1DArray & zymatrix, int extent[6]);
   
-
+  
   IndexType    m_Index;
   SizeType     m_Size;
   SpacingType  m_Spacing;
@@ -200,6 +200,7 @@ protected:
   ValueType    m_InsideValue;
   ValueType    m_OutsideValue;
   StencilIndexVector  StencilIndex;
+
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
