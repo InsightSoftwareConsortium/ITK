@@ -334,10 +334,9 @@ int main( int argc, char* argv[] )
 // Software Guide : BeginCodeSnippet
     if( tagItr != end )
       {
-
       MetaDataStringType::ConstPointer entryvalue = 
         dynamic_cast<const MetaDataStringType *>( 
-                             tagItr->second.GetPointer() );
+                                   tagItr->second.GetPointer() );
 // Software Guide : EndCodeSnippet
 
 
@@ -348,7 +347,7 @@ int main( int argc, char* argv[] )
 //
 // Software Guide : EndLatex
 
-// Software Guide : EndLatex
+// Software Guide : BeginCodeSnippet
       if( entryvalue )
         {
         std::string tagvalue = entryvalue->GetMetaDataObjectValue();
@@ -366,6 +365,7 @@ int main( int argc, char* argv[] )
 //
 // \code{Insight/Utilities/gdcm/Dicts/dicomV3.dic}
 //
+// Software Guide : EndLatex
 
   return EXIT_SUCCESS;
 
