@@ -28,7 +28,10 @@ namespace itk
 // every pixel. The input pixel type must provide the API for the [][]
 // operator, while the output pixel type must provide the API for the
 // [] operator. Input pixel matrices should be symmetric.
-//
+// 
+// The default operation is to order eigen values in ascending order.
+// You may also use OrderEigenValuesBy( ) to order eigen values by
+// magnitude as is common with use of tensors in vessel extraction.
 namespace Functor {  
  
 template< typename TInput, typename TOutput >
@@ -52,6 +55,30 @@ public:
     m_Calculator.SetDimension(n);
     }
 
+  /** Typdedefs to order eigen values. 
+   * OrderByValue:      lambda_1 < lambda_2 < ....
+   * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
+   * DoNotOrder:        Default order of eigen values obtained after QL method
+   */
+  typedef enum {
+    OrderByValue=1,
+    OrderByMagnitude,
+    DoNotOrder
+  }EigenValueOrderType;
+ 
+  /** Order eigen values. Default is to OrderByValue:  lambda_1 < lambda_2 < ....*/
+  void OrderEigenValuesBy( EigenValueOrderType order )
+    {
+    if( order == OrderByMagnitude )
+      {
+      m_Calculator.SetOrderEigenMagnitudes( true );
+      }
+    else if( order == DoNotOrder )
+      {
+      m_Calculator.SetOrderEigenValues( false );
+      }
+    }
+
 private:
   CalculatorType m_Calculator;
 }; 
@@ -67,6 +94,15 @@ private:
  * input image is expected to implement a method GetFractionalAnisotropy(), and
  * to specify its return type as  RealValueType.
  * 
+ * The OrderEigenValuesBy( .. ) method can be used to order eigen values 
+ * in ascending order by value or magnitude or no ordering.
+ * OrderByValue:      lambda_1 < lambda_2 < ....
+ * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
+ * DoNotOrder:        Default order of eigen values obtained after QL method
+ *
+ * The user of this class is explicitly supposed to set the dimension of the 
+ * 2D matrix using the SetDimension() method.
+ *
  * \sa TensorRelativeAnisotropyImageFilter
  * \sa DiffusionTensor3D
  * 
@@ -98,6 +134,18 @@ public:
   typedef typename TInputImage::PixelType         InputPixelType;
   typedef typename InputPixelType::ValueType      InputValueType;
 
+  /** Typdedefs to order eigen values. 
+   * OrderByValue:      lambda_1 < lambda_2 < ....
+   * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
+   * DoNotOrder:        Default order of eigen values obtained after QL method
+   */
+  typedef typename FunctorType::EigenValueOrderType         EigenValueOrderType;
+ 
+  /** Order eigen values. Default is to OrderByValue:  lambda_1 < lambda_2 < ....*/
+  void OrderEigenValuesBy( EigenValueOrderType order )
+    {
+    this->GetFunctor().OrderEigenValuesBy( order );
+    }
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -112,6 +160,7 @@ public:
     {
     this->GetFunctor().SetDimension(p);
     }
+
     
 protected:
   SymmetricEigenAnalysisImageFilter() {};

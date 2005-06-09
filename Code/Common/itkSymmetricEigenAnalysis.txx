@@ -500,9 +500,9 @@ ComputeEigenValuesUsingQL(VectorType &d, double *e) const
 
     p = d[l] + f;
  
-    if( m_OrderEigenValues )
+    if( m_OrderEigenValues == OrderByValue )
       { 
-      /*     .......... order eigenvalues .......... */
+      // Order by value
       for (i = l; i > 0; --i) 
         {
         if (p >= d[i-1])
@@ -510,6 +510,17 @@ ComputeEigenValuesUsingQL(VectorType &d, double *e) const
         d[i] = d[i-1];
         }
       d[i] = p;
+      }
+    else if( m_OrderEigenValues == OrderByMagnitude )
+      {
+      // Order by magnitude.. make eigen values positive
+      for (i = l; i > 0; --i) 
+        {
+        if (vnl_math_abs(p) >= vnl_math_abs(d[i-1]))
+          break;
+        d[i] = vnl_math_abs(d[i-1]);
+        }
+      d[i] = vnl_math_abs(p);
       }
     else
       {
@@ -650,8 +661,9 @@ ComputeEigenValuesAndVectorsUsingQL(VectorType &d, double *e, double *z) const
     }
   
   /*     .......... order eigenvalues and eigenvectors .......... */
-  if( m_OrderEigenValues )
+  if( m_OrderEigenValues == OrderByValue )
     { 
+    // Order by value
     for (i = 0; i < m_Order-1; ++i) 
       {
       k = i;
@@ -682,6 +694,40 @@ ComputeEigenValuesAndVectorsUsingQL(VectorType &d, double *e, double *z) const
         }
       }
     }
+  else if( m_OrderEigenValues == OrderByMagnitude )
+    {
+    // Order by magnitude
+    for (i = 0; i < m_Order-1; ++i) 
+      {
+      k = i;
+      p = d[i];
+
+      for (j = i+1; j < m_Order; ++j) 
+        {
+        if (vnl_math_abs(d[j]) >= vnl_math_abs(p)) 
+          {
+          continue;
+          }
+        k = j;
+        p = d[j];
+      }
+
+      if (k == i) 
+        {
+        continue;
+        }
+      d[k] = vnl_math_abs(d[i]);
+      d[i] = vnl_math_abs(p);
+
+      for (j = 0; j < m_Order; ++j) 
+        {
+        p = z[j + i * m_Dimension];
+        z[j + i * m_Dimension] = z[j + k * m_Dimension];
+        z[j + k * m_Dimension] = p;
+        }
+      }
+    }
+ 
   
   return ierr;
 }

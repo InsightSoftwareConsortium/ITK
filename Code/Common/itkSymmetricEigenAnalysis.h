@@ -32,8 +32,17 @@ namespace itk
  * values, (must provide write operations on its elements with the [] operator), 
  * EigenMatrix to store eigen vectors (must provide write access to its elements 
  * with the [][] operator).
- * The SetOrderEigenValues() method can be used to order eigen values
- * in ascending order.
+ * 
+ * The SetOrderEigenValues() method can be used to order eigen values (and their
+ * corresponding eigen vectors if computed) in ascending order. This is the 
+ * default ordering scheme. Eigen vectors and values can be obtained without
+ * ordering by calling SetOrderEigenValues(false)
+ *
+ * The SetOrderEigenMagnitudes() method can be used to order eigen values (and 
+ * their corresponding eigen vectors if computed) by magnitude in ascending order.
+ *
+ * The user of this class is explicitly supposed to set the dimension of the 
+ * 2D matrix using the SetDimension() method.
  *
  * The class contains routines taken from netlib sources. (www.netlib.org).
  * netlib/tql1.c
@@ -51,16 +60,22 @@ template < typename TMatrix, typename TVector, typename TEigenMatrix=TMatrix >
 class SymmetricEigenAnalysis
 {
 public:
+  typedef enum {
+    OrderByValue=1,
+    OrderByMagnitude,
+    DoNotOrder
+  }EigenValueOrderType;
+  
   SymmetricEigenAnalysis():
       m_Dimension(0),
       m_Order(0),
-      m_OrderEigenValues(true)
+      m_OrderEigenValues(OrderByValue)
     {} ;
   
   SymmetricEigenAnalysis( const unsigned int dimension ):
       m_Dimension(dimension),
       m_Order(dimension),
-      m_OrderEigenValues(true)
+      m_OrderEigenValues(OrderByValue)
     {} ;
 
   ~SymmetricEigenAnalysis() {};
@@ -68,6 +83,8 @@ public:
   typedef TMatrix      MatrixType;
   typedef TEigenMatrix EigenMatrixType;
   typedef TVector      VectorType;
+
+
 
   /** Compute Eigen values of A 
    * A is any type that overloads the [][] operator and contains the 
@@ -120,10 +137,24 @@ public:
   unsigned int GetOrder() const { return m_Order; }
 
   /** Set/Get methods to order the eigen values in ascending order. 
-   * Default is to order. 
+   * This is the default. ie lambda_1 < lambda_2 < ....
    */
-  void SetOrderEigenValues( const bool b ) {  m_OrderEigenValues = b; }
-  bool GetOrderEigenValues() const { return m_OrderEigenValues; }
+  void SetOrderEigenValues( const bool b ) 
+    {  
+    if (b) { m_OrderEigenValues = OrderByValue;     }
+    else   { m_OrderEigenValues = DoNotOrder;       }
+    }
+  bool GetOrderEigenValues() const { return (m_OrderEigenValues == OrderByValue); }
+
+  /** Set/Get methods to order the eigen value magnitudes in ascending order. 
+   * In other words, |lambda_1| < |lambda_2| < .....
+   */
+  void SetOrderEigenMagnitudes( const bool b ) 
+    {  
+    if (b) { m_OrderEigenValues = OrderByMagnitude; }
+    else   { m_OrderEigenValues = DoNotOrder;       }
+    } 
+  bool GetOrderEigenMagnitudes() const { return (m_OrderEigenValues == OrderByMagnitude); }
 
   /** Set the dimension of the input matrix A. A is a square matrix of 
    * size m_Dimension. */
@@ -144,8 +175,9 @@ public:
 private:
   unsigned int m_Dimension;
   unsigned int m_Order;
-  bool         m_OrderEigenValues;
-  
+  EigenValueOrderType         m_OrderEigenValues;
+
+ 
   /** Reduces a real symmetric matrix to a symmetric tridiagonal matrix using
    *  orthogonal similarity transformations.
    *  'inputMatrix' contains the real symmetric input matrix. Only the lower 
@@ -280,6 +312,7 @@ std::ostream & operator<<(std::ostream& os,
   os << "  Dimension : " << s.GetDimension() << std::endl;
   os << "  Order : " << s.GetOrder() << std::endl;
   os << "  OrderEigenValues: " << s.GetOrderEigenValues() << std::endl;
+  os << "  OrderEigenMagnitudes: " << s.GetOrderEigenMagnitudes() << std::endl;
   return os;
 }
 
