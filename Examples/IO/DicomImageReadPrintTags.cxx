@@ -24,7 +24,7 @@
 //  DICOM file. This can be used for checking for consistency, or simply for
 //  verifying that we have the correct dataset in our hands.  This example
 //  illustrates how to read a DICOM file and then print out most of the DICOM
-//  header information. The binary field of the DICOM header are skipped.
+//  header information. The binary fields of the DICOM header are skipped.
 //
 //  \index{DICOM!Header}
 //  \index{DICOM!Tags}
@@ -84,8 +84,8 @@ int main( int argc, char* argv[] )
 
 // Software Guide : BeginLatex
 // 
-//  We instantiate then the type to be used for storing the image once it is
-//  read into memory.
+//  We instantiate the type to be used for storing the image once it is read
+//  into memory.
 //
 // Software Guide : EndLatex
 
@@ -190,78 +190,182 @@ int main( int argc, char* argv[] )
 // Software Guide : EndCodeSnippet
 
 
+
+
+
+// Software Guide : BeginLatex
+// 
+// Since we are interested only in the DICOM tags that can be expressed in
+// strings, we declare a MetaDataObject suitable for managing strings.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
+  typedef itk::MetaDataObject< std::string > MetaDataStringType;
+// Software Guide : EndCodeSnippet
+
+
+
+
+
+// Software Guide : BeginLatex
+// 
+// We instantiate the iterators that will make possible to walk through all the
+// entries of the MetaDataDictionary.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   DictionaryType::ConstIterator itr = dictionary.Begin();
   DictionaryType::ConstIterator end = dictionary.End();
-
-  
-  typedef itk::MetaDataObject< std::string > MetaDataStringType;
+// Software Guide : EndCodeSnippet
 
 
 
 
 //  Software Guide : BeginLatex
 //
-// Do some gdcm low level access to translate the DICOM Tag into the 
-// associated DICOM name. For example "0010|0010" becomes "Patient's Name"
+// For each one of the entries in the dictionary, we check first if its element
+// can be converted to a string, a \code{dynamic\_cast} is used for this purpose.
 //
 //  Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
   while( itr != end )
     {
     itk::MetaDataObjectBase::Pointer  entry = itr->second;
 
     MetaDataStringType::Pointer entryvalue = 
       dynamic_cast<MetaDataStringType *>( entry.GetPointer() ) ;
+// Software Guide : EndCodeSnippet
 
+    
+// Software Guide : BeginLatex
+//
+// For those entries that can be converted, we take their DICOM tag and pass it
+// to the \code{GetLabelFromTag()} method of the GDCMImageIO class. This method
+// checks the DICOM dictionary and returns the string label associated to the
+// tag that we are providing in the \code{tagkey} variable. If the label is
+// found, it is returned in \code{labelId} variable. The method itself return
+// false if the tagkey is not found in the dictionary.  For example "0010|0010"
+// in \code{tagkey} becomes "Patient's Name" in \code{labelId}.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
     if( entryvalue )
       {
-
       std::string tagkey   = itr->first;
       std::string labelId;
-
       bool found =  itk::GDCMImageIO::GetLabelFromTag( tagkey, labelId );
-      
+// Software Guide : EndCodeSnippet
+
+// Software Guide : BeginLatex
+// 
+// The actual value of the dictionary entry is obtained as a string with the
+// \code{GetMetaDataObjectValue()} method.
+// 
+// \index{MetaDataObject!GetMetaDataObjectValue()}
+// 
+// Software Guide : EndLatex
+       
+// Software Guide : BeginCodeSnippet
       std::string tagvalue = entryvalue->GetMetaDataObjectValue();
-      // If tagkey was found (ie DICOM tag from public dictionary), 
-      // then display the name:
+// Software Guide : EndCodeSnippet
+
+// Software Guide : BeginLatex
+// 
+// At this point we can print out an entry by concatenating the DICOM Name or
+// label, the numeric tag and its actual value.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
       if( found )
         {
         std::cout << "(" << tagkey << ") " << labelId;
         std::cout << " = " << tagvalue.c_str() << std::endl;
         }
+// Software Guide : EndCodeSnippet
       else
         {
         std::cout << "(" << tagkey <<  ") " << "Unknown";
         std::cout << " = " << tagvalue.c_str() << std::endl;
         }
       }
+
+// Software Guide : BeginLatex
+// 
+// Finally we just close the loop that will walk trhough all the Dictionary
+// entries.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
     ++itr;
     }
+// Software Guide : EndCodeSnippet
   
 
 
 
 //  Software Guide : BeginLatex
 //
-//  In order to read a specific tag, the string of the entry can be used for
-//  quering the MetaDataDictionary.
+//  It is also possible to read a specific tag. In that case the string of the
+//  entry can be used for quering the MetaDataDictionary.
 //
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
     std::string entryId = "0010|0010";
-    itk::MetaDataObjectBase::ConstPointer  entry = dictionary[entryId];
-
-    MetaDataStringType::ConstPointer entryvalue = 
-      dynamic_cast<const MetaDataStringType *>( entry.GetPointer() ) ;
-
-    if( entryvalue )
-      {
-      std::string tagvalue = entryvalue->GetMetaDataObjectValue();
-      std::cout << "Patient's Name (" << entryId <<  ") ";
-      std::cout << " is: " << tagvalue << std::endl;
-      }
+    DictionaryType::ConstIterator tagItr = dictionary.Find( entryId );
 // Software Guide : EndCodeSnippet
 
+
+
+
+// Software Guide : BeginLatex
+// 
+// If the entry is actually found in the Dictionary, then we can attempt to
+// convert it to a string entry by using a \code{dynamic\_cast}.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
+    if( tagItr != end )
+      {
+
+      MetaDataStringType::ConstPointer entryvalue = 
+        dynamic_cast<const MetaDataStringType *>( 
+                             tagItr->second.GetPointer() );
+// Software Guide : EndCodeSnippet
+
+
+// Software Guide : BeginLatex
+// 
+// If the dynamic cast succeed, then we can print out the values of the label,
+// the tag and the actual value.
+//
+// Software Guide : EndLatex
+
+// Software Guide : EndLatex
+      if( entryvalue )
+        {
+        std::string tagvalue = entryvalue->GetMetaDataObjectValue();
+        std::cout << "Patient's Name (" << entryId <<  ") ";
+        std::cout << " is: " << tagvalue << std::endl;
+        }
+// Software Guide : EndCodeSnippet
+
+      }
+
+
+// Software Guide : BeginLatex
+// 
+// For a full description of the DICOM dictionary please look at the file.
+//
+// \code{Insight/Utilities/gdcm/Dicts/dicomV3.dic}
+//
 
   return EXIT_SUCCESS;
 
