@@ -20,11 +20,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  It is often valuable to be able to query the entries from the header of a
-//  DICOM file. This can be used for checking for consistency, or simply for
-//  verifying that we have the correct dataset in our hands. This example
-//  illustrates how to read a DICOM series into a volume and then print most of
-//  the DICOM header information. The binary field are skipped.
+//  This example illustrates how to read a DICOM series into a volume and then
+//  print most of the DICOM header information. The binary field are skipped.
 //
 //  \index{DICOM!Header}
 //  \index{DICOM!Tags}
