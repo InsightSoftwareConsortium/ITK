@@ -22,10 +22,10 @@
 //
 //  This example illustrates how to read a DICOM series into a volume and then
 //  save this volume into another DICOM series using the exact same header
-//  information. It makes use of the GDCM library
+//  information. It makes use of the GDCM library.
 //
 //  The main purpose of this example is to show how to properly propagate the
-//  DICOM specific information along the pipeline to be able to properly write
+//  DICOM specific information along the pipeline to be able to correctly write
 //  back the image using the information from the input DICOM files.
 //
 //  Please note that writing DICOM files is quite a delicate operation since we
@@ -71,9 +71,7 @@
 // with the use of ITK and GDCM for writing DICOM Series. The first step that
 // we must take is to include the header files of the relevant classes. We
 // include the GDCM image IO class, the GDCM filenames generator, the series
-// reader and writer, and just to make the example more interesting, we add
-// also a rescale intensity filter that we will use for modifying the
-// intensities of the image.
+// reader and writer.
 //
 // Software Guide : EndLatex
 
@@ -82,7 +80,6 @@
 #include "itkGDCMSeriesFileNames.h"
 #include "itkImageSeriesReader.h"
 #include "itkImageSeriesWriter.h"
-#include "itkRescaleIntensityImageFilter.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -340,7 +337,7 @@ int main( int argc, char* argv[] )
 
 // Software Guide : BeginCodeSnippet
   seriesWriter->SetMetaDataDictionaryArray( 
-      reader->GetMetaDataDictionaryArray() );
+                        reader->GetMetaDataDictionaryArray() );
 // Software Guide : EndCodeSnippet
 
 
@@ -371,11 +368,11 @@ int main( int argc, char* argv[] )
 
 // Software Guide : BeginLatex
 // 
-// Please keep in mind that you should avoid to produce DICOM files that have
+// Please keep in mind that you should avoid to generate DICOM files that have
 // the appearance of being produced by a scanner. It should be clear in your
-// directory naming or in your filenaming that this data was produced by the
-// execution of some sort of algorithm. This will prevent your dataset from
-// being used as scanner data by accident.
+// directory naming or in your filenaming that this data was the result of the
+// execution of some sort of algorithm. This will help to prevent your dataset
+// from being used as scanner data by accident.
 //
 // Software Guide : EndLatex
 
