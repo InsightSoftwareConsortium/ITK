@@ -214,6 +214,7 @@ public:
   typedef SymmetricSecondRankTensor<long double, 2> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 2> RealType;
   typedef double ScalarRealType;
+  static const SymmetricSecondRankTensor< double,2 > ITKCommon_EXPORT Zero;
 };
 template <> class NumericTraits<SymmetricSecondRankTensor<long double, 2> > {
 public:
