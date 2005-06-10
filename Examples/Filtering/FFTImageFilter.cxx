@@ -40,9 +40,9 @@
 //  \doxygen{FFTWRealToComplexConjugateImageFilter}.
 //  
 //  
-//  \index{itk::FFTRealToComplexConjugateImageFilter}
-//  \index{itk::VnlFFTRealToComplexConjugateImageFilter}
-//  \index{itk::FFTWRealToComplexConjugateImageFilter}
+//  \index{itk::FFT\-Real\-To\-Complex\-Conjugate\-Image\-Filter}
+//  \index{itk::Vnl\-FFT\-Real\-ToComplex\-Conjugate\-Image\-Filter}
+//  \index{itk::FFTW\-Real\-To\-Complex\-Conjugate\-Image\-Filter}
 //
 //  Software Guide : EndLatex 
 

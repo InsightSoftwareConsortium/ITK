@@ -31,10 +31,10 @@
 //  
 //  This typical processing is what it is illustrated in the example below.
 //  
-//  \index{itk::FFTRealToComplexConjugateImageFilter}
-//  \index{itk::VnlFFTRealToComplexConjugateImageFilter}
-//  \index{itk::FFTWRealToComplexConjugateImageFilter}
-//  \index{itk::MaskImageFilter}
+//  \index{itk::FFT\-Real\-To\-Complex\-Conjugate\-Image\-Filter}
+//  \index{itk::Vnl\-FFT\-Real\-To\-Complex\-Conjugate\-Image\-Filter}
+//  \index{itk::FFTW\-Real\-To\-Complex\-Conjugate\-Image\-Filter}
+//  \index{itk::Mask\-Image\-Filter}
 //
 //  Software Guide : EndLatex 
 
