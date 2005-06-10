@@ -179,11 +179,11 @@ public:
 
   /** Increment (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator-- */
-  Self & operator++();
+  inline Self & operator++();
 
   /** Decrement (prefix) the selected dimension.
    * No bounds checking is performed.  \sa GetIndex \sa operator++ */
-  Self & operator--();
+  inline Self & operator--();
 
 private:
     unsigned long  m_Jump;

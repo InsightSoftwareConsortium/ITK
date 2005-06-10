@@ -196,12 +196,12 @@ public:
   /** Increment (prefix) the selected dimension.
    * No bounds checking is performed. 
    * \sa operator-- \sa GetIndex */
-  Self & operator++();
+  inline Self & operator++();
 
   /** Decrement (prefix) the selected dimension.
    * No bounds checking is performed. 
    * \sa operator++ \sa GetIndex */
-  Self & operator--();
+  inline Self & operator--();
 
 private:
   unsigned long  m_PixelJump;
