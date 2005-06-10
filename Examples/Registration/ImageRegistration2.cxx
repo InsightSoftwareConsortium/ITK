@@ -28,16 +28,16 @@
 
 // Software Guide : BeginLatex
 //
-// The following simple example illustrates how multiple imaging modalities
-// can be registered using the ITK registration framework. The first
-// difference is the use of the \doxygen{MutualInformationImageToImageMetric} as
-// the cost-function to be optimized and the second difference is the use of
-// the \doxygen{GradientDescentOptimizer}. Due to the stochastic nature of the
-// metric computation, the values are too noisy to work
-// successfully with the \doxygen{RegularStepGradientDescentOptimizer}.
-// Therefore, we will use the simpler GradientDescentOptimizer with
-// a user defined learning rate.  The following headers declare the basic
-// components of this registration method.
+// The following simple example illustrates how multiple imaging modalities can
+// be registered using the ITK registration framework. The first difference
+// between this and previous examples is the use of the
+// \doxygen{MutualInformationImageToImageMetric} as the cost-function to be
+// optimized. The second difference is the use of the
+// \doxygen{GradientDescentOptimizer}. Due to the stochastic nature of the
+// metric computation, the values are too noisy to work successfully with the
+// \doxygen{RegularStepGradientDescentOptimizer}.  Therefore, we will use the
+// simpler GradientDescentOptimizer with a user defined learning rate.  The
+// following headers declare the basic components of this registration method.
 //
 // Software Guide : EndLatex 
 
@@ -71,7 +71,7 @@
 //  
 //  Additionally, low-pass filtering of the images to be registered will also
 //  increase robustness against noise. In this example, we will use the
-//  \doxygen{DiscreteGaussianImageFilter} for the purpose. The
+//  \doxygen{DiscreteGaussianImageFilter} for that purpose. The
 //  characteristics of this filter have been discussed in Section
 //  \ref{sec:BlurringFilters}.
 //
@@ -355,21 +355,23 @@ int main( int argc, char *argv[] )
   //  therefore helps when this metric is used in conjuction with optimizers
   //  that rely of the continuity of the metric values. The trade-off, of
   //  course, is that a larger number of samples result in longer computation
-  //  times per every evaluation of the metric. It has been demonstrated
-  //  experimentally that the number of samples is not a critical parameter for
-  //  the registration process. When you start fine tuning your own
-  //  registration process, you should start using high values of number of
-  //  samples, for example in the range of $20\%$ to $50\%$. Once you have
-  //  succeeded to register your images you can then reduce the number of
-  //  samples progressively until you find a good compromise on the time it
-  //  takes to compute one evaluation of the Metric. Note that it is not useful
-  //  to have very fast evaluations if the noise in their values results in
-  //  more iterations being required by the optimizer in order to converge. You
-  //  must then study the behavior of the metric values as the iteration
-  //  progress, just as illustrated in
-  //  section~\ref{sec:MonitoringImageRegistration}.
+  //  times per every evaluation of the metric. 
+  //
+  //  It has been demonstrated empirically that the number of samples is not a
+  //  critical parameter for the registration process. When you start fine
+  //  tuning your own registration process, you should start using high values
+  //  of number of samples, for example in the range of $20\%$ to $50\%$ of the
+  //  number of pixels in the fixed image. Once you have succeeded to register
+  //  your images you can then reduce the number of samples progressively until
+  //  you find a good compromise on the time it takes to compute one evaluation
+  //  of the Metric. Note that it is not useful to have very fast evaluations
+  //  of the Metric if the noise in their values results in more iterations
+  //  being required by the optimizer in order to converge. You must then study
+  //  the behavior of the metric values as the iteration progress, just as
+  //  illustrated in section~\ref{sec:MonitoringImageRegistration}.
   //
   //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
+  //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!Trade-offs}
   //
   //  Software Guide : EndLatex 
 
@@ -401,11 +403,31 @@ std::cout << "number of samples = " << numberOfSamples  << std::endl;
 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetLearningRate( 10.0 );
+  optimizer->SetLearningRate( 15.0 );
   optimizer->SetNumberOfIterations( 200 );
   optimizer->MaximizeOn();
   // Software Guide : EndCodeSnippet
 
+
+  // Software Guide : BeginLatex
+  // 
+  // Note that large values of the learning rate will make the optimizer
+  // unstable. Small values, on the other hand, may result in the optimizer
+  // needing too many iterations in order to walk to the extrema of the cost
+  // function. The easy way of fine tunning this parameter is to start with
+  // small values, probably in the range of $\{5.0,10\}$. Once the other
+  // registration parameters have been tunned for producing convergence, you
+  // may want to revisit the learning rate and start increasing its value just
+  // until the point when you observe that the optimization becomes unstable.
+  // The ideal value for this parameter is the one that results in a minimum
+  // number of iterations while still keeping a stable path on the parametric
+  // space of the optimization. Keep in mind that this parameter is a
+  // multiplicative factor applied on the gradient of Metric. Therefore, its
+  // effect on the step length of the optimizer is proportional to the Metric
+  // values themselves. Metrics with large values will require you to use
+  // smaller values for the learning rate.
+  //
+  // Software Guide : EndLatex
 
   // Create the Command observer and register it with the optimizer.
   //
@@ -463,18 +485,17 @@ std::cout << "number of samples = " << numberOfSamples  << std::endl;
   //  \end{figure}
   // 
   //  The second image is the result of intentionally translating the image
-  //  \code{BrainProtonDensitySliceBorder20.png} by $(13,17)$ millimeters. Both
-  //  images have unit-spacing and are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration2}. The registration is
-  //  stopped at 200 iterations and produces as result the
-  //  parameters:
+  //  \code{Brain\-Proton\-Density\-Slice\-Border20.png} by $(13,17)$
+  //  millimeters. Both images have unit-spacing and are shown in Figure
+  //  \ref{fig:FixedMovingImageRegistration2}. The registration is stopped at
+  //  200 iterations and produces as result the parameters:
   //
   //  \begin{verbatim}
-  //  Translation X = 12.8804
-  //  Translation Y = 16.7718
+  //  Translation X = 12.9147
+  //  Translation Y = 17.0871
   //  \end{verbatim}
-  //  These values are approximately within half a pixel of 
-  //  the true misaligment introduced in the moving image.
+  //  These values are approximately within one tenth of a pixel from the true
+  //  misaligment introduced in the moving image.
   //
   //  Software Guide : EndLatex 
 
