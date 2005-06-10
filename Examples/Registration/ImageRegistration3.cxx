@@ -50,7 +50,7 @@
 // \code{Execute()} methods should be considered \emph{callbacks}.  As such,
 // some of the common sense rules of callbacks should be respected.  For
 // example, \code{Execute()} methods should not perform heavy computational
-// tasks.  They are assumed to execute rapidly, for example, printing out a
+// tasks.  They are expected to execute rapidly, for example, printing out a
 // message or updating a value in a GUI.
 //
 // \index{itk::ImageRegistrationMethod!Monitoring}
@@ -215,7 +215,7 @@ public:
 
   // Software Guide : BeginCodeSnippet
     OptimizerPointer optimizer = 
-                      dynamic_cast< OptimizerPointer >( object );
+                         dynamic_cast< OptimizerPointer >( object );
   // Software Guide : EndCodeSnippet
 
 
@@ -382,7 +382,7 @@ int main( int argc, char *argv[] )
   //  optimizer, using the \code{AddObserver()} method. Note
   //  that the event type is provided as the first argument to this
   //  method. In order for the RTTI mechanism to work correctly, a newly
-  //  created event of the desired type can be passed as the first
+  //  created event of the desired type must be passed as the first
   //  argument. The second argument is simply the smart pointer to the
   //  optimizer. Figure \ref{fig:ImageRegistration3Observer} illustrates the
   //  interaction between the Command/Observer class and the registration
