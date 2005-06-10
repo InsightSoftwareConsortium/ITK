@@ -123,12 +123,9 @@ protected:
 //  Software Guide : BeginCodeSnippet
 protected:
 
-  typedef GradientMagnitudeImageFilter<TImageType, TImageType>
-      GradientType;
-  typedef ThresholdImageFilter<TImageType>
-      ThresholdType;
-  typedef RescaleIntensityImageFilter<TImageType, TImageType>
-      RescalerType;
+  typedef ThresholdImageFilter< TImageType > ThresholdType;
+  typedef GradientMagnitudeImageFilter< TImageType, TImageType > GradientType;
+  typedef RescaleIntensityImageFilter< TImageType, TImageType > RescalerType;
 //  Software Guide : EndCodeSnippet
 
     void GenerateData();
