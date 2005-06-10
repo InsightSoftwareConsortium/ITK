@@ -20,6 +20,7 @@
 
 #include "itkSpatialObject.h"
 #include "itkAffineTransform.h"
+#include "itkFixedArray.h"
 
 namespace itk
 {
@@ -48,7 +49,7 @@ public:
   typedef typename Superclass::PointType              PointType;
   typedef typename Superclass::TransformType          TransformType;
   typedef typename Superclass::BoundingBoxType        BoundingBoxType;
-  typedef typename Superclass::SizeType               SizeType;
+  typedef FixedArray<double,TDimension>               SizeType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
   
   itkNewMacro( Self );
