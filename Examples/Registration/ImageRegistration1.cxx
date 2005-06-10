@@ -29,17 +29,17 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the image registration framework in
-// Insight.  It should be read as a "Hello World" for ITK
-// registration. Which means that for now you don't ask "why?". Instead,
-// use the example as an introduction to the typical elements involved in
-// solving an image registration problem.
+// Insight.  It should be read as a "Hello World" for ITK registration. Which
+// means that for now, you don't ask ``why?''. Instead, use the example as an
+// introduction to the elements that are typically involved in solving an image
+// registration problem.
 //
 // \index{itk::Image!Instantiation}
 // \index{itk::Image!Header}
 //
 // A registration method requires the following set of components: two input
 // images, a transform, a metric, an interpolator and an optimizer. Some of
-// these components are parametrized by the image type for which the
+// these components are parameterized by the image type for which the
 // registration is intended.  The following header files provide declarations
 // of common types used for these components.
 //
@@ -81,11 +81,11 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   // 
   // The types of each one of the components in the registration methods should
-  // be instantiated. First, we select the image dimension and the type used for
-  // representing image pixels.
+  // be instantiated first. With that purpose, we start by selecting the image
+  // dimension and the type used for representing image pixels.
   //
   // Software Guide : EndLatex 
-  //
+  
   // Software Guide : BeginCodeSnippet 
   const    unsigned int    Dimension = 2;
   typedef  float           PixelType;
@@ -106,8 +106,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The transform that will map one image space into the other is defined
-  //  below.
+  //  The transform that will map the fixed image space into the moving image
+  //  space is defined below.
   //
   //  Software Guide : EndLatex 
 
@@ -131,8 +131,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The metric will compare how well the two images match each other. Metric
-  //  types are usually parametrized by the image types as can be seen in the
-  //  following type declaration.
+  //  types are usually parameterized by the image types as it can be seen in
+  //  the following type declaration.
   //
   //  Software Guide : EndLatex 
 
@@ -147,7 +147,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  Finally, the type of the interpolator is declared. The interpolator will
-  //  evaluate the moving image at non-grid positions.
+  //  evaluate the intensities of the moving image at non-grid positions.
   //
   //  Software Guide : EndLatex 
 
@@ -162,7 +162,7 @@ int main( int argc, char *argv[] )
   //
   //  The registration method type is instantiated using the types of the
   //  fixed and moving images. This class is responsible for interconnecting
-  //  all the components we have described so far.
+  //  all the components that we have described so far.
   //
   //  Software Guide : EndLatex 
 
@@ -237,7 +237,7 @@ int main( int argc, char *argv[] )
   //  
   //  The registration can be restricted to consider only a particular region
   //  of the fixed image as input to the metric computation. This region is
-  //  defined by the \code{SetFixedImageRegion()} method.  You could use this
+  //  defined with the \code{SetFixedImageRegion()} method.  You could use this
   //  feature to reduce the computational time of the registration or to avoid
   //  unwanted objects present in the image from affecting the registration outcome.
   //  In this example we use the full available content of the image. This
@@ -253,7 +253,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   fixedImageReader->Update();
   registration->SetFixedImageRegion( 
-     fixedImageReader->GetOutput()->GetBufferedRegion() );
+                    fixedImageReader->GetOutput()->GetBufferedRegion() );
   // Software Guide : EndCodeSnippet
 
 
@@ -265,8 +265,9 @@ int main( int argc, char *argv[] )
   //  being used for the registration. The array of parameters for this
   //  transform is simply composed of the translation values along each
   //  dimension. Setting the values of the parameters to zero 
-  //  initializes the transform as an \emph{identity} transform. Note that the
-  //  array constructor requires the number of elements as an argument.
+  //  initializes the transform to an \emph{Identity} transform. Note that the
+  //  array constructor requires the number of elements to be passed as an
+  //  argument.
   //
   //  \index{itk::TranslationTransform!GetNumberOfParameters()}
   //  \index{itk::RegistrationMethod!SetInitialTransformParameters()}
@@ -296,7 +297,7 @@ int main( int argc, char *argv[] )
   //  Each optimizer has particular parameters that must be interpreted in the
   //  context of the optimization strategy it implements. The optimizer used in
   //  this example is a variant of gradient descent that attempts to prevent it
-  //  from taking steps which are too large.  At each iteration, this optimizer
+  //  from taking steps that are too large.  At each iteration, this optimizer
   //  will take a step along the direction of the \doxygen{ImageToImageMetric}
   //  derivative. The initial length of the step is defined by the user. Each
   //  time the direction of the derivative abruptly changes, the optimizer
@@ -340,7 +341,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The registration process is triggered by an invocation of the
+  //  The registration process is triggered by an invocation to the
   //  \code{Update()} method. If something goes wrong during the
   //  initialization or execution of the registration an exception will be
   //  thrown. We should therefore place the \code{Update()} method
@@ -364,9 +365,9 @@ int main( int argc, char *argv[] )
   
   //  Software Guide : BeginLatex
   //  
-  // In a real application, you may attempt to recover from the error in the
-  // catch block. Here we are simply printing out a message and then
-  // terminating the execution of the program.
+  // In a real life application, you may attempt to recover from the error by
+  // taking more effective actions in the catch block. Here we are simply
+  // printing out a message and then terminating the execution of the program.
   //
   //  Software Guide : EndLatex 
 
@@ -518,7 +519,11 @@ int main( int argc, char *argv[] )
   //  \doxygen{DataObjectDecorator}.
   //
   //  \index{itk::ImageRegistrationMethod!Resampling image}
+  //  \index{itk::ImageRegistrationMethod!Pipeline}
+  //  \index{itk::ImageRegistrationMethod!DataObjectDecorator}
+  //  \index{itk::ImageRegistrationMethod!GetOutput()}
   //  \index{itk::DataObjectDecorator!Use in Registration}
+  //  \index{itk::DataObjectDecorator!Get()}
   //
   //  Software Guide : EndLatex 
 
@@ -531,10 +536,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  As described in Section \ref{sec:ResampleImageFilter}, the
-  //  ResampleImageFilter requires additional parameters to be
-  //  specified, in particular, the spacing, origin and size of the output
-  //  image. The default pixel value is also set to a distinct gray level in
-  //  order highlight the regions that are mapped outside of the moving image.  
+  //  ResampleImageFilter requires additional parameters to be specified, in
+  //  particular, the spacing, origin and size of the output image. The default
+  //  pixel value is also set to a distinct gray level in order to highlight
+  //  the regions that are mapped outside of the moving image.  
   //
   //  Software Guide : EndLatex 
 
@@ -599,8 +604,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{Update()} method of the writer is invoked in order to trigger
-  //  the execution of the pipeline.
+  //  The filters are connected together and the \code{Update()} method of the
+  //  writer is invoked in order to trigger the execution of the pipeline.
   //
   //  Software Guide : EndLatex 
 
@@ -629,8 +634,8 @@ int main( int argc, char *argv[] )
   //  
   //  The fixed image and the transformed moving image can easily be compared
   //  using the \doxygen{SubtractImageFilter}. This pixel-wise filter computes
-  //  the difference between homologous pixels of its two input images. 
-  //  
+  //  the difference between homologous pixels of its two input images.
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -640,9 +645,21 @@ int main( int argc, char *argv[] )
                                   FixedImageType > DifferenceFilterType;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+
   difference->SetInput1( fixedImageReader->GetOutput() );
   difference->SetInput2( resampler->GetOutput() );
   // Software Guide : EndCodeSnippet
+
+
+
+  // Software Guide : BeginLatex
+  //
+  //  Note that the use of subtraction as a method for comparing the images is
+  //  appropriate here because we chose to represent the images using a pixel
+  //  type \code{float}. A different filter would have been used if the pixel
+  //  type of the images were any of the \code{unsigned} integer type.
+  //
+  // Software Guide : EndLatex
 
 
   //  Software Guide : BeginLatex
@@ -651,9 +668,11 @@ int main( int argc, char *argv[] )
   //  values of intensity, we rescale those intensities with a
   //  \doxygen{RescaleIntensityImageFilter} in order to make them more visible.
   //  This rescaling will also make possible to visualize the negative values
-  //  in standard image file formats.  We also reduce the
-  //  \code{DefaultPixelValue} in order to prevent that value from absorving
-  //  the dynamic range of the differences between the two images.
+  //  even if we save the difference image in a file format that only support
+  //  unsigned pixel values\footnote{This is the case of PNG, BMP, JPEG and
+  //  TIFF among other common file formats.}.  We also reduce the
+  //  \code{DefaultPixelValue} to ``1'' in order to prevent that value from
+  //  absorving the dynamic range of the differences between the two images.
   //
   //  Software Guide : EndLatex 
 
@@ -733,11 +752,12 @@ int main( int argc, char *argv[] )
   //  moving image. That is, the difference before the registration is
   //  performed. The right image shows the difference between the fixed image
   //  and the transformed moving image. That is, after the registration has
-  //  been performed.  Both difference images are have been rescaled in
-  //  intensity in order to highlight those pixels where differences exist.
-  //  Note that the final registration is still off by a fraction of a pixel,
-  //  which results in the bands around edges in the difference image. A
-  //  perfect registration would have produced in a null difference image. 
+  //  been performed.  Both difference images have been rescaled in intensity
+  //  in order to highlight those pixels where differences exist.  Note that
+  //  the final registration is still off by a fraction of a pixel, which
+  //  results in bands around edges of anatomical structures to appear in the
+  //  difference image. A perfect registration would have produced a null
+  //  difference image. 
   //
   //  Software Guide : EndLatex 
 
