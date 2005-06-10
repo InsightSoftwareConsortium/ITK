@@ -87,7 +87,6 @@ int main(int argc, char* argv[])
 // Software Guide : BeginCodeSnippet
   typedef signed short InputPixelType;
   const unsigned int   Dimension = 2;
-
   typedef itk::Image< InputPixelType, Dimension > InputImageType;
 // Software Guide : EndCodeSnippet
 
@@ -120,7 +119,6 @@ int main(int argc, char* argv[])
 // Software Guide : BeginCodeSnippet
   typedef itk::GDCMImageIO           ImageIOType;
   ImageIOType::Pointer gdcmImageIO = ImageIOType::New();
-
   reader->SetImageIO( gdcmImageIO );
 // Software Guide : EndCodeSnippet
 
@@ -159,7 +157,6 @@ int main(int argc, char* argv[])
 
 // Software Guide : BeginCodeSnippet
   InputImageType::Pointer inputImage = reader->GetOutput();
-
   typedef itk::MetaDataDictionary   DictionaryType;
   DictionaryType & dictionary = inputImage->GetMetaDataDictionary();
 // Software Guide : EndCodeSnippet
