@@ -53,9 +53,9 @@
 //  Now we can declare the filter itself.  It is within the ITK namespace,
 //  and we decide to make it use the same image type for both input and
 //  output, thus the template declaration needs only one parameter.
-//  Deriving from ImageToImageFilter provides default behaviour for several
-//  important aspects, notably allocating the output image (and making it
-//  the same dimensions as the input).
+//  Deriving from \code{ImageToImageFilter} provides default behaviour for
+//  several important aspects, notably allocating the output image (and
+//  making it the same dimensions as the input).
 //
 //  Software Guide : EndLatex
 
@@ -160,7 +160,7 @@ private:
  
 //  Software Guide : BeginLatex
 //
-//  The constructor can set up the pipeline, which involves creating the
+//  The constructor sets up the pipeline, which involves creating the
 //  stages, connecting them together, and setting default parameters.
 //
 //  Software Guide : EndLatex
@@ -194,10 +194,10 @@ CompositeExampleImageFilter<TImageType>
 //  we connect the first component filter to the inputs of the composite
 //  filter (the actual input, supplied by the upstream stage).  Then we
 //  graft the output of the last stage onto the output of the composite,
-//  which ensures regions are updated.  We force the composite pipeline to
-//  be processed by calling \code{Update()} on the final stage, then graft
-//  the output back onto the output of the enclosing filter, so it has the
-//  result available.
+//  which ensures the filter regions are updated.  We force the composite
+//  pipeline to be processed by calling \code{Update()} on the final stage,
+//  then graft the output back onto the output of the enclosing filter, so
+//  it has the result available to the downstream filter.
 //
 //  Software Guide : EndLatex
 
@@ -224,6 +224,8 @@ GenerateData()
 //  print itself first, and also how the indentation prefixes each line.
 //
 //  Software Guide : EndLatex
+//
+//  Software Guide : BeginCodeSnippet
 
 template <class TImageType>
 void
@@ -233,21 +235,24 @@ PrintSelf( std::ostream& os, Indent indent ) const
   Superclass::PrintSelf(os,indent);
 
   os
-    << indent << "Threshold:"
-    << this->m_Threshold
+    << indent << "Threshold:" << this->m_Threshold
     << std::endl;
 }
 
 } /* end namespace itk */
 
+//  Software Guide : EndCodeSnippet
+
+
+
 //  Software Guide : BeginLatex
 //
 //  It is important to note that in the above example, none of the internal
-//  details of the pipeline were exposed to users of the class.  The
-//  interface consisted of the Threshold parameter (which happened to change
-//  the value in the component filter) and the regular ImageToImageFilter
-//  interface.  This example pipeline is illustrated in
-//  Figure~\ref{fig:compositepipeline}.
+//  details of the pipeline were exposed to users of the class.  The interface
+//  consisted of the Threshold parameter (which happened to change the value in
+//  the component filter) and the regular ImageToImageFilter interface.  This
+//  example pipeline is illustrated in
+//  Figure~\ref{fig:CompositeExamplePipeline}.
 //
 //  Software Guide : EndLatex
 
@@ -273,13 +278,13 @@ int main( int argc, char* argv[] )
   writer->SetFileName( argv[2] );
 
   try
-  {
-      writer->Update();
-  }
+    {
+    writer->Update();
+    }
   catch ( itk::ExceptionObject e )
-  {
-      std::cerr << "Error: " << e << std::endl;
-  }
+    {
+    std::cerr << "Error: " << e << std::endl;
+    }
 
   return 0;
 }
