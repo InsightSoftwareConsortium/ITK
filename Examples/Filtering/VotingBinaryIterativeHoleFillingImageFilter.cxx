@@ -44,7 +44,7 @@
 //  internally a \doxygen{VotingBinaryHoleFillingImageFilter} until no
 //  pixels change or the maximum number of iterations has been reached.
 //
-//  \index{itk::VotingBinaryIterativeHoleFillingImageFilter}
+//  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter}
 //
 //  Software Guide : EndLatex 
 
@@ -58,7 +58,7 @@
 //
 //  The header file corresponding to this filter should be included first.
 //
-//  \index{itk::VotingBinaryIterativeHoleFillingImageFilter!header}
+//  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!header}
 //
 //  Software Guide : EndLatex 
 
@@ -107,9 +107,9 @@ int main( int argc, char * argv[] )
   //  Using the image types, it is now possible to define the filter type
   //  and create the filter object.
   //
-  //  \index{itk::VotingBinaryIterativeHoleFillingImageFilter!instantiation}
-  //  \index{itk::VotingBinaryIterativeHoleFillingImageFilter!New()}
-  //  \index{itk::VotingBinaryIterativeHoleFillingImageFilter!Pointer}
+  //  \index{itk::Voting\-Binary\_Iterative\_Hole\_Filling\_Image\_Filter!instantiation}
+  //  \index{itk::Voting\-Binary\_Iterative\_Hole\_Filling\_Image\_Filter!New()}
+  //  \index{itk::Voting\-Binary\_Iterative\_Hole\_Filling\_Image\_Filter!Pointer}
   // 
   //  Software Guide : EndLatex 
 
@@ -129,8 +129,8 @@ int main( int argc, char * argv[] )
   //  box. For example, in $2D$ a size of \(1,2\) will result in a $3 \times
   //  5$ neighborhood.
   //
-  //  \index{itk::VotingBinaryIterativeHoleFillingImageFilter!Radius}
-  //  \index{itk::VotingBinaryIterativeHoleFillingImageFilter!Neighborhood}
+  //  \index{itk::Voting\_Binary\_Iterative\_Hole\_Filling\_Image\_Filter!Radius}
+  //  \index{itk::Voting\_Binary\_Iterative\_Hole\_Filling\_Image\_Filter!Neighborhood}
   //
   //  Software Guide : EndLatex 
 
@@ -155,8 +155,8 @@ int main( int argc, char * argv[] )
   //  is done with the \code{SetForegroundValue()} and
   //  \code{SetBackgroundValue()} methods.
   //
-  //  \index{itk::VotingBinaryIterativeHoleFillingImageFilter!SetForegroundValue()}
-  //  \index{itk::VotingBinaryIterativeHoleFillingImageFilter!SetBackgroundValue()}
+  //  \index{itk::Voting\_Binary\_Iterative\_Hole\_Filling\_Image\_Filter!SetForegroundValue()}
+  //  \index{itk::Voting\_Binary\_Iterative\_Hole\_Filling\_Image\_Filter!SetBackgroundValue()}
   //
   //  Software Guide : EndLatex 
 
@@ -180,7 +180,7 @@ int main( int argc, char * argv[] )
   //  be at least (3x3 -1 )/2 + majority. This is done with the
   //  \code{SetMajorityThreshold()} method.
   //
-  //  \index{itk::VotingBinaryIterativeHoleFillingImageFilter!SetMajorityThreshold()}
+  //  \index{itk::Voting\_Binary\_Iterative\_Hole\_Filling\_Image\_Filter!SetMajorityThreshold()}
   //
   //  Software Guide : EndLatex 
 
@@ -196,7 +196,7 @@ int main( int argc, char * argv[] )
   //  holes and cavities that this filter will be able to fill-in. The more
   //  iterations you ran, the larger the cavities that will be filled in.
   //
-  //  \index{itk::VotingBinaryIterativeHoleFillingImageFilter!SetMaximumNumberOfIterations()}
+  //  \index{itk::Voting\_Binary\_Iterative\_Hole\_Filling\_Image\_Filter!SetMaximumNumberOfIterations()}
   //
   //  Software Guide : EndLatex 
 
@@ -217,8 +217,8 @@ int main( int argc, char * argv[] )
   //  for example, a writer. An update call on any downstream filter will
   //  trigger the execution of the median filter.
   //
-  //  \index{itk::VotingBinaryIterativeHoleFillingImageFilter!SetInput()}
-  //  \index{itk::VotingBinaryIterativeHoleFillingImageFilter!GetOutput()}
+  //  \index{itk::Voting\_Binary\_Iterative\_Hole\_Filling\_Image\_Filter!SetInput()}
+  //  \index{itk::Voting\_Binary\_Iterative\_Hole\_Filling\_Image\_Filter!GetOutput()}
   //
   //  Software Guide : EndLatex 
 
