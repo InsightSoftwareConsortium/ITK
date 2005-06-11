@@ -282,7 +282,7 @@ int main( int argc, char *argv[] )
   // direction of movement has changed in the parametric space, it reduces the
   // size of the step length. The rate at which the step length is reduced is
   // controlled by a relaxation factor. The default value of the factor is
-  // $0.5$. This value, however may prove to be inadecuate for noisy Metrics
+  // $0.5$. This value, however may prove to be inadecuate for noisy metrics
   // since they tend to create very erratic movements on the optimizers and
   // therefore make them incurr in many directional changes. In those
   // conditions, the optimizer will rapidly shrink the step length while it is
@@ -476,16 +476,16 @@ int main( int argc, char *argv[] )
   // \label{fig:ImageRegistration4TraceTranslations}
   // \end{figure}
   //
-  //  Figure \ref{fig:ImageRegistration4TraceTranslations} (top) shows the
-  //  sequence of translations followed by the optimizer as it searched the
-  //  parameter space. The bottom of the same figure shows the sequence
-  //  of metric values computed as the optimizer searched the parameter
-  //  space.  Comparing these trace plots with Figures
-  //  \ref{fig:ImageRegistration2TraceTranslations} and
+  //  Figure \ref{fig:ImageRegistration4TraceTranslations} (upper-left) shows
+  //  the sequence of translations followed by the optimizer as it searched the
+  //  parameter space. The upper-right figure presents a closer look at the
+  //  convergence basin for the last iterations of the optimizer. The bottom of
+  //  the same figure shows the sequence of metric values computed as the
+  //  optimizer searched the parameter space.  Comparing these trace plots with
+  //  Figures \ref{fig:ImageRegistration2TraceTranslations} and
   //  \ref{fig:ImageRegistration2TraceMetric}, we can see that the measures
-  //  produced by MattesMutualInformationImageToImageMetric are
-  //  smoother than those of
-  //  the MutualInformationImageToImageMetric. This smoothness allows
+  //  produced by MattesMutualInformationImageToImageMetric are smoother than
+  //  those of the MutualInformationImageToImageMetric. This smoothness allows
   //  the use of more sophisticated optimizers such as the
   //  \doxygen{RegularStepGradientDescentOptimizer} which efficiently locks
   //  onto the optimal value.
@@ -514,7 +514,7 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.9\textwidth]{ImageRegistration4TraceTranslationsNumberOfBins.eps}
+  // \includegraphics[width=0.8\textwidth]{ImageRegistration4TraceTranslationsNumberOfBins.eps}
   // \itkcaption[MattesMutualInformationImageToImageMetric number of
   // bins]{Sensitivity of the optimization path to the number of Bins used for
   // estimating the value of Mutual Information with Mattes et al. approach.}
@@ -523,13 +523,13 @@ int main( int argc, char *argv[] )
   //
 
   // Effects such as the one illustrated here hightlight how useless is to
-  // compare different algorithms based on a non-exhastive search of their
+  // compare different algorithms based on a non-exhaustive search of their
   // parameter setting. It is quite difficult to be able to claim that a
   // particular selection of parameters represent the best combination for
   // running a particular algorithm. Therefore, when comparing the performance
   // of two or more different algorithms, we are faced with the challenge of
-  // proving that non of the algorithms involved in the comparison is being run
-  // with a sub-optimal set of parameters.
+  // proving that none of the algorithms involved in the comparison is being
+  // run with a sub-optimal set of parameters.
   //
   // Software Guide : EndLatex 
 
