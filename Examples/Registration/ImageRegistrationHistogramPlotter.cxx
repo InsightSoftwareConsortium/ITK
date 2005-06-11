@@ -24,32 +24,76 @@
 //  128
 //  Software Guide : EndCommandLineArgs
 
+
+
 //  Software Guide : BeginLatex
-// The example shows how to use the \doxygen{HistogramToEntropyImageFilter} class.
-// The example registers two images using the gradient descent optimizer.
-// The transform used here is a simple translation transform. The metric
-// is a MutualInformationHistogramImageToImageMetric. 
 //
-// The jointHistogramWriter is invoked after every iteration of the optimizer.
-// the writer here writes the joint histogram after every iteration as 
-// JointHistogramXXX.mhd. The output image contains the joint entropy histogram
-// given by 
-// \begin{equation}
-// f(I) = -p \log_2 p
-// \end{equation}
+//  When fine tuning the parameters of an image registration process it is not
+//  always clear what factor are having a larger impact on the behavior of the
+//  registration. Even plotting the values of the metric and the transform
+//  parameters may not provide a clear indication on the best way to modify the
+//  optimizer and metric parameters in order to improve the convergence rate
+//  and stability. In such circumstances it is useful to take a closer look at
+//  the internals of the components involved in computing the registration. One
+//  of the critical components is, of course, the image metric. This section
+//  illustrates a mechanism that can be used for monitoring the behavior of the
+//  Mutual Information metric by continuously looking at the joint histogram at
+//  regular intervals during the iterations of the optimizer.
+//  
+//  This particular example shows how to use the
+//  \doxygen{HistogramToEntropyImageFilter} class in order to get access to the
+//  joint histogram that is internally computed by the metric. This class
+//  represents the joint histogram as a $2D$ image and therefore can take
+//  advantage of the IO functionalities described in chapter~\ref{sec:IO}.  The
+//  example registers two images using the gradient descent optimizer.  The
+//  transform used here is a simple translation transform. The metric is a
+//  \doxygen{MutualInformationHistogramImageToImageMetric}. 
+//
+//  In the code below we create a helper class called the
+//  \code{HistogramWriter}.  Its purpose is to save the joint histogram into a
+//  file using any of the file formats supported by ITK. This object is invoked
+//  after every iteration of the optimizer.  The writer here saves the joint
+//  histogram into files with names: \code{JointHistogramXXX.mhd} where
+//  \code{XXX} is replaced with the iteration number. The output image contains
+//  the joint entropy histogram given by 
+//  \begin{equation}
+//  f_{ij} = -p_{ij} \log_2 ( p_{ij} ) 
+//  \end{equation}
 // 
-// where 
-// \begin{equation}
-// p = \frac{q_I}{\sum_{i \in I} q_I}
-// \end{equation}
-//  and $q_I$ is the frequency of measurement vector, I.
-//  and p is the probability of the occurance of the measurement vector, $q_I$.
-// The filter produces an output image is of type double. 
+//  where the indices $i$ and $j$ identify the location of a bin in the Joint
+//  Histogram of the two images and are in the ranges $i \in [0:N-1]$ and  $j
+//  \in [0:M-1]$. The image $f$ representing the joint histogram has $N x M$
+//  pixels because the intensities of the Fixed image are quantized into $N$
+//  histogram bins and the intensities of the Moving image are quantized into
+//  $M$ histogram bins. The probability value $p_{ij}$ is computed from the
+//  frequency countings of the histogram bins.
+//  \begin{equation}
+//  p_{ij} = \frac{q_{ij}}{\sum_{i=0}^{N-1} \sum_{j=0}^{M-1} q_{ij}}
+//  \end{equation}
+//  The value $q_{ij}$ is the frequency of a bin in the histogram and and it is
+//  computed as the number of pixels where the Fixed image has intensities in
+//  the range of bin $i$ and the Moving image has intensities on the range of
+//  bin $j$.  The value $p_{ij}$ is therefore the probability of the occurance
+//  of the measurement vector centered in the bin ${ij}$.  The filter produces
+//  an output image is of type \code{double}.
 //
-// You may similarly instantiate \doxygen{HistogramToLogProbabilityImageFilter} 
-// or \doxygen{HistogramToIntensityImageFilter} or 
-// \doxygen{HistogramToProbabilityImageFilter}. 
-//  Software Guide : EndLatex 
+//  Depending on whether you want to see at the joint probabilities, or the
+//  joint information or the joint mean information, you may to respectively
+//  instantiate any of the following classes
+//
+//  \begin{itemize}
+//  \item \doxygen{HistogramToLogProbabilityImageFilter}
+//  \item \doxygen{HistogramToIntensityImageFilter}
+//  \item \doxygen{HistogramToProbabilityImageFilter}
+//  \end{itemize}
+//
+//  \index{HistogramToLogProbabilityImageFilter} 
+//  \index{HistogramToIntensityImageFilter} 
+//  \index{HistogramToProbabilityImageFilter}
+//
+//  The use of all of these clases is very similar.
+//
+//   Software Guide : EndLatex 
 
 
 #if defined(_MSC_VER)
@@ -58,7 +102,6 @@
 
 #include "itkImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
-#include "itkMutualInformationHistogramImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkGradientDescentOptimizer.h"
 #include "itkImage.h"
@@ -68,9 +111,27 @@
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
+
+
+
+
+// Software Guide : BeginLatex
+//
+// The header files of the classes featured in this example are included as a
+// first step.
+//
+// \index{HistogramToProbabilityImageFilter!Header}
+// \index{MutualInformationHistogramImageToImageMetric!Header}
+// 
+// Software Guide : EndLatex 
+
 // Software Guide : BeginCodeSnippet
 #include "itkHistogramToEntropyImageFilter.h"
+#include "itkMutualInformationHistogramImageToImageMetric.h"
 // Software Guide : EndCodeSnippet
+
+
+
 #include "itkCommand.h"
 #include "itkUnaryFunctorImageFilter.h"
 
@@ -112,10 +173,15 @@ public:
 };
 
 
+
 // Class to write the joint histograms.
 // Software : BeginLatex
+// 
 // Here we will write a simple class to write the joint histograms. The class
 // uses the \doxygen{HistogramToEntropyImageFilter}.
+//
+// Software Guide : EndLatex 
+
 // Software Guide : BeginCodeSnippet
 class HistogramWriter
 {
@@ -123,8 +189,8 @@ public:
   typedef float InternalPixelType;
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
   typedef itk::MutualInformationHistogramImageToImageMetric< 
-                                          InternalImageType, 
-                                          InternalImageType >    MetricType;
+                                        InternalImageType, 
+                                        InternalImageType >    MetricType;
   // Software Guide : EndCodeSnippet
   
   typedef MetricType::Pointer   MetricPointer;
@@ -133,18 +199,34 @@ public:
   typedef MetricType::HistogramType   HistogramType;
   typedef itk::HistogramToEntropyImageFilter< HistogramType > 
                                 HistogramToEntropyImageFilterType;
-  typedef HistogramToEntropyImageFilterType::Pointer   HistogramToImageFilterPointer;
-  typedef itk::ImageFileWriter< HistogramToEntropyImageFilterType::OutputImageType > 
-                                                          HistogramWriterType;
-  typedef HistogramWriterType::Pointer   HistogramWriterPointer;
+  
+  typedef HistogramToEntropyImageFilterType::Pointer   
+                                HistogramToImageFilterPointer;
+  
+  typedef HistogramToEntropyImageFilterType::OutputImageType OutputImageType;
+  
+  typedef itk::ImageFileWriter< OutputImageType > HistogramFileWriterType;
+  typedef HistogramFileWriterType::Pointer        HistogramFileWriterPointer;
   // Software Guide : EndCodeSnippet
   
+  typedef HistogramToEntropyImageFilterType::OutputPixelType OutputPixelType;
+
   HistogramWriter():
     m_Metric(0)
     {
+
+// Software Guide : BeginLatex
+//
+// The \code{HistogramWriter} has a member variable \code{m_Filter} of type
+// HistogramToEntropyImageFilter.
+//
+// Software Guide : EndLatex 
+     
+// Software Guide : BeginCodeSnippet
     this->m_Filter = HistogramToEntropyImageFilterType::New();
-    this->histogramWriter = HistogramWriterType::New();
-    this->histogramWriter->SetInput( this->m_Filter->GetOutput() );
+// Software Guide : EndCodeSnippet
+    this->m_HistogramFileWriter = HistogramFileWriterType::New();
+    this->m_HistogramFileWriter->SetInput( this->m_Filter->GetOutput() );
 
     std::string outputFileBase = "JointHistogram"; 
             // Base of series filenames ( of the joint histogram )
@@ -169,7 +251,7 @@ public:
     char outputFilename[1000];
     sprintf (outputFilename, this->outputFile.c_str(), iterationNumber ); 
     
-    histogramWriter->SetFileName( outputFilename );
+    m_HistogramFileWriter->SetFileName( outputFilename );
     this->m_Filter->SetInput( m_Metric->GetHistogram() );
     try
       {
@@ -183,7 +265,7 @@ public:
  
     try
       { 
-      histogramWriter->Update(); 
+      m_HistogramFileWriter->Update(); 
       }
     catch( itk::ExceptionObject & excp )
       {
@@ -194,6 +276,13 @@ public:
         " written" << std::endl;
     }
   
+  // Software Guide : BeginLatex
+  //
+  // The method of this class that is most relevant to our discussion is the
+  // one that writes the image into a file.
+  //
+  // Software Guide : EndLatex 
+
   // Software Guide : BeginCodeSnippet
   void WriteHistogramFile( char *outputFilename  )
     {
@@ -202,14 +291,25 @@ public:
     //the image by lower and upper thresholds and rescale the image to 
     //8 bits.
     typedef itk::Image< unsigned char > RescaledOutputImageType;
-    typedef RescaleDynamicRangeFunctor< HistogramToEntropyImageFilterType::OutputPixelType > RescaleDynamicRangeFunctorType;
-    typedef itk::UnaryFunctorImageFilter< HistogramToEntropyImageFilterType::OutputImageType,
-        RescaledOutputImageType, RescaleDynamicRangeFunctorType> RescaleDynamicRangeFilterType;
-    RescaleDynamicRangeFilterType::Pointer rescaler = RescaleDynamicRangeFilterType::New();
+    
+    typedef RescaleDynamicRangeFunctor< OutputPixelType > RescaleDynamicRangeFunctorType;
+    
+    typedef itk::UnaryFunctorImageFilter< 
+                                OutputImageType,
+                                RescaledOutputImageType, 
+                                RescaleDynamicRangeFunctorType 
+                                                > RescaleDynamicRangeFilterType;
+
+    RescaleDynamicRangeFilterType::Pointer rescaler =
+                                RescaleDynamicRangeFilterType::New();
    
     rescaler->SetInput( m_Filter->GetOutput() ); 
+
     typedef itk::ImageFileWriter< RescaledOutputImageType > RescaledWriterType;
-    RescaledWriterType::Pointer rescaledWriter = RescaledWriterType::New();
+
+    RescaledWriterType::Pointer rescaledWriter = 
+                                RescaledWriterType::New();
+
     rescaledWriter->SetInput( rescaler->GetOutput() );
       
     rescaledWriter->SetFileName( outputFilename );
@@ -217,6 +317,7 @@ public:
     // Software Guide : BeginCodeSnippet
     this->m_Filter->SetInput( m_Metric->GetHistogram() );
     // Software Guide : EndCodeSnippet
+
     try
       {
       m_Filter->Update();
@@ -242,12 +343,12 @@ public:
   
 // Software Guide : BeginCodeSnippet
 private:
-  MetricPointer m_Metric;
-  HistogramToImageFilterPointer m_Filter;
+  MetricPointer                   m_Metric;
+  HistogramToImageFilterPointer   m_Filter;
+  HistogramFileWriterPointer      m_HistogramFileWriter;
   // Software Guide : EndCodeSnippet
-  HistogramWriterPointer histogramWriter;
   std::string   outputFile;
-} jointHistogramWriter;
+} JointHistogramWriter;
 
 
 // Command - observer invoked after every iteration of the optimizer    
@@ -283,7 +384,7 @@ public:
       std::cout << optimizer->GetCurrentPosition() << std::endl;
       
       // Write the joint histogram as a file JointHistogramXXX.mhd 
-      // where XXX is the iteration number
+      // where \code{XXX} is the iteration number
       
 
       //Write Joint Entropy Histogram prior to registration.
@@ -294,12 +395,12 @@ public:
         // the optimizer to write joint histograms after every iteration.
         // Software Guide : EndLatex
         // Software Guide : BeginCodeSnippet
-        jointHistogramWriter.WriteHistogramFile( initialHistogramFile );
+        JointHistogramWriter.WriteHistogramFile( initialHistogramFile );
         // Software Guide : EndCodeSnippet
         }
       if( writeHistogramsAfterEveryIteration )
         {
-        jointHistogramWriter.WriteHistogramFile( optimizer->GetCurrentIteration() );  
+        JointHistogramWriter.WriteHistogramFile( optimizer->GetCurrentIteration() );  
         }
     }
 };
@@ -380,7 +481,7 @@ int main( int argc, char *argv[] )
   metric->SetDerivativeStepLengthScales(scales);
 
   // Set the metric for the joint histogram writer
-  jointHistogramWriter.SetMetric( metric );
+  JointHistogramWriter.SetMetric( metric );
   
   registration->SetMetric( metric  );
 
@@ -481,7 +582,7 @@ int main( int argc, char *argv[] )
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
   //Write Joint Entropy Histogram after registration.
-  jointHistogramWriter.WriteHistogramFile( argv[6] );
+  JointHistogramWriter.WriteHistogramFile( argv[6] );
 
   typedef itk::ResampleImageFilter< 
                             MovingImageType, 
