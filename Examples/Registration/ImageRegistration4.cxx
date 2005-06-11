@@ -534,6 +534,21 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex 
 
 
+  // Software Guide : BeginLatex
+  //
+  //  The plots in Figures~\ref{fig:ImageRegistration4TraceTranslations}
+  //  and~\ref{fig:ImageRegistration4TraceTranslationsNumberOfBins} were
+  //  generated using Gnuplot. The scripts used for this purpose are available
+  //  in the \code{InsightDocuments} CVS module under the directory
+  //
+  //  ~\code{InsightDocuments/SoftwareGuide/Art}
+  //
+  //  The use of these scripts was similar to what was described at the end of
+  //  section~\ref{sec:MultiModalityRegistrationViolaWells}.
+  //
+  // Software Guide : EndLatex 
+
+
   return 0;
 }
 
