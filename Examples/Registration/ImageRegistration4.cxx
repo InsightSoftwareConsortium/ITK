@@ -25,6 +25,7 @@
 //    0
 //    OUTPUTS: {ImageRegistration4CheckerboardBefore.png}
 //    OUTPUTS: {ImageRegistration4CheckerboardAfter.png}
+//    24
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
@@ -47,6 +48,7 @@
 // First, we include the header files of the components used in this example.
 //
 // \index{itk::ImageRegistrationMethod!Multi-Modality}
+//
 // Software Guide : EndLatex 
 
 
@@ -114,6 +116,7 @@ int main( int argc, char *argv[] )
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile [defaultPixelValue]" << std::endl;
     std::cerr << "[checkerBoardAfter] [checkerBoardBefore]" << std::endl;
+    std::cerr << "[numberOfBins]" << std::endl;
     return 1;
     }
   
@@ -192,9 +195,41 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  metric->SetNumberOfHistogramBins( 20 );
-  metric->SetNumberOfSpatialSamples( 10000 );
+  unsigned int numberOfBins = 24;
+  unsigned int numberOfSamples = 10000;
   // Software Guide : EndCodeSnippet
+  
+  if( argc > 7 )
+    {
+    numberOfBins = atoi( argv[7] );
+    }
+ 
+  if( argc > 8 )
+    {
+    numberOfSamples = atoi( argv[8] );
+    }
+
+
+  // Software Guide : BeginCodeSnippet
+  metric->SetNumberOfHistogramBins( numberOfBins );
+  metric->SetNumberOfSpatialSamples( numberOfSamples );
+  // Software Guide : EndCodeSnippet
+
+
+
+  // Software Guide : BeginLatex
+  //
+  // One mechanism for bringing the Metric to its limit is to disable the
+  // sampling and use all the pixels present in the FixedImageRegion. This can
+  // be done with the \code{UseAllPixelsOn()} method. You may want to try this
+  // option only while you are fine tunning all other parameters of your
+  // registration. We don't use this method in this current example though.
+  //
+  //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!UseAllPixelsOn()}
+  //
+  // Software Guide : EndLatex 
+
+
 
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
@@ -226,19 +261,42 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Another significant difference in the metric is that it
-  //  computes the negative mutual information and hence we
-  //  need to minimize the cost function in this case. In this
-  //  example we will use the same optimization parameters as in
-  //  Section \ref{sec:IntroductionImageRegistration}.
+  //  Another significant difference in the metric is that it computes the
+  //  negative mutual information and hence we need to minimize the cost
+  //  function in this case. In this example we will use the same optimization
+  //  parameters as in Section \ref{sec:IntroductionImageRegistration}.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( 4.00 );  
+  optimizer->SetMaximumStepLength( 2.00 );  
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 200 );
   // Software Guide : EndCodeSnippet
+
+
+
+  // Software Guide : BeginLatex
+  //
+  // Whenever the regular step gradient descent optimizer encounters that the
+  // direction of movement has changed in the parametric space, it reduces the
+  // size of the step lenght. The rate at which the step length is reduced is
+  // controlled by a relaxation factor. The default value of the factor is
+  // $0.5$. This value, however may prove to be inadecuate for noisy Metrics
+  // since they tend to create very erratic movements on the optimizers and
+  // therefore incurr in many direction changes. In those conditions, the
+  // optimizer will rapidly shrink the step length while it is still to far
+  // from the location of the extrema in the cost function.
+  //
+  // \index{itk::Regular\-Step\-Gradient\-Descent\-Optimizer!SetRelaxationFactor()}
+  //
+  // Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  optimizer->SetRelaxationFactor( 0.8 );
+  // Software Guide : EndCodeSnippet
+
+
 
 
   // Create the Command observer and register it with the optimizer.
@@ -253,8 +311,8 @@ int main( int argc, char *argv[] )
     } 
   catch( itk::ExceptionObject & err ) 
     { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    std::cerr << "ExceptionObject caught !" << std::endl; 
+    std::cerr << err << std::endl; 
     return -1;
     } 
 
@@ -272,12 +330,15 @@ int main( int argc, char *argv[] )
 
   // Print out results
   //
+ /*
+  std::cout << std::endl;
   std::cout << "Result = " << std::endl;
   std::cout << " Translation X = " << TranslationAlongX  << std::endl;
   std::cout << " Translation Y = " << TranslationAlongY  << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
   std::cout << " Stop Condition  = " << optimizer->GetStopCondition() << std::endl;
+  */
 
 
   //  Software Guide : BeginLatex
@@ -427,6 +488,45 @@ int main( int argc, char *argv[] )
   //
   //
   //  Software Guide : EndLatex 
+
+
+
+  // Software Guide : BeginLatex
+  //
+  // You must note however that there are a number of non-trivial issues
+  // involved in the fine tunning of parameters for the optimization. For
+  // example, the number of bins used in the estimation of Mutual Information
+  // has a dramatic effect on the performance of the optimizer. In order to
+  // illustrate this effect, this same example has been executed using a range
+  // of different values for the number of bins, from $10$ to $30$. If you
+  // repeat this experiment, you will notice that depending on the number of
+  // bins used, the optimizer's path may get trapped early on in local minima.
+  // Figure \ref{fig:ImageRegistration4TraceTranslationsNumberOfBins} shows the
+  // multiple paths that the optimizer took in the parametric space of the
+  // transform as a result of different selections on the number of bins used
+  // by the Mattes Mutual Information metric.
+  //
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=0.8\textwidth]{ImageRegistration4TraceTranslationsNumberOfBins.eps}
+  // \itkcaption[MattesMutualInformationImageToImageMetric number of
+  // bins]{Sensitivity of the optimization path to the number of bins used for
+  // estimating the value of Mutual Information with Mattes et al. approach.}
+  // \label{fig:ImageRegistration4TraceTranslationsNumberOfBins}
+  // \end{figure}
+  //
+
+  // Effects such as the one illustrated here hightlight how useless is to
+  // compare different algorithms based on a non-exhastive search of their
+  // parameter setting. It is quite difficult to be able to claim that a
+  // particular selection of parameters represent the best combination for
+  // running a particular algorithm. Therefore, when comparing the performance
+  // of two or more different algorithms, we are faced with the challenge of
+  // proving that non of the algorithms involved in the comparison is being run
+  // with a sub-optimal set of parameters.
+  //
+  // Software Guide : EndLatex 
+
 
   return 0;
 }
