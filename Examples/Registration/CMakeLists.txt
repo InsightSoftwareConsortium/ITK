@@ -226,6 +226,8 @@ ADD_TEST(ImageRegistration4Test ${REGISTRATION_EXAMPLES}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration4Test.png 0
+        ${TEMP}/ImageRegistration4BeforeTest.png
+        ${TEMP}/ImageRegistration4AfterTest.png
 )
 
 ADD_TEST(ImageRegistration5Test1 ${REGISTRATION_EXAMPLES}

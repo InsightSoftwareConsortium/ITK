@@ -18,22 +18,30 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainT1SliceBorder20.png}
+//    INPUTS: {BrainProtonDensitySliceShifted13x17y.png}
+//    OUTPUTS: {ImageRegistration4Output.png}
+//    OUTPUTS: {ImageRegistration4CheckerboardBefore.png}
+//    OUTPUTS: {ImageRegistration4CheckerboardAfter.png}
+//  Software Guide : EndCommandLineArgs
+
 // Software Guide : BeginLatex
 //
-// In this example, we will solve a simple multi-modality problem using
-// another implementation of mutual information. One of the main differences
-// between \doxygen{MattesMutualInformationImageToImageMetric} and
+// In this example, we will solve a simple multi-modality problem using another
+// implementation of mutual information. This implementation was published by
+// Mattes~\emph{et. al}~\cite{Mattes2003}. One of the main differences between
+// \doxygen{MattesMutualInformationImageToImageMetric} and
 // \doxygen{MutualInformationImageToImageMetric} is that only one spatial
 // sample set is used for the whole registration process instead of using new
 // samples every iteration. The use of a single sample set results in a much
 // smoother cost function and hence allows the use of more intelligent
-// optimizers. In this example, we will use the 
-// RegularStepGradientDescentOptimizer.  Another noticeable
-// difference is that pre-normalization of the images is not necessary as the
-// metric rescales internally when building up the discrete density
-// functions.  Other differences between the two mutual information
-// implementations are described in detail in Section
-// \ref{sec:MutualInformationMetric}. 
+// optimizers. In this example, we will use the
+// RegularStepGradientDescentOptimizer.  Another noticeable difference is that
+// pre-normalization of the images is not necessary as the metric rescales
+// internally when building up the discrete density functions.  Other
+// differences between the two mutual information implementations are described
+// in detail in Section \ref{sec:MutualInformationMetric}. 
 //
 // First, we include the header files of the components used in this example.
 //
@@ -56,6 +64,7 @@
 
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
+#include "itkCheckerBoardImageFilter.h"
 
 
 //  The following section of code implements a Command observer
@@ -103,6 +112,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile [defaultPixelValue]" << std::endl;
+    std::cerr << "[checkerBoardAfter] [checkerBoardBefore]" << std::endl;
     return 1;
     }
   
@@ -314,10 +324,13 @@ int main( int argc, char *argv[] )
 
 
   typedef  unsigned char  OutputPixelType;
+  
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  
   typedef itk::CastImageFilter< 
                         FixedImageType,
                         OutputImageType > CastFilterType;
+
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
   WriterType::Pointer      writer =  WriterType::New();
@@ -350,6 +363,42 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
+
+  //
+  // Generate checkerboards before and after registration
+  //
+  typedef itk::CheckerBoardImageFilter< FixedImageType > CheckerBoardFilterType;
+
+  CheckerBoardFilterType::Pointer checker = CheckerBoardFilterType::New();
+
+  checker->SetInput1( fixedImage );
+  checker->SetInput2( resample->GetOutput() );
+
+  caster->SetInput( checker->GetOutput() );
+  writer->SetInput( caster->GetOutput()   );
+  
+  // Before registration
+  TransformType::Pointer identityTransform = TransformType::New();
+  identityTransform->SetIdentity();
+  resample->SetTransform( identityTransform );
+
+  if( argc > 5 )
+    {
+    writer->SetFileName( argv[5] );
+    writer->Update();
+    }
+
+ 
+  // After registration
+  resample->SetTransform( finalTransform );
+  if( argc > 6 )
+    {
+    writer->SetFileName( argv[6] );
+    writer->Update();
+    }
+
+
+  
   //  Software Guide : BeginLatex
   //  
   // \begin{figure}
