@@ -138,11 +138,6 @@
 #include <stdio.h>
 
 
-const    unsigned int    Dimension = 2;
-bool     writeHistogramsAfterEveryIteration = false;  
-  //do not write joint histograms after every iteration.
-char     *initialHistogramFile;      
-
 
 // Functor to rescale plot the histogram on a log scale and invert it.
 template< class TInput >
@@ -187,6 +182,8 @@ class HistogramWriter
 {
 public:
   typedef float InternalPixelType;
+  itkStaticConstMacro( Dimension, unsigned int, 2);
+
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
   typedef itk::MutualInformationHistogramImageToImageMetric< 
                                         InternalImageType, 
@@ -217,7 +214,7 @@ public:
 
 // Software Guide : BeginLatex
 //
-// The \code{HistogramWriter} has a member variable \code{m_Filter} of type
+// The \code{HistogramWriter} has a member variable \code{m\_Filter} of type
 // HistogramToEntropyImageFilter.
 //
 // Software Guide : EndLatex 
@@ -253,6 +250,7 @@ public:
     
     m_HistogramFileWriter->SetFileName( outputFilename );
     this->m_Filter->SetInput( m_Metric->GetHistogram() );
+
     try
       {
       m_Filter->Update();
@@ -284,7 +282,7 @@ public:
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  void WriteHistogramFile( char *outputFilename  )
+  void WriteHistogramFile( const char * outputFilename  )
     {
     // Software Guide : EndCodeSnippet
     //Write the joint histogram as outputFilename. Also intensity window
@@ -292,13 +290,15 @@ public:
     //8 bits.
     typedef itk::Image< unsigned char > RescaledOutputImageType;
     
-    typedef RescaleDynamicRangeFunctor< OutputPixelType > RescaleDynamicRangeFunctorType;
+    typedef RescaleDynamicRangeFunctor< 
+                              OutputPixelType 
+                                      > RescaleDynamicRangeFunctorType;
     
     typedef itk::UnaryFunctorImageFilter< 
                                 OutputImageType,
                                 RescaledOutputImageType, 
                                 RescaleDynamicRangeFunctorType 
-                                                > RescaleDynamicRangeFilterType;
+                                      > RescaleDynamicRangeFilterType;
 
     RescaleDynamicRangeFilterType::Pointer rescaler =
                                 RescaleDynamicRangeFilterType::New();
@@ -360,7 +360,10 @@ public:
   typedef  itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() 
+    {
+    m_WriteHistogramsAfterEveryIteration = false;
+    }
 public:
   
   typedef   itk::GradientDescentOptimizer     OptimizerType;
@@ -373,36 +376,50 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
-        dynamic_cast< OptimizerPointer >( object );
-      if( ! itk::IterationEvent().CheckEvent( &event ) )
-        {
-        return;
-        }
-      std::cout << optimizer->GetCurrentIteration() << "   ";
-      std::cout << optimizer->GetValue() << "   ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
-      
-      // Write the joint histogram as a file JointHistogramXXX.mhd 
-      // where \code{XXX} is the iteration number
-      
+    OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >( object );
+    if( ! itk::IterationEvent().CheckEvent( &event ) )
+      {
+      return;
+      }
+    std::cout << optimizer->GetCurrentIteration() << "   ";
+    std::cout << optimizer->GetValue() << "   ";
+    std::cout << optimizer->GetCurrentPosition() << std::endl;
+    
+    // Write the joint histogram as a file JointHistogramXXX.mhd 
+    // where \code{XXX} is the iteration number
+    
 
-      //Write Joint Entropy Histogram prior to registration.
-      if( optimizer->GetCurrentIteration() == 0 ) 
-        {
-        // Software Guide : BeginLatex
-        // We may invoke the histogram writer within the command-observer of 
-        // the optimizer to write joint histograms after every iteration.
-        // Software Guide : EndLatex
-        // Software Guide : BeginCodeSnippet
-        JointHistogramWriter.WriteHistogramFile( initialHistogramFile );
-        // Software Guide : EndCodeSnippet
-        }
-      if( writeHistogramsAfterEveryIteration )
-        {
-        JointHistogramWriter.WriteHistogramFile( optimizer->GetCurrentIteration() );  
-        }
+    //Write Joint Entropy Histogram prior to registration.
+    if( optimizer->GetCurrentIteration() == 0 ) 
+      {
+      // Software Guide : BeginLatex
+      // We may invoke the histogram writer within the command-observer of 
+      // the optimizer to write joint histograms after every iteration.
+      // Software Guide : EndLatex
+      // Software Guide : BeginCodeSnippet
+      JointHistogramWriter.WriteHistogramFile( m_InitialHistogramFile.c_str() );
+      // Software Guide : EndCodeSnippet
+      }
+    if( m_WriteHistogramsAfterEveryIteration )
+      {
+      JointHistogramWriter.WriteHistogramFile( optimizer->GetCurrentIteration() );  
+      }
     }
+  
+  void SetWriteHistogramsAfterEveryIteration( bool value )
+    {
+    m_WriteHistogramsAfterEveryIteration = value;
+    }
+
+  void SetInitialHistogramFile( const char * filename )
+    {
+    m_InitialHistogramFile = filename;
+    }
+
+private:
+  bool              m_WriteHistogramsAfterEveryIteration;
+  std::string       m_InitialHistogramFile;
+
 };
 
 
@@ -421,6 +438,8 @@ int main( int argc, char *argv[] )
     }
  
   typedef  unsigned char  PixelType;
+
+  const unsigned int Dimension = 2;
   
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
@@ -455,12 +474,6 @@ int main( int argc, char *argv[] )
   registration->SetTransform(     transform     );
   registration->SetInterpolator(  interpolator  );
 
-
-  if( atoi(argv[4]) ) 
-    {
-    writeHistogramsAfterEveryIteration = true;
-    }
-  
   // Software Guide : BeginLatex
   // The number of bins in the metric is set with the \code{SetHistogramSize()}
   // method. This will determine the number of pixels along each dimension of 
@@ -551,7 +564,14 @@ int main( int argc, char *argv[] )
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
   
-  initialHistogramFile = argv[5];
+  
+  observer->SetInitialHistogramFile( argv[5] );
+
+  if( atoi(argv[4]) ) 
+    {
+    observer->SetWriteHistogramsAfterEveryIteration( true );
+    }
+  
 
 
   try 
