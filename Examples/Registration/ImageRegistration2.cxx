@@ -366,8 +366,8 @@ int main( int argc, char *argv[] )
   //  you find a good compromise on the time it takes to compute one evaluation
   //  of the Metric. Note that it is not useful to have very fast evaluations
   //  of the Metric if the noise in their values results in more iterations
-  //  being required by the optimizer in order to converge. You must then study
-  //  the behavior of the metric values as the iteration progress, just as
+  //  being required by the optimizer to converge. You must then study the
+  //  behavior of the metric values as the iterations progress, just as
   //  illustrated in section~\ref{sec:MonitoringImageRegistration}.
   //
   //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
@@ -384,7 +384,6 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfSpatialSamples( numberOfSamples );
   // Software Guide : EndCodeSnippet
 
-std::cout << "number of samples = " << numberOfSamples  << std::endl;
 
   //  Software Guide : BeginLatex
   //  
@@ -415,17 +414,17 @@ std::cout << "number of samples = " << numberOfSamples  << std::endl;
   // unstable. Small values, on the other hand, may result in the optimizer
   // needing too many iterations in order to walk to the extrema of the cost
   // function. The easy way of fine tunning this parameter is to start with
-  // small values, probably in the range of $\{5.0,10\}$. Once the other
+  // small values, probably in the range of $\{5.0,10.0\}$. Once the other
   // registration parameters have been tunned for producing convergence, you
-  // may want to revisit the learning rate and start increasing its value just
-  // until the point when you observe that the optimization becomes unstable.
-  // The ideal value for this parameter is the one that results in a minimum
-  // number of iterations while still keeping a stable path on the parametric
-  // space of the optimization. Keep in mind that this parameter is a
-  // multiplicative factor applied on the gradient of Metric. Therefore, its
-  // effect on the step length of the optimizer is proportional to the Metric
-  // values themselves. Metrics with large values will require you to use
-  // smaller values for the learning rate.
+  // may want to revisit the learning rate and start increasing its value until
+  // you observe that the optimization becomes unstable.  The ideal value for
+  // this parameter is the one that results in a minimum number of iterations
+  // while still keeping a stable path on the parametric space of the
+  // optimization. Keep in mind that this parameter is a multiplicative factor
+  // applied on the gradient of the Metric. Therefore, its effect on the
+  // optimizer step length is proportional to the Metric values themselves.
+  // Metrics with large values will require you to use smaller values for the
+  // learning rate in order to maintain a similar optimizer behavior.
   //
   // Software Guide : EndLatex
 
@@ -458,11 +457,13 @@ std::cout << "number of samples = " << numberOfSamples  << std::endl;
 
   // Print out results
   //
+  std::cout << std::endl;
   std::cout << "Result = " << std::endl;
   std::cout << " Translation X = " << TranslationAlongX  << std::endl;
   std::cout << " Translation Y = " << TranslationAlongY  << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
+  std::cout << " Numb. Samples = " << numberOfSamples    << std::endl;
 
 
   //  Software Guide : BeginLatex
@@ -625,15 +626,15 @@ std::cout << "number of samples = " << numberOfSamples  << std::endl;
   // \includegraphics[width=0.44\textwidth]{ImageRegistration2TraceMetric.eps}
   // \includegraphics[width=0.44\textwidth]{ImageRegistration2TraceMetric2.eps}
   // \itkcaption[Multi-Modality Registration plot of metrics]{The sequence of metric
-  // values produced during the registration process. On the left are iterations 0 to 200.
-  // On the right are iterations 100 to 200.}
+  // values produced during the registration process. On the left are
+  // iterations 0 to 200. On the right are iterations 150 to 200.}
   // \label{fig:ImageRegistration2TraceMetric}
   // \end{figure}
   //
   //  Figure \ref{fig:ImageRegistration2TraceMetric} shows the sequence of
   //  metric values computed as the optimizer searched the parameter space.
   //  The left plot shows values when iterations are extended from $0$ to
-  //  $200$ while the right figure zooms into iterations $100$ to $200$.  The
+  //  $200$ while the right figure zooms into iterations $150$ to $200$.  The
   //  fluctuations in the metric value are due to the stochastic nature in
   //  which the measure is computed. At each call of \code{GetValue()}, two
   //  new sets of intensity samples are randomly taken from the image to
