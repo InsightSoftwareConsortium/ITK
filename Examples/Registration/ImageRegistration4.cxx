@@ -22,7 +22,7 @@
 //    INPUTS: {BrainT1SliceBorder20.png}
 //    INPUTS: {BrainProtonDensitySliceShifted13x17y.png}
 //    OUTPUTS: {ImageRegistration4Output.png}
-//    0
+//    100
 //    OUTPUTS: {ImageRegistration4CheckerboardBefore.png}
 //    OUTPUTS: {ImageRegistration4CheckerboardAfter.png}
 //    24
@@ -180,7 +180,7 @@ int main( int argc, char *argv[] )
   //  
   //  The metric requires two parameters to be selected: the number of bins
   //  used to compute the entropy and the number of spatial samples used to
-  //  compute the density estimates. In typical application, 50 histogram bins
+  //  compute the density estimates. In typical application 50 histogram bins
   //  are sufficient. Note however, that the number of bins may have dramatic
   //  effects on the optimizer's behavior. The number of spatial samples to be
   //  used depends on the content of the image. If the images are smooth and do
@@ -268,6 +268,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
+  optimizer->MinimizeOn();
   optimizer->SetMaximumStepLength( 2.00 );  
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 200 );
@@ -279,13 +280,15 @@ int main( int argc, char *argv[] )
   //
   // Whenever the regular step gradient descent optimizer encounters that the
   // direction of movement has changed in the parametric space, it reduces the
-  // size of the step lenght. The rate at which the step length is reduced is
+  // size of the step length. The rate at which the step length is reduced is
   // controlled by a relaxation factor. The default value of the factor is
   // $0.5$. This value, however may prove to be inadecuate for noisy Metrics
   // since they tend to create very erratic movements on the optimizers and
-  // therefore incurr in many direction changes. In those conditions, the
-  // optimizer will rapidly shrink the step length while it is still to far
-  // from the location of the extrema in the cost function.
+  // therefore make them incurr in many directional changes. In those
+  // conditions, the optimizer will rapidly shrink the step length while it is
+  // still too far from the location of the extrema in the cost function. In
+  // this example we set the relaxation factor to a number higher than the
+  // default in order to prevent the premature shrinkage of the step length.
   //
   // \index{itk::Regular\-Step\-Gradient\-Descent\-Optimizer!SetRelaxationFactor()}
   //
@@ -340,9 +343,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  This example is executed using the same multi-modality images as in the
-  //  previous one.  The registration converges after $59$ iterations and
-  //  produces the following results:
+  //  This example is executed using the same multi-modality images as the one
+  //  in section~\ref{sec:MultiModalityRegistrationViolaWells} The registration
+  //  converges after $59$ iterations and produces the following results:
   //
   //  \begin{verbatim}
   //  Translation X = 13.0283
@@ -416,10 +419,10 @@ int main( int argc, char *argv[] )
   // \label{fig:ImageRegistration4Output}
   // \end{figure}
   //
-  //  The result of resampling the moving image is presented at the top
-  //  of Figure \ref{fig:ImageRegistration4Output}. The center and right
-  //  parts of the figure present a checkerboard composite of the fixed and
-  //  moving images before and after registration.
+  //  The result of resampling the moving image is presented on the left of
+  //  Figure \ref{fig:ImageRegistration4Output}. The center and right parts of
+  //  the figure present a checkerboard composite of the fixed and moving
+  //  images before and after registration respectively.
   //
   //  Software Guide : EndLatex 
 
@@ -436,6 +439,8 @@ int main( int argc, char *argv[] )
 
   caster->SetInput( checker->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
+  
+  resample->SetDefaultPixelValue( 0 );
   
   // Before registration
   TransformType::Pointer identityTransform = TransformType::New();
@@ -503,7 +508,9 @@ int main( int argc, char *argv[] )
   // Figure \ref{fig:ImageRegistration4TraceTranslationsNumberOfBins} shows the
   // multiple paths that the optimizer took in the parametric space of the
   // transform as a result of different selections on the number of bins used
-  // by the Mattes Mutual Information metric.
+  // by the Mattes Mutual Information metric. Note that many of the paths die
+  // in local minima instead of reaching the extrema value on the upper right
+  // corner.
   //
   // \begin{figure}
   // \center
