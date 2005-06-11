@@ -655,6 +655,36 @@ int main( int argc, char *argv[] )
   //  behavior revealed by these plots usually helps to identify possible
   //  improvements in the setup of the registration parameters.
   //
+  //  The plots in Figures~\ref{fig:ImageRegistration2TraceTranslations}
+  //  and~\ref{fig:ImageRegistration2TraceMetric} were generated using
+  //  Gnuplot\footnote{\url{http://www.gnuplot.info/}}.  The scripts used for
+  //  this purpose are available in the \code{InsightDocuments} CVS module
+  //  under the directory
+  //
+  //  ~\code{InsightDocuments/SoftwareGuide/Art}
+  //
+  //  Data for the plots was taken directly from the output that the
+  //  Command/Observer in this example prints out to the console. The output
+  //  was processed with the UNIX editor
+  //  \code{sed}\footnote{\url{http://www.gnu.org/software/sed/sed.html}} in
+  //  order to remove commas and brackets that were confusing for Gnuplot's
+  //  parser. Both the shell script for running \code{sed} and for running
+  //  {Gnuplot} are available in the directory indicated above. You may find
+  //  useful to run them in order to verify the results presented here, and to
+  //  eventually modify them for profiling your own registrations.
+  //
+  //  \index{Open Science}
+  //
+  //  Open Science is not just an abstract concept. Open Science is something
+  //  to be practiced every day with the simple gesture of sharing information
+  //  with your peers, and by providing all the tools that they need for
+  //  replicating the results that you are reporting. In Open Science, the only
+  //  bad results are those that can not be
+  //  replicated\footnote{\url{http://science.creativecommons.org/}}. Science
+  //  is dead when people blindly trust authorities~\footnote{For example:
+  //  Reviewers of Scientific Journals.} instead of verifying their statements
+  //  by performing their own experiments ~\cite{Popper1971,Popper2002}.
+  //
   //  Software Guide : EndLatex 
 
   return 0;
