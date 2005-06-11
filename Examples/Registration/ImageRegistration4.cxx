@@ -178,16 +178,15 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The metric requires two parameters to be selected: the number
-  //  of bins used to compute the entropy and the number of spatial samples
-  //  used to compute the density estimates. In typical application, 50 
-  //  histogram bins are sufficient and the metric is relatively insensitive
-  //  to changes in the number of bins. The number of spatial samples
-  //  to be used depends on the content of the image. If the images are
-  //  smooth and do not contain much detail, then using approximately
-  //  $1$ percent of the pixels will do. On the other hand, if the images
-  //  are detailed, it may be necessary to use a much higher proportion,
-  //  such as $20$ percent.
+  //  The metric requires two parameters to be selected: the number of bins
+  //  used to compute the entropy and the number of spatial samples used to
+  //  compute the density estimates. In typical application, 50 histogram bins
+  //  are sufficient. Note however, that the number of bins may have dramatic
+  //  effects on the optimizer's behavior. The number of spatial samples to be
+  //  used depends on the content of the image. If the images are smooth and do
+  //  not contain much detail, then using approximately $1$ percent of the
+  //  pixels will do. On the other hand, if the images are detailed, it may be
+  //  necessary to use a much higher proportion, such as $20$ percent.
   //
   //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfHistogramBins()}
   //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
@@ -330,7 +329,6 @@ int main( int argc, char *argv[] )
 
   // Print out results
   //
- /*
   std::cout << std::endl;
   std::cout << "Result = " << std::endl;
   std::cout << " Translation X = " << TranslationAlongX  << std::endl;
@@ -338,21 +336,21 @@ int main( int argc, char *argv[] )
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
   std::cout << " Stop Condition  = " << optimizer->GetStopCondition() << std::endl;
-  */
-
+  
 
   //  Software Guide : BeginLatex
   //  
-  //  This example is executed using the same multi-modality images as
-  //  in the previous one.  The registration converges after $24$ iterations and produces
-  //  the following results:
+  //  This example is executed using the same multi-modality images as in the
+  //  previous one.  The registration converges after $59$ iterations and
+  //  produces the following results:
   //
   //  \begin{verbatim}
-  //  Translation X = 13.1719
-  //  Translation Y = 16.9006
+  //  Translation X = 13.0283
+  //  Translation Y = 17.007
   //  \end{verbatim}
-  //  These values are a very close match to 
-  //  the true misaligment introduced in the moving image.
+  //
+  //  These values are a very close match to the true misaligment introduced in
+  //  the moving image.
   //
   //  Software Guide : EndLatex 
 
@@ -465,8 +463,9 @@ int main( int argc, char *argv[] )
   //  
   // \begin{figure}
   // \center
-  // \includegraphics[height=0.44\textwidth]{ImageRegistration4TraceTranslations.eps}
-  // \includegraphics[height=0.44\textwidth]{ImageRegistration4TraceMetric.eps}
+  // \includegraphics[width=0.44\textwidth]{ImageRegistration4TraceTranslations.eps}
+  // \includegraphics[width=0.44\textwidth]{ImageRegistration4TraceTranslations2.eps}
+  // \includegraphics[width=0.6\textwidth]{ImageRegistration4TraceMetric.eps}
   // \itkcaption[MattesMutualInformationImageToImageMetric output plots]{Sequence
   // of translations and metric values at each iteration of the optimizer.}
   // \label{fig:ImageRegistration4TraceTranslations}
@@ -508,9 +507,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.8\textwidth]{ImageRegistration4TraceTranslationsNumberOfBins.eps}
+  // \includegraphics[width=0.9\textwidth]{ImageRegistration4TraceTranslationsNumberOfBins.eps}
   // \itkcaption[MattesMutualInformationImageToImageMetric number of
-  // bins]{Sensitivity of the optimization path to the number of bins used for
+  // bins]{Sensitivity of the optimization path to the number of Bins used for
   // estimating the value of Mutual Information with Mattes et al. approach.}
   // \label{fig:ImageRegistration4TraceTranslationsNumberOfBins}
   // \end{figure}
