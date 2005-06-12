@@ -418,9 +418,10 @@ void PNGImageIO::Write(const void* buffer)
   ImageIORegion ioRegion = this->GetIORegion();
 
   // Make sure the region to be written is 2D
-  if ( ioRegion.GetRegionDimension() != 2 )
+  const unsigned int ImageDimension = ioRegion.GetRegionDimension();
+  if ( ImageDimension != 2 )
     {
-    itkExceptionMacro(<<"PNG Writer can only write 2-dimensional images");
+    itkExceptionMacro(<<"PNG Writer can only write 2-dimensional images. You are requesting to write an image of dimension = " << ImageDimension << " with filename " << m_FileName);
     }
   
   this->WriteSlice(m_FileName, buffer);
