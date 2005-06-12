@@ -107,7 +107,7 @@
 #include "itkImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkGradientDescentOptimizer.h"
+#include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkImage.h"
 #include "itkNormalizeImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
@@ -288,8 +288,8 @@ public:
       std::cerr << "Exception thrown " << excp << std::endl;
       }
 
-    std::cout << "Joint Histogram file: " << outputFilename <<
-        " written" << std::endl;
+//    std::cout << "Joint Histogram file: " << outputFilename <<
+//        " written" << std::endl;
     }
   
   // Software Guide : BeginLatex
@@ -398,8 +398,8 @@ protected:
     }
 public:
   
-  typedef   itk::GradientDescentOptimizer     OptimizerType;
-  typedef   const OptimizerType   *           OptimizerPointer;
+  typedef   itk::RegularStepGradientDescentOptimizer     OptimizerType;
+  typedef   const OptimizerType *                        OptimizerPointer;
   
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
@@ -482,7 +482,7 @@ int main( int argc, char *argv[] )
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
 
   typedef itk::TranslationTransform< double, Dimension > TransformType;
-  typedef itk::GradientDescentOptimizer                  OptimizerType;
+  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
   typedef itk::LinearInterpolateImageFunction< 
                                     InternalImageType,
                                     double             > InterpolatorType;
@@ -602,7 +602,9 @@ int main( int argc, char *argv[] )
   registration->SetInitialTransformParameters( initialParameters );
 
 
-  optimizer->SetLearningRate( 10.0 );
+  optimizer->SetMaximumStepLength( 4.000 );
+  optimizer->SetMinimumStepLength( 0.001 );
+  optimizer->SetRelaxationFactor(  0.900 );
   optimizer->SetNumberOfIterations( 200 );
   optimizer->MaximizeOn();
 
