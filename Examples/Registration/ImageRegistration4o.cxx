@@ -181,7 +181,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  metric->SetNumberOfHistogramBins( 20 );
+  metric->SetNumberOfHistogramBins( 24 );
   metric->SetNumberOfSpatialSamples( 10000 );
   // Software Guide : EndCodeSnippet
 
@@ -224,9 +224,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( 4.00 );  
+  optimizer->MinimizeOn();
+  optimizer->SetMaximumStepLength( 2.00 );  
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 200 );
+  optimizer->SetRelaxationFactor( 0.8 );
   // Software Guide : EndCodeSnippet
 
 
@@ -242,8 +244,8 @@ int main( int argc, char *argv[] )
     } 
   catch( itk::ExceptionObject & err ) 
     { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    std::cerr << "ExceptionObject caught !" << std::endl; 
+    std::cerr << err << std::endl; 
     return -1;
     } 
 
