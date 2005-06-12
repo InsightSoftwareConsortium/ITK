@@ -465,9 +465,9 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << "outputImagefile JointHistogramPriorToRegistrationFile ";
-    std::cerr << "JointHistogramAfterRegistrationFile WriteJointHistogramsAfterEveryIteration";
-    std::cerr << "Number of histogram bins for writing the MutualInformationHistogramMetric";
+    std::cerr << "outputImagefile WriteJointHistogramsAfterEveryIteration";
+    std::cerr << "JointHistogramPriorToRegistrationFile JointHistogramAfterRegistrationFile ";
+    std::cerr << "NumberOfHistogramBinsForWritingTheMutualInformationHistogramMetric";
     std::cerr <<  std::endl;
     return EXIT_FAILURE;
     }
