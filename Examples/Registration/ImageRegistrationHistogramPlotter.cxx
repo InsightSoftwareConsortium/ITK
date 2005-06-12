@@ -355,6 +355,16 @@ public:
     rescaledWriter->SetFileName( outputFilename );
 
     try
+      {
+      m_Filter->Update();
+      }
+    catch( itk::ExceptionObject & err )
+      {
+      std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
+      std::cerr << err << std::endl;
+      }
+ 
+    try
       { 
       rescaledWriter->Update(); 
       }
@@ -466,8 +476,9 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << "outputImagefile WriteJointHistogramsAfterEveryIteration";
-    std::cerr << "JointHistogramPriorToRegistrationFile JointHistogramAfterRegistrationFile ";
+    std::cerr << "outputImagefile WriteJointHistogramsAfterEveryIteration ";
+    std::cerr << "JointHistogramPriorToRegistrationFile ";
+    std::cerr << "JointHistogramAfterRegistrationFile ";
     std::cerr << "NumberOfHistogramBinsForWritingTheMutualInformationHistogramMetric";
     std::cerr <<  std::endl;
     return EXIT_FAILURE;
