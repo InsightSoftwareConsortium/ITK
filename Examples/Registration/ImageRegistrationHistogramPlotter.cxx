@@ -288,8 +288,9 @@ public:
       std::cerr << "Exception thrown " << excp << std::endl;
       }
 
-//    std::cout << "Joint Histogram file: " << outputFilename <<
-//        " written" << std::endl;
+    std::cout << "Joint Histogram file: ";
+    std::cout << outputFilename << " written" << std::endl;
+
     }
   
   // Software Guide : BeginLatex
@@ -602,9 +603,9 @@ int main( int argc, char *argv[] )
   registration->SetInitialTransformParameters( initialParameters );
 
 
-  optimizer->SetMaximumStepLength( 4.000 );
-  optimizer->SetMinimumStepLength( 0.001 );
-  optimizer->SetRelaxationFactor(  0.900 );
+  optimizer->SetMaximumStepLength( 4.00 );
+  optimizer->SetMinimumStepLength( 0.01 );
+  optimizer->SetRelaxationFactor(  0.90 );
   optimizer->SetNumberOfIterations( 200 );
   optimizer->MaximizeOn();
 
