@@ -145,23 +145,23 @@ HistogramToImageFilter<THistogram, TFunction>
   // Get the input and output pointers 
   // Get from decorator
   const HistogramType *inputHistogram = this->GetInput()->Get();
-  OutputImageType *   outputImage = this->GetOutput();
+  OutputImageType     *outputImage    = this->GetOutput();
 
-  // Generate the image
-  double origin[ImageDimension];
   
   // Set the image size to the number of bins along each dimension.
   for( i=0; i< ImageDimension; i++)
     { 
-    m_Size[i] = inputHistogram->GetSize(i);
+    m_Size[i]    = inputHistogram->GetSize(i);
+    m_Origin[i]  = inputHistogram->GetBinMin(i,0);
+    m_Spacing[i] = inputHistogram->GetBinMin(i,1) - m_Origin[i];
     }
 
   // Set output image params and Allocate image
   typename OutputImageType::RegionType region;
   region.SetSize( m_Size );
-  outputImage->SetRegions( region);
-  outputImage->SetSpacing(m_Spacing);         // set spacing
-  outputImage->SetOrigin(origin);   //   and origin
+  outputImage->SetRegions( region );
+  outputImage->SetSpacing( m_Spacing );   // set spacing
+  outputImage->SetOrigin(  m_Origin  );   // and origin
   outputImage->Allocate();   // allocate the image   
  
   // Set the TotalFrequency in the functor
