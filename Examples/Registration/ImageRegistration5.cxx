@@ -482,9 +482,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceMetric.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceAngle.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceTranslations.eps} 
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceMetric1.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceAngle1.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceTranslations1.eps} 
   // \itkcaption[Rigid2D Registration output plots]{Metric values, rotation
   // angle and translations during registration with the CenteredRigid2D
   // transform.}
