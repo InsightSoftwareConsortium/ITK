@@ -313,11 +313,12 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  Keeping in mind that the scale of units in rotation and translation is
-  //  quite different, we take advantage of the scaling functionality
-  //  provided by the optimizers. We know that the first element of the
-  //  parameters array corresponds to the angle. For this reason we use small
-  //  factors in the scales associated with translations and the rotation
-  //  center.
+  //  quite different, we take advantage of the scaling functionality provided
+  //  by the optimizers. We know that the first element of the parameters array
+  //  corresponds to the angle that is measured in radians, while the other
+  //  parameters correspond to translations that are measured in millimeters.
+  //  For this reason we use small factors in the scales associated with
+  //  translations and the rotation center coordinates.
   //
   //  Software Guide : EndLatex 
 
@@ -340,9 +341,14 @@ int main( int argc, char *argv[] )
   //  
   //  Next we set the normal parameters of the optimization method. In this
   //  case we are using an \doxygen{RegularStepGradientDescentOptimizer}.
-  //  Below, we define the optimization parameters like initial step length,
-  //  minimal step length and number of iterations. These last two act as
-  //  stopping criteria for the optimization.
+  //  Below, we define the optimization parameters like the relaxation factor,
+  //  initial step length, minimal step length and number of iterations. These
+  //  last two act as stopping criteria for the optimization.
+  //
+  //  \index{Regular\-Step\-Gradient\-Descent\-Optimizer!SetRelaxationFactor()}
+  //  \index{Regular\-Step\-Gradient\-Descent\-Optimizer!SetMaximumStepLength()}
+  //  \index{Regular\-Step\-Gradient\-Descent\-Optimizer!SetMinimumStepLength()}
+  //  \index{Regular\-Step\-Gradient\-Descent\-Optimizer!SetNumberOfIterations()}
   //
   //  Software Guide : EndLatex 
 
@@ -410,27 +416,28 @@ int main( int argc, char *argv[] )
   //  \end{itemize}
   //
   //  The second image is the result of intentionally rotating the first image
-  //  by $10$ degrees. Both images have unit-spacing and are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration5}. The registration takes $16$
+  //  by $10$ degrees around the geometrical center of the image. Both images
+  //  have unit-spacing and are shown in Figure
+  //  \ref{fig:FixedMovingImageRegistration5}. The registration takes $20$
   //  iterations and produces the results:
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [0.177491, 110.487, 128.489, 0.0111713, 0.00250842]
+  //  [0.177458, 110.489, 128.488, 0.0106296, 0.00194103]
   //  \end{verbatim}
   //  \end{center}
   //
   //  These results are interpreted as
   //
   //  \begin{itemize}
-  //  \item Angle         =                     $0.177491$   radians
-  //  \item Center        = $( 110.487     , 128.489      )$ millimeters
-  //  \item Translation   = $(   0.0111713,   0.00250842 )$ millimeters
+  //  \item Angle         =                  $0.177458$     radians
+  //  \item Center        = $( 110.489    , 128.488      )$ millimeters
+  //  \item Translation   = $(   0.0106296,   0.00194103 )$ millimeters
   //  \end{itemize}
   // 
-  //  As expected, these values match the misalignment
-  //  intentionally introduced into the moving image quite well, since $10$ degrees is
-  //  about $0.174532$ radians.
+  //  As expected, these values match the misalignment intentionally introduced
+  //  into the moving image quite well, since $10$ degrees is about $0.174532$
+  //  radians.
   //
   // \begin{figure}
   // \center
@@ -454,11 +461,12 @@ int main( int argc, char *argv[] )
   // \label{fig:ImageRegistration5Outputs}
   // \end{figure}
   //
-  // Figure \ref{fig:ImageRegistration5Outputs} shows the output of the
-  // registration. The rightmost image of this figure shows the squared
-  // magnitude difference between the fixed image and the resampled
-  // moving image. It can be seen on the difference image that the rotational
-  // component has been solved but that the centering misalignment persists.
+  // Figure \ref{fig:ImageRegistration5Outputs} shows from left to right the
+  // resampled moving image after registration, the difference between fixed
+  // and moving images before registration, and the difference between fixed
+  // and resampled moving image after registration. It can be seen from the
+  // last difference image that the rotational component has been solved but
+  // that a small centering misalignment persists.
   //
   // \begin{figure}
   // \center
@@ -582,6 +590,9 @@ int main( int argc, char *argv[] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
+
+
+
 
 
   //  Software Guide : BeginLatex
