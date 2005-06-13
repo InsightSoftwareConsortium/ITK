@@ -25,7 +25,7 @@ MetaCommand::MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2005-05-06 20:20:14 $ cvs command */
+/** Extract the date from the $Date: 2005-06-13 16:23:12 $ cvs command */
 std::string MetaCommand::ExtractDateFromCVS(std::string date)
 {
   std::string newdate;
@@ -520,6 +520,11 @@ void MetaCommand::ListOptionsSimplified()
         else
           {
           std::cout << "] ";
+          }
+
+        if((*itField).value.size() > 0)
+          {
+          std::cout << "(" << (*itField).value << ")";
           }
         }
       itField++;
