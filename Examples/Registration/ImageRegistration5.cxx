@@ -18,6 +18,23 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySliceBorder20.png}
+//    INPUTS: {BrainProtonDensitySliceRotated10.png}
+//    OUTPUTS: {ImageRegistration5Output.png}
+//    OUTPUTS: {ImageRegistration5DifferenceAfter.png}
+//    OUTPUTS: {ImageRegistration5DifferenceBefore.png}
+//  Software Guide : EndCommandLineArgs
+
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySliceBorder20.png}
+//    INPUTS: {BrainProtonDensitySliceR10X13Y17.png}
+//    OUTPUTS: {ImageRegistration5Output2.png}
+//    OUTPUTS: {ImageRegistration5DifferenceAfter2.png}
+//    OUTPUTS: {ImageRegistration5DifferenceBefore2.png}
+//  Software Guide : EndCommandLineArgs
+
+
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{CenteredRigid2DTransform}
@@ -56,8 +73,8 @@
 #include "itkImageFileWriter.h"
 
 #include "itkResampleImageFilter.h"
-#include "itkCastImageFilter.h"
-#include "itkSquaredDifferenceImageFilter.h"
+#include "itkSubtractImageFilter.h"
+#include "itkRescaleIntensityImageFilter.h"
 
 
 //  The following section of code implements a Command observer
@@ -104,13 +121,13 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << " outputImagefile  [differenceOutputfile] ";
+    std::cerr << " outputImagefile  [differenceAfterRegistration] ";
     std::cerr << " [differenceBeforeRegistration] "<< std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   
   const    unsigned int    Dimension = 2;
-  typedef  float           PixelType;
+  typedef  unsigned char   PixelType;
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
@@ -204,7 +221,11 @@ int main( int argc, char *argv[] )
   movingImageReader->Update();
   // Software Guide : EndCodeSnippet
 
-  
+  typedef FixedImageType::SpacingType    SpacingType;
+  typedef FixedImageType::PointType      OriginType;
+  typedef FixedImageType::RegionType     RegionType;
+  typedef FixedImageType::SizeType       SizeType;
+
   //  Software Guide : BeginLatex
   //  
   //  The center of rotation is computed using the origin, size and spacing of
@@ -215,13 +236,10 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
-  const FixedImageType::SpacingType& 
-    fixedSpacing = fixedImage->GetSpacing();
-  const FixedImageType::PointType&
-    fixedOrigin  = fixedImage->GetOrigin();
-  
-  FixedImageType::SizeType fixedSize  = 
-          fixedImage->GetLargestPossibleRegion().GetSize();
+  const SpacingType fixedSpacing = fixedImage->GetSpacing();
+  const OriginType  fixedOrigin  = fixedImage->GetOrigin();
+  const RegionType  fixedRegion  = fixedImage->GetLargestPossibleRegion(); 
+  const SizeType    fixedSize    = fixedRegion.GetSize();
   
   TransformType::InputPointType centerFixed;
   
@@ -239,13 +257,10 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
 
-  const MovingImageType::SpacingType&
-    movingSpacing = movingImage->GetSpacing();
-  const MovingImageType::PointType&
-    movingOrigin = movingImage->GetOrigin();
-  
-  MovingImageType::SizeType movingSize = 
-            movingImage->GetLargestPossibleRegion().GetSize();
+  const SpacingType movingSpacing = movingImage->GetSpacing();
+  const OriginType  movingOrigin  = movingImage->GetOrigin();
+  const RegionType  movingRegion  = movingImage->GetLargestPossibleRegion();
+  const SizeType    movingSize    = movingRegion.GetSize();
   
   TransformType::InputPointType centerMoving;
   
@@ -332,7 +347,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( 0.1    ); 
+  optimizer->SetRelaxationFactor( 0.6 );
+  optimizer->SetMaximumStepLength( 0.100 ); 
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 200 );
   // Software Guide : EndCodeSnippet
@@ -351,7 +367,7 @@ int main( int argc, char *argv[] )
     { 
     std::cerr << "ExceptionObject caught !" << std::endl; 
     std::cerr << err << std::endl; 
-    return -1;
+    return EXIT_FAILURE;
     } 
   
   OptimizerType::ParametersType finalParameters = 
@@ -482,59 +498,89 @@ int main( int argc, char *argv[] )
   resample->SetOutputSpacing( fixedImage->GetSpacing() );
   resample->SetDefaultPixelValue( 100 );
   
+  typedef itk::ImageFileWriter< FixedImageType >  WriterFixedType;
+
+  WriterFixedType::Pointer      writer =  WriterFixedType::New();
+
+  writer->SetFileName( argv[3] );
+
+  writer->SetInput( resample->GetOutput()   );
+
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    { 
+    std::cerr << "ExceptionObject while writing the resampled image !" << std::endl; 
+    std::cerr << excp << std::endl; 
+    return EXIT_FAILURE;
+    } 
+
+
+
+  typedef itk::Image< float, Dimension > DifferenceImageType;
+
+  typedef itk::SubtractImageFilter< 
+                           FixedImageType, 
+                           FixedImageType, 
+                           DifferenceImageType > DifferenceFilterType;
+
+  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+
   typedef  unsigned char  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   
-  typedef itk::CastImageFilter< 
-                        FixedImageType,
-                        OutputImageType > CastFilterType;
-                    
+  typedef itk::RescaleIntensityImageFilter< 
+                                  DifferenceImageType, 
+                                  OutputImageType >   RescalerType;
+
+  RescalerType::Pointer intensityRescaler = RescalerType::New();
+
+  intensityRescaler->SetOutputMinimum(   0 );
+  intensityRescaler->SetOutputMaximum( 255 );
+
+  difference->SetInput1( fixedImageReader->GetOutput() );
+  difference->SetInput2( resample->GetOutput() );
+
+  resample->SetDefaultPixelValue( 1 );
+
+  intensityRescaler->SetInput( difference->GetOutput() );  
+
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
+  WriterType::Pointer      writer2 =  WriterType::New();
 
-  WriterType::Pointer      writer =  WriterType::New();
-  CastFilterType::Pointer  caster =  CastFilterType::New();
-
-
-  writer->SetFileName( argv[3] );
+  writer2->SetInput( intensityRescaler->GetOutput() );
 
 
-  caster->SetInput( resample->GetOutput() );
-  writer->SetInput( caster->GetOutput()   );
-  writer->Update();
-
-
-  typedef itk::SquaredDifferenceImageFilter< 
-                                  FixedImageType, 
-                                  FixedImageType, 
-                                  OutputImageType > DifferenceFilterType;
-
-  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
-
-  WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( difference->GetOutput() );  
-  
-
-  // Compute the difference image between the 
-  // fixed and resampled moving image.
-  if( argc >= 5 )
+  try
     {
-    difference->SetInput1( fixedImageReader->GetOutput() );
-    difference->SetInput2( resample->GetOutput() );
-    writer2->SetFileName( argv[4] );
-    writer2->Update();
+    // Compute the difference image between the 
+    // fixed and moving image after registration.
+    if( argc > 4 )
+      {
+      writer2->SetFileName( argv[4] );
+      writer2->Update();
+      }
+
+    // Compute the difference image between the 
+    // fixed and resampled moving image after registration.
+    TransformType::Pointer identityTransform = TransformType::New();
+    identityTransform->SetIdentity();
+    resample->SetTransform( identityTransform );
+    if( argc > 5 )
+      {
+      writer2->SetFileName( argv[5] );
+      writer2->Update();
+      }
     }
-
-
-  // Compute the difference image between the 
-  // fixed and moving image before registration.
-  if( argc >= 6 )
+  catch( itk::ExceptionObject & excp )
     {
-    writer2->SetFileName( argv[5] );
-    difference->SetInput1( fixedImageReader->GetOutput() );
-    difference->SetInput2( movingImageReader->GetOutput() );
-    writer2->Update();
+    std::cerr << "Error while writing difference images" << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
     }
 
 
@@ -630,6 +676,6 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
