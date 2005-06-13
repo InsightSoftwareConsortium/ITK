@@ -24,6 +24,7 @@
 //    OUTPUTS: {ImageRegistration5Output.png}
 //    OUTPUTS: {ImageRegistration5DifferenceAfter.png}
 //    OUTPUTS: {ImageRegistration5DifferenceBefore.png}
+//    0.1
 //  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginCommandLineArgs
@@ -32,6 +33,7 @@
 //    OUTPUTS: {ImageRegistration5Output2.png}
 //    OUTPUTS: {ImageRegistration5DifferenceAfter2.png}
 //    OUTPUTS: {ImageRegistration5DifferenceBefore2.png}
+//    1.0
 //  Software Guide : EndCommandLineArgs
 
 
@@ -122,7 +124,8 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << " outputImagefile  [differenceAfterRegistration] ";
-    std::cerr << " [differenceBeforeRegistration] "<< std::endl;
+    std::cerr << " [differenceBeforeRegistration] ";
+    std::cerr << " [initialStepLength] "<< std::endl;
     return EXIT_FAILURE;
     }
   
@@ -353,8 +356,17 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
+  double initialStepLength = 0.1;
+  // Software Guide : EndCodeSnippet
+
+  if( argc > 6 )
+    {
+    initialStepLength = atof( argv[6] );
+    }
+
+  // Software Guide : BeginCodeSnippet
   optimizer->SetRelaxationFactor( 0.6 );
-  optimizer->SetMaximumStepLength( 0.100 ); 
+  optimizer->SetMaximumStepLength( initialStepLength ); 
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 200 );
   // Software Guide : EndCodeSnippet
@@ -614,27 +626,27 @@ int main( int argc, char *argv[] )
   //
   //  \code{optimizer->SetMaximumStepLength( 1.0 );}
   //
-  //  The registration now takes $92$ iterations and produces the following
+  //  The registration now takes $46$ iterations and produces the following
   //  results:
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [0.174474, 109.658, 129.124, 12.9044, 15.8459]
+  //  [0.174454, 110.361, 128.647, 12.977, 15.9761]
   //  \end{verbatim}
   //  \end{center}
   //
   //  These are interpreted as
   //
   //  \begin{itemize}
-  //  \item Angle         =                     $0.174474$   radians
-  //  \item Center        = $( 109.658     , 129.124      )$ millimeters
-  //  \item Translation   = $(  12.9044    ,  15.8459     )$ millimeters
+  //  \item Angle         =                     $0.174454$   radians
+  //  \item Center        = $( 110.361     , 128.647      )$ millimeters
+  //  \item Translation   = $(  12.977     ,  15.9761     )$ millimeters
   //  \end{itemize}
   //  
   //  These values approximately match the initial misalignment intentionally
   //  introduced into the moving image, since $10$ degrees is about $0.174532$
   //  radians. The horizontal translation is well resolved while the vertical
-  //  translation ends up being off by a bit more than one millimeter.
+  //  translation ends up being off by about one millimeter.
   //
   // \begin{figure}
   // \center
