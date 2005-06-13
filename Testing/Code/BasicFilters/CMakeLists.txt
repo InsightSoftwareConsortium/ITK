@@ -232,6 +232,7 @@ ADD_TEST(itkOrientImageFilterTest2 ${BASIC_FILTERS_TESTS} itkOrientImageFilterTe
 
 ADD_TEST(itkTriangleMeshToBinaryImageFilterTest ${BASIC_FILTERS_TESTS3} itkTriangleMeshToBinaryImageFilterTest)
 
+ADD_TEST(itkTriangleMeshToBinaryImageFilterTest2 ${BASIC_FILTERS_TESTS3} itkTriangleMeshToBinaryImageFilterTest2)
 IF(ITK_DATA_ROOT)
 ADD_TEST(itkAdaptiveHistogramEqualizationImageFilterTest ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AdaptiveHistogramEqualizationImageFilterTest.png
@@ -772,6 +773,7 @@ itkXorImageFilterTest.cxx
 itkZeroCrossingBasedEdgeDetectionImageFilterTest.cxx
 itkZeroCrossingImageFilterTest.cxx
 itkTriangleMeshToBinaryImageFilterTest.cxx
+itkTriangleMeshToBinaryImageFilterTest2.cxx
 )
 
 ADD_TEST(itkBasicFiltersHeaderTest ${BASIC_FILTERS_HEADER_TEST})
