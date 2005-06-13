@@ -56,7 +56,13 @@ public:
 
   /** Output type for the function */
   typedef typename Superclass::OutputType OutputType;
-
+  
+  /** Rotate the frustum in the XZ or the YZ plane */
+  typedef enum{ 
+    RotateInXZPlane=1,
+    RotateInYZPlane
+  } FrustumRotationPlaneType;
+ 
   /** Evaluates the function at a given position */
   OutputType Evaluate(const InputType& position) const;
 
@@ -84,7 +90,10 @@ public:
   /** Get and set the bottom plane distance to the Apex */
   itkGetMacro( BottomPlane, double);
   itkSetMacro( BottomPlane, double);
-       
+  
+ /** Set macro to set the plane in which the frustum should rotate */
+  itkSetMacro( RotationPlane, FrustumRotationPlaneType );
+     
 protected:
   FrustumSpatialFunction();
   virtual ~FrustumSpatialFunction();
@@ -111,6 +120,9 @@ private:
 
   /** Distance from Apex to bottom plane */
   double m_BottomPlane;
+
+  /** Plane in which to the frustum is being rotated */
+  FrustumRotationPlaneType m_RotationPlane;
 
 };
 

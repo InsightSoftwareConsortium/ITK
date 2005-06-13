@@ -34,6 +34,7 @@ FrustumSpatialFunction<VImageDimension,TInput>::FrustumSpatialFunction()
   m_ApertureAngleY = 0.0;
   m_TopPlane = 0.0;
   m_BottomPlane = 0.0;
+  m_RotationPlane = RotateInXZPlane;
 
 }
 
@@ -48,46 +49,93 @@ typename FrustumSpatialFunction<VImageDimension,TInput>::OutputType
 FrustumSpatialFunction<VImageDimension,TInput>
 ::Evaluate(const InputType& position) const
 {
-    
+  
   typedef InputType PointType;
   typedef typename PointType::VectorType VectorType;
 
   VectorType relativePosition = position - m_Apex;
   const double distanceToApex = relativePosition.GetNorm();
  
-  // Check Top and Bottom planes
-  if( distanceToApex < m_TopPlane ||
-      distanceToApex > m_BottomPlane )
+  // Check Top and Bottom planes.. If the angle is negative, the 
+  // top plane may be less than the bottom plane, but is ok.
+  if( m_TopPlane <= m_BottomPlane )
     {
-    return 0;
+    if( distanceToApex < m_TopPlane ||
+        distanceToApex > m_BottomPlane )
+      {
+      return 0;
+      }
     }
-
-  const double dx = relativePosition[0];
-  const double dy = relativePosition[1];
-  const double dz = relativePosition[2];
-
-  const double distanceXZ = sqrt( dx * dx + dz * dz );
-
-  const double deg2rad = atan( 1.0f ) / 45.0;
-
-  //  Check planes along Y
-  const double angleY = atan2( dy, distanceXZ );
-  if( fabs( angleY ) > m_ApertureAngleY * deg2rad )
+  else
+  {
+    if( distanceToApex > m_TopPlane ||
+        distanceToApex < m_BottomPlane )
+      {
+      return 0;
+      }
+    }
+ 
+  if( m_RotationPlane == RotateInXZPlane )
     {
-    return 0;
-    }
+    const double dx = relativePosition[0];
+    const double dy = relativePosition[1];
+    const double dz = relativePosition[2];
 
-  //  Check planes along X
-  const double angleX = atan2( dx, dz );
-    
-  if( cos( angleX  + ( 180.0 + m_AngleZ ) * deg2rad )  < 
-      cos( deg2rad * m_ApertureAngleX ) )
+    const double distanceXZ = sqrt( dx * dx + dz * dz );
+
+    const double deg2rad = atan( 1.0f ) / 45.0;
+
+    //  Check planes along Y
+    const double angleY = atan2( dy, distanceXZ );
+    if( fabs( angleY ) > m_ApertureAngleY * deg2rad )
+      {
+      return 0;
+      }
+
+    //  Check planes along X
+    const double angleX = atan2( dx, dz );
+      
+    if( cos( angleX  + ( 180.0 + m_AngleZ ) * deg2rad )  < 
+        cos( deg2rad * m_ApertureAngleX ) )
+      {
+      return 0;
+      }
+
+    return 1;
+    }
+  else if( m_RotationPlane == RotateInYZPlane )
     {
-    return 0;
-    }
+    const double dx = relativePosition[0];
+    const double dy = relativePosition[1];
+    const double dz = relativePosition[2];
 
-  return 1;
-  
+    const double distanceYZ = sqrt( dy * dy + dz * dz );
+
+    const double deg2rad = atan( 1.0f ) / 45.0;
+
+    //  Check planes along X
+    const double angleX = atan2( dx, distanceYZ );
+    if( fabs( angleX ) > m_ApertureAngleX * deg2rad )
+      {
+      return 0;
+      }
+
+    //  Check planes along Y
+    const double angleY = atan2( dy, dz );
+      
+    if( cos( angleY  + ( 180.0 + m_AngleZ ) * deg2rad )  < 
+        cos( deg2rad * m_ApertureAngleY ) )
+      {
+      return 0;
+      }
+
+    return 1;
+    }  
+  else 
+    {
+    itkExceptionMacro( << "Rotation plane not set!" );
+    }
+  return 0;
 }
 
 template <unsigned int VImageDimension,typename TInput>
@@ -103,6 +151,7 @@ PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "ApertureAngleY: " << m_ApertureAngleY << std::endl;
   os << indent << "TopPlane: " << m_TopPlane << std::endl;
   os << indent << "BottomPlane: " << m_BottomPlane << std::endl;
+  os << indent << "RotationPlane: " << m_RotationPlane << std::endl;
 }
 } // end namespace itk
 
