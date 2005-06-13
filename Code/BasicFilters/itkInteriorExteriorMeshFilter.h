@@ -18,6 +18,7 @@
 #define __itkInteriorExteriorMeshFilter_h
 
 #include "itkMeshToMeshFilter.h"
+#include "itkDataObjectDecorator.h"
 
 namespace itk
 {
@@ -39,7 +40,7 @@ namespace itk
  * However, attention should be paid to the cells because some of their points
  * could not exist in the output mesh, if they did not satisfy the criterion
  * imposed by the spatial function.
- * 
+ *
  * \ingroup MeshFilters
  */
 template <class TInputMesh, class TOutputMesh, class TSpatialFunction >
@@ -75,6 +76,12 @@ public:
 
   /** Get the spatial function. */
   itkGetObjectMacro( SpatialFunction, SpatialFunctionType ); 
+
+  typedef DataObjectDecorator< SpatialFunctionType > 
+                              SpatialFunctionDataObjectType;
+  typedef typename SpatialFunctionDataObjectType::Pointer 
+                           SpatialFunctionDataObjectPointer;
+  
 
 protected:
   InteriorExteriorMeshFilter();

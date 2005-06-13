@@ -33,6 +33,10 @@ InteriorExteriorMeshFilter<TInputMesh,TOutputMesh,TSpatialFunction>
 ::InteriorExteriorMeshFilter()
 {
   m_SpatialFunction = SpatialFunctionType::New();
+  SpatialFunctionDataObjectPointer spatialFunctionObject = 
+                      SpatialFunctionDataObjectType::New();
+  spatialFunctionObject->Set( m_SpatialFunction );
+  this->ProcessObject::SetNthInput( 1, spatialFunctionObject ); 
 }
 
 
