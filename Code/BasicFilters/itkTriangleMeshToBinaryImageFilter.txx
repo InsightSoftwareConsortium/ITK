@@ -454,6 +454,9 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
     
     switch (nextCell->GetType())
       {
+      case CellType::VERTEX_CELL:
+      case CellType::LINE_CELL:
+      break;
       case CellType::TRIANGLE_CELL:
       case CellType::POLYGON_CELL:
       {
