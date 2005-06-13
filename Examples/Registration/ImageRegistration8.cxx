@@ -466,8 +466,6 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  THESE IMAGES MUST BE UPDATED FOR THE NEXT EDITION OF THE SOFTWARE GUIDE.
-  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
