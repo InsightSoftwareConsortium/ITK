@@ -94,7 +94,7 @@ Hessian3DToVesselnessMeasureImageFilter< TPixel >
       else
         {
         lineMeasure = 
-          exp( -0.5 * vnl_math_sqr( eigenValue[2] / (m_Alpha1 * normalizeValue)));
+          exp( -0.5 * vnl_math_sqr( eigenValue[2] / (m_Alpha2 * normalizeValue)));
         }
       
       lineMeasure *= normalizeValue;
