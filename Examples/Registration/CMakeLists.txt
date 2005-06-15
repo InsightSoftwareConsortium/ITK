@@ -133,9 +133,6 @@ TARGET_LINK_LIBRARIES(ModelToImageRegistration1 ITKStatistics ITKNumerics ITKIO)
 ADD_EXECUTABLE(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
 TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
 
-ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter ITKNumerics ITKIO ITKCommon)
-
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
 ADD_TEST(ImageRegistration1oTest ${REGISTRATION_EXAMPLESO}
@@ -291,6 +288,9 @@ ADD_TEST(ImageRegistration10Test ${REGISTRATION_EXAMPLES8}
 )
 
 IF( NOT BORLAND )
+
+  ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
+  TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter ITKNumerics ITKIO ITKCommon)
 
 ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13Test.png
