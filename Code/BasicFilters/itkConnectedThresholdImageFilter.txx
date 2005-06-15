@@ -246,9 +246,6 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
   m_Lower = lowerThreshold->Get();
   m_Upper = upperThreshold->Get();
 
-std::cout << "Lower = " << m_Lower << std::endl;
-std::cout << "Upper = " << m_Upper << std::endl;
-
   // Zero the output
   OutputImageRegionType region =  outputImage->GetRequestedRegion();
   outputImage->SetBufferedRegion( region );
