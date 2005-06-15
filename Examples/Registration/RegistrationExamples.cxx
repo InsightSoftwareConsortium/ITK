@@ -15,9 +15,6 @@ void RegisterTests()
   REGISTER_TEST(ImageRegistration2Test);
   REGISTER_TEST(ImageRegistration3Test);
   REGISTER_TEST(ImageRegistration4Test);
-  REGISTER_TEST(ImageRegistration5Test);
-  REGISTER_TEST(ImageRegistration6Test);
-  REGISTER_TEST(ImageRegistration7Test);
 }
 
 #undef main
@@ -43,24 +40,3 @@ void RegisterTests()
 #undef CommandIterationUpdate
 #define CommandIterationUpdate CommandIterationUpdate6
 #include "ImageRegistration4.cxx"
-
-#undef main
-#define main  ImageRegistration5Test
-#undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate7
-#include "ImageRegistration5.cxx"
-
-#undef main
-#define main  ImageRegistration6Test
-#undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate8
-#include "ImageRegistration6.cxx"
-
-#undef main
-#define main  ImageRegistration7Test
-#undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate9
-#include "ImageRegistration7.cxx"
-
-
-

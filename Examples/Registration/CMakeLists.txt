@@ -13,6 +13,7 @@ SET(REGISTRATION_EXAMPLES5 ${CXX_TEST_PATH}/RegistrationExamples5)
 SET(REGISTRATION_EXAMPLES6 ${CXX_TEST_PATH}/RegistrationExamples6)
 SET(REGISTRATION_EXAMPLES7 ${CXX_TEST_PATH}/RegistrationExamples7)
 SET(REGISTRATION_EXAMPLES8 ${CXX_TEST_PATH}/RegistrationExamples8)
+SET(REGISTRATION_EXAMPLES9 ${CXX_TEST_PATH}/RegistrationExamples9)
 
 ADD_EXECUTABLE(ImageRegistration3 ImageRegistration3.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration3 ITKNumerics ITKIO)
@@ -242,7 +243,7 @@ ADD_TEST(ImageRegistration4Test ${REGISTRATION_EXAMPLES}
         ${TEMP}/ImageRegistration4AfterTest.png
 )
 
-ADD_TEST(ImageRegistration5Test1 ${REGISTRATION_EXAMPLES}
+ADD_TEST(ImageRegistration5Test1 ${REGISTRATION_EXAMPLES9}
   --compare ${BASELINE}/ImageRegistration5Test1.png
             ${TEMP}/ImageRegistration5Test1.png
   ImageRegistration5Test
@@ -251,7 +252,7 @@ ADD_TEST(ImageRegistration5Test1 ${REGISTRATION_EXAMPLES}
         ${TEMP}/ImageRegistration5Test1.png
 )
 
-ADD_TEST(ImageRegistration5Test2 ${REGISTRATION_EXAMPLES}
+ADD_TEST(ImageRegistration5Test2 ${REGISTRATION_EXAMPLES9}
   --compare ${BASELINE}/ImageRegistration5Test2.png
             ${TEMP}/ImageRegistration5Test2.png
   ImageRegistration5Test
@@ -260,7 +261,7 @@ ADD_TEST(ImageRegistration5Test2 ${REGISTRATION_EXAMPLES}
         ${TEMP}/ImageRegistration5Test2.png
 )
 
-ADD_TEST(ImageRegistration6Test ${REGISTRATION_EXAMPLES}
+ADD_TEST(ImageRegistration6Test ${REGISTRATION_EXAMPLES9}
   --compare ${BASELINE}/ImageRegistration6Test.png
             ${TEMP}/ImageRegistration6Test.png
   ImageRegistration6Test
@@ -457,6 +458,9 @@ TARGET_LINK_LIBRARIES(RegistrationExamples6 ITKAlgorithms ITKFEM ITKStatistics I
 
 ADD_EXECUTABLE(RegistrationExamples8 RegistrationExamples8.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples8 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(RegistrationExamples9 RegistrationExamples9.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamples9 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
