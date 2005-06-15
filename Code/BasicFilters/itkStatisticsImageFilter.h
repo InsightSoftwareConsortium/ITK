@@ -69,7 +69,7 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension ) ;
 
-  /** Type to use form computations. */
+  /** Type to use for computations. */
   typedef typename NumericTraits<PixelType>::RealType RealType;
 
   /** Smart Pointer type to a DataObject. */

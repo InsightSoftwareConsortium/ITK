@@ -29,13 +29,20 @@ template<class TInputImage>
 StatisticsImageFilter<TInputImage>
 ::StatisticsImageFilter(): m_ThreadSum(1), m_SumOfSquares(1), m_Count(1), m_ThreadMin(1), m_ThreadMax(1)
 {
-  this->SetNumberOfRequiredOutputs(7);
   // first output is a copy of the image, DataObject created by
   // superclass
   //
-  // allocate the data objects for the remaining outputs which are
-  // just decorators around floating point types
-  for (int i=1; i < 7; ++i)
+  // allocate the data objects for the outputs which are
+  // just decorators around pixel types
+  for (int i=1; i < 3; ++i)
+    {
+    typename PixelObjectType::Pointer output
+      = static_cast<PixelObjectType*>(this->MakeOutput(i).GetPointer());
+    this->ProcessObject::SetNthOutput(i, output.GetPointer());
+    }
+  // allocate the data objects for the outputs which are
+  // just decorators around real types
+  for (int i=3; i < 7; ++i)
     {
     typename RealObjectType::Pointer output
       = static_cast<RealObjectType*>(this->MakeOutput(i).GetPointer());
@@ -62,7 +69,11 @@ StatisticsImageFilter<TInputImage>
       return static_cast<DataObject*>(TInputImage::New().GetPointer());
       break;
     case 1:
+      return static_cast<DataObject*>(PixelObjectType::New().GetPointer());
+      break;
     case 2:
+      return static_cast<DataObject*>(PixelObjectType::New().GetPointer());
+      break;
     case 3:
     case 4:
     case 5:
@@ -321,8 +332,8 @@ StatisticsImageFilter<TInputImage>
       m_ThreadMax[threadId] = value;
       }
     
-    m_ThreadSum[threadId] += value;
-    m_SumOfSquares[threadId] += (value * value);
+    m_ThreadSum[threadId] += realValue;
+    m_SumOfSquares[threadId] += (realValue * realValue);
     m_Count[threadId]++;
     ++it;
     progress.CompletedPixel();
@@ -336,8 +347,10 @@ StatisticsImageFilter<TImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Minimum: "  << this->GetMinimum() << std::endl;
-  os << indent << "Maximum: "  << this->GetMaximum() << std::endl;
+  os << indent << "Minimum: "
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMinimum()) << std::endl;
+  os << indent << "Maximum: "
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMaximum()) << std::endl;
   os << indent << "Sum: "      << this->GetSum() << std::endl;
   os << indent << "Mean: "     << this->GetMean() << std::endl;
   os << indent << "Sigma: "    << this->GetSigma() << std::endl;
