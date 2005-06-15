@@ -159,7 +159,7 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>
   // (the current input could be the output of another filter or the
   // current input could be used as an input to several filters)
   lower = InputPixelObjectType::New();
-  this->ProcessObject::SetNthInput(2, lower);
+  this->ProcessObject::SetNthInput(1, lower);
 
   lower->Set(threshold);
   this->Modified();
