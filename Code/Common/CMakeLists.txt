@@ -79,14 +79,17 @@ ENDIF (WIN32)
 
 # Instantiations not provided by vnl but used by ITK.
 ADD_LIBRARY(itkvnl_inst
+  vnl_c_vector+short-.cxx
   vnl_c_vector+ushort-.cxx
   vnl_matrix+ushort-.cxx
+  vnl_matrix+short-.cxx
   vnl_matrix_fixed+double.3.12-.cxx
   vnl_matrix_fixed_ref+double.2.2-.cxx
   vnl_matrix_fixed_ref+double.2.3-.cxx
   vnl_matrix_fixed_ref+double.3.12-.cxx
   vnl_matrix_fixed_ref+double.4.3-.cxx
   vnl_matrix_fixed_ref+double.4.4-.cxx
+  vnl_vector+short-.cxx
   vnl_vector+ushort-.cxx
   )
 TARGET_LINK_LIBRARIES (itkvnl_inst ${VXL_NUMERICS_LIBRARIES})
