@@ -8,7 +8,7 @@
 #include <testlib/testlib_test.h>
 
 void test_inverse() {
-  double eps = 1e-11;
+  double eps = 1e-10;
 
   {
     vnl_double_2x2 id2; id2.set_identity();
