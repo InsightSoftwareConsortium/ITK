@@ -76,19 +76,20 @@ public:
   typedef typename DataObject::Pointer DataObjectPointer;
 
   /** Type of DataObjects used for scalar outputs */
-  typedef SimpleDataObjectDecorator<RealType> RealObjectType;
+  typedef SimpleDataObjectDecorator<RealType>  RealObjectType;
+  typedef SimpleDataObjectDecorator<PixelType> PixelObjectType;
   
   /** Return the computed Minimum. */
-  RealType GetMinimum() const
+  PixelType GetMinimum() const
     { return this->GetMinimumOutput()->Get(); }
-  RealObjectType* GetMinimumOutput();
-  const RealObjectType* GetMinimumOutput() const;
+  PixelObjectType* GetMinimumOutput();
+  const PixelObjectType* GetMinimumOutput() const;
   
   /** Return the computed Maximum. */
-  RealType GetMaximum() const
+  PixelType GetMaximum() const
     { return this->GetMaximumOutput()->Get(); }
-  RealObjectType* GetMaximumOutput();
-  const RealObjectType* GetMaximumOutput() const;
+  PixelObjectType* GetMaximumOutput();
+  const PixelObjectType* GetMaximumOutput() const;
 
   /** Return the computed Mean. */
   RealType GetMean() const
@@ -147,11 +148,11 @@ private:
   StatisticsImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  Array<RealType> m_ThreadSum;
-  Array<RealType> m_SumOfSquares;
-  Array<long>     m_Count;
-  Array<RealType> m_ThreadMin;
-  Array<RealType> m_ThreadMax;
+  Array<RealType>  m_ThreadSum;
+  Array<RealType>  m_SumOfSquares;
+  Array<long>      m_Count;
+  Array<PixelType> m_ThreadMin;
+  Array<PixelType> m_ThreadMax;
 
 } ; // end of class
 

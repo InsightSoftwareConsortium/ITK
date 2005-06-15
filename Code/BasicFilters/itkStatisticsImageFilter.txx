@@ -42,8 +42,8 @@ StatisticsImageFilter<TInputImage>
     this->ProcessObject::SetNthOutput(i, output.GetPointer());
     }
 
-  this->GetMinimumOutput()->Set( NumericTraits<RealType>::max() );
-  this->GetMaximumOutput()->Set( NumericTraits<RealType>::NonpositiveMin() );
+  this->GetMinimumOutput()->Set( NumericTraits<PixelType>::max() );
+  this->GetMaximumOutput()->Set( NumericTraits<PixelType>::NonpositiveMin() );
   this->GetMeanOutput()->Set( NumericTraits<RealType>::max() );
   this->GetSigmaOutput()->Set( NumericTraits<RealType>::max() );
   this->GetVarianceOutput()->Set( NumericTraits<RealType>::max() );
@@ -78,36 +78,36 @@ StatisticsImageFilter<TInputImage>
 
 
 template<class TInputImage>
-typename StatisticsImageFilter<TInputImage>::RealObjectType*
+typename StatisticsImageFilter<TInputImage>::PixelObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetMinimumOutput()
 {
-  return static_cast<RealObjectType*>(this->ProcessObject::GetOutput(1));
+  return static_cast<PixelObjectType*>(this->ProcessObject::GetOutput(1));
 }
 
 template<class TInputImage>
-const typename StatisticsImageFilter<TInputImage>::RealObjectType*
+const typename StatisticsImageFilter<TInputImage>::PixelObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetMinimumOutput() const
 {
-  return static_cast<const RealObjectType*>(this->ProcessObject::GetOutput(1));
+  return static_cast<const PixelObjectType*>(this->ProcessObject::GetOutput(1));
 }
 
 
 template<class TInputImage>
-typename StatisticsImageFilter<TInputImage>::RealObjectType*
+typename StatisticsImageFilter<TInputImage>::PixelObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetMaximumOutput()
 {
-  return static_cast<RealObjectType*>(this->ProcessObject::GetOutput(2));
+  return static_cast<PixelObjectType*>(this->ProcessObject::GetOutput(2));
 }
 
 template<class TInputImage>
-const typename StatisticsImageFilter<TInputImage>::RealObjectType*
+const typename StatisticsImageFilter<TInputImage>::PixelObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetMaximumOutput() const
 {
-  return static_cast<const RealObjectType*>(this->ProcessObject::GetOutput(2));
+  return static_cast<const PixelObjectType*>(this->ProcessObject::GetOutput(2));
 }
 
 
@@ -233,8 +233,8 @@ StatisticsImageFilter<TInputImage>
   m_Count.Fill(NumericTraits<long>::Zero);
   m_ThreadSum.Fill(NumericTraits<RealType>::Zero);
   m_SumOfSquares.Fill(NumericTraits<RealType>::Zero);
-  m_ThreadMin.Fill(NumericTraits<RealType>::max());
-  m_ThreadMax.Fill(NumericTraits<RealType>::NonpositiveMin());
+  m_ThreadMin.Fill(NumericTraits<PixelType>::max());
+  m_ThreadMax.Fill(NumericTraits<PixelType>::NonpositiveMin());
 }
 
 template<class TInputImage>
@@ -248,15 +248,20 @@ StatisticsImageFilter<TInputImage>
     
   int numberOfThreads = this->GetNumberOfThreads();
 
-  RealType minimum, maximum, mean, sigma, variance, sum;
+  PixelType minimum;
+  PixelType maximum;
+  RealType  mean;
+  RealType  sigma;
+  RealType  variance;
+  RealType  sum;
   
   sum = sumOfSquares = NumericTraits<RealType>::Zero;
   count = 0;
 
   // Find the min/max over all threads and accumulate count, sum and
   // sum of squares
-  minimum = NumericTraits<RealType>::max();
-  maximum = NumericTraits<RealType>::NonpositiveMin();
+  minimum = NumericTraits<PixelType>::max();
+  maximum = NumericTraits<PixelType>::NonpositiveMin();
   for( i = 0; i < numberOfThreads; i++)
     {
     count += m_Count[i];
@@ -295,7 +300,8 @@ StatisticsImageFilter<TInputImage>
 ::ThreadedGenerateData(const RegionType& outputRegionForThread,
                        int threadId) 
 {
-  RealType value;
+  RealType realValue;
+  PixelType value;
   ImageRegionConstIterator<TInputImage> it (this->GetInput(), outputRegionForThread);
   
   // support progress methods/callbacks
@@ -304,7 +310,8 @@ StatisticsImageFilter<TInputImage>
   // do the work
   while (!it.IsAtEnd())
     {
-    value = static_cast<RealType>(it.Get());
+    value = it.Get();
+    realValue = static_cast<RealType>( value );
     if (value < m_ThreadMin[threadId])
       {
       m_ThreadMin[threadId] = value;
