@@ -19,6 +19,7 @@
 
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
+#include "itkSimpleDataObjectDecorator.h"
 
 namespace itk{
 
@@ -101,6 +102,15 @@ public:
    *  value. The default is 1. */
   itkSetMacro(ReplaceValue, OutputImagePixelType);
   itkGetMacro(ReplaceValue, OutputImagePixelType);
+
+  /** Type of DataObjects to use for scalar inputs */
+  typedef SimpleDataObjectDecorator<InputImagePixelType> InputPixelObjectType;
+  
+  /** Threshold inputs that are connected to the pipeline */
+  virtual void SetUpperInput( const InputPixelObjectType *);
+  virtual void SetLowerInput( const InputPixelObjectType *);
+  virtual InputPixelObjectType * GetUpperInput();
+  virtual InputPixelObjectType * GetLowerInput();
 
 protected:
   ConnectedThresholdImageFilter();

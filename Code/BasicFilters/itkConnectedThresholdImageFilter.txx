@@ -35,6 +35,15 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>
   m_Lower = NumericTraits<InputImagePixelType>::NonpositiveMin();
   m_Upper = NumericTraits<InputImagePixelType>::max();
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
+
+  typename InputPixelObjectType::Pointer lower = InputPixelObjectType::New();
+  lower->Set( NumericTraits< InputImagePixelType >::NonpositiveMin() );
+  this->ProcessObject::SetNthInput( 1, lower );
+
+  typename InputPixelObjectType::Pointer upper = InputPixelObjectType::New();
+  upper->Set( NumericTraits< InputImagePixelType >::max() );
+  this->ProcessObject::SetNthInput( 2, upper );
+
 }
 
 /**
@@ -83,10 +92,86 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 ConnectedThresholdImageFilter<TInputImage,TOutputImage>
+::SetLowerInput( const InputPixelObjectType * input )
+{
+  if (input != this->GetLowerInput())
+    {
+    this->ProcessObject::SetNthInput(1,
+                                     const_cast<InputPixelObjectType*>(input));
+    this->Modified();
+    }
+}
+
+
+template <class TInputImage, class TOutputImage>
+void 
+ConnectedThresholdImageFilter<TInputImage,TOutputImage>
+::SetUpperInput( const InputPixelObjectType * input )
+{
+  if (input != this->GetUpperInput())
+    {
+    this->ProcessObject::SetNthInput(2,
+                                     const_cast<InputPixelObjectType*>(input));
+    this->Modified();
+    }
+}
+
+template <class TInputImage, class TOutputImage>
+typename ConnectedThresholdImageFilter<TInputImage, TOutputImage>::InputPixelObjectType *
+ConnectedThresholdImageFilter<TInputImage,TOutputImage>
+::GetLowerInput()
+{
+  typename InputPixelObjectType::Pointer lower
+    = static_cast<InputPixelObjectType *>(this->ProcessObject::GetInput(1));
+  if (!lower)
+    {
+    // no input object available, create a new one and set it to the
+    // default threshold
+    lower = InputPixelObjectType::New();
+    lower->Set( NumericTraits<InputImagePixelType>::NonpositiveMin() );
+    this->ProcessObject::SetNthInput( 1, lower );
+    }
+    
+  return lower;
+}
+
+
+template <class TInputImage, class TOutputImage>
+typename ConnectedThresholdImageFilter<TInputImage, TOutputImage>::InputPixelObjectType *
+ConnectedThresholdImageFilter<TInputImage,TOutputImage>
+::GetUpperInput()
+{
+  typename InputPixelObjectType::Pointer upper
+    = static_cast<InputPixelObjectType *>(this->ProcessObject::GetInput(1));
+  if (!upper)
+    {
+    // no input object available, create a new one and set it to the
+    // default threshold
+    upper = InputPixelObjectType::New();
+    upper->Set( NumericTraits<InputImagePixelType>::NonpositiveMin() );
+    this->ProcessObject::SetNthInput( 2, upper );
+    }
+    
+  return upper;
+}
+
+
+template <class TInputImage, class TOutputImage>
+void 
+ConnectedThresholdImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
   InputImageConstPointer inputImage = this->GetInput();
   OutputImagePointer outputImage = this->GetOutput();
+
+  typename InputPixelObjectType::Pointer lowerThreshold=this->GetLowerInput();
+  typename InputPixelObjectType::Pointer upperThreshold=this->GetUpperInput();
+
+  m_Lower = lowerThreshold->Get();
+  m_Upper = upperThreshold->Get();
+
+std::cout << "Lower = " << m_Lower << std::endl;
+std::cout << "Upper = " << m_Upper << std::endl;
 
   // Zero the output
   OutputImageRegionType region =  outputImage->GetRequestedRegion();
