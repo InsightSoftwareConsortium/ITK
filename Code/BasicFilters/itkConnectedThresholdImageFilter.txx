@@ -117,6 +117,56 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
 }
 
 template <class TInputImage, class TOutputImage>
+void
+ConnectedThresholdImageFilter<TInputImage, TOutputImage>
+::SetUpper(const InputImagePixelType threshold)
+{
+  // first check to see if anything changed
+  typename InputPixelObjectType::Pointer upper=this->GetUpperInput();
+  if (upper && upper->Get() == threshold)
+    {
+    return;
+    }
+  
+  // create a data object to use as the input and to store this
+  // threshold. we always create a new data object to use as the input
+  // since we do not want to change the value in any current input
+  // (the current input could be the output of another filter or the
+  // current input could be used as an input to several filters)
+  upper = InputPixelObjectType::New();
+  this->ProcessObject::SetNthInput(2, upper);
+
+  upper->Set(threshold);
+  this->Modified();
+}
+
+
+template <class TInputImage, class TOutputImage>
+void
+ConnectedThresholdImageFilter<TInputImage, TOutputImage>
+::SetLower(const InputImagePixelType threshold)
+{
+  // first check to see if anything changed
+  typename InputPixelObjectType::Pointer lower=this->GetLowerInput();
+  if (lower && lower->Get() == threshold)
+    {
+    return;
+    }
+  
+  // create a data object to use as the input and to store this
+  // threshold. we always create a new data object to use as the input
+  // since we do not want to change the value in any current input
+  // (the current input could be the output of another filter or the
+  // current input could be used as an input to several filters)
+  lower = InputPixelObjectType::New();
+  this->ProcessObject::SetNthInput(2, lower);
+
+  lower->Set(threshold);
+  this->Modified();
+}
+
+
+template <class TInputImage, class TOutputImage>
 typename ConnectedThresholdImageFilter<TInputImage, TOutputImage>::InputPixelObjectType *
 ConnectedThresholdImageFilter<TInputImage,TOutputImage>
 ::GetLowerInput()
@@ -154,6 +204,32 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
     
   return upper;
 }
+
+
+template <class TInputImage, class TOutputImage>
+typename ConnectedThresholdImageFilter<TInputImage, TOutputImage>::InputImagePixelType
+ConnectedThresholdImageFilter<TInputImage, TOutputImage>
+::GetLower() const
+{
+  typename InputPixelObjectType::Pointer lower
+    = const_cast<Self*>(this)->GetLowerInput();
+
+  return lower->Get();
+}
+
+
+
+template <class TInputImage, class TOutputImage>
+typename ConnectedThresholdImageFilter<TInputImage, TOutputImage>::InputImagePixelType
+ConnectedThresholdImageFilter<TInputImage, TOutputImage>
+::GetUpper() const
+{
+  typename InputPixelObjectType::Pointer upper
+    = const_cast<Self*>(this)->GetUpperInput();
+
+  return upper->Get();
+}
+
 
 
 template <class TInputImage, class TOutputImage>

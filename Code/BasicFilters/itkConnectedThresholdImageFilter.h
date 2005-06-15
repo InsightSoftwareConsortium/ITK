@@ -88,14 +88,6 @@ public:
       }
   };
 
-  /** Set/Get the lower threshold. The default is 0. */
-  itkSetMacro(Lower, InputImagePixelType);
-  itkGetMacro(Lower, InputImagePixelType);
-
-  /** Set/Get the upper threshold. The default is the largest possible
-   *  value for the InputPixelType. */
-  itkSetMacro(Upper, InputImagePixelType);
-  itkGetMacro(Upper, InputImagePixelType);
   
   /** Set/Get value to replace thresholded pixels. Pixels that lie *
    *  within Lower and Upper (inclusive) will be replaced with this
@@ -106,9 +98,19 @@ public:
   /** Type of DataObjects to use for scalar inputs */
   typedef SimpleDataObjectDecorator<InputImagePixelType> InputPixelObjectType;
   
-  /** Threshold inputs that are connected to the pipeline */
+  /** Set Upper and Lower Threshold inputs as values */
+  virtual void SetUpper( InputImagePixelType );
+  virtual void SetLower( InputImagePixelType );
+  
+  /** Set Threshold inputs that are connected to the pipeline */
   virtual void SetUpperInput( const InputPixelObjectType *);
   virtual void SetLowerInput( const InputPixelObjectType *);
+
+  /** Get Upper and Lower Threshold inputs as values */
+  virtual InputImagePixelType GetUpper() const;
+  virtual InputImagePixelType GetLower() const;
+
+  /** Get Threshold inputs that are connected to the pipeline */
   virtual InputPixelObjectType * GetUpperInput();
   virtual InputPixelObjectType * GetLowerInput();
 
