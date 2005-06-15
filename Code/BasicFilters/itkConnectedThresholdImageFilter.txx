@@ -142,7 +142,7 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
 ::GetUpperInput()
 {
   typename InputPixelObjectType::Pointer upper
-    = static_cast<InputPixelObjectType *>(this->ProcessObject::GetInput(1));
+    = static_cast<InputPixelObjectType *>(this->ProcessObject::GetInput(2));
   if (!upper)
     {
     // no input object available, create a new one and set it to the
