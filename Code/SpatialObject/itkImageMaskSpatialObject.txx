@@ -92,6 +92,113 @@ ImageMaskSpatialObject< TDimension>
   return SpatialObject<TDimension>::IsInside(point, depth, name);
 }
 
+
+template< unsigned int  TDimension >
+typename ImageMaskSpatialObject< TDimension >::RegionType
+ImageMaskSpatialObject< TDimension >
+::GetAxisAlignedBoundingBoxRegion() const
+{
+  // We will use a slice iterator to iterate through slices orthogonal
+  // to each of the axis of the image to find the bounding box. Each
+  // slice iterator iterates from the outermost slice towards the image
+  // center till it finds a mask pixel. For a 3D image, there will be six
+  // slice iterators, iterating from the periphery inwards till the bounds
+  // along each axes are found. The slice iterators save time and avoid 
+  // having to walk the whole image. Since we are using slice iterators,
+  // we will implement this only for 3D images.
+
+  PixelType outsideValue = NumericTraits< PixelType >::Zero;
+  RegionType region;
+  
+  ImagePointer image = this->GetImage();
+  
+  if( ImageType::ImageDimension == 3)
+    {
+    IndexType index;
+    typename RegionType::SizeType  size;
+    
+    for( unsigned int axis = 0; axis < ImageType::ImageDimension; axis++ )
+      {
+      // Two slice iterators along each axis...
+      // Find the orthogonal planes for the slices
+      unsigned int i, j;
+      unsigned int direction[2];
+      for (i = 0, j = 0; i < 3; ++i )
+        {
+        if (i != axis )
+          {
+          direction[j] = i;
+          j++;
+          }
+        }
+      
+
+      // Create the forward iterator to find lower bound
+      SliceIteratorType  fit(  image,  image->GetRequestedRegion() );
+      fit.SetFirstDirection(  direction[1] );
+      fit.SetSecondDirection( direction[0] );
+
+      fit.GoToBegin();
+      while( !fit.IsAtEnd() )
+        {
+        while( !fit.IsAtEndOfSlice() )
+          {
+          while( !fit.IsAtEndOfLine() )
+            {
+            if( fit.Get() !=  outsideValue )
+              {
+              index[axis] = fit.GetIndex()[axis];
+              fit.GoToReverseBegin(); // skip to the end
+              break;
+              }
+            ++fit;
+            }
+          fit.NextLine();
+          }
+        fit.NextSlice();
+        }
+
+
+      // Create the reverse iterator to find upper bound
+      SliceIteratorType  rit(  image,  image->GetRequestedRegion() );
+      rit.SetFirstDirection(  direction[1] );
+      rit.SetSecondDirection( direction[0] );
+
+      rit.GoToReverseBegin();
+      while( !rit.IsAtReverseEnd() )
+        {
+        while( !rit.IsAtReverseEndOfSlice() )
+          {
+          while( !rit.IsAtReverseEndOfLine() )
+            {
+            if( rit.Get() !=  outsideValue )
+              {
+              size[axis] = rit.GetIndex()[axis] - index[axis];
+              rit.GoToBegin(); //Skip to reverse end
+              break;
+              }
+            --rit;
+            }
+          rit.PreviousLine();
+          }
+        rit.PreviousSlice();
+        }
+      }
+
+    region.SetIndex( index );
+    region.SetSize( size );
+    }
+  else
+    {
+    itkExceptionMacro( << "ImageDimension must be 3!" );
+    }    
+  
+  return region;
+   
+}
+
+
+
 /** Print the object */
 template< unsigned int TDimension >
 void
