@@ -179,28 +179,31 @@
       ++pixel;
       }
 
-    // If a region is defined to constrain classification to, we need to label
-    // pixels outside with numberOfClasses + 1. 
-    typedef ImageRegionExclusionIteratorWithIndex< OutputImageType > 
-                                                  ExclusionImageIteratorType;
-    ExclusionImageIteratorType exIt( outputPtr, outputPtr->GetBufferedRegion() );
-    exIt.SetExclusionRegion( region );
-    exIt.GoToBegin();
-    if( m_UseNonContiguousLabels )
+    if( m_ImageRegionDefined )
       {
-      OutputPixelType outsideLabel = labelInterval * numberOfClasses;
-      while( !exIt.IsAtEnd() )
+      // If a region is defined to constrain classification to, we need to label
+      // pixels outside with numberOfClasses + 1. 
+      typedef ImageRegionExclusionIteratorWithIndex< OutputImageType > 
+                                                    ExclusionImageIteratorType;
+      ExclusionImageIteratorType exIt( outputPtr, outputPtr->GetBufferedRegion() );
+      exIt.SetExclusionRegion( region );
+      exIt.GoToBegin();
+      if( m_UseNonContiguousLabels )
         {
-        exIt.Set( outsideLabel );
-        ++exIt;
+        OutputPixelType outsideLabel = labelInterval * numberOfClasses;
+        while( !exIt.IsAtEnd() )
+          {
+          exIt.Set( outsideLabel );
+          ++exIt;
+          }
         }
-      }
-    else
-      {
-      while( !exIt.IsAtEnd() )
+      else
         {
-        exIt.Set( numberOfClasses );
-        ++exIt;
+        while( !exIt.IsAtEnd() )
+          {
+          exIt.Set( numberOfClasses );
+          ++exIt;
+          }
         }
       }
 
