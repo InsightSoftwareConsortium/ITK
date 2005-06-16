@@ -28,15 +28,42 @@
   ::ScalarImageKmeansImageFilter()
   {
     m_UseNonContiguousLabels = false;
+    m_ImageRegionDefined = false;
   }
 
+  template <class TInputImage>
+  void ScalarImageKmeansImageFilter<TInputImage>
+  ::SetImageRegion( const ImageRegionType & region )
+  {
+    m_ImageRegion = region;
+    m_ImageRegionDefined = true;
+  }
+
+
+  
   template< class TInputImage >
   void
   ScalarImageKmeansImageFilter< TInputImage >
   ::GenerateData()
   {
     typename AdaptorType::Pointer adaptor = AdaptorType::New();
-    adaptor->SetImage( this->GetInput() );
+
+    // Setup the regions here if a sub-region has been specified to restrict
+    // classification on.. Since this is not ThreadedGenenerateData, we are
+    // safe...
+    if( m_ImageRegionDefined )
+      {
+      typename RegionOfInterestFilterType::Pointer regionOfInterestFilter 
+                                  = RegionOfInterestFilterType::New();
+      regionOfInterestFilter->SetRegionOfInterest( m_ImageRegion );
+      regionOfInterestFilter->SetInput( this->GetInput() );
+      regionOfInterestFilter->Update();
+      adaptor->SetImage( regionOfInterestFilter->GetOutput() );
+      }
+    else
+      { 
+      adaptor->SetImage( this->GetInput() );
+      }
 
     typename TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
@@ -112,8 +139,8 @@
     classifier->SetMembershipFunctionClassLabels( classLabels );
 
     // Execute the actual classification
-    classifier->Update();
 
+    classifier->Update();
 
     // Now classify the pixels
     typename OutputImageType::Pointer outputPtr = this->GetOutput();
@@ -144,7 +171,6 @@
       ++pixel;
       }
 
-
   }
 
   /**
@@ -173,6 +199,8 @@ ScalarImageKmeansImageFilter<TInputImage >
   Superclass::PrintSelf( os, indent );
   os << indent << "Final Means " << m_FinalMeans << std::endl;
   os << indent << "Use Contiguous Labels " << m_UseNonContiguousLabels << std::endl;
+  os << indent << "Image Region Defined: " << m_ImageRegionDefined << std::endl;
+  os << indent << "Image Region: " << m_ImageRegion << std::endl;
 }
 
 } // end namespace itk

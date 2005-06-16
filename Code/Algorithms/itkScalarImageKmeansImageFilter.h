@@ -30,6 +30,8 @@
 #include "itkSampleClassifier.h"
 
 #include "itkScalarImageToListAdaptor.h"
+#include "itkImageRegion.h"
+#include "itkRegionOfInterestImageFilter.h"
 
 #include <vector>
 
@@ -106,6 +108,12 @@ public:
 
   typedef typename EstimatorType::ParametersType ParametersType;
 
+  typedef typename InputImageType::RegionType        ImageRegionType;
+  
+  typedef RegionOfInterestImageFilter< 
+                                 InputImageType,
+                                 InputImageType  > RegionOfInterestFilterType;
+
 
   /** Add a new class to the classification by specifying its initial mean. */
   void AddClassWithInitialMean( RealPixelType mean );
@@ -121,6 +129,12 @@ public:
   itkSetMacro( UseNonContiguousLabels, bool );
   itkGetConstReferenceMacro( UseNonContiguousLabels, bool );
   itkBooleanMacro( UseNonContiguousLabels );
+
+  /** Set Region method to constrain classfication to a certain region */
+  void SetImageRegion( const ImageRegionType & region );
+  
+  /** Get the region over which the statistics will be computed */
+  itkGetConstReferenceMacro( ImageRegion, ImageRegionType );
   
 protected:
   ScalarImageKmeansImageFilter();
@@ -145,6 +159,10 @@ private:
   ParametersType  m_FinalMeans;
 
   bool m_UseNonContiguousLabels;
+
+  ImageRegionType m_ImageRegion;
+
+  bool m_ImageRegionDefined;
 };
   
 } // end namespace itk
