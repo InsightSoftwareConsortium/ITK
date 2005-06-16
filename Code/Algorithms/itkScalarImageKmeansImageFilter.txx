@@ -17,6 +17,7 @@
 #ifndef _itkScalarImageKmeansImageFilter_txx
 #define _itkScalarImageKmeansImageFilter_txx
 #include "itkScalarImageKmeansImageFilter.h"
+#include "itkImageRegionExclusionIteratorWithIndex.h"
 
 #include "itkProgressReporter.h"
 
@@ -152,6 +153,13 @@
 
     RegionType region = outputPtr->GetBufferedRegion();
 
+    // If we constrained the classification to a region, label only pixels within
+    // the region. Label outside pixels as numberOfClasses + 1
+    if( m_ImageRegionDefined )
+      {
+      region = m_ImageRegion;
+      }
+        
     ImageIterator pixel( outputPtr, region );
     pixel.GoToBegin();
 
@@ -169,6 +177,31 @@
       pixel.Set( iter.GetClassLabel() );
       ++iter;
       ++pixel;
+      }
+
+    // If a region is defined to constrain classification to, we need to label
+    // pixels outside with numberOfClasses + 1. 
+    typedef ImageRegionExclusionIteratorWithIndex< OutputImageType > 
+                                                  ExclusionImageIteratorType;
+    ExclusionImageIteratorType exIt( outputPtr, outputPtr->GetBufferedRegion() );
+    exIt.SetExclusionRegion( region );
+    exIt.GoToBegin();
+    if( m_UseNonContiguousLabels )
+      {
+      OutputPixelType outsideLabel = labelInterval * numberOfClasses;
+      while( !exIt.IsAtEnd() )
+        {
+        exIt.Set( outsideLabel );
+        ++exIt;
+        }
+      }
+    else
+      {
+      while( !exIt.IsAtEnd() )
+        {
+        exIt.Set( numberOfClasses );
+        ++exIt;
+        }
       }
 
   }
