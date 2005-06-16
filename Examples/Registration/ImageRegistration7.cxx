@@ -18,6 +18,14 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySliceBorder20.png}
+//    INPUTS: {BrainProtonDensitySliceR10X13Y17S12.png}
+//    OUTPUTS: {ImageRegistration7Output.png}
+//    OUTPUTS: {ImageRegistration7DifferenceAfter.png}
+//    OUTPUTS: {ImageRegistration7DifferenceBefore.png}
+//  Software Guide : EndCommandLineArgs
+
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{CenteredSimilarity2DTransform}
@@ -74,7 +82,9 @@
 
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
-#include "itkSquaredDifferenceImageFilter.h"
+#include "itkSubtractImageFilter.h"
+#include "itkRescaleIntensityImageFilter.h"
+#include "itkIdentityTransform.h"
 
 
 //  The following section of code implements a Command observer
@@ -122,7 +132,10 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << " outputImagefile  [differenceOutputfile] ";
-    std::cerr << " [differenceBeforeRegistration] "<< std::endl;
+    std::cerr << " [differenceBeforeRegistration] ";
+    std::cerr << " [steplength] ";
+    std::cerr << " [initialScaling] [initialAngle] ";
+    std::cerr << std::endl;
     return 1;
     }
   
@@ -234,9 +247,23 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
+  double initialScale = 1.0;
+
+  if( argc > 7 )
+    {
+    initialScale =  atof( argv[7] );
+    }
+    
+  double initialAngle = 0.0;
+
+  if( argc > 8 )
+    {
+    initialAngle =  atof( argv[8] );
+    }
+ 
   // Software Guide : BeginCodeSnippet
-  transform->SetScale( atof( argv[7] ) );
-  transform->SetAngle( atof( argv[8] ) );
+  transform->SetScale( initialScale );
+  transform->SetAngle( initialAngle );
   // Software Guide : EndCodeSnippet
 
 
@@ -295,11 +322,16 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
-  const double steplength = atof( argv[6] );
+  double steplength = 1.0;
+  
+  if( argc > 6 )
+    {
+    steplength = atof( argv[6] );
+    }
 
   // Software Guide : BeginCodeSnippet
   optimizer->SetMaximumStepLength( steplength ); 
-  optimizer->SetMinimumStepLength( 0.001 );
+  optimizer->SetMinimumStepLength( 0.0001 );
   optimizer->SetNumberOfIterations( 500 );
   // Software Guide : EndCodeSnippet
 
@@ -435,21 +467,24 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
 
-  typedef itk::ResampleImageFilter< MovingImageType, FixedImageType >
-    ResampleFilterType;
+  typedef itk::ResampleImageFilter< MovingImageType, 
+                                    FixedImageType > ResampleFilterType;
+  
   TransformType::Pointer finalTransform = TransformType::New();
+  
   finalTransform->SetParameters( finalParameters );
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  
+  ResampleFilterType::Pointer resampler = ResampleFilterType::New();
 
-  resample->SetTransform( finalTransform );
-  resample->SetInput( movingImageReader->GetOutput() );
+  resampler->SetTransform( finalTransform );
+  resampler->SetInput( movingImageReader->GetOutput() );
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
-  resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
-  resample->SetOutputOrigin(  fixedImage->GetOrigin() );
-  resample->SetOutputSpacing( fixedImage->GetSpacing() );
-  resample->SetDefaultPixelValue( 100 );
+  resampler->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
+  resampler->SetOutputOrigin(  fixedImage->GetOrigin() );
+  resampler->SetOutputSpacing( fixedImage->GetSpacing() );
+  resampler->SetDefaultPixelValue( 100 );
   
   typedef  unsigned char  OutputPixelType;
 
@@ -468,40 +503,56 @@ int main( int argc, char *argv[] )
   writer->SetFileName( argv[3] );
 
 
-  caster->SetInput( resample->GetOutput() );
+  caster->SetInput( resampler->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
 
 
-  typedef itk::SquaredDifferenceImageFilter< 
+  typedef itk::SubtractImageFilter< 
                                   FixedImageType, 
                                   FixedImageType, 
-                                  OutputImageType > DifferenceFilterType;
+                                  FixedImageType > DifferenceFilterType;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
+
+  typedef itk::RescaleIntensityImageFilter< 
+                                  FixedImageType, 
+                                  OutputImageType >   RescalerType;
+
+  RescalerType::Pointer intensityRescaler = RescalerType::New();
+  
+  intensityRescaler->SetInput( difference->GetOutput() );
+  intensityRescaler->SetOutputMinimum(   0 );
+  intensityRescaler->SetOutputMaximum( 255 );
+
+  difference->SetInput1( fixedImageReader->GetOutput() );
+  difference->SetInput2( resampler->GetOutput() );
+
+  resampler->SetDefaultPixelValue( 1 );
+
   WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( difference->GetOutput() );  
+  writer2->SetInput( intensityRescaler->GetOutput() );  
   
 
   // Compute the difference image between the 
   // fixed and resampled moving image.
-  if( argc >= 5 )
+  if( argc > 4 )
     {
-    difference->SetInput1( fixedImageReader->GetOutput() );
-    difference->SetInput2( resample->GetOutput() );
     writer2->SetFileName( argv[4] );
     writer2->Update();
     }
 
 
+  typedef itk::IdentityTransform< double, Dimension > IdentityTransformType;
+  IdentityTransformType::Pointer identity = IdentityTransformType::New();
+
   // Compute the difference image between the 
   // fixed and moving image before registration.
-  if( argc >= 6 )
+  if( argc > 5 )
     {
+    resampler->SetTransform( identity );
     writer2->SetFileName( argv[5] );
-    difference->SetInput1( fixedImageReader->GetOutput() );
-    difference->SetInput2( movingImageReader->GetOutput() );
     writer2->Update();
     }
 
