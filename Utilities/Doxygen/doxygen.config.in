@@ -263,7 +263,8 @@ RECURSIVE             = YES
 # excluded from the INPUT source files. This way you can easily exclude a 
 # subdirectory from a directory tree whose root is specified with the INPUT tag. 
 
-EXCLUDE               = "@ITK_SOURCE_DIR/Code/Common/itkPixelTraits.h"
+EXCLUDE               = "@ITK_SOURCE_DIR@/Code/Common/itkPixelTraits.h" \
+                        "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraits.h" 
               
 # If the value of the INPUT tag contains directories, you can use the 
 # EXCLUDE_PATTERNS tag to specify one or more wildcard patterns to exclude 
