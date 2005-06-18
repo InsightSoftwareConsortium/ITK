@@ -267,6 +267,18 @@ ADD_TEST(ImageRegistration6Test ${REGISTRATION_EXAMPLES9}
         ${TEMP}/ImageRegistration6Test.png
 )
 
+ADD_TEST(ImageRegistration7Test ${REGISTRATION_EXAMPLES9}
+  --compare ${BASELINE}/ImageRegistration7Test.png
+            ${TEMP}/ImageRegistration7Test.png
+  ImageRegistration7Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17S12.png
+        ${TEMP}/ImageRegistration7Test.png 
+        ${TEMP}/ImageRegistration7BeforeTest.png
+        ${TEMP}/ImageRegistration7AfterTest.png
+        1.0   1.0  0.0
+)
+
 ADD_TEST(ImageRegistration9Test ${REGISTRATION_EXAMPLES3}
   --compare ${BASELINE}/ImageRegistration9Test.png
             ${TEMP}/ImageRegistration9Test.png

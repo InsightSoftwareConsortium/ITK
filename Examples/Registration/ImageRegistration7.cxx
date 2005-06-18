@@ -24,6 +24,7 @@
 //    OUTPUTS: {ImageRegistration7Output.png}
 //    OUTPUTS: {ImageRegistration7DifferenceAfter.png}
 //    OUTPUTS: {ImageRegistration7DifferenceBefore.png}
+//    1.0   1.0   0.0
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
@@ -131,8 +132,8 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << " outputImagefile  [differenceOutputfile] ";
-    std::cerr << " [differenceBeforeRegistration] ";
+    std::cerr << " outputImagefile  [differenceBeforeRegistration] ";
+    std::cerr << " [differenceAfterRegistration] ";
     std::cerr << " [steplength] ";
     std::cerr << " [initialScaling] [initialAngle] ";
     std::cerr << std::endl;
@@ -537,9 +538,9 @@ int main( int argc, char *argv[] )
 
   // Compute the difference image between the 
   // fixed and resampled moving image.
-  if( argc > 4 )
+  if( argc > 5 )
     {
-    writer2->SetFileName( argv[4] );
+    writer2->SetFileName( argv[5] );
     writer2->Update();
     }
 
@@ -549,10 +550,10 @@ int main( int argc, char *argv[] )
 
   // Compute the difference image between the 
   // fixed and moving image before registration.
-  if( argc > 5 )
+  if( argc > 4 )
     {
     resampler->SetTransform( identity );
-    writer2->SetFileName( argv[5] );
+    writer2->SetFileName( argv[4] );
     writer2->Update();
     }
 
