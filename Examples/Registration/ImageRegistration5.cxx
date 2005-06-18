@@ -686,15 +686,14 @@ int main( int argc, char *argv[] )
   // \label{fig:ImageRegistration5Plots2}
   // \end{figure}
   //
-  //  Figure \ref{fig:ImageRegistration5Plots2} shows plots of the main
-  //  output registration parameters when the rotation and translations are
-  //  combined. The metric values at every iteration are shown at the
-  //  top. The angle values are shown in the bottom left plot, while the
-  //  translation components of the registration are presented in the bottom 
-  //  right plot. It can be seen from the smoothness of these plots that a larger
-  //  step length could easily have been supported by the optimizer. You may
-  //  want to modify this value in order to get a better idea of how to
-  //  tune the parameters.
+  //  Figure \ref{fig:ImageRegistration5Plots2} shows plots of the main output
+  //  registration parameters when the rotation and translations are combined.
+  //  These results include, the metric values at every iteration, the angle
+  //  values at every iteration, and the translation components of the
+  //  registration as the registration converges. It can be seen from the
+  //  smoothness of these plots that a larger step length could have been
+  //  supported easily by the optimizer. You may want to modify this value in
+  //  order to get a better idea of how to tune the parameters.
   //
   //  Software Guide : EndLatex 
 
