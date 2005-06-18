@@ -31,14 +31,8 @@ template <typename TInputImage, typename TOutputImage >
 GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::GradientRecursiveGaussianImageFilter()
 {
-
   m_NormalizeAcrossScale = false;
 
-  // Create a process accumulator for tracking the progress of this
-  // minipipeline
-  m_Progress = ProgressAccumulator::New();
-  m_Progress->SetMiniPipelineFilter(this);
- 
   // Compute the contribution of each filter to the total progress.
   const double weight = 1.0 / ( ImageDimension * ImageDimension );
 
@@ -48,13 +42,11 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
     m_SmoothingFilters[ i ]->SetOrder( GaussianFilterType::ZeroOrder );
     m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
     m_SmoothingFilters[ i ]->ReleaseDataFlagOn();
-    m_Progress->RegisterInternalFilter( m_SmoothingFilters[i], weight );
     }
 
   m_DerivativeFilter = DerivativeFilterType::New();
   m_DerivativeFilter->SetOrder( DerivativeFilterType::FirstOrder );
   m_DerivativeFilter->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
-  m_Progress->RegisterInternalFilter( m_DerivativeFilter, weight );
   
   m_DerivativeFilter->SetInput( this->GetInput() );
 
@@ -158,7 +150,20 @@ void
 GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 ::GenerateData(void)
 {
+ // Create a process accumulator for tracking the progress of this
+  // minipipeline
+  m_Progress = ProgressAccumulator::New();
+  m_Progress->SetMiniPipelineFilter(this);
+  
+  // Compute the contribution of each filter to the total progress.
+  const double weight = 1.0 / ( ImageDimension * ImageDimension );
 
+  for( unsigned int i = 0; i<ImageDimension-1; i++ )
+    {
+    m_Progress->RegisterInternalFilter( m_SmoothingFilters[i], weight );
+    }
+
+  m_Progress->RegisterInternalFilter( m_DerivativeFilter, weight );
   m_Progress->ResetProgress();
 
   const typename TInputImage::ConstPointer   inputImage( this->GetInput() );
