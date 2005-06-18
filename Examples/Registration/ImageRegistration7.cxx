@@ -22,8 +22,8 @@
 //    INPUTS: {BrainProtonDensitySliceBorder20.png}
 //    INPUTS: {BrainProtonDensitySliceR10X13Y17S12.png}
 //    OUTPUTS: {ImageRegistration7Output.png}
-//    OUTPUTS: {ImageRegistration7DifferenceAfter.png}
 //    OUTPUTS: {ImageRegistration7DifferenceBefore.png}
+//    OUTPUTS: {ImageRegistration7DifferenceAfter.png}
 //    1.0   1.0   0.0
 //  Software Guide : EndCommandLineArgs
 
@@ -222,6 +222,9 @@ int main( int argc, char *argv[] )
   //  value for the initial center of rotation and the translation.
   //
   //  Software Guide : EndLatex 
+
+
+// Software Guide : BeginCodeSnippet
   typedef itk::CenteredTransformInitializer< 
                                     TransformType, 
                                     FixedImageType, 
@@ -237,6 +240,7 @@ int main( int argc, char *argv[] )
   initializer->MomentsOn();
 
   initializer->InitializeTransform();
+// Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
@@ -267,8 +271,6 @@ int main( int argc, char *argv[] )
   transform->SetAngle( initialAngle );
   // Software Guide : EndCodeSnippet
 
-
-  std::cout << transform->GetParameters() << std::endl;
 
 
   //  Software Guide : BeginLatex
@@ -374,6 +376,7 @@ int main( int argc, char *argv[] )
   //
   const double finalAngleInDegrees = finalAngle * 45.0 / atan(1.0);
 
+  std::cout << std::endl;
   std::cout << "Result = " << std::endl;
   std::cout << " Scale         = " << finalScale  << std::endl;
   std::cout << " Angle (radians) " << finalAngle  << std::endl;
@@ -404,16 +407,17 @@ int main( int argc, char *argv[] )
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [ ]
+  //  [0.833222, -0.174521, 111.437, 131.741, -12.8272, -12.7862]
   //  \end{verbatim}
   //  \end{center}
   //
   //  That are interpreted as
   //
   //  \begin{itemize}
-  //  \item Angle         =                     $0.177491$   radians
-  //  \item Center        = $( 110.487     , 128.489      )$ millimeters
-  //  \item Translation   = $(   0.0111713,   0.00250842 )$ millimeters
+  //  \item Scale factor  =                     $0.833222$   
+  //  \item Angle         =                     $0.174521$   radians
+  //  \item Center        = $( 111.437     , 131.741     )$ millimeters
+  //  \item Translation   = $( -12.8272    , -12.7862    )$ millimeters
   //  \end{itemize}
   //  
   // 
@@ -451,6 +455,7 @@ int main( int argc, char *argv[] )
   // \center
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceMetric.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceAngle.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceScale.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceTranslations.eps} 
   // \itkcaption[CenteredSimilarity2DTransform registration plots]{Plots of the Metric,
   // rotation angle and translations during
