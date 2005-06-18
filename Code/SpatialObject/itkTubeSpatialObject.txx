@@ -316,7 +316,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 template< unsigned int TDimension, typename TTubePointType >
 unsigned int  
 TubeSpatialObject< TDimension, TTubePointType > 
-::RemoveDuplicatePoints(unsigned int step)
+::RemoveDuplicatePoints(unsigned int itkNotUsed(step))
 {
   int length = this->GetNumberOfPoints();
   if(length <= 1)
