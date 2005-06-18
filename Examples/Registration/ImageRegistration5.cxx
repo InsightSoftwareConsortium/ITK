@@ -279,8 +279,9 @@ int main( int argc, char *argv[] )
   //   method \code{GetParameters()}. Here we initialize the transform by
   //   passing the center of the fixed image as the rotation center with the
   //   \code{SetCenter()} method. Then the translation is set as the vector
-  //   relating the center of moving image to the center of the fixed image.
-  //   This last definition is passed with the method \code{SetTranslation()}.
+  //   relating the center of the moving image to the center of the fixed
+  //   image.  This last vector is passed with the method
+  //   \code{SetTranslation()}.
   //
   //  Software Guide : EndLatex 
 
@@ -321,7 +322,7 @@ int main( int argc, char *argv[] )
   //  corresponds to the angle that is measured in radians, while the other
   //  parameters correspond to translations that are measured in millimeters.
   //  For this reason we use small factors in the scales associated with
-  //  translations and the rotation center coordinates.
+  //  translations and the coordinates of the rotation center .
   //
   //  Software Guide : EndLatex 
 
@@ -492,10 +493,10 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   //  Figure \ref{fig:ImageRegistration5Plots} shows plots of the main output
-  //  parameters produced from the registration process. The metric values at
-  //  every iteration are shown on the top. The angle values are shown on the
-  //  bottom left plot while the translation components of the registration are
-  //  presented on the bottom right plot.
+  //  parameters produced from the registration process. This includes, the
+  //  metric values at every iteration, the angle values at every iteration,
+  //  and the translation components of the transform as the registration
+  //  progress.
   //
   //  Software Guide : EndLatex 
 
@@ -635,7 +636,7 @@ int main( int argc, char *argv[] )
   //  \end{verbatim}
   //  \end{center}
   //
-  //  These are interpreted as
+  //  These parameters are interpreted as
   //
   //  \begin{itemize}
   //  \item Angle         =                     $0.174454$   radians
@@ -671,9 +672,8 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   // Figure \ref{fig:ImageRegistration5Outputs2} shows the output of the
-  // registration. The rightmost image of this figure shows the squared
-  // magnitude difference between the fixed image and the resampled
-  // moving image. 
+  // registration. The rightmost image of this figure shows the difference
+  // between the fixed image and the resampled moving image after registration. 
   //
   // \begin{figure}
   // \center
