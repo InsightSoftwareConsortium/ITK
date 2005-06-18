@@ -136,6 +136,9 @@ TARGET_LINK_LIBRARIES(RGBToGrayscale ITKCommon ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(DanielssonDistanceMapImageFilter DanielssonDistanceMapImageFilter.cxx )
 TARGET_LINK_LIBRARIES(DanielssonDistanceMapImageFilter ITKCommon ITKBasicFilters ITKIO)
 
+ADD_EXECUTABLE(SignedDanielssonDistanceMapImageFilter SignedDanielssonDistanceMapImageFilter.cxx )
+TARGET_LINK_LIBRARIES(SignedDanielssonDistanceMapImageFilter ITKCommon ITKBasicFilters ITKIO)
+
 ADD_EXECUTABLE(BilateralImageFilter BilateralImageFilter.cxx )
 TARGET_LINK_LIBRARIES(BilateralImageFilter ITKCommon ITKBasicFilters ITKIO)
 
