@@ -17,7 +17,9 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
+
 // Software Guide : BeginLatex
+// 
 // This example illustrates the use of the
 // \doxygen{SignedDanielssonDistanceMapImageFilter}.  This filter generates a
 // distance map by running Danielsson distance map twice, once on the input
@@ -27,6 +29,7 @@
 // \index{itk::Signed\-Danielsson\-Distance\-Map\-Image\-Filter!Header}
 //
 // The first step required to use this filter is to include its header file. 
+//
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
@@ -51,39 +54,58 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
+  // Software Guide : BeginLatex
+  //
   //  Then we must decide what pixel types to use for the input and output
   //  images. Since the output will contain distances measured in pixels, the
   //  pixel type should be able to represent at least the width of the image,
   //  or said in $N-D$ terms, the maximum extension along all the dimensions.
   //  The input and output image types are now defined using their respective
   //  pixel type and dimension.
+  //  
+  // Software Guide : EndLatex
 
+  // Software Guide : BeginCodeSnippet
   typedef  unsigned char   InputPixelType;
   typedef  float  OutputPixelType;
+  const unsigned int Dimension = 2;
 
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
+  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
+  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  // Software Guide : EndCodeSnippet
 
 
   // Software Guide : BeginLatex
-  // The only change is to replace the DanielssonDistanceMapImageFilter with
-  // the SignedDanielssonDistanceMapImageFilter
+  // 
+  // The only change with respect to the previous example is to replace the
+  // DanielssonDistanceMapImageFilter with the
+  // SignedDanielssonDistanceMapImageFilter
+  //
   // SoftwareGuide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::SignedDanielssonDistanceMapImageFilter<
-               InputImageType, OutputImageType >  FilterType;
+                                         InputImageType, 
+                                         OutputImageType >  FilterType;
+  
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
   
+
+
   typedef itk::RescaleIntensityImageFilter< 
                    OutputImageType, OutputImageType > RescalerType;
+
   RescalerType::Pointer scaler = RescalerType::New();
 
+  
+
   // Software Guide : BeginLatex
+  // 
   // The inside is considered as having negative distances. Outside is 
   // treated as having positive distances. To change the convention, 
   // use the InsideIsPositive(bool) function.
+  //
   // Software Guide : EndLatex
 
   // Reader and Writer types are instantiated.
