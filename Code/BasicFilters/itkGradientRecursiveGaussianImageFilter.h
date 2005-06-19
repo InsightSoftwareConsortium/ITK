@@ -151,8 +151,6 @@ private:
   DerivativeFilterPointer       m_DerivativeFilter;
   OutputImageAdaptorPointer     m_ImageAdaptor;
 
-  ProgressAccumulator::Pointer  m_Progress;
-
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale; 
 
