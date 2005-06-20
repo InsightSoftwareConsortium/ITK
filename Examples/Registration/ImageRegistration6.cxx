@@ -22,8 +22,8 @@
 //    INPUTS: {BrainProtonDensitySliceBorder20.png}
 //    INPUTS: {BrainProtonDensitySliceR10X13Y17.png}
 //    OUTPUTS: {ImageRegistration6Output.png}
-//    OUTPUTS: {ImageRegistration6DifferenceAfter.png}
 //    OUTPUTS: {ImageRegistration6DifferenceBefore.png}
+//    OUTPUTS: {ImageRegistration6DifferenceAfter.png}
 //  Software Guide : EndCommandLineArgs
 
 
@@ -35,30 +35,33 @@
 // Even though this current example is done in $2D$, the class
 // \doxygen{CenteredTransformInitializer} is quite generic and could be used
 // in other dimensions. The objective of the initializer class is to simplify
-// the computation of the center of rotation and translation required to
-// initialize certains transforms, like the
+// the computation of the center of rotation and the translation required to
+// initialize certains transforms such as the
 // CenteredRigid2DTransform. The initializer accepts two images and
 // a transform as inputs. The images are considered to be the fixed and
 // moving images of the registration problem, while the transform is the one
 // used to register the images.
 //
-// The CenteredRigid2DTransform supports two modes of operation. In
-// the first mode, the centers of the images are computed as space
-// coordinates using the image origin, size and spacing. The center of the
-// moving image is assigned as the rotational center of the transform and the
-// vector between both image centers is passed as the initial translation of
-// the transform. In the second mode, the image centers are not computed
+// The CenteredRigid2DTransform supports two modes of operation. In the first
+// mode, the centers of the images are computed as space coordinates using the
+// image origin, size and spacing. The center of the fixed image is assigned as
+// the rotational center of the transform while the vector going from the fixed
+// image center to the moving image center is passed as the initial translation
+// of the transform. In the second mode, the image centers are not computed
 // geometrically but by using the moments of the intensity gray levels. The
 // center of mass of each image is computed using the helper class
-// \doxygen{ImageMomentsCalculator}.  The center of mass of the moving image
-// is passed as the rotational center of the transform while the vector
-// between the centers of mass of the fixed and moving images is passed as
-// the initial translation of the transform. This second mode of operation is
-// quite convenient when the anatomical structure is not centered in the
-// image since the alignment of the centers of mass provides a rough initial
-// registration. The validity of the initial registration should be
-// questioned when the two images are acquired in different imaging
-// modalities.
+// \doxygen{ImageMomentsCalculator}.  The center of mass of the fixed image is
+// passed as the rotational center of the transform while the vector going from
+// the fixed image center of mass to the moving image center of mass is passed
+// as the initial translation of the transform. This second mode of operation
+// is quite convenient when the anatomical structures of interest are not
+// centered in the image. In such cases the alignment of the centers of mass
+// provides a better rough initial registration than the simple use of the
+// geometrical centers.  The validity of the initial registration should be
+// questioned when the two images are acquired in different imaging modalities.
+// In those cases, the center of mass of intensities in one modality does not
+// necessarily matches the center of mass of intensities in the other imaging
+// modality.
 //
 // \index{itk::CenteredRigid2DTransform}
 // \index{itk::ImageMomentsCalculator}
@@ -246,6 +249,7 @@ int main( int argc, char *argv[] )
                                     TransformType, 
                                     FixedImageType, 
                                     MovingImageType >  TransformInitializerType;
+
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
   // Software Guide : EndCodeSnippet
 
@@ -391,21 +395,21 @@ int main( int argc, char *argv[] )
   //  The second image is the result of intentionally rotating the first
   //  image by $10$ degrees and shifting it $13mm$ in $X$ and $17mm$ in
   //  $Y$. Both images have unit-spacing and are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration5}. The registration takes $47$
+  //  \ref{fig:FixedMovingImageRegistration5}. The registration takes $22$
   //  iterations and produces:
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [0.174482, 123.182, 147.108, 9.57676, 17.922]
+  //  [0.174475, 111.177, 131.572, 12.4566, 16.0729]
   //  \end{verbatim}
   //  \end{center}
   //
   //  These parameters are interpreted as
   //
   //  \begin{itemize}
-  //  \item Angle         =                     $0.174482$   radians
-  //  \item Center        = $( 123.182    , 147.108      )$ millimeters
-  //  \item Translation   = $(   9.57676  ,  17.922      )$ millimeters
+  //  \item Angle         =                  $0.174475$     radians
+  //  \item Center        = $( 111.177    , 131.572      )$ millimeters
+  //  \item Translation   = $(  12.4566   ,  16.0729     )$ millimeters
   //  \end{itemize}
   // 
   //  Note that the reported translation is not the translation of $(13,17)$
@@ -413,7 +417,7 @@ int main( int argc, char *argv[] )
   //  CenteredRigid2DTransform are redundant. The actual movement
   //  in space is described by only $3$ parameters. This means that there are
   //  infinite combinations of rotation center and translations that will
-  //  represent the same actual movement in space. It it more illustrative in
+  //  represent the same actual movement in space. It is more illustrative in
   //  this case to take a look at the actual rotation matrix and offset
   //  resulting form the five parameters.
   //
@@ -435,21 +439,21 @@ int main( int argc, char *argv[] )
   //
   //  \begin{verbatim}
   //  Matrix =
-  //     0.984817 -0.173598
-  //     0.173598 0.984817
+  //     0.984818 -0.173591
+  //     0.173591 0.984818
   //
   //  Offset =
-  //     36.9848  -1.22857
+  //     [36.9843, -1.22896]
   //  \end{verbatim}
   //
   //  This output illustrates how counter-intuitive the mix of center of
-  //  rotation and translations is. Figure
+  //  rotation and translations can be. Figure
   //  \ref{fig:TranslationAndRotationCenter} will clarify this situation. The
-  //  figure shows at left the original image. A rotation of $10^{\circ}$
-  //  around the center of the image is shown in the middle. The same
-  //  rotation performed around the origin of coordinates is shown at
-  //  right. It can be seen here that changing the center of rotation
-  //  introduces additional translations.
+  //  figure shows the original image on the left. A rotation of $10^{\circ}$
+  //  around the center of the image is shown in the middle. The same rotation
+  //  performed around the origin of coordinates is shown on the right. It can
+  //  be seen here that changing the center of rotation introduces additional
+  //  translations.
   //
   //  Let's analyze what happens to the center of the image that we just
   //  registered. Under the point of view of rotating $10^{\circ}$ around the
@@ -516,16 +520,15 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.32\textwidth]{ImageRegistration6DifferenceBefore.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration6DifferenceAfter.eps} 
   // \itkcaption[CenteredTransformInitializer output images]{Resampled moving
-  // image (left). Differences between fixed and moving images, before (center)
-  // and after (right) registration with the
+  // image (left). Differences between fixed and moving images, before
+  // registration (center) and after registration (right) with the
   // CenteredTransformInitializer.}
   // \label{fig:ImageRegistration6Outputs}
   // \end{figure}
   //
   // Figure \ref{fig:ImageRegistration6Outputs} shows the output of the
-  // registration. The right most image of this figure shows the squared
-  // magnitude of pixel differences between the fixed image and the resampled
-  // moving image. 
+  // registration. The image on the right of this figure shows the differences
+  // between the fixed image and the resampled moving image after registration. 
   //
   // \begin{figure}
   // \center
