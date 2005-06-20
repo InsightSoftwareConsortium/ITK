@@ -72,20 +72,70 @@ void
 Rigid3DPerspectiveTransform<TScalarType>
 ::SetParameters( const ParametersType & parameters )
 {
-  // Transfer the rotation part (quaternion)
-  m_Versor.Set(parameters[0],parameters[1],parameters[2],parameters[3]);
+  itkDebugMacro( << "Setting paramaters " << parameters );
+
+  // Transfer the versor part
+  
+  AxisType axis;
+
+  double norm = parameters[0]*parameters[0];
+  axis[0] = parameters[0];
+  norm += parameters[1]*parameters[1];
+  axis[1] = parameters[1];
+  norm += parameters[2]*parameters[2];
+  axis[2] = parameters[2];
+  if( norm > 0)
+    {
+    norm = sqrt(norm);
+    }
+
+  double epsilon = 1e-10;
+  if(norm >= 1.0-epsilon)
+    {
+    axis = axis / (norm+epsilon*norm);
+    }
+  
+  m_Versor.Set(axis);
+
+  itkDebugMacro( <<"Versor is now " << this->GetRotation() );
 
   // Transfer the translation part
   OffsetType offset;
   for(unsigned int i=0; i < SpaceDimension; i++) 
     { 
-    offset[i] = parameters[i+4];
+    offset[i] = parameters[i+3];
     }
 
   this->SetOffset( offset );
 
-  ComputeMatrix();
+  this->ComputeMatrix();
 }
+
+
+
+
+// Set Parameters
+template <class TScalarType>
+const typename Rigid3DPerspectiveTransform<TScalarType>::ParametersType &
+Rigid3DPerspectiveTransform<TScalarType>
+::GetParameters() const
+{
+  itkDebugMacro( << "Getting parameters ");
+
+  this->m_Parameters[0] = this->GetRotation().GetX();
+  this->m_Parameters[1] = this->GetRotation().GetY();
+  this->m_Parameters[2] = this->GetRotation().GetZ();
+
+  // Transfer the translation
+  this->m_Parameters[3] = this->GetOffset()[0];
+  this->m_Parameters[4] = this->GetOffset()[1];
+  this->m_Parameters[5] = this->GetOffset()[2];
+
+  itkDebugMacro(<<"After getting parameters " << this->m_Parameters );
+
+  return this->m_Parameters;
+}
+
 
 
 // Set rotation

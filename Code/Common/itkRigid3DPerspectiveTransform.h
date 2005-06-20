@@ -47,7 +47,7 @@ public:
 
   /** Dimension of parameters. */
   itkStaticConstMacro(SpaceDimension, unsigned int, 3);
-  itkStaticConstMacro(ParametersDimension, unsigned int, 7);
+  itkStaticConstMacro(ParametersDimension, unsigned int, 6);
 
   /** Standard class typedefs. */ 
   typedef Rigid3DPerspectiveTransform Self;
@@ -107,12 +107,12 @@ public:
   const VersorType & GetRotation() const
     { return m_Versor; }
 
-  /** Set the transformation from a container of parameters.
+  /** Set/Get the transformation from a container of parameters.
    * This is typically used by optimizers.
-   * There are 7 parameters. The first four represent the
+   * There are 6 parameters. The first three represent the
    * versor and the last three represents the offset. */
   void SetParameters( const ParametersType & parameters );
-  itkGetConstReferenceMacro(Parameters, ParametersType);
+  const ParametersType & GetParameters() const;
 
   /** This method sets the offset of an Rigid3DPerspectiveTransform to a
    * value specified by the user. */
