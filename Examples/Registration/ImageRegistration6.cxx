@@ -542,13 +542,12 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   //  Figure \ref{fig:ImageRegistration6Plots} plots the output parameters of
-  //  the registration process. The metric values at every iteration are
-  //  shown on the top. The angle values are shown in the plot at left while
-  //  the translation components of the registration are presented in the
-  //  plot at right. Note that this is the complementary translation as used
-  //  in the transform, not the actual total translation that is used in
-  //  the transform offset. We could modify the observer to
-  //  print the total offset instead of printing the array of
+  //  the registration process. It includes, the metric values at every
+  //  iteration, the angle values at every iteration, and the values of the
+  //  translation components as the registration progress. Note that this is
+  //  the complementary translation as used in the transform, not the actual
+  //  total translation that is used in the transform offset. We could modify
+  //  the observer to print the total offset instead of printing the array of
   //  parameters. Let's call that an exercise for the reader!
   //
   //  Software Guide : EndLatex 
