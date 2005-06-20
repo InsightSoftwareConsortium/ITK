@@ -17,6 +17,14 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS:  {BrainProtonDensitySliceShifted13x17y.png}
+//    INPUTS:  {BrainT1SliceBorder20.png}
+//    OUTPUTS: {MultiResImageRegistration1Output.png}
+//    OUTPUTS: {MultiResImageRegistration1CheckerboardBefore.png}
+//    OUTPUTS: {MultiResImageRegistration1CheckerboardAfter.png}
+//  Software Guide : EndCommandLineArgs
+
 // Software Guide : BeginLatex
 //
 // \index{itk::ImageRegistrationMethod!Multi-Resolution}
@@ -49,6 +57,7 @@
 
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
+#include "itkCheckerBoardImageFilter.h"
 
 
 // Software Guide : BeginLatex
@@ -277,7 +286,8 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << "outputImagefile [differenceImage]" << std::endl;
+    std::cerr << "outputImagefile [checkerBoardBefore] [checkerBoardAfter]" 
+      << std::endl;
     return 1;
     }
   
@@ -552,6 +562,42 @@ int main( int argc, char *argv[] )
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
+  
+  //
+  // Generate checkerboards before and after registration
+  //
+  typedef itk::CheckerBoardImageFilter< FixedImageType > CheckerBoardFilterType;
+
+  CheckerBoardFilterType::Pointer checker = CheckerBoardFilterType::New();
+
+  checker->SetInput1( fixedImage );
+  checker->SetInput2( resample->GetOutput() );
+
+  caster->SetInput( checker->GetOutput() );
+  writer->SetInput( caster->GetOutput()   );
+  
+  resample->SetDefaultPixelValue( 0 );
+  
+  // Before registration
+  TransformType::Pointer identityTransform = TransformType::New();
+  identityTransform->SetIdentity();
+  resample->SetTransform( identityTransform );
+
+  if( argc > 4 )
+    {
+    writer->SetFileName( argv[4] );
+    writer->Update();
+    }
+
+ 
+  // After registration
+  resample->SetTransform( finalTransform );
+  if( argc > 5 )
+    {
+    writer->SetFileName( argv[5] );
+    writer->Update();
+    }
+
 
 
   //  Software Guide : BeginLatex
