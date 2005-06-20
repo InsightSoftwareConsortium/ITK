@@ -18,6 +18,15 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySliceBorder20.png}
+//    INPUTS: {BrainProtonDensitySliceR10X13Y17.png}
+//    OUTPUTS: {ImageRegistration6Output.png}
+//    OUTPUTS: {ImageRegistration6DifferenceAfter.png}
+//    OUTPUTS: {ImageRegistration6DifferenceBefore.png}
+//  Software Guide : EndCommandLineArgs
+
+
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{CenteredRigid2DTransform}
@@ -83,7 +92,8 @@
 
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
-#include "itkSquaredDifferenceImageFilter.h"
+#include "itkRescaleIntensityImageFilter.h"
+#include "itkSubtractImageFilter.h"
 
 
 //
@@ -132,8 +142,8 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << " outputImagefile  [differenceOutputfile] ";
-    std::cerr << " [differenceBeforeRegistration] "<< std::endl;
+    std::cerr << " outputImagefile  [differenceBeforeRegistration] ";
+    std::cerr << " [differenceAfterRegistration] "<< std::endl;
     return 1;
     }
   
@@ -582,37 +592,78 @@ int main( int argc, char *argv[] )
   writer->Update();
 
 
-  typedef itk::SquaredDifferenceImageFilter< 
-                                  FixedImageType, 
-                                  FixedImageType, 
-                                  OutputImageType > DifferenceFilterType;
+
+
+  // Now compute the difference between the images
+  // before and after registration.
+  //
+  typedef itk::Image< float, Dimension > DifferenceImageType;
+
+  typedef itk::SubtractImageFilter< 
+                           FixedImageType, 
+                           FixedImageType, 
+                           DifferenceImageType > DifferenceFilterType;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
-  WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( difference->GetOutput() );  
+  typedef  unsigned char  OutputPixelType;
+
+  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   
+  typedef itk::RescaleIntensityImageFilter< 
+                                  DifferenceImageType, 
+                                  OutputImageType >   RescalerType;
 
-  // Compute the difference image between the 
-  // fixed and resampled moving image.
-  if( argc >= 5 )
+  RescalerType::Pointer intensityRescaler = RescalerType::New();
+
+  intensityRescaler->SetOutputMinimum(   0 );
+  intensityRescaler->SetOutputMaximum( 255 );
+
+  difference->SetInput1( fixedImageReader->GetOutput() );
+  difference->SetInput2( resample->GetOutput() );
+
+  resample->SetDefaultPixelValue( 1 );
+
+  intensityRescaler->SetInput( difference->GetOutput() );  
+
+  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+
+  WriterType::Pointer      writer2 =  WriterType::New();
+
+  writer2->SetInput( intensityRescaler->GetOutput() );
+
+
+  try
     {
-    difference->SetInput1( fixedImageReader->GetOutput() );
-    difference->SetInput2( resample->GetOutput() );
-    writer2->SetFileName( argv[4] );
-    writer2->Update();
+    // Compute the difference image between the 
+    // fixed and moving image after registration.
+    if( argc > 5 )
+      {
+      writer2->SetFileName( argv[5] );
+      writer2->Update();
+      }
+
+    // Compute the difference image between the 
+    // fixed and resampled moving image after registration.
+    TransformType::Pointer identityTransform = TransformType::New();
+    identityTransform->SetIdentity();
+    resample->SetTransform( identityTransform );
+    if( argc > 4 )
+      {
+      writer2->SetFileName( argv[4] );
+      writer2->Update();
+      }
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Error while writing difference images" << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
     }
 
 
-  // Compute the difference image between the 
-  // fixed and moving image before registration.
-  if( argc >= 6 )
-    {
-    writer2->SetFileName( argv[5] );
-    difference->SetInput1( fixedImageReader->GetOutput() );
-    difference->SetInput2( movingImageReader->GetOutput() );
-    writer2->Update();
-    }
+
+
 
   return 0;
 }
