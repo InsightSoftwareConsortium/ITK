@@ -18,6 +18,15 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS:  {BrainT1SliceBorder20.png}
+//    INPUTS:  {BrainProtonDensitySliceShifted13x17y.png}
+//    OUTPUTS: {MultiResImageRegistration2Output.png}
+//    100
+//    OUTPUTS: {MultiResImageRegistration2CheckerboardBefore.png}
+//    OUTPUTS: {MultiResImageRegistration2CheckerboardAfter.png}
+//  Software Guide : EndCommandLineArgs
+
 // Software Guide : BeginLatex
 //
 //  This example illustrates the use of more complex components of the
@@ -60,6 +69,7 @@
 
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
+#include "itkCheckerBoardImageFilter.h"
 
 //  The following section of code implements an observer
 //  that will monitor the evolution of the registration process.
@@ -73,7 +83,7 @@ public:
   typedef  itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate(): m_CumulativeIterationIndex(0) {};
 public:
   typedef   itk::RegularStepGradientDescentOptimizer     OptimizerType;
   typedef   const OptimizerType   *           OptimizerPointer;
@@ -93,8 +103,11 @@ public:
         }
       std::cout << optimizer->GetCurrentIteration() << "   ";
       std::cout << optimizer->GetValue() << "   ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
+      std::cout << optimizer->GetCurrentPosition() << "  " <<
+        m_CumulativeIterationIndex++ << std::endl;
     }
+private:
+  unsigned int m_CumulativeIterationIndex;
 };
 
 
@@ -154,7 +167,8 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << " outputImagefile [backgroundGrayLevel]"     << std::endl;
+    std::cerr << " outputImagefile [backgroundGrayLevel]";
+    std::cerr << " [checkerboardbefore] [CheckerBoardAfter]" << std::endl;
     return 1;
     }
   
@@ -366,8 +380,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  metric->SetNumberOfHistogramBins( 20 );
-  metric->SetNumberOfSpatialSamples( 10000 );
+  metric->SetNumberOfHistogramBins( 50 );
+  metric->SetNumberOfSpatialSamples( 20000 );
 
 
   //  Software Guide : BeginLatex
@@ -559,6 +573,40 @@ int main( int argc, char *argv[] )
   //  metric values computed as the optimizer explored the parameter space.
   //
   //  Software Guide : EndLatex 
+
+  //
+  // Generate checkerboards before and after registration
+  //
+  typedef itk::CheckerBoardImageFilter< FixedImageType > CheckerBoardFilterType;
+
+  CheckerBoardFilterType::Pointer checker = CheckerBoardFilterType::New();
+
+  checker->SetInput1( fixedImage );
+  checker->SetInput2( resample->GetOutput() );
+
+  caster->SetInput( checker->GetOutput() );
+  writer->SetInput( caster->GetOutput()   );
+  
+  // Write out checkerboard outputs
+  // Before registration
+  TransformType::Pointer identityTransform = TransformType::New();
+  identityTransform->SetIdentity();
+  resample->SetTransform( identityTransform );
+
+  if( argc > 5 )
+    {
+    writer->SetFileName( argv[5] );
+    writer->Update();
+    }
+
+ 
+  // After registration
+  resample->SetTransform( finalTransform );
+  if( argc > 6 )
+    {
+    writer->SetFileName( argv[6] );
+    writer->Update();
+    }
 
 
   return 0;
