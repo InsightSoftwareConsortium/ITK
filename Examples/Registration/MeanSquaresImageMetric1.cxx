@@ -173,10 +173,10 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// Finally we select a region of the parametric to explore. In this case we are
-// using a translation transform in 2D, so we simply select translations from a
-// negative position to a positive position, in both $x$ and $y$. For each one
-// of those positions we invoke the GetValue() method of the Metric.
+// Finally we select a region of the parametric space to explore. In this case
+// we are using a translation transform in 2D, so we simply select translations
+// from a negative position to a positive position, in both $x$ and $y$. For
+// each one of those positions we invoke the GetValue() method of the Metric.
 //
 // Software Guide : EndLatex 
 
@@ -204,8 +204,8 @@ int main( int argc, char * argv[] )
 //
 // \begin{figure}
 // \center
-// \includegraphics[width=0.44\textwidth]{MeanSquaresMetricPlot1.eps}
-// \includegraphics[width=0.44\textwidth]{MeanSquaresMetricPlot2.eps}
+// \includegraphics[height=0.33\textwidth]{MeanSquaresMetricPlot1.eps}
+// \includegraphics[height=0.33\textwidth]{MeanSquaresMetricPlot2.eps}
 // \itkcaption[Mean Squares Metric Plots]{Plots of the Mean Squares Metric for
 // an image compared to itself under multiple translations.}
 // \label{fig:MeanSquaresMetricPlot}
