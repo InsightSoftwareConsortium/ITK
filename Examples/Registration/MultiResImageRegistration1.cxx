@@ -18,8 +18,8 @@
 #pragma warning ( disable : 4786 )
 #endif
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS:  {BrainProtonDensitySliceShifted13x17y.png}
 //    INPUTS:  {BrainT1SliceBorder20.png}
+//    INPUTS:  {BrainProtonDensitySliceShifted13x17y.png}
 //    OUTPUTS: {MultiResImageRegistration1Output.png}
 //    OUTPUTS: {MultiResImageRegistration1CheckerboardBefore.png}
 //    OUTPUTS: {MultiResImageRegistration1CheckerboardAfter.png}
@@ -505,7 +505,7 @@ int main( int argc, char *argv[] )
   //  
   //  Let's execute this example using the same multi-modality images as
   //  before.  The registration converged at the first level 
-  //  after 4 iterations with translation parameters of (13.8663, 18.9939).
+  //  after 6 iterations with translation parameters of (13.8663, 18.9939).
   //  The second level converged after 5 iterations with result of
   //  (13.1035, 17.19). Registration converged after 1 iteration at the
   //  last level with the final result being:
