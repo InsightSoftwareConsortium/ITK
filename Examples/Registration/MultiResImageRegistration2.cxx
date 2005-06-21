@@ -380,8 +380,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  metric->SetNumberOfHistogramBins( 50 );
-  metric->SetNumberOfSpatialSamples( 20000 );
+  metric->SetNumberOfHistogramBins( 20 );
+  metric->SetNumberOfSpatialSamples( 10000 );
 
 
   //  Software Guide : BeginLatex
