@@ -17,19 +17,26 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySliceBorder20.png}
+//    INPUTS: {BrainProtonDensitySliceR10X13Y17.png}
+//    OUTPUTS: {ImageRegistration9Output.png}
+//    OUTPUTS: {ImageRegistration9DifferenceAfter.png}
+//    OUTPUTS: {ImageRegistration9DifferenceBefore.png}
+//    1.0 300
+//  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{CenteredAffineTransform}
+// This example illustrates the use of the \doxygen{AffineTransform}
 // for performing registration in $2D$. The example code is, for the most part,
-// identical to that in
-// \ref{sec:InitializingRegistrationWithMoments}.  The main difference is the
-// use of the CenteredAffineTransform here instead of the
+// identical to that in \ref{sec:InitializingRegistrationWithMoments}.  
+// The main difference is the use of the AffineTransform here instead of the
 // \doxygen{CenteredRigid2DTransform}. We will focus on the most
 // relevant changes in the current code and skip the basic elements already
 // explained in previous examples.
 //
-// \index{itk::CenteredAffineTransform}
+// \index{itk::AffineTransform}
 //
 // Software Guide : EndLatex 
 
@@ -46,14 +53,14 @@
 
 //  Software Guide : BeginLatex
 //  
-//  Let's start by including the header file of the CenteredAffineTransform.
+//  Let's start by including the header file of the AffineTransform.
 //
-//  \index{itk::CenteredAffineTransform!header}
+//  \index{itk::AffineTransform!header}
 // 
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-#include "itkCenteredAffineTransform.h"
+#include "itkAffineTransform.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -63,6 +70,7 @@
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkSquaredDifferenceImageFilter.h"
+#include "itkRescaleIntensityImageFilter.h"
 
 
 //
@@ -98,8 +106,20 @@ public:
       }
       std::cout << optimizer->GetCurrentIteration() << "   ";
       std::cout << optimizer->GetValue() << "   ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
-  }
+      std::cout << optimizer->GetCurrentPosition();
+     
+      // Print the angle for the trace plot
+      vnl_matrix<double> p(2, 2);
+      p[0][0] = (double) optimizer->GetCurrentPosition()[0];
+      p[0][1] = (double) optimizer->GetCurrentPosition()[1];
+      p[1][0] = (double) optimizer->GetCurrentPosition()[2];
+      p[1][1] = (double) optimizer->GetCurrentPosition()[3];
+      vnl_svd<double> svd(p);
+      vnl_matrix<double> r(2, 2);
+      r = svd.U() * vnl_transpose(svd.V());
+      double angle = asin(r[1][0]);
+      std::cout << " AffineAngle: " << angle * 45.0 / atan(1.0) << std::endl;
+    }
 };
 
 
@@ -137,12 +157,12 @@ int main( int argc, char *argv[] )
   //  parameters of this class are the representation type of the space
   //  coordinates and the space dimension.
   //
-  //  \index{itk::CenteredAffineTransform!Instantiation}
+  //  \index{itk::AffineTransform!Instantiation}
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CenteredAffineTransform< 
+  typedef itk::AffineTransform< 
                                   double, 
                                   Dimension  >     TransformType;
   // Software Guide : EndCodeSnippet
@@ -174,8 +194,8 @@ int main( int argc, char *argv[] )
   //  The transform object is constructed below and passed to the registration
   //  method.
   //
-  //  \index{itk::CenteredAffineTransform!New()}
-  //  \index{itk::CenteredAffineTransform!Pointer}
+  //  \index{itk::AffineTransform!New()}
+  //  \index{itk::AffineTransform!Pointer}
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
   //  Software Guide : EndLatex 
@@ -274,8 +294,6 @@ int main( int argc, char *argv[] )
   optimizerScales[3] =  1.0;
   optimizerScales[4] =  translationScale;
   optimizerScales[5] =  translationScale;
-  optimizerScales[6] =  translationScale;
-  optimizerScales[7] =  translationScale;
 
   optimizer->SetScales( optimizerScales );
   // Software Guide : EndCodeSnippet
@@ -376,10 +394,10 @@ int main( int argc, char *argv[] )
   OptimizerType::ParametersType finalParameters = 
                     registration->GetLastTransformParameters();
 
-  const double finalRotationCenterX = finalParameters[4];
-  const double finalRotationCenterY = finalParameters[5];
-  const double finalTranslationX    = finalParameters[6];
-  const double finalTranslationY    = finalParameters[7];
+  const double finalRotationCenterX = transform->GetCenter()[0];
+  const double finalRotationCenterY = transform->GetCenter()[1];
+  const double finalTranslationX    = finalParameters[4];
+  const double finalTranslationY    = finalParameters[5];
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
   const double bestValue = optimizer->GetValue();
@@ -431,36 +449,35 @@ int main( int argc, char *argv[] )
   //  \ref{fig:FixedMovingImageRegistration9}. We execute the code using the
   //  following parameters: step length=1.0, translation scale= 0.0001 and
   //  maximum number of iterations = 300. With these images and parameters
-  //  the registration takes $240$ iterations and produces
+  //  the registration takes $98$ iterations and produces
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //   239 44.3138   
-  //  [0.984935, -0.172989, 0.172608, 0.984926, 
-  //    123.249, 147.12, 9.58612, 17.9202]
+  //   96 58.09 [0.986481, -0.169104, 0.166411, 0.986174, 12.461, 16.0754]
   //  \end{verbatim}
   //  \end{center}
   //
   //  These results are interpreted as
   //
   //  \begin{itemize}
-  //  \item Iterations   = 239
-  //  \item Final Metric = 44.3138
-  //  \item Center       = $( 123.249,   147.12   )$ millimeters
-  //  \item Translation  = $(   9.58612,  17.9202 )$ millimeters
+  //  \item Iterations   = 98
+  //  \item Final Metric = 58.09
+  //  \item Center       = $( 111.204,   131.6   )$ millimeters
+  //  \item Translation  = $(   12.461,  16.0754 )$ millimeters
+  //  \item Affine scales = $(1.00185, .999137)$
   //  \end{itemize}
   //  
   //  The second component of the matrix values is usually associated with
-  //  $\sin{\theta}$. In this case the value $0.1729$ corresponds to a rotation 
-  //  of $9.95$ degrees, which is approximately the intentional misalignment of 
-  //  $10.0$ degrees.
+  //  $\sin{\theta}$. We obtain the rotation through SVD of the affine
+  //  matrix. The value is $9.6526$ degrees, which is approximately the 
+  //  intentional misalignment of $10.0$ degrees.
   //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17S12.eps}
-  // \itkcaption[CenteredAffineTransform registration]{Fixed and moving images
-  // provided as input to the registration method using the CenteredAffineTransform.}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17.eps}
+  // \itkcaption[AffineTransform registration]{Fixed and moving images
+  // provided as input to the registration method using the AffineTransform.}
   // \label{fig:FixedMovingImageRegistration9}
   // \end{figure}
   //
@@ -470,10 +487,10 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.32\textwidth]{ImageRegistration9Output.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceBefore.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceAfter.eps} 
-  // \itkcaption[CenteredAffineTransform ouput images]{The resampled moving image
+  // \itkcaption[AffineTransform ouput images]{The resampled moving image
   // (left), and the difference between the fixed and moving images before (center) 
   // and after (right) registration with the 
-  // CenteredAffineTransform transform.}
+  // AffineTransform transform.}
   // \label{fig:ImageRegistration9Outputs}
   // \end{figure}
   //
@@ -487,9 +504,9 @@ int main( int argc, char *argv[] )
   // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceMetric.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceAngle.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceTranslations.eps} 
-  // \itkcaption[CenteredAffineTransform output plots]{Metric values,
+  // \itkcaption[AffineTransform output plots]{Metric values,
   // rotation angle and translations during the registration using the 
-  // CenteredAffineTransform transform.}
+  // AffineTransform transform.}
   // \label{fig:ImageRegistration9Plots}
   // \end{figure}
   //
@@ -506,12 +523,16 @@ int main( int argc, char *argv[] )
 
   //  The following code is used to dump output images to files.
   //  They illustrate the final results of the registration.
+  //  We will resample the moving image and write out the difference image
+  //  before and after registration. We will also rescale the intensities of the
+  //  difference images, so that they look better!
   typedef itk::ResampleImageFilter< 
                             MovingImageType, 
                             FixedImageType >    ResampleFilterType;
 
   TransformType::Pointer finalTransform = TransformType::New();
 
+  finalTransform->SetCenter( transform->GetCenter() );
   finalTransform->SetParameters( finalParameters );
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
@@ -557,9 +578,18 @@ int main( int argc, char *argv[] )
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
   WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( difference->GetOutput() );  
   
+  typedef itk::RescaleIntensityImageFilter< 
+                                  OutputImageType, 
+                                  OutputImageType >   RescalerType;
 
+  RescalerType::Pointer intensityRescaler = RescalerType::New();
+  intensityRescaler->SetInput( difference->GetOutput() );
+  intensityRescaler->SetOutputMinimum(   0 );
+  intensityRescaler->SetOutputMaximum( 255 );
+  writer2->SetInput( intensityRescaler->GetOutput() );  
+  resample->SetDefaultPixelValue( 1 );
+  
   // Compute the difference image between the 
   // fixed and resampled moving image.
   if( argc > 4 )
