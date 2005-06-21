@@ -202,6 +202,15 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
+// \begin{figure}
+// \center
+// \includegraphics[width=0.44\textwidth]{MeanSquaresMetricPlot1.eps}
+// \includegraphics[width=0.44\textwidth]{MeanSquaresMetricPlot2.eps}
+// \itkcaption[Mean Squares Metric Plots]{Plots of the Mean Squares Metric for
+// an image compared to itself under multiple translations.}
+// \label{fig:MeanSquaresMetricPlot}
+// \end{figure}
+//
 // Running this code using the image BrainProtonDensitySlice.png as both the
 // fixed and the moving images results in the plot shown in
 // Figure~\ref{fig:MeanSquaresMetricPlot}. From this Figure, it can be seen
@@ -215,10 +224,18 @@ int main( int argc, char * argv[] )
 // the optimizer parameters, the metric parameters and even options such as
 // preprocessing the image data with smoothing filters.
 //
+// The shell and Gnuplot\footnote{http://www.gnuplot.info} scripts used for
+// generating the graphics in Figure~\ref{fig:MeanSquaresMetricPlot} are
+// available in the directory
+//
+//             \code{InsightDocuments/SoftwareGuide/Art}
+// 
 // Of course, this plotting exercise becomes more challenging when the
 // transform has more than three parameters, and when those parameters have
-// very different range of values.
-// 
+// very different range of values. In those cases is necessary to select only a
+// key subset of parameters from the transform and to study the behavior of the
+// metric when those parameters are varied.
+//
 //
 // Software Guide : EndLatex 
 
