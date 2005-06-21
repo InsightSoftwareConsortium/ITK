@@ -2,11 +2,10 @@
 #Please contact hans-johnson@uiowa.edu for making enhancments/corrections
 PROJECT(NIFTIIOLIB)
 
-SET(NIFTIIOLIB_SRC nifti1_io.c)
-
 INCLUDE_DIRECTORIES(${ZNZLIB_SOURCE_DIR})
-
+SET(NIFTIIOLIB_SRC nifti1_io.c)
 ADD_LIBRARY(niftiio ${NIFTIIOLIB_SRC} )
+TARGET_LINK_LIBRARIES( niftiio znz m )
+
 INSTALL_TARGETS(/lib niftiio)
 INSTALL_FILES(/include "(\\.h)$")
-TARGET_LINK_LIBRARIES( niftiio znz )
