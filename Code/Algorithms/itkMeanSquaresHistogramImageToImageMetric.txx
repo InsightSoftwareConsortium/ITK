@@ -30,22 +30,22 @@ namespace itk
     MeasureType measure = NumericTraits<MeasureType>::Zero;
     HistogramIteratorType it = histogram.Begin();
     HistogramIteratorType end = histogram.End();
-    HistogramFrequencyType totalNoOfSamples =
+    HistogramFrequencyType totalNumberOfSamples =
       NumericTraits<HistogramFrequencyType>::Zero;
 
     while (it != end)
-    {
+      {
       HistogramFrequencyType freq = it.GetFrequency();
       if (freq > 0)
-      {
+        {
         HistogramMeasurementVectorType value = it.GetMeasurementVector();
         measure += (value[0] - value[1])*(value[0] - value[1])*freq;
-        totalNoOfSamples += freq;
-      }
+        totalNumberOfSamples += freq;
+        }
       ++it;
-    }
+      }
 
-    measure /= totalNoOfSamples;
+    measure /= totalNumberOfSamples;
 
     return measure;
   }
