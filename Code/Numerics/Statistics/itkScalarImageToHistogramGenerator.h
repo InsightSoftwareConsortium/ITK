@@ -92,6 +92,8 @@ private:
 
   GeneratorPointer    m_HistogramGenerator;
 
+  ScalarImageToHistogramGenerator(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 
