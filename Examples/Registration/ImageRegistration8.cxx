@@ -657,14 +657,21 @@ int main( int argc, char *argv[] )
   SliceWriterType::Pointer sliceWriter = SliceWriterType::New();
 
   sliceWriter->SetInput( extractor->GetOutput() );
-  
+   
+  if( argc > 6 )
+    {
+    extractor->SetInput( caster->GetOutput() );
+    resampler->SetTransform( identity );
+    sliceWriter->SetFileName( argv[6] );  
+    sliceWriter->Update();
+    }
+ 
   if( argc > 7 )
     {
     resampler->SetTransform( identity );
     sliceWriter->SetFileName( argv[7] );  
     sliceWriter->Update();
     }
-
 
   if( argc > 8 )
     {
