@@ -78,7 +78,7 @@
 //  \doxygen{VersorRigid3DTransformOptimizer}. This optimizer uses Versor
 //  composition for updating the first three components of the parameters
 //  array, and Vector addition for updating the last three components of the
-//  parameters array~\cite{Hamilton1886,Joly1905}.
+//  parameters array~\cite{Hamilton1866,Joly1905}.
 //
 //  \index{itk::VersorRigid3DTransformOptimizer!header}
 // 
