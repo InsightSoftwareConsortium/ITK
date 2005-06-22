@@ -21,9 +21,9 @@
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {brainweb1e1a10f20.mha}
 //    INPUTS: {brainweb1e1a10f20Rot10Tx15.mha}
-//    OUTPUTS: {ImageRegistration8Output.mhd}
-//    OUTPUTS: {ImageRegistration8DifferenceBefore.mhd}
-//    OUTPUTS: {ImageRegistration8DifferenceAfter.mhd}
+//    ImageRegistration8Output.mhd
+//    ImageRegistration8DifferenceBefore.mhd
+//    ImageRegistration8DifferenceAfter.mhd
 //    OUTPUTS: {ImageRegistration8Output.png}
 //    OUTPUTS: {ImageRegistration8DifferenceBefore.png}
 //    OUTPUTS: {ImageRegistration8DifferenceAfter.png}
@@ -344,9 +344,6 @@ int main( int argc, char *argv[] )
   registration->SetInitialTransformParameters( transform->GetParameters() );
   // Software Guide : EndCodeSnippet
 
-  std::cout << "Intial Parameters = " << std::endl;
-  std::cout << transform->GetParameters() << std::endl;
-
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
   const double translationScale = 1.0 / 1000.0;
@@ -371,7 +368,6 @@ int main( int argc, char *argv[] )
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
-  std::cout << std::endl << "Starting Registration" << std::endl;
 
   try 
     { 
@@ -402,6 +398,7 @@ int main( int argc, char *argv[] )
 
   // Print out results
   //
+  std::cout << std::endl << std::endl;
   std::cout << "Result = " << std::endl;
   std::cout << " versor X      = " << versorX  << std::endl;
   std::cout << " versor Y      = " << versorY  << std::endl;
@@ -416,7 +413,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  Let's execute this example over some of the images available in
-  //  the ftp site, for example:
+  //  the ftp site 
+  //
+  //  \url{ftp://public.kitware.com/pub/itk/Data/BrainWeb}
+  //
+  //  for example:
   //  
   //  \begin{itemize}
   //  \item \code{brainweb165a10f17.mha} 
@@ -425,19 +426,19 @@ int main( int argc, char *argv[] )
   //
   //  The second image is the result of intentionally rotating the first image
   //  by $10$ degrees around the origin and shifting it $15mm$ in $X$.  The
-  //  registration takes $19$ iterations and produces:
+  //  registration takes $24$ iterations and produces:
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [-2.84486e-05, 5.73525e-05, -0.0870955, -0.112467, -17.5025, -0.00222232]
+  //  [-6.03744e-05, 5.91487e-06, -0.0871932, 2.64659, -17.4637, -0.00232496]
   //  \end{verbatim}
   //  \end{center}
   //
   //  That are interpreted as
   //
   //  \begin{itemize}
-  //  \item Versor        = $(-2.84e-05, 5.73e-05, -0.08709, 0.9962 )$
-  //  \item Translation   = $(  -0.1124, -17.5025, -0.0022    )$ millimeters
+  //  \item Versor        = $(-6.03744e-05, 5.91487e-06, -0.0871932)$
+  //  \item Translation   = $(2.64659,  -17.4637,  -0.00232496)$ millimeters
   //  \end{itemize}
   //  
   //  This Versor is equivalent to a rotaion of $9.98$ degrees around the $Z$
@@ -449,9 +450,8 @@ int main( int argc, char *argv[] )
   //  found by the \code{CenteredTransformInitializer} and then adding the
   //  translation vector shown above.
   //
-  //  It is more
-  //  illustrative in this case to take a look at the actual rotation matrix
-  //  and offset resulting form the $5$ parameters.
+  //  It is more illustrative in this case to take a look at the actual
+  //  rotation matrix and offset resulting form the $6$ parameters.
   //
   //  Software Guide : EndLatex 
 
@@ -465,17 +465,27 @@ int main( int argc, char *argv[] )
   std::cout << "Offset = " << std::endl << offset << std::endl;
   // Software Guide : EndCodeSnippet
 
-#define TUMBUKTU
 
   //  Software Guide : BeginLatex
   //
-  //  You may be wondering why if the actual movement is represented by three
-  //  parameters this example uses five instead. The answer is that by using
-  //  five parameters it is easier to initialize the transform with an
-  //  appropriate rotation matrix and offset. Using the minimum three
-  //  parameters is not obvious how to find what the rotation and
-  //  translations should be.
+  //  The output of this print statements is
   //
+  //  \begin{center}
+  //  \begin{verbatim}
+  //  Matrix =
+  //      0.984795 0.173722 2.23132e-05
+  //      -0.173722 0.984795 0.000119257
+  //      -1.25621e-06 -0.00012132 1
+  //
+  //  Offset =
+  //      [-15.0105, -0.00672343, 0.0110854]
+  //  \end{verbatim}
+  //  \end{center}
+  //
+  //  From the rotation matrix it is possible to deduce that the rotation is
+  //  happening in the X,Y plane and that the angle is on the order of
+  //  $\asin{(0.173722)} which is very close to 10 degrees, as we expected.
+  //  
   //  Software Guide : EndLatex 
 
 
@@ -505,9 +515,18 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   // Figure \ref{fig:ImageRegistration8Outputs} shows the output of the
-  // registration. The right most image of this figure shows the squared
-  // magnitude of pixel differences between the fixed image and the resampled
-  // moving image. 
+  // registration. The center image in this figure shows the differences
+  // between the fixed image and the resampled moving image before the
+  // registration. The image on the right side presents the difference between
+  // the fixed image and the resampled moving image after the registration has
+  // been performed. Note that these images are individual slices extracted
+  // from the actual volumes. For details, look at the source code of this
+  // example, where the ExtractImageFilter is used to extract a slice from the
+  // the center of each one of the volumes. One of the main purposes of this
+  // example is to illustrate that the toolkit can perform registration on
+  // images of any dimension. The only limitations are, as usual, the amount of
+  // memory available for the images and the amount of computation time that it
+  // will take to complete the optimization process.
   //
   // \begin{figure}
   // \center
@@ -522,13 +541,25 @@ int main( int argc, char *argv[] )
   //
   //  Figure \ref{fig:ImageRegistration8Plots} shows the plots of the main
   //  output parameters of the registration process. The metric values at every
-  //  iteration are shown on the top. The angle values are shown in the plot at
-  //  left while the translation components of the registration are presented
-  //  in the plot at right. Note that this is the complementary translation as
-  //  used in the transform, not the atctual total translation that gets used
-  //  in the offset of the transform. We could modify the Observer in order to
-  //  print the total offset instead of printing the array of parameters. Let's
-  //  call that an exercise for the reader!
+  //  iteration. The Z component of the versor is plotted as an indication of
+  //  how the rotation progress. The X,Y translation components of the
+  //  registration are plotted at every iteration too.
+  //  
+  //  Shell and Gnuplot scripts for generating the diagrams in
+  //  Figure~\ref{fig:ImageRegistration8Plots} are available in the directory
+  //
+  //  \code{InsightDocuments/SoftwareGuide/Art}
+  //
+  //  You are strongly encouraged to run the example code, since only in this
+  //  way you can gain a first hand experience with the behavior of the
+  //  registration process. Once again, this is a simple reflection of the
+  //  philosophy that we put forward in this book: 
+  //
+  //  \emph{If you can not replicate it, then it does not exist!}.
+  //
+  //  We have seen enough published papers with pretty pictures, presenting
+  //  results that in practice are impossible to replicate. That is vanity, not
+  //  science.
   //
   //  Software Guide : EndLatex 
 
@@ -627,6 +658,15 @@ int main( int argc, char *argv[] )
     }
 
 
+
+
+//
+//  Here we extract slices from the input volume, and the difference volumes
+//  produced before and after the registration.  These slices are presented as
+//  figures in the Software Guide.
+//
+//
+  
   typedef itk::Image< OutputPixelType, 2 > OutputSliceType;
 
   typedef itk::ExtractImageFilter< 
