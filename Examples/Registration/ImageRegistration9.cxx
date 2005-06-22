@@ -21,8 +21,8 @@
 //    INPUTS: {BrainProtonDensitySliceBorder20.png}
 //    INPUTS: {BrainProtonDensitySliceR10X13Y17.png}
 //    OUTPUTS: {ImageRegistration9Output.png}
-//    OUTPUTS: {ImageRegistration9DifferenceAfter.png}
 //    OUTPUTS: {ImageRegistration9DifferenceBefore.png}
+//    OUTPUTS: {ImageRegistration9DifferenceAfter.png}
 //    1.0 300
 //  Software Guide : EndCommandLineArgs
 
@@ -69,7 +69,7 @@
 
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
-#include "itkSquaredDifferenceImageFilter.h"
+#include "itkSubtractImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 
 
@@ -130,7 +130,8 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << "   fixedImageFile  movingImageFile " << std::endl;
-    std::cerr << "   outputImagefile  [differenceOutputfile] [differenceBeforeRegistration] " << std::endl;
+    std::cerr << "   outputImagefile  [differenceBeforeRegistration] " << std::endl;
+    std::cerr << "   [differenceAfterRegistration] " << std::endl;
     std::cerr << "   [stepLength] [maxNumberOfIterations] "<< std::endl;
     return 1;
     }
@@ -535,17 +536,17 @@ int main( int argc, char *argv[] )
   finalTransform->SetCenter( transform->GetCenter() );
   finalTransform->SetParameters( finalParameters );
 
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  ResampleFilterType::Pointer resampler = ResampleFilterType::New();
 
-  resample->SetTransform( finalTransform );
-  resample->SetInput( movingImageReader->GetOutput() );
+  resampler->SetTransform( finalTransform );
+  resampler->SetInput( movingImageReader->GetOutput() );
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
-  resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
-  resample->SetOutputOrigin(  fixedImage->GetOrigin() );
-  resample->SetOutputSpacing( fixedImage->GetSpacing() );
-  resample->SetDefaultPixelValue( 100 );
+  resampler->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
+  resampler->SetOutputOrigin(  fixedImage->GetOrigin() );
+  resampler->SetOutputSpacing( fixedImage->GetSpacing() );
+  resampler->SetDefaultPixelValue( 100 );
   
   typedef  unsigned char  OutputPixelType;
 
@@ -565,49 +566,54 @@ int main( int argc, char *argv[] )
   writer->SetFileName( argv[3] );
 
 
-  caster->SetInput( resample->GetOutput() );
+  caster->SetInput( resampler->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
 
 
-  typedef itk::SquaredDifferenceImageFilter< 
+  typedef itk::SubtractImageFilter< 
                                   FixedImageType, 
                                   FixedImageType, 
-                                  OutputImageType > DifferenceFilterType;
+                                  FixedImageType > DifferenceFilterType;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+
+  difference->SetInput1( fixedImageReader->GetOutput() );
+  difference->SetInput2( resampler->GetOutput() );
 
   WriterType::Pointer writer2 = WriterType::New();
   
   typedef itk::RescaleIntensityImageFilter< 
-                                  OutputImageType, 
+                                  FixedImageType, 
                                   OutputImageType >   RescalerType;
 
   RescalerType::Pointer intensityRescaler = RescalerType::New();
+
   intensityRescaler->SetInput( difference->GetOutput() );
   intensityRescaler->SetOutputMinimum(   0 );
   intensityRescaler->SetOutputMaximum( 255 );
+  
   writer2->SetInput( intensityRescaler->GetOutput() );  
-  resample->SetDefaultPixelValue( 1 );
+  resampler->SetDefaultPixelValue( 1 );
   
   // Compute the difference image between the 
   // fixed and resampled moving image.
-  if( argc > 4 )
+  if( argc > 5 )
     {
-    difference->SetInput1( fixedImageReader->GetOutput() );
-    difference->SetInput2( resample->GetOutput() );
-    writer2->SetFileName( argv[4] );
+    writer2->SetFileName( argv[5] );
     writer2->Update();
     }
 
 
+  typedef itk::IdentityTransform< double, Dimension > IdentityTransformType;
+  IdentityTransformType::Pointer identity = IdentityTransformType::New();
+
   // Compute the difference image between the 
   // fixed and moving image before registration.
-  if( argc > 5 )
+  if( argc > 4 )
     {
-    writer2->SetFileName( argv[5] );
-    difference->SetInput1( fixedImageReader->GetOutput() );
-    difference->SetInput2( movingImageReader->GetOutput() );
+    resampler->SetTransform( identity );
+    writer2->SetFileName( argv[4] );
     writer2->Update();
     }
 
