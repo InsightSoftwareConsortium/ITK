@@ -18,6 +18,17 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {brainweb1e1a10f20.mha}
+//    INPUTS: {brainweb1e1a10f20Rot10Tx15.mha}
+//    OUTPUTS: {ImageRegistration8Output.mhd}
+//    OUTPUTS: {ImageRegistration8DifferenceBefore.mhd}
+//    OUTPUTS: {ImageRegistration8DifferenceAfter.mhd}
+//    OUTPUTS: {ImageRegistration8Output.png}
+//    OUTPUTS: {ImageRegistration8DifferenceBefore.png}
+//    OUTPUTS: {ImageRegistration8DifferenceAfter.png}
+//  Software Guide : EndCommandLineArgs
+
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{VersorRigid3DTransform}
@@ -82,7 +93,9 @@
 
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
-#include "itkSquaredDifferenceImageFilter.h"
+#include "itkSubtractImageFilter.h"
+#include "itkRescaleIntensityImageFilter.h"
+#include "itkExtractImageFilter.h"
 
 
 //  The following section of code implements a Command observer
@@ -129,8 +142,10 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << " outputImagefile  [differenceOutputfile] ";
-    std::cerr << " [differenceBeforeRegistration] "<< std::endl;
+    std::cerr << " outputImagefile  [differenceBeforeRegistration] ";
+    std::cerr << " [differenceAfterRegistration] ";
+    std::cerr << " [sliceBeforeRegistration] ";
+    std::cerr << " [sliceAfterRegistration] "<< std::endl;
     return 1;
     }
   
@@ -528,17 +543,17 @@ int main( int argc, char *argv[] )
 
   finalTransform->SetParameters( finalParameters );
 
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  ResampleFilterType::Pointer resampler = ResampleFilterType::New();
 
-  resample->SetTransform( finalTransform );
-  resample->SetInput( movingImageReader->GetOutput() );
+  resampler->SetTransform( finalTransform );
+  resampler->SetInput( movingImageReader->GetOutput() );
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
-  resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
-  resample->SetOutputOrigin(  fixedImage->GetOrigin() );
-  resample->SetOutputSpacing( fixedImage->GetSpacing() );
-  resample->SetDefaultPixelValue( 100 );
+  resampler->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
+  resampler->SetOutputOrigin(  fixedImage->GetOrigin() );
+  resampler->SetOutputSpacing( fixedImage->GetSpacing() );
+  resampler->SetDefaultPixelValue( 100 );
   
   typedef  unsigned char  OutputPixelType;
 
@@ -558,42 +573,107 @@ int main( int argc, char *argv[] )
   writer->SetFileName( argv[3] );
 
 
-  caster->SetInput( resample->GetOutput() );
+  caster->SetInput( resampler->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
 
 
-  typedef itk::SquaredDifferenceImageFilter< 
+  typedef itk::SubtractImageFilter< 
                                   FixedImageType, 
                                   FixedImageType, 
-                                  OutputImageType > DifferenceFilterType;
+                                  FixedImageType > DifferenceFilterType;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
+
+  typedef itk::RescaleIntensityImageFilter< 
+                                  FixedImageType, 
+                                  OutputImageType >   RescalerType;
+
+  RescalerType::Pointer intensityRescaler = RescalerType::New();
+  
+  intensityRescaler->SetInput( difference->GetOutput() );
+  intensityRescaler->SetOutputMinimum(   0 );
+  intensityRescaler->SetOutputMaximum( 255 );
+
+  difference->SetInput1( fixedImageReader->GetOutput() );
+  difference->SetInput2( resampler->GetOutput() );
+
+  resampler->SetDefaultPixelValue( 1 );
+
   WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( difference->GetOutput() );  
+  writer2->SetInput( intensityRescaler->GetOutput() );  
   
 
   // Compute the difference image between the 
   // fixed and resampled moving image.
-  if( argc >= 5 )
+  if( argc > 5 )
     {
-    difference->SetInput1( fixedImageReader->GetOutput() );
-    difference->SetInput2( resample->GetOutput() );
+    writer2->SetFileName( argv[5] );
+    writer2->Update();
+    }
+
+
+  typedef itk::IdentityTransform< double, Dimension > IdentityTransformType;
+  IdentityTransformType::Pointer identity = IdentityTransformType::New();
+
+  // Compute the difference image between the 
+  // fixed and moving image before registration.
+  if( argc > 4 )
+    {
+    resampler->SetTransform( identity );
     writer2->SetFileName( argv[4] );
     writer2->Update();
     }
 
 
-  // Compute the difference image between the 
-  // fixed and moving image before registration.
-  if( argc >= 6 )
+  typedef itk::Image< OutputPixelType, 2 > OutputSliceType;
+
+  typedef itk::ExtractImageFilter< 
+                          OutputImageType, 
+                          OutputSliceType > ExtractFilterType;
+
+  ExtractFilterType::Pointer extractor = ExtractFilterType::New();
+
+  extractor->SetInput( intensityRescaler->GetOutput() );
+
+  FixedImageType::RegionType inputRegion =
+                               fixedImage->GetLargestPossibleRegion();
+
+  FixedImageType::SizeType  size  = inputRegion.GetSize();
+  FixedImageType::IndexType start = inputRegion.GetIndex();
+
+  // Select one slice as output
+  size[2]  =  0;
+  start[2] = 90;
+  
+  FixedImageType::RegionType desiredRegion;
+  desiredRegion.SetSize(  size  );
+  desiredRegion.SetIndex( start );
+
+  extractor->SetExtractionRegion( desiredRegion );
+
+  typedef itk::ImageFileWriter< OutputSliceType > SliceWriterType;
+  SliceWriterType::Pointer sliceWriter = SliceWriterType::New();
+
+  sliceWriter->SetInput( extractor->GetOutput() );
+  
+  if( argc > 7 )
     {
-    writer2->SetFileName( argv[5] );
-    difference->SetInput1( fixedImageReader->GetOutput() );
-    difference->SetInput2( movingImageReader->GetOutput() );
-    writer2->Update();
+    resampler->SetTransform( identity );
+    sliceWriter->SetFileName( argv[7] );  
+    sliceWriter->Update();
     }
+
+
+  if( argc > 8 )
+    {
+    resampler->SetTransform( finalTransform );
+    sliceWriter->SetFileName( argv[8] );  
+    sliceWriter->Update();
+    }
+
+
 
 
   return 0;
