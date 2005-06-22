@@ -635,7 +635,6 @@ int main( int argc, char *argv[] )
 
   ExtractFilterType::Pointer extractor = ExtractFilterType::New();
 
-  extractor->SetInput( intensityRescaler->GetOutput() );
 
   FixedImageType::RegionType inputRegion =
                                fixedImage->GetLargestPossibleRegion();
@@ -668,6 +667,7 @@ int main( int argc, char *argv[] )
  
   if( argc > 7 )
     {
+    extractor->SetInput( intensityRescaler->GetOutput() );
     resampler->SetTransform( identity );
     sliceWriter->SetFileName( argv[7] );  
     sliceWriter->Update();
