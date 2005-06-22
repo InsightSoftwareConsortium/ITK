@@ -38,7 +38,7 @@
 // example is done in $3D$. The class \doxygen{CenteredTransformInitializer} is
 // used to initialize the center and translation of the transform.  The case of
 // rigid registration of 3D images is probably one of the most commonly found
-// casses of image registration.
+// cases of image registration.
 //
 //
 // \index{itk::VersorRigid3DTransform}
@@ -55,7 +55,7 @@
 
 //  Software Guide : BeginLatex
 //  
-//  The following are the most relevant headers to this example.
+//  The following are the most relevant headers of this example.
 //
 //  \index{itk::VersorRigid3DTransform!header}
 //  \index{itk::CenteredTransformInitializer!header}
@@ -78,7 +78,7 @@
 //  \doxygen{VersorRigid3DTransformOptimizer}. This optimizer uses Versor
 //  composition for updating the first three components of the parameters
 //  array, and Vector addition for updating the last three components of the
-//  parameters array.
+//  parameters array~\cite{Hamilton1886,Joly1905}.
 //
 //  \index{itk::VersorRigid3DTransformOptimizer!header}
 // 
@@ -412,12 +412,15 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Let's execute this example over some of the images available in
-  //  the ftp site 
+  //  Let's execute this example over some of the images available in the ftp
+  //  site 
   //
   //  \url{ftp://public.kitware.com/pub/itk/Data/BrainWeb}
   //
-  //  for example:
+  //  Note that the images in the ftp site are compressed in \code{.tgz} files.
+  //  You should download these files an uncompress them in your local system.
+  //  After decompressing and extracting the files you could take a pair of
+  //  volumes, for example the pair:
   //  
   //  \begin{itemize}
   //  \item \code{brainweb165a10f17.mha} 
