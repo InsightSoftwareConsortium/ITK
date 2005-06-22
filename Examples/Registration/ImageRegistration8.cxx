@@ -484,7 +484,7 @@ int main( int argc, char *argv[] )
   //
   //  From the rotation matrix it is possible to deduce that the rotation is
   //  happening in the X,Y plane and that the angle is on the order of
-  //  $\asin{(0.173722)} which is very close to 10 degrees, as we expected.
+  //  $\arcsin{(0.173722)}$ which is very close to 10 degrees, as we expected.
   //  
   //  Software Guide : EndLatex 
 
