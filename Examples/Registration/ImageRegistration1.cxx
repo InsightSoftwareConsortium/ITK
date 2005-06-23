@@ -65,6 +65,46 @@
 #include "itkSubtractImageFilter.h"
 
 
+
+class CommandIterationUpdate : public itk::Command 
+{
+public:
+  typedef  CommandIterationUpdate   Self;
+  typedef  itk::Command             Superclass;
+  typedef itk::SmartPointer<Self>  Pointer;
+  itkNewMacro( Self );
+
+protected:
+  CommandIterationUpdate() {};
+
+public:
+
+  typedef itk::RegularStepGradientDescentOptimizer     OptimizerType;
+  typedef const OptimizerType                         *OptimizerPointer;
+
+  void Execute(itk::Object *caller, const itk::EventObject & event)
+  {
+    Execute( (const itk::Object *)caller, event);
+  }
+
+  void Execute(const itk::Object * object, const itk::EventObject & event)
+  {
+    OptimizerPointer optimizer = 
+                         dynamic_cast< OptimizerPointer >( object );
+
+    if( ! itk::IterationEvent().CheckEvent( &event ) )
+      {
+      return;
+      }
+
+    std::cout << optimizer->GetCurrentIteration() << " = ";
+    std::cout << optimizer->GetValue() << " : ";
+    std::cout << optimizer->GetCurrentPosition() << std::endl;
+  }
+   
+};
+
+
 int main( int argc, char *argv[] )
 {
   if( argc < 4 )
@@ -337,6 +377,11 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   optimizer->SetNumberOfIterations( 200 );
   // Software Guide : EndCodeSnippet
+
+
+  // Connect an observer
+  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  optimizer->AddObserver( itk::IterationEvent(), observer );
 
 
   //  Software Guide : BeginLatex
