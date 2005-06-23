@@ -247,11 +247,6 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  // Display initial transform paramters
-  std::cout << "Initial Transform Parameters " << std::endl;
-  std::cout << transform->GetParameters() << std::endl;
-
-
   //  Software Guide : BeginLatex
   //  
   //  Now we pass the parameters of the current transform as the initial
