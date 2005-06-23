@@ -33,9 +33,6 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 {
   m_NormalizeAcrossScale = false;
 
-  // Compute the contribution of each filter to the total progress.
-  const double weight = 1.0 / ( ImageDimension * ImageDimension );
-
   for( unsigned int i = 0; i<ImageDimension-1; i++ )
     {
     m_SmoothingFilters[ i ] = GaussianFilterType::New();
