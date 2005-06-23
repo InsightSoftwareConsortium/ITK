@@ -240,8 +240,16 @@ RegularSphereMeshSource<TOutputMesh>
       cellIdx++;
       cells++;
       }
-
-    outputMesh->Initialize();
+    // This call does not release memory as ref count is not 1
+    //outputMesh->Initialize();
+    // Release memory
+    cells = myCells->Begin();
+    while( cells != myCells->End() )
+      {
+      const CellInterfaceType * cellToBeDeleted = cells->Value();
+      delete cellToBeDeleted;
+      cells++;
+      }
     outputMesh->SetPoints(result->GetPoints());
     outputMesh->SetCells(result->GetCells());
     outputMesh->SetCellData(result->GetCellData());
