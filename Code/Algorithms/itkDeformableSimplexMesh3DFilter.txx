@@ -108,7 +108,16 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
     this->ComputeDisplacement();
     m_Step++;
     }
-
+  InputPointsContainerPointer      myPoints = this->GetInput(0)->GetPoints();
+  InputPointsContainerIterator     points = myPoints->Begin();
+  while( points != myPoints->End() )
+    {
+    SimplexMeshGeometry * data;
+    unsigned long idx = points.Index();
+    data = m_Data->GetElement(idx);
+    delete data->neighborSet;
+    points++;
+    }
   this->ComputeOutput();
 }
 
@@ -166,6 +175,8 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
       {
       neighborSet->insert( *neighborIt++ );
       }
+    // garbage collection (from itkSimplexMesh)
+    delete neighborsList;
     data->neighborSet =  neighborSet;
 
     points++;
