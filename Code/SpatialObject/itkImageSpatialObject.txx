@@ -47,7 +47,7 @@ template< unsigned int TDimension, class PixelType >
 ImageSpatialObject< TDimension,  PixelType >
 ::~ImageSpatialObject()
 {
-  delete m_SlicePosition;
+  delete [] m_SlicePosition;
 }
 
 /** Return true if the given point is inside the image */
