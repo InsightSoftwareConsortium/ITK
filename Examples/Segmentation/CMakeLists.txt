@@ -187,24 +187,6 @@ ADD_TEST(GeodesicActiveContourGrayMatterTest ${SEGMENTATION_EXAMPLES}
         40 90 5.0 .5 -0.3 2.0 10.0
 )
 
-ADD_TEST(HoughTransformTwo2DLinesTest ${SEGMENTATION_EXAMPLES6}
-  --compare ${BASELINE}/HoughTransformTwoLinesTest.png
-            ${TEMP}/HoughTransformTwoLinesTest.png
-  HoughTransform2DLinesImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/HoughTransformTwoLines.png
-        ${TEMP}/HoughTransformTwoLinesTest.png
-        2 5 10
-)
-
-ADD_TEST(HoughTransformTwo2DCirclesTest ${SEGMENTATION_EXAMPLES6}
-  --compare ${BASELINE}/HoughTransformTwoCirclesTest.png
-            ${TEMP}/HoughTransformTwoCirclesTest.png
-  HoughTransform2DCirclesImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/HoughTransformTwoCircles.png
-        ${TEMP}/HoughTransformTwoCirclesTest.png
-        2 6 20 3.14 10 5 1.5
-)
-
 ADD_TEST(ShapeDetectionLevelSetLeftVentricleTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ShapeDetectionLevelSetLeftVentricleTest.png
             ${TEMP}/ShapeDetectionLevelSetLeftVentricleTest.png
@@ -268,36 +250,10 @@ ADD_TEST(ThresholdSegmentationLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES2}
         107 69 5 180 210
 )
 
-ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES5}
-  --compare ${BASELINE}/WatershedSegmentation1Test1.png
-            ${TEMP}/WatershedSegmentation1Test1.png
-  WatershedSegmentation1Test
-        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
-        ${TEMP}/WatershedSegmentation1Test1.png
-        2.0 10 0.0 0.05 1
-)
-
-ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES5}
-  --compare ${BASELINE}/WatershedSegmentation1Test2.png
-            ${TEMP}/WatershedSegmentation1Test2.png
-  WatershedSegmentation1Test
-        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
-        ${TEMP}/WatershedSegmentation1Test2.png
-        2.0 10 0.001 0.15 0
-)
-
 ADD_TEST(CellularSegmentation1Test ${SEGMENTATION_EXAMPLES9}
   CellularSegmentation1Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         100 115 200 255 3000
-)
-
-ADD_TEST(RelabelComponentImageFilterTest ${SEGMENTATION_EXAMPLES5}
-  --compare ${BASELINE}/RelabelComponentImageFilter.png
-            ${TEMP}/RelabelComponentImageFilter.png
-  RelabelComponentImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/WatershedSegmentation.png
-        ${TEMP}/RelabelComponentImageFilter.png
 )
 
 ADD_TEST(VectorConfidenceConnectedTest1 ${SEGMENTATION_EXAMPLES8}
@@ -436,13 +392,30 @@ ITKCommon
 ITKStatistics
 )
 
-ADD_EXECUTABLE(SegmentationExamples6 SegmentationExamples6.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples6
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
-ITKCommon
-ITKStatistics
+ADD_TEST(RelabelComponentImageFilterTest ${SEGMENTATION_EXAMPLES5}
+  --compare ${BASELINE}/RelabelComponentImageFilter.png
+            ${TEMP}/RelabelComponentImageFilter.png
+  RelabelComponentImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/WatershedSegmentation.png
+        ${TEMP}/RelabelComponentImageFilter.png
+)
+
+ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES5}
+  --compare ${BASELINE}/WatershedSegmentation1Test1.png
+            ${TEMP}/WatershedSegmentation1Test1.png
+  WatershedSegmentation1Test
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${TEMP}/WatershedSegmentation1Test1.png
+        2.0 10 0.0 0.05 1
+)
+
+ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES5}
+  --compare ${BASELINE}/WatershedSegmentation1Test2.png
+            ${TEMP}/WatershedSegmentation1Test2.png
+  WatershedSegmentation1Test
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${TEMP}/WatershedSegmentation1Test2.png
+        2.0 10 0.001 0.15 0
 )
 
 ADD_EXECUTABLE(SegmentationExamples8 SegmentationExamples8.cxx )
@@ -481,7 +454,6 @@ ITKBasicFilters
 ITKCommon
 ITKStatistics
 )
-
 ADD_TEST(CurvesLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES4}
   --compare ${BASELINE}/CurvesLevelSetImageFilterTest.png
             ${TEMP}/CurvesLevelSetImageFilterTest.png
@@ -490,6 +462,34 @@ ADD_TEST(CurvesLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES4}
         ${TEMP}/CurvesLevelSetImageFilterTest.png
         81 114 5.0 1.0 -0.5 3.0 2.0
 )
+
+ADD_EXECUTABLE(SegmentationExamples6 SegmentationExamples6.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples6
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKCommon
+ITKStatistics
+)
+
+ADD_TEST(HoughTransformTwo2DLinesTest ${SEGMENTATION_EXAMPLES6}
+  --compare ${BASELINE}/HoughTransformTwoLinesTest.png
+            ${TEMP}/HoughTransformTwoLinesTest.png
+  HoughTransform2DLinesImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/HoughTransformTwoLines.png
+        ${TEMP}/HoughTransformTwoLinesTest.png
+        2 5 10
+)
+
+ADD_TEST(HoughTransformTwo2DCirclesTest ${SEGMENTATION_EXAMPLES6}
+  --compare ${BASELINE}/HoughTransformTwoCirclesTest.png
+            ${TEMP}/HoughTransformTwoCirclesTest.png
+  HoughTransform2DCirclesImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/HoughTransformTwoCircles.png
+        ${TEMP}/HoughTransformTwoCirclesTest.png
+        2 6 20 3.14 10 5 1.5
+)
+
 
 ADD_EXECUTABLE(SegmentationExamples7 SegmentationExamples7.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples7
