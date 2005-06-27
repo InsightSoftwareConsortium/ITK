@@ -409,7 +409,7 @@ namespace itk
     /** Apply scaling (see below) and divide by the NumberOfPerturbations */
     for ( unsigned int j = 0; j < spaceDimension; j++ )
       {
-      gradient[j] /= (scales[j] * static_cast<double>(m_NumberOfPerturbations) );
+      gradient[j] /= ( vnl_math_sqr(scales[j]) * static_cast<double>(m_NumberOfPerturbations) );
       }
     /**
      * Scaling was still needed, because the gradient
@@ -417,17 +417,17 @@ namespace itk
      * perturbation.
      *
      * Recall that we scaled the perturbation vector by dividing each
-     * element j by sqrt(scales[j]):
-     *   delta'[j] = delta[j] / sqrt(scales[j])
-     *             = (+ or -) 1 / sqrt(scales[j])
+     * element j by scales[j]:
+     *   delta'[j] = delta[j] / scales[j]
+     *             = (+ or -) 1 / scales[j]
      * 
      * Consider the case of NumberOfPerturbations=1.
      * If we would not do any scaling the gradient would
      * be computed as:
      *   grad[j] = valuediff / delta'[j]
-     *           = valuediff / ( delta[j] / sqrt(scales[j]) )
-     *           = sqrt(scales[j] * valuediff / delta[j]
-     *           =  (+ or -) valuediff * sqrt(scales[j] 
+     *           = valuediff / ( delta[j] / scales[j] )
+     *           = scales[j] * valuediff / delta[j]
+     *           =  (+ or -) valuediff * scales[j] 
      *
      * This is wrong, because it gives a vector that points
      * in a different direction than the perturbation. Besides,
@@ -441,9 +441,10 @@ namespace itk
      * in smaller steps.
      *
      * To make the gradient point along the perturbation direction we
-     * have to divide it by the scales:
-     *  grad[j] = (+ or -) valuediff * sqrt(scales[j] / scales[j]
-     *          = (+ or -) valuediff / sqrt(scales[j]
+     * have to divide it by the square of the scales, to return the scaling
+     * parameter to the denominator where it belongs:
+     *  grad[j] = (+ or -) valuediff * scales[j] / scales[j]^2
+     *          = (+ or -) valuediff / scales[j]
      * which is correct. Now the optimizer will take a step
      * in the direction of the perturbation (or the opposite
      * of course, if valuediff is negative). 
