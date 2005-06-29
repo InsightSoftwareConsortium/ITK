@@ -124,8 +124,12 @@ public:
   Self operator-(const Self &vec) const;
   const Self & operator+=(const Self &vec);
   const Self & operator-=(const Self &vec);
-  Self operator*(const ComponentType &f) const;
 
+  /** Arithmetic operations between tensors and scalars */
+  Self operator*(const RealValueType & scalar ) const;
+  Self operator/(const RealValueType & scalar ) const;
+  const Self & operator*=(const RealValueType & scalar );
+  const Self & operator/=(const RealValueType & scalar );
  
   /** Return the number of components. */
   static unsigned int GetNumberOfComponents() 

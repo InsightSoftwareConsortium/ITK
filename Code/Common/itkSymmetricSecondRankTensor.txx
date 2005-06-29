@@ -101,7 +101,7 @@ SymmetricSecondRankTensor<T,NDimension>
 
  
 /**
- * Returns a temporary copy of a vector
+ * Performs addition in place
  */
 template<class T,unsigned int NDimension>
 const SymmetricSecondRankTensor<T,NDimension> & 
@@ -119,7 +119,7 @@ SymmetricSecondRankTensor<T,NDimension>
 
  
 /**
- * Returns a temporary copy of a vector
+ * Performs subtraction in place 
  */
 template<class T,unsigned int NDimension>
 const SymmetricSecondRankTensor<T,NDimension> & 
@@ -134,21 +134,71 @@ SymmetricSecondRankTensor<T,NDimension>
 }
 
 
+ 
+/**
+ * Performs multiplication by a scalar, in place
+ */
+template<class T,unsigned int NDimension>
+const SymmetricSecondRankTensor<T,NDimension> & 
+SymmetricSecondRankTensor<T,NDimension>
+::operator*=(const RealValueType & r) 
+{
+  for( unsigned int i=0; i<InternalDimension; i++) 
+    {
+    (*this)[i] *= r;
+    }
+  return *this;
+}
+
+
+ 
+/**
+ * Performs division by a scalar, in place
+ */
+template<class T,unsigned int NDimension>
+const SymmetricSecondRankTensor<T,NDimension> & 
+SymmetricSecondRankTensor<T,NDimension>
+::operator/=(const RealValueType & r) 
+{
+  for( unsigned int i=0; i<InternalDimension; i++) 
+    {
+    (*this)[i] /= r;
+    }
+  return *this;
+}
+
 
 
 
 /**
- * Returns a temporary copy of a vector
+ * Performs multiplication with a scalar
  */
 template<class T,unsigned int NDimension>
 SymmetricSecondRankTensor<T,NDimension> 
 SymmetricSecondRankTensor<T,NDimension>
-::operator*(const ComponentType & r) const
+::operator*(const RealValueType & r) const
 {
   Self result;
   for( unsigned int i=0; i<InternalDimension; i++) 
     {
     result[i] = (*this)[i] * r;
+    }
+  return result;
+}
+
+
+/**
+ * Performs division by a scalar
+ */
+template<class T,unsigned int NDimension>
+SymmetricSecondRankTensor<T,NDimension> 
+SymmetricSecondRankTensor<T,NDimension>
+::operator/(const RealValueType & r) const
+{
+  Self result;
+  for( unsigned int i=0; i<InternalDimension; i++) 
+    {
+    result[i] = (*this)[i] / r;
     }
   return result;
 }
