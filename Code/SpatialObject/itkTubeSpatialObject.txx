@@ -549,7 +549,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   // We copy the points
   PointListType source_list = source->GetPoints();
-  PointListType::const_iterator it_source = source_list.begin();
+  typename PointListType::const_iterator it_source = source_list.begin();
 
   this->m_Points.clear();
 
