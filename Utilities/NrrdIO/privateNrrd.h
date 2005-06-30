@@ -65,11 +65,11 @@ extern int _nrrdCalloc (Nrrd *nrrd, NrrdIoState *nio, FILE *file);
 extern char _nrrdFieldSep[];
 
 /* arrays.c */
-extern int _nrrdFieldValidInImage[NRRD_FIELD_MAX+1];
-extern int _nrrdFieldValidInText[NRRD_FIELD_MAX+1];
-extern int _nrrdFieldOnePerAxis[NRRD_FIELD_MAX+1];
-extern char _nrrdEnumFieldStr[NRRD_FIELD_MAX+1][AIR_STRLEN_SMALL];
-extern int _nrrdFieldRequired[NRRD_FIELD_MAX+1];
+extern const int _nrrdFieldValidInImage[NRRD_FIELD_MAX+1];
+extern const int _nrrdFieldValidInText[NRRD_FIELD_MAX+1];
+extern const int _nrrdFieldOnePerAxis[NRRD_FIELD_MAX+1];
+extern const char _nrrdEnumFieldStr[NRRD_FIELD_MAX+1][AIR_STRLEN_SMALL];
+extern const int _nrrdFieldRequired[NRRD_FIELD_MAX+1];
 
 /* simple.c */
 extern char *_nrrdContentGet(const Nrrd *nin);
@@ -78,8 +78,7 @@ extern int _nrrdContentSet_nva(Nrrd *nout, const char *func,
                                va_list arg);
 extern int _nrrdContentSet(Nrrd *nout, const char *func,
                            char *content, const char *format, ...);
-extern int _nrrdFieldCheckSpaceInfo(const Nrrd *nrrd, 
-                                    int checkOrigin, int useBiff);
+extern int _nrrdFieldCheckSpaceInfo(const Nrrd *nrrd, int useBiff);
 extern int (*_nrrdFieldCheck[NRRD_FIELD_MAX+1])(const Nrrd *nrrd, int useBiff);
 extern void _nrrdSplitSizes(size_t *pieceSize, size_t *pieceNum, 
                             Nrrd *nrrd, int listDim);
@@ -88,12 +87,15 @@ extern void _nrrdSpaceVecScale(double out[NRRD_SPACE_DIM_MAX],
                                const double vec[NRRD_SPACE_DIM_MAX]);
 extern double _nrrdSpaceVecNorm(int sdim,
                                 const double vec[NRRD_SPACE_DIM_MAX]);
+extern void _nrrdSpaceVecSetNaN(double vec[NRRD_SPACE_DIM_MAX]);
+
 
 /* axis.c */
 extern int _nrrdKindAltered(int kindIn);
 extern void _nrrdAxisInfoCopy(NrrdAxisInfo *dest, const NrrdAxisInfo *src,
                               int bitflag);
 extern void _nrrdAxisInfoInit(NrrdAxisInfo *axis);
+extern void _nrrdAxisInfoNewInit(NrrdAxisInfo *axis);
 extern int _nrrdCenter(int center);
 extern int _nrrdCenter2(int center, int def);
 
@@ -128,7 +130,6 @@ extern int nrrdPeripheralCopy(Nrrd *nout, const Nrrd *nin);
 extern int _nrrdCopy(Nrrd *nout, const Nrrd *nin, int bitflag);
 extern int _nrrdSizeCheck(int dim, const int *size, int useBiff);
 extern void _nrrdTraverse(Nrrd *nrrd);
-extern int _nrrdCopyShallow (Nrrd *nout, const Nrrd *nin);
 
 #if TEEM_ZLIB
 #include <zlib.h>

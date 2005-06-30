@@ -60,7 +60,7 @@ nrrdCommentAdd(Nrrd *nrrd, const char *_str) {
   }
   /* clean out carraige returns that would screw up reader */
   airOneLinify(str);
-  i = airArrayIncrLen(nrrd->cmtArr, 1);
+  i = airArrayLenIncr(nrrd->cmtArr, 1);
   if (-1 == i) {
     /*
     sprintf(err, "%s: couldn't lengthen comment array", me);
@@ -81,7 +81,7 @@ void
 nrrdCommentClear(Nrrd *nrrd) {
 
   if (nrrd) {
-    airArraySetLen(nrrd->cmtArr, 0);
+    airArrayLenSet(nrrd->cmtArr, 0);
   }
 }
 

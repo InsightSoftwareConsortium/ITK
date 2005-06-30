@@ -100,7 +100,7 @@ nrrdKeyValueClear(Nrrd *nrrd) {
     nrrd->kvp[0 + 2*ki] = airFree(nrrd->kvp[0 + 2*ki]);
     nrrd->kvp[1 + 2*ki] = airFree(nrrd->kvp[1 + 2*ki]);
   }
-  airArraySetLen(nrrd->kvpArr, 0);
+  airArrayLenSet(nrrd->kvpArr, 0);
   
   return;
 }
@@ -124,7 +124,7 @@ nrrdKeyValueErase(Nrrd *nrrd, const char *key) {
     nrrd->kvp[0 + 2*ki] = nrrd->kvp[0 + 2*(ki+1)];
     nrrd->kvp[1 + 2*ki] = nrrd->kvp[1 + 2*(ki+1)];
   }
-  airArrayIncrLen(nrrd->kvpArr, -1);
+  airArrayLenIncr(nrrd->kvpArr, -1);
 
   return 0;
 }
@@ -151,7 +151,7 @@ nrrdKeyValueAdd(Nrrd *nrrd, const char *key, const char *value) {
     nrrd->kvp[1 + 2*ki] = airFree(nrrd->kvp[1 + 2*ki]);
     nrrd->kvp[1 + 2*ki] = airStrdup(value);
   } else {
-    ki = airArrayIncrLen(nrrd->kvpArr, 1);
+    ki = airArrayLenIncr(nrrd->kvpArr, 1);
     nrrd->kvp[0 + 2*ki] = airStrdup(key);
     nrrd->kvp[1 + 2*ki] = airStrdup(value);
   }

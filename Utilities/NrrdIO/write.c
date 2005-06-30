@@ -361,8 +361,16 @@ _nrrdFieldInteresting (const Nrrd *nrrd, NrrdIoState *nio, int field) {
     }
     break;
   case nrrdField_space_origin:
+    /* we're trusting other validity checks to ensure that
+       all the coeffs exist or not, together */
     ret = (nrrd->spaceDim > 0 
            && AIR_EXISTS(nrrd->spaceOrigin[0]));
+    break;
+  case nrrdField_measurement_frame:
+    /* we're trusting other validity checks to ensure that
+       all the coeffs exist or not, together */
+    ret = (nrrd->spaceDim > 0 
+           && AIR_EXISTS(nrrd->measurementFrame[0][0]));
     break;
   case nrrdField_data_file:
     /* detached header was either requested or is required */
@@ -389,13 +397,18 @@ _nrrdFieldInteresting (const Nrrd *nrrd, NrrdIoState *nio, int field) {
 ** the per-axis information), but many only make sense in NRRD files.
 ** This is just one example of NRRD-format-specific stuff that is not
 ** in formatNRRD.c
+**
+** HEY: the use of "10", "20", and "30" as stand-ins for "maximum
+** number of characters that might be used for printing this integral
+** value" is getting pretty tiresome...
 */
 void
 _nrrdSprintFieldInfo (char **strP, char *prefix,
                       const Nrrd *nrrd, NrrdIoState *nio, int field) {
   char me[]="_nrrdSprintFieldInfo", buff[AIR_STRLEN_MED], *fnb;
+  double colvec[NRRD_SPACE_DIM_MAX];
   const char *fs;
-  int i, fslen, fdlen, endi, maxl;
+  int ii, dd, fslen, fdlen, endi, maxl;
   
   if (!( strP && prefix
          && nrrd 
@@ -450,114 +463,114 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_sizes:
     *strP = malloc(fslen + nrrd->dim*10);
     sprintf(*strP, "%s%s:", prefix, fs);
-    for (i=0; i<nrrd->dim; i++) {
-      sprintf(buff, " %d", nrrd->axis[i].size);
+    for (ii=0; ii<nrrd->dim; ii++) {
+      sprintf(buff, " %d", nrrd->axis[ii].size);
       strcat(*strP, buff);
     }
     break;
   case nrrdField_spacings:
     *strP = malloc(fslen + nrrd->dim*30);
     sprintf(*strP, "%s%s:", prefix, fs);
-    for (i=0; i<nrrd->dim; i++) {
-      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[i].spacing);
+    for (ii=0; ii<nrrd->dim; ii++) {
+      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[ii].spacing);
       strcat(*strP, buff);
     }
     break;
   case nrrdField_thicknesses:
     *strP = malloc(fslen + nrrd->dim*30);
     sprintf(*strP, "%s%s:", prefix, fs);
-    for (i=0; i<nrrd->dim; i++) {
-      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[i].thickness);
+    for (ii=0; ii<nrrd->dim; ii++) {
+      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[ii].thickness);
       strcat(*strP, buff);
     }
     break;
   case nrrdField_axis_mins:
     *strP = malloc(fslen + nrrd->dim*30);
     sprintf(*strP, "%s%s:", prefix, fs);
-    for (i=0; i<nrrd->dim; i++) {
-      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[i].min);
+    for (ii=0; ii<nrrd->dim; ii++) {
+      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[ii].min);
       strcat(*strP, buff);
     }
     break;
   case nrrdField_axis_maxs:
     *strP = malloc(fslen + nrrd->dim*30);
     sprintf(*strP, "%s%s:", prefix, fs);
-    for (i=0; i<nrrd->dim; i++) {
-      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[i].max);
+    for (ii=0; ii<nrrd->dim; ii++) {
+      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[ii].max);
       strcat(*strP, buff);
     }
     break;
   case nrrdField_space_directions:
     *strP = malloc(fslen + nrrd->dim*nrrd->spaceDim*(30 + strlen("(,) ")));
     sprintf(*strP, "%s%s: ", prefix, fs);
-    for (i=0; i<nrrd->dim; i++) {
+    for (ii=0; ii<nrrd->dim; ii++) {
       _nrrdStrcatSpaceVector(*strP, nrrd->spaceDim,
-                             nrrd->axis[i].spaceDirection);
-      if (i < nrrd->dim-1) {
+                             nrrd->axis[ii].spaceDirection);
+      if (ii < nrrd->dim-1) {
         strcat(*strP, " ");
       }
     }
     break;
   case nrrdField_centers:
     fdlen = 0;
-    for (i=0; i<nrrd->dim; i++) {
-      fdlen += 1 + airStrlen(nrrd->axis[i].center 
-                             ? airEnumStr(nrrdCenter, nrrd->axis[i].center)
+    for (ii=0; ii<nrrd->dim; ii++) {
+      fdlen += 1 + airStrlen(nrrd->axis[ii].center 
+                             ? airEnumStr(nrrdCenter, nrrd->axis[ii].center)
                              : NRRD_UNKNOWN);
     }
     *strP = malloc(fslen + fdlen);
     sprintf(*strP, "%s%s:", prefix, fs);
-    for (i=0; i<nrrd->dim; i++) {
+    for (ii=0; ii<nrrd->dim; ii++) {
       sprintf(buff, " %s",
-              (nrrd->axis[i].center 
-               ? airEnumStr(nrrdCenter, nrrd->axis[i].center)
+              (nrrd->axis[ii].center 
+               ? airEnumStr(nrrdCenter, nrrd->axis[ii].center)
                : NRRD_UNKNOWN));
       strcat(*strP, buff);
     }
     break;
   case nrrdField_kinds:
     fdlen = 0;
-    for (i=0; i<nrrd->dim; i++) {
-      fdlen += 1 + airStrlen(nrrd->axis[i].kind
-                             ? airEnumStr(nrrdKind, nrrd->axis[i].kind)
+    for (ii=0; ii<nrrd->dim; ii++) {
+      fdlen += 1 + airStrlen(nrrd->axis[ii].kind
+                             ? airEnumStr(nrrdKind, nrrd->axis[ii].kind)
                              : NRRD_UNKNOWN);
     }
     *strP = malloc(fslen + fdlen);
     sprintf(*strP, "%s%s:", prefix, fs);
-    for (i=0; i<nrrd->dim; i++) {
+    for (ii=0; ii<nrrd->dim; ii++) {
       sprintf(buff, " %s",
-              (nrrd->axis[i].kind
-               ? airEnumStr(nrrdKind, nrrd->axis[i].kind)
+              (nrrd->axis[ii].kind
+               ? airEnumStr(nrrdKind, nrrd->axis[ii].kind)
                : NRRD_UNKNOWN));
       strcat(*strP, buff);
     }
     break;
   case nrrdField_labels:
     fdlen = 0;
-    for (i=0; i<nrrd->dim; i++) {
-      fdlen += airStrlen(nrrd->axis[i].label) + 4;
+    for (ii=0; ii<nrrd->dim; ii++) {
+      fdlen += airStrlen(nrrd->axis[ii].label) + 4;
     }
     *strP = malloc(fslen + fdlen);
     sprintf(*strP, "%s%s:", prefix, fs);
-    for (i=0; i<nrrd->dim; i++) {
+    for (ii=0; ii<nrrd->dim; ii++) {
       strcat(*strP, " \"");
-      if (airStrlen(nrrd->axis[i].label)) {
-        strcat(*strP, nrrd->axis[i].label);
+      if (airStrlen(nrrd->axis[ii].label)) {
+        strcat(*strP, nrrd->axis[ii].label);
       }
       strcat(*strP, "\"");
     }
     break;
   case nrrdField_units:
     fdlen = 0;
-    for (i=0; i<nrrd->dim; i++) {
-      fdlen += airStrlen(nrrd->axis[i].units) + 4;
+    for (ii=0; ii<nrrd->dim; ii++) {
+      fdlen += airStrlen(nrrd->axis[ii].units) + 4;
     }
     *strP = malloc(fslen + fdlen);
     sprintf(*strP, "%s%s:", prefix, fs);
-    for (i=0; i<nrrd->dim; i++) {
+    for (ii=0; ii<nrrd->dim; ii++) {
       strcat(*strP, " \"");
-      if (airStrlen(nrrd->axis[i].units)) {
-        strcat(*strP, nrrd->axis[i].units);
+      if (airStrlen(nrrd->axis[ii].units)) {
+        strcat(*strP, nrrd->axis[ii].units);
       }
       strcat(*strP, "\"");
     }
@@ -615,15 +628,15 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     break;
   case nrrdField_space_units:
     fdlen = 0;
-    for (i=0; i<nrrd->spaceDim; i++) {
-      fdlen += airStrlen(nrrd->spaceUnits[i]) + 4;
+    for (ii=0; ii<nrrd->spaceDim; ii++) {
+      fdlen += airStrlen(nrrd->spaceUnits[ii]) + 4;
     }
     *strP = malloc(fslen + fdlen);
     sprintf(*strP, "%s%s:", prefix, fs);
-    for (i=0; i<nrrd->spaceDim; i++) {
+    for (ii=0; ii<nrrd->spaceDim; ii++) {
       strcat(*strP, " \"");
-      if (airStrlen(nrrd->spaceUnits[i])) {
-        strcat(*strP, nrrd->spaceUnits[i]);
+      if (airStrlen(nrrd->spaceUnits[ii])) {
+        strcat(*strP, nrrd->spaceUnits[ii]);
       }
       strcat(*strP, "\"");
     }
@@ -632,6 +645,20 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     *strP = malloc(fslen + nrrd->spaceDim*(30 + strlen("(,) ")));
     sprintf(*strP, "%s%s: ", prefix, fs);
     _nrrdStrcatSpaceVector(*strP, nrrd->spaceDim, nrrd->spaceOrigin);
+    break;
+  case nrrdField_measurement_frame:
+    *strP = malloc(fslen + (nrrd->spaceDim*
+                            nrrd->spaceDim*(30 + strlen("(,) "))));
+    sprintf(*strP, "%s%s: ", prefix, fs);
+    for (dd=0; dd<nrrd->spaceDim; dd++) {
+      for (ii=0; ii<nrrd->spaceDim; ii++) {
+        colvec[ii] = nrrd->measurementFrame[dd][ii];
+      }
+      _nrrdStrcatSpaceVector(*strP, nrrd->spaceDim, colvec);
+      if (dd < nrrd->spaceDim-1) {
+        strcat(*strP, " ");
+      }
+    }
     break;
   case nrrdField_data_file:
     /* NOTE: this comes last (nrrdField_data_file is the highest-valued
@@ -651,20 +678,20 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
       }
     } else if (nio->dataFNArr->len > 1) {
       maxl = 0;
-      for (i=0; i<nio->dataFNArr->len; i++) {
-        maxl = AIR_MAX(maxl, (int)strlen(nio->dataFN[i]));
+      for (ii=0; ii<nio->dataFNArr->len; ii++) {
+        maxl = AIR_MAX(maxl, (int)strlen(nio->dataFN[ii]));
       }
       *strP = malloc(fslen + strlen(NRRD_LIST_FLAG) + 10 
-                     + nio->dataFNArr->len*maxl);
-      fnb = malloc(fslen + strlen(NRRD_LIST_FLAG) + 10 + maxl);
+                     + nio->dataFNArr->len * (maxl + 1));
+      fnb = malloc(fslen + strlen(NRRD_LIST_FLAG) + 10 + maxl + 1);
       if (nio->dataFileDim == nrrd->dim-1) {
         sprintf(*strP, "%s%s: LIST\n", prefix, fs);
       } else {
         sprintf(*strP, "%s%s: LIST %d\n", prefix, fs, nio->dataFileDim);
       }
-      for (i=0; i<nio->dataFNArr->len; i++) {
-        sprintf(fnb, "%s%s", nio->dataFN[i], 
-                i<nio->dataFNArr->len-1 ? "\n" : "");
+      for (ii=0; ii<nio->dataFNArr->len; ii++) {
+        sprintf(fnb, "%s%s", nio->dataFN[ii], 
+                ii<nio->dataFNArr->len-1 ? "\n" : "");
         strcat(*strP, fnb);
       }
       free(fnb);

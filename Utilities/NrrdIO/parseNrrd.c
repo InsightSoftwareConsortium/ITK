@@ -382,9 +382,9 @@ _nrrdReadNrrdParse_axis_maxs (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdGetSpaceVector(double val[NRRD_SPACE_DIM_MAX],
-                    char **hhP, int spaceDim, int useBiff) {
-  char me[]="_nrrdGetSpaceVector", err[AIR_STRLEN_MED], *hh, *buff, sep[]=",)";
+_nrrdSpaceVectorParse(double val[NRRD_SPACE_DIM_MAX],
+                      char **hhP, int spaceDim, int useBiff) {
+  char me[]="_nrrdSpaceVectorParse", err[AIR_STRLEN_MED], *hh, *buff, sep[]=",)";
   airArray *mop;
   int ret, dd, length;
   
@@ -494,7 +494,7 @@ _nrrdReadNrrdParse_space_directions (FILE *ffile, Nrrd *nrrd,
   _CHECK_HAVE_SPACE_DIM;
 
   for (dd=0; dd<nrrd->dim; dd++) {
-    if (_nrrdGetSpaceVector(nrrd->axis[dd].spaceDirection,
+    if (_nrrdSpaceVectorParse(nrrd->axis[dd].spaceDirection,
                             &info, nrrd->spaceDim, useBiff)) {
       sprintf(err, "%s: trouble getting space vector %d of %d", 
               me, dd+1, nrrd->dim);
@@ -647,7 +647,7 @@ _nrrdGetQuotedString(char **hP, int useBiff) {
     sprintf(err, "%s: couldn't create airArray", me);
       biffMaybeAdd(NRRD, err, useBiff); return NULL;
   }
-  pos = airArrayIncrLen(buffArr, 1);  /* pos should get 0 */
+  pos = airArrayLenIncr(buffArr, 1);  /* pos should get 0 */
   while (h[pos]) {
     /* printf("!%s: h+%d |%s|\n", me, pos, h+pos); */
     if ('\"' == h[pos]) {
@@ -657,7 +657,7 @@ _nrrdGetQuotedString(char **hP, int useBiff) {
       h += 1;
     }
     buff[pos] = h[pos];
-    pos = airArrayIncrLen(buffArr, 1);
+    pos = airArrayLenIncr(buffArr, 1);
   }
   if ('\"' != h[pos]) {
     sprintf(err, "%s: didn't see ending \" soon enough", me);
@@ -996,11 +996,53 @@ _nrrdReadNrrdParse_space_origin (FILE *ffile, Nrrd *nrrd,
 
   _CHECK_HAVE_SPACE_DIM;
 
-  if (_nrrdGetSpaceVector(nrrd->spaceOrigin, &info, nrrd->spaceDim, useBiff)) {
+  if (_nrrdSpaceVectorParse(nrrd->spaceOrigin, &info, nrrd->spaceDim, useBiff)) {
     sprintf(err, "%s: couldn't parse origin \"%s\"", me, info);
     biffMaybeAdd(NRRD, err, useBiff); return 1;
   }
   if (_nrrdFieldCheck[nrrdField_space_origin](nrrd, useBiff)) {
+    sprintf(err, "%s: trouble", me);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  return 0;
+}
+
+int
+_nrrdReadNrrdParse_measurement_frame (FILE *ffile, Nrrd *nrrd, 
+                                      NrrdIoState *nio, int useBiff) {
+  char me[]="_nrrdReadNrrdParse_measurement_frame", err[AIR_STRLEN_MED];
+  double colvec[NRRD_SPACE_DIM_MAX];
+  int dd, ii;
+  char *info;
+
+  info = nio->line + nio->pos;
+
+  _CHECK_HAVE_SPACE_DIM;
+
+  for (dd=0; dd<nrrd->spaceDim; dd++) {
+    /* we are going through the *columns* of the mf matrix */
+    if (_nrrdSpaceVectorParse(colvec, &info, nrrd->spaceDim, useBiff)) {
+      sprintf(err, "%s: trouble getting space vector %d of %d", 
+              me, dd+1, nrrd->spaceDim);
+      biffMaybeAdd(NRRD, err, useBiff); return 1;
+    }
+    for (ii=0; ii<NRRD_SPACE_DIM_MAX; ii++) {
+      nrrd->measurementFrame[dd][ii] = (ii < nrrd->spaceDim
+                                        ? colvec[ii]
+                                        : AIR_NAN);
+    }
+  }
+  if (strlen(info) != strspn(info, _nrrdFieldSep)) {
+    sprintf(err, "%s: seem to have more than expected %d directions",
+            me, nrrd->spaceDim);
+    biffMaybeAdd(NRRD, err, useBiff); return 1;
+  }
+  for (dd=nrrd->spaceDim; dd<NRRD_SPACE_DIM_MAX; dd++) {
+    for (ii=0; ii<NRRD_SPACE_DIM_MAX; ii++) {
+      nrrd->measurementFrame[dd][ii] = AIR_NAN;
+    }
+  }
+  if (_nrrdFieldCheck[nrrdField_measurement_frame](nrrd, useBiff)) {
     sprintf(err, "%s: trouble", me);
     biffMaybeAdd(NRRD, err, useBiff); return 1;
   }
@@ -1197,7 +1239,7 @@ _nrrdReadNrrdParse_data_file (FILE *ffile, Nrrd *nrrd,
         biffMaybeAdd(NRRD, err, useBiff); airMopError(mop); return 1;
       }
       if (linelen > 0) {
-        tmp = airArrayIncrLen(nio->dataFNArr, 1);
+        tmp = airArrayLenIncr(nio->dataFNArr, 1);
         nio->dataFN[tmp] = airStrdup(nio->line);
       }
     } while (linelen > 0);
@@ -1207,7 +1249,7 @@ _nrrdReadNrrdParse_data_file (FILE *ffile, Nrrd *nrrd,
     /* -------------------- (single filename) ------------------- */
     /* ---------------------------------------------------------- */
     /* there is apparently only a single detached data file */
-    tmp = airArrayIncrLen(nio->dataFNArr, 1);
+    tmp = airArrayLenIncr(nio->dataFNArr, 1);
     nio->dataFN[tmp] = airStrdup(info);
     nio->dataFileDim = nrrd->dim;
   }
@@ -1258,6 +1300,7 @@ int
   _nrrdReadNrrdParse_sample_units,
   _nrrdReadNrrdParse_space_units,
   _nrrdReadNrrdParse_space_origin,
+  _nrrdReadNrrdParse_measurement_frame,
   _nrrdReadNrrdParse_data_file
 };
 

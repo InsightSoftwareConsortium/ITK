@@ -470,6 +470,7 @@ _nrrdFieldStr[NRRD_FIELD_MAX+1][AIR_STRLEN_SMALL] = {
   "sample units",
   "space units",
   "space origin",
+  "measurement frame",
   "data file",
 };
 
@@ -506,6 +507,7 @@ _nrrdFieldDesc[NRRD_FIELD_MAX+1][AIR_STRLEN_MED] = {
   "units of measurement of (scalar) values inside array itself",
   "list of units for measuring origin and direct vectors' coefficients",
   "location in space of center of first (lowest memory address) sample",
+  "maps coords of (non-scalar) values to coords of surrounding space",
   "with detached headers, where is data to be found",
 };
 
@@ -541,6 +543,7 @@ _nrrdFieldStrEqv[][AIR_STRLEN_SMALL]  = {
   "sample units", "sampleunits",
   "space units", "spaceunits",
   "space origin", "spaceorigin",
+  "measurement frame", "measurementframe", 
   "data file", "datafile",
   ""
 };
@@ -577,6 +580,7 @@ _nrrdFieldValEqv[] = {
   nrrdField_sample_units, nrrdField_sample_units,
   nrrdField_space_units, nrrdField_space_units,
   nrrdField_space_origin, nrrdField_space_origin,
+  nrrdField_measurement_frame, nrrdField_measurement_frame,
   nrrdField_data_file, nrrdField_data_file,
 };
 

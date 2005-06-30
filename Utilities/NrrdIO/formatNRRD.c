@@ -31,6 +31,7 @@
 #define MAGIC2 "NRRD0002"
 #define MAGIC3 "NRRD0003"
 #define MAGIC4 "NRRD0004"
+#define MAGIC5 "NRRD0005"
 
 void
 nrrdIoStateDataFileIterBegin(NrrdIoState *nio) {
@@ -174,10 +175,13 @@ int
 _nrrdFormatNRRD_whichVersion(const Nrrd *nrrd, NrrdIoState *nio) {
   int ret;
 
-  if (_nrrdFieldInteresting(nrrd, nio, nrrdField_thicknesses)
-      || _nrrdFieldInteresting(nrrd, nio, nrrdField_space)
-      || _nrrdFieldInteresting(nrrd, nio, nrrdField_space_dimension)
-      || airStrlen(nio->dataFNFormat) || nio->dataFNArr->len > 1) {
+  if (_nrrdFieldInteresting(nrrd, nio, nrrdField_measurement_frame)) {
+    ret = 5;
+  } else if (_nrrdFieldInteresting(nrrd, nio, nrrdField_thicknesses)
+             || _nrrdFieldInteresting(nrrd, nio, nrrdField_space)
+             || _nrrdFieldInteresting(nrrd, nio, nrrdField_space_dimension)
+             || _nrrdFieldInteresting(nrrd, nio, nrrdField_sample_units)
+             || airStrlen(nio->dataFNFormat) || nio->dataFNArr->len > 1) {
     ret = 4;
   } else if (_nrrdFieldInteresting(nrrd, nio, nrrdField_kinds)) {
     ret = 3;
@@ -226,6 +230,7 @@ _nrrdFormatNRRD_contentStartsLike(NrrdIoState *nio) {
           || !strcmp(MAGIC2, nio->line)
           || !strcmp(MAGIC3, nio->line)
           || !strcmp(MAGIC4, nio->line)
+          || !strcmp(MAGIC5, nio->line)
           );
 }
 
@@ -549,7 +554,7 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
     }
     airMopAdd(mop, tmp, airFree, airMopOnError);
     sprintf(tmp, "%s.%s", nio->base, nio->encoding->suffix);
-    ii = airArrayIncrLen(nio->dataFNArr, 1);
+    ii = airArrayLenIncr(nio->dataFNArr, 1);
     nio->dataFN[ii] = tmp;
   }
   

@@ -181,7 +181,7 @@ void
 _biffNukeEntry(_biffEntry *ent) {
 
   if (ent) {
-    airArraySetLen(ent->AA, 0);
+    airArrayLenSet(ent->AA, 0);
     airArrayNuke(ent->AA);
     free(ent);
   }
@@ -212,7 +212,7 @@ _biffAddKey(const char *key) {
   newIdx = ii;
   /* printf("HEY: index(new key \"%s\") = %d\n", key, ii); */
   
-  if (-1 == airArrayIncrLen(_biffAA, 1)) {
+  if (-1 == airArrayLenIncr(_biffAA, 1)) {
     fprintf(stderr, "%s: PANIC: couldn't accomodate one more key\n", me);
     exit(1);
   }
@@ -240,7 +240,7 @@ _biffAddErr(_biffEntry *e, const char *err) {
   int ii, len;
 
   /* printf("%s: HEY(before): err[%s]->num = %d\n", me, e->key, e->num); */
-  if (-1 == airArrayIncrLen(e->AA, 1)) {
+  if (-1 == airArrayLenIncr(e->AA, 1)) {
     fprintf(stderr, "%s: PANIC: couldn't add message for key %s\n",
             me, e->key);
     exit(1);
@@ -288,37 +288,12 @@ _biffFindMaxAndSum(int *maxP, int *sumP, _biffEntry *ent) {
 /***********************************************************************/
 
 /*
-******** biffSet()
-**
-** Sets given message "err" to be only message at "key".  "key" can be
-** a new or existing key, but if it is an existing key, then existing
-** messages at that key are lost
-*/
-void
-biffSet(const char *key, const char *err) {
-  _biffEntry *ent;
-
-  _biffInit();
-  _biffCheckKey(key);
-
-  ent = _biffFindKey(key);
-  if (!ent) {
-    /* not a key we remember seeing */
-    ent = _biffAddKey(key);
-  }
-
-  /* delete any existing messages at this index */
-  airArraySetLen(ent->AA, 0);
-
-  /* add the new message */
-  _biffAddErr(ent, err);
-  return;
-}
-
-/*
 ******** biffAdd()
 **
-** just like biffSet(), but doesn't delete existing messages
+** Adds string "err" at key "key", whether or not there are any 
+** existing messages there.  Since biffSet() was killed 
+** Wed Apr 20 11:11:51 EDT 2005, this has become the main biff
+** function.
 */
 void
 biffAdd(const char *key, const char *err) {
@@ -511,7 +486,7 @@ biffDone(const char *key) {
   for (i=idx; i<=_biffNum-2; i++) {
     _biffErr[i] = _biffErr[i+1];
   }
-  airArrayIncrLen(_biffAA, -1);
+  airArrayLenIncr(_biffAA, -1);
 
   return;
 }

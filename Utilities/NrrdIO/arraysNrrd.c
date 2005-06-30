@@ -24,7 +24,7 @@
 
 #include "NrrdIO.h"
 
-char
+const char
 nrrdTypePrintfStr[NRRD_TYPE_MAX+1][AIR_STRLEN_SMALL] = {
   "%*d",  /* what else? sscanf: skip, printf: use "minimum precision" */
   "%d",
@@ -43,7 +43,7 @@ nrrdTypePrintfStr[NRRD_TYPE_MAX+1][AIR_STRLEN_SMALL] = {
 /*
 ** the setting of NRRD_TYPE_BIGGEST has to be in accordance with this
 */
-int 
+const int 
 nrrdTypeSize[NRRD_TYPE_MAX+1] = {
   0,  /* unknown */
   1,  /* char */
@@ -59,7 +59,7 @@ nrrdTypeSize[NRRD_TYPE_MAX+1] = {
   0   /* effectively unknown; user has to set explicitly */
 };
 
-int 
+const int 
 nrrdTypeIsIntegral[NRRD_TYPE_MAX+1] = {
   0,  /* unknown */
   1,  /* char */
@@ -75,7 +75,7 @@ nrrdTypeIsIntegral[NRRD_TYPE_MAX+1] = {
   1   /* for some reason we pretend that blocks are integers */
 };
 
-int 
+const int 
 nrrdTypeIsUnsigned[NRRD_TYPE_MAX+1] = {
   0,  /* unknown */
   0,  /* char */
@@ -101,7 +101,7 @@ nrrdTypeIsUnsigned[NRRD_TYPE_MAX+1] = {
 ** mins and maxs, but gets the last few places wrong in the
 ** 64-bit mins and max.
 */
-double
+const double
 nrrdTypeMin[NRRD_TYPE_MAX+1] = {
   0,               /* unknown */
   SCHAR_MIN,       /* char */
@@ -138,7 +138,7 @@ nrrdTypeMax[NRRD_TYPE_MAX+1] = {
 ** 32-bit values; tells the number of different integral values that
 ** can be represented by the type
 */
-double
+const double
 nrrdTypeNumberOfValues[NRRD_TYPE_MAX+1] = {
   0,                         /* unknown */
   UCHAR_MAX+1,               /* char */
@@ -161,7 +161,7 @@ nrrdTypeNumberOfValues[NRRD_TYPE_MAX+1] = {
 ** This does NOT include the fields who's values are constrained
 ** by the image format (and in the case of PNM, magic) itself.
 */
-int
+const int
 _nrrdFieldValidInImage[NRRD_FIELD_MAX+1] = {
   0, /* nrrdField_unknown */
   1, /* nrrdField_comment */
@@ -194,6 +194,7 @@ _nrrdFieldValidInImage[NRRD_FIELD_MAX+1] = {
   1, /* nrrdField_sample_units */
   1, /* nrrdField_space_units */
   1, /* nrrdField_space_origin */
+  1, /* nrrdField_measurement_frame */
   0  /* nrrdField_data_file */
 };
 
@@ -202,7 +203,7 @@ _nrrdFieldValidInImage[NRRD_FIELD_MAX+1] = {
 ** 
 ** whether or not you need one value per axis, like labels and spacings
 */
-int
+const int
 _nrrdFieldOnePerAxis[NRRD_FIELD_MAX+1] = {
   0, /* nrrdField_unknown */
   0, /* nrrdField_comment */
@@ -235,6 +236,7 @@ _nrrdFieldOnePerAxis[NRRD_FIELD_MAX+1] = {
   0, /* nrrdField_sample_units */
   0, /* nrrdField_space_units */
   0, /* nrrdField_space_origin */
+  0, /* nrrdField_measurement_frame */
   0  /* nrrdField_data_file */
 };
 
@@ -245,7 +247,7 @@ _nrrdFieldOnePerAxis[NRRD_FIELD_MAX+1] = {
 ** This does NOT include the fields who's values are constrained
 ** the plain text format itself.
 */
-int
+const int
 _nrrdFieldValidInText[NRRD_FIELD_MAX+1] = {
   0, /* nrrdField_unknown */
   1, /* nrrdField_comment */
@@ -279,6 +281,7 @@ _nrrdFieldValidInText[NRRD_FIELD_MAX+1] = {
   0, /* nrrdField_sample_units */
   0, /* nrrdField_space_units */
   0, /* nrrdField_space_origin */
+  0, /* nrrdField_measurement_frame */
   0  /* nrrdField_data_file */
 };
 
@@ -288,7 +291,7 @@ _nrrdFieldValidInText[NRRD_FIELD_MAX+1] = {
 ** regardless of whether its a nrrd, PNM, or plain text, these things
 ** need to be conveyed, either explicity or implicitly
 */
-int
+const int
 _nrrdFieldRequired[NRRD_FIELD_MAX+1] = {
   0, /* "Ernesto \"Che\" Guevara" */
   0, /* "#" */
@@ -321,6 +324,7 @@ _nrrdFieldRequired[NRRD_FIELD_MAX+1] = {
   0, /* nrrdField_sample_units */
   0, /* nrrdField_space_units */
   0, /* nrrdField_space_origin */
+  0, /* nrrdField_measurement_frame */
   0  /* nrrdField_data file */
 };
 

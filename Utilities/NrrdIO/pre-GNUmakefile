@@ -3,12 +3,12 @@
 # Copyright (C) 2005  Gordon Kindlmann
 # Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
 #
-# These source files have been copied and/or modified from teem,
+# These source files have been copied and/or modified from Teem,
 # Gordon Kindlmann's research software; <http://teem.sourceforge.net>.
 # Teem is licensed under the GNU Lesser Public License. The
 # non-copyleft licensing defined here applies to only the source files
-# in the NrrdIO distribution (not the rest of teem), and only to the
-# files originating with NrrdIO (not analogous files in teem).
+# in the NrrdIO distribution (not the rest of Teem), and only to the
+# files originating with NrrdIO (not analogous files in Teem).
 #
 # This software is provided 'as-is', without any express or implied
 # warranty.  In no event will the authors be held liable for any
@@ -29,25 +29,36 @@
 # 3. This notice may not be removed or altered from any source distribution.
 #
 
-### The process of creating the NrrdIO source distribution from a teem
+### The process of creating the NrrdIO source distribution from a Teem
 ### source distribution is automated, and is controlled by this GNU
 ### makefile:
 ###
-###    rm -f itk_NrrdIO_mangle.h                     (for ITK stuff)
-###    touch itk_NrrdIO_mangle.h                     (for ITK stuff)
-###    make -f pre-GNUmakefile clean
-###    setenv ITK_NRRDIO                             (for ITK stuff)
-###    make -f pre-GNUmakefile
-###    unsetenv ITK_NRRDIO                           (for ITK stuff)
-###    make -f sample-GNUmakefile                    (for ITK stuff)
-###    perl mangle.pl itk >! itk_NrrdIO_mangle.h     (for ITK stuff)
-###    make -f sample-GNUmakefile clean              (for ITK stuff)
+### for the NrrdIO in ITK (do on linux):
 ###
-### This file is the single place where the required teem source files
+###    cvs update
+###    rm -f itk_NrrdIO_mangle.h
+###    touch itk_NrrdIO_mangle.h
+###    make -f pre-GNUmakefile clean
+###    setenv ITK_NRRDIO
+###    make -f pre-GNUmakefile
+###    unsetenv ITK_NRRDIO
+###    make -f sample-GNUmakefile
+###    perl mangle.pl itk >! itk_NrrdIO_mangle.h
+###    make -f sample-GNUmakefile clean
+###
+### for the NrrdIO in Teem:
+###
+###    cvs update
+###    make -f pre-GNUmakefile clean
+###    make -f pre-GNUmakefile
+###    make -f sample-GNUmakefile
+###    make -f sample-GNUmakefile clean
+###
+### This file is the single place where the required Teem source files
 ### are listed.  Once the NrrdIO source distribution is created, this
 ### GNU makefile is completely moot.  TEEM_SRC_ROOT must be set in order
-### to locate the teem source.  We use this instead of TEEM_ROOT to avoid
-### conflict with teem's own make system
+### to locate the Teem source.  We use this instead of TEEM_ROOT to avoid
+### conflict with Teem's own make system
 
 $(if $(TEEM_SRC_ROOT),,\
 $(warning *)\
@@ -60,12 +71,12 @@ $(error Make quitting))
 
 ### The following sources are pretty much stubs, to create the symbols, 
 ### but not the functionality of different formats and the bzip2 encoding.
-### As such, they are NOT copied from teem but are made for NrrdIO.
+### As such, they are NOT copied from Teem but are made for NrrdIO.
 ###
 NEED_NOT = encodingBzip2.c formatEPS.c formatPNG.c formatPNM.c \
   formatText.c formatVTK.c
 
-### These are still needed for exact same functionality as in teem
+### These are still needed for exact same functionality as in Teem
 ###
 TEEM_HDRS = $(addprefix teem/, \
   teem32bit.h teemDio.h teemEndian.h teemPng.h teemQnanhibit.h)

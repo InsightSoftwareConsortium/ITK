@@ -31,10 +31,7 @@
 #include <stdarg.h>
 #include <float.h>
 
-/* THE FOLLOWING INCLUDE IS ONLY FOR THE ITK DISTRIBUTION.
-   This header mangles the symbols in the NrrdIO library, preventing
-   conflicts in applications linked against two versions of NrrdIO. */
-#include "itk_NrrdIO_mangle.h"
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -165,6 +162,7 @@ typedef struct {
                          size*incr elements, or, 
                          size*incr*unit bytes */
   size_t unit;        /* the size in bytes of one element in the array */
+  int noReallocWhenSmaller;  /* as it says */
 
   /* the following are all callbacks useful for maintaining either an array
      of pointers (allocCB and freeCB) or array of structs (initCB and
@@ -190,8 +188,9 @@ TEEM_API void airArrayStructCB(airArray *a, void (*initCB)(void *),
                                void (*doneCB)(void *));
 TEEM_API void airArrayPointerCB(airArray *a, void *(*allocCB)(void),
                                 void *(*freeCB)(void *));
-TEEM_API int airArraySetLen(airArray *a, int newlen);
-TEEM_API int airArrayIncrLen(airArray *a, int delta);
+TEEM_API int airArrayLenSet(airArray *a, int newlen);
+TEEM_API int airArrayLenPreSet(airArray *a, int newlen);
+TEEM_API int airArrayLenIncr(airArray *a, int delta);
 TEEM_API airArray *airArrayNix(airArray *a);
 TEEM_API airArray *airArrayNuke(airArray *a);
 
@@ -703,7 +702,6 @@ extern "C" {
 #define BIFF_MAXKEYLEN 128  /* maximum allowed key length (not counting 
                                the null termination) */
 
-TEEM_API void biffSet(const char *key, const char *err);
 TEEM_API void biffAdd(const char *key, const char *err);
 TEEM_API void biffMaybeAdd(const char *key, const char *err, int useBiff);
 TEEM_API int biffCheck(const char *key);
@@ -966,7 +964,7 @@ enum {
 ** node-centered vs. cell-centered
 */
 enum {
-  nrrdCenterUnknown,
+  nrrdCenterUnknown,         /* 0: no centering known for this axis */
   nrrdCenterNode,            /* 1: samples at corners of things
                                 (how "voxels" are usually imagined)
                                 |\______/|\______/|\______/|
@@ -1074,44 +1072,47 @@ enum {
 */
 enum {
   nrrdBasicInfoUnknown,
-  nrrdBasicInfoData,                        /*  1 */
-#define NRRD_BASIC_INFO_DATA_BIT           (1<< 1)
-  nrrdBasicInfoType,                        /*  2 */
-#define NRRD_BASIC_INFO_TYPE_BIT           (1<< 2)
-  nrrdBasicInfoBlocksize,                   /*  3 */
-#define NRRD_BASIC_INFO_BLOCKSIZE_BIT      (1<< 3)
-  nrrdBasicInfoDimension,                   /*  4 */
-#define NRRD_BASIC_INFO_DIMENSION_BIT      (1<< 4)
-  nrrdBasicInfoContent,                     /*  5 */
-#define NRRD_BASIC_INFO_CONTENT_BIT        (1<< 5)
-  nrrdBasicInfoSampleUnits,                 /*  6 */
-#define NRRD_BASIC_INFO_SAMPLEUNITS_BIT    (1<< 6)
-  nrrdBasicInfoSpace,                       /*  7 */
-#define NRRD_BASIC_INFO_SPACE_BIT          (1<< 7)
-  nrrdBasicInfoSpaceDimension,              /*  8 */
-#define NRRD_BASIC_INFO_SPACEDIMENSION_BIT (1<< 8)
-  nrrdBasicInfoSpaceUnits,                  /*  9 */
-#define NRRD_BASIC_INFO_SPACEUNITS_BIT     (1<< 9)
-  nrrdBasicInfoSpaceOrigin,                 /* 10 */
-#define NRRD_BASIC_INFO_SPACEORIGIN_BIT    (1<<10)
-  nrrdBasicInfoOldMin,                      /* 11 */
-#define NRRD_BASIC_INFO_OLDMIN_BIT         (1<<11)
-  nrrdBasicInfoOldMax,                      /* 12 */ 
-#define NRRD_BASIC_INFO_OLDMAX_BIT         (1<<12)
-  nrrdBasicInfoComments,                    /* 13 */
-#define NRRD_BASIC_INFO_COMMENTS_BIT       (1<<13)
-  nrrdBasicInfoKeyValuePairs,               /* 14 */
-#define NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT  (1<<14)
+  nrrdBasicInfoData,                          /*  1 */
+#define NRRD_BASIC_INFO_DATA_BIT             (1<< 1)
+  nrrdBasicInfoType,                          /*  2 */
+#define NRRD_BASIC_INFO_TYPE_BIT             (1<< 2)
+  nrrdBasicInfoBlocksize,                     /*  3 */
+#define NRRD_BASIC_INFO_BLOCKSIZE_BIT        (1<< 3)
+  nrrdBasicInfoDimension,                     /*  4 */
+#define NRRD_BASIC_INFO_DIMENSION_BIT        (1<< 4)
+  nrrdBasicInfoContent,                       /*  5 */
+#define NRRD_BASIC_INFO_CONTENT_BIT          (1<< 5)
+  nrrdBasicInfoSampleUnits,                   /*  6 */
+#define NRRD_BASIC_INFO_SAMPLEUNITS_BIT      (1<< 6)
+  nrrdBasicInfoSpace,                         /*  7 */
+#define NRRD_BASIC_INFO_SPACE_BIT            (1<< 7)
+  nrrdBasicInfoSpaceDimension,                /*  8 */
+#define NRRD_BASIC_INFO_SPACEDIMENSION_BIT   (1<< 8)
+  nrrdBasicInfoSpaceUnits,                    /*  9 */
+#define NRRD_BASIC_INFO_SPACEUNITS_BIT       (1<< 9)
+  nrrdBasicInfoSpaceOrigin,                   /* 10 */
+#define NRRD_BASIC_INFO_SPACEORIGIN_BIT      (1<<10)
+  nrrdBasicInfoMeasurementFrame,              /* 11 */
+#define NRRD_BASIC_INFO_MEASUREMENTFRAME_BIT (1<<11)
+  nrrdBasicInfoOldMin,                        /* 12 */
+#define NRRD_BASIC_INFO_OLDMIN_BIT           (1<<12)
+  nrrdBasicInfoOldMax,                        /* 13 */ 
+#define NRRD_BASIC_INFO_OLDMAX_BIT           (1<<13)
+  nrrdBasicInfoComments,                      /* 14 */
+#define NRRD_BASIC_INFO_COMMENTS_BIT         (1<<14)
+  nrrdBasicInfoKeyValuePairs,                 /* 15 */
+#define NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT    (1<<15)
   nrrdBasicInfoLast
 };
-#define NRRD_BASIC_INFO_MAX                    14
+#define NRRD_BASIC_INFO_MAX                      15
 #define NRRD_BASIC_INFO_ALL  \
     ((1<<1)|(1<<2)|(1<<3)|(1<<4)|(1<<5)|(1<<6)|(1<<7)|(1<<8)|(1<<9)|(1<<10)\
-     |(1<<11)|(1<<12)|(1<<13)|(1<<14))
+     |(1<<11)|(1<<12)|(1<<13)|(1<<14)|(1<<15))
 #define NRRD_BASIC_INFO_SPACE (NRRD_BASIC_INFO_SPACE_BIT \
                                | NRRD_BASIC_INFO_SPACEDIMENSION_BIT \
                                | NRRD_BASIC_INFO_SPACEUNITS_BIT \
-                               | NRRD_BASIC_INFO_SPACEORIGIN_BIT)
+                               | NRRD_BASIC_INFO_SPACEORIGIN_BIT \
+                               | NRRD_BASIC_INFO_MEASUREMENTFRAME_BIT)
 #define NRRD_BASIC_INFO_NONE 0
 
 /*
@@ -1153,40 +1154,41 @@ enum {
 */
 enum {
   nrrdField_unknown,
-  nrrdField_comment,          /*  1 */
-  nrrdField_content,          /*  2 */
-  nrrdField_number,           /*  3 */
-  nrrdField_type,             /*  4 */
-  nrrdField_block_size,       /*  5 */
-  nrrdField_dimension,        /*  6 */
-  nrrdField_space,            /*  7 */
-  nrrdField_space_dimension,  /*  8 */
-  nrrdField_sizes,            /*  9 ----- begin per-axis ----- */
-  nrrdField_spacings,         /* 10 */
-  nrrdField_thicknesses,      /* 11 */
-  nrrdField_axis_mins,        /* 12 */
-  nrrdField_axis_maxs,        /* 13 */
-  nrrdField_space_directions, /* 14 */
-  nrrdField_centers,          /* 15 */
-  nrrdField_kinds,            /* 16 */
-  nrrdField_labels,           /* 17 */
-  nrrdField_units,            /* 18 ------ end per-axis ------ */
-  nrrdField_min,              /* 19 */
-  nrrdField_max,              /* 20 */
-  nrrdField_old_min,          /* 21 */
-  nrrdField_old_max,          /* 22 */
-  nrrdField_endian,           /* 23 */
-  nrrdField_encoding,         /* 24 */
-  nrrdField_line_skip,        /* 25 */
-  nrrdField_byte_skip,        /* 26 */
-  nrrdField_keyvalue,         /* 27 */
-  nrrdField_sample_units,     /* 28 */
-  nrrdField_space_units,      /* 29 */
-  nrrdField_space_origin,     /* 30 */
-  nrrdField_data_file,        /* 31 */
+  nrrdField_comment,           /*  1 */
+  nrrdField_content,           /*  2 */
+  nrrdField_number,            /*  3 */
+  nrrdField_type,              /*  4 */
+  nrrdField_block_size,        /*  5 */
+  nrrdField_dimension,         /*  6 */
+  nrrdField_space,             /*  7 */
+  nrrdField_space_dimension,   /*  8 */
+  nrrdField_sizes,             /*  9 ----- begin per-axis ----- */
+  nrrdField_spacings,          /* 10 */
+  nrrdField_thicknesses,       /* 11 */
+  nrrdField_axis_mins,         /* 12 */
+  nrrdField_axis_maxs,         /* 13 */
+  nrrdField_space_directions,  /* 14 */
+  nrrdField_centers,           /* 15 */
+  nrrdField_kinds,             /* 16 */
+  nrrdField_labels,            /* 17 */
+  nrrdField_units,             /* 18 ------ end per-axis ------ */
+  nrrdField_min,               /* 19 */
+  nrrdField_max,               /* 20 */
+  nrrdField_old_min,           /* 21 */
+  nrrdField_old_max,           /* 22 */
+  nrrdField_endian,            /* 23 */
+  nrrdField_encoding,          /* 24 */
+  nrrdField_line_skip,         /* 25 */
+  nrrdField_byte_skip,         /* 26 */
+  nrrdField_keyvalue,          /* 27 */
+  nrrdField_sample_units,      /* 28 */
+  nrrdField_space_units,       /* 29 */
+  nrrdField_space_origin,      /* 30 */
+  nrrdField_measurement_frame, /* 31 */
+  nrrdField_data_file,         /* 32 */
   nrrdField_last
 };
-#define NRRD_FIELD_MAX           31
+#define NRRD_FIELD_MAX            32
 
 /* 
 ******** nrrdHasNonExist* enum
@@ -1276,10 +1278,24 @@ enum {
                                          space info, which means the spacing
                                          does *not* live in the surrounding
                                          space */
-  nrrdSpacingStatusVector,            /* 4: axis->spaceDirection set, and 
+  nrrdSpacingStatusDirection,         /* 4: axis->spaceDirection set, and 
                                          measured according to surrounding
                                          space */
   nrrdSpacingStatusLast
+};
+
+/*
+******** nrrdOriginStatus* enum
+**
+** how origin information was or was not computed by nrrdOriginCalculate
+*/
+enum {
+  nrrdOriginStatusUnknown,        /* 0: nobody knows, or invalid parms */
+  nrrdOriginStatusDirection,      /* 1: chosen axes have spaceDirections */
+  nrrdOriginStatusNoMin,          /* 2: axis->min doesn't exist */
+  nrrdOriginStatusNoMaxOrSpacing, /* 3: axis->max or ->spacing doesn't exist */
+  nrrdOriginStatusOkay,           /* 4: all is well */
+  nrrdOriginStatusLast
 };
 
 
@@ -1467,12 +1483,22 @@ typedef struct {
                                        This identifies the number of entries in
                                        "origin" and the per-axis "direction"
                                        vectors that are taken as meaningful */
-  char *spaceUnits[NRRD_SPACE_DIM_MAX];   
+  char *spaceUnits[NRRD_SPACE_DIM_MAX];
                                     /* units for coordinates of space */
-  double spaceOrigin[NRRD_SPACE_DIM_MAX]; 
+  double spaceOrigin[NRRD_SPACE_DIM_MAX];
                                     /* the location of the center the first
                                        (lowest memory address) array sample,
                                        regardless of node-vs-cell centering */
+  double measurementFrame[NRRD_SPACE_DIM_MAX][NRRD_SPACE_DIM_MAX];
+                                    /* if spaceDim is non-zero, this may store 
+                                       a spaceDim-by-spaceDim matrix which 
+                                       transforms vector/matrix coefficients
+                                       in the "measurement frame" to those in
+                                       the world space described by spaceDim
+                                       (and hopefully space).  Coeff [i][j] is
+                                       column i and row j.  There are no
+                                       semantics linking this to the "kind" of
+                                       any axis, for a variety of reasons */
   int blockSize;                    /* for nrrdTypeBlock:, block byte size */
   double oldMin, oldMax;            /* if non-NaN, and if nrrd is of integral
                                        type, extremal values for the array
@@ -1719,13 +1745,13 @@ TEEM_API airEnum *nrrdSpace;
 
 /******** arrays of things (poor-man's functions/predicates) */
 /* arraysNrrd.c */
-TEEM_API char nrrdTypePrintfStr[][AIR_STRLEN_SMALL];
-TEEM_API int nrrdTypeSize[];
-TEEM_API double nrrdTypeMin[];
-TEEM_API double nrrdTypeMax[];
-TEEM_API int nrrdTypeIsIntegral[];
-TEEM_API int nrrdTypeIsUnsigned[];
-TEEM_API double nrrdTypeNumberOfValues[];
+TEEM_API const char nrrdTypePrintfStr[][AIR_STRLEN_SMALL];
+TEEM_API const int nrrdTypeSize[];
+TEEM_API const double nrrdTypeMin[];
+TEEM_API const double nrrdTypeMax[];
+TEEM_API const int nrrdTypeIsIntegral[];
+TEEM_API const int nrrdTypeIsUnsigned[];
+TEEM_API const double nrrdTypeNumberOfValues[];
 
 /******** pseudo-constructors, pseudo-destructors, and such */
 /* methodsNrrd.c */
@@ -1777,7 +1803,7 @@ TEEM_API void nrrdAxisInfoIdxRange(double *loP, double *hiP,
 TEEM_API void nrrdAxisInfoSpacingSet(Nrrd *nrrd, int ax);
 TEEM_API void nrrdAxisInfoMinMaxSet(Nrrd *nrrd, int ax, int defCenter);
 TEEM_API int nrrdSpacingCalculate(const Nrrd *nrrd, int ax,
-                                  double *spacing, int *sdim,
+                                  double *spacing,
                                   double vector[NRRD_SPACE_DIM_MAX]);
 
 /******** simple things */
@@ -1785,6 +1811,13 @@ TEEM_API int nrrdSpacingCalculate(const Nrrd *nrrd, int ax,
 TEEM_API const char *nrrdBiffKey;
 TEEM_API int nrrdSpaceDimension(int space);
 TEEM_API int nrrdSpaceSet(Nrrd *nrrd, int space);
+TEEM_API int nrrdSpaceDimensionSet(Nrrd *nrrd, int spaceDim);
+TEEM_API int nrrdSpaceKnown(const Nrrd *nrrd);
+TEEM_API void nrrdSpaceGet(const Nrrd *nrrd, int *space, int *spaceDim);
+TEEM_API void nrrdSpaceOriginGet(const Nrrd *nrrd,
+                                 double vector[NRRD_SPACE_DIM_MAX]);
+TEEM_API int nrrdOriginCalculate3D(const Nrrd *nrrd, int ax0, int ax1, int ax2,
+                                   int defaultCenter, double origin[3]);
 TEEM_API int nrrdContentSet(Nrrd *nout, const char *func,
                             const Nrrd *nin, const char *format,
                             ... /* printf-style arg list */ );
