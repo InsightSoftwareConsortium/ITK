@@ -32,6 +32,7 @@ SpatialObjectProperty< TComponentType >
   m_Color.SetGreen(1);
   m_Color.SetBlue(1);
   m_Color.SetAlpha(1);
+  m_Name = "";
 }
 
 template< class TComponentType >

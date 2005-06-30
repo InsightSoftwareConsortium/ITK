@@ -100,7 +100,7 @@ public:
 
   /** Set the type of tube end-type: 0 = flat, 1 = rounded */
   itkSetMacro(EndType,unsigned int);
-  itkGetMacro(EndType,unsigned int);
+  itkGetConstMacro(EndType,unsigned int);
 
   /** Remove the list of tube points */
   void Clear( void );
@@ -138,16 +138,20 @@ public:
   /** Set/Get the parent point which corresponds to the 
    *  position of the point in the parent's points list */
   itkSetMacro(ParentPoint,int);
-  itkGetMacro(ParentPoint,int);
+  itkGetConstMacro(ParentPoint,int);
 
   /** Set/Get a flag for vessel which are a "root" of a 
    *  vascular network in the scene */
   itkSetMacro(Root, bool);
-  itkGetMacro(Root, bool);
+  itkGetConstMacro(Root, bool);
 
   /** Set/Get a flag for vessel which are an Artery */
   itkSetMacro(Artery, bool);
-  itkGetMacro(Artery, bool);
+  itkGetConstMacro(Artery, bool);
+
+  /** Copy the information from another SpatialObject */
+  void CopyInformation(const DataObject *data);
+
 
 protected:
 

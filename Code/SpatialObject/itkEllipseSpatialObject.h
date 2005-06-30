@@ -93,6 +93,9 @@ public:
    *  changed. */ 
   virtual bool ComputeLocalBoundingBox() const;
 
+  /** Copy the information from another SpatialObject */
+  void CopyInformation(const DataObject *data);
+
 protected:
 
   EllipseSpatialObject( void );

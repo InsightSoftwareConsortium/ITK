@@ -222,6 +222,27 @@ EllipseSpatialObject< TDimension >
 
 }
 
+/** Copy the information from another spatial object */
+template< unsigned int TDimension >
+void  EllipseSpatialObject< TDimension >
+::CopyInformation(const DataObject *data)
+{
+  // check if we are the same type
+  const Self* source = dynamic_cast<const Self*>(data);
+  if(!source)
+    {
+    std::cout << "CopyInformation: objects are not of the same type" << std::endl;
+    return;
+    }
+
+  // copy the properties
+  Superclass::CopyInformation(data);
+
+  // copy the internal info
+  this->SetRadius(source->GetRadius());
+}
+
+
 } // end namespace itk
 
 #endif

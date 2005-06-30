@@ -523,6 +523,44 @@ TubeSpatialObject< TDimension, TTubePointType >
   return false;
 }
 
+
+/** Copy the information from another spatial object */
+template< unsigned int TDimension, typename TTubePointType >
+void
+TubeSpatialObject< TDimension, TTubePointType > 
+::CopyInformation(const DataObject *data)
+{
+  // check if we are the same type
+  const Self* source = dynamic_cast<const Self*>(data);
+  if(!source)
+    {
+    std::cout << "CopyInformation: objects are not of the same type" << std::endl;
+    return;
+    }
+
+  // copy the properties
+  Superclass::CopyInformation(data);
+
+  // copy the internal info
+  this->SetRoot(source->GetRoot());
+  this->SetArtery(source->GetArtery());
+  this->SetParentPoint(source->GetParentPoint());
+  this->SetEndType(source->GetEndType());
+
+  // We copy the points
+  PointListType source_list = source->GetPoints();
+  PointListType::const_iterator it_source = source_list.begin();
+
+  this->m_Points.clear();
+
+  while(it_source != source_list.end())
+    {
+    this->m_Points.push_back(*it_source);
+    it_source++;
+    }
+
+}
+
 } // end namespace itk 
 
 #endif // end __itkTubeSpatialObject_txx
