@@ -1,6 +1,7 @@
 # Sources of non-templated classes.
 SET(ITKSpatialObject_SRCS
   itkCylinderSpatialObject.cxx
+  itkSpatialObjectFactoryBase.cxx
 )
 
 ADD_LIBRARY(ITKSpatialObject ${ITKSpatialObject_SRCS})
