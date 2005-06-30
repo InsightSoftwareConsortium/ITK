@@ -146,6 +146,9 @@ public:
    * to the dimension of the object. */
   itkStaticConstMacro(ObjectDimension, unsigned int, TDimension);
 
+  /** Get the dimensionality of the object */
+  unsigned int GetObjectDimension(void) const {return TDimension;}
+
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
  
@@ -381,7 +384,7 @@ public:
   
   /** Set/Get the parent Identification number*/
   itkSetMacro(ParentId, int);
-  itkGetMacro(ParentId, int);
+  itkGetConstReferenceMacro(ParentId, int);
 
   /** Specify that the object has been updated */
   virtual void Update(void);
@@ -523,6 +526,10 @@ public:
   /** Set/Get the default outside value (ValueAt()) of the object. Default is 0.0 */
   itkSetMacro(DefaultOutsideValue,double);
   itkGetConstMacro(DefaultOutsideValue,double);
+
+  /** Return the type of the spatial object as a string
+   *  This is used by the SpatialObjectFactory */
+  virtual std::string GetSpatialObjectTypeAsString() const;
 
 protected: 
  

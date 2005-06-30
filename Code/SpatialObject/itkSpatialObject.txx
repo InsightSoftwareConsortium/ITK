@@ -747,33 +747,6 @@ SpatialObject< TDimension >
   m_RequestedRegion = m_LargestPossibleRegion;
 }
 
-template< unsigned int TDimension >
-void
-SpatialObject< TDimension >
-::CopyInformation(const DataObject *data)
-{
-  // Standard call to the superclass' method
-  Superclass::CopyInformation(data);
-
-  // Attempt to cast data to an ImageBase
-  const SpatialObject *imgData;
-  
-  imgData = dynamic_cast<const SpatialObject*>(data);
-
-  if (imgData)
-    {
-    // Copy the meta data for this data type
-    m_LargestPossibleRegion = imgData->GetLargestPossibleRegion();
-    }
-  else
-    {
-    // pointer could not be cast back down
-    itkExceptionMacro( << "itk::SpatialObject::CopyInformation() cannot cast "
-                       << typeid(data).name() << " to "
-                       << typeid(SpatialObject*).name() );
-    }
-}
-
 
 template< unsigned int TDimension >
 bool
@@ -959,7 +932,65 @@ SpatialObject< TDimension >
   return NULL;
 }
   
+/** Return the type of the spatial object as a string
+ *  This is used by the SpatialObjectFactory */
+template< unsigned int TDimension >
+std::string
+SpatialObject< TDimension >::GetSpatialObjectTypeAsString() const
+{
+  OStringStream n;
+  n << GetNameOfClass();
+  n << "_";
+  n << TDimension;
+  return n.str();
+}
 
+
+/** Copy the information from another spatial object */
+template< unsigned int TDimension >
+void  SpatialObject< TDimension >
+::CopyInformation(const DataObject *data)
+{
+  // Standard call to the superclass' method
+  Superclass::CopyInformation(data);
+
+  // Attempt to cast data to an ImageBase
+  const SpatialObject *imgData;
+  
+  imgData = dynamic_cast<const SpatialObject*>(data);
+
+  if (imgData)
+    {
+    // Copy the meta data for this data type
+    m_LargestPossibleRegion = imgData->GetLargestPossibleRegion();
+    }
+  else
+    {
+    // pointer could not be cast back down
+    itkExceptionMacro( << "itk::SpatialObject::CopyInformation() cannot cast "
+                       << typeid(data).name() << " to "
+                       << typeid(SpatialObject*).name() );
+    }
+
+  // check if we are the same type
+  const Self* source = dynamic_cast<const Self*>(data);
+  if(!source)
+    {
+    std::cout << "CopyInformation: objects are not of the same type" << std::endl;
+    return;
+    }
+
+  // copy the properties
+  this->GetProperty()->SetRed(source->GetProperty()->GetRed());
+  this->GetProperty()->SetGreen(source->GetProperty()->GetGreen());
+  this->GetProperty()->SetBlue(source->GetProperty()->GetBlue());
+  this->GetProperty()->SetAlpha(source->GetProperty()->GetAlpha());
+  this->GetProperty()->SetName(source->GetProperty()->GetName().c_str());
+
+  // copy the ivars
+  this->SetId(source->GetId());
+  this->SetParentId(source->GetParentId());
+}
 
 } // end of namespace itk
 
