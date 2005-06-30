@@ -183,7 +183,7 @@ void NrrdImageIO::ReadImageInformation()
    for (i=0; i < static_cast<int>(this->GetNumberOfDimensions()); i++)
      {
      this->SetDimensions(i, nrrd->axis[i].size);
-     nrrdSpacingCalculate(nrrd, i, &spacing, &sdim, axis);
+     nrrdSpacingCalculate(nrrd, i, &spacing, axis);
      if (AIR_EXISTS(spacing)) // is the spacing NaN?
        {
        this->SetSpacing(i, spacing);
