@@ -273,6 +273,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   // Set spacing and origin
   outputPtr->SetSpacing( m_OutputSpacing );
   outputPtr->SetOrigin( m_OutputOrigin );
+  outputPtr->SetDirection( m_OutputDirection );
 
   return;
 }
