@@ -194,7 +194,7 @@ public:
    *  the information is specified with the SetOutputSpacing, Origin,
    *  and Direction methods. UseReferenceImage must be On and a
    *  Reference image must be present to override the defaul behavior.*/
-  void SetReferenceImage (TInputImage *image)
+  void SetReferenceImage (TOutputImage *image)
   {
     if (image != m_ReferenceImage)
       {
@@ -203,7 +203,7 @@ public:
       this->Modified();
       }
   }
-  itkGetObjectMacro(ReferenceImage, TInputImage);
+  itkGetObjectMacro(ReferenceImage, TOutputImage);
 
   itkSetMacro(UseReferenceImage, bool);
   itkBooleanMacro(UseReferenceImage);
