@@ -6,6 +6,7 @@ SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 SET(REGISTRATION_EXAMPLES ${CXX_TEST_PATH}/RegistrationExamples)
 SET(REGISTRATION_EXAMPLESO ${CXX_TEST_PATH}/RegistrationExamplesO)
+SET(REGISTRATION_EXAMPLESO2 ${CXX_TEST_PATH}/RegistrationExamplesO2)
 SET(REGISTRATION_EXAMPLES2 ${CXX_TEST_PATH}/RegistrationExamples2)
 SET(REGISTRATION_EXAMPLES3 ${CXX_TEST_PATH}/RegistrationExamples3)
 SET(REGISTRATION_EXAMPLES4 ${CXX_TEST_PATH}/RegistrationExamples4)
@@ -173,7 +174,7 @@ ADD_TEST(ImageRegistration4oTest ${REGISTRATION_EXAMPLESO}
         ${TEMP}/ImageRegistration4AfterTest.png
 )
 
-ADD_TEST(ImageRegistration5oTest1 ${REGISTRATION_EXAMPLESO}
+ADD_TEST(ImageRegistration5oTest1 ${REGISTRATION_EXAMPLESO2}
   --compare ${BASELINE}/ImageRegistration5Test1.png
             ${TEMP}/ImageRegistration5Test1.png
   ImageRegistration5oTest
@@ -182,7 +183,7 @@ ADD_TEST(ImageRegistration5oTest1 ${REGISTRATION_EXAMPLESO}
         ${TEMP}/ImageRegistration5Test1.png
 )
 
-ADD_TEST(ImageRegistration5oTest2 ${REGISTRATION_EXAMPLESO}
+ADD_TEST(ImageRegistration5oTest2 ${REGISTRATION_EXAMPLESO2}
   --compare ${BASELINE}/ImageRegistration5Test2.png
             ${TEMP}/ImageRegistration5Test2.png
   ImageRegistration5oTest
@@ -191,7 +192,7 @@ ADD_TEST(ImageRegistration5oTest2 ${REGISTRATION_EXAMPLESO}
         ${TEMP}/ImageRegistration5Test2.png
 )
 
-ADD_TEST(ImageRegistration6oTest ${REGISTRATION_EXAMPLESO}
+ADD_TEST(ImageRegistration6oTest ${REGISTRATION_EXAMPLESO2}
   --compare ${BASELINE}/ImageRegistration6Test.png
             ${TEMP}/ImageRegistration6Test.png
   ImageRegistration6oTest
@@ -452,6 +453,9 @@ TARGET_LINK_LIBRARIES(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters I
 
 ADD_EXECUTABLE(RegistrationExamplesO RegistrationExamplesO.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamplesO ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(RegistrationExamplesO2 RegistrationExamplesO2.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamplesO2 ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
 
 ADD_EXECUTABLE(RegistrationExamples2 RegistrationExamples2.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples2 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
