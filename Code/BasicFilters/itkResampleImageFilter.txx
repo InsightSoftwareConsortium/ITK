@@ -37,6 +37,8 @@ ResampleImageFilter<TInputImage, TOutputImage,TInterpolatorPrecisionType>
 {
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
+  m_OutputDirection.SetIdentity();
+
   m_Size.Fill( 0 );
   m_OutputStartIndex.Fill( 0 );
   
@@ -65,6 +67,7 @@ ResampleImageFilter<TInputImage, TOutputImage,TInterpolatorPrecisionType>
   os << indent << "OutputStartIndex: " << m_OutputStartIndex << std::endl;
   os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
   os << indent << "OutputOrigin: " << m_OutputOrigin << std::endl;
+  os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
   os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
 
