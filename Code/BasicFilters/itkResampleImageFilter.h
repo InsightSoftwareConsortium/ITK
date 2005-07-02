@@ -46,6 +46,13 @@ namespace itk
  * itk::NearestNeighborInterpolateImageFunction< InputImageType,
  * TCoordRep > would be a better choice.
  *
+ * Output information (spacing, size and direction) for the output
+ * image should be set. This information has the normal defaults of
+ * unit spacing, zero origin and identity direction. Optionally, the
+ * output information can be obtained from a reference image. If the
+ * reference image is provided and UseReferenceImage is On, then the
+ * spacing, origin and direction of the reference image will be used.
+ *
  * Since this filter produces an image which is a different size than
  * its input, it needs to override several of the methods defined
  * in ProcessObject in order to properly manage the pipeline execution model.
@@ -183,6 +190,25 @@ public:
   /** Get the start index of the output largest possible region. */
   itkGetConstReferenceMacro( OutputStartIndex, IndexType );
 
+  /** Copy the output information from another Image.  By default,
+   *  the information is specified with the SetOutputSpacing, Origin,
+   *  and Direction methods. UseReferenceImage must be On and a
+   *  Reference image must be present to override the defaul behavior.*/
+  void SetReferenceImage (TInputImage *image)
+  {
+    if (image != m_ReferenceImage)
+      {
+      m_ReferenceImage = image;
+      this->ProcessObject::SetNthInput(1, image);
+      this->Modified();
+      }
+  }
+  itkGetObjectMacro(ReferenceImage, TInputImage);
+
+  itkSetMacro(UseReferenceImage, bool);
+  itkBooleanMacro(UseReferenceImage);
+  itkGetMacro(UseReferenceImage, bool);
+
   /** ResampleImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
    * for GenerateOutputInformation() in order to inform the pipeline
@@ -228,6 +254,8 @@ private:
   ResampleImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  OutputImagePointer      m_ReferenceImage;
+
   SizeType                m_Size;       // Size of the output image
   TransformPointerType    m_Transform;  // Coordinate transform to use
   InterpolatorPointerType m_Interpolator; // Image function for interpolation
@@ -237,6 +265,7 @@ private:
   PointType               m_OutputOrigin;  // output image origin
   DirectionType           m_OutputDirection; // output image direction cosines
   IndexType               m_OutputStartIndex; // output image start index
+  bool m_UseReferenceImage;
 
 };
 

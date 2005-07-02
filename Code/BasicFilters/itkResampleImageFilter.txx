@@ -39,6 +39,8 @@ ResampleImageFilter<TInputImage, TOutputImage,TInterpolatorPrecisionType>
   m_OutputOrigin.Fill(0.0);
   m_OutputDirection.SetIdentity();
 
+  m_UseReferenceImage = false;
+
   m_Size.Fill( 0 );
   m_OutputStartIndex.Fill( 0 );
   
@@ -70,6 +72,15 @@ ResampleImageFilter<TInputImage, TOutputImage,TInterpolatorPrecisionType>
   os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
   os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
+  os << indent << "UseReferenceImage: " << (m_UseReferenceImage ? "On" : "Off") << std::endl;
+  if (m_ReferenceImage)
+    {
+    os << indent << "ReferenceImage: " << m_ReferenceImage.GetPointer() << std::endl;
+    }
+  else
+    {
+    os << indent << "ReferenceImage: 0" << std::endl;
+    }
 
   return;
 }
@@ -274,10 +285,18 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 
   // Set spacing and origin
-  outputPtr->SetSpacing( m_OutputSpacing );
-  outputPtr->SetOrigin( m_OutputOrigin );
-  outputPtr->SetDirection( m_OutputDirection );
-
+  if (m_UseReferenceImage && m_ReferenceImage)
+    {
+    outputPtr->SetSpacing( m_ReferenceImage->GetSpacing() );
+    outputPtr->SetOrigin( m_ReferenceImage->GetOrigin() );
+    outputPtr->SetDirection( m_ReferenceImage->GetDirection() );
+    }
+  else
+    {
+    outputPtr->SetSpacing( m_OutputSpacing );
+    outputPtr->SetOrigin( m_OutputOrigin );
+    outputPtr->SetDirection( m_OutputDirection );
+    }
   return;
 }
 
