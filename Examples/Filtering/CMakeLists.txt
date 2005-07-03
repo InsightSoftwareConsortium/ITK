@@ -145,6 +145,9 @@ TARGET_LINK_LIBRARIES(BilateralImageFilter ITKCommon ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ResampleImageFilter ResampleImageFilter.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter ITKCommon ITKBasicFilters ITKIO)
 
+ADD_EXECUTABLE(ResampleOrientedImageFilter ResampleOrientedImageFilter.cxx )
+TARGET_LINK_LIBRARIES(ResampleOrientedImageFilter ITKCommon ITKBasicFilters ITKIO)
+
 ADD_EXECUTABLE(ResampleImageFilter2 ResampleImageFilter2.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter2 ITKCommon ITKBasicFilters ITKIO)
 
@@ -422,6 +425,15 @@ ADD_TEST( ResampleImageFilterTest1 ${FILTERING_EXAMPLES2}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ResampleImageFilterTest1.png
         0
+)
+
+ADD_TEST( ResampleOrientedImageFilterTest ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/ResampleOrientedImageFilterTest.png
+            ${TEMP}/ResampleOrientedImageFilterTest.png
+  ResampleOrientedImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanHeadSlice.png
+        ${TEMP}/ResampleOrientedImageFilterTest.png
+        0 1 1 0
 )
 
 ADD_TEST( ResampleImageFilterTest2 ${FILTERING_EXAMPLES2}
