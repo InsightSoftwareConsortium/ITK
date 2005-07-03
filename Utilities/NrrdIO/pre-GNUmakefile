@@ -1,14 +1,7 @@
-#
+#  
 # NrrdIO: stand-alone code for basic nrrd functionality
 # Copyright (C) 2005  Gordon Kindlmann
 # Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
-#
-# These source files have been copied and/or modified from Teem,
-# Gordon Kindlmann's research software; <http://teem.sourceforge.net>.
-# Teem is licensed under the GNU Lesser Public License. The
-# non-copyleft licensing defined here applies to only the source files
-# in the NrrdIO distribution (not the rest of Teem), and only to the
-# files originating with NrrdIO (not analogous files in Teem).
 #
 # This software is provided 'as-is', without any express or implied
 # warranty.  In no event will the authors be held liable for any
@@ -33,7 +26,7 @@
 ### source distribution is automated, and is controlled by this GNU
 ### makefile:
 ###
-### for the NrrdIO in ITK (do on linux):
+### for the NrrdIO in ITK:
 ###
 ###    cvs update
 ###    rm -f itk_NrrdIO_mangle.h
@@ -92,7 +85,8 @@ NEED_NRRD = $(addprefix nrrd/, \
   accessors.c defaultsNrrd.c enumsNrrd.c arraysNrrd.c methodsNrrd.c \
   reorder.c axis.c simple.c comment.c keyvalue.c endianNrrd.c \
   parseNrrd.c gzio.c read.c write.c format.c formatNRRD.c \
-  encoding.c encodingRaw.c encodingAscii.c encodingHex.c encodingGzip.c)
+  encoding.c encodingRaw.c encodingAscii.c encodingHex.c encodingGzip.c \
+  subset.c)
 NEED_SRCS = $(NEED_AIR) $(NEED_BIFF) $(NEED_NRRD)
 NEED_PUB_HDRS = air/air.h biff/biff.h \
   $(addprefix nrrd/, nrrdDefines.h nrrdEnums.h nrrdMacros.h nrrd.h)
