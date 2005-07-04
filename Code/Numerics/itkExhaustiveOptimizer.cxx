@@ -70,7 +70,7 @@ ExhaustiveOptimizer
 
   for (unsigned int i=0; i< spaceDimension; i++)
     {
-    m_MaximumNumberOfIterations *= 2 * m_NumberOfSteps[i];
+    m_MaximumNumberOfIterations *= (2 * m_NumberOfSteps[i] + 1);
     }
     
   m_CurrentIndex.SetSize(spaceDimension);
