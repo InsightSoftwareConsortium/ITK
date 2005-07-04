@@ -29,8 +29,53 @@ namespace itk
  * defined over the parametric space. The grid parameters are define through an
  * array of minimum and maximum values. The subdivisions of the grid along each
  * one of the dimensions of the parametric space is defined by an array of
- * number of steps.
+ * number of steps. This optimizer is useful when its needed to plot the entire
+ * metric space to get an idea of how noisy it is etc...
  *
+ * A typical use of the optimizer is to plot the metric space to get an idea of
+ * how noisy it is. An example is given below, where it is desired to plot the 
+ * metric space with respect to translations along x, y and z 
+ * in a 3D registration application:
+ *     Here it is assumed that the transform is Euler3DTransform.
+ *
+ * \code
+ * 
+ * OptimizerType::StepsType steps( m_Transform->GetNumberOfParameters() );
+ * steps[1] = 0;  
+ * steps[2] = 0;  
+ * steps[3] = 0;  
+ * steps[3] = 10;
+ * steps[4] = 10;
+ * steps[5] = 10;
+ * m_Optimizer->SetNumberOfSteps( steps );
+ * m_Optimizer->SetStepLength( 2 );
+ *
+ * \endcode
+ *
+ * The optimizer throws IterationEvents after every iteration. We use this to plot 
+ * the metric space in an image as follows:
+ *
+ * \code
+ *
+ *  if( itk::IterationEvent().CheckEvent(& event ) )
+ *    {
+ *    IndexType index;
+ *    index[0] = m_Optimizer->GetCurrentIndex()[3];
+ *    index[1] = m_Optimizer->GetCurrentIndex()[1];
+ *    index[2] = m_Optimizer->GetCurrentIndex()[2];
+ *    image->SetPixel( index, m_Optimizer->GetCurrentValue() );
+ *    }
+ * 
+ * \endcode
+ *
+ * The image size is expected to be 21 x 21 x 21 with a spacing of 2.
+ *
+ * If you wish to use different step lengths along each parametric axis,
+ * you can use the SetScales() method. This accepts an array, each element
+ * represents the number of subdivisions per step length. For instance scales
+ * of [0 0 0 0.5 1 4 ] along with a step length of 2 will cause the optimizer
+ * to search the metric space on a grid with x,y,z spacing of [1 2 8].
+ * 
  * \ingroup Numerics Optimizers
  */
 class ITK_EXPORT ExhaustiveOptimizer : 
