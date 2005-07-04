@@ -57,7 +57,18 @@ int itkNrrdImageReadWriteTest( int ac, char* av[] )
   writer = itk::ImageFileWriter<myImage>::New();
   writer->SetInput( reader->GetOutput() );
   writer->SetFileName(av[2]);
-  writer->Update();
+  try
+    {
+    writer->Update();
+    }
+  catch (itk::ExceptionObject & e)
+    {
+    std::cerr << "exception in file writer " << std::endl;
+    std::cerr << e.GetDescription() << std::endl;
+    std::cerr << e.GetLocation() << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   return EXIT_SUCCESS;
 
