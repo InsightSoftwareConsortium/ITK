@@ -112,7 +112,7 @@ nrrdSpaceDimensionSet(Nrrd *nrrd, int spaceDim) {
     sprintf(err, "%s: got NULL pointer", me);
     biffAdd(NRRD, err); return 1;
   }
-  if (!( spaceDim > 0 )) {
+  if (!( spaceDim > 0 && spaceDim <= NRRD_SPACE_DIM_MAX )) {
     sprintf(err, "%s: given spaceDim (%d) not valid", me, spaceDim);
     biffAdd(NRRD, err); return 1;
   }
@@ -122,44 +122,16 @@ nrrdSpaceDimensionSet(Nrrd *nrrd, int spaceDim) {
 }
 
 /*
-******** nrrdSpaceKnown
-**
-** boolean test to see if given nrrd is said to live in some surrounding space 
-*/
-int
-nrrdSpaceKnown(const Nrrd *nrrd) {
-
-  return (nrrd && nrrd->spaceDim > 0);
-}
-
-/*
-******** nrrdSpaceGet
-**
-** retrieves the space and spaceDim from given nrrd.
-*/
-void
-nrrdSpaceGet(const Nrrd *nrrd, int *space, int *spaceDim) {
-  
-  if (nrrd && space && spaceDim) {
-    *space = nrrd->space;
-    if (nrrdSpaceUnknown != *space) {
-      *spaceDim = nrrd->spaceDim;
-    } else {
-      *spaceDim = 0;
-    }
-  }
-  return;
-}
-
-/*
 ******** nrrdSpaceOriginGet
 **
-** retrieves the spaceOrigin (and spaceDim) from given nrrd
+** retrieves the spaceOrigin from given nrrd, and returns spaceDim
+** Indices 0 through spaceDim-1 are set in given vector[] to coords
+** of space origin, and all further indices are set to NaN
 */
-void
+int
 nrrdSpaceOriginGet(const Nrrd *nrrd,
                    double vector[NRRD_SPACE_DIM_MAX]) {
-  int sdi;
+  int sdi, ret;
 
   if (nrrd && vector) {
     for (sdi=0; sdi<nrrd->spaceDim; sdi++) {
@@ -168,12 +140,47 @@ nrrdSpaceOriginGet(const Nrrd *nrrd,
     for (sdi=nrrd->spaceDim; sdi<NRRD_SPACE_DIM_MAX; sdi++) {
       vector[sdi] = AIR_NAN;
     }
+    ret = nrrd->spaceDim;
+  } else {
+    ret = 0;
   }
-  return;
+  return ret;
 }
 
 /*
-******** nrrdOriginCalculate3D
+******** nrrdSpaceOriginSet
+**
+** convenience function for setting spaceOrigin.
+** Note: space (or spaceDim) must be already set
+**
+** returns 1 if there were problems, 0 otherwise
+*/
+int
+nrrdSpaceOriginSet(Nrrd *nrrd,
+                   double vector[NRRD_SPACE_DIM_MAX]) {
+  char me[]="nrrdSpaceOriginSet", err[AIR_STRLEN_MED];
+  int sdi;
+
+  if (!( nrrd && vector )) {
+    sprintf(err, "%s: got NULL pointer", me);
+    biffAdd(NRRD, err); return 1;
+  }
+  if (!( 0 < nrrd->spaceDim && nrrd->spaceDim <= NRRD_SPACE_DIM_MAX )) {
+    sprintf(err, "%s: set spaceDim %d not valid", me, nrrd->spaceDim);
+    biffAdd(NRRD, err); return 1;
+  }
+
+  for (sdi=0; sdi<nrrd->spaceDim; sdi++) {
+    nrrd->spaceOrigin[sdi] = vector[sdi];
+  }
+  for (sdi=nrrd->spaceDim; sdi<NRRD_SPACE_DIM_MAX; sdi++) {
+    nrrd->spaceOrigin[sdi] = AIR_NAN;
+  }
+  return 0;
+}
+
+/*
+******** nrrdOriginCalculate
 **
 ** makes an effort to calculate something like an "origin" (as in
 ** nrrd->spaceOrigin) from the per-axis min, max, or spacing, when
@@ -181,10 +188,9 @@ nrrdSpaceOriginGet(const Nrrd *nrrd,
 ** location is supposed to be THE CENTER of the first sample.  To
 ** avoid making assumptions about the nrrd or the caller, a default
 ** sample centering (defaultCenter) has to be provided (use either
-** nrrdCenterNode or nrrdCenterCell).  Also, the three axes (ax0, ax1,
-** ax2) that are to be used for the origin calculation have to be
-** given explicitly- this puts the burden of figuring out the
-** semantics of nrrdKinds and such on the caller.
+** nrrdCenterNode or nrrdCenterCell).  The axes that are used 
+** for the origin calculation have to be given explicitly- but they
+** are likely the return of nrrdDomainAxesGet
 **
 ** The computed origin is put into the given vector (origin).  The return
 ** value takes on values from the nrrdOriginStatus* enum:
@@ -193,7 +199,7 @@ nrrdSpaceOriginGet(const Nrrd *nrrd,
 **                                 axis values out of range)
 **
 ** nrrdOriginStatusDirection:      the chosen axes have spaceDirection set, 
-**                                 which means caller should be instead using
+**                                 which means caller should instead be using
 **                                 nrrdSpaceOriginGet
 **
 ** nrrdOriginStatusNoMin:          can't compute "origin" without axis->min
@@ -204,51 +210,70 @@ nrrdSpaceOriginGet(const Nrrd *nrrd,
 ** nrrdOriginStatusOkay:           all is well
 */
 int
-nrrdOriginCalculate3D(const Nrrd *nrrd, int ax0, int ax1, int ax2,
-                      int defaultCenter, double origin[3]) {
-  const NrrdAxisInfo *axis[3];
-  int ai, center, size;
+nrrdOriginCalculate(const Nrrd *nrrd, int *axisIdx, int axisIdxNum,
+                    int defaultCenter, double *origin) {
+  const NrrdAxisInfo *axis[NRRD_SPACE_DIM_MAX];
+  int ai, center, size, okay, gotSpace, gotMin, gotMaxOrSpacing;
   double min, spacing;
 
+#define ERROR \
+  if (origin) { \
+    for (ai=0; ai<axisIdxNum; ai++) { \
+      origin[ai] = AIR_NAN; \
+    } \
+  }
+
   if (!( nrrd 
-         && AIR_IN_CL(0, ax0, nrrd->dim-1)
-         && AIR_IN_CL(0, ax1, nrrd->dim-1)
-         && AIR_IN_CL(0, ax2, nrrd->dim-1)
          && (nrrdCenterCell == defaultCenter
              || nrrdCenterNode == defaultCenter)
          && origin )) {
-    if (origin) {
-      origin[0] = origin[1] = origin[2] = AIR_NAN;
-    }
+    ERROR;
     return nrrdOriginStatusUnknown;
   }
 
-  axis[0] = nrrd->axis + ax0;
-  axis[1] = nrrd->axis + ax1;
-  axis[2] = nrrd->axis + ax2;
-  if (nrrd->spaceDim > 0 
-      && (AIR_EXISTS(axis[0]->spaceDirection[0])
-          || AIR_EXISTS(axis[1]->spaceDirection[0])
-          || AIR_EXISTS(axis[2]->spaceDirection[0]))) {
-    origin[0] = origin[1] = origin[2] = AIR_NAN;
+  okay = AIR_TRUE;
+  for (ai=0; ai<axisIdxNum; ai++) {
+    okay &= AIR_IN_CL(0, axisIdx[ai], nrrd->dim-1);
+  }
+  if (!okay) {
+    ERROR;
+    return nrrdOriginStatusUnknown;
+  }
+
+  /* learn axisInfo pointers */
+  for (ai=0; ai<axisIdxNum; ai++) {
+    axis[ai] = nrrd->axis + axisIdx[ai];
+  }
+
+  gotSpace = AIR_FALSE;
+  for (ai=0; ai<axisIdxNum; ai++) {
+    gotSpace |= AIR_EXISTS(axis[ai]->spaceDirection[0]);
+  }
+  if (nrrd->spaceDim > 0 && gotSpace) {
+    ERROR;
     return nrrdOriginStatusDirection;
   }
 
-  if (!( AIR_EXISTS(axis[0]->min)
-         && AIR_EXISTS(axis[1]->min)
-         && AIR_EXISTS(axis[2]->min) )) {
-    origin[0] = origin[1] = origin[2] = AIR_NAN;
+  gotMin = AIR_TRUE;
+  for (ai=0; ai<axisIdxNum; ai++) {
+    gotMin &= AIR_EXISTS(axis[0]->min);
+  }
+  if (!gotMin) {
+    ERROR;
     return nrrdOriginStatusNoMin;
   }
 
-  if (!( (AIR_EXISTS(axis[0]->max) || AIR_EXISTS(axis[0]->spacing))
-         && (AIR_EXISTS(axis[1]->max) || AIR_EXISTS(axis[1]->spacing))
-         && (AIR_EXISTS(axis[2]->max) || AIR_EXISTS(axis[2]->spacing)) )) {
-    origin[0] = origin[1] = origin[2] = AIR_NAN;
+  gotMaxOrSpacing = AIR_TRUE;
+  for (ai=0; ai<axisIdxNum; ai++) {
+    gotMaxOrSpacing &= (AIR_EXISTS(axis[ai]->max)
+                        || AIR_EXISTS(axis[ai]->spacing));
+  }
+  if (!gotMaxOrSpacing) {
+    ERROR;
     return nrrdOriginStatusNoMaxOrSpacing;
   }
-
-  for (ai=0; ai<3; ai++) {
+  
+  for (ai=0; ai<axisIdxNum; ai++) {
     size = axis[ai]->size;
     min = axis[ai]->min;
     center = (nrrdCenterUnknown != axis[ai]->center
@@ -263,6 +288,19 @@ nrrdOriginCalculate3D(const Nrrd *nrrd, int ax0, int ax1, int ax2,
   return nrrdOriginStatusOkay;
 }
 
+void
+_nrrdSpaceVecScaleAdd2(double sum[NRRD_SPACE_DIM_MAX], 
+                       double sclA, const double vecA[NRRD_SPACE_DIM_MAX],
+                       double sclB, const double vecB[NRRD_SPACE_DIM_MAX]) {
+  int ii;
+  double A, B;
+  
+  for (ii=0; ii<NRRD_SPACE_DIM_MAX; ii++) {
+    A = AIR_EXISTS(vecA[ii]) ? vecA[ii] : 0;
+    B = AIR_EXISTS(vecB[ii]) ? vecB[ii] : 0;
+    sum[ii] = sclA*A + sclB*B;
+  }
+}
 
 void
 _nrrdSpaceVecScale(double out[NRRD_SPACE_DIM_MAX], 
@@ -803,7 +841,7 @@ _nrrdFieldCheck_kinds(const Nrrd *nrrd, int useBiff) {
       biffMaybeAdd(NRRD, err, useBiff); return 1;
     }
     wantLen = nrrdKindSize(val[i]);
-    if (wantLen && wantLen != nrrd->axis[i].size) {
+    if (wantLen > 0 && wantLen != nrrd->axis[i].size) {
       sprintf(err, "%s: axis %d kind %s requires size %d, but have %d", me,
               i, airEnumStr(nrrdKind, val[i]), wantLen, nrrd->axis[i].size);
       biffMaybeAdd(NRRD, err, useBiff); return 1;

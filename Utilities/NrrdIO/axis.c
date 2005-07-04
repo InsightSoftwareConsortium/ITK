@@ -61,7 +61,9 @@ _nrrdAxisInfoNewInit(NrrdAxisInfo *axis) {
 ******** nrrdKindSize
 **
 ** returns suggested size (length) of an axis with the given kind, or,
-** 0 if there is no suggested size, or the kind was invalid
+**  0 if there is no suggested size because the axis is the kind of an
+**    independent variable, or,
+** -1 if the kind is invalid
 */
 int
 nrrdKindSize(int kind) {
@@ -70,7 +72,7 @@ nrrdKindSize(int kind) {
   
   if (!( AIR_IN_OP(nrrdKindUnknown, kind, nrrdKindLast) )) {
     /* they gave us invalid or unknown kind */
-    return 0;
+    return -1;
   }
 
   switch (kind) {
@@ -864,6 +866,59 @@ nrrdAxisInfoMinMaxSet(Nrrd *nrrd, int ax, int defCenter) {
   
   return;
 }
+
+/*
+******** nrrdDomainAxesGet
+**
+** learns which are the domain (resample-able) axes of an image, in
+** other words, the axes which correspond to independent variables.
+** The return value is the number of domain axes, and that many values
+** are set in the given axisIdx[] array
+*/
+int
+nrrdDomainAxesGet(Nrrd *nrrd, int axisIdx[NRRD_DIM_MAX]) {
+  int indAxi, axi;
+
+  if (!( nrrd && axisIdx )) {
+    return -1;
+  }
+  indAxi = 0;
+  for (axi=0; axi<nrrd->dim; axi++) {
+    if (nrrdKindUnknown == nrrd->axis[axi].kind
+        || 0 == nrrdKindSize(nrrd->axis[axi].kind)) {
+      axisIdx[indAxi] = axi;
+      indAxi++;
+    }
+  }
+  return indAxi;
+}
+
+/*
+******** nrrdRangeAxesGet
+**
+** learns which are the range (non-resample-able) axes of an image, in
+** other words, the axes which correspond to dependent variables.  The
+** return value is the number of dependent axes, and that many values
+** are set in the given axisIdx[] array
+*/
+int
+nrrdRangeAxesGet(Nrrd *nrrd, int axisIdx[NRRD_DIM_MAX]) {
+  int depAxi, axi;
+
+  if (!( nrrd && axisIdx )) {
+    return -1;
+  }
+  depAxi = 0;
+  for (axi=0; axi<nrrd->dim; axi++) {
+    if (!( nrrdKindUnknown == nrrd->axis[axi].kind
+           || 0 == nrrdKindSize(nrrd->axis[axi].kind) )) {
+      axisIdx[depAxi] = axi;
+      depAxi++;
+    }
+  }
+  return depAxi;
+}
+
 
 /*
 ******** nrrdSpacingCalculate

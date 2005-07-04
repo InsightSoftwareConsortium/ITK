@@ -41,8 +41,8 @@ if (exists $ENV{OSTYPE} and "darwin" eq $ENV{OSTYPE}) {
     $mac = 0;
 }
 
-print "#ifndef ${prefix}_NrrdIO_mangle_h\n";
-print "#define ${prefix}_NrrdIO_mangle_h\n";
+print "#ifndef __${prefix}_NrrdIO_mangle_h\n";
+print "#define __${prefix}_NrrdIO_mangle_h\n";
 print "\n";
 print "/*\n";
 print "\n";
@@ -74,4 +74,4 @@ while (<NM>) {
     }
 }
 close(NM);
-print "#endif\n";
+print "#endif  /* __${prefix}_NrrdIO_mangle_h */ \n";

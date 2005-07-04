@@ -31,7 +31,10 @@
 #include <stdarg.h>
 #include <float.h>
 
-
+/* THE FOLLOWING INCLUDE IS ONLY FOR THE ITK DISTRIBUTION.
+   This header mangles the symbols in the NrrdIO library, preventing
+   conflicts in applications linked against two versions of NrrdIO. */
+#include "itk_NrrdIO_mangle.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -121,8 +124,8 @@ typedef struct {
 } airEnum;
 TEEM_API int airEnumUnknown(airEnum *enm);
 TEEM_API int airEnumValCheck(airEnum *enm, int val);
-TEEM_API char *airEnumStr(airEnum *enm, int val);
-TEEM_API char *airEnumDesc(airEnum *enm, int val);
+TEEM_API const char *airEnumStr(airEnum *enm, int val);
+TEEM_API const char *airEnumDesc(airEnum *enm, int val);
 TEEM_API int airEnumVal(airEnum *enm, const char *str);
 TEEM_API char *airEnumFmtDesc(airEnum *enm, int val, int canon,
                               const char *fmt);
@@ -1362,6 +1365,82 @@ extern "C" {
    ? ((max) - (min))/(size)                        \
    : ((max) - (min))/((size) - 1))                 \
 
+/*
+******** NRRD_COORD_UPDATE
+**
+** This is for doing the "carrying" associated with gradually
+** incrementing an array of coordinates.  Assuming that the given
+** coordinate array "coord" has been incrementing by adding 1 to THE
+** FIRST, THE ZERO-ETH, ELEMENT (this is a strong assumption), then,
+** this macro is good for propagating the change up to higher axes
+** (which really only happens when the position has stepped over the
+** limit on a lower axis.)  Relies on the array of axes sizes "size",
+** as as the length "dim" of "coord" and "size".
+**
+** This may be turned into something more general purpose soon. 
+*/
+#define NRRD_COORD_UPDATE(coord, size, dim)    \
+do {                                           \
+  int d;                                       \
+  for (d=0;                                    \
+       d < (dim)-1 && (coord)[d] == (size)[d]; \
+       d++) {                                  \
+    (coord)[d] = 0;                            \
+    (coord)[d+1]++;                            \
+  }                                            \
+} while (0)
+
+/*
+******** NRRD_COORD_INCR
+**
+** same as NRRD_COORD_UPDATE, but starts by incrementing coord[idx]
+*/
+#define NRRD_COORD_INCR(coord, size, dim, idx) \
+do {                                           \
+  int d;                                       \
+  for (d=idx, (coord)[d]++;                    \
+       d < (dim)-1 && (coord)[d] == (size)[d]; \
+       d++) {                                  \
+    (coord)[d] = 0;                            \
+    (coord)[d+1]++;                            \
+  }                                            \
+} while (0)
+
+/*
+******** NRRD_INDEX_GEN
+**
+** Given a coordinate array "coord", as well as the array sizes "size"
+** and dimension "dim", calculates the linear index, and stores it in
+** "I".
+*/
+#define NRRD_INDEX_GEN(I, coord, size, dim)   \
+do {                                          \
+  int d;                                      \
+  for (d=(dim)-1, (I)=(coord)[d--];           \
+       d >= 0;                                \
+       d--) {                                 \
+    (I) = (coord)[d] + (size)[d]*(I);         \
+  }                                           \
+} while (0)
+
+/*
+******** NRRD_COORD_GEN
+**
+** opposite of NRRD_INDEX_GEN: going from linear index "I" to
+** coordinate array "coord".
+**
+** HUGE NOTE: the I argument will end up as ZERO when this is done!
+** If passing a loop control variable, pass a copy instead!
+** Hello, side-effects!  This is awful!
+*/
+#define NRRD_COORD_GEN(coord, size, dim, I)   \
+do {                                          \
+  int d;                                      \
+  for (d=0; d<=(dim)-1; d++) {                \
+    (coord)[d] = I % (size)[d];               \
+    I /= (size)[d];                           \
+  }                                           \
+} while (0)
 
 #ifdef __cplusplus
 }
@@ -1474,7 +1553,7 @@ typedef struct {
                                        implies the value of spaceDim */
   int spaceDim;                     /* if non-zero, the dimension of the space
                                        in which the regular sampling grid
-                                       conceptually lies.  This is a seperate
+                                       conceptually lies.  This is a separate
                                        variable because this dimension can be
                                        different than the array dimension. 
                                        The non-zero-ness of this value is in 
@@ -1802,6 +1881,8 @@ TEEM_API void nrrdAxisInfoIdxRange(double *loP, double *hiP,
                                    double loPos, double hiPos);
 TEEM_API void nrrdAxisInfoSpacingSet(Nrrd *nrrd, int ax);
 TEEM_API void nrrdAxisInfoMinMaxSet(Nrrd *nrrd, int ax, int defCenter);
+TEEM_API int nrrdDomainAxesGet(Nrrd *nrrd, int axisIdx[NRRD_DIM_MAX]);
+TEEM_API int nrrdRangeAxesGet(Nrrd *nrrd, int axisIdx[NRRD_DIM_MAX]);
 TEEM_API int nrrdSpacingCalculate(const Nrrd *nrrd, int ax,
                                   double *spacing,
                                   double vector[NRRD_SPACE_DIM_MAX]);
@@ -1812,12 +1893,14 @@ TEEM_API const char *nrrdBiffKey;
 TEEM_API int nrrdSpaceDimension(int space);
 TEEM_API int nrrdSpaceSet(Nrrd *nrrd, int space);
 TEEM_API int nrrdSpaceDimensionSet(Nrrd *nrrd, int spaceDim);
-TEEM_API int nrrdSpaceKnown(const Nrrd *nrrd);
 TEEM_API void nrrdSpaceGet(const Nrrd *nrrd, int *space, int *spaceDim);
-TEEM_API void nrrdSpaceOriginGet(const Nrrd *nrrd,
-                                 double vector[NRRD_SPACE_DIM_MAX]);
-TEEM_API int nrrdOriginCalculate3D(const Nrrd *nrrd, int ax0, int ax1, int ax2,
-                                   int defaultCenter, double origin[3]);
+TEEM_API int nrrdSpaceOriginGet(const Nrrd *nrrd,
+                                double vector[NRRD_SPACE_DIM_MAX]);
+TEEM_API int nrrdSpaceOriginSet(Nrrd *nrrd,
+                                double vector[NRRD_SPACE_DIM_MAX]);
+TEEM_API int nrrdOriginCalculate(const Nrrd *nrrd,
+                                 int *axisIdx, int axisIdxNum,
+                                 int defaultCenter, double *origin);
 TEEM_API int nrrdContentSet(Nrrd *nout, const char *func,
                             const Nrrd *nin, const char *format,
                             ... /* printf-style arg list */ );
@@ -1919,6 +2002,15 @@ TEEM_API int    (*nrrdSprint[NRRD_TYPE_MAX+1])(char *, const void *);
 /******** permuting, shuffling, and all flavors of reshaping */
 /* reorder.c */
 TEEM_API int nrrdAxesInsert(Nrrd *nout, const Nrrd *nin, int ax);
+TEEM_API int nrrdInvertPerm(int *invp, const int *perm, int n);
+TEEM_API int nrrdAxesPermute(Nrrd *nout, const Nrrd *nin, const int *axes);
+TEEM_API int nrrdShuffle(Nrrd *nout, const Nrrd *nin, int axis,
+                         const int *perm);
+
+/******** sampling, slicing, cropping */
+/* subset.c */
+TEEM_API int nrrdSlice(Nrrd *nout, const Nrrd *nin, int axis, int pos);
+TEEM_API int nrrdCrop(Nrrd *nout, const Nrrd *nin, int *min, int *max);
 
 #ifdef __cplusplus
 }
