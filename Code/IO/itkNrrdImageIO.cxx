@@ -687,6 +687,8 @@ void NrrdImageIO::Write( const void* buffer)
       break;
     }
 
+#if 0
+  HEY this is disabled until ITK's NrrdIO is build with zlib
   // Should we use compression?  Enabling compression always produces
   // binary output.
   if (this->GetUseCompression() == true)
@@ -694,6 +696,7 @@ void NrrdImageIO::Write( const void* buffer)
     // enable default nrrd compression flags
     nio->encoding = nrrdEncodingGzip;
     }
+#endif
 
   // Which byte order should we use?
   Superclass::ByteOrder byteOrder = this->GetByteOrder();
