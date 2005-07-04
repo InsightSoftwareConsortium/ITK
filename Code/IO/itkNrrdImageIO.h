@@ -30,7 +30,7 @@ namespace itk
 
 /** \brief Read and write the "Nearly Raw Raster Data" (Nrrd) image format.
  * The Nrrd format was developed as part of the Teem package
- * (teem.sourceforge.org).
+ * (teem.sourceforge.net).
  *
  *  \ingroup IOFilters
  */
@@ -53,8 +53,7 @@ public:
    * while others can support 2D, 3D, or even n-D. This method returns
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
-  virtual bool SupportsDimension(unsigned long )
-  {return true;}
+  virtual bool SupportsDimension(unsigned long );
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
@@ -84,7 +83,7 @@ protected:
 
   /** Utility functions for converting between enumerated data type
       representations */
-  int ITKToNrrdPixelType( const ImageIOBase::IOComponentType ) const;
+  int ITKToNrrdComponentType( const ImageIOBase::IOComponentType ) const;
   ImageIOBase::IOComponentType NrrdToITKComponentType( const int ) const;
 
 private:
