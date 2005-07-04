@@ -73,8 +73,8 @@ public:
 
   ~DTITubePnt()
   {
-    delete m_X;
-    delete m_TensorMatrix;
+    delete []m_X;
+    delete []m_TensorMatrix;
     m_ExtraFields.clear();
   };
   

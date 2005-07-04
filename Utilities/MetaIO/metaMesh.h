@@ -60,7 +60,7 @@ public:
   }
   ~MeshPoint()
   { 
-    delete m_X;
+    delete []m_X;
   };
   
   unsigned int m_Dim;
@@ -89,7 +89,7 @@ public:
   }
   ~MeshCell()
   { 
-    delete m_PointsId;
+    delete []m_PointsId;
   };
   
   int m_Id;
@@ -162,7 +162,7 @@ public:
     MET_DoubleToValue((double)m_Id,MET_INT,data,j++);
     MET_DoubleToValue((double)m_Data,GetMetaType(),data,j++);
     stream->write((char *)data,sizeof(int)+sizeof(m_Data));
-    delete data;
+    delete []data;
     }
 
   virtual unsigned int GetSize(void)

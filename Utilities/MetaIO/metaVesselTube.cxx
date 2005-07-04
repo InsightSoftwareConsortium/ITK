@@ -722,7 +722,7 @@ M_Read(void)
     m_Event->StopReading();
     }
 
-  delete posDim;
+  delete []posDim;
   return true;
 }
 

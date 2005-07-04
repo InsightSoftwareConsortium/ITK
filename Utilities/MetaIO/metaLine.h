@@ -49,7 +49,7 @@ public:
 
   ~LinePnt()
   {
-    delete m_X;
+    delete [] m_X;
     for(unsigned int i=0;i<m_Dim-1;i++)
       {
         delete [] m_V[i];

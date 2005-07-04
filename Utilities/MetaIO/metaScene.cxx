@@ -189,7 +189,7 @@ Read(const char *_headerName)
         tube->ReadStream(m_NDims,m_ReadStream);
         m_ObjectList.push_back(tube);
         }
-      delete subtype;
+      delete []subtype;
       }
 
     else if(!strncmp(MET_ReadType(*m_ReadStream),"Transform",9))

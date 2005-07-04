@@ -43,7 +43,7 @@ public:
   }
   ~LandmarkPnt()
   { 
-    delete m_X;
+    delete []m_X;
   };
   
   unsigned int m_Dim;

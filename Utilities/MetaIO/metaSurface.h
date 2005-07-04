@@ -41,8 +41,8 @@ public:
   }
   ~SurfacePnt()
   {
-    delete m_X;
-    delete m_V;
+    delete []m_X;
+    delete []m_V;
   };
   
   unsigned int m_Dim;

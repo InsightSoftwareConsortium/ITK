@@ -47,10 +47,10 @@ public:
 
   ~TubePnt()
   {
-    delete m_X;
-    delete m_V1;
-    delete m_V2;
-    delete m_T;
+    delete []m_X;
+    delete []m_V1;
+    delete []m_V2;
+    delete []m_T;
   };
   
   unsigned int m_Dim;
