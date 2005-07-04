@@ -648,8 +648,9 @@ void NrrdImageIO::Write( const void* buffer)
       field = airEnumStr(nrrdField, nrrdField_space);
       if (!strncmp(keyField, field, strlen(field)))
         {
+        int space;
         ExposeMetaData<std::string>(thisDic, *keyIt, value);
-        int space = airEnumVal(nrrdSpace, value.c_str());
+        space = airEnumVal(nrrdSpace, value.c_str());
         if (nrrdSpaceDimension(space) == nrrd->spaceDim)
           {
           // sanity check
@@ -711,7 +712,7 @@ void NrrdImageIO::Write( const void* buffer)
     }
   
   // Write the nrrd to file.
-  if (nrrdSave(this->GetFileName(), nrrd, NULL))
+  if (nrrdSave(this->GetFileName(), nrrd, nio))
     {
     char *err = biffGetDone(NRRD); // would be nice to free(err)
     itkExceptionMacro("Write: Error writing " 
