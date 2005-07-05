@@ -688,7 +688,8 @@ void NrrdImageIO::Write( const void* buffer)
     }
 
 #if 0
-  HEY this is disabled until ITK's NrrdIO is build with zlib
+  // HEY this is disabled until ITK's NrrdIO is build with zlib
+  //
   // Should we use compression?  Enabling compression always produces
   // binary output.
   if (this->GetUseCompression() == true)
