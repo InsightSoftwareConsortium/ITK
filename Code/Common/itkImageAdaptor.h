@@ -36,7 +36,7 @@ namespace itk
  * image pixels the filter will act on.
  *
  * The TAccessor class should implement the Get and Set methods
- * as static methods. These two will specify how data can be put
+ * These two will specify how data can be put
  * and get from parts of each pixel. It should define the types
  * ExternalType and InternalType too.
  * 
