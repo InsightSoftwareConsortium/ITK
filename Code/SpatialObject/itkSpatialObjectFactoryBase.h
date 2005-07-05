@@ -28,7 +28,7 @@ namespace itk
  * \brief Create instances of SpatialObjects
  */
 
-class ITKCommon_EXPORT SpatialObjectFactoryBase : public ObjectFactoryBase
+class SpatialObjectFactoryBase : public ObjectFactoryBase
 {
 public:  
   /** Standard class typedefs. */
