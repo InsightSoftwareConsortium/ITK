@@ -457,7 +457,7 @@ void NrrdImageIO::Read(void* buffer)
   nrrd->data = buffer;
   nrrd->type = this->ITKToNrrdComponentType( this->m_ComponentType );
   nrrd->dim = static_cast<int>(this->GetNumberOfDimensions());
-  for (unsigned int axi = 0; axi < nrrd->dim; axi++)
+  for (unsigned int axi = 0; axi < static_cast<unsigned int>(nrrd->dim); axi++)
     {
     nrrd->axis[axi].size = static_cast<int>(this->GetDimensions(axi));
     }
