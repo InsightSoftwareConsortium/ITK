@@ -279,10 +279,17 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     }
 
   // Set the size of the output region
-  typename TOutputImage::RegionType outputLargestPossibleRegion;
-  outputLargestPossibleRegion.SetSize( m_Size );
-  outputLargestPossibleRegion.SetIndex( m_OutputStartIndex );
-  outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
+  if (m_UseReferenceImage && m_ReferenceImage)
+    {
+    outputPtr->SetLargestPossibleRegion( m_ReferenceImage->GetLargestPossibleRegion() );
+    }
+  else
+    {
+    typename TOutputImage::RegionType outputLargestPossibleRegion;
+    outputLargestPossibleRegion.SetSize( m_Size );
+    outputLargestPossibleRegion.SetIndex( m_OutputStartIndex );
+    outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
+    }
 
   // Set spacing and origin
   if (m_UseReferenceImage && m_ReferenceImage)
