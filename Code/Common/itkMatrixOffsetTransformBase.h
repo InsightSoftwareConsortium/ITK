@@ -212,8 +212,7 @@ public:
    * This method sets the center of rotation of an MatrixOffsetTransformBase 
    * to a fixed point - for most transforms derived from this class, 
    * this point is not a "parameter" of the transform - the exception is that
-   * "centered" (e.g., itkCenteredAffineTransform) transforms have center as
-   * a parameter during optimization.
+   * "centered" transforms have center as a parameter during optimization.
    *
    * This method updates offset wrt to current translation and matrix.
    * That is, changing the center changes the transform!
@@ -225,6 +224,8 @@ public:
    * to * maintain the consistency with translation.   If a center is not used,
    * or is set before the matrix and the offset, then it is safe to change the
    * offset directly.
+   *        As a rule of thumb, if you wish to set the center explicitly, set
+   * before Offset computations are done.
    *
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
@@ -317,7 +318,16 @@ public:
     * the transform is the inverse of self. If self is not invertible,   
     * an exception is thrown.
     * Note that by default the inverese transform is centered at 
-    * the origin.   */
+    * the origin. If you need to compute the inverse centered at a point, p,
+    * 
+    * \code
+    * transform2->SetCenter( p );
+    * transform1->GetInverse( transform2 );
+    * \endcode
+    *
+    * transform2 will now contain the inverse of transform1 and will 
+    * with its center set to p. Flipping the two statements will produce an 
+    * incorrect transform. */
   bool GetInverse(Self * inverse) const;
 
   /** \deprecated Use GetInverse instead.
