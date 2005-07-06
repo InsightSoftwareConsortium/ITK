@@ -719,7 +719,7 @@ static int nifti_alloc_NBL_mem(nifti_image * nim, int nbricks,
  *
  * return 0 on success, -1 on failure
  *----------------------------------------------------------------------*/
-static int nifti_copynsort(int nbricks, int const * const blist, int ** const slist,
+static int nifti_copynsort(const int nbricks, int const * const blist, int ** const slist,
                            int ** const sindex)
 {
    int * stmp, * itmp;   /* for ease of typing/reading */
@@ -890,7 +890,7 @@ char *nifti_strdup(const char * const str)
 /*! Return a pointer to a string holding the name of a NIFTI datatype.
     Don't free() or modify this string!  It points to static storage.
 *//*-------------------------------------------------------------------------*/
-char const * nifti_datatype_string( int dt )
+char const * nifti_datatype_string( const int dt )
 {
    switch( dt ){
      case DT_UNKNOWN:    return "UNKNOWN"    ;
@@ -917,7 +917,7 @@ char const * nifti_datatype_string( int dt )
 /*----------------------------------------------------------------------*/
 /*! Determine if the datatype code dt is an integer type (1=YES, 0=NO).
 *//*--------------------------------------------------------------------*/
-int nifti_is_inttype( int dt )
+int nifti_is_inttype( const int dt )
 {
    switch( dt ){
      case DT_UNKNOWN:    return 0 ;
@@ -946,7 +946,7 @@ int nifti_is_inttype( int dt )
 
     Don't free() or modify this string!  It points to static storage.
 *//*-------------------------------------------------------------------------*/
-char const *nifti_units_string( int uu )
+char const *nifti_units_string( const int uu )
 {
    switch( uu ){
      case NIFTI_UNITS_METER:  return "m" ;
@@ -967,7 +967,7 @@ char const *nifti_units_string( int uu )
 
     Don't free() or modify this string!  It points to static storage.
 *//*-------------------------------------------------------------------------*/
-char const *nifti_xform_string( int xx )
+char const *nifti_xform_string( const int xx )
 {
    switch( xx ){
      case NIFTI_XFORM_SCANNER_ANAT:  return "Scanner Anat" ;
@@ -983,7 +983,7 @@ char const *nifti_xform_string( int xx )
 
     Don't free() or modify this string!  It points to static storage.
 *//*-------------------------------------------------------------------------*/
-char const *nifti_intent_string( int ii )
+char const *nifti_intent_string( const int ii )
 {
    switch( ii ){
      case NIFTI_INTENT_CORREL:     return "Correlation statistic" ;
@@ -1032,7 +1032,7 @@ char const *nifti_intent_string( int ii )
 
     Don't free() or modify this string!  It points to static storage.
 *//*-------------------------------------------------------------------------*/
-char const *nifti_slice_string( int ss )
+char const *nifti_slice_string( const int ss )
 {
    switch( ss ){
      case NIFTI_SLICE_SEQ_INC:  return "sequential_increasing"    ;
@@ -1050,7 +1050,7 @@ char const *nifti_slice_string( int ss )
 
     Don't free() or modify this string!  It points to static storage.
 *//*-------------------------------------------------------------------------*/
-char const *nifti_orientation_string( int ii )
+char const *nifti_orientation_string( const int ii )
 {
    switch( ii ){
      case NIFTI_L2R: return "Left-to-Right" ;
@@ -4068,7 +4068,7 @@ int nifti_write_all_data(znzFileConst fp, nifti_image * const nim,
       }
 
       ss = nifti_write_buffer(fp,nim->data,nim->nbyper * nim->nvox);
-      if (ss < (nim->nbyper * nim->nvox)){
+      if (ss < (size_t) (nim->nbyper * nim->nvox)){
          fprintf(stderr,
             "** ERROR: NWAD: wrote only %d of %d bytes to file\n",
             (int)ss, nim->nbyper * nim->nvox);
@@ -4086,7 +4086,7 @@ int nifti_write_all_data(znzFileConst fp, nifti_image * const nim,
 
       for( bnum = 0; bnum < NBL->nbricks; bnum++ ){
          ss = nifti_write_buffer(fp, NBL->bricks[bnum], NBL->bsize);
-         if( ss < NBL->bsize ){
+         if( ss < (size_t) NBL->bsize ){
             fprintf(stderr,
                "** NWAD ERROR: wrote %d of %d bytes of brick %d of %d to file",
                (int)ss, NBL->bsize, bnum+1, NBL->nbricks);
