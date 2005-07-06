@@ -168,7 +168,6 @@ void
 TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
 ::GenerateData(void)
 {
-  unsigned int i;
   itkDebugMacro(<< "TriangleMeshToBinaryImageFilter::Update() called");
 
   RasterizeTriangles();
