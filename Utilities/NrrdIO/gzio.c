@@ -671,4 +671,14 @@ _nrrdGzGetLong(_NrrdGzStream *s) {
   return x;
 }
 
+#else /* TEEM_ZLIB */
+
+/*
+** a random symbol to put in the object file when Zlib is not enabled 
+*/
+static int
+_nrrdGzNotEnabled(void) {
+  return 42;
+}
+
 #endif /* TEEM_ZLIB */
