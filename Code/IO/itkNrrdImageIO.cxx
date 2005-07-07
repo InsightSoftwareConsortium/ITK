@@ -577,6 +577,7 @@ void NrrdImageIO::Write( const void* buffer)
     itkExceptionMacro("Write: Error wrapping for " 
                       << this->GetFileName() << ": " << err);
     }
+  nrrdAxisInfoSet_nva(nrrd, nrrdAxisInfoKind, kind);
 
   // Go through MetaDataDictionary and set either specific nrrd field
   // or a key/value pair
