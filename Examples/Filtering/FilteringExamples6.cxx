@@ -24,7 +24,9 @@ REGISTER_TEST(FFTDirectInverse2Test);
 #define main FFTDirectInverseTest
 #include "FFTDirectInverse.cxx"
 
+#if defined(USE_FFTW)
 #undef main
 #define main FFTDirectInverse2Test
 #include "FFTDirectInverse2.cxx"
+#endif
 
