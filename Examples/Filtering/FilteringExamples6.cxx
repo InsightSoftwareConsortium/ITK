@@ -10,8 +10,15 @@
 void RegisterTests()
 {
 REGISTER_TEST(DigitallyReconstructedRadiograph1Test);
+REGISTER_TEST(FFTDirectInverseTest);
 }
 
 #undef main
 #define main DigitallyReconstructedRadiograph1Test
 #include "DigitallyReconstructedRadiograph1.cxx"
+
+
+#undef main
+#define main FFTDirectInverseTest
+#include "FFTDirectInverse.cxx"
+

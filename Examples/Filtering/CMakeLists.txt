@@ -13,6 +13,9 @@ TARGET_LINK_LIBRARIES(FlipImageFilter ITKCommon ITKIO)
 ADD_EXECUTABLE(FFTImageFilter FFTImageFilter.cxx )
 TARGET_LINK_LIBRARIES(FFTImageFilter ITKCommon ITKIO)
 
+ADD_EXECUTABLE(FFTDirectInverse FFTDirectInverse.cxx )
+TARGET_LINK_LIBRARIES(FFTDirectInverse ITKCommon ITKIO)
+
 ADD_EXECUTABLE(FFTImageFilterFourierDomainFiltering FFTImageFilterFourierDomainFiltering.cxx )
 TARGET_LINK_LIBRARIES(FFTImageFilterFourierDomainFiltering ITKCommon ITKIO)
 
@@ -752,6 +755,14 @@ ADD_TEST( FFTImageFilterTest ${FILTERING_EXAMPLES3}
         ${ITK_SOURCE_DIR}/Examples/Data/FatMRISlice.png
         ${TEMP}/FFTImageFilterReal.png
         ${TEMP}/FFTImageFilterImaginary.png
+)
+
+ADD_TEST( FFTDirectInverseTest ${FILTERING_EXAMPLES6}
+  --compare ${BASELINE}/FFTDirectInversePoint.png
+            ${TEMP}/FFTDirectInversePoint.png
+  FFTDirectInverseTest
+        ${ITK_SOURCE_DIR}/Examples/Data/Point.png
+        ${TEMP}/FFTDirectInversePoint.png
 )
 
 ADD_TEST( FFTImageFilterTest2 ${FILTERING_EXAMPLES3}
