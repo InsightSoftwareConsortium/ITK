@@ -26,6 +26,7 @@
 #include "itkCovariantVector.h"
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkDiffusionTensor3D.h"
+#include "itkFixedArray.h"
 
 namespace itk
 {
@@ -238,6 +239,12 @@ const std::type_info& ImageIOBase::GetComponentTypeInfo() const
     { \
     this->SetNumberOfComponents(7); \
     this->SetPixelType(ImageIOBase::COVARIANTVECTOR); \
+    this->SetComponentType(ImageIOBase::ntype); \
+    } \
+  else if ( ptype == typeid(FixedArray<type,2>) ) \
+    { \
+    this->SetNumberOfComponents(2); \
+    this->SetPixelType(ImageIOBase::FIXEDARRAY); \
     this->SetComponentType(ImageIOBase::ntype); \
     } \
   else if ( ptype == typeid(SymmetricSecondRankTensor<type,3>) ) \
