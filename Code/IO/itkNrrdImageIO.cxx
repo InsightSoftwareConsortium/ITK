@@ -210,6 +210,10 @@ bool NrrdImageIO::CanReadFile( const char* filename )
 
 void NrrdImageIO::ReadImageInformation()
  {
+#if defined(__BORLANDC__) 
+// Disable floating point exceptions in Borland 
+  _control87(MCW_EM, MCW_EM); 
+#endif // defined(__BORLANDC__) 
    // This method determines the following and sets the appropriate value in
    // the parent IO class:
    //
@@ -223,8 +227,6 @@ void NrrdImageIO::ReadImageInformation()
    // image origin
    // meta data dictionary information
 
-   int axii;  // axis index index
-   int axi;   // axis index
    Nrrd *nrrd = nrrdNew();
    NrrdIoState *nio = nrrdIoStateNew();
 
@@ -271,21 +273,22 @@ void NrrdImageIO::ReadImageInformation()
    this->SetPixelType( SCALAR );  // HEY fix this
 
    // Set the number of image dimensions and bail if needed
-   int indAxisNum, indAxisIdx[NRRD_DIM_MAX];
-   indAxisNum = nrrdDomainAxesGet(nrrd, indAxisIdx);
-   if (!( indAxisNum == nrrd->dim || indAxisNum == nrrd->dim-1 ))
+   // NOTE: future version of nrrdDomainAxesGet will use unsigned types
+   int domAxisNum, domAxisIdx[NRRD_DIM_MAX];
+   domAxisNum = nrrdDomainAxesGet(nrrd, domAxisIdx);
+   if (!( domAxisNum == nrrd->dim || domAxisNum == nrrd->dim-1 ))
      {
      itkExceptionMacro("ReadImageInformation: nrrd has more than one "
                        "dependent axis; not currently handled");
      }
-   if (nrrd->spaceDim && nrrd->spaceDim != indAxisNum)
+   if (nrrd->spaceDim && nrrd->spaceDim != domAxisNum)
      {
      itkExceptionMacro("ReadImageInformation: nrrd's # independent axes "
                        "doesn't match dimension of space in which "
                        "orientation is defined; not currently handled");
      }
-   // else nrrd->spaceDim == indAxisNum, if the nrrd has orientation
-   this->SetNumberOfDimensions(indAxisNum);
+   // else nrrd->spaceDim == domAxisNum, if the nrrd has orientation
+   this->SetNumberOfDimensions(domAxisNum);
 
    // Set type information
    //   this->SetPixelType( this->NrrdToITKComponentType(nrrd->type) );
@@ -295,29 +298,36 @@ void NrrdImageIO::ReadImageInformation()
 
    // Set axis information
    double spacing;
-   double spaceVec[NRRD_SPACE_DIM_MAX];
-   vnl_vector<double> spaceVecVnl(NRRD_SPACE_DIM_MAX);
-   int spacingStatus, saxi;
-   for (axii=0; axii < indAxisNum; axii++)
+   double spaceDir[NRRD_SPACE_DIM_MAX];
+   std::vector<double> spaceDirStd(domAxisNum);
+   int spacingStatus;
+   for (unsigned int axii=0; axii < domAxisNum; axii++)
      {
-     axi = indAxisIdx[axii];
+     unsigned int axi = domAxisIdx[axii];
      this->SetDimensions(axi, nrrd->axis[axi].size);
-     spacingStatus = nrrdSpacingCalculate(nrrd, axi, &spacing, spaceVec);
+     spacingStatus = nrrdSpacingCalculate(nrrd, axi, &spacing, spaceDir);
      switch(spacingStatus) 
        {
        case nrrdSpacingStatusNone:
-         this->SetSpacing(axi, 1.0);
+         // Let ITK's defaults stay
+         // this->SetSpacing(axi, 1.0);
          break;
        case nrrdSpacingStatusScalarNoSpace:
          this->SetSpacing(axi, spacing);
          break;
        case nrrdSpacingStatusDirection:
-         this->SetSpacing(axi, spacing);
-         for (saxi=0; saxi < nrrd->spaceDim; saxi++)
+         if (AIR_EXISTS(spacing))
            {
-           spaceVecVnl[saxi] = spaceVec[saxi];
+           // only set info if we have something to set
+           this->SetSpacing(axi, spacing);
+           for (unsigned int saxi=0;
+                saxi < static_cast<unsigned int>(nrrd->spaceDim); 
+                saxi++)
+             {
+             spaceDirStd[saxi] = spaceDir[saxi];
+             }
+           this->SetDirection(axi, spaceDirStd);
            }
-         this->SetDirection(axi, spaceVecVnl);
          break;
        default:
        case nrrdSpacingStatusUnknown:
@@ -334,25 +344,30 @@ void NrrdImageIO::ReadImageInformation()
    // Figure out origin
    if (nrrd->spaceDim)
      {
-     for (saxi=0; saxi < nrrd->spaceDim; saxi++)
+     if (AIR_EXISTS(nrrd->spaceOrigin[0]))
        {
-       this->SetOrigin(saxi, (AIR_EXISTS(nrrd->spaceOrigin[saxi])
-                              ? nrrd->spaceOrigin[saxi]
-                              : 0.0));
+       // only set info if we have something to set
+       for (unsigned int saxi=0;
+            saxi < static_cast<unsigned int>(nrrd->spaceDim);
+            saxi++)
+         {
+         this->SetOrigin(saxi, nrrd->spaceOrigin[saxi]);
+         }
        }
      }
    else 
      {
      double spaceOrigin[NRRD_DIM_MAX];
-     int originStatus = nrrdOriginCalculate(nrrd, indAxisIdx, indAxisNum,
+     int originStatus = nrrdOriginCalculate(nrrd, domAxisIdx, domAxisNum,
                                             nrrdCenterCell, spaceOrigin);
-     for (saxi=0; saxi < indAxisNum; saxi++) 
+     for (unsigned int saxi=0; saxi < domAxisNum; saxi++) 
        {
        switch (originStatus)
          {
          case nrrdOriginStatusNoMin:
          case nrrdOriginStatusNoMaxOrSpacing:
-           this->SetOrigin(saxi, 0.0);
+           // only set info if we have something to set
+           // this->SetOrigin(saxi, 0.0);
            break;
          case nrrdOriginStatusOkay:
            this->SetOrigin(saxi, spaceOrigin[saxi]);
@@ -388,9 +403,9 @@ void NrrdImageIO::ReadImageInformation()
    // save in MetaDataDictionary those important nrrd fields that
    // (currently) have no ITK equivalent
    NrrdAxisInfo *naxis;
-   for (axii=0; axii < indAxisNum; axii++)
+   for (unsigned int axii=0; axii < domAxisNum; axii++)
      {
-     axi = indAxisIdx[axii];
+     unsigned int axi = static_cast<unsigned int>(domAxisIdx[axii]);
      naxis = nrrd->axis + axi;
      if (AIR_EXISTS(naxis->thickness))
        {
@@ -452,9 +467,20 @@ void NrrdImageIO::ReadImageInformation()
      }
    if (AIR_EXISTS(nrrd->measurementFrame[0][0]))
      {
-     // sprintf(key, "%s%s", KEY_PREFIX,
-     //         airEnumStr(nrrdField, nrrdField_measurement_frame));
-     // HEY: should the measurement frame be saved as vnl_matrix ??
+     sprintf(key, "%s%s", KEY_PREFIX,
+             airEnumStr(nrrdField, nrrdField_measurement_frame));
+     std::vector<std::vector<double> > msrFrame(domAxisNum);
+     for (unsigned int saxi=0; saxi < domAxisNum; saxi++) 
+       {
+       msrFrame[saxi].resize(domAxisNum);
+       for (int saxj=0; saxj < domAxisNum; saxj++)
+         {
+         msrFrame[saxi][saxj] = nrrd->measurementFrame[saxi][saxj];
+         }
+       }
+     EncapsulateMetaData<std::vector<std::vector<double> > >(thisDic,
+                                                             std::string(key),
+                                                             msrFrame);
      }
    
    nrrdNix(nrrd);
@@ -530,6 +556,11 @@ bool NrrdImageIO::CanWriteFile( const char * name )
   
 void NrrdImageIO::WriteImageInformation(void)
 {
+#if defined(__BORLANDC__) 
+// Disable floating point exceptions in Borland 
+  _control87(MCW_EM, MCW_EM); 
+#endif // defined(__BORLANDC__) 
+
   // Nothing needs doing here.
 }
 
@@ -543,29 +574,41 @@ void NrrdImageIO::Write( const void* buffer)
 
   Nrrd *nrrd = nrrdNew();
   NrrdIoState *nio = nrrdIoStateNew();
-  int nrrdDim, baseDim, spaceDim, kind[NRRD_DIM_MAX], size[NRRD_DIM_MAX];
+  int kind[NRRD_DIM_MAX], size[NRRD_DIM_MAX];
+  unsigned int nrrdDim, baseDim, spaceDim;
+  double spaceDir[NRRD_DIM_MAX][NRRD_SPACE_DIM_MAX];
   double origin[NRRD_DIM_MAX];
 
+  spaceDim = this->GetNumberOfDimensions();
   if (this->GetNumberOfComponents() > 1)
     {
     // HEY we're assuming that everything is contiguous in memory
     size[0] = this->GetNumberOfComponents();
-    // HEY we need better logic to determine the correct kind
+    // HEY need better logic to determine correct kind (vector, color, etc.)
     kind[0] = nrrdKindList;
+    for (unsigned int saxi=0; saxi < spaceDim; saxi++)
+      {
+      spaceDir[0][saxi] = AIR_NAN;
+      }
     baseDim = 1;
     }
   else
     {
     baseDim = 0;
     }
-  spaceDim = this->GetNumberOfDimensions();
   nrrdDim = baseDim + spaceDim;
-  for (int axi=0; axi < spaceDim; axi++)
+  std::vector<double> spaceDirStd(spaceDim);
+  for (unsigned int axi=0; axi < spaceDim; axi++)
     {
     size[axi+baseDim] = this->GetDimensions(axi) - baseDim;
     kind[axi+baseDim] = nrrdKindDomain;
     origin[axi] = this->GetOrigin(axi);
-    // HEY GetDirection
+    double spacing = this->GetSpacing(axi);
+    spaceDirStd = this->GetDirection(axi);
+    for (unsigned int saxi=0; saxi < spaceDim; saxi++)
+      {
+      spaceDir[axi+baseDim][saxi] = spacing*spaceDirStd[saxi];
+      }
     }
   if (nrrdWrap_nva(nrrd, const_cast<void *>(buffer),
                    this->ITKToNrrdComponentType( m_ComponentType ),
@@ -574,19 +617,20 @@ void NrrdImageIO::Write( const void* buffer)
       || nrrdSpaceOriginSet(nrrd, origin))
     {
     char *err = biffGetDone(NRRD); // would be nice to free(err)
-    itkExceptionMacro("Write: Error wrapping for " 
+    itkExceptionMacro("Write: Error wrapping nrrd for " 
                       << this->GetFileName() << ": " << err);
     }
   nrrdAxisInfoSet_nva(nrrd, nrrdAxisInfoKind, kind);
+  nrrdAxisInfoSet_nva(nrrd, nrrdAxisInfoSpaceDirection, spaceDir);
 
   // Go through MetaDataDictionary and set either specific nrrd field
   // or a key/value pair
-
   MetaDataDictionary &thisDic = this->GetMetaDataDictionary();
   std::vector<std::string> keys = thisDic.GetKeys();
   std::vector<std::string>::const_iterator keyIt;
+  std::string value;
   const char *keyField, *field;
-  int axi;
+  unsigned int axi;
   for( keyIt = keys.begin(); keyIt != keys.end(); keyIt++ )
     {
     if (!strncmp(KEY_PREFIX, (*keyIt).c_str(), strlen(KEY_PREFIX)))
@@ -597,21 +641,18 @@ void NrrdImageIO::Write( const void* buffer)
       if (!strncmp(keyField, field, strlen(field)))
         {
         if (1 == sscanf(keyField + strlen(field), "[%d]", &axi)
-            && 0 <= axi && axi < nrrd->dim - baseDim)
+            && axi < static_cast<unsigned int>(nrrd->dim) - baseDim)
           {
-          double thickness;
           ExposeMetaData<double>(thisDic, *keyIt,
-                                 thickness);
-          nrrd->axis[axi-baseDim].thickness = thickness;
+                                 nrrd->axis[axi-baseDim].thickness);
           }
         }
       field = airEnumStr(nrrdField, nrrdField_centers);
       if (!strncmp(keyField, field, strlen(field)))
         {
         if (1 == sscanf(keyField + strlen(field), "[%d]", &axi)
-            && 0 <= axi && axi < nrrd->dim - baseDim)
+            && axi < static_cast<unsigned int>(nrrd->dim) - baseDim)
           {
-          std::string value;
           ExposeMetaData<std::string>(thisDic, *keyIt, value);
           nrrd->axis[axi-baseDim].center = airEnumVal(nrrdCenter,
                                                       value.c_str());
@@ -621,9 +662,8 @@ void NrrdImageIO::Write( const void* buffer)
       if (!strncmp(keyField, field, strlen(field)))
         {
         if (1 == sscanf(keyField + strlen(field), "[%d]", &axi)
-            && 0 <= axi && axi < nrrd->dim - baseDim)
+            && axi < static_cast<unsigned int>(nrrd->dim) - baseDim)
           {
-          std::string value;
           ExposeMetaData<std::string>(thisDic, *keyIt, value);
           nrrd->axis[axi-baseDim].kind = airEnumVal(nrrdKind,
                                                     value.c_str());
@@ -633,9 +673,8 @@ void NrrdImageIO::Write( const void* buffer)
       if (!strncmp(keyField, field, strlen(field)))
         {
         if (1 == sscanf(keyField + strlen(field), "[%d]", &axi)
-            && 0 <= axi && axi < nrrd->dim - baseDim)
+            && axi < static_cast<unsigned int>(nrrd->dim) - baseDim)
           {
-          std::string value;
           ExposeMetaData<std::string>(thisDic, *keyIt, value);
           nrrd->axis[axi-baseDim].label = airStrdup(value.c_str());
           }
@@ -654,7 +693,6 @@ void NrrdImageIO::Write( const void* buffer)
       if (!strncmp(keyField, field, strlen(field)))
         {
         int space;
-        std::string value;
         ExposeMetaData<std::string>(thisDic, *keyIt, value);
         space = airEnumVal(nrrdSpace, value.c_str());
         if (nrrdSpaceDimension(space) == nrrd->spaceDim)
@@ -666,48 +704,60 @@ void NrrdImageIO::Write( const void* buffer)
       field = airEnumStr(nrrdField, nrrdField_content);
       if (!strncmp(keyField, field, strlen(field)))
         {
-        std::string value;
         ExposeMetaData<std::string>(thisDic, *keyIt, value);
         nrrd->content = airStrdup(value.c_str());
         }
-      // HEY have to grab measurement frame if its been defined
+      field = airEnumStr(nrrdField, nrrdField_measurement_frame);
+      if (!strncmp(keyField, field, strlen(field)))
+        {
+        std::vector<std::vector<double> > msrFrame;
+        ExposeMetaData<std::vector<std::vector<double> > >(thisDic,
+                                                           *keyIt, msrFrame);
+        for (unsigned int saxi=0;
+             saxi < static_cast<unsigned int>(nrrd->spaceDim);
+             saxi++)
+          {
+          for (unsigned int saxj=0;
+               saxj < static_cast<unsigned int>(nrrd->spaceDim);
+               saxj++)
+            {
+            nrrd->measurementFrame[saxi][saxj] = msrFrame[saxi][saxj];
+            }
+          }
+        }
       }
     else
       {
       // not a NRRD field packed into meta data; just a regular key/value
-      std::string value;
       ExposeMetaData<std::string>(thisDic, *keyIt, value);
       nrrdKeyValueAdd(nrrd, (*keyIt).c_str(), value.c_str());
       }
     }
 
-  // Are we writing ASCII or Binary data?
-  Superclass::FileType  fileType = this->GetFileType();
-  switch ( fileType )
+  // set encoding for data: compressed (raw), (uncompressed) raw, or ascii
+  if (this->GetUseCompression() == true
+      && nrrdEncodingGzip->available())
     {
-    default:
-    case TypeNotApplicable:
-    case Binary:
-      nio->encoding = nrrdEncodingRaw;
-      break;
-    case ASCII:
-      nio->encoding = nrrdEncodingAscii;
-      break;
-    }
-
-#if 0
-  // HEY this is disabled until ITK's NrrdIO is build with zlib
-  //
-  // Should we use compression?  Enabling compression always produces
-  // binary output.
-  if (this->GetUseCompression() == true)
-    {
-    // enable default nrrd compression flags
+    // this is necessarily gzip-compressed *raw* data
     nio->encoding = nrrdEncodingGzip;
     }
-#endif
+  else
+    {
+    Superclass::FileType fileType = this->GetFileType();
+    switch ( fileType )
+      {
+      default:
+      case TypeNotApplicable:
+      case Binary:
+        nio->encoding = nrrdEncodingRaw;
+        break;
+      case ASCII:
+        nio->encoding = nrrdEncodingAscii;
+        break;
+      }
+    }
 
-  // Which byte order should we use?
+  // set desired endianness of output
   Superclass::ByteOrder byteOrder = this->GetByteOrder();
   switch (byteOrder)
     {
@@ -731,7 +781,7 @@ void NrrdImageIO::Write( const void* buffer)
                       << this->GetFileName() << ": " << err);
     }
   
-  // Release the nrrd struct memory.  Do not free nrrd.data.
+  // Free the nrrd struct but don't touch nrrd->data
   nrrdNix(nrrd);
   nrrdIoStateNix(nio);
 
