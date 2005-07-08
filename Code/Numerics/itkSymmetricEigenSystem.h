@@ -31,7 +31,15 @@ namespace itk
 /** \class SymmetricEigenSystem
  * \brief wrapper of the vnl_symmetric_eigensystem algorithm
  *
- * \ingroup Numerics
+ * This class is not thread-safe. If you are interested in thread-safety please
+ * use the class SymmetricEigenAnalysis in Insight/Code/Common.
+ * 
+ * \warning THIS CLASS IS DEPRECATED AND IT IS SCHEDULED FOR BEING REMOVED 
+ *   FROM THE TOOLKIT IN RELEASE 2.4
+ *
+ * \sa SymmetricEigenAnalysis
+ *
+ * \ingroup Numerics Deprecated
  */
 
 template< class TMatrixElement, int VNumberOfRows >
