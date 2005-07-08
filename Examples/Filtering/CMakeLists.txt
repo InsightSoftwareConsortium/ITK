@@ -16,6 +16,11 @@ TARGET_LINK_LIBRARIES(FFTImageFilter ITKCommon ITKIO)
 ADD_EXECUTABLE(FFTDirectInverse FFTDirectInverse.cxx )
 TARGET_LINK_LIBRARIES(FFTDirectInverse ITKCommon ITKIO)
 
+IF( USE_FFTW )
+  ADD_EXECUTABLE(FFTDirectInverse2 FFTDirectInverse2.cxx )
+  TARGET_LINK_LIBRARIES(FFTDirectInverse2 ITKCommon ITKIO fftw3 fftw3f)
+ENDIF( USE_FFTW )
+
 ADD_EXECUTABLE(FFTImageFilterFourierDomainFiltering FFTImageFilterFourierDomainFiltering.cxx )
 TARGET_LINK_LIBRARIES(FFTImageFilterFourierDomainFiltering ITKCommon ITKIO)
 
@@ -765,6 +770,18 @@ ADD_TEST( FFTDirectInverseTest ${FILTERING_EXAMPLES6}
         ${TEMP}/FFTDirectInversePoint.png
 )
 
+
+IF( USE_FFTW )
+  ADD_TEST( FFTDirectInverse2Test ${FILTERING_EXAMPLES6}
+    --compare ${BASELINE}/FFTDirectInverse2Point.png
+              ${TEMP}/FFTDirectInverse2Point.png
+    FFTDirectInverse2Test
+          ${ITK_SOURCE_DIR}/Examples/Data/Point.png
+          ${TEMP}/FFTDirectInverse2Point.png
+  )
+ENDIF( USE_FFTW )
+
+
 ADD_TEST( FFTImageFilterTest2 ${FILTERING_EXAMPLES3}
   FFTImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/FFTcenteredDC.png
@@ -865,8 +882,14 @@ TARGET_LINK_LIBRARIES(FilteringExamples4 ITKIO ITKBasicFilters ITKCommon)
 ADD_EXECUTABLE(FilteringExamples5 FilteringExamples5.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples5 ITKIO ITKBasicFilters ITKCommon)
 
+
 ADD_EXECUTABLE(FilteringExamples6 FilteringExamples6.cxx)
-TARGET_LINK_LIBRARIES(FilteringExamples6 ITKIO ITKBasicFilters ITKCommon)
+IF( USE_FFTW )
+  TARGET_LINK_LIBRARIES(FilteringExamples6 ITKIO ITKBasicFilters ITKCommon fftw3 fftw3f)
+ELSE( USE_FFTW )
+  TARGET_LINK_LIBRARIES(FilteringExamples6 ITKIO ITKBasicFilters ITKCommon)
+ENDIF( USE_FFTW )
+
 
 IF(NOT BORLAND)
   ADD_EXECUTABLE(ResampleImageFilter7 ResampleImageFilter7.cxx )
