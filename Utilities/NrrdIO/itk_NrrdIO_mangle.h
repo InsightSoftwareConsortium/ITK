@@ -513,6 +513,7 @@ read-only (R) things (seen on Linux) and "other" (S) things
 #define _nrrdSpaceVectorParse itk__nrrdSpaceVectorParse
 #define nrrdFieldInfoParse itk_nrrdFieldInfoParse
 #define _nrrdGzClose itk__nrrdGzClose
+#define _nrrdGzDummySymbol itk__nrrdGzDummySymbol
 #define _nrrdGzOpen itk__nrrdGzOpen
 #define _nrrdGzRead itk__nrrdGzRead
 #define _nrrdGzWrite itk__nrrdGzWrite
