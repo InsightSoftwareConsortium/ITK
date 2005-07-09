@@ -118,6 +118,10 @@ public:
    * No size checking is performed. A is expected to be a square matrix of size
    * m_Dimension.  'EigenValues' is expected to be of length m_Dimension.
    * The matrix is not checked to see if it is symmetric.
+   *
+   * Each row of the matrix 'EigenVectors' represents an eigen vector. (unlike MATLAB 
+   * where the columns of the [EigenVectors, EigenValues] = eig(A) contains the
+   * eigenvectors).
    */
   unsigned int ComputeEigenValuesAndVectors(
               const TMatrix  & A,
