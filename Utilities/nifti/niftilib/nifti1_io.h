@@ -137,7 +137,7 @@ typedef struct {                /*!< Image storage struct **/
   float intent_p1 ;             /*!< intent parameters                   */
   float intent_p2 ;             /*!< intent parameters                   */
   float intent_p3 ;             /*!< intent parameters                   */
-  char  intent_name[16] ;       /*!< optional description of intent data */
+  char  intent_name[80] ;       /*!< optional description of intent data */
 
   char descrip[80]  ;           /*!< optional text to describe dataset   */
   char aux_file[24] ;           /*!< auxiliary filename                  */
