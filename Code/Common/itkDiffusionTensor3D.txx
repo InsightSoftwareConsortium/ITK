@@ -169,15 +169,50 @@ typename DiffusionTensor3D<T>::RealValueType
 DiffusionTensor3D<T>
 ::GetFractionalAnisotropy() const
 {
-  const RealValueType trace = this->GetTrace();
+  // Computed as 
+  // FA = sqrt(1.5*sum(sum(N.*N))/sum((sum(D.*D))))
+  // where N = D - ((1/3)*trace(D)*eye(3,3))
+  // equation (28) in http://lmi.bwh.harvard.edu/papers/pdfs/2002/westinMEDIA02.pdf
   const RealValueType isp   = this->GetInnerScalarProduct();
 
-  const RealValueType anisotropy = 3.0 * isp - trace * trace;
+  if( isp > 0.0 )
+    {
+    const RealValueType trace = this->GetTrace();
+    const RealValueType anisotropy = 3.0 * isp - trace * trace;
+    const RealValueType fractionalAnisotropy =
+        static_cast< RealValueType >( sqrt( anisotropy / ( 2.0 * isp ) ) );
+    return fractionalAnisotropy;
+    }
+ 
+   return 0.0 ;
 
-  const RealValueType fractionalAnisotropy =
-      static_cast< RealValueType >( sqrt( anisotropy / ( 2.0 * isp ) ) );
-  
-  return fractionalAnisotropy;
+   /*
+   // Computed as 
+   // FA = sqrt(1.5 * ( \sum_i ( lambda_i - lambda_mean )^2 ) / \sum_i ( lambda_i^2 ) )
+   // as in http://splweb.bwh.harvard.edu:8000/pages/papers/martha/DTI_Tech354.pdf
+   // [lambda = eig(A)].
+   EigenValuesArrayType eigenValues;
+   ComputeEigenValues( eigenValues );
+   eigenValues[0] = vnl_math_abs(eigenValues[0]);
+   eigenValues[1] = vnl_math_abs(eigenValues[1]);
+   eigenValues[2] = vnl_math_abs(eigenValues[2]);
+   const RealValueType norm_E = vnl_math_sqr(eigenValues[0]) 
+                              + vnl_math_sqr(eigenValues[1]) 
+                              + vnl_math_sqr(eigenValues[2]);
+
+   if( norm_E > 0.0 )
+     {
+     const RealValueType anisotropy = 
+                      vnl_math_sqr(eigenValues[0] - eigenValues[1]) +
+                      vnl_math_sqr(eigenValues[1] - eigenValues[2]) +
+                      vnl_math_sqr(eigenValues[2] - eigenValues[0]);
+     const RealValueType fractionalAnisotropy = vcl_sqrt( 0.5 * anisotropy/norm_E);
+     return fractionalAnisotropy;
+     }
+
+   return 0.0;
+   */                 
+   
 }
 
 
