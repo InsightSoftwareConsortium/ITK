@@ -257,7 +257,7 @@ void BMPImageIO::Read(void* buffer)
         }
       }
     }
-  delete value;
+  delete []value;
   m_Ifstream.close();
 }
 
