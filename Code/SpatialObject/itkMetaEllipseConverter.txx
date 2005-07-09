@@ -93,6 +93,7 @@ MetaEllipseConverter<NDimensions>
     }
 
 
+  delete []radius;
   return ellipse;
 }
 

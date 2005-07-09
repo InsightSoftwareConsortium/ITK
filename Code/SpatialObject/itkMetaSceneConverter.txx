@@ -308,7 +308,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
     spacing[i]=1;
     }
   metaScene->ElementSpacing(spacing);
-  delete spacing;
+  delete []spacing;
 
   typedef typename SceneType::ObjectListType ListType;
 

@@ -98,7 +98,7 @@ MetaDTITubeConverter<NDimensions>
       }
     pnt.SetTensorMatrix(tensor);
 
-    delete tensor;
+    delete []tensor;
 
 
    // This attribute are optional
