@@ -53,11 +53,11 @@ namespace itk
         x = point.x;
         sign = point.sign;
         };
-      const double getX()
+      double getX() const
         {
         return x;
         };
-      const int  getSign()
+      int  getSign() const
         {
         return sign;
         };     
