@@ -30,6 +30,10 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
 ::ImageFunction()
 {
   m_Image = NULL;
+  m_StartIndex.Fill(0);
+  m_EndIndex.Fill(0);
+  m_StartContinuousIndex.Fill(0.0);
+  m_EndContinuousIndex.Fill(0.0);
 }
 
 
