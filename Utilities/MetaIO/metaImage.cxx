@@ -1475,7 +1475,7 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
         }
       }
     inflateEnd(&d_stream);
-    delete compr;
+    delete []compr;
     }
   else // if not compressed
     {
