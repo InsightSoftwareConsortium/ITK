@@ -588,6 +588,10 @@ void GDCMImageIO::Write(const void* buffer)
                                   dictEntry->GetGroup(), 
                                   dictEntry->GetElement());
           }
+        else
+          {
+          delete []bin;
+          }
         }
       }
 #if !(defined(_MSC_VER) && _MSC_VER < 1300)
