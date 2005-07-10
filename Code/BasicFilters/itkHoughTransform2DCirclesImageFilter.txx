@@ -249,10 +249,10 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
         // Remove a black disc from the hough space domain
         for(double angle = 0; angle <= 2*PI ; angle += PI/1000)
           {     
-          for(double lenght = 0; lenght < m_DiscRadiusRatio*Circle->GetRadius()[0];lenght += 1)
+          for(double length = 0; length < m_DiscRadiusRatio*Circle->GetRadius()[0];length += 1)
             {
-            index[0] = (long int)(it_input.GetIndex()[0] + lenght * cos(angle));
-            index[1] = (long int)(it_input.GetIndex()[1] + lenght * sin(angle));
+            index[0] = (long int)(it_input.GetIndex()[0] + length * cos(angle));
+            index[1] = (long int)(it_input.GetIndex()[1] + length * sin(angle));
             if(postProcessImage->GetLargestPossibleRegion().IsInside( index ))
               {
               postProcessImage->SetPixel(index,0);
