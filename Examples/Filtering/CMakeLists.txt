@@ -890,6 +890,9 @@ ELSE( USE_FFTW )
   TARGET_LINK_LIBRARIES(FilteringExamples6 ITKIO ITKBasicFilters ITKCommon)
 ENDIF( USE_FFTW )
 
+ADD_EXECUTABLE(DiffusionTensor3DReconstructionImageFilter DiffusionTensor3DReconstructionImageFilter.cxx)
+TARGET_LINK_LIBRARIES(DiffusionTensor3DReconstructionImageFilter ITKIO ITKBasicFilters ITKCommon)
+
 
 IF(NOT BORLAND)
   ADD_EXECUTABLE(ResampleImageFilter7 ResampleImageFilter7.cxx )
