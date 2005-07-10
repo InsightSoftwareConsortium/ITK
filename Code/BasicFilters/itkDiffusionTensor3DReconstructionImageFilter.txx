@@ -77,8 +77,6 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   it.GoToBegin();
   oit.GoToBegin();
   
-  typename ReferenceImageType::IndexType index;
-
   vnl_vector< double > B(m_NumberOfGradientDirections);
   
   for( unsigned int i = 1; i<= m_NumberOfGradientDirections; i++ )
