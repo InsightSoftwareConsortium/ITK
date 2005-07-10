@@ -43,11 +43,11 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// The lenght of the arrow in the local coordinate frame is done using the
-// SetLenght() function. By default the lenght is set to 1.
+// The length of the arrow in the local coordinate frame is done using the
+// SetLength() function. By default the length is set to 1.
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet
-  myArrow->SetLenght(2);
+  myArrow->SetLength(2);
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
