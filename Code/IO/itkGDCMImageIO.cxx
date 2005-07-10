@@ -895,7 +895,7 @@ bool GDCMImageIO::GetLabelFromTag( const std::string & tagkey,
 
   gdcm::DictEntry *dictentry = pubDict->GetEntry( tagkey );
 
-  bool found = false;
+  bool found;
   
   // If tagkey was found (ie DICOM tag from public dictionary), 
   // then return the name:
