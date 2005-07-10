@@ -9,6 +9,7 @@
 #include "itkMetaDataDictionary.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include <iostream>
 
 int main( int argc, char *argv[] )
 {
@@ -71,7 +72,7 @@ int main( int argc, char *argv[] )
       }
       
     std::cout << *itKey << " ---> " << metaString << std::endl;      
-    std::sscanf(metaString.c_str(), "%lf %lf %lf\n", &x, &y, &z);
+    sscanf(metaString.c_str(), "%lf %lf %lf\n", &x, &y, &z);
     vect3d[0] = x; vect3d[1] = y; vect3d[2] = z;
     
     DiffusionVectors.push_back(vect3d);
