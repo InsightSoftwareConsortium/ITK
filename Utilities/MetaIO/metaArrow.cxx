@@ -59,27 +59,27 @@ void MetaArrow::
 PrintInfo() const
 {
   MetaObject::PrintInfo();
-  std::cout << "Lenght = " << m_Lenght << std::endl;
+  std::cout << "Length = " << M_Length << std::endl;
 }
 
 void MetaArrow::
 CopyInfo(const MetaArrow * _Arrow)
 {
   MetaObject::CopyInfo(_Arrow);
-  m_Lenght = _Arrow->Lenght();
+  M_Length = _Arrow->Length();
 }
 
 
 void  MetaArrow::
-Lenght(float lenght)
+Length(float length)
 {
-  m_Lenght = lenght;
+  M_Length = length;
 }
 
 float  MetaArrow::
-Lenght(void) const 
+Length(void) const 
 {
-  return m_Lenght;
+  return M_Length;
 }
   
 /** Clear Arrow information */
@@ -88,7 +88,7 @@ Clear(void)
 {
   if(META_DEBUG) std::cout << "MetaArrow: Clear" << std::endl;
   MetaObject::Clear();
-  m_Lenght = 1;
+  M_Length = 1;
 }
         
 /** Destroy Arrow information */
@@ -109,7 +109,7 @@ M_SetupReadFields(void)
   MET_FieldRecordType * mF;
 
   mF = new MET_FieldRecordType;
-  MET_InitReadField(mF, "Lenght", MET_FLOAT, true);
+  MET_InitReadField(mF, "Length", MET_FLOAT, true);
   mF->terminateRead = true;
   m_Fields.push_back(mF);
 }
@@ -123,7 +123,7 @@ M_SetupWriteFields(void)
   MET_FieldRecordType * mF;
 
   mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "Lenght", MET_FLOAT, m_Lenght);
+  MET_InitWriteField(mF, "Length", MET_FLOAT, M_Length);
   m_Fields.push_back(mF);
 }
 
@@ -143,10 +143,10 @@ M_Read(void)
  
   MET_FieldRecordType * mF;
  
-  mF = MET_GetFieldRecord("Lenght", &m_Fields);
+  mF = MET_GetFieldRecord("Length", &m_Fields);
   if(mF->defined)
     {
-    m_Lenght= (float)mF->value[0];
+    M_Length= (float)mF->value[0];
     }
 
   return true;

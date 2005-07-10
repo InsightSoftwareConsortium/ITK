@@ -39,7 +39,7 @@ ArrowSpatialObject< TDimension >
   m_Direction.Fill(0);
   m_Direction[0] = 1; // along the x direction by default
   m_Position.Fill(0);
-  m_Lenght = 1;
+  m_Length = 1;
 } 
  
 /** Destructor */
@@ -50,15 +50,15 @@ ArrowSpatialObject< TDimension >
 }
  
 
-/** Set the lenght of the arrow */
+/** Set the length of the arrow */
 template< unsigned int TDimension >
 void
 ArrowSpatialObject< TDimension >  
-::SetLenght(double lenght)
+::SetLength(double length)
 {
-  m_Lenght = lenght;
+  m_Length = length;
   double spacing[TDimension];
-  spacing[0] = m_Lenght;
+  spacing[0] = m_Length;
   
   for(unsigned int i=1;i<TDimension;i++)
     {
@@ -84,7 +84,7 @@ ArrowSpatialObject< TDimension >
     PointType pnt2;
     for(unsigned int i=0; i<TDimension;i++) 
       {   
-      pnt2[i]=pnt[i]+m_Lenght*m_Direction[i];
+      pnt2[i]=pnt[i]+m_Length*m_Direction[i];
       }
       
     pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
@@ -149,7 +149,7 @@ ArrowSpatialObject< TDimension >
     PointType pnt2;
     for(unsigned int i=0; i<TDimension;i++) 
       {   
-      pnt2[i]=pnt[i]+m_Lenght*m_Direction[i];
+      pnt2[i]=pnt[i]+m_Length*m_Direction[i];
       }
 
     VectorType v = pnt2-pnt;
@@ -182,13 +182,13 @@ ArrowSpatialObject< TDimension >
     }
   this->GetObjectToParentTransform()->SetOffset(offset);
 
-  // If the given direction is not normalized we set the lenght of the vector
-  // as the lenght of the arrow
-  m_Lenght = m_Direction.GetSquaredNorm();
+  // If the given direction is not normalized we set the length of the vector
+  // as the length of the arrow
+  m_Length = m_Direction.GetSquaredNorm();
 
-  if(m_Lenght != 0.0)
+  if(m_Length != 0.0)
     {
-    m_Lenght = sqrt(m_Lenght);
+    m_Length = sqrt(m_Length);
     }
   else
   {
@@ -250,7 +250,7 @@ ArrowSpatialObject< TDimension >
   Superclass::PrintSelf( os, indent );
   os << indent << "Position = " << m_Position << std::endl;
   os << indent << "Direction = " << m_Direction << std::endl;
-  os << indent << "Lenght = " << m_Lenght << std::endl;
+  os << indent << "Length = " << m_Length << std::endl;
 } 
  
 } // end namespace itk 

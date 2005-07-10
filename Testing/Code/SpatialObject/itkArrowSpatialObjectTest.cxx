@@ -30,10 +30,10 @@ int itkArrowSpatialObjectTest(int, char* [])
   
   ArrowType::Pointer myArrow = ArrowType::New(); 
 
-  // Testing the lenght
-  std::cout << "Testing lenght : ";
-  myArrow->SetLenght(2);
-  if(myArrow->GetLenght() != 2)
+  // Testing the length
+  std::cout << "Testing length : ";
+  myArrow->SetLength(2);
+  if(myArrow->GetLength() != 2)
     {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;

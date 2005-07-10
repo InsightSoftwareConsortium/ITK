@@ -40,7 +40,7 @@ MetaArrowConverter<NDimensions>
   SpatialObjectPointer spatialObject = SpatialObjectType::New();
 
   double spacing[NDimensions];
-  float lenght=arrow->Lenght();
+  float length=arrow->Length();
   
   for(unsigned int i=0;i<NDimensions;i++)
     {
@@ -48,7 +48,7 @@ MetaArrowConverter<NDimensions>
     }
 
   spatialObject->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  spatialObject->SetLenght(lenght);
+  spatialObject->SetLength(length);
   spatialObject->GetProperty()->SetName(arrow->Name());
   spatialObject->SetId(arrow->ID());
   spatialObject->SetParentId(arrow->ParentID());
@@ -68,13 +68,13 @@ MetaArrowConverter<NDimensions>
 { 
   MetaArrow* arrow = new MetaArrow(NDimensions);
 
-  float lenght = spatialObject->GetLenght();
+  float length = spatialObject->GetLength();
 
   if(spatialObject->GetParent())
     {
     arrow->ParentID(spatialObject->GetParent()->GetId());
     }
-  arrow->Lenght(lenght);
+  arrow->Length(length);
   arrow->ID(spatialObject->GetId());
 
   arrow->Color(spatialObject->GetProperty()->GetRed(),

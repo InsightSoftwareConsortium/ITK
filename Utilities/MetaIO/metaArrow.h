@@ -54,8 +54,11 @@ class MetaArrow : public MetaObject
 
     void  Clear(void);
     
-    void  Lenght(float lenght);
-    float Lenght(void) const;
+    void  Length(float length);
+    float Length(void) const;
+
+    void  Lenght(float length) {this->Length(length);}
+    float Lenght(void) const {return Length();}
 
 
   ////
@@ -73,7 +76,7 @@ class MetaArrow : public MetaObject
 
     bool  M_Read(void);
 
-    float m_Lenght; // default 1.0
+    float M_Length; // default 1.0
 
   };
 

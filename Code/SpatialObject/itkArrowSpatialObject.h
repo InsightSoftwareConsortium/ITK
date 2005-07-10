@@ -109,11 +109,16 @@ public:
     this->UpdateTransform();
     }
 
-  /** Set the lenght of the arrow */
-  void SetLenght(double lenght);
+  /** Set the length of the arrow */
+  void SetLength(double length);
+  void SetLenght(double length){this->SetLength(length); return;}
 
-  /** Get the lenght of the arrow */
-  itkGetMacro(Lenght,double);
+  /** Get the length of the arrow */
+  itkGetMacro(Length,double);
+
+  /** Get the length of the arrow. NOTE the misspelling of
+    * length. This method is included for backward compatibility. */
+  double GetLenght() {return this->GetLenght();}
 
   /** Compute the local bounding box */
   bool ComputeLocalBoundingBox() const;
@@ -143,7 +148,7 @@ private:
 
   VectorType   m_Direction;
   PointType    m_Position;
-  double       m_Lenght;
+  double       m_Length;
 
 };
 
