@@ -26,23 +26,35 @@
 #include "itkVectorContainer.h"
 
 namespace itk{
-/** \class
+/** \class DiffusionTensor3DReconstructionImageFilter
  * \brief This class takes as input a reference image (acquired in the 
  * absence of diffusion sensitizing gradients) and 'n' diffusion
- * weighted images and their gradient directions. For details see
- * 
+ * weighted images and their gradient directions and computes an image of 
+ * tensors. (with DiffusionTensor3D as the pixel type). Once that is done, you 
+ * can apply filters on this tensor image to compute FA, ADC, RGB weighted 
+ * maps etc. The class is templated over the pixel type of the reference and 
+ * gradient images (expected to be scalar images) and the internal representation
+ * of the DiffusionTensor3D pixel (double, float etc).
+ *  
+ * The funding for creating this class was largely provided by NAMIC (National 
+ * Alliance for Medical Image Computing) (http://www.na-mic.org).
+ *
  * \par References:
  * C.F.Westin, S.E.Maier, H.Mamata, A.Nabavi, F.A.Jolesz, R.Kikinis,
  * "Processing and visualization for Diffusion tensor MRI", Medical image
  * Analysis, 2002, pp 93-108.
  *
  * \author: Based on code from Xiaodong Tao, GE CRD. 
+ *
+ * \sa DiffusionTensor3D SymmetricSecondRankTensor 
+ * 
+ * \ingroup Multithreaded  TensorObjects
  */
 
 template< class TReferenceImagePixelType, 
           class TGradientImagePixelType, class TTensorPixelType=double >
 class ITK_EXPORT DiffusionTensor3DReconstructionImageFilter :
-  public ImageToImageFilter< Image< TReferenceImagePixelType, 3>, 
+  public ImageToImageFilter< Image< TReferenceImagePixelType, 3 >, 
                              Image< DiffusionTensor3D< TTensorPixelType >, 3 > >
 {
 
