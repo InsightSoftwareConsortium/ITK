@@ -301,7 +301,8 @@ void NrrdImageIO::ReadImageInformation()
    double spaceDir[NRRD_SPACE_DIM_MAX];
    std::vector<double> spaceDirStd(domAxisNum);
    int spacingStatus;
-   for (unsigned int axii=0; axii < domAxisNum; axii++)
+   for (unsigned int axii=0;
+        axii < static_cast<unsigned int>(domAxisNum); axii++)
      {
      unsigned int axi = domAxisIdx[axii];
      this->SetDimensions(axi, nrrd->axis[axi].size);
@@ -348,8 +349,7 @@ void NrrdImageIO::ReadImageInformation()
        {
        // only set info if we have something to set
        for (unsigned int saxi=0;
-            saxi < static_cast<unsigned int>(nrrd->spaceDim);
-            saxi++)
+            saxi < static_cast<unsigned int>(nrrd->spaceDim); saxi++)
          {
          this->SetOrigin(saxi, nrrd->spaceOrigin[saxi]);
          }
@@ -360,7 +360,8 @@ void NrrdImageIO::ReadImageInformation()
      double spaceOrigin[NRRD_DIM_MAX];
      int originStatus = nrrdOriginCalculate(nrrd, domAxisIdx, domAxisNum,
                                             nrrdCenterCell, spaceOrigin);
-     for (unsigned int saxi=0; saxi < domAxisNum; saxi++) 
+     for (unsigned int saxi=0;
+          saxi < static_cast<unsigned int>(domAxisNum); saxi++) 
        {
        switch (originStatus)
          {
@@ -403,7 +404,8 @@ void NrrdImageIO::ReadImageInformation()
    // save in MetaDataDictionary those important nrrd fields that
    // (currently) have no ITK equivalent
    NrrdAxisInfo *naxis;
-   for (unsigned int axii=0; axii < domAxisNum; axii++)
+   for (unsigned int axii=0;
+        axii < static_cast<unsigned int>(domAxisNum); axii++)
      {
      unsigned int axi = static_cast<unsigned int>(domAxisIdx[axii]);
      naxis = nrrd->axis + axi;
