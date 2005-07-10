@@ -63,7 +63,7 @@ int main( int argc, char *argv[] )
     int pos;
     double x,y,z;
 
-    ExposeMetaData (imgMetaDictionary, *itKey, metaString);
+    itk::ExposeMetaData<std::string> (imgMetaDictionary, *itKey, metaString);
     pos = itKey->find("DW_gradient");
     if (pos == -1)
       {
