@@ -140,7 +140,7 @@ protected:
   
   void BeforeThreadedGenerateData();
   void ThreadedGenerateData( const typename 
-      ReferenceImageType::RegionType &outputRegionForThread, int threadId );
+      ReferenceImageType::RegionType &outputRegionForThread, int);
   
   
 private:
