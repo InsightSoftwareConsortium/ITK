@@ -30,6 +30,7 @@ void RegisterTests()
   REGISTER_TEST(itkHessianRecursiveGaussianFilterTest );
   REGISTER_TEST(itkSymmetricEigenAnalysisImageFilterTest );
   REGISTER_TEST(itkNormalizedCorrelationImageFilterTest );
+  REGISTER_TEST(itkPolylineMaskImageFilterTest );
   REGISTER_TEST(itkTensorFractionalAnisotropyImageFilterTest );
   REGISTER_TEST(itkTensorRelativeAnisotropyImageFilterTest );
   REGISTER_TEST(itkTriangleMeshToBinaryImageFilterTest );
