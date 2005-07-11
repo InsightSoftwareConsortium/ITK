@@ -141,6 +141,7 @@ ADD_TEST(itkLog10ImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkLog10ImageF
 ADD_TEST(itkLogImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkLogImageFilterAndAdaptorTest)
 
 ADD_TEST(itkMaskImageFilterTest ${BASIC_FILTERS_TESTS} itkMaskImageFilterTest)
+ADD_TEST(itkPolylineMaskImageFilterTest ${BASIC_FILTERS_TESTS3} itkPolylineMaskImageFilterTest)
 ADD_TEST(itkMaskNegatedImageFilterTest ${BASIC_FILTERS_TESTS} itkMaskNegatedImageFilterTest)
 ADD_TEST(itkMathematicalMorphologyImageFilterTest ${BASIC_FILTERS_TESTS} itkMathematicalMorphologyImageFilterTest)
 ADD_TEST(itkMaximumImageFilterTest ${BASIC_FILTERS_TESTS} itkMaximumImageFilterTest)
@@ -749,6 +750,7 @@ itkTwoOutputExampleImageFilterTest.cxx
 SET(BasicFilters3_SRCS
 itkCheckerBoardImageFilterTest.cxx
 itkHessianRecursiveGaussianFilterTest.cxx
+itkPolylineMaskImageFilterTest.cxx
 itkNormalizedCorrelationImageFilterTest.cxx
 itkSymmetricEigenAnalysisImageFilterTest.cxx
 itkTensorFractionalAnisotropyImageFilterTest.cxx
