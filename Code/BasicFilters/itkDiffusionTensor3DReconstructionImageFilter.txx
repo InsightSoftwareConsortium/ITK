@@ -60,7 +60,7 @@ template< class TReferenceImagePixelType,
           class TGradientImagePixelType, class TTensorPixelType >
 void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   TGradientImagePixelType, TTensorPixelType >
-::ThreadedGenerateData(const typename ReferenceImageType::RegionType& outputRegionForThread,
+::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int ) 
 {
   typename OutputImageType::Pointer outputImage = 

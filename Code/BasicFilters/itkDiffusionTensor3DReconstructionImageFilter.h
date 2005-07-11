@@ -88,6 +88,9 @@ public:
   
   typedef TensorImageType                          OutputImageType;
 
+  typedef typename Superclass::OutputImageRegionType
+                                                   OutputImageRegionType;
+
   typedef Image< GradientPixelType, 3 >            GradientImageType;
 
   /** Holds the tensor basis coefficients G_k */
@@ -151,8 +154,8 @@ protected:
   void ComputeTensorBasis();
   
   void BeforeThreadedGenerateData();
-  void ThreadedGenerateData( const typename 
-      ReferenceImageType::RegionType &outputRegionForThread, int);
+  void ThreadedGenerateData( const 
+      OutputImageRegionType &outputRegionForThread, int);
   
   
 private:
@@ -170,12 +173,6 @@ private:
 
   /** Threshold on the reference image data */
   ReferencePixelType                                m_Threshold;
-  
-  
-
-  
-  
-
 };
 
 }
