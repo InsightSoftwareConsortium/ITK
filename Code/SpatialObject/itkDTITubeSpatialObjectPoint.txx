@@ -89,6 +89,42 @@ DTITubeSpatialObjectPoint< TPointDimension >
 }
 
 
+/** Set a field value to the point list*/
+template< unsigned int TPointDimension >
+void
+DTITubeSpatialObjectPoint< TPointDimension >
+::SetField(const char* name,float value)
+{
+  FieldListType::iterator it = m_Fields.begin();
+  while(it != m_Fields.end())
+    {
+    if(!strcmp((*it).first.c_str(),itksys::SystemTools::LowerCase(name).c_str()))
+      {
+      (*it).second = value;
+      }
+    it++;
+    }
+}
+
+/** Set a value to a field in the point list*/
+template< unsigned int TPointDimension >
+void
+DTITubeSpatialObjectPoint< TPointDimension >
+::SetField(FieldEnumType name,float value)
+{
+  std::string charname = this->TranslateEnumToChar(name);
+
+  if(charname.size() > 0)
+    {
+    this->SetField(charname.c_str(),value);
+    }
+  else
+    {
+    std::cout << "DTITubeSpatialObjectPoint::SetField() : enum not defined" << std::endl;
+    }
+
+}
+
 /** Add a field to the point list*/
 template< unsigned int TPointDimension >
 void

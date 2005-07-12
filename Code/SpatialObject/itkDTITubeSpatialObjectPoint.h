@@ -78,6 +78,10 @@ public:
   /** Add a field to the point list*/
   void AddField(FieldEnumType name,float value);
 
+  /** Set a field value */
+  void SetField(FieldEnumType name,float value);
+  void SetField(const char* name,float value);
+
   /** Return the list of extra fields */
   const FieldListType & GetFields() const {return m_Fields;}
 
