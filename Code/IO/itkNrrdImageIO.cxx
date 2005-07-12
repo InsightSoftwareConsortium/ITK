@@ -472,7 +472,8 @@ void NrrdImageIO::ReadImageInformation()
      sprintf(key, "%s%s", KEY_PREFIX,
              airEnumStr(nrrdField, nrrdField_measurement_frame));
      std::vector<std::vector<double> > msrFrame(domAxisNum);
-     for (unsigned int saxi=0; saxi < domAxisNum; saxi++) 
+     for (unsigned int saxi=0; saxi < static_cast< unsigned int >(
+                                                domAxisNum); saxi++) 
        {
        msrFrame[saxi].resize(domAxisNum);
        for (int saxj=0; saxj < domAxisNum; saxj++)

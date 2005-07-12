@@ -167,7 +167,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
     }
 
   m_Coeffs.set_size( m_NumberOfGradientDirections, 6 );
-  for (int m = 0; m < m_NumberOfGradientDirections; m++)
+  for (unsigned int m = 0; m < m_NumberOfGradientDirections; m++)
     {
     m_Coeffs[m][0] =     m_GradientDirectionContainer->ElementAt(m)[0] * m_GradientDirectionContainer->ElementAt(m)[0];
     m_Coeffs[m][1] = 2 * m_GradientDirectionContainer->ElementAt(m)[0] * m_GradientDirectionContainer->ElementAt(m)[1];
