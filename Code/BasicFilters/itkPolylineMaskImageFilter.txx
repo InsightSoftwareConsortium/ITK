@@ -62,5 +62,15 @@ template <class TInputImage, class TPolyline, class TVector,
                                    const_cast< PolylineType * >( input ) );
   }
 
+/**
+ *
+ */
+  template <class TInputImage, class TPolyline, class TVector,
+          class TOutputImage>
+  void PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
+  ::GenerateData(void)
+  {
+    
+  }
 } // end namespace itk
 #endif

@@ -63,7 +63,7 @@ public:
   typedef TVector    VectorType;
 
   /* typedef for the polyline type */
-  typedef TVector    PolylineType;
+  typedef TPolyline    PolylineType;
   
   /* typedef for the output image */
   typedef TOutputImage OutputImageType;
@@ -71,14 +71,19 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType OutputImagePixelType;
 
-  /** Read in inputs */
+  /** Read in image and polyline inputs */
   void SetInput( const InputImageType * image);
   void SetInput( const PolylineType * polyline);
 
+  /** Read in viewing normal direction */
   itkSetMacro(Vector,VectorType);
 
-  itkGetConstReferenceMacro(Vector,VectorType);
-  
+  itkGetConstMacro(Vector,VectorType);  
+
+  /* Generate Data */
+  void GenerateData(void);
+ 
+
 protected:
   PolylineMaskImageFilter();
   virtual ~PolylineMaskImageFilter() {};
