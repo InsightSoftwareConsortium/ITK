@@ -113,6 +113,7 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     p.SetBlue(i+2);
     p.SetAlpha(i+3);
     p.AddField(DTITubePointType::FA,i);
+    p.SetField(DTITubePointType::FA,i+1);
     p.AddField(DTITubePointType::ADC,2*i);
     p.AddField(DTITubePointType::GA,3*i);
     p.AddField("Lambda1",4*i);
@@ -552,9 +553,9 @@ int itkReadWriteSpatialObjectTest(int, char*[])
           return EXIT_FAILURE;
           }
         
-        if((*jdti).GetField(DTITubePointType::FA)!=value)
+        if((*jdti).GetField(DTITubePointType::FA)!=value+1)
           {
-          std::cout<<" [FAILED] : FA : found " << ( *jdti).GetField("FA") << " instead of " << value <<std::endl;
+          std::cout<<" [FAILED] : FA : found " << ( *jdti).GetField("FA") << " instead of " << value+1 <<std::endl;
           return EXIT_FAILURE;
           }
         if((*jdti).GetField(DTITubePointType::ADC)!=value*2)
