@@ -24,6 +24,7 @@
 #include "itkIdentityTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkProgressReporter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
@@ -167,14 +168,12 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   OutputImagePointer      outputPtr = this->GetOutput();
 
   // Create an iterator that will walk the output region for this thread.
-  typedef
-    ImageRegionIterator<TOutputImage> OutputIterator;
+  typedef ImageRegionIteratorWithIndex<TOutputImage> OutputIterator;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
-  IndexType outputIndex;         // Index to current output pixel
   PointType outputPoint;         // Coordinates of current output pixel
   PointType inputPoint;          // Coordinates of current input pixel
 
@@ -186,10 +185,13 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   // Walk the output region
   const PixelType minValue =  itk::NumericTraits<PixelType >::NonpositiveMin();
   const PixelType maxValue =  itk::NumericTraits<PixelType >::max();
-  for (i=0; !outIt.IsAtEnd(); ++outIt, i++ )
+
+  outIt.GoToBegin();
+
+  while ( !outIt.IsAtEnd() )
     {
     // Determine the index of the current output pixel
-    outputIndex = outIt.GetIndex();
+    const IndexType & outputIndex = outIt.GetIndex();
     outputPtr->TransformIndexToPhysicalPoint( outputIndex, outputPoint );
 
     // Compute corresponding input pixel position
@@ -220,6 +222,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
       }
 
     progress.CompletedPixel();
+    ++outIt;
     }
 
   return;
