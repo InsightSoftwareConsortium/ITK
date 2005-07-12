@@ -4,7 +4,6 @@
 
 int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
 {
-  const unsigned int Dimension = 3;
   typedef short int          ReferencePixelType;
   typedef short int          GradientPixelType;
   typedef double             TensorPrecisionType;
