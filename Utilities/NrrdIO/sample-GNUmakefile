@@ -50,7 +50,7 @@ PLATFORM_DEFS = \
 
 ### Any architecture-specific flags to cc
 ###
-CCFLAGS = -O3 -ffloat-store -W -Wall -Wno-unused-parameter
+CCFLAGS = -O3 -ffloat-store -W -Wall
 
 ### This also has to be set per-architecture- whether or not we need to
 ### run ranlib on libraries created via ar
