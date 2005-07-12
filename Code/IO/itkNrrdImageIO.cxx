@@ -274,8 +274,9 @@ void NrrdImageIO::ReadImageInformation()
 
    // Set the number of image dimensions and bail if needed
    // NOTE: future version of nrrdDomainAxesGet will use unsigned types
-   int domAxisNum, domAxisIdx[NRRD_DIM_MAX];
+   unsigned int domAxisNum, domAxisIdx[NRRD_DIM_MAX];
    domAxisNum = nrrdDomainAxesGet(nrrd, domAxisIdx);
+   fprintf(stderr, " XXXXXXXX domAxisNum = %u %d\n", domAxisNum, domAxisNum);
    if (!( domAxisNum == nrrd->dim || domAxisNum == nrrd->dim-1 ))
      {
      itkExceptionMacro("ReadImageInformation: nrrd has more than one "
@@ -301,8 +302,7 @@ void NrrdImageIO::ReadImageInformation()
    double spaceDir[NRRD_SPACE_DIM_MAX];
    std::vector<double> spaceDirStd(domAxisNum);
    int spacingStatus;
-   for (unsigned int axii=0;
-        axii < static_cast<unsigned int>(domAxisNum); axii++)
+   for (unsigned int axii=0; axii < domAxisNum; axii++)
      {
      unsigned int axi = domAxisIdx[axii];
      this->SetDimensions(axi, nrrd->axis[axi].size);
@@ -321,9 +321,7 @@ void NrrdImageIO::ReadImageInformation()
            {
            // only set info if we have something to set
            this->SetSpacing(axi, spacing);
-           for (unsigned int saxi=0;
-                saxi < static_cast<unsigned int>(nrrd->spaceDim); 
-                saxi++)
+           for (unsigned int saxi=0; saxi < nrrd->spaceDim; saxi++)
              {
              spaceDirStd[saxi] = spaceDir[saxi];
              }
@@ -348,8 +346,7 @@ void NrrdImageIO::ReadImageInformation()
      if (AIR_EXISTS(nrrd->spaceOrigin[0]))
        {
        // only set info if we have something to set
-       for (unsigned int saxi=0;
-            saxi < static_cast<unsigned int>(nrrd->spaceDim); saxi++)
+       for (unsigned int saxi=0; saxi < nrrd->spaceDim; saxi++)
          {
          this->SetOrigin(saxi, nrrd->spaceOrigin[saxi]);
          }
@@ -360,8 +357,7 @@ void NrrdImageIO::ReadImageInformation()
      double spaceOrigin[NRRD_DIM_MAX];
      int originStatus = nrrdOriginCalculate(nrrd, domAxisIdx, domAxisNum,
                                             nrrdCenterCell, spaceOrigin);
-     for (unsigned int saxi=0;
-          saxi < static_cast<unsigned int>(domAxisNum); saxi++) 
+     for (unsigned int saxi=0; saxi < domAxisNum; saxi++) 
        {
        switch (originStatus)
          {
@@ -404,10 +400,9 @@ void NrrdImageIO::ReadImageInformation()
    // save in MetaDataDictionary those important nrrd fields that
    // (currently) have no ITK equivalent
    NrrdAxisInfo *naxis;
-   for (unsigned int axii=0;
-        axii < static_cast<unsigned int>(domAxisNum); axii++)
+   for (unsigned int axii=0; axii < domAxisNum; axii++)
      {
-     unsigned int axi = static_cast<unsigned int>(domAxisIdx[axii]);
+     unsigned int axi = domAxisIdx[axii];
      naxis = nrrd->axis + axi;
      if (AIR_EXISTS(naxis->thickness))
        {
@@ -472,8 +467,7 @@ void NrrdImageIO::ReadImageInformation()
      sprintf(key, "%s%s", KEY_PREFIX,
              airEnumStr(nrrdField, nrrdField_measurement_frame));
      std::vector<std::vector<double> > msrFrame(domAxisNum);
-     for (unsigned int saxi=0; saxi < static_cast< unsigned int >(
-                                                domAxisNum); saxi++) 
+     for (unsigned int saxi=0; saxi < domAxisNum; saxi++) 
        {
        msrFrame[saxi].resize(domAxisNum);
        for (int saxj=0; saxj < domAxisNum; saxj++)
@@ -506,10 +500,10 @@ void NrrdImageIO::Read(void* buffer)
   // instead of allocating new data.
   nrrd->data = buffer;
   nrrd->type = this->ITKToNrrdComponentType( this->m_ComponentType );
-  nrrd->dim = static_cast<int>(this->GetNumberOfDimensions());
-  for (unsigned int axi = 0; axi < static_cast<unsigned int>(nrrd->dim); axi++)
+  nrrd->dim = this->GetNumberOfDimensions();
+  for (unsigned int axi = 0; axi < nrrd->dim; axi++)
     {
-    nrrd->axis[axi].size = static_cast<int>(this->GetDimensions(axi));
+    nrrd->axis[axi].size = this->GetDimensions(axi);
     }
 
   // Read in the nrrd.  Yes, this means that the header is being read
@@ -577,7 +571,8 @@ void NrrdImageIO::Write( const void* buffer)
 
   Nrrd *nrrd = nrrdNew();
   NrrdIoState *nio = nrrdIoStateNew();
-  int kind[NRRD_DIM_MAX], size[NRRD_DIM_MAX];
+  int kind[NRRD_DIM_MAX];
+  size_t size[NRRD_DIM_MAX];
   unsigned int nrrdDim, baseDim, spaceDim;
   double spaceDir[NRRD_DIM_MAX][NRRD_SPACE_DIM_MAX];
   double origin[NRRD_DIM_MAX];
@@ -643,7 +638,7 @@ void NrrdImageIO::Write( const void* buffer)
       if (!strncmp(keyField, field, strlen(field)))
         {
         if (1 == sscanf(keyField + strlen(field), "[%d]", &axi)
-            && axi < static_cast<unsigned int>(nrrd->dim) - baseDim)
+            && axi < nrrd->dim - baseDim)
           {
           double thickness;  // local for Borland
           ExposeMetaData<double>(thisDic, *keyIt, thickness);
@@ -654,7 +649,7 @@ void NrrdImageIO::Write( const void* buffer)
       if (!strncmp(keyField, field, strlen(field)))
         {
         if (1 == sscanf(keyField + strlen(field), "[%d]", &axi)
-            && axi < static_cast<unsigned int>(nrrd->dim) - baseDim)
+            && axi < nrrd->dim - baseDim)
           {
           std::string value;  // local for Borland
           ExposeMetaData<std::string>(thisDic, *keyIt, value);
@@ -666,7 +661,7 @@ void NrrdImageIO::Write( const void* buffer)
       if (!strncmp(keyField, field, strlen(field)))
         {
         if (1 == sscanf(keyField + strlen(field), "[%d]", &axi)
-            && axi < static_cast<unsigned int>(nrrd->dim) - baseDim)
+            && axi < nrrd->dim - baseDim)
           {
           std::string value;  // local for Borland
           ExposeMetaData<std::string>(thisDic, *keyIt, value);
@@ -678,7 +673,7 @@ void NrrdImageIO::Write( const void* buffer)
       if (!strncmp(keyField, field, strlen(field)))
         {
         if (1 == sscanf(keyField + strlen(field), "[%d]", &axi)
-            && axi < static_cast<unsigned int>(nrrd->dim) - baseDim)
+            && axi < nrrd->dim - baseDim)
           {
           std::string value;  // local for Borland
           ExposeMetaData<std::string>(thisDic, *keyIt, value);
@@ -721,13 +716,9 @@ void NrrdImageIO::Write( const void* buffer)
         std::vector<std::vector<double> > msrFrame;
         ExposeMetaData<std::vector<std::vector<double> > >(thisDic,
                                                            *keyIt, msrFrame);
-        for (unsigned int saxi=0;
-             saxi < static_cast<unsigned int>(nrrd->spaceDim);
-             saxi++)
+        for (unsigned int saxi=0; saxi < nrrd->spaceDim; saxi++)
           {
-          for (unsigned int saxj=0;
-               saxj < static_cast<unsigned int>(nrrd->spaceDim);
-               saxj++)
+          for (unsigned int saxj=0; saxj < nrrd->spaceDim; saxj++)
             {
             nrrd->measurementFrame[saxi][saxj] = msrFrame[saxi][saxj];
             }
