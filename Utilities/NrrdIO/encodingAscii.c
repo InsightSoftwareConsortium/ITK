@@ -39,7 +39,8 @@ _nrrdEncodingAscii_read(FILE *file, void *_data, size_t elNum,
   size_t I;
   char *data;
   int tmp;
-  
+
+  AIR_UNUSED(nio);
   if (nrrdTypeBlock == nrrd->type) {
     sprintf(err, "%s: can't read nrrd type %s from %s", me,
             airEnumStr(nrrdType, nrrdTypeBlock),
@@ -49,16 +50,16 @@ _nrrdEncodingAscii_read(FILE *file, void *_data, size_t elNum,
   data = (char*)_data;
   for (I=0; I<elNum; I++) {
     if (1 != fscanf(file, "%s", numbStr)) {
-      sprintf(err, "%s: couldn't parse element " _AIR_SIZE_T_FMT
-              " of " _AIR_SIZE_T_FMT, me, I+1, elNum);
+      sprintf(err, "%s: couldn't parse element " _AIR_SIZE_T_CNV
+              " of " _AIR_SIZE_T_CNV, me, I+1, elNum);
       biffAdd(NRRD, err); return 1;
     }
     if (nrrd->type >= nrrdTypeInt) {
       /* sscanf supports putting value directly into this type */
       if (1 != airSingleSscanf(numbStr, nrrdTypePrintfStr[nrrd->type], 
                                (void*)(data + I*nrrdElementSize(nrrd)))) {
-        sprintf(err, "%s: couln't parse %s " _AIR_SIZE_T_FMT
-                " of " _AIR_SIZE_T_FMT " (\"%s\")", me,
+        sprintf(err, "%s: couln't parse %s " _AIR_SIZE_T_CNV
+                " of " _AIR_SIZE_T_CNV " (\"%s\")", me,
                 airEnumStr(nrrdType, nrrd->type),
                 I+1, elNum, numbStr);
         biffAdd(NRRD, err); return 1;
@@ -66,8 +67,8 @@ _nrrdEncodingAscii_read(FILE *file, void *_data, size_t elNum,
     } else {
       /* sscanf value into an int first */
       if (1 != airSingleSscanf(numbStr, "%d", &tmp)) {
-        sprintf(err, "%s: couln't parse element " _AIR_SIZE_T_FMT
-                " of " _AIR_SIZE_T_FMT " (\"%s\")",
+        sprintf(err, "%s: couln't parse element " _AIR_SIZE_T_CNV
+                " of " _AIR_SIZE_T_CNV " (\"%s\")",
                 me, I+1, elNum, numbStr);
         biffAdd(NRRD, err); return 1;
       }
@@ -83,7 +84,7 @@ _nrrdEncodingAscii_write(FILE *file, const void *_data, size_t elNum,
                          const Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdEncodingAscii_write", err[AIR_STRLEN_MED],
     buff[AIR_STRLEN_MED];
-  int bufflen, linelen;
+  unsigned int bufflen, linelen;
   const char *data;
   size_t I;
   

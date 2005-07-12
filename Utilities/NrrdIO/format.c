@@ -56,6 +56,7 @@ int
 _nrrdFormatUnknown_nameLooksLike(const char *filename) {
   
   /* insert code here */
+  AIR_UNUSED(filename);
 
   return AIR_FALSE;
 }
@@ -81,15 +82,20 @@ int
 _nrrdFormatUnknown_contentStartsLike(NrrdIoState *nio) {
   
   /* insert code here */
+  AIR_UNUSED(nio);
 
   return AIR_FALSE;
 }
 
 int
-_nrrdFormatUnknown_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
+_nrrdFormatUnknown_read(FILE *file, Nrrd *nrrd,
+                        NrrdIoState *nio) {
   char me[]="_nrrdFormatUnknown_read", err[AIR_STRLEN_MED];
 
   /* insert code here, and remove error handling below */
+  AIR_UNUSED(file);
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(nio);
 
   sprintf(err, "%s: ERROR!!! trying to read unknown format", me);
   biffAdd(NRRD, err);
@@ -97,10 +103,14 @@ _nrrdFormatUnknown_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
 }
 
 int
-_nrrdFormatUnknown_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
+_nrrdFormatUnknown_write(FILE *file, const Nrrd *nrrd,
+                         NrrdIoState *nio) {
   char me[]="_nrrdFormatUnknown_write", err[AIR_STRLEN_MED];
 
   /* insert code here, and remove error handling below */
+  AIR_UNUSED(file);
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(nio);
 
   sprintf(err, "%s: ERROR!!! trying to write unknown format", me);
   biffAdd(NRRD, err);

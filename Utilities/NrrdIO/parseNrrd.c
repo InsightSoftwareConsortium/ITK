@@ -31,7 +31,7 @@
 ** This is for parsing the stuff BEFORE the colon
 */
 int
-_nrrdReadNrrdParseField (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
+_nrrdReadNrrdParseField (NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParseField", err[AIR_STRLEN_MED], *next,
     *buff, *colon, *keysep;
   int ret, fld=nrrdField_unknown, noField, badField=AIR_FALSE;
@@ -101,8 +101,12 @@ _nrrdReadNrrdParseField (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
 */
 
 int 
-_nrrdReadNrrdParse_nonfield (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_nonfield (FILE *file, Nrrd *nrrd,
                              NrrdIoState *nio, int useBiff) { 
+  AIR_UNUSED(file);
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(nio);
+  AIR_UNUSED(useBiff);
   /*
   char c;
 
@@ -116,11 +120,12 @@ _nrrdReadNrrdParse_nonfield (FILE *ffile, Nrrd *nrrd,
 }
 
 int 
-_nrrdReadNrrdParse_comment (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_comment (FILE *file, Nrrd *nrrd,
                             NrrdIoState *nio, int useBiff) { 
   char me[]="_nrrdReadNrrdParse_comment", err[AIR_STRLEN_MED];
   char *info;
   
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
   /* this skips the '#' at nio->line[nio->pos] and any other ' ' and '#' */
   if (nrrdCommentAdd(nrrd, info)) {
@@ -131,11 +136,12 @@ _nrrdReadNrrdParse_comment (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_content (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_content (FILE *file, Nrrd *nrrd, 
                             NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_content", err[AIR_STRLEN_MED];
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
   if (strlen(info) && !(nrrd->content = airStrdup(info))) {
     sprintf(err, "%s: couldn't strdup() content", me);
@@ -145,7 +151,7 @@ _nrrdReadNrrdParse_content (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_number (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_number (FILE *file, Nrrd *nrrd,
                            NrrdIoState *nio, int useBiff) {
   /*
   char me[]="_nrrdReadNrrdParse_number", err[AIR_STRLEN_MED]; 
@@ -158,6 +164,10 @@ _nrrdReadNrrdParse_number (FILE *ffile, Nrrd *nrrd,
   } 
   */
 
+  AIR_UNUSED(file);
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(nio);
+  AIR_UNUSED(useBiff);
   /* It was decided to just completely ignore this field.  "number" is
   ** entirely redundant with the (required) sizes field, and there no
   ** need to save it to, or learn it from, the header.  In fact the "num"
@@ -173,11 +183,12 @@ _nrrdReadNrrdParse_number (FILE *ffile, Nrrd *nrrd,
 }
 
 int 
-_nrrdReadNrrdParse_type (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_type (FILE *file, Nrrd *nrrd, 
                          NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_type", err[AIR_STRLEN_MED];
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
   if (!(nrrd->type = airEnumVal(nrrdType, info))) {
     sprintf(err, "%s: couldn't parse type \"%s\"", me, info);
@@ -197,30 +208,28 @@ _nrrdReadNrrdParse_type (FILE *ffile, Nrrd *nrrd,
   }
 
 int
-_nrrdReadNrrdParse_block_size (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_block_size (FILE *file, Nrrd *nrrd,
                                NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_block_size", err[AIR_STRLEN_MED];
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
-  _PARSE_ONE_VAL(nrrd->blockSize, "%d", "int");
+  _PARSE_ONE_VAL(nrrd->blockSize, _AIR_SIZE_T_CNV, "size_t");
   /* because blockSize and type fields may appear in any order,
-     we can't use _nrrdFieldCheck[], but we can do something */
-  if (!( nrrd->blockSize > 0 )) {
-    sprintf(err, "%s: block size %d not > 0", me, nrrd->blockSize);
-    biffMaybeAdd(NRRD, err, useBiff); return 1;
-  }
+     we can't use _nrrdFieldCheck[] */
   return 0;
 }
 
 int
-_nrrdReadNrrdParse_dimension (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_dimension (FILE *file, Nrrd *nrrd, 
                               NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_dimension", err[AIR_STRLEN_MED];
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
-  _PARSE_ONE_VAL(nrrd->dim, "%d", "int");
+  _PARSE_ONE_VAL(nrrd->dim, "%u", "unsigned int");
   if (_nrrdFieldCheck[nrrdField_dimension](nrrd, useBiff)) {
     sprintf(err, "%s: trouble", me);
     biffMaybeAdd(NRRD, err, useBiff); return 1;
@@ -253,19 +262,21 @@ _nrrdReadNrrdParse_dimension (FILE *ffile, Nrrd *nrrd,
   }
 
 int
-_nrrdReadNrrdParse_sizes (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_sizes (FILE *file, Nrrd *nrrd, 
                           NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_sizes", err[AIR_STRLEN_MED];
-  int ret, val[NRRD_DIM_MAX];
+  unsigned int ret;
+  size_t val[NRRD_DIM_MAX];
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
   _CHECK_HAVE_DIM;
-  ret = airParseStrI(val, info, _nrrdFieldSep, nrrd->dim);
+  ret = airParseStrZ(val, info, _nrrdFieldSep, nrrd->dim);
   _CHECK_GOT_ALL_VALUES;
   nrrdAxisInfoSet_nva(nrrd, nrrdAxisInfoSize, val);
   /* HEY: this is a very imperfect check of excess info */
-  if (nrrd->dim+1 == airParseStrI(val, info, _nrrdFieldSep, nrrd->dim+1)) {
+  if (nrrd->dim+1 == airParseStrZ(val, info, _nrrdFieldSep, nrrd->dim+1)) {
     sprintf(err, "%s: seem to have more than expected %d sizes",
             me, nrrd->dim);
     biffMaybeAdd(NRRD, err, useBiff); return 1;
@@ -278,13 +289,14 @@ _nrrdReadNrrdParse_sizes (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_spacings (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_spacings (FILE *file, Nrrd *nrrd, 
                              NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_spacings", err[AIR_STRLEN_MED];
-  int ret;
+  unsigned int ret;
   double val[NRRD_DIM_MAX];
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
   _CHECK_HAVE_DIM;
   ret = airParseStrD(val, info, _nrrdFieldSep, nrrd->dim);
@@ -304,13 +316,14 @@ _nrrdReadNrrdParse_spacings (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_thicknesses (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_thicknesses (FILE *file, Nrrd *nrrd, 
                                 NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_thicknesses", err[AIR_STRLEN_MED];
-  int ret;
+  unsigned int ret;
   double val[NRRD_DIM_MAX];
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
   _CHECK_HAVE_DIM;
   ret = airParseStrD(val, info, _nrrdFieldSep, nrrd->dim);
@@ -330,13 +343,14 @@ _nrrdReadNrrdParse_thicknesses (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_axis_mins (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_axis_mins (FILE *file, Nrrd *nrrd, 
                               NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_axis_mins", err[AIR_STRLEN_MED];
-  int ret;
+  unsigned int ret;
   double val[NRRD_DIM_MAX];
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
   _CHECK_HAVE_DIM;
   ret = airParseStrD(val, info, _nrrdFieldSep, nrrd->dim);
@@ -356,13 +370,14 @@ _nrrdReadNrrdParse_axis_mins (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_axis_maxs (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_axis_maxs (FILE *file, Nrrd *nrrd, 
                               NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_axis_maxs", err[AIR_STRLEN_MED];
-  int ret;
+  unsigned int ret;
   double val[NRRD_DIM_MAX];
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
   _CHECK_HAVE_DIM;
   ret = airParseStrD(val, info, _nrrdFieldSep, nrrd->dim);
@@ -383,10 +398,11 @@ _nrrdReadNrrdParse_axis_maxs (FILE *ffile, Nrrd *nrrd,
 
 int
 _nrrdSpaceVectorParse(double val[NRRD_SPACE_DIM_MAX],
-                      char **hhP, int spaceDim, int useBiff) {
-  char me[]="_nrrdSpaceVectorParse", err[AIR_STRLEN_MED], *hh, *buff, sep[]=",)";
+                      char **hhP, unsigned int spaceDim, int useBiff) {
+  char me[]="_nrrdSpaceVectorParse", err[AIR_STRLEN_MED],
+    *hh, *buff, sep[]=",)";
   airArray *mop;
-  int ret, dd, length;
+  unsigned int ret, dd, length;
   
   mop = airMopNew();
 
@@ -483,19 +499,20 @@ _nrrdSpaceVectorParse(double val[NRRD_SPACE_DIM_MAX],
 }
 
 int
-_nrrdReadNrrdParse_space_directions (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_space_directions (FILE *file, Nrrd *nrrd, 
                                      NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_space_directions", err[AIR_STRLEN_MED];
-  int dd;
+  unsigned int dd;
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
   _CHECK_HAVE_DIM;
   _CHECK_HAVE_SPACE_DIM;
 
   for (dd=0; dd<nrrd->dim; dd++) {
     if (_nrrdSpaceVectorParse(nrrd->axis[dd].spaceDirection,
-                            &info, nrrd->spaceDim, useBiff)) {
+                              &info, nrrd->spaceDim, useBiff)) {
       sprintf(err, "%s: trouble getting space vector %d of %d", 
               me, dd+1, nrrd->dim);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
@@ -514,39 +531,40 @@ _nrrdReadNrrdParse_space_directions (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_centers (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_centers (FILE *file, Nrrd *nrrd, 
                             NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_centers", err[AIR_STRLEN_MED];
-  int i;
+  unsigned int ai;
   char *tok, *info, *last;
   airArray *mop;
 
+  AIR_UNUSED(file);
   mop = airMopNew();
   info = airStrdup(nio->line + nio->pos);
   airMopAdd(mop, info, airFree, airMopAlways);
   _CHECK_HAVE_DIM;
-  for (i=0; i<nrrd->dim; i++) {
-    tok = airStrtok(!i ? info : NULL, _nrrdFieldSep, &last);
+  for (ai=0; ai<nrrd->dim; ai++) {
+    tok = airStrtok(!ai ? info : NULL, _nrrdFieldSep, &last);
     if (!tok) {
       sprintf(err, "%s: couldn't extract string for center %d of %d",
-              me, i+1, nrrd->dim);
+              me, ai+1, nrrd->dim);
       biffMaybeAdd(NRRD, err, useBiff); airMopError(mop); return 1;
     }
     if (!strcmp(tok, NRRD_UNKNOWN)) {
-      nrrd->axis[i].center = nrrdCenterUnknown;
+      nrrd->axis[ai].center = nrrdCenterUnknown;
       continue;
     }
     if (!strcmp(tok, NRRD_NONE)) {
-      nrrd->axis[i].center = nrrdCenterUnknown;
+      nrrd->axis[ai].center = nrrdCenterUnknown;
       continue;
     }
-    if (!(nrrd->axis[i].center = airEnumVal(nrrdCenter, tok))) {
+    if (!(nrrd->axis[ai].center = airEnumVal(nrrdCenter, tok))) {
       sprintf(err, "%s: couldn't parse center \"%s\" for axis %d",
-              me, tok, i);
+              me, tok, ai);
       biffMaybeAdd(NRRD, err, useBiff); airMopError(mop); return 1;
     }
   }
-  if (airStrtok(!i ? info : NULL, _nrrdFieldSep, &last)) {
+  if (airStrtok(!ai ? info : NULL, _nrrdFieldSep, &last)) {
     sprintf(err, "%s: seem to have more than expected %d centers",
             me, nrrd->dim);
     biffMaybeAdd(NRRD, err, useBiff); airMopError(mop); return 1;
@@ -560,39 +578,40 @@ _nrrdReadNrrdParse_centers (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_kinds (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_kinds (FILE *file, Nrrd *nrrd, 
                           NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_kinds", err[AIR_STRLEN_MED];
-  int i;
+  unsigned int ai;
   char *info, *tok, *last;
   airArray *mop;
 
+  AIR_UNUSED(file);
   mop = airMopNew();
   info = airStrdup(nio->line + nio->pos);
   airMopAdd(mop, info, airFree, airMopAlways);
   _CHECK_HAVE_DIM;
-  for (i=0; i<nrrd->dim; i++) {
-    tok = airStrtok(!i ? info : NULL, _nrrdFieldSep, &last);
+  for (ai=0; ai<nrrd->dim; ai++) {
+    tok = airStrtok(!ai ? info : NULL, _nrrdFieldSep, &last);
     if (!tok) {
       sprintf(err, "%s: couldn't extract string for kind %d of %d",
-              me, i+1, nrrd->dim);
+              me, ai+1, nrrd->dim);
       biffMaybeAdd(NRRD, err, useBiff); airMopError(mop); return 1;
     }
     if (!strcmp(tok, NRRD_UNKNOWN)) {
-      nrrd->axis[i].kind = nrrdKindUnknown;
+      nrrd->axis[ai].kind = nrrdKindUnknown;
       continue;
     }
     if (!strcmp(tok, NRRD_NONE)) {
-      nrrd->axis[i].center = nrrdKindUnknown;
+      nrrd->axis[ai].center = nrrdKindUnknown;
       continue;
     }
-    if (!(nrrd->axis[i].kind = airEnumVal(nrrdKind, tok))) {
+    if (!(nrrd->axis[ai].kind = airEnumVal(nrrdKind, tok))) {
       sprintf(err, "%s: couldn't parse \"%s\" kind %d of %d",
-              me, tok, i+1, nrrd->dim);
+              me, tok, ai+1, nrrd->dim);
       biffMaybeAdd(NRRD, err, useBiff); airMopError(mop); return 1;
     }
   }
-  if (airStrtok(!i ? info : NULL, _nrrdFieldSep, &last)) {
+  if (airStrtok(!ai ? info : NULL, _nrrdFieldSep, &last)) {
     sprintf(err, "%s: seem to have more than expected %d kinds",
             me, nrrd->dim);
     biffMaybeAdd(NRRD, err, useBiff); airMopError(mop); return 1;
@@ -674,24 +693,25 @@ _nrrdGetQuotedString(char **hP, int useBiff) {
 }
 
 int
-_nrrdReadNrrdParse_labels (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_labels (FILE *file, Nrrd *nrrd, 
                            NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_labels", err[AIR_STRLEN_MED];
   char *h;  /* this is the "here" pointer which gradually progresses
                through all the labels (for all axes) */
-  int i;
+  unsigned int ai;
   char *info;
 
+  AIR_UNUSED(file);
   /* because we have to correctly interpret quote marks, we
      can't simply rely on airParseStrS */
   info = nio->line + nio->pos;
   /* printf("!%s: info |%s|\n", me, info); */
   _CHECK_HAVE_DIM;
   h = info;
-  for (i=0; i<nrrd->dim; i++) {
-    if (!( nrrd->axis[i].label = _nrrdGetQuotedString(&h, useBiff) )) {
+  for (ai=0; ai<nrrd->dim; ai++) {
+    if (!( nrrd->axis[ai].label = _nrrdGetQuotedString(&h, useBiff) )) {
       sprintf(err, "%s: couldn't get get label %d of %d\n",
-              me, i+1, nrrd->dim);
+              me, ai+1, nrrd->dim);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
     }
   }
@@ -708,24 +728,25 @@ _nrrdReadNrrdParse_labels (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_units (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_units (FILE *file, Nrrd *nrrd, 
                           NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_units", err[AIR_STRLEN_MED];
   char *h;  /* this is the "here" pointer which gradually progresses
                through all the units (for all axes) */
-  int i;
+  unsigned int ai;
   char *info;
 
+  AIR_UNUSED(file);
   /* because we have to correctly interpret quote marks, we
      can't simply rely on airParseStrS */
   info = nio->line + nio->pos;
   /* printf("!%s: info |%s|\n", me, info); */
   _CHECK_HAVE_DIM;
   h = info;
-  for (i=0; i<nrrd->dim; i++) {
-    if (!( nrrd->axis[i].units = _nrrdGetQuotedString(&h, useBiff) )) {
+  for (ai=0; ai<nrrd->dim; ai++) {
+    if (!( nrrd->axis[ai].units = _nrrdGetQuotedString(&h, useBiff) )) {
       sprintf(err, "%s: couldn't get get unit %d of %d\n",
-              me, i+1, nrrd->dim);
+              me, ai+1, nrrd->dim);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
     }
   }
@@ -742,8 +763,13 @@ _nrrdReadNrrdParse_units (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_min (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_min (FILE *file, Nrrd *nrrd,
                         NrrdIoState *nio, int useBiff) {
+
+  AIR_UNUSED(file);
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(nio);
+  AIR_UNUSED(useBiff);
 
   /* This field is no longer assumed to be anything meaningful,
      because nrrd->min no longer exists with the advent of NrrdRange.
@@ -754,8 +780,13 @@ _nrrdReadNrrdParse_min (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_max (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_max (FILE *file, Nrrd *nrrd,
                         NrrdIoState *nio, int useBiff) {
+
+  AIR_UNUSED(file);
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(nio);
+  AIR_UNUSED(useBiff);
 
   /* nrrd->max no longer exists, see above */
 
@@ -763,11 +794,12 @@ _nrrdReadNrrdParse_max (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_old_min (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_old_min (FILE *file, Nrrd *nrrd, 
                             NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_old_min", err[AIR_STRLEN_MED];
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
   _PARSE_ONE_VAL(nrrd->oldMin, "%lg", "double");
   if (_nrrdFieldCheck[nrrdField_old_min](nrrd, useBiff)) {
@@ -778,11 +810,12 @@ _nrrdReadNrrdParse_old_min (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_old_max (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_old_max (FILE *file, Nrrd *nrrd, 
                             NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_old_max", err[AIR_STRLEN_MED];
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
   _PARSE_ONE_VAL(nrrd->oldMax, "%lg", "double");
   if (_nrrdFieldCheck[nrrdField_old_max](nrrd, useBiff)) {
@@ -793,11 +826,13 @@ _nrrdReadNrrdParse_old_max (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_endian (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_endian (FILE *file, Nrrd *nrrd, 
                            NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_endian", err[AIR_STRLEN_MED];
   char *info;
 
+  AIR_UNUSED(file);
+  AIR_UNUSED(nrrd);
   info = nio->line + nio->pos;
   if (!(nio->endian = airEnumVal(airEndian, info))) {
     sprintf(err, "%s: couldn't parse endian \"%s\"", me, info);
@@ -807,12 +842,14 @@ _nrrdReadNrrdParse_endian (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_encoding (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_encoding (FILE *file, Nrrd *nrrd, 
                              NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_encoding", err[AIR_STRLEN_MED];
   char *info;
   int etype;
 
+  AIR_UNUSED(file);
+  AIR_UNUSED(nrrd);
   info = nio->line + nio->pos;
   if (!(etype = airEnumVal(nrrdEncodingType, info))) {
     sprintf(err, "%s: couldn't parse encoding \"%s\"", me, info);
@@ -824,26 +861,32 @@ _nrrdReadNrrdParse_encoding (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_line_skip (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_line_skip (FILE *file, Nrrd *nrrd, 
                               NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_line_skip", err[AIR_STRLEN_MED];
   char *info;
 
+  AIR_UNUSED(file);
+  AIR_UNUSED(nrrd);
   info = nio->line + nio->pos;
-  _PARSE_ONE_VAL(nio->lineSkip, "%d", "int");
+  _PARSE_ONE_VAL(nio->lineSkip, "%u", "unsigned int");
+  /* now that its unsigned, what error checking can I do?
   if (!(0 <= nio->lineSkip)) {
     sprintf(err, "%s: lineSkip value %d invalid", me, nio->lineSkip);
     biffMaybeAdd(NRRD, err, useBiff); return 1;
   }
+  */
   return 0;
 }
 
 int
-_nrrdReadNrrdParse_byte_skip (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_byte_skip (FILE *file, Nrrd *nrrd, 
                               NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_byte_skip", err[AIR_STRLEN_MED];
   char *info;
 
+  AIR_UNUSED(file);
+  AIR_UNUSED(nrrd);
   info = nio->line + nio->pos;
   _PARSE_ONE_VAL(nio->byteSkip, "%d", "int");
   if (!(-1 <= nio->byteSkip)) {
@@ -854,11 +897,12 @@ _nrrdReadNrrdParse_byte_skip (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_keyvalue (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_keyvalue (FILE *file, Nrrd *nrrd, 
                              NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_keyvalue", err[AIR_STRLEN_MED];
   char *keysep, *line, *key, *value;
 
+  AIR_UNUSED(file);
   /* we know this will find something */
   line = airStrdup(nio->line);
   if (!line) {
@@ -887,11 +931,12 @@ _nrrdReadNrrdParse_keyvalue (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_sample_units (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_sample_units (FILE *file, Nrrd *nrrd, 
                                  NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_sample_units", err[AIR_STRLEN_MED];
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
   
   if (strlen(info) && !(nrrd->sampleUnits = airStrdup(info))) {
@@ -906,11 +951,12 @@ _nrrdReadNrrdParse_sample_units (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_space (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_space (FILE *file, Nrrd *nrrd, 
                           NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_space", err[AIR_STRLEN_MED], *info;
   int space;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
   if (nio->seen[nrrdField_space_dimension]) {
     sprintf(err, "%s: can't specify space after specifying "
@@ -933,11 +979,12 @@ _nrrdReadNrrdParse_space (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_space_dimension (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_space_dimension (FILE *file, Nrrd *nrrd, 
                                     NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_space_dimension", err[AIR_STRLEN_MED];
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
   if (nio->seen[nrrdField_space]) {
     sprintf(err, "%s: can't specify space dimension after specifying "
@@ -953,24 +1000,25 @@ _nrrdReadNrrdParse_space_dimension (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_space_units (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_space_units (FILE *file, Nrrd *nrrd, 
                                 NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_space_units", err[AIR_STRLEN_MED];
   char *h;  /* this is the "here" pointer which gradually progresses
                through all the units (for all axes) */
-  int i;
+  unsigned int ai;
   char *info;
 
+  AIR_UNUSED(file);
   /* because we have to correctly interpret quote marks, we
      can't simply rely on airParseStrS */
   info = nio->line + nio->pos;
   /* printf("!%s: info |%s|\n", me, info); */
   _CHECK_HAVE_SPACE_DIM;
   h = info;
-  for (i=0; i<nrrd->spaceDim; i++) {
-    if (!( nrrd->spaceUnits[i] = _nrrdGetQuotedString(&h, useBiff) )) {
+  for (ai=0; ai<nrrd->spaceDim; ai++) {
+    if (!( nrrd->spaceUnits[ai] = _nrrdGetQuotedString(&h, useBiff) )) {
       sprintf(err, "%s: couldn't get get space unit %d of %d",
-              me, i+1, nrrd->spaceDim);
+              me, ai+1, nrrd->spaceDim);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
     }
   }
@@ -987,16 +1035,18 @@ _nrrdReadNrrdParse_space_units (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_space_origin (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_space_origin (FILE *file, Nrrd *nrrd, 
                                  NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_space_origin", err[AIR_STRLEN_MED];
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
 
   _CHECK_HAVE_SPACE_DIM;
 
-  if (_nrrdSpaceVectorParse(nrrd->spaceOrigin, &info, nrrd->spaceDim, useBiff)) {
+  if (_nrrdSpaceVectorParse(nrrd->spaceOrigin, &info,
+                            nrrd->spaceDim, useBiff)) {
     sprintf(err, "%s: couldn't parse origin \"%s\"", me, info);
     biffMaybeAdd(NRRD, err, useBiff); return 1;
   }
@@ -1008,13 +1058,14 @@ _nrrdReadNrrdParse_space_origin (FILE *ffile, Nrrd *nrrd,
 }
 
 int
-_nrrdReadNrrdParse_measurement_frame (FILE *ffile, Nrrd *nrrd, 
+_nrrdReadNrrdParse_measurement_frame (FILE *file, Nrrd *nrrd, 
                                       NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_measurement_frame", err[AIR_STRLEN_MED];
   double colvec[NRRD_SPACE_DIM_MAX];
-  int dd, ii;
+  unsigned int dd, ii;
   char *info;
 
+  AIR_UNUSED(file);
   info = nio->line + nio->pos;
 
   _CHECK_HAVE_SPACE_DIM;
@@ -1077,8 +1128,7 @@ _nrrdContainsPercentDAndMore(char *str) {
 
 unsigned int
 _nrrdDataFNNumber(NrrdIoState *nio) {
-  int ii;
-  unsigned int ret;
+  int ii, ret;
 
   if (nio->dataFNFormat) {
     /* datafiles given in iterator form; count number of values */
@@ -1093,7 +1143,7 @@ _nrrdDataFNNumber(NrrdIoState *nio) {
     /* datafiles given as an explicit list, or as a single file name,
        and in either case, nrrdDataFNAdd() is used to add them to
        the dataFNArr */
-    ret = (unsigned int)nio->dataFNArr->len;
+    ret = nio->dataFNArr->len;
   } else {
     /* datafile is same as (attached) header file */
     ret = 1;
@@ -1117,10 +1167,11 @@ _nrrdDataFNCheck(NrrdIoState *nio, Nrrd *nrrd, int useBiff) {
   } else {
     /* we're getting data in "slabs" with the same dimension as the
        nrrd, so for simplicity we assume that they're all equal size */
-    if ((int)_nrrdDataFNNumber(nio) > nrrd->axis[nrrd->dim-1].size) {
+    if (_nrrdDataFNNumber(nio) > nrrd->axis[nrrd->dim-1].size) {
       sprintf(err, "%s: can't have more pieces (%d) than axis %d "
-              "slices (%d) when nrrd dimension and datafile dimension "
-              "are both %d", me, (int)_nrrdDataFNNumber(nio),
+              "slices (" _AIR_SIZE_T_CNV ") when nrrd dimension and "
+              "datafile dimension are both %d", me,
+              (int)_nrrdDataFNNumber(nio),
               nrrd->dim-1, nrrd->axis[nrrd->dim-1].size,
               nrrd->dim);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
@@ -1128,7 +1179,7 @@ _nrrdDataFNCheck(NrrdIoState *nio, Nrrd *nrrd, int useBiff) {
     if ((double)nrrd->axis[nrrd->dim-1].size/_nrrdDataFNNumber(nio)
         != nrrd->axis[nrrd->dim-1].size/_nrrdDataFNNumber(nio)) {
       sprintf(err, "%s: number of datafiles (%d) doesn't divide into "
-              "number of axis %d slices (%d)", me, 
+              "number of axis %d slices (" _AIR_SIZE_T_CNV ")", me, 
               (int)_nrrdDataFNNumber(nio), 
               nrrd->dim-1, nrrd->axis[nrrd->dim-1].size);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
@@ -1153,7 +1204,8 @@ _nrrdReadNrrdParse_data_file (FILE *ffile, Nrrd *nrrd,
                               NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_data_file", err[AIR_STRLEN_MED];
   char *info, *nums;
-  int linelen, tmp;
+  unsigned int linelen;
+  int tmp;
   airArray *mop;
 
   mop = airMopNew();

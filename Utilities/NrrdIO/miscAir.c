@@ -87,21 +87,6 @@ airFree(void *ptr) {
 }
 
 /*
-******** airFreeP()
-**
-** calls airFree on the address pointed to by the argument
-*/
-void *
-airFreeP(void *_ptrP) {
-  void **ptrP;
-
-  ptrP = _ptrP;
-  if (ptrP)
-    airFree(*ptrP);
-  return NULL;
-}
-
-/*
 ******** airFopen()
 **
 ** encapsulates that idea that "-" is either standard in or stardard

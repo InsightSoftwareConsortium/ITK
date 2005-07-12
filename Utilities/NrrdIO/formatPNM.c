@@ -43,6 +43,9 @@ _nrrdFormatPNM_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
                         int useBiff) {
   char me[]="_nrrdFormatPNM_fitsInto", err[AIR_STRLEN_MED];
   
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(encoding);
+  AIR_UNUSED(useBiff);
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
           me, nrrdFormatPNM->name);
   biffMaybeAdd(NRRD, err, useBiff); 
@@ -53,6 +56,7 @@ _nrrdFormatPNM_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
 int
 _nrrdFormatPNM_contentStartsLike(NrrdIoState *nio) {
 
+  AIR_UNUSED(nio);
   return AIR_FALSE;
 
 }
@@ -61,17 +65,22 @@ int
 _nrrdFormatPNM_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdReadPNM", err[AIR_STRLEN_MED];
 
+  AIR_UNUSED(file);
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(nio);
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
           me, nrrdFormatPNM->name);
   biffAdd(NRRD, err);
   return 1;
 }
 
-/* this strongly assumes that nrrdFitsInFormat() was true */
 int
-_nrrdFormatPNM_write(FILE *file, const Nrrd *_nrrd, NrrdIoState *nio) {
+_nrrdFormatPNM_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdFormatPNM_write", err[AIR_STRLEN_MED];
 
+  AIR_UNUSED(file);
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(nio);
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
           me, nrrdFormatPNM->name);
   biffAdd(NRRD, err);

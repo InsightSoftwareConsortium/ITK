@@ -23,6 +23,11 @@
 */
 
 #include "NrrdIO.h"
+#include "privateNrrd.h"
+
+/* learned: /usr/bin/c++ on mac (at least) won't actually put a 
+const int blah[] array in an object file if it hasn't been declared
+as "extern" */
 
 const char
 nrrdTypePrintfStr[NRRD_TYPE_MAX+1][AIR_STRLEN_SMALL] = {
@@ -43,7 +48,7 @@ nrrdTypePrintfStr[NRRD_TYPE_MAX+1][AIR_STRLEN_SMALL] = {
 /*
 ** the setting of NRRD_TYPE_BIGGEST has to be in accordance with this
 */
-const int 
+const size_t
 nrrdTypeSize[NRRD_TYPE_MAX+1] = {
   0,  /* unknown */
   1,  /* char */

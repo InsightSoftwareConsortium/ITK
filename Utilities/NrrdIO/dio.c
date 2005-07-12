@@ -82,12 +82,19 @@ airNoDioErr(int noDio) {
 ** Note that airNoDio_okay means, "actually, direct IO *does* seem to
 ** be possible here".
 */
+#if TEEM_DIO == 0
 int
 airDioTest(int fd, const void *ptr, size_t size) {
-#if TEEM_DIO == 0
+  AIR_UNUSED(fd);
+  AIR_UNUSED(ptr);
+  AIR_UNUSED(size);
+
   /* Teem makefiles think no direct IO is possible on this architecture */
   return airNoDio_arch;
+}
 #else
+int
+airDioTest(int fd, const void *ptr, size_t size) {
   struct dioattr dioinfo;
   void *tmp;
   int flags;
@@ -175,8 +182,8 @@ airDioTest(int fd, const void *ptr, size_t size) {
 
   /* as far as we know, direct I/O seems workable */
   return airNoDio_okay;
-#endif
 }
+#endif
 
 /*
 ******** airDioInfo
@@ -189,11 +196,18 @@ airDioTest(int fd, const void *ptr, size_t size) {
 ** NOTE: this does not try to do any error checking, because it assumes
 ** that you've already called airDioTest without incident.
 */
+#if TEEM_DIO == 0
 void
 airDioInfo(int *align, int *min, int *max, int fd) {
-#if TEEM_DIO == 0
+  AIR_UNUSED(align);
+  AIR_UNUSED(min);
+  AIR_UNUSED(max);
+  AIR_UNUSED(fd);
   return;
+}
 #else
+void
+airDioInfo(int *align, int *min, int *max, int fd) {
   struct dioattr dioinfo;
 
   if (align && min && max && !fcntl(fd, F_DIOINFO, &dioinfo)) {
@@ -202,8 +216,8 @@ airDioInfo(int *align, int *min, int *max, int fd) {
     *max = dioinfo.d_maxiosz;
   }
   return;
-#endif
 }
+#endif
 
 /*
 ******** airDioMalloc
@@ -213,17 +227,23 @@ airDioInfo(int *align, int *min, int *max, int fd) {
 ** NOTE: like airDioInfo, this assumes that you've called airDioTest 
 ** without incident
 */
+#if TEEM_DIO == 0
 void *
 airDioMalloc(size_t size, int fd) {
-#if TEEM_DIO == 0
+  AIR_UNUSED(size);
+  AIR_UNUSED(fd);
+
   return NULL;
+}
 #else
+void *
+airDioMalloc(size_t size, int fd) {
   int align, min, max;
   
   airDioInfo(&align, &min, &max, fd);
   return memalign(align, size);
-#endif
 }
+#endif
 
 /*
 ******** airDioRead
@@ -234,11 +254,18 @@ airDioMalloc(size_t size, int fd) {
 ** NOTE: like airDioInfo, this assumes that you've called airDioTest 
 ** without incident
 */
+#if TEEM_DIO == 0
 size_t
 airDioRead(int fd, void *_ptr, size_t size) {
-#if TEEM_DIO == 0
+  AIR_UNUSED(fd);
+  AIR_UNUSED(_ptr);
+  AIR_UNUSED(size);
+
   return 0;
+}
 #else
+size_t
+airDioRead(int fd, void *_ptr, size_t size) {
   size_t red, totalred;
   int align, min, max, flags;
   size_t remain, part;
@@ -267,8 +294,8 @@ airDioRead(int fd, void *_ptr, size_t size) {
   fcntl(fd, F_SETFL, flags);
   
   return totalred;
-#endif
 }
+#endif
 
 /*
 ******** airDioWrite
@@ -279,11 +306,18 @@ airDioRead(int fd, void *_ptr, size_t size) {
 ** NOTE: like airDioInfo, this assumes that you've called airDioTest 
 ** without incident
 */
+#if TEEM_DIO == 0
 size_t
 airDioWrite(int fd, const void *_ptr, size_t size) {
-#if TEEM_DIO == 0
+  AIR_UNUSED(fd);
+  AIR_UNUSED(_ptr);
+  AIR_UNUSED(size);
+
   return 0;
+}
 #else
+size_t
+airDioWrite(int fd, const void *_ptr, size_t size) {
   size_t rit, totalrit;
   int align, min, max, flags;
   size_t remain, part;
@@ -312,5 +346,5 @@ airDioWrite(int fd, const void *_ptr, size_t size) {
   fcntl(fd, F_SETFL, flags);
   
   return totalrit;
-#endif
 }
+#endif

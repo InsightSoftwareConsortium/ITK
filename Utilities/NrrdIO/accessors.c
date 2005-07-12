@@ -67,7 +67,7 @@ F(A, DB)
 #define LOAD_DEF(TA, TB)                    \
 TA                                          \
 _nrrdLoad##TA##TB(TB *v) {                  \
-  return *v;                                \
+  return (TA)(*v);                          \
 }
 #define LOAD_LIST(TA, TB)                   \
   (TA (*)(const void *))_nrrdLoad##TA##TB,
@@ -100,7 +100,7 @@ nrrdDLoad[NRRD_TYPE_MAX+1])(const void*) = {
 #define STORE_DEF(TA, TB)                   \
 TA                                          \
 _nrrdStore##TA##TB(TB *v, TA j) {           \
-  return (*v = j);                          \
+  return (TA)(*v = (TB)j);                  \
 }
 #define STORE_LIST(TA, TB)                  \
   (TA (*)(void *, TA))_nrrdStore##TA##TB,
@@ -131,7 +131,7 @@ nrrdDStore[NRRD_TYPE_MAX+1])(void *, double) = {
 #define LOOKUP_DEF(TA, TB)                    \
 TA                                            \
 _nrrdLookup##TA##TB(TB *v, size_t I) {        \
-  return v[I];                                \
+  return (TA)v[I];                            \
 }
 #define LOOKUP_LIST(TA, TB)                   \
   (TA (*)(const void*, size_t))_nrrdLookup##TA##TB,
@@ -164,7 +164,7 @@ nrrdDLookup[NRRD_TYPE_MAX+1])(const void *, size_t) = {
 #define INSERT_DEF(TA, TB)                         \
 TA                                                 \
 _nrrdInsert##TA##TB(TB *v, size_t I, TA j) {       \
-  return (v[I] = j);                               \
+  return (TA)(v[I] = (TB)j);                       \
 }
 #define INSERT_LIST(TA, TB)                        \
   (TA (*)(void*, size_t, TA))_nrrdInsert##TA##TB,

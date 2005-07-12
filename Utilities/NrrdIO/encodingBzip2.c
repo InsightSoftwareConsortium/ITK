@@ -36,6 +36,11 @@ _nrrdEncodingBzip2_read(FILE *file, void *data, size_t elementNum,
                         Nrrd *nrrd, struct NrrdIoState_t *nio) {
   char me[]="_nrrdEncodingBzip2_read", err[AIR_STRLEN_MED];
 
+  AIR_UNUSED(file);
+  AIR_UNUSED(data);
+  AIR_UNUSED(elementNum);
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(nio);
   sprintf(err, "%s: Sorry, %s encoding not available in NrrdIO",
           me, nrrdEncodingBzip2->name);
   biffAdd(NRRD, err); return 1;
@@ -46,6 +51,11 @@ _nrrdEncodingBzip2_write(FILE *file, const void *data, size_t elementNum,
                          const Nrrd *nrrd, struct NrrdIoState_t *nio) {
   char me[]="_nrrdEncodingBzip2_write", err[AIR_STRLEN_MED];
 
+  AIR_UNUSED(file);
+  AIR_UNUSED(data);
+  AIR_UNUSED(elementNum);
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(nio);
   sprintf(err, "%s: Sorry, %s encoding not available in NrrdIO",
           me, nrrdEncodingBzip2->name);
   biffAdd(NRRD, err); return 1;

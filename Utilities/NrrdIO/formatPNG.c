@@ -42,6 +42,9 @@ _nrrdFormatPNG_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
                         int useBiff) {
   char me[]="_nrrdFormatPNG_fitsInto", err[AIR_STRLEN_MED];
   
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(encoding);
+  AIR_UNUSED(useBiff);
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
           me, nrrdFormatPNG->name);
   biffMaybeAdd(NRRD, err, useBiff); 
@@ -52,6 +55,7 @@ _nrrdFormatPNG_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
 int
 _nrrdFormatPNG_contentStartsLike(NrrdIoState *nio) {
 
+  AIR_UNUSED(nio);
   return AIR_FALSE;
 
 }
@@ -60,17 +64,22 @@ int
 _nrrdFormatPNG_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdReadPNG", err[AIR_STRLEN_MED];
 
+  AIR_UNUSED(file);
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(nio);
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
           me, nrrdFormatPNG->name);
   biffAdd(NRRD, err);
   return 1;
 }
 
-/* this strongly assumes that nrrdFitsInFormat() was true */
 int
-_nrrdFormatPNG_write(FILE *file, const Nrrd *_nrrd, NrrdIoState *nio) {
+_nrrdFormatPNG_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdFormatPNG_write", err[AIR_STRLEN_MED];
 
+  AIR_UNUSED(file);
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(nio);
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
           me, nrrdFormatPNG->name);
   biffAdd(NRRD, err);

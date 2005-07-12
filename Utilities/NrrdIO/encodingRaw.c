@@ -54,7 +54,7 @@ _nrrdEncodingRaw_read(FILE *file, void *data, size_t elementNum,
     ret = airDioRead(fd, data, bsize);
     if (ret != bsize) {
       sprintf(err, "%s: airDioRead got read only "
-              _AIR_SIZE_T_FMT " of " _AIR_SIZE_T_FMT " bytes "
+              _AIR_SIZE_T_CNV " of " _AIR_SIZE_T_CNV " bytes "
               "(%g%% of expected)", me,
               ret, bsize, 100.0*ret/bsize);
       biffAdd(NRRD, err); return 1;
@@ -68,8 +68,8 @@ _nrrdEncodingRaw_read(FILE *file, void *data, size_t elementNum,
     ret = fread(data, nrrdElementSize(nrrd), elementNum, file);
     if (ret != elementNum) {
       sprintf(err, "%s: fread got read only "
-              _AIR_SIZE_T_FMT " %d-sized things, not " _AIR_SIZE_T_FMT 
-              " (%g%% of expected)", me,
+              _AIR_SIZE_T_CNV " " _AIR_SIZE_T_CNV "-sized things, not "
+              _AIR_SIZE_T_CNV " (%g%% of expected)", me,
               ret, nrrdElementSize(nrrd), elementNum,
               100.0*ret/elementNum);
       biffAdd(NRRD, err); return 1;
@@ -115,7 +115,7 @@ _nrrdEncodingRaw_write(FILE *file, const void *data, size_t elementNum,
     ret = airDioWrite(fd, data, bsize);
     if (ret != bsize) {
       sprintf(err, "%s: airDioWrite wrote only "
-              _AIR_SIZE_T_FMT " of " _AIR_SIZE_T_FMT " bytes "
+              _AIR_SIZE_T_CNV " of " _AIR_SIZE_T_CNV " bytes "
               "(%g%% of expected)", me,
               ret, bsize, 100.0*ret/bsize);
       biffAdd(NRRD, err); return 1;
@@ -129,8 +129,8 @@ _nrrdEncodingRaw_write(FILE *file, const void *data, size_t elementNum,
     ret = fwrite(data, nrrdElementSize(nrrd), elementNum, file);
     if (ret != elementNum) {
       sprintf(err, "%s: fwrite wrote read only "
-              _AIR_SIZE_T_FMT " %d-sized things, not " _AIR_SIZE_T_FMT 
-              " (%g%% of expected)", me,
+              _AIR_SIZE_T_CNV " " _AIR_SIZE_T_CNV "-sized things, not " 
+              _AIR_SIZE_T_CNV " (%g%% of expected)", me,
               ret, nrrdElementSize(nrrd), elementNum,
               100.0*ret/elementNum);
       biffAdd(NRRD, err); return 1;

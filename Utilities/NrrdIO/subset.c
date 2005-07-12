@@ -39,14 +39,16 @@
 ** the period (period), and the number of periods (numper). 
 */
 int
-nrrdSlice(Nrrd *nout, const Nrrd *nin, int axis, int pos) {
+nrrdSlice(Nrrd *nout, const Nrrd *nin, unsigned int saxi, size_t pos) {
   char me[]="nrrdSlice", func[]="slice", err[AIR_STRLEN_MED];
   size_t 
     I, 
     rowLen,                  /* length of segment */
     colStep,                 /* distance between start of each segment */
-    colLen;                  /* number of periods */
-  int i, outdim, map[NRRD_DIM_MAX], szOut[NRRD_DIM_MAX];
+    colLen,                  /* number of periods */
+    szOut[NRRD_DIM_MAX];
+  unsigned int ai, outdim;
+  int map[NRRD_DIM_MAX];
   char *src, *dest;
 
   if (!(nin && nout)) {
@@ -61,14 +63,15 @@ nrrdSlice(Nrrd *nout, const Nrrd *nin, int axis, int pos) {
     sprintf(err, "%s: can't slice a 1-D nrrd; use nrrd{I,F,D}Lookup[]", me);
     biffAdd(NRRD, err); return 1;
   }
-  if (!(AIR_IN_CL(0, axis, nin->dim-1))) {
+  if (!( saxi < nin->dim )) {
     sprintf(err, "%s: slice axis %d out of bounds (0 to %d)", 
-            me, axis, nin->dim-1);
+            me, saxi, nin->dim-1);
     biffAdd(NRRD, err); return 1;
   }
-  if (!(AIR_IN_CL(0, pos, nin->axis[axis].size-1) )) {
-    sprintf(err, "%s: position %d out of bounds (0 to %d)", 
-            me, pos, nin->axis[axis].size-1);
+  if (!( pos < nin->axis[saxi].size )) {
+    sprintf(err, "%s: position " _AIR_SIZE_T_CNV 
+            " out of bounds (0 to " _AIR_SIZE_T_CNV  ")", 
+            me, pos, nin->axis[saxi].size-1);
     biffAdd(NRRD, err); return 1;
   }
   /* this shouldn't actually be necessary ... */
@@ -79,20 +82,20 @@ nrrdSlice(Nrrd *nout, const Nrrd *nin, int axis, int pos) {
 
   /* set up control variables */
   rowLen = colLen = 1;
-  for (i=0; i<nin->dim; i++) {
-    if (i < axis) {
-      rowLen *= nin->axis[i].size;
-    } else if (i > axis) {
-      colLen *= nin->axis[i].size;
+  for (ai=0; ai<nin->dim; ai++) {
+    if (ai < saxi) {
+      rowLen *= nin->axis[ai].size;
+    } else if (ai > saxi) {
+      colLen *= nin->axis[ai].size;
     }
   }
   rowLen *= nrrdElementSize(nin);
-  colStep = rowLen*nin->axis[axis].size;
+  colStep = rowLen*nin->axis[saxi].size;
 
   outdim = nin->dim-1;
-  for (i=0; i<outdim; i++) {
-    map[i] = i + (i >= axis);
-    szOut[i] = nin->axis[map[i]].size;
+  for (ai=0; ai<outdim; ai++) {
+    map[ai] = ai + (ai >= saxi);
+    szOut[ai] = nin->axis[map[ai]].size;
   }
   nout->blockSize = nin->blockSize;
   if (nrrdMaybeAlloc_nva(nout, nin->type, outdim, szOut)) {
@@ -101,8 +104,8 @@ nrrdSlice(Nrrd *nout, const Nrrd *nin, int axis, int pos) {
   }
 
   /* the skinny */
-  src = nin->data;
-  dest = nout->data;
+  src = (char *)nin->data;
+  dest = (char *)nout->data;
   src += rowLen*pos;
   for (I=0; I<colLen; I++) {
     /* HEY: replace with AIR_MEMCPY() or similar, when applicable */
@@ -116,7 +119,7 @@ nrrdSlice(Nrrd *nout, const Nrrd *nin, int axis, int pos) {
     sprintf(err, "%s:", me);
     biffAdd(NRRD, err); return 1;
   }
-  if (nrrdContentSet(nout, func, nin, "%d,%d", axis, pos)) {
+  if (nrrdContentSet(nout, func, nin, "%d,%d", saxi, pos)) {
     sprintf(err, "%s:", me);
     biffAdd(NRRD, err); return 1;
   }
@@ -135,7 +138,7 @@ nrrdSlice(Nrrd *nout, const Nrrd *nin, int axis, int pos) {
   if (AIR_EXISTS(nout->spaceOrigin[0])) {
     _nrrdSpaceVecScaleAdd2(nout->spaceOrigin,
                            1.0, nin->spaceOrigin,
-                           pos, nin->axis[axis].spaceDirection);
+                           pos, nin->axis[saxi].spaceDirection);
   }
 
   return 0;
@@ -149,17 +152,17 @@ nrrdSlice(Nrrd *nout, const Nrrd *nin, int axis, int pos) {
 ** along each axis.
 */
 int
-nrrdCrop(Nrrd *nout, const Nrrd *nin, int *min, int *max) {
+nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
   char me[]="nrrdCrop", func[] = "crop", err[AIR_STRLEN_MED],
     buff1[NRRD_DIM_MAX*30], buff2[AIR_STRLEN_SMALL];
-  int d,
+  unsigned int ai;
+  size_t I,
     lineSize,                /* #bytes in one scanline to be copied */
     typeSize,                /* size of data type */
     cIn[NRRD_DIM_MAX],       /* coords for line start, in input */
     cOut[NRRD_DIM_MAX],      /* coords for line start, in output */
     szIn[NRRD_DIM_MAX],
-    szOut[NRRD_DIM_MAX];
-  size_t I,
+    szOut[NRRD_DIM_MAX],
     idxIn, idxOut,           /* linear indices for input and output */
     numLines;                /* number of scanlines in output nrrd */
   char *dataIn, *dataOut;
@@ -173,16 +176,18 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, int *min, int *max) {
     sprintf(err, "%s: nout==nin disallowed", me);
     biffAdd(NRRD, err); return 1;
   }
-  for (d=0; d<nin->dim; d++) {
-    if (!(min[d] <= max[d])) {
-      sprintf(err, "%s: axis %d min (%d) not <= max (%d)", 
-              me, d, min[d], max[d]);
+  for (ai=0; ai<nin->dim; ai++) {
+    if (!(min[ai] <= max[ai])) {
+      sprintf(err, "%s: axis %d min (" _AIR_SIZE_T_CNV 
+              ") not <= max (" _AIR_SIZE_T_CNV ")", 
+              me, ai, min[ai], max[ai]);
       biffAdd(NRRD, err); return 1;
     }
-    if (!(AIR_IN_CL(0, min[d], nin->axis[d].size-1) &&
-          AIR_IN_CL(0, max[d], nin->axis[d].size-1))) {
-      sprintf(err, "%s: axis %d min (%d) or max (%d) out of bounds [0,%d]",
-              me, d, min[d], max[d], nin->axis[d].size-1);
+    if (!( min[ai] < nin->axis[ai].size && max[ai] < nin->axis[ai].size )) {
+      sprintf(err, "%s: axis %d min (" _AIR_SIZE_T_CNV  
+              ") or max (" _AIR_SIZE_T_CNV  ") out of bounds [0," 
+              _AIR_SIZE_T_CNV  "]",
+              me, ai, min[ai], max[ai], nin->axis[ai].size-1);
       biffAdd(NRRD, err); return 1;
     }
   }
@@ -195,10 +200,11 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, int *min, int *max) {
   /* allocate */
   nrrdAxisInfoGet_nva(nin, nrrdAxisInfoSize, szIn);
   numLines = 1;
-  for (d=0; d<nin->dim; d++) {
-    szOut[d] = max[d] - min[d] + 1;
-    if (d)
-      numLines *= szOut[d];
+  for (ai=0; ai<nin->dim; ai++) {
+    szOut[ai] = max[ai] - min[ai] + 1;
+    if (ai) {
+      numLines *= szOut[ai];
+    }
   }
   nout->blockSize = nin->blockSize;
   if (nrrdMaybeAlloc_nva(nout, nin->type, nin->dim, szOut)) {
@@ -209,9 +215,9 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, int *min, int *max) {
   
   /* the skinny */
   typeSize = nrrdElementSize(nin);
-  dataIn = nin->data;
-  dataOut = nout->data;
-  memset(cOut, 0, NRRD_DIM_MAX*sizeof(int));
+  dataIn = (char *)nin->data;
+  dataOut = (char *)nout->data;
+  memset(cOut, 0, NRRD_DIM_MAX*sizeof(unsigned int));
   /*
   printf("!%s: nin->dim = %d\n", me, nin->dim);
   printf("!%s: min  = %d %d %d\n", me, min[0], min[1], min[2]);
@@ -222,8 +228,9 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, int *min, int *max) {
   printf("!%s: numLines = %d\n", me, (int)numLines);
   */
   for (I=0; I<numLines; I++) {
-    for (d=0; d<nin->dim; d++)
-      cIn[d] = cOut[d] + min[d];
+    for (ai=0; ai<nin->dim; ai++) {
+      cIn[ai] = cOut[ai] + min[ai];
+    }
     NRRD_INDEX_GEN(idxOut, cOut, szOut, nin->dim);
     NRRD_INDEX_GEN(idxIn, cIn, szIn, nin->dim);
     /*
@@ -243,14 +250,15 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, int *min, int *max) {
     sprintf(err, "%s:", me);
     biffAdd(NRRD, err); return 1;
   }
-  for (d=0; d<nin->dim; d++) {
-    nrrdAxisInfoPosRange(&(nout->axis[d].min), &(nout->axis[d].max),
-                         nin, d, min[d], max[d]);
-    nout->axis[d].kind = _nrrdKindAltered(nin->axis[d].kind);
+  for (ai=0; ai<nin->dim; ai++) {
+    nrrdAxisInfoPosRange(&(nout->axis[ai].min), &(nout->axis[ai].max),
+                         nin, ai, min[ai], max[ai]);
+    nout->axis[ai].kind = _nrrdKindAltered(nin->axis[ai].kind);
   }
   strcpy(buff1, "");
-  for (d=0; d<nin->dim; d++) {
-    sprintf(buff2, "%s[%d,%d]", (d ? "x" : ""), min[d], max[d]);
+  for (ai=0; ai<nin->dim; ai++) {
+    sprintf(buff2, "%s[" _AIR_SIZE_T_CNV  "," _AIR_SIZE_T_CNV  "]",
+            (ai ? "x" : ""), min[ai], max[ai]);
     strcat(buff1, buff2);
   }
   if (nrrdContentSet(nout, func, nin, "%s", buff1)) {
@@ -270,10 +278,10 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, int *min, int *max) {
   }
   /* but we can set the origin more accurately */
   if (AIR_EXISTS(nout->spaceOrigin[0])) {
-    for (d=0; d<nin->dim; d++) {
+    for (ai=0; ai<nin->dim; ai++) {
       _nrrdSpaceVecScaleAdd2(nout->spaceOrigin,
                              1.0, nout->spaceOrigin,
-                             min[d], nin->axis[d].spaceDirection);
+                             min[ai], nin->axis[ai].spaceDirection);
     }
   }
                          

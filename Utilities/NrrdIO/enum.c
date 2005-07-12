@@ -34,8 +34,7 @@ airEnumUnknown(airEnum *enm) {
   
   if (enm && enm->val) {
     return enm->val[0];
-  }
-  else {
+  } else {
     return 0;
   }
 }
@@ -47,20 +46,20 @@ airEnumUnknown(airEnum *enm) {
 ** and enm->desc[] which correspond to that value.  To be safe, when
 ** given an invalid enum value, we return zero.
 */
-int
+unsigned int
 _airEnumIndex(airEnum *enm, int val) {
-  int i, ret;
+  unsigned int ii, ret;
 
   ret = 0;
   if (enm->val) {
-    for (i=1; i<=enm->M; i++) {
-      if (val == enm->val[i]) {
-        ret = i;
+    for (ii=1; ii<=enm->M; ii++) {
+      if (val == enm->val[ii]) {
+        ret = ii;
         break;
       }
     }
   } else {
-    ret = AIR_IN_CL(0, val, enm->M) ? val : 0;
+    ret = AIR_IN_CL(0, val, (int)(enm->M)) ? val : 0; /* HEY scrutinize cast */
   }
   return ret;
 }
@@ -90,10 +89,11 @@ airEnumDesc(airEnum *enm, int val) {
 int 
 airEnumVal(airEnum *enm, const char *str) {
   char *strCpy, test[AIR_STRLEN_SMALL];
-  int i;
+  unsigned int ii;
 
-  if (!str)
+  if (!str) {
     return airEnumUnknown(enm);
+  }
   
   strCpy = airStrdup(str);
   if (!enm->sense) {
@@ -101,27 +101,28 @@ airEnumVal(airEnum *enm, const char *str) {
   }
 
   if (enm->strEqv) {
-    for (i=0; strlen(enm->strEqv[i]); i++) {
-      strncpy(test, enm->strEqv[i], AIR_STRLEN_SMALL);
+    for (ii=0; strlen(enm->strEqv[ii]); ii++) {
+      strncpy(test, enm->strEqv[ii], AIR_STRLEN_SMALL);
       test[AIR_STRLEN_SMALL-1] = '\0';
-      if (!enm->sense)
+      if (!enm->sense) {
         airToLower(test);
+      }
       if (!strcmp(test, strCpy)) {
         free(strCpy);
-        return enm->valEqv[i];
+        return enm->valEqv[ii];
       }
     }
-  }
-  else {
+  } else {
     /* enm->strEqv NULL */
-    for (i=1; i<=enm->M; i++) {
-      strncpy(test, enm->str[i], AIR_STRLEN_SMALL);
+    for (ii=1; ii<=enm->M; ii++) {
+      strncpy(test, enm->str[ii], AIR_STRLEN_SMALL);
       test[AIR_STRLEN_SMALL-1] = '\0';
-      if (!enm->sense)
+      if (!enm->sense) {
         airToLower(test);
+      }
       if (!strcmp(test, strCpy)) {
         free(strCpy);
-        return enm->val ? enm->val[i] : i;
+        return enm->val ? enm->val[ii] : (int)ii; /* HEY scrutinize cast */
       }      
     }
   }

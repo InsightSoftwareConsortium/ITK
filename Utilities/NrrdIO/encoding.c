@@ -52,11 +52,17 @@ _nrrdEncodingUnknown_available(void) {
 }
 
 int
-_nrrdEncodingUnknown_read(FILE *file, void *data, size_t elementNum,
-                          Nrrd *nrrd, struct NrrdIoState_t *nio) {
+_nrrdEncodingUnknown_read(FILE *file, void *data,
+                          size_t elementNum, Nrrd *nrrd,
+                          struct NrrdIoState_t *nio) {
   char me[]="_nrrdEncodingUnknown_read", err[AIR_STRLEN_MED];
 
   /* insert code here, and remove error handling below */
+  AIR_UNUSED(file);
+  AIR_UNUSED(data);
+  AIR_UNUSED(elementNum);
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(nio);
 
   sprintf(err, "%s: ERROR!!! trying to read unknown encoding", me);
   biffAdd(NRRD, err);
@@ -64,11 +70,17 @@ _nrrdEncodingUnknown_read(FILE *file, void *data, size_t elementNum,
 }
 
 int
-_nrrdEncodingUnknown_write(FILE *file, const void *data, size_t elementNum,
-                           const Nrrd *nrrd, struct NrrdIoState_t *nio) {
+_nrrdEncodingUnknown_write(FILE *file, const void *data,
+                           size_t elementNum, const Nrrd *nrrd,
+                           struct NrrdIoState_t *nio) {
   char me[]="_nrrdEncodingUnknown_write", err[AIR_STRLEN_MED];
 
   /* insert code here, and remove error handling below */
+  AIR_UNUSED(file);
+  AIR_UNUSED(data);
+  AIR_UNUSED(elementNum);
+  AIR_UNUSED(nrrd);
+  AIR_UNUSED(nio);
 
   sprintf(err, "%s: ERROR!!! trying to write unknown encoding", me);
   biffAdd(NRRD, err);

@@ -42,7 +42,7 @@ airStrdup(const char *s) {
     ret = NULL;
   }
   else {
-    ret = malloc(strlen(s)+1);
+    ret = (char *)malloc(strlen(s)+1);
     if (ret) {
       strcpy(ret, s);
     }
@@ -124,10 +124,10 @@ airStrtok(char *s, const char *ct, char **last) {
 ** returns the number of tokens parsable by airStrtok(), but does
 ** NOT alter the given string
 */
-int
+unsigned int
 airStrntok(const char *_s, const char *ct) {
   char *s, *t, *l;
-  int n = 0;
+  unsigned int n = 0;
 
   if (_s && ct) {
     s = airStrdup(_s);
@@ -147,7 +147,7 @@ airStrtrans(char *s, char from, char to) {
   
   if (s) {
     l = strlen(s);
-    for (i=0; i<=l-1; i++) {
+    for (i=0; i<l; i++) {
       s[i] = (s[i] == from ? to : s[i]);
     }
   }
@@ -186,7 +186,7 @@ airUnescape(char *s) {
   if (!len) 
     return s;
 
-  for (i=1, j=0; i<=len-1; i++, j++) {
+  for (i=1, j=0; i<len; i++, j++) {
     if (s[i-1] == '\\' && s[i] == '\\') {
       s[j] = '\\'; i++; found = 1;
     } else if (s[i-1] == '\\' && s[i] == 'n') {
@@ -222,13 +222,13 @@ airOneLinify(char *s) {
     return s;
 
   /* convert white space to space (' '), and delete unprintables */
-  for (i=0; i<=len-1; i++) {
+  for (i=0; i<len; i++) {
     if (isspace(s[i])) {
       s[i] = ' ';
       continue;
     }
     if (!isprint(s[i])) {
-      for (j=i; j<=len-1; j++) {
+      for (j=i; j<len; j++) {
         /* this will copy the '\0' at the end */
         s[j] = s[j+1];
       }
@@ -238,9 +238,9 @@ airOneLinify(char *s) {
   }
 
   /* compress all contiguous spaces into one */
-  for (i=0; i<=len-1; i++) {
+  for (i=0; i<len; i++) {
     while (' ' == s[i] && ' ' == s[i+1]) {
-      for (j=i+1; j<=len-1; j++) {
+      for (j=i+1; j<len; j++) {
         s[j] = s[j+1];
       }
     }
@@ -248,8 +248,9 @@ airOneLinify(char *s) {
 
   /* lose trailing white space */
   len = airStrlen(s);
-  for (i=len-1; i>=0 && ' ' == s[i]; i--)
+  for (i=len-1; i>=0 && ' ' == s[i]; i--) {
     s[i] = '\0';
+  }
 
   return s;
 }
@@ -305,8 +306,7 @@ airToUpper(char *str) {
 ** are invalid).  The idea is that the null-termination replaces the
 ** line termination.
 **
-** -1: if arguments are invalid
-** 0: if saw EOF before seeing a newline
+** 0: if saw EOF before seeing a newline, or arguments are invalid
 ** 1: if line was a single newline
 ** n; n <= size: if line was n-1 characters followed by newline
 ** size+1: if didn't see a newline within size-1 characters
@@ -320,13 +320,13 @@ airToUpper(char *str) {
 ** that on those platforms, "\n" by itself does not actually count as
 ** a newline.
 */
-int
+unsigned int
 airOneLine(FILE *file, char *line, int size) {
   int c=0, i;
   
   if (!(size >= 3  /* need room for a character and a Windows newline */
         && line && file)) {
-    return -1;
+    return 0;
   }
   /* c is always set at least once, but not so for any char in line[]  */
   for (i=0;

@@ -48,7 +48,7 @@ typedef union {
 ** wrapper around airOneLine; does re-allocation of line buffer
 ** ("line") in the NrrdIoState if needed.  The return value semantics
 ** are similar, except that what airOneLine would return, we put
-** in *lenP.  If there is an error (airOneLine returned -1, 
+** in *lenP.  If there is an error (airOneLine returned 0, 
 ** something couldn't be allocated), *lenP is set to 0, and 
 ** we return 1.  HITTING EOF IS NOT ACTUALLY AN ERROR, see code
 ** below.  Otherwise we return 0.
@@ -56,11 +56,12 @@ typedef union {
 ** Does use biff
 */
 int
-_nrrdOneLine (int *lenP, NrrdIoState *nio, FILE *file) {
+_nrrdOneLine (unsigned int *lenP, NrrdIoState *nio, FILE *file) {
   char me[]="_nrrdOneLine", err[AIR_STRLEN_MED], **line;
   airArray *mop, *lineArr;
-  int len, lineIdx;
+  int lineIdx;
   _cppu u;
+  unsigned int len;
 
   if (!( lenP && nio && file)) {
     sprintf(err, "%s: got NULL pointer (%p, %p, %p)", me,
@@ -69,15 +70,11 @@ _nrrdOneLine (int *lenP, NrrdIoState *nio, FILE *file) {
   }
   if (0 == nio->lineLen) {
     /* nio->line hasn't been allocated for anything */
-    nio->line = malloc(3);
+    nio->line = (char*)calloc(3, sizeof(char));
     nio->lineLen = 3;
   }
   len = airOneLine(file, nio->line, nio->lineLen);
   if (len <= nio->lineLen) {
-    if (-1 == len) {
-      sprintf(err, "%s: invalid args to airOneLine()", me);
-      biffAdd(NRRD, err); *lenP = 0; return 1;
-    }
     /* otherwise we hit EOF before a newline, or the line (possibly empty)
        fit within the nio->line, neither of which is an error here */
     *lenP = len;
@@ -110,7 +107,7 @@ _nrrdOneLine (int *lenP, NrrdIoState *nio, FILE *file) {
     }
     /* last part did fit in nio->line buffer, also save this into line[] */
     lineIdx = airArrayLenIncr(lineArr, 1);
-    if (-1 == lineIdx) {
+    if (!lineArr->data) {
       sprintf(err, "%s: couldn't increment line buffer array", me);
       biffAdd(NRRD, err); *lenP = 0; airMopError(mop); return 1;
     }
@@ -123,7 +120,7 @@ _nrrdOneLine (int *lenP, NrrdIoState *nio, FILE *file) {
     }
     /* now concatenate everything into a new nio->line */
     strcpy(nio->line, "");
-    for (lineIdx=0; lineIdx<lineArr->len; lineIdx++) {
+    for (lineIdx=0; lineIdx<(int)lineArr->len; lineIdx++) {
       strcat(nio->line, line[lineIdx]);
     }
     *lenP = strlen(nio->line) + 1;
@@ -172,7 +169,8 @@ _nrrdCalloc (Nrrd *nrrd, NrrdIoState *nio, FILE *file) {
       nrrd->data = malloc(needDataSize);
     }
     if (!nrrd->data) {
-      sprintf(err, "%s: couldn't allocate " _AIR_SIZE_T_FMT " things of %d", 
+      sprintf(err, "%s: couldn't allocate " _AIR_SIZE_T_CNV 
+              " things of size " _AIR_SIZE_T_CNV,
               me, nrrdElementNumber(nrrd), nrrdElementSize(nrrd));
       biffAdd(NRRD, err); return 1;
     }
@@ -190,7 +188,7 @@ _nrrdCalloc (Nrrd *nrrd, NrrdIoState *nio, FILE *file) {
 */
 int
 nrrdLineSkip (FILE *dataFile, NrrdIoState *nio) {
-  int i, skipRet;
+  unsigned int lsi, skipRet;
   char me[]="nrrdLineSkip", err[AIR_STRLEN_MED];
 
   /* For compressed data: If you don't actually have ascii headers on
@@ -203,13 +201,15 @@ nrrdLineSkip (FILE *dataFile, NrrdIoState *nio) {
     biffAdd(NRRD, err); return 1;
   }
 
-  for (i=1; i<=nio->lineSkip; i++) {
+  for (lsi=0; lsi<nio->lineSkip; lsi++) {
     if (_nrrdOneLine(&skipRet, nio, dataFile)) {
-      sprintf(err, "%s: error skipping line %d of %d", me, i, nio->lineSkip);
+      sprintf(err, "%s: error skipping line %u of %u",
+              me, lsi+1, nio->lineSkip);
       biffAdd(NRRD, err); return 1;
     }
     if (!skipRet) {
-      sprintf(err, "%s: hit EOF skipping line %d of %d", me, i, nio->lineSkip);
+      sprintf(err, "%s: hit EOF skipping line %u of %u",
+              me, lsi+1, nio->lineSkip);
       biffAdd(NRRD, err); return 1;
     }
   }
@@ -251,7 +251,7 @@ nrrdByteSkip (FILE *dataFile, Nrrd *nrrd, NrrdIoState *nio) {
     bsize = nrrdElementNumber(nrrd)/_nrrdDataFNNumber(nio);
     bsize *= nrrdElementSize(nrrd);
     if (fseek(dataFile, -((long)bsize), SEEK_END)) {
-      sprintf(err, "%s: failed to fseek(dataFile, " _AIR_SIZE_T_FMT
+      sprintf(err, "%s: failed to fseek(dataFile, " _AIR_SIZE_T_CNV
               ", SEEK_END)", me, bsize);
       biffAdd(NRRD, err); return 1;      
     }
@@ -287,7 +287,8 @@ nrrdByteSkip (FILE *dataFile, Nrrd *nrrd, NrrdIoState *nio) {
 int
 nrrdRead (Nrrd *nrrd, FILE *file, NrrdIoState *nio) {
   char me[]="nrrdRead", err[AIR_STRLEN_MED];
-  int len, fi;
+  unsigned int llen;
+  int nfi;
   airArray *mop; 
 
   /* sanity check, for good measure */
@@ -325,21 +326,21 @@ nrrdRead (Nrrd *nrrd, FILE *file, NrrdIoState *nio) {
   /* initialize given nrrd (but we have thwarted freeing existing memory)  */
   nrrdInit(nrrd);
 
-  if (_nrrdOneLine(&len, nio, file)) {
+  if (_nrrdOneLine(&llen, nio, file)) {
     sprintf(err, "%s: error getting first line (containing \"magic\")", me);
     biffAdd(NRRD, err); airMopError(mop); return 1;
   }
-  if (!len) {
+  if (!llen) {
      sprintf(err, "%s: immediately hit EOF", me);
     biffAdd(NRRD, err); airMopError(mop); return 1;
   }
   
   nio->format = nrrdFormatUnknown;
-  for (fi = nrrdFormatTypeUnknown+1; 
-       fi < nrrdFormatTypeLast; 
-       fi++) {
-    if (nrrdFormatArray[fi]->contentStartsLike(nio)) {
-      nio->format = nrrdFormatArray[fi];
+  for (nfi = nrrdFormatTypeUnknown+1; 
+       nfi < nrrdFormatTypeLast; 
+       nfi++) {
+    if (nrrdFormatArray[nfi]->contentStartsLike(nio)) {
+      nio->format = nrrdFormatArray[nfi];
       break;
     }
   }
@@ -398,10 +399,10 @@ _nrrdSplitName (char **dirP, char **baseP, const char *name) {
   char *where;
   
   if (dirP) {
-    *dirP = airFree(*dirP);
+    *dirP = (char *)airFree(*dirP);
   }
   if (baseP) {
-    *baseP = airFree(*baseP);
+    *baseP = (char *)airFree(*baseP);
   }
   where = strrchr(name, '/');
   /* we found a valid break if the last directory character

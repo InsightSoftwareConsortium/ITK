@@ -566,7 +566,7 @@ _nrrdGzDestroy(_NrrdGzStream *s) {
     biffAdd(NRRD, err);
     return 1;
   }
-  s->msg = airFree(s->msg);
+  s->msg = (char *)airFree(s->msg);
   if (s->stream.state != NULL) {
     if (s->mode == 'w') {
       error = deflateEnd(&(s->stream));
@@ -583,9 +583,9 @@ _nrrdGzDestroy(_NrrdGzStream *s) {
     sprintf(err, "%s: %s", me, _NRRD_GZ_ERR_MSG(error));
     biffAdd(NRRD, err);
   }
-  s->inbuf = airFree(s->inbuf);
-  s->outbuf = airFree(s->outbuf);
-  s = airFree(s);
+  s->inbuf = (Byte *)airFree(s->inbuf);
+  s->outbuf = (Byte *)airFree(s->outbuf);
+  s = (_NrrdGzStream *)airFree(s);
   return error != Z_OK;
 }
 
@@ -681,69 +681,3 @@ _nrrdGzDummySymbol(void) {
   return 42;
 }
 
-
-/* ---------- tests to see how to reconcile 
-** C's "error: parameter name omitted" with
-** C++'s "warning: unused parameter"
-*/
-
-/* not valid C
-void
-_nrrdGzTestHelp0(int) {
-  return;
-}
-*/
-
-void
-_nrrdGzTestHelp1(int val) {
-  val = (int)sqrt((int)val);
-  return;
-}
-
-int
-_nrrdGzTestHelp2(int val) {
-  return 42 + val;
-}
-
-int
-_nrrdGzTest0() {
-  return 42;
-}
-
-/* not valid C
-int
-_nrrdGzTest1(int) {
-  return 42;
-}
-*/
-
-/* will cause unused parameter warning
-int
-_nrrdGzTest2(int val) {
-  return 42;
-}
-*/
-
-int
-_nrrdGzTest3(int val) {
-  val = val;
-  return 42;
-}
-
-int
-_nrrdGzTest4(int val) {
-  (void)val;
-  return 42;
-}
-
-int
-_nrrdGzTest5(int val) {
-  _nrrdGzTestHelp1(val);
-  return 42;
-}
-
-int
-_nrrdGzTest6(int val) {
-  _nrrdGzTestHelp2(val);
-  return 42;
-}

@@ -76,6 +76,8 @@ read-only (R) things (seen on Linux) and "other" (S) things
 #define airParseStrF itk_airParseStrF
 #define airParseStrI itk_airParseStrI
 #define airParseStrS itk_airParseStrS
+#define airParseStrUI itk_airParseStrUI
+#define airParseStrZ itk_airParseStrZ
 #define airSingleSscanf itk_airSingleSscanf
 #define _airNoDioErr itk__airNoDioErr
 #define airDioInfo itk_airDioInfo
@@ -118,7 +120,6 @@ read-only (R) things (seen on Linux) and "other" (S) things
 #define airFclose itk_airFclose
 #define airFopen itk_airFopen
 #define airFree itk_airFree
-#define airFreeP itk_airFreeP
 #define airMy32Bit itk_airMy32Bit
 #define airNull itk_airNull
 #define airSetNull itk_airSetNull

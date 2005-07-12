@@ -68,11 +68,12 @@ _nrrdEncodingHex_read(FILE *file, void *_data, size_t elNum,
   size_t nibIdx, nibNum;
   unsigned char *data;
   int car=0, nib;
-  
+
+  AIR_UNUSED(nio);
   data = (unsigned char *)_data;
   nibIdx = 0;
   nibNum = 2*elNum*nrrdElementSize(nrrd);
-  if ((int)(nibNum/elNum) != 2*nrrdElementSize(nrrd)) {
+  if (nibNum/elNum != 2*nrrdElementSize(nrrd)) {
     sprintf(err, "%s: size_t can't hold 2*(#bytes in array)\n", me);
     biffAdd(NRRD, err); return 1;
   }
@@ -95,11 +96,11 @@ _nrrdEncodingHex_read(FILE *file, void *_data, size_t elNum,
   if (nibIdx != nibNum) {
     if (EOF == car) {
       sprintf(err, "%s: hit EOF getting "
-              "byte " _AIR_SIZE_T_FMT " of " _AIR_SIZE_T_FMT,
+              "byte " _AIR_SIZE_T_CNV " of " _AIR_SIZE_T_CNV,
               me, nibIdx/2, nibNum/2);
     } else {
       sprintf(err, "%s: hit invalid character ('%c') getting "
-              "byte " _AIR_SIZE_T_FMT " of " _AIR_SIZE_T_FMT,
+              "byte " _AIR_SIZE_T_CNV " of " _AIR_SIZE_T_CNV,
               me, car, nibIdx/2, nibNum/2);
     }
     biffAdd(NRRD, err); return 1;
@@ -114,6 +115,7 @@ _nrrdEncodingHex_write(FILE *file, const void *_data, size_t elNum,
   unsigned char *data;
   size_t byteIdx, byteNum;
 
+  AIR_UNUSED(nio);
   data = (unsigned char*)_data;
   byteNum = elNum*nrrdElementSize(nrrd);
   for (byteIdx=0; byteIdx<byteNum; byteIdx++) {

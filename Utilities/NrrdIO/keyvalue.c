@@ -36,11 +36,11 @@
 **
 ** returns the number of key/value pairs in a nrrd
 */
-int
+unsigned int
 nrrdKeyValueSize(const Nrrd *nrrd) {
   
   if (!nrrd) {
-    return -1;
+    return 0;
   }
   return nrrd->kvpArr->len;
 }
@@ -57,12 +57,16 @@ nrrdKeyValueSize(const Nrrd *nrrd) {
 ** to AIR_FALSE
 */
 void
-nrrdKeyValueIndex(const Nrrd *nrrd, char **keyP, char **valueP, int ki) {
+nrrdKeyValueIndex(const Nrrd *nrrd, char **keyP, char **valueP,
+                  unsigned int ki) {
   
-  if (!( nrrd && keyP && valueP 
-         && AIR_IN_CL(0, ki, nrrd->kvpArr->len-1) )) {
-    if (keyP) *keyP = NULL;
-    if (valueP) *valueP = NULL;
+  if (!( nrrd && keyP && valueP && ki < nrrd->kvpArr->len )) {
+    if (keyP) {
+      *keyP = NULL;
+    }
+    if (valueP) {
+      *valueP = NULL;
+    }
     return;
   }
   if (nrrdStateKeyValueReturnInternalPointers) {
@@ -77,7 +81,7 @@ nrrdKeyValueIndex(const Nrrd *nrrd, char **keyP, char **valueP, int ki) {
 
 int
 _nrrdKeyValueIdxFind(const Nrrd *nrrd, const char *key) {
-  int nk, ki;
+  unsigned int nk, ki;
 
   nk = nrrd->kvpArr->len;
   for (ki=0; ki<nk; ki++) {
@@ -85,20 +89,21 @@ _nrrdKeyValueIdxFind(const Nrrd *nrrd, const char *key) {
       break;
     }
   }
-  return (ki<nk ? ki : -1);
+  return (ki<nk ? (int)ki : -1);  /* HEY scrutinize cast */
 }
 
 void
 nrrdKeyValueClear(Nrrd *nrrd) {
-  int nk, ki;
+  unsigned int nk, ki;
 
-  if (!nrrd)
+  if (!nrrd) {
     return;
+  }
 
   nk = nrrd->kvpArr->len;
   for (ki=0; ki<nk; ki++) {
-    nrrd->kvp[0 + 2*ki] = airFree(nrrd->kvp[0 + 2*ki]);
-    nrrd->kvp[1 + 2*ki] = airFree(nrrd->kvp[1 + 2*ki]);
+    nrrd->kvp[0 + 2*ki] = (char *)airFree(nrrd->kvp[0 + 2*ki]);
+    nrrd->kvp[1 + 2*ki] = (char *)airFree(nrrd->kvp[1 + 2*ki]);
   }
   airArrayLenSet(nrrd->kvpArr, 0);
   
@@ -107,7 +112,8 @@ nrrdKeyValueClear(Nrrd *nrrd) {
 
 int
 nrrdKeyValueErase(Nrrd *nrrd, const char *key) {
-  int nk, ki;
+  unsigned int nk;
+  int ki;
   
   if (!( nrrd && key )) {
     /* got NULL pointer */
@@ -117,10 +123,10 @@ nrrdKeyValueErase(Nrrd *nrrd, const char *key) {
   if (-1 == ki) {
     return 0;
   }
-  nrrd->kvp[0 + 2*ki] = airFree(nrrd->kvp[0 + 2*ki]);
-  nrrd->kvp[1 + 2*ki] = airFree(nrrd->kvp[1 + 2*ki]);
+  nrrd->kvp[0 + 2*ki] = (char *)airFree(nrrd->kvp[0 + 2*ki]);
+  nrrd->kvp[1 + 2*ki] = (char *)airFree(nrrd->kvp[1 + 2*ki]);
   nk = nrrd->kvpArr->len;
-  for (; ki<nk-1; ki++) {
+  for (; ki<(int)nk-1; ki++) {  /* HEY scrutize cast */
     nrrd->kvp[0 + 2*ki] = nrrd->kvp[0 + 2*(ki+1)];
     nrrd->kvp[1 + 2*ki] = nrrd->kvp[1 + 2*(ki+1)];
   }
@@ -148,7 +154,7 @@ nrrdKeyValueAdd(Nrrd *nrrd, const char *key, const char *value) {
     return 1;
   }
   if (-1 != (ki = _nrrdKeyValueIdxFind(nrrd, key))) {
-    nrrd->kvp[1 + 2*ki] = airFree(nrrd->kvp[1 + 2*ki]);
+    nrrd->kvp[1 + 2*ki] = (char *)airFree(nrrd->kvp[1 + 2*ki]);
     nrrd->kvp[1 + 2*ki] = airStrdup(value);
   } else {
     ki = airArrayLenIncr(nrrd->kvpArr, 1);
@@ -240,7 +246,7 @@ _nrrdKeyValueFwrite(FILE *file, const char *prefix,
 int
 nrrdKeyValueCopy(Nrrd *nout, const Nrrd *nin) {
   char *key, *value;
-  int ki;
+  unsigned int ki;
 
   if (!(nout && nin)) {
     /* got NULL pointer */

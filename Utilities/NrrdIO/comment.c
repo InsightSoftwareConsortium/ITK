@@ -61,7 +61,7 @@ nrrdCommentAdd(Nrrd *nrrd, const char *_str) {
   /* clean out carraige returns that would screw up reader */
   airOneLinify(str);
   i = airArrayLenIncr(nrrd->cmtArr, 1);
-  if (-1 == i) {
+  if (!nrrd->cmtArr->data) {
     /*
     sprintf(err, "%s: couldn't lengthen comment array", me);
     biffMaybeAdd(NRRD, err, useBiff);

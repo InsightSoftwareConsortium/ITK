@@ -26,7 +26,7 @@
 #include "NrrdIO.h"
 
 void
-_airLenSet(airArray *a, int len) {
+_airLenSet(airArray *a, unsigned int len) {
   
   a->len = len;
   /* printf("    HEY: len = %d\n", a->len); */
@@ -65,7 +65,7 @@ _airSetData(airArray *a, void *data) {
 ** correct value will over-write any other.
 */
 airArray *
-airArrayNew(void **dataP, int *lenP, size_t unit, int incr) {
+airArrayNew(void **dataP, unsigned int *lenP, size_t unit, unsigned int incr) {
   airArray *a;
 
   if (unit<=0 || incr<=0) {
@@ -133,14 +133,19 @@ airArrayPointerCB(airArray *a,
 ** allocates the array to hold up to given length, without 
 ** actually changing the length.  In order for this to be 
 ** useful, this also turns on noReallocWhenSmaller
+**
+** NB: this used to have a "boolean" return to indicate allocation
+** error, but nothing in Teem actually did the error checking.  Now
+** conscientious users can look at NULL-ity of a->data to detect such
+** an error.
 */
-int
-airArrayLenPreSet(airArray *a, int newlen) {
-  int newsize;
+void
+airArrayLenPreSet(airArray *a, unsigned int newlen) {
+  unsigned int newsize;
   void *newdata;
 
-  if (!a || newlen < 0) {
-    return 1;
+  if (!a) {
+    return;
   }
 
   if (newlen == 0) {
@@ -151,7 +156,9 @@ airArrayLenPreSet(airArray *a, int newlen) {
     if (newsize > a->size) {
       newdata = calloc(newsize*a->incr, a->unit);
       if (!newdata) {
-        return 1;
+        free(a->data);
+        _airSetData(a, NULL);
+        return;
       }
       memcpy(newdata, a->data, AIR_MIN(a->len*a->unit, 
                                        newsize*a->incr*a->unit));
@@ -162,7 +169,7 @@ airArrayLenPreSet(airArray *a, int newlen) {
     a->noReallocWhenSmaller = AIR_TRUE;
   }
 
-  return 0;
+  return;
 }
 
 /*
@@ -176,24 +183,32 @@ airArrayLenPreSet(airArray *a, int newlen) {
 ** In case we can't allocate the new space, the old space is left untouched,
 ** however if the new length is smaller, the free/done callbacks will
 ** have been called on invalidated elements 
+**
+** NB: this used to have a "boolean" return to indicate allocation
+** error, but almost nothing in Teem actually did the error checking.
+** Now conscientious users can look at NULL-ity of a->data to detect
+** such an error.
 */
-int
-airArrayLenSet(airArray *a, int newlen) {
-  int i, newsize;
+void
+airArrayLenSet(airArray *a, unsigned int newlen) {
+  unsigned int newsize;
+  int ii;
   void *addr, *newdata;
   
-  if (!a || newlen < 0) {
-    return 1;
+  if (!a) {
+    /* user is a moron, what can you do */
+    return;
   }
 
   if (newlen == a->len) {
-    return 0;
+    /* nothing to do */
+    return;
   }
 
   /* call freeCB/doneCB on all the elements which are going bye-bye */
   if (newlen < a->len && (a->freeCB || a->doneCB)) {
-    for (i=a->len-1; i>=newlen; i--) {
-      addr = (char*)(a->data) + i*a->unit;
+    for (ii=a->len-1; ii>=(int)newlen; ii--) {
+      addr = (char*)(a->data) + ii*a->unit;
       if (a->freeCB) {
         (a->freeCB)(*((void**)addr));
       } else {
@@ -211,7 +226,9 @@ airArrayLenSet(airArray *a, int newlen) {
           || (newsize < a->size && !(a->noReallocWhenSmaller)) ) {
         newdata = calloc(newsize*a->incr, a->unit);
         if (!newdata) {
-          return 1;
+          free(a->data);
+          _airSetData(a, NULL);
+          return;
         }
         memcpy(newdata, a->data, AIR_MIN(a->len*a->unit, 
                                          newsize*a->incr*a->unit));
@@ -231,8 +248,8 @@ airArrayLenSet(airArray *a, int newlen) {
 
   /* call allocCB/initCB on newly created elements */
   if (newlen > a->len && (a->allocCB || a->initCB)) {
-    for (i=newlen; i<=a->len-1; i++) {
-      addr = (char*)(a->data) + i*a->unit;
+    for (ii=newlen; ii<(int)(a->len); ii++) {
+      addr = (char*)(a->data) + ii*a->unit;
       if (a->allocCB) {
         *((void**)addr) = (a->allocCB)();
       } else {
@@ -242,33 +259,39 @@ airArrayLenSet(airArray *a, int newlen) {
   }
   _airLenSet(a, newlen);
 
-
-  return 0;
+  return;
 }
 
 /*
 ******** airArrayLenIncr()
 **
 ** Like airArrayLenSet, but works with an increment instead of an
-** absolute length.  Return value is different: if there was an
-** error, the return is -1.  If no error, then return depends on
-** if delta was positive or negative: if delta <= 0; return 0,
-** otherwise return the index of the first element in the newly
-** allocated segment (a->len before length was increased)
+** absolute length.  Return value is different: 
+**             got NULL: return 0
+**     allocation error: return 0, and a->data set to NULL
+**  no error, delta > 0: return index of 1st element in newly allocated
+**                       segment (a->len before length was increased)
+** no error, delta <= 0: return 0, and a->data unchanged
 */
-int
+unsigned int
 airArrayLenIncr(airArray *a, int delta) {
-  int base, err, ret;
+  unsigned int oldlen, ret;
 
-  if (!a)
-    return -1;
-
-  base = a->len;
-  err = airArrayLenSet(a, delta + base);
-  if (err) {
-    ret = -1;
+  if (!a) {
+    return 0;
+  }
+  if (delta < 0 && (unsigned int)(-delta) > a->len) {
+    /* error: asked for newlength to be negative */
+    airArrayLenSet(a, 0);
+    return 0;
+  }
+  oldlen = a->len;
+  airArrayLenSet(a, oldlen + delta);
+  if (!a->data) {
+    /* allocation error */
+    ret = 0;
   } else {
-    ret = (delta <= 0 ? 0 : base);
+    ret = (delta <= 0 ? 0 : oldlen);
   }
 
   return ret;

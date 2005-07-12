@@ -52,7 +52,8 @@ int
 nrrdIoStateDataFileIterNext(FILE **fileP, NrrdIoState *nio, int reading) {
   char me[]="nrrdIoStateDataFileIterNext", *err;
   char *fname=NULL;
-  int ii, num, needPath;
+  int ii, needPath;
+  unsigned int num, fi;
   size_t maxl;
   airArray *mop;
 
@@ -92,9 +93,9 @@ nrrdIoStateDataFileIterNext(FILE **fileP, NrrdIoState *nio, int reading) {
       /* assuming 10-digit integers is plenty big */
       maxl = 10 + strlen(nio->dataFNFormat);
     } else {
-      for (ii=0; ii<nio->dataFNArr->len; ii++) {
-        needPath |= _NEED_PATH(nio->dataFN[ii]);
-        maxl = AIR_MAX(maxl, strlen(nio->dataFN[ii]));
+      for (fi=0; fi<nio->dataFNArr->len; fi++) {
+        needPath |= _NEED_PATH(nio->dataFN[fi]);
+        maxl = AIR_MAX(maxl, strlen(nio->dataFN[fi]));
       }
     }
     if (needPath && !airStrlen(nio->path)) {
@@ -124,7 +125,7 @@ nrrdIoStateDataFileIterNext(FILE **fileP, NrrdIoState *nio, int reading) {
          ((nio->dataFNStep > 0 && ii <= nio->dataFNMax)
           || (nio->dataFNStep < 0 && ii >= nio->dataFNMax));
          ii += nio->dataFNStep) {
-      if (num == nio->dataFNIndex) {
+      if ((int)num == nio->dataFNIndex) {  /* HEY scrutinize cast */
         break;
       }
       num += 1;
@@ -306,7 +307,8 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
     *err; /* NOTE: err really does have to be dynamically 
              allocated because of the arbitrary-sized input lines
              that it may have to copy */
-  int ret, len;
+  int ret;
+  unsigned int llen;
   size_t valsPerPiece;
   char *data;
   FILE *dataFile=NULL;
@@ -327,15 +329,15 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
     /* parse all the header lines */
     do {
       nio->pos = 0;
-      if (_nrrdOneLine(&len, nio, file)) {
+      if (_nrrdOneLine(&llen, nio, file)) {
         if ((err = (char*)malloc(AIR_STRLEN_MED))) {
           sprintf(err, "%s: trouble getting line of header", me);
           biffAdd(NRRD, err); free(err);
         }
         return 1;
       }
-      if (len > 1) {
-        ret = _nrrdReadNrrdParseField(nrrd, nio, AIR_TRUE);
+      if (llen > 1) {
+        ret = _nrrdReadNrrdParseField(nio, AIR_TRUE);
         if (!ret) {
           if ((err = (char*)malloc(AIR_STRLEN_MED + strlen(nio->line)))) {
             sprintf(err, "%s: trouble parsing field in \"%s\"", me, nio->line);
@@ -367,11 +369,11 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
         }
         nio->seen[ret] = AIR_TRUE;
       }
-    } while (len > 1);
+    } while (llen > 1);
     /* either
-       0 == len: we're at EOF, or
-       1 == len: we just read the empty line seperating header from data */
-    if (0 == len 
+       0 == llen: we're at EOF, or
+       1 == llen: we just read the empty line seperating header from data */
+    if (0 == llen 
         && !nio->dataFNFormat
         && 0 == nio->dataFNArr->len) { 
       /* we're at EOF, but there's apparently no seperate data file */
@@ -386,7 +388,7 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
   if (_nrrdHeaderCheck(nrrd, nio, !!file)) {
     if ((err = (char*)malloc(AIR_STRLEN_MED))) {
       sprintf(err, "%s: %s", me, 
-              (len ? "finished reading header, but there were problems"
+              (llen ? "finished reading header, but there were problems"
                : "hit EOF before seeing a complete valid header"));
       biffAdd(NRRD, err); free(err);
     }
@@ -506,6 +508,7 @@ int
 _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdFormatNRRD_write", err[AIR_STRLEN_MED], *tmp;
   int ii;
+  unsigned int jj;
   airArray *mop;
   FILE *dataFile=NULL;
   size_t valsPerPiece;
@@ -554,8 +557,8 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
     }
     airMopAdd(mop, tmp, airFree, airMopOnError);
     sprintf(tmp, "%s.%s", nio->base, nio->encoding->suffix);
-    ii = airArrayLenIncr(nio->dataFNArr, 1);
-    nio->dataFN[ii] = tmp;
+    jj = airArrayLenIncr(nio->dataFNArr, 1); /* HEY error checking */
+    nio->dataFN[jj] = tmp;
   }
   
   fprintf(file, "%s%04d\n", MAGIC, _nrrdFormatNRRD_whichVersion(nrrd, nio));
@@ -568,11 +571,11 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
   }
 
   /* comments and key/values handled differently */
-  for (ii=0; ii<nrrd->cmtArr->len; ii++) {
-    fprintf(file, "%c %s\n", NRRD_COMMENT_CHAR, nrrd->cmt[ii]);
+  for (jj=0; jj<nrrd->cmtArr->len; jj++) {
+    fprintf(file, "%c %s\n", NRRD_COMMENT_CHAR, nrrd->cmt[jj]);
   }
-  for (ii=0; ii<nrrd->kvpArr->len; ii++) {
-    _nrrdKeyValueFwrite(file, NULL, nrrd->kvp[0 + 2*ii], nrrd->kvp[1 + 2*ii]);
+  for (jj=0; jj<nrrd->kvpArr->len; jj++) {
+    _nrrdKeyValueFwrite(file, NULL, nrrd->kvp[0 + 2*jj], nrrd->kvp[1 + 2*jj]);
   }
 
   if (!( nio->detachedHeader || _nrrdDataFNNumber(nio) > 1 )) {
