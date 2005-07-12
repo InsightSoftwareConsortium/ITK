@@ -77,6 +77,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkDeformationFieldSource.txx"
 #include "itkDerivativeImageFilter.txx"
 #include "itkDifferenceOfGaussiansGradientImageFilter.txx"
+#include "itkDiffusionTensor3DReconstructionImageFilter.txx"
 #include "itkDilateObjectMorphologyImageFilter.txx"
 #include "itkDirectedHausdorffDistanceImageFilter.txx"
 #include "itkDiscreteGaussianImageFilter.txx"

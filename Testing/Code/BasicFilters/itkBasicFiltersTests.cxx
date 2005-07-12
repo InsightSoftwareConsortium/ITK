@@ -76,6 +76,7 @@ void RegisterTests()
   REGISTER_TEST(itkDeformationFieldSourceTest );
   REGISTER_TEST(itkDerivativeImageFilterTest );
   REGISTER_TEST(itkDifferenceOfGaussiansGradientTest );
+  REGISTER_TEST(itkDiffusionTensor3DReconstructionImageFilterTest);
   REGISTER_TEST(itkDiscreteGaussianImageFilterTest );
   REGISTER_TEST(itkDivideImageFilterTest );
   REGISTER_TEST(itkDoubleThresholdImageFilterTest );

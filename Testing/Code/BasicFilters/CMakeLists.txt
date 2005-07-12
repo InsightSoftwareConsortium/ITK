@@ -73,6 +73,7 @@ ADD_TEST(itkCyclicReferences ${BASIC_FILTERS_TESTS} itkCyclicReferences)
 ADD_TEST(itkDanielssonDistanceMapImageFilterTest ${BASIC_FILTERS_TESTS} itkDanielssonDistanceMapImageFilterTest)
 ADD_TEST(itkSignedDanielssonDistanceMapImageFilterTest ${BASIC_FILTERS_TESTS2} itkSignedDanielssonDistanceMapImageFilterTest)
 ADD_TEST(itkDerivativeImageFilterTest ${BASIC_FILTERS_TESTS} itkDerivativeImageFilterTest)
+ADD_TEST(itkDiffusionTensor3DReconstructionImageFilterTest ${BASIC_FILTERS_TESTS} itkDiffusionTensor3DReconstructionImageFilterTest)
 ADD_TEST(itkInverseDeformationFieldImageFilterTest ${BASIC_FILTERS_TESTS} itkInverseDeformationFieldImageFilterTest
            ${TEMP}/itkInverseDeformationFieldImageFilterTest.mha
            )
@@ -599,6 +600,7 @@ itkDanielssonDistanceMapImageFilterTest.cxx
 itkDerivativeImageFilterTest.cxx
 itkDeformationFieldSourceTest.cxx
 itkDifferenceOfGaussiansGradientTest.cxx
+itkDiffusionTensor3DReconstructionImageFilterTest.cxx
 itkDiscreteGaussianImageFilterTest.cxx
 itkDivideImageFilterTest.cxx
 itkDoubleThresholdImageFilterTest.cxx

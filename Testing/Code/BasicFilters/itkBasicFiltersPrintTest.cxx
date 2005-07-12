@@ -60,6 +60,7 @@
 #include "itkSignedDanielssonDistanceMapImageFilter.h"
 #include "itkDerivativeImageFilter.h"
 #include "itkDifferenceOfGaussiansGradientImageFilter.h"
+#include "itkDiffusionTensor3DReconstructionImageFilter.h"
 #include "itkDilateObjectMorphologyImageFilter.h"
 #include "itkDirectedHausdorffDistanceImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
@@ -297,6 +298,10 @@ int itkBasicFiltersPrintTest(int , char* [])
   itk::DifferenceOfGaussiansGradientImageFilter<InputType,float>::Pointer DifferenceOfGaussiansGradientImageFilterObj =
     itk::DifferenceOfGaussiansGradientImageFilter<InputType,float>::New();
   std::cout << "-------------DifferenceOfGaussiansGradientImageFilter" << DifferenceOfGaussiansGradientImageFilterObj;
+
+  itk::DiffusionTensor3DReconstructionImageFilter<float,double,float>::Pointer DiffusionTensor3DReconstructionImageFilterObj =
+    itk::DiffusionTensor3DReconstructionImageFilter<float,double,float>::New();
+  std::cout << "-------------DiffusionTensor3DReconstructionImageFilter" << DiffusionTensor3DReconstructionImageFilterObj;
 
   itk::DilateObjectMorphologyImageFilter<InputType,OutputType,KernelType>::Pointer DilateObjectMorphologyImageFilterObj =
     itk::DilateObjectMorphologyImageFilter<InputType,OutputType,KernelType>::New();
