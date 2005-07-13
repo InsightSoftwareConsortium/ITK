@@ -90,9 +90,9 @@ airSanity(void) {
   if (AIR_EXISTS(nan)) {
     return airInsane_NaNExists;
   }
-  nanF = nan;
-  pinfF = pinf;
-  ninfF = ninf;
+  nanF = (float)nan;
+  pinfF = (float)pinf;
+  ninfF = (float)ninf;
   airFPValToParts_f(&sign, &exp, &mant, nanF);
   mant >>= 22;
   if (AIR_QNANHIBIT != (int)mant) {

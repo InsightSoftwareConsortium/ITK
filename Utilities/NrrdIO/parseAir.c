@@ -117,7 +117,7 @@ airSingleSscanf(const char *str, const char *fmt, void *ptr) {
     }
     else {
       /* we were given a float pointer */
-      *((float *)(ptr)) = val;
+      *((float *)(ptr)) = (float)val;
     }
     free(tmp);
     return 1;

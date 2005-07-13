@@ -427,16 +427,16 @@ airFPClass_d(double val) {
 ******** airIsNaN()
 **
 ** returns 1 if input is either kind of NaN, 0 otherwise.  It is okay
-** to only have a a float version of this function, as opposed to
+** to only have a double version of this function, as opposed to
 ** having one for float and one for double, because Section 6.2 of the
 ** 754 spec tells us that that NaN is to be preserved across precision
 ** changes (and airSanity() explicitly checks for this).
 */
 int
-airIsNaN(float g) {
+airIsNaN(double g) {
   _airFloat f;
   
-  f.v = g;
+  f.v = (float)g;
   return (0xff == f.c.expo && f.c.mant);
 }
 

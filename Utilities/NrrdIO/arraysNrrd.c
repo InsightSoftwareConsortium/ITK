@@ -108,32 +108,32 @@ nrrdTypeIsUnsigned[NRRD_TYPE_MAX+1] = {
 */
 const double
 nrrdTypeMin[NRRD_TYPE_MAX+1] = {
-  0,               /* unknown */
-  SCHAR_MIN,       /* char */
-  0,               /* unsigned char */
-  SHRT_MIN,        /* short */
-  0,               /* unsigned short */
-  INT_MIN,         /* int */
-  0,               /* unsigned int */
-  NRRD_LLONG_MIN,  /* long long */
-  0,               /* unsigned long long */
-  0,               /* float */
-  0,               /* double */
-  0                /* punt */
+  0,                       /* unknown */
+  SCHAR_MIN,               /* char */
+  0,                       /* unsigned char */
+  SHRT_MIN,                /* short */
+  0,                       /* unsigned short */
+  INT_MIN,                 /* int */
+  0,                       /* unsigned int */
+  (double)NRRD_LLONG_MIN,  /* long long */
+  0,                       /* unsigned long long */
+  0,                       /* float */
+  0,                       /* double */
+  0                        /* punt */
 },
 nrrdTypeMax[NRRD_TYPE_MAX+1] = {
-  0,               /* unknown */
-  SCHAR_MAX,       /* char */
-  UCHAR_MAX,       /* unsigned char */
-  SHRT_MAX,        /* short */
-  USHRT_MAX,       /* unsigned short */
-  INT_MAX,         /* int */
-  UINT_MAX,        /* unsigned int */
-  NRRD_LLONG_MAX,  /* long long */
-  NRRD_ULLONG_MAX, /* unsigned long long */
-  0,               /* float */
-  0,               /* double */
-  0                /* punt */
+  0,                       /* unknown */
+  SCHAR_MAX,               /* char */
+  UCHAR_MAX,               /* unsigned char */
+  SHRT_MAX,                /* short */
+  USHRT_MAX,               /* unsigned short */
+  INT_MAX,                 /* int */
+  UINT_MAX,                /* unsigned int */
+  (double)NRRD_LLONG_MAX,  /* long long */
+  (double)NRRD_ULLONG_MAX, /* unsigned long long */
+  0,                       /* float */
+  0,                       /* double */
+  0                        /* punt */
 };
 
 /*

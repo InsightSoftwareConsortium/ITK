@@ -52,18 +52,6 @@ extern "C" {
 #  define TEEM_API extern
 #endif
 
-/* Hopefully GLK has finally cleaned these all up ...
-  #if defined(_MSC_VER)
-  / * get rid of some warnings on VC++ * /
-  #  pragma warning ( disable : 4244 )
-  #  pragma warning ( disable : 4305 )
-  #  pragma warning ( disable : 4309 )
-  #  pragma warning ( disable : 4273 )
-  #  pragma warning ( disable : 4756 )
-  #  pragma warning ( disable : 4723 )
-  #endif
-*/
-
 #if defined(_WIN32) && !defined(__CYGWIN__) && !defined(__MINGW32__)
 typedef signed __int64 airLLong;
 typedef unsigned __int64 airULLong;
@@ -266,7 +254,7 @@ TEEM_API const airFloat airFloatSNaN;
 TEEM_API const airFloat airFloatPosInf;
 TEEM_API const airFloat airFloatNegInf;
 TEEM_API float airNaN(void);
-TEEM_API int airIsNaN(float f);
+TEEM_API int airIsNaN(double d);
 TEEM_API int airIsInf_f(float f);
 TEEM_API int airIsInf_d(double d);
 TEEM_API int airExists(double d);
