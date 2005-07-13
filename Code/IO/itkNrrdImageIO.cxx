@@ -387,8 +387,7 @@ void NrrdImageIO::ReadImageInformation()
    MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
    std::string classname(this->GetNameOfClass());
    EncapsulateMetaData<std::string>(thisDic, ITK_InputFilterName, classname);
-   int kvpi;
-   for (kvpi=0; kvpi < nrrdKeyValueSize(nrrd); kvpi++)
+   for (unsigned int kvpi=0; kvpi < nrrdKeyValueSize(nrrd); kvpi++)
      {
      nrrdKeyValueIndex(nrrd, &keyPtr, &valPtr, kvpi);
      EncapsulateMetaData<std::string>(thisDic, std::string(keyPtr), 
@@ -470,7 +469,7 @@ void NrrdImageIO::ReadImageInformation()
      for (unsigned int saxi=0; saxi < domAxisNum; saxi++) 
        {
        msrFrame[saxi].resize(domAxisNum);
-       for (int saxj=0; saxj < domAxisNum; saxj++)
+       for (unsigned int saxj=0; saxj < domAxisNum; saxj++)
          {
          msrFrame[saxi][saxj] = nrrd->measurementFrame[saxi][saxj];
          }
