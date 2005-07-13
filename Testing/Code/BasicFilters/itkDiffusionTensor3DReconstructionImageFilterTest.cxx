@@ -75,8 +75,7 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
       {
       GradientIndexType gidx = git.GetIndex();
       GradientPixelType fancyGradientValue = 
-        static_cast< short int >(i * sin(static_cast<double>(i)) + gidx[0] * gidx[2] + 
-                                 gidx[1] * gidx[1] + cos(static_cast<double>(i+gidx[2])*(gidx[0] + gidx[1] + gidx[2])));
+        static_cast< short int >((i+1) * (i+1) * (i+1));
       git.Set( fancyGradientValue );
       ++git;
       }
@@ -120,9 +119,9 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
 
   double  expectedResult[3][3] = 
     {
-        {2.40795, -1.08238,  -0.83989},
-        {-1.08238, 1.7482,    0.128709},
-        {-0.83989, 0.128709,  1.61173}
+      {4.60517, -2.66978, -8.40705},
+      {-2.66978, 1.56848, 0.899627},
+      {-8.40705, 0.899627, 2.62356}
     };
   
   std::cout << std::endl << "Reconstructed tensor : " << std::endl; 
