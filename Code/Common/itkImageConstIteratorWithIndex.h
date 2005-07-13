@@ -215,7 +215,7 @@ public:
 
   /** Get the index. This provides a read only reference to the index.
    * \sa SetIndex */
-  const IndexType GetIndex()
+  const IndexType & GetIndex() const
     { return m_PositionIndex; }
 
   /** Get the region that this iterator walks. ImageIterators know the
