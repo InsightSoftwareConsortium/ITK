@@ -30,6 +30,7 @@ void RegisterTests()
   REGISTER_TEST(itkCurvesLevelSetImageFilterZeroSigmaTest );
   REGISTER_TEST(itkFastMarchingUpwindGradientTest );
   REGISTER_TEST(itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest );
+  REGISTER_TEST(itkLabelVotingImageFilterTest );
   REGISTER_TEST(itkNarrowBandCurvesLevelSetImageFilterTest );
   REGISTER_TEST(itkVectorThresholdSegmentationLevelSetImageFilterTest );
   REGISTER_TEST(itkWatershedImageFilterTest );
