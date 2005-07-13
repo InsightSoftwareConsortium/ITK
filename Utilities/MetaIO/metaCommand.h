@@ -61,11 +61,19 @@ public:
   /** Add a field to an option */
   bool AddOptionField(std::string optionName,std::string name,TypeEnumType type,bool required=true,std::string defVal = "");
 
-  /** Get the values */
+  /** Get the values given the option name */
   bool GetValueAsBool(std::string optionName,std::string fieldName="");
+  bool GetValueAsBool(Option option,std::string fieldName="");
+
   float GetValueAsFloat(std::string optionName,std::string fieldName="");
+  float GetValueAsFloat(Option option,std::string fieldName="");
+
   int GetValueAsInt(std::string optionName,std::string fieldName="");
+  int GetValueAsInt(Option option,std::string fieldName="");
+
   std::string GetValueAsString(std::string optionName,std::string fieldName="");
+  std::string GetValueAsString(Option option,std::string fieldName="");
+
 
   /** List the options */
   void ListOptions();
@@ -98,6 +106,9 @@ public:
   /** Return the list of options */
   const OptionVector & GetOptions() {return m_OptionVector;}
 
+  /** Return the list of parse options */
+  const OptionVector & GetParsedOptions() {return m_ParsedOptionVector;}
+
 protected:
 
   std::string TypeToString(TypeEnumType type);
@@ -110,7 +121,10 @@ protected:
   std::string m_Date;
 
 private:
+
   OptionVector m_OptionVector;
+  OptionVector m_ParsedOptionVector; // We store the parsed option in case we have multiple options
+
 }; // end of class
 
 

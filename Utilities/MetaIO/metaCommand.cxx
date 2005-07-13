@@ -22,10 +22,11 @@ MetaCommand::MetaCommand()
   m_OptionVector.clear();
   m_Version = "Not defined";
   m_Date = "Not defined";
+  m_ParsedOptionVector.clear();
 }
 
 
-/** Extract the date from the $Date: 2005-06-13 16:23:12 $ cvs command */
+/** Extract the date from the $Date: 2005-07-13 16:43:52 $ cvs command */
 std::string MetaCommand::ExtractDateFromCVS(std::string date)
 {
   std::string newdate;
@@ -42,7 +43,6 @@ bool MetaCommand::SetOption(Option option)
 {
   // need to add some tests here to check if the option is not defined yet
   m_OptionVector.push_back(option);
-   
   return true;
 }
 
@@ -187,6 +187,35 @@ bool MetaCommand::GetValueAsBool(std::string optionName,std::string fieldName)
   return false;
 }
 
+
+/** Return the value of the option as a bool */
+bool MetaCommand::GetValueAsBool(Option option,std::string fieldName)
+{
+  std::string fieldname = fieldName;
+  if(fieldName == "")
+    {
+    fieldname = option.name;
+    }
+
+  std::vector<Field>::const_iterator itField = option.fields.begin();
+  while(itField != option.fields.end())
+    {
+    if((*itField).name == fieldname)
+      {
+      if((*itField).value == "true"
+         || (*itField).value == "1"
+         || (*itField).value == "TRUE"
+        )
+        {
+        return true;
+        }
+      return false;
+      }
+    itField++;
+    }
+  return 0;
+}
+
 /** Return the value of the option as a float */
 float MetaCommand::GetValueAsFloat(std::string optionName,std::string fieldName)
 {
@@ -212,6 +241,27 @@ float MetaCommand::GetValueAsFloat(std::string optionName,std::string fieldName)
         }
       }
     it++;
+    }
+  return 0;
+}
+
+/** Return the value of the option as a float */
+float MetaCommand::GetValueAsFloat(Option option,std::string fieldName)
+{
+  std::string fieldname = fieldName;
+  if(fieldName == "")
+    {
+    fieldname = option.name;
+    }
+
+  std::vector<Field>::const_iterator itField = option.fields.begin();
+  while(itField != option.fields.end())
+    {
+    if((*itField).name == fieldname)
+      {
+      return (float)atof((*itField).value.c_str());
+      }
+    itField++;
     }
   return 0;
 }
@@ -245,8 +295,30 @@ int MetaCommand::GetValueAsInt(std::string optionName,std::string fieldName)
   return 0;
 }
 
-
 /** Return the value of the option as a int */
+int MetaCommand::GetValueAsInt(Option option,std::string fieldName)
+{
+  std::string fieldname = fieldName;
+  if(fieldName == "")
+    {
+    fieldname = option.name;
+    }
+
+  std::vector<Field>::const_iterator itField = option.fields.begin();
+  while(itField != option.fields.end())
+    {
+    if((*itField).name == fieldname)
+      {
+      return atoi((*itField).value.c_str());
+      }
+    itField++;
+    }
+  return 0;
+}
+
+
+
+/** Return the value of the option as a string */
 std::string MetaCommand::GetValueAsString(std::string optionName,std::string fieldName)
 {
   std::string fieldname = fieldName;
@@ -272,7 +344,28 @@ std::string MetaCommand::GetValueAsString(std::string optionName,std::string fie
       }
     it++;
     }
-  return 0;
+  return "";
+}
+
+/** Return the value of the option as a string */
+std::string MetaCommand::GetValueAsString(Option option,std::string fieldName)
+{
+  std::string fieldname = fieldName;
+  if(fieldName == "")
+    {
+    fieldname = option.name;
+    }
+
+  std::vector<Field>::const_iterator itField = option.fields.begin();
+  while(itField != option.fields.end())
+    {
+    if((*itField).name == fieldname)
+      {
+      return (*itField).value;
+      }
+    itField++;
+    }
+  return "";
 }
 
 /** List the current options */
@@ -652,6 +745,7 @@ bool MetaCommand::Parse(int argc, char* argv[])
     }
 
   // Fill in the results
+  m_ParsedOptionVector.clear();
   bool inArgument = false;
   std::string tag = "";
   std::string args;
@@ -753,8 +847,8 @@ bool MetaCommand::Parse(int argc, char* argv[])
     if(valuesRemaining == 0)
       {
       inArgument = false;
-      }
-    
+      m_ParsedOptionVector.push_back(m_OptionVector[currentOption]);
+      }    
     }
 
   if(valuesRemaining>0)
