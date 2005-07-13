@@ -72,7 +72,11 @@ public:
   /** Propagating some typedef from the superclass */
   typedef typename Superclass::ValueType             ValueType;
   typedef typename Superclass::ComponentType         ComponentType;
+#if defined(__GNUC__) && !defined(__INTEL_COMPILER) && (__GNUC__ == 3 && __GNUC_MINOR__ == 2 && __GNUC_PATCHLEVEL__ == 3)
+  typedef ComponentType ComponentArrayType[6];
+#else
   typedef typename Superclass::ComponentArrayType    ComponentArrayType;
+#endif
   typedef typename Superclass::AccumulateValueType   AccumulateValueType;
   typedef typename Superclass::RealValueType         RealValueType;
 
