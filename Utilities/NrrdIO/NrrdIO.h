@@ -31,6 +31,12 @@
 #include <stdarg.h>
 #include <float.h>
 
+#define TEEM_VERSION_MAJOR    1
+#define TEEM_VERSION_MINOR    9       /* 1 or 2 digits */
+#define TEEM_VERSION_RELEASE  0       /* 1 or 2 digits */
+#define TEEM_VERSION          10900
+#define TEEM_VERSION_STRING  "1.9.0"
+
 /* THE FOLLOWING INCLUDE IS ONLY FOR THE ITK DISTRIBUTION.
    This header mangles the symbols in the NrrdIO library, preventing
    conflicts in applications linked against two versions of NrrdIO. */

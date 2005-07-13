@@ -39,12 +39,13 @@
 ******** airTeemReleaseDate
 **
 ** updated with each release to contain a string representation of 
-** the teem version number and release date.  Originated in version 1.5.
+** the teem version number and release date.  Originated in version 1.5;
+** use of TEEM_VERSION #defines started in 1.9
 */
 const char *
-airTeemVersion = "1.9";
+airTeemVersion = TEEM_VERSION_STRING;
 const char *
-airTeemReleaseDate = "20 July 2005";
+airTeemReleaseDate = "12 August 2005";
 
 /*
 ******** airNull()
