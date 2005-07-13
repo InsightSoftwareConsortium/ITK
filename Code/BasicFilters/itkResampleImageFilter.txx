@@ -160,8 +160,6 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   const OutputImageRegionType& outputRegionForThread,
   int threadId)
 {
-  unsigned int i;
-  
   itkDebugMacro(<<"Actually executing");
 
   // Get the output pointers
@@ -191,7 +189,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   while ( !outIt.IsAtEnd() )
     {
     // Determine the index of the current output pixel
-    const IndexType & outputIndex = outIt.GetIndex();
+    const IndexType outputIndex = outIt.GetIndex();
     outputPtr->TransformIndexToPhysicalPoint( outputIndex, outputPoint );
 
     // Compute corresponding input pixel position
