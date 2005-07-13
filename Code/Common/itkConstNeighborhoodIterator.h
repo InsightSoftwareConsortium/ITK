@@ -152,7 +152,14 @@ public:
 
   /** Returns the pixel value located at a linear array location i. */
   virtual PixelType GetPixel(const unsigned i) const
-    { bool inbounds; return this->GetPixel(i, inbounds); }
+    { 
+    if( !m_NeedToUseBoundaryCondition )
+      {
+      return ( * ( this->operator[]( i ) ) );
+      }
+    bool inbounds; 
+    return this->GetPixel( i, inbounds ); 
+    }
 
   /** Return the pixel value located at a linear array location i.
    * Sets "IsInBounds" to true if the location is inside the
