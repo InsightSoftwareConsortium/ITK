@@ -189,8 +189,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   while ( !outIt.IsAtEnd() )
     {
     // Determine the index of the current output pixel
-    const IndexType outputIndex = outIt.GetIndex();
-    outputPtr->TransformIndexToPhysicalPoint( outputIndex, outputPoint );
+    outputPtr->TransformIndexToPhysicalPoint( outIt.GetIndex(), outputPoint );
 
     // Compute corresponding input pixel position
     inputPoint = m_Transform->TransformPoint(outputPoint);
