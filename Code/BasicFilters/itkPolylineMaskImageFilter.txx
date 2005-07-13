@@ -72,5 +72,16 @@ template <class TInputImage, class TPolyline, class TVector,
   {
     
   }
+  
+  template <class TInputImage, class TPolyline, class TVector,
+          class TOutputImage>
+  void PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
+  ::PrintSelf(std::ostream& os, Indent indent) const
+  {
+  Superclass::PrintSelf(os,indent);
+  os << indent << "Viewing direction: "
+     << static_cast<typename NumericTraits<VectorType>::PrintType>(m_Vector)
+     << std::endl;
+  }
 } // end namespace itk
 #endif

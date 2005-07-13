@@ -87,6 +87,7 @@ public:
 protected:
   PolylineMaskImageFilter();
   virtual ~PolylineMaskImageFilter() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   PolylineMaskImageFilter(const Self&); //purposely not implemented
