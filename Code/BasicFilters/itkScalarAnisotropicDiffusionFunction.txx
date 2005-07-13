@@ -22,6 +22,7 @@
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkDerivativeOperator.h"
+//#include <iostream.h>
 
 namespace itk {
 
@@ -51,6 +52,9 @@ ScalarAnisotropicDiffusionFunction<TImage>
   DerivativeOperator<PixelType,
     ImageDimension> operator_list[ImageDimension];
   
+  unsigned long Stride[ImageDimension];
+  unsigned long Center[ImageDimension];
+
   // Set up the derivative operators, one for each dimension
   for (i = 0; i < ImageDimension; ++i)
     {
@@ -59,6 +63,8 @@ ScalarAnisotropicDiffusionFunction<TImage>
     operator_list[i].CreateDirectional();
     radius[i] = operator_list[i].GetRadius()[i];
     }
+
+
 
   // Get the various region "faces" that are on the data set boundary.
   faceList = bfc(ip, ip->GetRequestedRegion(), radius);
@@ -77,16 +83,21 @@ ScalarAnisotropicDiffusionFunction<TImage>
     {
     iterator_list[i]=RNI_type(operator_list[i].GetRadius(), ip, *fit); 
     iterator_list[i].GoToBegin();
+    Center[i]=iterator_list[i].Size()/2;
+    Stride[i]=iterator_list[i].GetStride(i);
     }  
   while ( !iterator_list[0].IsAtEnd() )
     {
     counter += NumericTraits<PixelType>::One;
     for (i = 0; i < ImageDimension; ++i)
       {
-      val = IP(iterator_list[i], operator_list[i]);     
-      val = static_cast<PixelType>(static_cast<double>(val) * this->m_ScaleCoefficients[i]);
-      accumulator += val * val;
-      ++iterator_list[i];
+  
+  val = static_cast<PixelType> (iterator_list[i].GetPixel(Center[i]+Stride[i]))-
+    static_cast<PixelType> (iterator_list[i].GetPixel(Center[i]-Stride[i]));
+  val = val/-2.0f;
+  val = static_cast<PixelType>(static_cast<double>(val) * this->m_ScaleCoefficients[i]);
+  accumulator += val * val;
+  ++iterator_list[i];
       }
     }
   
@@ -100,6 +111,8 @@ ScalarAnisotropicDiffusionFunction<TImage>
                                      *fit);
       face_iterator_list[i].OverrideBoundaryCondition(&bc);
       face_iterator_list[i].GoToBegin();
+      Center[i]=face_iterator_list[i].Size()/2;
+      Stride[i]=face_iterator_list[i].GetStride(i);
       }
         
     while ( ! face_iterator_list[0].IsAtEnd() )
@@ -107,8 +120,13 @@ ScalarAnisotropicDiffusionFunction<TImage>
       counter += NumericTraits<PixelType>::One;
       for (i = 0; i < ImageDimension; ++i)
         {
-        val = SIP(face_iterator_list[i], operator_list[i]);     
-        val = static_cast<PixelType>(static_cast<double>(val) * this->m_ScaleCoefficients[i]);
+        val = static_cast<PixelType> (
+                   face_iterator_list[i].GetPixel(Center[i]+Stride[i]))-
+              static_cast<PixelType> (
+                   face_iterator_list[i].GetPixel(Center[i]-Stride[i]));
+        val = val / -2.0f;
+        val = static_cast<PixelType>(
+                   static_cast<double>(val) * this->m_ScaleCoefficients[i]);
         accumulator += val * val;
         ++face_iterator_list[i];
         }

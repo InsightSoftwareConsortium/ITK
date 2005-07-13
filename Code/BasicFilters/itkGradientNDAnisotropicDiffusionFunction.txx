@@ -97,7 +97,7 @@ GradientNDAnisotropicDiffusionFunction<TImage>
   
   // Calculate the centralized derivatives for each dimension.
   for (i = 0; i < ImageDimension; i++)
-    {      dx[i]  = m_InnerProduct(x_slice[i], it, dx_op);    }
+    {      dx[i]  =  (it.GetPixel(m_Center + m_Stride[i])-it.GetPixel(m_Center - m_Stride[i]))/2.0f;    }
 
   for (i = 0; i < ImageDimension; i++)
     {
@@ -116,8 +116,10 @@ GradientNDAnisotropicDiffusionFunction<TImage>
       {
       if (j != i)
         {
-        dx_aug     = m_InnerProduct(xa_slice[j][i], it, dx_op);
-        dx_dim     = m_InnerProduct(xd_slice[j][i], it, dx_op);
+        dx_aug = (it.GetPixel(m_Center + m_Stride[i] + m_Stride[j]) -
+                  it.GetPixel(m_Center + m_Stride[i] - m_Stride[j]) ) / 2.0f;
+        dx_dim = (it.GetPixel(m_Center - m_Stride[i] + m_Stride[j]) -
+                  it.GetPixel(m_Center - m_Stride[i] - m_Stride[j]) ) /2.0f;
         accum   += 0.25f * vnl_math_sqr( dx[j] + dx_aug );
         accum_d += 0.25f * vnl_math_sqr( dx[j] + dx_dim );
         }
