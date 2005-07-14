@@ -52,6 +52,7 @@ public:
   unsigned short Compression;
   unsigned short BitsPerSample;
   unsigned short Photometrics;
+  bool HasValidPhotometricInterpretation;
   unsigned short PlanarConfig;
   unsigned short Orientation;
   unsigned long int TileDepth;
@@ -101,6 +102,7 @@ void TIFFReaderInternal::Clean()
   this->Compression = 0;
   this->BitsPerSample = 0;
   this->Photometrics = 0;
+  this->HasValidPhotometricInterpretation = false;
   this->PlanarConfig = 0;
   this->TileDepth = 0;
   this->CurrentPage = 0;
@@ -171,17 +173,26 @@ int TIFFReaderInternal::Initialize()
         }
       }
 
-
-
     TIFFGetFieldDefaulted(this->Image, TIFFTAG_ORIENTATION,
                           &this->Orientation);
-    TIFFGetField(this->Image, TIFFTAG_SAMPLESPERPIXEL, 
-                 &this->SamplesPerPixel);
-    TIFFGetField(this->Image, TIFFTAG_COMPRESSION, &this->Compression);
-    TIFFGetField(this->Image, TIFFTAG_BITSPERSAMPLE, 
-                 &this->BitsPerSample);
-    TIFFGetField(this->Image, TIFFTAG_PHOTOMETRIC, &this->Photometrics);
-    TIFFGetField(this->Image, TIFFTAG_PLANARCONFIG, &this->PlanarConfig);
+    TIFFGetFieldDefaulted(this->Image, TIFFTAG_SAMPLESPERPIXEL, 
+                          &this->SamplesPerPixel);
+    TIFFGetFieldDefaulted(this->Image, TIFFTAG_COMPRESSION, &this->Compression);
+    TIFFGetFieldDefaulted(this->Image, TIFFTAG_BITSPERSAMPLE, 
+                          &this->BitsPerSample);
+    TIFFGetFieldDefaulted(this->Image, TIFFTAG_PLANARCONFIG, &this->PlanarConfig);
+    // If TIFFGetField returns false, there's no Photometric Interpretation 
+    // set for this image, but that's a required field so we set a warning flag.
+    // (Because the "Photometrics" field is an enum, we can't rely on setting 
+    // this->Photometrics to some signal value.)
+    if (TIFFGetField(this->Image, TIFFTAG_PHOTOMETRIC, &this->Photometrics))
+      {
+      this->HasValidPhotometricInterpretation = true;
+      }
+    else
+      {
+      this->HasValidPhotometricInterpretation = false;
+      }
     if ( !TIFFGetField(this->Image, TIFFTAG_TILEDEPTH, &this->TileDepth) )
       {
       this->TileDepth = 0;
@@ -196,13 +207,14 @@ int TIFFReaderInternal::CanRead()
   return ( this->Image && ( this->Width > 0 ) && ( this->Height > 0 ) &&
            ( this->SamplesPerPixel > 0 ) && 
            ( this->Compression == COMPRESSION_NONE || this->Compression == COMPRESSION_PACKBITS) &&
+           ( this->HasValidPhotometricInterpretation ) &&
            ( this->Photometrics == PHOTOMETRIC_RGB ||
              this->Photometrics == PHOTOMETRIC_MINISWHITE ||
              this->Photometrics == PHOTOMETRIC_MINISBLACK ||
              this->Photometrics == PHOTOMETRIC_PALETTE ) &&
-           this->PlanarConfig == PLANARCONFIG_CONTIG &&
+           ( this->PlanarConfig == PLANARCONFIG_CONTIG ) &&
            ( !this->TileDepth ) &&
-           ( this->BitsPerSample == 8   || this->BitsPerSample == 16)   );
+           ( this->BitsPerSample == 8 || this->BitsPerSample == 16 ) );
 }
 
 
