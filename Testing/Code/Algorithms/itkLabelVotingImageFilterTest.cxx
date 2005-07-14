@@ -99,7 +99,7 @@ int itkLabelVotingImageFilterTest(int, char* [] )
   myIteratorType it = 
     myIteratorType( inputImageA, inputImageA->GetBufferedRegion() );
   
-  for( int i = 0; i < 9; ++i, ++it )
+  for( int i = 0; i < 8; ++i, ++it )
     {
     it.Set( dataImageA[i] );
     }
@@ -111,7 +111,7 @@ int itkLabelVotingImageFilterTest(int, char* [] )
   inputImageB->Allocate();
 
   it = myIteratorType( inputImageB, inputImageB->GetBufferedRegion() );
-  for( int i = 0; i < 9; ++i, ++it )
+  for( int i = 0; i < 8; ++i, ++it )
     {
     it.Set( dataImageB[i] );
     }
@@ -123,7 +123,7 @@ int itkLabelVotingImageFilterTest(int, char* [] )
   inputImageC->Allocate();
 
   it = myIteratorType( inputImageC, inputImageC->GetBufferedRegion() );
-  for( int i = 0; i < 9; ++i, ++it )
+  for( int i = 0; i < 8; ++i, ++it )
     {
     it.Set( dataImageC[i] );
     }
