@@ -98,9 +98,15 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
     typedef typename TPolyline::VertexListType                          VertexListType;
     
 
-   InputImagePointer  inputImagePtr          = static_cast<const TInputImage  * >  (this->ProcessObject::GetInput(0));
-   PolylinePointer    polylinePtr            = static_cast<const TPolyline    * >  (this->ProcessObject::GetInput(1));
-   OutputImagePointer outputImagePtr         = static_cast<const TOutputImage * >  (this->ProcessObject::GetOutput(0));
+    typename TInputImage::ConstPointer inputImagePtr(
+      dynamic_cast<const TInputImage  * >(
+        this->ProcessObject::GetInput(0)));
+    typename TPolyline::ConstPointer polylinePtr(
+      dynamic_cast<const TPolyline    * >(
+        this->ProcessObject::GetInput(1)));
+    typename TOutputImage::Pointer outputImagePtr(
+      dynamic_cast<TOutputImage * >(
+        this->ProcessObject::GetOutput(0)));
 
 
    outputImagePtr->SetRequestedRegion( inputImagePtr->GetRequestedRegion() );
