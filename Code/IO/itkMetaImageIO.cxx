@@ -1106,21 +1106,18 @@ MetaImageIO
           }
         }
       }
-    else 
+    double *transformMatrix = 
+    static_cast< double *>(malloc(this->GetNumberOfDimensions() * 
+                    this->GetNumberOfDimensions() * sizeof(double)));
+    for( unsigned int i=0; i < this->GetNumberOfDimensions(); i++)
       {
-      double *transformMatrix = 
-      static_cast< double *>(malloc(this->GetNumberOfDimensions() * 
-                      this->GetNumberOfDimensions() * sizeof(double)));
-      for( unsigned int i=0; i < this->GetNumberOfDimensions(); i++)
+      for( unsigned int j=0; j < this->GetNumberOfDimensions(); j++)
         {
-        for( unsigned int j=0; j < this->GetNumberOfDimensions(); j++)
-          {
-          transformMatrix[i*this->GetNumberOfDimensions() +j ] =
-                                             this->GetDirection(i)[j];
-          }
+        transformMatrix[i*this->GetNumberOfDimensions() +j ] =
+                                           this->GetDirection(i)[j];
         }
-      m_MetaImage.TransformMatrix( transformMatrix );      
       }
+    m_MetaImage.TransformMatrix( transformMatrix );      
     }
 
   
