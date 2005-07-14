@@ -22,6 +22,7 @@
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOFactory.h"
 #include "itkCommand.h"
+#include "vnl/vnl_vector.h"
 
 namespace itk
 {
@@ -205,10 +206,12 @@ ImageFileWriter<TInputImage>
     m_ImageIO->SetDimensions(i,region.GetSize(i));
     m_ImageIO->SetSpacing(i,spacing[i]);
     m_ImageIO->SetOrigin(i,origin[i]);
+    vnl_vector< double > axisDirection(TInputImage::ImageDimension);
     for(unsigned int j=0; j<TInputImage::ImageDimension; j++)
       {
-      m_ImageIO->GetDirection(i)[j] = direction[i][j];
+      axisDirection[j] = direction[i][j];
       }
+    m_ImageIO->SetDirection( i, axisDirection );
     }
 
   m_ImageIO->SetUseCompression(m_UseCompression);
