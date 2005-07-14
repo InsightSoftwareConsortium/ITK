@@ -41,7 +41,7 @@ LabelVotingImageFilter<TInputImage, TOutputImage>
 }
 
 template< typename TInputImage, typename TOutputImage >
-typename TInputImage::PixelType
+typename LabelVotingImageFilter< TInputImage,TOutputImage>::InputPixelType
 LabelVotingImageFilter< TInputImage, TOutputImage >
 ::ComputeMaximumInputValue()
 {
