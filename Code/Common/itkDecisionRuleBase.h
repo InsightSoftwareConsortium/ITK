@@ -21,6 +21,7 @@
 #include "vnl/vnl_matrix.h"
 #include "itkObject.h"
 #include "itkObjectFactory.h"
+#include "itkArray.h"
 
 namespace itk
 {
@@ -44,12 +45,22 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro(DecisionRuleBase, Object);
   
+  /** Types for the arguments that are acceptable in the Evaluate() method */
+  typedef std::vector< double >   VectorType;
+  typedef Array< double >         ArrayType;
+    
   /** The return value of this function is a class label.
    * Basically, using its internal logic based on the discriminant
    * scores, this function decides best class label and return it.
    */
-  virtual unsigned int Evaluate(std::vector< double >
-                                &discriminantScores) = 0 ;
+  virtual unsigned int Evaluate( const VectorType &discriminantScores) const = 0;
+
+  /** The return value of this function is a class label.
+   * Basically, using its internal logic based on the discriminant
+   * scores, this function decides best class label and return it.
+   */
+  virtual unsigned int Evaluate( const ArrayType &discriminantScores) const = 0;
+
 
 protected:
   DecisionRuleBase();

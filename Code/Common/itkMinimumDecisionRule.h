@@ -47,7 +47,24 @@ class ITKCommon_EXPORT MinimumDecisionRule :
   /** Standard New() method support */
   itkNewMacro(Self) ;
   
-  unsigned int Evaluate(std::vector< double > &discriminantScores) ;
+
+  /** Types for the arguments that are acceptable in the Evaluate() method */
+  typedef Superclass::VectorType  VectorType;
+  typedef Superclass::ArrayType   ArrayType;
+ 
+
+  /** The return value of this function is a class label.
+   * Basically, using its internal logic based on the discriminant
+   * scores, this function decides best class label and return it.
+   */
+  virtual unsigned int Evaluate( const VectorType &discriminantScores) const;
+
+  /** The return value of this function is a class label.
+   * Basically, using its internal logic based on the discriminant
+   * scores, this function decides best class label and return it.
+   */
+  virtual unsigned int Evaluate( const ArrayType &discriminantScores) const;
+
 
  protected:
   MinimumDecisionRule() ;

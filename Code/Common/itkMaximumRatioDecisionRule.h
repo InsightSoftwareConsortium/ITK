@@ -59,7 +59,24 @@ public:
   typedef float APrioriValueType ;
   typedef std::vector< APrioriValueType > APrioriVectorType ;
 
-  unsigned int Evaluate(std::vector< double > &discriminantScores) ;
+
+  /** Types for the arguments that are acceptable in the Evaluate() method */
+  typedef Superclass::VectorType  VectorType;
+  typedef Superclass::ArrayType   ArrayType;
+ 
+
+  /** The return value of this function is a class label.
+   * Basically, using its internal logic based on the discriminant
+   * scores, this function decides best class label and return it.
+   */
+  virtual unsigned int Evaluate( const VectorType &discriminantScores) const;
+
+  /** The return value of this function is a class label.
+   * Basically, using its internal logic based on the discriminant
+   * scores, this function decides best class label and return it.
+   */
+  virtual unsigned int Evaluate( const ArrayType &discriminantScores) const;
+
 
   /** Sets the a priori probabilities */
   void SetAPriori(APrioriVectorType& values) ;
@@ -75,47 +92,6 @@ private:
   /** a priori probability ratio matrix: internal use */
   vnl_matrix< double > m_APrioriRatioMatrix ;
 } ; // end of class
-
-inline unsigned int 
-MaximumRatioDecisionRule::Evaluate(std::vector< double > 
-                                   &discriminantScores)
-{
-  unsigned int i, j ;
-  double temp ;
-
-  for (i = 0 ; i < m_NumberOfClasses ; i++)
-    {
-    j = 0 ;
-    while ( j < m_NumberOfClasses )
-      {
-      if ( j != i )
-        {
-        if ( discriminantScores[j] != 0.0 )
-          {
-          temp = discriminantScores[i] / discriminantScores[j] ;
-          }
-        else
-          {
-          temp = NumericTraits< double >::max() ;
-          }
-
-        if ( temp < m_APrioriRatioMatrix.get(i,j) )
-          {
-          break ;
-          }
-        }
-
-      ++j ;
-
-      if ( j == m_NumberOfClasses )
-        {
-        return i ;
-        }
-      }
-    }
-
-  return i ;
-}
 
 } // end of namespace
 #endif

@@ -27,12 +27,35 @@ MinimumDecisionRule
 
 unsigned int 
 MinimumDecisionRule
-::Evaluate(std::vector< double > &discriminantScores)
+::Evaluate( const VectorType &discriminantScores) const
 {
 
   double       minimumDistance      = discriminantScores[0];
   unsigned int classifiedPixelIndex = 0;
   unsigned int numberOfClasses      = static_cast<unsigned int>( discriminantScores.size() );
+
+  //Loop through the probabilities to get the best index
+  for(unsigned int classIndex = 1; classIndex < numberOfClasses; classIndex++ )
+    {  
+    if( discriminantScores[classIndex] < minimumDistance ) 
+      {
+      minimumDistance      = discriminantScores[classIndex];
+      classifiedPixelIndex = classIndex;
+      }
+    }// end for
+
+  return classifiedPixelIndex;
+}
+
+
+unsigned int 
+MinimumDecisionRule
+::Evaluate( const ArrayType &discriminantScores) const
+{
+
+  double       minimumDistance      = discriminantScores[0];
+  unsigned int classifiedPixelIndex = 0;
+  unsigned int numberOfClasses      = static_cast<unsigned int>( discriminantScores.Size() );
 
   //Loop through the probabilities to get the best index
   for(unsigned int classIndex = 1; classIndex < numberOfClasses; classIndex++ )

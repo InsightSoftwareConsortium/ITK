@@ -19,7 +19,6 @@
 
 #include "itkWin32Header.h"
 
-#include <vector>
 #include "itkDecisionRuleBase.h"
 
 namespace itk{ 
@@ -45,7 +44,23 @@ public:
   /** Standard New() method support */
   itkNewMacro(Self) ;
 
-  unsigned int Evaluate(std::vector< double > &discriminantScores) ;
+  /** Types for the arguments that are acceptable in the Evaluate() method */
+  typedef Superclass::VectorType  VectorType;
+  typedef Superclass::ArrayType   ArrayType;
+ 
+
+  /** The return value of this function is a class label.
+   * Basically, using its internal logic based on the discriminant
+   * scores, this function decides best class label and return it.
+   */
+  virtual unsigned int Evaluate( const VectorType &discriminantScores) const;
+
+  /** The return value of this function is a class label.
+   * Basically, using its internal logic based on the discriminant
+   * scores, this function decides best class label and return it.
+   */
+  virtual unsigned int Evaluate( const ArrayType &discriminantScores) const;
+
 
 protected:
   MaximumDecisionRule() {}
@@ -53,22 +68,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const ;
 } ; // end of class
 
-inline unsigned int MaximumDecisionRule::Evaluate(std::vector< double > 
-                                                  &discriminantScores)
-{
-  double max = discriminantScores[0] ;
-  unsigned int maxIndex = 0 ;
-  unsigned int i ;
-  for (i = 1 ; i < discriminantScores.size() ; i++)
-    {
-    if (discriminantScores[i] > max) 
-      {
-      max = discriminantScores[i] ;
-      maxIndex = i ;
-      }
-    }
-  return maxIndex ;
-}
+
 
 } // end of namespace itk
 

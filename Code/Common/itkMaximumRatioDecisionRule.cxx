@@ -47,6 +47,89 @@ void MaximumRatioDecisionRule::SetAPriori(APrioriVectorType& values)
     }
 }
 
+
+unsigned int 
+MaximumRatioDecisionRule::Evaluate(const VectorType &discriminantScores) const
+{
+  unsigned int i, j ;
+  double temp ;
+
+  for (i = 0 ; i < m_NumberOfClasses ; i++)
+    {
+    j = 0 ;
+    while ( j < m_NumberOfClasses )
+      {
+      if ( j != i )
+        {
+        if ( discriminantScores[j] != 0.0 )
+          {
+          temp = discriminantScores[i] / discriminantScores[j] ;
+          }
+        else
+          {
+          temp = NumericTraits< double >::max() ;
+          }
+
+        if ( temp < m_APrioriRatioMatrix.get(i,j) )
+          {
+          break ;
+          }
+        }
+
+      ++j ;
+
+      if ( j == m_NumberOfClasses )
+        {
+        return i ;
+        }
+      }
+    }
+
+  return i ;
+}
+
+
+unsigned int 
+MaximumRatioDecisionRule::Evaluate(const ArrayType &discriminantScores) const
+{
+  unsigned int i, j ;
+  double temp ;
+
+  for (i = 0 ; i < m_NumberOfClasses ; i++)
+    {
+    j = 0 ;
+    while ( j < m_NumberOfClasses )
+      {
+      if ( j != i )
+        {
+        if ( discriminantScores[j] != 0.0 )
+          {
+          temp = discriminantScores[i] / discriminantScores[j] ;
+          }
+        else
+          {
+          temp = NumericTraits< double >::max() ;
+          }
+
+        if ( temp < m_APrioriRatioMatrix.get(i,j) )
+          {
+          break ;
+          }
+        }
+
+      ++j ;
+
+      if ( j == m_NumberOfClasses )
+        {
+        return i ;
+        }
+      }
+    }
+
+  return i ;
+}
+
+
 } // end of namespace
 
 
