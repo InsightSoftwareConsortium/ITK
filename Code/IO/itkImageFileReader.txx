@@ -154,11 +154,11 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
         {
         if (j < m_ImageIO->GetNumberOfDimensions())
           {
-          direction[j][i] = axis[j];
+          direction[i][j] = axis[j];
           }
         else
           {
-          direction[j][i] = 0.0;
+          direction[i][j] = 0.0;
           }
         }
       }
@@ -178,7 +178,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
           }
         else
           {
-          direction[j][i] = 0.0;
+          direction[i][j] = 0.0;
           }
         }
       }
