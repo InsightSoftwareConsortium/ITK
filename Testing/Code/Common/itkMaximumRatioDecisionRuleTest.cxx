@@ -55,6 +55,38 @@ int itkMaximumRatioDecisionRuleTest(int,char *[] )
     return EXIT_FAILURE ;
     }
 
+
+  DecisionRuleType::VectorType discriminantScores2;
+  discriminantScores2.resize( 3 ) ;
+  
+  discriminantScores2[0] = 0.3 ;
+  discriminantScores2[1] = 0.5 ;
+  discriminantScores2[2] = 0.2 ;
+
+  if ( decisionRule->Evaluate( discriminantScores2 ) != 1 )
+    {
+    std::cout << "[FAILED]" << std::endl ;
+    return EXIT_FAILURE ;
+    }
+
+
+
+
+  DecisionRuleType::ArrayType discriminantScores3(3);
+  
+  discriminantScores3[0] = 0.3 ;
+  discriminantScores3[1] = 0.5 ;
+  discriminantScores3[2] = 0.2 ;
+
+  if ( decisionRule->Evaluate( discriminantScores3 ) != 1 )
+    {
+    std::cout << "[FAILED]" << std::endl ;
+    return EXIT_FAILURE ;
+    }
+
+
+
+
   std::cout << "[SUCCEEDED]" << std::endl ;
   return EXIT_SUCCESS;
 }
