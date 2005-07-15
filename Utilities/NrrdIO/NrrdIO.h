@@ -631,10 +631,11 @@ TEEM_API void airMopDebug(airArray *arr);
 #define AIR_ROUNDDOWN(x) ((int)(ceil((x)-0.5)))
 
 /*
-******** _AIR_SIZE_T_CNV
+******** _AIR_SIZE_T_CNV, _AIR_PTRDIFF_T_CNV, 
 **
-** This is the conversion sequence to use when printf/fprintf/sprintf-ing 
-** a value of type size_t.  In C99, "%z" serves this purpose.
+** Conversion sequence to use when printf/fprintf/sprintf-ing a value of
+** type size_t or ptrdiff_t.  In C99, this is done with "%z" and "%t",
+** respecitvely.
 **
 ** This is not a useful macro for the world at large- only for teem
 ** source files.  Why: we need to leave this as a bare string, so that
@@ -649,13 +650,17 @@ TEEM_API void airMopDebug(airArray *arr);
 */
 #ifdef __APPLE__
 #  define _AIR_SIZE_T_CNV "%lu"
+#  define _AIR_PTRDIFF_T_CNV "%d"
 #else
 #  if TEEM_32BIT == 0
 #    define _AIR_SIZE_T_CNV "%lu"
+#    define _AIR_PTRDIFF_T_CNV "%ld"
 #  elif TEEM_32BIT == 1
 #    define _AIR_SIZE_T_CNV "%u"
+#    define _AIR_PTRDIFF_T_CNV "%d"
 #  else
 #    define _AIR_SIZE_T_CNV "(no _AIR_SIZE_T_CNV w/out TEEM_32BIT %*d)"
+#    define _AIR_PTRDIFF_T_CNV "(no _AIR_PTRDIFF_T_CNV w/out TEEM_32BIT %*d)"
 #  endif
 #endif
 
