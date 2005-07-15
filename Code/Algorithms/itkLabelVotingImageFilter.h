@@ -149,7 +149,7 @@ protected:
   void PrintSelf(std::ostream&, Indent) const;
 
   /** Determine maximum value among all input images' pixels */
-  typename TInputImage::PixelType ComputeMaximumInputValue();
+  InputPixelType ComputeMaximumInputValue();
 
 private:
   LabelVotingImageFilter(const Self&); //purposely not implemented
