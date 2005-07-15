@@ -733,6 +733,19 @@ void MetaImageIO::ReadImageInformation()
           <itk::SpatialOrientation::ValidCoordinateOrientationFlags>
           (thisMetaDict, ITK_CoordinateOrientation, coordOrient);
       }
+    
+    // Read direction cosines if the dimension of the image is 3.
+    //
+    const double *transformMatrix = m_MetaImage.TransformMatrix();
+    vnl_vector< double > directionAxis( this->GetNumberOfDimensions() );
+    for( unsigned int i=0; i < this->GetNumberOfDimensions(); i++)
+      {
+      for( unsigned int j=0; j < this->GetNumberOfDimensions(); j++)
+        {
+        directionAxis[j] = transformMatrix[i*this->GetNumberOfDimensions() + j];
+        }
+      this->SetDirection( i, directionAxis );
+      }
     }
 } 
 
@@ -1106,6 +1119,8 @@ MetaImageIO
           }
         }
       }
+
+    // Propagage direction cosine information .
     double *transformMatrix = 
     static_cast< double *>(malloc(this->GetNumberOfDimensions() * 
                     this->GetNumberOfDimensions() * sizeof(double)));
