@@ -226,11 +226,11 @@ airFPGen_d(int cls) {
     break;
   case airFP_POS_NORM:
     /* exp: anything non-zero but < 0xff, mant: anything */
-    FP_SET_D(f, 0, 0x400, 0x7ff000, 0);     
+    FP_SET_D(f, 0, 0x400, 0x0ff00, 0);
     break;
   case airFP_NEG_NORM:
     /* exp: anything non-zero but < 0xff, mant: anything */
-    FP_SET_D(f, 1, 0x400, 0x7ff000, 0);     
+    FP_SET_D(f, 1, 0x400, 0x0ff00, 0);     
     break;
   case airFP_POS_DENORM:
     /* mant: anything non-zero */
