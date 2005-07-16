@@ -207,9 +207,11 @@ ImageFileWriter<TInputImage>
     m_ImageIO->SetSpacing(i,spacing[i]);
     m_ImageIO->SetOrigin(i,origin[i]);
     vnl_vector< double > axisDirection(TInputImage::ImageDimension);
+// Please note: direction cosines are stored as columns of the
+// direction matrix
     for(unsigned int j=0; j<TInputImage::ImageDimension; j++)
       {
-      axisDirection[j] = direction[i][j];
+      axisDirection[j] = direction[j][i];
       }
     m_ImageIO->SetDirection( i, axisDirection );
     }
