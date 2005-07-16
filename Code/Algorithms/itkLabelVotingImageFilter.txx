@@ -52,7 +52,7 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
   // Record the number of input files.
   const unsigned int numberOfInputFiles = this->GetNumberOfInputs();
 
-  for( int i = 0; i < numberOfInputFiles; ++i)
+  for(unsigned int i = 0; i < numberOfInputFiles; ++i)
     {
     const InputImageType * inputImage =  this->GetInput( i );
     IteratorType it( inputImage, inputImage->GetBufferedRegion() );
@@ -102,7 +102,7 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
 
   //  create and initialize all input image iterators
   IteratorType *it = new IteratorType[numberOfInputFiles];
-  for ( int i = 0; i < numberOfInputFiles; ++i)
+  for ( unsigned int i = 0; i < numberOfInputFiles; ++i)
     {
     it[i] = IteratorType( this->GetInput( i ), 
                           outputRegionForThread );
@@ -120,7 +120,7 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
       }
 
     // count number of votes for the labels
-    for( int i = 0; i < numberOfInputFiles; ++i)
+    for( unsigned int i = 0; i < numberOfInputFiles; ++i)
       {
       const InputPixelType label = it[i].Get();
       ++votesByLabel[label];
