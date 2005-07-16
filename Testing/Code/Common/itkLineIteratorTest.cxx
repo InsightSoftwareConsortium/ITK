@@ -1,3 +1,23 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkLineIteratorTest.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 // Testcode for the itk::LineIterator.
 
 #include <iostream>
@@ -15,6 +35,13 @@ int itkLineIteratorTest(int argc, char*argv[])
   typedef ImageType::RegionType::IndexType IndexType;
   typedef IndexType::IndexValueType IndexValueType;
   
+ if (argc < 2)
+    {
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << "  outputfilename" << std::endl;
+    return 1;
+    }
+
   // Set up a test image
   ImageType::RegionType::IndexType index;
   index.Fill(0);
