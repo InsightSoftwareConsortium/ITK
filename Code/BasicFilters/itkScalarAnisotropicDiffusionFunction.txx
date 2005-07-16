@@ -45,8 +45,6 @@ ScalarAnisotropicDiffusionFunction<TImage>
   typename RNI_type::RadiusType             radius;
   typename BFC_type::FaceListType::iterator fit;
 
-  NeighborhoodInnerProduct<TImage> SIP;
-  NeighborhoodInnerProduct<TImage>      IP;
   RNI_type                              iterator_list[ImageDimension];
   SNI_type                              face_iterator_list[ImageDimension];
   DerivativeOperator<PixelType,
