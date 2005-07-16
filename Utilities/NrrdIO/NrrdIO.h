@@ -1425,6 +1425,8 @@ do {                                          \
 #include <errno.h>
 
 
+#include <stddef.h>      /* for ptrdiff_t */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
