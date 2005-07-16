@@ -146,7 +146,7 @@ ADD_TEST(itkPolylineMaskImageFilterTest ${BASIC_FILTERS_TESTS3} itkPolylineMaskI
 ADD_TEST(itkPolylineMask2DImageFilterTest ${BASIC_FILTERS_TESTS3} 
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkPolylineMask2DImageFilterTest.png
              ${ITK_TEST_OUTPUT_DIR}/itkPolylineMask2DImageFilterTest.png
-   itkPolylineMask2DImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkPolylineMask2DImageFilterTest.png)
+   itkPolylineMask2DImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkPolylineMask2DImageFilterTest1.png ${ITK_TEST_OUTPUT_DIR}/itkPolylineMask2DImageFilterTest.png)
 ADD_TEST(itkMaskNegatedImageFilterTest ${BASIC_FILTERS_TESTS} itkMaskNegatedImageFilterTest)
 ADD_TEST(itkMathematicalMorphologyImageFilterTest ${BASIC_FILTERS_TESTS} itkMathematicalMorphologyImageFilterTest)
 ADD_TEST(itkMaximumImageFilterTest ${BASIC_FILTERS_TESTS} itkMaximumImageFilterTest)
