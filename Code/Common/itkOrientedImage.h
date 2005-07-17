@@ -138,14 +138,19 @@ public:
    * Floating point index results are truncated to integers.
    * Returns true if the resulting index is within the image, false otherwise
    * \sa Transform */
-#if 1
+#if 0
   template<class TCoordRep>
-  void TransformPhysicalPointToIndex(
+  bool TransformPhysicalPointToIndex(
     const Point<TCoordRep, VImageDimension>& point,
     IndexType & index ) const
     {
       ImageTransformHelper<VImageDimension,VImageDimension-1,VImageDimension-1>::TransformPhysicalPointToIndex(
         this->m_PhysicalPointToIndex, this->m_Origin, point, index);
+
+    // Now, check to see if the index is within allowed bounds
+    const bool isInside =
+      this->GetLargestPossibleRegion().IsInside( index );
+    return isInside;
     }
 #else
   template<class TCoordRep>
@@ -199,7 +204,7 @@ public:
    * from a discrete index (in the index space)
    *
    * \sa Transform */
-#if 1
+#if 0
   template<class TCoordRep>
   void TransformIndexToPhysicalPoint(
                       const IndexType & index,
