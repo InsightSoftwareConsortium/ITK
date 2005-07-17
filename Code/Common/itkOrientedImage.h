@@ -138,7 +138,7 @@ public:
    * Floating point index results are truncated to integers.
    * Returns true if the resulting index is within the image, false otherwise
    * \sa Transform */
-#if 0
+#if 1
   template<class TCoordRep>
   bool TransformPhysicalPointToIndex(
     const Point<TCoordRep, VImageDimension>& point,
@@ -204,7 +204,7 @@ public:
    * from a discrete index (in the index space)
    *
    * \sa Transform */
-#if 0
+#if 1
   template<class TCoordRep>
   void TransformIndexToPhysicalPoint(
                       const IndexType & index,
