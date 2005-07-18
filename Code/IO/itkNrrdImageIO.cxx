@@ -276,7 +276,6 @@ void NrrdImageIO::ReadImageInformation()
    // NOTE: future version of nrrdDomainAxesGet will use unsigned types
    unsigned int domAxisNum, domAxisIdx[NRRD_DIM_MAX];
    domAxisNum = nrrdDomainAxesGet(nrrd, domAxisIdx);
-   fprintf(stderr, " XXXXXXXX domAxisNum = %u %d\n", domAxisNum, domAxisNum);
    if (!( domAxisNum == nrrd->dim || domAxisNum == nrrd->dim-1 ))
      {
      itkExceptionMacro("ReadImageInformation: nrrd has more than one "
