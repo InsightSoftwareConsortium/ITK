@@ -50,7 +50,7 @@ int itkPolylineMask2DImageFilterTest(int argc, char* argv [] )
   if (argc < 3)
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputfilename outputfilename" << std::endl;
+    std::cerr << argv[0] << "  outputSyntheticImageFilename outputProcessedImageFilename" << std::endl;
     return 1;
     }
 
