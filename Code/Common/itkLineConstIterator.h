@@ -162,7 +162,7 @@ protected: //made protected so other iterators can access
 
   /** Variables that drive the Bresenham-Algorithm */
   // The dimension with the largest difference between start and end
-  int m_MainDirection; 
+  unsigned int m_MainDirection; 
 
   // Accumulated error for the other dimensions
   IndexType m_AccumulateError;
