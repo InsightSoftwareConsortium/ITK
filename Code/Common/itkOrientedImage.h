@@ -159,20 +159,15 @@ public:
             IndexType & index                                ) const
     {
     typedef typename IndexType::IndexValueType IndexValueType;
-    Vector<double, VImageDimension> cvector;
-
-    index[0] = 
-      m_PhysicalPointToIndex[0][0] * (point[0] - this->m_Origin[0]) +
-      m_PhysicalPointToIndex[0][1] * (point[1] - this->m_Origin[1]) +
-      m_PhysicalPointToIndex[0][2] * (point[2] - this->m_Origin[2]);
-    index[1] = 
-      m_PhysicalPointToIndex[1][0] * (point[0] - this->m_Origin[0]) +
-      m_PhysicalPointToIndex[1][1] * (point[1] - this->m_Origin[1]) +
-      m_PhysicalPointToIndex[1][2] * (point[2] - this->m_Origin[2]);
-    index[2] = 
-      m_PhysicalPointToIndex[2][0] * (point[0] - this->m_Origin[0]) +
-      m_PhysicalPointToIndex[2][1] * (point[1] - this->m_Origin[1]) +
-      m_PhysicalPointToIndex[2][2] * (point[2] - this->m_Origin[2]);
+    for (unsigned int i = 0; i < VImageDimension; i++)
+      {
+      index[i] = 0.0;
+      for (unsigned int j = 0; j < VImageDimension; j++)
+        {
+        index[i] += 
+          m_PhysicalPointToIndex[i][j] * (point[j] - this->m_Origin[j]);
+        }
+      }
 
     // Now, check to see if the index is within allowed bounds
     const bool isInside =
@@ -219,18 +214,14 @@ public:
                       const IndexType & index,
                       Point<TCoordRep, VImageDimension>& point ) const
     {
-    point[0] = this->m_Origin[0] +
-      m_IndexToPhysicalPoint[0][0] * index[0] +
-      m_IndexToPhysicalPoint[0][1] * index[1] +
-      m_IndexToPhysicalPoint[0][2] * index[2];
-    point[1] = this->m_Origin[1] +
-      m_IndexToPhysicalPoint[1][0] * index[0] +
-      m_IndexToPhysicalPoint[1][1] * index[1] +
-      m_IndexToPhysicalPoint[1][2] * index[2];
-    point[2] = this->m_Origin[2] +
-      m_IndexToPhysicalPoint[2][0] * index[0] +
-      m_IndexToPhysicalPoint[2][1] * index[1] +
-      m_IndexToPhysicalPoint[2][2] * index[2];
+    for (unsigned int i = 0; i < VImageDimension; i++)
+      {
+      point[i] = this->m_Origin[i];
+      for (unsigned int j = 0; j < VImageDimension; j++)
+        {
+        point[i] += m_IndexToPhysicalPoint[i][j] * index[j];
+        }
+      }
     }
 #endif
 protected:
