@@ -94,6 +94,17 @@ public:
     { Self result( *this );
       result *= value;
       return result; }
+      
+  /** Matrix by scalar division.  */
+  void operator/=(const T & value)
+    { m_Matrix /= value; }
+  
+  /** Matrix by scalar division.  */
+  Self operator/(const T & value)
+    { Self result( *this );
+      result /= value;
+      return result; }
+
 
   /** Return an element of the matrix. */
   inline T & operator()( unsigned int row, unsigned int col )
