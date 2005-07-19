@@ -175,10 +175,10 @@ SpatialObject< TDimension >
 {
   if( depth > 0 )
     {
-    typedef typename TreeNodeType::ChildrenListType ChildrenListType; 
-    ChildrenListType* children = m_TreeNode->GetChildren();
-    typename ChildrenListType::const_iterator it = children->begin();
-    typename ChildrenListType::const_iterator itEnd = children->end();
+    typedef typename TreeNodeType::ChildrenListType TreeChildrenListType; 
+    TreeChildrenListType* children = m_TreeNode->GetChildren();
+    typename TreeChildrenListType::const_iterator it = children->begin();
+    typename TreeChildrenListType::const_iterator itEnd = children->end();
     
     while(it!=itEnd)
       {
@@ -205,10 +205,10 @@ SpatialObject< TDimension >
   bool evaluable = false;
   if( depth > 0 )
     {
-    typedef typename TreeNodeType::ChildrenListType ChildrenListType; 
-    ChildrenListType* children = m_TreeNode->GetChildren();
-    typename ChildrenListType::const_iterator it = children->begin();
-    typename ChildrenListType::const_iterator itEnd = children->end();
+    typedef typename TreeNodeType::ChildrenListType TreeChildrenListType; 
+    TreeChildrenListType* children = m_TreeNode->GetChildren();
+    typename TreeChildrenListType::const_iterator it = children->begin();
+    typename TreeChildrenListType::const_iterator itEnd = children->end();
   
     while(it!=itEnd)
       {
