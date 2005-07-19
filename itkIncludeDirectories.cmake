@@ -29,6 +29,7 @@ SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
   ${ITK_BINARY_DIR}/Utilities/DICOMParser
   ${ITK_BINARY_DIR}/Utilities/expat
   ${ITK_SOURCE_DIR}/Utilities/expat
+  ${ITK_SOURCE_DIR}/Utilities/nifti
   ${ITK_BINARY_DIR}/Utilities/gdcm
   ${ITK_BINARY_DIR}/Utilities
   ${ITK_SOURCE_DIR}/Utilities

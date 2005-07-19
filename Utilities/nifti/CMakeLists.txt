@@ -7,57 +7,70 @@ INCLUDE(${CMAKE_ROOT}/Modules/Dart.cmake)
 SUBDIRS(znzlib niftilib)
 ADD_DEFINITIONS(-DHAVE_ZLIB)
 
-#Needs an if clause and more work before testing can take place.
-#SUBDIRS(Testing)
-#ENABLE_TESTING()
-# Dashboard is opened for submissions for a 24 hour period starting at
-# the specified NIGHLY_START_TIME. Time is specified in 24 hour format.
-#SET (NIGHTLY_START_TIME "1:00:00 EDT")
 
-# Dart server to submit results (used by client)
+IF("${ITK_VERSION_MAJOR}" GREATER 0.0)
+#   MESSAGE(STATUS "---------------------ITK ZLIB  ${ITK_ZLIB_LIBRARIES}")
+  SET(PACKAGE_PREFIX "ITK")
+  SET(LIB_INSTALL_DIR "/lib/InsightToolkit")
+  SET(NIFTI_ZLIB_LIBRARIES ${ITK_ZLIB_LIBRARIES})
+ELSE("${ITK_VERSION_MAJOR}" GREATER 0.0)
+   FIND_PACKAGE(ZLIB)
+#  MESSAGE(STATUS "---------------------SYSTEM ZLIB ${ZLIB_LIBRARY}")
+  SET(NIFTI_ZLIB_LIBRARIES ${ZLIB_LIBRARIES})
+  SET(PACKAGE_PREFIX "")
+  SET(LIB_INSTALL_DIR "/lib")
 
-# Project Home Page
-#SET (PROJECT_URL "http://www.psychiatry.uiowa.edu/")
+  #Needs an if clause and more work before testing can take place.
+  SUBDIRS(Testing)
+  ENABLE_TESTING()
+  # Dashboard is opened for submissions for a 24 hour period starting at
+  # the specified NIGHLY_START_TIME. Time is specified in 24 hour format.
+  SET (NIGHTLY_START_TIME "1:00:00 EDT")
 
-# Dart server to submit results (used by client)
-#SET (DROP_METHOD "ftp")
-#SET (DROP_METHOD "xmlrpc")
-#IF(DROP_METHOD MATCHES xmlrpc)
-#  SET (DROP_SITE "compute3.psychiatry.uiowa.edu:8081")
-#  SET (DROP_LOCATION "nifti")
-#ELSE(DROP_METHOD MATCHES xmlrpc)
-#  IF(DROP_METHOD MATCHES http)
-#    SET (DROP_SITE "developer.psychiatry.uiowa.edu")
-#    SET (DROP_LOCATION "/cgi-bin/HTTPUploadDartFile.cgi")
-#  #  SET (DROP_LOCATION "/home/builduser/incoming")
-#  ELSE(DROP_METHOD MATCHES http)
-#     SET (DROP_SITE "developer.psychiatry.uiowa.edu")
-#     SET (DROP_LOCATION "/developer/incoming")
-#     SET (DROP_SITE_USER "builduser")
-#     SET (DROP_SITE_PASSWORD "build2pass")
-#  ENDIF(DROP_METHOD MATCHES http)
+  # Dart server to submit results (used by client)
 
-#  SET (TRIGGER_SITE "http://${DROP_SITE}/cgi-bin/Submit-BRAINS2-TestingResults.pl")
-  # Dart server configuration 
-#  SET (ROLLUP_URL "http://${DROP_SITE}/cgi-bin/brains-rollup-dashboard.sh")
-#SET (CONTINUOUS_BASE_URL "http://developer.psychiatry.uiowa.edu/Testing/brains2/gcc3/DEBUG/src/")
-#ENDIF(DROP_METHOD MATCHES xmlrpc)
+  # Project Home Page
+  SET (PROJECT_URL "http://www.psychiatry.uiowa.edu/")
 
-#SET (CVS_WEB_URL "http://www.psychiatry.uiowa.edu/cgi-bin/viewcvs.cgi/")
-#SET (CVS_WEB_CVSROOT "brains2")
+  # Dart server to submit results (used by client)
+  SET (DROP_METHOD "ftp")
+  SET (DROP_METHOD "xmlrpc")
+  IF(DROP_METHOD MATCHES xmlrpc)
+    SET (DROP_SITE "compute3.psychiatry.uiowa.edu:8081")
+    SET (DROP_LOCATION "nifti")
+  ELSE(DROP_METHOD MATCHES xmlrpc)
+    IF(DROP_METHOD MATCHES http)
+      SET (DROP_SITE "developer.psychiatry.uiowa.edu")
+      SET (DROP_LOCATION "/cgi-bin/HTTPUploadDartFile.cgi")
+   #  SET (DROP_LOCATION "/home/builduser/incoming")
+    ELSE(DROP_METHOD MATCHES http)
+       SET (DROP_SITE "developer.psychiatry.uiowa.edu")
+       SET (DROP_LOCATION "/developer/incoming")
+       SET (DROP_SITE_USER "builduser")
+       SET (DROP_SITE_PASSWORD "build2pass")
+    ENDIF(DROP_METHOD MATCHES http)
 
-#OPTION(BUILD_DOXYGEN "Build source documentation using doxygen" "Off")
-#SET (DOXYGEN_CONFIG "${PROJECT_BINARY_DIR}/doxygen.config" )
-#SET (USE_DOXYGEN "On")
-#SET (DOXYGEN_URL "http://www.psychiatry.uiowa.edu/BRAINS/Doxygen/html/" )
+    SET (TRIGGER_SITE "http://${DROP_SITE}/cgi-bin/Submit-BRAINS2-TestingResults.pl")
+  # Dart server configuration
+    SET (ROLLUP_URL "http://${DROP_SITE}/cgi-bin/brains-rollup-dashboard.sh")
+    SET (CONTINUOUS_BASE_URL "http://developer.psychiatry.uiowa.edu/Testing/brains2/gcc3/DEBUG/src/")
+  ENDIF(DROP_METHOD MATCHES xmlrpc)
 
-#SET (USE_GNATS "On")
-#SET (GNATS_WEB_URL "http://www.psychiatry.uiowa.edu/bugtracks")
+  SET (CVS_WEB_URL "http://www.psychiatry.uiowa.edu/cgi-bin/viewcvs.cgi/")
+  SET (CVS_WEB_CVSROOT "brains2")
 
-# Continuous email delivery variables
-#SET (CONTINUOUS_FROM "hans-johnson@uiowa.edu")
-#SET (SMTP_MAILHOST "server.psychiatry.uiowa.edu")
-#SET (CONTINUOUS_MONITOR_LIST "hans-johnson@uiowa.edu")
+  #OPTION(BUILD_DOXYGEN "Build source documentation using doxygen" "Off")
+  SET (DOXYGEN_CONFIG "${PROJECT_BINARY_DIR}/doxygen.config" )
+  SET (USE_DOXYGEN "On")
+  SET (DOXYGEN_URL "http://www.psychiatry.uiowa.edu/BRAINS/Doxygen/html/" )
 
-#MARK_AS_ADVANCED(BUILD_DOXYGEN)
+  SET (USE_GNATS "On")
+  SET (GNATS_WEB_URL "http://www.psychiatry.uiowa.edu/bugtracks")
 
+  # Continuous email delivery variables
+  SET (CONTINUOUS_FROM "hans-johnson@uiowa.edu")
+  SET (SMTP_MAILHOST "server.psychiatry.uiowa.edu")
+  SET (CONTINUOUS_MONITOR_LIST "hans-johnson@uiowa.edu")
+
+  MARK_AS_ADVANCED(BUILD_DOXYGEN)
+ENDIF("${ITK_VERSION_MAJOR}" GREATER 0.0)

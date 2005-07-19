@@ -8,8 +8,5 @@ INCLUDE_DIRECTORIES(${NIFTIIOLIB_SOURCE_DIR})
 ADD_EXECUTABLE(first_test nifti_test.c)
 TARGET_LINK_LIBRARIES(first_test niftiio )
 
-
 ADD_TEST(first_test first_test )
-
-
 
