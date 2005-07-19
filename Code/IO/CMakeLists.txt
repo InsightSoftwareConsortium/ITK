@@ -1,4 +1,6 @@
 SET(ITKIO_SRCS
+  itkniftiImageIO.cxx
+  itkniftiImageIOFactory.cxx
   itkAnalyzeImageIO.cxx
   itkAnalyzeImageIOFactory.cxx
   itkArchetypeSeriesFileNames.cxx
@@ -59,19 +61,20 @@ SET(ITKIO_SRCS
 # Add ITKIO library
 ADD_LIBRARY(ITKIO ${ITKIO_SRCS})
 
-TARGET_LINK_LIBRARIES(ITKIO 
-ITKCommon 
-ITKNrrdIO 
+TARGET_LINK_LIBRARIES(ITKIO
+ITKCommon
+ITKNrrdIO
 itkjpeg8
 itkjpeg12
 itkjpeg16
 itkgdcm
 ${ITK_PNG_LIBRARIES}
-${ITK_ZLIB_LIBRARIES} 
-${ITK_TIFF_LIBRARIES} 
+${ITK_ZLIB_LIBRARIES}
+${ITK_TIFF_LIBRARIES}
 ITKMetaIO
-ITKDICOMParser 
-ITKEXPAT)
+ITKDICOMParser
+ITKEXPAT
+ITKniftiio)
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKIO)
 INSTALL_FILES(/include/InsightToolkit/IO "(\\.h|\\.txx)$")
