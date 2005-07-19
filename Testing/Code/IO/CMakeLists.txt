@@ -7,6 +7,7 @@ SET(IO_HEADER_TEST ${CXX_TEST_PATH}/itkIOHeaderTest)
 
 SET(IOTest_SRCS
 itkAnalyzeImageIOTest.cxx
+itkniftiImageIOTest.cxx
 itkArchetypeSeriesFileNamesTest.cxx
 itkBMPImageIOTest.cxx
 itkBrains2MaskImageIOTest.cxx
@@ -279,6 +280,7 @@ ADD_TEST(itkNumericSeriesFileNamesTest ${IO_TESTS}
            ${ITK_DATA_ROOT}/Input/cthead1.png)
   ADD_TEST(itkPNGImageIOTest2 ${IO_TESTS} itkPNGImageIOTest
            ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png)
+##Analyze Test Suite
   ADD_TEST(itkAnalyzeImageIOTest ${IO_TESTS}
     itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR})
   ADD_TEST(itkAnalyzeIOBigEndianCompressed.hdr ${IO_TESTS} itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
@@ -298,7 +300,27 @@ ADD_TEST(itkNumericSeriesFileNamesTest ${IO_TESTS}
                                   false ${ITK_DATA_ROOT}/Input/ramp.gipl)
   ADD_TEST(itkAnalyzeIOShouldSucceed ${IO_TESTS} itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
                                   true ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
-  
+##nifti Test Suite
+  ADD_TEST(itkniftiImageIOTest ${IO_TESTS}
+    itkniftiImageIOTest ${ITK_TEST_OUTPUT_DIR})
+  ADD_TEST(itkniftiIOBigEndianCompressed.hdr ${IO_TESTS} itkniftiImageIOTest ${ITK_TEST_OUTPUT_DIR}
+           ${ITK_DATA_ROOT}/Input/niftiBigEndianCompressed.hdr)
+  ADD_TEST(itkniftiIOBigEndianCompressed.img ${IO_TESTS} itkniftiImageIOTest ${ITK_TEST_OUTPUT_DIR}
+           ${ITK_DATA_ROOT}/Input/niftiBigEndianCompressed.img)
+  ADD_TEST(itkniftiIOBigEndianCompressed.img.gz ${IO_TESTS} itkniftiImageIOTest ${ITK_TEST_OUTPUT_DIR}
+           ${ITK_DATA_ROOT}/Input/niftiBigEndianCompressed.img.gz)
+  ADD_TEST(itkniftiIOBigEndian ${IO_TESTS} itkniftiImageIOTest ${ITK_TEST_OUTPUT_DIR}
+           ${ITK_DATA_ROOT}/Input/niftiBigEndian.hdr)
+  ADD_TEST(itkniftiIOLittleEndianCompressed ${IO_TESTS} itkniftiImageIOTest ${ITK_TEST_OUTPUT_DIR}
+           ${ITK_DATA_ROOT}/Input/niftiLittleEndianCompressed.hdr)
+  ADD_TEST(itkniftiIOLittleEndian ${IO_TESTS} itkniftiImageIOTest ${ITK_TEST_OUTPUT_DIR}
+           ${ITK_DATA_ROOT}/Input/niftiLittleEndian.hdr)
+  ADD_TEST(itkniftiIOInternalTests ${IO_TESTS} itkniftiImageIOTest ${ITK_TEST_OUTPUT_DIR} )
+  ADD_TEST(itkniftiIOShouldFail ${IO_TESTS} itkniftiImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
+                                  false ${ITK_DATA_ROOT}/Input/ramp.gipl)
+  ADD_TEST(itkniftiIOShouldSucceed ${IO_TESTS} itkniftiImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
+                                  true ${ITK_DATA_ROOT}/Input/niftiLittleEndian.hdr)
+
 ADD_TEST(itkGE4 ${IO_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/19771.002.001.mha
             ${ITK_TEST_OUTPUT_DIR}/19771.002.001.mha

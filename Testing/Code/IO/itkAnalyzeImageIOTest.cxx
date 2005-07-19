@@ -27,13 +27,8 @@ PURPOSE.  See the above copyright notices for more information.
 #include <iostream>
 #include <fstream>
 
-#include "itkLaplacianImageFilter.h"
 #include "itkImageFileWriter.h"
 #include "itkImageIOFactory.h"
-#include "itkMetaImageIOFactory.h"
-#include "itkPNGImageIOFactory.h"
-#include "itkMetaImageIO.h"
-#include "itkPNGImageIO.h"
 #include "itkAnalyzeImageIOFactory.h"
 #include "itkAnalyzeImageIO.h"
 #include <stdio.h>
