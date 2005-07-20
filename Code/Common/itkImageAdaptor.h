@@ -217,8 +217,8 @@ public:
   
   /** Set the spacing (size of a pixel) of the image. */
   virtual void SetSpacing( const SpacingType values );
-  virtual void SetSpacing( const double values[ImageDimension] );
-  virtual void SetSpacing( const float values[ImageDimension] );
+  virtual void SetSpacing( const double* values /*[ImageDimension]*/ );
+  virtual void SetSpacing( const float* values /*[ImageDimension]*/ );
   
   /** Get the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
@@ -232,8 +232,8 @@ public:
 
   /** Set the origin of the image. */
   virtual void SetOrigin( const PointType values);
-  virtual void SetOrigin( const double values[ImageDimension] );
-  virtual void SetOrigin( const float values[ImageDimension] );
+  virtual void SetOrigin( const double* values /*[ImageDimension]*/ );
+  virtual void SetOrigin( const float* values /*[ImageDimension]*/ );
   
   /** Set Internal Image */
   virtual void SetImage( TImage * );
