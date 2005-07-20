@@ -37,6 +37,7 @@ ImageFileWriter<TInputImage>
 {
   m_UseCompression = false;
   m_UseInputMetaDataDictionary = true;
+  m_FactorySpecifiedImageIO = false;
 }
 
 
@@ -128,10 +129,11 @@ ImageFileWriter<TInputImage>
                   << m_FileName);
     m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), 
                                                ImageIOFactory::WriteMode );
+    m_FactorySpecifiedImageIO = true;
     }
   else
     {
-    if( !m_ImageIO->CanWriteFile( m_FileName.c_str() ) )
+    if( m_FactorySpecifiedImageIO && !m_ImageIO->CanWriteFile( m_FileName.c_str() ) )
       {
       itkDebugMacro(<<"ImageIO exists but doesn't know how to write file:" 
                     << m_FileName );
@@ -139,6 +141,7 @@ ImageFileWriter<TInputImage>
                     << m_FileName);
       m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), 
                                                  ImageIOFactory::WriteMode );
+      m_FactorySpecifiedImageIO = true;
       }
     }
 
@@ -308,6 +311,15 @@ ImageFileWriter<TInputImage>
   else
     {
     os << indent << "UseInputMetaDataDictionary: Off\n";
+    }
+
+  if (m_FactorySpecifiedImageIO)
+    {
+    os << indent << "FactorySpecifiedmageIO: On\n";
+    }
+  else
+    {
+    os << indent << "FactorySpecifiedmageIO: Off\n";
     }
 
 }

@@ -108,8 +108,20 @@ public:
    * write a certain file. This method provides a way to get the ImageIO 
    * instance that is created, or one can be manually set where the
    * IO factory mechanism may not work (for example, raw image files or
-   * image files with non-standard filename suffix's. */
-  itkSetObjectMacro(ImageIO,ImageIOBase);
+   * image files with non-standard filename suffix's.
+   * If the user specifies the ImageIO, we assume she makes the
+   * correct choice and will allow a file to be created regardless of
+   * the file extension. If the factory has set the ImageIO, the
+   * extension must be supported by the specified ImageIO. */
+  void SetImageIO (ImageIOBase* io)
+  {
+    if (this->m_ImageIO != io)
+      {
+      this->Modified();
+      this->m_ImageIO = io;
+      }
+    m_FactorySpecifiedImageIO = false;
+  }
   itkGetObjectMacro(ImageIO,ImageIOBase);
   
   /** A special version of the Update() method for writers.  It
@@ -165,7 +177,9 @@ private:
   bool m_UserSpecifiedImageIO; //track whether the ImageIO is user specified
   
   ImageIORegion m_IORegion;
-  bool m_UserSpecifiedIORegion; //track whether the region is user specified
+  bool m_UserSpecifiedIORegion; //
+                                //track whether the region is user specified
+  bool m_FactorySpecifiedImageIO; //track whether the factory mechanism set the ImageIO
   bool m_UseCompression;
   bool m_UseInputMetaDataDictionary; // whether to use the MetaDataDictionary from the input or not.
 };
