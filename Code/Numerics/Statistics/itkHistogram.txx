@@ -404,7 +404,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
     }
 }
 
-template< class TMeasurement, unsigned int VMeasurementVectorSize, 
+/*template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
 inline typename Histogram< TMeasurement, VMeasurementVectorSize, 
                            TFrequencyContainer >::MeasurementVectorType&
@@ -432,7 +432,7 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
   return m_TempMeasurementVector ;
 
 }
-
+*/
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer >
 inline typename Histogram< TMeasurement, VMeasurementVectorSize,
@@ -685,6 +685,8 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
   os << indent << "FrequencyContainerPointer: " << m_FrequencyContainer
      << std::endl;
 }
+
+
 } // end of namespace Statistics 
 } // end of namespace itk 
 
