@@ -1172,7 +1172,7 @@ public:
   /** Set the length of each measurement vector = dimension of the histogram.
    * The method will destructively set the size of all other parameters of the
    * histogram. This method should be called only from the Initialize() method. */
-  void SetMeasurementVectorSize( unsigned int );
+  void SetMeasurementVectorSize( const unsigned int );
 
 protected:
   Histogram() ;

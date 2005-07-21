@@ -36,7 +36,7 @@ void
 Histogram<float, 
       MeasurementVectorTraits< Array< float > >::MeasurementVectorLength,
       DenseFrequencyContainer< float > >
-::SetMeasurementVectorSize( unsigned int s )
+::SetMeasurementVectorSize( const unsigned int s )
 {
   if( s == this->GetMeasurementVectorSize() )
     {
