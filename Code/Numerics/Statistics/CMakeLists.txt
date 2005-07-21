@@ -2,7 +2,6 @@
 ADD_LIBRARY(ITKStatistics 
   itkMersenneTwisterRandomVariateGenerator.cxx  
   itkNormalVariateGenerator.cxx
-  itkHistogram.cxx
  )
 
 TARGET_LINK_LIBRARIES(ITKStatistics ITKCommon)

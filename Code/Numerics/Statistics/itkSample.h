@@ -24,7 +24,6 @@
 #include "itkSize.h"
 #include "itkObject.h"
 #include "itkFixedArray.h"
-#include "itkMeasurementVectorTraits.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -70,8 +69,7 @@ public:
 
   /** ValueType of a measurement (ValueType of a component of the
    * MeasurementVector */ 
-  typedef typename MeasurementVectorTraits< MeasurementVectorType >::ValueType 
-                                                      MeasurementType;
+  typedef typename TMeasurementVector::ValueType MeasurementType ;
 
   /** Frequency value type*/
   typedef float FrequencyType ;
@@ -80,28 +78,16 @@ public:
    * sequential id for each measurement vector in a Sample subclass.*/ 
   typedef unsigned long InstanceIdentifier ;
 
-  /** Typedef for the length of each measurement vector */
-  typedef unsigned int  MeasurementVectorSizeType;
-
-  /** DEPRECATED: The static const macro will be deprecated in a future version.
-   * Please use GetMeasurementVectorSize() instead. This returns the length
-   * of a measurement vector for FixedArrays, Vectors and other fixed containers
-   * and zero for dynamically resizable containers. The true value for 
-   * dynamically resizable containers will be obtained from the 
-   * GetMeasurementVectorSize() call. 
-   */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-     MeasurementVectorTraits< MeasurementVectorType >::MeasurementVectorLength);
-
-  
+  /** Length of the MeasurementVector */
+  itkStaticConstMacro( MeasurementVectorSize, unsigned int,
+                       TMeasurementVector::Length ) ;
 
   /** Get the size of the sample (number of measurements) */
   virtual unsigned int Size() const = 0 ;
 
   /** Get the measurement associated with a particular
    * InstanceIdentifier. */
-  virtual const MeasurementVectorType & 
-    GetMeasurementVector(const InstanceIdentifier &id) const = 0 ;
+  virtual const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const = 0 ;
 
   /** Get the frequency of a measurement specified by instance
    * identifier. */
@@ -112,39 +98,18 @@ public:
     = 0 ;
 
   
-  /** Set/Get macros for the length of the measurement vector */
-  virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType s )
-    {
-    if( (MeasurementVectorSize != 0) && (s!=MeasurementVectorSize) )
-      {
-      itkExceptionMacro( << "Cannot instantiate a sample with a fixed length "
-       << "container and resize it later. Create it with itk::Array if you like.");
-      }
-    this->m_MeasurementVectorSize = s;
-    }
-  itkGetConstMacro( MeasurementVectorSize, MeasurementVectorSizeType );
-
-  
 protected:
-  Sample()
-    {
-    m_MeasurementVectorSize = MeasurementVectorTraits< 
-                               MeasurementVectorType >::GetSize();
-    }
-
+  Sample() {}
   virtual ~Sample() {}
   void PrintSelf(std::ostream& os, Indent indent) const
   {
     Superclass::PrintSelf(os,indent);
   }
 
-
   
 private:
   Sample(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
-
-  MeasurementVectorSizeType m_MeasurementVectorSize;
 } ; // end of class
 
 } // end of namespace Statistics 
