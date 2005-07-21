@@ -113,7 +113,15 @@ public:
 
   
   /** Set/Get macros for the length of the measurement vector */
-  itkSetMacro( MeasurementVectorSize, MeasurementVectorSizeType);
+  virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType s )
+    {
+    if( (MeasurementVectorSize != 0) && (s!=MeasurementVectorSize) )
+      {
+      itkExceptionMacro( << "Cannot instantiate a sample with a fixed length "
+       << "container and resize it later. Create it with itk::Array if you like.");
+      }
+    this->m_MeasurementVectorSize = s;
+    }
   itkGetConstMacro( MeasurementVectorSize, MeasurementVectorSizeType );
 
   
@@ -128,7 +136,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const
   {
     Superclass::PrintSelf(os,indent);
-    os << indent << "Length of measurment vector: " << m_MeasurementVectorSize << std::endl;
   }
 
 
