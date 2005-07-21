@@ -207,6 +207,11 @@ void Brains2MaskImageIO::Read(void* buffer)
         }
       }
     }
+  itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
+  itk::SpatialOrientation::ValidCoordinateOrientationFlags 
+    coord_orient(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+  itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
+    (thisDic,ITK_CoordinateOrientation, coord_orient);
   return;
 }
 // This method will only test if the header looks like an
