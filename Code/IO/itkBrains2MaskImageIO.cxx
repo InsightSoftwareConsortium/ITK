@@ -294,7 +294,7 @@ static const char mask_header_format[] =
 "MASK_Z_RESOLUTION: %f\n"
 "MASK_THRESHOLD: %f\n"
 "MASK_NAME: %d\n"
-"MASK_ACQ_PLANE: CORONAL\n"
+"MASK_ACQ_PLANE: %s\n"
 "MASK_HEADER_END\n"
 "IPL_HEADER_END\n";
 
@@ -409,6 +409,28 @@ Brains2MaskImageIO
     }
   std::string fname = this->m_FileName;
   replace_blanks(fname);
+  std::string orientation = "UNKNOWN";
+  itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
+  if ( itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient) )
+    {
+    switch (coord_orient)
+      {
+      case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
+        // itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE;
+        orientation = "AXIAL";
+        break;
+      case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
+        // itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL;
+        orientation = "SAGITTAL";
+        break;
+      case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
+        // itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
+        orientation = "CORONAL";
+      default:
+        break;
+      }
+    }
+  
   sprintf(buf,mask_header_format,
           patient_id.c_str(),
           "00000",                 // scan_id
@@ -427,7 +449,8 @@ Brains2MaskImageIO
           zsize,                   // zsize
           1.0,                     // z_res
           0.0,                     // threshold
-          -1                       // mask_name
+          -1,                      // mask_name
+          orientation.c_str()      // acq plane
     );
   output.write(buf,strlen(buf));
   unsigned octreeHdr[6];
