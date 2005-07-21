@@ -135,8 +135,8 @@ readOctree (std::ifstream & octreestream,
 void Brains2MaskImageIO::Read(void* buffer)
 {
   std::ifstream   local_InputStream;
-  { //Just fast forward throuth the file header
   itk::Brains2IPLHeaderInfo DummyHeader;
+
   local_InputStream.open( this->m_FileName.c_str(), std::ios::in | std::ios::binary );
   if( local_InputStream.fail() )
     {
@@ -144,8 +144,9 @@ void Brains2MaskImageIO::Read(void* buffer)
     exception.SetDescription("File cannot be read");
     throw exception;
     }
+  //Just fast forward throuth the file header
   DummyHeader.ReadBrains2Header(local_InputStream);
-  }
+
   //Actually start reading the octree
   unsigned int octreeHdr[6];
   //Need to gobble up the end of line character here and move one more byte.
@@ -210,6 +211,20 @@ void Brains2MaskImageIO::Read(void* buffer)
   itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   itk::SpatialOrientation::ValidCoordinateOrientationFlags 
     coord_orient(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+  if(DummyHeader.DoesKeyExist("MASK_ACQ_PLANE:"))
+    {
+    std::string acqVal =
+      DummyHeader.getString("MASK_ACQ_PLANE:");
+    if(acqVal == "SAGITTAL")
+      {
+      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR;
+      }
+    else if(acqVal == "AXIAL")
+      {
+      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI;
+      }
+    
+    }
   itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
     (thisDic,ITK_CoordinateOrientation, coord_orient);
   return;
