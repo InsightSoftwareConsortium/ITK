@@ -163,6 +163,8 @@ public:
  
 private:
   InternalMatrixType     m_Matrix;
+  unsigned int m_Rows;   // Number of rows
+  unsigned int m_Cols;   // Number of columns
 
 };
 
