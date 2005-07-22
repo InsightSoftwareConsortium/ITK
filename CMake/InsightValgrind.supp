@@ -1,0 +1,12 @@
+{
+  Some Error from the itk::MultiThreader::SingleMethodExecute
+  Memcheck:Leak
+  fun:calloc
+  obj:/lib/ld-2.3.2.so
+  fun:_dl_allocate_tls
+  fun:allocate_stack
+  fun:pthread_create@@GLIBC_2.1
+  fun:_ZN3itk13MultiThreader19SingleMethodExecuteEv
+  fun:_ZN3itk11ImageSourceINS_5ImageINS_6VectorIiLj3EEELj2EEEE12GenerateDataEv
+}
+
