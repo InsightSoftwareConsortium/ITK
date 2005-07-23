@@ -20,6 +20,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 
@@ -163,6 +164,20 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
         (*mapIt).second.m_Maximum = (*threadIt).second.m_Maximum;
         }
 
+      //bounding box is min,max pairs
+      int dimension = (*mapIt).second.m_BoundingBox.size() / 2;
+      for (int i = 0; i < (dimension * 2) ; i += 2 ) 
+         {
+         if ((*mapIt).second.m_BoundingBox[i] > (*threadIt).second.m_BoundingBox[i])
+           {
+           (*mapIt).second.m_BoundingBox[i] = (*threadIt).second.m_BoundingBox[i];
+           }
+         if ((*mapIt).second.m_BoundingBox[i + 1] < (*threadIt).second.m_BoundingBox[i + 1])
+           {
+           (*mapIt).second.m_BoundingBox[i + 1] = (*threadIt).second.m_BoundingBox[i + 1];
+           }
+         }
+
       // if enabled, update the histogram for this label
       if (m_UseHistograms)
         {
@@ -215,7 +230,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 {
   RealType value;
   LabelPixelType label;
-  ImageRegionConstIterator<TInputImage> it (this->GetInput(),
+  ImageRegionConstIteratorWithIndex<TInputImage> it (this->GetInput(),
          outputRegionForThread);
   ImageRegionConstIterator<TLabelImage> labelIt (this->GetLabelInput(),
        outputRegionForThread);
@@ -258,6 +273,21 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       {
       (*mapIt).second.m_Maximum = value;
       }
+
+    // bounding box is min,max pairs
+    for (int i = 0; i < ( 2 * it.GetImageDimension()) ; i+=2 ) 
+      {
+      typename ImageRegionConstIteratorWithIndex<TInputImage>::IndexType index = it.GetIndex();
+      if ((*mapIt).second.m_BoundingBox[i] > index[i/2])
+        {
+        (*mapIt).second.m_BoundingBox[i] = index[i/2];
+        }
+      if ((*mapIt).second.m_BoundingBox[i + 1] < index[i/2])
+        {
+        (*mapIt).second.m_BoundingBox[i + 1] = index[i/2];
+        }
+      }
+
 
     (*mapIt).second.m_Sum += value;
     (*mapIt).second.m_SumOfSquares += (value * value);
@@ -382,6 +412,61 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
   else
     {
     return (*mapIt).second.m_Variance;
+    }
+}
+
+template<class TInputImage, class TLabelImage>
+typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::BoundingBoxType
+LabelStatisticsImageFilter<TInputImage, TLabelImage>
+::GetBoundingBox(LabelPixelType label) const
+{
+
+  MapConstIterator mapIt;
+  mapIt = m_LabelStatistics.find( label );
+  if ( mapIt == m_LabelStatistics.end() )
+    {
+    BoundingBoxType emptyBox;
+    // label does not exist, return a default value
+    return emptyBox;
+    }
+  else
+    {
+    return (*mapIt).second.m_BoundingBox;
+    }
+}
+
+template<class TInputImage, class TLabelImage>
+typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::RegionType
+LabelStatisticsImageFilter<TInputImage, TLabelImage>
+::GetRegion(LabelPixelType label) const
+{
+  MapConstIterator mapIt;
+  mapIt = m_LabelStatistics.find( label );
+
+  if ( mapIt == m_LabelStatistics.end() )
+    {
+    RegionType emptyRegion;
+    // label does not exist, return a default value
+    return emptyRegion;
+    }
+  else
+    {
+    BoundingBoxType bbox = this->GetBoundingBox( label );
+    IndexType index;
+    SizeType size;
+
+    unsigned int dimension = bbox.size() / 2;
+
+    for (unsigned int i = 0; i < dimension; i++)
+      {
+      index[i] = bbox[2*i];
+      size[i] = bbox[2*i+1] - bbox[2*i] + 1;
+      }
+    RegionType region;
+    region.SetSize(size);
+    region.SetIndex(index);
+    
+    return region;
     }
 }
 

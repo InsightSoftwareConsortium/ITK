@@ -172,6 +172,16 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
       std::cout << "\tVariance = " << statistics->GetVariance(ii) << std::endl;
       std::cout << "\tSum = " << statistics->GetSum(ii) << std::endl;
       std::cout << "\tMedian = " << statistics->GetMedian(ii) << std::endl;
+      std::cout << "\tRegion = " << statistics->GetRegion(ii) << std::endl;
+      const StatisticsFilterType::BoundingBoxType bbox =
+        statistics->GetBoundingBox(ii);
+
+      std::cout << "\tBounding box = ";
+      for ( unsigned int jj = 0; jj <  bbox.size(); jj++)
+        {
+        std::cout << bbox[jj] << " ";
+        }
+      std::cout << std::endl;
       if (statistics->HasLabel(ii))
         {
         std::cout << "\tHistogram Frequencies:" << std::endl;

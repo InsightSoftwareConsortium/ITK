@@ -95,6 +95,9 @@ public:
   /** Type of DataObjects used for scalar outputs */
   typedef SimpleDataObjectDecorator<RealType> RealObjectType;
 
+  /** Bounding Box-related typedefs */
+  typedef std::vector<typename IndexType::IndexValueType> BoundingBoxType;
+
   /** Histogram-related typedefs */
   typedef itk::Statistics::Histogram<RealType,1> HistogramType;
   typedef typename HistogramType::Pointer HistogramPointer;
@@ -120,7 +123,16 @@ public:
       m_Mean = NumericTraits<RealType>::Zero;
       m_Sigma = NumericTraits<RealType>::Zero;
       m_Variance = NumericTraits<RealType>::Zero;
+
+      unsigned int imageDimension = itkGetStaticConstMacro(ImageDimension);
+      m_BoundingBox.resize(imageDimension*2);
+        for (unsigned int i = 0; i < imageDimension * 2; i += 2)
+          {
+          m_BoundingBox[i] = NumericTraits<typename IndexType::IndexValueType>::max();
+          m_BoundingBox[i+1] = NumericTraits<typename IndexType::IndexValueType>::NonpositiveMin();
+          }
       m_Histogram = 0;
+
       }
 
       // constructor with histogram enabled
@@ -140,6 +152,14 @@ public:
         m_Mean = NumericTraits<RealType>::Zero;
         m_Sigma = NumericTraits<RealType>::Zero;
         m_Variance = NumericTraits<RealType>::Zero;
+
+        unsigned int imageDimension = itkGetStaticConstMacro(ImageDimension);
+        m_BoundingBox.resize(imageDimension*2);
+        for (unsigned int i = 0; i < imageDimension * 2; i += 2)
+          {
+          m_BoundingBox[i] = NumericTraits<typename IndexType::IndexValueType>::max();
+          m_BoundingBox[i+1] = NumericTraits<typename IndexType::IndexValueType>::NonpositiveMin();
+          }
 
        // Histogram
         m_Histogram = HistogramType::New();
@@ -163,6 +183,7 @@ public:
         m_SumOfSquares = l.m_SumOfSquares;
         m_Sigma = l.m_Sigma;
         m_Variance = l.m_Variance;
+        m_BoundingBox = l.m_BoundingBox;
         m_Histogram = l.m_Histogram;
         }
 
@@ -177,6 +198,7 @@ public:
         m_SumOfSquares = l.m_SumOfSquares;
         m_Sigma = l.m_Sigma;
         m_Variance = l.m_Variance;
+        m_BoundingBox = l.m_BoundingBox;
         m_Histogram = l.m_Histogram;
         }
       
@@ -188,6 +210,7 @@ public:
       RealType m_SumOfSquares;
       RealType m_Sigma;
       RealType m_Variance;
+      BoundingBoxType m_BoundingBox;
       typename HistogramType::Pointer m_Histogram;
   };
   
@@ -249,6 +272,12 @@ public:
 
   /** Return the computed Variance for a label. */
   RealType GetVariance(LabelPixelType label) const;
+
+  /** Return the computed bounding box for a label. */
+  BoundingBoxType GetBoundingBox(LabelPixelType label) const;
+
+  /** Return the computed region. */
+  RegionType GetRegion(LabelPixelType label) const;
 
   /** Return the compute Sum for a label. */
   RealType GetSum(LabelPixelType label) const;
