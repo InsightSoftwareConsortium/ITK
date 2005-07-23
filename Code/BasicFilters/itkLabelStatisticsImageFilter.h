@@ -128,8 +128,8 @@ public:
       m_BoundingBox.resize(imageDimension*2);
         for (unsigned int i = 0; i < imageDimension * 2; i += 2)
           {
-          m_BoundingBox[i] = NumericTraits<typename IndexType::IndexValueType>::max();
-          m_BoundingBox[i+1] = NumericTraits<typename IndexType::IndexValueType>::NonpositiveMin();
+          m_BoundingBox[i] = NumericTraits<ITK_TYPENAME IndexType::IndexValueType>::max();
+          m_BoundingBox[i+1] = NumericTraits<ITK_TYPENAME IndexType::IndexValueType>::NonpositiveMin();
           }
       m_Histogram = 0;
 
