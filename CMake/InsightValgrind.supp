@@ -10,3 +10,114 @@
   fun:_ZN3itk11ImageSourceINS_5ImageINS_6VectorIiLj3EEELj2EEEE12GenerateDataEv
 }
 
+{
+  Error2
+  Memcheck:Free
+  fun:calloc
+  obj:/lib/ld-2.3.2.so
+  fun:_dl_allocate_tls
+  fun:allocate_stack
+  fun:pthread_create@@GLIBC_2.1
+  fun:_ZN3itk13MultiThreader19SingleMethodExecuteEv
+  fun:_ZN3itk11ImageSourceINS_5ImageIfLj3EEEE12GenerateDataEv
+}
+
+{
+  CrazyTclError1
+  Memcheck:Leak
+  fun:calloc
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclpAlloc
+  fun:Tcl_Alloc
+  fun:Tcl_MutexLock
+  fun:TclInitObjSubsystem
+  fun:TclInitSubsystems
+  fun:Tcl_FindExecutable
+  fun:Tcl_Main
+}
+{
+  CrazyTclError2
+  Memcheck:Leak
+  fun:calloc
+  obj:/lib/ld-2.3.2.so
+  fun:_dl_allocate_tls
+  fun:allocate_stack
+  fun:pthread_create@@GLIBC_2.1
+  fun:TclpThreadCreate  
+  fun:Tcl_InitNotifier
+  fun:TclInitNotifier
+  fun:TclInitSubsystems
+  fun:Tcl_FindExecutable
+  fun:Tcl_Main
+  fun:main
+}
+
+{
+  CrazyTclError3
+  Memcheck:Leak
+  fun:realloc
+  fun:TclpRealloc
+  fun:Tcl_Realloc
+  fun:Tcl_SetObjLength
+  obj:/usr/lib/libtcl8.4.so.0
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_FSEvalFile
+  fun:Tcl_Main 
+}
+
+{
+  CrazyTclError4
+  Memcheck:Leak
+  fun:malloc
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclpAlloc
+  fun:Tcl_Alloc
+  obj:/usr/lib/libtcl8.4.so.0
+  obj:/usr/lib/libtcl8.4.so.0
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_GetsObj
+  fun:Tcl_Gets
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_SetSystemEncoding 
+  fun:TclpSetInitialEncodings
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_FindExecutable 
+  fun:Tcl_Main 
+}
+
+{ 
+  CrazyTclError5
+  Memcheck:Leak
+  fun:malloc
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclpAlloc 
+  fun:Tcl_Alloc 
+  fun:Tcl_MutexLock
+  fun:TclInitObjSubsystem 
+  fun:TclInitSubsystems 
+  fun:Tcl_FindExecutable 
+  fun:Tcl_Main 
+}
+
+{
+  CrazyTclError6
+  Memcheck:Leak
+  fun:malloc 
+  fun:TclThreadAllocObj 
+  fun:Tcl_NewObj 
+  fun:TclpInitLibraryPath 
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_FindExecutable 
+  fun:Tcl_Main 
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:_ZSt18uncaught_exceptionv
+   fun:_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc
+   fun:_Z63itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTestiPPc
+   fun:main
+}
+
