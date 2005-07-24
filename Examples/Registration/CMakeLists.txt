@@ -22,9 +22,6 @@ TARGET_LINK_LIBRARIES(ImageRegistration3 ITKNumerics ITKIO)
 ADD_EXECUTABLE(ImageRegistration4o ImageRegistration4o.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration4o ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(ImageRegistration5 ImageRegistration5.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration5 ITKNumerics ITKIO)
-
 ADD_EXECUTABLE(ImageRegistration6 ImageRegistration6.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration6 ITKNumerics ITKIO)
 
@@ -37,6 +34,9 @@ TARGET_LINK_LIBRARIES(ImageRegistration9 ITKNumerics ITKIO)
 IF(NOT BORLAND)
   ADD_EXECUTABLE(ImageRegistration1 ImageRegistration1.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistration1 ITKNumerics ITKIO)
+
+  ADD_EXECUTABLE(ImageRegistration5 ImageRegistration5.cxx )
+  TARGET_LINK_LIBRARIES(ImageRegistration5 ITKNumerics ITKIO)
 
   ADD_EXECUTABLE(ImageRegistration10 ImageRegistration10.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistration10 ITKNumerics ITKIO)
