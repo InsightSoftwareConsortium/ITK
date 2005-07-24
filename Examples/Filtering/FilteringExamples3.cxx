@@ -14,10 +14,6 @@ REGISTER_TEST(AntiAliasBinaryImageFilterTest);
 REGISTER_TEST(CannyEdgeDetectionImageFilterTest);
 REGISTER_TEST(FlipImageFilterTest);
 REGISTER_TEST(GaussianBlurImageFunctionTest);
-REGISTER_TEST(FFTImageFilterTest);
-REGISTER_TEST(RGBToGrayscaleTest);
-REGISTER_TEST(LaplacianRecursiveGaussianImageFilter1Test);
-REGISTER_TEST(LaplacianRecursiveGaussianImageFilter2Test);
 }
 
 #undef main
@@ -39,19 +35,3 @@ REGISTER_TEST(LaplacianRecursiveGaussianImageFilter2Test);
 #undef main
 #define main GaussianBlurImageFunctionTest
 #include "GaussianBlurImageFunction.cxx"
-
-#undef main
-#define main FFTImageFilterTest
-#include "FFTImageFilter.cxx"
-
-#undef main
-#define main RGBToGrayscaleTest
-#include "RGBToGrayscale.cxx"
-
-#undef main
-#define main LaplacianRecursiveGaussianImageFilter1Test
-#include "LaplacianRecursiveGaussianImageFilter1.cxx"
-
-#undef main
-#define main LaplacianRecursiveGaussianImageFilter2Test
-#include "LaplacianRecursiveGaussianImageFilter2.cxx"

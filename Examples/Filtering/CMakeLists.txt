@@ -13,9 +13,6 @@ TARGET_LINK_LIBRARIES(FlipImageFilter ITKCommon ITKIO)
 ADD_EXECUTABLE(FFTImageFilter FFTImageFilter.cxx )
 TARGET_LINK_LIBRARIES(FFTImageFilter ITKCommon ITKIO)
 
-ADD_EXECUTABLE(FFTDirectInverse FFTDirectInverse.cxx )
-TARGET_LINK_LIBRARIES(FFTDirectInverse ITKCommon ITKIO)
-
 IF( USE_FFTW )
   ADD_EXECUTABLE(FFTDirectInverse2 FFTDirectInverse2.cxx )
   TARGET_LINK_LIBRARIES(FFTDirectInverse2 ITKCommon ITKIO fftw3 fftw3f)
@@ -204,6 +201,7 @@ SET(FILTERING_EXAMPLES3 ${CXX_TEST_PATH}/FilteringExamples3)
 SET(FILTERING_EXAMPLES4 ${CXX_TEST_PATH}/FilteringExamples4)
 SET(FILTERING_EXAMPLES5 ${CXX_TEST_PATH}/FilteringExamples5)
 SET(FILTERING_EXAMPLES6 ${CXX_TEST_PATH}/FilteringExamples6)
+SET(FILTERING_EXAMPLES7 ${CXX_TEST_PATH}/FilteringExamples7)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Filtering)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -692,7 +690,7 @@ ADD_TEST( OtsuMultipleThresholdImageFilterTest ${FILTERING_EXAMPLES5}
         png 3
 )
 
-ADD_TEST( DigitallyReconstructedRadiograph1Test ${FILTERING_EXAMPLES6}
+ADD_TEST( DigitallyReconstructedRadiograph1Test ${FILTERING_EXAMPLES7}
   --compare ${BASELINE}/DigitallyReconstructedRadiograph1.png
             ${TEMP}/DigitallyReconstructedRadiograph1.png
   DigitallyReconstructedRadiograph1Test
@@ -753,7 +751,7 @@ ADD_TEST( GaussianBlurImageFunctionTest ${FILTERING_EXAMPLES3}
         2 3
 )
 
-ADD_TEST( FFTImageFilterTest ${FILTERING_EXAMPLES3}
+ADD_TEST( FFTImageFilterTest ${FILTERING_EXAMPLES7}
   --compare ${BASELINE}/FFTImageFilterReal.png
             ${TEMP}/FFTImageFilterReal.png
   FFTImageFilterTest
@@ -782,21 +780,21 @@ IF( USE_FFTW )
 ENDIF( USE_FFTW )
 
 
-ADD_TEST( FFTImageFilterTest2 ${FILTERING_EXAMPLES3}
+ADD_TEST( FFTImageFilterTest2 ${FILTERING_EXAMPLES7}
   FFTImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/FFTcenteredDC.png
         ${TEMP}/FFTImageFilterCenteredDCReal.png
         ${TEMP}/FFTImageFilterCenteredDCImaginary.png
 )
 
-ADD_TEST( FFTImageFilterTest3 ${FILTERING_EXAMPLES3}
+ADD_TEST( FFTImageFilterTest3 ${FILTERING_EXAMPLES7}
   FFTImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/FFTcorneredDC.png
         ${TEMP}/FFTImageFilterCorneredDCReal.png
         ${TEMP}/FFTImageFilterCorneredDCImaginary.png
 )
 
-ADD_TEST( RGBToGrayscaleTest ${FILTERING_EXAMPLES3}
+ADD_TEST( RGBToGrayscaleTest ${FILTERING_EXAMPLES7}
   --compare ${BASELINE}/RGBToGrayscale.png
             ${TEMP}/RGBToGrayscale.png
   RGBToGrayscaleTest
@@ -804,7 +802,7 @@ ADD_TEST( RGBToGrayscaleTest ${FILTERING_EXAMPLES3}
         ${TEMP}/RGBToGrayscale.png
 )
 
-ADD_TEST( LaplacianRecursiveGaussianImageFilter1Test ${FILTERING_EXAMPLES3}
+ADD_TEST( LaplacianRecursiveGaussianImageFilter1Test ${FILTERING_EXAMPLES7}
   --compare ${BASELINE}/LaplacianRecursiveGaussianImageFilter1.mha
             ${TEMP}/LaplacianRecursiveGaussianImageFilter1.mha
   LaplacianRecursiveGaussianImageFilter1Test
@@ -813,7 +811,7 @@ ADD_TEST( LaplacianRecursiveGaussianImageFilter1Test ${FILTERING_EXAMPLES3}
         3
 )
 
-ADD_TEST( LaplacianRecursiveGaussianImageFilter2Test ${FILTERING_EXAMPLES3}
+ADD_TEST( LaplacianRecursiveGaussianImageFilter2Test ${FILTERING_EXAMPLES7}
   --compare ${BASELINE}/LaplacianRecursiveGaussianImageFilter2.mha
             ${TEMP}/LaplacianRecursiveGaussianImageFilter2.mha
   LaplacianRecursiveGaussianImageFilter2Test
@@ -882,6 +880,8 @@ TARGET_LINK_LIBRARIES(FilteringExamples4 ITKIO ITKBasicFilters ITKCommon)
 ADD_EXECUTABLE(FilteringExamples5 FilteringExamples5.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples5 ITKIO ITKBasicFilters ITKCommon)
 
+ADD_EXECUTABLE(FilteringExamples7 FilteringExamples7.cxx)
+TARGET_LINK_LIBRARIES(FilteringExamples7 ITKIO ITKBasicFilters ITKCommon)
 
 ADD_EXECUTABLE(FilteringExamples6 FilteringExamples6.cxx)
 IF( USE_FFTW )
@@ -895,6 +895,9 @@ TARGET_LINK_LIBRARIES(DiffusionTensor3DReconstructionImageFilter ITKIO ITKBasicF
 
 
 IF(NOT BORLAND)
+  ADD_EXECUTABLE(FFTDirectInverse FFTDirectInverse.cxx )
+  TARGET_LINK_LIBRARIES(FFTDirectInverse ITKCommon ITKIO)
+
   ADD_EXECUTABLE(ResampleImageFilter7 ResampleImageFilter7.cxx )
   TARGET_LINK_LIBRARIES(ResampleImageFilter7 ITKCommon ITKBasicFilters ITKIO)
 ENDIF(NOT BORLAND)
