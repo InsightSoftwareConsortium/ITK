@@ -25,9 +25,6 @@ GeodesicActiveContourShapePriorLevelSetImageFilter.cxx )
 TARGET_LINK_LIBRARIES(GeodesicActiveContourShapePriorLevelSetImageFilter 
 ITKNumerics ITKIO ITKStatistics)
 
-ADD_EXECUTABLE(DeformableModel1 DeformableModel1.cxx )
-TARGET_LINK_LIBRARIES(DeformableModel1 ITKAlgorithms ITKNumerics ITKIO)
-
 ADD_EXECUTABLE(DeformableModel2 DeformableModel2.cxx )
 TARGET_LINK_LIBRARIES(DeformableModel2 ITKAlgorithms ITKNumerics ITKIO)
 
@@ -439,6 +436,9 @@ ITKStatistics
 IF(NOT BORLAND)
 ADD_EXECUTABLE(CellularSegmentation1 CellularSegmentation1.cxx )
 TARGET_LINK_LIBRARIES(CellularSegmentation1 ITKAlgorithms ITKCommon ITKNumerics ITKIO)
+
+ADD_EXECUTABLE(DeformableModel1 DeformableModel1.cxx )
+TARGET_LINK_LIBRARIES(DeformableModel1 ITKAlgorithms ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(LaplacianSegmentationLevelSetImageFilter LaplacianSegmentationLevelSetImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianSegmentationLevelSetImageFilter ITKNumerics ITKIO)
