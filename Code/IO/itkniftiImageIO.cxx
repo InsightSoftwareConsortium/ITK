@@ -324,7 +324,6 @@ void
 niftiImageIO
 ::WriteImageInformation(void) //For nifti this does not write a file, it only fills in the appropriate header information.
 {
-  unsigned int dim;
   if(this->GetNumberOfComponents() > 1) 
     {
     ExceptionObject exception(__FILE__, __LINE__);
