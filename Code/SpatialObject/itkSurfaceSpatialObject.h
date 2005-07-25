@@ -101,6 +101,9 @@ public:
   /** Compute the boundaries of the Surface. */
   bool ComputeLocalBoundingBox( ) const;
 
+  /** Compute the normals to the surface from neighboring points */
+  bool Approximate3DNormals();
+
 protected:
 
   PointListType  m_Points;

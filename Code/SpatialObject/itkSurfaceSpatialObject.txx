@@ -225,6 +225,183 @@ SurfaceSpatialObject< TDimension >
   return false;
 }
 
+/** Approximate the normals of the surface */
+template< unsigned int TDimension >
+bool
+SurfaceSpatialObject< TDimension > 
+::Approximate3DNormals()
+{
+  if(TDimension != 3)
+    {
+    itkExceptionMacro("Approximate3DNormals works only in 3D");
+    }
+
+  if(m_Points.size() < 3)
+    {
+    itkExceptionMacro("Approximate3DNormals requires at least 3 points");
+
+    }
+
+  typename PointListType::iterator it = m_Points.begin();
+  typename PointListType::iterator itEnd = m_Points.end();
+
+  while(it != itEnd)
+    {
+    // Try to find 3 points close to the corresponding point
+    SurfacePointType pt = *it;
+    PointType pos = (*it).GetPosition();
+
+ 
+    std::list<int> badId;
+    unsigned int id[3];
+    double absvec = 0;
+    do
+      {
+    id[0] = 0;
+    id[1] = 0;  
+    id[2] = 0;
+
+    float max[3];
+    max[0] = 99999999;
+    max[1] = 99999999;
+    max[2] = 99999999;
+
+    typename PointListType::const_iterator it2 = m_Points.begin();
+
+    unsigned int i=0;
+    while(it2 != m_Points.end())
+      {
+      if(it2 == it)
+        {
+        i++;
+        it2++;
+        continue;
+        }
+
+      bool badPoint = false;
+      std::list<int>::const_iterator itBadId = badId.begin();
+      while(itBadId != badId.end())
+        {
+        if(*itBadId == i)
+          {
+          badPoint = true;
+          break;
+          }
+        itBadId++;
+        }
+
+       if(badPoint)
+        {
+        i++;
+        it2++;
+        continue;
+        }
+
+      PointType pos2 = (*it2).GetPosition();
+      float distance = (pos2[0]-pos[0])*(pos2[0]-pos[0])+(pos2[1]-pos[1])*(pos2[1]-pos[1])+(pos2[2]-pos[2])*(pos2[2]-pos[2]);
+      
+     
+      // Check that the point is not the same as some previously defined
+      bool valid = true;
+      for(unsigned int j=0;j<3;j++)
+        {
+        PointType p = m_Points[id[j]].GetPosition();
+        float d= (pos2[0]-p[0])*(pos2[0]-p[0])+(pos2[1]-p[1])*(pos2[1]-p[1])+(pos2[2]-p[2])*(pos2[2]-p[2]);
+        if(d == 0)
+          {
+          valid = false;
+          break;
+          }
+        }
+
+
+      if(distance == 0 || !valid)
+        {
+        i++;
+        it2++;
+        continue;
+        }
+      
+      if(distance<max[0])
+        {
+        max[2] = max[1];
+        max[1] = max[0];
+        max[0] = distance;
+        id[0] = i;
+        }
+      else if(distance<max[1])
+        {
+        max[2] = max[1];
+        max[1] = distance;
+        id[1] = i;
+        }
+      else if(distance<max[2])
+        {
+        max[2] = distance;
+        id[2] = i;
+        }
+      i++;
+      it2++;
+      }
+
+    if( (id[0] == id[1])
+      || (id[1] == id[2])
+      || (id[0] == id[2])
+      )
+      {
+      std::cout << "Cannot find 3 distinct points!" << std::endl;
+      std::cout << id[0] << " : " << id[1] << " : " << id[2] << std::endl;
+      std::cout << max[0] << " : " << max[1] << " : " << max[2] << std::endl;
+      return false;
+      }
+    
+    PointType v1 = m_Points[id[0]].GetPosition();
+    PointType v2 = m_Points[id[1]].GetPosition();
+    PointType v3 = m_Points[id[2]].GetPosition();
+
+    double coa = -(v1[1]*(v2[2]-v3[2]) + 
+          v2[1]*(v3[2]-v1[2]) +
+          v3[1]*(v1[2]-v2[2])) ;
+    double cob = -(v1[2] * (v2[0]-v3[0]) +
+          v2[2]*(v3[0]-v1[0]) +
+          v3[2]*(v1[0]-v2[0])) ;
+    double coc = -(v1[0] * (v2[1]-v3[1]) +
+          v2[0]*(v3[1]-v1[1]) +
+          v3[0]*(v1[1]-v2[1])) ;
+
+   absvec = -sqrt ((double) ((coa*coa) + (cob*cob) + (coc*coc)));
+
+
+    if( absvec == 0)
+      {
+      badId.push_back(id[2]);
+      }
+    else
+      {
+      CovariantVectorType normal;
+      normal[0] = coa/absvec;
+      normal[1] = cob/absvec;
+      normal[2] = coc/absvec;
+      (*it).SetNormal(normal);
+      }
+    }
+   while((absvec == 0) && (badId.size() < m_Points.size()-1));
+   
+   if(absvec == 0)
+     {
+     std::cout << "Approximate3DNormals Failed!" << std::endl;
+     std::cout << id[0] << " : " << id[1] << " : " << id[2] << std::endl;
+     std::cout << badId.size() << " : " << m_Points.size()-1 << std::endl;
+     return false;
+     }
+ 
+    it++;
+    }
+
+  return true;
+}
+
+
 } // end namespace itk 
 
 #endif
