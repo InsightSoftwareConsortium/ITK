@@ -276,6 +276,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   double origin[ObjectDimension];
   SizeType size;
 
+  InputObject->ComputeBoundingBox();
   for(i=0;i<ObjectDimension;i++)
     {
     size[i] = (long unsigned int)(InputObject->GetBoundingBox()->GetMaximum()[i]
@@ -314,7 +315,6 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   OutputImage->SetLargestPossibleRegion( region);     // 
   OutputImage->SetBufferedRegion( region );           // set the region 
   OutputImage->SetRequestedRegion( region );          //                                                                       
-  
   // If the spacing has been explicitly specified, the filter
   // will set the output spacing to that explicit spacing, otherwise the spacing from
   // the spatial object is used as default.
