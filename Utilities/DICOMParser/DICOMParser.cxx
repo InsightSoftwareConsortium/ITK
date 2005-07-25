@@ -205,6 +205,7 @@ bool DICOMParser::ReadHeader(DICOMSource &source)
 bool DICOMParser::IsDICOMFile(DICOMSource &source)
 {
   char magic_number[4];    
+  magic_number[0] = magic_number[1] = magic_number[2] = magic_number[3] = 'x';
   source.SkipToStart();
   source.Read((void*)magic_number,4);
   if (CheckMagic(magic_number)) 
