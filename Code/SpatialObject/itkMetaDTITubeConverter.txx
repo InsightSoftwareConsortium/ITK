@@ -266,58 +266,102 @@ MetaDTITubeConverter<NDimensions>
       }
 
     // Optional fields (written only if not default values)
-
     if(writeID)
       {
-      pnt->AddField("id",(*i).GetID());
+      if(pnt->GetField("id") == -1)
+        {
+        pnt->AddField("id",(*i).GetID());
+        }
       }
 
     if(writeRadius)
       {
-      pnt->AddField("r",(*i).GetRadius());
+      if(pnt->GetField("r") == -1)
+        {
+        pnt->AddField("r",(*i).GetRadius());
+        }
       }
 
     if(writeNormal1)
       {
-      pnt->AddField("v1x",(*i).GetNormal1()[0]);
-      pnt->AddField("v1y",(*i).GetNormal1()[1]);
+      if(pnt->GetField("v1x") == -1)
+        {
+        pnt->AddField("v1x",(*i).GetNormal1()[0]);
+        }
+      if(pnt->GetField("v1y") == -1)
+        {
+        pnt->AddField("v1y",(*i).GetNormal1()[1]);
+        }
       if(NDimensions == 3)
         {
-        pnt->AddField("v1z",(*i).GetNormal1()[2]);
+        if(pnt->GetField("v1z") == -1)
+          {
+          pnt->AddField("v1z",(*i).GetNormal1()[2]);
+          }
         }
       }
 
     if(writeNormal2)
       {
-      pnt->AddField("v2x",(*i).GetNormal2()[0]);
-      pnt->AddField("v2y",(*i).GetNormal2()[1]);
+      if(pnt->GetField("v2x") == -1)
+        {
+        pnt->AddField("v2x",(*i).GetNormal2()[0]);
+        }
+      if(pnt->GetField("v2y") == -1)
+        {
+        pnt->AddField("v2y",(*i).GetNormal2()[1]);
+        }
       if(NDimensions == 3)
         {
-        pnt->AddField("v2z",(*i).GetNormal2()[2]);
+        if(pnt->GetField("v2z") == -1)
+          {
+          pnt->AddField("v2z",(*i).GetNormal2()[2]);
+          }
         }
       }
 
    if(writeTangent)
       {
-      pnt->AddField("tx",(*i).GetTangent()[0]);
-      pnt->AddField("ty",(*i).GetTangent()[1]);
+      if(pnt->GetField("tx") == -1)
+        {
+        pnt->AddField("tx",(*i).GetTangent()[0]);
+        }
+      if(pnt->GetField("ty") == -1)
+        {
+        pnt->AddField("ty",(*i).GetTangent()[1]);
+        }
       if(NDimensions == 3)
         {
-        pnt->AddField("tz",(*i).GetTangent()[2]);
+        if(pnt->GetField("tz") == -1)
+          {
+          pnt->AddField("tz",(*i).GetTangent()[2]);
+          }
         }
       }  
 
     // write the color if changed
     if(writeColor)
       {
-      pnt->AddField("red",(*i).GetRed());
-      pnt->AddField("green",(*i).GetGreen());     
-      pnt->AddField("blue",(*i).GetBlue());      
+      if(pnt->GetField("red") == -1)
+        {
+        pnt->AddField("red",(*i).GetRed());
+        }
+      if(pnt->GetField("green") == -1)
+        {
+        pnt->AddField("green",(*i).GetGreen());     
+        }
+      if(pnt->GetField("blue") == -1)
+        {
+        pnt->AddField("blue",(*i).GetBlue());
+        }
       }
       
     if(writeAlpha)
       {
-      pnt->AddField("alpha",(*i).GetAlpha());
+      if(pnt->GetField("alpha") == -1)
+        {
+        pnt->AddField("alpha",(*i).GetAlpha());
+        }
       }
 
     tube->GetPoints().push_back(pnt); 
