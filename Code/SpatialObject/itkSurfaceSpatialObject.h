@@ -48,13 +48,14 @@ public:
   typedef SmartPointer < const Self >                   ConstPointer;
   typedef double                                        ScalarType;
   typedef SurfaceSpatialObjectPoint< TDimension >       SurfacePointType;
-  typedef std::vector< SurfacePointType >                PointListType;
+  typedef std::vector< SurfacePointType >               PointListType;
   typedef typename Superclass::SpatialObjectPointType   SpatialObjectPointType;
   typedef typename Superclass::PointType                PointType;
   typedef typename Superclass::TransformType            TransformType;
   typedef VectorContainer<unsigned long,PointType>      PointContainerType;
   typedef SmartPointer<PointContainerType>              PointContainerPointer;
   typedef typename Superclass::BoundingBoxType          BoundingBoxType;
+  typedef typename Superclass::CovariantVectorType      CovariantVectorType;
 
   /** Method for creation through the object factory.*/
   itkNewMacro( Self );
