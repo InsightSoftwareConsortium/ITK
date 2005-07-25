@@ -276,11 +276,13 @@ void NrrdImageIO::ReadImageInformation()
    // NOTE: future version of nrrdDomainAxesGet will use unsigned types
    unsigned int domAxisNum, domAxisIdx[NRRD_DIM_MAX];
    domAxisNum = nrrdDomainAxesGet(nrrd, domAxisIdx);
+   int doSpaceStuffHack;
    if (!( domAxisNum == nrrd->dim || domAxisNum == nrrd->dim-1 ))
      {
      itkExceptionMacro("ReadImageInformation: nrrd has more than one "
                        "dependent axis; not currently handled");
      }
+#if 0  /* ------------------------ HACK until proper non-scalar handling */
    if (nrrd->spaceDim && nrrd->spaceDim != domAxisNum)
      {
      itkExceptionMacro("ReadImageInformation: nrrd's # independent axes "
@@ -289,6 +291,20 @@ void NrrdImageIO::ReadImageInformation()
      }
    // else nrrd->spaceDim == domAxisNum, if the nrrd has orientation
    this->SetNumberOfDimensions(domAxisNum);
+   doSpaceStuffHack = AIR_TRUE;
+#else
+   if (nrrd->spaceDim && nrrd->spaceDim != domAxisNum)
+     {
+     std::cerr << "\nWARNING: ReadImageInformation: nrrd's # independent axes "
+       "doesn't match dimension of space in which orientation is defined\n\n";
+     doSpaceStuffHack = AIR_FALSE;
+     }
+   else
+     {
+     doSpaceStuffHack = AIR_TRUE;
+     }
+   this->SetNumberOfDimensions(nrrd->dim);
+#endif /* ------------------------ */
 
    // Set type information
    //   this->SetPixelType( this->NrrdToITKComponentType(nrrd->type) );
@@ -296,6 +312,8 @@ void NrrdImageIO::ReadImageInformation()
    // HEY fix this
    this->SetComponentType( this->NrrdToITKComponentType(nrrd->type) );
 
+   if (doSpaceStuffHack) 
+     {
    // Set axis information
    double spacing;
    double spaceDir[NRRD_SPACE_DIM_MAX];
@@ -377,6 +395,7 @@ void NrrdImageIO::ReadImageInformation()
          }
        }
      }
+     } /* if (doSpaceStuffHack) */
 
    // Store key/value pairs in MetaDataDictionary
    char key[AIR_STRLEN_SMALL];
@@ -398,9 +417,14 @@ void NrrdImageIO::ReadImageInformation()
    // save in MetaDataDictionary those important nrrd fields that
    // (currently) have no ITK equivalent
    NrrdAxisInfo *naxis;
+#if 0  /* ------------------------ HACK until proper non-scalar handling */
    for (unsigned int axii=0; axii < domAxisNum; axii++)
      {
      unsigned int axi = domAxisIdx[axii];
+#else
+   for (unsigned int axi=0; axi < nrrd->dim; axi++)
+     {
+#endif
      naxis = nrrd->axis + axi;
      if (AIR_EXISTS(naxis->thickness))
        {
@@ -477,7 +501,7 @@ void NrrdImageIO::ReadImageInformation()
                                                              std::string(key),
                                                              msrFrame);
      }
-   
+
    nrrdNix(nrrd);
    nrrdIoStateNix(nio);
 } 
