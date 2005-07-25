@@ -7,7 +7,6 @@
   fun:allocate_stack
   fun:pthread_create@@GLIBC_2.1
   fun:_ZN3itk13MultiThreader19SingleMethodExecuteEv
-  fun:_ZN3itk11ImageSourceINS_5ImageINS_6VectorIiLj3EEELj2EEEE12GenerateDataEv
 }
 
 {
@@ -119,5 +118,17 @@
    fun:_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc
    fun:_Z63itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTestiPPc
    fun:main
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:calloc
+   obj:/lib/ld-2.3.2.so
+   fun:_dl_allocate_tls
+   fun:allocate_stack
+   fun:pthread_create@@GLIBC_2.1
+   fun:_ZN3itk13MultiThreader19SingleMethodExecuteEv
+   fun:_ZN3itk11ImageSourceINS_5ImageIdLj6EEEE12GenerateDataEv
+   fun:_ZN3itk13ProcessObject16UpdateOutputDataEPNS_10DataObjectE
 }
 
