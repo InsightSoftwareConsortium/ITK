@@ -118,6 +118,7 @@ private:
 
   itk::Brains2IPLHeaderInfo m_IPLHeaderInfo;
   OctreeBase *m_Octree;
+  itk::Brains2IPLHeaderInfo m_B2MaskHeader;
 };
 
 } // end namespace itk

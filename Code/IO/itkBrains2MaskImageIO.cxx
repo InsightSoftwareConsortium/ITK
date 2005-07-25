@@ -132,11 +132,10 @@ readOctree (std::ifstream & octreestream,
   return CurrentNodeBranch;
 }
 
-void Brains2MaskImageIO::Read(void* buffer)
+void Brains2MaskImageIO
+::Read(void* buffer)
 {
   std::ifstream   local_InputStream;
-  itk::Brains2IPLHeaderInfo DummyHeader;
-
   local_InputStream.open( this->m_FileName.c_str(), std::ios::in | std::ios::binary );
   if( local_InputStream.fail() )
     {
@@ -144,16 +143,14 @@ void Brains2MaskImageIO::Read(void* buffer)
     exception.SetDescription("File cannot be read");
     throw exception;
     }
-  //Just fast forward throuth the file header
-  DummyHeader.ReadBrains2Header(local_InputStream);
-
+  //Just fast forward throuth the file header NOTE: This re-reads the header information.
+  this->m_B2MaskHeader.ReadBrains2Header(local_InputStream);
   //Actually start reading the octree
   unsigned int octreeHdr[6];
   //Need to gobble up the end of line character here and move one more byte.
   //Except for Borland where the operator>> has already gobbled the endline char
 #if !defined(__BORLANDC__)
   local_InputStream.ignore();
-
 #endif
   local_InputStream.read((char *)octreeHdr,6*sizeof(unsigned int));
   if(this->m_ByteOrder != this->m_MachineByteOrder)
@@ -200,7 +197,8 @@ void Brains2MaskImageIO::Read(void* buffer)
       const unsigned int sliceandrowoffset=slice_offset+j*this->m_Dimensions[0];
       for(unsigned int i=0; i< this->m_Dimensions[0]; i++)
         {
-        unsigned int val =  octree->GetValue(i,this->m_Dimensions[1]-1-j,k);
+        //unsigned int val =  octree->GetValue(i,this->m_Dimensions[1]-1-j,k);
+        unsigned int val =  octree->GetValue(i,j,k);
         if(val != 0)
           p[sliceandrowoffset+i]= DEF_WHITE_MASK;
         else
@@ -208,25 +206,6 @@ void Brains2MaskImageIO::Read(void* buffer)
         }
       }
     }
-  itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
-  itk::SpatialOrientation::ValidCoordinateOrientationFlags 
-    coord_orient(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
-  if(DummyHeader.DoesKeyExist("MASK_ACQ_PLANE:"))
-    {
-    std::string acqVal =
-      DummyHeader.getString("MASK_ACQ_PLANE:");
-    if(acqVal == "SAGITTAL")
-      {
-      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR;
-      }
-    else if(acqVal == "AXIAL")
-      {
-      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI;
-      }
-    
-    }
-  itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
-    (thisDic,ITK_CoordinateOrientation, coord_orient);
   return;
 }
 // This method will only test if the header looks like an
@@ -252,6 +231,24 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
     {
     return false;
     }
+  itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
+  itk::SpatialOrientation::ValidCoordinateOrientationFlags 
+    coord_orient(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+  if(this->m_B2MaskHeader.DoesKeyExist("MASK_ACQ_PLANE:"))
+    {
+    std::string acqVal =
+      this->m_B2MaskHeader.getString("MASK_ACQ_PLANE:");
+    if(acqVal == "SAGITTAL")
+      {
+      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR;
+      }
+    else if(acqVal == "AXIAL")
+      {
+      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI;
+      }
+    }
+  itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
+    (thisDic,ITK_CoordinateOrientation, coord_orient);
 
   local_InputStream.close();
   if(this->m_IPLHeaderInfo.DoesKeyExist("MASK_HEADER_BEGIN")==false)
@@ -282,7 +279,7 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
 
 void Brains2MaskImageIO::ReadImageInformation()
 {
-  this->CanReadFile(this->m_FileName.c_str());
+   this->CanReadFile( this->m_FileName.c_str() );
 }
 
 // cut the gordian knot, just do the header in one
@@ -393,9 +390,13 @@ Brains2MaskImageIO
     exception.SetDescription("Error in OctreeCreation");
     throw exception;
     }
-  unsigned xsize = this->GetDimensions(0);
-  unsigned ysize = this->GetDimensions(1);
-  unsigned zsize = this->GetDimensions(2);
+  const unsigned xsize = this->GetDimensions(0);
+  const unsigned ysize = this->GetDimensions(1);
+  const unsigned zsize = this->GetDimensions(2);
+
+  const float xres = this->GetSpacing(0);
+  const float yres = this->GetSpacing(1);
+  const float zres = this->GetSpacing(2);
 
   itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   std::string temp;
@@ -458,11 +459,11 @@ Brains2MaskImageIO
           itksys::SystemTools::GetFilenameName(m_FileName).c_str(),   // name
           3,                       // num_dims
           xsize,                   // xsize
-          1.0,                     // x_res
+          xres,                     // x_res
           ysize,                   // ysize
-          1.0,                     // y_res
+          yres,                     // y_res
           zsize,                   // zsize
-          1.0,                     // z_res
+          zres,                     // z_res
           0.0,                     // threshold
           -1,                      // mask_name
           orientation.c_str()      // acq plane
