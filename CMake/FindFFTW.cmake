@@ -1,8 +1,28 @@
 IF (USE_FFTW)
+
+SET(FFTW_INC_SEARCHPATH
+  /sw/include
+  /usr/include
+  /usr/local/include
+  /usr/include/fftw
+  /usr/local/include/fftw
+)
+
+FIND_PATH(FFTW_INCLUDE_PATH fftw3.h ${FFTW_INC_SEARCHPATH})
+
+IF(FFTW_INCLUDE_PATH)
+  SET(FFTW_INCLUDE ${FFTW_INCLUDE_PATH})
+ENDIF (FFTW_INCLUDE_PATH)
+
+IF(FFTW_INCLUDE)
+  INCLUDE_DIRECTORIES( ${FFTW_INCLUDE})
+ENDIF(FFTW_INCLUDE)
+
+GET_FILENAME_COMPONENT(FFTW_INSTALL_BASE_PATH ${FFTW_INCLUDE_PATH} PATH)
+
 SET(FFTW_LIB_SEARCHPATH
-  /usr/lib
+  ${FFTW_INSTALL_BASE_PATH}/lib
   /usr/lib/fftw
-  /usr/local/lib
   /usr/local/lib/fftw
 )
 
@@ -26,23 +46,6 @@ IF(FFTWD_LIB AND FFTWF_LIB)
   SET(FFTW_LIB ${FFTWD_LIB} ${FFTWF_LIB}) #For backwards compatibility
 ENDIF(FFTWD_LIB AND FFTWF_LIB)
 
-SET(FFTW_INC_SEARCHPATH
-  /sw/include
-  /usr/include
-  /usr/include/fftw
-  /usr/local/include
-  /usr/local/include/fftw
-)
-
-FIND_PATH(FFTW_INCLUDE_PATH fftw3.h ${FFTW_INC_SEARCHPATH})
-
-IF(FFTW_INCLUDE_PATH)
-  SET(FFTW_INCLUDE ${FFTW_INCLUDE_PATH})
-ENDIF (FFTW_INCLUDE_PATH)
-
-IF(FFTW_INCLUDE)
-  INCLUDE_DIRECTORIES( ${FFTW_INCLUDE})
-ENDIF(FFTW_INCLUDE)
 
 MARK_AS_ADVANCED(FFTW_INCLUDE_PATH FFTWD_LIB FFTWF_LIB)
 OPTION(FFTW_INCLUDE_PATH "The base path of the directory that includes fftw3.h" )
