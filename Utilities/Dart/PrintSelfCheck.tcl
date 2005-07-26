@@ -361,8 +361,10 @@ proc read_directory { dirname } {
         set filename [string range $headername 0 [expr $length - 3] ]
         if {[file exists "$filename.txx"] == 1} {
           check_printself "$filename.txx"
-        } else {
+        } elseif {[file exists "$filename.cxx"] == 1} {
           check_printself "$filename.cxx"
+        } elseif {[file exists "$filename.h"] == 1} {
+             check_printself "$filename.h" 
         }
       }
 
