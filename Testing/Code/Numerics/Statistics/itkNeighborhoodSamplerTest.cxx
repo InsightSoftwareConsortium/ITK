@@ -80,6 +80,7 @@ int itkNeighborhoodSamplerTest(int , char* [])
   typedef stat::NeighborhoodSampler< SampleType > SamplerType ;
   typedef SamplerType::CenterType CenterType;
   CenterType center( NO_OF_DIMENSIONS );
+  center.Fill( 0.0 );
   
   SamplerType::Pointer sampler = SamplerType::New() ;
 
