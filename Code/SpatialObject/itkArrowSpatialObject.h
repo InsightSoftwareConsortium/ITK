@@ -118,7 +118,7 @@ public:
 
   /** Get the length of the arrow. NOTE the misspelling of
     * length. This method is included for backward compatibility. */
-  double GetLenght() {return this->GetLenght();}
+  double GetLenght() {return this->GetLength();}
 
   /** Compute the local bounding box */
   bool ComputeLocalBoundingBox() const;
