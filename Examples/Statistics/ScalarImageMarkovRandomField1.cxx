@@ -55,7 +55,7 @@
 #include "itkScalarToArrayCastImageFilter.h"
 // Software Guide : EndCodeSnippet
 
-
+#include "itkRescaleIntensityImageFilter.h"
 
 // Software Guide : BeginLatex
 //
@@ -412,18 +412,30 @@ int main( int argc, char * argv [] )
 // type as the labeled input image. In the following lines we use the
 // \code{OutputImageType} in order to instantiate the type of a
 // \doxygen{ImageFileWriter}. Then create one, and connect it to the output of
-// the classification filter.
+// the classification filter after passing it through an intensity rescaler
+// to rescle it to an 8 bit dynamic range
 //
 // Software Guide : EndLatex 
-
 // Software Guide : BeginCodeSnippet
   typedef MRFFilterType::OutputImageType  OutputImageType;
+// Software Guide : EndCodeSnippet
 
+  // Rescale outputs to the dynamic range of the display
+  typedef itk::Image< unsigned char, Dimension > RescaledOutputImageType;
+  typedef itk::RescaleIntensityImageFilter< 
+             OutputImageType, RescaledOutputImageType >   RescalerType;
+
+  RescalerType::Pointer intensityRescaler = RescalerType::New();
+  intensityRescaler->SetOutputMinimum(   0 );
+  intensityRescaler->SetOutputMaximum( 255 );
+  intensityRescaler->SetInput( mrfFilter->GetOutput() );  
+
+// Software Guide : BeginCodeSnippet
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
   WriterType::Pointer writer = WriterType::New();
   
-  writer->SetInput( mrfFilter->GetOutput() );
+  writer->SetInput( intensityRescaler->GetOutput() );
 
   writer->SetFileName( outputImageFileName );
 // Software Guide : EndCodeSnippet
@@ -474,6 +486,7 @@ int main( int argc, char * argv [] )
   //  and the means were estimated by ScalarImageKmeansModelEstimator.cxx.
   //
   //  Software Guide : EndLatex 
+
 
   return EXIT_SUCCESS;
   
