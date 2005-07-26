@@ -66,7 +66,12 @@ namespace Statistics{
  * users can uses this function with any subclasses of 
  * SingleValuedNonLinearOptimizer class as long as they do not use
  * GetDerivative and GetValueAndDerivative methods.
- *
+ * 
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * 'MeasurementVectorSize'  has been removed to allow the length of a measurement
+ * vector to be specified at run time.  
+ * 
  * \sa GoodnessOfFitFunctionBase, GoodnessOfFitComponentBase, 
  * SingleValuedCostFunction, SingleValuedNonLinearOptimizer
  */
@@ -89,10 +94,9 @@ public:
   itkNewMacro(Self) ;
 
   typedef TInputSample InputSampleType ;
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int, 
-                      TInputSample::MeasurementVectorSize) ;
   typedef typename TInputSample::MeasurementType MeasurementType ;
   typedef typename TInputSample::MeasurementVectorType MeasurementVectorType ;
+  typedef typename TInputSample::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /**  ParametersType typedef.
    *  It defines a position in the optimization search space. */

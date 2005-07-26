@@ -18,7 +18,7 @@
 #define __itkDistanceMetric_h
 
 #include "itkMembershipFunctionBase.h"
-#include "itkVector.h"
+#include "itkArray.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -37,6 +37,20 @@ namespace Statistics{
  * 
  * If users want to the distance between two points without setting
  * the origin point. Use two argument version of Evaluate() function.
+ * 
+ * The class can be templated over any container that holds data elements. The 
+ * containter is expected to provide access to its elements with the [] operator.
+ * It must also implement a Size() that returns the length of the container.
+ * It must also contain a typedef "ValueType" that defines the data-type held
+ * by the container.
+ * (In other words it will support itk::Vector, FixedArray, Array ).
+ *
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * \c MeasurementVectorSize  has been removed to allow the length of a measurement
+ * vector to be specified at run time. Please use the function 
+ * GetMeasurementVectorSize() instead. \c OriginType typedef has been changed 
+ * from Vector to Array.
  */
 
 template< class TVector >
@@ -47,13 +61,17 @@ public:
   typedef DistanceMetric Self;
   typedef MembershipFunctionBase< TVector > Superclass;
 
-  /** Length constant */
-  itkStaticConstMacro(VectorLength, unsigned int, TVector::Length);
+  /** Typedef for the length of each measurement vector */
+  typedef unsigned int  MeasurementVectorSizeType;
+
+  /** Set/Get Macro to set the length of each measurement vector. */
+  virtual void SetMeasurementVectorSize( MeasurementVectorSizeType );
+  itkGetConstMacro( MeasurementVectorSize, MeasurementVectorSizeType ); 
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(DistanceMetric, MembershipFunctionBase);
 
-  typedef Vector< double, itkGetStaticConstMacro(VectorLength) > OriginType ;
+  typedef Array< double > OriginType ;
 
   /** Sets the origin point that will be used for the single point 
    * version Evaluate() function. This function is necessary part of
@@ -69,9 +87,15 @@ public:
   virtual double Evaluate(const TVector &x1, const TVector &x2) const = 0 ;
   
 protected:
+  DistanceMetric() { m_MeasurementVectorSize = 0; }
+  virtual ~DistanceMetric() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   OriginType m_Origin ;
+
+private:
+  MeasurementVectorSizeType m_MeasurementVectorSize;
+  
 } ; // end of class
 
 } // end of namespace Statistics 

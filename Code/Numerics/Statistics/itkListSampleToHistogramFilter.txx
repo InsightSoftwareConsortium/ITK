@@ -38,6 +38,16 @@ ListSampleToHistogramFilter< TListSample, THistogram >
   typename THistogram::IndexType index ;
   typename TListSample::MeasurementVectorType lvector ;
   typename THistogram::MeasurementVectorType hvector ;
+
+  // Sanity check to see if lengths of the vector passed in and the 
+  // histogram's MV lengths are the same
+  if( m_List->GetMeasurementVectorSize() != THistogram::MeasurementVectorSize )
+    {
+    itkExceptionMacro(<< "List sample and histogram have different measurement "
+        << "vector lengths: " << m_List->GetMeasurementVectorSize() << ", " <<
+        THistogram::MeasurementVectorSize);
+    }
+
   unsigned int i ;
   while (iter != last)
     {

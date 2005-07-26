@@ -24,9 +24,10 @@ namespace Statistics{
 
 template < class TPointSet >
 PointSetToListAdaptor< TPointSet >
-::PointSetToListAdaptor()
+::PointSetToListAdaptor() : m_PointSet( 0 )
 {
-  m_PointSet = 0 ;
+  // Same as the dimension of the point set
+  Superclass::SetMeasurementVectorSize( MeasurementVectorSize );
 }
 
 template < class TPointSet >

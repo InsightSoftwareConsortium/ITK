@@ -30,6 +30,12 @@ namespace Statistics{
  * \brief Evolves the mode using a hyperspherical kernel defined by a
  * radius (which is set by SetRadius) method.
  *
+ * <b> Recent API changes </b>
+ * The static const macro \c MeasurementVectorSize has been removed to allow the
+ * length of the measurementvector to be determined at run time. It is now obtained
+ * from the sample set as input. The typedef for \c MeasurementVectorSumType
+ * has changed from FixedArray to Array.
+ *  
  * \sa MeanShiftModeSeekerBase 
  */
 
@@ -54,18 +60,12 @@ public:
   typedef typename Superclass::SearchResultVectorType SearchResultVectorType ;
   typedef typename Superclass::MeasurementType MeasurementType ;
 
-  /** Size of a measurement vector */
-  itkStaticConstMacro( MeasurementVectorSize, unsigned int,
-                       MeasurementVectorType::Length ) ;
-
   /** Type for the sum of measurements */
   typedef double RealMeasurementType ;
 
   /** Type fot the sum of measurement vectors used in computing the new
     * mode */
-  typedef FixedArray< RealMeasurementType,
-                      itkGetStaticConstMacro( MeasurementVectorSize ) > 
-  MeasurementVectorSumType ;
+  typedef Array< RealMeasurementType > MeasurementVectorSumType;
 
   /** Sets the radius of the kernel */
   void SetSearchRadius(double radius) ;

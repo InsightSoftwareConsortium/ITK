@@ -21,6 +21,7 @@
 #include "itk_hash_map.h"
 
 #include "itkObject.h"
+#include "itkMeasurementVectorTraits.h"
 
 namespace itk {
 namespace Statistics {
@@ -51,8 +52,14 @@ namespace Statistics {
  * Note: There is a second implementation of k-means algorithm in ITK under the
  * While the Kd tree based implementation is more time efficient, the  GLA/LBG 
  * based algorithm is more memory efficient.
- * \sa ImageKmeansModelEstimator
  *
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * \c MeasurementVectorSize  has been removed to allow the length of a measurement
+ * vector to be specified at run time. It is now obtained from the KdTree set
+ * as input. You may query this length using the function GetMeasurementVectorSize().
+ *
+ * \sa ImageKmeansModelEstimator
  * \sa WeightedCentroidKdTreeGenerator, KdTree
  */
 
@@ -80,11 +87,14 @@ public:
   typedef typename TKdTree::InstanceIdentifier InstanceIdentifier ;
   typedef typename TKdTree::SampleType SampleType ;
   typedef typename KdTreeNodeType::CentroidType CentroidType ;
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TKdTree::MeasurementVectorSize);
+  
+
+  /** Typedef for the length of a measurement vector */
+  typedef unsigned int MeasurementVectorSizeType;
+                      
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-  typedef FixedArray< double, itkGetStaticConstMacro(MeasurementVectorSize) > ParameterType ;
+  typedef Array< double > ParameterType ;
   typedef std::vector< ParameterType > InternalParametersType;
   typedef Array< double > ParametersType;
 
@@ -104,13 +114,21 @@ public:
    * of changes in centroid postions after one iteration */
   itkSetMacro( CentroidPositionChangesThreshold, double );   
   itkGetConstReferenceMacro( CentroidPositionChangesThreshold, double );   
-  
+
   /** Set/Get the pointer to the KdTree */
   void SetKdTree(TKdTree* tree) 
-  { m_KdTree = tree ; }
+    { 
+    m_KdTree = tree ; 
+    m_MeasurementVectorSize = tree->GetMeasurementVectorSize();
+    m_DistanceMetric->SetMeasurementVectorSize( m_MeasurementVectorSize );
+    MeasurementVectorTraits::SetLength( m_TempVertex, m_MeasurementVectorSize );
+    }
 
   TKdTree* GetKdTree() 
   { return m_KdTree.GetPointer() ; }
+
+  /** Get the length of measurement vectors in the KdTree */
+  itkGetConstReferenceMacro( MeasurementVectorSize, MeasurementVectorSizeType );
 
   itkGetConstReferenceMacro( CurrentIteration, int) ;
   itkGetConstReferenceMacro( CentroidPositionChanges, double) ;
@@ -160,11 +178,13 @@ protected:
      * At each iteration, this should be called before filtering*/
     void SetCentroids(InternalParametersType& centroids)
     {
+      this->m_MeasurementVectorSize = MeasurementVectorTraits::GetLength( centroids[0] );
       m_Candidates.resize(centroids.size()) ;
       for (unsigned int i = 0 ; i < centroids.size() ; i++)
         {
           Candidate candidate ;
           candidate.Centroid = centroids[i] ;
+          MeasurementVectorTraits::SetLength( candidate.WeightedCentroid, m_MeasurementVectorSize );
           candidate.WeightedCentroid.Fill(0.0) ;
           candidate.Size = 0 ;
           m_Candidates[i] = candidate ;
@@ -191,7 +211,7 @@ protected:
         {
           if (m_Candidates[i].Size > 0)
             {
-              for (j = 0 ; j < MeasurementVectorSize ; j++)
+              for (j = 0 ; j < m_MeasurementVectorSize; j++)
                 {
                   m_Candidates[i].Centroid[j] = 
                     m_Candidates[i].WeightedCentroid[j] / 
@@ -209,6 +229,9 @@ protected:
   private:
     /** internal storage for the candidates */
     std::vector< Candidate > m_Candidates ;
+
+    /** Length of each measurement vector */
+    MeasurementVectorSizeType m_MeasurementVectorSize;
   } ; // end of class
 
   /** gets the sum of squared difference between the previous position
@@ -250,7 +273,7 @@ protected:
   void GetPoint(ParameterType &point, 
                 MeasurementVectorType measurements)
   {
-    for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
+    for (unsigned int i = 0 ; i < m_MeasurementVectorSize ; i++)
       {
         point[i] = measurements[i] ;
       }
@@ -259,7 +282,7 @@ protected:
   void PrintPoint(ParameterType &point)
   {
     std::cout << "[ " ;
-    for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
+    for (unsigned int i = 0 ; i < m_MeasurementVectorSize ; i++)
       {
         std::cout << point[i] << " " ;
       }
@@ -291,6 +314,7 @@ private:
   bool m_UseClusterLabels ;
   bool m_GenerateClusterLabels ;
   ClusterLabelsType m_ClusterLabels ;
+  MeasurementVectorSizeType m_MeasurementVectorSize;
 } ; // end of class
 
 } // end of namespace Statistics

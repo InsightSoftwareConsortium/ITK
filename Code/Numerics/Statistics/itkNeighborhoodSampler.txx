@@ -80,7 +80,17 @@ NeighborhoodSampler< TSample >
     {
     itkExceptionMacro("Member variables have not been properly set.") ;
     }
-
+  
+  // Assert at run time that the given center has the same length as 
+  // measurement vectors in the sample and that the size is non-zero.
+    if( this->GetMeasurementVectorSize() && 
+      ( m_Center->Size() != this->GetMeasurementVectorSize() ) )
+      {
+      itkExceptionMacro( << "Size of measurement vectors in the sample is: " <<
+         this->GetMeasurementVectorSize() << " but size of center is: " <<
+         m_Center->Size() );
+      }
+  
   m_Subsample->SetSample(this->GetInputSample()) ;
 
   unsigned int j ;
@@ -98,7 +108,7 @@ NeighborhoodSampler< TSample >
     {
     distance = 0.0 ;
     tempVector = iter.GetMeasurementVector() ;
-    for (j = 0 ; j < MeasurementVectorSize && distance < squaredRadius ; j++)
+    for (j = 0 ; j < this->GetMeasurementVectorSize() && distance < squaredRadius ; j++)
       {
       coordinateDistance = (double)tempVector[j] - (*m_Center)[j] ;
       if (vnl_math_abs(coordinateDistance) > (*m_Radius) )
@@ -107,7 +117,8 @@ NeighborhoodSampler< TSample >
         }
       }
       
-    for (j = 0 ; j < MeasurementVectorSize && distance < squaredRadius ; j++)
+    for (j = 0 ; j < this->GetMeasurementVectorSize() 
+                        && distance < squaredRadius ; j++)
       {
       coordinateDistance = (double)tempVector[j] - (*m_Center)[j] ;
       distance += coordinateDistance * coordinateDistance ;

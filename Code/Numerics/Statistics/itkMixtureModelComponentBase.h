@@ -64,7 +64,8 @@ public:
   itkTypeMacro(MixtureModelComponentBase, Object);
   itkNewMacro(Self) ;
   
-  typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
+  typedef typename TSample::MeasurementVectorType     MeasurementVectorType ;
+  typedef typename TSample::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** typedef for the MembershipFunctionBase */
   typedef MembershipFunctionBase< MeasurementVectorType >
@@ -119,7 +120,7 @@ public:
   WeightArrayType* GetWeights() ;
 
   virtual void Update() ;
-
+  
 protected:
   MixtureModelComponentBase() ;
   virtual ~MixtureModelComponentBase() ;

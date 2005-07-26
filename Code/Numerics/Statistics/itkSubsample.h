@@ -24,6 +24,16 @@
 namespace itk{ 
 namespace Statistics{
 
+/** \class Subsample
+ * \brief This class stores a subset of instance identifiers from another sample
+ * object. You can create a subsample out of another sample object or another
+ * subsample object. The class is useful when storing or extracting a portion
+ * of a sample object. Note that when the elements of a subsample are sorted, 
+ * the instance identifiers of the subsample are sorted without changing the
+ * original source sample. Most Statistics algorithms (that derive from
+ * StatisticsAlgorithmBase accept Subsample objects as inputs).
+ *
+ */ 
 template< class TSample >
 class ITK_EXPORT Subsample : 
     public Sample< typename TSample::MeasurementVectorType >
@@ -52,10 +62,6 @@ public:
   typedef typename TSample::FrequencyType FrequencyType ;
   typedef MeasurementVectorType ValueType ;
 
-  /** MeasurementVectorSize constant from super class */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TSample::MeasurementVectorSize);
-
   /** Type of the storage for instances that belong to the class 
    * represented by a Subsample object. A Subsample object stores
    * only the InstanceIdentifiers. The actual data is still in the Sample
@@ -64,7 +70,10 @@ public:
 
   /** Plug in the actual sample data */
   void SetSample(const TSample* sample)
-  { m_Sample = sample ; }
+    { 
+    m_Sample = sample ; 
+    this->SetMeasurementVectorSize( m_Sample->GetMeasurementVectorSize() );
+    }
 
   const TSample* GetSample() const
   { return m_Sample ; } 

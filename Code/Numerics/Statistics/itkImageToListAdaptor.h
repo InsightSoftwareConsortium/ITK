@@ -95,6 +95,26 @@ public:
   /** the number of components in a measurement vector */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       PixelTraitsType::Dimension);
+  
+  virtual void SetMeasurementVectorSize( const unsigned int s ) const
+    {
+    // Measurement vector size for this class is fixed as the pixel's 
+    // dimension. This method should throw an exception if the user tries to 
+    // set the dimension to a different value. 
+    if( s != MeasurementVectorSize )
+      {
+      itkExceptionMacro( << "Measurement vector size for the image adaptor obtained"
+          << " from the pixel dimension is: " << MeasurementVectorSize << " but you "
+          << "are setting it to " << s);
+      }
+    }
+
+ unsigned int GetMeasurementVectorSize() const 
+   {
+   return MeasurementVectorSize;
+   } 
+    
+  
 
   /** Superclass typedefs for Measurement vector, measurement, 
    * Instance Identifier, frequency, size, size element value */

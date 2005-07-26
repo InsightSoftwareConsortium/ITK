@@ -17,8 +17,8 @@
 #ifndef __itkGaussianDensityFunction_h
 #define __itkGaussianDensityFunction_h
 
-#include "vnl/vnl_vector.h"
-#include "vnl/vnl_matrix.h"
+#include "itkArray.h"
+#include "itkVariableSizeMatrix.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "vnl/algo/vnl_determinant.h"
 #include "vnl/vnl_math.h"
@@ -39,6 +39,15 @@ namespace Statistics{
  * calculations ignored. if the measurement vector to be evaluated is equal to
  * the mean, then the Evaluate method will return maximum value of
  * double and return 0 for others 
+ * 
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * \c MeasurementVectorSize  has been removed to allow the length of a measurement
+ * vector to be specified at run time. It is now obtained at run time from the
+ * sample set as input. Please use the function 
+ * GetMeasurementVectorSize() to get the length. The typedef for the Mean has 
+ * changed from FixedArray to Array. The typedef for the covariance matrix
+ * has changed from Matrix to VariableSizeMatrix.
  *
  */
 
@@ -60,25 +69,33 @@ public:
   /** Typedef alias for the measurement vectors */
   typedef TMeasurementVector MeasurementVectorType ;
 
-  /** Dimension of the each individual pixel vector. */
-  itkStaticConstMacro(VectorDimension, unsigned int,
-                      TMeasurementVector::Length);
-
+  /** Length of each measurement vector */
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+  
   /** Type of the mean vector */
-  typedef Vector< double, itkGetStaticConstMacro(VectorDimension) > MeanType ;
+  typedef Array< double >                               MeanType;
   
   /** Type of the covariance matrix */
-  typedef Matrix< double, itkGetStaticConstMacro(VectorDimension), 
-                  itkGetStaticConstMacro(VectorDimension) > CovarianceType ;
+  typedef VariableSizeMatrix< double >                  CovarianceType;
 
   /** Sets the mean */
   void SetMean( const MeanType * mean )
   {
-    if ( m_Mean != mean) 
-      {
-      m_Mean = mean ;
-      this->Modified() ;
-      }
+  if( this->GetMeasurementVectorSize() )
+    {
+    MeasurementVectorTraits::Assert(mean, this->GetMeasurementVectorSize(),
+      "GaussianDensityFunction::SetMean Size of measurement vectors in the sample must the same as the size of the mean." );
+    }
+  else
+    {
+    this->SetMeasurementVectorSize( mean->Size() );
+    }
+
+  if ( m_Mean != mean) 
+    {
+    m_Mean = mean ;
+    this->Modified() ;
+    }
   }
   
   /** Gets the mean */

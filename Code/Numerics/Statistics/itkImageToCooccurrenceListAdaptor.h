@@ -62,6 +62,7 @@ public:
   typedef FixedArray< typename TImage::PixelType, 2 > MeasurementVectorType ;
 
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
+  typedef typename SampleType::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** Standard class typedefs */
   typedef ImageToCooccurrenceListAdaptor Self;
@@ -92,6 +93,20 @@ public:
   
   /** the number of components in a measurement vector */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int, 2);
+
+  virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType )
+    {
+    // Measurement vector size for this class is fixed as the pixel's 
+    // dimension. This method should have no effect
+    itkWarningMacro( << "This method does nothing! The MeasurementVectorSize is " 
+        << MeasurementVectorSize );
+    }
+
+ unsigned int GetMeasurementVectorSize()
+   {
+   return Superclass::MeasurementVectorSize;
+   } 
+  
 
   /** Superclass typedefs for Measurement vector, measurement, 
    * Instance Identifier, frequency, size, size element value */

@@ -23,6 +23,8 @@
 #include "itkFunctionBase.h"
 #include "itkNeighborhoodSampler.h"
 #include "itkSampleToHistogramProjectionFilter.h"
+#include "vnl/vnl_matrix.h"
+#include "itkVariableSizeMatrix.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -71,6 +73,13 @@ namespace Statistics{
  * implementation of the GetValue method of the 
  * GoodnessOfFitMixtureModelCostFunction class.
  * 
+ * <b>Recent API changes</b>
+ * The typedef for \c CenterType and \c MeanType has changed to itk::Array
+ * from FixedArray and Vector respectively to allow the measurement vector
+ * length to be set at run time. The StaticConst macro \c MeasurementVectorSize
+ * has been removed. It is now obtained from the sample. The typedef for
+ * ProjectionAxisArrayType has changed from FixedArray to VariableSizeMatrix.
+ *
  * \sa GoodnessOfFitMixtureModelCostFunction, GoodnessOfFitFunctionBase, 
  * GaussianGoodnessOfFitComponent, NeighborhoodSampler, 
  * SampleToHistogramProjectionFilter
@@ -93,13 +102,11 @@ public:
   /** TInputSample type alias */
   typedef TInputSample InputSampleType ;
 
-  /** Vector length constant */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TInputSample::MeasurementVectorSize) ;
-
+  
   /** Typedefs from the TInputSample */
   typedef typename TInputSample::MeasurementType MeasurementType ;
   typedef typename TInputSample::MeasurementVectorType MeasurementVectorType ;
+  typedef typename TInputSample::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** Resample() output type */
   typedef Subsample< TInputSample > ResampledSampleType ;
@@ -110,20 +117,18 @@ public:
   typedef typename HistogramType::ConstPointer    HistogramConstPointer ;
 
   /** Type of the array of component parameters */
-  typedef Array< double > ParametersType ;
+  typedef Array< double >  ParametersType ;
 
   /** Type of the center position for the hyperspherical neighborhood
    *  sampling */
-  typedef FixedArray< double, 
-                      itkGetStaticConstMacro(MeasurementVectorSize) > 
-  CenterType ;
+  typedef Array< double >  CenterType;
 
   /** Type of the radius of the hyperspherical neighborhood sampling */
   typedef double RadiusType ;
 
   /** Type of the mean of the distribution */
-  typedef Vector< double, itkGetStaticConstMacro(MeasurementVectorSize) > 
-  MeanType ;
+  typedef Array< double >   MeanType ;
+
 
   /** Type of standard deviation of the distribution */
   typedef double StandardDeviationType ;
@@ -232,6 +237,12 @@ public:
   /** Gest the parameters of this component */
   virtual ParametersType GetFullParameters() const = 0 ;
 
+  /** Get Macro to get the length of a measurement vector. This is equal to 
+   * the length of each measurement vector contained in the samples that are
+   * plugged in as input to this class. GetMeasurementVectorSize() will return 
+   * zero until the SetInputSample() method has been called */
+  itkGetConstMacro( MeasurementVectorSize, MeasurementVectorSizeType );
+  
 protected:
   GoodnessOfFitComponentBase() ;
   virtual ~GoodnessOfFitComponentBase() ;
@@ -244,15 +255,12 @@ protected:
   typedef SampleToHistogramProjectionFilter< ResampledSampleType, float > 
   ProjectorType ;
 
+  
   /** projection axis array type. The type of output from 
    * CalculateProjectionAxis(). The number of projection axis are fixed 
-   * equal to the number of components of a measurement vector*/
-  typedef FixedArray< double, 
-                      itkGetStaticConstMacro(MeasurementVectorSize) > 
-  ProjectionAxisType ;
-  typedef FixedArray< ProjectionAxisType, 
-                      itkGetStaticConstMacro(MeasurementVectorSize) > 
-  ProjectionAxisArrayType;
+   * equal to the number of components of a measurement vector. */ 
+  typedef VariableSizeMatrix< double > ProjectionAxisArrayType;
+
 
   ProjectionAxisArrayType* GetProjectionAxes()
   { return &m_ProjectionAxes ; }
@@ -265,6 +273,9 @@ protected:
   virtual void CreateEquiProbableBins() ;
 
 private:
+  /** Length of each measurement vector */
+  MeasurementVectorSizeType m_MeasurementVectorSize;
+
   const TInputSample* m_InputSample ;
   ParametersType m_Parameters ;
 

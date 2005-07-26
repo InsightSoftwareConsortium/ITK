@@ -65,6 +65,7 @@ WeightedMeanCalculator< TSample >
 ::SetWeights(WeightArrayType* array)
 {
   m_Weights = array ;
+  this->Modified();
 }
 
 template< class TSample >
@@ -97,7 +98,15 @@ void
 WeightedMeanCalculator< TSample >
 ::GenerateData() 
 {
-  m_Output.Fill(0.0) ;
+  const MeasurementVectorSizeType measurementVectorSize 
+                        = this->GetMeasurementVectorSize();
+  if( measurementVectorSize == 0 )
+    {
+    itkExceptionMacro(<< "MeasurementVectorSize not set" );
+    }
+  
+  MeasurementVectorTraits::SetLength( m_Output, measurementVectorSize );
+
   typename TSample::ConstIterator iter = this->GetInputSample()->Begin() ;
   typename TSample::ConstIterator end = this->GetInputSample()->End() ;
   double totalWeight = 0.0 ;
@@ -114,7 +123,7 @@ WeightedMeanCalculator< TSample >
       weight = 
         iter.GetFrequency() * m_WeightFunction->Evaluate(measurements) ;
       totalWeight += weight ;
-      for (dim = 0 ; dim < MeasurementVectorSize ; dim++)
+      for (dim = 0 ; dim < measurementVectorSize ; dim++)
         {
         m_Output[dim] += measurements[dim] * weight ;
         }
@@ -129,7 +138,7 @@ WeightedMeanCalculator< TSample >
       measurements = iter.GetMeasurementVector() ;
       weight = iter.GetFrequency() * (*m_Weights)[measurementVectorIndex] ;
       totalWeight += weight ;
-      for (dim = 0 ; dim < MeasurementVectorSize ; dim++)
+      for (dim = 0 ; dim < measurementVectorSize ; dim++)
         {
         m_Output[dim] += measurements[dim] * weight ;
         }

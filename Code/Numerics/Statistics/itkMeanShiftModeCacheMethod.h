@@ -21,6 +21,7 @@
 #include <map>
 #include "itkMacro.h"
 #include "itkObject.h"
+#include "itkMeasurementVectorTraits.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -43,6 +44,12 @@ namespace Statistics{
  * failure exceeds the limit set by the SetMaximumConsecutiveFailures
  * method.
  *
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * \c MeasurementVectorSize  has been removed to allow the length of a measurement
+ * vector to be specified at run time. It is now obtained at run time from the
+ * measurement vectors.
+ * 
  * \sa MeanShiftModeSeekerBase
  */
 
@@ -63,16 +70,15 @@ public:
   
   typedef TMeasurementVector MeasurementVectorType ;
 
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int, 
-                      MeasurementVectorType::Length) ;
-
   struct LessMeasurementVector
   {
     bool operator()(const MeasurementVectorType& mv1, 
                     const MeasurementVectorType& mv2) const
     {
+      // It is assumed that mv1 and mv2 are of the same length. For efficieny,
+      // no checking is performed here.
       for ( unsigned int i = 0 ; 
-            i < itkGetStaticConstMacro( MeasurementVectorSize ) ;
+            i < MeasurementVectorTraits::GetLength( &mv1 );
             ++i )
         {
         if (mv1[i] < mv2[i])

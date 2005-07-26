@@ -27,6 +27,7 @@ SampleAlgorithmBase< TInputSample >
 ::SampleAlgorithmBase()
 {
   m_InputSample = 0;
+  m_MeasurementVectorSize = 0;
 }
 
 template< class TInputSample >
@@ -40,11 +41,13 @@ SampleAlgorithmBase< TInputSample >
   if ( m_InputSample.IsNotNull() )
     {
     os << m_InputSample << std::endl;
+    os << indent << "MeasurementVectorSize: " << m_MeasurementVectorSize << std::endl;
     }
   else
     {
     os << "not set." << std::endl ;
     }
+
 }
 
 

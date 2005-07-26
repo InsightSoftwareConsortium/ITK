@@ -98,6 +98,10 @@ MeanShiftModeCacheMethod< TMeasurementVector >
 ::SetMeasurementVector(MeasurementVectorType& source, 
                        MeasurementVectorType& target)
 {
+  MeasurementVectorTraits::Assert( source,
+    MeasurementVectorTraits::GetLength(target),
+    "MeanShiftModeCacheMethod::SetMeasurementVector Map container must be used with MeasurementVectors of the same size." );
+    
   if ( this->IsFull() )
     {
     return false ;

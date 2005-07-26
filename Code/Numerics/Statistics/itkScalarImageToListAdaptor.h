@@ -82,18 +82,41 @@ public:
   
   /** the number of components in a measurement vector */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int, 1);
+  
 
   /** Superclass typedefs for Measurement vector, measurement, 
    * Instance Identifier, frequency, size, size element value */
   typedef typename Superclass::FrequencyType FrequencyType ;
   typedef typename Superclass::MeasurementType MeasurementType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier ;
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
   typedef MeasurementVectorType ValueType ;
 
+  virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType s ) 
+    {
+    // Measurement vector size for this class is fixed as the pixel's 
+    // dimension. This method should have no effect
+    if( s!=1 )
+      {
+      itkExceptionMacro( << "Cannot set measurement vector size of "
+          << " ScalarImageToListAdaptor to " << s );
+      }
+    }
+
+  /** Length of each measurement vector = 1 */
+  MeasurementVectorSizeType GetMeasurementVectorSize() const
+    {
+    return MeasurementVectorSize;
+    } 
+ 
   const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const;
 
 protected:
-  ScalarImageToListAdaptor() {}
+  ScalarImageToListAdaptor() 
+    {  
+    Superclass::SetMeasurementVectorSize( MeasurementVectorSize); 
+    }
+
   virtual ~ScalarImageToListAdaptor() {}
   void PrintSelf(std::ostream& os, Indent indent) const;  
 

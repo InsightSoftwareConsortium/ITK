@@ -27,6 +27,7 @@ KdTreeGenerator< TSample >
   m_SourceSample = 0 ;
   m_BucketSize = 16 ;
   m_Subsample = SubsampleType::New() ;
+  m_MeasurementVectorSize = 0;
 }
 
 template< class TSample >
@@ -47,6 +48,8 @@ KdTreeGenerator< TSample >
     }
 
   os << indent << "Bucket Size: " << m_BucketSize << std::endl ;
+  os << indent << "MeasurementVectorSize: " << 
+              m_MeasurementVectorSize << std::endl;
 }
 
 template< class TSample >
@@ -57,6 +60,10 @@ KdTreeGenerator< TSample >
   m_SourceSample = sample ;
   m_Subsample->SetSample(sample) ;
   m_Subsample->InitializeWithAllInstances() ;
+  m_MeasurementVectorSize = sample->GetMeasurementVectorSize();
+  MeasurementVectorTraits::SetLength( m_TempLowerBound, m_MeasurementVectorSize );
+  MeasurementVectorTraits::SetLength( m_TempUpperBound, m_MeasurementVectorSize );
+  MeasurementVectorTraits::SetLength( m_TempMean, m_MeasurementVectorSize );
 }
 
 
@@ -85,10 +92,12 @@ KdTreeGenerator< TSample >
     m_Tree->SetBucketSize(m_BucketSize) ;
     }
 
-  MeasurementVectorType lowerBound ;
-  MeasurementVectorType upperBound ;
+  MeasurementVectorType lowerBound;
+  MeasurementVectorTraits::SetLength( lowerBound, m_MeasurementVectorSize ) ;
+  MeasurementVectorType upperBound;
+  MeasurementVectorTraits::SetLength( upperBound, m_MeasurementVectorSize ) ;
 
-  for(unsigned int d = 0 ; d < MeasurementVectorSize ; d++)
+  for(unsigned int d = 0 ; d < m_MeasurementVectorSize ; d++)
     {
     lowerBound[d] = NumericTraits< MeasurementType >::NonpositiveMin() ;
     upperBound[d] = NumericTraits< MeasurementType >::max() ;
@@ -127,7 +136,7 @@ KdTreeGenerator< TSample >
                                           m_TempMean) ;
 
   maxSpread = NumericTraits< MeasurementType >::NonpositiveMin() ;
-  for (i = 0 ; i < MeasurementVectorSize ; i++)
+  for (i = 0 ; i < m_MeasurementVectorSize ; i++)
     {
     spread = m_TempUpperBound[i] - m_TempLowerBound[i] ;
     if (spread >= maxSpread)

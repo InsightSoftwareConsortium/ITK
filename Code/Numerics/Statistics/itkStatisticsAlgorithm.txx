@@ -99,15 +99,27 @@ inline TValue MedianOfThree(const TValue a,
 }
 
 template< class TSample >
-inline void FindSampleBound(const TSample* ,
+inline void FindSampleBound(const TSample* sample,
                             typename TSample::ConstIterator begin,
                             typename TSample::ConstIterator end,
                             typename TSample::MeasurementVectorType &min,
                             typename TSample::MeasurementVectorType &max)
 {    
-  enum { Dimension = TSample::MeasurementVectorSize } ;
+  typedef typename TSample::MeasurementVectorSizeType MeasurementVectorSizeType;
 
-  unsigned int dimension ;
+  const MeasurementVectorSizeType Dimension = sample->GetMeasurementVectorSize();
+  if( Dimension == 0 )
+    {
+    itkGenericExceptionMacro( 
+        << "Length of a sample's measurement vector hasn't been set.");
+    }
+  // Sanity check
+  MeasurementVectorTraits::Assert( max, Dimension, 
+          "Length mismatch StatisticsAlgorithm::FindSampleBound");
+  MeasurementVectorTraits::Assert( min, Dimension, 
+          "Length mismatch StatisticsAlgorithm::FindSampleBound");
+
+  unsigned int dimension;
   typename TSample::MeasurementVectorType temp ;
 
   min = max = temp = begin.GetMeasurementVector() ;
@@ -146,12 +158,26 @@ FindSampleBoundAndMean(const TSubsample* sample,
   typedef typename TSubsample::MeasurementType MeasurementType ;
   typedef typename TSubsample::MeasurementVectorType MeasurementVectorType ;
 
-  enum { Dimension = TSubsample::MeasurementVectorSize } ;
+  typedef typename TSubsample::MeasurementVectorSizeType MeasurementVectorSizeType;  
+  const MeasurementVectorSizeType Dimension = sample->GetMeasurementVectorSize();
+  if( Dimension == 0 )
+    {
+    itkGenericExceptionMacro( 
+        << "Length of a sample's measurement vector hasn't been set.");
+    }
+  // Sanity check
+  MeasurementVectorTraits::Assert( mean, Dimension, 
+          "Length mismatch StatisticsAlgorithm::FindSampleBoundAndMean");
+  MeasurementVectorTraits::Assert( max, Dimension, 
+          "Length mismatch StatisticsAlgorithm::FindSampleBoundAndMean");
+  MeasurementVectorTraits::Assert( min, Dimension, 
+          "Length mismatch StatisticsAlgorithm::FindSampleBoundAndMean");
 
-  FixedArray< double, Dimension > sum ;
+  Array< double > sum( Dimension ) ;
 
-  unsigned int dimension ;
-  MeasurementVectorType temp ;
+  MeasurementVectorSizeType dimension ;
+  MeasurementVectorType temp;
+  MeasurementVectorTraits::SetLength( temp, Dimension );  
 
   min = max = temp = sample->GetMeasurementVectorByIndex(beginIndex) ;
   double frequencySum = sample->GetFrequencyByIndex(beginIndex) ;

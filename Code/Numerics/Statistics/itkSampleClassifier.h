@@ -60,6 +60,13 @@ namespace itk{
  * InstanceIdentifiers for all measurement vectors belong to the class. 
  * The InstanceIdentifiers come from the target sample data. Therefore,
  * the Subsample objects act as separate class masks. 
+ *
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * \c MeasurementVectorSize  has been removed to allow the length of a measurement
+ * vector to be specified at run time. Please use the function 
+ * GetSample().GetMeasurementVectorSize() instead.
+ *
  */
 
 template< class TSample >
@@ -84,9 +91,7 @@ public:
   typedef typename TSample::MeasurementType MeasurementType ;
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
 
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TSample::MeasurementVectorSize);
-
+  
   /** typedefs from Superclass */
   typedef typename Superclass::MembershipFunctionPointerVector 
     MembershipFunctionPointerVector ;

@@ -45,6 +45,12 @@ namespace Statistics{
  * This class is templated over the type of the basic sample. To use all
  * the method, you should first plug in a basic type sample using the
  * SetSample method
+ * 
+ * Recent API changes:
+ * The static const macro to get the length of a measurement vector,
+ * 'MeasurementVectorSize'  has been removed to allow the length of a measurement
+ * vector to be specified at run time. Please use the function 
+ * GetMeasurementVectorSize() instead.
  */
   
 template< class TSample >
@@ -68,12 +74,7 @@ public:
   typedef typename TSample::MeasurementType MeasurementType;
   typedef typename TSample::InstanceIdentifier InstanceIdentifier;
   typedef typename TSample::FrequencyType FrequencyType ;
-  //    typedef typename TSample::SizeType SizeType ;
-  //    typedef typename TSample::SizeValueType SizeValueType ;
   
-  /** MeasurementVectorSize enum from super class */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TSample::MeasurementVectorSize);
   
   /** vector of unique class labels that will be used for mapping internal
    * continuous class label with real class labels */

@@ -64,6 +64,24 @@ void
 GaussianDensityFunction< TMeasurementVector >
 ::SetCovariance(const CovarianceType* cov)
 {
+  // Sanity check
+  if( cov->GetVnlMatrix().rows() != cov->GetVnlMatrix().cols() )
+    {
+    itkExceptionMacro( << "Covariance matrix must be square" );
+    }
+  if( this->GetMeasurementVectorSize() )
+    {
+    if( cov->GetVnlMatrix().rows() != this->GetMeasurementVectorSize() )
+      {
+      itkExceptionMacro( << "Length of measurement vectors in the sample must be"
+         << " the same as the size of the covariance." );
+      }
+    }
+  else
+    {
+    this->SetMeasurementVectorSize( cov->GetVnlMatrix().rows() );
+    }
+
   m_Covariance = cov;
 
   m_IsCovarianceZero = m_Covariance->GetVnlMatrix().is_zero() ;
@@ -79,7 +97,7 @@ GaussianDensityFunction< TMeasurementVector >
       
     // calculate coefficient C of multivariate gaussian
     m_PreFactor = 1.0 / (sqrt(det) * 
-                         pow(sqrt(2.0 * vnl_math::pi), double(VectorDimension))) ;
+                         pow(sqrt(2.0 * vnl_math::pi), double(this->GetMeasurementVectorSize()))) ;
     }
 }
 
@@ -99,23 +117,27 @@ GaussianDensityFunction< TMeasurementVector >
 
   double temp ;
 
-  MeanType tempVector ;
-  MeanType tempVector2 ;
+  const MeasurementVectorSizeType measurementVectorSize = 
+                          this->GetMeasurementVectorSize();
+  MeanType tempVector;
+  MeasurementVectorTraits::SetLength( tempVector, measurementVectorSize );
+  MeanType tempVector2;
+  MeasurementVectorTraits::SetLength( tempVector2, measurementVectorSize );
 
   if ( !m_IsCovarianceZero )
     {
     // Compute |y - mean | 
-    for ( unsigned int i = 0 ; i < VectorDimension ; i++)
+    for ( unsigned int i = 0 ; i < measurementVectorSize ; i++)
       {
       tempVector[i] = measurement[i] - (*m_Mean)[i] ;
       }
       
       
     // Compute |y - mean | * inverse(cov) 
-    for (unsigned int i = 0 ; i < VectorDimension ; i++)
+    for (unsigned int i = 0 ; i < measurementVectorSize ; i++)
       {
       temp = 0 ;
-      for (unsigned int j = 0 ; j < VectorDimension ; j++)
+      for (unsigned int j = 0 ; j < measurementVectorSize ; j++)
         {
         temp += tempVector[j] * m_InverseCovariance.GetVnlMatrix().get(j, i) ;
         }
@@ -125,7 +147,7 @@ GaussianDensityFunction< TMeasurementVector >
 
     // Compute |y - mean | * inverse(cov) * |y - mean|^T 
     temp = 0 ;
-    for (unsigned int i = 0 ; i < VectorDimension ; i++)
+    for (unsigned int i = 0 ; i < measurementVectorSize ; i++)
       {
       temp += tempVector2[i] * tempVector[i] ;
       }
@@ -134,7 +156,7 @@ GaussianDensityFunction< TMeasurementVector >
     }
   else
     {
-    for ( unsigned int i = 0 ; i < VectorDimension ; i++)
+    for ( unsigned int i = 0 ; i < measurementVectorSize ; i++)
       {
       if ( (*m_Mean)[i] != (double) measurement[i] )
         {

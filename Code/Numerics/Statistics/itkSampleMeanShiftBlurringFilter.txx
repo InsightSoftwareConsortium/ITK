@@ -72,8 +72,10 @@ SampleMeanShiftBlurringFilter< TSample >
   typename InputSampleType::ConstIterator iter = this->GetInputSample()->Begin() ;
   typename InputSampleType::ConstIterator end = this->GetInputSample()->End() ;
 
+  m_Output->SetMeasurementVectorSize( this->GetMeasurementVectorSize() );
+
   m_Output->Clear() ;
-  MeasurementVectorType finalPoint ;
+  MeasurementVectorType finalPoint;
   while ( iter != end )
     {
     finalPoint = m_ModeSeeker->Evolve( iter.GetMeasurementVector() ) ;

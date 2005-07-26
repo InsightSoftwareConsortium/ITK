@@ -64,6 +64,12 @@ void
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
 ::SetInput(const TInputSample* sample)
 {
+  // Sanity check
+  if( sample->GetMeasurementVectorSize() == 0 )
+    {
+    itkExceptionMacro( << "Measurement vector length of input sample must be non-zero.");
+    }
+  
   m_Input = sample ;
 }
   
@@ -80,6 +86,12 @@ void
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
 ::SetClassMask(const TClassMaskSample* classMask)
 {
+  // Sanity check
+  if( classMask->GetMeasurementVectorSize() != 1 )
+    {
+    itkExceptionMacro( << "Class mask measurement vector length of input sample must be 1.");
+    }
+  
   m_ClassMask = classMask ;
 }
 

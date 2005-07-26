@@ -18,8 +18,8 @@
 #define __itkEuclideanDistance_h
 
 #include "itkNumericTraits.h"
-#include "itkFixedArray.h"
 #include "itkDistanceMetric.h"
+#include "itkMeasurementVectorTraits.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -33,6 +33,20 @@ namespace Statistics{
  * component (not vectors), and a method to tell if a measurement
  * vector is whithin the range (defined by a radius value) from the
  * origin (set by SetOrigin mehtod).
+ *
+ * The class can be templated over any container that holds data elements. The 
+ * containter is expected to provide access to its elements with the [] operator.
+ * It must also implement a Size() that returns the length of the container.
+ * It must also contain a typedef "ValueType" that defines the data-type held
+ * by the container.
+ * (In other words it will support itk::Vector, FixedArray, Array ).
+ * 
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * \c VectorLength  has been removed to allow the length of a measurement
+ * vector to be specified at run time. Please use the function 
+ * GetMeasurementVectorSize() instead.
+ *
  */
 template< class TVector >
 class ITK_EXPORT EuclideanDistance : 
@@ -44,9 +58,7 @@ public:
   typedef DistanceMetric< TVector > Superclass;
   typedef SmartPointer< Self > Pointer ; 
   typedef SmartPointer<const Self> ConstPointer;
-
-  /** Length of the vector */
-  itkStaticConstMacro(VectorLength, unsigned int, TVector::Length); 
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(EuclideanDistance, DistanceMetric);

@@ -28,25 +28,19 @@ template< class TInputSample >
 GaussianGoodnessOfFitComponent< TInputSample >
 ::GaussianGoodnessOfFitComponent()
 {
-  m_Mean.Fill(0.0) ;
-  m_Covariance.Fill(0.0) ;
-  m_Center.Fill(0.0) ;
   m_StandardDeviation = 0.0 ;
   m_Radius = 0.0 ;
 
-  m_NumberOfParameters = (unsigned int)(MeasurementVectorSize + 1) ;
+  m_NumberOfParameters = (unsigned int)(this->GetMeasurementVectorSize() + 1) ;
 
   m_ProbabilityDensityFunction = ProbabilityDensityFunctionType::New() ;
-  m_ProbabilityDensityFunction->SetMean(&m_Mean) ;
-  m_ProbabilityDensityFunction->SetCovariance(&m_Covariance) ;
   
   m_CovarianceCalculator = CovarianceCalculatorType::New() ;
-  m_CovarianceCalculator->SetMean(&m_Mean) ;
   m_CovarianceCalculator->
     SetWeightFunction(m_ProbabilityDensityFunction.GetPointer()) ;
 
-  m_ProjectionAxisCalculator = ProjectionAxisCalculatorType::New() ;
-  m_ProjectionAxisCalculator->SetMatrix(&m_Covariance) ;
+  m_ProjectionAxisCalculator = new ProjectionAxisCalculatorType() ;
+  //m_ProjectionAxisCalculator->SetMatrix(&m_Covariance);
 
   m_LargestEigenValue = 0.0 ;
   m_LongestAxisIndex = 0;
@@ -56,8 +50,31 @@ template< class TInputSample >
 GaussianGoodnessOfFitComponent< TInputSample >
 ::~GaussianGoodnessOfFitComponent()
 {
+  delete m_ProjectionAxisCalculator;
 }
 
+template< class TInputSample >
+void
+GaussianGoodnessOfFitComponent< TInputSample >
+::SetInputSample( const TInputSample * sample )
+{
+  Superclass::SetInputSample( sample );
+  const MeasurementVectorSizeType measurementVectorLength = 
+    this->GetMeasurementVectorSize();
+  MeasurementVectorTraits::SetLength( m_Mean, measurementVectorLength );
+  MeasurementVectorTraits::SetLength( m_Center, measurementVectorLength );
+  
+  m_Covariance.SetSize( measurementVectorLength, measurementVectorLength );
+  m_Mean.Fill(0.0) ;
+  m_Covariance.Fill(0.0) ;
+  
+  m_CovarianceCalculator->SetMean(&m_Mean);
+  m_ProbabilityDensityFunction->SetMean(&m_Mean);
+  m_ProbabilityDensityFunction->SetCovariance(&m_Covariance);
+}
+  
+  
+  
 template< class TInputSample >
 void
 GaussianGoodnessOfFitComponent< TInputSample >
@@ -89,7 +106,7 @@ GaussianGoodnessOfFitComponent< TInputSample >
   bool changed = false ;
 
   unsigned int i = 0 ;
-  while ( i < MeasurementVectorSize )
+  while ( i < this->GetMeasurementVectorSize() )
     {
     if ( m_Mean[i] != parameters[i] )
       {
@@ -164,32 +181,34 @@ GaussianGoodnessOfFitComponent< TInputSample >
       
     m_Covariance = (*m_CovarianceCalculator->GetOutput()) ;
     }
-      
-  m_ProjectionAxisCalculator->Update() ;
+
+  m_ProjectionAxisCalculator->SetDimension( this->GetResampledSample(
+        )->GetMeasurementVectorSize() );
+  EigenValuesArrayType eigenValues( this->GetMeasurementVectorSize() );
+  ProjectionAxisArrayType  from;
+  from.SetSize( this->GetMeasurementVectorSize(), this->GetMeasurementVectorSize());
 
   ProjectionAxisArrayType* to = this->GetProjectionAxes() ;
-  ProjectionAxisArrayType* from =
-    m_ProjectionAxisCalculator->GetEigenVectors() ;
 
-  for ( i = 0 ; i < MeasurementVectorSize ; i++ )
+  m_ProjectionAxisCalculator->ComputeEigenValuesAndVectors( 
+      m_Covariance, eigenValues, from);
+
+  for ( i = 0 ; i < this->GetMeasurementVectorSize(); i++ )
     {
-    for (j = 0 ; j < MeasurementVectorSize ; j++)
+    for (j = 0 ; j < this->GetMeasurementVectorSize(); j++)
       {
-      (*to)[i][j] = (*from)[i][j] ;
+      (*to)[i][j] = (from)[i][j] ;
       }
     }
 
-  typename ProjectionAxisCalculatorType::ArrayType* eigenValues = 
-    m_ProjectionAxisCalculator->GetEigenValues() ;
-
   m_LongestAxisIndex = 0 ;
   m_LargestEigenValue = NumericTraits< double >::NonpositiveMin() ;
-  for ( i = 0 ; i < MeasurementVectorSize ; i++ )
+  for ( i = 0 ; i < this->GetMeasurementVectorSize(); i++ )
     {
-    if ( (*eigenValues)[i] > m_LargestEigenValue )
+    if ( eigenValues[i] > m_LargestEigenValue )
       {
       m_LongestAxisIndex = i ;
-      m_LargestEigenValue = (*eigenValues)[i] ;
+      m_LargestEigenValue = (eigenValues)[i] ;
       }
     }
 
@@ -244,9 +263,9 @@ GaussianGoodnessOfFitComponent< TInputSample >
 {
   unsigned int i, j ;
   os << m_Mean ;
-  for( i = 0 ; i < MeasurementVectorSize ; i++)
+  for( i = 0 ; i < this->GetMeasurementVectorSize() ; i++)
     {
-    for( j = 0 ; j < MeasurementVectorSize ; j++)
+    for( j = 0 ; j < this->GetMeasurementVectorSize() ; j++)
       {
       os << " " << m_Covariance.GetVnlMatrix().get(i,j) ;
       }
@@ -259,20 +278,20 @@ typename GaussianGoodnessOfFitComponent< TInputSample >::ParametersType
 GaussianGoodnessOfFitComponent< TInputSample >
 ::GetFullParameters() const
 {
-  ParametersType params(MeasurementVectorSize + 
-                        MeasurementVectorSize * MeasurementVectorSize) ;
+  ParametersType params(this->GetMeasurementVectorSize() + 
+                        this->GetMeasurementVectorSize() * this->GetMeasurementVectorSize()) ;
 
   unsigned int index = 0 ;
-  while ( index < MeasurementVectorSize )
+  while ( index < this->GetMeasurementVectorSize() )
     {
     params[index] = m_Mean[index] ;
     ++index ;
     }
 
   unsigned int i, j ;
-  for( i = 0 ; i < MeasurementVectorSize ; i++)
+  for( i = 0 ; i < this->GetMeasurementVectorSize() ; i++)
     {
-    for( j = 0 ; j < MeasurementVectorSize ; j++)
+    for( j = 0 ; j < this->GetMeasurementVectorSize() ; j++)
       {
       params[index] = m_Covariance.GetVnlMatrix().get(i,j) ;
       ++index ;

@@ -50,6 +50,12 @@ namespace Statistics{
  * with the terminal ones. The terminal nodes don't have any child (left
  * or right). For terminal nodes, the GetParameters method is void.
  *
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * \c MeasurementVectorSize  has been removed to allow the length of a measurement
+ * vector to be specified at run time. The \c typedef for \c CentroidType has
+ * been changed from Array to FixedArray.
+ *
  * \sa KdTreeNonterminalNode, KdTreeWeightedCentroidNonterminalNode,
  * KdTreeTerminalNode 
  */
@@ -62,13 +68,8 @@ struct KdTreeNode
   /** Measurement type, not the measurement vector type */
   typedef typename TSample::MeasurementType MeasurementType ;
   
-  /** Measurement vector length */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TSample::MeasurementVectorSize) ;
-
   /** Centroid type */
-  typedef FixedArray< double, 
-                      itkGetStaticConstMacro(MeasurementVectorSize) > CentroidType ;
+  typedef Array< double > CentroidType;
   
   /** Instance identifier type (index value type for the measurement
    * vector in a sample */
@@ -200,6 +201,7 @@ struct KdTreeWeightedCentroidNonterminalNode: public KdTreeNode< TSample >
   typedef typename Superclass::MeasurementType MeasurementType ;
   typedef typename Superclass::CentroidType CentroidType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier ;
+  typedef typename TSample::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   KdTreeWeightedCentroidNonterminalNode(unsigned int partitionDimension,
                                          MeasurementType partitionValue,
@@ -214,6 +216,12 @@ struct KdTreeWeightedCentroidNonterminalNode: public KdTreeNode< TSample >
 
   void GetParameters(unsigned int &partitionDimension, 
                      MeasurementType &partitionValue) const ;
+
+  /** Return the length of a measurement vector */
+  MeasurementVectorSizeType GetMeasurementVectorSize() const
+    {
+    return m_MeasurementVectorSize;
+    }
 
   Superclass* Left() 
   { return m_Left ; }
@@ -243,6 +251,7 @@ struct KdTreeWeightedCentroidNonterminalNode: public KdTreeNode< TSample >
   void AddInstanceIdentifier(InstanceIdentifier) {}
 
 private:
+  MeasurementVectorSizeType m_MeasurementVectorSize;
   unsigned int m_PartitionDimension ;
   MeasurementType m_PartitionValue ;
   CentroidType m_WeightedCentroid ;
@@ -334,7 +343,13 @@ private:
  * point in a k-d space and the number of nearest neighbors. The
  * GetSearchResult method returns a pointer to a NearestNeighbors object
  * with k-nearest neighbors.
- *
+ * 
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * 'MeasurementVectorSize'  has been removed to allow the length of a measurement
+ * vector to be specified at run time. Please use the function 
+ * GetMeasurementVectorSize() instead.
+
  * \sa KdTreeNode, KdTreeNonterminalNode,
  * KdTreeWeightedCentroidNonterminalNode, KdTreeTerminalNode,
  * KdTreeGenerator, WeightedCentroidKdTreeNode
@@ -363,9 +378,11 @@ public:
   typedef typename TSample::InstanceIdentifier InstanceIdentifier ;
   typedef typename TSample::FrequencyType FrequencyType ;
 
-  /** Length of the measurement vector. k in the k-d tree */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int, 
-                      TSample::MeasurementVectorSize) ;
+  typedef unsigned int                    MeasurementVectorSizeType;
+
+  /** Get Macro to get the length of a measurement vector in the KdTree.
+   * The length is obtained from the input sample. */
+  itkGetConstMacro( MeasurementVectorSize, MeasurementVectorSizeType );
 
   /** DistanceMetric type for the distance calculation and comparison */
   typedef EuclideanDistance< MeasurementVectorType > DistanceMetricType ;
@@ -630,6 +647,9 @@ private:
 
   /** Temporary neighbor */
   mutable NeighborType m_TempNeighbor ;
+
+  /** Measurement vector size */
+  MeasurementVectorSizeType m_MeasurementVectorSize;
 } ; // end of class
 
 } // end of namespace Statistics

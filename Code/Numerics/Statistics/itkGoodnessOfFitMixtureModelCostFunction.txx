@@ -137,7 +137,13 @@ GoodnessOfFitMixtureModelCostFunction< TInputSample >
         SetExpectedHistogram(component->GetExpectedHistogram()) ;
       }
       
-    for (i = 0 ; i < MeasurementVectorSize ; i++)
+    MeasurementVectorSizeType measurementVectorSize = 
+                    component->GetMeasurementVectorSize();
+    if( measurementVectorSize == 0 )
+      { 
+      itkExceptionMacro( << "Must set MeasurementVectorSize for the sample" );
+      }
+    for (i = 0 ; i < measurementVectorSize ; i++)
       {
       component->Project(i) ;
       if ( m_Function->GetUseExpectedHistogram() )

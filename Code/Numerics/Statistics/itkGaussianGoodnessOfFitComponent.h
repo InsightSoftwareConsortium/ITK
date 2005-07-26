@@ -21,7 +21,7 @@
 #include "itkGaussianDensityFunction.h"
 #include "itkFunctionBase.h"
 #include "itkWeightedCovarianceCalculator.h"
-#include "itkSymmetricEigenSystem.h"
+#include "itkSymmetricEigenAnalysis.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -38,6 +38,12 @@ namespace Statistics{
  * axes that are the eigen vectors generated from the weighted
  * covariance matrix of the resampled sample using a spherical kernel.
  *
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * \c MeasurementVectorSize has been removed to allow the length of a 
+ * measurement vector to be specified at run time. This is now obtained from
+ * the input sample. 
+ * 
  * \sa GoodnessOfFitComponentBase, GoodnessOfFitMixtureModelCostFunction
  */
 
@@ -59,9 +65,8 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self) ;
 
+  
   /** Typedefs from input sample */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TInputSample::MeasurementVectorSize) ;
   typedef typename TInputSample::MeasurementType MeasurementType ;
   typedef typename TInputSample::MeasurementVectorType MeasurementVectorType ;
 
@@ -72,6 +77,7 @@ public:
   typedef typename Superclass::StandardDeviationType StandardDeviationType ;
   typedef typename Superclass::ResampledSampleType ResampledSampleType ;
   typedef typename Superclass::ProjectionAxisArrayType ProjectionAxisArrayType;
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
   typedef Array< double > ParametersType ;
 
   /** Weight function type. The density values are used as weights of 
@@ -87,15 +93,15 @@ public:
   typedef WeightedCovarianceCalculator< ResampledSampleType > 
   CovarianceCalculatorType ;
 
-  /** Default projection axis calculator type*/
-  typedef SymmetricEigenSystem< double, 
-                                itkGetStaticConstMacro(MeasurementVectorSize) >
-  ProjectionAxisCalculatorType ;
+  /** Default projection axis calculator type.*/
+  typedef Array< double > EigenValuesArrayType;
+  typedef SymmetricEigenAnalysis< ProjectionAxisArrayType, EigenValuesArrayType >
+          ProjectionAxisCalculatorType;
 
   /** Gets the size of parameters which consists of mean
    * and standard deviation */
   unsigned int GetNumberOfParameters() const
-  { return (unsigned int)(itkGetStaticConstMacro(MeasurementVectorSize) + 1) ; }
+  { return (unsigned int)(this->GetMeasurementVectorSize() + 1) ; }
 
   /** Sets the component distribution parameters */
   void SetParameters(const ParametersType &parameter) ;
@@ -125,6 +131,9 @@ public:
    * mean vector and covariance matrix in a single array */
   ParametersType GetFullParameters() const ;
 
+  /** Set the input sample */
+  virtual void SetInputSample( const TInputSample* sample );
+
 protected:
   GaussianGoodnessOfFitComponent() ;
   virtual ~GaussianGoodnessOfFitComponent() ;
@@ -137,7 +146,7 @@ private:
   typename ProbabilityDensityFunctionType::Pointer 
   m_ProbabilityDensityFunction ;
   typename CovarianceCalculatorType::Pointer m_CovarianceCalculator ;
-  typename ProjectionAxisCalculatorType::Pointer m_ProjectionAxisCalculator ;
+  ProjectionAxisCalculatorType * m_ProjectionAxisCalculator ;
 
   MeanType m_Mean ;
   CenterType m_Center ;

@@ -54,6 +54,12 @@ namespace Statistics{
  * (SetBucketSize method) and the input sample (SetSample method). The
  * Update method will run this generator. To get the resulting KdTree
  * object, call the GetOutput method.
+ 
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * 'MeasurementVectorSize'  has been removed to allow the length of a measurement
+ * vector to be specified at run time. It is now obtained from the sample set
+ * as input. You may query this length using the function GetMeasurementVectorSize().
  * 
  * \sa KdTree, KdTreeNode, KdTreeNonterminalNode, KdTreeTerminalNode,
  * WeightedCentroidKdTreeGenerator
@@ -78,9 +84,9 @@ public:
   /** typedef alias for the source data container */ 
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
   typedef typename TSample::MeasurementType MeasurementType ;
-  
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TSample::MeasurementVectorSize);
+
+  /** Typedef for the length of each measurement vector */
+  typedef unsigned int  MeasurementVectorSizeType;
 
   /** Typedef for the k-d tree */
   typedef KdTree< TSample > KdTreeType ;
@@ -121,6 +127,10 @@ public:
   /** The number of measurement vectors in an object of this class. */
   unsigned int TotalInstance ;
 
+  /** Get macro to get the length of the measurement vectors that are being
+   * held in the 'sample' that is passed to this class */
+  itkGetConstMacro( MeasurementVectorSize, unsigned int );
+   
 protected:
   /** Constructor */
   KdTreeGenerator() ;
@@ -176,6 +186,9 @@ private:
 
   /** Temporary mean for the TreeGenerationLoop */
   MeasurementVectorType m_TempMean ;
+
+  /** Length of a measurement vector */
+  MeasurementVectorSizeType m_MeasurementVectorSize;
 } ; // end of class
 
 } // end of namespace Statistics 

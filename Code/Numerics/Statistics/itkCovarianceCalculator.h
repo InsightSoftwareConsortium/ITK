@@ -20,8 +20,8 @@
 
 #include "itkSampleAlgorithmBase.h"
 
-#include "itkVector.h"
-#include "itkMatrix.h"
+#include "itkArray.h"
+#include "itkVariableSizeMatrix.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -39,6 +39,14 @@ namespace Statistics{
  *
  * Without the plugged in mean vector, this calculator will perform
  * the single pass mean and covariance calculation algorithm.  
+ * 
+ * Recent API changes:
+ * The static const macro to get the length of a measurement vector,
+ * 'MeasurementVectorSize'  has been removed to allow the length of a measurement
+ * vector to be specified at run time. It is now obtained from the input sample.
+ * Please use the function GetMeasurementVectorSize() to obtain the length. 
+ * The mean output is an Array rather than a Vector. The covariance matrix is 
+ * represented by a VariableSizeMatrix rather than a Matrix.
  */
 
 template< class TSample >
@@ -48,20 +56,25 @@ class CovarianceCalculator :
 public:
   /** Standard class typedefs. */
   typedef CovarianceCalculator Self;
-  typedef Object Superclass ;
+  typedef SampleAlgorithmBase< TSample > Superclass ;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Standard Macros */
-  itkTypeMacro(CovarianceCalculator, Object);
+  itkTypeMacro(CovarianceCalculator, SampleAlgorithmBase);
   itkNewMacro(Self) ;
   
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TSample::MeasurementVectorSize) ;
+  /** Length of a measurement vector */
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
+  /** Measurement vector type */
+  typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+  
   /** Typedef for the mean output */
-  typedef Vector< double, itkGetStaticConstMacro(MeasurementVectorSize) > MeanType ;
-  typedef Matrix< double, itkGetStaticConstMacro(MeasurementVectorSize), itkGetStaticConstMacro(MeasurementVectorSize) > OutputType ;
+  typedef Array< double >                            MeanType;
+
+  /** Typedef for Covariance output */
+  typedef VariableSizeMatrix< double >               OutputType;
 
   /** Stores the sample pointer */
   void SetMean(MeanType* mean) ;
@@ -90,9 +103,9 @@ protected:
   void ComputeCovarianceWithoutGivenMean() ;
 
 private:
-  OutputType m_Output ;
   MeanType* m_Mean ;
   MeanType* m_InternalMean ;
+  OutputType m_Output ;
 } ; // end of class
     
 } // end of namespace Statistics 

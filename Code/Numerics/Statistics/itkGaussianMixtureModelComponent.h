@@ -34,6 +34,13 @@ namespace Statistics{
  * On every iteration of EM estimation, this class's GenerateData
  * method is called to compute the new distribution parameters.
  *
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * \c MeasurementVectorSize  has been removed to allow the length of a measurement
+ * vector to be specified at run time. It is now obtained at run time from the
+ * sample set as input. Please use the function 
+ * GetMeasurementVectorSize() to get the length. 
+ * 
  * \sa MixtureModelComponentBase, ExpectationMaximizationMixtureModelEstimator
  */
 
@@ -52,12 +59,10 @@ public:
   itkTypeMacro(GaussianMixtureModelComponent, MixtureModelComponentBase);
   itkNewMacro(Self) ;
 
-  /** Measurement length constant */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TSample::MeasurementVectorSize);
 
   /** Typedefs from the superclass */
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType ;
   typedef typename Superclass::MembershipFunctionType MembershipFunctionType ;
   typedef typename Superclass::WeightArrayType WeightArrayType ;
   typedef typename Superclass::ParametersType ParametersType ;

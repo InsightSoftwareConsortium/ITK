@@ -20,7 +20,7 @@
 
 #include "itkSampleAlgorithmBase.h"
 
-#include "itkVector.h"
+#include "itkArray.h"
 
 namespace itk{ 
   namespace Statistics{
@@ -34,7 +34,13 @@ namespace itk{
  * The return value that the GetOutput method 
  * \f$ = \frac{1}{n}\sum^{n}_{i=1}x_{i}\f$ where \f$n\f$ is the
  * number of measurement vectors in the target 
- *
+ * 
+ * Recent API changes:
+ * The static const macro to get the length of a measurement vector,
+ * 'MeasurementVectorSize'  has been removed to allow the length of a measurement
+ * vector to be specified at run time. It is now obtained from the input sample.
+ * Please use the function GetMeasurementVectorSize() to obtain the length. 
+ * The mean output is an Array rather than a Vector.
  */
 
 template< class TSample >
@@ -44,20 +50,22 @@ class MeanCalculator :
 public:
   /**Standard class typedefs. */
   typedef MeanCalculator Self;
-  typedef Object Superclass ;
+  typedef SampleAlgorithmBase< TSample >  Superclass ;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /**Standard Macros */
-  itkTypeMacro(MeanCalculator, Object);
+  itkTypeMacro(MeanCalculator, SampleAlgorithmBase);
   itkNewMacro(Self) ;
-  
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TSample::MeasurementVectorSize);
+
+  /** Length of a measurement vector */
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+
+  /** Measurement vector type */
+  typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
   
   /** Typedef for the mean output */
-  typedef Vector< double,
-                  itkGetStaticConstMacro(MeasurementVectorSize) > OutputType ;
+  typedef Array< double >           OutputType;
 
   /** Returns the mean vector */
   OutputType* GetOutput() ;

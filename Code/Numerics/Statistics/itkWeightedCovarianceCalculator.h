@@ -17,8 +17,8 @@
 #ifndef __itkWeightedCovarianceCalculator_h
 #define __itkWeightedCovarianceCalculator_h
 
-#include "itkVector.h"
-#include "itkMatrix.h"
+#include "itkArray.h"
+#include "itkVariableSizeMatrix.h"
 #include "itkSampleAlgorithmBase.h"
 
 namespace itk{ 
@@ -28,7 +28,14 @@ namespace Statistics{
  * \brief Calculates the covariance matrix of the target sample data
  * where each measurement vector has an associated weight value
  *
- * \sa CovarianceCalculator SampleAlgorithmBase
+ * Recent API changes:
+ * The static const macro to get the length of a measurement vector,
+ * 'MeasurementVectorSize'  has been removed to allow the length of a measurement
+ * vector to be specified at run time. It is now obtained from the input sample.
+ * Please use the function GetMeasurementVectorSize() to obtain the length. 
+ * The mean output is an Array rather than a Vector. The covariance matrix is 
+ * represented by a VariableSizeMatrix rather than a Matrix.
+  * \sa CovarianceCalculator SampleAlgorithmBase
  */
 
 template< class TSample >
@@ -46,25 +53,21 @@ public:
   itkTypeMacro(WeightedCovarianceCalculator, SampleAlgorithmBase);
   itkNewMacro(Self) ;
 
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TSample::MeasurementVectorSize);
-
+  /** Length of a measurement vector */
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+  
   /** Measurement vector typedef */
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
   
   /** Weight calculation function typedef */
   typedef FunctionBase< MeasurementVectorType, double > WeightFunctionType ;
 
-  /** covarince matrix (output) typedef */
-  typedef Matrix< double,
-                  itkGetStaticConstMacro(MeasurementVectorSize),
-                  itkGetStaticConstMacro(MeasurementVectorSize) > 
-          OutputType ;
+  /** Typedef for the mean output */
+  typedef Array< double >                               MeanType;
 
-  /** Mean (input) typedef */
-  typedef Vector< double, itkGetStaticConstMacro(MeasurementVectorSize) >
-          MeanType ;
-
+  /** Typedef for Covariance output */
+  typedef VariableSizeMatrix< double >                  OutputType;
+  
   /** Array typedef for weights */
   typedef Array< double > WeightArrayType ;
 
@@ -74,9 +77,8 @@ public:
   /** Gets the weights array */
   WeightArrayType* GetWeights() ;
 
-  /** Sets the wiehts using an function
-   * the function should have a method, 
-   * Evaluate(MeasurementVectorType&) */
+  /** Sets the weights using an function the function should have a method, 
+   * Evaluate(MeasurementVectorType&).  */
   void SetWeightFunction(WeightFunctionType* func) ;
 
   /** Gets the weight function */

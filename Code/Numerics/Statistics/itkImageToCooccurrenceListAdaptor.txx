@@ -25,6 +25,7 @@ ImageToCooccurrenceListAdaptor< TImage >
 ::ImageToCooccurrenceListAdaptor()
 {
   sample = SampleType::New();
+  sample->SetMeasurementVectorSize( MeasurementVectorSize );
 }
 
 template < class TImage >

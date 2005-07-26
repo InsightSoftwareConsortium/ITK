@@ -33,6 +33,13 @@ namespace Statistics{
  * the SetInputSample method of the superclass and set the mean shift
  * mode seeker using the SetMeanShiftModeSeeker method.
  *
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * \c MeasurementVectorSize  has been removed to allow the length of a measurement
+ * vector to be specified at run time. It is now obtained at run time from the
+ * sample set as input. Please use the function 
+ * GetMeasurementVectorSize() to get the length.
+ *
  * \sa SampleMeanShiftClusteringFilter, MeanShiftModeSeekerBase
  */
 
@@ -51,8 +58,6 @@ public:
   itkTypeMacro(SampleMeanShiftBlurringFilter, SampleAlgorithmBase);
   itkNewMacro(Self) ;
   
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TSample::MeasurementVectorSize) ;
 
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
   typedef typename Superclass::InputSampleType InputSampleType ;

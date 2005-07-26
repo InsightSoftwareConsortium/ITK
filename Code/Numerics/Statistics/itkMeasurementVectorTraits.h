@@ -27,446 +27,233 @@
 #include "itkMatrix.h"
 #include "itkVariableSizeMatrix.h"
 #include "itkNumericTraits.h"
+#include "itkSize.h"
+#include <vector>
 
 
 namespace itk
 {
 
 /** \class MeasurementVectorTraits
- * \brief Define traits that set/return the length of a measurement vector.
- * This class uses traits to enforce consistency when dealing with measurement
- * vector lengths across different classes like std::vector, Array, Vector, 
- * FixedArray etc.
- *
- * The class is primarily intended to be used by developers adding statistics
- * classes to the toolkit.
- *
- * For instance, the developer can create a measurement vector as
- *
- * \code
- * typename SampleType:: MeasurementVectorType m_MeasurementVector 
- * = MeasurementVectorTraits< typename 
- *    SampleType::MeasurementVectorType >::SetSize( s ) );
- * \endcode
- *
- * This will create a measurement vector of length s if it is a FixedArray or 
- * a vnl_vector_fixed, itkVector etc.. If not it returns an array of length 0
- * for the appropriate type. Other useful typedefs are defined to get the 
- * length of the vector, for the MeanType, RealType for compuatations etc
- *
- * To get the length of a measurement vector, the user would
- *
- * \code
- * MeasurementVectorTraits< MeasurementVectorType >::GetSize( &mv )
- * \endcode
- * 
- * This calls the appropriate functions for the MeasurementVectorType to return
- * the size of the measurement vector mv.
- *
- * \code
- * MeasurementVectorTraits< MeasurementVectorType >::GetSize()
- * \endcode
- *
- * This returns the length of MeasurementVectorType, which will be the true
- * length of a FixedArray, Vector, vnl_vector_fixed, Point etc and 0 otherwise
- * 
+ * \brief   
  * \ingroup Statistics 
  */
 
-template <class T>
+
 class MeasurementVectorTraits {
 public:
-  typedef T    MeasurementVectorType;
 
-  /** Generic method to create a container T of the specified length. This is
-   * set via assignment. So the container should also support the assignment
-   * operator. ie
-   * \code
-   * MeasurementVectorType mv = MeasurementVectorTraits< 
-   *         MeasurementVectorType >::SetSize( 3 );
-   * \endcode
-   */
-  static  T    SetSize( unsigned int );
+  typedef unsigned int MeasurementVectorLength;
   
-  /** Generic method to get the size of a containter */
-  static unsigned int GetSize( const MeasurementVectorType * );
-  
-  /** Same as the StaticConstMacro MeasurementVectorLength.
-   * \code
-   * MeasurementVectorTraits< MeasurementVectorType >::MeasurementVectorLength
-   * \endcode
-   * will have a value = length of the container for fixed length containters and
-   * zero otherwise. 
-   *
-   * \c MeasurementVectorTraits<MeasurementVectorType>::GetSize() returns the same.
-   */
-  static unsigned int GetSize();
-};
-
-template<class TValueType, unsigned int TLength>
-class MeasurementVectorTraits<FixedArray<TValueType, TLength > >
-{
-public:
-  itkStaticConstMacro( MeasurementVectorLength, unsigned int, TLength );
-  typedef TValueType                                       ValueType;
-  typedef double                                           RealValueType;
-  typedef FixedArray< ValueType, MeasurementVectorLength > MeasurementVectorType;
-  typedef FixedArray< RealValueType, 
-                                 MeasurementVectorLength > RealMeasurementVectorType;
-  typedef Matrix< RealValueType, MeasurementVectorLength, 
-                                 MeasurementVectorLength > RealMatrixType;
-  typedef Vector< RealValueType, MeasurementVectorLength > MeanType;
-  typedef Vector< RealValueType, MeasurementVectorLength > OriginType;
-  typedef FixedArray< bool,      MeasurementVectorLength > BooleanArrayType;
-  typedef FixedArray< RealValueType, MeasurementVectorLength > RealArrayType;
-
-  static MeasurementVectorType SetSize( unsigned int s )
+  template<class TValueType, unsigned int TLength>
+  static void SetLength( FixedArray< TValueType, TLength > &m, const unsigned int s )
     {
-    if( s != MeasurementVectorLength )
+    if( s != TLength )
       {
       itkGenericExceptionMacro( << "Cannot set the size of a FixedArray of length " 
-          << MeasurementVectorLength << " to " << s );
+          << TLength << " to " << s );
       }
-    MeasurementVectorType m;
-    m.Fill( NumericTraits< ValueType >::Zero );
-    return m;
-    }
-
-  static unsigned int GetSize( const MeasurementVectorType *m )
-    {
-    return MeasurementVectorLength;
-    }
-
-  static unsigned int GetSize()
-    {
-    return MeasurementVectorLength;
-    }
-
-  static RealMatrixType RealMatrix( unsigned int r, unsigned int c )
-    {
-    RealMatrixType m;
-    return m;
-    }
-};
-
-template< class TValueType >
-class MeasurementVectorTraits< Array< TValueType > >
-{
-public:
-  typedef TValueType                   ValueType;
-  typedef double                       RealValueType;
-  typedef Array< ValueType >           MeasurementVectorType;
-  typedef Array< RealValueType >       RealMeasurementVectorType;
-  typedef VariableSizeMatrix< double > RealMatrixType;
-  typedef RealMeasurementVectorType    MeanType;
-  typedef RealMeasurementVectorType    OriginType;
-  typedef Array< bool >                BooleanArrayType;
-  typedef Array< RealValueType >       RealArrayType;
-  itkStaticConstMacro( MeasurementVectorLength, unsigned int, 0 );
-
-  static MeasurementVectorType SetSize( unsigned int s )
-    {
-    MeasurementVectorType m( s );
-    return m;
+    m.Fill( NumericTraits< TValueType >::Zero );
     }
   
-  static unsigned int GetSize( const MeasurementVectorType *m )
+  template<class TValueType, unsigned int TLength>
+  static void SetLength( FixedArray< TValueType, TLength > *m, const unsigned int s )
     {
-    if( m == NULL )
+    if( s != TLength )
       {
-      itkGenericExceptionMacro( << "MeasurementVector is NULL" );
+      itkGenericExceptionMacro( << "Cannot set the size of a FixedArray of length " 
+          << TLength << " to " << s );
       }
-    return m->Size();
+    m->Fill( NumericTraits< TValueType >::Zero );
+    }
+  
+  template< class TValueType >
+  static void SetLength( Array< TValueType > & m, const unsigned int s )
+    {
+    m.SetSize( s );
+    m.Fill( NumericTraits< TValueType >::Zero );
+    }
+  
+  template< class TValueType >
+  static void SetLength( Array< TValueType > * m, const unsigned int s )
+    {
+    m->SetSize( s );
+    m->Fill( NumericTraits< TValueType >::Zero );
     }
 
-  static unsigned int GetSize()
+  template< class TValueType >
+  static void SetLength( std::vector< TValueType > & m, const unsigned int s )
     {
+    m.resize( s );
+    }
+  
+  template< class TValueType >
+  static void SetLength( std::vector< TValueType > * m, const unsigned int s )
+    {
+    m->resize( s );
+    }
+
+
+  template< class TValueType, unsigned int TLength > 
+  static const MeasurementVectorLength 
+               GetLength( const FixedArray< TValueType, TLength > &)
+    { return TLength; }
+  
+  template< class TValueType, unsigned int TLength > 
+  static const MeasurementVectorLength 
+               GetLength( const FixedArray< TValueType, TLength > *)
+    { return TLength; }
+
+  template< class TValueType >
+  static const MeasurementVectorLength
+               GetLength( const Array< TValueType > &m )
+    {return m.GetSize(); }
+  
+  template< class TValueType >
+  static const MeasurementVectorLength
+               GetLength( const Array< TValueType > *m )
+    {return m->GetSize(); }
+
+  template< class TValueType >
+  static const MeasurementVectorLength
+               GetLength( const std::vector< TValueType > &m )
+    {return m.size(); }
+  
+  template< class TValueType >
+  static const MeasurementVectorLength
+               GetLength( const std::vector< TValueType > *m )
+    {return m->size(); }
+
+
+  template< class TValueType1, unsigned int TLength, class TValueType2 >
+  static MeasurementVectorLength Assert( const FixedArray< TValueType1, TLength > &, 
+                      const Array< TValueType2 > &b, const char *errMsg="Length Mismatch")
+    {
+    if( b.Size() == 0 )
+      {
+      return TLength;
+      }
+    if( b.Size() != 0 )
+      {
+      if (b.Size() != TLength)
+        {
+        itkGenericExceptionMacro( << errMsg );
+        return 0;
+        }
+      }
     return 0;
     }
 
-  static RealMatrixType RealMatrix( unsigned int r, unsigned int c )
+  template< class TValueType1, unsigned int TLength, class TValueType2 >
+  static MeasurementVectorLength Assert( const FixedArray< TValueType1, TLength > *, 
+                      const Array< TValueType2 > *b, const char *errMsg="Length Mismatch")
     {
-    RealMatrixType m;
-    m.SetSize( r, c );
-    return m;
-    }
-};
-
-
-template< class TValueType, unsigned int TLength >
-class MeasurementVectorTraits< Vector< TValueType, TLength > >
-{
-public:
-  typedef TValueType ValueType;
-  typedef double     RealValueType;
-  itkStaticConstMacro( MeasurementVectorLength, unsigned int, TLength );
-  typedef Vector< RealValueType, 
-          MeasurementVectorLength > RealMeasurementVectorType;
-  typedef Matrix< RealValueType, MeasurementVectorLength, 
-                                 MeasurementVectorLength > RealMatrixType;
-  typedef RealMeasurementVectorType                        MeanType;
-  typedef RealMeasurementVectorType                        OriginType;
-  typedef Vector< ValueType, MeasurementVectorLength >     MeasurementVectorType;
-  typedef FixedArray< bool,  MeasurementVectorLength >     BooleanArrayType;
-  typedef FixedArray< RealValueType, MeasurementVectorLength > RealArrayType;
-
-  static MeasurementVectorType SetSize( unsigned int s )
-    {
-    if( s != MeasurementVectorLength )
+    if( b->Size() == 0 )
       {
-      itkGenericExceptionMacro( << "Cannot set the size of a Vector of length " 
-          << MeasurementVectorLength << " to " << s );
+      return TLength;
       }
-    MeasurementVectorType m;
-    m.Fill( NumericTraits< ValueType >::Zero );
-    return m;
-    }
-
-  static unsigned int GetSize( const MeasurementVectorType *m )
-    {
-    return MeasurementVectorLength; 
-    }
-
-  static unsigned int GetSize()
-    {
-    return MeasurementVectorLength;
-    }
-
-  static RealMatrixType RealMatrix( unsigned int r, unsigned int c )
-    {
-    RealMatrixType m;
-    return m;
-    }
-};
-
-template< class TValueType >
-class MeasurementVectorTraits< vnl_vector< TValueType > >
-{
-public:
-  typedef TValueType                   ValueType;
-  typedef double                       RealValueType;
-  typedef vnl_vector< ValueType >      MeasurementVectorType;
-  typedef vnl_vector< RealValueType >  RealMeasurementVectorType;
-  typedef VariableSizeMatrix< double > RealMatrixType;
-  typedef RealMeasurementVectorType    MeanType;
-  typedef RealMeasurementVectorType    OriginType;
-  typedef Array< bool >                BooleanArrayType;
-  typedef Array< RealValueType >       RealArrayType;
-  itkStaticConstMacro( MeasurementVectorLength, unsigned int, 0 );
-
-  static MeasurementVectorType SetSize( unsigned int s )
-    {
-    MeasurementVectorType m( s );
-    return m;
-    }
-  
-  static unsigned int GetSize( const MeasurementVectorType *m )
-    {
-    if( m == NULL )
+    else if (b->Size() != TLength)
       {
-      itkGenericExceptionMacro( << "MeasurementVector is NULL" );
+      itkGenericExceptionMacro( << errMsg );
+      return 0;
       }
-    return m->size();
-    }
-
-  static unsigned int GetSize()
-    {
     return 0;
     }
 
-  static RealMatrixType RealMatrix( unsigned int r, unsigned int c )
+  template< class TValueType1, unsigned int TLength>
+  static MeasurementVectorLength Assert( const FixedArray< TValueType1, TLength > &, 
+                const MeasurementVectorLength l, const char *errMsg="Length Mismatch")
     {
-    RealMatrixType m;
-    m.SetSize( r, c );
-    return m;
-    }
-};
-
-
-template<class TValueType, unsigned int TLength>
-class MeasurementVectorTraits< vnl_vector_fixed<TValueType, TLength > >
-{
-public:
-  typedef TValueType ValueType;
-  typedef double     RealValueType;
-  itkStaticConstMacro( MeasurementVectorLength, unsigned int, TLength );
-  typedef vnl_vector_fixed< ValueType, MeasurementVectorLength > 
-                                        MeasurementVectorType;
-  typedef vnl_vector_fixed< RealValueType, 
-          MeasurementVectorLength > RealMeasurementVectorType;
-  typedef Matrix< RealValueType, MeasurementVectorLength, 
-                                 MeasurementVectorLength > RealMatrixType;
-  typedef RealMeasurementVectorType                        MeanType;
-  typedef Vector< RealValueType, MeasurementVectorLength > OriginType;
-  typedef FixedArray< bool,      MeasurementVectorLength > BooleanArrayType;
-  typedef FixedArray< RealValueType, MeasurementVectorLength > RealArrayType;
-  
-  
-  static MeasurementVectorType SetSize( unsigned int s )
-    {
-    if( s != MeasurementVectorLength )
+    if( l == 0 )
       {
-      itkGenericExceptionMacro( << "Cannot set the size of a vnl_vector_fixed of length " 
-          << MeasurementVectorLength << " to " << s );
+      return TLength;
       }
-    MeasurementVectorType m;
-    return m;
-    }
-  
-  static unsigned int GetSize( const MeasurementVectorType *m )
-    {
-    return MeasurementVectorLength; 
-    }
-
-  static unsigned int GetSize()
-    {
-    return MeasurementVectorLength;
-    }
-
-  static RealMatrixType RealMatrix( unsigned int r, unsigned int c )
-    {
-    RealMatrixType m;
-    return m;
-    }
-};
-
-template< class TValueType >
-class MeasurementVectorTraits< std::vector< TValueType > >
-{
-public:
-  typedef TValueType ValueType;
-  typedef double     RealValueType;
-  typedef std::vector< ValueType > MeasurementVectorType;
-  typedef std::vector< RealValueType > RealMeasurementVectorType;
-  typedef VariableSizeMatrix< double > RealMatrixType;
-  typedef RealMeasurementVectorType    MeanType;
-  typedef RealMeasurementVectorType    OriginType;
-  typedef Array< bool >                BooleanArrayType;
-  typedef Array< RealValueType >       RealArrayType;
-  itkStaticConstMacro( MeasurementVectorLength, unsigned int, 0 );
-
-  static MeasurementVectorType SetSize( unsigned int s )
-    {
-    MeasurementVectorType m( s );
-    return m;
-    }
-  
-  static unsigned int GetSize( const MeasurementVectorType *m )
-    {
-    if( m == NULL )
+    else if( l != TLength )
       {
-      itkGenericExceptionMacro( << "MeasurementVector is NULL" );
+      itkGenericExceptionMacro( << errMsg );
+      return 0;
       }
-    return m->size();
-    }
-
-  static unsigned int GetSize()
-    {
     return 0;
     }
 
-  static RealMatrixType RealMatrix( unsigned int r, unsigned int c )
+  template< class TValueType1, unsigned int TLength>
+  static MeasurementVectorLength Assert( const FixedArray< TValueType1, TLength > *, 
+               const MeasurementVectorLength l, const char *errMsg="Length Mismatch")
     {
-    RealMatrixType m;
-    m.SetSize( r, c );
-    return m;
-    }
-};
-
-template<class TValueType, unsigned int TLength>
-class MeasurementVectorTraits< Point< TValueType, TLength > >
-{
-public:
-  typedef TValueType ValueType;
-  typedef double     RealValueType;
-  itkStaticConstMacro( MeasurementVectorLength, unsigned int, TLength );
-  typedef Point< ValueType, MeasurementVectorLength > MeasurementVectorType;
-  typedef Point< RealValueType, MeasurementVectorLength > RealMeasurementVectorType;
-  typedef Matrix< RealValueType, MeasurementVectorLength, 
-                                 MeasurementVectorLength > RealMatrixType;
-  typedef Vector< RealValueType, MeasurementVectorLength>  MeanType;
-  typedef Vector< RealValueType, MeasurementVectorLength>  OriginType;
-  typedef FixedArray< bool,      MeasurementVectorLength > BooleanArrayType;
-  typedef FixedArray< RealValueType, MeasurementVectorLength > RealArrayType;
-  
-  static MeasurementVectorType SetSize( unsigned int s )
-    {
-    if( s != MeasurementVectorLength )
+    if( l == 0 )
       {
-      itkGenericExceptionMacro( << "Cannot set the size of a Point of length " 
-          << MeasurementVectorLength << " to " << s );
+      return TLength;
       }
-    MeasurementVectorType m;
-    for( unsigned int i=0; i< MeasurementVectorLength; i++ )
+    else if( l != TLength )
       {
-      m[i] = NumericTraits< ValueType >::Zero;
+      itkGenericExceptionMacro( << errMsg );
+      return 0;
       }
-    return m;
-    }
-
-  static unsigned int GetSize( const MeasurementVectorType *m )
-    {
-    return MeasurementVectorLength;
-    }
-
-  static unsigned int GetSize()
-    {
     return 0;
     }
 
-  static RealMatrixType RealMatrix( unsigned int r, unsigned int c )
+  template< class TValueType >
+  static MeasurementVectorLength Assert( const Array< TValueType > &a, 
+              const MeasurementVectorLength l, const char *errMsg="Length Mismatch")
     {
-    RealMatrixType m;
-    return m;
-    }
-};
-
-template<class TValueType >
-class MeasurementVectorTraits< RGBPixel<TValueType > >
-{
-public:
-  typedef TValueType ValueType;
-  typedef double     RealValueType;
-  itkStaticConstMacro( MeasurementVectorLength, unsigned int, 3 );
-  typedef RGBPixel< ValueType > MeasurementVectorType;
-  typedef RGBPixel< RealValueType > RealMeasurementVectorType;
-  typedef Matrix< RealValueType, MeasurementVectorLength, 
-                                 MeasurementVectorLength > RealMatrixType;
-  typedef Vector< RealValueType, MeasurementVectorLength > MeanType;
-  typedef Vector< RealValueType, MeasurementVectorLength > OriginType;
-  typedef FixedArray< bool,      MeasurementVectorLength > BooleanArrayType;
-  typedef FixedArray< RealValueType, MeasurementVectorLength > RealArrayType;
-  
-  static MeasurementVectorType SetSize( unsigned int s )
-    {
-    if( s != MeasurementVectorLength )
+    if( ((l!=0) && (a.Size()!=l)) || (a.Size()==0) )
       {
-      itkGenericExceptionMacro( << "Cannot set the size of an RGBPixel of length " 
-          << MeasurementVectorLength << " to " << s );
+      itkGenericExceptionMacro( << errMsg );
       }
-    MeasurementVectorType m;
-    m.Fill( NumericTraits< ValueType >::Zero );
-    return m;
+    else if( l == 0 )
+      {
+      return a.Size();
+      }
+    return 0;
     }
-
-  static unsigned int GetSize( const MeasurementVectorType *m )
+  
+  template< class TValueType >
+  static MeasurementVectorLength Assert( const Array< TValueType > *a, 
+              const MeasurementVectorLength l, const char *errMsg="Length Mismatch")
     {
-    return MeasurementVectorLength;
+    if( ((l!=0) && (a->Size()!=l)) || (a->Size()==0) )
+      {
+      itkGenericExceptionMacro( << errMsg );
+      }
+    else if( l == 0 )
+      {
+      return a->Size();
+      }
+    return 0;
     }
-
-  static unsigned int GetSize()
+   
+  template< class TValueType >
+  static MeasurementVectorLength Assert( const std::vector< TValueType > &a, 
+              const MeasurementVectorLength l, const char *errMsg="Length Mismatch")
     {
-    return MeasurementVectorLength;
+    if( ((l!=0) && (a.size()!=l)) || (a.size()==0) )
+      {
+      itkGenericExceptionMacro( << errMsg );
+      }
+    else if( l == 0 )
+      {
+      return a.size();
+      }
+    return 0;
     }
-
-  static RealMatrixType RealMatrix( unsigned int r, unsigned int c )
+  
+  template< class TValueType >
+  static MeasurementVectorLength Assert( const std::vector< TValueType > *a, 
+              const MeasurementVectorLength l, const char *errMsg="Length Mismatch")
     {
-    RealMatrixType m;
-    return m;
+    if( ((l!=0) && (a->size()!=l)) || (a->size()==0) )
+      {
+      itkGenericExceptionMacro( << errMsg );
+      }
+    else if( l == 0 )
+      {
+      return a->size();
+      }
+    return 0;
     }
-};
+ };
 
+} // namespace itk
 
-} // __itkMeasurementVectorTraits_h
+#endif  // __itkMeasurementVectorTraits_h
 
-#endif

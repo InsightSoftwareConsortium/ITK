@@ -34,6 +34,7 @@ MembershipSample< TSample >
 ::SetSample(const TSample* sample)
 {
   m_Sample = sample ; 
+  this->SetMeasurementVectorSize( sample->GetMeasurementVectorSize() );
 }
 
 template< class TSample >

@@ -21,7 +21,7 @@
 #include "itkObject.h"
 #include "itkSample.h"
 #include "itkSubsample.h"
-#include "itkFixedArray.h"
+#include "itkArray.h"
 #include "itkSampleAlgorithmBase.h"
 
 namespace itk{ 
@@ -35,6 +35,13 @@ namespace Statistics{
  * hyper-sphere that is defined by a center and a radius. To set
  * the center, use SetCenter method, and to set radius, use SetRadius
  * method. The distance metric is Euclidean one.
+ * 
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * \c MeasurementVectorSize  has been removed to allow the length of a measurement
+ * vector to be specified at run time. Please use the function 
+ * GetMeasurementVectorSize() to get the length. The typedef for \c CenterType
+ * has changed from FixedArray to Array
  */
 
 template < class TSample >
@@ -56,9 +63,8 @@ public:
   /** MeasurementVector typedef support */ 
   typedef TSample SampleType ;
 
+
   /** Enums and typedefs from the TSample */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int, 
-                      TSample::MeasurementVectorSize) ;
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
   typedef typename TSample::MeasurementType MeasurementType ;
   typedef typename TSample::FrequencyType FrequencyType ;
@@ -74,15 +80,23 @@ public:
   typedef double RadiusType ;
 
   /** Type of the array of the radii */ 
-  typedef FixedArray< double, itkGetStaticConstMacro(MeasurementVectorSize) > CenterType ;
+  typedef Array< double > CenterType;
 
   /** Sets the center of the spherical kernel */
   void SetCenter(CenterType* center)
   {
+    if( this->GetMeasurementVectorSize() && 
+      ( center->Size() != this->GetMeasurementVectorSize() ) )
+      {
+      itkExceptionMacro( << "Size of measurement vectors in the sample is: " <<
+         this->GetMeasurementVectorSize() << " but size of center is: " <<
+         center->Size() );
+      }
+    
     if ( m_Center != center )
       {
-        m_Center = center ;
-        this->Modified() ;
+      m_Center = center ;
+      this->Modified() ;
       }
   }
 

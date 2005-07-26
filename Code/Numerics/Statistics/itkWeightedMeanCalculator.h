@@ -22,7 +22,6 @@
 #include <vnl/vnl_matrix.h>
 
 #include "itkArray.h"
-#include "itkVector.h"
 #include "itkFunctionBase.h"
 #include "itkSampleAlgorithmBase.h"
 
@@ -34,9 +33,16 @@ namespace Statistics{
  * associated weight value
  *
  * To run this algorithm, you have plug in the target sample data 
- * using SetInpuSample method and provides weight by an array or function.
+ * using SetInputSample method and provides weight by an array or function.
  *. Then call the Update method to run the alogithm.
- *
+ * 
+ * Recent API changes:
+ * The static const macro to get the length of a measurement vector,
+ * 'MeasurementVectorSize'  has been removed to allow the length of a measurement
+ * vector to be specified at run time. It is now obtained from the input sample.
+ * Please use the function GetMeasurementVectorSize() to obtain the length. 
+ * The mean output is an Array rather than a Vector.
+
  * \sa MeanCalculator SampleAlgorithmBase
  */
 
@@ -55,13 +61,13 @@ public:
   itkTypeMacro(WeightedMeanCalculator, SampleAlgorithmBase);
   itkNewMacro(Self) ;
   
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TSample::MeasurementVectorSize);
-
+  /** Length of a measurement vector */
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+  
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
 
-  /** Mean (output) typedef */
-  typedef Vector< double, itkGetStaticConstMacro(MeasurementVectorSize) > OutputType ;
+  /** Typedef for the mean output */
+  typedef Array< double >           OutputType;
   
   /** Array typedef for weights */
   typedef Array< double > WeightArrayType ;

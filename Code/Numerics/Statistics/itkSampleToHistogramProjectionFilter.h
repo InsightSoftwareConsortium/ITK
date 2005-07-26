@@ -21,11 +21,10 @@
 #include "itkObject.h"
 #include "itkSample.h"
 #include "itkSubsample.h"
-#include "itkFixedArray.h"
 #include "itkHistogram.h"
 #include "itkFunctionBase.h"
 #include "itkSampleAlgorithmBase.h"
-#include "itkVector.h"
+#include "itkArray.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -42,6 +41,13 @@ namespace Statistics{
  * If the bin overlap value is set by the SetHistogramBinOverlap method and 
  * greater than 0.001, the frequency will be weighted based on its closeness
  * of the projected values.
+ * 
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * \c MeasurementVectorSize has been removed to allow the length of a 
+ * measurement vector to be specified at run time. This is now obtained from
+ * the input sample. Typedefs for the Histogram mean \c MeanType etc have been
+ * changed to Array.
  */
 
 template < class TInputSample, class THistogramMeasurement >
@@ -61,9 +67,8 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self) ;
 
+
   /** Enums and typedefs from the TInputSample */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int, 
-                      TInputSample::MeasurementVectorSize) ;
   typedef typename TInputSample::MeasurementVectorType MeasurementVectorType ;
   typedef typename TInputSample::MeasurementType MeasurementType ;
   typedef typename TInputSample::FrequencyType FrequencyType ;
@@ -71,14 +76,13 @@ public:
 
   /** typedefs from the superclass */
   typedef typename Superclass::InputSampleType InputSampleType ;
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
-  /** 1D array typedef */
-  typedef FixedArray< double, 
-                      itkGetStaticConstMacro(MeasurementVectorSize) > ArrayType ;
+  /** 1D array typedef */ 
+  typedef   Array< double > ArrayType;
 
   /** The center of the histogram */
-  typedef Vector< double, 
-                  itkGetStaticConstMacro(MeasurementVectorSize) > MeanType ;
+  typedef Array< double > MeanType;
 
   /** Type of the output object */
   typedef Histogram< THistogramMeasurement, 1 > HistogramType ;

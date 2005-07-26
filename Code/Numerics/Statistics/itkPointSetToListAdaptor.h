@@ -75,6 +75,7 @@ public:
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
   typedef MeasurementVectorType ValueType ;
   typedef typename Superclass::FrequencyType FrequencyType ;
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** Method to set the point set */
   void SetPointSet(TPointSet* pointSet) ;
@@ -100,6 +101,23 @@ public:
 
   /** returns the size of this container */
   FrequencyType GetTotalFrequency() const ;
+
+  void SetMeasurementVectorSize( const MeasurementVectorSizeType s )
+    {
+    // MV size of the point set is fixed as that of the point's dimension
+    // Throw exception if user tries to set it to a different value
+    if( s != MeasurementVectorSize )
+      {
+      itkExceptionMacro( << "PointSetToListAdaptor's measurement vector lengths"
+          << " cannot be set to " << s );
+      }
+    }
+
+  MeasurementVectorSizeType GetMeasurementVectorSize() const
+    {
+    return MeasurementVectorSize;
+    }
+    
 
  
   class Iterator
@@ -220,7 +238,8 @@ public:
   }
   
 protected:
-  PointSetToListAdaptor() ;
+  PointSetToListAdaptor(); 
+  
   virtual ~PointSetToListAdaptor() {}
   void PrintSelf(std::ostream& os, Indent indent) const;  
 

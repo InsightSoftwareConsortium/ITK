@@ -62,20 +62,27 @@ struct GetHistogramDimension
  * each dimension of the histogram. An overloaded version also allows
  * for regularly spaced bins to defined.  To define irregularly sized
  * bins, use the SetBinMin()/SetBinMax() methods.
+ *  
+ * If you do not know the length of the measurement vector at compile time, you
+ * can set the second template parameter to 0. This can conveniently be obtained
+ * from MeasurementVectorTraits. For instance, instantiate a histogram as
+ * below:
  *
+ * \code
+ * typedef Histogram< THistogramMeasurement, typename 
+ *      MeasurementVectorTraits< MeasurementVectorType >::MeasurementVectorLength,
+ *      TFrequencyContainer > HistogramType;
+ * \endcode
+ * 
  * \sa Sample, DenseFrequencyContainer, SparseFrequencyContainer
  */
 
-
-
-  
 template < class TMeasurement = float, unsigned int VMeasurementVectorSize = 1,
            class TFrequencyContainer = DenseFrequencyContainer< float > > 
 class ITK_EXPORT Histogram 
   : public Sample < FixedArray< TMeasurement, VMeasurementVectorSize > >
 {
 public:
-
 
 
   /** Standard typedefs */
@@ -102,6 +109,7 @@ public:
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier ;
   typedef MeasurementVectorType ValueType ;
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** frequency container typedef */
   typedef TFrequencyContainer FrequencyContainerType ;
@@ -231,13 +239,13 @@ public:
   const BinMaxContainerType& GetMaxs() const
   { return m_Max ; }
   
-  /** Get the minimums of the bin corresponding to a particular measurement */
-  MeasurementVectorType& GetHistogramMinFromValue(const MeasurementVectorType 
-                                                  &measurement)  ; 
-  
-  /** Get the maximums of the bin corresponding to a particular measurement */
-  MeasurementVectorType& GetHistogramMaxFromValue(const MeasurementVectorType 
-                                                  &measurement) ; 
+//  /** Get the minimums of the bin corresponding to a particular measurement */
+//  MeasurementVectorType& GetHistogramMinFromValue(const MeasurementVectorType 
+//                                                  &measurement)  ; 
+//  
+//  /** Get the maximums of the bin corresponding to a particular measurement */
+//  MeasurementVectorType& GetHistogramMaxFromValue(const MeasurementVectorType 
+//                                                  &measurement) ; 
   
   /** Get the minimums of the bin corresponding to a particular index */
   MeasurementVectorType& GetHistogramMinFromIndex(const IndexType &index) ;
@@ -420,11 +428,6 @@ public:
       return  m_Histogram->GetFrequency(m_Id) ;
     }
     
-    bool SetFrequency(const FrequencyType value) 
-    { 
-      return m_Histogram->SetFrequency(m_Id, value); 
-    }
-
     InstanceIdentifier GetInstanceIdentifier() const
     { return m_Id ; }
 
@@ -487,7 +490,21 @@ public:
   {
     return ConstIterator(m_OffsetTable[VMeasurementVectorSize], this) ;
   }
- 
+
+ virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType s )
+   {
+   if( s!= VMeasurementVectorSize )
+     { 
+     itkExceptionMacro( << "This Histogram class is meant to be used only for "
+       << "fixed length vectors of length " << VMeasurementVectorSize  << 
+       ". Cannot set this to " << s);
+     }
+   }
+ MeasurementVectorSizeType GetMeasurementVectorSize() const
+   {
+   return VMeasurementVectorSize;
+   }
+   
 
 protected:
   Histogram() ;
@@ -515,7 +532,7 @@ private:
 
   bool                            m_ClipBinsAtEnds;
 
-} ; // end of class
+} ; 
 
 } // end of namespace Statistics 
 } // end of namespace itk 

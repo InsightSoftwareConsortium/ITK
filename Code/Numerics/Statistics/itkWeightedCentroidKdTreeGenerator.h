@@ -52,6 +52,12 @@ namespace Statistics{
  * Update method will run this generator. To get the resulting KdTree
  * object, call the GetOutput method.
  * 
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * 'MeasurementVectorSize'  has been removed to allow the length of a measurement
+ * vector to be specified at run time. It is now obtained from the sample set
+ * as input. You may query this length using the function GetMeasurementVectorSize().
+ * 
  * \sa KdTree, KdTreeNode, KdTreeWeightedCentroidNonterminalNode, 
  * KdTreeTerminalNode, KdTreeGenerator
  */
@@ -80,8 +86,7 @@ public:
   typedef typename Superclass::SubsamplePointer SubsamplePointer ;
   typedef typename Superclass::KdTreeType KdTreeType ;
   typedef typename Superclass::KdTreeNodeType KdTreeNodeType ;
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TSample::MeasurementVectorSize);
+
 
 protected:
   /** Constructor */

@@ -39,6 +39,13 @@ namespace Statistics{
  * required. The EM procedure terminates when the current iteration
  * reaches the maximum iteration or the model parameters converge.
  *
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * \c MeasurementVectorSize  has been removed to allow the length of a measurement
+ * vector to be specified at run time. It is now obtained at run time from the
+ * sample set as input. Please use the function 
+ * GetMeasurementVectorSize() to get the length.
+ * 
  * \sa MixtureModelComponentBase, GaussianMixtureModelComponent
  */
 
@@ -56,10 +63,6 @@ public:
   itkTypeMacro(ExpectationMaximizationMixtureModelEstimator,
                Object);
   itkNewMacro(Self) ;
-
-  /** Length constant */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TSample::MeasurementVectorSize);
 
   /** TSample template argument related typedefs */
   typedef typename TSample::MeasurementType MeasurementType ;

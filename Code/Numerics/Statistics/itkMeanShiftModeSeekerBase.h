@@ -46,6 +46,12 @@ namespace Statistics{
  * setting it to 0 or leave it alone after instantiating this class), the
  * evolving process runs until it converges.
  *
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * \c MeasurementVectorSize  has been removed to allow the length of a measurement
+ * vector to be specified at run time. It is now obtained at run time from the
+ * sample set as input. 
+ *
  * \sa MeanShiftModeCacheMethod, SampleMeanShiftBlurringFilter,
  * SampleSelectiveMeanShiftBlurringFilter, SampleMeanShiftClusteringFilter
  */
@@ -64,11 +70,9 @@ public:
   /** Standard Macros */
   itkTypeMacro(MeanShiftModeSeekerBase, Object);
   
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TSample::MeasurementVectorSize) ;
-
   /** Typedefs from the TSample template argument */
   typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
+  typedef typename TSample::MeasurementVectorSizeType MeasurementVectorSizeType ;
   typedef typename TSample::MeasurementType MeasurementType ;
   typedef typename TSample::InstanceIdentifier InstanceIdentifier ;
 
@@ -93,6 +97,19 @@ public:
 
   /** Returns the covariance matrix of the target sample data */ 
   MeasurementVectorType Evolve(MeasurementVectorType instance) ;
+
+  /** Get the length of a measurement vector */
+  virtual MeasurementVectorSizeType GetMeasurementVectorSize() const
+    {
+    if( m_InputSample.GetPointer() )
+      {
+      return m_InputSample.GetPointer()->GetMeasurementVectorSize();
+      }
+    else
+      {
+      return 0;
+      }
+    }
 
 protected:
   MeanShiftModeSeekerBase() ;

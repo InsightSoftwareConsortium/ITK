@@ -54,11 +54,15 @@ MeanCalculator< TSample >
   typename TSample::ConstIterator end = this->GetInputSample()->End() ;
   double totalFrequency = 0.0 ;
 
+  const MeasurementVectorSizeType measurementVectorSize 
+                        = this->GetMeasurementVectorSize();
+  MeasurementVectorTraits::SetLength( m_Output, measurementVectorSize );
+
   while (iter != end)
     {
     double frequency = iter.GetFrequency() ;
     totalFrequency += frequency ;
-    for (unsigned int dim = 0 ; dim < MeasurementVectorSize ; dim++)
+    for (unsigned int dim = 0 ; dim < measurementVectorSize ; dim++)
       {
       m_Output[dim] += iter.GetMeasurementVector()[dim] * frequency ;
       }

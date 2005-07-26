@@ -60,8 +60,8 @@ SampleMeanShiftClusteringFilter< TSample >
   unsigned long currentClusterSize ;
   SearchResultVectorType queryPoints ;
   SearchResultVectorType queryPoints2 ;
-  MeasurementVectorType tempQueryPoint ;
-  MeasurementVectorType tempPreviousQueryPoint ;
+  MeasurementVectorType tempQueryPoint;
+  MeasurementVectorType tempPreviousQueryPoint;
   bool searchLoopBegin ;
   SearchResultVectorType tempSearchResult ;
   SearchResultVectorType* currentQueryPoints ;

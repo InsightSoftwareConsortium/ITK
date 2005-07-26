@@ -27,7 +27,7 @@ KdTreeNonterminalNode< TSample >
 ::KdTreeNonterminalNode(unsigned int partitionDimension,
                         MeasurementType partitionValue,
                         Superclass* left,
-                        Superclass* right)
+                        Superclass* right) 
 {
   m_PartitionDimension = partitionDimension ;
   m_PartitionValue = partitionValue ;
@@ -59,11 +59,9 @@ KdTreeWeightedCentroidNonterminalNode< TSample >
   m_Left = left ;
   m_Right = right ;
   m_WeightedCentroid = centroid ;
+  m_MeasurementVectorSize = MeasurementVectorTraits::GetLength( centroid );
 
-  for (unsigned int i = 0 ; i < TSample::MeasurementVectorSize ; i++)
-    {
-    m_Centroid[i] = m_WeightedCentroid[i] / double(size) ;
-    }
+  m_Centroid = m_WeightedCentroid / double(size) ;
 
   m_Size = size ;
 }
@@ -130,6 +128,8 @@ KdTree< TSample >
     {
     os << "not set." << std::endl ;
     }
+  os << indent << "MeasurementVectorSize: " << 
+            m_MeasurementVectorSize << std::endl;
 }
 
 template< class TSample >
@@ -169,6 +169,10 @@ KdTree< TSample >
 ::SetSample(const TSample* sample)
 {
   m_Sample = sample ;
+  this->m_MeasurementVectorSize = m_Sample->GetMeasurementVectorSize();
+  this->m_DistanceMetric->SetMeasurementVectorSize( 
+                      this->m_MeasurementVectorSize );
+  this->Modified();
 }
 
 template< class TSample >
@@ -193,10 +197,12 @@ KdTree< TSample >
 
   m_NearestNeighbors.resize(k) ;
 
-  MeasurementVectorType lowerBound ;
-  MeasurementVectorType upperBound ;
-
-  for (unsigned int d = 0 ; d < MeasurementVectorSize ; d++)
+  MeasurementVectorType lowerBound;
+  MeasurementVectorType upperBound;
+  MeasurementVectorTraits::SetLength( lowerBound, m_MeasurementVectorSize );
+  MeasurementVectorTraits::SetLength( upperBound, m_MeasurementVectorSize );
+  
+  for (unsigned int d = 0 ; d < m_MeasurementVectorSize ; d++)
     {
     lowerBound[d] = NumericTraits< MeasurementType >::NonpositiveMin() ;
     upperBound[d] = NumericTraits< MeasurementType >::max() ;
@@ -319,10 +325,12 @@ KdTree< TSample >
 ::Search(MeasurementVectorType &query, double radius,
          InstanceIdentifierVectorType& result) const
 {
-  MeasurementVectorType lowerBound ;
-  MeasurementVectorType upperBound ;
-
-  for (unsigned int d = 0 ; d < MeasurementVectorSize ; d++)
+  MeasurementVectorType lowerBound;
+  MeasurementVectorType upperBound;
+  MeasurementVectorTraits::SetLength( lowerBound, m_MeasurementVectorSize );
+  MeasurementVectorTraits::SetLength( upperBound, m_MeasurementVectorSize );
+  
+  for (unsigned int d = 0 ; d < this->m_MeasurementVectorSize ; d++)
     {
     lowerBound[d] = NumericTraits< MeasurementType >::NonpositiveMin() ;
     upperBound[d] = NumericTraits< MeasurementType >::max() ;
@@ -448,7 +456,7 @@ KdTree< TSample >
                    double radius) const
 {
   unsigned int dimension ;
-  for (dimension = 0 ; dimension < MeasurementVectorSize ; dimension++)
+  for (dimension = 0 ; dimension < this->m_MeasurementVectorSize ; dimension++)
     {
     if ((m_DistanceMetric->Evaluate(query[dimension] ,
                                     lowerBound[dimension]) <= 
@@ -475,7 +483,7 @@ KdTree< TSample >
   double temp ;
   unsigned int dimension ;
   double squaredSearchRadius = radius * radius ;
-  for (dimension = 0  ; dimension < MeasurementVectorSize ; dimension++)
+  for (dimension = 0  ; dimension < m_MeasurementVectorSize ; dimension++)
     {
 
     if (query[dimension] <= lowerBound[dimension])

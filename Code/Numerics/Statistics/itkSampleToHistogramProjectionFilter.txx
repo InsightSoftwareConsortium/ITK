@@ -105,6 +105,20 @@ void
 SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 ::SetMean(MeanType* mean)
 {
+  if( this->GetMeasurementVectorSize() )
+    {
+    if( mean->size() != this->GetMeasurementVectorSize() )
+      {
+      itkExceptionMacro( << "Size of measurement vectors in the sample must be"
+         << " the same as the size of the mean." );
+      }
+    }
+  else
+    {
+    this->SetMeasurementVectorSize( mean->size() );
+    }
+
+  
   if ( m_Mean != mean )
     {
     m_Mean = mean ;
@@ -145,6 +159,19 @@ void
 SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 ::SetProjectionAxis(ArrayType* axis)
 { 
+  if( this->GetMeasurementVectorSize() )
+    {
+    if( axis->GetSize() != this->GetMeasurementVectorSize() )
+      {
+      itkExceptionMacro( << "Size of measurement vectors in the sample must be"
+         << " the same as the size of the projection axis." );
+      }
+    }
+  else
+    {
+    this->SetMeasurementVectorSize( axis->GetSize() );
+    }
+  
   if ( m_ProjectionAxis != axis )
     {
     m_ProjectionAxis = axis ;
@@ -243,6 +270,19 @@ void
 SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 ::GenerateData()
 {
+  // Assert at run time that the given mean and ProjectionAxis have the same length as 
+  // measurement vectors in the sample and that the size is non-zero.
+  const MeasurementVectorSizeType measurementVectorSize = 
+                            this->GetMeasurementVectorSize();
+  if( !measurementVectorSize || 
+      ( MeasurementVectorTraits::GetLength( m_Mean ) != measurementVectorSize ) ||
+      ( m_ProjectionAxis->Size() != measurementVectorSize ) )
+    {
+    itkExceptionMacro( << "Size of measurement vectors in the sample must be "
+        << "the same as the size of the mean and the ProjectionAxis.");
+    }
+  
+  
   typename HistogramType::Iterator h_iter = m_Histogram->Begin() ;
   typename HistogramType::Iterator h_last = m_Histogram->End() ;
   while (h_iter != h_last)
@@ -283,7 +323,7 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
     squaredDistance = 0.0 ;
     dotProduct = 0.0 ;
     frequency = s_iter.GetFrequency() ;
-    for (dimension = 0 ; dimension < MeasurementVectorSize ; dimension++)
+    for (dimension = 0 ; dimension < measurementVectorSize ; dimension++)
       {
       coordinateDistance = 
         tempMeasurementVector[dimension] - (*m_Mean)[dimension] ;

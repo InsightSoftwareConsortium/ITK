@@ -19,6 +19,8 @@
 #define __itkSampleSelectiveMeanShiftBlurringFilter_h
 
 #include "itkSampleMeanShiftBlurringFilter.h"
+#include "itkArray.h"
+#include <vector>
 
 namespace itk{ 
 namespace Statistics{
@@ -38,6 +40,14 @@ namespace Statistics{
  * components of the selection vector whose flag value is true will be
  * blurred.
  * 
+ * <b>Recent API changes:</b>
+ * The static const macro to get the length of a measurement vector,
+ * \c MeasurementVectorSize  has been removed to allow the length of a measurement
+ * vector to be specified at run time. Please use the function 
+ * GetMeasurementVectorSize() instead. It is now obtained at run time from the
+ * sample set as input. The typedef for \c ComponentSelectionsType
+ * has changed from FixedArray to \c std::vector.
+ *
  * \sa MeanModeSeekerBase, SampleMeanShiftBlurringFilter
  */
 
@@ -57,16 +67,14 @@ public:
                SampleMeanShiftBlurringFilter);
   itkNewMacro(Self) ;
   
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TSample::MeasurementVectorSize) ;
-
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
   typedef typename Superclass::OutputType OutputType ;
   typedef typename Superclass::MeanShiftModeSeekerType 
   MeanShiftModeSeekerType ;
   
-  typedef FixedArray< bool, itkGetStaticConstMacro(MeasurementVectorSize) >
-  ComponentSelectionsType ;
+
+  /** Typedef for selecting components to be blurred */
+  typedef std::vector< bool > ComponentSelectionsType; 
 
   /** Set/Gets the vector of flags that indicate which components
    * are selected for blurring */

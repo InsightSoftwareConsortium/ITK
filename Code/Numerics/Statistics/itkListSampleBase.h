@@ -34,7 +34,12 @@ namespace Statistics{
  * ListSampleBase does not allow the user to specify the frequency of
  * a measurement directly.  The GetFrequency() methods returns 1 if
  * the measurement exists in the list, 0 otherwise.
- *
+ * 
+ * Recent API changes:
+ * The static const macro to get the length of a measurement vector,
+ * 'MeasurementVectorSize'  has been removed to allow the length of a measurement
+ * vector to be specified at run time. Please use the function 
+ * GetMeasurementVectorSize() instead.
  *
  *\sa Sample, Histogram
  */
@@ -60,11 +65,6 @@ public:
    * results. */
   typedef std::vector< InstanceIdentifier > SearchResultVectorType ;
 
-  /** Length of each measurement */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TMeasurementVector::Length);
-
-
   /** Search for measurements within the specified radius of a search
    * point. A vector of InstanceIdentifiers is returned. */
   inline void Search(MeasurementVectorType center, double radius, 
@@ -81,7 +81,6 @@ public:
     double coordinateDistance ;
     
     MeasurementVectorType tempVector ;
-    unsigned int length = MeasurementVectorType::Length ;
     
     squaredRadius = radius * radius ;
     
@@ -90,7 +89,7 @@ public:
       {
       distance = 0.0 ;
       tempVector = this->GetMeasurementVector( id ) ;
-      for (j = 0 ; j < length && distance < squaredRadius ; j++)
+      for (j = 0 ; j < this->GetMeasurementVectorSize() && distance < squaredRadius ; j++)
         {
         coordinateDistance = (double)tempVector[j] - center[j] ;
         if (vnl_math_abs(coordinateDistance) > radius )
@@ -99,7 +98,7 @@ public:
           }
         }
       
-      for (j = 0 ; j < length && distance < squaredRadius ; j++)
+      for (j = 0 ; j < this->GetMeasurementVectorSize() && distance < squaredRadius ; j++)
         {
         coordinateDistance = (double)tempVector[j] - center[j] ;
         distance += coordinateDistance * coordinateDistance ;
@@ -115,10 +114,16 @@ public:
 protected:
   ListSampleBase() {}
   virtual ~ListSampleBase() {}
+  void PrintSelf(std::ostream& os, Indent indent) const
+    {
+    Superclass::PrintSelf(os,indent);
+    }
+
   
 private:
   ListSampleBase(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
+
 };
 
 } // end of namespace Statistics 
