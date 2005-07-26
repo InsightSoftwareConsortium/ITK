@@ -150,14 +150,14 @@ public:
   VariableSizeMatrix(const Self & matrix) : m_Matrix( matrix.m_Matrix ) {};
 
   /** Return number of rows in the matrix */
-  inline unsigned int Rows() { m_Matrix.rows(); }
+  inline unsigned int Rows() { return m_Matrix.rows(); }
   
   /** Return number of columns in the matrix */
-  inline unsigned int Cols() { m_Matrix.cols(); }
+  inline unsigned int Cols() { return m_Matrix.cols(); }
 
-  /** Set the matrix size. Returns true if successful. */
+  /** Set the matrix size. Old data lost. Returns true if size changed. */
   inline bool SetSize( unsigned int r, unsigned int c)
-    {  m_Matrix.set_size( r, c );  }
+    {  return m_Matrix.set_size( r, c );  }
     
  
  
