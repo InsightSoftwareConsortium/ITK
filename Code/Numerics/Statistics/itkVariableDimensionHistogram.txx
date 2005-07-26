@@ -35,7 +35,7 @@ VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
 template< class TMeasurement, 
           class TFrequencyContainer>
 void VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
-::SetMeasurementVectorSize( unsigned int s )
+::SetMeasurementVectorSize( const MeasurementVectorSizeType s )
 {
   if( s == this->GetMeasurementVectorSize() )
     {
