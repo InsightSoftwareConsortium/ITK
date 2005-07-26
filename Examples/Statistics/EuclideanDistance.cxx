@@ -55,7 +55,7 @@
 //
 // Software Guide : EndLatex 
 
-int main(int, char**)
+int main(int, char*[])
 {
   // Software Guide : BeginCodeSnippet
   typedef itk::Array< float > MeasurementVectorType;

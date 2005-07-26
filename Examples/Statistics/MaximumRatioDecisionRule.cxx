@@ -42,7 +42,7 @@
 #include <vector>
 // Software Guide : EndCodeSnippet
 
-int main(int, char**)
+int main(int, char*[])
 {
   // Software Guide : BeginLatex
   //
