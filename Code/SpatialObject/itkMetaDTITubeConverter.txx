@@ -44,9 +44,9 @@ MetaDTITubeConverter<NDimensions>
 
   unsigned int ndims = tube->NDims();
   for(unsigned int i=0;i<ndims;i++)
-  {
+    {
     spacing[i]=tube->ElementSpacing()[i];
-  }
+    }
 
   tub->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   tub->GetProperty()->SetName(tube->Name());
@@ -68,23 +68,42 @@ MetaDTITubeConverter<NDimensions>
   itk::Vector<double,NDimensions> t;
   
   for(unsigned int id=0;id< tube->GetPoints().size();id++)
-  {
+    {
     TubePointType pnt;
     
     typedef typename DTITubeSpatialObjectType::PointType PointType;
     PointType point;
 
     for(unsigned int i=0;i<ndims;i++)
-    {
+      {
       point[i]=(*it2)->m_X[i];
-    }
+      }
 
     // Get the fields from the metaIO
     const DTITubePnt::FieldListType & metaFields = (*it2)->GetExtraFields();
     DTITubePnt::FieldListType::const_iterator extraIt = metaFields.begin();
     while(extraIt != metaFields.end())
       {
-      pnt.AddField((*extraIt).first.c_str(),(*extraIt).second);
+      // Do not add the optional fields
+      if( ((*extraIt).first != "r")
+        && ((*extraIt).first != "v1x")
+        && ((*extraIt).first != "v1y")
+        && ((*extraIt).first != "v1z")    
+        && ((*extraIt).first != "v2x")       
+        && ((*extraIt).first != "v2y")
+        && ((*extraIt).first != "v2z")
+        && ((*extraIt).first != "tx")       
+        && ((*extraIt).first != "ty")
+        && ((*extraIt).first != "tz")
+        && ((*extraIt).first != "red")       
+        && ((*extraIt).first != "green")
+        && ((*extraIt).first != "blue")
+        && ((*extraIt).first != "alpha")
+        && ((*extraIt).first != "id")
+        )
+        {
+        pnt.AddField((*extraIt).first.c_str(),(*extraIt).second);
+        }
       extraIt++;
       }
 
@@ -102,7 +121,6 @@ MetaDTITubeConverter<NDimensions>
 
 
    // This attribute are optional
-
     if((*it2)->GetField("r") != -1)
       {
       pnt.SetRadius((*it2)->GetField("r"));
@@ -171,7 +189,7 @@ MetaDTITubeConverter<NDimensions>
     tub->GetPoints().push_back(pnt);
 
     it2++;
-  }
+    }
   return tub;
 }
 
@@ -268,100 +286,55 @@ MetaDTITubeConverter<NDimensions>
     // Optional fields (written only if not default values)
     if(writeID)
       {
-      if(pnt->GetField("id") == -1)
-        {
-        pnt->AddField("id",(*i).GetID());
-        }
+      pnt->AddField("id",(*i).GetID());
       }
 
     if(writeRadius)
       {
-      if(pnt->GetField("r") == -1)
-        {
-        pnt->AddField("r",(*i).GetRadius());
-        }
+      pnt->AddField("r",(*i).GetRadius());
       }
 
     if(writeNormal1)
-      {
-      if(pnt->GetField("v1x") == -1)
-        {
-        pnt->AddField("v1x",(*i).GetNormal1()[0]);
-        }
-      if(pnt->GetField("v1y") == -1)
-        {
-        pnt->AddField("v1y",(*i).GetNormal1()[1]);
-        }
+      {  
+      pnt->AddField("v1x",(*i).GetNormal1()[0]);
+      pnt->AddField("v1y",(*i).GetNormal1()[1]);   
       if(NDimensions == 3)
         {
-        if(pnt->GetField("v1z") == -1)
-          {
-          pnt->AddField("v1z",(*i).GetNormal1()[2]);
-          }
+        pnt->AddField("v1z",(*i).GetNormal1()[2]);   
         }
       }
 
     if(writeNormal2)
       {
-      if(pnt->GetField("v2x") == -1)
-        {
-        pnt->AddField("v2x",(*i).GetNormal2()[0]);
-        }
-      if(pnt->GetField("v2y") == -1)
-        {
-        pnt->AddField("v2y",(*i).GetNormal2()[1]);
-        }
+      pnt->AddField("v2x",(*i).GetNormal2()[0]);
+      pnt->AddField("v2y",(*i).GetNormal2()[1]);
       if(NDimensions == 3)
         {
-        if(pnt->GetField("v2z") == -1)
-          {
-          pnt->AddField("v2z",(*i).GetNormal2()[2]);
-          }
+        pnt->AddField("v2z",(*i).GetNormal2()[2]);
         }
       }
 
    if(writeTangent)
       {
-      if(pnt->GetField("tx") == -1)
-        {
-        pnt->AddField("tx",(*i).GetTangent()[0]);
-        }
-      if(pnt->GetField("ty") == -1)
-        {
-        pnt->AddField("ty",(*i).GetTangent()[1]);
-        }
+      pnt->AddField("tx",(*i).GetTangent()[0]);
+      pnt->AddField("ty",(*i).GetTangent()[1]);
       if(NDimensions == 3)
         {
-        if(pnt->GetField("tz") == -1)
-          {
-          pnt->AddField("tz",(*i).GetTangent()[2]);
-          }
+        pnt->AddField("tz",(*i).GetTangent()[2]);
         }
       }  
 
     // write the color if changed
     if(writeColor)
       {
-      if(pnt->GetField("red") == -1)
-        {
-        pnt->AddField("red",(*i).GetRed());
-        }
-      if(pnt->GetField("green") == -1)
-        {
-        pnt->AddField("green",(*i).GetGreen());     
-        }
-      if(pnt->GetField("blue") == -1)
-        {
-        pnt->AddField("blue",(*i).GetBlue());
-        }
+      pnt->AddField("red",(*i).GetRed());
+      pnt->AddField("green",(*i).GetGreen());     
+      pnt->AddField("blue",(*i).GetBlue());
       }
       
     if(writeAlpha)
-      {
-      if(pnt->GetField("alpha") == -1)
-        {
-        pnt->AddField("alpha",(*i).GetAlpha());
-        }
+      { 
+      pnt->AddField("alpha",(*i).GetAlpha());
       }
 
     tube->GetPoints().push_back(pnt); 
