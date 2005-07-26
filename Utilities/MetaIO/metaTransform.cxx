@@ -319,7 +319,7 @@ M_Write(void)
       }
     m_WriteStream->write((char *)data,parametersDimension*sizeof(double));
     m_WriteStream->write("\n",1);
-    delete data;
+    delete [] data;
     }
   else
     {

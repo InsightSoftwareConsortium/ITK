@@ -641,7 +641,7 @@ M_Write(void)
 
     m_WriteStream->write((char *)data,(m_NDims*(2+m_NDims)+10)*m_NPoints*elementSize);
     m_WriteStream->write("\n",1);
-    delete data;
+    delete [] data;
   }
   else
   {
