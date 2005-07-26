@@ -115,8 +115,8 @@ public:
    * If UseImageSpacing is true (default), the units are the physical units
    * of your image.  If UseImageSpacing is false then the units are pixels.
    */
-  void SetSigma( const double sigma[ImageDimension] );
-  void SetSigma( const float sigma[ImageDimension] );
+  void SetSigma( const double* sigma);
+  void SetSigma( const float* sigma);
   void SetSigma( const double sigma);
   itkSetMacro( Sigma, SigmaArrayType );
   itkGetConstReferenceMacro( Sigma, SigmaArrayType );
@@ -132,7 +132,7 @@ public:
    */
   itkSetMacro( Extent, ExtentArrayType );
   itkGetConstReferenceMacro( Extent, ExtentArrayType );
-  void SetExtent( const double extent[ImageDimension] );
+  void SetExtent( const double* extent);
   void SetExtent( const double extent);
 
   /** Set/Get the maximum error acceptable for the approximation
@@ -168,8 +168,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   void RecomputeGaussianKernel();
-  void RecomputeContinuousGaussianKernel(
-           const double offset[ImageDimension] ) const;
+  void RecomputeContinuousGaussianKernel(const double* offset) const;
 
 private:
   

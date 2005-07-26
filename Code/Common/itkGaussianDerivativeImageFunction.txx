@@ -81,7 +81,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
 template <class TInputImage, class TOutput>
 void
 GaussianDerivativeImageFunction<TInputImage,TOutput>
-::SetSigma( const double sigma[Self::ImageDimension2] )
+::SetSigma( const double* sigma)
 {
   unsigned int i; 
   for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
@@ -130,7 +130,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
 template <class TInputImage, class TOutput>
 void
 GaussianDerivativeImageFunction<TInputImage,TOutput>
-::SetExtent( const double extent[Self::ImageDimension2] )
+::SetExtent( const double* extent)
 {
   unsigned int i; 
   for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
@@ -317,7 +317,7 @@ template <class TInputImage, class TOutput>
 void
 GaussianDerivativeImageFunction<TInputImage,TOutput>
 ::RecomputeContinuousGaussianKernel(
-  const double offset[Self::ImageDimension2]) const
+  const double* offset) const
 {
   
   unsigned int direction = 0;

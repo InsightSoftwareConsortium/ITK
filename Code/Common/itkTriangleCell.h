@@ -87,9 +87,9 @@ public:
   virtual bool  GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
   virtual bool  GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
   
-  virtual bool EvaluatePosition(CoordRepType [PointDimension],
+  virtual bool EvaluatePosition(CoordRepType*,
                                 PointsContainer* ,
-                                CoordRepType [PointDimension],
+                                CoordRepType*,
                                 CoordRepType [],
                                 double *,
                                 InterpolationWeightType*);

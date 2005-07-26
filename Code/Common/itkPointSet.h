@@ -200,7 +200,7 @@ public:
 
   /** Geometric operations convert between coordinate systems, perform 
    * interpolation, and locate points and cells. */
-  bool FindClosestPoint(CoordRepType coords[PointDimension],
+  bool FindClosestPoint(CoordRepType* /*coords[PointDimension]*/,
                         PointIdentifier* pointId);
 
   /** Methods to manage streaming. */

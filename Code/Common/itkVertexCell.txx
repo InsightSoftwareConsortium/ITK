@@ -226,12 +226,12 @@ VertexCell< TCellInterface >
 template <typename TCellInterface>
 bool
 VertexCell< TCellInterface >
-::EvaluatePosition(CoordRepType x[Self::PointDimension],
-                                PointsContainer* points,
-                                CoordRepType closestPoint[Self::PointDimension],
-                                CoordRepType pcoord[2],
-                                double* minDist2,
-                                InterpolationWeightType* weights)
+::EvaluatePosition(CoordRepType* x,
+                   PointsContainer* points,
+                   CoordRepType* closestPoint,
+                   CoordRepType pcoord[2],
+                   double* minDist2,
+                   InterpolationWeightType* weights)
 {
   PointType X = points->GetElement(0);
 

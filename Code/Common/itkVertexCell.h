@@ -77,9 +77,9 @@ public:
   itkCellVisitMacro(Superclass::VERTEX_CELL);
 
   /** Evaluate the position of a given point */
-  virtual bool EvaluatePosition(CoordRepType [PointDimension],
+  virtual bool EvaluatePosition(CoordRepType*,
                                 PointsContainer* ,
-                                CoordRepType [PointDimension],
+                                CoordRepType*,
                                 CoordRepType [],
                                 double *,
                                 InterpolationWeightType*);

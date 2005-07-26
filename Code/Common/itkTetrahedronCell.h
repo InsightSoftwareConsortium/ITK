@@ -96,9 +96,9 @@ public:
   /** Visitor interface. */
   itkCellVisitMacro(Superclass::TETRAHEDRON_CELL);
   
-  virtual bool EvaluatePosition(CoordRepType [PointDimension],
+  virtual bool EvaluatePosition(CoordRepType* ,
                                 PointsContainer* ,
-                                CoordRepType [PointDimension],
+                                CoordRepType* ,
                                 CoordRepType [],
                                 double *,
                                 InterpolationWeightType*);

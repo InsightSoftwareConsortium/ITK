@@ -108,12 +108,12 @@ public:
    * see also SetVariance(const double v). The default is 0.0 in each
    * dimension. If UseImageSpacing is true, the units are the physical units
    * of your image.  If UseImageSpacing is false then the units are pixels.*/
-  void SetSigma( const double sigma[ImageDimension2] );
+  void SetSigma( const double* sigma);
   void SetSigma( const double sigma);
   const double* GetSigma() const {return m_Sigma;}
  
   /** Set the extent of the kernel */
-  void SetExtent( const double extent[ImageDimension2] );
+  void SetExtent( const double* extent);
   void SetExtent( const double extent);
   const double* GetExtent() const {return m_Extent;}
 
@@ -122,8 +122,6 @@ public:
    * If the BufferedRegion has changed, user must call
    * SetInputImage again to update cached values. */
   virtual void SetInputImage( const InputImageType * ptr );
-
-
 
 protected:
   GaussianDerivativeImageFunction();
@@ -136,7 +134,7 @@ protected:
 
   void RecomputeGaussianKernel();
   void RecomputeContinuousGaussianKernel(
-           const double offset[ImageDimension2]) const;
+           const double* offset) const;
 
 
 private:

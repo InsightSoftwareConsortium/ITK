@@ -84,9 +84,9 @@ TetrahedronCell< TCellInterface >
 template <typename TCellInterface>
 bool
 TetrahedronCell< TCellInterface >
-::EvaluatePosition(CoordRepType x[Self::PointDimension],
+::EvaluatePosition(CoordRepType* x,
                                 PointsContainer* points,
-                                CoordRepType closestPoint[Self::PointDimension],
+                                CoordRepType* closestPoint,
                                 CoordRepType pcoord[3],
                                 double* minDist2,
                                 InterpolationWeightType* weights)
