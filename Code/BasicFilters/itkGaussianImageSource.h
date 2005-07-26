@@ -79,7 +79,7 @@ public:
   itkNewMacro(Self);
   
   /** Specify the size of the output image. */
-  virtual void SetSize( const unsigned long values[NDimensions]);
+  virtual void SetSize( const unsigned long* values);
 
   /** Specify the size of the output image. */
   virtual void SetSize( const SizeType values);
@@ -89,16 +89,16 @@ public:
   
   /** Specify the spacing of the output image. */
   virtual void SetSpacing( const SpacingType& values);
-  virtual void SetSpacing( const float values[NDimensions]);
-  virtual void SetSpacing( const double values[NDimensions]);
+  virtual void SetSpacing( const float* values);
+  virtual void SetSpacing( const double* values);
   
   /** Get the spacing of the output image. */
   itkGetMacro(Spacing,const SpacingType);
 
   /** Specify the origin of the output image. */
   virtual void SetOrigin( const PointType& values);
-  virtual void SetOrigin( const float values[NDimensions]);
-  virtual void SetOrigin( const double values[NDimensions]);
+  virtual void SetOrigin( const float* values);
+  virtual void SetOrigin( const double* values);
 
   /** Get the origin of the output image. */
   itkGetMacro(Origin,PointType);

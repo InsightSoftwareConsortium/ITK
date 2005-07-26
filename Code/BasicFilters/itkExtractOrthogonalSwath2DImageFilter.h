@@ -84,16 +84,16 @@ public:
    * of each pixel varies depending on the curvature of the input path.
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
-  virtual void SetSpacing( const double spacing[ImageDimension] );
-  virtual void SetSpacing( const float spacing[ImageDimension] );
+  virtual void SetSpacing(const double* spacing);
+  virtual void SetSpacing(const float* spacing);
   virtual const double* GetSpacing() const;
 
   /** The origin of the output image. The origin is the geometric
    * coordinates of the index (0,0,...,0).  It is stored internally
    * as double but may be set from float.
    * \sa GetOrigin() */
-  virtual void SetOrigin( const double origin[ImageDimension] );
-  virtual void SetOrigin( const float origin[ImageDimension] );
+  virtual void SetOrigin(const double* origin);
+  virtual void SetOrigin(const float* origin);
   virtual const double * GetOrigin() const;
 
   /** Set the size of the swath image.  The # of rows (size[1]) MUST be odd */
