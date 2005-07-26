@@ -43,6 +43,7 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkVector.h"
+#include "itkArray.h"
 #include "itkEuclideanDistance.h"
 // Software Guide : EndCodeSnippet
 
@@ -54,12 +55,12 @@
 //
 // Software Guide : EndLatex 
 
-// Software Guide : BeginCodeSnippet
-typedef itk::Vector< float, 2 > MeasurementVectorType;
-// Software Guide : EndCodeSnippet
-
-int main()
+int main(int, char**)
 {
+  // Software Guide : BeginCodeSnippet
+  typedef itk::Array< float > MeasurementVectorType;
+  // Software Guide : EndCodeSnippet
+
   // Software Guide : BeginLatex
   //
   // The instantiation of the function is done through the usual
@@ -85,9 +86,15 @@ int main()
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  DistanceMetricType::OriginType originPoint;
-  MeasurementVectorType queryPointA;
-  MeasurementVectorType queryPointB;
+  // The Distance metric does not know about the length of the measurement vectors.
+  // We must set it explicitly using the \code{SetMeasurementVectorSize()} method.
+  // Software Guide : EndCodeSnippet
+  distanceMetric->SetMeasurementVectorSize( 2 );
+
+  // Software Guide : BeginCodeSnippet
+  DistanceMetricType::OriginType originPoint( 2 );
+  MeasurementVectorType queryPointA( 2 );
+  MeasurementVectorType queryPointB( 2 );
 
   originPoint[0] = 0;
   originPoint[1] = 0;

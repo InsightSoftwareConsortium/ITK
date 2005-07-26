@@ -109,6 +109,7 @@ int main()
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
   SampleType::Pointer sample = SampleType::New();
+  sample->SetMeasurementVectorSize( 3 );
   MeasurementVectorType mv;
   mv[0] = 1.0;
   mv[1] = 2.0;

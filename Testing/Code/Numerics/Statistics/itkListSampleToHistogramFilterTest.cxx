@@ -29,11 +29,13 @@ int itkListSampleToHistogramFilterTest( int, char* [] )
   // vectors: [1,1] - 1 time, [2,2] - 2 times, [3,3] - 3 times, [4,4] -
   // 4 times, [5,5] - 5 times into the \code{listSample}.
 
+  const unsigned int MeasurementVectorLength = 2;
   typedef int MeasurementType ;
-  typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType ;
+  typedef itk::Vector< MeasurementType , MeasurementVectorLength > MeasurementVectorType ;
   typedef itk::Statistics::ListSample< MeasurementVectorType > ListSampleType ;
 
   ListSampleType::Pointer listSample = ListSampleType::New() ;
+  listSample->SetMeasurementVectorSize( MeasurementVectorLength );
 
   MeasurementVectorType mv ;
   for ( unsigned int i = 1 ; i < 6 ; i++ )
@@ -53,7 +55,7 @@ int itkListSampleToHistogramFilterTest( int, char* [] )
   // bound, n-dimensional upper bound)} method.
 
   typedef float HistogramMeasurementType ;
-  typedef itk::Statistics::Histogram< HistogramMeasurementType, 2 >
+  typedef itk::Statistics::Histogram< HistogramMeasurementType, MeasurementVectorLength >
     HistogramType ;
   HistogramType::Pointer histogram = HistogramType::New() ;
 
@@ -91,6 +93,6 @@ int itkListSampleToHistogramFilterTest( int, char* [] )
     ++iter ;
     }
 
-  std::cout << "Test passed" << std::endl ;
+  std::cout << "ListSampleToHistogramFilter Test passed" << std::endl ;
   return EXIT_SUCCESS ;
 }

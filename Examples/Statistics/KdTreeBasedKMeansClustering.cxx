@@ -135,14 +135,16 @@ int main()
   //
   // Since the \code{NormalVariateGenerator} class only supports 1-D, we
   // define our measurement vector type as one component vector. We
-  // then, create a \code{ListSample} object for data inputs.
-  //
+  // then, create a \code{ListSample} object for data inputs. Each 
+  // measurement vector is of length 1. We set this using the
+  // \code{SetMeasurementVectorSize()} method.
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Vector< double, 1 > MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
   SampleType::Pointer sample = SampleType::New();
+  sample->SetMeasurementVectorSize( 1 );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -334,12 +336,12 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   std::vector< MembershipFunctionType::Pointer > membershipFunctions;
-  MembershipFunctionType::OriginType origin;
+  MembershipFunctionType::OriginType origin( sample->GetMeasurementVectorSize() );
   int index = 0;
   for ( unsigned int i = 0 ; i < 2 ; i++ ) 
     {
     membershipFunctions.push_back( MembershipFunctionType::New() );
-    for ( unsigned int j = 0 ; j < SampleType::MeasurementVectorSize ; j++ )
+    for ( unsigned int j = 0 ; j < sample->GetMeasurementVectorSize(); j++ )
       {
       origin[j] = estimatedMeans[index++];
       }

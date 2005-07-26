@@ -131,7 +131,7 @@
       classLabels[k] = label;
       label += labelInterval;
       MembershipFunctionPointer membershipFunction = MembershipFunctionType::New();
-      MembershipFunctionOriginType origin;
+      MembershipFunctionOriginType origin( adaptor->GetMeasurementVectorSize() );
       origin[0] = this->m_FinalMeans[k]; // A scalar image has a MeasurementVector of dimension 1
       membershipFunction->SetOrigin( origin );
       classifier->AddMembershipFunction( membershipFunction.GetPointer() );

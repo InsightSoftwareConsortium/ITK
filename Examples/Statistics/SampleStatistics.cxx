@@ -63,9 +63,11 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Vector< float, 3 > MeasurementVectorType;
+  const unsigned int MeasurementVectorLength = 3;
+  typedef itk::Vector< float, MeasurementVectorLength > MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
   SampleType::Pointer sample = SampleType::New();
+  sample->SetMeasurementVectorSize( MeasurementVectorLength );
   MeasurementVectorType mv;
   mv[0] = 1.0;
   mv[1] = 2.0;

@@ -38,7 +38,7 @@
 #include <vector>
 // Software Guide : EndCodeSnippet
 
-int main()
+int main(int, char**)
 {
   // Software Guide : BeginLatex
   //

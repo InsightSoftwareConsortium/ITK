@@ -97,3 +97,52 @@ TARGET_LINK_LIBRARIES(ScalarImageKmeansClassifier ITKIO ITKCommon )
 ADD_EXECUTABLE(ScalarImageMarkovRandomField1 ScalarImageMarkovRandomField1.cxx )
 TARGET_LINK_LIBRARIES(ScalarImageMarkovRandomField1 ITKIO ITKCommon )
 
+# Add some tests now, based on the examples.
+
+IF( NOT ITK_DISABLE_CXX_TESTING )
+
+SET(STATISTICS_EXAMPLES_WITH_TESTS ${CXX_TEST_PATH}/StatisticsExamplesTests)
+SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Statistics)
+SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+
+ADD_TEST( ScalarImageKmeansClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS}
+  --compare ${BASELINE}/ScalarImageKmeansClassifierOutput.png
+            ${TEMP}/ScalarImageKmeansClassifierOutput.png
+  ScalarImageKmeansClassifierTest 
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
+        ${TEMP}/ScalarImageKmeansClassifierOutput.png
+        1 3 14.8 91.6 134.9
+)
+
+ADD_TEST( ScalarImageMarkovRandomField1Test ${STATISTICS_EXAMPLES_WITH_TESTS}
+  --compare ${BASELINE}/ScalarImageMarkovRandomField1Output.png
+            ${TEMP}/ScalarImageMarkovRandomField1Output.png
+  ScalarImageMarkovRandomField1Test
+            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
+            ${ITK_DATA_ROOT}/Input/Statistics/BrainT1Slice_AfterKMeansClassification.png
+            ${TEMP}/ScalarImageMarkovRandomField1Output.png
+            50 3 3 14.8 91.6 134.9
+)
+
+ADD_TEST( BayesianPluginClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS} 
+          BayesianPluginClassifierTest)
+
+ADD_TEST( EuclideanDistanceTest ${STATISTICS_EXAMPLES_WITH_TESTS}
+          EuclideanDistanceTest)
+
+ADD_TEST( GaussianDensityFunctionTest ${STATISTICS_EXAMPLES_WITH_TESTS}
+          GaussianDensityFunctionTest)
+
+ADD_TEST( MinimumDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS}
+          MinimumDecisionRuleTest)
+
+ADD_TEST( MaximumDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS}
+          MaximumDecisionRuleTest)
+
+ADD_TEST( MaximumRatioDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS}
+          MaximumRatioDecisionRuleTest)
+
+ADD_EXECUTABLE( StatisticsExamplesTests StatisticsExamplesTests.cxx)
+TARGET_LINK_LIBRARIES( StatisticsExamplesTests ITKIO ITKCommon ITKStatistics)
+
+ENDIF( NOT ITK_DISABLE_CXX_TESTING )

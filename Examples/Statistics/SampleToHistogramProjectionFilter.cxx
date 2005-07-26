@@ -67,10 +67,12 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
+  const unsigned int MeasurementVectorLength = 2;
   typedef int MeasurementType;
-  typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType;
+  typedef itk::Vector< MeasurementType , MeasurementVectorLength > MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
   SampleType::Pointer sample = SampleType::New();
+  sample->SetMeasurementVectorSize( MeasurementVectorLength );
 
   MeasurementVectorType mv;
   for ( unsigned int i = 1 ; i < 6 ; i++ )
@@ -155,13 +157,13 @@ int main()
   // Software Guide : EndLatex
   
   // Software Guide : BeginCodeSnippet
-  ProjectorType::MeanType mean;
+  ProjectorType::MeanType mean( MeasurementVectorLength );
   mean[0] = 3.66667;
   mean[1] = 3.66667;
 
   double standardDeviation = 3;
 
-  ProjectorType::ArrayType projectionAxis;
+  ProjectorType::ArrayType projectionAxis( MeasurementVectorLength );
   projectionAxis[0] = 1;
   projectionAxis[1] = 1;
 

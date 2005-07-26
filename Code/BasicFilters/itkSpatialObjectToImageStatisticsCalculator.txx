@@ -94,6 +94,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   typedef typename ImageType::PixelType PixelType;
   typedef itk::Statistics::ListSample< VectorType > SampleType;
   typename SampleType::Pointer sample = SampleType::New();
+  sample->SetMeasurementVectorSize( SampleDimension );
  
   m_NumberOfPixels = 0;
 
@@ -117,11 +118,15 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
     MeanAlgorithmType ;
   
   typename MeanAlgorithmType::Pointer meanAlgorithm = MeanAlgorithmType::New() ;
-
   meanAlgorithm->SetInputSample( sample ) ;
   meanAlgorithm->Update() ;
 
-  m_Mean = *(meanAlgorithm->GetOutput());
+  typename MeanAlgorithmType::OutputType mean = 
+                                *(meanAlgorithm->GetOutput());
+  for( unsigned int i=0; i< SampleDimension; i++ )
+    {
+    m_Mean[i] = mean[i];
+    }
 
   typedef itk::Statistics::CovarianceCalculator< SampleType >
     CovarianceAlgorithmType ;
@@ -133,8 +138,15 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   covarianceAlgorithm->SetMean( meanAlgorithm->GetOutput() ) ;
   covarianceAlgorithm->Update();
   
-  m_CovarianceMatrix = *(covarianceAlgorithm->GetOutput());
-
+  typename CovarianceAlgorithmType::OutputType covarianceMatrix
+      = *(covarianceAlgorithm->GetOutput());
+  for( unsigned int i=0; i< covarianceMatrix.Rows(); i++ )
+    {
+    for( unsigned int j=0; j< covarianceMatrix.Rows(); j++ )
+      {
+      m_CovarianceMatrix(i,j) = covarianceMatrix(i,j);
+      }
+    }
 }
 
 template<class TInputImage,class TInputSpatialObject, unsigned int TSampleDimension>

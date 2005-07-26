@@ -32,6 +32,7 @@ int itkSelectiveSubsampleGeneratorTest( int, char* [] )
   typedef itk::Vector< float, 3 > MeasurementVectorType ;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
   SampleType::Pointer sample = SampleType::New() ;
+  sample->SetMeasurementVectorSize( 3 );
   MeasurementVectorType mv ;
   mv[0] = 1.0 ;
   mv[1] = 2.0 ;
@@ -54,6 +55,7 @@ int itkSelectiveSubsampleGeneratorTest( int, char* [] )
   typedef itk::Statistics::ListSample< ClassMaskVectorType > 
     ClassMaskSampleType ;
   ClassMaskSampleType::Pointer mask = ClassMaskSampleType::New() ;
+  mask->SetMeasurementVectorSize( 1 );
   ClassMaskVectorType m ;
   m[0] = 0 ;
   mask->PushBack( m ) ;

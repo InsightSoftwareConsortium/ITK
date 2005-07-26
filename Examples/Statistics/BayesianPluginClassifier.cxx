@@ -101,7 +101,7 @@
 #include "itkNormalVariateGenerator.h"
 // Software Guide : EndCodeSnippet
 
-int main()
+int main( int,  char **)
 {
   // Software Guide : BeginLatex
   //
@@ -121,6 +121,8 @@ int main()
   typedef itk::Vector< double, 1 > MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
   SampleType::Pointer sample = SampleType::New();
+  sample->SetMeasurementVectorSize( 1 ); // length of measurement vectors
+                                         // in the sample.
 
   typedef itk::Statistics::Subsample< SampleType > ClassSampleType;
   std::vector< ClassSampleType::Pointer > classSamples;

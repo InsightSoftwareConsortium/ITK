@@ -68,8 +68,10 @@ int itkSampleSelectiveMeanShiftBlurringFilterTest(int argc, char* argv[] )
   filter->SetInputSample( listSample ) ;
   filter->SetMeanShiftModeSeeker( modeSeeker ) ;
 
-  FilterType::ComponentSelectionsType componentSelections ;
-  componentSelections.Fill( false ) ;
+  std::cout << "Length of measurement vectors in the list sample: " 
+                << listSample->GetMeasurementVectorSize() << std::endl;
+  FilterType::ComponentSelectionsType componentSelections( 
+      listSample->GetMeasurementVectorSize(), false) ;
   componentSelections[2] = true ;
   filter->SetComponentSelections( componentSelections ) ;
   try

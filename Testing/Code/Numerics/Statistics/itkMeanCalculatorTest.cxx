@@ -88,6 +88,8 @@ int itkMeanCalculatorTest(int, char* [] )
   calculator->Update() ;
 
   CalculatorType::OutputType* meanOutput = calculator->GetOutput() ;
+  std::cout << (*meanOutput)[0] << " " << mean[0] << " "  
+            << (*meanOutput)[1] << " " << mean[1] << " " << std::endl;  
   if ((*meanOutput)[0] != mean[0] || 
       (*meanOutput)[1] != mean[1])
     {

@@ -45,7 +45,7 @@ int main()
   // 
   // We define the measurement vector type and instantiate a
   // \subdoxygen{Statistics}{ListSample} object, and then put 1000
-  // measurement vectors in the object.
+  // measurement vectors in the object. 
   // 
   // Software Guide : EndLatex 
 
@@ -54,6 +54,7 @@ int main()
 
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
   SampleType::Pointer sample = SampleType::New();
+  sample->SetMeasurementVectorSize( 2 );
 
   MeasurementVectorType mv;
   for (unsigned int i = 0 ; i < 1000 ; ++i )
@@ -188,6 +189,8 @@ int main()
   //
   // Then we instantiate the type of a distance metric, create an object of
   // this type and set the origin of coordinates for measuring distances.
+  // The \code{GetMeasurementVectorSize()} method returns the length of 
+  // each measurement vector stored in the sample.
   //
   // Software Guide : EndLatex
 
@@ -196,8 +199,8 @@ int main()
     DistanceMetricType;
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
 
-  DistanceMetricType::OriginType origin;
-  for ( unsigned int i = 0 ; i < MeasurementVectorType::Length ; ++i )
+  DistanceMetricType::OriginType origin( 2 );
+  for ( unsigned int i = 0 ; i < sample->GetMeasurementVectorSize() ; ++i )
     {
     origin[i] = queryPoint[i];
     }

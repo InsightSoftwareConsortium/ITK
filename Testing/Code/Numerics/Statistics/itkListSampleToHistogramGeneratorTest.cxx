@@ -27,16 +27,18 @@ int itkListSampleToHistogramGeneratorTest(int, char* [] )
   bool pass = true;
   std::string whereFail = "" ;
 
+  const unsigned int MeasurementVectorLength = 2;
   typedef int MeasurementType ;
-  typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType ;
+  typedef itk::Vector< MeasurementType , MeasurementVectorLength > MeasurementVectorType ;
   typedef itk::Statistics::ListSample< MeasurementVectorType > ListSampleType ;
 
-  ListSampleType::Pointer sample = ListSampleType::New() ;
+  ListSampleType::Pointer sample = ListSampleType::New();
+  sample->SetMeasurementVectorSize( MeasurementVectorLength );
 
   MeasurementVectorType mv ;
   for ( unsigned int i = 1 ; i < 6 ; i++ )
     {
-      for (unsigned int j = 0 ; j < 2 ; j++ )
+      for (unsigned int j = 0 ; j < MeasurementVectorLength ; j++ )
         {
           mv[j] = ( MeasurementType ) i ;
         }
@@ -47,8 +49,9 @@ int itkListSampleToHistogramGeneratorTest(int, char* [] )
     }
 
   typedef float HistogramMeasurementType ;
-  typedef itk::Statistics::ListSampleToHistogramGenerator< ListSampleType, HistogramMeasurementType > GeneratorType ;
-  
+  typedef itk::Statistics::ListSampleToHistogramGenerator< ListSampleType, 
+            HistogramMeasurementType, itk::Statistics::DenseFrequencyContainer< float >, 
+            MeasurementVectorLength  > GeneratorType;
   GeneratorType::Pointer generator = GeneratorType::New() ;
 
   GeneratorType::HistogramType::SizeType size ;

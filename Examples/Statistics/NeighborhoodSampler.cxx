@@ -64,9 +64,12 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef int MeasurementType;
-  typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType;
+  const unsigned int MeasurementVectorLength = 2;
+  typedef itk::Vector< MeasurementType , MeasurementVectorLength > 
+                                                    MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
   SampleType::Pointer sample = SampleType::New();
+  sample->SetMeasurementVectorSize( MeasurementVectorLength );
 
   MeasurementVectorType mv;
   for ( unsigned int i = 1 ; i < 6 ; i++ )
@@ -100,7 +103,7 @@ int main()
   SamplerType::Pointer sampler = SamplerType::New();
 
   sampler->SetInputSample( sample );
-  SamplerType::CenterType center;
+  SamplerType::CenterType center( MeasurementVectorLength );
   center[0] = 3;
   center[1] = 3;
   double radius = 1.5;

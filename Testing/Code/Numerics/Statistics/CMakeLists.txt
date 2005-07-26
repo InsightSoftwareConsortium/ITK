@@ -32,7 +32,7 @@ ADD_TEST(itkKdTreeBasedKmeansEstimatorTest ${STATISTICS_TESTS}
          itkKdTreeBasedKmeansEstimatorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 ADD_TEST(itkKdTreeGeneratorTest ${STATISTICS_TESTS} 
          itkKdTreeGeneratorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
-ADD_TEST(itkListSampleTest ${STATISTICS_TESTS} itkListSampleTest)
+ADD_TEST(itkListSampleTest ${STATISTICS_TESTS} itkListSampleTest 4)
 ADD_TEST(itkListSampleToHistogramFilterTest ${STATISTICS_TESTS} itkListSampleToHistogramFilterTest)
 ADD_TEST(itkListSampleToHistogramGeneratorTest ${STATISTICS_TESTS} itkListSampleToHistogramGeneratorTest)
 ADD_TEST(itkMaskedScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest ${STATISTICS_TESTS} 
@@ -58,6 +58,7 @@ ADD_TEST(itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest ${STATISTICS_T
 ADD_TEST(itkSelectiveSubsampleGeneratorTest ${STATISTICS_TESTS} 
                                             itkSelectiveSubsampleGeneratorTest)
 ADD_TEST(itkSubsampleTest ${STATISTICS_TESTS} itkSubsampleTest)
+ADD_TEST(itkVariableDimensionHistogramTest ${STATISTICS_TESTS} itkVariableDimensionHistogramTest)
 ADD_TEST(itkWeightedMeanCalculatorTest ${STATISTICS_TESTS} itkWeightedMeanCalculatorTest)
 ADD_TEST(itkWeightedCovarianceCalculatorTest ${STATISTICS_TESTS} 
          itkWeightedCovarianceCalculatorTest)
@@ -96,6 +97,7 @@ itkScalarImageToHistogramGeneratorTest.cxx
 itkScalarImageTextureCalculatorTest.cxx
 itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest.cxx
 itkSubsampleTest.cxx
+itkVariableDimensionHistogramTest.cxx
 itkWeightedMeanCalculatorTest.cxx
 itkWeightedCovarianceCalculatorTest.cxx
 )

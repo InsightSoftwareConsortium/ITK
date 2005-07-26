@@ -64,14 +64,17 @@ int main()
   // with two-component int measurement vectors and put the measurement
   // vectors: [1,1] - 1 time, [2,2] - 2 times, [3,3] - 3 times, [4,4] -
   // 4 times, [5,5] - 5 times into the ListSample.
-  //
+  // 
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef int MeasurementType;
-  typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType;
+  const unsigned int MeasurementVectorLength = 2;
+  typedef itk::Vector< MeasurementType , MeasurementVectorLength > 
+                                                               MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > ListSampleType;
   ListSampleType::Pointer listSample = ListSampleType::New();
+  listSample->SetMeasurementVectorSize( MeasurementVectorLength );
 
   MeasurementVectorType mv;
   for ( unsigned int i = 1 ; i < 6 ; i++ )
@@ -107,7 +110,9 @@ int main()
   // Software Guide : BeginCodeSnippet
   typedef float HistogramMeasurementType;
   typedef itk::Statistics::ListSampleToHistogramGenerator< ListSampleType, 
-                           HistogramMeasurementType > GeneratorType;
+          HistogramMeasurementType, 
+          itk::Statistics::DenseFrequencyContainer< float >,
+          MeasurementVectorLength >             GeneratorType;
   GeneratorType::Pointer generator = GeneratorType::New();
 
   GeneratorType::HistogramType::SizeType size;

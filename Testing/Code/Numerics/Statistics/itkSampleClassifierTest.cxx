@@ -50,13 +50,6 @@ int itkSampleClassifierTest(int argc, char* argv[] )
   int dataSize = 2000 ;
 
   unsigned int numberOfClasses = 2 ;
-  typedef itk::Vector< double, 2 > MeanType ;
-  std::vector< MeanType > trueMeans(numberOfClasses) ;
-  trueMeans[0][0] = 99.261 ;
-  trueMeans[0][1] = 100.078 ;
-  trueMeans[1][0] = 200.1 ;
-  trueMeans[1][1] = 201.3 ;
-
 
   /* Loading point data */
   typedef itk::PointSet< double, 2 > PointSetType ;
@@ -97,6 +90,17 @@ int itkSampleClassifierTest(int argc, char* argv[] )
   typedef itk::MinimumDecisionRule DecisionRuleType ;
   typedef itk::Statistics::EuclideanDistance< DataSampleType::MeasurementVectorType >
     MembershipFunctionType ;
+  typedef MembershipFunctionType::OriginType MeanType;
+  std::vector< MeanType > trueMeans ;
+  MeanType m1( 2 ); 
+  m1[0] = 99.261;
+  m1[1] = 100.078;
+  MeanType m2( 2 );
+  m2[0]=200.1;
+  m2[1]=201.3;
+  trueMeans.push_back( m1 );
+  trueMeans.push_back( m2 );
+
 
   ClassifierType::Pointer classifier = ClassifierType::New() ;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New() ;

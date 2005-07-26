@@ -72,6 +72,7 @@ int itkImageToCooccurrenceListAdaptorTest( int argc, char * argv [] )
   list->UseNeighbor(offset3);
 
   list->Compute();
+  std::cout << "ImageToCooccurrenceListAdaptorTest [PASSED]" << std::endl;
 
   return EXIT_SUCCESS;
   

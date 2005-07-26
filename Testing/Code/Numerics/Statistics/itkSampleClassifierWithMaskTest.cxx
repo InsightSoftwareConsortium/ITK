@@ -51,13 +51,6 @@ int itkSampleClassifierWithMaskTest(int argc, char* argv[] )
   int dataSize = 2000 ;
 
   unsigned int numberOfClasses = 2 ;
-  typedef itk::Vector< double, 2 > MeanType ;
-  std::vector< MeanType > trueMeans(numberOfClasses) ;
-  trueMeans[0][0] = 99.261 ;
-  trueMeans[0][1] = 100.078 ;
-  trueMeans[1][0] = 200.1 ;
-  trueMeans[1][1] = 201.3 ;
-
 
   /* Loading point data */
   typedef itk::PointSet< double, 2 > PointSetType ;
@@ -129,6 +122,19 @@ int itkSampleClassifierWithMaskTest(int argc, char* argv[] )
   classifier->SetDecisionRule((itk::DecisionRuleBase::Pointer) decisionRule) ;
   classifier->SetNumberOfClasses(numberOfClasses) ;
   classifier->SetSample(sample.GetPointer()) ;
+
+  typedef MembershipFunctionType::OriginType MeanType;
+  std::vector< MeanType > trueMeans;
+  MeanType m1( 2 );
+  MeanType m2( 2 );
+  trueMeans.push_back( m1 );
+  trueMeans.push_back( m2 );
+  trueMeans[0][0] = 99.261 ;
+  trueMeans[0][1] = 100.078 ;
+  trueMeans[1][0] = 200.1 ;
+  trueMeans[1][1] = 201.3 ;
+
+
 
   ClassifierType::ClassLabelVectorType selectedClassLabels ;
   selectedClassLabels.push_back( 1 ) ;

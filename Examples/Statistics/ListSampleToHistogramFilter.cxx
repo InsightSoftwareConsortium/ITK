@@ -63,14 +63,17 @@ int main()
   // two-component \code{int} measurement vectors and put the measurement
   // vectors: [1,1] - 1 time, [2,2] - 2 times, [3,3] - 3 times, [4,4] - 4
   // times, [5,5] - 5 times into the \code{listSample}.
-  //
+  // 
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef int MeasurementType;
-  typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType;
+  const unsigned int MeasurementVectorLength = 2;
+  typedef itk::Vector< MeasurementType , MeasurementVectorLength > 
+                                                               MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > ListSampleType;
   ListSampleType::Pointer listSample = ListSampleType::New();
+  listSample->SetMeasurementVectorSize( MeasurementVectorLength );
 
   MeasurementVectorType mv;
   for ( unsigned int i = 1 ; i < 6 ; i++ )

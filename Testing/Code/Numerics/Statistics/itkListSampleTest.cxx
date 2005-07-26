@@ -17,26 +17,35 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include "itkVector.h"
+#include "itkArray.h"
 #include "itkListSample.h"
 
-int itkListSampleTest(int, char* [] ) 
+int itkListSampleTest(int argc, char *argv[] ) 
 {
   std::cout << "ListSample Test \n \n"; 
+  if( argc< 2 ) 
+    {
+    std::cerr << "itkListSampleTest LengthOfMeasurementVector" << std::endl;
+    }
+    
   bool pass = true;
   std::string whereFail = "" ;
 
-  typedef itk::Vector< float, 3 > MeasurementVectorType ;
+  typedef itk::Array< float > MeasurementVectorType ;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
 
+  SampleType::MeasurementVectorSizeType measurementVectorSize = atoi(argv[1]);
+  
   unsigned int sampleSize = 50 ;
 
   SampleType::Pointer sample = SampleType::New() ;
 
-  MeasurementVectorType mv ;
+  sample->SetMeasurementVectorSize( measurementVectorSize );
+
+  MeasurementVectorType mv( measurementVectorSize ) ;
   for ( unsigned int i = 0 ; i < sampleSize ; i++ )
     {
-      for (unsigned int j = 0 ; j < 3 ; j++ )
+      for (unsigned int j = 0 ; j < measurementVectorSize ; j++ )
         {
           mv[j] = rand() / (RAND_MAX+1.0)  ;
         }
