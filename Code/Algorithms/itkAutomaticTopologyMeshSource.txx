@@ -70,7 +70,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
 template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource<TOutputMesh>
-::AddPoint( const CoordinateType p0[ Self::PointDimension ] )
+::AddPoint( const CoordinateType* p0)
 {
   PointType newPoint;
   unsigned int i;
@@ -662,7 +662,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
 template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
-::AddVertex( const CoordinateType p0[ Self::PointDimension ] )
+::AddVertex( const CoordinateType* p0)
 {
   Array<IdentifierType> pointIDs( 1 );
   pointIDs[ 0 ] = AddPoint( p0 );
@@ -672,8 +672,8 @@ AutomaticTopologyMeshSource< TOutputMesh >
 template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
-::AddLine( const CoordinateType p0[ Self::PointDimension ],
-           const CoordinateType p1[ Self::PointDimension ] )
+::AddLine( const CoordinateType* p0,
+           const CoordinateType* p1)
 {
   Array<IdentifierType> pointIDs( 2 );
   pointIDs[ 0 ] = AddPoint( p0 );
@@ -684,9 +684,9 @@ AutomaticTopologyMeshSource< TOutputMesh >
 template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
-::AddTriangle( const CoordinateType p0[ Self::PointDimension ],
-               const CoordinateType p1[ Self::PointDimension ],
-               const CoordinateType p2[ Self::PointDimension ] )
+::AddTriangle( const CoordinateType* p0,
+               const CoordinateType* p1,
+               const CoordinateType* p2 )
 {
   Array<IdentifierType> pointIDs( 3 );
   pointIDs[ 0 ] = AddPoint( p0 );
@@ -698,10 +698,10 @@ AutomaticTopologyMeshSource< TOutputMesh >
 template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
-::AddQuadrilateral( const CoordinateType p0[ Self::PointDimension ], 
-                    const CoordinateType p1[ Self::PointDimension ],
-                    const CoordinateType p2[ Self::PointDimension ],
-                    const CoordinateType p3[ Self::PointDimension ] )
+::AddQuadrilateral( const CoordinateType* p0, 
+                    const CoordinateType* p1,
+                    const CoordinateType* p2,
+                    const CoordinateType* p3 )
 {
   Array<IdentifierType> pointIDs( 4 );
   pointIDs[ 0 ] = AddPoint( p0 );
@@ -714,10 +714,10 @@ AutomaticTopologyMeshSource< TOutputMesh >
 template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
-::AddTetrahedron( const CoordinateType p0[ Self::PointDimension ],
-                  const CoordinateType p1[ Self::PointDimension ],
-                  const CoordinateType p2[ Self::PointDimension ],
-                  const CoordinateType p3[ Self::PointDimension ] )
+::AddTetrahedron( const CoordinateType* p0,
+                  const CoordinateType* p1,
+                  const CoordinateType* p2,
+                  const CoordinateType* p3 )
 {
   Array<IdentifierType> pointIDs( 4 );
   pointIDs[ 0 ] = AddPoint( p0 );
@@ -730,14 +730,14 @@ AutomaticTopologyMeshSource< TOutputMesh >
 template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
-::AddHexahedron( const CoordinateType p0[ Self::PointDimension ],
-                 const CoordinateType p1[ Self::PointDimension ],
-                 const CoordinateType p2[ Self::PointDimension ],
-                 const CoordinateType p3[ Self::PointDimension ],
-                 const CoordinateType p4[ Self::PointDimension ],
-                 const CoordinateType p5[ Self::PointDimension ],
-                 const CoordinateType p6[ Self::PointDimension ],
-                 const CoordinateType p7[ Self::PointDimension ] )
+::AddHexahedron( const CoordinateType* p0,
+                 const CoordinateType* p1,
+                 const CoordinateType* p2,
+                 const CoordinateType* p3,
+                 const CoordinateType* p4,
+                 const CoordinateType* p5,
+                 const CoordinateType* p6,
+                 const CoordinateType* p7)
 {
   Array<IdentifierType> pointIDs( 8 );
   pointIDs[ 0 ] = AddPoint( p0 );

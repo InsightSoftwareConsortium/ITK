@@ -161,7 +161,7 @@ public:
 
   /** Add the point p0 if it's not already there, and return its ID. */
   IdentifierType AddPoint( const PointType& p0 );
-  IdentifierType AddPoint( const CoordinateType p0[ PointDimension ] );
+  IdentifierType AddPoint( const CoordinateType* p0);
 
   /** Add the point with coordinates (x0, ..., xN) where N =
    *  PointDimension - 1.  If N < 5, then any parameters after xN are
@@ -176,7 +176,7 @@ public:
   IdentifierType AddVertex( const IdentifierArrayType& pointIds );
   IdentifierType AddVertex( IdentifierType pointId0 );
   IdentifierType AddVertex( const PointType& p0 );
-  IdentifierType AddVertex( const CoordinateType p0[ PointDimension ] );
+  IdentifierType AddVertex( const CoordinateType* p0);
 
   /** Add the line specified by the two points, and return its ID.
    * The endpoints and their associated vertices are associated to the
@@ -186,8 +186,8 @@ public:
   IdentifierType AddLine(
     IdentifierType pointId0, IdentifierType pointId1 );
   IdentifierType AddLine( const PointType& p0, const PointType& p1 );
-  IdentifierType AddLine( const CoordinateType p0[ PointDimension ],
-                          const CoordinateType p1[ PointDimension ] );
+  IdentifierType AddLine( const CoordinateType* p0,
+                          const CoordinateType* p1);
 
   /** Add the triangle specified by the three points, and return its
    * ID. If the points are p0, p1, and p2, then the following
@@ -205,9 +205,9 @@ public:
     IdentifierType pointId2 );
   IdentifierType AddTriangle( const PointType& p0, const PointType& p1,
                               const PointType& p2 );
-  IdentifierType AddTriangle( const CoordinateType p0[ PointDimension ],
-                              const CoordinateType p1[ PointDimension ],
-                              const CoordinateType p2[ PointDimension ] );
+  IdentifierType AddTriangle( const CoordinateType* p0,
+                              const CoordinateType* p1,
+                              const CoordinateType* p2);
 
   /** Add the quadrilateral specified by the four points, and return its
    * ID. If the points are p0, p1, p2, and p3, then the following
@@ -235,10 +235,10 @@ public:
     IdentifierType pointId2, IdentifierType pointId3 );
   IdentifierType AddQuadrilateral( const PointType& p0, const PointType& p1,
                                    const PointType& p2, const PointType& p3 );
-  IdentifierType AddQuadrilateral( const CoordinateType p0[ PointDimension ],
-                                   const CoordinateType p1[ PointDimension ],
-                                   const CoordinateType p2[ PointDimension ],
-                                   const CoordinateType p3[ PointDimension ] );
+  IdentifierType AddQuadrilateral( const CoordinateType* p0,
+                                   const CoordinateType* p1,
+                                   const CoordinateType* p2,
+                                   const CoordinateType* p3);
 
   /** Add the tetrahedron specified by the three points, and return its
    * ID. If the points are p0, p1, and p2, then the following
@@ -258,10 +258,10 @@ public:
     IdentifierType pointId2, IdentifierType pointId3 );
   IdentifierType AddTetrahedron( const PointType& p0, const PointType& p1,
                                  const PointType& p2, const PointType& p3 );
-  IdentifierType AddTetrahedron( const CoordinateType p0[ PointDimension ],
-                                 const CoordinateType p1[ PointDimension ],
-                                 const CoordinateType p2[ PointDimension ],
-                                 const CoordinateType p3[ PointDimension ] );
+  IdentifierType AddTetrahedron( const CoordinateType* p0,
+                                 const CoordinateType* p1,
+                                 const CoordinateType* p2,
+                                 const CoordinateType* p3);
 
   /** Add the hexahedron specified by the four points, and return its
    * ID. If the points are p0, p1, p2, and p3, then the following
@@ -302,14 +302,14 @@ public:
     const PointType& p3, const PointType& p4, const PointType& p5,
     const PointType& p6, const PointType& p7
     );
-  IdentifierType AddHexahedron( const CoordinateType p0[ PointDimension ],
-                                const CoordinateType p1[ PointDimension ],
-                                const CoordinateType p2[ PointDimension ],
-                                const CoordinateType p3[ PointDimension ],
-                                const CoordinateType p4[ PointDimension ],
-                                const CoordinateType p5[ PointDimension ],
-                                const CoordinateType p6[ PointDimension ],
-                                const CoordinateType p7[ PointDimension ] );
+  IdentifierType AddHexahedron( const CoordinateType* p0,
+                                const CoordinateType* p1,
+                                const CoordinateType* p2,
+                                const CoordinateType* p3,
+                                const CoordinateType* p4,
+                                const CoordinateType* p5,
+                                const CoordinateType* p6,
+                                const CoordinateType* p7);
 
 
   class IdentifierArrayHashFunction
