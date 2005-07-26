@@ -303,7 +303,7 @@ VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
   "Length mismatch: VariableDimensionHistogram::GetIndex(MeasurementVectorType, IndexType)");
   
   InstanceIdentifier id = 0 ;
-  for (int i= GetMeasurementVectorSize() - 1 ; i > 0 ; i-- )
+  for (int i= this->GetMeasurementVectorSize() - 1 ; i > 0 ; i-- )
     {
     id += index[i] * m_OffsetTable[i];
     }
