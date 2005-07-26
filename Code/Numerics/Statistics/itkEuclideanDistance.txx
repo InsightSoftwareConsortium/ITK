@@ -55,7 +55,7 @@ EuclideanDistance< TVector >
     {
     itkExceptionMacro( << "Please set the MeasurementVectorSize first" );
     }
-  MeasurementVectorTraits::Assert( m_Origin, measurementVectorSize, 
+  MeasurementVectorTraits::Assert( this->m_Origin, measurementVectorSize, 
     "EuclideanDistance::Evaluate Origin and input vector have different lengths");
   
   double temp, distance = NumericTraits< double >::Zero ;
@@ -89,7 +89,7 @@ EuclideanDistance< TVector >
     {
     itkExceptionMacro( << "Please set the MeasurementVectorSize first" );
     }
-  MeasurementVectorTraits::Assert( m_Origin, measurementVectorSize, 
+  MeasurementVectorTraits::Assert( this->m_Origin, measurementVectorSize, 
     "EuclideanDistance::IsWithinRange Origin and input vector have different lengths");
   
   double squaredRadius = radius * radius ;
