@@ -26,6 +26,12 @@
 namespace itk {
 namespace Statistics {
 
+template <typename TAdaptor >
+struct GetAdaptorMeasurementVectorLength
+{
+  itkStaticConstMacro( MeasurementVectorLength, unsigned int, TAdaptor::MeasurementVectorSize );
+};
+
 /** \class ImageToHistogramGenerator
  *  \brief This class generates an histogram from an image.
  *
@@ -35,6 +41,7 @@ namespace Statistics {
  *  the ListSampleToHistogramGenerator.
  *
  */
+  
  
 template< class TImageType >
 class ImageToHistogramGenerator : public Object
@@ -53,19 +60,20 @@ public:
   itkNewMacro(Self) ;
 
   typedef TImageType                                      ImageType;
-  typedef itk::Statistics::ImageToListAdaptor< 
-                                              ImageType 
-                                                      >   AdaptorType;
+  typedef ImageToListAdaptor< ImageType >                 AdaptorType;
   typedef typename AdaptorType::Pointer                   AdaptorPointer;
   typedef typename ImageType::PixelType                   PixelType;
   typedef typename PixelType::ValueType                   ValueType;
   typedef typename NumericTraits< ValueType >::RealType   ValueRealType;
+  typedef DenseFrequencyContainer< float >                FrequencyContainerType;
 
-  typedef itk::Statistics::ListSampleToHistogramGenerator< 
+  typedef ListSampleToHistogramGenerator< 
                          AdaptorType, 
                          ValueRealType,
-                         DenseFrequencyContainer< float >,
-                         AdaptorType::MeasurementVectorSize > GeneratorType;
+                         FrequencyContainerType,
+                         ::itk::Statistics::GetAdaptorMeasurementVectorLength< 
+                                          AdaptorType >::MeasurementVectorLength
+                           > GeneratorType;
 
   typedef typename GeneratorType::Pointer                   GeneratorPointer;
 
