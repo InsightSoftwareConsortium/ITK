@@ -454,7 +454,7 @@ inline typename Histogram< TMeasurement, VMeasurementVectorSize,
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetHistogramMaxFromIndex(const IndexType &index) 
 {
-  for ( int i=0; i < MeasurementVectorSize; i++ )
+  for ( unsigned int i=0; i < MeasurementVectorSize; i++ )
     {
     m_TempMeasurementVector[i] = this->GetBinMax(i, index[i]) ;
     }

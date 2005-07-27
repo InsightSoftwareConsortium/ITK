@@ -206,7 +206,7 @@ FindSampleBoundAndMean(const TSubsample* sample,
     frequencySum += sample->GetFrequencyByIndex(beginIndex) ;
     } // end of while
 
-  for (int i = 0 ; i < Dimension ; i++)
+  for (unsigned int i = 0 ; i < Dimension ; i++)
     {
     mean[i] = (MeasurementType)(sum[i] / frequencySum) ;
     }

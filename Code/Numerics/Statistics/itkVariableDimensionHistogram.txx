@@ -160,7 +160,7 @@ VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
                        / static_cast< MeasurementType >(size[i]) ;
 
     // Set the min vector and max vector
-    for (unsigned int j = 0; j < (size[i] - 1) ; j++)
+    for (unsigned int j = 0; j < static_cast< unsigned int >(size[i] - 1) ; j++)
       {
       this->SetBinMin(i, j, (MeasurementType)(lowerBound[i] +  
                                               ((float)j * interval))) ;
