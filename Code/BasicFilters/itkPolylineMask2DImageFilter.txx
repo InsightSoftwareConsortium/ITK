@@ -106,7 +106,7 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
       this->ProcessObject::GetInput(1)));
   typename TOutputImage::Pointer outputImagePtr(
     dynamic_cast<TOutputImage * >(
-      this->ProcessObject::GetOutput(0)));
+      this->ProcessObject::GetOutput(0)));  
 
 
   outputImagePtr->SetRequestedRegion( inputImagePtr->GetRequestedRegion() );
@@ -147,7 +147,6 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
   ImageIndexType endImageIndex;
   ImageIndexType tmpImageIndex;
     
-
   typedef typename ImageIndexType::IndexValueType IndexValueType;
 
   ImageLineIteratorType imit(outputImagePtr, outputImagePtr->GetLargestPossibleRegion());
