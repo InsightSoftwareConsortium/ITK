@@ -55,7 +55,6 @@ void RegisterTests()
   REGISTER_TEST(itkRecursiveMultiResolutionPyramidImageFilterTest );
   REGISTER_TEST(itkRegionGrow2DTest );
   REGISTER_TEST(itkReinitializeLevelSetImageFilterTest );
-  REGISTER_TEST(itkScalarImageKmeansImageFilterTest );
   REGISTER_TEST(itkShapeDetectionLevelSetImageFilterTest );
   REGISTER_TEST(itkShapePriorMAPCostFunctionTest );
   REGISTER_TEST(itkShapePriorSegmentationLevelSetFunctionTest );

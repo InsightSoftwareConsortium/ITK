@@ -125,13 +125,6 @@ ADD_TEST(itkMeanReciprocalSquareDifferenceImageMetricTest ${ALGORITHMS_TESTS3}  
 ADD_TEST(itkPointSetToImageRegistrationTest_1 ${ALGORITHMS_TESTS3}  itkPointSetToImageRegistrationTest_1)
 ADD_TEST(itkRegionGrow2DTest ${ALGORITHMS_TESTS3} itkRegionGrow2DTest)
 ADD_TEST(itkReinitializeLevelSetImageFilterTest ${ALGORITHMS_TESTS3} itkReinitializeLevelSetImageFilterTest)
-ADD_TEST(itkScalarImageKmeansImageFilterTest ${ALGORITHMS_TESTS3} 
-   --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/itkScalarImageKmeansImageFilterTestOutput.png
-             ${ITK_TEST_OUTPUT_DIR}/itkScalarImageKmeansImageFilterTestOutput.png 
-    itkScalarImageKmeansImageFilterTest
-    ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png 
-    ${ITK_TEST_OUTPUT_DIR}/itkScalarImageKmeansImageFilterTestOutput.png 1
-    4 0.0 40.0 90.0 150.0 )
 ADD_TEST(itkRegularSphereMeshSourceTest ${ALGORITHMS_TESTS2} itkRegularSphereMeshSourceTest)
 ADD_TEST(itkRayCastInterpolateImageFunctionTest ${ALGORITHMS_TESTS2} itkRayCastInterpolateImageFunctionTest)
 ADD_TEST(itkSimplexMeshVolumeCalculatorTest ${ALGORITHMS_TESTS2} itkSimplexMeshVolumeCalculatorTest)
@@ -294,7 +287,6 @@ itkPointSetToImageRegistrationTest_1.cxx
 itkRecursiveMultiResolutionPyramidImageFilterTest.cxx
 itkRegionGrow2DTest.cxx
 itkReinitializeLevelSetImageFilterTest.cxx
-itkScalarImageKmeansImageFilterTest.cxx
 itkShapeDetectionLevelSetImageFilterTest.cxx
 itkShapePriorMAPCostFunctionTest.cxx
 itkShapePriorSegmentationLevelSetFunctionTest.cxx
