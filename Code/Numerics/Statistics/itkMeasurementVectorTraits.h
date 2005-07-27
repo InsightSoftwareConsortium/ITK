@@ -95,32 +95,32 @@ public:
 
 
   template< class TValueType, unsigned int TLength > 
-  static const MeasurementVectorLength 
+  static MeasurementVectorLength 
                GetLength( const FixedArray< TValueType, TLength > &)
     { return TLength; }
   
   template< class TValueType, unsigned int TLength > 
-  static const MeasurementVectorLength 
+  static MeasurementVectorLength 
                GetLength( const FixedArray< TValueType, TLength > *)
     { return TLength; }
 
   template< class TValueType >
-  static const MeasurementVectorLength
+  static MeasurementVectorLength
                GetLength( const Array< TValueType > &m )
     {return m.GetSize(); }
   
   template< class TValueType >
-  static const MeasurementVectorLength
+  static MeasurementVectorLength
                GetLength( const Array< TValueType > *m )
     {return m->GetSize(); }
 
   template< class TValueType >
-  static const MeasurementVectorLength
+  static MeasurementVectorLength
                GetLength( const std::vector< TValueType > &m )
     {return m.size(); }
   
   template< class TValueType >
-  static const MeasurementVectorLength
+  static MeasurementVectorLength
                GetLength( const std::vector< TValueType > *m )
     {return m->size(); }
 
