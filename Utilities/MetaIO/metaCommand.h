@@ -17,6 +17,7 @@
 #ifndef __MetaCommand_H_
 #define __MetaCommand_H_
 
+#include <stdlib.h>
 #include <iostream>
 #include <string>
 #include <vector>
