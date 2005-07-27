@@ -109,7 +109,7 @@ public:
   /** Set the spacing (size of a pixel) of the image. 
    *  \sa GetSpacing() */
   itkSetMacro(Spacing,SpacingType);
-  virtual void SetSpacing( const double values[ImageDimension] );
+  virtual void SetSpacing(const double* values);
 
 
   /** Get the spacing (size of a pixel) of the image. 
@@ -119,7 +119,7 @@ public:
   /** Set the origin of the image. 
    * \sa GetOrigin() */
   itkSetMacro(Origin,PointType);
-  virtual void SetOrigin( const double values[ImageDimension] );
+  virtual void SetOrigin(const double* values);
  
  /** Get the origin of the image.  */
   itkGetConstReferenceMacro(Origin,PointType);

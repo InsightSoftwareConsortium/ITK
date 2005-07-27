@@ -89,8 +89,7 @@ HistogramToImageFilter<THistogram, TFunction>
 template <class THistogram, class TFunction>
 void 
 HistogramToImageFilter<THistogram, TFunction>
-::SetSpacing(
-  const double spacing[Self::ImageDimension] )
+::SetSpacing(const double* spacing)
 {
   SpacingType s(spacing);
   this->SetSpacing( s );
@@ -100,7 +99,7 @@ HistogramToImageFilter<THistogram, TFunction>
 template <class THistogram, class TFunction>
 void 
 HistogramToImageFilter<THistogram, TFunction>
-::SetOrigin( const double origin[Self::ImageDimension] )
+::SetOrigin(const double* origin)
 {
   PointType p(origin);
   SetOrigin(p);
