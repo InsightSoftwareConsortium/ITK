@@ -22,24 +22,25 @@
 #include <itkImageRegionIteratorWithIndex.h>
 #include <itkPolylineMaskImageFilter.h>
 #include <itkPolyLineParametricPath.h>
+#include <itkEllipseSpatialObject.h>
+#include <itkSpatialObjectToImageFilter.h>
+#include <itkImageFileWriter.h>
 
-int itkPolylineMaskImageFilterTest(int, char* [] ) 
+int itkPolylineMaskImageFilterTest(int argc , char * argv [] ) 
 {
 
   // Define the dimension of the images
-  const unsigned int iDimension = 2;
+  const unsigned int iDimension = 3;
 
   //Define the dimension of the polyline
   const unsigned int pDimension = 2;
 
-  //Define the dimension of the viewing direction
-  const unsigned int vDimension = 2;
 
   // Declare the types of the images
   typedef itk::Image<unsigned short, iDimension>     inputImageType;
   typedef itk::Image<unsigned short, iDimension>     outputImageType;
-  typedef itk::Vector<unsigned short, vDimension>    inputVectorType;
-  typedef itk::PolyLineParametricPath<pDimension>     inputPolylineType;
+  typedef itk::Vector<double, iDimension>            inputVectorType;
+  typedef itk::PolyLineParametricPath<pDimension>    inputPolylineType;
 
   // Declare the type of the index to access images
   typedef itk::Index<iDimension>         inputIndexType;
@@ -50,115 +51,158 @@ int itkPolylineMaskImageFilterTest(int, char* [] )
   // Declare the type of the Region
   typedef itk::ImageRegion<iDimension>   inputRegionType;
 
-  // Create images
-  inputImageType::Pointer inputImage    = inputImageType::New();
-  outputImageType::Pointer outputImage  = outputImageType::New();
-
   // Create vector
-  inputVectorType   inputVector;
+  inputVectorType   inputUpVector,inputViewVector;
 
   // Create polyline
   inputPolylineType::Pointer inputPolyline   = inputPolylineType::New();
+  
+  if (argc < 3)
+    {
+    std::cerr << "Usage: " << argv[0] << "  outputSyntheticImageFilename outputProcessedImageFilename" << std::endl;
+    std::cerr << argv[0] << "  outputSyntheticImageFilename outputProcessedImageFilename" << std::endl;
+    return 1;
+    }
 
-  // Define their size, and start index
-  inputSizeType size;
-  size[0] = 512;
-  size[1] = 512;
+  std::cout<<"Generating the synthetic object...."<<std::endl;
+  //Generate ellipse image
 
+  typedef itk::EllipseSpatialObject<3>   EllipseType;
+  EllipseType::Pointer ellipse = EllipseType::New();
+  EllipseType::TransformType::OffsetType offset;
+  offset.Fill(15);
+  ellipse->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse->ComputeObjectToWorldTransform();
+  ellipse->SetRadius(10);
 
-  inputIndexType start;
-  start[0] = 0;
-  start[1] = 0;
+  std::cout<<"Generating the image of the object...."<<std::endl;
 
+  typedef itk::SpatialObjectToImageFilter<EllipseType,inputImageType> SpatialObjectToImageFilterType;
+  SpatialObjectToImageFilterType::Pointer imageFilter = SpatialObjectToImageFilterType::New();
+   
+  inputImageType::SizeType size;
+  size[0]=30;
+  size[1]=30;
+  size[2]=30;
 
-  inputRegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
-
-  // Initialize Image A
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
-  inputImage->SetRequestedRegion( region );
-  inputImage->Allocate();
-
-
-  // Declare Iterator types apropriated for each image 
-  typedef itk::ImageRegionIteratorWithIndex<inputImageType>  inputIteratorType;
-
-
-  // Create one iterator for Image A (this is a light object)
-  inputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
-
-  // Initialize the content of Image A
-  std::cout << "First operand " << std::endl;
-  while( !it.IsAtEnd() ) 
+  float origin[3];
+  
+  for(unsigned int i=0;i<3;i++)
   {
-    it.Set( 255 );
-    ++it;
+    origin[i]=0.0;
   }
 
-  std::cout << "Second operand " << std::endl;
-  // Initialize the polyline 
+  imageFilter->SetSize(size);
+  // imageFilter->SetOrigin(origin);
+  imageFilter->SetInput(ellipse);
+  imageFilter->SetInsideValue(2);
+  imageFilter->SetOutsideValue(0);
+ 
+// Write out the input image for testing
+  typedef itk::ImageFileWriter< outputImageType >  WriterType;
+  WriterType::Pointer in_writer = WriterType::New();
+  const char * outputFilenameSyn = argv[1];
+  in_writer->SetFileName( outputFilenameSyn );
+  in_writer->SetInput( imageFilter->GetOutput() );
+  in_writer->Update();
+
+  
+  //Create images
+  inputImageType::Pointer inputImage    = inputImageType::New();
+  outputImageType::Pointer outputImage  = outputImageType::New();
+
+  std::cout << "Generating the polyline..." << std::endl;
+  //Initialize the polyline 
   typedef inputPolylineType::VertexType VertexType;
   
     
   // Add vertices to the polyline
   VertexType v;
-
   v[0] = 0;
-  v[1] = 256;
+  v[1] = 15;
   inputPolyline->AddVertex(v);
   
-  v[0] = 256;
-  v[1] = 256;
+  v[0] = 15;
+  v[1] = 29;
   inputPolyline->AddVertex(v);
   
-  v[0] = 256;
+  v[0] = 29;
+  v[1] = 15;
+  inputPolyline->AddVertex(v);
+
+  v[0] = 15;
   v[1] = 0;
   inputPolyline->AddVertex(v);
   
   
-  std::cout << "Third operand " << std::endl;
+  std::cout << "Generating the view vector " << std::endl; 
+ 
+  // View vector
+  inputViewVector[0] = 0;
+  inputViewVector[1] = 0;
+  inputViewVector[2] = -1;
 
-  // Initialize the viewing direction
-  inputVector[0] = 10;
-  inputVector[1] = 10;
+  // Up vector
+  inputUpVector[0] = 1;
+  inputUpVector[1] = 0;
+  inputUpVector[2] = 0;
 
-  std::cout<< "Define the filter type.....................\n";
   // Declare the type for the Mask image filter
   typedef itk::PolylineMaskImageFilter<
                            inputImageType, inputPolylineType,   
                            inputVectorType,
-                           outputImageType  >     inputFilterType;
+                           outputImageType  >     inputFilterType; 
+
+  typedef inputFilterType::PointType PointType;
+  typedef inputFilterType::ProjPlanePointType ProjPlanePointType;
             
+  std::cout<< "Generating the masking filter....................." << std::endl;
 
-  std::cout<< "Generate the filter....................." << std::endl;
   // Create a mask  Filter                                
-
   inputFilterType::Pointer filter = inputFilterType::New();
 
-  // Connect the input image
-  filter->SetInput    ( inputImage ); 
+  //Connect the input image
+  filter->SetInput    ( imageFilter->GetOutput()); 
  
   // Connect the Polyline 
   filter->SetInput    ( inputPolyline ); 
 
   // Connect the Viewing direction vector
-  filter->SetVector   ( inputVector );
+  filter->SetViewVector   ( inputViewVector );
 
-  inputVectorType vtest ;
+  // Connect the Viewing direction vector
+  filter->SetUpVector   ( inputUpVector );
+
+  // camera center point
+  PointType cameraCenterPoint;
+  cameraCenterPoint[0] = 15;
+  cameraCenterPoint[1] = 15;
+  cameraCenterPoint[2] = 90;
+
+  filter->SetCameraCenterPoint   ( cameraCenterPoint );
+
+  // camera focal distance 
+  filter->SetFocalDistance(30);
   
-  vtest = filter->GetVector();
-
-  std::cout<<"Vector direction:"<<vtest[0]<<","<<vtest[1]<<"\n";  
+  // camera focal point in the projection plane
+  ProjPlanePointType focalpoint;
+  focalpoint[0] = 15;
+  focalpoint[1] = 15;
+  filter->SetFocalPoint(focalpoint);
 
   // Get the Smart Pointer to the Filter Output 
-  // outputImageType::Pointer outputImage = filter->GetOutput();
+  outputImage = filter->GetOutput();
 
   // Execute the filter
-  // filter->Update();
+  filter->Update();
 
   // All objects should be automatically destroyed at this point
+  WriterType::Pointer writer = WriterType::New();
+  const char * outputFilename = argv[2];
+  writer->SetFileName( outputFilename );
+  writer->SetInput( filter->GetOutput() );
+  writer->Update();
+  
   return 0;
 
 }
