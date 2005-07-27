@@ -95,8 +95,8 @@ int itkPolylineMask2DImageFilterTest(int argc, char* argv [] )
  // Write out the input image for testing
   typedef itk::ImageFileWriter< outputImageType >  WriterType;
   WriterType::Pointer in_writer = WriterType::New();
-  const char * inputFilename = argv[1];
-  in_writer->SetFileName( inputFilename );
+  const char * outputFilenameSyn = argv[1];
+  in_writer->SetFileName( outputFilenameSyn );
   in_writer->SetInput( inputImage );
   in_writer->Update();
   
