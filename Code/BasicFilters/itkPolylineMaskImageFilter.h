@@ -52,12 +52,19 @@ public:
   /** Number of dimensions. */
   itkStaticConstMacro(NDimensions, unsigned int,
                       TInputImage::ImageDimension);
-  
+
+  itkStaticConstMacro(InputDimension, unsigned int, 3);
+
   /** Some convenient typedefs for input image */
   typedef TInputImage InputImageType;
   typedef typename InputImageType::ConstPointer InputImagePointer;
   typedef typename InputImageType::RegionType InputImageRegionType; 
   typedef typename InputImageType::PixelType InputImagePixelType; 
+  typedef typename itk::Point<double,3>            PointType;
+  typedef typename itk::Point<double,2> ProjPlanePointType;      
+
+  /** Standard matrix type for this class. */
+  typedef Matrix<double, itkGetStaticConstMacro(InputDimension), itkGetStaticConstMacro(InputDimension)> MatrixType;
 
   /** typedef for the vector type */
   typedef TVector    VectorType;
@@ -75,11 +82,31 @@ public:
   void SetInput( const InputImageType * image);
   void SetInput( const PolylineType * polyline);
 
-  /** Read in viewing normal direction */
-  itkSetMacro(Vector,VectorType);
+  /** Set/Get view vector */
+  itkSetMacro(ViewVector,VectorType);
+  itkGetConstMacro(ViewVector,VectorType);  
 
-  itkGetConstMacro(Vector,VectorType);  
+  /** Set/Get in up vector */
+  itkSetMacro(UpVector,VectorType);
+  itkGetConstMacro(UpVector,VectorType);  
 
+  /** Set/Get camera center point */
+  itkSetMacro(CameraCenterPoint,PointType);
+  itkGetConstMacro(CameraCenterPoint,PointType);  
+
+  /** Set/Get focal distance */
+  itkSetMacro(FocalDistance,double);
+  itkGetConstMacro(FocalDistance,double);  
+
+  /** Set/Get focal point center point */
+  itkSetMacro(FocalPoint,ProjPlanePointType);
+  itkGetConstMacro(FocalPoint,ProjPlanePointType);  
+    
+  /* Roatation matrix generation matrix */
+  void GenerateRotationMatrix();
+
+  /* 3D Point transforming and projecting function */
+  ProjPlanePointType TransformProjectPoint(PointType inputPoint);
   /* Generate Data */
   void GenerateData(void);
  
@@ -93,7 +120,22 @@ private:
   PolylineMaskImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  VectorType m_Vector;
+  /* viewing direction and up vector */
+  VectorType m_ViewVector;
+  VectorType m_UpVector;
+
+  /** Matrix representation of the rotation. */
+  MatrixType          m_RotationMatrix;   
+
+  /**  Camera Center point */
+  PointType          m_CameraCenterPoint;
+
+  /** Camera focal points on the projection plane */
+  ProjPlanePointType m_FocalPoint;
+  
+  /* focal distance of the camera */
+  double m_FocalDistance;
+  
 };
 
 } // end namespace itk
