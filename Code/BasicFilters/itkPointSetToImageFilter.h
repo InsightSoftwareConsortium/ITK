@@ -78,8 +78,8 @@ public:
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
   itkSetMacro(Spacing,SpacingType);
-  virtual void SetSpacing( const double spacing[OutputImageDimension] );
-  virtual void SetSpacing( const float spacing[OutputImageDimension] );
+  virtual void SetSpacing( const double* spacing);
+  virtual void SetSpacing( const float* spacing);
 
   /** Get the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
@@ -92,8 +92,8 @@ public:
    * as double but may be set from float.
    * \sa GetOrigin() */
   itkSetMacro(Origin,PointType);
-  virtual void SetOrigin( const double origin[OutputImageDimension] );
-  virtual void SetOrigin( const float origin[OutputImageDimension] );
+  virtual void SetOrigin( const double* origin);
+  virtual void SetOrigin( const float* origin);
  
  /** Get the origin of the image. The origin is the geometric
    * coordinates of the index (0,0).  The value returned is a pointer

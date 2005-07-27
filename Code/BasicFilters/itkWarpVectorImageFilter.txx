@@ -73,42 +73,28 @@ WarpVectorImageFilter<TInputImage,TOutputImage,TDeformationField>
   
 }
 
-
-/**
- * Set the output image spacing.
- *
- */
+/** Set the output image spacing.*/
 template <class TInputImage,class TOutputImage,class TDeformationField>
 void
 WarpVectorImageFilter<TInputImage,TOutputImage,TDeformationField>
-::SetOutputSpacing(
-  const double spacing[Self::ImageDimension] )
+::SetOutputSpacing(const double* spacing)
 {
   SpacingType s(spacing);
   this->SetOutputSpacing( s );
 }
 
-
-/**
- * Set the output image origin.
- *
- */
+/** Set the output image origin.*/
 template <class TInputImage,class TOutputImage,class TDeformationField>
 void
 WarpVectorImageFilter<TInputImage,TOutputImage,TDeformationField>
-::SetOutputOrigin(
-  const double origin[Self::ImageDimension] )
+::SetOutputOrigin(const double* origin)
 {
   PointType p(origin);
   this->SetOutputOrigin(p);
 }
 
 
-
-/**
- * Set deformation field as Inputs[1] for this ProcessObject.
- *
- */
+/** Set deformation field as Inputs[1] for this ProcessObject.*/
 template <class TInputImage,class TOutputImage,class TDeformationField>
 void
 WarpVectorImageFilter<TInputImage,TOutputImage,TDeformationField>

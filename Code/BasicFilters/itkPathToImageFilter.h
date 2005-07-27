@@ -71,8 +71,8 @@ public:
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
-  virtual void SetSpacing( const double spacing[OutputImageDimension] );
-  virtual void SetSpacing( const float spacing[OutputImageDimension] );
+  virtual void SetSpacing( const double* spacing);
+  virtual void SetSpacing( const float* spacing);
   virtual const double* GetSpacing() const;
 
   /** Set/Get the value for pixels on and off the path. 
@@ -86,8 +86,8 @@ public:
    * coordinates of the index (0,0,...,0).  It is stored internally
    * as double but may be set from float.
    * \sa GetOrigin() */
-  virtual void SetOrigin( const double origin[OutputImageDimension] );
-  virtual void SetOrigin( const float origin[OutputImageDimension] );
+  virtual void SetOrigin( const double* origin);
+  virtual void SetOrigin( const float* origin);
   virtual const double * GetOrigin() const;
 
   /** Set/Get Size */
@@ -113,7 +113,6 @@ protected:
 private:
   PathToImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
 
 };
 

@@ -79,8 +79,8 @@ public:
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
   virtual void SetSpacing( const SpacingType& spacing);
-  virtual void SetSpacing( const double spacing[OutputImageDimension] );
-  virtual void SetSpacing( const float spacing[OutputImageDimension] );
+  virtual void SetSpacing( const double* spacing);
+  virtual void SetSpacing( const float* spacing);
   virtual const double* GetSpacing() const;
 
   /** Set/Get the value for pixels inside the spatial object. 
@@ -106,8 +106,8 @@ public:
    * as double but may be set from float.
    * \sa GetOrigin() */
   virtual void SetOrigin( const PointType& origin);
-  virtual void SetOrigin( const double origin[OutputImageDimension] );
-  virtual void SetOrigin( const float origin[OutputImageDimension] );
+  virtual void SetOrigin( const double* origin);
+  virtual void SetOrigin( const float* origin);
   virtual const double * GetOrigin() const;
 
   /** The spatial object being transformed can be part of a hierarchy.

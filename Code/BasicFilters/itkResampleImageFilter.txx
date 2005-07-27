@@ -95,7 +95,7 @@ template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionTyp
 void 
 ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
 ::SetOutputSpacing(
-  const double spacing[Self::ImageDimension] )
+  const double* spacing)
 {
   SpacingType s(spacing);
   this->SetOutputSpacing( s );
@@ -109,7 +109,7 @@ template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionTyp
 void 
 ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
 ::SetOutputOrigin(
-  const double origin[Self::ImageDimension] )
+  const double* origin)
 {
   PointType p(origin);
   this->SetOutputOrigin( p );

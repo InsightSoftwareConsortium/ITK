@@ -79,8 +79,7 @@ VectorResampleImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 VectorResampleImageFilter<TInputImage,TOutputImage>
-::SetOutputSpacing(
-  const double spacing[Self::ImageDimension] )
+::SetOutputSpacing(const double* spacing)
 {
   SpacingType s(spacing);
   this->SetOutputSpacing( s );
@@ -93,8 +92,7 @@ VectorResampleImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 VectorResampleImageFilter<TInputImage,TOutputImage>
-::SetOutputOrigin(
-  const double origin[Self::ImageDimension] )
+::SetOutputOrigin(const double* origin)
 {
   PointType p(origin);
   this->SetOutputOrigin( p );
