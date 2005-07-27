@@ -51,6 +51,7 @@ ADD_TEST(itkBloxCoreAtomTest ${BASIC_FILTERS_TESTS} itkBloxCoreAtomTest)
 ADD_TEST(itkCannyEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS} itkCannyEdgeDetectionImageFilterTest)
 ADD_TEST(itkChainCodeToFourierSeriesPathFilterTest ${BASIC_FILTERS_TESTS} itkChainCodeToFourierSeriesPathFilterTest)
 ADD_TEST(itkChangeInformationImageFilterTest ${BASIC_FILTERS_TESTS} itkChangeInformationImageFilterTest)
+ADD_TEST(itkChangeLabelImageFilterTest ${BASIC_FILTERS_TESTS} itkChangeLabelImageFilterTest)
 ADD_TEST(itkCheckerBoardImageFilterTest ${BASIC_FILTERS_TESTS3} itkCheckerBoardImageFilterTest)
 ADD_TEST(itkComposeRGBImageFilterTest ${BASIC_FILTERS_TESTS} itkComposeRGBImageFilterTest)
 ADD_TEST(itkCompose2DCovariantVectorImageFilterTest ${BASIC_FILTERS_TESTS} itkCompose2DCovariantVectorImageFilterTest)
@@ -587,6 +588,7 @@ itkBloxCoreAtomTest.cxx
 itkCannyEdgeDetectionImageFilterTest.cxx
 itkChainCodeToFourierSeriesPathFilterTest.cxx
 itkChangeInformationImageFilterTest.cxx
+itkChangeLabelImageFilterTest.cxx
 itkComposeRGBImageFilterTest.cxx
 itkCompose2DCovariantVectorImageFilterTest.cxx
 itkCompose3DCovariantVectorImageFilterTest.cxx
