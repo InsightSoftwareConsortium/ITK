@@ -57,6 +57,7 @@ public:
 
   /** Typedefs inherited from the superclass */
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
   typedef typename Superclass::MeasurementType MeasurementType;
   typedef typename Superclass::FrequencyType FrequencyType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
