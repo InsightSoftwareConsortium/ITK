@@ -92,7 +92,9 @@ private:
   AdaptorPointer      m_ImageToListAdaptor;
 
   GeneratorPointer    m_HistogramGenerator;
-
+  
+  ScalarImageToHistogramGenerator(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 
