@@ -19,6 +19,7 @@
 #include "gdcmUtil.h"
 #include "gdcmDebug.h"
 #include <iostream>
+#include <stdarg.h> // for va_list
 
 // For GetCurrentDate, GetCurrentTime
 #include <time.h>

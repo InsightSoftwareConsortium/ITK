@@ -19,8 +19,8 @@
 #ifndef GDCMFILEHELPER_H
 #define GDCMFILEHELPER_H
 
-#include <iostream>
 #include "gdcmBase.h"
+#include <iostream>
 
 namespace gdcm 
 {
