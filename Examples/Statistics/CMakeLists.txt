@@ -1,4 +1,5 @@
 PROJECT(StatisticsExamples)
+INCLUDE_REGULAR_EXPRESSION("^.*$")
 
 ADD_EXECUTABLE(BayesianPluginClassifier BayesianPluginClassifier.cxx )
 TARGET_LINK_LIBRARIES(BayesianPluginClassifier ITKCommon ITKStatistics)
