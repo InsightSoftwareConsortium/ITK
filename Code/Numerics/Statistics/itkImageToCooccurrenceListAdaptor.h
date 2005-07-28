@@ -102,7 +102,7 @@ public:
         << MeasurementVectorSize );
     }
 
- unsigned int GetMeasurementVectorSize()
+ unsigned int GetMeasurementVectorSize() const
    {
    return Superclass::MeasurementVectorSize;
    } 
