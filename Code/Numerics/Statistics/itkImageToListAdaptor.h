@@ -96,7 +96,7 @@ public:
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       PixelTraitsType::Dimension);
   
-  virtual void SetMeasurementVectorSize( const unsigned int s ) const
+  virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType s )
     {
     // Measurement vector size for this class is fixed as the pixel's 
     // dimension. This method should throw an exception if the user tries to 
@@ -120,6 +120,7 @@ public:
    * Instance Identifier, frequency, size, size element value */
   typedef typename PixelTraitsType::ValueType MeasurementType ;
   typedef typename Superclass::FrequencyType FrequencyType ;
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   typedef TMeasurementVector MeasurementVectorType ;
   typedef MeasurementVectorType ValueType ;
