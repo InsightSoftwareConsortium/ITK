@@ -92,6 +92,12 @@ public:
   typedef ImageRegionIterator< ImageType > IteratorType ; 
   typedef PixelTraits< typename TImage::PixelType > PixelTraitsType ;
 
+  /** Superclass typedefs for Measurement vector, measurement, 
+   * Instance Identifier, frequency, size, size element value */
+  typedef typename PixelTraitsType::ValueType MeasurementType ;
+  typedef typename Superclass::FrequencyType FrequencyType ;
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+
   /** the number of components in a measurement vector */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       PixelTraitsType::Dimension);
@@ -115,12 +121,6 @@ public:
    } 
     
   
-
-  /** Superclass typedefs for Measurement vector, measurement, 
-   * Instance Identifier, frequency, size, size element value */
-  typedef typename PixelTraitsType::ValueType MeasurementType ;
-  typedef typename Superclass::FrequencyType FrequencyType ;
-  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   typedef TMeasurementVector MeasurementVectorType ;
   typedef MeasurementVectorType ValueType ;
