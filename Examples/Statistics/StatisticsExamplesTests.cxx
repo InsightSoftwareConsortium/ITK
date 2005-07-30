@@ -14,9 +14,6 @@ REGISTER_TEST( ScalarImageMarkovRandomField1Test );
 REGISTER_TEST( BayesianPluginClassifierTest );
 REGISTER_TEST( EuclideanDistanceTest );
 REGISTER_TEST( GaussianDensityFunctionTest );
-REGISTER_TEST( MinimumDecisionRuleTest );
-REGISTER_TEST( MaximumDecisionRuleTest );
-REGISTER_TEST( MaximumRatioDecisionRuleTest );
 }
 
 #undef main
@@ -38,16 +35,3 @@ REGISTER_TEST( MaximumRatioDecisionRuleTest );
 #undef main
 #define main GaussianDensityFunctionTest
 #include "GaussianDensityFunction.cxx"
-
-#undef main
-#define main MinimumDecisionRuleTest
-#include "MinimumDecisionRule.cxx"
-
-#undef main
-#define main MaximumDecisionRuleTest
-#include "MaximumDecisionRule.cxx"
-
-#undef main
-#define main MaximumRatioDecisionRuleTest
-#include "MaximumRatioDecisionRule.cxx"
-

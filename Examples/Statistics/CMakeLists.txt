@@ -103,6 +103,7 @@ TARGET_LINK_LIBRARIES(ScalarImageMarkovRandomField1 ITKIO ITKCommon )
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
 SET(STATISTICS_EXAMPLES_WITH_TESTS ${CXX_TEST_PATH}/StatisticsExamplesTests)
+SET(STATISTICS_EXAMPLES_WITH_TESTS2 ${CXX_TEST_PATH}/StatisticsExamplesTests2)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Statistics)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
@@ -134,16 +135,19 @@ ADD_TEST( EuclideanDistanceTest ${STATISTICS_EXAMPLES_WITH_TESTS}
 ADD_TEST( GaussianDensityFunctionTest ${STATISTICS_EXAMPLES_WITH_TESTS}
           GaussianDensityFunctionTest)
 
-ADD_TEST( MinimumDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS}
+ADD_TEST( MinimumDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
           MinimumDecisionRuleTest)
 
-ADD_TEST( MaximumDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS}
+ADD_TEST( MaximumDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
           MaximumDecisionRuleTest)
 
-ADD_TEST( MaximumRatioDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS}
+ADD_TEST( MaximumRatioDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
           MaximumRatioDecisionRuleTest)
 
 ADD_EXECUTABLE( StatisticsExamplesTests StatisticsExamplesTests.cxx)
 TARGET_LINK_LIBRARIES( StatisticsExamplesTests ITKIO ITKCommon ITKStatistics)
+
+ADD_EXECUTABLE( StatisticsExamplesTests2 StatisticsExamplesTests2.cxx)
+TARGET_LINK_LIBRARIES( StatisticsExamplesTests2 ITKIO ITKCommon ITKStatistics)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
