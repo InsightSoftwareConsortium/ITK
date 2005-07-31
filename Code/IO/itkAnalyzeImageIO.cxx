@@ -727,6 +727,7 @@ bool AnalyzeImageIO::CanReadFile( const char* FileNameToRead )
   std::string filenameext = GetExtension(filename);
   if(filenameext != std::string("hdr") 
     && filenameext != std::string("img.gz")
+    && filenameext != std::string("gz")
     && filenameext != std::string("img")
     )
     {
