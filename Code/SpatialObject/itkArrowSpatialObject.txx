@@ -34,12 +34,13 @@ ArrowSpatialObject< TDimension >
   this->GetProperty()->SetGreen(0); 
   this->GetProperty()->SetBlue(0); 
   this->GetProperty()->SetAlpha(1); 
-  this->ComputeBoundingBox();
   
   m_Direction.Fill(0);
   m_Direction[0] = 1; // along the x direction by default
   m_Position.Fill(0);
   m_Length = 1;
+
+  this->ComputeBoundingBox();
 } 
  
 /** Destructor */
