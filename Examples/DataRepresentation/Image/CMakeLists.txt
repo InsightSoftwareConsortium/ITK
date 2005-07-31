@@ -1,4 +1,5 @@
 PROJECT(ImageExamples)
+INCLUDE_REGULAR_EXPRESSION("^.*$")
 
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
@@ -75,7 +76,7 @@ ADD_TEST(ImageAdaptor2Test ${IMAGE_EXAMPLES2}
 ADD_TEST(ImageAdaptor3Test ${IMAGE_EXAMPLES3}
   ImageAdaptor3Test
     ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
-    ${TEMP}/ImageAdaptor3Test.mhd 2
+    ${TEMP}/ImageAdaptor3Test.mhd 1
 )
 
 ADD_TEST(ImageAdaptor4Test ${IMAGE_EXAMPLES3}
