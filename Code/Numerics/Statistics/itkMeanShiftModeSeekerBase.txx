@@ -106,7 +106,7 @@ MeanShiftModeSeekerBase< TSample >
   MeasurementVectorType previousPoint = queryPoint ;
 
   unsigned int currentIteration = 0 ;
-  bool retCode ;
+  bool retCode = false;
 
   while ( true )
     {
