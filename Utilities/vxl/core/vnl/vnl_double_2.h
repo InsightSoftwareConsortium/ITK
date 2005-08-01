@@ -13,6 +13,7 @@
 // \verbatim
 //  Modifications
 //   Peter Vanroose, 25 June 1999: vnl_vector_fixed<double,2> already instantiated
+//   Peter Vanroose, 28 Mar. 2004: renamed cross_2d() to vnl_cross_2d()
 // \endverbatim
 
 #include <vnl/vnl_T_n.h>
@@ -20,7 +21,14 @@
 //: class vnl_double_2 : a vnl_vector of 2 doubles.
 vnl_T_n_impl(double,2);
 
-// Karen is right: there should not be any inline functions defined
-// here. they are provided in vnl_T_n.h in a generic way. fsm
+//: Cross product of two 2-vectors
+inline
+double vnl_cross_2d(vnl_double_2 const& v1, vnl_double_2 const& v2)
+{
+  return v1[0] * v2[1] - v1[1] * v2[0];
+}
+
+//: deprecated
+#define cross_2d vnl_cross_2d
 
 #endif // vnl_double_2_h_

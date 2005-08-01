@@ -108,7 +108,8 @@ L50:
     return;
 } /* rg_ */
 
-/* Subroutine */ void balanc_(nm, n, a, low, igh, scale)
+/* Subroutine */
+static void balanc_(nm, n, a, low, igh, scale)
 integer *nm, *n;
 doublereal *a;
 integer *low, *igh;
@@ -314,7 +315,8 @@ L280:
     return;
 } /* balanc_ */
 
-/* Subroutine */ void balbak_(nm, n, low, igh, scale, m, z)
+/* Subroutine */
+static void balbak_(nm, n, low, igh, scale, m, z)
 integer *nm, *n, *low, *igh;
 doublereal *scale;
 integer *m;
@@ -400,7 +402,8 @@ L120:
     }
 } /* balbak_ */
 
-/* Subroutine */ void cdiv_(ar, ai, br, bi, cr, ci)
+/* Subroutine */
+static void cdiv_(ar, ai, br, bi, cr, ci)
 doublereal *ar, *ai, *br, *bi, *cr, *ci;
 {
     /* Local variables */
@@ -418,7 +421,8 @@ doublereal *ar, *ai, *br, *bi, *cr, *ci;
     *ci = (ais * brs - ars * bis) / s;
 } /* cdiv_ */
 
-/* Subroutine */ void elmhes_(nm, n, low, igh, a, int_)
+/* Subroutine */
+static void elmhes_(nm, n, low, igh, a, int_)
 integer *nm, *n, *low, *igh;
 doublereal *a;
 integer *int_;
@@ -523,7 +527,8 @@ L130:
     }
 } /* elmhes_ */
 
-/* Subroutine */ void eltran_(nm, n, low, igh, a, int_, z)
+/* Subroutine */
+static void eltran_(nm, n, low, igh, a, int_, z)
 integer *nm, *n, *low, *igh;
 doublereal *a;
 integer *int_;
@@ -606,7 +611,8 @@ doublereal *z;
     }
 } /* eltran_ */
 
-/* Subroutine */ void hqr_(nm, n, low, igh, h, wr, wi, ierr)
+/* Subroutine */
+static void hqr_(nm, n, low, igh, h, wr, wi, ierr)
 integer *nm, *n, *low, *igh;
 doublereal *h, *wr, *wi;
 integer *ierr;
@@ -897,7 +903,8 @@ L1001:
     return;
 } /* hqr_ */
 
-/* Subroutine */ void hqr2_(nm, n, low, igh, h, wr, wi, z, ierr)
+/* Subroutine */
+static void hqr2_(nm, n, low, igh, h, wr, wi, z, ierr)
 integer *nm, *n, *low, *igh;
 doublereal *h, *wr, *wi, *z;
 integer *ierr;

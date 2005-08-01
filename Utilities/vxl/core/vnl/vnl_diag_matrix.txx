@@ -35,7 +35,7 @@ vcl_ostream& operator<< (vcl_ostream& s, const vnl_diag_matrix<T>& D)
 {
   s << "diag([ ";
   for (unsigned i=0; i<D.rows(); ++i)
-    s << D(i,i) << " ";
+    s << D(i,i) << ' ';
   return s << "])";
 }
 
@@ -46,10 +46,10 @@ bool epsilon_equals (const vnl_diag_matrix<T>& m1, const vnl_diag_matrix<T>& m2,
                      double alt_epsilon)
 {
   if (alt_epsilon < 0)
-    {
-      vcl_cerr << "Negative alt_epsilon passed to epsilon_equals: returning false\n";
-      return false;
-    }
+  {
+    vcl_cerr << "Negative alt_epsilon passed to epsilon_equals: returning false\n";
+    return false;
+  }
 
   if (m1.rows() != m2.rows())
      return false;              // different sizes.

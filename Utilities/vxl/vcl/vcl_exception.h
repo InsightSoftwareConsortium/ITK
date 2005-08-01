@@ -22,6 +22,8 @@
 # define vcl_catch     catch
 # define vcl_catch_all catch (...)
 
+# include "iso/vcl_exception.h"
+
 #else
 //
 

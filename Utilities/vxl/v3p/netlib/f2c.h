@@ -158,6 +158,14 @@ typedef struct Namelist Namelist;
 #define dmin(a,b) (doublereal)min(a,b)
 #define dmax(a,b) (doublereal)max(a,b)
 
+#ifdef __cplusplus
+typedef doublereal (*D_fp)(...), (*E_fp)(...);
+typedef int /* Unknown procedure type */ (*U_fp)(...);
+#else
+typedef doublereal (*D_fp)(), (*E_fp)();
+typedef int /* Unknown procedure type */ (*U_fp)();
+#endif
+
 #ifndef IUE /* These are not used in netlib, and cause the gcc compiler warning
                "function declaration isn't a prototype" */
 /*
@@ -173,11 +181,9 @@ typedef struct Namelist Namelist;
 
 #define F2C_proc_par_types 1
 #ifdef __cplusplus
-typedef int /* Unknown procedure type */ (*U_fp)(...);
 typedef shortint (*J_fp)(...);
 typedef integer (*I_fp)(...);
 typedef real (*R_fp)(...);
-typedef doublereal (*D_fp)(...), (*E_fp)(...);
 typedef /* Complex */ VOID (*C_fp)(...);
 typedef /* Double Complex */ VOID (*Z_fp)(...);
 typedef logical (*L_fp)(...);
@@ -185,11 +191,9 @@ typedef shortlogical (*K_fp)(...);
 typedef /* Character */ VOID (*H_fp)(...);
 typedef /* Subroutine */ int (*S_fp)(...);
 #else
-typedef int /* Unknown procedure type */ (*U_fp)(void);
 typedef shortint (*J_fp)(void);
 typedef integer (*I_fp)(void);
 typedef real (*R_fp)(void);
-typedef doublereal (*D_fp)(void), (*E_fp)(void);
 typedef /* Complex */ VOID (*C_fp)(void);
 typedef /* Double Complex */ VOID (*Z_fp)(void);
 typedef logical (*L_fp)(void);

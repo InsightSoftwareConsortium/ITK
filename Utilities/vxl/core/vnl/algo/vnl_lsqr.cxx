@@ -126,7 +126,7 @@ void vnl_lsqr::diagnose_outcome(vcl_ostream& os) const
 
 void vnl_lsqr::translate_return_code(vcl_ostream& os, int rc)
 {
-  char* vnl_lsqr_reasons[] = {
+  const char* vnl_lsqr_reasons[] = {
    "x = 0  is the exact solution. No iterations were performed.",
    "The equations A*x = b are probably compatible.  "
        "Norm(A*x - b) is sufficiently small, given the "

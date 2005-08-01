@@ -1,10 +1,9 @@
-/*
-  fsm
-*/
+// @author fsm
+
 #include <vcl_iostream.h>
 #include <vcl_cmath.h> // for vcl_abs()
 
-#include <vnl/vnl_vector.h>
+#include <vnl/vnl_double_3.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_matrix_exp.h>
 #include <vnl/vnl_matlab_print.h>
@@ -14,7 +13,7 @@
 
 void test_matrix_exp()
 {
-  vnl_vector<double> v(3, 1.233,-0.572,0.777);
+  vnl_double_3 v(1.233,-0.572,0.777);
 
   vnl_matrix<double> X = vnl_cross_product_matrix(v).as_ref();
   vnl_matlab_print(vcl_cout, X, "[v]");

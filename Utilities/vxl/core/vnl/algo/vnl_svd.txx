@@ -7,10 +7,10 @@
 #include "vnl_svd.h"
 
 #include <vcl_cassert.h>
-#include <vcl_cstdlib.h> // vcl_abort()
+#include <vcl_cstdlib.h>
 #include <vcl_complex.h>
 #include <vcl_iostream.h>
-#include <vcl_algorithm.h> // min
+#include <vcl_algorithm.h> // min()
 
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_fortran_copy.h>
@@ -201,19 +201,16 @@ template <class T> void vnl_svd<T>::zero_out_relative(double tol) // sqrt(machin
   zero_out_absolute(tol * vcl_abs(sigma_max()));
 }
 
+static bool w=false;
+inline bool warned() { if (w) return true; else { w=true; return false; } }
 
 //: Calculate determinant as product of diagonals in W.
 template <class T>
 typename vnl_svd<T>::singval_t vnl_svd<T>::determinant_magnitude() const
 {
-  {
-    static bool warned = false;
-    if (!warned && m_ != n_)
-    {
-      vcl_cerr << __FILE__ ": called determinant_magnitude() on SVD of non-square matrix\n";
-      warned = true;
-    }
-  }
+  if (!warned() && m_ != n_)
+    vcl_cerr << __FILE__ ": called determinant_magnitude() on SVD of non-square matrix\n"
+             << "(This warning is displayed only once)\n";
   singval_t product = W_(0, 0);
   for (unsigned long k = 1; k < W_.columns(); k++)
     product *= W_(k, k);
@@ -229,12 +226,12 @@ typename vnl_svd<T>::singval_t vnl_svd<T>::norm() const
 
 //: Recompose SVD to U*W*V'
 template <class T>
-vnl_matrix<T> vnl_svd<T>::recompose(unsigned int rank) const
+vnl_matrix<T> vnl_svd<T>::recompose(unsigned int rnk) const
 {
-  if (rank > rank_) rank=rank_;
+  if (rnk > rank_) rnk=rank_;
   vnl_matrix<T> W(W_.rows(),W_.columns());
   W.fill(T(0));
-  for (unsigned int i=0;i<rank;++i)
+  for (unsigned int i=0;i<rnk;++i)
     W(i,i)=W_(i,i);
 
   return U_*W*V_.conjugate_transpose();
@@ -243,12 +240,12 @@ vnl_matrix<T> vnl_svd<T>::recompose(unsigned int rank) const
 
 //: Calculate pseudo-inverse.
 template <class T>
-vnl_matrix<T> vnl_svd<T>::pinverse(unsigned int rank) const
+vnl_matrix<T> vnl_svd<T>::pinverse(unsigned int rnk) const
 {
-  if (rank > rank_) rank=rank_;
+  if (rnk > rank_) rnk=rank_;
   vnl_matrix<T> Winverse(Winverse_.rows(),Winverse_.columns());
   Winverse.fill(T(0));
-  for (unsigned int i=0;i<rank;++i)
+  for (unsigned int i=0;i<rnk;++i)
     Winverse(i,i)=Winverse_(i,i);
 
   return V_ * Winverse * U_.conjugate_transpose();
@@ -257,12 +254,12 @@ vnl_matrix<T> vnl_svd<T>::pinverse(unsigned int rank) const
 
 //: Calculate (pseudo-)inverse of transpose.
 template <class T>
-vnl_matrix<T> vnl_svd<T>::tinverse(unsigned int rank) const
+vnl_matrix<T> vnl_svd<T>::tinverse(unsigned int rnk) const
 {
-  if (rank > rank_) rank=rank_;
+  if (rnk > rank_) rnk=rank_;
   vnl_matrix<T> Winverse(Winverse_.rows(),Winverse_.columns());
   Winverse.fill(T(0));
-  for (unsigned int i=0;i<rank;++i)
+  for (unsigned int i=0;i<rnk;++i)
     Winverse(i,i)=Winverse_(i,i);
 
   return U_ * Winverse * V_.conjugate_transpose();

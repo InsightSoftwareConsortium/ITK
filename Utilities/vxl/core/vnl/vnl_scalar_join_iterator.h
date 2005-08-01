@@ -68,6 +68,7 @@ class vnl_scalar_join_iterator_indexed_pair;
 template <class T>
 class vnl_scalar_join_iterator
 {
+  VCL_SAFE_BOOL_DEFINE;
  protected:
   unsigned n1;
   unsigned n2;
@@ -91,26 +92,31 @@ class vnl_scalar_join_iterator
 
 
   //: Return true if all pairs have been seen.
-  operator bool () { return !done(); }
+  operator safe_bool () const
+    { return (!done())? VCL_SAFE_BOOL_TRUE : 0; }
+
+  //: Return false if all pairs have been seen.
+  bool operator!() const
+    { return (!done())? false : true; }
 
   //: Advance to the next pair.  This is prefix ++.
   inline vnl_scalar_join_iterator<T>& operator ++ () { next(); return *this; }
 
-  bool done();
+  bool done() const;
   void next();
 
-  //: Return the indices of the current rows in the first and second relations.
-  unsigned row1();
-  //: Return the indices of the current rows in the first and second relations.
-  unsigned row2();
+  //: Return the index of the current row in the first relation.
+  unsigned row1() const;
+  //: Return the index of the current row in the second relation.
+  unsigned row2() const;
 
  private:
   // Postfix ++ is private as it would be costly to implement.
   vnl_scalar_join_iterator<T>& operator ++ (int);
 
 #if 0
-  T object1() { return *I1[index1].object; }
-  T object2() { return *I2[index2].object; }
+  T object1() const { return *I1[index1].object; }
+  T object2() const { return *I2[index2].object; }
 #endif
 };
 

@@ -12,14 +12,15 @@
 // Modifications
 // Comments re-written by Tim Cootes, for his sins.
 //   Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
+//   Mar.2004 - Peter Vanroose - deprecated fixed-size constructors now compile only when VNL_CONFIG_LEGACY_METHODS==1
 // \endverbatim
 
 #include <vcl_iosfwd.h>
 #include <vnl/vnl_tag.h>
 #include <vnl/vnl_c_vector.h>
+#include <vnl/vnl_config.h>
 #ifndef NDEBUG
 # include <vnl/vnl_error.h>
-# include "vnl_config.h"
 # if VNL_CONFIG_CHECK_BOUNDS
 #  include <vcl_cassert.h>
 # endif
@@ -27,6 +28,9 @@
 # undef VNL_CONFIG_CHECK_BOUNDS
 # define VNL_CONFIG_CHECK_BOUNDS 0
 # undef ERROR_CHECKING
+#endif
+#if VNL_CONFIG_LEGACY_METHODS
+# include <vcl_deprecated.h>
 #endif
 
 export template <class T> class vnl_vector;
@@ -36,12 +40,12 @@ export template <class T> class vnl_matrix;
 
 #define v vnl_vector<T>
 #define m vnl_matrix<T>
-template <class T> T      dot_product (v const&, v const&);
-template <class T> T      inner_product (v const&, v const&);
-template <class T> T      bracket (v const &, m const &, v const &);
+template <class T> T      dot_product(v const&, v const&);
+template <class T> T      inner_product(v const&, v const&);
+template <class T> T      bracket(v const &, m const &, v const &);
 template <class T> T      cos_angle(v const&, v const& );
-template <class T> double angle (v const&, v const&);
-template <class T> m      outer_product (v const&, v const&);
+template <class T> double angle(v const&, v const&);
+template <class T> m      outer_product(v const&, v const&);
 template <class T> v      operator+(T, v const&);
 template <class T> v      operator-(T, v const&);
 template <class T> v      operator*(T, v const&);
@@ -49,8 +53,6 @@ template <class T> v      operator*(T, v const&);
 template <class T> v      operator*(v const&, m const&);
 template <class T> v      element_product(v const&,v const&);
 template <class T> v      element_quotient(v const&,v const&);
-template <class T> T      cross_2d (v const&, v const&);
-template <class T> v      cross_3d (v const&, v const&);
 template <class T> T      vnl_vector_ssd(v const&, v const&);
 template <class T> void   swap(v &, v &);
 #undef v
@@ -74,52 +76,57 @@ class vnl_vector
   friend class vnl_matrix<T>;
 
   //: Creates an empty vector. O(1).
-  vnl_vector () : num_elmts(0) , data(0) {}
+  vnl_vector() : num_elmts(0) , data(0) {}
 
   //: Creates vector containing n elements.
   // Elements are not initialized.
-  explicit vnl_vector (unsigned len);
+  explicit vnl_vector(unsigned len);
 
   //: Creates vector of len elements, all set to v0
-  vnl_vector (unsigned len, T const& v0);
+  vnl_vector(unsigned len, T const& v0);
 
   //: Creates a vector of specified length and initialize first n elements with values. O(n).
-  vnl_vector (unsigned len, int n, T const values[]);
+  vnl_vector(unsigned len, int n, T const values[]);
 
+#if VNL_CONFIG_LEGACY_METHODS // these constructors are deprecated and should not be used
   //: Creates a vector of length 2 and initializes with the arguments, px,py.
   //  Requires that len==2.
   //  Consider using vnl_vector_fixed<T,2> instead!
-  vnl_vector (unsigned len, T const& px, T const& py);
+  // \deprecated
+  vnl_vector(unsigned len, T const& px, T const& py);
 
   //: Creates a vector of length 3 and initializes with the arguments, px,py,pz.
   //  Requires that len==3.
   //  Consider using vnl_vector_fixed<T,3> instead!
-  vnl_vector (unsigned len, T const& px, T const& py, T const& pz);
+  // \deprecated
+  vnl_vector(unsigned len, T const& px, T const& py, T const& pz);
 
   //: Creates a vector of length 4 and initializes with the arguments.
   //  Requires that len==4.
   //  Consider using vnl_vector_fixed<T,4> instead!
-  vnl_vector (unsigned len, T const& px, T const& py, T const& pz, T const& pw);
+  // \deprecated
+  vnl_vector(unsigned len, T const& px, T const& py, T const& pz, T const& pw);
+#endif
 
   //: Create n element vector and copy data from data_block
-  vnl_vector (T const* data_block,unsigned int n);
+  vnl_vector(T const* data_block,unsigned int n);
 
   //: Copy constructor
-  vnl_vector (vnl_vector<T> const&);
+  vnl_vector(vnl_vector<T> const&);
 
-#ifndef VXL_DOXYGEN_SHOULD_SKIP_THIS 
+#ifndef VXL_DOXYGEN_SHOULD_SKIP_THIS
 // <internal>
   // These constructors are here so that operator* etc can take
   // advantage of the C++ return value optimization.
-  vnl_vector (vnl_vector<T> const &, vnl_vector<T> const &, vnl_tag_add); // v + v
-  vnl_vector (vnl_vector<T> const &, vnl_vector<T> const &, vnl_tag_sub); // v - v
-  vnl_vector (vnl_vector<T> const &, T,                     vnl_tag_mul); // v * s
-  vnl_vector (vnl_vector<T> const &, T,                     vnl_tag_div); // v / s
-  vnl_vector (vnl_vector<T> const &, T,                     vnl_tag_add); // v + s
-  vnl_vector (vnl_vector<T> const &, T,                     vnl_tag_sub); // v - s
-  vnl_vector (vnl_matrix<T> const &, vnl_vector<T> const &, vnl_tag_mul); // M * v
-  vnl_vector (vnl_vector<T> const &, vnl_matrix<T> const &, vnl_tag_mul); // v * M
-  vnl_vector (vnl_vector<T> &that, vnl_tag_grab)
+  vnl_vector(vnl_vector<T> const &, vnl_vector<T> const &, vnl_tag_add); // v + v
+  vnl_vector(vnl_vector<T> const &, vnl_vector<T> const &, vnl_tag_sub); // v - v
+  vnl_vector(vnl_vector<T> const &, T,                     vnl_tag_mul); // v * s
+  vnl_vector(vnl_vector<T> const &, T,                     vnl_tag_div); // v / s
+  vnl_vector(vnl_vector<T> const &, T,                     vnl_tag_add); // v + s
+  vnl_vector(vnl_vector<T> const &, T,                     vnl_tag_sub); // v - s
+  vnl_vector(vnl_matrix<T> const &, vnl_vector<T> const &, vnl_tag_mul); // M * v
+  vnl_vector(vnl_vector<T> const &, vnl_matrix<T> const &, vnl_tag_mul); // v * M
+  vnl_vector(vnl_vector<T> &that, vnl_tag_grab)
     : num_elmts(that.num_elmts), data(that.data)
   { that.num_elmts=0; that.data=0; } // "*this" now uses "that"'s data.
 // </internal>
@@ -132,13 +139,13 @@ class vnl_vector
   unsigned size() const { return num_elmts; }
 
   //: Put value at given position in vector.
-  inline void put (unsigned int i, T const&);
+  inline void put(unsigned int i, T const&);
 
   //: Get value at element i
-  inline T get (unsigned int i) const;
+  inline T get(unsigned int i) const;
 
   //: Set all values to v
-  void fill (T const& v);
+  void fill(T const& v);
 
   //: Sets elements to ptr[i]
   //  Note: ptr[i] must be valid for i=0..size()-1
@@ -151,94 +158,94 @@ class vnl_vector
 
   //: Sets elements to ptr[i]
   //  Note: ptr[i] must be valid for i=0..size()-1
-  void set (T const *ptr) { copy_in(ptr); }
+  void set(T const *ptr) { copy_in(ptr); }
 
   //: Return reference to the element at specified index.
   // There are assert style boundary checks - #define NDEBUG to turn them off.
-  T       & operator() (unsigned int i)
+  T       & operator()(unsigned int i)
   {
-#if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
+#if VNL_CONFIG_CHECK_BOUNDS
     assert(i<size());   // Check the index is valid.
 #endif
     return data[i];
   }
   //: Return reference to the element at specified index. No range checking.
   // There are assert style boundary checks - #define NDEBUG to turn them off.
-  T const & operator() (unsigned int i) const
+  T const & operator()(unsigned int i) const
   {
-#if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
+#if VNL_CONFIG_CHECK_BOUNDS
     assert(i<size());   // Check the index is valid
 #endif
     return data[i];
   }
 
   //: Return reference to the element at specified index. No range checking.
-  T       & operator[] (unsigned int i) { return data[i]; }
+  T       & operator[](unsigned int i) { return data[i]; }
   //: Return reference to the element at specified index. No range checking.
-  T const & operator[] (unsigned int i) const { return data[i]; }
+  T const & operator[](unsigned int i) const { return data[i]; }
 
   //: Set all elements to value v
-  vnl_vector<T>& operator= (T const&v) { fill(v); return *this; }
+  vnl_vector<T>& operator=(T const&v) { fill(v); return *this; }
 
   //: Copy operator
-  vnl_vector<T>& operator= (vnl_vector<T> const& rhs);
+  vnl_vector<T>& operator=(vnl_vector<T> const& rhs);
 
   //: Add scalar value to all elements
-  vnl_vector<T>& operator+= (T );
+  vnl_vector<T>& operator+=(T );
 
   //: Subtract scalar value from all elements
-  vnl_vector<T>& operator-= (T value) { return *this += (-value); }
+  vnl_vector<T>& operator-=(T value) { return *this += (-value); }
 
   //: Multiply all elements by scalar
-  vnl_vector<T>& operator*= (T );
+  vnl_vector<T>& operator*=(T );
 
   //: Divide all elements by scalar
-  vnl_vector<T>& operator/= (T );
+  vnl_vector<T>& operator/=(T );
 
   //: Add rhs to this and return *this
-  vnl_vector<T>& operator+= (vnl_vector<T> const& rhs);
+  vnl_vector<T>& operator+=(vnl_vector<T> const& rhs);
 
   //: Subtract rhs from this and return *this
-  vnl_vector<T>& operator-= (vnl_vector<T> const& rhs);
+  vnl_vector<T>& operator-=(vnl_vector<T> const& rhs);
 
   //: *this = M*(*this) where M is a suitable matrix.
   //  this is treated as a column vector
-  vnl_vector<T>& pre_multiply (vnl_matrix<T> const& M);
+  vnl_vector<T>& pre_multiply(vnl_matrix<T> const& M);
 
   //: *this = (*this)*M where M is a suitable matrix.
   //  this is treated as a row vector
-  vnl_vector<T>& post_multiply (vnl_matrix<T> const& M);
+  vnl_vector<T>& post_multiply(vnl_matrix<T> const& M);
 
   //: *this = (*this)*M where M is a suitable matrix.
   //  this is treated as a row vector
-  vnl_vector<T>& operator*= (vnl_matrix<T> const& m) { return this->post_multiply(m); }
+  vnl_vector<T>& operator*=(vnl_matrix<T> const& m) { return this->post_multiply(m); }
 
   //: Unary plus operator
   // Return new vector = (*this)
-  vnl_vector<T> operator+ () const { return *this; }
+  vnl_vector<T> operator+() const { return *this; }
 
   //: Unary minus operator
   // Return new vector = -1*(*this)
-  vnl_vector<T> operator- () const;
+  vnl_vector<T> operator-() const;
 
-  vnl_vector<T> operator+ (T v) const { return vnl_vector<T>(*this, v, vnl_tag_add()); }
-  vnl_vector<T> operator- (T v) const { return vnl_vector<T>(*this, v, vnl_tag_sub()); }
-  vnl_vector<T> operator* (T v) const { return vnl_vector<T>(*this, v, vnl_tag_mul()); }
-  vnl_vector<T> operator/ (T v) const { return vnl_vector<T>(*this, v, vnl_tag_div()); }
+  vnl_vector<T> operator+(T v) const { return vnl_vector<T>(*this, v, vnl_tag_add()); }
+  vnl_vector<T> operator-(T v) const { return vnl_vector<T>(*this, v, vnl_tag_sub()); }
+  vnl_vector<T> operator*(T v) const { return vnl_vector<T>(*this, v, vnl_tag_mul()); }
+  vnl_vector<T> operator/(T v) const { return vnl_vector<T>(*this, v, vnl_tag_div()); }
 
-  vnl_vector<T> operator+ (vnl_vector<T> const& v) const { return vnl_vector<T>(*this, v, vnl_tag_add()); }
-  vnl_vector<T> operator- (vnl_vector<T> const& v) const { return vnl_vector<T>(*this, v, vnl_tag_sub()); }
-  vnl_vector<T> operator* (vnl_matrix<T> const& M) const { return vnl_vector<T>(*this, M, vnl_tag_mul()); }
+  vnl_vector<T> operator+(vnl_vector<T> const& v) const { return vnl_vector<T>(*this, v, vnl_tag_add()); }
+  vnl_vector<T> operator-(vnl_vector<T> const& v) const { return vnl_vector<T>(*this, v, vnl_tag_sub()); }
+  vnl_vector<T> operator*(vnl_matrix<T> const& M) const { return vnl_vector<T>(*this, M, vnl_tag_mul()); }
 
   //--------------------------------------------------------------------------------
 
   //: Access the contiguous block storing the elements in the vector. O(1).
   //  data_block()[0] is the first element of the vector
-  T const* data_block () const { return data; }
+  T const* data_block() const { return data; }
 
   //: Access the contiguous block storing the elements in the vector. O(1).
   //  data_block()[0] is the first element of the vector
-  T      * data_block () { return data; }
+  T      * data_block() { return data; }
 
   //: Type defs for iterators
   typedef T element_type;
@@ -272,10 +279,10 @@ class vnl_vector
   vnl_vector<T> apply(T (*f)(T const&)) const;
 
   //: Returns a subvector specified by the start index and length. O(n).
-  vnl_vector<T> extract (unsigned int len, unsigned int start=0) const;
+  vnl_vector<T> extract(unsigned int len, unsigned int start=0) const;
 
   //: Replaces elements with index beginning at start, by values of v. O(n).
-  vnl_vector<T>& update (vnl_vector<T> const&, unsigned int start=0);
+  vnl_vector<T>& update(vnl_vector<T> const&, unsigned int start=0);
 
   // norms etc
   typedef typename vnl_c_vector<T>::abs_t abs_t;
@@ -302,18 +309,18 @@ class vnl_vector
   // really proper functions on a vector in a philosophial sense.
 
   //: Root Mean Squares of values
-  abs_t rms     () const { return vnl_c_vector<T>::rms_norm(begin(), size()); }
+  abs_t rms() const { return vnl_c_vector<T>::rms_norm(begin(), size()); }
 
   //: Smallest value
-  T min_value () const { return vnl_c_vector<T>::min_value(begin(), size()); }
+  T min_value() const { return vnl_c_vector<T>::min_value(begin(), size()); }
 
   //: Largest value
-  T max_value () const { return vnl_c_vector<T>::max_value(begin(), size()); }
+  T max_value() const { return vnl_c_vector<T>::max_value(begin(), size()); }
 
   //: Mean of values in vector
   T mean() const { return vnl_c_vector<T>::mean(begin(), size()); }
 
-  //: Sum of values in a vector 
+  //: Sum of values in a vector
   T sum() const { return vnl_c_vector<T>::sum(begin(), size()); }
 
   //: Reverse the order of the elements
@@ -323,25 +330,32 @@ class vnl_vector
   //: Set this to that and that to this
   void swap(vnl_vector<T> & that);
 
+#if VNL_CONFIG_LEGACY_METHODS // these methods are deprecated and should not be used
   //: Return first element of vector
-  T& x() const { return data[0]; }
+  // \deprecated
+  T& x() const { VXL_DEPRECATED("vnl_vector<T>::x()"); return data[0]; }
   //: Return second element of vector
-  T& y() const { return data[1]; }
+  // \deprecated
+  T& y() const { VXL_DEPRECATED("vnl_vector<T>::y()"); return data[1]; }
   //: Return third element of vector
-  T& z() const { return data[2]; }
+  // \deprecated
+  T& z() const { VXL_DEPRECATED("vnl_vector<T>::z()"); return data[2]; }
   //: Return fourth element of vector
-  T& t() const { return data[3]; }
-
-#if VNL_CONFIG_LEGACY_METHODS
+  // \deprecated
+  T& t() const { VXL_DEPRECATED("vnl_vector<T>::t()"); return data[3]; }
   //: Set the first element (with bound checking)
-  void set_x(T const&xx) { if (size() >= 1) data[0] = xx; }
+  // \deprecated
+  void set_x(T const&xx) { VXL_DEPRECATED("vnl_vector<T>::set_x()"); if (size() >= 1) data[0] = xx; }
   //: Set the second element (with bound checking)
-  void set_y(T const&yy) { if (size() >= 2) data[1] = yy; }
+  // \deprecated
+  void set_y(T const&yy) { VXL_DEPRECATED("vnl_vector<T>::set_y()"); if (size() >= 2) data[1] = yy; }
   //: Set the third element (with bound checking)
-  void set_z(T const&zz) { if (size() >= 3) data[2] = zz; }
+  // \deprecated
+  void set_z(T const&zz) { VXL_DEPRECATED("vnl_vector<T>::set_z()"); if (size() >= 3) data[2] = zz; }
   //: Set the fourth element (with bound checking)
-  void set_t(T const&tt) { if (size() >= 4) data[3] = tt; }
-#endif
+  // \deprecated
+  void set_t(T const&tt) { VXL_DEPRECATED("vnl_vector<T>::set_t()"); if (size() >= 4) data[3] = tt; }
+#endif // VNL_CONFIG_LEGACY_METHODS
 
   //: Check that size()==sz if not, abort();
   // This function does or tests nothing if NDEBUG is defined
@@ -369,7 +383,7 @@ class vnl_vector
   bool empty() const { return !data || !num_elmts; }
 
   //: Return true if *this == v
-  bool operator_eq (vnl_vector<T> const& v) const;
+  bool operator_eq(vnl_vector<T> const& v) const;
 
   //: Equality test
   bool operator==(vnl_vector<T> const &that) const { return  this->operator_eq(that); }
@@ -380,7 +394,7 @@ class vnl_vector
   //: Resize to n elements.
   // This is a destructive resize, in that the old data is lost if size() != \a n before the call.
   // If size() is already \a n, this is a null operation.
-  bool set_size (unsigned n);
+  bool set_size(unsigned n);
 
   //: Make the vector as if it had been default-constructed.
   void clear();
@@ -392,10 +406,9 @@ class vnl_vector
   //: Read from text stream
   static vnl_vector<T> read(vcl_istream& s);
 
-
  protected:
-  unsigned num_elmts;           // Number of elements
-  T* data;                      // Pointer to the vnl_vector
+  unsigned num_elmts;           // Number of elements (length)
+  T* data;                      // Pointer to the actual data
 
 #if VCL_HAS_SLICED_DESTRUCTOR_BUG
   // Since this bug exists, we need a flag that can be set during
@@ -425,8 +438,6 @@ class vnl_vector
   friend v      operator*        VCL_NULL_TMPL_ARGS (m const&, v const&);
   friend v      element_product  VCL_NULL_TMPL_ARGS (v const&, v const&);
   friend v      element_quotient VCL_NULL_TMPL_ARGS (v const&, v const&);
-  friend T      cross_2d         VCL_NULL_TMPL_ARGS (v const&, v const&);
-  friend v      cross_3d         VCL_NULL_TMPL_ARGS (v const&, v const&);
 # undef v
 # undef m
 #endif
@@ -443,10 +454,11 @@ class vnl_vector
 // Range check is performed.
 
 template <class T>
-inline T vnl_vector<T>::get (unsigned int index) const {
+inline T vnl_vector<T>::get(unsigned int index) const
+{
 #ifdef ERROR_CHECKING
   if (index >= this->num_elmts)     // If invalid index specified
-    vnl_error_vector_index ("get", index);  // Raise exception
+    vnl_error_vector_index("get", index);  // Raise exception
 #endif
   return this->data[index];
 }
@@ -455,10 +467,11 @@ inline T vnl_vector<T>::get (unsigned int index) const {
 // Range check is performed.
 
 template <class T>
-inline void vnl_vector<T>::put (unsigned int index, T const& value) {
+inline void vnl_vector<T>::put(unsigned int index, T const& value)
+{
 #ifdef ERROR_CHECKING
   if (index >= this->num_elmts)     // If invalid index specified
-    vnl_error_vector_index ("put", index); // Raise exception
+    vnl_error_vector_index("put", index); // Raise exception
 #endif
   this->data[index] = value;    // Assign data value
 }
@@ -467,28 +480,32 @@ inline void vnl_vector<T>::put (unsigned int index, T const& value) {
 // \relates vnl_vector
 // \relates vnl_matrix
 template<class T>
-inline vnl_vector<T> operator* (vnl_matrix<T> const& m, vnl_vector<T> const& v) {
+inline vnl_vector<T> operator*(vnl_matrix<T> const& m, vnl_vector<T> const& v)
+{
   return vnl_vector<T>(m, v, vnl_tag_mul());
 }
 
 //: add scalar and vector. O(n).
 // \relates vnl_vector
 template<class T>
-inline vnl_vector<T> operator+ (T s, vnl_vector<T> const& v) {
+inline vnl_vector<T> operator+(T s, vnl_vector<T> const& v)
+{
   return vnl_vector<T>(v, s, vnl_tag_add());
 }
 
 //: subtract vector from scalar. O(n).
 // \relates vnl_vector
 template<class T>
-inline vnl_vector<T> operator- (T s, vnl_vector<T> const& v) {
+inline vnl_vector<T> operator-(T s, vnl_vector<T> const& v)
+{
   return vnl_vector<T>(-v, s, vnl_tag_add());
 }
 
 //: multiply scalar and vector. O(n).
 // \relates vnl_vector
 template<class T>
-inline vnl_vector<T> operator* (T s, vnl_vector<T> const& v) {
+inline vnl_vector<T> operator*(T s, vnl_vector<T> const& v)
+{
   return vnl_vector<T>(v, s, vnl_tag_mul());
 }
 
@@ -501,11 +518,11 @@ inline void swap(vnl_vector<T> &a, vnl_vector<T> &b) { a.swap(b); }
 // Sum of Differences squared.
 // \relates vnl_vector
 template<class T>
-inline T vnl_vector_ssd (vnl_vector<T> const& v1, vnl_vector<T> const& v2)
+inline T vnl_vector_ssd(vnl_vector<T> const& v1, vnl_vector<T> const& v2)
 {
 #ifndef NDEBUG
   if (v1.size() != v2.size())
-    vnl_error_vector_dimension ("vnl_vector_ssd", v1.size(), v2.size());
+    vnl_error_vector_dimension("vnl_vector_ssd", v1.size(), v2.size());
 #endif
   return vnl_c_vector<T>::euclid_dist_sq(v1.begin(), v2.begin(), v1.size());
 }
@@ -514,9 +531,9 @@ inline T vnl_vector_ssd (vnl_vector<T> const& v1, vnl_vector<T> const& v2)
 
 //: Write vector to a vcl_ostream
 // \relates vnl_vector
-export template <class T> vcl_ostream& operator<< (vcl_ostream &, vnl_vector<T> const&);
+export template <class T> vcl_ostream& operator<<(vcl_ostream &, vnl_vector<T> const&);
 //: Read vector from a vcl_istream
 // \relates vnl_vector
-export template <class T> vcl_istream& operator>> (vcl_istream &, vnl_vector<T>      &);
+export template <class T> vcl_istream& operator>>(vcl_istream &, vnl_vector<T>      &);
 
 #endif // vnl_vector_h_

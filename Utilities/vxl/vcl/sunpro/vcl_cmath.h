@@ -5,7 +5,7 @@
 #include "../iso/vcl_cmath.h"
 
 //fix system header.
-#if defined(VCL_SUNPRO_CC_50)
+#if defined(VCL_SUNPRO_CC_5)
 //Conflicts with <cstdio>:
 // # include <math.h> // for the HUGE_VAL macro.
 # undef M_PI_4     // avoid redef. it's non-iso anyway.

@@ -47,7 +47,7 @@ double vnl_sample_uniform(double a, double b)
   double u = drand48(); // uniform on [0, 1)
 #else
   vnl_sample_seed = (vnl_sample_seed*16807)%2147483647L;
-  double u = double(vnl_sample_seed)/2147483711L;
+  double u = double(vnl_sample_seed)/2147483647L; // uniform on [0, 1)
 #endif
   return (1.0 - u)*a + u*b;
 }

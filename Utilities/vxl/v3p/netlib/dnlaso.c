@@ -48,7 +48,8 @@ static doublereal c__00 = 0.0;
 
 /* ------------------------------------------------------------------ */
 
-/* Subroutine */ void dnlaso_(op, iovect, n, nval, nfig, nperm, nmval, val, nmvec, vec, nblock, maxop, maxj, work, ind, ierr)
+/* Subroutine */
+void dnlaso_(op, iovect, n, nval, nfig, nperm, nmval, val, nmvec, vec, nblock, maxop, maxj, work, ind, ierr)
 void (*op) (const integer* n,const integer* m,const doublereal* p,doublereal* q);
 void (*iovect) (const integer* n,const integer* m,doublereal* q,const integer* j,const integer* k);
 const integer *n, *nval, *nfig, *nmval;
@@ -390,11 +391,14 @@ L110:
 
 /* ------------------------------------------------------------------ */
 
-/* Subroutine */ void dnwla_(op, iovect, n, nband, nval, nfig, nperm, val,
-        nmvec, vec, nblock, maxop, maxj, nop, p1, p0, res, tau, otau, t, alp,
-        bet, s, p2, bound, atemp, vtemp, d, ind, small, raritz, delta, eps, ierr)
-/* Subroutine */ void (*op) (const integer*,const integer*,const doublereal*,doublereal*);
-/* Subroutine */ void (*iovect) (const integer*,const integer*,doublereal*,const integer*,const integer*);
+/* Subroutine */
+static void dnwla_(op, iovect, n, nband, nval, nfig, nperm, val,
+                   nmvec, vec, nblock, maxop, maxj, nop, p1, p0, res, tau, otau, t, alp,
+                   bet, s, p2, bound, atemp, vtemp, d, ind, small, raritz, delta, eps, ierr)
+/* Subroutine */
+void (*op) (const integer*,const integer*,const doublereal*,doublereal*);
+/* Subroutine */
+void (*iovect) (const integer*,const integer*,doublereal*,const integer*,const integer*);
 const integer *n, *nband, *nval, *nfig;
 integer *nperm;
 doublereal *val;
@@ -1026,7 +1030,8 @@ L790:
 
 /* *********************************************************************** */
 
-/* Subroutine */ void dlabax_(n, nband, a, x, y)
+/* Subroutine */
+static void dlabax_(n, nband, a, x, y)
 const integer *n, *nband;
 doublereal *a, *x, *y;
 {
@@ -1052,7 +1057,8 @@ doublereal *a, *x, *y;
 
 /* *********************************************************************** */
 
-/* Subroutine */ void dlabcm_(n, nband, nl, nr, a, eigval, lde, eigvec, atol, artol, bound, atemp, d, vtemp)
+/* Subroutine */
+static void dlabcm_(n, nband, nl, nr, a, eigval, lde, eigvec, atol, artol, bound, atemp, d, vtemp)
 const integer *n, *nband, *nl, *nr;
 doublereal *a, *eigval;
 const integer *lde;
@@ -1063,7 +1069,7 @@ doublereal *eigvec, *atol, *artol, *bound, *atemp, *d, *vtemp;
     doublereal d__1;
 
     /* Local variables */
-    static logical flag;
+    static logical flag_;
     static doublereal errb;
     static integer nval, numl;
     static integer i, j;
@@ -1083,7 +1089,7 @@ doublereal *eigvec, *atol, *artol, *bound, *atemp, *d, *vtemp;
 /*  REPLACE ZERO VECTORS BY RANDOM */
 
     nval = *nr - *nl + 1;
-    flag = FALSE_;
+    flag_ = FALSE_;
     for (i = 0; i < nval; ++i) {
         if (ddot_(n, &eigvec[i * *lde], &c__1, &eigvec[i * *lde], &c__1) == 0.) {
             dlaran_(n, &eigvec[i * *lde]);
@@ -1251,11 +1257,11 @@ L200:
 
 L300:
         dlaran_(n, &eigvec[j * *lde]);
-        flag = TRUE_;
+        flag_ = TRUE_;
         goto L310;
 
 L305:
-        flag = FALSE_;
+        flag_ = FALSE_;
         rq = (bound[(j << 1) + 2] + bound[(j << 1) + 3]) * .5;
         i__1 = (*nband << 1) - 1;
         dlabfc_(n, nband, a, &rq, &numvec, lde, &eigvec[j * *lde], &numl, &i__1, atemp, d, atol);
@@ -1282,7 +1288,7 @@ L310:
 
 /*   ORTHOGONALIZE LATER VECTORS AGAINST THE CONVERGED ONE */
 
-        if (flag) {
+        if (flag_) {
             goto L305;
         }
         for (i = j+1; i < nval; ++i) {
@@ -1295,7 +1301,8 @@ L310:
 
 /* *********************************************************************** */
 
-/* Subroutine */ void dlabfc_(n, nband, a, sigma, number, lde, eigvec, numl, ldad, atemp, d, atol)
+/* Subroutine */
+static void dlabfc_(n, nband, a, sigma, number, lde, eigvec, numl, ldad, atemp, d, atol)
 const integer *n, *nband;
 doublereal *a, *sigma;
 const integer *number, *lde;
@@ -1432,7 +1439,8 @@ L110:
 } /* dlabfc_ */
 
 
-/* Subroutine */ void dlaeig_(n, nband, nl, nr, a, eigval, lde, eigvec, bound, atemp, d, vtemp, eps, tmin, tmax)
+/* Subroutine */
+static void dlaeig_(n, nband, nl, nr, a, eigval, lde, eigvec, bound, atemp, d, vtemp, eps, tmin, tmax)
 const integer *n, *nband, *nl, *nr;
 doublereal *a, *eigval;
 const integer *lde;
@@ -1481,7 +1489,8 @@ doublereal *eigvec, *bound, *atemp, *d, *vtemp, *eps, *tmin, *tmax;
 
 /* *********************************************************************** */
 
-/* Subroutine */ void dlager_(n, nband, nstart, a, tmin, tmax)
+/* Subroutine */
+static void dlager_(n, nband, nstart, a, tmin, tmax)
 const integer *n, *nband, *nstart;
 doublereal *a, *tmin, *tmax;
 {
@@ -1510,7 +1519,8 @@ doublereal *a, *tmin, *tmax;
 
 /* *********************************************************************** */
 
-/* Subroutine */ void dlaran_(n, x)
+/* Subroutine */
+static void dlaran_(n, x)
 const integer *n;
 doublereal *x;
 {
@@ -1532,7 +1542,8 @@ doublereal *x;
 
 /* ------------------------------------------------------------------ */
 
-/* Subroutine */ void dmvpc_(nblock, bet, maxj, j, s, number, resnrm, orthcf, rv)
+/* Subroutine */
+static void dmvpc_(nblock, bet, maxj, j, s, number, resnrm, orthcf, rv)
 const integer *nblock;
 const doublereal *bet;
 const integer *maxj, *j;
@@ -1566,10 +1577,13 @@ doublereal *resnrm, *orthcf, *rv;
 
 /* ------------------------------------------------------------------ */
 
-/* Subroutine */ void dnppla_(op, iovect, n, nperm, nop, nmval, val, nmvec,
-        vec, nblock, h, hv, p, q, bound, d, delta, small, raritz, eps)
-/* Subroutine */ void (*op) (const integer*,const integer*,const doublereal*,doublereal*);
-/* Subroutine */ void (*iovect) (const integer*,const integer*,doublereal*,const integer*,const integer*);
+/* Subroutine */
+static void dnppla_(op, iovect, n, nperm, nop, nmval, val, nmvec,
+                    vec, nblock, h, hv, p, q, bound, d, delta, small, raritz, eps)
+/* Subroutine */
+void (*op) (const integer*,const integer*,const doublereal*,doublereal*);
+/* Subroutine */
+void (*iovect) (const integer*,const integer*,doublereal*,const integer*,const integer*);
 const integer *n, *nperm, *nmval;
 integer *nop;
 doublereal *val;
@@ -1754,7 +1768,8 @@ L260:
 
 /* ------------------------------------------------------------------ */
 
-/* Subroutine */ void dortqr_(nz, n, nblock, z, b)
+/* Subroutine */
+static void dortqr_(nz, n, nblock, z, b)
 const integer *nz, *n, *nblock;
 doublereal *z, *b;
 {
@@ -1826,7 +1841,8 @@ L60:
 
 /* ------------------------------------------------------------------- */
 
-/* Subroutine */ void dvsort_(num, val, res, iflag, v, nmvec, n, vec)
+/* Subroutine */
+static void dvsort_(num, val, res, iflag, v, nmvec, n, vec)
 const integer *num;
 doublereal *val, *res;
 const integer *iflag;

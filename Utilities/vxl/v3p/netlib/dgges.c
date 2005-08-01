@@ -9,9 +9,10 @@ static integer c_n1 = -1;
 static doublereal c_b33 = 0.;
 static doublereal c_b34 = 1.;
 
-/* Subroutine */ void dgges_(jobvsl, jobvsr, sort, delctg, n, a, lda, b, ldb,
-        sdim, alphar, alphai, beta, vsl, ldvsl, vsr, ldvsr, work, lwork, bwork, info)
-char *jobvsl, *jobvsr, *sort;
+/* Subroutine */
+void dgges_(jobvsl, jobvsr, sort, delctg, n, a, lda, b, ldb,
+            sdim, alphar, alphai, beta, vsl, ldvsl, vsr, ldvsr, work, lwork, bwork, info)
+const char *jobvsl, *jobvsr, *sort;
 logical (*delctg) (doublereal*,doublereal*,doublereal*);
 integer *n;
 doublereal *a;

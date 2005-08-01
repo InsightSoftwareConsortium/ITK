@@ -26,10 +26,6 @@ template <typename T> inline vcl_complex<T> vcl_log(vcl_complex<T> z) { return s
 #define vcl_log10 vcl_log10
 template <typename T> inline vcl_complex<T> vcl_log10(vcl_complex<T> z) { return std::log10(z); }
 
-#undef  vcl_pow
-#define vcl_pow vcl_pow
-template <typename T> inline vcl_complex<T> vcl_pow(vcl_complex<T> z) { return std::pow(z); }
-
 #undef  vcl_cos
 #define vcl_cos vcl_cos
 template <typename T> inline vcl_complex<T> vcl_cos(vcl_complex<T> z) { return std::cos(z); }

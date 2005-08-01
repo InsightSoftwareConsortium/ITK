@@ -1,0 +1,140 @@
+# This is a list of valgrind warnings to
+# suppress by default with all VXL programs.
+# They consist of occasions where valgrind is being too strict,
+# of where errors and deep in the OS, and we can maybe assume
+# that they don't cause any problems.
+# For Glibcpp (version>=3) set environment variable
+# GLIBCPP_FORCE_NEW=yes to avoid lots of incorrect leak warnings
+
+# Author: Ian Scott.
+
+# Format of this file is:
+# {
+#     name_of_suppression
+#     skin_name:supp_kind
+#     (optional extra info for some suppression types)
+#     caller0 name, or /name/of/so/file.so
+#     caller1 name, or ditto
+#     (optionally: caller2 name)
+#     (optionally: caller3 name)
+#  }
+#
+# For Memcheck, the supp_kinds are:
+#
+#     Param Value1 Value2 Value4 Value8
+#     Free Addr1 Addr2 Addr4 Addr8 Leak
+#     Cond (previously known as Value0)
+#
+# and the optional extra info is:
+#     if Param: name of system call param
+#     if Free: name of free-ing fn)
+
+{
+   malloc/__newlocale(Leak)
+   Addrcheck,Memcheck:Leak
+   fun:malloc
+   fun:__newlocale
+   fun:_ZNSt6locale5facet18_S_create_c_localeERP15__locale_structPKcS2_
+}
+{
+   malloc/realloc/argz_append(Leak)
+   Addrcheck,Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:__argz_append
+}
+{
+   my_malloc/specifics/pthread(Leak)
+   AddrCheck,Memcheck:Leak
+   fun:my_malloc
+   fun:get_or_allocate_specifics_ptr
+   fun:__pthread_key_create
+}
+
+# A leak found in every call to putenv
+# Space must be allocated for the new environment
+# variable. It shouldn't accumulate over time
+{
+   vpl_putenv/known(Leak)
+   AddrCheck,Memcheck:Leak
+   fun:malloc
+   fun:__strdup
+   fun:_Z10vpl_putenvPKc
+}
+
+
+# Lots of leaks found in vul/tests/test_url.cxx
+# when calling vul_http_exists
+# I assume they are correctly managed in libc and
+# do not accumulate over time.
+{
+   gethostbyname/libc/1(Leak)
+   AddrCheck,Memcheck:Leak
+   fun:malloc
+   fun:_dl_map_object_deps
+   fun:dl_open_worker
+}
+{
+   gethostbyname/libc/2(Leak)
+   AddrCheck,Memcheck:Leak
+   fun:malloc
+   fun:_dl_map_object
+   fun:openaux
+}
+{
+   gethostbyname/libc/3(Leak)
+   AddrCheck,Memcheck:Leak
+   fun:malloc
+   fun:__res_nsend
+   fun:__res_nquery
+}
+{
+   gethostbyname/libc/4(Leak)
+   AddrCheck,Memcheck:Leak
+   fun:calloc
+   fun:_dl_check_map_versions
+   fun:dl_open_worker
+}
+{
+   gethostbyname/libc/5(Leak)
+   AddrCheck,Memcheck:Leak
+   fun:calloc
+   fun:_dl_new_object
+   fun:_dl_map_object_from_fd
+}
+{
+   gethostbyname/libc/6(Leak)
+   AddrCheck,Memcheck:Leak
+   fun:malloc
+   fun:_dl_new_object
+   fun:_dl_map_object_from_fd
+}
+
+# Lots of uninitialised memory reads found in triangle.c
+# The uninitialised value is loaded, but then discarded.
+# Unfortunately valgrind treats loading into a floating-point
+# register as a final use, and so triggers the error.
+{
+   v3p/netlib/triangulate/1(Uninitialised_value)
+   Memcheck:Value8
+   fun:fast_expansion_sum_zeroelim
+   fun:incircleadapt
+   fun:incircle
+   fun:mergehulls
+}
+{
+   v3p/netlib/triangulate/2(Uninitialised_value)
+   Memcheck:Value8
+   fun:fast_expansion_sum_zeroelim
+   fun:incircleadapt
+   fun:incircle
+   fun:triangulatepolygon
+}
+{
+   v3p/netlib/triangulate/3(Uninitialised_value)
+   Memcheck:Value8
+   fun:fast_expansion_sum_zeroelim
+   fun:incircleadapt
+   fun:incircle
+   fun:insertsite
+}

@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h> /* for abort() */
 
-void sig_die(register char *s, int kill)
+void sig_die(register const char *s, int kill)
 {
   /* print error message, then clear buffers */
   fprintf(stderr, "%s\n", s);

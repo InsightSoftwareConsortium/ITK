@@ -7,8 +7,8 @@
 // \author Andrew W. Fitzgibbon, Oxford RRG, 22 Aug 99
 
 #include "vnl_nonlinear_minimizer.h"
-#include <vcl_cstdio.h>   // sprintf()
 #include <vcl_iostream.h>
+#include <vcl_iomanip.h>
 
 //: Default ctor sets verbosity etc.
 vnl_nonlinear_minimizer::vnl_nonlinear_minimizer()
@@ -59,12 +59,10 @@ void vnl_nonlinear_minimizer::report_eval(double f)
 void vnl_nonlinear_minimizer::report_iter()
 {
   ++num_iterations_;
-  if (verbose_) {
-    char buf[1024];
-    vcl_sprintf(buf, "Iter %4d, Eval %4d: Best F = %10g\n",
-                num_iterations_, num_evaluations_, end_error_);
-    vcl_cerr << buf;
-  }
+  if (verbose_)
+    vcl_cerr << "Iter " << vcl_setw(4) << num_iterations_ << ", Eval "
+             << vcl_setw(4) << num_evaluations_ << ": Best F = "
+             << vcl_setw(10) << end_error_ << '\n';
 }
 
 //: Return the name of the class

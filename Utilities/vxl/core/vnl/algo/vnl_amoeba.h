@@ -5,18 +5,18 @@
 #pragma interface
 #endif
 //:
-//  \file
-//  \brief Nelder-Meade downhill simplex.
-//  \author Andrew W. Fitzgibbon, Oxford RRG
-//  \date   23 Oct 97
+// \file
+// \brief Nelder-Meade downhill simplex.
+// \author Andrew W. Fitzgibbon, Oxford RRG
+// \date   23 Oct 97
 //
-//  \verbatim
+// \verbatim
 //  Modifications
-//  971023 AWF Initial version
-//  dac (Manchester) 26/03/2001: tidied up documentation
-//  Tim Cootes 7-Jan-02: Added documentation and additional methods
+//   971023 AWF Initial version
+//   dac (Manchester) 26/03/2001: tidied up documentation
+//   Tim Cootes 7-Jan-02: Added documentation and additional methods
 //   Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
-//  \endverbatim
+// \endverbatim
 
 //-----------------------------------------------------------------------------
 
@@ -51,17 +51,17 @@ class vnl_amoeba
   double F_tolerance;
 
   //: Define maximum number of iterations to use
-  void set_max_iterations(int n);
+  void set_max_iterations(int n) { maxiter = n; }
 
   //: Define tolerance on elements of x
-  void set_x_tolerance(double tol);
+  void set_x_tolerance(double tol) { X_tolerance = tol; }
 
   //: Define tolerance on function evaluation
-  void set_f_tolerance(double tol);
+  void set_f_tolerance(double tol) { F_tolerance = tol; }
 
   //: Define scaling used to select starting vertices relative to initial x0.
   //  I.e. the i'th vertex has x[i] = x0[i]*(1+relative_diameter)
-  void set_relative_diameter(double r);
+  void set_relative_diameter(double r) { relative_diameter = r; }
 
   //: Scaling used to select starting vertices relative to initial x0.
   //  I.e. the i'th vertex has x[i] = x0[i]*(1+relative_diameter)

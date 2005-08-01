@@ -30,7 +30,7 @@ class vnl_linear_system
 {
  public:
 
-  vnl_linear_system(int number_of_unknowns, int number_of_residuals) :
+  vnl_linear_system(unsigned int number_of_unknowns, unsigned int number_of_residuals) :
     p_(number_of_unknowns), n_(number_of_residuals) {}
 
   virtual ~vnl_linear_system();
@@ -52,10 +52,10 @@ class vnl_linear_system
   virtual void apply_preconditioner(vnl_vector<double> const& x, vnl_vector<double>& px) const;
 
   //: Return the number of unknowns
-  int get_number_of_unknowns() const { return p_; }
+  unsigned int get_number_of_unknowns() const { return p_; }
 
   //: Return the number of residuals.
-  int get_number_of_residuals() const { return n_; }
+  unsigned int get_number_of_residuals() const { return n_; }
 
   //: Compute rms error for parameter vector x
   double get_rms_error(vnl_vector<double> const& x) const;
@@ -64,8 +64,8 @@ class vnl_linear_system
   double get_relative_residual(vnl_vector<double> const& x) const;
 
  protected:
-  int p_;
-  int n_;
+  unsigned int p_;
+  unsigned int n_;
 };
 
 #endif // vnl_linear_system_h_

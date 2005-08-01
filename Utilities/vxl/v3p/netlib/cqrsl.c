@@ -130,7 +130,7 @@ integer *job, *info;
 /*     can be replaced by dummy variables in the calling program.       */
 /*     to save storage, the user may in some cases use the same         */
 /*     array for different parameters in the calling sequence.  a       */
-/*     frequently occuring example is when one wishes to compute        */
+/*     frequently occurring example is when one wishes to compute       */
 /*     any of b, rsd, or xb and does not need y or qty.  in this        */
 /*     case one may identify y, qty, and one of b, rsd, or xb, while    */
 /*     providing separate arrays for anything else that is to be        */

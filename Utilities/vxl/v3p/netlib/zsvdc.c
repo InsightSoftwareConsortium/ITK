@@ -579,7 +579,7 @@ L400:
 
 } /* zsvdc_ */
 
-int fsm_ieee_doubles_equal(const double *x, const double *y)
+static int fsm_ieee_doubles_equal(const double *x, const double *y)
 {
   return *x == *y;
 }

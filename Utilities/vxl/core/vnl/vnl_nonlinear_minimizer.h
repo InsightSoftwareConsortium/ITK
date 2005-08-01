@@ -11,7 +11,7 @@
 //  \date   22 Aug 99
 //
 // \verbatim
-// Modifications
+//  Modifications
 //  22/03/2001  dac - added binary io and tidied documentation
 //   Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
 // \endverbatim
@@ -129,11 +129,11 @@ class vnl_nonlinear_minimizer
  protected:
   // Data Members--------------------------------------------------------------
   // Input variables
-  double xtol;    //: Termination tolerance on X (solution vector)
-  int    maxfev;  //: Termination maximum number of iterations
-  double ftol;    //: Termination tolerance on F (sum of squared residuals)
-  double gtol;    //: Termination tolerance on Grad(F)' * F = 0
-  double epsfcn;  //: Step length for FD Jacobian
+  double xtol;    //!< Termination tolerance on X (solution vector)
+  int    maxfev;  //!< Termination maximum number of iterations
+  double ftol;    //!< Termination tolerance on F (sum of squared residuals)
+  double gtol;    //!< Termination tolerance on Grad(F)' * F = 0
+  double epsfcn;  //!< Step length for FD Jacobian
 
   // Output variables
   unsigned num_iterations_;

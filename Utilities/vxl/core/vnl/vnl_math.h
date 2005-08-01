@@ -71,16 +71,7 @@ class vnl_math
   static VNL_DLL_DATA const double sqrteps         VCL_STATIC_CONST_INIT_FLOAT_DECL(1.490116119384766e-08);
   //: IEEE single machine precision
   static VNL_DLL_DATA const float float_eps        VCL_STATIC_CONST_INIT_FLOAT_DECL(1.192092896e-07f);
-  static VNL_DLL_DATA const float float_sqrteps   VCL_STATIC_CONST_INIT_FLOAT_DECL(3.4526698307e-4f);
-
-#if 0 // deprecated; use vnl_numeric_traits<T>::maxval instead
-  //: MAX* constants.
-  // These are lowercase to avoid conflict with OS-defined macros.
-  static VNL_DLL_DATA const int      maxint;
-  static VNL_DLL_DATA const long int maxlong;
-  static VNL_DLL_DATA const double   maxdouble;
-  static VNL_DLL_DATA const float    maxfloat;
-#endif
+  static VNL_DLL_DATA const float float_sqrteps    VCL_STATIC_CONST_INIT_FLOAT_DECL(3.4526698307e-4f);
 };
 
 // We do not want to make assumptions about unknown types that happen
@@ -190,6 +181,14 @@ inline unsigned int vnl_math_sqr(unsigned int x) { return x*x; }
 inline long         vnl_math_sqr(long x) { return x*x; }
 inline float        vnl_math_sqr(float x) { return x*x; }
 inline double       vnl_math_sqr(double x) { return x*x; }
+
+// cube
+inline bool         vnl_math_cube(bool x) { return x; }
+inline int          vnl_math_cube(int x) { return x*x*x; }
+inline unsigned int vnl_math_cube(unsigned int x) { return x*x*x; }
+inline long         vnl_math_cube(long x) { return x*x*x; }
+inline float        vnl_math_cube(float x) { return x*x*x; }
+inline double       vnl_math_cube(double x) { return x*x*x; }
 
 // sgn (sign in -1, 0, +1)
 inline int vnl_math_sgn(int x) { return x?((x>0)?1:-1):0; }

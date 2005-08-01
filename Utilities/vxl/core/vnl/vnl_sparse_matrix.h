@@ -166,8 +166,11 @@ class vnl_sparse_matrix
   //: Useful for normalizing row sums in convolution operators
   void scale_row(unsigned int r, T scale);
 
-  //: Resizes the array to have r rows and c cols
+  //: Resizes the array to have r rows and c cols -- sets elements to null
   void set_size( int r, int c );
+
+  //: Resizes the array to have r rows and c cols
+  void resize( int r, int c );
 
   //: Resets the internal iterator
   void reset();

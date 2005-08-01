@@ -20,7 +20,7 @@
 
 #include <vcl_cassert.h>
 #include <vnl/vnl_vector_fixed.h>
-#include <vcl_iostream.h>
+#include <vcl_iosfwd.h>
 
 
 template <class T, unsigned int n>
@@ -139,38 +139,38 @@ class vnl_vector_fixed_ref_const
   typedef typename vnl_c_vector<T>::abs_t abs_t;
 
   //: Return sum of squares of elements
-  abs_t squared_magnitude() const { return vnl_c_vector<T>::two_nrm2(begin(), size()); }
+  abs_t squared_magnitude() const { return vnl_c_vector<T>::two_nrm2(begin(), n); }
 
   //: Return magnitude (length) of vector
   abs_t magnitude() const { return two_norm(); }
 
   //: Return sum of absolute values of the elements
-  abs_t one_norm() const { return vnl_c_vector<T>::one_norm(begin(), size()); }
+  abs_t one_norm() const { return vnl_c_vector<T>::one_norm(begin(), n); }
 
   //: Return sqrt of sum of squares of values of elements
-  abs_t two_norm() const { return vnl_c_vector<T>::two_norm(begin(), size()); }
+  abs_t two_norm() const { return vnl_c_vector<T>::two_norm(begin(), n); }
 
   //: Return largest absolute element value
-  abs_t inf_norm() const { return vnl_c_vector<T>::inf_norm(begin(), size()); }
+  abs_t inf_norm() const { return vnl_c_vector<T>::inf_norm(begin(), n); }
 
 
   // These next 6 functions are should really be helper functions since they aren't
   // really proper functions on a vector in a philosophical sense.
 
   //: Root Mean Squares of values
-  abs_t rms     () const { return vnl_c_vector<T>::rms_norm(begin(), size()); }
+  abs_t rms     () const { return vnl_c_vector<T>::rms_norm(begin(), n); }
 
   //: Smallest value
-  T min_value () const { return vnl_c_vector<T>::min_value(begin(), size()); }
+  T min_value () const { return vnl_c_vector<T>::min_value(begin(), n); }
 
   //: Largest value
-  T max_value () const { return vnl_c_vector<T>::max_value(begin(), size()); }
+  T max_value () const { return vnl_c_vector<T>::max_value(begin(), n); }
 
   //: Mean of values in vector
-  T mean() const { return vnl_c_vector<T>::mean(begin(), size()); }
+  T mean() const { return vnl_c_vector<T>::mean(begin(), n); }
 
   //: Sum of values in a vector
-  T sum() const { return vnl_c_vector<T>::sum(begin(), size()); }
+  T sum() const { return vnl_c_vector<T>::sum(begin(), n); }
 
 
   //: Check that size()==sz if not, abort();
@@ -298,7 +298,7 @@ class vnl_vector_fixed_ref : public vnl_vector_fixed_ref_const<T,n>
   typedef unsigned int size_type;
 
   // this is the only point where the const_cast happens
-  // the base class is used to store the pointer, so that conversion is not neccesary
+  // the base class is used to store the pointer, so that conversion is not necessary
   T * data_block() const { return const_cast<T*>(this->data_); }
 
   vnl_vector_fixed_ref(vnl_vector_fixed<T,n>& rhs) : base(rhs.data_block()) {}
@@ -517,7 +517,7 @@ inline vnl_vector_fixed<T,n> element_quotient( const vnl_vector_fixed_ref_const<
 }
 
 template<class T>
-vnl_vector_fixed<T,3> cross_3d (vnl_vector_fixed_ref_const<T,3> const& v1, vnl_vector_fixed_ref_const<T,3> const& v2)
+vnl_vector_fixed<T,3> vnl_cross_3d(vnl_vector_fixed_ref_const<T,3> const& v1, vnl_vector_fixed_ref_const<T,3> const& v2)
 {
   vnl_vector_fixed<T,3> result;
 
@@ -574,20 +574,24 @@ inline T dot_product( const vnl_vector<T>& a, const vnl_vector_fixed_ref_const<T
   return dot_product( a, b.as_ref() );
 }
 
-template<class T, unsigned int n>
-inline vnl_matrix<T> outer_product( const vnl_vector_fixed_ref_const<T,n>& a, const vnl_vector_fixed_ref_const<T,n>& b )
+template<class T, unsigned int m, unsigned int n>
+inline vnl_matrix_fixed<T,m,n> outer_product( const vnl_vector_fixed_ref_const<T,m>& a, const vnl_vector_fixed_ref_const<T,n>& b )
 {
-  return outer_product( a.as_ref(), b.as_ref());
+  vnl_matrix_fixed<T,m,n> out; // = a.column() * b.row()
+  for (unsigned int i = 0; i < m; i++)
+    for (unsigned int j = 0; j < n; j++)
+      out[i][j] = a[i] * b[j];
+  return out;
 }
 
 template<class T,unsigned int n>
-  inline vnl_vector_fixed<T,n> cross_3d( const vnl_vector_fixed_ref_const<T,n>& a, const vnl_vector<T>& b ) {
-  return cross_3d( a.as_ref(), b);
+  inline vnl_vector_fixed<T,n> vnl_cross_3d( const vnl_vector_fixed_ref_const<T,n>& a, const vnl_vector<T>& b ) {
+  return vnl_cross_3d( a.as_ref(), b);
 }
 
 template<class T,unsigned int n>
-  inline vnl_vector_fixed<T,n> cross_3d( const vnl_vector<T>& a, const vnl_vector_fixed_ref_const<T,n>& b ) {
-  return cross_3d( a, b.as_ref());
+  inline vnl_vector_fixed<T,n> vnl_cross_3d( const vnl_vector<T>& a, const vnl_vector_fixed_ref_const<T,n>& b ) {
+  return vnl_cross_3d( a, b.as_ref());
 }
 
 template<class T, unsigned int n>
@@ -646,19 +650,19 @@ inline T vnl_vector_ssd( const vnl_vector<T>& a, const vnl_vector_fixed_ref_cons
 //: \relates vnl_vector_fixed
 template<class T, unsigned int n>
 inline
-vcl_ostream& operator<< ( vcl_ostream& ostr, const vnl_vector_fixed_ref_const<T,n>& v )
+vcl_ostream& operator<<(vcl_ostream& o,const vnl_vector_fixed_ref_const<T,n>& v)
 {
-  v.print( ostr );
-  return ostr;
+  v.print(o);
+  return o;
 }
 
 //: \relates vnl_vector_fixed
 template<class T, unsigned int n>
 inline
-vcl_istream& operator>> ( vcl_istream& ostr, const vnl_vector_fixed_ref<T,n>& v )
+vcl_istream& operator>>(vcl_istream& i, const vnl_vector_fixed_ref<T,n>& v)
 {
-  v.read_ascii( ostr );
-  return ostr;
+  v.read_ascii(i);
+  return i;
 }
 
 

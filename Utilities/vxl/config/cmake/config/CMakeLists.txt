@@ -4,6 +4,10 @@
 PROJECT(vxl_config)
 CMAKE_MINIMUM_REQUIRED(VERSION 1.8)
 
+# When adding new configuration tests that cache results, please make
+# sure they honour VXL_UPDATE_CONFIGURATION: if this variable is ON,
+# redo the test and update the cached value.
+
 #
 # The tests results will be cached. Allow the user to re-run the tests
 # if necessary This flag will be reset to "OFF" every time, so that
@@ -11,8 +15,26 @@ CMAKE_MINIMUM_REQUIRED(VERSION 1.8)
 # machine's configuration if you believe the test results are stale or
 # wrong.
 #
-OPTION( VXL_UPDATE_CONFIGURATION "Re-run the configuration tests?" "OFF" )
+OPTION( VXL_UPDATE_CONFIGURATION "Re-run the configuration tests to update cached results?" "OFF" )
 MARK_AS_ADVANCED( VXL_UPDATE_CONFIGURATION )
+
+# The serial number below will allow the maintainers to force builds
+# to update cached results. Whenever you make a change that makes it
+# necessary for cached values to be updated, increment the serial
+# number. The format follows a DNS-style numbering: the current date
+# followed by a modification time within the day.
+#
+SET( VXL_CONFIG_SERIAL_CURRENT "2004-02-10-001" )
+
+IF( ${VXL_CONFIG_SERIAL_CURRENT} MATCHES "^${VXL_CONFIG_SERIAL_LAST}$" )
+  # The configuration is current
+ELSE( ${VXL_CONFIG_SERIAL_CURRENT} MATCHES "^${VXL_CONFIG_SERIAL_LAST}$" )
+  SET( VXL_UPDATE_CONFIGURATION "ON" )
+  # Record that we've done the new config.
+  SET( VXL_CONFIG_SERIAL_LAST ${VXL_CONFIG_SERIAL_CURRENT} CACHE INTERNAL "Serial number of last configuration" )
+ENDIF( ${VXL_CONFIG_SERIAL_CURRENT} MATCHES "^${VXL_CONFIG_SERIAL_LAST}$" )
+
+
 
 #
 # Include necessary modules
@@ -73,6 +95,7 @@ PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VCL_NEEDS_NAMESPACE_STD)
   SET_INVERT(VCL_NEEDS_NAMESPACE_STD "${VCL_NEEDS_NAMESPACE_STD}")
 PERFORM_CMAKE_TEST_RUN(vxl_platform_tests.cxx VCL_HAS_SLICED_DESTRUCTOR_BUG)
   SET_INVERT(VCL_HAS_SLICED_DESTRUCTOR_BUG "${VCL_HAS_SLICED_DESTRUCTOR_BUG}")
+PERFORM_CMAKE_TEST_RUN(vxl_platform_tests.cxx VCL_HAS_WORKING_STRINGSTREAM)
 PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VXL_UNISTD_USLEEP_IS_VOID)
   SET_INVERT(VXL_UNISTD_USLEEP_IS_VOID "${VXL_UNISTD_USLEEP_IS_VOID}")
 PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VXL_STDLIB_HAS_QSORT)
@@ -149,6 +172,15 @@ PERFORM_CHECK_HEADER(semaphore.h VXL_HAS_SEMAPHORE_H)
 PERFORM_CHECK_HEADER(ieeefp.h VXL_HAS_IEEEFP_H)
 PERFORM_CHECK_HEADER(iso646.h VCL_CXX_HAS_HEADER_ISO646_H)
 
+
+#
+# Check complex pow stuff
+#
+
+IF(VCL_CXX_HAS_HEADER_COMPLEX)
+  PERFORM_CMAKE_TEST_RUN(vxl_platform_tests.cxx VCL_COMPLEX_POW_WORKS)
+ENDIF(VCL_CXX_HAS_HEADER_COMPLEX)
+
 # Tests of math.h may need math library on UNIX.
 IF(UNIX)
   SET(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES};m")
@@ -158,8 +190,7 @@ PERFORM_C_CHECK_FUNCTION(sqrtf "math.h" VXL_C_MATH_HAS_SQRTF)
 PERFORM_C_CHECK_FUNCTION(finite "math.h" VXL_C_MATH_HAS_FINITE)
 PERFORM_C_CHECK_FUNCTION(finitef "math.h" VXL_C_MATH_HAS_FINITEF)
 PERFORM_C_CHECK_FUNCTION(finitel "math.h" VXL_C_MATH_HAS_FINITEL)
-PERFORM_C_CHECK_FUNCTION(finite  "ieeefp.h" VXL_IEEEFP_HAS_FINITE)
-
+PERFORM_C_CHECK_FUNCTION(finite "ieeefp.h" VXL_IEEEFP_HAS_FINITE)
 #PERFORM_C_CHECK_FUNCTION(qsort "stdlib.h" VXL_STDLIB_HAS_QSORT)
 PERFORM_C_CHECK_FUNCTION(lrand48 "stdlib.h" VXL_STDLIB_HAS_LRAND48)
 PERFORM_C_CHECK_FUNCTION(drand48 "stdlib.h" VXL_STDLIB_HAS_DRAND48)

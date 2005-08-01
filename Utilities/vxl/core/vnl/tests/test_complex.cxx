@@ -8,65 +8,70 @@
 #include <vcl_complex.h>
 
 #include <vnl/vnl_vector.h>
-#include <vnl/vnl_sample.h>
+#include <vnl/vnl_random.h>
 
 #include <testlib/testlib_test.h>
 
-//: inverse cosine for complex numbers, by Peter.Vanroose@esat.kuleuven.ac.be
+//: inverse cosine for complex numbers.
 // The implementation is at the bottom of this file.
+// \author Peter Vanroose, ESAT, KULeuven.
 vcl_complex<double> tc_acos(vcl_complex<double> x);
 
 // make a vector with random, complex entries :
-static void fill_rand(vcl_complex<double> *b, vcl_complex<double> *e) {
+static void fill_rand(vcl_complex<double> *b, vcl_complex<double> *e, vnl_random &rng)
+{
   for (vcl_complex<double> *p=b; p<e; ++p)
-    (*p) = vcl_complex<double>( vnl_sample_uniform(-1, +1), vnl_sample_uniform(-1, +1) );
+    (*p) = vcl_complex<double>( rng.drand64(-1.0, +1.0), rng.drand64(-1.0, +1.0) );
 }
 
-// Driver
-void test_complex() {
-  {
-    vcl_complex<double> a(-5), b(7,-1), c;
-    c = a + b;
-    c = a - b;
-    c = a * b;
-    c = a / b;
-    a += b;
-    a -= b;
-    a *= b;
-    a /= b;
-    vcl_cout << "a=" << a << '\n'
-             << "b=" << b << '\n'
-             << "c=" << c << '\n'
-             << '\n';
-  }
+static void test_operators()
+{
+  vcl_complex<double> a(-5), b(7,-1), c;
+  c = a + b;
+  c = a - b;
+  c = a * b;
+  c = a / b;
+  a += b;
+  a -= b;
+  a *= b;
+  a /= b;
+  vcl_cout << "a=" << a << '\n'
+           << "b=" << b << '\n'
+           << "c=" << c << '\n'
+           << '\n';
+}
 
-  {
-    vnl_vector<vcl_complex<double> > a(5); fill_rand(a.begin(), a.end());
-    vnl_vector<vcl_complex<double> > b(5); fill_rand(b.begin(), b.end());
+static void test_vector()
+{
+  vnl_random rng(9667566);
+  vnl_vector<vcl_complex<double> > a(5); fill_rand(a.begin(), a.end(), rng);
+  vnl_vector<vcl_complex<double> > b(5); fill_rand(b.begin(), b.end(), rng);
 
-    vcl_cout << "a=" << a << '\n'
-             << "b=" << b << '\n';
+  vcl_cout << "a=" << a << '\n'
+           << "b=" << b << '\n';
 
-    vcl_complex<double> i(0,1);
+  vcl_complex<double> i(0,1);
 
-    vcl_cout << dot_product(a,b) << '\n';
-    testlib_test_assert_near("inner_product() conjugates correctly",
-                             inner_product(i*a,b), i*inner_product(a,b));
-    testlib_test_assert_near("inner_product() conjugates correctly",
-                             inner_product(a,i*b),-i*inner_product(a,b));
+  vcl_cout << dot_product(a,b) << '\n';
+  testlib_test_assert_near("inner_product() conjugates correctly",
+                           inner_product(i*a,b), i*inner_product(a,b));
+  testlib_test_assert_near("inner_product() conjugates correctly",
+                           inner_product(a,i*b),-i*inner_product(a,b));
 
-    testlib_test_assert_near("dot_product() does not conjugate",
-                             dot_product(i*a,b), i*dot_product(a,b));
-    testlib_test_assert_near("dot_product() does not conjugate",
-                             dot_product(a,i*b), i*dot_product(a,b));
+  testlib_test_assert_near("dot_product() does not conjugate",
+                           dot_product(i*a,b), i*dot_product(a,b));
+  testlib_test_assert_near("dot_product() does not conjugate",
+                           dot_product(a,i*b), i*dot_product(a,b));
 
-    double norma=0;
-    for (unsigned n=0; n<a.size(); ++n)
-      norma += vcl_real(a[n])*vcl_real(a[n]) + vcl_imag(a[n])*vcl_imag(a[n]);
-    norma = vcl_sqrt(norma);
-    testlib_test_assert_near("correct magnitude", norma, a.magnitude());
-  }
+  double norma=0;
+  for (unsigned n=0; n<a.size(); ++n)
+    norma += vcl_real(a[n])*vcl_real(a[n]) + vcl_imag(a[n])*vcl_imag(a[n]);
+  norma = vcl_sqrt(norma);
+  testlib_test_assert_near("correct magnitude", norma, a.magnitude());
+}
 
+static void test_cosine()
+{
   int seed = 12345;
   for (int i=0; i<20; ++i)
   {
@@ -83,10 +88,17 @@ void test_complex() {
   }
 }
 
+void test_complex()
+{
+  test_operators();
+  test_vector();
+  test_cosine();
+}
+
 TESTMAIN(test_complex);
 
 //: inverse cosine for complex numbers.
-// implementation by Peter.Vanroose@esat.kuleuven.ac.be
+// implementation by Peter Vanroose, ESAT, KULeuven.
 vcl_complex<double> tc_acos(vcl_complex<double> x)
 {
   double a = vcl_real(x), b = vcl_imag(x);

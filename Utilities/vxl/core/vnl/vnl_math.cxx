@@ -28,37 +28,41 @@
 # endif
 
 #elif VXL_C_MATH_HAS_FINITE
-# include <math.h>  // dont_vxl_filter: this is *not* supposed to be <cmath>
-# if !defined(__alpha__) && !(VXL_C_MATH_HAS_FINITEF)// on Alpha, finitef() must be used for float args instead of finite()
+# include <math.h> // dont_vxl_filter: this is *not* supposed to be <cmath>
+# if !VXL_C_MATH_HAS_FINITEF
 #  define finitef finite
 # endif
-# if !(VXL_C_MATH_HAS_FINITEL)
+# if !VXL_C_MATH_HAS_FINITEL
 #  define finitel finite
 # endif
 
-#elif defined(SYSV) && !defined(hppa)
-// needed on platforms with finite() declared in strange places, e.g. on alpha
+#elif defined(__hpux) 
+# include <math.h> // dont_vxl_filter: this is *not* supposed to be <cmath>
+# define finite _Isfinite
+# define finitef _Isfinitef
+# define finitel _Isfinite
+
+#elif defined(SYSV)
+// needed on platforms with finite() declared in strange places
 extern "C" int finite(double);
-# ifdef __alpha__ // on Alpha, finitef() must be used for float args instead of finite()
-extern "C" int finitef(float);
-# else
-#  define finitef finite
-# endif
+# define finitef finite
+# define finitel finite
 
 #elif defined(VCL_BORLAND) 
-# include <math.h>
+# include <math.h> // dont_vxl_filter: this is *not* supposed to be <cmath>
 # include <float.h>
+
 #else
 # warning finite() is not declared on this platform
 # define VNL_HAS_NO_FINITE
 #endif
 
-#ifdef VCL_SUNPRO_CC_50
+#ifdef VCL_SUNPRO_CC_5
 # include <math.h> // dont_vxl_filter: no HUGE_VAL or isnan() in <cmath>
 #endif
 
 #if defined(__APPLE__)
-# include <math.h>
+# include <math.h> // dont_vxl_filter: this is *not* supposed to be <cmath>
 # define isnan(x) __isnand((double)x)
 #endif
 
@@ -121,7 +125,8 @@ static inline unsigned int bMp(void*x,unsigned int y,int p=0){return ((((unsigne
 static inline bool bMe(void*x,unsigned int y,int p=0){return ((((unsigned int*)x)[p])&y)==y;}
 # else
 # include <vcl_iostream.h>
-static inline unsigned int bMp(void* x, unsigned int y, int p=0) {
+static inline unsigned int bMp(void* x, unsigned int y, int p=0)
+{
   unsigned char* v=(unsigned char*)x;
   vcl_cout<<int(v[4*p])<<' '<<int(v[4*p+1])<<' '<<int(v[4*p+2])<<' '<<int(v[4*p+3])<<" & ";
   v=(unsigned char*)(&y);
@@ -133,6 +138,7 @@ static inline unsigned int bMp(void* x, unsigned int y, int p=0) {
   vcl_cout << '\n';
   return z;
 }
+
 static inline bool bMe(void* x, unsigned int y, int p=0) { return bMp(x,y,p) == y; }
 # endif
 # if VXL_BIG_ENDIAN
@@ -147,10 +153,16 @@ static const int sz_l = sizeof(long double)/sizeof(int) -1;
 // Assume IEEE floating point number representation
 bool vnl_math_isnan( float x){return bMe(&x,0x7f800000L,sz_f)&&bMp(&x,0x007fffffL,sz_f);}
 bool vnl_math_isnan(double x){return bMe(&x,0x7ff00000L,sz_d)&&bMp(&x,0x000fffffL,sz_d);}
-bool vnl_math_isnan(long double x) {
+bool vnl_math_isnan(long double x)
+{
   if (sizeof(long double) == 8) return bMe(&x,0x7ff00000L,sz_l) && bMp(&x,0x000fffffL,sz_l);
-  else if (sizeof(long double) <= 12) return bMe(&x,0x4001ffffL,sz_l) && bMp(&x,0x40000000,sz_l-4);
-  else return bMe(&x,0x7ff70000L,sz_l) && bMp(&x,0x0008ffffL,sz_l);
+  else if (sizeof(long double) <= 12)
+# if defined LDBL_MANT_DIG && LDBL_MANT_DIG<=53
+    return bMe(&x,0x4001ffffL,sz_l) && bMp(&x,0x40000000,sz_l-4);
+# else
+    return bMe(&x,0x7ff00000L,sz_l) && bMp(&x,0x000fffffL,sz_l-4);
+# endif
+  else return bMe(&x,0x7ff00000L,sz_l) && bMp(&x,0x0000ffffL,sz_l);
 }
 #endif
 
@@ -188,7 +200,8 @@ bool vnl_math_isfinite(long double x) { return finitel(x) != 0; }
 // Assume IEEE floating point number representation
 bool vnl_math_isfinite(float x) { return !bMe(&x,0x7f800000L,sz_f) && bMp(&x,0x7fffffffL,sz_f) != 0x7f7fffffL; }
 bool vnl_math_isfinite(double x) { return !bMe(&x,0x7ff00000L,sz_d); }
-bool vnl_math_isfinite(long double x) {
+bool vnl_math_isfinite(long double x)
+{
   if (sizeof(long double) == 8) return !bMe(&x,0x7ff00000L,sz_l);
   else if (sizeof(long double) <= 12) return !bMe(&x,0xbfff7fffL,sz_l) && !bMe(&x,0x4001ffffL,sz_l);
   else return !bMe(&x,0x7ff70000L,sz_l);
@@ -214,7 +227,8 @@ bool vnl_math_isinf(long double x) { return !finitel(x) && !isnan(x); }
 // Assume IEEE floating point number representation
 bool vnl_math_isinf(float x) {return(bMe(&x,0x7f800000L,sz_f)&&!bMp(&x,0x007fffffL,sz_f))||bMp(&x,0x7fffffffL,sz_f)==0x7f7fffffL;}
 bool vnl_math_isinf(double x) { return bMe(&x,0x7ff00000L,sz_d) && !bMp(&x,0x000fffffL,sz_d); }
-bool vnl_math_isinf(long double x) {
+bool vnl_math_isinf(long double x)
+{
   if (sizeof(long double) == 8) return bMe(&x,0x7ff00000L,sz_l) && !bMp(&x,0x000fffffL,sz_l);
   else if (sizeof(long double) <= 12) return (bMe(&x,0xbfff7fffL,sz_l)||bMe(&x,0x4001ffffL,sz_l))&&!bMp(&x,0x40000000,sz_l-4);
   else return bMe(&x,0x7ff70000L,sz_l) && !bMp(&x,0x0008ffffL,sz_l);

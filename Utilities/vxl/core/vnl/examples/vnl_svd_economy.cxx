@@ -1,6 +1,6 @@
 #include <vcl_iostream.h>
 #include <vul/vul_timer.h>
-#include <vnl/vnl_sample.h>
+#include <vnl/vnl_random.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_matlab_print.h>
 #include <vnl/algo/vnl_svd.h>
@@ -8,10 +8,11 @@
 
 int main()
 {
+  vnl_random rng(9667566ul);
   {
     vnl_matrix<double> M( 10, 4 );
     for (unsigned int i=0 ; i < M.size(); ++i) {
-      M.data_block()[i] = vnl_sample_uniform(-1,1);
+      M.data_block()[i] = rng.drand64(-1.0,1.0);
     }
 
     vnl_svd<double> svd( M );
@@ -34,7 +35,7 @@ int main()
   {
     vnl_matrix<double> N( 2000, 12 );
     for (unsigned int i=0 ; i < N.size(); ++i)
-      N.data_block()[i] = vnl_sample_uniform(-1,1);
+      N.data_block()[i] = rng.drand64(-1.0,1.0);
 
     vul_timer timer;
     for (int i=0; i < 1000; ++i)

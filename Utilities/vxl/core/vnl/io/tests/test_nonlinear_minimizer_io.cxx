@@ -37,16 +37,14 @@ void test_nonlinear_minimizer_io()
   vcl_cout << vcl_endl;
 
   vsl_b_ofstream bfs_out("vnl_nonlinear_minimizer_io.bvl.tmp");
-  TEST ("Created vnl_nonlinear_minimizer_test_io.bvl.tmp for writing",
-          (!bfs_out), false);
+  TEST("Created vnl_nonlinear_minimizer_test_io.bvl.tmp for writing", (!bfs_out), false);
   vsl_b_write(bfs_out, minimizer_out);
   bfs_out.close();
 
   vsl_b_ifstream bfs_in("vnl_nonlinear_minimizer_io.bvl.tmp");
-  TEST ("Opened vnl_nonlinear_minimizer_test_io.bvl.tmp for reading",
-          (!bfs_in), false);
+  TEST("Opened vnl_nonlinear_minimizer_test_io.bvl.tmp for reading", (!bfs_in), false);
   vsl_b_read(bfs_in, minimizer_in);
-  TEST ("Finished reading file successfully", (!bfs_in), false);
+  TEST("Finished reading file successfully", (!bfs_in), false);
   bfs_in.close();
 
   vpl_unlink ("vnl_nonlinear_minimizer_io.bvl.tmp");
@@ -60,14 +58,14 @@ void test_nonlinear_minimizer_io()
   bool verbose_in=minimizer_in.get_verbose();
   int cd_in=minimizer_in.get_check_derivatives();
 
-  TEST ("ftol_in == ftol_out", ftol_in == ftol_out, true);
-  TEST ("xtol_in == xtol_out", xtol_in == xtol_out, true);
-  TEST ("gtol_in == gtol_out", gtol_in == gtol_out, true);
-  TEST ("maxfev_in == maxfev_out", maxfev_in == maxfev_out, true);
-  TEST ("epsfcn_in == epsfcn_out", epsfcn_in == epsfcn_out, true);
-  TEST ("trace_in == trace_out", trace_in == trace_out, true);
-  TEST ("verbose_in == verbose_out", verbose_in == verbose_out, true);
-  TEST ("cd_in == cd_out", cd_in == cd_out, true);
+  TEST("ftol_in == ftol_out", ftol_in == ftol_out, true);
+  TEST("xtol_in == xtol_out", xtol_in == xtol_out, true);
+  TEST("gtol_in == gtol_out", gtol_in == gtol_out, true);
+  TEST("maxfev_in == maxfev_out", maxfev_in == maxfev_out, true);
+  TEST("epsfcn_in == epsfcn_out", epsfcn_in == epsfcn_out, true);
+  TEST("trace_in == trace_out", trace_in == trace_out, true);
+  TEST("verbose_in == verbose_out", verbose_in == verbose_out, true);
+  TEST("cd_in == cd_out", cd_in == cd_out, true);
 
   vsl_print_summary(vcl_cout, minimizer_in);
   vcl_cout << vcl_endl;

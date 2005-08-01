@@ -10,6 +10,7 @@ vcl_complex<T> vcl_complex_instances_ticker(T *)
   vcl_complex<T> z(1, 2);
   return vcl_conj(z);
 }
+
 template vcl_complex<vnl_rational> vcl_complex_instances_ticker(vnl_rational *);
 
 // macro to implement an operator>>, for compilers that need it.

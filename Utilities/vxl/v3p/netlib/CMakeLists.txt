@@ -283,12 +283,21 @@ SET( netlib_sources
 
   # The "Triangle" program of Jonathan Richard Shewchuk
   triangle.h triangle.c
+
+  # numeric integration
+  trapezod.c
+  simpson.c
+  adaquad.c
 )
 
 IF(CMAKE_COMPILER_IS_GNUCC)
+  # These really need to be inserted later in the options list to gcc,
+  # but this isn't supported in CMake 1.8.3
   SET_SOURCE_FILES_PROPERTIES(gpfa5f.c PROPERTIES COMPILE_FLAGS -O0)
   SET_SOURCE_FILES_PROPERTIES(dgpfa5f.c PROPERTIES COMPILE_FLAGS -O0)
   SET_SOURCE_FILES_PROPERTIES(zlarfx.c PROPERTIES COMPILE_FLAGS -Os)
+  SET_SOURCE_FILES_PROPERTIES(rg.c PROPERTIES COMPILE_FLAGS -O1)
+  SET_SOURCE_FILES_PROPERTIES(dnlaso.c PROPERTIES COMPILE_FLAGS -O0)
   SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w")
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 

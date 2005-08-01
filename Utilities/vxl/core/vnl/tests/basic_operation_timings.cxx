@@ -8,12 +8,31 @@
 #include <vcl_fstream.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_vector.h>
-#include <vnl/vnl_sample.h>
+#include <vnl/vnl_random.h>
 #include <vcl_ctime.h>
 #include <vcl_algorithm.h>
 #include <vcl_string.h>
 
 const unsigned nstests = 10;
+
+
+void fill_with_rng(double * begin, double * end, double a, double b, vnl_random &rng)
+{
+  while (begin != end)
+  {
+    *begin = rng.drand64(a, b);
+    ++begin;
+  }
+}
+
+void fill_with_rng(float * begin, float * end, float a, float b, vnl_random &rng)
+{
+  while (begin != end)
+  {
+    *begin = (float) rng.drand32(a, b);
+    ++begin;
+  }
+}
 
 template <class T>
 void distance_squared(const vcl_vector<vnl_vector<T> > &s1,
@@ -129,7 +148,8 @@ void print_pointers(const vcl_vector<vnl_vector<T> >&va, const vcl_vector<vnl_ve
 }
 
 template <class T>
-void run_for_size(unsigned m, unsigned n, T /*dummy*/, const char * type, const char *size)
+void run_for_size(unsigned m, unsigned n, T /*dummy*/, const char * type, const char *size,
+                  vnl_random &rng)
 {
   const unsigned n_data = 10;
   vcl_vector<vnl_vector<T> > x(n_data), y(n_data), z(n_data);
@@ -141,11 +161,11 @@ void run_for_size(unsigned m, unsigned n, T /*dummy*/, const char * type, const 
     x[k].set_size(n);
     z[k].set_size(m);
     y[k].set_size(m);
-    vnl_sample_uniform(x[k].begin(), x[k].end(), -10000,10000);
-    vnl_sample_uniform(y[k].begin(), y[k].end(), -10000,10000);
-    vnl_sample_uniform(z[k].begin(), z[k].end(), -10000,10000);
+    fill_with_rng(x[k].begin(), x[k].end(), T(-10000),T(10000), rng);
+    fill_with_rng(y[k].begin(), y[k].end(), T(-10000),T(10000), rng);
+    fill_with_rng(z[k].begin(), z[k].end(), T(-10000),T(10000), rng);
   }
-  vnl_sample_uniform(A.begin(), A.end(), -10000,10000);
+  fill_with_rng(A.begin(), A.end(), -10000,10000, rng);
 
   int n_loops = 1000000/m;
   vcl_cout<<"\nTimes to operator on "<<type<<' '<<m<<"-d vectors and "
@@ -168,16 +188,16 @@ void run_for_size(unsigned m, unsigned n, T /*dummy*/, const char * type, const 
 int main(int, char *[])
 {
   vcl_cout << "Range = 75%tile-25%tile\n";
-  vnl_sample_reseed(12354);
-  run_for_size(2, 20, double(), "double", "2x20");
-  run_for_size(300, 300, double(), "double", "300x300");
-  run_for_size(100, 10000, double(), "double", "100x10000");
-  run_for_size(10000, 100, double(), "double", "10000x100");
-  run_for_size(30, 30000, double(), "double", "30x30000");
-  run_for_size(2, 20, float(), "float", "2x20");
-  run_for_size(300, 300, float(), "float", "300x300");
-  run_for_size(100, 10000, float(), "float", "100x10000");
-  run_for_size(10000, 100, float(), "float", "10000x100");
-  run_for_size(30, 30000, float(), "float", "30x30000");
+  vnl_random rng(9667566ul);
+  run_for_size(2, 20, double(), "double", "2x20", rng);
+  run_for_size(300, 300, double(), "double", "300x300", rng);
+  run_for_size(100, 10000, double(), "double", "100x10000", rng);
+  run_for_size(10000, 100, double(), "double", "10000x100", rng);
+  run_for_size(30, 30000, double(), "double", "30x30000", rng);
+  run_for_size(2, 20, float(), "float", "2x20", rng);
+  run_for_size(300, 300, float(), "float", "300x300", rng);
+  run_for_size(100, 10000, float(), "float", "100x10000", rng);
+  run_for_size(10000, 100, float(), "float", "10000x100", rng);
+  run_for_size(30, 30000, float(), "float", "30x30000", rng);
   return 0;
 }

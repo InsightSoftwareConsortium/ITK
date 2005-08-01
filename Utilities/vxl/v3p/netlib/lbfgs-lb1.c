@@ -22,15 +22,15 @@ static void write50(double* v, int n)
   double vmax = 0;
   int i;
   double vmaxscale;
-  for(i = 0; i < n; ++i)
+  for (i = 0; i < n; ++i)
     if (fabs(v[i]) > vmax)
       vmax = v[i];
-  vmaxscale = log(fabs(vmax)) / log(10);
-  vmaxscale = pow(10, ceil(vmaxscale) - 1);
+  vmaxscale = log(fabs(vmax)) / log(10.0);
+  vmaxscale = pow(10.0, ceil(vmaxscale) - 1);
   if (vmaxscale != 1.0)
     printf("  %e x\n", vmaxscale);
 
-  for(i = 0; i < n; ++i) {
+  for (i = 0; i < n; ++i) {
     if (i > 0 && i%cols == 0)
       printf("\n");
     printf(" %10.5f", v[i] / vmaxscale);
@@ -93,7 +93,7 @@ int *finish; /* logical*/
           printf("   I   NFN    FUNC        GNORM       STEPLENGTH\n");
 /*  80  FORMAT(2(I4,1X),3X,3(1PD10.3,2X))*/
 /*      WRITE(MP,80)ITER,NFUN,F,GNORM,STP*/
-        printf("%4d %4d    %10.3f  %10.3f  %10.3f  \n", *iter, *nfun, *f, *gnorm, *stp);
+        printf("%4d %4d    %10.3f  %10.3f  %10.3f\n", *iter, *nfun, *f, *gnorm, *stp);
       }
 /*    ELSE*/
       else {
@@ -112,7 +112,7 @@ int *finish; /* logical*/
 
 /*  80   FORMAT(2(I4,1X),3X,3(1PD10.3,2X))*/
 /*    WRITE(MP,80)ITER,NFUN,F,GNORM,STP*/
-      printf("%4d %4d    %10.3f  %10.3f  %10.3f  \n", *iter, *nfun, *f, *gnorm, *stp);
+      printf("%4d %4d    %10.3f  %10.3f  %10.3f\n", *iter, *nfun, *f, *gnorm, *stp);
 /*  ENDIF*/
     }
 

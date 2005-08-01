@@ -704,7 +704,7 @@ L660:
     *step = a;
 } /* cg_ */
 
-doublereal fv_(a, x, h, n, value)
+static doublereal fv_(a, x, h, n, value)
 doublereal *a, *x, *h;
 const integer *n;
 doublereal (*value) (doublereal*);
@@ -718,7 +718,7 @@ doublereal (*value) (doublereal*);
     return (*value)(&h[*n]);
 } /* fv_ */
 
-doublereal fd_(a, x, h, n, grad)
+static doublereal fd_(a, x, h, n, grad)
 doublereal *a, *x, *h;
 const integer *n;
 void (*grad) (doublereal*,doublereal*);
@@ -738,7 +738,8 @@ void (*grad) (doublereal*,doublereal*);
     return d;
 } /* fd_ */
 
-/* Subroutine */ void fvd_(v, d, a, x, h, n, both)
+/* Subroutine */
+static void fvd_(v, d, a, x, h, n, both)
 doublereal *v, *d, *a, *x, *h;
 const integer *n;
 /* Subroutine */ void (*both) (doublereal*,doublereal*,doublereal*);
@@ -757,7 +758,8 @@ const integer *n;
     return;
 } /* fvd_ */
 
-/* Subroutine */ void cub_(x, a, b, c, d, e, f)
+/* Subroutine */
+static void cub_(x, a, b, c, d, e, f)
 doublereal *x, *a, *b, *c, *d, *e, *f;
 {
     /* Local variables */
@@ -811,7 +813,8 @@ L50:
     return;
 } /* cub_ */
 
-/* Subroutine */ void ins_(s, f, a, b, c, fa, fb, fc, j, y, z)
+/* Subroutine */
+static void ins_(s, f, a, b, c, fa, fb, fc, j, y, z)
 doublereal *s, *f, *a, *b, *c, *fa, *fb, *fc;
 integer *j;
 doublereal *y, *z;

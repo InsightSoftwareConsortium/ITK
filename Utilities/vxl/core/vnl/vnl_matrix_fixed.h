@@ -23,14 +23,17 @@
 // \endverbatim
 //-----------------------------------------------------------------------------
 
+#include <vcl_cstring.h> // memcpy()
 #include <vcl_cassert.h>
 #include <vcl_iosfwd.h>
 
 #include "vnl_matrix.h"
 #include "vnl_matrix_ref.h"
 #include "vnl_vector.h"
-#include "vnl_vector_fixed.h"
 #include "vnl_c_vector.h"
+
+export template <class T, unsigned int n> class vnl_vector_fixed;
+export template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
 
 // This mess is for a MSVC6 workaround.
 //
@@ -49,21 +52,21 @@
 //
 // causes an internal compiler error. It turns out that if the new
 // template parameter "o" comes _first_, then all is okay. Now, we
-// can't change the signature of vnl_matrix_fixed to <unsigned cols,
-// unsigned rows, type>, so we use a "hidden" helper matrix. Except
+// can't change the signature of vnl_matrix_fixed to <unsigned num_cols,
+// unsigned num_rows, type>, so we use a "hidden" helper matrix. Except
 // that user defined conversion operators and conversion constructors
 // are not called for templated functions. So we have to use a helper
 // base class. The base class is empty, which means that there is no
 // loss in space or time efficiency. Finally, we have:
 //
-//   template <unsigned cols, unsigned rows, class T>
+//   template <unsigned num_cols, unsigned num_rows, class T>
 //   class fake_base { };
 //
-//   template <class T, unsigned rows, unsigned cols>
-//   class matrix : public fake_base<cols,rows,T>
+//   template <class T, unsigned num_rows, unsigned num_cols>
+//   class matrix : public fake_base<num_cols,num_rows,T>
 //   {
 //      template <unsigned o>
-//      matrix<T,rows,o>  operator*( fake_base<o,cols,T> );
+//      matrix<T,num_rows,o>  operator*( fake_base<o,num_cols,T> );
 //   };
 //
 // Notice how "o" is first in the list of template parameters. Since
@@ -83,15 +86,15 @@ template <class T, unsigned M, unsigned N, unsigned O>
 inline
 vnl_matrix_fixed<T, M, O> vnl_matrix_fixed_mat_mat_mult(const vnl_matrix_fixed<T, M, N>& a, const vnl_matrix_fixed<T, N, O>& b);
 #ifdef VCL_VC60
-template <unsigned cols, unsigned rows, class T>
+template <unsigned num_cols, unsigned num_rows, class T>
 class vnl_matrix_fixed_fake_base
 {
 };
+
 #define VNL_MATRIX_FIXED_VCL60_WORKAROUND : public vnl_matrix_fixed_fake_base<num_cols,num_rows,T>
 #else
 #define VNL_MATRIX_FIXED_VCL60_WORKAROUND /* no workaround. Phew. */
 #endif
-
 
 //: Fixed size, stack-stored, space-efficient matrix.
 // vnl_matrix_fixed is a fixed-length, stack storage vector. It has
@@ -174,19 +177,19 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
 // Basic 2D-Array functionality-------------------------------------------
 
   //: Return number of rows
-  unsigned rows ()    const { return num_rows; }
+  unsigned rows()    const { return num_rows; }
 
   //: Return number of columns
   // A synonym for cols()
-  unsigned columns ()  const { return num_cols; }
+  unsigned columns()  const { return num_cols; }
 
   //: Return number of columns
   // A synonym for columns()
-  unsigned cols ()    const { return num_cols; }
+  unsigned cols()    const { return num_cols; }
 
   //: Return number of elements
   // This equals rows() * cols()
-  unsigned size ()    const { return rows()*cols(); }
+  unsigned size()    const { return num_rows*num_cols; }
 
   //: set element
   void put (unsigned r, unsigned c, T const& v) { (*this)(r,c) = v; }
@@ -380,9 +383,9 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
   //: Set the i-th row
   void set_row   (unsigned i, vnl_vector<T> const&);
 
-  //: Extract a sub-matrix of size rows x cols, starting at (top,left)
-  //  Thus it contains elements  [top,top+rows-1][left,left+cols-1]
-  vnl_matrix<T> extract (unsigned rows,  unsigned cols,
+  //: Extract a sub-matrix of size r x c, starting at (top,left)
+  //  Thus it contains elements  [top,top+r-1][left,left+c-1]
+  vnl_matrix<T> extract (unsigned r,  unsigned c,
                          unsigned top=0, unsigned left=0) const;
 
   //: Get a vector equal to the given row
@@ -492,12 +495,13 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
 
   //: abort if size is not as expected
   // This function does or tests nothing if NDEBUG is defined
-  void assert_size(unsigned rows, unsigned cols) const
+  void assert_size(unsigned nr_rows, unsigned nr_cols) const
   {
 #ifndef NDEBUG
-    assert_size_internal(rows, cols);
+    assert_size_internal(nr_rows, nr_cols);
 #endif
   }
+
   //: abort if matrix contains any INFs or NANs.
   // This function does or tests nothing if NDEBUG is defined
   void assert_finite() const
@@ -643,7 +647,8 @@ vnl_matrix_fixed<T,m,n> operator+( const vnl_matrix_fixed<T,m,n>& mat, T s )
 
 template <class T, unsigned m, unsigned n>
 inline
-vnl_matrix_fixed<T,m,n> operator+( T s, const vnl_matrix_fixed<T,m,n>& mat )
+vnl_matrix_fixed<T,m,n> operator+( const T& s,
+                                   const vnl_matrix_fixed<T,m,n>& mat )
 {
   vnl_matrix_fixed<T,m,n> r;
   vnl_matrix_fixed<T,m,n>::add( mat.data_block(), s, r.data_block() );
@@ -670,7 +675,8 @@ vnl_matrix_fixed<T,m,n> operator-( const vnl_matrix_fixed<T,m,n>& mat, T s )
 
 template <class T, unsigned m, unsigned n>
 inline
-vnl_matrix_fixed<T,m,n> operator-( T s, const vnl_matrix_fixed<T,m,n>& mat )
+vnl_matrix_fixed<T,m,n> operator-( const T& s,
+                                   const vnl_matrix_fixed<T,m,n>& mat )
 {
   vnl_matrix_fixed<T,m,n> r;
   vnl_matrix_fixed<T,m,n>::sub( s, mat.data_block(), r.data_block() );
@@ -688,7 +694,8 @@ vnl_matrix_fixed<T,m,n> operator*( const vnl_matrix_fixed<T,m,n>& mat, T s )
 
 template <class T, unsigned m, unsigned n>
 inline
-vnl_matrix_fixed<T,m,n> operator*( T s, const vnl_matrix_fixed<T,m,n>& mat )
+vnl_matrix_fixed<T,m,n> operator*( const T& s,
+                                   const vnl_matrix_fixed<T,m,n>& mat )
 {
   vnl_matrix_fixed<T,m,n> r;
   vnl_matrix_fixed<T,m,n>::mul( mat.data_block(), s, r.data_block() );
@@ -787,7 +794,7 @@ vnl_matrix_fixed<T, M, O> operator*(const vnl_matrix_fixed<T, M, N>& a, const vn
 {
   return vnl_matrix_fixed_mat_mat_mult(a,b);
 }
-#endif // ! VCL_VC60
+#endif // VCL_VC60
 
 
 // These overloads for the common case of mixing a fixed with a
@@ -861,8 +868,44 @@ vcl_istream& operator>> (vcl_istream& is, vnl_matrix_fixed<T,m,n>& mat)
   return is;
 }
 
+// More workarounds for Visual C++ 6.0. The problem is that VC6 cannot
+// automatically determine the m of the second parameter, for some
+// reason. Also, VC6 can't figure out that vector_fixed::SIZE is a
+// compile time constant when used in the return parameter. So, we
+// have to introduce a helper class to do it.
+//
+#ifdef VCL_VC60
 
-#define VNL_MATRIX_FIXED_PAIR_INSTANTIATE(T, M, N, O) \
+template<class T, unsigned m, class FixedVector>
+struct outer_product_fixed_type_helper
+{
+  typedef vnl_matrix_fixed<T,m,FixedVector::SIZE> result_matrix;
+};
+template<class V1, class V2, class RM>
+struct outer_product_fixed_calc_helper
+{
+  static RM calc( V1 const& a, V2 const& b );
+};
+template <class T, unsigned m, class SecondFixedVector>
+outer_product_fixed_type_helper<T,m,SecondFixedVector>::result_matrix
+outer_product(vnl_vector_fixed<T,m> const& a, SecondFixedVector const& b)
+{
+  typedef vnl_vector_fixed<T,m> VecA;
+  typedef vnl_vector_fixed<T,SecondFixedVector::SIZE> VecB;
+  typedef outer_product_fixed_type_helper<T,m,SecondFixedVector>::result_matrix ResultMat;
+  return outer_product_fixed_calc_helper<VecA,VecB,ResultMat>::calc(a,b);
+}
+
+#else // no need for VC6 workaround for outer_product
+
+//:
+// \relates vnl_vector_fixed
+template <class T, unsigned m, unsigned n>
+vnl_matrix_fixed<T,m,n> outer_product(vnl_vector_fixed<T,m> const& a, vnl_vector_fixed<T,n> const& b);
+
+#endif // VC6 workaround for outer_product
+
+#define VNL_MATRIX_FIXED_INSTANTIATE(T, M, N) \
 extern "please include vnl/vnl_matrix_fixed.txx instead"
 
 #endif // vnl_matrix_fixed_h_

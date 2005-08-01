@@ -46,14 +46,19 @@ class vnl_least_squares_function
   // Passing number of parameters (unknowns, domain dimension) and number of
   // residuals (range dimension).
   // The optional argument should be no_gradient if the gradf function has not
-  // been implemented.
-  vnl_least_squares_function(int number_of_unknowns, int number_of_residuals, UseGradient = use_gradient);
+  // been implemented.  Default is use_gradient.
+  vnl_least_squares_function(unsigned int number_of_unknowns,
+                             unsigned int number_of_residuals,
+                             UseGradient g = use_gradient)
+  : failure(false), p_(number_of_unknowns), n_(number_of_residuals),
+    use_gradient_(g == use_gradient)
+  { dim_warning(p_,n_); }
 
-  virtual ~vnl_least_squares_function();
+  virtual ~vnl_least_squares_function() {}
 
   // the virtuals may call this to signal a failure.
-  void throw_failure();
-  void clear_failure();
+  void throw_failure() { failure = true; }
+  void clear_failure() { failure = false; }
 
   //: The main function.
   //  Given the parameter vector x, compute the vector of residuals fx.
@@ -76,22 +81,23 @@ class vnl_least_squares_function
   double rms(vnl_vector<double> const& x);
 
   //: Return the number of unknowns
-  int get_number_of_unknowns() const { return p_; }
+  unsigned int get_number_of_unknowns() const { return p_; }
 
   //: Return the number of residuals.
-  int get_number_of_residuals() const { return n_; }
+  unsigned int get_number_of_residuals() const { return n_; }
 
   //: Return true if the derived class has indicated that gradf has been implemented
   bool has_gradient() const { return use_gradient_; }
 
  protected:
-  int p_;
-  int n_;
+  unsigned int p_;
+  unsigned int n_;
   bool use_gradient_;
-  vcl_string print_x_fmt_;
-  vcl_string print_f_fmt_;
 
-  void init(int number_of_unknowns, int number_of_residuals);
+  void init(unsigned int number_of_unknowns, unsigned int number_of_residuals)
+  { p_ = number_of_unknowns; n_ = number_of_residuals; dim_warning(p_,n_); }
+ private:
+  void dim_warning(unsigned int n_unknowns, unsigned int n_residuals);
 };
 
 #endif // vnl_least_squares_function_h_

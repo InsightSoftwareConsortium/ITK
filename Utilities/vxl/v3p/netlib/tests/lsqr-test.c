@@ -92,7 +92,7 @@ static integer c__80 = 80;
 /* Subroutine */ void aprod_(mode, m, n, x, y, leniw, lenrw, iw, rw)
 integer *mode, *m, *n;
 doublereal *x, *y;
-integer *leniw, *lenrw, *iw;
+integer *leniw, *lenrw, *iw; /* these three parameters are unused */
 doublereal *rw;
 {
 /*     ------------------------------------------------------------------ */

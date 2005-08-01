@@ -60,6 +60,13 @@
 // Setting this nonzero causes the Henderson trick to be used.
 #define VCL_FOR_SCOPE_HACK @VCL_FOR_SCOPE_HACK@
 
+//: VCL_COMPLEX_POW_WORKS
+//
+// It appears several programmers have (independently)
+// not realised their lack of knowledge of complex numbers.
+// pow(complex(-1,0),0.5) should return (0,1) not (Nan,0), etc.
+#define VCL_COMPLEX_POW_WORKS @VCL_COMPLEX_POW_WORKS@
+
 
 //: VCL_DEFAULT_VALUE(x)
 //
@@ -264,6 +271,12 @@
 //#define VCL_HAS_SLICED_DESTRUCTOR_BUG 1 /* bug exists */
 //#define VCL_HAS_SLICED_DESTRUCTOR_BUG 0 /* bug does not exist */
 #define VCL_HAS_SLICED_DESTRUCTOR_BUG @VCL_HAS_SLICED_DESTRUCTOR_BUG@
+
+
+//: VCL_HAS_WORKING_STRINGSTREAM
+//
+// True if a fully functional std::stringstream is found.
+#define VCL_HAS_WORKING_STRINGSTREAM @VCL_HAS_WORKING_STRINGSTREAM@
 
 
 //: VCL_NULL_TMPL_ARGS

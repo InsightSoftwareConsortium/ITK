@@ -51,20 +51,20 @@
 * - vnl_fft_1d : 1D Fast Fourier Transform
 * - vnl_fft_2d : 2D Fast Fourier Transform
 * - vnl_convolve
-* - vnl_sample : sample from various probability distributions
+* - vnl_random : random number generation, with normal and box distributions.
 * - vnl_gamma, vnl_gamma_p, vnl_gamma_q : gamma functions
 * - vnl_erf
 * - vnl_chi_squared : CDF of chi-squared distribution
 *
 * Simple matrix operations
-* - vnl_transpose : return the transpose of a matrix
+* - vnl_transpose : transpose of a matrix for direct use in a multiplication
 * - vnl_adjugate : return the adjugate matrix
 * - vnl_rank, vnl_rank_row_reduce and vnl_rank_column_reduce
 * - vnl_trace
 * - vnl_unary_function
 * - vnl_cross
 * - vnl_det and vnl_determinant
-* - vnl_inverse and vnl_matrix_inverse
+* - vnl_inverse, vnl_inverse_transpose and vnl_matrix_inverse
 * - vnl_orthogonal_complement
 *
 * Alternative number representations

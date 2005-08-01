@@ -1,7 +1,7 @@
 #ifndef vcl_cstddef_h_
 #define vcl_cstddef_h_
 /*
-  Peter.Vanroose@esat.kuleuven.ac.be
+  Peter Vanroose, esat.kuleuven.be
 */
 
 #include "vcl_compiler.h"

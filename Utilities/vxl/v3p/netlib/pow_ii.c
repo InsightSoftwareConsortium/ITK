@@ -2,7 +2,7 @@
 #include "netlib.h"
 
 #ifdef _MSC_VER
-#pragma warning (disable: 4723)
+# pragma warning(disable:4723)
 #endif
 
 #ifdef KR_headers

@@ -9,7 +9,7 @@
 // \brief Contains class for symmetric matrices
 // \author Ian Scott (Manchester ISBE)
 // \date   6/12/2001
-//
+
 #include <vcl_cassert.h>
 #include <vcl_iosfwd.h>
 #include <vnl/vnl_vector.h>
@@ -24,10 +24,6 @@ export
 template <class T>
 class vnl_sym_matrix
 {
-  //: Resize matrix to n by n.
-  // \deprecated. This has been intentionally poisoned. Use set_size instead.
-  inline void resize(int n) {set_size(n);}
-
  public:
   //: Construct an empty symmetric matrix.
   vnl_sym_matrix(): data_(0), index_(0), nn_(0) {}

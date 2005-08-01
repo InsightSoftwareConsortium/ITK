@@ -98,6 +98,7 @@ void fn() {
   // VC7 only raises warnings for previous tests
   A i; i.f();
 }
+int main() { return 0; }
 #endif // VCL_FOR_SCOPE_HACK
 
 //-------------------------------------
@@ -804,6 +805,52 @@ int main() { int a[5]; qsort(a, 5, sizeof(int), f); return 0; }
 
 //-------------------------------------
 
+#ifdef VCL_COMPLEX_POW_WORKS
+// It appears several programmers have (independently)
+// not realised their lack of knowledge of complex numbers.
+// pow(complex(-1,0),0.5) should return (0,1) not (Nan,0), etc.
+
+#include <complex>
+int main()
+{
+  const std::complex<double> neg1(-1.0, 0.0);
+  const std::complex<double> half(0.5,0.0);
+  const std::complex<double> i(0.0, 1.0);
+  std::complex<double> sqrt_neg1 = std::pow(neg1, 0.5);
+  double error = std::abs(sqrt_neg1-i);
+// Need to be careful of quiet NANs, and dodgy behaviour on some platforms.
+// It woud be much easier if I could just have a reliable test for NaNs
+// which are produced by all the broken pow()s I've seen. IMS
+  if ( error >= 0 && -error > -1e-6)
+  {}
+  else
+    return 1;
+  if (error != error)
+    return 1;
+
+  sqrt_neg1 = std::pow(neg1, half);
+  error = std::abs(sqrt_neg1-i);
+  if ( error >= 0 && -error > -1e-6)
+  {}
+  else
+    return 1;
+  if (error != error)
+    return 1;
+
+  sqrt_neg1 = std::pow(-1.0, half);
+  error = std::abs(sqrt_neg1-i);
+  if ( error >= 0 && -error > -1e-6)
+  {}
+  else
+    return 1;
+  if (error != error)
+    return 1;
+
+  return 0; // success
+}
+#endif // VCL_COMPLEX_POW_WORKS
+
+//-------------------------------------
 #ifdef VCL_NUMERIC_LIMITS_HAS_INFINITY
 // Does vcl_numeric_limits<float>::has_infinity == 1?
 
@@ -934,6 +981,35 @@ int main()
 }
 
 #endif // VCL_HAS_SLICED_DESTRUCTOR_BUG
+
+//-------------------------------------
+
+#ifdef VCL_HAS_WORKING_STRINGSTREAM
+// VCL_HAS_WORKING_STRINGSTREAM is set to 1 if a fully functional std::stringstream is found.
+
+// Some compilers don't provide a fully functional std::stringstream.
+// This program will return 0 whenever sufficient functionality is detected.
+
+#include <sstream>
+
+int main()
+{
+  std::istringstream s1("text"); char c;
+  s1 >> c; if (c != 't') return 1;
+  s1 >> c; if (c != 'e') return 1;
+  s1 >> c; if (c != 'x') return 1;
+  std::ostringstream s2; s2 << "text";
+  if (s2.str() != "text") return 1;
+  std::ostringstream s3;
+  c = 't'; s3 << c;
+  c = 'e'; s3 << c;
+  c = 'x'; s3 << c;
+  c = 't'; s3 << c;
+  if (s3.str() != "text") return 1;
+  return 0; // success
+}
+
+#endif // VCL_HAS_WORKING_STRINGSTREAM
 
 //-------------------------------------
 

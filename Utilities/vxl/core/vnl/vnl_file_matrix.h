@@ -23,10 +23,14 @@
 export template <class T>
 class vnl_file_matrix : public vnl_matrix<T>
 {
+  VCL_SAFE_BOOL_DEFINE;
  public:
   vnl_file_matrix(char const* filename);
 
-  operator bool() const { return ok_; }
+  operator safe_bool () const
+    { return (ok_)? VCL_SAFE_BOOL_TRUE : 0; }
+  bool operator!() const
+    { return !ok_; }
 
  private:
   bool ok_;

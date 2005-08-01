@@ -11,7 +11,7 @@
 #include <vcl_vector.h>
 #include <vcl_cassert.h>
 #include <vcl_iostream.h>
-#include <vcl_limits.h> 
+#include <vcl_limits.h>
 #include <vnl/vnl_math.h> // for vnl_math_isfinite(double)
 
 typedef unsigned short Counter;
@@ -214,6 +214,7 @@ static bool is_decimal(const char *s)
   if (*s == 'l' || *s == 'L') ++s;
   return *s == '\0';
 }
+
 static bool is_exponential(const char *s)
 {
   if (*s == '+' || *s == '-') ++s;
@@ -225,6 +226,7 @@ static bool is_exponential(const char *s)
   while (*s >= '0' && *s <= '9') ++s;
   return *s == '\0';
 }
+
 static bool is_hexadecimal(const char *s)
 {
   if (*s == '+' || *s == '-') ++s;
@@ -241,6 +243,7 @@ static bool is_hexadecimal(const char *s)
   if (*s == 'l' || *s == 'L') ++s;
   return *s == '\0';
 }
+
 static bool is_octal(const char *s)
 {
   if (*s == '+' || *s == '-') ++s;
@@ -276,6 +279,7 @@ static bool is_decimal(const char* s, vcl_istream** is = 0)
   if (rt_pos > 0) rt[++rt_pos] = '\0';
   return is ? true : c == '\0';
 }
+
 static bool is_exponential(const char* s, vcl_istream** is = 0)
 {
   rt_pos = 0;
@@ -292,6 +296,7 @@ static bool is_exponential(const char* s, vcl_istream** is = 0)
   if (rt_pos > 0) rt[++rt_pos] = '\0';
   return is ? true : c == '\0';
 }
+
 static bool is_hexadecimal(const char* s, vcl_istream** is = 0)
 {
   rt_pos = 0;
@@ -312,6 +317,7 @@ static bool is_hexadecimal(const char* s, vcl_istream** is = 0)
   if (rt_pos > 0) rt[++rt_pos] = '\0';
   return is ? true : c == '\0';
 }
+
 static bool is_octal(const char* s, vcl_istream** is = 0)
 {
   rt_pos = 0;
@@ -324,6 +330,7 @@ static bool is_octal(const char* s, vcl_istream** is = 0)
   if (rt_pos > 0) rt[++rt_pos] = '\0';
   return is ? true : c == '\0';
 }
+
 static bool is_plus_inf(const char* s, vcl_istream** is = 0)
 {
   rt_pos = 0;
@@ -341,6 +348,7 @@ static bool is_plus_inf(const char* s, vcl_istream** is = 0)
   if (rt_pos > 0) rt[++rt_pos] = '\0';
   return is ? true : c == '\0';
 }
+
 static bool is_minus_inf(const char* s, vcl_istream** is = 0)
 {
   rt_pos = 0;
@@ -467,7 +475,19 @@ vnl_bignum vnl_bignum::operator- () const
 
 vnl_bignum& vnl_bignum::operator++ ()
 {
-  return *this = *this + 1L;
+  if (this->is_infinity()) return *this;
+  if (this->count==0)
+  {
+    this->resize(1);
+    this->data[0] = 1;
+    this->sign = +1;
+    return *this;
+  }
+
+  if (this->sign > 0) increment(*this);
+  else decrement(*this);
+
+  return *this;
 }
 
 
@@ -475,7 +495,19 @@ vnl_bignum& vnl_bignum::operator++ ()
 
 vnl_bignum& vnl_bignum::operator-- ()
 {
-  return *this = *this - 1L;
+  if (this->is_infinity()) return *this;
+  if (this->count==0)
+  {
+    this->resize(1);
+    this->data[0] = 1;
+    this->sign = -1;
+    return *this;
+  }
+
+  if (this->sign < 0) increment(*this);
+  else decrement(*this);
+
+  return *this;
 }
 
 //: Adds two vnl_bignums, and returns new sum.
@@ -684,7 +716,7 @@ vnl_bignum& vnl_bignum_from_string (vnl_bignum& b, const vcl_string& s)
     b=vnl_bignum("-Inf");
   else
     b.dtoBigNum(s.c_str());             // convert decimal to vnl_bignum
-  return b; 
+  return b;
 }
 
 
@@ -777,7 +809,7 @@ void vnl_bignum::dump (vcl_ostream& os) const
 
 int vnl_bignum::dtoBigNum (const char *s)
 {
-  this->resize(0); sign = 1;            // Reset number to 0. 
+  this->resize(0); sign = 1;            // Reset number to 0.
   Counter len = 0;                      // No chars converted yet
   while (*s == ' ' || *s == '\t' || *s == '\n' || *s == '\r') ++s; // skip whitespace
   if (s[0] == '-' || s[0] == '+') len++;// Skip over leading +,-
@@ -818,7 +850,7 @@ unsigned int ctox (int c)
 
 void vnl_bignum::xtoBigNum (const char *s)
 {
-  this->resize(0); sign = 1;            // Reset number to 0. 
+  this->resize(0); sign = 1;            // Reset number to 0.
   while (*s == ' ' || *s == '\t' || *s == '\n' || *s == '\r') ++s; // skip whitespace
   Counter size = vcl_strlen(s);
   Counter len = 2;                      // skip leading "0x"
@@ -833,7 +865,7 @@ void vnl_bignum::xtoBigNum (const char *s)
 
 void vnl_bignum::otoBigNum (const char *s)
 {
-  this->resize(0); sign = 1;           // Reset number to 0. 
+  this->resize(0); sign = 1;           // Reset number to 0.
   while (*s == ' ' || *s == '\t' || *s == '\n' || *s == '\r') ++s; // skip whitespace
   Counter size = vcl_strlen(s);
   Counter len = 0;                      // No chars converted yet
@@ -924,6 +956,24 @@ void add (const vnl_bignum& b1, const vnl_bignum& b2, vnl_bignum& sum)
   }
 }
 
+//: Add 1 to bnum (unsigned, non-infinite)
+void increment (vnl_bignum& bnum)
+{
+  Counter i = 0;
+  unsigned long carry = 1;
+  while (i < bnum.count && carry) {             // increment, element by element.
+    unsigned long temp = (unsigned long)bnum.data[i] + carry;
+    carry = temp/0x10000L;
+    bnum.data[i] = (Data)temp;
+    ++i;
+  }
+  if (carry)
+  {
+    bnum.resize(bnum.count+1);
+    bnum.data[bnum.count-1] = 1;
+  }
+}
+
 
 //: subtract bmin from bmax (unsigned, non-infinite), result in diff
 
@@ -948,6 +998,22 @@ void subtract (const vnl_bignum& bmax, const vnl_bignum& bmin, vnl_bignum& diff)
 }
 
 
+//: Subtract 1 to bnum (unsigned, non-infinite, non-zero)
+void decrement (vnl_bignum& bnum)
+{
+  Counter i = 0;
+  unsigned long borrow = 1;
+  while (i < bnum.count && borrow) {             // decrement, element by element.
+    unsigned long temp = (unsigned long)bnum.data[i] + 0x10000L - borrow;
+    borrow = (temp/0x10000L == 0);         // Did we have to borrow?
+    bnum.data[i] = (Data)temp;                  // Reduce modulo radix and save
+    ++i;
+  }
+  bnum.trim();                                  // Done. Now trim excess data
+  if (bnum.count==0) bnum.sign=+1;                   // Re-establish sign invariant
+}
+
+
 //: compare absolute values of two vnl_bignums
 // Outputs:  result of comparison:  -1 if abs(b1) < abs(b2)
 //                                   0 if abs(b1) == abs(b2)
@@ -959,14 +1025,14 @@ int magnitude_cmp (const vnl_bignum& b1, const vnl_bignum& b2)
   if (b2.is_infinity()) return -1;
   if (b1.count > b2.count) return 1;    // If one has more data than
   if (b2.count > b1.count) return -1;   //   the other, it wins
-  Counter i = b1.count;                 // Else same number of elmts
+  Counter i = b1.count;                 // Else same number of elements
   while (i > 0) {                       // Do lexicographic comparison
     if (b1.data[i - 1] > b2.data[i - 1])
       return 1;
     else if (b1.data[i - 1] < b2.data[i - 1])
       return -1;
     i--;
-  }                                     // No data, or all elmts same
+  }                                     // No data, or all elements same
   return 0;                             //  so must be equal
 }
 
@@ -993,7 +1059,7 @@ void multiply_aux (const vnl_bignum& b, Data d, vnl_bignum& prod, Counter i)
 
     Counter j = 0;
     for (; j < b.count; j++) {
-      // for each of b's data elmts, multiply times d and add running product
+      // for each of b's data elements, multiply times d and add running product
       temp = (unsigned long)b.data[j] * (unsigned long)d
            + (unsigned long)prod.data[i + j] + carry;
       prod.data[i + j] = Data(temp % 0x10000L); //   store result in product

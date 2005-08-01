@@ -36,9 +36,16 @@
 #if defined(__SUNPRO_CC)
 # define VCL_SUNPRO_CC
 # if (__SUNPRO_CC>=0x500)
-#  define VCL_SUNPRO_CC_50
+#  if (__SUNPRO_CC>=0x560)
+#   define VCL_SUNPRO_CC_56
+#   undef VCL_SUNPRO_CC_50
+#  else
+#   define VCL_SUNPRO_CC_50
+#   undef VCL_SUNPRO_CC_56
+#  endif
+#  define VCL_SUNPRO_CC_5
 # else
-#  undef VCL_SUNPRO_CC_50
+#  undef VCL_SUNPRO_CC_5
 # endif
 # if (__SUNPRO_CC>=0x560)
 #  define VCL_SUNPRO_CC_56
@@ -48,7 +55,7 @@
 # endif
 #endif
 
-#if defined(__GNUC__)
+#if defined(__GNUC__) && !defined(__ICC) // icc 8.0 defines __GNUC__
 # define VCL_GCC
 # if (__GNUC__<=1)
 #  error "forget it."
@@ -75,6 +82,9 @@
 #  if (__GNUC_MINOR__>1)
 #   define VCL_GCC_32
 #  endif
+#  if (__GNUC_MINOR__==4)
+#   define VCL_GCC_34
+#  endif
 # elif (__GNUC__==4)
 #  define VCL_GCC_40
 # else
@@ -88,7 +98,10 @@
 #  define VCL_VC
 #  if _MSC_VER >= 1300
 #   define VCL_VC_DOTNET 1 // VC is at least version >= 7.0
-#   if _MSC_VER >= 1310
+#   if _MSC_VER >= 1400    // .NET 2005 = Version 8.0
+#    define _CRT_SECURE_NO_DEPRECATE 1
+#    define VCL_VC80 1     // .NET 2003 = Version 7.1
+#   elif _MSC_VER >= 1310
 #    define VCL_VC71 1     // .NET 2003 = Version 7.1
 #   else
 #    define VCL_VC70 1     // earlier .NET versions = Version 7.0
@@ -183,7 +196,7 @@
 
 // if the compiler doesn't understand "export", we just leave it out.
 // gcc and SunPro 5.0 understand it, but they ignore it noisily.
-#if !VCL_HAS_EXPORT || defined(VCL_EGCS) || defined(VCL_GCC_295) || defined(VCL_GCC_30) || defined(VCL_GCC_40) || defined(VCL_SUNPRO_CC_50)
+#if !VCL_HAS_EXPORT||defined(VCL_EGCS)||defined(VCL_GCC_295)||defined(VCL_GCC_30)||defined(VCL_GCC_40)||defined(VCL_SUNPRO_CC_50)
 # define export /* ignore */
 #endif
 
@@ -200,6 +213,20 @@
 # define IUEi_STL_INLINE
 #else
 # define IUEi_STL_INLINE inline
+#endif
+
+//--------------------------------------------------------------------------------
+
+// work-around to deal with some cases where some compilers (and the standard)
+// requires an explicit typename qualifier. MSVC6.0 on the other had cannot cope
+// with a typename in those places.
+// VCL_DISAPPEARING_TYPENAME should only be used where either a hardcoded use
+// or abscence of "typename" does not work over all platforms.
+
+#if defined(VCL_VC60) || !VCL_HAS_TYPENAME
+# define VCL_DISAPPEARING_TYPENAME /* */
+#else
+# define VCL_DISAPPEARING_TYPENAME typename
 #endif
 
 //--------------------------------------------------------------------------------
@@ -227,5 +254,17 @@ typedef int saw_VCL_FOR_SCOPE_HACK;
 // VCL_VOID_RETURN is used as a return type where void is expected,
 // as in return VCL_VOID_RETURN;
 #define VCL_VOID_RETURN /*empty*/
+
+//----------------------------------------------------------------------------
+// Macros for safe-bool idiom.
+#ifdef VCL_BORLAND
+# define VCL_SAFE_BOOL_TRUE true
+# define VCL_SAFE_BOOL_DEFINE typedef bool safe_bool
+#else
+# define VCL_SAFE_BOOL_TRUE (&safe_bool_dummy::dummy)
+# define VCL_SAFE_BOOL_DEFINE \
+   struct safe_bool_dummy { void dummy() {} }; \
+   typedef void (safe_bool_dummy::* safe_bool)()
+#endif
 
 #endif // vcl_compiler_h_

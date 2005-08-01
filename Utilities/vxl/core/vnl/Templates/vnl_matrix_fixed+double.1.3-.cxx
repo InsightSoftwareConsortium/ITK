@@ -1,2 +1,2 @@
 #include <vnl/vnl_matrix_fixed.txx>
-template class vnl_matrix_fixed<double,1,3>;
+VNL_MATRIX_FIXED_INSTANTIATE(double,1,3);

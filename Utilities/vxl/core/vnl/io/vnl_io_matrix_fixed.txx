@@ -35,9 +35,9 @@ void vsl_b_read(vsl_b_istream &is, vnl_matrix_fixed<T,m,n> & p)
   short v;
   unsigned stream_m, stream_n;
   vsl_b_read(is, v);
-  switch(v)
+  switch (v)
   {
-  case 1:
+   case 1:
     vsl_b_read(is, stream_m);
     vsl_b_read(is, stream_n);
     if ( stream_n != n || stream_m != m ) {
@@ -51,7 +51,7 @@ void vsl_b_read(vsl_b_istream &is, vnl_matrix_fixed<T,m,n> & p)
       vsl_b_read_block_old(is, p.begin(), p.size());
     break;
 
-  case 2:
+   case 2:
     vsl_b_read(is, stream_m);
     vsl_b_read(is, stream_n);
     if ( stream_n != n || stream_m != m ) {
@@ -65,7 +65,7 @@ void vsl_b_read(vsl_b_istream &is, vnl_matrix_fixed<T,m,n> & p)
       vsl_block_binary_read(is, p.data_block(), m*n);
     break;
 
-  default:
+   default:
     vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_matrix_fixed<T>&)\n"
              << "           Unknown version number "<< v << '\n';
     is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream

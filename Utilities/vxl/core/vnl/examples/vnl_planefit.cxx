@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------
 
 #include <vcl_iostream.h>
+#include <vnl/vnl_fastops.h>
 #include <vnl/algo/vnl_svd.h>
 #include <vnl/algo/vnl_symmetric_eigensystem.h>
 
@@ -33,7 +34,8 @@ int main()
 
   // 2. Compute using eigensystem of D'*D
   {
-    vnl_symmetric_eigensystem<double> eig(D.transpose() * D);
+    vnl_matrix<double> m; vnl_fastops::AtA(m,D);
+    vnl_symmetric_eigensystem<double> eig(m);
     vnl_vector<double> a = eig.get_eigenvector(0);
     vcl_cout << "Eig residual = " << (D * a).magnitude() << vcl_endl;
   }

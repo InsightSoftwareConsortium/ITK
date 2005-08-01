@@ -86,7 +86,7 @@ vnl_vector<T>::vnl_vector (unsigned len, T const& value)
 {
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(len);
-  for (unsigned i = 0; i < len; i ++)           // For each elmt
+  for (unsigned i = 0; i < len; i ++)           // For each element
     this->data[i] = value;                      // Assign initial value
 }
 
@@ -103,11 +103,12 @@ vnl_vector<T>::vnl_vector (unsigned len, int n, T const values[])
   }
 }
 
-//: Creates a vector of length 2 and initializes with the arguments, px,py.
+#if VNL_CONFIG_LEGACY_METHODS // these constructors are deprecated and should not be used
 
 template<class T>
 vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py)
 {
+  VXL_DEPRECATED("vnl_vector<T>::vnl_vector(2, T const& px, T const& py)");
   assert(len==2);
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(2);
@@ -115,11 +116,10 @@ vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py)
   this->data[1] = py;
 }
 
-//: Creates a vector of length 3 and initializes with the arguments, px,py,pz.
-
 template<class T>
 vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py, T const& pz)
 {
+  VXL_DEPRECATED("vnl_vector<T>::vnl_vector(3, T const& px, T const& py, T const& pz)");
   assert(len==3);
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(3);
@@ -128,11 +128,10 @@ vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py, T const& pz)
   this->data[2] = pz;
 }
 
-//: Creates a vector of length 4 and initializes with the arguments.
-
 template<class T>
 vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py, T const& pz, T const& pw)
 {
+  VXL_DEPRECATED("vnl_vector<T>::vnl_vector(4, T const& px, T const& py, T const& pz, T const& pt)");
   assert(len==4);
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(4);
@@ -142,48 +141,7 @@ vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py, T const& pz, 
   this->data[3] = pw;
 }
 
-#if 0 // commented out
-//: Creates a vector of specified length and initialize first n elements with values in ... O(n).
-// Arguments in ... can only be pointers, primitive types like int,
-// and NOT OBJECTS passed by value, like vectors, matrices,
-// because constructors must be known and called at compile time!!!
-
-template<class T>
-vnl_vector<T>::vnl_vector (unsigned len, int n, T v00, ...)
-: num_elmts(len), data(vnl_c_vector<T>::allocate_T(len))
-{
-  vnl_vector_construct_hack();
-  vcl_cerr << "Please use automatic arrays instead variable arguments\n";
-  if (n > 0) {                               // If user specified values
-    va_list argp;                            // Declare argument list
-    va_start (argp, v00);                    // Initialize macro
-    for (int i = 0; i < len && n; i++, n--)  // For remaining values given
-      if (i == 0)
-     this->data[0] = v00;                    // Hack for v00 ...
-      else
-     this->data[i] = va_arg(argp, T);        // Extract and assign
-    va_end(argp);
-  }
-}
-
-template<class T>
-vnl_vector<T>::vnl_vector (unsigned len, int n, T v00, ...)
-: num_elmts(len), data(vnl_c_vector<T>::allocate_T(len))
-{
-  vnl_vector_construct_hack();
-  vcl_cerr << "Please use automatic arrays instead variable arguments\n";
-  if (n > 0) {                                  // If user specified values
-    va_list argp;                               // Declare argument list
-    va_start (argp, v00);                       // Initialize macro
-    for (int i = 0; i < len && n; i++, n--)     // For remaining values given
-      if (i == 0)
-        this->data[0] = v00;                    // Hack for v00 ...
-      else
-        this->data[i] = va_arg(argp, T);        // Extract and assign
-    va_end(argp);
-  }
-}
-#endif
+#endif // VNL_CONFIG_LEGACY_METHODS
 
 //: Creates a new copy of vector v. O(n).
 template<class T>
@@ -282,10 +240,10 @@ vnl_vector<T>::vnl_vector (vnl_matrix<T> const &M, vnl_vector<T> const &v, vnl_t
     vnl_error_vector_dimension ("vnl_vector<>::vnl_vector(M, v, vnl_vector_mul_tag)", M.cols(), v.size());
 #endif
   for (unsigned int i=0; i<num_elmts; ++i) {
-    T sum(0);
+    T som(0);
     for (unsigned int j=0; j<M.cols(); ++j)
-      sum += M[i][j] * v[j];
-    data[i] = sum;
+      som += M[i][j] * v[j];
+    data[i] = som;
   }
 }
 
@@ -299,10 +257,10 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const &v, vnl_matrix<T> const &M, vnl_t
     vnl_error_vector_dimension ("vnl_vector<>::vnl_vector(v, M, vnl_vector_mul_tag)", v.size(), M.rows());
 #endif
   for (unsigned int j=0; j<num_elmts; ++j) {
-    T sum(0);
+    T som(0);
     for (unsigned int i=0; i<M.rows(); ++i)
-      sum += v[i] * M[i][j];
-    data[j] = sum;
+      som += v[i] * M[i][j];
+    data[j] = som;
   }
 }
 
@@ -581,7 +539,7 @@ vnl_vector<T> vnl_vector<T>::operator* (vnl_matrix<T> const&m) const {
   // "cannot lookup method in incomplete type `const vnl_matrix<double>`"
   // For some reason, instantiating the following function prior to vnl_vector
   // also avoids the error.
-  // template vnl_matrix<double > outer_product (const vnl_vector<double >&,const vnl_vector<dou
+  // template vnl_matrix<double> outer_product(vnl_vector<double> const&, vnl_vector<double> const&)
 
 #ifndef NDEBUG
   if (num_elmts != m.rows())                    // dimensions do not match?
@@ -603,12 +561,12 @@ vnl_vector<T> vnl_vector<T>::operator* (vnl_matrix<T> const&m) const {
 
 template<class T>
 vnl_vector<T>& vnl_vector<T>::update (vnl_vector<T> const& v, unsigned start) {
-  unsigned end = start + v.size();
+  unsigned stop = start + v.size();
 #ifndef NDEBUG
-  if ( end> this->num_elmts)
-    vnl_error_vector_dimension ("update", end-start, v.size());
+  if ( stop > this->num_elmts)
+    vnl_error_vector_dimension ("update", stop-start, v.size());
 #endif
-  for (unsigned i = start; i < end; i++)
+  for (unsigned i = start; i < stop; i++)
     this->data[i] = v.data[i-start];
   return *this;
 }
@@ -619,9 +577,9 @@ vnl_vector<T>& vnl_vector<T>::update (vnl_vector<T> const& v, unsigned start) {
 template<class T>
 vnl_vector<T> vnl_vector<T>::extract (unsigned len, unsigned start) const {
 #ifndef NDEBUG
-  unsigned end = start + len;
-  if (this->num_elmts < end)
-    vnl_error_vector_dimension ("extract", end-start, len);
+  unsigned stop = start + len;
+  if (this->num_elmts < stop)
+    vnl_error_vector_dimension ("extract", stop-start, len);
 #endif
   vnl_vector<T> result(len);
   for (unsigned i = 0; i < len; i++)
@@ -728,33 +686,6 @@ vnl_matrix<T> outer_product (vnl_vector<T> const& v1,
   return out;
 }
 
-
-//: Returns the cross-product of two 2d-vectors.
-
-template<class T>
-T cross_2d (vnl_vector<T> const& v1, vnl_vector<T> const& v2) {
-#ifndef NDEBUG
-  if (v1.size() < 2 || v2.size() < 2)
-    vnl_error_vector_dimension ("cross_2d", v1.size(), v2.size());
-#endif
-  return v1[0] * v2[1] - v1[1] * v2[0];
-}
-
-//: Returns the 3X1 cross-product of two 3d-vectors.
-
-template<class T>
-vnl_vector<T> cross_3d (vnl_vector<T> const& v1, vnl_vector<T> const& v2) {
-#ifndef NDEBUG
-  if (v1.size() != 3 || v2.size() != 3)
-    vnl_error_vector_dimension ("cross_3d", v1.size(), v2.size());
-#endif
-  vnl_vector<T> result(v1.size());
-
-  result.x() = v1.y() * v2.z() - v1.z() * v2.y(); // work for both col/row
-  result.y() = v1.z() * v2.x() - v1.x() * v2.z(); // representation
-  result.z() = v1.x() * v2.y() - v1.y() * v2.x();
-  return result;
-}
 
 //--------------------------------------------------------------------------------
 
@@ -897,7 +828,6 @@ VCL_INSTANTIATE_INLINE(vnl_vector<T > operator+(T const, vnl_vector<T > const &)
 VCL_INSTANTIATE_INLINE(vnl_vector<T > operator-(T const, vnl_vector<T > const &)); \
 VCL_INSTANTIATE_INLINE(vnl_vector<T > operator*(T const, vnl_vector<T > const &)); \
 template vnl_vector<T > operator*(vnl_matrix<T > const &, vnl_vector<T > const &); \
-VCL_INSTANTIATE_INLINE(bool operator!=(vnl_vector<T > const & , vnl_vector<T > const & )); \
 /* element-wise */ \
 template vnl_vector<T > element_product(vnl_vector<T > const &, vnl_vector<T > const &); \
 template vnl_vector<T > element_quotient(vnl_vector<T > const &, vnl_vector<T > const &); \
@@ -907,9 +837,6 @@ template T dot_product(vnl_vector<T > const &, vnl_vector<T > const &); \
 template T cos_angle(vnl_vector<T > const & , vnl_vector<T > const &); \
 template T bracket(vnl_vector<T > const &, vnl_matrix<T > const &, vnl_vector<T > const &); \
 template vnl_matrix<T > outer_product(vnl_vector<T > const &,vnl_vector<T > const &); \
-/* cross products */ \
-template T cross_2d(vnl_vector<T > const &, vnl_vector<T > const &); \
-template vnl_vector<T > cross_3d(vnl_vector<T > const &, vnl_vector<T > const &); \
 /* I/O */ \
 template vcl_ostream & operator<<(vcl_ostream &, vnl_vector<T > const &); \
 template vcl_istream & operator>>(vcl_istream &, vnl_vector<T >       &)

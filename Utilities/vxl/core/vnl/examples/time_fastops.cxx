@@ -4,7 +4,7 @@
 #include <vcl_vector.h>
 #include <vul/vul_timer.h>
 
-double vnl_fastops_dot(const double* a, const double* b, int n);
+double vnl_fastops_dot(const double* a, const double* b, unsigned int n);
 
 #ifdef OPTIMIZED
 #undef OPTIMIZED
@@ -32,8 +32,9 @@ int main()
   return 0;
 }
 
-double vnl_fastops_dot(const double* a, const double* b, int n)
+double vnl_fastops_dot(const double* a, const double* b, unsigned int n)
 {
+  // Method 2 is fastest on the u170 -- weird.
   double accum = 0;
 #if METHOD == 1
   const double* aend = a + n;
@@ -41,7 +42,7 @@ double vnl_fastops_dot(const double* a, const double* b, int n)
     accum += *a++ * *b++;
 #endif
 #if METHOD == 2
-  for (int k = 0; k < n; ++k)
+  for (unsigned int k = 0; k < n; ++k)
     accum += a[k] * b[k];
 #endif
 #if METHOD == 3
@@ -49,8 +50,9 @@ double vnl_fastops_dot(const double* a, const double* b, int n)
     accum += a[n] * b[n];
 #endif
 #if METHOD == 4
-  for (int k = n-1; k >= 0; --k)
-    accum += a[k] * b[k];
+  unsigned int k = n;
+  while (k > 0)
+    --k, accum += a[k] * b[k];
 #endif
   return accum;
 }

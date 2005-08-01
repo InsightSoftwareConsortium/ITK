@@ -1,4 +1,5 @@
 #include <vcl_iostream.h>
+#include <vcl_iomanip.h>
 #include <vcl_limits.h> // for infinity()
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_complex.h>
@@ -74,15 +75,27 @@ void test_math()
 
   // There is an assumption in this code that vcl_numeric_limits<float/double>::has_infinity==true
 
-  TEST("vcl_numeric_limits<float>::has_infinity==true assumption",vcl_numeric_limits<float>::has_infinity,true);
-  TEST("vcl_numeric_limits<double>::has_infinity==true assumption",vcl_numeric_limits<double>::has_infinity,true);
-  if ((! vcl_numeric_limits<float>::has_infinity) || (! vcl_numeric_limits<double>::has_infinity))
+  testlib_test_assert("vcl_numeric_limits<float>::has_infinity==true assumption",vcl_numeric_limits<float>::has_infinity);
+  testlib_test_assert("vcl_numeric_limits<double>::has_infinity==true assumption",vcl_numeric_limits<double>::has_infinity);
+  testlib_test_assert("vcl_numeric_limits<ldouble>::has_infinity==true assumption",vcl_numeric_limits<long double>::has_infinity);
+  if (! vcl_numeric_limits<float>::has_infinity && ! vcl_numeric_limits<double>::has_infinity)
   {
     vcl_cout << "Your platform doesn't appear to have an infinity. VXL is in places relatively\n"
              << "dependent on the existence of an infinity. There are two solutions.\n"
-             << "A. If your platform really doesn have an infinity, VXL's configuration code\n"
+             << "A. If your platform really doesn't have an infinity, VXL's configuration code\n"
              << "   can be modified to correctly detect and use the infinity.\n"
              << "B. Fix VXL so that it can cope with the lack of an infinity.\n" << vcl_endl;
+  }
+  testlib_test_assert("vcl_numeric_limits<float>::has_quiet_NaN==true assumption",vcl_numeric_limits<float>::has_quiet_NaN);
+  testlib_test_assert("vcl_numeric_limits<double>::has_quiet_NaN==true assumption",vcl_numeric_limits<double>::has_quiet_NaN);
+  testlib_test_assert("vcl_numeric_limits<ldouble>::has_quiet_NaN==true assumption",vcl_numeric_limits<long double>::has_quiet_NaN);
+  if (! vcl_numeric_limits<float>::has_quiet_NaN && ! vcl_numeric_limits<double>::has_quiet_NaN)
+  {
+    vcl_cout << "Your platform doesn't appear to have a quiet NaN. VXL is in places relatively\n"
+             << "dependent on the existence of a quiet NaN. There are two solutions.\n"
+             << "A. If your platform really doesn't have a quiet NaN, VXL's configuration code\n"
+             << "   can be modified to correctly detect and use the NaN.\n"
+             << "B. Fix VXL so that it can cope with the lack of a quiet NaN.\n" << vcl_endl;
   }
   // Create Inf and -Inf:
   float pinf_f =   vcl_numeric_limits<float>::infinity();
@@ -97,21 +110,28 @@ void test_math()
   double qnan_d = vcl_numeric_limits<double>::quiet_NaN();
   long double qnan_q = vcl_numeric_limits<long double>::quiet_NaN();
 
-  vcl_cout << "pinf_f = " << pinf_f << vcl_endl
-           << "ninf_f = " << ninf_f << vcl_endl
-           << "pinf_d = " << pinf_d << vcl_endl
-           << "ninf_d = " << ninf_d << vcl_endl
-           << "pinf_q = " << pinf_q << vcl_endl
-           << "ninf_q = " << ninf_q << vcl_endl
-           << "qnan_f = " << qnan_f << vcl_endl
-           << "qnan_d = " << qnan_d << vcl_endl
-           << "qnan_q = " << qnan_q << vcl_endl
+#define print_hex(p) \
+  vcl_hex<<vcl_setfill('0')<<vcl_setw(sizeof(unsigned int))<<*(unsigned int*)(&p); \
+  for (int i=1; i*sizeof(unsigned int)<sizeof(p); ++i) \
+    vcl_cout<<vcl_setfill('0')<<vcl_setw(sizeof(unsigned int))<<((unsigned int*)(&p))[i]; \
+  vcl_cout<<vcl_dec
+
+  vcl_cout << "pinf_f = " << pinf_f << " = " << print_hex(pinf_f) << vcl_endl
+           << "ninf_f = " << ninf_f << " = " << print_hex(ninf_f) << vcl_endl
+           << "pinf_d = " << pinf_d << " = " << print_hex(pinf_d) << vcl_endl
+           << "ninf_d = " << ninf_d << " = " << print_hex(ninf_d) << vcl_endl
+           << "pinf_q = " << pinf_q << " = " << print_hex(pinf_q) << vcl_endl
+           << "ninf_q = " << ninf_q << " = " << print_hex(ninf_q) << vcl_endl
+           << "qnan_f = " << qnan_f << " = " << print_hex(qnan_f) << vcl_endl
+           << "qnan_d = " << qnan_d << " = " << print_hex(qnan_d) << vcl_endl
+           << "qnan_q = " << qnan_q << " = " << print_hex(qnan_q) << vcl_endl
            << vcl_endl;
+#undef print_hex
 
 #ifndef __alpha__ // on alpha, infinity() == max()
   testlib_test_assert("!isfinite(pinf_f)", !vnl_math_isfinite(pinf_f));
-  testlib_test_assert(" isinf(pinf_f)   ",  vnl_math_isinf(pinf_f));
   testlib_test_assert("!isfinite(ninf_f)", !vnl_math_isfinite(ninf_f));
+  testlib_test_assert(" isinf(pinf_f)   ",  vnl_math_isinf(pinf_f));
   testlib_test_assert(" isinf(ninf_f)   ",  vnl_math_isinf(ninf_f));
 #endif
   testlib_test_assert("!isnan(pinf_f)   ", !vnl_math_isnan(pinf_f));
@@ -122,8 +142,8 @@ void test_math()
 
 #ifndef __alpha__ // on alpha, infinity() == max()
   testlib_test_assert("!isfinite(pinf_d)", !vnl_math_isfinite(pinf_d));
-  testlib_test_assert(" isinf(pinf_d)   ",  vnl_math_isinf(pinf_d));
   testlib_test_assert("!isfinite(ninf_d)", !vnl_math_isfinite(ninf_d));
+  testlib_test_assert(" isinf(pinf_d)   ",  vnl_math_isinf(pinf_d));
   testlib_test_assert(" isinf(ninf_d)   ",  vnl_math_isinf(ninf_d));
 #endif
   testlib_test_assert("!isnan(pinf_d)   ", !vnl_math_isnan(pinf_d));
@@ -132,20 +152,20 @@ void test_math()
   testlib_test_assert("!isinf(qnan_d)   ", !vnl_math_isinf(qnan_d));
   testlib_test_assert(" isnan(qnan_d)   ",  vnl_math_isnan(qnan_d));
 
+#ifndef __ICC // "long double" has no standard internal representation on different platforms/compilers
 #ifndef __alpha__ // on alpha, infinity() == max()
   testlib_test_assert("!isfinite(pinf_q)", !vnl_math_isfinite(pinf_q));
-  testlib_test_assert(" isinf(pinf_q)   ",  vnl_math_isinf(pinf_q));
   testlib_test_assert("!isfinite(ninf_q)", !vnl_math_isfinite(ninf_q));
+  testlib_test_assert(" isinf(pinf_q)   ",  vnl_math_isinf(pinf_q));
   testlib_test_assert(" isinf(ninf_q)   ",  vnl_math_isinf(ninf_q));
 #endif
   testlib_test_assert("!isnan(pinf_q)   ", !vnl_math_isnan(pinf_q));
   testlib_test_assert("!isnan(ninf_q)   ", !vnl_math_isnan(ninf_q));
   testlib_test_assert("!isinf(qnan_q)   ", !vnl_math_isinf(qnan_q));
-
-  /* These test fails on some platforms, but ITK does not need it.
-     If it is ever fixed in vnl proper, we will include the fix here.  */
-  /*testlib_test_assert(" isnan(qnan_q)   ",  vnl_math_isnan(qnan_q));*/}
-//  testlib_test_assert("!isfinite(qnan_q)", !vnl_math_isfinite(qnan_q));
-
+#if 0 // even more nonstandard ...
+  testlib_test_assert(" isnan(qnan_q)   ",  vnl_math_isnan(qnan_q));
+#endif // 0
+#endif // __ICC
+}
 
 TESTMAIN(test_math);

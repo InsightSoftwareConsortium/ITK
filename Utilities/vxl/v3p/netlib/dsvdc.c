@@ -540,7 +540,7 @@ L600:
     goto L360;
 } /* dsvdc_ */
 
-int fsm_ieee_doubles_equal(const doublereal *x, const doublereal *y)
+static int fsm_ieee_doubles_equal(const doublereal *x, const doublereal *y)
 {
   return *x == *y;
 }

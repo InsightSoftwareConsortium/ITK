@@ -42,11 +42,13 @@ template <class T> void vnl_matlab_read_data(vcl_istream &s, T *ptr, unsigned n)
 
 class vnl_matlab_readhdr
 {
+  VCL_SAFE_BOOL_DEFINE;
  public:
   vnl_matlab_readhdr(vcl_istream &);
   ~vnl_matlab_readhdr();
 
-  operator bool () const;
+  operator safe_bool () const;
+  bool operator!() const;
   void read_next(); // skip to next header in file
 
   bool is_single() const;

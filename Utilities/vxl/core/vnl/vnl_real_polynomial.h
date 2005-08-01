@@ -16,6 +16,7 @@
 // 27/03/2001 Ian Scott and Tim Cootes - Added Binary IO
 // 27/03/2001 Ian Scott - Comments tidied up
 // 25/11/2001 Peter Vanroose - added operator==(), derivative(), primitive(), print()
+// 12/22/2004 Kongbin Kang - add structured comment for operator==()
 // \endverbatim
 
 #include <vnl/vnl_vector.h>
@@ -36,23 +37,25 @@ class vnl_real_polynomial
   //: Initialize polynomial.
   // The polynomial is $ a[0] x^d + a[1] x^{d-1} + \cdots + a[d] = 0 $.
   vnl_real_polynomial(vnl_vector<double> const & a): coeffs_(a) {
-    if(a.empty()){ coeffs_.set_size(1);coeffs_(0)=0.0; } }
+    if (a.empty()) { coeffs_.set_size(1); coeffs_(0)=0.0; }
+  }
 
   //: Initialize polynomial from C vector.
   // The parameter len is the number
   // of coefficients, one greater than the degree.
   vnl_real_polynomial(double const * a, unsigned len): coeffs_(a, len) {
-    if(len==0){ coeffs_.set_size(1);coeffs_(0)=0.0; } }
+    if (len==0) { coeffs_.set_size(1); coeffs_(0)=0.0; }
+  }
 
   //: Initialize polynomial from double.
   // Useful when adding or multiplying a polynomial and a number.
   vnl_real_polynomial(double a): coeffs_(1u, a) {}
 
   //: Initialize polynomial of a given degree.
-  vnl_real_polynomial(int d): coeffs_(d+1) { assert (d>=0);  }
+  vnl_real_polynomial(int d): coeffs_(d+1) { assert (d>=0); }
 
-  bool operator==(vnl_real_polynomial const& p) {
-    return p.coefficients() == coeffs_; }
+  //: comparison operator
+  bool operator==(vnl_real_polynomial const& p) const { return p.coefficients() == coeffs_; }
 
   //: Evaluate polynomial at value x
   double evaluate(double x) const;
@@ -77,13 +80,13 @@ class vnl_real_polynomial
   vnl_real_polynomial derivative() const;
 
   //: Return primitive function (inverse derivative) of this polynomial
- // Since a primitive function is not unique, the one with constant = 0 is returned
+  // Since a primitive function is not unique, the one with constant = 0 is returned
   vnl_real_polynomial primitive() const;
 
   // Data Access---------------------------------------------------------------
 
   //: Return the degree (highest power of x) of the polynomial.
-  int     degree() const { return ((int)coeffs_.size()) - 1; }
+  int     degree() const { return int(coeffs_.size()) - 1; }
 
   //: Access to the polynomial coefficients
   double& operator [] (int i)       { return coeffs_[i]; }

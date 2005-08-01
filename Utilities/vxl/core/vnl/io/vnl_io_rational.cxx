@@ -26,15 +26,15 @@ void vsl_b_read(vsl_b_istream &is, vnl_rational & p)
   short ver;
   long n, d;
   vsl_b_read(is, ver);
-  switch(ver)
+  switch (ver)
   {
-  case 1:
+   case 1:
     vsl_b_read(is, n);
     vsl_b_read(is, d);
     p.set(n,d);
     break;
 
-  default:
+   default:
     vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_rational&)\n"
              << "           Unknown version number "<< ver << '\n';
     is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream

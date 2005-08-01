@@ -12,8 +12,6 @@
 //  > > Sent: Monday, October 07, 2002 3:18 PM
 //  > > Subject: vnl_vector_fixed_ref
 //  > >
-//  > > Hi there
-//  > >
 //  > > I'm working on separating vnl_vector and vnl_vector_fixed in the VXL
 //  > > tree, as I mailed a while ago to the vxl-maintainers list. I noticed
 //  > > that you'd committed a vnl_vector_fixed_ref class which doesn't seem
@@ -23,14 +21,8 @@
 //  > > FYI, the author is listed as "Paul P. Smyth, Vicon Motion
 //  > > Systems Ltd."
 //  > > and the comment is dated 02 May 2001.
-//  > >
-//  > > Thanks,
-//  > > Amitha.
-//  > >
 //
 //  Paul Smyth <paul.smyth@vicon.com> writes:
-//  > Hi,
-//  >
 //  > The rationale behind it was that I had some (fast) algorithms for
 //  > matrix/vector operations that made use of compile-time knowledge of the
 //  > vector and matrix sizes.
@@ -207,17 +199,14 @@ class vnl_matrix_fixed_ref_const
       v[j] = (*this)(j,column_index);
     return v;
   }
-  const T * data_block() const
-  {
-    return data_;
-  }
+  const T * data_block() const { return data_; }
 
   //: Const iterators
   typedef T const *const_iterator;
   //: Iterator pointing to start of data
   const_iterator begin() const { return data_; }
   //: Iterator pointing to element beyond end of data
-  const_iterator end() const { return begin() + size(); }
+  const_iterator end() const { return begin() + this->size(); }
 
   //: Type defs for iterators
   typedef const T element_type;
@@ -227,10 +216,10 @@ class vnl_matrix_fixed_ref_const
   T const & operator() (unsigned r, unsigned c) const
   {
 #if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
-    assert(r<rows());   // Check the row index is valid
-    assert(c<cols());   // Check the column index is valid
+    assert(r<num_rows);   // Check the row index is valid
+    assert(c<num_cols);   // Check the column index is valid
 #endif
-    return *(this->data_ + num_cols * r + c);
+    return *(data_ + num_cols * r + c);
   }
 
   //: return pointer to given row
@@ -250,7 +239,7 @@ class vnl_matrix_fixed_ref_const
 
   //: Return number of elements
   // This equals rows() * cols()
-  unsigned size ()    const { return rows()*cols(); }
+  unsigned size ()    const { return num_rows*num_cols; }
 
 
   //: Print matrix to os in some hopefully sensible format
@@ -397,7 +386,7 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
 
  public:
   // this is the only point where the const_cast happens
-  // the base class is used to store the pointer, so that conversion is not neccesary
+  // the base class is used to store the pointer, so that conversion is not necessary
   T * data_block() const {
     return const_cast<T*>(this->data_);
   }
@@ -435,8 +424,8 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   T       & operator() (unsigned r, unsigned c) const
   {
 #if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
-    assert(r<this->rows());   // Check the row index is valid
-    assert(c<this->cols());   // Check the column index is valid
+    assert(r<num_rows);   // Check the row index is valid
+    assert(c<num_cols);   // Check the column index is valid
 #endif
     return *(this->data_block() + num_cols * r + c);
   }
@@ -505,7 +494,7 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   //:
   vnl_matrix_fixed_ref const& operator+= (vnl_matrix<T> const& m) const
   {
-    assert( m.rows() == this->rows() && m.cols() == this->cols() );
+    assert( m.rows() == num_rows && m.cols() == num_cols );
     add( data_block(), m.data_block(), data_block() ); return *this;
   }
 
@@ -518,7 +507,7 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   //:
   vnl_matrix_fixed_ref const& operator-= (vnl_matrix<T> const& m) const
   {
-    assert( m.rows() == this->rows() && m.cols() == this->cols() );
+    assert( m.rows() == num_rows && m.cols() == num_cols );
     sub( data_block(), m.data_block(), data_block() ); return *this;
   }
 

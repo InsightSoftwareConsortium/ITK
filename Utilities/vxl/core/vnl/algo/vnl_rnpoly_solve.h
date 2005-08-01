@@ -11,26 +11,22 @@
 // \date   12-08-97
 //
 // \verbatim
-// Modifications
-//  Peter Vanroose, 20 Oct 1999: implementation simplified through "cmplx" class for doing complex arithmetic.
-//  dac (Manchester) 28/03/2001: tidied up documentation
-//  Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
-//  May.2002 - Peter Vanroose - added operator*=(cmplx) and operator/=(cmplx)
-//  Mar.2003 - Peter Vanroose - renamed M to M_, T to T_
+//  Modifications
+//   Oct.1999 - Peter Vanroose - implementation simplified through "cmplx" class for doing complex arithmetic.
+//   May.2002 - Peter Vanroose - added operator*=(cmplx) and operator/=(cmplx)
+//   Mar.2003 - Peter Vanroose - renamed M to M_, T to T_
+//   Feb.2004 - Peter Vanroose - removed hard limits on dimensionality; this gets rid of M_ and T_;
+//                               now using std::vector throughout instead of C arrays of fixed size
 // \endverbatim
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_real_npolynomial.h>
 #include <vcl_vector.h>
 
-#ifdef static
-# error "grr!!"
-#endif
-
 //: Solves for roots of system of real polynomials
 //  Calculates all the roots of a system of N polynomials in N variables
 //  through continuation.
-//  Adapted from the  PARALLEL CONTINUATION algorithm , written by Darrell
+//  Adapted from the  PARALLEL CONTINUATION algorithm, written by Darrell
 //  Stam, 1991, and further improved by  Kriegman and Ponce, 1992.
 
 class vnl_rnpoly_solve
@@ -41,13 +37,6 @@ class vnl_rnpoly_solve
   vcl_vector<vnl_vector<double>*> i_; // the output (imaginary part)
 
  public:
-#ifndef VCL_WIN32
-  static const unsigned int M_ = 11;  // Maximum dimension of problem
-  static const unsigned int T_ = 250; // Max. number of terms in a polynomial
-#else
-  enum { M_ = 11 };  // Maximum dimension of problem
-  enum { T_ = 250 }; // Maximum number of terms in a polynomial
-#endif
 
   // Constructor---------------------------------------------------------------
 
@@ -78,8 +67,10 @@ class vnl_rnpoly_solve
   //: Compute roots using continuation algorithm.
   bool compute();
 
-  int Read_Input(int ideg[M_], int terms[M_],
-                 int polyn[M_][T_][M_], double coeff[M_][T_]);
+  void Read_Input(vcl_vector<unsigned int>& ideg,
+                  vcl_vector<unsigned int>& terms,
+                  vcl_vector<int>& polyn,
+                  vcl_vector<double>& coeff);
 };
 
 #endif // vnl_rnpoly_solve_h_

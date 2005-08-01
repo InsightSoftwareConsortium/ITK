@@ -84,7 +84,7 @@ integer *ierr;
         rebak_(nm, n, b, fv2, n, z);
 } /* rsg_ */
 
-doublereal epslon_(x)
+static doublereal epslon_(x)
 doublereal *x;
 {
     /* Local variables */
@@ -122,7 +122,8 @@ doublereal *x;
     return eps * abs(*x);
 } /* epslon_ */
 
-/* Subroutine */ void tqlrat_(n, d, e2, ierr)
+/* Subroutine */
+static void tqlrat_(n, d, e2, ierr)
 const integer *n;
 doublereal *d, *e2;
 integer *ierr;
@@ -270,7 +271,8 @@ L210:
     }
 } /* tqlrat_ */
 
-/* Subroutine */ void rebak_(nm, n, b, dl, m, z)
+/* Subroutine */
+static void rebak_(nm, n, b, dl, m, z)
 const integer *nm, *n;
 const doublereal *b, *dl;
 const integer *m;
@@ -330,7 +332,8 @@ doublereal *z;
     }
 } /* rebak_ */
 
-/* Subroutine */ void reduc_(nm, n, a, b, dl, ierr)
+/* Subroutine */
+static void reduc_(nm, n, a, b, dl, ierr)
 const integer *nm, *n;
 doublereal *a, *b;
 doublereal *dl;

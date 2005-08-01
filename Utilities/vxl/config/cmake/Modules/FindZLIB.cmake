@@ -23,6 +23,8 @@ ENDIF( VXL_FORCE_V3P_ZLIB )
 IF(ZLIB_FOUND)
 
   SET(VXL_USING_NATIVE_ZLIB "YES")
+  # All the other variables are set by CMake's FindZLIB. Don't
+  # set them here.
 
 ELSE(ZLIB_FOUND)
 
@@ -36,7 +38,7 @@ ELSE(ZLIB_FOUND)
 
     SET( ZLIB_FOUND "YES" )
     SET( ZLIB_INCLUDE_DIR ${vxl_SOURCE_DIR}/v3p/zlib)  
-    SET( ZLIB_LIBRARIES zlib )
+    SET( ZLIB_LIBRARIES z )
   
   ENDIF(EXISTS ${vxl_SOURCE_DIR}/v3p/zlib/zlib.h)
 ENDIF(ZLIB_FOUND)

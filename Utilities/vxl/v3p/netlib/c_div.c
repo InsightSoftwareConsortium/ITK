@@ -4,10 +4,8 @@
 /* Modified by Peter Vanroose, June 2001, to allow c being equal to a or b */
 
 #ifdef KR_headers
-extern VOID sig_die();
 VOID c_div(c, a, b) complex *a; const complex *b, *c;
 #else
-extern void sig_die(char*, int);
 void c_div(complex *c, const complex *a, const complex *b)
 #endif
 {
@@ -15,12 +13,12 @@ void c_div(complex *c, const complex *a, const complex *b)
   float abr, abi;
   float ar = a->r, ai = a->i;
 
-  if( (abr = b->r) < 0.)
+  if ( (abr = b->r) < 0.)
     abr = - abr;
-  if( (abi = b->i) < 0.)
+  if ( (abi = b->i) < 0.)
     abi = - abi;
-  if( abr <= abi ) {
-    if(abi == 0) {
+  if ( abr <= abi ) {
+    if (abi == 0) {
 #ifdef IEEE_COMPLEX_DIVIDE
       float af, bf;
       af = bf = abr;

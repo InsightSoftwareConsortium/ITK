@@ -30,11 +30,8 @@ real *cdf;
     static char fmt_46[] = "(***** THE VALUE OF THE ARGUMENT IS %f *****\002)";
     static char fmt_99[] = "(*****INTERNAL ERROR IN CHSCDF SUBROUTINE -- IMPOSSIBLE BRANCH CONDITION AT BRANCH POINT %d)";
 
-    /* System generated locals */
-    real danu2;
-
     /* Local variables */
-    static real cdfn, danu;
+    static real cdfn;
     static integer imin, imax;
     static doublereal term, term0, term1, term2, term3, term4;
     static integer i;
@@ -48,7 +45,7 @@ real *cdf;
     static integer ievodd;
     static doublereal chi;
     static real anu;
-    static doublereal dnu;
+    static doublereal danu, danu2, dnu;
     static doublereal sum;
 
 /*     PURPOSE--THIS SUBROUTINE COMPUTES THE CUMULATIVE DISTRIBUTION     */
@@ -222,7 +219,7 @@ L1000:
 L2000:
     dfact = dnu * 4.5;
     u = (float)(dx / dnu);
-    u = (float)(pow(u, dpower) - 1.f + 1.f / dfact) * sqrtf(dfact);
+    u = (float)((pow(u, dpower) - 1.0 + 1.0 / dfact) * sqrt(dfact));
     norcdf_(&u, &cdfn);
     *cdf = cdfn;
     return;
@@ -235,7 +232,7 @@ L2000:
 
 L3000:
     dw = sqrt(dx - dnu - dnu * log(dx / dnu));
-    danu = sqrtf(2.f / dnu);
+    danu = sqrt(2.0 / dnu);
     d1 = dw;
     d2 = dw * dw;
     d3 = dw * d2;
@@ -250,7 +247,8 @@ L3000:
     *cdf = cdfn;
 } /* chscdf_ */
 
-/* Subroutine */ void norcdf_(x, cdf)
+/* Subroutine */
+static void norcdf_(x, cdf)
 real *x, *cdf;
 {
     /* Initialized data */
@@ -560,7 +558,8 @@ L3000:
     *cdf = cdfn;
 } /* dchscdf_ */
 
-/* Subroutine */ void dnorcdf_(x, cdf)
+/* Subroutine */
+static void dnorcdf_(x, cdf)
 doublereal *x, *cdf;
 {
     /* Initialized data */

@@ -15,12 +15,17 @@
 //   IMS (Manchester) 16/03/2001: Tidied up the documentation + added binary_io
 //   Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
 //   Sep.2002 - Peter Vanroose - Added operator+, operator-, operator*
+//   Mar.2004 - Peter Vanroose - removed deprecated resize()
 // \endverbatim
 
 #include <vcl_cassert.h>
 #include <vcl_iosfwd.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
+
+// forward declarations
+template <class T> class vnl_diag_matrix;
+template <class T> vnl_vector<T> operator*(vnl_diag_matrix<T> const&, vnl_vector<T> const&);
 
 //: stores a diagonal matrix as a single vector.
 //  vnl_diag_matrix stores a diagonal matrix for time and space efficiency.
@@ -119,10 +124,7 @@ class vnl_diag_matrix
   inline operator vnl_matrix<T> () const { return asMatrix(); }
 
   inline void set_size(int n) { diagonal_.set_size(n); }
- private:
-  // deprecated:
-  inline void resize(int n) { set_size(n); }
- public:
+
   inline void clear() { diagonal_.clear(); }
   inline void fill(T const &x) { diagonal_.fill(x); }
 
@@ -333,6 +335,5 @@ inline vnl_vector<T> operator* (vnl_vector<T> const& A, vnl_diag_matrix<T> const
   assert(A.size() == D.size());
   return element_product(D.diagonal(), A);
 }
-
 
 #endif // vnl_diag_matrix_h_

@@ -39,6 +39,13 @@ inline long double vcl_log10(long double x) { return ::log10l(x); }
 
 #undef  vcl_pow
 #define vcl_pow vcl_pow
+// VCL_CMATH_POW_DECLARED is true if vcl_pow has been declared
+// as an inline functions rather than defined to std::pow
+#if defined VCL_CMATH_POW_DECLARED
+  ** Error **
+#else
+# define VCL_CMATH_POW_DECLARED 1
+#endif
 inline float vcl_pow(float x, float y) { return (float)::pow(x, y); }
 inline double vcl_pow(double x, double y) { return ::pow(x, y); }
 inline long double vcl_pow(long double x, long double y) { return ::powl(x, y); }

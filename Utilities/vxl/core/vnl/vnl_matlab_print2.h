@@ -28,7 +28,7 @@
 // \author fsm
 
 #include <vnl/vnl_matlab_print.h>
-#include <vcl_iostream.h>
+#include <vcl_iosfwd.h>
 
 // The proxy classes.
 template <class T>

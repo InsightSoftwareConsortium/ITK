@@ -185,25 +185,27 @@ template <class T>
 unsigned int vnl_rank(vnl_matrix<T> const& mat, vnl_rank_type t)
 {
   unsigned int rank = 0;
-  if(t == vnl_rank_row)
-    {
+  if (t == vnl_rank_row)
+  {
     vnl_matrix<T> a = vnl_rank_row_reduce(mat, vnl_rank_pivot_all);
     for (unsigned int r=0; r<a.rows(); ++r)
-      {
-      unsigned int c=0; while (c<a.columns() && a[r][c] == 0) ++c;
-      if (c!=a.columns()) ++rank; // not all elements in row r are 0
-      }
-    }
-  else
     {
+      unsigned int c=0;
+      while (c<a.columns() && a[r][c] == 0) ++c;
+      if (c!=a.columns()) ++rank; // not all elements in row r are 0
+    }
+  }
+  else
+  {
     vnl_matrix<T> a = (t == vnl_rank_column) ? vnl_rank_column_reduce(mat,vnl_rank_pivot_all) :
                                                vnl_rank_row_column_reduce(mat,vnl_rank_pivot_all);
     for (unsigned int c=0; c<a.columns(); ++c)
-      {
-      unsigned int r=0; while (r<a.rows() && a[r][c] == 0) ++r;
+    {
+      unsigned int r=0;
+      while (r<a.rows() && a[r][c] == 0) ++r;
       if (r!=a.rows()) ++rank; // not all elements in column c are 0
-      }
     }
+  }
   return rank;
 }
 

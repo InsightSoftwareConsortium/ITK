@@ -22,11 +22,13 @@ vnl_rational vnl_math_squared_magnitude(vcl_complex<vnl_rational> const& x)
 {
   return x.real()*x.real()+x.imag()*x.imag();
 }
+
 vnl_rational vnl_math_abs(vcl_complex<vnl_rational> const& x)
 {
   return vnl_rational(vcl_sqrt(double(x.real()*x.real()+x.imag()*x.imag())));
 }
 
-vcl_ostream& operator<<(vcl_ostream& os, vcl_complex<vnl_rational> x) {
+vcl_ostream& operator<<(vcl_ostream& os, vcl_complex<vnl_rational> x)
+{
   return os << x.real() << '+' << x.imag() << 'j';
 }

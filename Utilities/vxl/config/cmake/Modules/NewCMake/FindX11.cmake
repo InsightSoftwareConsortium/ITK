@@ -21,6 +21,7 @@ IF (UNIX)
 
 
   FIND_LIBRARY(X11_X11_LIBRARY X11
+    /usr/lib64
     /usr/lib 
     /usr/local/lib 
     /usr/openwin/lib 
@@ -28,6 +29,7 @@ IF (UNIX)
   )
 
   FIND_LIBRARY(X11_Xext_LIBRARY Xext
+    /usr/lib64
     /usr/lib 
     /usr/local/lib 
     /usr/openwin/lib 

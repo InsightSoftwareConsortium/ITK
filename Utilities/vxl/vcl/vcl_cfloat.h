@@ -2,7 +2,7 @@
 #define vcl_cfloat_h_
 //:
 // \file
-// \author Peter.Vanroose@esat.kuleuven.ac.be
+// \author Peter Vanroose, esat.kuleuven.be
 // This should define C-style numeric floating point macros
 
 #include "vcl_compiler.h"

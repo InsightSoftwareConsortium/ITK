@@ -33,14 +33,14 @@ void vsl_b_read(vsl_b_istream &is, vnl_sparse_matrix_pair<T> & p)
 
   short ver;
   vsl_b_read(is, ver);
-  switch(ver)
+  switch (ver)
   {
-  case 1:
+   case 1:
     vsl_b_read(is, p.first);
     vsl_b_read(is, p.second);
     break;
 
-  default:
+   default:
     vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_sparse_matrix_pair<T>&)\n"
              << "           Unknown version number "<< ver << '\n';
     is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream
@@ -117,9 +117,9 @@ void vsl_b_read(vsl_b_istream &is, vnl_sparse_matrix<T> & p)
 
   vcl_vector<int> indexes(row_size);
   vcl_vector<T> values(row_size);
-  switch(ver)
+  switch (ver)
   {
-  case 1:
+   case 1:
     vsl_b_read(is, n_rows);
     vsl_b_read(is, n_cols);
     // As we cannot resize the matrix, check that it is the correct size.
@@ -142,7 +142,7 @@ void vsl_b_read(vsl_b_istream &is, vnl_sparse_matrix<T> & p)
     }
     break;
 
-  default:
+   default:
     vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_sparse_matrix<T>&)\n"
              << "           Unknown version number "<< ver << '\n';
     is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream

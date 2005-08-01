@@ -12,6 +12,7 @@
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
+#include <vnl/vnl_vector.h>
 
 //:
 // For a *real* scalar type T, this function uses orthogonal

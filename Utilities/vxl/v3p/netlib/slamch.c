@@ -8,12 +8,12 @@
 # pragma optimize("", off)
 #endif
 
-static void slamc1_(integer *beta, integer *t, logical *rnd, logical *ieee1);
-static void slamc2_(integer *beta, integer *t, logical *rnd, real *eps,
-                    integer *emin, real *rmin, integer *emax, real *rmax);
-static real slamc3_(real *a, real *b);
-static void slamc4_(integer *emin, real *start, integer *base);
-static void slamc5_(integer *beta, integer *p, integer *emin, logical *ieee, integer *emax, real *rmax);
+void slamc1_(integer *beta, integer *t, logical *rnd, logical *ieee1);
+void slamc2_(integer *beta, integer *t, logical *rnd, real *eps,
+             integer *emin, real *rmin, integer *emax, real *rmax);
+real slamc3_(real *a, real *b);
+void slamc4_(integer *emin, real *start, integer *base);
+void slamc5_(integer *beta, integer *p, integer *emin, logical *ieee, integer *emax, real *rmax);
 
 real slamch_(const char *cmach)
 {
@@ -113,7 +113,8 @@ real slamch_(const char *cmach)
     else return 0.f; /* in case a non-documented argument was passed */
 } /* slamch_ */
 
-/* Subroutine */ void slamc1_(integer *beta, integer *t, logical *rnd, logical *ieee1)
+/* Subroutine */
+void slamc1_(integer *beta, integer *t, logical *rnd, logical *ieee1)
 {
 /*  -- LAPACK auxiliary routine (version 2.0) --
        Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -286,9 +287,10 @@ real slamch_(const char *cmach)
     *ieee1 = lieee1;
 } /* slamc1_ */
 
-/* Subroutine */ void slamc2_(integer *beta, integer *t, logical *rnd,
-                              real *eps, integer *emin, real *rmin,
-                              integer *emax, real *rmax)
+/* Subroutine */
+void slamc2_(integer *beta, integer *t, logical *rnd,
+             real *eps, integer *emin, real *rmin,
+             integer *emax, real *rmax)
 {
 /*  -- LAPACK auxiliary routine (version 2.0) --
        Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -536,7 +538,7 @@ real slamch_(const char *cmach)
 /* routine and turn back on any optimizations after this routine. */
 #if defined(_WIN32) || defined(WIN32)
 #if (_MSC_VER >= 1310)
-#pragma optimize("", off)
+# pragma optimize("", off)
 #endif
 #endif
 
@@ -569,11 +571,12 @@ real slamc3_(real *a, real *b)
 /* Turn the optimizations back on for Visual Studio .NET 2003 */
 #if defined(_WIN32) || defined(WIN32)
 #if (_MSC_VER >= 1310)
-#pragma optimize("", on)
+# pragma optimize("", on)
 #endif
 #endif
 
-/* Subroutine */ void slamc4_(integer *emin, real *start, integer *base)
+/* Subroutine */
+void slamc4_(integer *emin, real *start, integer *base)
 {
 /*  -- LAPACK auxiliary routine (version 2.0) --
        Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -638,8 +641,9 @@ real slamc3_(real *a, real *b)
     }
 } /* slamc4_ */
 
-/* Subroutine */ void slamc5_(integer *beta, integer *p, integer *emin,
-                              logical *ieee, integer *emax, real *rmax)
+/* Subroutine */
+void slamc5_(integer *beta, integer *p, integer *emin,
+             logical *ieee, integer *emax, real *rmax)
 {
 /*  -- LAPACK auxiliary routine (version 2.0) --
        Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,

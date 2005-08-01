@@ -97,11 +97,11 @@ static integer c__6 = 6;
 static integer c__7 = 7;
 
 /* Subroutine */
-int jcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
+int jcg_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
          integer *iwksp, integer *nw, doublereal *wksp, integer *iparm, doublereal *rparm, integer *ierr)
 {
     /* Local variables */
-    static integer n, n3, nb, ib1, ib2, ib3, ib4, ib5, ier;
+    static integer n3, nb, ib1, ib2, ib3, ib4, ib5, ier;
     static doublereal tol;
     static doublereal temp;
     static integer loop;
@@ -113,128 +113,122 @@ int jcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, 
     static integer ierper;
 
 /*     ITPACK 2C MAIN SUBROUTINE  JCG  (JACOBI CONJUGATE GRADIENT) */
-/*     EACH OF THE MAIN SUBROUTINES: */
-/*           JCG, JSI, SOR, SSORCG, SSORSI, RSCG, RSSI */
-/*     CAN BE USED INDEPENDENTLY OF THE OTHERS */
+/*     EACH OF THE MAIN SUBROUTINES:                               */
+/*           JCG, JSI, SOR, SSORCG, SSORSI, RSCG, RSSI             */
+/*     CAN BE USED INDEPENDENTLY OF THE OTHERS                     */
 
-/* ... FUNCTION: */
-
-/*          THIS SUBROUTINE, JCG, DRIVES THE JACOBI CONJUGATE */
-/*          GRADIENT ALGORITHM. */
-
-/* ... PARAMETER LIST: */
-
-/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX. (= NN) */
-/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF */
-/*                 THE SPARSE MATRIX REPRESENTATION. */
-/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE */
-/*                 MATRIX REPRESENTATION. */
-/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE */
-/*                 OF THE MATRIX PROBLEM. */
-/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE */
+/*          THIS SUBROUTINE, JCG, DRIVES THE JACOBI CONJUGATE            */
+/*          GRADIENT ALGORITHM.                                          */
+/*                                                                       */
+/* ... PARAMETER LIST:                                                   */
+/*                                                                       */
+/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX.              */
+/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF     */
+/*                 THE SPARSE MATRIX REPRESENTATION.                     */
+/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE      */
+/*                 MATRIX REPRESENTATION.                                */
+/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE      */
+/*                 OF THE MATRIX PROBLEM.                                */
+/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE   */
 /*                 INITIAL GUESS TO THE SOLUTION. ON OUTPUT, IT CONTAINS */
-/*                 THE LATEST ESTIMATE TO THE SOLUTION. */
-/*          IWKSP  INTEGER VECTOR WORKSPACE OF LENGTH 3*N */
+/*                 THE LATEST ESTIMATE TO THE SOLUTION.                  */
+/*          IWKSP  INTEGER VECTOR WORKSPACE OF LENGTH 3*N                */
 /*          NW     INPUT INTEGER.  LENGTH OF AVAILABLE WKSP.  ON OUTPUT, */
-/*                 IPARM(8) IS AMOUNT USED. */
+/*                 IPARM(8) IS AMOUNT USED.                              */
 /*          WKSP   D.P. VECTOR USED FOR WORKING SPACE.  JACOBI CONJUGATE */
-/*                 GRADIENT NEEDS THIS TO BE IN LENGTH AT LEAST */
-/*                 4*N + 2*ITMAX,  IF ISYM = 0  (SYMMETRIC STORAGE) */
-/*                 4*N + 4*ITMAX,  IF ISYM = 1  (NONSYMMETRIC STORAGE) */
-/*                 HERE ITMAX = IPARM(1) AND ISYM = IPARM(5) */
+/*                 GRADIENT NEEDS THIS TO BE IN LENGTH AT LEAST          */
+/*                 4*N + 2*ITMAX,  IF ISYM = 0  (SYMMETRIC STORAGE)      */
+/*                 4*N + 4*ITMAX,  IF ISYM = 1  (NONSYMMETRIC STORAGE)   */
+/*                 HERE ITMAX = IPARM(1) AND ISYM = IPARM(5)             */
 /*                 (ITMAX IS THE MAXIMUM ALLOWABLE NUMBER OF ITERATIONS) */
-/*          IPARM  INTEGER VECTOR OF LENGTH 12.  ALLOWS USER TO SPECIFY */
-/*                 SOME INTEGER PARAMETERS WHICH AFFECT THE METHOD. */
+/*          IPARM  INTEGER VECTOR OF LENGTH 12.  ALLOWS USER TO SPECIFY  */
+/*                 SOME INTEGER PARAMETERS WHICH AFFECT THE METHOD.      */
 /*          RPARM  D.P. VECTOR OF LENGTH 12. ALLOWS USER TO SPECIFY SOME */
-/*                 D.P. PARAMETERS WHICH AFFECT THE METHOD. */
-/*          IER    OUTPUT INTEGER.  ERROR FLAG. (= IERR) */
-
-/* ... JCG SUBPROGRAM REFERENCES: */
-
-/*          FROM ITPACK    BISRCH, CHGCON, DETERM, DFAULT, ECHALL, */
+/*                 D.P. PARAMETERS WHICH AFFECT THE METHOD.              */
+/*          IER    OUTPUT INTEGER.  ERROR FLAG. (= IERR)                 */
+/*                                                                       */
+/* ... JCG SUBPROGRAM REFERENCES:                                        */
+/*                                                                       */
+/*          FROM ITPACK    BISRCH, CHGCON, DETERM, DFAULT, ECHALL,       */
 /*                         ECHOUT, EIGVNS, EIGVSS, EQRT1S, ITERM, TIMER, */
-/*                         ITJCG, IVFILL, PARCON, PERMAT, */
-/*                         PERROR, PERVEC, PJAC, PMULT, PRBNDX, */
-/*                         PSTOP, QSORT, DAXPY, SBELM, SCAL, DCOPY, */
-/*                         DDOT, SUM3, UNSCAL, VEVMW, VFILL, VOUT, */
-/*                         WEVMW, ZBRENT */
-/*          SYSTEM         DABS, DLOG10, DBLE(AMAX0), DMAX1, MOD, DSQRT */
-
-/*     VERSION:  ITPACK 2C (MARCH 1982) */
-
-/*     CODE WRITTEN BY:  DAVID KINCAID, ROGER GRIMES, JOHN RESPESS */
-/*                       CENTER FOR NUMERICAL ANALYSIS */
-/*                       UNIVERSITY OF TEXAS */
-/*                       AUSTIN, TX  78712 */
-/*                       (512) 471-1242 */
-
-/*     FOR ADDITIONAL DETAILS ON THE */
-/*          (A) SUBROUTINE SEE TOMS ARTICLE 1982 */
-/*          (B) ALGORITHM  SEE CNA REPORT 150 */
-
-/*     BASED ON THEORY BY:  DAVID YOUNG, DAVID KINCAID, LOU HAGEMAN */
-
-/*     REFERENCE THE BOOK:  APPLIED ITERATIVE METHODS */
-/*                          L. HAGEMAN, D. YOUNG */
-/*                          ACADEMIC PRESS, 1981 */
-
-/*     ************************************************** */
-/*     *               IMPORTANT NOTE                   * */
-/*     *                                                * */
-/*     *      WHEN INSTALLING ITPACK ROUTINES ON A      * */
-/*     *  DIFFERENT COMPUTER, RESET SOME OF THE VALUES  * */
-/*     *  IN  SUBROUTNE DFAULT.   MOST IMPORTANT ARE    * */
-/*     *                                                * */
-/*     *   DRELPR      MACHINE RELATIVE PRECISION       * */
-/*     *   RPARM(1)    STOPPING CRITERION               * */
-/*     *                                                * */
-/*     *   ALSO CHANGE SYSTEM-DEPENDENT ROUTINE         * */
-/*     *   SECOND USED IN TIMER                         * */
-/*     *                                                * */
-/*     ************************************************** */
-
-/*     SPECIFICATIONS FOR ARGUMENTS */
-
-/*     SPECIFICATIONS FOR LOCAL VARIABLES */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM1 */
-
-/*     IN     - ITERATION NUMBER */
-/*     IS     - ITERATION NUMBER WHEN PARAMETERS LAST CHANGED */
-/*     ISYM   - SYMMETRIC/NONSYMMETRIC STORAGE FORMAT SWITCH */
-/*     ITMAX  - MAXIMUM NUMBER OF ITERATIONS ALLOWED */
-/*     LEVEL  - LEVEL OF OUTPUT CONTROL SWITCH */
-/*     NOUT   - OUTPUT UNIT NUMBER */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM2 */
-
-/*     ADAPT  - FULLY ADAPTIVE PROCEDURE SWITCH */
-/*     BETADT - SWITCH FOR ADAPTIVE DETERMINATION OF BETA */
-/*     CASEII - ADAPTIVE PROCEDURE CASE SWITCH */
-/*     HALT   - STOPPING TEST SWITCH */
-/*     PARTAD - PARTIALLY ADAPTIVE PROCEDURE SWITCH */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM3 */
-
-/*     BDELNM - TWO NORM OF B TIMES DELTA-SUPER-N */
-/*     BETAB  - ESTIMATE FOR THE SPECTRAL RADIUS OF LU MATRIX */
-/*     CME    - ESTIMATE OF LARGEST EIGENVALUE */
-/*     DELNNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION N */
-/*     DELSNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION S */
-/*     FF     - ADAPTIVE PROCEDURE DAMPING FACTOR */
-/*     GAMMA  - ACCELERATION PARAMETER */
-/*     OMEGA  - OVERRELAXATION PARAMETER FOR SOR AND SSOR */
-/*     QA     - PSEUDO-RESIDUAL RATIO */
-/*     QT     - VIRTUAL SPECTRAL RADIUS */
-/*     RHO    - ACCELERATION PARAMETER */
-/*     RRR    - ADAPTIVE PARAMETER */
-/*     SIGE   - PARAMETER SIGMA-SUB-E */
-/*     SME    - ESTIMATE OF SMALLEST EIGENVALUE */
-/*     SPECR  - SPECTRAL RADIUS ESTIMATE FOR SSOR */
-/*     DRELPR - MACHINE RELATIVE PRECISION */
-/*     STPTST - STOPPING PARAMETER */
-/*     UDNM   - TWO NORM OF U */
-/*     ZETA   - STOPPING CRITERION */
+/*                         ITJCG, IVFILL, PARCON, PERMAT,                */
+/*                         PERROR, PERVEC, PJAC, PMULT, PRBNDX,          */
+/*                         PSTOP, QSORT, DAXPY, SBELM, SCAL, DCOPY,      */
+/*                         DDOT, SUM3, UNSCAL, VEVMW, VFILL, VOUT,       */
+/*                         WEVMW, ZBRENT                                 */
+/*          SYSTEM         DABS, DLOG10, DBLE(AMAX0), DMAX1, MOD, DSQRT  */
+/*                                                                       */
+/*     VERSION:  ITPACK 2C (MARCH 1982)                                  */
+/*                                                                       */
+/*     CODE WRITTEN BY:  DAVID KINCAID, ROGER GRIMES, JOHN RESPESS       */
+/*                       CENTER FOR NUMERICAL ANALYSIS                   */
+/*                       UNIVERSITY OF TEXAS                             */
+/*                       AUSTIN, TX  78712                               */
+/*                       (512) 471-1242                                  */
+/*                                                                       */
+/*     FOR ADDITIONAL DETAILS ON THE                                     */
+/*          (A) SUBROUTINE SEE TOMS ARTICLE 1982                         */
+/*          (B) ALGORITHM  SEE CNA REPORT 150                            */
+/*                                                                       */
+/*     BASED ON THEORY BY:  DAVID YOUNG, DAVID KINCAID, LOU HAGEMAN      */
+/*                                                                       */
+/*     REFERENCE THE BOOK:  APPLIED ITERATIVE METHODS                    */
+/*                          L. HAGEMAN, D. YOUNG                         */
+/*                          ACADEMIC PRESS, 1981                         */
+/*                                                                       */
+/*     **************************************************                */
+/*     *               IMPORTANT NOTE                   *                */
+/*     *                                                *                */
+/*     *      WHEN INSTALLING ITPACK ROUTINES ON A      *                */
+/*     *  DIFFERENT COMPUTER, RESET SOME OF THE VALUES  *                */
+/*     *  IN  SUBROUTNE DFAULT.   MOST IMPORTANT ARE    *                */
+/*     *                                                *                */
+/*     *   DRELPR      MACHINE RELATIVE PRECISION       *                */
+/*     *   RPARM(1)    STOPPING CRITERION               *                */
+/*     *                                                *                */
+/*     *   ALSO CHANGE SYSTEM-DEPENDENT ROUTINE         *                */
+/*     *   SECOND USED IN TIMER                         *                */
+/*     *                                                *                */
+/*     **************************************************                */
+/*                                                                       */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM1                                */
+/*                                                                       */
+/*     IN     - ITERATION NUMBER                                         */
+/*     IS     - ITERATION NUMBER WHEN PARAMETERS LAST CHANGED            */
+/*     ISYM   - SYMMETRIC/NONSYMMETRIC STORAGE FORMAT SWITCH             */
+/*     ITMAX  - MAXIMUM NUMBER OF ITERATIONS ALLOWED                     */
+/*     LEVEL  - LEVEL OF OUTPUT CONTROL SWITCH                           */
+/*     NOUT   - OUTPUT UNIT NUMBER                                       */
+/*                                                                       */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM2                                */
+/*                                                                       */
+/*     ADAPT  - FULLY ADAPTIVE PROCEDURE SWITCH                          */
+/*     BETADT - SWITCH FOR ADAPTIVE DETERMINATION OF BETA                */
+/*     CASEII - ADAPTIVE PROCEDURE CASE SWITCH                           */
+/*     HALT   - STOPPING TEST SWITCH                                     */
+/*     PARTAD - PARTIALLY ADAPTIVE PROCEDURE SWITCH                      */
+/*                                                                       */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM3                                */
+/*                                                                       */
+/*     BDELNM - TWO NORM OF B TIMES DELTA-SUPER-N                        */
+/*     BETAB  - ESTIMATE FOR THE SPECTRAL RADIUS OF LU MATRIX            */
+/*     CME    - ESTIMATE OF LARGEST EIGENVALUE                           */
+/*     DELNNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION N          */
+/*     DELSNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION S          */
+/*     FF     - ADAPTIVE PROCEDURE DAMPING FACTOR                        */
+/*     GAMMA  - ACCELERATION PARAMETER                                   */
+/*     OMEGA  - OVERRELAXATION PARAMETER FOR SOR AND SSOR                */
+/*     QA     - PSEUDO-RESIDUAL RATIO                                    */
+/*     QT     - VIRTUAL SPECTRAL RADIUS                                  */
+/*     RHO    - ACCELERATION PARAMETER                                   */
+/*     RRR    - ADAPTIVE PARAMETER                                       */
+/*     SIGE   - PARAMETER SIGMA-SUB-E                                    */
+/*     SME    - ESTIMATE OF SMALLEST EIGENVALUE                          */
+/*     SPECR  - SPECTRAL RADIUS ESTIMATE FOR SSOR                        */
+/*     DRELPR - MACHINE RELATIVE PRECISION                               */
+/*     STPTST - STOPPING PARAMETER                                       */
+/*     UDNM   - TWO NORM OF U                                            */
+/*     ZETA   - STOPPING CRITERION                                       */
 
     itcom1_1.level = iparm[1];
     itcom1_1.nout = iparm[3];
@@ -242,14 +236,13 @@ int jcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, 
     if (iparm[0] <= 0)
         return 0;
 
-    n = *nn;
     if (iparm[10] == 0)
         timj1 = timer_((real*)0);
 
     if (itcom1_1.level < 3)
         echout_(iparm, rparm, &c__1);
     else
-        echall_(&n, ia, ja, a, rhs, iparm, rparm, &c__1);
+        echall_(n, ia, ja, a, rhs, iparm, rparm, &c__1);
     temp = itcom3_1.drelpr * 500.;
     if (itcom3_1.zeta < temp)
         itcom3_1.zeta = temp;
@@ -259,33 +252,32 @@ int jcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, 
     digit1 = rparm[10];
     digit2 = rparm[11];
 
-/* ... VERIFY N */
+    /* ... VERIFY N */
 
-    if (n <= 0) {
+    if (*n <= 0) {
         ier = 11;
         goto L370;
     }
 
-/* ... REMOVE ROWS AND COLUMNS IF REQUESTED */
+    /* ... REMOVE ROWS AND COLUMNS IF REQUESTED */
 
     if (iparm[9] != 0) {
         tol = rparm[7];
-        ivfill_(&n, iwksp, &c__0);
-        vfill_(&n, wksp, &c_b21);
-        sbelm_(&n, ia, ja, a, rhs, iwksp, wksp, &tol, &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
+        ivfill_(n, iwksp, &c__0);
+        vfill_(n, wksp, &c_b21);
+        sbelm_(n, ia, ja, a, rhs, iwksp, wksp, &tol, &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
         if (ier != 0)
             goto L370;
-
     }
 
-/* ... INITIALIZE WKSP BASE ADDRESSES. */
+    /* ... INITIALIZE WKSP BASE ADDRESSES. */
 
     ib1 = 0;
-    ib2 = ib1 + n;
-    ib3 = ib2 + n;
-    ib4 = ib3 + n;
-    ib5 = ib4 + n;
-    iparm[7] = (n << 2) + (itcom1_1.itmax << 1);
+    ib2 = ib1 + *n;
+    ib3 = ib2 + *n;
+    ib4 = ib3 + *n;
+    ib5 = ib4 + *n;
+    iparm[7] = (*n << 2) + (itcom1_1.itmax << 1);
     if (itcom1_1.isym != 0)
         iparm[7] += itcom1_1.itmax << 1;
 
@@ -294,45 +286,45 @@ int jcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, 
         goto L370;
     }
 
-/* ... PERMUTE TO  RED-BLACK SYSTEM IF REQUESTED */
+    /* ... PERMUTE TO  RED-BLACK SYSTEM IF REQUESTED */
 
     nb = iparm[8];
     if (nb < 0)
         goto L170;
 
-    n3 = n * 3;
+    n3 = *n * 3;
     ivfill_(&n3, iwksp, &c__0);
-    prbndx_(&n, &nb, ia, ja, iwksp, &iwksp[ib2], &itcom1_1.level, &itcom1_1.nout, &ier);
+    prbndx_(n, &nb, ia, ja, iwksp, &iwksp[ib2], &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L370;
 
-/* ... PERMUTE MATRIX AND RHS */
+    /* ... PERMUTE MATRIX AND RHS */
 
-    permat_(&n, ia, ja, a, iwksp, &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
+    permat_(n, ia, ja, a, iwksp, &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L370;
 
-    pervec_(&n, rhs, iwksp);
-    pervec_(&n, u, iwksp);
+    pervec_(n, rhs, iwksp);
+    pervec_(n, u, iwksp);
 
-/* ... SCALE LINEAR SYSTEM, U, AND RHS BY THE SQUARE ROOT OF THE DIAGONAL ELEMENTS. */
+    /* ... SCALE LINEAR SYSTEM, U, AND RHS BY THE SQUARE ROOT OF THE DIAGONAL ELEMENTS. */
 
 L170:
     vfill_(&iparm[7], wksp, &c_b21);
-    scal_(&n, ia, ja, a, rhs, u, wksp, &itcom1_1.level, &itcom1_1.nout, &ier);
+    scal_(n, ia, ja, a, rhs, u, wksp, &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L370;
 
     if (iparm[10] == 0)
         timi1 = timer_((real*)0);
 
-/* ... COMPUTE INITIAL PSEUDO-RESIDUAL */
+    /* ... COMPUTE INITIAL PSEUDO-RESIDUAL */
 
-    itpackdcopy_(&n, rhs, &c__1, &wksp[ib2], &c__1);
-    pjac_(&n, ia, ja, a, u, &wksp[ib2]);
-    vevmw_(&n, &wksp[ib2], u);
+    itpackdcopy_(n, rhs, &c__1, &wksp[ib2], &c__1);
+    pjac_(n, ia, ja, a, u, &wksp[ib2]);
+    vevmw_(n, &wksp[ib2], u);
 
-/* ... ITERATION SEQUENCE */
+    /* ... ITERATION SEQUENCE */
 
     itmax1 = itcom1_1.itmax + 1;
     for (loop = 1; loop <= itmax1; ++loop) {
@@ -340,32 +332,31 @@ L170:
         if (itcom1_1.in % 2 == 1)
             goto L240;
 
-/* ... CODE FOR THE EVEN ITERATIONS. */
+        /* ... CODE FOR THE EVEN ITERATIONS. */
 
-/*     U           = U(IN)             WKSP(IB2) = DEL(IN) */
-/*     WKSP(IB1)   = U(IN-1)           WKSP(IB3) = DEL(IN-1) */
+        /*     U           = U(IN)             WKSP(IB2) = DEL(IN) */
+        /*     WKSP(IB1)   = U(IN-1)           WKSP(IB3) = DEL(IN-1) */
 
-        itjcg_(&n, ia, ja, a, u, &wksp[ib1], &wksp[ib2], &wksp[ib3], &wksp[ib4], &wksp[ib5]);
+        itjcg_(n, ia, ja, a, u, &wksp[ib1], &wksp[ib2], &wksp[ib3], &wksp[ib4], &wksp[ib5]);
 
         if (itcom2_1.halt)
             goto L280;
 
         continue;
 
-/* ... CODE FOR THE ODD ITERATIONS. */
+        /* ... CODE FOR THE ODD ITERATIONS. */
 
-/*     U           = U(IN-1)           WKSP(IB2) = DEL(IN-1) */
-/*     WKSP(IB1)   = U(IN)             WKSP(IB3) = DEL(IN) */
+        /*     U           = U(IN-1)           WKSP(IB2) = DEL(IN-1) */
+        /*     WKSP(IB1)   = U(IN)             WKSP(IB3) = DEL(IN) */
 
 L240:
-        itjcg_(&n, ia, ja, a, &wksp[ib1], u, &wksp[ib3], &wksp[ib2], &wksp[ib4], &wksp[ib5]);
+        itjcg_(n, ia, ja, a, &wksp[ib1], u, &wksp[ib3], &wksp[ib2], &wksp[ib4], &wksp[ib5]);
 
         if (itcom2_1.halt)
             goto L280;
-
     }
 
-/* ... ITMAX HAS BEEN REACHED */
+    /* ... ITMAX HAS BEEN REACHED */
 
     if (iparm[10] == 0) {
         timi2 = timer_((real*)0);
@@ -377,7 +368,7 @@ L240:
 
     goto L310;
 
-/* ... METHOD HAS CONVERGED */
+    /* ... METHOD HAS CONVERGED */
 
 L280:
     if (iparm[10] == 0) {
@@ -385,22 +376,22 @@ L280:
         time1 = (doublereal) (timi2 - timi1);
     }
 
-/* ... PUT SOLUTION INTO U IF NOT ALREADY THERE. */
+    /* ... PUT SOLUTION INTO U IF NOT ALREADY THERE. */
 
 L310:
     if (itcom1_1.in % 2 == 1)
-        itpackdcopy_(&n, &wksp[ib1], &c__1, u, &c__1);
+        itpackdcopy_(n, &wksp[ib1], &c__1, u, &c__1);
 
-/* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
+    /* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
 
-    unscal_(&n, ia, ja, a, rhs, u, wksp);
+    unscal_(n, ia, ja, a, rhs, u, wksp);
 
-/* ... UN-PERMUTE MATRIX,RHS, AND SOLUTION */
+    /* ... UN-PERMUTE MATRIX,RHS, AND SOLUTION */
 
     if (iparm[8] < 0)
         goto L340;
 
-    permat_(&n, ia, ja, a, &iwksp[ib2], &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ierper);
+    permat_(n, ia, ja, a, &iwksp[ib2], &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ierper);
     if (ierper != 0) {
         if (ier == 0)
             ier = ierper;
@@ -408,10 +399,10 @@ L310:
         goto L370;
     }
 
-    pervec_(&n, rhs, &iwksp[ib2]);
-    pervec_(&n, u, &iwksp[ib2]);
+    pervec_(n, rhs, &iwksp[ib2]);
+    pervec_(n, u, &iwksp[ib2]);
 
-/* ... OPTIONAL ERROR ANALYSIS */
+    /* ... OPTIONAL ERROR ANALYSIS */
 
 L340:
     idgts = iparm[11];
@@ -419,7 +410,7 @@ L340:
         if (iparm[1] <= 0)
             idgts = 0;
 
-        perror_(&n, ia, ja, a, rhs, u, wksp, &digit1, &digit2, &idgts);
+        perror_(n, ia, ja, a, rhs, u, wksp, &digit1, &digit2, &idgts);
     }
 
     /* ... SET RETURN PARAMETERS IN IPARM AND RPARM */
@@ -446,17 +437,17 @@ L340:
 L370:
     *ierr = ier;
     if (itcom1_1.level >= 3)
-        echall_(&n, ia, ja, a, rhs, iparm, rparm, &c__2);
+        echall_(n, ia, ja, a, rhs, iparm, rparm, &c__2);
 
     return 0;
 } /* jcg_ */
 
 /* Subroutine */
-int jsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
+int jsi_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
          integer *iwksp, integer *nw, doublereal *wksp, integer *iparm, doublereal *rparm, integer *ierr)
 {
     /* Local variables */
-    static integer n, n3, nb, ib1, ib2, ib3, ier;
+    static integer n3, nb, ib1, ib2, ib3, ier;
     static doublereal tol;
     static integer icnt;
     static doublereal temp;
@@ -468,126 +459,124 @@ int jsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, 
     static integer itmax1;
     static integer ierper;
 
-/*     ITPACK 2C MAIN SUBROUTINE  JSI  (JACOBI SEMI-ITERATIVE) */
-/*     EACH OF THE MAIN SUBROUTINES: */
-/*           JCG, JSI, SOR, SSORCG, SSORSI, RSCG, RSSI */
-/*     CAN BE USED INDEPENDENTLY OF THE OTHERS */
+/*     ITPACK 2C MAIN SUBROUTINE  JSI  (JACOBI SEMI-ITERATIVE)    */
+/*     EACH OF THE MAIN SUBROUTINES:                              */
+/*           JCG, JSI, SOR, SSORCG, SSORSI, RSCG, RSSI            */
+/*     CAN BE USED INDEPENDENTLY OF THE OTHERS                    */
 
-/* ... FUNCTION: */
-
-/*          THIS SUBROUTINE, JSI, DRIVES THE JACOBI SEMI- */
-/*          ITERATION ALGORITHM. */
-
-/* ... PARAMETER LIST: */
-
-/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX. (= NN) */
-/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF */
-/*                 THE SPARSE MATRIX REPRESENTATION. */
-/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE */
-/*                 MATRIX REPRESENTATION. */
-/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE */
-/*                 OF THE MATRIX PROBLEM. */
-/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE */
+/*          THIS SUBROUTINE, JSI, DRIVES THE JACOBI SEMI-                */
+/*          ITERATION ALGORITHM.                                         */
+/*                                                                       */
+/* ... PARAMETER LIST:                                                   */
+/*                                                                       */
+/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX.              */
+/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF     */
+/*                 THE SPARSE MATRIX REPRESENTATION.                     */
+/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE      */
+/*                 MATRIX REPRESENTATION.                                */
+/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE      */
+/*                 OF THE MATRIX PROBLEM.                                */
+/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE   */
 /*                 INITIAL GUESS TO THE SOLUTION. ON OUTPUT, IT CONTAINS */
-/*                 THE LATEST ESTIMATE TO THE SOLUTION. */
-/*          IWKSP  INTEGER VECTOR WORKSPACE OF LENGTH 3*N */
+/*                 THE LATEST ESTIMATE TO THE SOLUTION.                  */
+/*          IWKSP  INTEGER VECTOR WORKSPACE OF LENGTH 3*N                */
 /*          NW     INPUT INTEGER.  LENGTH OF AVAILABLE WKSP.  ON OUTPUT, */
-/*                 IPARM(8) IS AMOUNT USED. */
-/*          WKSP   D.P. VECTOR USED FOR WORKING SPACE.  JACOBI SI */
-/*                 NEEDS THIS TO BE IN LENGTH AT LEAST */
-/*                 2*N */
-/*          IPARM  INTEGER VECTOR OF LENGTH 12.  ALLOWS USER TO SPECIFY */
-/*                 SOME INTEGER PARAMETERS WHICH AFFECT THE METHOD. */
-/*          RPARM  D.P. VECTOR OF LENGTH 12.  ALLOWS USER TO SPECIFY SOME */
-/*                 D.P. PARAMETERS WHICH AFFECT THE METHOD. */
-/*          IER    OUTPUT INTEGER.  ERROR FLAG. (= IERR) */
-
-/* ... JSI SUBPROGRAM REFERENCES: */
-
-/*          FROM ITPACK   BISRCH, CHEBY, CHGSI, CHGSME, DFAULT, ECHALL, */
-/*                        ECHOUT, ITERM, TIMER, ITJSI, IVFILL, PAR */
-/*                        PERMAT, PERROR, PERVEC, PJAC, PMULT, PRBNDX, */
-/*                        PSTOP, PVTBV, QSORT, DAXPY, SBELM, SCAL, */
-/*                        DCOPY, DDOT, SUM3, TSTCHG, UNSCAL, VEVMW, */
-/*                        VFILL, VOUT, WEVMW */
+/*                 IPARM(8) IS AMOUNT USED.                              */
+/*          WKSP   D.P. VECTOR USED FOR WORKING SPACE.  JACOBI SI        */
+/*                 NEEDS THIS TO BE IN LENGTH AT LEAST                   */
+/*                 2*N                                                   */
+/*          IPARM  INTEGER VECTOR OF LENGTH 12.  ALLOWS USER TO SPECIFY  */
+/*                 SOME INTEGER PARAMETERS WHICH AFFECT THE METHOD.      */
+/*          RPARM  D.P. VECTOR OF LENGTH 12. ALLOWS USER TO SPECIFY SOME */
+/*                 D.P. PARAMETERS WHICH AFFECT THE METHOD.              */
+/*          IER    OUTPUT INTEGER.  ERROR FLAG. (= IERR)                 */
+/*                                                                       */
+/* ... JSI SUBPROGRAM REFERENCES:                                        */
+/*                                                                       */
+/*          FROM ITPACK   BISRCH, CHEBY, CHGSI, CHGSME, DFAULT, ECHALL,  */
+/*                        ECHOUT, ITERM, TIMER, ITJSI, IVFILL, PAR       */
+/*                        PERMAT, PERROR, PERVEC, PJAC, PMULT, PRBNDX,   */
+/*                        PSTOP, PVTBV, QSORT, DAXPY, SBELM, SCAL,       */
+/*                        DCOPY, DDOT, SUM3, TSTCHG, UNSCAL, VEVMW,      */
+/*                        VFILL, VOUT, WEVMW                             */
 /*          SYSTEM        DABS, DLOG10, DBLE(AMAX0), DMAX1, DBLE(FLOAT), */
-/*                        MOD,DSQRT */
-
-/*     VERSION:  ITPACK 2C (MARCH 1982) */
-
-/*     CODE WRITTEN BY:  DAVID KINCAID, ROGER GRIMES, JOHN RESPESS */
-/*                       CENTER FOR NUMERICAL ANALYSIS */
-/*                       UNIVERSITY OF TEXAS */
-/*                       AUSTIN, TX  78712 */
-/*                       (512) 471-1242 */
-
-/*     FOR ADDITIONAL DETAILS ON THE */
-/*          (A) SUBROUTINE SEE TOMS ARTICLE 1982 */
-/*          (B) ALGORITHM  SEE CNA REPORT 150 */
-
-/*     BASED ON THEORY BY:  DAVID YOUNG, DAVID KINCAID, LOU HAGEMAN */
-
-/*     REFERENCE THE BOOK:  APPLIED ITERATIVE METHODS */
-/*                          L. HAGEMAN, D. YOUNG */
-/*                          ACADEMIC PRESS, 1981 */
-
-/*     ************************************************** */
-/*     *               IMPORTANT NOTE                   * */
-/*     *                                                * */
-/*     *      WHEN INSTALLING ITPACK ROUTINES ON A      * */
-/*     *  DIFFERENT COMPUTER, RESET SOME OF THE VALUES  * */
-/*     *  IN  SUBROUTNE DFAULT.   MOST IMPORTANT ARE    * */
-/*     *                                                * */
-/*     *   DRELPR      MACHINE RELATIVE PRECISION       * */
-/*     *   RPARM(1)    STOPPING CRITERION               * */
-/*     *                                                * */
-/*     *   ALSO CHANGE SYSTEM-DEPENDENT ROUTINE         * */
-/*     *   SECOND USED IN TIMER                         * */
-/*     *                                                * */
-/*     ************************************************** */
-
-/*     SPECIFICATIONS FOR ARGUMENTS */
-
-/*     SPECIFICATIONS FOR LOCAL VARIABLES */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM1 */
-
-/*     IN     - ITERATION NUMBER */
-/*     IS     - ITERATION NUMBER WHEN PARAMETERS LAST CHANGED */
-/*     ISYM   - SYMMETRIC/NONSYMMETRIC STORAGE FORMAT SWITCH */
-/*     ITMAX  - MAXIMUM NUMBER OF ITERATIONS ALLOWED */
-/*     LEVEL  - LEVEL OF OUTPUT CONTROL SWITCH */
-/*     NOUT   - OUTPUT UNIT NUMBER */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM2 */
-
-/*     ADAPT  - FULLY ADAPTIVE PROCEDURE SWITCH */
-/*     BETADT - SWITCH FOR ADAPTIVE DETERMINATION OF BETA */
-/*     CASEII - ADAPTIVE PROCEDURE CASE SWITCH */
-/*     HALT   - STOPPING TEST SWITCH */
-/*     PARTAD - PARTIALLY ADAPTIVE PROCEDURE SWITCH */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM3 */
-
-/*     BDELNM - TWO NORM OF B TIMES DELTA-SUPER-N */
-/*     BETAB  - ESTIMATE FOR THE SPECTRAL RADIUS OF LU MATRIX */
-/*     CME    - ESTIMATE OF LARGEST EIGENVALUE */
-/*     DELNNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION N */
-/*     DELSNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION S */
-/*     FF     - ADAPTIVE PROCEDURE DAMPING FACTOR */
-/*     GAMMA  - ACCELERATION PARAMETER */
-/*     OMEGA  - OVERRELAXATION PARAMETER FOR SOR AND SSOR */
-/*     QA     - PSEUDO-RESIDUAL RATIO */
-/*     QT     - VIRTUAL SPECTRAL RADIUS */
-/*     RHO    - ACCELERATION PARAMETER */
-/*     RRR    - ADAPTIVE PARAMETER */
-/*     SIGE   - PARAMETER SIGMA-SUB-E */
-/*     SME    - ESTIMATE OF SMALLEST EIGENVALUE */
-/*     SPECR  - SPECTRAL RADIUS ESTIMATE FOR SSOR */
-/*     DRELPR - MACHINE RELATIVE PRECISION */
-/*     STPTST - STOPPING PARAMETER */
-/*     UDNM   - TWO NORM OF U */
-/*     ZETA   - STOPPING CRITERION */
+/*                        MOD,DSQRT                                      */
+/*                                                                       */
+/*     VERSION:  ITPACK 2C (MARCH 1982)                                  */
+/*                                                                       */
+/*     CODE WRITTEN BY:  DAVID KINCAID, ROGER GRIMES, JOHN RESPESS       */
+/*                       CENTER FOR NUMERICAL ANALYSIS                   */
+/*                       UNIVERSITY OF TEXAS                             */
+/*                       AUSTIN, TX  78712                               */
+/*                       (512) 471-1242                                  */
+/*                                                                       */
+/*     FOR ADDITIONAL DETAILS ON THE                                     */
+/*          (A) SUBROUTINE SEE TOMS ARTICLE 1982                         */
+/*          (B) ALGORITHM  SEE CNA REPORT 150                            */
+/*                                                                       */
+/*     BASED ON THEORY BY:  DAVID YOUNG, DAVID KINCAID, LOU HAGEMAN      */
+/*                                                                       */
+/*     REFERENCE THE BOOK:  APPLIED ITERATIVE METHODS                    */
+/*                          L. HAGEMAN, D. YOUNG                         */
+/*                          ACADEMIC PRESS, 1981                         */
+/*                                                                       */
+/*     **************************************************                */
+/*     *               IMPORTANT NOTE                   *                */
+/*     *                                                *                */
+/*     *      WHEN INSTALLING ITPACK ROUTINES ON A      *                */
+/*     *  DIFFERENT COMPUTER, RESET SOME OF THE VALUES  *                */
+/*     *  IN  SUBROUTNE DFAULT.   MOST IMPORTANT ARE    *                */
+/*     *                                                *                */
+/*     *   DRELPR      MACHINE RELATIVE PRECISION       *                */
+/*     *   RPARM(1)    STOPPING CRITERION               *                */
+/*     *                                                *                */
+/*     *   ALSO CHANGE SYSTEM-DEPENDENT ROUTINE         *                */
+/*     *   SECOND USED IN TIMER                         *                */
+/*     *                                                *                */
+/*     **************************************************                */
+/*                                                                       */
+/*     SPECIFICATIONS FOR ARGUMENTS                                      */
+/*                                                                       */
+/*     SPECIFICATIONS FOR LOCAL VARIABLES                                */
+/*                                                                       */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM1                                */
+/*                                                                       */
+/*     IN     - ITERATION NUMBER                                         */
+/*     IS     - ITERATION NUMBER WHEN PARAMETERS LAST CHANGED            */
+/*     ISYM   - SYMMETRIC/NONSYMMETRIC STORAGE FORMAT SWITCH             */
+/*     ITMAX  - MAXIMUM NUMBER OF ITERATIONS ALLOWED                     */
+/*     LEVEL  - LEVEL OF OUTPUT CONTROL SWITCH                           */
+/*     NOUT   - OUTPUT UNIT NUMBER                                       */
+/*                                                                       */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM2                                */
+/*                                                                       */
+/*     ADAPT  - FULLY ADAPTIVE PROCEDURE SWITCH                          */
+/*     BETADT - SWITCH FOR ADAPTIVE DETERMINATION OF BETA                */
+/*     CASEII - ADAPTIVE PROCEDURE CASE SWITCH                           */
+/*     HALT   - STOPPING TEST SWITCH                                     */
+/*     PARTAD - PARTIALLY ADAPTIVE PROCEDURE SWITCH                      */
+/*                                                                       */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM3                                */
+/*                                                                       */
+/*     BDELNM - TWO NORM OF B TIMES DELTA-SUPER-N                        */
+/*     BETAB  - ESTIMATE FOR THE SPECTRAL RADIUS OF LU MATRIX            */
+/*     CME    - ESTIMATE OF LARGEST EIGENVALUE                           */
+/*     DELNNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION N          */
+/*     DELSNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION S          */
+/*     FF     - ADAPTIVE PROCEDURE DAMPING FACTOR                        */
+/*     GAMMA  - ACCELERATION PARAMETER                                   */
+/*     OMEGA  - OVERRELAXATION PARAMETER FOR SOR AND SSOR                */
+/*     QA     - PSEUDO-RESIDUAL RATIO                                    */
+/*     QT     - VIRTUAL SPECTRAL RADIUS                                  */
+/*     RHO    - ACCELERATION PARAMETER                                   */
+/*     RRR    - ADAPTIVE PARAMETER                                       */
+/*     SIGE   - PARAMETER SIGMA-SUB-E                                    */
+/*     SME    - ESTIMATE OF SMALLEST EIGENVALUE                          */
+/*     SPECR  - SPECTRAL RADIUS ESTIMATE FOR SSOR                        */
+/*     DRELPR - MACHINE RELATIVE PRECISION                               */
+/*     STPTST - STOPPING PARAMETER                                       */
+/*     UDNM   - TWO NORM OF U                                            */
+/*     ZETA   - STOPPING CRITERION                                       */
 
     itcom1_1.level = iparm[1];
     itcom1_1.nout = iparm[3];
@@ -595,14 +584,13 @@ int jsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, 
     if (iparm[0] <= 0)
         return 0;
 
-    n = *nn;
     if (iparm[10] == 0)
         timj1 = timer_((real*)0);
 
     if (itcom1_1.level < 3)
         echout_(iparm, rparm, &c__2);
     else
-        echall_(&n, ia, ja, a, rhs, iparm, rparm, &c__1);
+        echall_(n, ia, ja, a, rhs, iparm, rparm, &c__1);
     temp = itcom3_1.drelpr * 500.;
     if (itcom3_1.zeta < temp)
         itcom3_1.zeta = temp;
@@ -612,69 +600,68 @@ int jsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, 
     digit1 = rparm[10];
     digit2 = rparm[11];
 
-/* ... VERIFY N */
+    /* ... VERIFY N */
 
-    if (n <= 0) {
+    if (*n <= 0) {
         ier = 21;
         goto L360;
     }
 
-/* ... REMOVE ROWS AND COLUMNS IF REQUESTED */
+    /* ... REMOVE ROWS AND COLUMNS IF REQUESTED */
 
     if (iparm[9] != 0) {
         tol = rparm[7];
-        ivfill_(&n, iwksp, &c__0);
-        vfill_(&n, wksp, &c_b21);
-        sbelm_(&n, ia, ja, a, rhs, iwksp, wksp, &tol, &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
+        ivfill_(n, iwksp, &c__0);
+        vfill_(n, wksp, &c_b21);
+        sbelm_(n, ia, ja, a, rhs, iwksp, wksp, &tol, &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
         if (ier != 0)
             goto L360;
-
     }
 
-/* ... INITIALIZE WKSP BASE ADDRESSES. */
+    /* ... INITIALIZE WKSP BASE ADDRESSES. */
 
     ib1 = 0;
-    ib2 = ib1 + n;
-    ib3 = ib2 + n;
-    iparm[7] = n << 1;
+    ib2 = ib1 + *n;
+    ib3 = ib2 + *n;
+    iparm[7] = *n << 1;
     if (*nw < iparm[7]) {
         ier = 22;
         goto L360;
     }
 
-/* ... PERMUTE TO  RED-BLACK SYSTEM IF REQUESTED */
+    /* ... PERMUTE TO  RED-BLACK SYSTEM IF REQUESTED */
 
     nb = iparm[8];
     if (nb < 0)
         goto L170;
 
-    n3 = n * 3;
+    n3 = *n * 3;
     ivfill_(&n3, iwksp, &c__0);
-    prbndx_(&n, &nb, ia, ja, iwksp, &iwksp[ib2], &itcom1_1.level, &itcom1_1.nout, &ier);
+    prbndx_(n, &nb, ia, ja, iwksp, &iwksp[ib2], &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L360;
 
-/* ... PERMUTE MATRIX AND RHS */
+    /* ... PERMUTE MATRIX AND RHS */
 
-    permat_(&n, ia, ja, a, iwksp, &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
+    permat_(n, ia, ja, a, iwksp, &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L360;
 
-    pervec_(&n, rhs, iwksp);
-    pervec_(&n, u, iwksp);
+    pervec_(n, rhs, iwksp);
+    pervec_(n, u, iwksp);
 
-/* ... SCALE LINEAR SYSTEM, U, AND RHS BY THE SQUARE ROOT OF THE DIAGONAL ELEMENTS. */
+    /* ... SCALE LINEAR SYSTEM, U, AND RHS BY THE SQUARE ROOT OF THE DIAGONAL ELEMENTS. */
 
 L170:
     vfill_(&iparm[7], wksp, &c_b21);
-    scal_(&n, ia, ja, a, rhs, u, wksp, &itcom1_1.level, &itcom1_1.nout, &ier);
+    scal_(n, ia, ja, a, rhs, u, wksp, &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L360;
 
     if (iparm[10] == 0)
         timi1 = timer_((real*)0);
 
-/* ... ITERATION SEQUENCE */
+    /* ... ITERATION SEQUENCE */
 
     itmax1 = itcom1_1.itmax + 1;
     for (loop = 1; loop <= itmax1; ++loop) {
@@ -682,32 +669,31 @@ L170:
         if (itcom1_1.in % 2 == 1)
             goto L230;
 
-/* ... CODE FOR THE EVEN ITERATIONS. */
+    /* ... CODE FOR THE EVEN ITERATIONS. */
 
-/*     U           = U(IN) */
-/*     WKSP(IB1)   = U(IN-1) */
+    /*     U           = U(IN) */
+    /*     WKSP(IB1)   = U(IN-1) */
 
-        itjsi_(&n, ia, ja, a, rhs, u, &wksp[ib1], &wksp[ib2], &icnt);
+        itjsi_(n, ia, ja, a, rhs, u, &wksp[ib1], &wksp[ib2], &icnt);
 
         if (itcom2_1.halt)
             goto L270;
 
         continue;
 
-/* ... CODE FOR THE ODD ITERATIONS. */
+    /* ... CODE FOR THE ODD ITERATIONS. */
 
-/*     U           = U(IN-1) */
-/*     WKSP(IB1)   = U(IN) */
+    /*     U           = U(IN-1) */
+    /*     WKSP(IB1)   = U(IN) */
 
 L230:
-        itjsi_(&n, ia, ja, a, rhs, &wksp[ib1], u, &wksp[ib2], &icnt);
+        itjsi_(n, ia, ja, a, rhs, &wksp[ib1], u, &wksp[ib2], &icnt);
 
         if (itcom2_1.halt)
             goto L270;
-
     }
 
-/* ... ITMAX HAS BEEN REACHED */
+    /* ... ITMAX HAS BEEN REACHED */
 
     if (iparm[10] == 0) {
         timi2 = timer_((real*)0);
@@ -719,7 +705,7 @@ L230:
 
     goto L300;
 
-/* ... METHOD HAS CONVERGED */
+    /* ... METHOD HAS CONVERGED */
 
 L270:
     if (iparm[10] == 0) {
@@ -727,22 +713,22 @@ L270:
         time1 = (doublereal) (timi2 - timi1);
     }
 
-/* ... PUT SOLUTION INTO U IF NOT ALREADY THERE. */
+    /* ... PUT SOLUTION INTO U IF NOT ALREADY THERE. */
 
 L300:
     if (itcom1_1.in % 2 == 1)
-        itpackdcopy_(&n, &wksp[ib1], &c__1, u, &c__1);
+        itpackdcopy_(n, &wksp[ib1], &c__1, u, &c__1);
 
-/* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
+    /* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
 
-    unscal_(&n, ia, ja, a, rhs, u, wksp);
+    unscal_(n, ia, ja, a, rhs, u, wksp);
 
-/* ... UN-PERMUTE MATRIX,RHS, AND SOLUTION */
+    /* ... UN-PERMUTE MATRIX,RHS, AND SOLUTION */
 
     if (iparm[8] < 0)
         goto L330;
 
-    permat_(&n, ia, ja, a, &iwksp[ib2], &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ierper);
+    permat_(n, ia, ja, a, &iwksp[ib2], &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ierper);
     if (ierper != 0) {
         if (ier == 0)
             ier = ierper;
@@ -750,10 +736,10 @@ L300:
         goto L360;
     }
 
-    pervec_(&n, rhs, &iwksp[ib2]);
-    pervec_(&n, u, &iwksp[ib2]);
+    pervec_(n, rhs, &iwksp[ib2]);
+    pervec_(n, u, &iwksp[ib2]);
 
-/* ... OPTIONAL ERROR ANALYSIS */
+    /* ... OPTIONAL ERROR ANALYSIS */
 
 L330:
     idgts = iparm[11];
@@ -761,7 +747,7 @@ L330:
         if (iparm[1] <= 0)
             idgts = 0;
 
-        perror_(&n, ia, ja, a, rhs, u, wksp, &digit1, &digit2, &idgts);
+        perror_(n, ia, ja, a, rhs, u, wksp, &digit1, &digit2, &idgts);
     }
 
     /* ... SET RETURN PARAMETERS IN IPARM AND RPARM */
@@ -784,17 +770,17 @@ L330:
 L360:
     *ierr = ier;
     if (itcom1_1.level >= 3)
-        echall_(&n, ia, ja, a, rhs, iparm, rparm, &c__2);
+        echall_(n, ia, ja, a, rhs, iparm, rparm, &c__2);
 
     return 0;
 } /* jsi_ */
 
 /* Subroutine */
-int sor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
+int sor_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
          integer *iwksp, integer *nw, doublereal *wksp, integer *iparm, doublereal *rparm, integer* ierr)
 {
     /* Local variables */
-    static integer n, n3, nb, ib1, ib2, ib3, ier;
+    static integer n3, nb, ib1, ib2, ib3, ier;
     static doublereal tol;
     static doublereal temp;
     static integer loop;
@@ -806,123 +792,121 @@ int sor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, 
     static integer ierper;
 
 /*     ITPACK 2C MAIN SUBROUTINE  SOR  (SUCCESSIVE OVERRELATION) */
-/*     EACH OF THE MAIN SUBROUTINES: */
-/*           JCG, JSI, SOR, SSORCG, SSORSI, RSCG, RSSI */
-/*     CAN BE USED INDEPENDENTLY OF THE OTHERS */
+/*     EACH OF THE MAIN SUBROUTINES:                             */
+/*           JCG, JSI, SOR, SSORCG, SSORSI, RSCG, RSSI           */
+/*     CAN BE USED INDEPENDENTLY OF THE OTHERS                   */
 
-/* ... FUNCTION: */
-
-/*          THIS SUBROUTINE, SOR, DRIVES THE  SUCCESSIVE */
-/*          OVERRELAXATION ALGORITHM. */
-
-/* ... PARAMETER LIST: */
-
-/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX. (= NN) */
-/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF */
-/*                 THE SPARSE MATRIX REPRESENTATION. */
-/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE */
-/*                 MATRIX REPRESENTATION */
-/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE */
-/*                 OF THE MATRIX PROBLEM. */
-/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE */
+/*          THIS SUBROUTINE, SOR, DRIVES THE  SUCCESSIVE                 */
+/*          OVERRELAXATION ALGORITHM.                                    */
+/*                                                                       */
+/* ... PARAMETER LIST:                                                   */
+/*                                                                       */
+/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX.              */
+/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF     */
+/*                 THE SPARSE MATRIX REPRESENTATION.                     */
+/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE      */
+/*                 MATRIX REPRESENTATION                                 */
+/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE      */
+/*                 OF THE MATRIX PROBLEM.                                */
+/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE   */
 /*                 INITIAL GUESS TO THE SOLUTION. ON OUTPUT, IT CONTAINS */
-/*                 THE LATEST ESTIMATE TO THE SOLUTION. */
-/*          IWKSP  INTEGER VECTOR WORKSPACE OF LENGTH 3*N */
+/*                 THE LATEST ESTIMATE TO THE SOLUTION.                  */
+/*          IWKSP  INTEGER VECTOR WORKSPACE OF LENGTH 3*N                */
 /*          NW     INPUT INTEGER.  LENGTH OF AVAILABLE WKSP.  ON OUTPUT, */
-/*                 IPARM(8) IS AMOUNT USED. */
-/*          WKSP   D.P. VECTOR USED FOR WORKING SPACE.  SOR NEEDS THIS */
-/*                 TO BE IN LENGTH AT LEAST  N */
-/*          IPARM  INTEGER VECTOR OF LENGTH 12.  ALLOWS USER TO SPECIFY */
-/*                 SOME INTEGER PARAMETERS WHICH AFFECT THE METHOD. */
+/*                 IPARM(8) IS AMOUNT USED.                              */
+/*          WKSP   D.P. VECTOR USED FOR WORKING SPACE.  SOR NEEDS THIS   */
+/*                 TO BE IN LENGTH AT LEAST  N                           */
+/*          IPARM  INTEGER VECTOR OF LENGTH 12.  ALLOWS USER TO SPECIFY  */
+/*                 SOME INTEGER PARAMETERS WHICH AFFECT THE METHOD.      */
 /*          RPARM  D.P. VECTOR OF LENGTH 12. ALLOWS USER TO SPECIFY SOME */
-/*                 D.P. PARAMETERS WHICH AFFECT THE METHOD. */
-/*          IER    OUTPUT INTEGER.  ERROR FLAG. (= IERR) */
-
-/* ... SOR SUBPROGRAM REFERENCES: */
-
-/*          FROM ITPACK   BISRCH, DFAULT, ECHALL, ECHOUT, IPSTR, ITERM, */
-/*                        TIMER, ITSOR, IVFILL, PERMAT, PERROR, */
-/*                        PERVEC, PFSOR1, PMULT, PRBNDX, PSTOP, QSORT, */
-/*                        SBELM, SCAL, DCOPY, DDOT, TAU, UNSCAL, VFILL, */
-/*                        VOUT, WEVMW */
+/*                 D.P. PARAMETERS WHICH AFFECT THE METHOD.              */
+/*          IER    OUTPUT INTEGER.  ERROR FLAG. (= IERR)                 */
+/*                                                                       */
+/* ... SOR SUBPROGRAM REFERENCES:                                        */
+/*                                                                       */
+/*          FROM ITPACK   BISRCH, DFAULT, ECHALL, ECHOUT, IPSTR, ITERM,  */
+/*                        TIMER, ITSOR, IVFILL, PERMAT, PERROR,          */
+/*                        PERVEC, PFSOR1, PMULT, PRBNDX, PSTOP, QSORT,   */
+/*                        SBELM, SCAL, DCOPY, DDOT, TAU, UNSCAL, VFILL,  */
+/*                        VOUT, WEVMW                                    */
 /*          SYSTEM        DABS, DLOG10, DBLE(AMAX0), DMAX1, DBLE(FLOAT), */
-/*                        DSQRT */
-
-/*     VERSION:  ITPACK 2C (MARCH 1982) */
-
-/*     CODE WRITTEN BY:  DAVID KINCAID, ROGER GRIMES, JOHN RESPESS */
-/*                       CENTER FOR NUMERICAL ANALYSIS */
-/*                       UNIVERSITY OF TEXAS */
-/*                       AUSTIN, TX  78712 */
-/*                       (512) 471-1242 */
-
-/*     FOR ADDITIONAL DETAILS ON THE */
-/*          (A) SUBROUTINE SEE TOMS ARTICLE 1982 */
-/*          (B) ALGORITHM  SEE CNA REPORT 150 */
-
-/*     BASED ON THEORY BY:  DAVID YOUNG, DAVID KINCAID, LOU HAGEMAN */
-
-/*     REFERENCE THE BOOK:  APPLIED ITERATIVE METHODS */
-/*                          L. HAGEMAN, D. YOUNG */
-/*                          ACADEMIC PRESS, 1981 */
-
-/*     ************************************************** */
-/*     *               IMPORTANT NOTE                   * */
-/*     *                                                * */
-/*     *      WHEN INSTALLING ITPACK ROUTINES ON A      * */
-/*     *  DIFFERENT COMPUTER, RESET SOME OF THE VALUES  * */
-/*     *  IN  SUBROUTNE DFAULT.   MOST IMPORTANT ARE    * */
-/*     *                                                * */
-/*     *   DRELPR      MACHINE RELATIVE PRECISION       * */
-/*     *   RPARM(1)    STOPPING CRITERION               * */
-/*     *                                                * */
-/*     *   ALSO CHANGE SYSTEM-DEPENDENT ROUTINE         * */
-/*     *   SECOND USED IN TIMER                         * */
-/*     *                                                * */
-/*     ************************************************** */
-
-/*     SPECIFICATIONS FOR ARGUMENTS */
-
-/*     SPECIFICATIONS FOR LOCAL VARIABLES */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM1 */
-
-/*     IN     - ITERATION NUMBER */
-/*     IS     - ITERATION NUMBER WHEN PARAMETERS LAST CHANGED */
-/*     ISYM   - SYMMETRIC/NONSYMMETRIC STORAGE FORMAT SWITCH */
-/*     ITMAX  - MAXIMUM NUMBER OF ITERATIONS ALLOWED */
-/*     LEVEL  - LEVEL OF OUTPUT CONTROL SWITCH */
-/*     NOUT   - OUTPUT UNIT NUMBER */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM2 */
-
-/*     ADAPT  - FULLY ADAPTIVE PROCEDURE SWITCH */
-/*     BETADT - SWITCH FOR ADAPTIVE DETERMINATION OF BETA */
-/*     CASEII - ADAPTIVE PROCEDURE CASE SWITCH */
-/*     HALT   - STOPPING TEST SWITCH */
-/*     PARTAD - PARTIALLY ADAPTIVE PROCEDURE SWITCH */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM3 */
-
-/*     BDELNM - TWO NORM OF B TIMES DELTA-SUPER-N */
-/*     BETAB  - ESTIMATE FOR THE SPECTRAL RADIUS OF LU MATRIX */
-/*     CME    - ESTIMATE OF LARGEST EIGENVALUE */
-/*     DELNNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION N */
-/*     DELSNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION S */
-/*     FF     - ADAPTIVE PROCEDURE DAMPING FACTOR */
-/*     GAMMA  - ACCELERATION PARAMETER */
-/*     OMEGA  - OVERRELAXATION PARAMETER FOR SOR AND SSOR */
-/*     QA     - PSEUDO-RESIDUAL RATIO */
-/*     QT     - VIRTUAL SPECTRAL RADIUS */
-/*     RHO    - ACCELERATION PARAMETER */
-/*     RRR    - ADAPTIVE PARAMETER */
-/*     SIGE   - PARAMETER SIGMA-SUB-E */
-/*     SME    - ESTIMATE OF SMALLEST EIGENVALUE */
-/*     SPECR  - SPECTRAL RADIUS ESTIMATE FOR SSOR */
-/*     DRELPR - MACHINE RELATIVE PRECISION */
-/*     STPTST - STOPPING PARAMETER */
-/*     UDNM   - TWO NORM OF U */
-/*     ZETA   - STOPPING CRITERION */
+/*                        DSQRT                                          */
+/*                                                                       */
+/*     VERSION:  ITPACK 2C (MARCH 1982)                                  */
+/*                                                                       */
+/*     CODE WRITTEN BY:  DAVID KINCAID, ROGER GRIMES, JOHN RESPESS       */
+/*                       CENTER FOR NUMERICAL ANALYSIS                   */
+/*                       UNIVERSITY OF TEXAS                             */
+/*                       AUSTIN, TX  78712                               */
+/*                       (512) 471-1242                                  */
+/*                                                                       */
+/*     FOR ADDITIONAL DETAILS ON THE                                     */
+/*          (A) SUBROUTINE SEE TOMS ARTICLE 1982                         */
+/*          (B) ALGORITHM  SEE CNA REPORT 150                            */
+/*                                                                       */
+/*     BASED ON THEORY BY:  DAVID YOUNG, DAVID KINCAID, LOU HAGEMAN      */
+/*                                                                       */
+/*     REFERENCE THE BOOK:  APPLIED ITERATIVE METHODS                    */
+/*                          L. HAGEMAN, D. YOUNG                         */
+/*                          ACADEMIC PRESS, 1981                         */
+/*                                                                       */
+/*     **************************************************                */
+/*     *               IMPORTANT NOTE                   *                */
+/*     *                                                *                */
+/*     *      WHEN INSTALLING ITPACK ROUTINES ON A      *                */
+/*     *  DIFFERENT COMPUTER, RESET SOME OF THE VALUES  *                */
+/*     *  IN  SUBROUTNE DFAULT.   MOST IMPORTANT ARE    *                */
+/*     *                                                *                */
+/*     *   DRELPR      MACHINE RELATIVE PRECISION       *                */
+/*     *   RPARM(1)    STOPPING CRITERION               *                */
+/*     *                                                *                */
+/*     *   ALSO CHANGE SYSTEM-DEPENDENT ROUTINE         *                */
+/*     *   SECOND USED IN TIMER                         *                */
+/*     *                                                *                */
+/*     **************************************************                */
+/*                                                                       */
+/*     SPECIFICATIONS FOR ARGUMENTS                                      */
+/*                                                                       */
+/*     SPECIFICATIONS FOR LOCAL VARIABLES                                */
+/*                                                                       */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM1                                */
+/*                                                                       */
+/*     IN     - ITERATION NUMBER                                         */
+/*     IS     - ITERATION NUMBER WHEN PARAMETERS LAST CHANGED            */
+/*     ISYM   - SYMMETRIC/NONSYMMETRIC STORAGE FORMAT SWITCH             */
+/*     ITMAX  - MAXIMUM NUMBER OF ITERATIONS ALLOWED                     */
+/*     LEVEL  - LEVEL OF OUTPUT CONTROL SWITCH                           */
+/*     NOUT   - OUTPUT UNIT NUMBER                                       */
+/*                                                                       */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM2                                */
+/*                                                                       */
+/*     ADAPT  - FULLY ADAPTIVE PROCEDURE SWITCH                          */
+/*     BETADT - SWITCH FOR ADAPTIVE DETERMINATION OF BETA                */
+/*     CASEII - ADAPTIVE PROCEDURE CASE SWITCH                           */
+/*     HALT   - STOPPING TEST SWITCH                                     */
+/*     PARTAD - PARTIALLY ADAPTIVE PROCEDURE SWITCH                      */
+/*                                                                       */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM3                                */
+/*                                                                       */
+/*     BDELNM - TWO NORM OF B TIMES DELTA-SUPER-N                        */
+/*     BETAB  - ESTIMATE FOR THE SPECTRAL RADIUS OF LU MATRIX            */
+/*     CME    - ESTIMATE OF LARGEST EIGENVALUE                           */
+/*     DELNNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION N          */
+/*     DELSNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION S          */
+/*     FF     - ADAPTIVE PROCEDURE DAMPING FACTOR                        */
+/*     GAMMA  - ACCELERATION PARAMETER                                   */
+/*     OMEGA  - OVERRELAXATION PARAMETER FOR SOR AND SSOR                */
+/*     QA     - PSEUDO-RESIDUAL RATIO                                    */
+/*     QT     - VIRTUAL SPECTRAL RADIUS                                  */
+/*     RHO    - ACCELERATION PARAMETER                                   */
+/*     RRR    - ADAPTIVE PARAMETER                                       */
+/*     SIGE   - PARAMETER SIGMA-SUB-E                                    */
+/*     SME    - ESTIMATE OF SMALLEST EIGENVALUE                          */
+/*     SPECR  - SPECTRAL RADIUS ESTIMATE FOR SSOR                        */
+/*     DRELPR - MACHINE RELATIVE PRECISION                               */
+/*     STPTST - STOPPING PARAMETER                                       */
+/*     UDNM   - TWO NORM OF U                                            */
+/*     ZETA   - STOPPING CRITERION                                       */
 
     itcom1_1.level = iparm[1];
     itcom1_1.nout = iparm[3];
@@ -930,14 +914,13 @@ int sor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, 
     if (iparm[0] <= 0)
         return 0;
 
-    n = *nn;
     if (iparm[10] == 0)
         timj1 = timer_((real*)0);
 
     if (itcom1_1.level < 3)
         echout_(iparm, rparm, &c__3);
     else
-        echall_(&n, ia, ja, a, rhs, iparm, rparm, &c__1);
+        echall_(n, ia, ja, a, rhs, iparm, rparm, &c__1);
     temp = itcom3_1.drelpr * 500.;
     if (itcom3_1.zeta < temp)
         itcom3_1.zeta = temp;
@@ -947,87 +930,85 @@ int sor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, 
     digit1 = rparm[10];
     digit2 = rparm[11];
 
-/* ... VERIFY N */
+    /* ... VERIFY N */
 
-    if (n <= 0) {
+    if (*n <= 0) {
         ier = 31;
         goto L360;
     }
 
-/* ... REMOVE ROWS AND COLUMNS IF REQUESTED */
+    /* ... REMOVE ROWS AND COLUMNS IF REQUESTED */
 
     if (iparm[9] != 0) {
         tol = rparm[7];
-        ivfill_(&n, iwksp, &c__0);
-        vfill_(&n, wksp, &c_b21);
-        sbelm_(&n, ia, ja, a, rhs, iwksp, wksp, &tol, &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
+        ivfill_(n, iwksp, &c__0);
+        vfill_(n, wksp, &c_b21);
+        sbelm_(n, ia, ja, a, rhs, iwksp, wksp, &tol, &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
         if (ier != 0)
             goto L360;
-
     }
 
-/* ... INITIALIZE WKSP BASE ADDRESSES. */
+    /* ... INITIALIZE WKSP BASE ADDRESSES. */
 
     ib1 = 0;
-    ib2 = ib1 + n;
-    ib3 = ib2 + n;
-    iparm[7] = n;
+    ib2 = ib1 + *n;
+    ib3 = ib2 + *n;
+    iparm[7] = *n;
     if (*nw < iparm[7]) {
         ier = 32;
         goto L360;
     }
 
-/* ... PERMUTE TO  RED-BLACK SYSTEM IF REQUESTED */
+    /* ... PERMUTE TO  RED-BLACK SYSTEM IF REQUESTED */
 
     nb = iparm[8];
     if (nb < 0)
         goto L170;
 
-    n3 = n * 3;
+    n3 = *n * 3;
     ivfill_(&n3, iwksp, &c__0);
-    prbndx_(&n, &nb, ia, ja, iwksp, &iwksp[ib2], &itcom1_1.level, &itcom1_1.nout, &ier);
+    prbndx_(n, &nb, ia, ja, iwksp, &iwksp[ib2], &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L360;
 
-/* ... PERMUTE MATRIX AND RHS */
+    /* ... PERMUTE MATRIX AND RHS */
 
-    permat_(&n, ia, ja, a, iwksp, &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
+    permat_(n, ia, ja, a, iwksp, &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L360;
 
-    pervec_(&n, rhs, iwksp);
-    pervec_(&n, u, iwksp);
+    pervec_(n, rhs, iwksp);
+    pervec_(n, u, iwksp);
 
-/* ... SCALE LINEAR SYSTEM, U, AND RHS BY THE SQUARE ROOT OF THE */
-/* ... DIAGONAL ELEMENTS. */
+    /* ... SCALE LINEAR SYSTEM, U, AND RHS BY THE SQUARE ROOT OF THE */
+    /* ... DIAGONAL ELEMENTS. */
 
 L170:
     vfill_(&iparm[7], wksp, &c_b21);
-    scal_(&n, ia, ja, a, rhs, u, wksp, &itcom1_1.level, &itcom1_1.nout, &ier);
+    scal_(n, ia, ja, a, rhs, u, wksp, &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L360;
 
     if (iparm[10] == 0)
         timi1 = timer_((real*)0);
 
-/* ... ITERATION SEQUENCE */
+    /* ... ITERATION SEQUENCE */
 
     itmax1 = itcom1_1.itmax + 1;
     for (loop = 1; loop <= itmax1; ++loop) {
         itcom1_1.in = loop - 1;
 
-/* ... CODE FOR ONE ITERATION. */
+    /* ... CODE FOR ONE ITERATION. */
 
-/*     U           = U(IN) */
+    /*     U           = U(IN) */
 
-        itsor_(&n, ia, ja, a, rhs, u, &wksp[ib1]);
+        itsor_(n, ia, ja, a, rhs, u, &wksp[ib1]);
 
         if (itcom2_1.halt)
             goto L270;
-
     }
 
-/* ... ITMAX HAS BEEN REACHED */
+    /* ... ITMAX HAS BEEN REACHED */
 
     if (iparm[10] == 0) {
         timi2 = timer_((real*)0);
@@ -1039,7 +1020,7 @@ L170:
 
     goto L300;
 
-/* ... METHOD HAS CONVERGED */
+    /* ... METHOD HAS CONVERGED */
 
 L270:
     if (iparm[10] == 0) {
@@ -1047,17 +1028,17 @@ L270:
         time1 = (doublereal) (timi2 - timi1);
     }
 
-/* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
+    /* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
 
 L300:
-    unscal_(&n, ia, ja, a, rhs, u, wksp);
+    unscal_(n, ia, ja, a, rhs, u, wksp);
 
-/* ... UN-PERMUTE MATRIX,RHS, AND SOLUTION */
+    /* ... UN-PERMUTE MATRIX,RHS, AND SOLUTION */
 
     if (iparm[8] < 0)
         goto L330;
 
-    permat_(&n, ia, ja, a, &iwksp[ib2], &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ierper);
+    permat_(n, ia, ja, a, &iwksp[ib2], &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ierper);
     if (ierper != 0) {
         if (ier == 0)
             ier = ierper;
@@ -1065,10 +1046,10 @@ L300:
         goto L360;
     }
 
-    pervec_(&n, rhs, &iwksp[ib2]);
-    pervec_(&n, u, &iwksp[ib2]);
+    pervec_(n, rhs, &iwksp[ib2]);
+    pervec_(n, u, &iwksp[ib2]);
 
-/* ... OPTIONAL ERROR ANALYSIS */
+    /* ... OPTIONAL ERROR ANALYSIS */
 
 L330:
     idgts = iparm[11];
@@ -1076,7 +1057,7 @@ L330:
         if (iparm[1] <= 0)
             idgts = 0;
 
-        perror_(&n, ia, ja, a, rhs, u, wksp, &digit1, &digit2, &idgts);
+        perror_(n, ia, ja, a, rhs, u, wksp, &digit1, &digit2, &idgts);
     }
 
     /* ... SET RETURN PARAMETERS IN IPARM AND RPARM */
@@ -1100,17 +1081,17 @@ L330:
 L360:
     *ierr = ier;
     if (itcom1_1.level >= 3)
-        echall_(&n, ia, ja, a, rhs, iparm, rparm, &c__2);
+        echall_(n, ia, ja, a, rhs, iparm, rparm, &c__2);
 
     return 0;
 } /* sor_ */
 
 /* Subroutine */
-int ssorcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
+int ssorcg_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
             integer *iwksp, integer *nw, doublereal *wksp, integer *iparm, doublereal *rparm, integer* ierr)
 {
     /* Local variables */
-    static integer n, n3, nb, ib1, ib2, ib3, ib4, ib5, ib6, ib7, ier;
+    static integer n3, nb, ib1, ib2, ib3, ib4, ib5, ib6, ib7, ier;
     static doublereal tol;
     static doublereal temp;
     static integer loop;
@@ -1122,130 +1103,128 @@ int ssorcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rh
     static doublereal betnew;
     static integer ierper;
 
-/*     ITPACK 2C MAIN SUBROUTINE  SSORCG  (SYMMETRIC SUCCESSIVE OVER- */
+/*     ITPACK 2C MAIN SUBROUTINE  SSORCG  (SYMMETRIC SUCCESSIVE OVER-    */
 /*                                        RELAXATION CONJUGATE GRADIENT) */
-/*     EACH OF THE MAIN SUBROUTINES: */
-/*           JCG, JSI, SOR, SSORCG, SSORSI, RSCG, RSSI */
-/*     CAN BE USED INDEPENDENTLY OF THE OTHERS */
+/*     EACH OF THE MAIN SUBROUTINES:                                     */
+/*           JCG, JSI, SOR, SSORCG, SSORSI, RSCG, RSSI                   */
+/*     CAN BE USED INDEPENDENTLY OF THE OTHERS                           */
 
-/* ... FUNCTION: */
-
-/*          THIS SUBROUTINE, SSORCG, DRIVES THE  SYMMETRIC SOR-CG */
-/*          ALGORITHM. */
-
-/* ... PARAMETER LIST: */
-
-/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX. (= NN) */
-/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF */
-/*                 THE SPARSE MATRIX REPRESENTATION. */
-/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE */
-/*                 MATRIX REPRESENTATION. */
-/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE */
-/*                 OF THE MATRIX PROBLEM. */
-/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE */
-/*                 INITIAL GUESS TO THE SOLUTION. ON OUTPUT, IT CONTAINS */
-/*                 THE LATEST ESTIMATE TO THE SOLUTION. */
-/*          IWKSP  INTEGER VECTOR WORKSPACE OF LENGTH 3*N */
-/*          NW     INPUT INTEGER.  LENGTH OF AVAILABLE WKSP.  ON OUTPUT, */
-/*                 IPARM(8) IS AMOUNT USED. */
-/*          WKSP   D.P. VECTOR USED FOR WORKING SPACE.  SSOR-CG */
-/*                 NEEDS TO BE IN LENGTH AT LEAST */
-/*                 6*N + 2*ITMAX,  IF IPARM(5)=0  (SYMMETRIC STORAGE) */
-/*                 6*N + 4*ITMAX,  IF IPARM(5)=1  (NONSYMMETRIC STORAGE) */
-/*          IPARM  INTEGER VECTOR OF LENGTH 12.  ALLOWS USER TO SPECIFY */
-/*                 SOME INTEGER PARAMETERS WHICH AFFECT THE METHOD.  IF */
-/*          RPARM  D.P. VECTOR OF LENGTH 12. ALLOWS USER TO SPECIFY SOME */
-/*                 D.P. PARAMETERS WHICH AFFECT THE METHOD. */
-/*          IER    OUTPUT INTEGER.  ERROR FLAG. (= IERR) */
-
-/* ... SSORCG SUBPROGRAM REFERENCES: */
-
-/*          FROM ITPACK    BISRCH, CHGCON, DETERM, DFAULT, ECHALL, */
-/*                         ECHOUT, EIGVNS, EIGVSS, EQRT1S, ITERM, TIMER, */
-/*                         ITSRCG, IVFILL, OMEG, OMGCHG, OMGSTR, */
-/*                         PARCON, PBETA, PBSOR, PERMAT, PERROR, */
+/*          THIS SUBROUTINE, SSORCG, DRIVES THE  SYMMETRIC SOR-CG         */
+/*          ALGORITHM.                                                    */
+/*                                                                        */
+/* ... PARAMETER LIST:                                                    */
+/*                                                                        */
+/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX.               */
+/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF      */
+/*                 THE SPARSE MATRIX REPRESENTATION.                      */
+/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE       */
+/*                 MATRIX REPRESENTATION.                                 */
+/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE       */
+/*                 OF THE MATRIX PROBLEM.                                 */
+/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE    */
+/*                 INITIAL GUESS TO THE SOLUTION. ON OUTPUT, IT CONTAINS  */
+/*                 THE LATEST ESTIMATE TO THE SOLUTION.                   */
+/*          IWKSP  INTEGER VECTOR WORKSPACE OF LENGTH 3*N                 */
+/*          NW     INPUT INTEGER.  LENGTH OF AVAILABLE WKSP.  ON OUTPUT,  */
+/*                 IPARM(8) IS AMOUNT USED.                               */
+/*          WKSP   D.P. VECTOR USED FOR WORKING SPACE.  SSOR-CG           */
+/*                 NEEDS TO BE IN LENGTH AT LEAST                         */
+/*                 6*N + 2*ITMAX,  IF IPARM(5)=0  (SYMMETRIC STORAGE)     */
+/*                 6*N + 4*ITMAX,  IF IPARM(5)=1  (NONSYMMETRIC STORAGE)  */
+/*          IPARM  INTEGER VECTOR OF LENGTH 12.  ALLOWS USER TO SPECIFY   */
+/*                 SOME INTEGER PARAMETERS WHICH AFFECT THE METHOD.  IF   */
+/*          RPARM  D.P. VECTOR OF LENGTH 12. ALLOWS USER TO SPECIFY SOME  */
+/*                 D.P. PARAMETERS WHICH AFFECT THE METHOD.               */
+/*          IER    OUTPUT INTEGER.  ERROR FLAG. (= IERR)                  */
+/*                                                                        */
+/* ... SSORCG SUBPROGRAM REFERENCES:                                      */
+/*                                                                        */
+/*          FROM ITPACK    BISRCH, CHGCON, DETERM, DFAULT, ECHALL,        */
+/*                         ECHOUT, EIGVNS, EIGVSS, EQRT1S, ITERM, TIMER,  */
+/*                         ITSRCG, IVFILL, OMEG, OMGCHG, OMGSTR,          */
+/*                         PARCON, PBETA, PBSOR, PERMAT, PERROR,          */
 /*                         PERVEC, PFSOR, PJAC, PMULT, PRBNDX, PSTOP, PVT */
-/*                         QSORT, SBELM, SCAL, DCOPY, DDOT, SUM3, */
-/*                         UNSCAL, VEVMW, VEVPW, VFILL, VOUT, WEVMW, */
-/*                         ZBRENT */
+/*                         QSORT, SBELM, SCAL, DCOPY, DDOT, SUM3,         */
+/*                         UNSCAL, VEVMW, VEVPW, VFILL, VOUT, WEVMW,      */
+/*                         ZBRENT                                         */
 /*          SYSTEM         DABS, DLOG, DLOG10, DBLE(AMAX0), DMAX1, AMIN1, */
-/*                         MOD, DSQRT */
-
-/*     VERSION:  ITPACK 2C (MARCH 1982) */
-
-/*     CODE WRITTEN BY:  DAVID KINCAID, ROGER GRIMES, JOHN RESPESS */
-/*                       CENTER FOR NUMERICAL ANALYSIS */
-/*                       UNIVERSITY OF TEXAS */
-/*                       AUSTIN, TX  78712 */
-/*                       (512) 471-1242 */
-
-/*     FOR ADDITIONAL DETAILS ON THE */
-/*          (A) SUBROUTINE SEE TOMS ARTICLE 1982 */
-/*          (B) ALGORITHM  SEE CNA REPORT 150 */
-
-/*     BASED ON THEORY BY:  DAVID YOUNG, DAVID KINCAID, LOU HAGEMAN */
-
-/*     REFERENCE THE BOOK:  APPLIED ITERATIVE METHODS */
-/*                          L. HAGEMAN, D. YOUNG */
-/*                          ACADEMIC PRESS, 1981 */
-
-/*     ************************************************** */
-/*     *               IMPORTANT NOTE                   * */
-/*     *                                                * */
-/*     *      WHEN INSTALLING ITPACK ROUTINES ON A      * */
-/*     *  DIFFERENT COMPUTER, RESET SOME OF THE VALUES  * */
-/*     *  IN  SUBROUTNE DFAULT.   MOST IMPORTANT ARE    * */
-/*     *                                                * */
-/*     *   DRELPR      MACHINE RELATIVE PRECISION       * */
-/*     *   RPARM(1)    STOPPING CRITERION               * */
-/*     *                                                * */
-/*     *   ALSO CHANGE SYSTEM-DEPENDENT ROUTINE         * */
-/*     *   SECOND USED IN TIMER                         * */
-/*     *                                                * */
-/*     ************************************************** */
-
-/*     SPECIFICATIONS FOR ARGUMENTS */
-
-/*     SPECIFICATIONS FOR LOCAL VARIABLES */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM1 */
-
-/*     IN     - ITERATION NUMBER */
-/*     IS     - ITERATION NUMBER WHEN PARAMETERS LAST CHANGED */
-/*     ISYM   - SYMMETRIC/NONSYMMETRIC STORAGE FORMAT SWITCH */
-/*     ITMAX  - MAXIMUM NUMBER OF ITERATIONS ALLOWED */
-/*     LEVEL  - LEVEL OF OUTPUT CONTROL SWITCH */
-/*     NOUT   - OUTPUT UNIT NUMBER */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM2 */
-
-/*     ADAPT  - FULLY ADAPTIVE PROCEDURE SWITCH */
-/*     BETADT - SWITCH FOR ADAPTIVE DETERMINATION OF BETA */
-/*     CASEII - ADAPTIVE PROCEDURE CASE SWITCH */
-/*     HALT   - STOPPING TEST SWITCH */
-/*     PARTAD - PARTIALLY ADAPTIVE PROCEDURE SWITCH */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM3 */
-
-/*     BDELNM - TWO NORM OF B TIMES DELTA-SUPER-N */
-/*     BETAB  - ESTIMATE FOR THE SPECTRAL RADIUS OF LU MATRIX */
-/*     CME    - ESTIMATE OF LARGEST EIGENVALUE */
-/*     DELNNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION N */
-/*     DELSNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION S */
-/*     FF     - ADAPTIVE PROCEDURE DAMPING FACTOR */
-/*     GAMMA  - ACCELERATION PARAMETER */
-/*     OMEGA  - OVERRELAXATION PARAMETER FOR SOR AND SSOR */
-/*     QA     - PSEUDO-RESIDUAL RATIO */
-/*     QT     - VIRTUAL SPECTRAL RADIUS */
-/*     RHO    - ACCELERATION PARAMETER */
-/*     RRR    - ADAPTIVE PARAMETER */
-/*     SIGE   - PARAMETER SIGMA-SUB-E */
-/*     SME    - ESTIMATE OF SMALLEST EIGENVALUE */
-/*     SPECR  - SPECTRAL RADIUS ESTIMATE FOR SSOR */
-/*     DRELPR - MACHINE RELATIVE PRECISION */
-/*     STPTST - STOPPING PARAMETER */
-/*     UDNM   - TWO NORM OF U */
-/*     ZETA   - STOPPING CRITERION */
+/*                         MOD, DSQRT                                     */
+/*                                                                        */
+/*     VERSION:  ITPACK 2C (MARCH 1982)                                   */
+/*                                                                        */
+/*     CODE WRITTEN BY:  DAVID KINCAID, ROGER GRIMES, JOHN RESPESS        */
+/*                       CENTER FOR NUMERICAL ANALYSIS                    */
+/*                       UNIVERSITY OF TEXAS                              */
+/*                       AUSTIN, TX  78712                                */
+/*                       (512) 471-1242                                   */
+/*                                                                        */
+/*     FOR ADDITIONAL DETAILS ON THE                                      */
+/*          (A) SUBROUTINE SEE TOMS ARTICLE 1982                          */
+/*          (B) ALGORITHM  SEE CNA REPORT 150                             */
+/*                                                                        */
+/*     BASED ON THEORY BY:  DAVID YOUNG, DAVID KINCAID, LOU HAGEMAN       */
+/*                                                                        */
+/*     REFERENCE THE BOOK:  APPLIED ITERATIVE METHODS                     */
+/*                          L. HAGEMAN, D. YOUNG                          */
+/*                          ACADEMIC PRESS, 1981                          */
+/*                                                                        */
+/*     **************************************************                 */
+/*     *               IMPORTANT NOTE                   *                 */
+/*     *                                                *                 */
+/*     *      WHEN INSTALLING ITPACK ROUTINES ON A      *                 */
+/*     *  DIFFERENT COMPUTER, RESET SOME OF THE VALUES  *                 */
+/*     *  IN  SUBROUTNE DFAULT.   MOST IMPORTANT ARE    *                 */
+/*     *                                                *                 */
+/*     *   DRELPR      MACHINE RELATIVE PRECISION       *                 */
+/*     *   RPARM(1)    STOPPING CRITERION               *                 */
+/*     *                                                *                 */
+/*     *   ALSO CHANGE SYSTEM-DEPENDENT ROUTINE         *                 */
+/*     *   SECOND USED IN TIMER                         *                 */
+/*     *                                                *                 */
+/*     **************************************************                 */
+/*                                                                        */
+/*     SPECIFICATIONS FOR ARGUMENTS                                       */
+/*                                                                        */
+/*     SPECIFICATIONS FOR LOCAL VARIABLES                                 */
+/*                                                                        */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM1                                 */
+/*                                                                        */
+/*     IN     - ITERATION NUMBER                                          */
+/*     IS     - ITERATION NUMBER WHEN PARAMETERS LAST CHANGED             */
+/*     ISYM   - SYMMETRIC/NONSYMMETRIC STORAGE FORMAT SWITCH              */
+/*     ITMAX  - MAXIMUM NUMBER OF ITERATIONS ALLOWED                      */
+/*     LEVEL  - LEVEL OF OUTPUT CONTROL SWITCH                            */
+/*     NOUT   - OUTPUT UNIT NUMBER                                        */
+/*                                                                        */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM2                                 */
+/*                                                                        */
+/*     ADAPT  - FULLY ADAPTIVE PROCEDURE SWITCH                           */
+/*     BETADT - SWITCH FOR ADAPTIVE DETERMINATION OF BETA                 */
+/*     CASEII - ADAPTIVE PROCEDURE CASE SWITCH                            */
+/*     HALT   - STOPPING TEST SWITCH                                      */
+/*     PARTAD - PARTIALLY ADAPTIVE PROCEDURE SWITCH                       */
+/*                                                                        */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM3                                 */
+/*                                                                        */
+/*     BDELNM - TWO NORM OF B TIMES DELTA-SUPER-N                         */
+/*     BETAB  - ESTIMATE FOR THE SPECTRAL RADIUS OF LU MATRIX             */
+/*     CME    - ESTIMATE OF LARGEST EIGENVALUE                            */
+/*     DELNNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION N           */
+/*     DELSNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION S           */
+/*     FF     - ADAPTIVE PROCEDURE DAMPING FACTOR                         */
+/*     GAMMA  - ACCELERATION PARAMETER                                    */
+/*     OMEGA  - OVERRELAXATION PARAMETER FOR SOR AND SSOR                 */
+/*     QA     - PSEUDO-RESIDUAL RATIO                                     */
+/*     QT     - VIRTUAL SPECTRAL RADIUS                                   */
+/*     RHO    - ACCELERATION PARAMETER                                    */
+/*     RRR    - ADAPTIVE PARAMETER                                        */
+/*     SIGE   - PARAMETER SIGMA-SUB-E                                     */
+/*     SME    - ESTIMATE OF SMALLEST EIGENVALUE                           */
+/*     SPECR  - SPECTRAL RADIUS ESTIMATE FOR SSOR                         */
+/*     DRELPR - MACHINE RELATIVE PRECISION                                */
+/*     STPTST - STOPPING PARAMETER                                        */
+/*     UDNM   - TWO NORM OF U                                             */
+/*     ZETA   - STOPPING CRITERION                                        */
 
     itcom1_1.level = iparm[1];
     itcom1_1.nout = iparm[3];
@@ -1256,14 +1235,13 @@ int ssorcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rh
     if (iparm[0] <= 0)
         return 0;
 
-    n = *nn;
     if (iparm[10] == 0)
         timj1 = timer_((real*)0);
 
     if (itcom1_1.level < 3)
         echout_(iparm, rparm, &c__4);
     else
-        echall_(&n, ia, ja, a, rhs, iparm, rparm, &c__1);
+        echall_(n, ia, ja, a, rhs, iparm, rparm, &c__1);
     temp = itcom3_1.drelpr * 500.;
     if (itcom3_1.zeta < temp)
         itcom3_1.zeta = temp;
@@ -1273,35 +1251,34 @@ int ssorcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rh
     digit1 = rparm[10];
     digit2 = rparm[11];
 
-/* ... VERIFY N */
+    /* ... VERIFY N */
 
-    if (n <= 0) {
+    if (*n <= 0) {
         ier = 41;
         goto L390;
     }
 
-/* ... REMOVE ROWS AND COLUMNS IF REQUESTED */
+    /* ... REMOVE ROWS AND COLUMNS IF REQUESTED */
 
     if (iparm[9] != 0) {
         tol = rparm[7];
-        ivfill_(&n, iwksp, &c__0);
-        vfill_(&n, wksp, &c_b21);
-        sbelm_(&n, ia, ja, a, rhs, iwksp, wksp, &tol, &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
+        ivfill_(n, iwksp, &c__0);
+        vfill_(n, wksp, &c_b21);
+        sbelm_(n, ia, ja, a, rhs, iwksp, wksp, &tol, &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
         if (ier != 0)
             goto L390;
-
     }
 
-/* ... INITIALIZE WKSP BASE ADDRESSES. */
+    /* ... INITIALIZE WKSP BASE ADDRESSES. */
 
     ib1 = 0;
-    ib2 = ib1 + n;
-    ib3 = ib2 + n;
-    ib4 = ib3 + n;
-    ib5 = ib4 + n;
-    ib6 = ib5 + n;
-    ib7 = ib6 + n;
-    iparm[7] = n * 6 + (itcom1_1.itmax << 1);
+    ib2 = ib1 + *n;
+    ib3 = ib2 + *n;
+    ib4 = ib3 + *n;
+    ib5 = ib4 + *n;
+    ib6 = ib5 + *n;
+    ib7 = ib6 + *n;
+    iparm[7] = *n * 6 + (itcom1_1.itmax << 1);
     if (itcom1_1.isym != 0)
         iparm[7] += itcom1_1.itmax << 1;
 
@@ -1310,62 +1287,62 @@ int ssorcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rh
         goto L390;
     }
 
-/* ... PERMUTE TO  RED-BLACK SYSTEM IF REQUESTED */
+    /* ... PERMUTE TO  RED-BLACK SYSTEM IF REQUESTED */
 
     nb = iparm[8];
     if (nb < 0)
         goto L170;
 
-    n3 = n * 3;
+    n3 = *n * 3;
     ivfill_(&n3, iwksp, &c__0);
-    prbndx_(&n, &nb, ia, ja, iwksp, &iwksp[ib2], &itcom1_1.level, &itcom1_1.nout, &ier);
+    prbndx_(n, &nb, ia, ja, iwksp, &iwksp[ib2], &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L390;
 
-/* ... PERMUTE MATRIX AND RHS */
+    /* ... PERMUTE MATRIX AND RHS */
 
-    permat_(&n, ia, ja, a, iwksp, &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
+    permat_(n, ia, ja, a, iwksp, &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L390;
 
-    pervec_(&n, rhs, iwksp);
-    pervec_(&n, u, iwksp);
+    pervec_(n, rhs, iwksp);
+    pervec_(n, u, iwksp);
 
-/* ... SCALE LINEAR SYSTEM, U, AND RHS BY THE SQUARE ROOT OF THE */
-/* ... DIAGONAL ELEMENTS. */
+    /* ... SCALE LINEAR SYSTEM, U, AND RHS BY THE SQUARE ROOT OF THE */
+    /* ... DIAGONAL ELEMENTS. */
 
 L170:
     vfill_(&iparm[7], wksp, &c_b21);
-    scal_(&n, ia, ja, a, rhs, u, wksp, &itcom1_1.level, &itcom1_1.nout, &ier);
+    scal_(n, ia, ja, a, rhs, u, wksp, &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L390;
 
     if (iparm[10] == 0)
         timi1 = timer_((real*)0);
 
-/* ... SPECIAL PROCEDURE FOR FULLY ADAPTIVE CASE. */
+    /* ... SPECIAL PROCEDURE FOR FULLY ADAPTIVE CASE. */
 
     if (! itcom2_1.adapt)
         goto L250;
 
     if (itcom2_1.betadt) {
-        vfill_(&n, &wksp[ib1], &c_b286);
-        betnew = pbeta_(&n, ia, ja, a, &wksp[ib1], &wksp[ib2], &wksp[ib3]) / (doublereal) ((real) n);
+        vfill_(n, &wksp[ib1], &c_b286);
+        betnew = pbeta_(n, ia, ja, a, &wksp[ib1], &wksp[ib2], &wksp[ib3]) / (doublereal)(*n);
         itcom3_1.betab = max(max(itcom3_1.betab,.25),betnew);
     }
 
     omeg_(&c_b21, &c__1);
     itcom1_1.is = 0;
 
-/* ... INITIALIZE FORWARD PSEUDO-RESIDUAL */
+    /* ... INITIALIZE FORWARD PSEUDO-RESIDUAL */
 
 L250:
-    itpackdcopy_(&n, rhs, &c__1, &wksp[ib1], &c__1);
-    itpackdcopy_(&n, u, &c__1, &wksp[ib2], &c__1);
-    pfsor_(&n, ia, ja, a, &wksp[ib2], &wksp[ib1]);
-    vevmw_(&n, &wksp[ib2], u);
+    itpackdcopy_(n, rhs, &c__1, &wksp[ib1], &c__1);
+    itpackdcopy_(n, u, &c__1, &wksp[ib2], &c__1);
+    pfsor_(n, ia, ja, a, &wksp[ib2], &wksp[ib1]);
+    vevmw_(n, &wksp[ib2], u);
 
-/* ... ITERATION SEQUENCE */
+    /* ... ITERATION SEQUENCE */
 
     itmax1 = itcom1_1.itmax + 1;
     for (loop = 1; loop <= itmax1; ++loop) {
@@ -1373,32 +1350,31 @@ L250:
         if (itcom1_1.in % 2 == 1)
             goto L260;
 
-/* ... CODE FOR THE EVEN ITERATIONS. */
+        /* ... CODE FOR THE EVEN ITERATIONS. */
 
-/*     U           = U(IN)       WKSP(IB2) = C(IN) */
-/*     WKSP(IB1)   = U(IN-1)     WKSP(IB3) = C(IN-1) */
+        /*     U           = U(IN)       WKSP(IB2) = C(IN) */
+        /*     WKSP(IB1)   = U(IN-1)     WKSP(IB3) = C(IN-1) */
 
-        itsrcg_(&n, ia, ja, a, rhs, u, &wksp[ib1], &wksp[ib2], &wksp[ib3], &wksp[ib4], &wksp[ib5], &wksp[ib6], &wksp[ib7]);
+        itsrcg_(n, ia, ja, a, rhs, u, &wksp[ib1], &wksp[ib2], &wksp[ib3], &wksp[ib4], &wksp[ib5], &wksp[ib6], &wksp[ib7]);
 
         if (itcom2_1.halt)
             goto L300;
 
         continue;
 
-/* ... CODE FOR THE ODD ITERATIONS. */
+        /* ... CODE FOR THE ODD ITERATIONS. */
 
-/*     U           = U(IN-1)     WKSP(IB2) = C(IN-1) */
-/*     WKSP(IB1)   = U(IN)       WKSP(IB3) =C(IN) */
+        /*     U           = U(IN-1)     WKSP(IB2) = C(IN-1) */
+        /*     WKSP(IB1)   = U(IN)       WKSP(IB3) =C(IN) */
 
 L260:
-        itsrcg_(&n, ia, ja, a, rhs, &wksp[ib1], u, &wksp[ib3], &wksp[ib2], &wksp[ib4], &wksp[ib5], &wksp[ib6], &wksp[ib7]);
+        itsrcg_(n, ia, ja, a, rhs, &wksp[ib1], u, &wksp[ib3], &wksp[ib2], &wksp[ib4], &wksp[ib5], &wksp[ib6], &wksp[ib7]);
 
         if (itcom2_1.halt)
             goto L300;
-
     }
 
-/* ... ITMAX HAS BEEN REACHED */
+    /* ... ITMAX HAS BEEN REACHED */
 
     if (iparm[10] == 0) {
         timi2 = timer_((real*)0);
@@ -1410,7 +1386,7 @@ L260:
 
     goto L330;
 
-/* ... METHOD HAS CONVERGED */
+    /* ... METHOD HAS CONVERGED */
 
 L300:
     if (iparm[10] == 0) {
@@ -1418,22 +1394,22 @@ L300:
         time1 = (doublereal) (timi2 - timi1);
     }
 
-/* ... PUT SOLUTION INTO U IF NOT ALREADY THERE. */
+    /* ... PUT SOLUTION INTO U IF NOT ALREADY THERE. */
 
 L330:
     if (itcom1_1.in % 2 == 1)
-        itpackdcopy_(&n, &wksp[ib1], &c__1, u, &c__1);
+        itpackdcopy_(n, &wksp[ib1], &c__1, u, &c__1);
 
-/* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
+    /* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
 
-    unscal_(&n, ia, ja, a, rhs, u, wksp);
+    unscal_(n, ia, ja, a, rhs, u, wksp);
 
-/* ... UN-PERMUTE MATRIX,RHS, AND SOLUTION */
+    /* ... UN-PERMUTE MATRIX,RHS, AND SOLUTION */
 
     if (iparm[8] < 0)
         goto L360;
 
-    permat_(&n, ia, ja, a, &iwksp[ib2], &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ierper);
+    permat_(n, ia, ja, a, &iwksp[ib2], &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ierper);
     if (ierper != 0) {
         if (ier == 0)
             ier = ierper;
@@ -1441,10 +1417,10 @@ L330:
         goto L390;
     }
 
-    pervec_(&n, rhs, &iwksp[ib2]);
-    pervec_(&n, u, &iwksp[ib2]);
+    pervec_(n, rhs, &iwksp[ib2]);
+    pervec_(n, u, &iwksp[ib2]);
 
-/* ... OPTIONAL ERROR ANALYSIS */
+    /* ... OPTIONAL ERROR ANALYSIS */
 
 L360:
     idgts = iparm[11];
@@ -1452,7 +1428,7 @@ L360:
         if (iparm[1] <= 0)
             idgts = 0;
 
-        perror_(&n, ia, ja, a, rhs, u, wksp, &digit1, &digit2, &idgts);
+        perror_(n, ia, ja, a, rhs, u, wksp, &digit1, &digit2, &idgts);
     }
 
     /* ... SET RETURN PARAMETERS IN IPARM AND RPARM */
@@ -1482,17 +1458,17 @@ L360:
 L390:
     *ierr = ier;
     if (itcom1_1.level >= 3)
-        echall_(&n, ia, ja, a, rhs, iparm, rparm, &c__2);
+        echall_(n, ia, ja, a, rhs, iparm, rparm, &c__2);
 
     return 0;
 } /* ssorcg_ */
 
 /* Subroutine */
-int ssorsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
+int ssorsi_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
             integer *iwksp, integer *nw, doublereal *wksp, integer *iparm, doublereal *rparm, integer* ierr)
 {
     /* Local variables */
-    static integer n, n3, nb, ib1, ib2, ib3, ib4, ib5, ier;
+    static integer n3, nb, ib1, ib2, ib3, ib4, ib5, ier;
     static doublereal tol;
     static doublereal temp;
     static integer loop;
@@ -1505,126 +1481,124 @@ int ssorsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rh
     static integer ierper;
 
 /*     ITPACK 2C MAIN SUBROUTINE  SSORSI  (SYMMETRIC SUCCESSIVE RELAX- */
-/*                                         ATION SEMI-ITERATION) */
-/*     EACH OF THE MAIN SUBROUTINES: */
-/*           JCG, JSI, SOR, SSORCG, SSORSI, RSCG, RSSI */
-/*     CAN BE USED INDEPENDENTLY OF THE OTHERS */
+/*                                         ATION SEMI-ITERATION)       */
+/*     EACH OF THE MAIN SUBROUTINES:                                   */
+/*           JCG, JSI, SOR, SSORCG, SSORSI, RSCG, RSSI                 */
+/*     CAN BE USED INDEPENDENTLY OF THE OTHERS                         */
 
-/* ... FUNCTION: */
-
-/*          THIS SUBROUTINE, SSORSI, DRIVES THE  SYMMETRIC SOR-SI */
-/*          ALGORITHM. */
-
-/* ... PARAMETER LIST: */
-
-/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX. (= NN) */
-/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF */
-/*                 THE SPARSE MATRIX REPRESENTATION. */
-/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE */
-/*                 MATRIX REPRESENTATION. */
-/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE */
-/*                 OF THE MATRIX PROBLEM. */
-/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE */
-/*                 INITIAL GUESS TO THE SOLUTION. ON OUTPUT, IT CONTAINS */
-/*                 THE LATEST ESTIMATE TO THE SOLUTION. */
-/*          IWKSP  INTEGER VECTOR WORKSPACE OF LENGTH 3*N */
-/*          NW     INPUT INTEGER.  LENGTH OF AVAILABLE WKSP.  ON OUTPUT, */
-/*                 IPARM(8) IS AMOUNT USED. */
-/*          WKSP   D.P. VECTOR USED FOR WORKING SPACE.  SSORSI */
-/*                 NEEDS THIS TO BE IN LENGTH AT LEAST  5*N */
-/*          IPARM  INTEGER VECTOR OF LENGTH 12.  ALLOWS USER TO SPECIFY */
-/*                 SOME INTEGER PARAMETERS WHICH AFFECT THE METHOD.  IF */
-/*          RPARM  D.P. VECTOR OF LENGTH 12. ALLOWS USER TO SPECIFY SOME */
-/*                 D.P. PARAMETERS WHICH AFFECT THE METHOD. */
-/*          IER    OUTPUT INTEGER.  ERROR FLAG. (= IERR) */
-
-/* ... SSORSI SUBPROGRAM REFERENCES: */
-
-/*          FROM ITPACK    BISRCH, CHEBY, CHGSI, DFAULT, ECHALL, ECHOUT, */
-/*                         ITERM, TIMER, ITSRSI, IVFILL, OMEG, */
-/*                         OMGSTR, PARSI, PBETA, PERMAT, PERROR, */
-/*                         PERVEC, PFSOR, PMULT, PRBNDX, PSSOR1, */
-/*                         PSTOP, PVTBV, QSORT, SBELM, SCAL, DCOPY, */
-/*                         DDOT, SUM3, TSTCHG, UNSCAL, VEVPW, VFILL, */
-/*                         VOUT, WEVMW */
-/*          SYSTEM         DABS, DLOG, DLOG10, DBLE(AMAX0), DMAX1, DBLE(F */
-/*                         MOD, DSQRT */
-
-/*     VERSION:  ITPACK 2C (MARCH 1982) */
-
-/*     CODE WRITTEN BY:  DAVID KINCAID, ROGER GRIMES, JOHN RESPESS */
-/*                       CENTER FOR NUMERICAL ANALYSIS */
-/*                       UNIVERSITY OF TEXAS */
-/*                       AUSTIN, TX  78712 */
-/*                       (512) 471-1242 */
-
-/*     FOR ADDITIONAL DETAILS ON THE */
-/*          (A) SUBROUTINE SEE TOMS ARTICLE 1982 */
-/*          (B) ALGORITHM  SEE CNA REPORT 150 */
-
-/*     BASED ON THEORY BY:  DAVID YOUNG, DAVID KINCAID, LOU HAGEMAN */
-
-/*     REFERENCE THE BOOK:  APPLIED ITERATIVE METHODS */
-/*                          L. HAGEMAN, D. YOUNG */
-/*                          ACADEMIC PRESS, 1981 */
-
-/*     ************************************************** */
-/*     *               IMPORTANT NOTE                   * */
-/*     *                                                * */
-/*     *      WHEN INSTALLING ITPACK ROUTINES ON A      * */
-/*     *  DIFFERENT COMPUTER, RESET SOME OF THE VALUES  * */
-/*     *  IN  SUBROUTNE DFAULT.   MOST IMPORTANT ARE    * */
-/*     *                                                * */
-/*     *   DRELPR      MACHINE RELATIVE PRECISION       * */
-/*     *   RPARM(1)    STOPPING CRITERION               * */
-/*     *                                                * */
-/*     *   ALSO CHANGE SYSTEM-DEPENDENT ROUTINE         * */
-/*     *   SECOND USED IN TIMER                         * */
-/*     *                                                * */
-/*     ************************************************** */
-
-/*     SPECIFICATIONS FOR ARGUMENTS */
-
-/*     SPECIFICATIONS FOR LOCAL VARIABLES */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM1 */
-
-/*     IN     - ITERATION NUMBER */
-/*     ISYM   - SYMMETRIC/NONSYMMETRIC STORAGE FORMAT SWITCH */
-/*     IS     - ITERATION NUMBER WHEN PARAMETERS LAST CHANGED */
-/*     ITMAX  - MAXIMUM NUMBER OF ITERATIONS ALLOWED */
-/*     LEVEL  - LEVEL OF OUTPUT CONTROL SWITCH */
-/*     NOUT   - OUTPUT UNIT NUMBER */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM2 */
-
-/*     ADAPT  - FULLY ADAPTIVE PROCEDURE SWITCH */
-/*     BETADT - SWITCH FOR ADAPTIVE DETERMINATION OF BETA */
-/*     CASEII - ADAPTIVE PROCEDURE CASE SWITCH */
-/*     HALT   - STOPPING TEST SWITCH */
-/*     PARTAD - PARTIALLY ADAPTIVE PROCEDURE SWITCH */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM3 */
-
-/*     BDELNM - TWO NORM OF B TIMES DELTA-SUPER-N */
-/*     BETAB  - ESTIMATE FOR THE SPECTRAL RADIUS OF LU MATRIX */
-/*     CME    - ESTIMATE OF LARGEST EIGENVALUE */
-/*     DELNNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION N */
-/*     DELSNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION S */
-/*     FF     - ADAPTIVE PROCEDURE DAMPING FACTOR */
-/*     GAMMA  - ACCELERATION PARAMETER */
-/*     OMEGA  - OVERRELAXATION PARAMETER FOR SOR AND SSOR */
-/*     QA     - PSEUDO-RESIDUAL RATIO */
-/*     QT     - VIRTUAL SPECTRAL RADIUS */
-/*     RHO    - ACCELERATION PARAMETER */
-/*     RRR    - ADAPTIVE PARAMETER */
-/*     SIGE   - PARAMETER SIGMA-SUB-E */
-/*     SME    - ESTIMATE OF SMALLEST EIGENVALUE */
-/*     SPECR  - SPECTRAL RADIUS ESTIMATE FOR SSOR */
-/*     DRELPR - MACHINE RELATIVE PRECISION */
-/*     STPTST - STOPPING PARAMETER */
-/*     UDNM   - TWO NORM OF U */
-/*     ZETA   - STOPPING CRITERION */
+/*          THIS SUBROUTINE, SSORSI, DRIVES THE  SYMMETRIC SOR-SI         */
+/*          ALGORITHM.                                                    */
+/*                                                                        */
+/* ... PARAMETER LIST:                                                    */
+/*                                                                        */
+/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX.               */
+/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF      */
+/*                 THE SPARSE MATRIX REPRESENTATION.                      */
+/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE       */
+/*                 MATRIX REPRESENTATION.                                 */
+/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE       */
+/*                 OF THE MATRIX PROBLEM.                                 */
+/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE    */
+/*                 INITIAL GUESS TO THE SOLUTION. ON OUTPUT, IT CONTAINS  */
+/*                 THE LATEST ESTIMATE TO THE SOLUTION.                   */
+/*          IWKSP  INTEGER VECTOR WORKSPACE OF LENGTH 3*N                 */
+/*          NW     INPUT INTEGER.  LENGTH OF AVAILABLE WKSP.  ON OUTPUT,  */
+/*                 IPARM(8) IS AMOUNT USED.                               */
+/*          WKSP   D.P. VECTOR USED FOR WORKING SPACE.  SSORSI            */
+/*                 NEEDS THIS TO BE IN LENGTH AT LEAST  5*N               */
+/*          IPARM  INTEGER VECTOR OF LENGTH 12.  ALLOWS USER TO SPECIFY   */
+/*                 SOME INTEGER PARAMETERS WHICH AFFECT THE METHOD.  IF   */
+/*          RPARM  D.P. VECTOR OF LENGTH 12. ALLOWS USER TO SPECIFY SOME  */
+/*                 D.P. PARAMETERS WHICH AFFECT THE METHOD.               */
+/*          IER    OUTPUT INTEGER.  ERROR FLAG. (= IERR)                  */
+/*                                                                        */
+/* ... SSORSI SUBPROGRAM REFERENCES:                                      */
+/*                                                                        */
+/*          FROM ITPACK    BISRCH, CHEBY, CHGSI, DFAULT, ECHALL, ECHOUT,  */
+/*                         ITERM, TIMER, ITSRSI, IVFILL, OMEG,            */
+/*                         OMGSTR, PARSI, PBETA, PERMAT, PERROR,          */
+/*                         PERVEC, PFSOR, PMULT, PRBNDX, PSSOR1,          */
+/*                         PSTOP, PVTBV, QSORT, SBELM, SCAL, DCOPY,       */
+/*                         DDOT, SUM3, TSTCHG, UNSCAL, VEVPW, VFILL,      */
+/*                         VOUT, WEVMW                                    */
+/*          SYSTEM         DABS, DLOG, DLOG10, DBLE(AMAX0), DMAX1,        */
+/*                         DBLE(FMOD), DSQRT                              */
+/*                                                                        */
+/*     VERSION:  ITPACK 2C (MARCH 1982)                                   */
+/*                                                                        */
+/*     CODE WRITTEN BY:  DAVID KINCAID, ROGER GRIMES, JOHN RESPESS        */
+/*                       CENTER FOR NUMERICAL ANALYSIS                    */
+/*                       UNIVERSITY OF TEXAS                              */
+/*                       AUSTIN, TX  78712                                */
+/*                       (512) 471-1242                                   */
+/*                                                                        */
+/*     FOR ADDITIONAL DETAILS ON THE                                      */
+/*          (A) SUBROUTINE SEE TOMS ARTICLE 1982                          */
+/*          (B) ALGORITHM  SEE CNA REPORT 150                             */
+/*                                                                        */
+/*     BASED ON THEORY BY:  DAVID YOUNG, DAVID KINCAID, LOU HAGEMAN       */
+/*                                                                        */
+/*     REFERENCE THE BOOK:  APPLIED ITERATIVE METHODS                     */
+/*                          L. HAGEMAN, D. YOUNG                          */
+/*                          ACADEMIC PRESS, 1981                          */
+/*                                                                        */
+/*     **************************************************                 */
+/*     *               IMPORTANT NOTE                   *                 */
+/*     *                                                *                 */
+/*     *      WHEN INSTALLING ITPACK ROUTINES ON A      *                 */
+/*     *  DIFFERENT COMPUTER, RESET SOME OF THE VALUES  *                 */
+/*     *  IN  SUBROUTNE DFAULT.   MOST IMPORTANT ARE    *                 */
+/*     *                                                *                 */
+/*     *   DRELPR      MACHINE RELATIVE PRECISION       *                 */
+/*     *   RPARM(1)    STOPPING CRITERION               *                 */
+/*     *                                                *                 */
+/*     *   ALSO CHANGE SYSTEM-DEPENDENT ROUTINE         *                 */
+/*     *   SECOND USED IN TIMER                         *                 */
+/*     *                                                *                 */
+/*     **************************************************                 */
+/*                                                                        */
+/*     SPECIFICATIONS FOR ARGUMENTS                                       */
+/*                                                                        */
+/*     SPECIFICATIONS FOR LOCAL VARIABLES                                 */
+/*                                                                        */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM1                                 */
+/*                                                                        */
+/*     IN     - ITERATION NUMBER                                          */
+/*     ISYM   - SYMMETRIC/NONSYMMETRIC STORAGE FORMAT SWITCH              */
+/*     IS     - ITERATION NUMBER WHEN PARAMETERS LAST CHANGED             */
+/*     ITMAX  - MAXIMUM NUMBER OF ITERATIONS ALLOWED                      */
+/*     LEVEL  - LEVEL OF OUTPUT CONTROL SWITCH                            */
+/*     NOUT   - OUTPUT UNIT NUMBER                                        */
+/*                                                                        */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM2                                 */
+/*                                                                        */
+/*     ADAPT  - FULLY ADAPTIVE PROCEDURE SWITCH                           */
+/*     BETADT - SWITCH FOR ADAPTIVE DETERMINATION OF BETA                 */
+/*     CASEII - ADAPTIVE PROCEDURE CASE SWITCH                            */
+/*     HALT   - STOPPING TEST SWITCH                                      */
+/*     PARTAD - PARTIALLY ADAPTIVE PROCEDURE SWITCH                       */
+/*                                                                        */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM3                                 */
+/*                                                                        */
+/*     BDELNM - TWO NORM OF B TIMES DELTA-SUPER-N                         */
+/*     BETAB  - ESTIMATE FOR THE SPECTRAL RADIUS OF LU MATRIX             */
+/*     CME    - ESTIMATE OF LARGEST EIGENVALUE                            */
+/*     DELNNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION N           */
+/*     DELSNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION S           */
+/*     FF     - ADAPTIVE PROCEDURE DAMPING FACTOR                         */
+/*     GAMMA  - ACCELERATION PARAMETER                                    */
+/*     OMEGA  - OVERRELAXATION PARAMETER FOR SOR AND SSOR                 */
+/*     QA     - PSEUDO-RESIDUAL RATIO                                     */
+/*     QT     - VIRTUAL SPECTRAL RADIUS                                   */
+/*     RHO    - ACCELERATION PARAMETER                                    */
+/*     RRR    - ADAPTIVE PARAMETER                                        */
+/*     SIGE   - PARAMETER SIGMA-SUB-E                                     */
+/*     SME    - ESTIMATE OF SMALLEST EIGENVALUE                           */
+/*     SPECR  - SPECTRAL RADIUS ESTIMATE FOR SSOR                         */
+/*     DRELPR - MACHINE RELATIVE PRECISION                                */
+/*     STPTST - STOPPING PARAMETER                                        */
+/*     UDNM   - TWO NORM OF U                                             */
+/*     ZETA   - STOPPING CRITERION                                        */
 
     itcom1_1.level = iparm[1];
     itcom1_1.nout = iparm[3];
@@ -1635,14 +1609,13 @@ int ssorsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rh
     if (iparm[0] <= 0)
         return 0;
 
-    n = *nn;
     if (iparm[10] == 0)
         timj1 = timer_((real*)0);
 
     if (itcom1_1.level < 3)
         echout_(iparm, rparm, &c__5);
     else
-        echall_(&n, ia, ja, a, rhs, iparm, rparm, &c__1);
+        echall_(n, ia, ja, a, rhs, iparm, rparm, &c__1);
     temp = itcom3_1.drelpr * 500.;
     if (itcom3_1.zeta < temp)
         itcom3_1.zeta = temp;
@@ -1652,84 +1625,83 @@ int ssorsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rh
     digit1 = rparm[10];
     digit2 = rparm[11];
 
-/* ... VERIFY N */
+    /* ... VERIFY N */
 
-    if (n <= 0) {
+    if (*n <= 0) {
         ier = 51;
         goto L380;
     }
 
-/* ... REMOVE ROWS AND COLUMNS IF REQUESTED */
+    /* ... REMOVE ROWS AND COLUMNS IF REQUESTED */
 
     if (iparm[9] != 0) {
         tol = rparm[7];
-        ivfill_(&n, iwksp, &c__0);
-        vfill_(&n, wksp, &c_b21);
-        sbelm_(&n, ia, ja, a, rhs, iwksp, wksp, &tol, &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
+        ivfill_(n, iwksp, &c__0);
+        vfill_(n, wksp, &c_b21);
+        sbelm_(n, ia, ja, a, rhs, iwksp, wksp, &tol, &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
         if (ier != 0)
             goto L380;
-
     }
 
-/* ... INITIALIZE WKSP BASE ADDRESSES. */
+    /* ... INITIALIZE WKSP BASE ADDRESSES. */
 
     ib1 = 0;
-    ib2 = ib1 + n;
-    ib3 = ib2 + n;
-    ib4 = ib3 + n;
-    ib5 = ib4 + n;
-    iparm[7] = n * 5;
+    ib2 = ib1 + *n;
+    ib3 = ib2 + *n;
+    ib4 = ib3 + *n;
+    ib5 = ib4 + *n;
+    iparm[7] = *n * 5;
     if (*nw < iparm[7])
         ier = 52;
 
-/* ... PERMUTE TO  RED-BLACK SYSTEM IF REQUESTED */
+    /* ... PERMUTE TO  RED-BLACK SYSTEM IF REQUESTED */
 
     nb = iparm[8];
     if (nb < 0)
         goto L170;
 
-    n3 = n * 3;
+    n3 = *n * 3;
     ivfill_(&n3, iwksp, &c__0);
-    prbndx_(&n, &nb, ia, ja, iwksp, &iwksp[ib2], &itcom1_1.level, &itcom1_1.nout, &ier);
+    prbndx_(n, &nb, ia, ja, iwksp, &iwksp[ib2], &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L380;
 
-/* ... PERMUTE MATRIX AND RHS */
+    /* ... PERMUTE MATRIX AND RHS */
 
-    permat_(&n, ia, ja, a, iwksp, &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
+    permat_(n, ia, ja, a, iwksp, &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L380;
 
-    pervec_(&n, rhs, iwksp);
-    pervec_(&n, u, iwksp);
+    pervec_(n, rhs, iwksp);
+    pervec_(n, u, iwksp);
 
-/* ... SCALE LINEAR SYSTEM, U, AND RHS BY THE SQUARE ROOT OF THE */
-/* ... DIAGONAL ELEMENTS. */
+    /* ... SCALE LINEAR SYSTEM, U, AND RHS BY THE SQUARE ROOT OF THE */
+    /* ... DIAGONAL ELEMENTS. */
 
 L170:
     vfill_(&iparm[7], wksp, &c_b21);
-    scal_(&n, ia, ja, a, rhs, u, wksp, &itcom1_1.level, &itcom1_1.nout, &ier);
+    scal_(n, ia, ja, a, rhs, u, wksp, &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L380;
 
     if (iparm[10] == 0)
         timi1 = timer_((real*)0);
 
-/* ... SPECIAL PROCEDURE FOR FULLY ADAPTIVE CASE. */
+    /* ... SPECIAL PROCEDURE FOR FULLY ADAPTIVE CASE. */
 
     if (! itcom2_1.adapt)
         goto L240;
 
     if (itcom2_1.betadt) {
-        vfill_(&n, &wksp[ib1], &c_b286);
-        betnew = pbeta_(&n, ia, ja, a, &wksp[ib1], &wksp[ib2], &wksp[ib3]) / (doublereal) ((real) n);
+        vfill_(n, &wksp[ib1], &c_b286);
+        betnew = pbeta_(n, ia, ja, a, &wksp[ib1], &wksp[ib2], &wksp[ib3]) / (doublereal)(*n);
         itcom3_1.betab = max(max(itcom3_1.betab,.25),betnew);
     }
 
     omeg_(&c_b21, &c__1);
     itcom1_1.is = 0;
 
-/* ... ITERATION SEQUENCE */
+    /* ... ITERATION SEQUENCE */
 
 L240:
     itmax1 = itcom1_1.itmax + 1;
@@ -1738,32 +1710,31 @@ L240:
         if (itcom1_1.in % 2 == 1)
             goto L250;
 
-/* ... CODE FOR THE EVEN ITERATIONS. */
+        /* ... CODE FOR THE EVEN ITERATIONS. */
 
-/*     U           = U(IN) */
-/*     WKSP(IB1)   = U(IN-1) */
+        /*     U           = U(IN) */
+        /*     WKSP(IB1)   = U(IN-1) */
 
-        itsrsi_(&n, ia, ja, a, rhs, u, &wksp[ib1], &wksp[ib2], &wksp[ib3], &wksp[ib4], &wksp[ib5]);
+        itsrsi_(n, ia, ja, a, rhs, u, &wksp[ib1], &wksp[ib2], &wksp[ib3], &wksp[ib4], &wksp[ib5]);
 
         if (itcom2_1.halt)
             goto L290;
 
         continue;
 
-/* ... CODE FOR THE ODD ITERATIONS. */
+        /* ... CODE FOR THE ODD ITERATIONS. */
 
-/*     U           = U(IN-1) */
-/*     WKSP(IB1)   = U(IN) */
+        /*     U           = U(IN-1) */
+        /*     WKSP(IB1)   = U(IN) */
 
 L250:
-        itsrsi_(&n, ia, ja, a, rhs, &wksp[ib1], u, &wksp[ib2], &wksp[ib3], &wksp[ib4], &wksp[ib5]);
+        itsrsi_(n, ia, ja, a, rhs, &wksp[ib1], u, &wksp[ib2], &wksp[ib3], &wksp[ib4], &wksp[ib5]);
 
         if (itcom2_1.halt)
             goto L290;
-
     }
 
-/* ... ITMAX HAS BEEN REACHED */
+    /* ... ITMAX HAS BEEN REACHED */
 
     if (iparm[10] == 0) {
         timi2 = timer_((real*)0);
@@ -1775,7 +1746,7 @@ L250:
 
     goto L320;
 
-/* ... METHOD HAS CONVERGED */
+    /* ... METHOD HAS CONVERGED */
 
 L290:
     if (iparm[10] == 0) {
@@ -1783,22 +1754,22 @@ L290:
         time1 = (doublereal) (timi2 - timi1);
     }
 
-/* ... PUT SOLUTION INTO U IF NOT ALREADY THERE. */
+    /* ... PUT SOLUTION INTO U IF NOT ALREADY THERE. */
 
 L320:
     if (itcom1_1.in % 2 == 1)
-        itpackdcopy_(&n, &wksp[ib1], &c__1, u, &c__1);
+        itpackdcopy_(n, &wksp[ib1], &c__1, u, &c__1);
 
-/* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
+    /* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
 
-    unscal_(&n, ia, ja, a, rhs, u, wksp);
+    unscal_(n, ia, ja, a, rhs, u, wksp);
 
-/* ... UN-PERMUTE MATRIX,RHS, AND SOLUTION */
+    /* ... UN-PERMUTE MATRIX,RHS, AND SOLUTION */
 
     if (iparm[8] < 0)
         goto L350;
 
-    permat_(&n, ia, ja, a, &iwksp[ib2], &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ierper);
+    permat_(n, ia, ja, a, &iwksp[ib2], &iwksp[ib3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ierper);
     if (ierper != 0) {
         if (ier == 0)
             ier = ierper;
@@ -1806,10 +1777,10 @@ L320:
         goto L380;
     }
 
-    pervec_(&n, rhs, &iwksp[ib2]);
-    pervec_(&n, u, &iwksp[ib2]);
+    pervec_(n, rhs, &iwksp[ib2]);
+    pervec_(n, u, &iwksp[ib2]);
 
-/* ... OPTIONAL ERROR ANALYSIS */
+    /* ... OPTIONAL ERROR ANALYSIS */
 
 L350:
     idgts = iparm[11];
@@ -1817,7 +1788,7 @@ L350:
         if (iparm[1] <= 0)
             idgts = 0;
 
-        perror_(&n, ia, ja, a, rhs, u, wksp, &digit1, &digit2, &idgts);
+        perror_(n, ia, ja, a, rhs, u, wksp, &digit1, &digit2, &idgts);
     }
 
     /* ... SET RETURN PARAMETERS IN IPARM AND RPARM */
@@ -1843,17 +1814,17 @@ L350:
 L380:
     *ierr = ier;
     if (itcom1_1.level >= 3)
-        echall_(&n, ia, ja, a, rhs, iparm, rparm, &c__2);
+        echall_(n, ia, ja, a, rhs, iparm, rparm, &c__2);
 
     return 0;
 } /* ssorsi_ */
 
 /* Subroutine */
-int rscg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
+int rscg_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
           integer *iwksp, integer *nw, doublereal *wksp, integer *iparm, doublereal *rparm, integer* ierr)
 {
     /* Local variables */
-    static integer n, n3, nb, nr, ib1, ib2, ib3, ib4, ib5, jb3, ier;
+    static integer n3, nb, nr, ib1, ib2, ib3, ib4, ib5, jb3, ier;
     static doublereal tol;
     static doublereal temp;
     static integer loop;
@@ -1865,129 +1836,127 @@ int rscg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
     static integer ierper;
 
 /*     ITPACK 2C MAIN SUBROUTINE  RSCG  (REDUCED SYSTEM CONJUGATE */
-/*                                       GRADIENT) */
-/*     EACH OF THE MAIN SUBROUTINES: */
-/*           JCG, JSI, SOR, SSORCG, SSORSI, RSCG, RSSI */
-/*     CAN BE USED INDEPENDENTLY OF THE OTHERS */
+/*                                       GRADIENT)                */
+/*     EACH OF THE MAIN SUBROUTINES:                              */
+/*           JCG, JSI, SOR, SSORCG, SSORSI, RSCG, RSSI            */
+/*     CAN BE USED INDEPENDENTLY OF THE OTHERS                    */
 
-/* ... FUNCTION: */
-
-/*          THIS SUBROUTINE, RSCG, DRIVES THE  REDUCED SYSTEM CG */
-/*          ALGORITHM. */
-
-/* ... PARAMETER LIST: */
-
-/*          N     INPUT INTEGER.  DIMENSION OF THE MATRIX. (= NN) */
-/*                 IN THE RED-BLACK MATRIX. */
-/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF */
-/*                 THE SPARSE MATRIX REPRESENTATION. */
-/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE */
-/*                 MATRIX REPRESENTATION. */
-/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE */
-/*                 OF THE MATRIX PROBLEM. */
-/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE */
-/*                 INITIAL GUESS TO THE SOLUTION. ON OUTPUT, IT CONTAINS */
-/*                 THE LATEST ESTIMATE TO THE SOLUTION. */
-/*          IWKSP  INTEGER VECTOR WORKSPACE OF LENGTH 3*N */
-/*          NW     INPUT INTEGER.  LENGTH OF AVAILABLE WKSP.  ON OUTPUT, */
-/*                 IPARM(8) IS AMOUNT USED. */
-/*          WKSP   D.P. VECTOR USED FOR WORKING SPACE.  RSCG NEEDS */
-/*                 THIS TO BE IN LENGTH AT LEAST */
-/*                 N+3*NB+2*ITMAX, IF IPARM(5)=0  (SYMMETRIC STORAGE) */
-/*                 N+3*NB+4*ITMAX, IF IPARM(5)=1  (NONSYMMETRIC STORAGE) */
-/*                 HERE NB IS THE ORDER OF THE BLACK SUBSYSTEM */
-/*          IPARM  INTEGER VECTOR OF LENGTH 12.  ALLOWS USER TO SPECIFY */
-/*                 SOME INTEGER PARAMETERS WHICH AFFECT THE METHOD.  IF */
-/*          RPARM  D.P. VECTOR OF LENGTH 12. ALLOWS USER TO SPECIFY SOME */
-/*                 D.P. PARAMETERS WHICH AFFECT THE METHOD. */
-/*          IER    OUTPUT INTEGER. ERROR FLAG. (= IERR) */
-
-/* ... RSCG SUBPROGRAM REFERENCES: */
-
-/*          FROM ITPACK    BISRCH, CHGCON, DETERM, DFAULT, ECHALL, */
-/*                         ECHOUT, EIGVNS, EIGVSS, EQRT1S, ITERM, TIMER */
-/*                         ITRSCG, IVFILL, PARCON, PERMAT, */
-/*                         PERROR, PERVEC, PMULT, PRBNDX, PRSBLK, */
-/*                         PRSRED, PSTOP, QSORT, SBELM, SCAL, DCOPY, */
-/*                         DDOT, SUM3, UNSCAL, VFILL, VOUT, WEVMW, */
-/*                         ZBRENT */
-/*          SYSTEM         DABS, DLOG10, DBLE(AMAX0), DMAX1, MOD, DSQRT */
-
-/*     VERSION:  ITPACK 2C (MARCH 1982) */
-
-/*     CODE WRITTEN BY:  DAVID KINCAID, ROGER GRIMES, JOHN RESPESS */
-/*                       CENTER FOR NUMERICAL ANALYSIS */
-/*                       UNIVERSITY OF TEXAS */
-/*                       AUSTIN, TX  78712 */
-/*                       (512) 471-1242 */
-
-/*     FOR ADDITIONAL DETAILS ON THE */
-/*          (A) SUBROUTINE SEE TOMS ARTICLE 1982 */
-/*          (B) ALGORITHM  SEE CNA REPORT 150 */
-
-/*     BASED ON THEORY BY:  DAVID YOUNG, DAVID KINCAID, LOU HAGEMAN */
-
-/*     REFERENCE THE BOOK:  APPLIED ITERATIVE METHODS */
-/*                          L. HAGEMAN, D. YOUNG */
-/*                          ACADEMIC PRESS, 1981 */
-
-/*     ************************************************** */
-/*     *               IMPORTANT NOTE                   * */
-/*     *                                                * */
-/*     *      WHEN INSTALLING ITPACK ROUTINES ON A      * */
-/*     *  DIFFERENT COMPUTER, RESET SOME OF THE VALUES  * */
-/*     *  IN  SUBROUTNE DFAULT.   MOST IMPORTANT ARE    * */
-/*     *                                                * */
-/*     *   DRELPR      MACHINE RELATIVE PRECISION       * */
-/*     *   RPARM(1)    STOPPING CRITERION               * */
-/*     *                                                * */
-/*     *   ALSO CHANGE SYSTEM-DEPENDENT ROUTINE         * */
-/*     *   SECOND USED IN TIMER                         * */
-/*     *                                                * */
-/*     ************************************************** */
-
-/*     SPECIFICATIONS FOR ARGUMENTS */
-
-/*     SPECIFICATIONS FOR LOCAL VARIABLES */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM1 */
-
-/*     IN     - ITERATION NUMBER */
-/*     IS     - ITERATION NUMBER WHEN PARAMETERS LAST CHANGED */
-/*     ISYM   - SYMMETRIC/NONSYMMETRIC STORAGE FORMAT SWITCH */
-/*     ITMAX  - MAXIMUM NUMBER OF ITERATIONS ALLOWED */
-/*     LEVEL  - LEVEL OF OUTPUT CONTROL SWITCH */
-/*     NOUT   - OUTPUT UNIT NUMBER */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM2 */
-
-/*     ADAPT  - FULLY ADAPTIVE PROCEDURE SWITCH */
-/*     BETADT - SWITCH FOR ADAPTIVE DETERMINATION OF BETA */
-/*     CASEII - ADAPTIVE PROCEDURE CASE SWITCH */
-/*     HALT   - STOPPING TEST SWITCH */
-/*     PARTAD - PARTIALLY ADAPTIVE PROCEDURE SWITCH */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM3 */
-
-/*     BDELNM - TWO NORM OF B TIMES DELTA-SUPER-N */
-/*     BETAB  - ESTIMATE FOR THE SPECTRAL RADIUS OF LU MATRIX */
-/*     CME    - ESTIMATE OF LARGEST EIGENVALUE */
-/*     DELNNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION N */
-/*     DELSNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION S */
-/*     FF     - ADAPTIVE PROCEDURE DAMPING FACTOR */
-/*     GAMMA  - ACCELERATION PARAMETER */
-/*     OMEGA  - OVERRELAXATION PARAMETER FOR SOR AND SSOR */
-/*     QA     - PSEUDO-RESIDUAL RATIO */
-/*     QT     - VIRTUAL SPECTRAL RADIUS */
-/*     RHO    - ACCELERATION PARAMETER */
-/*     RRR    - ADAPTIVE PARAMETER */
-/*     SIGE   - PARAMETER SIGMA-SUB-E */
-/*     SME    - ESTIMATE OF SMALLEST EIGENVALUE */
-/*     SPECR  - SPECTRAL RADIUS ESTIMATE FOR SSOR */
-/*     DRELPR - MACHINE RELATIVE PRECISION */
-/*     STPTST - STOPPING PARAMETER */
-/*     UDNM   - TWO NORM OF U */
-/*     ZETA   - STOPPING CRITERION */
+/*          THIS SUBROUTINE, RSCG, DRIVES THE  REDUCED SYSTEM CG          */
+/*          ALGORITHM.                                                    */
+/*                                                                        */
+/* ... PARAMETER LIST:                                                    */
+/*                                                                        */
+/*          N     INPUT INTEGER.  DIMENSION OF THE MATRIX.                */
+/*                 IN THE RED-BLACK MATRIX.                               */
+/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF      */
+/*                 THE SPARSE MATRIX REPRESENTATION.                      */
+/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE       */
+/*                 MATRIX REPRESENTATION.                                 */
+/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE       */
+/*                 OF THE MATRIX PROBLEM.                                 */
+/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE    */
+/*                 INITIAL GUESS TO THE SOLUTION. ON OUTPUT, IT CONTAINS  */
+/*                 THE LATEST ESTIMATE TO THE SOLUTION.                   */
+/*          IWKSP  INTEGER VECTOR WORKSPACE OF LENGTH 3*N                 */
+/*          NW     INPUT INTEGER.  LENGTH OF AVAILABLE WKSP.  ON OUTPUT,  */
+/*                 IPARM(8) IS AMOUNT USED.                               */
+/*          WKSP   D.P. VECTOR USED FOR WORKING SPACE.  RSCG NEEDS        */
+/*                 THIS TO BE IN LENGTH AT LEAST                          */
+/*                 N+3*NB+2*ITMAX, IF IPARM(5)=0  (SYMMETRIC STORAGE)     */
+/*                 N+3*NB+4*ITMAX, IF IPARM(5)=1  (NONSYMMETRIC STORAGE)  */
+/*                 HERE NB IS THE ORDER OF THE BLACK SUBSYSTEM            */
+/*          IPARM  INTEGER VECTOR OF LENGTH 12.  ALLOWS USER TO SPECIFY   */
+/*                 SOME INTEGER PARAMETERS WHICH AFFECT THE METHOD.  IF   */
+/*          RPARM  D.P. VECTOR OF LENGTH 12. ALLOWS USER TO SPECIFY SOME  */
+/*                 D.P. PARAMETERS WHICH AFFECT THE METHOD.               */
+/*          IER    OUTPUT INTEGER. ERROR FLAG. (= IERR)                   */
+/*                                                                        */
+/* ... RSCG SUBPROGRAM REFERENCES:                                        */
+/*                                                                        */
+/*          FROM ITPACK    BISRCH, CHGCON, DETERM, DFAULT, ECHALL,        */
+/*                         ECHOUT, EIGVNS, EIGVSS, EQRT1S, ITERM, TIMER   */
+/*                         ITRSCG, IVFILL, PARCON, PERMAT,                */
+/*                         PERROR, PERVEC, PMULT, PRBNDX, PRSBLK,         */
+/*                         PRSRED, PSTOP, QSORT, SBELM, SCAL, DCOPY,      */
+/*                         DDOT, SUM3, UNSCAL, VFILL, VOUT, WEVMW,        */
+/*                         ZBRENT                                         */
+/*          SYSTEM         DABS, DLOG10, DBLE(AMAX0), DMAX1, MOD, DSQRT   */
+/*                                                                        */
+/*     VERSION:  ITPACK 2C (MARCH 1982)                                   */
+/*                                                                        */
+/*     CODE WRITTEN BY:  DAVID KINCAID, ROGER GRIMES, JOHN RESPESS        */
+/*                       CENTER FOR NUMERICAL ANALYSIS                    */
+/*                       UNIVERSITY OF TEXAS                              */
+/*                       AUSTIN, TX  78712                                */
+/*                       (512) 471-1242                                   */
+/*                                                                        */
+/*     FOR ADDITIONAL DETAILS ON THE                                      */
+/*          (A) SUBROUTINE SEE TOMS ARTICLE 1982                          */
+/*          (B) ALGORITHM  SEE CNA REPORT 150                             */
+/*                                                                        */
+/*     BASED ON THEORY BY:  DAVID YOUNG, DAVID KINCAID, LOU HAGEMAN       */
+/*                                                                        */
+/*     REFERENCE THE BOOK:  APPLIED ITERATIVE METHODS                     */
+/*                          L. HAGEMAN, D. YOUNG                          */
+/*                          ACADEMIC PRESS, 1981                          */
+/*                                                                        */
+/*     **************************************************                 */
+/*     *               IMPORTANT NOTE                   *                 */
+/*     *                                                *                 */
+/*     *      WHEN INSTALLING ITPACK ROUTINES ON A      *                 */
+/*     *  DIFFERENT COMPUTER, RESET SOME OF THE VALUES  *                 */
+/*     *  IN  SUBROUTNE DFAULT.   MOST IMPORTANT ARE    *                 */
+/*     *                                                *                 */
+/*     *   DRELPR      MACHINE RELATIVE PRECISION       *                 */
+/*     *   RPARM(1)    STOPPING CRITERION               *                 */
+/*     *                                                *                 */
+/*     *   ALSO CHANGE SYSTEM-DEPENDENT ROUTINE         *                 */
+/*     *   SECOND USED IN TIMER                         *                 */
+/*     *                                                *                 */
+/*     **************************************************                 */
+/*                                                                        */
+/*     SPECIFICATIONS FOR ARGUMENTS                                       */
+/*                                                                        */
+/*     SPECIFICATIONS FOR LOCAL VARIABLES                                 */
+/*                                                                        */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM1                                 */
+/*                                                                        */
+/*     IN     - ITERATION NUMBER                                          */
+/*     IS     - ITERATION NUMBER WHEN PARAMETERS LAST CHANGED             */
+/*     ISYM   - SYMMETRIC/NONSYMMETRIC STORAGE FORMAT SWITCH              */
+/*     ITMAX  - MAXIMUM NUMBER OF ITERATIONS ALLOWED                      */
+/*     LEVEL  - LEVEL OF OUTPUT CONTROL SWITCH                            */
+/*     NOUT   - OUTPUT UNIT NUMBER                                        */
+/*                                                                        */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM2                                 */
+/*                                                                        */
+/*     ADAPT  - FULLY ADAPTIVE PROCEDURE SWITCH                           */
+/*     BETADT - SWITCH FOR ADAPTIVE DETERMINATION OF BETA                 */
+/*     CASEII - ADAPTIVE PROCEDURE CASE SWITCH                            */
+/*     HALT   - STOPPING TEST SWITCH                                      */
+/*     PARTAD - PARTIALLY ADAPTIVE PROCEDURE SWITCH                       */
+/*                                                                        */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM3                                 */
+/*                                                                        */
+/*     BDELNM - TWO NORM OF B TIMES DELTA-SUPER-N                         */
+/*     BETAB  - ESTIMATE FOR THE SPECTRAL RADIUS OF LU MATRIX             */
+/*     CME    - ESTIMATE OF LARGEST EIGENVALUE                            */
+/*     DELNNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION N           */
+/*     DELSNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION S           */
+/*     FF     - ADAPTIVE PROCEDURE DAMPING FACTOR                         */
+/*     GAMMA  - ACCELERATION PARAMETER                                    */
+/*     OMEGA  - OVERRELAXATION PARAMETER FOR SOR AND SSOR                 */
+/*     QA     - PSEUDO-RESIDUAL RATIO                                     */
+/*     QT     - VIRTUAL SPECTRAL RADIUS                                   */
+/*     RHO    - ACCELERATION PARAMETER                                    */
+/*     RRR    - ADAPTIVE PARAMETER                                        */
+/*     SIGE   - PARAMETER SIGMA-SUB-E                                     */
+/*     SME    - ESTIMATE OF SMALLEST EIGENVALUE                           */
+/*     SPECR  - SPECTRAL RADIUS ESTIMATE FOR SSOR                         */
+/*     DRELPR - MACHINE RELATIVE PRECISION                                */
+/*     STPTST - STOPPING PARAMETER                                        */
+/*     UDNM   - TWO NORM OF U                                             */
+/*     ZETA   - STOPPING CRITERION                                        */
 
     itcom1_1.level = iparm[1];
     itcom1_1.nout = iparm[3];
@@ -1995,14 +1964,13 @@ int rscg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
     if (iparm[0] <= 0)
         return 0;
 
-    n = *nn;
     if (iparm[10] == 0)
         timj1 = timer_((real*)0);
 
     if (itcom1_1.level < 3)
         echout_(iparm, rparm, &c__6);
     else
-        echall_(&n, ia, ja, a, rhs, iparm, rparm, &c__1);
+        echall_(n, ia, ja, a, rhs, iparm, rparm, &c__1);
     temp = itcom3_1.drelpr * 500.;
     if (itcom3_1.zeta < temp)
         itcom3_1.zeta = temp;
@@ -2012,68 +1980,66 @@ int rscg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
     digit1 = rparm[10];
     digit2 = rparm[11];
 
-/* ... VERIFY N */
+    /* ... VERIFY N */
 
-    if (n <= 0) {
+    if (*n <= 0) {
         ier = 61;
         goto L430;
     }
 
-/* ... REMOVE ROWS AND COLUMNS IF REQUESTED */
+    /* ... REMOVE ROWS AND COLUMNS IF REQUESTED */
 
     if (iparm[9] != 0) {
         tol = rparm[7];
-        ivfill_(&n, iwksp, &c__0);
-        vfill_(&n, wksp, &c_b21);
-        sbelm_(&n, ia, ja, a, rhs, iwksp, wksp, &tol, &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
+        ivfill_(n, iwksp, &c__0);
+        vfill_(n, wksp, &c_b21);
+        sbelm_(n, ia, ja, a, rhs, iwksp, wksp, &tol, &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
         if (ier != 0)
             goto L430;
-
     }
 
-/* ... INITIALIZE WKSP BASE ADDRESSES. */
+    /* ... INITIALIZE WKSP BASE ADDRESSES. */
 
     ib1 = 0;
-    ib2 = ib1 + n;
-    jb3 = ib2 + n;
+    ib2 = ib1 + *n;
+    jb3 = ib2 + *n;
 
-/* ... PERMUTE TO  RED-BLACK SYSTEM IF POSSIBLE */
+    /* ... PERMUTE TO  RED-BLACK SYSTEM IF POSSIBLE */
 
     nb = iparm[8];
     if (nb < 0) {
-        n3 = n * 3;
+        n3 = *n * 3;
         ivfill_(&n3, iwksp, &c__0);
-        prbndx_(&n, &nb, ia, ja, iwksp, &iwksp[ib2], &itcom1_1.level, &itcom1_1.nout, &ier);
+        prbndx_(n, &nb, ia, ja, iwksp, &iwksp[ib2], &itcom1_1.level, &itcom1_1.nout, &ier);
         if (ier != 0)
             goto L430;
-
     }
 
-    if (nb < 0 || nb > n) {
+    if (nb < 0 || nb > *n) {
         ier = 64;
         goto L430;
     }
-    if (nb == 0 || nb == n)
-        nb = n / 2;
+    if (nb == 0 || nb == *n)
+        nb = *n / 2;
 
-/* ... PERMUTE MATRIX AND RHS */
+    /* ... PERMUTE MATRIX AND RHS */
 
     if (iparm[8] < 0) {
-        permat_(&n, ia, ja, a, iwksp, &iwksp[jb3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
+        permat_(n, ia, ja, a, iwksp, &iwksp[jb3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
         if (ier != 0)
             goto L430;
 
-        pervec_(&n, rhs, iwksp);
-        pervec_(&n, u, iwksp);
+        pervec_(n, rhs, iwksp);
+        pervec_(n, u, iwksp);
     }
 
-/* ... FINISH WKSP BASE ADDRESSES */
+    /* ... FINISH WKSP BASE ADDRESSES */
 
     ib3 = ib2 + nb;
     ib4 = ib3 + nb;
     ib5 = ib4 + nb;
-    nr = n - nb;
-    iparm[7] = n + nb * 3 + (itcom1_1.itmax << 1);
+    nr = *n - nb;
+    iparm[7] = *n + nb * 3 + (itcom1_1.itmax << 1);
     if (itcom1_1.isym != 0)
         iparm[7] += itcom1_1.itmax << 1;
 
@@ -2082,20 +2048,20 @@ int rscg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
         goto L430;
     }
 
-/* ... SCALE LINEAR SYSTEM, U, AND RHS BY THE SQUARE ROOT OF THE */
-/* ... DIAGONAL ELEMENTS. */
+    /* ... SCALE LINEAR SYSTEM, U, AND RHS BY THE SQUARE ROOT OF THE */
+    /* ... DIAGONAL ELEMENTS. */
 
     vfill_(&iparm[7], wksp, &c_b21);
-    scal_(&n, ia, ja, a, rhs, u, wksp, &itcom1_1.level, &itcom1_1.nout, &ier);
+    scal_(n, ia, ja, a, rhs, u, wksp, &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L430;
 
     if (iparm[10] == 0)
         timi1 = timer_((real*)0);
 
-/* ... INITIALIZE FORWARD PSEUDO-RESIDUAL */
+    /* ... INITIALIZE FORWARD PSEUDO-RESIDUAL */
 
-    if (n <= 1) {
+    if (*n <= 1) {
         u[0] = rhs[0];
         goto L330;
     }
@@ -2105,7 +2071,7 @@ int rscg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
     prsblk_(&nb, &nr, ia, ja, a, &wksp[ib1], &wksp[ib2]);
     vevmw_(&nb, &wksp[ib2], &u[nr]);
 
-/* ... ITERATION SEQUENCE */
+    /* ... ITERATION SEQUENCE */
 
     itmax1 = itcom1_1.itmax + 1;
     for (loop = 1; loop <= itmax1; ++loop) {
@@ -2113,32 +2079,31 @@ int rscg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
         if (itcom1_1.in % 2 == 1)
             goto L290;
 
-/* ... CODE FOR THE EVEN ITERATIONS. */
+        /* ... CODE FOR THE EVEN ITERATIONS. */
 
-/*     U           = U(IN)       WKSP(IB2) = D(IN) */
-/*     WKSP(IB1)   = U(IN-1)     WKSP(IB3) = D(IN-1) */
+        /*     U           = U(IN)       WKSP(IB2) = D(IN) */
+        /*     WKSP(IB1)   = U(IN-1)     WKSP(IB3) = D(IN-1) */
 
-        itrscg_(&n, &nb, ia, ja, a, u, &wksp[ib1], &wksp[ib2], &wksp[ib3], &wksp[ib4], &wksp[ib5]);
+        itrscg_(n, &nb, ia, ja, a, u, &wksp[ib1], &wksp[ib2], &wksp[ib3], &wksp[ib4], &wksp[ib5]);
 
         if (itcom2_1.halt)
             goto L330;
 
         continue;
 
-/* ... CODE FOR THE ODD ITERATIONS. */
+        /* ... CODE FOR THE ODD ITERATIONS. */
 
-/*     U           = U(IN-1)     WKSP(IB2) = D(IN-1) */
-/*     WKSP(IB1)   = U(IN)       WKSP(IB3) = D(IN) */
+        /*     U           = U(IN-1)     WKSP(IB2) = D(IN-1) */
+        /*     WKSP(IB1)   = U(IN)       WKSP(IB3) = D(IN) */
 
 L290:
-        itrscg_(&n, &nb, ia, ja, a, &wksp[ib1], u, &wksp[ib3], &wksp[ib2], &wksp[ib4], &wksp[ib5]);
+        itrscg_(n, &nb, ia, ja, a, &wksp[ib1], u, &wksp[ib3], &wksp[ib2], &wksp[ib4], &wksp[ib5]);
 
         if (itcom2_1.halt)
             goto L330;
-
     }
 
-/* ... ITMAX HAS BEEN REACHED */
+    /* ... ITMAX HAS BEEN REACHED */
 
     if (iparm[10] == 0) {
         timi2 = timer_((real*)0);
@@ -2150,7 +2115,7 @@ L290:
 
     goto L360;
 
-/* ... METHOD HAS CONVERGED */
+    /* ... METHOD HAS CONVERGED */
 
 L330:
     if (iparm[10] == 0) {
@@ -2158,27 +2123,27 @@ L330:
         time1 = (doublereal) (timi2 - timi1);
     }
 
-/* ... PUT SOLUTION INTO U IF NOT ALREADY THERE. */
+    /* ... PUT SOLUTION INTO U IF NOT ALREADY THERE. */
 
 L360:
-    if (n != 1) {
+    if (*n != 1) {
         if (itcom1_1.in % 2 == 1)
-            itpackdcopy_(&n, &wksp[ib1], &c__1, u, &c__1);
+            itpackdcopy_(n, &wksp[ib1], &c__1, u, &c__1);
 
         itpackdcopy_(&nr, rhs, &c__1, u, &c__1);
         prsred_(&nb, &nr, ia, ja, a, &u[nr], u);
     }
 
-/* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
+    /* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
 
-    unscal_(&n, ia, ja, a, rhs, u, wksp);
+    unscal_(n, ia, ja, a, rhs, u, wksp);
 
-/* ... UN-PERMUTE MATRIX,RHS, AND SOLUTION */
+    /* ... UN-PERMUTE MATRIX,RHS, AND SOLUTION */
 
     if (iparm[8] >= 0)
         goto L400;
 
-    permat_(&n, ia, ja, a, &iwksp[ib2], &iwksp[jb3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ierper);
+    permat_(n, ia, ja, a, &iwksp[ib2], &iwksp[jb3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ierper);
     if (ierper != 0) {
         if (ier == 0)
             ier = ierper;
@@ -2186,10 +2151,10 @@ L360:
         goto L430;
     }
 
-    pervec_(&n, rhs, &iwksp[ib2]);
-    pervec_(&n, u, &iwksp[ib2]);
+    pervec_(n, rhs, &iwksp[ib2]);
+    pervec_(n, u, &iwksp[ib2]);
 
-/* ... OPTIONAL ERROR ANALYSIS */
+    /* ... OPTIONAL ERROR ANALYSIS */
 
 L400:
     idgts = iparm[11];
@@ -2197,10 +2162,10 @@ L400:
         if (iparm[1] <= 0)
             idgts = 0;
 
-        perror_(&n, ia, ja, a, rhs, u, wksp, &digit1, &digit2, &idgts);
+        perror_(n, ia, ja, a, rhs, u, wksp, &digit1, &digit2, &idgts);
     }
 
-    /* ... SET RETURN PARAMETERS IN IPARM AND RPARM */
+        /* ... SET RETURN PARAMETERS IN IPARM AND RPARM */
 
     if (iparm[10] == 0) {
         timj2 = timer_((real*)0);
@@ -2224,17 +2189,17 @@ L400:
 L430:
     *ierr = ier;
     if (itcom1_1.level >= 3)
-        echall_(&n, ia, ja, a, rhs, iparm, rparm, &c__2);
+        echall_(n, ia, ja, a, rhs, iparm, rparm, &c__2);
 
     return 0;
 } /* rscg_ */
 
 /* Subroutine */
-int rssi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
+int rssi_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
           integer *iwksp, integer *nw, doublereal *wksp, integer *iparm, doublereal *rparm, integer* ierr)
 {
     /* Local variables */
-    static integer n, n3, nb, nr, ib1, ib2, jb3, ier;
+    static integer n3, nb, nr, ib1, ib2, jb3, ier;
     static doublereal tol;
     static doublereal temp;
     static integer loop;
@@ -2246,126 +2211,124 @@ int rssi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
     static integer ierper;
 
 /*     ITPACK 2C MAIN SUBROUTINE  RSSI  (REDUCED SYSTEM SEMI-ITERATIVE) */
-/*     EACH OF THE MAIN SUBROUTINES: */
-/*           JCG, JSI, SOR, SSORCG, SSORSI, RSCG, RSSI */
-/*     CAN BE USED INDEPENDENTLY OF THE OTHERS */
+/*     EACH OF THE MAIN SUBROUTINES:                                    */
+/*           JCG, JSI, SOR, SSORCG, SSORSI, RSCG, RSSI                  */
+/*     CAN BE USED INDEPENDENTLY OF THE OTHERS                          */
 
-/* ... FUNCTION: */
-
-/*          THIS SUBROUTINE, RSSI, DRIVES THE  REDUCED SYSTEM SI */
-/*          ALGORITHM. */
-
-/* ... PARAMETER LIST: */
-
-/*          N     INPUT INTEGER.  DIMENSION OF THE MATRIX. (= NN) */
-/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF */
-/*                 THE SPARSE MATRIX REPRESENTATION. */
-/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE */
-/*                 MATRIX REPRESENTATION. */
-/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE */
-/*                 OF THE MATRIX PROBLEM. */
-/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE */
-/*                 INITIAL GUESS TO THE SOLUTION. ON OUTPUT, IT CONTAINS */
-/*                 THE LATEST ESTIMATE TO THE SOLUTION. */
-/*          IWKSP  INTEGER VECTOR WORKSPACE OF LENGTH 3*N */
-/*          NW     INPUT INTEGER.  LENGTH OF AVAILABLE WKSP.  ON OUTPUT, */
-/*                 IPARM(8) IS AMOUNT USED. */
-/*          WKSP   D.P. VECTOR USED FOR WORKING SPACE.  RSSI */
-/*                 NEEDS THIS TO BE IN LENGTH AT LEAST  N + NB */
-/*                 HERE NB IS THE ORDER OF THE BLACK SUBSYSTEM */
-/*          IPARM  INTEGER VECTOR OF LENGTH 12.  ALLOWS USER TO SPECIFY */
-/*                 SOME INTEGER PARAMETERS WHICH AFFECT THE METHOD.  IF */
-/*          RPARM  D.P. VECTOR OF LENGTH 12. ALLOWS USER TO SPECIFY SOME */
-/*                 D.P. PARAMETERS WHICH AFFECT THE METHOD. */
-/*          IER     OUTPUT INTEGER.  ERROR FLAG. (= IERR) */
-
-/* ... RSSI SUBPROGRAM REFERENCES: */
-
-/*          FROM ITPACK    BISRCH, CHEBY, CHGSI, DFAULT, ECHALL, */
-/*                         ECHOUT, ITERM, TIMER, ITRSSI, IVFILL, */
-/*                         PARSI, PERMAT, PERROR, PERVEC, PMULT, */
-/*                         PRBNDX, PRSBLK, PRSRED, PSTOP, QSORT, */
-/*                         DAXPY, SBELM, SCAL, DCOPY, DDOT, SUM3, */
-/*                         TSTCHG, UNSCAL, VEVMW, VFILL, VOUT, */
-/*                         WEVMW */
+/*          THIS SUBROUTINE, RSSI, DRIVES THE  REDUCED SYSTEM SI          */
+/*          ALGORITHM.                                                    */
+/*                                                                        */
+/* ... PARAMETER LIST:                                                    */
+/*                                                                        */
+/*          N     INPUT INTEGER.  DIMENSION OF THE MATRIX.                */
+/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF      */
+/*                 THE SPARSE MATRIX REPRESENTATION.                      */
+/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE       */
+/*                 MATRIX REPRESENTATION.                                 */
+/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE       */
+/*                 OF THE MATRIX PROBLEM.                                 */
+/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE    */
+/*                 INITIAL GUESS TO THE SOLUTION. ON OUTPUT, IT CONTAINS  */
+/*                 THE LATEST ESTIMATE TO THE SOLUTION.                   */
+/*          IWKSP  INTEGER VECTOR WORKSPACE OF LENGTH 3*N                 */
+/*          NW     INPUT INTEGER.  LENGTH OF AVAILABLE WKSP.  ON OUTPUT,  */
+/*                 IPARM(8) IS AMOUNT USED.                               */
+/*          WKSP   D.P. VECTOR USED FOR WORKING SPACE.  RSSI              */
+/*                 NEEDS THIS TO BE IN LENGTH AT LEAST  N + NB            */
+/*                 HERE NB IS THE ORDER OF THE BLACK SUBSYSTEM            */
+/*          IPARM  INTEGER VECTOR OF LENGTH 12.  ALLOWS USER TO SPECIFY   */
+/*                 SOME INTEGER PARAMETERS WHICH AFFECT THE METHOD.  IF   */
+/*          RPARM  D.P. VECTOR OF LENGTH 12. ALLOWS USER TO SPECIFY SOME  */
+/*                 D.P. PARAMETERS WHICH AFFECT THE METHOD.               */
+/*          IER     OUTPUT INTEGER.  ERROR FLAG. (= IERR)                 */
+/*                                                                        */
+/* ... RSSI SUBPROGRAM REFERENCES:                                        */
+/*                                                                        */
+/*          FROM ITPACK    BISRCH, CHEBY, CHGSI, DFAULT, ECHALL,          */
+/*                         ECHOUT, ITERM, TIMER, ITRSSI, IVFILL,          */
+/*                         PARSI, PERMAT, PERROR, PERVEC, PMULT,          */
+/*                         PRBNDX, PRSBLK, PRSRED, PSTOP, QSORT,          */
+/*                         DAXPY, SBELM, SCAL, DCOPY, DDOT, SUM3,         */
+/*                         TSTCHG, UNSCAL, VEVMW, VFILL, VOUT,            */
+/*                         WEVMW                                          */
 /*          SYSTEM         DABS, DLOG10, DBLE(AMAX0), DMAX1, DBLE(FLOAT), */
-/*                         DSQRT */
-
-/*     VERSION:  ITPACK 2C (MARCH 1982) */
-
-/*     CODE WRITTEN BY:  DAVID KINCAID, ROGER GRIMES, JOHN RESPESS */
-/*                       CENTER FOR NUMERICAL ANALYSIS */
-/*                       UNIVERSITY OF TEXAS */
-/*                       AUSTIN, TX  78712 */
-/*                       (512) 471-1242 */
-
-/*     FOR ADDITIONAL DETAILS ON THE */
-/*          (A) SUBROUTINE SEE TOMS ARTICLE 1982 */
-/*          (B) ALGORITHM  SEE CNA REPORT 150 */
-
-/*     BASED ON THEORY BY:  DAVID YOUNG, DAVID KINCAID, LOU HAGEMAN */
-
-/*     REFERENCE THE BOOK:  APPLIED ITERATIVE METHODS */
-/*                          L. HAGEMAN, D. YOUNG */
-/*                          ACADEMIC PRESS, 1981 */
-
-/*     ************************************************** */
-/*     *               IMPORTANT NOTE                   * */
-/*     *                                                * */
-/*     *      WHEN INSTALLING ITPACK ROUTINES ON A      * */
-/*     *  DIFFERENT COMPUTER, RESET SOME OF THE VALUES  * */
-/*     *  IN  SUBROUTNE DFAULT.   MOST IMPORTANT ARE    * */
-/*     *                                                * */
-/*     *   DRELPR      MACHINE RELATIVE PRECISION       * */
-/*     *   RPARM(1)    STOPPING CRITERION               * */
-/*     *                                                * */
-/*     *   ALSO CHANGE SYSTEM-DEPENDENT ROUTINE         * */
-/*     *   SECOND USED IN TIMER                         * */
-/*     *                                                * */
-/*     ************************************************** */
-
-/*     SPECIFICATIONS FOR ARGUMENTS */
-
-/*     SPECIFICATIONS FOR LOCAL VARIABLES */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM1 */
-
-/*     IN     - ITERATION NUMBER */
-/*     IS     - ITERATION NUMBER WHEN PARAMETERS LAST CHANGED */
-/*     ISYM   - SYMMETRIC/NONSYMMETRIC STORAGE FORMAT SWITCH */
-/*     ITMAX  - MAXIMUM NUMBER OF ITERATIONS ALLOWED */
-/*     LEVEL  - LEVEL OF OUTPUT CONTROL SWITCH */
-/*     NOUT   - OUTPUT UNIT NUMBER */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM2 */
-
-/*     ADAPT  - FULLY ADAPTIVE PROCEDURE SWITCH */
-/*     BETADT - SWITCH FOR ADAPTIVE DETERMINATION OF BETA */
-/*     CASEII - ADAPTIVE PROCEDURE CASE SWITCH */
-/*     HALT   - STOPPING TEST SWITCH */
-/*     PARTAD - PARTIALLY ADAPTIVE PROCEDURE SWITCH */
-
-/* ... VARIABLES IN COMMON BLOCK - ITCOM3 */
-
-/*     BDELNM - TWO NORM OF B TIMES DELTA-SUPER-N */
-/*     BETAB  - ESTIMATE FOR THE SPECTRAL RADIUS OF LU MATRIX */
-/*     CME    - ESTIMATE OF LARGEST EIGENVALUE */
-/*     DELNNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION N */
-/*     DELSNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION S */
-/*     FF     - ADAPTIVE PROCEDURE DAMPING FACTOR */
-/*     GAMMA  - ACCELERATION PARAMETER */
-/*     OMEGA  - OVERRELAXATION PARAMETER FOR SOR AND SSOR */
-/*     QA     - PSEUDO-RESIDUAL RATIO */
-/*     QT     - VIRTUAL SPECTRAL RADIUS */
-/*     RHO    - ACCELERATION PARAMETER */
-/*     RRR    - ADAPTIVE PARAMETER */
-/*     SIGE   - PARAMETER SIGMA-SUB-E */
-/*     SME    - ESTIMATE OF SMALLEST EIGENVALUE */
-/*     SPECR  - SPECTRAL RADIUS ESTIMATE FOR SSOR */
-/*     DRELPR - MACHINE RELATIVE PRECISION */
-/*     STPTST - STOPPING PARAMETER */
-/*     UDNM   - TWO NORM OF U */
-/*     ZETA   - STOPPING CRITERION */
+/*                         DSQRT                                          */
+/*                                                                        */
+/*     VERSION:  ITPACK 2C (MARCH 1982)                                   */
+/*                                                                        */
+/*     CODE WRITTEN BY:  DAVID KINCAID, ROGER GRIMES, JOHN RESPESS        */
+/*                       CENTER FOR NUMERICAL ANALYSIS                    */
+/*                       UNIVERSITY OF TEXAS                              */
+/*                       AUSTIN, TX  78712                                */
+/*                       (512) 471-1242                                   */
+/*                                                                        */
+/*     FOR ADDITIONAL DETAILS ON THE                                      */
+/*          (A) SUBROUTINE SEE TOMS ARTICLE 1982                          */
+/*          (B) ALGORITHM  SEE CNA REPORT 150                             */
+/*                                                                        */
+/*     BASED ON THEORY BY:  DAVID YOUNG, DAVID KINCAID, LOU HAGEMAN       */
+/*                                                                        */
+/*     REFERENCE THE BOOK:  APPLIED ITERATIVE METHODS                     */
+/*                          L. HAGEMAN, D. YOUNG                          */
+/*                          ACADEMIC PRESS, 1981                          */
+/*                                                                        */
+/*     **************************************************                 */
+/*     *               IMPORTANT NOTE                   *                 */
+/*     *                                                *                 */
+/*     *      WHEN INSTALLING ITPACK ROUTINES ON A      *                 */
+/*     *  DIFFERENT COMPUTER, RESET SOME OF THE VALUES  *                 */
+/*     *  IN  SUBROUTNE DFAULT.   MOST IMPORTANT ARE    *                 */
+/*     *                                                *                 */
+/*     *   DRELPR      MACHINE RELATIVE PRECISION       *                 */
+/*     *   RPARM(1)    STOPPING CRITERION               *                 */
+/*     *                                                *                 */
+/*     *   ALSO CHANGE SYSTEM-DEPENDENT ROUTINE         *                 */
+/*     *   SECOND USED IN TIMER                         *                 */
+/*     *                                                *                 */
+/*     **************************************************                 */
+/*                                                                        */
+/*     SPECIFICATIONS FOR ARGUMENTS                                       */
+/*                                                                        */
+/*     SPECIFICATIONS FOR LOCAL VARIABLES                                 */
+/*                                                                        */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM1                                 */
+/*                                                                        */
+/*     IN     - ITERATION NUMBER                                          */
+/*     IS     - ITERATION NUMBER WHEN PARAMETERS LAST CHANGED             */
+/*     ISYM   - SYMMETRIC/NONSYMMETRIC STORAGE FORMAT SWITCH              */
+/*     ITMAX  - MAXIMUM NUMBER OF ITERATIONS ALLOWED                      */
+/*     LEVEL  - LEVEL OF OUTPUT CONTROL SWITCH                            */
+/*     NOUT   - OUTPUT UNIT NUMBER                                        */
+/*                                                                        */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM2                                 */
+/*                                                                        */
+/*     ADAPT  - FULLY ADAPTIVE PROCEDURE SWITCH                           */
+/*     BETADT - SWITCH FOR ADAPTIVE DETERMINATION OF BETA                 */
+/*     CASEII - ADAPTIVE PROCEDURE CASE SWITCH                            */
+/*     HALT   - STOPPING TEST SWITCH                                      */
+/*     PARTAD - PARTIALLY ADAPTIVE PROCEDURE SWITCH                       */
+/*                                                                        */
+/* ... VARIABLES IN COMMON BLOCK - ITCOM3                                 */
+/*                                                                        */
+/*     BDELNM - TWO NORM OF B TIMES DELTA-SUPER-N                         */
+/*     BETAB  - ESTIMATE FOR THE SPECTRAL RADIUS OF LU MATRIX             */
+/*     CME    - ESTIMATE OF LARGEST EIGENVALUE                            */
+/*     DELNNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION N           */
+/*     DELSNM - INNER PRODUCT OF PSEUDO-RESIDUAL AT ITERATION S           */
+/*     FF     - ADAPTIVE PROCEDURE DAMPING FACTOR                         */
+/*     GAMMA  - ACCELERATION PARAMETER                                    */
+/*     OMEGA  - OVERRELAXATION PARAMETER FOR SOR AND SSOR                 */
+/*     QA     - PSEUDO-RESIDUAL RATIO                                     */
+/*     QT     - VIRTUAL SPECTRAL RADIUS                                   */
+/*     RHO    - ACCELERATION PARAMETER                                    */
+/*     RRR    - ADAPTIVE PARAMETER                                        */
+/*     SIGE   - PARAMETER SIGMA-SUB-E                                     */
+/*     SME    - ESTIMATE OF SMALLEST EIGENVALUE                           */
+/*     SPECR  - SPECTRAL RADIUS ESTIMATE FOR SSOR                         */
+/*     DRELPR - MACHINE RELATIVE PRECISION                                */
+/*     STPTST - STOPPING PARAMETER                                        */
+/*     UDNM   - TWO NORM OF U                                             */
+/*     ZETA   - STOPPING CRITERION                                        */
 
     itcom1_1.level = iparm[1];
     itcom1_1.nout = iparm[3];
@@ -2373,14 +2336,13 @@ int rssi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
     if (iparm[0] <= 0)
         return 0;
 
-    n = *nn;
     if (iparm[10] == 0)
         timj1 = timer_((real*)0);
 
     if (itcom1_1.level < 3)
         echout_(iparm, rparm, &c__7);
     else
-        echall_(&n, ia, ja, a, rhs, iparm, rparm, &c__1);
+        echall_(n, ia, ja, a, rhs, iparm, rparm, &c__1);
     temp = itcom3_1.drelpr * 500.;
     if (itcom3_1.zeta < temp)
         itcom3_1.zeta = temp;
@@ -2390,82 +2352,81 @@ int rssi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
     digit1 = rparm[10];
     digit2 = rparm[11];
 
-/* ... VERIFY N */
+    /* ... VERIFY N */
 
-    if (n <= 0) {
+    if (*n <= 0) {
         ier = 71;
         goto L420;
     }
 
-/* ... REMOVE ROWS AND COLUMNS IF REQUESTED */
+    /* ... REMOVE ROWS AND COLUMNS IF REQUESTED */
 
     if (iparm[9] != 0) {
         tol = rparm[7];
-        ivfill_(&n, iwksp, &c__0);
-        vfill_(&n, wksp, &c_b21);
-        sbelm_(&n, ia, ja, a, rhs, iwksp, wksp, &tol, &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
+        ivfill_(n, iwksp, &c__0);
+        vfill_(n, wksp, &c_b21);
+        sbelm_(n, ia, ja, a, rhs, iwksp, wksp, &tol, &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
     }
 
-/* ... INITIALIZE WKSP BASE ADDRESSES. */
+    /* ... INITIALIZE WKSP BASE ADDRESSES. */
 
     ib1 = 0;
-    ib2 = ib1 + n;
-    jb3 = ib2 + n;
+    ib2 = ib1 + *n;
+    jb3 = ib2 + *n;
 
-/* ... PERMUTE TO  RED-BLACK SYSTEM IF POSSIBLE */
+    /* ... PERMUTE TO  RED-BLACK SYSTEM IF POSSIBLE */
 
     nb = iparm[8];
     if (nb < 0) {
-        n3 = n * 3;
+        n3 = *n * 3;
         ivfill_(&n3, iwksp, &c__0);
-        prbndx_(&n, &nb, ia, ja, iwksp, &iwksp[ib2], &itcom1_1.level, &itcom1_1.nout, &ier);
+        prbndx_(n, &nb, ia, ja, iwksp, &iwksp[ib2], &itcom1_1.level, &itcom1_1.nout, &ier);
         if (ier != 0)
             goto L420;
-
     }
 
-    if (nb < 0 || nb > n) {
+    if (nb < 0 || nb > *n) {
         ier = 74;
         goto L420;
     }
-    if (nb == 0 || nb == n)
-        nb = n / 2;
+    if (nb == 0 || nb == *n)
+        nb = *n / 2;
 
-/* ... PERMUTE MATRIX AND RHS */
+    /* ... PERMUTE MATRIX AND RHS */
 
     if (iparm[8] < 0) {
-        permat_(&n, ia, ja, a, iwksp, &iwksp[jb3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
+        permat_(n, ia, ja, a, iwksp, &iwksp[jb3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ier);
         if (ier != 0)
             goto L420;
 
-        pervec_(&n, rhs, iwksp);
-        pervec_(&n, u, iwksp);
+        pervec_(n, rhs, iwksp);
+        pervec_(n, u, iwksp);
     }
 
-/* ... INITIALIZE WKSP BASE ADDRESSES */
+    /* ... INITIALIZE WKSP BASE ADDRESSES */
 
-    nr = n - nb;
+    nr = *n - nb;
 
-    iparm[7] = n + nb;
+    iparm[7] = *n + nb;
     if (*nw < iparm[7]) {
         ier = 72;
         goto L420;
     }
 
-/* ... SCALE LINEAR SYSTEM, U, AND RHS BY THE SQUARE ROOT OF THE */
-/* ... DIAGONAL ELEMENTS. */
+    /* ... SCALE LINEAR SYSTEM, U, AND RHS BY THE SQUARE ROOT OF THE */
+    /* ... DIAGONAL ELEMENTS. */
 
     vfill_(&iparm[7], wksp, &c_b21);
-    scal_(&n, ia, ja, a, rhs, u, wksp, &itcom1_1.level, &itcom1_1.nout, &ier);
+    scal_(n, ia, ja, a, rhs, u, wksp, &itcom1_1.level, &itcom1_1.nout, &ier);
     if (ier != 0)
         goto L420;
 
     if (iparm[10] == 0)
         timi1 = timer_((real*)0);
 
-/* ... ITERATION SEQUENCE */
+    /* ... ITERATION SEQUENCE */
 
-    if (n <= 1) {
+    if (*n <= 1) {
         u[0] = rhs[0];
         goto L320;
     }
@@ -2475,32 +2436,31 @@ int rssi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
         if (itcom1_1.in % 2 == 1)
             goto L280;
 
-/* ... CODE FOR THE EVEN ITERATIONS. */
+        /* ... CODE FOR THE EVEN ITERATIONS. */
 
-/*     U           = U(IN) */
-/*     WKSP(IB1)   = U(IN-1) */
+        /*     U           = U(IN) */
+        /*     WKSP(IB1)   = U(IN-1) */
 
-        itrssi_(&n, &nb, ia, ja, a, rhs, u, &wksp[ib1], &wksp[ib2]);
+        itrssi_(n, &nb, ia, ja, a, rhs, u, &wksp[ib1], &wksp[ib2]);
 
         if (itcom2_1.halt)
             goto L320;
 
         continue;
 
-/* ... CODE FOR THE ODD ITERATIONS. */
+        /* ... CODE FOR THE ODD ITERATIONS. */
 
-/*     U           = U(IN-1) */
-/*     WKSP(IB1)   = U(IN) */
+        /*     U           = U(IN-1) */
+        /*     WKSP(IB1)   = U(IN) */
 
 L280:
-        itrssi_(&n, &nb, ia, ja, a, rhs, &wksp[ib1], u, &wksp[ib2]);
+        itrssi_(n, &nb, ia, ja, a, rhs, &wksp[ib1], u, &wksp[ib2]);
 
         if (itcom2_1.halt)
             goto L320;
-
     }
 
-/* ... ITMAX HAS BEEN REACHED */
+    /* ... ITMAX HAS BEEN REACHED */
 
     if (iparm[10] == 0) {
         timi2 = timer_((real*)0);
@@ -2512,7 +2472,7 @@ L280:
 
     goto L350;
 
-/* ... METHOD HAS CONVERGED */
+    /* ... METHOD HAS CONVERGED */
 
 L320:
     if (iparm[10] == 0) {
@@ -2520,27 +2480,27 @@ L320:
         time1 = (doublereal) (timi2 - timi1);
     }
 
-/* ... PUT SOLUTION INTO U IF NOT ALREADY THERE. */
+    /* ... PUT SOLUTION INTO U IF NOT ALREADY THERE. */
 
 L350:
-    if (n != 1) {
+    if (*n != 1) {
         if (itcom1_1.in % 2 == 1)
-            itpackdcopy_(&n, &wksp[ib1], &c__1, u, &c__1);
+            itpackdcopy_(n, &wksp[ib1], &c__1, u, &c__1);
 
         itpackdcopy_(&nr, rhs, &c__1, u, &c__1);
         prsred_(&nb, &nr, ia, ja, a, &u[nr], u);
     }
 
-/* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
+    /* ... UNSCALE THE MATRIX, SOLUTION, AND RHS VECTORS. */
 
-    unscal_(&n, ia, ja, a, rhs, u, wksp);
+    unscal_(n, ia, ja, a, rhs, u, wksp);
 
-/* ... UN-PERMUTE MATRIX,RHS, AND SOLUTION */
+    /* ... UN-PERMUTE MATRIX,RHS, AND SOLUTION */
 
     if (iparm[8] >= 0)
         goto L390;
 
-    permat_(&n, ia, ja, a, &iwksp[ib2], &iwksp[jb3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ierper);
+    permat_(n, ia, ja, a, &iwksp[ib2], &iwksp[jb3], &itcom1_1.isym, &itcom1_1.level, &itcom1_1.nout, &ierper);
     if (ierper != 0) {
         if (ier == 0)
             ier = ierper;
@@ -2548,10 +2508,10 @@ L350:
         goto L420;
     }
 
-    pervec_(&n, rhs, &iwksp[ib2]);
-    pervec_(&n, u, &iwksp[ib2]);
+    pervec_(n, rhs, &iwksp[ib2]);
+    pervec_(n, u, &iwksp[ib2]);
 
-/* ... OPTIONAL ERROR ANALYSIS */
+    /* ... OPTIONAL ERROR ANALYSIS */
 
 L390:
     idgts = iparm[11];
@@ -2559,7 +2519,7 @@ L390:
         if (iparm[1] <= 0)
             idgts = 0;
 
-        perror_(&n, ia, ja, a, rhs, u, wksp, &digit1, &digit2, &idgts);
+        perror_(n, ia, ja, a, rhs, u, wksp, &digit1, &digit2, &idgts);
     }
 
     /* ... SET RETURN PARAMETERS IN IPARM AND RPARM */
@@ -2582,16 +2542,15 @@ L390:
 L420:
     *ierr = ier;
     if (itcom1_1.level >= 3)
-        echall_(&n, ia, ja, a, rhs, iparm, rparm, &c__2);
+        echall_(n, ia, ja, a, rhs, iparm, rparm, &c__2);
 
     return 0;
 } /* rssi_ */
 
 /* Subroutine */
-int itjcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *u1,
+int itjcg_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *u1,
            doublereal *d, doublereal *d1, doublereal *dtwd, doublereal *tri)
 {
-    static integer n;
     static doublereal c1, c2, c3, c4;
     static logical q1;
     static doublereal con;
@@ -2600,80 +2559,76 @@ int itjcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, 
     static doublereal gamold;
     static doublereal rhoold;
 
-/* ... FUNCTION: */
+/*          THIS SUBROUTINE, ITJCG, PERFORMS ONE ITERATION OF THE         */
+/*          JACOBI CONJUGATE GRADIENT ALGORITHM.  IT IS CALLED BY JCG.    */
+/*                                                                        */
+/* ... PARAMETER LIST:                                                    */
+/*                                                                        */
+/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX.               */
+/*          IA,JA  INPUT INTEGER VECTORS.  CONTAINS INFORMATION DEFINING  */
+/*                 THE SPARSE MATRIX REPRESENTATION.                      */
+/*          A      INPUT D.P. VECTOR. CONTAINS THE NONZERO VALUES OF THE  */
+/*                 LINEAR SYSTEM.                                         */
+/*          U      INPUT D.P. VECTOR.  CONTAINS THE VALUE OF THE          */
+/*                 SOLUTION VECTOR AT THE END OF IN ITERATIONS.           */
+/*          U1     INPUT/OUTPUT D.P. VECTOR.  ON INPUT, IT CONTAINS       */
+/*                 THE VALUE OF THE SOLUTION AT THE END OF THE IN-1       */
+/*                 ITERATION.  ON OUTPUT, IT WILL CONTAIN THE NEWEST      */
+/*                 ESTIMATE FOR THE SOLUTION VECTOR.                      */
+/*          D      INPUT D.P. VECTOR.  CONTAINS THE PSEUDO-RESIDUAL       */
+/*                 VECTOR AFTER IN ITERATIONS.                            */
+/*          D1     INPUT/OUTPUT D.P. VECTOR.  ON INPUT, D1 CONTAINS       */
+/*                 THE PSEUDO-RESIDUAL VECTOR AFTER IN-1 ITERATIONS.  ON  */
+/*                 OUTPUT, IT WILL CONTAIN THE NEWEST PSEUDO-RESIDUAL     */
+/*                 VECTOR.                                                */
+/*          DTWD   D.P. ARRAY.  USED IN THE COMPUTATIONS OF THE           */
+/*                 ACCELERATION PARAMETER GAMMA AND THE NEW PSEUDO-       */
+/*                 RESIDUAL.                                              */
+/*          TRI    D.P. ARRAY.  STORES THE TRIDIAGONAL MATRIX ASSOCIATED  */
+/*                 WITH THE EIGENVALUES OF THE CONJUGATE GRADIENT         */
+/*                 POLYNOMIAL.                                            */
 
-/*          THIS SUBROUTINE, ITJCG, PERFORMS ONE ITERATION OF THE */
-/*          JACOBI CONJUGATE GRADIENT ALGORITHM.  IT IS CALLED BY JCG. */
-
-/* ... PARAMETER LIST: */
-
-/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX. (= NN) */
-/*          IA,JA  INPUT INTEGER VECTORS.  CONTAINS INFORMATION DEFINING */
-/*                 THE SPARSE MATRIX REPRESENTATION. */
-/*          A      INPUT D.P. VECTOR. CONTAINS THE NONZERO VALUES OF THE */
-/*                 LINEAR SYSTEM. */
-/*          U      INPUT D.P. VECTOR.  CONTAINS THE VALUE OF THE */
-/*                 SOLUTION VECTOR AT THE END OF IN ITERATIONS. */
-/*          U1     INPUT/OUTPUT D.P. VECTOR.  ON INPUT, IT CONTAINS */
-/*                 THE VALUE OF THE SOLUTION AT THE END OF THE IN-1 */
-/*                 ITERATION.  ON OUTPUT, IT WILL CONTAIN THE NEWEST */
-/*                 ESTIMATE FOR THE SOLUTION VECTOR. */
-/*          D      INPUT D.P. VECTOR.  CONTAINS THE PSEUDO-RESIDUAL */
-/*                 VECTOR AFTER IN ITERATIONS. */
-/*          D1     INPUT/OUTPUT D.P. VECTOR.  ON INPUT, D1 CONTAINS */
-/*                 THE PSEUDO-RESIDUAL VECTOR AFTER IN-1 ITERATIONS.  ON */
-/*                 OUTPUT, IT WILL CONTAIN THE NEWEST PSEUDO-RESIDUAL */
-/*                 VECTOR. */
-/*          DTWD   D.P. ARRAY.  USED IN THE COMPUTATIONS OF THE */
-/*                 ACCELERATION PARAMETER GAMMA AND THE NEW PSEUDO- */
-/*                 RESIDUAL. */
-/*          TRI    D.P. ARRAY.  STORES THE TRIDIAGONAL MATRIX ASSOCIATED */
-/*                 WITH THE EIGENVALUES OF THE CONJUGATE GRADIENT */
-/*                 POLYNOMIAL. */
-
-/* ... COMPUTE NEW ESTIMATE FOR CME IF ADAPT = .TRUE. */
+    /* ... COMPUTE NEW ESTIMATE FOR CME IF ADAPT = .TRUE. */
 
     if (itcom2_1.adapt)
         chgcon_(tri, &gamold, &rhoold, &c__1);
 
-/* ... TEST FOR STOPPING */
+    /* ... TEST FOR STOPPING */
 
-    n = *nn;
-    itcom3_1.delnnm = itpackddot_(&n, d, &c__1, d, &c__1);
+    itcom3_1.delnnm = itpackddot_(n, d, &c__1, d, &c__1);
     dnrm = itcom3_1.delnnm;
     con = itcom3_1.cme;
-    pstop_(&n, u, &dnrm, &con, &c__1, &q1);
+    pstop_(n, u, &dnrm, &con, &c__1, &q1);
     if (itcom2_1.halt)
         goto L30;
 
-/* ... COMPUTE RHO AND GAMMA - ACCELERATION PARAMETERS */
+    /* ... COMPUTE RHO AND GAMMA - ACCELERATION PARAMETERS */
 
-    vfill_(&n, dtwd, &c_b21);
-    pjac_(&n, ia, ja, a, d, dtwd);
-    dtnrm = itpackddot_(&n, d, &c__1, dtwd, &c__1);
+    vfill_(n, dtwd, &c_b21);
+    pjac_(n, ia, ja, a, d, dtwd);
+    dtnrm = itpackddot_(n, d, &c__1, dtwd, &c__1);
     if (itcom1_1.isym != 0)
-        rhoold = itpackddot_(&n, dtwd, &c__1, d1, &c__1);
+        rhoold = itpackddot_(n, dtwd, &c__1, d1, &c__1);
 
     parcon_(&dtnrm, &c1, &c2, &c3, &c4, &gamold, &rhoold, &c__1);
 
-/* ... COMPUTE U(IN+1) AND D(IN+1) */
+    /* ... COMPUTE U(IN+1) AND D(IN+1) */
 
-    sum3_(&n, &c1, d, &c2, u, &c3, u1);
-    sum3_(&n, &c1, dtwd, &c4, d, &c3, d1);
+    sum3_(n, &c1, d, &c2, u, &c3, u1);
+    sum3_(n, &c1, dtwd, &c4, d, &c3, d1);
 
-/* ... OUTPUT INTERMEDIATE INFORMATION */
+    /* ... OUTPUT INTERMEDIATE INFORMATION */
 
 L30:
-    iterm_(&n, a, u, dtwd, &c__1);
+    iterm_(n, a, u, dtwd, &c__1);
 
     return 0;
 } /* itjcg_ */
 
 /* Subroutine */
-int itjsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
+int itjsi_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
            doublereal *u, doublereal *u1, doublereal *d, integer *icnt)
 {
-    static integer n;
     static doublereal c1, c2, c3;
     static logical q1;
     static doublereal con;
@@ -2681,47 +2636,44 @@ int itjsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs
     static doublereal dtnrm;
     static doublereal oldnrm;
 
-/* ... FUNCTION: */
+/*          THIS SUBROUTINE, ITJSI, PERFORMS ONE ITERATION OF THE         */
+/*          JACOBI SEMI-ITERATIVE ALGORITHM.  IT IS CALLED BY JSI.        */
+/*                                                                        */
+/* ... PARAMETER LIST:                                                    */
+/*                                                                        */
+/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX.               */
+/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF      */
+/*                 THE SPARSE MATRIX REPRESENTATION.                      */
+/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE       */
+/*                 MATRIX REPRESENTATION.                                 */
+/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE       */
+/*                 OF THE MATRIX PROBLEM.                                 */
+/*          U      INPUT D.P. VECTOR.  CONTAINS THE ESTIMATE FOR THE      */
+/*                 SOLUTION VECTOR AFTER IN ITERATIONS.                   */
+/*          U1     INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U1 CONTAINS THE   */
+/*                 SOLUTION VECTOR AFTER IN-1 ITERATIONS.  ON OUTPUT,     */
+/*                 IT WILL CONTAIN THE NEWEST ESTIMATE FOR THE SOLUTION   */
+/*                 VECTOR.                                                */
+/*          D      D.P. ARRAY.  D IS USED FOR THE COMPUTATION OF THE      */
+/*                 PSEUDO-RESIDUAL ARRAY FOR THE CURRENT ITERATION.       */
+/*          ICNT   NUMBER OF ITERATIONS SINCE LAST CHANGE OF SME          */
 
-/*          THIS SUBROUTINE, ITJSI, PERFORMS ONE ITERATION OF THE */
-/*          JACOBI SEMI-ITERATIVE ALGORITHM.  IT IS CALLED BY JSI. */
-
-/* ... PARAMETER LIST: */
-
-/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX. (= NN) */
-/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF */
-/*                 THE SPARSE MATRIX REPRESENTATION. */
-/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE */
-/*                 MATRIX REPRESENTATION. */
-/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE */
-/*                 OF THE MATRIX PROBLEM. */
-/*          U      INPUT D.P. VECTOR.  CONTAINS THE ESTIMATE FOR THE */
-/*                 SOLUTION VECTOR AFTER IN ITERATIONS. */
-/*          U1     INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U1 CONTAINS THE */
-/*                 SOLUTION VECTOR AFTER IN-1 ITERATIONS.  ON OUTPUT, */
-/*                 IT WILL CONTAIN THE NEWEST ESTIMATE FOR THE SOLUTION */
-/*                 VECTOR. */
-/*          D      D.P. ARRAY.  D IS USED FOR THE COMPUTATION OF THE */
-/*                 PSEUDO-RESIDUAL ARRAY FOR THE CURRENT ITERATION. */
-/*          ICNT   NUMBER OF ITERATIONS SINCE LAST CHANGE OF SME */
-
-    n = *nn;
     if (itcom1_1.in == 0)
         *icnt = 0;
 
-/* ... COMPUTE PSEUDO-RESIDUALS */
+    /* ... COMPUTE PSEUDO-RESIDUALS */
 
-    itpackdcopy_(&n, rhs, &c__1, d, &c__1);
-    pjac_(&n, ia, ja, a, u, d);
-    vevmw_(&n, d, u);
+    itpackdcopy_(n, rhs, &c__1, d, &c__1);
+    pjac_(n, ia, ja, a, u, d);
+    vevmw_(n, d, u);
 
-/* ... STOPPING AND ADAPTIVE CHANGE TESTS */
+    /* ... STOPPING AND ADAPTIVE CHANGE TESTS */
 
     oldnrm = itcom3_1.delnnm;
-    itcom3_1.delnnm = itpackddot_(&n, d, &c__1, d, &c__1);
+    itcom3_1.delnnm = itpackddot_(n, d, &c__1, d, &c__1);
     dnrm = itcom3_1.delnnm;
     con = itcom3_1.cme;
-    pstop_(&n, u, &dnrm, &con, &c__1, &q1);
+    pstop_(n, u, &dnrm, &con, &c__1, &q1);
     if (itcom2_1.halt)
         goto L40;
 
@@ -2731,16 +2683,16 @@ int itjsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs
     if (! tstchg_(&c__1))
         goto L10;
 
-/* ... CHANGE ITERATIVE PARAMETERS (CME) */
+    /* ... CHANGE ITERATIVE PARAMETERS (CME) */
 
-    dtnrm = pvtbv_(&n, ia, ja, a, d);
+    dtnrm = pvtbv_(n, ia, ja, a, d);
     chgsi_(&dtnrm, &c__1);
     if (! itcom2_1.adapt)
         goto L30;
 
     goto L20;
 
-/* ... TEST IF SME NEEDS TO BE CHANGED AND CHANGE IF NECESSARY. */
+    /* ... TEST IF SME NEEDS TO BE CHANGED AND CHANGE IF NECESSARY. */
 
 L10:
     if (itcom2_1.caseii)
@@ -2751,36 +2703,35 @@ L10:
 
     *icnt = 0;
 
-/* ... COMPUTE U(IN+1) AFTER CHANGE OF PARAMETERS */
+    /* ... COMPUTE U(IN+1) AFTER CHANGE OF PARAMETERS */
 
 L20:
-    itpackdcopy_(&n, u, &c__1, u1, &c__1);
-    itpackdaxpy_(&n, &itcom3_1.gamma, d, &c__1, u1, &c__1);
+    itpackdcopy_(n, u, &c__1, u1, &c__1);
+    itpackdaxpy_(n, &itcom3_1.gamma, d, &c__1, u1, &c__1);
     goto L40;
 
-/* ... COMPUTE U(IN+1) WITHOUT CHANGE OF PARAMETERS */
+    /* ... COMPUTE U(IN+1) WITHOUT CHANGE OF PARAMETERS */
 
 L30:
     parsi_(&c1, &c2, &c3, &c__1);
-    sum3_(&n, &c1, d, &c2, u, &c3, u1);
+    sum3_(n, &c1, d, &c2, u, &c3, u1);
 
-/* ... OUTPUT INTERMEDIATE INFORMATION */
+    /* ... OUTPUT INTERMEDIATE INFORMATION */
 
 L40:
-    iterm_(&n, a, u, d, &c__2);
+    iterm_(n, a, u, d, &c__2);
 
     return 0;
 } /* itjsi_ */
 
 /* Subroutine */
-int itsor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u, doublereal *wk)
+int itsor_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u, doublereal *wk)
 {
     /* System generated locals */
     doublereal d__1;
 
     /* Local variables */
     static doublereal h;
-    static integer n;
     static logical q1;
     static integer ip;
     static integer iss;
@@ -2791,33 +2742,30 @@ int itsor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs
     static doublereal omegap;
     static integer ipstar;
 
-/* ... FUNCTION: */
+/*          THIS SUBROUTINE, ITSOR, PERFORMS ONE ITERATION OF THE         */
+/*          SUCCESSIVE OVERRELAXATION ALGORITHM.  IT IS CALLED BY SOR.    */
+/*                                                                        */
+/* ... PARAMETER LIST:                                                    */
+/*                                                                        */
+/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX.               */
+/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF      */
+/*                 THE SPARSE MATRIX REPRESENTATION.                      */
+/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE       */
+/*                 MATRIX REPRESENTATION.                                 */
+/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE       */
+/*                 OF THE MATRIX PROBLEM.                                 */
+/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE    */
+/*                 SOLUTION VECTOR AFTER IN ITERATIONS.  ON OUTPUT,       */
+/*                 IT WILL CONTAIN THE NEWEST ESTIMATE FOR THE SOLUTION   */
+/*                 VECTOR.                                                */
+/*          WK     D.P. ARRAY.  WORK VECTOR OF LENGTH N.                  */
 
-/*          THIS SUBROUTINE, ITSOR, PERFORMS ONE ITERATION OF THE */
-/*          SUCCESSIVE OVERRELAXATION ALGORITHM.  IT IS CALLED BY SOR. */
+    /* ... SET INITIAL PARAMETERS NOT ALREADY SET */
 
-/* ... PARAMETER LIST: */
-
-/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX. (= NN) */
-/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF */
-/*                 THE SPARSE MATRIX REPRESENTATION. */
-/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE */
-/*                 MATRIX REPRESENTATION. */
-/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE */
-/*                 OF THE MATRIX PROBLEM. */
-/*          U      INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U CONTAINS THE */
-/*                 SOLUTION VECTOR AFTER IN ITERATIONS.  ON OUTPUT, */
-/*                 IT WILL CONTAIN THE NEWEST ESTIMATE FOR THE SOLUTION */
-/*                 VECTOR. */
-/*          WK     D.P. ARRAY.  WORK VECTOR OF LENGTH N. */
-
-/* ... SET INITIAL PARAMETERS NOT ALREADY SET */
-
-    n = *nn;
     if (itcom1_1.in != 0)
         goto L20;
 
-    pstop_(&n, u, &c_b21, &c_b21, &c__0, &q1);
+    pstop_(n, u, &c_b21, &c_b21, &c__0, &q1);
     if (! itcom2_1.adapt) {
         change = FALSE_;
         ip = 0;
@@ -2836,7 +2784,7 @@ int itsor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs
     if (omegap <= 1.)
         change = FALSE_;
 
-/* ... RESET OMEGA, IPHAT, AND IPSTAR (CIRCLE A IN FLOWCHART) */
+    /* ... RESET OMEGA, IPHAT, AND IPSTAR (CIRCLE A IN FLOWCHART) */
 
 L20:
     if (change) {
@@ -2849,13 +2797,13 @@ L20:
         ipstar = ipstr_(&itcom3_1.omega);
     }
 
-/* ... COMPUTE U (IN + 1) AND NORM OF DEL(S,P) - CIRCLE B IN FLOW CHART */
+    /* ... COMPUTE U (IN + 1) AND NORM OF DEL(S,P) - CIRCLE B IN FLOW CHART */
 
 L30:
     itcom3_1.delsnm = itcom3_1.delnnm;
     spcrm1 = itcom3_1.specr;
-    itpackdcopy_(&n, rhs, &c__1, wk, &c__1);
-    pfsor1_(&n, ia, ja, a, u, wk);
+    itpackdcopy_(n, rhs, &c__1, wk, &c__1);
+    pfsor1_(n, ia, ja, a, u, wk);
     if (itcom3_1.delnnm == 0.)
         goto L40;
 
@@ -2865,7 +2813,7 @@ L30:
     if (ip < iphat)
         goto L70;
 
-/* ... STOPPING TEST, SET H */
+    /* ... STOPPING TEST, SET H */
 
     if (itcom3_1.specr >= 1.)
         goto L70;
@@ -2878,15 +2826,15 @@ L40:
     ++iss;
     h = itcom3_1.omega - 1.;
 
-/* ... PERFORM STOPPING TEST. */
+    /* ... PERFORM STOPPING TEST. */
 
 L50:
     dnrm = itcom3_1.delnnm * itcom3_1.delnnm;
-    pstop_(&n, u, &dnrm, &h, &c__1, &q1);
+    pstop_(n, u, &dnrm, &h, &c__1, &q1);
     if (itcom2_1.halt)
         goto L70;
 
-/* ... METHOD HAS NOT CONVERGED YET, TEST FOR CHANGING OMEGA */
+    /* ... METHOD HAS NOT CONVERGED YET, TEST FOR CHANGING OMEGA */
 
     if (! itcom2_1.adapt)
         goto L70;
@@ -2908,7 +2856,7 @@ L50:
     if (itcom3_1.specr <= pow_dd(&d__1, &itcom3_1.ff))
         goto L70;
 
-/* ... CHANGE PARAMETERS */
+    /* ... CHANGE PARAMETERS */
 
     if (itcom3_1.specr + 5e-5 > spcrm1) {
         itcom3_1.cme = (itcom3_1.specr + itcom3_1.omega - 1.) /
@@ -2917,17 +2865,17 @@ L50:
         change = TRUE_;
     }
 
-/* ... OUTPUT INTERMEDIATE INFORMATION */
+    /* ... OUTPUT INTERMEDIATE INFORMATION */
 
 L70:
-    iterm_(&n, a, u, wk, &c__3);
+    iterm_(n, a, u, wk, &c__3);
     ++ip;
 
     return 0;
 } /* itsor_ */
 
 /* Subroutine */
-int itsrcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
+int itsrcg_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
             doublereal *u, doublereal *u1, doublereal *c, doublereal *c1,
             doublereal *d, doublereal *dl, doublereal *wk, doublereal *tri)
 {
@@ -2935,430 +2883,416 @@ int itsrcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rh
     doublereal d__1;
 
     /* Local variables */
-    static integer n;
     static logical q1;
     static doublereal t1, t2, t3, t4, con;
     static doublereal dnrm;
     static doublereal gamold;
     static doublereal betnew, rhoold;
 
-/* ... FUNCTION: */
+/*          THIS SUBROUTINE, ITSRCG, PERFORMS ONE ITERATION OF THE        */
+/*          SYMMETRIC SOR CONJUGATE GRADIENT ALGORITHM.  IT IS CALLED BY  */
+/*          SSORCG.                                                       */
+/*                                                                        */
+/* ... PARAMETER LIST:                                                    */
+/*                                                                        */
+/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX.               */
+/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF      */
+/*                 THE SPARSE MATRIX REPRESENTATION.                      */
+/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE       */
+/*                 MATRIX REPRESENTATION.                                 */
+/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE       */
+/*                 OF THE MATRIX PROBLEM.                                 */
+/*          U      INPUT D.P. VECTOR.  CONTAINS THE ESTIMATE OF THE       */
+/*                 SOLUTION VECTOR AFTER IN ITERATIONS.                   */
+/*          U1     INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U1 CONTAINS THE   */
+/*                 THE ESTIMATE FOR THE SOLUTION AFTER IN-1 ITERATIONS.   */
+/*                 ON OUTPUT, U1 CONTAINS THE UPDATED ESTIMATE.           */
+/*          C      INPUT D.P. VECTOR.  CONTAINS THE FORWARD RESIDUAL      */
+/*                 AFTER IN ITERATIONS.                                   */
+/*          C1     INPUT/OUTPUT D.P. VECTOR.  ON INPUT, C1 CONTAINS       */
+/*                 THE FORWARD RESIDUAL AFTER IN-1 ITERATIONS.  ON        */
+/*                 OUTPUT, C1 CONTAINS THE UPDATED FORWARD RESIDUAL.      */
+/*          D      D.P. VECTOR.  IS USED TO COMPUTE THE BACKWARD PSEUDO-  */
+/*                 RESIDUAL VECTOR FOR THE CURRENT ITERATION.             */
+/*          DL     D.P. VECTOR.  IS USED IN THE COMPUTATIONS OF THE       */
+/*                 ACCELERATION PARAMETERS.                               */
+/*          WK     D.P. VECTOR.  WORKING SPACE OF LENGTH N.               */
+/*          TRI    D.P. VECTOR. STORES THE TRIDIAGONAL MATRIX ASSOCIATED  */
+/*                 WITH THE CONJUGATE GRADIENT ACCELERATION.              */
 
-/*          THIS SUBROUTINE, ITSRCG, PERFORMS ONE ITERATION OF THE */
-/*          SYMMETRIC SOR CONJUGATE GRADIENT ALGORITHM.  IT IS CALLED BY */
-/*          SSORCG. */
+    /* ... CALCULATE S-PRIME FOR ADAPTIVE PROCEDURE. */
 
-/* ... PARAMETER LIST: */
-
-/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX. (= NN) */
-/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF */
-/*                 THE SPARSE MATRIX REPRESENTATION. */
-/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE */
-/*                 MATRIX REPRESENTATION. */
-/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE */
-/*                 OF THE MATRIX PROBLEM. */
-/*          U      INPUT D.P. VECTOR.  CONTAINS THE ESTIMATE OF THE */
-/*                 SOLUTION VECTOR AFTER IN ITERATIONS. */
-/*          U1     INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U1 CONTAINS THE */
-/*                 THE ESTIMATE FOR THE SOLUTION AFTER IN-1 ITERATIONS. */
-/*                 ON OUTPUT, U1 CONTAINS THE UPDATED ESTIMATE. */
-/*          C      INPUT D.P. VECTOR.  CONTAINS THE FORWARD RESIDUAL */
-/*                 AFTER IN ITERATIONS. */
-/*          C1     INPUT/OUTPUT D.P. VECTOR.  ON INPUT, C1 CONTAINS */
-/*                 THE FORWARD RESIDUAL AFTER IN-1 ITERATIONS.  ON */
-/*                 OUTPUT, C1 CONTAINS THE UPDATED FORWARD RESIDUAL. */
-/*          D      D.P. VECTOR.  IS USED TO COMPUTE THE BACKWARD PSEUDO- */
-/*                 RESIDUAL VECTOR FOR THE CURRENT ITERATION. */
-/*          DL     D.P. VECTOR.  IS USED IN THE COMPUTATIONS OF THE */
-/*                 ACCELERATION PARAMETERS. */
-/*          WK     D.P. VECTOR.  WORKING SPACE OF LENGTH N. */
-/*          TRI    D.P. VECTOR. STORES THE TRIDIAGONAL MATRIX ASSOCIATED */
-/*                 WITH THE CONJUGATE GRADIENT ACCELERATION. */
-
-/* ... CALCULATE S-PRIME FOR ADAPTIVE PROCEDURE. */
-
-    n = *nn;
     if (itcom2_1.adapt || itcom2_1.partad)
         chgcon_(tri, &gamold, &rhoold, &c__3);
 
-/* ... COMPUTE BACKWARD RESIDUAL */
+    /* ... COMPUTE BACKWARD RESIDUAL */
 
-    itpackdcopy_(&n, rhs, &c__1, wk, &c__1);
-    itpackdcopy_(&n, c, &c__1, d, &c__1);
-    vevpw_(&n, d, u);
-    pbsor_(&n, ia, ja, a, d, wk);
-    vevmw_(&n, d, u);
+    itpackdcopy_(n, rhs, &c__1, wk, &c__1);
+    itpackdcopy_(n, c, &c__1, d, &c__1);
+    vevpw_(n, d, u);
+    pbsor_(n, ia, ja, a, d, wk);
+    vevmw_(n, d, u);
 
-/* ... COMPUTE ACCELERATION PARAMETERS AND THEN U(IN+1) (IN U1) */
+    /* ... COMPUTE ACCELERATION PARAMETERS AND THEN U(IN+1) (IN U1) */
 
-    itpackdcopy_(&n, d, &c__1, dl, &c__1);
-    vfill_(&n, wk, &c_b21);
-    pfsor_(&n, ia, ja, a, dl, wk);
-    wevmw_(&n, d, dl);
-    itcom3_1.delnnm = itpackddot_(&n, c, &c__1, c, &c__1);
+    itpackdcopy_(n, d, &c__1, dl, &c__1);
+    vfill_(n, wk, &c_b21);
+    pfsor_(n, ia, ja, a, dl, wk);
+    wevmw_(n, d, dl);
+    itcom3_1.delnnm = itpackddot_(n, c, &c__1, c, &c__1);
     if (itcom3_1.delnnm != 0.) {
-        dnrm = itpackddot_(&n, c, &c__1, dl, &c__1);
+        dnrm = itpackddot_(n, c, &c__1, dl, &c__1);
         if (dnrm != 0.) {
             if (itcom1_1.isym != 0)
-                rhoold = itpackddot_(&n, c, &c__1, c1, &c__1) - itpackddot_(&n, dl, &c__1, c1, &c__1);
+                rhoold = itpackddot_(n, c, &c__1, c1, &c__1) - itpackddot_(n, dl, &c__1, c1, &c__1);
 
             parcon_(&dnrm, &t1, &t2, &t3, &t4, &gamold, &rhoold, &c__3);
-            sum3_(&n, &t1, d, &t2, u, &t3, u1);
+            sum3_(n, &t1, d, &t2, u, &t3, u1);
         }
     }
 
-/* ... TEST FOR STOPPING */
+    /* ... TEST FOR STOPPING */
 
-    itcom3_1.bdelnm = itpackddot_(&n, d, &c__1, d, &c__1);
+    itcom3_1.bdelnm = itpackddot_(n, d, &c__1, d, &c__1);
     dnrm = itcom3_1.bdelnm;
     con = itcom3_1.specr;
-    pstop_(&n, u, &dnrm, &con, &c__1, &q1);
+    pstop_(n, u, &dnrm, &con, &c__1, &q1);
     if (itcom2_1.halt)
         goto L100;
 
-/* ... IF NON- OR PARTIALLY-ADAPTIVE, COMPUTE C(IN+1) AND EXIT. */
+    /* ... IF NON- OR PARTIALLY-ADAPTIVE, COMPUTE C(IN+1) AND EXIT. */
 
     if (! itcom2_1.adapt) {
         d__1 = -t1;
-        sum3_(&n, &d__1, dl, &t2, c, &t3, c1);
+        sum3_(n, &d__1, dl, &t2, c, &t3, c1);
         goto L100;
     }
 
-/* ... FULLY ADAPTIVE PROCEDURE */
+    /* ... FULLY ADAPTIVE PROCEDURE */
 
     if (omgstr_(&c__1))
         goto L90;
 
-/* ... PARAMETERS HAVE BEEN UNCHANGED.  COMPUTE C(IN+1) AND EXIT. */
+    /* ... PARAMETERS HAVE BEEN UNCHANGED.  COMPUTE C(IN+1) AND EXIT. */
 
     if (! omgchg_(&c__1)) {
         d__1 = -t1;
-        sum3_(&n, &d__1, dl, &t2, c, &t3, c1);
+        sum3_(n, &d__1, dl, &t2, c, &t3, c1);
         goto L100;
     }
 
-/* ... IT HAS BEEN DECIDED TO CHANGE PARAMETERS */
-/*        (1) COMPUTE NEW BETAB IF BETADT = .TRUE. */
+    /* ... IT HAS BEEN DECIDED TO CHANGE PARAMETERS */
+    /*        (1) COMPUTE NEW BETAB IF BETADT = .TRUE. */
 
     if (itcom2_1.betadt) {
-        betnew = pbeta_(&n, ia, ja, a, d, wk, c1) / itcom3_1.bdelnm;
+        betnew = pbeta_(n, ia, ja, a, d, wk, c1) / itcom3_1.bdelnm;
         itcom3_1.betab = max(max(itcom3_1.betab,.25),betnew);
     }
 
-/* ...    (2) COMPUTE NEW CME, OMEGA, AND SPECR */
+    /* ...    (2) COMPUTE NEW CME, OMEGA, AND SPECR */
 
     if (! itcom2_1.caseii) {
-        dnrm = pvtbv_(&n, ia, ja, a, d);
+        dnrm = pvtbv_(n, ia, ja, a, d);
         goto L80;
     }
-    vfill_(&n, wk, &c_b21);
-    pjac_(&n, ia, ja, a, d, wk);
-    dnrm = itpackddot_(&n, wk, &c__1, wk, &c__1);
+    vfill_(n, wk, &c_b21);
+    pjac_(n, ia, ja, a, d, wk);
+    dnrm = itpackddot_(n, wk, &c__1, wk, &c__1);
 L80:
     omeg_(&dnrm, &c__3);
 
-/* ...    (3) COMPUTE NEW FORWARD RESIDUAL SINCE OMEGA HAS BEEN CHANGED. */
+    /* ...    (3) COMPUTE NEW FORWARD RESIDUAL SINCE OMEGA HAS BEEN CHANGED. */
 
 L90:
-    itpackdcopy_(&n, rhs, &c__1, wk, &c__1);
-    itpackdcopy_(&n, u1, &c__1, c1, &c__1);
-    pfsor_(&n, ia, ja, a, c1, wk);
-    vevmw_(&n, c1, u1);
+    itpackdcopy_(n, rhs, &c__1, wk, &c__1);
+    itpackdcopy_(n, u1, &c__1, c1, &c__1);
+    pfsor_(n, ia, ja, a, c1, wk);
+    vevmw_(n, c1, u1);
 
-/* ... OUTPUT INTERMEDIATE RESULTS. */
+    /* ... OUTPUT INTERMEDIATE RESULTS. */
 
 L100:
-    iterm_(&n, a, u, wk, &c__4);
+    iterm_(n, a, u, wk, &c__4);
 
     return 0;
 } /* itsrcg_ */
 
 /* Subroutine */
-int itsrsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
+int itsrsi_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
             doublereal *u1, doublereal *c, doublereal *d, doublereal *ctwd, doublereal *wk)
 {
     /* Local variables */
-    static integer n;
     static doublereal c1, c2, c3;
     static logical q1;
     static doublereal con;
     static doublereal dnrm;
     static doublereal betnew;
 
-/* ... FUNCTION: */
+/*          THIS SUBROUTINE, ITSRSI, PERFORMS ONE ITERATION OF THE        */
+/*          SYMMETRIC SOR SEMI-ITERATION ALGORITHM.  IT IS CALLED BY      */
+/*          SSORSI.                                                       */
+/*                                                                        */
+/* ... PARAMETER LIST:                                                    */
+/*                                                                        */
+/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX.               */
+/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF      */
+/*                 THE SPARSE MATRIX REPRESENTATION.                      */
+/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE       */
+/*                 MATRIX REPRESENTATION.                                 */
+/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE       */
+/*                 OF THE MATRIX PROBLEM.                                 */
+/*          U      INPUT D.P. VECTOR.  CONTAINS THE ESTIMATE OF THE       */
+/*                 SOLUTION VECTOR AFTER IN ITERATIONS.                   */
+/*          U1     INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U1 CONTAINS THE   */
+/*                 THE ESTIMATE FOR THE SOLUTION AFTER IN-1 ITERATIONS.   */
+/*                 ON OUTPUT, U1 CONTAINS THE UPDATED ESTIMATE.           */
+/*          C      D.P. VECTOR.  IS USED TO COMPUTE THE FORWARD PSEUDO-   */
+/*                 RESIDUAL VECTOR FOR THE CURRENT ITERATION.             */
+/*          D      D.P. VECTOR.  IS USED TO COMPUTE THE BACKWARD PSEUDO-  */
+/*                 RESIDUAL VECTOR FOR THE CURRENT ITERATION.             */
+/*          CTWD   D.P. VECTOR.  IS USED IN THE COMPUTATIONS OF THE       */
+/*                 ACCELERATION PARAMETERS.                               */
+/*          WK     D.P. VECTOR.  WORKING SPACE OF LENGTH N.               */
 
-/*          THIS SUBROUTINE, ITSRSI, PERFORMS ONE ITERATION OF THE */
-/*          SYMMETRIC SOR SEMI-ITERATION ALGORITHM.  IT IS CALLED BY */
-/*          SSORSI. */
+    /* ... COMPUTE PSEUDO-RESIDUALS (FORWARD AND BACKWARD) */
 
-/* ... PARAMETER LIST: */
+    itpackdcopy_(n, rhs, &c__1, wk, &c__1);
+    itpackdcopy_(n, u, &c__1, ctwd, &c__1);
+    pssor1_(n, ia, ja, a, ctwd, wk, c, d);
 
-/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX. (= NN) */
-/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF */
-/*                 THE SPARSE MATRIX REPRESENTATION. */
-/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE */
-/*                 MATRIX REPRESENTATION. */
-/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE */
-/*                 OF THE MATRIX PROBLEM. */
-/*          U      INPUT D.P. VECTOR.  CONTAINS THE ESTIMATE OF THE */
-/*                 SOLUTION VECTOR AFTER IN ITERATIONS. */
-/*          U1     INPUT/OUTPUT D.P. VECTOR.  ON INPUT, U1 CONTAINS THE */
-/*                 THE ESTIMATE FOR THE SOLUTION AFTER IN-1 ITERATIONS. */
-/*                 ON OUTPUT, U1 CONTAINS THE UPDATED ESTIMATE. */
-/*          C      D.P. VECTOR.  IS USED TO COMPUTE THE FORWARD PSEUDO- */
-/*                 RESIDUAL VECTOR FOR THE CURRENT ITERATION. */
-/*          D      D.P. VECTOR.  IS USED TO COMPUTE THE BACKWARD PSEUDO- */
-/*                 RESIDUAL VECTOR FOR THE CURRENT ITERATION. */
-/*          CTWD   D.P. VECTOR.  IS USED IN THE COMPUTATIONS OF THE */
-/*                 ACCELERATION PARAMETERS. */
-/*          WK     D.P. VECTOR.  WORKING SPACE OF LENGTH N. */
-
-/* ... COMPUTE PSEUDO-RESIDUALS (FORWARD AND BACKWARD) */
-
-    n = *nn;
-    itpackdcopy_(&n, rhs, &c__1, wk, &c__1);
-    itpackdcopy_(&n, u, &c__1, ctwd, &c__1);
-    pssor1_(&n, ia, ja, a, ctwd, wk, c, d);
-
-/* ... COMPUTE U(IN+1) -- CONTAINED IN THE VECTOR U1. */
+    /* ... COMPUTE U(IN+1) -- CONTAINED IN THE VECTOR U1. */
 
     parsi_(&c1, &c2, &c3, &c__3);
-    sum3_(&n, &c1, d, &c2, u, &c3, u1);
+    sum3_(n, &c1, d, &c2, u, &c3, u1);
 
-/* ... TEST FOR STOPPING */
+    /* ... TEST FOR STOPPING */
 
-    itcom3_1.bdelnm = itpackddot_(&n, d, &c__1, d, &c__1);
+    itcom3_1.bdelnm = itpackddot_(n, d, &c__1, d, &c__1);
     dnrm = itcom3_1.bdelnm;
     con = itcom3_1.specr;
-    pstop_(&n, u, &dnrm, &con, &c__1, &q1);
+    pstop_(n, u, &dnrm, &con, &c__1, &q1);
     if (itcom2_1.halt || ! (itcom2_1.adapt || itcom2_1.partad))
         goto L40;
 
-/* ... ADAPTIVE PROCEDURE */
+    /* ... ADAPTIVE PROCEDURE */
 
     if (omgstr_(&c__1))
         goto L40;
 
-    itcom3_1.delnnm = itpackddot_(&n, c, &c__1, c, &c__1);
+    itcom3_1.delnnm = itpackddot_(n, c, &c__1, c, &c__1);
     if (itcom1_1.in == itcom1_1.is)
         itcom3_1.delsnm = itcom3_1.delnnm;
 
     if (itcom1_1.in == 0 || ! tstchg_(&c__1))
         goto L40;
 
-/* ... IT HAS BEEN DECIDED TO CHANGE PARAMETERS. */
-/* ...    (1) COMPUTE CTWD */
+    /* ... IT HAS BEEN DECIDED TO CHANGE PARAMETERS. */
+    /* ...    (1) COMPUTE CTWD */
 
-    itpackdcopy_(&n, d, &c__1, ctwd, &c__1);
-    vfill_(&n, wk, &c_b21);
-    pfsor_(&n, ia, ja, a, ctwd, wk);
-    vevpw_(&n, ctwd, c);
-    vevmw_(&n, ctwd, d);
+    itpackdcopy_(n, d, &c__1, ctwd, &c__1);
+    vfill_(n, wk, &c_b21);
+    pfsor_(n, ia, ja, a, ctwd, wk);
+    vevpw_(n, ctwd, c);
+    vevmw_(n, ctwd, d);
 
-/* ...    (2) COMPUTE NEW SPECTRAL RADIUS FOR CURRENT OMEGA. */
+    /* ...    (2) COMPUTE NEW SPECTRAL RADIUS FOR CURRENT OMEGA. */
 
-    dnrm = itpackddot_(&n, c, &c__1, ctwd, &c__1);
+    dnrm = itpackddot_(n, c, &c__1, ctwd, &c__1);
     chgsi_(&dnrm, &c__3);
     if (! itcom2_1.adapt)
         goto L40;
 
-/* ...    (3) COMPUTE NEW BETAB IF BETADT = .TRUE. */
+    /* ...    (3) COMPUTE NEW BETAB IF BETADT = .TRUE. */
 
     if (itcom2_1.betadt) {
-        betnew = pbeta_(&n, ia, ja, a, d, wk, ctwd) / itcom3_1.bdelnm;
+        betnew = pbeta_(n, ia, ja, a, d, wk, ctwd) / itcom3_1.bdelnm;
         itcom3_1.betab = max(max(itcom3_1.betab,.25),betnew);
     }
 
-/* ...    (4) COMPUTE NEW CME, OMEGA, AND SPECR. */
+    /* ...    (4) COMPUTE NEW CME, OMEGA, AND SPECR. */
 
     if (! itcom2_1.caseii) {
-        dnrm = pvtbv_(&n, ia, ja, a, d);
+        dnrm = pvtbv_(n, ia, ja, a, d);
         goto L30;
     }
-    vfill_(&n, wk, &c_b21);
-    pjac_(&n, ia, ja, a, d, wk);
-    dnrm = itpackddot_(&n, wk, &c__1, wk, &c__1);
+    vfill_(n, wk, &c_b21);
+    pjac_(n, ia, ja, a, d, wk);
+    dnrm = itpackddot_(n, wk, &c__1, wk, &c__1);
 L30:
     omeg_(&dnrm, &c__3);
 
-/* ... OUTPUT INTERMEDIATE INFORMATION */
+    /* ... OUTPUT INTERMEDIATE INFORMATION */
 
 L40:
-    iterm_(&n, a, u, wk, &c__5);
+    iterm_(n, a, u, wk, &c__5);
 
     return 0;
 } /* itsrsi_ */
 
 /* Subroutine */
-int itrscg_(integer *n, integer *nnb, integer *ia, integer *ja, doublereal *a, doublereal *ub,
+int itrscg_(integer *n, integer *nb, integer *ia, integer *ja, doublereal *a, doublereal *ub,
             doublereal *ub1, doublereal *db, doublereal *db1, doublereal *wb, doublereal *tri)
 {
     static doublereal c1, c2, c3, c4;
     static logical q1;
-    static integer nb, nr;
+    static integer nr;
     static doublereal con;
     static doublereal dnrm;
     static doublereal gamold;
     static doublereal rhoold;
 
-/* ... FUNCTION: */
+/*          THIS SUBROUTINE, ITRSCG, PERFORMS ONE ITERATION OF THE        */
+/*          REDUCED SYSTEM CONJUGATE GRADIENT ALGORITHM.  IT IS           */
+/*          CALLED BY RSCG.                                               */
+/*                                                                        */
+/* ... PARAMETER LIST:                                                    */
+/*                                                                        */
+/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX.               */
+/*          NB     INPUT INTEGER.  CONTAINS THE NUMBER OF BLACK POINTS    */
+/*                 IN THE RED-BLACK MATRIX.                               */
+/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF      */
+/*                 THE SPARSE MATRIX REPRESENTATION.                      */
+/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE       */
+/*                 MATRIX REPRESENTATION.                                 */
+/*          UB     INPUT D.P. VECTOR.  CONTAINS THE ESTIMATE FOR THE      */
+/*                 SOLUTION ON THE BLACK POINTS AFTER IN ITERATIONS.      */
+/*          UB1    INPUT/OUTPUT D.P. VECTOR.  ON INPUT, UB1 CONTAINS THE  */
+/*                 SOLUTION VECTOR AFTER IN-1 ITERATIONS.  ON OUTPUT,     */
+/*                 IT WILL CONTAIN THE NEWEST ESTIMATE FOR THE SOLUTION   */
+/*                 VECTOR.  THIS IS ONLY FOR THE BLACK POINTS.            */
+/*          DB     INPUT D.P. ARRAY.  DB CONTAINS THE VALUE OF THE        */
+/*                 CURRENT PSEUDO-RESIDUAL ON THE BLACK POINTS.           */
+/*          DB1    INPUT/OUTPUT D.P. ARRAY.  DB1 CONTAINS THE PSEUDO-     */
+/*                 RESIDUAL ON THE BLACK POINTS FOR THE IN-1 ITERATION    */
+/*                 ON INPUT.  ON OUTPUT, IT IS FOR THE IN+1 ITERATION.    */
+/*          WB     D.P. ARRAY.  WB IS USED FOR COMPUTATIONS INVOLVING     */
+/*                 BLACK VECTORS.                                         */
+/*          TRI    D.P. ARRAY.  STORES THE TRIDIAGONAL MATRIX ASSOCIATED  */
+/*                 WITH CONJUGATE GRADIENT ACCELERATION.                  */
 
-/*          THIS SUBROUTINE, ITRSCG, PERFORMS ONE ITERATION OF THE */
-/*          REDUCED SYSTEM CONJUGATE GRADIENT ALGORITHM.  IT IS */
-/*          CALLED BY RSCG. */
+    /* ... COMPUTE NEW ESTIMATE FOR CME IF ADAPT = .TRUE. */
 
-/* ... PARAMETER LIST: */
-
-/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX. */
-/*          NB     INPUT INTEGER.  CONTAINS THE NUMBER OF BLACK POINTS */
-/*                 IN THE RED-BLACK MATRIX. (= NNB) */
-/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF */
-/*                 THE SPARSE MATRIX REPRESENTATION. */
-/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE */
-/*                 MATRIX REPRESENTATION. */
-/*          UB     INPUT D.P. VECTOR.  CONTAINS THE ESTIMATE FOR THE */
-/*                 SOLUTION ON THE BLACK POINTS AFTER IN ITERATIONS. */
-/*          UB1    INPUT/OUTPUT D.P. VECTOR.  ON INPUT, UB1 CONTAINS THE */
-/*                 SOLUTION VECTOR AFTER IN-1 ITERATIONS.  ON OUTPUT, */
-/*                 IT WILL CONTAIN THE NEWEST ESTIMATE FOR THE SOLUTION */
-/*                 VECTOR.  THIS IS ONLY FOR THE BLACK POINTS. */
-/*          DB     INPUT D.P. ARRAY.  DB CONTAINS THE VALUE OF THE */
-/*                 CURRENT PSEUDO-RESIDUAL ON THE BLACK POINTS. */
-/*          DB1    INPUT/OUTPUT D.P. ARRAY.  DB1 CONTAINS THE PSEUDO- */
-/*                 RESIDUAL ON THE BLACK POINTS FOR THE IN-1 ITERATION */
-/*                 ON INPUT.  ON OUTPUT, IT IS FOR THE IN+1 ITERATION. */
-/*          WB     D.P. ARRAY.  WB IS USED FOR COMPUTATIONS INVOLVING */
-/*                 BLACK VECTORS. */
-/*          TRI    D.P. ARRAY.  STORES THE TRIDIAGONAL MATRIX ASSOCIATED */
-/*                 WITH CONJUGATE GRADIENT ACCELERATION. */
-
-/* ... COMPUTE NEW ESTIMATE FOR CME IF ADAPT = .TRUE. */
-
-    nb = *nnb;
-    nr = *n - nb;
+    nr = *n - *nb;
     if (itcom2_1.adapt)
         chgcon_(tri, &gamold, &rhoold, &c__2);
 
-/* ... TEST FOR STOPPING */
+    /* ... TEST FOR STOPPING */
 
-    itcom3_1.delnnm = itpackddot_(&nb, db, &c__1, db, &c__1);
+    itcom3_1.delnnm = itpackddot_(nb, db, &c__1, db, &c__1);
     dnrm = itcom3_1.delnnm;
     con = itcom3_1.cme;
-    pstop_(&nb, &ub[nr], &dnrm, &con, &c__2, &q1);
+    pstop_(nb, &ub[nr], &dnrm, &con, &c__2, &q1);
     if (itcom2_1.halt)
         goto L30;
 
-/* ... COMPUTE ACCELERATION PARAMETERS */
+    /* ... COMPUTE ACCELERATION PARAMETERS */
 
     vfill_(&nr, ub1, &c_b21);
-    prsred_(&nb, &nr, ia, ja, a, db, ub1);
-    vfill_(&nb, wb, &c_b21);
-    prsblk_(&nb, &nr, ia, ja, a, ub1, wb);
-    dnrm = itpackddot_(&nb, db, &c__1, wb, &c__1);
+    prsred_(nb, &nr, ia, ja, a, db, ub1);
+    vfill_(nb, wb, &c_b21);
+    prsblk_(nb, &nr, ia, ja, a, ub1, wb);
+    dnrm = itpackddot_(nb, db, &c__1, wb, &c__1);
     if (itcom1_1.isym != 0)
-        rhoold = itpackddot_(&nb, wb, &c__1, db1, &c__1);
+        rhoold = itpackddot_(nb, wb, &c__1, db1, &c__1);
 
     parcon_(&dnrm, &c1, &c2, &c3, &c4, &gamold, &rhoold, &c__2);
 
-/* ... COMPUTE UB(IN+1) AND DB(IN+1) */
+    /* ... COMPUTE UB(IN+1) AND DB(IN+1) */
 
-    sum3_(&nb, &c1, db, &c2, &ub[nr], &c3, &ub1[nr]);
-    sum3_(&nb, &c1, wb, &c4, db, &c3, db1);
+    sum3_(nb, &c1, db, &c2, &ub[nr], &c3, &ub1[nr]);
+    sum3_(nb, &c1, wb, &c4, db, &c3, db1);
 
-/* ... OUTPUT INTERMEDIATE INFORMATION */
+    /* ... OUTPUT INTERMEDIATE INFORMATION */
 
 L30:
-    iterm_(&nb, &a[nr], &ub[nr], wb, &c__6);
+    iterm_(nb, &a[nr], &ub[nr], wb, &c__6);
 
     return 0;
 } /* itrscg_ */
 
 /* Subroutine */
-int itrssi_(integer *n, integer *nnb, integer *ia, integer *ja, doublereal *a,
+int itrssi_(integer *n, integer *nb, integer *ia, integer *ja, doublereal *a,
             doublereal *rhs, doublereal *ub, doublereal *ub1, doublereal *db)
 {
     static doublereal c1, c2, c3;
     static logical q1;
-    static integer nb, nr;
+    static integer nr;
     static doublereal dnrm;
     static doublereal cnst;
 
-/* ... FUNCTION: */
+/*          THIS SUBROUTINE, ITRSSI, PERFORMS ONE ITERATION OF THE        */
+/*          REDUCED SYSTEM SEMI-ITERATION ALGORITHM.  IT IS               */
+/*          CALLED BY RSSI.                                               */
+/*                                                                        */
+/* ... PARAMETER LIST:                                                    */
+/*                                                                        */
+/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX.               */
+/*          NB     INPUT INTEGER.  CONTAINS THE NUMBER OF BLACK POINTS    */
+/*                 IN THE RED-BLACK MATRIX.                               */
+/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF      */
+/*                 THE SPARSE MATRIX REPRESENTATION.                      */
+/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE       */
+/*                 MATRIX REPRESENTATION.                                 */
+/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE       */
+/*                 OF THE MATRIX PROBLEM.                                 */
+/*          UB     INPUT D.P. VECTOR.  CONTAINS THE ESTIMATE FOR THE      */
+/*                 SOLUTION ON THE BLACK POINTS AFTER IN ITERATIONS.      */
+/*          UB1    INPUT/OUTPUT D.P. VECTOR.  ON INPUT, UB1 CONTAINS THE  */
+/*                 SOLUTION VECTOR AFTER IN-1 ITERATIONS.  ON OUTPUT,     */
+/*                 IT WILL CONTAIN THE NEWEST ESTIMATE FOR THE SOLUTION   */
+/*                 VECTOR.  THIS IS ONLY FOR THE BLACK POINTS.            */
+/*          DB     INPUT D.P. ARRAY.  DB CONTAINS THE VALUE OF THE        */
+/*                 CURRENT PSEUDO-RESIDUAL ON THE BLACK POINTS.           */
 
-/*          THIS SUBROUTINE, ITRSSI, PERFORMS ONE ITERATION OF THE */
-/*          REDUCED SYSTEM SEMI-ITERATION ALGORITHM.  IT IS */
-/*          CALLED BY RSSI. */
+    /* ... COMPUTE UR(IN) INTO UB */
 
-/* ... PARAMETER LIST: */
-
-/*          N      INPUT INTEGER.  DIMENSION OF THE MATRIX. */
-/*          NB     INPUT INTEGER.  CONTAINS THE NUMBER OF BLACK POINTS */
-/*                 IN THE RED-BLACK MATRIX. (= NNB) */
-/*          IA,JA  INPUT INTEGER VECTORS.  THE TWO INTEGER ARRAYS OF */
-/*                 THE SPARSE MATRIX REPRESENTATION. */
-/*          A      INPUT D.P. VECTOR.  THE D.P. ARRAY OF THE SPARSE */
-/*                 MATRIX REPRESENTATION. */
-/*          RHS    INPUT D.P. VECTOR.  CONTAINS THE RIGHT HAND SIDE */
-/*                 OF THE MATRIX PROBLEM. */
-/*          UB     INPUT D.P. VECTOR.  CONTAINS THE ESTIMATE FOR THE */
-/*                 SOLUTION ON THE BLACK POINTS AFTER IN ITERATIONS. */
-/*          UB1    INPUT/OUTPUT D.P. VECTOR.  ON INPUT, UB1 CONTAINS THE */
-/*                 SOLUTION VECTOR AFTER IN-1 ITERATIONS.  ON OUTPUT, */
-/*                 IT WILL CONTAIN THE NEWEST ESTIMATE FOR THE SOLUTION */
-/*                 VECTOR.  THIS IS ONLY FOR THE BLACK POINTS. */
-/*          DB     INPUT D.P. ARRAY.  DB CONTAINS THE VALUE OF THE */
-/*                 CURRENT PSEUDO-RESIDUAL ON THE BLACK POINTS. */
-
-/* ... COMPUTE UR(IN) INTO UB */
-
-    nb = *nnb;
-    nr = *n - nb;
+    nr = *n - *nb;
     itpackdcopy_(&nr, rhs, &c__1, ub, &c__1);
-    prsred_(&nb, &nr, ia, ja, a, &ub[nr], ub);
+    prsred_(nb, &nr, ia, ja, a, &ub[nr], ub);
 
-/* ... COMPUTE PSEUDO-RESIDUAL, DB(IN) */
+    /* ... COMPUTE PSEUDO-RESIDUAL, DB(IN) */
 
-    itpackdcopy_(&nb, &rhs[nr], &c__1, db, &c__1);
-    prsblk_(&nb, &nr, ia, ja, a, ub, db);
-    vevmw_(&nb, db, &ub[nr]);
+    itpackdcopy_(nb, &rhs[nr], &c__1, db, &c__1);
+    prsblk_(nb, &nr, ia, ja, a, ub, db);
+    vevmw_(nb, db, &ub[nr]);
 
-/* ... TEST FOR STOPPING */
+    /* ... TEST FOR STOPPING */
 
-    itcom3_1.delnnm = itpackddot_(&nb, db, &c__1, db, &c__1);
+    itcom3_1.delnnm = itpackddot_(nb, db, &c__1, db, &c__1);
     dnrm = itcom3_1.delnnm;
     cnst = itcom3_1.cme;
-    pstop_(&nb, &ub[nr], &dnrm, &cnst, &c__2, &q1);
+    pstop_(nb, &ub[nr], &dnrm, &cnst, &c__2, &q1);
     if (itcom2_1.halt)
         goto L20;
 
     if (! itcom2_1.adapt)
         goto L10;
 
-/* ... TEST TO CHANGE PARAMETERS */
+    /* ... TEST TO CHANGE PARAMETERS */
 
     if (! tstchg_(&c__2))
         goto L10;
 
-/* ... CHANGE PARAMETERS */
+    /* ... CHANGE PARAMETERS */
 
     vfill_(&nr, ub1, &c_b21);
-    prsred_(&nb, &nr, ia, ja, a, db, ub1);
+    prsred_(nb, &nr, ia, ja, a, db, ub1);
     dnrm = itpackddot_(&nr, ub1, &c__1, ub1, &c__1);
     chgsi_(&dnrm, &c__2);
     if (itcom2_1.adapt) { /* ... COMPUTE UB(N+1) AFTER CHANGING PARAMETERS */
-        itpackdcopy_(&nb, &ub[nr], &c__1, &ub1[nr], &c__1);
-        itpackdaxpy_(&nb, &itcom3_1.gamma, db, &c__1, &ub1[nr], &c__1);
+        itpackdcopy_(nb, &ub[nr], &c__1, &ub1[nr], &c__1);
+        itpackdaxpy_(nb, &itcom3_1.gamma, db, &c__1, &ub1[nr], &c__1);
         goto L20;
     }
     /* ... COMPUTE UB(N+1) WITHOUT CHANGE OF PARAMETERS */
 L10:
     parsi_(&c1, &c2, &c3, &c__2);
-    sum3_(&nb, &c1, db, &c2, &ub[nr], &c3, &ub1[nr]);
+    sum3_(nb, &c1, db, &c2, &ub[nr], &c3, &ub1[nr]);
 
-/* ... OUTPUT INTERMEDIATE INFORMATION */
+    /* ... OUTPUT INTERMEDIATE INFORMATION */
 
 L20:
-    iterm_(&nb, &a[nr], &ub[nr], db, &c__7);
+    iterm_(nb, &a[nr], &ub[nr], db, &c__7);
 
     return 0;
 } /* itrssi_ */
@@ -3392,7 +3326,7 @@ L10:
     else                 /* ...... L .GE. K(JMID)  AND  L .LT. K(JRIGHT) */
         jright = jmid;
 
-/* ...... TEST FOR CONVERGENCE */
+    /* ...... TEST FOR CONVERGENCE */
 
     if (jright - jleft == 1) /* ...... BISECTION SEARCH FINISHED */
         return jleft;
@@ -3402,7 +3336,7 @@ L10:
 } /* bisrch_ */
 
 doublereal cheby_(doublereal *qa, doublereal *qt, doublereal *rrr, integer *
-        ip, doublereal *cme, doublereal *sme)
+                  ip, doublereal *cme, doublereal *sme)
 {
     /* System generated locals */
     doublereal d__1;
@@ -3460,21 +3394,21 @@ int chgcon_(doublereal *tri, doublereal *gamold, doublereal *rhoold, integer *ib
         case 3:  goto L30;
     }
 
-/* ... JACOBI CONJUGATE GRADIENT */
+    /* ... JACOBI CONJUGATE GRADIENT */
 
 L10:
     start = itcom3_1.cme;
     ip = itcom1_1.in;
     goto L40;
 
-/* ... REDUCED SYSTEM CG */
+    /* ... REDUCED SYSTEM CG */
 
 L20:
     start = itcom3_1.cme * itcom3_1.cme;
     ip = itcom1_1.in;
     goto L40;
 
-/* ... SSOR CG */
+    /* ... SSOR CG */
 
 L30:
     if (itcom2_1.adapt)
@@ -3485,7 +3419,7 @@ L30:
 
     ip = itcom1_1.in - itcom1_1.is;
 
-/* ... DEFINE THE MATRIX */
+    /* ... DEFINE THE MATRIX */
 
 L40:
     if (ip >= 2)
@@ -3502,14 +3436,14 @@ L40:
     }
     goto L110;
 
-/* ... IP > 1 */
+    /* ... IP > 1 */
 
 L60:
     if (ip > 2 && abs(start - cmold) <= itcom3_1.zeta * start)
         goto L120;
     cmold = start;
 
-/* ... COMPUTE THE LARGEST EIGENVALUE */
+    /* ... COMPUTE THE LARGEST EIGENVALUE */
 
     tri[(ip << 1) - 2] = 1. - 1. / itcom3_1.gamma;
     tri[(ip << 1) - 1] = (itcom3_1.rho - 1.) / (itcom3_1.rho * *rhoold * itcom3_1.gamma * *gamold);
@@ -3524,7 +3458,7 @@ L60:
     if (ier != 0)
         goto L130;
 
-/* ... SET SPECTRAL RADIUS FOR THE VARIOUS METHODS */
+    /* ... SET SPECTRAL RADIUS FOR THE VARIOUS METHODS */
 
 L110:
     if (*ibmth == 1)
@@ -3541,16 +3475,16 @@ L110:
 
     return 0;
 
-/* ... RELATIVE CHANGE IN CME IS LESS THAN ZETA.  THEREFORE STOP */
-/*     CHANGING. */
+    /* ... RELATIVE CHANGE IN CME IS LESS THAN ZETA.  THEREFORE STOP */
+    /*     CHANGING. */
 
 L120:
     itcom2_1.adapt = FALSE_;
     itcom2_1.partad = FALSE_;
     return 0;
 
-/* ... ESTIMATE FOR CME > 1.D0.  THEREFORE NEED TO STOP ADAPTIVE */
-/*     PROCEDURE AND KEEP OLD VALUE OF CME. */
+    /* ... ESTIMATE FOR CME > 1.D0.  THEREFORE NEED TO STOP ADAPTIVE */
+    /*     PROCEDURE AND KEEP OLD VALUE OF CME. */
 
 L130:
     itcom2_1.adapt = FALSE_;
@@ -3585,11 +3519,11 @@ int chgsi_(doublereal *dtnrm, integer *ibmth)
         case 3:  goto L50;
     }
 
-/*     --------------------- */
-/* ... JACOBI SEMI-ITERATIVE */
-/*     --------------------- */
+    /*     --------------------- */
+    /* ... JACOBI SEMI-ITERATIVE */
+    /*     --------------------- */
 
-/* ... CHEBYSHEV EQUATION */
+    /* ... CHEBYSHEV EQUATION */
 
 L10:
     if (itcom1_1.in == 0)
@@ -3600,11 +3534,11 @@ L10:
         zm1 = cheby_(&itcom3_1.qa, &itcom3_1.qt, &itcom3_1.rrr, &i__1, &itcom3_1.cme, &itcom3_1.sme);
     }
 
-/* ... RAYLEIGH QUOTIENT */
+    /* ... RAYLEIGH QUOTIENT */
 
     zm2 = *dtnrm / itcom3_1.delnnm;
 
-/* ... COMPUTATION OF ITERATIVE PARAMETERS */
+    /* ... COMPUTATION OF ITERATIVE PARAMETERS */
 
     cmold = itcom3_1.cme;
     itcom3_1.cme = max(max(zm1,zm2),cmold);
@@ -3623,18 +3557,18 @@ L10:
     itcom3_1.rho = 1.;
     return 0;
 
-/* ... ADAPTIVE PROCEDURE FAILED FOR JACOBI SI */
+    /* ... ADAPTIVE PROCEDURE FAILED FOR JACOBI SI */
 
 L20:
     itcom3_1.cme = cmold;
     itcom2_1.adapt = FALSE_;
     return 0;
 
-/*     ----------------------------- */
-/* ... REDUCED SYSTEM SEMI-ITERATIVE */
-/*     ----------------------------- */
+    /*     ----------------------------- */
+    /* ... REDUCED SYSTEM SEMI-ITERATIVE */
+    /*     ----------------------------- */
 
-/* ... CHEBYSHEV EQUATION */
+    /* ... CHEBYSHEV EQUATION */
 
 L30:
     if (itcom1_1.in == 0)
@@ -3645,18 +3579,16 @@ L30:
         zm1 = cheby_(&itcom3_1.qa, &itcom3_1.qt, &itcom3_1.rrr, &i__1, &c_b21, &c_b21);
     }
 
-/* ... RAYLEIGH QUOTIENT */
+    /* ... RAYLEIGH QUOTIENT */
 
     zm2 = sqrt(abs(*dtnrm / itcom3_1.delnnm));
 
-/* ... COMPUTATION OF NEW ITERATIVE PARAMETERS */
+    /* ... COMPUTATION OF NEW ITERATIVE PARAMETERS */
 
     cmold = itcom3_1.cme;
     itcom3_1.cme = max(max(zm1,zm2),cmold);
     if (itcom3_1.cme >= 1.) {
-
-/* ... ADAPTIVE PROCEDURE FAILED FOR REDUCED SYSTEM SI */
-
+        /* ... ADAPTIVE PROCEDURE FAILED FOR REDUCED SYSTEM SI */
         itcom3_1.cme = cmold;
         itcom2_1.adapt = FALSE_;
         return 0;
@@ -3670,9 +3602,9 @@ L30:
     itcom3_1.rho = 1.;
     return 0;
 
-/*     ----------------------------- */
-/* ... SYMMETRIC SOR SEMI-ITERATIVE */
-/*     ---------------------------- */
+    /*     ----------------------------- */
+    /* ... SYMMETRIC SOR SEMI-ITERATIVE */
+    /*     ---------------------------- */
 
 L50:
     if (itcom3_1.specr == 0.)
@@ -3687,13 +3619,13 @@ L50:
         itcom3_1.spr = itcom3_1.specr;
     }
 
-/* ... RAYLEIGH QUOTIENT */
+    /* ... RAYLEIGH QUOTIENT */
 
     zm2 = *dtnrm / itcom3_1.delnnm;
 
-/* ... COMPUTATION OF NEW ESTIMATE FOR SPECTRAL RADIUS */
+    /* ... COMPUTATION OF NEW ESTIMATE FOR SPECTRAL RADIUS */
 
-/* ... PARTIALLY ADAPTIVE SSOR SI */
+    /* ... PARTIALLY ADAPTIVE SSOR SI */
 
     if (! itcom2_1.adapt) {
         itcom3_1.specr = max(max(zm1,zm2),itcom3_1.specr);
@@ -3702,7 +3634,7 @@ L50:
         return 0;
     }
 
-/* ... FULLY ADAPTIVE SSOR SI */
+    /* ... FULLY ADAPTIVE SSOR SI */
 
     itcom3_1.spr = max(max(zm1,zm2),itcom3_1.spr);
     return 0;
@@ -3741,14 +3673,14 @@ logical chgsme_(doublereal *oldnrm, integer *icnt)
     if (*icnt < 3)
         return FALSE_;
 
-/* ... CHANGE SME IN J-SI ADAPTIVE PROCEDURE */
+    /* ... CHANGE SME IN J-SI ADAPTIVE PROCEDURE */
 
     sm1 = 0.;
     sm2 = 0.;
     if (itcom3_1.sme >= itcom3_1.cme)
         goto L10;
 
-/* ... COMPUTE SM1 */
+    /* ... COMPUTE SM1 */
 
     ip = itcom1_1.in - itcom1_1.is;
     q = itcom3_1.qa * (pow_di(&itcom3_1.rrr, &ip) + 1.) / (sqrt(pow_di(&itcom3_1.rrr, &ip)) * 2.);
@@ -3758,7 +3690,7 @@ logical chgsme_(doublereal *oldnrm, integer *icnt)
     wp = (z * z + 1.) / (z * 2.);
     sm1 = (itcom3_1.cme + itcom3_1.sme - wp * (itcom3_1.cme - itcom3_1.sme)) * .5;
 
-/* ... COMPUTE SM2 */
+    /* ... COMPUTE SM2 */
 
     i__1 = ip - 1;
     q = rn * (pow_di(&itcom3_1.rrr, &ip) + 1.) / ((pow_di(&itcom3_1.rrr, &i__1) + 1.) * sqrt(itcom3_1.rrr));
@@ -3785,7 +3717,7 @@ int itpackdaxpy_(integer *n, doublereal *da, doublereal *dx, integer *incx, doub
     /* Local variables */
     static integer i, m, ix, iy, ns;
 
-/*     OVERWRITE DOUBLE PRECISION DY WITH DOUBLE PRECISION DA*DX + DY. */
+    /*     OVERWRITE DOUBLE PRECISION DY WITH DOUBLE PRECISION DA*DX + DY. */
 
     if (*n <= 0 || *da == 0.)
         return 0;
@@ -3800,7 +3732,7 @@ int itpackdaxpy_(integer *n, doublereal *da, doublereal *dx, integer *incx, doub
     }
 L10:
 
-/*        CODE FOR NONEQUAL OR NONPOSITIVE INCREMENTS. */
+    /*        CODE FOR NONEQUAL OR NONPOSITIVE INCREMENTS. */
 
     ix = 0;
     iy = 0;
@@ -3817,9 +3749,9 @@ L10:
     }
     return 0;
 
-/*        CODE FOR BOTH INCREMENTS EQUAL TO 1 */
+    /*        CODE FOR BOTH INCREMENTS EQUAL TO 1 */
 
-/*        CLEAN-UP LOOP SO REMAINING VECTOR LENGTH IS A MULTIPLE OF 4. */
+    /*        CLEAN-UP LOOP SO REMAINING VECTOR LENGTH IS A MULTIPLE OF 4. */
 
 L30:
     m = *n - (*n / 4 << 2);
@@ -3834,7 +3766,7 @@ L30:
     }
     return 0;
 
-/*        CODE FOR EQUAL, POSITIVE, NONUNIT INCREMENTS. */
+    /*        CODE FOR EQUAL, POSITIVE, NONUNIT INCREMENTS. */
 
 L70:
     ns = *n * *incx;
@@ -3850,7 +3782,7 @@ int itpackdcopy_(integer *n, doublereal *dx, integer *incx, doublereal *dy, inte
     /* Local variables */
     static integer i, m, ix, iy, ns;
 
-/*     COPY DOUBLE PRECISION DX TO DOUBLE PRECISION DY. */
+    /*     COPY DOUBLE PRECISION DX TO DOUBLE PRECISION DY. */
 
     if (*n <= 0)
         return 0;
@@ -3865,7 +3797,7 @@ int itpackdcopy_(integer *n, doublereal *dx, integer *incx, doublereal *dy, inte
     }
 L10:
 
-/*        CODE FOR UNEQUAL OR NONPOSITIVE INCREMENTS. */
+    /*        CODE FOR UNEQUAL OR NONPOSITIVE INCREMENTS. */
 
     ix = 0;
     iy = 0;
@@ -3882,9 +3814,9 @@ L10:
     }
     return 0;
 
-/*        CODE FOR BOTH INCREMENTS EQUAL TO 1 */
+    /*        CODE FOR BOTH INCREMENTS EQUAL TO 1 */
 
-/*        CLEAN-UP LOOP SO REMAINING VECTOR LENGTH IS A MULTIPLE OF 7. */
+    /*        CLEAN-UP LOOP SO REMAINING VECTOR LENGTH IS A MULTIPLE OF 7. */
 
 L30:
     m = *n - *n / 7 * 7;
@@ -3902,7 +3834,7 @@ L30:
     }
     return 0;
 
-/*        CODE FOR EQUAL, POSITIVE, NONUNIT INCREMENTS. */
+    /*        CODE FOR EQUAL, POSITIVE, NONUNIT INCREMENTS. */
 
 L70:
     ns = *n * *incx;
@@ -3920,7 +3852,7 @@ doublereal itpackddot_(integer *n, doublereal *dx, integer *incx, doublereal *dy
     /* Local variables */
     static integer i, m, ix, iy, ns;
 
-/*     RETURNS THE DOT PRODUCT OF DOUBLE PRECISION DX AND DY. */
+    /*     RETURNS THE DOT PRODUCT OF DOUBLE PRECISION DX AND DY. */
 
     ret_val = 0.;
     if (*n <= 0)
@@ -3936,7 +3868,7 @@ doublereal itpackddot_(integer *n, doublereal *dx, integer *incx, doublereal *dy
     }
 L10:
 
-/*         CODE FOR UNEQUAL OR NONPOSITIVE INCREMENTS. */
+    /*         CODE FOR UNEQUAL OR NONPOSITIVE INCREMENTS. */
 
     ix = 0;
     iy = 0;
@@ -3953,9 +3885,9 @@ L10:
     }
     return ret_val;
 
-/*        CODE FOR BOTH INCREMENTS EQUAL TO 1. */
+    /*        CODE FOR BOTH INCREMENTS EQUAL TO 1. */
 
-/*        CLEAN-UP LOOP SO REMAINING VECTOR LENGTH IS A MULTIPLE OF 5. */
+    /*        CLEAN-UP LOOP SO REMAINING VECTOR LENGTH IS A MULTIPLE OF 5. */
 
 L30:
     m = *n - *n / 5 * 5;
@@ -3966,7 +3898,7 @@ L30:
         ret_val += dx[i]*dy[i] + dx[i+1]*dy[i+1] + dx[i+2]*dy[i+2] + dx[i+3]*dy[i+3] + dx[i+4]*dy[i+4];
     return ret_val;
 
-/*         CODE FOR POSITIVE EQUAL INCREMENTS .NE.1. */
+    /*         CODE FOR POSITIVE EQUAL INCREMENTS .NE.1. */
 
 L70:
     ns = *n * *incx;
@@ -4010,7 +3942,6 @@ doublereal determ_(integer *n, doublereal *tri, doublereal *xlmda)
 /* Subroutine */
 int dfault_(integer *iparm, doublereal *rparm)
 {
-
 /* ... THIS SUBROUTINE SETS THE DEFAULT VALUES OF IPARM AND RPARM. */
 
 /* ... PARAMETER LIST: */
@@ -4101,7 +4032,7 @@ int echall_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rh
     if (*icall != 1)
         return 0;
 
-/* ... INITIALIZE ITPACK COMMON */
+    /* ... INITIALIZE ITPACK COMMON */
 
     itcom3_1.zeta = rparm[0];
     itcom3_1.cme = rparm[1];
@@ -4138,7 +4069,7 @@ int echall_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rh
 
     itcom3_1.spr = itcom3_1.sme;
 
-/* ... SET REST OF COMMON VARIABLES TO ZERO */
+    /* ... SET REST OF COMMON VARIABLES TO ZERO */
 
     itcom1_1.in = 0;
     itcom1_1.is = 0;
@@ -4158,8 +4089,8 @@ int echall_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rh
     if (itcom1_1.level <= 4)
         return 0;
 
-/*     THIS SECTION OF ECHALL CAUSES PRINTING OF THE LINEAR SYSTEM AND */
-/*     THE ITERATIVE PARAMETERS */
+    /*     THIS SECTION OF ECHALL CAUSES PRINTING OF THE LINEAR SYSTEM AND */
+    /*     THE ITERATIVE PARAMETERS */
 
     return 0;
 } /* echall_ */
@@ -4220,7 +4151,7 @@ int echout_(integer *iparm, doublereal *rparm, integer *imthd)
 
     itcom3_1.spr = itcom3_1.sme;
 
-/* ... SET REST OF COMMON VARIABLES TO ZERO */
+    /* ... SET REST OF COMMON VARIABLES TO ZERO */
 
     itcom1_1.in = 0;
     itcom1_1.is = 0;
@@ -4239,8 +4170,8 @@ int echout_(integer *iparm, doublereal *rparm, integer *imthd)
     if (itcom1_1.level <= 2)
         return 0;
 
-/* ... THIS SECTION OF ECHOUT ECHOES THE INPUT VALUES FOR THE INITIAL */
-/*     ITERATIVE PARAMETERS */
+    /* ... THIS SECTION OF ECHOUT ECHOES THE INPUT VALUES FOR THE INITIAL */
+    /*     ITERATIVE PARAMETERS */
 
     switch (*imthd) {
         case 1:  goto L80;
@@ -4252,22 +4183,22 @@ int echout_(integer *iparm, doublereal *rparm, integer *imthd)
         case 7:  goto L20;
     }
 
-/* ... JSI, RSSI */
+    /* ... JSI, RSSI */
 
 L20:
     return 0;
 
-/* ... SSORSI */
+    /* ... SSORSI */
 
 L40:
     return 0;
 
-/* ... SSORCG */
+    /* ... SSORCG */
 
 L60:
     return 0;
 
-/* ... JCG, RSCG */
+    /* ... JCG, RSCG */
 
 L80:
     if (itcom2_1.adapt)
@@ -4331,7 +4262,7 @@ doublereal eigvss_(integer *n, doublereal *tri, doublereal *start, doublereal *z
     nsig = max(itmp,4);
     maxfn = max(*itmax,50);
 
-/*     EPS = DMIN1(ZETA,0.5D-4) */
+    /*     EPS = DMIN1(ZETA,0.5D-4) */
 
     eps = 0.;
     a = *start;
@@ -4341,14 +4272,14 @@ doublereal eigvss_(integer *n, doublereal *tri, doublereal *start, doublereal *z
 } /* eigvss_ */
 
 /* Subroutine */
-int eqrt1s_(doublereal *d, doublereal *e2, integer *nn, integer *m, integer *isw, integer *ierr)
+int eqrt1s_(doublereal *d, doublereal *e2, integer *n, integer *m, integer *isw, integer *ierr)
 {
     /* System generated locals */
     doublereal d__1;
 
     /* Local variables */
     static doublereal f;
-    static integer i, j, k, n;
+    static integer i, j, k;
     static doublereal p, q, r, s;
     static integer ii, jj;
     static doublereal ep, qp;
@@ -4378,7 +4309,7 @@ int eqrt1s_(doublereal *d, doublereal *e2, integer *nn, integer *m, integer *isw
 /*                           THE SQUARES OF THE OFF-DIAGONAL ELEMENTS */
 /*                           OF THE MATRIX.  INPUT E2 IS DESTROYED. */
 /*                N      - INPUT SCALAR CONTAINING THE ORDER OF THE */
-/*                           MATRIX. (= NN) */
+/*                           MATRIX. */
 /*                M      - INPUT SCALAR CONTAINING THE NUMBER OF */
 /*                           SMALLEST EIGENVALUES DESIRED (M IS */
 /*                           LESS THAN OR EQUAL TO N). */
@@ -4418,60 +4349,53 @@ int eqrt1s_(doublereal *d, doublereal *e2, integer *nn, integer *m, integer *isw
 
 /* ----------------------------------------------------------------------- */
 
-/*     DESCRIPTION OF VARIABLES IN COMMON BLOCK IN MAIN SUBROUTINE */
-
-/*                                  SPECIFICATIONS FOR ARGUMENTS */
-
 /*                                  SPECIFICATIONS FOR LOCAL VARIABLES */
 
 /*                                  DRELPR = MACHINE PRECISION */
-/*                                  FIRST EXECUTABLE STATEMENT */
 
-    n = *nn;
     ier = 0;
     dlam = 0.;
     err = 0.;
     s = 0.;
 
-/*                                  LOOK FOR SMALL SUB-DIAGONAL ENTRIES */
-/*                                  DEFINE INITIAL SHIFT FROM LOWER */
-/*                                  GERSCHGORIN BOUND. */
+    /*                                  LOOK FOR SMALL SUB-DIAGONAL ENTRIES */
+    /*                                  DEFINE INITIAL SHIFT FROM LOWER */
+    /*                                  GERSCHGORIN BOUND. */
 
     tot = d[0];
     q = 0.;
     j = 0;
-    for (i = 0; i < n; ++i) {
+    for (i = 0; i < *n; ++i) {
         p = q;
         if (i == 0 || p <= itcom3_1.drelpr * (abs(d[i]) + abs(d[i-1])))
             e2[i] = 0.;
 
-/*                                  COUNT IF E2(I) HAS UNDERFLOWED */
+    /*                                  COUNT IF E2(I) HAS UNDERFLOWED */
 
         if (e2[i] == 0.)
             ++j;
 
         q = 0.;
-        if (i != n-1)
+        if (i != *n-1)
             q = sqrt(abs(e2[i + 1]));
 
         tot = min(d[i] - p - q,tot);
     }
     if (*isw != 1 || tot > 0.) {
-        for (i = 0; i < n; ++i)
+        for (i = 0; i < *n; ++i)
             d[i] -= tot;
-
     }
     else
         tot = 0.;
 
     for (k = 0; k < *m; ++k)
     {
-/*                                  NEXT QR TRANSFORMATION */
+        /* NEXT QR TRANSFORMATION */
 
 L70:
         tot += s;
-        delta = d[n] - s;
-        i = n - 1;
+        delta = d[*n] - s;
+        i = *n - 1;
         f = abs(itcom3_1.drelpr * tot);
         if (dlam < f)
             dlam = f;
@@ -4485,24 +4409,23 @@ L70:
         ier = 602;
         goto L210;
 
-/*                                  REPLACE SMALL SUB-DIAGONAL SQUARES */
-/*                                  BY ZERO TO REDUCE THE INCIDENCE OF */
-/*                                  UNDERFLOWS */
+        /* REPLACE SMALL SUB-DIAGONAL SQUARES */
+        /* BY ZERO TO REDUCE THE INCIDENCE OF */
+        /* UNDERFLOWS */
 
 L90:
-        if (k != n-1) {
-            for (j = k+1; j < n; ++j) {
+        if (k != *n-1) {
+            for (j = k+1; j < *n; ++j) {
                 d__1 = itcom3_1.drelpr * (d[j] + d[j - 1]);
                 if (e2[j] <= d__1 * d__1)
                     e2[j] = 0.;
-
             }
         }
-        f = e2[n-1] / delta;
+        f = e2[*n-1] / delta;
         qp = delta + f;
         p = 1.;
-        for (ii = 0; ii < n-k-1; ++ii) {
-            i = n - ii - 2;
+        for (ii = 0; ii < *n-k-1; ++ii) {
+            i = *n - ii - 2;
             q = d[i] - s - f;
             r = q / qp;
             p = p * r + 1.;
@@ -4532,22 +4455,22 @@ L90:
         e2[0] = (doublereal) k;
         --k;
 
-/*                                  SET ERROR -- IRREGULAR END */
-/*                                  DEFLATE MINIMUM DIAGONAL ELEMENT */
+        /* SET ERROR -- IRREGULAR END */
+        /* DEFLATE MINIMUM DIAGONAL ELEMENT */
 
         s = 0.;
         delta = qp;
-        for (j = k; j < n; ++j) {
+        for (j = k; j < *n; ++j) {
             if (d[j] <= delta) {
                 i = j;
                 delta = d[j];
             }
         }
 
-/*                                  CONVERGENCE */
+        /* CONVERGENCE */
 
 L170:
-        if (i < n-1)
+        if (i < *n-1)
             e2[i + 1] = e2[i] * f / qp;
 
         for (jj = 0; jj < i-k; ++jj) {
@@ -4588,7 +4511,6 @@ integer ipstr_(doublereal *omega)
         i__1 = ip - 1;
         if ((doublereal) ((real) ip) * pow_di(&wm1, &i__1) <= .5)
             return ip;
-
     }
     return 940;
 } /* ipstr_ */
@@ -4620,34 +4542,34 @@ int iterm_(integer *nn, doublereal *a, doublereal *u, doublereal *wk, integer *i
 /*                    IMTHD = 6,  RSCG */
 /*                    IMTHD = 7,  RSSI */
 
-/* ... PRINT VARIOUS PARAMETERS AFTER EACH ITERATION */
+    /* ... PRINT VARIOUS PARAMETERS AFTER EACH ITERATION */
 
     if (itcom1_1.level < 2)
         return 0;
 
-/* ... PRINT HEADER FOR JCG AND RSCG */
+    /* ... PRINT HEADER FOR JCG AND RSCG */
 
-/* ... PRINT SUMMARY LINE */
+    /* ... PRINT SUMMARY LINE */
 
-/* ... PRINT HEADER FOR SSOR-SI */
+    /* ... PRINT HEADER FOR SSOR-SI */
 
-/* ... PRINT SUMMARY LINE */
+    /* ... PRINT SUMMARY LINE */
 
-/* ... PRINT HEADER FOR J-SI AND RS-SI */
+    /* ... PRINT HEADER FOR J-SI AND RS-SI */
 
-/* ... PRINT SUMMARY LINE */
+    /* ... PRINT SUMMARY LINE */
 
-/* ... PRINT VARIOUS PARAMETERS AFTER EACH ITERATION FOR SOR. */
+    /* ... PRINT VARIOUS PARAMETERS AFTER EACH ITERATION FOR SOR. */
 
-/* ... PRINT HEADER FOR SOR */
+    /* ... PRINT HEADER FOR SOR */
 
-/* ... PRINT SUMMARY LINE FOR SOR */
+    /* ... PRINT SUMMARY LINE FOR SOR */
 
-/* ... PRINT VARIOUS PARAMETERS AFTER EACH ITERATION FOR SSOR-CG. */
+    /* ... PRINT VARIOUS PARAMETERS AFTER EACH ITERATION FOR SSOR-CG. */
 
-/* ... PRINT HEADER FOR SSOR-CG */
+    /* ... PRINT HEADER FOR SSOR-CG */
 
-/* ... PRINT SUMMARY LINE FOR SSOR-CG */
+    /* ... PRINT SUMMARY LINE FOR SSOR-CG */
 
     if (itcom1_1.level < 4)
         return 0;
@@ -4675,7 +4597,7 @@ int ivfill_(integer *n, integer *iv, integer *ival)
     if (*n <= 0)
         return 0;
 
-/*     CLEAN UP LOOP SO REMAINING VECTOR LENGTH IS A MULTIPLE OF 10 */
+    /*     CLEAN UP LOOP SO REMAINING VECTOR LENGTH IS A MULTIPLE OF 10 */
 
     m = *n % 10;
     for (i = 0; i < m; ++i)
@@ -4716,7 +4638,7 @@ int omeg_(doublereal *dnrm, integer *iflag)
     if (*iflag == 1)
         goto L10;
 
-/* ... IFLAG .NE. 1, COMPUTE NEW ESTIMATE FOR CME */
+    /* ... IFLAG .NE. 1, COMPUTE NEW ESTIMATE FOR CME */
 
     zm1 = ((1.-itcom3_1.spr) * (itcom3_1.betab * (itcom3_1.omega * itcom3_1.omega) + 1.) - itcom3_1.omega * (2.-itcom3_1.omega)) /
           (itcom3_1.omega * (itcom3_1.omega - 1. - itcom3_1.spr));
@@ -4729,9 +4651,9 @@ int omeg_(doublereal *dnrm, integer *iflag)
 
     itcom3_1.cme = max(max(itcom3_1.cme,zm1),zm2);
 
-/* ... IFLAG = 1, OR CONTINUATION OF IFLAG .NE. 1 */
+    /* ... IFLAG = 1, OR CONTINUATION OF IFLAG .NE. 1 */
 
-/*        COMPUTE NEW VALUES OF OMEGA AND SPECR BASED ON CME AND BETAB */
+    /*        COMPUTE NEW VALUES OF OMEGA AND SPECR BASED ON CME AND BETAB */
 
 L10:
     itcom1_1.is = itcom1_1.in + 1;
@@ -4739,7 +4661,7 @@ L10:
     if (itcom3_1.cme >= itcom3_1.betab * 4.)
         goto L30;
 
-/* ... CME .LT. 4.D0*BETAB */
+    /* ... CME .LT. 4.D0*BETAB */
 
     temp = sqrt(abs(1. - itcom3_1.cme * 2. + itcom3_1.betab * 4.));
     itcom3_1.omega = max(2. / (temp + 1.),1.);
@@ -4750,9 +4672,9 @@ L10:
 
     return 0;
 
-/* ... CME .GE. 4.D0*BETAB */
+    /* ... CME .GE. 4.D0*BETAB */
 
-/* ... OMEGA-STAR WILL BE CHOSEN */
+    /* ... OMEGA-STAR WILL BE CHOSEN */
 
 L30:
     itcom3_1.cme = sqrt((abs(itcom3_1.betab))) * 2.;
@@ -4780,7 +4702,7 @@ logical omgchg_(integer *ndummy)
 
 /*          NDUMMY ARBITRARY INTEGER PARAMETER */
 
-/* ... STATEMENT FUNCTION PHI(X) */
+    /* ... STATEMENT FUNCTION PHI(X) */
 
     if (itcom1_1.in - itcom1_1.is < 3)
         return FALSE_;
@@ -4822,24 +4744,23 @@ logical omgstr_(integer *ndummy)
 
 /*          NDUMMY ARBITRARY INTEGER PARAMETER */
 
-/* ... STATEMENT FUNCTION PHI(X) */
+    /* ... STATEMENT FUNCTION PHI(X) */
 
     if (itcom3_1.betab >= .25 || ! itcom2_1.adapt)
         return FALSE_;
 
     omstar = 2. / (sqrt(abs(1. - itcom3_1.betab * 4.)) + 1.);
 
-/* ... TEST TO CHOSE OMEGA-STAR */
+    /* ... TEST TO CHOSE OMEGA-STAR */
 
     if (omstar > 1. && itcom3_1.specr > 0.) {
         temp = log(abs((1. - sqrt(abs(2. - omstar))) / (1. + sqrt(abs(2. - omstar)))));
         temp1 = log(abs((1. - sqrt(abs(1. - itcom3_1.specr))) / (1. + sqrt(abs(1. - itcom3_1.specr)))));
         if (temp / temp1 < itcom3_1.ff)
             return FALSE_;
-
     }
 
-/* ... OMEGA-STAR WAS CHOSEN */
+    /* ... OMEGA-STAR WAS CHOSEN */
 
     itcom3_1.omega = omstar;
     itcom3_1.specr = itcom3_1.omega - 1.;
@@ -4883,24 +4804,24 @@ int parcon_(doublereal *dtnrm, doublereal *c1, doublereal *c2, doublereal *c3, d
 
     ip = itcom1_1.in - itcom1_1.is;
 
-/* ... SET RHOOLD AND GAMOLD */
+    /* ... SET RHOOLD AND GAMOLD */
 
     rhoold = itcom3_1.rho;
     *gamold = itcom3_1.gamma;
 
-/* ... COMPUTE GAMMA (IN+1) */
+    /* ... COMPUTE GAMMA (IN+1) */
 
-/* ... FOR JACOBI OR REDUCED SYSTEM CG */
+    /* ... FOR JACOBI OR REDUCED SYSTEM CG */
 
     if (*ibmth <= 2)
         itcom3_1.gamma = 1. / (1. - *dtnrm / itcom3_1.delnnm);
 
-/* ... FOR SSOR CG */
+    /* ... FOR SSOR CG */
 
     if (*ibmth == 3)
         itcom3_1.gamma = itcom3_1.delnnm / *dtnrm;
 
-/* ... COMPUTE RHO (IN+1) */
+    /* ... COMPUTE RHO (IN+1) */
 
     itcom3_1.rho = 1.;
     if (ip != 0) {
@@ -4958,7 +4879,7 @@ L20:
 
     return 0;
 
-/* ... NONADAPTIVE INITIALIZATION FOR SEMI-ITERATIVE METHODS */
+    /* ... NONADAPTIVE INITIALIZATION FOR SEMI-ITERATIVE METHODS */
 
 L30:
     switch (*ibmth) {
@@ -4967,7 +4888,7 @@ L30:
         case 3:  goto L60;
     }
 
-/* ... JSI */
+    /* ... JSI */
 
 L40:
     if (itcom2_1.caseii)
@@ -4977,7 +4898,7 @@ L40:
     itcom3_1.sige = (itcom3_1.cme - itcom3_1.sme) / (2. - itcom3_1.cme - itcom3_1.sme);
     goto L70;
 
-/* ... REDUCED SYSTEM SI */
+    /* ... REDUCED SYSTEM SI */
 
 L50:
     itcom3_1.gamma = 2. / (2. - itcom3_1.cme * itcom3_1.cme);
@@ -4985,7 +4906,7 @@ L50:
     itcom3_1.rrr = (1. - sqrt(abs(1. - itcom3_1.cme * itcom3_1.cme))) / (sqrt(abs(1. - itcom3_1.cme * itcom3_1.cme)) + 1.);
     goto L70;
 
-/* ... SSORSI */
+    /* ... SSORSI */
 
 L60:
     itcom3_1.gamma = 2. / (2. - itcom3_1.specr);
@@ -5001,13 +4922,13 @@ L70:
     return 0;
 } /* parsi_ */
 
-doublereal pbeta_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *v, doublereal *w1, doublereal *w2)
+doublereal pbeta_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *v, doublereal *w1, doublereal *w2)
 {
     /* System generated locals */
     doublereal ret_val;
 
     /* Local variables */
-    static integer i, k, n, ii, jj, jai;
+    static integer i, k, ii, jj, jai;
     static doublereal sum;
     static integer jajj, ibgn, iend, itmp;
     static doublereal temp1, temp2;
@@ -5017,19 +4938,18 @@ doublereal pbeta_(integer *nn, integer *ia, integer *ja, doublereal *a, doublere
 
 /* ... PARAMETER LIST: */
 
-/*          N      DIMENSION OF MATRIX (= NN) */
+/*          N      DIMENSION OF MATRIX */
 /*          IA,JA  INTEGER ARRAYS OF SPARSE MATRIX REPRESENTATION */
 /*          A      D.P. ARRAY OF SPARSE MATRIX REPRESENTATION */
 /*          W1,W2  WORKSPACE VECTORS OF LENGTH N */
 
-    n = *nn;
     ret_val = 0.;
     if (itcom1_1.isym == 0)
         goto L110;
 
-/*     ************** NON - SYMMETRIC SECTION ******************** */
+    /*     ************** NON - SYMMETRIC SECTION ******************** */
 
-    for (i = 0; i < n; ++i)
+    for (i = 0; i < *n; ++i)
         w1[i] = v[i];
 
     temp1 = 0.;
@@ -5043,7 +4963,7 @@ doublereal pbeta_(integer *nn, integer *ia, integer *ja, doublereal *a, doublere
     }
     w1[0] = temp1;
     w2[0] = 0.;
-    for (k = 1; k < n-1; ++k) {
+    for (k = 1; k < *n-1; ++k) {
         temp1 = 0.;
         temp2 = 0.;
         ibgn = ia[k] - 1;
@@ -5059,22 +4979,22 @@ doublereal pbeta_(integer *nn, integer *ia, integer *ja, doublereal *a, doublere
         w2[k] = temp2;
     }
     temp2 = 0.;
-    ibgn = ia[n-1] - 1;
-    iend = ia[n] - 1;
+    ibgn = ia[*n-1] - 1;
+    iend = ia[*n] - 1;
     for (i = ibgn; i < iend; ++i) {
         jai = ja[i] - 1;
         temp2 -= a[i] * w1[jai];
     }
-    w2[n-1] = temp2;
-    for (i = 0; i < n; ++i)
+    w2[*n-1] = temp2;
+    for (i = 0; i < *n; ++i)
         ret_val += v[i] * w2[i];
 
     return ret_val;
 
-/*     **************** SYMMETRIC SECTION ************************* */
+    /*     **************** SYMMETRIC SECTION ************************* */
 
 L110:
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         if (ibgn >= iend)
@@ -5087,14 +5007,13 @@ L110:
         ret_val += sum * sum;
     }
     return ret_val;
-
 } /* pbeta_ */
 
 /* Subroutine */
-int pbsor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs)
+int pbsor_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs)
 {
     /* Local variables */
-    static integer i, n, ii, jj;
+    static integer i, ii, jj;
     static doublereal ui, sum, omm1;
     static integer jajj, ibgn, iend;
 
@@ -5102,22 +5021,21 @@ int pbsor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, 
 
 /* ... PARAMETER LIST: */
 
-/*          N      ORDER OF SYSTEM (= NN) */
+/*          N      ORDER OF SYSTEM */
 /*          OMEGA  RELAXATION FACTOR */
 /*          IA,JA  INTEGER ARRAYS OF SPARSE MATRIX REPRESENTATION */
 /*          A      D.P. ARRAY OF SPARSE MATRIX REPRESENTATION */
 /*          U      LATEST ESTIMATE OF SOLUTION */
 /*          RHS    RIGHT HAND SIDE OF MATRIX PROBLEM */
 
-    n = *nn;
     omm1 = itcom3_1.omega - 1.;
     if (itcom1_1.isym == 0)
         goto L40;
 
-/*     *************** NON - SYMMETRIC SECTION ********************** */
+    /*     *************** NON - SYMMETRIC SECTION ********************** */
 
-    for (i = 0; i < n; ++i) {
-        ii = n - i - 1;
+    for (i = 0; i < *n; ++i) {
+        ii = *n - i - 1;
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         sum = rhs[ii];
@@ -5129,10 +5047,10 @@ int pbsor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, 
     }
     return 0;
 
-/*     ***************** SYMMETRIC SECTION ************************** */
+    /*     ***************** SYMMETRIC SECTION ************************** */
 
 L40:
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         ui = u[ii];
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
@@ -5142,8 +5060,8 @@ L40:
         }
     }
 
-    for (i = 0; i < n; ++i) {
-        ii = n - i - 1;
+    for (i = 0; i < *n; ++i) {
+        ii = *n - i - 1;
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         sum = rhs[ii];
@@ -5157,7 +5075,7 @@ L40:
 } /* pbsor_ */
 
 /* Subroutine */
-int qsort_(integer *nn, integer *key, doublereal *data, integer *error)
+int qsort_(integer *n, integer *key, doublereal *data, integer *error)
 {
     /* Initialized data */
 
@@ -5166,7 +5084,7 @@ int qsort_(integer *nn, integer *key, doublereal *data, integer *error)
 
     /* Local variables */
     static doublereal d;
-    static integer i, j, k, n, v, jm1, ip1, top;
+    static integer i, j, k, v, jm1, ip1, top;
     static logical done;
     static integer left, llen, rlen, lfrh2, stack[30], right;
 
@@ -5177,7 +5095,7 @@ int qsort_(integer *nn, integer *key, doublereal *data, integer *error)
 /*         IN THE STYLE OF THE CACM PAPER BY BOB SEDGEWICK, OCTOBER 1978 */
 
 /*     INPUT: */
-/*         N    -- NUMBER OF ELEMENTS TO BE SORTED (= NN) */
+/*         N    -- NUMBER OF ELEMENTS TO BE SORTED */
 /*         KEY  -- AN ARRAY OF LENGTH  N  CONTAINING THE VALUES */
 /*                 WHICH ARE TO BE SORTED */
 /*         DATA -- A SECOND ARRAY OF LENGTH  N  CONTAINING DATA */
@@ -5197,37 +5115,36 @@ int qsort_(integer *nn, integer *key, doublereal *data, integer *error)
 /*         LESS THAN 'TINY' DURING PARTITIONING, AND USES MEDIAN OF THREE */
 /*         PARTITIONING. */
 
-    n = *nn;
-    if (n == 1)
+    if (*n == 1)
         return 0;
 
-    if (n <= 0)
+    if (*n <= 0)
         goto L240;
 
     *error = 0;
     top = 1;
     left = 0;
-    right = n - 1;
-    done = n <= tiny;
+    right = *n - 1;
+    done = *n <= tiny;
 
     if (done)
         goto L150;
 
     ivfill_(&stklen, stack, &c__0);
 
-/*     =========================================================== */
-/*     QUICKSORT -- PARTITION THE FILE UNTIL NO SUBFILE REMAINS OF */
-/*     LENGTH GREATER THAN 'TINY' */
-/*     =========================================================== */
+    /*     =========================================================== */
+    /*     QUICKSORT -- PARTITION THE FILE UNTIL NO SUBFILE REMAINS OF */
+    /*     LENGTH GREATER THAN 'TINY' */
+    /*     =========================================================== */
 
-/*     ... WHILE NOT DONE DO ... */
+    /*     ... WHILE NOT DONE DO ... */
 
 L10:
     if (done)
         goto L150;
 
-/*         ... FIND MEDIAN OF LEFT, RIGHT AND MIDDLE ELEMENTS OF CURRENT */
-/*             SUBFILE, WHICH IS  KEY(LEFT), ..., KEY(RIGHT) */
+    /*         ... FIND MEDIAN OF LEFT, RIGHT AND MIDDLE ELEMENTS OF CURRENT */
+    /*             SUBFILE, WHICH IS  KEY(LEFT), ..., KEY(RIGHT) */
 
     lfrh2 = (left + right) / 2;
     k = key[lfrh2];
@@ -5266,21 +5183,21 @@ L10:
 
     v = key[left];
 
-/*         ... V IS NOW THE MEDIAN VALUE OF THE THREE KEYS.  NOW MOVE */
-/*             FROM THE LEFT AND RIGHT ENDS SIMULTANEOUSLY, EXCHANGING */
-/*             KEYS AND DATA UNTIL ALL KEYS LESS THAN  V  ARE PACKED TO */
-/*             THE LEFT, ALL KEYS LARGER THAN  V  ARE PACKED TO THE */
-/*             RIGHT. */
+    /* ... V IS NOW THE MEDIAN VALUE OF THE THREE KEYS.  NOW MOVE */
+    /*     FROM THE LEFT AND RIGHT ENDS SIMULTANEOUSLY, EXCHANGING */
+    /*     KEYS AND DATA UNTIL ALL KEYS LESS THAN  V  ARE PACKED TO */
+    /*     THE LEFT, ALL KEYS LARGER THAN  V  ARE PACKED TO THE */
+    /*     RIGHT. */
 
     i = left + 1;
     j = right;
 
-/*         LOOP */
-/*             REPEAT I = I+1 UNTIL KEY(I) >= V; */
-/*             REPEAT J = J-1 UNTIL KEY(J) <= V; */
-/*         EXIT IF J < I; */
-/*             << EXCHANGE KEYS I AND J >> */
-/*         END */
+    /*  LOOP */
+    /*      REPEAT I = I+1 UNTIL KEY(I) >= V; */
+    /*      REPEAT J = J-1 UNTIL KEY(J) <= V; */
+    /*  EXIT IF J < I; */
+    /*      << EXCHANGE KEYS I AND J >> */
+    /*  END */
 
 L50:
     while (key[++i] < v) ;
@@ -5304,16 +5221,16 @@ L50:
     key[j] = k;
     data[j] = d;
 
-/*         ... WE HAVE NOW PARTITIONED THE FILE INTO TWO SUBFILES, */
-/*             ONE IS (LEFT ... J-1)  AND THE OTHER IS (I...RIGHT). */
-/*             PROCESS THE SMALLER NEXT.  STACK THE LARGER ONE. */
+    /* ... WE HAVE NOW PARTITIONED THE FILE INTO TWO SUBFILES, */
+    /*     ONE IS (LEFT ... J-1)  AND THE OTHER IS (I...RIGHT). */
+    /*     PROCESS THE SMALLER NEXT.  STACK THE LARGER ONE. */
 
     llen = j - left;
     rlen = right - i + 1;
     if (max(llen,rlen) > tiny)
         goto L100;
 
-/*             ... BOTH SUBFILES ARE TINY, SO UNSTACK NEXT LARGER FILE */
+    /*             ... BOTH SUBFILES ARE TINY, SO UNSTACK NEXT LARGER FILE */
 
     if (top != 1) {
         top += -2;
@@ -5325,13 +5242,13 @@ L50:
 
     goto L10;
 
-/*             ... ELSE ONE OR BOTH SUBFILES ARE LARGE */
+    /*             ... ELSE ONE OR BOTH SUBFILES ARE LARGE */
 
 L100:
     if (min(llen,rlen) > tiny)
         goto L120;
 
-/*             ... ONE SUBFILE IS SMALL, ONE LARGE.  IGNORE THE SMALL ONE */
+    /*             ... ONE SUBFILE IS SMALL, ONE LARGE.  IGNORE THE SMALL ONE */
 
     if (llen <= rlen)
         left = i;
@@ -5340,7 +5257,7 @@ L100:
 
     goto L10;
 
-/*         ... ELSE BOTH ARE LARGER THAN TINY.  ONE MUST BE STACKED. */
+    /*         ... ELSE BOTH ARE LARGER THAN TINY.  ONE MUST BE STACKED. */
 
 L120:
     if (top >= stklen)
@@ -5361,17 +5278,17 @@ L120:
 
     goto L10;
 
-/*     ------------------------------------------------------------ */
-/*     INSERTION SORT THE ENTIRE FILE, WHICH CONSISTS OF A LIST */
-/*     OF 'TINY' SUBFILES, LOCALLY OUT OF ORDER, GLOBALLY IN ORDER. */
-/*     ------------------------------------------------------------ */
+    /*     ------------------------------------------------------------ */
+    /*     INSERTION SORT THE ENTIRE FILE, WHICH CONSISTS OF A LIST */
+    /*     OF 'TINY' SUBFILES, LOCALLY OUT OF ORDER, GLOBALLY IN ORDER. */
+    /*     ------------------------------------------------------------ */
 
-/*     ... FIRST, FIND LARGEST ELEMENT IN 'KEY' */
+    /*     ... FIRST, FIND LARGEST ELEMENT IN 'KEY' */
 
 L150:
-    i = n - 2;
-    left = max(0, n-tiny) - 1;
-    j = n - 1;
+    i = *n - 2;
+    left = max(0, *n-tiny) - 1;
+    j = *n - 1;
     k = key[j];
 
 L160:
@@ -5387,34 +5304,32 @@ L160:
     goto L160;
 
 L180:
-    if (j != n - 1) {
-
-/*     ... LARGEST ELEMENT WILL BE IN  KEY(N) */
-
-        key[j] = key[n-1];
-        key[n-1] = k;
-        d = data[n-1];
-        data[n-1] = data[j];
+    if (j != *n - 1) {
+        /* ... LARGEST ELEMENT WILL BE IN  KEY(N) */
+        key[j] = key[*n-1];
+        key[*n-1] = k;
+        d = data[*n-1];
+        data[*n-1] = data[j];
         data[j] = d;
     }
 
-/*     ... INSERTION SORT ... FOR I := N-1 STEP -1 TO 1 DO ... */
+    /* ... INSERTION SORT ... FOR I := N-1 STEP -1 TO 1 DO ... */
 
-    i = n - 2;
-    ip1 = n - 1;
+    i = *n - 2;
+    ip1 = *n - 1;
 
 L200:
     if (key[i] <= key[ip1])
         goto L220;
 
-/*             ... OUT OF ORDER ... MOVE UP TO CORRECT PLACE */
+    /*             ... OUT OF ORDER ... MOVE UP TO CORRECT PLACE */
 
     k = key[i];
     d = data[i];
     j = ip1;
     jm1 = i;
 
-/*             ... REPEAT ... UNTIL 'CORRECT PLACE FOR K FOUND' */
+    /*             ... REPEAT ... UNTIL 'CORRECT PLACE FOR K FOUND' */
 
 L210:
     key[jm1] = key[j];
@@ -5442,11 +5357,11 @@ L240:
 } /* qsort_ */
 
 /* Subroutine */
-int permat_(integer *nn, integer *ia, integer *ja, doublereal *a, integer *p,
+int permat_(integer *n, integer *ia, integer *ja, doublereal *a, integer *p,
             integer *newia, integer *isym, integer * level, integer *nout, integer* ierr)
 {
     /* Local variables */
-    static integer i, j, k, n, ip, jp, jaj, ier, ipp, ibgn, iend;
+    static integer i, j, k, ip, jp, jaj, ier, ipp, ibgn, iend;
     static doublereal save;
     static integer nels;
     static doublereal temp;
@@ -5462,7 +5377,7 @@ int permat_(integer *nn, integer *ia, integer *ja, doublereal *a, integer *p,
 
 /* ... PARAMETER LIST: */
 
-/*         N      ORDER OF SYSTEM (= NN) */
+/*         N      ORDER OF SYSTEM */
 /*         IA,JA  INTEGER ARRAYS OF THE SPARSE MATRIX REPRESENTATION */
 /*         A      D.P. ARRAY OF THE SPARSE MATRIX REPRESENTATION */
 /*         P      PERMUTATION VECTOR */
@@ -5501,21 +5416,20 @@ int permat_(integer *nn, integer *ia, integer *ja, doublereal *a, integer *p,
 
 /* ********************************************************************* */
 
-/* ... PREPROCESSING PHASE */
+    /* ... PREPROCESSING PHASE */
 
-/* ...... DETERMINE THE NUMBER OF NONZEROES IN THE ROWS OF THE PERMUTED */
-/*        MATRIX AND STORE THAT IN NEWIA.  THEN SWEEP THRU NEWIA TO MAKE */
-/*        NEWIA(I) POINT TO THE BEGINNING OF EACH ROW IN THE PERMUTED */
-/*        DATA STRUCTURE.  ALSO NEGATE ALL THE ENTRIES IN JA TO INDICATE */
-/*        THAT THOSE ENTRIES HAVE NOT BEEN MOVED YET. */
+    /* ...... DETERMINE THE NUMBER OF NONZEROES IN THE ROWS OF THE PERMUTED */
+    /*        MATRIX AND STORE THAT IN NEWIA.  THEN SWEEP THRU NEWIA TO MAKE */
+    /*        NEWIA(I) POINT TO THE BEGINNING OF EACH ROW IN THE PERMUTED */
+    /*        DATA STRUCTURE.  ALSO NEGATE ALL THE ENTRIES IN JA TO INDICATE */
+    /*        THAT THOSE ENTRIES HAVE NOT BEEN MOVED YET. */
 
-    n = *nn;
     ier = 0;
-    nels = ia[n] - 1;
-    for (i = 0; i < n; ++i)
+    nels = ia[*n] - 1;
+    for (i = 0; i < *n; ++i)
         newia[i] = 0;
 
-    for (i = 0; i < n; ++i) {
+    for (i = 0; i < *n; ++i) {
         ip = p[i] - 1;
         ibgn = ia[i] - 1;
         iend = ia[i + 1] - 1;
@@ -5534,29 +5448,29 @@ int permat_(integer *nn, integer *ia, integer *ja, doublereal *a, integer *p,
         }
     }
     ibgn = 0;
-    for (i = 0; i < n; ++i) {
+    for (i = 0; i < *n; ++i) {
         k = ibgn + newia[i];
         newia[i] = ibgn+1;
         ibgn = k;
     }
 
-/* ...... PREPROCESSING NOW FINISHED. */
+    /* ...... PREPROCESSING NOW FINISHED. */
 
-/* ...... NOW PERMUTE JA AND A.  THIS PERMUTATION WILL PERFORM THE */
-/*        FOLLOWING STEPS */
+    /* ...... NOW PERMUTE JA AND A.  THIS PERMUTATION WILL PERFORM THE */
+    /*        FOLLOWING STEPS */
 
-/*           1.  FIND THE FIRST ENTRY IN JA NOT PERMUTED WHICH IS */
-/*               INDICATED BY AN NEGATIVE VALUE IN JA */
-/*           2.  COMPUTE WHICH ROW THE CURRENT ENTRY IS IN.  THIS */
-/*               IS COMPUTED BY A BISECTION SEARCH THRU THE ARRAY */
-/*               IA. */
-/*           3.  USING THE PERMUTATION ARRAY P AND THE ARRAY NEWIA */
-/*               COMPUTE WHERE THE CURRENT ENTRY IS TO BE PLACED. */
-/*           4.  THEN PICK UP THE ENTRY WHERE THE CURRENT ENTRY WILL */
-/*               GO.  PUT THE CURRENT ENTRY IN PLACE.  THEN MAKE THE */
-/*               DISPLACED ENTRY THE CURRENT ENTRY AND LOOP TO STEP 2. */
-/*           5.  THIS PROCESS WILL END WHEN THE NEXT ENTRY HAS ALREADY */
-/*               BEEN MOVED.  THEN LOOP TO STEP 1. */
+    /*           1.  FIND THE FIRST ENTRY IN JA NOT PERMUTED WHICH IS */
+    /*               INDICATED BY AN NEGATIVE VALUE IN JA */
+    /*           2.  COMPUTE WHICH ROW THE CURRENT ENTRY IS IN.  THIS */
+    /*               IS COMPUTED BY A BISECTION SEARCH THRU THE ARRAY */
+    /*               IA. */
+    /*           3.  USING THE PERMUTATION ARRAY P AND THE ARRAY NEWIA */
+    /*               COMPUTE WHERE THE CURRENT ENTRY IS TO BE PLACED. */
+    /*           4.  THEN PICK UP THE ENTRY WHERE THE CURRENT ENTRY WILL */
+    /*               GO.  PUT THE CURRENT ENTRY IN PLACE.  THEN MAKE THE */
+    /*               DISPLACED ENTRY THE CURRENT ENTRY AND LOOP TO STEP 2. */
+    /*           5.  THIS PROCESS WILL END WHEN THE NEXT ENTRY HAS ALREADY */
+    /*               BEEN MOVED.  THEN LOOP TO STEP 1. */
 
     for (j = 0; j < nels; ++j) {
         if (ja[j] > 0)
@@ -5567,7 +5481,7 @@ int permat_(integer *nn, integer *ia, integer *ja, doublereal *a, integer *p,
         ja[j] = jaj;
 L50:
         jp = p[jaj-1] - 1;
-        k = n + 1;
+        k = *n + 1;
         i = bisrch_(&k, ia, &next) - 1;
         ip = p[i] - 1;
         ipp = ip;
@@ -5588,15 +5502,15 @@ L50:
         }
     }
 
-/* ...... THE MATRIX IS NOW PERMUTED BUT THE ROWS MAY NOT BE IN */
-/*        ORDER.  THE REMAINDER OF THIS SUBROUTINE PERFORMS */
-/*        A QUICK SORT ON EACH ROW TO SORT THE ENTRIES IN */
-/*        COLUMN ORDER.  THE IA ARRAY IS ALSO CORRECTED FROM */
-/*        INFORMATION STORED IN THE NEWIA ARRAY.  NEWIA(I) NOW */
-/*        POINTS TO THE FIRST ENTRY OF ROW I+1. */
+    /* ...... THE MATRIX IS NOW PERMUTED BUT THE ROWS MAY NOT BE IN */
+    /*        ORDER.  THE REMAINDER OF THIS SUBROUTINE PERFORMS */
+    /*        A QUICK SORT ON EACH ROW TO SORT THE ENTRIES IN */
+    /*        COLUMN ORDER.  THE IA ARRAY IS ALSO CORRECTED FROM */
+    /*        INFORMATION STORED IN THE NEWIA ARRAY.  NEWIA(I) NOW */
+    /*        POINTS TO THE FIRST ENTRY OF ROW I+1. */
 
     ia[0] = 1;
-    for (i = 0; i < n; ++i) {
+    for (i = 0; i < *n; ++i) {
         ia[i + 1] = newia[i];
         k = ia[i + 1] - ia[i];
         if (k == 1)
@@ -5608,28 +5522,27 @@ L50:
         qsort_(&k, &ja[ibgn], &a[ibgn], &ier);
         if (ier != 0)
             goto L130;
-
     }
 
-/* ...... END OF MATRIX PERMUTATION */
+    /* ...... END OF MATRIX PERMUTATION */
 
     goto L150;
 
-/* ... ERROR TRAPS */
+    /* ... ERROR TRAPS */
 
-/* ...... NO ENTRY IN ROW I IN THE ORIGINAL SYSTEM */
+    /* ...... NO ENTRY IN ROW I IN THE ORIGINAL SYSTEM */
 
 L90:
     ier = 301;
     goto L150;
 
-/* ...... NO ENTRY IN ROW I IN THE PERMUTED SYSTEM */
+    /* ...... NO ENTRY IN ROW I IN THE PERMUTED SYSTEM */
 
 L110:
     ier = 302;
     goto L150;
 
-/* ...... ERROR RETURN FROM SUBROUTINE QSORT */
+    /* ...... ERROR RETURN FROM SUBROUTINE QSORT */
 
 L130:
     ier = 303;
@@ -5640,14 +5553,13 @@ L150:
 } /* permat_ */
 
 /* Subroutine */
-int perror_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
+int perror_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
             doublereal *u, doublereal *w, doublereal *digtt1, doublereal *digtt2, integer *idgtts)
 {
     /* System generated locals */
     doublereal d__1;
 
     /* Local variables */
-    static integer n;
     static doublereal bnrm, temp, rnrm;
     static integer idgts;
     static doublereal digit1, digit2;
@@ -5658,7 +5570,7 @@ int perror_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rh
 
 /* ... PARAMETER LIST: */
 
-/*          N      DIMENSION OF MATRIX (= NN) */
+/*          N      DIMENSION OF MATRIX */
 /*          IA,JA  INTEGER ARRAYS OF SPARSE MATRIX REPRESENTATION */
 /*          A      D.P. ARRAY OF SPARSE MATRIX REPRESENTATION */
 /*          RHS    RIGHT HAND SIDE OF MATRIX PROBLEM */
@@ -5677,11 +5589,10 @@ int perror_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rh
 /*                            = 4, THEN BOTH VECTORS ARE PRINTED, PRO- */
 /*                                 VIDED LEVEL .GE. 1 */
 
-    n = *nn;
     idgts = *idgtts;
     digit1 = 0.;
     digit2 = 0.;
-    if (n <= 0)
+    if (*n <= 0)
         goto L40;
 
     d__1 = abs(itcom3_1.drelpr);
@@ -5690,13 +5601,13 @@ int perror_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rh
         d__1 = abs(itcom3_1.stptst);
         digit1 = -d_lg10(&d__1);
     }
-    bnrm = itpackddot_(&n, rhs, &c__1, rhs, &c__1);
+    bnrm = itpackddot_(n, rhs, &c__1, rhs, &c__1);
     if (bnrm == 0.)
         goto L10;
 
-    pmult_(&n, ia, ja, a, u, w);
-    wevmw_(&n, rhs, w);
-    rnrm = itpackddot_(&n, w, &c__1, w, &c__1);
+    pmult_(n, ia, ja, a, u, w);
+    wevmw_(n, rhs, w);
+    rnrm = itpackddot_(n, w, &c__1, w, &c__1);
     temp = rnrm / bnrm;
     if (temp != 0.) {
         d__1 = abs(temp);
@@ -5710,9 +5621,9 @@ L10:
 L20:
     if (itcom1_1.level > 0) {
         if (idgts == 2 || idgts == 4)
-            vout_(&n, u, &c__2, &itcom1_1.nout);
+            vout_(n, u, &c__2, &itcom1_1.nout);
         if (idgts == 3 || idgts == 4)
-            vout_(&n, w, &c__1, &itcom1_1.nout);
+            vout_(n, w, &c__1, &itcom1_1.nout);
     }
 
 L40:
@@ -5764,10 +5675,10 @@ int pervec_(integer *n, doublereal *v, integer *p)
 } /* pervec_ */
 
 /* Subroutine */
-int pfsor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs)
+int pfsor_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs)
 {
     /* Local variables */
-    static integer n, ii, jj;
+    static integer ii, jj;
     static doublereal ui, sum, omm1;
     static integer jajj, ibgn, iend;
 
@@ -5775,21 +5686,20 @@ int pfsor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, 
 
 /* ... PARAMETER LIST: */
 
-/*         N       ORDER OF SYSTEM (= NN) */
+/*         N       ORDER OF SYSTEM */
 /*          OMEGA  RELAXATION FACTOR */
 /*          IA,JA  INTEGER ARRAYS OF SPARSE MATRIX REPRESENTATION */
 /*          A      D.P. ARRAY OF SPARSE MATRIX REPRESENTATION */
 /*          U      LATEST ESTIMATE OF SOLUTION */
 /*          RHS    RIGHT HAND SIDE OF MATRIX PROBLEM */
 
-    n = *nn;
     omm1 = itcom3_1.omega - 1.;
     if (itcom1_1.isym == 0)
         goto L40;
 
-/*     *********** NON - SYMMETRIC SECTION ********************* */
+    /*     *********** NON - SYMMETRIC SECTION ********************* */
 
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         sum = rhs[ii];
@@ -5802,10 +5712,10 @@ int pfsor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, 
     }
     return 0;
 
-/*     ************* SYMMETRIC SECTION ************************* */
+    /*     ************* SYMMETRIC SECTION ************************* */
 
 L40:
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         sum = rhs[ii];
@@ -5821,17 +5731,16 @@ L40:
         }
     }
     return 0;
-
 } /* pfsor_ */
 
 /* Subroutine */
-int pfsor1_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs)
+int pfsor1_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs)
 {
     /* System generated locals */
     doublereal d__1;
 
     /* Local variables */
-    static integer n, ii, jj;
+    static integer ii, jj;
     static doublereal ui, sum, omm1;
     static integer jajj, ibgn, iend;
     static doublereal sumd;
@@ -5841,22 +5750,21 @@ int pfsor1_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u,
 
 /* ... PARAMETER LIST: */
 
-/*          N      ORDER OF SYSTEM (= NN) */
+/*          N      ORDER OF SYSTEM */
 /*          OMEGA  RELAXATION FACTOR */
 /*          IA,JA  INTEGER ARRAYS OF SPARSE MATRIX REPRESENTATION */
 /*          A      D.P. ARRAY OF SPARSE MATRIX REPRESENTATION */
 /*          U      LATEST ESTIMATE OF SOLUTION */
 /*          RHS    RIGHT HAND SIDE OF MATRIX PROBLEM */
 
-    n = *nn;
     omm1 = itcom3_1.omega - 1.;
     sumd = 0.;
     if (itcom1_1.isym == 0)
         goto L40;
 
-/*     **************** NON - SYMMETRIC SECTION ****************** */
+    /*     **************** NON - SYMMETRIC SECTION ****************** */
 
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         sum = rhs[ii];
@@ -5871,10 +5779,10 @@ int pfsor1_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u,
     }
     goto L90;
 
-/*     *************** SYMMETRIC SECTION ************************ */
+    /*     *************** SYMMETRIC SECTION ************************ */
 
 L40:
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         sum = rhs[ii];
@@ -5895,14 +5803,13 @@ L40:
 L90:
     itcom3_1.delnnm = sqrt(sumd);
     return 0;
-
 } /* pfsor1_ */
 
 /* Subroutine */
-int pjac_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs)
+int pjac_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs)
 {
     /* Local variables */
-    static integer n, ii, jj;
+    static integer ii, jj;
     static doublereal uii;
     static integer jajj, ibgn, iend;
     static doublereal rhsii;
@@ -5911,7 +5818,7 @@ int pjac_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, d
 
 /* ... PARAMETER LIST: */
 
-/*          N      DIMENSION OF MATRIX (= NN) */
+/*          N      DIMENSION OF MATRIX */
 /*          IA,JA  INTEGER ARRAYS OF SPARSE MATRIX REPRESENTATION */
 /*          A      D.P. ARRAY OF SPARSE MATRIX REPRESENTATION */
 /*          U      ESTIMATE OF SOLUTION OF A MATRIX PROBLEM */
@@ -5919,13 +5826,12 @@ int pjac_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, d
 /*                    A MATRIX PROBLEM */
 /*                 ON OUTPUT: CONTAINS A*U + RHS */
 
-    n = *nn;
     if (itcom1_1.isym == 0)
         goto L30;
 
-/*     *************** NON - SYMMETRIC SECTION **************** */
+    /*     *************** NON - SYMMETRIC SECTION **************** */
 
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         rhsii = rhs[ii];
@@ -5937,10 +5843,10 @@ int pjac_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, d
     }
     return 0;
 
-/*     ************** SYMMETRIC SECTION ********************** */
+    /*     ************** SYMMETRIC SECTION ********************** */
 
 L30:
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         if (ibgn >= iend)
@@ -5956,14 +5862,13 @@ L30:
         rhs[ii] = rhsii;
     }
     return 0;
-
 } /* pjac_ */
 
 /* Subroutine */
-int pmult_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *w)
+int pmult_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *w)
 {
     /* Local variables */
-    static integer n, ii, jj;
+    static integer ii, jj;
     static doublereal uii, wii, sum;
     static integer jajj, ibgn, iend;
 
@@ -5971,22 +5876,21 @@ int pmult_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, 
 
 /* ... PARAMETER LIST: */
 
-/*          N      DIMENSION OF MATRIX (= NN) */
+/*          N      DIMENSION OF MATRIX */
 /*          IA,JA  INTEGER ARRAYS OF SPARSE MATRIX REPRESENTATION */
 /*          A      D.P. ARRAY OF SPARSE MATRIX REPRESENTATION */
 /*          U      LATEST ESTIMATE OF SOLUTION */
 /*          W      ON RETURN W CONTAINS A*U */
 
-    n = *nn;
-    if (n <= 0)
+    if (*n <= 0)
         return 0;
 
     if (itcom1_1.isym == 0)
         goto L40;
 
-/*     *************** NON - SYMMETRIC SECTION ********************** */
+    /*     *************** NON - SYMMETRIC SECTION ********************** */
 
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         sum = 0.;
@@ -5998,11 +5902,11 @@ int pmult_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, 
     }
     return 0;
 
-/*     ***************** SYMMETRIC SECTION ************************** */
+    /*     ***************** SYMMETRIC SECTION ************************** */
 
 L40:
-    vfill_(&n, w, &c_b21);
-    for (ii = 0; ii < n; ++ii) {
+    vfill_(n, w, &c_b21);
+    for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         uii = u[ii];
@@ -6015,15 +5919,14 @@ L40:
         w[ii] = wii;
     }
     return 0;
-
 } /* pmult_ */
 
 /* Subroutine */
-int prbndx_(integer *nn, integer *nblack, integer *ia, integer *ja, integer *p,
+int prbndx_(integer *n, integer *nblack, integer *ia, integer *ja, integer *p,
             integer *ip, integer *level, integer *nout, integer *ier)
 {
     /* Local variables */
-    static integer i, j, k, n, old, ibgn, iend, nred, last, next, typ, first, young, curtyp, nxttyp;
+    static integer i, j, k, old, ibgn, iend, nred, last, next, typ, first, young, curtyp, nxttyp;
 
     (void)level; (void)nout;
 /* ************************************************************** */
@@ -6053,7 +5956,7 @@ int prbndx_(integer *nn, integer *nblack, integer *ia, integer *ja, integer *p,
 
 /*     INPUT PARAMETERS */
 
-/*        N      NUMBER OF NODES.  (INTEGER, SCALAR) (= NN) */
+/*        N      NUMBER OF NODES.  (INTEGER, SCALAR) */
 
 /*        IA,JA  ADJACENCY STRUCTURE ARRAYS.  CAN BE EITHER THE */
 /*               SYMMETRIC OR NONSYMMETRIC FORM.  IT IS ASSUMED */
@@ -6080,17 +5983,16 @@ int prbndx_(integer *nn, integer *nblack, integer *ia, integer *ja, integer *p,
 
 /* ******************************************************************** */
 
-    n = *nn;
     *ier = 0;
 
-/*        IF ( N .LE. 0 ) GO TO 8000 */
+    /*        IF ( N .LE. 0 ) GO TO 8000 */
 
-    for (i = 0; i < n; ++i) {
+    for (i = 0; i < *n; ++i) {
         p[i] = 0;
         ip[i] = 0;
     }
 
-/* ... HANDLE THE FIRST SET OF POINTS UNTIL SOME ADJACENT POINTS ARE FOUND */
+    /* ... HANDLE THE FIRST SET OF POINTS UNTIL SOME ADJACENT POINTS ARE FOUND */
 
     first = 0;
 
@@ -6099,13 +6001,13 @@ L20:
     if (ia[first + 1] - ia[first] > 1)
         goto L40;
 
-/* ... SEARCH FOR NEXT ENTRY THAT HAS NOT BEEN MARKED */
+    /* ... SEARCH FOR NEXT ENTRY THAT HAS NOT BEEN MARKED */
 
-    if (first == n-1)
+    if (first == *n-1)
         goto L130;
 
     ibgn = first + 1;
-    for (i = ibgn; i < n; ++i) {
+    for (i = ibgn; i < *n; ++i) {
         if (p[i] == 0) {
             first = i;
             goto L20;
@@ -6113,15 +6015,15 @@ L20:
     }
     goto L130;
 
-/* ... FIRST SET OF ADJACENT POINTS FOUND */
+    /* ... FIRST SET OF ADJACENT POINTS FOUND */
 
 L40:
     next = 0;
     last = 0;
     ip[0] = first + 1;
 
-/* ... LOOP OVER LABELED POINTS INDICATED IN THE STACK STORED IN */
-/* ... THE ARRAY IP */
+    /* ... LOOP OVER LABELED POINTS INDICATED IN THE STACK STORED IN */
+    /* ... THE ARRAY IP */
 
 L50:
     k = ip[next] - 1;
@@ -6135,19 +6037,19 @@ L50:
         if (j == k)
             continue;
 
-/* ================================================================== */
+        /* ================================================================== */
 
-/*     THE FOLLOWING IS A FIVE WAY CASE STATEMENT DEALING WITH THE */
-/*     LABELING OF THE ADJACENT NODE. */
+        /*     THE FOLLOWING IS A FIVE WAY CASE STATEMENT DEALING WITH THE */
+        /*     LABELING OF THE ADJACENT NODE. */
 
-/* ... CASE I.  IF THE ADJACENT NODE HAS ALREADY BEEN LABELED WITH */
-/*              LABEL EQUAL TO NXTTYP, THEN SKIP TO THE NEXT ADJACENT NODE. */
+        /* ... CASE I.  IF THE ADJACENT NODE HAS ALREADY BEEN LABELED WITH */
+        /*              LABEL EQUAL TO NXTTYP, THEN SKIP TO THE NEXT ADJACENT NODE. */
 
         else if (typ == nxttyp)
             continue;
 
-/* ... CASE II.  IF THE ADJACENT NODE HAS NOT BEEN LABELED YET LABEL */
-/*               IT WITH NXTTYP AND ENTER IT IN THE STACK */
+        /* ... CASE II.  IF THE ADJACENT NODE HAS NOT BEEN LABELED YET LABEL */
+        /*               IT WITH NXTTYP AND ENTER IT IN THE STACK */
 
         else if (typ == 0) {
             ++last;
@@ -6156,93 +6058,90 @@ L50:
             continue;
         }
 
-/* ... CASE III.  IF THE ADJACENT NODE HAS ALREADY BEEN LABELED WITH */
-/*                OPPOSITE COLOR AND THE SAME FATHER SEED, THEN THERE */
-/*                IS AN IRRECOVERABLE COLOR CONFLICT. */
+        /* ... CASE III.  IF THE ADJACENT NODE HAS ALREADY BEEN LABELED WITH */
+        /*                OPPOSITE COLOR AND THE SAME FATHER SEED, THEN THERE */
+        /*                IS AN IRRECOVERABLE COLOR CONFLICT. */
 
         else if (typ == curtyp) { /* ...... TYPE CONFLICT */
             *ier = 201;
             return 0;
         }
 
-/* ... CASE IV.  IF THE ADJACENT NODE HAS THE RIGHT COLOR AND A DIFFERENT */
-/*               FATHER NODE, THEN CHANGE ALL NODES OF THE YOUNGEST FATHE */
-/*               NODE TO POINT TO THE OLDEST FATHER SEED AND RETAIN THE */
-/*               SAME COLORS. */
+        /* ... CASE IV.  IF THE ADJACENT NODE HAS THE RIGHT COLOR AND A DIFFERENT */
+        /*               FATHER NODE, THEN CHANGE ALL NODES OF THE YOUNGEST FATHE */
+        /*               NODE TO POINT TO THE OLDEST FATHER SEED AND RETAIN THE */
+        /*               SAME COLORS. */
 
         else if (typ * nxttyp >= 1) {
             old = min(abs(typ),abs(nxttyp));
             young = max(abs(typ),abs(nxttyp));
-            for (j = young-1; j < n; ++j) {
+            for (j = young-1; j < *n; ++j) {
                 if (abs(p[j]) == young)
                     p[j] = old*p[j] >= 0 ? old : -old;
-
             }
             curtyp = p[k];
             nxttyp = -curtyp;
             continue;
         }
 
-/* ... CASE V.  IF THE ADJACENT NODE HAS THE WRONG COLOR AND A DIFFERENT */
-/*              FATHER NODE, THEN CHANGE ALL NODES OF THE YOUNGEST FATHER */
-/*              NODE TO POINT TO THE OLDEST FATHER NODE ALONG WITH */
-/*              CHANGING THEIR COLORS.  SINCE UNTIL THIS TIME THE */
-/*              YOUNGEST FATHER NODE TREE HAS BEEN INDEPENDENT NO OTHER */
-/*              COLOR CONFLICTS WILL ARISE FROM THIS CHANGE. */
+        /* ... CASE V.  IF THE ADJACENT NODE HAS THE WRONG COLOR AND A DIFFERENT */
+        /*              FATHER NODE, THEN CHANGE ALL NODES OF THE YOUNGEST FATHER */
+        /*              NODE TO POINT TO THE OLDEST FATHER NODE ALONG WITH */
+        /*              CHANGING THEIR COLORS.  SINCE UNTIL THIS TIME THE */
+        /*              YOUNGEST FATHER NODE TREE HAS BEEN INDEPENDENT NO OTHER */
+        /*              COLOR CONFLICTS WILL ARISE FROM THIS CHANGE. */
 
         else {
             old = min(abs(typ),abs(nxttyp));
             young = max(abs(typ),abs(nxttyp));
-            for (j = young-1; j < n; ++j) {
+            for (j = young-1; j < *n; ++j) {
                 if (abs(p[j]) == young)
                     p[j] = old*p[j] <= 0 ? old : -old;
-
             }
             curtyp = p[k];
             nxttyp = -curtyp;
             continue;
         }
 
-/* ... END OF CASE STATEMENT */
+        /* ... END OF CASE STATEMENT */
 
-/* ================================================================== */
-
+        /* ================================================================== */
     }
 
-/* ... ADVANCE TO NEXT NODE IN THE STACK */
+    /* ... ADVANCE TO NEXT NODE IN THE STACK */
 
     ++next;
     if (next <= last)
         goto L50;
 
-/* ... ALL NODES IN THE STACK HAVE BEEN REMOVED */
+    /* ... ALL NODES IN THE STACK HAVE BEEN REMOVED */
 
-/* ... CHECK FOR NODES NOT LABELED.  IF ANY ARE FOUND */
-/* ... START THE LABELING PROCESS AGAIN AT THE FIRST */
-/* ... NODE FOUND THAT IS NOT LABELED. */
+    /* ... CHECK FOR NODES NOT LABELED.  IF ANY ARE FOUND */
+    /* ... START THE LABELING PROCESS AGAIN AT THE FIRST */
+    /* ... NODE FOUND THAT IS NOT LABELED. */
 
     ibgn = first + 1;
-    for (i = ibgn; i < n; ++i) {
+    for (i = ibgn; i < *n; ++i) {
         if (p[i] == 0) {
             first = i;
             goto L20;
         }
     }
 
-/* =================================================================== */
+    /* =================================================================== */
 
-/* ... ALL NODES ARE NOW TYPED EITHER RED OR BLACK */
+    /* ... ALL NODES ARE NOW TYPED EITHER RED OR BLACK */
 
-/* ... GENERATE PERMUTATION VECTORS */
+    /* ... GENERATE PERMUTATION VECTORS */
 
 L130:
     nred = 0;
     *nblack = 0;
-    for (i = 0; i < n; ++i) {
+    for (i = 0; i < *n; ++i) {
         if (p[i] < 0) /* BLACK POINT */
         {
             ++(*nblack);
-            j = n - *nblack;
+            j = *n - *nblack;
             ip[j] = i + 1;
             p[i] = j + 1;
         }
@@ -6254,23 +6153,23 @@ L130:
         }
     }
 
-/* ... SUCCESSFUL RED-BLACK ORDERING COMPLETED */
+    /* ... SUCCESSFUL RED-BLACK ORDERING COMPLETED */
 
     return 0;
 
-/* ........ ERROR TRAPS */
+    /* ........ ERROR TRAPS */
 
-/* ...... N .LE. 0 */
+    /* ...... N .LE. 0 */
 
-/* 8000    IER = 200 */
-/*        GO TO 9000 */
+    /* 8000    IER = 200 */
+    /*        GO TO 9000 */
 } /* prbndx_ */
 
 /* Subroutine */
-int prsblk_(integer *nnb, integer *nnr, integer *ia, integer *ja, doublereal *a, doublereal *ur, doublereal *vb)
+int prsblk_(integer *nb, integer *nr, integer *ia, integer *ja, doublereal *a, doublereal *ur, doublereal *vb)
 {
     /* Local variables */
-    static integer i, j, nb, nr, jaj, inr;
+    static integer i, j, jaj, inr;
     static doublereal uri, sum;
     static integer ibgn, iend;
 
@@ -6278,23 +6177,21 @@ int prsblk_(integer *nnb, integer *nnr, integer *ia, integer *ja, doublereal *a,
 
 /* ... PARAMETER LIST: */
 
-/*         NB      NUMBER OF BLACK POINTS (= NNB) */
-/*         NR      NUMBER OF RED POINTS (= NNR) */
+/*         NB      NUMBER OF BLACK POINTS */
+/*         NR      NUMBER OF RED POINTS */
 /*          IA,JA  INTEGER ARRAYS OF SPARSE MATRIX REPRESENTATION */
 /*          A      D.P. ARRAY OF SPARSE MATRIX REPRESENTATION */
 /*          UR     ESTIMATE OF RED SOLUTION VECTOR */
 /*          VB     OUTPUT: PRESENT ESTIMATE OF BLACK SOLUTION */
 /*                    VECTOR */
 
-    nb = *nnb;
-    nr = *nnr;
     if (itcom1_1.isym == 0)
         goto L30;
 
-/*     *************** NON - SYMMETRIC SECTION ********************** */
+    /*     *************** NON - SYMMETRIC SECTION ********************** */
 
-    for (i = 0; i < nb; ++i) {
-        inr = i + nr;
+    for (i = 0; i < *nb; ++i) {
+        inr = i + *nr;
         ibgn = ia[inr] - 1;
         iend = ia[inr + 1] - 1;
         sum = vb[i];
@@ -6309,15 +6206,15 @@ int prsblk_(integer *nnb, integer *nnr, integer *ia, integer *ja, doublereal *a,
     }
     return 0;
 
-/*     ***************** SYMMETRIC SECTION ************************** */
+    /*     ***************** SYMMETRIC SECTION ************************** */
 
 L30:
-    for (i = 0; i < nr; ++i) {
+    for (i = 0; i < *nr; ++i) {
         ibgn = ia[i] - 1;
         iend = ia[i + 1] - 1;
         uri = ur[i];
         for (j = ibgn; j < iend; ++j) {
-            jaj = ja[j] - nr - 1;
+            jaj = ja[j] - *nr - 1;
             vb[jaj] -= a[j] * uri;
         }
     }
@@ -6326,27 +6223,25 @@ L30:
 } /* prsblk_ */
 
 /* Subroutine */
-int prsred_(integer *nnb, integer *nnr, integer *ia, integer *ja, doublereal *a, doublereal *ub, doublereal *vr)
+int prsred_(integer *nb, integer *nr, integer *ia, integer *ja, doublereal *a, doublereal *ub, doublereal *vr)
 {
     /* Local variables */
-    static integer nb, ii, jj, nr;
+    static integer ii, jj;
     static doublereal sum;
     static integer jajj, ibgn, iend;
 
 /* ... COMPUTES A RED-RS SWEEP ON A BLACK VECTOR INTO A RED VECTOR. */
+/*                                                                  */
+/* ... PARAMETER LIST:                                              */
+/*                                                                  */
+/*         NB      NUMBER OF BLACK POINTS (unused!?)                */
+/*         NR      NUMBER OF RED POINTS                             */
+/*         IA,JA   INTEGER ARRAYS OF SPARSE MATRIX REPRESENTATION   */
+/*         A       D.P. ARRAY OF SPARSE MATRIX REPRESENTATION       */
+/*         UB      PRESENT ESTIMATE OF BLACK SOLUTION VECTOR        */
+/*         VR      OUTPUT: PRESENT ESTIMATE OF RED SOLUTION VECTOR  */
 
-/* ... PARAMETER LIST: */
-
-/*         NB      NUMBER OF BLACK POINTS (= NNR) */
-/*         NR      NUMBER OF RED POINTS (= NNB) */
-/*          IA,JA  INTEGER ARRAYS OF SPARSE MATRIX REPRESENTATION */
-/*          A      D.P. ARRAY OF SPARSE MATRIX REPRESENTATION */
-/*          UB     PRESENT ESTIMATE OF BLACK SOLUTION VECTOR */
-/*          VR     OUTPUT: PRESENT ESTIMATE OF RED SOLUTION VECTOR */
-
-    nb = *nnb;
-    nr = *nnr;
-    for (ii = 0; ii < nr; ++ii) {
+    for (ii = 0; ii < *nr; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         if (ibgn >= iend)
@@ -6354,7 +6249,7 @@ int prsred_(integer *nnb, integer *nnr, integer *ia, integer *ja, doublereal *a,
 
         sum = vr[ii];
         for (jj = ibgn; jj < iend; ++jj) {
-            jajj = ja[jj] - nr - 1;
+            jajj = ja[jj] - *nr - 1;
             sum -= a[jj] * ub[jajj];
         }
         vr[ii] = sum;
@@ -6364,11 +6259,11 @@ int prsred_(integer *nnb, integer *nnr, integer *ia, integer *ja, doublereal *a,
 } /* prsred_ */
 
 /* Subroutine */
-int pssor1_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u,
+int pssor1_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *u,
             doublereal *rhs, doublereal *fr, doublereal *br)
 {
     /* Local variables */
-    static integer i, n, ii, jj;
+    static integer i, ii, jj;
     static doublereal uii, sum, omm1;
     static integer jajj, ibgn, iend;
 
@@ -6378,7 +6273,7 @@ int pssor1_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u,
 
 /* ... PARAMETER LIST: */
 
-/*         N       ORDER OF SYSTEM (= NN) */
+/*          N      ORDER OF SYSTEM */
 /*          OMEGA  RELAXATION FACTOR */
 /*          IA,JA  INTEGER ARRAYS OF SPARSE MATRIX REPRESENTATION */
 /*          A      D.P. ARRAY OF SPARSE MATRIX REPRESENTATION */
@@ -6386,16 +6281,15 @@ int pssor1_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u,
 /*          RHS    RIGHT HAND SIDE OF MATRIX PROBLEM */
 /*          FR,BR  OUTPUT: FORWARD AND BACKWARD RESIDUALS RESPECTIVELY */
 
-    n = *nn;
     omm1 = itcom3_1.omega - 1.;
     if (itcom1_1.isym == 0)
         goto L40;
 
-/*     *************** NON - SYMMETRIC SECTION ********************** */
+    /*     *************** NON - SYMMETRIC SECTION ********************** */
 
-/*     ... FORWARD SWEEP */
+    /*     ... FORWARD SWEEP */
 
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         br[ii] = u[ii];
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
@@ -6410,12 +6304,12 @@ int pssor1_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u,
     }
     goto L90;
 
-/*     ***************** SYMMETRIC SECTION ************************** */
+    /*     ***************** SYMMETRIC SECTION ************************** */
 
-/*     ... FORWARD SWEEP */
+    /*     ... FORWARD SWEEP */
 
 L40:
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         br[ii] = u[ii];
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
@@ -6433,11 +6327,11 @@ L40:
         }
     }
 
-/*     ... BACKWARD SWEEP */
+    /*     ... BACKWARD SWEEP */
 
 L90:
-    for (i = 0; i < n; ++i) {
-        ii = n - i - 1;
+    for (i = 0; i < *n; ++i) {
+        ii = *n - i - 1;
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         uii = rhs[ii];
@@ -6450,7 +6344,6 @@ L90:
     }
 
     return 0;
-
 } /* pssor1_ */
 
 /* Subroutine */
@@ -6480,7 +6373,7 @@ int pstop_(integer *n, doublereal *u, doublereal *dnrm, doublereal *ccon, intege
     con = *ccon;
     itcom2_1.halt = FALSE_;
 
-/*     SPECIAL PROCEDURE FOR ZEROTH ITERATION */
+    /*     SPECIAL PROCEDURE FOR ZEROTH ITERATION */
 
     if (itcom1_1.in < 1) {
         *q1 = FALSE_;
@@ -6488,10 +6381,9 @@ int pstop_(integer *n, doublereal *u, doublereal *dnrm, doublereal *ccon, intege
         itcom3_1.stptst = 1e3;
         if (*iflag <= 0)
             return 0;
-
     }
 
-/* ... TEST IF UDNM NEEDS TO BE RECOMPUTED */
+    /* ... TEST IF UDNM NEEDS TO BE RECOMPUTED */
 
     if (!*q1 && (itcom1_1.in <= 5 || itcom1_1.in % 5 == 0)) {
         uold = itcom3_1.udnm;
@@ -6501,10 +6393,9 @@ int pstop_(integer *n, doublereal *u, doublereal *dnrm, doublereal *ccon, intege
 
         if (itcom1_1.in > 5 && abs(itcom3_1.udnm - uold) <= itcom3_1.udnm * itcom3_1.zeta)
             *q1 = TRUE_;
-
     }
 
-/* ... COMPUTE STOPPING TEST */
+    /* ... COMPUTE STOPPING TEST */
 
     tr = sqrt(itcom3_1.udnm);
     tl = 1.;
@@ -6569,12 +6460,12 @@ doublereal pvtbv_(integer *n, integer *ia, integer *ja, doublereal *a, doublerea
 
 /* Subroutine */
 int sbagn_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a,
-           integer *iwork, integer *levell, integer *noutt, integer* ierr)
+           integer *iwork, integer *level, integer *nout, integer* ierr)
 {
     /* Local variables */
     static integer i, j, ier, ntn, nto, now, nadd;
 
-    (void)levell; (void)noutt;
+    (void)level; (void)nout;
 /* ... THE ROUTINES SBINI, SBSIJ, AND SBEND CREATE A SPARSE */
 /*     MATRIX STRUCTURE BY MEANS OF A LINKED LIST WHICH IS */
 /*     DESTROYED BY SBEND. SBAGN CREATES A NEW LINKED LIST */
@@ -6595,7 +6486,7 @@ int sbagn_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a,
 /*                   STRUCTURE */
 /*           IWORK   WORK ARRAY OF DIMENSION NZ */
 /*           LEVEL   OUTPUT LEVEL CONTROL (= LEVELL) */
-/*           NOUT  OUTPUT FILE NUMBER (= NOUTT) */
+/*           NOUT  OUTPUT FILE NUMBER */
 /*           IER     ERROR FLAG (= IERR). POSSIBLE RETURNS ARE */
 /*                      IER = 0, SUCCESSFUL COMPLETION */
 /*                          = 703, NZ TOO SMALL - NO MORE */
@@ -6610,7 +6501,7 @@ int sbagn_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a,
     if (ier != 0)
         goto L90;
 
-/* ... SHIFT ELEMENTS OF A AND JA DOWN AND ADD ZERO FILL */
+    /* ... SHIFT ELEMENTS OF A AND JA DOWN AND ADD ZERO FILL */
 
     nto = now;
     ntn = *nz;
@@ -6624,12 +6515,12 @@ int sbagn_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a,
         a[i] = 0.;
     }
 
-/* ... UPDATE IA TO REFLECT DOWNWARD SHIFT IN A AND JA */
+    /* ... UPDATE IA TO REFLECT DOWNWARD SHIFT IN A AND JA */
 
     for (i = 0; i <= *n; ++i)
         ia[i] += nadd;
 
-/* ... CREATE LINKED LIST */
+    /* ... CREATE LINKED LIST */
 
     for (i = nadd; i < *nz; ++i)
         iwork[i] = i + 2;
@@ -6642,13 +6533,13 @@ int sbagn_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a,
         iwork[j] = -i - 1;
     }
 
-/* ... INDICATE IN LAST POSITION OF IA HOW MANY SPACES */
-/*     ARE LEFT IN A AND JA FOR ADDITION OF ELEMENTS */
+    /* ... INDICATE IN LAST POSITION OF IA HOW MANY SPACES */
+    /*     ARE LEFT IN A AND JA FOR ADDITION OF ELEMENTS */
 
     ia[*n] = nadd;
     return 0;
 
-/* ... ERROR RETURN */
+    /* ... ERROR RETURN */
 
 L90:
     *ierr = ier;
@@ -6656,11 +6547,10 @@ L90:
 } /* sbagn_ */
 
 /* Subroutine */
-int sbelm_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, integer *iw,
+int sbelm_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, integer *iw,
            doublereal *rw, doublereal *tol, integer *isym, integer *level, integer *nout, integer *ier)
 {
     /* Local variables */
-    static integer n;
     static doublereal di;
     static integer ii, jj, kk, ibgn, iend, jjdi, icnt;
 
@@ -6674,7 +6564,7 @@ int sbelm_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs
 
 /* ... PARAMETER LIST: */
 
-/*          N      DIMENSION OF MATRIX (= NN) */
+/*          N      DIMENSION OF MATRIX */
 /*          IA,JA  INTEGER ARRAYS OF SPARSE MATRIX REPRESENTATION */
 /*          A      D.P. ARRAY OF SPARSE MATRIX REPRESENTATION */
 /*          RHS    RIGHT HAND SIDE OF MATRIX PROBLEM */
@@ -6707,23 +6597,21 @@ int sbelm_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs
 
 /* ********************************************************************* */
 
-    n = *nn;
+    /*        IF (N .GE. 1) GO TO 10 */
+    /*           IER = 100 */
+    /*           RETURN */
+    /* 10     CONTINUE */
 
-/*        IF (N .GE. 1) GO TO 10 */
-/*           IER = 100 */
-/*           RETURN */
-/* 10     CONTINUE */
-
-/* ... STORE THE LARGEST (DABSOLUTE VALUE) OFF DIAGONAL ENTRY FOR */
-/* ... ROW II IN RW(II). */
+    /* ... STORE THE LARGEST (DABSOLUTE VALUE) OFF DIAGONAL ENTRY FOR */
+    /* ... ROW II IN RW(II). */
 
     *ier = 0;
     icnt = 0;
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         rw[ii] = 0.;
         iw[ii] = 0;
     }
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         if (ibgn >= iend)
@@ -6742,9 +6630,9 @@ int sbelm_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs
         }
     }
 
-/* ... FOR II = 1 TO N FIND THE DIAGONAL ENTRY IN ROW II */
+    /* ... FOR II = 1 TO N FIND THE DIAGONAL ENTRY IN ROW II */
 
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         for (jj = ibgn; jj < iend; ++jj) {
@@ -6762,8 +6650,8 @@ int sbelm_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs
         goto L140;
 L50:
 
-/* ... CHECK THE SIZE OF THE LARGEST OFF DIAGONAL ELEMENT */
-/* ... ( STORED IN RW(II) ) AGAINST THE DIAGONAL ELEMENT DII. */
+        /* ... CHECK THE SIZE OF THE LARGEST OFF DIAGONAL ELEMENT */
+        /* ... ( STORED IN RW(II) ) AGAINST THE DIAGONAL ELEMENT DII. */
 
         if (rw[ii] == 0.) {
             if (1. / di > *tol)
@@ -6772,8 +6660,8 @@ L50:
         else if (rw[ii] / di > *tol)
             continue;
 
-/* ... THE OFF DIAGONAL ELEMENTS ARE SMALL COMPARED TO THE DIAGONAL */
-/* ... THEREFORE MARK IT FOR ELIMINATION AND PERFORM INITIAL PROCESSING */
+        /* ... THE OFF DIAGONAL ELEMENTS ARE SMALL COMPARED TO THE DIAGONAL */
+        /* ... THEREFORE MARK IT FOR ELIMINATION AND PERFORM INITIAL PROCESSING */
 
         ++icnt;
         iw[ii] = ii + 1;
@@ -6782,35 +6670,35 @@ L50:
         rhs[ii] /= di;
     }
 
-/* ... ELIMINATE THE ROWS AND COLUMNS INDICATED BY THE NONZERO */
-/* ... ENTRIES IN IW.  THERE ARE ICNT OF THEM */
+    /* ... ELIMINATE THE ROWS AND COLUMNS INDICATED BY THE NONZERO */
+    /* ... ENTRIES IN IW.  THERE ARE ICNT OF THEM */
 
     if (icnt == 0)
         return 0;
 
-/* ... THE ELIMINATION IS AS FOLLOWS: */
+    /* ... THE ELIMINATION IS AS FOLLOWS: */
 
-/*     FOR II = 1 TO N DO */
-/*        IF ( IW(II) .NE. 0 ) THEN */
-/*           SET DIAGONAL VALUE TO 1.0  ( ALREADY DONE ) */
-/*           SET RHS(II) = RHS(II) / RW(II)   ( ALREADY DONE ) */
-/*           FIND NONZERO OFFDIAGONAL ENTRIES  KK */
-/*           IF ( IW(KK) .EQ. 0 ) FIX UP RHS(KK)  WHEN USING SYMMETRIC ST */
-/*           SET A(II,KK) = 0.0 */
-/*        ELSE ( I.E.  IW(II) .EQ. 0  ) */
-/*           FIND NONZERO OFFDIAGONAL ENTRIES   KK */
-/*           IF ( IW(KK) .NE. 0 ) FIX UP RHS(II) */
-/*                                AND SET A(II,KK) = 0.0 */
-/*        END IF */
-/*     END DO */
+    /*     FOR II = 1 TO N DO */
+    /*        IF ( IW(II) .NE. 0 ) THEN */
+    /*           SET DIAGONAL VALUE TO 1.0  ( ALREADY DONE ) */
+    /*           SET RHS(II) = RHS(II) / RW(II)   ( ALREADY DONE ) */
+    /*           FIND NONZERO OFFDIAGONAL ENTRIES  KK */
+    /*           IF ( IW(KK) .EQ. 0 ) FIX UP RHS(KK)  WHEN USING SYMMETRIC ST */
+    /*           SET A(II,KK) = 0.0 */
+    /*        ELSE ( I.E.  IW(II) .EQ. 0  ) */
+    /*           FIND NONZERO OFFDIAGONAL ENTRIES   KK */
+    /*           IF ( IW(KK) .NE. 0 ) FIX UP RHS(II) */
+    /*                                AND SET A(II,KK) = 0.0 */
+    /*        END IF */
+    /*     END DO */
 
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         if (iw[ii] == 0)
             goto L100;
 
-/* ... THE II-TH ROW IS TO BE ELIMINATED */
+        /* ... THE II-TH ROW IS TO BE ELIMINATED */
 
         for (jj = ibgn; jj < iend; ++jj) {
             kk = ja[jj] - 1;
@@ -6824,7 +6712,7 @@ L50:
         }
         continue;
 
-/* ... THE II-TH ROW IS KEPT.  CHECK THE OFF-DIAGONAL ENTRIES */
+        /* ... THE II-TH ROW IS KEPT.  CHECK THE OFF-DIAGONAL ENTRIES */
 
 L100:
         for (jj = ibgn; jj < iend; ++jj) {
@@ -6838,7 +6726,7 @@ L100:
 
     return 0;
 
-/* ... ERROR TRAPS -- NO DIAGONAL ENTRY IN ROW II (ROW MAY BE EMPTY). */
+    /* ... ERROR TRAPS -- NO DIAGONAL ENTRY IN ROW II (ROW MAY BE EMPTY). */
 
 L140:
     *ier = 102;
@@ -6904,25 +6792,25 @@ int sbend_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a, int
 
 /* *********************************************************************** */
 
-/* ... INITIALIZATION */
+    /* ... INITIALIZATION */
 
-/* ...... THE VARIABLES NEXT AND TOP RESPECTIVELY POINT TO THE */
-/*        NEXT AVAILABLE ENTRY FOR THE FINAL DATA STRUCTURE AND */
-/*        THE TOP OF THE REMAINDER OF THE LINKED LISTS. */
+    /* ...... THE VARIABLES NEXT AND TOP RESPECTIVELY POINT TO THE */
+    /*        NEXT AVAILABLE ENTRY FOR THE FINAL DATA STRUCTURE AND */
+    /*        THE TOP OF THE REMAINDER OF THE LINKED LISTS. */
 
     next = 0;
     top = ia[*n];
     maxtop = *nz - ia[*n];
 
-/* *********************************************************************** */
+    /* *********************************************************************** */
 
-/* ... CONVERT EACH ROW INTO FINAL FORM */
+    /* ... CONVERT EACH ROW INTO FINAL FORM */
 
     for (i = 0; i < *n; ++i) {
         ideg = 0;
         nulink = ia[i] - 1;
 
-/* ... LOOP OVER EACH NODE IN THE LINKED LIST OF ROW I */
+        /* ... LOOP OVER EACH NODE IN THE LINKED LIST OF ROW I */
 
 L10:
         link = nulink;
@@ -6933,36 +6821,36 @@ L10:
         jaj = ja[link];
         val = a[link];
 
-/* ... CHECK TO SEE IF A COLLISION BETWEEN THE LINKED LISTS */
-/*     AND THE FINAL FORM HAS OCCURRED. */
+        /* ... CHECK TO SEE IF A COLLISION BETWEEN THE LINKED LISTS */
+        /*     AND THE FINAL FORM HAS OCCURRED. */
 
         if (next >= top && link != top)
             goto L20;
 
-/* ... COLLISION HAS NOT OCCURRED.  FREE THE SPACE FOR THE TRIPLE */
-/*     (JA(LINK), A(LINK), IWORK(LINK)) */
+        /* ... COLLISION HAS NOT OCCURRED.  FREE THE SPACE FOR THE TRIPLE */
+        /*     (JA(LINK), A(LINK), IWORK(LINK)) */
 
         ja[link] = 0;
         a[link] = 0.;
         iwork[link] = 0;
 
-/* ... SPECIAL CASE TO MOVE  TOP  DOWN IF LINK .EQ. TOP */
+        /* ... SPECIAL CASE TO MOVE  TOP  DOWN IF LINK .EQ. TOP */
 
         if (link == top)
             goto L60;
 
         goto L70;
 
-/* *********************************************************************** */
+        /* *********************************************************************** */
 
-/* ... COLLISION HAS OCCURRED.  CLEAR OFF SOME SPACE FOR THE CURRENT */
-/*     ENTRY BY MOVING THE TRIPLE ( JA(TOP),A(TOP),IWORK(TOP) ) */
-/*     DOWNWARDS TO THE FREED TRIPLE ( JA(LINK),A(LINK),IWORK(LINK) ). */
-/*     THEN ADJUST THE LINK FIELDS. */
+        /* ... COLLISION HAS OCCURRED.  CLEAR OFF SOME SPACE FOR THE CURRENT */
+        /*     ENTRY BY MOVING THE TRIPLE ( JA(TOP),A(TOP),IWORK(TOP) ) */
+        /*     DOWNWARDS TO THE FREED TRIPLE ( JA(LINK),A(LINK),IWORK(LINK) ). */
+        /*     THEN ADJUST THE LINK FIELDS. */
 
-/* ...... PATCH UP THE LINKED LIST FOR THE CURRENT ROW I.  THEN */
-/*        TRAVERSE THE LINKED LIST CONTAINING TOP UNTIL THE POINTER */
-/*        POINTER BACK TO IA IS FOUND. */
+        /* ...... PATCH UP THE LINKED LIST FOR THE CURRENT ROW I.  THEN */
+        /*        TRAVERSE THE LINKED LIST CONTAINING TOP UNTIL THE POINTER */
+        /*        POINTER BACK TO IA IS FOUND. */
 
 L20:
         ia[i] = link + 1;
@@ -6973,10 +6861,10 @@ L30:
         if (hlink >= 0)
             goto L30;
 
-/* ...... NOW FOLLOW THE LINKED LIST BACK TO TOP KEEPING TRACK */
-/*        OF THE OLD LINK. */
+        /* ...... NOW FOLLOW THE LINKED LIST BACK TO TOP KEEPING TRACK */
+        /*        OF THE OLD LINK. */
 
-/* ......... SPECIAL CASE IF IA(-HLINK) = TOP */
+        /* ......... SPECIAL CASE IF IA(-HLINK) = TOP */
 
         mhlink = -hlink - 2;
         if (ia[mhlink] != top + 1)
@@ -6991,7 +6879,7 @@ L30:
 
         goto L60;
 
-/* ......... USUAL CASE. */
+        /* ......... USUAL CASE. */
 
 L40:
         hlink = ia[mhlink] - 1;
@@ -7010,14 +6898,14 @@ L50:
         if (nulink == top)
             nulink = link;
 
-/* ... COLLAPSE TOP OF LINK LIST BY AS MUCH AS POSSIBLE */
+        /* ... COLLAPSE TOP OF LINK LIST BY AS MUCH AS POSSIBLE */
 
 L60:
         while (++top < maxtop && iwork[top] == 0) ;
 
-/* *********************************************************************** */
+        /* *********************************************************************** */
 
-/* ... PUT THE CURRENT TRIPLE INTO THE FINAL DATA STRUCTURE */
+        /* ... PUT THE CURRENT TRIPLE INTO THE FINAL DATA STRUCTURE */
 
 L70:
         ja[next] = jaj;
@@ -7026,19 +6914,18 @@ L70:
         ++ideg;
         goto L10;
 
-/* ... FINAL STRUCTURE FOR ROW I IS COMPLETE.  LINKED LIST IS */
-/*     DESTROYED AND WILL BE RECAPTURED AS NECESSARY BY THE */
-/*     LOOP ON LABEL 60 */
+        /* ... FINAL STRUCTURE FOR ROW I IS COMPLETE.  LINKED LIST IS */
+        /*     DESTROYED AND WILL BE RECAPTURED AS NECESSARY BY THE */
+        /*     LOOP ON LABEL 60 */
 
 L80:
         ia[i] = ideg;
-
     }
 
-/* *********************************************************************** */
+    /* *********************************************************************** */
 
-/* ... FINALIZE THE DATA STRUCTURE BY BUILDING THE FINAL VERSION OF */
-/*     IA. */
+    /* ... FINALIZE THE DATA STRUCTURE BY BUILDING THE FINAL VERSION OF */
+    /*     IA. */
 
     l = ia[0] + 1;
     ia[0] = 1;
@@ -7048,7 +6935,7 @@ L80:
         l += ideg;
     }
 
-/* ... FINAL IA, JA, A DATA STRUCTURE BUILT. */
+    /* ... FINAL IA, JA, A DATA STRUCTURE BUILT. */
 
     return 0;
 } /* sbend_ */
@@ -7107,7 +6994,7 @@ int sbini_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a, int
 /* Subroutine */
 int sbsij_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a,
            integer *iwork, integer *ii, integer *jj, doublereal * vall,
-           integer *mode, integer *levell, integer *noutt, integer* ierr)
+           integer *mode, integer *level, integer *nout, integer* ierr)
 {
     /* Local variables */
     static integer i, j, ier;
@@ -7116,7 +7003,7 @@ int sbsij_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a,
     static doublereal temp;
     static integer next;
 
-    (void)nz; (void)levell; (void)noutt;
+    (void)nz; (void)level; (void)nout;
 
 /* *********************************************************************** */
 
@@ -7154,9 +7041,10 @@ int sbsij_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a,
 /*                       .EQ. 0  RESET IT TO THE NEW VALUE */
 /*                       .GT. 0  ADD THE NEW VALUE TO THE OLD VALUE */
 
-/*     NOUT  OUTPUT FILE NUMBER (= NOUTT) */
+/*     NOUT  OUTPUT FILE NUMBER */
 
-/*     LEVEL   OUTPUT FILE SWITCH (= LEVELL) */
+/*     LEVEL   OUTPUT FILE SWITCH */
+
 /* ... INPUT/OUTPUT */
 
 /*     IA      INTEGER ARRAY OF LENGTH N+1.  THE FIRST N ENTRIES */
@@ -7181,7 +7069,7 @@ int sbsij_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a,
 
 /* *********************************************************************** */
 
-/* ... CHECK THE VALIDITY OF THE (I,J) ENTRY */
+    /* ... CHECK THE VALIDITY OF THE (I,J) ENTRY */
 
     i = *ii - 1;
     j = *jj - 1;
@@ -7196,12 +7084,12 @@ int sbsij_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a,
     if (ier != 0)
         goto L130;
 
-/* ... TRAVERSE THE LINK LIST POINTED TO BY IA(I) UNTIL EITHER */
-/* ... THE J ENTRY OR THE END OF THE LIST HAS BEEN FOUND. */
+    /* ... TRAVERSE THE LINK LIST POINTED TO BY IA(I) UNTIL EITHER */
+    /* ... THE J ENTRY OR THE END OF THE LIST HAS BEEN FOUND. */
 
     link = ia[i] - 1;
 
-/* ...... SPECIAL CASE FOR THE FIRST ENTRY IN THE ROW */
+    /* ...... SPECIAL CASE FOR THE FIRST ENTRY IN THE ROW */
 
     if (link >= 0)
         goto L30;
@@ -7217,7 +7105,7 @@ int sbsij_(integer *n, integer *nz, integer *ia, integer *ja, doublereal *a,
     ia[*n] = next;
     goto L130;
 
-/* ... FOLLOW THE LINK LIST UNTIL J OR THE END OF THE LIST IS FOUND */
+    /* ... FOLLOW THE LINK LIST UNTIL J OR THE END OF THE LIST IS FOUND */
 
 L30:
     if (ja[link] == j + 1)
@@ -7229,8 +7117,8 @@ L30:
     link = iwork[link] - 1;
     goto L30;
 
-/* : */
-/* ... ENTRY (I,J) ALREADY HAS BEEN SET.  RESET VALUE DEPENDING ON MODE */
+    /* : */
+    /* ... ENTRY (I,J) ALREADY HAS BEEN SET.  RESET VALUE DEPENDING ON MODE */
 
 L40:
     ier = 700;
@@ -7245,7 +7133,7 @@ L40:
     a[link] = temp;
     goto L130;
 
-/* ... ENTRY (I,J) HAS NOT BEEN SET.  ENTER IT INTO THE LINKED LIST */
+    /* ... ENTRY (I,J) HAS NOT BEEN SET.  ENTER IT INTO THE LINKED LIST */
 
 L100:
     next = ia[*n] - 1;
@@ -7258,9 +7146,9 @@ L100:
         goto L130;
     }
 
-/* *********************************************************************** */
+    /* *********************************************************************** */
 
-/* ... ERROR TRAP FOR NO ROOM REMAINING */
+    /* ... ERROR TRAP FOR NO ROOM REMAINING */
 
 L110:
     ier = 702;
@@ -7271,11 +7159,11 @@ L130:
 } /* sbsij_ */
 
 /* Subroutine */
-int scal_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
+int scal_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
           doublereal *u, doublereal *d, integer *level, integer *nout, integer *ier)
 {
     /* Local variables */
-    static integer i, j, n;
+    static integer i, j;
     static doublereal di;
     static integer ii, jj, im1, jadd, jajj, ibgn, iend, jjpi;
 
@@ -7286,7 +7174,7 @@ int scal_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
 
 /* ... PARAMETER LIST: */
 
-/*          N      DIMENSION OF MATRIX (= NN) */
+/*          N      DIMENSION OF MATRIX */
 /*          IA,JA  INTEGER ARRAYS OF SPARSE MATRIX REPRESENTATION */
 /*          A      D.P. ARRAY OF SPARSE MATRIX REPRESENTATION */
 /*          RHS    RIGHT HAND SIDE OF MATRIX PROBLEM */
@@ -7299,11 +7187,10 @@ int scal_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
 /*                    401 : THE ITH DIAGONAL ELEMENT IS .LE. 0. */
 /*                    402 : NO DIAGONAL ELEMENT IN ROW I */
 
-/* ... EXTRACT SQUARE ROOT OF THE DIAGONAL OUT OF A AND SCALE U AND RHS */
+    /* ... EXTRACT SQUARE ROOT OF THE DIAGONAL OUT OF A AND SCALE U AND RHS */
 
-    n = *nn;
     *ier = 0;
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         for (jj = ibgn; jj < iend; ++jj) {
@@ -7331,12 +7218,12 @@ L70:
         d[ii] = di;
     }
 
-/* ... SHIFT MATRIX TO ELIMINATE DIAGONAL ENTRIES */
+    /* ... SHIFT MATRIX TO ELIMINATE DIAGONAL ENTRIES */
 
-    if (n > 1)
-    for (i = 0; i < n; ++i) {
+    if (*n > 1)
+    for (i = 0; i < *n; ++i) {
         im1 = i;
-        ii = n - i - 1;
+        ii = *n - i - 1;
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         jadd = ibgn + iend + 1;
@@ -7352,11 +7239,11 @@ L70:
         ia[ii + 1] = ia[ii + 1] + i;
     }
 
-    ia[0] += n;
+    ia[0] += *n;
 
-/* ... SCALE SHIFTED MATRIX AND STORE D ARRAY IN FIRST N ENTRIES OF A */
+    /* ... SCALE SHIFTED MATRIX AND STORE D ARRAY IN FIRST N ENTRIES OF A */
 
-    for (ii = 0; ii < n; ++ii) {
+    for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
         di = d[ii];
@@ -7404,14 +7291,11 @@ int sum3_(integer *n, doublereal *c1, doublereal *x1, doublereal *c2, doublereal
 doublereal tau_(integer *ii)
 {
     /* Initialized data */
-
     static doublereal t[8] = { 1.5,1.8,1.85,1.9,1.94,1.96,1.975,1.985 };
 
 /* ... THIS SUBROUTINE SETS TAU(II) FOR THE SOR METHOD. */
 
-/* ... PARAMETER LIST: */
-
-/*          II     NUMBER OF TIMES PARAMETERS HAVE BEEN CHANGED */
+    /*          II     NUMBER OF TIMES PARAMETERS HAVE BEEN CHANGED */
 
     if (*ii <= 8)
         return t[*ii - 1];
@@ -7464,12 +7348,12 @@ logical tstchg_(integer *ibmth)
 
         goto L20;
 
-/* ... TEST PASSES -- CHANGE PARAMETERS */
+    /* ... TEST PASSES -- CHANGE PARAMETERS */
 
 L10:
     return TRUE_;
 
-/* ... TEST FAILS -- DO NOT CHANGE PARAMETERS */
+    /* ... TEST FAILS -- DO NOT CHANGE PARAMETERS */
 
 L20:
     return FALSE_;
@@ -7494,7 +7378,7 @@ int unscal_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs
 /*          D      VECTOR CONTAINING THE SQUARE ROOTS */
 /*                    OF THE DIAGONAL ENTRIES */
 
-/* ... EXTRACT DIAGONAL FROM SCALED A AND UNSCALE U AND RHS */
+    /* ... EXTRACT DIAGONAL FROM SCALED A AND UNSCALE U AND RHS */
 
     for (ii = 0; ii < *n; ++ii) {
         di = a[ii];
@@ -7503,7 +7387,7 @@ int unscal_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs
         d[ii] = di;
     }
 
-/* ... UNSCALE A */
+    /* ... UNSCALE A */
 
     for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
@@ -7515,7 +7399,7 @@ int unscal_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs
         }
     }
 
-/* ... INSERT DIAGONAL BACK INTO A */
+    /* ... INSERT DIAGONAL BACK INTO A */
 
     for (ii = 0; ii < *n; ++ii) {
         ibgn = ia[ii] - 1;
@@ -7565,7 +7449,6 @@ int vevmw_(integer *n, doublereal *v, doublereal *w)
         v[i + 3] -= w[i + 3];
     }
     return 0;
-
 } /* vevmw_ */
 
 /* Subroutine */
@@ -7616,7 +7499,7 @@ int vfill_(integer *n, doublereal *v, doublereal *val)
     if (*n <= 0)
         return 0;
 
-/*     CLEAN UP LOOP SO REMAINING VECTOR LENGTH IS A MULTIPLE OF 10 */
+    /*     CLEAN UP LOOP SO REMAINING VECTOR LENGTH IS A MULTIPLE OF 10 */
 
     m = *n % 10;
     for (i = 0; i < m; ++i)
@@ -7639,7 +7522,7 @@ int vfill_(integer *n, doublereal *v, doublereal *val)
 } /* vfill_ */
 
 /* Subroutine */
-int vout_(integer *n, doublereal *v, integer *iswt, integer *noutt)
+int vout_(integer *n, doublereal *v, integer *iswt, integer *nout)
 {
 /*     THIS SUBROUTINE EFFECTS PRINTING OF RESIDUAL AND SOLUTION */
 /*     VECTORS - CALLED FROM PERROR */
@@ -7648,10 +7531,10 @@ int vout_(integer *n, doublereal *v, integer *iswt, integer *noutt)
 
 /*          V      VECTOR OF LENGTH N */
 /*          ISWT   LABELLING INFORMATION */
-/*          NOUT OUTPUT DEVICE NUMBER (= NOUTT) */
+/*          NOUT OUTPUT DEVICE NUMBER */
 
-/*        IF (N .LE. 0) RETURN */
-  (void)n; (void)v; (void)iswt; (void)noutt;
+    /*        IF (N .LE. 0) RETURN */
+  (void)n; (void)v; (void)iswt; (void)nout;
 
     return 0;
 } /* vout_ */
@@ -7788,12 +7671,6 @@ int zbrent_(integer *n, doublereal *tri, doublereal *eps, integer *nsig,
 
 /* ----------------------------------------------------------------------- */
 
-/*     DESCRIPTION OF VARIABLES IN COMMON BLOCK IN MAIN SUBROUTINE */
-
-/*                                  SPECIFICATIONS FOR ARGUMENTS */
-
-/*                                  SPECIFICATIONS FOR LOCAL VARIABLES */
-
     a = *aa;
     b = *bb;
     maxfn = *maxfnn;
@@ -7805,7 +7682,7 @@ int zbrent_(integer *n, doublereal *tri, doublereal *eps, integer *nsig,
     fb = determ_(n, tri, &b);
     s = b;
 
-/*                                  TEST FOR SAME SIGN */
+    /*                                  TEST FOR SAME SIGN */
 
     if (fa * fb > zero)
         goto L110;
@@ -7828,22 +7705,22 @@ L20:
     tol = t * max(abs(b),.1);
     rm = (c - b) * half;
 
-/*                                  TEST FOR FIRST CONVERGENCE CRITERIA */
+    /*                                  TEST FOR FIRST CONVERGENCE CRITERIA */
 
     if (abs(fb) <= *eps)
         goto L80;
 
-/*                                  TEST FOR SECOND CONVERGENCE CRITERIA */
+    /*                                  TEST FOR SECOND CONVERGENCE CRITERIA */
 
     if (abs(c - b) <= tol)
         goto L80;
 
-/*                                  CHECK EVALUATION COUNTER */
+    /*                                  CHECK EVALUATION COUNTER */
 
     if (ic >= maxfn)
         goto L90;
 
-/*                                  IS BISECTION FORCED */
+    /*                                  IS BISECTION FORCED */
 
     if (abs(e) < tol)
         goto L60;
@@ -7853,14 +7730,14 @@ L20:
 
     s = fb / fa;
 
-/*                                  LINEAR INTERPOLATION */
+    /*                                  LINEAR INTERPOLATION */
 
     if (a == c) {
         p = (c - b) * s;
         q = one - s;
     }
 
-/*                                  INVERSE QUADRATIC INTERPOLATION */
+    /*                                  INVERSE QUADRATIC INTERPOLATION */
 
     else {
         q = fa / fc;
@@ -7879,28 +7756,28 @@ L20:
     s = e;
     e = d;
 
-/*                                  IF DABS(P/Q).GE.75*DABS(C-B) THEN */
-/*                                     FORCE BISECTION */
+    /*                                  IF DABS(P/Q).GE.75*DABS(C-B) THEN */
+    /*                                     FORCE BISECTION */
 
     if (p + p >= three * rm * q)
         goto L60;
 
-/*                                  IF DABS(P/Q).GE..5*DABS(S) THEN FORCE */
-/*                                     BISECTION. S = THE VALUE OF P/Q */
-/*                                     ON THE STEP BEFORE THE LAST ONE */
+    /*                                  IF DABS(P/Q).GE..5*DABS(S) THEN FORCE */
+    /*                                     BISECTION. S = THE VALUE OF P/Q */
+    /*                                     ON THE STEP BEFORE THE LAST ONE */
 
     if (p + p < abs(s * q)) {
         d = p / q;
         goto L70;
     }
 
-/*                                  BISECTION */
+    /*                                  BISECTION */
 
 L60:
     e = rm;
     d = e;
 
-/*                                  INCREMENT B */
+    /*                                  INCREMENT B */
 
 L70:
     a = b;
@@ -7919,14 +7796,14 @@ L70:
     else
         goto L10;
 
-/*                                  CONVERGENCE OF B */
+    /*                                  CONVERGENCE OF B */
 
 L80:
     a = c;
     maxfn = ic;
     goto L130;
 
-/*                                  MAXFN EVALUATIONS */
+    /*                                  MAXFN EVALUATIONS */
 
 L90:
     *ier = 501;
@@ -7934,8 +7811,8 @@ L90:
     maxfn = ic;
     goto L130;
 
-/*                                  TERMINAL ERROR - F(A) AND F(B) HAVE */
-/*                                  THE SAME SIGN */
+    /*                                  TERMINAL ERROR - F(A) AND F(B) HAVE */
+    /*                                  THE SAME SIGN */
 
 L110:
     *ier = 502;

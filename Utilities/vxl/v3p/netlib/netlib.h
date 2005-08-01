@@ -27,11 +27,11 @@ float sqrtf(float);
 # define sqrtf(f) ((float)sqrt((double)(f)))
 #endif
 
-  char * F77_aloc(int Len, char *whence);
-  void   sig_die(char *s, int kill);
+  char * F77_aloc(int Len, const char *whence);
+  void   sig_die(const char *s, int kill);
   void   exit_(int *rc);
   void   s_cat(char *lp, const char *rpp[], long rnp[], long *np, long ll);
-  int    s_cmp(char *a0, char *b0, long la, long lb);
+  int    s_cmp(const char *a0, const char *b0, long la, long lb);
   void   s_copy(char *a, const char *b, long la, long lb);
   double f__cabs(double, double);
 
@@ -53,7 +53,7 @@ float sqrtf(float);
   double d_sign(const double *a, const double *b);
   void   z_sqrt(dcmplx *ret_value, const dcmplx *z);
   double urand_(int *iy);
-  void   xerbla_(char *srname, int *info);
+  void   xerbla_(const char *srname, int *info);
 
   /*: Computes singular values and vectors of an mxn matrix (double version) */
   void dsvdc_(double *x, const int* ldx, /*!< (IN) matrix, m rows, n columns, stored row-wise */
@@ -354,7 +354,7 @@ double ddot_(const int *n, const double *dx, const int *incx, const double *dy, 
                double *lscale, double *rscale, double *work, int *info);
   void zgebal_(const char *job, const int *n, dcmplx *a, const int *lda, int *ilo, int *ihi, double *scale, int *info);
 
-  void dgges_(char *jobvsl, char *jobvsr, char *sort, logical (*delctg)(double*,double*,double*),
+  void dgges_(const char *jobvsl, const char *jobvsr, const char *sort, logical (*delctg)(double*,double*,double*),
               int *n, double *a, int *lda, double *b, int *ldb, int *sdim, double *alphar, double *alphai, double *beta,
               double *vsl, int *ldvsl, double *vsr, int *ldvsr, double *work, int *lwork, logical *bwork, int *info);
 
@@ -370,7 +370,7 @@ double ddot_(const int *n, const double *dx, const int *incx, const double *dy, 
                double *tola, double *tolb, int *k, int *l, double *u, int *ldu, double *v, int *ldv, double *q, int *ldq,
                int *iwork, double *tau, double *work, int *info);
 
-  void dhgeqz_(char *job, char *compq, char *compz, int *n, int *ilo, int *ihi,
+  void dhgeqz_(const char *job, const char *compq, const char *compz, int *n, int *ilo, int *ihi,
                double *a, int *lda, double *b, int *ldb, double *alphar, double *alphai, double *beta,
                double *q, int *ldq, double *z, int *ldz, double *work, int *lwork, int *info);
 
@@ -582,19 +582,30 @@ double pythag_(const double *a, const double *b);
                dcmplx *work, const int *lwork, int *info);
 
   /* ITPACK functions from dsrc2c.f.  */
-  int jcg_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
-  int jsi_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
-  int sor_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
-  int ssorcg_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
-  int ssorsi_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
-  int rscg_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
-  int rssi_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
-  int itjcg_(int *nn, int *ia, int *ja, double *a, double *u, double *u1, double *d__, double *d1, double *dtwd, double *tri);
+  int jcg_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u,
+           int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
+  int jsi_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u,
+           int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
+  int sor_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u,
+           int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
+  int ssorcg_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u,
+              int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
+  int ssorsi_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u,
+              int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
+  int rscg_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u,
+            int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
+  int rssi_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u,
+            int *iwksp, int *nw, double *wksp, int *iparm, double *rparm, int *ierr);
+  int itjcg_(int *nn, int *ia, int *ja, double *a, double *u, double *u1,
+             double *d__, double *d1, double *dtwd, double *tri);
   int itjsi_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, double *u1, double *d__, int *icnt);
   int itsor_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, double *wk);
-  int itsrcg_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, double *u1, double *c__, double *c1, double *d__, double *dl, double *wk, double *tri);
-  int itsrsi_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, double *u1, double *c__, double *d__, double *ctwd, double *wk);
-  int itrscg_(int *n, int *nnb, int *ia, int *ja, double *a, double *ub, double *ub1, double *db, double *db1, double *wb, double *tri);
+  int itsrcg_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, double *u1,
+              double *c__, double *c1, double *d__, double *dl, double *wk, double *tri);
+  int itsrsi_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, double *u1,
+              double *c__, double *d__, double *ctwd, double *wk);
+  int itrscg_(int *n, int *nnb, int *ia, int *ja, double *a, double *ub, double *ub1,
+              double *db, double *db1, double *wb, double *tri);
   int itrssi_(int *n, int *nnb, int *ia, int *ja, double *a, double *rhs, double *ub, double *ub1, double *db);
   int bisrch_(int *n, int *k, int *l);
   double cheby_(double *qa, double *qt, double *rrr, int *ip, double *cme, double *sme);
@@ -636,10 +647,12 @@ double pythag_(const double *a, const double *b);
   double pvtbv_(int *n, int *ia, int *ja, double *a, double *v);
   int qsort_(int *nn, int *key, double *data, int *error);
   int sbagn_(int *n, int *nz, int *ia, int *ja, double *a, int *iwork, int *levell, int *noutt, int *ierr);
-  int sbelm_(int *nn, int *ia, int *ja, double *a, double *rhs, int *iw, double *rw, double *tol, int *isym, int *level, int *nout, int *ier);
+  int sbelm_(int *nn, int *ia, int *ja, double *a, double *rhs, int *iw, double *rw,
+             double *tol, int *isym, int *level, int *nout, int *ier);
   int sbend_(int *n, int *nz, int *ia, int *ja, double *a, int *iwork);
   int sbini_(int *n, int *nz, int *ia, int *ja, double *a, int *iwork);
-  int sbsij_(int *n, int *nz, int *ia, int *ja, double *a, int *iwork, int *ii, int *jj, double *vall, int *mode, int *levell, int *noutt, int *ierr);
+  int sbsij_(int *n, int *nz, int *ia, int *ja, double *a, int *iwork, int *ii, int *jj,
+             double *vall, int *mode, int *levell, int *noutt, int *ierr);
   int scal_(int *nn, int *ia, int *ja, double *a, double *rhs, double *u, double *d__, int *level, int *nout, int *ier);
   int sum3_(int *n, double *c1, double *x1, double *c2, double *x2, double *c3, double *x3);
   double tau_(int *ii);
@@ -652,6 +665,11 @@ double pythag_(const double *a, const double *b);
   int vout_(int *n, double *v, int *iswt, int *noutt);
   int wevmw_(int *n, double *v, double *w);
   int zbrent_(int *n, double *tri, double *eps, int *nsig, double *aa, double *bb, int *maxfnn, int *ier);
+
+  int trapru_(double f(double*), double *a, double *b, int *m, double *trule);
+  int simpru_(double f(double*), double *a, double *b, int *m, double *srule);
+  /*: computes integral; input: f=integrand a,b=endpoints tol=tolerance; output: errbdd=error_estimation m=substates */
+  int adaptquad_(double f(double*), double*a, double*b, double*tol, double*srmat, double*integral, double*errbdd, int*m, int*state);
 
 #ifdef __cplusplus
 }

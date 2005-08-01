@@ -105,7 +105,7 @@ c     if their computation is not requested and in this case
 c     can be replaced by dummy variables in the calling program.
 c     to save storage, the user may in some cases use the same
 c     array for different parameters in the calling sequence.  a
-c     frequently occuring example is when one wishes to compute
+c     frequently occurring example is when one wishes to compute
 c     any of b, rsd, or xb and does not need y or qty.  in this
 c     case one may identify y, qty, and one of b, rsd, or xb, while
 c     providing separate arrays for anything else that is to be

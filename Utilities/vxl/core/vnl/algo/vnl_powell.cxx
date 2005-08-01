@@ -12,6 +12,7 @@
 #ifdef DEBUG
 #include <vcl_iostream.h>
 #include <vnl/vnl_matlab_print.h>
+#include <vcl_iostream.h>
 #endif
 
 class vnl_powell_1dfun : public vnl_cost_function
@@ -23,16 +24,8 @@ class vnl_powell_1dfun : public vnl_cost_function
   vnl_vector<double> x0_;
   vnl_vector<double> dx_;
   vnl_vector<double> tmpx_;
-  vnl_powell_1dfun(int n, vnl_cost_function* f, vnl_powell* powell) :
-    vnl_cost_function(1),
-    powell_(powell),
-    f_(f),
-    n_(n),
-    x0_(n),
-    dx_(n),
-    tmpx_(n)
-  {
-  }
+  vnl_powell_1dfun(int n, vnl_cost_function* f, vnl_powell* p)
+   : vnl_cost_function(1), powell_(p), f_(f), n_(n), x0_(n), dx_(n), tmpx_(n) {}
 
   void init(vnl_vector<double> const& x0, vnl_vector<double> const& dx)
   {
@@ -57,24 +50,6 @@ class vnl_powell_1dfun : public vnl_cost_function
   }
 };
 
-vnl_powell::vnl_powell(vnl_cost_function* functor):
-  functor_(functor),linmin_xtol_(1e-4),initial_step_(1.0)
-{
-}
-
-//: Set tolerance on line search parameter step
-void vnl_powell::set_linmin_xtol(double tol)
-{
-  linmin_xtol_ = tol;
-}
-
-//: Set initial step when bracketting minima along a line
-//  Default value is 1.0
-void vnl_powell::set_initial_step(double step)
-{
-  initial_step_ = step;
-}
-
 vnl_nonlinear_minimizer::ReturnCodes
 vnl_powell::minimize(vnl_vector<double>& p)
   //double p[], double **xi, int n
@@ -89,7 +64,7 @@ vnl_powell::minimize(vnl_vector<double>& p)
   double fret = functor_->f(p);
   report_eval(fret);
   vnl_vector<double> pt = p;
-  for (;;)
+  while (num_iterations_ < unsigned(maxfev))
   {
     double fp = fret;
     int ibig=0;

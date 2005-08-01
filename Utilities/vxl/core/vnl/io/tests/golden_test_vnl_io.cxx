@@ -74,7 +74,7 @@ static void golden_test_vnl_io(bool save_file)
 
   // vnl_real_n_polynomial
   vnl_vector<double> coeffs(4);
-  vnl_matrix<int> exponents(4,2);
+  vnl_matrix<unsigned int> exponents(4,2);
 
   coeffs(0) = 0.1;
   coeffs(1) = 0.2;

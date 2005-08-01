@@ -30,14 +30,14 @@ void vsl_b_read(vsl_b_istream &is, vnl_real_polynomial & p)
   short ver;
   vnl_vector<double> coeffs;
   vsl_b_read(is, ver);
-  switch(ver)
+  switch (ver)
   {
-  case 1:
+   case 1:
     vsl_b_read(is, coeffs);
     p.set_coefficients(coeffs);
     break;
 
-  default:
+   default:
     vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_real_polynomial&)\n"
              << "           Unknown version number "<< ver << '\n';
     is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream

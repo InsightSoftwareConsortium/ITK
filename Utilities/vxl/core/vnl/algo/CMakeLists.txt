@@ -73,6 +73,10 @@ IF(NETLIB_FOUND)
     vnl_gaussian_kernel_1d.cxx vnl_gaussian_kernel_1d.h
     vnl_adjugate.txx vnl_adjugate.h
     vnl_orthogonal_complement.txx vnl_orthogonal_complement.h
+
+    # integral
+    vnl_simpson_integral.cxx vnl_simpson_integral.h
+    vnl_adaptsimpson_integral.cxx vnl_adaptsimpson_integral.h
   )
 
   AUX_SOURCE_DIRECTORY(Templates vnl_algo_sources)
@@ -80,5 +84,10 @@ IF(NETLIB_FOUND)
   ADD_LIBRARY( itkvnl_algo ${vnl_algo_sources})
   TARGET_LINK_LIBRARIES( itkvnl_algo ${NETLIB_LIBRARIES} itkvnl )
   INSTALL_TARGETS(/lib/InsightToolkit itkvnl_algo)
+
+  IF( BUILD_TESTING )
+    SUBDIRS(tests)
+  ENDIF( BUILD_TESTING )
+
 ENDIF(NETLIB_FOUND)
 INSTALL_FILES(${VXL_INSTALL_ROOT}/core/vnl/algo "(\\.h|\\.txx)$")

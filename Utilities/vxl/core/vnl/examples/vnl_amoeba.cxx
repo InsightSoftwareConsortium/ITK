@@ -1,11 +1,11 @@
-//-*- c++ -*-------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // Module: Minimization of Rosenbrock banana function, downhill simplex
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 31 Aug 96
 // Converted to vxl by Peter Vanroose, February 2000
 //-----------------------------------------------------------------------------
 #include <vcl_iostream.h>
-#include <vnl/vnl_vector.h>
+#include <vnl/vnl_double_2.h>
 #include <vnl/vnl_cost_function.h>
 #include <vnl/algo/vnl_amoeba.h>
 
@@ -29,7 +29,7 @@ int main()
   vnl_rosenbrock f;
 
   // Set up the initial guess
-  vnl_vector<double> x(2, -1.9,2.0);
+  vnl_vector<double> x = vnl_double_2(-1.9,2.0).as_vector();
 
   // Make a Levenberg Marquardt minimizer, attach f to it, and
   // run the minimization

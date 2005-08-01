@@ -11,8 +11,8 @@
 //    vnl_symmetric_eigensystem_compute()
 //    solves the eigenproblem $A x = \lambda x$, with $A$ symmetric.
 //    The resulting eigenvectors and values are sorted in increasing order
-//    so <CODE> V.column(0) </CODE> is the eigenvector corresponding to the smallest
-//    the smallest eigenvalue.
+//    so <CODE> V.column(0) </CODE> is the eigenvector corresponding to the
+//    smallest eigenvalue.
 //
 //    As a matrix decomposition, this is $A = V D V^t$
 //
@@ -53,8 +53,20 @@
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_diag_matrix.h>
 
-//: Find eigenvalues of a symmetric matrix
+//: Find eigenvalues of a symmetric 3x3 matrix
+// Eigenvalues will be returned so that l1 <= l2 <= l3.
+// \verbatim
+// Matrix is   M11  M12  M13
+//             M12  M22  M23
+//             M13  M23  M33
+// \endverbatim
+void vnl_symmetric_eigensystem_compute_eigenvals(
+       double M11, double M12, double M13,
+                   double M22, double M23,
+                               double M33,
+       double &l1, double &l2, double &l3);
 
+//: Find eigenvalues of a symmetric matrix
 bool vnl_symmetric_eigensystem_compute(vnl_matrix<float> const & A,
                                        vnl_matrix<float> & V,
                                        vnl_vector<float> & D);

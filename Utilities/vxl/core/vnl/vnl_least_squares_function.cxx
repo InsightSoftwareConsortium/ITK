@@ -11,58 +11,19 @@
 #include <vcl_iostream.h>
 #include <vcl_cassert.h>
 
-vnl_least_squares_function::vnl_least_squares_function(int number_of_unknowns,
-                                                       int number_of_residuals,
-                                                       UseGradient g)
-  : failure(false)
+void vnl_least_squares_function::dim_warning(unsigned int number_of_unknowns,
+                                             unsigned int number_of_residuals)
 {
-  n_ = number_of_residuals;
-  p_ = number_of_unknowns;
-  assert(n_>=0);
-  assert(p_>=0);
-  use_gradient_ = (g == use_gradient);
-
-  if (number_of_unknowns > number_of_residuals) {
+  if (number_of_unknowns > number_of_residuals)
     vcl_cerr << "vnl_least_squares_function: WARNING: "
              << "unknowns(" << number_of_unknowns << ") > "
              << "residuals("<< number_of_residuals << ")\n";
-  }
-}
-
-void vnl_least_squares_function::init(int number_of_unknowns,
-                                      int number_of_residuals)
-{
-  n_ = number_of_residuals;
-  p_ = number_of_unknowns;
-  assert(n_>=0);
-  assert(p_>=0);
-
-  if (number_of_unknowns > number_of_residuals) {
-    vcl_cerr << "vnl_least_squares_function: WARNING: "
-             << "unknowns(" << number_of_unknowns << ") > "
-             << "residuals("<< number_of_residuals << ")\n";
-  }
-}
-
-vnl_least_squares_function::~vnl_least_squares_function()
-{
-}
-
-void vnl_least_squares_function::throw_failure()
-{
-  //vcl_cerr << "throw_failure()\n";
-  failure = true;
-}
-
-void vnl_least_squares_function::clear_failure()
-{
-  //vcl_cerr << "clear_failure()\n";
-  failure = false;
 }
 
 void vnl_least_squares_function::gradf(vnl_vector<double> const& /*x*/,
                                        vnl_matrix<double>& /*jacobian*/)
 {
+  vcl_cerr << "Warning: gradf() called but not implemented in derived class\n";
 }
 
 //: Compute fd gradient
@@ -70,16 +31,16 @@ void vnl_least_squares_function::fdgradf(vnl_vector<double> const& x,
                                          vnl_matrix<double>& jacobian,
                                          double stepsize)
 {
-  int dim = x.size();
-  int n = jacobian.rows();
+  unsigned int dim = x.size();
+  unsigned int n = jacobian.rows();
   assert(dim == get_number_of_unknowns());
   assert(n == get_number_of_residuals());
-  assert(dim == int(jacobian.columns()));
+  assert(dim == jacobian.columns());
 
   vnl_vector<double> tx = x;
   vnl_vector<double> fplus(n);
   vnl_vector<double> fminus(n);
-  for (int i = 0; i < dim; ++i)
+  for (unsigned int i = 0; i < dim; ++i)
   {
     // calculate f just to the right of x[i]
     double tplus = tx[i] = x[i] + stepsize;
@@ -90,7 +51,7 @@ void vnl_least_squares_function::fdgradf(vnl_vector<double> const& x,
     this->f(tx, fminus);
 
     double h = 1.0 / (tplus - tminus);
-    for (int j = 0; j < n; ++j)
+    for (unsigned int j = 0; j < n; ++j)
       jacobian(j,i) = (fplus[j] - fminus[j]) * h;
 
     // restore tx
@@ -102,6 +63,7 @@ void vnl_least_squares_function::trace(int /* iteration */,
                                        vnl_vector<double> const& /*x*/,
                                        vnl_vector<double> const& /*fx*/)
 {
+  // This default implementation is empty; overloaded in derived class.
 }
 
 double vnl_least_squares_function::rms(vnl_vector<double> const& x)

@@ -18,10 +18,10 @@ class vnl_io_nonlinear_minimizer
 {
  public:
   //: Constructor
-  vnl_io_nonlinear_minimizer();
+  vnl_io_nonlinear_minimizer() {}
 
   //: Destructor
-  virtual ~vnl_io_nonlinear_minimizer();
+  virtual ~vnl_io_nonlinear_minimizer() {}
 
   //: Create new object of type vnl_nonlinear_minimizer on heap
   virtual vnl_nonlinear_minimizer* new_object() const;
@@ -43,12 +43,13 @@ class vnl_io_nonlinear_minimizer
   virtual vnl_io_nonlinear_minimizer* clone() const;
 
   //: Return name of class for which this object provides IO
-  virtual vcl_string target_classname() const;
+  virtual vcl_string target_classname() const { return "vnl_nonlinear_minimizer"; }
 
   //: Return true if b is of class target_classname()
   //  Typically this will just be "return b.is_a()==target_classname()"
   //  However, third party libraries may use a different system
-  virtual bool is_io_for(const vnl_nonlinear_minimizer& b) const;
+  virtual bool is_io_for(const vnl_nonlinear_minimizer& b) const
+  { return b.is_a()==target_classname(); }
 };
 
 //: Add example object to list of those that can be loaded

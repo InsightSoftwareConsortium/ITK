@@ -3,6 +3,9 @@
 #include <vcl_iostream.h>
 #include <vcl_string.h>
 #include <vcl_vector.h>
+#if VCL_HAS_EXCEPTIONS
+#include <vcl_exception.h>
+#endif
 
 #if defined(VCL_VC) || defined(VCL_BORLAND)
 #  include <crtdbg.h>
@@ -14,24 +17,25 @@ LONG WINAPI vxl_exception_filter( struct _EXCEPTION_POINTERS *ExceptionInfo )
   // Retrieve exception information
   PVOID ExceptionAddress       = ExceptionInfo->ExceptionRecord->ExceptionAddress;
   DWORD ExceptionCode          = ExceptionInfo->ExceptionRecord->ExceptionCode;
-  DWORD* ExceptionInformation  = ExceptionInfo->ExceptionRecord->ExceptionInformation;
+  DWORD* ExceptionInformation  = (DWORD*)ExceptionInfo->ExceptionRecord->ExceptionInformation;
 
   vcl_fprintf(stderr, "\nTOP-LEVEL EXCEPTION HANDLER\n");
-  switch(ExceptionCode) {
-    case EXCEPTION_ACCESS_VIOLATION:
-      vcl_fprintf(stderr, "The instruction at \"0x%.8p\" failed to %s memory at \"0x%.8x\".\n\n",
-                  ExceptionAddress, ExceptionInformation[0] ? "write to" :"read",
-                  ExceptionInformation[1]);
-      break;
+  switch (ExceptionCode)
+  {
+   case EXCEPTION_ACCESS_VIOLATION:
+    vcl_fprintf(stderr, "The instruction at \"0x%.8p\" failed to %s memory at \"0x%.8x\".\n\n",
+                ExceptionAddress, ExceptionInformation[0] ? "write to" :"read",
+                ExceptionInformation[1]);
+    break;
 
-    case EXCEPTION_INT_DIVIDE_BY_ZERO:
-      vcl_fprintf(stderr, "The instruction at \"0x%.8p\" caused an exception of integer devision by zero.\n\n",
-                  ExceptionAddress);
-      break;
-    default:
-      vcl_fprintf(stderr, "The instruction at \"0x%.8p\" caused an unknown exception (exception code: \"0x%.8x\").\n\n",
-                  ExceptionAddress,
-                  ExceptionCode);
+   case EXCEPTION_INT_DIVIDE_BY_ZERO:
+    vcl_fprintf(stderr, "The instruction at \"0x%.8p\" caused an exception of integer devision by zero.\n\n",
+                ExceptionAddress);
+    break;
+   default:
+    vcl_fprintf(stderr, "The instruction at \"0x%.8p\" caused an unknown exception (exception code: \"0x%.8x\").\n\n",
+                ExceptionAddress,
+                ExceptionCode);
   }
 
   // Default action is to abort
@@ -57,15 +61,17 @@ list_test_names( vcl_ostream& ostr )
   ostr << "\nOmitting a test name, or specifying the name \"all\" will run all the tests.\n";
 }
 
-int
-testlib_main( int argc, char* argv[] )
-{
-  // The caller should already have called register_tests().
 
-  // Don't allow Visual Studio to open critical error dialog boxes
+void
+testlib_enter_stealth_mode()
+{
+  // check for Dashboard test
+  char * env_var1 = getenv("DART_TEST_FROM_DART");
+  char * env_var2 = getenv("DASHBOARD_TEST_FROM_CTEST");  // DART Client built in CMake
+  if ( env_var1 || env_var2 ) {
+
+  // Don't allow DART test to open critical error dialog boxes
 #if defined(VCL_VC)
-  char * env_var = getenv("DART_TEST_FROM_DART");
-  if ( env_var ) {
     // No abort or ANSI assertion failure dialog box
     _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
     _CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR);
@@ -77,13 +83,47 @@ testlib_main( int argc, char* argv[] )
     // No unhandled exceptions dialog box,
     // such as access violation and integer division by zero
     SetUnhandledExceptionFilter( vxl_exception_filter );
-  }
-#endif //defined(VCL_WIN32)
+#endif //defined(VCL_VC)
 
-  // Disable Borland's floating point exceptions.
+    // Disable Borland's floating point exceptions.
 #if defined(VCL_BORLAND)
-  _control87(MCW_EM, MCW_EM);
+    _control87(MCW_EM, MCW_EM);
 #endif // defined(VCL_BORLAND)
+  }
+
+}
+
+
+int testlib_run_test_unit(vcl_vector<vcl_string>::size_type i, int argc, char *argv[])
+{
+#if VCL_HAS_EXCEPTIONS
+  char * env_var1 = getenv("DART_TEST_FROM_DART");
+  char * env_var2 = getenv("DASHBOARD_TEST_FROM_CTEST");  // DART Client built in CMake
+  if ( env_var1 || env_var2 ) {
+    try { 
+      return testlib_test_func_[i]( argc, argv );
+    }
+    catch (const vcl_exception &e)
+    {
+      vcl_cerr << "\nTOP-LEVEL EXCEPTION HANDLER                                        **FAILED**\n"
+        << e.what() << "\n\n";
+      return 1;
+    }
+  }
+// Leave MS structured exceptions to the SE handler.
+  else
+#endif
+  return testlib_test_func_[i]( argc, argv );
+}
+
+
+int
+testlib_main( int argc, char* argv[] )
+{
+  // The caller should already have called register_tests().
+
+  // NOT to produce any dialog windows
+  testlib_enter_stealth_mode();
 
   // Assume the index type for vector<string> and
   // vector<TestMainFunction> are the same.
@@ -108,12 +148,12 @@ testlib_main( int argc, char* argv[] )
   {
     --argc; ++argv; test_name_given = false;
   }
-
   if ( test_name_given )
   {
     for ( vec_size_t i = 0; i < testlib_test_name_.size(); ++i )
       if ( testlib_test_name_[i] == argv[1] )
-        return testlib_test_func_[i]( argc-1, argv+1 );
+        return testlib_run_test_unit(i, argc-1, argv+1);
+
 
     vcl_cerr << "Test " << argv[1] << " not registered.\n";
     list_test_names( vcl_cerr );
@@ -130,7 +170,9 @@ testlib_main( int argc, char* argv[] )
       vcl_cout << "----------------------------------------\n"
                << "Running: " << testlib_test_name_[i] << '\n'
                << "----------------------------------------\n" << vcl_flush;
-      int result = testlib_test_func_[i]( argc, argv );
+
+      int result = testlib_run_test_unit(i, argc, argv);
+      
       vcl_cout << "----------------------------------------\n"
                << testlib_test_name_[i] << " returned " << result << ' '
                << ( result==0 ? "(PASS)" : "(FAIL)" ) << '\n'

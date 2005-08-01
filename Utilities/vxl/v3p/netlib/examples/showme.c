@@ -101,6 +101,7 @@
 #define STARTEXPLOSION 0.5
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -112,7 +113,7 @@
 /* exit() may or may not already be defined at this point.  I declare these  */
 /* functions explicitly because some non-ANSI C compilers lack stdlib.h.     */
 
-#ifndef _STDLIB_H_
+#if !defined(_STDLIB_H_) && !defined(_STDLIB_H) && defined(__need_malloc_and_calloc)
 extern char *malloc();
 extern void free();
 extern void exit();
@@ -213,6 +214,7 @@ char adjfilename[2][FILENAMESIZE];
 char vnodefilename[2][FILENAMESIZE];
 char vedgefilename[2][FILENAMESIZE];
 
+const
 char *colorname[] = {"aquamarine", "red", "green yellow", "magenta",
                      "yellow", "green", "orange", "blue",
                      "white", "sandy brown", "cyan", "moccasin",
@@ -3058,7 +3060,7 @@ int eps;
   if (print_head(psfilename, &psfile, llcornerx, llcornery, eps)) {
     return;
   }
-  switch(image) {
+  switch (image) {
     case NODE:
       print_node(psfile, nodes[inc], node_dim[inc], nodeptr[inc],
                  xxscale, yyscale, xxoffset, yyoffset);

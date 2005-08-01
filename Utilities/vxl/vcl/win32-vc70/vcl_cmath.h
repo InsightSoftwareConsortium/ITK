@@ -146,6 +146,13 @@ inline float vcl_modf( float f, float* fp ) { return std::modff(f, fp); }
 inline double vcl_modf( double f, double* fp ) { return std::modf(f, fp); }
 inline long double vcl_modf( long double f, long double* fp ) { return std::modfl(f, fp); }
 
+// VCL_CMATH_POW_DECLARED is true if vcl_pow has been declared
+// as an inline functions rather than defined to std::pow
+#if defined VCL_CMATH_POW_DECLARED
+  ** Error **
+#else
+# define VCL_CMATH_POW_DECLARED 1
+#endif
 inline float vcl_pow( float f, float g ) { return std::powf(f,g); }
 inline double vcl_pow( double f, double g ) { return std::pow(f,g); }
 inline long double vcl_pow( long double f, long double g ) { return std::powl(f,g); }

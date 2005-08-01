@@ -25,6 +25,7 @@ T vnl_block_sum(T const x[], unsigned n)
     return ans;
   }
 }
+
 //: return product of elements
 template <class T> inline
 T vnl_block_product(T const x[], unsigned n)

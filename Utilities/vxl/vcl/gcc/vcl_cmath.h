@@ -61,8 +61,8 @@ inline long double logl(long double x) { return (long double)::log(x); }
 inline float       log10f(float       x) { return (float)::log10(x); }
 inline long double log10l(long double x) { return (long double)::log10(x); }
 
-inline float       modff(float       x, float       *y) { double f,g=::modf(x,&f); return (float)g; }
-inline long double modfl(long double x, long double *y) { double f,g=::modf(x,&f); return (long double)g; }
+inline float       modff(float       x, float       *y) { double f,g=::modf(x,&f); *y=(float)f; return (float)g; }
+inline long double modfl(long double x, long double *y) { double f,g=::modf(x,&f); *y=(long double)f; return (long double)g; }
 
 inline float       powf(float       x, float       a) { return (float)::pow(x, a); }
 inline long double powl(long double x, long double a) { return (long double)::pow(x, a); }

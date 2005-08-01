@@ -2,12 +2,12 @@
 #ifdef TEST_MALLOC // see note below, at the other #ifdef TEST_MALLOC
 # include <vcl_new.h>
 #endif
-#include <vcl_cstdio.h> // do not use iostream within operator new - it causes infinite recursion
 #include <vcl_cstdlib.h>
 #include <vcl_cstddef.h> // for vcl_size_t
 #include <vcl_cmath.h> // for sqrt
 
 #include <vnl/vnl_matrix_fixed.h>
+#include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_double_3x3.h>
 #include <vnl/vnl_double_3.h>
 #include <vnl/vnl_double_2x2.h>
@@ -15,6 +15,9 @@
 #include <vnl/vnl_int_2x2.h>
 
 #include <testlib/testlib_test.h>
+
+#undef printf // to work around a bug in libintl.h
+#include <vcl_cstdio.h> // do not use iostream within operator new - it causes infinite recursion
 
 bool verbose_malloc = false;
 int malloc_count = 0;
@@ -82,7 +85,7 @@ void test_int()
        (m2.get(0,0)==2 && m2.get(0,1)==2 && m2.get(1,0)==2 && m2.get(1,1)==2), true);
   TEST("m2 = vnl_int_2x2(2)",
        (m2 = vnl_int_2x2(2),
-       (m2.get(0,0)==2 && m2.get(0,1)==2 && m2.get(1,0)==2 && m2.get(1,1)==2)), true);
+        (m2.get(0,0)==2 && m2.get(0,1)==2 && m2.get(1,0)==2 && m2.get(1,1)==2)), true);
   const vnl_int_2x2 ma = m2;
   TEST("(const vnl_matrix_fixed)(i,j)",
        (ma(0,0)==2 && ma(0,1)==2 && ma(1,0)==2 && ma(1,1)==2), true);
@@ -453,7 +456,7 @@ void test_matrix_fixed()
 
 void* operator new(vcl_size_t s)
   // [18.4.1] lib.new.delete
-#if defined(VCL_SUNPRO_CC_50) || defined(GNU_LIBSTDCXX_V3) || defined(VCL_KAI)
+#if defined(VCL_SUNPRO_CC_5) || defined(GNU_LIBSTDCXX_V3) || defined(VCL_KAI)
   throw(std::bad_alloc)
 #endif
 {
@@ -468,7 +471,7 @@ void* operator new(vcl_size_t s)
 }
 
 void operator delete(void* s)
-#if defined(GNU_LIBSTDCXX_V3) || defined(VCL_SUNPRO_CC_50)
+#if defined(GNU_LIBSTDCXX_V3) || defined(VCL_SUNPRO_CC_5)
   throw()
 #endif
 {

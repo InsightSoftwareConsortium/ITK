@@ -1,7 +1,7 @@
 #ifndef vcl_csetjmp_h_
 #define vcl_csetjmp_h_
 /*
-  Peter.Vanroose@esat.kuleuven.ac.be
+  Peter Vanroose, esat.kuleuven.be
 */
 
 /* This should define C-style stack unwinding */
@@ -10,7 +10,7 @@
 
 // SunPro 5.0's <csetjmp> is broken.
 // VisualC++'s <csetjmp> does not use namespace std.
-#if !VCL_CXX_HAS_HEADER_CSETJMP || defined(VCL_SUNPRO_CC_50) || defined(VCL_VC60)
+#if !VCL_CXX_HAS_HEADER_CSETJMP || defined(VCL_SUNPRO_CC_5) || defined(VCL_VC60)
 # include <setjmp.h>
 # define vcl_generic_csetjmp_STD /* */
 # include "generic/vcl_csetjmp.h"

@@ -31,31 +31,6 @@ vnl_amoeba::vnl_amoeba(vnl_cost_function& f)
   relative_diameter = 0.05;
 }
 
-//: Define maximum number of iterations to use
-void vnl_amoeba::set_max_iterations(int n)
-{
-  maxiter = n;
-}
-
-//: Define tolerance on elements of x
-void vnl_amoeba::set_x_tolerance(double tol)
-{
-  X_tolerance = tol;
-}
-
-//: Define tolerance on function evaluation
-void vnl_amoeba::set_f_tolerance(double tol)
-{
-  F_tolerance = tol;
-}
-
-//: Define scaling used to select starting vertices relative to initial x0.
-//  I.e. the i'th vertex has x[i] = x0[i]*(1+relative_diameter)
-void vnl_amoeba::set_relative_diameter(double r)
-{
-  relative_diameter = r;
-}
-
 
 struct vnl_amoebaFit : public vnl_amoeba
 {
@@ -438,13 +413,9 @@ class vnl_amoeba_LSCF : public vnl_cost_function
   vnl_least_squares_function* ls_;
   vnl_vector<double> fx;
  public:
-
-  vnl_amoeba_LSCF(vnl_least_squares_function& ls):
-    vnl_cost_function(ls.get_number_of_unknowns()),
-    ls_(&ls),
-    fx(ls.get_number_of_residuals())
-  {
-  }
+  vnl_amoeba_LSCF(vnl_least_squares_function& ls)
+   : vnl_cost_function(ls.get_number_of_unknowns()),
+     ls_(&ls), fx(ls.get_number_of_residuals()) {}
 
   ~vnl_amoeba_LSCF() {}
 
@@ -461,10 +432,7 @@ void vnl_amoeba::minimize(vnl_least_squares_function& f, vnl_vector<double>& x)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-vnl_amoeba_SimplexCorner::vnl_amoeba_SimplexCorner(int n):
-  v(n)
-{
-}
+vnl_amoeba_SimplexCorner::vnl_amoeba_SimplexCorner(int n) : v(n) {}
 
 vnl_amoeba_SimplexCorner& vnl_amoeba_SimplexCorner::operator=(const vnl_amoeba_SimplexCorner& that)
 {

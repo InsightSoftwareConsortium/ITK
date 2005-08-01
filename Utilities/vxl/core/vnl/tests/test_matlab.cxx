@@ -19,13 +19,14 @@
 
 #include <testlib/testlib_test.h>
 
-static void fsm_assert_(int lineno, bool pass, char const *expr) {
+static void fsm_assert_(int lineno, bool pass, char const *expr)
+{
   vcl_cout << __FILE__ " : " << lineno << vcl_endl;
   testlib_test_assert(expr, pass);
 }
 #define fsm_assert(c) fsm_assert_(__LINE__, c, #c);
 
-void test_matlab()
+static void test_matlab()
 {
   vnl_vector<float> v(4);
   vnl_vector_fixed<float,4> vf;
@@ -68,7 +69,7 @@ void test_matlab()
       vcl_ifstream f(file);
 
       vnl_matlab_readhdr vh(f);
-      fsm_assert( vh);
+      fsm_assert( vh?true:false );
       fsm_assert( vh.is_single());
       fsm_assert( vh.rows() == (int)v.size());
       fsm_assert( vh.cols() == 1);
@@ -79,7 +80,7 @@ void test_matlab()
       fsm_assert(v_ == v);
 
       vnl_matlab_readhdr Mh(f);
-      fsm_assert( Mh);
+      fsm_assert( Mh?true:false );
       fsm_assert(!Mh.is_single());
       fsm_assert( Mh.rows() == (int)M.rows());
       fsm_assert( Mh.cols() == (int)M.cols());

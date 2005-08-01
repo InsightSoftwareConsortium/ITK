@@ -31,9 +31,7 @@ static void test_gamma()
   TEST_NEAR("vnl_erfc(0.2) = 1-vnl_erf(0.2)", vnl_erfc(0.2), 1.0-vnl_erf(0.2), 1e-8);
   TEST_NEAR("vnl_erfc(1.2) = 1-vnl_erf(1.2)", vnl_erfc(1.2), 1.0-vnl_erf(1.2), 1e-6);
   TEST_NEAR("vnl_erfc(2)",           vnl_erfc(2),   0.00467773498105, 1e-8);
-  double erfc6 = vnl_erfc(6.0);
-  TEST("vnl_erfc(6)", erfc6 > 1e-17 && erfc6 < 4e-17, true);
-  TEST_NEAR("vnl_erfc(2)",           vnl_erfc(2),   0.00467773498105, 1e-8);
+  TEST_NEAR_REL("vnl_erfc(6)",       vnl_erfc(6),   2.15197367125e-17,1e-8);
   TEST_NEAR("vnl_erfc(inf)",         vnl_erfc(1e9),             0.0,  1e-8);
   TEST_NEAR("vnl_erfc(-inf)",        vnl_erfc(-1e9),            2.0,  1e-8);
 }

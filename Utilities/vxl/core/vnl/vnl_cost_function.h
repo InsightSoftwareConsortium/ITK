@@ -28,6 +28,11 @@
 class vnl_cost_function : public vnl_unary_function<double, vnl_vector<double> >
 {
  public:
+
+  //! Ddefault constructor   
+  vnl_cost_function():dim(0) {}
+
+  //! Construct with a specified number of unknowns
   vnl_cost_function(int number_of_unknowns):dim(number_of_unknowns) {}
 
   virtual ~vnl_cost_function() {}
@@ -55,8 +60,13 @@ class vnl_cost_function : public vnl_unary_function<double, vnl_vector<double> >
   vnl_vector<double> gradf(vnl_vector<double> const& x);
   vnl_vector<double> fdgradf(vnl_vector<double> const& x);
 
- public:
-  int dim;
+protected:
+
+    //! Set number of unknowns. 
+    void set_number_of_unknowns(int number_of_unknowns) { dim=number_of_unknowns; }
+
+public:
+    int dim;
 };
 
 

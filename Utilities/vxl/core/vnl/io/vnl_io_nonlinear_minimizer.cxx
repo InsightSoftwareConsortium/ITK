@@ -9,16 +9,6 @@
 #include <vsl/vsl_binary_io.h>
 #include <vsl/vsl_clipon_binary_loader.txx>
 
-//: Constructor
-vnl_io_nonlinear_minimizer::vnl_io_nonlinear_minimizer()
-{
-}
-
-//: Destructor
-vnl_io_nonlinear_minimizer::~vnl_io_nonlinear_minimizer()
-{
-}
-
 //: Create new object of type vnl_nonlinear_minimizer on heap
 vnl_nonlinear_minimizer* vnl_io_nonlinear_minimizer::new_object() const
 {
@@ -50,18 +40,6 @@ void vnl_io_nonlinear_minimizer::print_summary_by_base(vcl_ostream& os,
 vnl_io_nonlinear_minimizer* vnl_io_nonlinear_minimizer::clone() const
 {
   return new vnl_io_nonlinear_minimizer(*this);
-}
-
-//: Return name of class for which this object provides IO
-vcl_string vnl_io_nonlinear_minimizer::target_classname() const
-{
-  return vcl_string("vnl_nonlinear_minimizer");
-}
-
-//: Return true if b is of class target_classname()
-bool vnl_io_nonlinear_minimizer::is_io_for(const vnl_nonlinear_minimizer& b) const
-{
-  return b.is_a()==target_classname();
 }
 
 //==============================================================================
@@ -98,9 +76,9 @@ void vsl_b_read(vsl_b_istream &is, vnl_nonlinear_minimizer & p)
   int check_derivatives;
 
   vsl_b_read(is, ver);
-  switch(ver)
+  switch (ver)
   {
-  case 1:
+   case 1:
     vsl_b_read(is, ftol);
     p.set_f_tolerance(ftol);
     vsl_b_read(is, xtol);
@@ -119,9 +97,9 @@ void vsl_b_read(vsl_b_istream &is, vnl_nonlinear_minimizer & p)
     p.set_check_derivatives(check_derivatives);
     break;
 
-  default:
-    vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_nonlinear_minimizer&) \n"
-             << "           Unknown version number "<< ver << "\n";
+   default:
+    vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_nonlinear_minimizer&)\n"
+             << "           Unknown version number "<< ver << '\n';
     is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream
     return;
   }

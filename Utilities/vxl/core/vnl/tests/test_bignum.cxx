@@ -3,7 +3,7 @@
 // converted from COOL/test/test_BigNum.C by Peter Vanroose, 25 April 2002.
 
 #include <vcl_iostream.h>
-#include <vcl_limits.h> // for vnl_numeric_limits<double>::infinity()
+#include <vcl_limits.h> // for vcl_numeric_limits<double>::infinity()
 #ifndef __alpha__ // On Alpha, compiler runs out of memory when including these
 # include <vcl_sstream.h>
 # include <vcl_iomanip.h>
@@ -14,7 +14,8 @@
 
 #include <testlib/testlib_test.h>
 
-static void run_constructor_tests() {
+static void run_constructor_tests()
+{
   vcl_cout << "\nbignum constructor tests:\n";
 
   vcl_cout << "long constructor:\n";
@@ -210,7 +211,8 @@ static void run_conversion_operator_tests()
   TEST("vnl_bignum_from_string", e, d);
 }
 
-static void run_assignment_tests() {
+static void run_assignment_tests()
+{
   vcl_cout << "\nStarting assignment tests:\n";
   vnl_bignum b1;
 
@@ -232,7 +234,8 @@ static void run_assignment_tests() {
   TEST_RUN ("b1 = b5", b1 = b5, b1, b5);
 }
 
-static void run_logical_comparison_tests() {
+static void run_logical_comparison_tests()
+{
   vcl_cout << "\nStarting logical comparison tests:\n";
   vnl_bignum b0(0L);
   vnl_bignum b1(1L);
@@ -334,7 +337,8 @@ static void run_logical_comparison_tests() {
   TEST("<<", 1, 1);
 }
 
-static void run_division_tests() {
+static void run_division_tests()
+{
   vcl_cout << "\nStarting division tests:\n";
 
   TEST("long(vnl_bignum(0L)/vnl_bignum(1L))", long(vnl_bignum(0L)/vnl_bignum(1L)), 0L);
@@ -347,10 +351,10 @@ static void run_division_tests() {
   long div_errors = 0;
   long mod_errors = 0;
 
-  vcl_cout << " for (i = 0xffffff; i > 0; i /= 0x10) \n"
-           << "   for (j = 0x7ffffff; j > 0; j /= 0x10) \n"
-           << "     for (k = 1; k < 17; ++k) \n"
-           << "       for (l = 1; l < 17; ++l) \n         ";
+  vcl_cout << " for (i = 0xffffff; i > 0; i /= 0x10)\n"
+           << "   for (j = 0x7ffffff; j > 0; j /= 0x10)\n"
+           << "     for (k = 1; k < 17; ++k)\n"
+           << "       for (l = 1; l < 17; ++l)\n         ";
   for (i = 0xffffff; i > 0; i /= 0x10) {
     vcl_cout.put('.');
     vcl_cout.flush();
@@ -392,7 +396,7 @@ static void run_division_tests() {
   char num[130], den[130];
   vnl_bignum b,r;
 
-  while (1) {
+  while (true) {
     vcl_cout << "Enter next numerator:  ";
     vcl_cin >> num;
     vcl_cout << "Enter next denominator:  ";
@@ -409,7 +413,8 @@ static void run_division_tests() {
 #endif
 }
 
-static void run_multiplication_division_tests() {
+static void run_multiplication_division_tests()
+{
   vcl_cout << "\nCheck example in book:\n";
 
   vnl_bignum b2 = "0xffffffff";                 // Create vnl_bignum object
@@ -423,7 +428,8 @@ static void run_multiplication_division_tests() {
   TEST("((b3/b2) * b2) + (b3%b2) = b3", (((b3/b2) * b2) + (b3%b2) == b3), 1);
 }
 
-static void run_addition_subtraction_tests() {
+static void run_addition_subtraction_tests()
+{
   vcl_cout << "\nStarting addition, subtraction tests:\n";
 
   long i,j;
@@ -431,8 +437,8 @@ static void run_addition_subtraction_tests() {
   long sub_errors = 0;
   vnl_bignum bi,bj,bij;
 
-  vcl_cout << " for (i = 1; i < 0xfffffff;  i *= 3) \n"
-           << "   for (j = 1; j < 0xfffffff; j *= 3) \n      ";
+  vcl_cout << " for (i = 1; i < 0xfffffff;  i *= 3)\n"
+           << "   for (j = 1; j < 0xfffffff; j *= 3)\n      ";
 
   {for (i = 1; i < 0xfffffff;  i *= 3) {
     vcl_cout.put('.');
@@ -521,7 +527,78 @@ static void run_addition_subtraction_tests() {
   TEST("b3.dump()", 1, 1);
 }
 
-static void run_multiplication_tests() {
+
+static void run_increment_tests()
+{
+  vcl_cout << "increment special cases:\n";
+  vnl_bignum b1;
+  TEST("b1     ==  0", b1, 0);
+  ++b1;
+  TEST("++b1   ==  1", b1, 1);
+  ++b1;
+  TEST("++b1   ==  2", b1, 2);
+  --b1;
+  TEST("--b1   ==  1", b1, 1);
+  --b1;
+  TEST("--b1   ==  0", b1, 0);
+  --b1;
+  TEST("--b1   == -1", b1, -1);
+  --b1;
+  TEST("--b1   == -2", b1, -2);
+  ++b1;
+  TEST("++b1   == -1", b1, -1);
+  ++b1;
+  TEST("++b1   ==  0", b1, 0);
+
+  vnl_bignum b2("Infinity");
+  TEST("b2     ==  infinity", b2.is_plus_infinity(), true);
+  ++b2;
+  TEST("++b2   ==  infinity", b2.is_plus_infinity(), true);
+  --b2;
+  TEST("--b2   ==  infinity", b2.is_plus_infinity(), true);
+
+  vnl_bignum b3("-Infinity");
+  TEST("b3     ==  -infinity", b3.is_minus_infinity(), true);
+  ++b3;
+  TEST("++b3   ==  -infinity", b3.is_minus_infinity(), true);
+  --b3;
+  TEST("--b3   ==  -infinity", b3.is_minus_infinity(), true);
+
+  vnl_bignum b4("65534");
+  TEST("b4     ==  65534", b4, 65534);
+  ++b4;
+  TEST("++b4   ==  65535", b4, 65535);
+  ++b4;
+  TEST("++b4   ==  65536", b4, 65536);
+  ++b4;
+  TEST("++b4   ==  65537", b4, 65537);
+  --b4;
+  TEST("--b4   ==  65536", b4, 65536);
+  --b4;
+  TEST("--b4   ==  65535", b4, 65535);
+  --b4;
+  TEST("--b4   ==  65534", b4, 65534);
+
+
+  vnl_bignum b5("-65534");
+  TEST("b5     ==  -65534", b5, -65534);
+  --b5;
+  TEST("--b5   ==  -65535", b5, -65535);
+  --b5;
+  TEST("--b5   ==  -65536", b5, -65536);
+  --b5;
+  TEST("--b5   ==  -65537", b5, -65537);
+  ++b5;
+  TEST("++b5   ==  -65536", b5, -65536);
+  ++b5;
+  TEST("++b5   ==  -65535", b5, -65535);
+  ++b5;
+  TEST("++b5   ==  -65534", b5, -65534);
+}
+
+
+static void run_multiplication_tests()
+{
   vcl_cout << "\nStarting multiplication tests:\n";
 
   vnl_bignum b0(0L), b1000(1000L), b1000000(1000000L),
@@ -640,7 +717,8 @@ static void run_right_shift_tests()
   TEST("m_inf >> 16 == m_inf",m_inf >> 16, m_inf);
 }
 
-static void run_shift_tests() {
+static void run_shift_tests()
+{
   vcl_cout << "\nStarting shift tests:\n";
 
   run_left_shift_tests();
@@ -650,7 +728,7 @@ static void run_shift_tests() {
   char s[100];
   int sh;
 
-  while (1) {
+  while (true) {
     vcl_cout << "Enter next vnl_bignum:  ";
     vcl_cin >> s;
     b = s;
@@ -663,11 +741,13 @@ static void run_shift_tests() {
 #endif
 }
 
-void test_bignum() {
+void test_bignum()
+{
   run_constructor_tests();
   run_conversion_operator_tests();
   run_assignment_tests();
   run_addition_subtraction_tests();
+  run_increment_tests();
   run_multiplication_tests();
   run_division_tests();
   run_multiplication_division_tests();

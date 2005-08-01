@@ -56,29 +56,29 @@ inline bool vnl_math_isfinite(vcl_complex<vnl_bignum> const&) { return true; }
 inline vnl_bignum vnl_math_squared_magnitude(vcl_complex<vnl_bignum> const& z) { return vcl_norm(z); }
 inline vnl_bignum vnl_math_abs(vcl_complex<vnl_bignum> const& z) { return vcl_sqrt(double(vcl_norm(z))); }
 inline vcl_complex<vnl_bignum> vnl_math_sqr(vcl_complex<vnl_bignum> const& z) { return z*z; }
-inline vcl_ostream& operator<<(vcl_ostream& s, vcl_complex<vnl_bignum> const& z) {
-  return s << '(' << z.real() << "," << z.imag() << ')'; }
-inline vcl_istream& operator>>(vcl_istream& s, vcl_complex<vnl_bignum>& z) {
-  vnl_bignum r, i; s >> r >> i; z=vcl_complex<vnl_bignum>(r,i); return s; }
+inline vcl_ostream& operator<<(vcl_ostream& s, vcl_complex<vnl_bignum> const& z)
+{ return s << '(' << z.real() << ',' << z.imag() << ')'; }
+inline vcl_istream& operator>>(vcl_istream& s, vcl_complex<vnl_bignum>& z)
+{ vnl_bignum r, i; s >> r >> i; z=vcl_complex<vnl_bignum>(r,i); return s; }
 
-#endif
+#endif // NEED_COMPLEX_BIGNUM
 
 #ifdef NEED_COMPLEX_RATIONAL // should probably not be defined ;-)
 
 #include <vnl/vnl_rational.h>
 
 inline bool vnl_math_isnan(vcl_complex<vnl_rational> const& z)
-  { return vnl_math_isnan(vcl_real(z)) || vnl_math_isnan(vcl_imag(z)); }
+{ return vnl_math_isnan(vcl_real(z)) || vnl_math_isnan(vcl_imag(z)); }
 inline bool vnl_math_isfinite(vcl_complex<vnl_rational> const& z)
-  { return vnl_math_isfinite(vcl_real(z)) && vnl_math_isfinite(vcl_imag(z)); }
+{ return vnl_math_isfinite(vcl_real(z)) && vnl_math_isfinite(vcl_imag(z)); }
 inline vnl_rational vnl_math_squared_magnitude(vcl_complex<vnl_rational> const& z) { return vcl_norm(z); }
 inline vnl_rational vnl_math_abs(vcl_complex<vnl_rational> const& z) { return vcl_sqrt(double(vcl_norm(z))); }
 inline vcl_complex<vnl_rational> vnl_math_sqr(vcl_complex<vnl_rational> const& z) { return z*z; }
-inline vcl_ostream& operator<< (vcl_ostream& s, vcl_complex<vnl_rational> const& z) {
-  return s << '(' << z.real() << "," << z.imag() << ')'; }
-inline vcl_istream& operator>> (vcl_istream& s, vcl_complex<vnl_rational>& z) {
-  vnl_rational r, i; s >> r >> i; z=vcl_complex<vnl_rational>(r,i); return s; }
+inline vcl_ostream& operator<< (vcl_ostream& s, vcl_complex<vnl_rational> const& z)
+{ return s << '(' << z.real() << ',' << z.imag() << ')'; }
+inline vcl_istream& operator>> (vcl_istream& s, vcl_complex<vnl_rational>& z)
+{ vnl_rational r, i; s >> r >> i; z=vcl_complex<vnl_rational>(r,i); return s; }
 
-#endif
+#endif // NEED_COMPLEX_RATIONAL
 
 #endif // vnl_complex_h_

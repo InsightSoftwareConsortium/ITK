@@ -34,6 +34,9 @@
 #include "vnl_c_vector.h"
 #include "vnl_matrix.h" // outerproduct
 
+export template <class T, unsigned int n> class vnl_vector_fixed;
+export template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
+
 //: Fixed length  stack-stored, space-efficient vector.
 // vnl_vector_fixed is a fixed-length, stack storage vector. It has
 // the same storage size as a C-style array. It is not related via
@@ -80,6 +83,8 @@ class vnl_vector_fixed
 {
  public:
   typedef unsigned int size_type;
+  // Compile-time accessible attribute to get the dimensionality of the vector.
+  enum{ SIZE = n };
 
  protected:
   T data_[n];
@@ -506,7 +511,8 @@ inline vnl_vector_fixed<T,n> operator+( const vnl_vector_fixed<T,n>& v, T s )
 //:
 // \relates vnl_vector_fixed
 template<class T, unsigned int n>
-inline vnl_vector_fixed<T,n> operator+( T s, const vnl_vector_fixed<T,n>& v )
+inline vnl_vector_fixed<T,n> operator+( const T& s,
+                                        const vnl_vector_fixed<T,n>& v )
 {
   vnl_vector_fixed<T,n> r;
   vnl_vector_fixed<T,n>::add( v.data_block(), s, r.data_block() );
@@ -526,7 +532,8 @@ inline vnl_vector_fixed<T,n> operator-( const vnl_vector_fixed<T,n>& v, T s )
 //:
 // \relates vnl_vector_fixed
 template<class T, unsigned int n>
-inline vnl_vector_fixed<T,n> operator-( T s, const vnl_vector_fixed<T,n>& v )
+inline vnl_vector_fixed<T,n> operator-( const T& s,
+                                        const vnl_vector_fixed<T,n>& v )
 {
   vnl_vector_fixed<T,n> r;
   vnl_vector_fixed<T,n>::sub( s, v.data_block(), r.data_block() );
@@ -546,7 +553,8 @@ inline vnl_vector_fixed<T,n> operator*( const vnl_vector_fixed<T,n>& v, T s )
 //:
 // \relates vnl_vector_fixed
 template<class T, unsigned int n>
-inline vnl_vector_fixed<T,n> operator*( T s, const vnl_vector_fixed<T,n>& v )
+inline vnl_vector_fixed<T,n> operator*( const T& s,
+                                        const vnl_vector_fixed<T,n>& v )
 {
   vnl_vector_fixed<T,n> r;
   vnl_vector_fixed<T,n>::mul( v.data_block(), s, r.data_block() );
@@ -696,63 +704,6 @@ inline vnl_vector<T> element_quotient( const vnl_vector<T>& a, const vnl_vector_
 
 //:
 // \relates vnl_vector_fixed
-template<class T>
-T cross_2d (vnl_vector_fixed<T,2> const& v1, vnl_vector_fixed<T,2> const& v2)
-{
-  return v1[0] * v2[1] - v1[1] * v2[0];
-}
-
-//:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
-template<class T>
-T cross_2d (vnl_vector_fixed<T,2> const& v1, vnl_vector<T> const& v2)
-{
-  assert( v2.size() == 2 );
-  return v1[0] * v2[1] - v1[1] * v2[0];
-}
-
-//:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
-template<class T>
-T cross_2d (vnl_vector<T> const& v1, vnl_vector_fixed<T,2> const& v2)
-{
-  assert( v1.size() == 2 );
-  return v1[0] * v2[1] - v1[1] * v2[0];
-}
-
-//:
-// \relates vnl_vector_fixed
-template<class T>
-vnl_vector_fixed<T,3> cross_3d (vnl_vector_fixed<T,3> const& v1, vnl_vector_fixed<T,3> const& v2)
-{
-  vnl_vector_fixed<T,3> result;
-
-  result[0] = v1[1] * v2[2] - v1[2] * v2[1];
-  result[1] = v1[2] * v2[0] - v1[0] * v2[2];
-  result[2] = v1[0] * v2[1] - v1[1] * v2[0];
-  return result;
-}
-
-//:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
-template<class T,unsigned int n>
-  inline vnl_vector_fixed<T,n> cross_3d( const vnl_vector_fixed<T,n>& a, const vnl_vector<T>& b ) {
-  return cross_3d( a.as_ref(), b);
-}
-
-//:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
-template<class T,unsigned int n>
-  inline vnl_vector_fixed<T,n> cross_3d( const vnl_vector<T>& a, const vnl_vector_fixed<T,n>& b ) {
-  return cross_3d( a, b.as_ref());
-}
-
-//:
-// \relates vnl_vector_fixed
 template<class T, unsigned n>
 inline T dot_product( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -775,14 +726,6 @@ template<class T, unsigned n>
 inline T dot_product( const vnl_vector<T>& a, const vnl_vector_fixed<T,n>& b )
 {
   return dot_product( a, b.as_ref() );
-}
-
-//:
-// \relates vnl_vector_fixed
-template<class T, unsigned int n>
-inline vnl_matrix<T> outer_product( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<T,n>& b )
-{
-  return outer_product( a.as_ref(), b.as_ref());
 }
 
 //:

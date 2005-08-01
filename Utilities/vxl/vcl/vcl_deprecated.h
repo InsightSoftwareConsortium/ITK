@@ -36,8 +36,14 @@
     #define VXL_DEPRECATED(f) vcl_deprecated_abort( f )
   #else
     #ifdef VXL_WARN_DEPRECATED_ONCE
-      #define VXL_DEPRECATED(f) static bool vcl_deprecated_flag = true; \
-                                if( vcl_deprecated_flag ) {vcl_deprecated_warn( f ); vcl_deprecated_flag=false;}
+      #define VXL_DEPRECATED(f) \
+        do { \
+            static bool vcl_deprecated_flag = true; \
+            if( vcl_deprecated_flag ) { \
+                vcl_deprecated_warn( f ); \
+                vcl_deprecated_flag=false; \
+            } \
+        } while (0)
     #else
       #define VXL_DEPRECATED(f) vcl_deprecated_warn( f )
     #endif

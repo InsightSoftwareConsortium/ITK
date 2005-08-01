@@ -3,7 +3,7 @@
 #undef abs
 #undef min
 #undef max
-#include "stdio.h"
+#include <stdio.h>
 
 static integer memfailure = 3;
 
@@ -12,13 +12,13 @@ extern char *malloc();
 extern void exit_();
 
 char *
-F77_aloc(Len, whence) integer Len; char *whence;
+F77_aloc(Len, whence) integer Len; const char *whence;
 #else
-#include "stdlib.h"
+#include <stdlib.h>
 extern void exit_(integer*);
 
 char *
-F77_aloc(integer Len, char *whence)
+F77_aloc(integer Len, const char *whence)
 #endif
 {
     char *rv;

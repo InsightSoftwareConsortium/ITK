@@ -13,8 +13,7 @@ static bool Compare(vnl_sparse_matrix<double>& M1, vnl_sparse_matrix<double>& M2
 
   while (M1.next() && M2.next())
   {
-    if (M1.getrow()!=M2.getrow() || M1.getcolumn() != M2.getcolumn()
-              ||  M1.value()!= M2.value())
+    if (M1.getrow()!=M2.getrow() || M1.getcolumn() != M2.getcolumn() || M1.value()!= M2.value())
     {
       return false;
     }

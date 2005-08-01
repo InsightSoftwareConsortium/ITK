@@ -285,7 +285,7 @@ struct triangulateio {
   int numberofedges;                                             /* Out only */
 };
 
-void triangulate(char *, struct triangulateio *, struct triangulateio *,
+void triangulate(const char *, struct triangulateio *, struct triangulateio *,
                  struct triangulateio *);
 
 #endif /* netlib_triangle_h_ */

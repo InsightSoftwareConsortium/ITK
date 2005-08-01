@@ -64,9 +64,14 @@ vnl_matlab_readhdr::~vnl_matlab_readhdr()
   varname = 0;
 }
 
-vnl_matlab_readhdr::operator bool () const
+vnl_matlab_readhdr::operator vnl_matlab_readhdr::safe_bool () const
 {
-  return s.good() && !s.eof(); // FIXME
+  return (s.good() && !s.eof())? VCL_SAFE_BOOL_TRUE : 0; // FIXME
+}
+
+bool vnl_matlab_readhdr::operator!() const
+{
+  return (s.good() && !s.eof())? false : true; // FIXME
 }
 
 bool vnl_matlab_readhdr::is_single() const

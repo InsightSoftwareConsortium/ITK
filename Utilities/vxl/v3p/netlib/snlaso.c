@@ -390,11 +390,14 @@ L110:
 
 /* ------------------------------------------------------------------ */
 
-/* Subroutine */ void snwla_(op, iovect, n, nband, nval, nfig, nperm, val,
-        nmvec, vec, nblock, maxop, maxj, nop, p1, p0, res, tau, otau, t, alp,
-        bet, s, p2, bound, atemp, vtemp, d, ind, small, raritz, delta, eps, ierr)
-/* Subroutine */ void (*op) (const integer*,const integer*,const real*,real*);
-/* Subroutine */ void (*iovect) (const integer*,const integer*,real*,const integer*,const integer*);
+/* Subroutine */
+static void snwla_(op, iovect, n, nband, nval, nfig, nperm, val,
+                   nmvec, vec, nblock, maxop, maxj, nop, p1, p0, res, tau, otau, t, alp,
+                   bet, s, p2, bound, atemp, vtemp, d, ind, small, raritz, delta, eps, ierr)
+/* Subroutine */
+void (*op) (const integer*,const integer*,const real*,real*);
+/* Subroutine */
+void (*iovect) (const integer*,const integer*,real*,const integer*,const integer*);
 const integer *n, *nband, *nval, *nfig;
 integer *nperm;
 real *val;
@@ -1026,7 +1029,8 @@ L790:
 
 /* *********************************************************************** */
 
-/* Subroutine */ void slabax_(n, nband, a, x, y)
+/* Subroutine */
+static void slabax_(n, nband, a, x, y)
 const integer *n, *nband;
 real *a, *x, *y;
 {
@@ -1052,7 +1056,8 @@ real *a, *x, *y;
 
 /* *********************************************************************** */
 
-/* Subroutine */ void slabcm_(n, nband, nl, nr, a, eigval, lde, eigvec, atol, artol, bound, atemp, d, vtemp)
+/* Subroutine */
+static void slabcm_(n, nband, nl, nr, a, eigval, lde, eigvec, atol, artol, bound, atemp, d, vtemp)
 const integer *n, *nband, *nl, *nr;
 real *a, *eigval;
 const integer *lde;
@@ -1063,7 +1068,7 @@ real *eigvec, *atol, *artol, *bound, *atemp, *d, *vtemp;
     real r__1;
 
     /* Local variables */
-    static logical flag;
+    static logical flag_;
     static real errb;
     static integer nval, numl;
     static integer i, j;
@@ -1083,7 +1088,7 @@ real *eigvec, *atol, *artol, *bound, *atemp, *d, *vtemp;
 /*  REPLACE ZERO VECTORS BY RANDOM */
 
     nval = *nr - *nl + 1;
-    flag = FALSE_;
+    flag_ = FALSE_;
     for (i = 0; i < nval; ++i) {
         if (sdot_(n, &eigvec[i * *lde], &c__1, &eigvec[i * *lde], &c__1) == 0.f) {
             slaran_(n, &eigvec[i * *lde]);
@@ -1251,11 +1256,11 @@ L200:
 
 L300:
         slaran_(n, &eigvec[j * *lde]);
-        flag = TRUE_;
+        flag_ = TRUE_;
         goto L310;
 
 L305:
-        flag = FALSE_;
+        flag_ = FALSE_;
         rq = (bound[(j << 1) + 2] + bound[(j << 1) + 3]) * .5f;
         i__1 = (*nband << 1) - 1;
         slabfc_(n, nband, a, &rq, &numvec, lde, &eigvec[j * *lde], &numl, &i__1, atemp, d, atol);
@@ -1282,7 +1287,7 @@ L310:
 
 /*   ORTHOGONALIZE LATER VECTORS AGAINST THE CONVERGED ONE */
 
-        if (flag) {
+        if (flag_) {
             goto L305;
         }
         for (i = j+1; i < nval; ++i) {
@@ -1295,7 +1300,8 @@ L310:
 
 /* *********************************************************************** */
 
-/* Subroutine */ void slabfc_(n, nband, a, sigma, number, lde, eigvec, numl, ldad, atemp, d, atol)
+/* Subroutine */
+static void slabfc_(n, nband, a, sigma, number, lde, eigvec, numl, ldad, atemp, d, atol)
 const integer *n, *nband;
 real *a, *sigma;
 const integer *number, *lde;
@@ -1432,7 +1438,8 @@ L110:
 } /* slabfc_ */
 
 
-/* Subroutine */ void slaeig_(n, nband, nl, nr, a, eigval, lde, eigvec, bound, atemp, d, vtemp, eps, tmin, tmax)
+/* Subroutine */
+static void slaeig_(n, nband, nl, nr, a, eigval, lde, eigvec, bound, atemp, d, vtemp, eps, tmin, tmax)
 const integer *n, *nband, *nl, *nr;
 real *a, *eigval;
 const integer *lde;
@@ -1481,7 +1488,8 @@ real *eigvec, *bound, *atemp, *d, *vtemp, *eps, *tmin, *tmax;
 
 /* *********************************************************************** */
 
-/* Subroutine */ void slager_(n, nband, nstart, a, tmin, tmax)
+/* Subroutine */
+static void slager_(n, nband, nstart, a, tmin, tmax)
 const integer *n, *nband, *nstart;
 real *a, *tmin, *tmax;
 {
@@ -1510,7 +1518,8 @@ real *a, *tmin, *tmax;
 
 /* *********************************************************************** */
 
-/* Subroutine */ void slaran_(n, x)
+/* Subroutine */
+static void slaran_(n, x)
 const integer *n;
 real *x;
 {
@@ -1532,7 +1541,8 @@ real *x;
 
 /* ------------------------------------------------------------------ */
 
-/* Subroutine */ void smvpc_(nblock, bet, maxj, j, s, number, resnrm, orthcf, rv)
+/* Subroutine */
+static void smvpc_(nblock, bet, maxj, j, s, number, resnrm, orthcf, rv)
 const integer *nblock;
 const real *bet;
 const integer *maxj, *j;
@@ -1566,10 +1576,13 @@ real *resnrm, *orthcf, *rv;
 
 /* ------------------------------------------------------------------ */
 
-/* Subroutine */ void snppla_(op, iovect, n, nperm, nop, nmval, val, nmvec,
-        vec, nblock, h, hv, p, q, bound, d, delta, small, raritz, eps)
-/* Subroutine */ void (*op) (const integer*,const integer*,const real*,real*);
-/* Subroutine */ void (*iovect) (const integer*,const integer*,real*,const integer*,const integer*);
+/* Subroutine */
+static void snppla_(op, iovect, n, nperm, nop, nmval, val, nmvec,
+                    vec, nblock, h, hv, p, q, bound, d, delta, small, raritz, eps)
+/* Subroutine */
+void (*op) (const integer*,const integer*,const real*,real*);
+/* Subroutine */
+void (*iovect) (const integer*,const integer*,real*,const integer*,const integer*);
 const integer *n, *nperm, *nmval;
 integer *nop;
 real *val;
@@ -1754,7 +1767,8 @@ L260:
 
 /* ------------------------------------------------------------------ */
 
-/* Subroutine */ void sortqr_(nz, n, nblock, z, b)
+/* Subroutine */
+static void sortqr_(nz, n, nblock, z, b)
 const integer *nz, *n, *nblock;
 real *z, *b;
 {
@@ -1826,7 +1840,8 @@ L60:
 
 /* ------------------------------------------------------------------- */
 
-/* Subroutine */ void svsort_(num, val, res, iflag, v, nmvec, n, vec)
+/* Subroutine */
+static void svsort_(num, val, res, iflag, v, nmvec, n, vec)
 const integer *num;
 real *val, *res;
 const integer *iflag;

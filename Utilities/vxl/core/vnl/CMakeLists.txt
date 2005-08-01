@@ -1,8 +1,39 @@
-# vxl/vnl/CMakeLists.txt
+# vxl/core/vnl/CMakeLists.txt
+
+# Create vnl_config.h
+OPTION(VNL_CONFIG_CHECK_BOUNDS
+  "Whether vnl_vector/vnl_matrix accessor methods check index bounds." ON)
+OPTION(VNL_CONFIG_LEGACY_METHODS
+  "Whether backward-compatibility methods are provided by vnl." OFF)
+OPTION(VNL_CONFIG_THREAD_SAFE
+  "Whether thread-safe vnl implementations are used." ON)
+MARK_AS_ADVANCED(
+  VNL_CONFIG_CHECK_BOUNDS
+  VNL_CONFIG_LEGACY_METHODS
+  VNL_CONFIG_THREAD_SAFE
+  )
+# Need to enforce 1/0 values for configuration.
+IF(VNL_CONFIG_CHECK_BOUNDS)
+  SET(VNL_CONFIG_CHECK_BOUNDS 1)
+ELSE(VNL_CONFIG_CHECK_BOUNDS)
+  SET(VNL_CONFIG_CHECK_BOUNDS 0)
+ENDIF(VNL_CONFIG_CHECK_BOUNDS)
+IF(VNL_CONFIG_LEGACY_METHODS)
+  SET(VNL_CONFIG_LEGACY_METHODS 1)
+ELSE(VNL_CONFIG_LEGACY_METHODS)
+  SET(VNL_CONFIG_LEGACY_METHODS 0)
+ENDIF(VNL_CONFIG_LEGACY_METHODS)
+IF(VNL_CONFIG_THREAD_SAFE)
+  SET(VNL_CONFIG_THREAD_SAFE 1)
+ELSE(VNL_CONFIG_THREAD_SAFE)
+  SET(VNL_CONFIG_THREAD_SAFE 0)
+ENDIF(VNL_CONFIG_THREAD_SAFE)
+CONFIGURE_FILE(${vxl_SOURCE_DIR}/core/vnl/vnl_config.h.in
+               ${vxl_BINARY_DIR}/core/vnl/vnl_config.h @ONLY IMMEDIATE)
 
 SET( vnl_sources
+  vnl_config.h.in
   vnl_fwd.h
-  vnl_config.h
   vnl_tag.h
 
   # vector and matrix
@@ -21,6 +52,7 @@ SET( vnl_sources
   vnl_matrix_exp.txx           vnl_matrix_exp.h
   vnl_file_matrix.txx          vnl_file_matrix.h
   vnl_sym_matrix.txx           vnl_sym_matrix.h
+
   # matrix operators
   vnl_fortran_copy.txx         vnl_fortran_copy.h
   vnl_det.txx                  vnl_det.h
@@ -67,8 +99,6 @@ SET( vnl_sources
   vnl_complex_ops.txx          vnl_complexify.h vnl_real.h vnl_imag.h
 
   # traits
-  # vnl_numeric_limits can be removed after the release of VXL 1.1.0
-  vnl_numeric_limits.cxx       vnl_numeric_limits.h
   vnl_numeric_traits.cxx       vnl_numeric_traits.h
                                vnl_complex_traits.h
   vnl_bignum_traits.cxx        vnl_bignum_traits.h
@@ -87,7 +117,9 @@ SET( vnl_sources
   vnl_double_3.h
   vnl_double_4.h
 
+  vnl_int_1x1.h
   vnl_int_2x2.h
+  vnl_float_1x1.h
   vnl_float_1x2.h
   vnl_float_2x1.h
   vnl_float_2x2.h
@@ -116,6 +148,8 @@ SET( vnl_sources
   vnl_least_squares_cost_function.cxx vnl_least_squares_cost_function.h
   vnl_nonlinear_minimizer.cxx         vnl_nonlinear_minimizer.h
 
+  vnl_hungarian_algorithm.cxx         vnl_hungarian_algorithm.h
+
   # linear systems
   vnl_linear_system.cxx               vnl_linear_system.h
   vnl_sparse_matrix_linear_system.cxx vnl_sparse_matrix_linear_system.h
@@ -126,12 +160,19 @@ SET( vnl_sources
   vnl_identity_3x3.h
 
   # Special functions
+  vnl_bessel.cxx               vnl_bessel.h
                                vnl_cross.h
   vnl_gamma.cxx                vnl_gamma.h
   vnl_erf.cxx                  vnl_erf.h
   vnl_sample.cxx               vnl_sample.h
   vnl_unary_function.txx       vnl_unary_function.h
   vnl_identity.h
+  vnl_random.cxx               vnl_random.h
+
+  # numerical integration
+                               vnl_integrant_fnct.h
+                               vnl_analytic_integrant.h
+  vnl_definite_integral.cxx    vnl_definite_integral.h
 )
 
 AUX_SOURCE_DIRECTORY(Templates vnl_sources)
@@ -150,21 +191,12 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
   SET_SOURCE_FILES_PROPERTIES(Templates/vnl_vector_fixed+vnl_rational.3-.cxx PROPERTIES COMPILE_FLAGS -O0)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
-# VNL_ALLOC is a fast but currently thread-unsafe allocator
-# used in vnl_vectors. The default is to use it but to
-# use the slower, thread-safe allocation, in your
-# CMakeListsLocal.txt file add the following lines
-# SET(VNL_C_VECTOR_USE_VNL_ALLOC_DEFINED 1)
-# ADD_DEFINITIONS(-DVNL_C_VECTOR_USE_VNL_ALLOC=0)
-#
-# ITK will never use the thread-unsafe version:
-#
-#IF(NOT VNL_C_VECTOR_USE_VNL_ALLOC_DEFINED)
-#  ADD_DEFINITIONS(-DVNL_C_VECTOR_USE_VNL_ALLOC=1)
-#ENDIF(NOT VNL_C_VECTOR_USE_VNL_ALLOC_DEFINED)
-
 ADD_LIBRARY(itkvnl ${vnl_sources})
 TARGET_LINK_LIBRARIES( itkvnl itkvcl )
+
+IF( BUILD_TESTING )
+  SUBDIRS(tests)
+ENDIF( BUILD_TESTING )
 
 SUBDIRS(algo)
 

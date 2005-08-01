@@ -24,6 +24,7 @@ ADD_EXECUTABLE( vcl_test_all
      test_list.cxx
      test_limits.cxx
      test_map.cxx
+     test_memory.cxx
      test_multimap.cxx
      test_new.cxx
      test_set.cxx
@@ -48,6 +49,7 @@ ADD_TEST( vcl_test_iterator    vcl_test_all test_iterator )
 ADD_TEST( vcl_test_list        vcl_test_all test_list )
 ADD_TEST( vcl_test_limits      vcl_test_all test_limits )
 ADD_TEST( vcl_test_map         vcl_test_all test_map )
+ADD_TEST( vcl_test_memory      vcl_test_all test_memory )
 ADD_TEST( vcl_test_multimap    vcl_test_all test_multimap )
 ADD_TEST( vcl_test_new         vcl_test_all test_new )
 ADD_TEST( vcl_test_set         vcl_test_all test_set )

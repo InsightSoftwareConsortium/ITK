@@ -16,7 +16,7 @@
 // The compiler issues a warning about the inconsistency in <complex>,
 // but it seems that the warning can be safely ignored provided the
 // implementors wrote the code correcting. Since this is part of the
-// compiler system, we can assume that the implementators have
+// compiler system, we can assume that the implementers have
 // addressed the issue, and that we can safely ignore the warning. A
 // couple of articles on the web seem to support this position:
 // http://support.microsoft.com/default.aspx?scid=http://support.microsoft.com:80/support/kb/articles/Q134/9/80.asp&NoWebContent=1
@@ -75,9 +75,6 @@
 #ifndef vcl_log10
 # define vcl_log10 vcl_log10
 #endif
-#ifndef vcl_pow
-# define vcl_pow vcl_pow
-#endif
 #ifndef vcl_sin
 # define vcl_sin vcl_sin
 #endif
@@ -109,9 +106,6 @@ template <class T> vcl_complex<T> vcl_cosh(const vcl_complex<T>& x) { return std
 template <class T> vcl_complex<T> vcl_exp(const vcl_complex<T>& x) { return std::exp(x); }
 template <class T> vcl_complex<T> vcl_log(const vcl_complex<T>& x) { return std::log(x); }
 template <class T> vcl_complex<T> vcl_log10(const vcl_complex<T>& x) { return std::log10(x); }
-template <class T> vcl_complex<T> vcl_pow(const vcl_complex<T>& x, int y) { return std::pow(x, y); }
-template <class T> vcl_complex<T> vcl_pow(const vcl_complex<T>& x, const vcl_complex<T>& y) { return std::pow(x, y); }
-template <class T> vcl_complex<T> vcl_pow(const T& x, const vcl_complex<T>& y) { return std::pow(x, y); }
 template <class T> vcl_complex<T> vcl_sin(const vcl_complex<T>& x) { return std::sin(x); }
 template <class T> vcl_complex<T> vcl_sinh(const vcl_complex<T>& x) { return std::sinh(x); }
 template <class T> vcl_complex<T> vcl_sqrt(const vcl_complex<T>& x) { return std::sqrt(x); }

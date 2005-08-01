@@ -14,7 +14,7 @@ void test_real_npolynomial_io()
            << "************************\n";
   //// test constructors, accessors
   vnl_vector<double> coeffs(4),coeffs2;
-  vnl_matrix<int> exponents(4,2);
+  vnl_matrix<unsigned int> exponents(4,2);
 
   coeffs(0) = 0.1;
   coeffs(1) = 0.2;

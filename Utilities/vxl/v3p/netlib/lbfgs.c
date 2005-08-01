@@ -628,7 +628,8 @@ L196:
 /*     LINE SEARCH ROUTINE MCSRCH */
 /*     ************************** */
 
-/* Subroutine */ void mcsrch_(n, x, f, g, s, stp, ftol, xtol, maxfev, info, nfev, wa)
+/* Subroutine */
+static void mcsrch_(n, x, f, g, s, stp, ftol, xtol, maxfev, info, nfev, wa)
 integer *n;
 doublereal *x, *f, *g, *s, *stp, *ftol, *xtol;
 integer *maxfev, *info, *nfev;
@@ -940,7 +941,8 @@ L45:
 
 } /* mcsrch_ */
 
-/* Subroutine */ void mcstep_(stx, fx, dx, sty, fy, dy, stp, fp, dp, brackt, stpmin, stpmax, info)
+/* Subroutine */
+static void mcstep_(stx, fx, dx, sty, fy, dy, stp, fp, dp, brackt, stpmin, stpmax, info)
 doublereal *stx, *fx, *dx, *sty, *fy, *dy, *stp, *fp, *dp;
 logical *brackt;
 doublereal *stpmin, *stpmax;

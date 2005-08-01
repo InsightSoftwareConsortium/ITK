@@ -573,7 +573,7 @@ L400:
 
 } /* csvdc_ */
 
-int fsm_ieee_floats_equal(const real *x, const real *y)
+static int fsm_ieee_floats_equal(const real *x, const real *y)
 {
   return *x == *y;
 }

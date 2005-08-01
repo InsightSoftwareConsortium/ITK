@@ -69,14 +69,14 @@ vnl_generalized_eigensystem::vnl_generalized_eigensystem(const vnl_matrix<double
     vnl_matrix<double> M = eig.V.get_n_columns(rank_deficiency, rank);
     vnl_matrix<double> N = eig.V.get_n_columns(0, rank_deficiency);
 
-    vnl_svd<double> svd(M.transpose()*A*N);
+    vnl_svd<double> svd(vnl_transpose(M)*A*N);
 
-    vnl_generalized_eigensystem reduced(M.transpose() * A * M,
-                                        M.transpose() * B * M);
+    vnl_generalized_eigensystem reduced(vnl_transpose(M) * A * M,
+                                        vnl_transpose(M) * B * M);
 
     vcl_cerr << "AN: " << reduced.D << vcl_endl;
 
-    vnl_matrix<double> V05 = M * reduced.V.transpose();
+    vnl_matrix<double> V05 = M * vnl_transpose(reduced.V);
     vnl_svd<double> sv6(V05.transpose());
     V.update(V05, 0, 0);
     V.update(sv6.nullspace(), 0, rank - 1);
@@ -90,7 +90,7 @@ vnl_generalized_eigensystem::vnl_generalized_eigensystem(const vnl_matrix<double
 #endif
   }
 
-  // vnl_transpose-copy V1 to V
+  // transpose-copy V1 to V
   {
     double *vptr = &V1[0];
     for (int c = 0; c < n; ++c)
@@ -108,9 +108,9 @@ vnl_generalized_eigensystem::vnl_generalized_eigensystem(const vnl_matrix<double
                << "The eigenvalues should be correct for indices 1.." << ierr-1
                << ", but no eigenvectors are computed.\n"
                << "A = " << A
-               << "\nsingular values(A) = " << vnl_svd<double>(A).W() << "\n"
+               << "\nsingular values(A) = " << vnl_svd<double>(A).W() << '\n'
                << "B = " << B
-               << "\nsingular values(B) = " << vnl_svd<double>(B).W() << "\n";
+               << "\nsingular values(B) = " << vnl_svd<double>(B).W() << '\n';
     }
   }
 }

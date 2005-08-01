@@ -102,15 +102,16 @@ class vnl_levenberg_marquardt : public vnl_nonlinear_minimizer
   void diagnose_outcome(vcl_ostream&) const;
 
   //: Return J'*J computed at last minimum.
+  //  it is an approximation of inverse of covariance 
   vnl_matrix<double> const& get_JtJ();
 
  protected:
 
   vnl_least_squares_function* f_;
-  vnl_matrix<double>* fdjac_; // Computed during lmdif/lmder
-  vnl_vector<int>*    ipvt_;  // Also computed, both needed to get J'*J at end.
+  vnl_matrix<double> fdjac_; // Computed during lmdif/lmder
+  vnl_vector<int>    ipvt_;  // Also computed, both needed to get J'*J at end.
 
-  vnl_matrix<double>* covariance_;
+  vnl_matrix<double> inv_covar_;
   bool set_covariance_; // Set if covariance_ holds J'*J
 
   void init(vnl_least_squares_function* f);

@@ -9,20 +9,15 @@
 #include <vcl_cmath.h>
 #include <vcl_cassert.h>
 #ifdef DEBUG
-#include <vcl_cstdio.h>
 #include <vcl_iostream.h>
+#include <vcl_fstream.h>
 #endif
 
-// fsm: moved ::M_ and ::T_ into the namespace of vnl_rnpoly_solve, as they
-// were causing multiply defined symbols for static builds. if your compiler cannot
-// cope with the next two lines, replace them with #defines.
-static const unsigned int M_ = vnl_rnpoly_solve::M_;
-static const unsigned int T_ = vnl_rnpoly_solve::T_;
+static unsigned int dim_ = 0; // dimension of the problem
+static unsigned int max_deg_ = 0; // maximal degree
+static unsigned int max_nterms_ = 0; // maximal number of terms
 
-static const unsigned int P_ = M_-1;  // Maximum power for any variable in a term
-static const unsigned int LEN_= 3080; // Maximum number of roots
-
-//: This is a local implementation of a "complex number" class, for internal use only
+//: This is a local implementation of a minimal "complex number" class, for internal use only
 class vnl_rnpoly_solve_cmplx
 {
  public:
@@ -31,28 +26,27 @@ class vnl_rnpoly_solve_cmplx
   vnl_rnpoly_solve_cmplx(double a=0, double b=0) : R(a), C(b) {}
   inline double norm() const { return R*R+C*C; }
   inline vnl_rnpoly_solve_cmplx operator-() const
-            { return vnl_rnpoly_solve_cmplx(-R, -C); }
+  { return vnl_rnpoly_solve_cmplx(-R, -C); }
   inline vnl_rnpoly_solve_cmplx operator+(vnl_rnpoly_solve_cmplx const& Y) const
-            { return vnl_rnpoly_solve_cmplx(R+Y.R, C+Y.C); }
+  { return vnl_rnpoly_solve_cmplx(R+Y.R, C+Y.C); }
   inline vnl_rnpoly_solve_cmplx operator-(vnl_rnpoly_solve_cmplx const& Y) const
-            { return vnl_rnpoly_solve_cmplx(R-Y.R, C-Y.C); }
+  { return vnl_rnpoly_solve_cmplx(R-Y.R, C-Y.C); }
   inline vnl_rnpoly_solve_cmplx& operator+=(vnl_rnpoly_solve_cmplx const& Y)
-            { R+=Y.R; C+=Y.C; return *this; }
+  { R+=Y.R; C+=Y.C; return *this; }
   inline vnl_rnpoly_solve_cmplx& operator-=(vnl_rnpoly_solve_cmplx const& Y)
-            { R-=Y.R; C-=Y.C; return *this; }
+  { R-=Y.R; C-=Y.C; return *this; }
   inline vnl_rnpoly_solve_cmplx operator*(vnl_rnpoly_solve_cmplx const& Y) const
-            { return vnl_rnpoly_solve_cmplx(R*Y.R-C*Y.C, R*Y.C+C*Y.R); }
+  { return vnl_rnpoly_solve_cmplx(R*Y.R-C*Y.C, R*Y.C+C*Y.R); }
   inline vnl_rnpoly_solve_cmplx operator/(vnl_rnpoly_solve_cmplx const& Y) const
-            { double N=1.0/Y.norm();
-              return vnl_rnpoly_solve_cmplx((R*Y.R+C*Y.C)*N, (C*Y.R-R*Y.C)*N); }
+  { double N=1.0/Y.norm(); return vnl_rnpoly_solve_cmplx((R*Y.R+C*Y.C)*N, (C*Y.R-R*Y.C)*N); }
   inline vnl_rnpoly_solve_cmplx operator*(double T) const
-            { return vnl_rnpoly_solve_cmplx(R*T, C*T); }
+  { return vnl_rnpoly_solve_cmplx(R*T, C*T); }
   inline vnl_rnpoly_solve_cmplx& operator*=(double T)
-            { R*=T; C*=T; return *this; }
+  { R*=T; C*=T; return *this; }
   inline vnl_rnpoly_solve_cmplx& operator*=(vnl_rnpoly_solve_cmplx const& Y)
-            { double r=R*Y.R-C*Y.C; C=R*Y.C+C*Y.R; R=r; return *this; }
+  { double r=R*Y.R-C*Y.C; C=R*Y.C+C*Y.R; R=r; return *this; }
   inline vnl_rnpoly_solve_cmplx& operator/=(vnl_rnpoly_solve_cmplx const& Y)
-            { return *this = operator/(Y); }
+  { return *this = operator/(Y); }
 };
 
 static const double twopi = 6.2831853071795864769;
@@ -81,7 +75,7 @@ vcl_vector<vnl_vector<double>*> vnl_rnpoly_solve::realroots(double tol)
 // This will initialize the random variables which are used
 // to preturb the starting point so as to have measure zero
 // probability that we will start at a singular point.
-static void inptbr(int n, vnl_rnpoly_solve_cmplx p[M_], vnl_rnpoly_solve_cmplx q[M_])
+static void inptbr(vcl_vector<vnl_rnpoly_solve_cmplx>& p, vcl_vector<vnl_rnpoly_solve_cmplx>& q)
 {
   vnl_rnpoly_solve_cmplx pp[10],qq[10];
 
@@ -107,24 +101,33 @@ static void inptbr(int n, vnl_rnpoly_solve_cmplx p[M_], vnl_rnpoly_solve_cmplx q
   qq[8] = vnl_rnpoly_solve_cmplx(.39373957747,  .65573434564);
   qq[9] = vnl_rnpoly_solve_cmplx(-.39380038371, .98903450052);
 
-  for (int j=n-1;j>=0;--j) { int jj=j%10; p[j]=pp[jj]; q[j]=qq[jj]; }
+  p.resize(dim_); q.resize(dim_);
+  for (unsigned int j=0; j<dim_; ++j) { int jj=j%10; p[j]=pp[jj]; q[j]=qq[jj]; }
 }
 
 //-----------------------------  POWR  -----------------------
 //: This returns the complex number y raised to the nth degree
 static inline vnl_rnpoly_solve_cmplx powr(int n,vnl_rnpoly_solve_cmplx const& y)
 {
-    vnl_rnpoly_solve_cmplx x (1,0);
-    if (n>0) while (n--) x *= y;
-    else     while (n++) x /= y;
-    return x;
+  vnl_rnpoly_solve_cmplx x(1,0);
+  if (n>0) while (n--) x *= y;
+  else     while (n++) x /= y;
+  return x;
 }
 
 
-static void initr(int n,int ideg[M_], vnl_rnpoly_solve_cmplx p[M_], vnl_rnpoly_solve_cmplx q[M_],
-                  vnl_rnpoly_solve_cmplx r[M_], vnl_rnpoly_solve_cmplx pdg[M_], vnl_rnpoly_solve_cmplx qdg[M_])
+static void initr(vcl_vector<unsigned int> const& ideg,
+                  vcl_vector<vnl_rnpoly_solve_cmplx> const& p,
+                  vcl_vector<vnl_rnpoly_solve_cmplx> const& q,
+                  vcl_vector<vnl_rnpoly_solve_cmplx>& r,
+                  vcl_vector<vnl_rnpoly_solve_cmplx>& pdg,
+                  vcl_vector<vnl_rnpoly_solve_cmplx>& qdg)
 {
-  for (int j=0;j<n;j++)
+  assert(ideg.size()==dim_);
+  assert(p.size()==dim_);
+  assert(q.size()==dim_);
+  pdg.resize(dim_); qdg.resize(dim_); r.resize(dim_);
+  for (unsigned int j=0;j<dim_;j++)
   {
     pdg[j] = powr(ideg[j],p[j]);
     qdg[j] = powr(ideg[j],q[j]);
@@ -137,59 +140,66 @@ static void initr(int n,int ideg[M_], vnl_rnpoly_solve_cmplx p[M_], vnl_rnpoly_s
 //: This will compute the degree of the polynomial based upon the index.
 static inline int degree(int index)
 {
-  return (index<0) ? 0 : (index % P_) + 1;
+  return (index<0) ? 0 : (index % max_deg_) + 1;
 }
 
 
 //-------------------------- FFUNR -------------------------
 //: Evaluate the target system component of h.
 //  This is the system of equations that we are trying to find the roots.
-static void ffunr(double coeff[M_][T_], int polyn[M_][T_][M_], int n,
-                  int terms[M_], vnl_rnpoly_solve_cmplx x[M_], vnl_rnpoly_solve_cmplx pows[M_*P_],
-                  int max_deg, vnl_rnpoly_solve_cmplx f[M_], vnl_rnpoly_solve_cmplx df[M_][M_])
+static void ffunr(vcl_vector<double> const& coeff,
+                  vcl_vector<int> const& polyn,
+                  vcl_vector<unsigned int> const& terms,
+                  vcl_vector<vnl_rnpoly_solve_cmplx> const& x,
+                  vcl_vector<vnl_rnpoly_solve_cmplx>& pows,
+                  vcl_vector<vnl_rnpoly_solve_cmplx>& f,
+                  vcl_vector<vnl_rnpoly_solve_cmplx>& df)
 {
+  assert(terms.size()==dim_);
+  assert(x.size()==dim_);
   // Compute all possible powers for each variable
-  for (int i=0;i<n;i++) // for all variables
+  pows.resize(max_deg_*dim_);
+  for (unsigned int i=0;i<dim_;i++) // for all variables
   {
-    int index = P_*i;
+    int index = max_deg_*i;
     pows[index]=x[i];
-    for (int j=1;j<max_deg;++j,++index) // for all powers
+    for (unsigned int j=1;j<max_deg_;++j,++index) // for all powers
       pows[index+1]= pows[index] * x[i];
   }
 
   // Initialize the new arrays
-  for (int i=0;i<n;i++)
+  for (unsigned int i=0; i<dim_; ++i)
   {
     f[i]=vnl_rnpoly_solve_cmplx(0,0);
-    for (int j=0;j<n;j++)
-      df[i][j]=vnl_rnpoly_solve_cmplx(0,0);
+    for (unsigned int j=0;j<dim_;j++)
+      df[i*dim_+j]=vnl_rnpoly_solve_cmplx(0,0);
   }
 
-  for (int i=n-1;i>=0;i--) // Across equations
-    for (int j=terms[i]-1;j>=0;j--) // Across terms
+  for (unsigned int i=0; i<dim_; ++i) // Across equations
+    for (unsigned int j=0; j<terms[i]; ++j) // Across terms
     {
-      vnl_rnpoly_solve_cmplx tmp (1,0);
-      for (int k=n-1;k>=0;k--) // For each variable
+      vnl_rnpoly_solve_cmplx tmp(1,0);
+      for (unsigned int k=0; k<dim_; ++k) // For each variable
       {
-        int index=polyn[i][j][k];
+        int index=polyn[i*dim_*max_nterms_+j*dim_+k];
         if (index>=0)
           tmp *= pows[index];
       }
-      f[i] += tmp * coeff[i][j];
+      f[i] += tmp * coeff[i*max_nterms_+j];
     }
 
   // Compute the Derivative!
-  for (int i=n-1;i>=0;i--) // Over equations
-    for (int l=n-1;l>=0;l--) // With respect to each variable
+  for (int i=dim_-1;i>=0;i--) // Over equations
+    for (int l=dim_-1;l>=0;l--) // With respect to each variable
     {
-      vnl_rnpoly_solve_cmplx& df_il = df[i][l];
+      vnl_rnpoly_solve_cmplx& df_il = df[i*dim_+l];
       for (int j=terms[i]-1;j>=0;j--) // Over terms in each equation
-        if (polyn[i][j][l]>=0)        // if 0 deg in l, df term is 0
+        if (polyn[i*dim_*max_nterms_+j*dim_+l]>=0) // if 0 deg in l, df term is 0
         {
           vnl_rnpoly_solve_cmplx tmp = vnl_rnpoly_solve_cmplx(1,0);
-          for (int k=n-1;k>=0;k--)        // Over each variable in each term
+          for (int k=dim_-1;k>=0;k--)        // Over each variable in each term
           {
-            int index=polyn[i][j][k];
+            int index=polyn[i*dim_*max_nterms_+j*dim_+k];
             if (index>=0)
             {
               if (k==l)
@@ -203,7 +213,7 @@ static void ffunr(double coeff[M_][T_], int polyn[M_][T_][M_], int n,
                 tmp *= pows[index];
             }
           } // end for k
-          df_il += tmp * coeff[i][j];
+          df_il += tmp * coeff[i*max_nterms_+j];
         }
     } // end for l
 }
@@ -213,30 +223,36 @@ static void ffunr(double coeff[M_][T_], int polyn[M_][T_][M_], int n,
 //: Evaluate starting system component
 // Evaluate the starting system component of h from a system
 // of equations that we already know the roots. (ex: x^n - 1)
-static void gfunr(int len, int ideg[M_], vnl_rnpoly_solve_cmplx pdg[M_], vnl_rnpoly_solve_cmplx qdg[M_],
-                  vnl_rnpoly_solve_cmplx /*x*/ [M_], vnl_rnpoly_solve_cmplx pows[M_*P_],
-                  vnl_rnpoly_solve_cmplx g[M_], vnl_rnpoly_solve_cmplx dg[M_])
+static void gfunr(vcl_vector<unsigned int> const& ideg,
+                  vcl_vector<vnl_rnpoly_solve_cmplx> const& pdg,
+                  vcl_vector<vnl_rnpoly_solve_cmplx> const& qdg,
+                  vcl_vector<vnl_rnpoly_solve_cmplx> const& pows,
+                  vcl_vector<vnl_rnpoly_solve_cmplx>& g,
+                  vcl_vector<vnl_rnpoly_solve_cmplx>& dg)
 {
-  vnl_rnpoly_solve_cmplx pxdgm1[M_], pxdg[M_];
+  assert(ideg.size()==dim_);
+  assert(g.size()==dim_);
+  assert(dg.size()==dim_);
+  vcl_vector<vnl_rnpoly_solve_cmplx> pxdgm1(dim_), pxdg(dim_);
 
-  for (int j=0;j<len;j++)
+  for (unsigned int j=0; j<dim_; ++j)
   {
     vnl_rnpoly_solve_cmplx tmp;
-    if (ideg[j] == 1)
+    if (ideg[j] <= 1)
       tmp = vnl_rnpoly_solve_cmplx(1,0);
     else
-      tmp = pows[j*P_+(ideg[j]-2)];
+      tmp = pows[j*max_deg_+ideg[j]-2];
 
     pxdgm1[j] = pdg[j] * tmp;
   }
 
-  for (int j=0;j<len;j++)
+  for (unsigned int j=0; j<dim_; ++j)
   {
-    int index = j*P_+(ideg[j]-1);
+    int index = j*max_deg_+ideg[j]-1;
     pxdg[j] = pdg[j] * pows[index];
   }
 
-  for (int j=len-1;j>=0;j--)
+  for (unsigned int j=0; j<dim_; ++j)
   {
     g[j]  = pxdg[j] - qdg[j];
     dg[j] = pxdgm1[j] * ideg[j];
@@ -247,25 +263,41 @@ static void gfunr(int len, int ideg[M_], vnl_rnpoly_solve_cmplx pdg[M_], vnl_rnp
 //-------------------------- HFUNR --------------------------
 //: This is the routine that traces the curve from the gfunr to the f function
 //  (i.e. Evaluate the continuation function)
-static void hfunr(int len,int ideg[M_], vnl_rnpoly_solve_cmplx pdg[M_], vnl_rnpoly_solve_cmplx qdg[M_],
-                  double t, vnl_rnpoly_solve_cmplx x[M_], vnl_rnpoly_solve_cmplx h[M_], vnl_rnpoly_solve_cmplx dhx[M_][M_],
-                  vnl_rnpoly_solve_cmplx dht[M_], int polyn[M_][T_][M_], double coeff[M_][T_],
-                  int terms[M_],int max_deg)
+static void hfunr(vcl_vector<unsigned int> const& ideg,
+                  vcl_vector<vnl_rnpoly_solve_cmplx> const& pdg,
+                  vcl_vector<vnl_rnpoly_solve_cmplx> const& qdg,
+                  double t,
+                  vcl_vector<vnl_rnpoly_solve_cmplx> const& x,
+                  vcl_vector<vnl_rnpoly_solve_cmplx>& h,
+                  vcl_vector<vnl_rnpoly_solve_cmplx>& dhx,
+                  vcl_vector<vnl_rnpoly_solve_cmplx>& dht,
+                  vcl_vector<int> const& polyn,
+                  vcl_vector<double> const& coeff,
+                  vcl_vector<unsigned int> const& terms)
 {
-  vnl_rnpoly_solve_cmplx df[M_][M_],dg[M_],f[M_],g[M_];
-  vnl_rnpoly_solve_cmplx pows[M_*P_];  //  powers of variables [M_ equations] [P_ possible powers]
+  assert(ideg.size()==dim_);
+  assert(terms.size()==dim_);
+  assert(x.size()==dim_);
+  assert(h.size()==dim_);
+  assert(dht.size()==dim_);
+  assert(dhx.size()==dim_*dim_);
+  vcl_vector<vnl_rnpoly_solve_cmplx> df(dim_*dim_),dg(dim_),f(dim_),g(dim_);
+  vcl_vector<vnl_rnpoly_solve_cmplx> pows;  //  powers of variables [dim_ equations] [max_deg_ possible powers]
 
-  ffunr(coeff,polyn,len,terms,x,pows,max_deg,f,df);
-  gfunr(len,ideg,pdg,qdg,x,pows,g,dg);
+  ffunr(coeff,polyn,terms,x,pows,f,df);
+  gfunr(ideg,pdg,qdg,pows,g,dg);
+  assert(f.size()==dim_);
+  assert(g.size()==dim_);
+  assert(dg.size()==dim_);
+  assert(df.size()==dim_*dim_);
 
   double onemt=1.0 - t;
-  for (int j=0;j<len;j++)
+  for (unsigned int j=0; j<dim_; ++j)
   {
-    vnl_rnpoly_solve_cmplx *end_ptr = &dhx[j][len], *df_jk_ptr= &df[j][0];
-    for (vnl_rnpoly_solve_cmplx* dhx_ptr = &dhx[j][0]; dhx_ptr< end_ptr;++dhx_ptr,++df_jk_ptr)
-      (*dhx_ptr) = (*df_jk_ptr) * t;
+    for (unsigned int i=0; i<dim_; ++i)
+      dhx[j*dim_+i] = df[j*dim_+i] * t;
 
-    dhx[j][j] += dg[j]*onemt;
+    dhx[j*dim_+j] += dg[j]*onemt;
     dht[j] = f[j] - g[j];
     h[j] = f[j] * t + g[j] * onemt;
   }
@@ -274,18 +306,17 @@ static void hfunr(int len,int ideg[M_], vnl_rnpoly_solve_cmplx pdg[M_], vnl_rnpo
 
 //------------------------ LU DECOMPOSITION --------------------------
 //: This performs LU decomposition on a matrix.
-static int ludcmp(vnl_rnpoly_solve_cmplx a[M_][M_], int n, int indx[M_])
+static int ludcmp(vcl_vector<vnl_rnpoly_solve_cmplx>& a, vcl_vector<int>& indx)
 {
-  double vv[M_];
+  vcl_vector<double> vv(dim_);
 
   // Loop over rows to get the implicit scaling information
-  for (int i=0;i<n;i++)
+  for (unsigned int i=0; i<dim_; ++i)
   {
     double big = 0.0;
-    vnl_rnpoly_solve_cmplx *endptr = &a[i][0] + n;
-    for (vnl_rnpoly_solve_cmplx *aptr=&a[i][0]; aptr<endptr; ++aptr)
+    for (unsigned int j=0; j<dim_; ++j)
     {
-      double temp = aptr->norm();
+      double temp = a[i*dim_+j].norm();
       if (temp > big) big = temp;
     }
     if (big == 0.0) return 1;
@@ -293,32 +324,23 @@ static int ludcmp(vnl_rnpoly_solve_cmplx a[M_][M_], int n, int indx[M_])
   }
 
   // This is the loop over columns of Crout's method
-  for (int j=0;j<n;++j)
+  for (unsigned int j=0; j<dim_; ++j)
   {
-    vnl_rnpoly_solve_cmplx *a_ij_ptr = &a[0][j];
-
-    for (int i=0;i<j;++i,a_ij_ptr+=M_)
-    {
-      vnl_rnpoly_solve_cmplx *a_ik_ptr = &a[i][0];
-      vnl_rnpoly_solve_cmplx *a_kj_ptr = &a[0][j];
-      for (int k=0;k<i;++k,++a_ik_ptr,a_kj_ptr+=M_)
-        (*a_ij_ptr) -= (*a_ik_ptr) * (*a_kj_ptr);
-    }
+    for (unsigned int i=0; i<j; ++i)
+      for (unsigned int k=0; k<i; ++k)
+        a[i*dim_+j] -= a[i*dim_+k] * a[k*dim_+j];
 
     // Initialize for the search for largest pivot element
     double big = 0.0;
-    int imax = 0;
-    a_ij_ptr= &a[j][j];
+    unsigned int imax = 0;
 
-    for (int i=j;i<n;++i,a_ij_ptr+=M_)
+    for (unsigned int i=j; i<dim_; ++i)
     {
-      vnl_rnpoly_solve_cmplx *a_ik_ptr = &a[i][0];
-      vnl_rnpoly_solve_cmplx *a_kj_ptr = &a[0][j];
-      for (int k=0;k<j;++k,++a_ik_ptr,a_kj_ptr+=M_)
-        (*a_ij_ptr) -= (*a_ik_ptr) * (*a_kj_ptr);
+      for (unsigned int k=0; k<j; ++k)
+        a[i*dim_+j] -= a[i*dim_+k] * a[k*dim_+j];
 
       // Is the figure of merit for the pivot better than the best so far?
-      double rdum = vv[i]*a_ij_ptr->norm();
+      double rdum = vv[i]*a[i*dim_+j].norm();
       if (rdum >= big) { big = rdum; imax = i; }
     }
 
@@ -326,30 +348,29 @@ static int ludcmp(vnl_rnpoly_solve_cmplx a[M_][M_], int n, int indx[M_])
     if (j != imax)
     {
       // Yes, do so...
-      vnl_rnpoly_solve_cmplx *endptr = &a[imax][0] + n;
-      vnl_rnpoly_solve_cmplx *a_jk_ptr = &a[j][0];
-      for (vnl_rnpoly_solve_cmplx *aptr=&a[imax][0];aptr<endptr;++aptr,++a_jk_ptr)
+      for (unsigned int k=0; k<dim_; ++k)
       {
-        vnl_rnpoly_solve_cmplx dum = *aptr; *aptr=*a_jk_ptr; *a_jk_ptr = dum;
+        vnl_rnpoly_solve_cmplx dum = a[imax*dim_+k];
+        a[imax*dim_+k] = a[j*dim_+k]; a[j*dim_+k] = dum;
       }
 
       // Also interchange the scale factor
-      vv[imax]=vv[j]; }
+      vv[imax]=vv[j];
+    }
     indx[j]=imax;
 
-    vnl_rnpoly_solve_cmplx* aptr = &a[j][j];
-    if (aptr->norm() == 0.0)
-      *aptr = epsilonZ;
+    vnl_rnpoly_solve_cmplx& ajj = a[j*dim_+j];
+    if (ajj.norm() == 0.0)
+      ajj = epsilonZ;
 
     // Now, finally, divide by the pivot element
-    if (j != (n-1))
+    if (j+1 != dim_)
     {
-      vnl_rnpoly_solve_cmplx dum = vnl_rnpoly_solve_cmplx(1,0) / (*aptr);
+      vnl_rnpoly_solve_cmplx dum = vnl_rnpoly_solve_cmplx(1,0) / ajj;
 
       // If the pivot element is zero the matrix is singular.
-      a_ij_ptr=&a[j+1][j];
-      for (int i=j+1;i<n;++i,a_ij_ptr+=M_)
-        (*a_ij_ptr) = (*a_ij_ptr) * dum;
+      for (unsigned int i=j+1; i<dim_; ++i)
+        a[i*dim_+j] *= dum;
     }
   }
   return 0;
@@ -357,24 +378,24 @@ static int ludcmp(vnl_rnpoly_solve_cmplx a[M_][M_], int n, int indx[M_])
 
 
 // ------------------------- LU Back Substitution -------------------------
-static void lubksb(vnl_rnpoly_solve_cmplx a[M_][M_], int n, int indx[M_],
-                   vnl_rnpoly_solve_cmplx bb[M_], vnl_rnpoly_solve_cmplx b[M_])
+static void lubksb(vcl_vector<vnl_rnpoly_solve_cmplx> const& a,
+                   vcl_vector<int> const& indx,
+                   vcl_vector<vnl_rnpoly_solve_cmplx> const& bb,
+                   vcl_vector<vnl_rnpoly_solve_cmplx>& b)
 {
   int ii=-1;
-  vnl_rnpoly_solve_cmplx *bbptr = &bb[0];
-  vnl_rnpoly_solve_cmplx *endptr = &b[0] + n;
-  for (vnl_rnpoly_solve_cmplx* bptr= &b[0]; bptr < endptr; bptr++,++bbptr)
-    *bptr= *bbptr;
+  for (unsigned int k=0; k<dim_; ++k)
+    b[k] = bb[k];
 
-  for (int i=0;i<n;i++)
+  for (unsigned int i=0; i<dim_; ++i)
   {
     int ip = indx[i];
     vnl_rnpoly_solve_cmplx sum = b[ip];
     b[ip] = b[i];
 
     if (ii>=0)
-      for (int j=ii;j<i;++j)
-        sum -= a[i][j] * b[j];
+      for (unsigned int j=ii;j<i;++j)
+        sum -= a[i*dim_+j] * b[j];
     else
       // A nonzero element was encountered, so from now on we
       // will have to do the sums in the loop above
@@ -384,70 +405,78 @@ static void lubksb(vnl_rnpoly_solve_cmplx a[M_][M_], int n, int indx[M_],
   }
 
   // Now do the backsubstitution
-  for (int i=n-1;i>=0;i--)
+  for (int i=dim_-1;i>=0;i--)
   {
-    vnl_rnpoly_solve_cmplx *endptr = &b[n];
-    vnl_rnpoly_solve_cmplx *a_ij_ptr = &a[i][i+1];
-    for (vnl_rnpoly_solve_cmplx *bptr=&b[i+1]; bptr<endptr; ++bptr,++a_ij_ptr)
-      b[i] -= (*a_ij_ptr) * (*bptr);
+    for (unsigned int j=i+1; j<dim_; ++j)
+      b[i] -= a[i*dim_+j] * b[j];
 
-    b[i] = b[i] / a[i][i];
+    b[i] /= a[i*dim_+i];
   }
 }
 
 
 //-------------------------- LINNR -------------------
 //: Solve a complex system of equations by using l-u decomposition and then back substitution.
-static int linnr(int len,vnl_rnpoly_solve_cmplx dhx[M_][M_],
-                 vnl_rnpoly_solve_cmplx rhs[M_],
-                 vnl_rnpoly_solve_cmplx resid[M_])
+static int linnr(vcl_vector<vnl_rnpoly_solve_cmplx>& dhx,
+                 vcl_vector<vnl_rnpoly_solve_cmplx> const& rhs,
+                 vcl_vector<vnl_rnpoly_solve_cmplx>& resid)
 {
-  int irow[M_];
-  if (ludcmp(dhx,len,irow)==1) return 1;
-  lubksb(dhx,len,irow,rhs,resid);
+  vcl_vector<int> irow(dim_);
+  if (ludcmp(dhx,irow)==1) return 1;
+  lubksb(dhx,irow,rhs,resid);
   return 0;
 }
 
 
 //-----------------------  XNORM  --------------------
 //: Finds the unit normal of a vector v
-static double xnorm(int n, vnl_rnpoly_solve_cmplx v[])
+static double xnorm(vcl_vector<vnl_rnpoly_solve_cmplx> const& v)
 {
+  assert(v.size()==dim_);
   double txnorm=0.0;
-  for (int j=n-1;j>=0; --j)
+  for (unsigned int j=0; j<dim_; ++j)
     txnorm += vcl_fabs(v[j].R) + vcl_fabs(v[j].C);
   return txnorm;
 }
 
 //---------------------- PREDICT ---------------------
 //: Predict new x vector using Taylor's Expansion.
-static void predict(int len, int ideg[M_], vnl_rnpoly_solve_cmplx pdg[M_], vnl_rnpoly_solve_cmplx qdg[M_],
-                    double step, double& t, vnl_rnpoly_solve_cmplx x[M_], int polyn[M_][T_][M_],
-                    double coeff[M_][T_], int terms[M_], int max_deg)
+static void predict(vcl_vector<unsigned int> const& ideg,
+                    vcl_vector<vnl_rnpoly_solve_cmplx> const& pdg,
+                    vcl_vector<vnl_rnpoly_solve_cmplx> const& qdg,
+                    double step, double& t,
+                    vcl_vector<vnl_rnpoly_solve_cmplx>& x,
+                    vcl_vector<int> const& polyn,
+                    vcl_vector<double> const& coeff,
+                    vcl_vector<unsigned int> const& terms)
 {
+  assert(ideg.size()==dim_);
+  assert(terms.size()==dim_);
+  assert(x.size()==dim_);
+
   double maxdt =.2; // Maximum change in t for a given step.  If dt is
                     // too large, there seems to be greater chance of
                     // jumping to another path.  Set this to 1 if you
                     // don't care.
-  vnl_rnpoly_solve_cmplx dht[M_],dhx[M_][M_],dz[M_],h[M_],rhs[M_];
+  vcl_vector<vnl_rnpoly_solve_cmplx> dht(dim_),dhx(dim_*dim_),dz(dim_),h(dim_),rhs(dim_);
   // Call the continuation function that we are tracing
-  hfunr(len,ideg,pdg,qdg,t,x,h,dhx,dht,polyn,coeff,terms,max_deg);
+  hfunr(ideg,pdg,qdg,t,x,h,dhx,dht,polyn,coeff,terms);
 
-  for (int j=len-1;j>=0;j--)
+  for (unsigned int j=0; j<dim_; ++j)
     rhs[j] = - dht[j];
 
   // Call the function that solves a complex system of equations
-  if (linnr(len,dhx,rhs,dz) == 1) return;
+  if (linnr(dhx,rhs,dz) == 1) return;
 
   // Find the unit normal of a vector and normalize our step
-  double factor = step/(1+xnorm(len,dz));
+  double factor = step/(1+xnorm(dz));
   if (factor>maxdt) factor = maxdt;
 
   bool tis1=true;
   if (t+factor>1) { tis1 = false; factor = 1.0 - t; }
 
   // Update this path with the predicted next point
-  for (int j=len-1;j>=0;j--)
+  for (unsigned int j=0; j<dim_; ++j)
     x[j] += dz[j] * factor;
 
   if (tis1) t += factor;
@@ -462,26 +491,34 @@ static void predict(int len, int ideg[M_], vnl_rnpoly_solve_cmplx pdg[M_], vnl_r
 // 0: Converged
 // 1: Singular Jacobian
 // 2: Didn't converge in 'loop' iterations
-// 3: If the magnitude of X > maxroot
-static int correct(int len,int ideg[M_], int loop, double eps,
-                   vnl_rnpoly_solve_cmplx pdg[M_], vnl_rnpoly_solve_cmplx qdg[M_], double t,
-                   vnl_rnpoly_solve_cmplx x[M_], int polyn[M_][T_][M_], double coeff[M_][T_],
-                   int terms[M_], int max_deg)
+// 3: If the magnitude of x > maxroot
+static int correct(vcl_vector<unsigned int> const& ideg, int loop, double eps,
+                   vcl_vector<vnl_rnpoly_solve_cmplx> const& pdg,
+                   vcl_vector<vnl_rnpoly_solve_cmplx> const& qdg,
+                   double t,
+                   vcl_vector<vnl_rnpoly_solve_cmplx>& x,
+                   vcl_vector<int> const& polyn,
+                   vcl_vector<double> const& coeff,
+                   vcl_vector<unsigned int> const& terms)
 {
   double maxroot= 1000;// Maximum size of root where it is considered heading to infinity
-  vnl_rnpoly_solve_cmplx dhx[M_][M_],dht[M_], h[M_],resid[M_];
+  vcl_vector<vnl_rnpoly_solve_cmplx> dhx(dim_*dim_),dht(dim_),h(dim_),resid(dim_);
+
+  assert(ideg.size()==dim_);
+  assert(terms.size()==dim_);
+  assert(x.size()==dim_);
 
   for (int i=0;i<loop;i++)
   {
-    hfunr(len,ideg,pdg,qdg,t,x,h,dhx,dht,polyn,coeff,terms,max_deg);
+    hfunr(ideg,pdg,qdg,t,x,h,dhx,dht,polyn,coeff,terms);
 
     // If linnr = 1, error
-    if (linnr(len,dhx,h,resid)==1) return 1;
+    if (linnr(dhx,h,resid)==1) return 1;
 
-    for (int j=len-1;j>=0;j--)
+    for (unsigned int j=0; j<dim_; ++j)
       x[j] -= resid[j];
 
-    double xresid = xnorm(len,resid);
+    double xresid = xnorm(resid);
     if (xresid < eps) return 0;
     if (xresid > maxroot) return 3;
   }
@@ -500,11 +537,18 @@ static int correct(int len,int ideg[M_], int loop, double eps,
 //      2: Step size became too small
 //      3: Path Heading to infinity
 //      4: Singular Jacobian on Path
-static int trace (int len, vnl_rnpoly_solve_cmplx x[M_], int ideg[M_],
-                  vnl_rnpoly_solve_cmplx pdg[M_], vnl_rnpoly_solve_cmplx qdg[M_],
-                  int polyn[M_][T_][M_], double coeff[M_][T_],
-                  int terms[M_], int max_deg)
+static int trace(vcl_vector<vnl_rnpoly_solve_cmplx>& x,
+                 vcl_vector<unsigned int> const& ideg,
+                 vcl_vector<vnl_rnpoly_solve_cmplx> const& pdg,
+                 vcl_vector<vnl_rnpoly_solve_cmplx> const& qdg,
+                 vcl_vector<int> const& polyn,
+                 vcl_vector<double> const& coeff,
+                 vcl_vector<unsigned int> const& terms)
 {
+  assert(ideg.size()==dim_);
+  assert(terms.size()==dim_);
+  assert(x.size()==dim_);
+
   int maxns=500;  // Maximum number of path steps
   int maxit=5;    // Maximum number of iterations to correct a step.
                   // For each step, Newton-Raphson is used to correct
@@ -518,17 +562,13 @@ static int trace (int len, vnl_rnpoly_solve_cmplx x[M_], int ideg[M_],
   double step=stepinit;             // stepsize
   double t=0.0;                     // Continuation parameter 0<t<1
   double oldt=0.0;                  // The previous t value
-  vnl_rnpoly_solve_cmplx oldx[M_];  // the previous path value
+  vcl_vector<vnl_rnpoly_solve_cmplx> oldx = x; // the previous path value
   int nadv=0;
-
-  // Remember the original point
-  for (int j=len-1;j>=0;j--)
-    oldx[j] = x[j];
 
   for (int numstep=0;numstep<maxns;numstep++)
   {
     // Taylor approximate the next point
-    predict(len,ideg,pdg,qdg,step,t,x,polyn,coeff,terms,max_deg);
+    predict(ideg,pdg,qdg,step,t,x,polyn,coeff,terms);
 
     //if (t>1.0) t=1.0;
 
@@ -539,19 +579,19 @@ static int trace (int len, vnl_rnpoly_solve_cmplx x[M_], int ideg[M_],
     }else
       eps = epsilonB;
 #ifdef DEBUG
-    vcl_printf ("t=%.15f\n",t); fflush(stdout);
+    vcl_cout << "t=" << t << vcl_endl;
 #endif
 
     if (t>=.99999)                      // Path converged
     {
 #ifdef DEBUG
-      vcl_printf ("path converged\n");
+      vcl_cout << "path converged\n" << vcl_flush;
 #endif
       double factor = (1.0-oldt)/(t-oldt);
-      for (int j=len-1;j>=0;j--)
+      for (unsigned int j=0; j<dim_; ++j)
         x[j] = oldx[j] + (x[j]-oldx[j]) * factor;
       t = 1.0;
-      int cflag=correct(len,ideg,10*maxit,final_eps,pdg,qdg,t,x, polyn, coeff,terms, max_deg);
+      int cflag=correct(ideg,10*maxit,final_eps,pdg,qdg,t,x, polyn, coeff,terms);
       if ((cflag==0) ||(cflag==2))
         return 1;       // Final Correction converged
       else if (cflag==3)
@@ -560,15 +600,14 @@ static int trace (int len, vnl_rnpoly_solve_cmplx x[M_], int ideg[M_],
     }
 
     // Newton's method brings us back to the curve
-    int cflag=correct(len,ideg,maxit,eps,pdg,qdg,t,x,polyn, coeff,terms,max_deg);
+    int cflag=correct(ideg,maxit,eps,pdg,qdg,t,x,polyn, coeff,terms);
     if (cflag==0)
     {
       // Successful step
       if ((++nadv)==maxit) { step *= 2; nadv=0; }   // Increase the step size
       // Make note of our new location
-      oldt=t;
-      for (int j=len-1;j>=0;j--)
-        oldx[j] = x[j];
+      oldt = t;
+      oldx = x;
     }
     else
     {
@@ -580,8 +619,7 @@ static int trace (int len, vnl_rnpoly_solve_cmplx x[M_], int ideg[M_],
 
       // Reset the values since we stepped to far, and try again
       t = oldt;
-      for (int j=len-1;j>=0;j--)
-        x[j] = oldx[j];
+      x = oldx;
     }
   }// end of the loop numstep
 
@@ -592,13 +630,20 @@ static int trace (int len, vnl_rnpoly_solve_cmplx x[M_], int ideg[M_],
 //-------------------------- STRPTR ---------------------------
 //: This will find a starting point on the 'g' function circle.
 // The new point to start tracing is stored in the x array.
-static void strptr(int n,int icount[M_],int ideg[M_], vnl_rnpoly_solve_cmplx r[M_],vnl_rnpoly_solve_cmplx x[M_])
+static void strptr(vcl_vector<unsigned int>& icount,
+                   vcl_vector<unsigned int> const& ideg,
+                   vcl_vector<vnl_rnpoly_solve_cmplx> const& r,
+                   vcl_vector<vnl_rnpoly_solve_cmplx>& x)
 {
-  for (int i=0;i<n;i++)
+  assert(ideg.size()==dim_);
+  assert(r.size()==dim_);
+  x.resize(dim_);
+
+  for (unsigned int i=0; i<dim_; ++i)
     if (icount[i] >= ideg[i]) icount[i] = 1;
     else                    { icount[i]++; break; }
 
-  for (int j=0;j<n;j++)
+  for (unsigned int j=0; j<dim_; ++j)
   {
     double angle = twopi / ideg[j] * icount[j];
     x[j] = r[j] * vnl_rnpoly_solve_cmplx (vcl_cos(angle), vcl_sin(angle));
@@ -606,64 +651,56 @@ static void strptr(int n,int icount[M_],int ideg[M_], vnl_rnpoly_solve_cmplx r[M
 }
 
 
-static int Perform_Distributed_Task(int points,vnl_rnpoly_solve_cmplx sols[LEN_][M_],
-                                    int ideg[M_],int terms[M_],
-                                    int polyn[M_][T_][M_],double coeff[M_][T_])
+static vcl_vector<vcl_vector<vnl_rnpoly_solve_cmplx> >
+Perform_Distributed_Task(vcl_vector<unsigned int> const& ideg,
+                         vcl_vector<unsigned int> const& terms,
+                         vcl_vector<int> const& polyn,
+                         vcl_vector<double> const& coeff)
 {
-  vnl_rnpoly_solve_cmplx p[M_], q[M_], r[M_], pdg[M_], qdg[M_], x[M_];
-  int icount[M_];
-  int NumSols=0;
+  assert(ideg.size()==dim_);
+
+  vcl_vector<vcl_vector<vnl_rnpoly_solve_cmplx> > sols;
+  vcl_vector<vnl_rnpoly_solve_cmplx> pdg, qdg, p, q, r, x;
+  vcl_vector<unsigned int> icount(dim_,1); icount[0]=0;
   bool solflag; // flag used to remember if a root is found
-  int max_deg=P_;
 #ifdef DEBUG
   char const* FILENAM = "/tmp/cont.results";
-  FILE *F = vcl_fopen(FILENAM,"w");
+  vcl_ofstream F(FILENAM);
   if (!F)
   {
-    vcl_cerr<<"could not open "<<FILENAM<<"\nplease erase old file first\n";
-    F = stderr;
+    vcl_cerr<<"could not open "<<FILENAM<<" for writing\nplease erase old file first\n";
+    F = vcl_cerr;
   }
   else
-    vcl_fprintf(stderr, "Writing to %s\n", FILENAM);
+    vcl_cerr << "Writing to " << FILENAM << '\n';
 #endif
   // Initialize some variables
-  inptbr(points,p,q);
-  initr(points,ideg,p,q,r,pdg,qdg);
+  inptbr(p,q);
+  initr(ideg,p,q,r,pdg,qdg);
 
-  // int Psize = 2*points*sizeof(double);
+  // int Psize = 2*dim_*sizeof(double);
   int totdegree = 1;            // Total degree of the system
-  for (int j=0;j<points;j++)  totdegree *= ideg[j];
-  icount[0]=0;
-  for (int j=points-1;j>0;j--) icount[j]=1;
-  for (int i=0;i<points;i++)
-    if (ideg[i] > max_deg)
-      max_deg = ideg[i];
+  for (unsigned int j=0;j<dim_;j++)  totdegree *= ideg[j];
 
   // *************  Send initial information ****************
-  //Initialize(points,maxns,maxdt,maxit,maxroot,
+  //Initialize(dim_,maxns,maxdt,maxit,maxroot,
   //           terms,ideg,pdg,qdg,coeff,polyn);
   while ((totdegree--) > 0)
   {
     // Compute path to trace
-    strptr(points,icount,ideg,r,x);
+    strptr(icount,ideg,r,x);
 
     // Tell the client which path you want it to trace
-    solflag = 1 == trace (points,x,ideg,pdg,qdg,polyn,coeff,terms,max_deg);
+    solflag = 1 == trace(x,ideg,pdg,qdg,polyn,coeff,terms);
     // Save the solution for future reference
     if (solflag)
     {
-      for (int i=points-1;i>=0;i--)
-      {
-        sols[NumSols][i] = x[i];
 #ifdef DEBUG
-        vcl_fprintf(F,"<%f  %f>",x[points-i-1].R,x[points-i-1].C);
+      for (unsigned int i=0; i<dim_; ++i)
+        F << '<' << x[dim_-i-1].R << ' ' << x[dim_-i-1].C << '>';
+      F << vcl_endl;
 #endif
-      }
-      ++NumSols;
-#ifdef DEBUG
-      vcl_fprintf(F,"\n");
-      vcl_fflush(F);
-#endif
+      sols.push_back(x);
     }
 #ifdef DEBUG
     // print something out for each root
@@ -674,50 +711,50 @@ static int Perform_Distributed_Task(int points,vnl_rnpoly_solve_cmplx sols[LEN_]
   }
 
 #ifdef DEBUG
-  if (F != stderr) vcl_fclose(F);
   vcl_cout<< vcl_endl;
 #endif
 
-  return NumSols;
+  return sols;
 }
 
 
 //----------------------- READ INPUT ----------------------
 //: This will read the input polynomials from a data file.
-int vnl_rnpoly_solve::Read_Input(int ideg[M_], int terms[M_],
-                                 int polyn[M_][T_][M_], double coeff[M_][T_])
+void vnl_rnpoly_solve::Read_Input(vcl_vector<unsigned int>& ideg,
+                                  vcl_vector<unsigned int>& terms,
+                                  vcl_vector<int>& polyn,
+                                  vcl_vector<double>& coeff)
 {
   // Read the number of equations
-  unsigned int n = ps_.size();
+  dim_ = ps_.size();
 
-  // Initialize the array's to zero
-  for (unsigned int i=0;i<n;i++)
-    for (unsigned int k=0;k<T_;k++)
-      coeff[i][k] = 0.0;
-  for (unsigned int i=0;i<n;i++)
-    ideg[i] = terms[i] = 0;
-  for (unsigned int i=0;i<n;i++)
-    for (unsigned int k=0;k<T_;k++)
-      for (unsigned int j=0;j<n;j++)
-        polyn[i][k][j]=0;
+  ideg.resize(dim_); terms.resize(dim_);
   // Start reading in the array values
-  for (unsigned int i=0;i<n;i++)
+  max_deg_=0;
+  max_nterms_=0;
+  for (unsigned int i=0;i<dim_;i++)
   {
-    ideg[i]  = ps_[i]->ideg_;
+    ideg[i] = ps_[i]->ideg_;
     terms[i] = ps_[i]->nterms_;
-
-    for (int k=0;k<terms[i];k++)
+    if (ideg[i] > max_deg_)
+      max_deg_ = ideg[i];
+    if (terms[i] > max_nterms_)
+      max_nterms_ = terms[i];
+  }
+  coeff.resize(dim_*max_nterms_);
+  polyn.resize(dim_*max_nterms_*dim_);
+  for (unsigned int i=0;i<dim_;i++)
+  {
+    for (unsigned int k=0;k<terms[i];k++)
     {
-      coeff[i][k] = ps_[i]->coeffs_(k);
-      for (unsigned int j=0;j<n;j++)
+      coeff[i*max_nterms_+k] = ps_[i]->coeffs_(k);
+      for (unsigned int j=0;j<dim_;j++)
       {
         int deg = ps_[i]->polyn_(k,j);
-        if (deg) polyn[i][k][j] = (j*P_)+(deg-1);
-        else     polyn[i][k][j] = -1;
+        polyn[i*dim_*max_nterms_+k*dim_+j] = deg ? int(j*max_deg_)+deg-1 : -1;
       }
     }
   }
-  return n;
 }
 
 
@@ -727,45 +764,44 @@ vnl_rnpoly_solve::~vnl_rnpoly_solve()
   while (i_.size() > 0) { delete i_.back(); i_.pop_back(); }
 }
 
-struct vnl_rnpoly_solve_compute_data
-{
-  int ideg[M_], terms[M_], polyn[M_][T_][M_];
-  double coeff[M_][T_];
-  vnl_rnpoly_solve_cmplx ans[LEN_][M_];
-};
-
 bool vnl_rnpoly_solve::compute()
 {
-  vnl_rnpoly_solve_compute_data* d = new vnl_rnpoly_solve_compute_data;
-  int p = Read_Input(d->ideg,d->terms,d->polyn,d->coeff);
+  vcl_vector<unsigned int> ideg, terms;
+  vcl_vector<int> polyn;
+  vcl_vector<double> coeff;
 
-  unsigned int totdegree = 1;
-  for (int j=0;j<p;++j) totdegree *= d->ideg[j];
-  assert(totdegree < LEN_);
+  Read_Input(ideg,terms,polyn,coeff); // returns number of equations
+  assert(ideg.size()==dim_);
+  assert(terms.size()==dim_);
+  assert(polyn.size()==dim_*max_nterms_*dim_);
+  assert(coeff.size()==dim_*max_nterms_);
 
-  int NumSols = Perform_Distributed_Task(p,d->ans,d->ideg,d->terms,d->polyn,d->coeff);
+  int totdegree = 1;
+  for (unsigned int j=0; j<dim_; ++j) totdegree *= ideg[j];
+
+  vcl_vector<vcl_vector<vnl_rnpoly_solve_cmplx> > ans = Perform_Distributed_Task(ideg,terms,polyn,coeff);
 
   // Print out the answers
   vnl_vector<double> * rp, *ip;
 #ifdef DEBUG
   vcl_cout << "Total degree: " << totdegree << vcl_endl
-           << "# solutions : " << NumSols << vcl_endl;
+           << "# solutions : " << ans.size() << vcl_endl;
 #endif
-  for (int i=0;i<NumSols;i++)
+  for (unsigned int i=0; i<ans.size(); ++i)
   {
-    rp=new vnl_vector<double>(p); r_.push_back(rp);
-    ip=new vnl_vector<double>(p); i_.push_back(ip);
-    for (int j=0;j<p;j++)
+    assert(ans[i].size()==dim_);
+    rp=new vnl_vector<double>(dim_); r_.push_back(rp);
+    ip=new vnl_vector<double>(dim_); i_.push_back(ip);
+    for (unsigned int j=0; j<dim_; ++j)
     {
 #ifdef DEBUG
-      vcl_cout << d->ans[i][j].R << " + j " << d->ans[i][j].C << vcl_endl;
+      vcl_cout << ans[i][j].R << " + j " << ans[i][j].C << vcl_endl;
 #endif
-      (*rp)[j]=d->ans[i][j].R; (*ip)[j]=d->ans[i][j].C;
+      (*rp)[j]=ans[i][j].R; (*ip)[j]=ans[i][j].C;
     }
 #ifdef DEBUG
     vcl_cout<< vcl_endl;
 #endif
   }
-  delete d;
   return true;
 }

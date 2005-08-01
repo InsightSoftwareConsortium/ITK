@@ -53,12 +53,12 @@ class vnl_real_npolynomial
 
   // Constructor-----------------------------------------------------------------
   vnl_real_npolynomial() { } // don't use this. only here for the STL vector class.
-  vnl_real_npolynomial(const vnl_vector<double>& c, const vnl_matrix<int>& p);
+  vnl_real_npolynomial(const vnl_vector<double>& c, const vnl_matrix<unsigned int>& p);
 
   // Computations--------------------------------------------------------------
 
   double eval(const vnl_vector<double>& x);
-  int degree();
+  unsigned int degree();
   vnl_real_npolynomial operator-() const; // unary minus
   vnl_real_npolynomial operator+(vnl_real_npolynomial const& ) const;
   vnl_real_npolynomial operator-(vnl_real_npolynomial const& ) const;
@@ -76,12 +76,12 @@ class vnl_real_npolynomial
   //--- Data Access------------------------------------------------------------
 
   //: Return the degree (highest power of x) of the polynomial.
-  int degree() const { return ((int)coeffs_.size()) - 1; }
+  unsigned int degree() const { return coeffs_.size() - 1; }
 
   //: Access to the polynomial coefficients
-  double& operator [] (int i)       { return coeffs_[i]; }
+  double& operator [] (unsigned int i)       { return coeffs_[i]; }
   //: Access to the polynomial coefficients
-  double  operator [] (int i) const { return coeffs_[i]; }
+  double  operator [] (unsigned int i) const { return coeffs_[i]; }
 
   //: Return the vector of coefficients
   const vnl_vector<double>& coefficients() const { return coeffs_; }
@@ -89,14 +89,14 @@ class vnl_real_npolynomial
   vnl_vector<double>& coefficients()       { return coeffs_; }
 
   //: Set vector of coefficients of each product
-  void set(const vnl_vector<double> & c, const vnl_matrix<int> & p);
+  void set(const vnl_vector<double> & c, const vnl_matrix<unsigned int> & p);
 
   //: Return the polynomial matrix
   // (ie specifying the variables in each product)
-  const vnl_matrix<int>& polyn() const { return polyn_; }
+  const vnl_matrix<unsigned int>& polyn() const { return polyn_; }
 
   //: Return the vector of coefficients
-  vnl_matrix<int>& polyn()       { return polyn_; }
+  vnl_matrix<unsigned int>& polyn() { return polyn_; }
 
  private:
   void simplify();
@@ -105,15 +105,15 @@ class vnl_real_npolynomial
   // Data Members--------------------------------------------------------------
 
   //: coefficients
-  vnl_vector<double> coeffs_;
+  vnl_vector<double>       coeffs_;
   //: degrees of every term for every variable
-  vnl_matrix<int>    polyn_;
+  vnl_matrix<unsigned int> polyn_;
   //: number of variables = # columns of polyn_
-  int                nvar_;
+  unsigned int             nvar_;
   //: number of terms of polynomial
-  int                nterms_;
+  unsigned int             nterms_;
   //: max. degree of polynomial
-  int                ideg_;
+  unsigned int             ideg_;
 };
 
 #endif // vnl_real_npolynomial_h_

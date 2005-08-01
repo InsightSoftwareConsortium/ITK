@@ -95,7 +95,7 @@ vnl_scalar_join_iterator<T>::~vnl_scalar_join_iterator()
 }
 
 template <class T>
-bool vnl_scalar_join_iterator<T>::done()
+bool vnl_scalar_join_iterator<T>::done() const
 {
   return (index1 == I1.end()) || (index2 == I2.end());
 }

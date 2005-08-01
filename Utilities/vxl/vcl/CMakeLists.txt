@@ -1,11 +1,23 @@
 # vcl/CMakeLists.txt
 
+IF(WIN32)
+  # MSVC.NET produces lots of warnings like
+  # "warning LNK4221: no public symbols found; archive member will be inaccessible"
+  # that depend on subtle logic at compile time.
+  # This is a bit indescriminate, but it may be the only feasible way to suppress them.
+  IF (CMAKE_CXX_COMPILER MATCHES "^cl$")
+    SET ( CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /WARN:0")
+    SET ( CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /WARN:0")
+  ENDIF (CMAKE_CXX_COMPILER MATCHES "^cl$")
+ENDIF(WIN32)
+
+
 PROJECT( vcl )
 
 # Set up vcl_where_root_dir.h to have a macro set to $VCL_SOURCE_ROOT_DIR
 CONFIGURE_FILE(
-      ${vxl_SOURCE_DIR}/vcl/vcl_where_root_dir.h.in
-      ${vxl_BINARY_DIR}/vcl/vcl_where_root_dir.h ESCAPE_QUOTES
+  ${vxl_SOURCE_DIR}/vcl/vcl_where_root_dir.h.in
+  ${vxl_BINARY_DIR}/vcl/vcl_where_root_dir.h ESCAPE_QUOTES
 )
 
 SET( vcl_sources
@@ -215,6 +227,7 @@ SET( vcl_sources
   emulation/vcl_tree.h
 
   emulation/vcl_stlconf.h
+  emulation/egcs-stlconf.h
   emulation/gcc-272-stlconf.h
   emulation/gcc-2800-stlconf.h
   emulation/gcc-281-stlconf.h
@@ -234,6 +247,7 @@ SET( vcl_sources
   gcc-295/vcl_iterator.txx
   gcc-295/vcl_list.txx
   gcc-295/vcl_map.txx
+  gcc-295/vcl_memory.h
   gcc-295/vcl_queue.txx
   gcc-295/vcl_set.txx
   gcc-295/vcl_string.txx
@@ -299,12 +313,20 @@ SET( vcl_sources
   win32-vc60/vcl_complex.h
   win32-vc60/vcl_cstdarg.h
   win32-vc60/vcl_cstdlib.h
+  win32-vc60/vcl_memory.h
   win32-vc60/vcl_string.h
+  win32-vc60/vcl_valarray.h
 
   win32-vc70/vcl_cmath.h
+  win32-vc70/vcl_complex.h
   win32-vc70/vcl_cstdlib.h
+  win32-vc70/vcl_valarray.h
 
   borland55/vcl_cfloat.h
+  borland55/vcl_cmath.h
+  borland55/vcl_complex.h
+  borland55/vcl_cstdlib.h
+  borland55/vcl_memory.h
   borland56/vcl_complex.h
 
   mwerks/vcl_cmath.h
@@ -316,6 +338,13 @@ SET( vcl_sources
   stlport/vcl_cstdlib.h
 )
 
+# We use implicit instantiation of the standard library now,
+# so we shouldn't be explicitly instantiating anything.
+# This also avoid trouble where the instantiation hack conflict
+# with modern, more compliant compilers.
+#AUX_SOURCE_DIRECTORY(Templates vcl_sources)
+
+
 ADD_LIBRARY(itkvcl ${vcl_sources})
 
 IF(WIN32)
@@ -323,6 +352,7 @@ IF(WIN32)
     ADD_DEFINITIONS( -DBUILDING_VCL_DLL )
   ENDIF(NOT CYGWIN)
 ENDIF(WIN32)
+
 
 IF(UNIX)
   TARGET_LINK_LIBRARIES( itkvcl m )

@@ -66,7 +66,7 @@ class vnl_cholesky
   vnl_matrix<double> upper_triangle() const;
 
   //: Return the decomposition matrix
-  vnl_matrix<double> const& L_badly_named_method() { return A_; }
+  vnl_matrix<double> const& L_badly_named_method() const { return A_; }
 
   //: A Success/failure flag
   int rank_deficiency() const { return num_dims_rank_def_; }

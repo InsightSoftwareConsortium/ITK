@@ -12,6 +12,7 @@ void vnl_sparse_matrix_linear_system<double>::get_rhs(vnl_vector<double>& b) con
 {
   b = b_;
 }
+
 VCL_DEFINE_SPECIALIZATION
 void vnl_sparse_matrix_linear_system<double>::transpose_multiply(vnl_vector<double> const& b, vnl_vector<double> & x) const
 {

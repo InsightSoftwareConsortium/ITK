@@ -488,7 +488,7 @@ void vnl_sparse_matrix<T>::scale_row(unsigned int r, T scale)
 }
 
 //------------------------------------------------------------
-//: Resizes the matrix so that it has r rows and c columns.
+//: Resizes the matrix so that it has r rows and c columns, clearing the current contents.
 //
 template <class T>
 void vnl_sparse_matrix<T>::set_size( int r, int c)
@@ -502,6 +502,32 @@ void vnl_sparse_matrix<T>::set_size( int r, int c)
     // just set matrix to 0
     ie->clear();
   }
+  reset(); // reset iterator
+}
+
+//------------------------------------------------------------
+//: Resizes the matrix so that it has r rows and c columns, leaving the current contents.
+// This is more wasteful of resources than set_size, but it preserves the contents.
+//
+template <class T>
+void vnl_sparse_matrix<T>::resize( int r, int c)
+{
+  unsigned int oldCs = cs_;
+  
+  rs_ = r;
+  cs_ = c;
+  elements.resize(r);
+
+  // If the array has fewer columns now, we also need to cut them out  
+  if (oldCs > cs_){
+    for (unsigned int r = 0; r < elements.size(); r++){
+      row& rw = elements[r];
+      typename row::iterator iter;
+      for (iter = rw.begin(); iter != rw.end() && (*iter).first<cs_ ; ++iter);
+      if (iter != rw.end()) rw.erase(iter,rw.end());
+    }
+  }
+  
   reset(); // reset iterator
 }
 

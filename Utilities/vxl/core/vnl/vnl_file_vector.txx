@@ -14,14 +14,20 @@ template <class T>
 vnl_file_vector<T>::vnl_file_vector(char const* filename)
   : vnl_vector<T>() // makes an empty vector.
 {
-//vcl_cerr << "filename=" << filename << "\nlength=" << this->length() << '\n';
+#ifdef DEBUG
+  vcl_cerr << "filename=" << filename << "\nsize=" << this->size() << '\n';
+#endif
   if (filename && vcl_strcmp(filename, "-")) {
     vcl_ifstream o(filename);
-    ok_=this->read_ascii(o);
+    ok_ = this->read_ascii(o);
   }
   else
-    ok_=this->read_ascii(vcl_cin);
-//vcl_cerr << "length=" << this->length() << '\n';
+    ok_ = this->read_ascii(vcl_cin);
+#ifdef DEBUG
+    vcl_cerr << "size=" << this->size() << '\n';
+#endif
+  if (!ok_)
+    vcl_cerr << "vnl_file_vector: ERROR loading from " << filename << '\n';
 }
 
 //--------------------------------------------------------------------------------

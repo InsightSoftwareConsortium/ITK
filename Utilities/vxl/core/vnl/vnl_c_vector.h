@@ -42,7 +42,7 @@ class vnl_c_vector
 
   static T sum(T const* v, unsigned n);
   static inline abs_t squared_magnitude(T const *p, unsigned n)
-    { abs_t val; vnl_c_vector_two_norm_squared(p, n, &val); return val; }
+  { abs_t val; vnl_c_vector_two_norm_squared(p, n, &val); return val; }
   static void normalize(T *, unsigned n);
   static void apply(T const *, unsigned, T (*f)(T), T* v_out);
   static void apply(T const *, unsigned, T (*f)(T const&), T* v_out);
@@ -115,23 +115,23 @@ class vnl_c_vector
 
   //:  one_norm : sum of abs values
   static inline abs_t one_norm(T const *p, unsigned n)
-    { abs_t val; vnl_c_vector_one_norm(p, n, &val); return val; }
+  { abs_t val; vnl_c_vector_one_norm(p, n, &val); return val; }
 
   //: two_norm : sqrt of sum of squared abs values
   static inline abs_t two_norm(T const *p, unsigned n)
-    { abs_t val; vnl_c_vector_two_norm(p, n, &val); return val; }
+  { abs_t val; vnl_c_vector_two_norm(p, n, &val); return val; }
 
  //: inf_norm : max of abs values
   static inline abs_t inf_norm(T const *p, unsigned n)
-    { abs_t val; vnl_c_vector_inf_norm(p, n, &val); return val; }
+  { abs_t val; vnl_c_vector_inf_norm(p, n, &val); return val; }
 
   //: two_nrm2 : sum of squared abs values
   static inline abs_t two_nrm2(T const *p, unsigned n)
-    { abs_t val; vnl_c_vector_two_norm_squared(p, n, &val); return val; }
+  { abs_t val; vnl_c_vector_two_norm_squared(p, n, &val); return val; }
 
   //: rms_norm : sqrt of mean sum of squared abs values
   static inline abs_t rms_norm(T const *p, unsigned n)
-    { abs_t val; vnl_c_vector_rms_norm(p, n, &val); return val; }
+  { abs_t val; vnl_c_vector_rms_norm(p, n, &val); return val; }
 
   //: Euclidean Distance between two vectors.
   // Sum of Differences squared.

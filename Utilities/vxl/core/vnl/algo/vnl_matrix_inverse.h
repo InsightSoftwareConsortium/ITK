@@ -11,8 +11,8 @@
 // \date   22 Nov 96
 //
 // \verbatim
-// Modifications
-//  dac (Manchester) 28/03/2001: tidied up documentation
+//  Modifications
+//   dac (Manchester) 28/03/2001: tidied up documentation
 // \endverbatim
 
 #include <vnl/algo/vnl_svd.h>
@@ -20,12 +20,15 @@
 //: Calculates inverse of a matrix (wrapper around vnl_svd<double>)
 //  vnl_matrix_inverse is a wrapper around vnl_svd<double> that allows
 //  you to write
-//
-//  x = vnl_matrix_inverse(A) * b;
-//
-//  This is exactly equivalent to x = vnl_svd<double>(A).solve(b);
+//  \code
+//  x = vnl_matrix_inverse<double>(A) * b;
+//  \endcode
+//  This is exactly equivalent to
+//  \code
+//  x = vnl_svd<double>(A).solve(b);
+//  \endcode
 //  but is arguably clearer, and also allows for the vnl_matrix_inverse
-//  class to be changed  to use vnl_qr, say.
+//  class to be changed to use vnl_qr, say.
 
 template <class T>
 struct vnl_matrix_inverse : public vnl_svd<T>

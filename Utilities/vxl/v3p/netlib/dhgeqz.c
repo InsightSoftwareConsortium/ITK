@@ -12,7 +12,7 @@ static integer c__3 = 3;
 
 /* Subroutine */ void dhgeqz_(job, compq, compz, n, ilo, ihi, a, lda, b, ldb,
                               alphar, alphai, beta, q, ldq, z, ldz, work, lwork, info)
-char *job, *compq, *compz;
+const char *job, *compq, *compz;
 integer *n, *ilo, *ihi;
 doublereal *a;
 integer *lda;

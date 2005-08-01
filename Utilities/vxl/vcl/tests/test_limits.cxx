@@ -12,7 +12,6 @@ void test_if_int_defined( int )
 }
 
 
-
 // if this function compiles and links, then all the constants have
 // definitions as they should.
 static
@@ -50,8 +49,8 @@ void test_static_const_definition()
 #undef TEST_TYPE
 }
 
-#define TEST(m,x,y)    if (x!=y) { vcl_cout<< "FAIL: " << m << "\n"; fail=true; } \
-                       else { vcl_cout<< "PASS: " << m << "\n"; }
+#define TEST(m,x,y)    if (x!=y) { vcl_cout<< "FAIL: " << m << '\n'; fail=true; } \
+                       else { vcl_cout<< "PASS: " << m << '\n'; }
 
 int test_limits_main(int /*argc*/, char* /*argv*/[])
 {
@@ -78,12 +77,30 @@ int test_limits_main(int /*argc*/, char* /*argv*/[])
            << "fsnan = " << vcl_numeric_limits<float>::signaling_NaN() << vcl_endl
            << "finf  = " << vcl_numeric_limits<float>::infinity() << vcl_endl
            << "-finf = " <<-vcl_numeric_limits<float>::infinity() << vcl_endl
-           << "rnder = " << vcl_numeric_limits<float>::round_error() << vcl_endl;
+           << "rnder = " << vcl_numeric_limits<float>::round_error() << vcl_endl
+
+           << "s8max  = " << int(vcl_numeric_limits<signed char>::max()) << vcl_endl
+           << "s8min  = " << int(vcl_numeric_limits<signed char>::min()) << vcl_endl
+
+           << "u8max  = " << int(vcl_numeric_limits<unsigned char>::max()) << vcl_endl
+           << "u8min  = " << int(vcl_numeric_limits<unsigned char>::min()) << vcl_endl
+
+           << "s16max  = " << vcl_numeric_limits<signed short>::max() << vcl_endl
+           << "s16min  = " << vcl_numeric_limits<signed short>::min() << vcl_endl
+
+           << "u16max  = " << vcl_numeric_limits<unsigned short>::max() << vcl_endl
+           << "u16min  = " << vcl_numeric_limits<unsigned short>::min() << vcl_endl
+
+           << "s32max  = " << vcl_numeric_limits<signed int>::max() << vcl_endl
+           << "s32min  = " << vcl_numeric_limits<signed int>::min() << vcl_endl
+
+           << "u32max  = " << vcl_numeric_limits<unsigned int>::max() << vcl_endl
+           << "u32min  = " << vcl_numeric_limits<unsigned int>::min() << vcl_endl;
 
   TEST("dmax", vcl_numeric_limits<double>::max() > 1e308, true);
   if (VCL_PROCESSOR_HAS_INFINITY)
     TEST("dinf", vcl_numeric_limits<double>::infinity() >
-               vcl_numeric_limits<double>::max(), true);
+                 vcl_numeric_limits<double>::max(), true);
   TEST("dmin", vcl_numeric_limits<double>::min() < 1e-307 &&
                vcl_numeric_limits<double>::min() > 0, true);
   TEST("deps", vcl_numeric_limits<double>::epsilon() < 1e-12 &&
@@ -92,7 +109,7 @@ int test_limits_main(int /*argc*/, char* /*argv*/[])
   TEST("fmax", vcl_numeric_limits<float>::max() > 1e38f, true);
   if (vcl_numeric_limits<double>::has_infinity)
     TEST("finf", vcl_numeric_limits<float>::infinity() >
-               vcl_numeric_limits<float>::max(), true);
+                 vcl_numeric_limits<float>::max(), true);
   TEST("fmin", vcl_numeric_limits<float>::min() < 1e-37f &&
                vcl_numeric_limits<float>::min() > 0, true);
   TEST("feps", vcl_numeric_limits<float>::epsilon() < 1e-6f &&

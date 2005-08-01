@@ -2,13 +2,13 @@
 #include "netlib.h"
 #include <stdio.h>
 
-static void dlamc1_(integer *beta, integer *t, logical *rnd, logical *ieee1);
-static void dlamc2_(integer *beta, integer *t, logical *rnd, doublereal *eps,
-                     integer *emin, doublereal *rmin, integer *emax, doublereal *rmax);
-static doublereal dlamc3_(doublereal *a, doublereal *b);
-static void dlamc4_(integer *emin, doublereal *start, integer *base);
-static void dlamc5_(integer *beta, integer *p, integer *emin, logical *ieee, integer *emax, doublereal *rmax);
-static doublereal dlamc33_(doublereal *a, doublereal *b);
+void dlamc1_(integer *beta, integer *t, logical *rnd, logical *ieee1);
+void dlamc2_(integer *beta, integer *t, logical *rnd, doublereal *eps,
+             integer *emin, doublereal *rmin, integer *emax, doublereal *rmax);
+doublereal dlamc3_(doublereal *a, doublereal *b);
+void dlamc4_(integer *emin, doublereal *start, integer *base);
+void dlamc5_(integer *beta, integer *p, integer *emin, logical *ieee, integer *emax, doublereal *rmax);
+doublereal dlamc33_(doublereal *a, doublereal *b);
 
 doublereal dlamch_(const char *cmach)
 {
@@ -123,7 +123,8 @@ doublereal dlamch_(const char *cmach)
 
 } /* dlamch_ */
 
-/* Subroutine */ void dlamc1_(integer *beta, integer *t, logical *rnd, logical *ieee1)
+/* Subroutine */
+void dlamc1_(integer *beta, integer *t, logical *rnd, logical *ieee1)
 {
 /*  -- LAPACK auxiliary routine (version 2.0) --
        Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -291,9 +292,10 @@ doublereal dlamch_(const char *cmach)
     *ieee1 = lieee1;
 } /* dlamc1_ */
 
-/* Subroutine */ void dlamc2_(integer *beta, integer *t, logical *rnd,
-                              doublereal *eps, integer *emin, doublereal *rmin,
-                              integer *emax, doublereal *rmax)
+/* Subroutine */
+void dlamc2_(integer *beta, integer *t, logical *rnd,
+             doublereal *eps, integer *emin, doublereal *rmin,
+             integer *emax, doublereal *rmax)
 {
 /*  -- LAPACK auxiliary routine (version 2.0) --
        Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -492,11 +494,11 @@ doublereal dlamch_(const char *cmach)
 /* ** Comment out this if block if EMIN is ok */
         if (iwarn) {
             first = TRUE_;
-            printf("\n\n WARNING. The value EMIN may be incorrect:- ");
+            printf("\n\n WARNING. The value EMIN may be incorrect: - ");
             printf("EMIN = %8i\n",lemin);
-            printf("If, after inspection, the value EMIN looks acceptable");
-            printf("please comment out \n the IF block as marked within the");
-            printf("code of routine DLAMC2, \n otherwise supply EMIN");
+            printf("If, after inspection, the value EMIN looks acceptable ");
+            printf("please comment out\n the IF block as marked within the ");
+            printf("code of routine DLAMC2,\n otherwise supply EMIN ");
             printf("explicitly.\n");
         }
 /* **     Assume IEEE arithmetic if we found denormalised  numbers above,
@@ -578,7 +580,8 @@ doublereal dlamc33_(doublereal *a, doublereal *b)
 
 } /* dlamc33_ */
 
-/* Subroutine */ void dlamc4_(integer *emin, doublereal *start, integer *base)
+/* Subroutine */
+void dlamc4_(integer *emin, doublereal *start, integer *base)
 {
 /*  -- LAPACK auxiliary routine (version 2.0) --
        Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -642,8 +645,9 @@ doublereal dlamc33_(doublereal *a, doublereal *b)
     }
 } /* dlamc4_ */
 
-/* Subroutine */ void dlamc5_(integer *beta, integer *p, integer *emin,
-        logical *ieee, integer *emax, doublereal *rmax)
+/* Subroutine */
+void dlamc5_(integer *beta, integer *p, integer *emin,
+             logical *ieee, integer *emax, doublereal *rmax)
 {
 /*  -- LAPACK auxiliary routine (version 2.0) --
        Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,

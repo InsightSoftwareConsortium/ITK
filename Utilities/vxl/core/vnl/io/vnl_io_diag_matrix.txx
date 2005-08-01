@@ -29,14 +29,14 @@ void vsl_b_read(vsl_b_istream &is, vnl_diag_matrix<T> & p)
   short ver;
   vnl_vector<T> v;
   vsl_b_read(is, ver);
-  switch(ver)
+  switch (ver)
   {
-  case 1:
+   case 1:
     vsl_b_read(is, v);
     p.set(v);
     break;
 
-  default:
+   default:
     vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_diag_matrix<T>&)\n"
              << "           Unknown version number "<< v << '\n';
     is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream

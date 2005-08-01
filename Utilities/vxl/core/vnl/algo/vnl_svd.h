@@ -105,7 +105,7 @@ class vnl_svd
   vnl_matrix<T> const& U() const { return U_; }
 
   //: Return the matrix U's (i,j)th entry (to avoid svd.U()(i,j); ).
-  T U(int i, int j) { return U_(i,j); }
+  T U(int i, int j) const { return U_(i,j); }
 
   //: Get at DiagMatrix (q.v.) of singular values, sorted from largest to smallest
   vnl_diag_matrix<singval_t>       & W()             { return W_; }
@@ -126,7 +126,7 @@ class vnl_svd
   vnl_matrix<T> const& V() const { return V_; }
 
   //: Return the matrix V's (i,j)th entry (to avoid svd.V()(i,j); ).
-  T V(int i, int j) { return V_(i,j); }
+  T V(int i, int j) const { return V_(i,j); }
 
   //:
   inline vnl_matrix<T> inverse () const { return pinverse(); }

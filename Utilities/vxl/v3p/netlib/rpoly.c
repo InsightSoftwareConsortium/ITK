@@ -325,7 +325,8 @@ L260:
     *degree -= global_1.n;
 } /* rpoly_ */
 
-/* Subroutine */ void fxshfr_(l2, nz)
+/* Subroutine */
+static void fxshfr_(l2, nz)
 integer *l2, *nz;
 {
     /* Local variables */
@@ -439,7 +440,7 @@ L40:
         stry = TRUE_;
         betas *= 0.25f;
 /* IF LINEAR ITERATION SIGNALS AN ALMOST DOUBLE REAL */
-/* ZERO ATTEMPT QUADRATIC INTERATION */
+/* ZERO ATTEMPT QUADRATIC ITERATION */
         if (iflag != 0) {
             ui = -(s + s);
             vi = s * s;
@@ -469,7 +470,8 @@ L70:
     }
 } /* fxshfr_ */
 
-/* Subroutine */ void quadit_(uu, vv, nz)
+/* Subroutine */
+static void quadit_(uu, vv, nz)
 doublereal *uu, *vv;
 integer *nz;
 {
@@ -566,7 +568,8 @@ L50:
     goto L10;
 } /* quadit_ */
 
-/* Subroutine */ void realit_(sss, nz, iflag)
+/* Subroutine */
+static void realit_(sss, nz, iflag)
 doublereal *sss;
 integer *nz, *iflag;
 {
@@ -669,7 +672,8 @@ L100:
     goto L10;
 } /* realit_ */
 
-/* Subroutine */ void calcsc_(type)
+/* Subroutine */
+static void calcsc_(type)
 integer *type;
 {
 /* THIS ROUTINE CALCULATES SCALAR QUANTITIES USED TO */
@@ -716,7 +720,8 @@ L20:
     return;
 } /* calcsc_ */
 
-/* Subroutine */ void nextk_(type)
+/* Subroutine */
+static void nextk_(type)
 integer *type;
 {
     /* Local variables */
@@ -762,7 +767,8 @@ L40:
     }
 } /* nextk_ */
 
-/* Subroutine */ void newest_(type, uu, vv)
+/* Subroutine */
+static void newest_(type, uu, vv)
 integer *type;
 doublereal *uu, *vv;
 {
@@ -805,7 +811,8 @@ L30:
     return;
 } /* newest_ */
 
-/* Subroutine */ void quadsd_(nn, u, v, p, q, a, b)
+/* Subroutine */
+static void quadsd_(nn, u, v, p, q, a, b)
 integer *nn;
 doublereal *u, *v, *p, *q, *a, *b;
 {
@@ -829,7 +836,8 @@ doublereal *u, *v, *p, *q, *a, *b;
     return;
 } /* quadsd_ */
 
-/* Subroutine */ void quad_(a, b1, c, sr, si, lr, li)
+/* Subroutine */
+static void quad_(a, b1, c, sr, si, lr, li)
 doublereal *a, *b1, *c, *sr, *si, *lr, *li;
 {
     /* Local variables */

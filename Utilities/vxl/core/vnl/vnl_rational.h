@@ -3,9 +3,9 @@
 #define vnl_rational_h_
 //:
 // \file
-// \brief Infinite precision rational numbers
+// \brief High-precision rational numbers
 //
-// The  vnl_rational  class  provides  infinite  precision rational numbers and
+// The  vnl_rational  class  provides  high-precision rational numbers and
 // arithmetic, using the built-in type long, for the numerator and denominator.
 // Implicit conversion to the system defined types short, int, long, float, and
 // double is supported by  overloaded  operator member functions.  Although the
@@ -46,9 +46,9 @@
 #include <vcl_iostream.h>
 #include <vcl_cassert.h>
 
-//: Infinite precision rational numbers
+//: High-precision rational numbers
 //
-// The  vnl_rational  class  provides  infinite  precision rational numbers and
+// The  vnl_rational  class  provides  high-precision rational numbers and
 // arithmetic, using the built-in type long, for the numerator and denominator.
 // Implicit conversion to the system defined types short, int, long, float, and
 // double is supported by  overloaded  operator member functions.  Although the
@@ -291,18 +291,22 @@ inline vnl_rational operator+ (vnl_rational const& r1, vnl_rational const& r2)
 {
   vnl_rational result(r1); return result += r2;
 }
+
 inline vnl_rational operator+ (vnl_rational const& r1, long r2)
 {
   vnl_rational result(r1); return result += r2;
 }
+
 inline vnl_rational operator+ (vnl_rational const& r1, int r2)
 {
   vnl_rational result(r1); return result += (long)r2;
 }
+
 inline vnl_rational operator+ (long r2, vnl_rational const& r1)
 {
   vnl_rational result(r1); return result += r2;
 }
+
 inline vnl_rational operator+ (int r2, vnl_rational const& r1)
 {
   vnl_rational result(r1); return result += (long)r2;
@@ -314,18 +318,22 @@ inline vnl_rational operator- (vnl_rational const& r1, vnl_rational const& r2)
 {
   vnl_rational result(r1); return result -= r2;
 }
+
 inline vnl_rational operator- (vnl_rational const& r1, long r2)
 {
   vnl_rational result(r1); return result -= r2;
 }
+
 inline vnl_rational operator- (vnl_rational const& r1, int r2)
 {
   vnl_rational result(r1); return result -= (long)r2;
 }
+
 inline vnl_rational operator- (long r2, vnl_rational const& r1)
 {
   vnl_rational result(-r1); return result += r2;
 }
+
 inline vnl_rational operator- (int r2, vnl_rational const& r1)
 {
   vnl_rational result(-r1); return result += (long)r2;
@@ -337,18 +345,22 @@ inline vnl_rational operator* (vnl_rational const& r1, vnl_rational const& r2)
 {
   vnl_rational result(r1); return result *= r2;
 }
+
 inline vnl_rational operator* (vnl_rational const& r1, long r2)
 {
   vnl_rational result(r1); return result *= r2;
 }
+
 inline vnl_rational operator* (vnl_rational const& r1, int r2)
 {
   vnl_rational result(r1); return result *= (long)r2;
 }
+
 inline vnl_rational operator* (long r2, vnl_rational const& r1)
 {
   vnl_rational result(r1); return result *= r2;
 }
+
 inline vnl_rational operator* (int r2, vnl_rational const& r1)
 {
   vnl_rational result(r1); return result *= (long)r2;
@@ -360,18 +372,22 @@ inline vnl_rational operator/ (vnl_rational const& r1, vnl_rational const& r2)
 {
   vnl_rational result(r1); return result /= r2;
 }
+
 inline vnl_rational operator/ (vnl_rational const& r1, long r2)
 {
   vnl_rational result(r1); return result /= r2;
 }
+
 inline vnl_rational operator/ (vnl_rational const& r1, int r2)
 {
   vnl_rational result(r1); return result /= (long)r2;
 }
+
 inline vnl_rational operator/ (long r1, vnl_rational const& r2)
 {
   vnl_rational result(r1); return result /= r2;
 }
+
 inline vnl_rational operator/ (int r1, vnl_rational const& r2)
 {
   vnl_rational result((long)r1); return result /= r2;
@@ -383,18 +399,22 @@ inline vnl_rational operator% (vnl_rational const& r1, vnl_rational const& r2)
 {
   vnl_rational result(r1); return result %= r2;
 }
+
 inline vnl_rational operator% (vnl_rational const& r1, long r2)
 {
   vnl_rational result(r1); return result %= r2;
 }
+
 inline vnl_rational operator% (vnl_rational const& r1, int r2)
 {
   vnl_rational result(r1); return result %= (long)r2;
 }
+
 inline vnl_rational operator% (long r1, vnl_rational const& r2)
 {
   vnl_rational result(r1); return result %= r2;
 }
+
 inline vnl_rational operator% (int r1, vnl_rational const& r2)
 {
   vnl_rational result((long)r1); return result %= r2;

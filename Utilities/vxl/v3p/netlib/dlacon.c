@@ -112,7 +112,7 @@ L20:
     return;
 
 /*     ................ ENTRY   (JUMP = 2) */
-/*     FIRST ITERATION.  X HAS BEEN OVERWRITTEN BY TRANDPOSE(A)*X. */
+/*     FIRST ITERATION.  X HAS BEEN OVERWRITTEN BY TRANSPOSE(A)*X. */
 
 L40:
     j = idamax_(n, x, &c__1) - 1;
@@ -160,7 +160,7 @@ L90:
     return;
 
 /*     ................ ENTRY   (JUMP = 4) */
-/*     X HAS BEEN OVERWRITTEN BY TRANDPOSE(A)*X. */
+/*     X HAS BEEN OVERWRITTEN BY TRANSPOSE(A)*X. */
 
 L110:
     jlast = j;

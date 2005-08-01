@@ -39,9 +39,9 @@ bool vnl_discrete_diff_fwd(vnl_least_squares_function *lsf,
 {
   unsigned m=J.rows();
   unsigned n=J.columns();
-  assert((int)m==lsf->get_number_of_residuals());
+  assert(m==lsf->get_number_of_residuals());
   assert(m==y.size());
-  assert((int)n==lsf->get_number_of_unknowns());
+  assert(n==lsf->get_number_of_unknowns());
   assert(n==h.size());
   assert(n==x.size());
 
@@ -76,8 +76,8 @@ bool vnl_discrete_diff_sym(vnl_least_squares_function *lsf,
 {
   unsigned m=J.rows();
   unsigned n=J.columns();
-  assert((int)m==lsf->get_number_of_residuals());
-  assert((int)n==lsf->get_number_of_unknowns());
+  assert(m==lsf->get_number_of_residuals());
+  assert(n==lsf->get_number_of_unknowns());
   assert(n==h.size());
   assert(n==x.size());
 
@@ -118,11 +118,10 @@ void vnl_discrete_diff_test_lsf(vnl_least_squares_function *lsf, vnl_vector<doub
   vnl_discrete_diff_sym(lsf, 0.0001, x, J2);
 
   double e = (J1 - J2).fro_norm();
-  double t = cos_angle(J1, J2);
-
-  vcl_cerr << __FILE__ ": e = " << e << vcl_endl;
-  vcl_cerr << __FILE__ ": t = " << t << vcl_endl;
-
   //assert(e <= 1e-3);
+  double t = cos_angle(J1, J2);
   //assert(t >= 0.99);
+
+  vcl_cerr << __FILE__ ": e = " << e << vcl_endl
+           << __FILE__ ": t = " << t << vcl_endl;
 }
