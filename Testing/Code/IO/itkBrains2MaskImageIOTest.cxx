@@ -47,7 +47,6 @@ int itkBrains2MaskTest(int ac, char *av[])
   region.SetSize(imageSize);
   region.SetIndex(imageIndex);
   ImageType::Pointer img = ImageType::New();
-  ImageType::Pointer flipped;
   img->SetLargestPossibleRegion(region);
   img->SetBufferedRegion(region);
   img->SetRequestedRegion(region);
@@ -78,20 +77,6 @@ int itkBrains2MaskTest(int ac, char *av[])
     ex.Print(std::cerr);
     return EXIT_FAILURE;
     }
-  //
-  // images in brains2 format are flipped in the y axis
-  itk::FlipImageFilter<ImageType>::Pointer flipper =
-    itk::FlipImageFilter<ImageType>::New();
-  itk::FlipImageFilter<ImageType>::FlipAxesArrayType axesFlip;
-  axesFlip[0] = false;
-  axesFlip[1] = true;
-  axesFlip[2] = false;
-  flipper->SetFlipAxes(axesFlip);
-
-  flipper->SetInput(img);
-  flipper->Update();
-  flipped = flipper->GetOutput();
-
   itk::ImageIOBase::Pointer io;
   io = itk::Brains2MaskImageIO::New();
 
@@ -107,7 +92,7 @@ int itkBrains2MaskTest(int ac, char *av[])
   ImageWriterType::Pointer imageWriter = ImageWriterType::New();
   imageWriter->SetImageIO(io);
   imageWriter->SetFileName(fileName.c_str());
-  imageWriter->SetInput(flipped);
+  imageWriter->SetInput(img);
   try 
     {
     imageWriter->Write();
