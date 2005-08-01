@@ -136,7 +136,7 @@ const FilenamesContainer &GDCMSeriesFileNames::GetInputFileNames()
   helper->OrderGdcmFileList(flist);
 
   gdcm::GdcmFileList::iterator it;
-  if( flist->size() )
+  if( flist && flist->size() )
     {
     for(it = flist->begin(); 
         it != flist->end(); ++it )
