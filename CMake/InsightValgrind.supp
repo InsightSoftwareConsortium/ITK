@@ -131,4 +131,20 @@
    fun:_ZN3itk11ImageSourceINS_5ImageIdLj6EEEE12GenerateDataEv
    fun:_ZN3itk13ProcessObject16UpdateOutputDataEPNS_10DataObjectE
 }
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:_ZSt18uncaught_exceptionv
+   fun:_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc
+   fun:_ZN3itk12OutputWindow11DisplayTextEPKc
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:__cxa_throw
+}
 
