@@ -45,6 +45,7 @@ PowellOptimizer
   m_MaximumIteration = 100 ;
 
   m_MaximumLineIteration = 100 ;
+  m_SpaceDimension = 0;
 }
 
 PowellOptimizer
