@@ -37,9 +37,6 @@
 #ifndef vcl_log10
 # define vcl_log10 vcl_log10
 #endif
-#ifndef vcl_pow
-# define vcl_pow vcl_pow
-#endif
 #ifndef vcl_sin
 # define vcl_sin vcl_sin
 #endif
@@ -71,9 +68,6 @@ template <class T> vcl_valarray<T> vcl_cosh(const vcl_valarray<T>& x) { return s
 template <class T> vcl_valarray<T> vcl_exp(const vcl_valarray<T>& x) { return std::exp(x); }
 template <class T> vcl_valarray<T> vcl_log(const vcl_valarray<T>& x) { return std::log(x); }
 template <class T> vcl_valarray<T> vcl_log10(const vcl_valarray<T>& x) { return std::log10(x); }
-template <class T> vcl_valarray<T> vcl_pow(const vcl_valarray<T>& x, const vcl_valarray<T>& y) { return std::pow(x,y); }
-template <class T> vcl_valarray<T> vcl_pow(const vcl_valarray<T>& x, const T& y) { return std::pow(x,y); }
-template <class T> vcl_valarray<T> vcl_pow(const T& x, const vcl_valarray<T>& y) { return std::pow(x,y); }
 template <class T> vcl_valarray<T> vcl_sin(const vcl_valarray<T>& x) { return std::sin(x); }
 template <class T> vcl_valarray<T> vcl_sinh(const vcl_valarray<T>& x) { return std::sinh(x); }
 template <class T> vcl_valarray<T> vcl_sqrt(const vcl_valarray<T>& x) { return std::sqrt(x); }
