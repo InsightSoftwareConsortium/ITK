@@ -1133,6 +1133,7 @@ MetaImageIO
         }
       }
     m_MetaImage.TransformMatrix( transformMatrix );      
+    delete []transformMatrix;
     }
 
   
