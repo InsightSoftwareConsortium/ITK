@@ -122,8 +122,10 @@ void test_math()
            << "ninf_d = " << ninf_d << " = " << print_hex(ninf_d) << vcl_endl
            << "pinf_q = " << pinf_q << " = " << print_hex(pinf_q) << vcl_endl
            << "ninf_q = " << ninf_q << " = " << print_hex(ninf_q) << vcl_endl
+#ifndef __BORLANDC__
            << "qnan_f = " << qnan_f << " = " << print_hex(qnan_f) << vcl_endl
            << "qnan_d = " << qnan_d << " = " << print_hex(qnan_d) << vcl_endl
+#endif
            << "qnan_q = " << qnan_q << " = " << print_hex(qnan_q) << vcl_endl
            << vcl_endl;
 #undef print_hex
