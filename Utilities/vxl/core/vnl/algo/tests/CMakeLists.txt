@@ -1,5 +1,6 @@
 # This is core/vnl/algo/tests/CMakeLists.txt
 
+SET(EXECUTABLE_OUTPUT_PATH ${vxl_BINARY_DIR}/core/vnl/algo/tests)
 INCLUDE( ${MODULE_PATH}/FindNetlib.cmake )
 
 # MESSAGE( NETLIB_FOUND " is " ${NETLIB_FOUND} )
