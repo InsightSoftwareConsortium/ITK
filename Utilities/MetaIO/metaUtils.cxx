@@ -22,6 +22,7 @@ bool MET_SystemByteOrderMSB(void)
   {
   const int l = 1;
   const char * u = (const char *) & l;
+
   if (u[0])
     {
     return false;
@@ -119,6 +120,7 @@ char* MET_ReadSubType(std::istream &_fp)
   char* ret = new char[value.size()+1];
   strncpy(ret,value.c_str(),value.size());
   ret[value.size()] = '\0';
+  delete mF;
   return ret;
 }
 
