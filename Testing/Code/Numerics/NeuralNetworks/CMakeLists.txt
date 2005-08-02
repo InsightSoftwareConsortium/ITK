@@ -66,8 +66,9 @@ ENDIF(ITK_BINARY_DIR)
     )
 
   ADD_EXECUTABLE(itkNeuralNetworkTests itkNeuralNetworkTests.cxx ${NNET_SRCS})
+  TARGET_LINK_LIBRARIES(itkNeuralNetworkTests ITKIO ITKNumerics ITKStatistics)
 
   ADD_EXECUTABLE(itkNeuralNetworksHeaderTest itkNeuralNetworksHeaderTest.cxx)
-
+  TARGET_LINK_LIBRARIES(itkNeuralNetworksHeaderTest ITKIO ITKNumerics ITKStatistics)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
