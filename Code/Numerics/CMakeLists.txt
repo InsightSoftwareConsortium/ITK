@@ -1,4 +1,4 @@
-SUBDIRS(Statistics FEM)
+SUBDIRS(Statistics FEM NeuralNetworks)
 
 ADD_LIBRARY(ITKNumerics
   itkAmoebaOptimizer.cxx
