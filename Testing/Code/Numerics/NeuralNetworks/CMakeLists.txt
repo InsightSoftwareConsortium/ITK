@@ -8,19 +8,6 @@ IF( NOT ITK_DISABLE_CXX_TESTING )
 ENDIF(ITK_BINARY_DIR)
 
   SET(NEURAL_NETWORKS_HEADER_TEST  ${CXX_TEST_PATH}/itkNeuralNetworksHeaderTest)
-
-  INCLUDE (${CMAKE_ROOT}/Modules/FindITK.cmake)
-  IF(USE_ITK_FILE)
-    INCLUDE (${USE_ITK_FILE})
-  ENDIF(USE_ITK_FILE)
-
-  
-  INCLUDE_DIRECTORIES(
-  ${ITK_SOURCE_DIR}/Code/Numerics/NeuralNetworks
-   )
-    
-  LINK_DIRECTORIES(
-    )
     
   INCLUDE_DIRECTORIES(
    ${ITK_SOURCE_DIR}/Code/Numerics/NeuralNetworks
