@@ -27,7 +27,7 @@ int test_iterator_main(int, char*[]);
 int test_list_main(int, char*[]);
 int test_limits_main(int, char*[]);
 int test_map_main(int, char*[]);
-int test_memory_main(int, char*[]);
+//int test_memory_main(int, char*[]);
 int test_multimap_main(int, char*[]);
 int test_new_main(int, char*[]);
 int test_set_main(int, char*[]);
@@ -95,7 +95,7 @@ int main( int argc, char* argv[] )
   DO_TEST(iterator);
   DO_TEST(list);
   DO_TEST(limits);
-  DO_TEST(memory);
+  //DO_TEST(memory);
   DO_TEST(map);
   DO_TEST(multimap);
   DO_TEST(new);
