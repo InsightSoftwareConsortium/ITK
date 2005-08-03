@@ -9,9 +9,16 @@
 *.sh.in          crlf=input
 configure        crlf=input
 cvsrmvend        crlf=input
+imcp             crlf=input
+imglob           crlf=input
+imln             crlf=input
+immv             crlf=input
+imrm             crlf=input
+imtest           crlf=input
 install-sh       crlf=input
 itkwish          crlf=input
 newalpha         crlf=input
 newversion       crlf=input
+remove_ext       crlf=input
 vxl_doxy.pl      crlf=input
 zap.pl           crlf=input
