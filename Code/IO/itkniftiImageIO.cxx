@@ -410,7 +410,7 @@ void niftiImageIO::ReadImageInformation()
                             theMat.m[2][0],theMat.m[2][1],theMat.m[2][2]);
   //
   // set direction vectors
-  vnl_vector<double> direction;
+  std::vector<double> direction(3);
   direction[0] = ortho.m[0][0];
   direction[1] = ortho.m[0][1];
   direction[2] = ortho.m[0][2];
@@ -641,8 +641,8 @@ niftiImageIO
 
   //
   // set the quarternions, from the direction vectors
-  std::vector<double> dirx = this->GetDirection(0);
-  std::vector<double> diry = this->GetDirection(1);
+  std::vector<double> dirx(3) = this->GetDirection(0);
+  std::vector<double> diry(3)  = this->GetDirection(1);
   mat44 matrix = nifti_make_orthog_mat44(dirx[0],dirx[1],dirx[2],
                                          diry[0],diry[1],diry[2],
                                          0,0,0);
