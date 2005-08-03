@@ -135,7 +135,7 @@ int itkFEMElementTest(int ac, char* av[] )
     std::cout << comment << "Read()" << std::endl;
     S.Read(f);
     f.close();
-    delete(fname);
+    delete []fname;
     
     // Call the appropriate sequence of Solver methods to solve the
     // problem
