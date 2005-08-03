@@ -25,47 +25,6 @@
 #include "itk_hash_map.h"
 #include <map>
 
-// anonymous namespace to hold a helper object
-namespace
-{
-struct ObjectType
-{
-  unsigned long m_ObjectNumber;
-  unsigned long m_SizeInPixels;
-  float m_SizeInPhysicalUnits;
-};
-
-
-// put the function objects here for sorting in descending order
-class SizeInPixelsComparator
-{
-public:
-  bool operator()(const ObjectType &a, const ObjectType&b)
-    {
-      if (a.m_SizeInPixels > b.m_SizeInPixels)
-        {
-        return true;
-        }
-      else if (a.m_SizeInPixels < b.m_SizeInPixels)
-        {
-        return false;
-        }
-      // size in pixels and physical units are the same, sort based on
-      // original object number
-      else if (a.m_ObjectNumber < b.m_ObjectNumber)
-        {
-        return true;
-        }
-      else
-        {
-        return false;
-        }
-    }
-};
-
-}
-
-
 namespace itk
 {
 
@@ -93,7 +52,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   
   // Use a map to keep track of the size of each object.  Object
   // number -> ObjectType (which has Object number and the two sizes)
-  typedef itk::hash_map<unsigned long, ObjectType> MapType;
+  typedef itk::hash_map<unsigned long, RelabelComponentObjectType> MapType;
   MapType sizeMap;
   MapType::iterator mapIt;
 
@@ -117,7 +76,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
     physicalPixelSize *= input->GetSpacing()[i];
     }
 
-  ObjectType initialSize;
+  RelabelComponentObjectType initialSize;
   initialSize.m_SizeInPixels = 1;
   initialSize.m_SizeInPhysicalUnits = physicalPixelSize;
 
@@ -164,7 +123,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   // to determine how to sort the objects. Define a map for converting
   // input labels to output labels.
   //
-  typedef std::vector<ObjectType> VectorType;
+  typedef std::vector<RelabelComponentObjectType> VectorType;
   VectorType sizeVector;
   VectorType::iterator vit;
 
@@ -178,7 +137,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
     }
 
   // sort the objects by size and define the map to use to relabel the image
-  std::sort(sizeVector.begin(), sizeVector.end(), SizeInPixelsComparator() );
+  std::sort(sizeVector.begin(), sizeVector.end(), RelabelComponentSizeInPixelsComparator() );
 
   // create a lookup table to map the input label to the output label.
   // cache the object sizes for later access by the user

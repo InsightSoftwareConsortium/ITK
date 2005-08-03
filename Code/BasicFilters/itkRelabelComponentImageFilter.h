@@ -199,6 +199,7 @@ public:
 
   
 protected:
+
   RelabelComponentImageFilter()
     : m_NumberOfObjects(0), m_NumberOfObjectsToPrint(10),
     m_OriginalNumberOfObjects(0), m_MinimumObjectSize(0)
@@ -219,7 +220,44 @@ protected:
   /** Standard printself method */
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  struct RelabelComponentObjectType
+  {
+    unsigned long m_ObjectNumber;
+    unsigned long m_SizeInPixels;
+    float m_SizeInPhysicalUnits;
+  };
+
+  // put the function objects here for sorting in descending order
+  class RelabelComponentSizeInPixelsComparator
+  {
+  public:
+    bool operator()(const RelabelComponentObjectType&a, 
+                    const RelabelComponentObjectType &b)
+      {
+        if (a.m_SizeInPixels > b.m_SizeInPixels)
+          {
+          return true;
+          }
+        else if (a.m_SizeInPixels < b.m_SizeInPixels)
+          {
+          return false;
+          }
+        // size in pixels and physical units are the same, sort based on
+        // original object number
+        else if (a.m_ObjectNumber < b.m_ObjectNumber)
+          {
+          return true;
+          }
+        else
+          {
+          return false;
+          }
+      }
+  };
+
+
 private:
+
   unsigned long m_NumberOfObjects;
   unsigned long m_NumberOfObjectsToPrint;
   unsigned long m_OriginalNumberOfObjects;
