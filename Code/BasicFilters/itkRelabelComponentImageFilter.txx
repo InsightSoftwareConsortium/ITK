@@ -104,7 +104,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
         {
         // label is not currently in the map
         initialSize.m_ObjectNumber = inputValue;
-        sizeMap.insert( MapType::value_type( inputValue, initialSize ) );
+        sizeMap.insert( typename MapType::value_type( inputValue, initialSize ) );
         }
       else
         {
