@@ -646,7 +646,6 @@ niftiImageIO
   mat44 matrix = nifti_make_orthog_mat44(dirx[0],dirx[1],dirx[2],
                                          diry[0],diry[1],diry[2],
                                          0,0,0);
-  double origin[3];
   for(unsigned i = 0; i < 3; i++)
     {
     matrix.m[i][3] = this->GetOrigin(i);
@@ -678,7 +677,8 @@ niftiImageIO
   this->WriteImageInformation(); //Write the image Information before writing data
   this->m_niftiImage->data=const_cast<void *>(buffer);//Need a const cast here so that we don't have to copy the memory for writing.
   nifti_image_write(this->m_niftiImage);
-
+  this->m_niftiImage->data = 0; // if left pointing to data buffer
+                                // nifti_image_free will try and free this memory
 }
 
 } // end namespace itk
