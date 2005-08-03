@@ -189,10 +189,10 @@ public:
   virtual void SetNumberOfLevels( unsigned int num );
 
   /** Get number of multi-resolution levels. */
-  itkGetMacro( NumberOfLevels, unsigned int );
+  itkGetConstReferenceMacro( NumberOfLevels, unsigned int );
 
   /** Get the current resolution level being processed. */
-  itkGetMacro( CurrentLevel, unsigned int );
+  itkGetConstReferenceMacro( CurrentLevel, unsigned int );
 
   /** Set number of iterations per multi-resolution levels. */
   itkSetVectorMacro( NumberOfIterations, unsigned int, m_NumberOfLevels );
