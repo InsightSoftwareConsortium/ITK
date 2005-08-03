@@ -54,7 +54,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   // number -> ObjectType (which has Object number and the two sizes)
   typedef itk::hash_map<unsigned long, RelabelComponentObjectType> MapType;
   MapType sizeMap;
-  MapType::iterator mapIt;
+  typename MapType::iterator mapIt;
 
   // Get the input and the output
   typename TInputImage::ConstPointer input = this->GetInput();
@@ -125,7 +125,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   //
   typedef std::vector<RelabelComponentObjectType> VectorType;
   VectorType sizeVector;
-  VectorType::iterator vit;
+  typename VectorType::iterator vit;
 
   typedef std::map<unsigned long, unsigned long> RelabelMapType;
   RelabelMapType relabelMap;
