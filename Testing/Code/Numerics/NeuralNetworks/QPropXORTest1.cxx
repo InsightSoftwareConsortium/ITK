@@ -22,7 +22,7 @@
 #include "itkListSample.h"
 #include <vector>
 #include <fstream>
-#include <ctime>
+#include <time.h>
 
 #define ROUND(x) (floor(x+0.5))
 
