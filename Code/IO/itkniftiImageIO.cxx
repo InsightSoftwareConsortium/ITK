@@ -157,7 +157,6 @@ void  niftiImageIO::DefineHeaderObjectDataType()
 
 void niftiImageIO::Read(void* buffer)
 {
-    const unsigned int dimensions = this->GetNumberOfDimensions();
     m_niftiImage=nifti_image_read(m_FileName.c_str(),true);
     const size_t NumBytes=m_niftiImage->nx*m_niftiImage->ny*m_niftiImage->nz*m_niftiImage->nt*m_niftiImage->nu*m_niftiImage->nbyper;
     memcpy(buffer, m_niftiImage, NumBytes);
