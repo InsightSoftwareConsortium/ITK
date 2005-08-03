@@ -37,7 +37,6 @@ RBFLayer<TVector,TOutput>
   TVector origin;
   
   m_DistanceMetric->SetMeasurementVectorSize(origin.GetVectorDimension());
-  m_NumClasses;
   m_RBF_Dim = 0;
 }
 
@@ -72,7 +71,7 @@ RBFLayer<TVector,TOutput>
   if(this->GetLayerType()!=3)
     {
     TVector temp;
-    for(int i=0; i<c; i++)
+    for(unsigned int i=0; i<c; i++)
       {
       m_Centers.push_back(temp);
       }
@@ -254,7 +253,6 @@ RBFLayer<TVector,TOutput>
     ValuePointer cdeltavalues = inputweightset->GetTotalDeltaValues();
     vnl_matrix<ValueType> center_increment(cdeltavalues,inputweightset->GetNumberOfOutputNodes(),
                                              inputweightset->GetNumberOfInputNodes());
-    ValuePointer wdeltavalues = inputweightset->GetWeightValues();
     vnl_vector<ValueType> width_increment;
     width_increment.set_size(inputweightset->GetNumberOfOutputNodes());
     width_increment.fill(0);
@@ -317,7 +315,7 @@ RBFLayer<TVector,TOutput>
   typename Superclass::TransferFunctionType::Pointer transferfunction;
   transferfunction = this->GetActivationFunction();
 
-  for (int i = 0; i < samplevector.Size(); i++)
+  for (unsigned int i = 0; i < samplevector.Size(); i++)
     {
     samplevector[i] = transferfunction->Evaluate(samplevector[i]);      
     m_NodeOutputValues.put(i, samplevector[i]);

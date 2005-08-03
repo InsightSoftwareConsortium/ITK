@@ -71,7 +71,7 @@ public:
   defaultconverter(typename TSample::MeasurementVectorType v)
     {
     VectorType temp;
-    for (int i = 0; i < v.Size(); i++)
+    for (unsigned int i = 0; i < v.Size(); i++)
       {
       temp[i] = static_cast<ScalarType>(v[i]) ;
       }

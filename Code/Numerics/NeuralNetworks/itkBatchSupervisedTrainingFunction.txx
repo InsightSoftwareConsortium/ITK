@@ -63,7 +63,7 @@ void BatchSupervisedTrainingFunction<TSample,TOutput,ScalarType>
 
   while (!m_Stop)
     {
-    for (long i = 0; i < this->m_InputSamples.size(); i++)
+    for (unsigned long i = 0; i < this->m_InputSamples.size(); i++)
       {
       inputvector = this->m_InputSamples[i];
       targetvector = this->m_Targets[i];

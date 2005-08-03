@@ -57,7 +57,7 @@ SquaredDifferenceErrorFunction <TVector,ScalarType>
 ::EvaluateDerivative(const TVector& errors)  const
 {
   TVector diff;
-  for(int i=0; i<errors.GetVectorDimension(); i++)
+  for(unsigned int i=0; i<errors.GetVectorDimension(); i++)
     {
     if ((-0.1 < errors[i]) && (errors[i] < 0.1))
       {

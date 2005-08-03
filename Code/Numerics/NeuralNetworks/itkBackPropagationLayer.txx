@@ -180,7 +180,7 @@ BackPropagationLayer<TVector,TOutput>
   typename Superclass::TransferFunctionType::Pointer transferfunction;
   transferfunction = this->GetActivationFunction();
 
-  for (int i = 0; i < samplevector.Size(); i++)
+  for (unsigned int i = 0; i < samplevector.Size(); i++)
     {
     samplevector[i] = transferfunction->Evaluate(samplevector[i]);      
     m_NodeOutputValues.put(i, samplevector[i]);
@@ -197,7 +197,7 @@ BackPropagationLayer<TVector,TOutput>
   
   inputweightset = Superclass::GetInputWeightSet();
   
-  for (int i = 0; i < errors.Size(); i++)
+  for (unsigned int i = 0; i < errors.Size(); i++)
     {
     SetInputErrorValue(errors[i] * DActivation(GetInputValue(i)),
                                  i);

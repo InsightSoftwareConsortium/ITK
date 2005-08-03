@@ -52,8 +52,6 @@ ErrorBackPropagationLearningWithMomentum<LayerType,TOutput>
   typename LayerType::ValuePointer DBValues = inputweightset->GetTotalDeltaBValues();
   typename LayerType::ValuePointer PrevDBValues = inputweightset->GetPrevDBValues();
 
-  int cols = num_nodes;
- 
   int input_cols = inputweightset->GetNumberOfInputNodes();
   int input_rows = inputweightset->GetNumberOfOutputNodes();
 

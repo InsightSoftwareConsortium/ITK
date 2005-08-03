@@ -43,8 +43,6 @@ void
 QuickPropLearningRule<LayerType,TOutput>
 ::Learn(LayerType* layer, ValueType lr)
 {
-  int num_nodes = layer->GetNumberOfNodes();
-
   typename LayerType::WeightSetType::Pointer inputweightset;
   inputweightset = layer->GetInputWeightSet();
 

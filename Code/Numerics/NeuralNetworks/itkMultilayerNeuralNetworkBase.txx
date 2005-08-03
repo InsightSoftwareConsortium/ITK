@@ -72,7 +72,7 @@ MultilayerNeuralNetworkBase<TVector,TOutput>
 ::GenerateOutput(TVector samplevector)
 {
   this->m_Layers[0]->ForwardPropagate(samplevector);
-  int i = 0;
+  unsigned int i;
   for (i = 0; i < this->m_Layers.size() && i < this->m_Weights.size(); i++)
     {
     this->m_Weights[i]->ForwardPropagate(this->m_Layers[i]->GetOutputVector());

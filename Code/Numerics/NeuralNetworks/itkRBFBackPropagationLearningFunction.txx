@@ -38,7 +38,6 @@ void
 RBFBackPropagationLearningFunction<LayerType,TOutput>
 ::Learn(LayerType* layer,ValueType lr)
 {
-  int num_nodes = layer->GetNumberOfNodes();
   typename LayerType::WeightSetType::Pointer outputweightset;
   typename LayerType::WeightSetType::Pointer inputweightset;
   outputweightset = layer->GetOutputWeightSet();
