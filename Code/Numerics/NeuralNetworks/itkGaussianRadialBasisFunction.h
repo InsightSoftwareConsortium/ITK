@@ -41,9 +41,7 @@ public:
   itkTypeMacro(GaussianRadialBasisFunction,RadialBasisFunctionBase);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
-
-  typedef typename Superclass::ArrayType ArrayType;
+  itkNewMacro(Self);
   
   /** Evaluate at the specified input position */
   ScalarType Evaluate(const ScalarType& input) const;

@@ -67,8 +67,6 @@ public:
                MultilayerNeuralNetworkBase);  
   itkNewMacro(Self) ;
 
-  typedef typename Superclass::ValueType ValueType;
-
   //Add the layers to the network.
   // 1 input, 1 hidden, 1 output 
   void Initialize();
