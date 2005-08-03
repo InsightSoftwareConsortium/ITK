@@ -77,7 +77,7 @@ namespace itk
  *
  *  \endcode
  *
- * \example  Common/itkImageSliceIterator.cxx
+ * \example  Common/itkImageSliceIteratorTest.cxx
   *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please
