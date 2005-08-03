@@ -41,7 +41,7 @@ QuickPropLearningRule <LayerType,TOutput>
 template<class LayerType, class TOutput>
 void
 QuickPropLearningRule<LayerType,TOutput>
-::Learn(LayerType* layer, ValueType lr)
+::Learn(LayerType* layer, ValueType itkNotUsed(lr))
 {
   typename LayerType::WeightSetType::Pointer inputweightset;
   inputweightset = layer->GetInputWeightSet();
@@ -155,7 +155,7 @@ QuickPropLearningRule<LayerType,TOutput>
 template<class LayerType, class TOutput>
 void
 QuickPropLearningRule<LayerType,TOutput>
-::Learn(LayerType* layer, TOutput errors,ValueType lr)
+::Learn(LayerType* itkNotUsed(layer), TOutput itkNotUsed(errors),ValueType itkNotUsed(lr))
 {
 }
 

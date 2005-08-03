@@ -179,7 +179,7 @@ RBFTest1(int argc, char* argv[])
   TargetType::ConstIterator iter2 = testtargets->Begin();
   unsigned int error1 = 0 ;
   unsigned int error2 = 0 ;
-  int flag = 0;
+  int flag;
   int class_id;
   std::ofstream outfile;
   outfile.open("out1.txt",std::ios::out);

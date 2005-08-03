@@ -116,7 +116,7 @@ NNetClassifierTest4(int argc, char* argv[])
   TargetType::ConstIterator iter2 = testtargets->Begin();
   unsigned int error1 = 0 ;
   unsigned int error2 = 0 ;
-  int flag = 0;
+  int flag;
   std::ofstream outfile;
   outfile.open("out1.txt",std::ios::out);
   while (iter1 != testsample->End())

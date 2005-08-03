@@ -103,7 +103,7 @@ ErrorBackPropagationLearningWithMomentum<LayerType,TOutput>
 template<class LayerType, class TOutput>
 void
 ErrorBackPropagationLearningWithMomentum<LayerType,TOutput>
-::Learn(LayerType* layer, TOutput errors,ValueType lr)
+::Learn(LayerType* itkNotUsed(layer), TOutput itkNotUsed(errors),ValueType itkNotUsed(lr))
 {
 }
 

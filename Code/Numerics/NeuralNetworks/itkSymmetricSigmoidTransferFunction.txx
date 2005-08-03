@@ -43,7 +43,7 @@ ScalarType
 SymmetricSigmoidTransferFunction<ScalarType>
 ::Evaluate(const ScalarType& input)  const
 {
-  ScalarType val=0;
+  ScalarType val;
   if(input<-m_Range)
     {
     val=-0.5;

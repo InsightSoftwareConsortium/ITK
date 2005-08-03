@@ -113,7 +113,7 @@ QPropXORTest1(int argc, char* argv[])
 
   unsigned int error1 = 0 ;
   unsigned int error2 = 0 ;
-  int flag = 0;
+  int flag;
   int train_flag=1;
   long num_iterations =0;
   long max_iterations=1000;
