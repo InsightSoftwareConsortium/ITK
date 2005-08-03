@@ -707,6 +707,13 @@ void vnl_vector<T>::swap(vnl_vector<T> &that)
 
 //--------------------------------------------------------------------------------
 
+// Disable warning caused when T is complex<float>.  The static_cast
+// to real_t constructs a complex<float> from a double.
+#if defined(_MSC_VER)
+# pragma warning (push)
+# pragma warning (disable: 4244) /* conversion with loss of data */
+#endif
+
 // fsm : cos_angle should return a T, or a double-precision extension
 // of T. "double" is wrong since it won't work if T is complex.
 template <class T>
@@ -720,6 +727,10 @@ T cos_angle(vnl_vector<T> const& a, vnl_vector<T> const& b) {
     vcl_sqrt( abs_r(a.squared_magnitude() * b.squared_magnitude()) ));
   return T( ab / a_b);
 }
+
+#if defined(_MSC_VER)
+# pragma warning (pop)
+#endif
 
 //: Returns smallest angle between two non-zero n-dimensional vectors. O(n).
 
