@@ -3668,7 +3668,7 @@ int valid_nifti_extensions(nifti_image const * const nim)
 *//*--------------------------------------------------------------------*/
 int nifti_is_valid_ecode( const int ecode )
 {
-   if( ecode < NIFTI_ECODE_UNKNOWN ||   /* minimum code number (0) */
+   if( ecode < NIFTI_ECODE_IGNORE ||   /* minimum code number (0) */
        ecode > NIFTI_MAX_ECODE     ||   /* maximum code number     */
        ecode & 1 )                      /* cannot be odd           */
       return 0;

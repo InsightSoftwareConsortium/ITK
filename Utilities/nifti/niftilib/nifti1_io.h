@@ -318,13 +318,33 @@ int    valid_nifti_extensions      (nifti_image const * const nim);
 
 /*-------------------- Some C convenience macros ----------------------------*/
 
-/* nifti extension codes */
-#define NIFTI_ECODE_UNKNOWN   0
-#define NIFTI_ECODE_DICOM     2
-#define NIFTI_ECODE_AFNI      4
-#define NIFTI_ECODE_COMMENT   6
-#define NIFTI_ECODE_XCEDE     8
-#define NIFTI_MAX_ECODE       8    /* this should match the maximum code */
+/* NIfTI-1.1 extension codes:
+   see http://nifti.nimh.nih.gov/nifti-1/documentation/faq#Q21 */
+
+#define NIFTI_ECODE_IGNORE           0  /* changed from UNKNOWN, 29 June 2005 */
+
+#define NIFTI_ECODE_DICOM            2  /* intended for raw DICOM attributes  */
+
+#define NIFTI_ECODE_AFNI             4  /* Robert W Cox: rwcox@nih.gov
+                                           http://afni.nimh.nih.gov/afni      */
+
+#define NIFTI_ECODE_COMMENT          6  /* plain ASCII text only              */
+
+#define NIFTI_ECODE_XCEDE            8  /* David B Keator: dbkeator@uci.edu 
+                                           http://www.nbirn.net/Resources
+                                                /Users/Applications/
+                                                /xcede/index.htm              */
+
+#define NIFTI_ECODE_JIMDIMINFO      10  /* Mark A Horsfield:
+                                           mah5@leicester.ac.uk
+                                           http://someplace/something         */
+
+#define NIFTI_ECODE_WORKFLOW_FWDS   12  /* Kate Fissell: fissel+@pitt.edu
+                                           http://kraepelin.wpic.pitt.edu
+                                            /~fissell/NIFTI_ECODE_WORKFLOW_FWDS
+                                            /NIFTI_ECODE_WORKFLOW_FWDS.html   */
+
+#define NIFTI_MAX_ECODE             12  /******* maximum extension code *******/
 
 /* nifti_type file codes */
 #define NIFTI_FTYPE_ANALYZE   0
