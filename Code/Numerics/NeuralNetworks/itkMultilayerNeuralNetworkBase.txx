@@ -112,7 +112,7 @@ MultilayerNeuralNetworkBase<TVector,TOutput>
 template<class TVector, class TOutput>
 void
 MultilayerNeuralNetworkBase<TVector,TOutput>
-::UpdateWeights(ValueType lr)
+::UpdateWeights(ValueType itkNotUsed(lr))
 {
   int i = this->m_Layers.size();
   while(i>1)

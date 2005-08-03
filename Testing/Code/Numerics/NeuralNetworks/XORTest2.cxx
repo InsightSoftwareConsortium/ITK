@@ -28,11 +28,12 @@
 int
 XORTest2(int argc, char* argv[])
 {
- if (argc < 1)
+  if (argc < 1)
     {
-      std::cout << "ERROR: data file name argument missing." << std::endl ;
-      return EXIT_FAILURE;
+    std::cout << "ERROR: data file name argument missing." << std::endl ;
+    return EXIT_FAILURE;
     }
+
   char* dataFileName = argv[1] ;
   const int num_input_nodes = 2;
   const int num_hidden_nodes = 2;
@@ -59,11 +60,11 @@ XORTest2(int argc, char* argv[])
 
   while (!infile1.eof())
     {
-     std::cout << "Input =" << mv << std::endl;
-     std::cout << "target =" << tv << std::endl;
-     sample->PushBack(mv);
-     targets->PushBack(tv);
-     infile1 >> mv[0] >> mv[1] >> tv[0];    
+    std::cout << "Input =" << mv << std::endl;
+    std::cout << "target =" << tv << std::endl;
+    sample->PushBack(mv);
+    targets->PushBack(tv);
+    infile1 >> mv[0] >> mv[1] >> tv[0];    
     }
   infile1.close();
 
@@ -93,42 +94,43 @@ XORTest2(int argc, char* argv[])
   TargetType::ConstIterator iter2 = targets->Begin();
   unsigned int error1 = 0 ;
   unsigned int error2 = 0 ;
-  int flag = 0;
+  int flag;
   std::ofstream outfile;
   outfile.open("out1.txt",std::ios::out);
   while (iter1 != sample->End())
     {
-      mv = iter1.GetMeasurementVector();
-      tv = iter2.GetMeasurementVector();
-      ov = net1->GenerateOutput(mv);
-      flag = 0;
-      if (fabs(tv[0]-ov[0])>0.2)
-        {
-          flag = 1;
-        }
-      if (flag == 1 && ROUND(tv[0]) == 1)
-        {
-          ++error1;
-        }
-      else if (flag == 1 && ROUND(tv[0]) == -1)
-        {
-          ++error2;
-        }
-      outfile<<mv[0]<<" "<<mv[1]<<" "<<tv[0]<<" "<<ov[0]<<std::endl;
-      std::cout << "Network Input = " << mv << std::endl;
-      std::cout << "Network Output = " << ov << std::endl;
-      std::cout << "Target = " << tv << std::endl;
-      ++iter1;
-      ++iter2;
+    mv = iter1.GetMeasurementVector();
+    tv = iter2.GetMeasurementVector();
+    ov = net1->GenerateOutput(mv);
+    flag = 0;
+    if (fabs(tv[0]-ov[0])>0.2)
+      {
+      flag = 1;
+      }
+    if (flag == 1 && ROUND(tv[0]) == 1)
+      {
+      ++error1;
+      }
+    else if (flag == 1 && ROUND(tv[0]) == -1)
+      {
+      ++error2;
+      }
+    outfile<<mv[0]<<" "<<mv[1]<<" "<<tv[0]<<" "<<ov[0]<<std::endl;
+    std::cout << "Network Input = " << mv << std::endl;
+    std::cout << "Network Output = " << ov << std::endl;
+    std::cout << "Target = " << tv << std::endl;
+    ++iter1;
+    ++iter2;
     }
+
   std::cout << "Among 4 measurement vectors, " << error1 + error2
             << " vectors are misclassified." << std::endl ;
   std::cout<<"Network Weights and Biases after Training= "<<std::endl;
   std::cout << net1 << std::endl;
   if ((error1 + error2) > 2)
     {
-      std::cout << "Test failed." << std::endl;
-      return EXIT_FAILURE;
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
     }
 
   std::cout << "Test passed." << std::endl;

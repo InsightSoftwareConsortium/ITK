@@ -47,8 +47,8 @@ ScalarType
 GaussianRadialBasisFunction< ScalarType>
 ::Evaluate(const ScalarType& input) const
 { 
-  ScalarType val=0;
-  ScalarType radius=Superclass::GetRadius(); 
+  ScalarType val;
+  ScalarType radius = Superclass::GetRadius(); 
   val = exp(-0.5*pow(input,2)/pow(radius,2)); 
   return val;
 }

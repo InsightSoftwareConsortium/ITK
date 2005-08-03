@@ -50,7 +50,7 @@ IdentityTransferFunction<ScalarType>
 template<class ScalarType>
 ScalarType
 IdentityTransferFunction<ScalarType>
-::EvaluateDerivative(const ScalarType& input)  const
+::EvaluateDerivative(const ScalarType & itkNotUsed(input))  const
 {
   return 1;
 }

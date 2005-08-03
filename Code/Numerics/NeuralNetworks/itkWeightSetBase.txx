@@ -368,7 +368,7 @@ WeightSetBase<TVector,TOutput>
 template<class TVector, class TOutput>
 void
 WeightSetBase<TVector,TOutput>
-::UpdateWeights(ValueType LearningRate)
+::UpdateWeights(ValueType itkNotUsed(LearningRate))
 {
   m_del_m_2 = m_del_m_1;    // save last weight update;
   m_del_m_1 = m_del_new;    // save last weight update;

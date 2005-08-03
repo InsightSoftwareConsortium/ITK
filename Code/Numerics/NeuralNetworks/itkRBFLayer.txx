@@ -243,7 +243,6 @@ RBFLayer<TVector,TOutput>
     vnl_vector<ValueType> temp;
     ValuePointer inputvalues = inputweightset->GetInputValues();
 
-    int rows = this->m_NumberOfNodes;
     int cols = this->m_InputWeightSet->GetNumberOfInputNodes();
     vnl_matrix<ValueType> inputmatrix;
     inputmatrix.set_size(1, cols-1);
@@ -285,7 +284,7 @@ RBFLayer<TVector,TOutput>
       tempvector1.Set_vnl_vector(m_NodeInputValues);
       tempvector2=m_Centers[i];
       tempcenter= m_Centers[i];
-      double dt= m_DistanceMetric->Evaluate(tempvector1,tempvector2);
+      //double dt= m_DistanceMetric->Evaluate(tempvector1,tempvector2);
       //std::cout<<"Euclidean in layer ="<<dt<<std::endl;
       m_RBF->SetRadius(m_Radii.GetElement(i));
       NodeArrayType temp_array(m_RBF_Dim);

@@ -65,7 +65,10 @@ public:
   void SetPerformanceFunction(PerformanceFunctionType* f);
 
   virtual void
-  Train(NetworkType* net, TSample* samples, TOutput* targets){};
+  Train(NetworkType* itkNotUsed(net), TSample* itkNotUsed(samples), TOutput* itkNotUsed(targets))
+    {
+    // not implemented
+    };
 
   inline VectorType
   defaultconverter(typename TSample::MeasurementVectorType v)
