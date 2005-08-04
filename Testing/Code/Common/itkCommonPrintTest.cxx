@@ -134,6 +134,7 @@
 #include "itkVectorContainer.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkVectorToRGBImageAdaptor.h"
+#include "itkVectorImage.h"
 #include "itkVersion.h"
 #include "itkVersorRigid3DTransform.h"
 #include "itkVersorTransform.h"
@@ -572,6 +573,10 @@ int itkCommonPrintTest(int , char* [])
     itk::VectorContainer<unsigned long,PointType>::New();
   std::cout << "------------VectorContainer" << VectorContainerObj;
   
+  itk::VectorImage< float, 3 >::Pointer VectorImageObj = 
+    itk::VectorImage< float, 3 >::New();
+  std::cout << "------------VectorImage" << VectorImageObj;
+
   itk::VectorLinearInterpolateImageFunction<VectorImageType,float>::Pointer VectorLinearInterpolateImageFunctionObj =
     itk::VectorLinearInterpolateImageFunction<VectorImageType,float>::New();
   std::cout << "------------VectorLinearInterpolateImageFunction" << VectorLinearInterpolateImageFunctionObj;
@@ -603,7 +608,7 @@ int itkCommonPrintTest(int , char* [])
   itk::XMLFileOutputWindow::Pointer XMLFileOutputWindowObj =
     itk::XMLFileOutputWindow::New();
   std::cout << "------------XMLFileOutputWindow" << XMLFileOutputWindowObj;
-  
+
   
   return 0;
 }

@@ -144,6 +144,7 @@ REGISTER_TEST(itkTreeContainerTest );
 REGISTER_TEST(itkTreeContainerTest2 );
 REGISTER_TEST(itkVarianceImageFunctionTest );
 REGISTER_TEST(itkVectorGeometryTest );
+REGISTER_TEST(itkVectorImageTest );
 REGISTER_TEST(itkVectorMeanImageFunctionTest );
 REGISTER_TEST(itkVersorTransformTest );
 REGISTER_TEST(itkVersorTest );
