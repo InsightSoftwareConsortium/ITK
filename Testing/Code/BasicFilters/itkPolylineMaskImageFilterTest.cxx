@@ -56,24 +56,16 @@ int itkPolylineMaskImageFilterTest(int argc , char * argv [] )
 
   // Create polyline
   inputPolylineType::Pointer inputPolyline   = inputPolylineType::New();
-  
-  if (argc < 3)
-    {
-    std::cerr << "Usage: " << argv[0] << "  outputSyntheticImageFilename outputProcessedImageFilename" << std::endl;
-    std::cerr << argv[0] << "  outputSyntheticImageFilename outputProcessedImageFilename" << std::endl;
-    return 1;
-    }
-
   std::cout<<"Generating the synthetic object...."<<std::endl;
   //Generate ellipse image
 
-  typedef itk::EllipseSpatialObject<3>   EllipseType;
+  typedef itk::EllipseSpatialObject<2>   EllipseType;
   EllipseType::Pointer ellipse = EllipseType::New();
   EllipseType::TransformType::OffsetType offset;
   offset.Fill(15);
   ellipse->GetObjectToParentTransform()->SetOffset(offset);
   ellipse->ComputeObjectToWorldTransform();
-  ellipse->SetRadius(10);
+  ellipse->SetRadius(15);
 
   std::cout<<"Generating the image of the object...."<<std::endl;
 
@@ -81,8 +73,8 @@ int itkPolylineMaskImageFilterTest(int argc , char * argv [] )
   SpatialObjectToImageFilterType::Pointer imageFilter = SpatialObjectToImageFilterType::New();
    
   inputImageType::SizeType size;
-  size[0]=30;
-  size[1]=30;
+  size[0]=40;
+  size[1]=40;
   size[2]=30;
 
   float origin[3];
@@ -97,14 +89,7 @@ int itkPolylineMaskImageFilterTest(int argc , char * argv [] )
   imageFilter->SetInput(ellipse);
   imageFilter->SetInsideValue(2);
   imageFilter->SetOutsideValue(0);
- 
-// Write out the input image for testing
-  typedef itk::ImageFileWriter< outputImageType >  WriterType;
-  WriterType::Pointer in_writer = WriterType::New();
-  const char * outputFilenameSyn = argv[1];
-  in_writer->SetFileName( outputFilenameSyn );
-  in_writer->SetInput( imageFilter->GetOutput() );
-  in_writer->Update();
+  imageFilter->Update();
 
   
   //Create images
@@ -115,23 +100,22 @@ int itkPolylineMaskImageFilterTest(int argc , char * argv [] )
   //Initialize the polyline 
   typedef inputPolylineType::VertexType VertexType;
   
-    
   // Add vertices to the polyline
   VertexType v;
-  v[0] = 0;
-  v[1] = 15;
+  v[0] = 8;
+  v[1] = 8;
   inputPolyline->AddVertex(v);
   
-  v[0] = 15;
-  v[1] = 29;
+  v[0] = 23;
+  v[1] = 8;
   inputPolyline->AddVertex(v);
   
-  v[0] = 29;
-  v[1] = 15;
+  v[0] = 23;
+  v[1] = 23;
   inputPolyline->AddVertex(v);
 
-  v[0] = 15;
-  v[1] = 0;
+  v[0] = 8;
+  v[1] = 23;
   inputPolyline->AddVertex(v);
   
   
@@ -177,12 +161,12 @@ int itkPolylineMaskImageFilterTest(int argc , char * argv [] )
   PointType cameraCenterPoint;
   cameraCenterPoint[0] = 15;
   cameraCenterPoint[1] = 15;
-  cameraCenterPoint[2] = 90;
+  cameraCenterPoint[2] = 60;
 
   filter->SetCameraCenterPoint   ( cameraCenterPoint );
 
   // camera focal distance 
-  filter->SetFocalDistance(30);
+  filter->SetFocalDistance(15);
   
   // camera focal point in the projection plane
   ProjPlanePointType focalpoint;
@@ -192,17 +176,8 @@ int itkPolylineMaskImageFilterTest(int argc , char * argv [] )
 
   // Get the Smart Pointer to the Filter Output 
   outputImage = filter->GetOutput();
-
   // Execute the filter
   filter->Update();
-
-  // All objects should be automatically destroyed at this point
-  WriterType::Pointer writer = WriterType::New();
-  const char * outputFilename = argv[2];
-  writer->SetFileName( outputFilename );
-  writer->SetInput( filter->GetOutput() );
-  writer->Update();
-  
   return 0;
 
 }

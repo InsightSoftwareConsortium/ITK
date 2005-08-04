@@ -47,13 +47,6 @@ int itkPolylineMask2DImageFilterTest(int argc, char* argv [] )
   // Create polyline
   inputPolylineType::Pointer inputPolyline   = inputPolylineType::New();
 
-  if (argc < 3)
-    {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  outputSyntheticImageFilename outputProcessedImageFilename" << std::endl;
-    return 1;
-    }
-
   // Define their size, and start index
   inputSizeType size;
   size[0] = 512;
@@ -91,15 +84,6 @@ int itkPolylineMask2DImageFilterTest(int argc, char* argv [] )
         }
       ++it;
     }
-  
- // Write out the input image for testing
-  typedef itk::ImageFileWriter< outputImageType >  WriterType;
-  WriterType::Pointer in_writer = WriterType::New();
-  const char * outputFilenameSyn = argv[1];
-  in_writer->SetFileName( outputFilenameSyn );
-  in_writer->SetInput( inputImage );
-  in_writer->Update();
-  
 
   // Initialize the polyline 
   typedef inputPolylineType::VertexType VertexType;
@@ -144,12 +128,7 @@ int itkPolylineMask2DImageFilterTest(int argc, char* argv [] )
   // filter->Update();
 
   // Write out the image
-  WriterType::Pointer writer = WriterType::New();
-  const char * outputFilename = argv[2];
-  writer->SetFileName( outputFilename );
-  writer->SetInput( filter->GetOutput() );
-  writer->Update();
-  
+  filter->Update();
   return 0;
 
 }
