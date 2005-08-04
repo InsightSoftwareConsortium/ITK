@@ -147,6 +147,9 @@ public:
   typedef typename PixelContainer::Pointer PixelContainerPointer;
   typedef typename PixelContainer::ConstPointer PixelContainerConstPointer;
 
+  /** Offset typedef (relative position between indices) */
+  typedef typename Superclass::OffsetValueType OffsetValueType;
+
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */
   void Allocate();
