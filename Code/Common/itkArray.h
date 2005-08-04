@@ -59,6 +59,14 @@ public:
   /** Constructor with size. Size can only be changed by assignment */
   Array(unsigned int dimension);
 
+  /** Constructor that initializes array with contents from a user supplied
+   * buffer. The pointer to the buffer and the length is specified. By default,
+   * the array does not manage the memory of the buffer. It merely points to 
+   * that location and it is the user's responsibility to delete it. 
+   * If "LetArrayManageMemory" is true, then this class will free the
+   * memory when this object is destroyed. */ 
+  Array(ValueType* data, unsigned int sz, bool LetArrayManageMemory = false);
+
   /** Set the all the elements of the array to the specified value */
   void Fill (TValueType const& v) { fill(v); }
 
@@ -92,6 +100,18 @@ public:
    * memory when this object is destroyed. */
   void SetData(TValueType* data,bool LetArrayManageMemory = false);
 
+  /** Similar to the previous method. In the above method, the size must be 
+   * seperately set prior to using user-supplied data. This introduces an
+   * unnecessary allocation step to be performed. This method avoids it 
+   * and should be used to import data whereever possible to avoid this.
+   * Set the pointer from which the data is imported.
+   * If "LetArrayManageMemory" is false, then the application retains
+   * the responsibility of freeing the memory for this data.  If
+   * "LetArrayManageMemory" is true, then this class will free the
+   * memory when this object is destroyed. */
+  void SetData(TValueType* data, unsigned int sz, bool LetArrayManageMemory = false);
+
+  
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
   ~Array();

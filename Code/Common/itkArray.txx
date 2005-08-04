@@ -39,6 +39,21 @@ Array<TValueType >
   m_LetArrayManageMemory = true;
 }
 
+/** Constructor with user specified data */
+template < typename TValueType >
+Array<TValueType >
+::Array( ValueType *datain, unsigned int sz, bool LetArrayManageMemory)
+{
+  if(m_LetArrayManageMemory)
+    {
+    vnl_vector<TValueType>::destroy();
+    }
+  vnl_vector<TValueType>::data = datain;
+  vnl_vector<TValueType>::num_elmts = sz;
+  m_LetArrayManageMemory = LetArrayManageMemory;
+}
+
+
 /** Destructor*/
 template < typename TValueType >
 Array<TValueType >
@@ -68,6 +83,31 @@ Array<TValueType >
   vnl_vector<TValueType>::data = datain;
   m_LetArrayManageMemory = LetArrayManageMemory;
 }
+
+
+/** Similar to the previous method. In the above method, the size must be 
+ * seperately set prior to using user-supplied data. This introduces an
+ * unnecessary allocation step to be performed. This method avoids it 
+ * and should be used to import data whereever possible to avoid this.
+ * Set the pointer from which the data is imported.
+ * If "LetArrayManageMemory" is false, then the application retains
+ * the responsibility of freeing the memory for this data.  If
+ * "LetArrayManageMemory" is true, then this class will free the
+ * memory when this object is destroyed. */
+template < typename TValueType >
+void 
+Array<TValueType >
+::SetData(TValueType* datain, unsigned int sz, bool LetArrayManageMemory)
+{
+  if(m_LetArrayManageMemory)
+    {
+    vnl_vector<TValueType>::destroy();
+    }
+  vnl_vector<TValueType>::data = datain;
+  vnl_vector<TValueType>::num_elmts = sz;
+  m_LetArrayManageMemory = LetArrayManageMemory;
+}
+
 
 template < typename TValueType >
 void Array<TValueType >
