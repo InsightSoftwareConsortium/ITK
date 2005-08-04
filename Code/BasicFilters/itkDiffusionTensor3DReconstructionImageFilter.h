@@ -44,7 +44,12 @@ namespace itk{
  * "Processing and visualization for Diffusion tensor MRI", Medical image
  * Analysis, 2002, pp 93-108.
  *
- * \author: Based on code from Xiaodong Tao, GE CRD. 
+ * \author Based on code from Xiaodong Tao, GE CRD. 
+ * 
+ * \thanks
+ * This work is part of the National Alliance for Medical Image Computing 
+ * (NAMIC), funded by the National Institutes of Health through the NIH Roadmap
+ * for Medical Research, Grant U54 EB005149.
  *
  * \sa DiffusionTensor3D SymmetricSecondRankTensor 
  * 
