@@ -202,8 +202,6 @@ template <class TInputImage, class TPolyline, class TVector,
   InputImageConstIteratorType  inputIt(inputImagePtr,inputImagePtr->GetLargestPossibleRegion());
   OutputImageIteratorType outputIt(outputImagePtr,outputImagePtr->GetLargestPossibleRegion());
 
-  ImageIndexType outputImageIndex;
- 
   typedef typename itk::NearestNeighborInterpolateImageFunction< TInputImage, double> InterpolatorType;
   typedef typename InterpolatorType::OutputType OutputType;
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
@@ -215,9 +213,6 @@ template <class TInputImage, class TPolyline, class TVector,
   ProjPlanePointType outputPoint;
    
   // Walk the output region
-  const PixelType minValue =  itk::NumericTraits<PixelType >::NonpositiveMin();
-  const PixelType maxValue =  itk::NumericTraits<PixelType >::max();
-  const PixelType defaultPixelValue = 0;
 
   // Generate a 2D image with the viewing polygon as a mask 
   typedef itk::Image<unsigned char,2> TmpImageType;
@@ -277,7 +272,6 @@ template <class TInputImage, class TPolyline, class TVector,
   bool pflag;
 
   /* define background, foreground pixel values and unlabed pixel value */
-  PixelType zero_val = NumericTraits<TmpPixelType>::ZeroValue();
   PixelType u_val = static_cast<TmpPixelType> (0);
   PixelType b_val = static_cast<TmpPixelType> (2);
   PixelType f_val = static_cast<TmpPixelType> (255);
