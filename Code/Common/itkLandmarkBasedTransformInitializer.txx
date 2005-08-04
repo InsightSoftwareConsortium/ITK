@@ -352,7 +352,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
       itkDebugMacro(<< "fixed centroid  = " <<  fixedCentroid);
       itkDebugMacro(<< "moving centroid  = " << movingCentroid);
       
-      double rotationAngle;
+      double rotationAngle = 0.0;
 
       // If we have at least 2 landmarks, we can compute a rotation.
       // Otherwise the rotation matrix will be identity.
@@ -404,10 +404,6 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
         if( s_dot > 0.00005 )
           {
           rotationAngle = atan2(s_cross, s_dot);
-          }
-        else
-          {
-          rotationAngle = 0.0;
           }
         } 
       else

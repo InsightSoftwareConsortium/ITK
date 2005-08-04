@@ -400,8 +400,8 @@ ComputeEigenValuesUsingQL(VectorType &d, double *e) const
   /* Local variables */
   double c, f, g, h;
   unsigned int i, j, l, m;
-  double p, r, s, c2, c3;
-  double s2;
+  double p, r, s, c2, c3=0.0;
+  double s2=0.0;
   double dl1, el1;
   double tst1, tst2;
 
@@ -545,8 +545,8 @@ ComputeEigenValuesAndVectorsUsingQL(VectorType &d, double *e, double *z) const
   /* Local variables */
   double c, f, g, h;
   unsigned int i, j, k, l, m;
-  double p, r, s, c2, c3;
-  double s2;
+  double p, r, s, c2, c3=0.0;
+  double s2=0.0;
   double dl1, el1;
   double tst1, tst2;
 
