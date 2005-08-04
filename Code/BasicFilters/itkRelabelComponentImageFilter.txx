@@ -55,6 +55,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   typedef itk::hash_map<unsigned long, RelabelComponentObjectType> MapType;
   MapType sizeMap;
   typename MapType::iterator mapIt;
+  typedef typename MapType::value_type MapValueType;
 
   // Get the input and the output
   typename TInputImage::ConstPointer input = this->GetInput();
@@ -104,7 +105,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
         {
         // label is not currently in the map
         initialSize.m_ObjectNumber = inputValue;
-        sizeMap.insert( typename MapType::value_type( inputValue, initialSize ) );
+        sizeMap.insert( MapValueType( inputValue, initialSize ) );
         }
       else
         {
