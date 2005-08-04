@@ -21,10 +21,11 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientation.h"
 #include <itksys/SystemTools.hxx>
-
+#include <vnl/vnl_math.h>
 #include <zlib.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
 
 namespace itk
 {
@@ -230,23 +231,23 @@ mat44_to_SpatialOrientation(const mat44 &theMat)
       {
       terms[i] = SpatialOrientation::ITK_COORDINATE_Right;
       }
-    else if(round(axes[(i*3)]) == -1)
+    else if(axes[(i*3)] == -1)
       {
       terms[i] = SpatialOrientation::ITK_COORDINATE_Left;
       }
-    else if(round(axes[(i*3)+1]) == 1)
+    else if(axes[(i*3)+1] == 1)
       {
       terms[i] = SpatialOrientation::ITK_COORDINATE_Anterior;
       }
-    else if(round(axes[(i*3)+1]) == -1)
+    else if(axes[(i*3)+1] == -1)
       {
       terms[i] = SpatialOrientation::ITK_COORDINATE_Posterior;
       }
-    else if(round(axes[(i*3)+2]) == 1)
+    else if(axes[(i*3)+2] == 1)
       {
       terms[i] = SpatialOrientation::ITK_COORDINATE_Inferior;
       }
-    else if(round(axes[(i*3)+2]) == -1)
+    else if(axes[(i*3)+2] == -1)
       {
       terms[i] = SpatialOrientation::ITK_COORDINATE_Superior;
       }
@@ -641,8 +642,8 @@ niftiImageIO
 
   //
   // set the quarternions, from the direction vectors
-  std::vector<double> dirx(3) = this->GetDirection(0);
-  std::vector<double> diry(3)  = this->GetDirection(1);
+  std::vector<double> dirx = this->GetDirection(0);
+  std::vector<double> diry  = this->GetDirection(1);
   mat44 matrix = nifti_make_orthog_mat44(dirx[0],dirx[1],dirx[2],
                                          diry[0],diry[1],diry[2],
                                          0,0,0);
