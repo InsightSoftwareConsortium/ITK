@@ -141,7 +141,7 @@ public:
   // Set/GetMethods to set the component to be extracted.
   unsigned long GetExtractComponentIdx() const
     {
-    this->GetPixelAccessor().GetExtractComponentIdx( componentIdx );
+    this->GetPixelAccessor().GetExtractComponentIdx();
     }
   
  protected:
