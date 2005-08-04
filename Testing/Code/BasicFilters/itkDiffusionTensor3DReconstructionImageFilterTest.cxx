@@ -73,7 +73,6 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
     git.GoToBegin();
     while( !git.IsAtEnd() )
       {
-      GradientIndexType gidx = git.GetIndex();
       GradientPixelType fancyGradientValue = 
         static_cast< short int >((i+1) * (i+1) * (i+1));
       git.Set( fancyGradientValue );
