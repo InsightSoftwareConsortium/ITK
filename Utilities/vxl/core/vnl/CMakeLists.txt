@@ -202,3 +202,4 @@ ENDIF( BUILD_TESTING )
 
 INSTALL_TARGETS(/lib/InsightToolkit itkvnl)
 INSTALL_FILES(${VXL_INSTALL_ROOT}/core/vnl "(\\.h|\\.txx)$")
+INSTALL_FILES(${VXL_INSTALL_ROOT}/core/vnl .h vnl_config)
