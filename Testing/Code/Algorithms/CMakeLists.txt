@@ -345,13 +345,6 @@ TARGET_LINK_LIBRARIES(itkAlgorithmsTests3 ITKAlgorithms ITKIO ITKBasicFilters IT
 ADD_EXECUTABLE(itkAlgorithmsTests4 itkAlgorithmsTests4.cxx ${AlgorithmsTest4_SRCS})
 TARGET_LINK_LIBRARIES(itkAlgorithmsTests4 ITKAlgorithms ITKIO ITKBasicFilters ITKFEM ITKStatistics)
 
-IF(USE_FFTW)
-        TARGET_LINK_LIBRARIES(itkAlgorithmsTests4 fftw3 fftw3f)
-ENDIF(USE_FFTW)
-
-IF(USE_SCSL)
-        TARGET_LINK_LIBRARIES(itkAlgorithmsTests4 scs )
-ENDIF(USE_SCSL)
 
 IF(ITK_DATA_ROOT)
 
