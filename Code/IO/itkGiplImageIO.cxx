@@ -512,6 +512,20 @@ void GiplImageIO::ReadImageInformation()
       {
         m_Ifstream.read((char*)&origin[i],sizeof(double));
       }
+    
+    if(m_ByteOrder == BigEndian)
+      {
+       ByteSwapper<double>::SwapFromSystemToBigEndian(&origin[i]);
+      }
+    else if (m_ByteOrder == LittleEndian)
+      {
+       ByteSwapper<double>::SwapFromSystemToLittleEndian(&origin[i]);
+      }
+      
+    if(i<numberofdimension)
+      {
+       m_Origin[i]=origin[i];
+      }    
     }
 
   float   pixval_offset;     /*  236    4                              */
@@ -931,7 +945,27 @@ GiplImageIO
   double  origin[4];         /*  204   32  X,Y,Z,T offset              */
   for(i=0;i<4;i++)
     {
-    origin[i]=0;
+    
+    if(i<nDims)
+      {
+       origin[i] = m_Origin[i];
+      }
+    else
+      {
+       origin[i] = 0;
+      }
+    
+       
+    if(m_ByteOrder == BigEndian)
+        {
+        ByteSwapper<double>::SwapFromSystemToBigEndian((double*)&origin[i]);
+        }
+      if(m_ByteOrder == LittleEndian)
+        {
+        ByteSwapper<double>::SwapFromSystemToLittleEndian((double *)&origin[i]);
+        }
+    
+    
     if (m_IsCompressed)
       {
       ::gzwrite( m_Internal->m_GzFile,(char*)&origin[i],sizeof(double));
