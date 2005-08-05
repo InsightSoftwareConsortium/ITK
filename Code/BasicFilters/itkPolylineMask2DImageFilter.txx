@@ -45,7 +45,7 @@ PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
 template <class TInputImage, class TPolyline,
           class TOutputImage>
 void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
-::SetInput(const TInputImage *input)
+::SetInput1(const TInputImage *input)
 
 {
   // Process object is not const-correct so the const_cast is required here
@@ -59,7 +59,7 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
 template <class TInputImage, class TPolyline,
           class TOutputImage>
 void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
-::SetInput(const TPolyline *input)
+::SetInput2(const TPolyline *input)
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(1,

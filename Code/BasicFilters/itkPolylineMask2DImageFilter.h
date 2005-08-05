@@ -69,8 +69,8 @@ public:
   typedef typename OutputImageType::PixelType OutputImagePixelType;
 
   /** Read in image and polyline inputs */
-  void SetInput( const InputImageType * image);
-  void SetInput( const PolylineType * polyline);
+  void SetInput1( const InputImageType * image);
+  void SetInput2( const PolylineType * polyline);
 
   /* Generate Data */
   void GenerateData(void);
