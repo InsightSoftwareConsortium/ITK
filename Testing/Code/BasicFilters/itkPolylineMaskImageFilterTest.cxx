@@ -77,15 +77,7 @@ int itkPolylineMaskImageFilterTest(int argc , char * argv [] )
   size[1]=40;
   size[2]=30;
 
-  float origin[3];
-  
-  for(unsigned int i=0;i<3;i++)
-  {
-    origin[i]=0.0;
-  }
-
   imageFilter->SetSize(size);
-  // imageFilter->SetOrigin(origin);
   imageFilter->SetInput(ellipse);
   imageFilter->SetInsideValue(2);
   imageFilter->SetOutsideValue(0);
@@ -140,16 +132,16 @@ int itkPolylineMaskImageFilterTest(int argc , char * argv [] )
   typedef inputFilterType::PointType PointType;
   typedef inputFilterType::ProjPlanePointType ProjPlanePointType;
             
-  std::cout<< "Generating the masking filter....................." << std::endl;
+  std::cout<< "Generating the filter....................." << std::endl;
 
   // Create a mask  Filter                                
   inputFilterType::Pointer filter = inputFilterType::New();
 
   //Connect the input image
-  filter->SetInput    ( imageFilter->GetOutput()); 
+  filter->SetInput1    ( imageFilter->GetOutput()); 
  
   // Connect the Polyline 
-  filter->SetInput    ( inputPolyline ); 
+  filter->SetInput2    ( inputPolyline ); 
 
   // Connect the Viewing direction vector
   filter->SetViewVector   ( inputViewVector );

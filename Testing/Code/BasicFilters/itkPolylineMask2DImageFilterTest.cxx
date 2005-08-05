@@ -116,10 +116,10 @@ int itkPolylineMask2DImageFilterTest(int argc, char* argv [] )
   inputFilterType::Pointer filter = inputFilterType::New();
 
   // Connect the input image
-  filter->SetInput    ( inputImage ); 
+  filter->SetInput1    ( inputImage ); 
  
   // Connect the Polyline 
-  filter->SetInput    ( inputPolyline ); 
+  filter->SetInput2    ( inputPolyline ); 
 
   // Get the Smart Pointer to the Filter Output 
   // outputImageType::Pointer outputImage = filter->GetOutput();
