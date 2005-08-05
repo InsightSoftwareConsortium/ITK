@@ -27,6 +27,7 @@ itkMeshSpatialObjectIOTest.cxx
 itkMetaImageIOTest.cxx
 itkNrrdImageIOTest.cxx
 itkNrrdImageReadWriteTest.cxx
+itkNrrdRGBImageReadWriteTest.cxx
 itkNumericSeriesFileNamesTest.cxx
 itkPNGImageIOTest.cxx
 itkPolygonGroupSpatialObjectXMLFileTest.cxx
@@ -428,6 +429,12 @@ ADD_TEST(itkNrrdImageReadWriteTest1 ${IO_TESTS}
   itkNrrdImageReadWriteTest
             ${ITK_DATA_ROOT}/Input/box.nhdr
             ${ITK_TEST_OUTPUT_DIR}/box.nrrd)
+ADD_TEST(itkNrrdRGBImageReadWriteTest1 ${IO_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/NrrdRGBImageReadWriteTest1.png
+            ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest1.png
+  itkNrrdRGBImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/testrgb-0.nhdr
+            ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest1.png)
 
 ENDIF(ITK_DATA_ROOT)
 
