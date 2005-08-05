@@ -266,63 +266,82 @@ void NrrdImageIO::ReadImageInformation()
      {
      this->SetFileTypeToBinary();
      }
-   
-   // NrrdIO only supports scalar data.  Future implementations may support
-   // read/write of vector data.
-   this->SetNumberOfComponents(1); // HEY fix this
-   this->SetPixelType( SCALAR );  // HEY fix this
+   // set type of pixel components; this is orthogonal to pixel type
+   this->SetComponentType( this->NrrdToITKComponentType(nrrd->type) );
 
    // Set the number of image dimensions and bail if needed
-   // NOTE: future version of nrrdDomainAxesGet will use unsigned types
-   unsigned int domAxisNum, domAxisIdx[NRRD_DIM_MAX];
-   domAxisNum = nrrdDomainAxesGet(nrrd, domAxisIdx);
-   int doSpaceStuffHack;
-   if (!( domAxisNum == nrrd->dim || domAxisNum == nrrd->dim-1 ))
-     {
-     itkExceptionMacro("ReadImageInformation: nrrd has more than one "
-                       "dependent axis; not currently handled");
-     }
-#if 0  /* ------------------------ HACK until proper non-scalar handling */
-   if (nrrd->spaceDim && nrrd->spaceDim != domAxisNum)
+   unsigned int domainAxisNum, domainAxisIdx[NRRD_DIM_MAX],
+     rangeAxisNum, rangeAxisIdx[NRRD_DIM_MAX];
+   domainAxisNum = nrrdDomainAxesGet(nrrd, domainAxisIdx);
+   rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
+   if (nrrd->spaceDim && nrrd->spaceDim != domainAxisNum)
      {
      itkExceptionMacro("ReadImageInformation: nrrd's # independent axes "
                        "doesn't match dimension of space in which "
                        "orientation is defined; not currently handled");
      }
-   // else nrrd->spaceDim == domAxisNum, if the nrrd has orientation
-   this->SetNumberOfDimensions(domAxisNum);
-   doSpaceStuffHack = AIR_TRUE;
-#else
-   if (nrrd->spaceDim && nrrd->spaceDim != domAxisNum)
-     {
-     std::cerr << "\nWARNING: ReadImageInformation: nrrd's # independent axes "
-       "doesn't match dimension of space in which orientation is defined\n\n";
-     doSpaceStuffHack = AIR_FALSE;
-     }
-   else
-     {
-     doSpaceStuffHack = AIR_TRUE;
-     }
-   this->SetNumberOfDimensions(nrrd->dim);
-#endif /* ------------------------ */
+   // else nrrd->spaceDim == domainAxisNum when nrrd has orientation
 
-   // Set type information
-   //   this->SetPixelType( this->NrrdToITKComponentType(nrrd->type) );
-   // For now we only support scalar reads/writes
-   // HEY fix this
-   this->SetComponentType( this->NrrdToITKComponentType(nrrd->type) );
-
-   if (doSpaceStuffHack) 
+   if (0 == rangeAxisNum)
      {
+     // we don't have any non-scalar data
+     this->SetNumberOfDimensions(nrrd->dim);
+     this->SetPixelType( ImageIOBase::SCALAR );
+     this->SetNumberOfComponents(1);
+     }
+   else if (1 == rangeAxisNum)
+     {
+     this->SetNumberOfDimensions(nrrd->dim - 1);
+     unsigned int kind = nrrd->axis[rangeAxisIdx[0]].kind;
+     switch(kind) {
+     case nrrdKindDomain:
+     case nrrdKindSpace:
+     case nrrdKindTime:
+       itkExceptionMacro("ReadImageInformation: range axis kind "
+                         << airEnumStr(nrrdKind, kind) 
+                         << "seems more like a domain axis");
+       break;
+     case nrrdKind3Color:
+       this->SetPixelType( ImageIOBase::RGB );
+       this->SetNumberOfComponents(3);
+       break;
+     case nrrdKindStub:
+     case nrrdKindScalar:
+     case nrrdKindList:
+     case nrrdKindComplex:
+     case nrrdKind2Vector:
+     case nrrdKind4Color:
+     case nrrdKind3Vector:
+     case nrrdKind3Normal:
+     case nrrdKind4Vector:
+     case nrrdKind2DSymMatrix:
+     case nrrdKind2DMaskedSymMatrix:
+     case nrrdKind2DMatrix:
+     case nrrdKind2DMaskedMatrix:
+     case nrrdKind3DSymMatrix:
+     case nrrdKind3DMaskedSymMatrix:
+     case nrrdKind3DMatrix:
+     case nrrdKind3DMaskedMatrix:
+       break;
+     }
+     }
+   else 
+     {
+     itkExceptionMacro("ReadImageInformation: nrrd has more than one "
+                       "dependent axis; not currently handled");
+     }
+
+   // if (doSpaceStuffHack) 
+   //  {
    // Set axis information
    double spacing;
    double spaceDir[NRRD_SPACE_DIM_MAX];
-   std::vector<double> spaceDirStd(domAxisNum);
+   std::vector<double> spaceDirStd(domainAxisNum);
    int spacingStatus;
-   for (unsigned int axii=0; axii < domAxisNum; axii++)
+   for (unsigned int axii=0; axii < domainAxisNum; axii++)
      {
-     unsigned int axi = domAxisIdx[axii];
-     this->SetDimensions(axi, nrrd->axis[axi].size);
+     unsigned int axi = domainAxisIdx[axii];
+     this->SetDimensions(axii, nrrd->axis[axi].size);
      spacingStatus = nrrdSpacingCalculate(nrrd, axi, &spacing, spaceDir);
      switch(spacingStatus) 
        {
@@ -372,9 +391,9 @@ void NrrdImageIO::ReadImageInformation()
    else 
      {
      double spaceOrigin[NRRD_DIM_MAX];
-     int originStatus = nrrdOriginCalculate(nrrd, domAxisIdx, domAxisNum,
+     int originStatus = nrrdOriginCalculate(nrrd, domainAxisIdx, domainAxisNum,
                                             nrrdCenterCell, spaceOrigin);
-     for (unsigned int saxi=0; saxi < domAxisNum; saxi++) 
+     for (unsigned int saxi=0; saxi < domainAxisNum; saxi++) 
        {
        switch (originStatus)
          {
@@ -395,7 +414,7 @@ void NrrdImageIO::ReadImageInformation()
          }
        }
      }
-     } /* if (doSpaceStuffHack) */
+   //  } /* if (doSpaceStuffHack) */
 
    // Store key/value pairs in MetaDataDictionary
    char key[AIR_STRLEN_SMALL];
@@ -417,14 +436,9 @@ void NrrdImageIO::ReadImageInformation()
    // save in MetaDataDictionary those important nrrd fields that
    // (currently) have no ITK equivalent
    NrrdAxisInfo *naxis;
-#if 0  /* ------------------------ HACK until proper non-scalar handling */
-   for (unsigned int axii=0; axii < domAxisNum; axii++)
+   for (unsigned int axii=0; axii < domainAxisNum; axii++)
      {
-     unsigned int axi = domAxisIdx[axii];
-#else
-   for (unsigned int axi=0; axi < nrrd->dim; axi++)
-     {
-#endif
+     unsigned int axi = domainAxisIdx[axii];
      naxis = nrrd->axis + axi;
      if (AIR_EXISTS(naxis->thickness))
        {
@@ -488,11 +502,11 @@ void NrrdImageIO::ReadImageInformation()
      {
      sprintf(key, "%s%s", KEY_PREFIX,
              airEnumStr(nrrdField, nrrdField_measurement_frame));
-     std::vector<std::vector<double> > msrFrame(domAxisNum);
-     for (unsigned int saxi=0; saxi < domAxisNum; saxi++) 
+     std::vector<std::vector<double> > msrFrame(domainAxisNum);
+     for (unsigned int saxi=0; saxi < domainAxisNum; saxi++) 
        {
-       msrFrame[saxi].resize(domAxisNum);
-       for (unsigned int saxj=0; saxj < domAxisNum; saxj++)
+       msrFrame[saxi].resize(domainAxisNum);
+       for (unsigned int saxj=0; saxj < domainAxisNum; saxj++)
          {
          msrFrame[saxi][saxj] = nrrd->measurementFrame[saxi][saxj];
          }
@@ -515,6 +529,7 @@ void NrrdImageIO::Read(void* buffer)
 #endif // defined(__BORLANDC__) 
 
   Nrrd *nrrd = nrrdNew();
+  unsigned int baseDim;
 
   // The data buffer has already been allocated.  Hand this off to the nrrd,
   // and set just enough info in the nrrd so that it knows the size of 
@@ -522,10 +537,19 @@ void NrrdImageIO::Read(void* buffer)
   // instead of allocating new data.
   nrrd->data = buffer;
   nrrd->type = this->ITKToNrrdComponentType( this->m_ComponentType );
-  nrrd->dim = this->GetNumberOfDimensions();
-  for (unsigned int axi = 0; axi < nrrd->dim; axi++)
+  if ( ImageIOBase::SCALAR == this->m_PixelType )
     {
-    nrrd->axis[axi].size = this->GetDimensions(axi);
+    baseDim = 0;
+    }
+  else 
+    {
+    baseDim = 1;
+    nrrd->axis[0].size = this->GetNumberOfComponents();
+    }
+  nrrd->dim = baseDim + this->GetNumberOfDimensions();
+  for (unsigned int axi = 0; axi < this->GetNumberOfDimensions(); axi++)
+    {
+    nrrd->axis[axi+baseDim].size = this->GetDimensions(axi);
     }
 
   // Read in the nrrd.  Yes, this means that the header is being read
@@ -536,6 +560,9 @@ void NrrdImageIO::Read(void* buffer)
     itkExceptionMacro("Read: Error reading " 
                       << this->GetFileName() << ": " << err);
     }
+
+
+  // HEY nrrdPermute axes if non-scalar data was not on fastest axis
 
   // Free the nrrd struct but not nrrd->data
   nrrdNix(nrrd);
