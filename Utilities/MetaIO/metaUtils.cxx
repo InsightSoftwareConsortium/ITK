@@ -71,7 +71,7 @@ const char* MET_ReadType(std::istream &_fp)
 {
   unsigned int pos = _fp.tellg();
   std::vector<MET_FieldRecordType *> fields;
-  static MET_FieldRecordType* mF = new MET_FieldRecordType;
+  MET_FieldRecordType* mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ObjectType", MET_STRING, false);
   mF->required = false;
   mF->terminateRead = true;
@@ -80,14 +80,18 @@ const char* MET_ReadType(std::istream &_fp)
   MET_Read(_fp, &fields, '=', true);
   _fp.seekg(pos);
 
+  char* value = new char[255];
+
   if(mF && mF->defined)
-  {
-    return (char *)(mF->value);
-  }
-
-  ((char *)(mF->value))[0] = '\0';
-
-  return (char *)(mF->value);
+    {
+    strcpy(value,(char *)(mF->value));
+    delete mF;
+    return value;
+    }
+    
+  value[0] = '\0';
+  delete mF;
+  return value;
 }
 
 //
@@ -97,8 +101,7 @@ char* MET_ReadSubType(std::istream &_fp)
 {
   unsigned int pos = _fp.tellg();
   std::vector<MET_FieldRecordType *> fields;
-  MET_FieldRecordType* mF;
-  
+  MET_FieldRecordType* mF;  
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ObjectType", MET_STRING, false);
   mF->required = false;
@@ -129,7 +132,7 @@ char* MET_ReadSubType(std::istream &_fp)
 // String To Type
 //
 bool MET_StringToType(const char *_s, MET_ValueEnumType *_vType)
-  {
+{
   int i;
   for(i=0; i<MET_NUM_VALUE_TYPES; i++)
     if(!strcmp(_s, MET_ValueTypeName[i]))
@@ -140,13 +143,13 @@ bool MET_StringToType(const char *_s, MET_ValueEnumType *_vType)
     
   *_vType = MET_OTHER;  
   return false;
-  }
+}
 
 //
 // METType To String
 //
 bool MET_TypeToString(MET_ValueEnumType _vType, char *_s)
-  {
+{
   if(_vType>=0 && _vType<=MET_NUM_VALUE_TYPES)
     {
     sprintf(_s, MET_ValueTypeName[_vType]);
@@ -154,20 +157,20 @@ bool MET_TypeToString(MET_ValueEnumType _vType, char *_s)
     }
   
   return false;
-  }
+}
 
 
 //
 // Sizeof METTYPE
 //
 bool MET_SizeOfType(MET_ValueEnumType _vType, int *s)
-  {
+{
   *s = MET_ValueTypeSize[_vType];
   if(_vType < MET_STRING)
     return true;
   else
     return false;
-  }
+}
 
 //
 // Value to Double
