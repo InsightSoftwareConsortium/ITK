@@ -570,7 +570,7 @@ void TIFFImageIO::ReadVolume(void* buffer)
 
       if ( !TIFFReadRGBAImage(m_InternalImage->Image, 
                               width, height, 
-                              tempImage ) )
+                              tempImage, 1 ) )
         {
         std::cout << "Cannot read TIFF image or as a TIFF RGBA image" << std::endl;
         if ( tempImage != buffer )
@@ -701,7 +701,7 @@ void TIFFImageIO::Read(void* buffer)
 
     if ( !TIFFReadRGBAImage(m_InternalImage->Image, 
                             width, height, 
-                            tempImage ) )
+                            tempImage, 1 ) )
       {
       std::cout << "Cannot read TIFF image or as a TIFF RGBA image" << std::endl;
       if ( tempImage != buffer )
