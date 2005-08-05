@@ -79,7 +79,7 @@ int itkVectorImageTest( int, char* [] )
 
   clock.Stop();
   double timeTaken = clock.GetMeanTime();
-  std::cout << "Allocating an image of itk::Array of length " <<  VectorLength 
+  std::cout << "Allocating an image of itk::FixedArray of length " <<  VectorLength 
           << " with image size " << size << " took " << timeTaken << " s." << std::endl;
   }
 
@@ -109,7 +109,7 @@ int itkVectorImageTest( int, char* [] )
 
   clock.Stop();
   double timeTaken = clock.GetMeanTime();
-  std::cout << "Allocating an image of itk::Array of length " <<  VectorLength 
+  std::cout << "Allocating an image of itk::VectorImage with pixels length " <<  VectorLength 
      << " with image size " << size << " took " << timeTaken << " s." << std::endl;
 
 
