@@ -63,10 +63,6 @@ ADD_TEST(Image5Test ${IMAGE_EXAMPLES}
   Image5Test ${TEMP}/Image5Test.mhd
 )
 
-ADD_TEST(ImageAdaptor1Test ${IMAGE_EXAMPLES2}
-  ImageAdaptor1Test ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
-)
-
 ADD_TEST(ImageAdaptor2Test ${IMAGE_EXAMPLES3}
   ImageAdaptor2Test
     ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
@@ -97,8 +93,15 @@ ADD_TEST(VectorImageTest ${IMAGE_EXAMPLES}
 ADD_EXECUTABLE(ImageExamples ImageExamples.cxx )
 TARGET_LINK_LIBRARIES(ImageExamples ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
-ADD_EXECUTABLE(ImageExamples2 ImageExamples2.cxx )
-TARGET_LINK_LIBRARIES(ImageExamples2 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+IF(NOT BORLAND)
+  ADD_EXECUTABLE(ImageExamples2 ImageExamples2.cxx )
+  TARGET_LINK_LIBRARIES(ImageExamples2 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
+  ADD_TEST(ImageAdaptor1Test ${IMAGE_EXAMPLES2}
+    ImageAdaptor1Test ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
+)
+
+ENDIF(NOT BORLAND)
 
 ADD_EXECUTABLE(ImageExamples3 ImageExamples3.cxx )
 TARGET_LINK_LIBRARIES(ImageExamples3 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
