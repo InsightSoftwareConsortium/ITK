@@ -67,7 +67,7 @@ ADD_TEST(ImageAdaptor1Test ${IMAGE_EXAMPLES2}
   ImageAdaptor1Test ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
 )
 
-ADD_TEST(ImageAdaptor2Test ${IMAGE_EXAMPLES2}
+ADD_TEST(ImageAdaptor2Test ${IMAGE_EXAMPLES3}
   ImageAdaptor2Test
     ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
     ${TEMP}/ImageAdaptor2Test.png
