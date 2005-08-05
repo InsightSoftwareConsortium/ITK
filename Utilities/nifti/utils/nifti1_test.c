@@ -1,4 +1,4 @@
-#include "nifti1_io.h"   /* directly include I/O library functions */
+#include <nifti1_io.h>   /* directly include I/O library functions */
 
 /*-----------------------------------------------*/
 /*    cc -o nifti1_test -O2 nifti1_test.c -lm    */

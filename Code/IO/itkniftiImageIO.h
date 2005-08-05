@@ -31,7 +31,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include <fstream>
 #include "itkImageIOBase.h"
-#include <niftilib/nifti1_io.h>
+#include <nifti1_io.h>
 
 namespace itk
 {

@@ -18,13 +18,14 @@ TARFILE_NAME	=	nifticlib-0.1
 cc		=	gcc
 CC		=	gcc
 AR		=	ar
+RANLIB  = ranlib
 DEPENDFLAGS	=	-MM
 GNU_ANSI_FLAGS	= 	-Wall -ansi -pedantic
 ANSI_FLAGS	= 	${GNU_ANSI_FLAGS}
 CFLAGS		=	$(ANSI_FLAGS)
 
 ## Command defines
-MAKE 		=	gmake
+## gmake does not work on MacOSX or some versions of linux MAKE  = gmake 
 RM		=	rm
 MV		=	mv
 CP		=	cp
@@ -47,8 +48,10 @@ ZLIB_LIBS 	= 	$(ZLIB_PATH) -lm -lz
 ## Platform specific redefines
 
 ## SGI 32bit
+ifeq ($(ARCH),SGI)
 ZLIB_INC	=	-I/usr/freeware/include
 ZLIB_PATH	=	-L/usr/freeware/lib32
+endif
 
 
 ## RedHat Fedora Linux
@@ -85,8 +88,6 @@ FSLIO_LIBS	=	$(FSLIO_PATH) -lfslio
 
 .c.o:
 	$(CC) -c $(CFLAGS) $(INCFLAGS) $<
-
-
 
 ## Targets
 
@@ -130,22 +131,34 @@ doc:
 	@echo "doxygen doc rebuilt, run netscape docs/html/index.html to view."
 	@echo ""
 
-znz_install:
+$(INSTALL_BIN_DIR):
+	mkdir -p $@
+
+$(INSTALL_INC_DIR):
+	mkdir -p $@
+
+$(INSTALL_LIB_DIR):
+	mkdir -p $@
+
+znz_install: $(INSTALL_INC_DIR) $(INSTALL_LIB_DIR)
 	($(CP) $(ZNZ)/*.a $(INSTALL_LIB_DIR); $(CP) $(ZNZ)/*.h $(INSTALL_INC_DIR);)
+	$(RANLIB) $(INSTALL_LIB_DIR)/*.a
 	@echo " $(ZNZ) installed."
 	@echo ""
 
-nifti_install:
+nifti_install: $(INSTALL_INC_DIR) $(INSTALL_LIB_DIR)
 	($(CP) $(NIFTI)/*.a $(INSTALL_LIB_DIR); $(CP) $(NIFTI)/*.h $(INSTALL_INC_DIR);)
+	$(RANLIB) $(INSTALL_LIB_DIR)/*.a
 	@echo " $(NIFTI) installed."
 	@echo ""
 
-fslio_install:
+fslio_install: $(INSTALL_INC_DIR) $(INSTALL_LIB_DIR)
 	($(CP) $(FSLIO)/*.a $(INSTALL_LIB_DIR); $(CP) $(FSLIO)/*.h $(INSTALL_INC_DIR);)
+	$(RANLIB) $(INSTALL_LIB_DIR)/*.a
 	@echo " $(FSLIO) installed."
 	@echo ""
 
-utils_install: utils
+utils_install: utils $(INSTALL_BIN_DIR)
 	(cd $(UTILS); $(CP) $(UTILS_PROGS) ../$(INSTALL_BIN_DIR);)
 	@echo " $(UTILS) installed."
 	@echo ""

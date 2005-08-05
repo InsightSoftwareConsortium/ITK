@@ -12,8 +12,10 @@ ZNZ_LIBS	=	-L/usr/lib -L../lib -lznz -lm -lz
 
 
 ## SGI 32bit
+ifeq ($(ARCH),SGI)
 ZNZ_INCS	=	-I/usr/freeware/include
 ZNZ_LIBS	=	-L/usr/freeware/lib32 -L../lib -lznz -lm -lz
+endif
 
 
 ## Redhat Fedora Linux

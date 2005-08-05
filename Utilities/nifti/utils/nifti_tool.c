@@ -683,6 +683,7 @@ int usage(char * prog, int level)
  *----------------------------------------------------------------------*/
 int use_full(char * prog)
 {
+    /*NOTE:  printf can only have 509 characters in the format string*/
    printf(
    "%s\n"
    "\n"
@@ -691,7 +692,8 @@ int use_full(char * prog)
    "   - copy a dataset, collapsing any dimensions, each to a single index\n"
    "   - display a time series for a voxel, or more generally, the data\n"
    "       from any collapsed image, in ASCII text\n"
-   "\n"
+   "\n",prog);
+   printf(
    "  This program can be used to display information from nifti datasets,\n"
    "  to modify information in nifti datasets, to look for differences\n"
    "  between two nifti datasets (like the UNIX 'diff' command), and to copy\n"
@@ -701,6 +703,8 @@ int use_full(char * prog)
    "  Only one action type is allowed, e.g. one cannot modify a dataset\n"
    "  and then take a 'diff'.\n"
    "\n"
+   );
+   printf(
    "  one can display - any or all fields in the nifti_1_header structure\n"
    "                  - any or all fields in the nifti_image structure\n"
    "                  - the extensions in the nifti_image structure\n"
@@ -725,6 +729,8 @@ int use_full(char * prog)
    "        the '-help_nim' option.  No further options are required.\n"
    "  ------------------------------\n"
    "\n"
+   );
+   printf(
    "  usage styles:\n"
    "\n"
    "    %s -help                 : show this help\n"
@@ -758,7 +764,7 @@ int use_full(char * prog)
    "    %s -diff_nim [-field FIELDNAME] [...] -infiles f1 f2\n"
    "\n"
    "  ------------------------------\n",
-   prog, prog, prog, prog, prog, prog,    /* 1 + 22, so far */
+   prog, prog, prog, prog, prog,    /* 1 + 22, so far */
    prog, prog, prog, prog, prog, prog,
    prog, prog, prog, prog, prog, prog,
    prog, prog, prog, prog, prog );

@@ -24,7 +24,8 @@ lib: libniftiio.a
 nifti1_io.o: nifti1_io.c nifti1_io.h
 	$(CC) -c $(CFLAGS) $(USEZLIB) $(INCFLAGS) $<
 
-libniftiio.a: ${OBJS}
-	${AR} -r libniftiio.a ${OBJS}
+libniftiio.a: $(OBJS)
+	$(AR) -r libniftiio.a $(OBJS)
+	$(RANLIB) $@
 
 include depend.mk
