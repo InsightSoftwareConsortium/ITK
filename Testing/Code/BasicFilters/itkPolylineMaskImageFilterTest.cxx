@@ -83,11 +83,6 @@ int itkPolylineMaskImageFilterTest(int argc , char * argv [] )
   imageFilter->SetOutsideValue(0);
   imageFilter->Update();
 
-  
-  //Create images
-  inputImageType::Pointer inputImage    = inputImageType::New();
-  outputImageType::Pointer outputImage  = outputImageType::New();
-
   std::cout << "Generating the polyline..." << std::endl;
   //Initialize the polyline 
   typedef inputPolylineType::VertexType VertexType;
