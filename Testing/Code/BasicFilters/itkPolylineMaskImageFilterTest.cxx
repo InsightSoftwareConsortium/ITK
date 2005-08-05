@@ -165,11 +165,8 @@ int itkPolylineMaskImageFilterTest(int argc , char * argv [] )
   focalpoint[0] = 15;
   focalpoint[1] = 15;
   filter->SetFocalPoint(focalpoint);
-
-  // Get the Smart Pointer to the Filter Output 
-  outputImage = filter->GetOutput();
-  // Execute the filter
   filter->Update();
+
   return 0;
 
 }
