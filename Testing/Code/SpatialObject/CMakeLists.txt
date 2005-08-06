@@ -31,7 +31,7 @@ ADD_TEST( itkImageSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkImageSpatialObjec
 ADD_TEST( itkLandmarkSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkLandmarkSpatialObjectTest )
 ADD_TEST( itkLineSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkLineSpatialObjectTest )
 
-ADD_TEST( itkMeshSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkMeshSpatialObjectTest )
+ADD_TEST( itkMeshSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkMeshSpatialObjectTest )
 ADD_TEST( itkPlaneSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPlaneSpatialObjectTest )
 ADD_TEST( itkPolygonGroupSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPolygonGroupSpatialObjectTest )
 ADD_TEST( itkSceneSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkSceneSpatialObjectTest )
