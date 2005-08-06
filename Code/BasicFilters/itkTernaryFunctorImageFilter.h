@@ -60,7 +60,7 @@ public:
   typedef typename Input2ImageType::ConstPointer Input2ImagePointer;
   typedef typename Input2ImageType::RegionType Input2ImageRegionType; 
   typedef typename Input2ImageType::PixelType Input2ImagePixelType; 
-  typedef TInputImage2 Input3ImageType;
+  typedef TInputImage3 Input3ImageType;
   typedef typename Input3ImageType::ConstPointer Input3ImagePointer;
   typedef typename Input3ImageType::RegionType Input3ImageRegionType; 
   typedef typename Input3ImageType::PixelType Input3ImagePixelType; 

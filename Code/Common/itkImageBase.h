@@ -113,7 +113,9 @@ public:
   typedef ImageRegion<VImageDimension>  RegionType;
 
   /** Spacing typedef support.  Spacing holds the size of a pixel.  The
-   * spacing is the geometric distance between image samples. */
+   * spacing is the geometric distance between image samples. ITK only
+   * supports positive spacing value: negative values may cause
+   * undesirable results.*/
   typedef Vector<double, VImageDimension> SpacingType;
 
   /** Origin typedef support.  The origin is the geometric coordinates
