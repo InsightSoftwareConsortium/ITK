@@ -54,7 +54,6 @@ SET(SpatialObject_SRCS
 )
 
 SET(SpatialObject_SRCS2
-  itkMeshSpatialObjectTest.cxx
   itkPlaneSpatialObjectTest.cxx
   itkPolygonGroupSpatialObjectTest.cxx
   itkSceneSpatialObjectTest.cxx
@@ -67,6 +66,7 @@ SET(SpatialObject_SRCS3
   itkBoxSpatialObjectTest.cxx
   itkLandmarkSpatialObjectTest.cxx
   itkLineSpatialObjectTest.cxx
+  itkMeshSpatialObjectTest.cxx
   itkSpatialObjectPrintTest.cxx
 )
 
