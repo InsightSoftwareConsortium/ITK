@@ -432,8 +432,15 @@ int IPLCommonImageIO
            bool throw_exception)
 {
   int tmp;
-  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(int), throw_exception);
-  *ip = this->hdr2Int((char *)&tmp);
+  if (this->GetStringAt(f,Offset,(char *)&tmp,sizeof(int),
+                        throw_exception) == 0)
+    {
+    *ip = this->hdr2Int((char *)&tmp);
+    }
+  else
+    {
+    *ip = 0;
+    }
   return 0;
 }
 int IPLCommonImageIO
