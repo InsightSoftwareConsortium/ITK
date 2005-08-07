@@ -67,7 +67,7 @@ public:
       std::cout << std::endl << "Position              Value";
       std::cout << std::endl << std::endl;
       }    
-    else if( typeid( event ) == typeid( itk::IterationEvent ) )
+    else if( itk::IterationEvent().CheckEvent( &event ) )
       {
       std::cout << m_Optimizer->GetCurrentIteration() << " = ";
       std::cout << m_Optimizer->GetCurrentPosition() << std::endl;
