@@ -1,3 +1,5 @@
+INCLUDE_REGULAR_EXPRESSION("^.*$")
+
 IF( NOT ITK_DISABLE_CXX_TESTING )
  IF(ITK_BINARY_DIR)
   IF(TCL_TCLSH)
@@ -74,8 +76,8 @@ ENDIF(ITK_BINARY_DIR)
   ADD_EXECUTABLE(itkNeuralNetworkTests itkNeuralNetworkTests.cxx ${NNET_SRCS})
   TARGET_LINK_LIBRARIES(itkNeuralNetworkTests ITKIO ITKNumerics ITKStatistics)
 
-  ADD_EXECUTABLE(itkNeuralNetworkTests itkNeuralNetworkTests.cxx ${NNET_SRCS2})
-  TARGET_LINK_LIBRARIES(itkNeuralNetworkTests ITKIO ITKNumerics ITKStatistics)
+  ADD_EXECUTABLE(itkNeuralNetworkTests2 itkNeuralNetworkTests2.cxx ${NNET_SRCS2})
+  TARGET_LINK_LIBRARIES(itkNeuralNetworkTests2 ITKIO ITKNumerics ITKStatistics)
 
   ADD_EXECUTABLE(itkNeuralNetworksHeaderTest itkNeuralNetworksHeaderTest.cxx)
   TARGET_LINK_LIBRARIES(itkNeuralNetworksHeaderTest ITKIO ITKNumerics ITKStatistics)
