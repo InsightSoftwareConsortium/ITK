@@ -39,6 +39,7 @@ TARGET_LINK_LIBRARIES(ImageAdaptor4 ITKCommon ITKIO)
 SET(IMAGE_EXAMPLES ${CXX_TEST_PATH}/ImageExamples)
 SET(IMAGE_EXAMPLES2 ${CXX_TEST_PATH}/ImageExamples2)
 SET(IMAGE_EXAMPLES3 ${CXX_TEST_PATH}/ImageExamples3)
+SET(IMAGE_EXAMPLES4 ${CXX_TEST_PATH}/ImageExamples4)
 
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
@@ -82,11 +83,11 @@ ADD_TEST(ImageAdaptor4Test ${IMAGE_EXAMPLES3}
 )
 
 
-ADD_TEST(RGBImageTest ${IMAGE_EXAMPLES}
+ADD_TEST(RGBImageTest ${IMAGE_EXAMPLES4}
   RGBImageTest ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
 )
 
-ADD_TEST(VectorImageTest ${IMAGE_EXAMPLES}
+ADD_TEST(VectorImageTest ${IMAGE_EXAMPLES4}
   VectorImageTest
 )
 
@@ -105,6 +106,9 @@ ENDIF(NOT BORLAND)
 
 ADD_EXECUTABLE(ImageExamples3 ImageExamples3.cxx )
 TARGET_LINK_LIBRARIES(ImageExamples3 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(ImageExamples4 ImageExamples4.cxx )
+TARGET_LINK_LIBRARIES(ImageExamples4 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 

@@ -13,8 +13,6 @@ void RegisterTests()
   REGISTER_TEST(Image3Test);
   REGISTER_TEST(Image4Test);
   REGISTER_TEST(Image5Test);
-  REGISTER_TEST(RGBImageTest);
-  REGISTER_TEST(VectorImageTest);
 }
 
 #undef main
@@ -36,12 +34,3 @@ void RegisterTests()
 #undef main
 #define main Image5Test
 #include "Image5.cxx"
-
-#undef main
-#define main RGBImageTest
-#include "RGBImage.cxx"
-
-#undef main
-#define main VectorImageTest
-#include "VectorImage.cxx"
-
