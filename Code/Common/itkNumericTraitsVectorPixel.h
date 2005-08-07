@@ -5,7 +5,6 @@
 #include "itkVector.h"
 
 // This file is defines numeric traits for vector pixels types in itk
-// TODO: Add doxygen tags..
 
 namespace itk
 {
@@ -99,6 +98,7 @@ public:
   typedef double ScalarRealType;
   static const Vector<float, 2> ITKCommon_EXPORT Zero;
   static const Vector<float, 2> ITKCommon_EXPORT One;
+  static ValueType ZeroValue() { return Zero; }
 };
 template <> class NumericTraits<Vector<double, 2> > {
 public:
@@ -110,6 +110,7 @@ public:
   typedef double ScalarRealType;
   static const Vector<double, 2> ITKCommon_EXPORT Zero;
   static const Vector<double, 2> ITKCommon_EXPORT One;
+  static ValueType ZeroValue() { return Zero; }
 };
 template <> class NumericTraits<Vector<long double, 2> > {
 public:
@@ -220,6 +221,7 @@ public:
   typedef double ScalarRealType;
   static const Vector<double, 3> ITKCommon_EXPORT Zero;
   static const Vector<double, 3> ITKCommon_EXPORT One;
+  static ValueType ZeroValue() { return Zero; }
 };
 template <> class NumericTraits<Vector<long double, 3> > {
 public:
@@ -330,6 +332,7 @@ public:
   typedef double ScalarRealType;
   static const Vector<double, 4> ITKCommon_EXPORT Zero;
   static const Vector<double, 4> ITKCommon_EXPORT One;
+  static ValueType ZeroValue() { return Zero; }
 };
 template <> class NumericTraits<Vector<long double, 4> > {
 public:
@@ -440,6 +443,7 @@ public:
   typedef double ScalarRealType;
   static const Vector<double, 5> ITKCommon_EXPORT Zero;
   static const Vector<double, 5> ITKCommon_EXPORT One;
+  static ValueType ZeroValue() { return Zero; }
 };
 template <> class NumericTraits<Vector<long double, 5> > {
 public:
@@ -550,6 +554,7 @@ public:
   typedef double ScalarRealType;
   static const Vector<double, 6> ITKCommon_EXPORT Zero;
   static const Vector<double, 6> ITKCommon_EXPORT One;
+  static ValueType ZeroValue() { return Zero; }
 };
 template <> class NumericTraits<Vector<long double, 6> > {
 public:

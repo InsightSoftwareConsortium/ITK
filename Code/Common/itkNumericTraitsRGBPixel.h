@@ -37,6 +37,7 @@ public:
   typedef RGBPixel<double> RealType;
   static const RGBPixel<unsigned char> ITKCommon_EXPORT Zero;
   static const RGBPixel<unsigned char> ITKCommon_EXPORT One;
+  static ValueType ZeroValue() { return Zero; }
   
 };
 
