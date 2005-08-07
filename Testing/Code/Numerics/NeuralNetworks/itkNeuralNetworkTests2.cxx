@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   itkUNC
-  Module:    itkNeuralNetworkTests.cxx
+  Module:    itkNeuralNetworkTests2.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -25,13 +25,8 @@
 void
 RegisterTests()
 {
-  REGISTER_TEST(XORTest1);
-  REGISTER_TEST(XORTest2);
-  REGISTER_TEST(QPropXORTest1);
-  REGISTER_TEST(NNetClassifierTest1);
-  REGISTER_TEST(NNetClassifierTest2);
-  REGISTER_TEST(NNetClassifierTest3);
-  REGISTER_TEST(NNetClassifierTest4);
+  REGISTER_TEST(RBFTest1);
+  REGISTER_TEST(itkNeuralNetworksPrintTest);
 }
 
 

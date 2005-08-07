@@ -24,6 +24,7 @@ ENDIF(ITK_BINARY_DIR)
     
  
   SET(NNET_OBJECT_TESTS  ${CXX_TEST_PATH}/itkNeuralNetworkTests)
+  SET(NNET_OBJECT_TESTS2 ${CXX_TEST_PATH}/itkNeuralNetworkTests2)
 
   ADD_TEST( itkNeuralNetworksHeaderTest ${NEURAL_NETWORKS_HEADER_TEST})
 
@@ -45,11 +46,11 @@ ENDIF(ITK_BINARY_DIR)
   ADD_TEST(NNetClassifierTest4 ${NNET_OBJECT_TESTS} 
            NNetClassifierTest4 ${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt 
                                ${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt)
-  ADD_TEST(RBFTest1 ${NNET_OBJECT_TESTS} 
+  ADD_TEST(RBFTest1 ${NNET_OBJECT_TESTS2} 
            RBFTest1 ${ITK_DATA_ROOT}/Input/NeuralNetworks/rbf_multivar_gauss_train.txt
                     ${ITK_DATA_ROOT}/Input/NeuralNetworks/rbf_multivar_gauss_test.txt)
   
-  ADD_TEST( itkNeuralNetworksPrintTest ${NNET_OBJECT_TESTS} itkNeuralNetworksPrintTest)
+  ADD_TEST( itkNeuralNetworksPrintTest ${NNET_OBJECT_TESTS2} itkNeuralNetworksPrintTest)
 
 
 
@@ -61,11 +62,19 @@ ENDIF(ITK_BINARY_DIR)
       NNetClassifierTest2.cxx
       NNetClassifierTest3.cxx
       NNetClassifierTest4.cxx
+    )
+
+  SET(NNET_SRCS2
       RBFTest1.cxx
       itkNeuralNetworksPrintTest.cxx
     )
 
+  
+
   ADD_EXECUTABLE(itkNeuralNetworkTests itkNeuralNetworkTests.cxx ${NNET_SRCS})
+  TARGET_LINK_LIBRARIES(itkNeuralNetworkTests ITKIO ITKNumerics ITKStatistics)
+
+  ADD_EXECUTABLE(itkNeuralNetworkTests itkNeuralNetworkTests.cxx ${NNET_SRCS2})
   TARGET_LINK_LIBRARIES(itkNeuralNetworkTests ITKIO ITKNumerics ITKStatistics)
 
   ADD_EXECUTABLE(itkNeuralNetworksHeaderTest itkNeuralNetworksHeaderTest.cxx)
