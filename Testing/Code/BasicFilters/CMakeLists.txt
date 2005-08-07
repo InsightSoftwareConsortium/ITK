@@ -1,3 +1,5 @@
+INCLUDE_REGULAR_EXPRESSION("^.*$")
+
 IF( NOT ITK_DISABLE_CXX_TESTING )
 IF(ITK_BINARY_DIR)
   IF(TCL_TCLSH)
@@ -9,6 +11,7 @@ ENDIF(ITK_BINARY_DIR)
 
 
 SET(BASIC_FILTERS_TESTS ${CXX_TEST_PATH}/itkBasicFiltersTests)
+SET(BASIC_FILTERS_TESTS1 ${CXX_TEST_PATH}/itkBasicFiltersTests1)
 SET(BASIC_FILTERS_TESTS2 ${CXX_TEST_PATH}/itkBasicFiltersTests2)
 SET(BASIC_FILTERS_TESTS3 ${CXX_TEST_PATH}/itkBasicFiltersTests3)
 SET(BASIC_FILTERS_HEADER_TEST ${CXX_TEST_PATH}/itkBasicFiltersHeaderTest)
@@ -155,38 +158,38 @@ ADD_TEST(itkMinimumMaximumImageCalculatorTest ${BASIC_FILTERS_TESTS} itkMinimumM
 ADD_TEST(itkMinimumMaximumImageFilterTest ${BASIC_FILTERS_TESTS} itkMinimumMaximumImageFilterTest)
 ADD_TEST(itkMirrorPadImageTest ${BASIC_FILTERS_TESTS} itkMirrorPadImageTest)
 ADD_TEST(itkMultiplyImageFilterTest ${BASIC_FILTERS_TESTS} itkMultiplyImageFilterTest)
-ADD_TEST(itkNaryAddImageFilterTest ${BASIC_FILTERS_TESTS} itkNaryAddImageFilterTest)
-ADD_TEST(itkNaryMaximumImageFilterTest ${BASIC_FILTERS_TESTS} itkNaryMaximumImageFilterTest)
-ADD_TEST(itkNarrowBandTest ${BASIC_FILTERS_TESTS} itkNarrowBandTest)
-ADD_TEST(itkNarrowBandImageFilterBaseTest ${BASIC_FILTERS_TESTS} itkNarrowBandImageFilterBaseTest)
-ADD_TEST(itkNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS} itkNeighborhoodOperatorImageFilterTest)
-ADD_TEST(itkNoiseImageFilterTest ${BASIC_FILTERS_TESTS}
+ADD_TEST(itkNaryAddImageFilterTest ${BASIC_FILTERS_TESTS1} itkNaryAddImageFilterTest)
+ADD_TEST(itkNaryMaximumImageFilterTest ${BASIC_FILTERS_TESTS1} itkNaryMaximumImageFilterTest)
+ADD_TEST(itkNarrowBandTest ${BASIC_FILTERS_TESTS1} itkNarrowBandTest)
+ADD_TEST(itkNarrowBandImageFilterBaseTest ${BASIC_FILTERS_TESTS1} itkNarrowBandImageFilterBaseTest)
+ADD_TEST(itkNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS1} itkNeighborhoodOperatorImageFilterTest)
+ADD_TEST(itkNoiseImageFilterTest ${BASIC_FILTERS_TESTS1}
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkNoiseImageFilterTest.png
              ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png
    itkNoiseImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png)
-ADD_TEST(itkNonThreadedShrinkImageTest ${BASIC_FILTERS_TESTS} itkNonThreadedShrinkImageTest)
-ADD_TEST(itkNormalizeImageFilterTest ${BASIC_FILTERS_TESTS} itkNormalizeImageFilterTest)
+ADD_TEST(itkNonThreadedShrinkImageTest ${BASIC_FILTERS_TESTS1} itkNonThreadedShrinkImageTest)
+ADD_TEST(itkNormalizeImageFilterTest ${BASIC_FILTERS_TESTS1} itkNormalizeImageFilterTest)
 ADD_TEST(itkNormalizedCorrelationImageFilterTest ${BASIC_FILTERS_TESTS3} 
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/NormalizedCorrelationImageFilterTest.png
              ${ITK_TEST_OUTPUT_DIR}/NormalizedCorrelationImageFilterTest.png
              itkNormalizedCorrelationImageFilterTest 
              ${ITK_DATA_ROOT}/Input/sf4.png ${ITK_DATA_ROOT}/Input/circle.png ${ITK_TEST_OUTPUT_DIR}/NormalizedCorrelationImageFilterTest.png)
-ADD_TEST(itkObjectMorphologyImageFilterTest ${BASIC_FILTERS_TESTS} itkObjectMorphologyImageFilterTest)
-ADD_TEST(itkOrImageFilterTest ${BASIC_FILTERS_TESTS} itkOrImageFilterTest)
-ADD_TEST(itkParallelSparseFieldLevelSetImageFilterTest ${BASIC_FILTERS_TESTS} itkParallelSparseFieldLevelSetImageFilterTest)
-ADD_TEST(itkPathToChainCodePathFilterTest ${BASIC_FILTERS_TESTS} itkPathToChainCodePathFilterTest)
-ADD_TEST(itkPathToImageFilterTest ${BASIC_FILTERS_TESTS} itkPathToImageFilterTest)
-ADD_TEST(itkPermuteAxesImageFilterTest ${BASIC_FILTERS_TESTS} itkPermuteAxesImageFilterTest)
-ADD_TEST(itkRGBToVectorAdaptImageFilterTest.cxx ${BASIC_FILTERS_TESTS} itkRGBToVectorAdaptImageFilterTest)
-ADD_TEST(itkRGBToLuminanceImageFilterAndAdaptorTest.cxx ${BASIC_FILTERS_TESTS} itkRGBToLuminanceImageFilterAndAdaptorTest)
-ADD_TEST(itkRecursiveGaussianImageFiltersTest ${BASIC_FILTERS_TESTS} itkRecursiveGaussianImageFiltersTest)
-ADD_TEST(itkRecursiveGaussianImageFiltersOnTensorsTest ${BASIC_FILTERS_TESTS} itkRecursiveGaussianImageFiltersOnTensorsTest)
-ADD_TEST(itkReflectImageFilterTest ${BASIC_FILTERS_TESTS} itkReflectImageFilterTest)
-ADD_TEST(itkReflectiveImageRegionIteratorTest ${BASIC_FILTERS_TESTS}  itkReflectiveImageRegionIteratorTest )
-ADD_TEST(itkRegionOfInterestImageFilterTest ${BASIC_FILTERS_TESTS}  itkRegionOfInterestImageFilterTest )
-ADD_TEST(itkResampleImageTest ${BASIC_FILTERS_TESTS} itkResampleImageTest)
-ADD_TEST(itkResamplePhasedArray3DSpecialCoordinatesImageTest ${BASIC_FILTERS_TESTS} itkResamplePhasedArray3DSpecialCoordinatesImageTest)
-ADD_TEST(itkRescaleIntensityImageFilterTest ${BASIC_FILTERS_TESTS} itkRescaleIntensityImageFilterTest)
+ADD_TEST(itkObjectMorphologyImageFilterTest ${BASIC_FILTERS_TESTS1} itkObjectMorphologyImageFilterTest)
+ADD_TEST(itkOrImageFilterTest ${BASIC_FILTERS_TESTS1} itkOrImageFilterTest)
+ADD_TEST(itkParallelSparseFieldLevelSetImageFilterTest ${BASIC_FILTERS_TESTS1} itkParallelSparseFieldLevelSetImageFilterTest)
+ADD_TEST(itkPathToChainCodePathFilterTest ${BASIC_FILTERS_TESTS1} itkPathToChainCodePathFilterTest)
+ADD_TEST(itkPathToImageFilterTest ${BASIC_FILTERS_TESTS1} itkPathToImageFilterTest)
+ADD_TEST(itkPermuteAxesImageFilterTest ${BASIC_FILTERS_TESTS1} itkPermuteAxesImageFilterTest)
+ADD_TEST(itkRGBToVectorAdaptImageFilterTest.cxx ${BASIC_FILTERS_TESTS1} itkRGBToVectorAdaptImageFilterTest)
+ADD_TEST(itkRGBToLuminanceImageFilterAndAdaptorTest.cxx ${BASIC_FILTERS_TESTS1} itkRGBToLuminanceImageFilterAndAdaptorTest)
+ADD_TEST(itkRecursiveGaussianImageFiltersTest ${BASIC_FILTERS_TESTS1} itkRecursiveGaussianImageFiltersTest)
+ADD_TEST(itkRecursiveGaussianImageFiltersOnTensorsTest ${BASIC_FILTERS_TESTS1} itkRecursiveGaussianImageFiltersOnTensorsTest)
+ADD_TEST(itkReflectImageFilterTest ${BASIC_FILTERS_TESTS1} itkReflectImageFilterTest)
+ADD_TEST(itkReflectiveImageRegionIteratorTest ${BASIC_FILTERS_TESTS1}  itkReflectiveImageRegionIteratorTest )
+ADD_TEST(itkRegionOfInterestImageFilterTest ${BASIC_FILTERS_TESTS1}  itkRegionOfInterestImageFilterTest )
+ADD_TEST(itkResampleImageTest ${BASIC_FILTERS_TESTS1} itkResampleImageTest)
+ADD_TEST(itkResamplePhasedArray3DSpecialCoordinatesImageTest ${BASIC_FILTERS_TESTS1} itkResamplePhasedArray3DSpecialCoordinatesImageTest)
+ADD_TEST(itkRescaleIntensityImageFilterTest ${BASIC_FILTERS_TESTS1} itkRescaleIntensityImageFilterTest)
 ADD_TEST(itkShiftScaleImageFilterTest ${BASIC_FILTERS_TESTS2} itkShiftScaleImageFilterTest)
 ADD_TEST(itkShiftScaleInPlaceImageFilterTest ${BASIC_FILTERS_TESTS2} itkShiftScaleInPlaceImageFilterTest)
 ADD_TEST(itkShrinkImageTest ${BASIC_FILTERS_TESTS2} itkShrinkImageTest)
@@ -231,8 +234,8 @@ ADD_TEST(itkXorImageFilterTest ${BASIC_FILTERS_TESTS3} itkXorImageFilterTest)
 ADD_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS3} itkZeroCrossingBasedEdgeDetectionImageFilterTest)
 ADD_TEST(itkZeroCrossingImageFilterTest ${BASIC_FILTERS_TESTS3} itkZeroCrossingImageFilterTest)
 
-ADD_TEST(itkOrientImageFilterTest ${BASIC_FILTERS_TESTS} itkOrientImageFilterTest)
-ADD_TEST(itkOrientImageFilterTest2 ${BASIC_FILTERS_TESTS} itkOrientImageFilterTest2)
+ADD_TEST(itkOrientImageFilterTest ${BASIC_FILTERS_TESTS1} itkOrientImageFilterTest)
+ADD_TEST(itkOrientImageFilterTest2 ${BASIC_FILTERS_TESTS1} itkOrientImageFilterTest2)
 
 ADD_TEST(itkTriangleMeshToBinaryImageFilterTest ${BASIC_FILTERS_TESTS3} itkTriangleMeshToBinaryImageFilterTest)
 
@@ -425,7 +428,7 @@ ADD_TEST(itkLaplacianRecursiveGaussianImageFilterTest ${BASIC_FILTERS_TESTS}
              ${ITK_DATA_ROOT}/Input/cthead1.png
              ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png)
 
-ADD_TEST(itkNeighborhoodConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
+ADD_TEST(itkNeighborhoodConnectedImageFilterTest ${BASIC_FILTERS_TESTS1}
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/NeighborhoodConnectedImageFilterTest.png
              ${ITK_TEST_OUTPUT_DIR}/NeighborhoodConnectedImageFilterTest.png
   itkNeighborhoodConnectedImageFilterTest
@@ -462,7 +465,7 @@ ADD_TEST(itkTileImageFilterTest ${BASIC_FILTERS_TESTS2}
             ${ITK_DATA_ROOT}/Input/smooth_square.png
             ${ITK_TEST_OUTPUT_DIR}/TileImageFilterTest%d.png)
 
-ADD_TEST(itkPasteImageFilterTest ${BASIC_FILTERS_TESTS}
+ADD_TEST(itkPasteImageFilterTest ${BASIC_FILTERS_TESTS1}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/PasteImageFilterTest.png
             ${ITK_TEST_OUTPUT_DIR}/PasteImageFilterTest.png
   itkPasteImageFilterTest
@@ -470,28 +473,28 @@ ADD_TEST(itkPasteImageFilterTest ${BASIC_FILTERS_TESTS}
             ${ITK_DATA_ROOT}/Input/cake_easy.png
             ${ITK_TEST_OUTPUT_DIR}/PasteImageFilterTest.png)
 
-ADD_TEST(itkPromoteDimensionImageTest ${BASIC_FILTERS_TESTS}
+ADD_TEST(itkPromoteDimensionImageTest ${BASIC_FILTERS_TESTS1}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/PromoteDimensionImageTest.mhd
             ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd
   itkPromoteDimensionImageTest
             ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
             ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd)
 
-ADD_TEST(itkRelabelComponentImageFilterTest ${BASIC_FILTERS_TESTS}
+ADD_TEST(itkRelabelComponentImageFilterTest ${BASIC_FILTERS_TESTS1}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/RelabelComponentImageFilterTest.png
             ${ITK_TEST_OUTPUT_DIR}/RelabelComponentImageFilterTest.png
   itkRelabelComponentImageFilterTest
             ${ITK_DATA_ROOT}/Input/cthead1.png
             ${ITK_TEST_OUTPUT_DIR}/RelabelComponentImageFilterTest.png 130 145)
 
-ADD_TEST(itkRemoveBoundaryObjectsTest ${BASIC_FILTERS_TESTS}
+ADD_TEST(itkRemoveBoundaryObjectsTest ${BASIC_FILTERS_TESTS1}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/RemoveBoundaryObjectsTest.png
             ${ITK_TEST_OUTPUT_DIR}/RemoveBoundaryObjectsTest.png
   itkRemoveBoundaryObjectsTest
             ${ITK_DATA_ROOT}/Input/Spots.png
             ${ITK_TEST_OUTPUT_DIR}/RemoveBoundaryObjectsTest.png)
 
-ADD_TEST(itkRemoveBoundaryObjectsTest2 ${BASIC_FILTERS_TESTS}
+ADD_TEST(itkRemoveBoundaryObjectsTest2 ${BASIC_FILTERS_TESTS1}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/RemoveBoundaryObjectsTest2.png
             ${ITK_TEST_OUTPUT_DIR}/RemoveBoundaryObjectsTest2.png
   itkRemoveBoundaryObjectsTest2
@@ -665,6 +668,11 @@ itkMinimumMaximumImageCalculatorTest.cxx
 itkMinimumMaximumImageFilterTest.cxx
 itkMirrorPadImageTest.cxx
 itkMultiplyImageFilterTest.cxx
+)
+
+SET(BasicFilters1_SRCS
+itkNarrowBandTest.cxx
+itkNarrowBandImageFilterBaseTest.cxx
 itkNaryAddImageFilterTest.cxx
 itkNaryMaximumImageFilterTest.cxx
 itkNeighborhoodConnectedImageFilterTest.cxx
@@ -672,10 +680,10 @@ itkNeighborhoodOperatorImageFilterTest.cxx
 itkNoiseImageFilterTest.cxx
 itkNonThreadedShrinkImageTest.cxx
 itkNormalizeImageFilterTest.cxx
+itkObjectMorphologyImageFilterTest.cxx
 itkOrImageFilterTest.cxx
 itkOrientImageFilterTest.cxx
 itkOrientImageFilterTest2.cxx
-itkObjectMorphologyImageFilterTest.cxx
 itkParallelSparseFieldLevelSetImageFilterTest.cxx
 itkPasteImageFilterTest.cxx
 itkPathToChainCodePathFilterTest.cxx
@@ -695,9 +703,6 @@ itkRemoveBoundaryObjectsTest2.cxx
 itkResampleImageTest.cxx
 itkResamplePhasedArray3DSpecialCoordinatesImageTest.cxx
 itkRescaleIntensityImageFilterTest.cxx
-itkNarrowBandTest.cxx
-itkNarrowBandImageFilterBaseTest.cxx
-
 )
 
 SET(BasicFilters2_SRCS
@@ -789,6 +794,8 @@ ADD_EXECUTABLE(itkBasicFiltersHeaderTest itkBasicFiltersHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkBasicFiltersHeaderTest ITKIO ITKNumerics ITKBasicFilters)
 ADD_EXECUTABLE(itkBasicFiltersTests itkBasicFiltersTests.cxx ${BasicFilters_SRCS})
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests ITKIO ITKNumerics ITKBasicFilters)
+ADD_EXECUTABLE(itkBasicFiltersTests1 itkBasicFiltersTests1.cxx ${BasicFilters1_SRCS})
+TARGET_LINK_LIBRARIES(itkBasicFiltersTests1 ITKIO ITKNumerics ITKBasicFilters)
 ADD_EXECUTABLE(itkBasicFiltersTests2 itkBasicFiltersTests2.cxx ${BasicFilters2_SRCS})
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests2 ITKIO ITKNumerics ITKBasicFilters)
 ADD_EXECUTABLE(itkBasicFiltersTests3 itkBasicFiltersTests3.cxx ${BasicFilters3_SRCS})

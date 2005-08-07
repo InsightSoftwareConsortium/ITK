@@ -142,37 +142,5 @@ void RegisterTests()
   REGISTER_TEST(itkMinimumMaximumImageFilterTest );
   REGISTER_TEST(itkMirrorPadImageTest );
   REGISTER_TEST(itkMultiplyImageFilterTest );
-  REGISTER_TEST(itkNarrowBandImageFilterBaseTest );
-  REGISTER_TEST(itkNarrowBandTest );
-  REGISTER_TEST(itkNaryAddImageFilterTest );
-  REGISTER_TEST(itkNaryMaximumImageFilterTest );
-  REGISTER_TEST(itkNeighborhoodConnectedImageFilterTest  );
-  REGISTER_TEST(itkNeighborhoodOperatorImageFilterTest );
-  REGISTER_TEST(itkNoiseImageFilterTest );
-  REGISTER_TEST(itkNonThreadedShrinkImageTest );
-  REGISTER_TEST(itkNormalizeImageFilterTest  );
-  REGISTER_TEST(itkObjectMorphologyImageFilterTest );
-  REGISTER_TEST(itkOrImageFilterTest );
-  REGISTER_TEST(itkOrientImageFilterTest);
-  REGISTER_TEST(itkOrientImageFilterTest2);
-  REGISTER_TEST(itkParallelSparseFieldLevelSetImageFilterTest );
-  REGISTER_TEST(itkPasteImageFilterTest );
-  REGISTER_TEST(itkPathToChainCodePathFilterTest );
-  REGISTER_TEST(itkPathToImageFilterTest );
-  REGISTER_TEST(itkPermuteAxesImageFilterTest );
-  REGISTER_TEST(itkPromoteDimensionImageTest);
-  REGISTER_TEST(itkRGBToLuminanceImageFilterAndAdaptorTest );
-  REGISTER_TEST(itkRGBToVectorAdaptImageFilterTest );
-  REGISTER_TEST(itkRecursiveGaussianImageFiltersTest );
-  REGISTER_TEST(itkRecursiveGaussianImageFiltersOnTensorsTest );
-  REGISTER_TEST(itkReflectImageFilterTest );
-  REGISTER_TEST(itkReflectiveImageRegionIteratorTest  );
-  REGISTER_TEST(itkRegionOfInterestImageFilterTest  );
-  REGISTER_TEST(itkRelabelComponentImageFilterTest );
-  REGISTER_TEST(itkRemoveBoundaryObjectsTest );
-  REGISTER_TEST(itkRemoveBoundaryObjectsTest2 );
-  REGISTER_TEST(itkResampleImageTest );
-  REGISTER_TEST(itkResamplePhasedArray3DSpecialCoordinatesImageTest );
-  REGISTER_TEST(itkRescaleIntensityImageFilterTest );
 }
 
