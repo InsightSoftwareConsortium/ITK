@@ -134,6 +134,7 @@ WeightedCovarianceCalculator< TSample >
   const MeasurementVectorSizeType measurementVectorSize =
                                         this->GetMeasurementVectorSize();
   
+  delete m_Output ;
   m_Output = new OutputType();
   m_Output->SetSize( measurementVectorSize, measurementVectorSize );
   m_Output->Fill(0.0) ;
@@ -222,6 +223,7 @@ WeightedCovarianceCalculator< TSample >
 {
   const MeasurementVectorSizeType measurementVectorSize = 
     this->GetMeasurementVectorSize();
+  delete m_Output ;
   m_Output = new OutputType();
   m_Output->SetSize( measurementVectorSize, measurementVectorSize );
   m_Output->Fill(0.0) ;
