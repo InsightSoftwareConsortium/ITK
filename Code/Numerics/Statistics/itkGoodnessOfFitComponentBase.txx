@@ -38,6 +38,7 @@ GoodnessOfFitComponentBase< TInputSample >
   m_HistogramStandardDeviation = 0.0 ;
   m_HistogramUseEquiProbableBins = true ;
   m_UseExpectedHistogram = true ;
+  m_HistogramSizeChanged = true;
 
   m_Projector = ProjectorType::New() ;
   m_Projector->SetInputSample(m_Resampler->GetOutput()) ;
