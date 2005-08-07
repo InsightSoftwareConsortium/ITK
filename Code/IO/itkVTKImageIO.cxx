@@ -375,7 +375,7 @@ void VTKImageIO::Read(void* buffer)
   else
     {
     file.read(static_cast<char*>(buffer), this->GetImageSizeInBytes());
-    int size = this->GetPixelSize();
+    int size = this->GetComponentSize();
     switch( size )
       {
       case 2:
@@ -465,7 +465,7 @@ void VTKImageIO::Write(const void* buffer)
     }
   else //binary
     {
-    int size = this->GetPixelSize();
+    int size = this->GetComponentSize();
     const unsigned long int numbytes=this->GetImageSizeInBytes();
     char * tempmemory=new char[numbytes];
     memcpy(tempmemory,buffer,numbytes);
