@@ -68,7 +68,7 @@ const unsigned int Dimension = 2;
       {
          const RegistrationFilterType * filter = 
           dynamic_cast< const RegistrationFilterType * >( object );
-        if( typeid( event ) != typeid( itk::IterationEvent ) )
+        if( !(itk::IterationEvent().CheckEvent( &event )) )
           {
           return;
           }

@@ -97,7 +97,7 @@ public:
     {
       OptimizerPointer optimizer = 
         dynamic_cast< OptimizerPointer >( object );
-      if( typeid( event ) != typeid( itk::IterationEvent ) )
+      if( !(itk::IterationEvent().CheckEvent( &event )) )
         {
         return;
         }
@@ -132,7 +132,7 @@ public:
   typedef   OptimizerType *                            OptimizerPointer;
   void Execute(itk::Object * object, const itk::EventObject & event)
   {
-    if( typeid( event ) != typeid( itk::IterationEvent ) )
+    if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
       return;
       }
