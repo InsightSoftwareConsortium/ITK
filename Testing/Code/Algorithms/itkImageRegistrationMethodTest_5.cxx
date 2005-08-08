@@ -33,7 +33,9 @@
  *  
  */ 
 
-int itkImageRegistrationMethodTest_5(int argc, char* argv[] )
+int itkImageRegistrationMethodTest_5_Func( int argc, 
+                                           char* argv[], 
+                                           bool subtractMean )
 {
 
   bool pass = true;
@@ -114,6 +116,9 @@ int itkImageRegistrationMethodTest_5(int argc, char* argv[] )
   // Registration time will be proportional to the number of pixels in this region.
   metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
 
+  // Turn on/off subtract mean flag.
+  metric->SetSubtractMean( subtractMean );
+
   // Instantiate an Observer to report the progress of the Optimization
   CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
   iterationCommand->SetOptimizer(  optimizer.GetPointer() );
@@ -126,6 +131,14 @@ int itkImageRegistrationMethodTest_5(int argc, char* argv[] )
   unsigned long   numberOfIterations =   20;
   double          translationScale   = 1e-7;
   double          learningRate       = 1e-4;
+
+  if( subtractMean )
+    {
+    // Factoring out the mean causes the optimization valley
+    // to be more narrow and hence we need to reduce the
+    // the learning rate.
+    learningRate *= 0.2;
+    }
 
   if( argc > 1 )
     {
@@ -209,3 +222,21 @@ int itkImageRegistrationMethodTest_5(int argc, char* argv[] )
 
 
 }
+
+int itkImageRegistrationMethodTest_5( int argc, char* argv[] )
+{
+  // test metric without factoring out the mean.
+  int fail1 = itkImageRegistrationMethodTest_5_Func( argc, argv, false );
+
+  // test metric with factoring out the mean.
+  int fail2 = itkImageRegistrationMethodTest_5_Func( argc, argv, true );
+
+  if( fail1 || fail2 )
+    {
+    return EXIT_FAILURE;
+    }
+
+  return EXIT_SUCCESS;
+
+}
+

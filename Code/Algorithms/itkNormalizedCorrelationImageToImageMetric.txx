@@ -30,6 +30,7 @@ template <class TFixedImage, class TMovingImage>
 NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 ::NormalizedCorrelationImageToImageMetric()
 {
+  m_SubtractMean = false;
 }
 
 /*
@@ -65,6 +66,8 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
   AccumulateType sff = NumericTraits< AccumulateType >::Zero;
   AccumulateType smm = NumericTraits< AccumulateType >::Zero;
   AccumulateType sfm = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sf  = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sm  = NumericTraits< AccumulateType >::Zero;
 
   while(!ti.IsAtEnd())
     {
@@ -95,16 +98,29 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       sff += fixedValue  * fixedValue;
       smm += movingValue * movingValue;
       sfm += fixedValue  * movingValue;
+      if ( this->m_SubtractMean )
+        {
+        sf += fixedValue;
+        sm += movingValue;
+        }
       this->m_NumberOfPixelsCounted++;
       }
 
     ++ti;
     }
 
-  if( this->m_NumberOfPixelsCounted > 0 && (sff*smm) != 0.0)
+  if ( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
     {
-    const RealType factor = -1.0 / sqrt( sff * smm );
-    measure = sfm * factor;
+    sff -= ( sf * sf / this->m_NumberOfPixelsCounted );
+    smm -= ( sm * sm / this->m_NumberOfPixelsCounted );
+    sfm -= ( sf * sm / this->m_NumberOfPixelsCounted );
+    }
+
+  const RealType denom = -1.0 * sqrt( sff * smm );
+
+  if( this->m_NumberOfPixelsCounted > 0 && denom != 0.0)
+    {
+    measure = sfm / denom;
     }
   else
     {
@@ -158,6 +174,8 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
   AccumulateType sff  = NumericTraits< AccumulateType >::Zero;
   AccumulateType smm  = NumericTraits< AccumulateType >::Zero;
   AccumulateType sfm = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sf  = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sm  = NumericTraits< AccumulateType >::Zero;
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType( ParametersDimension );
@@ -200,6 +218,11 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       sff += fixedValue  * fixedValue;
       smm += movingValue * movingValue;
       sfm += fixedValue  * movingValue;
+      if ( this->m_SubtractMean )
+        {
+        sf += fixedValue;
+        sm += movingValue;
+        }
       this->m_NumberOfPixelsCounted++;
       }
 
@@ -266,6 +289,11 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
           const RealType differential = jacobian( dim, par ) * gradient[dim];
           sumF += fixedValue  * differential;
           sumM += movingValue * differential;
+          if ( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
+            {
+            sumF -= differential * sf / m_NumberOfPixelsCounted;
+            sumM -= differential * sm / m_NumberOfPixelsCounted;
+            }
           }
         derivativeF[par] += sumF;
         derivativeM[par] += sumM;
@@ -275,12 +303,20 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     ++ti;
     }
 
-  if( this->m_NumberOfPixelsCounted > 0 && (sff*smm) != 0.0)
+  if ( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
     {
-    const RealType factor = -1.0 / sqrt( sff * smm );
+    sff -= ( sf * sf / this->m_NumberOfPixelsCounted );
+    smm -= ( sm * sm / this->m_NumberOfPixelsCounted );
+    sfm -= ( sf * sm / this->m_NumberOfPixelsCounted );
+    }
+
+  const RealType denom = -1.0 * sqrt( sff * smm );
+
+  if( this->m_NumberOfPixelsCounted > 0 && denom != 0.0)
+    {
     for(unsigned int i=0; i<ParametersDimension; i++)
       {
-      derivative[i] = factor * ( derivativeF[i] - (sfm/smm)*derivativeM[i]);
+      derivative[i] = ( derivativeF[i] - (sfm/smm)* derivativeM[i] ) / denom;
       }
     }
   else
@@ -334,6 +370,8 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
   AccumulateType sff  = NumericTraits< AccumulateType >::Zero;
   AccumulateType smm  = NumericTraits< AccumulateType >::Zero;
   AccumulateType sfm = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sf  = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sm  = NumericTraits< AccumulateType >::Zero;
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType( ParametersDimension );
@@ -344,6 +382,9 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
   DerivativeType derivativeM = DerivativeType( ParametersDimension );
   derivativeM.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
+
+  DerivativeType derivativeM1 = DerivativeType( ParametersDimension );
+  derivativeM1.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
   ti.GoToBegin();
   // First compute the sums
@@ -376,6 +417,11 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       sff += fixedValue  * fixedValue;
       smm += movingValue * movingValue;
       sfm += fixedValue  * movingValue;
+      if ( this->m_SubtractMean )
+        {
+        sf += fixedValue;
+        sm += movingValue;
+        }
       this->m_NumberOfPixelsCounted++;
       }
 
@@ -443,6 +489,11 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
           const RealType differential = jacobian( dim, par ) * gradient[dim];
           sumF += fixedValue  * differential;
           sumM += movingValue * differential;
+          if ( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
+            {
+            sumF -= differential * sf / m_NumberOfPixelsCounted;
+            sumM -= differential * sm / m_NumberOfPixelsCounted;
+            }
           }
         derivativeF[par] += sumF;
         derivativeM[par] += sumM;
@@ -450,14 +501,23 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       }
     ++ti;
     }
-  if( this->m_NumberOfPixelsCounted > 0 && (sff*smm) != 0.0)
+
+  if ( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
     {
-    const RealType factor = -1.0 / sqrt( sff * smm );
+    sff -= ( sf * sf / this->m_NumberOfPixelsCounted );
+    smm -= ( sm * sm / this->m_NumberOfPixelsCounted );
+    sfm -= ( sf * sm / this->m_NumberOfPixelsCounted );
+    }
+
+  const RealType denom = -1.0 * sqrt( sff * smm );
+
+  if( this->m_NumberOfPixelsCounted > 0 && denom != 0.0)
+    {
     for(unsigned int i=0; i<ParametersDimension; i++)
       {
-      derivative[i] = factor * ( derivativeF[i] - (sfm/smm)*derivativeM[i]);
+      derivative[i] = ( derivativeF[i] - (sfm/smm)* derivativeM[i] ) / denom;
       }
-    value = sfm * factor;
+    value = sfm / denom;
     }
   else
     {

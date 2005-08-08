@@ -186,6 +186,8 @@ int itkNormalizedCorrelationImageMetricTest(int, char* [] )
 
   std::cout << "param[1]   Metric    d(Metric)/d(param[1] " << std::endl;
 
+  metric->SubtractMeanOn();
+
   for( double trans = -10; trans <= 5; trans += 0.2 )
     {
     parameters[1] = trans;
