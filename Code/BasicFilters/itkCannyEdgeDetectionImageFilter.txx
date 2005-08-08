@@ -317,11 +317,6 @@ void
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-
-  //First need to assign upper/lower threshold      
-  m_UpperThreshold = m_Threshold;
-  m_LowerThreshold = m_Threshold/2.0;
-
   // Need to allocate output buffer
   typename OutputImageType::Pointer output = this->GetOutput();
   output->SetBufferedRegion(output->GetRequestedRegion());

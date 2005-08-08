@@ -174,15 +174,26 @@ public:
   }
   
   /* Set the Threshold value for detected edges. */
-  itkSetMacro(Threshold, OutputImagePixelType );
-  itkGetMacro(Threshold, OutputImagePixelType);
+  void SetThreshold(const OutputImagePixelType th)
+  {
+    this->m_Threshold = th;
+    this->m_UpperThreshold = m_Threshold;
+    this->m_LowerThreshold = m_Threshold/2.0;
+    itkLegacyReplaceBody(SetThreshold, 2.2, SetUpperThreshold);
+  }
+  
+  OutputImagePixelType GetThreshold(OutputImagePixelType th) 
+  {
+    itkLegacyReplaceBody(GetThreshold, 2.2, GetUpperThreshold);
+    return this->m_Threshold; 
+  }
 
   ///* Set the Threshold value for detected edges. */
-  //itkSetMacro(UpperThreshold, OutputImagePixelType );
-  //itkGetMacro(UpperThreshold, OutputImagePixelType);
+  itkSetMacro(UpperThreshold, OutputImagePixelType );
+  itkGetMacro(UpperThreshold, OutputImagePixelType);
 
-  //itkSetMacro(LowerThreshold, OutputImagePixelType );
-  //itkGetMacro(LowerThreshold, OutputImagePixelType);
+  itkSetMacro(LowerThreshold, OutputImagePixelType );
+  itkGetMacro(LowerThreshold, OutputImagePixelType);
 
   /* Set the Thresholdvalue for detected edges. */
   itkSetMacro(OutsideValue, OutputImagePixelType);
