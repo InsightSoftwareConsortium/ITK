@@ -19,7 +19,8 @@
 
 #include "itkKappaStatisticImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-
+#include "itkImageFileWriter.h" //debug
+#include "itkImage.h" //debug
 namespace itk
 {
 
@@ -32,7 +33,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
 {
   itkDebugMacro("Constructor");
 
-  this->SetComputeGradient(false); // don't use the default gradients
+  this->SetComputeGradient( true ); 
   m_ForegroundValue = 255;
   m_Complement = false;
 }
@@ -160,6 +161,129 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
     }
 
   return measure;
+}
+
+
+/*
+ * Get the Derivative Measure
+ */
+template < class TFixedImage, class TMovingImage> 
+void
+KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
+::GetDerivative( const TransformParametersType & parameters,
+                 DerivativeType & derivative  ) const
+{
+  itkDebugMacro("GetDerivative( " << parameters << " ) ");
+  
+  if( !this->GetGradientImage() )
+    {
+    itkExceptionMacro(<<"The gradient image is null, maybe you forgot to call Initialize()");
+    }
+
+  FixedImageConstPointer fixedImage = this->m_FixedImage;
+
+  if( !fixedImage ) 
+    {
+    itkExceptionMacro( << "Fixed image has not been assigned" );
+    }
+
+  const unsigned int ImageDimension = FixedImageType::ImageDimension;
+
+  typedef  itk::ImageRegionConstIteratorWithIndex<
+    FixedImageType> FixedIteratorType;
+
+  typedef  itk::ImageRegionConstIteratorWithIndex<
+    ITK_TYPENAME Superclass::GradientImageType> GradientIteratorType;
+
+  FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
+  
+  typename FixedImageType::IndexType index;
+
+  this->m_NumberOfPixelsCounted = 0;
+  
+  this->SetTransformParameters( parameters );
+  
+  const unsigned int ParametersDimension = this->GetNumberOfParameters();
+  derivative = DerivativeType( ParametersDimension );
+  derivative.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
+
+  ti.GoToBegin();
+
+  while(!ti.IsAtEnd())
+    {    
+    index = ti.GetIndex();
+    
+    typename Superclass::InputPointType inputPoint;
+    fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
+
+    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
+      {
+      ++ti;
+      continue;
+      }
+
+    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
+
+    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
+      {
+      ++ti;
+      continue;
+      }
+
+    if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
+      {
+      const RealType movingValue  = this->m_Interpolator->Evaluate( transformedPoint );
+      
+      const TransformJacobianType & jacobian =
+        this->m_Transform->GetJacobian( inputPoint ); 
+      
+      const RealType fixedValue     = ti.Value();
+      this->m_NumberOfPixelsCounted++;
+      const RealType diff = movingValue - fixedValue; 
+
+      // Get the gradient by NearestNeighboorInterpolation: 
+      // which is equivalent to round up the point components.
+      typedef typename Superclass::OutputPointType OutputPointType;
+      typedef typename OutputPointType::CoordRepType CoordRepType;
+      typedef ContinuousIndex<CoordRepType,MovingImageType::ImageDimension>
+        MovingImageContinuousIndexType;
+
+      MovingImageContinuousIndexType tempIndex;
+      this->m_MovingImage->TransformPhysicalPointToContinuousIndex( transformedPoint, tempIndex );
+
+      typename MovingImageType::IndexType mappedIndex; 
+      for( unsigned int j = 0; j < MovingImageType::ImageDimension; j++ )
+        {
+        mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempIndex[j] ) );
+        }
+      
+      const GradientPixelType gradient = 
+        this->GetGradientImage()->GetPixel( mappedIndex );
+
+      for(unsigned int par=0; par<ParametersDimension; par++)
+        {
+        RealType sum = NumericTraits< RealType >::Zero;
+        for(unsigned int dim=0; dim<ImageDimension; dim++)
+          {
+          sum += 2.0 * diff * jacobian( dim, par ) * gradient[dim];
+          }
+        derivative[par] += sum;
+        }
+      }
+    ++ti;
+    }
+
+  if( !this->m_NumberOfPixelsCounted )
+    {
+    itkExceptionMacro(<<"All the points mapped to outside of the moving image");
+    }
+  else
+    {
+    for(unsigned int i=0; i<ParametersDimension; i++)
+      {
+      derivative[i] /= this->m_NumberOfPixelsCounted;
+      }
+    }
 }
 
 

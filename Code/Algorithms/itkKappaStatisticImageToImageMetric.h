@@ -84,14 +84,9 @@ public:
   typedef typename Superclass::FixedImageRegionType     FixedImageRegionType;
 
 
-  /** Derivatives of this metric not supported. */
+  /** Get the derivatives of the match measure. */
   void GetDerivative( const TransformParametersType &,
-                      DerivativeType & derivative ) const
-    {
-      itkWarningMacro(<< "This metric does not provide metric derivatives.");
-      derivative.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
-    }
-
+                      DerivativeType & derivative ) const;
 
   /** Get the value of the metric at a particular parameter
    *  setting.  The metric value is given by 2*|A&B|/(|A|+|B|), where A 
