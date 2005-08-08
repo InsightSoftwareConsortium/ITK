@@ -53,10 +53,12 @@ int itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int , char * [] 
   // declare the triangle to simplex mesh filter
   typedef itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType> SimplexFilterType;
 
+  // note : image is volume of 20x20x20 starting at 0,0,0 so make sure
+  // the mesh sits on image in space 
   SphereMeshSourceType::Pointer  mySphereMeshSource = SphereMeshSourceType::New();
   PointType center; 
   center.Fill(10);
-  PointType::ValueType scaleInit[3] = {3,3,3};
+  PointType::ValueType scaleInit[3] = {5,5,5};
   VectorType scale = scaleInit;
   
   mySphereMeshSource->SetCenter(center);
@@ -128,6 +130,7 @@ int itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int , char * [] 
 
   DeformFilterType::Pointer deformFilter = DeformFilterType::New();
   deformFilter->SetInput( simplexFilter->GetOutput() );
+  deformFilter->SetImage( originalImage );
   deformFilter->SetGradient( gradientFilter->GetOutput() );
   deformFilter->SetAlpha(0.2);
   deformFilter->SetBeta(0.1);
