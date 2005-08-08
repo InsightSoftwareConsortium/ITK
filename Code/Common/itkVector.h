@@ -116,7 +116,12 @@ public:
     
   /** Pass-through assignment operator for the Array base class. */
   template< class TVectorValueType >
-  Vector& operator= (const Vector< TVectorValueType, NVectorDimension> & r);
+  Vector& operator= (const Vector< TVectorValueType, NVectorDimension> & r)
+    {
+    BaseArray::operator=(r);
+    return *this;
+    }
+ 
   Vector& operator= (const ValueType r[NVectorDimension]);
     
   /** Scalar operator*=.  Scales elements by a scalar. */

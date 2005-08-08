@@ -77,7 +77,12 @@ public:
     
   /** Pass-through assignment operator for the Array base class. */
   template< class TRGBPixelValueType >
-  Self& operator= (const RGBPixel< TRGBPixelValueType > & r);
+  Self& operator= (const RGBPixel< TRGBPixelValueType > & r)
+    {
+    BaseArray::operator=(r);
+    return *this;
+    }
+ 
   Self& operator= (const ComponentType r[3]);
 
   /** Aritmetic operations between pixels. Return a new RGBPixel. */

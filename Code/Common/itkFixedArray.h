@@ -137,7 +137,13 @@ public:
 
   /** Constructor to initialize a fixed array from another of any data type */
   template< class TFixedArrayValueType >
-  FixedArray(const FixedArray< TFixedArrayValueType, VLength >& r);
+  FixedArray(const FixedArray< TFixedArrayValueType, VLength >& r)
+    {
+    typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
+    for(Iterator i = this->Begin() ; i != this->End() ;) 
+      *i++ = static_cast< TValueType >(*input++);
+    }
+  
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
@@ -145,7 +151,15 @@ public:
   
   /** Operator= defined for a variety of types. */
   template< class TFixedArrayValueType >
-  FixedArray& operator= (const FixedArray< TFixedArrayValueType, VLength > & r);
+  FixedArray& operator= (const FixedArray< TFixedArrayValueType, VLength > & r)
+    {
+    if((void *)r.Begin() == (void *)m_InternalArray) return *this;
+    typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
+    for(Iterator i = this->Begin() ; i != this->End() ;) 
+      *i++ = static_cast< TValueType >(*input++);
+    return *this;
+    }
+
   FixedArray& operator= (const ValueType r[VLength]);
     
   /** Operators == and != are used to compare whether two arrays are equal.

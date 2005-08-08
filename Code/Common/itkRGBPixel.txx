@@ -23,20 +23,6 @@ namespace itk
 {
 
 /*
- * Assignment Operator
- */
-template<class T>
-template<class TRGBPixelValueType >
-RGBPixel<T>&
-RGBPixel<T>
-::operator= (const RGBPixel< TRGBPixelValueType >& r)
-{
-  BaseArray::operator=(r);
-  return *this;
-}
-
-
-/*
  * Assigment from a plain array
  */
 template<class T>

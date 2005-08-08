@@ -33,21 +33,6 @@ FixedArray<TValueType, VLength>
 }
 
 /**
- * Copy constructor copies all FixedArray values.
- * Values are copied individually instead of with a binary copy.  This
- * allows the ValueType's assignment operator to be executed.
- */
-template <typename TValueType, unsigned int VLength>
-template <typename TFixedArrayValueType >
-FixedArray<TValueType, VLength>
-::FixedArray(const FixedArray< TFixedArrayValueType, VLength >& r)
-{
-  typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
-  for(Iterator i = this->Begin() ; i != this->End() ;) 
-    *i++ = static_cast< TValueType >(*input++);
-}
-
-/**
  * Constructor assumes input points to array of correct size.
  * Values are copied individually instead of with a binary copy.  This
  * allows the ValueType's assignment operator to be executed.
@@ -68,25 +53,6 @@ template <typename TValueType, unsigned int VLength>
 FixedArray<TValueType, VLength>
 ::~FixedArray()
 {
-}
-
-
-/**
- * Assignment operator copies all FixedArray values.
- * Values are copied individually instead of with a binary copy.  This
- * allows the ValueType's assignment operator to be executed.
- */
-template <typename TValueType, unsigned int VLength>
-template< typename TFixedArrayValueType >
-FixedArray<TValueType, VLength>&
-FixedArray<TValueType, VLength>
-::operator= (const FixedArray< TFixedArrayValueType, VLength >& r)
-{
-  if((void *)r.Begin() == (void *)m_InternalArray) return *this;
-  typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
-  for(Iterator i = this->Begin() ; i != this->End() ;) 
-    *i++ = static_cast< TValueType >(*input++);
-  return *this;
 }
 
 
