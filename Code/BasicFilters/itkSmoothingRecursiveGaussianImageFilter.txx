@@ -72,7 +72,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 template <typename TInputImage, typename TOutputImage>
 void 
 SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
-::SetSigma( RealType sigma )
+::SetSigma( ScalarRealType sigma )
 {
 
   for( unsigned int i = 0; i<ImageDimension-1; i++ )

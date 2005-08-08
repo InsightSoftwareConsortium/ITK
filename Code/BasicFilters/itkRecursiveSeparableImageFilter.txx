@@ -69,15 +69,14 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 
 
 
-
 /**
- * Apply Recursive Filter 
- */
+* Apply Recursive Filter
+*/
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 ::FilterDataArray(RealType *outs,const RealType *data,
-                  RealType *scratch,unsigned int ln) 
+                  RealType *scratch,unsigned int ln)
 {
   /**
    * Causal direction pass
@@ -89,30 +88,30 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
   /**
    * Initialize borders
    */
-  scratch[0] = RealType( m_N0 * outV1   + m_N1 * outV1   + m_N2 * outV1   + m_N3 * outV1    );
-  scratch[1] = RealType( m_N0 * data[1] + m_N1 * outV1   + m_N2 * outV1   + m_N3 * outV1    );
-  scratch[2] = RealType( m_N0 * data[2] + m_N1 * data[1] + m_N2 * outV1   + m_N3 * outV1    );
-  scratch[3] = RealType( m_N0 * data[3] + m_N1 * data[2] + m_N2 * data[1] + m_N3 * outV1    );
+  scratch[0] = RealType( outV1   * m_N0 +   outV1 * m_N1 + outV1   * m_N2 + outV1 * m_N3    );
+  scratch[1] = RealType( data[1] * m_N0 +   outV1 * m_N1 + outV1   * m_N2 + outV1 * m_N3    );
+  scratch[2] = RealType( data[2] * m_N0 + data[1] * m_N1 + outV1   * m_N2 + outV1 * m_N3    );
+  scratch[3] = RealType( data[3] * m_N0 + data[2] * m_N1 + data[1] * m_N2 + outV1 * m_N3    );
 
   // note that the outV1 value is multiplied by the Boundary coefficients m_BNi
-  scratch[0] -= RealType( m_BN1 * outV1 + m_BN2 * outV1 + m_BN3 * outV1  + m_BN4 * outV1 );
-  scratch[1] -= RealType( m_D1 * scratch[0] + m_BN2 * outV1 + m_BN3 * outV1  + m_BN4 * outV1 );
-  scratch[2] -= RealType( m_D1 * scratch[1] + m_D2 * scratch[0] + m_BN3 * outV1  + m_BN4 * outV1 );
-  scratch[3] -= RealType( m_D1 * scratch[2] + m_D2 * scratch[1] + m_D3 * scratch[0]  + m_BN4 * outV1 );
+  scratch[0] -= RealType( outV1      * m_BN1 + outV1      * m_BN2 + outV1      * m_BN3 + outV1 * m_BN4 );
+  scratch[1] -= RealType( scratch[0] * m_D1  + outV1      * m_BN2 + outV1      * m_BN3  + outV1 * m_BN4 );
+  scratch[2] -= RealType( scratch[1] * m_D1  + scratch[0] * m_D2  + outV1      * m_BN3  + outV1 * m_BN4 );
+  scratch[3] -= RealType( scratch[2] * m_D1  + scratch[1] * m_D2  + scratch[0] * m_D3   + outV1 * m_BN4 );
 
   /**
    * Recursively filter the rest
    */
-  for( unsigned int i=4; i<ln; i++ ) 
+  for( unsigned int i=4; i<ln; i++ )
     {
-    scratch[i]  = RealType( m_N0 * data[i] + m_N1 * data[i-1] + m_N2 * data[i-2] + m_N3 * data[i-3] );
-    scratch[i] -= RealType( m_D1 * scratch[i-1] + m_D2 *   scratch[i-2] + m_D3 *   scratch[i-3] + m_D4 *   scratch[i-4] );
+    scratch[i]  = RealType( data[i]      * m_N0 + data[i-1]    * m_N1 + data[i-2]    * m_N2 + data[i-3]    * m_N3 );
+    scratch[i] -= RealType( scratch[i-1] * m_D1 + scratch[i-2] * m_D2 + scratch[i-3] * m_D3 + scratch[i-4] * m_D4 );
     }
 
   /**
    * Store the causal result
    */
-  for( unsigned int i=0; i<ln; i++ ) 
+  for( unsigned int i=0; i<ln; i++ )
     {
     outs[i] = scratch[i];
     }
@@ -129,34 +128,35 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
   /**
    * Initialize borders
    */
-  scratch[ln-1] = RealType( m_M1 * outV2      + m_M2 * outV2      + m_M3 * outV2      + m_M4 * outV2);
-  scratch[ln-2] = RealType( m_M1 * data[ln-1] + m_M2 * outV2      + m_M3 * outV2      + m_M4 * outV2); 
-  scratch[ln-3] = RealType( m_M1 * data[ln-2] + m_M2 * data[ln-1] + m_M3 * outV2      + m_M4 * outV2); 
-  scratch[ln-4] = RealType( m_M1 * data[ln-3] + m_M2 * data[ln-2] + m_M3 * data[ln-1] + m_M4 * outV2);
+  scratch[ln-1] = RealType( outV2      * m_M1 + outV2      * m_M2 + outV2      * m_M3 + outV2 * m_M4);
+  scratch[ln-2] = RealType( data[ln-1] * m_M1 + outV2      * m_M2 + outV2      * m_M3 + outV2 * m_M4);
+  scratch[ln-3] = RealType( data[ln-2] * m_M1 + data[ln-1] * m_M2 + outV2      * m_M3 + outV2 * m_M4);
+  scratch[ln-4] = RealType( data[ln-3] * m_M1 + data[ln-2] * m_M2 + data[ln-1] * m_M3 + outV2 * m_M4);
 
   // note that the outV2value is multiplied by the Boundary coefficients m_BMi
-  scratch[ln-1] -= RealType( m_BM1 * outV2    + m_BM2 * outV2    + m_BM3 * outV2    + m_BM4 * outV2);
-  scratch[ln-2] -= RealType( m_D1 * scratch[ln-1] + m_BM2 * outV2    + m_BM3 * outV2    + m_BM4 * outV2);
-  scratch[ln-3] -= RealType( m_D1 * scratch[ln-2] + m_D2 * scratch[ln-1] + m_BM3 * outV2    + m_BM4 * outV2);
-  scratch[ln-4] -= RealType( m_D1 * scratch[ln-3] + m_D2 * scratch[ln-2] + m_D3 * scratch[ln-1] + m_BM4 * outV2);
+  scratch[ln-1] -= RealType( outV2         * m_BM1 + outV2         * m_BM2 + outV2         * m_BM3 + outV2 * m_BM4);
+  scratch[ln-2] -= RealType( scratch[ln-1] * m_D1  + outV2         * m_BM2 + outV2         * m_BM3 + outV2 * m_BM4);
+  scratch[ln-3] -= RealType( scratch[ln-2] * m_D1  + scratch[ln-1] * m_D2  + outV2         * m_BM3 + outV2 * m_BM4);
+  scratch[ln-4] -= RealType( scratch[ln-3] * m_D1  + scratch[ln-2] * m_D2  + scratch[ln-1] * m_D3  + outV2 * m_BM4);
 
   /**
    * Recursively filter the rest
    */
-  for( unsigned int i=ln-4; i>0; i-- ) 
+  for( unsigned int i=ln-4; i>0; i-- )
     {
-    scratch[i-1]  = RealType( m_M1 * data[i] + m_M2 * data[i+1] + m_M3 * data[i+2] + m_M4 * data[i+3] );
-    scratch[i-1] -= RealType( m_D1 *   scratch[i] + m_D2 *   scratch[i+1] + m_D3 *   scratch[i+2] + m_D4 *   scratch[i+3] );
+    scratch[i-1]  = RealType( data[i]    * m_M1 + data[i+1]    * m_M2 + data[i+2]    * m_M3 + data[i+3]    * m_M4 );
+    scratch[i-1] -= RealType( scratch[i] * m_D1 + scratch[i+1] * m_D2 + scratch[i+2] * m_D3 + scratch[i+3] * m_D4 );
     }
 
   /**
    * Roll the antiCausal part into the output
    */
-  for( unsigned int i=0; i<ln; i++ ) 
+  for( unsigned int i=0; i<ln; i++ )
     {
     outs[i] += scratch[i];
     }
 }
+
 
 //
 //

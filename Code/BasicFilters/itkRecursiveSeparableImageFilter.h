@@ -27,7 +27,9 @@ namespace itk
  * \brief Base class for recursive convolution with a kernel.
  *
  * RecursiveSeparableImageFilter is the base class for recursive 
- * filters that are applied in each dimension separately.
+ * filters that are applied in each dimension separately. If multi-component
+ * images are specified, the filtering operation works on each component
+ * independently.
  *
  * This class implements the recursive filtering
  * method proposed by R.Deriche in IEEE-PAMI

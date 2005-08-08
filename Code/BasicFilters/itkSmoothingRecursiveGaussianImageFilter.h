@@ -32,7 +32,8 @@ namespace itk
  *        with the Gaussian kernels implemented as IIR filters.
  * 
  * This filter is implemented using the recursive gaussian
- * filters
+ * filters. For multi-component images, the filter works on each 
+ * component independently.
  *
  * 
  * \ingroup IntensityImageFilters
@@ -56,6 +57,7 @@ public:
   typedef TOutputImage                                   OutputImageType;
   typedef typename TInputImage::PixelType                PixelType;
   typedef typename NumericTraits<PixelType>::RealType    RealType;
+  typedef typename NumericTraits<PixelType>::ScalarRealType ScalarRealType;
 
 
   /** Image dimension. */
@@ -66,7 +68,7 @@ public:
       RealType is usually 'double' in NumericTraits. 
       Here we prefer float in order to save memory.  */
 
-  typedef float                                            InternalRealType;
+  typedef typename NumericTraits< PixelType >::FloatType   InternalRealType;
   typedef Image<InternalRealType, 
                 itkGetStaticConstMacro(ImageDimension) >   RealImageType;
 
@@ -105,7 +107,7 @@ public:
   itkNewMacro(Self);
 
   /** Set Sigma value. Sigma is measured in the units of image spacing.  */
-  void SetSigma( RealType sigma );
+  void SetSigma( ScalarRealType sigma );
 
   /** Define which normalization factor will be used for the Gaussian */
   void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
