@@ -29,4 +29,5 @@ void RegisterTests()
   REGISTER_TEST(itkMeshSpatialObjectTest);
   REGISTER_TEST(itkSpatialObjectPrintTest);
   REGISTER_TEST(itkBoxSpatialObjectTest);
+  REGISTER_TEST(itkSpatialObjectDuplicatorTest);
 }

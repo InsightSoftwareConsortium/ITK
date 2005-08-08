@@ -28,18 +28,19 @@ ADD_TEST( itkEllipseSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkEllipseSpatialO
 ADD_TEST( itkGaussianSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkGaussianSpatialObjectTest)
 ADD_TEST( itkImageMaskSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkImageMaskSpatialObjectTest )
 ADD_TEST( itkImageSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkImageSpatialObjectTest )
-ADD_TEST( itkLandmarkSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkLandmarkSpatialObjectTest )
-ADD_TEST( itkLineSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkLineSpatialObjectTest )
 
 ADD_TEST( itkMeshSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkMeshSpatialObjectTest )
 ADD_TEST( itkPlaneSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPlaneSpatialObjectTest )
 ADD_TEST( itkPolygonGroupSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPolygonGroupSpatialObjectTest )
 ADD_TEST( itkSceneSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkSceneSpatialObjectTest )
-ADD_TEST( itkSpatialObjectPrintTest ${SPATIAL_OBJECT_TESTS3} itkSpatialObjectPrintTest)
 ADD_TEST( itkSpatialObjectTreeContainerTest ${SPATIAL_OBJECT_TESTS2} itkSpatialObjectTreeContainerTest )
 ADD_TEST( itkSurfaceSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkSurfaceSpatialObjectTest )
 ADD_TEST( itkTubeSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkTubeSpatialObjectTest )
 
+ADD_TEST( itkLandmarkSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkLandmarkSpatialObjectTest )
+ADD_TEST( itkLineSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkLineSpatialObjectTest )
+ADD_TEST( itkSpatialObjectDuplicatorTest ${SPATIAL_OBJECT_TESTS3} itkSpatialObjectDuplicatorTest )
+ADD_TEST( itkSpatialObjectPrintTest ${SPATIAL_OBJECT_TESTS3} itkSpatialObjectPrintTest)
 ADD_TEST( itkSpatialObjectHeaderTest ${SPATIAL_OBJECT_HEADER_TEST})
 
 SET(SpatialObject_SRCS
@@ -68,6 +69,7 @@ SET(SpatialObject_SRCS3
   itkLineSpatialObjectTest.cxx
   itkMeshSpatialObjectTest.cxx
   itkSpatialObjectPrintTest.cxx
+  itkSpatialObjectDuplicatorTest.cxx
 )
 
 ADD_EXECUTABLE(itkSpatialObjectTests itkSpatialObjectTests.cxx ${SpatialObject_SRCS})
@@ -77,7 +79,7 @@ ADD_EXECUTABLE(itkSpatialObjectTests2 itkSpatialObjectTests2.cxx ${SpatialObject
 TARGET_LINK_LIBRARIES(itkSpatialObjectTests2 ITKIO ITKCommon)
 
 ADD_EXECUTABLE(itkSpatialObjectTests3 itkSpatialObjectTests3.cxx ${SpatialObject_SRCS3})
-TARGET_LINK_LIBRARIES(itkSpatialObjectTests3 ITKIO ITKCommon)
+TARGET_LINK_LIBRARIES(itkSpatialObjectTests3 ITKIO ITKCommon ITKSpatialObject)
 
 ADD_EXECUTABLE(itkSpatialObjectHeaderTest itkSpatialObjectHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkSpatialObjectHeaderTest ITKCommon)
