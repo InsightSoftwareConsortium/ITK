@@ -164,8 +164,8 @@ Read(const char *_headerName)
       m_Event->SetCurrentIteration(i+1);
       }
 
-    if(!strncmp(MET_ReadType(*m_ReadStream),"Tube",4) || 
-       (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "tre")))
+    if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Tube",4) || 
+       (MET_ReadType(*m_ReadStream).size()>0 && !strcmp(suf, "tre")))
       {
       char* subtype = MET_ReadSubType(*m_ReadStream);
       if(!strncmp(subtype,"Vessel",6))
@@ -192,7 +192,7 @@ Read(const char *_headerName)
       delete []subtype;
       }
 
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Transform",9))
+    else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Transform",9))
     {
       MetaTransform* transform = new MetaTransform();
       transform->SetEvent(m_Event);
@@ -200,7 +200,7 @@ Read(const char *_headerName)
       m_ObjectList.push_back(transform);
     }
 
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"TubeGraph",9))
+    else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"TubeGraph",9))
     {
       MetaTubeGraph* tubeGraph = new MetaTubeGraph();
       tubeGraph->SetEvent(m_Event);
@@ -208,8 +208,8 @@ Read(const char *_headerName)
       m_ObjectList.push_back(tubeGraph);
     }
 
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Ellipse",7) ||
-            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "elp")))
+    else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Ellipse",7) ||
+            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "elp")))
     {
       MetaEllipse* ellipse = new MetaEllipse();
       ellipse->SetEvent(m_Event);
@@ -217,7 +217,7 @@ Read(const char *_headerName)
       m_ObjectList.push_back(ellipse);
     }
 
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Arrow",5))
+    else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Arrow",5))
     {
       MetaArrow* arrow = new MetaArrow();
       arrow->SetEvent(m_Event);
@@ -225,8 +225,8 @@ Read(const char *_headerName)
       m_ObjectList.push_back(arrow);
     }
 
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Gaussian",8) ||
-            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "gau")))
+    else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Gaussian",8) ||
+            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "gau")))
     {
       MetaGaussian* gaussian = new MetaGaussian();
       gaussian->SetEvent(m_Event);
@@ -234,8 +234,8 @@ Read(const char *_headerName)
       m_ObjectList.push_back(gaussian);
     }
     
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Image",5) ||
-            (MET_ReadType(*m_ReadStream) == NULL && 
+    else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Image",5) ||
+            ((MET_ReadType(*m_ReadStream).size()>0) && 
              (!strcmp(suf, "mhd") || !strcmp(suf, "mha"))))
     {
       MetaImage* image = new MetaImage();
@@ -244,8 +244,8 @@ Read(const char *_headerName)
       m_ObjectList.push_back(image);
     }
     
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Blob",4) ||
-            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "blb")))
+    else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Blob",4) ||
+            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "blb")))
     {
       MetaBlob* blob = new MetaBlob();
       blob->SetEvent(m_Event);
@@ -253,8 +253,8 @@ Read(const char *_headerName)
       m_ObjectList.push_back(blob);
     }
       
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Landmark",8) ||
-            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "ldm")))
+    else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Landmark",8) ||
+            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "ldm")))
     {
       MetaLandmark* landmark = new MetaLandmark();
       landmark->SetEvent(m_Event);
@@ -262,8 +262,8 @@ Read(const char *_headerName)
       m_ObjectList.push_back(landmark);
     }
       
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Surface",5) ||
-            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "suf")))
+    else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Surface",5) ||
+            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "suf")))
     {
       MetaSurface* surface = new MetaSurface();
       surface->SetEvent(m_Event);
@@ -271,8 +271,8 @@ Read(const char *_headerName)
       m_ObjectList.push_back(surface);
     }
      
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Line",5) ||
-            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "lin")))
+    else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Line",5) ||
+            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "lin")))
     {
       MetaLine* line = new MetaLine();
       line->SetEvent(m_Event);
@@ -280,8 +280,8 @@ Read(const char *_headerName)
       m_ObjectList.push_back(line);
     }
 
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Group",5) ||
-            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "grp")))
+    else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Group",5) ||
+            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "grp")))
     {
       MetaGroup* group = new MetaGroup();      
       group->SetEvent(m_Event);
@@ -289,16 +289,16 @@ Read(const char *_headerName)
       m_ObjectList.push_back(group);
     }
 
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"AffineTransform",15) ||
-            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "trn")))
+    else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"AffineTransform",15) ||
+            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "trn")))
     {
       MetaGroup* group = new MetaGroup();
       group->SetEvent(m_Event);
       group->ReadStream(m_NDims,m_ReadStream);
       m_ObjectList.push_back(group);
     }
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Mesh",4) ||
-            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "msh")))
+    else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Mesh",4) ||
+            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "msh")))
     {
       MetaMesh* mesh = new MetaMesh();
       mesh->SetEvent(m_Event);
@@ -455,7 +455,7 @@ bool MetaScene::
 M_Read(void)
 {
   if(META_DEBUG) std::cout<<"MetaScene: M_Read: Loading Header"<<std::endl;
-  if(strncmp(MET_ReadType(*m_ReadStream),"Scene",5))
+  if(strncmp(MET_ReadType(*m_ReadStream).c_str(),"Scene",5))
     {
     m_NObjects = 1;
     return true;

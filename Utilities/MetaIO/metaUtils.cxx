@@ -67,7 +67,7 @@ MET_GetFieldRecordNumber(const char * _fieldName,std::vector<MET_FieldRecordType
 //
 // Read the type of the object
 //
-const char* MET_ReadType(std::istream &_fp)
+std::string MET_ReadType(std::istream &_fp)
 {
   unsigned int pos = _fp.tellg();
   std::vector<MET_FieldRecordType *> fields;
@@ -80,11 +80,11 @@ const char* MET_ReadType(std::istream &_fp)
   MET_Read(_fp, &fields, '=', true);
   _fp.seekg(pos);
 
-  char* value = new char[255];
+  std::string value;
 
   if(mF && mF->defined)
     {
-    strcpy(value,(char *)(mF->value));
+    value = (char *)(mF->value);
     delete mF;
     return value;
     }
