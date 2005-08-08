@@ -275,7 +275,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       }
 
     // bounding box is min,max pairs
-    for (int i = 0; i < ( 2 * it.GetImageDimension()) ; i+=2 ) 
+    for (unsigned int i = 0; i < ( 2 * it.GetImageDimension()) ; i+=2 ) 
       {
       typename ImageRegionConstIteratorWithIndex<TInputImage>::IndexType index = it.GetIndex();
       if ((*mapIt).second.m_BoundingBox[i] > index[i/2])
