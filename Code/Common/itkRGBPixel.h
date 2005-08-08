@@ -71,11 +71,13 @@ public:
   RGBPixel (const ComponentType& r) { this->Fill(r); }
   
   /** Pass-through constructor for the Array base class. */
-  RGBPixel(const Self& r): BaseArray(r) {}
+  template< class TRGBPixelValueType >
+  RGBPixel(const RGBPixel< TRGBPixelValueType >& r): BaseArray(r) {}
   RGBPixel(const ComponentType  r[3]): BaseArray(r) {}  
     
   /** Pass-through assignment operator for the Array base class. */
-  Self& operator= (const Self& r);
+  template< class TRGBPixelValueType >
+  Self& operator= (const RGBPixel< TRGBPixelValueType > & r);
   Self& operator= (const ComponentType r[3]);
 
   /** Aritmetic operations between pixels. Return a new RGBPixel. */

@@ -133,15 +133,19 @@ public:
 public:
   /** Constructors */
   FixedArray();
-  FixedArray(const FixedArray& r);
   FixedArray(const ValueType r[VLength]);
+
+  /** Constructor to initialize a fixed array from another of any data type */
+  template< class TFixedArrayValueType >
+  FixedArray(const FixedArray< TFixedArrayValueType, VLength >& r);
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
   ~FixedArray();
   
   /** Operator= defined for a variety of types. */
-  FixedArray& operator= (const FixedArray& r);
+  template< class TFixedArrayValueType >
+  FixedArray& operator= (const FixedArray< TFixedArrayValueType, VLength > & r);
   FixedArray& operator= (const ValueType r[VLength]);
     
   /** Operators == and != are used to compare whether two arrays are equal.

@@ -110,11 +110,13 @@ public:
   Vector(const ValueType& r);
   
   /** Pass-through constructor for the Array base class. */
-  Vector(const Self& r): BaseArray(r) {}
+  template< class TVectorValueType >
+  Vector(const Vector< TVectorValueType, NVectorDimension>& r): BaseArray(r) {}
   Vector(const ValueType r[Dimension]): BaseArray(r) {}  
     
   /** Pass-through assignment operator for the Array base class. */
-  Vector& operator= (const Self& r);
+  template< class TVectorValueType >
+  Vector& operator= (const Vector< TVectorValueType, NVectorDimension> & r);
   Vector& operator= (const ValueType r[NVectorDimension]);
     
   /** Scalar operator*=.  Scales elements by a scalar. */

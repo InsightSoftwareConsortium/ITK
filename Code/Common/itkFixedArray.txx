@@ -38,11 +38,13 @@ FixedArray<TValueType, VLength>
  * allows the ValueType's assignment operator to be executed.
  */
 template <typename TValueType, unsigned int VLength>
+template <typename TFixedArrayValueType >
 FixedArray<TValueType, VLength>
-::FixedArray(const FixedArray& r)
+::FixedArray(const FixedArray< TFixedArrayValueType, VLength >& r)
 {
-  ConstIterator input = r.Begin();
-  for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
+  typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
+  for(Iterator i = this->Begin() ; i != this->End() ;) 
+    *i++ = static_cast< TValueType >(*input++);
 }
 
 /**
@@ -75,13 +77,15 @@ FixedArray<TValueType, VLength>
  * allows the ValueType's assignment operator to be executed.
  */
 template <typename TValueType, unsigned int VLength>
+template< typename TFixedArrayValueType >
 FixedArray<TValueType, VLength>&
 FixedArray<TValueType, VLength>
-::operator= (const FixedArray& r)
+::operator= (const FixedArray< TFixedArrayValueType, VLength >& r)
 {
-  if(r.Begin() == m_InternalArray) return *this;
-  ConstIterator input = r.Begin();
-  for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
+  if((void *)r.Begin() == (void *)m_InternalArray) return *this;
+  typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
+  for(Iterator i = this->Begin() ; i != this->End() ;) 
+    *i++ = static_cast< TValueType >(*input++);
   return *this;
 }
 
