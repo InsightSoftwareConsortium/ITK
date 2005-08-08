@@ -35,6 +35,8 @@ public:
   typedef RGBPixel<unsigned char> AbsType;
   typedef RGBPixel<unsigned short> AccumulateType;
   typedef RGBPixel<double> RealType;
+  typedef double           ScalarRealType;
+  typedef RGBPixel<float>  FloatType;
   static const RGBPixel<unsigned char> ITKCommon_EXPORT Zero;
   static const RGBPixel<unsigned char> ITKCommon_EXPORT One;
   static ValueType ZeroValue() { return Zero; }

@@ -64,6 +64,10 @@ public:
   typedef RealType ScalarRealType;
 #endif
 
+  /** Typedef for operations that use floating point instead of real precision
+   *  to save memory */
+  typedef float FloatType;
+
   /** Additive identity. */
   static const T Zero;
 
@@ -127,6 +131,7 @@ public:
   typedef short AccumulateType;
   typedef double RealType;
   typedef RealType ScalarRealType;
+  typedef float FloatType;
   static const char ITKCommon_EXPORT Zero;
   static const char ITKCommon_EXPORT One;
 
@@ -153,6 +158,7 @@ public:
   typedef short AccumulateType;
   typedef double RealType;
   typedef RealType ScalarRealType;
+  typedef float FloatType;
   static const signed char ITKCommon_EXPORT Zero;
   static const signed char ITKCommon_EXPORT One;
 
@@ -179,6 +185,7 @@ public:
   typedef unsigned short AccumulateType;
   typedef double RealType;
   typedef RealType ScalarRealType;
+  typedef float FloatType;
   static const unsigned char ITKCommon_EXPORT Zero;
   static const unsigned char ITKCommon_EXPORT One;
 
@@ -202,6 +209,7 @@ public:
   typedef int AccumulateType;
   typedef double RealType;
   typedef RealType ScalarRealType;
+  typedef float FloatType;
   static const short ITKCommon_EXPORT Zero;
   static const short ITKCommon_EXPORT One;
 
@@ -226,6 +234,7 @@ public:
   typedef unsigned int AccumulateType;
   typedef double RealType;
   typedef RealType ScalarRealType;
+  typedef float FloatType;
   static const unsigned short ITKCommon_EXPORT Zero;
   static const unsigned short ITKCommon_EXPORT One;
 
@@ -249,6 +258,7 @@ public:
   typedef long AccumulateType;
   typedef double RealType;
   typedef RealType ScalarRealType;
+  typedef float FloatType;
   static const int ITKCommon_EXPORT Zero;
   static const int ITKCommon_EXPORT One;
 
@@ -273,6 +283,7 @@ public:
   typedef unsigned int AccumulateType;
   typedef double RealType;
   typedef RealType ScalarRealType;
+  typedef float FloatType;
   static const unsigned int ITKCommon_EXPORT Zero;
   static const unsigned int ITKCommon_EXPORT One;
 
@@ -299,6 +310,7 @@ public:
   typedef long AccumulateType;
   typedef double RealType;
   typedef RealType ScalarRealType;
+  typedef float FloatType;
   static const long ITKCommon_EXPORT Zero;
   static const long ITKCommon_EXPORT One;
 
@@ -323,6 +335,7 @@ public:
   typedef unsigned long AccumulateType;
   typedef double RealType;
   typedef RealType ScalarRealType;
+  typedef float FloatType;
   static const unsigned long ITKCommon_EXPORT Zero;
   static const unsigned long ITKCommon_EXPORT One;
 
@@ -347,6 +360,7 @@ public:
   typedef double AccumulateType;
   typedef double RealType;
   typedef RealType ScalarRealType;
+  typedef float FloatType;
   static const float ITKCommon_EXPORT Zero;
   static const float ITKCommon_EXPORT One;
 
@@ -371,6 +385,7 @@ public:
   typedef double AccumulateType;
   typedef double RealType;
   typedef RealType ScalarRealType;
+  typedef float FloatType;
   static const double ITKCommon_EXPORT Zero;
   static const double ITKCommon_EXPORT One;
 
@@ -395,6 +410,7 @@ public:
   typedef long double AccumulateType;
   typedef long double RealType;
   typedef RealType ScalarRealType;
+  typedef float FloatType;
   static const long double ITKCommon_EXPORT Zero;
   static const long double ITKCommon_EXPORT One;
 
@@ -420,6 +436,7 @@ public:
   typedef TheType AccumulateType;
   typedef std::complex<double> RealType;
   typedef double ScalarRealType;
+  typedef std::complex<float> FloatType;
   static const TheType ITKCommon_EXPORT Zero;
   static const TheType ITKCommon_EXPORT One;
 
@@ -447,6 +464,7 @@ public:
   typedef TheType AccumulateType;
   typedef std::complex<double> RealType;
   typedef double ScalarRealType;
+  typedef std::complex<float> FloatType;
   static const TheType ITKCommon_EXPORT Zero;
   static const TheType ITKCommon_EXPORT One;
 
