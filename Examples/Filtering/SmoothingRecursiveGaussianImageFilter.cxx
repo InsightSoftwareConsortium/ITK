@@ -306,6 +306,12 @@ int main( int argc, char * argv[] )
   //  standard deviation.  This type of scale-tunable filter is suitable for
   //  performing scale-space analysis.
   //
+  //  The RecursiveGaussianFilters can also be applied on multi-component images. For instance,
+  //  the above filter could have applied with RGBPixel as the pixel type. Each component is
+  //  then independently filtered. However the RescaleIntensityImageFilter will not work on 
+  //  RGBPixels since it does not mathematically make sense to rescale the output 
+  //  of multi-component images.
+  //
   //  Software Guide : EndLatex 
 
 
