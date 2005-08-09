@@ -147,4 +147,37 @@
    fun:__cxa_get_globals
    fun:__cxa_throw
 }
+{
+   ostream stuff
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:_ZSt18uncaught_exceptionv
+   fun:_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc
+}
+{
+   basic_ostream From cumulative gaussian optimizer
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:_ZSt18uncaught_exceptionv
+   fun:_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc
+}
+{
+   ostream stuff
+   Memcheck:Value4
+   obj:/usr/lib/libstdc++.so.6.0.3
+   fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE13_M_insert_intImEES3_S3_RSt8ios_basecT_
+   fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE6do_putES3_RSt8ios_basecm
+   fun:_ZNSolsEm
+}
+{
+   ostream stuff
+   Memcheck:Value8
+   fun:vfprintf
+   fun:vsnprintf
+   fun:snprintf
+   obj:/usr/lib/libstdc++.so.6.0.3
+   fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE15_M_insert_floatIdEES3_S3_RSt8ios_baseccT_
+}
 
