@@ -56,7 +56,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 
   while( ! out.IsAtEnd() )
     {
-    out.Value() =  in.Get();  // Supports input image adaptors only
+    out.Value() =  static_cast<PixelType>(in.Get());  // Supports input image adaptors only
     ++in;
     ++out;
     }
