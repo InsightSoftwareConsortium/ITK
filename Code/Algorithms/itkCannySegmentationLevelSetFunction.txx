@@ -80,14 +80,23 @@ void CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::CalculateDistanceImage()
 {
 
+  typename TFeatureImageType::Pointer tempFeature = TFeatureImageType::New();
+
+  // The minipipeline might muck with its feature image requested
+  // region. The rest of the class relies on the feature image requested
+  // region as specified by the original level set
+  // filter. We make a temporary shallow copy of feature image to
+  // build the distance image.
+  tempFeature->Graft(this->GetFeatureImage());
+
   // Only cast if we need to
   if ( typeid(TImageType) == typeid(TFeatureImageType))
     {
-    m_Canny->SetInput(this->GetFeatureImage());
+    m_Canny->SetInput(tempFeature);
     }
   else
     {
-    m_Caster->SetInput(this->GetFeatureImage());
+    m_Caster->SetInput(tempFeature);
     m_Canny->SetInput(m_Caster->GetOutput());
     }
 
