@@ -645,11 +645,11 @@ void NrrdImageIO::Read(void* buffer)
       itkExceptionMacro("Read: Error permuting independent axis " 
                         << this->GetFileName() << ": " << err);
       }
-    ntmp = nrrdNuke(ntmp);
+    nrrdNuke(ntmp);
     }
     
   // Lose the nrrd struct, keep the ITK-allocated nrrd->data
-  nrrd = nrrdNix(nrrd);
+  nrrdNix(nrrd);
 } 
 
 
