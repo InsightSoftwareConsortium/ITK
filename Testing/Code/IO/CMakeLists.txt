@@ -429,12 +429,24 @@ ADD_TEST(itkNrrdImageReadWriteTest1 ${IO_TESTS}
   itkNrrdImageReadWriteTest
             ${ITK_DATA_ROOT}/Input/box.nhdr
             ${ITK_TEST_OUTPUT_DIR}/box.nrrd)
+ADD_TEST(itkNrrdRGBImageReadWriteTest0 ${IO_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/NrrdRGBImageReadWriteTest0.png
+            ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest0.png
+  itkNrrdRGBImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/testrgb-0.nhdr
+            ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest0.png)
 ADD_TEST(itkNrrdRGBImageReadWriteTest1 ${IO_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/NrrdRGBImageReadWriteTest1.png
             ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest1.png
   itkNrrdRGBImageReadWriteTest
-            ${ITK_DATA_ROOT}/Input/testrgb-0.nhdr
+            ${ITK_DATA_ROOT}/Input/testrgb-1.nhdr
             ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest1.png)
+ADD_TEST(itkNrrdRGBImageReadWriteTest2 ${IO_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/NrrdRGBImageReadWriteTest2.png
+            ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest2.png
+  itkNrrdRGBImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/testrgb-2.nhdr
+            ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest2.png)
 
 ENDIF(ITK_DATA_ROOT)
 
