@@ -154,18 +154,10 @@ WeightSetBase<TVector,TOutput>
 ::ForwardPropagate(ValueType* inputlayeroutputvalues)
 {
   vnl_vector<ValueType> layeroutput;
-  vnl_vector<ValueType> tlayeroutput;
-
+ 
   layeroutput.set_size(m_NumberOfInputNodes - 1);
   layeroutput.copy_in(inputlayeroutputvalues);
   m_InputLayerOutput.set_row(0, layeroutput);
-
-  tlayeroutput.set_size(m_NumberOfInputNodes);
-  tlayeroutput.update(layeroutput, 0);
-  tlayeroutput(m_NumberOfInputNodes - 1) = m_Bias;
-
-  vnl_diag_matrix<ValueType> samplematrix(tlayeroutput);
-  m_OutputValues = m_WeightMatrix * samplematrix;    
 }
 
 template<class TVector, class TOutput>

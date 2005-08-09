@@ -154,13 +154,33 @@ BackPropagationLayer<TVector,TOutput>
   inputfunction = this->GetNodeInputFunction();
   transferfunction = this->GetActivationFunction();
   inputweightset = this->GetInputWeightSet();
-  ValuePointer inputvalues = inputweightset->GetOutputValues();
+  
+  //API change WeightSets are just containers
+  int wcols = inputweightset->GetNumberOfInputNodes();
+  int wrows = inputweightset->GetNumberOfOutputNodes();
+  ValuePointer inputvalues = inputweightset->GetInputValues();
+  
+  vnl_vector<ValueType> prevlayeroutputvector;
+  vnl_vector<ValueType> tprevlayeroutputvector;
+  prevlayeroutputvector.set_size(wcols);
+  tprevlayeroutputvector.set_size(wcols-1);
+  tprevlayeroutputvector.copy_in(inputvalues);
+  prevlayeroutputvector.update(tprevlayeroutputvector);
+  prevlayeroutputvector[wcols-1]=m_Bias;
+  vnl_diag_matrix<ValueType> PrevLayerOutput(
+                               prevlayeroutputvector);
+  ValuePointer weightvalues = inputweightset->GetWeightValues();
+  vnl_matrix<ValueType> weightmatrix(weightvalues,wrows, wcols); 
 
+  //ValuePointer inputvalues = inputweightset->GetOutputValues();
+  
   int rows = this->m_NumberOfNodes;
   int cols = this->m_InputWeightSet->GetNumberOfInputNodes();
   vnl_matrix<ValueType> inputmatrix;
   inputmatrix.set_size(rows, cols);
-  inputmatrix.copy_in(inputvalues);
+  //inputmatrix.copy_in(inputvalues);
+  inputmatrix=weightmatrix*PrevLayerOutput;
+
   inputfunction->SetSize(cols); //include bias
   
   for (int j = 0; j < rows; j++)
