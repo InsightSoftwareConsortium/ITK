@@ -281,27 +281,41 @@ nrrdCenter = &_nrrdCenter_enum;
 
 /*
   nrrdKindUnknown,
-  nrrdKindDomain,            *  1: "Yes, you can resample me" *
+  nrrdKindDomain,            *  1: any image domain *
   nrrdKindSpace,             *  2: a spatial domain *
   nrrdKindTime,              *  3: a temporal domain *
-  nrrdKindList,              *  4: "No, it is goofy to resample me" *
-  nrrdKindStub,              *  5: axis with one sample (a placeholder) *
-  nrrdKindScalar,            *  6: effectively, same as a stub *
-  nrrdKindComplex,           *  7: real and imaginary components *
-  nrrdKind2Vector,           *  8: 2 component vector *
-  nrrdKind3Color,            *  9: ANY 3-component color value *
-  nrrdKind4Color,            * 10: ANY 4-component color value *
-  nrrdKind3Vector,           * 11: 3 component vector *
-  nrrdKind3Normal,           * 12: 3 component vector, assumed normalized *
-  nrrdKind4Vector,           * 13: 4 component vector *
-  nrrdKind2DSymMatrix,       * 14: Mxx Mxy Myy *
-  nrrdKind2DMaskedSymMatrix, * 15: mask Mxx Mxy Myy *
-  nrrdKind2DMatrix,          * 16: Mxx Mxy Myx Myy *
-  nrrdKind2DMaskedMatrix,    * 17: mask Mxx Mxy Myx Myy *
-  nrrdKind3DSymMatrix,       * 18: Mxx Mxy Mxz Myy Myz Mzz *
-  nrrdKind3DMaskedSymMatrix, * 19: mask Mxx Mxy Mxz Myy Myz Mzz *
-  nrrdKind3DMatrix,          * 20: Mxx Mxy Mxz Myx Myy Myz Mzx Mzy Mzz *
-  nrrdKind3DMaskedMatrix,    * 21: mask Mxx Mxy Mxz Myx Myy Myz Mzx Mzy Mzz *
+  * -------------------------- end domain kinds *
+  * -------------------------- begin range kinds *
+  nrrdKindList,              *  4: any list of values, non-resample-able *
+  nrrdKindPoint,             *  5: coords of a point *
+  nrrdKindVector,            *  6: coeffs of (contravariant) vector *
+  nrrdKindCovariantVector,   *  7: coeffs of covariant vector (eg gradient) *
+  nrrdKindNormal,            *  8: coeffs of unit-length covariant vector *
+  * -------------------------- end arbitrary size kinds *
+  * -------------------------- begin size-specific kinds *
+  nrrdKindStub,              *  9: axis with one sample (a placeholder) *
+  nrrdKindScalar,            * 10: effectively, same as a stub *
+  nrrdKindComplex,           * 11: real and imaginary components *
+  nrrdKind2Vector,           * 12: 2 component vector *
+  nrrdKind3Color,            * 13: ANY 3-component color value *
+  nrrdKindRGBColor,          * 14: RGB, no colorimetry *
+  nrrdKindHSVColor,          * 15: HSV, no colorimetry *
+  nrrdKindXYZColor,          * 16: perceptual primary colors *
+  nrrdKind4Color,            * 17: ANY 4-component color value *
+  nrrdKindRGBAColor,         * 18: RGBA, no colorimetry *
+  nrrdKind3Vector,           * 19: 3-component vector *
+  nrrdKind3Gradient,         * 20: 3-component covariant vector *
+  nrrdKind3Normal,           * 21: 3-component covector, assumed normalized *
+  nrrdKind4Vector,           * 22: 4-component vector *
+  nrrdKindQuaternion,        * 23: (x,y,z,w), not necessarily normalized *
+  nrrdKind2DSymMatrix,       * 24: Mxx Mxy Myy *
+  nrrdKind2DMaskedSymMatrix, * 25: mask Mxx Mxy Myy *
+  nrrdKind2DMatrix,          * 26: Mxx Mxy Myx Myy *
+  nrrdKind2DMaskedMatrix,    * 27: mask Mxx Mxy Myx Myy *
+  nrrdKind3DSymMatrix,       * 28: Mxx Mxy Mxz Myy Myz Mzz *
+  nrrdKind3DMaskedSymMatrix, * 29: mask Mxx Mxy Mxz Myy Myz Mzz *
+  nrrdKind3DMatrix,          * 30: Mxx Mxy Mxz Myx Myy Myz Mzx Mzy Mzz *
+  nrrdKind3DMaskedMatrix,    * 31: mask Mxx Mxy Mxz Myx Myy Myz Mzx Mzy Mzz *
 */
 
 char
@@ -311,15 +325,25 @@ _nrrdKindStr[NRRD_KIND_MAX+1][AIR_STRLEN_SMALL] = {
   "space",
   "time",
   "list",
+  "point",
+  "vector",
+  "covariant-vector",
+  "normal",
   "stub",
   "scalar",
   "complex",
   "2-vector",
   "3-color",
+  "RGB-color",
+  "HSV-color",
+  "XYZ-color",
   "4-color",
+  "RGBA-color",
   "3-vector",
+  "3-gradient",
   "3-normal",
   "4-vector",
+  "quaternion",
   "2D-symmetric-matrix",
   "2D-masked-symmetric-matrix",
   "2D-matrix",
@@ -337,15 +361,25 @@ _nrrdKindDesc[NRRD_KIND_MAX+1][AIR_STRLEN_MED] = {
   "a spatial domain, like the axes of a measured volume image",
   "a temporal domain, as from time-varying measurements",
   "some list of attributes; it makes no sense to resample along these",
+  "coordinates of a point",
+  "coefficients of a (contravariant) vector",
+  "coefficients of a covariant vector, such as a gradient",
+  "coefficients of a normalized covariant vector",
   "a place-holder axis with a single sample",
   "axis used to indicate that the nrrd contains a scalar value",
   "real and imaginary parts of a value",
   "a 2-component vector",
   "any 3-component color value",
+  "red-green-blue color",
+  "hue-saturation-value single hexcone color",
+  "perceptual primaries color",
   "any 4-component color value",
-  "a 3-element vector",
-  "a 3-element vector which is assumed normalized",
-  "a 4-element vector",
+  "red-green-blue-alpha color",
+  "a 3-element (contravariant) vector",
+  "a 3-element gradient (covariant) vector",
+  "a 3-element (covariant) vector which is assumed normalized",
+  "a 4-element (contravariant) vector",
+  "quaternion: x y z w",
   "3 elements of 2D symmetric matrix: Mxx Mxy Myy",
   "mask plus 3 elements of 2D symmetric matrix: mask Mxx Mxy Myy",
   "4 elements of general 2D matrix: Mxx Mxy Myx Myy",
@@ -362,15 +396,25 @@ _nrrdKindStr_Eqv[][AIR_STRLEN_SMALL] = {
   "space",
   "time",
   "list",
+  "point",
+  "vector", "contravariant-vector",
+  "covariant-vector",
+  "normal",
   "stub",
   "scalar",
   "complex",
   "2-vector",
   "3-color",
+  "RGB-color", "RGBcolor", "RGB",
+  "HSV-color", "HSVcolor", "HSV",
+  "XYZ-color",
   "4-color",
+  "RGBA-color", "RGBAcolor", "RGBA",
   "3-vector",
+  "3-gradient",
   "3-normal",
   "4-vector",
+  "quaternion",
   "2D-symmetric-matrix", "2D-sym-matrix", 
         "2D-symmetric-tensor", "2D-sym-tensor",
   "2D-masked-symmetric-matrix", "2D-masked-sym-matrix",
@@ -396,15 +440,25 @@ _nrrdKindVal_Eqv[] = {
   nrrdKindSpace,
   nrrdKindTime,
   nrrdKindList,
+  nrrdKindPoint,
+  nrrdKindVector, nrrdKindVector, 
+  nrrdKindCovariantVector,
+  nrrdKindNormal,
   nrrdKindStub,
   nrrdKindScalar,
   nrrdKindComplex,
   nrrdKind2Vector,
   nrrdKind3Color,
+  nrrdKindRGBColor, nrrdKindRGBColor, nrrdKindRGBColor,
+  nrrdKindHSVColor, nrrdKindHSVColor, nrrdKindHSVColor,
+  nrrdKindXYZColor,
   nrrdKind4Color,
+  nrrdKindRGBAColor, nrrdKindRGBAColor, nrrdKindRGBAColor,
   nrrdKind3Vector,
+  nrrdKind3Gradient,
   nrrdKind3Normal,
   nrrdKind4Vector,
+  nrrdKindQuaternion,
   nrrdKind2DSymMatrix, nrrdKind2DSymMatrix,
         nrrdKind2DSymMatrix, nrrdKind2DSymMatrix,
   nrrdKind2DMaskedSymMatrix, nrrdKind2DMaskedSymMatrix,

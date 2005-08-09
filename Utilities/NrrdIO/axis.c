@@ -58,6 +58,21 @@ _nrrdAxisInfoNewInit(NrrdAxisInfo *axis) {
 /* ------------------------------------------------------------ */
 
 /*
+******** nrrdKindIsDomain
+**
+** returns non-zero for kinds (from nrrdKind* enum) that are domain
+** axes, or independent variable axes, or resample-able axes, all
+** different ways of describing the same thing
+*/
+int
+nrrdKindIsDomain(int kind) {
+
+  return (nrrdKindDomain == kind
+          || nrrdKindSpace == kind
+          || nrrdKindTime == kind);
+}
+
+/*
 ******** nrrdKindSize
 **
 ** returns suggested size (length) of an axis with the given kind, or,
@@ -79,6 +94,10 @@ nrrdKindSize(int kind) {
   case nrrdKindSpace:
   case nrrdKindTime:
   case nrrdKindList:
+  case nrrdKindPoint:
+  case nrrdKindVector:
+  case nrrdKindCovariantVector:
+  case nrrdKindNormal:
     ret = 0;
     break;
   case nrrdKindStub:
@@ -90,12 +109,21 @@ nrrdKindSize(int kind) {
     ret = 2;
     break;
   case nrrdKind3Color:
+  case nrrdKindRGBColor:
+  case nrrdKindHSVColor:
+  case nrrdKindXYZColor:
+    ret = 3;
+    break;
+  case nrrdKind4Color:
+  case nrrdKindRGBAColor:
+    ret = 4;
+    break;
   case nrrdKind3Vector:
   case nrrdKind3Normal:
     ret = 3;
     break;
-  case nrrdKind4Color:
   case nrrdKind4Vector:
+  case nrrdKindQuaternion:
     ret = 4;
     break;
   case nrrdKind2DSymMatrix:
@@ -143,10 +171,7 @@ _nrrdKindAltered(int kindIn) {
   } else {
     if (nrrdKindDomain == kindIn
         || nrrdKindSpace == kindIn
-        || nrrdKindTime == kindIn
-        || nrrdKindList == kindIn) {
-      /* HEY: shouldn't we disallow or at least warn when a "List"
-         is being resampled? */
+        || nrrdKindTime == kindIn) {
       kindOut = kindIn;
     } else {
       kindOut = nrrdKindUnknown;
@@ -878,23 +903,25 @@ nrrdAxisInfoMinMaxSet(Nrrd *nrrd, unsigned int ax, int defCenter) {
 ** other words, the axes which correspond to independent variables.
 ** The return value is the number of domain axes, and that many values
 ** are set in the given axisIdx[] array
+**
+** NOTE: this takes a wild guess that an unset (nrrdKindUnknown) kind
+** is a domain axis.
 */
 unsigned int
 nrrdDomainAxesGet(Nrrd *nrrd, unsigned int axisIdx[NRRD_DIM_MAX]) {
-  unsigned int indAxi, axi;
+  unsigned int domAxi, axi;
 
   if (!( nrrd && axisIdx )) {
     return 0;
   }
-  indAxi = 0;
+  domAxi = 0;
   for (axi=0; axi<nrrd->dim; axi++) {
     if (nrrdKindUnknown == nrrd->axis[axi].kind
-        || 0 == nrrdKindSize(nrrd->axis[axi].kind)) {
-      axisIdx[indAxi] = axi;
-      indAxi++;
+        || nrrdKindIsDomain(nrrd->axis[axi].kind)) {
+      axisIdx[domAxi++] = axi;
     }
   }
-  return indAxi;
+  return domAxi;
 }
 
 /*
@@ -902,25 +929,28 @@ nrrdDomainAxesGet(Nrrd *nrrd, unsigned int axisIdx[NRRD_DIM_MAX]) {
 **
 ** learns which are the range (non-resample-able) axes of an image, in
 ** other words, the axes which correspond to dependent variables.  The
-** return value is the number of dependent axes, and that many values
+** return value is the number of range axes; that number of values
 ** are set in the given axisIdx[] array
 */
 unsigned int
 nrrdRangeAxesGet(Nrrd *nrrd, unsigned int axisIdx[NRRD_DIM_MAX]) {
-  unsigned int depAxi, axi;
+  unsigned int domNum, domIdx[NRRD_DIM_MAX], rngAxi, axi, ii, isDom;
 
   if (!( nrrd && axisIdx )) {
     return 0;
   }
-  depAxi = 0;
+  domNum = nrrdDomainAxesGet(nrrd, domIdx);
+  rngAxi = 0;
   for (axi=0; axi<nrrd->dim; axi++) {
-    if (!( nrrdKindUnknown == nrrd->axis[axi].kind
-           || 0 == nrrdKindSize(nrrd->axis[axi].kind) )) {
-      axisIdx[depAxi] = axi;
-      depAxi++;
+    isDom = AIR_FALSE;
+    for (ii=0; ii<domNum; ii++) {   /* yes, inefficient */
+      isDom |= axi == domIdx[ii];
     }
-  }
-  return depAxi;
+    if (!isDom) {
+      axisIdx[rngAxi++] = axi;
+    }
+  }  
+  return rngAxi;
 }
 
 

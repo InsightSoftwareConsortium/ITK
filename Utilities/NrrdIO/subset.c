@@ -51,10 +51,6 @@ nrrdSlice(Nrrd *nout, const Nrrd *nin, unsigned int saxi, size_t pos) {
   int map[NRRD_DIM_MAX];
   char *src, *dest;
 
-  ptrdiff_t pt = -1;
-  size_t st = 1;
-  printf("pt=" _AIR_PTRDIFF_T_CNV ", st=" _AIR_SIZE_T_CNV "\n", pt, st);
-
   if (!(nin && nout)) {
     sprintf(err, "%s: got NULL pointer", me);
     biffAdd(NRRD, err); return 1;

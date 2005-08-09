@@ -967,41 +967,64 @@ enum {
 ** have, say, the gradient of RGB colors, you want the per-pixel 3x3
 ** array to have those two attribute axes tagged accordingly.
 **
-** More of these may be added in the future, as when nrrd supports bricking.
+** More of these may be added in the future, such as when nrrd
+** supports bricking.  Since nrrd is never going to be in the business
+** of manipulating the kind information or supporting kind-specific
+** semantics, there can be proliferation of nrrdKinds, provided
+** pointless redundancy is avoided.  
 **
-** NOTE: The nrrdKindSize() function returns the suggested length for these.
+**  There is a relationship between some of these (nrrdKindSpace is a
+** specific nrrdKindDomain), but currently there is no effort to
+** record this meta-kind information.
 **
 ** Keep in sync:
 **   enumsNrrd.c: nrrdKind airEnum
 **        axis.c: nrrdKindSize()
 **        axis.c: _nrrdKindAltered()
+**
+** NOTE: The nrrdKindSize() function returns the valid size for these.
+** 
 */
 enum {
   nrrdKindUnknown,
-  nrrdKindDomain,            /*  1: "Yes, you can resample me" */
+  nrrdKindDomain,            /*  1: any image domain */
   nrrdKindSpace,             /*  2: a spatial domain */
   nrrdKindTime,              /*  3: a temporal domain */
-  nrrdKindList,              /*  4: "No, it is goofy to resample me" */
-  nrrdKindStub,              /*  5: axis with one sample (a placeholder) */
-  nrrdKindScalar,            /*  6: effectively, same as a stub */
-  nrrdKindComplex,           /*  7: real and imaginary components */
-  nrrdKind2Vector,           /*  8: 2 component vector */
-  nrrdKind3Color,            /*  9: ANY 3-component color value */
-  nrrdKind4Color,            /* 10: ANY 4-component color value */
-  nrrdKind3Vector,           /* 11: 3 component vector */
-  nrrdKind3Normal,           /* 12: 3 component vector, assumed normalized */
-  nrrdKind4Vector,           /* 13: 4 component vector */
-  nrrdKind2DSymMatrix,       /* 14: Mxx Mxy Myy */
-  nrrdKind2DMaskedSymMatrix, /* 15: mask Mxx Mxy Myy */
-  nrrdKind2DMatrix,          /* 16: Mxx Mxy Myx Myy */
-  nrrdKind2DMaskedMatrix,    /* 17: mask Mxx Mxy Myx Myy */
-  nrrdKind3DSymMatrix,       /* 18: Mxx Mxy Mxz Myy Myz Mzz */
-  nrrdKind3DMaskedSymMatrix, /* 19: mask Mxx Mxy Mxz Myy Myz Mzz */
-  nrrdKind3DMatrix,          /* 20: Mxx Mxy Mxz Myx Myy Myz Mzx Mzy Mzz */
-  nrrdKind3DMaskedMatrix,    /* 21: mask Mxx Mxy Mxz Myx Myy Myz Mzx Mzy Mzz */
+  /* -------------------------- end domain kinds */
+  /* -------------------------- begin range kinds */
+  nrrdKindList,              /*  4: any list of values, non-resample-able */
+  nrrdKindPoint,             /*  5: coords of a point */
+  nrrdKindVector,            /*  6: coeffs of (contravariant) vector */
+  nrrdKindCovariantVector,   /*  7: coeffs of covariant vector (eg gradient) */
+  nrrdKindNormal,            /*  8: coeffs of unit-length covariant vector */
+  /* -------------------------- end arbitrary size kinds */
+  /* -------------------------- begin size-specific kinds */
+  nrrdKindStub,              /*  9: axis with one sample (a placeholder) */
+  nrrdKindScalar,            /* 10: effectively, same as a stub */
+  nrrdKindComplex,           /* 11: real and imaginary components */
+  nrrdKind2Vector,           /* 12: 2 component vector */
+  nrrdKind3Color,            /* 13: ANY 3-component color value */
+  nrrdKindRGBColor,          /* 14: RGB, no colorimetry */
+  nrrdKindHSVColor,          /* 15: HSV, no colorimetry */
+  nrrdKindXYZColor,          /* 16: perceptual primary colors */
+  nrrdKind4Color,            /* 17: ANY 4-component color value */
+  nrrdKindRGBAColor,         /* 18: RGBA, no colorimetry */
+  nrrdKind3Vector,           /* 19: 3-component vector */
+  nrrdKind3Gradient,         /* 20: 3-component covariant vector */
+  nrrdKind3Normal,           /* 21: 3-component covector, assumed normalized */
+  nrrdKind4Vector,           /* 22: 4-component vector */
+  nrrdKindQuaternion,        /* 23: (x,y,z,w), not necessarily normalized */
+  nrrdKind2DSymMatrix,       /* 24: Mxx Mxy Myy */
+  nrrdKind2DMaskedSymMatrix, /* 25: mask Mxx Mxy Myy */
+  nrrdKind2DMatrix,          /* 26: Mxx Mxy Myx Myy */
+  nrrdKind2DMaskedMatrix,    /* 27: mask Mxx Mxy Myx Myy */
+  nrrdKind3DSymMatrix,       /* 28: Mxx Mxy Mxz Myy Myz Mzz */
+  nrrdKind3DMaskedSymMatrix, /* 29: mask Mxx Mxy Mxz Myy Myz Mzz */
+  nrrdKind3DMatrix,          /* 30: Mxx Mxy Mxz Myx Myy Myz Mzx Mzy Mzz */
+  nrrdKind3DMaskedMatrix,    /* 31: mask Mxx Mxy Mxz Myx Myy Myz Mzx Mzy Mzz */
   nrrdKindLast
 };
-#define NRRD_KIND_MAX           21
+#define NRRD_KIND_MAX           31
 
 /*
 ******** nrrdAxisInfo enum
@@ -1839,6 +1862,7 @@ TEEM_API int nrrdPGM(Nrrd *, size_t sx, size_t sy);
 
 /******** axis info related */
 /* axis.c */
+TEEM_API int nrrdKindIsDomain(int kind);
 TEEM_API unsigned int nrrdKindSize(int kind);
 TEEM_API int nrrdAxisInfoCopy(Nrrd *nout, const Nrrd *nin,
                               const int *axmap, int excludeBitflag);

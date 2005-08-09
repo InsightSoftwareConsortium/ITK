@@ -470,6 +470,10 @@ _nrrdSizeCheck (const size_t *size, unsigned int dim, int useBiff) {
   
   pre = num = 1;
   for (ai=0; ai<dim; ai++) {
+    if (!size[ai]) {
+      sprintf(err, "%s: axis %u size is zero!", me, ai);
+      biffMaybeAdd(NRRD, err, useBiff); return 1;
+    }
     num *= size[ai];
     if (num/size[ai] != pre) {
       sprintf(err, "%s: total # of elements too large to be represented in "

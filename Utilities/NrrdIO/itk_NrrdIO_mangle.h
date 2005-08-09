@@ -402,6 +402,7 @@ read-only (R) things (seen on Linux) and "other" (S) things
 #define nrrdAxisInfoSet_nva itk_nrrdAxisInfoSet_nva
 #define nrrdAxisInfoSpacingSet itk_nrrdAxisInfoSpacingSet
 #define nrrdDomainAxesGet itk_nrrdDomainAxesGet
+#define nrrdKindIsDomain itk_nrrdKindIsDomain
 #define nrrdKindSize itk_nrrdKindSize
 #define nrrdRangeAxesGet itk_nrrdRangeAxesGet
 #define nrrdSpacingCalculate itk_nrrdSpacingCalculate
