@@ -13,6 +13,7 @@ IF("${ITK_VERSION_MAJOR}" GREATER 0.0)
 #   MESSAGE(STATUS "---------------------ITK ZLIB  ${ITK_ZLIB_LIBRARIES}")
   SET(PACKAGE_PREFIX "ITK")
   SET(LIB_INSTALL_DIR "/lib/InsightToolkit")
+  SET(INCLUDE_INSTALL_DIR "/include/InsightToolkit")
   SET(NIFTI_ZLIB_LIBRARIES ${ITK_ZLIB_LIBRARIES})
 ELSE("${ITK_VERSION_MAJOR}" GREATER 0.0)
 ###  USE AS STAND ALONE PACKAGE
@@ -21,6 +22,7 @@ ELSE("${ITK_VERSION_MAJOR}" GREATER 0.0)
   SET(NIFTI_ZLIB_LIBRARIES ${ZLIB_LIBRARIES})
   SET(PACKAGE_PREFIX "")
   SET(LIB_INSTALL_DIR "/lib")
+  SET(INCLUDE_INSTALL_DIR "/include")
 
   #Needs an if clause and more work before testing can take place.
   SUBDIRS(Testing utils fsliolib examples)
