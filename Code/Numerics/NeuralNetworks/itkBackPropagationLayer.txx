@@ -165,7 +165,7 @@ BackPropagationLayer<TVector,TOutput>
   prevlayeroutputvector.set_size(wcols);
   tprevlayeroutputvector.set_size(wcols-1);
   tprevlayeroutputvector.copy_in(inputvalues);
-  prevlayeroutputvector.update(tprevlayeroutputvector);
+  prevlayeroutputvector.update(tprevlayeroutputvector,0);
   prevlayeroutputvector[wcols-1]=m_Bias;
   vnl_diag_matrix<ValueType> PrevLayerOutput(
                                prevlayeroutputvector);
