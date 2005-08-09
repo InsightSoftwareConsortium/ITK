@@ -190,8 +190,8 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
   ic[1] = static_cast <ImageIndexValueType>(y / sp[1]);
   ic[2] = static_cast <ImageIndexValueType>(z / sp[2]);
   
-  if ( ic[0] >= 0  && ic[0] < m_ImageWidth && ic[1] >= 0  && ic[1] < m_ImageHeight &&
-       ic[2] >= 0  && ic[2] < m_ImageDepth)
+  if ( ic[0] >= 0  && ic[0] < this->m_ImageWidth && ic[1] >= 0  && ic[1] < this->m_ImageHeight &&
+       ic[2] >= 0  && ic[2] < this->m_ImageDepth)
     {
       bool stop;
       SIDE side = BOTH; //make sure you can set half segment as well but for noe we just set it to full segment
@@ -262,7 +262,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
               pos[2] += a * dp[2];
               dist += a;
               
-              stop = ((dist > m_Range) || !(ic[0] >= 0  && ic[0] < m_ImageWidth && ic[1] >= 0  && ic[1] < m_ImageHeight && ic[2] >= 0  && ic[2] < m_ImageDepth));
+              stop = ((dist > m_Range) || !(ic[0] >= 0  && ic[0] < this->m_ImageWidth && ic[1] >= 0  && ic[1] < this->m_ImageHeight && ic[2] >= 0  && ic[2] < this->m_ImageDepth));
 
               if(!stop) 
                 {
@@ -311,7 +311,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
               pos[2] += a * dp[2];
               dist += a;
               
-              stop = ((dist > m_Range) || !(ic[0] >= 0  && ic[0] < m_ImageWidth && ic[1] >= 0  && ic[1] < m_ImageHeight && ic[2] >= 0  && ic[2] < m_ImageDepth));
+              stop = ((dist > m_Range) || !(ic[0] >= 0  && ic[0] < this->m_ImageWidth && ic[1] >= 0  && ic[1] < this->m_ImageHeight && ic[2] >= 0  && ic[2] < this->m_ImageDepth));
 
               if(!stop) 
                 {
@@ -350,9 +350,9 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
       coord3[1] = static_cast<GradientIndexValueType>((*it)->getY());
       coord3[2] = static_cast<GradientIndexValueType>((*it)->getZ());
       
-      vec_for[0] = m_Gradient->GetPixel(coord3)[0];
-      vec_for[1] = m_Gradient->GetPixel(coord3)[1];
-      vec_for[2] = m_Gradient->GetPixel(coord3)[2];
+      vec_for[0] = this->m_Gradient->GetPixel(coord3)[0];
+      vec_for[1] = this->m_Gradient->GetPixel(coord3)[1];
+      vec_for[2] = this->m_Gradient->GetPixel(coord3)[2];
      // check magnitude
      
       mag = sqrt(dot_product(vec_for.Get_vnl_vector(),vec_for.Get_vnl_vector()));
@@ -363,9 +363,9 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
         }
       
     }
-  vec_for[0] = m_Gradient->GetPixel(coord2)[0];
-  vec_for[1] = m_Gradient->GetPixel(coord2)[1];
-  vec_for[2] = m_Gradient->GetPixel(coord2)[2];
+  vec_for[0] = this->m_Gradient->GetPixel(coord2)[0];
+  vec_for[1] = this->m_Gradient->GetPixel(coord2)[1];
+  vec_for[2] = this->m_Gradient->GetPixel(coord2)[2];
 
   // now check highest gradient magnitude direction
   mag = dot_product(vec_for.Get_vnl_vector(), data->normal.Get_vnl_vector());
@@ -373,9 +373,9 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
   if (mag > 0 )
   
     {
-      vec_for[0] -= m_Gradient->GetPixel(coord)[0];
-      vec_for[1] -= m_Gradient->GetPixel(coord)[1];
-      vec_for[2] -= m_Gradient->GetPixel(coord)[2];
+      vec_for[0] -= this->m_Gradient->GetPixel(coord)[0];
+      vec_for[1] -= this->m_Gradient->GetPixel(coord)[1];
+      vec_for[2] -= this->m_Gradient->GetPixel(coord)[2];
     }
   else
     {

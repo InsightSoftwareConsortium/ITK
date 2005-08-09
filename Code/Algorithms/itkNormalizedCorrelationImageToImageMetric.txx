@@ -291,8 +291,8 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
           sumM += movingValue * differential;
           if ( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
             {
-            sumF -= differential * sf / m_NumberOfPixelsCounted;
-            sumM -= differential * sm / m_NumberOfPixelsCounted;
+            sumF -= differential * sf / this->m_NumberOfPixelsCounted;
+            sumM -= differential * sm / this->m_NumberOfPixelsCounted;
             }
           }
         derivativeF[par] += sumF;
@@ -491,8 +491,8 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
           sumM += movingValue * differential;
           if ( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
             {
-            sumF -= differential * sf / m_NumberOfPixelsCounted;
-            sumM -= differential * sm / m_NumberOfPixelsCounted;
+            sumF -= differential * sf / this->m_NumberOfPixelsCounted;
+            sumM -= differential * sm / this->m_NumberOfPixelsCounted;
             }
           }
         derivativeF[par] += sumF;
