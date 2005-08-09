@@ -76,9 +76,11 @@ SampleMeanShiftBlurringFilter< TSample >
 
   m_Output->Clear() ;
   MeasurementVectorType finalPoint;
+  MeasurementVectorType sample;
   while ( iter != end )
     {
-    finalPoint = m_ModeSeeker->Evolve( iter.GetMeasurementVector() ) ;
+    sample = iter.GetMeasurementVector();
+    finalPoint = m_ModeSeeker->Evolve( sample ) ;
     m_Output->PushBack( finalPoint  ) ;
     ++iter ;
     }
