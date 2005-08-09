@@ -211,10 +211,10 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
         // Remove a black disc from the hough space domain
         for(double angle = 0; angle <= 2*PI ; angle += PI/1000)
         {     
-          for(double lenght = 0; lenght < m_HoughDiscRadius;lenght += 1)
+          for(double length = 0; length < m_HoughDiscRadius;length += 1)
           {
-            m_Index[0] = (long int)(it_input.GetIndex()[0] + lenght * cos(angle));
-            m_Index[1] = (long int)(it_input.GetIndex()[1] + lenght * sin(angle));
+            m_Index[0] = (long int)(it_input.GetIndex()[0] + length * cos(angle));
+            m_Index[1] = (long int)(it_input.GetIndex()[1] + length * sin(angle));
             if( ((m_Index[0]<=sqrt((double)400*400+400*400)) && (m_Index[0]>=0))
               && ((m_Index[1]<=500) && (m_Index[1]>=0))
             )

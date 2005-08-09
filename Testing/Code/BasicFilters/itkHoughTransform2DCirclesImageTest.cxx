@@ -201,10 +201,10 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
         m_HoughSpaceImage->SetPixel(index,255);
         
         /** Remove the maximum from the accumulator */
-        for(double lenght = 0; lenght < discRatio*radius;lenght+=1)
+        for(double length = 0; length < discRatio*radius;length+=1)
         {
-          index[0] = (long int)(it_output.GetIndex()[0] + lenght * cos(angle));
-          index[1] = (long int)(it_output.GetIndex()[1] + lenght* sin(angle));
+          index[0] = (long int)(it_output.GetIndex()[0] + length * cos(angle));
+          index[1] = (long int)(it_output.GetIndex()[1] + length* sin(angle));
           m_PostProcessImage->SetPixel(index,0);
         } 
       }

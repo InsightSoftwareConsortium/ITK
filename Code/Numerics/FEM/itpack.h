@@ -473,9 +473,9 @@ extern doublereal eigvss_(integer *n, doublereal *tri, doublereal *start, double
 
 /**
  * Smallest or largest m eigenvalue of a symmetric tridiagonal matrix
- * \param d__ input vector of lenght n, contains diagonal elements of matrix
+ * \param d__ input vector of length n, contains diagonal elements of matrix
  *            the computed eigenvalues replace the first m components
- * \param e2 input vector of lenght n containing the squares of the off-diagonal elements of the matrix
+ * \param e2 input vector of length n containing the squares of the off-diagonal elements of the matrix
  * \param nn order of the matrix
  * \param m number of smallest eigenvalues desired
  * \param isw positive definite flag (0 = not pd, 1 = pd)

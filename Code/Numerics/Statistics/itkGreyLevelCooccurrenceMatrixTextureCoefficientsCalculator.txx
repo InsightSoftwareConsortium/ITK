@@ -105,7 +105,7 @@ namespace itk {
                               double &marginalDevSquared, double &pixelVariance )
       {
       // This function takes two passes through the histogram and two passes through
-      // an array of the same lenght as a histogram axis. This could probably be
+      // an array of the same length as a histogram axis. This could probably be
       // cleverly compressed to one pass, but it's not clear that that's necessary.
       
       typedef typename HistogramType::Iterator HistogramIterator;

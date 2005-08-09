@@ -59,7 +59,7 @@ int itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char* [] )
   // Define the orientations of the ellipsoid axes
   // (0,1,0) corresponds to the axes of length axes[0]
   // (1,0,0) corresponds to the axes of length axes[1]
-  // (0,0,1) corresponds to the axes of lenght axes[2]
+  // (0,0,1) corresponds to the axes of length axes[2]
   double data[] = {0, 1, 0, 1, 0, 0, 0, 0, 1};
   vnl_matrix<double> orientations (data, 3, 3);  
   

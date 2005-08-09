@@ -725,7 +725,7 @@ inline int getlastdigit(unsigned char *data)
 }
 
 /**
- * \brief Encode the mac address on a fixed lenght string of 15 characters.
+ * \brief Encode the mac address on a fixed length string of 15 characters.
  * we save space this way.
  */
 std::string Util::GetMACAddress()
