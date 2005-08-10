@@ -40,16 +40,6 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
 ::InitializeTransform() 
 {
   // Sanity check
-  if( !m_FixedImage )
-    {
-    itkExceptionMacro( "Fixed Image has not been set" );
-    return;
-    }
-  if( !m_MovingImage )
-    {
-    itkExceptionMacro( "Moving Image has not been set" );
-    return;
-    }
   if( !m_Transform )
     {
     itkExceptionMacro( "Transform has not been set" );
@@ -88,16 +78,6 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
   
 
   // If images come from filters, then update those filters.
-  if( m_FixedImage->GetSource() )
-    { 
-    m_FixedImage->GetSource()->Update();
-    }
-  if( m_MovingImage->GetSource() )
-    { 
-    m_MovingImage->GetSource()->Update();
-    }
-
-
   switch( transformType )
     {
     case VersorRigid3Dtransform:

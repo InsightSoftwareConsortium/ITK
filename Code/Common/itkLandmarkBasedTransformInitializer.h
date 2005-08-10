@@ -92,11 +92,31 @@ public:
   typedef   typename MovingImageType::ConstPointer  MovingImagePointer;
 
 
-  /** Set the fixed image */
-  itkSetConstObjectMacro( FixedImage,  FixedImageType  );
+  /** \deprecated 
+   * Set the fixed image. 
+   * The method really doesn't do anything. The goal of this class is to compute
+   * the optimal transform, for the templated TransformType between the fixed 
+   * and moving image grid, given a set of landmarks. Nothing is done with the 
+   * images themselves. The method will therefore be deprecated and removed */
+  void SetFixedImage( const FixedImageType * image )
+    {
+    this->m_FixedImage = image;
+    itkLegacyBody( SetFixedImage, 2.2 );
+    }
 
-  /** Set the moving image */
-  itkSetConstObjectMacro( MovingImage, MovingImageType );
+
+  /** \deprecated 
+   * Set the moving image. 
+   * The method really doesn't do anything. The goal of this class is to compute
+   * the optimal transform, for the templated TransformType between the fixed 
+   * and moving image grid, given a set of landmarks. Nothing is done with the 
+   * images themselves. The method will therefore be deprecated and removed. */
+  void SetMovingImage( const MovingImageType * image )
+    {
+    this->m_MovingImage = image;
+    itkLegacyBody( SetMovingImage, 2.2 );
+    }
+    
 
   /** Determine the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension );
