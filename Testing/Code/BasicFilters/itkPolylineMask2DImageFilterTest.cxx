@@ -24,7 +24,7 @@
 #include <itkPolyLineParametricPath.h>
 #include <itkImageFileWriter.h>
 
-int itkPolylineMask2DImageFilterTest(int argc, char* argv [] ) 
+int itkPolylineMask2DImageFilterTest(int , char* [] ) 
 {
 
  // Declare the types of the images
