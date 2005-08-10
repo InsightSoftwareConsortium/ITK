@@ -532,6 +532,15 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
 }
 
+template < class TFixedImage, class TMovingImage> 
+void
+NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "SubtractMean: " << m_SubtractMean << std::endl;
+}
+
 } // end namespace itk
 
 
