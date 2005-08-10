@@ -90,6 +90,7 @@ read-only (R) things (seen on Linux) and "other" (S) things
 #define airNoDioErr itk_airNoDioErr
 #define _airBadInsane itk__airBadInsane
 #define _airInsaneErr itk__airInsaneErr
+#define _airSanityHelper itk__airSanityHelper
 #define airInsaneErr itk_airInsaneErr
 #define airSanity itk_airSanity
 #define _airEndian itk__airEndian

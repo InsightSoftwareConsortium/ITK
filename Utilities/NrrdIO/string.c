@@ -126,7 +126,7 @@ airStrtok(char *s, const char *ct, char **last) {
 */
 unsigned int
 airStrntok(const char *_s, const char *ct) {
-  char *s, *t, *l;
+  char *s, *t, *l=NULL;
   unsigned int n = 0;
 
   if (_s && ct) {

@@ -24,6 +24,11 @@
 
 #include "NrrdIO.h"
 
+double
+_airSanityHelper(double val) {
+  return val*val*val;
+}
+
 /*
 ******** airSanity()
 **
@@ -76,9 +81,9 @@ airSanity(void) {
 
   /* run-time NaN checks */
   pinf = DBL_MAX;
-  pinf = pinf * pinf * pinf;
-  pinf = pinf * pinf * pinf;
-  pinf = pinf * pinf * pinf;
+  pinf = _airSanityHelper(pinf);
+  pinf = _airSanityHelper(pinf);
+  pinf = _airSanityHelper(pinf);
   if (AIR_EXISTS(pinf)) {
     return airInsane_pInfExists;
   }
