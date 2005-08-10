@@ -145,7 +145,7 @@ NNetClassifierTest4(int argc, char* argv[])
     ++iter2;
     }
  
-std::cout << "Among 500 measurement vectors, " << error1 + error2
+  std::cout << "Among "<<num_test<<" measurement vectors, " << error1 + error2
             << " vectors are misclassified." << std::endl ;
   std::cout<<"Network Weights = "<<std::endl;
   std::cout << net1 << std::endl;

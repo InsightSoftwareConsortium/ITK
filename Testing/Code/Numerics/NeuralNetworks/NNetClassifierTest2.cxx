@@ -125,7 +125,7 @@ NNetClassifierTest2(int argc, char* argv[])
     tv = iter2.GetMeasurementVector();
     ov = net1->GenerateOutput(mv);
     flag=0;
-    if (fabs(tv[0]-ov[0])>0.2)
+    if (fabs(tv[0]-ov[0])>0.3)
       {
       flag = 1;
       }
@@ -144,7 +144,7 @@ NNetClassifierTest2(int argc, char* argv[])
     ++iter1;
     ++iter2;
     }
-  std::cout << "Among 500 measurement vectors, " << error1 + error2
+  std::cout << "Among "<<num_test<<" measurement vectors, " << error1 + error2
             << " vectors are misclassified." << std::endl ;
   std::cout<<"Network Weights = "<<std::endl;
   std::cout << net1 << std::endl;
