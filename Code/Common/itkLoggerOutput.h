@@ -89,7 +89,7 @@ public:
   }
  
 protected:
-  LoggerOutput() {}
+  LoggerOutput():m_Logger(0) {}
   virtual ~LoggerOutput() {}
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
