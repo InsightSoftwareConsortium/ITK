@@ -321,39 +321,6 @@ RBFLayer<TVector,TOutput>
     }
 }
 
-template<class TVector, class TOutput>
-void
-RBFLayer<TVector,TOutput>
-::BackwardPropagate(TOutput errors)
-{
-  /*
-  int num_nodes = this->GetNumberOfNodes();
-  typename Superclass::WeightSetType::Pointer inputweightset;
-  
- inputweightset = Superclass::GetInputWeightSet();
-  
-  for (int i = 0; i < errors.Size(); i++)
-    {
-    SetInputErrorValue(errors[i],i); // * DActivation(GetInputValue(i)),
-                                 //i);
-    }
-
-  vnl_matrix<ValueType> inputerrormatrix(GetInputErrorVector(),
-                                                    num_nodes, 1);
-  vnl_vector<ValueType> inputerrorvector(GetInputErrorVector(),
-                                                    num_nodes);
-  vnl_matrix<ValueType> DW_temp(inputweightset->GetNumberOfOutputNodes(),
-                                inputweightset->GetNumberOfInputNodes());
-  vnl_matrix<ValueType> InputLayerOutput(1,
-                                inputweightset->GetNumberOfInputNodes());
-  InputLayerOutput.copy_in(inputweightset->GetInputValues());
-  DW_temp = inputerrormatrix * InputLayerOutput;
-  DW_temp.set_column(inputweightset->GetNumberOfInputNodes()-1,0.0);
-  
-  inputweightset->SetDeltaValues(DW_temp.data_block());
-  inputweightset->SetDeltaBValues(GetInputErrorVector());
-  */
-}
 
 template<class TVector, class TOutput>
 void
