@@ -20,7 +20,9 @@ WeightSetBase<TVector,TOutput>
   m_Bias = 1;
   m_NumberOfInputNodes = 0;
   m_NumberOfOutputNodes = 0;
-  m_RandomGenerator = NormalVariateGeneratorType::New() ;
+  m_RandomGenerator = RandomVariateGeneratorType::New() ;
+  RandomVariateGeneratorType::IntegerType randomSeed = 14543;
+  m_RandomGenerator->Initialize( randomSeed );
 }
 
 template<class TVector, class TOutput>
@@ -145,7 +147,9 @@ typename WeightSetBase<TVector,TOutput>::ValueType
 WeightSetBase<TVector,TOutput>
 :: RandomWeightValue(ValueType low, ValueType high)
 {
-  return static_cast<ValueType>(((ValueType)rand() / RAND_MAX) * (high-low) + low);
+  //return static_cast<ValueType>(((ValueType)rand() / RAND_MAX) * (high-low) + low);
+    return static_cast<ValueType>(m_RandomGenerator->GetUniformVariate(low,high));
+
 }
 
 template<class TVector, class TOutput>

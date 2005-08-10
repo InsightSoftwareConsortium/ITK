@@ -24,7 +24,7 @@
 #include <vnl/vnl_diag_matrix.h>
 #include "itkMacro.h"
 #include "itkVector.h"
-#include "itkNormalVariateGenerator.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 #include <math.h>
 #include <stdlib.h>
 
@@ -44,7 +44,7 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
   itkTypeMacro(WeightSetBase, LightProcessObject);        
 
-  typedef NormalVariateGenerator NormalVariateGeneratorType ;
+  typedef MersenneTwisterRandomVariateGenerator  RandomVariateGeneratorType;
 
   typedef typename TVector::ValueType ValueType;
   typedef ValueType* ValuePointer;
@@ -133,7 +133,7 @@ protected:
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
-  typename NormalVariateGeneratorType::Pointer m_RandomGenerator;
+  typename RandomVariateGeneratorType::Pointer m_RandomGenerator;
   int                       m_NumberOfInputNodes;
   int                       m_NumberOfOutputNodes;
   vnl_matrix<ValueType>     m_OutputValues;
