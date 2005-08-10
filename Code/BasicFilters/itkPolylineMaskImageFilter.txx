@@ -171,11 +171,11 @@ template <class TInputImage, class TPolyline, class TVector,
 
 
   typedef typename TInputImage::Pointer                               InputImagePointer;
-  typedef typename itk::ImageRegionConstIterator<TInputImage>         InputImageConstIteratorType;
+  typedef ImageRegionConstIterator<TInputImage>         InputImageConstIteratorType;
 
   typedef typename TOutputImage::IndexType                            ImageIndexType;
   typedef typename TOutputImage::PixelType                            PixelType;
-  typedef typename itk::ImageRegionIterator<TOutputImage>             OutputImageIteratorType;
+  typedef ImageRegionIterator<TOutputImage>             OutputImageIteratorType;
 
 
   typedef typename TPolyline::Pointer                                 PolylinePointer;
@@ -202,7 +202,7 @@ template <class TInputImage, class TPolyline, class TVector,
   InputImageConstIteratorType  inputIt(inputImagePtr,inputImagePtr->GetLargestPossibleRegion());
   OutputImageIteratorType outputIt(outputImagePtr,outputImagePtr->GetLargestPossibleRegion());
 
-  typedef typename itk::NearestNeighborInterpolateImageFunction< TInputImage, double> InterpolatorType;
+  typedef NearestNeighborInterpolateImageFunction< TInputImage, double> InterpolatorType;
   typedef typename InterpolatorType::OutputType OutputType;
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
   typedef typename InterpolatorType::PointType    PointType;
@@ -215,14 +215,14 @@ template <class TInputImage, class TPolyline, class TVector,
   // Walk the output region
 
   // Generate a 2D image with the viewing polygon as a mask 
-  typedef itk::Image<unsigned char,2> TmpImageType;
+  typedef Image<unsigned char,2> TmpImageType;
   typedef typename TmpImageType::IndexType          TmpImageIndexType;
   typedef typename TmpImageType::PixelType          TmpPixelType;
   typedef TmpImageType::RegionType                  TmpRegionType;
   typedef TmpImageType::SizeType                    TmpSizeType;
   typedef TmpImageType::IndexType                    TmpIndexType;
-  typedef typename itk::LineIterator<TmpImageType>                    LineIteratorType;
-  typedef typename itk::ImageLinearIteratorWithIndex< TmpImageType >  ImageLineIteratorType;
+  typedef LineIterator<TmpImageType>                    LineIteratorType;
+  typedef ImageLinearIteratorWithIndex< TmpImageType >  ImageLineIteratorType;
   
   TmpIndexType  tmpStart;
   TmpSizeType   tmpSize;
@@ -247,7 +247,7 @@ template <class TInputImage, class TPolyline, class TVector,
   tmpImagePtr->Allocate();   
   tmpImagePtr->FillBuffer(0);
 
-  typedef typename itk::ImageRegionIterator<TmpImageType>  TmpImageIteratorType;
+  typedef ImageRegionIterator<TmpImageType>  TmpImageIteratorType;
   TmpImageIteratorType tmpIt(tmpImagePtr,tmpImagePtr->GetLargestPossibleRegion());
 
   /* Generate the transformation matrix */

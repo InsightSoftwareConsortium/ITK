@@ -60,8 +60,8 @@ public:
   typedef typename InputImageType::ConstPointer InputImagePointer;
   typedef typename InputImageType::RegionType InputImageRegionType; 
   typedef typename InputImageType::PixelType InputImagePixelType; 
-  typedef typename itk::Point<double,3>            PointType;
-  typedef typename itk::Point<double,2> ProjPlanePointType;      
+  typedef Point<double,3>            PointType;
+  typedef Point<double,2> ProjPlanePointType;      
 
   /** Standard matrix type for this class. */
   typedef Matrix<double, itkGetStaticConstMacro(InputDimension), itkGetStaticConstMacro(InputDimension)> MatrixType;
