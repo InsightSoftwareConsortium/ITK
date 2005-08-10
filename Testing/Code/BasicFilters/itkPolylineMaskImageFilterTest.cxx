@@ -26,7 +26,7 @@
 #include <itkSpatialObjectToImageFilter.h>
 #include <itkImageFileWriter.h>
 
-int itkPolylineMaskImageFilterTest(int argc , char * argv [] ) 
+int itkPolylineMaskImageFilterTest(int , char * [] ) 
 {
 
   // Define the dimension of the images
