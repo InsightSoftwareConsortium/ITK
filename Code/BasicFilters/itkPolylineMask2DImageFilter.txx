@@ -82,15 +82,15 @@ template <class TInputImage, class TPolyline,
 void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
 ::GenerateData(void)
 {
-  typedef typename itk::LineIterator<TOutputImage>                    LineIteratorType;
-  typedef typename itk::ImageLinearIteratorWithIndex< TOutputImage >  ImageLineIteratorType;
+  typedef  LineIterator<TOutputImage>                    LineIteratorType;
+  typedef  ImageLinearIteratorWithIndex< TOutputImage >  ImageLineIteratorType;
 
   typedef typename TInputImage::Pointer                               InputImagePointer;
-  typedef typename itk::ImageRegionConstIterator<TInputImage>         InputImageConstIteratorType;
+  typedef ImageRegionConstIterator<TInputImage>         InputImageConstIteratorType;
 
   typedef typename TOutputImage::IndexType                            ImageIndexType;
   typedef typename TOutputImage::PixelType                            PixelType;
-  typedef typename itk::ImageRegionIterator<TOutputImage>             OutputImageIteratorType;
+  typedef ImageRegionIterator<TOutputImage>             OutputImageIteratorType;
 
 
   typedef typename TPolyline::Pointer                                 PolylinePointer;
