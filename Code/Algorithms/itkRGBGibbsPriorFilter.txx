@@ -656,7 +656,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     ++mediumImageIt;
     }
 
-  delete dist;
+  delete []dist;
 
 }
 
