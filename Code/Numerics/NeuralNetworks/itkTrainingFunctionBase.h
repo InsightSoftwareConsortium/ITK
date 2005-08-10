@@ -85,7 +85,7 @@ public:
   targetconverter(typename TOutput::MeasurementVectorType v)
     {
     OutputVectorType temp;
-    for (int i = 0; i < v.Size(); i++)
+    for (unsigned int i = 0; i < v.Size(); i++)
       {
       temp[i] = static_cast<ScalarType>(v[i]) ;
       }
