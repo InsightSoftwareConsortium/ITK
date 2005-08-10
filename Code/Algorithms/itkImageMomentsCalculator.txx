@@ -51,12 +51,12 @@ ImageMomentsCalculator<TImage>::ImageMomentsCalculator(void)
   m_Valid = false;
   m_Image = NULL;
   m_M0 = NumericTraits<ScalarType>::Zero;
-  m_M1.Fill(NumericTraits<typename VectorType::ValueType>::Zero);
-  m_M2.Fill(NumericTraits<typename MatrixType::ValueType>::Zero);
-  m_Cg.Fill(NumericTraits<typename VectorType::ValueType>::Zero);
-  m_Cm.Fill(NumericTraits<typename MatrixType::ValueType>::Zero);
-  m_Pm.Fill(NumericTraits<typename VectorType::ValueType>::Zero);
-  m_Pa.Fill(NumericTraits<typename MatrixType::ValueType>::Zero);
+  m_M1.Fill(NumericTraits<ITK_TYPENAME VectorType::ValueType>::Zero);
+  m_M2.Fill(NumericTraits<ITK_TYPENAME MatrixType::ValueType>::Zero);
+  m_Cg.Fill(NumericTraits<ITK_TYPENAME VectorType::ValueType>::Zero);
+  m_Cm.Fill(NumericTraits<ITK_TYPENAME MatrixType::ValueType>::Zero);
+  m_Pm.Fill(NumericTraits<ITK_TYPENAME VectorType::ValueType>::Zero);
+  m_Pa.Fill(NumericTraits<ITK_TYPENAME MatrixType::ValueType>::Zero);
 }
 
 //----------------------------------------------------------------------
@@ -91,11 +91,11 @@ void
 ImageMomentsCalculator<TImage>::
 Compute()
 {
-  m_M0 = 0.0;
-  m_M1.Fill( 0.0 );
-  m_M2.Fill( 0.0 );
-  m_Cg.Fill( 0.0 );
-  m_Cm.Fill( 0.0 );
+  m_M0 = NumericTraits<ScalarType>::Zero;
+  m_M1.Fill(NumericTraits<ITK_TYPENAME VectorType::ValueType>::Zero);
+  m_M2.Fill(NumericTraits<ITK_TYPENAME MatrixType::ValueType>::Zero);
+  m_Cg.Fill(NumericTraits<ITK_TYPENAME VectorType::ValueType>::Zero);
+  m_Cm.Fill(NumericTraits<ITK_TYPENAME MatrixType::ValueType>::Zero);
 
   typedef typename ImageType::IndexType IndexType;
 
