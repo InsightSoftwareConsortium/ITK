@@ -64,8 +64,13 @@ SampleMeanShiftBlurringFilter< TSample >
   return m_Output.GetPointer() ;
 } 
 
+// VS6 cannot compile the following method without the following pragma
+#if defined(_MSC_VER)
+#pragma inline_depth(0)
+#endif
+
 template< class TSample >
-inline void
+void
 SampleMeanShiftBlurringFilter< TSample >
 ::GenerateData() 
 {
