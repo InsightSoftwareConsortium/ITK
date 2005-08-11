@@ -183,7 +183,7 @@ NormalVectorDiffusionFunction <TSparseImageType>
   const NormalVectorType CenterPixel = CenterNode->m_Data;
   NodeType* NextNode;
   
-  change = NumericTraits<NodeValueType>::Zero;
+  change = NumericTraits<NormalVectorType>::Zero;
   for (i=0;i<ImageDimension;i++) // flux offset axis
     {
     NextNode = it.GetNext (i);
