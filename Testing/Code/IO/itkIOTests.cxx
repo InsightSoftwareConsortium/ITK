@@ -76,4 +76,6 @@ void RegisterTests()
   REGISTER_TEST(itkTIFFImageIOTest);
   REGISTER_TEST(itkTransformIOTest);
   REGISTER_TEST(itkImageFileWriterTest);
+  REGISTER_TEST(itkniftiImageIOTest);
+  REGISTER_TEST(itkniftiImageIOTest2);
 }

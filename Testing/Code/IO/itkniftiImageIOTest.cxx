@@ -296,6 +296,12 @@ int itkniftiImageIOTest(int ac, char* av[])
     --ac;
     itksys::SystemTools::ChangeDirectory(testdir);
   }
+  static bool firstTime = true;
+  if(firstTime) 
+    {
+    itk::ObjectFactoryBase::RegisterFactory(itk::niftiImageIOFactory::New() );
+    firstTime = false;
+    }
   if(ac > 1) //This is a mechanism for reading unsigned char images for testing.
     {
       typedef itk::Image<unsigned char, 3> ImageType ;
@@ -412,6 +418,11 @@ int itkniftiImageIOTest2(int ac, char* av[])
   typedef itk::Image<signed short, 3> ImageType ;
   typedef ImageType::Pointer ImagePointer ;
   typedef itk::ImageFileReader< ImageType > ImageReaderType ;
+
+  if((strcmp(arg1, "true") == 0) && WriteTestFiles() == -1)
+    {
+      return EXIT_FAILURE;
+    }
 
 
 
