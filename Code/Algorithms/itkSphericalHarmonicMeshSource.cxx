@@ -10,7 +10,7 @@
 #include "itkSphericalHarmonicMeshSource.h"
 
 #include <math.h>
-#include <malloc.h>
+#include <stdio.h>
 
 #include <iostream>
 
