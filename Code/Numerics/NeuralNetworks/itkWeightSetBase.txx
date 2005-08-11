@@ -137,7 +137,10 @@ WeightSetBase<TVector,TOutput>
     {
     for (int j = 0; j < num_cols; j++)
       {
-      m_WeightMatrix(i, j) = RandomWeightValue(-m_Range,m_Range);
+        if(m_ConnectivityMatrix[i][j]==1)
+         m_WeightMatrix(i, j) = RandomWeightValue(-m_Range,m_Range);
+        else
+         m_WeightMatrix(i, j) = 0;
       }
     }
 }
