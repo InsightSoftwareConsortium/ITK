@@ -26,8 +26,35 @@ namespace itk
 
 /** \brief Similarity2DTransform of a vector space (e.g. space coordinates)
  *
- * This transform applies a rotation, scale and translation to the space
+ * This transform applies a homogenous scale and rigid transform in
+ * 2D space. The transform is specified as a scale and rotation around
+ * a arbitrary center and is followed by a translation.
  * given one angle for rotation, a homogeneous scale and a 2D offset for translation. 
+ *
+ * The parameters for this transform can be set either using
+ * individual Set methods or in serialized form using
+ * SetParameters() and SetFixedParameters().
+ *
+ * The serialization of the optimizable parameters is an array of 3 elements
+ * ordered as follows:
+ * p[0] = scale
+ * p[1] = angle
+ * p[2] = x component of the translation
+ * p[3] = y component of the translation
+ *
+ * The serialization of the fixed parameters is an array of 2 elements
+ * ordered as follows:
+ * p[0] = x coordinate of the center
+ * p[1] = y coordinate of the center
+ *
+ * Access methods for the center, translation and underlying matrix
+ * offset vectors are documented in the superclass MatrixOffsetTransformBase.
+ *
+ * Access methods for the angle are documented in superclass Rigid2DTransform.
+ *
+ * \sa Transform
+ * \sa MatrixOffsetTransformBase
+ * \sa Rigid2DTransform
  *
  * \ingroup Transforms
  */
@@ -67,6 +94,9 @@ public:
   /** Offset type. */
   typedef typename Superclass::OffsetType  OffsetType;
 
+  /** Matrix type. */
+  typedef typename Superclass::MatrixType MatrixType;
+
   /** Point type. */
   typedef typename Superclass::InputPointType   InputPointType;
   typedef typename Superclass::OutputPointType  OutputPointType;
@@ -82,35 +112,68 @@ public:
   /** VnlVector type. */
   typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
+
+  /** Set the Scale part of the transform. */
+  void SetScale( ScaleType scale );
+  itkGetConstReferenceMacro( Scale, ScaleType );
   
   /** Set the transformation from a container of parameters
     * This is typically used by optimizers.
     * There are 4 parameters. The first one represents the
     * scale, the second represents the angle of rotation
-    * and the last two represent the translation. */
+    * and the last two represent the translation.
+    * The center of rotation is fixed.
+    * 
+    * \sa Transform::SetParameters()
+    * \sa Transform::SetFixedParameters() */
   void SetParameters( const ParametersType & parameters );
-
-  /** Set the Scale part of the transform. */
-  void SetScale( ScaleType scale );
-  itkGetConstReferenceMacro( Scale, ScaleType );
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
    * There are 4 parameters. The first one represents the
    * scale, the second represents the angle of rotation,
-   * and the last two represent the translation. */
+   * and the last two represent the translation.
+   * The center of rotation is fixed.
+   *
+   * \sa Transform::GetParameters()
+   * \sa Transform::GetFixedParameters() */
   const ParametersType & GetParameters( void ) const; 
  
-  /** This method computes the Jacobian matrix of the transformation.
-   * given point or vector, returning the transformed point or
-   * vector. The rank of the Jacobian will also indicate if the 
-   * transform is invertible at this point. */
-  const JacobianType & GetJacobian(const InputPointType  &point ) const;
+   /** This method computes the Jacobian matrix of the transformation
+   * at a given input point.
+   *
+   * \sa Transform::GetJacobian() */
+ const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
-  /** Set the transformation to an Identity
-   * This sets the matrix to identity and the Offset to null. */
+  /** Set the transformation to an identity. */
   virtual void SetIdentity( void );
 
+  /**
+   * This method creates and returns a new Similarity2DTransform object
+   * which is the inverse of self.
+   **/
+  void CloneInverseTo( Pointer & newinverse ) const;
+
+  /**
+   * This method creates and returns a new Similarity2DTransform object
+   * which has the same parameters.
+   **/
+  void CloneTo( Pointer & clone ) const;
+
+  /**
+   * Set the rotation Matrix of a Similarity 2D Transform
+   *
+   * This method sets the 2x2 matrix representing a similarity
+   * transform.  The Matrix is expected to be a valid
+   * similarity transform with a certain tolerance.
+   *
+   * \warning This method will throw an exception if the matrix
+   * provided as argument is not valid.
+   *
+   * \sa MatrixOffsetTransformBase::SetMatrix()
+   *
+   **/
+  virtual void SetMatrix( const MatrixType & matrix );
 
 protected:
   Similarity2DTransform();
@@ -120,8 +183,20 @@ protected:
   ~Similarity2DTransform(){};
   void PrintSelf(std::ostream &os, Indent indent) const;
 
-  /** Compute the components of the rotation matrix and offset in the superclass. */
-  virtual void ComputeMatrixAndOffset(void);
+  /** Compute matrix from angle and scale. This is used in Set methods
+   * to update the underlying matrix whenever a transform parameter 
+   * is changed. */
+  virtual void ComputeMatrix(void);
+
+  /** Compute the angle and scale from the matrix. This is used to compute
+   * transform parameters from a given matrix. This is used in
+   * MatrixOffsetTransformBase::Compose() and 
+   * MatrixOffsetTransformBase::GetInverse(). */
+  virtual void ComputeMatrixParameters(void);
+
+  /** Set the scale without updating underlying variables. */
+  void SetVarScale( ScaleType scale )
+    { m_Scale = scale; }
 
 private:
   Similarity2DTransform(const Self&); //purposely not implemented

@@ -18,37 +18,54 @@
 #define __itkRigid2DTransform_h
 
 #include <iostream>
-#include "itkTransform.h"
+#include "itkMatrixOffsetTransformBase.h"
 #include "itkExceptionObject.h"
-#include "itkMatrix.h"
 
 namespace itk
 {
 
 /** \brief Rigid2DTransform of a vector space (e.g. space coordinates)
  *
- * This transform applies a rotation and translation to the space
+ * This transform applies a rigid transformation in 2D space.
+ * The transform is specified as a rotation around a arbitrary center
+ * and is followed by a translation.
  *
- * In order to initialize this transform a user should provide the following
+ * The parameters for this transform can be set either using
+ * individual Set methods or in serialized form using
+ * SetParameters() and SetFixedParameters().
  *
- * - Coordinates of the center of rotation in the input space
- * - Angle of rotation (in radians) 
- * - Translation to be applied after the rotation.
+ * The serialization of the optimizable parameters is an array of 3 elements
+ * ordered as follows:
+ * p[0] = angle
+ * p[1] = x component of the translation
+ * p[2] = y component of the translation
+ *
+ * The serialization of the fixed parameters is an array of 2 elements
+ * ordered as follows:
+ * p[0] = x coordinate of the center
+ * p[1] = y coordinate of the center
+ *
+ * Access methods for the center, translation and underlying matrix
+ * offset vectors are documented in the superclass MatrixOffsetTransformBase.
+ *
+ * \sa Transfrom
+ * \sa MatrixOffsetTransformBase
+ *
  * \ingroup Transforms
  */
 template < class TScalarType=double >    // Data type for scalars (float or double)
 class ITK_EXPORT Rigid2DTransform : 
-        public Transform< TScalarType, 2, 2> // Dimensions of input and output spaces
+        public MatrixOffsetTransformBase< TScalarType, 2, 2> // Dimensions of input and output spaces
 {
 public:
   /** Standard class typedefs. */
   typedef Rigid2DTransform Self;
-  typedef Transform< TScalarType, 2, 2 > Superclass;
+  typedef MatrixOffsetTransformBase< TScalarType, 2, 2 > Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro( Rigid2DTransform, Transform );
+  itkTypeMacro( Rigid2DTransform, MatrixOffsetTransformBase );
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
@@ -56,7 +73,7 @@ public:
   /** Dimension of the space. */
   itkStaticConstMacro(InputSpaceDimension, unsigned int, 2);
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, 2);
-  itkStaticConstMacro(ParametersDimension, unsigned int, 4);
+  itkStaticConstMacro(ParametersDimension, unsigned int, 3);
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType  ScalarType;
@@ -68,94 +85,50 @@ public:
   typedef typename Superclass::JacobianType  JacobianType;
 
   /// Standard matrix type for this class
-  typedef Matrix<ScalarType, itkGetStaticConstMacro(InputSpaceDimension), itkGetStaticConstMacro(InputSpaceDimension)> MatrixType;
+  typedef typename Superclass::MatrixType MatrixType;
 
   /// Standard vector type for this class
-  typedef Vector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> OffsetType;
+  typedef typename Superclass::OffsetType OffsetType;
 
   /// Standard vector type for this class
-  typedef Vector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> InputVectorType;
-  typedef Vector<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
+  typedef typename Superclass::InputVectorType InputVectorType;
+  typedef typename Superclass::OutputVectorType OutputVectorType;
 
   /// Standard covariant vector type for this class
-  typedef CovariantVector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> InputCovariantVectorType;
-  typedef CovariantVector<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputCovariantVectorType;
+  typedef typename Superclass::InputCovariantVectorType InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
 
   /// Standard vnl_vector type for this class
-  typedef vnl_vector_fixed<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputVnlVectorType;
+  typedef typename Superclass::InputVnlVectorType InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
 
   /// Standard coordinate point type for this class
-  typedef Point<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)>    InputPointType;
-  typedef Point<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)>    OutputPointType;
-
-  /**
-   * Get offset of an Rigid2DTransform
-   *
-   * This method returns the value of the offset of the
-   * Rigid2DTransform.
-   **/
-   itkGetConstReferenceMacro( Offset, OffsetType );
-
-  /**
-   * Get rotation Matrix from an Rigid2DTransform
-   *
-   * This method returns the value of the rotation of the
-   * Rigid2DTransform.
-   **/
-   itkGetConstReferenceMacro( RotationMatrix, MatrixType );
-
-  /**
-   * Get rotation Matrix from an Rigid2DTransform
-   *
-   * This method returns the value of the rotation of the
-   * Rigid2DTransform.
-   **/
-   const MatrixType & GetMatrix( )
-     {
-     return this->GetRotationMatrix();
-     }
-
-
-  /**
-   * Set offset of a Rigid2D Transform
-   *
-   * This method sets the offset of an Rigid2DTransform to a
-   * value specified by the user.
-   **/
-  itkSetMacro( Offset, OffsetType );
-
+  typedef typename Superclass::InputPointType    InputPointType;
+  typedef typename Superclass::OutputPointType    OutputPointType;
 
   /**
    * Set the rotation Matrix of a Rigid2D Transform
    *
-   * This method sets the 2x2 matrix representing a rotation
+   * This method sets the 2x2 matrix representing the rotation
    * in the transform.  The Matrix is expected to be orthogonal
    * with a certain tolerance.
+   *
    * \warning This method will throw an exception is the matrix
    * provided as argument is not orthogonal.
+   *
+   * \sa MatrixOffsetTransformBase::SetMatrix()
    **/
-  virtual void SetRotationMatrix(const MatrixType &matrix);
+  virtual void SetMatrix( const MatrixType & matrix );
 
   /**
-   * Set the rotation Matrix of a Rigid2D Transform
-   *
-   * This method sets the 2x2 matrix representing a rotation
-   * in the transform.  The Matrix is expected to be orthogonal
-   * with a certain tolerance.
-   * \warning This method will throw an exception is the matrix
-   * provided as argument is not orthogonal.
+   * Set/Get the rotation matrix. These methods are old and are
+   * retained for backward compatibility. Instead, use SetMatrix()
+   * GetMatrix().
    **/
-  void SetMatrix(const MatrixType &matrix)
-    {
-    this->SetRotationMatrix(matrix);
-    }
-
-  /**
-   * Compose with another Rigid2DTransform
-   *
-   **/
-  virtual void Compose(const Self *other, bool pre=false);
+  virtual void SetRotationMatrix(const MatrixType &matrix)
+    { this->SetMatrix( matrix ); }
+   const MatrixType & GetRotationMatrix() const
+    { return this->GetMatrix(); }
 
 
   /**
@@ -167,27 +140,13 @@ public:
    **/
   void Translate(const OffsetType &offset, bool pre=false);
 
-
   /**
-   * Transform by an affine transformation
+   * Back transform by an rigid transformation.
    *
-   * This method applies the affine transform given by self to a
-   * given point or vector, returning the transformed point or
-   * vector.
-   **/
-  OutputPointType     TransformPoint(const InputPointType  &point ) const;
-  OutputVectorType    TransformVector(const InputVectorType &vector) const;
-  OutputVnlVectorType    TransformVector(const InputVnlVectorType &vector) const;
-
-  OutputCovariantVectorType TransformCovariantVector(
-                                 const InputCovariantVectorType &vector) const;
-
-  /**
-   * Back transform by an affine transformation
-   *
-   * This method finds the point or vector that maps to a given
-   * point or vector under the affine transformation defined by
-   * self.  If no such point exists, an exception is thrown.
+   * The BackTransform() methods are slated to be removed from ITK.  
+   * Instead, please use GetInverse() or CloneInverseTo() to generate 
+   * an inverse transform and  then perform the transform using that 
+   * inverted transform.
    **/
   inline InputPointType      BackTransform(const OutputPointType  &point ) const;
   inline InputVectorType     BackTransform(const OutputVectorType &vector) const;
@@ -196,77 +155,94 @@ public:
   inline InputCovariantVectorType BackTransform(
                                      const OutputCovariantVectorType &vector) const;
 
-  /** Set the rotational part of the transform. */
+  /** Set/Get the angle of rotation in radians */
   void SetAngle(TScalarType angle);
-  void SetAngleInDegrees(TScalarType angle);
   itkGetConstReferenceMacro( Angle, TScalarType );
+
+  /** Set the angle of rotation in degrees. */
+  void SetAngleInDegrees(TScalarType angle);
+
+  /** Set/Get the angle of rotation in radians. These methods
+   * are old and are retained for backward compatibility.
+   * Instead, use SetAngle() and GetAngle(). */
+  void SetRotation(TScalarType angle)
+    { this->SetAngle(angle); }
+  virtual const TScalarType & GetRotation() const
+    { return m_Angle; }  
+
+  /** Set the transformation from a container of parameters
+   * This is typically used by optimizers.
+   * There are 3 parameters. The first one represents the
+   * angle of rotation in radians and the last two represents the translation.
+   * The center of rotation is fixed.
+   * 
+   * \sa Transform::SetParameters()
+   * \sa Transform::SetFixedParameters() */
+  void SetParameters( const ParametersType & parameters );
+
+  /** Get the parameters that uniquely define the transform
+   * This is typically used by optimizers.
+   * There are 3 parameters. The first one represents the
+   * angle or rotation in radians and the last two represents the translation. 
+   * The center of rotation is fixed.
+   *
+   * \sa Transform::GetParameters()
+   * \sa Transform::GetFixedParameters() */
+  const ParametersType & GetParameters( void ) const;
   
-  /** Set and Get the center of rotation */
-  void SetCenter( const InputPointType & center );
-  itkGetConstReferenceMacro( Center, InputPointType );
-
-  /** Set and Get the Translation to be applied after rotation */
-  void SetTranslation( const OutputVectorType & translation );
-  itkGetConstReferenceMacro( Translation, OutputVectorType );
-
+  /** This method computes the Jacobian matrix of the transformation
+   * at a given input point.
+   *
+   * \sa Transform::GetJacobian() */
+  const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
   /**
-   * Find inverse of an affine transformation
-   *
    * This method creates and returns a new Rigid2DTransform object
-   * which is the inverse of self.  If self is not invertible,
-   * false is returned.
+   * which is the inverse of self.
    **/
-  bool GetInverse(Self* inverse) const;
+  void CloneInverseTo( Pointer & newinverse ) const;
 
-  /** Set the parameters to the IdentityTransform */
+  /**
+   * This method creates and returns a new Rigid2DTransform object
+   * which has the same parameters.
+   **/
+  void CloneTo( Pointer & clone ) const;
+
+  /** Reset the parameters to create and identity transform. */
   virtual void SetIdentity(void);
-
-  /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
-
 
 protected:
   Rigid2DTransform();
-  ~Rigid2DTransform();
-
-  Rigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
-  /**
+  Rigid2DTransform( unsigned int outputSpaceDimension, 
+                    unsigned int parametersDimension);
+ 
+ ~Rigid2DTransform();
+ 
+ /**
    * Print contents of an Rigid2DTransform
    **/
   void PrintSelf(std::ostream &os, Indent indent) const;
 
+  /** Compute the matrix from angle. This is used in Set methods
+   * to update the underlying matrix whenever a transform parameter 
+   * is changed. */
+  virtual void ComputeMatrix(void);
 
-  // matrix representation of the rotation
-  // Should be protected in order to be modified 
-  // by derived classes that instantiate an interface
-  // to rotation computation
-  MatrixType          m_RotationMatrix;   
+  /** Compute the angle from the matrix. This is used to compute
+   * transform parameters from a given matrix. This is used in
+   * MatrixOffsetTransformBase::Compose() and 
+   * MatrixOffsetTransformBase::GetInverse(). */
+  virtual void ComputeMatrixParameters(void);
 
-  // representation of the inverse rotation
-  mutable MatrixType    m_InverseMatrix;
-
-  // Return the inverse matrix and recompute it only if necessary
-  const MatrixType & GetInverseMatrix() const;
-
-  // To avoid recomputation of the inverse if not needed
-  mutable TimeStamp   m_InverseMatrixMTime;
-  TimeStamp           m_RotationMatrixMTime;
-
-  /** Compute the components of the rotation matrix and offset in the superclass. */
-  virtual void ComputeMatrixAndOffset(void);
+  /** Update angle without recomputation of other internal variables. */
+  void SetVarAngle( TScalarType angle )
+    { m_Angle = angle; }
 
 private:
   Rigid2DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  // Offset of the transformation
-  OffsetType          m_Offset;   
+  
   TScalarType         m_Angle; 
-
-  InputPointType      m_Center;
-
-  OutputVectorType    m_Translation;
 
 }; //class Rigid2DTransform
 

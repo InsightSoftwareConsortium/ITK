@@ -26,11 +26,10 @@ namespace itk
 // Constructor with default arguments
 template<class TScalarType>
 Rigid2DTransform<TScalarType>::
-Rigid2DTransform():Superclass(OutputSpaceDimension,ParametersDimension)
+Rigid2DTransform():
+  Superclass(OutputSpaceDimension, ParametersDimension)
 {
-  m_Offset.Fill( 0 );
-  m_RotationMatrix.SetIdentity();
-  m_InverseMatrix.SetIdentity();
+  m_Angle = NumericTraits< TScalarType >::Zero;
 }
  
 
@@ -41,14 +40,9 @@ Rigid2DTransform( unsigned int spaceDimension,
                   unsigned int parametersDimension):
   Superclass(spaceDimension,parametersDimension)
 {
-  m_Offset.Fill( 0 );
-  m_RotationMatrix.SetIdentity();
-  m_InverseMatrix.SetIdentity();
   m_Angle = NumericTraits< TScalarType >::Zero;
-  m_Center.Fill( 0.0 );
-  m_Translation.Fill( 0.0 );
 }
- 
+
 
 // Destructor
 template<class TScalarType>
@@ -65,36 +59,17 @@ Rigid2DTransform<TScalarType>::
 PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Offset: " << m_Offset   << std::endl;
-  os << indent << "RotationMatrix: " << m_RotationMatrix   << std::endl;
   os << indent << "Angle       = " << m_Angle        << std::endl;
-  os << indent << "Center      = " << m_Center       << std::endl;
-  os << indent << "Translation = " << m_Translation  << std::endl;
 }
 
 
-//
-template<class TScalarType>
-const typename Rigid2DTransform< TScalarType >::MatrixType &
-Rigid2DTransform<TScalarType>::
-GetInverseMatrix() const
-{
-  // If the transform has been modified we recompute the inverse
-  if(m_InverseMatrixMTime != m_RotationMatrixMTime)
-    {
-    m_InverseMatrix = m_RotationMatrix.GetTranspose();
-    m_InverseMatrixMTime = m_RotationMatrixMTime;
-    }
-  return m_InverseMatrix; 
-}
-
-// Compose with another affine transformation
+// Set the rotation matrix
 template<class TScalarType>
 void
 Rigid2DTransform<TScalarType>::
-SetRotationMatrix(const MatrixType & matrix )
+SetMatrix(const MatrixType & matrix )
 {
-  itkDebugMacro("setting  m_RotationMatrix  to " << matrix ); 
+  itkDebugMacro("setting  m_Matrix  to " << matrix ); 
   // The matrix must be orthogonal otherwise it is not
   // representing a valid rotaion in 2D space
   typename MatrixType::InternalMatrixType test = 
@@ -109,30 +84,31 @@ SetRotationMatrix(const MatrixType & matrix )
     throw ex;
     }
 
-  m_RotationMatrix = matrix;
-  m_RotationMatrixMTime.Modified();
-  this->Modified(); 
+  this->SetVarMatrix( matrix );
+  this->ComputeOffset();
+  this->ComputeMatrixParameters();
+  this->Modified();
+
 }
 
 
-// Compose with another affine transformation
-template<class TScalarType>
+/** Compute the Angle from the Rotation Matrix */
+template <class TScalarType>
 void
-Rigid2DTransform<TScalarType>::
-Compose(const Self * other, bool pre )
+Rigid2DTransform<TScalarType>
+::ComputeMatrixParameters( void )
 {
-  if (pre) 
+  m_Angle = acos(this->GetMatrix()[0][0]); 
+
+  if(this->GetMatrix()[1][0]<0.0)
     {
-    m_Offset         = m_RotationMatrix * other->m_Offset + m_Offset;
-    m_RotationMatrix = m_RotationMatrix * other->m_RotationMatrix;
+    m_Angle = -m_Angle;
     }
-  else 
+
+  if(this->GetMatrix()[1][0]-sin(m_Angle) > 0.000001)
     {
-    m_Offset         = other->m_RotationMatrix * m_Offset + other->m_Offset;
-    m_RotationMatrix = other->m_RotationMatrix * m_RotationMatrix;
+    itkWarningMacro("Bad Rotation Matrix " << this->GetMatrix() ); 
     }
-  m_RotationMatrixMTime.Modified();
-  this->Modified();
 }
 
 
@@ -142,160 +118,61 @@ void
 Rigid2DTransform<TScalarType>::
 Translate(const OffsetType &offset, bool)
 {
-  m_Offset += offset;
-  return;
+  OutputVectorType newOffset = this->GetOffset();
+  newOffset += offset;
+  this->SetOffset(newOffset);
 }
 
-
-
-
-// Transform a point
-template<class TScalarType>
-typename Rigid2DTransform<TScalarType>::OutputPointType
-Rigid2DTransform<TScalarType>::
-TransformPoint(const InputPointType &point) const 
-{
-  return m_RotationMatrix * point + m_Offset; 
-}
-
-
-// Transform a vector
-template<class TScalarType>
-typename Rigid2DTransform<TScalarType>::OutputVectorType
-Rigid2DTransform<TScalarType>::
-TransformVector(const InputVectorType &vect) const 
-{
-  return  m_RotationMatrix * vect;
-}
-
-
-// Transform a vnl_vector_fixed
-template<class TScalarType>
-typename Rigid2DTransform<TScalarType>::OutputVnlVectorType
-Rigid2DTransform<TScalarType>::
-TransformVector(const InputVnlVectorType &vect) const 
-{
-  return  m_RotationMatrix * vect;
-}
-
-
-// Transform a CovariantVector
-template<class TScalarType>
-typename Rigid2DTransform<TScalarType>::OutputCovariantVectorType
-Rigid2DTransform<TScalarType>::
-TransformCovariantVector(const InputCovariantVectorType &vect) const 
-{
-  // Covariant vectors are transformed like contravariant
-  // vectors under orthogonal transformations.
-  return  m_RotationMatrix * vect;
-}
-
-
-
-// Back transform a point
-template<class TScalarType>
-typename Rigid2DTransform<TScalarType>::InputPointType
-Rigid2DTransform<TScalarType>::
-BackTransform(const OutputPointType &point) const 
-{
-  return m_InverseMatrix * (point - m_Offset);
-}
-
-// Back transform a vector
-template<class TScalarType>
-typename Rigid2DTransform<TScalarType>::InputVectorType
-Rigid2DTransform<TScalarType>::
-BackTransform(const OutputVectorType &vect ) const 
-{
-  return  m_InverseMatrix * vect;
-}
-
-// Back transform a vnl_vector
-template<class TScalarType>
-typename Rigid2DTransform<TScalarType>::InputVnlVectorType
-Rigid2DTransform<TScalarType>::
-BackTransform(const OutputVnlVectorType &vect ) const 
-{
-  return  m_InverseMatrix * vect;
-}
-
-
-// Back Transform a CovariantVector
-template<class TScalarType>
-typename Rigid2DTransform<TScalarType>::InputCovariantVectorType
-Rigid2DTransform<TScalarType>::
-BackTransform(const OutputCovariantVectorType &vect) const 
-{
-  return m_RotationMatrix * vect;
-}
 
 // Create and return an inverse transformation
 template<class TScalarType>
-bool 
+void
 Rigid2DTransform<TScalarType>::
-GetInverse(Self* inverse) const
+CloneInverseTo( Pointer & result ) const
 {
-  if(!inverse)
-    {
-    return false;
-    }
+  result = New();
+  result->SetCenter( this->GetCenter() );  // inverse have the same center
+  result->SetAngle( -this->GetAngle() );
+  result->SetTranslation( -( this->GetInverseMatrix() * this->GetTranslation() ) );
+}
 
-  inverse->m_RotationMatrix   =   this->GetInverseMatrix();
-  inverse->m_InverseMatrix    =   m_RotationMatrix;
-  inverse->m_Offset           = -(this->GetInverseMatrix() * m_Offset);
-
-  return true;
+// Create and return a clone of the transformation
+template<class TScalarType>
+void
+Rigid2DTransform<TScalarType>::
+CloneTo( Pointer & result ) const
+{
+  result = New();
+  result->SetCenter( this->GetCenter() );
+  result->SetAngle( this->GetAngle() );
+  result->SetTranslation( this->GetTranslation() );
 }
 
   
-// Compute the Jacobian in one position 
+// Reset the transform to an identity transform 
 template<class TScalarType >
 void
 Rigid2DTransform< TScalarType >::
 SetIdentity( void ) 
 {
-  m_Offset.Fill( NumericTraits< TScalarType >::Zero );
-  m_RotationMatrix.SetIdentity();
-  m_InverseMatrix.SetIdentity();
-
+  this->Superclass::SetIdentity();
   m_Angle = NumericTraits< TScalarType >::Zero;
-  m_Center.Fill( 0.0 );
-  m_Translation.Fill( 0.0 );
-
 }
 
-template <class TScalarType>
-void
-Rigid2DTransform<TScalarType>
-::SetCenter( const InputPointType & center )
-{
-  m_Center = center;
-  this->ComputeMatrixAndOffset();
-}
-
-template <class TScalarType>
-void
-Rigid2DTransform<TScalarType>
-::SetTranslation( const OutputVectorType & translation )
-{
-  m_Translation = translation;
-  this->ComputeMatrixAndOffset();
-}
-
-
-
-// Set Rotational Part
+// Set the angle of rotation
 template <class TScalarType>
 void
 Rigid2DTransform<TScalarType>
 ::SetAngle(TScalarType angle)
 {
   m_Angle = angle;
-  this->ComputeMatrixAndOffset();
+  this->ComputeMatrix();
+  this->ComputeOffset();
+  this->Modified();
 }
 
 
-// Set Rotational Part
+// Set the angle of rotation
 template <class TScalarType>
 void
 Rigid2DTransform<TScalarType>
@@ -305,47 +182,141 @@ Rigid2DTransform<TScalarType>
   this->SetAngle( angleInRadians );
 }
 
-// Compute the matrix
+// Compute the matrix from the angle
 template <class TScalarType>
 void
 Rigid2DTransform<TScalarType>
-::ComputeMatrixAndOffset( void )
+::ComputeMatrix( void )
 {
-  const double ca = cos(this->GetAngle());
-  const double sa = sin(this->GetAngle());
+  const double ca = cos( m_Angle );
+  const double sa = sin( m_Angle );
+
+  MatrixType rotationMatrix;
+  rotationMatrix[0][0]= ca; rotationMatrix[0][1]=-sa;
+  rotationMatrix[1][0]= sa; rotationMatrix[1][1]= ca;
+
+  this->SetVarMatrix( rotationMatrix );
+
+}
+
+// Set Parameters
+template <class TScalarType>
+void
+Rigid2DTransform<TScalarType>::
+SetParameters( const ParametersType & parameters )
+{
+  itkDebugMacro( << "Setting paramaters " << parameters );
+
+  // Set angle
+  this->SetVarAngle( parameters[0] );
+ 
+  // Set translation
+  OutputVectorType translation;
+  for(unsigned int i=0; i < OutputSpaceDimension; i++) 
+    {
+    translation[i] = parameters[i+1];
+    }
+  this->SetVarTranslation( translation );
+
+  // Update matrix and offset
+  this->ComputeMatrix();
+  this->ComputeOffset();
+
+  itkDebugMacro(<<"After setting parameters ");
+}
+
+// Get Parameters
+template <class TScalarType>
+const typename Rigid2DTransform<TScalarType>::ParametersType &
+Rigid2DTransform<TScalarType>::
+GetParameters( void ) const
+{
+  itkDebugMacro( << "Getting parameters ");
+
+  // Get the angle
+  this->m_Parameters[0] = this->GetAngle();
+ 
+  // Get the translation
+  for(unsigned int i=0; i < OutputSpaceDimension; i++) 
+    {
+    this->m_Parameters[i+1] = this->GetTranslation()[i];
+    }
+
+  itkDebugMacro(<<"After getting parameters " << this->m_Parameters );
+
+  return this->m_Parameters;
+}
+
+// Compute transformation Jacobian
+template<class TScalarType>
+const typename Rigid2DTransform<TScalarType>::JacobianType &
+Rigid2DTransform<TScalarType>::
+GetJacobian( const InputPointType & p ) const
+{
+
+  const double ca = cos( this->GetAngle() );
+  const double sa = sin( this->GetAngle() );
+
+  this->m_Jacobian.Fill(0.0);
 
   const double cx = this->GetCenter()[0];
   const double cy = this->GetCenter()[1];
 
-  const double tx = this->GetTranslation()[0];
-  const double ty = this->GetTranslation()[1];
+  // derivatives with respect to the angle
+  this->m_Jacobian[0][0] = -sa * ( p[0] - cx ) - ca * ( p[1] - cy );
+  this->m_Jacobian[1][0] =  ca * ( p[0] - cx ) - sa * ( p[1] - cy ); 
 
-  this->m_RotationMatrix[0][0]= ca; this->m_RotationMatrix[0][1]=-sa;
-  this->m_RotationMatrix[1][0]= sa; this->m_RotationMatrix[1][1]= ca;
+  // compute derivatives for the translation part
+  unsigned int blockOffset = 1;  
+  for(unsigned int dim=0; dim < OutputSpaceDimension; dim++ ) 
+    {
+    this->m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
+    }
 
-  this->m_RotationMatrixMTime.Modified();
-
-  OffsetType offset;
-
-  offset[0] = tx + sa * cy + ( 1.0 - ca ) * cx;
-  offset[1] = ty - sa * cx + ( 1.0 - ca ) * cy;
-
-  this->SetOffset( offset );
-
-  this->Modified();
-}
-
-// Compute the Jacobian in one position 
-template<class TScalarType >
-const typename Rigid2DTransform<TScalarType>::JacobianType & 
-Rigid2DTransform< TScalarType >::
-GetJacobian( const InputPointType & ) const
-{
-  this->m_Jacobian.Fill( NumericTraits< ITK_TYPENAME JacobianType::ValueType >::Zero );
   return this->m_Jacobian;
+
+}
+
+// Back transform a point
+template<class TScalarType>
+typename Rigid2DTransform<TScalarType>::InputPointType
+Rigid2DTransform<TScalarType>::
+BackTransform(const OutputPointType &point) const 
+{
+  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  return this->GetInverseMatrix() * (point - this->GetOffset());
+}
+
+// Back transform a vector
+template<class TScalarType>
+typename Rigid2DTransform<TScalarType>::InputVectorType
+Rigid2DTransform<TScalarType>::
+BackTransform(const OutputVectorType &vect ) const 
+{
+  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  return this->GetInverseMatrix() * vect;
+}
+
+// Back transform a vnl_vector
+template<class TScalarType>
+typename Rigid2DTransform<TScalarType>::InputVnlVectorType
+Rigid2DTransform<TScalarType>::
+BackTransform(const OutputVnlVectorType &vect ) const 
+{
+  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  return this->GetInverseMatrix() * vect;
 }
 
 
+// Back Transform a CovariantVector
+template<class TScalarType>
+typename Rigid2DTransform<TScalarType>::InputCovariantVectorType
+Rigid2DTransform<TScalarType>::
+BackTransform(const OutputCovariantVectorType &vect) const 
+{
+  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  return this->GetMatrix() * vect;
+}
  
 } // namespace
 

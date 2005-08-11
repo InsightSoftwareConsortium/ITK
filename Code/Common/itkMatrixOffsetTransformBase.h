@@ -160,7 +160,7 @@ public:
   /** Set the transformation to an Identity
    *
    * This sets the matrix to identity and the Offset to null. */
-  void SetIdentity( void );
+  virtual void SetIdentity( void );
 
   /** Set matrix of an MatrixOffsetTransformBase
    *
@@ -173,7 +173,7 @@ public:
    *
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
-  void SetMatrix(const MatrixType &matrix)
+  virtual void SetMatrix(const MatrixType &matrix)
     { m_Matrix = matrix; this->ComputeOffset();
       this->ComputeMatrixParameters();
       m_MatrixMTime.Modified(); this->Modified(); return; }

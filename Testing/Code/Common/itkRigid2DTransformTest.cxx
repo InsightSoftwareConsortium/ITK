@@ -28,10 +28,33 @@
 #include "itkRigid2DTransform.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "itkVector.h"
+#include "itkTextOutput.h"
+
+namespace
+{
+bool CheckEqual( 
+ itk::Point<double,2> p1,
+ itk::Point<double,2> p2 )
+{
+  const double epsilon = 1e-10;
+  for( unsigned int i = 0; i < 2; i++ )
+    {
+    if( fabs( p1[i] - p2[i] ) > epsilon )
+      {
+      std::cout << p1 << " != " << p2 << ": FAILED" << std::endl;
+      return false;
+      }
+    }
+  std::cout << p1 << " == " << p2 << ": PASSED" << std::endl;
+  return true;
+}
+}
 
 
 int itkRigid2DTransformTest(int ,char * [] )
 {
+
+  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   typedef itk::Rigid2DTransform<double>  TransformType;
 
@@ -426,7 +449,111 @@ int itkRigid2DTransformTest(int ,char * [] )
         std::cout << "Ok translating an vnl_Vector " << std::endl;
       }
     }
+
+    {
+      // Test instantiation, inverse computation, back transform etc.
+      TransformType::Pointer t1 = TransformType::New();
+
+      // Set parameters
+      double angle;
+      TransformType::InputPointType center;
+      TransformType::OutputVectorType translation;
+
+      angle = -21.0 / 180.0 * vnl_math::pi;
+      center[0] = 12.0;
+      center[1] = -8.9;
+      translation[0] = 67.8;
+      translation[1] = -0.2;
+
+      t1->SetAngle( angle );
+      t1->SetCenter( center );
+      t1->SetTranslation( translation );
+
+      TransformType::InputPointType p1;
+      p1[0] = 96.8;
+      p1[1] = -3.2;
+
+      TransformType::InputPointType p2;
+      p2 = t1->TransformPoint( p1 );
+
+      // Test inverse
+      TransformType::Pointer t2;
+      t1->CloneInverseTo( t2 );
+
+      TransformType::InputPointType p3;
+      p3 = t2->TransformPoint( p2 );
+
+      std::cout << "Test CloneInverseTo(): ";
+      if( !CheckEqual( p1, p3 ) )
+        {
+        return EXIT_FAILURE;
+        }
+
+      TransformType::Pointer t2dash = TransformType::New();
+      t1->GetInverse( t2dash );
+      TransformType::InputPointType p3dash;
+      p3dash = t2dash->TransformPoint( p2 );
+
+      std::cout << "Test GetInverse(): ";
+      if( !CheckEqual( p1, p3dash ) )
+        {
+        return EXIT_FAILURE;
+        }
+
+      // Test clone
+      TransformType::Pointer t3;
+      t1->CloneTo( t3 );
+
+      TransformType::InputPointType p4;
+      p4 = t3->TransformPoint( p1 );
+    
+      std::cout << "Test Clone(): ";
+      if( !CheckEqual( p2, p4 ) )
+        {
+        return EXIT_FAILURE;
+        }
+
+     // Test compose
+     TransformType::Pointer t4 = TransformType::New();
+
+     angle = 14.7 / 180.0 * vnl_math::pi;
+     center.Fill( 4.0 );
+     translation.Fill( 67.1) ;
+     t4->SetAngle( angle );
+     t4->SetCenter( center );
+     t4->SetTranslation( translation );
+
+     TransformType::Pointer t5;
+     t1->CloneTo( t5 );
+     t5->Compose( t4, false );
+
+     TransformType::InputPointType p5, p6, p7;
+     p5 = t1->TransformPoint( p1 );
+     p6 = t4->TransformPoint( p5 );
+     p7 = t5->TransformPoint( p1 );
+
+    std::cout << "Test Compose(.,false): ";
+    if( !CheckEqual( p6, p7 ) )
+      {
+      return EXIT_FAILURE;
+      } 
+
+    t1->CloneTo( t5 );
+    t5->Compose( t4, true );
+
+    p5 = t4->TransformPoint( p1 );
+    p6 = t1->TransformPoint( p5 );
+    p7 = t5->TransformPoint( p1 );
+
+    std::cout << "Test Compose(.,true): ";
+    if( !CheckEqual( p6, p7 ) )
+      {
+      return EXIT_FAILURE;
+      } 
+      
+    }
   }
+
 
    return EXIT_SUCCESS;
 

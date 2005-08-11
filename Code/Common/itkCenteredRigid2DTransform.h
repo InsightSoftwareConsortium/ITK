@@ -26,39 +26,25 @@ namespace itk
 
 /** \brief CenteredRigid2DTransform of a vector space (e.g. space coordinates)
  *
- * This transform applies a rigid transformation in 2D space The transformation
- * is specified as a rotation around an arbitrary center and is followed by a
- * translation.
- * 
- * The need for introducing this transform is that a rotation is not specified
- * simply by an angle, as we use to think, but also by a center of rotation. We
- * use to assume that the center of rotation is the origin of the coordinate
- * system. This assumption, however does not usually hold in applications such
- * as image registration.
+ * This transform applies a rigid transformation is 2D space.
+ * The transform is specified as a rotation around arbitrary center
+ * and is followed by a translation.
  *
+ * The main difference between this class and its superclass
+ * Rigid2DTransform is that the center of rotation is exposed
+ * for optimization.
  *
- * With these parameters the transform applies first a translation that will
- * move the center of rotation to be the new origin. Next, a rotation is
- * performed around this origin. Then another translation is applied in order
- * to move the origin back to the position of the center of rotation. Finally,
- * the user-specified translation is applied. Note that the user-spedified
- * translation is applied after the image has returned to the original
- * coordinate system. If you want to rotate an image around its center, please
- * specify a null translation and just set the center of rotation. This 
- * transform will take care internally of the two translations required to
- * implement a rotation around an arbitrary point.
- *
- * The serialization of parameters in this transform results in an array of
- * five element ordered as follows
- *
+ * The serialization of the optimizable parameters is an array of 5 elements
+ * ordered as follows:
  * p[0] = angle
- * p[1] = x coordinate of the centre
- * p[2] = y coordinate of the centre
+ * p[1] = x coordinate of the center
+ * p[2] = y coordinate of the center
  * p[3] = x component of the translation
  * p[4] = y component of the translation
- * 
- * For convenience, an additional method is available for specifying the
- * rotation in degrees instead of radians.
+ *
+ * There are no fixed parameters.
+ *
+ * \sa Rigid2DTransform 
  *
  * \ingroup Transforms
  */
@@ -114,21 +100,37 @@ public:
   
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
-   * There are 3 parameters. The first one represents the
-   * rotation and the last two represents the offset. */
+   * There are 5 parameters. The first one represents the
+   * rotation, the next two the center of rotation and 
+   * the last two represents the offset. 
+   *
+   * \sa Transform::SetParameters()
+   * \sa Transform::SetFixedParameters() */
   void SetParameters( const ParametersType & parameters );
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
    * There are 3 parameters. The first one represents the
-   * rotation and the last two represents the offset. */
+   * rotation, the next two the center of rotation and 
+   * the last two represents the offset. 
+   *
+   * \sa Transform::GetParameters()
+   * \sa Transform::GetFixedParameters() */
   const ParametersType & GetParameters( void ) const;
   
-  /** This method computes the Jacobian matrix of the transformation.
-   * given point or vector, returning the transformed point or
-   * vector. The rank of the Jacobian will also indicate if the 
-   * transform is invertible at this point. */
+  /** This method computes the Jacobian matrix of the transformation
+   * at a given input point.
+   *
+   * \sa Transform::GetJacobian() */
   const JacobianType & GetJacobian(const InputPointType  &point ) const;
+
+  /** Set the fixed parameters and update internal transformation. 
+   * This is a null function as there are no fixed parameters. */
+  virtual void SetFixedParameters( const ParametersType & );
+
+  /** Get the Fixed Parameters. An empty array is returned
+   * as there are no fixed parameters. */
+  virtual const ParametersType& GetFixedParameters(void) const;
 
   /**
    * This method creates and returns a new CenteredRigid2DTransform object
@@ -136,11 +138,18 @@ public:
    **/
   void CloneInverseTo( Pointer & newinverse ) const;
 
+  /**
+   * This method creates and returns a new CenteredRigid2DTransform object
+   * which has the same parameters as self.
+   **/
+  void CloneTo( Pointer & clone ) const;
+
 protected:
   CenteredRigid2DTransform();
   ~CenteredRigid2DTransform(){};
 
-  CenteredRigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
+  CenteredRigid2DTransform( unsigned int outputSpaceDimension, 
+                            unsigned int parametersDimension);
 
   void PrintSelf(std::ostream &os, Indent indent) const;
 

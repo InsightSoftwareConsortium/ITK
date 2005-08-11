@@ -28,29 +28,8 @@ template <class TScalarType>
 Similarity2DTransform<TScalarType>
 ::Similarity2DTransform():Superclass(OutputSpaceDimension, ParametersDimension)
 {
-  m_Scale = 1.0; 
-
-  // note: this virtual function will only
-  // call the one defined in this class because 
-  // we are in a constructor
-  this->ComputeMatrixAndOffset();
+  m_Scale = 1.0f; 
 }
-
-
-
-// Copy Constructor
-template <class TScalarType>
-Similarity2DTransform<TScalarType>
-::Similarity2DTransform( const Self & other ):Superclass( other )
-{
-  m_Scale = other.m_Scale;
-
-  // note: this virtual function will only
-  // call the one defined in this class because 
-  // we are in a constructor
-  this->ComputeMatrixAndOffset();
-}
-
 
 // Constructor with arguments
 template<class TScalarType>
@@ -59,11 +38,10 @@ Similarity2DTransform( unsigned int spaceDimension,
                   unsigned int parametersDimension):
   Superclass(spaceDimension,parametersDimension)
 {
-  m_Scale = 1.0; 
+  m_Scale = 1.0f; 
 
 }
  
-
 // Set Parameters
 template <class TScalarType>
 void
@@ -72,22 +50,22 @@ Similarity2DTransform<TScalarType>
 {
   itkDebugMacro( << "Setting paramaters " << parameters );
 
-  // Set angles with parameters
-  m_Scale = parameters[0];
+  // Set scale
+  this->SetVarScale( parameters[0] );
  
-  // Set angles with parameters
-  this->SetAngle( parameters[1] );
+  // Set angle
+  this->SetVarAngle( parameters[1] );
 
-  // Transfer the translation part
+  // Set translation
   OffsetType translation;
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
     translation[i] = parameters[i+2];
     }
+  this->SetVarTranslation( translation );
 
-  this->SetTranslation( translation );
-
-  this->ComputeMatrixAndOffset();
+  this->ComputeMatrix();
+  this->ComputeOffset();
 
   itkDebugMacro(<<"After setting paramaters ");
 }
@@ -101,10 +79,10 @@ Similarity2DTransform<TScalarType>
 {
   itkDebugMacro( << "Getting parameters ");
 
-  this->m_Parameters[0] = m_Scale;
+  this->m_Parameters[0] = this->GetScale();
   this->m_Parameters[1] = this->GetAngle();
  
-  // Transfer the translation part
+  // Get the translation
   OffsetType translation = this->GetTranslation();
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
@@ -125,7 +103,8 @@ Similarity2DTransform<TScalarType>
 ::SetScale( ScaleType scale )
 {
   m_Scale = scale;
-  this->ComputeMatrixAndOffset();
+  this->ComputeMatrix();
+  this->ComputeOffset();
 }
 
 
@@ -133,9 +112,8 @@ Similarity2DTransform<TScalarType>
 template <class TScalarType>
 void
 Similarity2DTransform<TScalarType>
-::ComputeMatrixAndOffset( void )
+::ComputeMatrix( void )
 {
-
   const double angle = this->GetAngle();
 
   const double cc = cos( angle );
@@ -144,43 +122,43 @@ Similarity2DTransform<TScalarType>
   const double ca = cc * m_Scale;
   const double sa = ss * m_Scale;
 
-  const InputPointType center = this->GetCenter();  
-  const double cx = center[0];
-  const double cy = center[1];
+  MatrixType matrix;
+  matrix[0][0]= ca; matrix[0][1]=-sa;
+  matrix[1][0]= sa; matrix[1][1]= ca;
 
-  const OutputVectorType translation = this->GetTranslation();
-  const double tx = translation[0];
-  const double ty = translation[1];
-
-  this->m_RotationMatrix[0][0]= ca; this->m_RotationMatrix[0][1]=-sa;
-  this->m_RotationMatrix[1][0]= sa; this->m_RotationMatrix[1][1]= ca;
-
-  OffsetType offset;
-
-  offset[0] = tx + sa * cy + ( 1.0 - ca ) * cx;
-  offset[1] = ty - sa * cx + ( 1.0 - ca ) * cy;
-
-  this->SetOffset( offset );
-
-  const double ci = cc / m_Scale;
-  const double si = ss / m_Scale;
-
-  this->m_InverseMatrix[0][0]= ci; this->m_InverseMatrix[0][1]= si;
-  this->m_InverseMatrix[1][0]=-si; this->m_InverseMatrix[1][1]= ci;
-
-  this->Modified();
+  this->SetVarMatrix( matrix );
 
 }
 
+/** Compute the Angle from the Rotation Matrix */
+template <class TScalarType>
+void
+Similarity2DTransform<TScalarType>
+::ComputeMatrixParameters( void )
+{
+  m_Scale = sqrt( vnl_math_sqr( this->GetMatrix()[0][0] ) +
+                  vnl_math_sqr( this->GetMatrix()[0][1] ) );
 
-// Set parameters
+  this->SetVarAngle( acos( this->GetMatrix()[0][0] / m_Scale ) ); 
+
+  if(this->GetMatrix()[1][0]<0.0)
+    {
+    this->SetVarAngle( this->GetAngle() );
+    }
+
+  if( ( this->GetMatrix()[1][0] / m_Scale ) - sin(this->GetAngle()) > 0.000001)
+    {
+    std::cout << "Bad Rotation Matrix" << std::endl;
+    }
+}
+
+
+// Compute the transformation Jacobian
 template<class TScalarType>
 const typename Similarity2DTransform<TScalarType>::JacobianType &
 Similarity2DTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {
-
-  // need to check if angles are in the right order
   const double angle = this->GetAngle();
   const double ca = cos( angle );
   const double sa = sin( angle );
@@ -222,10 +200,7 @@ Similarity2DTransform<TScalarType>
 {
   this->Superclass::SetIdentity();
   m_Scale = static_cast< TScalarType >( 1.0f );
-  this->ComputeMatrixAndOffset();
 }
-
-
  
 // Print self
 template<class TScalarType>
@@ -235,6 +210,61 @@ PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "Scale =" << m_Scale  << std::endl;
+}
+
+// Create and return an inverse transformation
+template<class TScalarType>
+void
+Similarity2DTransform<TScalarType>::
+CloneInverseTo( Pointer & result ) const
+{
+  result = New();
+  result->SetCenter( this->GetCenter() );  // inverse have the same center
+  result->SetScale( 1.0 / this->GetScale() );
+  result->SetAngle( -this->GetAngle() );
+  result->SetTranslation( -( this->GetInverseMatrix() * this->GetTranslation() ) );
+}
+
+// Create and return a clone of the transformation
+template<class TScalarType>
+void
+Similarity2DTransform<TScalarType>::
+CloneTo( Pointer & result ) const
+{
+  result = New();
+  result->SetCenter( this->GetCenter() );
+  result->SetScale( this->GetScale() );
+  result->SetAngle( this->GetAngle() );
+  result->SetTranslation( this->GetTranslation() );
+}
+
+// Set the similarity matrix
+template<class TScalarType>
+void
+Similarity2DTransform<TScalarType>::
+SetMatrix(const MatrixType & matrix )
+{
+  itkDebugMacro("setting  m_Matrix  to " << matrix ); 
+ 
+  typename MatrixType::InternalMatrixType test = 
+    matrix.GetVnlMatrix() * matrix.GetTranspose();
+
+  test /= test[0][0]; // factor out the scale
+
+  const double tolerance = 1e-10;
+  if( !test.is_identity( tolerance ) ) 
+    {
+    itk::ExceptionObject ex;
+    ex.SetDescription("Attempt to set a Non-Orthogonal matrix");
+    ex.SetLocation(__FILE__);
+    throw ex;
+    }
+
+  this->SetVarMatrix( matrix );
+  this->ComputeOffset();
+  this->ComputeMatrixParameters();
+  this->Modified();
+
 }
 
 } // namespace

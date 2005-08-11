@@ -26,8 +26,13 @@ namespace itk
 
 /** \brief Euler2DTransform of a vector space (e.g. space coordinates)
  *
- * This transform applies a rotation and translation to the space
- * given one angle for rotation and a 2D offset for translation. 
+ * This transform applies a rigid transformation is 2D space.
+ * The transform is specified as a rotation around arbitrary center
+ * and is followed by a translation.
+ *
+ * This transform is basically is a synonym for Rigid2DTransform.
+ *
+ * \sa Rigid2DTransform
  *
  * \ingroup Transforms
  */
@@ -61,9 +66,6 @@ public:
   /** Jacobian type. */
   typedef typename Superclass::JacobianType  JacobianType;
   
-  /** Offset type. */
-  typedef typename Superclass::OffsetType  OffsetType;
-
   /** Point type. */
   typedef typename Superclass::InputPointType   InputPointType;
   typedef typename Superclass::OutputPointType  OutputPointType;
@@ -81,62 +83,37 @@ public:
   typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
   typedef typename Superclass::MatrixType           MatrixType;
   
-  /** Set the transformation from a container of parameters
-   * This is typically used by optimizers.
-   * There are 3 parameters. The first one represents the
-   * angle of rotation in radians and the last two represents the offset. */
-  void SetParameters( const ParametersType & parameters );
-
-  /** Get the parameters that uniquely define the transform
-   * This is typically used by optimizers.
-   * There are 3 parameters. The first one represents the
-   * angle or rotation in radians and the last two represents the offset. */
-  const ParametersType & GetParameters( void ) const;
-
-
-  /** Set the rotational part of the transform. */
-  void SetRotation(TScalarType angle);
-  
-  /** This method computes the Jacobian matrix of the transformation.
-   * given point or vector, returning the transformed point or
-   * vector. The rank of the Jacobian will also indicate if the 
-   * transform is invertible at this point. */
-  const JacobianType & GetJacobian(const InputPointType  &point ) const;
-
-  /** Set the transformation to an Identity
-   * This sets the matrix to identity and the Offset to null. */
-  virtual void SetIdentity( void );
-  
-  /** Compute the angle from the rotation matrix */
-  void ComputeAngleFromMatrix();
+  /**
+   * This method creates and returns a new Euler2DTransform object
+   * which is the inverse of self.
+   **/
+  void CloneInverseTo( Pointer & newinverse ) const;
 
   /**
-   * Set the rotation Matrix of a Rigid2D Transform
-   *
-   * This method sets the 2x2 matrix representing a rotation
-   * in the transform.  The Matrix is expected to be orthogonal
-   * with a certain tolerance.
-   * \warning This method will throw an exception is the matrix
-   * provided as argument is not orthogonal.
+   * This method creates and returns a new Euler2DTransform object
+   * which has the same parameters as self.
    **/
-  void SetRotationMatrix(const MatrixType &matrix);
+  void CloneTo( Pointer & clone ) const;
 
-  /** Compose with another Euler transform */
-  void Compose(const Superclass *other, bool pre=false);
+  /**
+   * Update the angle from the underlying matrix. This method
+   * is old and is retained for backward compatibility.
+   */
+  void ComputeAngleFromMatrix()
+    { this->ComputeMatrixParameters(); }
 
 protected:
   Euler2DTransform();
   ~Euler2DTransform(){};
-  void PrintSelf(std::ostream &os, Indent indent) const;
 
-  /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrix(void);
+  Euler2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
+
+  void PrintSelf(std::ostream &os, Indent indent) const;
 
 private:
   Euler2DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  TScalarType m_Angle; 
 
 }; //class Euler2DTransform
 

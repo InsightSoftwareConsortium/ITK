@@ -31,12 +31,14 @@ CenteredSimilarity2DTransform<TScalarType>
 }
 
 
-
-// Copy Constructor
-template <class TScalarType>
-CenteredSimilarity2DTransform<TScalarType>
-::CenteredSimilarity2DTransform( const Self & other ):Superclass( other )
+// Constructor with arguments
+template<class TScalarType>
+CenteredSimilarity2DTransform<TScalarType>::
+CenteredSimilarity2DTransform( unsigned int spaceDimension, 
+                  unsigned int parametersDimension):
+  Superclass(spaceDimension,parametersDimension)
 {
+
 }
 
 
@@ -48,30 +50,30 @@ CenteredSimilarity2DTransform<TScalarType>
 {
   itkDebugMacro( << "Setting paramaters " << parameters );
 
-  // Set angles with parameters
-  this->SetScale(parameters[0]);
+  // Set scale
+  this->SetVarScale(parameters[0]);
  
-  // Set angles with parameters
-  this->SetAngle( parameters[1] );
+  // Set angle
+  this->SetVarAngle( parameters[1] );
 
   InputPointType center;
   for(unsigned int j=0; j < SpaceDimension; j++) 
     {
     center[j] = parameters[j+2];
     }
-  this->SetCenter( center );
+  this->SetVarCenter( center );
 
-
-  // Transfer the translation part
+  // Set translation
   OffsetType translation;
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
     translation[i] = parameters[i+4];
     }
 
-  this->SetTranslation( translation );
+  this->SetVarTranslation( translation );
 
-  this->ComputeMatrixAndOffset();
+  this->ComputeMatrix();
+  this->ComputeOffset();
 
   itkDebugMacro(<<"After setting paramaters ");
 }
@@ -94,7 +96,6 @@ CenteredSimilarity2DTransform<TScalarType>
     this->m_Parameters[j+2] = center[j];
     }
 
-  // Transfer the translation part
   OffsetType translation = this->GetTranslation();
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
@@ -106,14 +107,12 @@ CenteredSimilarity2DTransform<TScalarType>
   return this->m_Parameters;
 }
 
-// Set parameters
+// Compute the Jacobian
 template<class TScalarType>
 const typename CenteredSimilarity2DTransform<TScalarType>::JacobianType &
 CenteredSimilarity2DTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {
-
-  // need to check if angles are in the right order
   const double angle = this->GetAngle();
   const double ca = cos( angle );
   const double sa = sin( angle );
@@ -142,7 +141,6 @@ GetJacobian( const InputPointType & p ) const
   this->m_Jacobian[0][3] =       sa * this->GetScale();
   this->m_Jacobian[1][3] = 1.0 - ca * this->GetScale();
 
-
   // compute derivatives with respect to the translation part
   // first with respect to tx
   this->m_Jacobian[0][4] = 1.0;
@@ -155,6 +153,23 @@ GetJacobian( const InputPointType & p ) const
 
 }
 
+template <class TScalarType>
+void
+CenteredSimilarity2DTransform<TScalarType>::
+SetFixedParameters( const ParametersType & parameters )
+{
+ // no fixed parameters
+}
+
+template <class TScalarType>
+const typename CenteredSimilarity2DTransform<TScalarType>::ParametersType &
+CenteredSimilarity2DTransform<TScalarType>::
+GetFixedParameters( void ) const
+{
+  // return dummy parameters
+  this->m_FixedParameters.SetSize(0);
+  return this->m_FixedParameters;
+}
  
 // Print self
 template<class TScalarType>
@@ -163,6 +178,32 @@ CenteredSimilarity2DTransform<TScalarType>::
 PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+}
+
+// Create and return an inverse transformation
+template<class TScalarType>
+void
+CenteredSimilarity2DTransform<TScalarType>::
+CloneInverseTo( Pointer & result ) const
+{
+  result = New();
+  result->SetCenter( this->GetCenter() );  // inverse have the same center
+  result->SetScale( 1.0 / this->GetScale() );
+  result->SetAngle( -this->GetAngle() );
+  result->SetTranslation( -( this->GetInverseMatrix() * this->GetTranslation() ) );
+}
+
+// Create and return a clone of the transformation
+template<class TScalarType>
+void
+CenteredSimilarity2DTransform<TScalarType>::
+CloneTo( Pointer & result ) const
+{
+  result = New();
+  result->SetCenter( this->GetCenter() );
+  result->SetScale( this->GetScale() );
+  result->SetAngle( this->GetAngle() );
+  result->SetTranslation( this->GetTranslation() );
 }
 
 } // namespace

@@ -26,8 +26,27 @@ namespace itk
 
 /** \brief CenteredSimilarity2DTransform of a vector space (e.g. space coordinates)
  *
- * This transform applies a rotation, scale and translation to the space
+ * This transform applies a homogenous scale and rigid transform in
+ * 2D space. The transform is specified as a scale and rotation around
+ * a arbitrary center and is followed by a translation.
  * given one angle for rotation, a homogeneous scale and a 2D offset for translation. 
+ *
+ * The main difference between this class and its superclass
+ * Similarity2DTransform is that the center of transformation is exposed
+ * for optimization.
+ *
+ * The serialization of the optimizable parameters is an array of 6 elements
+ * ordered as follows:
+ * p[0] = scale
+ * p[1] = angle
+ * p[2] = x coordinate of the center
+ * p[3] = y coordinate of the center
+ * p[4] = x component of the translation
+ * p[5] = y component of the translation
+ *
+ * There are no fixed parameters.
+ *
+ * \sa Similarity2DTransform
  *
  * \ingroup Transforms
  */
@@ -87,7 +106,10 @@ public:
     * There are 6 parameters. The first one represents the
     * scale, the second represents the angle of rotation, the next
     * two represent the center of the rotation
-    * and the last two represent the translation. */
+    * and the last two represent the translation.
+    *
+    * \sa Transform::SetParameters()
+    * \sa Transform::SetFixedParameters() */
   void SetParameters( const ParametersType & parameters );
 
   /** Get the parameters that uniquely define the transform
@@ -95,18 +117,43 @@ public:
    * There are 6 parameters. The first one represents the
    * scale, the second represents the angle of rotation, the next
    * two represent the center of the rotation
-   * and the last two represent the translation. */
+   * and the last two represent the translation.
+   *
+   * \sa Transform::GetParameters()
+   * \sa Transform::GetFixedParameters() */
   const ParametersType & GetParameters( void ) const; 
  
-  /** This method computes the Jacobian matrix of the transformation.
-   * given point or vector, returning the transformed point or
-   * vector. The rank of the Jacobian will also indicate if the 
-   * transform is invertible at this point. */
+  /** This method computes the Jacobian matrix of the transformation
+   * at a given input point.
+   *
+   * \sa Transform::GetJacobian() */
   const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
+  /** Set the fixed parameters and update internal transformation. 
+   * This is a null function as there are no fixed parameters. */
+  virtual void SetFixedParameters( const ParametersType & );
+
+  /** Get the Fixed Parameters. An empty array is returned
+   * as there are no fixed parameters. */
+  virtual const ParametersType& GetFixedParameters(void) const;
+
+  /**
+   * This method creates and returns a new Rigid2DTransform object
+   * which is the inverse of self.
+   **/
+  void CloneInverseTo( Pointer & newinverse ) const;
+
+  /**
+   * This method creates and returns a new Rigid2DTransform object
+   * which has the same parameters.
+   **/
+  void CloneTo( Pointer & clone ) const;
 
 protected:
   CenteredSimilarity2DTransform();
+  CenteredSimilarity2DTransform( unsigned int spaceDimension, 
+                                 unsigned int parametersDimension);
+
   ~CenteredSimilarity2DTransform(){};
   void PrintSelf(std::ostream &os, Indent indent) const;
 
