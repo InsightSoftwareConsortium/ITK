@@ -65,17 +65,18 @@ public:
   void SetOutputVector(TVector value);
 
   void ForwardPropagate();
-  void ForwardPropagate(TVector);
+  void ForwardPropagate(TVector input);
 
   void BackwardPropagate();
+  void BackwardPropagate(TVector errors){};
 
   void SetOutputErrorValues(TOutput);
-  ValueType GetOutputErrorValue(unsigned int);
+  ValueType GetOutputErrorValue(unsigned int node_id);
 
   
-  ValueType GetInputErrorValue(int);
+  ValueType GetInputErrorValue(int node_id);
   ValuePointer GetInputErrorVector();
-  void SetInputErrorValue(ValueType, int);
+  void SetInputErrorValue(ValueType, int node_id);
 
   TVector GetCenter(int i);
   void SetCenter(TVector c,int i);
