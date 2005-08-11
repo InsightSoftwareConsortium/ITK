@@ -27,6 +27,7 @@
 #include <metaArrow.h>
 #include <metaTransform.h>
 #include <metaTubeGraph.h>
+#include <metaCoef.h>
 
 //
 // MetaScene Constructors
@@ -304,6 +305,13 @@ Read(const char *_headerName)
       mesh->SetEvent(m_Event);
       mesh->ReadStream(m_NDims,m_ReadStream);
       m_ObjectList.push_back(mesh);
+    }
+    else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Coef",4) )
+    {
+      MetaCoef* coef = new MetaCoef();
+      coef->SetEvent(m_Event);
+      coef->ReadStream(m_NDims,m_ReadStream);
+      m_ObjectList.push_back(coef);
     }
   }
 

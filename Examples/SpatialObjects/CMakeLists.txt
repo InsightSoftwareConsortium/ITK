@@ -35,10 +35,10 @@ ADD_EXECUTABLE(LineSpatialObject LineSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(LineSpatialObject ITKCommon ITKIO )
 
 ADD_EXECUTABLE(MeshSpatialObject MeshSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(MeshSpatialObject ITKCommon ITKIO )
+TARGET_LINK_LIBRARIES(MeshSpatialObject ITKCommon ITKIO ITKMetaIO ITKAlgorithms ITKNumerics ITKSpatialObject)
 
 ADD_EXECUTABLE(ReadWriteSpatialObject ReadWriteSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(ReadWriteSpatialObject ITKCommon ITKIO )
+TARGET_LINK_LIBRARIES(ReadWriteSpatialObject ITKCommon ITKIO ITKMetaIO ITKAlgorithms ITKNumerics ITKSpatialObject)
 
 ADD_EXECUTABLE(SceneSpatialObject SceneSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(SceneSpatialObject ITKCommon ITKIO )
@@ -66,3 +66,10 @@ TARGET_LINK_LIBRARIES(VesselTubeSpatialObject ITKCommon ITKIO )
 
 ADD_EXECUTABLE(DTITubeSpatialObject DTITubeSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(DTITubeSpatialObject ITKCommon ITKIO )
+
+ADD_EXECUTABLE(SPHARMMeshSourceExample SPHARMMeshSourceExample.cxx)
+TARGET_LINK_LIBRARIES(SPHARMMeshSourceExample ITKAlgorithms ITKIO ITKNumerics ITKSpatialObject)
+
+ADD_EXECUTABLE(SPHARMCoefSpatialObjectReadWrite SPHARMCoefSpatialObjectReadWrite.cxx)
+TARGET_LINK_LIBRARIES(SPHARMCoefSpatialObjectReadWrite ITKCommon ITKIO ITKAlgorithms ITKNumerics ITKSpatialObject)
+

@@ -31,6 +31,7 @@
 #include "itkMetaSurfaceConverter.h"
 #include "itkMetaLandmarkConverter.h"
 #include "itkMetaArrowConverter.h"
+#include "itkMetaSPHARMCoefConverter.h"
 
 #include "itkSceneSpatialObject.h"
 #include "itkEllipseSpatialObject.h"
@@ -44,6 +45,7 @@
 #include "itkLandmarkSpatialObject.h"
 #include "itkMeshSpatialObject.h"
 #include "itkArrowSpatialObject.h"
+#include "itkSPHARMCoefSpatialObject.h"
 
 #include <algorithm>
 
@@ -260,6 +262,15 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       MetaMeshConverter<NDimensions,PixelType,TMeshTraits> meshConverter;
       typename itk::MeshSpatialObject<MeshType>::Pointer so =
           meshConverter.MetaMeshToMeshSpatialObject((MetaMesh*)*it);
+      this->SetTransform(so, *it) ;
+      soScene->AddSpatialObject( so);
+    }
+    
+    if(!strncmp((*it)->ObjectTypeName(),"Coef",4))
+    {
+      MetaSPHARMCoefConverter coefConverter;
+      itk::SPHARMCoefSpatialObject::Pointer so =
+          coefConverter.MetaCoefToSPHARMCoefSpatialObject((MetaCoef*)*it);
       this->SetTransform(so, *it) ;
       soScene->AddSpatialObject( so);
     }
@@ -515,6 +526,23 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       this->SetTransform(mesh, (*it)->GetObjectToParentTransform()) ;
       metaScene->AddObject(mesh);
       }
+      
+    if(!strncmp((*it)->GetTypeName(),"SPHARMCoefSpatialObject",23))
+      {
+           
+      MetaSPHARMCoefConverter converter;
+      MetaCoef* coef = converter.SPHARMCoefSpatialObjectToMetaCoef(
+          dynamic_cast<itk::SPHARMCoefSpatialObject*>(
+               (*it).GetPointer()));
+      if((*it)->GetParent())
+        {
+        coef->ParentID((*it)->GetParent()->GetId());
+        }
+      coef->Name((*it)->GetProperty()->GetName().c_str());
+      this->SetTransform(coef, (*it)->GetObjectToParentTransform()) ;
+      metaScene->AddObject(coef);
+      }
+    
 
     it++;
     }

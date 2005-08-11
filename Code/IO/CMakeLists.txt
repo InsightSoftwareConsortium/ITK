@@ -47,6 +47,10 @@ SET(ITKIO_SRCS
   itkRegularExpressionSeriesFileNames.cxx
   itkSiemensVisionImageIO.cxx
   itkSiemensVisionImageIOFactory.cxx
+  
+  itkSPHARMCoefFileReader.cxx
+  itkSPHARMCoefFileWriter.cxx
+  
   itkStimulateImageIO.cxx
   itkStimulateImageIOFactory.cxx
   itkTIFFImageIO.cxx
@@ -71,6 +75,7 @@ itkgdcm
 ${ITK_PNG_LIBRARIES}
 ${ITK_ZLIB_LIBRARIES}
 ${ITK_TIFF_LIBRARIES}
+ITKSpatialObject
 ITKMetaIO
 ITKDICOMParser
 ITKEXPAT

@@ -5,6 +5,7 @@ ADD_LIBRARY(ITKAlgorithms
   itkBioGenome.cxx
   itkBioGene.cxx
   itkBioGeneNetwork.cxx
+  itkSphericalHarmonicMeshSource.cxx
 )
 TARGET_LINK_LIBRARIES(ITKAlgorithms ITKNumerics)
 IF(USE_FFTW)
