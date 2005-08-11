@@ -193,7 +193,6 @@ inline int Sign(float x)
 itk::SpatialOrientation::ValidCoordinateOrientationFlags
 mat44_to_SpatialOrientation(const mat44 &theMat)
 {
-  float cosines[6];
   int axes[9] = {0,0,0,0,0,0,0,0,0};
   int dominant_axis;
 
@@ -202,21 +201,21 @@ mat44_to_SpatialOrientation(const mat44 &theMat)
                        theMat.m[0][1],
                        theMat.m[0][2]);
   axes[dominant_axis] = 
-    Sign(cosines[dominant_axis]);
+    Sign(theMat.m[0][dominant_axis]);
 
   // figure the dominant axis of the column dimension
   dominant_axis = Max3(theMat.m[1][0],
                        theMat.m[1][1],
                        theMat.m[1][2]);
   axes[dominant_axis + 3] =
-    Sign(cosines[dominant_axis + 3]);
+    Sign(theMat.m[1][dominant_axis]);
 
   // figure the dominant axis of the slice dimension
   dominant_axis = Max3(theMat.m[2][0],
                        theMat.m[2][1],
                        theMat.m[2][2]);
   axes[dominant_axis + 6] =
-    Sign(cosines[dominant_axis + 3]);
+    Sign(theMat.m[2][dominant_axis]);
 
 
   //
@@ -271,6 +270,15 @@ mat44_to_SpatialOrientation(const mat44 &theMat)
 void niftiImageIO::ReadImageInformation()
 {
   this->m_niftiImage=nifti_image_read(m_FileName.c_str(),false);
+  if(this->m_niftiImage == 0)
+    {
+    ExceptionObject exception(__FILE__, __LINE__);
+    std::string ErrorMessage(m_FileName);
+    ErrorMessage += " is not recognized as a NIFTI file";
+    exception.SetDescription(ErrorMessage.c_str());
+    throw exception;
+    
+    }
   this->SetNumberOfDimensions(this->m_niftiImage->ndim);
   switch( this->m_niftiImage->datatype )
     {
@@ -411,7 +419,7 @@ void niftiImageIO::ReadImageInformation()
                             theMat.m[2][0],theMat.m[2][1],theMat.m[2][2]);
   //
   // set direction vectors
-  std::vector<double> direction(3);
+  std::vector<double> direction(3,0);
   direction[0] = ortho.m[0][0];
   direction[1] = ortho.m[0][1];
   direction[2] = ortho.m[0][2];
