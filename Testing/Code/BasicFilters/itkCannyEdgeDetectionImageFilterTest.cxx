@@ -37,9 +37,9 @@ int itkCannyEdgeDetectionImageFilterTest(int , char * [] )
         itk::CannyEdgeDetectionImageFilter<ImageType, ImageType>::New();
       filter->DebugOn();
       FilterWatcher watcher(filter);
-      filter->SetThreshold(5);
       filter->SetUpperThreshold(30);
       filter->SetLowerThreshold(10);
+      filter->SetThreshold(0);
       filter->SetVariance(1.0f);
       filter->SetMaximumError(.01f);
       std::cout << "filter: " << filter;
