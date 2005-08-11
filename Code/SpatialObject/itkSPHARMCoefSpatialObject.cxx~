@@ -69,7 +69,7 @@ void SPHARMCoefSpatialObject::SetCoefs(SPHARMCoefSpatialObject::CoefListType& co
 {
   m_Coefs = coeflist;
   m_Count = m_Coefs.size(); //Each item in the vector is a 3D point.
-  m_Harmonic = floor(sqrt(m_Count))-1;
+  m_Harmonic = (int) floor(sqrt(m_Count))-1;
   //std::cout<<"m_Count = " <<m_Count <<std::endl;
   ComputeHiddenMeshSpatialObject();
 }

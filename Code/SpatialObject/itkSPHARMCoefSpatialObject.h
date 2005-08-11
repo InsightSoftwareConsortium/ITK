@@ -101,8 +101,8 @@ public:
  void ComputeHiddenMeshSpatialObject();
 protected:
 
- SPHARMCoefSpatialObject( void );  
- virtual ~SPHARMCoefSpatialObject( void ); 
+ SPHARMCoefSpatialObject();  
+ virtual ~SPHARMCoefSpatialObject(); 
  
  /** Set functions */
  itkSetMacro(Count,int);
