@@ -51,6 +51,9 @@ protected:
     {
     itkWarningMacro (<< "DicomImageIO is now implemented as a subclass of GDCMImageIO. Please replace your DicomImageIO references with GDCMImageIO.");
     };
+private:
+  DicomImageIO(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namespace itk
