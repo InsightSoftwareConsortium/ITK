@@ -156,7 +156,7 @@ GetJacobian( const InputPointType & p ) const
 template <class TScalarType>
 void
 CenteredSimilarity2DTransform<TScalarType>::
-SetFixedParameters( const ParametersType & parameters )
+SetFixedParameters( const ParametersType & itkNotUsed(parameters) )
 {
  // no fixed parameters
 }
