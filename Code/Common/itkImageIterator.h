@@ -114,7 +114,10 @@ public:
   
   /** Set the pixel value */
   void Set( const PixelType & value) const  
-    { this->m_PixelAccessor.Set(*(const_cast<InternalPixelType *>(this->m_Buffer)+this->m_Offset),value); }
+    { 
+    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>
+          (this->m_Buffer)+this->m_Offset), value); 
+    }
 
   /** Return a reference to the pixel 
    * This method will provide the fastest access to pixel

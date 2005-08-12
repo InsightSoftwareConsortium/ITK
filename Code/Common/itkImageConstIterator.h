@@ -126,19 +126,22 @@ public:
 
   /**  Accessor type that convert data between internal and external
    *  representations. */
-  typedef typename TImage::AccessorType     AccessorType;
+  typedef typename TImage::AccessorType            AccessorType;
+  typedef typename TImage::AccessorFunctorType     AccessorFunctorType;
 
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
   ImageConstIterator()
     : m_Region(),
-      m_PixelAccessor()
+      m_PixelAccessor(),
+      m_PixelAccessorFunctor()
   {
     m_Image = 0;
     m_Buffer = 0;
     m_Offset = 0;
     m_BeginOffset = 0;
     m_EndOffset = 0;
+    m_PixelAccessorFunctor.SetBegin( m_Buffer );
   }
 
   /** Default Destructor. */
@@ -157,6 +160,8 @@ public:
     m_BeginOffset = it.m_BeginOffset;
     m_EndOffset = it.m_EndOffset;
     m_PixelAccessor = it.m_PixelAccessor;
+    m_PixelAccessorFunctor = it.m_PixelAccessorFunctor;
+    m_PixelAccessorFunctor.SetBegin( m_Buffer );
   }
 
   /** Constructor establishes an iterator to walk a particular image and a
@@ -194,6 +199,8 @@ public:
       }
 
     m_PixelAccessor = ptr->GetPixelAccessor();
+    m_PixelAccessorFunctor.SetPixelAccessor( m_PixelAccessor );
+    m_PixelAccessorFunctor.SetBegin( m_Buffer );
   }
   
   /** operator= is provided to make sure the handle to the image is properly
@@ -208,6 +215,8 @@ public:
     m_BeginOffset = it.m_BeginOffset;
     m_EndOffset = it.m_EndOffset;
     m_PixelAccessor = it.m_PixelAccessor;
+    m_PixelAccessorFunctor = it.m_PixelAccessorFunctor;
+    m_PixelAccessorFunctor.SetBegin( m_Buffer );
 
     return *this;
   }
@@ -297,13 +306,13 @@ public:
 
   /** Get the pixel value */
   PixelType Get(void) const  
-    { return m_PixelAccessor.Get(*(m_Buffer+m_Offset)); }
+    { return m_PixelAccessorFunctor.Get(*(m_Buffer+m_Offset)); }
   
   /** Return a const reference to the pixel 
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
   const PixelType & Value(void) const  
-    { return *(m_Buffer+m_Offset); }
+    { return *(m_Buffer + m_Offset); }
  
   /** Return an iterator for the beginning of the region. "Begin"
    * is defined as the first pixel in the region.
@@ -357,6 +366,7 @@ protected: //made protected so other iterators can access
   const InternalPixelType      * m_Buffer;
 
   AccessorType                   m_PixelAccessor;
+  AccessorFunctorType            m_PixelAccessorFunctor;
 };
 
 } // end namespace itk

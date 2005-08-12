@@ -128,7 +128,8 @@ public:
 
   /**  Accessor type that convert data between internal and external
    *  representations. */
-  typedef typename TImage::AccessorType     AccessorType;
+  typedef typename TImage::AccessorType            AccessorType;
+  typedef typename TImage::AccessorFunctorType     AccessorFunctorType;
 
   /** Type of the Offset taken from the image */
   typedef typename TImage::OffsetType           OffsetType;
@@ -231,7 +232,7 @@ public:
 
   /** Get the pixel value */
   PixelType Get(void) const  
-    { return m_PixelAccessor.Get(*m_Position); }
+    { return m_PixelAccessorFunctor.Get(*m_Position); }
   
   /** Return a const reference to the pixel 
    * This method will provide the fastest access to pixel
@@ -291,6 +292,7 @@ protected: //made protected so other iterators can access
   bool                         m_Remaining;
 
   AccessorType           m_PixelAccessor;
+  AccessorFunctorType    m_PixelAccessorFunctor;
 
 };
 
