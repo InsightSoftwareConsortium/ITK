@@ -30,6 +30,8 @@ const Vector<double , 5>  NumericTraits<Vector<double , 5> >::One = Vector<doubl
  
 const Vector<float , 2>  NumericTraits<Vector<float, 2> >::Zero = Vector<float , 2>( NumericTraits<float >::Zero );
 const Vector<float , 2>  NumericTraits<Vector<float , 2> >::One = Vector<float , 2>( NumericTraits<float >::One );
+const Vector<float , 3>  NumericTraits<Vector<float, 3> >::Zero = Vector<float , 3>( NumericTraits<float >::Zero );
+const Vector<float , 3>  NumericTraits<Vector<float , 3> >::One = Vector<float , 3>( NumericTraits<float >::One );
  
 
 } // end namespace itk

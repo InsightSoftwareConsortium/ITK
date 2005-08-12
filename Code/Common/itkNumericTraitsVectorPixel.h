@@ -232,6 +232,8 @@ public:
   typedef Vector<double, 3> RealType;
   typedef double ScalarRealType;
   typedef Vector<float, 3> FloatType;
+  static const Vector<float, 3> ITKCommon_EXPORT Zero;
+  static const Vector<float, 3> ITKCommon_EXPORT One;
 };
 template <> class NumericTraits<Vector<double, 3> > {
 public:
