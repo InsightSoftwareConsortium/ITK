@@ -56,31 +56,50 @@ public:
   typedef Array< TType >  ExternalType;
   
   /** Internal typedef. It defines the internal real representation of data. */
-  typedef TType *         InternalType;
+  typedef TType          InternalType;
 
-  inline void Set(InternalType & output, const ExternalType & input) const
+  /** Set output using the value in input */
+  inline void Set(InternalType & output, const ExternalType & input, 
+                                          const unsigned long offset ) const
     { 
+    InternalType *truePixel = (&output) + offset*m_OffsetMultiplier;
     for( VectorLengthType i=0; i< m_VectorLength; i++ ) 
       { 
-      output[i] = input[i];
+      truePixel[i] = input[i];
       }
     }
 
-  inline ExternalType Get( const InternalType & input ) const
+  /** Get the value from input */
+  inline ExternalType Get( const InternalType & input, const unsigned long offset ) const
     {
-    ExternalType output( input, m_VectorLength ) ;
+    ExternalType output( (&input)+(offset*m_OffsetMultiplier) , m_VectorLength );
     return output;
     }
 
-  void SetVectorLength( VectorLengthType l) { m_VectorLength = l; }
+  /** Set the length of each vector in the VectorImage */
+  void SetVectorLength( VectorLengthType l) 
+    { 
+    m_VectorLength = l; 
+    m_OffsetMultiplier = (l-1); 
+    }
+
+  /** Get Vector lengths */
   VectorLengthType GetVectorLength() const { return m_VectorLength; }
 
-protected:
-  DefaultVectorPixelAccessor() {};
+  DefaultVectorPixelAccessor() {}
+
+  /** Constructor to initialize VectorLength at construction time */
+  DefaultVectorPixelAccessor( VectorLengthType l ) 
+    { 
+    m_VectorLength = l; 
+    m_OffsetMultiplier = l-1;
+    }
+  
   virtual ~DefaultVectorPixelAccessor() {};
   
 private:
   VectorLengthType m_VectorLength;
+  VectorLengthType m_OffsetMultiplier;
 };
   
 } // end namespace itk
