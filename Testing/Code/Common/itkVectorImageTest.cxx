@@ -263,7 +263,7 @@ int itkVectorImageTest( int, char* [] )
     {
     // Test itkImageLinearIteratorWithIndex
     typedef itk::ImageLinearConstIteratorWithIndex< VectorImageType > LinearConstIteratorType;
-    typedef itk::ImageLinearConstIteratorWithIndex< VectorImageType > LinearIteratorType;
+    typedef itk::ImageLinearIteratorWithIndex< VectorImageType > LinearIteratorType;
     
     LinearConstIteratorType lcit( vectorImage, vectorImage->GetBufferedRegion() );
     lcit.SetDirection( 2 );
