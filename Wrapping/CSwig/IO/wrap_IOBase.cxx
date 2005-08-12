@@ -19,6 +19,7 @@
 #include "itkPNGImageIO.h"
 #include "itkMetaImageIO.h"
 #include "itkDicomImageIO.h"
+#include "itkGDCMImageIO.h"
 #include "itkPNGImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkDicomImageIOFactory.h"
@@ -37,6 +38,7 @@ namespace _cable_
     ITK_WRAP_OBJECT(PNGImageIO);
     ITK_WRAP_OBJECT(MetaImageIO);
     ITK_WRAP_OBJECT(DicomImageIO);
+    ITK_WRAP_OBJECT(GDCMImageIO);
     ITK_WRAP_OBJECT(PNGImageIOFactory);
     ITK_WRAP_OBJECT(MetaImageIOFactory);
     ITK_WRAP_OBJECT(DicomImageIOFactory);
