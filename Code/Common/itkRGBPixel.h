@@ -66,8 +66,9 @@ public:
   typedef TComponent ComponentType;
   typedef typename Superclass::ValueType ValueType;
   
-  /** Default constructor has nothing to do. */
-  RGBPixel() {this->Fill(0);}
+  /** Default constructor has nothing to do */
+  RGBPixel() {};
+  /** Constructor to fill Red=Blug=Green= r. */
   RGBPixel (const ComponentType& r) { this->Fill(r); }
   
   /** Pass-through constructor for the Array base class. */
