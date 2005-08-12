@@ -47,10 +47,6 @@ SET(ITKIO_SRCS
   itkRegularExpressionSeriesFileNames.cxx
   itkSiemensVisionImageIO.cxx
   itkSiemensVisionImageIOFactory.cxx
-  
-  itkSPHARMCoefFileReader.cxx
-  itkSPHARMCoefFileWriter.cxx
-  
   itkStimulateImageIO.cxx
   itkStimulateImageIOFactory.cxx
   itkTIFFImageIO.cxx

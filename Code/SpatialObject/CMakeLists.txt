@@ -2,8 +2,6 @@
 SET(ITKSpatialObject_SRCS
   itkCylinderSpatialObject.cxx
   itkSpatialObjectFactoryBase.cxx
-  itkSPHARMCoefSpatialObject.cxx
-  itkMetaSPHARMCoefConverter.cxx
 )
 
 ADD_LIBRARY(ITKSpatialObject ${ITKSpatialObject_SRCS})
