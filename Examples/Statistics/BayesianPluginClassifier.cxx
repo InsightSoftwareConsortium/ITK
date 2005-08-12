@@ -164,7 +164,7 @@ int main( int,  char *[])
   SampleType::InstanceIdentifier id = 0UL;
   for ( unsigned int i = 0 ; i < 100 ; ++i )
     {
-    mv = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
+    mv.Fill( (normalGenerator->GetVariate() * standardDeviation ) + mean);
     sample->PushBack( mv );
     classSamples[0]->AddInstance( id );
     ++id;
@@ -175,7 +175,7 @@ int main( int,  char *[])
   standardDeviation = 30;
   for ( unsigned int i = 0 ; i < 100 ; ++i )
     {
-    mv = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
+    mv.Fill( (normalGenerator->GetVariate() * standardDeviation ) + mean);
     sample->PushBack( mv );
     classSamples[1]->AddInstance( id );
     ++id;
