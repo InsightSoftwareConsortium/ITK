@@ -1,6 +1,6 @@
 SET(ITKIO_SRCS
-  itkniftiImageIO.cxx
-  itkniftiImageIOFactory.cxx
+  itkNiftiImageIO.cxx
+  itkNiftiImageIOFactory.cxx
   itkAnalyzeImageIO.cxx
   itkAnalyzeImageIOFactory.cxx
   itkArchetypeSeriesFileNames.cxx

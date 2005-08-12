@@ -1,7 +1,7 @@
 /*=========================================================================
 
 Program:   Insight Segmentation & Registration Toolkit
-Module:    itkniftiImageIOFactory.h
+Module:    itkNiftiImageIOFactory.h
 Language:  C++
 Date:      $Date$
 Version:   $Revision$
@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkniftiImageIOFactory_h
-#define __itkniftiImageIOFactory_h
+#ifndef __itkNiftiImageIOFactory_h
+#define __itkNiftiImageIOFactory_h
 
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
@@ -26,14 +26,14 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-/** \class niftiImageIOFactory
-   * \brief Create instances of niftiImageIO objects using an object factory.
+/** \class NiftiImageIOFactory
+   * \brief Create instances of NiftiImageIO objects using an object factory.
    */
-class ITK_EXPORT niftiImageIOFactory : public ObjectFactoryBase
+class ITK_EXPORT NiftiImageIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
-  typedef niftiImageIOFactory   Self;
+  typedef NiftiImageIOFactory   Self;
   typedef ObjectFactoryBase  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -46,22 +46,22 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(niftiImageIOFactory, ObjectFactoryBase);
+  itkTypeMacro(NiftiImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
   {
-    niftiImageIOFactory::Pointer metaFactory = niftiImageIOFactory::New();
+    NiftiImageIOFactory::Pointer metaFactory = NiftiImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(metaFactory);
   }
 
 protected:
-  niftiImageIOFactory();
-  ~niftiImageIOFactory();
+  NiftiImageIOFactory();
+  ~NiftiImageIOFactory();
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  niftiImageIOFactory(const Self&); //purposely not implemented
+  NiftiImageIOFactory(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 };

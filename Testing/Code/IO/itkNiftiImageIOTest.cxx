@@ -1,7 +1,7 @@
 /*=========================================================================
 
 Program:   Insight Segmentation & Registration Toolkit
-Module:    itkniftiImageIOTest.cxx
+Module:    itkNiftiImageIOTest.cxx
 Language:  C++
 Date:      $Date$
 Version:   $Revision$
@@ -29,8 +29,8 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkImageFileWriter.h"
 #include "itkImageIOFactory.h"
-#include "itkniftiImageIOFactory.h"
-#include "itkniftiImageIO.h"
+#include "itkNiftiImageIOFactory.h"
+#include "itkNiftiImageIO.h"
 #include <stdio.h>
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
@@ -56,37 +56,37 @@ const unsigned char SUPERIOR=32;   /*Bit pattern 0 0 1  00000*/
 static int WriteTestFiles(void)
 {
 #include "LittleEndian_hdr.h"
-    struct nifti_1_header niftiLittleEndian;
-    memcpy(&niftiLittleEndian,LittleEndian_hdr,sizeof(niftiLittleEndian));
-    niftiLittleEndian.qform_code=NIFTI_XFORM_UNKNOWN;
-    niftiLittleEndian.sform_code=NIFTI_XFORM_UNKNOWN;
-    strncpy(niftiLittleEndian.magic,"ni1\0",4);
+    struct nifti_1_header NiftiLittleEndian;
+    memcpy(&NiftiLittleEndian,LittleEndian_hdr,sizeof(NiftiLittleEndian));
+    NiftiLittleEndian.qform_code=NIFTI_XFORM_UNKNOWN;
+    NiftiLittleEndian.sform_code=NIFTI_XFORM_UNKNOWN;
+    strncpy(NiftiLittleEndian.magic,"ni1\0",4);
 #include "LittleEndian_img.h"
 #include "BigEndian_hdr.h"
-    struct nifti_1_header niftiBigEndian;
-    memcpy(&niftiBigEndian,BigEndian_hdr,sizeof(niftiBigEndian));
-    niftiBigEndian.qform_code=NIFTI_XFORM_UNKNOWN;
-    niftiBigEndian.sform_code=NIFTI_XFORM_UNKNOWN;
-    strncpy(niftiBigEndian.magic,"ni1\0",4);
+    struct nifti_1_header NiftiBigEndian;
+    memcpy(&NiftiBigEndian,BigEndian_hdr,sizeof(NiftiBigEndian));
+    NiftiBigEndian.qform_code=NIFTI_XFORM_UNKNOWN;
+    NiftiBigEndian.sform_code=NIFTI_XFORM_UNKNOWN;
+    strncpy(NiftiBigEndian.magic,"ni1\0",4);
 #include "BigEndian_img.h"
-    //Force to be nifti-compliant
-  std::ofstream little_hdr("niftiLittleEndian.hdr", std::ios::binary | std::ios::out);
+    //Force to be Nifti-compliant
+  std::ofstream little_hdr("NiftiLittleEndian.hdr", std::ios::binary | std::ios::out);
   if(!little_hdr.is_open())
     return EXIT_FAILURE;
-  std::cout << "niftiLittleEndian written" << std::endl;
+  std::cout << "NiftiLittleEndian written" << std::endl;
   little_hdr.write(reinterpret_cast<const char *>(LittleEndian_hdr),sizeof(LittleEndian_hdr));
   little_hdr.close();
-  std::ofstream little_img("niftiLittleEndian.img", std::ios::binary | std::ios::out);
+  std::ofstream little_img("NiftiLittleEndian.img", std::ios::binary | std::ios::out);
   if(!little_img.is_open())
     return EXIT_FAILURE;
   little_img.write(reinterpret_cast<const char *>(LittleEndian_img),sizeof(LittleEndian_img));
   little_img.close();
-  std::ofstream big_hdr("niftiBigEndian.hdr", std::ios::binary | std::ios::out);
+  std::ofstream big_hdr("NiftiBigEndian.hdr", std::ios::binary | std::ios::out);
   if(!big_hdr.is_open())
     return EXIT_FAILURE;
   big_hdr.write(reinterpret_cast<const char *>(BigEndian_hdr),sizeof(BigEndian_hdr));
   big_hdr.close();
-  std::ofstream big_img("niftiBigEndian.img", std::ios::binary | std::ios::out);
+  std::ofstream big_img("NiftiBigEndian.img", std::ios::binary | std::ios::out);
   if(!big_img.is_open())
     return EXIT_FAILURE;
   big_img.write(reinterpret_cast<const char *>(BigEndian_img),sizeof(BigEndian_img));
@@ -96,10 +96,10 @@ static int WriteTestFiles(void)
 
 static void RemoveByteSwapTestFiles(void)
 {
-  Remove("niftiLittleEndian.hdr");
-  Remove("niftiLittleEndian.img");
-  Remove("niftiBigEndian.hdr");
-  Remove("niftiBigEndian.img");
+  Remove("NiftiLittleEndian.hdr");
+  Remove("NiftiLittleEndian.img");
+  Remove("NiftiBigEndian.hdr");
+  Remove("NiftiBigEndian.img");
 }
 
 static int TestByteSwap(void)
@@ -119,10 +119,10 @@ static int TestByteSwap(void)
     itk::ImageFileReader<ImageType>::New();
   try
   {
-    imageReader->SetFileName("niftiLittleEndian.hdr") ;
+    imageReader->SetFileName("NiftiLittleEndian.hdr") ;
     imageReader->Update() ;
     little = imageReader->GetOutput() ;
-    imageReader->SetFileName("niftiBigEndian.hdr") ;
+    imageReader->SetFileName("NiftiBigEndian.hdr") ;
     imageReader->Update() ;
     big = imageReader->GetOutput();
     std::cout << "Printing Dictionary" << std::endl;
@@ -161,7 +161,7 @@ static int TestByteSwap(void)
   return rval;
 }
 
-template <typename T> int MakeniftiImage(void)
+template <typename T> int MakeNiftiImage(void)
 {
   typedef itk::Image<T, 3> ImageType ;
   typedef itk::ImageFileReader< ImageType > ImageReaderType ;
@@ -284,9 +284,9 @@ template <typename T> int MakeniftiImage(void)
   return EXIT_SUCCESS;
 }
 
-//template int MakeniftiImage<char>();
+//template int MakeNiftiImage<char>();
 
-int itkniftiImageIOTest(int ac, char* av[])
+int itkNiftiImageIOTest(int ac, char* av[])
 {
   int rval = 0;
   //
@@ -299,7 +299,7 @@ int itkniftiImageIOTest(int ac, char* av[])
   static bool firstTime = true;
   if(firstTime) 
     {
-    itk::ObjectFactoryBase::RegisterFactory(itk::niftiImageIOFactory::New() );
+    itk::ObjectFactoryBase::RegisterFactory(itk::NiftiImageIOFactory::New() );
     firstTime = false;
     }
   if(ac > 1) //This is a mechanism for reading unsigned char images for testing.
@@ -327,65 +327,65 @@ int itkniftiImageIOTest(int ac, char* av[])
   else //This is the mechanism for doing internal testing of all data types.
     {
       int cur_return;
-      cur_return = MakeniftiImage<char>();
+      cur_return = MakeNiftiImage<char>();
       if(cur_return != 0)
         {
-          std::cerr << "Error writing nifti file type char" << std::endl;
+          std::cerr << "Error writing Nifti file type char" << std::endl;
         }
       else
         {
           rval += cur_return;
         }
-      cur_return = MakeniftiImage<unsigned char>();
+      cur_return = MakeNiftiImage<unsigned char>();
       if(cur_return != 0)
         {
-          std::cerr << "Error writing nifti file type unsigned char" << std::endl;
+          std::cerr << "Error writing Nifti file type unsigned char" << std::endl;
         }
       else
         {
           rval += cur_return;
         }
-      cur_return = MakeniftiImage<short>();
+      cur_return = MakeNiftiImage<short>();
       if(cur_return != 0)
         {
-          std::cerr << "Error writing nifti file type short" << std::endl;
+          std::cerr << "Error writing Nifti file type short" << std::endl;
         }
       else
         {
           rval += cur_return;
         }
-      cur_return = MakeniftiImage<unsigned short>();
+      cur_return = MakeNiftiImage<unsigned short>();
       if(cur_return != 0)
         {
-          std::cerr << "Error writing nifti file type unsigned short" << std::endl;
+          std::cerr << "Error writing Nifti file type unsigned short" << std::endl;
         }
       else
         {
           rval += cur_return;
         }
-      cur_return = MakeniftiImage<int>();
+      cur_return = MakeNiftiImage<int>();
       if(cur_return != 0)
         {
-          std::cerr << "Error writing nifti file type int" << std::endl;
+          std::cerr << "Error writing Nifti file type int" << std::endl;
         }
       else
         {
           rval += cur_return;
         }
-      cur_return = MakeniftiImage<float>();
+      cur_return = MakeNiftiImage<float>();
       if(cur_return != 0)
         {
-          std::cerr << "Error writing nifti file type float" << std::endl;
+          std::cerr << "Error writing Nifti file type float" << std::endl;
         }
       else
         {
           rval += cur_return;
         }
       // awaiting a double precision byte swapper
-      cur_return = MakeniftiImage<double>();
+      cur_return = MakeNiftiImage<double>();
       if(cur_return != 0)
         {
-          std::cerr << "Error writing nifti file type double" << std::endl;
+          std::cerr << "Error writing Nifti file type double" << std::endl;
         }
       else
         {
@@ -395,13 +395,13 @@ int itkniftiImageIOTest(int ac, char* av[])
     }
   //Tests added to increase code coverage.
       {
-      itk::niftiImageIOFactory::Pointer MyFactoryTest=itk::niftiImageIOFactory::New();
+      itk::NiftiImageIOFactory::Pointer MyFactoryTest=itk::NiftiImageIOFactory::New();
       //This was made a protected function.  MyFactoryTest->PrintSelf(std::cout,0);
       }
   return rval;
 }
 
-int itkniftiImageIOTest2(int ac, char* av[])
+int itkNiftiImageIOTest2(int ac, char* av[])
 {
   //
   // first argument is passing in the writable directory to do all testing
@@ -426,7 +426,7 @@ int itkniftiImageIOTest2(int ac, char* av[])
 
 
 
-  itk::niftiImageIO::Pointer io = itk::niftiImageIO::New();
+  itk::NiftiImageIO::Pointer io = itk::NiftiImageIO::New();
   ImageReaderType::Pointer imageReader = ImageReaderType::New();
   ImagePointer input;
   try

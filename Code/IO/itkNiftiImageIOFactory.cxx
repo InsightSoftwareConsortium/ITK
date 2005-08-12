@@ -1,7 +1,7 @@
 /*=========================================================================
 
 Program:   Insight Segmentation & Registration Toolkit
-Module:    itkniftiImageIOFactory.cxx
+Module:    itkNiftiImageIOFactory.cxx
 Language:  C++
 Date:      $Date$
 Version:   $Revision$
@@ -14,43 +14,43 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkniftiImageIOFactory.h"
+#include "itkNiftiImageIOFactory.h"
 #include "itkCreateObjectFunction.h"
-#include "itkniftiImageIO.h"
+#include "itkNiftiImageIO.h"
 #include "itkVersion.h"
 
 
 namespace itk
 {
-void niftiImageIOFactory::PrintSelf(std::ostream&, Indent) const
+void NiftiImageIOFactory::PrintSelf(std::ostream&, Indent) const
 {
 
 }
 
 
-niftiImageIOFactory::niftiImageIOFactory()
+NiftiImageIOFactory::NiftiImageIOFactory()
 {
   this->RegisterOverride("itkImageIOBase",
-                         "itkniftiImageIO",
-                         "nifti Image IO",
+                         "itkNiftiImageIO",
+                         "Nifti Image IO",
                          1,
-                         CreateObjectFunction<niftiImageIO>::New());
+                         CreateObjectFunction<NiftiImageIO>::New());
 }
 
-niftiImageIOFactory::~niftiImageIOFactory()
+NiftiImageIOFactory::~NiftiImageIOFactory()
 {
 }
 
 const char*
-niftiImageIOFactory::GetITKSourceVersion(void) const
+NiftiImageIOFactory::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char*
-niftiImageIOFactory::GetDescription() const
+NiftiImageIOFactory::GetDescription() const
 {
-  return "nifti ImageIO Factory, allows the loading of nifti images into insight";
+  return "Nifti ImageIO Factory, allows the loading of Nifti images into insight";
 }
 
 } // end namespace itk

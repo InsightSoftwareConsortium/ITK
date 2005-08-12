@@ -1,7 +1,7 @@
 /*=========================================================================
 
 Program:   Insight Segmentation & Registration Toolkit
-Module:    itkniftiImageIO.h
+Module:    itkNiftiImageIO.h
 Language:  C++
 Date:      $Date$
 Version:   $Revision$
@@ -22,8 +22,8 @@ PURPOSE.  See the above copyright notices for more information.
  *         The University of Iowa 2002
  */
 
-#ifndef __itkniftiImageIO_h
-#define __itkniftiImageIO_h
+#ifndef __itkNiftiImageIO_h
+#define __itkNiftiImageIO_h
 
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
@@ -38,14 +38,14 @@ namespace itk
 /**
    * \ingroup IOFilters
    * \author Hans J. Johnson
-   * \brief Class that defines how to read nifti file format.
-   * nifti IMAGE FILE FORMAT - As much information as I can determine from sourceforge.net/projects/niftilib
+   * \brief Class that defines how to read Nifti file format.
+   * Nifti IMAGE FILE FORMAT - As much information as I can determine from sourceforge.net/projects/Niftilib
    */
-class ITK_EXPORT niftiImageIO : public ImageIOBase
+class ITK_EXPORT NiftiImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef niftiImageIO            Self;
+  typedef NiftiImageIO            Self;
   typedef ImageIOBase  Superclass;
   typedef SmartPointer<Self>  Pointer;
 
@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(niftiImageIO, Superclass);
+  itkTypeMacro(NiftiImageIO, Superclass);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 
@@ -90,8 +90,8 @@ public:
 
 
 protected:
-  niftiImageIO();
-  ~niftiImageIO();
+  NiftiImageIO();
+  ~NiftiImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
 private:
   void  DefineHeaderObjectDataType();
@@ -108,7 +108,7 @@ private:
        * - 5    sagittal-flipped       ILP       P->A     I->S    L->R
        * - Where the Origin disignators are with respect to the patient
        * - [(I)nferior|(S)uperior] [(L}eft|(R)ight] [(A)nterior|(P)osterior]
-       * \note Key's 0-5 correspond to the nifti v7.5 orientations, and should not be changed.
+       * \note Key's 0-5 correspond to the Nifti v7.5 orientations, and should not be changed.
        */
   typedef enum {
     ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE=0,        /**< Denotes a transverse data orientation Right-->Left, */
@@ -117,14 +117,14 @@ private:
     ITK_ANALYZE_ORIENTATION_RAI_TRANSVERSE_FLIPPED=3,/**<  */
     ITK_ANALYZE_ORIENTATION_RSP_CORONAL_FLIPPED=4,   /**<  */
     ITK_ANALYZE_ORIENTATION_PIL_SAGITTAL_FLIPPED=5   /**<  */
-  } ValidniftiOrientationFlags;
-  nifti_image * m_niftiImage;
+  } ValidNiftiOrientationFlags;
+  nifti_image * m_NiftiImage;
   double m_RescaleSlope;
   double m_RescaleIntercept;
 
-  niftiImageIO(const Self&); //purposely not implemented
+  NiftiImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 };
 } // end namespace itk
 
-#endif // __itkniftiImageIO_h
+#endif // __itkNiftiImageIO_h
