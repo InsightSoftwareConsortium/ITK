@@ -68,8 +68,9 @@ ADD_EXECUTABLE(DTITubeSpatialObject DTITubeSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(DTITubeSpatialObject ITKCommon ITKIO )
 
 ADD_EXECUTABLE(SPHARMMeshSourceExample SPHARMMeshSourceExample.cxx)
-TARGET_LINK_LIBRARIES(SPHARMMeshSourceExample ITKAlgorithms ITKIO ITKNumerics ITKSpatialObject)
+TARGET_LINK_LIBRARIES(SPHARMMeshSourceExample ITKIO  ITKNumerics ITKSpatialObject ITKAlgorithms)
 
 ADD_EXECUTABLE(SPHARMCoefSpatialObjectReadWrite SPHARMCoefSpatialObjectReadWrite.cxx)
-TARGET_LINK_LIBRARIES(SPHARMCoefSpatialObjectReadWrite ITKCommon ITKIO ITKAlgorithms ITKNumerics ITKSpatialObject)
+TARGET_LINK_LIBRARIES(SPHARMCoefSpatialObjectReadWrite ITKCommon ITKIO
+ITKNumerics ITKSpatialObject ITKAlgorithms)
 

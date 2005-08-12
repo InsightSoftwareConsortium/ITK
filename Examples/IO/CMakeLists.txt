@@ -70,4 +70,4 @@ ADD_EXECUTABLE(TransformReadWrite TransformReadWrite.cxx )
 TARGET_LINK_LIBRARIES(TransformReadWrite ITKCommon ITKIO)
 
 ADD_EXECUTABLE(SPHARMCoefFileReadWrite SPHARMCoefFileReadWrite.cxx)
-TARGET_LINK_LIBRARIES(SPHARMCoefFileReadWrite ITKIO ITKAlgorithms ITKNumerics ITKSpatialObject)
+TARGET_LINK_LIBRARIES(SPHARMCoefFileReadWrite ITKIO ITKNumerics ITKSpatialObject ITKAlgorithms)
