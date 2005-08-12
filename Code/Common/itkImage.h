@@ -21,6 +21,7 @@
 #include "itkImageRegion.h"
 #include "itkImportImageContainer.h"
 #include "itkDefaultPixelAccessor.h"
+#include "itkDefaultPixelAccessorFunctor.h"
 #include "itkPoint.h"
 #include "itkContinuousIndex.h"
 #include "itkFixedArray.h"
@@ -110,6 +111,7 @@ public:
   /** Accessor type that convert data between internal and external
    *  representations.  */
   typedef DefaultPixelAccessor< PixelType > AccessorType;
+  typedef DefaultPixelAccessorFunctor< PixelType, PixelType, AccessorType > AccessorFunctorType;
 
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel type

@@ -18,6 +18,7 @@
 #define __itkImageAdaptor_h
 
 #include "itkImage.h"
+#include "itkDefaultPixelAccessorFunctor.h"
 
 namespace itk
 {
@@ -80,6 +81,11 @@ public:
   /**  Accessor type that convert data between internal and external
    *  representations. */
   typedef   TAccessor   AccessorType;
+
+  /** typedef of the functor that chooses the appropriate accessor 
+   * Image or VectorImage. */
+  typedef DefaultPixelAccessorFunctor< InternalPixelType, PixelType, 
+                                    AccessorType > AccessorFunctorType;
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef typename Superclass::IndexType  IndexType;
