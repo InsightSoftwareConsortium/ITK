@@ -65,7 +65,16 @@ public:
    * that location and it is the user's responsibility to delete it. 
    * If "LetArrayManageMemory" is true, then this class will free the
    * memory when this object is destroyed. */ 
-  Array(ValueType* data, unsigned int sz, bool LetArrayManageMemory = false);
+  Array( ValueType* data, unsigned int sz, bool LetArrayManageMemory = false);
+  
+  /** Constructor that initializes array with contents from a user supplied
+   * buffer. The pointer to the buffer and the length is specified. By default,
+   * the array does not manage the memory of the buffer. It merely points to 
+   * that location and it is the user's responsibility to delete it. 
+   * If "LetArrayManageMemory" is true, then this class will free the
+   * memory when this object is destroyed. */ 
+  Array( const ValueType* data, unsigned int sz, bool LetArrayManageMemory = false);
+
 
   /** Set the all the elements of the array to the specified value */
   void Fill (TValueType const& v) { fill(v); }
