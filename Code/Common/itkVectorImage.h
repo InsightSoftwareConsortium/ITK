@@ -21,6 +21,7 @@
 #include "itkImageRegion.h"
 #include "itkImportImageContainer.h"
 #include "itkDefaultVectorPixelAccessor.h"
+#include "itkDefaultVectorPixelAccessorFunctor.h"
 #include "itkPoint.h"
 #include "itkContinuousIndex.h"
 #include "itkArray.h"
@@ -59,6 +60,7 @@ namespace itk
  * for Medical Research, Grant U54 EB005149.
  *
  * \sa DefaultVectorPixelAccessor
+ * \sa DefaultVectorPixelAccessorFunctor
  * \sa VectorImageToImagePixelAccessor
  * \sa VectorImageToImageAdaptor
  * \sa Image
@@ -66,7 +68,8 @@ namespace itk
  *
  * \example Testing/Code/Common/itkVectorImageTest.cxx
  * 
- * \ingroup ImageObjects */
+ * \ingroup ImageObjects 
+ */
 template <class TPixel, unsigned int VImageDimension=3 >
 class ITK_EXPORT VectorImage : 
     public Image< Array< TPixel >, VImageDimension >
@@ -101,7 +104,12 @@ public:
 
   /** Accessor type that convert data between internal and external
    *  representations.  */
-  typedef DefaultVectorPixelAccessor< PixelType > AccessorType;
+  typedef DefaultVectorPixelAccessor< InternalPixelType > AccessorType;
+
+  /** Functor to provide a common API between DefaultPixelAccessor and
+   * DefaultVectorPixelAccessor */
+  typedef DefaultVectorPixelAccessorFunctor< InternalPixelType, 
+          PixelType, AccessorType >          AccessorFunctorType;
 
   /** Container used to store pixels in the image. */
   typedef ImportImageContainer<unsigned long, InternalPixelType> PixelContainer;
@@ -155,7 +163,7 @@ public:
     OffsetValueType offset = m_VectorLength * this->ComputeOffset(index);
     for( VectorLengthType i = 0; i < m_VectorLength; i++ )
       {
-      (*m_Buffer)[offset + i] = value;
+      (*m_Buffer)[offset + i] = value[i];
       }
     }
 
@@ -192,6 +200,7 @@ public:
   PixelContainer* GetPixelContainer()
     { return m_Buffer.GetPointer(); }
 
+  /** Return a pointer to the container. */
   const PixelContainer* GetPixelContainer() const
     { return m_Buffer.GetPointer(); }
 
@@ -213,11 +222,11 @@ public:
   
   /** Return the Pixel Accessor object */
   AccessorType GetPixelAccessor( void )
-    { return AccessorType(); }
+    { return AccessorType( m_VectorLength ); }
 
   /** Return the Pixel Accesor object */
   const AccessorType GetPixelAccessor( void ) const
-    { return AccessorType(); }
+    { return AccessorType( m_VectorLength ); }
 
   
   /** Set/Get macros for the length of each vector in the vector image */
