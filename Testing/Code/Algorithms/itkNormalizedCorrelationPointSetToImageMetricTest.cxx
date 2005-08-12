@@ -226,6 +226,12 @@ int itkNormalizedCorrelationPointSetToImageMetricTest(int, char* [] )
 
   std::cout << "param[1]   Metric    d(Metric)/d(param[1] " << std::endl;
 
+  metric->SubtractMeanOn();
+
+  parameters[1] = -10.2;
+  metric->GetValueAndDerivative( parameters, measure, derivative );
+  double oldValue = measure;
+
   for( double trans = -10; trans <= 5; trans += 0.2 )
     {
     parameters[1] = trans;
@@ -240,11 +246,18 @@ int itkNormalizedCorrelationPointSetToImageMetricTest(int, char* [] )
     std::cout.width(15);
     std::cout.precision(5);
     std::cout << derivative[1];
-    std::cout << std::endl;
+
+    // compare against finite difference approx.
+    std::cout.width(15);
+    std::cout.precision(5);
+    std::cout << (measure-oldValue)/0.2;
+    oldValue = measure;
 
     // exercise the other functions
     metric->GetValue( parameters );
     metric->GetDerivative( parameters, derivative );
+
+    std::cout << std::endl;
 
     }
 

@@ -30,6 +30,7 @@ template <class TFixedPointSet, class TMovingImage>
 NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
 ::NormalizedCorrelationPointSetToImageMetric()
 {
+  m_SubtractMean = false;
 }
 
 /*
@@ -65,6 +66,8 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
   AccumulateType sff = NumericTraits< AccumulateType >::Zero;
   AccumulateType smm = NumericTraits< AccumulateType >::Zero;
   AccumulateType sfm = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sf  = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sm  = NumericTraits< AccumulateType >::Zero;
 
   while( pointItr != pointEnd && pointDataItr != pointDataEnd )
     {
@@ -80,6 +83,11 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
       sff += fixedValue  * fixedValue;
       smm += movingValue * movingValue;
       sfm += fixedValue  * movingValue;
+      if ( this->m_SubtractMean )
+        {
+        sf += fixedValue;
+        sm += movingValue;
+        }
       this->m_NumberOfPixelsCounted++;
       }
 
@@ -87,10 +95,18 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
     ++pointDataItr;
     }
 
-  if( this->m_NumberOfPixelsCounted > 0 && (sff*smm) != 0.0)
+   if ( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
     {
-    const RealType factor = -1.0 / sqrt( sff * smm );
-    measure = sfm * factor;
+    sff -= ( sf * sf / this->m_NumberOfPixelsCounted );
+    smm -= ( sm * sm / this->m_NumberOfPixelsCounted );
+    sfm -= ( sf * sm / this->m_NumberOfPixelsCounted );
+    }
+
+  const RealType denom = -1.0 * sqrt( sff * smm );
+
+  if( this->m_NumberOfPixelsCounted > 0 && denom != 0.0)
+    {
+    measure = sfm / denom;
     }
   else
     {
@@ -138,6 +154,8 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
   AccumulateType sff  = NumericTraits< AccumulateType >::Zero;
   AccumulateType smm  = NumericTraits< AccumulateType >::Zero;
   AccumulateType sfm  = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sf  = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sm  = NumericTraits< AccumulateType >::Zero;
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType( ParametersDimension );
@@ -148,6 +166,9 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
 
   DerivativeType derivativeM = DerivativeType( ParametersDimension );
   derivativeM.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
+
+  DerivativeType derivativeO = DerivativeType( ParametersDimension );
+  derivativeO.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
   PointIterator pointItr = fixedPointSet->GetPoints()->Begin();
   PointIterator pointEnd = fixedPointSet->GetPoints()->End();
@@ -172,6 +193,11 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
       sff += fixedValue  * fixedValue;
       smm += movingValue * movingValue;
       sfm += fixedValue  * movingValue;
+      if ( this->m_SubtractMean )
+        {
+        sf += fixedValue;
+        sm += movingValue;
+        }
       this->m_NumberOfPixelsCounted++;
 
 
@@ -208,6 +234,10 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
           }
         derivativeF[par] += sumD * fixedValue;
         derivativeM[par] += sumD * movingValue;
+        if ( this->m_SubtractMean )
+          {
+          derivativeO[par] += sumD;
+          }
         }
       }
 
@@ -215,12 +245,26 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
     ++pointDataItr;
     }
 
-  if( this->m_NumberOfPixelsCounted > 0 && (sff*smm) != 0.0)
+  if ( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
     {
-    const RealType factor = -1.0 / sqrt( sff * smm );
+    sff -= ( sf * sf / this->m_NumberOfPixelsCounted );
+    smm -= ( sm * sm / this->m_NumberOfPixelsCounted );
+    sfm -= ( sf * sm / this->m_NumberOfPixelsCounted );
+
+    for( unsigned int par = 0; par<ParametersDimension; par++)
+      {
+      derivativeF[par] -= derivativeO[par] * sf / this->m_NumberOfPixelsCounted;
+      derivativeM[par] -= derivativeO[par] * sm / this->m_NumberOfPixelsCounted;
+      }
+    }
+
+  const RealType denom = -1.0 * sqrt( sff * smm );
+
+  if( this->m_NumberOfPixelsCounted > 0 && denom != 0.0)
+    {
     for(unsigned int i=0; i<ParametersDimension; i++)
       {
-      derivative[i] = factor * ( derivativeF[i] - (sfm/smm)*derivativeM[i]);
+      derivative[i] = ( derivativeF[i] - (sfm/smm)* derivativeM[i] ) / denom;
       }
     }
   else
@@ -267,6 +311,8 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
   AccumulateType sff  = NumericTraits< AccumulateType >::Zero;
   AccumulateType smm  = NumericTraits< AccumulateType >::Zero;
   AccumulateType sfm  = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sf  = NumericTraits< AccumulateType >::Zero;
+  AccumulateType sm  = NumericTraits< AccumulateType >::Zero;
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType( ParametersDimension );
@@ -277,6 +323,9 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
 
   DerivativeType derivativeM = DerivativeType( ParametersDimension );
   derivativeM.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
+
+  DerivativeType derivativeO = DerivativeType( ParametersDimension );
+  derivativeO.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
   PointIterator pointItr = fixedPointSet->GetPoints()->Begin();
   PointIterator pointEnd = fixedPointSet->GetPoints()->End();
@@ -301,6 +350,11 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
       sff += fixedValue  * fixedValue;
       smm += movingValue * movingValue;
       sfm += fixedValue  * movingValue;
+      if ( this->m_SubtractMean )
+        {
+        sf += fixedValue;
+        sm += movingValue;
+        }
       this->m_NumberOfPixelsCounted++;
 
 
@@ -337,6 +391,10 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
           }
         derivativeF[par] += sumD * fixedValue;
         derivativeM[par] += sumD * movingValue;
+        if ( this->m_SubtractMean )
+          {
+          derivativeO[par] += sumD;
+          }
         }
       }
 
@@ -344,26 +402,50 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
     ++pointDataItr;
     }
 
-  if( this->m_NumberOfPixelsCounted > 0 && (sff*smm) != 0.0)
+  if ( this->m_SubtractMean && this->m_NumberOfPixelsCounted > 0 )
     {
-    const RealType factor = -1.0 / sqrt( sff * smm );
+    sff -= ( sf * sf / this->m_NumberOfPixelsCounted );
+    smm -= ( sm * sm / this->m_NumberOfPixelsCounted );
+    sfm -= ( sf * sm / this->m_NumberOfPixelsCounted );
+
+    for( unsigned int par = 0; par<ParametersDimension; par++)
+      {
+      derivativeF[par] -= derivativeO[par] * sf / this->m_NumberOfPixelsCounted;
+      derivativeM[par] -= derivativeO[par] * sm / this->m_NumberOfPixelsCounted;
+      }
+    }
+
+  const RealType denom = -1.0 * sqrt( sff * smm );
+
+  if( this->m_NumberOfPixelsCounted > 0 && denom != 0.0)
+    {
     for(unsigned int i=0; i<ParametersDimension; i++)
       {
-      derivative[i] = factor * ( derivativeF[i] - (sfm/smm)*derivativeM[i]);
-      value = sfm * factor;
+      derivative[i] = ( derivativeF[i] - (sfm/smm)* derivativeM[i] ) / denom;
       }
+    value = sfm / denom;
     }
   else
     {
     for(unsigned int i=0; i<ParametersDimension; i++)
       {
       derivative[i] = NumericTraits< MeasureType >::Zero;
-      value = NumericTraits< MeasureType >::Zero;
       }
+    value = NumericTraits< MeasureType >::Zero;
     }
 
 
 }
+
+template < class TFixedImage, class TMovingImage> 
+void
+NormalizedCorrelationPointSetToImageMetric<TFixedImage,TMovingImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "SubtractMean: " << m_SubtractMean << std::endl;
+}
+
 
 } // end namespace itk
 

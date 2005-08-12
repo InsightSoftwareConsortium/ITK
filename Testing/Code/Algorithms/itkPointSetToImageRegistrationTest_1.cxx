@@ -135,7 +135,6 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
   MetricType::Pointer  metric = MetricType::New();
 
 
-
 //-----------------------------------------------------------
 // Set up a Transform
 //-----------------------------------------------------------

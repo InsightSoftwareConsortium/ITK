@@ -89,13 +89,24 @@ public:
   void GetValueAndDerivative( const TransformParametersType & parameters,
                               MeasureType& Value, DerivativeType& Derivative ) const;
 
+  /** Set/Get SubtractMean boolean. If true, the sample mean is subtracted 
+   * from the sample values in the cross-correlation formula and
+   * typically results in narrower valleys in the cost fucntion.
+   * Default value is false. */
+  itkSetMacro( SubtractMean, bool );
+  itkGetConstReferenceMacro( SubtractMean, bool );
+  itkBooleanMacro( SubtractMean );
+
 protected:
   NormalizedCorrelationPointSetToImageMetric();
   virtual ~NormalizedCorrelationPointSetToImageMetric() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   NormalizedCorrelationPointSetToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  bool    m_SubtractMean;
 
 };
 
