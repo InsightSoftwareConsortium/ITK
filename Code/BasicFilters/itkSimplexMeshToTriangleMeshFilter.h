@@ -132,7 +132,7 @@ class SimplexMeshToTriangleMeshFilter : public MeshToMeshFilter<TInputMesh, TOut
           m_CenterMap->InsertElement(cellId, center);
 
 
-          std::cout << "cellId: " << cellId << "  center = " << center << std::endl; 
+          //std::cout << "cellId: " << cellId << "  center = " << center << std::endl; 
           }
 
         PointMapPointer GetCenterMap()
