@@ -288,7 +288,7 @@ int test2D_Standard_l2_NthOrderSpline_filter(unsigned int splineOrder)
   ImageTypePtr2D outImage2 = upSampler->GetOutput();
   PrintImageData(outImage2);
 
-  bool sameResults;
+  bool sameResults=false;
   if( splineOrder == 3 ) 
     {
     sameResults = VerifyResults3rdOrderSpline(outImage2, ExpectedResults);
