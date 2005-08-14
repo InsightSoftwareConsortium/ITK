@@ -62,11 +62,17 @@ public:
     }
 
   /** Get the value from input */
-  inline TExternalType Get( const TInternalType &input ) const
+  inline TExternalType & Get( TInternalType &input ) const
     {
     return m_PixelAccessor.Get( input );
     }
 
+  /** Get a const reference to the pixel. */
+  inline const TExternalType & Get( const TInternalType & input ) const
+    {
+    return m_PixelAccessor.Get( input );
+    }
+  
 private:
   TPixelAccessor m_PixelAccessor; // The pixel accessor
 };
