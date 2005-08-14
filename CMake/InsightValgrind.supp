@@ -156,6 +156,15 @@
    fun:_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc
 }
 {
+   ostream stuff
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:_ZSt18uncaught_exceptionv
+   fun:_ZNSolsEm
+   fun:_ZNSolsEj
+}
+{
    basic_ostream From cumulative gaussian optimizer
    Memcheck:Leak
    fun:malloc
