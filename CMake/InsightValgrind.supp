@@ -189,4 +189,18 @@
    obj:/usr/lib/libstdc++.so.6.0.3
    fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE15_M_insert_floatIdEES3_S3_RSt8ios_baseccT_
 }
+{
+   itkThreadLoggerTest
+   Memcheck:Leak
+   fun:calloc
+   obj:/lib/ld-2.3.2.so
+   fun:_dl_allocate_tls
+   fun:allocate_stack
+   fun:pthread_create@@GLIBC_2.1
+   fun:_ZN3itk13MultiThreader11SpawnThreadEPFPvS1_ES1_
+   fun:_ZN3itk12ThreadLoggerC1Ev
+   fun:_ZN3itk12ThreadLogger3NewEv
+   fun:_Z19itkThreadLoggerTestiPPc
+   fun:main
+}
 
