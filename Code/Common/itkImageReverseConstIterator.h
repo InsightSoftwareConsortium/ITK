@@ -131,15 +131,20 @@ public:
    *  representations. */
   typedef typename TImage::AccessorType     AccessorType;
 
+  /** Functor to choose the appropriate accessor. (for Image vs VectorImage) */
+  typedef typename TImage::AccessorFunctorType     AccessorFunctorType;
+
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
   ImageReverseConstIterator()
-    :m_PixelAccessor()
+    :m_PixelAccessor(),
+     m_PixelAccessorFunctor()
   {
     m_Buffer = 0;
     m_Offset = 0;
     m_BeginOffset = 0;
     m_EndOffset = 0;
+    m_PixelAccessorFunctor.SetBegin( m_Buffer );
   }
 
   /** Default Destructor. */
@@ -158,6 +163,8 @@ public:
     m_BeginOffset = it.m_BeginOffset;
     m_EndOffset = it.m_EndOffset;
     m_PixelAccessor = it.m_PixelAccessor;
+    m_PixelAccessorFunctor = it.m_PixelAccessorFunctor;
+    m_PixelAccessorFunctor.SetBegin( m_Buffer );
   }
 
   /** Constructor establishes an iterator to walk a particular image and a
@@ -185,6 +192,8 @@ public:
     m_Offset = m_BeginOffset;
 
     m_PixelAccessor = ptr->GetPixelAccessor();
+    m_PixelAccessorFunctor.SetPixelAccessor( m_PixelAccessor );
+    m_PixelAccessorFunctor.SetBegin( m_Buffer );
   }
   
   /** Constructor that can be used to cast from an ImageConstIterator to an
@@ -217,6 +226,8 @@ public:
     m_BeginOffset = m_Image->ComputeOffset( regInd );
     
     m_PixelAccessor = m_Image->GetPixelAccessor();
+    m_PixelAccessorFunctor.SetPixelAccessor( m_PixelAccessor );
+    m_PixelAccessorFunctor.SetBegin( m_Buffer );
   }
 
   /** operator= is provided to make sure the handle to the image is properly
@@ -231,6 +242,8 @@ public:
     m_BeginOffset = it.m_BeginOffset;
     m_EndOffset = it.m_EndOffset;
     m_PixelAccessor = it.m_PixelAccessor;
+    m_PixelAccessorFunctor.SetPixelAccessor( m_PixelAccessor );
+    m_PixelAccessorFunctor.SetBegin( m_Buffer );
     return *this;
   }
   
@@ -259,6 +272,8 @@ public:
     m_BeginOffset = m_Image->ComputeOffset( regInd );
     
     m_PixelAccessor = m_Image->GetPixelAccessor();
+    m_PixelAccessorFunctor.SetPixelAccessor( m_PixelAccessor );
+    m_PixelAccessorFunctor.SetBegin( m_Buffer );
     
     return *this;
   }
@@ -352,11 +367,11 @@ public:
 
   /** Get the pixel value */
   const PixelType & Get(void) const  
-    { return m_PixelAccessor.Get(*(m_Buffer+m_Offset)); }
+    { return m_PixelAccessorFunctor.Get(*(m_Buffer+m_Offset)); }
   
   /** Set the pixel value */
   void Set( const PixelType & value) const  
-    { m_PixelAccessor.Set(*(m_Buffer+m_Offset),value); }
+    { m_PixelAccessorFunctor.Set(*(m_Buffer+m_Offset),value); }
 
   /** Return a const reference to the pixel 
    * This method will provide the fastest access to pixel
@@ -419,6 +434,7 @@ protected: //made protected so other iterators can access
   const InternalPixelType        *m_Buffer;
 
   AccessorType                    m_PixelAccessor;
+  AccessorFunctorType             m_PixelAccessorFunctor;
 };
 
 } // end namespace itk
