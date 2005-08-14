@@ -185,7 +185,7 @@ int main()
   double standardDeviation = 30;
   for ( unsigned int i = 0 ; i < 100 ; ++i )
     {
-    mv = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
+    mv[0] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
     sample->PushBack( mv );
     }
 
@@ -194,7 +194,7 @@ int main()
   standardDeviation = 30;
   for ( unsigned int i = 0 ; i < 100 ; ++i )
     {
-    mv = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
+    mv[0] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
     sample->PushBack( mv );
     }
   // Software Guide : EndCodeSnippet
