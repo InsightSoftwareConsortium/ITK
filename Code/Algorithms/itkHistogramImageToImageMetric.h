@@ -98,8 +98,8 @@ public:
   itkGetConstReferenceMacro( PaddingValue, FixedImagePixelType );
 
   /** Return the joint histogram. This is updated during every call to the 
-   *  GetValue() method. The histogram can for instance be used by the 
-   *  \doxygen{itk::HistogramToImageFilter} to plot the joint histogram. */
+   *  GetValue() method. The histogram can for instance be used by 
+   *  itk::HistogramToImageFilter to plot the joint histogram. */
   itkGetConstReferenceMacro( Histogram, HistogramPointer );
   
   /** Set whether the padding value should be used to determine which pixels
