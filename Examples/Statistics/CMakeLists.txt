@@ -104,10 +104,11 @@ IF( NOT ITK_DISABLE_CXX_TESTING )
 
 SET(STATISTICS_EXAMPLES_WITH_TESTS ${CXX_TEST_PATH}/StatisticsExamplesTests)
 SET(STATISTICS_EXAMPLES_WITH_TESTS2 ${CXX_TEST_PATH}/StatisticsExamplesTests2)
+SET(STATISTICS_EXAMPLES_WITH_TESTS3 ${CXX_TEST_PATH}/StatisticsExamplesTests3)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Statistics)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST( ScalarImageKmeansClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS}
+ADD_TEST( ScalarImageKmeansClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS3}
   --compare ${BASELINE}/ScalarImageKmeansClassifierOutput.png
             ${TEMP}/ScalarImageKmeansClassifierOutput.png
   ScalarImageKmeansClassifierTest 
@@ -116,7 +117,7 @@ ADD_TEST( ScalarImageKmeansClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS}
         1 3 14.8 91.6 134.9
 )
 
-ADD_TEST( ScalarImageMarkovRandomField1Test ${STATISTICS_EXAMPLES_WITH_TESTS}
+ADD_TEST( ScalarImageMarkovRandomField1Test ${STATISTICS_EXAMPLES_WITH_TESTS3}
   --compare ${BASELINE}/ScalarImageMarkovRandomField1Output.png
             ${TEMP}/ScalarImageMarkovRandomField1Output.png
   ScalarImageMarkovRandomField1Test
@@ -149,5 +150,8 @@ TARGET_LINK_LIBRARIES( StatisticsExamplesTests ITKIO ITKCommon ITKStatistics)
 
 ADD_EXECUTABLE( StatisticsExamplesTests2 StatisticsExamplesTests2.cxx)
 TARGET_LINK_LIBRARIES( StatisticsExamplesTests2 ITKIO ITKCommon ITKStatistics)
+
+ADD_EXECUTABLE( StatisticsExamplesTests3 StatisticsExamplesTests3.cxx)
+TARGET_LINK_LIBRARIES( StatisticsExamplesTests3 ITKIO ITKCommon ITKStatistics)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )

@@ -9,20 +9,10 @@
 
 void RegisterTests()
 {
-REGISTER_TEST( ScalarImageKmeansClassifierTest );
-REGISTER_TEST( ScalarImageMarkovRandomField1Test );
 REGISTER_TEST( BayesianPluginClassifierTest );
 REGISTER_TEST( EuclideanDistanceTest );
 REGISTER_TEST( GaussianDensityFunctionTest );
 }
-
-#undef main
-#define main ScalarImageKmeansClassifierTest 
-#include "ScalarImageKmeansClassifier.cxx"
-
-#undef main
-#define main ScalarImageMarkovRandomField1Test
-#include "ScalarImageMarkovRandomField1.cxx"
 
 #undef main
 #define main BayesianPluginClassifierTest
