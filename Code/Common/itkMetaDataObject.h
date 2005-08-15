@@ -163,7 +163,7 @@ namespace itk
    * If Dictionary[key] isn't set, return false, otherwise copy into
    * outval reference and return true.
    * \param Dictionary -- reference to a dictionary
-   * \parm key -- string identifier for this object
+   * \param key -- string identifier for this object
    * \param outval -- where to store value found in table.
    */
   template <class T>
@@ -225,7 +225,7 @@ template <class T>
 } // end namespace itk
 
 /**
- * \macro NATIVE_TYPE_METADATAPRINT
+ * NATIVE_TYPE_METADATAPRINT
  * An ugly macro to facilitate creating a simple implementation of
  * the MetaDataObject<Type>::Print() function for types that
  * have operator<< defined.
@@ -248,7 +248,7 @@ void \
 }
 
 /**
- * \macro ITK_OBJECT_TYPE_METADATAPRINT_1COMMA
+ * ITK_OBJECT_TYPE_METADATAPRINT_1COMMA
  * An ugly macro to facilitate creating a simple implementation of
  * the MetaDataObject< Type >::Print() function for
  * itk::Objects that have 1 comma in their type definition
@@ -272,7 +272,7 @@ void \
 }
 
 /**
- * \macro ITK_IMAGE_TYPE_METADATAPRINT
+ * ITK_IMAGE_TYPE_METADATAPRINT
  * An ugly macro to facilitate creating a simple implementation of
  * the MetaDataObject<Type>::Print() function for
  * itk::Image<STORAGE_TYPE,[1-8]>::Pointer
