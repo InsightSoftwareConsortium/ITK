@@ -39,7 +39,7 @@
 // Below is one possible implementation that may be used.
 
 /**
- * \macro NATIVE_TYPE_METADATAPRINT
+ * NATIVE_TYPE_METADATAPRINT
  * An ungly macro to facilitate creating a simple implementation of
  * the MetaDataObject<Type>::Print() function for types that
  * have operator<< defined.
@@ -60,7 +60,7 @@ itk::MetaDataObject<const TYPE_NAME> \
 }
 
 /**
- * \macro ITK_OBJECT_TYPE_METADATAPRINT_1COMMA
+ * ITK_OBJECT_TYPE_METADATAPRINT_1COMMA
  * An ungly macro to facilitate creating a simple implementation of
  * the MetaDataObject<Type>::Print() function for
  * itk::Objects that have 1 comma in their type definition
@@ -82,7 +82,7 @@ itk::MetaDataObject<const TYPE_NAME_PART1,TYPE_NAME_PART2> \
 }
 
 /**
- * \macro ITK_IMAGE_TYPE_METADATAPRINT
+ * ITK_IMAGE_TYPE_METADATAPRINT
  * An ungly macro to facilitate creating a simple implementation of
  * the MetaDataObject<Type>::Print() function for
  * itk::Objects that have 1 comma in their type definition
