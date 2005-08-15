@@ -30,13 +30,13 @@ namespace itk{
 namespace Statistics{
 
 /** \class VariableDimensionHistogram 
- *  \brief  This class is similar to the \doxygen{Histogram} class. It 
+ *  \brief  This class is similar to the Histogram class. It 
  *  however allows you to specify the histogram dimension at run time.
  *  (and is therefore not templated over the size of a measurement
  *  vector). Users who know that the length of a measurement vector 
  *  will be fixed, for instance joint statistics on pixel values of
  *  2 images, (where the dimension will be 2), etc should use 
- *  \doxygen{Histogram} instead.
+ *  the Histogram class instead.
  *  
  * This class stores measurement vectors in the context of 
  * n-dimensional histogram.
