@@ -59,7 +59,7 @@ public:
   virtual ~DTITubeSpatialObjectPoint( void );
 
   /** Set/Get the tensor matrix */
-  void SetTensorMatrix(float* matrix)
+  void SetTensorMatrix(const float* matrix)
     {
     for(unsigned int i=0;i<6;i++)
       {
