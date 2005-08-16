@@ -190,7 +190,6 @@ public:
 
 /** \example itkImageIteratorTest.cpp */
 /** \example itkIteratorTests.cpp */
-/** \example itkIteratorsForwardBackwardsTest.cpp */
 
 } // end namespace itk
 
