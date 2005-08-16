@@ -53,7 +53,7 @@ void Generate2DRectilinearMesh(itk::fem::Element::ConstPointer e0, Solver& S, vn
 
 
 /**
- * \function Generate3DRectilinearMesh
+ * Generate3DRectilinearMesh
  * \brief Use this function to generate 3D meshes in Solver.
  *
  * Generate a rectangular mesh of hexahedron elements.
