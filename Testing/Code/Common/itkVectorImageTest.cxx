@@ -8,6 +8,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkImageLinearIteratorWithIndex.h"
+#include "itkConstNeighborhoodIterator.h"
 
 int itkVectorImageTest( int, char* [] )
 {
@@ -106,8 +107,7 @@ int itkVectorImageTest( int, char* [] )
   double timeTaken = clock.GetMeanTime();
   std::cout << "Allocating an image of itk::FixedArray of length " <<  VectorLength 
           << " with image size " << size << " took " << timeTaken << " s." << std::endl;
-  
-    
+
     {
     // Test and compare times with iterators
     //
@@ -210,23 +210,42 @@ int itkVectorImageTest( int, char* [] )
     {
     std::cout << "[PASSED]" << std::endl;
     }
-    
-  
+  }
 
-    // Iterate, set some pixels and check validity
-    //
-    VectorImageType::IndexType idx;
-    idx[0]=4; idx[1]=4;idx[2]=12; 
-    VectorImageType::IndexType idx2;
-    idx2[0]=5; idx2[1]=4;idx2[2]=12; 
-    itk::Array< PixelType > g( VectorLength );
-    for( unsigned int i=0; i<VectorLength; i++ ) { g[i] = i*0.1; }
-    
-    {
-    typedef itk::ImageRegionIterator< VectorImageType > IteratorType;
-    IteratorType it( vectorImage, vectorImage->GetBufferedRegion() );
-    
-    vectorImage->SetPixel( idx, g );
+  // Test with Region and Linear iterators...
+  {
+    // Create a  small image
+    VectorImageType::Pointer vectorImage = VectorImageType::New();
+    VectorImageType::IndexType start;
+    itk::Array< PixelType > f( VectorLength );
+    itk::Array< PixelType > ZeroPixel( VectorLength );
+    ZeroPixel.Fill( itk::NumericTraits< PixelType >::Zero );
+    for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i; }
+    start[0] =   0;  // first index on X
+    start[1] =   0;  // first index on Y
+    start[2] =   0;  // first index on Z
+    VectorImageType::SizeType  size;
+    size[0]  = 10;  // size along X
+    size[1]  = 10;  // size along Y
+    size[2]  = 5;  // size along Z
+    VectorImageType::RegionType region( start, size );
+    vectorImage->SetVectorLength( VectorLength );
+    vectorImage->SetRegions( region );
+    vectorImage->Allocate();
+    vectorImage->FillBuffer( ZeroPixel );
+
+    start[0]=3; start[1]=3;start[2]=2;
+    size[0]=4;size[1]=4;size[2]=2;
+    VectorImageType::RegionType subRegion( start, size );
+    typedef itk::ImageRegionIterator< VectorImageType > ImageRegionIteratorType;
+    ImageRegionIteratorType rit( vectorImage, subRegion );
+    rit.GoToBegin();
+
+    while( !rit.IsAtEnd() )
+      {
+      rit.Set( f );
+      ++rit;
+      }
     
     typedef itk::ImageRegionConstIterator< VectorImageType > ConstIteratorType;
     ConstIteratorType cit( vectorImage, vectorImage->GetBufferedRegion() );
@@ -236,19 +255,10 @@ int itkVectorImageTest( int, char* [] )
       {
       itk::Array< PixelType > value = cit.Get();
       ++cit;
-      if( ctr == (12*200*200 + 4*200 + 4) )
-        {
-        if( value != g )
-          { 
-          std::cerr << 
-            "ImageRegionConstIteratorTest on VectorImage [FAILED]" << std::endl;
-          return EXIT_FAILURE;
-          }
-        }
-      else
+      if( ctr == (3*10*10 + 5*10 + 5) )
         {
         if( value != f )
-          {
+          { 
           std::cerr << 
             "ImageRegionConstIteratorTest on VectorImage [FAILED]" << std::endl;
           return EXIT_FAILURE;
@@ -257,7 +267,6 @@ int itkVectorImageTest( int, char* [] )
       ++ctr;
       }
     std::cout << "ImageRegionConstIteratorTest on VectorImage [PASSED]" << std::endl;
-    } 
 
     
     {
@@ -274,52 +283,49 @@ int itkVectorImageTest( int, char* [] )
       while( !lcit.IsAtEndOfLine() )
         {
         value = lcit.Get();  
+        if( subRegion.IsInside( lcit.GetIndex() ) )
+          {
+          if( value!=f )
+            {
+            std::cerr << 
+              "ImageLinearConstIteratorWithIndex on VectorImage [FAILED]" << std::endl;
+            return EXIT_FAILURE;
+            }
+          }
+        else
+          {
+          if( value!=ZeroPixel )
+            {
+            std::cerr << 
+              "ImageLinearConstIteratorWithIndex on VectorImage [FAILED]" << std::endl;
+            return EXIT_FAILURE;
+            }
+          }            
         ++lcit;
         }
       lcit.NextLine();
       } 
 
-    lcit.SetIndex( idx );
-    value = lcit.Get();
-    if( value != g )
-      {
-      std::cerr << 
-        "ImageLinearConstIteratorWithIndex on VectorImage [FAILED]" << std::endl;
-      return EXIT_FAILURE;
-      }
-    
-    g[0] = 12.3;
+    VectorImageType::IndexType idx;
+    idx[0]=1;idx[1]=1;idx[2]=1;
     LinearIteratorType lit( vectorImage, vectorImage->GetBufferedRegion() );
     lit.SetIndex( idx );
-    lit.Set( g );
+    lit.Set( f );
     
     lcit.SetIndex( idx );
     value = lcit.Get();
-    if( value != g )
+    if( value != f )
       {
       std::cerr << 
         "ImageLinearConstIteratorWithIndex on VectorImage [FAILED]" << std::endl;
       return EXIT_FAILURE;
       }
     
-    lcit.SetIndex( idx2 );
-    itk::Array< PixelType > value2 = lcit.Get();
-    if( value2 != f )
-      {
-      std::cerr << 
-        "ImageLinearConstIteratorWithIndex on VectorImage [FAILED]" << std::endl;
-      return EXIT_FAILURE;
-      }
-     
     std::cout << "ImageLinearConstIteratorWithIndex on VectorImage [PASSED]" << std::endl;
+    std::cout << "ImageLinearIteratorWithIndex on VectorImage [PASSED]" << std::endl;
     }
-    
 
-    
   }
-   
-
-
   
   return EXIT_SUCCESS;
  }
