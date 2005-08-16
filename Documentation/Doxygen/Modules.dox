@@ -375,7 +375,7 @@ One of the principal tasks of ImageAdaptors is to perform casting.
 
 For example: you have an image whose pixels are of type <TT>unsigned char</TT> and you 
 need to feed this image in a process that expects pixels of type <TT>double</TT>. 
-You have the option of using and ImageFilter (see \ref ImageFiltersPage) that convert the input <TT>unsigned char </TT> image into another of pixel type <TT>double</TT>. 
+You have the option of using and ImageFilter that convert the input <TT>unsigned char </TT> image into another of pixel type <TT>double</TT>. 
 However this filter will allocate memory for this second image and will need to be executed. 
 Image Adaptors allow to simulate that you have made the conversion but will avoid the overhead in memory. 
 There is however a penalty in performance. 
