@@ -64,7 +64,7 @@ int main( int argc, char * argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImageFile outputImageFile ";  
     std::cerr << " lowerThreshold upperThreshold ";  
-    std::cerr << " insideValue    outsideValue   "  << std::endl;  
+    std::cerr << " outsideValue insideValue   "  << std::endl;  
     return EXIT_FAILURE;
     }
   
