@@ -119,36 +119,80 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   this->m_NumberOfPixelsCounted = 0;
 
-  for( iter = samples.begin(); iter != end; ++iter )
+  if( this->m_FixedImageMask )
     {
+    typename Superclass::InputPointType inputPoint;
 
-    // get sampled index
-    FixedImageIndexType index = randIter.GetIndex();
-
-    // get sampled fixed image value
-    (*iter).FixedImageValue = randIter.Get();
-
-    // get moving image value
-    this->m_FixedImage->TransformIndexToPhysicalPoint( index, 
-                                                 (*iter).FixedImagePointValue );
-
-    MovingImagePointType mappedPoint = 
-      this->m_Transform->TransformPoint( (*iter).FixedImagePointValue );
-
-    if( this->m_Interpolator->IsInsideBuffer( mappedPoint ) )
+    iter=samples.begin();
+    
+    while( iter != end )
       {
-      (*iter).MovingImageValue = this->m_Interpolator->Evaluate( mappedPoint );
-      this->m_NumberOfPixelsCounted++;
-      allOutside = false;
+      // Get sampled index
+      FixedImageIndexType index = randIter.GetIndex();
+      // Check if the Index is inside the mask, translate index to point
+      this->m_FixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
+
+      // If not inside the mask, ignore the point
+      if( !this->m_FixedImageMask->IsInside( inputPoint ) )
+        {
+        ++randIter; // jump to another random position
+        continue;
+        }
+
+      // Get sampled fixed image value
+      (*iter).FixedImageValue = randIter.Get();
+      // Translate index to point
+      (*iter).FixedImagePointValue = inputPoint;
+
+      MovingImagePointType mappedPoint = 
+        this->m_Transform->TransformPoint( (*iter).FixedImagePointValue );
+
+      if( this->m_Interpolator->IsInsideBuffer( mappedPoint ) )
+        {
+        (*iter).MovingImageValue = this->m_Interpolator->Evaluate( mappedPoint );
+        this->m_NumberOfPixelsCounted++;
+        allOutside = false;
+        }
+      else
+        {
+        (*iter).MovingImageValue = 0;
+        }
+
+      // Jump to random position
+      ++randIter;
+      ++iter;
       }
-    else
+    }
+  else
+    {
+    for( iter=samples.begin(); iter != end; ++iter )
       {
-      (*iter).MovingImageValue = 0;
+      // Get sampled index
+      FixedImageIndexType index = randIter.GetIndex();
+      // Get sampled fixed image value
+      (*iter).FixedImageValue = randIter.Get();
+      // Translate index to point
+      this->m_FixedImage->TransformIndexToPhysicalPoint( index,
+                                                   (*iter).FixedImagePointValue );
+      
+      MovingImagePointType mappedPoint = 
+        this->m_Transform->TransformPoint( (*iter).FixedImagePointValue );
+
+      if( this->m_Interpolator->IsInsideBuffer( mappedPoint ) )
+        {
+        (*iter).MovingImageValue = this->m_Interpolator->Evaluate( mappedPoint );
+        this->m_NumberOfPixelsCounted++;
+        allOutside = false;
+        }
+      else
+        {
+        (*iter).MovingImageValue = 0;
+        }
+
+      // Jump to random position
+      ++randIter;
+
       }
-
-    // jump to random position
-    ++randIter;
-
     }
 
   if( allOutside )
