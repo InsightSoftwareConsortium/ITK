@@ -21,6 +21,16 @@
 #include <list>
 #include <memory>
 
+// Better name demanging for gcc
+#if __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 )
+#define GCC_USEDEMANGLE
+#endif
+
+#ifdef GCC_USEDEMANGLE
+#include <cstdlib>
+#include <cxxabi.h>
+#endif 
+
 namespace itk
 {
 
@@ -190,7 +200,27 @@ void
 LightObject
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
+#ifdef GCC_USEDEMANGLE
+  char const * mangledName = typeid(*this).name();
+  int status;
+  char* unmangled = abi::__cxa_demangle(mangledName, 0, 0, &status);
+  
+  os << indent << "RTTI typeinfo:   ";
+
+  if(status == 0)
+    {
+    os << unmangled;
+    free(unmangled);
+    }
+  else
+    {
+    os << mangledName;
+    }
+
+  os << std::endl;
+#else
   os << indent << "RTTI typeinfo:   " << typeid( *this ).name() << std::endl;
+#endif
   os << indent << "Reference Count: " << m_ReferenceCount << std::endl;
 }
 
