@@ -181,6 +181,7 @@ template <class TInputImage, class TPolyline, class TVector,
   typedef typename TPolyline::Pointer                                 PolylinePointer;
   typedef typename TPolyline::VertexType                              VertexType;
   typedef typename TPolyline::VertexListType                          VertexListType;
+  typedef typename TPolyline::IndexType                               PolylineIndexType;
 
   typename TInputImage::ConstPointer inputImagePtr(
     dynamic_cast<const TInputImage  * >(
@@ -207,7 +208,7 @@ template <class TInputImage, class TPolyline, class TVector,
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
   typedef typename InterpolatorType::PointType    PointType;
  
- // to an output pixel
+  // to an output pixel
   PointType inputPoint;
   PointType tmpPoint;
   ProjPlanePointType outputPoint;
@@ -346,7 +347,7 @@ template <class TInputImage, class TPolyline, class TVector,
   startIndex    = tmpIndex;
   endIndex      = pstartIndex;
     
-  for(unsigned int i=0; i < TOutputImage::ImageDimension; i++ )
+  for(unsigned int i=0; i < TmpImageType::ImageDimension; i++ )
     {
     startImageIndex[i] = static_cast<IndexValueType> (startIndex[i]);
     endImageIndex[i]   = static_cast<IndexValueType> (endIndex[i]);
