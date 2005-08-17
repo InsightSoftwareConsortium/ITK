@@ -69,14 +69,38 @@ void RescaleFunction(TBuffer* buffer, double slope, double intercept, size_t siz
 void NiftiImageIO::Read(void* buffer)
 {
   this->m_NiftiImage=nifti_image_read(m_FileName.c_str(),true);
-  const size_t numElts =this->m_NiftiImage->nx *
-    this->m_NiftiImage->ny *
-    this->m_NiftiImage->nz * 
-    this->m_NiftiImage->nt *
-    this->m_NiftiImage->nu;
+  if (this->m_NiftiImage == NULL)
+    {
+    ExceptionObject exception(__FILE__, __LINE__);
+    exception.SetDescription("Read failed");
+    throw exception;
+    
+    }
+  const int dims=this->GetNumberOfDimensions();
+  size_t numElts = 1;
 
+  switch (dims)
+    {
+    case 7:
+      numElts *= this->m_NiftiImage->nw;
+    case 6:
+      numElts *= this->m_NiftiImage->nv;
+    case 5:
+      numElts *= this->m_NiftiImage->nu;
+    case 4:
+      numElts *= this->m_NiftiImage->nt;      
+    case 3:
+      numElts *= this->m_NiftiImage->nz;
+    case 2:
+      numElts *= this->m_NiftiImage->ny;
+    case 1:
+      numElts *= this->m_NiftiImage->nx;
+      break;
+    default:
+      numElts = 0;
+    }
   const size_t NumBytes=numElts * this->m_NiftiImage->nbyper;
-  memcpy(buffer, this->m_NiftiImage, NumBytes);
+  memcpy(buffer, this->m_NiftiImage->data, NumBytes);
 
   if(m_RescaleSlope > 1 ||
      m_RescaleIntercept != 0)
