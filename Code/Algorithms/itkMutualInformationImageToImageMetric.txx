@@ -119,80 +119,54 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   this->m_NumberOfPixelsCounted = 0;
 
-  if( this->m_FixedImageMask )
+  for( iter=samples.begin(); iter != end; ++iter )
     {
-    typename Superclass::InputPointType inputPoint;
-
-    iter=samples.begin();
+    // Get sampled index
+    FixedImageIndexType index = randIter.GetIndex();
+    // Get sampled fixed image value
+    (*iter).FixedImageValue = randIter.Get();
+    // Translate index to point
+    this->m_FixedImage->TransformIndexToPhysicalPoint( index,
+                                                 (*iter).FixedImagePointValue );
     
-    while( iter != end )
+    // If not inside the fixed mask, ignore the point
+    if( this->m_FixedImageMask && 
+        !this->m_FixedImageMask->IsInside( (*iter).FixedImagePointValue ) )
       {
-      // Get sampled index
-      FixedImageIndexType index = randIter.GetIndex();
-      // Check if the Index is inside the mask, translate index to point
-      this->m_FixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
-
-      // If not inside the mask, ignore the point
-      if( !this->m_FixedImageMask->IsInside( inputPoint ) )
-        {
-        ++randIter; // jump to another random position
-        continue;
-        }
-
-      // Get sampled fixed image value
-      (*iter).FixedImageValue = randIter.Get();
-      // Translate index to point
-      (*iter).FixedImagePointValue = inputPoint;
-
-      MovingImagePointType mappedPoint = 
-        this->m_Transform->TransformPoint( (*iter).FixedImagePointValue );
-
-      if( this->m_Interpolator->IsInsideBuffer( mappedPoint ) )
-        {
-        (*iter).MovingImageValue = this->m_Interpolator->Evaluate( mappedPoint );
-        this->m_NumberOfPixelsCounted++;
-        allOutside = false;
-        }
-      else
-        {
-        (*iter).MovingImageValue = 0;
-        }
-
-      // Jump to random position
-      ++randIter;
-      ++iter;
+      ++randIter; // jump to another random position
+      continue;
       }
-    }
-  else
-    {
-    for( iter=samples.begin(); iter != end; ++iter )
+
+    MovingImagePointType mappedPoint = 
+      this->m_Transform->TransformPoint( (*iter).FixedImagePointValue );
+
+    // If the transformed point after transformation does not lie within the 
+    // MovingImageMask, skip it.
+    if( this->m_MovingImageMask && 
+        !this->m_MovingImageMask->IsInside( mappedPoint ) )
       {
-      // Get sampled index
-      FixedImageIndexType index = randIter.GetIndex();
-      // Get sampled fixed image value
-      (*iter).FixedImageValue = randIter.Get();
-      // Translate index to point
-      this->m_FixedImage->TransformIndexToPhysicalPoint( index,
-                                                   (*iter).FixedImagePointValue );
-      
-      MovingImagePointType mappedPoint = 
-        this->m_Transform->TransformPoint( (*iter).FixedImagePointValue );
-
-      if( this->m_Interpolator->IsInsideBuffer( mappedPoint ) )
-        {
-        (*iter).MovingImageValue = this->m_Interpolator->Evaluate( mappedPoint );
-        this->m_NumberOfPixelsCounted++;
-        allOutside = false;
-        }
-      else
-        {
-        (*iter).MovingImageValue = 0;
-        }
-
-      // Jump to random position
       ++randIter;
-
+      continue;
       }
+
+    // The interpolator does not need to do bounds checking if we have masks, 
+    // since we know that the point is within the fixed and moving masks. But
+    // a crazy user can specify masks that are bigger than the image. Then we
+    // will need bounds checking.. So keep this anyway.
+    if( this->m_Interpolator->IsInsideBuffer( mappedPoint ) )
+      {
+      (*iter).MovingImageValue = this->m_Interpolator->Evaluate( mappedPoint );
+      this->m_NumberOfPixelsCounted++;
+      allOutside = false;
+      }
+    else
+      {
+      (*iter).MovingImageValue = 0;
+      }
+
+    // Jump to random position
+    ++randIter;
+
     }
 
   if( allOutside )
