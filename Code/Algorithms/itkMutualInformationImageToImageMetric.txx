@@ -117,7 +117,14 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   bool allOutside = true;
 
-  this->m_NumberOfPixelsCounted = 0;
+  this->m_NumberOfPixelsCounted = 0;    // Number of pixels that map into the 
+                                        // fixed and moving image mask, if specified
+                                        // and the resampled fixed grid after 
+                                        // transformation. 
+                                        
+  // Number of random picks made from the portion of fixed image within the fixed mask
+  unsigned long numberOfFixedImagePixelsVisited = 0; 
+  unsigned long dryRunTolerance = this->GetFixedImageRegion().GetNumberOfPixels();
 
   for( iter=samples.begin(); iter != end; ++iter )
     {
@@ -135,6 +142,17 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       {
       ++randIter; // jump to another random position
       continue;
+      }
+
+    if( allOutside )
+      {
+      ++numberOfFixedImagePixelsVisited;
+      if( numberOfFixedImagePixelsVisited > dryRunTolerance )
+        {
+        // We randomly visited as many points as is the size of the fixed image
+        // region.. Too may samples mapped ouside.. go change your transform
+        itkExceptionMacro( << "Too many samples mapped outside the moving buffer" );
+        }
       }
 
     MovingImagePointType mappedPoint = 
