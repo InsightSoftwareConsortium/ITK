@@ -227,7 +227,7 @@ public:
   /** Set the index. No bounds checking is performed.
    * \sa GetIndex */
   void SetIndex(const IndexType &ind)
-    { m_Position = m_Begin + m_Image->ComputeOffset( ind ); 
+  { m_Position = m_Image->GetBufferPointer() + m_Image->ComputeOffset( ind ); 
       m_PositionIndex = ind;  }
 
   /** Get the pixel value */
