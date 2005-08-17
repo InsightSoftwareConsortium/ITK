@@ -40,7 +40,6 @@ NiftiImageIO::NiftiImageIO():
 
 NiftiImageIO::~NiftiImageIO()
 {
-  std::cout << "Destroy NiftiImageIO" << std::endl;
   nifti_image_free(this->m_NiftiImage);
 }
 
