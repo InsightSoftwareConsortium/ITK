@@ -102,13 +102,13 @@ test_fft(unsigned int *dims)
   const typename ComplexImageType::SizeType &complexImageSize = 
     complexImage->GetLargestPossibleRegion().GetSize();
   unsigned int _Sizes[3] = { 1,1,1 };
-  unsigned int i;
-  for(i = 0; i < dim; i++)
+  
+  for(unsigned int i = 0; i < dim; i++)
     {
     _Sizes[i] = complexImageSize[i];
     }
 
-  for(i = 0; i < _Sizes[2]; i++)
+  for(unsigned int i = 0; i < _Sizes[2]; i++)
     {
     unsigned int zStride = i * _Sizes[1] * _Sizes[0];
     for(unsigned int j = 0; j < _Sizes[1]; j++)
