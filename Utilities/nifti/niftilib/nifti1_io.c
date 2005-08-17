@@ -2119,6 +2119,7 @@ char * nifti_findhdrname(const char* fname)
    if ( ext && nifti_fileexists(fname) ) { 
      if ( strncmp(ext,".img",4) != 0 ){
         hdrname = nifti_strdup(fname); 
+        free(basename);
         return hdrname; 
      }
    }
@@ -2137,6 +2138,7 @@ char * nifti_findhdrname(const char* fname)
    hdrname = (char *)calloc(sizeof(char),strlen(basename)+8);
    if( !hdrname ){
       fprintf(stderr,"** nifti_findhdrname: failed to alloc hdrname\n");
+      free(basename);
       return NULL;
    }
 
