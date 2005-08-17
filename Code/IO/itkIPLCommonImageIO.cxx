@@ -448,8 +448,15 @@ int IPLCommonImageIO
              bool throw_exception)
 {
   short tmp;
-  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(short), throw_exception);
-  *ip = this->hdr2Short((char *)&tmp);
+  if (this->GetStringAt(f,Offset,(char *)&tmp,sizeof(short),
+                        throw_exception) == 0)
+    {
+    *ip = this->hdr2Short((char *)&tmp);
+    }
+  else
+    {
+    *ip = 0;
+    }
   return 0;
 }
 int IPLCommonImageIO
@@ -457,19 +464,33 @@ int IPLCommonImageIO
              bool throw_exception)
 {
   float tmp;
-  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(float), throw_exception);
-  *ip = this->hdr2Float((char *)&tmp);
-  return 0;
+  if (this->GetStringAt(f,Offset,(char *)&tmp,sizeof(float),
+                        throw_exception) == 0)
+    {
+    *ip = this->hdr2Float((char *)&tmp);
+    }
+  else
+    {
+    *ip = 0.0;
+    }
+    return 0;
 }
 int IPLCommonImageIO
 ::GetDoubleAt(std::ifstream &f,std::streamoff Offset,double *ip,
               bool throw_exception)
 {
   double tmp;
-  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(double), throw_exception);
-  *ip = this->hdr2Double((char *)&tmp);
+  if (this->GetStringAt(f,Offset,(char *)&tmp,sizeof(double),
+                        throw_exception) == 0)
+    {
+    *ip = this->hdr2Double((char *)&tmp);
+    }
+  else
+    {
+    *ip = 0.0;
+    }
   return 0;
-}
+  }
 short IPLCommonImageIO::hdr2Short (char *hdr)
 {
   short shortValue;
