@@ -247,7 +247,7 @@ void NrrdImageIO::ReadImageInformation()
     {
     char *err = biffGetDone(NRRD);  // would be nice to free(err)
     itkExceptionMacro("ReadImageInformation: Error reading " 
-                      << this->GetFileName() << ": " << err);
+                      << this->GetFileName() << ":\n" << err);
     }
 
   if (nrrdTypeBlock == nrrd->type)
@@ -294,9 +294,10 @@ void NrrdImageIO::ReadImageInformation()
   rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
   if (nrrd->spaceDim && nrrd->spaceDim != domainAxisNum)
     {
-    itkExceptionMacro("ReadImageInformation: nrrd's # independent axes "
-                      "doesn't match dimension of space in which "
-                      "orientation is defined; not currently handled");
+    itkExceptionMacro("ReadImageInformation: nrrd's # independent axes ("
+                      << domainAxisNum << ") doesn't match dimension of space"
+                      " in which orientation is defined ("
+                      << nrrd->spaceDim << "); not currently handled");
     }
   // else nrrd->spaceDim == domainAxisNum when nrrd has orientation
   
@@ -328,6 +329,10 @@ void NrrdImageIO::ReadImageInformation()
     {
     this->SetNumberOfDimensions(nrrd->dim - 1);
     unsigned int kind = nrrd->axis[rangeAxisIdx[0]].kind;
+    unsigned int size = nrrd->axis[rangeAxisIdx[0]].size;
+    // NOTE: it is the NRRD readers responsibility to make sure that
+    // the size (# of components) associated with a specific kind is
+    // matches the actual size of the axis.
     switch(kind) {
     case nrrdKindDomain:
     case nrrdKindSpace:
@@ -336,39 +341,66 @@ void NrrdImageIO::ReadImageInformation()
                         << airEnumStr(nrrdKind, kind) << ") seems more "
                         "like a domain axis than a range axis");
       break;
+    case nrrdKindStub:
+    case nrrdKindScalar:
+      this->SetPixelType( ImageIOBase::SCALAR );
+      this->SetNumberOfComponents(size);
+      break;
     case nrrdKind3Color:
     case nrrdKindRGBColor:
       this->SetPixelType( ImageIOBase::RGB );
-      this->SetNumberOfComponents(3);
+      this->SetNumberOfComponents(size);
       break;
-    case nrrdKindList:
-    case nrrdKindPoint:
-    case nrrdKindVector:
-    case nrrdKindCovariantVector:
-    case nrrdKindNormal:
-    case nrrdKindStub:
-    case nrrdKindScalar:
-    case nrrdKindComplex:
-    case nrrdKind2Vector:
-    case nrrdKindHSVColor:
-    case nrrdKindXYZColor:
     case nrrdKind4Color:
     case nrrdKindRGBAColor:
+      this->SetPixelType( ImageIOBase::RGBA );
+      this->SetNumberOfComponents(size);
+      break;
+    case nrrdKindVector:
+    case nrrdKind2Vector:
     case nrrdKind3Vector:
-    case nrrdKind3Gradient:
-    case nrrdKind3Normal:
     case nrrdKind4Vector:
+    case nrrdKindList:
+      this->SetPixelType( ImageIOBase::VECTOR );
+      this->SetNumberOfComponents(size);
+      break;
+    case nrrdKindPoint:
+      this->SetPixelType( ImageIOBase::POINT );
+      this->SetNumberOfComponents(size);
+      break;
+    case nrrdKindCovariantVector:
+    case nrrdKind3Gradient:
+    case nrrdKindNormal:
+    case nrrdKind3Normal:
+      this->SetPixelType( ImageIOBase::COVARIANTVECTOR );
+      this->SetNumberOfComponents(size);
+      break;
+    case nrrdKind3DSymMatrix:
+      // ImageIOBase::DIFFUSIONTENSOR3D is a subclass
+      this->SetPixelType( ImageIOBase::SYMMETRICSECONDRANKTENSOR );
+      this->SetNumberOfComponents(size);
+      break;
+    case nrrdKind3DMaskedSymMatrix:
+      this->SetPixelType( ImageIOBase::SYMMETRICSECONDRANKTENSOR );
+      // NOTE: we will crop out the mask in Read() below; this is the
+      // one case where NumberOfComponents != size
+      this->SetNumberOfComponents(size-1);
+      break;
+    case nrrdKindComplex:
+      this->SetPixelType( ImageIOBase::COMPLEX );
+      this->SetNumberOfComponents(size);
+      break;
+    case nrrdKindHSVColor:
+    case nrrdKindXYZColor:
     case nrrdKindQuaternion:
     case nrrdKind2DSymMatrix:
     case nrrdKind2DMaskedSymMatrix:
     case nrrdKind2DMatrix:
     case nrrdKind2DMaskedMatrix:
-    case nrrdKind3DSymMatrix:
-    case nrrdKind3DMaskedSymMatrix:
     case nrrdKind3DMatrix:
-    case nrrdKind3DMaskedMatrix:
+      // for all other Nrrd kinds, we punt and call it a vector
       this->SetPixelType( ImageIOBase::VECTOR );
-      this->SetNumberOfComponents(nrrd->axis[rangeAxisIdx[0]].size);
+      this->SetNumberOfComponents(size);
       break;
     default:
       itkExceptionMacro("ReadImageInformation: nrrdKind " << kind 
@@ -583,27 +615,42 @@ void NrrdImageIO::Read(void* buffer)
 
   Nrrd *nrrd = nrrdNew();
   unsigned int baseDim;
+  bool nrrdAllocated;
 
-  // The data buffer has already been allocated.  Hand this off to the nrrd,
-  // and set just enough info in the nrrd so that it knows the size of 
-  // allocated data; axes may actually be out of order in the case of non-
-  // scalar data.  Internal to nrrdLoad(), the given buffer will be re-used,
-  // instead of allocating new data.
-  nrrd->data = buffer;
-  nrrd->type = this->ITKToNrrdComponentType( this->m_ComponentType );
-  if ( ImageIOBase::SCALAR == this->m_PixelType )
+  // NOTE the main reason the logic becomes complicated here is that
+  // ITK has to be the one to allocate the data segment ("buffer")
+
+  if (ImageIOBase::SYMMETRICSECONDRANKTENSOR == this->GetPixelType())
     {
-    baseDim = 0;
+    // It may be that this is coming from a nrrdKind3DMaskedSymMatrix,
+    // in which case ITK's buffer has not been allocated for the
+    // actual size of the data.  The data will be allocated by nrrdLoad.
+    nrrdAllocated = true;
     }
   else 
     {
-    baseDim = 1;
-    nrrd->axis[0].size = this->GetNumberOfComponents();
-    }
-  nrrd->dim = baseDim + this->GetNumberOfDimensions();
-  for (unsigned int axi = 0; axi < this->GetNumberOfDimensions(); axi++)
-    {
-    nrrd->axis[axi+baseDim].size = this->GetDimensions(axi);
+    // The data buffer has already been allocated for the correct size.
+    // Hand the buffer off to the nrrd, setting just enough info so that
+    // the nrrd knows the allocated data size (the axes may actually be out
+    // of order in the case of non-scalar data.  Internal to nrrdLoad(), the
+    // given buffer will be re-used, instead of allocating new data.
+    nrrdAllocated = false;
+    nrrd->data = buffer;
+    nrrd->type = this->ITKToNrrdComponentType( this->m_ComponentType );
+    if ( ImageIOBase::SCALAR == this->m_PixelType )
+      {
+      baseDim = 0;
+      }
+    else 
+      {
+      baseDim = 1;
+      nrrd->axis[0].size = this->GetNumberOfComponents();
+      }
+    nrrd->dim = baseDim + this->GetNumberOfDimensions();
+    for (unsigned int axi = 0; axi < this->GetNumberOfDimensions(); axi++)
+      {
+      nrrd->axis[axi+baseDim].size = this->GetDimensions(axi);
+      }
     }
 
   // Read in the nrrd.  Yes, this means that the header is being read
@@ -612,16 +659,21 @@ void NrrdImageIO::Read(void* buffer)
     {
     char *err =  biffGetDone(NRRD); // would be nice to free(err)
     itkExceptionMacro("Read: Error reading " 
-                      << this->GetFileName() << ": " << err);
+                      << this->GetFileName() << ":\n" << err);
     }
 
-  unsigned int rangeNum, rangeAxi[NRRD_DIM_MAX];
-  rangeNum = nrrdRangeAxesGet(nrrd, rangeAxi);
-  if (1 == rangeNum && 0 != rangeAxi[0]
+  unsigned int rangeAxisNum, rangeAxisIdx[NRRD_DIM_MAX];
+  rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
+  if ( rangeAxisNum > 1)
+    {
+    itkExceptionMacro("Read: handling more than one non-scalar axis "
+                      "not currently handled");
+    }
+  if (1 == rangeAxisNum && 0 != rangeAxisIdx[0]
       // HEY this NAMIC DWI-specific hack must go ...
-      && (!(3 == rangeAxi[0]  
+      && (!(3 == rangeAxisIdx[0]  
             && 3 == nrrd->spaceDim
-            && nrrdKindList == nrrd->axis[rangeAxi[0]].kind)) 
+            && nrrdKindList == nrrd->axis[rangeAxisIdx[0]].kind)) 
       // ... end hack
       )
     {
@@ -630,26 +682,65 @@ void NrrdImageIO::Read(void* buffer)
     // how we set things up in ReadImageInformation() above
     Nrrd *ntmp = nrrdNew();
     unsigned int axmap[NRRD_DIM_MAX];
-    axmap[0] = rangeAxi[0];
+    axmap[0] = rangeAxisIdx[0];
     for (unsigned int axi=1; axi<nrrd->dim; axi++)
       {
-      axmap[axi] = axi - (axi <= rangeAxi[0]);
+      axmap[axi] = axi - (axi <= rangeAxisIdx[0]);
       }
-    // Because the memory size for the output of nrrdAxesPermute is
-    // the same as the input, there will be no-reallocation, and
-    // the ITK-allocated memory will be reused by nrrdAxesPermute
+    // The memory size of the input and output of nrrdAxesPermute is
+    // the same; the existing nrrd->data is re-used.
     if (nrrdCopy(ntmp, nrrd)
         || nrrdAxesPermute(nrrd, ntmp, axmap))
       {
       char *err =  biffGetDone(NRRD); // would be nice to free(err)
       itkExceptionMacro("Read: Error permuting independent axis " 
-                        << this->GetFileName() << ": " << err);
+                        << this->GetFileName() << ":\n" << err);
       }
     nrrdNuke(ntmp);
     }
-    
-  // Lose the nrrd struct, keep the ITK-allocated nrrd->data
-  nrrdNix(nrrd);
+
+  if (nrrdAllocated)
+    {
+    // Now we have to get the data back into the given ITK buffer
+    // In any case, the logic here has the luxury of assuming that the
+    // *single* non-scalar axis is the *first* (fastest) axis.
+    if (nrrdKind3DMaskedSymMatrix == nrrd->axis[0].kind
+        && ImageIOBase::SYMMETRICSECONDRANKTENSOR == this->GetPixelType())
+      {
+      // we crop out the mask and put the output in ITK-allocated "buffer"
+      size_t size[NRRD_DIM_MAX], minIdx[NRRD_DIM_MAX], maxIdx[NRRD_DIM_MAX];
+      for (unsigned int axi=0; axi<nrrd->dim; axi++)
+        {
+        minIdx[axi] = (0 == axi) ? 1 : 0;
+        maxIdx[axi] = nrrd->axis[axi].size-1;
+        size[axi] = maxIdx[axi] - minIdx[axi] + 1;
+        }
+      Nrrd *ntmp = nrrdNew();
+      if (nrrdCopy(ntmp, nrrd)
+          || (nrrdEmpty(nrrd), 
+              nrrdWrap_nva(nrrd, buffer, ntmp->type, ntmp->dim, size))
+          || nrrdCrop(nrrd, ntmp, minIdx, maxIdx))
+        {
+        char *err =  biffGetDone(NRRD); // would be nice to free(err)
+        itkExceptionMacro("Read: Error copying, crapping or cropping:\n"
+                          << err);
+        }
+      nrrdNuke(ntmp);
+      nrrdNix(nrrd);
+      }
+    else
+      {
+      // false alarm; we didn't need to allocate the data ourselves
+      memcpy(buffer, nrrd->data,
+             nrrdElementSize(nrrd)*nrrdElementNumber(nrrd));
+      nrrdNuke(nrrd);
+      }
+    }
+  else // 
+    {
+    // "buffer" == nrrd->data was ITK-allocated; lose the nrrd struct
+    nrrdNix(nrrd);
+    }
 } 
 
 
@@ -737,7 +828,7 @@ void NrrdImageIO::Write( const void* buffer)
         break;
       case ImageIOBase::VECTOR:
       case ImageIOBase::OFFSET:      // HEY is this right?
-      case ImageIOBase::FIXEDARRAY:  // HEY I can probably do better...
+      case ImageIOBase::FIXEDARRAY:  // HEY is this right?
       default:
         kind[0] = nrrdKindVector;
         break;
@@ -776,7 +867,7 @@ void NrrdImageIO::Write( const void* buffer)
     {
     char *err = biffGetDone(NRRD); // would be nice to free(err)
     itkExceptionMacro("Write: Error wrapping nrrd for " 
-                      << this->GetFileName() << ": " << err);
+                      << this->GetFileName() << ":\n" << err);
     }
   nrrdAxisInfoSet_nva(nrrd, nrrdAxisInfoKind, kind);
   nrrdAxisInfoSet_nva(nrrd, nrrdAxisInfoSpaceDirection, spaceDir);
@@ -936,10 +1027,8 @@ void NrrdImageIO::Write( const void* buffer)
   if (nrrdSave(this->GetFileName(), nrrd, nio))
     {
     char *err = biffGetDone(NRRD); // would be nice to free(err)
-    std::cerr << "Write: Error writing " 
-              << this->GetFileName() << ": " << err;
     itkExceptionMacro("Write: Error writing " 
-                      << this->GetFileName() << ": " << err);
+                      << this->GetFileName() << ":\n" << err);
     }
   
   // Free the nrrd struct but don't touch nrrd->data
