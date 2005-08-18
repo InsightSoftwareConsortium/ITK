@@ -165,19 +165,13 @@ FindSampleBoundAndMean(const TSubsample* sample,
     itkGenericExceptionMacro( 
         << "Length of a sample's measurement vector hasn't been set.");
     }
-  // Sanity check
-  MeasurementVectorTraits::Assert( mean, Dimension, 
-          "Length mismatch StatisticsAlgorithm::FindSampleBoundAndMean");
-  MeasurementVectorTraits::Assert( max, Dimension, 
-          "Length mismatch StatisticsAlgorithm::FindSampleBoundAndMean");
-  MeasurementVectorTraits::Assert( min, Dimension, 
-          "Length mismatch StatisticsAlgorithm::FindSampleBoundAndMean");
 
   Array< double > sum( Dimension ) ;
 
   MeasurementVectorSizeType dimension ;
   MeasurementVectorType temp;
   MeasurementVectorTraits::SetLength( temp, Dimension );  
+  MeasurementVectorTraits::SetLength( mean, Dimension );
 
   min = max = temp = sample->GetMeasurementVectorByIndex(beginIndex) ;
   double frequencySum = sample->GetFrequencyByIndex(beginIndex) ;
