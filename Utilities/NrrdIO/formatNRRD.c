@@ -563,6 +563,9 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
   
   fprintf(file, "%s%04d\n", MAGIC, _nrrdFormatNRRD_whichVersion(nrrd, nio));
 
+  fprintf(file, "# Complete NRRD file format specification at:\n");
+  fprintf(file, "# http://teem.sourceforge.net/nrrd/format.html\n");
+
   /* this is where the majority of the header printing happens */
   for (ii=1; ii<=NRRD_FIELD_MAX; ii++) {
     if (_nrrdFieldInteresting(nrrd, nio, ii)) {
