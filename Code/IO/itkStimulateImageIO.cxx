@@ -20,6 +20,7 @@
 #include "itkStimulateImageIO.h"
 #include <stdio.h>
 #include <string.h>
+#include <itksys/SystemTools.hxx>
 #include "itkByteSwapper.h"
 
 namespace itk
@@ -436,7 +437,18 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
       {
       //file data name is explicitely specified
       sscanf(line, "%*s %s", datafilename);
-      m_DataFileName = datafilename;
+      //if the data filename has a directory specified, use it as is,
+      //otherwise prepend the path of the .spr file.
+      std::string datafilenamePath = ::itksys::SystemTools::GetFilenamePath (datafilename);      
+      if (datafilenamePath == "")
+        {
+        std::string fileNamePath = ::itksys::SystemTools::GetFilenamePath (m_FileName.c_str());
+        m_DataFileName = fileNamePath + "/" + datafilename;
+        }
+      else
+        {
+        m_DataFileName = datafilename;
+        }
       }
     else if ( text.find("mapConf") < text.length())
       {
