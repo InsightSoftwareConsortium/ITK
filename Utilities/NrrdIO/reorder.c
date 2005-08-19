@@ -348,7 +348,24 @@ nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis,
   }
   /* the min and max along the shuffled axis are now meaningless */
   nout->axis[axis].min = nout->axis[axis].max = AIR_NAN;
-  nout->axis[axis].kind = _nrrdKindAltered(nin->axis[axis].kind);
+  /* do the safe thing first */
+  nout->axis[ai].kind = _nrrdKindAltered(nin->axis[ai].kind, AIR_FALSE);
+  /* try cleverness */
+  if (!nrrdStateKindNoop) {
+    if (0 == nrrdKindSize(nin->axis[axis].kind)
+        || nrrdKindStub == nin->axis[axis].kind
+        || nrrdKindScalar == nin->axis[axis].kind
+        || nrrdKind2Vector == nin->axis[axis].kind
+        || nrrdKind3Color == nin->axis[axis].kind
+        || nrrdKind4Color == nin->axis[axis].kind
+        || nrrdKind3Vector == nin->axis[axis].kind
+        || nrrdKind3Gradient == nin->axis[axis].kind
+        || nrrdKind3Normal == nin->axis[axis].kind
+        || nrrdKind4Vector == nin->axis[axis].kind) {
+      /* these kinds have no intrinsic ordering */
+      nout->axis[axis].kind = nin->axis[axis].kind;
+    }
+  }
   /* the skinny */
   lineSize = 1;
   for (ai=0; ai<axis; ai++) {

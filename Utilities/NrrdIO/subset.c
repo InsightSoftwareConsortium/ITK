@@ -253,7 +253,45 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
   for (ai=0; ai<nin->dim; ai++) {
     nrrdAxisInfoPosRange(&(nout->axis[ai].min), &(nout->axis[ai].max),
                          nin, ai, min[ai], max[ai]);
-    nout->axis[ai].kind = _nrrdKindAltered(nin->axis[ai].kind);
+    /* do the safe thing first */
+    nout->axis[ai].kind = _nrrdKindAltered(nin->axis[ai].kind, AIR_FALSE);
+    /* try cleverness */
+    if (!nrrdStateKindNoop) {
+      if (nout->axis[ai].size == nin->axis[ai].size) {
+        /* we can safely copy kind; the samples didn't change */
+        nout->axis[ai].kind = nin->axis[ai].kind;
+      } else if (nrrdKind4Color == nin->axis[ai].kind
+                 && 3 == szOut[ai]) {
+        nout->axis[ai].kind = nrrdKind3Color;
+      } else if (nrrdKind4Vector == nin->axis[ai].kind
+                 && 3 == szOut[ai]) {
+        nout->axis[ai].kind = nrrdKind3Vector;
+      } else if ((nrrdKind4Vector == nin->axis[ai].kind
+                  || nrrdKind3Vector == nin->axis[ai].kind)
+                 && 2 == szOut[ai]) {
+        nout->axis[ai].kind = nrrdKind2Vector;
+      } else if (nrrdKindRGBAColor == nin->axis[ai].kind
+                 && 0 == min[ai]
+                 && 2 == max[ai]) {
+        nout->axis[ai].kind = nrrdKindRGBColor;
+      } else if (nrrdKind2DMaskedSymMatrix == nin->axis[ai].kind
+                 && 1 == min[ai]
+                 && max[ai] == szIn[ai]-1) {
+        nout->axis[ai].kind = nrrdKind2DSymMatrix;
+      } else if (nrrdKind2DMaskedMatrix == nin->axis[ai].kind
+                 && 1 == min[ai]
+                 && max[ai] == szIn[ai]-1) {
+        nout->axis[ai].kind = nrrdKind2DMatrix;
+      } else if (nrrdKind3DMaskedSymMatrix == nin->axis[ai].kind
+                 && 1 == min[ai]
+                 && max[ai] == szIn[ai]-1) {
+        nout->axis[ai].kind = nrrdKind3DSymMatrix;
+      } else if (nrrdKind3DMaskedMatrix == nin->axis[ai].kind
+                 && 1 == min[ai]
+                 && max[ai] == szIn[ai]-1) {
+        nout->axis[ai].kind = nrrdKind3DMatrix;
+      }
+    }
   }
   strcpy(buff1, "");
   for (ai=0; ai<nin->dim; ai++) {

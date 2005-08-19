@@ -57,7 +57,11 @@ char *nrrdStateUnknownContent = NRRD_UNKNOWN;
 int nrrdStateGrayscaleImage3D = AIR_FALSE;
 /* there is no sane reason to change this default initialization */
 int nrrdStateKeyValueReturnInternalPointers = AIR_FALSE;
-int nrrdStateKindNoop = AIR_TRUE;
+/* Making the default for this be AIR_TRUE means that nrrd is not only
+   completely conservative about updating kind, but purposely stupid.
+   Nrrd is only going to implement the most converative kind of logic
+   anyway, based on existing sementics nailed down by the format spec. */
+int nrrdStateKindNoop = AIR_FALSE;
 
 /* should the acceptance (or not) of malformed NRRD header fields 
    embedded in PNM or text comments be controlled here? */

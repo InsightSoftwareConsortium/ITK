@@ -45,6 +45,8 @@ extern int _nrrdKeyValueFwrite(FILE *file, const char *prefix,
                                const char *key, const char *value);
 
 /* formatXXX.c */
+extern const char *_nrrdFormatURLLine0;
+extern const char *_nrrdFormatURLLine1;
 extern const NrrdFormat _nrrdFormatNRRD;
 extern const NrrdFormat _nrrdFormatPNM;
 extern const NrrdFormat _nrrdFormatPNG;
@@ -98,7 +100,7 @@ extern void _nrrdSpaceVecSetNaN(double vec[NRRD_SPACE_DIM_MAX]);
 
 
 /* axis.c */
-extern int _nrrdKindAltered(int kindIn);
+extern int _nrrdKindAltered(int kindIn, int resampling);
 extern void _nrrdAxisInfoCopy(NrrdAxisInfo *dest, const NrrdAxisInfo *src,
                               int bitflag);
 extern void _nrrdAxisInfoInit(NrrdAxisInfo *axis);

@@ -563,6 +563,8 @@ read-only (R) things (seen on Linux) and "other" (S) things
 #define _nrrdFormatNRRD_read itk__nrrdFormatNRRD_read
 #define _nrrdFormatNRRD_whichVersion itk__nrrdFormatNRRD_whichVersion
 #define _nrrdFormatNRRD_write itk__nrrdFormatNRRD_write
+#define _nrrdFormatURLLine0 itk__nrrdFormatURLLine0
+#define _nrrdFormatURLLine1 itk__nrrdFormatURLLine1
 #define _nrrdHeaderCheck itk__nrrdHeaderCheck
 #define nrrdFormatNRRD itk_nrrdFormatNRRD
 #define nrrdIoStateDataFileIterBegin itk_nrrdIoStateDataFileIterBegin

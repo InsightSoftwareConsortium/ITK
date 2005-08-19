@@ -60,6 +60,11 @@ nrrdCommentAdd(Nrrd *nrrd, const char *_str) {
   }
   /* clean out carraige returns that would screw up reader */
   airOneLinify(str);
+  if (!strcmp(str, _nrrdFormatURLLine0)
+      || !strcmp(str, _nrrdFormatURLLine1)) {
+    /* sneaky hack: don't store the format URL comment lines */
+    return 0;
+  }
   i = airArrayLenIncr(nrrd->cmtArr, 1);
   if (!nrrd->cmtArr->data) {
     /*

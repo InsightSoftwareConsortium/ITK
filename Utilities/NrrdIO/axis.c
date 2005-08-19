@@ -158,20 +158,24 @@ nrrdKindSize(int kind) {
   return ret;
 }
 
+/*
+** _nrrdKindAltered:
+**
+** implements logic for how kind should be updated when samples 
+** along the axis are altered
+*/
 int
-_nrrdKindAltered(int kindIn) {
+_nrrdKindAltered(int kindIn, int resampling) {
   int kindOut;
 
   if (nrrdStateKindNoop) {
     kindOut = nrrdKindUnknown;
     /* HEY: setting the kindOut to unknown is arguably not a no-op.
-       It is more like "conservative".  So maybe nrrdStateKindNoop
-       should be renamed.  But nrrdStateKindConservative would imply
-       that the kind is conserved, which is exactly NOT what we do ... */
+       It is more like pointedly and stubbornly simplistic. So maybe
+       nrrdStateKindNoop could be renamed ... */
   } else {
-    if (nrrdKindDomain == kindIn
-        || nrrdKindSpace == kindIn
-        || nrrdKindTime == kindIn) {
+    if (nrrdKindIsDomain(kindIn)
+        || (0 == nrrdKindSize(kindIn) && !resampling)) {
       kindOut = kindIn;
     } else {
       kindOut = nrrdKindUnknown;

@@ -33,6 +33,11 @@
 #define MAGIC4 "NRRD0004"
 #define MAGIC5 "NRRD0005"
 
+const char *
+_nrrdFormatURLLine0 = "Complete NRRD file format specification at:";
+const char *
+_nrrdFormatURLLine1 = "http://teem.sourceforge.net/nrrd/format.html";
+
 void
 nrrdIoStateDataFileIterBegin(NrrdIoState *nio) {
 
@@ -563,8 +568,9 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
   
   fprintf(file, "%s%04d\n", MAGIC, _nrrdFormatNRRD_whichVersion(nrrd, nio));
 
-  fprintf(file, "# Complete NRRD file format specification at:\n");
-  fprintf(file, "# http://teem.sourceforge.net/nrrd/format.html\n");
+  /* print out the advertisement about where to get the file format
+  fprintf(file, "# %s\n", _nrrdFormatURLLine0);
+  fprintf(file, "# %s\n", _nrrdFormatURLLine1);
 
   /* this is where the majority of the header printing happens */
   for (ii=1; ii<=NRRD_FIELD_MAX; ii++) {
