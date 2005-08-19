@@ -27,6 +27,8 @@ KLMSegmentationBorder
 ::KLMSegmentationBorder(void)
 {
   m_Lambda = 0.0;
+  m_Region1 = 0;
+  m_Region2 = 0;
 }
 
 
