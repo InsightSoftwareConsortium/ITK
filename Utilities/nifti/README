@@ -27,10 +27,11 @@ lib      -- destination directory for compiled libraries
 docs     -- destination directory Doxygen html (created via "make doc")
 
 
-Other directories
+Example directories
 -----------------
-examples -- directory containing sample library access modules
-utils    -- directory containing library utility programs
+examples -- directory containing sample code using nifti reference library
+real_easy -- code snippets to read nifti-1 files, not using nifti ref. lib.
+
 
 
 

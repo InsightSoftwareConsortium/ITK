@@ -20,7 +20,7 @@
  *
  *
  * If you are already a little familiar with reading/writing Analyze
- * files of some flavor, and meybe even have some of your own code, here
+ * files of some flavor, and maybe even have some of your own code, here
  * are the most important things to be aware of in transitioning to nifti1:
  *
  * 1. nii vs .hdr/.img
@@ -33,7 +33,7 @@
  * 2. scaling
  *   nifti1 datasets can contain a scaling factor.  You need to check the
  *   scl_slope field and if that isn't 0, scale your data by 
- *   Y * scl_slope * + scl_inter
+ *   Y * scl_slope  + scl_inter
  *
  * 3. extensions
  *  nifti1 datasets can have some "extension data" stuffed after the 

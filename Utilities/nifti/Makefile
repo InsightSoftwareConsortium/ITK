@@ -11,7 +11,7 @@ UTILS_PROGS	=	nifti_stats nifti_tool nifti1_test
 THIS_DIR	=	`basename ${PWD}`
 
 ## Note the TARFILE_NAME embeds the release version number
-TARFILE_NAME	=	nifticlib-0.1
+TARFILE_NAME	=	nifticlib-0.2
 
 
 ## Compiler  defines
@@ -29,7 +29,7 @@ CFLAGS		=	$(ANSI_FLAGS)
 RM		=	rm
 MV		=	mv
 CP		=	cp
-TAR		=	tar
+TAR		=	/usr/freeware/bin/tar
 
 
 ## Installation
@@ -186,7 +186,7 @@ doc_clean:
 
 tar:
 	(cd .. ; ln -s $(THIS_DIR) ${TARFILE_NAME} ; \
-	tar --exclude=CVS -cf ${TARFILE_NAME}.tar ${TARFILE_NAME}/*; \
+	$(TAR) --exclude=CVS -cf ${TARFILE_NAME}.tar ${TARFILE_NAME}/*; \
 	rm -f ${TARFILE_NAME});
 	@echo ''
 	@echo 'tar file ../${TARFILE_NAME}.tar has been created.'
