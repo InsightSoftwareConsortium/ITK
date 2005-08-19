@@ -29,50 +29,50 @@
 namespace itk
 {
 class ImageVoxel 
-      {
-        
-      public:
-        // voxel coordinates
-        unsigned int vpos[3];
-        // subvoxel coordinates (in cartesian space)
-        double  spos[3];
-        // voxel value converted to a double
-        double value;
-        // distance from line origin
-        double distance;
-        // index
-        unsigned int index;
-
-        ImageVoxel() {};
-        ImageVoxel(int *pos, double *subpos, double value, double distance, unsigned int index)
-          {
-            vpos[0] = pos[0];
-            vpos[1] = pos[1];
-            vpos[2] = pos[2];
-            spos[0] = subpos[0];
-            spos[1] = subpos[1];
-            spos[2] = subpos[2];
-            value = value;
-            distance = distance;
-            index = index;
-          };
-
-        /// returns voxel X coordinate (voxel column)
-        unsigned int getX(void) const { return vpos[0]; }
-        /// returns voxel Y coordinate (voxel row)
-        unsigned int getY(void) const { return vpos[1]; }
-        /// returns voxel Z coordinate (voxel plane)
-        unsigned int getZ(void) const { return vpos[2]; }
-        /// returns voxel distance to origin
-        double getDistance(void) const { return distance; }
-        /// returns voxel value
-        double getValue(void) const { return value; }
-        /// returns voxel position
-        
-        /// set the value of the voxel
-        void setValue(const double val) { value = val; }
+{
   
-      };
+public:
+  // voxel coordinates
+  unsigned int vpos[3];
+  // subvoxel coordinates (in cartesian space)
+  double  spos[3];
+  // voxel value converted to a double
+  double value;
+  // distance from line origin
+  double distance;
+  // index
+  unsigned int index;
+
+  ImageVoxel() {};
+  ImageVoxel(int *pos, double *subpos, double value, double distance, unsigned int index)
+  {
+    this->vpos[0] = pos[0];
+    this->vpos[1] = pos[1];
+    this->vpos[2] = pos[2];
+    this->spos[0] = subpos[0];
+    this->spos[1] = subpos[1];
+    this->spos[2] = subpos[2];
+    this->value = value;
+    this->distance = distance;
+    this->index = index;
+  };
+
+  /// returns voxel X coordinate (voxel column)
+  unsigned int getX(void) const { return vpos[0]; }
+  /// returns voxel Y coordinate (voxel row)
+  unsigned int getY(void) const { return vpos[1]; }
+  /// returns voxel Z coordinate (voxel plane)
+  unsigned int getZ(void) const { return vpos[2]; }
+  /// returns voxel distance to origin
+  double getDistance(void) const { return distance; }
+  /// returns voxel value
+  double getValue(void) const { return value; }
+  /// returns voxel position
+  
+  /// set the value of the voxel
+  void setValue(const double val) { value = val; }
+  
+};
   
 /** \class DeformableSimplexMesh3DGradientConstraintForceFilter
  * \brief
@@ -129,13 +129,14 @@ public:
   itkGetMacro(Range, int);
   
   // full segment or half segment direction
-  enum SIDE {
-   // half segment in direction
-   NORMAL,
-   // half segment in -direction
-   INVERSE,
-   // complete segment
-   BOTH
+  enum SIDE
+  {
+    // half segment in direction
+    NORMAL,
+    // half segment in -direction
+    INVERSE,
+    // complete segment
+    BOTH
   };
 
   /**
@@ -147,17 +148,15 @@ protected:
   DeformableSimplexMesh3DGradientConstraintForceFilter();
   ~DeformableSimplexMesh3DGradientConstraintForceFilter();
   DeformableSimplexMesh3DGradientConstraintForceFilter(const Self&) 
-      {
-      }
+  {
+  }
   void operator=(const Self&){};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * Compute the external force component
-   */
+      */
   virtual void ComputeExternalForce(SimplexMeshGeometry* data);  
-
-  
 
   /** 
    * Range of search for Bresenham algorithm (normal line at each vertex)
@@ -167,16 +166,16 @@ protected:
 private:
   double NextVoxel(const double* pp, int *ic, double *x, double *y, double *z);
     
-  int signi(double a);
+  int Signi(double a);
+  
+  void Clear();
 
-  void clear();
-
- // line starting voxel
-  ImageVoxel *startvoxel;
+  // line starting voxel
+  ImageVoxel *m_StartVoxel;
   // line voxels in direction
-  std::vector<ImageVoxel *> positive;
+  std::vector<ImageVoxel *> m_Positive;
   // line voxels in -direction
-  std::vector<ImageVoxel *> negative;
+  std::vector<ImageVoxel *> m_Negative;
 
   OriginalImagePointer m_Image;
 

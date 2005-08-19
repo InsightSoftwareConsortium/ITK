@@ -32,14 +32,14 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
 ::DeformableSimplexMesh3DGradientConstraintForceFilter()
 {
   m_Range = 1;
-  startvoxel = NULL;
+  m_StartVoxel = NULL;
 }
 
 template <typename TInputMesh, typename TOutputMesh>
 DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
 ::~DeformableSimplexMesh3DGradientConstraintForceFilter()
 {
-
+  this->Clear();
 }
 
 
@@ -54,21 +54,27 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
 template <typename TInputMesh, typename TOutputMesh>
 void  
 DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
-::clear()
+::Clear()
 {
-  delete startvoxel;
-  startvoxel = 0;
+  delete m_StartVoxel;
+  m_StartVoxel = 0;
   std::vector<ImageVoxel *>::iterator it;
-  for(it = positive.begin(); it != positive.end(); it++) delete *it;
-  positive.erase(positive.begin(), positive.end());
-  for(it = negative.begin(); it != negative.end(); it++) delete *it;
-  negative.erase(negative.begin(), negative.end());
+  for(it = m_Positive.begin(); it != m_Positive.end(); it++)
+    {
+    delete *it;
+    }
+  m_Positive.erase(m_Positive.begin(), m_Positive.end());
+  for(it = m_Negative.begin(); it != m_Negative.end(); it++)
+    {
+    delete *it;
+    }
+  m_Negative.erase(m_Negative.begin(), m_Negative.end());
 }
 
 template <typename TInputMesh, typename TOutputMesh>
 int 
 DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
-::signi(double a)
+::Signi(double a)
 {
   if (a < 0)
     {
@@ -149,17 +155,17 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
   if ((dlx<dly) && (dlx<dlz))
     {
     d=dlx;
-    ic[0]+=signi(dp[0]);
+    ic[0]+=this->Signi(dp[0]);
     }
   else if ((dly<dlz) && (dly<dlx))
     {
     d=dly;
-    ic[1]+=signi(dp[1]);
+    ic[1]+=this->Signi(dp[1]);
     }
   else
     {
     d=dlz;
-    ic[2]+=signi(dp[2]);
+    ic[2]+=this->Signi(dp[2]);
     }
 
   *x+=pp[0]*d;
@@ -176,7 +182,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
 {
  
   PointType vec_for;
-  ImageVoxel *current;
+
   // image coordinate
   int ic[3];
   GradientIndexType coord;
@@ -189,9 +195,9 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
   const OriginalImageType::PointType& orgn = m_Image->GetOrigin();
   const OriginalImageType::SpacingType& sp = m_Image->GetSpacing(); 
   
-  if (startvoxel)
+  if (m_StartVoxel)
     {
-    clear();
+    this->Clear();
     }
 
   OriginalImageIndexType index;
@@ -252,9 +258,9 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
     index[0] = ic[0]; index[1]=ic[1]; index[2]=ic[2];
     pos[0] = data->pos[0]; pos[1] = data->pos[1]; pos[2] = data->pos[2];
       
-    startvoxel = new ImageVoxel(vpos,  pos, (double)m_Image->GetPixel(index), 0.0, 0); 
+    m_StartVoxel = new ImageVoxel(vpos,  pos, (double)m_Image->GetPixel(index), 0.0, 0); 
     current = new ImageVoxel(vpos,  pos, (double)m_Image->GetPixel(index), 0.0, 0); 
-    positive.push_back(current);
+    m_Positive.push_back(current);
       
     if (current->getDistance() > m_Range)
       {
@@ -295,7 +301,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
           index[0] = ic[0]; index[1]=ic[1]; index[2]=ic[2];
                 
           current = new ImageVoxel(vpos, pos, (double)m_Image->GetPixel(index), dist, ++i);
-          positive.push_back(current);
+          m_Positive.push_back(current);
           if (current->getDistance() > m_Range)
             {
             stop = true;
@@ -336,7 +342,13 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
         pos[2] += a * dp[2];
         dist += a;
               
-        stop = ((dist > m_Range) || !(ic[0] >= 0  && ic[0] < this->m_ImageWidth && ic[1] >= 0  && ic[1] < this->m_ImageHeight && ic[2] >= 0  && ic[2] < this->m_ImageDepth));
+        stop = ((dist > m_Range) ||
+                !(ic[0] >= 0  &&
+                  ic[0] < this->m_ImageWidth &&
+                  ic[1] >= 0  &&
+                  ic[1] < this->m_ImageHeight &&
+                  ic[2] >= 0  &&
+                  ic[2] < this->m_ImageDepth));
 
         if(!stop) 
           {
@@ -344,7 +356,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
           index[0] = ic[0]; index[1]=ic[1]; index[2]=ic[2];
                  
           current = new ImageVoxel(vpos, pos, (double)m_Image->GetPixel(index), dist, --i);
-          negative.push_back(current);
+          m_Negative.push_back(current);
           if (current->getDistance() > m_Range)
             {
             stop = true;
@@ -359,18 +371,15 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
     }
   else 
     {
-    startvoxel = 0;
+    m_StartVoxel = 0;
     }
 
   // now fun begins try to use all the above
   std::vector<ImageVoxel *>::iterator it;
   double mag, max=0;
   GradientIndexType coord3, coord2;
-  for(it = positive.begin(); it != positive.end(); it++) 
-  
+  for(it = m_Positive.begin(); it != m_Positive.end(); it++) 
     {
-      
-     
     coord3[0] = static_cast<GradientIndexValueType>((*it)->getX());
     coord3[1] = static_cast<GradientIndexValueType>((*it)->getY());
     coord3[2] = static_cast<GradientIndexValueType>((*it)->getZ());
@@ -409,7 +418,6 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
   data->externalForce[0] = vec_for[0];
   data->externalForce[1] = vec_for[1];
   data->externalForce[2] = vec_for[2];
-  
 }
 
 } // namespace itk
