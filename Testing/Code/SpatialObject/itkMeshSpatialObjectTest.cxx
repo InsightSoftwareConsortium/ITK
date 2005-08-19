@@ -42,7 +42,7 @@ int itkMeshSpatialObjectTest(int, char * [] )
   MeshType::CoordRepType testPointCoords[4][3]
     = { {0,0,0}, {9,0,0}, {9,9,0}, {0,0,9} };
   
-  unsigned long tetraPoints[4] = {0,1,2,4};
+  unsigned long tetraPoints[4] = {0,1,2,3};
  
   int i;
   for(i=0; i < 4 ; ++i)
@@ -57,6 +57,7 @@ int itkMeshSpatialObjectTest(int, char * [] )
   mesh->SetCell(0, testCell1 );
   
   // Create the mesh Spatial Object
+
   MeshSpatialObjectType::Pointer meshSO = MeshSpatialObjectType::New();
   meshSO->SetMesh(mesh);
     
