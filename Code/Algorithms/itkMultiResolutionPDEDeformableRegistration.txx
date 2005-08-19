@@ -253,7 +253,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
     (int) m_FixedImagePyramid->GetNumberOfLevels() );
 
   DeformationFieldPointer tempField = NULL;
-  bool lastShrinkFactorsAllOnes;
+  bool lastShrinkFactorsAllOnes = false;
 
   while ( !this->Halt() )
     {
