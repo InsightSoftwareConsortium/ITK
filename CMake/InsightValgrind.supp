@@ -203,4 +203,33 @@
    fun:_Z19itkThreadLoggerTestiPPc
    fun:main
 }
+{
+   itkCommonPrintTest 
+   Memcheck:Cond
+   obj:/usr/lib/libstdc++.so.6.0.3
+   fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE13_M_insert_intImEES3_S3_RSt8ios_basecT_
+   fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE6do_putES3_RSt8ios_basecPKv
+   fun:_ZNSolsEPKv
+   fun:_ZNK3itk21KLMSegmentationBorder9PrintSelfERSoNS_6IndentE
+   fun:_ZNK3itk11LightObject5PrintERSoNS_6IndentE
+   fun:_ZNK3itk12SmartPointerINS_21KLMSegmentationBorderEE5PrintERSo
+   fun:_ZN3itklsINS_21KLMSegmentationBorderEEERSoS2_NS_12SmartPointerIT_EE
+   fun:_Z18itkCommonPrintTestiPPc
+   fun:main
+}
+{
+   itkCommonPrintTest   
+   Memcheck:Value4
+   obj:/usr/lib/libstdc++.so.6.0.3
+   fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE13_M_insert_intImEES3_S3_RSt8ios_basecT_
+   fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE6do_putES3_RSt8ios_basecPKv
+   fun:_ZNSolsEPKv
+   fun:_ZNK3itk21KLMSegmentationBorder9PrintSelfERSoNS_6IndentE
+   fun:_ZNK3itk11LightObject5PrintERSoNS_6IndentE
+   fun:_ZNK3itk12SmartPointerINS_21KLMSegmentationBorderEE5PrintERSo
+   fun:_ZN3itklsINS_21KLMSegmentationBorderEEERSoS2_NS_12SmartPointerIT_EE
+   fun:_Z18itkCommonPrintTestiPPc
+   fun:main
+}
+
 
