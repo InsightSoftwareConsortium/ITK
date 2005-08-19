@@ -270,7 +270,7 @@ BloxCoreAtomImage<dim>
   typename BloxCoreAtomPixel<NDimensions>::EigenvalueType eigenvalues;
   typename BloxCoreAtomPixel<NDimensions>::EigenvalueType veigenvalues;
 
-  std::cerr << "Index\t# Core Atoms\tEigen Values\t\t\tMean CA Length\tVoted Eigen Values\n" 
+  os << indent << "Index\t# Core Atoms\tEigen Values\t\t\tMean CA Length\tVoted Eigen Values\n" 
             << "-----\t------------\t------------\t\t\t--------------\t------------------\n" << std::endl;
 
   int counter = 0;
@@ -285,17 +285,16 @@ BloxCoreAtomImage<dim>
 
     if(!pPixel.empty())
       {
-      std::cerr << bloxIt.GetIndex() << "\t";
-      std::cerr << pPixel.GetSize() << "\t";
-      std::cerr << eigenvalues[0] << " " << eigenvalues[1] << " " << eigenvalues[2] << "\t";
-      std::cerr << pPixel.GetMeanCoreAtomDiameter() << "\t\t";
-      std::cerr << veigenvalues[0] << " " << veigenvalues[1] << " " << veigenvalues[2] << "\t" << std::endl;
-      std::cerr << std::endl << "Node Pointer List: " << (*m_NodePointerList)[counter]->GetVotedLocation() << std::endl;
+      os << indent << bloxIt.GetIndex() << "\t";
+      os << indent << pPixel.GetSize() << "\t";
+      os << indent << eigenvalues[0] << " " << eigenvalues[1] << " " << eigenvalues[2] << "\t";
+      os << indent << pPixel.GetMeanCoreAtomDiameter() << "\t\t";
+      os << indent << veigenvalues[0] << " " << veigenvalues[1] << " " << veigenvalues[2] << "\t" << std::endl;
+      os << std::endl << indent << "Node Pointer List: " << (*m_NodePointerList)[counter]->GetVotedLocation() << std::endl;
       counter++;
       }
     }  
-  std::cerr << "Number of Medial Nodes: " << m_MedialNodeCount << std::endl;
-  std::cerr << "Print Self Done" << std::endl;
+  os << "Number of Medial Nodes: " << m_MedialNodeCount << std::endl;
 }
 
 } // end namespace itk
