@@ -328,6 +328,13 @@ IF(WIN32)
   SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -DNOMINMAX")
 ENDIF(WIN32)
 
+# mingw thread support
+IF(MINGW)
+  SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -mthreads")
+  SET(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -mthreads")
+  SET(ITK_REQUIRED_LINK_FLAGS "${ITK_REQUIRED_LINK_FLAGS} -mthreads")
+ENDIF(MINGW)
+
 #-----------------------------------------------------------------------------
 # Find platform-specific differences in the handling of IEEE floating point 
 # special values.
