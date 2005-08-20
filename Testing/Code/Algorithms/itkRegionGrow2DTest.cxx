@@ -104,7 +104,8 @@ unsigned int test_RegionGrowKLMExceptionHandling()
   image5D->SetLargestPossibleRegion( region5D );
   image5D->SetBufferedRegion( region5D );
   image5D->Allocate();
-
+  itk::Vector<double,NUMBANDS2> pixel(0.0);
+  image5D->FillBuffer(pixel);
 
   // Set the filter with valid inputs
 
@@ -187,146 +188,6 @@ unsigned int test_RegionGrowKLMExceptionHandling()
   exceptionTestingFilter5D->SetGridSize( gridSize5D );
   LOCAL_TEST_EXCEPTION_MACRO( "One input region, grid too large",
     exceptionTestingFilter5D );
-
-  // the following shouldn't compile - RGB is a fixed array type, only
-  // itk::Vector<type,length> pixels are accepted
-  //
-  // use itkRGBToVectorImageAdaptor.h to process RGB images
-  //
-  // // pass in an image where the pixel type is RGB
-  //
-  // typedef itk::Image< itk::RGBPixel<unsigned char>, NUMDIM2D> ImageTypeRGB2D;
-  //
-  // ImageTypeRGB2D::Pointer imageRGB2D  = ImageTypeRGB2D::New();
-  //
-  // ImageTypeRGB2D::SizeType imageSizeRGB2D;
-  // imageSizeRGB2D.Fill( sizeLen );
-  //
-  // ImageTypeRGB2D::IndexType indexRGB2D;
-  // indexRGB2D.Fill(0);
-  //
-  // ImageTypeRGB2D::RegionType regionRGB2D;
-  //
-  // regionRGB2D.SetSize( imageSizeRGB2D );
-  // regionRGB2D.SetIndex( indexRGB2D );
-  //
-  // imageRGB2D->SetLargestPossibleRegion( regionRGB2D );
-  // imageRGB2D->SetBufferedRegion( regionRGB2D );
-  // imageRGB2D->Allocate();
-  //
-  // // Set the filter with valid inputs
-  //
-  // typedef itk::KLMRegionGrowImageFilter<ImageTypeRGB2D,ImageTypeRGB2D>
-  //   KLMRegionGrowImageFilterTypeRGB2D;
-  //
-  // KLMRegionGrowImageFilterTypeRGB2D::Pointer
-  //   exceptionTestingFilterRGB2D = KLMRegionGrowImageFilterTypeRGB2D::New();
-  //
-  // KLMRegionGrowImageFilterTypeRGB2D::GridSizeType gridSizeRGB2D;
-  // gridSizeRGB2D.Fill(1);
-  //
-  // exceptionTestingFilterRGB2D->SetInput(imageRGB2D);
-  // exceptionTestingFilterRGB2D->SetGridSize(gridSizeRGB2D);
-  // exceptionTestingFilterRGB2D->SetMaximumNumberOfRegions(2);
-  // exceptionTestingFilterRGB2D->SetMaximumLambda(1000);
-  //
-  // exceptionTestingFilterRGB2D->SetMaximumNumberOfRegions(0);
-  // LOCAL_TEST_EXCEPTION_MACRO( "Maximum number of user specified region is 0",
-  //   exceptionTestingFilterRGB2D );
-
-
-  // the following shouldn't compile - vector pixel required
-  //
-  // // pass in image where pixel is not a vector
-  //
-  // typedef itk::Image< unsigned char, NUMDIM2D> ImageType2D;
-  //
-  // ImageType2D::Pointer image2D  = ImageType2D::New();
-  //
-  // ImageType2D::SizeType imageSize2D;
-  // imageSize2D.Fill( sizeLen );
-  //
-  // ImageType2D::IndexType index2D;
-  // index2D.Fill(0);
-  //
-  // ImageType2D::RegionType region2D;
-  //
-  // region2D.SetSize( imageSize2D );
-  // region2D.SetIndex( index2D );
-  //
-  // image2D->SetLargestPossibleRegion( region2D );
-  // image2D->SetBufferedRegion( region2D );
-  // image2D->Allocate();
-  //
-  // // Set the filter with valid inputs
-  //
-  // typedef itk::KLMRegionGrowImageFilter<ImageType2D,ImageType2D>
-  //   KLMRegionGrowImageFilterType2D;
-  //
-  // KLMRegionGrowImageFilterType2D::Pointer
-  //   exceptionTestingFilter2D = KLMRegionGrowImageFilterType2D::New();
-  //
-  // KLMRegionGrowImageFilterType2D::GridSizeType gridSize2D;
-  // gridSize2D.Fill(1);
-  //
-  // exceptionTestingFilter2D->SetInput(image2D);
-  // exceptionTestingFilter2D->SetGridSize(gridSize2D);
-  // exceptionTestingFilter2D->SetMaximumNumberOfRegions(2);
-  // exceptionTestingFilter2D->SetMaximumLambda(1000);
-  //
-  // exceptionTestingFilter2D->SetMaximumNumberOfRegions(0);
-  // LOCAL_TEST_EXCEPTION_MACRO( "Maximum number of user specified region is 0",
-  //   exceptionTestingFilter2D );
-
-
-  // the following shouldn't compile - concept checking should be triggered
-  //
-  // // input/output pixel types don't match
-  //
-  // typedef itk::Image<itk::Vector<double,NUMBANDS1>,NUMDIM5D> ImageType5Da;
-  //
-  // typedef itk::KLMRegionGrowImageFilter<ImageType5D,ImageType5Da>
-  //   KLMRegionGrowImageFilterTypeBadVecDim;
-  //
-  // KLMRegionGrowImageFilterTypeBadVecDim::Pointer
-  //   exceptionTestingFilterBadVecDim =
-  //     KLMRegionGrowImageFilterTypeBadVecDim::New();
-  //
-  //   KLMRegionGrowImageFilterTypeBadVecDim::GridSizeType gridSizeBadVecDim;
-  //   gridSizeBadVecDim.Fill(1);
-  //
-  //   exceptionTestingFilterBadVecDim->SetInput(image5D);
-  //   exceptionTestingFilterBadVecDim->SetGridSize(gridSizeBadVecDim);
-  //   exceptionTestingFilterBadVecDim->SetMaximumNumberOfRegions(2);
-  //   exceptionTestingFilterBadVecDim->SetMaximumLambda(1000);
-  //
-  //   LOCAL_TEST_EXCEPTION_MACRO( "Input/Output vector dimensions don't match",
-  //     exceptionTestingFilterBadVecDim );
-
-
-  // the following shouldn't compile - concept checking should be triggered
-  //
-  // // input/output (5D/4D) dimensions don't match
-  //
-  // typedef itk::Image<itk::Vector<double,NUMBANDS2>,NUMDIM4D> ImageType4D;
-  //
-  // typedef itk::KLMRegionGrowImageFilter<ImageType5D,ImageType4D>
-  //   KLMRegionGrowImageFilterTypeBadSizeDim;
-  //
-  // KLMRegionGrowImageFilterTypeBadSizeDim::Pointer
-  //   exceptionTestingFilterBadSizeDim =
-  //     KLMRegionGrowImageFilterTypeBadSizeDim::New();
-  //
-  // KLMRegionGrowImageFilterTypeBadSizeDim::GridSizeType gridSizeBadSizeDim;
-  // gridSizeBadSizeDim.Fill(2);
-  //
-  // exceptionTestingFilterBadSizeDim->SetInput(image);
-  // exceptionTestingFilterBadSizeDim->SetGridSize(gridSizeBadSizeDim);
-  // exceptionTestingFilterBadSizeDim->SetMaximumNumberOfRegions(2);
-  // exceptionTestingFilterBadSizeDim->SetMaximumLambda(1000);
-  //
-  // LOCAL_TEST_EXCEPTION_MACRO( "Input/Output dimensions don't match",
-  //    exceptionTestingFilterBadSizeDim );
 
   std::cout << "Done testing exception handling" << std::endl;
 
