@@ -22,6 +22,7 @@
 #include "itkVector.h"
 #include "itkCovariantVector.h"
 #include "vnl/vnl_matrix_fixed.h"
+#include "itkArray.h"
 
 
 namespace itk
