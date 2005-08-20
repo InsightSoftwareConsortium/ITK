@@ -43,6 +43,23 @@ template <class TInputImage, class TPolyline, class TVector,
   m_ViewVector.Fill(1);
   m_UpVector.Fill(1);
   m_CameraCenterPoint.Fill(0);
+  m_FocalDistance = 0.;
+  m_FocalPoint.Fill( 0.0 );
+
+  // This filter is meant only for 3D input and output images. We must
+  // throw an exception otherwise.  
+  if( (TInputImage::ImageDimension != 3) || (TOutputImage::ImageDimension !=3 ) )
+    {
+    itkExceptionMacro( << "PolylineMaskImageFilter must be templated over "
+        << "input and output images of dimension 3" );
+    }
+  
+  // View vectors must be of dimension 3
+  if(TVector::Length != 3)
+    {
+    itkExceptionMacro( << "PolylineMaskImageFilter must be templated over "
+        << "a view vector of length 3" );
+    }
 }
 
 /**
@@ -127,11 +144,12 @@ template <class TInputImage, class TPolyline, class TVector,
 /**
  3D rotation and perspective projection transform
  */
-  template <class TInputImage, class TPolyline, class TVector,
-          class TOutputImage>
-  typename PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>::ProjPlanePointType PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
-  ::TransformProjectPoint(PointType inputPoint)
-  {
+template< class TInputImage, class TPolyline, class TVector, class TOutputImage>
+typename PolylineMaskImageFilter< TInputImage,TPolyline,TVector,
+         TOutputImage>::ProjPlanePointType 
+PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
+::TransformProjectPoint(PointType inputPoint)
+{
   unsigned int i;
   PointType centered;
 
@@ -158,7 +176,7 @@ template <class TInputImage, class TPolyline, class TVector,
   // itkDebugMacro(<<"Point projected"<<result);
 
   return result;
-  }
+}
 
 /**
  *
