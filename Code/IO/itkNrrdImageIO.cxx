@@ -301,6 +301,7 @@ void NrrdImageIO::ReadImageInformation()
     }
   // else nrrd->spaceDim == domainAxisNum when nrrd has orientation
   
+  bool dwi4dHack = false;
   if (0 == rangeAxisNum)
     {
     // we don't have any non-scalar data
@@ -320,7 +321,8 @@ void NrrdImageIO::ReadImageInformation()
     std::cerr << "\nWARNING:\n"
               << "NrrdImageIO::ReadImageInformation: "
               << "This handling of 4-D scalar volumes with 3-D orientation "
-              << "will be removed at some point in the near future.\n";
+              << "will be removed at some point in the near future.\n\n";
+    dwi4dHack = true;
     this->SetNumberOfDimensions(nrrd->dim);
     this->SetPixelType( ImageIOBase::SCALAR );
     this->SetNumberOfComponents(1);
@@ -412,7 +414,7 @@ void NrrdImageIO::ReadImageInformation()
     {
     itkExceptionMacro("ReadImageInformation: nrrd has "
                       << rangeAxisNum 
-                      << "dependent axis (not 1); not currently handled");
+                      << " dependent axis (not 1); not currently handled");
     }
   
   double spacing;
@@ -455,6 +457,10 @@ void NrrdImageIO::ReadImageInformation()
                           "nrrd spacing (nrrdSpacingStatusScalarWithSpace)");
         break;
       }
+    }
+  if (dwi4dHack)
+    {
+    this->SetDimensions(3, nrrd->axis[rangeAxisIdx[0]].size);
     }
   
   // Figure out origin
@@ -664,6 +670,7 @@ void NrrdImageIO::Read(void* buffer)
 
   unsigned int rangeAxisNum, rangeAxisIdx[NRRD_DIM_MAX];
   rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
+
   if ( rangeAxisNum > 1)
     {
     itkExceptionMacro("Read: handling more than one non-scalar axis "
@@ -693,7 +700,7 @@ void NrrdImageIO::Read(void* buffer)
         || nrrdAxesPermute(nrrd, ntmp, axmap))
       {
       char *err =  biffGetDone(NRRD); // would be nice to free(err)
-      itkExceptionMacro("Read: Error permuting independent axis " 
+      itkExceptionMacro("Read: Error permuting independent axis in " 
                         << this->GetFileName() << ":\n" << err);
       }
     nrrdNuke(ntmp);
@@ -970,7 +977,23 @@ void NrrdImageIO::Write( const void* buffer)
           {
           for (unsigned int saxj=0; saxj < nrrd->spaceDim; saxj++)
             {
-            nrrd->measurementFrame[saxi][saxj] = msrFrame[saxi][saxj];
+              if (saxi < msrFrame.size() &&
+                  saxj < msrFrame[saxi].size())
+                {
+                nrrd->measurementFrame[saxi][saxj] = msrFrame[saxi][saxj];
+                }
+              else
+                {
+                // there is a difference between the dimension of the 
+                // recorded measurement frame, and the actual dimension of
+                // the ITK image, which (for now) determines nrrd->spaceDim.
+                // This is probably due to the NAMIC DWI hack above.
+                // We can't set this to AIR_NAN, because the coefficients of
+                // the measurement frame have to all be equally existent.
+                // If we used 0, it might not a flag that something is wrong.
+                // So, we have to get creative.
+                nrrd->measurementFrame[saxi][saxj] = 666666;
+                }
             }
           }
         }
@@ -1034,7 +1057,6 @@ void NrrdImageIO::Write( const void* buffer)
   // Free the nrrd struct but don't touch nrrd->data
   nrrd = nrrdNix(nrrd);
   nio = nrrdIoStateNix(nio);
-
 }
  
 } // end namespace itk
