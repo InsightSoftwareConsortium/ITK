@@ -568,7 +568,7 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
   
   fprintf(file, "%s%04d\n", MAGIC, _nrrdFormatNRRD_whichVersion(nrrd, nio));
 
-  /* print out the advertisement about where to get the file format
+  /* print out the advertisement about where to get the file format */
   fprintf(file, "# %s\n", _nrrdFormatURLLine0);
   fprintf(file, "# %s\n", _nrrdFormatURLLine1);
 
