@@ -40,7 +40,6 @@ int itkThresholdImageFilterTest(int, char* [] )
   random->SetMin(0.0);
   random->SetMax(1000.0);
   random->ReleaseDataFlagOn();
-  random->DebugOn();
   
   float spacing[2] = {0.7, 2.1};
   random->SetSpacing( spacing );
@@ -83,8 +82,6 @@ int itkThresholdImageFilterTest(int, char* [] )
   itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
 
-  threshold->GetOutput(0)->DebugOn();
-  threshold->DebugOn();
 
   itk::OutputWindow::GetInstance()->DisplayText( "Ending Test #1: filter goes out of scope" );
   itk::OutputWindow::GetInstance()->DisplayText( "End of Test #1 -----------------------------------" );
@@ -108,9 +105,6 @@ int itkThresholdImageFilterTest(int, char* [] )
   *os << "Output #0: " << threshold->GetOutput(0);
   itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
-
-  threshold->GetOutput(0)->DebugOn();
-  threshold->DebugOn();
 
   keep = threshold->GetOutput(0);
 
@@ -136,9 +130,6 @@ int itkThresholdImageFilterTest(int, char* [] )
   *os << "Output #0: " << threshold->GetOutput(0);
   itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
-
-  threshold->GetOutput(0)->DebugOn();
-  threshold->DebugOn();
 
   keep = threshold->GetOutput(0);
   keep->DisconnectPipeline();
