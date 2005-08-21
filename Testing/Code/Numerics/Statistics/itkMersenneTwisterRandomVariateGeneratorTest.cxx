@@ -36,9 +36,8 @@ int itkMersenneTwisterRandomVariateGeneratorTest(int, char* [] )
 
   bool pass = true;
   
-  pass &= ComputeMeanAndVariance( 100000000UL );
-  pass &= ComputeMeanAndVariance( 10000000UL );
-  pass &= ComputeMeanAndVariance( 1000000UL );
+  pass &= ComputeMeanAndVariance( 100000UL );
+  pass &= ComputeMeanAndVariance( 10000UL );
 
   if( pass )
     {
