@@ -28,6 +28,15 @@ itkMetaImageIOTest.cxx
 itkNrrdImageIOTest.cxx
 itkNrrdImageReadWriteTest.cxx
 itkNrrdRGBImageReadWriteTest.cxx
+itkNrrdRGBAImageReadWriteTest.cxx
+itkNrrdDiffusionTensor3DImageReadTest.cxx
+itkNrrdDiffusionTensor3DImageReadWriteTest.cxx
+itkNrrdComplexImageReadTest.cxx
+itkNrrdComplexImageReadWriteTest.cxx
+itkNrrdVectorImageReadTest.cxx
+itkNrrdVectorImageReadWriteTest.cxx
+itkNrrdCovariantVectorImageReadTest.cxx
+itkNrrdCovariantVectorImageReadWriteTest.cxx
 itkNumericSeriesFileNamesTest.cxx
 itkPNGImageIOTest.cxx
 itkPolygonGroupSpatialObjectXMLFileTest.cxx
@@ -91,6 +100,9 @@ ADD_TEST(itkRawImageIOTest4 ${IO_TESTS} itkRawImageIOTest4
 )
 ADD_TEST(itkVectorImageReadWriteTest ${IO_TESTS} itkVectorImageReadWriteTest
                            ${TEMP}/VectorImageReadWriteTest.mhd
+)
+ADD_TEST(itkVectorImageReadWriteTest2 ${IO_TESTS} itkVectorImageReadWriteTest
+                           ${TEMP}/VectorImageReadWriteTest.nrrd
 )
 
 ADD_TEST(itkStimulateImageIOTest ${IO_TESTS} itkStimulateImageIOTest
@@ -429,6 +441,69 @@ ADD_TEST(itkNrrdImageReadWriteTest1 ${IO_TESTS}
   itkNrrdImageReadWriteTest
             ${ITK_DATA_ROOT}/Input/box.nhdr
             ${ITK_TEST_OUTPUT_DIR}/box.nrrd)
+# attached NRRD headers; ascii, raw (big+little endian), gzip (big+little)
+ADD_TEST(itkNrrdImageReadWriteTest2 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
+  itkNrrdImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
+ADD_TEST(itkNrrdImageReadWriteTest3 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
+  itkNrrdImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/vol-raw-big.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
+ADD_TEST(itkNrrdImageReadWriteTest4 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
+  itkNrrdImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/vol-raw-little.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
+ADD_TEST(itkNrrdImageReadWriteTest5 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
+  itkNrrdImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/vol-gzip-big.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
+ADD_TEST(itkNrrdImageReadWriteTest6 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
+  itkNrrdImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/vol-gzip-little.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
+# detached NRRD headers
+ADD_TEST(itkNrrdImageReadWriteTest7 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
+  itkNrrdImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/vol-ascii.nhdr
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
+ADD_TEST(itkNrrdImageReadWriteTest8 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
+  itkNrrdImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/vol-raw-big.nhdr
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
+ADD_TEST(itkNrrdImageReadWriteTest9 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
+  itkNrrdImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/vol-raw-little.nhdr
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
+ADD_TEST(itkNrrdImageReadWriteTest10 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
+  itkNrrdImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/vol-gzip-big.nhdr
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
+ADD_TEST(itkNrrdImageReadWriteTest11 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
+  itkNrrdImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/vol-gzip-little.nhdr
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
+# RGB data, colors on fast, medium, and slow axes
 ADD_TEST(itkNrrdRGBImageReadWriteTest0 ${IO_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/NrrdRGBImageReadWriteTest0.png
             ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest0.png
@@ -447,6 +522,59 @@ ADD_TEST(itkNrrdRGBImageReadWriteTest2 ${IO_TESTS}
   itkNrrdRGBImageReadWriteTest
             ${ITK_DATA_ROOT}/Input/testrgb-2.nhdr
             ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest2.png)
+# RGBA data
+ADD_TEST(itkNrrdRGBAImageReadWriteTest ${IO_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/NrrdRGBAImageReadWriteTest.png
+            ${ITK_TEST_OUTPUT_DIR}/NrrdRGBAImageReadWriteTest.png
+  itkNrrdRGBAImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/testrgba.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/NrrdRGBAImageReadWriteTest.png)
+# Diffusion tensors, masked and unmasked (fastest and slowest)
+ADD_TEST(itkNrrdDiffusionTensor3DImageReadTest1 ${IO_TESTS}
+         itkNrrdDiffusionTensor3DImageReadTest
+         ${ITK_DATA_ROOT}/Input/mini-ten-mask.nrrd)
+ADD_TEST(itkNrrdDiffusionTensor3DImageReadTest2 ${IO_TESTS}
+         itkNrrdDiffusionTensor3DImageReadTest
+         ${ITK_DATA_ROOT}/Input/mini-ten-nomask-fast.nrrd)
+ADD_TEST(itkNrrdDiffusionTensor3DImageReadTest3 ${IO_TESTS}
+         itkNrrdDiffusionTensor3DImageReadTest
+         ${ITK_DATA_ROOT}/Input/mini-ten-nomask-slow.nrrd)
+ADD_TEST(itkNrrdDiffusionTensor3DImageReadWriteTest ${IO_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/mini-ten.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/mini-ten.nrrd
+  itkNrrdDiffusionTensor3DImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/mini-ten-nomask-fast.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/mini-ten.nrrd)
+# Complex values
+ADD_TEST(itkNrrdComplexImageReadTest ${IO_TESTS}
+         itkNrrdComplexImageReadTest
+         ${ITK_DATA_ROOT}/Input/mini-complex-slow.nrrd)
+ADD_TEST(itkNrrdComplexImageReadWriteTest ${IO_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/mini-complex-fast.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/mini-complex.nrrd
+  itkNrrdComplexImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/mini-complex-slow.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/mini-complex.nrrd)
+# vector values
+ADD_TEST(itkNrrdVectorImageReadTest ${IO_TESTS}
+         itkNrrdVectorImageReadTest
+         ${ITK_DATA_ROOT}/Input/mini-vector-fast.nrrd)
+ADD_TEST(itkNrrdVectorImageReadWriteTest ${IO_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/mini-vector.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/mini-vector.nrrd
+  itkNrrdVectorImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/mini-vector-slow.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/mini-vector.nrrd)
+# covariant vector values
+ADD_TEST(itkNrrdCovariantVectorImageReadTest ${IO_TESTS}
+         itkNrrdCovariantVectorImageReadTest
+         ${ITK_DATA_ROOT}/Input/mini-covector-fast.nrrd)
+ADD_TEST(itkNrrdCovariantVectorImageReadWriteTest ${IO_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/mini-covector.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/mini-covector.nrrd
+  itkNrrdCovariantVectorImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/mini-covector-slow.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/mini-covector.nrrd)
 
 ENDIF(ITK_DATA_ROOT)
 

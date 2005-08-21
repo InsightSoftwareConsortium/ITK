@@ -44,6 +44,15 @@ void RegisterTests()
   REGISTER_TEST(itkNrrdImageIOTest);
   REGISTER_TEST(itkNrrdImageReadWriteTest);
   REGISTER_TEST(itkNrrdRGBImageReadWriteTest);
+  REGISTER_TEST(itkNrrdRGBAImageReadWriteTest);
+  REGISTER_TEST(itkNrrdDiffusionTensor3DImageReadTest);
+  REGISTER_TEST(itkNrrdDiffusionTensor3DImageReadWriteTest);
+  REGISTER_TEST(itkNrrdComplexImageReadTest);
+  REGISTER_TEST(itkNrrdComplexImageReadWriteTest);
+  REGISTER_TEST(itkNrrdVectorImageReadTest);
+  REGISTER_TEST(itkNrrdVectorImageReadWriteTest);
+  REGISTER_TEST(itkNrrdCovariantVectorImageReadTest);
+  REGISTER_TEST(itkNrrdCovariantVectorImageReadWriteTest);
   REGISTER_TEST(itkNumericSeriesFileNamesTest);
   REGISTER_TEST(itkPolygonGroupSpatialObjectXMLFileTest);
   REGISTER_TEST(itkPNGImageIOTest);
