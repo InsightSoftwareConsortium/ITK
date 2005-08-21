@@ -113,11 +113,11 @@ int itkMembershipSampleTest(int, char* [] )
   ArrayPixelImageType::IndexType index ;
   index.Fill(2) ;// index {2, 2, 2} = instance identifier (offset from image) 
   ArrayPixelImageType::PixelType pixel = sample->GetImage()->GetPixel(index) ;
-  ImageToListAdaptorType::InstanceIdentifier id = 
+  ImageToListAdaptorType::InstanceIdentifier ind = 
     static_cast< FloatImage::OffsetValueType >(sample->GetImage()
                                                ->ComputeOffset(index)) ;
 
-  if (pixel[0] != membershipSample->GetMeasurementVector(id)[0])
+  if (pixel[0] != membershipSample->GetMeasurementVector(ind)[0])
     {
       pass = false ;
       whereFail = "GetMeasurementVector()" ;
