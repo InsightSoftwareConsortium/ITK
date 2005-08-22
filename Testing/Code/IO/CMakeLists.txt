@@ -460,19 +460,18 @@ ADD_TEST(itkNrrdImageReadWriteTest4 ${IO_TESTS}
   itkNrrdImageReadWriteTest
             ${ITK_DATA_ROOT}/Input/vol-raw-little.nrrd
             ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
-# removing gzip-based tests until CMake/compile issues resolved
-#ADD_TEST(itkNrrdImageReadWriteTest5 ${IO_TESTS} 
-#  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
-#            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
-#  itkNrrdImageReadWriteTest
-#            ${ITK_DATA_ROOT}/Input/vol-gzip-big.nrrd
-#            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
-#ADD_TEST(itkNrrdImageReadWriteTest6 ${IO_TESTS} 
-#  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
-#            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
-#  itkNrrdImageReadWriteTest
-#            ${ITK_DATA_ROOT}/Input/vol-gzip-little.nrrd
-#            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
+ADD_TEST(itkNrrdImageReadWriteTest5 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
+  itkNrrdImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/vol-gzip-big.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
+ADD_TEST(itkNrrdImageReadWriteTest6 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
+  itkNrrdImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/vol-gzip-little.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
 # detached NRRD headers
 ADD_TEST(itkNrrdImageReadWriteTest7 ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
@@ -492,19 +491,18 @@ ADD_TEST(itkNrrdImageReadWriteTest9 ${IO_TESTS}
   itkNrrdImageReadWriteTest
             ${ITK_DATA_ROOT}/Input/vol-raw-little.nhdr
             ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
-# removing gzip-based tests until CMake/compile issues resolved
-#ADD_TEST(itkNrrdImageReadWriteTest10 ${IO_TESTS} 
-#  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
-#            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
-#  itkNrrdImageReadWriteTest
-#            ${ITK_DATA_ROOT}/Input/vol-gzip-big.nhdr
-#            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
-#ADD_TEST(itkNrrdImageReadWriteTest11 ${IO_TESTS} 
-#  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
-#            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
-#  itkNrrdImageReadWriteTest
-#            ${ITK_DATA_ROOT}/Input/vol-gzip-little.nhdr
-#            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
+ADD_TEST(itkNrrdImageReadWriteTest10 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
+  itkNrrdImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/vol-gzip-big.nhdr
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
+ADD_TEST(itkNrrdImageReadWriteTest11 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd
+  itkNrrdImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/vol-gzip-little.nhdr
+            ${ITK_TEST_OUTPUT_DIR}/vol.nrrd)
 # RGB data, colors on fast, medium, and slow axes
 ADD_TEST(itkNrrdRGBImageReadWriteTest0 ${IO_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/NrrdRGBImageReadWriteTest0.png
