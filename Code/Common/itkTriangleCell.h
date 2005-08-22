@@ -110,7 +110,9 @@ public:
   void operator=(const Self&); //purposely not implemented
 
   double DistanceToLine(PointType x, PointType p1, PointType p2, 
-                              double &t, PointType closestPoint);
+                              double &t, CoordRepType *closestPoint);
+  double DistanceToLine(PointType x, PointType p1, PointType p2, 
+                              double &t, PointType &closestPoint);
 };
 
 

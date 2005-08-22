@@ -310,7 +310,21 @@ template <typename TCellInterface>
 double
 TriangleCell< TCellInterface >
 ::DistanceToLine(PointType x, PointType p1, PointType p2, 
-                              double &t, PointType closestPoint)
+                              double &t, CoordRepType *closestPoint)
+{
+  PointType temp;
+  for (unsigned int i = 0; i < PointDimension; i++)
+    {
+    temp[i] = closestPoint[i];
+    } 
+  return this->DistanceToLine (x, p1, p2, t, temp);
+}
+
+template <typename TCellInterface>
+double
+TriangleCell< TCellInterface >
+::DistanceToLine(PointType x, PointType p1, PointType p2, 
+                              double &t, PointType &closestPoint)
 {
   double denom, num;
   PointType p21;
@@ -388,11 +402,11 @@ template <typename TCellInterface>
 bool
 TriangleCell< TCellInterface >
 ::EvaluatePosition(CoordRepType* x,
-                                PointsContainer* points,
-                                CoordRepType* closestPoint,
-                                CoordRepType pcoord[3],
-                                double* minDist2,
-                                InterpolationWeightType* weights)
+                   PointsContainer* points,
+                   CoordRepType* closestPoint,
+                   CoordRepType pcoord[3],
+                   double* minDist2,
+                   InterpolationWeightType* weights)
 {
  
   if(PointDimension != 3)
