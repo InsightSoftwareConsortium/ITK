@@ -159,7 +159,7 @@ bool ComputeMeanAndVariance(const unsigned long numberOfSamples)
       std::cout << "[PASSED]" << std::endl;
       }
     std::cout << "Testing Variance " << std::endl;
-    if( vcl_abs(variance - uniformVariance) > tolerance )
+    if( vcl_abs(variance - uniformVariance) > (tolerance*3) )
       {
       pass = false;
       std::cout << "[FAILED]" << std::endl;
