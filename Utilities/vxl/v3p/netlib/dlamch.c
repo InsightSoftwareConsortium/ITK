@@ -2,6 +2,17 @@
 #include "netlib.h"
 #include <stdio.h>
 
+/* There are too many problems in this file created by the MSVC
+   optimizer.  Just disable it.  */
+#if defined(_MSC_VER)
+# pragma optimize("", off)
+#endif
+
+/* The same optimization issues hold for the intel compiler */
+#if defined(__INTEL_COMPILER)
+# pragma optimize("", off)
+#endif
+
 void dlamc1_(integer *beta, integer *t, logical *rnd, logical *ieee1);
 void dlamc2_(integer *beta, integer *t, logical *rnd, doublereal *eps,
              integer *emin, doublereal *rmin, integer *emax, doublereal *rmax);

@@ -8,6 +8,13 @@
 # pragma optimize("", off)
 #endif
 
+/* The same optimization issues hold for the intel compiler */
+#if defined(__INTEL_COMPILER)
+# pragma optimize("", off)
+#endif
+
+
+
 void slamc1_(integer *beta, integer *t, logical *rnd, logical *ieee1);
 void slamc2_(integer *beta, integer *t, logical *rnd, real *eps,
              integer *emin, real *rmin, integer *emax, real *rmax);
