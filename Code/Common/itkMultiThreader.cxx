@@ -217,20 +217,7 @@ void MultiThreader::SetMultipleMethod( int index, ThreadFunctionType f, void *da
 void MultiThreader::SingleMethodExecute()
 {
   int thread_loop;
-  
-#ifdef ITK_USE_WIN32_THREADS
-  DWORD              threadId;
-  HANDLE             process_id[ITK_MAX_THREADS];
-#endif
-  
-#ifdef ITK_USE_SPROC
-  siginfo_t          info_ptr;
-  int                process_id[ITK_MAX_THREADS];
-#endif
-  
-#ifdef ITK_USE_PTHREADS
-  pthread_t          process_id[ITK_MAX_THREADS];
-#endif
+  ThreadProcessIDType process_id[ITK_MAX_THREADS];
   
   if ( !m_SingleMethod)
     {
@@ -245,67 +232,12 @@ void MultiThreader::SingleMethodExecute()
     m_NumberOfThreads = m_GlobalMaximumNumberOfThreads;
     }
   
-  
-  // We are using sproc (on SGIs), pthreads(on Suns), or a single thread
-  // (the default)  
-  
-#ifdef ITK_USE_WIN32_THREADS
-  // Using _beginthreadex on a PC
-  //
-  // We want to use _beginthreadex to start m_NumberOfThreads - 1 
-  // additional threads which will be used to call this->SingleMethod().
-  // The parent thread will also call this routine.  When it is done,
-  // it will wait for all the children to finish. 
-  //
-  // First, start up the m_NumberOfThreads-1 processes.  Keep track
-  // of their process ids for use later in the waitid call
-  for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
-    {
-    m_ThreadInfoArray[thread_loop].UserData    = m_SingleData;
-    m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
-    
-    process_id[thread_loop] = (void *)
-      _beginthreadex(0, 0,
-                     (unsigned int (__stdcall *)(void *))m_SingleMethod, 
-                     ((void *)(&m_ThreadInfoArray[thread_loop])), 0,
-                     (unsigned int *)&threadId);
-    if (process_id == 0)
-      {
-      itkExceptionMacro("Error in thread creation !!!");
-      } 
-    }
-  
-  // Now, the parent thread calls this->SingleMethod() itself
-  m_ThreadInfoArray[0].UserData = m_SingleData;
-  m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
-  m_SingleMethod((void *)(&m_ThreadInfoArray[0]));
-  
-  // The parent thread has finished this->SingleMethod() - so now it
-  // waits for each of the other processes to exit
-  for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
-    {
-    WaitForSingleObject(process_id[thread_loop], INFINITE);
-    }
-  
-  // close the threads
-  for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
-    {
-    CloseHandle(process_id[thread_loop]);
-    }
-#endif
-  
+  // sproc needs special initialization logic prior to spawning
+  // threads
 #ifdef ITK_USE_SPROC
-  // Using sproc() on an SGI
-  //
-  // We want to use sproc to start m_NumberOfThreads - 1 additional
-  // threads which will be used to call this->SingleMethod(). The
-  // parent thread will also call this routine.  When it is done,
-  // it will wait for all the children to finish. 
-  //
-  // First, start up the m_NumberOfThreads-1 processes.  Keep track
-  // of their process ids for use later in the waitid call
-  
-  // set up the arena by the parent process ONLY if going to use more than 1 threads
+# define STACK_SIZE 8*1024*1024
+  // set up the arena by the parent process ONLY if going to use more
+  // than 1 threads
   if (!MultiThreader::m_Initialized && m_NumberOfThreads > 1)
     {
     MultiThreader::Initialize();
@@ -315,38 +247,103 @@ void MultiThreader::SingleMethodExecute()
   int code= getrlimit64 (RLIMIT_STACK, &rlpOld);
   if (code != 0) itkExceptionMacro("getrlimit failed in Multithreader");
   
-# define STACK_SIZE 8*1024*1024
   struct rlimit64 rlpNew;
   rlpNew.rlim_cur= STACK_SIZE;
   rlpNew.rlim_max= rlpOld.rlim_max;
   code= setrlimit64 (RLIMIT_STACK, &rlpNew);
   if (code != 0) itkExceptionMacro("setrlimit failed in Multithreader");
-  
-  for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+#endif
+
+
+  // Spawn a set of threads through the SingleMethodProxy. Exceptions
+  // thrown from a thread will be caught by the SingleMethodProxy. A
+  // naive mechanism is in place for determining whether a thread
+  // threw an exception.
+  //
+  // Thanks to Hannu Helminen for suggestions on how to catch
+  // exceptions thrown by threads.
+  bool exceptionOccurred = false;
+  try
     {
-    m_ThreadInfoArray[thread_loop].UserData    = m_SingleData;
-    m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
-    
-    process_id[thread_loop] = sproc( m_SingleMethod, PR_SALL, ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
-    
-    if ( process_id[thread_loop] == -1)
+    for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
       {
-    itkExceptionMacro("sproc call failed. Code: " << errno << std::endl);
+      m_ThreadInfoArray[thread_loop].UserData    = m_SingleData;
+      m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
+      m_ThreadInfoArray[thread_loop].ThreadFunction = m_SingleMethod;
+
+      process_id[thread_loop]
+        = this->DispatchSingleMethodThread(&m_ThreadInfoArray[thread_loop]);
       }
+    }
+  catch (...)
+    {
+    // If creation of any thread failed, we must make sure that all
+    // threads are correctly cleaned
+    exceptionOccurred = true;
     }
   
   // Now, the parent thread calls this->SingleMethod() itself
-  m_ThreadInfoArray[0].UserData = m_SingleData;
-  m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
-  m_SingleMethod ( (void *)(&m_ThreadInfoArray[0]) );
-  
+  //
+  //
+  try
+    {
+    m_ThreadInfoArray[0].UserData = m_SingleData;
+    m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
+    m_SingleMethod((void *)(&m_ThreadInfoArray[0]));
+    }
+  catch ( ProcessAborted &excp )
+    {
+    // Need cleanup and rethrow ProcessAborted
+    exceptionOccurred = true;
+
+    // close down other threads
+    for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+      {
+      try
+        {
+        this->WaitForSingleMethodThread(process_id[thread_loop]);
+        }
+      catch (...)
+        {
+        }
+      }
+    
+#ifdef ITK_USE_SPROC
+    // reset the resource limits if using sproc
+    code= setrlimit64 (RLIMIT_STACK, &rlpOld);
+#endif
+
+    // rethrow
+    throw excp;
+    }
+  catch (...)
+    {
+    // if this method fails, we must make sure all threads are
+    // correctly cleaned
+    exceptionOccurred = true;
+    }
+    
   // The parent thread has finished this->SingleMethod() - so now it
   // waits for each of the other processes to exit
   for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
     {
-    waitid( P_PID, (id_t) process_id[thread_loop], &info_ptr, WEXITED );
+    try
+      {
+      this->WaitForSingleMethodThread(process_id[thread_loop]);
+      if (m_ThreadInfoArray[thread_loop].ThreadExitCode
+          != ThreadInfoStruct::SUCCESS)
+        {
+        exceptionOccurred = true;
+        }
+      }
+    catch (...)
+      {
+      exceptionOccurred = true; 
+      }
     }
-  
+
+#ifdef ITK_USE_SPROC
+  // reset the resource limits if using sproc
   code= setrlimit64 (RLIMIT_STACK, &rlpOld);
   if (code != 0)
     {
@@ -354,76 +351,10 @@ void MultiThreader::SingleMethodExecute()
     }
 #endif
   
-#ifdef ITK_USE_PTHREADS
-  // Using POSIX threads
-  //
-  // We want to use pthread_create to start m_NumberOfThreads-1 additional
-  // threads which will be used to call this->SingleMethod(). The
-  // parent thread will also call this routine.  When it is done,
-  // it will wait for all the children to finish. 
-  //
-  // First, start up the m_NumberOfThreads-1 processes.  Keep track
-  // of their process ids for use later in the pthread_join call
-  
-  pthread_attr_t attr;
-
-#ifdef ITK_HP_PTHREADS
-  pthread_attr_create( &attr );
-#else  
-  pthread_attr_init(&attr);
-#if !defined(__CYGWIN__)
-  pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
-#endif
-#endif
-  
-  for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+  if (exceptionOccurred)
     {
-    m_ThreadInfoArray[thread_loop].UserData    = m_SingleData;
-    m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
-    
-#ifdef ITK_HP_PTHREADS
-    pthread_create( &(process_id[thread_loop]),
-                    attr, m_SingleMethod,  
-                    ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
-#else
-    int                threadError;
-    threadError =
-      pthread_create( &(process_id[thread_loop]), &attr, m_SingleMethod,  
-                      ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
-    if (threadError != 0)
-      {
-      itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned "
-                        << threadError);
-      }
-#endif
+    itkExceptionMacro("Exception occurred during SingleMethodExecute");
     }
-  
-  // Now, the parent thread calls this->SingleMethod() itself
-  m_ThreadInfoArray[0].UserData = m_SingleData;
-  m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
-  m_SingleMethod((void *)(&m_ThreadInfoArray[0]) );
-  
-  // The parent thread has finished this->SingleMethod() - so now it
-  // waits for each of the other processes to exit
-  for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
-    {
-    if ( pthread_join( process_id[thread_loop], 0 ) )
-      {
-      itkExceptionMacro(<< "Unable to join thread " << thread_loop);
-      }
-    }
-#endif
-  
-#ifndef ITK_USE_WIN32_THREADS
-#ifndef ITK_USE_SPROC
-#ifndef ITK_USE_PTHREADS
-  // There is no multi threading, so there is only one thread.
-  m_ThreadInfoArray[0].UserData    = m_SingleData;
-  m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
-  m_SingleMethod( (void *)(&m_ThreadInfoArray[0]) );
-#endif
-#endif
-#endif
 }
 
 void MultiThreader::MultipleMethodExecute()
@@ -787,5 +718,160 @@ void MultiThreader::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "Global Maximum Number Of Threads: " << 
     m_GlobalMaximumNumberOfThreads << std::endl;
 }
+
+ITK_THREAD_RETURN_TYPE
+MultiThreader
+::SingleMethodProxy( void *arg )
+{
+  // grab the ThreadInfoStruct originally prescribed
+  MultiThreader::ThreadInfoStruct
+    *threadInfoStruct
+    = reinterpret_cast<MultiThreader::ThreadInfoStruct *>(arg);
+
+  // execute the user specified threader callback, catching any exceptions
+  try
+    {
+    (*threadInfoStruct->ThreadFunction)(threadInfoStruct);
+    threadInfoStruct->ThreadExitCode
+      = MultiThreader::ThreadInfoStruct::SUCCESS;
+    }
+  catch (ProcessAborted &)
+    {
+    threadInfoStruct->ThreadExitCode
+      = MultiThreader::ThreadInfoStruct::ITK_PROCESS_ABORTED_EXCEPTION;
+    }
+  catch (ExceptionObject &)
+    {
+    threadInfoStruct->ThreadExitCode
+      = MultiThreader::ThreadInfoStruct::ITK_EXCEPTION;
+    }
+  catch (std::exception &)
+    {
+    threadInfoStruct->ThreadExitCode
+      = MultiThreader::ThreadInfoStruct::STD_EXCEPTION;
+    }
+  catch (...)
+    {
+    threadInfoStruct->ThreadExitCode
+      = MultiThreader::ThreadInfoStruct::UNKNOWN;
+    }
+
+  return ITK_THREAD_RETURN_VALUE;
+}
+
+void
+MultiThreader
+::WaitForSingleMethodThread(ThreadProcessIDType threadHandle)
+{
+#ifdef ITK_USE_WIN32_THREADS
+  // Using _beginthreadex on a PC
+  WaitForSingleObject(threadHandle, INFINITE);
+  CloseHandle(threadHandle);
+#endif
+
+#ifdef ITK_USE_SPROC
+  // Using sproc() on an SGI
+  siginfo_t          info_ptr;
+  waitid( P_PID, (id_t) threadHandle, &info_ptr, WEXITED );
+#endif
+
+#ifdef ITK_USE_PTHREADS
+  // Using POSIX threads
+  if ( pthread_join( threadHandle, 0 ) )
+    {
+    itkExceptionMacro(<< "Unable to join thread.");
+    }
+#endif      
+
+
+#ifndef ITK_USE_WIN32_THREADS
+#ifndef ITK_USE_SPROC
+#ifndef ITK_USE_PTHREADS
+    // No threading library specified.  Do nothing.  No joining or waiting
+    // necessary.
+#endif
+#endif
+#endif
+    
+}
+
+
+
+ThreadProcessIDType
+MultiThreader
+::DispatchSingleMethodThread(MultiThreader::ThreadInfoStruct *threadInfo)
+{
+#ifdef ITK_USE_WIN32_THREADS
+  // Using _beginthreadex on a PC
+  DWORD threadId;
+  HANDLE threadHandle =  (HANDLE)_beginthreadex(0, 0,
+               (unsigned int (__stdcall *)(void *))this->SingleMethodProxy, 
+               ((void *)threadInfo), 0, (unsigned int *)&threadId);
+  if (threadHandle == NULL)
+    {
+    itkExceptionMacro("Error in thread creation !!!");
+    } 
+  return threadHandle;
+#endif
+
+  
+#ifdef ITK_USE_SPROC
+  // Using sproc() on an SGI
+    siginfo_t threadHandle = 
+      sproc( this->SingleMethodProxy, PR_SALL, 
+       reinterpret_cast<void *>(threadInfo));
+    if ( threadHandle == -1)
+      {
+      itkExceptionMacro("sproc call failed. Code: " << errno << std::endl);
+      }
+    return threadHandle;
+#endif
+
+
+    
+#ifdef ITK_USE_PTHREADS
+  // Using POSIX threads
+    pthread_attr_t attr;
+    pthread_t threadHandle;
+
+#ifdef ITK_HP_PTHREADS
+    pthread_attr_create( &attr );
+#else  
+    pthread_attr_init(&attr);
+#if !defined(__CYGWIN__)
+    pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
+#endif
+#endif
+
+#ifdef ITK_HP_PTHREADS
+    pthread_create( &threadHandle,
+        attr, this->SingleMethodProxy,  
+        reinterpret_cast<void *>(threadInfo));
+#else
+    int                threadError;
+    threadError =
+      pthread_create( &threadHandle, &attr, this->SingleMethodProxy,  
+          reinterpret_cast<void *>(threadInfo));
+    if (threadError != 0)
+      {
+      itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned "
+                    << threadError);
+      }
+#endif
+    return threadHandle;
+#endif      
+
+
+#ifndef ITK_USE_WIN32_THREADS
+#ifndef ITK_USE_SPROC
+#ifndef ITK_USE_PTHREADS
+    // No threading library specified.  Do nothing.  The computation
+    // will be run by the main execution thread.
+#endif
+#endif
+#endif
+    
+}
+
 
 } // end namespace itk

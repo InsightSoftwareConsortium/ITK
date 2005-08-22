@@ -227,6 +227,8 @@ public:
     int                 *ActiveFlag;
     MutexLock::Pointer  ActiveFlagLock;
     void                *UserData;
+    ThreadFunctionType  ThreadFunction;
+    enum {SUCCESS, ITK_EXCEPTION, ITK_PROCESS_ABORTED_EXCEPTION, STD_EXCEPTION, UNKNOWN} ThreadExitCode;
 #ifdef ITK_USE_SPROC
     char Pad2[128];
 #endif
@@ -274,6 +276,28 @@ private:
   /** Statics variables. */
   static int                  m_GlobalMaximumNumberOfThreads;
   static int                  m_GlobalDefaultNumberOfThreads;
+  
+  /** Static function used as a "proxy callback" by the MultiThreader.  The
+   * threading library will call this routine for each thread, which
+   * will delegate the control to the prescribed SingleMethod. This
+   * routine acts as an intermediary between the MultiThreader and the
+   * user supplied callback (SingleMethod) in order to catch any
+   * exceptions thrown by the threads. */
+  static ITK_THREAD_RETURN_TYPE SingleMethodProxy( void *arg );
+
+  /** Spawn a thread for the prescribed SingleMethod.  This routine
+   * spawns a thread to the SingleMethodProxy which runs the
+   * prescribed SingleMethod.  The SingleMethodProxy allows for
+   * exceptions within a thread to be naively handled. A similar
+   * abstraction needs to be added for MultipleMethod and
+   * SpawnThread. */
+  ThreadProcessIDType DispatchSingleMethodThread(ThreadInfoStruct *);
+
+  /** Wait for a thread running the prescribed SingleMethod. A similar
+   * abstraction needs to be added for MultipleMethod (SpawnThread
+   * already has a routine to do this. */
+  void WaitForSingleMethodThread(ThreadProcessIDType);
+
   
   /** Friends of Multithreader.
    * ProcessObject is a friend so that it can call PrintSelf() on its
