@@ -294,8 +294,6 @@ void MultiThreader::SingleMethodExecute()
   catch ( ProcessAborted &excp )
     {
     // Need cleanup and rethrow ProcessAborted
-    exceptionOccurred = true;
-
     // close down other threads
     for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
       {
