@@ -61,7 +61,14 @@ namespace itk {
  *     or the DilateValue.
  *   - Replace the original value with the specified value
  *
+ * A faster implementation of binary dilation can be found in the
+ * FastIncrementatlBinaryDilateImageFilter. That implementation
+ * performs a decomposition of the structuring element and processes
+ * the image using Minkowski sums.  The BinarydilateImageFilter will
+ * be maintained for backward compatibility.
+ *
  * \sa MorphologyImageFilter
+ * \sa FastIncrementalBinaryDilateImageFilter
  * \sa BinaryErodeImageFilter
  * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
  */
