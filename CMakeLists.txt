@@ -1,8 +1,34 @@
 # This is the root ITK CMakeLists file.
 CMAKE_MINIMUM_REQUIRED(VERSION 1.8)
+
 PROJECT(ITK)
 INCLUDE_REGULAR_EXPRESSION("^([Nn]rrd|itk|vtk|vnl|vcl|vxl|f2c|netlib|ce|itpack|DICOM|meta|png|dbh|tif|jpeg|zlib|gdcm).*$")
 SOURCE_GROUP("XML Files" REGULAR_EXPRESSION "[.]xml$")
+
+# On Visual Studio 8 MS deprecated C. This removes all 1.276E1265 security
+# warnings
+IF(WIN32)
+  IF(NOT BORLAND)
+    IF(NOT CYGWIN)
+      IF(NOT MINGW)
+        IF(NOT ITK_ENABLE_VISUAL_STUDIO_DEPRECATED_C_WARNINGS)
+          ADD_DEFINITIONS(
+            -D_CRT_FAR_MAPPINGS_NO_DEPRECATE
+            -D_CRT_IS_WCTYPE_NO_DEPRECATE
+            -D_CRT_MANAGED_FP_NO_DEPRECATE
+            -D_CRT_NONSTDC_NO_DEPRECATE
+            -D_CRT_SECURE_NO_DEPRECATE
+            -D_CRT_SECURE_NO_DEPRECATE_GLOBALS
+            -D_CRT_SETERRORMODE_BEEP_SLEEP_NO_DEPRECATE
+            -D_CRT_TIME_FUNCTIONS_NO_DEPRECATE
+            -D_CRT_VCCLRIT_NO_DEPRECATE
+            -D_SCL_SECURE_NO_DEPRECATE
+            )
+        ENDIF(NOT ITK_ENABLE_VISUAL_STUDIO_DEPRECATED_C_WARNINGS)
+      ENDIF(NOT MINGW)
+    ENDIF(NOT CYGWIN)
+  ENDIF(NOT BORLAND)
+ENDIF(WIN32)
 
 # Don't build anything unless the version of CMake is high enough.
 # The matching ELSE/ENDIF should be the last lines in the file.
