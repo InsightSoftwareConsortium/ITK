@@ -145,10 +145,13 @@ ExtractImageFilter<TInputImage,TOutputImage>
     unsigned int i;
     const typename InputImageType::SpacingType& 
       inputSpacing = inputPtr->GetSpacing();
+    const typename InputImageType::DirectionType&
+      inputDirection = inputPtr->GetDirection();
     const typename InputImageType::PointType&
       inputOrigin = inputPtr->GetOrigin();
 
     typename OutputImageType::SpacingType outputSpacing;
+    typename OutputImageType::DirectionType outputDirection;
     typename OutputImageType::PointType outputOrigin;
 
     if ( static_cast<unsigned int>(OutputImageDimension) > 
@@ -160,11 +163,20 @@ ExtractImageFilter<TInputImage,TOutputImage>
         {
         outputSpacing[i] = inputSpacing[i];
         outputOrigin[i] = inputOrigin[i];
+        for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
+          {
+          outputDirection[i][dim] = inputDirection[i][dim];
+          }
         }
       for (; i < OutputImageDimension; ++i)
         {
         outputSpacing[i] = 1.0;
         outputOrigin[i] = 0.0;
+        for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
+          {
+          outputDirection[i][dim] = 0.0;
+          }
+        outputDirection[i][i] = 1.0;
         }
       }
     else
@@ -177,6 +189,11 @@ ExtractImageFilter<TInputImage,TOutputImage>
           {
           outputSpacing[nonZeroCount] = inputSpacing[i];
           outputOrigin[nonZeroCount] = inputOrigin[i];
+          for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
+            {
+            outputDirection[nonZeroCount][dim] =
+              inputDirection[nonZeroCount][dim];
+            }
           nonZeroCount++;
           }
         }
@@ -184,6 +201,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
 
     // set the spacing and origin
     outputPtr->SetSpacing( outputSpacing );
+    outputPtr->SetDirection( outputDirection );
     outputPtr->SetOrigin( outputOrigin );
     }
   else

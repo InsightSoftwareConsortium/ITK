@@ -22,7 +22,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
-
+#include "itkImage.h"
 
 namespace itk
 {
@@ -124,17 +124,38 @@ RegionOfInterestImageFilter<TInputImage,TOutputImage>
     spacing = inputPtr->GetSpacing() ;
   outputPtr->SetSpacing( spacing );
 
+  // Copy directions without modification.
+  outputPtr->SetDirection( inputPtr->GetDirection() );
+
   // Correct origin of the extracted region.
   IndexType roiStart( m_RegionOfInterest.GetIndex() );
   typename Superclass::OutputImageType::PointType  outputOrigin;
-  const typename Superclass::InputImageType::PointType&
-    inputOrigin = inputPtr->GetOrigin();
-
-  for( unsigned int i=0; i<ImageDimension; i++)
+  typedef Image< typename TInputImage::PixelType,
+    Superclass::InputImageDimension > ImageType;
+  typename ImageType::ConstPointer imagePtr =
+    dynamic_cast< const ImageType * >( inputPtr.GetPointer() );
+  if ( imagePtr )
     {
-    outputOrigin[i] = inputOrigin[i] + roiStart[i] * spacing[i];
+    // Input image supports TransformContinuousIndexToPhysicalPoint
+    ContinuousIndex<double, Superclass::InputImageDimension> index;
+    for ( unsigned int dim = 0; dim < Superclass::InputImageDimension; ++dim )
+      {
+      index[dim] = roiStart[dim];
+      }
+    imagePtr->TransformContinuousIndexToPhysicalPoint( index, outputOrigin );
     }
-
+  else
+    {
+    // Generic type of image
+    const typename Superclass::InputImageType::PointType&
+      inputOrigin = inputPtr->GetOrigin();
+    
+    for( unsigned int i=0; i<ImageDimension; i++)
+      {
+      outputOrigin[i] = inputOrigin[i] + roiStart[i] * spacing[i];
+      }
+    }
+  
   outputPtr->SetOrigin( outputOrigin );
 
 }
