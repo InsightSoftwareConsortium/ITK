@@ -161,6 +161,9 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
   /** Returns the Euclidean Norm of the vector  */
   RealValueType GetNorm( void ) const;
 
+  /** Returns the number of components in this vector type */
+  static unsigned int GetNumberOfComponents() { return NVectorDimension; }
+  
   /** Divides the covariant vector componets by the norm */
   void Normalize(void);
 

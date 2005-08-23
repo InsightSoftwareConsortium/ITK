@@ -162,7 +162,7 @@ VectorResampleImageFilter<TInputImage,TOutputImage>
   PointType outputPoint;         // Coordinates of current output pixel
   PointType inputPoint;          // Coordinates of current input pixel
 
-  const unsigned int numberOfComponents = PixelType::Dimension;
+  const unsigned int numberOfComponents = PixelType::GetNumberOfComponents();
 
   // Support for progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels(), 10);
