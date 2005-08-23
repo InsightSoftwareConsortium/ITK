@@ -268,8 +268,8 @@ ImageFileWriter<TInputImage>
 #define ITK_WRITER_SET_VECTOR_LENGTH_IF_BLOCK(type) \
       else if( typeid( const VectorImage<type> * ) == typeid(input) ) \
       { \
-      m_ImageIO->SetNumberOfComponents(((VectorImage< type > *) \
-                                   (( void* )input))->GetVectorLength()); \
+      m_ImageIO->SetNumberOfComponents(((const VectorImage< type > *) \
+                                   (( const void* )input))->GetVectorLength()); \
       }
 
     if(0)
