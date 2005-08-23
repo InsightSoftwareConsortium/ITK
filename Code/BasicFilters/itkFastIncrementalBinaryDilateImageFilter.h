@@ -206,13 +206,14 @@ protected:
    * and the radius used to determine connectivity (typically one).
    * If the request extends past the LargestPossibleRegion for the
    * input, the request is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion() ;
+  void GenerateInputRequestedRegion() throw (InvalidRequestedRegionError);
   
 private:
   FastIncrementalBinaryDilateImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /** radius of neighborood used in order to define connectivity neighb*/
+  /** radius of neighborhood used in order to define connectivity
+    * neighborhood */
   InputSizeType m_Radius;
 
   /** kernel or structuring element to use. */
