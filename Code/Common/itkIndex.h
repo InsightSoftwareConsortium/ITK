@@ -275,7 +275,7 @@ class IndexLexicographicCompare
 {
 public:
   bool operator()(Index<VIndexDimension> const& l,
-                  Index<VIndexDimension> const& r)
+                  Index<VIndexDimension> const& r) const
     {
     for(unsigned int i=0; i < VIndexDimension; ++i)
       {
