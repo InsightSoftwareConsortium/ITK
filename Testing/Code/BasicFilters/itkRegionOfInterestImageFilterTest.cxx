@@ -39,7 +39,7 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
   typedef ImageType::RegionType   RegionType;
   typedef ImageType::SizeType     SizeType;
   typedef ImageType::IndexType    IndexType;
-
+  typedef ImageType::DirectionType DirectionType;
 
   typedef itk::ImageRegionIterator< 
                            ImageType > IteratorType;
@@ -63,6 +63,16 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
 
   image->SetRegions( region );
   image->Allocate();
+
+  DirectionType directions;
+  directions.SetIdentity();
+  directions[0][0] = 0.0;
+  directions[1][0] = 1.0;
+  directions[2][0] = 0.0;
+  directions[0][1] = 1.0;
+  directions[1][1] = 0.0;
+  directions[2][1] = 0.0;
+  image->SetDirection (directions);
 
   // Fill the image pixels with their own index.
   IteratorType intr( image, region );
@@ -94,7 +104,7 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
   
 
   filter->Update();
-
+  filter->GetOutput()->Print(std::cout);
 
 
   IteratorType ot( filter->GetOutput(),
