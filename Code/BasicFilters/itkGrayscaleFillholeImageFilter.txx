@@ -20,7 +20,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkGrayscaleFillholeImageFilter.h"
-#include "itkGrayscaleGeodesicErodeImageFilter.h"
+#include "itkReconstructionByErosionImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkImageRegionExclusionConstIteratorWithIndex.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"
@@ -31,8 +31,9 @@ namespace itk {
 template <class TInputImage, class TOutputImage>
 GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
 ::GrayscaleFillholeImageFilter()
-  : m_NumberOfIterationsUsed( 0 )
+  : m_NumberOfIterationsUsed( 1 )
 {
+  m_FullyConnected = false;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -119,9 +120,9 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
   // Delegate to a geodesic erosion filter.
   //
   //
-  typename GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::Pointer
+  typename ReconstructionByErosionImageFilter<TInputImage, TInputImage>::Pointer
     erode
-    = GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::New();
+    = ReconstructionByErosionImageFilter<TInputImage, TInputImage>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -129,9 +130,10 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
   progress->RegisterInternalFilter(erode,1.0f);
 
   // set up the erode filter
-  erode->RunOneIterationOff();             // run to convergence
+  //erode->RunOneIterationOff();             // run to convergence
   erode->SetMarkerImage( markerPtr );
   erode->SetMaskImage( this->GetInput() );
+  erode->SetFullyConnected( m_FullyConnected );
 
   // graft our output to the erode filter to force the proper regions
   // to be generated
@@ -144,9 +146,6 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
   // output. this is needed to get the appropriate regions passed
   // back.
   this->GraftOutput( erode->GetOutput() );
-
-  // copy the number of iterations used
-  m_NumberOfIterationsUsed = erode->GetNumberOfIterationsUsed();
 }
 
 
@@ -159,6 +158,7 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
 
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;
+  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
 }
   
 }// end namespace itk

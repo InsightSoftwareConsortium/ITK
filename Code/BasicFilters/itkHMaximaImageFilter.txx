@@ -20,9 +20,10 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkHMaximaImageFilter.h"
-#include "itkGrayscaleGeodesicDilateImageFilter.h"
+//#include "itkGrayscaleGeodesicDilateImageFilter.h"
 #include "itkShiftScaleImageFilter.h"
 #include "itkProgressAccumulator.h"
+#include "itkReconstructionByDilationImageFilter.h"
 
 namespace itk {
 
@@ -31,7 +32,8 @@ HMaximaImageFilter<TInputImage, TOutputImage>
 ::HMaximaImageFilter()
 {
   m_Height = 2;
-  m_NumberOfIterationsUsed = 0;
+  m_NumberOfIterationsUsed = 1;
+  m_FullyConnected = false;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -79,9 +81,9 @@ HMaximaImageFilter<TInputImage, TOutputImage>
   // Delegate to a geodesic dilation filter.
   //
   //
-  typename GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::Pointer
+  typename ReconstructionByDilationImageFilter<TInputImage, TInputImage>::Pointer
     dilate
-    = GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::New();
+    = ReconstructionByDilationImageFilter<TInputImage, TInputImage>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -89,9 +91,10 @@ HMaximaImageFilter<TInputImage, TOutputImage>
   progress->RegisterInternalFilter(dilate,1.0f);
 
   // set up the dilate filter
-  dilate->RunOneIterationOff();             // run to convergence
+  //dilate->RunOneIterationOff();             // run to convergence
   dilate->SetMarkerImage( shift->GetOutput() );
   dilate->SetMaskImage( this->GetInput() );
+  dilate->SetFullyConnected( m_FullyConnected );
 
   // graft our output to the dilate filter to force the proper regions
   // to be generated
@@ -104,9 +107,6 @@ HMaximaImageFilter<TInputImage, TOutputImage>
   // output. this is needed to get the appropriate regions passed
   // back.
   this->GraftOutput( dilate->GetOutput() );
-
-  // copy the number of iterations used
-  m_NumberOfIterationsUsed = dilate->GetNumberOfIterationsUsed();
 }
 
 
@@ -122,6 +122,7 @@ HMaximaImageFilter<TInputImage, TOutputImage>
      << std::endl;
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;
+  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
 }
   
 }// end namespace itk

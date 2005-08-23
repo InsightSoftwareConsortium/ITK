@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGrayscaleGeodesicErodeImageFilter.h
+  Module:    itkReconstructionByErosionImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -9,63 +9,54 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkGrayscaleGeodesicErodeImageFilter_h
-#define __itkGrayscaleGeodesicErodeImageFilter_h
+#ifndef __itkReconstructionByErosionImageFilter_h
+#define __itkReconstructionByErosionImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
 namespace itk {
 
-/** \class GrayscaleGeodesicErodeImageFilter
- * \brief geodesic gray scale erosion of an image
+/** \class ReconstructionByErosionImageFilter
+ * \brief grayscale reconstruction by erosion of an image
  *
- * Geodesic erosion operates on a "marker" image and a "mask"
- * image. The marker image is eroded using an elementary structuring
- * element (neighborhood of radius one using only the face connected
- * neighbors). The resulting image is then compared with the mask
- * image. The output image is the pixelwise maximum of the eroded
- * marker image and the mask image.
- *
- * Geodesic erosion is run either one iteration or until
- * convergence. In the convergence case, the filter is equivalent to
- * "reconstruction by erosion". This filter is implemented to handle
- * both scenarios.  The one iteration case is multi-threaded.  The
- * convergence case is delegated to another instance of the same
- * filter (but configured to run a single iteration).
+ * Reconstruction by erosion operates on a "marker" image and a "mask"
+ * image, and is defined as the erosion of the marker image with
+ * respect to the mask image iterated until stability.
  *
  * The marker image must be greater than or equal to the mask image
  * (on a pixel by pixel basis).
  *
- * Geodesic morphology is described in Chapter 6 of Pierre Soille's
+ * Geodesic morphology is described in Chapter 6.2 of Pierre Soille's
  * book "Morphological Image Analysis: Principles and Applications",
  * Second Edition, Springer, 2003.
+ * 
+ * Algorithm implemented in this filter is based on algorithm described
+ * by Kevin Robinson and  Paul F. Whelan in "Efficient Morphological 
+ * Reconstruction: A Downhill Filter", Pattern Recognition Letters, Volume
+ * 25, Issue 15, November 2004, Pages 1759-1767.
  *
- * A noniterative version of this algorithm can be found in the
- * ReconstructionByErosionImageFilter. This noniterative solution is
- * much faster than the implementation provided here.  All ITK filters
- * that previously used GrayscaleGeodesicErodeImageFilter as part of
- * their implementation have been converted to use the
- * ReconstructionByErosionImageFilter. The
- * GrayscaleGeodesicErodeImageFilter is maintained for backward
- * compatibility. 
+ * Good description and applications can be found in "Morphological
+ * Grayscale Reconstruction in Image Analysis: Applications and Efficient
+ * Algorithms", Luc Vincent, IEEE Transactions on image processing, Vol. 2,
+ * April 1993.
  *
- * \sa MorphologyImageFilter, GrayscaleErodeImageFilter,
- * GrayscaleFunctionErodeImageFilter, BinaryErodeImageFilter,
- * ReconstructionByErosionImageFilter 
+ * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA of Jouy-en-Josas, France.
+ *
+ * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter, ReconstructionByDilationImageFilter, OpeningByReconstructionImageFilter, ClosingByReconstructionImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
 template<class TInputImage, class TOutputImage>
-class ITK_EXPORT GrayscaleGeodesicErodeImageFilter : 
+class ITK_EXPORT ReconstructionByErosionImageFilter : 
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef GrayscaleGeodesicErodeImageFilter Self;
+  typedef ReconstructionByErosionImageFilter Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage>
   Superclass;
   typedef SmartPointer<Self>        Pointer;
@@ -100,31 +91,20 @@ public:
   itkNewMacro(Self);  
 
   /** Runtime information support. */
-  itkTypeMacro(GrayscaleGeodesicErodeImageFilter, 
+  itkTypeMacro(ReconstructionByErosionImageFilter, 
                ImageToImageFilter);
   
   /** Set/Get the marker image. The marker image must be pixelwise
    * greater than or equal to the mask image. The marker image the
-   * image that is eroded by this filter. */
+   * image that is dilated by this filter. */
   void SetMarkerImage(const MarkerImageType *);
   const MarkerImageType* GetMarkerImage();
 
   /** Set/Get the mask image. The mask image is used to "mask" the
-   * eroded marker image. The mask operation is a pixelwise
-   * maximum. */
+   * dilated marker image. The mask operation is a pixelwise
+   * minimum. */
   void SetMaskImage(const MaskImageType *);
   const MaskImageType* GetMaskImage();
-
-  /** Set/Get whether the filter should run one iteration or until
-   * convergence. When run to convergence, this filter is equivalent
-   * to "reconstruction by erosion". Default is off. */
-  itkSetMacro(RunOneIteration, bool);
-  itkGetMacro(RunOneIteration, bool);
-  itkBooleanMacro(RunOneIteration);
-
-  /** Get the number of iterations used to produce the current
-   * output. */
-  itkGetMacro(NumberOfIterationsUsed, unsigned long);
 
   /**
    * Set/Get whether the connected components are defined strictly by
@@ -137,11 +117,11 @@ public:
   itkBooleanMacro(FullyConnected);
 
 protected:
-  GrayscaleGeodesicErodeImageFilter();
-  ~GrayscaleGeodesicErodeImageFilter() {};
+  ReconstructionByErosionImageFilter();
+  ~ReconstructionByErosionImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** GrayscaleGeodesicErodeImageFilter needs to request enough of the
+  /** ReconstructionByErosionImageFilter needs to request enough of the
    * marker image to account for the elementary structuring element.
    * The mask image does not need to be padded. Depending on whether
    * the filter is configured to run a single iteration or until
@@ -163,20 +143,10 @@ protected:
    * filter converges. */
   void GenerateData();
   
-  /** Multi-thread version GenerateData. This version is used when the
-   * filter is configured to run a single iteration. When the filter
-   * is configured to run to convergence, the GenerateData() method is
-   * called. */
-  void ThreadedGenerateData (const OutputImageRegionType& 
-                             outputRegionForThread,
-                             int threadId) ;
-
 private:
-  GrayscaleGeodesicErodeImageFilter(const Self&); //purposely not implemented
+  ReconstructionByErosionImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  bool m_RunOneIteration;
-  unsigned long m_NumberOfIterationsUsed;
   bool m_FullyConnected;
 
 } ; // end of class
@@ -184,7 +154,7 @@ private:
 } // end namespace itk
   
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGrayscaleGeodesicErodeImageFilter.txx"
+#include "itkReconstructionByErosionImageFilter.txx"
 #endif
 
 #endif

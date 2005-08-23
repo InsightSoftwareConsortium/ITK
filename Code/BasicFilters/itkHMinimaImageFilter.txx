@@ -20,7 +20,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkHMinimaImageFilter.h"
-#include "itkGrayscaleGeodesicErodeImageFilter.h"
+#include "itkReconstructionByErosionImageFilter.h"
 #include "itkShiftScaleImageFilter.h"
 #include "itkProgressAccumulator.h"
 
@@ -31,7 +31,8 @@ HMinimaImageFilter<TInputImage, TOutputImage>
 ::HMinimaImageFilter()
 {
   m_Height =  2;
-  m_NumberOfIterationsUsed = 0;
+  m_NumberOfIterationsUsed = 1;
+  m_FullyConnected = false;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -79,9 +80,9 @@ HMinimaImageFilter<TInputImage, TOutputImage>
   // Delegate to a geodesic erosion filter.
   //
   //
-  typename GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::Pointer
+  typename ReconstructionByErosionImageFilter<TInputImage, TInputImage>::Pointer
     erode
-    = GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::New();
+    = ReconstructionByErosionImageFilter<TInputImage, TInputImage>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -89,9 +90,10 @@ HMinimaImageFilter<TInputImage, TOutputImage>
   progress->RegisterInternalFilter(erode,1.0f);
 
   // set up the erode filter
-  erode->RunOneIterationOff();             // run to convergence
+  //erode->RunOneIterationOff();             // run to convergence
   erode->SetMarkerImage( shift->GetOutput() );
   erode->SetMaskImage( this->GetInput() );
+  erode->SetFullyConnected( m_FullyConnected );
 
   // graft our output to the erode filter to force the proper regions
   // to be generated
@@ -104,9 +106,6 @@ HMinimaImageFilter<TInputImage, TOutputImage>
   // output. this is needed to get the appropriate regions passed
   // back.
   this->GraftOutput( erode->GetOutput() );
-
-  // copy the number of iterations used
-  m_NumberOfIterationsUsed = erode->GetNumberOfIterationsUsed();
 }
 
 
@@ -122,6 +121,7 @@ HMinimaImageFilter<TInputImage, TOutputImage>
      << std::endl;
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;
+  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
 }
   
 }// end namespace itk

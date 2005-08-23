@@ -30,7 +30,8 @@ HConvexImageFilter<TInputImage, TOutputImage>
 ::HConvexImageFilter()
 {
   m_Height = 2;
-  m_NumberOfIterationsUsed = 0;
+  m_NumberOfIterationsUsed = 1;
+  m_FullyConnected = false;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -78,6 +79,7 @@ HConvexImageFilter<TInputImage, TOutputImage>
 
   hmax->SetInput( this->GetInput() );
   hmax->SetHeight( m_Height );
+  hmax->SetFullyConnected( m_FullyConnected );
 
   // Need to subtract the H-Maxima image from the input
   typename SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::Pointer
@@ -100,9 +102,6 @@ HConvexImageFilter<TInputImage, TOutputImage>
   // output. this is needed to get the appropriate regions passed
   // back.
   this->GraftOutput( subtract->GetOutput() );
-
-  // copy the number of iterations used
-  m_NumberOfIterationsUsed = hmax->GetNumberOfIterationsUsed();
 }
 
 
@@ -118,6 +117,7 @@ HConvexImageFilter<TInputImage, TOutputImage>
      << std::endl;
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;
+  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
 }
   
 }// end namespace itk

@@ -30,7 +30,8 @@ HConcaveImageFilter<TInputImage, TOutputImage>
 ::HConcaveImageFilter()
 {
   m_Height = 2;
-  m_NumberOfIterationsUsed = 0;
+  m_NumberOfIterationsUsed = 1;
+  m_FullyConnected = false;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -78,6 +79,7 @@ HConcaveImageFilter<TInputImage, TOutputImage>
 
   hmin->SetInput( this->GetInput() );
   hmin->SetHeight( m_Height );
+  hmin->SetFullyConnected( m_FullyConnected );
 
 
   // Need to subtract the input from the H-Minima image
@@ -101,9 +103,6 @@ HConcaveImageFilter<TInputImage, TOutputImage>
   // output. this is needed to get the appropriate regions passed
   // back.
   this->GraftOutput( subtract->GetOutput() );
-
-  // copy the number of iterations used
-  m_NumberOfIterationsUsed = hmin->GetNumberOfIterationsUsed();
 }
 
 
@@ -119,6 +118,7 @@ HConcaveImageFilter<TInputImage, TOutputImage>
      << std::endl;
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;
+  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
 }
   
 }// end namespace itk

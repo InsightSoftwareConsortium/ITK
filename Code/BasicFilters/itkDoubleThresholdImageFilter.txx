@@ -18,7 +18,7 @@
 #define __itkDoubleThresholdImageFilter_txx
 
 #include "itkDoubleThresholdImageFilter.h"
-#include "itkGrayscaleGeodesicDilateImageFilter.h"
+#include "itkReconstructionByDilationImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkProgressAccumulator.h"
 
@@ -27,7 +27,7 @@ namespace itk {
 template <class TInputImage, class TOutputImage>
 DoubleThresholdImageFilter<TInputImage, TOutputImage>
 ::DoubleThresholdImageFilter()
-  : m_NumberOfIterationsUsed( 0 )
+  : m_NumberOfIterationsUsed( 1 )
 {
   m_Threshold1 = NumericTraits<InputPixelType>::NonpositiveMin();
   m_Threshold2 = NumericTraits<InputPixelType>::NonpositiveMin();
@@ -36,6 +36,8 @@ DoubleThresholdImageFilter<TInputImage, TOutputImage>
 
   m_OutsideValue   = NumericTraits<OutputPixelType>::Zero;
   m_InsideValue    = NumericTraits<OutputPixelType>::max();
+
+  m_FullyConnected = false;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -74,7 +76,7 @@ DoubleThresholdImageFilter<TInputImage, TOutputImage>
   // Build a mini-pipeline that involves two thresholds filters and a
   // geodesic dilation.
   typedef BinaryThresholdImageFilter<TInputImage, TOutputImage> ThresholdFilterType;
-  typedef GrayscaleGeodesicDilateImageFilter<TOutputImage, TOutputImage> DilationFilterType;
+  typedef ReconstructionByDilationImageFilter<TOutputImage, TOutputImage> DilationFilterType;
 
   typename ThresholdFilterType::Pointer narrowThreshold = ThresholdFilterType::New();
 
@@ -99,7 +101,8 @@ DoubleThresholdImageFilter<TInputImage, TOutputImage>
   typename DilationFilterType::Pointer dilate = DilationFilterType::New();
   dilate->SetMarkerImage( narrowThreshold->GetOutput() );
   dilate->SetMaskImage( wideThreshold->GetOutput() );
-  dilate->RunOneIterationOff();   // run to convergence
+  dilate->SetFullyConnected( m_FullyConnected );
+  //dilate->RunOneIterationOff();   // run to convergence
   
   progress->RegisterInternalFilter(narrowThreshold,.1f);
   progress->RegisterInternalFilter(wideThreshold,.1f);
@@ -117,8 +120,6 @@ DoubleThresholdImageFilter<TInputImage, TOutputImage>
   // back.
   this->GraftOutput( dilate->GetOutput() );
 
-  // copy the number of iterations used
-  m_NumberOfIterationsUsed = dilate->GetNumberOfIterationsUsed();
 }
 
 
@@ -149,6 +150,7 @@ DoubleThresholdImageFilter<TInputImage, TOutputImage>
      << std::endl;
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;
+  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
 }
   
 }// end namespace itk

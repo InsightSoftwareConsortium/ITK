@@ -45,7 +45,17 @@ namespace itk {
  * book "Morphological Image Analysis: Principles and Applications",
  * Second Edition, Springer, 2003.
  *
- * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
+ * A noniterative version of this algorithm can be found in the
+ * ReconstructionByDilationImageFilter. This noniterative solution is
+ * much faster than the implementation provided here.  All ITK filters
+ * that previously used GrayscaleGeodesicDiliateImageFilter as part of
+ * their implementation have been converted to use the
+ * ReconstructionByDilationImageFilter. The
+ * GrayscaleGeodesicDilateImageFilter is maintained for backward
+ * compatibility. 
+ *
+ * \sa MorphologyImageFilter, GrayscaleDilateImageFilter,
+ * GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter, ReconstructionByDilationImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
 template<class TInputImage, class TOutputImage>
@@ -115,6 +125,16 @@ public:
    * output. */
   itkGetMacro(NumberOfIterationsUsed, unsigned long);
 
+  /**
+   * Set/Get whether the connected components are defined strictly by
+   * face connectivity or by face+edge+vertex connectivity.  Default is
+   * FullyConnectedOff.  For objects that are 1 pixel wide, use
+   * FullyConnectedOn.
+   */
+  itkSetMacro(FullyConnected, bool);
+  itkGetConstReferenceMacro(FullyConnected, bool);
+  itkBooleanMacro(FullyConnected);
+
 protected:
   GrayscaleGeodesicDilateImageFilter();
   ~GrayscaleGeodesicDilateImageFilter() {};
@@ -156,6 +176,7 @@ private:
 
   bool m_RunOneIteration;
   unsigned long m_NumberOfIterationsUsed;
+  bool m_FullyConnected;
 
 } ; // end of class
 

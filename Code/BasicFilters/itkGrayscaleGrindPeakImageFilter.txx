@@ -20,18 +20,20 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkGrayscaleGrindPeakImageFilter.h"
-#include "itkGrayscaleGeodesicDilateImageFilter.h"
+//#include "itkGrayscaleGeodesicDilateImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkImageRegionExclusionConstIteratorWithIndex.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"
+#include "itkReconstructionByDilationImageFilter.h"
 
 namespace itk {
 
 template <class TInputImage, class TOutputImage>
 GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
 ::GrayscaleGrindPeakImageFilter()
-  : m_NumberOfIterationsUsed( 0 )
+  : m_NumberOfIterationsUsed( 1 )
 {
+  m_FullyConnected = false;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -118,14 +120,15 @@ GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
   // Delegate to a geodesic dilation filter.
   //
   //
-  typename GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::Pointer
+  typename ReconstructionByDilationImageFilter<TInputImage, TInputImage>::Pointer
     dilate
-       = GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::New();
+       = ReconstructionByDilationImageFilter<TInputImage, TInputImage>::New();
 
   // set up the dilate filter
-  dilate->RunOneIterationOff();             // run to convergence
+  //dilate->RunOneIterationOff();             // run to convergence
   dilate->SetMarkerImage( markerPtr );
   dilate->SetMaskImage( this->GetInput() );
+  dilate->SetFullyConnected( m_FullyConnected );
 
   // graft our output to the dilate filter to force the proper regions
   // to be generated
@@ -139,8 +142,6 @@ GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
   // back.
   this->GraftOutput( dilate->GetOutput() );
 
-  // copy the number of iterations used
-  m_NumberOfIterationsUsed = dilate->GetNumberOfIterationsUsed();
 }
 
 
@@ -153,6 +154,7 @@ GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
 
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;
+  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
 }
   
 }// end namespace itk

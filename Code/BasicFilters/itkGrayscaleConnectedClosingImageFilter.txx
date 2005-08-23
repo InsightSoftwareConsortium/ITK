@@ -20,7 +20,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkGrayscaleConnectedClosingImageFilter.h"
-#include "itkGrayscaleGeodesicErodeImageFilter.h"
+#include "itkReconstructionByErosionImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkProgressAccumulator.h"
 
@@ -29,9 +29,10 @@ namespace itk {
 template <class TInputImage, class TOutputImage>
 GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>
 ::GrayscaleConnectedClosingImageFilter()
-  : m_NumberOfIterationsUsed( 0 )
+  : m_NumberOfIterationsUsed( 1 )
 {
   m_Seed.Fill( NumericTraits<ITK_TYPENAME InputImageIndexType::OffsetValueType>::Zero );
+  m_FullyConnected = false;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -111,9 +112,9 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>
   // Delegate to a geodesic dilation filter.
   //
   //
-  typename GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::Pointer
+  typename ReconstructionByErosionImageFilter<TInputImage, TInputImage>::Pointer
     erode
-    = GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::New();
+    = ReconstructionByErosionImageFilter<TInputImage, TInputImage>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
@@ -121,9 +122,10 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>
   progress->RegisterInternalFilter(erode,1.0f);
 
   // set up the erode filter
-  erode->RunOneIterationOff();             // run to convergence
+  //erode->RunOneIterationOff();             // run to convergence
   erode->SetMarkerImage( markerPtr );
   erode->SetMaskImage( this->GetInput() );
+  erode->SetFullyConnected( m_FullyConnected );
 
   // graft our output to the erode filter to force the proper regions
   // to be generated
@@ -136,9 +138,6 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>
   // output. this is needed to get the appropriate regions passed
   // back.
   this->GraftOutput( erode->GetOutput() );
-
-  // copy the number of iterations used
-  m_NumberOfIterationsUsed = erode->GetNumberOfIterationsUsed();
 }
 
 
@@ -152,6 +151,7 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>
   os << indent << "Seed point: " << m_Seed << std::endl;
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;
+  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
 }
   
 }// end namespace itk

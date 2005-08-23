@@ -87,10 +87,24 @@ public:
   itkTypeMacro(GrayscaleFillholeImageFilter, 
                ImageToImageFilter);
   
-  /** Get the number of iterations used to produce the current
-   * output. */
-  itkGetMacro(NumberOfIterationsUsed, unsigned long);
+  /** \deprecated
+   * Get the number of iterations used to produce the current
+   * output. This method is scheduled for removal since the
+   * implementation now uses a noniterative solution. */
+  unsigned long GetNumberOfIterationsUsed()
+    { itkLegacyBody(itk::GrayscaleFillholeImageFilter::GetNumberOfIterationsUsed, 2.2);
+      return m_NumberOfIterationsUsed; };
 
+  /**
+   * Set/Get whether the connected components are defined strictly by
+   * face connectivity or by face+edge+vertex connectivity.  Default is
+   * FullyConnectedOff.  For objects that are 1 pixel wide, use
+   * FullyConnectedOn.
+   */
+  itkSetMacro(FullyConnected, bool);
+  itkGetConstReferenceMacro(FullyConnected, bool);
+  itkBooleanMacro(FullyConnected);
+  
 protected:
   GrayscaleFillholeImageFilter();
   ~GrayscaleFillholeImageFilter() {};
@@ -114,6 +128,8 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   unsigned long m_NumberOfIterationsUsed;
+
+  bool                m_FullyConnected;
 } ; // end of class
 
 } // end namespace itk

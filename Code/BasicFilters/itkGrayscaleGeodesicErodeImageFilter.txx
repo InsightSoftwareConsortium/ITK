@@ -40,6 +40,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
   m_RunOneIteration =  false;
   m_NumberOfIterationsUsed =  0; // run to convergence
   this->SetNumberOfRequiredInputs(2);
+  m_FullyConnected = false;
 }
 
 
@@ -341,18 +342,31 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
     markerIt.OverrideBoundaryCondition(&BC);
     markerIt.GoToBegin();
 
-    // setup the marker iterator to only visit face connected
-    // neighbors and the center pixel
-    offset.Fill(0);
-    markerIt.ActivateOffset(offset); // center pixel
-    for (d=0; d < TInputImage::ImageDimension; ++d)
+    if ( !m_FullyConnected )
       {
-      for (i=-1; i<=1; i+=2)
+      // setup the marker iterator to only visit face connected
+      // neighbors and the center pixel
+      offset.Fill(0);
+      markerIt.ActivateOffset(offset); // center pixel
+      for (d=0; d < TInputImage::ImageDimension; ++d)
         {
-        offset[d] = i;
-        markerIt.ActivateOffset(offset); // a neighbor pixel in dimension d
+        for (i=-1; i<=1; i+=2)
+          {
+          offset[d] = i;
+          markerIt.ActivateOffset(offset); // a neighbor pixel in dimension d
+          }
+        offset[d] = 0;
         }
-      offset[d] = 0;
+      }
+    else
+      {
+      // activate all pixels excepted center pixel
+      for (d=0; d < markerIt.GetCenterNeighborhoodIndex()*2+1; ++d)
+        {
+          markerIt.ActivateOffset(markerIt.GetOffset(d));
+        }
+      offset.Fill(0);
+      markerIt.DeactivateOffset(offset);
       }
 
     // iterate over image region
@@ -410,6 +424,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
      << std::endl;
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;
+  os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
 }
   
 }// end namespace itk
