@@ -136,9 +136,10 @@ public:
         "Length Mismatch: ListSampleToHistogramGenerator::SetHistogramMin");
     if( m_List )
       {
-      MeasurementVectorTraits::Assert(m_List->GetMeasurementVectorSize(), 
-        MeasurementVectorSize, 
-        "Length Mismatch: ListSampleToHistogramGenerator::SetHistogramMin");
+      if( m_List->GetMeasurementVectorSize() != MeasurementVectorSize )
+        {
+        itkExceptionMacro( << "Length Mismatch: ListSampleToHistogramGenerator::SetHistogramMin" );
+        }
       }
     }
 
@@ -155,9 +156,10 @@ public:
         "Length Mismatch: ListSampleToHistogramGenerator::SetHistogramMin");
     if( m_List )
       {
-      MeasurementVectorTraits::Assert(m_List->GetMeasurementVectorSize(), 
-        MeasurementVectorSize, 
-        "Length Mismatch: ListSampleToHistogramGenerator::SetHistogramMin");
+      if( m_List->GetMeasurementVectorSize() != MeasurementVectorSize )
+        {
+        itkExceptionMacro( << "Length Mismatch: ListSampleToHistogramGenerator::SetHistogramMin" );
+        }
       }
     }
 
