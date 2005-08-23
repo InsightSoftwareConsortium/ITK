@@ -23,6 +23,7 @@
 #include "itkConvertPixelBuffer.h"
 #include "itkImageRegion.h"
 #include "itkPixelTraits.h"
+#include "itkVectorImage.h"
 
 #include <itksys/SystemTools.hxx>
 #include <fstream>
@@ -281,6 +282,56 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
 
   // allocate the output buffer
   output->SetBufferedRegion( output->GetRequestedRegion() );
+
+  // If a VectorImage, this requires us to set the 
+  // VectorLength before allocate
+  if( strcmp( output->GetNameOfClass(), "VectorImage" ) == 0 ) 
+    {
+    // Since we need to set the vector length via a method available 
+    // only in VectorImage, we will resort to C style UNSAFE casts !
+
+#define ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(type) \
+      else if( typeid( VectorImage<type>::Pointer ) == typeid(output) ) \
+      { \
+      ((VectorImage< type > *)(( void* )output))->SetVectorLength( \
+                                m_ImageIO->GetNumberOfComponents() ); \
+      }
+
+    if(0)
+      {
+      }
+    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(unsigned char)
+    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(char)
+    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(unsigned short)
+    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK( short)
+    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(unsigned int)
+    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK( int)
+    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(unsigned long)
+    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK( long)
+    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(float)
+    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK( double)
+    else
+      {
+      ImageFileReaderException e(__FILE__, __LINE__);
+      OStringStream msg;
+      msg <<"The VectorImage should contain blocks with InternalPixelType of: "
+          << std::endl << "    " << typeid(unsigned char).name()
+          << std::endl << "    " << typeid(char).name()
+          << std::endl << "    " << typeid(unsigned short).name()
+          << std::endl << "    " << typeid(short).name()
+          << std::endl << "    " << typeid(unsigned int).name()
+          << std::endl << "    " << typeid(int).name()
+          << std::endl << "    " << typeid(unsigned long).name()
+          << std::endl << "    " << typeid(long).name()
+          << std::endl << "    " << typeid(float).name()
+          << std::endl << "    " << typeid(double).name()
+          << std::endl << "    "
+          << m_ImageIO->GetComponentTypeAsString(m_ImageIO->GetComponentType())
+          << std::endl << " is not one of them."
+          << std::endl;
+      }
+    }
+  
   output->Allocate();
 
   // Test if the file exist and if it can be open.
@@ -390,10 +441,22 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
 // if the ImageIO pixel type is typeid(type) then use the ConvertPixelBuffer
 // class to convert the data block to TOutputImage's pixel type
 // see DefaultConvertPixelTraits and ConvertPixelBuffer
+
+ 
+// The first else if block applies only to images of type itk::VectorImage  
+// VectorImage needs to copy out the buffer differently.. The buffer is of
+// type InternalPixelType, but each pixel is really 'k' consecutive pixels.
+
 #define ITK_CONVERT_BUFFER_IF_BLOCK(type)               \
  else if( m_ImageIO->GetComponentTypeInfo() == typeid(type) )   \
-    {                                                   \
-    ConvertPixelBuffer<                                 \
+   {                                                   \
+   if( strcmp( this->GetOutput()->GetNameOfClass(), "VectorImage" ) == 0 ) \
+     { \
+     memcpy( outputData, inputData, numberOfPixels * m_ImageIO->GetNumberOfComponents() * sizeof( type ) ); \
+     } \
+   else \
+     { \
+     ConvertPixelBuffer<                                 \
       type,                                             \
       OutputImagePixelType,                             \
       ConvertPixelTraits                                \
@@ -403,6 +466,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
         m_ImageIO->GetNumberOfComponents(),             \
         outputData,                                     \
         numberOfPixels);                                \
+      } \
     }
   if(0)
     {

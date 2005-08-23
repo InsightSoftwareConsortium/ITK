@@ -23,6 +23,7 @@
 #include "itkImageIOFactory.h"
 #include "itkCommand.h"
 #include "vnl/vnl_vector.h"
+#include "itkVectorImage.h"
 
 namespace itk
 {
@@ -256,9 +257,62 @@ ImageFileWriter<TInputImage>
   // four components.
   typedef typename InputImageType::PixelType ScalarType;
 
-  // Set the pixel and component type; the number of components.
-  const int ret =  m_ImageIO->SetPixelTypeInfo(typeid(ScalarType));  
-  itkDebugMacro(<<" PixelType is supported: " << ret );
+  if( strcmp( input->GetNameOfClass(), "VectorImage" ) == 0 ) 
+    {
+    typedef typename InputImageType::InternalPixelType VectorImageScalarType;
+    m_ImageIO->SetPixelTypeInfo( typeid(VectorImageScalarType) );
+
+    // Since we need to set the vector length via a method available 
+    // only in VectorImage, we will resort to C style UNSAFE casts !
+
+#define ITK_WRITER_SET_VECTOR_LENGTH_IF_BLOCK(type) \
+      else if( typeid( const VectorImage<type> * ) == typeid(input) ) \
+      { \
+      std::cout << "foo" << std::endl; \
+      m_ImageIO->SetNumberOfComponents(((VectorImage< type > *) \
+                                   (( void* )input))->GetVectorLength()); \
+      }
+
+    if(0)
+      {
+      }
+    ITK_WRITER_SET_VECTOR_LENGTH_IF_BLOCK(unsigned char)
+    ITK_WRITER_SET_VECTOR_LENGTH_IF_BLOCK(char)
+    ITK_WRITER_SET_VECTOR_LENGTH_IF_BLOCK(unsigned short)
+    ITK_WRITER_SET_VECTOR_LENGTH_IF_BLOCK( short)
+    ITK_WRITER_SET_VECTOR_LENGTH_IF_BLOCK(unsigned int)
+    ITK_WRITER_SET_VECTOR_LENGTH_IF_BLOCK( int)
+    ITK_WRITER_SET_VECTOR_LENGTH_IF_BLOCK(unsigned long)
+    ITK_WRITER_SET_VECTOR_LENGTH_IF_BLOCK( long)
+    ITK_WRITER_SET_VECTOR_LENGTH_IF_BLOCK(float)
+    ITK_WRITER_SET_VECTOR_LENGTH_IF_BLOCK( double)
+    else
+      {
+      OStringStream msg;
+      msg <<"The VectorImage should contain blocks with InternalPixelType of: "
+          << std::endl << "    " << typeid(unsigned char).name()
+          << std::endl << "    " << typeid(char).name()
+          << std::endl << "    " << typeid(unsigned short).name()
+          << std::endl << "    " << typeid(short).name()
+          << std::endl << "    " << typeid(unsigned int).name()
+          << std::endl << "    " << typeid(int).name()
+          << std::endl << "    " << typeid(unsigned long).name()
+          << std::endl << "    " << typeid(long).name()
+          << std::endl << "    " << typeid(float).name()
+          << std::endl << "    " << typeid(double).name()
+          << std::endl << "    "
+          << m_ImageIO->GetComponentTypeAsString(m_ImageIO->GetComponentType())
+          << std::endl << " is not one of them."
+          << std::endl;
+      itkExceptionMacro( << msg.str().c_str() );
+      }
+    }
+  else
+    {
+    // Set the pixel and component type; the number of components.
+    const int ret =  m_ImageIO->SetPixelTypeInfo(typeid(ScalarType));  
+    itkDebugMacro(<<" PixelType is supported: " << ret );
+    }
 
   // Setup the image IO for writing.
   //
