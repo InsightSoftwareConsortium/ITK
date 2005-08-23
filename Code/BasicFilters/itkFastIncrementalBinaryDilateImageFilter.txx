@@ -140,7 +140,7 @@ FastIncrementalBinaryDilateImageFilter< TInputImage, TOutputImage, TKernel>
 
   for( i = kernelCenter + 1, k = kernelCenter - 1; i < kernelSize; ++i, --k )
     {
-    TKernel::PixelType px             = m_Kernel.GetBufferReference()[i];
+    typename TKernel::PixelType px    = m_Kernel.GetBufferReference()[i];
     m_Kernel.GetBufferReference()[i]  = m_Kernel.GetBufferReference()[k];
     m_Kernel.GetBufferReference()[k]  = px;
     }
@@ -179,8 +179,8 @@ FastIncrementalBinaryDilateImageFilter< TInputImage, TOutputImage, TKernel>
   // Detect all the connected components of the SE.
   // ----------------------------------------------
   // To do this we convert the SE into a temp image
-  typedef itk::Image< bool, TInputImage::ImageDimension > BoolImageType;
-  BoolImageType::Pointer tmpSEImage = BoolImageType::New();
+  typedef Image< bool, TInputImage::ImageDimension > BoolImageType;
+  typename BoolImageType::Pointer tmpSEImage = BoolImageType::New();
   tmpSEImage->SetRegions( m_Kernel.GetSize() );
                 
   // allocation
@@ -286,10 +286,10 @@ FastIncrementalBinaryDilateImageFilter< TInputImage, TOutputImage, TKernel>
 
   // Now look for difference sets
   // ----------------------------
-  // Create a neighbourhood of radius m_radius This neighbourhood is
+  // Create a neighbourhood of radius m_Radius This neighbourhood is
   // called adj neighbourhood and is used in order to get the offset
   // in each direction.
-  Neighborhood<TInputImage::PixelType, TInputImage::ImageDimension> adjNeigh;
+  Neighborhood<typename TInputImage::PixelType, TInputImage::ImageDimension> adjNeigh;
   adjNeigh.SetRadius(m_Radius);
 
   // now we look for the difference sets in each directions: If you
@@ -412,14 +412,14 @@ FastIncrementalBinaryDilateImageFilter< TInputImage, TOutputImage, TKernel>
   // Create a temp image for surface encoding
   // The temp image size is equal to the output requested region
   // padded by connectivity neighborhood radius.
-  typedef itk::Image< unsigned char, TInputImage::ImageDimension >
+  typedef Image< unsigned char, TInputImage::ImageDimension >
     TempImageType;
-  TempImageType::Pointer tmpImage = TempImageType::New();
+  typename TempImageType::Pointer tmpImage = TempImageType::New();
 
   // Retrieve output requested region
-  OutputImageType::RegionType outputRequestedRegion
+  typename OutputImageType::RegionType outputRequestedRegion
     = output->GetRequestedRegion();
-  TempImageType::RegionType tmpRequestedRegion = outputRequestedRegion;
+  typename TempImageType::RegionType tmpRequestedRegion = outputRequestedRegion;
                 
   // Pad the tmp requested region by the neighborhood of connectivity
   // We do not have to do tests in order to check region validity.  In
@@ -741,7 +741,7 @@ FastIncrementalBinaryDilateImageFilter< TInputImage, TOutputImage, TKernel>
   
   onit.OverrideBoundaryCondition(&obc);
   // Paint SE     --> "( BORDER(X) (+) B )"
-  for( BorderCellContainer::iterator it = borderContainer.begin();
+  for( typename BorderCellContainer::iterator it = borderContainer.begin();
        it != borderContainer.end(); ++it )
     {
     // Retrieve pixel index
@@ -776,7 +776,7 @@ FastIncrementalBinaryDilateImageFilter< TInputImage, TOutputImage, TKernel>
                 
   // Paint input image translated with respect to the SE CCs vectors
   // --> "( Xb0 UNION Xb1 UNION ... Xbn )"
-  std::vector< OffsetType >::const_iterator vecIt;
+  typename std::vector< OffsetType >::const_iterator vecIt;
 
   // iterator on input image
   ImageRegionConstIterator<InputImageType> inRegIt;
