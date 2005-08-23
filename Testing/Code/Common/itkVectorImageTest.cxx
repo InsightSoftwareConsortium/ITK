@@ -1,3 +1,4 @@
+#include <iostream>
 #include "itkArray.h"
 #include "itkImage.h"
 #include "itkVectorImage.h"
@@ -9,10 +10,20 @@
 #include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkConstNeighborhoodIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkImageFileWriter.h"
+#include "itkImageFileReader.h"
 
-int itkVectorImageTest( int, char* [] )
+
+// This test tests:
+// VectorImage, a few iterators on the image, 
+// Timing tests comparing it to similar images using FixedArray and Array
+// IO support.
+
+int itkVectorImageTest( int, char* argv[] )
 {
-
+  {
   // Test 1.
   //
   // Create an Image of Array, FixedArray, VectorImage of length 6 and compare
@@ -326,8 +337,145 @@ int itkVectorImageTest( int, char* [] )
     }
 
   }
+
+  }
+
+
+  // Test IO support.
+  const unsigned int VectorLength = 6;
+  const unsigned int Dimension    = 3;
+  typedef float PixelType;
+
+
+  {
+  // Create an image using itk::Vector
+  typedef itk::Vector< PixelType, VectorLength > VectorPixelType;
+  typedef itk::Image< itk::Vector< PixelType, VectorLength >, 
+                                      Dimension > VectorImageType;
+  VectorImageType::Pointer image = VectorImageType::New();
+  VectorImageType::IndexType start;
+  start[0]=0; start[1]=0; start[2]=0;
+  VectorImageType::SizeType size;
+  size[0]=5; size[1]=5; size[2]=5;
+  VectorImageType::RegionType region( start, size );
+  image->SetRegions( region );
+  image->Allocate();
+  
+  typedef itk::ImageRegionIteratorWithIndex< VectorImageType > IteratorType;
+  IteratorType it( image, region );
+  it.GoToBegin();
+
+  while( !it.IsAtEnd() )
+    {
+    VectorPixelType f;
+    f[0] = it.GetIndex()[0];
+    f[1] = it.GetIndex()[1];
+    f[2] = it.GetIndex()[2];
+    f[3] = it.GetIndex()[0];
+    f[4] = it.GetIndex()[1];
+    f[5] = it.GetIndex()[2];
+    it.Set( f );
+    ++it;
+    }
+
+  typedef itk::ImageFileWriter< VectorImageType > WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetInput( image );
+  writer->SetFileName( "Vector.mhd" );
+  writer->Update();
+
+  writer->SetFileName( "Vector.nrrd");
+  writer->Update();
+  }
+  
+  {
+  // Now read it as a itk::VectorImage.
+  typedef itk::VectorImage< PixelType, Dimension > VectorImageType;
+  typedef itk::ImageFileReader< VectorImageType, itk::DefaultConvertPixelTraits< PixelType > > ReaderType;
+  ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( "Vector.nrrd" );
+  reader->Update();
+
+  VectorImageType::Pointer vectorImage = reader->GetOutput();
+  
+  typedef itk::ImageRegionConstIteratorWithIndex< VectorImageType > IteratorType;
+  IteratorType cit( vectorImage, vectorImage->GetBufferedRegion() );
+  cit.GoToBegin();
+
+  bool failed = false;
+  while( !cit.IsAtEnd() )
+    {
+    if(   (cit.Get()[0] != cit.GetIndex()[0])
+       || (cit.Get()[1] != cit.GetIndex()[1])
+       || (cit.Get()[2] != cit.GetIndex()[2])
+       || (cit.Get()[3] != cit.GetIndex()[0])
+       || (cit.Get()[4] != cit.GetIndex()[1])
+       || (cit.Get()[5] != cit.GetIndex()[2]))
+      {
+      failed = true;
+      }
+    ++cit;
+    }
+
+  if( failed )
+    {
+    std::cout << "Read VectorImage [FAILED]" << std::endl;
+    }
+  else
+    {
+    std::cout << "Read VectorImage [PASSED]" << std::endl;
+    }
+
+  
+  // Now write this out this VectorImage and read it again
+  typedef itk::ImageFileWriter< VectorImageType > WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetInput( vectorImage );
+  writer->SetFileName(argv[1]);
+  writer->Update();
+  }
+  
+  
+  {
+  // Now read it as a itk::VectorImage.
+  typedef itk::VectorImage< PixelType, Dimension > VectorImageType;
+  typedef itk::ImageFileReader< VectorImageType, itk::DefaultConvertPixelTraits< PixelType > > ReaderType;
+  ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( argv[1] );
+  reader->Update();
+
+  VectorImageType::Pointer vectorImage = reader->GetOutput();
+  
+  typedef itk::ImageRegionConstIteratorWithIndex< VectorImageType > IteratorType;
+  IteratorType cit( vectorImage, vectorImage->GetBufferedRegion() );
+  cit.GoToBegin();
+
+  bool failed = false;
+  while( !cit.IsAtEnd() )
+    {
+    if(   (cit.Get()[0] != cit.GetIndex()[0])
+       || (cit.Get()[1] != cit.GetIndex()[1])
+       || (cit.Get()[2] != cit.GetIndex()[2])
+       || (cit.Get()[3] != cit.GetIndex()[0])
+       || (cit.Get()[4] != cit.GetIndex()[1])
+       || (cit.Get()[5] != cit.GetIndex()[2]))
+      {
+      failed = true;
+      }
+    ++cit;
+    }
+
+  if( failed )
+    {
+    std::cout << "Write VectorImage [FAILED]" << std::endl;
+    }
+  else
+    {
+    std::cout << "Write VectorImage [PASSED]" << std::endl;
+    }
+  }
   
   return EXIT_SUCCESS;
- }
+}
 
   
