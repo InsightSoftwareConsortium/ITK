@@ -57,7 +57,7 @@ int itkExtractImageTest(int, char* [] )
   if2->SetBufferedRegion( region );
   if2->Allocate();
   
-  DirectionType directions;
+  ShortImage::DirectionType directions;
     directions.SetIdentity();
     directions[0][0] = 0.0;
     directions[1][0] = 1.0;
