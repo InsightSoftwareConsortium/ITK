@@ -121,7 +121,8 @@ ReconstructionByDilationImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
   this->AllocateOutputs();
-  // Set up the progress reporter for init step of the algorithm (about 2/3 of total computation time)
+  // Set up the progress reporter for init step of the algorithm
+  // (about 2/3 of total computation time)
   ProgressReporter progress(this, 0, this->GetMarkerImage()->GetRequestedRegion().GetNumberOfPixels(), 67, 0, 0.67);
   
   // mask and marker must have the same size
@@ -144,7 +145,7 @@ ReconstructionByDilationImageFilter<TInputImage, TOutputImage>
   CopyOutputIterator cpOutIt( this->GetOutput(), this->GetOutput()->GetRequestedRegion() );
   
   // create map to store     pixel value -> [pos1, pos2 .. posn]
-  typedef std::set<IndexType, typename IndexType::LexicographicCompare> SetType;
+  typedef std::set<IndexType, ITK_TYPENAME IndexType::LexicographicCompare> SetType;
   typedef typename std::map <MarkerImagePixelType, SetType> PixelMapType;
   PixelMapType pixelMap;
   
@@ -165,8 +166,9 @@ ReconstructionByDilationImageFilter<TInputImage, TOutputImage>
     }
   // end of first part of the algorithm
   
-  // Set up the progress reporter for second step of the algorithm (about 1/3 of total computation time)
-  // we can't found the exact number of pixel to process, so use the maximum number possible.
+  // Set up the progress reporter for second step of the algorithm
+  // (about 1/3 of total computation time) we can't found the exact
+  // number of pixel to process, so use the maximum number possible.
   ProgressReporter progress2(this, 0, this->GetMarkerImage()->GetRequestedRegion().GetNumberOfPixels(), 33, 0.67, 0.33);
   
   // smallest value will never propagate, so we can remove it from map
@@ -231,8 +233,9 @@ ReconstructionByDilationImageFilter<TInputImage, TOutputImage>
     MarkerImagePixelType pixelValue = pixelMapIt->first;
     SetType* indexes = &(pixelMapIt->second);
     
-    // create list to store new indexes. We store new indexes in a list instead of the set where first 
-    // indexes are stored because indexes can be added before actual position in iterator
+    // create list to store new indexes. We store new indexes in a
+    // list instead of the set where first indexes are stored because
+    // indexes can be added before actual position in iterator
     typedef std::list<IndexType> ListType;
     ListType newIndexes;
     
@@ -247,18 +250,22 @@ ReconstructionByDilationImageFilter<TInputImage, TOutputImage>
       typename OutputIteratorType::Iterator noIt;
       for ( noIt = oIt.Begin(),  nmIt= mIt.Begin(); noIt != oIt.End() /*&& nmIt != mIt.End()*/; noIt++, nmIt++)
         {
-        // get index and value of current neighbor
-        IndexType nIdx = oIt.GetIndex() + noIt.GetNeighborhoodOffset();
+        // get value of current neighbor
         OutputImagePixelType nValue = noIt.Get();
-        // value in constrained by the mask so get the smallest value of mask and current pixel
-        OutputImagePixelType contrainedValue = std::min( static_cast<OutputImagePixelType>( pixelValue ), static_cast<OutputImagePixelType>( nmIt.Get() ) );
+        // value in constrained by the mask so get the smallest value
+        // of mask and current pixel
+        OutputImagePixelType contrainedValue = vnl_math_min( static_cast<OutputImagePixelType>( pixelValue ), static_cast<OutputImagePixelType>( nmIt.Get() ) );
         if ( nValue < contrainedValue )
           {
+          // get index of current neighbor
+          IndexType nIdx = oIt.GetIndex() + noIt.GetNeighborhoodOffset();
+          
           // set new neighbor value, and move his index at the good place
           noIt.Set( contrainedValue );
           if ( contrainedValue == pixelValue )
             {
-            // new value is the one we are using, so the index must be added in newIndexes
+            // new value is the one we are using, so the index must be
+            // added in newIndexes
             newIndexes.push_back( nIdx );
             }
           else
@@ -282,11 +289,11 @@ ReconstructionByDilationImageFilter<TInputImage, TOutputImage>
       typename OutputIteratorType::Iterator noIt;
       for ( noIt = oIt.Begin(),  nmIt= mIt.Begin(); noIt != oIt.End() /*&& nmIt != mIt.End()*/; noIt++, nmIt++)
         {
-        IndexType nIdx = oIt.GetIndex() + noIt.GetNeighborhoodOffset();
         OutputImagePixelType nValue = noIt.Get();
-        OutputImagePixelType contrainedValue = std::min( static_cast<OutputImagePixelType>( pixelValue ), static_cast<OutputImagePixelType>( nmIt.Get() ) );
+        OutputImagePixelType contrainedValue = vnl_math_min( static_cast<OutputImagePixelType>( pixelValue ), static_cast<OutputImagePixelType>( nmIt.Get() ) );
         if ( nValue < contrainedValue )
           {
+          IndexType nIdx = oIt.GetIndex() + noIt.GetNeighborhoodOffset();
           noIt.Set( contrainedValue );
           if ( contrainedValue == pixelValue )
             {

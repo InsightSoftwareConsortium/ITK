@@ -144,7 +144,7 @@ ReconstructionByErosionImageFilter<TInputImage, TOutputImage>
   CopyOutputIterator cpOutIt( this->GetOutput(), this->GetOutput()->GetRequestedRegion() );
   
   // create map to store     pixel value -> [pos1, pos2 .. posn]
-  typedef std::set<IndexType, typename IndexType::LexicographicCompare> SetType;
+  typedef std::set<IndexType, ITK_TYPENAME IndexType::LexicographicCompare> SetType;
   typedef typename std::map <MarkerImagePixelType, SetType> PixelMapType;
   PixelMapType pixelMap;
   
@@ -247,14 +247,15 @@ ReconstructionByErosionImageFilter<TInputImage, TOutputImage>
       typename OutputIteratorType::Iterator noIt;
       for ( noIt = oIt.Begin(),  nmIt= mIt.Begin(); noIt != oIt.End() /*&& nmIt != mIt.End()*/; noIt++, nmIt++)
         {
-        // get index and value of current neighbor
-        IndexType nIdx = oIt.GetIndex() + noIt.GetNeighborhoodOffset();
-        OutputImagePixelType nValue = noIt.Get();
+        // get value of current neighbor
+         OutputImagePixelType nValue = noIt.Get();
         // value in constrained by the mask so get the smallest value of mask and current pixel
-        OutputImagePixelType contrainedValue = std::max( static_cast<OutputImagePixelType>( pixelValue ), static_cast<OutputImagePixelType>( nmIt.Get() ) );
+        OutputImagePixelType contrainedValue = vnl_math_max( static_cast<OutputImagePixelType>( pixelValue ), static_cast<OutputImagePixelType>( nmIt.Get() ) );
         if ( nValue > contrainedValue )
           {
-          // set new neighbor value, and move his index at the good place
+          // get index of current neighbor
+          IndexType nIdx = oIt.GetIndex() + noIt.GetNeighborhoodOffset();
+         // set new neighbor value, and move his index at the good place
           noIt.Set( contrainedValue );
           if ( contrainedValue == pixelValue )
             {
@@ -282,11 +283,11 @@ ReconstructionByErosionImageFilter<TInputImage, TOutputImage>
       typename OutputIteratorType::Iterator noIt;
       for ( noIt = oIt.Begin(),  nmIt= mIt.Begin(); noIt != oIt.End() /*&& nmIt != mIt.End()*/; noIt++, nmIt++)
         {
-        IndexType nIdx = oIt.GetIndex() + noIt.GetNeighborhoodOffset();
         OutputImagePixelType nValue = noIt.Get();
-        OutputImagePixelType contrainedValue = std::max( static_cast<OutputImagePixelType>( pixelValue ), static_cast<OutputImagePixelType>( nmIt.Get() ) );
+        OutputImagePixelType contrainedValue = vnl_math_max( static_cast<OutputImagePixelType>( pixelValue ), static_cast<OutputImagePixelType>( nmIt.Get() ) );
         if ( nValue > contrainedValue )
           {
+          IndexType nIdx = oIt.GetIndex() + noIt.GetNeighborhoodOffset();
           noIt.Set( contrainedValue );
           if ( contrainedValue == pixelValue )
             {
