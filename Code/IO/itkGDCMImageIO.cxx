@@ -371,11 +371,11 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   dicomOrigin[0] = header.GetXOrigin();
   dicomOrigin[1] = header.GetYOrigin();
   dicomOrigin[2] = header.GetZOrigin();
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int ii = 0; ii < 3; ii++)
     {
-    dicomDirection[0][i] = rowDirection[i];
-    dicomDirection[1][i] = columnDirection[i];
-    dicomDirection[2][i] = sliceDirection[i];
+    dicomDirection[0][ii] = rowDirection[ii];
+    dicomDirection[1][ii] = columnDirection[ii];
+    dicomDirection[2][ii] = sliceDirection[ii];
     }
   itkOrigin = dicomDirection * dicomOrigin;
   m_Origin[0] = itkOrigin[0];
