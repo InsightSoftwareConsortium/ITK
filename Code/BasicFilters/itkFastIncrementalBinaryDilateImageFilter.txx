@@ -150,7 +150,7 @@ FastIncrementalBinaryDilateImageFilter< TInputImage, TOutputImage, TKernel>
   // of SE Kernel
   KernelIteratorType KernelBegin  = m_Kernel.Begin();
   KernelIteratorType KernelEnd    = m_Kernel.End();
-  KernelIteratorType kernel_it    = KernelBegin;
+  KernelIteratorType kernel_it;
   m_KernelOnElements.clear();
                 
   for ( i=0, kernel_it=KernelBegin; kernel_it != KernelEnd; ++kernel_it, ++i)
@@ -513,7 +513,6 @@ FastIncrementalBinaryDilateImageFilter< TInputImage, TOutputImage, TKernel>
   
   unsigned int neighborhoodSize       = oNeighbIt.Size();
   unsigned int centerPixelCode        = neighborhoodSize / 2;
-  unsigned int centerNeighbIndex      = centerPixelCode;
   
   std::queue<IndexType> propagQueue;
   BorderCellContainer borderContainer;
@@ -605,7 +604,7 @@ FastIncrementalBinaryDilateImageFilter< TInputImage, TOutputImage, TKernel>
             // backgroundTag thanks to boundary conditions. That means that if
             // we enter in the next if-statement we are sure that the
             // current neighbour pixel is in the image
-            if( nit.GetPixel( i ) == onTag  /*&& i!= centerNeighbIndex*/ )
+            if( nit.GetPixel( i ) == onTag )
               {
               // Check if it is an inner or border neighbour pixel
               // Get index of current neighbour pixel
