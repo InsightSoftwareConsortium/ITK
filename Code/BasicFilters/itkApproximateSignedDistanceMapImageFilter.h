@@ -120,8 +120,11 @@ protected:
   
 
 private:
-  typedef itk::IsoContourDistanceImageFilter<InputImageType, OutputImageType> IsoContourType;
-  typedef itk::FastChamferDistanceImageFilter<OutputImageType, OutputImageType> ChamferType;
+  ApproximateSignedDistanceMapImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
+  typedef IsoContourDistanceImageFilter<InputImageType, OutputImageType> IsoContourType;
+  typedef FastChamferDistanceImageFilter<OutputImageType, OutputImageType> ChamferType;
   typename IsoContourType::Pointer m_IsoContourFilter;
   typename ChamferType::Pointer m_ChamferFilter;
   
