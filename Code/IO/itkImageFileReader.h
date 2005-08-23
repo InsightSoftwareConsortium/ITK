@@ -106,7 +106,7 @@ public:
   typedef typename TOutputImage::RegionType  ImageRegionType;
 
   /** The pixel type of the output image. */
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
+  typedef typename TOutputImage::InternalPixelType OutputImagePixelType;
   
   /** Specify the file to read. This is forwarded to the IO instance. */
   itkSetStringMacro(FileName);
