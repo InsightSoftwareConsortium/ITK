@@ -26,6 +26,7 @@
 
 void RegisterTests()
 {
+  REGISTER_TEST(itkApproximateSignedDistanceMapImageFilterTest );
   REGISTER_TEST(itkCheckerBoardImageFilterTest );
   REGISTER_TEST(itkHessianRecursiveGaussianFilterTest );
   REGISTER_TEST(itkSymmetricEigenAnalysisImageFilterTest );

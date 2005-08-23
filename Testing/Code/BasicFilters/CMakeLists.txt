@@ -29,6 +29,7 @@ ADD_TEST(itkAdaptImageFilterTest ${BASIC_FILTERS_TESTS} itkAdaptImageFilterTest)
 ADD_TEST(itkAdaptImageFilterTest2 ${BASIC_FILTERS_TESTS} itkAdaptImageFilterTest2)
 ADD_TEST(itkAddImageFilterTest ${BASIC_FILTERS_TESTS} itkAddImageFilterTest)
 ADD_TEST(itkAndImageFilterTest ${BASIC_FILTERS_TESTS} itkAndImageFilterTest)
+ADD_TEST(itkApproximateSignedDistanceMapImageFilterTest ${BASIC_FILTERS_TESTS3} itkApproximateSignedDistanceMapImageFilterTest)
 ADD_TEST(itkAsinImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAsinImageFilterAndAdaptorTest)
 ADD_TEST(itkAtanImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAtanImageFilterAndAdaptorTest)
 ADD_TEST(itkBSplineDecompositionImageFilterTest ${BASIC_FILTERS_TESTS} itkBSplineDecompositionImageFilterTest)
@@ -758,6 +759,7 @@ itkTwoOutputExampleImageFilterTest.cxx
 )
 
 SET(BasicFilters3_SRCS
+itkApproximateSignedDistanceMapImageFilterTest.cxx
 itkCheckerBoardImageFilterTest.cxx
 itkHessianRecursiveGaussianFilterTest.cxx
 itkPolylineMaskImageFilterTest.cxx
