@@ -17,7 +17,7 @@
 #ifndef __itkVectorImage_h
 #define __itkVectorImage_h
 
-#include "itkImageBase.h"
+#include "itkImage.h"
 #include "itkImageRegion.h"
 #include "itkImportImageContainer.h"
 #include "itkDefaultVectorPixelAccessor.h"

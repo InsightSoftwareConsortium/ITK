@@ -18,6 +18,8 @@
 #define __itkDefaultVectorPixelAccessor_h
 
 #include "itkMacro.h"
+#include "itkArray.h"
+
 namespace itk
 {
 
