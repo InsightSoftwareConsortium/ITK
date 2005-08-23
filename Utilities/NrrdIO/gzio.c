@@ -585,7 +585,7 @@ _nrrdGzDestroy(_NrrdGzStream *s) {
   }
   s->inbuf = (Byte *)airFree(s->inbuf);
   s->outbuf = (Byte *)airFree(s->outbuf);
-  s = (_NrrdGzStream *)airFree(s);
+  airFree(s);
   return error != Z_OK;
 }
 
