@@ -130,7 +130,7 @@ RegionOfInterestImageFilter<TInputImage,TOutputImage>
   // Correct origin of the extracted region.
   IndexType roiStart( m_RegionOfInterest.GetIndex() );
   typename Superclass::OutputImageType::PointType  outputOrigin;
-  typedef Image< typename TInputImage::PixelType,
+  typedef Image< ITK_TYPENAME TInputImage::PixelType,
     Superclass::InputImageDimension > ImageType;
   typename ImageType::ConstPointer imagePtr =
     dynamic_cast< const ImageType * >( inputPtr.GetPointer() );
