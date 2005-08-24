@@ -42,7 +42,8 @@ int itkStimulateImageIOTest2( int argc, char* argv[] )
   itk::ImageFileReader<myImage>::Pointer reader 
                                   = itk::ImageFileReader<myImage>::New();
   
-  reader->SetFileName(argv[1]);
+  std::cout << "Filename: " << argv[1] << std::endl;
+ reader->SetFileName(argv[1]);
   reader->SetImageIO(io);
   try
     {
@@ -63,7 +64,7 @@ int itkStimulateImageIOTest2( int argc, char* argv[] )
   std::cout << "region " << region;
 
   // This is where we call all of the Get Functions to increase coverage.
-  std::cerr << "Display Range " << io->GetDisplayRange() << std::endl;
+  std::cout << "Display Range " << io->GetDisplayRange() << std::endl;
 
 
   return EXIT_SUCCESS;
