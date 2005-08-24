@@ -18,6 +18,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+// some compilers have trouble with the size of this test
+#define ITK_LEAN_AND_MEAN
+
 #include <iostream>
 #include "itkTestMain.h" 
 
