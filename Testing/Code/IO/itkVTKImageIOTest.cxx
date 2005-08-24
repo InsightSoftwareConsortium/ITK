@@ -18,11 +18,15 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkRandomImageSource.h"
+#ifdef __BORLANDC__
+#define ITK_LEAN_AND_MEAN
+#endif
+
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
-#include "itkVTKImageIO.h"
 #include "itkNumericTraits.h"
+#include "itkVTKImageIO.h"
+#include "itkRandomImageSource.h"
 
 template<class TScalar, unsigned int TDimension>
 int ReadWrite(TScalar low, TScalar hi, char *file1, char *file2, bool ascii)
