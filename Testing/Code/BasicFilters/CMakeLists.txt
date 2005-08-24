@@ -249,6 +249,11 @@ ADD_TEST(itkAdaptiveHistogramEqualizationImageFilterTest ${BASIC_FILTERS_TESTS}
             ${ITK_DATA_ROOT}/Input/sf4.png
             ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest.png 10 0.5 0.5)
 
+ADD_TEST(itkAccumulateImageFilterTest ${BASIC_FILTERS_TESTS3} 
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AccumulateImageFilterTest.png
+             ${ITK_TEST_OUTPUT_DIR}/AccumulateImageFilterTest.png
+             itkAccumulateImageFilterTest ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR}/AccumulateImageFilterTest.png)
+
 ADD_TEST(itkAdaptiveHistogramEqualizationImageFilterTest2 ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AdaptiveHistogramEqualizationImageFilterTest2.png
             ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest2.png
@@ -759,6 +764,7 @@ itkTwoOutputExampleImageFilterTest.cxx
 )
 
 SET(BasicFilters3_SRCS
+itkAccumulateImageFilterTest.cxx
 itkApproximateSignedDistanceMapImageFilterTest.cxx
 itkCheckerBoardImageFilterTest.cxx
 itkHessianRecursiveGaussianFilterTest.cxx
