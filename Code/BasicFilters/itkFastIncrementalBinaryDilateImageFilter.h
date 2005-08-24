@@ -152,11 +152,14 @@ public:
       (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
                               itkGetStaticConstMacro(OutputImageDimension)>));
 
+// Cannot get this to work with gcc compiler
+#if 0
   /** Input and structuring element must be the same dimnesion. */
   itkConceptMacro(KernelDimensionCheck,
-      (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
-                              itkGetStaticConstMacro(KernelDimension)>));
-  
+      (Concept::SameDimension<itkGetStaticConstMacro(KernelDimension),
+                              itkGetStaticConstMacro(InputImageDimension)>));
+#endif
+
   /** Set kernel (structuring element).*/
   void SetKernel( const KernelType& kernel );
 
