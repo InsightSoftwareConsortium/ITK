@@ -46,7 +46,7 @@ int itkSampleClassifierWithMaskTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  unsigned int j ;
+  unsigned int i, j ;
   char* dataFileName = argv[1] ;
   int dataSize = 2000 ;
 
@@ -66,7 +66,7 @@ int itkSampleClassifierWithMaskTest(int argc, char* argv[] )
   std::ifstream dataStream(dataFileName) ;
   while (p_iter != pointsContainer->End())
     {
-    for ( unsigned i = 0 ; i < PointSetType::PointDimension ; i++)
+    for ( i = 0 ; i < PointSetType::PointDimension ; i++)
       {
       dataStream >> temp ;
       point[i] = temp ;
@@ -94,19 +94,19 @@ int itkSampleClassifierWithMaskTest(int argc, char* argv[] )
 
   ClassMaskVectorType m ;
   m[0] = 0 ;
-  for ( unsigned int i = 0 ; i < 200 ; ++i )
+  for ( i = 0 ; i < 200 ; ++i )
     {
     mask->PushBack( m ) ;
     }
   
   m[0] = 1 ;
-  for ( unsigned int i = 200 ; i < 1000 ; ++i )
+  for ( i = 200 ; i < 1000 ; ++i )
     {
     mask->PushBack( m ) ;
     }
 
   m[0] = 2 ;
-  for ( unsigned int i = 1000 ; i < 2000 ; ++i )
+  for ( i = 1000 ; i < 2000 ; ++i )
     {
     mask->PushBack( m ) ;
     }
@@ -145,7 +145,7 @@ int itkSampleClassifierWithMaskTest(int argc, char* argv[] )
   
   std::vector< MembershipFunctionType::Pointer > membershipFunctions ;
   std::vector< unsigned int > classLabels ;
-  for ( unsigned i = 0 ; i < numberOfClasses ; i++ ) 
+  for ( i = 0 ; i < numberOfClasses ; i++ ) 
     {
     membershipFunctions.push_back(MembershipFunctionType::New()) ;
     classLabels.push_back(i + 1) ;

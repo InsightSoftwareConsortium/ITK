@@ -49,7 +49,8 @@ ADD_EXECUTABLE(OtsuThresholdImageFilter OtsuThresholdImageFilter.cxx )
 TARGET_LINK_LIBRARIES(OtsuThresholdImageFilter ITKCommon ITKIO)
 
 ADD_EXECUTABLE(OtsuMultipleThresholdImageFilter OtsuMultipleThresholdImageFilter.cxx )
-TARGET_LINK_LIBRARIES(OtsuMultipleThresholdImageFilter ITKCommon ITKIO)
+TARGET_LINK_LIBRARIES(OtsuMultipleThresholdImageFilter
+                      ITKCommon ITKIO ITKStatistics)
 
 ADD_EXECUTABLE(ThresholdImageFilter ThresholdImageFilter.cxx )
 TARGET_LINK_LIBRARIES(ThresholdImageFilter ITKCommon ITKIO)
@@ -879,7 +880,8 @@ ADD_EXECUTABLE(FilteringExamples4 FilteringExamples4.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples4 ITKIO ITKBasicFilters ITKCommon)
 
 ADD_EXECUTABLE(FilteringExamples5 FilteringExamples5.cxx)
-TARGET_LINK_LIBRARIES(FilteringExamples5 ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(FilteringExamples5 ITKIO ITKBasicFilters ITKCommon
+                      ITKStatistics)
 
 ADD_EXECUTABLE(FilteringExamples7 FilteringExamples7.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples7 ITKIO ITKBasicFilters ITKCommon)

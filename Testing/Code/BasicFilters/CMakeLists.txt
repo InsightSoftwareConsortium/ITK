@@ -797,7 +797,7 @@ TARGET_LINK_LIBRARIES(itkBasicFiltersHeaderTest ITKIO ITKNumerics ITKBasicFilter
 ADD_EXECUTABLE(itkBasicFiltersTests itkBasicFiltersTests.cxx ${BasicFilters_SRCS})
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests ITKIO ITKNumerics ITKBasicFilters)
 ADD_EXECUTABLE(itkBasicFiltersTests1 itkBasicFiltersTests1.cxx ${BasicFilters1_SRCS})
-TARGET_LINK_LIBRARIES(itkBasicFiltersTests1 ITKIO ITKNumerics ITKBasicFilters)
+TARGET_LINK_LIBRARIES(itkBasicFiltersTests1 ITKIO ITKNumerics ITKBasicFilters ITKStatistics)
 ADD_EXECUTABLE(itkBasicFiltersTests2 itkBasicFiltersTests2.cxx ${BasicFilters2_SRCS})
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests2 ITKIO ITKNumerics ITKBasicFilters)
 ADD_EXECUTABLE(itkBasicFiltersTests3 itkBasicFiltersTests3.cxx ${BasicFilters3_SRCS})

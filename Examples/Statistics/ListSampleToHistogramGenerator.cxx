@@ -111,7 +111,7 @@ int main()
   typedef float HistogramMeasurementType;
   typedef itk::Statistics::ListSampleToHistogramGenerator< ListSampleType, 
           HistogramMeasurementType, 
-          itk::Statistics::DenseFrequencyContainer< float >,
+          itk::Statistics::DenseFrequencyContainer,
           MeasurementVectorLength >             GeneratorType;
   GeneratorType::Pointer generator = GeneratorType::New();
 

@@ -65,7 +65,7 @@ public:
   typedef typename ImageType::PixelType                   PixelType;
   typedef typename PixelType::ValueType                   ValueType;
   typedef typename NumericTraits< ValueType >::RealType   ValueRealType;
-  typedef DenseFrequencyContainer< float >                FrequencyContainerType;
+  typedef DenseFrequencyContainer                         FrequencyContainerType;
 
   typedef ListSampleToHistogramGenerator< 
                          AdaptorType, 

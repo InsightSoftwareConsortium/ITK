@@ -36,7 +36,6 @@ namespace Statistics{
  * \sa Histogram, SparseFrequencyContainer
  */
     
-template< class TFrequencyValue = float >
 class ITK_EXPORT DenseFrequencyContainer 
   : public Object
 {
@@ -57,12 +56,12 @@ public:
   typedef unsigned long InstanceIdentifier ;
 
   /** Frequency type alias */
-  typedef TFrequencyValue FrequencyType ;
+  typedef float FrequencyType ;
 
   /** Internal storage class typedefs */
   typedef ValarrayImageContainer< InstanceIdentifier, FrequencyType > 
   FrequencyContainerType ;
-  typedef typename FrequencyContainerType::Pointer FrequencyContainerPointer ;
+  typedef FrequencyContainerType::Pointer FrequencyContainerPointer ;
 
   /** Calls the Initialize method of superclass to generate the offset table
    * and prepare the frequency container */
@@ -106,10 +105,6 @@ private:
 
 } // end of namespace Statistics
 } // end of namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATIONy
-#include "itkDenseFrequencyContainer.txx"
-#endif
 
 #endif
 

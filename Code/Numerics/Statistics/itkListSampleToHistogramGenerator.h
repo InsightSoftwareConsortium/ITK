@@ -65,7 +65,7 @@ namespace Statistics{
  */
 template< class TListSample, 
           class THistogramMeasurement,  
-          class TFrequencyContainer = DenseFrequencyContainer< float >, 
+          class TFrequencyContainer = DenseFrequencyContainer, 
           unsigned int TMeasurementVectorLength = 1 >
 class ITK_EXPORT ListSampleToHistogramGenerator :
     public Object

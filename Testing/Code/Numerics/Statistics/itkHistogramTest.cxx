@@ -19,16 +19,18 @@
 #endif
 #include "itkHistogram.h"
 
+#include "itkDenseFrequencyContainer.h"
+
 int itkHistogramTest(int, char* [] ) 
 {
   std::cout << "Histogram Test \n \n"; 
   bool pass = true;
   std::string whereFail = "" ;
   
-  typedef float MeasurementType ;
+  typedef unsigned int MeasurementType ;
 
   // creats a histogram with 3 components measurement vectors
-  typedef itk::Statistics::Histogram< MeasurementType, 3 > HistogramType ;
+  typedef itk::Statistics::Histogram< MeasurementType, 3, itk::Statistics::DenseFrequencyContainer > HistogramType ;
   HistogramType::Pointer histogram = HistogramType::New() ;
 
   // initializes a 64 x 64 x 64 histogram with equal size interval
@@ -37,17 +39,17 @@ int itkHistogramTest(int, char* [] )
   unsigned long totalSize = size[0] * size[1] * size[2] ;
   HistogramType::MeasurementVectorType lowerBound ;
   HistogramType::MeasurementVectorType upperBound ;
-  lowerBound.Fill(0.0) ;
-  upperBound.Fill(1024.0) ;
+  lowerBound.Fill(0) ;
+  upperBound.Fill(1024) ;
   histogram->Initialize(size, lowerBound, upperBound ) ;
   histogram->SetToZero();
-  HistogramType::MeasurementType interval = 
+  double interval = 
     (upperBound[0] - lowerBound[0]) / 
     static_cast< HistogramType::MeasurementType >(size[0]) ;
 
   // tests begin
   HistogramType::MeasurementVectorType measurements ;
-  measurements.Fill(512.0) ;
+  measurements.Fill(512) ;
   HistogramType::IndexType index ;
   HistogramType::IndexType ind;
   index.Fill(32) ;
@@ -134,7 +136,7 @@ int itkHistogramTest(int, char* [] )
 
   // Histogram with SparseFrequencyContainer
   typedef itk::Statistics::Histogram< MeasurementType, 3, 
-    itk::Statistics::SparseFrequencyContainer< float > > SparseHistogramType ;
+    itk::Statistics::SparseFrequencyContainer > SparseHistogramType ;
   SparseHistogramType::Pointer sparseHistogram = SparseHistogramType::New() ;
 
   // initializes a 64 x 64 x 64 histogram with equal size interval
@@ -143,7 +145,7 @@ int itkHistogramTest(int, char* [] )
   interval = (upperBound[0] - lowerBound[0]) / 
     static_cast< SparseHistogramType::MeasurementType >(size[0]) ;
 
-  measurements.Fill(512.0) ;
+  measurements.Fill(512) ;
   index.Fill(32);
   sparseHistogram->GetIndex(measurements,ind);
 

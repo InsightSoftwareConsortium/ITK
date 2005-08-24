@@ -81,8 +81,8 @@ int itkStatisticsPrintTest(int , char* [])
     itk::Statistics::CovarianceCalculator< SampleType >::New();
   std::cout << "----------CovarianceCalculator " << CovarianceCalculatorObj;
 
-  itk::Statistics::DenseFrequencyContainer< FrequencyType >::Pointer DenseFrequencyContainerObj=
-    itk::Statistics::DenseFrequencyContainer< FrequencyType >::New();
+  itk::Statistics::DenseFrequencyContainer::Pointer DenseFrequencyContainerObj=
+    itk::Statistics::DenseFrequencyContainer::New();
   std::cout << "----------DenseFrequencyContainer " << DenseFrequencyContainerObj;
 
   itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >::Pointer
@@ -228,8 +228,8 @@ int itkStatisticsPrintTest(int , char* [])
     itk::Statistics::SelectiveSubsampleGenerator< SampleType, SampleType >::New();
   std::cout << "----------SelectiveSubsampleGenerator " << SelectiveSubsampleGeneratorObj;
 
-  itk::Statistics::SparseFrequencyContainer< FrequencyType >::Pointer SparseFrequencyContainerObj=
-    itk::Statistics::SparseFrequencyContainer< FrequencyType >::New();
+  itk::Statistics::SparseFrequencyContainer::Pointer SparseFrequencyContainerObj=
+    itk::Statistics::SparseFrequencyContainer::New();
   std::cout << "----------SparseFrequencyContainer " << SparseFrequencyContainerObj;
 
   itk::Statistics::Subsample< SampleType >::Pointer SubsampleObj=

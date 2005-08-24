@@ -31,8 +31,8 @@ int itkDenseFrequencyContainerTest(int, char* [] )
 
   const FrequencyType tolerance = 1e-6;
 
-  typedef  itk::Statistics::DenseFrequencyContainer< FrequencyType
-                                                     >   DenseFrequencyContainerType;
+  typedef  itk::Statistics::DenseFrequencyContainer   
+                                            DenseFrequencyContainerType;
 
 
   DenseFrequencyContainerType::Pointer container =

@@ -32,7 +32,6 @@ namespace itk{
  * (InstanceIdentifier)index or measurement vector.
  */
     
-template< class TFrequencyValue = float >
 class ITK_EXPORT SparseFrequencyContainer : public Object
 {
 public:
@@ -50,14 +49,12 @@ public:
   typedef unsigned long InstanceIdentifier ;
 
   /** frequency type alias */
-  typedef TFrequencyValue FrequencyType ;
+  typedef float FrequencyType ;
 
   /** Histogram typedef support */
-  typedef std::map< InstanceIdentifier, FrequencyType > 
-  FrequencyContainerType ;  
-
-  typedef typename FrequencyContainerType::const_iterator 
-  FrequencyContainerConstIterator ;   
+  typedef std::map< InstanceIdentifier, FrequencyType > FrequencyContainerType ;  
+  typedef FrequencyContainerType::const_iterator 
+          FrequencyContainerConstIterator ;   
 
   /** prepares the frequency container */
   void Initialize(unsigned long length) ;
@@ -98,9 +95,5 @@ private:
 
   } // end of namespace Statistics
 } // end of namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSparseFrequencyContainer.txx"
-#endif
 
 #endif

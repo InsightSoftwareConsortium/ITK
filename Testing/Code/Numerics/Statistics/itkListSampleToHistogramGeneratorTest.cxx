@@ -50,7 +50,7 @@ int itkListSampleToHistogramGeneratorTest(int, char* [] )
 
   typedef float HistogramMeasurementType ;
   typedef itk::Statistics::ListSampleToHistogramGenerator< ListSampleType, 
-            HistogramMeasurementType, itk::Statistics::DenseFrequencyContainer< float >, 
+            HistogramMeasurementType, itk::Statistics::DenseFrequencyContainer, 
             MeasurementVectorLength  > GeneratorType;
   GeneratorType::Pointer generator = GeneratorType::New() ;
 

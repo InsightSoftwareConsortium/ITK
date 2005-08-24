@@ -323,7 +323,8 @@ TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest3 ITKAlgorithms ITKIO
                                               ITKBasicFilters ITKFEM)
 ADD_EXECUTABLE(itkAlgorithmsPrintTest4 itkAlgorithmsPrintTest4.cxx)
 TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest4 ITKAlgorithms ITKIO 
-                                              ITKBasicFilters ITKFEM)
+                                              ITKBasicFilters ITKFEM
+                                              ITKStatistics)
 
 ADD_EXECUTABLE(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkAlgorithmsHeaderTest ITKAlgorithms ITKIO 

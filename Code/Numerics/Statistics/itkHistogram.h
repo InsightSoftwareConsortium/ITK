@@ -78,7 +78,7 @@ struct GetHistogramDimension
  */
 
 template < class TMeasurement = float, unsigned int VMeasurementVectorSize = 1,
-           class TFrequencyContainer = DenseFrequencyContainer< float > > 
+           class TFrequencyContainer = DenseFrequencyContainer > 
 class ITK_EXPORT Histogram 
   : public Sample < FixedArray< TMeasurement, VMeasurementVectorSize > >
 {

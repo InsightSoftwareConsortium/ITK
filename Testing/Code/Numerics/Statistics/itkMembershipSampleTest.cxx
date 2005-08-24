@@ -81,13 +81,13 @@ int itkMembershipSampleTest(int, char* [] )
       whereFail = "GetNumberOfClasses()" ;
     }
 
-  for (ImageToListAdaptorType::InstanceIdentifier id = 0 ; 
-       id < static_cast< ImageToListAdaptorType::InstanceIdentifier >
+  for (ImageToListAdaptorType::InstanceIdentifier iid = 0 ; 
+       iid < static_cast< ImageToListAdaptorType::InstanceIdentifier >
          (sample->Size()) ;
-       id++)
+       iid++)
     {
-      membershipSample->AddInstance( id % numberOfClasses, id) ;
-      if (membershipSample->GetClassLabel(id) != (id % numberOfClasses))
+      membershipSample->AddInstance( iid % numberOfClasses, iid) ;
+      if (membershipSample->GetClassLabel(iid) != (iid % numberOfClasses))
         {
           pass = false ;
           whereFail = "AddInstance + GetClassLabel" ;
@@ -113,11 +113,11 @@ int itkMembershipSampleTest(int, char* [] )
   ArrayPixelImageType::IndexType index ;
   index.Fill(2) ;// index {2, 2, 2} = instance identifier (offset from image) 
   ArrayPixelImageType::PixelType pixel = sample->GetImage()->GetPixel(index) ;
-  ImageToListAdaptorType::InstanceIdentifier ind = 
+  ImageToListAdaptorType::InstanceIdentifier id = 
     static_cast< FloatImage::OffsetValueType >(sample->GetImage()
                                                ->ComputeOffset(index)) ;
 
-  if (pixel[0] != membershipSample->GetMeasurementVector(ind)[0])
+  if (pixel[0] != membershipSample->GetMeasurementVector(id)[0])
     {
       pass = false ;
       whereFail = "GetMeasurementVector()" ;

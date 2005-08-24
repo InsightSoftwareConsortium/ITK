@@ -103,8 +103,8 @@ namespace Statistics {
  * Author: Zachary Pincus
  */
     
-template< class TImageType, class THistogramFrequencyContainer = 
-  DenseFrequencyContainer< float > >
+template< class TImageType,
+          class THistogramFrequencyContainer = DenseFrequencyContainer >
 class ScalarImageTextureCalculator : public Object
 {
 public:

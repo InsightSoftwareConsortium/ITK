@@ -89,7 +89,8 @@ IF( USE_FFTW )
   TARGET_LINK_LIBRARIES(DeformableRegistration9 ITKCommon ITKNumerics ITKIO ${FFTW_LIB})
 
   ADD_EXECUTABLE(DeformableRegistration10 DeformableRegistration10.cxx )
-  TARGET_LINK_LIBRARIES(DeformableRegistration10 ITKCommon ITKNumerics ITKIO ${FFTW_LIB})
+  TARGET_LINK_LIBRARIES(DeformableRegistration10 
+                        ITKCommon ITKNumerics ITKIO ${FFTW_LIB} ITKStatistics)
 
 ENDIF( USE_FFTW )
 
@@ -105,16 +106,17 @@ ADD_EXECUTABLE(MultiResImageRegistration2 MultiResImageRegistration2.cxx )
 TARGET_LINK_LIBRARIES(MultiResImageRegistration2 ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(DeformableRegistration1 DeformableRegistration1.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration1 ITKNumerics ITKFEM ITKIO)
+TARGET_LINK_LIBRARIES(DeformableRegistration1 ITKNumerics ITKFEM ITKIO
+                                              ITKStatistics)
 
 ADD_EXECUTABLE(DeformableRegistration2 DeformableRegistration2.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration2 ITKNumerics ITKIO)
+TARGET_LINK_LIBRARIES(DeformableRegistration2 ITKNumerics ITKIO ITKStatistics)
 
 ADD_EXECUTABLE(DeformableRegistration3 DeformableRegistration3.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration3 ITKNumerics ITKIO)
+TARGET_LINK_LIBRARIES(DeformableRegistration3 ITKNumerics ITKIO ITKStatistics)
 
 ADD_EXECUTABLE(DeformableRegistration5 DeformableRegistration5.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration5 ITKNumerics ITKIO)
+TARGET_LINK_LIBRARIES(DeformableRegistration5 ITKNumerics ITKIO ITKStatistics)
 
 ADD_EXECUTABLE(DeformationFieldInitialization DeformationFieldInitialization.cxx )
 TARGET_LINK_LIBRARIES(DeformationFieldInitialization ITKNumerics ITKIO)
@@ -303,7 +305,8 @@ ADD_TEST(ImageRegistration10Test ${REGISTRATION_EXAMPLES8}
 IF( NOT BORLAND )
 
   ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter ITKNumerics ITKIO ITKCommon)
+  TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter 
+                        ITKNumerics ITKIO ITKCommon ITKStatistics)
 
 ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13Test.png

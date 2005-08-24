@@ -45,8 +45,8 @@ namespace itk {
 * Author: Zachary Pincus
 */
     
-template< class TImageType, class THistogramFrequencyContainer = 
-  DenseFrequencyContainer< float > >
+template< class TImageType,
+          class THistogramFrequencyContainer = DenseFrequencyContainer >
 class MaskedScalarImageToGreyLevelCooccurrenceMatrixGenerator : 
     public ScalarImageToGreyLevelCooccurrenceMatrixGenerator< TImageType, 
       THistogramFrequencyContainer >
