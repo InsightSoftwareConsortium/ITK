@@ -90,25 +90,27 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>
 template<class TImage>
 void
 ImageRandomNonRepeatingConstIteratorWithIndex<TImage>
-::SetPriority(const itk::Image<unsigned long,ImageType::ImageDimension> * priorityImage) {
+::SetPriority(const PriorityImageType* priorityImage) 
+{
   // should probably do error checking to be sure that the priority
   // image is the right size
   IndexType positionIndex;
   unsigned long position,pixel;
   unsigned long residual;
-  for(pixel=0;pixel<m_NumberOfPixelsInRegion;pixel++) {
+  for(pixel=0;pixel<m_NumberOfPixelsInRegion;pixel++) 
+    {
     position=pixel;
     for( unsigned int dim = 0; dim < TImage::ImageDimension; dim++ )
       {
-  const unsigned long sizeInThisDimension = this->m_Region.GetSize()[dim];
-  residual = position % sizeInThisDimension;
-  positionIndex[dim] =  residual + this->m_BeginIndex[dim];
-  position -= residual;
-  position /= sizeInThisDimension;
+      const unsigned long sizeInThisDimension = this->m_Region.GetSize()[dim];
+      residual = position % sizeInThisDimension;
+      positionIndex[dim] =  residual + this->m_BeginIndex[dim];
+      position -= residual;
+      position /= sizeInThisDimension;
       }
     //std::cout<<pixel<<" "<<positionIndex<<" "<<priorityImage->GetPixel(positionIndex)std::endl;
     this->m_Permutation->SetPriority(pixel,priorityImage->GetPixel(positionIndex));
-  }
+    }
   this->m_Permutation->Shuffle();
 }
 
