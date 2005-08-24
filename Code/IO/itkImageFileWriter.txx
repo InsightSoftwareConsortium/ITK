@@ -313,8 +313,7 @@ ImageFileWriter<TInputImage>
   else
     {
     // Set the pixel and component type; the number of components.
-    const int ret =  m_ImageIO->SetPixelTypeInfo(typeid(ScalarType));  
-    itkDebugMacro(<<" PixelType is supported: " << ret );
+    m_ImageIO->SetPixelTypeInfo(typeid(ScalarType));  
     }
 
   // Setup the image IO for writing.
