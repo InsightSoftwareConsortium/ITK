@@ -32,38 +32,34 @@ ProgressReporter::ProgressReporter(ProcessObject* filter, int threadId,
   m_InitialProgress( initialProgress ),
   m_ProgressWeight( progressWeight )
 {
-  // Only thread 0 should update progress.
+
+  float numPixels = numberOfPixels;
+  float numUpdates = numberOfUpdates;
+  
+  // Make sure we have at least one pixel.
+  if(numPixels < 1)
+    {
+    numPixels = 1;
+    }
+  
+  // We cannot update more times than there are pixels.
+  if(numUpdates > numPixels)
+    {
+    numUpdates = numPixels;
+    }
+  
+  // Calculate the interval for updates.
+  m_PixelsPerUpdate = static_cast<unsigned long>(numPixels/numUpdates);
+  m_InverseNumberOfPixels = 1.0 / numPixels;
+  
+  // Only thread 0 should update progress. (But all threads need to
+  // count pixels so they can check the abort flag.)
   if(m_ThreadId == 0)
     {
-
-    float numPixels = numberOfPixels;
-    float numUpdates = numberOfUpdates;
-    
-    // Make sure we have at least one pixel.
-    if(numPixels < 1)
-      {
-      numPixels = 1;
-      }
-    
-    // We cannot update more times than there are pixels.
-    if(numUpdates > numPixels)
-      {
-      numUpdates = numPixels;
-      }
-    
-    // Calculate the interval for updates.
-    m_PixelsPerUpdate = static_cast<unsigned long>(numPixels/numUpdates);
-    m_InverseNumberOfPixels = 1.0 / numPixels;
-    
     // Set the progress to initial progress.  The filter is just starting.
     m_Filter->UpdateProgress( m_InitialProgress );
     }
-  else
-    {
-    // Threads other than 0 should never report progress.
-    m_PixelsPerUpdate = NumericTraits<unsigned long>::max();
-    m_InverseNumberOfPixels = 0;
-    }
+  
   m_PixelsBeforeUpdate = m_PixelsPerUpdate;
 }
 

@@ -72,15 +72,17 @@ public:
   void CompletedPixel()
     {
     // Inline implementation for efficiency.
-    // We don't need to test for thread id 0 here because the
-    // constructor sets m_PixelsBeforeUpdate to a value larger than
-    // the number of pixels for threads other than 0.
     if(--m_PixelsBeforeUpdate == 0)
       {
       m_PixelsBeforeUpdate = m_PixelsPerUpdate;
       m_CurrentPixel += m_PixelsPerUpdate;
-      m_Filter->UpdateProgress(
+      // only thread 0 should update the progress of the filter
+      if (m_ThreadId == 0)
+        {
+        m_Filter->UpdateProgress(
           m_CurrentPixel * m_InverseNumberOfPixels * m_ProgressWeight + m_InitialProgress);
+        }
+      // all threads needs to check the abort flag
       if( m_Filter->GetAbortGenerateData() )
         {
         throw ProcessAborted();
