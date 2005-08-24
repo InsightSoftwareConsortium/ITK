@@ -78,6 +78,15 @@ namespace itk {
  * smoother is equivalent to a special low-pass filter that is applied 
  * to the DCT coefficients.
  *
+ * \note This class was developed with funding from:
+ *
+ * "CNS Deficits: Interaction of Age and Alcoholism"
+ * NIAAA AA05965, PI: A. Pfefferbaum
+ *
+ * "INIA: Imaging Core"
+ * NIAAA AA13521, PI: A. Pfefferbaum
+ *
+ *
  * \sa CurvatureRegistrationFunction 
  * \ingroup DeformableImageRegistration MultiThreaded
  *
