@@ -44,13 +44,27 @@ namespace itk
  *
  * This class was mostly based on files that Jeffrey Duda, Torsten Rohlfing and
  * Martin Styner contributed to the ITK users list during a discussion on
- * support for DiffusionTensorImages. The funding for creating this class was
- * largely provided by NAMIC (National Alliance for Medical Image Computing)
- * (http://www.na-mic.org). A discussion on the design of this class can be
- * found in the WIKI pages of NAMIC:
+ * support for DiffusionTensorImages. A discussion on the design of this class
+ * can be found in the WIKI pages of NAMIC:
  *
  * http://www.na-mic.org/Wiki/index.php/NAMIC_Wiki:DTI:ITK-DiffusionTensorPixelType
  * 
+ * \note This work is part of the National Alliance for Medical Image
+ * Computing (NAMIC), funded by the National Institutes of Health
+ * through the NIH Roadmap for Medical Research, Grant U54 EB005149.
+ * Information on the National Centers for Biomedical Computing
+ * can be obtained from http://nihroadmap.nih.gov/bioinformatics. 
+ *
+ *
+ * \note Contributions by Torsten Rohlfing were funded by the following NIH grants
+ *
+ * Alcohol, HIV and the Brain, 
+ * NIAAA AA12999, PI: A. Pfefferbaum
+ *
+ * Normal Aging of Brain Structure and Function
+ * NIA AG 17919, PI: E.V. Sullivan.
+ * 
+ *
  * \par References
  * E. R. Melhem, S. Mori, G. Mukundan, M. A. Kraut, M. G. Pomper, and 
  * P. C. M. van Zijl, "Diffusion tensor MR imaging of the brain and white 
