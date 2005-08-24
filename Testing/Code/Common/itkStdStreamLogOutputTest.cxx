@@ -32,7 +32,7 @@ int itkStdStreamLogOutputTest( int argc, char *argv [] )
     if (argc < 2)
       {
       std::cout << "Usage: " << argv[0] << " logFilename" << std::endl;
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
       }
     
     // Create an ITK StdStreamLogOutput
