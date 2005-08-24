@@ -21,12 +21,16 @@
 #include <fstream>
 #include <itkMesh.h>
 
-int itkMeshFstreamTest(int, char* [] ) 
+int itkMeshFstreamTest(int argc, char* argv[] ) 
 {
-
-  
+  if (argc < 2)
+    {
+    std::cout << "Usage: " << argv[0] << " logFilename" << std::endl;
+    exit(EXIT_FAILURE);
+    }
+    
   std::ofstream ofs;
-  ofs.open("test.txt");
+  ofs.open(argv[1]);
   ofs << "Testing Mesh & fstream" << std::endl;
   ofs.close();
   

@@ -24,11 +24,17 @@
 #include <fstream>
 #include "itkStdStreamLogOutput.h"
 
-int itkStdStreamLogOutputTest( int, char * [] )
+int itkStdStreamLogOutputTest( int argc, char *argv [] )
 {
   try
     {
 
+    if (argc < 2)
+      {
+      std::cout << "Usage: " << argv[0] << " logFilename" << std::endl;
+      exit(EXIT_FAILURE);
+      }
+    
     // Create an ITK StdStreamLogOutput
     itk::StdStreamLogOutput::Pointer output = itk::StdStreamLogOutput::New();
 
@@ -43,7 +49,7 @@ int itkStdStreamLogOutputTest( int, char * [] )
     output->Flush();
 
     std::cout << "  Testing with a file stream" << std::endl;
-    std::ofstream fout("test.txt");
+    std::ofstream fout(argv[1]);
     output->SetStream(fout);
     output->Write(1.2345);
     output->Write("This is the test message.\n");
