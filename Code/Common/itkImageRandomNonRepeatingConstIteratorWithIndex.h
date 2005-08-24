@@ -203,6 +203,10 @@ public:
    * it needs to be redone here for this subclass to compile properly with gcc. */
   typedef typename TImage::PixelContainer PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
+
+  /** Image with priorities */
+  typedef itk::Image<unsigned long, 
+    ::itk::GetImageDimension< ImageType >::ImageDimension >  PriorityImageType;
   
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomNonRepeatingConstIteratorWithIndex();
@@ -254,7 +258,7 @@ public:
       ordered randomly, but pixels of lower priority value will be
       selected first.
    **/
-  void SetPriority(const itk::Image<unsigned long,ImageType::ImageDimension> * priorityImage);
+  void SetPriority(const PriorityImageType * priorityImage);
 
   /** Increment (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator-- */
