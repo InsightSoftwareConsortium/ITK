@@ -61,12 +61,10 @@ int itkExtractImageTest(int, char* [] )
     directions.SetIdentity();
     directions[0][0] = 0.0;
     directions[1][0] = 1.0;
-    directions[2][0] = 0.0;
     directions[0][1] = 1.0;
     directions[1][1] = 0.0;
-    directions[2][1] = 0.0;
 
-  if2->SetDirection (directions);
+    if2->SetDirection (directions);
 
   itk::ImageRegionIterator<ShortImage> iterator(if2, region);
   
