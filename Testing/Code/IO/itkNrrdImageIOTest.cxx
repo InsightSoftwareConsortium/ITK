@@ -18,9 +18,8 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
+// some compilers have trouble with the size of this test
 #define ITK_LEAN_AND_MEAN
-#endif
 
 #include "itkNrrdImageIOTest.h"
 
