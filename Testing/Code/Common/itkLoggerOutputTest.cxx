@@ -27,16 +27,22 @@
 #include "itkLoggerOutput.h"
 
 
-int itkLoggerOutputTest( int, char * [] )
+int itkLoggerOutputTest( int argc, char *argv [] )
 {
   try
     {
+    if (argc < 2)
+      {
+      std::cout << "Usage: " << argv[0] << " logFilename" << std::endl;
+      exit(EXIT_FAILURE);
+      }
+    
 
     // Create an ITK StdStreamLogOutputs
     itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
     itk::StdStreamLogOutput::Pointer foutput = itk::StdStreamLogOutput::New();
     coutput->SetStream(std::cout);
-    std::ofstream fout("test_LoggerOutput.txt");
+    std::ofstream fout(argv[1]);
     foutput->SetStream(fout);
 
     // Create an ITK Logger

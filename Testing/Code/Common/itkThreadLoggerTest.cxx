@@ -55,16 +55,22 @@ private:
 
 
 
-int itkThreadLoggerTest( int, char * [] )
+int itkThreadLoggerTest( int argc, char * argv[] )
 {
   try
     {
+    if (argc < 2)
+      {
+      std::cout << "Usage: " << argv[0] << " logFilename" << std::endl;
+      exit(EXIT_FAILURE);
+      }
+    
 
     // Create an ITK StdStreamLogOutputs
     itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
     itk::StdStreamLogOutput::Pointer foutput = itk::StdStreamLogOutput::New();
     coutput->SetStream(std::cout);
-    std::ofstream fout("test_threadLogger.txt");
+    std::ofstream fout(argv[1]);
     foutput->SetStream(fout);
 
     // Create an ITK ThreadLogger

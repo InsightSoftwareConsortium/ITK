@@ -26,10 +26,16 @@
 #include "itkMultipleLogOutput.h"
 
 
-int itkMultipleLogOutputTest( int, char * [] )
+int itkMultipleLogOutputTest( int argc, char *argv [] )
 {
   try
     {
+    if (argc < 2)
+      {
+      std::cout << "Usage: " << argv[0] << " logFilename" << std::endl;
+      exit(EXIT_FAILURE);
+      }
+    
 
     // Create an ITK StdStreamLogOutput
     itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
@@ -38,7 +44,7 @@ int itkMultipleLogOutputTest( int, char * [] )
 
     std::cout << "Testing itk::MultipleLogOutput" << std::endl;
     coutput->SetStream(std::cout);
-    std::ofstream fout("test_multi.txt");
+    std::ofstream fout(argv[1]);
     foutput->SetStream(fout);
 
     std::cout << "  Adding console and file stream LogOutputs" << std::endl;
