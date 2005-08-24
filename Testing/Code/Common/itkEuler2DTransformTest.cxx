@@ -49,8 +49,14 @@ bool CheckEqual(
 }
 
 
-int itkEuler2DTransformTest(int,char *[] )
+int itkEuler2DTransformTest(int argc,char *argv[] )
 {
+  if (argc < 2)
+    {
+    std::cout << "Usage: " << argv[0] << " logFilename" << std::endl;
+    exit(EXIT_FAILURE);
+    }
+  
 
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Euler Angles 2D Transform" << std::endl << std::endl;
@@ -432,8 +438,8 @@ int itkEuler2DTransformTest(int,char *[] )
     writer = itk::TransformFileWriter::New();
     reader = itk::TransformFileReader::New();
 
-    writer->SetFileName( "testTransform.txt" );
-    reader->SetFileName( "testTransform.txt" );
+    writer->SetFileName( argv[1] );
+    reader->SetFileName( argv[1] );
 
     writer->AddTransform( t1 );
 
