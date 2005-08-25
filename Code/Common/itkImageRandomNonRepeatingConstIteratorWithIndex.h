@@ -65,7 +65,7 @@ class randomPermutation {
     this->Shuffle();
   }
   void Dump() {
-    for(int i=0;i<size;i++) {
+    for(unsigned int i=0;i<size;i++) {
       std::cout<<permutation[i].value<<" "<<permutation[i].priority
          <<" "<<permutation[i].index<<";";
       std::cout<<std::endl;
@@ -79,7 +79,7 @@ class randomPermutation {
     }
   }
   void Shuffle() {
-    for(int i=0;i<size;i++) {
+    for(unsigned int i=0;i<size;i++) {
       permutation[i].value=vnl_sample_uniform(0.0,1.0);
       permutation[i].index=i;
     }

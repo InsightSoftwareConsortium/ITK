@@ -404,7 +404,7 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
 
     cbot.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
     cbot.GoToBegin();
-    int count=0;
+    unsigned int count=0;
     while( !cbot.IsAtEnd() && count<(subsize[0]*subsize[1]*subsize[2]))
       {
       ImageType::IndexType index =  cbot.GetIndex();
@@ -442,7 +442,7 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
 
     cbot.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
     cbot.GoToBegin();
-    int count=0;
+    unsigned int count=0;
     while( !cbot.IsAtEnd() && count<(subsize[0]*subsize[1]*subsize[2]))
       {
       ImageType::IndexType index =  cbot.GetIndex();
