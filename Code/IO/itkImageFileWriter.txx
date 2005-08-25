@@ -266,7 +266,7 @@ ImageFileWriter<TInputImage>
     // only in VectorImage, we will resort to C style UNSAFE casts !
 
 #define ITK_WRITER_SET_VECTOR_LENGTH_IF_BLOCK(type) \
-      else if( typeid( VectorImage<type> * ) == typeid(input) ) \
+      else if( dynamic_cast< const VectorImage<type,3> * >(input)) \
       { \
       m_ImageIO->SetNumberOfComponents(((const VectorImage< type > *) \
                                    (( const void* )input))->GetVectorLength()); \
