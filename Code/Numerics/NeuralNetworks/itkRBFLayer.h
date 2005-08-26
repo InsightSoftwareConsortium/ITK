@@ -68,7 +68,7 @@ public:
   void ForwardPropagate(TVector input);
 
   void BackwardPropagate();
-  void BackwardPropagate(TOutput errors){};
+  void BackwardPropagate(TOutput itkNotUsed(errors)){};
 
   void SetOutputErrorValues(TOutput);
   ValueType GetOutputErrorValue(unsigned int node_id);
