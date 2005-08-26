@@ -86,7 +86,7 @@ IF(NOT BORLAND)
 IF( USE_FFTW )
 
   ADD_EXECUTABLE(DeformableRegistration9 DeformableRegistration9.cxx )
-  TARGET_LINK_LIBRARIES(DeformableRegistration9 ITKCommon ITKNumerics ITKIO ${FFTW_LIB})
+  TARGET_LINK_LIBRARIES(DeformableRegistration9 ITKCommon ITKNumerics ITKIO ITKStatistics ${FFTW_LIB})
 
   ADD_EXECUTABLE(DeformableRegistration10 DeformableRegistration10.cxx )
   TARGET_LINK_LIBRARIES(DeformableRegistration10 
