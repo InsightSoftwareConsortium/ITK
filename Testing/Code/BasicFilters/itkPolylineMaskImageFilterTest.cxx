@@ -27,7 +27,7 @@
 #include <itkImageFileWriter.h>
 #include <iostream>
 
-int itkPolylineMaskImageFilterTest(int argc, char * argv[] ) 
+int itkPolylineMaskImageFilterTest(int , char * [] ) 
 {
   /*
   if(argc < 3)
