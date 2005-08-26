@@ -80,8 +80,9 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Set the direction in which to accumulate the data.
-  It must be set before the update of the filter.*/
+  /** Set the direction in which to accumulate the data.  It must be
+   * set before the update of the filter. Defaults to the last
+   * dimension. */
   itkGetMacro( AccumulatedDimension, unsigned int );
   itkSetMacro( AccumulatedDimension, unsigned int );
 
