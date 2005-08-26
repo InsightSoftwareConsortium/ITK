@@ -15,6 +15,9 @@
 
 =========================================================================*/
 
+// some compilers have trouble with the size of this test
+#define ITK_LEAN_AND_MEAN
+
 #include "itkGaussianRadialBasisFunction.h"
 #include "itkMultiquadricRadialBasisFunction.h"
 #include "itkIterativeSupervisedTrainingFunction.h"
