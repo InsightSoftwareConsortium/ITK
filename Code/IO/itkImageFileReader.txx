@@ -301,11 +301,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
       {
       }
     ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(unsigned char)
-#ifdef __BORLANDC__
-    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(signed char)
-#else
-    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(char)
-#endif
+    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK( char)
     ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(unsigned short)
     ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK( short)
     ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(unsigned int)
