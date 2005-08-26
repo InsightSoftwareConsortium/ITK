@@ -28,6 +28,9 @@
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkPathIterator.h"
 #include "itkVector.h"
+#include "itkBoundingBox.h"
+#include "iostream"
+#include "fstream"
 
 namespace itk
 {
@@ -43,7 +46,7 @@ template <class TInputImage, class TPolyline, class TVector,
   m_ViewVector.Fill(1);
   m_UpVector.Fill(1);
   m_CameraCenterPoint.Fill(0);
-  m_FocalDistance = 0.;
+  m_FocalDistance = 0.0;
   m_FocalPoint.Fill( 0.0 );
 
   // This filter is meant only for 3D input and output images. We must
@@ -122,7 +125,7 @@ template <class TInputImage, class TPolyline, class TVector,
     TVector nThirdAxis;
     nThirdAxis = CrossProduct(nOrthogonalVector,nViewVector);
 
-    itkDebugMacro(<<"Thrid basis vector"<<nThirdAxis);
+    itkDebugMacro(<<"Third basis vector"<<nThirdAxis);
 
     /* populate the rotation matrix using the unit vectors of the
        camera reference coordinate system */
@@ -160,11 +163,7 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
     centered[i] = inputPoint[i] - m_CameraCenterPoint[i];
     }
 
-  // itkDebugMacro(<<"Point centered"<<centered);
-
   PointType rotated =  m_RotationMatrix * centered;
-
-  // itkDebugMacro(<<"Point rotated"<<rotated);
 
   ProjPlanePointType result;
 
@@ -187,19 +186,23 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
   ::GenerateData(void)
   {
 
-
   typedef typename TInputImage::Pointer                               InputImagePointer;
-  typedef ImageRegionConstIterator<TInputImage>         InputImageConstIteratorType;
+  typedef typename TInputImage::SizeType                              InputImageSizeType;
+  typedef typename TInputImage::PointType                             InputImagePointType;
+  typedef typename TInputImage::SpacingType                           InputImageSpacingType;
+  typedef ImageRegionConstIterator<TInputImage>                       InputImageConstIteratorType;
 
   typedef typename TOutputImage::IndexType                            ImageIndexType;
   typedef typename TOutputImage::PixelType                            PixelType;
-  typedef ImageRegionIterator<TOutputImage>             OutputImageIteratorType;
+  typedef ImageRegionIterator<TOutputImage>                           OutputImageIteratorType;
 
 
   typedef typename TPolyline::Pointer                                 PolylinePointer;
   typedef typename TPolyline::VertexType                              VertexType;
   typedef typename TPolyline::VertexListType                          VertexListType;
   typedef typename TPolyline::IndexType                               PolylineIndexType;
+
+  typedef typename itk::Point<double,3>                               OriginType;
 
   typename TInputImage::ConstPointer inputImagePtr(
     dynamic_cast<const TInputImage  * >(
@@ -212,11 +215,21 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
       this->ProcessObject::GetOutput(0)));
 
 
+  outputImagePtr->SetSpacing(inputImagePtr->GetSpacing());
+
+  OriginType originInput;
+
+  originInput[0] = 0.0;
+  originInput[1] = 0.0;
+  originInput[2] = 0.0;
+  
+  //outputImagePtr->SetOrigin(inputImagePtr->GetOrigin());
+  outputImagePtr->SetOrigin(originInput);
   outputImagePtr->SetRequestedRegion( inputImagePtr->GetRequestedRegion() );
   outputImagePtr->SetBufferedRegion(  inputImagePtr->GetBufferedRegion() );
   outputImagePtr->SetLargestPossibleRegion( inputImagePtr->GetLargestPossibleRegion() );
   outputImagePtr->Allocate();   
-
+  outputImagePtr->FillBuffer(0);   
 
   InputImageConstIteratorType  inputIt(inputImagePtr,inputImagePtr->GetLargestPossibleRegion());
   OutputImageIteratorType outputIt(outputImagePtr,outputImagePtr->GetLargestPossibleRegion());
@@ -225,52 +238,183 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
   typedef typename InterpolatorType::OutputType OutputType;
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
   typedef typename InterpolatorType::PointType    PointType;
- 
-  // to an output pixel
-  PointType inputPoint;
-  PointType tmpPoint;
-  ProjPlanePointType outputPoint;
-   
-  // Walk the output region
 
-  // Generate a 2D image with the viewing polygon as a mask 
-  typedef Image<unsigned char,2> TmpImageType;
-  typedef typename TmpImageType::IndexType          TmpImageIndexType;
-  typedef typename TmpImageType::PixelType          TmpPixelType;
-  typedef TmpImageType::RegionType                  TmpRegionType;
-  typedef TmpImageType::SizeType                    TmpSizeType;
-  typedef TmpImageType::IndexType                    TmpIndexType;
-  typedef LineIterator<TmpImageType>                    LineIteratorType;
-  typedef ImageLinearIteratorWithIndex< TmpImageType >  ImageLineIteratorType;
-  
-  TmpIndexType  tmpStart;
-  TmpSizeType   tmpSize;
-  TmpRegionType tmpRegion;
-
-  tmpStart[0] = 0;
-  tmpStart[1] = 0;
-
-  tmpSize[0] = inputImagePtr->GetLargestPossibleRegion().GetSize()[0];
-  tmpSize[1] = inputImagePtr->GetLargestPossibleRegion().GetSize()[1];
-
-  itkDebugMacro(<<"Projection image Tmp size:"<<tmpSize);
-
-  tmpRegion.SetIndex(tmpStart);
-  tmpRegion.SetSize(tmpSize);
-
-  typename TmpImageType::Pointer tmpImagePtr = TmpImageType::New();
-
-  tmpImagePtr->SetRequestedRegion( tmpRegion );
-  tmpImagePtr->SetBufferedRegion(  tmpRegion );
-  tmpImagePtr->SetLargestPossibleRegion( tmpRegion );
-  tmpImagePtr->Allocate();   
-  tmpImagePtr->FillBuffer(0);
-
-  typedef ImageRegionIterator<TmpImageType>  TmpImageIteratorType;
-  TmpImageIteratorType tmpIt(tmpImagePtr,tmpImagePtr->GetLargestPossibleRegion());
 
   /* Generate the transformation matrix */
   this->GenerateRotationMatrix();
+ 
+  // Generate input and output point 
+  PointType inputPoint;
+  ProjPlanePointType outputPoint;
+   
+  // Generate a 2D image with the viewing polygon as a mask 
+  typedef Image<PixelType,2> ProjectionImageType;
+  typedef typename ProjectionImageType::IndexType          ProjectionImageIndexType;
+  typedef typename ProjectionImageType::IndexValueType     ProjectionImageIndexValueType;
+  typedef typename ProjectionImageType::PointType          ProjectionImagePointType;
+  typedef typename ProjectionImageType::SpacingType        ProjectionImageSpacingType;
+  typedef typename ProjectionImageType::PixelType          ProjectionImagePixelType;
+  typedef typename ProjectionImageType::RegionType         ProjectionImageRegionType;
+  typedef typename ProjectionImageType::SizeType           ProjectionImageSizeType;
+  
+
+  ProjectionImageRegionType projectionRegion;
+
+
+  /* Determine projection image size by transforming the eight corner
+   of the 3D input image */
+
+  InputImageSizeType                                      inputImageSize;
+  typedef Point<double, 3>                                CornerPointType;
+  typedef Point<double, 2>                                CornerPointProjectionType;
+
+  typedef itk::BoundingBox< unsigned long int, 2, double > BoundingBoxType;
+  typedef BoundingBoxType::PointsContainer                 CornerPointProjectionContainer;
+
+  CornerPointProjectionContainer::Pointer                 cornerPointProjectionlist = CornerPointProjectionContainer::New();
+  CornerPointType                                         cornerPoint;
+  CornerPointType                                         originPoint;
+  CornerPointProjectionType                               cornerProjectionPoint;
+
+  originPoint[0] = 0.0;
+  originPoint[1] = 0.0;
+  originPoint[2] = 0.0;
+  
+  originPoint    = inputImagePtr->GetOrigin();
+  inputImageSize = inputImagePtr->GetLargestPossibleRegion().GetSize();
+  
+  // (xmin,ymin,zmin)
+
+  cornerPoint = originPoint;
+  cornerProjectionPoint = this->TransformProjectPoint(cornerPoint);
+  cornerPointProjectionlist->push_back(cornerProjectionPoint);
+
+  //std::cout<<"CornerPoint="<<cornerPoint<<"\t"<<"ProjectedPoint="<<cornerProjectionPoint<<std::endl;
+
+  // (xmin,ymin,zmax)
+  cornerPoint[0] = originPoint[0];
+  cornerPoint[1] = originPoint[1];
+  cornerPoint[2] = originPoint[2] + inputImageSize[2];
+  cornerProjectionPoint = this->TransformProjectPoint(cornerPoint);
+  cornerPointProjectionlist->push_back(cornerProjectionPoint);
+
+  //std::cout<<"CornerPoint="<<cornerPoint<<"\t"<<"ProjectedPoint="<<cornerProjectionPoint<<std::endl;
+
+  // (xmin,ymax,zmin)
+  cornerPoint[0] = originPoint[0];
+  cornerPoint[1] = originPoint[1] + inputImageSize[1];
+  cornerPoint[2] = originPoint[2];
+  cornerProjectionPoint = this->TransformProjectPoint(cornerPoint);
+  cornerPointProjectionlist->push_back(cornerProjectionPoint);
+
+  //std::cout<<"CornerPoint="<<cornerPoint<<"\t"<<"ProjectedPoint="<<cornerProjectionPoint<<std::endl;
+
+
+// (xmin,ymax,zmax) 
+  cornerPoint[0] = originPoint[0];
+  cornerPoint[1] = originPoint[1] + inputImageSize[1];
+  cornerPoint[2] = originPoint[2] + inputImageSize[2];;
+  cornerProjectionPoint = this->TransformProjectPoint(cornerPoint);
+  cornerPointProjectionlist->push_back(cornerProjectionPoint);
+
+  //std::cout<<"CornerPoint="<<cornerPoint<<"\t"<<"ProjectedPoint="<<cornerProjectionPoint<<std::endl;
+
+// (xmax,ymin,zmin)
+  cornerPoint[0] = originPoint[0] + inputImageSize[0];
+  cornerPoint[1] = originPoint[1] ;
+  cornerPoint[2] = originPoint[2] ;
+
+  cornerProjectionPoint = this->TransformProjectPoint(cornerPoint);
+  cornerPointProjectionlist->push_back(cornerProjectionPoint);
+
+  //std::cout<<"CornerPoint="<<cornerPoint<<"\t"<<"ProjectedPoint="<<cornerProjectionPoint<<std::endl;
+
+// (xmax,ymin,zmax)
+  cornerPoint[0] = originPoint[0] + inputImageSize[0];
+  cornerPoint[1] = originPoint[1] ;
+  cornerPoint[2] = originPoint[2] + inputImageSize[2];
+
+  cornerProjectionPoint = this->TransformProjectPoint(cornerPoint);
+  cornerPointProjectionlist->push_back(cornerProjectionPoint);
+
+  //std::cout<<"CornerPoint="<<cornerPoint<<"\t"<<"ProjectedPoint="<<cornerProjectionPoint<<std::endl;
+
+// (xmax,ymax,zmin)
+  cornerPoint[0] = originPoint[0] + inputImageSize[0];
+  cornerPoint[1] = originPoint[1] + inputImageSize[1];
+  cornerPoint[2] = originPoint[2];
+
+  cornerProjectionPoint = this->TransformProjectPoint(cornerPoint);
+  cornerPointProjectionlist->push_back(cornerProjectionPoint);
+
+
+  //std::cout<<"CornerPoint="<<cornerPoint<<"\t"<<"ProjectedPoint="<<cornerProjectionPoint<<std::endl;
+
+// (xmax,ymax,zmax)
+  cornerPoint[0] = originPoint[0] + inputImageSize[0];
+  cornerPoint[1] = originPoint[1] + inputImageSize[1];
+  cornerPoint[2] = originPoint[2] + inputImageSize[2];;
+
+  cornerProjectionPoint = this->TransformProjectPoint(cornerPoint);
+  cornerPointProjectionlist->push_back(cornerProjectionPoint);
+
+  //std::cout<<"CornerPoint="<<cornerPoint<<"\t"<<"ProjectedPoint="<<cornerProjectionPoint<<std::endl;
+  
+  /* Compute the bounding box of the projected points */
+  BoundingBoxType::Pointer boundingBox = BoundingBoxType::New();
+
+  boundingBox->SetPoints ( cornerPointProjectionlist );
+
+  if ( !boundingBox->ComputeBoundingBox() )
+    {
+    itkExceptionMacro(<<"Bounding box computation error");
+    }
+
+  const BoundingBoxType::BoundsArrayType & bounds = boundingBox->GetBounds();
+  itkDebugMacro(<< "Projection image bounding box="<<bounds);
+
+  ProjectionImageIndexType  projectionStart; 
+  projectionStart[0] = 0;
+  projectionStart[1] = 0;
+
+  ProjectionImageSizeType  projectionSize; 
+  ProjectionImageIndexValueType pad;
+
+  pad=5;
+
+  projectionSize[0] = (ProjectionImageIndexValueType) (bounds[1]-bounds[0]) + pad;
+  projectionSize[1] = (ProjectionImageIndexValueType) (bounds[3]-bounds[2]) + pad;
+
+  projectionRegion.SetIndex(projectionStart);
+  projectionRegion.SetSize(projectionSize);
+
+  typename ProjectionImageType::Pointer projectionImagePtr = ProjectionImageType::New();
+
+  ProjectionImagePointType origin;
+  origin[0] = bounds[0];
+  origin[1] = bounds[2];
+
+  projectionImagePtr->SetOrigin(origin);
+
+  ProjectionImageSpacingType spacing;
+
+  spacing[0] = 1.0;
+  spacing[1] = 1.0;
+
+  projectionImagePtr->SetSpacing(spacing);
+
+  itkDebugMacro(<<"Projection image size:"<<projectionSize);
+  itkDebugMacro(<<"Projection image start index:"<<projectionStart);
+  itkDebugMacro(<<"Projection image origin:"<<origin);
+
+  projectionImagePtr->SetRequestedRegion( projectionRegion );
+  projectionImagePtr->SetBufferedRegion(  projectionRegion );
+  projectionImagePtr->SetLargestPossibleRegion( projectionRegion );
+  projectionImagePtr->Allocate();   
+  projectionImagePtr->FillBuffer(0);
+
+  typedef ImageRegionIterator<ProjectionImageType>  ProjectionImageIteratorType;
+  ProjectionImageIteratorType projectionIt(projectionImagePtr,projectionImagePtr->GetLargestPossibleRegion());
 
   itkDebugMacro(<<"Rotation matrix"<<std::cout<<m_RotationMatrix);
 
@@ -284,39 +428,42 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
     
   VertexType startIndex;
   VertexType endIndex;
-  VertexType tmpIndex;
+  VertexType projectionIndex;
   VertexType pstartIndex;
 
   /* define flag to indicate the line segment slope */
-  bool pflag;
+  bool pflag=false;
 
   /* define background, foreground pixel values and unlabed pixel value */
-  PixelType u_val = static_cast<TmpPixelType> (0);
-  PixelType b_val = static_cast<TmpPixelType> (2);
-  PixelType f_val = static_cast<TmpPixelType> (255);
+  PixelType u_val = static_cast<ProjectionImagePixelType> (0);
+  PixelType b_val = static_cast<ProjectionImagePixelType> (2);
+  PixelType f_val = static_cast<ProjectionImagePixelType> (255);
 
-  tmpImagePtr->FillBuffer(u_val);
+  projectionImagePtr->FillBuffer(u_val);
 
   /* polyon start index */
   pstartIndex = piter.Value();
-  tmpIndex = pstartIndex;
+  projectionIndex = pstartIndex;
   ++piter;
-  TmpImageIndexType startImageIndex;
-  TmpImageIndexType endImageIndex;
-  TmpImageIndexType tmpImageIndex;
+  ProjectionImageIndexType startImageIndex;
+  ProjectionImageIndexType endImageIndex;
+  ProjectionImageIndexType projectionImageIndex;
     
-  typedef typename TmpImageIndexType::IndexValueType IndexValueType;
+  typedef typename ProjectionImageIndexType::IndexValueType IndexValueType;
 
-  ImageLineIteratorType imit(tmpImagePtr, tmpImagePtr->GetLargestPossibleRegion());
+  typedef LineIterator<ProjectionImageType>                    LineIteratorType;
+  typedef ImageLinearIteratorWithIndex< ProjectionImageType >  ImageLineIteratorType;
+
+  ImageLineIteratorType imit(projectionImagePtr, projectionImagePtr->GetLargestPossibleRegion());
   imit.SetDirection( 0 );
 
   while ( piter != container->End() )
     {
     pflag         = false;
-    startIndex    = tmpIndex;
+    startIndex    = projectionIndex;
     endIndex      = piter.Value();
-    
-    for(unsigned int i=0; i < TmpImageType::ImageDimension; i++ )
+
+    for(unsigned int i=0; i < ProjectionImageType::ImageDimension; i++ )
       {
       startImageIndex[i] = static_cast<IndexValueType> (startIndex[i]);
       endImageIndex[i]   = static_cast<IndexValueType> (endIndex[i]);
@@ -328,18 +475,17 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
       pflag = true;
       }
 
-    // itkDebugMacro(<<"Polyline:"<<startImageIndex<<","<<endImageIndex);
-    LineIteratorType      it(tmpImagePtr, startImageIndex, endImageIndex);
+    itkDebugMacro(<<"Polyline:"<<startImageIndex<<","<<endImageIndex);
+    LineIteratorType      it(projectionImagePtr, startImageIndex, endImageIndex);
     it.GoToBegin();
 
     while (!it.IsAtEnd())
       {
-      tmpImageIndex[0] = it.GetIndex()[0];
-      tmpImageIndex[1] = it.GetIndex()[1];
+      projectionImageIndex[0] = it.GetIndex()[0];
+      projectionImageIndex[1] = it.GetIndex()[1];
 
       //initialize imit using it
-
-      imit.SetIndex(tmpImageIndex);
+      imit.SetIndex(projectionImageIndex);
       while ( ! imit.IsAtEndOfLine() )
         {
         if ( pflag ) 
@@ -356,16 +502,16 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
         }
       ++it;
       }
-    tmpIndex = endIndex;
+    projectionIndex = endIndex;
     ++piter;
     }
 
   /* Close the polygon */
   pflag         = false;
-  startIndex    = tmpIndex;
+  startIndex    = projectionIndex;
   endIndex      = pstartIndex;
     
-  for(unsigned int i=0; i < TmpImageType::ImageDimension; i++ )
+  for(unsigned int i=0; i < ProjectionImageType::ImageDimension; i++ )
     {
     startImageIndex[i] = static_cast<IndexValueType> (startIndex[i]);
     endImageIndex[i]   = static_cast<IndexValueType> (endIndex[i]);
@@ -376,16 +522,16 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
     pflag = true;
     }
 
-  LineIteratorType      it(tmpImagePtr, startImageIndex, endImageIndex);
+  LineIteratorType      it(projectionImagePtr, startImageIndex, endImageIndex);
   it.GoToBegin();
 
   while (!it.IsAtEnd())
     {
-    tmpImageIndex[0] = it.GetIndex()[0];
-    tmpImageIndex[1] = it.GetIndex()[1];
+    projectionImageIndex[0] = it.GetIndex()[0];
+    projectionImageIndex[1] = it.GetIndex()[1];
     //initialize imit using it
 
-    imit.SetIndex(tmpImageIndex);
+    imit.SetIndex(projectionImageIndex);
     while ( ! imit.IsAtEndOfLine() )
       {
       if ( pflag ) 
@@ -402,17 +548,38 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
     ++it;
     }
 
-  outputIt.GoToBegin();
+  //Mask the input image using the binary image defined by the region
+  //demarcated by the polyline contour 
+    outputIt.GoToBegin();
   inputIt.GoToBegin();
+
+  //std::ofstream fileout("out.dat");
+
+  InputImageSpacingType     inputImageSpacing;
+  InputImagePointType       inputImageOrigin;
+
+  inputImageSpacing  = inputImagePtr->GetSpacing();
+  inputImageOrigin = inputImagePtr->GetOrigin();
+  inputImageSize = inputImagePtr->GetLargestPossibleRegion().GetSize();
+  
+  //fileout<<"Input image origin="<<inputImageOrigin<<",spacing="<<inputImageSpacing<<",Size="<<inputImageSize<<std::endl;
 
   while ( !inputIt.IsAtEnd() )
     {
-    outputImagePtr->TransformIndexToPhysicalPoint( inputIt.GetIndex(), inputPoint );
+    outputImagePtr->TransformIndexToPhysicalPoint( outputIt.GetIndex(), inputPoint );
     outputPoint = this->TransformProjectPoint(inputPoint);
-    tmpImagePtr->TransformPhysicalPointToIndex(outputPoint,tmpImageIndex);
-    tmpIt.SetIndex(tmpImageIndex);
+    projectionImagePtr->TransformPhysicalPointToIndex(outputPoint,projectionImageIndex);
 
-    if(tmpIt.Get() == f_val)
+    //itkDebugMacro(<<"Input image (index,physical coordinate,pixel):"<<inputIt.GetIndex()<<","<<inputPoint<<inputIt.Get()<<std::endl);
+    //itkDebugMacro(<<"Projection image (index,physical coordinate,pixel):"<<projectionImageIndex<<","<<outputPoint<<","<<projectionIt.Get()<<std::endl);
+
+    // fileout<<inputIt.GetIndex()<<","<<inputPoint<<"="<<projectionImageIndex<<","<<outputPoint<<std::endl;
+    if ( ! projectionImagePtr->GetBufferedRegion().IsInside(projectionImageIndex))
+      {
+      itkExceptionMacro(<<"Projection Image index out of bound:"<<projectionImageIndex);
+      }
+    
+    if(projectionImagePtr->GetPixel(projectionImageIndex) == f_val)
       {
       outputIt.Set(inputIt.Get());
       }

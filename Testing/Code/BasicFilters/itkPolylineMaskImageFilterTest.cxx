@@ -26,9 +26,17 @@
 #include <itkSpatialObjectToImageFilter.h>
 #include <itkImageFileWriter.h>
 
-int itkPolylineMaskImageFilterTest(int , char * [] ) 
+int itkPolylineMaskImageFilterTest(int argc, char * argv[] ) 
 {
-
+  /*
+  if(argc < 3)
+    {
+    std::cerr << "Missing arguments" << std::endl;
+    std::cerr << "Filter usage:" << std :: endl;
+    std::cerr << "   SpatialObjectOutputImage" << "   MaskedOutputImage"<<std::endl;
+    exit(1);
+    }
+  */
   // Define the dimension of the images
   const unsigned int iDimension = 3;
 
@@ -62,51 +70,69 @@ int itkPolylineMaskImageFilterTest(int , char * [] )
   typedef itk::EllipseSpatialObject<2>   EllipseType;
   EllipseType::Pointer ellipse = EllipseType::New();
   EllipseType::TransformType::OffsetType offset;
-  offset.Fill(15);
+  offset.Fill(20);
   ellipse->GetObjectToParentTransform()->SetOffset(offset);
   ellipse->ComputeObjectToWorldTransform();
-  ellipse->SetRadius(15);
+  ellipse->SetRadius(10);
 
   std::cout<<"Generating the image of the object...."<<std::endl;
 
   typedef itk::SpatialObjectToImageFilter<EllipseType,inputImageType> SpatialObjectToImageFilterType;
-  SpatialObjectToImageFilterType::Pointer imageFilter = SpatialObjectToImageFilterType::New();
+  SpatialObjectToImageFilterType::Pointer imageGenerationFilter = SpatialObjectToImageFilterType::New();
    
   inputImageType::SizeType size;
+  inputImageType::PointType origin;
+
+  origin[0] = 0.0;
+  origin[1] = 0.0;
+  origin[2] = 20.0;
+  
   size[0]=40;
   size[1]=40;
-  size[2]=30;
+  size[2]=35;
 
-  imageFilter->SetSize(size);
-  imageFilter->SetInput(ellipse);
-  imageFilter->SetInsideValue(2);
-  imageFilter->SetOutsideValue(0);
-  imageFilter->Update();
+  imageGenerationFilter->SetOrigin(origin);
+  imageGenerationFilter->SetSize(size);
+  imageGenerationFilter->SetInput(ellipse);
+  imageGenerationFilter->SetInsideValue(2);
+  imageGenerationFilter->SetOutsideValue(0);
+  imageGenerationFilter->Update();
 
-  std::cout << "Generating the polyline..." << std::endl;
+
+  //Write out the input image
+/*
+  typedef  itk::ImageFileWriter<  inputImageType  > SpatialObjectImageWriterType;
+  SpatialObjectImageWriterType::Pointer spatialObjectImageWriter = SpatialObjectImageWriterType::New();
+  spatialObjectImageWriter->SetFileName( argv[1] );
+  spatialObjectImageWriter->SetInput( imageGenerationFilter->GetOutput() );
+  spatialObjectImageWriter->Update(); 
+*/
+
+  std::cout << "Generating the polyline contour..." << std::endl;
   //Initialize the polyline 
   typedef inputPolylineType::VertexType VertexType;
   
   // Add vertices to the polyline
+
   VertexType v;
-  v[0] = 8;
-  v[1] = 8;
+  v[0] = 19;
+  v[1] = 0;
   inputPolyline->AddVertex(v);
   
-  v[0] = 23;
-  v[1] = 8;
+  v[0] = 19;
+  v[1] = 39;
   inputPolyline->AddVertex(v);
   
-  v[0] = 23;
-  v[1] = 23;
+  v[0] = 25;
+  v[1] = 39;
   inputPolyline->AddVertex(v);
 
-  v[0] = 8;
-  v[1] = 23;
+  v[0] = 25;
+  v[1] = 1;
   inputPolyline->AddVertex(v);
   
-  
-  std::cout << "Generating the view vector " << std::endl; 
+
+  std::cout << "Generating the view vector..... " << std::endl; 
  
   // View vector
   inputViewVector[0] = 0;
@@ -132,8 +158,16 @@ int itkPolylineMaskImageFilterTest(int , char * [] )
   // Create a mask  Filter                                
   inputFilterType::Pointer filter = inputFilterType::New();
 
+  //filter->DebugOn();
   //Connect the input image
-  filter->SetInput1    ( imageFilter->GetOutput()); 
+  filter->SetInput1    ( imageGenerationFilter->GetOutput()); 
+
+  inputImageType::PointType originA;
+
+  /* 
+  originA = imageGenerationFilter->GetOutput()->GetOrigin();
+  std::cout<<"Input image origin="<<originA<<std::endl;
+*/
  
   // Connect the Polyline 
   filter->SetInput2    ( inputPolyline ); 
@@ -146,21 +180,33 @@ int itkPolylineMaskImageFilterTest(int , char * [] )
 
   // camera center point
   PointType cameraCenterPoint;
-  cameraCenterPoint[0] = 15;
-  cameraCenterPoint[1] = 15;
+
+  cameraCenterPoint[0] = 20;
+  cameraCenterPoint[1] = 20;
   cameraCenterPoint[2] = 60;
 
   filter->SetCameraCenterPoint   ( cameraCenterPoint );
 
   // camera focal distance 
-  filter->SetFocalDistance(15);
+  filter->SetFocalDistance(30.0);
   
   // camera focal point in the projection plane
   ProjPlanePointType focalpoint;
-  focalpoint[0] = 15;
-  focalpoint[1] = 15;
+  focalpoint[0] = 20.0;
+  focalpoint[1] = 20.0;
   filter->SetFocalPoint(focalpoint);
   filter->Update();
+
+  //Write out the output image
+
+  /*
+  typedef  itk::ImageFileWriter<  outputImageType  > OutputWriterType;
+  OutputWriterType::Pointer outputWriter = OutputWriterType::New();
+  outputWriter->SetFileName( argv[2] );
+  outputWriter->SetInput( filter->GetOutput() );
+  outputWriter->Update();  
+*/
+
 
   return 0;
 
