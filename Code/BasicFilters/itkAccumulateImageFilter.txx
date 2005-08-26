@@ -145,7 +145,7 @@ void
 AccumulateImageFilter<TInputImage,TOutputImage>
 ::GenerateData( void )
 {
-  if(m_AccumulatedDimension<0 || m_AccumulatedDimension>=TInputImage::ImageDimension)
+  if(m_AccumulatedDimension>=TInputImage::ImageDimension)
   {
   itkExceptionMacro(<<"AccumulateImageFilter: invalid dimension to accumulate. AccumulateDimension = " << m_AccumulatedDimension);
   }
