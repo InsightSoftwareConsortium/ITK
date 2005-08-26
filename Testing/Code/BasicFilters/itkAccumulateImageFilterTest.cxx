@@ -72,7 +72,7 @@ int itkAccumulateImageFilterTest(int argc, char *argv[] )
   // Accumulate the input images
   AccumulaterType::Pointer accumulate = AccumulaterType::New();
   accumulate->SetInput( reader->GetOutput() );
-  accumulate->SetAccumulatedDimension( 2 );
+  accumulate->SetAccumulateDimension( 2 );
   accumulate->AverageOn();
 
   try
