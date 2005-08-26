@@ -33,7 +33,7 @@ AccumulateImageFilter<TInputImage,TOutputImage >
 ::AccumulateImageFilter()
 {
   this->SetNumberOfRequiredInputs( 1 );
-  m_AccumulatedDimension=-1;
+  m_AccumulateDimension=InputImageDimension-1;
   m_Average = false;
 }
 
@@ -66,8 +66,8 @@ AccumulateImageFilter<TInputImage,TOutputImage>
 
   // Set the LargestPossibleRegion of the output.
   // Reduce the size of the accumulated dimension.
-  for(int i = 0; i<InputImageDimension; i++) {
-    if (i != m_AccumulatedDimension) {
+  for(unsigned int i = 0; i<InputImageDimension; i++) {
+    if (i != m_AccumulateDimension) {
       outputSize[i]  = inputSize[i];
       outputIndex[i] = inputIndex[i];
       outSpacing[i] = inSpacing[i];
@@ -113,9 +113,9 @@ AccumulateImageFilter<TInputImage,TOutputImage>
       inputLargSize = this->GetInput()->GetLargestPossibleRegion().GetSize();
       inputLargIndex = this->GetInput()->GetLargestPossibleRegion().GetIndex();
 
-      for(int i=0; i<TInputImage::ImageDimension; i++)
+      for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
       {
-        if(i!=m_AccumulatedDimension)
+        if(i!=m_AccumulateDimension)
         {
           inputSize[i] = outputSize[i];
           inputIndex[i] = outputIndex[i];
@@ -145,9 +145,9 @@ void
 AccumulateImageFilter<TInputImage,TOutputImage>
 ::GenerateData( void )
 {
-  if(m_AccumulatedDimension>=TInputImage::ImageDimension)
+  if(m_AccumulateDimension>=TInputImage::ImageDimension)
   {
-  itkExceptionMacro(<<"AccumulateImageFilter: invalid dimension to accumulate. AccumulateDimension = " << m_AccumulatedDimension);
+  itkExceptionMacro(<<"AccumulateImageFilter: invalid dimension to accumulate. AccumulateDimension = " << m_AccumulateDimension);
   }
 
   typedef typename TOutputImage::PixelType OutputPixelType;
@@ -158,7 +158,7 @@ AccumulateImageFilter<TInputImage,TOutputImage>
   outputImage->SetBufferedRegion( outputImage->GetRequestedRegion() );
   outputImage->Allocate();
 
-// Accumulate over the Nth dimension ( = m_AccumulatedDimension)
+// Accumulate over the Nth dimension ( = m_AccumulateDimension)
 // and divide by the size of the accumulated dimension.
   typedef ImageRegionIterator<TOutputImage> outputIterType;
   outputIterType outputIter(outputImage, outputImage->GetBufferedRegion());
@@ -168,11 +168,11 @@ AccumulateImageFilter<TInputImage,TOutputImage>
   typename TInputImage::SizeType AccumulatedSize = inputImage->GetLargestPossibleRegion().GetSize();
   typename TInputImage::IndexType AccumulatedIndex = inputImage->GetLargestPossibleRegion().GetIndex();
 
-  unsigned long SizeAccumulatedDimension = AccumulatedSize[m_AccumulatedDimension];
-  double SizeAccumulatedDimensionDouble = static_cast<double>(SizeAccumulatedDimension);
-  long IndexAccumulatedDimension = AccumulatedIndex[m_AccumulatedDimension];
-  for(int i=0; i< InputImageDimension; i++) {
-    if (i != m_AccumulatedDimension ) {
+  unsigned long SizeAccumulateDimension = AccumulatedSize[m_AccumulateDimension];
+  double SizeAccumulateDimensionDouble = static_cast<double>(SizeAccumulateDimension);
+  long IndexAccumulateDimension = AccumulatedIndex[m_AccumulateDimension];
+  for(unsigned int i=0; i< InputImageDimension; i++) {
+    if (i != m_AccumulateDimension ) {
       AccumulatedSize[i] = 1;
     }
   }
@@ -181,11 +181,11 @@ AccumulateImageFilter<TInputImage,TOutputImage>
   while(!outputIter.IsAtEnd())
   {
     typename TOutputImage::IndexType OutputIndex = outputIter.GetIndex();
-    for(int i=0; i<InputImageDimension; i++) {
-      if (i != m_AccumulatedDimension) {
+    for(unsigned int i=0; i<InputImageDimension; i++) {
+      if (i != m_AccumulateDimension) {
         AccumulatedIndex[i] = OutputIndex[i];
       } else {
-        AccumulatedIndex[i] = IndexAccumulatedDimension;
+        AccumulatedIndex[i] = IndexAccumulateDimension;
       }
     }
     AccumulatedRegion.SetIndex(AccumulatedIndex);
@@ -199,7 +199,7 @@ AccumulateImageFilter<TInputImage,TOutputImage>
       }
     if (m_Average)
       {
-      outputIter.Set( static_cast<OutputPixelType>(Value / SizeAccumulatedDimensionDouble) );
+      outputIter.Set( static_cast<OutputPixelType>(Value / SizeAccumulateDimensionDouble) );
       }
     else
       {
@@ -217,7 +217,7 @@ PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "AccumulatedDimension: " << m_AccumulatedDimension << std::endl;
+  os << indent << "AccumulateDimension: " << m_AccumulateDimension << std::endl;
   os << indent << "Average: " << (m_Average ? "On" : "Off") << std::endl;
 }
 

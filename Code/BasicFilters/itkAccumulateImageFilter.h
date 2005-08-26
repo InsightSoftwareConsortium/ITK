@@ -27,7 +27,7 @@ namespace itk
  *
  *    This class accumulates an image along a dimension and reduce the size 
  * of this dimension to 1. The dimension being accumulated is set by 
- * AccumulatedDimension. 
+ * AccumulateDimension. 
  *
  *   Each pixel is the cumulative sum of the pixels along the collapsed
  * dimension and reduce the size of the accumulated dimension to 1 (only 
@@ -83,8 +83,8 @@ public:
   /** Set the direction in which to accumulate the data.  It must be
    * set before the update of the filter. Defaults to the last
    * dimension. */
-  itkGetMacro( AccumulatedDimension, unsigned int );
-  itkSetMacro( AccumulatedDimension, unsigned int );
+  itkGetMacro( AccumulateDimension, unsigned int );
+  itkSetMacro( AccumulateDimension, unsigned int );
 
   /** Perform a division by the size of the accumulated dimension
    * after the accumulation is done. If true, the output image is the
@@ -118,7 +118,7 @@ private:
   AccumulateImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  unsigned int m_AccumulatedDimension;
+  unsigned int m_AccumulateDimension;
   bool m_Average;
 
 };
