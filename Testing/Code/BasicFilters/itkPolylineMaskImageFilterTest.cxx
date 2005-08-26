@@ -25,6 +25,7 @@
 #include <itkEllipseSpatialObject.h>
 #include <itkSpatialObjectToImageFilter.h>
 #include <itkImageFileWriter.h>
+#include <iostream>
 
 int itkPolylineMaskImageFilterTest(int argc, char * argv[] ) 
 {
