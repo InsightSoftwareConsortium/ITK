@@ -29,8 +29,6 @@
 #include "itkPathIterator.h"
 #include "itkVector.h"
 #include "itkBoundingBox.h"
-#include "iostream"
-#include "fstream"
 
 namespace itk
 {
@@ -553,8 +551,6 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
     outputIt.GoToBegin();
   inputIt.GoToBegin();
 
-  //std::ofstream fileout("out.dat");
-
   InputImageSpacingType     inputImageSpacing;
   InputImagePointType       inputImageOrigin;
 
@@ -562,8 +558,6 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
   inputImageOrigin = inputImagePtr->GetOrigin();
   inputImageSize = inputImagePtr->GetLargestPossibleRegion().GetSize();
   
-  //fileout<<"Input image origin="<<inputImageOrigin<<",spacing="<<inputImageSpacing<<",Size="<<inputImageSize<<std::endl;
-
   while ( !inputIt.IsAtEnd() )
     {
     outputImagePtr->TransformIndexToPhysicalPoint( outputIt.GetIndex(), inputPoint );
