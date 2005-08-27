@@ -18,6 +18,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 //  Software Guide : BeginCommandLineArgs
+#ifdef __BORLANDC__
+#define ITK_LEAN_AND_MEAN
+#endif
+
 //    INPUTS:  {FivePoints.png}
 //    OUTPUTS: {DanielssonDistanceMapImageFilterOutput1.png}
 //    OUTPUTS: {DanielssonDistanceMapImageFilterOutput2.png}

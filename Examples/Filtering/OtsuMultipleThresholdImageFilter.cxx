@@ -17,6 +17,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 //  Software Guide : BeginCommandLineArgs
+#ifdef __BORLANDC__
+#define ITK_LEAN_AND_MEAN
+#endif
+
 //    INPUTS: {BrainProtonDensitySlice.png}
 //    OtsuMultipleThresholdsOutput png 4
 //  Software Guide : EndCommandLineArgs

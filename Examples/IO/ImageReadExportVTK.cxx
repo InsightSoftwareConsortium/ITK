@@ -18,6 +18,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#ifdef __BORLANDC__
+#define ITK_LEAN_AND_MEAN
+#endif
+
 //  Software Guide : BeginLatex
 //
 //  In cases where the user knows what file format to use and wants to

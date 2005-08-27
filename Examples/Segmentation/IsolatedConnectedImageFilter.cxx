@@ -18,6 +18,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 //  Software Guide : BeginCommandLineArgs
+#ifdef __BORLANDC__
+#define ITK_LEAN_AND_MEAN
+#endif
+
 //  INPUTS: {BrainProtonDensitySlice.png}
 //  OUTPUTS: {IsolatedConnectedImageFilterOutput1.png}
 //  61 140 150 63 43

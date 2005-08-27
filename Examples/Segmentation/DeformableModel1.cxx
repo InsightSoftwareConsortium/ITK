@@ -19,6 +19,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#ifdef __BORLANDC__
+#define ITK_LEAN_AND_MEAN
+#endif
+
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{DeformableMesh3DFilter}

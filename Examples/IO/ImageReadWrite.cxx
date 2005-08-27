@@ -18,6 +18,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#ifdef __BORLANDC__
+#define ITK_LEAN_AND_MEAN
+#endif
+
 //  Software Guide : BeginLatex
 //
 //  The classes responsible for reading and writing images are located at the

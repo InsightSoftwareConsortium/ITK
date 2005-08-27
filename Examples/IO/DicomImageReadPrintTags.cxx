@@ -18,6 +18,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#ifdef __BORLANDC__
+#define ITK_LEAN_AND_MEAN
+#endif
+
 //  Software Guide : BeginLatex
 //
 //  It is often valuable to be able to query the entries from the header of a

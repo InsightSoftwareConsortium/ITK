@@ -18,6 +18,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 //  Software Guide : BeginCommandLineArgs
+#ifdef __BORLANDC__
+#define ITK_LEAN_AND_MEAN
+#endif
+
 //  INPUTS: {VisibleWomanHeadSlice.png}
 //  OUTPUTS: {RGBCurvatureAnisotropicDiffusionImageFilterOutput.png}
 //  20 0.125

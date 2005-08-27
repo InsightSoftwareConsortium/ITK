@@ -18,6 +18,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#ifdef __BORLANDC__
+#define ITK_LEAN_AND_MEAN
+#endif
+
 // Software Guide : BeginLatex
 //
 // It is unfortunate that it is still very common to find medical image

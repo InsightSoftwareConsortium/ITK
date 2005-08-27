@@ -18,6 +18,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 // Software Guide : BeginCommandLineArgs
+#ifdef __BORLANDC__
+#define ITK_LEAN_AND_MEAN
+#endif
+
 // INPUTS: {BinaryThresholdImageFilterOutput.png}
 // OUTPUTS: {VotingBinaryIterativeHoleFillingImageFilterOutput1.png}
 // 1 1 20

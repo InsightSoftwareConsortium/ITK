@@ -18,6 +18,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#ifdef __BORLANDC__
+#define ITK_LEAN_AND_MEAN
+#endif
+
 // The example takes an image (say MRA image), computes the vesselness measure
 // of the image using the HessianRecursiveGaussianImageFilter and the
 // Hessian3DToVesselnessMeasureImageFilter. The goal is to detect bright tubular

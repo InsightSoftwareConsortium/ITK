@@ -16,6 +16,10 @@
 
 =========================================================================*/
 
+#ifdef __BORLANDC__
+#define ITK_LEAN_AND_MEAN
+#endif
+
 //  Software Guide : BeginLatex
 //
 //  The composite filter we will build combines three filters: a gradient

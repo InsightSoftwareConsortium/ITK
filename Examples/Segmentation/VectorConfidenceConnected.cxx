@@ -18,6 +18,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 //  Software Guide : BeginCommandLineArgs
+#ifdef __BORLANDC__
+#define ITK_LEAN_AND_MEAN
+#endif
+
 //    INPUTS: {VisibleWomanEyeSlice.png}
 //    OUTPUTS: {VectorConfidenceConnectedOutput1.png}
 //    70 120 7 1
