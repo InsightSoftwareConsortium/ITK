@@ -89,7 +89,6 @@ ADD_LIBRARY(itkvnl_inst
   vnl_matrix_fixed_ref+double.3.12-.cxx
   vnl_matrix_fixed_ref+double.4.3-.cxx
   vnl_matrix_fixed_ref+double.4.4-.cxx
-  vnl_vector+char-.cxx
   vnl_vector+short-.cxx
   vnl_vector+ushort-.cxx
   )
