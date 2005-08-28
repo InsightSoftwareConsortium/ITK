@@ -15,4 +15,4 @@ VCL_DEFINE_SPECIALIZATION struct vnl_complex_traits<T > \
 VCL_DEFINE_SPECIALIZATION_MACRO(char);
 #undef VCL_DEFINE_SPECIALIZATION_MACRO
 
-#endif __itk_common_vnl_vector_char_h__
+#endif 
