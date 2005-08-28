@@ -433,7 +433,6 @@ ITKCommon
 ITKStatistics
 )
 
-IF(NOT BORLAND)
 ADD_EXECUTABLE(CellularSegmentation1 CellularSegmentation1.cxx )
 TARGET_LINK_LIBRARIES(CellularSegmentation1 ITKAlgorithms ITKCommon ITKNumerics ITKIO)
 
@@ -509,8 +508,6 @@ ADD_TEST(LaplacianSegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES7}
         10 2.0 1 127.5 15
 )
 
-
-ENDIF(NOT BORLAND)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 

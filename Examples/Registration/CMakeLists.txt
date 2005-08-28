@@ -31,7 +31,6 @@ TARGET_LINK_LIBRARIES(ImageRegistration8 ITKNumerics ITKIO)
 ADD_EXECUTABLE(ImageRegistration9 ImageRegistration9.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration9 ITKNumerics ITKIO)
 
-IF(NOT BORLAND)
   ADD_EXECUTABLE(ImageRegistration1 ImageRegistration1.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistration1 ITKNumerics ITKIO)
 
@@ -100,7 +99,6 @@ ENDIF( USE_FFTW )
   ADD_EXECUTABLE(RegistrationExamples7 RegistrationExamples7.cxx )
   TARGET_LINK_LIBRARIES(RegistrationExamples7 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
-ENDIF(NOT BORLAND)
 
 ADD_EXECUTABLE(MultiResImageRegistration2 MultiResImageRegistration2.cxx )
 TARGET_LINK_LIBRARIES(MultiResImageRegistration2 ITKNumerics ITKIO)
@@ -302,8 +300,6 @@ ADD_TEST(ImageRegistration10Test ${REGISTRATION_EXAMPLES8}
         -11 -13
 )
 
-IF( NOT BORLAND )
-
   ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter 
                         ITKNumerics ITKIO ITKCommon ITKStatistics)
@@ -343,9 +339,6 @@ ADD_TEST(ImageRegistration16Test ${REGISTRATION_EXAMPLES8}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration16Test.png 0.0 0.0
 )
-
-
-ENDIF( NOT BORLAND )
 
 
 ADD_TEST(ImageRegistration17Test ${REGISTRATION_EXAMPLES8}
