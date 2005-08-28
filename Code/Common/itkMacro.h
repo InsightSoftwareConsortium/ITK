@@ -398,7 +398,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char*);
 /** This macro is used to print debug (or other information). They are
  * also used to catch errors, etc. Example usage looks like:
  * itkDebugMacro(<< "this is debug info" << this->SomeVariable); */
-#ifdef ITK_LEAN_AND_MEAN
+#if defined(ITK_LEAN_AND_MEAN) || defined(__BORLANDC__)
 #define itkDebugMacro(x)
 #else
 #define itkDebugMacro(x) \
