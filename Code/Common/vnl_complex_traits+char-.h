@@ -1,5 +1,5 @@
-#ifndef __itk_common_vnl_vector_char_h__
-#define __itk_common_vnl_vector_char_h__
+#ifndef __itk_common_vnl_complex_traits_char_h__
+#define __itk_common_vnl_complex_traits_char_h__
 
 #include <vnl/vnl_complex_traits.h>
 // The following macro is a complement to the ones
