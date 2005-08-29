@@ -287,53 +287,8 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
   // VectorLength before allocate
   if( strcmp( output->GetNameOfClass(), "VectorImage" ) == 0 ) 
     {
-    // Since we need to set the vector length via a method available 
-    // only in VectorImage, we will resort to C style UNSAFE casts !
-
-#define ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(type) \
-      else if( typeid( VectorImage<type>::Pointer ) == typeid(output) ) \
-      { \
-      ((VectorImage< type > *)(( void* )output))->SetVectorLength( \
-                                m_ImageIO->GetNumberOfComponents() ); \
-      }
-
-    if(0)
-      {
-      }
-    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(unsigned char)
-#ifdef __BORLANDC__
-    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK( signed char)
-#else
-    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK( char)
-#endif
-    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(unsigned short)
-    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK( short)
-    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(unsigned int)
-    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK( int)
-    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(unsigned long)
-    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK( long)
-    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK(float)
-    ITK_READER_SET_VECTOR_LENGTH_IF_BLOCK( double)
-    else
-      {
-      ImageFileReaderException e(__FILE__, __LINE__);
-      OStringStream msg;
-      msg <<"The VectorImage should contain blocks with InternalPixelType of: "
-          << std::endl << "    " << typeid(unsigned char).name()
-          << std::endl << "    " << typeid(char).name()
-          << std::endl << "    " << typeid(unsigned short).name()
-          << std::endl << "    " << typeid(short).name()
-          << std::endl << "    " << typeid(unsigned int).name()
-          << std::endl << "    " << typeid(int).name()
-          << std::endl << "    " << typeid(unsigned long).name()
-          << std::endl << "    " << typeid(long).name()
-          << std::endl << "    " << typeid(float).name()
-          << std::endl << "    " << typeid(double).name()
-          << std::endl << "    "
-          << m_ImageIO->GetComponentTypeAsString(m_ImageIO->GetComponentType())
-          << std::endl << " is not one of them."
-          << std::endl;
-      }
+    typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
+    AccessorFunctorType::SetVectorLength( output, m_ImageIO->GetNumberOfComponents() );
     }
   
   output->Allocate();

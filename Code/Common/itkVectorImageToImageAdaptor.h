@@ -44,7 +44,7 @@ class ITK_EXPORT VectorImageToImagePixelAccessor
 {
 public:
 
-  typedef unsigned long VectorLengthType;
+  typedef unsigned int VectorLengthType;
   
   /** External typedef. It defines the external aspect
    * that this class will exhibit. */
@@ -132,16 +132,19 @@ public:
   typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
   typedef typename Superclass::PixelContainerConstPointer PixelContainerConstPointer;
 
+  /** Typedef for the length of vectors in the VectorImage. */
+  typedef typename VectorImageType::VectorLengthType      VectorLengthType;
+
   // Set/GetMethods to set the component to be extracted.
-  void SetExtractComponentIdx( unsigned long componentIdx )
+  void SetExtractComponentIndex( VectorLengthType componentIdx )
     {
     this->GetPixelAccessor().SetExtractComponentIdx( componentIdx );
     }
 
   // Set/GetMethods to set the component to be extracted.
-  unsigned long GetExtractComponentIdx() const
+  VectorLengthType GetExtractComponentIndex() const
     {
-    this->GetPixelAccessor().GetExtractComponentIdx();
+    return this->GetPixelAccessor().GetExtractComponentIdx();
     }
   
  protected:

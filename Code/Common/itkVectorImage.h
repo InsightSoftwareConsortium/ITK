@@ -108,8 +108,7 @@ public:
 
   /** Functor to provide a common API between DefaultPixelAccessor and
    * DefaultVectorPixelAccessor */
-  typedef DefaultVectorPixelAccessorFunctor< InternalPixelType, 
-          PixelType, AccessorType >          AccessorFunctorType;
+  typedef DefaultVectorPixelAccessorFunctor< Self >       AccessorFunctorType;
 
   /** Container used to store pixels in the image. */
   typedef ImportImageContainer<unsigned long, InternalPixelType> PixelContainer;
@@ -171,7 +170,7 @@ public:
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  const PixelContainerConstPointer GetPixel(const IndexType &index) const
+  const PixelType GetPixel(const IndexType &index) const
     {
     OffsetValueType offset = m_VectorLength * this->ComputeOffset(index);
     PixelType p( &((*m_Buffer)[offset]), m_VectorLength ); 
