@@ -146,7 +146,7 @@ ReconstructionByDilationImageFilter<TInputImage, TOutputImage>
   
   // create map to store     pixel value -> [pos1, pos2 .. posn]
   typedef std::set<IndexType, ITK_TYPENAME IndexType::LexicographicCompare> SetType;
-  typedef typename std::map <MarkerImagePixelType, SetType> PixelMapType;
+  typedef std::map <MarkerImagePixelType, SetType> PixelMapType;
   PixelMapType pixelMap;
   
   for ( markerIt.GoToBegin(), maskIt.GoToBegin(), cpOutIt.GoToBegin(); !markerIt.IsAtEnd(); ++markerIt, ++maskIt, ++cpOutIt ) 

@@ -200,7 +200,7 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
   typedef typename TPolyline::VertexListType                          VertexListType;
   typedef typename TPolyline::IndexType                               PolylineIndexType;
 
-  typedef typename itk::Point<double,3>                               OriginType;
+  typedef Point<double,3>                                             OriginType;
 
   typename TInputImage::ConstPointer inputImagePtr(
     dynamic_cast<const TInputImage  * >(
@@ -266,7 +266,7 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
   typedef Point<double, 3>                                CornerPointType;
   typedef Point<double, 2>                                CornerPointProjectionType;
 
-  typedef itk::BoundingBox< unsigned long int, 2, double > BoundingBoxType;
+  typedef BoundingBox< unsigned long int, 2, double > BoundingBoxType;
   typedef BoundingBoxType::PointsContainer                 CornerPointProjectionContainer;
 
   CornerPointProjectionContainer::Pointer                 cornerPointProjectionlist = CornerPointProjectionContainer::New();
