@@ -89,7 +89,7 @@ class randomPermutation {
     return permutation[i].index;
   }
   ~randomPermutation() {
-    delete permutation;
+    delete [] permutation;
   }
   
   /** Reinitialize the seed of the random number generator */
@@ -210,7 +210,7 @@ public:
   
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomNonRepeatingConstIteratorWithIndex();
-  ~ImageRandomNonRepeatingConstIteratorWithIndex() {};
+  ~ImageRandomNonRepeatingConstIteratorWithIndex() { if( m_Permutation ) delete m_Permutation; };
   
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
@@ -223,7 +223,10 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRandomNonRepeatingConstIteratorWithIndex. */
   ImageRandomNonRepeatingConstIteratorWithIndex( const ImageConstIteratorWithIndex<TImage> &it)
-    { this->ImageConstIteratorWithIndex<TImage>::operator=(it); }
+    { 
+    this->ImageConstIteratorWithIndex<TImage>::operator=(it); 
+    m_Permutation = NULL;
+    }
   /** Move an iterator to the beginning of the region. */
   void GoToBegin(void)
   {
