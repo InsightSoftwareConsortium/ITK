@@ -35,7 +35,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   for (unsigned int i = 0; i < OutputImageDimension; i++)
     {
     m_Spacing[i] = 1.0;
-    m_Origin[i] = 0;
+    m_Origin[i] = 0.;
     }
 
   m_InsideValue = 0;
@@ -224,6 +224,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
       {
       m_Origin[i] = origin[i];
       }
+    this->Modified();
     }
 }
 
@@ -246,6 +247,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
       {
       m_Origin[i] = origin[i];
       }
+    this->Modified();
     }
 }
 
@@ -273,7 +275,6 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   OutputImagePointer   OutputImage = this->GetOutput();
 
   // Generate the image
-  double origin[ObjectDimension];
   SizeType size;
 
   InputObject->ComputeBoundingBox();
@@ -281,7 +282,6 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
     {
     size[i] = (long unsigned int)(InputObject->GetBoundingBox()->GetMaximum()[i]
                                   - InputObject->GetBoundingBox()->GetMinimum()[i]);
-    origin[i]=0;
     }
   
   typename OutputImageType::IndexType index;
@@ -337,7 +337,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
     {
     OutputImage->SetSpacing(InputObject->GetIndexToObjectTransform()->GetScaleComponent());   // set spacing
     }
-  OutputImage->SetOrigin(origin);   //   and origin
+  OutputImage->SetOrigin(m_Origin);   //   and origin
   OutputImage->Allocate();   // allocate the image                            
 
   typedef itk::ImageRegionIteratorWithIndex<OutputImageType> myIteratorType;
