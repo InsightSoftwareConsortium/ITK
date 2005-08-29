@@ -54,6 +54,9 @@ public:
    * spacing is the geometric distance between image samples. */
   typedef typename Superclass::SpacingType SpacingType;
 
+  typedef typename Superclass::AccessorType        AccessorType;
+  typedef typename Superclass::AccessorFunctorType AccessorFunctorType;
+
   /** Set the spacing of the image and precompute the transforms for
    * the image. */
   virtual void SetSpacing (const SpacingType spacing)

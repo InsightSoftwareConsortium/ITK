@@ -17,6 +17,8 @@
 #ifndef __itkDefaultPixelAccessorFunctor_h
 #define __itkDefaultPixelAccessorFunctor_h
 
+#include "itkMacro.h"
+
 namespace itk
 {
 /** \class DefaultPixelAccessorFunctor
@@ -37,15 +39,30 @@ namespace itk
  * \sa DefaultPixelAccessor
  * \sa DefaultVectorPixelAccessorFunctor
  */
-template <class TInternalType, class TExternalType, class TPixelAccessor  >
+template <class TImageType >
 class ITK_EXPORT DefaultPixelAccessorFunctor
 {
 public:
+  typedef TImageType                                   ImageType;
+  typedef typename ImageType::InternalPixelType        InternalPixelType;
+  typedef typename ImageType::PixelType                ExternalPixelType;
+  typedef typename ImageType::AccessorType             PixelAccessorType;
+  typedef unsigned int                                 VectorLengthType;
+  
+  static void SetVectorLength( ImageType *image, VectorLengthType length )
+    { 
+    }
+
+  static VectorLengthType GetVectorLength( const ImageType * itkNotUsed(image) )
+    {
+    return 1;
+    } 
+  
   /** Set the PixelAccessor. This is set at construction time by the image iterators. 
-   * The type TPixelAccessor is obtained from the ImageType over which the iterators
+   * The type PixelAccessorType is obtained from the ImageType over which the iterators
    * are templated.
    * */
-  inline void SetPixelAccessor( TPixelAccessor& accessor ) 
+  inline void SetPixelAccessor( PixelAccessorType& accessor ) 
     {
     m_PixelAccessor = accessor;
     }
@@ -53,28 +70,28 @@ public:
   /** Set the pointer index to the start of the buffer. 
    * The method exists to maintain consistency in the API of the 
    * DefaultPixelAccessorFunctor and the DefaultVectorPixelAccessorFunctor. */
-  inline void SetBegin( const TInternalType *itkNotUsed(begin) ) {};
+  inline void SetBegin( const InternalPixelType *itkNotUsed(begin) ) {};
   
   /** Set output using the value in input */
-  inline void Set( TInternalType & output, const TExternalType &input ) const
+  inline void Set( InternalPixelType & output, const ExternalPixelType &input ) const
     {
     m_PixelAccessor.Set( output, input );
     }
 
   /** Get the value from input */
-  inline TExternalType Get( TInternalType &input ) const
+  inline ExternalPixelType Get( InternalPixelType &input ) const
     {
     return m_PixelAccessor.Get( input );
     }
 
   /** Get a const reference to the pixel. */
-  inline const TExternalType Get( const TInternalType & input ) const
+  inline const ExternalPixelType Get( const InternalPixelType & input ) const
     {
     return m_PixelAccessor.Get( input );
     }
   
 private:
-  TPixelAccessor m_PixelAccessor; // The pixel accessor
+  PixelAccessorType m_PixelAccessor; // The pixel accessor
 };
 
 }

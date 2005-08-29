@@ -129,8 +129,7 @@ public:
   /** Accessor functor to choose between accessors: DefaultPixelAccessor for
    * the Image, and DefaultVectorPixelAccessor for the vector image. The 
    * functor provides a generic API between the two accessors.*/
-  typedef DefaultPixelAccessorFunctor< PixelType, PixelType, 
-                                        AccessorType > AccessorFunctorType;
+  typedef DefaultPixelAccessorFunctor< Self > AccessorFunctorType;
 
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel type

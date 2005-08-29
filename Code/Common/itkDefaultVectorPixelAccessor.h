@@ -49,7 +49,7 @@ class ITK_EXPORT DefaultVectorPixelAccessor
 {
 public:
 
-  typedef unsigned long VectorLengthType;
+  typedef unsigned int VectorLengthType;
   
   /** External typedef. It defines the external aspect
    * that this class will exhibit. Here it is an Array. The container does not 

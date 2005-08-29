@@ -84,8 +84,7 @@ public:
 
   /** typedef of the functor that chooses the appropriate accessor 
    * Image or VectorImage. */
-  typedef DefaultPixelAccessorFunctor< InternalPixelType, PixelType, 
-                                    AccessorType > AccessorFunctorType;
+  typedef DefaultPixelAccessorFunctor< Self > AccessorFunctorType;
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef typename Superclass::IndexType  IndexType;
