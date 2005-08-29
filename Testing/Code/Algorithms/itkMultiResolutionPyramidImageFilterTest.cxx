@@ -124,7 +124,8 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
 
   // set image origin to be center of the image
   double transCenter[3];
-  for( unsigned int j = 0; j < 3; j++ )
+  unsigned int j, k;
+  for( j = 0; j < 3; j++ )
     {
     transCenter[j] = -0.5 * double(size[j]);
     }
@@ -152,7 +153,6 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
 
   // check the schedule
   ScheduleType schedule( numLevels, ImageDimension );
-  unsigned int j, k;
 
   for( k = 0; k < numLevels; k++ )
     {
