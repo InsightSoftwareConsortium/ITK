@@ -293,12 +293,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   // process points on the heap
   AxisNodeType node;
   double currentValue;
-  double oldValue = -(double)m_LargeValue;
-
   double oldProgress = 0;
-
-  unsigned long NumPoints = 0;
-  unsigned long InvalidPoints = 0;
 
   this->UpdateProgress( 0.0 ); // Send first progress event
 
@@ -308,35 +303,24 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     node = m_TrialHeap.top();
     m_TrialHeap.pop();
 
-    if ( this->GetDebug() ) { NumPoints++; }
-
     // does this node contain the current value ?
     currentValue = (double) output->GetPixel( node.GetIndex() );
 
     if ( node.GetValue() != currentValue )
       {
-      if( this->GetDebug() ) { InvalidPoints++; }
       continue;
       } 
 
     // is this node already alive ?
     if ( m_LabelImage->GetPixel( node.GetIndex() ) != TrialPoint ) 
       {
-      if( this->GetDebug() ) { InvalidPoints++; }
       continue;
       }
 
     if ( currentValue > m_StoppingValue )
       {
-      itkDebugMacro(<< "stopping value reached");
       break;
       }
-
-    if ( this->GetDebug() && currentValue < oldValue) 
-      {
-      itkDebugMacro(<< "error value decrease at:" << node.GetIndex() );
-      }
-    oldValue = currentValue;
 
     if ( m_CollectPoints )
       {
@@ -366,8 +350,6 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
     }
   
-  itkDebugMacro(<< "No. points processed: " << NumPoints);
-  itkDebugMacro(<< "No. invalid points: " << InvalidPoints);
 }
 
 /*
