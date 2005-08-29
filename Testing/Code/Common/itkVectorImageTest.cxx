@@ -23,6 +23,8 @@
 
 int itkVectorImageTest( int, char* argv[] )
 {
+  bool failed = false;
+
   {
   // Test 1.
   //
@@ -202,7 +204,13 @@ int itkVectorImageTest( int, char* argv[] )
   const unsigned int componentToExtract = 4;
   typedef itk::VectorImageToImageAdaptor< PixelType, Dimension > AdaptorType;
   AdaptorType::Pointer vectorImageToImageAdaptor = AdaptorType::New();
-  vectorImageToImageAdaptor->SetExtractComponentIdx( componentToExtract );
+  vectorImageToImageAdaptor->SetExtractComponentIndex( componentToExtract );
+  if( vectorImageToImageAdaptor->GetExtractComponentIndex() != componentToExtract )
+    {
+    std::cerr << "[FAILED]" << std::endl;
+    
+    } 
+    
   vectorImageToImageAdaptor->SetImage( vectorImage );
   vectorImageToImageAdaptor->Update();
  
@@ -215,7 +223,8 @@ int itkVectorImageTest( int, char* argv[] )
   if(   (vectorImageToImageAdaptor->GetPixel(index) !=  vectorImage->GetPixel( index )[componentToExtract]) 
      || (vectorImage->GetPixel( index )[componentToExtract] != componentToExtract ))
     {
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "[FAILED]" << std::endl;
+    failed = true;
     }
   else 
     {
@@ -272,7 +281,7 @@ int itkVectorImageTest( int, char* argv[] )
           { 
           std::cerr << 
             "ImageRegionConstIteratorTest on VectorImage [FAILED]" << std::endl;
-          return EXIT_FAILURE;
+          failed = true;
           }
         }
       ++ctr;
@@ -300,7 +309,7 @@ int itkVectorImageTest( int, char* argv[] )
             {
             std::cerr << 
               "ImageLinearConstIteratorWithIndex on VectorImage [FAILED]" << std::endl;
-            return EXIT_FAILURE;
+            failed = true;
             }
           }
         else
@@ -309,7 +318,7 @@ int itkVectorImageTest( int, char* argv[] )
             {
             std::cerr << 
               "ImageLinearConstIteratorWithIndex on VectorImage [FAILED]" << std::endl;
-            return EXIT_FAILURE;
+            failed = true;
             }
           }            
         ++lcit;
@@ -329,7 +338,7 @@ int itkVectorImageTest( int, char* argv[] )
       {
       std::cerr << 
         "ImageLinearConstIteratorWithIndex on VectorImage [FAILED]" << std::endl;
-      return EXIT_FAILURE;
+      failed = true;
       }
     
     std::cout << "ImageLinearConstIteratorWithIndex on VectorImage [PASSED]" << std::endl;
@@ -402,7 +411,7 @@ int itkVectorImageTest( int, char* argv[] )
   IteratorType cit( vectorImage, vectorImage->GetBufferedRegion() );
   cit.GoToBegin();
 
-  bool failed = false;
+  bool failed1 = false;
   while( !cit.IsAtEnd() )
     {
     if(   (cit.Get()[0] != cit.GetIndex()[0])
@@ -412,14 +421,15 @@ int itkVectorImageTest( int, char* argv[] )
        || (cit.Get()[4] != cit.GetIndex()[1])
        || (cit.Get()[5] != cit.GetIndex()[2]))
       {
-      failed = true;
+      failed1 = true;
       }
     ++cit;
     }
 
-  if( failed )
+  if( failed1 )
     {
-    std::cout << "Read VectorImage [FAILED]" << std::endl;
+    std::cerr << "Read VectorImage [FAILED]" << std::endl;
+    failed = true;
     }
   else
     {
@@ -450,7 +460,7 @@ int itkVectorImageTest( int, char* argv[] )
   IteratorType cit( vectorImage, vectorImage->GetBufferedRegion() );
   cit.GoToBegin();
 
-  bool failed = false;
+  bool failed1 = false;
   while( !cit.IsAtEnd() )
     {
     if(   (cit.Get()[0] != cit.GetIndex()[0])
@@ -460,20 +470,26 @@ int itkVectorImageTest( int, char* argv[] )
        || (cit.Get()[4] != cit.GetIndex()[1])
        || (cit.Get()[5] != cit.GetIndex()[2]))
       {
-      failed = true;
+      failed1 = true;
       }
     ++cit;
     }
 
-  if( failed )
+  if( failed1 )
     {
-    std::cout << "Write VectorImage [FAILED]" << std::endl;
+    std::cerr << "Write VectorImage [FAILED]" << std::endl;
+    failed = true;
     }
   else
     {
     std::cout << "Write VectorImage [PASSED]" << std::endl;
     }
   }
+
+  if( failed )
+    {
+    return EXIT_FAILURE;
+    }
   
   return EXIT_SUCCESS;
 }
