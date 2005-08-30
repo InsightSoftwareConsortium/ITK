@@ -17,8 +17,6 @@
 #ifndef __itkDefaultPixelAccessorFunctor_h
 #define __itkDefaultPixelAccessorFunctor_h
 
-#include "itkMacro.h"
-
 namespace itk
 {
 /** \class DefaultPixelAccessorFunctor
@@ -49,11 +47,11 @@ public:
   typedef typename ImageType::AccessorType             PixelAccessorType;
   typedef unsigned int                                 VectorLengthType;
   
-  static void SetVectorLength( ImageType *image, VectorLengthType length )
+  static void SetVectorLength( ImageType *, VectorLengthType )
     { 
     }
 
-  static VectorLengthType GetVectorLength( const ImageType * itkNotUsed(image) )
+  static VectorLengthType GetVectorLength( const ImageType * )
     {
     return 1;
     } 
