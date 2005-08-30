@@ -564,30 +564,9 @@ KLMSegmentationRegion
 {
   int region1label;
   int region2label;
-  this->DebugOff();
-
-  itkDebugMacro(<< "------------------------------" );
-  itkDebugMacro(<< "Location   : " << this );
-  itkDebugMacro(<< "Label      : " << (this->GetRegionLabel()) );
-  itkDebugMacro(<< "Area       : " << (this->GetRegionArea()) );
-  itkDebugMacro(<< "Mean       : " << (this->GetMeanRegionIntensity()) );
-  itkDebugMacro(<< "Num Borders: " << static_cast<int>( m_RegionBorderVector.size() ) );
-  itkDebugMacro(<< "++++++++++++++++++++++++++++++" );
 
   // If there are border pointers print the results
-  RegionBorderVectorIterator tempVectorIt = m_RegionBorderVector.begin();
-  for( unsigned int k = 0; k < m_RegionBorderVector.size(); k++ )
-    {
-    region1label = (*tempVectorIt)->GetRegion1()->GetRegionLabel();
-    region2label = (*tempVectorIt)->GetRegion2()->GetRegionLabel();
-
-    itkDebugMacro(<< "Border Ptr :" << (*tempVectorIt) << "( " <<
-                  region1label << " - " << region2label << " )" );
-    tempVectorIt++;
-    } // end for
-
-  this->DebugOff();
-
+  RegionBorderVectorIterator tempVectorIt;
 
   std::cout << "------------------------------" << std::endl;
   std::cout << "Location   : " << this << std::endl;
