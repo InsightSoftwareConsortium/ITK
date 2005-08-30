@@ -430,7 +430,7 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
   VertexType pstartIndex;
 
   /* define flag to indicate the line segment slope */
-  bool pflag=false;
+  bool pflag;
 
   /* define background, foreground pixel values and unlabed pixel value */
   PixelType u_val = static_cast<ProjectionImagePixelType> (0);

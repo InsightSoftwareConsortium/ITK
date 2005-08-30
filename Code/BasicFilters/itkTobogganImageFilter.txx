@@ -115,7 +115,6 @@ TobogganImageFilter<TInputImage>
         // We've touched this pixel
         outputImage->SetPixel ( CurrentPositionIndex, 1 );
         MinimumNeighborIndex = CurrentPositionIndex;
-        MinimumNeighborClass = 0 ;
         // DirectionImage->PutPixel ( CurrentPositionIndex, 1 );
         // Check the face connected neighbors
         for ( Dimension = 0; Dimension < ImageDimension; Dimension++ )
@@ -142,21 +141,7 @@ TobogganImageFilter<TInputImage>
                   {
                   MinimumNeighborValue = inputImage->GetPixel ( NeighborIndex );
                   MinimumNeighborIndex = NeighborIndex;
-                  MinimumNeighborClass = NeighborClass;
                   }
-//                 else if ( NeighborValue == MinimumNeighborValue && NeighborClass )
-//                   {
-//                   // If it's classified already, compare, otherwise do nothing
-//                   // Check to see if the neighbor class is less than the minimum
-//                   // if so, move there
-//                   // Also move if MinimumNeighborClass == 0
-//                   if ( NeighborClass < MinimumNeighborClass || MinimumNeighborClass == 0 )
-//                     {
-//                     MinimumNeighborValue = inputImage->GetPixel ( NeighborIndex );
-//                     MinimumNeighborIndex = NeighborIndex;
-//                     MinimumNeighborClass = NeighborClass;
-//                     }
-//                   }
                 }
               }
             }

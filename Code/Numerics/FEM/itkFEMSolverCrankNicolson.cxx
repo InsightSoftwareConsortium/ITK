@@ -60,7 +60,7 @@ void SolverCrankNicolson::AssembleKandM()
   // if no DOFs exist in a system, we have nothing to do
   if (NGFN<=0) return;
 
-  Float lhsval=0.0;
+  Float lhsval;
   Float rhsval=0.0;
   NMFC=0;  // number of MFC in a system
 
