@@ -58,7 +58,11 @@ int itkKappaStatisticImageToImageMetricTest(int argc, char* argv[] )
   metric->SetInterpolator (interpolator);
   metric->SetTransform (transform);
   metric->SetFixedImageRegion (reader->GetOutput()->GetLargestPossibleRegion());
+  metric->SetForegroundValue (254);
+
   metric->Initialize();
+
+  unsigned int numberOfParameters = transform->GetNumberOfParameters();
 
   std::cout << "First measure matches..." << std::endl;
   for (float x = -200.0; x <= 200.0; x+= 50.0)
@@ -69,7 +73,15 @@ int itkKappaStatisticImageToImageMetricTest(int argc, char* argv[] )
       offset[1] = y;
       try
         {
-        std::cout << "Offset: " << offset << " = " << metric->GetValue(offset) << std::endl;
+        MetricType::DerivativeType derivative( numberOfParameters );
+        metric->GetDerivative(offset, derivative);
+        std::cout << "Offset: " 
+                  << offset 
+                  << " = " 
+                  << metric->GetValue(offset)
+                  << ", "
+                  << derivative
+                  << std::endl;
         }
       catch( itk::ExceptionObject & exp )
         {
@@ -91,7 +103,15 @@ int itkKappaStatisticImageToImageMetricTest(int argc, char* argv[] )
       offset[1] = y;
       try
         {
-        std::cout << "Offset: " << offset << " = " << metric->GetValue(offset) << std::endl;
+        MetricType::DerivativeType derivative( numberOfParameters );
+        metric->GetDerivative(offset, derivative);
+        std::cout << "Offset: " 
+                  << offset 
+                  << " = " 
+                  << metric->GetValue(offset)
+                  << ", "
+                  << derivative
+                  << std::endl;
         }
       catch( itk::ExceptionObject & exp )
         {
@@ -102,6 +122,7 @@ int itkKappaStatisticImageToImageMetricTest(int argc, char* argv[] )
       }
     }
       
+  metric->Print (std::cout);
   return EXIT_SUCCESS;
 
 }
