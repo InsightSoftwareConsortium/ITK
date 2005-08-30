@@ -17,6 +17,7 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
+#define ITK_LEAN_AND_MEAN
 
 #include "itkImage.h"
 #include "itkVector.h"
@@ -90,20 +91,6 @@
 #include "itkHausdorffDistanceImageFilter.h"
 #include "itkHoughTransform2DCirclesImageFilter.h"
 #include "itkHoughTransform2DLinesImageFilter.h"
-#if 0
-#include "itkImageToParametricSpaceFilter.h"
-#include "itkImportImageFilter.h"
-#include "itkIntensityWindowingImageFilter.h"
-#include "itkInteriorExteriorMeshFilter.h"
-#include "itkInterpolateImageFilter.h"
-#include "itkInterpolateImagePointsFilter.h"
-#include "itkIsolatedConnectedImageFilter.h"
-#include "itkJoinImageFilter.h"
-#include "itkLaplacianImageFilter.h"
-#include "itkLaplacianRecursiveGaussianImageFilter.h"
-#include "itkLog10ImageFilter.h"
-#include "itkLogImageFilter.h"
-#endif
 
 #include <itkSphereSpatialFunction.h>
 #include "itkGaussianSpatialFunction.h"
@@ -154,6 +141,8 @@ int itkBasicFiltersPrintTest(int , char* [])
   typedef itk::DifferenceOfGaussiansGradientImageFilter<CharType3D,
     double> DOGFilterType;
 
+  // cygwin linker just can't handle this much code
+#ifndef __CYGWIN__
 
   itk::AcosImageFilter<InputType,OutputType>::Pointer AcosImageFilterObj =
     itk::AcosImageFilter<InputType,OutputType>::New();
@@ -411,54 +400,6 @@ int itkBasicFiltersPrintTest(int , char* [])
     itk::HausdorffDistanceImageFilter<InputType,OutputType>::New();
   std::cout << "-------------HausdorffDistanceImageFilter" << HausdorffDistanceImageFilterObj;
 
-#if 0
-  itk::ImageToParametricSpaceFilter<InputType,MeshType>::Pointer ImageToParametricSpaceFilterObj =
-    itk::ImageToParametricSpaceFilter<InputType,MeshType>::New();
-  std::cout << "-------------ImageToParametricSpaceFilter" << ImageToParametricSpaceFilterObj;
-
-  itk::ImportImageFilter<float>::Pointer ImportImageFilterObj =
-    itk::ImportImageFilter<float>::New();
-  std::cout << "-------------ImportImageFilter" << ImportImageFilterObj;
-
-  itk::IntensityWindowingImageFilter<InputType,OutputType>::Pointer IntensityWindowingImageFilterObj =
-    itk::IntensityWindowingImageFilter<InputType,OutputType>::New();
-  std::cout << "-------------IntensityWindowingImageFilter" << IntensityWindowingImageFilterObj;
- 
-  itk::InteriorExteriorMeshFilter<MeshType,MeshType,SphereSpatialFunctionType>::Pointer InteriorExteriorMeshFilterObj =
-    itk::InteriorExteriorMeshFilter<MeshType,MeshType,SphereSpatialFunctionType>::New();
-  std::cout << "-------------InteriorExteriorMeshFilter" << InteriorExteriorMeshFilterObj;
-
-  itk::InterpolateImageFilter<InputType,OutputType>::Pointer InterpolateImageFilterObj =
-    itk::InterpolateImageFilter<InputType,OutputType>::New();
-  std::cout << "-------------InterpolateImageFilter" << InterpolateImageFilterObj;
-
-  itk::InterpolateImagePointsFilter<InputType,OutputType>::Pointer InterpolateImagePointsFilterObj =
-    itk::InterpolateImagePointsFilter<InputType,OutputType>::New();
-  std::cout << "-------------InterpolateImagePointsFilter" << InterpolateImagePointsFilterObj;
-
-  itk::IsolatedConnectedImageFilter<InputType,OutputType>::Pointer IsolatedConnectedImageFilterObj =
-    itk::IsolatedConnectedImageFilter<InputType,OutputType>::New();
-  std::cout << "-------------IsolatedConnectedImageFilter" << IsolatedConnectedImageFilterObj;
-
-  itk::JoinImageFilter<InputType,OutputType>::Pointer JoinImageFilterObj =
-    itk::JoinImageFilter<InputType,OutputType>::New();
-  std::cout << "-------------JoinImageFilter" << JoinImageFilterObj;
-
-  itk::LaplacianImageFilter<InputType,OutputType>::Pointer LaplacianImageFilterObj =
-    itk::LaplacianImageFilter<InputType,OutputType>::New();
-  std::cout << "-------------LaplacianImageFilter" << LaplacianImageFilterObj;
-
-  itk::LaplacianRecursiveGaussianImageFilter<InputType,OutputType>::Pointer LaplacianRecursiveGaussianImageFilterObj =
-    itk::LaplacianRecursiveGaussianImageFilter<InputType,OutputType>::New();
-  std::cout << "-------------LaplacianRecursiveGaussianImageFilter" << LaplacianRecursiveGaussianImageFilterObj;
-
-  itk::Log10ImageFilter<InputType,OutputType>::Pointer Log10ImageFilterObj =
-    itk::Log10ImageFilter<InputType,OutputType>::New();
-  std::cout << "-------------Log10ImageFilter" << Log10ImageFilterObj;
-
-  itk::LogImageFilter<InputType,OutputType>::Pointer LogImageFilterObj =
-    itk::LogImageFilter<InputType,OutputType>::New();
-  std::cout << "-------------LogImageFilter" << LogImageFilterObj;
 #endif
   return 0;
 }

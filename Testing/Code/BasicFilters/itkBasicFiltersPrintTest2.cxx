@@ -18,6 +18,7 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
+#define ITK_LEAN_AND_MEAN
 
 #include "itkImage.h"
 #include "itkAffineTransform.h"
@@ -154,6 +155,8 @@ int itkBasicFiltersPrintTest2(int , char* [])
   typedef itk::Image<unsigned char,2> MaskImageType;
 
 
+  // cygwin linker just can't handle this much code
+#ifndef __CYGWIN__
   itk::ImageToParametricSpaceFilter<InputType,MeshType>::Pointer ImageToParametricSpaceFilterObj =
     itk::ImageToParametricSpaceFilter<InputType,MeshType>::New();
   std::cout << "-------------ImageToParametricSpaceFilter" << ImageToParametricSpaceFilterObj;
@@ -241,11 +244,7 @@ int itkBasicFiltersPrintTest2(int , char* [])
   itk::NaryAddImageFilter<InputType,OutputType>::Pointer NaryAddImageFilterObj =
     itk::NaryAddImageFilter<InputType,OutputType>::New();
   std::cout << "-------------NaryAddImageFilter" << NaryAddImageFilterObj;
-#if 0
-  itk::NaryFunctorImageFilter<InputType,OutputType,OutputType>::Pointer NaryFunctorImageFilterObj =
-    itk::NaryFunctorImageFilter<InputType,OutputType,OutputType>::New();
-  std::cout << "-------------NaryFunctorImageFilter" << NaryFunctorImageFilterObj;
-#endif
+
   itk::NeighborhoodConnectedImageFilter<InputType,OutputType>::Pointer NeighborhoodConnectedImageFilterObj =
     itk::NeighborhoodConnectedImageFilter<InputType,OutputType>::New();
   std::cout << "-------------NeighborhoodConnectedImageFilter" << NeighborhoodConnectedImageFilterObj;
@@ -261,11 +260,7 @@ int itkBasicFiltersPrintTest2(int , char* [])
   itk::NoiseImageFilter<InputType,OutputType>::Pointer NoiseImageFilterObj =
     itk::NoiseImageFilter<InputType,OutputType>::New();
   std::cout << "-------------NoiseImageFilter" << NoiseImageFilterObj;
-#if 0
-  itk::NonThreadedShrinkImageFilter<InputType,OutputType>::Pointer NonThreadedShrinkImageFilterObj =
-    itk::NonThreadedShrinkImageFilter<InputType,OutputType>::New();
-  std::cout << "-------------NonThreadedShrinkImageFilter" << NonThreadedShrinkImageFilterObj;
-#endif
+
   itk::NormalizeImageFilter<InputType,OutputType>::Pointer NormalizeImageFilterObj =
     itk::NormalizeImageFilter<InputType,OutputType>::New();
   std::cout << "-------------NormalizeImageFilter" << NormalizeImageFilterObj;
@@ -273,11 +268,7 @@ int itkBasicFiltersPrintTest2(int , char* [])
   itk::PadImageFilter<InputType,OutputType>::Pointer PadImageFilterObj =
     itk::PadImageFilter<InputType,OutputType>::New();
   std::cout << "-------------PadImageFilter" << PadImageFilterObj;
-#if 0
-  itk::ParametricSpaceToImageSpaceMeshFilter<MeshType,MeshType>::Pointer ParametricSpaceToImageSpaceMeshFilterObj =
-    itk::ParametricSpaceToImageSpaceMeshFilter<MeshType,MeshType>::New();
-  std::cout << "-------------ParametricSpaceToImageSpaceMeshFilter" << ParametricSpaceToImageSpaceMeshFilterObj;
-#endif
+
   itk::PasteImageFilter<InputType>::Pointer PasteImageFilterObj =
     itk::PasteImageFilter<InputType>::New();
   std::cout << "-------------PasteImageFilter" << PasteImageFilterObj;
@@ -349,19 +340,11 @@ int itkBasicFiltersPrintTest2(int , char* [])
   itk::SparseFieldLayer<node_type>::Pointer SparseFieldLayerObj =
     itk::SparseFieldLayer<node_type>::New();
   std::cout << "-------------SparseFieldLayer" << SparseFieldLayerObj;
-#if 0
-  itk::SparseFieldLevelSetImageFilter<VectorImageType,VectorImageType>::Pointer SparseFieldLevelSetImageFilterObj =
-    itk::SparseFieldLevelSetImageFilter<VectorImageType,VectorImageType>::New();
-  std::cout << "-------------SparseFieldLevelSetImageFilter" << SparseFieldLevelSetImageFilterObj;
-#endif
+
   itk::SpatialFunctionImageEvaluatorFilter<GaussianSpatialFunctionType,InputType,OutputType>::Pointer SpatialFunctionImageEvaluatorFilterObj =
     itk::SpatialFunctionImageEvaluatorFilter<GaussianSpatialFunctionType,InputType,OutputType>::New();
   std::cout << "-------------SpatialFunctionImageEvaluatorFilter" << SpatialFunctionImageEvaluatorFilterObj;
-#if 0
-  itk::SpatialObjectToImageFilter<SpatialObjectType,OutputType>::Pointer SpatialObjectToImageFilterObj =
-    itk::SpatialObjectToImageFilter<SpatialObjectType,OutputType>::New();
-  std::cout << "-------------SpatialObjectToImageFilter" << SpatialObjectToImageFilterObj;
-#endif
+
   itk::SqrtImageFilter<InputType,OutputType>::Pointer SqrtImageFilterObj =
     itk::SqrtImageFilter<InputType,OutputType>::New();
   std::cout << "-------------SqrtImageFilter" << SqrtImageFilterObj;
@@ -417,11 +400,7 @@ int itkBasicFiltersPrintTest2(int , char* [])
   itk::TwoOutputExampleImageFilter<InputType>::Pointer TwoOutputExampleImageFilterObj =
     itk::TwoOutputExampleImageFilter<InputType>::New();
   std::cout << "-------------TwoOutputExampleImageFilter" << TwoOutputExampleImageFilterObj;
-#if 0
-  itk::UnaryFunctorImageFilter<InputType,OutputType>::Pointer UnaryFunctorImageFilterObj =
-    itk::UnaryFunctorImageFilter<InputType,OutputType>::New();
-  std::cout << "-------------UnaryFunctorImageFilter" << UnaryFunctorImageFilterObj;
-#endif
+
   itk::VTKImageExport<InputType>::Pointer VTKImageExportObj =
     itk::VTKImageExport<InputType>::New();
   std::cout << "-------------VTKImageExport" << VTKImageExportObj;
@@ -481,6 +460,7 @@ int itkBasicFiltersPrintTest2(int , char* [])
   itk::ZeroCrossingImageFilter<InputType,OutputType>::Pointer ZeroCrossingImageFilterObj =
     itk::ZeroCrossingImageFilter<InputType,OutputType>::New();
   std::cout << "-------------ZeroCrossingImageFilter" << ZeroCrossingImageFilterObj;
+#endif
 
   return 0;
 }
