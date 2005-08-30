@@ -400,7 +400,7 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
 
 
     RandomIteratorType cbot( myImage, region );
-    cbot.SetPriority(priorityImage);
+    cbot.SetPriorityImage(priorityImage);
 
     cbot.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
     cbot.GoToBegin();
@@ -438,7 +438,7 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
 
 
     RandomConstIteratorType cbot( myImage, region );
-    cbot.SetPriority(priorityImage);
+    cbot.SetPriorityImage(priorityImage);
 
     cbot.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
     cbot.GoToBegin();

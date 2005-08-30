@@ -90,7 +90,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>
 template<class TImage>
 void
 ImageRandomNonRepeatingConstIteratorWithIndex<TImage>
-::SetPriority(const PriorityImageType* priorityImage) 
+::SetPriorityImage(const PriorityImageType* priorityImage) 
 {
   // should probably do error checking to be sure that the priority
   // image is the right size
