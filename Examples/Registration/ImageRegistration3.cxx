@@ -18,6 +18,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+
+
+
 // Software Guide : BeginLatex
 //
 // Given the numerous parameters involved in tuning a registration method for

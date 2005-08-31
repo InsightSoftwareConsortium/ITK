@@ -18,6 +18,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+
+
+
 // Software Guide : BeginLatex
 //
 // This example illustrates how to explore the domain of an image metric.  This

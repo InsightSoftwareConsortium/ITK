@@ -21,7 +21,6 @@
 
 #include "itkImageFileReader.h" 
 #include "itkImageFileWriter.h" 
-//#include "itkMetaImageIO.h"
 
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkHistogramMatchingImageFilter.h"

@@ -18,6 +18,8 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+
+
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{BSplineDeformableTransform}

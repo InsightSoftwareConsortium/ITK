@@ -18,6 +18,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+
+
+
 // Software Guide : BeginLatex
 //
 // Some of the most challenging cases of image registration arise when images

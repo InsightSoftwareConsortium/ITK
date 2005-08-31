@@ -19,6 +19,9 @@
 #endif
 
 
+
+
+
 // Software Guide : BeginLatex
 //
 //  This example illustrates how to do registration with a 2D Translation Transform,

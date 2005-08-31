@@ -19,6 +19,9 @@
 #endif
 
 
+
+
+
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to deform an image using a KernelBase spline

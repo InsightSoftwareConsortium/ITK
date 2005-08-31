@@ -19,6 +19,9 @@
 #endif
 
 
+
+
+
 //  Software Guide : BeginLatex
 //
 //  In order to initialize deformable registration algorithme it is often

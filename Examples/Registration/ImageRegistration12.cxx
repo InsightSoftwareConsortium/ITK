@@ -18,6 +18,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+
+
+
+
 // Software Guide : BeginLatex
 //
 // This example illustrates the use SpatialObjects as masks for selecting the

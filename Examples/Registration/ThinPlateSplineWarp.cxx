@@ -17,6 +17,10 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
+
+
+
+
 //  Command Line Arguments: LandmarksTPS.txt
 //  Software Guide : BeginLatex
 //  This example deforms a 3D volume with the Thin plate spline.

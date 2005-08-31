@@ -18,6 +18,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+
+
+
 // Software Guide : BeginLatex
 //
 // In this example, we will solve a simple multi-modality problem using
