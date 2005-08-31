@@ -842,14 +842,8 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 
   SlabRegionVectorIteratorType iter = m_Slabs.begin();
     
-  int count = 0 ;
   while (iter != m_Slabs.end())
     {
-    if (this->GetDebug() && m_UsingSlabIdentification)
-      {
-      itkDebugMacro(<< "## Slab :" << count);
-      }
-
     // correct inter-slice intensity inhomogeniety
     // using 0th degree Legendre polynomial
 
@@ -881,7 +875,6 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
       itkDebugMacro(<< "  Bias corrected." );
       }
     iter++ ;
-    count++ ;
     }
     
   if (this->IsBiasFieldMultiplicative()) 
