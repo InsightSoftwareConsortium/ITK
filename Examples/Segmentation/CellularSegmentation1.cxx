@@ -22,6 +22,8 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
+
+
 // Software Guide : BeginLatex
 //
 // \index{itk::bio::CellularAggregate}

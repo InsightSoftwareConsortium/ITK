@@ -22,6 +22,9 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
+
+
+
 // Software Guide : BeginLatex
 //
 // WORK IN PROGRESS: THIS WAS TAKEN FROM THE GEODESIC ACTIVE CONTOURS.

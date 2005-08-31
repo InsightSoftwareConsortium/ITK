@@ -22,8 +22,10 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
-//  Software Guide : BeginCommandLineArgs
 
+
+
+//  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
 //    OUTPUTS: {FastMarchingImageFilterOutput5.png}
 //    81 114 1.0  -0.5  3.0   100 100
