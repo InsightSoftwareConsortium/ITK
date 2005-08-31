@@ -221,7 +221,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
     bool stop;
     SIDE side = BOTH; //make sure you can set half segment as well but for noe we just set it to full segment
     int vpos[3], i;
-    double dist = 0.0;
+    double dist;
     double dp[3];
     double pos[3];
       
@@ -262,14 +262,6 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>
     current = new ImageVoxel(vpos,  pos, (double)m_Image->GetPixel(index), 0.0, 0); 
     m_Positive.push_back(current);
       
-    if (current->getDistance() > m_Range)
-      {
-      stop = true;
-      }
-    else
-      {
-      stop = false;
-      }
     // scan normal side
     if (side== NORMAL || side == BOTH)
       {
