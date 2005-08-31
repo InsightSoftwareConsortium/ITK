@@ -34,6 +34,7 @@ ExhaustiveOptimizer
   m_StepLength = 1.0;
   m_CurrentIteration   =   0;
   m_CurrentValue = 0;
+  m_CurrentParameter = 0;
   m_CurrentIndex.Fill(0);
   m_Stop = false;
   m_NumberOfSteps.Fill(0);
