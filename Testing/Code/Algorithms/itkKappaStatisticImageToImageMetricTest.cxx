@@ -58,7 +58,7 @@ int itkKappaStatisticImageToImageMetricTest(int argc, char* argv[] )
   metric->SetInterpolator (interpolator);
   metric->SetTransform (transform);
   metric->SetFixedImageRegion (reader->GetOutput()->GetLargestPossibleRegion());
-  metric->SetForegroundValue (254);
+  metric->SetForegroundValue (255);
 
   metric->Initialize();
 
