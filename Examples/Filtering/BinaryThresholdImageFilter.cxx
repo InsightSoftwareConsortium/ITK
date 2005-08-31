@@ -16,11 +16,13 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-// Software Guide : BeginCommandLineArgs
+
 #ifdef __BORLANDC__
 #define ITK_LEAN_AND_MEAN
 #endif
 
+
+// Software Guide : BeginCommandLineArgs
 // INPUTS:  {BrainProtonDensitySlice.png}
 // OUTPUTS: {BinaryThresholdImageFilterOutput.png}
 // 150 180 0 255
