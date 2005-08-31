@@ -30,7 +30,7 @@ namespace itk
  * \brief Generate a sequence of filenames from a DICOM series.
  *
  * This class generate a sequence of files whose filenames points to 
- * a DICOM file. The oredring is based on the following strategy:
+ * a DICOM file. The ordering is based on the following strategy:
  * Read all images in the directory (assuming there is only one study/serie)
  *
  *   1. Extract Image Orientation & Image Position from DICOM images, and then
