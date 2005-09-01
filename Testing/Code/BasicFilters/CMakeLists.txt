@@ -239,10 +239,7 @@ ADD_TEST(itkOrientImageFilterTest ${BASIC_FILTERS_TESTS1} itkOrientImageFilterTe
 ADD_TEST(itkOrientImageFilterTest2 ${BASIC_FILTERS_TESTS1} itkOrientImageFilterTest2)
 
 ADD_TEST(itkTriangleMeshToBinaryImageFilterTest ${BASIC_FILTERS_TESTS3}
-  --compare ${BASELINE}/itkTriangleMeshToBinaryImageFilterTest.mha
-            ${TEMP}/itkTriangleMeshToBinaryImageFilterTest.mha
   itkTriangleMeshToBinaryImageFilterTest
-            ${TEMP}/itkTriangleMeshToBinaryImageFilterTest.mha
 )
 
 ADD_TEST(itkTriangleMeshToBinaryImageFilterTest2 ${BASIC_FILTERS_TESTS3} itkTriangleMeshToBinaryImageFilterTest2)
