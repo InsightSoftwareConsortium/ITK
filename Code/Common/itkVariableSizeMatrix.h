@@ -132,8 +132,8 @@ public:
   inline const Self & operator=( const vnl_matrix<T> & matrix);
 
   /** Comparison operators. */
-  inline bool operator==( const Self & matrix);
-  inline bool operator!=( const Self & matrix);
+  inline bool operator==( const Self & matrix) const;
+  inline bool operator!=( const Self & matrix) const;
 
   /** Assignment operator. */
   inline const Self & operator=( const Self & matrix);
@@ -151,10 +151,10 @@ public:
   VariableSizeMatrix(const Self & matrix) : m_Matrix( matrix.m_Matrix ) {};
 
   /** Return number of rows in the matrix */
-  inline unsigned int Rows() { return m_Matrix.rows(); }
+  inline unsigned int Rows() const { return m_Matrix.rows(); } 
   
   /** Return number of columns in the matrix */
-  inline unsigned int Cols() { return m_Matrix.cols(); }
+  inline unsigned int Cols() const { return m_Matrix.cols(); } 
 
   /** Set the matrix size. Old data lost. Returns true if size changed. */
   inline bool SetSize( unsigned int r, unsigned int c)
@@ -164,9 +164,6 @@ public:
  
 private:
   InternalMatrixType     m_Matrix;
-  unsigned int m_Rows;   // Number of rows
-  unsigned int m_Cols;   // Number of columns
-
 };
 
 template< class T >  
