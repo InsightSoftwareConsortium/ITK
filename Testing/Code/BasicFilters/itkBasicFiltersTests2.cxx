@@ -72,6 +72,7 @@ void RegisterTests()
   REGISTER_TEST(itkThresholdLabelerImageFilterTest );
   REGISTER_TEST(itkTileImageFilterTest );
   REGISTER_TEST(itkTobogganImageFilterTest );
+  REGISTER_TEST(itkTopHatImageFilterTest );
   REGISTER_TEST(itkTransformMeshFilterTest );
   REGISTER_TEST(itkTriangleMeshToSimplexMeshFilter2Test);
   REGISTER_TEST(itkTriangleMeshToSimplexMeshFilterTest);
