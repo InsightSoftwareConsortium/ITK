@@ -36,6 +36,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
   m_CentroidPositionChanges = 0.0 ;
   m_TempVertex.Fill( 0.0 ) ;
   m_CurrentIteration = 0 ;
+  m_MeasurementVectorSize = 0;
 }
 
 template< class TKdTree >

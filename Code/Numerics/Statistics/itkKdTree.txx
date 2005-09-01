@@ -87,6 +87,7 @@ KdTree< TSample >
   m_Sample = 0 ;
   m_Root = 0 ;
   m_BucketSize = 16 ;
+  m_MeasurementVectorSize = 0;
 }
 
 template< class TSample >
