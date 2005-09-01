@@ -238,7 +238,12 @@ ADD_TEST(itkZeroCrossingImageFilterTest ${BASIC_FILTERS_TESTS3} itkZeroCrossingI
 ADD_TEST(itkOrientImageFilterTest ${BASIC_FILTERS_TESTS1} itkOrientImageFilterTest)
 ADD_TEST(itkOrientImageFilterTest2 ${BASIC_FILTERS_TESTS1} itkOrientImageFilterTest2)
 
-ADD_TEST(itkTriangleMeshToBinaryImageFilterTest ${BASIC_FILTERS_TESTS3} itkTriangleMeshToBinaryImageFilterTest)
+ADD_TEST(itkTriangleMeshToBinaryImageFilterTest ${BASIC_FILTERS_TESTS3}
+  --compare ${BASELINE}/itkTriangleMeshToBinaryImageFilterTest.mha
+            ${TEMP}/itkTriangleMeshToBinaryImageFilterTest.mha
+  itkTriangleMeshToBinaryImageFilterTest
+            ${TEMP}/itkTriangleMeshToBinaryImageFilterTest.mha
+)
 
 ADD_TEST(itkTriangleMeshToBinaryImageFilterTest2 ${BASIC_FILTERS_TESTS3} itkTriangleMeshToBinaryImageFilterTest2)
 IF(ITK_DATA_ROOT)
@@ -448,6 +453,22 @@ ADD_TEST(itkExtractOrthogonalSwath2DImageFilterTest ${BASIC_FILTERS_TESTS}
   itkExtractOrthogonalSwath2DImageFilterTest 
             ${ITK_TEST_OUTPUT_DIR}/ExtractOrthogonalSwath2DImageFilterTest.png
 )
+
+ADD_TEST(itkBlackTopHatImageFilterTest ${BASIC_FILTERS_TESTS2} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBlackTopHatImageFilterTest.png 
+               ${ITK_TEST_OUTPUT_DIR}/itkBlackTopHatImageFilterTest.png 
+   itkTopHatImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/cthead1.png 
+               ${ITK_TEST_OUTPUT_DIR}/itkBlackTopHatImageFilterTest.png
+               0 3)
+
+ADD_TEST(itkWhiteTopHatImageFilterTest ${BASIC_FILTERS_TESTS2} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkWhiteTopHatImageFilterTest.png 
+               ${ITK_TEST_OUTPUT_DIR}/itkWhiteTopHatImageFilterTest.png 
+   itkTopHatImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/cthead1.png 
+               ${ITK_TEST_OUTPUT_DIR}/itkWhiteTopHatImageFilterTest.png
+               1 3)
 
 ADD_TEST(itkTileImageFilterTest ${BASIC_FILTERS_TESTS2}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/TileImageFilterTest4.png
@@ -757,6 +778,7 @@ itkThresholdImageFilterTest.cxx
 itkThresholdLabelerImageFilterTest.cxx
 itkTileImageFilterTest.cxx
 itkTobogganImageFilterTest.cxx
+itkTopHatImageFilterTest.cxx
 itkTransformMeshFilterTest.cxx
 itkTriangleMeshToSimplexMeshFilterTest.cxx
 itkTriangleMeshToSimplexMeshFilter2Test.cxx
