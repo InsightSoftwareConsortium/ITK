@@ -15,7 +15,6 @@ SET(ITKIO_SRCS
   itkDICOMImageIO2.cxx
   itkDICOMImageIO2Factory.cxx
   itkDICOMSeriesFileNames.cxx
-  itkDicomImageIO.cxx
   itkDicomImageIOFactory.cxx
   itkGDCMImageIO.cxx
   itkGDCMImageIOFactory.cxx
