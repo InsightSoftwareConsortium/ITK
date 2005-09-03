@@ -384,12 +384,12 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
     reader->Update();
     }
     catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << "Error while saving the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-    }
+      {
+      std::cerr << "Error while saving the transforms" << std::endl;
+      std::cerr << excp << std::endl;
+      std::cout << "[FAILED]" << std::endl;
+      return EXIT_FAILURE;
+      }
 
     itk::TransformFileReader::TransformListType *list;
     list = reader->GetTransformList();
@@ -408,6 +408,11 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
       return EXIT_FAILURE;
       }
     TransformType::Pointer t2 = ptr;
+
+    std::cout << "Transform written:" << std::endl;
+    t1->Print(std::cout);
+    std::cout << "Transform read:" << std::endl;
+    t2->Print(std::cout);
 
     TransformType::OutputPointType op1, op2;
     op1 = t1->TransformPoint( ip );
