@@ -146,9 +146,6 @@ TobogganImageFilter<TInputImage>
               }
             }
           }
-        itkDebugMacro( << "\tFound Neighbor at: " << MinimumNeighborIndex
-                       << " Value: " << MinimumNeighborValue
-                       << " Class: " << MinimumNeighborClass );
         FoundMinimum = false;
         if ( MinimumNeighborIndex != CurrentPositionIndex )
           {
@@ -162,6 +159,9 @@ TobogganImageFilter<TInputImage>
           }
         // Get the true class of this pixel
         MinimumNeighborClass = outputImage->GetPixel ( MinimumNeighborIndex );
+        itkDebugMacro( << "\tFound Neighbor at: " << MinimumNeighborIndex
+                       << " Value: " << MinimumNeighborValue
+                       << " Class: " << MinimumNeighborClass );
         // we've slid into a different class
         if ( MinimumNeighborClass > 1 )
           {

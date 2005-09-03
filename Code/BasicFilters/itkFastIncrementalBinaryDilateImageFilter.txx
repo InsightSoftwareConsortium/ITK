@@ -338,7 +338,7 @@ FastIncrementalBinaryDilateImageFilter< TInputImage, TOutputImage, TKernel>
            dimCount < TInputImage::ImageDimension; ++dimCount )
         {
         if( currentShiftedPosition[dimCount] < 0
-            || currentShiftedPosition[dimCount] >= m_Kernel.GetSize(dimCount) )
+            || currentShiftedPosition[dimCount] >= static_cast<typename IndexType::IndexValueType>(m_Kernel.GetSize(dimCount)) )
           {
           bIsOutside = true;
           break;
