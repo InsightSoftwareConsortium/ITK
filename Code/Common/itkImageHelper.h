@@ -60,8 +60,8 @@ public:
                                        const UniqueTypeBoolFalse& )
   {
     index[NLoop] = static_cast<IndexValueType>(offset / offsetTable[NLoop]);
-    offset -= (index[NLoop] * offsetTable[NLoop]);
-    index[NLoop] += bufferedRegionIndex[NLoop];
+    offset = offset - (index[NLoop] * offsetTable[NLoop]);
+    index[NLoop] = index[NLoop] + bufferedRegionIndex[NLoop];
     ImageHelper<NImageDimension, NLoop-1>::        
       ComputeIndexInner(bufferedRegionIndex,
                         offset,
