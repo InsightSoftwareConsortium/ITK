@@ -64,7 +64,7 @@ int itkImageComputeOffsetAndIndexTest(int, char* [] )
 
 #define TRYFAST(dim) \
   { \
-  typedef float PixelType; \
+  typedef char PixelType; \
   typedef itk::Image< PixelType, dim> ImageType; \
   ImageType::Pointer myImage = ImageType::New(); \
   ImageType::SizeType size; \
@@ -81,14 +81,16 @@ int itkImageComputeOffsetAndIndexTest(int, char* [] )
   collector.Start("ComputeIndexFast " #dim"D"); \
   unsigned int totalSize = 1; \
   for (unsigned int i = 0; i < dim; i++) totalSize *= size[i]; \
-  unsigned int repeat = 10; \
+  unsigned int repeat = 1000; \
+  if (dim > 2 ) repeat = 100; \
+  if (dim > 3) repeat = 10; \
   if (dim > 4) repeat = 1; \
   ComputeFastIndex<ImageType>(myImage, totalSize, repeat); \
   collector.Stop("ComputeIndexFast " #dim"D"); \
   }
 #define TRY(dim) \
   { \
-  typedef float PixelType; \
+  typedef char PixelType; \
   typedef itk::Image< PixelType, dim> ImageType; \
   ImageType::Pointer myImage = ImageType::New(); \
   ImageType::SizeType size; \
@@ -105,7 +107,9 @@ int itkImageComputeOffsetAndIndexTest(int, char* [] )
   collector.Start("ComputeIndex " #dim"D"); \
   unsigned int totalSize = 1; \
   for (unsigned int i = 0; i < dim; i++) totalSize *= size[i]; \
-  unsigned int repeat = 10; \
+  unsigned int repeat = 1000; \
+  if (dim > 2 ) repeat = 100; \
+  if (dim > 3) repeat = 10; \
   if (dim > 4) repeat = 1; \
   ComputeIndex<ImageType>(myImage, totalSize, repeat); \
   collector.Stop("ComputeIndex " #dim"D"); \
@@ -114,12 +118,10 @@ int itkImageComputeOffsetAndIndexTest(int, char* [] )
   TRY(2);
   TRY(3);
   TRY(4);
-  TRY(5);
   TRYFAST(1);
   TRYFAST(2);
   TRYFAST(3);
   TRYFAST(4);
-  TRYFAST(5);
 
   // Print the results of the time probes
   collector.Report();
