@@ -256,6 +256,17 @@ int itkCenteredAffineTransformTest(int, char *[])
     std::cout << "GetJacobian: " << std::endl;
     std::cout << jaffJacobian << std::endl;
     
+    /* Get the parameters */
+    Affine3DType::ParametersType parameters3D;
+    parameters3D = aff3->GetParameters();
+
+    std::cout << "Parameters 3D: " << parameters3D << std::endl;
+
+    /* Now set the parameters of another matrix */
+    jaff->SetParameters(parameters3D);
+
+    std::cout << "A transform after SetParameters:" << std::endl;
+    jaff->Print( std::cout );
 
     return any;
 }
