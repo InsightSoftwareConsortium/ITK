@@ -9,6 +9,7 @@
 
 void RegisterTests()
 {
+REGISTER_TEST(itkImageComputeOffsetAndIndexTest );
 REGISTER_TEST(itkCommonPrintTest );
 REGISTER_TEST(itkModifiedTimeTest );
 REGISTER_TEST(itkMultipleLogOutputTest );
