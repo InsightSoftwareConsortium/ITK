@@ -549,6 +549,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
     op1 = t1->TransformPoint( ip );
     op2 = t2->TransformPoint( ip );
 
+    t1->Print(std::cout);
     std::cout << "Test Set/GetMatrix() and Set/GetOffset(): ";
     if( !CheckEqual( op1, op2 ) )
       {
