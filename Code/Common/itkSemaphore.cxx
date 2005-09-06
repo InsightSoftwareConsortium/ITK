@@ -313,6 +313,17 @@ m_PThreadsSemaphoreRemoved = true;
     {
     itkExceptionMacro( << "sem_destroy call failed. " );
     }
+#else //Still need to close semaphore and delete the file descriptor on MacOSX, otherwise the shared memory space is eventually exhosted.
+  //Eventually (i.e. after several days of ITK regresssion testing) the semaphore creation process was failing with errno=ENOSPC
+  //This implementation detail was taken from http://developer.apple.com/macosx/multithreadedprogramming.html
+  if ( sem_close(this->m_Sema) !=0 )
+      {
+       itkExceptionMacro( << "sem_close call failed. " );
+      }
+  if ( sem_unlink(this->m_SemaphoreName.c_str()) !=0 )
+      {
+       itkExceptionMacro( << "sem_unlink call failed. " );
+      }
 #endif
 #endif
 

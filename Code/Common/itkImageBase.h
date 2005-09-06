@@ -28,6 +28,7 @@
 #include "itkFixedArray.h"
 #include "itkPoint.h"
 #include "itkMatrix.h"
+#include "itkSpatialOrientation.h"
 #include <vnl/vnl_matrix_fixed.txx>
 
 #include "itkImageRegion.h"
@@ -151,6 +152,17 @@ public:
    * For ImageBase and Image, the default direction is identity. */
   itkGetConstReferenceMacro(Direction, DirectionType);
 
+  /** Use the direction cosines of the image to determine the 
+   *  the spatial orientation of the image in terms of the enumerated
+   *  type defined in itkSpatialOrientation.h
+   */
+  SpatialOrientation::ValidCoordinateOrientationFlags GetSpatialOrientation() const;
+  /** Use a spatial orientation flag to set the direction cosines for
+   *  the image.  CoordinateOrientationFlags corresponds to a set of
+   *  of direction cosines describing an anatomical position with respect
+   *  to the unit coordinate vectors along the canonical 3D axes.
+   */
+  void SetDirection(SpatialOrientation::ValidCoordinateOrientationFlags orientation);
   /** Set the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
