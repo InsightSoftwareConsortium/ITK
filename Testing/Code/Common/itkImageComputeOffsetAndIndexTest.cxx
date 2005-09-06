@@ -57,12 +57,58 @@ void ComputeFastIndex(TImage *image, unsigned int count, unsigned int repeat)
   std::cout << "Last index: " << index << std::endl;
 }
 
+template <class TImage>
+void ComputeOffset(TImage *image, unsigned int count, unsigned int repeat)
+{
+  typename TImage::OffsetValueType offset;
+  typename TImage::IndexType index;
+  typename TImage::OffsetType indexIncr;
+  indexIncr.Fill(1);
+
+  for (unsigned j = 0; j < repeat; j++)
+    {
+    index.Fill(0);
+    for (unsigned int i = 0; i < count; i++)
+      {
+      offset = image->ComputeOffset (index);
+      index += indexIncr;
+      }
+    }
+  std::cout << "Last offset: " << offset << std::endl;
+}
+
+template <class TImage>
+void ComputeFastOffset(TImage *image, unsigned int count, unsigned int repeat)
+{
+  typename TImage::OffsetValueType offset;
+  typename TImage::IndexType index;
+  typename TImage::OffsetType indexIncr;
+  indexIncr.Fill(1);
+
+  const typename TImage::IndexType &bufferedRegionIndex = image->GetBufferedRegion().GetIndex();
+  const typename TImage::OffsetValueType *offsetTable = image->GetOffsetTable();
+  
+  for (unsigned j = 0; j < repeat; j++)
+    {
+    index.Fill(0);
+    for (unsigned int i = 0; i < count; i++)
+      {
+      itk::ImageHelper<TImage::ImageDimension,TImage::ImageDimension>::ComputeOffset(bufferedRegionIndex,
+                                                                                    index,
+                                                                                    offsetTable,
+                                                                                    offset);
+      index += indexIncr;
+      }
+    }
+  std::cout << "Last offset: " << offset << std::endl;
+}
+
 int itkImageComputeOffsetAndIndexTest(int, char* [] )
 {
 
   itk::TimeProbesCollectorBase   collector;
 
-#define TRYFAST(dim) \
+#define TRY_FAST_INDEX(dim) \
   { \
   typedef char PixelType; \
   typedef itk::Image< PixelType, dim> ImageType; \
@@ -88,7 +134,7 @@ int itkImageComputeOffsetAndIndexTest(int, char* [] )
   ComputeFastIndex<ImageType>(myImage, totalSize, repeat); \
   collector.Stop("ComputeIndexFast " #dim"D"); \
   }
-#define TRY(dim) \
+#define TRY_INDEX(dim) \
   { \
   typedef char PixelType; \
   typedef itk::Image< PixelType, dim> ImageType; \
@@ -114,14 +160,73 @@ int itkImageComputeOffsetAndIndexTest(int, char* [] )
   ComputeIndex<ImageType>(myImage, totalSize, repeat); \
   collector.Stop("ComputeIndex " #dim"D"); \
   }
-  TRY(1);
-  TRY(2);
-  TRY(3);
-  TRY(4);
-  TRYFAST(1);
-  TRYFAST(2);
-  TRYFAST(3);
-  TRYFAST(4);
+
+#define TRY_FAST_OFFSET(dim) \
+  { \
+  typedef char PixelType; \
+  typedef itk::Image< PixelType, dim> ImageType; \
+  ImageType::Pointer myImage = ImageType::New(); \
+  ImageType::SizeType size; \
+  ImageType::IndexType index; \
+  ImageType::RegionType region; \
+  size.Fill(50); \
+  index.Fill(0); \
+  region.SetSize(size); \
+  region.SetIndex(index); \
+  myImage->SetLargestPossibleRegion( region ); \
+  myImage->SetBufferedRegion( region ); \
+  myImage->SetRequestedRegion( region ); \
+  myImage->Allocate(); \
+  collector.Start("ComputeOffsetFast " #dim"D"); \
+  unsigned int repeat = 1; \
+  if (dim < 4 ) repeat = 100; \
+  unsigned int totalSize = 1; \
+  for (unsigned int i = 0; i < dim; i++) totalSize *= size[i]; \
+  ComputeFastOffset<ImageType>(myImage, size[0], totalSize*repeat); \
+  collector.Stop("ComputeOffsetFast " #dim"D"); \
+  }
+#define TRY_OFFSET(dim) \
+  { \
+  typedef char PixelType; \
+  typedef itk::Image< PixelType, dim> ImageType; \
+  ImageType::Pointer myImage = ImageType::New(); \
+  ImageType::SizeType size; \
+  ImageType::IndexType index; \
+  ImageType::RegionType region; \
+  size.Fill(50); \
+  index.Fill(0); \
+  region.SetSize(size); \
+  region.SetIndex(index); \
+  myImage->SetLargestPossibleRegion( region ); \
+  myImage->SetBufferedRegion( region ); \
+  myImage->SetRequestedRegion( region ); \
+  myImage->Allocate(); \
+  collector.Start("ComputeOffset " #dim"D"); \
+  unsigned int repeat = 1; \
+  if (dim < 4 ) repeat = 100;                  \
+  unsigned int totalSize = 1; \
+  for (unsigned int i = 0; i < dim; i++) totalSize *= size[i]; \
+  ComputeOffset<ImageType>(myImage, size[0], totalSize*repeat); \
+  collector.Stop("ComputeOffset " #dim"D"); \
+  }
+
+  TRY_INDEX(1);
+  TRY_INDEX(2);
+  TRY_INDEX(3);
+  TRY_INDEX(4);
+  TRY_FAST_INDEX(1);
+  TRY_FAST_INDEX(2);
+  TRY_FAST_INDEX(3);
+  TRY_FAST_INDEX(4);
+
+  TRY_OFFSET(1);
+  TRY_OFFSET(2);
+  TRY_OFFSET(3);
+  TRY_OFFSET(4);
+  TRY_FAST_OFFSET(1);
+  TRY_FAST_OFFSET(2);
+  TRY_FAST_OFFSET(3);
+  TRY_FAST_OFFSET(4);
 
   // Print the results of the time probes
   collector.Report();
