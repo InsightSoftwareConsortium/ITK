@@ -31,6 +31,7 @@ namespace SpatialOrientation
     //  Right to Left varies fastest, then Inferior to Superior, and Posterior to
     //  Anterior varies the slowest.  
     typedef enum {
+        ITK_COORDINATE_UNKNOWN=0,
         ITK_COORDINATE_Right=2,
         ITK_COORDINATE_Left=3,
         ITK_COORDINATE_Posterior=4,    //back

@@ -29,6 +29,110 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
+namespace
+{
+inline 
+int print_hex_vals( char const * const data, const int nbytes, FILE * const fp )
+{
+   int c;
+
+   if ( !data || nbytes < 1 || !fp ) return -1;
+
+   fputs("0x", fp);
+   for ( c = 0; c < nbytes; c++ )
+      fprintf(fp, " %x", data[c]);
+
+   return 0;
+}
+
+/*----------------------------------------------------------------------*/
+/*! display the contents of the nifti_1_header (send to stdout)
+*//*--------------------------------------------------------------------*/
+inline 
+int DumpNiftiHeader( const std::string &fname )
+{
+   int c;
+   nifti_1_header *hp;
+   int swap;
+   hp = nifti_read_header(fname.c_str(),&swap,true);
+   fputs( "-------------------------------------------------------\n", stderr );
+      if ( !hp  ){ fputs(" ** no nifti_1_header to display!\n",stderr); return 1; }
+
+   fprintf(stderr," nifti_1_header :\n"
+           "    sizeof_hdr     = %d\n"
+           "    data_type[10]  = ", hp->sizeof_hdr);
+   print_hex_vals(hp->data_type, 10, stderr);
+   fprintf(stderr, "\n"
+           "    db_name[18]    = ");
+   print_hex_vals(hp->db_name, 18, stderr);
+   fprintf(stderr, "\n"
+           "    extents        = %d\n"
+           "    session_error  = %d\n"
+           "    regular        = 0x%x\n"
+           "    dim_info       = 0x%x\n",
+      hp->extents, hp->session_error, hp->regular, hp->dim_info );
+   fprintf(stderr, "    dim[8]         =");
+   for ( c = 0; c < 8; c++ ) fprintf(stderr," %d", hp->dim[c]);
+   fprintf(stderr, "\n"
+           "    intent_p1      = %f\n"
+           "    intent_p2      = %f\n"
+           "    intent_p3      = %f\n"
+           "    intent_code    = %d\n"
+           "    datatype       = %d\n"
+           "    bitpix         = %d\n"
+           "    slice_start    = %d\n"
+           "    pixdim[8]      =",
+           hp->intent_p1, hp->intent_p2, hp->intent_p3, hp->intent_code,
+           hp->datatype, hp->bitpix, hp->slice_start);
+   /* break pixdim over 2 lines */
+   for ( c = 0; c < 4; c++ ) fprintf(stderr," %f", hp->pixdim[c]);
+   fprintf(stderr, "\n                    ");
+   for ( c = 4; c < 8; c++ ) fprintf(stderr," %f", hp->pixdim[c]);
+   fprintf(stderr, "\n"
+           "    vox_offset     = %f\n"
+           "    scl_slope      = %f\n"
+           "    scl_inter      = %f\n"
+           "    slice_end      = %d\n"
+           "    slice_code     = %d\n"
+           "    xyzt_units     = 0x%x\n"
+           "    cal_max        = %f\n"
+           "    cal_min        = %f\n"
+           "    slice_duration = %f\n"
+           "    toffset        = %f\n"
+           "    glmax          = %d\n"
+           "    glmin          = %d\n",
+           hp->vox_offset, hp->scl_slope, hp->scl_inter, hp->slice_end,
+           hp->slice_code, hp->xyzt_units, hp->cal_max, hp->cal_min,
+           hp->slice_duration, hp->toffset, hp->glmax, hp->glmin);
+   fprintf(stderr,
+           "    descrip        = '%.80s'\n"
+           "    aux_file       = '%.24s'\n"
+           "    qform_code     = %d\n"
+           "    sform_code     = %d\n"
+           "    quatern_b      = %f\n"
+           "    quatern_c      = %f\n"
+           "    quatern_d      = %f\n"
+           "    qoffset_x      = %f\n"
+           "    qoffset_y      = %f\n"
+           "    qoffset_z      = %f\n"
+           "    srow_x[4]      = %f, %f, %f, %f\n"
+           "    srow_y[4]      = %f, %f, %f, %f\n"
+           "    srow_z[4]      = %f, %f, %f, %f\n"
+           "    intent_name    = '%-.16s'\n"
+           "    magic          = '%-.4s'\n",
+           hp->descrip, hp->aux_file, hp->qform_code, hp->sform_code,
+           hp->quatern_b, hp->quatern_c, hp->quatern_d,
+           hp->qoffset_x, hp->qoffset_y, hp->qoffset_z,
+           hp->srow_x[0], hp->srow_x[1], hp->srow_x[2], hp->srow_x[3],
+           hp->srow_y[0], hp->srow_y[1], hp->srow_y[2], hp->srow_y[3],
+           hp->srow_z[0], hp->srow_z[1], hp->srow_z[2], hp->srow_z[3],
+           hp->intent_name, hp->magic);
+   fputs( "-------------------------------------------------------\n", stderr );
+   fflush(stderr);
+
+   return 0;
+}
+}
 
 NiftiImageIO::NiftiImageIO():
   m_NiftiImage(0)
@@ -174,6 +278,7 @@ bool NiftiImageIO::CanReadFile( const char* FileNameToRead )
   return is_nifti_file(FileNameToRead) > 0;
 }
 
+#if 0
 inline float Abs(float x)
 {
   if(x < 0)
@@ -289,11 +394,17 @@ mat44_to_SpatialOrientation(const mat44 &theMat)
      (terms[2] << 
       SpatialOrientation::ITK_COORDINATE_TertiaryMinor));
 }
-
+#endif
 
 void NiftiImageIO::ReadImageInformation()
 {
   this->m_NiftiImage=nifti_image_read(m_FileName.c_str(),false);
+  static std::string prev;
+  if(prev != m_FileName)
+    {
+    DumpNiftiHeader(m_FileName);
+    prev = m_FileName;
+    }
   if(this->m_NiftiImage == 0)
     {
     ExceptionObject exception(__FILE__, __LINE__);
@@ -424,50 +535,40 @@ void NiftiImageIO::ReadImageInformation()
     default:
       break;
     }
-  //
-  // try and compute the orientation stuff
-  mat44 theMat = nifti_quatern_to_mat44(this->m_NiftiImage->quatern_b,
-                                        this->m_NiftiImage->quatern_c,
-                                        this->m_NiftiImage->quatern_d,
-                                        this->m_NiftiImage->qoffset_x,
-                                        this->m_NiftiImage->qoffset_y,
-                                        this->m_NiftiImage->qoffset_z,
-                                        this->m_NiftiImage->dx,
-                                        this->m_NiftiImage->dy,
-                                        this->m_NiftiImage->dz,
-                                        this->m_NiftiImage->qfac);
-  
-  mat44 ortho = 
-    nifti_make_orthog_mat44(theMat.m[0][0],theMat.m[0][1],theMat.m[0][2],
-                            theMat.m[1][0],theMat.m[1][1],theMat.m[1][2],
-                            theMat.m[2][0],theMat.m[2][1],theMat.m[2][2]);
+  mat44 *theMat;
+  if(this->m_NiftiImage->qform_code > 0)
+    {
+    //
+    // try and compute the orientation stuff
+    theMat = &(this->m_NiftiImage->qto_xyz);
+    }
+  else if(this->m_NiftiImage->sform_code > 0)
+    {
+    theMat = &(this->m_NiftiImage->sto_xyz);
+    }
   //
   // set direction vectors
   std::vector<double> direction(3,0);
-  direction[0] = ortho.m[0][0];
-  direction[1] = ortho.m[0][1];
-  direction[2] = ortho.m[0][2];
+  direction[0] = theMat->m[0][0];
+  direction[1] = theMat->m[0][1];
+  direction[2] = theMat->m[0][2];
   this->SetDirection(0,direction);
-  direction[0] = ortho.m[1][0];
-  direction[1] = ortho.m[1][1];
-  direction[2] = ortho.m[1][2];
+  direction[0] = theMat->m[1][0];
+  direction[1] = theMat->m[1][1];
+  direction[2] = theMat->m[1][2];
   this->SetDirection(1,direction);
-  direction[0] = ortho.m[2][0];
-  direction[1] = ortho.m[2][1];
-  direction[2] = ortho.m[2][2];
+  direction[0] = theMat->m[2][0];
+  direction[1] = theMat->m[2][1];
+  direction[2] = theMat->m[2][2];
   this->SetDirection(2,direction);
   //
   // set origin
-  m_Origin[0] = theMat.m[0][3];
-  m_Origin[1] = theMat.m[1][3];
-  m_Origin[2] = theMat.m[2][3];
-
+  m_Origin[0] = theMat->m[0][3];
+  m_Origin[1] = theMat->m[1][3];
+  m_Origin[2] = theMat->m[2][3];
   m_RescaleSlope = this->m_NiftiImage->scl_slope;
   m_RescaleIntercept = this->m_NiftiImage->scl_inter;
 
-  itk::SpatialOrientation::ValidCoordinateOrientationFlags orient =
-    mat44_to_SpatialOrientation(theMat);
-  itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, orient);
 
   //Important hist fields
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileNotes,std::string(this->m_NiftiImage->descrip,80)); 
@@ -503,6 +604,7 @@ NiftiImageIO
   // set the filename
   std::string FName(this->GetFileName());
   this->m_NiftiImage->fname = (char *)malloc(FName.size()+1);
+  strcpy(this->m_NiftiImage->fname,FName.c_str());
   //
   // set the file type
   std::string::size_type ext = FName.rfind('.');
@@ -680,13 +782,18 @@ NiftiImageIO
   // set the quarternions, from the direction vectors
   std::vector<double> dirx = this->GetDirection(0);
   std::vector<double> diry  = this->GetDirection(1);
-  mat44 matrix = nifti_make_orthog_mat44(dirx[0],dirx[1],dirx[2],
-                                         diry[0],diry[1],diry[2],
-                                         0,0,0);
+  std::vector<double> dirz  = this->GetDirection(2);
+#if 0
+  mat44 matrix;
   for(unsigned i = 0; i < 3; i++)
     {
-    matrix.m[i][3] = this->GetOrigin(i);
+    matrix.m[0][i] = dirx[i];
+    matrix.m[1][i] = diry[i];
+    matrix.m[2][i] = dirz[i];
+    matrix.m[3][i] = this->GetOrigin(i);
     }
+  this->m_NiftiImage->qform_code = NIFTI_XFORM_ALIGNED_ANAT;
+  this->m_NiftiImage->sform_code = 0;
   nifti_mat44_to_quatern(matrix,
                          &(this->m_NiftiImage->quatern_b),
                          &(this->m_NiftiImage->quatern_c),
@@ -698,7 +805,19 @@ NiftiImageIO
                          0,
                          0,
                          &(this->m_NiftiImage->qfac));
-  
+  this->m_NiftiImage->qform_code = NIFTI_XFORM_ALIGNED_ANAT;
+  this->m_NiftiImage->sform_code = 0;
+#else
+  this->m_NiftiImage->sform_code = NIFTI_XFORM_ALIGNED_ANAT;
+  this->m_NiftiImage->qform_code = 0;
+  for(int i = 0; i < 3; i++)
+    {
+    this->m_NiftiImage->sto_xyz.m[0][i] = dirx[i] * this->GetSpacing(0);
+    this->m_NiftiImage->sto_xyz.m[1][i] = diry[i] * this->GetSpacing(1);
+    this->m_NiftiImage->sto_xyz.m[2][i] = dirz[i] * this->GetSpacing(2);
+    this->m_NiftiImage->sto_xyz.m[3][i] = this->GetOrigin(i);
+    }
+#endif
   return;
 }
 

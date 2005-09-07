@@ -426,6 +426,7 @@ OrientImageFilter<TInputImage, TOutputImage>
 
 }
 
+#if 0
 // Determine the "labeling" of a direction cosine. The axis labels
 // depend upon the convention of the labels. In this class, axes are
 // labeled using the negative end of the axis. For example, a
@@ -467,6 +468,7 @@ OrientImageFilter<TInputImage,TOutputImage>
     }
   return axis;
 }
+#endif
 
 /**
  *
@@ -493,6 +495,7 @@ OrientImageFilter<TInputImage,TOutputImage>
   if (m_UseImageDirection)
     {
     // Compute the GivenOrientation from the image's direction cosines
+#if 0
     std::string orientation =
       this->GetMajorAxisFromPatientRelativeDirectionCosine(
         inputPtr->GetDirection()[0][0],
@@ -506,8 +509,10 @@ OrientImageFilter<TInputImage,TOutputImage>
         inputPtr->GetDirection()[0][2],
         inputPtr->GetDirection()[1][2],
         inputPtr->GetDirection()[2][2]);
-
     this->SetGivenCoordinateOrientation (m_StringToCode[orientation]);
+#else
+    this->SetGivenCoordinateOrientation (inputPtr->GetSpatialOrientation());
+#endif
     }
 
   typedef PermuteAxesImageFilter< InputImageType >  PermuteFilterType;

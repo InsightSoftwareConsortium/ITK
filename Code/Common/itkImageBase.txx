@@ -549,13 +549,18 @@ ImageBase<VImageDimension>
         direction[1][i] = -1;
         break;
       case SpatialOrientation::ITK_COORDINATE_Inferior:
-        direction[2][i] = 11;
+        direction[2][i] = 1;
         break;
       case SpatialOrientation::ITK_COORDINATE_Superior:
         direction[2][i] = -1;
         break;
+      case SpatialOrientation::ITK_COORDINATE_UNKNOWN:
+      default:
+        //TODO:  Should there be a default?  Throw an exception?
+        break;
       }
     }
+  //TODO:  Should check that directions are orthoganal.
   this->SetDirection(direction);
 }
 
