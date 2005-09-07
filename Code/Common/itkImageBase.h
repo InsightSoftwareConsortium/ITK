@@ -28,6 +28,7 @@
 #include "itkFixedArray.h"
 #include "itkPoint.h"
 #include "itkMatrix.h"
+#include "itkImageHelper.h"
 #include "itkSpatialOrientation.h"
 #include <vnl/vnl_matrix_fixed.txx>
 
@@ -254,6 +255,19 @@ public:
    * conceivably be outside the buffer. If bounds checking is needed,
    * one can call ImageRegion::IsInside(ind) on the BufferedRegion
    * prior to calling ComputeOffset. */
+
+
+#if 1
+  inline OffsetValueType ComputeOffset(const IndexType &ind) const
+  {
+    OffsetValueType offset = 0;
+    ImageHelper<VImageDimension,VImageDimension>::ComputeOffset(this->GetBufferedRegion().GetIndex(),
+                                                                ind,
+                                                                m_OffsetTable,
+                                                                offset);
+    return offset;
+  }
+#else
   OffsetValueType ComputeOffset(const IndexType &ind) const
   {
     // need to add bounds checking for the region/buffer?
@@ -270,7 +284,7 @@ public:
 
     return offset;    
   }
-
+#endif
   /** Compute the index of the pixel at a specified offset from the
    * beginning of the buffered region. Bounds checking is not
    * performed. Thus, the computed index could be outside the
@@ -278,6 +292,18 @@ public:
    * should be between 0 and the number of pixels in the
    * BufferedRegion (the latter can be found using
    * ImageRegion::GetNumberOfPixels()). */
+#if 1
+  inline IndexType ComputeIndex(OffsetValueType offset) const
+  {
+    IndexType index;
+    const IndexType &bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
+    ImageHelper<VImageDimension,VImageDimension>::ComputeIndex(bufferedRegionIndex,
+                                                               offset,
+                                                               m_OffsetTable,
+                                                               index);
+    return index;
+  }
+#else
   IndexType ComputeIndex(OffsetValueType offset) const
   {
     IndexType index;
@@ -293,6 +319,7 @@ public:
 
     return index;    
   }
+#endif
 
   /** Copy information from the specified data set.  This method is
    * part of the pipeline execution model. By default, a ProcessObject

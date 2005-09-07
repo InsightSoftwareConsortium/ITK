@@ -17,7 +17,6 @@
 #ifndef __itkImageHelper_h
 #define __itkImageHelper_h
 
-#include "itkImageBase.h"
 #include "itkConceptChecking.h"
 
 namespace itk
@@ -25,21 +24,44 @@ namespace itk
 
 /** \class ImageHelper
  *  \brief Fast Index/Offset computation
+ *
+ * These helper methods use recursive templates to unroll the loops
+ * of simple calculations. The resulting speed improvement varies from
+ * compiler to compiler. Some gcc compilers with debug turned on
+ * exhibit slight speed increases, but most compilers see
+ * improvement. The ComputeOffset performance improvement is
+ * impressive. For example, the Windows VS7.0 compiler shows almost a
+ * factor of 2 speed improvement with the recursive templates. Usually
+ * recursive templates use partial specialization to terminate
+ * loops. Here we use a technique used by Brad King in the itk Concept
+ * Checking code. 
+ *
+ * \note This work is part of the National Alliance for Medical Image
+ * Computing (NAMIC), funded by the National Institutes of Health
+ * through the NIH Roadmap for Medical Research, Grant U54 EB005149.
+ * Information on the National Centers for Biomedical Computing
+ * can be obtained from http://nihroadmap.nih.gov/bioinformatics. 
+ *
  */
+
+// Forward reference ImageBase
+template <
+  unsigned int NImageDimension
+  > class ImageBase; 
+
 template <unsigned int NImageDimension, unsigned int NLoop>
 class ImageHelper
 {
 public:
-  typedef ImageBase<NImageDimension>         ImageType;
-  typedef typename ImageType::IndexType      IndexType;
-  typedef typename ImageType::OffsetType     OffsetType;
-  typedef typename ImageType::IndexValueType     IndexValueType;
+  typedef ImageBase<NImageDimension>              ImageType;
+  typedef typename ImageType::IndexType           IndexType;
+  typedef typename ImageType::OffsetType          OffsetType;
+  typedef typename ImageType::IndexValueType      IndexValueType;
   typedef typename ImageType::OffsetValueType     OffsetValueType;
   typedef Concept::Detail::UniqueType_bool<false> UniqueTypeBoolFalse;
-  typedef Concept::Detail::UniqueType_bool<true> UniqueTypeBoolTrue;
+  typedef Concept::Detail::UniqueType_bool<true>  UniqueTypeBoolTrue;
 
-  // ComputeIndex
-  //
+  /** ComputeIndex with recursive templates */
   inline static void ComputeIndex(const IndexType &bufferedRegionIndex,
                                   OffsetValueType offset,
                                   const OffsetValueType offsetTable[],
@@ -60,7 +82,7 @@ public:
                                        const UniqueTypeBoolFalse& )
   {
     index[NLoop] = static_cast<IndexValueType>(offset / offsetTable[NLoop]);
-    offset -= (index[NLoop] * offsetTable[NLoop]);
+    offset = offset - (index[NLoop] * offsetTable[NLoop]);
     index[NLoop] = index[NLoop] + bufferedRegionIndex[NLoop];
     ImageHelper<NImageDimension, NLoop-1>::        
       ComputeIndexInner(bufferedRegionIndex,
@@ -88,14 +110,12 @@ public:
                                    const OffsetValueType offsetTable[],
                                    OffsetValueType &offset)
     {
-      offset = 0;
-//      std::cout << "      offset = 0;" << std::endl;
       ImageHelper<NImageDimension,NLoop-1>::        
-      ComputeOffsetInner(bufferedRegionIndex,
-                        index,
-                        offsetTable,
-                        offset,
-                        Concept::Detail::UniqueType_bool<(NLoop==1)>());
+        ComputeOffsetInner(bufferedRegionIndex,
+                           index,
+                           offsetTable,
+                           offset,
+                           Concept::Detail::UniqueType_bool<(NLoop==1)>());
     }
 
   inline static void ComputeOffsetInner(const IndexType &bufferedRegionIndex,    
@@ -104,7 +124,7 @@ public:
                                        OffsetValueType &offset,
                                        const UniqueTypeBoolFalse& )
   {
-    offset += (index[NLoop] - bufferedRegionIndex[NLoop])*offsetTable[NLoop];
+    offset = offset + (index[NLoop] - bufferedRegionIndex[NLoop])*offsetTable[NLoop];
 //    std::cout << "    offset += (index[" << NLoop << "] - bufferedRegionIndex[" << NLoop << "])*offsetTable[" << NLoop << "];" << std::endl;
     ImageHelper<NImageDimension, NLoop-1>::        
       ComputeOffsetInner(bufferedRegionIndex,
@@ -122,7 +142,7 @@ public:
                                         const UniqueTypeBoolTrue& )
   {
     // Do last 
-    offset += (index[0] - bufferedRegionIndex[0]);
+    offset = offset + index[0] - bufferedRegionIndex[0];
 //    std::cout << "    offset += (index[0] - bufferedRegionIndex[0]);" << std::endl;
   }
 
