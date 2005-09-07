@@ -82,23 +82,21 @@ TARGET_LINK_LIBRARIES(ImageRegistration9 ITKNumerics ITKIO)
   ADD_EXECUTABLE(DeformableRegistration8 DeformableRegistration8.cxx )
   TARGET_LINK_LIBRARIES(DeformableRegistration8 ITKNumerics ITKIO)
 
-IF( USE_FFTW )
-
+IF( USE_FFTWF )
   ADD_EXECUTABLE(DeformableRegistration9 DeformableRegistration9.cxx )
-  TARGET_LINK_LIBRARIES(DeformableRegistration9 ITKCommon ITKNumerics ITKIO ITKStatistics ${FFTW_LIB})
+  TARGET_LINK_LIBRARIES(DeformableRegistration9 ITKCommon
+      ITKNumerics ITKIO ITKAlgorithms ITKStatistics )
 
   ADD_EXECUTABLE(DeformableRegistration10 DeformableRegistration10.cxx )
-  TARGET_LINK_LIBRARIES(DeformableRegistration10 
-                        ITKCommon ITKNumerics ITKIO ${FFTW_LIB} ITKStatistics)
+  TARGET_LINK_LIBRARIES(DeformableRegistration10
+                        ITKCommon ITKNumerics ITKIO ITKAlgorithms ITKStatistics)
+ENDIF( USE_FFTWF )
 
-ENDIF( USE_FFTW )
+ADD_EXECUTABLE(MultiResImageRegistration1 MultiResImageRegistration1.cxx )
+TARGET_LINK_LIBRARIES(MultiResImageRegistration1 ITKNumerics ITKIO)
 
-  ADD_EXECUTABLE(MultiResImageRegistration1 MultiResImageRegistration1.cxx )
-  TARGET_LINK_LIBRARIES(MultiResImageRegistration1 ITKNumerics ITKIO)
-
-  ADD_EXECUTABLE(RegistrationExamples7 RegistrationExamples7.cxx )
-  TARGET_LINK_LIBRARIES(RegistrationExamples7 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
-
+ADD_EXECUTABLE(RegistrationExamples7 RegistrationExamples7.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamples7 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
 ADD_EXECUTABLE(MultiResImageRegistration2 MultiResImageRegistration2.cxx )
 TARGET_LINK_LIBRARIES(MultiResImageRegistration2 ITKNumerics ITKIO)

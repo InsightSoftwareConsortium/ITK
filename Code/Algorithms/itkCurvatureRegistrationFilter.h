@@ -20,7 +20,7 @@
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkMeanSquareRegistrationFunction.h"
 
-#ifdef USE_FFTW
+#if defined(USE_FFTWF) || defined(USE_FFTWD)
 #include "fftw3.h"
 
 namespace itk {
@@ -93,9 +93,9 @@ namespace itk {
  * \author Torsten Rohlfing, SRI International, Neuroscience Program
  */
 template<class TFixedImage, class TMovingImage, class TDeformationField,
-  class TImageForceFunction = 
+  class TImageForceFunction =
   MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField> >
-class ITK_EXPORT CurvatureRegistrationFilter : 
+class ITK_EXPORT CurvatureRegistrationFilter :
     public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
                                             TDeformationField>
 {
@@ -136,7 +136,16 @@ public:
   typedef typename DeformationFieldPixelType::ValueType DeformationFieldComponentType;
   itkStaticConstMacro(DeformationVectorDimension, unsigned int, DeformationFieldPixelType::Dimension );
 
+  #if defined(USE_FFTWD)
+  //Prefer to use double precision
   typedef double RealTypeDFT;
+  #else
+    #if defined(USE_FFTWF)
+      //Allow to use single precision
+      #warning "Using single precision for FFT computations!"
+      typedef double RealTypeDFT;
+    #endif
+  #endif
 
   typedef Image<RealTypeDFT,TDeformationField::ImageDimension> DeformationFieldComponentImageType;
   typedef typename DeformationFieldComponentImageType::Pointer DeformationFieldComponentImagePointer;
@@ -198,6 +207,6 @@ private:
 #include "itkCurvatureRegistrationFilter.txx"
 #endif
 
-#endif // #ifdef USE_FFTW
+#endif //defined(USE_FFTWF) || defined(USE_FFTWD)
 
 #endif

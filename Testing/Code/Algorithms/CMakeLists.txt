@@ -150,13 +150,18 @@ ADD_TEST(itkBinaryThinningImageFilterTest ${ALGORITHMS_TESTS3}
 ADD_TEST(itkSphereMeshSourceTest ${ALGORITHMS_TESTS3} itkSphereMeshSourceTest)
 ADD_TEST(itkUnsharpMaskLevelSetImageFilterTest ${ALGORITHMS_TESTS3} itkUnsharpMaskLevelSetImageFilterTest) 
 ADD_TEST(itkVnlFFTTest ${ALGORITHMS_TESTS4} itkVnlFFTTest)
-IF(USE_FFTW)
-       ADD_TEST(itkFFTWFFTTest ${ALGORITHMS_TESTS4} itkFFTWFFTTest)
+IF(USE_FFTWF)
+       ADD_TEST(itkFFTWF_FFTTest ${ALGORITHMS_TESTS4} itkFFTWF_FFTTest)
+ENDIF(USE_FFTWF)
+IF(USE_FFTWD)
+       ADD_TEST(itkFFTWF_FFTTest ${ALGORITHMS_TESTS4} itkFFTWF_FFTTest)
+ENDIF(USE_FFTWD)
+IF(USE_FFTWD)
        ADD_TEST(itkCurvatureRegistrationFilterTest ${ALGORITHMS_TESTS4} itkCurvatureRegistrationFilterTest)
-ENDIF(USE_FFTW)
+ENDIF(USE_FFTWD)
 
 IF(USE_SCSL)
-       ADD_TEST(itkSCSLFFTTest ${ALGORITHMS_TESTS4} itkSCSLFFTTest)        
+       ADD_TEST(itkSCSLFFTTest ${ALGORITHMS_TESTS4} itkSCSLFFTTest)
 ENDIF(USE_SCSL)
 
 
@@ -296,6 +301,9 @@ itkSupervisedImageClassifierTest.cxx
 itkUnsharpMaskLevelSetImageFilterTest.cxx
 )
 
+IF(USE_FFTWD)
+  SET(CURVATUREREGISTRATION_SRCS itkCurvatureRegistrationFilterTest.cxx)
+ENDIF(USE_FFTWD)
 SET(AlgorithmsTest4_SRCS
 itkBayesianClassifierImageFilterTest.cxx
 itkFastMarchingUpwindGradientTest.cxx
@@ -305,7 +313,7 @@ itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest.cxx
 itkLabelVotingImageFilterTest.cxx
 itkNarrowBandCurvesLevelSetImageFilterTest.cxx
 itkFFTTest.cxx
-itkCurvatureRegistrationFilterTest.cxx
+${CURVATUREREGISTRATION_SRCS}
 itkWatershedImageFilterTest.cxx
 itkVoronoiPartitioningImageFilterTest.cxx
 itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx

@@ -18,7 +18,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#if defined(USE_FFTW)
+#if defined(USE_FFTWD)
 
 #include "itkCurvatureRegistrationFilter.h"
 #include "itkFastSymmetricForcesDemonsRegistrationFunction.h"

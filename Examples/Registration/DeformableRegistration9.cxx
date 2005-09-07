@@ -21,8 +21,8 @@
 
 
 
-#ifndef USE_FFTW
-#error "This program needs FFTW to work."
+#ifndef USE_FFTWF
+#error "This program needs single precision FFTW to work."
 #endif
 
 

@@ -14,7 +14,7 @@
 void RegisterTests()
 {
 REGISTER_TEST(FFTDirectInverseTest);
-#if defined(USE_FFTW)
+#if defined(USE_FFTWF)
 REGISTER_TEST(FFTDirectInverse2Test);
 #endif
 }
@@ -22,7 +22,7 @@ REGISTER_TEST(FFTDirectInverse2Test);
 #define main FFTDirectInverseTest
 #include "FFTDirectInverse.cxx"
 
-#if defined(USE_FFTW)
+#if defined(USE_FFTWF)
 #undef main
 #define main FFTDirectInverse2Test
 #include "FFTDirectInverse2.cxx"

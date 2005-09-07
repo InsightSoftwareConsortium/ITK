@@ -13,10 +13,10 @@ TARGET_LINK_LIBRARIES(FlipImageFilter ITKCommon ITKIO)
 ADD_EXECUTABLE(FFTImageFilter FFTImageFilter.cxx )
 TARGET_LINK_LIBRARIES(FFTImageFilter ITKCommon ITKIO)
 
-IF( USE_FFTW )
+IF( USE_FFTWF )
   ADD_EXECUTABLE(FFTDirectInverse2 FFTDirectInverse2.cxx )
-  TARGET_LINK_LIBRARIES(FFTDirectInverse2 ITKCommon ITKIO fftw3 fftw3f)
-ENDIF( USE_FFTW )
+  TARGET_LINK_LIBRARIES(FFTDirectInverse2 ITKCommon ITKIO ITKAlgorithms )
+ENDIF( USE_FFTWF )
 
 ADD_EXECUTABLE(FFTImageFilterFourierDomainFiltering FFTImageFilterFourierDomainFiltering.cxx )
 TARGET_LINK_LIBRARIES(FFTImageFilterFourierDomainFiltering ITKCommon ITKIO)
@@ -771,15 +771,16 @@ ADD_TEST( FFTDirectInverseTest ${FILTERING_EXAMPLES6}
 )
 ENDIF( LUIS_WILL_FIX )
 
-IF( USE_FFTW )
+IF( USE_FFTWF )
+#${BASELINE}/FFTDirectInverse2Point.png
   ADD_TEST( FFTDirectInverse2Test ${FILTERING_EXAMPLES6}
-    --compare ${BASELINE}/FFTDirectInverse2Point.png
+    --compare ${ITK_SOURCE_DIR}/Examples/Data/Point.png
               ${TEMP}/FFTDirectInverse2Point.png
     FFTDirectInverse2Test
           ${ITK_SOURCE_DIR}/Examples/Data/Point.png
           ${TEMP}/FFTDirectInverse2Point.png
   )
-ENDIF( USE_FFTW )
+ENDIF( USE_FFTWF )
 
 
 ADD_TEST( FFTImageFilterTest2 ${FILTERING_EXAMPLES7}
@@ -887,11 +888,11 @@ ADD_EXECUTABLE(FilteringExamples7 FilteringExamples7.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples7 ITKIO ITKBasicFilters ITKCommon)
 
 ADD_EXECUTABLE(FilteringExamples6 FilteringExamples6.cxx)
-IF( USE_FFTW )
-  TARGET_LINK_LIBRARIES(FilteringExamples6 ITKIO ITKBasicFilters ITKCommon fftw3 fftw3f)
-ELSE( USE_FFTW )
+IF( USE_FFTWF )
+  TARGET_LINK_LIBRARIES(FilteringExamples6 ITKIO ITKBasicFilters ITKCommon ITKAlgorithms)
+ELSE( USE_FFTWF )
   TARGET_LINK_LIBRARIES(FilteringExamples6 ITKIO ITKBasicFilters ITKCommon)
-ENDIF( USE_FFTW )
+ENDIF( USE_FFTWF )
 
 ADD_EXECUTABLE(DiffusionTensor3DReconstructionImageFilter DiffusionTensor3DReconstructionImageFilter.cxx)
 TARGET_LINK_LIBRARIES(DiffusionTensor3DReconstructionImageFilter ITKIO ITKBasicFilters ITKCommon)

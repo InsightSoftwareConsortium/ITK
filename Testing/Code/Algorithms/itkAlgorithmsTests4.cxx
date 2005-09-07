@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,7 +19,7 @@
 #endif
 
 #include "vnl/vnl_sample.h"
-#include "itkTestMain.h" 
+#include "itkTestMain.h"
 
 
 void RegisterTests()
@@ -36,13 +36,18 @@ void RegisterTests()
   REGISTER_TEST(itkWatershedImageFilterTest );
   REGISTER_TEST(itkVoronoiPartitioningImageFilterTest );
   REGISTER_TEST(itkVnlFFTTest);
-#if defined(USE_FFTW)
-  REGISTER_TEST(itkFFTWFFTTest);
+#if defined(USE_FFTWF)
+  REGISTER_TEST(itkFFTWF_FFTTest);
+#endif
+#if defined(USE_FFTWD)
+  REGISTER_TEST(itkFFTWD_FFTTest);
+#endif
+#if defined(USE_FFTWD)
   REGISTER_TEST(itkCurvatureRegistrationFilterTest);
 #endif
 #if defined(USE_SCSL)
   REGISTER_TEST(itkSCSLFFTTest);
 #endif
   REGISTER_TEST(itkMeanReciprocalSquareDifferencePointSetToImageMetricTest );
-}  
+}
 
