@@ -189,7 +189,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
           {
           outputSpacing[nonZeroCount] = inputSpacing[i];
           outputOrigin[nonZeroCount] = inputOrigin[i];
-          for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
+          for (unsigned int dim = 0; dim < OutputImageDimension; ++dim)
             {
             outputDirection[nonZeroCount][dim] =
               inputDirection[nonZeroCount][dim];
