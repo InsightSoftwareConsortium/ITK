@@ -261,7 +261,7 @@ public:
 
   /** Returns the central pixel of the neighborhood. */
   virtual void SetCenterPixel(const PixelType &p)
-  { *( this->GetCenterPointer() ) = p; }
+  { this->m_NeighborhoodAccessorFunctor.Set(this->operator[]((this->Size())>>1), p); }
   
   /** Virtual function that replaces the pixel values in the image
    * neighborhood that are pointed to by this NeighborhoodIterator with

@@ -46,7 +46,10 @@ namespace itk
  *               0 0 3 3 5 5 6
  *               0 0 4 4 6 7 8
  *
- *
+ * 
+ * \note If you are using an image with Array as the pixel type, you will need 
+ * to set the constant explicitly with an array of the appropriate length. This 
+ * is also true if your image type is a VectorImage.
  * 
  * \sa ImageBoundaryCondition
  *
@@ -69,6 +72,9 @@ public:
   typedef typename Superclass::OffsetType OffsetType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
     
+  typedef typename Superclass::NeighborhoodAccessorFunctorType 
+                                 NeighborhoodAccessorFunctorType;
+
   /** Save the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
@@ -83,6 +89,15 @@ public:
                                const NeighborhoodType *) const
     { return m_Constant; }
 
+  /** Computes and returns the appropriate pixel value from
+   * neighborhood iterator data, using the functor. */
+  virtual PixelType operator()(
+      const OffsetType& ,
+      const OffsetType& ,
+      const NeighborhoodType *,
+      const NeighborhoodAccessorFunctorType & ) const
+    { return m_Constant; }
+  
   /** Set the value of the constant. */
   void SetConstant(const PixelType &c)
     {  m_Constant = c; }

@@ -50,6 +50,9 @@ public:
   typedef typename Superclass::OffsetType OffsetType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   
+  typedef typename Superclass::NeighborhoodAccessorFunctorType 
+                                 NeighborhoodAccessorFunctorType;
+
   /** Extract information from the image type. */
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
   
@@ -61,6 +64,14 @@ public:
   virtual PixelType operator()(const OffsetType& point_index,
                                const OffsetType& boundary_offset,
                                const NeighborhoodType *data) const; 
+
+  /** Computes and returns the appropriate pixel value from
+   * neighborhood iterator data, using the functor. */
+  virtual PixelType operator()(
+      const OffsetType& point_index,
+      const OffsetType& boundary_offset,
+      const NeighborhoodType *data,
+      const NeighborhoodAccessorFunctorType &neighborhoodAccessorFunctor) const;
 };
 
 } // end namespace itk

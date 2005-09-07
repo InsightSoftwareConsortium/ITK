@@ -81,6 +81,11 @@ public:
   typedef typename IndexType::IndexValueType IndexValueType;
   typedef Neighborhood<PixelType, itkGetStaticConstMacro(Dimension)> NeighborhoodType;
 
+  /** Typedef for the functor used to access neighborhoods of pixel pointers.
+   * This is obtained as a trait from the image and is different for Image
+   * and VectorImage. */
+  typedef typename ImageType::NeighborhoodAccessorFunctorType NeighborhoodAccessorFunctorType;
+
   /** Typedef for boundary condition type. */
   typedef TBoundaryCondition BoundaryConditionType;
   
@@ -108,6 +113,8 @@ public:
     for (unsigned int i=0; i < Dimension; i++)
       { m_InBounds[i] = false; }
     this->ResetBoundaryCondition();
+    m_NeighborhoodAccessorFunctor = ptr->GetNeighborhoodAccessor();
+    m_NeighborhoodAccessorFunctor.SetBegin( ptr->GetBufferPointer() );
   }
 
   /** Assignment operator */
@@ -135,7 +142,7 @@ public:
   
   /** Returns the pixel referenced at the center of the ConstNeighborhoodIterator. */
   PixelType GetCenterPixel() const
-    {    return *( this->GetCenterPointer() );  }
+    {    return m_NeighborhoodAccessorFunctor.Get( this->GetCenterPointer() );  }
 
   /** Returns a smartpointer to the image on which this iterator operates. */
   const ImageType * GetImagePointer(void) const
@@ -155,7 +162,7 @@ public:
     { 
     if( !m_NeedToUseBoundaryCondition )
       {
-      return ( * ( this->operator[]( i ) ) );
+      return ( m_NeighborhoodAccessorFunctor.Get( this->operator[]( i ) ) );
       }
     bool inbounds; 
     return this->GetPixel( i, inbounds ); 
@@ -490,6 +497,9 @@ protected:
 
   /** Does the specified region need to worry about boundary conditions? **/
   bool m_NeedToUseBoundaryCondition;
+
+  /** Functor type used to access neighborhoods of pixel pointers */
+  NeighborhoodAccessorFunctorType m_NeighborhoodAccessorFunctor;
 
 };
 

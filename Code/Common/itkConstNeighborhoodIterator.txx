@@ -59,7 +59,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   if (!m_NeedToUseBoundaryCondition)
     {
     IsInBounds = true;
-    return (*(this->operator[](n)));
+    return (m_NeighborhoodAccessorFunctor.Get(this->operator[](n)));
     }
 
   register unsigned int i;
@@ -71,7 +71,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   if (this->InBounds())
     {
     IsInBounds = true;
-    return (*(this->operator[](n)));
+    return (m_NeighborhoodAccessorFunctor.Get(this->operator[](n)));
     }
   else
     {
@@ -111,12 +111,13 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
     if (flag) 
       {
       IsInBounds = true;
-      return ( *(this->operator[](n)) ) ;
+      return ( m_NeighborhoodAccessorFunctor.Get(this->operator[](n)) ) ;
       }
     else 
       {
       IsInBounds = false;
-      return( m_BoundaryCondition->operator()(temp, offset, this) );
+      return( m_NeighborhoodAccessorFunctor.BoundaryCondition( 
+                temp, offset, this, this->m_BoundaryCondition) );
       }
     } 
 }
@@ -216,6 +217,8 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
     }
   else 
     { m_BoundaryCondition = orig.m_BoundaryCondition; }
+
+  m_NeighborhoodAccessorFunctor = orig.m_NeighborhoodAccessorFunctor;
   
 }
 
@@ -257,13 +260,13 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
     {
     for (ans_it = ans.Begin(), this_it = this->Begin();
          this_it < _end; ans_it++, this_it++)
-      { *ans_it = **this_it; }
+      { *ans_it = m_NeighborhoodAccessorFunctor.Get(*this_it); }
     }
   else if (InBounds())
     {
     for (ans_it = ans.Begin(), this_it = this->Begin();
          this_it < _end; ans_it++, this_it++)
-      { *ans_it = **this_it; }
+      { *ans_it = m_NeighborhoodAccessorFunctor.Get(*this_it); }
     }
   else
     {
@@ -302,8 +305,11 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
           }
         }
           
-      if (flag) *ans_it = **this_it;
-      else *ans_it = m_BoundaryCondition->operator()(temp, offset, this);
+      if (flag) *ans_it = m_NeighborhoodAccessorFunctor.Get(*this_it);
+      else *ans_it = m_NeighborhoodAccessorFunctor.BoundaryCondition( 
+                          temp, offset, this, this->m_BoundaryCondition);
+        
+        m_BoundaryCondition->operator()(temp, offset, this);
           
       for (i=0; i<Dimension; ++i)  // Update index
         {
@@ -420,6 +426,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
     this->ResetBoundaryCondition();
     }
   else m_BoundaryCondition = orig.m_BoundaryCondition;
+  m_NeighborhoodAccessorFunctor = orig.m_NeighborhoodAccessorFunctor;
 
   return *this;
 }

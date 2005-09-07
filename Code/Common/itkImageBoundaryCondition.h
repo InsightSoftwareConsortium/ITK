@@ -17,7 +17,6 @@
 #ifndef __itkImageBoundaryCondition_h_
 #define __itkImageBoundaryCondition_h_
 
-#include "itkImage.h"
 #include "itkIndex.h"
 #include "itkOffset.h"
 #include "itkNeighborhood.h"
@@ -69,6 +68,10 @@ public:
   typedef Neighborhood<PixelPointerType,
                       itkGetStaticConstMacro(ImageDimension)> NeighborhoodType;
 
+  /** Functor used to access pixels from a neighborhood of pixel pointers */
+  typedef typename TImageType::NeighborhoodAccessorFunctorType 
+                                 NeighborhoodAccessorFunctorType;
+  
   /** Default constructor. */
   ImageBoundaryCondition() {}
   
@@ -78,7 +81,16 @@ public:
    * values in the image.  */
   virtual PixelType operator()(const OffsetType& point_index,
                                const OffsetType &boundary_offset,
-                                 const NeighborhoodType *data) const = 0;
+                               const NeighborhoodType *data) const = 0;
+  
+  /** Computes and returns the appropriate pixel value from
+   * neighborhood iterator data, using the functor. */
+  virtual PixelType operator()(
+      const OffsetType& point_index,
+      const OffsetType& boundary_offset,
+      const NeighborhoodType *data,
+      const NeighborhoodAccessorFunctorType &neighborhoodAccessorFunctor) const = 0;
+  
   virtual ~ImageBoundaryCondition() {}
 };
   

@@ -28,10 +28,10 @@ NeighborhoodIterator<TImage, TBoundaryCondition>
   bool flag;
 
   if (this->m_NeedToUseBoundaryCondition == false)
-    { *(this->operator[](n)) = v; }
+    { this->m_NeighborhoodAccessorFunctor.Set( this->operator[](n), v ); }
   
   // Is this whole neighborhood in bounds?
-  else if (this->InBounds()) *(this->operator[](n)) = v;
+  else if (this->InBounds()) this->m_NeighborhoodAccessorFunctor.Set( this->operator[](n), v );
   else
     {
     temp = this->ComputeInternalIndex(n);
@@ -69,7 +69,7 @@ NeighborhoodIterator<TImage, TBoundaryCondition>
 
     if (flag)
       {
-      *(this->operator[](n)) = v;
+      this->m_NeighborhoodAccessorFunctor.Set( this->operator[](n), v );
       }
     else
       { // Attempt to write out of bounds
@@ -91,13 +91,13 @@ NeighborhoodIterator<TImage, TBoundaryCondition>
   if (this->m_NeedToUseBoundaryCondition == false)
     {
     status = true;
-    *(this->operator[](n)) = v;
+    this->m_NeighborhoodAccessorFunctor.Set( this->operator[](n), v );
     }
   
   // Is this whole neighborhood in bounds?
   else if (this->InBounds())
     {
-    *(this->operator[](n)) = v;
+    this->m_NeighborhoodAccessorFunctor.Set( this->operator[](n), v );
     status = true;
     return;
     }
@@ -125,7 +125,7 @@ NeighborhoodIterator<TImage, TBoundaryCondition>
         }
       }
       
-    *(this->operator[](n)) = v ;
+    this->m_NeighborhoodAccessorFunctor.Set( this->operator[](n), v );
     status = true;
     }
 }
@@ -159,7 +159,7 @@ NeighborhoodIterator<TImage, TBoundaryCondition>
     for (N_it = N.Begin(), this_it = this->Begin(); this_it < _end;
          this_it++, N_it++)
       {
-      **this_it = *N_it;
+      this->m_NeighborhoodAccessorFunctor.Set(*this_it, *N_it);
       }
     }
   else if (this->InBounds())
@@ -167,7 +167,7 @@ NeighborhoodIterator<TImage, TBoundaryCondition>
     for (N_it = N.Begin(), this_it = this->Begin(); this_it < _end;
          this_it++, N_it++)
       {
-      **this_it = *N_it;
+      this->m_NeighborhoodAccessorFunctor.Set(*this_it, *N_it);
       }  
     }
   else
@@ -198,7 +198,7 @@ NeighborhoodIterator<TImage, TBoundaryCondition>
           
       if (flag)
         {
-        **this_it = *N_it;
+        this->m_NeighborhoodAccessorFunctor.Set(*this_it, *N_it);
         }
           
       for (i=0; i<Superclass::Dimension; ++i)  // Update index
