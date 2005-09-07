@@ -18,6 +18,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include <iostream>
+#define ITK_LEAN_AND_MEAN
 
 #include "itkImage.h"
 #include "itkImageHelper.h"
@@ -61,6 +62,7 @@ template <class TImage>
 void ComputeOffset(TImage *image, unsigned int count, unsigned int repeat)
 {
   typename TImage::OffsetValueType offset;
+  typename TImage::OffsetValueType accum = 0;
   typename TImage::IndexType index;
   typename TImage::OffsetType indexIncr;
   indexIncr.Fill(1);
@@ -70,22 +72,24 @@ void ComputeOffset(TImage *image, unsigned int count, unsigned int repeat)
     index.Fill(0);
     for (unsigned int i = 0; i < count; i++)
       {
+      
       offset = image->ComputeOffset (index);
+      accum += offset;
       index += indexIncr;
       }
     }
-  std::cout << "Last offset: " << offset << std::endl;
+  std::cout << "Last offset: " << offset << ": " << accum << std::endl;
 }
 
 template <class TImage>
 void ComputeFastOffset(TImage *image, unsigned int count, unsigned int repeat)
 {
   typename TImage::OffsetValueType offset;
+  typename TImage::OffsetValueType accum = 0;
   typename TImage::IndexType index;
   typename TImage::OffsetType indexIncr;
   indexIncr.Fill(1);
 
-  const typename TImage::IndexType &bufferedRegionIndex = image->GetBufferedRegion().GetIndex();
   const typename TImage::OffsetValueType *offsetTable = image->GetOffsetTable();
   
   for (unsigned j = 0; j < repeat; j++)
@@ -93,14 +97,16 @@ void ComputeFastOffset(TImage *image, unsigned int count, unsigned int repeat)
     index.Fill(0);
     for (unsigned int i = 0; i < count; i++)
       {
-      itk::ImageHelper<TImage::ImageDimension,TImage::ImageDimension>::ComputeOffset(bufferedRegionIndex,
+      offset = 0;
+      itk::ImageHelper<TImage::ImageDimension,TImage::ImageDimension>::ComputeOffset(image->GetBufferedRegion().GetIndex(),
                                                                                     index,
                                                                                     offsetTable,
                                                                                     offset);
+      accum += offset;
       index += indexIncr;
       }
     }
-  std::cout << "Last offset: " << offset << std::endl;
+  std::cout << "Last offset: " << offset << ": " << accum << std::endl;
 }
 
 int itkImageComputeOffsetAndIndexTest(int, char* [] )
