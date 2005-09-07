@@ -73,11 +73,25 @@ class ITK_EXPORT SparseImage : public Image <TNode*, VImageDimension>
 
   /** Types derived from the Superclass */
   typedef typename Superclass::IndexType IndexType;
+
+  /** Tyepdef for the functor used to access a neighborhood of pixel pointers.*/
+  typedef NeighborhoodAccessorFunctor< Self > 
+                                            NeighborhoodAccessorFunctorType;
   
   /** The list types for storing the active pixels.*/
   typedef SparseFieldLayer <NodeType> NodeListType;
   typedef ObjectStore      <NodeType> NodeStoreType;
 
+  /** Return the NeighborhoodAccessor functor. This method is called by the 
+   * neighborhood iterators. */
+  NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() 
+    { return NeighborhoodAccessorFunctorType(); }
+  
+  /** Return the NeighborhoodAccessor functor. This method is called by the 
+   * neighborhood iterators. */
+  const NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() const
+    { return NeighborhoodAccessorFunctorType(); }
+  
   /** This function should be used to allocate memory for a variable at the
       desired pixel location. */
   NodeType *AddNode(const IndexType &index)

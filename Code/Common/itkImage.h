@@ -26,6 +26,7 @@
 #include "itkContinuousIndex.h"
 #include "itkFixedArray.h"
 #include "itkWeakPointer.h"
+#include "itkNeighborhoodAccessorFunctor.h"
 
 namespace itk
 {
@@ -112,6 +113,10 @@ public:
    *  representations.  */
   typedef DefaultPixelAccessor< PixelType > AccessorType;
   typedef DefaultPixelAccessorFunctor< Self > AccessorFunctorType;
+
+  /** Tyepdef for the functor used to access a neighborhood of pixel pointers.*/
+  typedef NeighborhoodAccessorFunctor< Self > 
+                                            NeighborhoodAccessorFunctorType;
 
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel type
@@ -259,12 +264,21 @@ public:
 
   
   /** Return the Pixel Accessor object */
-  AccessorType GetPixelAccessor( void )
+  AccessorType GetPixelAccessor( void ) 
     { return AccessorType(); }
 
   /** Return the Pixel Accesor object */
   const AccessorType GetPixelAccessor( void ) const
     { return AccessorType(); }
+
+  /** Return the NeighborhoodAccessor functor */
+  NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() 
+    { return NeighborhoodAccessorFunctorType(); }
+  
+  /** Return the NeighborhoodAccessor functor */
+  const NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() const
+    { return NeighborhoodAccessorFunctorType(); }
+  
 
   /** \brief Get the continuous index from a physical point
    *

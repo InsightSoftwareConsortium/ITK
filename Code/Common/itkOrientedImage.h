@@ -57,7 +57,21 @@ public:
   typedef typename Superclass::AccessorType        AccessorType;
   typedef typename Superclass::AccessorFunctorType AccessorFunctorType;
 
-  /** Set the spacing of the image and precompute the transforms for
+  /** Tyepdef for the functor used to access a neighborhood of pixel pointers.*/
+  typedef NeighborhoodAccessorFunctor< Self > 
+                                            NeighborhoodAccessorFunctorType;
+
+  /** Return the NeighborhoodAccessor functor. This method is called by the 
+   * neighborhood iterators. */
+  NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() 
+    { return NeighborhoodAccessorFunctorType(); }
+  
+  /** Return the NeighborhoodAccessor functor. This method is called by the 
+   * neighborhood iterators. */
+  const NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() const
+    { return NeighborhoodAccessorFunctorType(); }
+  
+   /** Set the spacing of the image and precompute the transforms for
    * the image. */
   virtual void SetSpacing (const SpacingType spacing)
     {

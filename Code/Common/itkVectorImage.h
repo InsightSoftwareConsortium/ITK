@@ -22,6 +22,7 @@
 #include "itkImportImageContainer.h"
 #include "itkDefaultVectorPixelAccessor.h"
 #include "itkDefaultVectorPixelAccessorFunctor.h"
+#include "itkVectorImageNeighborhoodAccessorFunctor.h"
 #include "itkPoint.h"
 #include "itkContinuousIndex.h"
 #include "itkArray.h"
@@ -54,7 +55,7 @@ namespace itk
  *
  * The API of this class is similar to Image.
  *
- * \thanks
+ * \note
  * This work is part of the National Alliance for Medical Image Computing 
  * (NAMIC), funded by the National Institutes of Health through the NIH Roadmap
  * for Medical Research, Grant U54 EB005149.
@@ -109,6 +110,10 @@ public:
   /** Functor to provide a common API between DefaultPixelAccessor and
    * DefaultVectorPixelAccessor */
   typedef DefaultVectorPixelAccessorFunctor< Self >       AccessorFunctorType;
+
+  /** Tyepdef for the functor used to access a neighborhood of pixel pointers.*/
+  typedef VectorImageNeighborhoodAccessorFunctor< 
+                          Self >              NeighborhoodAccessorFunctorType;
 
   /** Container used to store pixels in the image. */
   typedef ImportImageContainer<unsigned long, InternalPixelType> PixelContainer;
@@ -220,12 +225,20 @@ public:
   virtual void Graft(const ImageBase<VImageDimension> *data);
   
   /** Return the Pixel Accessor object */
-  AccessorType GetPixelAccessor( void )
+  AccessorType GetPixelAccessor( void ) 
     { return AccessorType( m_VectorLength ); }
 
   /** Return the Pixel Accesor object */
   const AccessorType GetPixelAccessor( void ) const
     { return AccessorType( m_VectorLength ); }
+
+  /** Return the NeighborhoodAccessor functor */
+  NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() 
+    { return NeighborhoodAccessorFunctorType( m_VectorLength ); }
+  
+  /** Return the NeighborhoodAccessor functor */
+  const NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() const
+    { return NeighborhoodAccessorFunctorType(m_VectorLength); }
 
   
   /** Set/Get macros for the length of each vector in the vector image */
