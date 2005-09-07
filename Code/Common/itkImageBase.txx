@@ -408,24 +408,26 @@ ImageBase<VImageDimension>
   os << indent << "Direction: " << std::endl << m_Direction << std::endl;
 }
 
-namespace
+namespace Function
 {
 
-#define OBLIQUITY_THRESHOLD 0.8
 inline unsigned Max3(float x, float y, float z)
 {
+  const double obliquityThresholdCosineValue = 0.8;
+  
   double absX = vnl_math_abs(x);
   double absY = vnl_math_abs(y);
   double absZ = vnl_math_abs(z);
-  if (absX>OBLIQUITY_THRESHOLD && absX>absY && absX>absZ)
+
+  if ( ( absX > obliquityThresholdCosineValue ) && ( absX > absY ) && ( absX > absZ ))
     {
     return 0;
     }
-  else if (absY>OBLIQUITY_THRESHOLD && absY>absX && absY>absZ)
+  else if (  ( absY > obliquityThresholdCosineValue ) && ( absY > absX ) && ( absY > absZ ) )
     {
     return 1;
     }
-  else if (absZ>OBLIQUITY_THRESHOLD && absZ>absX && absZ>absY)
+  else if ( ( absZ > obliquityThresholdCosineValue ) && ( absZ > absX ) && ( absZ > absY ) )
     {
     return 2;
     }
@@ -440,7 +442,7 @@ inline int Sign(float x)
   return 1;
 }
 
-} // namespace
+} // namespace Function
 
 /**
  *
@@ -456,12 +458,12 @@ ImageBase<VImageDimension>
   int axes[9] = {0,0,0,0,0,0,0,0,0};
   int dominant_axis;
 
-  dominant_axis = Max3(direction[0][0],direction[1][0],direction[2][0]);
-  axes[dominant_axis] = Sign(direction[dominant_axis][0]);
-  dominant_axis = Max3(direction[0][1],direction[1][1],direction[2][1]);
-  axes[dominant_axis+3] = Sign(direction[dominant_axis][1]);
-  dominant_axis = Max3(direction[0][2],direction[1][2],direction[2][2]);
-  axes[dominant_axis+6] = Sign(direction[dominant_axis][2]);
+  dominant_axis = Function::Max3(direction[0][0],direction[1][0],direction[2][0]);
+  axes[dominant_axis] = Function::Sign(direction[dominant_axis][0]);
+  dominant_axis = Function::Max3(direction[0][1],direction[1][1],direction[2][1]);
+  axes[dominant_axis+3] = Function::Sign(direction[dominant_axis][1]);
+  dominant_axis = Function::Max3(direction[0][2],direction[1][2],direction[2][2]);
+  axes[dominant_axis+6] = Function::Sign(direction[dominant_axis][2]);
     
   SpatialOrientation::CoordinateTerms terms[3] = {SpatialOrientation::ITK_COORDINATE_UNKNOWN,SpatialOrientation::ITK_COORDINATE_UNKNOWN,SpatialOrientation::ITK_COORDINATE_UNKNOWN};
 
