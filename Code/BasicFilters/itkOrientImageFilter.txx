@@ -432,12 +432,13 @@ OrientImageFilter<TInputImage, TOutputImage>
 // right/left axis would be labeled right ("R").
 // This code was copied and modified from code written by David Clunie
 // (dclunie at dcluine.com)
-static const double obliquityThresholdCosineValue = 0.8;
 template <class TInputImage, class TOutputImage>
 std::string
 OrientImageFilter<TInputImage,TOutputImage>
 ::GetMajorAxisFromPatientRelativeDirectionCosine(double x, double y, double z)
 {
+  const double obliquityThresholdCosineValue = 0.8;
+
   std::string axis;
   
   std::string orientationX = x < 0 ? "L" : "R";
@@ -452,15 +453,15 @@ OrientImageFilter<TInputImage,TOutputImage>
   // just the threshold, since the sum of the squares should be == 1.0
   // but just in case ...
   
-  if (absX>obliquityThresholdCosineValue && absX>absY && absX>absZ)
+  if ( ( absX > obliquityThresholdCosineValue ) && ( absX > absY ) && ( absX > absZ) )
     {
     axis=orientationX;
     }
-  else if (absY>obliquityThresholdCosineValue && absY>absX && absY>absZ)
+  else if ( (absY > obliquityThresholdCosineValue ) && ( absY > absX ) && ( absY > absZ ) )
     {
     axis=orientationY;
     }
-  else if (absZ>obliquityThresholdCosineValue && absZ>absX && absZ>absY)
+  else if ( ( absZ > obliquityThresholdCosineValue ) && ( absZ > absX ) && ( absZ > absY ) )
     {
     axis=orientationZ;
     }
