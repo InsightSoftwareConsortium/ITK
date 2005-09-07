@@ -23,7 +23,6 @@ SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Common)
 
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
-ADD_TEST(itkImageComputeOffsetAndIndexTest ${COMMON_TESTS} itkImageComputeOffsetAndIndexTest)
 ADD_TEST(itkAnnulusOperatorTest ${COMMON_TESTS} itkAnnulusOperatorTest)
 ADD_TEST(itkChainCodePath2DTest ${COMMON_TESTS} itkChainCodePath2DTest)
 ADD_TEST(itkChainCodePathTest ${COMMON_TESTS} itkChainCodePathTest)
