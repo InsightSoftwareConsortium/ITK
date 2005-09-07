@@ -40,9 +40,9 @@ IF(USE_FFTWD OR USE_FFTWF)
     /usr/local/lib/fftw
   )
 
-  MARK_AS_ADVANCED(FFTWD_LIB)
-  OPTION(FFTWD_LIB "The full path to the fftw3 library (including the library)" )
   IF(USE_FFTWD)
+    MARK_AS_ADVANCED(FFTWD_LIB)
+#   OPTION(FFTWD_LIB "The full path to the fftw3 library (including the library)" )
     FIND_LIBRARY(FFTWD_LIB fftw3 ${FFTW_LIB_SEARCHPATH}) #Double Precision Lib
     FIND_LIBRARY(FFTWD_THREADS_LIB fftw3_threads ${FFTW_LIB_SEARCHPATH}) #Double Precision Lib only if compiled with threads support
 
@@ -57,10 +57,9 @@ IF(USE_FFTWD OR USE_FFTWF)
     ENDIF(FFTWD_LIB)
   ENDIF(USE_FFTWD)
 
-  MARK_AS_ADVANCED(FFTWF_LIB)
-  OPTION(FFTWF_LIB "The full path to the fftw3f library (including the library)" )
-
   IF(USE_FFTWF)
+    MARK_AS_ADVANCED(FFTWF_LIB)
+#   OPTION(FFTWF_LIB "The full path to the fftw3f library (including the library)" )
     FIND_LIBRARY(FFTWF_LIB fftw3f ${FFTW_LIB_SEARCHPATH}) #Single Precision Lib
     FIND_LIBRARY(FFTWF_THREADS_LIB fftw3f_threads ${FFTW_LIB_SEARCHPATH}) #Single Precision Lib only if compiled with threads support
 
