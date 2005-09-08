@@ -29,6 +29,7 @@ namespace itk
            and if USE_FFTWD is defined, then only doubles are valid.
 */
 
+#if defined(USE_FFTWF)
 template <unsigned int Dimension>
 void
 FFTWComplexConjugateToRealImageFilter<float,Dimension>::
@@ -103,7 +104,24 @@ GenerateData()
     ++it;
     }
 }
+template <unsigned int Dimension>
+bool
+FFTWComplexConjugateToRealImageFilter<float,Dimension>::
+FullMatrix()
+{
+  return false;
+}
 
+template <unsigned int Dimension>
+void
+FFTWComplexConjugateToRealImageFilter<float,Dimension>::
+PrintSelf(std::ostream& os,Indent indent) const
+{
+}
+
+#endif // defined(USE_FFTWF)
+
+#if defined(USE_FFTWD)
 template <unsigned int Dimension>
 void
 FFTWComplexConjugateToRealImageFilter<double,Dimension>::
@@ -186,14 +204,6 @@ FullMatrix()
 {
   return false;
 }
-template <unsigned int Dimension>
-bool
-FFTWComplexConjugateToRealImageFilter<float,Dimension>::
-FullMatrix()
-{
-  return false;
-}
-
 
 template <unsigned int Dimension>
 void
@@ -201,12 +211,7 @@ FFTWComplexConjugateToRealImageFilter<double,Dimension>::
 PrintSelf(std::ostream& os,Indent indent) const
 {
 }
-template <unsigned int Dimension>
-void
-FFTWComplexConjugateToRealImageFilter<float,Dimension>::
-PrintSelf(std::ostream& os,Indent indent) const
-{
-}
-}
+#endif // defined(USE_FFTWD)
+}// namespace itk
 #endif // defined(USE_FFTWF) || defined(USE_FFTWD)
-#endif
+#endif // _itkFFTWComplexConjugateToRealImageFilter_txx

@@ -136,10 +136,10 @@ private:
   fftw_plan M_plan;
 };
 
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFFTWRealToComplexConjugateImageFilter.txx"
 #endif
 #endif // defined(USE_FFTWF) || defined(USE_FFTWD)
-#endif
+#endif //__itkFFTWRealToComplexConjugateImageFilter_h

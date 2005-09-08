@@ -184,8 +184,7 @@ FFTWRealToComplexConjugateImageFilter<double,Dimension>::
 PrintSelf(std::ostream& os,Indent indent) const
 {
 }
-}
-
 #endif //defined(USE_FFTWD)
+} // namespace itk
 #endif // defined(USE_FFTWF) || defined(USE_FFTWD)
-#endif
+#endif //_itkFFTWRealToComplexConjugateImageFilter_txx
