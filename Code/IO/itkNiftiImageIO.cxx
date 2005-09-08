@@ -31,6 +31,7 @@ namespace itk
 {
 namespace
 {
+#if defined(__USE_VERY_VERBOSE_NIFTI_DEBUGGING__)
 inline 
 int print_hex_vals( char const * const data, const int nbytes, FILE * const fp )
 {
@@ -48,7 +49,7 @@ int print_hex_vals( char const * const data, const int nbytes, FILE * const fp )
 /*----------------------------------------------------------------------*/
 /*! display the contents of the nifti_1_header (send to stdout)
 *//*--------------------------------------------------------------------*/
-inline 
+inline
 int DumpNiftiHeader( const std::string &fname )
 {
    int c;
@@ -132,6 +133,7 @@ int DumpNiftiHeader( const std::string &fname )
 
    return 0;
 }
+#endif
 }
 
 NiftiImageIO::NiftiImageIO():
@@ -402,7 +404,9 @@ void NiftiImageIO::ReadImageInformation()
   static std::string prev;
   if(prev != m_FileName)
     {
+#if defined(__USE_VERY_VERBOSE_NIFTI_DEBUGGING__)
     DumpNiftiHeader(m_FileName);
+#endif
     prev = m_FileName;
     }
   if(this->m_NiftiImage == 0)
