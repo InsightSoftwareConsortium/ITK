@@ -1,3 +1,23 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkVectorImageTest.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 #include <iostream>
 #include "itkArray.h"
 #include "itkImage.h"
@@ -62,9 +82,9 @@ int itkVectorImageTest( int, char* argv[] )
   start[1] =   0;  // first index on Y
   start[2] =   0;  // first index on Z
   ArrayImageType::SizeType  size;
-  size[0]  = 200;  // size along X
-  size[1]  = 200;  // size along Y
-  size[2]  = 200;  // size along Z
+  size[0]  = 50;  // size along X
+  size[1]  = 50;  // size along Y
+  size[2]  = 50;  // size along Z
   ArrayImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( start );
@@ -110,9 +130,9 @@ int itkVectorImageTest( int, char* argv[] )
   start[1] =   0;  // first index on Y
   start[2] =   0;  // first index on Z
   FixedArrayImageType::SizeType  size;
-  size[0]  = 200;  // size along X
-  size[1]  = 200;  // size along Y
-  size[2]  = 200;  // size along Z
+  size[0]  = 50;  // size along X
+  size[1]  = 50;  // size along Y
+  size[2]  = 50;  // size along Z
   FixedArrayImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( start );
@@ -164,9 +184,9 @@ int itkVectorImageTest( int, char* argv[] )
   start[1] =   0;  // first index on Y
   start[2] =   0;  // first index on Z
   VectorImageType::SizeType  size;
-  size[0]  = 200;  // size along X
-  size[1]  = 200;  // size along Y
-  size[2]  = 200;  // size along Z
+  size[0]  = 50;  // size along X
+  size[1]  = 50;  // size along Y
+  size[2]  = 50;  // size along Z
   VectorImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( start );
