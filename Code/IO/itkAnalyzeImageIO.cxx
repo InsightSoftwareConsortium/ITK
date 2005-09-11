@@ -14,6 +14,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
+#include <nifti1_io.h> //Needed to make sure that the overlapping Analyze/Nifti readers do not overlap
 #include "itkAnalyzeImageIO.h"
 #include "itkIOCommon.h"
 #include "itkExceptionObject.h"
@@ -775,7 +776,9 @@ bool AnalyzeImageIO::CanReadFile( const char* FileNameToRead )
     //    throw exception;
     }
 #endif
-  return true;
+  //The final check is to make sure that it is not a nifti version of the analyze file.
+  //Eventually the entire itkAnalyzeImageIO class will be subsumed by the nifti reader.
+  return is_nifti_file(FileNameToRead) == 0;
 }
 
 void AnalyzeImageIO::ReadImageInformation()
