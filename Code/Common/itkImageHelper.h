@@ -95,7 +95,7 @@ public:
 
   inline static void ComputeIndexInner(const IndexType &bufferedRegionIndex,
                                        OffsetValueType &offset,
-                                       const OffsetValueType offsetTable[],
+                                       const OffsetValueType [],
                                        IndexType &index,
                                        const UniqueTypeBoolTrue& )
   {
@@ -137,7 +137,7 @@ public:
 
   inline static void ComputeOffsetInner(const IndexType &bufferedRegionIndex,
                                         const IndexType &index,
-                                        const OffsetValueType offsetTable[],
+                                        const OffsetValueType [],
                                         OffsetValueType &offset,
                                         const UniqueTypeBoolTrue& )
   {
