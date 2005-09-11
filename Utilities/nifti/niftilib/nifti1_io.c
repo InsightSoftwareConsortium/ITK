@@ -1996,6 +1996,10 @@ int nifti_validfilename(const char* const fname)
    }
 
    ext = nifti_find_file_extension(fname);
+   if (ext == NULL) /* If the extension is NULL, then the filename is not valid. */
+   {
+       return 0;
+   }
 
    if ( ext && ext == fname ) {   /* then no filename prefix */
       if ( g_opts.debug > 0 )
