@@ -29,9 +29,9 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
+#if defined(__USE_VERY_VERBOSE_NIFTI_DEBUGGING__)
 namespace
 {
-#if defined(__USE_VERY_VERBOSE_NIFTI_DEBUGGING__)
 inline 
 int print_hex_vals( char const * const data, const int nbytes, FILE * const fp )
 {
@@ -133,8 +133,8 @@ int DumpNiftiHeader( const std::string &fname )
 
    return 0;
 }
-#endif
 }
+#endif
 
 NiftiImageIO::NiftiImageIO():
   m_NiftiImage(0)
@@ -647,7 +647,14 @@ NiftiImageIO
     this->m_NiftiImage->iname = (char *)malloc(FName.size()+1);
     strcpy(this->m_NiftiImage->iname,FName.c_str());
     }
-
+  else
+    {
+    ExceptionObject exception(__FILE__, __LINE__);
+    std::string ErrorMessage("Bad Nifti file name ");
+    ErrorMessage += FName;
+    exception.SetDescription(ErrorMessage.c_str());
+    throw exception;
+    }
   unsigned short dims =
     this->m_NiftiImage->ndim = 
     this->m_NiftiImage->dim[0] =
