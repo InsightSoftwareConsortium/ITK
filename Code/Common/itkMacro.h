@@ -402,7 +402,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char*);
 #define itkDebugMacro(x)
 #else
 #define itkDebugMacro(x) \
-{ if (this->GetDebug() && itk::Object::GetGlobalWarningDisplay()) \
+  { if (this->GetDebug() && ::itk::Object::GetGlobalWarningDisplay())   \
     { ::itk::OStringStream itkmsg; \
       itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n" \
              << this->GetNameOfClass() << " (" << this << "): " x  \
