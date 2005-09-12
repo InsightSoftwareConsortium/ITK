@@ -77,7 +77,30 @@ ADD_TEST(itkCurvatureAnisotropicDiffusionImageFilterTest ${BASIC_FILTERS_TESTS} 
 ADD_TEST(itkCyclicReferences ${BASIC_FILTERS_TESTS} itkCyclicReferences)
 ADD_TEST(itkDanielssonDistanceMapImageFilterTest ${BASIC_FILTERS_TESTS} itkDanielssonDistanceMapImageFilterTest)
 ADD_TEST(itkSignedDanielssonDistanceMapImageFilterTest ${BASIC_FILTERS_TESTS2} itkSignedDanielssonDistanceMapImageFilterTest)
-ADD_TEST(itkDerivativeImageFilterTest ${BASIC_FILTERS_TESTS} itkDerivativeImageFilterTest)
+ADD_TEST(itkDerivativeImageFilterTest1x ${BASIC_FILTERS_TESTS} 
+  --compare ${BASELINE}/itkDerivativeImageFilterTest1x.png
+            ${TEMP}/itkDerivativeImageFilterTest1x.png
+            itkDerivativeImageFilterTest 
+            ${INPUTDATA}/cthead1.png 
+            ${TEMP}/itkDerivativeImageFilterTest1x.png 1 0)
+ADD_TEST(itkDerivativeImageFilterTest1y ${BASIC_FILTERS_TESTS} 
+  --compare ${BASELINE}/itkDerivativeImageFilterTest1y.png
+            ${TEMP}/itkDerivativeImageFilterTest1y.png
+            itkDerivativeImageFilterTest 
+            ${INPUTDATA}/cthead1.png 
+            ${TEMP}/itkDerivativeImageFilterTest1y.png 1 1)
+ADD_TEST(itkDerivativeImageFilterTest2x ${BASIC_FILTERS_TESTS} 
+  --compare ${BASELINE}/itkDerivativeImageFilterTest2x.png
+            ${TEMP}/itkDerivativeImageFilterTest2x.png
+            itkDerivativeImageFilterTest 
+            ${INPUTDATA}/cthead1.png 
+            ${TEMP}/itkDerivativeImageFilterTest2x.png 2 0)
+ADD_TEST(itkDerivativeImageFilterTest2y ${BASIC_FILTERS_TESTS} 
+  --compare ${BASELINE}/itkDerivativeImageFilterTest2y.png
+            ${TEMP}/itkDerivativeImageFilterTest2y.png
+            itkDerivativeImageFilterTest 
+            ${INPUTDATA}/cthead1.png 
+            ${TEMP}/itkDerivativeImageFilterTest2y.png 2 1)
 ADD_TEST(itkDiffusionTensor3DReconstructionImageFilterTest ${BASIC_FILTERS_TESTS} itkDiffusionTensor3DReconstructionImageFilterTest)
 ADD_TEST(itkInverseDeformationFieldImageFilterTest ${BASIC_FILTERS_TESTS} itkInverseDeformationFieldImageFilterTest
            ${TEMP}/itkInverseDeformationFieldImageFilterTest.mha

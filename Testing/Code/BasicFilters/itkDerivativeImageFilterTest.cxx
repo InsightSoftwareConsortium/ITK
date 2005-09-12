@@ -20,39 +20,74 @@
 #include <iostream>
 #include "itkImage.h"
 #include "itkDerivativeImageFilter.h"
-#include "itkNullImageToImageFilterDriver.txx"
-#include "itkFilterWatcher.h"
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
+#include "itkRescaleIntensityImageFilter.h"
+#include "itkSimpleFilterWatcher.h"
 
-int itkDerivativeImageFilterTest(int , char * [] )
+int itkDerivativeImageFilterTest(int argc, char *argv [] )
 {
-  //  try
+  if( argc < 5 )
     {
-      typedef  itk::Image<float, 3> ImageType;
-
-      // Set up filter
-      itk::DerivativeImageFilter<ImageType, ImageType>::Pointer filter
-        = itk::DerivativeImageFilter<ImageType, ImageType>::New();
-      FilterWatcher watcher(filter);
-
-      filter->SetOrder(1);
-      filter->SetDirection(1);
-      std::cout << "About to execute" << std::endl;
-      // Run Test
-      itk::Size<3> sz;
-      sz[0]=256;
-      sz[1]=256;
-      sz[2]=5;
-      itk::NullImageToImageFilterDriver< ImageType, ImageType >
-        test1;
-      test1.SetImageSize(sz);
-      test1.SetFilter(filter.GetPointer());
-      test1.Execute();
-      std::cout << "Finished executing" << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << "  inputImageFile normalizedOutputImageFile ";
+    std::cerr << " derivativeOrder direction" << std::endl;
+    return EXIT_FAILURE;
     }
-//   catch(itk::ExceptionObject &err)
-//     {
-//       (&err)->Print(std::cerr);
-//       return 1;
-//     } 
-  return 0;   
+
+
+  // Test using an unsigned integral pixel type and generate a signed
+  // integral pixel type
+  typedef   unsigned short  InputPixelType;
+  typedef   short  OutputPixelType;
+
+  const unsigned int Dimension = 2;
+
+  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
+  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+
+
+  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
+
+  ReaderType::Pointer reader = ReaderType::New();
+
+  reader->SetFileName( argv[1] );
+
+  // Define the filter
+  typedef itk::DerivativeImageFilter<
+               InputImageType, OutputImageType >  FilterType;
+
+  FilterType::Pointer filter = FilterType::New();
+
+  // setup the filter
+  filter->SetOrder(     atoi( argv[3] ) );
+  filter->SetDirection( atoi( argv[4] ) );
+
+  itk::SimpleFilterWatcher watcher(filter, "Derivative");
+  
+  // wire the pipeline
+  filter->SetInput( reader->GetOutput() );
+
+  // Write the output
+  typedef itk::Image< unsigned char, Dimension >  WriteImageType;
+
+  typedef itk::RescaleIntensityImageFilter< 
+                                  OutputImageType,
+                                  WriteImageType >    NormalizeFilterType;
+
+  typedef itk::ImageFileWriter< WriteImageType >       NormalizedWriterType;
+
+  NormalizeFilterType::Pointer normalizer = NormalizeFilterType::New();
+  NormalizedWriterType::Pointer normalizedWriter = NormalizedWriterType::New();
+
+  normalizer->SetInput( filter->GetOutput() );
+  normalizedWriter->SetInput( normalizer->GetOutput() );
+
+  normalizer->SetOutputMinimum(   0 );
+  normalizer->SetOutputMaximum( 255 );
+
+  normalizedWriter->SetFileName( argv[2] );
+  normalizedWriter->Update();
+
+  return EXIT_SUCCESS;
 }

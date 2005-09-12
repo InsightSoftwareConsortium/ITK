@@ -18,6 +18,7 @@
 #define _itkDerivativeImageFilter_txx
 #include "itkDerivativeImageFilter.h"
 
+#include "itkNumericTraits.h"
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkDerivativeOperator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
@@ -90,10 +91,14 @@ void
 DerivativeImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  ZeroFluxNeumannBoundaryCondition<TOutputImage> nbc;
+  ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
+
+  // Define the operator value type so that we can filter integral
+  // images and have the proper operator defined.
+  typedef typename NumericTraits<OutputPixelType>::RealType OperatorValueType;
   
   // Filter
-  DerivativeOperator<OutputPixelType, ImageDimension> oper;
+  DerivativeOperator<OperatorValueType, ImageDimension> oper;
   oper.SetDirection(m_Direction);
   oper.SetOrder(m_Order);
   oper.CreateDirectional();
@@ -111,9 +116,9 @@ DerivativeImageFilter< TInputImage, TOutputImage >
       }
     }
 
-  typename NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
+  typename NeighborhoodOperatorImageFilter<InputImageType, OutputImageType, OperatorValueType>
     ::Pointer filter =
-    NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
+    NeighborhoodOperatorImageFilter<InputImageType, OutputImageType, OperatorValueType>
     ::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
