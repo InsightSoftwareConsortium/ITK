@@ -61,6 +61,7 @@ public:
   unsigned int TileWidth;
   unsigned int TileHeight;
   unsigned short NumberOfTiles;
+  unsigned int SubFiles;
 
   float XResolution;
 };
@@ -113,6 +114,7 @@ void TIFFReaderInternal::Clean()
   this->TileColumns = 0;
   this->TileWidth = 0;
   this->TileHeight = 0;
+  this->SubFiles = 0;
 }
 
 TIFFReaderInternal::TIFFReaderInternal()
@@ -131,6 +133,7 @@ int TIFFReaderInternal::Initialize()
       return 0;
       }
    
+
     // Check the number of pages. First by looking at the number of directories 
     this->NumberOfPages=TIFFNumberOfDirectories(this->Image);
             
@@ -171,6 +174,34 @@ int TIFFReaderInternal::Initialize()
         TileRows = this->Height/this->TileHeight;
         TileColumns = this->Width/this->TileWidth;
         }
+      }
+
+    // Checking if the TIFF contains subfiles
+    if(this->NumberOfPages > 0)
+      {
+      this->SubFiles = 0;
+
+      for(unsigned int page = 0;page<this->NumberOfPages;page++)
+        {
+        long subfiletype = 6;
+        if(TIFFGetField(this->Image, TIFFTAG_SUBFILETYPE, &subfiletype))
+          {
+          if(subfiletype == 0)
+            {
+            this->SubFiles+=1;
+            }
+          }
+        TIFFReadDirectory(this->Image);
+        }
+
+      // Set the directory to the first image
+      TIFFSetDirectory(this->Image,0);
+      }
+
+ 
+    if(this->SubFiles>0)
+      {
+      std::cout << "This TIFF image contains subfiles: " << this->SubFiles << std::endl;
       }
 
     TIFFGetFieldDefaulted(this->Image, TIFFTAG_ORIENTATION,
@@ -242,7 +273,163 @@ bool TIFFImageIO::CanReadFile(const char* file)
   TIFFSetErrorHandler(save);
   return false;
 }
-  
+
+
+
+/** To Support Zeiss images that contains only 2 samples per pixel but are actually
+ *  RGB images */
+void TIFFImageIO::ReadTwoSamplesPerPixelImage( void *out, 
+                                               unsigned int width, 
+                                               unsigned int height )
+{
+  unsigned int isize = TIFFScanlineSize(m_InternalImage->Image);
+  unsigned int cc;
+  int row;
+  tdata_t buf = _TIFFmalloc(isize);
+
+  int inc = 1;
+
+  if(m_ComponentType == UCHAR)
+    {
+    unsigned char* image;
+     if (m_InternalImage->PlanarConfig == PLANARCONFIG_CONTIG) 
+      {
+      for ( row = 0; row < (int)height; row ++ )
+        {
+        if (TIFFReadScanline(m_InternalImage->Image, buf, row, 0) <= 0)
+          {
+          std::cout << "Problem reading the row: " << row << std::endl;
+          break;
+          }
+          
+        if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
+          {
+          image = reinterpret_cast<unsigned char*>(out) + row * width * inc;
+          }
+        else
+          {
+          image = reinterpret_cast<unsigned char*>(out) + width * inc * (height - (row + 1));
+          }
+
+        for (cc = 0; cc < isize; 
+             cc += m_InternalImage->SamplesPerPixel )
+          {
+          inc = this->EvaluateImageAt( image, 
+                                       static_cast<unsigned char *>(buf) +
+                                       cc );      
+          image += inc;
+          }
+        }
+      }
+    else if(m_InternalImage->PlanarConfig == PLANARCONFIG_SEPARATE)
+      {
+      unsigned long s;
+      unsigned long nsamples;
+      TIFFGetField(m_InternalImage->Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
+      for (s = 0; s < nsamples; s++)
+        {
+        for ( row = 0; row < (int)height; row ++ )
+          {
+          if (TIFFReadScanline(m_InternalImage->Image, buf, row, s) <= 0)
+            {
+            std::cout << "Problem reading the row: " << row << std::endl;
+            break;
+            }
+          
+          inc = 3;
+
+          if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
+            {
+            image = reinterpret_cast<unsigned char*>(out) + row * width * inc;
+            }
+          else
+            {
+            image = reinterpret_cast<unsigned char*>(out) + width * inc * (height - (row + 1));
+            }
+
+          // We translate the output pixel to be on the right RGB
+          image += s;
+          for (cc = 0; cc < isize; 
+               cc += 1)
+            {
+            (*image) = *(static_cast<unsigned char *>(buf) + cc);
+            inc = 3;
+            image += inc;
+            }
+          }
+        }
+      }
+    }
+  else if(m_ComponentType == USHORT)
+    {
+    isize /= 2;
+    unsigned short* image;
+    if (m_InternalImage->PlanarConfig == PLANARCONFIG_CONTIG) 
+      {
+      for ( row = 0; row < (int)height; row ++ )
+        {
+        if (TIFFReadScanline(m_InternalImage->Image, buf, row, 0) <= 0)
+          {
+          std::cout << "Problem reading the row: " << row << std::endl;
+          break;
+          }
+          
+        if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
+          {
+          image = reinterpret_cast<unsigned short*>(out) + row * width * inc;
+          }
+        else
+          {
+          image = reinterpret_cast<unsigned short*>(out) + width * inc * (height - (row + 1));
+          }
+
+        for (cc = 0; cc < isize; 
+             cc += m_InternalImage->SamplesPerPixel )
+          {
+          inc = this->EvaluateImageAt( image, 
+                                       static_cast<unsigned short *>(buf) +
+                                       cc );      
+          image += inc;
+          }
+        }
+      }
+    else if(m_InternalImage->PlanarConfig == PLANARCONFIG_SEPARATE)
+      {
+      unsigned long s, nsamples;
+      TIFFGetField(m_InternalImage->Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
+      for (s = 0; s < nsamples; s++)
+        {
+        for ( row = 0; row < (int)height; row ++ )
+          {
+          if (TIFFReadScanline(m_InternalImage->Image, buf, row, s) <= 0)
+            {
+            std::cout << "Problem reading the row: " << row << std::endl;
+            break;
+            }
+          
+          if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
+            {
+            image = reinterpret_cast<unsigned short*>(out) + row * width * inc;
+            }
+          else
+            {
+            image = reinterpret_cast<unsigned short*>(out) + width * inc * (height - (row + 1));
+            }
+          // We translate the output pixel to be on the right RGB
+          image += s;
+          for (cc = 0; cc < isize; 
+               cc += 1)
+            {
+            (*image) = *(static_cast<unsigned short *>(buf) + cc);
+            inc = 3;
+            image += inc;
+            }
+          }
+        }
+      }
+    }
+  _TIFFfree(buf); 
+}
 
 
 void TIFFImageIO::ReadGenericImage( void *out, 
@@ -278,30 +465,70 @@ void TIFFImageIO::ReadGenericImage( void *out,
   if(m_ComponentType == UCHAR)
     {
     unsigned char* image;
-    for ( row = 0; row < (int)height; row ++ )
+     if (m_InternalImage->PlanarConfig == PLANARCONFIG_CONTIG) 
       {
-      if (TIFFReadScanline(m_InternalImage->Image, buf, row, 0) <= 0)
+      for ( row = 0; row < (int)height; row ++ )
         {
-        std::cout << "Problem reading the row: " << row << std::endl;
-        break;
-        }
+        if (TIFFReadScanline(m_InternalImage->Image, buf, row, 0) <= 0)
+          {
+          std::cout << "Problem reading the row: " << row << std::endl;
+          break;
+          }
           
-      if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
-        {
-        image = reinterpret_cast<unsigned char*>(out) + row * width * inc;
-        }
-      else
-        {
-        image = reinterpret_cast<unsigned char*>(out) + width * inc * (height - (row + 1));
-        }
+        if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
+          {
+          image = reinterpret_cast<unsigned char*>(out) + row * width * inc;
+          }
+        else
+          {
+          image = reinterpret_cast<unsigned char*>(out) + width * inc * (height - (row + 1));
+          }
 
-      for (cc = 0; cc < isize; 
-           cc += m_InternalImage->SamplesPerPixel )
+        for (cc = 0; cc < isize; 
+             cc += m_InternalImage->SamplesPerPixel )
+          {
+          inc = this->EvaluateImageAt( image, 
+                                       static_cast<unsigned char *>(buf) +
+                                       cc );      
+          image += inc;
+          }
+        }
+      }
+    else if(m_InternalImage->PlanarConfig == PLANARCONFIG_SEPARATE)
+      {
+      unsigned long s;
+      unsigned long nsamples;
+      TIFFGetField(m_InternalImage->Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
+      for (s = 0; s < nsamples; s++)
         {
-        inc = this->EvaluateImageAt( image, 
-                                        static_cast<unsigned char *>(buf) +
-                                        cc );      
-        image += inc;
+        for ( row = 0; row < (int)height; row ++ )
+          {
+          if (TIFFReadScanline(m_InternalImage->Image, buf, row, s) <= 0)
+            {
+            std::cout << "Problem reading the row: " << row << std::endl;
+            break;
+            }
+          
+          inc = 3;
+          if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
+            {
+            image = reinterpret_cast<unsigned char*>(out) + row * width * inc;
+            }
+          else
+            {
+            image = reinterpret_cast<unsigned char*>(out) + width * inc * (height - (row + 1));
+            }
+
+           for (cc = 0; cc < isize; 
+               cc += m_InternalImage->SamplesPerPixel )
+            {
+            inc = this->EvaluateImageAt( image, 
+                                         static_cast<unsigned char *>(buf) +
+                                         cc );
+ 
+            image += inc;
+            }
+          }
         }
       }
     }
@@ -309,30 +536,66 @@ void TIFFImageIO::ReadGenericImage( void *out,
     {
     isize /= 2;
     unsigned short* image;
-    for ( row = 0; row < (int)height; row ++ )
+    if (m_InternalImage->PlanarConfig == PLANARCONFIG_CONTIG) 
       {
-      if (TIFFReadScanline(m_InternalImage->Image, buf, row, 0) <= 0)
+      for ( row = 0; row < (int)height; row ++ )
         {
-        std::cout << "Problem reading the row: " << row << std::endl;
-        break;
-        }
+        if (TIFFReadScanline(m_InternalImage->Image, buf, row, 0) <= 0)
+          {
+          std::cout << "Problem reading the row: " << row << std::endl;
+          break;
+          }
           
-      if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
-        {
-        image = reinterpret_cast<unsigned short*>(out) + row * width * inc;
-        }
-      else
-        {
-        image = reinterpret_cast<unsigned short*>(out) + width * inc * (height - (row + 1));
-        }
+        if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
+          {
+          image = reinterpret_cast<unsigned short*>(out) + row * width * inc;
+          }
+        else
+          {
+          image = reinterpret_cast<unsigned short*>(out) + width * inc * (height - (row + 1));
+          }
 
-      for (cc = 0; cc < isize; 
-           cc += m_InternalImage->SamplesPerPixel )
+        for (cc = 0; cc < isize; 
+             cc += m_InternalImage->SamplesPerPixel )
+          {
+          inc = this->EvaluateImageAt( image, 
+                                       static_cast<unsigned short *>(buf) +
+                                       cc );      
+          image += inc;
+          }
+        }
+      }
+    else if(m_InternalImage->PlanarConfig == PLANARCONFIG_SEPARATE)
+      {
+      unsigned long s, nsamples;
+      TIFFGetField(m_InternalImage->Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
+      for (s = 0; s < nsamples; s++)
         {
-        inc = this->EvaluateImageAt( image, 
-                                     static_cast<unsigned short *>(buf) +
-                                     cc );      
-        image += inc;
+        for ( row = 0; row < (int)height; row ++ )
+          {
+          if (TIFFReadScanline(m_InternalImage->Image, buf, row, s) <= 0)
+            {
+            std::cout << "Problem reading the row: " << row << std::endl;
+            break;
+            }
+          
+          if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
+            {
+            image = reinterpret_cast<unsigned short*>(out) + row * width * inc;
+            }
+          else
+            {
+            image = reinterpret_cast<unsigned short*>(out) + width * inc * (height - (row + 1));
+            }
+          for (cc = 0; cc < isize; 
+               cc += m_InternalImage->SamplesPerPixel )
+            {
+            inc = this->EvaluateImageAt( image, 
+                                         static_cast<unsigned short *>(buf) +
+                                         cc );      
+            image += inc;
+            }
+          }
         }
       }
     }
@@ -344,7 +607,7 @@ int TIFFImageIO::EvaluateImageAt( void* out, void* in )
 {
   unsigned char *image = (unsigned char*)out;
   unsigned char *source = (unsigned char*)in;
-  
+
   int increment;
   unsigned short red, green, blue, alpha;
   switch ( this->GetFormat() )
@@ -563,9 +826,39 @@ void TIFFImageIO::ReadVolume(void* buffer)
 
   for(unsigned int page = 0;page<m_InternalImage->NumberOfPages;page++)
     {
-    if ( !m_InternalImage->CanRead() )
+    if(m_InternalImage->SubFiles>0)
       {
-      uint32 *tempImage ;
+      long subfiletype = 6;
+      if(TIFFGetField(m_InternalImage->Image, TIFFTAG_SUBFILETYPE, &subfiletype))
+        {
+        if(subfiletype != 0)
+          {
+          TIFFReadDirectory(m_InternalImage->Image);
+          continue;
+          }
+        }
+      }
+
+    // if we have a Zeiss image meaning that the SamplesPerPixel is 2
+    if(m_InternalImage->SamplesPerPixel == 2)
+      {
+      if(m_ComponentType == USHORT)
+        {
+        unsigned short* volume = reinterpret_cast<unsigned short*>(buffer);
+        volume += width*height*m_InternalImage->SamplesPerPixel*page;
+        this->ReadTwoSamplesPerPixelImage( volume, width, height );
+        }
+      else
+        {
+        unsigned char* volume = reinterpret_cast<unsigned char*>(buffer);
+        volume += width*height*m_InternalImage->SamplesPerPixel*page;
+        this->ReadTwoSamplesPerPixelImage( volume, width, height );
+        }
+      break;
+      }
+    else if ( !m_InternalImage->CanRead() )
+      {
+      uint32 *tempImage;
       tempImage = new uint32[ width * height ];
 
       if ( !TIFFReadRGBAImage(m_InternalImage->Image, 
@@ -608,7 +901,7 @@ void TIFFImageIO::ReadVolume(void* buffer)
       else
         {
         unsigned char *fimage = (unsigned char *)buffer;
-        fimage += width*height*4*page;
+        fimage += width*height*4*page/2;
         for ( yy = 0; yy < height; yy ++ )
           {
           ssimage = tempImage + (height - yy - 1) * width;
@@ -660,7 +953,7 @@ void TIFFImageIO::ReadVolume(void* buffer)
           return;
         }
       }
-    TIFFReadDirectory(m_InternalImage->Image); 
+    TIFFReadDirectory(m_InternalImage->Image);
     }
 }
 
@@ -682,7 +975,6 @@ void TIFFImageIO::Read(void* buffer)
     return;
     }
 
-  
   if(m_InternalImage->NumberOfTiles>0 && this->GetIORegion().GetImageDimension()>2)
     {
     this->ReadTiles(buffer);
@@ -743,7 +1035,6 @@ void TIFFImageIO::Read(void* buffer)
     }
 
   unsigned int format = this->GetFormat();  
-
 
   switch ( format )
     {
@@ -848,11 +1139,27 @@ void TIFFImageIO::ReadImageInformation()
     m_ComponentType = USHORT;
     }
 
+  // We check if we have a Zeiss image. 
+  // Meaning that the SamplesPerPixel is 2 but the image should be treated as
+  // an RGB image.
+  if(m_InternalImage->SamplesPerPixel == 2)
+    {
+    this->SetNumberOfComponents(3);
+    this->SetPixelType(RGB);
+    }
+
    // if the tiff file is multi-pages
    if(m_InternalImage->NumberOfPages>0)
      {
      this->SetNumberOfDimensions(3);
-     m_Dimensions[2] = m_InternalImage->NumberOfPages;
+     if(m_InternalImage->SubFiles>0)
+       {
+       m_Dimensions[2] = m_InternalImage->SubFiles;
+       }
+     else
+       {
+       m_Dimensions[2] = m_InternalImage->NumberOfPages;
+       }
      m_Spacing[2] = 1.0;
      m_Origin[2] = 0.0;
      }

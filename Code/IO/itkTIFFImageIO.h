@@ -135,6 +135,13 @@ protected:
   void ReadGenericImage( void *out, 
                          unsigned int itkNotUsed(width), 
                          unsigned int height );
+
+  // To support Zeiss images
+  void ReadTwoSamplesPerPixelImage( void *out, 
+                         unsigned int itkNotUsed(width), 
+                         unsigned int height );
+
+
   int EvaluateImageAt( void* out, void* in );
 
   unsigned int  GetFormat();
