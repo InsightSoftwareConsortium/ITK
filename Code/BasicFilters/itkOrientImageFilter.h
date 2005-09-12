@@ -228,15 +228,15 @@ public:
    */
   void SetDesiredCoordinateOrientationToAxial ()
     {
-   this->SetDesiredCoordinateOrientation (itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI);
+   this->SetDesiredCoordinateOrientation (SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI);
     }
   void SetDesiredCoordinateOrientationToCoronal ()
     {
-    this->SetDesiredCoordinateOrientation (itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA);
+    this->SetDesiredCoordinateOrientation (SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA);
     }
   void SetDesiredCoordinateOrientationToSagittal ()
     {
-    this->SetDesiredCoordinateOrientation (itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL);
+    this->SetDesiredCoordinateOrientation (SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL);
     }
 
   /** OrientImageFilter produces an image which is a different
