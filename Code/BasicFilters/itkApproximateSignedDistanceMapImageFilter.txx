@@ -53,7 +53,7 @@ namespace itk {
     // this maximum is the distance from one corner of the image to the other.
     OutputSizeType outputSize = this->GetOutput()->GetRequestedRegion().GetSize();
     OutputSizeValueType maximumDistance = 0;
-    for (int i = 0; i < InputImageDimension; i++)
+    for (unsigned int i = 0; i < InputImageDimension; i++)
       {
       maximumDistance += outputSize[i]*outputSize[i];
       }

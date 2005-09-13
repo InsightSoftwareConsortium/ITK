@@ -595,7 +595,7 @@ int itkVectorImageTest( int, char* argv[] )
     cNit.SetLocation( location );
     ConstNeighborhoodIteratorType::NeighborhoodType 
                     neighborhood = cNit.GetNeighborhood();
-    const unsigned int neighborhoodSize = neighborhood.Size();
+    //const unsigned int neighborhoodSize = neighborhood.Size();
     //for( unsigned int i=0; i< neighborhoodSize; i++)
     //  { std::cout << neighborhood[i] << std::endl; }
     if( (neighborhood[0][0] != 0) || (neighborhood[0][5] != 2))
