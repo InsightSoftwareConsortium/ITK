@@ -17,24 +17,43 @@
 #ifndef __itkBinaryDilateImageFilter_h
 #define __itkBinaryDilateImageFilter_h
 
-#include "itkMorphologyImageFilter.h"
+#include <vector>
+#include <queue>
+#include "itkBinaryMorphologyImageFilter.h"
+#include "itkImage.h"
+#include "itkNumericTraits.h"
+#include "itkNeighborhoodIterator.h"
+#include "itkConstNeighborhoodIterator.h"
+#include "itkNeighborhood.h"
+#include "itkImageBoundaryCondition.h"
+#include "itkImageRegionIterator.h"
+#include "itkConceptChecking.h"
 
-namespace itk {
-
-/** \class BinaryDilateImageFilter
- * \brief Binary dilation of an image
+namespace itk
+{
+/**
+ * \class BinaryDilateImageFilter
+ * \brief Fast binary dilation
  *
- * Dilate an image using binary morphology. Gray scale images can be
- * processed as binary images by selecting a "DilateValue".  Pixel values
- * matching the dilate value are considered the "foreground" and all other
- * pixels are "background". This is useful in processing segmented images
- * where all pixels in segment #1 have value 1 and pixels in segment #2
- * have value 2, etc. A particular "segment number" can be processed.
- * DilateValue defaults to the maximum possible value of the PixelType.
+ * BinaryDilateImageFilter is a binary dilation
+ * morphologic operation. This implementation is based on the papers:
  *
- * Binary dilation will set a pixel as the "DilateValue" if any of the
- * pixels in the image under the structuring element have a value of
- * "DilateValue" and that structuring element value is greater than 0.
+ * L.Vincent "Morphological transformations of binary images with
+ * arbitrary structuring elements", and
+ *
+ * N.Nikopoulos et al. "An efficient algorithm for 3d binary
+ * morphological transformations with 3d structuring elements 
+ * for arbitrary size and shape". IEEE Transactions on Image
+ * Processing. Vol. 9. No. 3. 2000. pp. 283-286.
+ *
+ * Gray scale images can be processed as binary images by selecting a
+ * "DilateValue".  Pixel values matching the dilate value are
+ * considered the "foreground" and all other pixels are
+ * "background". This is useful in processing segmented images where
+ * all pixels in segment #1 have value 1 and pixels in segment #2 have
+ * value 2, etc. A particular "segment number" can be processed.
+ * DilateValue defaults to the maximum possible value of the
+ * PixelType.
  *
  * The structuring element is assumed to be composed of binary values
  * (zero or one). Only elements of the structuring element having
@@ -42,120 +61,128 @@ namespace itk {
  * reasonable choice of structuring element is
  * itk::BinaryBallStructuringElement.
  *
- * If none of the pixels under the structuring element have
- * DilateValue, the pixel under the center pixel value of the
- * structuring element is unchanged. If the center pixel is "in" the
- * structuring element (value > 0), then leaving the pixel unchanged
- * is the right things to do since that is most appropriate
- * "background" value for the pixel.  If the center pixel is not part
- * of the structuring element (a rare designation), then leaving the
- * pixel unchanged is not correct in the strict morphological
- * definition (operating on an image with multiple background values
- * is not defined in morphology).  Under these conditions, the center
- * pixel should be set to "a" background value.  However, we do not
- * know which background value to set it to.
- * 
- * For the each input image pixel, 
- *   - NeighborhoodIterator gives neighbors of the pixel. 
- *   - Evaluate() member function returns either the original pixel value
- *     or the DilateValue.
- *   - Replace the original value with the specified value
  *
- * A faster implementation of binary dilation can be found in the
- * FastIncrementatlBinaryDilateImageFilter. That implementation
- * performs a decomposition of the structuring element and processes
- * the image using Minkowski sums.  The BinarydilateImageFilter will
- * be maintained for backward compatibility.
+ * Description of the algorithm:
+ * ----------------------------------------------
+ * Let's consider the set of the ON elements of the input image as X.
  *
- * \sa MorphologyImageFilter
- * \sa FastIncrementalBinaryDilateImageFilter
+ * Let's consider the structuring element as B = {B0, B1, ..., Bn},
+ * where Bi denotes a connected component of B.
+ *
+ * Let's consider bi, i in [0,n], an arbitrary point of Bi.
+ *
+ * We use hence the next property in order to compute minkoswki
+ * addition ( which will be written (+) ):
+ *
+ * X (+) B = ( Xb0 UNION Xb1 UNION ... Xbn ) UNION ( BORDER(X) (+) B ),
+ *
+ * where Xbi is the set X translated with respect to vector bi :
+ *
+ * Xbi ={ x + bi, x belongs to X }
+ *
+ * where BORDER(X) is the extracted border of X ( 8 connectivity in
+ * 2D, 26 in 3D ) 
+ *
+ * Our implementation for dilation is defined as:
+ *
+ *     X (+) SYM(B) = DILATION(X)_B
+ *
+ * Where DILATION(X)_B is the dilation of set with structuring element B.
+ * Where SYM(B) is the symmetric of the structuring element relatively
+ * to its center. 
+ *
+ * This class was contributed by Jerome Schmid from the University of
+ * Strasbourg.
+ *
+ * \todo Implement a threaded version ?
+ *
+ * \sa ImageToImageFilter
  * \sa BinaryErodeImageFilter
- * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TOutputImage, class TKernel>
-class ITK_EXPORT BinaryDilateImageFilter : 
-    public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
+template <class TInputImage, class TOutputImage, class TKernel>
+class ITK_EXPORT BinaryDilateImageFilter :
+    public BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BinaryDilateImageFilter Self;
-  typedef MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  /** Extract dimension from input and output image. */
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
+
+  /** Extract the dimension of the kernel */
+  itkStaticConstMacro(KernelDimension, unsigned int,
+                      TKernel::NeighborhoodDimension);
   
-  /** Standard New method */
-  itkNewMacro(Self);  
-
-  /** Runtime information support */
-  itkTypeMacro(BinaryDilateImageFilter, MorphologyImageFilter);
-  
-  /** Declaration of Pixel Type */
-  typedef typename Superclass::PixelType PixelType;
-
-  /** Neighborhood iterator type */
-  typedef ConstNeighborhoodIterator<TInputImage> 
-  NeighborhoodIteratorType ;
-
-  /** Kernel typedef */
+  /** Convenient typedefs for simplifying declarations. */
+  typedef TInputImage InputImageType;
+  typedef TOutputImage OutputImageType;
   typedef TKernel KernelType;
   
-  /** Kernel (structuring element) iterator */
+
+  /** Standard class typedefs. */
+  typedef BinaryDilateImageFilter Self;
+  typedef BinaryMorphologyImageFilter<InputImageType, OutputImageType, KernelType> Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(BinaryDilateImageFilter, BinaryMorphologyImageFilter);
+
+  /** Kernel (structuring element) iterator. */
   typedef typename KernelType::ConstIterator KernelIteratorType ;
- 
-  /** Default boundary condition type */
-  typedef typename Superclass::DefaultBoundaryConditionType DefaultBoundaryConditionType;
+
+  /** Image typedef support. */
+  typedef typename InputImageType::PixelType InputPixelType;
+  typedef typename OutputImageType::PixelType OutputPixelType;
+  typedef typename NumericTraits<InputPixelType>::RealType InputRealType;
+  typedef typename InputImageType::OffsetType OffsetType;
+  typedef typename InputImageType::IndexType IndexType;
+
+  typedef typename InputImageType::RegionType InputImageRegionType;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  typedef typename InputImageType::SizeType InputSizeType;
 
   /** Set the value in the image to consider as "foreground". Defaults to
-   * maximum value of PixelType. */
-  itkSetMacro(DilateValue, PixelType);
+   * maximum value of PixelType. This is an alias to the
+   * ForegroundValue in the superclass. */
+  void SetDilateValue(const InputPixelType& value)
+    { this->SetForegroundValue( value ); }
 
   /** Get the value in the image considered as "foreground". Defaults to
-   * maximum value of PixelType. */
-  itkGetMacro(DilateValue, PixelType);
-  
+   * maximum value of PixelType. This is an alias to the
+   * ForegroundValue in the superclass. */
+  InputPixelType GetDilateValue() const
+    { return this->GetForegroundValue(); }
+
 protected:
   BinaryDilateImageFilter();
-  ~BinaryDilateImageFilter() {};
+  virtual ~BinaryDilateImageFilter(){}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** Evaluate image neighborhood with kernel to find the new value 
-   * for the center pixel value
-   *
-   * It will return the DilateValue if any of the image pixels in the
-   * neighborhood have the DilateValue and that pixel's corresponding
-   * element in the structuring element is positive. This version
-   * of Evaluate is used for non-boundary pixels. */
-  PixelType Evaluate(const NeighborhoodIteratorType &nit,
-                     const KernelIteratorType kernelBegin,
-                     const KernelIteratorType kernelEnd);
+  /**
+   * Standard pipeline method. 
+   */
+  void GenerateData();
 
-  /** Cache some information that can be used to by each thread and
-   * each call to Evaluate() */
-  virtual void BeforeThreadedGenerateData();
-   
-  
+  // type inherited from the superclass
+  typedef typename Superclass::NeighborIndexContainer NeighborIndexContainer;
+  typedef typename Superclass::BorderCellContainer BorderCellContainer;
+  typedef typename Superclass::BorderCell BorderCell;
+
 private:
   BinaryDilateImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  PixelType m_DilateValue;
-
-  // Cache whether the center pixel of the kernel is on (for
-  // optimization).
-  bool m_KernelCenterPixelOn;
-
-  // Default boundary condition for dilation filter, defaults to
-  // NumericTraits<PixelType>::NonpositiveMin()
-  DefaultBoundaryConditionType m_DilateBoundaryCondition;
-} ; // end of class
+};
 
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkBinaryDilateImageFilter.txx"
 #endif
 
 #endif
-
-
