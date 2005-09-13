@@ -32,7 +32,7 @@ namespace itk
 #if defined(__USE_VERY_VERBOSE_NIFTI_DEBUGGING__)
 namespace
 {
-inline 
+inline
 int print_hex_vals( char const * const data, const int nbytes, FILE * const fp )
 {
    int c;
@@ -134,7 +134,7 @@ int DumpNiftiHeader( const std::string &fname )
    return 0;
 }
 }
-#endif
+#endif // #if defined(__USE_VERY_VERBOSE_NIFTI_DEBUGGING__)
 
 NiftiImageIO::NiftiImageIO():
   m_NiftiImage(0)
@@ -180,7 +180,7 @@ void NiftiImageIO::Read(void* buffer)
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("Read failed");
     throw exception;
-    
+
     }
   const int dims=this->GetNumberOfDimensions();
   size_t numElts = 1;
@@ -194,7 +194,7 @@ void NiftiImageIO::Read(void* buffer)
     case 5:
       numElts *= this->m_NiftiImage->nu;
     case 4:
-      numElts *= this->m_NiftiImage->nt;      
+      numElts *= this->m_NiftiImage->nt;
     case 3:
       numElts *= this->m_NiftiImage->nz;
     case 2:
@@ -331,7 +331,7 @@ mat44_to_SpatialOrientation(const mat44 &theMat)
   dominant_axis = Max3(theMat.m[0][0],
                        theMat.m[0][1],
                        theMat.m[0][2]);
-  axes[dominant_axis] = 
+  axes[dominant_axis] =
     Sign(theMat.m[0][dominant_axis]);
 
   // figure the dominant axis of the column dimension
@@ -389,11 +389,11 @@ mat44_to_SpatialOrientation(const mat44 &theMat)
     return SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
     }
   return static_cast<SpatialOrientation::ValidCoordinateOrientationFlags>
-    ((terms[0] << 
+    ((terms[0] <<
       SpatialOrientation::ITK_COORDINATE_PrimaryMinor) +
-     (terms[1] << 
+     (terms[1] <<
       SpatialOrientation::ITK_COORDINATE_SecondaryMinor) +
-     (terms[2] << 
+     (terms[2] <<
       SpatialOrientation::ITK_COORDINATE_TertiaryMinor));
 }
 #endif
@@ -416,7 +416,7 @@ void NiftiImageIO::ReadImageInformation()
     ErrorMessage += " is not recognized as a NIFTI file";
     exception.SetDescription(ErrorMessage.c_str());
     throw exception;
-    
+
     }
   this->SetNumberOfDimensions(this->m_NiftiImage->ndim);
   switch( this->m_NiftiImage->datatype )
@@ -462,42 +462,44 @@ void NiftiImageIO::ReadImageInformation()
     }
   //
   // set up the dimension stuff
+  double spacingscale=1.0;
+  switch(this->m_NiftiImage->xyz_units)
+      {
+  case NIFTI_UNITS_METER:
+      spacingscale=1e3;
+      break;
+  case NIFTI_UNITS_MM:
+      spacingscale=1e0;
+      break;
+  case NIFTI_UNITS_MICRON:
+      spacingscale=1e-3;;
+      break;
+      }
   const int dims=this->GetNumberOfDimensions();
-  if(dims >=1 ) 
-    { 
-    this->SetDimensions(0,this->m_NiftiImage->nx); 
-    this->SetSpacing(0,this->m_NiftiImage->dx); 
-    }
-  if(dims >=2 ) 
-    {
-    this->SetDimensions(1,this->m_NiftiImage->ny); 
-    this->SetSpacing(1,this->m_NiftiImage->dy);
-    }
-  if(dims >=3 ) 
-    {
-    this->SetDimensions(2,this->m_NiftiImage->nz); 
-    this->SetSpacing(2,this->m_NiftiImage->dz);
-    }
-  if(dims >=4 ) 
-    {
-    this->SetDimensions(3,this->m_NiftiImage->nt); 
-    this->SetSpacing(3,this->m_NiftiImage->dt);
-    }
-  if(dims >=5 ) 
-    {
-    this->SetDimensions(4,this->m_NiftiImage->nu); 
-    this->SetSpacing(4,this->m_NiftiImage->du);
-    }
-  if(dims >=6 ) 
-    {
-    this->SetDimensions(5,this->m_NiftiImage->nv); 
-    this->SetSpacing(5,this->m_NiftiImage->dv);
-    }
-  if(dims >=7 ) 
-    {
-    this->SetDimensions(6,this->m_NiftiImage->nw); 
-    this->SetSpacing(6,this->m_NiftiImage->dw);
-    }
+  switch(dims)
+      {
+  case 7:
+      this->SetDimensions(6,this->m_NiftiImage->nw);
+      this->SetSpacing(6,this->m_NiftiImage->dw*spacingscale);
+  case 6:
+      this->SetDimensions(5,this->m_NiftiImage->nv);
+      this->SetSpacing(5,this->m_NiftiImage->dv*spacingscale);
+  case 5:
+      this->SetDimensions(4,this->m_NiftiImage->nu);
+      this->SetSpacing(4,this->m_NiftiImage->du*spacingscale);
+  case 4:
+      this->SetDimensions(3,this->m_NiftiImage->nt);
+      this->SetSpacing(3,this->m_NiftiImage->dt*spacingscale);
+  case 3:
+      this->SetDimensions(2,this->m_NiftiImage->nz);
+      this->SetSpacing(2,this->m_NiftiImage->dz*spacingscale);
+  case 2:
+      this->SetDimensions(1,this->m_NiftiImage->ny);
+      this->SetSpacing(1,this->m_NiftiImage->dy*spacingscale);
+  case 1:
+      this->SetDimensions(0,this->m_NiftiImage->nx);
+      this->SetSpacing(0,this->m_NiftiImage->dx*spacingscale);
+      }
   this->ComputeStrides();
   //Get Dictionary Information
   //Insert Orientation.
@@ -575,7 +577,7 @@ void NiftiImageIO::ReadImageInformation()
 
 
   //Important hist fields
-  itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileNotes,std::string(this->m_NiftiImage->descrip,80)); 
+  itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileNotes,std::string(this->m_NiftiImage->descrip,80));
 
   // We don't need the image anymore
   nifti_image_free(this->m_NiftiImage);
@@ -589,7 +591,7 @@ void
 NiftiImageIO
 ::WriteImageInformation(void) //For Nifti this does not write a file, it only fills in the appropriate header information.
 {
-  if(this->GetNumberOfComponents() > 1) 
+  if(this->GetNumberOfComponents() > 1)
     {
     ExceptionObject exception(__FILE__, __LINE__);
     std::string ErrorMessage=
@@ -619,7 +621,7 @@ NiftiImageIO
       ErrorMessage += FName;
       exception.SetDescription(ErrorMessage.c_str());
       throw exception;
-    
+
     }
   std::string Ext = FName.substr(ext);
   if(Ext == ".nii")
@@ -656,7 +658,7 @@ NiftiImageIO
     throw exception;
     }
   unsigned short dims =
-    this->m_NiftiImage->ndim = 
+    this->m_NiftiImage->ndim =
     this->m_NiftiImage->dim[0] =
     this->GetNumberOfDimensions();
   this->m_NiftiImage->pixdim[0] = 0.0;
@@ -664,67 +666,59 @@ NiftiImageIO
 //     -----------------------------------------------------
 //     sizeof_hdr    must be 348
 //     -----------------------------------------------------
-//     dim           dim[0] and dim[1] are always required; 
-//                   dim[2] is required for 2-D volumes, 
+//     dim           dim[0] and dim[1] are always required;
+//                   dim[2] is required for 2-D volumes,
 //                   dim[3] for 3-D volumes, etc.
   this->m_NiftiImage->nvox = 1;
-  if(dims >= 1)
-    {
-    this->m_NiftiImage->nvox *=
-      this->m_NiftiImage->dim[1] =
-      this->m_NiftiImage->nx = this->GetDimensions(0);
-    this->m_NiftiImage->pixdim[1] =
-        this->m_NiftiImage->dx = this->GetSpacing(0);
-    }
-  if(dims >= 2)
-    {
-    this->m_NiftiImage->nvox *=
-      this->m_NiftiImage->dim[2] =
-      this->m_NiftiImage->ny = this->GetDimensions(1);
-    this->m_NiftiImage->pixdim[2] =
-        this->m_NiftiImage->dy = this->GetSpacing(1);
-    }
-  if(dims >= 3)
-    {
-    this->m_NiftiImage->nvox *=
-      this->m_NiftiImage->dim[3] =
-      this->m_NiftiImage->nz = this->GetDimensions(2);
-    this->m_NiftiImage->pixdim[3] =
-        this->m_NiftiImage->dz = this->GetSpacing(2);
-    }
-  if(dims >= 4)
-    {
-    this->m_NiftiImage->nvox *=
-      this->m_NiftiImage->dim[4] =
-      this->m_NiftiImage->nt = this->GetDimensions(3);
-    this->m_NiftiImage->pixdim[4] =
-        this->m_NiftiImage->dt = this->GetSpacing(3);
-    }
-  if(dims >= 5)
-    {
-    this->m_NiftiImage->nvox *=
-      this->m_NiftiImage->dim[5] =
-      this->m_NiftiImage->nu = this->GetDimensions(4);
-    this->m_NiftiImage->pixdim[5] =
-        this->m_NiftiImage->du = this->GetSpacing(4);
-    }
-  if(dims >= 6)
-    {
-    this->m_NiftiImage->nvox *=
-      this->m_NiftiImage->dim[6] =
-      this->m_NiftiImage->nv = this->GetDimensions(5);
-    this->m_NiftiImage->pixdim[6] =
-        this->m_NiftiImage->dv = this->GetSpacing(5);
-    }
-  if(dims >= 7)
-    {
-    this->m_NiftiImage->nvox *=
-      this->m_NiftiImage->dim[7] =
-      this->m_NiftiImage->nw = this->GetDimensions(6);
-    this->m_NiftiImage->pixdim[7] =
-        this->m_NiftiImage->dw = this->GetSpacing(6);
-    }
-  
+  this->m_NiftiImage->xyz_units=NIFTI_UNITS_UNKNOWN;
+  switch(dims)
+      {
+  case 7:
+      this->m_NiftiImage->nvox *=
+          this->m_NiftiImage->dim[7] =
+          this->m_NiftiImage->nw = this->GetDimensions(6);
+      this->m_NiftiImage->pixdim[7] =
+          this->m_NiftiImage->dw = this->GetSpacing(6);
+  case 6:
+      this->m_NiftiImage->nvox *=
+          this->m_NiftiImage->dim[6] =
+          this->m_NiftiImage->nv = this->GetDimensions(5);
+      this->m_NiftiImage->pixdim[6] =
+          this->m_NiftiImage->dv = this->GetSpacing(5);
+  case 5:
+      this->m_NiftiImage->nvox *=
+          this->m_NiftiImage->dim[5] =
+          this->m_NiftiImage->nu = this->GetDimensions(4);
+      this->m_NiftiImage->pixdim[5] =
+          this->m_NiftiImage->du = this->GetSpacing(4);
+  case 4:
+      this->m_NiftiImage->nvox *=
+          this->m_NiftiImage->dim[4] =
+          this->m_NiftiImage->nt = this->GetDimensions(3);
+      this->m_NiftiImage->pixdim[4] =
+          this->m_NiftiImage->dt = this->GetSpacing(3);
+      this->m_NiftiImage->xyz_units |= NIFTI_UNITS_SEC;  //If 4D asume 4thD is in SECONDS.
+  case 3:
+      this->m_NiftiImage->nvox *=
+          this->m_NiftiImage->dim[3] =
+          this->m_NiftiImage->nz = this->GetDimensions(2);
+      this->m_NiftiImage->pixdim[3] =
+          this->m_NiftiImage->dz = this->GetSpacing(2);
+  case 2:
+      this->m_NiftiImage->nvox *=
+          this->m_NiftiImage->dim[2] =
+          this->m_NiftiImage->ny = this->GetDimensions(1);
+      this->m_NiftiImage->pixdim[2] =
+          this->m_NiftiImage->dy = this->GetSpacing(1);
+  case 1:
+      this->m_NiftiImage->nvox *=
+          this->m_NiftiImage->dim[1] =
+          this->m_NiftiImage->nx = this->GetDimensions(0);
+      this->m_NiftiImage->pixdim[1] =
+          this->m_NiftiImage->dx = this->GetSpacing(0);
+      this->m_NiftiImage->xyz_units=NIFTI_UNITS_MM; //Spacial dims in ITK are given in mm
+      }
+
 //     -----------------------------------------------------
 //     datatype      needed to specify type of image data
 //     -----------------------------------------------------
