@@ -196,11 +196,11 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   filter->IsBiasFieldMultiplicative( true ) ; // correct with multiplicative bias 
   filter->SetBiasFieldDegree( biasDegree ) ; // default value = 3
   filter->SetTissueClassStatistics( classMeans, classSigmas ) ;
-  filter->SetOptimizerGrowthFactor( 1.01 ) ; // default value
-  filter->SetOptimizerInitialRadius( 0.02 ) ; // default value
-  filter->SetVolumeCorrectionMaximumIteration( 500 ) ; // default value = 100
+  //filter->SetOptimizerGrowthFactor( 1.01 ) ; // default value
+  //filter->SetOptimizerInitialRadius( 0.02 ) ; // default value
   filter->SetUsingInterSliceIntensityCorrection( true ) ; // default value
-  filter->SetInterSliceCorrectionMaximumIteration( 200 ) ; // default value = 100
+  filter->SetVolumeCorrectionMaximumIteration( 200 ) ; // default value = 100
+  filter->SetInterSliceCorrectionMaximumIteration( 100 ) ; // default value = 100
   filter->SetUsingSlabIdentification( true ) ; // default value = false
   filter->SetSlabBackgroundMinimumThreshold( 0 ) ; // default value
   filter->SetSlabNumberOfSamples( 10 ) ; // default value 
@@ -261,7 +261,9 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   filter->SetInputMask( image.GetPointer() ) ;
   filter->SetOutputMask( image.GetPointer() ) ;
   filter->SetInitialBiasFieldCoefficients(initCoefficients);
-  filter->SetOptimizerInitialRadius( 0.02 ) ; // default value 
+  filter->SetVolumeCorrectionMaximumIteration( 200 ) ; // default value = 100
+  filter->SetInterSliceCorrectionMaximumIteration( 100 ) ; // default value = 100
+  //filter->SetOptimizerInitialRadius( 0.02 ) ; // default value 
   t1 = time(NULL);
   filter->Update() ;
   t2 = time(NULL);
@@ -294,7 +296,9 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   filter->SetNumberOfLevels( 1 ) ; // Important to set this first, otherwise the filter rejects the new schedule
   filter->SetSchedule( schedule ) ;
   filter->SetInitialBiasFieldCoefficients(initCoefficients); 
-  filter->SetOptimizerInitialRadius( 0.02 ) ; // default value
+  filter->SetVolumeCorrectionMaximumIteration( 200 ) ; // default value = 100
+  filter->SetInterSliceCorrectionMaximumIteration( 100 ) ; // default value = 100
+  //filter->SetOptimizerInitialRadius( 0.02 ) ; // default value
   t1 = time(NULL);
   filter->Update() ;
   t2 = time(NULL);
@@ -323,8 +327,10 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   filter->SetUsingSlabIdentification( false ) ; // default value = false
   schedule.Fill( 4 );
   filter->SetNumberOfLevels( 1 ) ; 
-  filter->SetOptimizerInitialRadius( 0.02 ) ; // default value
+  //filter->SetOptimizerInitialRadius( 0.02 ) ; // default value
   filter->SetSchedule( schedule ) ;
+  filter->SetVolumeCorrectionMaximumIteration( 200 ) ; // default value = 100
+  filter->SetInterSliceCorrectionMaximumIteration( 100 ) ; // default value = 100
   filter->SetInitialBiasFieldCoefficients(initCoefficients); 
   t1 = time(NULL);
   filter->Update() ;
@@ -352,7 +358,8 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   std::cout << "Computing bias correction only with 4,4,4 resolution & no interSlice/Slab & more iterations" << std::endl;
   initCoefficients = filter->GetEstimatedBiasFieldCoefficients();
   filter->SetInitialBiasFieldCoefficients(initCoefficients); 
-  filter->SetVolumeCorrectionMaximumIteration( 20000 ) ; // default value = 100
+  filter->SetVolumeCorrectionMaximumIteration( 2000 ) ; // default value = 100
+  filter->SetInterSliceCorrectionMaximumIteration( 100 ) ; // default value = 100
   t1 = time(NULL);
   filter->Update() ;
   t2 = time(NULL);
