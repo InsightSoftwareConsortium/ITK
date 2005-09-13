@@ -21,7 +21,6 @@
 #include "itkProgressAccumulator.h"
 #include "itkBinaryBallStructuringElement.h"
 #include "itkBinaryDilateImageFilter.h"
-#include "itkFastIncrementalBinaryDilateImageFilter.h"
 #include "itkUnaryFunctorImageFilter.h"
 
 namespace itk
@@ -139,7 +138,7 @@ void SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
                      InputPixelType, 
                      InputImageDimension  > StructuringElementType;  
 
-  typedef FastIncrementalBinaryDilateImageFilter< 
+  typedef BinaryDilateImageFilter< 
                          InputImageType, 
                          InputImageType, 
                          StructuringElementType >     DilatorType; 
