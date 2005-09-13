@@ -44,10 +44,6 @@ template < typename TValueType >
 Array<TValueType >
 ::Array( ValueType *datain, unsigned int sz, bool LetArrayManageMemory)
 {
-  if(m_LetArrayManageMemory)   
-    {    
-    vnl_vector<TValueType>::destroy();   
-    }  
   vnl_vector<TValueType>::data = datain;
   vnl_vector<TValueType>::num_elmts = sz;
   m_LetArrayManageMemory = LetArrayManageMemory;
