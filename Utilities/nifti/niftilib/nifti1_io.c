@@ -4329,7 +4329,7 @@ size_t nifti_write_buffer(znzFile fp, const void *buffer, size_t numbytes)
       fprintf(stderr,"** ERROR: nifti_write_buffer: null file pointer\n");
       return 0;
    }
-   ss = znzwrite( buffer , 1 , numbytes , fp ) ;
+   ss = znzwrite( (void*)buffer , 1 , numbytes , fp ) ;
    return ss;
 }
 
