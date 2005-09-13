@@ -45,9 +45,9 @@ void ComputeFastIndex(TImage *image, unsigned int count, unsigned int repeat)
   const typename TImage::IndexType &bufferedRegionIndex = image->GetBufferedRegion().GetIndex();
   const typename TImage::OffsetValueType *offsetTable = image->GetOffsetTable();
   
-  for (unsigned j = 0; j < repeat; j++)
+  for (unsigned int j = 0; j < repeat; j++)
     {
-    for (long i = 0; i < count; i++)
+    for (unsigned int i = 0; i < count; i++)
       {
       itk::ImageHelper<TImage::ImageDimension,TImage::ImageDimension>::ComputeIndex(bufferedRegionIndex,
                                                                                     i,
