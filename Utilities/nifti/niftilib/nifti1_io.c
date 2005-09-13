@@ -5434,7 +5434,7 @@ int nifti_short_order(void)   /* determine this CPU's byte order */
    put rhs string into nim->"nam" string, with max length = "ml" */
 
 #define QSTR(nam,ml) if( strcmp(lhs,#nam) == 0 )                           \
-                       strncpy(nim->nam,rhs,ml), nim->intent_name[ml]='\0'
+                       strncpy(nim->nam,rhs,ml), nim->nam[ml]='\0'
 
 /*---------------------------------------------------------------------------*/
 /*! Take an XML-ish ASCII string and create a NIFTI image header to match.
