@@ -649,6 +649,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
   this->GetBiasFieldSize(region, biasSize) ;
   BiasFieldType bias(biasSize.size(), degree , biasSize) ;
 
+  /*
   std::cout << "New bias field being computed = " 
             << biasSize[0] << ", " << biasSize[1];
   if(biasSize.size() > 2)
@@ -656,6 +657,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
     std::cout << ", " << biasSize[2];
     } 
   std::cout << std::endl;
+  */
 
   if (bias.GetNumberOfCoefficients() == m_BiasFieldCoefficients.size())
     {
@@ -721,7 +723,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
     initialPosition[i] = bias.GetCoefficients()[i];
     }
   optimizer->SetInitialPosition( initialPosition );
-  std::cout << "   Initial Position = " << initialPosition << std::endl;
+  //std::cout << "   Initial Position = " << initialPosition << std::endl;
 
   try
     {
@@ -737,20 +739,22 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
       m_EnergyFunction->SetSamplingFactors(energySampling) ;
       optimizer->MaximizeOff();
       optimizer->StartOptimization();
+      /*
       std::cout << "      Level Results = " << optimizer->GetCurrentPosition() 
                                             << std::endl;
+      */
       }
     }
   catch (ExceptionObject& ie)
     {
-    std::cout << ie << std::endl ;
+    std::cerr << ie << std::endl ;
     }
   catch (std::exception& e)
     {
-    std::cout << e.what() << std::endl ;
+    std::cerr << e.what() << std::endl ;
     }
 
-  std::cout << "   Results = " << optimizer->GetCurrentPosition() << std::endl;
+  //std::cout << "   Results = " << optimizer->GetCurrentPosition() <<std::endl;
 
   bias.SetCoefficients(optimizer->GetCurrentPosition());
   if (cleanCoeffs)
