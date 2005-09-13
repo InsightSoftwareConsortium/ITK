@@ -26,6 +26,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include <itkExtractImageFilter.h>
 #include "itkMetaDataObject.h"
 #include "itkProgressAccumulator.h"
+#include "itkSpatialOrientationAdapter.h"
 
 namespace itk
 {
@@ -495,24 +496,8 @@ OrientImageFilter<TInputImage,TOutputImage>
   if (m_UseImageDirection)
     {
     // Compute the GivenOrientation from the image's direction cosines
-#if 0
-    std::string orientation =
-      this->GetMajorAxisFromPatientRelativeDirectionCosine(
-        inputPtr->GetDirection()[0][0],
-        inputPtr->GetDirection()[1][0],
-        inputPtr->GetDirection()[2][0])
-      + this->GetMajorAxisFromPatientRelativeDirectionCosine(
-        inputPtr->GetDirection()[0][1],
-        inputPtr->GetDirection()[1][1],
-        inputPtr->GetDirection()[2][1])
-      + this->GetMajorAxisFromPatientRelativeDirectionCosine(
-        inputPtr->GetDirection()[0][2],
-        inputPtr->GetDirection()[1][2],
-        inputPtr->GetDirection()[2][2]);
-    this->SetGivenCoordinateOrientation (m_StringToCode[orientation]);
-#else
-    this->SetGivenCoordinateOrientation (inputPtr->GetSpatialOrientation());
-#endif
+    this->SetGivenCoordinateOrientation
+      (SpatialOrientationAdapter<3>().FromDirectionCosines(inputPtr->GetDirection()));
     }
 
   typedef PermuteAxesImageFilter< InputImageType >  PermuteFilterType;
