@@ -104,14 +104,22 @@ public:
   void SetBiasField(BiasFieldType* bias)
   { m_BiasField = bias ; }
 
-  /** Sets the sampling factors of the energy function in each direction. Default is 1 in each dimension */
+  /** Sets the sampling factors of the energy function in each direction.
+   *   Default is 1 in each dimension */
   void SetSamplingFactors(SamplingFactorType factor)
-  { for (unsigned int i = 0; i < SpaceDimension; i++) m_SamplingFactor[i] = factor[i]; }
+    { 
+    for (unsigned int i = 0; i < SpaceDimension; i++)
+      {
+      m_SamplingFactor[i] = factor[i]; 
+      }
+    }
   
   /** Get an energy value for the intensity difference between a pixel
    * and its corresponding bias. */
   double GetEnergy0(double diff) 
-  { return (*m_InternalEnergyFunction)(diff); } 
+    {
+    return (*m_InternalEnergyFunction)(diff); 
+    } 
 
   /** Gets the total energy value of an image or a slice using the
    * given parameters. */
@@ -121,7 +129,7 @@ public:
    * interfaces. It is pure virtual in the superclass */
   void GetDerivative( const ParametersType & itkNotUsed(parameters),
                       DerivativeType & itkNotUsed(derivative) ) const 
-  {  }
+    {  }
 
   /** Set Mean and Sigma for the normal distributions 
    *  \warning This method MUST be called before any attemp to 
@@ -259,23 +267,25 @@ public:
   typedef typename ImageMaskType::RegionType ImageMaskRegionType ;
 
   /** Internal (temporary) image related type definitions. */
-  typedef Image< float, itkGetStaticConstMacro(ImageDimension) > InternalImageType ;
-  typedef typename InternalImageType::PixelType InternalImagePixelType ;
-  typedef typename InternalImageType::Pointer InternalImagePointer ;
-  typedef typename InternalImageType::RegionType InternalImageRegionType ;
+  typedef Image< float, itkGetStaticConstMacro(ImageDimension) >
+                                                           InternalImageType ;
+  typedef typename InternalImageType::PixelType       InternalImagePixelType ;
+  typedef typename InternalImageType::Pointer           InternalImagePointer ;
+  typedef typename InternalImageType::RegionType     InternalImageRegionType ;
 
   /** Regions of the MRI slab identifier return. */
-  typedef MRASlabIdentifier<InputImageType>  MRASlabIdentifierType;
+  typedef MRASlabIdentifier<InputImageType>            MRASlabIdentifierType ;
   typedef typename MRASlabIdentifierType::SlabRegionVectorType 
-  SlabRegionVectorType;
-  typedef typename SlabRegionVectorType::iterator SlabRegionVectorIteratorType;
+                                                        SlabRegionVectorType ;
+  typedef typename SlabRegionVectorType::iterator SlabRegionVectorIteratorType ;
 
   /** Bias field object type defintion. */
   typedef MultivariateLegendrePolynomial                  BiasFieldType;
 
   /** Energy function type defintion. */
-  typedef MRIBiasEnergyFunction<InternalImageType, ImageMaskType, BiasFieldType> 
-  EnergyFunctionType;
+  typedef MRIBiasEnergyFunction<InternalImageType,
+                                ImageMaskType,
+                                BiasFieldType>            EnergyFunctionType;
   typedef typename EnergyFunctionType::Pointer            EnergyFunctionPointer;
 
   /** Normal variate Generator Type */
@@ -304,11 +314,11 @@ public:
    * multiplicative and internally uses log intensity values for
    * every calculation.  */
   void IsBiasFieldMultiplicative(bool flag) 
-  { m_BiasMultiplicative = flag ; }
+    { m_BiasMultiplicative = flag ; }
 
   /** If the bias field is multiplicative, it returns true. */
   bool IsBiasFieldMultiplicative() 
-  { return m_BiasMultiplicative ; }
+    { return m_BiasMultiplicative ; }
 
   /** Set/Gets the intensity correction flag. if the flag is true, inter-slice
    * intensity correction will be applied before bias field
@@ -325,7 +335,8 @@ public:
   itkGetConstReferenceMacro( UsingSlabIdentification, bool );
 
   itkSetMacro( SlabBackgroundMinimumThreshold, InputImagePixelType );
-  itkGetConstReferenceMacro( SlabBackgroundMinimumThreshold, InputImagePixelType );
+  itkGetConstReferenceMacro( SlabBackgroundMinimumThreshold,
+                             InputImagePixelType );
 
   itkSetMacro( SlabNumberOfSamples, unsigned int );
   itkGetConstReferenceMacro( SlabNumberOfSamples, unsigned int );
@@ -356,15 +367,16 @@ public:
 
   /** Sets the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
-  void SetInitialBiasFieldCoefficients
-  (const BiasFieldType::CoefficientArrayType &coefficients)
-  { this->Modified() ; m_BiasFieldCoefficients = coefficients ; }
+  void SetInitialBiasFieldCoefficients(const 
+                                       BiasFieldType::CoefficientArrayType
+                                          &coefficients)
+    { this->Modified() ; m_BiasFieldCoefficients = coefficients ; }
 
   /** Get the result bias field coefficients after the bias field
    * estimation (does not apply to the inter-slice intensity
    * correction) */
   BiasFieldType::CoefficientArrayType GetEstimatedBiasFieldCoefficients()
-  { return m_EstimatedBiasFieldCoefficients ; } 
+    { return m_EstimatedBiasFieldCoefficients ; } 
 
   /** Set the tissue class statistics for energy function initialization
    * If the numbers of elements in the means and the sigmas are not equal
@@ -381,7 +393,7 @@ public:
 
   /** Set/Get the initial search radius. */
   void SetOptimizerInitialRadius(double initRadius) 
-  { m_OptimizerInitialRadius = initRadius ; }
+    { m_OptimizerInitialRadius = initRadius ; }
   double GetOptimizerInitialRadius()
   { return m_OptimizerInitialRadius ; }
 
