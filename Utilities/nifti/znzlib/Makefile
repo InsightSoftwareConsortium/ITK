@@ -28,6 +28,6 @@ libznz.a: $(OBJS)
 	$(RANLIB) $@
 
 testprog: libznz.a testprog.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -o testprog testprog.c $(ZLIB_LIBSN
+	$(CC) $(CFLAGS) $(LDFLAGS) -o testprog testprog.c $(ZLIB_LIBS)
 
 include depend.mk

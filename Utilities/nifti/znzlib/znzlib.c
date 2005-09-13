@@ -1,6 +1,6 @@
 /** \file znzlib.c
     \brief Low level i/o interface to compressed and noncompressed files.
-  Written by Mark Jenkinson, FMRIB
+        Written by Mark Jenkinson, FMRIB
 
 This library provides an interface to both compressed (gzip/zlib) and
 uncompressed (normal) file IO.  The functions are written to have the
@@ -44,7 +44,7 @@ znzlib.c  (zipped or non-zipped library)
    use_compression!=0 uses zlib (gzip) compression
 */
 
-znzFile znzopen(const char * const path, const char * const mode, const int use_compression)
+znzFile znzopen(const char *path, const char *mode, int use_compression)
 {
   znzFile file;
   file = (znzFile) calloc(1,sizeof(struct znzptr));
@@ -81,7 +81,7 @@ znzFile znzopen(const char * const path, const char * const mode, const int use_
 }
 
 
-znzFile znzdopen(const int fd, const char * const mode, const int use_compression)
+znzFile znzdopen(int fd, const char *mode, int use_compression)
 {
   znzFile file;
   file = (znzFile) calloc(1,sizeof(struct znzptr));
@@ -124,7 +124,7 @@ int Xznzclose(znzFile * file)
 }
 
 
-size_t znzread(void* const buf, const size_t size, const size_t nmemb, znzFileConst file)
+size_t znzread(void* buf, size_t size, size_t nmemb, znzFile file)
 {
   if (file==NULL) { return 0; }
 #ifdef HAVE_ZLIB
@@ -134,7 +134,7 @@ size_t znzread(void* const buf, const size_t size, const size_t nmemb, znzFileCo
   return fread(buf,size,nmemb,file->nzfptr);
 }
 
-size_t znzwrite(void* const buf, const size_t size, const size_t nmemb, znzFileConst file)
+size_t znzwrite(const void* buf, size_t size, size_t nmemb, znzFile file)
 {
   if (file==NULL) { return 0; }
 #ifdef HAVE_ZLIB
@@ -144,7 +144,7 @@ size_t znzwrite(void* const buf, const size_t size, const size_t nmemb, znzFileC
   return fwrite(buf,size,nmemb,file->nzfptr);
 }
 
-long znzseek(znzFileConst file, const long offset, const int whence)
+long znzseek(znzFile file, long offset, int whence)
 {
   if (file==NULL) { return 0; }
 #ifdef HAVE_ZLIB
@@ -153,7 +153,7 @@ long znzseek(znzFileConst file, const long offset, const int whence)
   return fseek(file->nzfptr,offset,whence);
 }
 
-int znzrewind(znzFileConst stream)
+int znzrewind(znzFile stream)
 {
   if (stream==NULL) { return 0; }
 #ifdef HAVE_ZLIB
@@ -169,7 +169,7 @@ int znzrewind(znzFileConst stream)
   return 0;
 }
 
-long znztell(znzFileConst file)
+long znztell(znzFile file)
 {
   if (file==NULL) { return 0; }
 #ifdef HAVE_ZLIB
@@ -178,7 +178,7 @@ long znztell(znzFileConst file)
   return ftell(file->nzfptr);
 }
 
-int znzputs(char const * const str, znzFileConst file)
+int znzputs(const char * str, znzFile file)
 {
   if (file==NULL) { return 0; }
 #ifdef HAVE_ZLIB
@@ -188,7 +188,7 @@ int znzputs(char const * const str, znzFileConst file)
 }
 
 
-char * znzgets(char * const str, const int size, znzFileConst file)
+char * znzgets(char* str, int size, znzFile file)
 {
   if (file==NULL) { return NULL; }
 #ifdef HAVE_ZLIB
@@ -198,7 +198,7 @@ char * znzgets(char * const str, const int size, znzFileConst file)
 }
 
 
-int znzflush(znzFileConst file)
+int znzflush(znzFile file)
 {
   if (file==NULL) { return 0; }
 #ifdef HAVE_ZLIB
@@ -208,7 +208,7 @@ int znzflush(znzFileConst file)
 }
 
 
-int znzeof(znzFileConst file)
+int znzeof(znzFile file)
 {
   if (file==NULL) { return 0; }
 #ifdef HAVE_ZLIB
@@ -218,7 +218,7 @@ int znzeof(znzFileConst file)
 }
 
 
-int znzputc(const int c, znzFileConst file)
+int znzputc(int c, znzFile file)
 {
   if (file==NULL) { return 0; }
 #ifdef HAVE_ZLIB
@@ -228,7 +228,7 @@ int znzputc(const int c, znzFileConst file)
 }
 
 
-int znzgetc(znzFileConst file)
+int znzgetc(znzFile file)
 {
   if (file==NULL) { return 0; }
 #ifdef HAVE_ZLIB
@@ -238,15 +238,15 @@ int znzgetc(znzFileConst file)
 }
 
 #if !defined (WIN32)
-int znzprintf(znzFileConst stream, const char * const format, ...)
+int znzprintf(znzFile stream, const char *format, ...)
 {
   int retval=0;
+  char *tmpstr;
   va_list va;
   if (stream==NULL) { return 0; }
   va_start(va, format);
 #ifdef HAVE_ZLIB
   if (stream->zfptr!=NULL) {
-    char *tmpstr;
     int size;  /* local to HAVE_ZLIB block */
     size = strlen(format) + 1000000;  /* overkill I hope */
     tmpstr = (char *)calloc(1, size);

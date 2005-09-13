@@ -56,74 +56,78 @@
 /*-------------------------------------------------------------------------*/
 
 /*! module history */
-static char g_history[] =
+static char * g_history[] =
+{
   "----------------------------------------------------------------------\n"
   "nifti_tool modification history:\n"
-  "\n"
+  "\n",
   "0.1  30 December 2004 [rickr]\n"
   "     (Rick Reynolds of the National Institutes of Health, SSCC/DIRP/NIMH)\n"
   "   - skeleton version: options read and printed\n"
-  "\n"
+  "\n",
   "1.0  07 January 2005 [rickr]\n"
   "   - initial release version\n"
-  "\n"
+  "\n",
   "1.1  14 January 2005 [rickr]\n"
   "   - changed all non-error/non-debug output from stderr to stdout\n"
   "       note: creates a mis-match between normal output and debug messages\n"
   "   - modified act_diff_hdrs and act_diff_nims to do the processing in\n"
-  "       lower-level functions\n"
+  "       lower-level functions\n",
   "   - added functions diff_hdrs, diff_hdrs_list, diff_nims, diff_nims_list\n"
   "   - added function get_field, to return a struct pointer via a fieldname\n"
   "   - made 'quiet' output more quiet (no description on output)\n"
   "   - made hdr and nim_fields arrays global, so do not pass in main()\n"
   "   - return (from main()) after first act_diff() difference\n"
-  "\n"
+  "\n",
   "1.2  9 February 2005 [rickr] - minor\n"
   "   - defined a local NTL_FERR macro (so it does not come from nifti1_io.h)\n"
   "   - added new set_byte_order parameter to nifti_set_filenames\n"
-  "\n"
+  "\n",
   "1.3  23 February 2005 [rickr] - sourceforge.net merge\n"
   "   - moved to utils directory\n"
   "   - added simple casts of 3 pointers for -pedantic warnings\n"
   "   - added a doxygen comment for the file\n"
-  "\n"
+  "\n",
   "1.4  02 March 2005 [rickr] - small update\n"
   "   - no validation in nifti_read_header calls\n"
-  "\n"
+  "\n",
   "1.5  05 April 2005 [rickr] - small update\n"
   "   - refuse mod_hdr for gzipped files (we cannot do partial overwrites)\n"
-  "\n"
+  "\n",
   "1.6  08 April 2005 [rickr] - added cbl, cci and dts functionality\n"
   "   - added -cbl: 'copy brick list' dataset copy functionality\n"
   "   - added -ccd: 'copy collapsed data' dataset copy functionality\n"
   "   - added -disp_ts: 'disp time series' data display functionality\n"
   "   - moved raw data display to disp_raw_data()\n"
-  "\n"
+  "\n",
   "1.7  14 April 2005 [rickr] - added data display functionality\n" 
   "   - added -dci: 'display collapsed image' functionality\n"
   "   - modified -dts to use -dci\n"
   "   - modified and updated the help in use_full()\n"
-  "   - changed copy_collapsed_dims to copy_collapsed_image, etc.\n"
+  "   - changed copy_collapsed_dims to copy_collapsed_image, etc.\n",
   "   - fixed problem in disp_raw_data() for printing NT_DT_CHAR_PTR\n"
   "   - modified act_disp_ci():\n"
   "       o was act_disp_ts(), now displays arbitrary collapsed image data\n"
   "       o added missed debug filename act_disp_ci()\n"
-  "       o can now save free() of data pointer for end of file loop\n"
+  "       o can now save free() of data pointer for end of file loop\n",
   "   - modified disp_raw_data()\n"
   "       o takes a flag for whether to print newline\n"
   "       o trailing spaces and zeros are removed from printing floats\n"
   "   - added clear_float_zeros(), to remove trailing zeros\n"
-  "\n"
+  "\n",
   "1.8  19 April 2005 [rickr] - COMMENT extensions\n"
   "   - added int_list struct, and keep_hist,etypes,command fields to nt_opts\n"
   "   - added -add_comment_ext action\n"
   "   - allowed for removal of multiple extensions, including option of ALL\n"
-  "   - added -keep_hist option, to store the command as a COMMENT extension\n"
+  "   - added -keep_hist option, to store the command as a COMMENT extension\n",
   "     (includes fill_cmd_string() and add_int(), is done for all actions)\n"
   "   - added remove_ext_list(), for removing a list of extensions by indices\n"
   "   - added -strip action, to strip all extensions and descrip fields\n"
-  "----------------------------------------------------------------------\n";
-static char g_version[] = "version 1.8 (April 19, 2005)";
+  "\n",
+  "1.9  25 August 2005 [rickr] - const/string cleanup for warnings\n"
+  "----------------------------------------------------------------------\n"
+};
+static char g_version[] = "version 1.9 (August 25, 2005)";
 static int  g_debug = 1;
 
 #define _NIFTI_TOOL_C_
@@ -646,6 +650,7 @@ int add_string(str_list * slist, char * str)
  *----------------------------------------------------------------------*/
 int usage(char * prog, int level)
 {
+   int c, len;
    if( level == USE_SHORT )
    {
       fprintf(stdout,"usage %s [options] -infiles files...\n", prog);
@@ -654,7 +659,11 @@ int usage(char * prog, int level)
    else if( level == USE_FULL )
       use_full("nifti_tool");  /* let's not allow paths in here */
    else if( level == USE_HIST )
-      fputs(g_history, stdout);
+   {
+      len = sizeof(g_history)/sizeof(char *);
+      for( c = 0; c < len; c++)
+          fputs(g_history[c], stdout);
+   }
    else if( level == USE_FIELD_HDR )
    {
       field_s nhdr_fields[NT_HDR_NUM_FIELDS];  /* just do it all here */
@@ -683,91 +692,93 @@ int usage(char * prog, int level)
  *----------------------------------------------------------------------*/
 int use_full(char * prog)
 {
-    /*NOTE:  printf can only have 509 characters in the format string*/
    printf(
-   "%s\n"
+   "nifti_tool\n"
    "\n"
    "   - display, modify or compare nifti structures in datasets\n"
    "   - copy a dataset by selecting a list of volumes from the original\n"
    "   - copy a dataset, collapsing any dimensions, each to a single index\n"
    "   - display a time series for a voxel, or more generally, the data\n"
-   "       from any collapsed image, in ASCII text\n"
-   "\n",prog);
+   "       from any collapsed image, in ASCII text\n");
    printf(
+   "\n"
    "  This program can be used to display information from nifti datasets,\n"
    "  to modify information in nifti datasets, to look for differences\n"
    "  between two nifti datasets (like the UNIX 'diff' command), and to copy\n"
    "  a dataset to a new one, either by restricting any dimensions, or by\n"
    "  copying a list of volumes (the time dimension) from a dataset.\n"
-   "\n"
+   "\n");
+   printf(
    "  Only one action type is allowed, e.g. one cannot modify a dataset\n"
    "  and then take a 'diff'.\n"
-   "\n"
-   );
+   "\n");
    printf(
    "  one can display - any or all fields in the nifti_1_header structure\n"
    "                  - any or all fields in the nifti_image structure\n"
    "                  - the extensions in the nifti_image structure\n"
    "                  - the time series from a 4-D dataset, given i,j,k\n"
    "                  - the data from any collapsed image, given dims. list\n"
-   "\n"
+   "\n");
+   printf(
    "  one can modify  - any or all fields in the nifti_1_header structure\n"
    "                  - any or all fields in the nifti_image structure\n"
    "          add/rm  - any or all extensions in the nifti_image structure\n"
    "          remove  - all extensions and descriptions from the datasets\n"
-   "\n"
+   "\n");
+   printf(
    "  one can compare - any or all field pairs of nifti_1_header structures\n"
    "                  - any or all field pairs of nifti_image structures\n"
    "\n"
    "  one can copy    - an arbitrary list of dataset volumes (time points)\n"
    "                  - a dataset, collapsing across arbitrary dimensions\n"
    "                    (restricting those dimensions to the given indices)\n"
-   "\n"
+   "\n");
+   printf(
    "  Note: to learn about which fields exist in either of the structures,\n"
    "        or to learn a field's type, size of each element, or the number\n"
    "        of elements in the field, use either the '-help_hdr' option, or\n"
    "        the '-help_nim' option.  No further options are required.\n"
-   "  ------------------------------\n"
-   "\n"
-   );
+   "  ------------------------------\n");
    printf(
+   "\n"
    "  usage styles:\n"
    "\n"
-   "    %s -help                 : show this help\n"
-   "    %s -help_hdr             : show nifti_1_header field info\n"
-   "    %s -help_nim             : show nifti_image field info\n"
+   "    nifti_tool -help                 : show this help\n"
+   "    nifti_tool -help_hdr             : show nifti_1_header field info\n"
+   "    nifti_tool -help_nim             : show nifti_image field info\n"
+   "\n");
+   printf(
+   "    nifti_tool -ver                  : show the current version\n"
+   "    nifti_tool -hist                 : show the modification history\n"
+   "    nifti_tool -nifti_ver            : show the nifti library version\n"
+   "    nifti_tool -nifti_hist           : show the nifti library history\n"
    "\n"
-   "    %s -ver                  : show the current version\n"
-   "    %s -hist                 : show the modification history\n"
-   "    %s -nifti_ver            : show the nifti library version\n"
-   "    %s -nifti_hist           : show the nifti library history\n"
+   "\n");
+   printf(
+   "    nifti_tool -copy_brick_list -infiles f1'[indices...]'\n"
+   "    nifti_tool -copy_collapsed_image I J K T U V W -infiles f1\n"
+   "\n");
+   printf(
+   "    nifti_tool -disp_hdr [-field FIELDNAME] [...] -infiles f1 ...\n"
+   "    nifti_tool -disp_nim [-field FIELDNAME] [...] -infiles f1 ...\n"
+   "    nifti_tool -disp_exts -infiles f1 ...\n"
+   "    nifti_tool -disp_ts I J K [-dci_lines] -infiles f1 ...\n"
+   "    nifti_tool -disp_ci I J K T U V W [-dci_lines] -infiles f1 ...\n"
+   "\n");
+   printf(
+   "    nifti_tool -mod_hdr  [-mod_field FIELDNAME NEW_VAL] [...] -infiles f1\n"
+   "    nifti_tool -mod_nim  [-mod_field FIELDNAME NEW_VAL] [...] -infiles f1\n"
    "\n"
+   "    nifti_tool -add_afni_ext    'extension in quotes' [...] -infiles f1\n"
+   "    nifti_tool -add_comment_ext 'extension in quotes' [...] -infiles f1\n"
+   "    nifti_tool -rm_ext INDEX [...] -infiles f1 ...\n"
+   "    nifti_tool -strip_extras -infiles f1 ...\n"
+   "\n");
+   printf(
+   "    nifti_tool -diff_hdr [-field FIELDNAME] [...] -infiles f1 f2\n"
+   "    nifti_tool -diff_nim [-field FIELDNAME] [...] -infiles f1 f2\n"
    "\n"
-   "    %s -copy_brick_list -infiles f1'[indices...]'\n"
-   "    %s -copy_collapsed_image I J K T U V W -infiles f1\n"
-   "\n"
-   "    %s -disp_hdr [-field FIELDNAME] [...] -infiles f1 ...\n"
-   "    %s -disp_nim [-field FIELDNAME] [...] -infiles f1 ...\n"
-   "    %s -disp_exts -infiles f1 ...\n"
-   "    %s -disp_ts I J K [-dci_lines] -infiles f1 ...\n"
-   "    %s -disp_ci I J K T U V W [-dci_lines] -infiles f1 ...\n"
-   "\n"
-   "    %s -mod_hdr  [-mod_field FIELDNAME NEW_VAL] [...] -infiles f1 ...\n"
-   "    %s -mod_nim  [-mod_field FIELDNAME NEW_VAL] [...] -infiles f1 ...\n"
-   "\n"
-   "    %s -add_afni_ext    'extension in quotes' [...] -infiles f1 ...\n"
-   "    %s -add_comment_ext 'extension in quotes' [...] -infiles f1 ...\n"
-   "    %s -rm_ext INDEX [...] -infiles f1 ...\n"
-   "    %s -strip_extras -infiles f1 ...\n"
-   "\n"
-   "    %s -diff_hdr [-field FIELDNAME] [...] -infiles f1 f2\n"
-   "    %s -diff_nim [-field FIELDNAME] [...] -infiles f1 f2\n"
-   "\n"
-   "  ------------------------------\n",
-   prog, prog, prog, prog, prog,    /* 1 + 22, so far */
-   prog, prog, prog, prog, prog, prog,
-   prog, prog, prog, prog, prog, prog,
-   prog, prog, prog, prog, prog );
+   "  ------------------------------\n");
 
    printf(
    "\n"
@@ -775,82 +786,93 @@ int use_full(char * prog)
    "\n"
    "    -copy_brick_list   : copy a list of volumes to a new dataset\n"
    "    -cbl               : (a shorter, alternative form)\n"
-   "\n"
+   "\n");
+   printf(
    "       This action allows the user to copy a list of volumes (over time)\n"
    "       from one dataset to another.  The listed volumes can be in any\n"
    "       order and contain repeats, but are of course restricted to\n"
    "       the set of values {1, 2, ..., nt-1}, from dimension 4.\n"
-   "\n"
+   "\n");
+   printf(
    "       This option is a flag.  The index list is specified with the input\n"
    "       dataset, contained in square brackets.  Note that square brackets\n"
    "       are special to most UNIX shells, so they should be contained\n"
    "       within single quotes.  Syntax of an index list:\n"
    "\n"
    "       notes:\n"
-   "\n"
+   "\n");
+   printf(
    "         - indices start at zero\n"
    "         - indices end at nt-1, which has the special symbol '$'\n"
    "         - single indices should be separated with commas, ','\n"
    "             e.g. -infiles dset0.nii'[0,3,8,5,2,2,2]'\n"
-   "         - ranges may be specified using '..' or '-' \n"
+   "         - ranges may be specified using '..' or '-' \n");
+   printf(
    "             e.g. -infiles dset0.nii'[2..95]'\n"
    "             e.g. -infiles dset0.nii'[2..$]'\n"
    "         - ranges may have step values, specified in ()\n"
    "           example: 2 through 95 with a step of 3, i.e. {2,5,8,11,...,95}\n"
    "             e.g. -infiles dset0.nii'[2..95(3)]'\n"
-   "\n"
+   "\n");
+   printf(
    "       This functionality applies only to 4-dimensional datasets.\n"
    "\n"
    "       e.g. to copy sub-bricks 0 and 7:\n"
-   "       %s -cbl -prefix new_07.nii -infiles dset0.nii'[0,7]'\n"
+   "       nifti_tool -cbl -prefix new_07.nii -infiles dset0.nii'[0,7]'\n"
    "\n"
    "       e.g. to copy an entire dataset:\n"
-   "       %s -cbl -prefix new_all.nii -infiles dset0.nii'[0..$]'\n"
-   "\n"
+   "       nifti_tool -cbl -prefix new_all.nii -infiles dset0.nii'[0..$]'\n"
+   "\n");
+   printf(
    "       e.g. to copy ever other time point, skipping the first three:\n"
-   "       %s -cbl -prefix new_partial.nii -infiles dset0.nii'[3..$(2)]'\n"
+   "       nifti_tool -cbl -prefix new_partial.nii \\\n"
+   "                  -infiles dset0.nii'[3..$(2)]'\n"
    "\n"
    "\n"
    "    -copy_collapsed_image ... : copy a list of volumes to a new dataset\n"
    "    -cci I J K T U V W        : (a shorter, alternative form)\n"
-   "\n"
+   "\n");
+   printf(
    "       This action allows the user to copy a collapsed dataset, where\n"
    "       some dimensions are collapsed to a given index.  For instance, the\n"
    "       X dimension could be collapsed to i=42, and the time dimensions\n"
    "       could be collapsed to t=17.  To collapse a dimension, set Di to\n"
    "       the desired index, where i is in {0..ni-1}.  Any dimension that\n"
    "       should not be collapsed must be listed as -1.\n"
-   "\n"
+   "\n");
+   printf(
    "       Any number (of valid) dimensions can be collapsed, even down to a\n"
    "       a single value, by specifying enough valid indices.  The resulting\n"
    "       dataset will then have a reduced number of non-trivial dimensions.\n"
    "\n"
    "       Assume dset0.nii has nim->dim[8] = { 4, 64, 64, 21, 80, 1, 1, 1 }.\n"
    "       Note that this is a 4-dimensional dataset.\n"
-   "\n"
+   "\n");
+   printf(
    "         e.g. copy the time series for voxel i,j,k = 5,4,17\n"
-   "         %s -cci 5 4 17 -1 -1 -1 -1 -prefix new_5_4_17.nii\n"
+   "         nifti_tool -cci 5 4 17 -1 -1 -1 -1 -prefix new_5_4_17.nii\n"
    "\n"
    "         e.g. read the single volume at time point 26\n"
-   "         %s -cci -1 -1 -1 26 -1 -1 -1 -prefix new_t26.nii\n"
-   "\n"
+   "         nifti_tool -cci -1 -1 -1 26 -1 -1 -1 -prefix new_t26.nii\n"
+   "\n");
+   printf(
    "       Assume dset1.nii has nim->dim[8] = { 6, 64, 64, 21, 80, 4, 3, 1 }.\n"
    "       Note that this is a 6-dimensional dataset.\n"
    "\n"
    "         e.g. copy all time series for voxel i,j,k = 5,0,17, with v=2\n"
    "              (and add the command to the history)\n"
-   "         %s -cci 5 0 17 -1 -1 2 -1 -keep_hist -prefix new_5_0_17_2.nii\n"
-   "\n"
+   "         nifti_tool -cci 5 0 17 -1 -1 2 -1  -keep_hist \\\n"
+   "                    -prefix new_5_0_17_2.nii\n"
+   "\n");
+   printf(
    "         e.g. copy all data where i=3, j=19 and v=2\n"
    "              (I do not claim a good reason to do this)\n"
-   "         %s -cci 3 19 -1 -1 -1 2 -1 -prefix new_mess.nii\n"
+   "         nifti_tool -cci 3 19 -1 -1 -1 2 -1 -prefix new_mess.nii\n"
    "\n"
    "       See '-disp_ci' for more information (which displays/prints the\n"
    "       data, instead of copying it to a new dataset).\n"
    "\n"
-   "  ------------------------------\n",
-   prog, prog, prog, prog,
-   prog, prog, prog );
+   "  ------------------------------\n");
 
    printf(
    "\n"
@@ -862,40 +884,46 @@ int use_full(char * prog)
    "       fields in one or more nifti datasets. The user may want to specify\n"
    "       mutliple '-field' options along with this.  This option requires\n"
    "       one or more files input, via '-infiles'.\n"
-   "\n"
+   "\n");
+   printf(
    "       If no '-field' option is present, all fields will be displayed.\n"
    "\n"
    "       e.g. to display the contents of all fields:\n"
-   "       %s -disp_hdr -infiles dset0.nii\n"
-   "       %s -disp_hdr -infiles dset0.nii dset1.nii dset2.nii\n"
+   "       nifti_tool -disp_hdr -infiles dset0.nii\n"
+   "       nifti_tool -disp_hdr -infiles dset0.nii dset1.nii dset2.nii\n"
    "\n"
    "       e.g. to display the contents of select fields:\n"
-   "       %s -disp_hdr -field dim -infiles dset0.nii\n"
-   "       %s -disp_hdr -field dim -field descrip -infiles dset0.nii\n"
-   "\n"
+   "       nifti_tool -disp_hdr -field dim -infiles dset0.nii\n"
+   "       nifti_tool -disp_hdr -field dim -field descrip -infiles dset0.nii\n"
+   "\n");
+   printf(
    "    -disp_nim          : display nifti_image fields for datasets\n"
    "\n"
    "       This flag option works the same way as the '-disp_hdr' option,\n"
    "       except that the fields in question are from the nifti_image\n"
    "       structure.\n"
-   "\n"
+   "\n");
+   printf(
    "    -disp_exts         : display all AFNI-type extensions\n"
    "\n"
    "       This flag option is used to display all nifti_1_extension data,\n"
    "       for only those extensions of type AFNI (code = 4).  The only\n"
    "       other option used will be '-infiles'.\n"
-   "\n"
+   "\n");
+   printf(
    "       e.g. to display the extensions in datasets:\n"
-   "       %s -disp_exts -infiles dset0.nii\n"
-   "       %s -disp_exts -infiles dset0.nii dset1.nii dset2.nii\n"
-   "\n"
+   "       nifti_tool -disp_exts -infiles dset0.nii\n"
+   "       nifti_tool -disp_exts -infiles dset0.nii dset1.nii dset2.nii\n"
+   "\n");
+   printf(
    "    -disp_ts I J K    : display ASCII time series at i,j,k = I,J,K\n"
    "\n"
    "       This option is used to display the time series data for the voxel\n"
    "       at i,j,k indices I,J,K.  The data is displayed in text, either all\n"
    "       on one line (the default), or as one number per line (via the\n"
    "       '-dci_lines' option).\n"
-   "\n"
+   "\n");
+   printf(
    "       Notes:\n"
    "\n"
    "         o This function applies only to 4-dimensional datasets.\n"
@@ -904,12 +932,14 @@ int use_full(char * prog)
    "         o This option is short for using '-disp_ci' (display collapsed\n"
    "           image), restricted to 4-dimensional datasets.  i.e. :\n"
    "               -disp_ci I J K -1 -1 -1 -1\n"
-   "\n"
+   "\n");
+   printf(
    "       e.g. to display the time series at voxel 23, 0, 172:\n"
-   "       %s -disp_ts 23 0 172            -infiles dset1_time.nii\n"
-   "       %s -disp_ts 23 0 172 -dci_lines -infiles dset1_time.nii\n"
-   "       %s -disp_ts 23 0 172 -quiet     -infiles dset1_time.nii\n"
-   "\n"
+   "       nifti_tool -disp_ts 23 0 172            -infiles dset1_time.nii\n"
+   "       nifti_tool -disp_ts 23 0 172 -dci_lines -infiles dset1_time.nii\n"
+   "       nifti_tool -disp_ts 23 0 172 -quiet     -infiles dset1_time.nii\n"
+   "\n");
+   printf(
    "    -disp_collapsed_image  : display ASCII values for collapsed dataset\n"
    "    -disp_ci I J K T U V W : (a shorter, alternative form)\n"
    "\n"
@@ -917,21 +947,20 @@ int use_full(char * prog)
    "       image, given the dimension list.  The data is displayed in text,\n"
    "       either all on one line (the default), or as one number per line\n"
    "       (by using the '-dci_lines' flag).\n"
-   "\n"
+   "\n");
+   printf(
    "       The '-quiet' option can be used to suppress the text header.\n"
    "\n"
    "       e.g. to display the time series at voxel 23, 0, 172:\n"
-   "       %s -disp_ci 23 0 172 -1 0 0 0 -infiles dset1_time.nii\n"
+   "       nifti_tool -disp_ci 23 0 172 -1 0 0 0 -infiles dset1_time.nii\n"
    "\n"
    "       e.g. to display z-slice 14, at time t=68:\n"
-   "       %s -disp_ci -1 -1 14 68 0 0 0 -infiles dset1_time.nii\n"
+   "       nifti_tool -disp_ci -1 -1 14 68 0 0 0 -infiles dset1_time.nii\n"
    "\n"
    "       See '-ccd' for more information, which copies such data to a new\n"
    "       dataset, instead of printing it to the terminal window.\n"
    "\n"
-   "  ------------------------------\n",
-   prog, prog, prog, prog, prog, prog, prog, prog, prog, prog, prog );
-
+   "  ------------------------------\n");
    printf(
    "\n"
    "  options for modification actions:\n"
@@ -942,57 +971,63 @@ int use_full(char * prog)
    "       one or more datasets.  The user must specify a list of fields to\n"
    "       modify via one or more '-mod_field' options, which include field\n"
    "       names, along with the new (set of) values.\n"
-   "\n"
+   "\n");
+   printf(
    "       The user can modify a dataset in place, or use '-prefix' to\n"
    "       produce a new dataset, to which the changes have been applied.\n"
    "       It is recommended to normally use the '-prefix' option, so as not\n"
    "       to ruin a dataset.\n"
-   "\n"
+   "\n");
+   printf(
    "       Note that some fields have a length greater than 1, meaning that\n"
    "       the field is an array of numbers, or a string of characters.  In\n"
    "       order to modify an array of numbers, the user must provide the\n"
    "       correct number of values, and contain those values in quotes, so\n"
    "       that they are seen as a single option.\n"
-   "\n"
+   "\n");
+   printf(
    "       To modify a string field, put the string in quotes.\n"
    "\n"
    "       The '-mod_field' option takes a field_name and a list of values.\n"
    "\n"
-   "\n"
    "       e.g. to modify the contents of various fields:\n"
-   "       %s -mod_hdr -prefix dnew -infiles dset0.nii  \\\n"
+   "\n");
+   printf(
+   "       nifti_tool -mod_hdr -prefix dnew -infiles dset0.nii  \\\n"
    "                  -mod_field qoffset_x -17.325\n"
-   "       %s -mod_hdr -prefix dnew -infiles dset0.nii  \\\n"
+   "       nifti_tool -mod_hdr -prefix dnew -infiles dset0.nii  \\\n"
    "                  -mod_field dim '4 64 64 20 30 1 1 1 1'\n"
-   "       %s -mod_hdr -prefix dnew -infiles dset0.nii  \\\n"
+   "       nifti_tool -mod_hdr -prefix dnew -infiles dset0.nii  \\\n"
    "                  -mod_field descrip 'beer, brats and cheese, mmmmm...'\n"
-   "\n"
+   "\n");
+   printf(
    "       e.g. to modify the contents of multiple fields:\n"
-   "       %s -mod_hdr -prefix dnew -infiles dset0.nii  \\\n"
+   "       nifti_tool -mod_hdr -prefix dnew -infiles dset0.nii  \\\n"
    "                  -mod_field qoffset_x -17.325 -mod_field slice_start 1\n"
    "\n"
    "       e.g. to modify the contents of multiple files (must overwrite):\n"
-   "       %s -mod_hdr -overwrite -mod_field qoffset_x -17.325   \\\n"
+   "       nifti_tool -mod_hdr -overwrite -mod_field qoffset_x -17.325   \\\n"
    "                  -infiles dset0.nii dset1.nii\n"
-   "\n"
+   "\n");
+   printf(
    "    -mod_nim          : modify nifti_image fields for datasets\n"
    "\n"
    "       This action option is used the same way that '-mod_hdr' is used,\n"
    "       except that the fields in question are from the nifti_image\n"
    "       structure.\n"
-   "\n"
+   "\n");
+   printf(
    "    -strip_extras     : remove extensions and descriptions from datasets\n"
    "\n"
    "       This action is used to attempt to 'clean' a dataset of general\n"
    "       text, in order to make it more anonymous.  Extensions and the\n"
    "       nifti_image descrip field are cleared by this action.\n"
-   "\n"
+   "\n");
+   printf(
    "       e.g. to strip all *.nii datasets in this directory:\n"
-   "       %s -strip -overwrite -infiles *.nii\n"
+   "       nifti_tool -strip -overwrite -infiles *.nii\n"
    "\n"
-   "  ------------------------------\n",
-   prog, prog, prog, prog, prog, prog );
-
+   "  ------------------------------\n");
    printf(
    "\n"
    "  options for adding/removing extensions:\n"
@@ -1002,47 +1037,55 @@ int use_full(char * prog)
    "       This option is used to add AFNI-type extensions to one or more\n"
    "       datasets.  This option may be used more than once to add more than\n"
    "       one extension.\n"
-   "\n"
+   "\n");
+   printf(
    "       The '-prefix' option is recommended, to create a new dataset.\n"
    "       In such a case, only a single file may be taken as input.  Using\n"
    "       '-overwrite' allows the user to overwrite the current file, or\n"
    "       to add the extension(s) to multiple files, overwriting them.\n"
-   "\n"
+   "\n");
+   printf(
    "       e.g. to add a generic AFNI extension:\n"
-   "       %s -add_afni_ext 'wow, my first extension :)' -prefix dnew \\\n"
+   "       nifti_tool -add_afni_ext 'wow, my first extension' -prefix dnew \\\n"
    "                  -infiles dset0.nii\n"
    "\n"
    "       e.g. to add multiple AFNI extensions:\n"
-   "       %s -add_afni_ext 'wow, my first extension :)'      \\\n"
+   "       nifti_tool -add_afni_ext 'wow, my first extension :)'      \\\n"
    "                  -add_afni_ext 'look, my second...'              \\\n"
    "                  -prefix dnew -infiles dset0.nii\n"
-   "\n"
+   "\n");
+   printf(
    "       e.g. to add an extension, and overwrite the dataset:\n"
-   "       %s -add_afni_ext 'some AFNI extension' -overwrite \\\n"
+   "       nifti_tool -add_afni_ext 'some AFNI extension' -overwrite \\\n"
    "                  -infiles dset0.nii dset1.nii \n"
-   "\n"
+   "\n");
+   printf(
    "    -add_comment_ext EXT : add a COMMENT extension to the dataset\n"
    "\n"
    "       This option is used to add COMMENT-type extensions to one or more\n"
    "       datasets.  This option may be used more than once to add more than\n"
    "       one extension.  This option may also be used with '-add_afni_ext'.\n"
-   "\n"
+   "\n");
+   printf(
    "       The '-prefix' option is recommended, to create a new dataset.\n"
    "       In such a case, only a single file may be taken as input.  Using\n"
    "       '-overwrite' allows the user to overwrite the current file, or\n"
    "       to add the extension(s) to multiple files, overwriting them.\n"
-   "\n"
+   "\n");
+   printf(
    "       e.g. to add a comment about the dataset:\n"
-   "       %s -add_comment 'converted from MY_AFNI_DSET+orig' \\\n"
+   "       nifti_tool -add_comment 'converted from MY_AFNI_DSET+orig' \\\n"
    "                  -prefix dnew                                    \\\n"
    "                  -infiles dset0.nii\n"
-   "\n"
+   "\n");
+   printf(
    "       e.g. to add multiple extensions:\n"
-   "       %s -add_comment  'add a comment extension'         \\\n"
+   "       nifti_tool -add_comment  'add a comment extension'         \\\n"
    "                  -add_afni_ext 'and an AFNI XML style extension' \\\n"
    "                  -add_comment  'dataset copied from dset0.nii'   \\\n"
    "                  -prefix dnew -infiles dset0.nii\n"
-   "\n"
+   "\n");
+   printf(
    "    -rm_ext INDEX     : remove the extension given by INDEX\n"
    "\n"
    "       This option is used to remove any single extension from the\n"
@@ -1051,20 +1094,21 @@ int use_full(char * prog)
    "       notes  - extension indices begin with 0 (zero)\n"
    "              - to view the current extensions, see '-disp_exts'\n"
    "              - all exensions can be removed using ALL or -1 for INDEX\n"
-   "\n"
+   "\n");
+   printf(
    "       e.g. to remove the extension #0:\n"
-   "       %s -rm_ext 0 -overwrite -infiles dset0.nii\n"
+   "       nifti_tool -rm_ext 0 -overwrite -infiles dset0.nii\n"
    "\n"
    "       e.g. to remove ALL extensions:\n"
-   "       %s -rm_ext ALL -prefix dset1 -infiles dset0.nii\n"
-   "       %s -rm_ext -1  -prefix dset1 -infiles dset0.nii\n"
-   "\n"
+   "       nifti_tool -rm_ext ALL -prefix dset1 -infiles dset0.nii\n"
+   "       nifti_tool -rm_ext -1  -prefix dset1 -infiles dset0.nii\n"
+   "\n");
+   printf(
    "       e.g. to remove the extensions #2, #3 and #5:\n"
-   "       %s -rm_ext 2 -rm_ext 3 -rm_ext 5 -overwrite -infiles dset0.nii\n"
+   "       nifti_tool -rm_ext 2 -rm_ext 3 -rm_ext 5 -overwrites \\\n"
+   "                  -infiles dset0.nii\n"
    "\n"
-   "  ------------------------------\n",
-   prog, prog, prog, prog, prog,
-   prog, prog, prog, prog );
+   "  ------------------------------\n");
 
    printf(
    "\n"
@@ -1075,7 +1119,8 @@ int use_full(char * prog)
    "       This option is used to find differences between two datasets.\n"
    "       If any fields are different, the contents of those fields is\n"
    "       displayed (unless the '-quiet' option is used).\n"
-   "\n"
+   "\n");
+   printf(
    "       A list of fields can be specified by using multiple '-field'\n"
    "       options.  If no '-field' option is given, all fields will be\n"
    "       checked.\n"
@@ -1083,10 +1128,11 @@ int use_full(char * prog)
    "       Exactly two dataset names must be provided via '-infiles'.\n"
    "\n"
    "       e.g. to display all nifti_1_header field differences:\n"
-   "       %s -diff_hdr -infiles dset0.nii dset1.nii\n"
-   "\n"
+   "       nifti_tool -diff_hdr -infiles dset0.nii dset1.nii\n"
+   "\n");
+   printf(
    "       e.g. to display selected nifti_1_header field differences:\n"
-   "       %s -diff_hdr -field dim -field intent_code  \\\n"
+   "       nifti_tool -diff_hdr -field dim -field intent_code  \\\n"
    "                  -infiles dset0.nii dset1.nii \n"
    "\n"
    "    -diff_nim         : display nifti_image field diffs between datasets\n"
@@ -1094,8 +1140,7 @@ int use_full(char * prog)
    "       This option works the same as '-diff_hdr', except that the fields\n"
    "       in question are from the nifti_image structure.\n"
    "\n"
-   "  ------------------------------\n",
-   prog, prog );
+   "  ------------------------------\n");
 
    printf(
    "\n"
@@ -1108,7 +1153,8 @@ int use_full(char * prog)
    "       Levels 2 and 3 give progressively more infomation.\n"
    "\n"
    "       e.g. -debug 2\n"
-   "\n"
+   "\n");
+   printf(
    "    -field FIELDNAME  : provide a field to work with\n"
    "\n"
    "       This option is used to provide a field to display, modify or\n"
@@ -1117,45 +1163,52 @@ int use_full(char * prog)
    "\n"
    "       See '-disp_hdr', above, for complete examples.\n"
    "\n"
-   "       e.g. %s -field descrip\n"
-   "       e.g. %s -field descrip -field dim\n"
-   "\n"
+   "       e.g. nifti_tool -field descrip\n"
+   "       e.g. nifti_tool -field descrip -field dim\n"
+   "\n");
+   printf(
    "    -infiles file0... : provide a list of files to work with\n"
    "\n"
    "       This parameter is required for any of the actions, in order to\n"
    "       provide a list of files to process.  If input filenames do not\n"
    "       have an extension, the directory we be searched for any\n"
    "       appropriate files (such as .nii or .hdr).\n"
-   "\n"
+   "\n");
+   printf(
    "       See '-mod_hdr', above, for complete examples.\n"
    "\n"
-   "       e.g. %s -infiles file0.nii\n"
-   "       e.g. %s -infiles file1.nii file2 file3.hdr\n"
-   "\n"
+   "       e.g. nifti_tool -infiles file0.nii\n"
+   "       e.g. nifti_tool -infiles file1.nii file2 file3.hdr\n"
+   "\n");
+   printf(
    "    -mod_field NAME 'VALUE_LIST' : provide new values for a field\n"
    "\n"
    "       This parameter is required for any the modification actions.\n"
    "       If the user wants to modify any fields of a dataset, this is\n"
    "       where the fields and values are specified.\n"
-   "\n"
+   "\n");
+   printf(
    "       NAME is a field name (in either the nifti_1_header structure or\n"
    "       the nifti_image structure).  If the action option is '-mod_hdr',\n"
    "       then NAME must be the name of a nifti_1_header field.  If the\n"
    "       action is '-mod_nim', NAME must be from a nifti_image structure.\n"
-   "\n"
+   "\n");
+   printf(
    "       VALUE_LIST must be one or more values, as many as are required\n"
    "       for the field, contained in quotes if more than one is provided.\n"
    "\n"
-   "       Use '%s -help_hdr' to get a list of nifti_1_header fields\n"
-   "       Use '%s -help_nim' to get a list of nifti_image fields\n"
+   "       Use 'nifti_tool -help_hdr' to get a list of nifti_1_header fields\n"
+   "       Use 'nifti_tool -help_nim' to get a list of nifti_image fields\n"
    "\n"
    "       See '-mod_hdr', above, for complete examples.\n"
-   "\n"
+   "\n");
+   printf(
    "       e.g. modifying nifti_1_header fields:\n"
    "            -mod_field descrip 'toga, toga, toga'\n"
    "            -mod_field qoffset_x 19.4 -mod_field qoffset_z -11\n"
    "            -mod_field pixdim '1 0.9375 0.9375 1.2 1 1 1 1'\n"
-   "\n"
+   "\n");
+   printf(
    "    -keep_hist         : add the command as COMMENT (to the 'history')\n"
    "\n"
    "        When this option is used, the current command will be added\n"
@@ -1163,13 +1216,15 @@ int use_full(char * prog)
    "        ability to keep a history of commands affecting a dataset.\n"
    "\n"
    "       e.g. -keep_hist\n"
-   "\n"
+   "\n");
+   printf(
    "    -overwrite        : any modifications will be made to input files\n"
    "\n"
    "       This option is used so that all field modifications, including\n"
    "       extension additions or deletions, will be made to the files that\n"
    "       are input.\n"
-   "\n"
+   "\n");
+   printf(
    "       In general, the user is recommended to use the '-prefix' option\n"
    "       to create new files.  But if overwriting the contents of the\n"
    "       input files is prefered, this is how to do it.\n"
@@ -1177,7 +1232,8 @@ int use_full(char * prog)
    "       See '-mod_hdr' or '-add_afni_ext', above, for complete examples.\n"
    "\n"
    "       e.g. -overwrite\n"
-   "\n"
+   "\n");
+   printf(
    "    -prefix           : specify an output file to write change into\n"
    "\n"
    "       This option is used to specify an output file to write, after\n"
@@ -1185,7 +1241,8 @@ int use_full(char * prog)
    "       then either '-prefix' or '-overwrite' is required.\n"
    "\n"
    "       If no extension is given, the output extension will be '.nii'.\n"
-   "\n"
+   "\n");
+   printf(
    "       e.g. -prefix new_dset\n"
    "       e.g. -prefix new_dset.nii\n"
    "       e.g. -prefix new_dset.hdr\n"
@@ -1194,8 +1251,7 @@ int use_full(char * prog)
    "\n"
    "       This option is equivalent to '-debug 0'.\n"
    "\n"
-   "  ------------------------------\n",
-   prog, prog, prog, prog, prog, prog );
+   "  ------------------------------\n");
 
    printf(
    "\n"
@@ -1203,41 +1259,41 @@ int use_full(char * prog)
    "\n"
    "    -help             : show this help\n"
    "\n"
-   "       e.g.  %s -help\n"
+   "       e.g.  nifti_tool -help\n"
    "\n"
    "    -help_hdr         : show nifti_1_header field info\n"
    "\n"
-   "       e.g.  %s -help_hdr\n"
+   "       e.g.  nifti_tool -help_hdr\n"
    "\n"
    "    -help_nim         : show nifti_image field info\n"
    "\n"
-   "       e.g.  %s -help_nim\n",
-   prog, prog, prog );
+   "       e.g.  nifti_tool -help_nim\n");
 
    printf(
    "\n"
    "    -ver              : show the program version number\n"
    "\n"
-   "       e.g.  %s -ver\n"
+   "       e.g.  nifti_tool -ver\n"
    "\n"
    "    -hist             : show the program modification history\n"
    "\n"
-   "       e.g.  %s -hist\n"
-   "\n"
+   "       e.g.  nifti_tool -hist\n"
+   "\n");
+   printf(
    "    -nifti_ver        : show the nifti library version number\n"
    "\n"
-   "       e.g.  %s -nifti_ver\n"
+   "       e.g.  nifti_tool -nifti_ver\n"
    "\n"
    "    -nifti_hist       : show the nifti library modification history\n"
    "\n"
-   "       e.g.  %s -nifti_hist\n"
+   "       e.g.  nifti_tool -nifti_hist\n"
    "\n"
    "  ------------------------------\n"
    "\n"
    "  R. Reynolds\n"
    "  compiled: %s\n"
    "  %s\n\n",
-   prog, prog, prog, prog, __DATE__, g_version );
+   __DATE__, g_version );
 
    return 1;
 }

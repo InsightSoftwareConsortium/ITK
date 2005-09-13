@@ -19,12 +19,13 @@ int main( int argc , char *argv[] )
             "  -a2 ==> write an ANALYZE 7.5 file pair: prefix.hdr/prefix.img\n"
             "  -n2 ==> write a NIFTI-1 file pair: prefix.hdr/prefix.img\n"
             "  -n1 ==> write a NIFTI-1 single file: prefix.nii\n"
-            "  -na ==> write a NIFTI-1 ASCII+binary file: prefix.nia\n"
-            "  -za2 ==> write an ANALYZE 7.5 file pair: prefix.hdr.gz/prefix.img.gz\n"
-            "  -zn2 ==> write a NIFTI-1 file pair: prefix.hdr.gz/prefix.img.gz\n"
-            "  -zn1 ==> write a NIFTI-1 single file: prefix.nii.gz\n"
-            "  -zna ==> write a NIFTI-1 ASCII+binary file: prefix.nia.gz\n"
-            " The default is '-n1'.\n"
+            "  -na ==> write a NIFTI-1 ASCII+binary file: prefix.nia\n");
+     printf("  -za2 => write an ANALYZE 7.5 file pair:\n"
+            "          prefix.hdr.gz/prefix.img.gz\n"
+            "  -zn2 => write a NIFTI-1 file pair: prefix.hdr.gz/prefix.img.gz\n"
+            "  -zn1 => write a NIFTI-1 single file: prefix.nii.gz\n"
+            "  -zna => write a NIFTI-1 ASCII+binary file: prefix.nia.gz\n");
+     printf(" The default is '-n1'.\n"
             "\n"
             " If prefix is not given, then the header info from infile\n"
             " file is printed to stdout.\n"
@@ -34,7 +35,8 @@ int main( int argc , char *argv[] )
             " of visualization (e.g., you can edit a .nia file and\n"
             " change some header fields, then rewrite it as .nii)\n"
            ) ;
-     printf("\nsizeof(nifti_1_header)=%u\n",(unsigned int)sizeof(nifti_1_header)) ;
+     printf("\nsizeof(nifti_1_header)=%u\n",
+            (unsigned int)sizeof(nifti_1_header)) ;
      exit(0) ;
    }
 

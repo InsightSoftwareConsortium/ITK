@@ -45,14 +45,14 @@ extern "C" {
     -------
       Use the FslOpen(), FslReadVolumes() and FslClose() functions.  e.g.
         FSLIO *fslio;
-  void *buffer;
-  int nvols;
-  fslio = FslOpen("/some/path/name_of_file","rb");
-    ... can now access header info via the FslGet calls ...
-    ... allocate room for buffer ...
-  FslReadVolumes(fslio,buffer,nvols);
-    ... do something ...
-  FslClose(fslio);
+        void *buffer;
+        int nvols;
+        fslio = FslOpen("/some/path/name_of_file","rb");
+          ... can now access header info via the FslGet calls ...
+          ... allocate room for buffer ...
+        FslReadVolumes(fslio,buffer,nvols);
+          ... do something ...
+        FslClose(fslio);
 
 
     Writing
@@ -66,14 +66,14 @@ extern "C" {
       an FslWriteHeader() call:
 
         FSLIO* fslio;
-  fslio = FslOpen("/some/path/name_of_file","wb");
-    ... set the appropriate header information using FslSet calls ...
-  FslWriteHeader(fslio);
-  
-    ... now can write one or more volumes at a time using 
-        FslWriteVolumes(fslio,buffer,nvols) ...
+        fslio = FslOpen("/some/path/name_of_file","wb");
+          ... set the appropriate header information using FslSet calls ...
+        FslWriteHeader(fslio);
+        
+          ... now can write one or more volumes at a time using 
+              FslWriteVolumes(fslio,buffer,nvols) ...
 
-  FslClose(fslio); 
+        FslClose(fslio); 
 
       This version is useful if your image data needs to be written from different blocks
       of memory.
@@ -81,19 +81,19 @@ extern "C" {
     (2)
       Another method is available, but which is discouraged, is:
         FSLIO* fslio;
-  fslio = FslOpen("/some/path/name_of_file","wb");
-  
-    ... set some appropriate header information using FslSet calls ...
-    ... now can write one or more volumes at a time using 
-        FslWriteVolumes(fslio,buffer,nvols) ...
-    ... set more appropriate header information using FslSet calls ...
+        fslio = FslOpen("/some/path/name_of_file","wb");
+        
+          ... set some appropriate header information using FslSet calls ...
+          ... now can write one or more volumes at a time using 
+              FslWriteVolumes(fslio,buffer,nvols) ...
+          ... set more appropriate header information using FslSet calls ...
 
-  FslClose(fslio);
+        FslClose(fslio);
 
       WARNING: this cannot write .nii.gz files as the header information cannot be
       written by FslClose() after the image data is written, which is how the previous
       versions have worked.
-  
+        
 
    */
 
@@ -183,10 +183,10 @@ int  FslReadRawHeader(void *buffer, const char* filename);
 
 FSLIO *FslInit();
 void   FslInitHeader(FSLIO *fslio, short t, 
-       size_t x, size_t y, size_t z, size_t v,
-       float vx, float vy, float vz, float tr,
-       size_t dim,
-       const char* units);
+                   size_t x, size_t y, size_t z, size_t v,
+                   float vx, float vy, float vz, float tr,
+                   size_t dim,
+                   const char* units);
 void   FslSetInit(FSLIO* fslio);
 void   FslCloneHeader(FSLIO *dest, const FSLIO *src);
 
@@ -212,16 +212,16 @@ size_t FslGetDataType(FSLIO *fslio, short *t);
 int    FslGetIntensityScaling(FSLIO *fslio, float *slope, float *intercept);
 void   FslSetIntent(FSLIO *fslio, short intent_code, float p1, float p2, float p3);
 short  FslGetIntent(FSLIO *fslio, short *intent_code, float *p1, float *p2,
-        float *p3);
+                    float *p3);
 
 
 short FslGetStdXform(FSLIO *fslio, mat44 *stdmat);
 void  FslSetStdXform(FSLIO *fslio, short sform_code, mat44 stdmat);
 void  FslGetMMCoord(mat44 stdmat, float voxx, float voxy, float voxz, 
-        float *mmx, float *mmy, float *mmz);
+                    float *mmx, float *mmy, float *mmz);
 
 void  FslGetVoxCoord(mat44 stdmat, float mmx, float mmy, float mmz, 
-         float *voxx, float *voxy, float *voxz); 
+                     float *voxx, float *voxy, float *voxz); 
 short FslGetRigidXform(FSLIO *fslio, mat44 *rigidmat);
 void  FslSetRigidXform(FSLIO *fslio, short qform_code, mat44 rigidmat);
 int   FslGetLeftRightOrder(FSLIO *fslio);
@@ -229,7 +229,7 @@ int   FslGetLeftRightOrder(FSLIO *fslio);
   /* these two functions are deprecated with the nifti/analyze support */
   /* please do all spatial coordinate origins via the Std and Rigid Xforms */
 void  FslSetAnalyzeSform(FSLIO *fslio, const short *orig, 
-       float dx, float dy, float dz);
+                         float dx, float dy, float dz);
 void  FslGetAnalyzeOrigin(FSLIO *fslio, short orig[5]);
 
   /* other read and write commands */
@@ -251,16 +251,16 @@ mat33 mat44_to_mat33(mat44 x);
 
 
 /* added by KF pending discussion w/ Mark */
-typedef unsigned char  THIS_UINT8; 
-typedef char     THIS_INT8;
+typedef unsigned char   THIS_UINT8; 
+typedef char            THIS_INT8;
 typedef unsigned short  THIS_UINT16;
-typedef short    THIS_INT16;
-typedef unsigned int  THIS_UINT32;
-typedef int    THIS_INT32;
+typedef short           THIS_INT16;
+typedef unsigned int    THIS_UINT32;
+typedef int             THIS_INT32;
 typedef unsigned long   THIS_UINT64;
-typedef long     THIS_INT64;
-typedef float    THIS_FLOAT32;
-typedef double     THIS_FLOAT64;
+typedef long            THIS_INT64;
+typedef float           THIS_FLOAT32;
+typedef double          THIS_FLOAT64;
 
 FSLIO * FslReadHeader(char *fname);
 double ****FslGetBufferAsScaledDouble(FSLIO *fslio);

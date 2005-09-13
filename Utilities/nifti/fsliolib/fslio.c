@@ -40,7 +40,7 @@ static int FslOverrideOutputType=-1;
 /*! \fn char* FslFileTypeString(int filetype)
     \brief  Return a string describing the format of the dataset
     \param filetype  FSL data format code.  Legal values are as defined
-  by FSL_TYPE.
+        by FSL_TYPE.
     \return  A string with the data format name, e.g. "ANALYZE-7.5"
     \sa FSL_TYPE
 */
@@ -97,8 +97,8 @@ int FslGetFileType2(const FSLIO *fslio, int quiet)
   if (fslio->niftiptr!=NULL) {   /* check that it is nifti_type and filetype are consistent */
     if (fslio->niftiptr->nifti_type != FslBaseFileType(fslio->file_mode)) {
       if (!quiet) {
-  fprintf(stderr,"Warning: nifti structure and fsl structure disagree on file type\n");
-  fprintf(stderr,"nifti = %d and fslio = %d\n",fslio->niftiptr->nifti_type,fslio->file_mode);
+        fprintf(stderr,"Warning: nifti structure and fsl structure disagree on file type\n");
+        fprintf(stderr,"nifti = %d and fslio = %d\n",fslio->niftiptr->nifti_type,fslio->file_mode);
       }
       mutablefslio = (FSLIO *) fslio;  /* dodgy and will generate warnings */
       mutablefslio->niftiptr->nifti_type = FslBaseFileType(fslio->file_mode);
@@ -240,23 +240,23 @@ int FslGetReadFileType(const FSLIO *fslio)
     /* use the nifti_type and hdr or img name to determine the actual type */
     if (fslio->niftiptr->nifti_type == FSL_TYPE_ANALYZE) {
       if (FslIsCompressedFileType(FslFileType(fslio->niftiptr->iname))) {
-  filetype = FSL_TYPE_ANALYZE_GZ;
+        filetype = FSL_TYPE_ANALYZE_GZ;
       } else {
-  filetype = FSL_TYPE_ANALYZE;
+        filetype = FSL_TYPE_ANALYZE;
       }
     }
     if (fslio->niftiptr->nifti_type == FSL_TYPE_NIFTI_PAIR) {
       if (FslIsCompressedFileType(FslFileType(fslio->niftiptr->iname))) {
-  filetype = FSL_TYPE_NIFTI_PAIR_GZ;
+        filetype = FSL_TYPE_NIFTI_PAIR_GZ;
       } else {
-  filetype = FSL_TYPE_NIFTI_PAIR;
+        filetype = FSL_TYPE_NIFTI_PAIR;
       }
     }
     if (fslio->niftiptr->nifti_type == FSL_TYPE_NIFTI) {
       if (FslIsCompressedFileType(FslFileType(fslio->niftiptr->fname))) {
-  filetype = FSL_TYPE_NIFTI_GZ;
+        filetype = FSL_TYPE_NIFTI_GZ;
       } else {
-  filetype = FSL_TYPE_NIFTI;
+        filetype = FSL_TYPE_NIFTI;
       }
     }
     
@@ -300,7 +300,7 @@ char *FslMakeBaseName(const char *fname)
 
 
 void FslGetHdrImgNames(const char* filename, const FSLIO* fslio, 
-           char** hdrname, char** imgname)
+                       char** hdrname, char** imgname)
 {
   char *basename;
   int filetype;
@@ -403,7 +403,7 @@ void FslInit4Write(FSLIO* fslio, const char* filename, int ft)
   
   if ( (FslBaseFileType(imgtype)!=FSL_TYPE_MINC) ) {
     FslInitHeader(fslio, NIFTI_TYPE_FLOAT32,
-      1, 1, 1, 3,  0.0, 0.0, 0.0, 0.0,  4, "mm");
+                  1, 1, 1, 3,  0.0, 0.0, 0.0, 0.0,  4, "mm");
     
     FslSetFileType(fslio,imgtype);  /* this is after InitHeader as niftiptr set there */
     
@@ -427,10 +427,10 @@ void FslInit4Write(FSLIO* fslio, const char* filename, int ft)
 
 
 void FslInitHeader(FSLIO *fslio, short t, 
-       size_t x, size_t y, size_t z, size_t v,
-       float vx, float vy, float vz, float tr,
-       size_t dim,
-       const char* units)
+                   size_t x, size_t y, size_t z, size_t v,
+                   float vx, float vy, float vz, float tr,
+                   size_t dim,
+                   const char* units)
 {
   /* NB: This function does not set the file type or write mode*/
 
@@ -480,7 +480,7 @@ void FslCloneHeader(FSLIO *dest, const FSLIO *src)
     if (preserve_nifti_values) {
       dest->niftiptr->data = data; 
     } else { 
-  /* destroy the values that the nifti copy creates */
+        /* destroy the values that the nifti copy creates */
       free(dest->niftiptr->fname);
       free(dest->niftiptr->iname);
       nifti_free_extensions(dest->niftiptr);
@@ -594,11 +594,11 @@ int check_for_multiple_filenames(const char* filename)
       fprintf(stderr,"\n\n");
 
       if (!FslIgnoreMFQ) {
-  otype = getenv("FSLMULTIFILEQUIT");
-  if (otype!=NULL) {
-    fprintf(stderr,"STOPPING PROGRAM\n");
-    exit(EXIT_FAILURE);
-  }
+        otype = getenv("FSLMULTIFILEQUIT");
+        if (otype!=NULL) {
+          fprintf(stderr,"STOPPING PROGRAM\n");
+          exit(EXIT_FAILURE);
+        }
       }
       return 1;
     }
@@ -613,8 +613,8 @@ int check_for_multiple_filenames(const char* filename)
 /*! \fn FSLIO *FslOpen(const char *filename, const char *opts)
     \brief Opens a file for either reading or writing. 
 
-  The format of the output dataset is determined automatically by 
-  passing filetype -1 to FslXOpen.
+        The format of the output dataset is determined automatically by 
+        passing filetype -1 to FslXOpen.
     \sa FslXOpen
  */
 FSLIO *FslOpen(const char *filename, const char *opts)
@@ -630,17 +630,17 @@ FSLIO *FslOpen(const char *filename, const char *opts)
 /*! \fn FSLIO *FslXOpen(const char *filename, const char *opts, int filetype)
     \brief Opens a file for either reading or writing
 
-      Files to be read are automatically read whether 
-  compressed or not.  Also, reading uses the file extension 
-  and will fail if that file does not exist.
-  For a more robust read, pass the basename in as then all types 
-  will be tried.
+        Files to be read are automatically read whether 
+        compressed or not.  Also, reading uses the file extension 
+        and will fail if that file does not exist.
+        For a more robust read, pass the basename in as then all types 
+        will be tried.
     \param filename Name (or basename) of the file to open
     \param opts Flags for fopen() of dataset, eg "r", "wb", etc.
     \param filetype specifies the type of file to be written. Legal
-  values are as defined by FSL_TYPE.  If filetype is less than 
-  zero, then it is ignored and the type is determined by the 
-  filename extension or, failing that, the environment default.
+        values are as defined by FSL_TYPE.  If filetype is less than 
+        zero, then it is ignored and the type is determined by the 
+        filename extension or, failing that, the environment default.
     \return pointer to FSLIO dataset datastructure
     \sa FSLIO
     \sa FSL_TYPE
@@ -726,7 +726,7 @@ FSLIO *FslXOpen(const char *filename, const char *opts, int filetype)
     /* Note that signed pixdims are passed in to set the LR orientation */
     memcpy(orig,&(ahdr.hist.originator),10);
     FslSetAnalyzeSform(fslio, orig, fslio->niftiptr->pixdim[1],
-           fslio->niftiptr->pixdim[2], fslio->niftiptr->pixdim[3]);
+                       fslio->niftiptr->pixdim[2], fslio->niftiptr->pixdim[3]);
   }
 
   /* from now on force all vox dims to be positive - LR info is in sform */
@@ -753,26 +753,26 @@ FSLIO *FslXOpen(const char *filename, const char *opts, int filetype)
 /*! \fn void* FslReadAllVolumes(FSLIO* fslio, char* filename)
     \brief Read the header and all data into the FSLIO structure
 
-  There is no need for FslOpen or FslClose calls when FslReadAllVolumes()
-  is called.  
-  <br>This routine allocates the buffer to hold the entire dataset. 
-  <br>The data block returned will contain the data in whatever
-  datatype it is stored as on disk (therefore it is a void *).
-  <br>The data buffer will be byteswapped to native-endian.
-  <br>The data buffer will not be scaled. 
-    <br>The best call to make before this is FslInit() or a calloc() for 
+        There is no need for FslOpen or FslClose calls when FslReadAllVolumes()
+        is called.  
+        <br>This routine allocates the buffer to hold the entire dataset. 
+        <br>The data block returned will contain the data in whatever
+        datatype it is stored as on disk (therefore it is a void *).
+        <br>The data buffer will be byteswapped to native-endian.
+        <br>The data buffer will not be scaled. 
+        <br>The best call to make before this is FslInit() or a calloc() for 
         fslio.  (??? why calloc if this allocates the buffer ???)
 
     \param fslio pointer to an open dataset
     \param filename Name of the dataset to read.
     \return A pointer to the data block buffer (allocated by this function).
-  <br> Return Null on error ??? is this true ???
-  <ul>
-  <li>Note this pointer is also in the FSLIO structure as 
-  fslio->niftiptr->data.</li>
-  <li>Note a void pointer is returned, as the datablock is of
-  variable datatype.</li>
-  </ul>
+        <br> Return Null on error ??? is this true ???
+        <ul>
+        <li>Note this pointer is also in the FSLIO structure as 
+        fslio->niftiptr->data.</li>
+        <li>Note a void pointer is returned, as the datablock is of
+        variable datatype.</li>
+        </ul>
 
  */
 void* FslReadAllVolumes(FSLIO* fslio, char* filename)
@@ -838,11 +838,11 @@ size_t FslReadVolumes(FSLIO *fslio, void *buffer, size_t nvols)
  ***************************************************************/
 /*! \fn void FslWriteAllVolumes(FSLIO *fslio, const void *buffer)
     \brief  Writes all data from buffer (using size info from fslio) to file.
-  
-  Dimension and datatype of buffer are as is specified in nifti_image structure
-  fslio->niftiptr.
-  Note: If file format is Analyze (not nifti) and in Neurological order then 
-  SWAP DATA into Radiological order.
+        
+        Dimension and datatype of buffer are as is specified in nifti_image structure
+        fslio->niftiptr.
+        Note: If file format is Analyze (not nifti) and in Neurological order then 
+        SWAP DATA into Radiological order.
 
     \param fslio pointer to open dataset
     \param buffer pointer to data array. Size and datatype of this buffer  
@@ -867,15 +867,15 @@ void FslWriteAllVolumes(FSLIO *fslio, const void *buffer)
 /*! \fn size_t FslWriteVolumes(FSLIO *fslio, const void *buffer, size_t nvols)
     \brief Write the first nvols volumes in buffer to disk.  
 
-  Dimension and datatype of buffer are as is specified in nifti_image structure
-  fslio->niftiptr.
-  Note: If file format is Analyze (not nifti) and in Neurological order then 
-  SWAP DATA into Radiological order.
+        Dimension and datatype of buffer are as is specified in nifti_image structure
+        fslio->niftiptr.
+        Note: If file format is Analyze (not nifti) and in Neurological order then 
+        SWAP DATA into Radiological order.
 
-  
-    \param fslio   pointer to open dataset
-    \param buffer   pointer to data array. Size and datatype of this buffer  
-    \param nvols   number of volumes to write
+        
+    \param fslio        pointer to open dataset
+    \param buffer       pointer to data array. Size and datatype of this buffer  
+    \param nvols        number of volumes to write
     \return ??? looks like return of retval is missing ???  0 on error.
  */
 size_t FslWriteVolumes(FSLIO *fslio, const void *buffer, size_t nvols)
@@ -893,7 +893,7 @@ size_t FslWriteVolumes(FSLIO *fslio, const void *buffer, size_t nvols)
     nbytes = nvols * FslGetVolSize(fslio) * bpv;
 
     if ( (FslBaseFileType(FslGetFileType(fslio))==FSL_TYPE_ANALYZE)
-   && (FslGetLeftRightOrder(fslio)==FSL_NEUROLOGICAL) ) {
+         && (FslGetLeftRightOrder(fslio)==FSL_NEUROLOGICAL) ) {
       /* If it is Analyze and Neurological order then SWAP DATA into Radiological order */
       /* This is nasty - but what else can be done?!? */
       char *tmpbuf, *inbuf;
@@ -904,11 +904,11 @@ size_t FslWriteVolumes(FSLIO *fslio, const void *buffer, size_t nvols)
       FslGetDim(fslio,&nx,&ny,&nz,&nv);
       nrows = nbytes / (nx * bpv);
       for (n=0; n<nrows; n++) {
-  for (x=0; x<nx; x++) {
-    for (b=0; b<bpv; b++) {
-      tmpbuf[b +  bpv * (n*nx + nx - 1 - x)] = inbuf[b + bpv * (n*nx + x)];
-    }
-  }
+        for (x=0; x<nx; x++) {
+          for (b=0; b<bpv; b++) {
+            tmpbuf[b +  bpv * (n*nx + nx - 1 - x)] = inbuf[b + bpv * (n*nx + x)];
+          }
+        }
       }
       retval = nifti_write_buffer(fslio->fileptr, tmpbuf, nbytes);
       free(tmpbuf);
@@ -928,8 +928,8 @@ size_t FslWriteVolumes(FSLIO *fslio, const void *buffer, size_t nvols)
  ***************************************************************/
 /*! \fn void FslWriteHeader(FSLIO *fslio)
     \brief Writes nifti/anz header and opens img file ready for writing
-  
-    \param fslio   pointer to open dataset
+        
+    \param fslio        pointer to open dataset
  */
 void FslWriteHeader(FSLIO *fslio)
 {
@@ -965,15 +965,15 @@ void FslWriteHeader(FSLIO *fslio)
 /*! \fn size_t FslReadSliceSeries(FSLIO *fslio, void *buffer, short slice, size_t nvols)
     \brief Read one slice from each of the first nvols volumes in the dataset, ie get an xyt buffer.
 
-  Dimension and datatype of buffer are as is specified in nifti_image structure
-  fslio->niftiptr.
-  Note: filepointer in file data array is restored to its initial position.
-  
-    \param fslio   pointer to open dataset
-    \param buffer  buffer large enough to hold 1 slice from each volume
-    \param slice  slice number (0 based) to read  [0 z-1]
-    \param nvols  number of volumes to read a slice from 
-    \return     Number of volumes from which a slice was successfully read. 0 on error.
+        Dimension and datatype of buffer are as is specified in nifti_image structure
+        fslio->niftiptr.
+        Note: filepointer in file data array is restored to its initial position.
+        
+    \param fslio        pointer to open dataset
+    \param buffer       buffer large enough to hold 1 slice from each volume
+    \param slice        slice number (0 based) to read  [0 z-1]
+    \param nvols        number of volumes to read a slice from 
+    \return             Number of volumes from which a slice was successfully read. 0 on error.
  */
 size_t FslReadSliceSeries(FSLIO *fslio, void *buffer, short slice, size_t nvols)
 {
@@ -997,9 +997,9 @@ size_t FslReadSliceSeries(FSLIO *fslio, void *buffer, short slice, size_t nvols)
     for (n=0; n<nvols; n++) {
       if (n>0) znzseek(fslio->fileptr, volbytes - slbytes, SEEK_CUR);
       if (znzread((char *)buffer+n*slbytes, 1, slbytes, fslio->fileptr) != slbytes)
-  FSLIOERR("FslReadSliceSeries: failed to read values");
+        FSLIOERR("FslReadSliceSeries: failed to read values");
      if (fslio->niftiptr->byteorder != nifti_short_order())
-  nifti_swap_Nbytes(slbytes / fslio->niftiptr->swapsize,
+        nifti_swap_Nbytes(slbytes / fslio->niftiptr->swapsize,
                           fslio->niftiptr->swapsize, (char *)buffer+n*slbytes);
      }
     
@@ -1021,15 +1021,15 @@ size_t FslReadSliceSeries(FSLIO *fslio, void *buffer, short slice, size_t nvols)
 /*! \fn size_t FslReadRowSeries(FSLIO *fslio, void *buffer, short row, short slice, size_t nvols)
     \brief Read one row from one slice for first nvols volumes in dataset; ie get an xt buffer.
 
-  Dimension and datatype of buffer are as is specified in nifti_image structure
-  fslio->niftiptr.
-  Note: filepointer in file data array is restored to its initial position.
-  
-    \param fslio   pointer to open dataset
-    \param buffer  buffer to hold one row from each volume.
-    \param row    row number (0 based) to read [0 y-1]
-    \param slice  slice number (0 based) to read
-    \param nvols  number of volumes to read a row from 
+        Dimension and datatype of buffer are as is specified in nifti_image structure
+        fslio->niftiptr.
+        Note: filepointer in file data array is restored to its initial position.
+        
+    \param fslio        pointer to open dataset
+    \param buffer       buffer to hold one row from each volume.
+    \param row          row number (0 based) to read [0 y-1]
+    \param slice        slice number (0 based) to read
+    \param nvols        number of volumes to read a row from 
     \return Number of volumes from which a row was successfully read. 0 on error.
  */
 size_t FslReadRowSeries(FSLIO *fslio, void *buffer, short row, short slice, size_t nvols)
@@ -1056,9 +1056,9 @@ size_t FslReadRowSeries(FSLIO *fslio, void *buffer, short row, short slice, size
     for (n=0; n<nvols; n++){
       if (n>0) znzseek(fslio->fileptr, volbytes - rowbytes, SEEK_CUR);
       if (znzread((char *)buffer+n*rowbytes, 1, rowbytes, fslio->fileptr) != rowbytes)
-  FSLIOERR("FslReadRowSeries: failed to read values");
+        FSLIOERR("FslReadRowSeries: failed to read values");
       if (fslio->niftiptr->byteorder != nifti_short_order())
-  nifti_swap_Nbytes(rowbytes / fslio->niftiptr->swapsize,
+        nifti_swap_Nbytes(rowbytes / fslio->niftiptr->swapsize,
                           fslio->niftiptr->swapsize, (char *)buffer+n*rowbytes);
     }
     
@@ -1079,20 +1079,20 @@ size_t FslReadRowSeries(FSLIO *fslio, void *buffer, short row, short slice, size
 /*! \fn size_t FslReadTimeSeries(FSLIO *fslio, void *buffer, short xVox, short yVox, short zVox, size_t nvols)
     \brief Read one voxel (xyz location) from first nvols volumes in dataset; ie get a t  dim buffer.
 
-  Dimension and datatype of buffer are as is specified in nifti_image structure
-  fslio->niftiptr.
-  Note: filepointer in file data array is restored to its initial position.
-  
-    \param fslio   pointer to open dataset
-    \param buffer  buffer to hold one timeseries vector
-    \param xVox    x voxel [0 x-1]
-    \param yVox    y voxel [0 y-1]
-    \param zVox    z voxel [0 z-1]
-    \param nvols  number of volumes to read a voxel from
+        Dimension and datatype of buffer are as is specified in nifti_image structure
+        fslio->niftiptr.
+        Note: filepointer in file data array is restored to its initial position.
+        
+    \param fslio        pointer to open dataset
+    \param buffer       buffer to hold one timeseries vector
+    \param xVox         x voxel [0 x-1]
+    \param yVox         y voxel [0 y-1]
+    \param zVox         z voxel [0 z-1]
+    \param nvols        number of volumes to read a voxel from
     \return Number of volumes from which a voxel was successfully read. 0 on error.
  */
 size_t FslReadTimeSeries(FSLIO *fslio, void *buffer, short xVox, short yVox, short zVox, 
-       size_t nvols)
+                         size_t nvols)
 {
   size_t volbytes, offset, orig_offset;
   size_t n;
@@ -1117,9 +1117,9 @@ size_t FslReadTimeSeries(FSLIO *fslio, void *buffer, short xVox, short yVox, sho
     for (n=0; n<nvols; n++) {
       if (n>0) znzseek(fslio->fileptr, volbytes - wordsize, SEEK_CUR);
       if (znzread((char *)buffer+(n*wordsize), 1, wordsize,fslio->fileptr) != wordsize)
-  FSLIOERR("FslReadTimeSeries: failed to read values"); 
+        FSLIOERR("FslReadTimeSeries: failed to read values"); 
       if (fslio->niftiptr->byteorder != nifti_short_order())
-  nifti_swap_Nbytes(1,fslio->niftiptr->swapsize,
+        nifti_swap_Nbytes(1,fslio->niftiptr->swapsize,
                           (char *)buffer+(n*wordsize));
     }
     
@@ -1402,11 +1402,11 @@ void FslSetTimeUnits(FSLIO *fslio, const char *units)
     } else if (strcmp(units,nifti_units_string(NIFTI_UNITS_SEC))==0) {
       unitcode = NIFTI_UNITS_SEC;
     } else if (strcmp(units,nifti_units_string(NIFTI_UNITS_MSEC))==0) {
-  fprintf(stderr,"Warning::Setting time units to msec is not fully recommended in fslio\n");
-  unitcode = NIFTI_UNITS_MSEC;
+        fprintf(stderr,"Warning::Setting time units to msec is not fully recommended in fslio\n");
+        unitcode = NIFTI_UNITS_MSEC;
     } else if (strcmp(units,nifti_units_string(NIFTI_UNITS_USEC))==0) {
-  fprintf(stderr,"Warning::Setting time units to msec is not fully recommended in fslio\n");
-  unitcode = NIFTI_UNITS_USEC;
+        fprintf(stderr,"Warning::Setting time units to msec is not fully recommended in fslio\n");
+        unitcode = NIFTI_UNITS_USEC;
     }
     fslio->niftiptr->time_units = unitcode;
   }
@@ -1459,29 +1459,29 @@ size_t FslGetDataType(FSLIO *fslio, short *t)
 
 
 void FslGetMMCoord(mat44 stdmat, float voxx, float voxy, float voxz, 
-       float *mmx, float *mmy, float *mmz) 
+                   float *mmx, float *mmy, float *mmz) 
 {
     *mmx = stdmat.m[0][0] * voxx + stdmat.m[0][1] * voxy + stdmat.m[0][2] * voxz 
-  + stdmat.m[0][3];
+        + stdmat.m[0][3];
     *mmy = stdmat.m[1][0] * voxx + stdmat.m[1][1] * voxy + stdmat.m[1][2] * voxz 
-  + stdmat.m[1][3];
+        + stdmat.m[1][3];
     *mmz = stdmat.m[2][0] * voxx + stdmat.m[2][1] * voxy + stdmat.m[2][2] * voxz 
-  + stdmat.m[2][3];
+        + stdmat.m[2][3];
 }
 
 
 void FslGetVoxCoord(mat44 stdmat, float mmx, float mmy, float mmz, 
-       float *voxx, float *voxy, float *voxz) 
+                   float *voxx, float *voxy, float *voxz) 
 {
   mat44 mm2vox;
 
   mm2vox = nifti_mat44_inverse(stdmat);
     *voxx = mm2vox.m[0][0] * mmx + mm2vox.m[0][1] * mmy + mm2vox.m[0][2] * mmz 
-  + mm2vox.m[0][3];
+        + mm2vox.m[0][3];
     *voxy = mm2vox.m[1][0] * mmx + mm2vox.m[1][1] * mmy + mm2vox.m[1][2] * mmz 
-  + mm2vox.m[1][3];
+        + mm2vox.m[1][3];
     *voxz = mm2vox.m[2][0] * mmx + mm2vox.m[2][1] * mmy + mm2vox.m[2][2] * mmz 
-  + mm2vox.m[2][3];
+        + mm2vox.m[2][3];
 }
 
 
@@ -1521,47 +1521,47 @@ short FslGetStdXform(FSLIO *fslio, mat44 *stdmat)
     float dx,dy,dz,tr;
     if (fslio==NULL)  FSLIOERR("FslGetStdXform: Null pointer passed for FSLIO");
     if (fslio->niftiptr!=NULL) {
-  stdmat->m[0][0] = fslio->niftiptr->sto_xyz.m[0][0];
-  stdmat->m[0][1] = fslio->niftiptr->sto_xyz.m[0][1];
-  stdmat->m[0][2] = fslio->niftiptr->sto_xyz.m[0][2];
-  stdmat->m[0][3] = fslio->niftiptr->sto_xyz.m[0][3];
-  stdmat->m[1][0] = fslio->niftiptr->sto_xyz.m[1][0];
-  stdmat->m[1][1] = fslio->niftiptr->sto_xyz.m[1][1];
-  stdmat->m[1][2] = fslio->niftiptr->sto_xyz.m[1][2];
-  stdmat->m[1][3] = fslio->niftiptr->sto_xyz.m[1][3];
-  stdmat->m[2][0] = fslio->niftiptr->sto_xyz.m[2][0];
-  stdmat->m[2][1] = fslio->niftiptr->sto_xyz.m[2][1];
-  stdmat->m[2][2] = fslio->niftiptr->sto_xyz.m[2][2];
-  stdmat->m[2][3] = fslio->niftiptr->sto_xyz.m[2][3];
-  stdmat->m[3][0] = 0.0;
-  stdmat->m[3][1] = 0.0;
-  stdmat->m[3][2] = 0.0;
-  stdmat->m[3][3] = 1.0;
-  
-  /* the code below gives a default but it really should never be used */
+        stdmat->m[0][0] = fslio->niftiptr->sto_xyz.m[0][0];
+        stdmat->m[0][1] = fslio->niftiptr->sto_xyz.m[0][1];
+        stdmat->m[0][2] = fslio->niftiptr->sto_xyz.m[0][2];
+        stdmat->m[0][3] = fslio->niftiptr->sto_xyz.m[0][3];
+        stdmat->m[1][0] = fslio->niftiptr->sto_xyz.m[1][0];
+        stdmat->m[1][1] = fslio->niftiptr->sto_xyz.m[1][1];
+        stdmat->m[1][2] = fslio->niftiptr->sto_xyz.m[1][2];
+        stdmat->m[1][3] = fslio->niftiptr->sto_xyz.m[1][3];
+        stdmat->m[2][0] = fslio->niftiptr->sto_xyz.m[2][0];
+        stdmat->m[2][1] = fslio->niftiptr->sto_xyz.m[2][1];
+        stdmat->m[2][2] = fslio->niftiptr->sto_xyz.m[2][2];
+        stdmat->m[2][3] = fslio->niftiptr->sto_xyz.m[2][3];
+        stdmat->m[3][0] = 0.0;
+        stdmat->m[3][1] = 0.0;
+        stdmat->m[3][2] = 0.0;
+        stdmat->m[3][3] = 1.0;
+        
+        /* the code below gives a default but it really should never be used */
         if (fslio->niftiptr->sform_code == NIFTI_XFORM_UNKNOWN) {
-      FslGetVoxDim(fslio,&dx,&dy,&dz,&tr);
-      stdmat->m[0][0] = -dx;  /* default Radiological convention */
-      stdmat->m[0][1] = 0;
-      stdmat->m[0][2] = 0;
-      stdmat->m[0][3] = 0;
-      stdmat->m[1][0] = 0;
-      stdmat->m[1][1] = dy;
-      stdmat->m[1][2] = 0;
-      stdmat->m[1][3] = 0;
-      stdmat->m[2][0] = 0;
-      stdmat->m[2][1] = 0;
-      stdmat->m[2][2] = dz;
-      stdmat->m[2][3] = 0;
-      stdmat->m[3][0] = 0.0;
-      stdmat->m[3][1] = 0.0;
-      stdmat->m[3][2] = 0.0;
-      stdmat->m[3][3] = 1.0;
-  }
-  return fslio->niftiptr->sform_code;
+            FslGetVoxDim(fslio,&dx,&dy,&dz,&tr);
+            stdmat->m[0][0] = -dx;  /* default Radiological convention */
+            stdmat->m[0][1] = 0;
+            stdmat->m[0][2] = 0;
+            stdmat->m[0][3] = 0;
+            stdmat->m[1][0] = 0;
+            stdmat->m[1][1] = dy;
+            stdmat->m[1][2] = 0;
+            stdmat->m[1][3] = 0;
+            stdmat->m[2][0] = 0;
+            stdmat->m[2][1] = 0;
+            stdmat->m[2][2] = dz;
+            stdmat->m[2][3] = 0;
+            stdmat->m[3][0] = 0.0;
+            stdmat->m[3][1] = 0.0;
+            stdmat->m[3][2] = 0.0;
+            stdmat->m[3][3] = 1.0;
+        }
+        return fslio->niftiptr->sform_code;
     }
     if (fslio->mincptr!=NULL) {
-  fprintf(stderr,"Warning:: Minc is not yet supported\n");
+        fprintf(stderr,"Warning:: Minc is not yet supported\n");
     }
     return NIFTI_XFORM_UNKNOWN;
 }
@@ -1610,46 +1610,46 @@ short FslGetRigidXform(FSLIO *fslio, mat44 *rigidmat)
     float dx,dy,dz,tr;
     if (fslio==NULL)  FSLIOERR("FslGetRigidXform: Null pointer passed for FSLIO");
     if (fslio->niftiptr!=NULL) {
-  rigidmat->m[0][0] = fslio->niftiptr->qto_xyz.m[0][0];
-  rigidmat->m[0][1] = fslio->niftiptr->qto_xyz.m[0][1];
-  rigidmat->m[0][2] = fslio->niftiptr->qto_xyz.m[0][2];
-  rigidmat->m[0][3] = fslio->niftiptr->qto_xyz.m[0][3];
-  rigidmat->m[1][0] = fslio->niftiptr->qto_xyz.m[1][0];
-  rigidmat->m[1][1] = fslio->niftiptr->qto_xyz.m[1][1];
-  rigidmat->m[1][2] = fslio->niftiptr->qto_xyz.m[1][2];
-  rigidmat->m[1][3] = fslio->niftiptr->qto_xyz.m[1][3];
-  rigidmat->m[2][0] = fslio->niftiptr->qto_xyz.m[2][0];
-  rigidmat->m[2][1] = fslio->niftiptr->qto_xyz.m[2][1];
-  rigidmat->m[2][2] = fslio->niftiptr->qto_xyz.m[2][2];
-  rigidmat->m[2][3] = fslio->niftiptr->qto_xyz.m[2][3];
-  rigidmat->m[3][0] = 0.0;
-  rigidmat->m[3][1] = 0.0;
-  rigidmat->m[3][2] = 0.0;
-  rigidmat->m[3][3] = 1.0;
-  
-  /* the code gives a default but it should never really be used */
+        rigidmat->m[0][0] = fslio->niftiptr->qto_xyz.m[0][0];
+        rigidmat->m[0][1] = fslio->niftiptr->qto_xyz.m[0][1];
+        rigidmat->m[0][2] = fslio->niftiptr->qto_xyz.m[0][2];
+        rigidmat->m[0][3] = fslio->niftiptr->qto_xyz.m[0][3];
+        rigidmat->m[1][0] = fslio->niftiptr->qto_xyz.m[1][0];
+        rigidmat->m[1][1] = fslio->niftiptr->qto_xyz.m[1][1];
+        rigidmat->m[1][2] = fslio->niftiptr->qto_xyz.m[1][2];
+        rigidmat->m[1][3] = fslio->niftiptr->qto_xyz.m[1][3];
+        rigidmat->m[2][0] = fslio->niftiptr->qto_xyz.m[2][0];
+        rigidmat->m[2][1] = fslio->niftiptr->qto_xyz.m[2][1];
+        rigidmat->m[2][2] = fslio->niftiptr->qto_xyz.m[2][2];
+        rigidmat->m[2][3] = fslio->niftiptr->qto_xyz.m[2][3];
+        rigidmat->m[3][0] = 0.0;
+        rigidmat->m[3][1] = 0.0;
+        rigidmat->m[3][2] = 0.0;
+        rigidmat->m[3][3] = 1.0;
+        
+        /* the code gives a default but it should never really be used */
         if (fslio->niftiptr->sform_code == NIFTI_XFORM_UNKNOWN) {
-    FslGetVoxDim(fslio,&dx,&dy,&dz,&tr);
-    rigidmat->m[0][0] = dx;
-    rigidmat->m[0][1] = 0;
-    rigidmat->m[0][2] = 0;
-    rigidmat->m[0][3] = 0;
-    rigidmat->m[1][0] = 0;
-    rigidmat->m[1][1] = dy;
-    rigidmat->m[1][2] = 0;
-    rigidmat->m[1][3] = 0;
-    rigidmat->m[2][0] = 0;
-    rigidmat->m[2][1] = 0;
-    rigidmat->m[2][2] = dz;
-    rigidmat->m[3][0] = 0.0;
-    rigidmat->m[3][1] = 0.0;
-    rigidmat->m[3][2] = 0.0;
-    rigidmat->m[3][3] = 1.0;
-  }
-  return fslio->niftiptr->qform_code;
+          FslGetVoxDim(fslio,&dx,&dy,&dz,&tr);
+          rigidmat->m[0][0] = dx;
+          rigidmat->m[0][1] = 0;
+          rigidmat->m[0][2] = 0;
+          rigidmat->m[0][3] = 0;
+          rigidmat->m[1][0] = 0;
+          rigidmat->m[1][1] = dy;
+          rigidmat->m[1][2] = 0;
+          rigidmat->m[1][3] = 0;
+          rigidmat->m[2][0] = 0;
+          rigidmat->m[2][1] = 0;
+          rigidmat->m[2][2] = dz;
+          rigidmat->m[3][0] = 0.0;
+          rigidmat->m[3][1] = 0.0;
+          rigidmat->m[3][2] = 0.0;
+          rigidmat->m[3][3] = 1.0;
+        }
+        return fslio->niftiptr->qform_code;
     }
     if (fslio->mincptr!=NULL) {
-  fprintf(stderr,"Warning:: Minc is not yet supported\n");
+        fprintf(stderr,"Warning:: Minc is not yet supported\n");
     }
     return NIFTI_XFORM_UNKNOWN;
 }
@@ -1671,7 +1671,7 @@ void FslSetIntent(FSLIO *fslio, short intent_code, float p1, float p2, float p3)
 
 
 short FslGetIntent(FSLIO *fslio, short *intent_code, float *p1, float *p2,
-       float *p3)
+                   float *p3)
 {
   /* also returns intent code */
   if (fslio==NULL)  FSLIOERR("FslGetIntent: Null pointer passed for FSLIO");
@@ -1774,7 +1774,7 @@ int FslGetLeftRightOrder(FSLIO *fslio)
 
 
 void FslSetAnalyzeSform(FSLIO *fslio, const short *orig,
-      float dx, float dy, float dz)
+                        float dx, float dy, float dz)
 {
   /* Creates an sform matrix for an Analyze file */
   /* THIS ALWAYS CREATES A RADIOLOGICAL ORDERED SFORM */
@@ -1790,62 +1790,62 @@ void FslSetAnalyzeSform(FSLIO *fslio, const short *orig,
        be done via the FslSetStdCoord call */
     if ((orig[0]!=0) || (orig[1]!=0) || (orig[2]!=0))
       {
-  short origx=0, origy=0, origz=0;
-  if ((orig[0]!=0) || (orig[1]!=0) || (orig[2]!=0)) {
-    /* convert to nifti conventions (start at 0 not 1) */
-    origx = orig[0] - 1;
-    origy = orig[1] - 1;
-    origz = orig[2] - 1;
-  }
-  if ( dx * dy * dz > 0 ) {
-    /* change neurological convention to radiological if necessary */
-    dx = -dx;
-  }
-  if ( (FslBaseFileType(FslGetFileType(fslio))==FSL_TYPE_ANALYZE) 
-       || (fslio->niftiptr->sform_code == NIFTI_XFORM_UNKNOWN) ) {
-    /* make a default transform with the requested origin at xyz=000 */ 
-    fslio->niftiptr->sform_code = NIFTI_XFORM_ALIGNED_ANAT;
-    fslio->niftiptr->sto_xyz.m[0][0] = dx;
-    fslio->niftiptr->sto_xyz.m[0][1] = 0;
-    fslio->niftiptr->sto_xyz.m[0][2] = 0;
-    fslio->niftiptr->sto_xyz.m[0][3] = -(origx)*(dx);
-    fslio->niftiptr->sto_xyz.m[1][0] = 0;
-    fslio->niftiptr->sto_xyz.m[1][1] = dy;
-    fslio->niftiptr->sto_xyz.m[1][2] = 0;
-    fslio->niftiptr->sto_xyz.m[1][3] = -(origy)*(dy);
-    fslio->niftiptr->sto_xyz.m[2][0] = 0;
-    fslio->niftiptr->sto_xyz.m[2][1] = 0;
-    fslio->niftiptr->sto_xyz.m[2][2] = dz;
-    fslio->niftiptr->sto_xyz.m[2][3] = -(origz)*(dz);
-    fslio->niftiptr->sto_xyz.m[3][0] = 0;
-    fslio->niftiptr->sto_xyz.m[3][1] = 0;
-    fslio->niftiptr->sto_xyz.m[3][2] = 0;
-    fslio->niftiptr->sto_xyz.m[3][3] = 1;
-    fslio->niftiptr->sto_ijk =
+        short origx=0, origy=0, origz=0;
+        if ((orig[0]!=0) || (orig[1]!=0) || (orig[2]!=0)) {
+          /* convert to nifti conventions (start at 0 not 1) */
+          origx = orig[0] - 1;
+          origy = orig[1] - 1;
+          origz = orig[2] - 1;
+        }
+        if ( dx * dy * dz > 0 ) {
+          /* change neurological convention to radiological if necessary */
+          dx = -dx;
+        }
+        if ( (FslBaseFileType(FslGetFileType(fslio))==FSL_TYPE_ANALYZE) 
+             || (fslio->niftiptr->sform_code == NIFTI_XFORM_UNKNOWN) ) {
+          /* make a default transform with the requested origin at xyz=000 */ 
+          fslio->niftiptr->sform_code = NIFTI_XFORM_ALIGNED_ANAT;
+          fslio->niftiptr->sto_xyz.m[0][0] = dx;
+          fslio->niftiptr->sto_xyz.m[0][1] = 0;
+          fslio->niftiptr->sto_xyz.m[0][2] = 0;
+          fslio->niftiptr->sto_xyz.m[0][3] = -(origx)*(dx);
+          fslio->niftiptr->sto_xyz.m[1][0] = 0;
+          fslio->niftiptr->sto_xyz.m[1][1] = dy;
+          fslio->niftiptr->sto_xyz.m[1][2] = 0;
+          fslio->niftiptr->sto_xyz.m[1][3] = -(origy)*(dy);
+          fslio->niftiptr->sto_xyz.m[2][0] = 0;
+          fslio->niftiptr->sto_xyz.m[2][1] = 0;
+          fslio->niftiptr->sto_xyz.m[2][2] = dz;
+          fslio->niftiptr->sto_xyz.m[2][3] = -(origz)*(dz);
+          fslio->niftiptr->sto_xyz.m[3][0] = 0;
+          fslio->niftiptr->sto_xyz.m[3][1] = 0;
+          fslio->niftiptr->sto_xyz.m[3][2] = 0;
+          fslio->niftiptr->sto_xyz.m[3][3] = 1;
+          fslio->niftiptr->sto_ijk =
                  nifti_mat44_inverse(fslio->niftiptr->sto_xyz);
-  } else {
-    /* update the existing origin */
-    /* find out what the existing xyz of the requested origin is */
-    x = fslio->niftiptr->sto_xyz.m[0][0] * origx
-      + fslio->niftiptr->sto_xyz.m[0][1] * origy
-      + fslio->niftiptr->sto_xyz.m[0][2] * origz
-      + fslio->niftiptr->sto_xyz.m[0][3];
-    y = fslio->niftiptr->sto_xyz.m[1][0] * origx
-      + fslio->niftiptr->sto_xyz.m[1][1] * origy
-      + fslio->niftiptr->sto_xyz.m[1][2] * origz
-      + fslio->niftiptr->sto_xyz.m[1][3];
-    z = fslio->niftiptr->sto_xyz.m[2][0] * origx
-      + fslio->niftiptr->sto_xyz.m[2][1] * origy
-      + fslio->niftiptr->sto_xyz.m[2][2] * origz
-      + fslio->niftiptr->sto_xyz.m[2][3];
-    /* subtract off whatever is currently the xyz of the origin */
-    fslio->niftiptr->sto_xyz.m[0][3] -= x;
-    fslio->niftiptr->sto_xyz.m[1][3] -= y;
-    fslio->niftiptr->sto_xyz.m[2][3] -= z;
-    fslio->niftiptr->sto_ijk =
+        } else {
+          /* update the existing origin */
+          /* find out what the existing xyz of the requested origin is */
+          x = fslio->niftiptr->sto_xyz.m[0][0] * origx
+            + fslio->niftiptr->sto_xyz.m[0][1] * origy
+            + fslio->niftiptr->sto_xyz.m[0][2] * origz
+            + fslio->niftiptr->sto_xyz.m[0][3];
+          y = fslio->niftiptr->sto_xyz.m[1][0] * origx
+            + fslio->niftiptr->sto_xyz.m[1][1] * origy
+            + fslio->niftiptr->sto_xyz.m[1][2] * origz
+            + fslio->niftiptr->sto_xyz.m[1][3];
+          z = fslio->niftiptr->sto_xyz.m[2][0] * origx
+            + fslio->niftiptr->sto_xyz.m[2][1] * origy
+            + fslio->niftiptr->sto_xyz.m[2][2] * origz
+            + fslio->niftiptr->sto_xyz.m[2][3];
+          /* subtract off whatever is currently the xyz of the origin */
+          fslio->niftiptr->sto_xyz.m[0][3] -= x;
+          fslio->niftiptr->sto_xyz.m[1][3] -= y;
+          fslio->niftiptr->sto_xyz.m[2][3] -= z;
+          fslio->niftiptr->sto_ijk =
                  nifti_mat44_inverse(fslio->niftiptr->sto_xyz);
-  }
-  
+        }
+        
       }
     
   }
@@ -1868,15 +1868,15 @@ void FslGetAnalyzeOrigin(FSLIO *fslio, short orig[5])
       orig[4]=0;
 
       if (fslio->niftiptr->qform_code != NIFTI_XFORM_UNKNOWN) {
-  orig[0]=(short) fslio->niftiptr->qto_ijk.m[0][3] + 1;
-  orig[1]=(short) fslio->niftiptr->qto_ijk.m[1][3] + 1;
-  orig[2]=(short) fslio->niftiptr->qto_ijk.m[2][3] + 1;
+        orig[0]=(short) fslio->niftiptr->qto_ijk.m[0][3] + 1;
+        orig[1]=(short) fslio->niftiptr->qto_ijk.m[1][3] + 1;
+        orig[2]=(short) fslio->niftiptr->qto_ijk.m[2][3] + 1;
       } 
 
       if (fslio->niftiptr->sform_code != NIFTI_XFORM_UNKNOWN) {
-  orig[0]=(short) fslio->niftiptr->sto_ijk.m[0][3] + 1;
-  orig[1]=(short) fslio->niftiptr->sto_ijk.m[1][3] + 1;
-  orig[2]=(short) fslio->niftiptr->sto_ijk.m[2][3] + 1;
+        orig[0]=(short) fslio->niftiptr->sto_ijk.m[0][3] + 1;
+        orig[1]=(short) fslio->niftiptr->sto_ijk.m[1][3] + 1;
+        orig[2]=(short) fslio->niftiptr->sto_ijk.m[2][3] + 1;
       } 
   }
   if (fslio->mincptr!=NULL) {
@@ -1891,9 +1891,9 @@ void FslGetAnalyzeOrigin(FSLIO *fslio, short orig[5])
  ***************************************************************/
 /*! \fn int FslClose(FSLIO *fslio)
     \brief  Write header and image data if this dataset was open for
-  writing.  Close the dataset header and data files.
+        writing.  Close the dataset header and data files.
 
-  
+        
     \param fslio  pointer to FSLIO data structure
     \return  -1 on error, 0 OK ???.
  */
@@ -1925,12 +1925,12 @@ int FslClose(FSLIO *fslio)
     } else {
       /* for single files it is more complicated */
       if (!FslIsCompressedFileType(filetype)) {
-  /* noncompressed -> reopen this file in r+ mode and write the header part again */
-  nifti_image_write_hdr_img(fslio->niftiptr,0,"r+b");
+        /* noncompressed -> reopen this file in r+ mode and write the header part again */
+        nifti_image_write_hdr_img(fslio->niftiptr,0,"r+b");
       } else {
-  /* compressed mode -> not possible! */
-  fprintf(stderr,"Error:: header must be written before writing any other data.\n");
-  return -1;
+        /* compressed mode -> not possible! */
+        fprintf(stderr,"Error:: header must be written before writing any other data.\n");
+        return -1;
       }
     }
   }
@@ -1963,9 +1963,9 @@ int FslClose(FSLIO *fslio)
     /* swap back byte order and write out */
     if (fslio->niftiptr->byteorder != nifti_short_order()) {AvwSwapHeader(hdr);}
     hptr = znzopen(fslio->niftiptr->fname,"wb",FslIsCompressedFileType(FslGetFileType(fslio)));
-    if (znz_isnull(hptr)) {   
+    if (znz_isnull(hptr)) {     
       fprintf(stderr,"Error:: Could not write origin data to header file %s.\n",
-        fslio->niftiptr->fname);
+              fslio->niftiptr->fname);
       return -1;
     };
     
@@ -1988,25 +1988,25 @@ void AvwSwapHeader(struct dsr *avw)
   char *ptr;
 
   ptr = (char *) &(avw->hk);
-  nifti_swap_4bytes(1,ptr);    /* sizeof_hdr */
+  nifti_swap_4bytes(1,ptr);             /* sizeof_hdr */
   ptr += 32;
-  nifti_swap_4bytes(1,ptr);    /* extents */
+  nifti_swap_4bytes(1,ptr);             /* extents */
   ptr += 4;
-  nifti_swap_2bytes(1,ptr);    /* session_error */
+  nifti_swap_2bytes(1,ptr);             /* session_error */
   
   ptr = (char *) &(avw->dime);
-  nifti_swap_2bytes(8,ptr);    /* dims */
+  nifti_swap_2bytes(8,ptr);             /* dims */
   ptr += 28;
-  nifti_swap_2bytes(4,ptr);    /* unused1, datatype, bitpix, dim_un0 */
+  nifti_swap_2bytes(4,ptr);             /* unused1, datatype, bitpix, dim_un0 */
   ptr += 8;
-  nifti_swap_4bytes(18,ptr);    /* pixdim, vox_offset, ... */
-                 /* cal_min, compressed, ... glmin */
+  nifti_swap_4bytes(18,ptr);            /* pixdim, vox_offset, ... */
+                                        /* cal_min, compressed, ... glmin */
 
   ptr = (char *) &(avw->hist);
   ptr += 105;
-  nifti_swap_2bytes(5,ptr);    /* originator (used to store origin) */
+  nifti_swap_2bytes(5,ptr);             /* originator (used to store origin) */
   ptr += 63;
-  nifti_swap_4bytes(8,ptr);    /* views, ... smin */
+  nifti_swap_4bytes(8,ptr);             /* views, ... smin */
 }
 
 
@@ -2059,8 +2059,8 @@ int FslGetIgnoreMFQ()
  ***************************************************************/
 /*! \fn FSLIO * FslReadHeader(char *fname)
     \brief Reads nifti/anz header, no data is read
-  
-    \param fname   filename specification (could be .img,.hdr,.nii, or no ext
+        
+    \param fname        filename specification (could be .img,.hdr,.nii, or no ext
     \return FSLIO data structure with the nifti_image structure fields filled 
             as per fname header.
             NULL on error 
@@ -2080,8 +2080,8 @@ FSLIO * FslReadHeader(char *fname)
   fslio->niftiptr = nifti_image_read(hdrname, 0);
 
   if (fslio->niftiptr == NULL) {
-    FSLIOERR("FslReadHeader: error reading header information");
-  return(NULL);
+        FSLIOERR("FslReadHeader: error reading header information");
+        return(NULL);
   }
 
   fslio->file_mode = FslGetReadFileType(fslio);
@@ -2096,9 +2096,9 @@ FSLIO * FslReadHeader(char *fname)
 /*! \fn double *** FslGetVolumeAsScaledDouble(FSLIO *fslio, int vol)
     \brief Return volume #vol (0-based) as a 3D array of scaled doubles. 
 
-  Volume Array is indexed as [0..zdim-1][0..ydim-1][0..xdim-1].  
-  <br>The array will be byteswapped to native-endian.
-  <br>Array values are scaled as per fslio header slope and intercept fields.
+        Volume Array is indexed as [0..zdim-1][0..ydim-1][0..xdim-1].  
+        <br>The array will be byteswapped to native-endian.
+        <br>Array values are scaled as per fslio header slope and intercept fields.
 
     \param fslio pointer to open dataset
     \param vol volume number to read (legal range [0..tdim-1])
@@ -2117,23 +2117,23 @@ double ***FslGetVolumeAsScaledDouble(FSLIO *fslio, int vol)
   if (fslio==NULL)  FSLIOERR("FslGetVolumeAsScaledDouble: Null pointer passed for FSLIO");
 
   if ((fslio->niftiptr->dim[0] < 3) || (fslio->niftiptr->dim[0] > 4))
-  FSLIOERR("FslGetVolumeAsScaledDouble: Incorrect dataset dimension, 3D-4D needed");
+        FSLIOERR("FslGetVolumeAsScaledDouble: Incorrect dataset dimension, 3D-4D needed");
 
   /***** nifti dataset */
   if (fslio->niftiptr!=NULL) {
-  xx = (fslio->niftiptr->nx == 0 ? 1 : (long)fslio->niftiptr->nx);
-  yy = (fslio->niftiptr->ny == 0 ? 1 : (long)fslio->niftiptr->ny);
-  zz = (fslio->niftiptr->nz == 0 ? 1 : (long)fslio->niftiptr->nz);
+        xx = (fslio->niftiptr->nx == 0 ? 1 : (long)fslio->niftiptr->nx);
+        yy = (fslio->niftiptr->ny == 0 ? 1 : (long)fslio->niftiptr->ny);
+        zz = (fslio->niftiptr->nz == 0 ? 1 : (long)fslio->niftiptr->nz);
 
-  if (fslio->niftiptr->scl_slope == 0) {
-    slope = 1.0;
-    inter = 0.0;
-  }
-  else {
-    slope = fslio->niftiptr->scl_slope;
-    inter = fslio->niftiptr->scl_inter;
-  }
-  
+        if (fslio->niftiptr->scl_slope == 0) {
+                slope = 1.0;
+                inter = 0.0;
+        }
+        else {
+                slope = fslio->niftiptr->scl_slope;
+                inter = fslio->niftiptr->scl_inter;
+        }
+        
 
     /** allocate new 3D buffer */
     newbuf = d3matrix(zz-1,yy-1,xx-1);
@@ -2142,14 +2142,14 @@ double ***FslGetVolumeAsScaledDouble(FSLIO *fslio, int vol)
     /** read in the data in disk format */
     dims_to_get[0] = 0;
     for (i=1; i<8; i++)
-  dims_to_get[i] = -1;
+        dims_to_get[i] = -1;
     dims_to_get[4] = vol;
 
 
     diskbuf = NULL;
     ret = nifti_read_collapsed_image(fslio->niftiptr, dims_to_get, &diskbuf );
     if (ret <= 0) {
-      fprintf(stderr,"ERROR:: read of disk buffer for volume %d from %s failed.\n",vol,fslio->niftiptr->iname);
+        fprintf(stderr,"ERROR:: read of disk buffer for volume %d from %s failed.\n",vol,fslio->niftiptr->iname);
         return(NULL);
     }
 
@@ -2158,7 +2158,7 @@ double ***FslGetVolumeAsScaledDouble(FSLIO *fslio, int vol)
     ret = convertBufferToScaledDouble(newbuf[0][0], diskbuf, (long)(xx*yy*zz), slope, inter, fslio->niftiptr->datatype);
 
     if (ret == 0)
-    return(newbuf);
+        return(newbuf);
     else
         return(NULL);
 
@@ -2180,11 +2180,11 @@ double ***FslGetVolumeAsScaledDouble(FSLIO *fslio, int vol)
  ***************************************************************/
 /*! \fn double **** FslGetBufferAsScaledDouble(FSLIO *fslio)
     \brief Return the fslio data buffer of a 1-4D dataset as a 4D array of 
-  scaled doubles. 
+        scaled doubles. 
 
-  Array is indexed as buf[0..tdim-1][0..zdim-1][0..ydim-1][0..xdim-1].  
-  <br>The array will be byteswapped to native-endian.
-  <br>Array values are scaled as per fslio header slope and intercept fields.
+        Array is indexed as buf[0..tdim-1][0..zdim-1][0..ydim-1][0..xdim-1].  
+        <br>The array will be byteswapped to native-endian.
+        <br>Array values are scaled as per fslio header slope and intercept fields.
 
     \param fslio pointer to open dataset
     \return Pointer to 4D double array, NULL on error
@@ -2199,24 +2199,24 @@ double ****FslGetBufferAsScaledDouble(FSLIO *fslio)
   if (fslio==NULL)  FSLIOERR("FslGetBufferAsScaledDouble: Null pointer passed for FSLIO");
 
   if ((fslio->niftiptr->dim[0] <= 0) || (fslio->niftiptr->dim[0] > 4))
-  FSLIOERR("FslGetBufferAsScaledDouble: Incorrect dataset dimension, 1-4D needed");
+        FSLIOERR("FslGetBufferAsScaledDouble: Incorrect dataset dimension, 1-4D needed");
 
   /***** nifti dataset */
   if (fslio->niftiptr!=NULL) {
-  xx = (fslio->niftiptr->nx == 0 ? 1 : (long)fslio->niftiptr->nx);
-  yy = (fslio->niftiptr->ny == 0 ? 1 : (long)fslio->niftiptr->ny);
-  zz = (fslio->niftiptr->nz == 0 ? 1 : (long)fslio->niftiptr->nz);
-  tt = (fslio->niftiptr->nt == 0 ? 1 : (long)fslio->niftiptr->nt);
+        xx = (fslio->niftiptr->nx == 0 ? 1 : (long)fslio->niftiptr->nx);
+        yy = (fslio->niftiptr->ny == 0 ? 1 : (long)fslio->niftiptr->ny);
+        zz = (fslio->niftiptr->nz == 0 ? 1 : (long)fslio->niftiptr->nz);
+        tt = (fslio->niftiptr->nt == 0 ? 1 : (long)fslio->niftiptr->nt);
 
-  if (fslio->niftiptr->scl_slope == 0) {
-    slope = 1.0;
-    inter = 0.0;
-  }
-  else {
-    slope = fslio->niftiptr->scl_slope;
-    inter = fslio->niftiptr->scl_inter;
-  }
-  
+        if (fslio->niftiptr->scl_slope == 0) {
+                slope = 1.0;
+                inter = 0.0;
+        }
+        else {
+                slope = fslio->niftiptr->scl_slope;
+                inter = fslio->niftiptr->scl_inter;
+        }
+        
 
     /** allocate new 4D buffer */
     newbuf = d4matrix(tt-1,zz-1,yy-1,xx-1);
@@ -2225,7 +2225,7 @@ double ****FslGetBufferAsScaledDouble(FSLIO *fslio)
     ret = convertBufferToScaledDouble(newbuf[0][0][0], fslio->niftiptr->data, (long)(xx*yy*zz*tt), slope, inter, fslio->niftiptr->datatype);
 
     if (ret == 0)
-    return(newbuf);
+        return(newbuf);
     else
         return(NULL);
 
@@ -2245,9 +2245,9 @@ double ****FslGetBufferAsScaledDouble(FSLIO *fslio)
 /*! \fn int  convertBufferToScaledDouble(double *outbuf, void *inbuf, long len, float slope, float inter, int nifti_datatype )
     \brief allocate a 4D buffer, use 1 contiguous buffer for the data 
 
-  Array is indexed as buf[0..th-1][0..zh-1][0..yh-1][0..xh-1].  
-  <br>To access all elements as a vector, use buf[0][0][0][i] where
-  i can range from 0 to th*zh*yh*xh - 1.
+        Array is indexed as buf[0..th-1][0..zh-1][0..yh-1][0..xh-1].  
+        <br>To access all elements as a vector, use buf[0][0][0][i] where
+        i can range from 0 to th*zh*yh*xh - 1.
 
     \param outbuf pointer to array of doubles of size len
     \param inbuf void pointer to an array of len items of datatype nifti_datatype
@@ -2260,51 +2260,51 @@ double ****FslGetBufferAsScaledDouble(FSLIO *fslio)
 int  convertBufferToScaledDouble(double *outbuf, void *inbuf, long len, float slope, float inter, int nifti_datatype ) 
 {
 
-  long i;
+        long i;
 
 
     /** fill the buffer */
     for (i=0; i<len; i++)
         switch(nifti_datatype) {
-      case NIFTI_TYPE_UINT8:
-    outbuf[i] = (double) ( *((THIS_UINT8 *)(inbuf)+i) * slope + inter);
-    break;
-      case NIFTI_TYPE_INT8:
-    outbuf[i] = (double) ( *((THIS_INT8 *)(inbuf)+i) * slope + inter);
-    break;
-      case NIFTI_TYPE_UINT16:
-    outbuf[i] = (double) ( *((THIS_UINT16 *)(inbuf)+i) * slope + inter);
-    break;
-      case NIFTI_TYPE_INT16:
-    outbuf[i] = (double) ( *((THIS_INT16 *)(inbuf)+i) * slope + inter);
-    break;
-      case NIFTI_TYPE_UINT64:
-    outbuf[i] = (double) ( *((THIS_UINT64 *)(inbuf)+i) * slope + inter);
-    break;
-      case NIFTI_TYPE_INT64:
-    outbuf[i] = (double) ( *((THIS_INT64 *)(inbuf)+i) * slope + inter);
-    break;
-      case NIFTI_TYPE_UINT32:
-    outbuf[i] = (double) ( *((THIS_UINT32 *)(inbuf)+i) * slope + inter);
-    break;
-      case NIFTI_TYPE_INT32:
-    outbuf[i] = (double) ( *((THIS_INT32 *)(inbuf)+i) * slope + inter);
-    break;
-      case NIFTI_TYPE_FLOAT32:
-    outbuf[i] = (double) ( *((THIS_FLOAT32 *)(inbuf)+i) * slope + inter);
-    break;
-      case NIFTI_TYPE_FLOAT64:
-    outbuf[i] = (double) ( *((THIS_FLOAT64 *)(inbuf)+i) * slope + inter);
-    break;
+            case NIFTI_TYPE_UINT8:
+                outbuf[i] = (double) ( *((THIS_UINT8 *)(inbuf)+i) * slope + inter);
+                break;
+            case NIFTI_TYPE_INT8:
+                outbuf[i] = (double) ( *((THIS_INT8 *)(inbuf)+i) * slope + inter);
+                break;
+            case NIFTI_TYPE_UINT16:
+                outbuf[i] = (double) ( *((THIS_UINT16 *)(inbuf)+i) * slope + inter);
+                break;
+            case NIFTI_TYPE_INT16:
+                outbuf[i] = (double) ( *((THIS_INT16 *)(inbuf)+i) * slope + inter);
+                break;
+            case NIFTI_TYPE_UINT64:
+                outbuf[i] = (double) ( *((THIS_UINT64 *)(inbuf)+i) * slope + inter);
+                break;
+            case NIFTI_TYPE_INT64:
+                outbuf[i] = (double) ( *((THIS_INT64 *)(inbuf)+i) * slope + inter);
+                break;
+            case NIFTI_TYPE_UINT32:
+                outbuf[i] = (double) ( *((THIS_UINT32 *)(inbuf)+i) * slope + inter);
+                break;
+            case NIFTI_TYPE_INT32:
+                outbuf[i] = (double) ( *((THIS_INT32 *)(inbuf)+i) * slope + inter);
+                break;
+            case NIFTI_TYPE_FLOAT32:
+                outbuf[i] = (double) ( *((THIS_FLOAT32 *)(inbuf)+i) * slope + inter);
+                break;
+            case NIFTI_TYPE_FLOAT64:
+                outbuf[i] = (double) ( *((THIS_FLOAT64 *)(inbuf)+i) * slope + inter);
+                break;
 
-      case NIFTI_TYPE_FLOAT128:
-      case NIFTI_TYPE_COMPLEX128:
-      case NIFTI_TYPE_COMPLEX256:
-      case NIFTI_TYPE_COMPLEX64:
-      default:
-    fprintf(stderr, "\nWarning, cannot support %s yet.\n",nifti_datatype_string(nifti_datatype));
-    return(-1);
-  }
+            case NIFTI_TYPE_FLOAT128:
+            case NIFTI_TYPE_COMPLEX128:
+            case NIFTI_TYPE_COMPLEX256:
+            case NIFTI_TYPE_COMPLEX64:
+            default:
+                fprintf(stderr, "\nWarning, cannot support %s yet.\n",nifti_datatype_string(nifti_datatype));
+                return(-1);
+        }
 
 return(0);
 }
@@ -2315,10 +2315,10 @@ return(0);
 /*! \fn double ****d3matrix(int zh,  int yh, int xh)
     \brief allocate a 3D buffer, use 1 contiguous buffer for the data 
 
-  Array is indexed as buf[0..zh][0..yh][0..xh].  
-  <br>To access all elements as a vector, use buf[0][0][i] where
-  i can range from 0 to zh*yh*xh - 1.
-  Adaptation of Numerical Recipes in C nrutil.c allocation routines. 
+        Array is indexed as buf[0..zh][0..yh][0..xh].  
+        <br>To access all elements as a vector, use buf[0][0][i] where
+        i can range from 0 to zh*yh*xh - 1.
+        Adaptation of Numerical Recipes in C nrutil.c allocation routines. 
 
     \param zh slowest changing dimension
     \param yh 2nd fastest changing dimension
@@ -2328,28 +2328,28 @@ return(0);
 double ***d3matrix(int zh,  int yh, int xh)
 {
 
-  int j;
-  int nslice = zh+1;
-  int nrow = yh+1;
-  int ncol = xh+1;
+        int j;
+        int nslice = zh+1;
+        int nrow = yh+1;
+        int ncol = xh+1;
         double ***t;
 
 
-  /** allocate pointers to slices */
+        /** allocate pointers to slices */
         t=(double ***) malloc((size_t)((nslice)*sizeof(double**)));
         if (!t) FSLIOERR("d3matrix: allocation failure");
 
-  /** allocate pointers for ydim */
+        /** allocate pointers for ydim */
         t[0]=(double **) malloc((size_t)((nslice*nrow)*sizeof(double*)));
         if (!t[0]) FSLIOERR("d3matrix: allocation failure");
 
 
-  /** allocate the data blob */
+        /** allocate the data blob */
         t[0][0]=(double *) malloc((size_t)((nslice*nrow*ncol)*sizeof(double)));
         if (!t[0][0]) FSLIOERR("d3matrix: allocation failure");
 
 
-  /** point everything to the data blob */
+        /** point everything to the data blob */
         for(j=1;j<nrow*nslice;j++) t[0][j]=t[0][j-1]+ncol;
         for(j=1;j<nslice;j++) t[j]=t[j-1]+nrow;
 
@@ -2363,10 +2363,10 @@ double ***d3matrix(int zh,  int yh, int xh)
 /*! \fn double ****d4matrix(int th, int zh,  int yh, int xh)
     \brief allocate a 4D buffer, use 1 contiguous buffer for the data 
 
-  Array is indexed as buf[0..th][0..zh][0..yh][0..xh].  
-  <br>To access all elements as a vector, use buf[0][0][0][i] where
-  i can range from 0 to th*zh*yh*xh - 1.
-  Adaptation of Numerical Recipes in C nrutil.c allocation routines. 
+        Array is indexed as buf[0..th][0..zh][0..yh][0..xh].  
+        <br>To access all elements as a vector, use buf[0][0][0][i] where
+        i can range from 0 to th*zh*yh*xh - 1.
+        Adaptation of Numerical Recipes in C nrutil.c allocation routines. 
 
     \param th slowest changing dimension
     \param zh 2nd slowest changing dimension
@@ -2377,33 +2377,33 @@ double ***d3matrix(int zh,  int yh, int xh)
 double ****d4matrix(int th, int zh,  int yh, int xh)
 {
 
-  int j;
-  int nvol = th+1;
-  int nslice = zh+1;
-  int nrow = yh+1;
-  int ncol = xh+1;
+        int j;
+        int nvol = th+1;
+        int nslice = zh+1;
+        int nrow = yh+1;
+        int ncol = xh+1;
         double ****t;
 
 
-  /** allocate pointers to vols */
+        /** allocate pointers to vols */
         t=(double ****) malloc((size_t)((nvol)*sizeof(double***)));
         if (!t) FSLIOERR("d4matrix: allocation failure");
 
-  /** allocate pointers to slices */
+        /** allocate pointers to slices */
         t[0]=(double ***) malloc((size_t)((nvol*nslice)*sizeof(double**)));
         if (!t[0]) FSLIOERR("d4matrix: allocation failure");
 
-  /** allocate pointers for ydim */
+        /** allocate pointers for ydim */
         t[0][0]=(double **) malloc((size_t)((nvol*nslice*nrow)*sizeof(double*)));
         if (!t[0][0]) FSLIOERR("d4matrix: allocation failure");
 
 
-  /** allocate the data blob */
+        /** allocate the data blob */
         t[0][0][0]=(double *) malloc((size_t)((nvol*nslice*nrow*ncol)*sizeof(double)));
         if (!t[0][0][0]) FSLIOERR("d4matrix: allocation failure");
 
 
-  /** point everything to the data blob */
+        /** point everything to the data blob */
         for(j=1;j<nrow*nslice*nvol;j++) t[0][0][j]=t[0][0][j-1]+ncol;
         for(j=1;j<nslice*nvol;j++) t[0][j]=t[0][j-1]+nrow;
         for(j=1;j<nvol;j++) t[j]=t[j-1]+nslice;

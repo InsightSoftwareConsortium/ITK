@@ -64,7 +64,6 @@ struct znzptr {
 
 /* the type for all file pointers */
 typedef struct znzptr * znzFile;
-typedef struct znzptr * const znzFileConst;
 
 
 /* int znz_isnull(znzFile f); */
@@ -77,32 +76,32 @@ typedef struct znzptr * const znzFileConst;
    use_compression!=0 uses zlib (gzip) compression
 */
 
-znzFile znzopen(const char * const path, const char * const mode, const int use_compression);
+znzFile znzopen(const char *path, const char *mode, int use_compression);
 
-znzFile znzdopen(const int fd, const char * const mode, const int use_compression);
+znzFile znzdopen(int fd, const char *mode, int use_compression);
 
 int Xznzclose(znzFile * file);
 
-size_t znzread(void* const buf, const size_t size, const size_t nmemb, znzFileConst file);
+size_t znzread(void* buf, size_t size, size_t nmemb, znzFile file);
 
-size_t znzwrite(void* const buf, const size_t size, const size_t nmemb, znzFileConst file);
+size_t znzwrite(const void* buf, size_t size, size_t nmemb, znzFile file);
 
-long znzseek(znzFileConst file, const long offset, const int whence);
+long znzseek(znzFile file, long offset, int whence);
 
-int znzrewind(znzFileConst stream);
+int znzrewind(znzFile stream);
 
-long znztell(znzFileConst file);
+long znztell(znzFile file);
 
-int znzputs(char const * const str, znzFileConst file);
+int znzputs(const char *str, znzFile file);
 
-char * znzgets(char * const str, const int size, znzFileConst file);
+char * znzgets(char* str, int size, znzFile file);
 
-int znzputc(const int c, znzFileConst file);
+int znzputc(int c, znzFile file);
 
-int znzgetc(znzFileConst file);
+int znzgetc(znzFile file);
 
 #if !defined(WIN32)
-int znzprintf(znzFileConst stream, const char * const format, ...);
+int znzprintf(znzFile stream, const char *format, ...);
 #endif
 
 /*=================*/
@@ -112,4 +111,3 @@ int znzprintf(znzFileConst stream, const char * const format, ...);
 /*=================*/
 
 #endif
-
