@@ -729,6 +729,29 @@ int itkVectorImageTest( int, char* argv[] )
     typedef itk::ShapedNeighborhoodIterator< VectorImageType > 
                                       ShapedNeighborhoodIteratorType;
     ShapedNeighborhoodIteratorType sNit( radius, vectorImage, region );
+    
+    offset1[0] = 0; offset1[1] = 0; offset1[2] = 0;
+    sNit.ActivateOffset( offset1 ); //activate the center
+    // activate the top plane
+    offset1[0] = 0; offset1[1] = 0; offset1[2] = -1;
+    sNit.ActivateOffset( offset1 ); 
+    offset1[0] = 0; offset1[1] = 1; offset1[2] = -1;
+    sNit.ActivateOffset( offset1 ); 
+    offset1[0] = 0; offset1[1] = -1; offset1[2] = -1;
+    sNit.ActivateOffset( offset1 ); 
+    offset1[0] = 1; offset1[1] = 0; offset1[2] = -1;
+    sNit.ActivateOffset( offset1 ); 
+    offset1[0] = 1; offset1[1] = 1; offset1[2] = -1;
+    sNit.ActivateOffset( offset1 ); 
+    offset1[0] = 1; offset1[1] = -1; offset1[2] = -1;
+    sNit.ActivateOffset( offset1 ); 
+    offset1[0] = -1; offset1[1] = 0; offset1[2] = -1;
+    sNit.ActivateOffset( offset1 ); 
+    offset1[0] = -1; offset1[1] = 1; offset1[2] = -1;
+    sNit.ActivateOffset( offset1 ); 
+    offset1[0] = -1; offset1[1] = -1; offset1[2] = -1;
+    sNit.ActivateOffset( offset1 ); 
+    
     sNit.SetLocation( location );
     ShapedNeighborhoodIteratorType::Iterator shit = sNit.Begin();
     shit = sNit.Begin(); 
