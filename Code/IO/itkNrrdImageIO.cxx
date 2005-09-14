@@ -301,28 +301,9 @@ void NrrdImageIO::ReadImageInformation()
     }
   // else nrrd->spaceDim == domainAxisNum when nrrd has orientation
   
-  bool dwi4dHack = false;
   if (0 == rangeAxisNum)
     {
     // we don't have any non-scalar data
-    this->SetNumberOfDimensions(nrrd->dim);
-    this->SetPixelType( ImageIOBase::SCALAR );
-    this->SetNumberOfComponents(1);
-    }
-  else if (1 == rangeAxisNum
-           && 3 == rangeAxisIdx[0]
-           && 3 == nrrd->spaceDim
-           && nrrdKindList == nrrd->axis[rangeAxisIdx[0]].kind)
-    {
-    // This is a short-term hack for supporting reading of DWI volumes,
-    // since there is no ITK pixel type for vectors with length known
-    // only at run time.  This whole "else if" branch should be removed at
-    // some point soon.
-    std::cerr << "\nWARNING:\n"
-              << "NrrdImageIO::ReadImageInformation: "
-              << "This handling of 4-D scalar volumes with 3-D orientation "
-              << "will be removed at some point in the near future.\n\n";
-    dwi4dHack = true;
     this->SetNumberOfDimensions(nrrd->dim);
     this->SetPixelType( ImageIOBase::SCALAR );
     this->SetNumberOfComponents(1);
@@ -457,10 +438,6 @@ void NrrdImageIO::ReadImageInformation()
                           "nrrd spacing (nrrdSpacingStatusScalarWithSpace)");
         break;
       }
-    }
-  if (dwi4dHack)
-    {
-    this->SetDimensions(3, nrrd->axis[rangeAxisIdx[0]].size);
     }
   
   // Figure out origin
@@ -676,13 +653,7 @@ void NrrdImageIO::Read(void* buffer)
     itkExceptionMacro("Read: handling more than one non-scalar axis "
                       "not currently handled");
     }
-  if (1 == rangeAxisNum && 0 != rangeAxisIdx[0]
-      // HEY this NAMIC DWI-specific hack must go ...
-      && (!(3 == rangeAxisIdx[0]  
-            && 3 == nrrd->spaceDim
-            && nrrdKindList == nrrd->axis[rangeAxisIdx[0]].kind)) 
-      // ... end hack
-      )
+  if (1 == rangeAxisNum && 0 != rangeAxisIdx[0])
     {
     // the range (dependent variable) is not on the fastest axis,
     // so we have to permute axes to put it there, since that is
@@ -987,7 +958,6 @@ void NrrdImageIO::Write( const void* buffer)
                 // there is a difference between the dimension of the 
                 // recorded measurement frame, and the actual dimension of
                 // the ITK image, which (for now) determines nrrd->spaceDim.
-                // This is probably due to the NAMIC DWI hack above.
                 // We can't set this to AIR_NAN, because the coefficients of
                 // the measurement frame have to all be equally existent.
                 // If we used 0, it might not a flag that something is wrong.
