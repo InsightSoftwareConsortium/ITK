@@ -901,8 +901,10 @@ TARGET_LINK_LIBRARIES(DiffusionTensor3DReconstructionImageFilter ITKIO ITKBasicF
   ADD_EXECUTABLE(FFTDirectInverse FFTDirectInverse.cxx )
   TARGET_LINK_LIBRARIES(FFTDirectInverse ITKCommon ITKIO)
 
+IF(NOT BORLAND)
   ADD_EXECUTABLE(ResampleImageFilter7 ResampleImageFilter7.cxx )
   TARGET_LINK_LIBRARIES(ResampleImageFilter7 ITKCommon ITKBasicFilters ITKIO)
+ENDIF(NOT BORLAND)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 

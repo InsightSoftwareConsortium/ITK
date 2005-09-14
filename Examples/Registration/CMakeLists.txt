@@ -298,9 +298,11 @@ ADD_TEST(ImageRegistration10Test ${REGISTRATION_EXAMPLES8}
         -11 -13
 )
 
+IF(NOT BORLAND)
   ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter 
                         ITKNumerics ITKIO ITKCommon ITKStatistics)
+ENDIF(NOT BORLAND)
 
 ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13Test.png
