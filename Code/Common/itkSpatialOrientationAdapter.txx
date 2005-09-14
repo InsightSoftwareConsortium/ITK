@@ -64,7 +64,7 @@ inline int Sign(float x)
 template <int Dimension>
 typename SpatialOrientationAdapter<Dimension>::OrientationType 
 SpatialOrientationAdapter<Dimension>
-::FromDirectionCosines(const SpatialOrientationAdapter<Dimension>::DirectionType &Dir)
+::FromDirectionCosines(const typename SpatialOrientationAdapter<Dimension>::DirectionType &Dir)
 {
   //  const typename ImageBase<VImageDimension>::DirectionType &direction = 
   //    this->GetDirection();
@@ -125,7 +125,7 @@ SpatialOrientationAdapter<Dimension>
 template <int Dimension>
 typename SpatialOrientationAdapter<Dimension>::DirectionType
 SpatialOrientationAdapter<Dimension>
-::ToDirectionCosines(const SpatialOrientationAdapter<Dimension>::OrientationType &Or)
+::ToDirectionCosines(const typename SpatialOrientationAdapter<Dimension>::OrientationType &Or)
 {
   typedef SpatialOrientation::CoordinateTerms CoordinateTerms;
 
