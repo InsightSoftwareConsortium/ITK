@@ -62,6 +62,7 @@ ADD_TEST(ImageAdaptor4Test ${IMAGE_EXAMPLES3}
 )
 
 
+IF(NOT BORLAND)
   ADD_EXECUTABLE(ImageExamples ImageExamples.cxx )
   TARGET_LINK_LIBRARIES(ImageExamples ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
@@ -84,6 +85,7 @@ ADD_TEST(ImageAdaptor4Test ${IMAGE_EXAMPLES3}
   ADD_TEST(Image5Test ${IMAGE_EXAMPLES}
      Image5Test ${TEMP}/Image5Test.mhd
   )
+ENDIF(NOT BORLAND)
 
   ADD_EXECUTABLE(ImageExamples2 ImageExamples2.cxx )
   TARGET_LINK_LIBRARIES(ImageExamples2 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
