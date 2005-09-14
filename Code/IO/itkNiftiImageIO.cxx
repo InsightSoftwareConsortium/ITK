@@ -345,8 +345,8 @@ void NiftiImageIO::ReadImageInformation()
     }
   //
   // set up the dimension stuff
-  double spacingscale=1.0;
-  switch(this->m_NiftiImage->xyz_units)
+  double spacingscale=1.0;//default to mm
+  switch(XYZT_TO_SPACE(this->m_NiftiImage->xyz_units))
       {
   case NIFTI_UNITS_METER:
       spacingscale=1e3;
@@ -358,21 +358,34 @@ void NiftiImageIO::ReadImageInformation()
       spacingscale=1e-3;;
       break;
       }
+  double timingscale=1.0;//Default to seconds
+  switch(XYZT_TO_TIME(this->m_NiftiImage->xyz_units))
+      {
+  case NIFTI_UNITS_SEC:
+      timingscale=1.0;
+      break;
+  case NIFTI_UNITS_MSEC:
+      timingscale=1e-3;
+      break;
+  case NIFTI_UNITS_USEC:
+      timingscale=1e-6;;
+      break;
+      }
   const int dims=this->GetNumberOfDimensions();
   switch(dims)
       {
   case 7:
       this->SetDimensions(6,this->m_NiftiImage->nw);
-      this->SetSpacing(6,this->m_NiftiImage->dw*spacingscale);
+      this->SetSpacing(6,this->m_NiftiImage->dw);//NOTE: Scaling is not defined in this dimension
   case 6:
       this->SetDimensions(5,this->m_NiftiImage->nv);
-      this->SetSpacing(5,this->m_NiftiImage->dv*spacingscale);
+      this->SetSpacing(5,this->m_NiftiImage->dv);//NOTE: Scaling is not defined in this dimension
   case 5:
       this->SetDimensions(4,this->m_NiftiImage->nu);
-      this->SetSpacing(4,this->m_NiftiImage->du*spacingscale);
+      this->SetSpacing(4,this->m_NiftiImage->du);//NOTE: Scaling is not defined in this dimension
   case 4:
       this->SetDimensions(3,this->m_NiftiImage->nt);
-      this->SetSpacing(3,this->m_NiftiImage->dt*spacingscale);
+      this->SetSpacing(3,this->m_NiftiImage->dt*timingscale);
   case 3:
       this->SetDimensions(2,this->m_NiftiImage->nz);
       this->SetSpacing(2,this->m_NiftiImage->dz*spacingscale);
@@ -553,7 +566,13 @@ NiftiImageIO
 //                   dim[2] is required for 2-D volumes,
 //                   dim[3] for 3-D volumes, etc.
   this->m_NiftiImage->nvox = 1;
-  this->m_NiftiImage->xyz_units=NIFTI_UNITS_UNKNOWN;
+  //Spacial dims in ITK are given in mm.
+  //If 4D assume 4thD is in SECONDS, for all of ITK.
+  //NOTE: Due to an ambiguity in the nifti specification, some developers external tools
+  //      believe that the time units must be set, even if there is only one dataset.
+  //      Having the time specified for a purly spatial image has no consequence, so go ahead and set it
+  //      to seconds.
+  this->m_NiftiImage->xyz_units=NIFTI_UNITS_MM | NIFTI_UNITS_SEC;
   switch(dims)
       {
   case 7:
@@ -580,7 +599,6 @@ NiftiImageIO
           this->m_NiftiImage->nt = this->GetDimensions(3);
       this->m_NiftiImage->pixdim[4] =
           this->m_NiftiImage->dt = this->GetSpacing(3);
-      this->m_NiftiImage->xyz_units |= NIFTI_UNITS_SEC;  //If 4D asume 4thD is in SECONDS.
   case 3:
       this->m_NiftiImage->nvox *=
           this->m_NiftiImage->dim[3] =
@@ -599,7 +617,6 @@ NiftiImageIO
           this->m_NiftiImage->nx = this->GetDimensions(0);
       this->m_NiftiImage->pixdim[1] =
           this->m_NiftiImage->dx = this->GetSpacing(0);
-      this->m_NiftiImage->xyz_units=NIFTI_UNITS_MM; //Spacial dims in ITK are given in mm
       }
 
 //     -----------------------------------------------------
@@ -671,7 +688,8 @@ NiftiImageIO
   std::vector<double> dirx = this->GetDirection(0);
   std::vector<double> diry  = this->GetDirection(1);
   std::vector<double> dirz  = this->GetDirection(2);
-#if 0
+#if 0  //The QFORM version is preferable to the SFORM version for referencing scanner centered orientation systems
+       //The freesurfer program (and perhaps others) expect the qform to be the primary orientation based correction.
   mat44 matrix;
   for(unsigned i = 0; i < 3; i++)
     {
