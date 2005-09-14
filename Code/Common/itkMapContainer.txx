@@ -241,8 +241,14 @@ MapContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 void
 MapContainer< TElementIdentifier , TElement >
-::Reserve(ElementIdentifier)
+::Reserve(ElementIdentifier size)
 {
+  ElementIdentifier curSize = this->Size();
+  while ( curSize < size )
+    {
+    this->CreateIndex(curSize);
+    curSize = this->Size();
+    }
 }
 
 /**
