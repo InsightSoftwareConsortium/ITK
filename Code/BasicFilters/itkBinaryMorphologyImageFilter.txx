@@ -287,7 +287,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel>
   // Create a neighbourhood of radius m_Radius This neighbourhood is
   // called adj neighbourhood and is used in order to get the offset
   // in each direction.
-  Neighborhood<typename TInputImage::PixelType, InputImageDimension> adjNeigh;
+  Neighborhood<InputPixelType, InputImageDimension> adjNeigh;
   adjNeigh.SetRadius(m_Radius);
 
   // now we look for the difference sets in each directions: If you
