@@ -109,6 +109,8 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
       this->ProcessObject::GetOutput(0)));  
 
 
+  outputImagePtr->SetSpacing(inputImagePtr->GetSpacing());
+  outputImagePtr->SetOrigin(inputImagePtr->GetOrigin());
   outputImagePtr->SetRequestedRegion( inputImagePtr->GetRequestedRegion() );
   outputImagePtr->SetBufferedRegion(  inputImagePtr->GetBufferedRegion() );
   outputImagePtr->SetLargestPossibleRegion( inputImagePtr->GetLargestPossibleRegion() );
@@ -123,10 +125,27 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
     
   /* Rasterize each polyline segment using breshnan line iterator  */
     
-  VertexType startIndex;
-  VertexType endIndex;
-  VertexType tmpIndex;
-  VertexType pstartIndex;
+  VertexType startVertex;
+  VertexType endVertex;
+  VertexType tmpVertex;
+  VertexType pstartVertex;
+
+  ImageIndexType tmpIndex;
+
+/* Check if the polyline coordinates are within the input image */
+  while ( piter != container->End() )
+    {
+    tmpVertex      = piter.Value();
+    outputImagePtr->TransformPhysicalPointToIndex(tmpVertex,tmpIndex);    
+    if ( !outputImagePtr->GetBufferedRegion().IsInside(tmpIndex))
+      {
+      itkExceptionMacro(<<"Polyline vertex is out of bound(Vertex,Index)"<<tmpVertex<<","<<tmpIndex);
+      }
+    ++piter;
+    }
+
+  // reset piter  
+  piter = container->Begin();
 
   /* define flag to indicate the line segment slope */
   bool pflag;
@@ -136,13 +155,13 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
   PixelType u_val = static_cast<PixelType> (0);
   PixelType b_val = static_cast<PixelType> (2);
   PixelType f_val = static_cast<PixelType> (255);
-
   outputImagePtr->FillBuffer(u_val);
 
-  /* polyon start index */
-  pstartIndex = piter.Value();
-  tmpIndex = pstartIndex;
+  pstartVertex = piter.Value();
+
+  tmpVertex = pstartVertex;
   ++piter;
+
   ImageIndexType startImageIndex;
   ImageIndexType endImageIndex;
   ImageIndexType tmpImageIndex;
@@ -152,18 +171,18 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
   ImageLineIteratorType imit(outputImagePtr, outputImagePtr->GetLargestPossibleRegion());
   imit.SetDirection( 0 );
 
+  itkDebugMacro(<<"Generating the mask defined by the polyline.....");
+
   while ( piter != container->End() )
     {
     pflag         = false;
-    startIndex    = tmpIndex;
-    endIndex      = piter.Value();
+    startVertex    = tmpVertex;
+    endVertex      = piter.Value();
     
-    for(unsigned int i=0; i < TOutputImage::ImageDimension; i++ )
-      {
-      startImageIndex[i] = static_cast<IndexValueType> (startIndex[i]);
-      endImageIndex[i]   = static_cast<IndexValueType> (endIndex[i]);
-      }
+    outputImagePtr->TransformPhysicalPointToIndex(startVertex,startImageIndex);
+    outputImagePtr->TransformPhysicalPointToIndex(endVertex,endImageIndex);
 
+    //itkDebugMacro(<<"Projection image (index,physical coordinate):"<<startImageIndex<<","<<startVertex<<std::endl);
 
     if (endImageIndex[1] > startImageIndex[1]) 
       {
@@ -177,8 +196,8 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
       {
       tmpImageIndex[0] = it.GetIndex()[0];
       tmpImageIndex[1] = it.GetIndex()[1];
-      //initialize imit using it
 
+      //initialize imit using it
       imit.SetIndex(tmpImageIndex);
       while ( ! imit.IsAtEndOfLine() )
         {
@@ -196,20 +215,17 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
         }
       ++it;
       }
-    tmpIndex = endIndex;
+    tmpVertex = endVertex;
     ++piter;
     }
-
+  
   /* Close the polygon */
   pflag         = false;
-  startIndex    = tmpIndex;
-  endIndex      = pstartIndex;
-    
-  for(unsigned int i=0; i < TOutputImage::ImageDimension; i++ )
-    {
-    startImageIndex[i] = static_cast<IndexValueType> (startIndex[i]);
-    endImageIndex[i]   = static_cast<IndexValueType> (endIndex[i]);
-    }
+  startVertex    = tmpVertex;
+  endVertex      = pstartVertex;
+
+  outputImagePtr->TransformPhysicalPointToIndex(startVertex,startImageIndex);
+  outputImagePtr->TransformPhysicalPointToIndex(endVertex,endImageIndex);
 
   if (endImageIndex[1] > startImageIndex[1]) 
     {
@@ -223,8 +239,8 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
     {
     tmpImageIndex[0] = it.GetIndex()[0];
     tmpImageIndex[1] = it.GetIndex()[1];
-    //initialize imit using it
 
+    //initialize imit using it
     imit.SetIndex(tmpImageIndex);
     while ( ! imit.IsAtEndOfLine() )
       {
