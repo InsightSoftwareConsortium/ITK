@@ -396,6 +396,7 @@ SceneSpatialObject<SpaceDimension>
 ::Clear()
 {
   m_Objects.clear();
+  this->Modified();
 }
 
 
