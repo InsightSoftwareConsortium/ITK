@@ -165,4 +165,5 @@ REGISTER_TEST(itkSymmetricEigenAnalysisTest );
 //This is a separate executable REGISTER_TEST(itkSystemInformationTest );
 REGISTER_TEST(itkMetaDataDictionaryTest );
 REGISTER_TEST(itkSTLThreadTest );
+REGISTER_TEST(itkVariableLengthVectorTest);
 }

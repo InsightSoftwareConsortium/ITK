@@ -168,7 +168,7 @@ ADD_TEST(itkVersorTransformTest ${COMMON_TESTS} itkVersorTransformTest)
 ADD_TEST(itkVersorTest ${COMMON_TESTS} itkVersorTest)
 ADD_TEST(itkVersorRigid3DTransformTest ${COMMON_TESTS} itkVersorRigid3DTransformTest)
 ADD_TEST(itkVectorTest ${COMMON_TESTS} itkVectorTest)
-ADD_TEST(itkVectorImageTest ${COMMON_TESTS} itkVectorImageTest ${TEMP}/VectorImage.nrrd)
+ADD_TEST(itkVectorImageTest ${COMMON_TESTS} itkVectorImageTest ${TEMP}/VectorImage.nrrd ${TEMP}/VectorImage.mhd)
 ADD_TEST(itkVectorInterpolateImageFunctionTest ${COMMON_TESTS} itkVectorInterpolateImageFunctionTest)
 ADD_TEST(itkVectorToRGBImageAdaptorTest ${COMMON_TESTS} itkVectorToRGBImageAdaptorTest)
 ADD_TEST(itkWindowedSincInterpolateImageFunctionTest ${COMMON_TESTS} itkWindowedSincInterpolateImageFunctionTest)
@@ -181,6 +181,7 @@ ADD_TEST(itkSymmetricSecondRankTensorTest ${COMMON_TESTS} itkSymmetricSecondRank
 ADD_TEST(itkSymmetricEigenAnalysisTest ${COMMON_TESTS} itkSymmetricEigenAnalysisTest)
 ADD_TEST(itkMetaDataDictionaryTest ${COMMON_TESTS} itkMetaDataDictionaryTest)
 ADD_TEST(itkSTLThreadTest ${COMMON_TESTS} itkSTLThreadTest)
+ADD_TEST(itkVariableLengthVectorTest ${COMMON_TESTS} itkVariableLengthVectorTest)
 ADD_TEST(itkOctreeTest ${COMMON_TESTS} itkOctreeTest)
 
 ADD_TEST(itkSystemInformationTest ${SYSTEM_INFORMATION_TEST})
@@ -375,6 +376,7 @@ itkSymmetricSecondRankTensorTest.cxx
 itkSymmetricEigenAnalysisTest.cxx
 itkMetaDataDictionaryTest.cxx
 itkSTLThreadTest.cxx
+itkVariableLengthVectorTest.cxx
 )
 
 CONFIGURE_FILE(${ITKTesting_SOURCE_DIR}/Code/Common/itkSystemInformationTest.h.in
