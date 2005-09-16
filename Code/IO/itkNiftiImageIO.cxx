@@ -19,7 +19,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
-#include "itkSpatialOrientation.h"
+#include "itkSpatialOrientationAdapter.h"
 #include <itksys/SystemTools.hxx>
 #include <vnl/vnl_math.h>
 #include <zlib.h>
@@ -156,7 +156,20 @@ void NiftiImageIO::PrintSelf(std::ostream& os, Indent indent) const
 
 bool NiftiImageIO::CanWriteFile(const char * FileNameToWrite)
 {
-    return (nifti_validfilename(FileNameToWrite) == 1 ) ? true: false;
+  std::string fname(FileNameToWrite);
+  std::string::size_type ext = fname.rfind('.');
+  //
+  // for now, defer to analyze to write .hdr/.img pairs
+  if(ext != std::string::npos)
+    {
+    std::string exts = fname.substr(ext);
+    if(exts == ".hdr" || exts == ".img" || exts == ".img.gz")
+      {
+      return false;
+      }
+    }
+
+  return (nifti_validfilename(FileNameToWrite) == 1 ) ? true: false;
 }
 
 
@@ -438,39 +451,89 @@ void NiftiImageIO::ReadImageInformation()
       break;
     }
   mat44 *theMat;
-  if(this->m_NiftiImage->qform_code > 0)
+  if(this->m_NiftiImage->qform_code == 0 && this->m_NiftiImage->sform_code == 0)
     {
-    //
-    // try and compute the orientation stuff
-    theMat = &(this->m_NiftiImage->qto_xyz);
-    }
-  else if(this->m_NiftiImage->sform_code > 0)
-    {
-    theMat = &(this->m_NiftiImage->sto_xyz);
-    }
-  //
-  // set direction vectors
-  std::vector<double> direction(3,0);
-  direction[0] = theMat->m[0][0];
-  direction[1] = theMat->m[0][1];
-  direction[2] = theMat->m[0][2];
-  this->SetDirection(0,direction);
-  direction[0] = theMat->m[1][0];
-  direction[1] = theMat->m[1][1];
-  direction[2] = theMat->m[1][2];
-  this->SetDirection(1,direction);
-  direction[0] = theMat->m[2][0];
-  direction[1] = theMat->m[2][1];
-  direction[2] = theMat->m[2][2];
-  this->SetDirection(2,direction);
-  //
-  // set origin
-  m_Origin[0] = theMat->m[0][3];
-  m_Origin[1] = theMat->m[1][3];
-  m_Origin[2] = theMat->m[2][3];
-  m_RescaleSlope = this->m_NiftiImage->scl_slope;
-  m_RescaleIntercept = this->m_NiftiImage->scl_inter;
+    typedef SpatialOrientationAdapter<3> OrientAdapterType;
+    typedef OrientAdapterType::DirectionType DirectionType;
+    typedef OrientAdapterType::OrientationType OrientationType;
 
+    OrientationType orient;
+    switch(this->m_NiftiImage->analyze75_orient)
+      {
+      case a75_transverse_unflipped:
+        orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI;
+        break;
+      case a75_sagittal_unflipped:
+        orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR;
+        break;
+      case a75_transverse_flipped:
+      case a75_coronal_flipped:
+      case a75_sagittal_flipped:
+      case a75_orient_unknown:
+      case a75_coronal_unflipped:
+        orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
+        break;
+      }
+    DirectionType dir =  OrientAdapterType().ToDirectionCosines(orient);
+
+    std::vector<double> direction(3,0);
+    direction[0] = dir[0][0];
+    direction[1] = dir[1][0];
+    direction[2] = dir[2][0];
+    this->SetDirection(0,direction);
+    direction[0] = dir[0][1];
+    direction[1] = dir[1][1];
+    direction[2] = dir[2][1];
+    this->SetDirection(1,direction);
+    direction[0] = dir[0][2];
+    direction[1] = dir[1][2];
+    direction[2] = dir[2][2];
+    this->SetDirection(2,direction);
+    m_RescaleSlope = 1;
+    m_RescaleIntercept = 0;
+    m_Origin[0] = m_Origin[1] = m_Origin[2] = 0;
+    }
+  else
+    {
+    if(this->m_NiftiImage->qform_code > 0)
+      {
+      //
+      // try and compute the orientation stuff
+      //      theMat = &(this->m_NiftiImage->qto_xyz);
+      theMat = &(this->m_NiftiImage->qto_xyz);
+      }
+    else if(this->m_NiftiImage->sform_code > 0)
+      {
+      //      theMat = &(this->m_NiftiImage->sto_xyz);
+      theMat = &(this->m_NiftiImage->sto_xyz);
+      }
+    //
+    // set direction vectors
+    std::vector<double> direction(3,0);
+    direction[0] = theMat->m[0][0];
+    direction[1] = theMat->m[0][1];
+    direction[2] = theMat->m[0][2];
+    this->SetDirection(0,direction);
+    direction[0] = theMat->m[1][0];
+    direction[1] = theMat->m[1][1];
+    direction[2] = theMat->m[1][2];
+    this->SetDirection(1,direction);
+    direction[0] = theMat->m[2][0];
+    direction[1] = theMat->m[2][1];
+    direction[2] = theMat->m[2][2];
+    this->SetDirection(2,direction);
+    //
+    // set origin
+    m_Origin[0] = theMat->m[0][3];
+    m_Origin[1] = theMat->m[1][3];
+    m_Origin[2] = theMat->m[2][3];
+    if((m_RescaleSlope = this->m_NiftiImage->scl_slope) == 0)
+      {
+      m_RescaleSlope = 1;
+      }
+    m_RescaleIntercept = this->m_NiftiImage->scl_inter;
+    }
+  
 
   //Important hist fields
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileNotes,std::string(this->m_NiftiImage->descrip,80));
@@ -688,7 +751,7 @@ NiftiImageIO
   std::vector<double> dirx = this->GetDirection(0);
   std::vector<double> diry  = this->GetDirection(1);
   std::vector<double> dirz  = this->GetDirection(2);
-#if 0  //The QFORM version is preferable to the SFORM version for referencing scanner centered orientation systems
+#if 1 //The QFORM version is preferable to the SFORM version for referencing scanner centered orientation systems
        //The freesurfer program (and perhaps others) expect the qform to be the primary orientation based correction.
   mat44 matrix;
   for(unsigned i = 0; i < 3; i++)
@@ -711,7 +774,7 @@ NiftiImageIO
                          0,
                          0,
                          &(this->m_NiftiImage->qfac));
-  this->m_NiftiImage->qform_code = NIFTI_XFORM_ALIGNED_ANAT;
+  this->m_NiftiImage->qform_code = NIFTI_XFORM_SCANNER_ANAT;
   this->m_NiftiImage->sform_code = 0;
 #else
   this->m_NiftiImage->sform_code = NIFTI_XFORM_ALIGNED_ANAT;

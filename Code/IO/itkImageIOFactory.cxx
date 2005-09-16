@@ -24,6 +24,7 @@
 #include "itkDICOMImageIO2Factory.h"
 #include "itkNiftiImageIOFactory.h"
 #include "itkAnalyzeImageIOFactory.h"
+#include "itkNiftiImageIOFactory.h"
 #include "itkGiplImageIOFactory.h"
 #include "itkJPEGImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"
@@ -102,13 +103,14 @@ ImageIOFactory::RegisterBuiltInFactories()
     ObjectFactoryBase::RegisterFactory( GiplImageIOFactory::New() );
     ObjectFactoryBase::RegisterFactory( NiftiImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New());
+    ObjectFactoryBase::RegisterFactory( NiftiImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( JPEGImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( TIFFImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( NrrdImageIOFactory::New() );
     ObjectFactoryBase::RegisterFactory( BMPImageIOFactory::New() );
     ObjectFactoryBase::RegisterFactory( GDCMImageIOFactory::New() );
-//    ObjectFactoryBase::RegisterFactory( DICOMImageIO2Factory::New() );
+    ObjectFactoryBase::RegisterFactory( DICOMImageIO2Factory::New() );
     firstTime = false;
     }
   }
