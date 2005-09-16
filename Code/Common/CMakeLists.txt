@@ -36,6 +36,7 @@ SET(ITKCommon_SRCS
   itkNumericTraits.cxx
   itkNumericTraitsRGBPixel.cxx
   itkNumericTraitsVectorPixel.cxx
+  itkNumericTraitsVariableLengthVectorPixel.cxx
   itkObject.cxx
   itkObjectFactoryBase.cxx
   itkOneWayEquivalencyTable.cxx
