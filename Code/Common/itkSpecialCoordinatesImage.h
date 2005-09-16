@@ -29,6 +29,10 @@
 namespace itk
 {
 
+// Forward declare the PixelTraits used by the readers and writers to write/
+// read out the pixels in the image.  
+template< class T > class DefaultConvertPixelTraits;
+
 /** \class SpecialCoordinatesImage
  *  \brief Templated n-dimensional nonrectilinear-coordinate image base class.
  *
@@ -131,6 +135,10 @@ public:
    * functor provides a generic API between the two accessors.*/
   typedef DefaultPixelAccessorFunctor< Self > AccessorFunctorType;
 
+  /** Typedef used by the image readers and writers. This class determines how 
+   * a pixel type should be organized in the file. */
+  typedef DefaultConvertPixelTraits< PixelType > DefaultConvertPixelTraitsType;
+  
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel type
    * and dimension) when they need compile time access to the dimension of

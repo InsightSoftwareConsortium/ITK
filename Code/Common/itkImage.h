@@ -31,6 +31,11 @@
 namespace itk
 {
 
+// Forward declare the PixelTraits used by the readers and writers to write/
+// read out the pixels in the image.  
+template< class T > class DefaultConvertPixelTraits;
+
+  
 /** \class Image
  *  \brief Templated n-dimensional image class.
  *
@@ -113,6 +118,10 @@ public:
    *  representations.  */
   typedef DefaultPixelAccessor< PixelType > AccessorType;
   typedef DefaultPixelAccessorFunctor< Self > AccessorFunctorType;
+
+  /** Typedef used by the image readers and writers. This class determines how 
+   * a pixel type should be organized in the file. */
+  typedef DefaultConvertPixelTraits< PixelType > DefaultConvertPixelTraitsType;
 
   /** Tyepdef for the functor used to access a neighborhood of pixel pointers.*/
   typedef NeighborhoodAccessorFunctor< Self > 

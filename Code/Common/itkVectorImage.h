@@ -25,7 +25,7 @@
 #include "itkVectorImageNeighborhoodAccessorFunctor.h"
 #include "itkPoint.h"
 #include "itkContinuousIndex.h"
-#include "itkArray.h"
+#include "itkVariableLengthVector.h"
 #include "itkWeakPointer.h"
 
 namespace itk
@@ -41,17 +41,17 @@ namespace itk
  * where Pi0 represents the 0th measurement of the pixel at index i.
  *
  * Conceptually, a <tt>VectorImage< double, 3 ></tt> is the same as a
- * <tt>Image< Array< double >, 3 ></tt>. The difference lies in the memory 
+ * <tt>Image< VariableLengthVector< double >, 3 ></tt>. The difference lies in the memory 
  * organization. The latter results in a fragmented 
- * organization with each location in the Image holding a pointer to an \c Array
+ * organization with each location in the Image holding a pointer to an \c VariableLengthVector
  * holding the actual pixel. The former stores the \e k pixels instead of a 
  * pointer reference, which apart from avoiding fragmentation of memory also avoids
  * storing a 8 bytes of pointer reference for each pixel. 
  * The parameter \e k can be set using \c SetVectorLength.
  *
- * The API of the class is such that it returns a pixeltype Array< double > when 
+ * The API of the class is such that it returns a pixeltype VariableLengthVector< double > when 
  * queried, with the data internally pointing to the buffer. (the container does not
- * manage the memory). Similarly SetPixel calls can be made with Array< double >.
+ * manage the memory). Similarly SetPixel calls can be made with VariableLengthVector< double >.
  *
  * The API of this class is similar to Image.
  *
@@ -73,7 +73,7 @@ namespace itk
  */
 template <class TPixel, unsigned int VImageDimension=3 >
 class ITK_EXPORT VectorImage : 
-    public Image< Array< TPixel >, VImageDimension >
+    public Image< VariableLengthVector< TPixel >, VImageDimension >
 {
 public:
   /** Standard class typedefs */
@@ -92,8 +92,8 @@ public:
   /** Pixel typedef support. Used to declare pixel type in filters
    * or other operations. This is not the actual pixel type contained in 
    * the buffer, ie m_Buffer. The image exhibits an external API of an 
-   * Array< T > and internally stores its data as type T. */
-  typedef Array< TPixel > PixelType;
+   * VariableLengthVector< T > and internally stores its data as type T. */
+  typedef VariableLengthVector< TPixel > PixelType;
   
   /** This is the actual pixel type contained in the buffer. Each vector
    * pixel is composed of 'm_VectorLength' contiguous InternalPixelType.
@@ -114,6 +114,11 @@ public:
   /** Tyepdef for the functor used to access a neighborhood of pixel pointers.*/
   typedef VectorImageNeighborhoodAccessorFunctor< 
                           Self >              NeighborhoodAccessorFunctorType;
+
+  /** Typedef used by the image readers and writers. This class determines how 
+   * a pixel type should be organized in the file. */
+  typedef DefaultConvertPixelTraits< InternalPixelType > 
+                                              DefaultConvertPixelTraitsType;
 
   /** Container used to store pixels in the image. */
   typedef ImportImageContainer<unsigned long, InternalPixelType> PixelContainer;

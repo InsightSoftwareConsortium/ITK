@@ -78,6 +78,11 @@ class ITK_EXPORT SparseImage : public Image <TNode*, VImageDimension>
   typedef NeighborhoodAccessorFunctor< Self > 
                                             NeighborhoodAccessorFunctorType;
   
+  /** Typedef used by the image readers and writers. This class determines how 
+   * a pixel type should be organized in the file. */
+  typedef typename 
+    Superclass::DefaultConvertPixelTraitsType      DefaultConvertPixelTraitsType;
+
   /** The list types for storing the active pixels.*/
   typedef SparseFieldLayer <NodeType> NodeListType;
   typedef ObjectStore      <NodeType> NodeStoreType;

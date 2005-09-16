@@ -86,6 +86,11 @@ public:
    * Image or VectorImage. */
   typedef DefaultPixelAccessorFunctor< Self > AccessorFunctorType;
 
+  /** Typedef used by the image readers and writers. This class determines how 
+   * a pixel type should be organized in the file. */
+  typedef typename InternalImageType::DefaultConvertPixelTraitsType
+                                                DefaultConvertPixelTraitsType;
+
   /** Index typedef support. An index is used to access pixel values. */
   typedef typename Superclass::IndexType  IndexType;
   typedef typename IndexType::IndexValueType    IndexValueType;
