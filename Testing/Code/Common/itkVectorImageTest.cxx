@@ -19,7 +19,7 @@
 #endif
 
 #include <iostream>
-#include "itkArray.h"
+#include "itkVariableLengthVector.h"
 #include "itkImage.h"
 #include "itkVectorImage.h"
 #include "itkFixedArray.h"
@@ -40,9 +40,12 @@
 
 
 // This test tests:
-// VectorImage, iterators on the image, 
-// Timing tests comparing it to similar images using FixedArray and Array
-// IO support.
+// VectorImage 
+// -----------
+//  - Iterators on the VectorImage, 
+//  - Timing tests comparing itk::VectorImage to similar itk::Image using 
+//    FixedArray and VariableLengthVector 
+//  - IO support for VectorImage.
 
 int itkVectorImageTest( int, char* argv[] )
 {
@@ -55,37 +58,37 @@ int itkVectorImageTest( int, char* argv[] )
   {
   // Test 1.
   //
-  // Create an Image of Array, FixedArray, VectorImage of length 6 and compare
+  // Create an Image of VariableLengthVector, FixedArray, VectorImage of length 6 and compare
   // times.
   //   
   // Three images.. for crude timing analysis.
 
-  typedef itk::Image< itk::Array< PixelType >, Dimension > ArrayImageType;
+  typedef itk::Image< itk::VariableLengthVector< PixelType >, Dimension > VariableLengthVectorImageType;
   typedef itk::Image< itk::FixedArray< PixelType, VectorLength >, 
                                       Dimension > FixedArrayImageType;
   typedef itk::VectorImage< PixelType, Dimension >   VectorImageType;
   
   
   
-  // Using image of Array< PixelType >
+  // Using image of VariableLengthVector< PixelType >
   {
-  typedef itk::Array< PixelType > InternalPixelType;
+  typedef itk::VariableLengthVector< PixelType > InternalPixelType;
 
   itk::TimeProbe clock;
   clock.Start();
   
-  ArrayImageType::Pointer image = ArrayImageType::New();
-  ArrayImageType::IndexType start;
+  VariableLengthVectorImageType::Pointer image = VariableLengthVectorImageType::New();
+  VariableLengthVectorImageType::IndexType start;
   InternalPixelType f( VectorLength );
   for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i; }
   start[0] =   0;  // first index on X
   start[1] =   0;  // first index on Y
   start[2] =   0;  // first index on Z
-  ArrayImageType::SizeType  size;
+  VariableLengthVectorImageType::SizeType  size;
   size[0]  = 50;  // size along X
   size[1]  = 50;  // size along Y
   size[2]  = 50;  // size along Z
-  ArrayImageType::RegionType region;
+  VariableLengthVectorImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( start );
   image->SetRegions( region );
@@ -94,13 +97,13 @@ int itkVectorImageTest( int, char* argv[] )
 
   clock.Stop();
   double timeTaken = clock.GetMeanTime();
-  std::cout << "Allocating an image of itk::Array of length " <<  VectorLength 
+  std::cout << "Allocating an image of itk::VariableLengthVector of length " <<  VectorLength 
           << " with image size " << size << " took " << timeTaken << " s." << std::endl;
 
     // Const iterator over the image...
     {
     clock.Start();
-    typedef itk::ImageRegionConstIterator< ArrayImageType > IteratorType;
+    typedef itk::ImageRegionConstIterator< VariableLengthVectorImageType > IteratorType;
     IteratorType it( image, image->GetBufferedRegion() );
     it.Begin();
     while( !it.IsAtEnd() )
@@ -178,7 +181,7 @@ int itkVectorImageTest( int, char* argv[] )
   
   VectorImageType::Pointer vectorImage = VectorImageType::New();
   VectorImageType::IndexType start;
-  itk::Array< PixelType > f( VectorLength );
+  itk::VariableLengthVector< PixelType > f( VectorLength );
   for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i; }
   start[0] =   0;  // first index on X
   start[1] =   0;  // first index on Y
@@ -261,8 +264,8 @@ int itkVectorImageTest( int, char* argv[] )
     // Create a  small image
     VectorImageType::Pointer vectorImage = VectorImageType::New();
     VectorImageType::IndexType start;
-    itk::Array< PixelType > f( VectorLength );
-    itk::Array< PixelType > ZeroPixel( VectorLength );
+    itk::VariableLengthVector< PixelType > f( VectorLength );
+    itk::VariableLengthVector< PixelType > ZeroPixel( VectorLength );
     ZeroPixel.Fill( itk::NumericTraits< PixelType >::Zero );
     for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i; }
     start[0] =   0;  // first index on X
@@ -297,7 +300,7 @@ int itkVectorImageTest( int, char* argv[] )
     cit.Begin();
     while( !cit.IsAtEnd() )
       {
-      itk::Array< PixelType > value = cit.Get();
+      itk::VariableLengthVector< PixelType > value = cit.Get();
       ++cit;
       if( ctr == (3*10*10 + 5*10 + 5) )
         {
@@ -321,7 +324,7 @@ int itkVectorImageTest( int, char* argv[] )
     LinearConstIteratorType lcit( vectorImage, vectorImage->GetBufferedRegion() );
     lcit.SetDirection( 2 );
     lcit.GoToBegin();
-    itk::Array< PixelType > value;
+    itk::VariableLengthVector< PixelType > value;
     while( !lcit.IsAtEnd() )
       {
       while( !lcit.IsAtEndOfLine() )
@@ -409,19 +412,19 @@ int itkVectorImageTest( int, char* argv[] )
   typedef itk::ImageFileWriter< VectorImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( image );
-  writer->SetFileName( "Vector.mhd" );
+  writer->SetFileName( argv[2] );
   writer->Update();
 
-  writer->SetFileName( "Vector.nrrd");
+  writer->SetFileName( argv[1] );
   writer->Update();
   }
   
   {
   // Now read it as a itk::VectorImage.
   typedef itk::VectorImage< PixelType, Dimension > VectorImageType;
-  typedef itk::ImageFileReader< VectorImageType, itk::DefaultConvertPixelTraits< PixelType > > ReaderType;
+  typedef itk::ImageFileReader< VectorImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( "Vector.nrrd" );
+  reader->SetFileName( argv[1] );
   reader->Update();
 
   VectorImageType::Pointer vectorImage = reader->GetOutput();
@@ -468,7 +471,7 @@ int itkVectorImageTest( int, char* argv[] )
   {
   // Now read it as a itk::VectorImage.
   typedef itk::VectorImage< PixelType, Dimension > VectorImageType;
-  typedef itk::ImageFileReader< VectorImageType, itk::DefaultConvertPixelTraits< PixelType > > ReaderType;
+  typedef itk::ImageFileReader< VectorImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   reader->Update();
@@ -582,8 +585,8 @@ int itkVectorImageTest( int, char* argv[] )
     ConstNeighborhoodIteratorType::OffsetType offset;
     offset[0] = offset[1] = offset[2] = 1;
     cNit -= offset;
-    itk::Array< PixelType > pixel = cNit.GetCenterPixel();
-    itk::Array< PixelType > correctAnswer( VectorLength );
+    itk::VariableLengthVector< PixelType > pixel = cNit.GetCenterPixel();
+    itk::VariableLengthVector< PixelType > correctAnswer( VectorLength );
     correctAnswer.Fill( 3 );
     if( pixel != correctAnswer ) 
       {
@@ -615,7 +618,7 @@ int itkVectorImageTest( int, char* argv[] )
     typedef itk::NeighborhoodIterator< VectorImageType > NeighborhoodIteratorType;
     NeighborhoodIteratorType nit(radius, vectorImage, region);
     nit.SetLocation( location );
-    itk::Array< PixelType > p( VectorLength );
+    itk::VariableLengthVector< PixelType > p( VectorLength );
     p.Fill( 100.0 );
     nit.SetNext( 1, 1, p );
     

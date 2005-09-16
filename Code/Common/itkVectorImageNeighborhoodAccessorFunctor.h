@@ -17,7 +17,7 @@
 #ifndef __itkVectorImageNeighborhoodAccessorFunctor_h
 #define __itkVectorImageNeighborhoodAccessorFunctor_h
 
-#include "itkArray.h"
+#include "itkVariableLengthVector.h"
 #include "itkImageBoundaryCondition.h"
 #include "itkNeighborhood.h"
 #include "itkImageBase.h"

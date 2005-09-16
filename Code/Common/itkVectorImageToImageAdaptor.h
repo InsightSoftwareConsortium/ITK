@@ -32,7 +32,7 @@ namespace Accessor
  * from VectorImageComponentExtractAdaptor. The component to extract is set
  * using SetExtractComponentIdx.  
  *
- * \thanks
+ * \note
  * This work is part of the National Alliance for Medical Image Computing 
  * (NAMIC), funded by the National Institutes of Health through the NIH Roadmap
  * for Medical Research, Grant U54 EB005149.
@@ -52,7 +52,7 @@ public:
 
   /** Internal typedef. It defines the internal real
    * representation of data. */
-  typedef Array< TType >         InternalType;
+  typedef VariableLengthVector< TType >         InternalType;
 
   /** The pixel type that TInternalContainerType holds */
   typedef TType                  PixelType;

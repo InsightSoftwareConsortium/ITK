@@ -18,7 +18,7 @@
 #define __itkDefaultVectorPixelAccessor_h
 
 #include "itkMacro.h"
-#include "itkArray.h"
+#include "itkVariableLengthVector.h"
 
 namespace itk
 {
@@ -37,7 +37,7 @@ namespace itk
  * method to set the length of the vectors. This must be set before the accessor
  * can be used. This is the length of each of the vector containers.
  *
- * \thanks
+ * \note
  * This work is part of the National Alliance for Medical Image Computing 
  * (NAMIC), funded by the National Institutes of Health through the NIH Roadmap
  * for Medical Research, Grant U54 EB005149.
@@ -52,10 +52,10 @@ public:
   typedef unsigned int VectorLengthType;
   
   /** External typedef. It defines the external aspect
-   * that this class will exhibit. Here it is an Array. The container does not 
+   * that this class will exhibit. Here it is an VariableLengthVector. The container does not 
    * manage the memory. In other words it is an array reference with the contents
    * pointing to the actual data in the image. */
-  typedef Array< TType >  ExternalType;
+  typedef VariableLengthVector< TType >  ExternalType;
   
   /** Internal typedef. It defines the internal real representation of data. */
   typedef TType          InternalType;
