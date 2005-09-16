@@ -65,6 +65,22 @@ typedef struct {                   /** 3x3 matrix struct **/
 
 /*...........................................................................*/
 
+/*! \enum analyze_75_orient_code
+ *  \brief Old-style analyze75 orientation
+ *         codes.
+ */
+typedef enum _analyze75_orient_code
+  {
+    a75_transverse_unflipped = 0,
+    a75_coronal_unflipped = 1,
+    a75_sagittal_unflipped = 2,
+    a75_transverse_flipped = 3,
+    a75_coronal_flipped = 4,
+    a75_sagittal_flipped = 5,
+    a75_orient_unknown = 6
+  }
+  analyze_75_orient_code;
+
 /*! \struct nifti_image
     \brief High level data structure for open nifti datasets in the
            nifti1_io API.  Note that this structure is not part of the
@@ -151,9 +167,9 @@ typedef struct {                /*!< Image storage struct **/
 
   int                num_ext ;  /*!< number of extensions in ext_list       */
   nifti1_extension * ext_list ; /*!< array of extension structs (with data) */
-
+  analyze_75_orient_code analyze75_orient; /*!< for old analyze files, orient 
+                                             codes  */
 } nifti_image ;
-
 
 
 /* struct for return from nifti_image_read_bricks() */

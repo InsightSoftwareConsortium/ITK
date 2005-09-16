@@ -2908,6 +2908,20 @@ nifti_image* nifti_convert_nhdr2nim(struct nifti_1_header nhdr,
    /**- determine if this is a NIFTI-1 compliant header */
 
    is_nifti = NIFTI_VERSION(nhdr) ;
+   /*
+    * before swapping header, record the Analyze75 orient code
+    */
+   if(!is_nifti)
+     {
+     /**- in analyze75, the orient code is at the same address as
+      *   qform_code, but it's just one byte
+      *   the qform_code will be zero, at which point you can check
+      *   analyze75_orient if you care to.
+      */
+     unsigned char c = *((char *)(&nhdr.qform_code));
+     nim->analyze75_orient = (analyze_75_orient_code)c;
+
+     }
    if( doswap ) {
       if ( g_opts.debug > 3 ) disp_nifti_1_header("-d ni1 pre-swap: ", &nhdr);
       swap_nifti_header( &nhdr , is_nifti ) ;
