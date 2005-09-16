@@ -30,7 +30,7 @@ namespace Function
 
 inline unsigned Max3(float x, float y, float z)
 {
-  const double obliquityThresholdCosineValue = 0.8;
+  const double obliquityThresholdCosineValue = 0.001;
   
   double absX = vnl_math_abs(x);
   double absY = vnl_math_abs(y);
