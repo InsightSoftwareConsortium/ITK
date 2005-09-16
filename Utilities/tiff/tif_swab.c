@@ -1,4 +1,4 @@
-/* Header */
+/* Id */
 
 /*
  * Copyright (c) 1988-1997 Sam Leffler
@@ -31,76 +31,88 @@
  */
 #include "tiffiop.h"
 
+#ifndef TIFFSwabShort
 void
 TIFFSwabShort(uint16* wp)
 {
-        register u_char* cp = (u_char*) wp;
-        int t;
+  register unsigned char* cp = (unsigned char*) wp;
+  unsigned char t;
 
-        t = cp[1]; cp[1] = cp[0]; cp[0] = t;
+  t = cp[1]; cp[1] = cp[0]; cp[0] = t;
 }
+#endif
 
+#ifndef TIFFSwabLong
 void
 TIFFSwabLong(uint32* lp)
 {
-        register u_char* cp = (u_char*) lp;
-        int t;
+  register unsigned char* cp = (unsigned char*) lp;
+  unsigned char t;
 
-        t = cp[3]; cp[3] = cp[0]; cp[0] = t;
-        t = cp[2]; cp[2] = cp[1]; cp[1] = t;
+  t = cp[3]; cp[3] = cp[0]; cp[0] = t;
+  t = cp[2]; cp[2] = cp[1]; cp[1] = t;
 }
+#endif
 
+#ifndef TIFFSwabArrayOfShort
 void
-TIFFSwabArrayOfShort(uint16* wp, register u_long n)
+TIFFSwabArrayOfShort(uint16* wp, register unsigned long n)
 {
-        register u_char* cp;
-        register int t;
+  register unsigned char* cp;
+  register unsigned char t;
 
-        /* XXX unroll loop some */
-        while (n-- > 0) {
-                cp = (u_char*) wp;
-                t = cp[1]; cp[1] = cp[0]; cp[0] = t;
-                wp++;
-        }
+  /* XXX unroll loop some */
+  while (n-- > 0) {
+    cp = (unsigned char*) wp;
+    t = cp[1]; cp[1] = cp[0]; cp[0] = t;
+    wp++;
+  }
 }
+#endif
 
+#ifndef TIFFSwabArrayOfLong
 void
-TIFFSwabArrayOfLong(register uint32* lp, register u_long n)
+TIFFSwabArrayOfLong(register uint32* lp, register unsigned long n)
 {
-        register unsigned char *cp;
-        register int t;
+  register unsigned char *cp;
+  register unsigned char t;
 
-        /* XXX unroll loop some */
-        while (n-- > 0) {
-                cp = (unsigned char *)lp;
-                t = cp[3]; cp[3] = cp[0]; cp[0] = t;
-                t = cp[2]; cp[2] = cp[1]; cp[1] = t;
-                lp++;
-        }
+  /* XXX unroll loop some */
+  while (n-- > 0) {
+    cp = (unsigned char *)lp;
+    t = cp[3]; cp[3] = cp[0]; cp[0] = t;
+    t = cp[2]; cp[2] = cp[1]; cp[1] = t;
+    lp++;
+  }
 }
+#endif
 
+#ifndef TIFFSwabDouble
 void
 TIFFSwabDouble(double *dp)
 {
         register uint32* lp = (uint32*) dp;
         uint32 t;
 
-        TIFFSwabArrayOfLong(lp, 2);
-        t = lp[0]; lp[0] = lp[1]; lp[1] = t;
+  TIFFSwabArrayOfLong(lp, 2);
+  t = lp[0]; lp[0] = lp[1]; lp[1] = t;
 }
+#endif
 
+#ifndef TIFFSwabArrayOfDouble
 void
-TIFFSwabArrayOfDouble(double* dp, register u_long n)
+TIFFSwabArrayOfDouble(double* dp, register unsigned long n)
 {
-        register uint32* lp = (uint32*) dp;
+  register uint32* lp = (uint32*) dp;
         register uint32 t;
 
-        TIFFSwabArrayOfLong(lp, n + n);
+  TIFFSwabArrayOfLong(lp, n + n);
         while (n-- > 0) {
-                t = lp[0]; lp[0] = lp[1]; lp[1] = t;
+    t = lp[0]; lp[0] = lp[1]; lp[1] = t;
                 lp += 2;
         }
 }
+#endif
 
 /*
  * Bit reversal tables.  TIFFBitRevTable[<byte>] gives
@@ -183,23 +195,25 @@ static const unsigned char TIFFNoBitRevTable[256] = {
 const unsigned char*
 TIFFGetBitRevTable(int reversed)
 {
-        return (reversed ? TIFFBitRevTable : TIFFNoBitRevTable);
+  return (reversed ? TIFFBitRevTable : TIFFNoBitRevTable);
 }
 
 void
-TIFFReverseBits(register u_char* cp, register u_long n)
+TIFFReverseBits(register unsigned char* cp, register unsigned long n)
 {
-        for (; n > 8; n -= 8) {
-                cp[0] = TIFFBitRevTable[cp[0]];
-                cp[1] = TIFFBitRevTable[cp[1]];
-                cp[2] = TIFFBitRevTable[cp[2]];
-                cp[3] = TIFFBitRevTable[cp[3]];
-                cp[4] = TIFFBitRevTable[cp[4]];
-                cp[5] = TIFFBitRevTable[cp[5]];
-                cp[6] = TIFFBitRevTable[cp[6]];
-                cp[7] = TIFFBitRevTable[cp[7]];
-                cp += 8;
-        }
-        while (n-- > 0)
-                *cp = TIFFBitRevTable[*cp], cp++;
+  for (; n > 8; n -= 8) {
+    cp[0] = TIFFBitRevTable[cp[0]];
+    cp[1] = TIFFBitRevTable[cp[1]];
+    cp[2] = TIFFBitRevTable[cp[2]];
+    cp[3] = TIFFBitRevTable[cp[3]];
+    cp[4] = TIFFBitRevTable[cp[4]];
+    cp[5] = TIFFBitRevTable[cp[5]];
+    cp[6] = TIFFBitRevTable[cp[6]];
+    cp[7] = TIFFBitRevTable[cp[7]];
+    cp += 8;
+  }
+  while (n-- > 0)
+    *cp = TIFFBitRevTable[*cp], cp++;
 }
+
+/* vim: set ts=8 sts=8 sw=8 noet: */

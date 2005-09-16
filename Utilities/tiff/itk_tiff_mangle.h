@@ -175,5 +175,13 @@ nm libitktiff.a |grep " T "
 #define _TIFFsetString itk__TIFFsetString
 #define uv_decode itk_uv_decode
 #define uv_encode itk_uv_encode
+#define TIFFCvtIEEEFloatToNative itk_TIFFCvtIEEEFloatToNative
+#define TIFFCvtIEEEDoubleToNative itk_TIFFCvtIEEEDoubleToNative
+#define TIFFYCbCrToRGBInit itk_TIFFYCbCrToRGBInit
+#define TIFFYCbCrtoRGB itk_TIFFYCbCrtoRGB
+#define TIFFCIELabToRGBInit itk_TIFFCIELabToRGBInit
+#define TIFFXYZToRGB itk_TIFFXYZToRGB
+#define TIFFCIELabToXYZ itk_TIFFCIELabToXYZ
+#define TIFFCvtNativeToIEEEFloat itk_TIFFCvtNativeToIEEEFloat
 
 #endif

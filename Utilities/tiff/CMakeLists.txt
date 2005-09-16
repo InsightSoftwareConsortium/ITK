@@ -1,22 +1,49 @@
 PROJECT(ITKTIFF)
 INCLUDE_REGULAR_EXPRESSION("^(itk_tiff_mangle|tif|fax|port|uv|tconf|t4|mk|itkjpeg|jpeg|mangle|jconfig|jmorecfg).*$")
 
-
 INCLUDE_DIRECTORIES(BEFORE ${ITKTIFF_SOURCE_DIR})
 INCLUDE_DIRECTORIES(BEFORE ${ITKTIFF_BINARY_DIR})
 
+INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/itkjpeg)
+INCLUDE_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/itkjpeg/8)
+
 # library object files common to compression and decompression
 SET(common_SRCS
-tif_aux.c tif_close.c
-tif_codec.c tif_compress.c tif_dir.c tif_dirinfo.c tif_dirread.c
-tif_dirwrite.c tif_dumpmode.c tif_error.c tif_fax3.c tif_flush.c
-tif_getimage.c tif_jpeg.c tif_luv.c tif_lzw.c tif_next.c
-tif_ojpeg.c tif_open.c tif_packbits.c tif_pixarlog.c tif_predict.c
-tif_print.c tif_read.c tif_strip.c tif_swab.c tif_thunder.c tif_tile.c
-tif_version.c tif_warning.c
-tif_write.c tif_zip.c)
+tif_aux.c 
+tif_close.c 
+tif_codec.c 
+tif_compress.c
+tif_color.c
+tif_dir.c 
+tif_dirinfo.c 
+tif_dirread.c
+tif_dirwrite.c 
+tif_dumpmode.c 
+tif_error.c 
+tif_fax3.c 
+tif_flush.c
+tif_getimage.c  
+tif_luv.c 
+tif_lzw.c 
+tif_next.c
+tif_ojpeg.c 
+tif_open.c 
+tif_packbits.c 
+tif_pixarlog.c 
+tif_predict.c
+tif_print.c 
+tif_read.c 
+tif_strip.c 
+tif_swab.c 
+tif_thunder.c 
+tif_tile.c
+tif_version.c 
+tif_warning.c
+tif_write.c 
+tif_zip.c
+tif_jpeg.c)
 
-ADD_DEFINITIONS( -DJPEG_SUPPORT -DZIP_SUPPORT -D_HPUX_SOURCE)
+ADD_DEFINITIONS(-DJPEG_SUPPORT  -DZIP_SUPPORT -D_HPUX_SOURCE)
 
 IF(WIN32)
   IF(BUILD_SHARED_LIBS)
@@ -28,7 +55,7 @@ ENDIF(WIN32)
 
 IF(NOT UNIX)
     ADD_DEFINITIONS( -DTIF_PLATFORM_CONSOLE )
-    SET(common_SRCS ${common_SRCS} tif_win32.c fax3sm_winnt.c)
+    SET(common_SRCS ${common_SRCS} tif_win32.c)
     IF (NOT BORLAND)
       IF(NOT MINGW)
         SET(common_SRCS ${common_SRCS} itktiff.def)
@@ -59,10 +86,61 @@ ELSE (NOT UNIX)
   ENDIF(TIFF_RIGHT_VERSION)
 ENDIF (NOT UNIX)
 
+INCLUDE (${CMAKE_ROOT}/Modules/CheckIncludeFiles.cmake)
+INCLUDE(${CMAKE_ROOT}/Modules/CheckSymbolExists.cmake)
+INCLUDE(${CMAKE_ROOT}/Modules/CheckFunctionExists.cmake)
+
+# Check if header file exists and add it to the list.
+CHECK_INCLUDE_FILES("assert.h" HAVE_ASSERT_H)
+CHECK_INCLUDE_FILES("dlfcn.h" HAVE_DLFCN_H)
+CHECK_INCLUDE_FILES("fcntl.h" HAVE_FCNTL_H)
+CHECK_INCLUDE_FILES("inttypes.h" HAVE_INTTYPES_H)
+CHECK_INCLUDE_FILES("limits.h" HAVE_LIMITS_H)
+CHECK_INCLUDE_FILES("malloc.h" HAVE_MALLOC_H)
+CHECK_INCLUDE_FILES("memory.h" HAVE_MEMORY_H)
+CHECK_INCLUDE_FILES("stdint.h" HAVE_STDINT_H)
+CHECK_INCLUDE_FILES("stdlib.h" HAVE_STDLIB_H)
+CHECK_INCLUDE_FILES("string.h" HAVE_STRING_H)
+CHECK_INCLUDE_FILES("strings.h" HAVE_STRINGS_H)
+CHECK_INCLUDE_FILES("sys/stat.h" HAVE_SYS_STAT_H)
+CHECK_INCLUDE_FILES("sys/time.h" HAVE_SYS_TIME_H)
+CHECK_INCLUDE_FILES("sys/types.h" HAVE_SYS_TYPES_H)
+CHECK_INCLUDE_FILES("unistd.h" HAVE_UNISTD_H)
+CHECK_INCLUDE_FILES("windows.h" HAVE_WINDOWS_H)
+CHECK_INCLUDE_FILES("strings.h" HAVE_STRINGS_H)
+CHECK_INCLUDE_FILES("ieeefp.h" HAVE_IEEEFP_H)
+
+CHECK_FUNCTION_EXISTS(floor HAVE_FLOOR)
+CHECK_FUNCTION_EXISTS(getopt HAVE_GETOPT)
+CHECK_FUNCTION_EXISTS(isascii HAVE_ISASCII)
+CHECK_FUNCTION_EXISTS(memmove HAVE_MEMMOVE)
+CHECK_FUNCTION_EXISTS(memset HAVE_MEMSET)
+CHECK_FUNCTION_EXISTS(mmap HAVE_MMAP)
+CHECK_FUNCTION_EXISTS(pow HAVE_POW)
+CHECK_FUNCTION_EXISTS(sqrt HAVE_SQRT)
+CHECK_FUNCTION_EXISTS(strcasecmp HAVE_STRCASECMP)
+CHECK_FUNCTION_EXISTS(strchr HAVE_STRCHR)
+CHECK_FUNCTION_EXISTS(strrchr HAVE_STRRCHR)
+CHECK_FUNCTION_EXISTS(strstr HAVE_STRSTR)
+CHECK_FUNCTION_EXISTS(strtol HAVE_STRTOL)
+CHECK_FUNCTION_EXISTS(areroul HAVE_STRTOUL)
+
+
+IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
+ELSE("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
+INCLUDE(CheckTypeSize)
+ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
+
+CHECK_TYPE_SIZE("int" SIZEOF_INT)
+CHECK_TYPE_SIZE("long" SIZEOF_LONG)
+
+
 CONFIGURE_FILE(${ITKTIFF_SOURCE_DIR}/.NoDartCoverage
                ${ITKTIFF_BINARY_DIR}/.NoDartCoverage)
 CONFIGURE_FILE(${ITKTIFF_SOURCE_DIR}/tiffDllConfig.h.in
                ${ITKTIFF_BINARY_DIR}/tiffDllConfig.h)
+CONFIGURE_FILE(${ITKTIFF_SOURCE_DIR}/tif_config.h.in
+               ${ITKTIFF_BINARY_DIR}/tif_config.h)
 
 ADD_LIBRARY(itktiff ${common_SRCS})
 TARGET_LINK_LIBRARIES( itktiff ${ITK_ZLIB_LIBRARIES} itkjpeg8)

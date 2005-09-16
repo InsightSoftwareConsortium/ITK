@@ -30,20 +30,20 @@
 #include "tiffiop.h"
 
 TIFFErrorHandler
-TEXPORT TIFFSetWarningHandler(TIFFErrorHandler handler)
+TIFFSetWarningHandler(TIFFErrorHandler handler)
 {
-        TIFFErrorHandler prev = _TIFFwarningHandler;
-        _TIFFwarningHandler = handler;
-        return (prev);
+  TIFFErrorHandler prev = _TIFFwarningHandler;
+  _TIFFwarningHandler = handler;
+  return (prev);
 }
 
 void
 TIFFWarning(const char* module, const char* fmt, ...)
 {
-        if (_TIFFwarningHandler) {
-                va_list ap;
-                va_start(ap, fmt);
-                (*_TIFFwarningHandler)(module, fmt, ap);
-                va_end(ap);
-        }
+  if (_TIFFwarningHandler) {
+    va_list ap;
+    va_start(ap, fmt);
+    (*_TIFFwarningHandler)(module, fmt, ap);
+    va_end(ap);
+  }
 }
