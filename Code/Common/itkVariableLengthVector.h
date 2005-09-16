@@ -130,9 +130,6 @@ public:
   void Fill (TValueType const& v); 
 
   /** Assignment operator  **/
-  const Self & operator=(const Self & v);
-  
-  /** Assignment operator  **/
   template< class T >
   const VariableLengthVector< TValueType > & operator= 
                           (const VariableLengthVector< T > & v)
@@ -149,7 +146,10 @@ public:
       }
     return *this;
     }
-      
+  
+  /** Assignment operator  **/
+  const Self & operator=(const Self & v);
+     
   /** Return the number of elements in the Array  */
   inline unsigned int Size (void ) const 
       { return m_NumElements; }
