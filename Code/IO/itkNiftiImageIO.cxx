@@ -413,35 +413,35 @@ void NiftiImageIO::ReadImageInformation()
   //Get Dictionary Information
   //Insert Orientation.
   //Need to encapsulate as much Nifti information as possible here.
-  itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
+  MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   std::string classname(this->GetNameOfClass());
-  itk::EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName, classname);
+  EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName, classname);
 
   switch( this->m_NiftiImage->datatype)
     {
     case NIFTI_TYPE_INT8:
-      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(char).name()));
+      EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(char).name()));
       break;
     case NIFTI_TYPE_UINT8:
-      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned char).name()));
+      EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned char).name()));
       break;
     case NIFTI_TYPE_INT16:
-      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(short).name()));
+      EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(short).name()));
       break;
     case NIFTI_TYPE_UINT16:
-      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned short).name()));
+      EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned short).name()));
       break;
     case NIFTI_TYPE_INT32:
-      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(long).name()));
+      EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(long).name()));
       break;
     case NIFTI_TYPE_UINT32:
-      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned long).name()));
+      EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned long).name()));
       break;
     case NIFTI_TYPE_FLOAT32:
-      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(float).name()));
+      EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(float).name()));
       break;
     case NIFTI_TYPE_FLOAT64:
-      itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(double).name()));
+      EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(double).name()));
       break;
       //    case DT_RGB:
       // DEBUG -- Assuming this is a triple, not quad
@@ -454,10 +454,7 @@ void NiftiImageIO::ReadImageInformation()
   if(this->m_NiftiImage->qform_code == 0 && this->m_NiftiImage->sform_code == 0)
     {
     typedef SpatialOrientationAdapter<3> OrientAdapterType;
-    typedef OrientAdapterType::DirectionType DirectionType;
-    typedef OrientAdapterType::OrientationType OrientationType;
-
-    OrientationType orient;
+    SpatialOrientationAdapter<3>::OrientationType orient;
     switch(this->m_NiftiImage->analyze75_orient)
       {
       case a75_transverse_unflipped:
@@ -474,7 +471,7 @@ void NiftiImageIO::ReadImageInformation()
         orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
         break;
       }
-    DirectionType dir =  OrientAdapterType().ToDirectionCosines(orient);
+    SpatialOrientationAdapter<3>::DirectionType dir =  OrientAdapterType().ToDirectionCosines(orient);
 
     std::vector<double> direction(3,0);
     direction[0] = dir[0][0];
@@ -536,7 +533,7 @@ void NiftiImageIO::ReadImageInformation()
   
 
   //Important hist fields
-  itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileNotes,std::string(this->m_NiftiImage->descrip,80));
+  EncapsulateMetaData<std::string>(thisDic,ITK_FileNotes,std::string(this->m_NiftiImage->descrip,80));
 
   // We don't need the image anymore
   nifti_image_free(this->m_NiftiImage);
@@ -558,7 +555,7 @@ NiftiImageIO
     exception.SetDescription(ErrorMessage.c_str());
     throw exception;
     }
-  //  itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
+  //  MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   //
   // fill out the image header.
   if(this->m_NiftiImage == 0)
