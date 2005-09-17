@@ -274,21 +274,21 @@ public:
       }
     return result;
     }
-  template< class T > inline Self operator+( T s ) const
+  inline Self operator+( TValueType s ) const
     {
     Self result( m_NumElements );
     for( ElementIdentifier i=0; i< m_NumElements; i++ )
       {
-      result[i] = m_Data[i] + (static_cast< ValueType >( s ));
+      result[i] = m_Data[i] + s;
       }
     return result;
     }
-  template< class T > inline Self operator-( T s ) const
+  inline Self operator-( TValueType s ) const
     {
     Self result( m_NumElements );
     for( ElementIdentifier i=0; i< m_NumElements; i++ )
       {
-      result[i] = m_Data[i] - (static_cast< ValueType >( s ));
+      result[i] = m_Data[i] - s;
       }
     return result;
     }
@@ -333,11 +333,11 @@ public:
       }
     return *this;
     }
-  template< class T > inline Self& operator-=( T s )
+  inline Self& operator-=( TValueType s )
     {
     for( ElementIdentifier i=0; i< m_NumElements; i++ )
       {
-      m_Data[i] -= (static_cast< ValueType >( s ));
+      m_Data[i] -= s ;
       }
     return *this;
     }
@@ -350,11 +350,11 @@ public:
       }
     return *this;
     }
-  template< class T > inline Self& operator+=( T s )
+  inline Self& operator+=( TValueType s )
     {
     for( ElementIdentifier i=0; i< m_NumElements; i++ )
       {
-      m_Data[i] += (static_cast< ValueType >( s ));
+      m_Data[i] += s;
       }
     return *this;
     }
