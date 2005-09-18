@@ -152,10 +152,10 @@
 #cmakedefine LOGLUV_SUPPORT
 
 /* Support LZW algorithm */
-#cmakedefine LZW_SUPPORT
+#define LZW_SUPPORT 1
 
 /* Support NeXT 2-bit RLE algorithm */
-#cmakedefine NEXT_SUPPORT
+#define NEXT_SUPPORT 1
 
 /* Define to 1 if your C compiler doesn't accept -c and -o together. */
 #cmakedefine NO_MINUS_C_MINUS_O
@@ -183,7 +183,7 @@
 #cmakedefine PACKAGE_VERSION
 
 /* Support Macintosh PackBits algorithm */
-#cmakedefine PACKBITS_SUPPORT
+//#define PACKBITS_SUPPORT 1
 
 /* Support Pixar log-format algorithm (requires Zlib) */
 #cmakedefine PIXARLOG_SUPPORT
