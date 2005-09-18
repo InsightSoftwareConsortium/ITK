@@ -20,6 +20,7 @@ tif_dirread.c
 tif_dirwrite.c 
 tif_dumpmode.c 
 tif_error.c 
+tif_extension.c
 tif_fax3.c 
 tif_flush.c
 tif_getimage.c  
