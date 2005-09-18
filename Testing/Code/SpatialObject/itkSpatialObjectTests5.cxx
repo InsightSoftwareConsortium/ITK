@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSpatialObjectTests.cxx
+  Module:    itkSpatialObjectTests5.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -24,7 +24,7 @@
 
 void RegisterTests()
 {
-  REGISTER_TEST(itkAffineGeometryFrameTest);
-  REGISTER_TEST(itkArrowSpatialObjectTest);
-  REGISTER_TEST(itkBlobSpatialObjectTest);
+  REGISTER_TEST(itkCylinderSpatialObjectTest);
+  REGISTER_TEST(itkEllipseSpatialObjectTest);
+  REGISTER_TEST(itkGaussianSpatialObjectTest);
 }
