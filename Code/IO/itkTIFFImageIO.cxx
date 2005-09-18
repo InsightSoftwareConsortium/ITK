@@ -177,7 +177,7 @@ int TIFFReaderInternal::Initialize()
       }
 
     // Checking if the TIFF contains subfiles
-    if(this->NumberOfPages > 0)
+    if(this->NumberOfPages > 1)
       {
       this->SubFiles = 0;
 
