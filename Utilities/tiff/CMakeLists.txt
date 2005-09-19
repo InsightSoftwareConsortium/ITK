@@ -56,7 +56,7 @@ ENDIF(WIN32)
 
 IF(NOT UNIX)
     ADD_DEFINITIONS( -DTIF_PLATFORM_CONSOLE )
-    SET(common_SRCS ${common_SRCS} tif_win32.c)
+    SET(common_SRCS ${common_SRCS} tif_win32.c tif_fax3sm.c)
     IF (NOT BORLAND)
       IF(NOT MINGW)
         SET(common_SRCS ${common_SRCS} itktiff.def)

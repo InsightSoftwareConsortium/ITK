@@ -183,5 +183,7 @@ nm libitktiff.a |grep " T "
 #define TIFFXYZToRGB itk_TIFFXYZToRGB
 #define TIFFCIELabToXYZ itk_TIFFCIELabToXYZ
 #define TIFFCvtNativeToIEEEFloat itk_TIFFCvtNativeToIEEEFloat
-
+#define _TIFFFaxBlackTable itk__TIFFFaxBlackTable
+#define _TIFFFaxWhiteTable itk__TIFFFaxWhiteTable
+#define _TIFFFaxMainTable itk__TIFFFaxMainTable
 #endif

@@ -1,7 +1,7 @@
 /* libtiff/tif_config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Support CCITT Group 3 & 4 algorithms */
-#cmakedefine CCITT_SUPPORT
+#define CCITT_SUPPORT 1
 
 /* Pick up YCbCr subsampling info from the JPEG data stream to support files
    lacking the tag (default enabled). */
@@ -149,7 +149,7 @@
 #cmakedefine JPEG_SUPPORT @JPEG_SUPPORT@
 
 /* Support LogLuv high dynamic range encoding */
-#cmakedefine LOGLUV_SUPPORT
+#define LOGLUV_SUPPORT 1
 
 /* Support LZW algorithm */
 #define LZW_SUPPORT 1
@@ -193,10 +193,10 @@
 #cmakedefine PTHREAD_CREATE_JOINABLE
 
 /* The size of a `int', as computed by sizeof. */
-#define SIZEOF_INT @SIZEOF_INT@
+#define SIZEOF_INT @CMAKE_SIZEOF_INT@
 
 /* The size of a `long', as computed by sizeof. */
-#define SIZEOF_LONG @SIZEOF_LONG@
+#define SIZEOF_LONG @CMAKE_SIZEOF_LONG@
 
 /* Define to 1 if you have the ANSI C header files. */
 #cmakedefine STDC_HEADERS
@@ -242,7 +242,8 @@
 /* Define to `__inline__' or `__inline' if that's what the C compiler
    calls it, or to nothing if 'inline' is not supported under any name.  */
 #ifndef __cplusplus
-#cmakedefine inline
+#define inline
+//#cmakedefine inline
 #endif
 
 /* Define to `long' if <sys/types.h> does not define. */
