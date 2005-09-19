@@ -183,7 +183,7 @@
 #cmakedefine PACKAGE_VERSION
 
 /* Support Macintosh PackBits algorithm */
-//#define PACKBITS_SUPPORT 1
+#define PACKBITS_SUPPORT 1
 
 /* Support Pixar log-format algorithm (requires Zlib) */
 #cmakedefine PIXARLOG_SUPPORT
