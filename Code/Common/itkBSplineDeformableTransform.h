@@ -182,6 +182,22 @@ public:
    *
    */
   void SetParameters(const ParametersType & parameters);
+  
+  /** This method sets the fixed parameters of the transform.
+   * For a BSpline deformation transform, the parameters are the following:
+   *    Grid Size, Grid Origin, and Grid Spacing
+   * 
+   * The fixed parameters are the three times the size of the templated dimensions.
+   * This function has the effect of make the following calls:
+   *       transform->SetGridSpacing( spacing );
+   *       transform->SetGridOrigin( origin );
+   *       transform->SetGridRegion( bsplineRegion );
+   *
+   * This function was added to allow the transform to work with the 
+   * itkTransformReader/Writer I/O filters.
+   *
+   */
+  void SetFixedParameters(const ParametersType & parameters);
 
   /** This method sets the parameters of the transform.
    * For a BSpline deformation transform, the parameters are the BSpline 
@@ -215,6 +231,9 @@ public:
   /** Get the Transformation Parameters. */
   virtual const ParametersType& GetParameters(void) const;
 
+  /** Get the Transformation Fixed Parameters. */
+  virtual const ParametersType& GetFixedParameters(void) const;
+  
   /** Parameters as SpaceDimension number of images. */
   typedef typename ParametersType::ValueType PixelType;
   typedef Image<PixelType,itkGetStaticConstMacro(SpaceDimension)> ImageType;

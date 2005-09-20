@@ -87,6 +87,16 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     m_JacobianImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
     }
 
+  /********************************************************** 
+    Fixed Parameters store the following information:
+        Grid Size
+        Grid Origin
+        Grid Spacing
+     The size of these is equal to the  NInputDimensions
+  **********************************************************/
+  this->m_FixedParameters.SetSize ( NDimensions * 3 );
+  this->m_FixedParameters.Fill ( 0.0 );
+  
   m_LastJacobianIndex = m_ValidRegion.GetIndex();
   
 }
@@ -263,6 +273,60 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   this->Modified();
 }
 
+// Set the Fixed Parameters
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+void
+BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::SetFixedParameters( const ParametersType & parameters )
+{
+ 
+  // check if the number of parameters match the
+  // expected number of parameters
+  if ( parameters.Size() != NDimensions*3 )
+    {
+    itkExceptionMacro(<<"Mismatched between parameters size " << parameters.size() 
+                      << " and number of fixed parameters " << NDimensions*3 );
+    }
+
+  /********************************************************** 
+    Fixed Parameters store the following information:
+        Grid Size
+        Grid Origin
+        Grid Spacing
+     The size of these is equal to the  NInputDimensions
+  **********************************************************/
+  
+  /*** Set the Grid Parameters ***/
+  SizeType   gridSize;
+  for (unsigned int i=0;i<NDimensions;i++)
+    {
+    gridSize[i] = static_cast<int> (parameters[i]);
+    }
+  RegionType bsplineRegion;
+  bsplineRegion.SetSize( gridSize );
+  
+  /*** Set the Origin Parameters ***/
+  OriginType origin;
+  for (unsigned int i=0;i<NDimensions;i++)
+    {
+    origin[i] = parameters[NDimensions+i];
+    }
+  
+  /*** Set the Spacing Parameters ***/
+  SpacingType spacing;
+  for (unsigned int i=0;i<NDimensions;i++)
+    {
+    spacing[i] = parameters[2*NDimensions+i];
+    }
+
+  
+  this->SetGridSpacing( spacing );
+  this->SetGridOrigin( origin );
+  this->SetGridRegion( bsplineRegion );
+
+  this->Modified();
+}
+
 
 // Wrap flat parameters as images
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
@@ -346,6 +410,34 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
    */
   return (*m_InputParametersPointer);
 }
+
+
+// Get the parameters
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+const 
+typename BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::ParametersType &
+BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::GetFixedParameters( void ) const
+{
+  RegionType resRegion = this->GetGridRegion(  );
+  
+  for (unsigned int i=0;i<NDimensions;i++)
+    {
+    m_FixedParameters[i] = (resRegion.GetSize())[i];
+    }
+  for (unsigned int i=0;i<NDimensions;i++)
+    {
+    m_FixedParameters[NDimensions+i] = (this->GetGridOrigin())[i];
+    } 
+  for (unsigned int i=0;i<NDimensions;i++)
+    {
+    m_FixedParameters[2*NDimensions+i] =  (this->GetGridSpacing())[i];
+    }
+  
+  return (m_FixedParameters);
+}
+
 
   
 // Set the B-Spline coefficients using input images
