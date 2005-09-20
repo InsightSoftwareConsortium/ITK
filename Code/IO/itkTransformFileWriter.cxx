@@ -18,8 +18,6 @@
 #define __itkTransformFileWriter_cxx
 
 #include "itkTransformFileWriter.h"
-#include "itkBSplineDeformableTransform.h"
-#include "itkRigid2DTransform.h"
 
 namespace itk
 {

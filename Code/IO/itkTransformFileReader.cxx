@@ -59,7 +59,6 @@ void TransformFileReader
 ::Update()
 {  
   TransformPointer transform;
-
   std::ifstream in;
   in.open ( m_FileName.c_str() );
   if( in.fail() )
@@ -72,13 +71,23 @@ void TransformFileReader
   OStringStream InData;
 
   // in.get ( InData );
-  char* buffer = new char[1024];
-  while ( !in.eof() )
-    {
-    // Read a buffer full
-    in.getline ( buffer, 1024 );
-    InData << buffer << std::endl;
-    }
+  std::filebuf *pbuf;
+  pbuf=in.rdbuf();
+
+  // get file size using buffer's members
+  int size=pbuf->pubseekoff (0,std::ios::end,std::ios::in);
+  pbuf->pubseekpos (0,std::ios::in);
+
+  // allocate memory to contain file data
+  char* buffer=new char[size+1];
+
+  // get file data  
+  pbuf->sgetn (buffer,size); 
+  buffer[size]='\0';
+  itkDebugMacro ( "Read file transform Data" );
+  
+  InData << buffer;
+
   delete[] buffer;
   std::string data = InData.str();
   in.close();
@@ -86,6 +95,14 @@ void TransformFileReader
   // Read line by line
   vnl_vector<double> VectorBuffer;
   std::string::size_type position = 0;
+  
+  Array<double> TmpParameterArray;
+  Array<double> TmpFixedParameterArray;
+  TmpParameterArray.clear();
+  TmpFixedParameterArray.clear();
+  bool haveFixedParameters = false;
+  bool haveParameters = false;
+ 
   while ( position < data.size() )
     {
     // Find the next string
@@ -151,8 +168,6 @@ void TransformFileReader
       }
     else if ( Name == "Parameters" || Name == "FixedParameters" )
       {
-      Array<double> TmpArray;
-      TmpArray.clear();
       VectorBuffer.clear();
 
       // Read them
@@ -160,25 +175,47 @@ void TransformFileReader
       itkDebugMacro ( "Parsed: " << VectorBuffer );
       if ( Name == "Parameters" )
         {
-        TmpArray = VectorBuffer;
-        itkDebugMacro ( "Setting Parameters: " << TmpArray );
-        if ( !transform )
+        TmpParameterArray = VectorBuffer;
+        itkDebugMacro ( "Setting Parameters: " << TmpParameterArray );
+        if ( haveFixedParameters )
           {
-          itkExceptionMacro ( "Please set the transform before parameters" );
+          transform->SetFixedParameters ( TmpFixedParameterArray );
+          itkDebugMacro ( "Set Transform Fixed Parameters" );
+          transform->SetParametersByValue ( TmpParameterArray );
+          itkDebugMacro ( "Set Transform Parameters" );
+          TmpParameterArray.clear();
+          TmpFixedParameterArray.clear(); 
+          haveFixedParameters = false;
+          haveParameters = false;      
           }
-        transform->SetParametersByValue ( TmpArray );
-        itkDebugMacro ( "Parameters set Parameters" );
+        else
+          {
+          haveParameters = true;
+          }   
         }
       else if ( Name == "FixedParameters" )
         {
-        TmpArray = VectorBuffer;
-        itkDebugMacro ( "Setting Fixed Parameters: " << TmpArray );
+        TmpFixedParameterArray = VectorBuffer;
+        itkDebugMacro ( "Setting Fixed Parameters: " << TmpFixedParameterArray );
         if ( !transform )
           {
-          itkExceptionMacro ( "Please set the transform before fixed parameters" );
+          itkExceptionMacro ( "Please set the transform before parameters or fixed parameters" );
           }
-        transform->SetFixedParameters ( TmpArray );
-        itkDebugMacro ( "Set Fixed Parameters" );
+        if ( haveParameters )
+          {
+          transform->SetFixedParameters ( TmpFixedParameterArray );
+          itkDebugMacro ( "Set Transform Fixed Parameters" );
+          transform->SetParametersByValue ( TmpParameterArray );
+          itkDebugMacro ( "Set Transform Parameters" );
+          TmpParameterArray.clear();
+          TmpFixedParameterArray.clear(); 
+          haveFixedParameters = false;
+          haveParameters = false;      
+          }
+        else
+          {
+          haveFixedParameters = true;
+          }        
         }
       }
     }
