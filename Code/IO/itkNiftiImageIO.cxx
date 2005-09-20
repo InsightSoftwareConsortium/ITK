@@ -450,7 +450,6 @@ void NiftiImageIO::ReadImageInformation()
     default:
       break;
     }
-  mat44 *theMat;
   if(this->m_NiftiImage->qform_code == 0 && this->m_NiftiImage->sform_code == 0)
     {
     typedef SpatialOrientationAdapter<3> OrientAdapterType;
@@ -492,38 +491,51 @@ void NiftiImageIO::ReadImageInformation()
     }
   else
     {
+    //
+    // declare a matrix that can be used in the qfac == -1 case
+    mat44 theMat;
     if(this->m_NiftiImage->qform_code > 0)
       {
       //
       // try and compute the orientation stuff
-      //      theMat = &(this->m_NiftiImage->qto_xyz);
-      theMat = &(this->m_NiftiImage->qto_xyz);
+      //
+      // if the data is organized in a left-handed coordinate system,
+      // then the matrix is rotated
+      theMat = this->m_NiftiImage->qto_xyz;
+      if(this->m_NiftiImage->qfac <= 0)
+        {
+        for(unsigned i = 1; i < 3; i++)
+          {
+          theMat.m[1][i] = -theMat.m[1][i];
+          theMat.m[2][i] = -theMat.m[2][i];
+          }
+        }
       }
     else if(this->m_NiftiImage->sform_code > 0)
       {
       //      theMat = &(this->m_NiftiImage->sto_xyz);
-      theMat = &(this->m_NiftiImage->sto_xyz);
+      theMat = this->m_NiftiImage->sto_xyz;
       }
     //
     // set direction vectors
     std::vector<double> direction(3,0);
-    direction[0] = theMat->m[0][0];
-    direction[1] = theMat->m[0][1];
-    direction[2] = theMat->m[0][2];
+    direction[0] = theMat.m[0][0];
+    direction[1] = theMat.m[0][1];
+    direction[2] = theMat.m[0][2];
     this->SetDirection(0,direction);
-    direction[0] = theMat->m[1][0];
-    direction[1] = theMat->m[1][1];
-    direction[2] = theMat->m[1][2];
+    direction[0] = theMat.m[1][0];
+    direction[1] = theMat.m[1][1];
+    direction[2] = theMat.m[1][2];
     this->SetDirection(1,direction);
-    direction[0] = theMat->m[2][0];
-    direction[1] = theMat->m[2][1];
-    direction[2] = theMat->m[2][2];
+    direction[0] = theMat.m[2][0];
+    direction[1] = theMat.m[2][1];
+    direction[2] = theMat.m[2][2];
     this->SetDirection(2,direction);
     //
     // set origin
-    m_Origin[0] = theMat->m[0][3];
-    m_Origin[1] = theMat->m[1][3];
-    m_Origin[2] = theMat->m[2][3];
+    m_Origin[0] = theMat.m[3][0];
+    m_Origin[1] = theMat.m[3][1];
+    m_Origin[2] = theMat.m[3][2];
     if((m_RescaleSlope = this->m_NiftiImage->scl_slope) == 0)
       {
       m_RescaleSlope = 1;
@@ -639,8 +651,8 @@ NiftiImageIO
       this->m_NiftiImage->nvox *=
           this->m_NiftiImage->dim[7] =
           this->m_NiftiImage->nw = this->GetDimensions(6);
-      this->m_NiftiImage->pixdim[7] =
-          this->m_NiftiImage->dw = this->GetSpacing(6);
+      this->m_NiftiImage->pixdim[7] = 
+        this->m_NiftiImage->dw = this->GetSpacing(6);
   case 6:
       this->m_NiftiImage->nvox *=
           this->m_NiftiImage->dim[6] =
@@ -748,14 +760,27 @@ NiftiImageIO
   std::vector<double> dirx = this->GetDirection(0);
   std::vector<double> diry  = this->GetDirection(1);
   std::vector<double> dirz  = this->GetDirection(2);
-#if 1 //The QFORM version is preferable to the SFORM version for referencing scanner centered orientation systems
-       //The freesurfer program (and perhaps others) expect the qform to be the primary orientation based correction.
   mat44 matrix;
+  double det = 
+    dirx[0]*diry[1]*dirz[2]-
+    dirx[0]*dirz[1]*diry[2]-
+    diry[0]*dirx[1]*dirz[2]+
+    diry[0]*dirz[1]*dirx[2]+
+    dirz[0]*dirx[1]*diry[2]-
+    dirz[0]*diry[1]*dirx[2];
+  if(det < 0)
+    {
+    det = -1;
+    }
+  else
+    {
+    det = 1;
+    }
   for(unsigned i = 0; i < 3; i++)
     {
     matrix.m[0][i] = dirx[i];
-    matrix.m[1][i] = diry[i];
-    matrix.m[2][i] = dirz[i];
+    matrix.m[1][i] = diry[i] * det;
+    matrix.m[2][i] = dirz[i] * det;
     matrix.m[3][i] = this->GetOrigin(i);
     }
   this->m_NiftiImage->qform_code = NIFTI_XFORM_ALIGNED_ANAT;
@@ -773,17 +798,6 @@ NiftiImageIO
                          &(this->m_NiftiImage->qfac));
   this->m_NiftiImage->qform_code = NIFTI_XFORM_SCANNER_ANAT;
   this->m_NiftiImage->sform_code = 0;
-#else
-  this->m_NiftiImage->sform_code = NIFTI_XFORM_ALIGNED_ANAT;
-  this->m_NiftiImage->qform_code = 0;
-  for(int i = 0; i < 3; i++)
-    {
-    this->m_NiftiImage->sto_xyz.m[0][i] = dirx[i] * this->GetSpacing(0);
-    this->m_NiftiImage->sto_xyz.m[1][i] = diry[i] * this->GetSpacing(1);
-    this->m_NiftiImage->sto_xyz.m[2][i] = dirz[i] * this->GetSpacing(2);
-    this->m_NiftiImage->sto_xyz.m[3][i] = this->GetOrigin(i);
-    }
-#endif
   return;
 }
 
