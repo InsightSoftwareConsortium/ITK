@@ -424,18 +424,18 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   
   for (unsigned int i=0;i<NDimensions;i++)
     {
-    m_FixedParameters[i] = (resRegion.GetSize())[i];
+    this->m_FixedParameters[i] = (resRegion.GetSize())[i];
     }
   for (unsigned int i=0;i<NDimensions;i++)
     {
-    m_FixedParameters[NDimensions+i] = (this->GetGridOrigin())[i];
+    this->m_FixedParameters[NDimensions+i] = (this->GetGridOrigin())[i];
     } 
   for (unsigned int i=0;i<NDimensions;i++)
     {
-    m_FixedParameters[2*NDimensions+i] =  (this->GetGridSpacing())[i];
+    this->m_FixedParameters[2*NDimensions+i] =  (this->GetGridSpacing())[i];
     }
   
-  return (m_FixedParameters);
+  return (this->m_FixedParameters);
 }
 
 
