@@ -481,10 +481,13 @@ void NiftiImageIO::ReadImageInformation()
     direction[1] = dir[1][1];
     direction[2] = dir[2][1];
     this->SetDirection(1,direction);
-    direction[0] = dir[0][2];
-    direction[1] = dir[1][2];
-    direction[2] = dir[2][2];
-    this->SetDirection(2,direction);
+    if(dims > 2)
+      {
+      direction[0] = dir[0][2];
+      direction[1] = dir[1][2];
+      direction[2] = dir[2][2];
+      this->SetDirection(2,direction);
+      }
     m_RescaleSlope = 1;
     m_RescaleIntercept = 0;
     m_Origin[0] = m_Origin[1] = m_Origin[2] = 0;
@@ -526,16 +529,23 @@ void NiftiImageIO::ReadImageInformation()
     direction[0] = theMat.m[1][0];
     direction[1] = theMat.m[1][1];
     direction[2] = theMat.m[1][2];
+    
     this->SetDirection(1,direction);
-    direction[0] = theMat.m[2][0];
-    direction[1] = theMat.m[2][1];
-    direction[2] = theMat.m[2][2];
-    this->SetDirection(2,direction);
+    if(dims > 2)
+      {
+      direction[0] = theMat.m[2][0];
+      direction[1] = theMat.m[2][1];
+      direction[2] = theMat.m[2][2];
+      this->SetDirection(2,direction);
+      }
     //
     // set origin
     m_Origin[0] = theMat.m[3][0];
     m_Origin[1] = theMat.m[3][1];
-    m_Origin[2] = theMat.m[3][2];
+    if(dims > 2)
+      {
+      m_Origin[2] = theMat.m[3][2];
+      }
     if((m_RescaleSlope = this->m_NiftiImage->scl_slope) == 0)
       {
       m_RescaleSlope = 1;
@@ -545,7 +555,9 @@ void NiftiImageIO::ReadImageInformation()
   
 
   //Important hist fields
-  EncapsulateMetaData<std::string>(thisDic,ITK_FileNotes,std::string(this->m_NiftiImage->descrip,80));
+  std::string description(this->m_NiftiImage->descrip);
+  EncapsulateMetaData<std::string>(this->GetMetaDataDictionary(),
+                                    ITK_FileNotes,description);
 
   // We don't need the image anymore
   nifti_image_free(this->m_NiftiImage);
