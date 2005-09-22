@@ -69,7 +69,8 @@ class VariableLengthVector
 public:
  
   /** The element type stored at each location in the Array. */
-  typedef TValueType  ValueType;
+  typedef TValueType           ValueType;
+  typedef TValueType           ComponentType;
   typedef VariableLengthVector Self;
 
   /** Typedef used to indicate the number of elements in the vector */
