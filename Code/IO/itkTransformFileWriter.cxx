@@ -26,11 +26,36 @@ TransformFileWriter
 ::TransformFileWriter()
 {
   m_FileName = "";
+  this->m_AppendMode = false;
 }
 
 TransformFileWriter
 ::~TransformFileWriter()
 {
+}
+
+/** Set the writer to append to the specified file */
+void TransformFileWriter::SetAppendOn( )
+{
+  this->m_AppendMode = true;
+}
+
+/** Set the writer to overwrite the specified file - This is the default mode*/
+void TransformFileWriter::SetAppendOff( )
+{
+  this->m_AppendMode = false;
+}
+
+/** Set the writer mode (append/overwrite). */
+void TransformFileWriter::SetAppendMode( bool mode)
+{
+  this->m_AppendMode = mode;
+}
+
+/** Get the writer mode*/
+bool TransformFileWriter::GetAppendMode( )
+{
+  return ( this->m_AppendMode );
 }
 
 /** Set the input transform and reinitialize the list of transforms */
@@ -56,11 +81,26 @@ void TransformFileWriter
   vnl_vector<double> TempArray;
 #ifdef __sgi
   // Create the file. This is required on some older sgi's
-  std::ofstream tFile(m_FileName.c_str(),std::ios::out);
-  tFile.close();                    
+  if (this->m_AppendMode)
+    {
+    std::ofstream tFile(m_FileName.c_str(),std::ios::out | std::ios::app);
+    tFile.close();   
+    }
+  else
+    {
+    std::ofstream tFile(m_FileName.c_str(),std::ios::out);
+    tFile.close(); 
+    }
 #endif
   std::ofstream out;;
-  out.open(m_FileName.c_str());
+  if (this->m_AppendMode)
+    {
+    out.open(m_FileName.c_str(), std::ios::out | std::ios::app); 
+    }
+  else
+    {
+    out.open(m_FileName.c_str(), std::ios::out);
+    }
   out << "#Insight Transform File V1.0" << std::endl;
   int count = 0;
   while(it != m_TransformList.end())

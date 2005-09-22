@@ -47,6 +47,12 @@ public:
   /** Get the filename */
   itkGetStringMacro(FileName);
 
+  /** Set/Get the write mode (append/overwrite) for the Filter */
+  void SetAppendOff( );
+  void SetAppendOn( );
+  void SetAppendMode(bool mode);
+  bool GetAppendMode( );
+
   /** Set/Get the input transform to write */
   void SetInput(const TransformType* transform);
   const TransformType * GetInput() {return *(m_TransformList.begin());}
@@ -72,6 +78,7 @@ private:
 
   std::list<const TransformType*>  m_TransformList;
   unsigned int               m_Precision;
+  bool                             m_AppendMode;
 };
 
 } // namespace itk
