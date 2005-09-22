@@ -60,7 +60,7 @@ void TransformFileReader
 {  
   TransformPointer transform;
   std::ifstream in;
-  in.open ( m_FileName.c_str() );
+  in.open ( m_FileName.c_str(), std::ios::in | std::ios::binary );
   if( in.fail() )
     {
     in.close();
@@ -85,7 +85,6 @@ void TransformFileReader
   pbuf->sgetn (buffer,size); 
   buffer[size]='\0';
   itkDebugMacro ( "Read file transform Data" );
-  
   InData << buffer;
 
   delete[] buffer;
@@ -110,6 +109,7 @@ void TransformFileReader
     std::string line = trim ( data.substr ( position, end - position ) );
     position = end+1;
     itkDebugMacro ("Found line: \"" << line << "\"" );
+
     if ( line.length() == 0 )
       {
       continue;
