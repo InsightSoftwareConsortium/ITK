@@ -24,6 +24,7 @@
 #include <math.h>
 #include <vector>
 #include <algorithm>
+#include <map>
 
 namespace gdcm 
 {
@@ -207,15 +208,15 @@ bool SerieHelper::ImagePositionPatientOrdering( GdcmFileList *fileList )
 {
    //iop is calculated based on the file file
    float cosines[6];
-   float normal[3];
-   float ipp[3];
-   float dist;
-   float min = 0, max = 0;
+   double normal[3];
+   double ipp[3];
+   double dist;
+   double min = 0, max = 0;
    bool first = true;
-   int n=0;
-   std::vector<float> distlist;
 
-   //!\todo rewrite this for loop.
+   std::multimap<double,File *> distmultimap;
+
+   // Use a multimap to sort the distances from 0,0,0
    for ( GdcmFileList::const_iterator 
          it = fileList->begin();
          it != fileList->end(); ++it )
@@ -235,14 +236,13 @@ bool SerieHelper::ImagePositionPatientOrdering( GdcmFileList *fileList )
          ipp[0] = (*it)->GetXOrigin();
          ipp[1] = (*it)->GetYOrigin();
          ipp[2] = (*it)->GetZOrigin();
-
          dist = 0;
          for ( int i = 0; i < 3; ++i )
          {
             dist += normal[i]*ipp[i];
          }
     
-         distlist.push_back( dist );
+         distmultimap.insert(std::pair<double,File *>(dist, *it));
 
          max = min = dist;
          first = false;
@@ -252,65 +252,53 @@ bool SerieHelper::ImagePositionPatientOrdering( GdcmFileList *fileList )
          ipp[0] = (*it)->GetXOrigin();
          ipp[1] = (*it)->GetYOrigin();
          ipp[2] = (*it)->GetZOrigin();
-  
          dist = 0;
          for ( int i = 0; i < 3; ++i )
          {
             dist += normal[i]*ipp[i];
          }
 
-         distlist.push_back( dist );
+         distmultimap.insert(std::pair<double,File *>(dist, *it));
 
          min = (min < dist) ? min : dist;
          max = (max > dist) ? max : dist;
       }
-      ++n;
    }
 
-   // Then I order the slices according to the value "dist". Finally, once
-   // I've read in all the slices, I calculate the z-spacing as the difference
-   // between the "dist" values for the first two slices.
-   GdcmFileVector CoherentGdcmFileVector(n);
-   // CoherentGdcmFileVector.reserve( n );
-   CoherentGdcmFileVector.resize( n );
-   // gdcmAssertMacro( CoherentGdcmFileVector.capacity() >= n );
+   // Check to see if image shares a common position
+   bool ok = true;
+   for (std::multimap<double, File *>::iterator it2 = distmultimap.begin();
+        it2 != distmultimap.end();
+        ++it2)
+     {
+     if (distmultimap.count((*it2).first) != 1)
+       {
+       gdcmErrorMacro("File: " 
+                        << ((*it2).second->GetFileName())
+                        << " Distance: "
+                        << (*it2).first
+                        << " position is not unique");
+       
+       ok = false;
+       }
+     }
+   if (!ok)
+     {
+       return false;
+     }
 
-   float step = (max - min)/(n - 1);
-   int pos;
-   n = 0;
-    
-   //VC++ don't understand what scope is !! it -> it2
-   for (GdcmFileList::const_iterator it2  = fileList->begin();
-        it2 != fileList->end(); ++it2, ++n)
-   {
-      //2*n sort algo !!
-      //Assumption: all files are present (no one missing)
-      pos = (int)( fabs( (distlist[n]-min)/step) + .5 );
-
-      // a Dicom 'Serie' may contain scout views
-      // and images may have differents directions
-      // -> More than one may have the same 'pos'
-      // Sorting has then NO meaning !
-      if (CoherentGdcmFileVector[pos]==NULL)
-         CoherentGdcmFileVector[pos] = *it2;
-      else
-      {
-         gdcmWarningMacro( "2 files same position");
-         return false;
-      }
-   }
 
    fileList->clear();  // doesn't delete list elements, only node
-  
-   //VC++ don't understand what scope is !! it -> it3
-   for (GdcmFileVector::const_iterator it3  = CoherentGdcmFileVector.begin();
-        it3 != CoherentGdcmFileVector.end(); ++it3)
-   {
-      fileList->push_back( *it3 );
-   }
 
-   distlist.clear();
-   CoherentGdcmFileVector.clear();
+   for (std::multimap<double, File *>::iterator it3 =
+          distmultimap.begin();
+        it3 != distmultimap.end();
+        ++it3)
+     {
+       fileList->push_back( (*it3).second );
+     }
+
+   distmultimap.clear();
 
    return true;
 }
