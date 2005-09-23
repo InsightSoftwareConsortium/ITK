@@ -36,6 +36,7 @@ namespace gdcm
  */
 SerieHelper::SerieHelper()
 {
+  m_UseSeriesDetails = false;
    // For all the File lists of the gdcm::Serie
    GdcmFileList *l = GetFirstCoherentFileList();
    while (l)
@@ -90,19 +91,18 @@ void SerieHelper::AddFileName(std::string const &filename)
    File *header = new File( filename ); 
    if( header->IsReadable() )
    {
-      // 0020 000e UI REL Series Instance UID
-      std::string uid =  header->GetEntryValue (0x0020, 0x000e);
-      // if uid == GDCM_UNFOUND then consistently we should find GDCM_UNFOUND
+      std::string id = CreateUniqueSeriesIdentifier( header );
+      // if id == GDCM_UNFOUND then consistently we should find GDCM_UNFOUND
       // no need here to do anything special
 
-      if ( CoherentGdcmFileListHT.count(uid) == 0 )
+      if ( CoherentGdcmFileListHT.count(id) == 0 )
       {
-         gdcmWarningMacro(" New Serie UID :[" << uid << "]");
-         // create a std::list in 'uid' position
-         CoherentGdcmFileListHT[uid] = new GdcmFileList;
+         gdcmWarningMacro(" New Serie UID :[" << id << "]");
+         // create a std::list in 'id' position
+         CoherentGdcmFileListHT[id] = new GdcmFileList;
       }
       // Current Serie UID and DICOM header seems to match add the file:
-      CoherentGdcmFileListHT[uid]->push_back( header );
+      CoherentGdcmFileListHT[id]->push_back( header );
    }
    else
    {
@@ -383,6 +383,78 @@ void SerieHelper::Print(std::ostream &os, std::string const & indent)
       }
       ++itl;
    }
+}
+
+std::string SerieHelper::CreateUniqueSeriesIdentifier( File * inFile )
+{
+  if( inFile->IsReadable() )
+    {
+    // 0020 000e UI REL Series Instance UID
+    std::string uid =  inFile->GetEntryValue (0x0020, 0x000e);
+    std::string id = uid.c_str();
+    if(m_UseSeriesDetails)
+      {
+      // If the user requests, additional information can be appended
+      // to the SeriesUID to further differentiate volumes in the DICOM
+      // objects being processed.
+
+      // 0020 0011 Series Number
+      // A scout scan prior to a CT volume scan can share the same
+      //   SeriesUID, but they will sometimes have a different Series Number
+      std::string sNum = inFile->GetEntryValue(0x0020, 0x0011);
+      if( sNum == gdcm::GDCM_UNFOUND )
+        {
+        sNum = "";
+        }
+      // 0018 0024 Sequence Name
+      // For T1-map and phase-contrast MRA, the different flip angles and
+      //   directions are only distinguished by the Sequence Name
+      std::string sName = inFile->GetEntryValue(0x0018, 0x0024);
+      if( sName == gdcm::GDCM_UNFOUND )
+        {
+        sName = "";
+        }
+      // 0018 0050 Slice Thickness
+      // On some CT systems, scout scans and subsequence volume scans will
+      //   have the same SeriesUID and Series Number - YET the slice 
+      //   thickness will differ from the scout slice and the volume slices.
+      std::string sThick = inFile->GetEntryValue (0x0018, 0x0050);
+      if( sThick == gdcm::GDCM_UNFOUND )
+        {
+        sThick = "";
+        }
+
+      // Concat the new info
+      std::string num = sNum.c_str();
+      num += sName.c_str();
+      num += sThick.c_str();
+
+      // Append the new info to the SeriesUID
+      id += ".";
+      id += num.c_str();
+      }
+
+    // Eliminate non-alnum characters, including whitespace...
+    //   that may have been introduced by concats.
+    for(int i=0; i<id.size(); i++)
+      {
+      while(i<id.size() 
+            && !( id[i] == '.'
+                 || (id[i] >= 'a' && id[i] <= 'z')
+                 || (id[i] >= '0' && id[i] <= '9')
+                 || (id[i] >= 'A' && id[i] <= 'Z')))
+        {
+        id = id.erase(i, 1).c_str();
+        }
+      }
+    return id;
+    }
+  else // Could not open inFile
+    {
+    gdcmWarningMacro("Could not parse series info.");
+    std::string id = gdcm::GDCM_UNFOUND;
+    return id;
+    }
 }
 
 //-----------------------------------------------------------------------------

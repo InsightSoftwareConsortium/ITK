@@ -33,6 +33,7 @@ GDCMSeriesFileNames::GDCMSeriesFileNames()
 {
   m_SerieHelper = new gdcm::SerieHelper();
   m_Directory = "";
+  m_UseSeriesDetails = true;
 }
 
 GDCMSeriesFileNames::~GDCMSeriesFileNames()
@@ -55,8 +56,12 @@ const SerieUIDContainer &GDCMSeriesFileNames::GetSeriesUIDs()
     if( flist->size() ) //make sure we have at leat one serie
       {
       gdcm::File *file = (*flist)[0]; //for example take the first one
-      std::string uid = file->GetEntryValue (0x0020, 0x000e); 
-      m_SeriesUIDs.push_back( uid );
+
+      // Create its unique series ID
+      std::string id = m_SerieHelper->
+                       CreateUniqueSeriesIdentifier( file ).c_str();
+
+      m_SeriesUIDs.push_back( id.c_str() );
       }
     flist = m_SerieHelper->GetNextCoherentFileList();
     }
@@ -73,14 +78,15 @@ const FilenamesContainer &GDCMSeriesFileNames::GetFileNames(const std::string se
   // Accessing the first serie found (assume there is at least one)
   gdcm::GdcmFileList *flist = m_SerieHelper->GetFirstCoherentFileList();
   bool found = false;
-  while(flist)
+  while(flist && !found)
     {
     if( flist->size() ) //make sure we have at leat one serie
       {
       gdcm::File *file = (*flist)[0]; //for example take the first one
-      std::string uid = file->GetEntryValue (0x0020, 0x000e); 
-      // We need to use a specialized call to compare those two strings:
-      if( gdcm::Util::DicomStringEqual(uid, serie.c_str()) )
+      std::string id = m_SerieHelper->
+                       CreateUniqueSeriesIdentifier( file ).c_str();
+
+      if( id == serie )
         {
         found = true; // we found a match
         break;
@@ -130,6 +136,7 @@ const FilenamesContainer &GDCMSeriesFileNames::GetInputFileNames()
   m_InputFileNames.clear();
   // Get the DICOM filenames from the directory
   gdcm::SerieHelper *helper = new gdcm::SerieHelper();
+  helper->SetUseSeriesDetails( m_UseSeriesDetails );
   helper->SetDirectory( m_InputDirectory );
   // Accessing the first serie found (assume there is at least one)
   gdcm::GdcmFileList *flist = helper->GetFirstCoherentFileList();

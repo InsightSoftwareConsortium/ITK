@@ -64,6 +64,23 @@ public:
    GdcmFileList *GetNextCoherentFileList();
    GdcmFileList *GetCoherentFileList(std::string serieUID);
 
+   /// \brief Use additional series information such as ProtocolName
+   ///        and SeriesName to identify when a single SeriesUID contains
+   ///        multiple 3D volumes - as can occur with perfusion and DTI imaging
+   void SetUseSeriesDetails( bool useSeriesDetails )
+     {
+     m_UseSeriesDetails = useSeriesDetails;
+     }
+   bool GetUseSeriesDetails( void )
+     {
+     return m_UseSeriesDetails;
+     }
+
+   /// \brief Create a string that uniquely identifies a series.   By default
+   //         uses the SeriesUID.   If UseSeriesDetails(true) has been called,
+   //         then additional identifying information is used.
+   std::string CreateUniqueSeriesIdentifier( File * inFile );
+
 private:
    bool ImagePositionPatientOrdering(GdcmFileList *coherentGdcmFileList);
    bool ImageNumberOrdering(GdcmFileList *coherentGdcmFileList);
@@ -73,6 +90,8 @@ private:
    static bool FileNameLessThan(File *file1, File *file2);
    CoherentFileListmap CoherentGdcmFileListHT;
    CoherentFileListmap::iterator ItListHt;
+
+   bool m_UseSeriesDetails;
 };
 
 } // end namespace gdcm

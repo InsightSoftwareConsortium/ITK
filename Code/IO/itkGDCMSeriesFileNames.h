@@ -40,6 +40,10 @@ namespace itk
  *   3. If this strategy also failed, then the filenames are ordered by 
  *      lexicographical order.
  *
+ *  If multiple volumes are being grouped as a single series for your
+ *    dicom objects, you may want to try calling ->SetUseSeriesDetails(true)
+ *    prior to calling SetDirectory().
+ *
  * \ingroup IOFilters
  *
  */
@@ -83,6 +87,7 @@ public:
   void SetDirectory (std::string const &name)
     {
     m_Directory = name;
+    m_SerieHelper->SetUseSeriesDetails( m_UseSeriesDetails );
     m_SerieHelper->SetDirectory( name ); //as a side effect it also execute
     m_SerieHelper->Print();
     this->Modified();
@@ -109,15 +114,47 @@ public:
   /** Returns a vector containing the series' file names. The file
    * names are ordered by the strategy define in header. 
    * All DICOM files have the same exact UID equal to the one user's 
-   * specified.
+   * specified.  An extended UID may be returned/used if 
+   * SetUseSeriesDetails(true) has been called.
    */
   const FilenamesContainer &GetFileNames(const std::string serie);
 
   /** Returns a vector containing all the UIDs found when parsing the
    * direcory specified via SetDirectory. If no direcory is specified 
-   * return an empty vector
+   * return an empty vector.  An extended UID may be returned/used if 
+   * SetUseSeriesDetails(true) has been called.
    */
   const SerieUIDContainer &GetSeriesUIDs();
+
+  /** Use additional series information such as ProtocolName
+   *   and SeriesName to identify when a single SeriesUID contains
+   *   multiple 3D volumes - as can occur with perfusion and DTI imaging
+   */
+  void SetUseSeriesDetails( bool useSeriesDetails)
+    {
+    m_UseSeriesDetails = useSeriesDetails;
+    m_SerieHelper->SetUseSeriesDetails( m_UseSeriesDetails );
+    }
+
+  /** Returns true if using additional series information such as ProtocolName
+   *   and SeriesName to identify when a single SeriesUID contains
+   *   multiple 3D volumes - as can occur with perfusion and DTI imaging
+   */
+  bool GetUseSeriesDetails( void )
+    {
+    return m_UseSeriesDetails;
+    }
+
+  /** Returns a pointer to the SeriesHelper class.  This access allows
+   *   the files as gdcm dicom objects in a series to be queried for
+   *   dicom tag values prior to reading the series.   Such querying is
+   *   useful to determine which series should be read - e.g., to determine
+   *   which is the T2 scan, etc.
+   */
+  gdcm::SerieHelper * GetSeriesHelper( void )
+    {
+    return m_SerieHelper;
+    }
 
 protected:
   GDCMSeriesFileNames();
@@ -149,6 +186,8 @@ private:
 
   /** Internal structure to keep the list of series UIDs */
   SerieUIDContainer m_SeriesUIDs;
+
+  bool              m_UseSeriesDetails;
 };
 
 } //namespace ITK
