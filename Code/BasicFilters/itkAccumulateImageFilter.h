@@ -18,6 +18,7 @@
 #define __itkAccumulateImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkConceptChecking.h"
 
 namespace itk
 {
@@ -79,6 +80,11 @@ public:
                       TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
+
+  /** Input and output images must be the same dimension. */
+  itkConceptMacro(ImageDimensionCheck,
+      (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
+                              itkGetStaticConstMacro(OutputImageDimension)>));
 
   /** Set the direction in which to accumulate the data.  It must be
    * set before the update of the filter. Defaults to the last
