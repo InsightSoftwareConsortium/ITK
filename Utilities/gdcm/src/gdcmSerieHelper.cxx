@@ -242,7 +242,7 @@ bool SerieHelper::ImagePositionPatientOrdering( GdcmFileList *fileList )
             dist += normal[i]*ipp[i];
          }
     
-         distmultimap.insert(std::pair<double,File *>(dist, *it));
+         distmultimap.insert(std::pair<const double,File *>(dist, *it));
 
          max = min = dist;
          first = false;
@@ -258,7 +258,7 @@ bool SerieHelper::ImagePositionPatientOrdering( GdcmFileList *fileList )
             dist += normal[i]*ipp[i];
          }
 
-         distmultimap.insert(std::pair<double,File *>(dist, *it));
+         distmultimap.insert(std::pair<const double,File *>(dist, *it));
 
          min = (min < dist) ? min : dist;
          max = (max > dist) ? max : dist;
