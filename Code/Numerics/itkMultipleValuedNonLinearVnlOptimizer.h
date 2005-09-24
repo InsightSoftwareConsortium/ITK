@@ -26,7 +26,7 @@ namespace itk
   
 /** \class MultipleValuedNonLinearVnlOptimizer
  * \brief This class is a base for the Optimization methods that 
- * optimize a single valued function. 
+ * optimize a multi-valued function. 
  *
  * It is an Adaptor class for optimizers provided by the vnl library
  *
