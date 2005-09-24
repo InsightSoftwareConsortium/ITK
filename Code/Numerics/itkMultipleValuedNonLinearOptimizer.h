@@ -57,12 +57,12 @@ public:
 
   /**  Measure type.
    *  It defines a type used to return the cost function value. 
-   *  Here an Array is used for Multivalued funcitions   */
+   *  Here an Array is used for Multivalued functions   */
   typedef Array<double>                     MeasureType;
 
   /**  Derivative type.
    *  It defines a type used to return the cost function derivative. 
-   *  Here a bidimensional Array is used for Multivalued funcitions   */
+   *  Here a bidimensional Array is used for Multivalued functions   */
   typedef Array2D<double>                   DerivativeType;
  
   /** Set the cost function. */
