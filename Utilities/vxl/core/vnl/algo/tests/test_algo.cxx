@@ -82,17 +82,17 @@ static void test_orthogonal_complement()
   TEST("vnl_orthogonal_complement", oc[0][0]<0 && oc[0][1]==0 && oc[1][0]>0, true);
 }
 
-static void test_powell()
-{
-  class F : public vnl_cost_function
+class F_test_powell : public vnl_cost_function
   {
-   public: F() : vnl_cost_function(2) {}
+   public: F_test_powell() : vnl_cost_function(2) {}
     double f(vnl_vector<double> const& x) { double u=x[0]-x[1]*x[1], v=x[1]-1; return u*u+v*v+1; }
     void gradf(vnl_vector<double> const& x, vnl_vector<double>& g) {
       g[0]=2*x[0]-2*x[1]*x[1]; g[1]=4*x[1]*x[1]*x[1]-4*x[0]*x[1]+2*x[1]-2; }
   };
 
-  F f; // local minimum is 1 in (1,1).
+static void test_powell()
+{
+  F_test_powell f; // local minimum is 1 in (1,1).
   vnl_vector<double> x(2); x[0]=x[1]=0.0;
   vnl_conjugate_gradient cg(f); cg.minimize(x);
   TEST_NEAR("vnl_conjugate_gradient", x[0], 1.0, 1e-5);
@@ -114,16 +114,17 @@ static void test_lsqr()
   TEST_NEAR("vnl_lsqr", x[1], 1.0, 1e-6);
 }
 
-static void test_discrete_diff()
-{
-  class F : public vnl_least_squares_function
+class F_test_discrete_diff : public vnl_least_squares_function
   {
    public:
-    F(): vnl_least_squares_function(2, 2, no_gradient) {}
+    F_test_discrete_diff(): vnl_least_squares_function(2, 2, no_gradient) {}
     void f(vnl_vector<double> const& x, vnl_vector<double>& fx) { fx[0]=x[0]-x[1]*x[1]; fx[1]=x[1]-1; }
   };
 
-  F f;
+
+static void test_discrete_diff()
+{
+  F_test_discrete_diff f;
   double h = 0.1;
   vnl_vector<double> x(2); x[0]=5.0; x[1]=9.0;
   vnl_matrix<double> J(2,2);
