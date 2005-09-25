@@ -101,6 +101,11 @@ protected:
 
   void PrintSelf(std::ostream &os, Indent indent) const;
 
+  /** This method must be made protected here because it is not a safe way of
+   * initializing the Versor */
+  virtual void SetRotationMatrix(const MatrixType & matrix)
+    { this->Superclass::SetRotationMatrix( matrix ); }
+ 
 private:
   VersorRigid3DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

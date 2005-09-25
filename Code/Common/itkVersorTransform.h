@@ -143,6 +143,11 @@ public:
      **/
     ~VersorTransform(){};
 
+    /** This method must be made protected here because it is not a safe way of
+     * initializing the Versor */
+    virtual void SetRotationMatrix(const MatrixType & matrix)
+      { this->Superclass::SetRotationMatrix( matrix ); }
+    
     void SetVarVersor(const VersorType & newVersor)
       { m_Versor = newVersor; }
 
