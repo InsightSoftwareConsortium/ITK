@@ -436,7 +436,7 @@ std::string SerieHelper::CreateUniqueSeriesIdentifier( File * inFile )
 
     // Eliminate non-alnum characters, including whitespace...
     //   that may have been introduced by concats.
-    for(int i=0; i<id.size(); i++)
+    for(unsigned int i=0; i<id.size(); i++)
       {
       while(i<id.size() 
             && !( id[i] == '.'
