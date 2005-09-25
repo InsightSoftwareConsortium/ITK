@@ -56,6 +56,17 @@ namespace itk
  * The API of this class is similar to Image.
  *
  * \note
+ * When reading VectorImages, make sure you instantiate the reader with pixel 
+ * traits of the InternalPixelType rather than the PixelType. For example:
+ *
+ * \code
+ * typedef itk::VectorImage< float, 3 > VectorImageType;
+ * tyepdef VectorImageType::InternalPixelType InternalPixelType;
+ * typedef itk::ImageFileReader< VectorImageType, 
+ *         itk::DefaultConvertPixelTraits<InternalPixelType> > ReaderType;
+ * \endcode
+ *
+ * \note
  * This work is part of the National Alliance for Medical Image Computing 
  * (NAMIC), funded by the National Institutes of Health through the NIH Roadmap
  * for Medical Research, Grant U54 EB005149.
@@ -114,11 +125,6 @@ public:
   /** Tyepdef for the functor used to access a neighborhood of pixel pointers.*/
   typedef VectorImageNeighborhoodAccessorFunctor< 
                           Self >              NeighborhoodAccessorFunctorType;
-
-  /** Typedef used by the image readers and writers. This class determines how 
-   * a pixel type should be organized in the file. */
-  typedef DefaultConvertPixelTraits< InternalPixelType > 
-                                              DefaultConvertPixelTraitsType;
 
   /** Container used to store pixels in the image. */
   typedef ImportImageContainer<unsigned long, InternalPixelType> PixelContainer;

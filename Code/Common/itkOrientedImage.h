@@ -56,8 +56,6 @@ public:
 
   typedef typename Superclass::AccessorType        AccessorType;
   typedef typename Superclass::AccessorFunctorType AccessorFunctorType;
-  typedef typename 
-    Superclass::DefaultConvertPixelTraitsType      DefaultConvertPixelTraitsType;
 
   /** Tyepdef for the functor used to access a neighborhood of pixel pointers.*/
   typedef NeighborhoodAccessorFunctor< Self > 

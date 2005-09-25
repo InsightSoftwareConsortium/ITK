@@ -422,7 +422,8 @@ int itkVectorImageTest( int, char* argv[] )
   {
   // Now read it as a itk::VectorImage.
   typedef itk::VectorImage< PixelType, Dimension > VectorImageType;
-  typedef itk::ImageFileReader< VectorImageType > ReaderType;
+  typedef itk::ImageFileReader< VectorImageType, 
+          itk::DefaultConvertPixelTraits< PixelType > > ReaderType; 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   reader->Update();
@@ -471,7 +472,8 @@ int itkVectorImageTest( int, char* argv[] )
   {
   // Now read it as a itk::VectorImage.
   typedef itk::VectorImage< PixelType, Dimension > VectorImageType;
-  typedef itk::ImageFileReader< VectorImageType > ReaderType;
+  typedef itk::ImageFileReader< VectorImageType, 
+          itk::DefaultConvertPixelTraits< PixelType > > ReaderType;  
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   reader->Update();

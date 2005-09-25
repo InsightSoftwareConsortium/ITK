@@ -84,7 +84,7 @@ public:
  */
 template <class TOutputImage,
           class ConvertPixelTraits = 
-          ITK_TYPENAME TOutputImage::DefaultConvertPixelTraitsType >
+          DefaultConvertPixelTraits< ITK_TYPENAME TOutputImage::PixelType> >
 class ITK_EXPORT ImageFileReader : public ImageSource<TOutputImage>
 {
 public:
