@@ -867,12 +867,13 @@ MetaImageIO
     eSpacing[i] = this->GetSpacing(i);
     eOrigin[i] = this->GetOrigin(i);
     } 
-  ImageIORegion::IndexType index = this->GetIORegion().GetIndex();
+  ImageIORegion::IndexType indx = this->GetIORegion().GetIndex();
   for(i=0; i<nDims; i++)
     {
-    if(index[i] != 0)
+    int j;
+    for(j=0; j<nDims; j++)
       {
-      eOrigin[i] = eOrigin[i] + eSpacing[i] * index[i];
+      eOrigin[i] += indx[j] * eSpacing[i] * this->GetDirection(j)[i];
       }
     }
 
