@@ -263,13 +263,14 @@ TreeNode<TValueType>
 
   while( childrenListIt != childrenListEnd )
     {
-    if( name == NULL )
+    if( name == NULL || strstr(typeid(**childrenListIt).name(), name) )
       {
       children->push_back(*childrenListIt);
       }
     if( depth > 0 )
       {
-      ChildrenListType * nextchildren = (**childrenListIt).GetChildren(depth-1, name);  
+      ChildrenListType * nextchildren = (**childrenListIt).GetChildren(depth-1,
+                                                                       name);  
       // Add the child to the current list
       typename ChildrenListType::const_iterator nextIt = nextchildren->begin();
       while(nextIt != nextchildren->end())
