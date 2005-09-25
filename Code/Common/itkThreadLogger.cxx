@@ -70,8 +70,6 @@ void ThreadLogger::AddLogOutput( OutputType* output )
 {
   this->m_WaitMutex.Unlock();
   this->m_Mutex.Lock();
-  // delegates to MultipleLogOutput
-//  this->m_Output->AddLogOutput( output ); 
   this->m_OperationQ.push(ADD_LOG_OUTPUT);
   this->m_OutputQ.push(output);
   this->m_Mutex.Unlock();
@@ -92,9 +90,8 @@ void ThreadLogger::Write(PriorityLevelType level, std::string const & content)
 
 void ThreadLogger::Flush()
 {
-//  this->m_WaitMutex.Unlock();
   this->m_Mutex.Lock();
-//  this->m_OperationQ.push(FLUSH);
+
     while( !this->m_OperationQ.empty() )
     {
       switch( this->m_OperationQ.front() )
@@ -116,21 +113,15 @@ void ThreadLogger::Flush()
 
       case ThreadLogger::WRITE:
         this->Logger::Write(this->m_LevelQ.front(), this->m_MessageQ.front());
-//        std::cout << "processing: " << this->m_MessageQ.front() << std::endl;
         this->m_LevelQ.pop();
         this->m_MessageQ.pop();
         break;
-/*
-      case ThreadLogger::FLUSH:
-        this->m_Output->Flush();
-        break;
-*/
       }
       this->m_OperationQ.pop();
     }
     this->m_Output->Flush();
   this->m_Mutex.Unlock();
-//  this->m_WaitMutex.Lock();
+
 }
 
 
@@ -146,14 +137,11 @@ ThreadLogger::ThreadLogger()
 /** Destructor */
 ThreadLogger::~ThreadLogger()
 {
-//  this->Flush();    // <-- very dangerous
-//  m_Mutex.Lock();
   this->m_WaitMutex.Unlock();
   if( this->m_Threader )
   {
     this->m_Threader->TerminateThread(this->m_ThreadID);
   }
-//  m_Mutex.Unlock();
 }
 
 
@@ -208,15 +196,9 @@ ITK_THREAD_RETURN_TYPE ThreadLogger::ThreadFunction(void* pInfoStruct)
 
       case ThreadLogger::WRITE:
         pLogger->Logger::Write(pLogger->m_LevelQ.front(), pLogger->m_MessageQ.front());
-//        std::cout << "processing: " << pLogger->m_MessageQ.front() << std::endl;
         pLogger->m_LevelQ.pop();
         pLogger->m_MessageQ.pop();
         break;
-/*
-      case ThreadLogger::FLUSH:
-        pLogger->m_Output->Flush();
-        break;
-*/
       }
       pLogger->m_OperationQ.pop();
     }
