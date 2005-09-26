@@ -148,6 +148,13 @@ ADD_TEST(itkGradientToMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkGradien
 ADD_TEST(itkHardConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS} itkHardConnectedComponentImageFilterTest)
 ADD_TEST(itkHausdorffDistanceImageFilterTest ${BASIC_FILTERS_TESTS} itkHausdorffDistanceImageFilterTest)
 ADD_TEST(itkHessianRecursiveGaussianFilterTest ${BASIC_FILTERS_TESTS3} itkHessianRecursiveGaussianFilterTest)
+
+ADD_TEST(itkLabelStatisticsImageFilterTest ${BASIC_FILTERS_TESTS3} 
+         itkLabelStatisticsImageFilterTest
+         ${ITK_DATA_ROOT}/Input/peppers.png
+         ${ITK_TEST_OUTPUT_DIR}/OtsuMultipleThresholdsImageFilterTest.png
+         )
+
 ADD_TEST(itkSymmetricEigenAnalysisImageFilterTest ${BASIC_FILTERS_TESTS3} itkSymmetricEigenAnalysisImageFilterTest)
 ADD_TEST(itkTensorFractionalAnisotropyImageFilterTest ${BASIC_FILTERS_TESTS3} itkTensorFractionalAnisotropyImageFilterTest)
 ADD_TEST(itkTensorRelativeAnisotropyImageFilterTest ${BASIC_FILTERS_TESTS3} itkTensorRelativeAnisotropyImageFilterTest)
@@ -810,6 +817,7 @@ itkAccumulateImageFilterTest.cxx
 itkApproximateSignedDistanceMapImageFilterTest.cxx
 itkCheckerBoardImageFilterTest.cxx
 itkHessianRecursiveGaussianFilterTest.cxx
+itkLabelStatisticsImageFilterTest.cxx
 itkPolylineMaskImageFilterTest.cxx
 itkPolylineMask2DImageFilterTest.cxx
 itkNormalizedCorrelationImageFilterTest.cxx
@@ -849,7 +857,7 @@ TARGET_LINK_LIBRARIES(itkBasicFiltersTests1 ITKIO ITKNumerics ITKBasicFilters IT
 ADD_EXECUTABLE(itkBasicFiltersTests2 itkBasicFiltersTests2.cxx ${BasicFilters2_SRCS})
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests2 ITKIO ITKNumerics ITKBasicFilters)
 ADD_EXECUTABLE(itkBasicFiltersTests3 itkBasicFiltersTests3.cxx ${BasicFilters3_SRCS})
-TARGET_LINK_LIBRARIES(itkBasicFiltersTests3 ITKIO ITKNumerics ITKBasicFilters)
+TARGET_LINK_LIBRARIES(itkBasicFiltersTests3 ITKStatistics ITKIO ITKNumerics ITKBasicFilters)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
