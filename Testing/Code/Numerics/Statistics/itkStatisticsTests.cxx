@@ -30,6 +30,7 @@ void RegisterTests()
   REGISTER_TEST(itkCovarianceCalculatorTest);
   REGISTER_TEST(itkDenseFrequencyContainerTest);
   REGISTER_TEST(itkExpectationMaximizationMixtureModelEstimatorTest);
+  REGISTER_TEST(itkGaussianDensityFunctionTest);
   REGISTER_TEST(itkGoodnessOfFitMixtureModelCostFunctionTest);
   REGISTER_TEST(itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTest);
   REGISTER_TEST(itkHistogramTest);

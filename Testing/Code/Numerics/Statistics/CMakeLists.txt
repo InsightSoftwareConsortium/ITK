@@ -16,6 +16,7 @@ ADD_TEST(itkStatisticsPrintTest ${STATISTICS_TESTS} itkStatisticsPrintTest)
 ADD_TEST(itkStatisticsAlgorithmTest ${STATISTICS_TESTS} itkStatisticsAlgorithmTest)
 ADD_TEST(itkCovarianceCalculatorTest ${STATISTICS_TESTS} itkCovarianceCalculatorTest)
 ADD_TEST(itkDenseFrequencyContainerTest ${STATISTICS_TESTS} itkDenseFrequencyContainerTest)
+ADD_TEST(itkGaussianDensityFunctionTest ${STATISTICS_TESTS} itkGaussianDensityFunctionTest)
 ADD_TEST(itkExpectationMaximizationMixtureModelEstimatorTest 
          ${STATISTICS_TESTS} 
          itkExpectationMaximizationMixtureModelEstimatorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
@@ -70,6 +71,7 @@ itkStatisticsAlgorithmTest.cxx
 itkCovarianceCalculatorTest.cxx
 itkDenseFrequencyContainerTest.cxx
 itkExpectationMaximizationMixtureModelEstimatorTest.cxx
+itkGaussianDensityFunctionTest.cxx
 itkGoodnessOfFitMixtureModelCostFunctionTest.cxx
 itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTest.cxx 
 itkHistogramTest.cxx
