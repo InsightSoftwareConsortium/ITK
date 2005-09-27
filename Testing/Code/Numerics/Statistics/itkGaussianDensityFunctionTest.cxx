@@ -38,6 +38,8 @@ int itkGaussianDensityFunctionTest(int, char* [] )
   MeanType mean;
   CovarianceType  covariance;
 
+  covariance.SetSize( 1, 1 ); // because this is a scalar image
+    
   mean[0] = 19.0;
   covariance[0][0] = 1.0;
 
