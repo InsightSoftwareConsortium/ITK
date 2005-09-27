@@ -15,7 +15,7 @@
 
 =========================================================================*/
 #include "metaCommand.h"
-
+#include <cstdio>
 
 MetaCommand::MetaCommand()
 {
@@ -27,7 +27,7 @@ MetaCommand::MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2005-09-27 16:48:23 $ cvs command */
+/** Extract the date from the $Date: 2005-09-27 19:16:56 $ cvs command */
 std::string MetaCommand::ExtractDateFromCVS(std::string date)
 {
   std::string newdate;
