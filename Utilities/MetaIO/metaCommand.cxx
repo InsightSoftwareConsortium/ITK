@@ -19,6 +19,7 @@
 
 MetaCommand::MetaCommand()
 {
+  m_HelpCallBack = NULL;
   m_OptionVector.clear();
   m_Version = "Not defined";
   m_Date = "Not defined";
@@ -26,7 +27,7 @@ MetaCommand::MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2005-07-13 16:43:52 $ cvs command */
+/** Extract the date from the $Date: 2005-09-27 16:48:23 $ cvs command */
 std::string MetaCommand::ExtractDateFromCVS(std::string date)
 {
   std::string newdate;
@@ -46,7 +47,11 @@ bool MetaCommand::SetOption(Option option)
   return true;
 }
 
-bool MetaCommand::SetOption(std::string name,std::string tag,bool required,std::string description,std::vector<Field> fields)
+bool MetaCommand::SetOption(std::string name,
+                            std::string tag,
+                            bool required,
+                            std::string description,
+                            std::vector<Field> fields)
 {
   // need to add some tests here to check if the option is not defined yet
   if(tag == "")
@@ -61,13 +66,19 @@ bool MetaCommand::SetOption(std::string name,std::string tag,bool required,std::
   option.fields = fields;
   option.required = required;
   option.description = description;
+  option.userDefined = false;
 
   m_OptionVector.push_back(option);
   return true;
 }
 
 
-bool MetaCommand::SetOption(std::string name,std::string tag,bool required,std::string description,TypeEnumType type,std::string defVal)
+bool MetaCommand::SetOption(std::string name,
+                            std::string tag,
+                            bool required,
+                            std::string description,
+                            TypeEnumType type,
+                            std::string defVal)
 {
   // need to add some tests here to check if the option is not defined yet
   if(tag == "")
@@ -81,6 +92,7 @@ bool MetaCommand::SetOption(std::string name,std::string tag,bool required,std::
   option.name = name;
   option.required = required;
   option.description = description;
+  option.userDefined = false;
 
   // Create a field without description as a flag
   Field field;
@@ -88,6 +100,7 @@ bool MetaCommand::SetOption(std::string name,std::string tag,bool required,std::
   field.externaldata = false;
   field.type = type;
   field.value = defVal;
+  field.userDefined = false;
   field.required = true;
   option.fields.push_back(field);
 
@@ -97,7 +110,10 @@ bool MetaCommand::SetOption(std::string name,std::string tag,bool required,std::
 
 
 /** Add a field */
-bool MetaCommand::AddField(std::string name,std::string description,TypeEnumType type,bool externalData)
+bool MetaCommand::AddField(std::string name,
+                           std::string description,
+                           TypeEnumType type,
+                           bool externalData)
 {
   // need to add some tests here to check if the option is not defined yet
   Option option;
@@ -108,19 +124,26 @@ bool MetaCommand::AddField(std::string name,std::string description,TypeEnumType
   field.name = name;
   field.type = type;
   field.required = true;
+  field.userDefined = false;
   field.externaldata = externalData;
   option.fields.push_back(field);
 
   option.required = true;
   option.name = name;
   option.description = description;
+  option.userDefined = false;
 
   m_OptionVector.push_back(option);
   return true;
 }
 
 /** Add a field to a given an option */
-bool MetaCommand::AddOptionField(std::string optionName,std::string name,TypeEnumType type,bool required,std::string defVal)
+bool MetaCommand::AddOptionField(std::string optionName,
+                                 std::string name,
+                                 TypeEnumType type,
+                                 bool required,
+                                 std::string defVal,
+                                 std::string description)
 { 
   OptionVector::iterator it = m_OptionVector.begin();
   while(it != m_OptionVector.end())
@@ -133,6 +156,8 @@ bool MetaCommand::AddOptionField(std::string optionName,std::string name,TypeEnu
       field.type = type;
       field.required = required;
       field.value = defVal;
+      field.description = description;
+      field.userDefined = false;
       field.externaldata = false;
             
       // If this is the first field in the list we replace the current field
@@ -172,6 +197,7 @@ bool MetaCommand::GetValueAsBool(std::string optionName,std::string fieldName)
           {
           if((*itField).value == "true"
             || (*itField).value == "1"
+            || (*itField).value == "True"
             || (*itField).value == "TRUE"
             )
             {
@@ -204,6 +230,7 @@ bool MetaCommand::GetValueAsBool(Option option,std::string fieldName)
       {
       if((*itField).value == "true"
          || (*itField).value == "1"
+         || (*itField).value == "True"
          || (*itField).value == "TRUE"
         )
         {
@@ -319,7 +346,8 @@ int MetaCommand::GetValueAsInt(Option option,std::string fieldName)
 
 
 /** Return the value of the option as a string */
-std::string MetaCommand::GetValueAsString(std::string optionName,std::string fieldName)
+std::string MetaCommand::GetValueAsString(std::string optionName,
+                                          std::string fieldName)
 {
   std::string fieldname = fieldName;
   if(fieldName == "")
@@ -368,6 +396,64 @@ std::string MetaCommand::GetValueAsString(Option option,std::string fieldName)
   return "";
 }
 
+/** Return the value of the option as a list of strings */
+std::list<std::string> MetaCommand::
+GetValueAsList( Option option )
+{
+  std::list<std::string> results;
+  results.clear();
+  std::vector<Field>::const_iterator itField = option.fields.begin();
+  itField++;
+  while(itField != option.fields.end())
+    {
+    results.push_back((*itField).value);
+    itField++;
+    }
+  return results;
+}
+
+std::list< std::string > MetaCommand::
+GetValueAsList( std::string optionName )
+{
+  OptionVector::const_iterator it = m_OptionVector.begin();
+  while(it != m_OptionVector.end())
+    {
+    if((*it).name == optionName)
+      {
+      return this->GetValueAsList( *it );
+      }
+    it++;
+    }
+  std::list< std::string > empty;
+  empty.clear();
+  return empty;
+}
+
+bool MetaCommand::
+GetOptionWasSet(Option option)
+{
+  if(option.userDefined)
+    {
+    return true;
+    }
+  return false;
+}
+
+bool MetaCommand::
+GetOptionWasSet( std::string optionName)
+{
+  OptionVector::const_iterator it = m_OptionVector.begin();
+  while(it != m_OptionVector.end())
+    {
+    if((*it).name == optionName)
+      {
+      return this->GetOptionWasSet(*it);
+      }
+    it++;
+    }
+  return false;
+}
+
 /** List the current options */
 void MetaCommand::ListOptions()
 {
@@ -376,52 +462,60 @@ void MetaCommand::ListOptions()
   while(it != m_OptionVector.end())
     {
     std::cout << "Option #" << i << std::endl;
-    std::cout << "Name: " <<  (*it).name.c_str() << std::endl;
+    std::cout << "   Name: " <<  (*it).name.c_str() << std::endl;
     if((*it).tag.size() > 0)
       {
-      std::cout << "Tag: " << (*it).tag.c_str() << std::endl;
+      std::cout << "   Tag: " << (*it).tag.c_str() << std::endl;
       }
-    std::cout << "Description: " << (*it).description.c_str() << std::endl;
+    std::cout << "   Description: " << (*it).description.c_str() << std::endl;
     if((*it).required)
       {
-      std::cout << "Required: true" << std::endl;
+      std::cout << "   Required: true" << std::endl;
       }
     else
       {
-      std::cout << "Required: false" << std::endl;
+      std::cout << "   Required: false" << std::endl;
       }
-    std::cout << "Number of expeted values: " << (*it).fields.size() << std::endl;
+    std::cout << "   Number of expeted values: " << (*it).fields.size() 
+                                              << std::endl;
     
     std::vector<Field>::const_iterator itField = (*it).fields.begin();
     while(itField != (*it).fields.end())
       {
-      std::cout << "Name: " <<  (*itField).name.c_str() << std::endl;
-      std::cout << "Description: " << (*itField).description.c_str() << std::endl;
-      std::cout << "Type: " << this->TypeToString((*itField).type).c_str() << std::endl;
-      std::cout << "Value: " << (*itField).value.c_str() << std::endl;
+      std::cout << "      Field Name: " <<  (*itField).name.c_str() 
+                                        << std::endl;
+      std::cout << "      Description: " << (*itField).description.c_str() 
+                                         << std::endl;
+      std::cout << "      Type: " << this->TypeToString((*itField).type).c_str()
+                                  << std::endl;
+      std::cout << "      Value: " << (*itField).value.c_str() << std::endl;
       
       if((*itField).externaldata)
         {
-        std::cout << "External Data: true" << std::endl;
+        std::cout << "      External Data: true" << std::endl;
         }
       else
         {
-        std::cout << "External Data: false" << std::endl;
+        std::cout << "      External Data: false" << std::endl;
         }
 
       if((*itField).required)
         {
-        std::cout << "Required: true" << std::endl;
+        std::cout << "      Required: true" << std::endl;
         }
       else
         {
-        std::cout << "Required: false" << std::endl;
+        std::cout << "      Required: false" << std::endl;
         }
       itField++;
       }
     std::cout << std::endl;
     i++;
     it++;
+    }
+  if(m_HelpCallBack != NULL)
+    {
+    m_HelpCallBack();
     }
 }
 
@@ -436,7 +530,8 @@ void MetaCommand::ListOptionsXML()
     std::cout << "<number>" << i << "</number>" << std::endl;
     std::cout << "<name>" << (*it).name.c_str() << "</name>" << std::endl;
     std::cout << "<tag>" << (*it).tag.c_str() << "</tag>" << std::endl;
-    std::cout << "<description>" << (*it).description.c_str() << "</description>" << std::endl;
+    std::cout << "<description>" << (*it).description.c_str() 
+                                 << "</description>" << std::endl;
     std::cout << "<required>";
     if((*it).required)
       {
@@ -454,9 +549,12 @@ void MetaCommand::ListOptionsXML()
       {
       std::cout << "<field>" << std::endl;
       std::cout << "<name>" << (*itField).name.c_str() << "</name>" << std::endl;
-      std::cout << "<description>" << (*itField).description.c_str() << "</description>" << std::endl;
-      std::cout << "<type>" << this->TypeToString((*itField).type).c_str() << "</type>" << std::endl;
-      std::cout << "<value>" << (*itField).value.c_str() << "</value>" << std::endl; 
+      std::cout << "<description>" << (*itField).description.c_str() 
+                                   << "</description>" << std::endl;
+      std::cout << "<type>" << this->TypeToString((*itField).type).c_str() 
+                            << "</type>" << std::endl;
+      std::cout << "<value>" << (*itField).value.c_str() << "</value>" 
+                             << std::endl; 
       std::cout << "<external>";
       if((*itField).externaldata)
         {
@@ -487,7 +585,9 @@ void MetaCommand::ListOptionsXML()
 }
 
 /** Internal small XML parser */
-std::string MetaCommand::GetXML(const char* buffer,const char* desc,unsigned long pos)
+std::string MetaCommand::GetXML(const char* buffer,
+                                const char* desc,
+                                unsigned long pos)
 {
   std::string begin = "<";
   begin += desc;
@@ -540,6 +640,7 @@ bool MetaCommand::ParseXML(const char* buffer)
       {
       std::string f = this->GetXML(buf.c_str(),"field",posF);
       Field field;
+      field.userDefined = false;
       field.name = this->GetXML(f.c_str(),"name",0);
       field.description = this->GetXML(f.c_str(),"description",0);
       field.value = this->GetXML(f.c_str(),"value",0);
@@ -583,7 +684,11 @@ void MetaCommand::ListOptionsSimplified()
     {
     if(!(*it).required)
       {
-      std::cout << "[";
+      std::cout << "   [ ";
+      }
+    else
+      {
+      std::cout << "   ";
       }
     if((*it).tag.size() > 0)
       {
@@ -592,7 +697,7 @@ void MetaCommand::ListOptionsSimplified()
     std::vector<Field>::const_iterator itField = (*it).fields.begin();
     while(itField != (*it).fields.end())
       {
-      if((*itField).type != FLAG) // only display the type if it's not a type
+      if((*itField).type != FLAG) // only display the type if it's not a FLAG
         {
         if((*itField).required)
           {
@@ -604,7 +709,6 @@ void MetaCommand::ListOptionsSimplified()
           }
 
         std::cout << (*itField).name.c_str();
-        std::cout << (*itField).description.c_str();
      
         if((*itField).required)
           {
@@ -615,17 +719,8 @@ void MetaCommand::ListOptionsSimplified()
           std::cout << "] ";
           }
 
-        if((*itField).value.size() > 0)
-          {
-          std::cout << "(" << (*itField).value << ")";
-          }
         }
       itField++;
-      }
-
-    if((*it).description.size()>0)
-      {
-      std::cout << " : " << (*it).description.c_str();
       }
 
     if(!(*it).required)
@@ -633,7 +728,39 @@ void MetaCommand::ListOptionsSimplified()
       std::cout << "]";
       }
     std::cout << std::endl;
+
+    if((*it).description.size()>0)
+      {
+      std::cout << "      = " << (*it).description.c_str();
+      std::cout << std::endl;
+      itField = (*it).fields.begin();
+      while(itField != (*it).fields.end())
+        {
+        if((*itField).description.size() > 0
+           || (*itField).value.size() > 0)
+          {
+          std::cout << "        With: " << (*itField).name.c_str();
+          if((*itField).description.size() > 0)
+            {
+            std::cout << " = " << (*itField).description.c_str();
+            }
+          if((*itField).value.size() > 0)
+            {
+            std::cout << " (Default = " << (*itField).value << ")";
+            }
+          std::cout << std::endl;
+          }
+        itField++;
+        }
+      }
+
+    std::cout << std::endl;
     it++;
+    }
+
+  if(m_HelpCallBack != NULL)
+    {
+    m_HelpCallBack();
     }
 }
 
@@ -716,13 +843,16 @@ MetaCommand::GetOptionId(Option* option)
 bool MetaCommand::Parse(int argc, char* argv[])
 {  
   // List the options if using -V
-  if(argc == 2 && !strcmp(argv[1],"-V"))
+  if((argc == 2 && !strcmp(argv[1],"-V"))
+     || (argc == 2 && !strcmp(argv[1],"-H")))
     {
+    std::cout << "Usage : " << argv[0] << std::endl; 
     this->ListOptions();
     return false;
     }
   // List the options if using -v
-  else if(argc == 2 && !strcmp(argv[1],"-v"))
+  else if((argc == 2 && !strcmp(argv[1],"-v"))
+          || (argc == 2 && !strcmp(argv[1],"-h")))
     {
     std::cout << "Usage : " << argv[0] << std::endl; 
     this->ListOptionsSimplified();
@@ -790,6 +920,18 @@ bool MetaCommand::Parse(int argc, char* argv[])
             valuesRemaining = 0;
             inArgument = false;
             }
+          else if(m_OptionVector[currentOption].fields[0].type == LIST)
+            {
+            inArgument = true;
+            valuesRemaining = (int)atoi(argv[++i]);
+            char optName[255];
+            for(unsigned int j=0; j<valuesRemaining; j++)
+              {
+              sprintf(optName, "%03d", j);
+              this->AddOptionField( m_OptionVector[currentOption].name,
+                                    optName, STRING );
+              }
+            }
           args = "";
           }
         }
@@ -840,6 +982,8 @@ bool MetaCommand::Parse(int argc, char* argv[])
         {
         unsigned long s = m_OptionVector[currentOption].fields.size();
         m_OptionVector[currentOption].fields[s-valuesRemaining].value = argv[i];
+        m_OptionVector[currentOption].fields[s-valuesRemaining].userDefined =
+                                                                           true;
         }
       valuesRemaining--;
       }
@@ -847,6 +991,7 @@ bool MetaCommand::Parse(int argc, char* argv[])
     if(valuesRemaining == 0)
       {
       inArgument = false;
+      m_OptionVector[currentOption].userDefined = true;
       m_ParsedOptionVector.push_back(m_OptionVector[currentOption]);
       }    
     }
@@ -855,8 +1000,11 @@ bool MetaCommand::Parse(int argc, char* argv[])
     {
     std::cout << "Not enough parameters for " 
               << m_OptionVector[currentOption].name << std::endl;
-    std::cout << "Type " << argv[0] 
-              << " -v (or -V or -vxml) for more information" << std::endl;
+    std::cout << "Command: " << argv[0] << std::endl;
+    std::cout << "Options: " << std::endl
+              << "  -v or -h for help listed in short format" << std::endl
+              << "  -V or -H for help listed in long format" << std::endl
+              << "  -vxml for help listed in xml format" << std::endl;
 
     return false;
     }
@@ -884,11 +1032,13 @@ bool MetaCommand::Parse(int argc, char* argv[])
         {
         if((*it).tag.size()>0)
           {
-          std::cout << "Option " << (*it).tag.c_str() << " is required but not defined" << std::endl;
+          std::cout << "Field " << (*it).tag.c_str() 
+                    << " is required but not defined" << std::endl;
           }
         else
           {
-          std::cout << "Main field " << (*it).name.c_str() << " is required but not defined" << std::endl;
+          std::cout << "Field " << (*it).name.c_str() 
+                    << " is required but not defined" << std::endl;
           }
         requiredAndNotDefined = true;
         }
@@ -898,7 +1048,11 @@ bool MetaCommand::Parse(int argc, char* argv[])
 
   if(requiredAndNotDefined)
     {
-    std::cout << "Type " << argv[0] << " -v (or -V or -vxml) for more information" << std::endl;
+    std::cout << "Command: " << argv[0] << std::endl
+              << "Options: " << std::endl
+              << "  -v or -h for help listed in short format" << std::endl
+              << "  -V or -H for help listed in long format" << std::endl
+              << "  -vxml for help listed in xml format" << std::endl;
     return false;
     }
 
@@ -916,6 +1070,8 @@ std::string MetaCommand::TypeToString(TypeEnumType type)
       return "float";
     case STRING:
       return "string";
+    case LIST:
+      return "list";
     case FLAG:
       return "flag";
     default:
@@ -940,6 +1096,10 @@ MetaCommand::TypeEnumType MetaCommand::StringToType(const char* type)
   else if(!strcmp(type,"string"))
     {
     return STRING;
+    }
+  else if(!strcmp(type,"list"))
+    {
+    return LIST;
     }
   else if(!strcmp(type,"flag"))
     {

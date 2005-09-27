@@ -21,6 +21,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <list>
 #include <map>
 
 class MetaCommand
@@ -28,7 +29,7 @@ class MetaCommand
 
 public:
 
-  typedef enum {INT,FLOAT,CHAR,STRING,FLAG} TypeEnumType;
+  typedef enum {INT,FLOAT,CHAR,STRING,LIST,FLAG} TypeEnumType;
 
   struct Field{
     std::string name;
@@ -37,14 +38,16 @@ public:
     TypeEnumType type;
     bool externaldata;
     bool required;
+    bool userDefined;
     };
 
   struct Option{
-    std::string tag;
     std::string name;
     std::string description;
+    std::string tag;
     std::vector<Field> fields;
     bool required;
+    bool userDefined;
   };
 
   typedef std::vector<Option>                OptionVector; 
@@ -53,14 +56,31 @@ public:
   ~MetaCommand() {}
 
   bool SetOption(Option option);
-  bool SetOption(std::string name,std::string tag,bool required,std::string description,std::vector<Field> fields);
-  bool SetOption(std::string name,std::string tag,bool required,std::string description,TypeEnumType type = FLAG,std::string defVal = "");
+  bool SetOption(std::string name,
+                 std::string tag,
+                 bool required,
+                 std::string description,
+                 std::vector<Field> fields);
+  bool SetOption(std::string name,
+                 std::string tag,
+                 bool required,
+                 std::string description,
+                 TypeEnumType type = FLAG,
+                 std::string defVal = "");
 
   /** Fields are added in order */
-  bool AddField(std::string name,std::string description,TypeEnumType type,bool externalData);
+  bool AddField(std::string name,
+                std::string description,
+                TypeEnumType type,
+                bool externalData);
   
   /** Add a field to an option */
-  bool AddOptionField(std::string optionName,std::string name,TypeEnumType type,bool required=true,std::string defVal = "");
+  bool AddOptionField(std::string optionName,
+                      std::string name,
+                      TypeEnumType type,
+                      bool required=true,
+                      std::string defVal = "",
+                      std::string description = "");
 
   /** Get the values given the option name */
   bool GetValueAsBool(std::string optionName,std::string fieldName="");
@@ -75,6 +95,11 @@ public:
   std::string GetValueAsString(std::string optionName,std::string fieldName="");
   std::string GetValueAsString(Option option,std::string fieldName="");
 
+  std::list< std::string > GetValueAsList(std::string optionName);
+  std::list< std::string > GetValueAsList(Option option);
+
+  bool GetOptionWasSet(std::string optionName);
+  bool GetOptionWasSet(Option option);
 
   /** List the options */
   void ListOptions();
@@ -95,20 +120,31 @@ public:
   std::string ExtractDateFromCVS(std::string date);
 
   /** Set the version of the app */
-  std::string GetVersion() {return m_Version;}
-  void SetVersion(const char* version) {m_Version=version;}
+  std::string GetVersion() 
+    { return m_Version; }
+
+  void SetVersion(const char* version) 
+    { m_Version=version; }
   
   /** Set the date of the app */
-  std::string GetDate() {return m_Date;}
-  void SetDate(const char* date) {m_Date=date;}
+  std::string GetDate() 
+    { return m_Date; }
+
+  void SetDate(const char* date) 
+    { m_Date=date; }
 
   long GetOptionId(Option* option);
 
   /** Return the list of options */
-  const OptionVector & GetOptions() {return m_OptionVector;}
+  const OptionVector & GetOptions() 
+    { return m_OptionVector; }
 
   /** Return the list of parse options */
-  const OptionVector & GetParsedOptions() {return m_ParsedOptionVector;}
+  const OptionVector & GetParsedOptions() 
+    { return m_ParsedOptionVector; }
+
+  void SetHelpCallBack(void (* newHelpCallBack)(void))
+    { m_HelpCallBack = newHelpCallBack; }
 
 protected:
 
@@ -123,8 +159,11 @@ protected:
 
 private:
 
+  void         (* m_HelpCallBack)(void);
+
   OptionVector m_OptionVector;
-  OptionVector m_ParsedOptionVector; // We store the parsed option in case we have multiple options
+  OptionVector m_ParsedOptionVector; // We store the parsed option in
+                                     //   case we have multiple options
 
 }; // end of class
 
