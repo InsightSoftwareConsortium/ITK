@@ -40,8 +40,10 @@ int itkGaussianDensityFunctionTest(int, char* [] )
 
   covariance.SetSize( 1, 1 ); // because this is a scalar case
     
+  const double Sigma = 7.0;
+
   mean[0] = 19.0;
-  covariance[0][0] = 1.0;
+  covariance[0][0] = Sigma * Sigma;
 
   DensityFunctionType::Pointer densityFunction = DensityFunctionType::New();
 
@@ -53,7 +55,18 @@ int itkGaussianDensityFunctionTest(int, char* [] )
 
   const double value1 = densityFunction->Evaluate( inputValue );
 
+  const double PI = 4.0 * atan( 1.0 );
+
+  const double gaussianNorm = 1.0 / ( sqrt( 2 * PI ) * Sigma );
+
+  if( fabs( gaussianNorm - value1 ) > 1e-6 )
+    {
+    std::cerr << "ERROR in computation of the Gaussian " << std::endl;
+    return EXIT_FAILURE;
+    }
+  
   std::cout << "Evaluate at the mean = " << value1 << std::endl;
+  std::cout << "Expected at the mean = " << gaussianNorm << std::endl;
 
 
   std::cout << "Test passed." << std::endl;
