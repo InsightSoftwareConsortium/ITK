@@ -35,10 +35,10 @@ int itkGaussianDensityFunctionTest(int, char* [] )
   typedef DensityFunctionType::CovarianceType        CovarianceType;
   typedef DensityFunctionType::MeanType              MeanType;
 
-  MeanType mean;
+  MeanType mean(1);           // size = 1 because this is a scalar case.
   CovarianceType  covariance;
 
-  covariance.SetSize( 1, 1 ); // because this is a scalar image
+  covariance.SetSize( 1, 1 ); // because this is a scalar case
     
   mean[0] = 19.0;
   covariance[0][0] = 1.0;
