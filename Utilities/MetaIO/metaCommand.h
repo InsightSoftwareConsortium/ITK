@@ -17,6 +17,10 @@
 #ifndef __MetaCommand_H_
 #define __MetaCommand_H_
 
+#ifdef _MSC_VER
+#pragma warning ( disable : 4786 )
+#endif
+
 #include <stdlib.h>
 #include <iostream>
 #include <string>
