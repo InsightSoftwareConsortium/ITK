@@ -26,7 +26,9 @@
 namespace itk
 {
 
-/* \brief ImageIO object for reading and writing JPEG images
+/** \class JPEGImageIO
+ *
+ * \brief ImageIO object for reading and writing JPEG images
  *
  * \ingroup IOFilters
  *

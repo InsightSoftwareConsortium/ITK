@@ -35,12 +35,15 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-/**
-   * \ingroup IOFilters
-   * \author Hans J. Johnson
-   * \brief Class that defines how to read Nifti file format.
-   * Nifti IMAGE FILE FORMAT - As much information as I can determine from sourceforge.net/projects/Niftilib
-   */
+
+ /** \class NiftiImageIO
+  *
+  * \author Hans J. Johnson
+  * \brief Class that defines how to read Nifti file format.
+  * Nifti IMAGE FILE FORMAT - As much information as I can determine from sourceforge.net/projects/Niftilib
+  *
+  * \ingroup IOFilters
+  */
 class ITK_EXPORT NiftiImageIO : public ImageIOBase
 {
 public:

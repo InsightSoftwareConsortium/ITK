@@ -26,9 +26,14 @@
 namespace itk
 {
 
-/** \brief Read DicomImage file format.
+/** \class DicomImageIO
  *
- * NOTE: This reader has been replaced with GDCMDicomImageIO
+ *  \brief Read DicomImage file format.
+ *
+ *  \deprecated
+ *
+ *  \warning NOTE: This reader has been replaced with GDCMDicomImageIO
+ *
  * \ingroup IOFilters
  *
  */

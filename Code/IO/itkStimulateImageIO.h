@@ -30,7 +30,9 @@
 namespace itk
 {
 
-/** \brief ImageIO class for reading SDT/SPR (Stimulate) images
+/** \class StimulateImageIO
+ *
+ *  \brief ImageIO class for reading SDT/SPR (Stimulate) images
  *  This format is similar to a MetaImageIO file:
  *  The user should specify the .spr file (not the data file : .sdt)
  *

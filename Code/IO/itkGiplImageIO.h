@@ -31,7 +31,9 @@ namespace itk
 class GiplImageIOInternals;
   
   
-/** \brief Read GiplImage file format. 
+/** \class GiplImageIO
+ *
+ *  \brief Read GiplImage file format. 
  *
  *  \ingroup IOFilters
  *

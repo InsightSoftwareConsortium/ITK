@@ -43,10 +43,14 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-/**
-   * \author Hans J. Johnson
-   * \brief Class that defines how to read GE5 file format.
-   * */
+ /** \class GE5ImageIO
+  *
+  * \author Hans J. Johnson
+  * \brief Class that defines how to read GE5 file format.
+  *
+  * \ingroup IOFilters
+  *
+  */
 class ITK_EXPORT GE5ImageIO : public IPLCommonImageIO
 {
 public:

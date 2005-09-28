@@ -31,7 +31,9 @@
 namespace itk
 {
 
-/** \brief ImageIO class for reading VTK images
+/** \class VTKImageIO
+ *
+ *  \brief ImageIO class for reading VTK images
  *
  * \ingroup IOFilters
  *

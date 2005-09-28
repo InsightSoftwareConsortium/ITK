@@ -27,16 +27,18 @@
 namespace itk
 {
 
-/* \brief ImageIO object for reading and writing TIFF images
- *
- * \ingroup IOFilters
- *
- */
-
 //BTX
 class TIFFReaderInternal;
 //ETX
 
+
+/** \class TIFFImageIO
+ *
+ * \brief ImageIO object for reading and writing TIFF images
+ *
+ * \ingroup IOFilters
+ *
+ */
 class ITK_EXPORT TIFFImageIO : public ImageIOBase
 {
 public:

@@ -39,7 +39,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-/**
+/**  \class AnalyzeImageIO
    * \ingroup IOFilters
    * \author Hans J. Johnson
    * \brief Class that defines how to read Analyze file format.

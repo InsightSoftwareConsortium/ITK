@@ -51,7 +51,7 @@
 
 namespace itk
 {
-/**
+/** \class Brains2MaskImageIO
  * \author Hans J. Johnson
  * \brief Class that defines how to read Brains2Mask file format. 
  * */

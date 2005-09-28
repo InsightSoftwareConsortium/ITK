@@ -31,6 +31,7 @@ namespace itk
 {
 
 /** \class RawImageIO
+ *
  * \brief Read and write raw binary images.
  *
  * This class reads and writes 2D or 3D images. Because raw data has 

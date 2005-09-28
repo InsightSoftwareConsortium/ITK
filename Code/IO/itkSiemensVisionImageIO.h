@@ -42,10 +42,13 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-/**
-   * \author Hans J. Johnson
-   * \brief Class that defines how to read SiemensVision file format.
-   * */
+ /** \class SiemensVisionImageIO
+  *
+  * \author Hans J. Johnson
+  * \brief Class that defines how to read SiemensVision file format.
+  *
+  * \ingroup IOFilters
+  */
 class ITK_EXPORT SiemensVisionImageIO : public IPLCommonImageIO
 {
 public:

@@ -28,7 +28,9 @@
 namespace itk
 {
 
-/** \brief Read and write the "Nearly Raw Raster Data" (Nrrd) image format.
+/** \class NrrdImageIO
+ *
+ * \brief Read and write the "Nearly Raw Raster Data" (Nrrd) image format.
  * The Nrrd format was developed as part of the Teem package
  * (teem.sourceforge.net).
  *

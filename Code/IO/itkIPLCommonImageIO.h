@@ -40,10 +40,13 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-/**
-   * \author Hans J. Johnson
-   * \brief Class that defines how to read GE4 file format.
-   * */
+ /** \class IPLCommonImageIO
+  *
+  * \author Hans J. Johnson
+  * \brief Class that defines how to read GE4 file format.
+  *
+  * \ingroup IOFilters
+  */
 class ITK_EXPORT IPLCommonImageIO : public ImageIOBase
 {
 public:

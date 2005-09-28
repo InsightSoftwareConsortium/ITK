@@ -29,7 +29,9 @@
 namespace itk
 {
 
-/** \brief Read MetaImage file format.
+/** \class MetaImageIO
+ *
+ *  \brief Read MetaImage file format.
  *
  *  \ingroup IOFilters
  */

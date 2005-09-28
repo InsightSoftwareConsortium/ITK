@@ -28,7 +28,9 @@
 namespace itk
 {
 
-/** \brief Read BMPImage file format. 
+/** \class BMPImageIO 
+ *
+ *  \brief Read BMPImage file format. 
  *
  *  \ingroup IOFilters
  *
