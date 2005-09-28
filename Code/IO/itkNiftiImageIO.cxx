@@ -294,6 +294,22 @@ bool NiftiImageIO::CanReadFile( const char* FileNameToRead )
 }
 
 
+namespace
+{
+inline double determinant(const std::vector<double> &dirx,
+                          const std::vector<double> &diry,
+                          const std::vector<double> &dirz)
+{
+  return
+    dirx[0]*diry[1]*dirz[2]-
+    dirx[0]*dirz[1]*diry[2]-
+    diry[0]*dirx[1]*dirz[2]+
+    diry[0]*dirz[1]*dirx[2]+
+    dirz[0]*dirx[1]*diry[2]-
+    dirz[0]*diry[1]*dirx[2];
+}
+}
+
 void NiftiImageIO::ReadImageInformation()
 {
   this->m_NiftiImage=nifti_image_read(m_FileName.c_str(),false);
@@ -472,21 +488,23 @@ void NiftiImageIO::ReadImageInformation()
       }
     SpatialOrientationAdapter<3>::DirectionType dir =  OrientAdapterType().ToDirectionCosines(orient);
 
-    std::vector<double> direction(3,0);
-    direction[0] = dir[0][0];
-    direction[1] = dir[1][0];
-    direction[2] = dir[2][0];
-    this->SetDirection(0,direction);
-    direction[0] = dir[0][1];
-    direction[1] = dir[1][1];
-    direction[2] = dir[2][1];
-    this->SetDirection(1,direction);
+    std::vector<double> dirx(3,0),
+      diry(3,0),
+      dirz(3,0);
+    dirx[0] = dir[0][0];
+    dirx[1] = dir[1][0];
+    dirx[2] = dir[2][0];
+    diry[0] = dir[0][1];
+    diry[1] = dir[1][1];
+    diry[2] = dir[2][1];
+    dirz[0] = dir[0][2];
+    dirz[1] = dir[1][2];
+    dirz[2] = dir[2][2];
+    this->SetDirection(0,dirx);
+    this->SetDirection(1,diry);
     if(dims > 2)
       {
-      direction[0] = dir[0][2];
-      direction[1] = dir[1][2];
-      direction[2] = dir[2][2];
-      this->SetDirection(2,direction);
+      this->SetDirection(2,dirz);
       }
     m_RescaleSlope = 1;
     m_RescaleIntercept = 0;
@@ -564,6 +582,8 @@ void NiftiImageIO::ReadImageInformation()
   this->m_NiftiImage = 0;
 }
 
+
+
 /**
    *
    */
@@ -604,7 +624,17 @@ NiftiImageIO
 
     }
   std::string Ext = FName.substr(ext);
-  if(Ext == ".nii")
+  //
+  // look for compressed Nifti
+  if(Ext == ".gz")
+    {
+    ext = FName.rfind(".nii.gz");
+    if(ext != std::string::npos)
+      {
+      Ext = ".nii.gz";
+      }
+    }
+  if(Ext == ".nii" || Ext == ".nii.gz")
     {
     this->m_NiftiImage->nifti_type = 1;
     this->m_NiftiImage->iname = (char *)malloc(FName.size()+1);
@@ -773,13 +803,7 @@ NiftiImageIO
   std::vector<double> diry  = this->GetDirection(1);
   std::vector<double> dirz  = this->GetDirection(2);
   mat44 matrix;
-  double det = 
-    dirx[0]*diry[1]*dirz[2]-
-    dirx[0]*dirz[1]*diry[2]-
-    diry[0]*dirx[1]*dirz[2]+
-    diry[0]*dirz[1]*dirx[2]+
-    dirz[0]*dirx[1]*diry[2]-
-    dirz[0]*diry[1]*dirx[2];
+  double det = determinant(dirx,diry,dirz);
   if(det < 0)
     {
     det = -1;
