@@ -184,7 +184,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
     {
     unsigned int i=0; 
     unsigned int j=0;
-    while(  i< ImageDimension)
+    while(  i < ImageDimension-1 )
       {
       if( i == dim ) 
         {
