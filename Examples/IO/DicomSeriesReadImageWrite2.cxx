@@ -63,7 +63,8 @@ int main( int argc, char* argv[] )
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " DicomDirectory  outputFileName  [seriesName]" << std::endl;
+    std::cerr << argv[0] << " DicomDirectory  outputFileName  [seriesName]" 
+              << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -130,6 +131,15 @@ int main( int argc, char* argv[] )
 // the DICOM slices are stored. This is done with the \code{SetDirectory()}
 // method. The GDCMSeriesFileNames object will explore the directory and will
 // generate a sequence of filenames for DICOM files for one study/series. 
+// In this example, we also call the \code{SetUseSeriesDetails(true)} function
+// that tells the GDCMSereiesFileNames object to use additional DICOM 
+// information to distinguish unique volumes within the directory.  This is
+// useful, for example, if a DICOM device assigns the same SeriesID to 
+// a scout scan and its 3D volume; by using additional DICOM information
+// the scout scan will not be included as part of the 3D volume.  Note that
+// \code{SetUseSeriesDetails(true)} must be called prior to calling
+// \code{SetDirectory()}.
+//
 //
 // \index{itk::GDCMSeriesFileNames!SetDirectory()}
 //
@@ -138,6 +148,8 @@ int main( int argc, char* argv[] )
 // Software Guide : BeginCodeSnippet
   typedef itk::GDCMSeriesFileNames NamesGeneratorType;
   NamesGeneratorType::Pointer nameGenerator = NamesGeneratorType::New();
+
+  nameGenerator->SetUseSeriesDetails( true );
 
   nameGenerator->SetDirectory( argv[1] );
 // Software Guide : EndCodeSnippet
