@@ -196,6 +196,34 @@ int itkHistogramImageToImageMetricTest(int , char*[] )
     return EXIT_FAILURE;
     }
 
+
+  std::cout << "Exercise the SetLowerBound() and SetUpperBound() methods " << std::endl;
+
+  MetricType::MeasurementVectorType lowerBound;
+  MetricType::MeasurementVectorType upperBound;
+
+  metric->SetLowerBound( lowerBound );
+  metric->SetUpperBound( upperBound );
+
+  try
+    {
+    // Initialize the metric.
+    metric->Initialize();
+
+    // Exercise Print() method.
+    metric->Print(std::cout);
+
+    std::cout << "Test passed." << std::endl;
+    }
+  catch (itk::ExceptionObject& ex)
+    {
+    std::cerr << "Exception caught!" << std::endl;
+    std::cerr << ex << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+
   // Force an exception
   try
     {
