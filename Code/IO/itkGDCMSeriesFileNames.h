@@ -89,7 +89,6 @@ public:
     m_Directory = name;
     m_SerieHelper->SetUseSeriesDetails( m_UseSeriesDetails );
     m_SerieHelper->SetDirectory( name ); //as a side effect it also execute
-    m_SerieHelper->Print();
     this->Modified();
     }
 
