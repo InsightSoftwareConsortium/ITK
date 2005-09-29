@@ -102,6 +102,14 @@ int itkMeshSpatialObjectTest(int, char * [] )
   if(!meshSO->IsInside(inside) || meshSO->IsInside(outside))
     {
     std::cout<<"[FAILED]"<<std::endl;
+    if(!meshSO->IsInside(inside))
+      {
+      std::cout << inside << " is not inside the mesh!" << std::endl;
+      }
+    if(meshSO->IsInside(outside))
+      {
+      std::cout << outside << " is inside the mesh!" << std::endl;
+      }
     return EXIT_FAILURE;
     }
   std::cout<<"[PASSED]"<<std::endl;
