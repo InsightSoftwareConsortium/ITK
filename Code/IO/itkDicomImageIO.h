@@ -32,7 +32,7 @@ namespace itk
  *
  *  \deprecated
  *
- *  \warning NOTE: This reader has been replaced with GDCMDicomImageIO
+ *  \warning NOTE: This reader has been replaced with GDCMImageIO
  *
  * \ingroup IOFilters
  *
