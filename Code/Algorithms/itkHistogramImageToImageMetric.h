@@ -135,6 +135,17 @@ public:
                              MeasureType& Value,
                              DerivativeType& Derivative) const;
 
+  /** Set the lower bounds of the intensities to be considered for computing
+    * the histogram. This option allows to focus the computation of the Metric in
+    * a particular range of intensities that correspond to features of interest. */
+  void SetLowerBound( const MeasurementVectorType & bound );
+
+  /** Set the upper bounds of the intensities to be considered for computing
+    * the histogram. This option allows to focus the computation of the Metric in
+    * a particular range of intensities that correspond to features of interest.  */
+  void SetUpperBound( const MeasurementVectorType & bound );
+
+
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
@@ -149,6 +160,14 @@ protected:
   mutable MeasurementVectorType m_UpperBound;
   /** The increase in the upper bound. */
   double m_UpperBoundIncreaseFactor;
+
+  /** Boolean flag to indicate whether the user supplied lower bounds or
+    * whether they should be computed from the min of image intensities */
+  bool m_LowerBoundSetByUser;
+
+  /** Boolean flag to indicate whether the user supplied upper bounds or
+    * whether they should be computed from the max of image intensities */
+  bool m_UpperBoundSetByUser;
 
   /** Computes the joint histogram from the transformation parameters
       passed to the function. */

@@ -38,7 +38,30 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
   m_UpperBoundIncreaseFactor = 0.001;
   m_PaddingValue = NumericTraits<FixedImagePixelType>::Zero;
   m_Histogram = HistogramType::New(); 
+  m_LowerBoundSetByUser = false;
+  m_UpperBoundSetByUser = false;
 }
+
+
+template <class TFixedImage, class TMovingImage>
+void HistogramImageToImageMetric<TFixedImage, TMovingImage>
+::SetUpperBound( const MeasurementVectorType & bounds )
+{
+   m_UpperBound = bounds;
+   m_UpperBoundSetByUser = true;
+   this->Modified();
+}
+
+
+template <class TFixedImage, class TMovingImage>
+void HistogramImageToImageMetric<TFixedImage, TMovingImage>
+::SetLowerBound( const MeasurementVectorType & bounds )
+{
+   m_LowerBound = bounds;
+   m_LowerBoundSetByUser = true;
+   this->Modified();
+}
+
 
 template <class TFixedImage, class TMovingImage>
 void HistogramImageToImageMetric<TFixedImage, TMovingImage>
@@ -55,60 +78,73 @@ void HistogramImageToImageMetric<TFixedImage, TMovingImage>
     itkExceptionMacro(<<"Moving image has not been set.");
     }
 
-  // Calculate min and max image values in fixed image.
-  FixedImageConstPointerType pFixedImage = this->m_FixedImage;
-  ImageRegionConstIterator<FixedImageType> fiIt(pFixedImage,
-                                                pFixedImage->GetBufferedRegion());
-  fiIt.GoToBegin();
-  FixedImagePixelType minFixed = fiIt.Value();
-  FixedImagePixelType maxFixed = fiIt.Value();
-  ++fiIt;
-  while ( !fiIt.IsAtEnd() )
+  if( !m_LowerBoundSetByUser && !m_UpperBoundSetByUser )
     {
-    FixedImagePixelType value = fiIt.Value();
-      
-    if (value < minFixed)
-      {
-      minFixed = value;
-      }
-    else if (value > maxFixed)
-      {
-      maxFixed = value;
-      }
-
+    // Calculate min and max image values in fixed image.
+    FixedImageConstPointerType pFixedImage = this->m_FixedImage;
+    ImageRegionConstIterator<FixedImageType> fiIt(pFixedImage,
+                                                  pFixedImage->GetBufferedRegion());
+    fiIt.GoToBegin();
+    FixedImagePixelType minFixed = fiIt.Value();
+    FixedImagePixelType maxFixed = fiIt.Value();
     ++fiIt;
-    }
-    
-  // Calculate min and max image values in moving image.
-  MovingImageConstPointerType pMovingImage = this->m_MovingImage;
-  ImageRegionConstIterator<MovingImageType> miIt(pMovingImage,
-                                                 pMovingImage->GetBufferedRegion());
-  miIt.GoToBegin();
-  MovingImagePixelType minMoving = miIt.Value();
-  MovingImagePixelType maxMoving = miIt.Value();
-  ++miIt;
-  while ( !miIt.IsAtEnd() )
-    {
-    MovingImagePixelType value = miIt.Value();
+    while ( !fiIt.IsAtEnd() )
+      {
+      FixedImagePixelType value = fiIt.Value();
+        
+      if (value < minFixed)
+        {
+        minFixed = value;
+        }
+      else if (value > maxFixed)
+        {
+        maxFixed = value;
+        }
 
-    if (value < minMoving)
-      {
-      minMoving = value;
+      ++fiIt;
       }
-    else if (value > maxMoving)
-      {
-      maxMoving = value;
-      }
+      
+    // Calculate min and max image values in moving image.
+    MovingImageConstPointerType pMovingImage = this->m_MovingImage;
+    ImageRegionConstIterator<MovingImageType> miIt(pMovingImage,
+                                                   pMovingImage->GetBufferedRegion());
+    miIt.GoToBegin();
+    MovingImagePixelType minMoving = miIt.Value();
+    MovingImagePixelType maxMoving = miIt.Value();
     ++miIt;
+    while ( !miIt.IsAtEnd() )
+      {
+      MovingImagePixelType value = miIt.Value();
+
+      if (value < minMoving)
+        {
+        minMoving = value;
+        }
+      else if (value > maxMoving)
+        {
+        maxMoving = value;
+        }
+      ++miIt;
+      }
+
+
+    // Initialize the upper and lower bounds of the histogram.
+    if( !m_LowerBoundSetByUser )
+      {
+      m_LowerBound[0] = minFixed;
+      m_LowerBound[1] = minMoving;
+      }
+
+    if( !m_UpperBoundSetByUser )
+      {
+      m_UpperBound[0] =
+        maxFixed + (maxFixed - minFixed ) * m_UpperBoundIncreaseFactor;
+      m_UpperBound[1] =
+        maxMoving + (maxMoving - minMoving ) * m_UpperBoundIncreaseFactor;
+      }
+
     }
 
-  // Initialize the upper and lower bounds of the histogram.
-  m_LowerBound[0] = minFixed;
-  m_LowerBound[1] = minMoving;
-  m_UpperBound[0] =
-    maxFixed + (maxFixed - minFixed ) * m_UpperBoundIncreaseFactor;
-  m_UpperBound[1] =
-    maxMoving + (maxMoving - minMoving ) * m_UpperBoundIncreaseFactor;
 }
 
 template <class TFixedImage, class TMovingImage>
@@ -258,7 +294,8 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
       
     ++ti;
     }
-    
+
+  itkDebugMacro("NumberOfPixelsCounted = " << this->m_NumberOfPixelsCounted );
   if (this->m_NumberOfPixelsCounted == 0)
     {
     itkExceptionMacro(<< "All the points mapped to outside of the moving \
