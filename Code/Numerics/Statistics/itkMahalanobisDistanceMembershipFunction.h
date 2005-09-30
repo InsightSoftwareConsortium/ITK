@@ -18,11 +18,12 @@
 #define __itkMahalanobisDistanceMembershipFunction_h
 
 #include <vnl/vnl_vector.h>
+#include <vnl/vnl_vector_ref.h>
 #include <vnl/vnl_transpose.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/algo/vnl_matrix_inverse.h>
 #include <vnl/algo/vnl_determinant.h>
-
+#include "itkArray.h"
 
 #include "itkMembershipFunctionBase.h"
 
@@ -65,6 +66,7 @@ public:
 
   /** Method to set mean */
   void SetMean(const MeanVectorType &mean) ;
+  void SetMean(const Array< double > &mean) ;
   
   /** Method to get mean */
   const MeanVectorType & GetMean() const;

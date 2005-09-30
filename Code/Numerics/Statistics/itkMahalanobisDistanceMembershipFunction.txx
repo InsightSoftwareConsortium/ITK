@@ -43,6 +43,16 @@ MahalanobisDistanceMembershipFunction< TVector >
   m_Mean = mean ;
 }
 
+
+template < class TVector >
+void 
+MahalanobisDistanceMembershipFunction< TVector >
+::SetMean(const Array< double > & mean)
+{
+  m_Mean = dynamic_cast< MeanVectorType & >(const_cast< Array< double >& >(mean));
+}
+
+
 template < class TVector >
 const typename
 MahalanobisDistanceMembershipFunction< TVector >::MeanVectorType &
