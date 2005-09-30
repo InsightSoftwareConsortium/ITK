@@ -96,6 +96,7 @@ public:
    * Instance Identifier, frequency, size, size element value */
   typedef typename PixelTraitsType::ValueType MeasurementType ;
   typedef typename Superclass::FrequencyType FrequencyType ;
+  typedef typename Superclass::TotalFrequencyType TotalFrequencyType ;
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** the number of components in a measurement vector */

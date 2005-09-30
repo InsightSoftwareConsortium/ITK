@@ -98,8 +98,9 @@ public:
   typedef TFrequencyContainer FrequencyContainerType ;
   typedef typename FrequencyContainerType::Pointer FrequencyContainerPointer ;
 
-  /** Frequency value type from superclass */
+  /** Frequency value and TotalFrequency type from superclass */
   typedef typename FrequencyContainerType::FrequencyType FrequencyType ;
+  typedef typename FrequencyContainerType::TotalFrequencyType TotalFrequencyType ;
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef itk::Array< long >  IndexType;

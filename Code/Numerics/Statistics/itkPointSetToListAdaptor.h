@@ -75,6 +75,7 @@ public:
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
   typedef MeasurementVectorType ValueType ;
   typedef typename Superclass::FrequencyType FrequencyType ;
+  typedef typename Superclass::TotalFrequencyType TotalFrequencyType ;
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** Method to set the point set */
