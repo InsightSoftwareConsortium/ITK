@@ -74,6 +74,7 @@ public:
   typedef typename TSample::MeasurementType MeasurementType;
   typedef typename TSample::InstanceIdentifier InstanceIdentifier;
   typedef typename TSample::FrequencyType FrequencyType ;
+  typedef typename TSample::TotalFrequencyType TotalFrequencyType ;
   
   
   /** vector of unique class labels that will be used for mapping internal

@@ -60,6 +60,7 @@ public:
   typedef typename TSample::MeasurementType MeasurementType;
   typedef typename TSample::InstanceIdentifier InstanceIdentifier;
   typedef typename TSample::FrequencyType FrequencyType ;
+  typedef typename TSample::TotalFrequencyType TotalFrequencyType ;
   typedef MeasurementVectorType ValueType ;
 
   /** Type of the storage for instances that belong to the class 

@@ -62,6 +62,7 @@ public:
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
   typedef typename Superclass::MeasurementType MeasurementType;
   typedef typename Superclass::FrequencyType FrequencyType ;
+  typedef typename Superclass::TotalFrequencyType TotalFrequencyType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
   typedef typename Superclass::SearchResultVectorType SearchResultVectorType ;
 
