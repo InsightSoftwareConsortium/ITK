@@ -127,7 +127,7 @@ ImageToListAdaptor< TImage, TMeasurementVector >
 }
 
 template < class TImage, class TMeasurementVector >
-typename ImageToListAdaptor< TImage, TMeasurementVector >::FrequencyType
+typename ImageToListAdaptor< TImage, TMeasurementVector >::TotalFrequencyType
 ImageToListAdaptor< TImage, TMeasurementVector >
 ::GetTotalFrequency() const
 { 

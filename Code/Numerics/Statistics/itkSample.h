@@ -25,6 +25,7 @@
 #include "itkObject.h"
 #include "itkFixedArray.h"
 #include "itkMeasurementVectorTraits.h"
+#include "itkNumericTraits.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -80,6 +81,9 @@ public:
 
   /** Frequency value type*/
   typedef float FrequencyType ;
+  
+  /** Total frequency type*/
+  typedef NumericTraits<FrequencyType>::AccumulateType TotalFrequencyType ;
 
   /** InstanceIdentifier typedef. This identifier is a unique
    * sequential id for each measurement vector in a Sample subclass.*/ 
@@ -101,7 +105,7 @@ public:
   virtual FrequencyType GetFrequency(const InstanceIdentifier &id) const = 0 ;
 
   /** Get the total frequency of the sample. */
-  virtual FrequencyType GetTotalFrequency() const 
+  virtual TotalFrequencyType GetTotalFrequency() const 
     = 0 ;
 
   

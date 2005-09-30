@@ -616,7 +616,7 @@ VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
 template< class TMeasurement,  
           class TFrequencyContainer >
 inline typename VariableDimensionHistogram< TMeasurement,  
-                           TFrequencyContainer >::FrequencyType
+                           TFrequencyContainer >::TotalFrequencyType
 VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
 ::GetTotalFrequency() const
 {

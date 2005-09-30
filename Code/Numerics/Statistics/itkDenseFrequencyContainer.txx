@@ -18,7 +18,6 @@
 #define _itkDenseFrequencyContainer_txx
 
 #include "itkDenseFrequencyContainer.h"
-#include "itkNumericTraits.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -28,7 +27,7 @@ DenseFrequencyContainer< TFrequencyValue >
 ::DenseFrequencyContainer()
 {
   m_FrequencyContainer = FrequencyContainerType::New() ;
-  m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
+  m_TotalFrequency = NumericTraits< TotalFrequencyType >::Zero ;
 } 
 
 template< class TFrequencyValue >
@@ -46,7 +45,7 @@ DenseFrequencyContainer< TFrequencyValue >
 ::SetToZero() 
 {   
   m_FrequencyContainer->Fill( NumericTraits< FrequencyType >::Zero );
-  m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
+  m_TotalFrequency = NumericTraits< TotalFrequencyType >::Zero ;
 }
 
 template< class TFrequencyValue >

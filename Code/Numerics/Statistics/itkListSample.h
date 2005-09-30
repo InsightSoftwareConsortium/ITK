@@ -112,8 +112,8 @@ public:
 
   /** Get the total frequency of the sample.  This is equivalent to
    * the size of the sample. */
-  FrequencyType GetTotalFrequency() const
-  { return static_cast<FrequencyType>( m_InternalContainer.size() ); }
+  TotalFrequencyType GetTotalFrequency() const
+  { return static_cast<TotalFrequencyType>( m_InternalContainer.size() ); }
 
   class ConstIterator;
  

@@ -597,7 +597,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
 inline typename Histogram< TMeasurement, VMeasurementVectorSize, 
-                           TFrequencyContainer >::FrequencyType
+                           TFrequencyContainer >::TotalFrequencyType
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetTotalFrequency() const
 {

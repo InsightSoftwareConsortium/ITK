@@ -138,7 +138,7 @@ public:
 
   inline FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
 
-  FrequencyType GetTotalFrequency() const ;
+  TotalFrequencyType GetTotalFrequency() const ;
   
  
   class Iterator

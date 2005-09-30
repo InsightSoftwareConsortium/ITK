@@ -290,7 +290,7 @@ public:
                                   const unsigned int dimension) const ;
 
   /** Get the total frequency in the histogram*/
-  FrequencyType GetTotalFrequency() const ;
+  TotalFrequencyType GetTotalFrequency() const ;
 
   /** Get the frequency of a dimension's nth element. */
   FrequencyType GetFrequency(const unsigned long n,

@@ -100,7 +100,7 @@ public:
   FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
 
   /** returns the size of this container */
-  FrequencyType GetTotalFrequency() const ;
+  TotalFrequencyType GetTotalFrequency() const ;
 
   void SetMeasurementVectorSize( const MeasurementVectorSizeType s )
     {

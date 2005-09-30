@@ -20,6 +20,7 @@
 #include <map>
 #include "itkObjectFactory.h"
 #include "itkObject.h"
+#include "itkNumericTraits.h"
 
 namespace itk{ 
   namespace Statistics{
@@ -50,6 +51,9 @@ public:
 
   /** frequency type alias */
   typedef float FrequencyType ;
+  
+  /** Total frequency type*/
+  typedef NumericTraits<FrequencyType>::AccumulateType TotalFrequencyType ;
 
   /** Histogram typedef support */
   typedef std::map< InstanceIdentifier, FrequencyType > FrequencyContainerType ;  
@@ -76,7 +80,7 @@ public:
    * zero when the Id is out of bounds.  */
   FrequencyType GetFrequency(const InstanceIdentifier id) const ;
 
-  FrequencyType GetTotalFrequency()
+  TotalFrequencyType GetTotalFrequency()
   { return m_TotalFrequency ; }
 
 protected:
@@ -90,7 +94,7 @@ private:
 
   // Container of histogram
   FrequencyContainerType m_FrequencyContainer ;
-  FrequencyType  m_TotalFrequency ;
+  TotalFrequencyType  m_TotalFrequency ;
 } ; // end of class
 
   } // end of namespace Statistics

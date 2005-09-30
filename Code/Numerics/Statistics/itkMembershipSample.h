@@ -144,7 +144,7 @@ public:
   FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
   
   /** returns the total frequency for the 'd' dimension */
-  FrequencyType GetTotalFrequency() const ;
+  TotalFrequencyType GetTotalFrequency() const ;
 
   void Resize(unsigned int n) 
   {

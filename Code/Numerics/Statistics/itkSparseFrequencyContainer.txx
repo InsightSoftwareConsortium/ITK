@@ -26,7 +26,7 @@ template< class TFrequencyValue >
 SparseFrequencyContainer< TFrequencyValue >
 ::SparseFrequencyContainer()
 {
-  m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
+  m_TotalFrequency = NumericTraits< TotalFrequencyType >::Zero ;
 }
 
 template< class TFrequencyValue >
@@ -50,7 +50,7 @@ SparseFrequencyContainer< TFrequencyValue >
     iter->second = NumericTraits< FrequencyType >::Zero;
     ++iter;
     }
-  m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
+  m_TotalFrequency = NumericTraits< TotalFrequencyType >::Zero ;
 }
 
 template< class TFrequencyValue >

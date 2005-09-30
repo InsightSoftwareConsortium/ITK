@@ -92,7 +92,7 @@ PointSetToListAdaptor< TPointSet >
 }
 
 template < class TPointSet >
-typename PointSetToListAdaptor< TPointSet >::FrequencyType
+typename PointSetToListAdaptor< TPointSet >::TotalFrequencyType
 PointSetToListAdaptor< TPointSet >
 ::GetTotalFrequency() const
 { 

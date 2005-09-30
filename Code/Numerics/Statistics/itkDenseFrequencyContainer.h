@@ -21,6 +21,7 @@
 #include "itkObjectFactory.h"
 #include "itkObject.h"
 #include "itkValarrayImageContainer.h"
+#include "itkNumericTraits.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -57,6 +58,9 @@ public:
 
   /** Frequency type alias */
   typedef float FrequencyType ;
+  
+  /** Total frequency type*/
+  typedef NumericTraits<FrequencyType>::AccumulateType TotalFrequencyType ;
 
   /** Internal storage class typedefs */
   typedef ValarrayImageContainer< InstanceIdentifier, FrequencyType > 
@@ -86,7 +90,7 @@ public:
   FrequencyType GetFrequency(const InstanceIdentifier id) const ;
 
   /** Gets the sum of the frequencies */
-  FrequencyType GetTotalFrequency()
+  TotalFrequencyType GetTotalFrequency()
   { return m_TotalFrequency ; }
 
 protected:
@@ -100,7 +104,7 @@ private:
 
   /** Internal storage */
   FrequencyContainerPointer m_FrequencyContainer ;
-  FrequencyType  m_TotalFrequency ;
+  TotalFrequencyType  m_TotalFrequency ;
 } ; // end of class
 
 } // end of namespace Statistics

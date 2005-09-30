@@ -18,7 +18,6 @@
 #define _itkSparseFrequencyContainer_txx
 
 #include "itkSparseFrequencyContainer.h"
-#include "itkNumericTraits.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -26,7 +25,7 @@ namespace Statistics{
 SparseFrequencyContainer
 ::SparseFrequencyContainer()
 {
-  m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
+  m_TotalFrequency = NumericTraits< TotalFrequencyType >::Zero ;
 }
 
 void
@@ -48,7 +47,7 @@ SparseFrequencyContainer
     iter->second = NumericTraits< FrequencyType >::Zero;
     ++iter;
     }
-  m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
+  m_TotalFrequency = NumericTraits< TotalFrequencyType >::Zero ;
 }
 
 bool

@@ -123,7 +123,7 @@ public:
   { return m_Sample->GetFrequency(id) ; }
   
   /** returns the total frequency for the 'd' dimension */
-  FrequencyType GetTotalFrequency() const
+  TotalFrequencyType GetTotalFrequency() const
   { return m_TotalFrequency ; }
   
   void Swap(int index1, int index2) ;

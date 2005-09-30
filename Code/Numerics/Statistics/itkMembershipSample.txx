@@ -164,7 +164,7 @@ MembershipSample< TSample >
 }
   
 template< class TSample >
-inline typename MembershipSample< TSample >::FrequencyType
+inline typename MembershipSample< TSample >::TotalFrequencyType
 MembershipSample< TSample >
 ::GetTotalFrequency() const
 {
