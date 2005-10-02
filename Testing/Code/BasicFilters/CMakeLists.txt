@@ -152,7 +152,7 @@ ADD_TEST(itkHessianRecursiveGaussianFilterTest ${BASIC_FILTERS_TESTS3} itkHessia
 ADD_TEST(itkLabelStatisticsImageFilterTest ${BASIC_FILTERS_TESTS3} 
          itkLabelStatisticsImageFilterTest
          ${ITK_DATA_ROOT}/Input/peppers.png
-         ${ITK_TEST_OUTPUT_DIR}/OtsuMultipleThresholdsImageFilterTest.png
+         ${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuMultipleThresholdsImageFilterTest.png
          )
 
 ADD_TEST(itkSymmetricEigenAnalysisImageFilterTest ${BASIC_FILTERS_TESTS3} itkSymmetricEigenAnalysisImageFilterTest)

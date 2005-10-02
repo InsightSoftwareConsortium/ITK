@@ -23,7 +23,7 @@
 #include "itkImage.h"
 #include "itkLabelStatisticsImageFilter.h"
 #include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
+#include "itkNumericTraits.h"
 
 #include "itkFilterWatcher.h"
 
@@ -44,7 +44,6 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
   typedef itk::Image<unsigned char,2> ImageType;
 
   typedef itk::ImageFileReader< ImageType >    ReaderType;
-  typedef itk::ImageFileWriter< ImageType >    WriterType;
 
   ReaderType::Pointer reader1 = ReaderType::New();
   ReaderType::Pointer reader2 = ReaderType::New();
@@ -60,7 +59,7 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
   
   filter->SetInput (      reader1->GetOutput() );
   filter->SetLabelInput ( reader2->GetOutput() );
-
+  filter->UseHistogramsOn();
   try
     {
     filter->Update();
@@ -72,17 +71,46 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int numberOfObject  = filter->GetNumberOfObjects();
-  const unsigned int numberOfLabel   = filter->GetNumberOfLabels();
+  const unsigned int numberOfObjects  = filter->GetNumberOfObjects();
+  const unsigned int numberOfLabels   = filter->GetNumberOfLabels();
 
   typedef FilterType::RealType          RealType;
   typedef FilterType::BoundingBoxType   BoundingBoxType;
+  typedef FilterType::RegionType        RegionType;
   typedef FilterType::LabelPixelType    LabelPixelType;
 
-  LabelPixelType labelValue = 0;
+  LabelPixelType labelValue;
 
-  if( filter->HasLabel( labelValue ) )
+  std::cout << "There are " << numberOfLabels << " labels" << std::endl;
+  std::cout << "There are " << numberOfObjects << " objects" << std::endl;
+
+// Try two labels: one that exists and one that does not
+  for (int i = 0; i < 2; i++)
     {
+    // Find an existing label
+    if (i == 0)
+      {
+      labelValue = 0;
+      while (!filter->HasLabel(labelValue))
+        {
+        labelValue++;
+        }
+      std::cout << "Label Statistics for label " 
+                << static_cast<itk::NumericTraits<LabelPixelType>::PrintType>(labelValue)
+                << " which exists" << std::endl;
+      }
+    // Find a non existant label
+    if (i != 0)
+      {
+      labelValue = 0;
+      while (filter->HasLabel(labelValue))
+        {
+        labelValue++;
+        }
+      std::cout << "Label Statistics for label "
+                << static_cast<itk::NumericTraits<LabelPixelType>::PrintType>(labelValue)
+                << " which does not exist" << std::endl;
+      }
     const RealType min      =  filter->GetMinimum( labelValue );
     const RealType max      =  filter->GetMaximum( labelValue );
     const RealType median   =  filter->GetMedian( labelValue );
@@ -91,7 +119,8 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
     const RealType variance =  filter->GetVariance( labelValue );
     const RealType sum      =  filter->GetSum( labelValue );
     const BoundingBoxType box = filter->GetBoundingBox( labelValue );
-
+    const RegionType region = filter->GetRegion( labelValue );
+    
     std::cout << "Minimum   = " << min      << std::endl;
     std::cout << "Maximum   = " << max      << std::endl;
     std::cout << "Median    = " << median   << std::endl;
@@ -99,8 +128,8 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
     std::cout << "Sigma     = " << sigma    << std::endl;
     std::cout << "Variance  = " << variance << std::endl;
     std::cout << "Sum       = " << sum      << std::endl;
+    std::cout << "Region    = " << region   << std::endl;
 
-    std::cout << "Bounding box = " << std::endl;
     BoundingBoxType::const_iterator itr = box.begin();
     while( itr != box.end() )
       {
@@ -108,7 +137,6 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
       ++itr;
       }
     }
-  
   return EXIT_SUCCESS;
 }
 
