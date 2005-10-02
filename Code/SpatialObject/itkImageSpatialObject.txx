@@ -221,13 +221,20 @@ ImageSpatialObject< TDimension,  PixelType >
   typename TransformType::OutputVectorType scaling; 
   typename ImageType::PointType      origin; 
   typename ImageType::SpacingType    spacing; 
-  origin = m_Image->GetOrigin(); 
-  spacing = m_Image->GetSpacing(); 
-  for( unsigned int d=0; d<TDimension; d++) 
-    { 
-    scaling[d] = spacing[d]; 
-    offset[d]  = origin[d]; 
-    } 
+  
+  origin.Fill( 0 );
+  spacing.Fill( 1.0 );
+
+  if( m_Image )
+    {
+    origin = m_Image->GetOrigin(); 
+    spacing = m_Image->GetSpacing(); 
+    for( unsigned int d=0; d<TDimension; d++) 
+      { 
+      scaling[d] = spacing[d]; 
+      offset[d]  = origin[d]; 
+      } 
+    }
   this->GetIndexToObjectTransform()->SetScale( scaling ); 
   this->GetIndexToObjectTransform()->SetOffset( offset ); 
   this->ComputeObjectToParentTransform(); 
