@@ -159,6 +159,7 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfHistogramBins( 20 );
   metric->SetNumberOfSpatialSamples( 10000 );
   // Software Guide : EndCodeSnippet
+  metric->ReinitializeSeed ( 1234 );
 
 
   const unsigned int numberOfParameters = transform->GetNumberOfParameters();

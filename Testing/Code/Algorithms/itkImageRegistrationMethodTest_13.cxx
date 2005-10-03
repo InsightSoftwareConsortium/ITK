@@ -331,6 +331,7 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
     {
     if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.025 )
       {
+      std::cout << "Failed " << j << std::endl;
       pass = false;
       }
     }
@@ -338,6 +339,7 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
     {
     if( vnl_math_abs( solution[j] - trueParameters[j] ) > 1.0 )
       {
+      std::cout << "Failed " << j << std::endl;
       pass = false;
       }
     }
