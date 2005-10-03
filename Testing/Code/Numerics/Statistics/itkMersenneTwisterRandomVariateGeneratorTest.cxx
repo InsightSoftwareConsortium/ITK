@@ -24,7 +24,7 @@
 #include "itkTimeProbe.h"
 
 bool ComputeMeanAndVariance( const unsigned long numberOfSamples );
-
+bool SequenceCheck();
 
 int itkMersenneTwisterRandomVariateGeneratorTest(int, char* [] ) 
 {
@@ -35,6 +35,10 @@ int itkMersenneTwisterRandomVariateGeneratorTest(int, char* [] )
   std::cout << "MersenneTwisterRandomVariateGenerator Test" << std::endl; 
 
   bool pass = true;
+
+
+  pass &= SequenceCheck ( );
+
   
   pass &= ComputeMeanAndVariance( 1000000UL );
   pass &= ComputeMeanAndVariance( 100000UL );
@@ -48,6 +52,41 @@ int itkMersenneTwisterRandomVariateGeneratorTest(int, char* [] )
     return EXIT_FAILURE;
     }
 }
+
+bool SequenceCheck ()
+{
+  bool status = true;
+  typedef  itk::Statistics::MersenneTwisterRandomVariateGenerator GeneratorType;
+  GeneratorType::Pointer generator = GeneratorType::New();
+  GeneratorType::IntegerType randomSeed = 14543 ; // any number to initialize the seed.
+  generator->Initialize( randomSeed );
+
+  double Expected[] = { 0.180793,
+                        0.0670493,
+                        0.404191,
+                        0.551732,
+                        0.466382,
+                        0.595048,
+                        0.812032,
+                        0.0255466,
+                        0.666664,
+                        0.24683 };
+  
+  for ( int i = 0; i < 10; i++ )
+    {
+    double Value = generator->GetUniformVariate(0.0, 1.0);
+    double diff = Value - Expected[i];
+    std::cout << "[" << i << "] " << Value << " Expected: " << Expected[i] << std::endl;
+    if ( ( diff * diff ) > 0.0001 )
+      {
+      status &= false;
+      std::cout << "\tFailed!" << std::endl;
+      }
+    }
+
+  return status;
+}
+
 
 
 bool ComputeMeanAndVariance(const unsigned long numberOfSamples)
