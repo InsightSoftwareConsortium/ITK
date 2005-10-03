@@ -79,7 +79,7 @@ TARGET_LINK_LIBRARIES(ImageRegistration9 ITKNumerics ITKIO)
   ADD_EXECUTABLE(DeformableRegistration8 DeformableRegistration8.cxx )
   TARGET_LINK_LIBRARIES(DeformableRegistration8 ITKNumerics ITKIO)
 
-IF( USE_FFTWF )
+IF( USE_FFTWD )
   ADD_EXECUTABLE(DeformableRegistration9 DeformableRegistration9.cxx )
   TARGET_LINK_LIBRARIES(DeformableRegistration9 ITKCommon
       ITKNumerics ITKIO ITKAlgorithms ITKStatistics )
@@ -87,7 +87,7 @@ IF( USE_FFTWF )
   ADD_EXECUTABLE(DeformableRegistration10 DeformableRegistration10.cxx )
   TARGET_LINK_LIBRARIES(DeformableRegistration10
                         ITKCommon ITKNumerics ITKIO ITKAlgorithms ITKStatistics)
-ENDIF( USE_FFTWF )
+ENDIF( USE_FFTWD )
 
 ADD_EXECUTABLE(MultiResImageRegistration1 MultiResImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(MultiResImageRegistration1 ITKNumerics ITKIO)
