@@ -566,7 +566,7 @@ bool MET_IsComplete(std::vector<MET_FieldRecordType *> * fields)
 
 //
 bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
-              char _MET_SeperatorChar, bool oneLine)
+              char _MET_SeperatorChar, bool oneLine, bool display_warnings)
   {
 
   char s[1024];
@@ -762,7 +762,10 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
       }
     if(!found)
       {
-      std::cerr << "Skipping unrecognized field " << s << std::endl;
+      if(display_warnings)
+        {
+        std::cerr << "Skipping unrecognized field " << s << std::endl;
+        }
       fp.getline( s, 500 );
       }
     if(oneLine)

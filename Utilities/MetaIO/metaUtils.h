@@ -169,7 +169,7 @@ extern bool MET_InitReadField(MET_FieldRecordType * _mf,
 //       to topOfFile before parsing begins
 extern bool MET_Read(std::istream &fp,
                      std::vector<MET_FieldRecordType *> * fields,
-                     char _sepChar='=', bool oneLine=false);
+                     char _sepChar='=', bool oneLine=false, bool display_warnings=true);
 
 // Given an array of fieldRecs, creates a metaFile.
 extern bool MET_Write(std::ostream &fp,

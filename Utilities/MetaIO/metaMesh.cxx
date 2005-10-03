@@ -570,6 +570,8 @@ M_Read(void)
     }
     }
 
+  long int pos = m_ReadStream->tellg();
+
   // Now reading the cell links
   MetaObject::ClearFields();
 
@@ -586,13 +588,12 @@ M_Read(void)
   mF->terminateRead = true;
   m_Fields.push_back(mF);
   
-  if(!MET_Read(*m_ReadStream, & m_Fields))
+  if(!MET_Read(*m_ReadStream, & m_Fields,'=',false,false))
     {
     std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
     return false;
     }
 
- 
   mF = MET_GetFieldRecord("NCellLinks", &m_Fields);
   if(mF->defined)
     {
@@ -670,12 +671,22 @@ M_Read(void)
       m_CellLinks.push_back(link);
       }
       
-    char c = ' ';
-    while( (c!='\n') && (!m_ReadStream->eof()))
+    if(m_NCellLinks > 0)
       {
-      c = m_ReadStream->get();// to avoid unrecognize charactere
+      char c = ' ';
+      while( (c!='\n') && (!m_ReadStream->eof()))
+        {
+        c = m_ReadStream->get();// to avoid unrecognize charactere
+        }
       }
     }
+
+  if(m_NCellLinks == 0)
+    {
+    m_ReadStream->clear();
+    m_ReadStream->seekg(pos,std::ios::beg);
+    }
+  pos = m_ReadStream->tellg();
 
    // Now reading the point data
   MetaObject::ClearFields();
@@ -693,12 +704,11 @@ M_Read(void)
   mF->terminateRead = true;
   m_Fields.push_back(mF);
   
-  if(!MET_Read(*m_ReadStream, & m_Fields))
+  if(!MET_Read(*m_ReadStream, & m_Fields,'=',false,false))
     {
     std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
     return false;
     }
-
  
   mF = MET_GetFieldRecord("NPointData", &m_Fields);
   if(mF->defined)
@@ -791,6 +801,13 @@ M_Read(void)
     }
   delete [] _data;
 
+  // If no point data, reset the pointer to the stream to the previous position
+  if(m_NPointData == 0)
+    {
+    m_ReadStream->clear();
+    m_ReadStream->seekg(pos,std::ios::beg);
+    }
+  pos = m_ReadStream->tellg();
 
   // Now reading the cell data
   MetaObject::ClearFields();
@@ -808,7 +825,7 @@ M_Read(void)
   mF->terminateRead = true;
   m_Fields.push_back(mF);
   
-  if(!MET_Read(*m_ReadStream, & m_Fields))
+  if(!MET_Read(*m_ReadStream, & m_Fields,'=',false,false))
     {
     std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
     return false;
@@ -906,6 +923,12 @@ M_Read(void)
     }
   delete [] _celldata;
 
+ // If no cell data, reset the pointer to the stream to the previous position
+  if(m_NCellData == 0)
+    {
+    m_ReadStream->clear();
+    m_ReadStream->seekg(pos,std::ios::beg);
+    }
 
   return true;
 }
