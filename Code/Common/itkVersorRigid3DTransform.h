@@ -24,7 +24,9 @@
 namespace itk
 {
 
-/** \brief VersorRigid3DTransform of a vector space (e.g. space coordinates)
+/** \class VersorRigid3DTransform
+ *
+ * \brief VersorRigid3DTransform of a vector space (e.g. space coordinates)
  *
  * This transform applies a rotation and translation to the space
  *
