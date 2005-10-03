@@ -61,6 +61,8 @@ GDCMImageIO::GDCMImageIO()
   m_FrameOfReferenceInstanceUID = "";
 
   m_KeepOriginalUID = false;
+
+  m_InternalComponentType = UNKNOWNCOMPONENTTYPE;
 }
 
 GDCMImageIO::~GDCMImageIO()
@@ -180,6 +182,47 @@ void RescaleFunction(TBuffer* buffer, TSource *source,
    }
 }
 
+
+template<class TSource>
+void RescaleFunction(ImageIOBase::IOComponentType bufferType,
+                     void* buffer, TSource *source,
+                     double slope, double intercept, size_t size)
+{
+  switch (bufferType)
+    {
+    case ImageIOBase::UCHAR:
+      RescaleFunction( (unsigned char *)buffer, source, slope, intercept, size);
+      break;
+    case ImageIOBase::CHAR:
+      RescaleFunction( (char *)buffer, source, slope, intercept, size);
+      break;
+    case ImageIOBase::USHORT:
+      RescaleFunction( (unsigned short *)buffer, source, slope, intercept,size);
+      break;
+    case ImageIOBase::SHORT:
+      RescaleFunction( (short *)buffer, source, slope, intercept, size);
+      break;
+    case ImageIOBase::UINT:
+      RescaleFunction( (unsigned int *)buffer, source, slope, intercept, size);
+      break;
+    case ImageIOBase::INT:
+      RescaleFunction( (int *)buffer, source, slope, intercept, size);
+      break;
+    case ImageIOBase::FLOAT:
+      RescaleFunction( (float *)buffer, source, slope, intercept, size);
+      break;
+    case ImageIOBase::DOUBLE:
+      RescaleFunction( (double *)buffer, source, slope, intercept, size);
+      break;
+    default:
+      ::itk::OStringStream message;
+      message << "itk::ERROR: GDCMImageIO: Unknown component type : " << bufferType;
+      ::itk::ExceptionObject e(__FILE__, __LINE__, message.str().c_str());
+      throw e;
+    }
+}
+
+
 void GDCMImageIO::Read(void* buffer)
 {
   std::ifstream file;
@@ -197,63 +240,54 @@ void GDCMImageIO::Read(void* buffer)
   // We can rescale pixel only in grayscale image
   if( m_NumberOfComponents == 1 )
     {
-    switch(m_ComponentType)
+    switch(m_InternalComponentType)
       {
       case UCHAR:
         {
-        unsigned char *ucbuffer = (unsigned char*)buffer;
-        unsigned char *ucsource = (unsigned char*)source;
-        RescaleFunction(ucbuffer, ucsource, m_RescaleSlope, m_RescaleIntercept, size);
+        RescaleFunction(m_ComponentType, buffer, (unsigned char*)source,
+                        m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
       case CHAR:
         {
-        char *cbuffer = (char*)buffer;
-        char *csource = (char*)source;
-        RescaleFunction(cbuffer, csource, m_RescaleSlope, m_RescaleIntercept, size);
+        RescaleFunction(m_ComponentType, buffer, (char*)source,
+                        m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
       case USHORT:
         {
-        unsigned short *usbuffer = (unsigned short*)buffer;
-        unsigned short *ussource = (unsigned short*)source;
-        RescaleFunction(usbuffer, ussource, m_RescaleSlope, m_RescaleIntercept, size);
+        RescaleFunction(m_ComponentType, buffer, (unsigned short*)source,
+                        m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
       case SHORT:
         {
-        short *sbuffer = (short*)buffer;
-        short *ssource = (short*)source;
-        RescaleFunction(sbuffer, ssource, m_RescaleSlope, m_RescaleIntercept, size);
+        RescaleFunction(m_ComponentType, buffer, (short*)source,
+                        m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
       case UINT:
         {
-        unsigned int *uibuffer = (unsigned int*)buffer;
-        unsigned int *uisource = (unsigned int*)source;
-        RescaleFunction(uibuffer, uisource, m_RescaleSlope, m_RescaleIntercept, size);
+        RescaleFunction(m_ComponentType, buffer, (unsigned int*)source,
+                        m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
       case INT:
         {
-        int *ibuffer = (int*)buffer;
-        int *isource = (int*)source;
-        RescaleFunction(ibuffer, isource, m_RescaleSlope, m_RescaleIntercept, size);
+        RescaleFunction(m_ComponentType, buffer, (int*)source,
+                        m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
       case FLOAT:
         {
-        // Particular case for PET image that need to be return as FLOAT image
-        float *fbuffer = (float*)buffer;
-        unsigned short *fsource = (unsigned short*)source;
-        RescaleFunction(fbuffer, fsource, m_RescaleSlope, m_RescaleIntercept, size);
+        RescaleFunction(m_ComponentType, buffer, (float*)source,
+                        m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
       case DOUBLE:
         {
-        double *dbuffer = (double*)buffer;
-        double *dsource = (double*)source;
-        RescaleFunction(dbuffer, dsource, m_RescaleSlope, m_RescaleIntercept, size);
+        RescaleFunction(m_ComponentType, buffer, (double *)source,
+                        m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
        default:
@@ -331,6 +365,10 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     {
     itkExceptionMacro(<<"Unrecognized type:" << type << " in file " << m_FileName);
     }
+  // The internal component type (as on disk) will by default match
+  // the external component type.  The external component type may
+  // change (below) as a function of the rescale slope and intersept.
+  m_InternalComponentType = m_ComponentType;
 
   // set values in case we don't find them
   m_Dimensions[0] = header.GetXSize();
@@ -401,7 +439,10 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   double inter_dif = fabs(fi - m_RescaleIntercept);
   if (slope_dif > 0.0 || inter_dif > 0.0)
     {
-    this->SetComponentType(ImageIOBase::FLOAT);
+    if (m_ComponentType != ImageIOBase::DOUBLE)
+      {
+      this->SetComponentType(ImageIOBase::FLOAT);
+      }
     }
 
   //Now copying the gdcm dictionary to the itk dictionary:
@@ -913,6 +954,8 @@ bool GDCMImageIO::GetLabelFromTag( const std::string & tagkey,
 void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "Internal Component Type: " << this->GetComponentTypeAsString(m_InternalComponentType)
+     << std::endl;
   os << indent << "RescaleSlope: " << m_RescaleSlope << "\n";
   os << indent << "RescaleIntercept: " << m_RescaleIntercept << "\n";
   os << indent << "KeepOriginalUID:" << (m_KeepOriginalUID ? "On" : "Off") << "\n";

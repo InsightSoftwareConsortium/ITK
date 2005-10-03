@@ -181,6 +181,8 @@ private:
   std::string m_Institution;
   std::string m_Model;
   std::string m_ScanOptions;
+
+  ImageIOBase::IOComponentType m_InternalComponentType;
 };
 
 } // end namespace itk
