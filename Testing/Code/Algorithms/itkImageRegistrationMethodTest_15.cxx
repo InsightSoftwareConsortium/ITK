@@ -28,7 +28,7 @@
 #include "itkTextOutput.h"
 #include "itkImageRegionIterator.h"
 #include "itkCommandIterationUpdate.h"
-
+#include "vnl/vnl_sample.h"
 namespace
 {
 

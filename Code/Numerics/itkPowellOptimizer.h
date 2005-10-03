@@ -178,7 +178,6 @@ protected:
   itkSetMacro(Stop, bool);
 
 
-private:
 
   unsigned int       m_SpaceDimension;
 

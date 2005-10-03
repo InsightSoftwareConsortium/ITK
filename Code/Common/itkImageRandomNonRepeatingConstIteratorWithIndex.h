@@ -21,11 +21,11 @@
 #include "itkImage.h"
 #include <algorithm>
 #include <iostream>
-#include "vnl/vnl_sample.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 
-  namespace itk
-  {
+namespace itk
+{
 
 
   /* 
@@ -37,71 +37,91 @@
      node class overloads the < operator, which allows the sort algorithm
      from the STL to be used on it.
   */
-  class nodeOfPermutation {
-    public:
+  class nodeOfPermutation
+  {
+   public:
     unsigned long priority;
     unsigned long index;
     double value;
-    nodeOfPermutation () {
+    nodeOfPermutation ()
+    {
       priority=0;
       index=0;
       value=0.0;
     }
-    bool operator<( const nodeOfPermutation& b) const{
-       if(priority==b.priority) {
+    bool operator<( const nodeOfPermutation& b) const
+    {
+      if(priority==b.priority)
+        {
         return value < b.value;
-        } else {
-           return priority<b.priority;
+        }
+      else
+        {
+        return priority<b.priority;
         }
     }
   };
-  class randomPermutation {
+  class randomPermutation
+  {
    public:
     nodeOfPermutation * permutation;
+    Statistics::MersenneTwisterRandomVariateGenerator::Pointer m_Generator;
     unsigned long size;
-    randomPermutation(unsigned long sz) {
+    randomPermutation(unsigned long sz)
+    {
       size=sz;
       permutation=new nodeOfPermutation[size];
+      m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
       this->Shuffle();
     }
-    void Dump() {
-      for(unsigned int i=0;i<size;i++) {
+    void Dump()
+    {
+      for(unsigned int i=0;i<size;i++)
+        {
         std::cout<<permutation[i].value<<" "<<permutation[i].priority
-           <<" "<<permutation[i].index<<";";
+                 <<" "<<permutation[i].index<<";";
         std::cout<<std::endl;
-      }
+        }
     }
-    void SetPriority(unsigned long i,unsigned long priority){
-      if(i>size) {
+    void SetPriority(unsigned long i,unsigned long priority)
+    {
+      if(i>size)
+        {
         std::cerr<<"Error - i dont have "<<i<<" elements"<<std::endl;
-      } else {
-      permutation[i].priority=priority;
-      }
+        }
+      else
+        {
+        permutation[i].priority=priority;
+        }
     }
-    void Shuffle() {
-      for(unsigned int i=0;i<size;i++) {
-        permutation[i].value=vnl_sample_uniform(0.0,1.0);
+    void Shuffle()
+    {
+      for(unsigned int i=0;i<size;i++)
+        {
+        permutation[i].value= m_Generator->GetVariateWithClosedRange ( 1.0 );
         permutation[i].index=i;
-      }
+        }
       std::sort(permutation,permutation+size);
     }
-    unsigned long operator[](unsigned long i) {
+    unsigned long operator[](unsigned long i)
+    {
       return permutation[i].index;
     }
-    ~randomPermutation() {
+    ~randomPermutation()
+    {
       delete [] permutation;
     }
     
     /** Reinitialize the seed of the random number generator */
     void ReinitializeSeed()
-      {
-        vnl_sample_reseed();
-      }
+    {
+      m_Generator->Initialize();
+    }
     
     void ReinitializeSeed(int seed)
-      {
-        vnl_sample_reseed(seed);
-      }
+    {
+      m_Generator->Initialize ( seed );
+    }
   };
 
 
@@ -175,7 +195,7 @@
   template<typename TImage>
   class ITK_EXPORT ImageRandomNonRepeatingConstIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
   {
-  public:
+   public:
     /** Standard class typedefs. */
     typedef ImageRandomNonRepeatingConstIteratorWithIndex Self;
     typedef ImageConstIteratorWithIndex<TImage>  Superclass;
@@ -219,10 +239,10 @@
      * returns ImageIterators and uses constructors to cast from an
      * ImageIterator to a ImageRandomNonRepeatingConstIteratorWithIndex. */
     ImageRandomNonRepeatingConstIteratorWithIndex( const ImageConstIteratorWithIndex<TImage> &it)
-      { 
+    { 
       this->ImageConstIteratorWithIndex<TImage>::operator=(it); 
       m_Permutation = NULL;
-      }
+    }
     /** Move an iterator to the beginning of the region. */
     void GoToBegin(void)
     {
@@ -239,13 +259,15 @@
 
     /** Is the iterator at the beginning of the region? */
     bool IsAtBegin(void) const
-      { return (m_NumberOfSamplesDone == 0L) ; }
+    {
+      return (m_NumberOfSamplesDone == 0L);
+    }
 
     /** Is the iterator at the end of the region? */
     bool IsAtEnd(void) const
-      { 
+    { 
       return (m_NumberOfSamplesDone >= m_NumberOfSamplesRequested);  
-      }
+    }
 
 
     /** The moving image dimension. */
@@ -265,43 +287,43 @@
      **/
     void SetPriorityImage(const PriorityImageType * priorityImage);
 
-  /** Increment (prefix) the selected dimension.
-   * No bounds checking is performed. \sa GetIndex \sa operator-- */
-  Self & operator++()
-  {
-    m_NumberOfSamplesDone++;
-    this->UpdatePosition();
-    return *this;
-  }
+    /** Increment (prefix) the selected dimension.
+     * No bounds checking is performed. \sa GetIndex \sa operator-- */
+    Self & operator++()
+    {
+      m_NumberOfSamplesDone++;
+      this->UpdatePosition();
+      return *this;
+    }
 
-  /** Decrement (prefix) the selected dimension.
-   * No bounds checking is performed. \sa GetIndex \sa operator++ */
-  Self & operator--()
-  {
-    m_NumberOfSamplesDone--;
-    this->UpdatePosition();
-    return *this;
-  }
+    /** Decrement (prefix) the selected dimension.
+     * No bounds checking is performed. \sa GetIndex \sa operator++ */
+    Self & operator--()
+    {
+      m_NumberOfSamplesDone--;
+      this->UpdatePosition();
+      return *this;
+    }
   
-  /** Set/Get number of random samples to get from the image region */
-  void SetNumberOfSamples( unsigned long number );
-  unsigned long GetNumberOfSamples( void ) const;
+    /** Set/Get number of random samples to get from the image region */
+    void SetNumberOfSamples( unsigned long number );
+    unsigned long GetNumberOfSamples( void ) const;
+    
+    /** Reinitialize the seed of the random number generator  */
+    void ReinitializeSeed();
+    /** Reinitialize the seed of the random number generator with 
+        a specific value 
+    */
+    void ReinitializeSeed(int);
 
-  /** Reinitialize the seed of the random number generator  */
-  void ReinitializeSeed();
-  /** Reinitialize the seed of the random number generator with 
-      a specific value 
-  */
-  void ReinitializeSeed(int);
-
-private:
-  void UpdatePosition();
-  unsigned long  m_NumberOfSamplesRequested;
-  unsigned long  m_NumberOfSamplesDone;
-  unsigned long  m_NumberOfPixelsInRegion;
-  randomPermutation * m_Permutation;
-};
-
+   private:
+    void UpdatePosition();
+    unsigned long  m_NumberOfSamplesRequested;
+    unsigned long  m_NumberOfSamplesDone;
+    unsigned long  m_NumberOfPixelsInRegion;
+    randomPermutation * m_Permutation;
+  };
+  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

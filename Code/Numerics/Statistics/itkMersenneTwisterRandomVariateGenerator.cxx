@@ -19,6 +19,7 @@
 namespace itk {
 namespace Statistics {
 
+  /*
 void MersenneTwisterRandomVariateGenerator::PrintSelf(
                       std::ostream& os, Indent indent) const
   {
@@ -38,7 +39,7 @@ void MersenneTwisterRandomVariateGenerator::PrintSelf(
   //Number of values left before reload
   os << indent << "Values left before next reload: " << left << std::endl;
   }
-
+  */
 
 }
 

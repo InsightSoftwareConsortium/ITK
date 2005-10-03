@@ -18,7 +18,6 @@
 #define _itkImageRandomConstIteratorWithIndex_txx
 
 #include "itkImageRandomConstIteratorWithIndex.h"
-#include "vnl/vnl_sample.h"
 
 namespace itk
 {
@@ -32,6 +31,7 @@ ImageRandomConstIteratorWithIndex<TImage>
   m_NumberOfPixelsInRegion    = 0L;
   m_NumberOfSamplesRequested  = 0L;
   m_NumberOfSamplesDone       = 0L;
+  m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
 }
 
 /** Constructor establishes an iterator to walk a particular image and a
@@ -44,6 +44,7 @@ ImageRandomConstIteratorWithIndex<TImage>
   m_NumberOfPixelsInRegion   = region.GetNumberOfPixels();
   m_NumberOfSamplesRequested = 0L;
   m_NumberOfSamplesDone      = 0L;
+  m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
 }
 
 /**  Set the number of samples to extract from the region */
@@ -70,7 +71,7 @@ void
 ImageRandomConstIteratorWithIndex<TImage>
 ::ReinitializeSeed()
 {
-  vnl_sample_reseed();
+  m_Generator->Initialize();
 }
 
 template<class TImage>
@@ -78,7 +79,8 @@ void
 ImageRandomConstIteratorWithIndex<TImage>
 ::ReinitializeSeed(int seed)
 {
-  vnl_sample_reseed(seed);
+  m_Generator->Initialize ( seed );
+  // vnl_sample_reseed(seed);
 }
 
 /** Execute an acrobatic random jump */
@@ -88,9 +90,11 @@ ImageRandomConstIteratorWithIndex<TImage>
 ::RandomJump()
 {
   const unsigned long randomPosition =
-    static_cast<unsigned long > (
+    static_cast<unsigned long > (  m_Generator->GetVariateWithClosedRange ( static_cast<double>(m_NumberOfPixelsInRegion)-0.5 ) );
+  /*
       vnl_sample_uniform(0.0f, 
-                         static_cast<double>(m_NumberOfPixelsInRegion)-0.5) );
+      static_cast<double>(m_NumberOfPixelsInRegion)-0.5) );
+  */
   
   unsigned long position = randomPosition;
   unsigned long residual;

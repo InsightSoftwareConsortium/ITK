@@ -199,7 +199,24 @@ public:
  protected:
   inline MersenneTwisterRandomVariateGenerator();
   virtual ~MersenneTwisterRandomVariateGenerator() {}; 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const {
+    Superclass::PrintSelf(os, indent);
+
+    // Print state vector contents
+    os << indent << "State vector: " << state << std::endl;
+    os << indent;
+    register const IntegerType *s = state;
+    register int i = StateVectorLength;
+    for( ; i--; os << *s++ << "\t" ) {}
+    os << std::endl;
+    
+    //Print next value to be gotten from state
+    os << indent << "Next value to be gotten from state: " << pNext << std::endl;
+    
+    //Number of values left before reload
+    os << indent << "Values left before next reload: " << left << std::endl;
+  }
+
 
   // enum { M = 397 };  // period parameter
   itkStaticConstMacro ( M, unsigned int, 397 );

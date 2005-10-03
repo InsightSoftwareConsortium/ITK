@@ -72,7 +72,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   m_BSplineTransform = NULL;
   m_NumberOfParameters = 0;
   m_UseAllPixels = false;
-
+  m_ReseedIterator = false;
+  m_RandomSeed = -1;
 }
 
 
@@ -422,6 +423,17 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   // Set up a random interator within the user specified fixed image region.
   typedef ImageRandomConstIteratorWithIndex<FixedImageType> RandomIterator;
   RandomIterator randIter( this->m_FixedImage, this->GetFixedImageRegion() );
+  if ( m_ReseedIterator )
+    {
+    if ( m_RandomSeed == -1 )
+      {
+      randIter.ReinitializeSeed();
+      }
+    else
+      {
+      randIter.ReinitializeSeed ( m_RandomSeed );
+      }
+    }
 
   randIter.SetNumberOfSamples( m_NumberOfSpatialSamples );
   randIter.GoToBegin();
@@ -1343,8 +1355,8 @@ template < class TFixedImage, class TMovingImage  > void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::ReinitializeSeed()
 {
-  // This method should be the same used in the ImageRandomIterator
-  vnl_sample_reseed();
+  m_ReseedIterator = true;
+  m_RandomSeed = -1;
 }
 
 // Method to reinitialize the seed of the random number generator
@@ -1352,8 +1364,8 @@ template < class TFixedImage, class TMovingImage  > void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::ReinitializeSeed(int seed)
 {
-  // This method should be the same used in the ImageRandomIterator
-  vnl_sample_reseed(seed);
+  m_ReseedIterator = true;
+  m_RandomSeed = seed;
 }
 
 

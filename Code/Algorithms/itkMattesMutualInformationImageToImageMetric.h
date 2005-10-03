@@ -188,8 +188,8 @@ public:
   itkGetConstReferenceMacro( NumberOfHistogramBins, unsigned long);   
 
   /** Provide API to reinitialize the seed of the random number generator */
-  static void ReinitializeSeed();
-  static void ReinitializeSeed(int);  
+  void ReinitializeSeed();
+  void ReinitializeSeed(int);  
 
   /** Select whether the metric will be computed using all the pixels on the
    * fixed image region, or only using a set of randomly selected pixels. */ 
@@ -405,6 +405,8 @@ private:
 
   virtual void PreComputeTransformValues();
 
+  bool             m_ReseedIterator;
+  int              m_RandomSeed;
   
 };
 

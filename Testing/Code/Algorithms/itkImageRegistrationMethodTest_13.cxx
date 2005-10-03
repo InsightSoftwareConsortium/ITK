@@ -142,7 +142,7 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
-  MetricType::ReinitializeSeed(0x1234abcd);
+  metric->ReinitializeSeed(0x1234abcd);
 
   /*********************************************************
    * Set up the two input images.

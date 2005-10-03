@@ -1,6 +1,5 @@
 # Sources for ITKStatistics library
 ADD_LIBRARY(ITKStatistics 
-  itkMersenneTwisterRandomVariateGenerator.cxx  
   itkNormalVariateGenerator.cxx
   itkDenseFrequencyContainer.cxx
   itkSparseFrequencyContainer.cxx

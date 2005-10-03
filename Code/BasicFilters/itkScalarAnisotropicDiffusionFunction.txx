@@ -92,8 +92,9 @@ ScalarAnisotropicDiffusionFunction<TImage>
   
   val = static_cast<PixelType> (iterator_list[i].GetPixel(Center[i]+Stride[i]))-
     static_cast<PixelType> (iterator_list[i].GetPixel(Center[i]-Stride[i]));
-  val = val/-2.0f;
-  val = static_cast<PixelType>(static_cast<double>(val) * this->m_ScaleCoefficients[i]);
+  double tempval;
+  tempval = val/-2.0f;
+  val = static_cast<PixelType>(tempval * this->m_ScaleCoefficients[i]);
   accumulator += val * val;
   ++iterator_list[i];
       }
@@ -121,10 +122,11 @@ ScalarAnisotropicDiffusionFunction<TImage>
         val = static_cast<PixelType> (
                    face_iterator_list[i].GetPixel(Center[i]+Stride[i]))-
               static_cast<PixelType> (
-                   face_iterator_list[i].GetPixel(Center[i]-Stride[i]));
-        val = val / -2.0f;
+                                      face_iterator_list[i].GetPixel(Center[i]-Stride[i]));
+        double tempval;
+        tempval = val / -2.0f;
         val = static_cast<PixelType>(
-                   static_cast<double>(val) * this->m_ScaleCoefficients[i]);
+                   tempval * this->m_ScaleCoefficients[i]);
         accumulator += val * val;
         ++face_iterator_list[i];
         }

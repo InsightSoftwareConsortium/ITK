@@ -18,7 +18,6 @@
 #define _itkImageRandomNonRepeatingConstIteratorWithIndex_txx
 
 #include "itkImageRandomNonRepeatingConstIteratorWithIndex.h"
-#include "vnl/vnl_sample.h"
 
 namespace itk
 {

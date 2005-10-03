@@ -172,8 +172,8 @@ public:
   itkSetObjectMacro( KernelFunction, KernelFunction );
   itkGetObjectMacro( KernelFunction, KernelFunction );
 
-  static void ReinitializeSeed();
-  static void ReinitializeSeed(int);
+  void ReinitializeSeed();
+  void ReinitializeSeed(int);
 
 protected:
   MutualInformationImageToImageMetric();
@@ -229,6 +229,10 @@ private:
                                           CoordinateRepresentationType > DerivativeFunctionType;
 
   typename DerivativeFunctionType::Pointer  m_DerivativeCalculator;
+
+  bool             m_ReseedIterator;
+  int              m_RandomSeed;
+  
 
 };
 

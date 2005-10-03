@@ -18,6 +18,7 @@
 #define __itkImageRandomConstIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 namespace itk
 {
@@ -202,11 +203,12 @@ public:
   unsigned long GetNumberOfSamples( void ) const;
 
   /** Reinitialize the seed of the random number generator  */
-  static void ReinitializeSeed();
-  static void ReinitializeSeed(int);
+  void ReinitializeSeed();
+  void ReinitializeSeed(int);
 
 private:
   void RandomJump();
+  Statistics::MersenneTwisterRandomVariateGenerator::Pointer m_Generator;
   unsigned long  m_NumberOfSamplesRequested;
   unsigned long  m_NumberOfSamplesDone;
   unsigned long  m_NumberOfPixelsInRegion;
