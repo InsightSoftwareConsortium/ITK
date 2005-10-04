@@ -557,7 +557,7 @@ inline double
 inline 
   MersenneTwisterRandomVariateGenerator::MersenneTwisterRandomVariateGenerator()
   {
-  Initialize();
+    Initialize( 19650218UL );
   }
   
 
