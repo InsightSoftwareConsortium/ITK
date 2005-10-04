@@ -187,6 +187,7 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfHistogramBins( 24 );
   metric->SetNumberOfSpatialSamples( 10000 );
   // Software Guide : EndCodeSnippet
+  metric->ReinitializeSeed ( 123456 );
 
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
