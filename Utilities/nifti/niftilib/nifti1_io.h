@@ -248,7 +248,8 @@ char * nifti_makehdrname  (const char * prefix, int nifti_type, int check,
 char * nifti_makeimgname  (const char * prefix, int nifti_type, int check,
                            int comp);
 int    is_nifti_file      (const char *hname);
-char const * nifti_find_file_extension(const char * name);
+char * nifti_find_file_extension(const char * name);
+int    nifti_is_complete_filename(const char* fname);
 int    nifti_validfilename(const char* fname);
 
 int    disp_nifti_1_header(const char * info, const nifti_1_header * hp ) ;

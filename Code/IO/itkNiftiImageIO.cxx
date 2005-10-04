@@ -169,7 +169,7 @@ bool NiftiImageIO::CanWriteFile(const char * FileNameToWrite)
       }
     }
 
-  return (nifti_validfilename(FileNameToWrite) == 1 ) ? true: false;
+  return (nifti_is_complete_filename(FileNameToWrite) == 1 ) ? true: false;
 }
 
 
