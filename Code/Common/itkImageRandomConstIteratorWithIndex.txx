@@ -71,7 +71,7 @@ void
 ImageRandomConstIteratorWithIndex<TImage>
 ::ReinitializeSeed()
 {
-  m_Generator->Initialize();
+  m_Generator->SetSeed();
 }
 
 template<class TImage>
@@ -79,7 +79,7 @@ void
 ImageRandomConstIteratorWithIndex<TImage>
 ::ReinitializeSeed(int seed)
 {
-  m_Generator->Initialize ( seed );
+  m_Generator->SetSeed ( seed );
   // vnl_sample_reseed(seed);
 }
 
@@ -90,7 +90,7 @@ ImageRandomConstIteratorWithIndex<TImage>
 ::RandomJump()
 {
   const unsigned long randomPosition =
-    static_cast<unsigned long > (  m_Generator->GetVariateWithClosedRange ( static_cast<double>(m_NumberOfPixelsInRegion)-0.5 ) );
+    static_cast<unsigned long > (  m_Generator->GetVariateWithOpenRange ( static_cast<double>(m_NumberOfPixelsInRegion)-0.5 ) );
   /*
       vnl_sample_uniform(0.0f, 
       static_cast<double>(m_NumberOfPixelsInRegion)-0.5) );

@@ -69,7 +69,6 @@ int itkImageRandomIteratorTest(int, char* [] )
 
   IteratorType it( myImage, region );
 
-
   it.GoToBegin();
   ImageType::IndexType index;
   
@@ -85,6 +84,7 @@ int itkImageRandomIteratorTest(int, char* [] )
   // Sample the image 
   RandomIteratorType ot( myImage, region );
   ot.SetNumberOfSamples( numberOfSamples ); 
+  ot.ReinitializeSeed ( 5678 );
   ot.GoToBegin();
 
  
@@ -109,7 +109,8 @@ int itkImageRandomIteratorTest(int, char* [] )
   
   // Verification 
   RandomConstIteratorType cot( myConstImage, region );
-  cot.SetNumberOfSamples( numberOfSamples ); 
+  cot.SetNumberOfSamples( numberOfSamples );
+  cot.ReinitializeSeed ( 9101112 );
   cot.GoToBegin();
 
  
@@ -139,7 +140,8 @@ int itkImageRandomIteratorTest(int, char* [] )
   std::cout << "Should be a random walk too (a different one)" << std::endl;
 
   RandomIteratorType ior( myImage, region );
-  ior.SetNumberOfSamples( numberOfSamples ); 
+  ior.SetNumberOfSamples( numberOfSamples );
+  ior.ReinitializeSeed ( 13141516 );
   ior.GoToEnd();
 
   --ior;
@@ -169,6 +171,7 @@ int itkImageRandomIteratorTest(int, char* [] )
 
   RandomConstIteratorType cor( myImage, region );
   cor.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
+  cor.ReinitializeSeed ( 17181920 );
   cor.GoToEnd();
 
   --cor; // start at the end position 
@@ -195,6 +198,7 @@ int itkImageRandomIteratorTest(int, char* [] )
 
   RandomConstIteratorType dor( myImage, region );
   dor.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
+  dor.ReinitializeSeed ( 2122232425 );
   dor.GoToEnd();
 
   --dor; // start at the last valid pixel position 
@@ -240,6 +244,7 @@ int itkImageRandomIteratorTest(int, char* [] )
     RandomIteratorType cbot( myImage, region );
 
     cbot.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
+    cbot.ReinitializeSeed ( 2627282930 );
     cbot.GoToBegin();
 
     while( !cbot.IsAtEnd() )
@@ -290,7 +295,8 @@ int itkImageRandomIteratorTest(int, char* [] )
 
     RandomConstIteratorType cbot( myImage, region );
 
-    cbot.SetNumberOfSamples( numberOfSamples ); 
+    cbot.SetNumberOfSamples( numberOfSamples );
+    cbot.ReinitializeSeed ( 3132333435 );
     cbot.GoToBegin();
 
     while( !cbot.IsAtEnd() )

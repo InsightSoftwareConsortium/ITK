@@ -286,7 +286,7 @@ inline void
   register IntegerType *r = state;
   register IntegerType i = 1;
   *s++ = seed & 0xffffffffUL;
-  for( ; i < MersenneTwisterRandomVariateGenerator::StateVectorLength; ++i )
+  for( i = 1; i < MersenneTwisterRandomVariateGenerator::StateVectorLength; ++i )
     {
     *s++ = ( 1812433253UL * ( *r ^ (*r >> 30) ) + i ) & 0xffffffffUL;
     r++;
@@ -307,9 +307,13 @@ inline void
   register IntegerType *p = state;
   register int i;
   for( i = MersenneTwisterRandomVariateGenerator::StateVectorLength - M; i--; ++p )
+    {
     *p = twist( p[M], p[0], p[1] );
+    }
   for( i = M; --i; ++p )
+    {
     *p = twist( p[index], p[0], p[1] );
+    }
   *p = twist( p[index], p[0], state[0] );
 
   left = MersenneTwisterRandomVariateGenerator::StateVectorLength, pNext = state;
