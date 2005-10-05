@@ -34,6 +34,7 @@ SET(ITKCommon_SRCS
   itkMutexLock.cxx
   itkMultipleLogOutput.cxx
   itkNumericTraits.cxx
+  itkNumericTraitsCovariantVectorPixel.cxx
   itkNumericTraitsRGBPixel.cxx
   itkNumericTraitsVectorPixel.cxx
   itkNumericTraitsVariableLengthVectorPixel.cxx
