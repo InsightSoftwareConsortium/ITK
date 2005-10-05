@@ -110,7 +110,8 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
 
 
   /** Default constructor has nothing to do. */
-  CovariantVector() {}
+  CovariantVector(): BaseArray() {}
+  CovariantVector(const ValueType& r);
 
   /** Pass-through constructor for the Array base class. */
   CovariantVector(const Self& r): BaseArray(r) {}

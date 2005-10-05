@@ -24,6 +24,18 @@
 namespace itk
 {
 
+/**
+ * Constructor to initialize entire vector to one value.
+ */
+template<class T, unsigned int TVectorDimension>
+CovariantVector<T, TVectorDimension>
+::CovariantVector(const ValueType& r)
+{
+  for(typename BaseArray::Iterator i = BaseArray::Begin(); i != BaseArray::End(); ++i)
+    {
+    *i = r;
+    }
+}
 
 template<class T, unsigned int NVectorDimension>
 CovariantVector<T, NVectorDimension>&
