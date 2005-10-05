@@ -25,6 +25,8 @@
 #include "gdcmRLEFramesInfo.h"
 #include "gdcmJPEGFragmentsInfo.h"
 
+#include "gdcmUtil.h"
+
 #include <fstream>
 #include <stdio.h> //for sscanf
 
@@ -106,6 +108,7 @@ void PixelReadConvert::GrabInformationsFromFile( File *file )
    PixelSize       = file->GetPixelSize();
    PixelSign       = file->IsSignedPixelData();
    SwapCode        = file->GetSwapCode();
+
    std::string ts  = file->GetTransferSyntax();
    IsRaw =
         ( ! file->IsDicomV3() )
@@ -115,6 +118,10 @@ void PixelReadConvert::GrabInformationsFromFile( File *file )
      || Global::GetTS()->GetSpecialTransferSyntax(ts) == TS::ExplicitVRBigEndian
      || Global::GetTS()->GetSpecialTransferSyntax(ts) == TS::DeflatedExplicitVRLittleEndian;
 
+   // cache whether this is a strange GE transfer syntax (which has
+   // one transfer syntax for the header and another for the pixel data).
+   IsDLXGE = Global::GetTS()->GetSpecialTransferSyntax(ts) == TS::ImplicitVRLittleEndianDLXGE;
+   
    IsJPEG2000      = Global::GetTS()->IsJPEG2000(ts);
    IsJPEGLS        = Global::GetTS()->IsJPEGLS(ts);
    IsJPEGLossy     = Global::GetTS()->IsJPEGLossy(ts);
@@ -547,10 +554,22 @@ void PixelReadConvert::ConvertSwapZone()
 {
    unsigned int i;
 
+   // if this file is TS::ImplicitVRLittleEndianDLXGE, then we need to
+   // switch the byteswapping for pixel data.
+   int tempSwapCode = SwapCode;
+   if (IsDLXGE ^ Util::IsCurrentProcessorBigEndian()) {
+     if (SwapCode == 1234) {
+       tempSwapCode = 4321;
+     }
+     else if (SwapCode == 4321) {
+       tempSwapCode = 1234;
+     }
+   }
+
    if( BitsAllocated == 16 )
    {
       uint16_t *im16 = (uint16_t*)Raw;
-      switch( SwapCode )
+      switch( tempSwapCode )
       {
          case 1234:
             break;
@@ -572,7 +591,7 @@ void PixelReadConvert::ConvertSwapZone()
       uint16_t high;
       uint16_t low;
       uint32_t *im32 = (uint32_t*)Raw;
-      switch ( SwapCode )
+      switch ( tempSwapCode )
       {
          case 1234:
             break;
@@ -611,6 +630,7 @@ void PixelReadConvert::ConvertSwapZone()
             gdcmWarningMacro("SwapCode value (32 bits) not allowed." );
       }
    }
+
 }
 
 /**

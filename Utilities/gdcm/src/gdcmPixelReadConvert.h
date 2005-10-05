@@ -104,6 +104,10 @@ private:
    bool PixelSign;
    int SwapCode;
 
+   // cache whether this is a strange GE transfer syntax (which has
+   // one transfer syntax for the header and another for the pixel data).
+   bool IsDLXGE;
+
    bool IsRaw;
    bool IsJPEG2000;
    bool IsJPEGLS;
