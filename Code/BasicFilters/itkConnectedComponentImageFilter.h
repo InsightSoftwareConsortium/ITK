@@ -45,7 +45,7 @@ namespace itk
  * \sa ImageToImageFilter
  */
 
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage, class TMaskImage=TInputImage>
 class ITK_EXPORT ConnectedComponentImageFilter : 
     public ImageToImageFilter< TInputImage, TOutputImage > 
 {
@@ -76,11 +76,14 @@ public:
    * Image typedef support
    */
   typedef TInputImage  InputImageType;
+  typedef TMaskImage   MaskImageType;
   typedef TOutputImage OutputImageType;
   typedef   typename TInputImage::IndexType       IndexType;
   typedef   typename TInputImage::SizeType        SizeType;
   typedef   typename TOutputImage::RegionType     RegionType;
   typedef   std::list<IndexType>                  ListType;
+
+  typedef typename MaskImageType::Pointer MaskImagePointer;
 
   /** 
    * Smart pointer typedef support 
@@ -108,6 +111,14 @@ public:
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
 
+  void SetMaskImage(TMaskImage* mask) {
+    this->SetNthInput(1, const_cast<TMaskImage *>( mask ));
+  }
+
+  const TMaskImage* GetMaskImage() const {
+    return (static_cast<const TMaskImage*>(this->ProcessObject::GetInput(1)));
+  }
+  
 protected:
   ConnectedComponentImageFilter() 
     {
@@ -115,6 +126,9 @@ protected:
     }
   virtual ~ConnectedComponentImageFilter() {}
   ConnectedComponentImageFilter(const Self&) {}
+
+  bool m_FullyConnected;
+
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -132,10 +146,6 @@ protected:
    * EnlargeOutputRequestedRegion().
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
-  
-private:
-
-  bool m_FullyConnected;
   
 };
   

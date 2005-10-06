@@ -21,18 +21,19 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
+#include "itkNumericTraitsVectorPixel.h"
+#include "itkNumericTraitsCovariantVectorPixel.h"
 #include "itkProgressReporter.h"
 #include "itkEquivalencyTable.h"
 #include "itkConstShapedNeighborhoodIterator.h"
 #include "itkConstantBoundaryCondition.h"
 
-
-
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+
+template< class TInputImage, class TOutputImage, class TMaskImage >
 void
-ConnectedComponentImageFilter< TInputImage, TOutputImage >
+ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
@@ -40,15 +41,18 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage >
   
   // We need all the input.
   InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
-  
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
+
+  MaskImagePointer mask = const_cast<MaskImageType *>(this->GetMaskImage());
+  if (mask)
+    {
+    mask->SetRequestedRegion( input->GetLargestPossibleRegion() );
+    }
 }
 
-
-
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage, class TMaskImage >
 void 
-ConnectedComponentImageFilter<TInputImage, TOutputImage>
+ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
   this->GetOutput()
@@ -56,9 +60,9 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage>
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< class TInputImage, class TOutputImage, class TMaskImage >
 void
-ConnectedComponentImageFilter< TInputImage, TOutputImage >
+ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::GenerateData()
 {
   // create an equivalency table
@@ -85,8 +89,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage >
   typedef ConstShapedNeighborhoodIterator<TOutputImage> NeighborhoodIteratorType;
   SizeType kernelRadius;
   kernelRadius.Fill(1);
-  NeighborhoodIteratorType nit(kernelRadius, output,
-                               output->GetRequestedRegion());
+  NeighborhoodIteratorType nit(kernelRadius, output, output->GetRequestedRegion());
   nit.OverrideBoundaryCondition(&BC); // assign the boundary condition
 
   // only activate the indices that are "previous" to the current
@@ -120,15 +123,12 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage >
       }
     }
 
-  // along with a neighborhood iterator on the input, use a standard
+  // along with a neighborhood iterator on the output, use a standard
   // iterator on the input and output
   ImageRegionConstIterator<InputImageType> it;
   ImageRegionIterator<OutputImageType> oit;
-  it = ImageRegionConstIterator<InputImageType>(input,
-                                                output->GetRequestedRegion());
-  oit = ImageRegionIterator<OutputImageType>(output,
-                                             output->GetRequestedRegion());
-  
+  it = ImageRegionConstIterator<InputImageType>(input, output->GetRequestedRegion());
+  oit = ImageRegionIterator<OutputImageType>(output, output->GetRequestedRegion());
 
   // Setup a progress reporter.  We have 3 stages to the algorithm so
   // pretend we have 3 times the number of pixels
@@ -136,19 +136,47 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage >
                            3*output->GetRequestedRegion().GetNumberOfPixels());
 
   // Mark the output image as either background or unlabeled
-  it.GoToBegin();
-  oit.GoToBegin();
-  while (!it.IsAtEnd())
+  // if the mask is set only mark pixels under the mask
+  typename TMaskImage::ConstPointer mask = this->GetMaskImage();
+  if (!mask)
     {
-    if (it.Get() != NumericTraits<InputPixelType>::Zero)
+    it.GoToBegin();
+    oit.GoToBegin();
+    while (!it.IsAtEnd())
       {
-      // mark pixel as unlabeled
-      oit.Set(maxPossibleLabel);
+      if (it.Get() != NumericTraits<InputPixelType>::Zero)
+        {
+        // mark pixel as unlabeled
+        oit.Set(maxPossibleLabel);
+        }
+      
+      ++it;
+      ++oit;
+      progress.CompletedPixel();
       }
-    
-    ++it;
-    ++oit;
-    progress.CompletedPixel();
+    }
+  // mask is set
+  else
+    {
+    ImageRegionConstIterator<MaskImageType> mit;
+    mit = ImageRegionConstIterator<MaskImageType>(mask,output->GetRequestedRegion());
+
+    it.GoToBegin();
+    mit.GoToBegin();
+    oit.GoToBegin();
+    while (!it.IsAtEnd())
+      {
+      if ( mit.Get()  && (it.Get() != NumericTraits<InputPixelType>::Zero) )
+        {
+        // mark pixel as unlabeled
+        oit.Set(maxPossibleLabel);
+        }
+      
+      ++it;
+      ++mit;
+      ++oit;
+      progress.CompletedPixel();
+      }
     }
 
   // iterate over the image, labeling the objects and defining
@@ -245,9 +273,9 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< class TInputImage, class TOutputImage, class TMaskImage >
 void
-ConnectedComponentImageFilter< TInputImage, TOutputImage >
+ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
