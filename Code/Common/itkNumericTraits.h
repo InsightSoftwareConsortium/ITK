@@ -107,6 +107,9 @@ public:
   typedef bool PrintType;
   typedef unsigned char AbsType;
   typedef unsigned char AccumulateType;
+  typedef double RealType;
+  typedef RealType ScalarRealType;
+  typedef float FloatType;
   static const bool ITKCommon_EXPORT Zero;
   static const bool ITKCommon_EXPORT One;
 
