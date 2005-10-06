@@ -815,7 +815,7 @@ MultiThreader
   
 #ifdef ITK_USE_SPROC
   // Using sproc() on an SGI
-    siginfo_t threadHandle = 
+    pid_t threadHandle = 
       sproc( this->SingleMethodProxy, PR_SALL, 
        reinterpret_cast<void *>(threadInfo));
     if ( threadHandle == -1)
