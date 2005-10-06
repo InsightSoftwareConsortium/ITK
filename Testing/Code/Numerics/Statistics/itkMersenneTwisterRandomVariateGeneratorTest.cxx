@@ -59,7 +59,7 @@ bool SequenceCheck ()
   typedef  itk::Statistics::MersenneTwisterRandomVariateGenerator GeneratorType;
   GeneratorType::Pointer generator = GeneratorType::New();
   GeneratorType::IntegerType randomSeed = 14543 ; // any number to initialize the seed.
-  generator->Initialize( randomSeed );
+  generator->SetSeed ( randomSeed );
 
   double Expected[] = {  0.252523,
                          0.223867,
@@ -71,7 +71,6 @@ bool SequenceCheck ()
                          0.0424811,
                          0.540263,
                          0.553432 };
-  
   for ( int i = 0; i < 10; i++ )
     {
     double Value = generator->GetUniformVariate(0.0, 1.0);
