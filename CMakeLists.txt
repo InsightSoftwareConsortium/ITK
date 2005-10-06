@@ -531,6 +531,9 @@ SET(ALL_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} ${C
      IF("${COMP_OPTION}" STREQUAL "-frename-registers")
        MESSAGE(FATAL_ERROR "-frename-registers causes runtime bugs.  It must be removed from your compilation options.")
      ENDIF("${COMP_OPTION}" STREQUAL "-frename-registers")
+     IF("${COMP_OPTION}" STREQUAL "-ffloat-store")
+       MESSAGE(FATAL_ERROR "-ffloat-store causes runtime bugs on gcc 3.2.3 (appearently not on gcc 3.4.3, but the exact criteria is not known).  It must be removed from your compilation options.")
+     ENDIF("${COMP_OPTION}" STREQUAL "-ffloat-store")
 ENDFOREACH(COMP_OPTION)
 
 # If the version of CMake was too old, complain and build nothing.
