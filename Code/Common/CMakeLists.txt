@@ -28,6 +28,7 @@ SET(ITKCommon_SRCS
   itkLoggerOutput.cxx
   itkMaximumDecisionRule.cxx
   itkMaximumRatioDecisionRule.cxx
+  itkMersenneTwisterRandomVariateGenerator.cxx
   itkMeshRegion.cxx
   itkMinimumDecisionRule.cxx
   itkMultiThreader.cxx

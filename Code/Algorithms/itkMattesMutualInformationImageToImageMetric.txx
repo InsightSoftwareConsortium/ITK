@@ -423,17 +423,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   // Set up a random interator within the user specified fixed image region.
   typedef ImageRandomConstIteratorWithIndex<FixedImageType> RandomIterator;
   RandomIterator randIter( this->m_FixedImage, this->GetFixedImageRegion() );
-  if ( m_ReseedIterator )
-    {
-    if ( m_RandomSeed == -1 )
-      {
-      randIter.ReinitializeSeed();
-      }
-    else
-      {
-      randIter.ReinitializeSeed ( m_RandomSeed );
-      }
-    }
 
   randIter.SetNumberOfSamples( m_NumberOfSpatialSamples );
   randIter.GoToBegin();
@@ -1355,8 +1344,7 @@ template < class TFixedImage, class TMovingImage  > void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::ReinitializeSeed()
 {
-  m_ReseedIterator = true;
-  m_RandomSeed = -1;
+  Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed();
 }
 
 // Method to reinitialize the seed of the random number generator
@@ -1364,8 +1352,7 @@ template < class TFixedImage, class TMovingImage  > void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::ReinitializeSeed(int seed)
 {
-  m_ReseedIterator = true;
-  m_RandomSeed = seed;
+  Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(seed);
 }
 
 

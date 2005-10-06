@@ -153,8 +153,6 @@ TInterpolator * interpolator, bool useSampling )
 
   typename MetricType::Pointer metric = MetricType::New();
 
-  metric->ReinitializeSeed(0x1234abcd);
-  
   // connect the interpolator
   metric->SetInterpolator( interpolator );
 

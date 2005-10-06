@@ -142,8 +142,6 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
-  metric->ReinitializeSeed(0x1234abcd);
-
   /*********************************************************
    * Set up the two input images.
    * One image scaled and shifted with respect to the other.
@@ -253,6 +251,7 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
   metric->SetFixedImageStandardDeviation( 5.0 );
   metric->SetNumberOfSpatialSamples( 50 );
   metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
+
 
   /******************************************************************
    * Set up the registrator.

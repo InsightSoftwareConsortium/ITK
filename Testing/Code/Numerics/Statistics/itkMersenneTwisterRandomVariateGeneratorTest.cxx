@@ -61,16 +61,16 @@ bool SequenceCheck ()
   GeneratorType::IntegerType randomSeed = 14543 ; // any number to initialize the seed.
   generator->Initialize( randomSeed );
 
-  double Expected[] = { 0.180793,
-                        0.0670493,
-                        0.404191,
-                        0.551732,
-                        0.466382,
-                        0.595048,
-                        0.812032,
-                        0.0255466,
-                        0.666664,
-                        0.24683 };
+  double Expected[] = {  0.252523,
+                         0.223867,
+                         0.691444,
+                         0.997124,
+                         0.122781,
+                         0.36465,
+                         0.363542,
+                         0.0424811,
+                         0.540263,
+                         0.553432 };
   
   for ( int i = 0; i < 10; i++ )
     {

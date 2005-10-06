@@ -386,8 +386,6 @@ int main( int argc, char *argv[] )
 
   metric->SetNumberOfHistogramBins( 20 );
   metric->SetNumberOfSpatialSamples( 10000 );
-  metric->ReinitializeSeed ( 1234 );
-
 
   //  Software Guide : BeginLatex
   //  

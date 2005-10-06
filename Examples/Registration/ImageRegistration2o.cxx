@@ -253,7 +253,6 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfSpatialSamples( 50 );
   // Software Guide : EndCodeSnippet
 
-
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
 
