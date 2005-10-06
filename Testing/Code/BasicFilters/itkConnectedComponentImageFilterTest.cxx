@@ -23,7 +23,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 #include "itkImageRegionIterator.h"
 #include "vnl/vnl_sample.h"
 
@@ -61,7 +61,7 @@ int itkConnectedComponentImageFilterTest(int argc, char* argv[] )
   FilterType::Pointer filter = FilterType::New();
   RelabelType::Pointer relabel = RelabelType::New();
   
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
   watcher.QuietOn();
 
   reader->SetFileName( argv[1] );
@@ -88,6 +88,7 @@ int itkConnectedComponentImageFilterTest(int argc, char* argv[] )
     {
     int minSize = atoi( argv[6] );
     relabel->SetMinimumObjectSize( minSize );
+    std::cerr << "minSize: " << minSize << std::endl;
     }
   
   try
