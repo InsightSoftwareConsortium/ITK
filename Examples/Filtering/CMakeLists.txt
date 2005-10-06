@@ -61,9 +61,6 @@ TARGET_LINK_LIBRARIES(CastingImageFilters ITKCommon ITKIO)
 ADD_EXECUTABLE(CannyEdgeDetectionImageFilter CannyEdgeDetectionImageFilter.cxx )
 TARGET_LINK_LIBRARIES(CannyEdgeDetectionImageFilter ITKCommon ITKIO)
 
-ADD_EXECUTABLE(DigitallyReconstructedRadiograph1 DigitallyReconstructedRadiograph1.cxx )
-TARGET_LINK_LIBRARIES(DigitallyReconstructedRadiograph1 ITKCommon ITKIO)
-
 ADD_EXECUTABLE(DerivativeImageFilter DerivativeImageFilter.cxx )
 TARGET_LINK_LIBRARIES(DerivativeImageFilter ITKCommon ITKIO)
 
@@ -902,6 +899,9 @@ TARGET_LINK_LIBRARIES(DiffusionTensor3DReconstructionImageFilter ITKIO ITKBasicF
   TARGET_LINK_LIBRARIES(FFTDirectInverse ITKCommon ITKIO)
 
 IF(NOT BORLAND)
+  ADD_EXECUTABLE(DigitallyReconstructedRadiograph1 DigitallyReconstructedRadiograph1.cxx )
+  TARGET_LINK_LIBRARIES(DigitallyReconstructedRadiograph1 ITKCommon ITKIO)
+
   ADD_EXECUTABLE(ResampleImageFilter7 ResampleImageFilter7.cxx )
   TARGET_LINK_LIBRARIES(ResampleImageFilter7 ITKCommon ITKBasicFilters ITKIO)
 ENDIF(NOT BORLAND)
