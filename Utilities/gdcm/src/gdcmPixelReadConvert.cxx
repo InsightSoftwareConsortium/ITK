@@ -118,8 +118,9 @@ void PixelReadConvert::GrabInformationsFromFile( File *file )
      || Global::GetTS()->GetSpecialTransferSyntax(ts) == TS::ExplicitVRBigEndian
      || Global::GetTS()->GetSpecialTransferSyntax(ts) == TS::DeflatedExplicitVRLittleEndian;
 
-   // cache whether this is a strange GE transfer syntax (which has
-   // one transfer syntax for the header and another for the pixel data).
+   // cache whether this is a strange GE transfer syntax (which uses
+   // a little endian transfer syntax for the header and a big endian
+   // transfer syntax for the pixel data).
    IsDLXGE = Global::GetTS()->GetSpecialTransferSyntax(ts) == TS::ImplicitVRLittleEndianDLXGE;
    
    IsJPEG2000      = Global::GetTS()->IsJPEG2000(ts);
@@ -554,10 +555,34 @@ void PixelReadConvert::ConvertSwapZone()
 {
    unsigned int i;
 
-   // if this file is TS::ImplicitVRLittleEndianDLXGE, then we need to
-   // switch the byteswapping for pixel data.
+   // If this file is TS::ImplicitVRLittleEndianDLXGE, then the header
+   // is in little endian format and the pixel data is in big endian
+   // format.  When reading the header, GDCM has already established
+   // a byte swapping code suitable for this machine to read the
+   // header. In TS::ImplicitVRLittleEndianDLXGE, this code will need
+   // to be switched in order to read the pixel data.  This must be
+   // done REGARDLESS of the processor endianess!
+   //
+   // Example:  Assume we are on a little endian machine.  When
+   // GDCM reads the header, the header will match the machine
+   // endianess and the swap code will be established as a no-op.
+   // When GDCM reaches the pixel data, it will need to switch the
+   // swap code to do big endian to little endian conversion.
+   //
+   // Now, assume we are on a big endian machine.  When GDCM reads the
+   // header, the header will be recognized as a different endianess
+   // than the machine endianess, and a swap code will be established
+   // to convert from little endian to big endian.  When GDCM readers
+   // the pixel data, the pixel data endianess will now match the
+   // machine endianess.  But we currently have a swap code that
+   // converts from little endian to big endian.  In this case, we
+   // need to switch the swap code to a no-op.
+   //
+   // Therefore, in either case, if the file is in
+   // ImplicitVRLittleEndianDLXGE, then GDCM needs to switch the byte
+   // swapping code when entering the pixel data.
    int tempSwapCode = SwapCode;
-   if (IsDLXGE ^ Util::IsCurrentProcessorBigEndian()) {
+   if (IsDLXGE) {
      if (SwapCode == 1234) {
        tempSwapCode = 4321;
      }
