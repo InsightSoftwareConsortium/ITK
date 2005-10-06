@@ -199,18 +199,32 @@ void RawImageIO<TPixel,VImageDimension>
     }
   
   itkDebugMacro(<< "Reading Done");
-
+  
+#define itkReadRawBytesAfterSwappingMacro(StrongType, WeakType) \
+    ( this->GetComponentType() ==  WeakType ) \
+    { \
+    typedef ByteSwapper< StrongType > InternalByteSwapperType; \
+    if ( m_ByteOrder == LittleEndian ) \
+      { \
+      InternalByteSwapperType::SwapRangeFromSystemToLittleEndian( \
+        (StrongType *)buffer, this->GetImageSizeInComponents() ); \
+      } \
+    else if ( m_ByteOrder == BigEndian ) \
+      { \
+      InternalByteSwapperType::SwapRangeFromSystemToBigEndian( \
+        (StrongType*)buffer, this->GetImageSizeInComponents() ); \
+      } \
+    }
+  
   // Swap bytes if necessary
-  if ( m_ByteOrder == LittleEndian )
-    {
-    ByteSwapperType::SwapRangeFromSystemToLittleEndian(
-      (ComponentType *)buffer, this->GetImageSizeInComponents() );
-    }
-  else if ( m_ByteOrder == BigEndian )
-    {
-    ByteSwapperType::SwapRangeFromSystemToBigEndian(
-      (ComponentType *)buffer, this->GetImageSizeInComponents() );
-    }
+  if itkReadRawBytesAfterSwappingMacro( unsigned short, USHORT ) 
+  else if itkReadRawBytesAfterSwappingMacro( short, SHORT ) 
+  else if itkReadRawBytesAfterSwappingMacro( unsigned int, UINT ) 
+  else if itkReadRawBytesAfterSwappingMacro( int, INT ) 
+  else if itkReadRawBytesAfterSwappingMacro( long, LONG ) 
+  else if itkReadRawBytesAfterSwappingMacro( unsigned long, ULONG ) 
+  else if itkReadRawBytesAfterSwappingMacro( float, FLOAT ) 
+  else if itkReadRawBytesAfterSwappingMacro( double, DOUBLE ) 
 }
 
 template <class TPixel, unsigned int VImageDimension>
@@ -251,35 +265,48 @@ void RawImageIO<TPixel,VImageDimension>
 
     const unsigned long numberOfBytes      = this->GetImageSizeInBytes();
     const unsigned long numberOfComponents = this->GetImageSizeInComponents();
+    
+#define itkWriteRawBytesAfterSwappingMacro(StrongType, WeakType) \
+      ( this->GetComponentType() ==  WeakType ) \
+      { \
+      typedef ByteSwapper< StrongType > InternalByteSwapperType; \
+      if ( m_ByteOrder == LittleEndian ) \
+        { \
+        char * tempBuffer = new char[ numberOfBytes ]; \
+        memcpy( tempBuffer, buffer , numberOfBytes ); \
+        InternalByteSwapperType::SwapRangeFromSystemToLittleEndian( \
+          (StrongType *)tempBuffer, numberOfComponents ); \
+        file.write( tempBuffer, numberOfBytes ); \
+        delete [] tempBuffer; \
+        } \
+      else if ( m_ByteOrder == BigEndian ) \
+        { \
+        char * tempBuffer = new char[ numberOfBytes ]; \
+        memcpy( tempBuffer, buffer , numberOfBytes ); \
+        InternalByteSwapperType::SwapRangeFromSystemToBigEndian( \
+          (StrongType *)tempBuffer, numberOfComponents ); \
+        file.write( tempBuffer, numberOfBytes ); \
+        delete [] tempBuffer; \
+        } \
+      else \
+        { \
+        file.write(static_cast<const char*>(buffer), numberOfBytes ); \
+        } \
+      }
+        
     // Swap bytes if necessary
-    if ( m_ByteOrder == LittleEndian )
-      {
-      char * tempBuffer = new char[ numberOfBytes ];
-      memcpy( tempBuffer, buffer , numberOfBytes );
-      ByteSwapperType::SwapRangeFromSystemToLittleEndian(
-        (ComponentType *)tempBuffer, numberOfComponents );
-      file.write( tempBuffer, numberOfBytes );
-      delete [] tempBuffer;
-      }
-    else if ( m_ByteOrder == BigEndian )
-      {
-      char * tempBuffer = new char[ numberOfBytes ];
-      memcpy( tempBuffer, buffer , numberOfBytes );
-      ByteSwapperType::SwapRangeFromSystemToBigEndian(
-        (ComponentType *)tempBuffer, numberOfComponents );
-      file.write( tempBuffer, numberOfBytes );
-      delete [] tempBuffer;
-      }
-    else
-      {
-      file.write(static_cast<const char*>(buffer), numberOfBytes );
-      }
-
+    if itkWriteRawBytesAfterSwappingMacro( unsigned short, USHORT ) 
+    else if itkWriteRawBytesAfterSwappingMacro( short, SHORT ) 
+    else if itkWriteRawBytesAfterSwappingMacro( unsigned int, UINT ) 
+    else if itkWriteRawBytesAfterSwappingMacro( int, INT ) 
+    else if itkWriteRawBytesAfterSwappingMacro( long, LONG ) 
+    else if itkWriteRawBytesAfterSwappingMacro( unsigned long, ULONG ) 
+    else if itkWriteRawBytesAfterSwappingMacro( float, FLOAT ) 
+    else if itkWriteRawBytesAfterSwappingMacro( double, DOUBLE ) 
     }
+
   file.close();
 }
-
-
 
 } // namespace itk
 #endif
