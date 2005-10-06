@@ -131,6 +131,7 @@ void RegisterTests()
   REGISTER_TEST(itkLaplacianRecursiveGaussianImageFilterTest );
   REGISTER_TEST(itkLog10ImageFilterAndAdaptorTest );
   REGISTER_TEST(itkLogImageFilterAndAdaptorTest );
+  REGISTER_TEST(itkMaskConnectedComponentImageFilterTest );
   REGISTER_TEST(itkMaskImageFilterTest );
   REGISTER_TEST(itkMaskNegatedImageFilterTest );
   REGISTER_TEST(itkMathematicalMorphologyImageFilterTest );
@@ -142,5 +143,6 @@ void RegisterTests()
   REGISTER_TEST(itkMinimumMaximumImageFilterTest );
   REGISTER_TEST(itkMirrorPadImageTest );
   REGISTER_TEST(itkMultiplyImageFilterTest );
+  REGISTER_TEST(itkScalarConnectedComponentImageFilterTest );
 }
 

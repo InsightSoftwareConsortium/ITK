@@ -343,6 +343,18 @@ ADD_TEST(itkConnectedComponentImageFilterTest3 ${BASIC_FILTERS_TESTS}
             ${ITK_DATA_ROOT}/Input/Shapes.png
             ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest3.png 128 255 1)
 
+ADD_TEST(itkMaskConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/MaskConnectedComponentImageFilterTest.png ${ITK_TEST_OUTPUT_DIR}/MaskConnectedComponentImageFilterTest.png
+  itkMaskConnectedComponentImageFilterTest
+            ${ITK_DATA_ROOT}/Input/cthead1.png
+            ${ITK_TEST_OUTPUT_DIR}/MaskConnectedComponentImageFilterTest.png 130 145)
+
+ADD_TEST(itkScalarConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ScalarConnectedComponentImageFilterTest.png ${ITK_TEST_OUTPUT_DIR}/ScalarConnectedComponentImageFilterTest.png
+  itkScalarConnectedComponentImageFilterTest
+            ${ITK_DATA_ROOT}/Input/cthead1.png
+            ${ITK_TEST_OUTPUT_DIR}/ScalarConnectedComponentImageFilterTest.png 20 1)
+
 ADD_TEST(itkConnectedThresholdImageFilterTest ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedThresholdImageFilterTest.png
             ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest.png
@@ -711,6 +723,7 @@ itkLaplacianImageFilterTest.cxx
 itkLaplacianRecursiveGaussianImageFilterTest.cxx
 itkLog10ImageFilterAndAdaptorTest.cxx
 itkLogImageFilterAndAdaptorTest.cxx
+itkMaskConnectedComponentImageFilterTest.cxx
 itkMaskImageFilterTest.cxx
 itkMaskNegatedImageFilterTest.cxx
 itkMathematicalMorphologyImageFilterTest.cxx
@@ -722,6 +735,7 @@ itkMinimumMaximumImageCalculatorTest.cxx
 itkMinimumMaximumImageFilterTest.cxx
 itkMirrorPadImageTest.cxx
 itkMultiplyImageFilterTest.cxx
+itkScalarConnectedComponentImageFilterTest.cxx
 )
 
 SET(BasicFilters1_SRCS
