@@ -48,6 +48,7 @@ PixelReadConvert::PixelReadConvert()
    LutRedData   = 0;
    LutGreenData = 0;
    LutBlueData  = 0;
+   IsDLXGE      = false;
 }
 
 /// Canonical Destructor
@@ -121,8 +122,14 @@ void PixelReadConvert::GrabInformationsFromFile( File *file )
    // cache whether this is a strange GE transfer syntax (which uses
    // a little endian transfer syntax for the header and a big endian
    // transfer syntax for the pixel data).
-   IsDLXGE = Global::GetTS()->GetSpecialTransferSyntax(ts) == TS::ImplicitVRLittleEndianDLXGE;
-   
+   if (file->IsDicomV3())
+   {
+     IsDLXGE = Global::GetTS()->GetSpecialTransferSyntax(ts) == TS::ImplicitVRLittleEndianDLXGE;
+   }
+   else
+   {
+    IsDLXGE = false;
+   }
    IsJPEG2000      = Global::GetTS()->IsJPEG2000(ts);
    IsJPEGLS        = Global::GetTS()->IsJPEGLS(ts);
    IsJPEGLossy     = Global::GetTS()->IsJPEGLossy(ts);
