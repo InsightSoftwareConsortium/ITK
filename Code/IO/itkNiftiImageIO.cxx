@@ -310,6 +310,41 @@ inline double determinant(const std::vector<double> &dirx,
 }
 }
 
+//
+// shorthand for SpatialOrientation types
+typedef itk::SpatialOrientation::CoordinateTerms 
+SO_CoordTermsType;
+typedef itk::SpatialOrientation::ValidCoordinateOrientationFlags 
+SO_OrientationType;
+
+/** Convert from NIFTI orientation codes to ITK orientation codes.
+ *  As it happens, this implicitly negates the x and y directiosn, as is
+ *  required to go from NIFTI to DICOM style orientations, in that the labeling
+ *  is consistent, but the NIFTI rotation matrix and the ITK Direction cosines
+ *  for the x and y dimensions have the opposite sign/direction.
+ */
+inline SO_OrientationType
+Nifti2SO_Coord(int i, int j, int k)
+{
+  SO_CoordTermsType
+    NiftiOrient2SO_CoordinateTerms[] =
+    {
+      itk::SpatialOrientation::ITK_COORDINATE_UNKNOWN,
+      itk::SpatialOrientation::ITK_COORDINATE_Left,
+      itk::SpatialOrientation::ITK_COORDINATE_Right,
+      itk::SpatialOrientation::ITK_COORDINATE_Posterior,
+      itk::SpatialOrientation::ITK_COORDINATE_Anterior,
+      itk::SpatialOrientation::ITK_COORDINATE_Inferior,
+      itk::SpatialOrientation::ITK_COORDINATE_Superior,
+    };
+  return static_cast<SO_OrientationType>
+    ((NiftiOrient2SO_CoordinateTerms[i] << itk::SpatialOrientation::ITK_COORDINATE_PrimaryMinor) |
+    (NiftiOrient2SO_CoordinateTerms[j] << itk::SpatialOrientation::ITK_COORDINATE_SecondaryMinor) |
+     (NiftiOrient2SO_CoordinateTerms[k] << itk::SpatialOrientation::ITK_COORDINATE_TertiaryMinor));
+
+}
+                              
+    
 void NiftiImageIO::ReadImageInformation()
 {
   this->m_NiftiImage=nifti_image_read(m_FileName.c_str(),false);
@@ -466,9 +501,14 @@ void NiftiImageIO::ReadImageInformation()
     default:
       break;
     }
+  typedef SpatialOrientationAdapter<3> OrientAdapterType;
+
+  SpatialOrientationAdapter<3>::DirectionType dir;
+
+  //
+  // in the case of an Analyze75 file, use old analyze orient method.
   if(this->m_NiftiImage->qform_code == 0 && this->m_NiftiImage->sform_code == 0)
     {
-    typedef SpatialOrientationAdapter<3> OrientAdapterType;
     SpatialOrientationAdapter<3>::OrientationType orient;
     switch(this->m_NiftiImage->analyze75_orient)
       {
@@ -478,6 +518,7 @@ void NiftiImageIO::ReadImageInformation()
       case a75_sagittal_unflipped:
         orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR;
         break;
+      // according to analyze documents, you don't see flipped orientation in the wild
       case a75_transverse_flipped:
       case a75_coronal_flipped:
       case a75_sagittal_flipped:
@@ -486,90 +527,64 @@ void NiftiImageIO::ReadImageInformation()
         orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
         break;
       }
-    SpatialOrientationAdapter<3>::DirectionType dir =  OrientAdapterType().ToDirectionCosines(orient);
-
-    std::vector<double> dirx(3,0),
-      diry(3,0),
-      dirz(3,0);
-    dirx[0] = dir[0][0];
-    dirx[1] = dir[1][0];
-    dirx[2] = dir[2][0];
-    diry[0] = dir[0][1];
-    diry[1] = dir[1][1];
-    diry[2] = dir[2][1];
-    dirz[0] = dir[0][2];
-    dirz[1] = dir[1][2];
-    dirz[2] = dir[2][2];
-    this->SetDirection(0,dirx);
-    this->SetDirection(1,diry);
-    if(dims > 2)
-      {
-      this->SetDirection(2,dirz);
-      }
+    dir =  OrientAdapterType().ToDirectionCosines(orient);
     m_RescaleSlope = 1;
     m_RescaleIntercept = 0;
-    m_Origin[0] = m_Origin[1] = m_Origin[2] = 0;
+    m_Origin[0] = m_Origin[1] = 0;
+    if(dims > 2)
+      {
+      m_Origin[2] = 0;
+      }
     }
-  else
+  else // qform or sform
     {
     //
-    // declare a matrix that can be used in the qfac == -1 case
     mat44 theMat;
     if(this->m_NiftiImage->qform_code > 0)
       {
-      //
-      // try and compute the orientation stuff
-      //
-      // if the data is organized in a left-handed coordinate system,
-      // then the matrix is rotated
       theMat = this->m_NiftiImage->qto_xyz;
-      if(this->m_NiftiImage->qfac <= 0)
-        {
-        for(unsigned i = 1; i < 3; i++)
-          {
-          theMat.m[1][i] = -theMat.m[1][i];
-          theMat.m[2][i] = -theMat.m[2][i];
-          }
-        }
       }
     else if(this->m_NiftiImage->sform_code > 0)
       {
-      //      theMat = &(this->m_NiftiImage->sto_xyz);
       theMat = this->m_NiftiImage->sto_xyz;
       }
+    int ii, jj, kk;
+    nifti_mat44_to_orientation(theMat,&ii,&jj,&kk);
+    SO_OrientationType orient = Nifti2SO_Coord(ii,jj,kk);
+    dir =  OrientAdapterType().ToDirectionCosines(orient);
+    // scale image data based on slope/intercept
     //
-    // set direction vectors
-    std::vector<double> direction(3,0);
-    direction[0] = theMat.m[0][0];
-    direction[1] = theMat.m[0][1];
-    direction[2] = theMat.m[0][2];
-    this->SetDirection(0,direction);
-    direction[0] = theMat.m[1][0];
-    direction[1] = theMat.m[1][1];
-    direction[2] = theMat.m[1][2];
-    
-    this->SetDirection(1,direction);
-    if(dims > 2)
-      {
-      direction[0] = theMat.m[2][0];
-      direction[1] = theMat.m[2][1];
-      direction[2] = theMat.m[2][2];
-      this->SetDirection(2,direction);
-      }
-    //
-    // set origin
-    m_Origin[0] = theMat.m[3][0];
-    m_Origin[1] = theMat.m[3][1];
-    if(dims > 2)
-      {
-      m_Origin[2] = theMat.m[3][2];
-      }
     if((m_RescaleSlope = this->m_NiftiImage->scl_slope) == 0)
       {
       m_RescaleSlope = 1;
       }
     m_RescaleIntercept = this->m_NiftiImage->scl_inter;
+    //
+    // set origin
+    m_Origin[0] = theMat.m[0][3];
+    m_Origin[1] = theMat.m[1][3];
+    if(dims > 2)
+      {
+      m_Origin[2] = theMat.m[2][3];
+      }
     }
+  
+  std::vector<double> dirx(3,0),
+    diry(3,0),
+    dirz(3,0);
+  dirx[0] = dir[0][0]; dirx[1] = dir[1][0]; dirx[2] = dir[2][0];
+  diry[0] = dir[0][1]; diry[1] = dir[1][1]; diry[2] = dir[2][1];
+  dirz[0] = dir[0][2]; dirz[1] = dir[1][2]; dirz[2] = dir[2][2];
+//   std::cerr << "read: dirx " << dirx[0] << " " << dirx[1] << " " << dirx[2] << std::endl;
+//   std::cerr << "read: diry " << diry[0] << " " << diry[1] << " " << diry[2] << std::endl;
+//   std::cerr << "read: dirz " << dirz[0] << " " << dirz[1] << " " << dirz[2] << std::endl;
+  this->SetDirection(0,dirx);
+  this->SetDirection(1,diry);
+  if(dims > 2)
+    {
+    this->SetDirection(2,dirz);
+    }
+                                             
   
 
   //Important hist fields
@@ -582,8 +597,20 @@ void NiftiImageIO::ReadImageInformation()
   this->m_NiftiImage = 0;
 }
 
-
-
+namespace {
+inline mat44 mat44_transpose(mat44 in)
+{
+  mat44 out;
+  for(unsigned i = 0; i < 4; i++)
+    {
+    for(unsigned j = 0; j < 4; j++)
+      {
+      out.m[i][j] = in.m[j][i];
+      }
+    }
+  return out;
+}
+}
 /**
    *
    */
@@ -671,7 +698,6 @@ NiftiImageIO
     this->m_NiftiImage->ndim =
     this->m_NiftiImage->dim[0] =
     this->GetNumberOfDimensions();
-  this->m_NiftiImage->pixdim[0] = 0.0;
 //     FIELD         NOTES
 //     -----------------------------------------------------
 //     sizeof_hdr    must be 348
@@ -794,33 +820,52 @@ NiftiImageIO
 
   //
   // use NIFTI method 2
+  this->m_NiftiImage->sform_code = // put both flags in.
   this->m_NiftiImage->qform_code = NIFTI_XFORM_SCANNER_ANAT  ;
-  this->m_NiftiImage->sform_code = NIFTI_XFORM_UNKNOWN  ;
 
   //
   // set the quarternions, from the direction vectors
   std::vector<double> dirx = this->GetDirection(0);
+  //  negateifXorY(dirx);
   std::vector<double> diry  = this->GetDirection(1);
-  std::vector<double> dirz  = this->GetDirection(2);
-  mat44 matrix;
-  double det = determinant(dirx,diry,dirz);
-  if(det < 0)
+//   std::cerr << "write: dirx " << dirx[0] << " " << dirx[1] << " " << dirx[2] << std::endl;
+//   std::cerr << "write: diry " << diry[0] << " " << diry[1] << " " << diry[2] << std::endl;
+//   dirx[0] = - dirx[0];
+//   dirx[1] = - dirx[1];
+//   dirx[2] = - dirx[2];
+//   diry[0] = - diry[0];
+//   diry[1] = - diry[1];
+//   diry[2] = - diry[2];
+    
+  std::vector<double> dirz;
+  if(dims > 2)
     {
-    det = -1;
+    dirz = this->GetDirection(2);
+    //    negateifXorY(dirz);
     }
   else
     {
-    det = 1;
+    dirz[0] = dirz[1] = dirz[2] = 0;
     }
+  //  std::cerr << "write: dirz " << dirz[0] << " " << dirz[1] << " " << dirz[2] << std::endl;
+  for(unsigned i=0; i < 2; i++)
+    {
+    dirx[i] = -dirx[i];
+    diry[i] = -diry[i];
+    dirz[i] = -dirz[i];
+    }
+  mat44 matrix = 
+    nifti_make_orthog_mat44(dirx[0],dirx[1],dirx[2],
+                            diry[0],diry[1],diry[2],
+                            dirz[0],dirz[1],dirz[2]);
+  matrix = mat44_transpose(matrix);
+  // Fill in origin.
   for(unsigned i = 0; i < 3; i++)
     {
-    matrix.m[0][i] = dirx[i];
-    matrix.m[1][i] = diry[i] * det;
-    matrix.m[2][i] = dirz[i] * det;
-    matrix.m[3][i] = this->GetOrigin(i);
+    matrix.m[i][3] = this->GetOrigin(i);
     }
+  this->m_NiftiImage->sform_code = 
   this->m_NiftiImage->qform_code = NIFTI_XFORM_ALIGNED_ANAT;
-  this->m_NiftiImage->sform_code = 0;
   nifti_mat44_to_quatern(matrix,
                          &(this->m_NiftiImage->quatern_b),
                          &(this->m_NiftiImage->quatern_c),
@@ -832,8 +877,25 @@ NiftiImageIO
                          0,
                          0,
                          &(this->m_NiftiImage->qfac));
+  // copy q matrix to s matrix
+  this->m_NiftiImage->qto_xyz =  matrix;
+  this->m_NiftiImage->qto_ijk =  matrix;
+  this->m_NiftiImage->sto_xyz =  matrix;
+  this->m_NiftiImage->sto_ijk =  matrix;
+  for(unsigned i = 0; i < 3; i++)
+    {
+    for(unsigned j = 0; j < 3; j++)
+      {
+      this->m_NiftiImage->sto_xyz.m[i][j] = this->GetSpacing(j) *
+        this->m_NiftiImage->sto_xyz.m[i][j];
+      this->m_NiftiImage->sto_ijk.m[i][j] = 
+        this->m_NiftiImage->sto_xyz.m[i][j] / this->GetSpacing(j);
+      }
+    }
+  
+  this->m_NiftiImage->pixdim[0] = this->m_NiftiImage->qfac;
   this->m_NiftiImage->qform_code = NIFTI_XFORM_SCANNER_ANAT;
-  this->m_NiftiImage->sform_code = 0;
+  //  this->m_NiftiImage->sform_code = 0;
   return;
 }
 

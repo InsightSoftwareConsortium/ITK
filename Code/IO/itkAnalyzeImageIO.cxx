@@ -20,7 +20,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
-
+#include "itkSpatialOrientationAdapter.h"
 #include <itksys/SystemTools.hxx>
 
 #include <zlib.h>
@@ -967,7 +967,28 @@ void AnalyzeImageIO::ReadImageInformation()
       default:
           coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
       }
-    itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient);
+    //    itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient);
+    typedef SpatialOrientationAdapter<3> OrientAdapterType;
+    SpatialOrientationAdapter<3>::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
+    std::vector<double> dirx(3,0),
+      diry(3,0),
+      dirz(3,0);
+    dirx[0] = dir[0][0];
+    dirx[1] = dir[1][0];
+    dirx[2] = dir[2][0];
+    diry[0] = dir[0][1];
+    diry[1] = dir[1][1];
+    diry[2] = dir[2][1];
+    dirz[0] = dir[0][2];
+    dirz[1] = dir[1][2];
+    dirz[2] = dir[2][2];
+    this->SetDirection(0,dirx);
+    this->SetDirection(1,diry);
+    if(this->m_hdr.dime.dim[0] > 2)
+      {
+      this->SetDirection(2,dirz);
+      }
+    
   }
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileOriginator,std::string(this->m_hdr.hist.originator,10));
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_OriginationDate,std::string(this->m_hdr.hist.generated,10));
