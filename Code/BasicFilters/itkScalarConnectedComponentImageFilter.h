@@ -14,6 +14,7 @@
 #ifndef __itkScalarConnectedComponentImageFilter_h
 #define __itkScalarConnectedComponentImageFilter_h
 
+#include "vnl/vnl_math.h"
 #include "itkNumericTraits.h"
 #include "itkConnectedComponentFunctorImageFilter.h"
 
@@ -43,7 +44,7 @@ public:
   TInput GetDistanceThreshold() {return (threshold);};
   
   bool operator()(const TInput &a, const TInput &b) {
-    return (typename itk::NumericTraits<TInput>::AbsType(a-b) <= threshold);
+    return (vnl_math_abs(a-b) <= threshold);
   };
 
 protected:

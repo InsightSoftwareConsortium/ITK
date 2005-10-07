@@ -14,6 +14,7 @@
 #ifndef __itkVectorConnectedComponentImageFilter_h
 #define __itkVectorConnectedComponentImageFilter_h
 
+#include "vnl/vnl_math.h"
 #include "itkNumericTraits.h"
 #include "itkConnectedComponentFunctorImageFilter.h"
 
@@ -46,8 +47,7 @@ public:
   
   bool operator()(const TInput &a, const TInput &b)
     {
-    typename TInput::ValueType dotProduct =
-      typename itk::NumericTraits<typename TInput::ValueType>::AbsType(a * b);
+    typename TInput::ValueType dotProduct = vnl_math_abs(a * b);
     return (1.0 - dotProduct <= threshold);
     };
 
