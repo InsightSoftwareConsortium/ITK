@@ -60,6 +60,23 @@ MaximumDecisionRule::Evaluate(const ArrayType &discriminantScores) const
   return maxIndex ;
 }
 
+unsigned int 
+MaximumDecisionRule::Evaluate(const VariableLengthVectorType &discriminantScores) const
+{
+  double max = discriminantScores[0] ;
+  unsigned int maxIndex = 0 ;
+  unsigned int i ;
+  for (i = 1 ; i < discriminantScores.Size() ; i++)
+    {
+    if (discriminantScores[i] > max) 
+      {
+      max = discriminantScores[i] ;
+      maxIndex = i ;
+      }
+    }
+  return maxIndex ;
+}
+
 
 } // end of namespace itk
 

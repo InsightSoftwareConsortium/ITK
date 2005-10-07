@@ -22,6 +22,7 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkArray.h"
+#include "itkVariableLengthVector.h"
 
 namespace itk
 {
@@ -46,8 +47,9 @@ public:
   itkTypeMacro(DecisionRuleBase, Object);
   
   /** Types for the arguments that are acceptable in the Evaluate() method */
-  typedef std::vector< double >   VectorType;
-  typedef Array< double >         ArrayType;
+  typedef std::vector< double >            VectorType;
+  typedef Array< double >                  ArrayType;
+  typedef VariableLengthVector< double >   VariableLengthVectorType;
     
   /** The return value of this function is a class label.
    * Basically, using its internal logic based on the discriminant

@@ -47,6 +47,7 @@ public:
   /** Types for the arguments that are acceptable in the Evaluate() method */
   typedef Superclass::VectorType  VectorType;
   typedef Superclass::ArrayType   ArrayType;
+  typedef Superclass::VariableLengthVectorType   VariableLengthVectorType;
  
 
   /** The return value of this function is a class label.
@@ -54,12 +55,8 @@ public:
    * scores, this function decides best class label and return it.
    */
   virtual unsigned int Evaluate( const VectorType &discriminantScores) const;
-
-  /** The return value of this function is a class label.
-   * Basically, using its internal logic based on the discriminant
-   * scores, this function decides best class label and return it.
-   */
   virtual unsigned int Evaluate( const ArrayType &discriminantScores) const;
+  virtual unsigned int Evaluate( const VariableLengthVectorType &discriminantScores) const;
 
 
 protected:
