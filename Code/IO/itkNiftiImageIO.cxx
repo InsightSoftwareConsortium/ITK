@@ -561,8 +561,8 @@ void NiftiImageIO::ReadImageInformation()
     m_RescaleIntercept = this->m_NiftiImage->scl_inter;
     //
     // set origin
-    m_Origin[0] = theMat.m[0][3];
-    m_Origin[1] = theMat.m[1][3];
+    m_Origin[0] = -theMat.m[0][3];
+    m_Origin[1] = -theMat.m[1][3];
     if(dims > 2)
       {
       m_Origin[2] = theMat.m[2][3];
@@ -820,8 +820,8 @@ NiftiImageIO
 
   //
   // use NIFTI method 2
-  this->m_NiftiImage->sform_code = // put both flags in.
-  this->m_NiftiImage->qform_code = NIFTI_XFORM_SCANNER_ANAT  ;
+  this->m_NiftiImage->sform_code = NIFTI_XFORM_SCANNER_ANAT;
+  this->m_NiftiImage->qform_code = NIFTI_XFORM_ALIGNED_ANAT;
 
   //
   // set the quarternions, from the direction vectors
@@ -860,12 +860,12 @@ NiftiImageIO
                             dirz[0],dirz[1],dirz[2]);
   matrix = mat44_transpose(matrix);
   // Fill in origin.
-  for(unsigned i = 0; i < 3; i++)
+  for(unsigned i = 0; i < 2; i++)
     {
-    matrix.m[i][3] = this->GetOrigin(i);
+    matrix.m[i][3] = -this->GetOrigin(i);
     }
-  this->m_NiftiImage->sform_code = 
-  this->m_NiftiImage->qform_code = NIFTI_XFORM_ALIGNED_ANAT;
+
+  matrix.m[2][3] = (dims > 2) ? this->GetOrigin(2) : 0.0;
   nifti_mat44_to_quatern(matrix,
                          &(this->m_NiftiImage->quatern_b),
                          &(this->m_NiftiImage->quatern_c),
