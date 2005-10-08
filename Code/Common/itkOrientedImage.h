@@ -26,6 +26,11 @@ namespace itk
 /** \class Image
  *  \brief Templated n-dimensional oriented image class.
  *
+ * \note
+ * This work is part of the National Alliance for Medical Image Computing 
+ * (NAMIC), funded by the National Institutes of Health through the NIH Roadmap
+ * for Medical Research, Grant U54 EB005149.
+ *
  * \ingroup ImageObjects */
 template <class TPixel, unsigned int VImageDimension>
 class ITK_EXPORT OrientedImage : public Image<TPixel, VImageDimension>
