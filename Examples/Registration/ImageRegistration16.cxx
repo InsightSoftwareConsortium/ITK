@@ -18,7 +18,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
+#define ITK_LEAN_AND_MEAN
 
 
 
