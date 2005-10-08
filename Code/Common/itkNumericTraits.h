@@ -113,6 +113,8 @@ public:
   static const bool ITKCommon_EXPORT Zero;
   static const bool ITKCommon_EXPORT One;
 
+  static char min() { return false; }
+  static char max() { return true; }
   static bool NonpositiveMin() { return false; }
   static bool IsPositive(bool val) { return val; }
   static bool IsNonpositive(bool val) { return !val; }
