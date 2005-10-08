@@ -819,18 +819,12 @@ void AnalyzeImageIO::ReadImageInformation()
   //   m_hdr.dime.dim[1] = 50;
   //   m_hdr.dime.dim[2] = 27;
   //   m_hdr.dime.dim[3] = 1;
+  //   m_hdr.dime.dim[4] = 1;
   unsigned int numberOfDimensions = this->m_hdr.dime.dim[0];
-  for( unsigned int i=this->m_hdr.dime.dim[0]+1; i>=1; i-- )
-    {
-    if( this->m_hdr.dime.dim[i-1] <= 1 )
+  while(this->m_hdr.dime.dim[numberOfDimensions] <=1 )
       {
       --numberOfDimensions;
       }
-    else
-      {
-      break;
-      }
-    }
     
   this->SetNumberOfDimensions(numberOfDimensions);
   switch( this->m_hdr.dime.datatype )
@@ -967,7 +961,7 @@ void AnalyzeImageIO::ReadImageInformation()
       default:
           coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
       }
-    //    itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient);
+    //An error was encountered in code that depends upon the valid coord_orientation.
     typedef SpatialOrientationAdapter<3> OrientAdapterType;
     SpatialOrientationAdapter<3>::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
     std::vector<double> dirx(3,0),
@@ -988,6 +982,7 @@ void AnalyzeImageIO::ReadImageInformation()
       {
       this->SetDirection(2,dirz);
       }
+    itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient);
     
   }
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileOriginator,std::string(this->m_hdr.hist.originator,10));
