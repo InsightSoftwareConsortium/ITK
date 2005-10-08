@@ -68,7 +68,14 @@ PrintInfo() const
 {
   MetaObject::PrintInfo();
   std::cout << "ParentPoint = " << m_ParentPoint << std::endl;
-  std::cout << "Root = " << m_Root << std::endl;
+  if(m_Root)
+    {
+    std::cout << "Root = " << "True" << std::endl;
+    }
+  else
+    {
+    std::cout << "Root = " << "False" << std::endl;
+    }
   std::cout << "Artery = " << m_Artery << std::endl;
   std::cout << "PointDim = " << m_PointDim << std::endl;
   std::cout << "NPoints = " << m_NPoints << std::endl;
@@ -156,11 +163,11 @@ Clear(void)
   // Delete the list of pointers to VesselTubes.
   PointListType::iterator it = m_PointList.begin();
   while(it != m_PointList.end())
-  {
+    {
     VesselTubePnt* pnt = *it;
     it++;
     delete pnt;
-  }  
+    }  
   m_PointList.clear();
 
   m_ParentPoint= -1;
@@ -297,15 +304,17 @@ M_Read(void)
  
   mF = MET_GetFieldRecord("ParentPoint", &m_Fields);
   if(mF->defined)
-  {
+    {
     m_ParentPoint= (int)mF->value[0];
-  }
+    }
 
   m_Root = false;
   mF = MET_GetFieldRecord("Root", &m_Fields);
   if(mF->defined)
-  {
-    if(*((char *)(mF->value)) == 'T' || *((char*)(mF->value)) == 't')
+    {
+    if(*((char *)(mF->value)) == 'T' 
+       || *((char*)(mF->value)) == 't'
+       || *((char*)(mF->value)) == '1')
       {
       m_Root = true;
       }
@@ -313,12 +322,12 @@ M_Read(void)
       {
       m_Root = false;
       }
-  }
+    }
 
   m_Artery = true;
   mF = MET_GetFieldRecord("Artery", &m_Fields);
   if(mF->defined)
-  {
+    {
     if(*((char *)(mF->value)) == 'T' || *((char*)(mF->value)) == 't')
       {
       m_Artery = true;
@@ -327,27 +336,27 @@ M_Read(void)
       {
       m_Artery = false;
       }
-  }
+    }
 
   mF = MET_GetFieldRecord("NPoints", &m_Fields);
   if(mF->defined)
-  {
+    {
     m_NPoints= (int)mF->value[0];
-  }
+    }
 
   mF = MET_GetFieldRecord("PointDim", &m_Fields);
   if(mF->defined)
-  {
+    {
     strcpy(m_PointDim,(char *)(mF->value));
-  }
+    }
 
 
   int* posDim= new int[m_NDims];
   int i;
   for(i= 0; i < m_NDims; i++)
-  {
+    {
     posDim[i] = -1;
-  }
+    }
   int posR = -1;
   int posRn = -1;
   int posMn = -1;
@@ -376,138 +385,140 @@ M_Read(void)
   MET_StringToWordArray(m_PointDim, &pntDim, &pntVal); 
  
   if(META_DEBUG)
-    { std::cout << "MetaVesselTube: Parsing point dim" << std::endl; }
+    {
+    std::cout << "MetaVesselTube: Parsing point dim" << std::endl; 
+    }
 
   int j;
   for(j = 0; j < pntDim; j++) 
-  {
+    {
     if(!strcmp(pntVal[j], "x") || !strcmp(pntVal[j], "X"))
-    {
+      {
       posDim[0] = j;
-    }
+      }
     if(!strcmp(pntVal[j], "y") || !strcmp(pntVal[j], "Y"))
-    {
-    posDim[1] = j;
-    }
+      {
+      posDim[1] = j;
+      }
     if(!strcmp(pntVal[j], "z") || !strcmp(pntVal[j], "Z"))
-    {
-     posDim[2] = j;
-    }
+      {
+      posDim[2] = j;
+      }
     if(((char *)pntVal[j])[0] == 'w' || ((char *)pntVal[j])[0] == 'W')
-    {
-     posDim[(int)pntVal[j][1]+3] = j;
-    }
+      {
+      posDim[(int)pntVal[j][1]+3] = j;
+      }
     if(!strcmp(pntVal[j], "s") || !strcmp(pntVal[j], "S") ||
       !strcmp(pntVal[j], "r") || !strcmp(pntVal[j], "R") ||
       !strcmp(pntVal[j], "rad") || !strcmp(pntVal[j], "Rad") ||
       !strcmp(pntVal[j], "radius") || !strcmp(pntVal[j], "Radius"))
-    {
+      {
       posR = j;
-    }
+      }
   
     if(!strcmp(pntVal[j], "rn") || !strcmp(pntVal[j], "RN"))
-    {
+      {
       posRn = j;
-    }
+      }
     if(!strcmp(pntVal[j], "mn") || !strcmp(pntVal[j], "MN"))
-    {
+      {
       posMn = j;
-    }
+      }
     if(!strcmp(pntVal[j], "bn") || !strcmp(pntVal[j], "BN"))
-    {
+      {
       posBn = j;
-    }
+      }
     if(!strcmp(pntVal[j], "mk") || !strcmp(pntVal[j], "MK"))
-    {
+      {
       posMk = j;
-    }
+      }
     if(!strcmp(pntVal[j], "v1x"))
-    {
+      {
       posV1x = j;
-    }
+      }
     if(!strcmp(pntVal[j], "v1y"))
-    {
+      {
       posV1y = j;
-    }
+      }
     if(!strcmp(pntVal[j], "v1z"))
-    {
+      {
       posV1z = j;
-    }
+      }
     if(!strcmp(pntVal[j], "v2x"))
-    {
+      {
       posV2x = j;
-    }
+      }
     if(!strcmp(pntVal[j], "v2y"))
-    {
+      {
       posV2y = j;
-    }
+      }
     if(!strcmp(pntVal[j], "v2z"))
-    {
+      {
       posV2z = j;
-    }
+      }
     if(!strcmp(pntVal[j], "tx"))
-    {
+      {
       posTx = j;
-    }
+      }
     if(!strcmp(pntVal[j], "ty"))
-    {
+      {
       posTy = j;
-    }
+      }
     if(!strcmp(pntVal[j], "tz"))
-    {
+      {
       posTz = j;
-    }
+      }
     if(!strcmp(pntVal[j], "a1"))
-    {
+      {
       posA1 = j;
-    }
+      }
     if(!strcmp(pntVal[j], "a2"))
-    {
+      {
       posA2 = j;
-    }
+      }
     if(!strcmp(pntVal[j], "a3"))
-    {
+      {
       posA3 = j;
-    }
+      }
     
     if(!strcmp(pntVal[j], "red"))
-    {
+      {
       posRed = j;
-    }
+      }
     if(!strcmp(pntVal[j], "green"))
-    {
+      {
       posGreen = j;
-    }
+      }
     
     if(!strcmp(pntVal[j], "blue"))
-    {
+      {
       posBlue = j;
-    }
+      }
     if(!strcmp(pntVal[j], "alpha"))
-    {
+      {
       posAlpha = j;
-    }
+      }
     if(!strcmp(pntVal[j], "id") || !strcmp(pntVal[j], "ID"))
-    {
+      {
       posID = j;
+      }
     }
-  }
 
   for(i=0;i<pntDim;i++)
     {
-      delete [] pntVal[i];
+    delete [] pntVal[i];
     }
   delete [] pntVal;
 
-  float v[30];
+  float v[50];
   
   if(m_Event)
     {
-     m_Event->StartReading(m_NPoints);
+    m_Event->StartReading(m_NPoints);
     }
 
   if(m_BinaryData)
-  {
+    {
     int elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
     int readSize = m_NPoints*(m_NDims*(2+m_NDims)+10)*elementSize;
@@ -517,25 +528,26 @@ M_Read(void)
 
     int gc = m_ReadStream->gcount();
     if(gc != readSize)
-    {
+      {
       std::cout << "MetaLine: m_Read: data not read completely" 
                 << std::endl;
-      std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
+      std::cout << "   ideal = " << readSize 
+                << " : actual = " << gc << std::endl;
       return false;
-    }
+      }
 
     int i=0;
     double td;
     int d;
     for(int j=0; j<m_NPoints; j++) 
-    {
+      {
       VesselTubePnt* pnt = new VesselTubePnt(m_NDims);
       
       for(d=0; d<m_NDims; d++)
-      {
+        {
         MET_ValueToDouble(m_ElementType, _data, i++, &td);
         pnt->m_X[d] = (float)td;
-      }
+        }
 
       MET_ValueToDouble(m_ElementType, _data, i++, &td);
       pnt->m_R = (float)td;
@@ -556,25 +568,25 @@ M_Read(void)
         }
 
       for(d = 0; d < m_NDims; d++)
-      {
-        MET_ValueToDouble(m_ElementType, _data, i++, &td);
-        pnt->m_V1[d] = (float)td;
-      }
-    
-      if(m_NDims==3)
-      {
-        for(d = 0; d < m_NDims; d++)
         {
         MET_ValueToDouble(m_ElementType, _data, i++, &td);
-        pnt->m_V2[d] = (float)td;
+        pnt->m_V1[d] = (float)td;
         }
-      }
+    
+      if(m_NDims==3)
+        {
+        for(d = 0; d < m_NDims; d++)
+          {
+          MET_ValueToDouble(m_ElementType, _data, i++, &td);
+          pnt->m_V2[d] = (float)td;
+          }
+        }
       
       for(d = 0; d < m_NDims; d++)
-      {
+        {
         MET_ValueToDouble(m_ElementType, _data, i++, &td);
         pnt->m_T[d] = (float)td;
-      }
+        }
      
       MET_ValueToDouble(m_ElementType, _data, i++, &td);
       pnt->m_Alpha1 = (float)td;
@@ -588,85 +600,97 @@ M_Read(void)
         }
       
       for(d=0; d<4; d++)
-      {
+        {
         MET_ValueToDouble(m_ElementType, _data, i++, &td);
         pnt->m_Color[d] = (float)td;
-      }
+        }
 
       MET_ValueToDouble(m_ElementType,_data,i++,&td);
       pnt->m_ID=(int)td;
 
       m_PointList.push_back(pnt);
-    }
+      }
     delete [] _data;
-  }
+    }
   else
-  {
-    for(j=0; j<m_NPoints; j++) 
     {
+    for(j=0; j<m_NPoints; j++) 
+      {
       if(m_Event)
         {
         m_Event->SetCurrentIteration(j+1);
         }
 
-     VesselTubePnt* pnt = new VesselTubePnt(m_NDims);
+      VesselTubePnt* pnt = new VesselTubePnt(m_NDims);
 
       for(int k=0; k<pntDim; k++)
-      {
+        {
         *m_ReadStream >> v[k];
         m_ReadStream->get();
-      }
+        }
 
       for(int d=0; d<m_NDims; d++)
-      {
+        {
         pnt->m_X[d] = v[posDim[d]];
-      }
+        }
 
       pnt->m_R = v[posR];
 
       if(posMn >= (int)0 && posMn < pntDim)
-      {
-       pnt->m_Medialness = v[posMn];
-      }
+        {
+        pnt->m_Medialness = v[posMn];
+        }
 
       if(posRn >= (int)0 && posRn < pntDim)
-      {
-       pnt->m_Ridgeness = v[posRn];
-      }
+        {
+        pnt->m_Ridgeness = v[posRn];
+        }
 
       if(posBn >= (int)0 && posBn < pntDim)
-      {
-       pnt->m_Branchness = v[posBn];
-      }
+        {
+        pnt->m_Branchness = v[posBn];
+        }
 
       if(posMk >= 0 && posMk < pntDim)
-      {
-       pnt->m_Mark = (v[posMk] > 0) ? true:false;
-      }
+        {
+        pnt->m_Mark = (v[posMk] > 0) ? true:false;
+        }
 
       if(posV1x>=0 && posV1x<pntDim)
         {
         pnt->m_V1[0] = v[posV1x]; 
         if(posV1y >= 0 && posV1y<pntDim) 
-          { pnt->m_V1[1] = v[posV1y]; }
+          {
+          pnt->m_V1[1] = v[posV1y]; 
+          }
         if(posV1z >= 0 && m_NDims>2 && posV1z<pntDim) 
-          { pnt->m_V1[2] = v[posV1z]; }
+          {
+          pnt->m_V1[2] = v[posV1z]; 
+          }
         }
       if(posV2x >= 0 && posV2x<pntDim) 
         {
         pnt->m_V2[0] = v[posV2x]; 
         if(posV2y >= 0 && posV2y<pntDim) 
-          { pnt->m_V2[1] = v[posV2y]; }
+          {
+          pnt->m_V2[1] = v[posV2y]; 
+          }
         if(posV2z >= 0 && m_NDims>2 && posV2z<pntDim) 
-          { pnt->m_V2[2] = v[posV2z]; }
+          {
+          pnt->m_V2[2] = v[posV2z]; 
+          }
         }
       if(posTx >= 0 && posTx<pntDim) 
         {
         pnt->m_T[0] = v[posTx]; 
         if(posTy >= 0 && posTy<pntDim) 
-          { pnt->m_T[1] = v[posTy]; }
+          {
+          pnt->m_T[1] = v[posTy]; 
+          }
         if(posTz >= 0 && m_NDims>2 && posTz<pntDim) 
-          { pnt->m_T[2] = v[posTz]; }
+          {
+          pnt->m_T[2] = v[posTz]; 
+          }
         }
       if(posA1 >= 0 && posA1<pntDim) 
         {
@@ -682,40 +706,40 @@ M_Read(void)
         }
     
       if(posRed >= 0 && posRed < pntDim)
-      {
+        {
         pnt->m_Color[0] = v[posRed];
-      }
+        }
 
       if(posGreen >= 0 && posGreen < pntDim)
-      {
+        {
         pnt->m_Color[1] = v[posGreen];
-      }
+        }
     
       if(posBlue >= 0 && posBlue < pntDim)
-      {
+        {
         pnt->m_Color[2] = v[posBlue];
-      }
+        }
     
       if(posAlpha >= 0 && posAlpha < pntDim)
-      {
+        {
         pnt->m_Color[3] = v[posAlpha];
-      }
+        }
  
       if(posID >= 0 && posID < pntDim)
-      {
+        {
         pnt->m_ID = (int)v[posID];
-      }
+        }
  
       m_PointList.push_back(pnt);
-    }
+      }
 
       
     char c = ' ';
     while( (c!='\n') && (!m_ReadStream->eof()))
-    {
+      {
       c = m_ReadStream->get();// to avoid unrecognize charactere
+      }
     }
-  }
   
   if(m_Event)
     {
@@ -743,14 +767,14 @@ M_Write(void)
 {
 
   if(!MetaObject::M_Write())
-  {
+    {
     std::cout << "MetaVesselTube: M_Read: Error parsing file" << std::endl;
     return false;
-  }
+    }
 
   /** Then copy all VesselTubes points */
   if(m_BinaryData)
-  {
+    {
     PointListType::const_iterator it = m_PointList.begin();
     int elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
@@ -759,11 +783,11 @@ M_Write(void)
     int i=0;
     int d;
     while(it != m_PointList.end())
-    {
-      for(d = 0; d < m_NDims; d++)
       {
+      for(d = 0; d < m_NDims; d++)
+        {
         MET_DoubleToValue((double)(*it)->m_X[d],m_ElementType,data,i++);  
-      }
+        }
 
       MET_DoubleToValue((double)(*it)->m_R,m_ElementType,data,i++);  
       MET_DoubleToValue((double)(*it)->m_Ridgeness,m_ElementType,data,i++);
@@ -772,87 +796,88 @@ M_Write(void)
       MET_DoubleToValue((double)(*it)->m_Mark,m_ElementType,data,i++);   
       
       for(d = 0; d < m_NDims; d++)
-      {
+        {
         MET_DoubleToValue((double)(*it)->m_V1[d],m_ElementType,data,i++);  
-      }
+        }
     
       if(m_NDims==3)
-      {
-        for(d = 0; d < m_NDims; d++)
         {
+        for(d = 0; d < m_NDims; d++)
+          {
           MET_DoubleToValue((double)(*it)->m_V2[d],m_ElementType,data,i++);  
+          }
         }
-      }
       
       for(d = 0; d < m_NDims; d++)
-      {
+        {
         MET_DoubleToValue((double)(*it)->m_T[d],m_ElementType,data,i++);  
-      }
+        }
      
       MET_DoubleToValue((double)(*it)->m_Alpha1,m_ElementType,data,i++);  
       MET_DoubleToValue((double)(*it)->m_Alpha2,m_ElementType,data,i++);  
 
       if(m_NDims>=3)
         {
-       MET_DoubleToValue((double)(*it)->m_Alpha3,m_ElementType,data,i++);  
+        MET_DoubleToValue((double)(*it)->m_Alpha3,m_ElementType,data,i++);  
         }
 
       for(d=0; d<4; d++)
-      {
+        {
         MET_DoubleToValue((double)(*it)->m_Color[d],m_ElementType,data,i++);
-      }
+        }
 
       MET_DoubleToValue((double)(*it)->m_ID,m_ElementType,data,i++);
 
       it++;
-    }
+      }
 
-    m_WriteStream->write((char *)data,(m_NDims*(2+m_NDims)+10)*m_NPoints*elementSize);
+    m_WriteStream->write((char *)data,
+                         (m_NDims*(2+m_NDims)+10)*m_NPoints*elementSize);
     m_WriteStream->write("\n",1);
     delete [] data;
-  }
+    }
   else
-  {
+    {
     PointListType::const_iterator it = m_PointList.begin();
   
     int d;
     while(it != m_PointList.end())
-    {
-      for(d = 0; d < m_NDims; d++)
       {
+      for(d = 0; d < m_NDims; d++)
+        {
         *m_WriteStream << (*it)->m_X[d] << " ";
-      }
+        }
       
       *m_WriteStream << (*it)->m_R << " ";
       *m_WriteStream << (*it)->m_Ridgeness << " ";
       *m_WriteStream << (*it)->m_Medialness << " ";
       *m_WriteStream << (*it)->m_Branchness << " ";
       if((*it)->m_Mark)
-      {
+        {
         *m_WriteStream << 1 << " ";
-      }
+        }
       else
-      {
+        {
         *m_WriteStream << 0 << " ";
-      }
+        }
 
       for(d = 0; d < m_NDims; d++)
-      {
-         *m_WriteStream << (*it)->m_V1[d] << " ";
-      }
+        {
+        *m_WriteStream << (*it)->m_V1[d] << " ";
+        }
    
       if(m_NDims>=3)
-      {
-        for(d = 0; d < m_NDims; d++)
         {
-           *m_WriteStream << (*it)->m_V2[d] << " ";
+        for(d = 0; d < m_NDims; d++)
+          {
+          *m_WriteStream << (*it)->m_V2[d] << " ";
+          }
         }
-      }
       
       for(d = 0; d < m_NDims; d++)
-      {
-         *m_WriteStream << (*it)->m_T[d] << " ";
-      }
+        {
+        *m_WriteStream << (*it)->m_T[d] << " ";
+        }
     
       *m_WriteStream << (*it)->m_Alpha1 << " ";
       *m_WriteStream << (*it)->m_Alpha2 << " ";
@@ -863,16 +888,16 @@ M_Write(void)
         }
 
       for(d=0;d<4;d++)
-      {
+        {
         *m_WriteStream << (*it)->m_Color[d] << " ";
-      }
+        }
 
       *m_WriteStream << (*it)->m_ID << " ";
 
       *m_WriteStream << std::endl;
       it++;
+      }
     }
-  }
   return true;
 
 }

@@ -72,7 +72,14 @@ PrintInfo() const
 {
   MetaObject::PrintInfo();
   std::cout << "ParentPoint = " << m_ParentPoint << std::endl;
-  std::cout << "Root = " << m_Root << std::endl;
+  if(m_Root)
+    {
+    std::cout << "Root = " << "True" << std::endl;
+    }
+  else
+    {
+    std::cout << "Root = " << "True" << std::endl;
+    }
   std::cout << "PointDim = " << m_PointDim << std::endl;
   std::cout << "NPoints = " << m_NPoints << std::endl;
   char str[255];
@@ -113,12 +120,12 @@ NPoints(void) const
 }
 
 void MetaDTITube::
-Root(int root)
+Root(bool root)
 {
   m_Root = root;
 }
     
-int MetaDTITube:: 
+bool MetaDTITube:: 
 Root(void) const
 {
   return m_Root;
@@ -154,7 +161,7 @@ Clear(void)
   m_PointList.clear();
 
   m_ParentPoint= -1;
-  m_Root = 0;
+  m_Root = false;
   m_NPoints = 0;
   m_PointDim = "x y z tensor1 tensor2 tensor3 tensor4 tensor5 tensor6";
   m_ElementType = MET_FLOAT;
@@ -184,7 +191,7 @@ M_SetupReadFields(void)
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
-  MET_InitReadField(mF, "Root", MET_INT, false);
+  MET_InitReadField(mF, "Root", MET_STRING, false);
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
@@ -218,10 +225,16 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
-  if(m_Root>0)
+  if(m_Root)
     {
     mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "Root", MET_INT,m_Root);
+    MET_InitWriteField(mF, "Root", MET_STRING, strlen("True"), "True");
+    m_Fields.push_back(mF);
+    }
+  else
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "Root", MET_STRING, strlen("False"), "False");
     m_Fields.push_back(mF);
     }
 
@@ -276,41 +289,57 @@ int MetaDTITube::GetPosition(const char* name) const
 bool MetaDTITube::
 M_Read(void)
 {
-  if(META_DEBUG) std::cout << "MetaDTITube: M_Read: Loading Header" << std::endl;
+  if(META_DEBUG)
+    {
+    std::cout << "MetaDTITube: M_Read: Loading Header" << std::endl;
+    }
 
   if(!MetaObject::M_Read())
-  {
+    {
     std::cout << "MetaDTITube: M_Read: Error parsing file" << std::endl;
     return false;
-  }
+    }
 
-  if(META_DEBUG) std::cout << "MetaDTITube: M_Read: Parsing Header" << std::endl;
+  if(META_DEBUG)
+    {
+    std::cout << "MetaDTITube: M_Read: Parsing Header" << std::endl;
+    }
  
   MET_FieldRecordType * mF;
  
   mF = MET_GetFieldRecord("ParentPoint", &m_Fields);
   if(mF->defined)
-  {
+    {
     m_ParentPoint= (int)mF->value[0];
-  }
+    }
 
+  m_Root = false;
   mF = MET_GetFieldRecord("Root", &m_Fields);
   if(mF->defined)
-  {
-    m_Root= (int)mF->value[0];
-  }
+    {
+    if(*((char *)(mF->value)) == 'T' 
+      || *((char*)(mF->value)) == 't'
+      || *((char*)(mF->value)) == '1')
+      {
+      m_Root = true;
+      }
+    else
+      {
+      m_Root = false;
+      }
+    }
 
   mF = MET_GetFieldRecord("NPoints", &m_Fields);
   if(mF->defined)
-  {
+    {
     m_NPoints= (int)mF->value[0];
-  }
+    }
 
   mF = MET_GetFieldRecord("PointDim", &m_Fields);
   if(mF->defined)
-  {
+    {
     m_PointDim = (char *)(mF->value);
-  }
+    }
 
   int i;
   
@@ -327,7 +356,9 @@ M_Read(void)
   MET_StringToWordArray(pointDim, &pntDim, &pntVal); 
 
   if(META_DEBUG)
-    { std::cout << "MetaDTITube: Parsing point dim" << std::endl; }
+    { 
+    std::cout << "MetaDTITube: Parsing point dim" << std::endl; 
+    }
 
   int j;
   m_Positions.clear();
@@ -339,7 +370,7 @@ M_Read(void)
 
   for(i=0;i<pntDim;i++)
     {
-      delete [] pntVal[i];
+    delete [] pntVal[i];
     }
   delete [] pntVal;
 
@@ -347,11 +378,11 @@ M_Read(void)
   
   if(m_Event)
     {
-     m_Event->StartReading(m_NPoints);
+    m_Event->StartReading(m_NPoints);
     }
 
   if(m_BinaryData)
-  {
+    {
     int elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
     int readSize = m_NPoints*pntDim*elementSize;
@@ -361,12 +392,13 @@ M_Read(void)
 
     int gc = m_ReadStream->gcount();
     if(gc != readSize)
-    {
+      {
       std::cout << "MetaLine: m_Read: data not read completely" 
                 << std::endl;
-      std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
+      std::cout << "   ideal = " << readSize 
+                << " : actual = " << gc << std::endl;
       return false;
-    }
+      }
 
     int i=0;
     double td;
@@ -410,23 +442,23 @@ M_Read(void)
       m_PointList.push_back(pnt);
       }
     delete [] _data;
-  }
+    }
   else
-  {
-    for(j=0; j<m_NPoints; j++) 
     {
+    for(j=0; j<m_NPoints; j++) 
+      {
       if(m_Event)
         {
         m_Event->SetCurrentIteration(j+1);
         }
 
-     DTITubePnt* pnt = new DTITubePnt(m_NDims);
+      DTITubePnt* pnt = new DTITubePnt(m_NDims);
 
       for(int k=0; k<pntDim; k++)
-      {
+        {
         *m_ReadStream >> v[k];
         m_ReadStream->get();
-      }
+        }
 
      
       pnt->m_X[0] = v[this->GetPosition("x")];
@@ -438,35 +470,41 @@ M_Read(void)
         }
 
       // Read tensor1
-      if(this->GetPosition("tensor1") >= 0 && this->GetPosition("tensor1") < pntDim)
-      {
+      if(this->GetPosition("tensor1") >= 0 
+         && this->GetPosition("tensor1") < pntDim)
+        {
         pnt->m_TensorMatrix[0] = v[this->GetPosition("tensor1")];
-      }
+        }
       // Read tensor2
-      if(this->GetPosition("tensor2") >= 0 && this->GetPosition("tensor2") < pntDim)
-      {
+      if(this->GetPosition("tensor2") >= 0 
+         && this->GetPosition("tensor2") < pntDim)
+        {
         pnt->m_TensorMatrix[1] = v[this->GetPosition("tensor2")];
-      }
+        }
       // Read tensor3
-      if(this->GetPosition("tensor3") >= 0 && this->GetPosition("tensor3") < pntDim)
-      {
+      if(this->GetPosition("tensor3") >= 0 
+         && this->GetPosition("tensor3") < pntDim)
+        {
         pnt->m_TensorMatrix[2] = v[this->GetPosition("tensor3")];
-      }
+        }
       // Read tensor4
-      if(this->GetPosition("tensor4") >= 0 && this->GetPosition("tensor4") < pntDim)
-      {
+      if(this->GetPosition("tensor4") >= 0 
+         && this->GetPosition("tensor4") < pntDim)
+        {
         pnt->m_TensorMatrix[3] = v[this->GetPosition("tensor4")];
-      }
+        }
       // Read tensor5
-      if(this->GetPosition("tensor5") >= 0 && this->GetPosition("tensor5") < pntDim)
-      {
+      if(this->GetPosition("tensor5") >= 0 
+         && this->GetPosition("tensor5") < pntDim)
+        {
         pnt->m_TensorMatrix[4] = v[this->GetPosition("tensor5")];
-      }
+        }
       // Read tensor6
-      if(this->GetPosition("tensor6") >= 0 && this->GetPosition("tensor6") < pntDim)
-      {
+      if(this->GetPosition("tensor6") >= 0 
+         && this->GetPosition("tensor6") < pntDim)
+        {
         pnt->m_TensorMatrix[5] = v[this->GetPosition("tensor6")];
-      }
+        }
 
       // Add the extrafields
       std::vector<PositionType>::const_iterator itFields = m_Positions.begin();
@@ -483,27 +521,27 @@ M_Read(void)
           && strcmp((*itFields).first.c_str(),"tensor6") 
           )
           {
-          pnt->AddField((*itFields).first.c_str(),v[this->GetPosition((*itFields).first.c_str())]);
+          pnt->AddField((*itFields).first.c_str(),
+                        v[this->GetPosition((*itFields).first.c_str())]);
           }
         itFields++;
         }
 
       m_PointList.push_back(pnt);
-    }
+      }
 
     char c = ' ';
     while( (c!='\n') && (!m_ReadStream->eof()))
-    {
+      {
       c = m_ReadStream->get();// to avoid unrecognize charactere
+      }
     }
-  }
   
   if(m_Event)
     {
     m_Event->StopReading();
     }
 
-//  delete posDim;
   return true;
 }
 
@@ -524,14 +562,14 @@ M_Write(void)
 {
 
   if(!MetaObject::M_Write())
-  {
+    {
     std::cout << "MetaDTITube: M_Read: Error parsing file" << std::endl;
     return false;
-  }
+    }
 
   /** Then copy all DTITubes points */
   if(m_BinaryData)
-  {
+    {
     PointListType::const_iterator it = m_PointList.begin();
     int elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
@@ -544,15 +582,16 @@ M_Write(void)
     int i=0;
     int d;
     while(it != m_PointList.end())
-    {
-      for(d = 0; d < m_NDims; d++)
       {
+      for(d = 0; d < m_NDims; d++)
+        {
         MET_DoubleToValue((double)(*it)->m_X[d],m_ElementType,data,i++);  
-      }
+        }
 
       for(d = 0; d < 6; d++)
         {
-        MET_DoubleToValue((double)(*it)->m_TensorMatrix[d],m_ElementType,data,i++);  
+        MET_DoubleToValue((double)(*it)->m_TensorMatrix[d],
+                           m_ElementType, data, i++);  
         }
 
       // Add the extra fields
@@ -565,23 +604,23 @@ M_Write(void)
         }
 
       it++;
-    }
+      }
 
     m_WriteStream->write((char *)data,i*elementSize);
     m_WriteStream->write("\n",1);
     delete []data;
-  }
+    }
   else
-  {
+    {
     PointListType::const_iterator it = m_PointList.begin();
   
     int d;
     while(it != m_PointList.end())
-    {
-      for(d = 0; d < m_NDims; d++)
       {
+      for(d = 0; d < m_NDims; d++)
+        {
         *m_WriteStream << (*it)->m_X[d] << " ";
-      }
+        }
       
       for(d = 0; d < 6; d++)
         {
@@ -599,8 +638,8 @@ M_Write(void)
 
       *m_WriteStream << std::endl;
       it++;
+      }
     }
-  }
   return true;
 
 }

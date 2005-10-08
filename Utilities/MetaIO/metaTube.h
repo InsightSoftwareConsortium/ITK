@@ -111,8 +111,8 @@ class MetaTube : public MetaObject
     //    Root(...)
     //       Optional Field
     //       Set if this tube is a root
-    void  Root(int root);
-    int   Root(void) const;
+    void  Root(bool root);
+    bool   Root(void) const;
 
 
     //    ParentPoint(...)
@@ -150,7 +150,7 @@ class MetaTube : public MetaObject
 
     int m_ParentPoint;  // "ParentPoint = "     -1
 
-    int m_Root;         // "Root = "            0
+    bool m_Root;         // "Root = "            0
 
     int m_NPoints;      // "NPoints = "         0
 

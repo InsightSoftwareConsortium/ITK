@@ -5,7 +5,7 @@
 #include <metaUtils.h>
 #include <metaObject.h>
 
-#include <list>
+#include <vector>
 
 
 /*!    MetaTubeGraph (.h and .cpp)

@@ -135,8 +135,8 @@ class MetaDTITube : public MetaObject
     //    Root(...)
     //       Optional Field
     //       Set if this DTITube is a root
-    void  Root(int root);
-    int   Root(void) const;
+    void  Root(bool root);
+    bool   Root(void) const;
 
 
     //    ParentPoint(...)
@@ -174,7 +174,7 @@ class MetaDTITube : public MetaObject
 
     int m_ParentPoint;  // "ParentPoint = "     -1
 
-    int m_Root;         // "Root = "            0
+    bool m_Root;         // "Root = "            False
 
     int m_NPoints;      // "NPoints = "         0
 
