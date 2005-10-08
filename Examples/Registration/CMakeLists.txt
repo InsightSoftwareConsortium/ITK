@@ -67,9 +67,6 @@ TARGET_LINK_LIBRARIES(ImageRegistration9 ITKNumerics ITKIO)
   ADD_EXECUTABLE(ImageRegistration16 ImageRegistration16.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistration16 ITKStatistics ITKNumerics ITKIO)
 
-  ADD_EXECUTABLE(ImageRegistration17 ImageRegistration17.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration17 ITKStatistics ITKNumerics ITKIO)
-
   ADD_EXECUTABLE(DeformableRegistration6 DeformableRegistration6.cxx )
   TARGET_LINK_LIBRARIES(DeformableRegistration6 ITKNumerics ITKIO)
 
@@ -298,6 +295,9 @@ ADD_TEST(ImageRegistration10Test ${REGISTRATION_EXAMPLES8}
 IF(NOT BORLAND)
   ADD_EXECUTABLE(ImageRegistration2 ImageRegistration2.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistration2 ITKNumerics ITKIO)
+
+  ADD_EXECUTABLE(ImageRegistration17 ImageRegistration17.cxx )
+  TARGET_LINK_LIBRARIES(ImageRegistration17 ITKStatistics ITKNumerics ITKIO)
 
   ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter 
