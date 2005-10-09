@@ -20,7 +20,7 @@
 #include "itkImageConstIterator.h"
 #include "itkImageIterator.h"
 
-#if defined(_MSC_VER) && !defined(ITK_LEAN_AND_MEAN
+#if defined(_MSC_VER) && !defined(ITK_LEAN_AND_MEAN)
 #define ITK_LEAN_AND_MEAN
 #endif
 
