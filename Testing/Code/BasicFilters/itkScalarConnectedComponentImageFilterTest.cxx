@@ -26,7 +26,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkImageRegionIterator.h"
-#include "vnl/vnl_sample.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
 {
@@ -152,16 +152,16 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
   std::vector<RGBPixelType> colormap;
   RGBPixelType px;
   colormap.resize( numObjects+1 );
-  vnl_sample_reseed( 1031571 );
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(1031571);
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer rvgen = itk::Statistics::MersenneTwisterRandomVariateGenerator::New();
   for (unsigned short i=0; i < colormap.size(); ++i)
     {
     px.SetRed(
-      static_cast<unsigned char>(255*vnl_sample_uniform( 0.3333, 1.0 ) ));
+      static_cast<unsigned char>(255*rvgen->GetUniformVariate( 0.3333, 1.0 ) ));
     px.SetGreen(
-      static_cast<unsigned char>(255*vnl_sample_uniform( 0.3333, 1.0 ) ));
+      static_cast<unsigned char>(255*rvgen->GetUniformVariate( 0.3333, 1.0 ) ));
     px.SetBlue(
-      static_cast<unsigned char>(255*vnl_sample_uniform( 0.3333, 1.0 ) ));
-
+      static_cast<unsigned char>(255*rvgen->GetUniformVariate( 0.3333, 1.0 ) ));
     colormap[i] = px;
     }
   
