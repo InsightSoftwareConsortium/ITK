@@ -387,6 +387,19 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfHistogramBins( 20 );
   metric->SetNumberOfSpatialSamples( 10000 );
 
+ //  Software Guide : BeginLatex
+  //  
+  //  Given that the Mattes Mutual Information metric uses a random iterator in
+  //  order to collect the samples from the images, it is usually convenient to
+  //  initialize the seed of the random number generator.
+  //
+  //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!ReinitializeSeed()}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  metric->ReinitializeSeed( 76926294 );
+ 
   //  Software Guide : BeginLatex
   //  
   //  The step length has to be proportional to the expected values of the
