@@ -884,7 +884,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
-::SetProperty( const PropertyType * property)
+::SetProperty( PropertyType * property)
 { 
   m_Property = property; 
 }

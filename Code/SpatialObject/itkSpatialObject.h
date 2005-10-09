@@ -376,7 +376,7 @@ public:
   const PropertyType * GetProperty( void ) const {return m_Property;}
 
   /** Set the property applied to the object. */
-  void SetProperty( const PropertyType * property ); 
+  void SetProperty( PropertyType * property ); 
 
   /** Get/Set the ID */
   itkGetConstReferenceMacro(Id,int);
@@ -411,7 +411,6 @@ public:
    * the object was defined) to "physical" space (which accounts
    * for the spacing, orientation, and offset of the indices)
    */ 
-  void SetIndexToObjectTransform( TransformType * transform ); 
   TransformType * GetIndexToObjectTransform( void ); 
   const TransformType * GetIndexToObjectTransform( void ) const; 
 
@@ -425,7 +424,6 @@ public:
   /** Transforms points from the object-specific "physical" space
    * to the "physical" space of its parent object.   
    */
-  void SetObjectToNodeTransform( TransformType * transform ); 
   TransformType * GetObjectToNodeTransform( void );
   const TransformType * GetObjectToNodeTransform( void ) const;
 
@@ -566,7 +564,7 @@ private:
 
   unsigned int m_Dimension;
 
-  double  m_OffsetTable[3+1];
+  OffsetValueType  m_OffsetTable[3+1];
 
   RegionType          m_LargestPossibleRegion;
   RegionType          m_RequestedRegion;
