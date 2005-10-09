@@ -30,12 +30,12 @@ ENDIF(ITK_BINARY_DIR)
 
   ADD_TEST( itkNeuralNetworksHeaderTest ${NEURAL_NETWORKS_HEADER_TEST})
 
+  ADD_TEST(QPropXORTest1 ${NNET_OBJECT_TESTS} 
+            QPropXORTest1   ${ITK_DATA_ROOT}/Input/NeuralNetworks/qpropxortest.txt)
   ADD_TEST(XORTest1 ${NNET_OBJECT_TESTS} 
             XORTest1  ${ITK_DATA_ROOT}/Input/NeuralNetworks/xortest.txt)
   ADD_TEST(XORTest2 ${NNET_OBJECT_TESTS} 
             XORTest2   ${ITK_DATA_ROOT}/Input/NeuralNetworks/xortest.txt)
-  ADD_TEST(QPropXORTest1 ${NNET_OBJECT_TESTS} 
-            QPropXORTest1   ${ITK_DATA_ROOT}/Input/NeuralNetworks/qpropxortest.txt)
   ADD_TEST(NNetClassifierTest1 ${NNET_OBJECT_TESTS} 
            NNetClassifierTest1 ${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt 
                                ${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt)

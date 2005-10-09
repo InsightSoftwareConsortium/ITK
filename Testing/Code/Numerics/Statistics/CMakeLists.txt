@@ -12,8 +12,8 @@ ENDIF(ITK_BINARY_DIR)
 
 SET(STATISTICS_TESTS ${CXX_TEST_PATH}/itkStatisticsTests)
 
-ADD_TEST(itkStatisticsPrintTest ${STATISTICS_TESTS} itkStatisticsPrintTest)
 ADD_TEST(itkStatisticsAlgorithmTest ${STATISTICS_TESTS} itkStatisticsAlgorithmTest)
+ADD_TEST(itkStatisticsPrintTest ${STATISTICS_TESTS} itkStatisticsPrintTest)
 ADD_TEST(itkCovarianceCalculatorTest ${STATISTICS_TESTS} itkCovarianceCalculatorTest)
 ADD_TEST(itkDenseFrequencyContainerTest ${STATISTICS_TESTS} itkDenseFrequencyContainerTest)
 ADD_TEST(itkGaussianDensityFunctionTest ${STATISTICS_TESTS} itkGaussianDensityFunctionTest)
