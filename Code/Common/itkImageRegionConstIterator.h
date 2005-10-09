@@ -20,6 +20,10 @@
 #include "itkImageConstIterator.h"
 #include "itkImageIterator.h"
 
+#if defined(_MSC_VER) && !defined(ITK_LEAN_AND_MEAN
+#define ITK_LEAN_AND_MEAN
+#endif
+
 namespace itk
 {
 
@@ -291,6 +295,10 @@ protected:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageRegionConstIterator.txx"
+#endif
+
+#if defined(_MSC_VER)
+#undef ITK_LEAN_AND_MEAN
 #endif
 
 #endif 
