@@ -18,6 +18,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#ifdef _MSC_VER
+#define ITK_LEAN_AND_MEAN
+#endif
+
 #include "itkImageRegistrationMethod.h"
 #include "itkAffineTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
