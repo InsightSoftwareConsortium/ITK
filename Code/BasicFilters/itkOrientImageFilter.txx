@@ -269,7 +269,7 @@ OrientImageFilter<TInputImage, TOutputImage>
     //std::cout <<"DEBUG comparing fixed code " <<fixed_codes[i] <<" with moving code " <<moving_codes[j] <<std::endl;
     if ((moving_codes[j] & CodeAxisIncreasingField) != (fixed_codes[i] & CodeAxisIncreasingField))
       {
-      m_FlipAxes[i] = true;
+      m_FlipAxes[j] = true;
       //std::cout <<"DEBUG DeterminePermutationsAndFlips: coded the flip of axis " <<i <<std::endl;
       }
     }
@@ -350,6 +350,138 @@ OrientImageFilter<TInputImage, TOutputImage>
   return false;
 }
 
+#if 0
+typedef itk::SpatialOrientation::ValidCoordinateOrientationFlags 
+SO_OrientationType;
+std::string SO_OrientationToString(SO_OrientationType in)
+{
+  switch(in)
+    {
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
+      return std::string("RIP");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIP:
+      return std::string("LIP");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP:
+      return std::string("RSP");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSP:
+      return std::string("LSP");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIA:
+      return std::string("RIA");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIA:
+      return std::string("LIA");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA:
+      return std::string("RSA");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSA:
+      return std::string("LSA");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRP:
+      return std::string("IRP");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILP:
+      return std::string("ILP");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRP:
+      return std::string("SRP");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLP:
+      return std::string("SLP");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRA:
+      return std::string("IRA");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILA:
+      return std::string("ILA");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRA:
+      return std::string("SRA");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLA:
+      return std::string("SLA");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
+      return std::string("RPI");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPI:
+      return std::string("LPI");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI:
+      return std::string("RAI");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAI:
+      return std::string("LAI");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS:
+      return std::string("RPS");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPS:
+      return std::string("LPS");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAS:
+      return std::string("RAS");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAS:
+      return std::string("LAS");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRI:
+      return std::string("PRI");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI:
+      return std::string("PLI");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARI:
+      return std::string("ARI");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALI:
+      return std::string("ALI");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRS:
+      return std::string("PRS");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLS:
+      return std::string("PLS");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARS:
+      return std::string("ARS");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALS:
+      return std::string("ALS");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPR:
+      return std::string("IPR");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPR:
+      return std::string("SPR");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAR:
+      return std::string("IAR");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAR:
+      return std::string("SAR");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPL:
+      return std::string("IPL");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPL:
+      return std::string("SPL");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAL:
+      return std::string("IAL");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAL:
+      return std::string("SAL");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
+      return std::string("PIR");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSR:
+      return std::string("PSR");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
+      return std::string("AIR");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASR:
+      return std::string("ASR");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL:
+      return std::string("PIL");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSL:
+      return std::string("PSL");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL:
+      return std::string("AIL");
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL:
+      return "ASL";
+    default:
+      {
+      std::stringstream x;
+      x << (in & 0xff) << ", " << ((in >> 8) & 0xff) << ", " << ((in >> 16) && 0xff);
+      return x.str();
+      }
+    }
+}
+
+template <class ImageType>
+void
+DumpDirections(const std::string &prompt, const typename ImageType::Pointer &image)
+{
+  const typename ImageType::DirectionType &dir =
+    image->GetDirection();
+  std::cerr << prompt << " " 
+            << SO_OrientationToString(itk::SpatialOrientationAdapter<3>().FromDirectionCosines(dir))
+            <<    std::endl;
+  for(unsigned i = 0; i < 3; i++)
+    {
+    for(unsigned j = 0; j < 3; j++)
+      {
+      std::cerr << dir[i][j] << " ";
+      }
+    std::cerr << std::endl;
+    }
+}
+#endif
+
 template<class TInputImage, class TOutputImage>
 void
 OrientImageFilter<TInputImage, TOutputImage>
@@ -382,10 +514,22 @@ OrientImageFilter<TInputImage, TOutputImage>
   // Only run those filters that will do something
   if (NeedToPermute())
     {
+    //DEBUG
+    //    DumpDirections<TInputImage>("before permute",permuteInput);
+    //
     permute->SetInput(permuteInput);
     permute->SetOrder(m_PermuteOrder);
     permute->ReleaseDataFlagOn();
-
+    //DEBUG
+    //    std::cerr << "Permute Axes: ";
+    //    for(unsigned i = 0; i < 3; i++)
+    //      {
+    //      std::cerr << m_PermuteOrder[i] << " ";
+    //      }
+    //    std::cerr << std::endl;
+    //    permute->Update();
+    //    DumpDirections<TInputImage>("after permute",permute->GetOutput());
+    //
     flipInput = permute->GetOutput();
     castInput = permute->GetOutput();
     }
@@ -398,7 +542,16 @@ OrientImageFilter<TInputImage, TOutputImage>
     flip->SetInput(flipInput);
     flip->SetFlipAxes(m_FlipAxes);
     flip->ReleaseDataFlagOn();
-
+    //DEBUG
+    //     std::cerr << "Flip Axes: ";
+    //     for(unsigned i = 0; i < 3; i++)
+    //       {
+    //       std::cerr << m_FlipAxes[i] << " ";
+    //       }
+    //     std::cerr << std::endl;
+    //     flip->Update();
+    //     DumpDirections<TInputImage>("after flip",flip->GetOutput());
+    //
     castInput = flip->GetOutput();
     }
   else
