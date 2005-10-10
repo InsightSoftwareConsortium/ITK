@@ -335,10 +335,6 @@ void GiplImageIO::ReadImageInformation()
         numberofdimension++; 
         }
       }
-    else
-      {
-      break;
-      }
     }
 
   this->SetNumberOfDimensions( numberofdimension );
