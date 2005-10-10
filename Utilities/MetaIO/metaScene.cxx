@@ -165,7 +165,7 @@ Read(const char *_headerName)
       }
 
     if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Tube",4) || 
-       (MET_ReadType(*m_ReadStream).size()>0 && !strcmp(suf, "tre")))
+       ((MET_ReadType(*m_ReadStream).size()==0) && !strcmp(suf, "tre")))
       {
       char* subtype = MET_ReadSubType(*m_ReadStream);
       if(!strncmp(subtype,"Vessel",6))
@@ -209,7 +209,7 @@ Read(const char *_headerName)
     }
 
     else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Ellipse",7) ||
-            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "elp")))
+            ((MET_ReadType(*m_ReadStream).size()==0) && !strcmp(suf, "elp")))
     {
       MetaEllipse* ellipse = new MetaEllipse();
       ellipse->SetEvent(m_Event);
@@ -226,7 +226,7 @@ Read(const char *_headerName)
     }
 
     else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Gaussian",8) ||
-            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "gau")))
+            ((MET_ReadType(*m_ReadStream).size()==0) && !strcmp(suf, "gau")))
     {
       MetaGaussian* gaussian = new MetaGaussian();
       gaussian->SetEvent(m_Event);
@@ -235,7 +235,7 @@ Read(const char *_headerName)
     }
     
     else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Image",5) ||
-            ((MET_ReadType(*m_ReadStream).size()>0) && 
+            ((MET_ReadType(*m_ReadStream).size()==0) && 
              (!strcmp(suf, "mhd") || !strcmp(suf, "mha"))))
     {
       MetaImage* image = new MetaImage();
@@ -245,7 +245,7 @@ Read(const char *_headerName)
     }
     
     else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Blob",4) ||
-            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "blb")))
+            ((MET_ReadType(*m_ReadStream).size()==0) && !strcmp(suf, "blb")))
     {
       MetaBlob* blob = new MetaBlob();
       blob->SetEvent(m_Event);
@@ -254,7 +254,7 @@ Read(const char *_headerName)
     }
       
     else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Landmark",8) ||
-            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "ldm")))
+            ((MET_ReadType(*m_ReadStream).size()==0) && !strcmp(suf, "ldm")))
     {
       MetaLandmark* landmark = new MetaLandmark();
       landmark->SetEvent(m_Event);
@@ -263,7 +263,7 @@ Read(const char *_headerName)
     }
       
     else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Surface",5) ||
-            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "suf")))
+            ((MET_ReadType(*m_ReadStream).size()==0) && !strcmp(suf, "suf")))
     {
       MetaSurface* surface = new MetaSurface();
       surface->SetEvent(m_Event);
@@ -272,7 +272,7 @@ Read(const char *_headerName)
     }
      
     else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Line",5) ||
-            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "lin")))
+            ((MET_ReadType(*m_ReadStream).size()==0) && !strcmp(suf, "lin")))
     {
       MetaLine* line = new MetaLine();
       line->SetEvent(m_Event);
@@ -281,7 +281,7 @@ Read(const char *_headerName)
     }
 
     else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Group",5) ||
-            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "grp")))
+            ((MET_ReadType(*m_ReadStream).size()==0) && !strcmp(suf, "grp")))
     {
       MetaGroup* group = new MetaGroup();      
       group->SetEvent(m_Event);
@@ -290,7 +290,7 @@ Read(const char *_headerName)
     }
 
     else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"AffineTransform",15) ||
-            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "trn")))
+            ((MET_ReadType(*m_ReadStream).size()==0) && !strcmp(suf, "trn")))
     {
       MetaGroup* group = new MetaGroup();
       group->SetEvent(m_Event);
@@ -298,7 +298,7 @@ Read(const char *_headerName)
       m_ObjectList.push_back(group);
     }
     else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Mesh",4) ||
-            ((MET_ReadType(*m_ReadStream).size()>0) && !strcmp(suf, "msh")))
+            ((MET_ReadType(*m_ReadStream).size()==0) && !strcmp(suf, "msh")))
     {
       MetaMesh* mesh = new MetaMesh();
       mesh->SetEvent(m_Event);
