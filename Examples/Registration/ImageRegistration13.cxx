@@ -151,6 +151,7 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfHistogramBins( 20 );
   metric->SetNumberOfSpatialSamples( 10000 );
 
+  // Software Guide : EndCodeSnippet
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
@@ -216,7 +217,7 @@ int main( int argc, char *argv[] )
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
-  const double translationScale = 1.0 / 1000.0;
+  const double translationScale = 1.0 / 128.0;
   const double centerScale      = 1000.0; // prevents it from moving 
                                           // during the optimization
   optimizerScales[0] = 1.0;
