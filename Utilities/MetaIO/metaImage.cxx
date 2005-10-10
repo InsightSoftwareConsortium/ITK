@@ -864,12 +864,6 @@ PerformCompression(unsigned char *source,int quantity)
   m_CompressedDataSize = z.total_out;
 
   // Print the result
-  fprintf(stderr, "Compressed data: raw data %lu, compressed %lu, factor %.2f, compression level (default = -1) %d, buffer size %d\n",
-  z.total_in, z.total_out,
-  z.total_in == 0 ? 0.0 :
-  (double)z.total_out / z.total_in,
-  compression_rate,
-  buffer_size);
   deflateEnd(&z);
 
   return compressedData;  
