@@ -860,7 +860,7 @@ void
 SpatialObject< TDimension >
 ::ComputeOffsetTable()
 {
-  double num=1;
+  OffsetValueType num=1;
   const SizeType& bufferSize = m_BufferedRegion.GetSize();
   
   m_OffsetTable[0] = num;
