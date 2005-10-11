@@ -14,19 +14,19 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-#include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 #include "itkStimulateImageIO.h"
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+#include <fstream>
 
 int itkStimulateImageIOTest2( int argc, char* argv[] )
 {
   // This test is usually run with the data file
-  // Insight/Testing/Data/Input/kim_anat.spr
+  // Insight/Testing/Data/Input/BigEndian.spr
   if( argc < 2)
     {
     std::cerr << "Usage: " << argv[0] << " filename\n";
