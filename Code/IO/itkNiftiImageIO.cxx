@@ -864,8 +864,8 @@ NiftiImageIO
     {
     matrix.m[i][3] = -this->GetOrigin(i);
     }
-
   matrix.m[2][3] = (dims > 2) ? this->GetOrigin(2) : 0.0;
+
   nifti_mat44_to_quatern(matrix,
                          &(this->m_NiftiImage->quatern_b),
                          &(this->m_NiftiImage->quatern_c),
@@ -879,9 +879,7 @@ NiftiImageIO
                          &(this->m_NiftiImage->qfac));
   // copy q matrix to s matrix
   this->m_NiftiImage->qto_xyz =  matrix;
-  this->m_NiftiImage->qto_ijk =  matrix;
   this->m_NiftiImage->sto_xyz =  matrix;
-  this->m_NiftiImage->sto_ijk =  matrix;
   for(unsigned i = 0; i < 3; i++)
     {
     for(unsigned j = 0; j < 3; j++)
@@ -892,6 +890,10 @@ NiftiImageIO
         this->m_NiftiImage->sto_xyz.m[i][j] / this->GetSpacing(j);
       }
     }
+  this->m_NiftiImage->sto_ijk =  
+    nifti_mat44_inverse(this->m_NiftiImage->sto_xyz);
+  this->m_NiftiImage->qto_ijk =  
+    nifti_mat44_inverse(this->m_NiftiImage->qto_xyz);
   
   this->m_NiftiImage->pixdim[0] = this->m_NiftiImage->qfac;
   this->m_NiftiImage->qform_code = NIFTI_XFORM_SCANNER_ANAT;
