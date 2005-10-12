@@ -122,8 +122,29 @@ FlipImageFilter<TImage>
         }
       }
     }
-  outputPtr->SetDirection( flipMatrix * inputDirection );
-  outputPtr->SetOrigin( outputOrigin );
+  typename TImage::DirectionType afterFlip;
+  // Setting Directions for the filter output by
+  // multiplying by the flipMatrix is wrong. 
+  // nShould negate dir cosines (i.e. column 
+  // vectors) based on flipAxes flags
+#if 0
+  afterFlip = flipMatrix * inputDirection;
+#else
+  afterFlip = inputDirection;
+  for(unsigned ii = 0; ii < ImageDimension; ii++)
+    {
+    if(m_FlipAxes[ii])
+      {
+      for(unsigned jj = 0; jj < ImageDimension; jj++)
+        {
+        afterFlip[jj][ii] = -inputDirection[jj][ii];
+        }
+      }
+    }
+#endif
+   outputPtr->SetDirection( afterFlip );
+   outputPtr->SetOrigin( outputOrigin );
+
 #if 0
   Point<double,3> inputMax, outputMax;
   for (j = 0; j < ImageDimension; j++)
