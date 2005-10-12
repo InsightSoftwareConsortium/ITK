@@ -863,11 +863,11 @@ SpatialObject< TDimension >
   OffsetValueType num=1;
   const SizeType& bufferSize = m_BufferedRegion.GetSize();
   
-  m_OffsetTable[0] = num;
+  m_OffsetTable[0] = static_cast<long int>( num );
   for (unsigned int i=0; i < m_Dimension; i++)
     {
     num *= bufferSize[i];
-    m_OffsetTable[i+1] = num;
+    m_OffsetTable[i+1] = static_cast<long int>( num );
     }
 }
 
