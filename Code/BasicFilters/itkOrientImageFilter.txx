@@ -269,7 +269,7 @@ OrientImageFilter<TInputImage, TOutputImage>
     //std::cout <<"DEBUG comparing fixed code " <<fixed_codes[i] <<" with moving code " <<moving_codes[j] <<std::endl;
     if ((moving_codes[j] & CodeAxisIncreasingField) != (fixed_codes[i] & CodeAxisIncreasingField))
       {
-      m_FlipAxes[j] = true;
+      m_FlipAxes[i] = true;
       //std::cout <<"DEBUG DeterminePermutationsAndFlips: coded the flip of axis " <<i <<std::endl;
       }
     }
@@ -350,7 +350,10 @@ OrientImageFilter<TInputImage, TOutputImage>
   return false;
 }
 
-#if 0
+  //#define __DEBUG_ORIENT__
+#if defined(__DEBUG_ORIENT__)
+#define DEBUG_EXECUTE(X) X
+
 typedef itk::SpatialOrientation::ValidCoordinateOrientationFlags 
 SO_OrientationType;
 std::string SO_OrientationToString(SO_OrientationType in)
@@ -480,6 +483,8 @@ DumpDirections(const std::string &prompt, const typename ImageType::Pointer &ima
     std::cerr << std::endl;
     }
 }
+#else //__DEBUG_ORIENT__
+#define DEBUG_EXECUTE(X)
 #endif
 
 template<class TInputImage, class TOutputImage>
@@ -514,23 +519,23 @@ OrientImageFilter<TInputImage, TOutputImage>
   // Only run those filters that will do something
   if (NeedToPermute())
     {
-    //DEBUG
-    //    DumpDirections<TInputImage>("before permute",permuteInput);
-    //
-    permute->SetInput(permuteInput);
+    DEBUG_EXECUTE(
+                  DumpDirections<TInputImage>("before permute",permuteInput);
+                  )
+      permute->SetInput(permuteInput);
     permute->SetOrder(m_PermuteOrder);
     permute->ReleaseDataFlagOn();
-    //DEBUG
-    //    std::cerr << "Permute Axes: ";
-    //    for(unsigned i = 0; i < 3; i++)
-    //      {
-    //      std::cerr << m_PermuteOrder[i] << " ";
-    //      }
-    //    std::cerr << std::endl;
-    //    permute->Update();
-    //    DumpDirections<TInputImage>("after permute",permute->GetOutput());
-    //
-    flipInput = permute->GetOutput();
+    DEBUG_EXECUTE(
+                  std::cerr << "Permute Axes: ";
+                  for(unsigned i = 0; i < 3; i++)
+                    {
+                    std::cerr << m_PermuteOrder[i] << " ";
+                    }
+                  std::cerr << std::endl;
+                  permute->Update();
+                  DumpDirections<TInputImage>("after permute",permute->GetOutput());
+                  )    
+      flipInput = permute->GetOutput();
     castInput = permute->GetOutput();
     }
   else
@@ -542,17 +547,17 @@ OrientImageFilter<TInputImage, TOutputImage>
     flip->SetInput(flipInput);
     flip->SetFlipAxes(m_FlipAxes);
     flip->ReleaseDataFlagOn();
-    //DEBUG
-    //     std::cerr << "Flip Axes: ";
-    //     for(unsigned i = 0; i < 3; i++)
-    //       {
-    //       std::cerr << m_FlipAxes[i] << " ";
-    //       }
-    //     std::cerr << std::endl;
-    //     flip->Update();
-    //     DumpDirections<TInputImage>("after flip",flip->GetOutput());
-    //
-    castInput = flip->GetOutput();
+    DEBUG_EXECUTE(
+                  std::cerr << "Flip Axes: ";
+                  for(unsigned i = 0; i < 3; i++)
+                    {
+                    std::cerr << m_FlipAxes[i] << " ";
+                    }
+                  std::cerr << std::endl;
+                  flip->Update();
+                  DumpDirections<TInputImage>("after flip",flip->GetOutput());
+                  )    
+      castInput = flip->GetOutput();
     }
   else
     {
