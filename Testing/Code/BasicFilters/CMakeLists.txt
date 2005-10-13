@@ -14,7 +14,6 @@ SET(BASIC_FILTERS_TESTS ${CXX_TEST_PATH}/itkBasicFiltersTests)
 SET(BASIC_FILTERS_TESTS1 ${CXX_TEST_PATH}/itkBasicFiltersTests1)
 SET(BASIC_FILTERS_TESTS2 ${CXX_TEST_PATH}/itkBasicFiltersTests2)
 SET(BASIC_FILTERS_TESTS3 ${CXX_TEST_PATH}/itkBasicFiltersTests3)
-SET(BASIC_FILTERS_TESTS4 ${CXX_TEST_PATH}/itkBasicFiltersTests4)
 
 SET(BASIC_FILTERS_HEADER_TEST ${CXX_TEST_PATH}/itkBasicFiltersHeaderTest)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/BasicFilters)
@@ -273,39 +272,6 @@ ADD_TEST(itkOrientImageFilterTest2 ${BASIC_FILTERS_TESTS1} itkOrientImageFilterT
 ADD_TEST(itkTriangleMeshToBinaryImageFilterTest ${BASIC_FILTERS_TESTS3}
   itkTriangleMeshToBinaryImageFilterTest
 )
-
-
-ADD_TEST(itkParametricSpaceToImageSpaceMeshFilterTest ${BASIC_FILTERS_TESTS4}
-  itkParametricSpaceToImageSpaceMeshFilterTest
-)
-
-ADD_TEST(itkGrayscaleGeodesicDilateImageFilterTest ${BASIC_FILTERS_TESTS4}
-  itkGrayscaleGeodesicDilateImageFilterTest
-)
-
-ADD_TEST(itkGrayscaleGeodesicErodeImageFilterTest ${BASIC_FILTERS_TESTS4}
-  itkGrayscaleGeodesicErodeImageFilterTest
-)
-
-ADD_TEST(itkGetAverageSliceImageFilterTest ${BASIC_FILTERS_TESTS4}
-  itkGetAverageSliceImageFilterTest  
-  )
-
-ADD_TEST(itkClosingbyReconstructionImageFilterTest ${BASIC_FILTERS_TESTS4}
-  itkClosingByReconstructionImageFilterTest  
-  )
-
-ADD_TEST(itkOpeningbyReconstructionImageFilterTest ${BASIC_FILTERS_TESTS4}
-  itkOpeningByReconstructionImageFilterTest  
-  )
-
-ADD_TEST(itkWhiteTopHatImageFilterTest  ${BASIC_FILTERS_TESTS4} 
-  itkWhiteTopHatImageFilterTest
-  )
-
-ADD_TEST(itkBlackTopHatImageFilterTest  ${BASIC_FILTERS_TESTS4} 
-  itkBlackTopHatImageFilterTest
-  )
 
 ADD_TEST(itkTriangleMeshToBinaryImageFilterTest2 ${BASIC_FILTERS_TESTS3} itkTriangleMeshToBinaryImageFilterTest2)
 IF(ITK_DATA_ROOT)
@@ -896,17 +862,6 @@ itkTriangleMeshToBinaryImageFilterTest.cxx
 itkTriangleMeshToBinaryImageFilterTest2.cxx
 )
 
-SET(BasicFilters4_SRCS
-itkParametricSpaceToImageSpaceMeshFilterTest.cxx
-itkGrayscaleGeodesicDilateImageFilterTest.cxx
-itkGrayscaleGeodesicErodeImageFilterTest.cxx
-itkGetAverageSliceImageFilterTest.cxx
-itkClosingByReconstructionImageFilterTest.cxx
-itkOpeningByReconstructionImageFilterTest.cxx
-itkWhiteTopHatImageFilterTest.cxx
-itkBlackTopHatImageFilterTest.cxx
-)
-
 ADD_TEST(itkBasicFiltersHeaderTest ${BASIC_FILTERS_HEADER_TEST})
 ADD_EXECUTABLE(itkBasicFiltersHeaderTest itkBasicFiltersHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkBasicFiltersHeaderTest ITKIO ITKNumerics ITKBasicFilters)
@@ -918,8 +873,6 @@ ADD_EXECUTABLE(itkBasicFiltersTests2 itkBasicFiltersTests2.cxx ${BasicFilters2_S
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests2 ITKIO ITKNumerics ITKBasicFilters)
 ADD_EXECUTABLE(itkBasicFiltersTests3 itkBasicFiltersTests3.cxx ${BasicFilters3_SRCS})
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests3 ITKStatistics ITKIO ITKNumerics ITKBasicFilters)
-ADD_EXECUTABLE(itkBasicFiltersTests4 itkBasicFiltersTests4.cxx ${BasicFilters4_SRCS})
-TARGET_LINK_LIBRARIES(itkBasicFiltersTests4 ITKIO ITKNumerics ITKBasicFilters)
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
 
