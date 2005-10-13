@@ -76,8 +76,7 @@ GetAverageSliceImageFilter<TInputImage,TOutputImage>
 
   if(m_AveragedOutDimension<0 || m_AveragedOutDimension>=TInputImage::ImageDimension)
   {
-    fprintf(stderr, "\ngetAveragedSliceImageFilter: wrong Dimension to Average Out. Quitting!\n");
-    exit(2);
+  itkExceptionMacro( << "Wrong Dimension to Average");
   }
   
   doubleToCharRescaler->SetOutputMaximum(255);
