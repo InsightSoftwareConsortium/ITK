@@ -76,6 +76,14 @@ public:
 
   /** The values outside the range are set to OutsideValue. */
   void ThresholdOutside(const PixelType &lower, const PixelType &upper);
+  
+  /** Set/Get methods to set the lower threshold */
+  itkSetMacro(Lower, PixelType);
+  itkGetMacro(Lower, PixelType);
+
+  /** Set/Get methods to set the upper threshold */
+  itkSetMacro(Upper, PixelType);
+  itkGetMacro(Upper, PixelType);
 
   /** Some additional typedefs.  */
   typedef TImage InputImageType;
