@@ -809,7 +809,27 @@ void AnalyzeImageIO::ReadImageInformation()
     this->SwapHeaderBytesIfNecessary( &(this->m_hdr) );
     }
 
-  this->SetNumberOfDimensions(this->m_hdr.dime.dim[0]);
+  // Check if any dimensions are 1. If they are, reduce dimensionality
+  // This shouldn't be necessary, but Analyse75 seems to require the first 
+  // field to be 4. So when writing say a 50 x 27 2D image,
+  //   m_hdr.dime.dim[0] = 4;
+  //   m_hdr.dime.dim[1] = 50;
+  //   m_hdr.dime.dim[2] = 27;
+  //   m_hdr.dime.dim[3] = 1;
+  unsigned int numberOfDimensions = this->m_hdr.dime.dim[0];
+  for( unsigned int i=this->m_hdr.dime.dim[0]+1; i>=1; i-- )
+    {
+    if( this->m_hdr.dime.dim[i-1] <= 1 )
+      {
+      --numberOfDimensions;
+      }
+    else
+      {
+      break;
+      }
+    }
+    
+  this->SetNumberOfDimensions(numberOfDimensions);
   switch( this->m_hdr.dime.datatype )
     {
     case ANALYZE_DT_BINARY:
@@ -1159,11 +1179,13 @@ AnalyzeImageIO
   itk::ExposeMetaData<int>(thisDic,ANALYZE_S_MAX,this->m_hdr.hist.smax);
   itk::ExposeMetaData<int>(thisDic,ANALYZE_S_MIN,this->m_hdr.hist.smin);
   }
+
   for( dim=0; dim< this->GetNumberOfDimensions(); dim++ )
     {
     //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are the actual dims.
     this->m_hdr.dime.dim[dim+1]  = m_Dimensions[ dim ];
     }
+
   //DEBUG--HACK It seems that analyze 7.5 requires 4 dimensions.
   this->m_hdr.dime.dim[0]= 4;
   for( dim=this->GetNumberOfDimensions();(int)dim < this->m_hdr.dime.dim[0];
