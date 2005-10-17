@@ -534,6 +534,10 @@ BMPImageIO
     {
     itkExceptionMacro(<<"BMPImageIO supports unsigned char only");
     }
+  if( (this->m_NumberOfComponents != 1) && (this->m_NumberOfComponents !=3) )
+    {
+    itkExceptionMacro(<<"BMPImageIO supports 1 or 3 components only");
+    }
   
 
 #ifdef __sgi
@@ -552,19 +556,35 @@ BMPImageIO
 
   // Write the header  
   // spit out the BMP header
+  // Header structure is represented by first a 14 byte field, then the bitmap 
+  // info header. 
+  // 
+  // The 14 byte field:
+  // first 2 bytes contain the string, "BM", and whose next 4 bytes contain
+  // the length of the entire file.  The next 4 bytes must be 0. The final
+  // 4 bytes provides an offset from the start of the file to the first byte
+  // of image sample data. If the bit_count is 1, 4 or 8, the structure must 
+  // be followed by a colour lookup table, with 4 bytes per entry, the first 
+  // 3 of which identify the blue, green and red intensities, respectively.
+  //
   char tmp = 66;
   m_Ofstream.write(&tmp,sizeof(char));
   tmp = 77;
   m_Ofstream.write(&tmp,sizeof(char));
 
-  long bytesPerRow = m_Dimensions[0]*3;  //always writing 24bpp
+  unsigned int bpp = this->GetNumberOfComponents(); 
+  long bytesPerRow = m_Dimensions[0]*bpp;  
   if ( bytesPerRow % 4 )
     {
     bytesPerRow = ( ( bytesPerRow / 4 ) + 1 ) * 4;
     }
-  unsigned long paddedBytes = bytesPerRow - (m_Dimensions[0]*3);
+  unsigned long paddedBytes = bytesPerRow - (m_Dimensions[0]*bpp);
 
   long temp = (long)( bytesPerRow * m_Dimensions[1]) + 54L;
+  if( bpp == 1 ) 
+    {
+    temp += 1024; // need colour LUT
+    }
 
   tmp = temp%256;
   m_Ofstream.write(&tmp,sizeof(char));
@@ -579,21 +599,32 @@ BMPImageIO
     {
     m_Ofstream.write(&tmp,sizeof(char));
     }
-  tmp =54;
+
+  tmp=54;
   m_Ofstream.write(&tmp,sizeof(char));
+  if( bpp == 1 ) 
+    {
+    tmp=4;
+    m_Ofstream.write(&tmp,sizeof(char));
+    }
+  else if(bpp==3)
+    {
+    tmp=0;
+    m_Ofstream.write(&tmp,sizeof(char));
+    }
   tmp =0;
+  m_Ofstream.write(&tmp,sizeof(char));
+  m_Ofstream.write(&tmp,sizeof(char));
+  
+  // info header, 14 bytes written so far
+  tmp = 40;  // bitmap header size
+  m_Ofstream.write(&tmp,sizeof(char));
+  tmp =0; 
   m_Ofstream.write(&tmp,sizeof(char));
   m_Ofstream.write(&tmp,sizeof(char));
   m_Ofstream.write(&tmp,sizeof(char));
   
-  // info header
-  tmp = 40;
-  m_Ofstream.write(&tmp,sizeof(char));
-  tmp =0;
-  m_Ofstream.write(&tmp,sizeof(char));
-  m_Ofstream.write(&tmp,sizeof(char));
-  m_Ofstream.write(&tmp,sizeof(char));
-  
+  // image width
   tmp = m_Dimensions[0]%256;
   m_Ofstream.write(&tmp,sizeof(char));
   tmp = m_Dimensions[0]/256;
@@ -602,6 +633,7 @@ BMPImageIO
   m_Ofstream.write(&tmp,sizeof(char));
   m_Ofstream.write(&tmp,sizeof(char));
   
+  // image height -ve means top to bottom
   tmp = m_Dimensions[1]%256;
   m_Ofstream.write(&tmp,sizeof(char));
   tmp = m_Dimensions[1]/256;
@@ -610,11 +642,25 @@ BMPImageIO
   m_Ofstream.write(&tmp,sizeof(char));
   m_Ofstream.write(&tmp,sizeof(char));
   
+  // Set `planes'=1 (mandatory)
   tmp =1;
   m_Ofstream.write(&tmp,sizeof(char));
   tmp =0;
   m_Ofstream.write(&tmp,sizeof(char));
-  tmp =24;
+
+  // Set bits per pel.  
+  if( bpp == 3 ) 
+    {
+    tmp=24;
+    }
+  else if( bpp == 1)
+    {
+    tmp=8;
+    }
+  else
+    {
+    itkExceptionMacro(<< "Number of components not supported.") ;
+    }
   m_Ofstream.write(&tmp,sizeof(char));
   tmp =0;
   for(row = 0; row < 25; row++)
@@ -622,7 +668,18 @@ BMPImageIO
     m_Ofstream.write(&tmp,sizeof(char));
     }
 
-  int bpp = this->GetNumberOfComponents(); 
+  // spit out colour LUT
+  if (bpp == 1)
+    {
+    for (unsigned int n=0; n < 256; n++)
+      { 
+      char tmp2 = static_cast< char >( n );
+      m_Ofstream.write(&tmp2,sizeof(char));
+      m_Ofstream.write(&tmp2,sizeof(char));
+      m_Ofstream.write(&tmp2,sizeof(char));
+      m_Ofstream.write(&tmp,sizeof(char));
+      }
+    }
 
   unsigned int i;
   for (unsigned int h = 0; h < m_Dimensions[1]; h++)
@@ -634,8 +691,6 @@ BMPImageIO
         {
         for (i = 0; i < m_Dimensions[0]; i++)
           {
-          m_Ofstream.write(ptr,sizeof(char));
-          m_Ofstream.write(ptr,sizeof(char));
           m_Ofstream.write(ptr,sizeof(char));
           ptr++;
           }
