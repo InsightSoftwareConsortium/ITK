@@ -218,6 +218,7 @@ public:
   // Expose the following methods from the superclass.  This is a restricted
   // subset of the methods available for ConstNeighborhoodIterator.
   Superclass::SetPixel;
+  Superclass::SetCenterPixel;
 
   /** Assignment operator */
   Self &operator=(const Self& orig)

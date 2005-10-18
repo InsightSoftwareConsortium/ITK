@@ -243,11 +243,12 @@ public:
   Superclass::operator[];
   Superclass::GetElement;
   Superclass::SetLocation;
+  Superclass::GetCenterPointer;
+  Superclass::GetCenterPixel;
   Superclass::OverrideBoundaryCondition;
   Superclass::ResetBoundaryCondition;
   Superclass::GetBoundaryCondition;
   Superclass::Print;
-
   Superclass::operator-;
  
   Superclass::GetPixel;
