@@ -315,6 +315,7 @@ public:
   // Should be protected, but Borland compiler will not allow it.  A workaround
   // must be found.
   Superclass::SetPixel;
+  Superclass::SetCenterPixel;
 protected:
    /** Copy constructor */
   ConstShapedNeighborhoodIterator( const ConstShapedNeighborhoodIterator & );
@@ -325,6 +326,7 @@ protected:
   /** Class is protected here so that it is not publicly accessible, but can be
    * accessed by subclasses.. */
   //  Superclass::SetPixel;
+  //  Superclass::SetCenterPixel;
 
   /** Add/Remove a neighborhood index to/from the active.  Locations in the
       active list are the only accessible elements in the neighborhood. The
