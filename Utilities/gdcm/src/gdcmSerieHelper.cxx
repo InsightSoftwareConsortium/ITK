@@ -423,11 +423,29 @@ std::string SerieHelper::CreateUniqueSeriesIdentifier( File * inFile )
         {
         sThick = "";
         }
+      // 0028 0010 Rows
+      // If the 2D images in a sequence don't have the same number of rows,
+      // then it is difficult to reconstruct them into a 3D volume.
+      std::string sRows = inFile->GetEntryValue (0x0028, 0x0010);
+      if( sRows == gdcm::GDCM_UNFOUND )
+        {
+        sRows = "";
+        }
+      // 0028 0011 Columns
+      // If the 2D images in a sequence don't have the same number of columns,
+      // then it is difficult to reconstruct them into a 3D volume.
+      std::string sColumns = inFile->GetEntryValue (0x0028, 0x0011);
+      if( sColumns == gdcm::GDCM_UNFOUND )
+        {
+        sColumns = "";
+        }
 
       // Concat the new info
       std::string num = sNum.c_str();
       num += sName.c_str();
       num += sThick.c_str();
+      num += sRows.c_str();
+      num += sColumns.c_str();
 
       // Append the new info to the SeriesUID
       id += ".";
