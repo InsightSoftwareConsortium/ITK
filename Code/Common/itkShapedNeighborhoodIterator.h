@@ -155,7 +155,7 @@ public:
   /** Standard class typedefs. */
   typedef ShapedNeighborhoodIterator Self;
   typedef ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition> Superclass;
-
+  
   /** Inherit typedefs from superclass */
   typedef typename Superclass::OffsetType OffsetType;
   typedef typename OffsetType::OffsetValueType OffsetValueType;
@@ -218,7 +218,6 @@ public:
   // Expose the following methods from the superclass.  This is a restricted
   // subset of the methods available for ConstNeighborhoodIterator.
   Superclass::SetPixel;
-  Superclass::SetCenterPixel;
 
   /** Assignment operator */
   Self &operator=(const Self& orig)
