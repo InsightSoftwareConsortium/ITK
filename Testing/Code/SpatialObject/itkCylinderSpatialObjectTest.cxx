@@ -31,8 +31,11 @@ int itkCylinderSpatialObjectTest(int, char* [])
   double radius = 3.0;
   double height = 12.0;
 
-  std::cout << "Testing radius : ";
+  std::cout << "Testing Print after construction " << std::endl;
+  myCylinder->Print( std::cout );
   
+  std::cout << "Testing radius : ";
+
   myCylinder->SetRadius(radius);
   double radius2 = myCylinder->GetRadius();
   if(radius2 != radius)
@@ -81,6 +84,10 @@ int itkCylinderSpatialObjectTest(int, char* [])
    std::cout<<"[FAILED]"<<std::endl;
    return EXIT_FAILURE;
    }
+
+  std::cout << "Testing Print after all modifications " << std::endl;
+  myCylinder->Print( std::cout );
+  
   std::cout<<"[PASSED]"<<std::endl;
   return EXIT_SUCCESS;
 
