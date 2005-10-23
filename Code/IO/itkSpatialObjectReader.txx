@@ -47,6 +47,11 @@ SpatialObjectReader<NDimensions,PixelType,TMeshTraits>
 { 
   m_Scene = m_MetaToSpatialConverter.ReadMeta(m_FileName.c_str());
 
+  if(m_Scene->GetNumberOfObjects(0) == 0)
+    {
+    itkExceptionMacro("No groups were found in file " << m_FileName );
+    }
+  
   if(m_Scene->GetNumberOfObjects(0) == 1)
     {
     typename SceneType::ObjectListType * list = m_Scene->GetObjects(0);
