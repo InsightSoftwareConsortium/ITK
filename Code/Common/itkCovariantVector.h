@@ -171,9 +171,6 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
   /** Returns vector's Squared Euclidean Norm  */
   RealValueType GetSquaredNorm( void ) const;
 
-  /** Print content */
-  void PrintSelf(std::ostream& os, Indent indent) const;
-
   /** Copy from another CovariantVector with a different representation type. 
    *  Casting is done with C-Like rules  */
   template < typename TCoordRepB >
