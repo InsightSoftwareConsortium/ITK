@@ -26,9 +26,12 @@
 namespace itk
 {
 
-
-
+template<class T>
+VariableSizeMatrix<T>
+::VariableSizeMatrix(unsigned int rows, unsigned int cols) 
+  : m_Matrix(rows,cols) {}
  
+
 /**
  *  Product by a Vector
  */

@@ -146,6 +146,8 @@ public:
 
   /** Default constructor. */
   VariableSizeMatrix() : m_Matrix() {};
+  
+  VariableSizeMatrix(unsigned int rows, unsigned int cols);
 
   /** Copy constructor. */
   VariableSizeMatrix(const Self & matrix) : m_Matrix( matrix.m_Matrix ) {};
