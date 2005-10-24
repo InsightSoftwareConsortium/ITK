@@ -160,6 +160,9 @@ protected:
   void GenerateData();
   
 private:
+  AntiAliasBinaryImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&);             //purposely not implemented
+  
   BinaryValueType m_UpperBinaryValue;
   BinaryValueType m_LowerBinaryValue;
   typename CurvatureFunctionType::Pointer m_CurvatureFunction;
