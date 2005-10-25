@@ -148,12 +148,22 @@ public:
    * by NDimensions doubles. All the landmarks are concatenated to form one flat
    * Array<double>. */
   virtual void SetParameters(const ParametersType &);
+  
+  /** Set Transform Fixed Parameters:
+   *     To support the transform file writer this function was 
+   *     added to set the target landmarks similar to the
+   *     SetParameters function setting the source landmarks
+   */
+  virtual void SetFixedParameters(const ParametersType &);
 
   /** Update the Parameters array from the landmarks corrdinates. */
   virtual void UpdateParameters(void) const;
 
-  /** Get the Transformation Parameters. */
+  /** Get the Transformation Parameters - Gets the Source Landmarks */
   virtual const ParametersType& GetParameters(void) const;
+  
+  /** Get Transform Fixed Parameters - Gets the Target Landmarks */
+  virtual const ParametersType& GetFixedParameters(void) const;
 
   /** Stiffness of the spline.  A stiffness of zero results in the
    * standard interpolating spline.  A non-zero stiffness allows the

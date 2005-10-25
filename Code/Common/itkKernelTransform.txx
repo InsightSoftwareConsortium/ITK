@@ -468,7 +468,7 @@ SetParameters( const ParametersType & parameters )
     {
     for(unsigned int dim=0; dim<NDimensions; dim++)
       {
-      landMark[ dim ] = this->m_Parameters[ pcounter ];
+      landMark[ dim ] = parameters[ pcounter ];
       pcounter++;
       }  
     itr.Value() = landMark;
@@ -476,6 +476,41 @@ SetParameters( const ParametersType & parameters )
     }
 
   m_SourceLandmarks->SetPoints( landmarks );
+}
+
+// Set the fixed parameters
+// Since the API of the SetParameters() function sets the
+// source landmarks, this function was added to support the
+// setting of the target landmarks, and allowing the Transform
+// I/O mechanism to be supported.
+template <class TScalarType, unsigned int NDimensions>
+void
+KernelTransform<TScalarType, NDimensions>::
+SetFixedParameters( const ParametersType & parameters )
+{
+  typename PointsContainer::Pointer landmarks = PointsContainer::New();
+  const unsigned int numberOfLandmarks =  parameters.Size() / NDimensions; 
+
+  landmarks->Reserve( numberOfLandmarks );
+
+  PointsIterator itr = landmarks->Begin();
+  PointsIterator end = landmarks->End();
+
+  InputPointType  landMark; 
+
+  unsigned int pcounter = 0;
+  while( itr != end )
+    {
+    for(unsigned int dim=0; dim<NDimensions; dim++)
+      {
+      landMark[ dim ] = parameters[ pcounter ];
+      pcounter++;
+      }  
+    itr.Value() = landMark;
+    itr++;
+    }
+
+  m_TargetLandmarks->SetPoints( landmarks );  
 }
 
 
@@ -516,6 +551,36 @@ GetParameters( void ) const
 {
   this->UpdateParameters();
   return this->m_Parameters;
+
+}
+
+
+// Get the fixed parameters
+// This returns the target landmark locations 
+// This was added to support the Transform Reader/Writer mechanism 
+template <class TScalarType, unsigned int NDimensions>
+const typename KernelTransform<TScalarType, NDimensions>::ParametersType &
+KernelTransform<TScalarType, NDimensions>::
+GetFixedParameters( void ) const
+{
+  this->m_FixedParameters = ParametersType( m_TargetLandmarks->GetNumberOfPoints() * NDimensions );
+  
+  PointsIterator itr = m_TargetLandmarks->GetPoints()->Begin();
+  PointsIterator end = m_TargetLandmarks->GetPoints()->End();
+
+  unsigned int pcounter = 0;
+  while( itr != end )
+    {
+    InputPointType  landmark = itr.Value();
+    for(unsigned int dim=0; dim<NDimensions; dim++)
+      {
+      this->m_FixedParameters[ pcounter ] = landmark[ dim ];
+      pcounter++;
+      }  
+    itr++;
+    }
+
+ return this->m_FixedParameters;
 
 }
 
