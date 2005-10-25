@@ -98,62 +98,52 @@ MedianImageFilter< TInputImage, TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
-  unsigned int i;
-  ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
-
-  ConstNeighborhoodIterator<InputImageType> bit;
-  ImageRegionIterator<OutputImageType> it;
-  
-  std::vector<InputPixelType> pixels;
-  typename std::vector<InputPixelType>::iterator medianIterator;
-  
   // Allocate output
   typename OutputImageType::Pointer output = this->GetOutput();
   typename  InputImageType::ConstPointer input  = this->GetInput();
-  
-  // Find the data-set boundary "faces"
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> bC;
-  faceList = bC(input, outputRegionForThread, m_Radius);
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
+  // Find the data-set boundary "faces"
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> bC;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType
+    faceList = bC(input, outputRegionForThread, m_Radius);
 
   // support progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
-  
+
   // All of our neighborhoods have an odd number of pixels, so there is
   // always a median index (if there where an even number of pixels
   // in the neighborhood we have to average the middle two values).
-    
+
+  ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
+  std::vector<InputPixelType> pixels;
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for (fit=faceList.begin(); fit != faceList.end(); ++fit)
-    { 
-    bit = ConstNeighborhoodIterator<InputImageType>(m_Radius,
-                                                    input, *fit);
+  for ( typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator
+    fit=faceList.begin(); fit != faceList.end(); ++fit)
+    {
+    ImageRegionIterator<OutputImageType> it = ImageRegionIterator<OutputImageType>(output, *fit);
 
-    unsigned int medianPosition = bit.Size() / 2;
-    unsigned int neighborhoodSize = bit.Size();
-
-    it = ImageRegionIterator<OutputImageType>(output, *fit);
+    ConstNeighborhoodIterator<InputImageType> bit =
+      ConstNeighborhoodIterator<InputImageType>(m_Radius, input, *fit);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
-      
+    const unsigned int neighborhoodSize = bit.Size();
+    const unsigned int medianPosition = neighborhoodSize / 2;
     while ( ! bit.IsAtEnd() )
       {
       // collect all the pixels in the neighborhood, note that we use
       // GetPixel on the NeighborhoodIterator to honor the boundary conditions
-      pixels.clear();
-      for (i = 0; i < neighborhoodSize; ++i)
+      pixels.resize(neighborhoodSize);
+      for (unsigned int i = 0; i < neighborhoodSize; ++i)
         {
-        pixels.push_back( bit.GetPixel(i) );
+        pixels[i]=( bit.GetPixel(i) );
         }
-        
+
       // get the median value
-      medianIterator = pixels.begin() + medianPosition;
+      const typename std::vector<InputPixelType>::iterator medianIterator = pixels.begin() + medianPosition;
       std::nth_element(pixels.begin(), medianIterator, pixels.end());
-      it.Set( *medianIterator );
-      
+      it.Set( static_cast<typename OutputImageType::PixelType> (*medianIterator) );
+
       ++bit;
       ++it;
       progress.CompletedPixel();
