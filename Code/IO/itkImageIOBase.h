@@ -28,7 +28,8 @@
 namespace itk
 {
 
-/** \brief Abstract superclass defines image IO interface.
+/** \class ImageIOBase 
+ * \brief Abstract superclass defines image IO interface.
  *
  * ImageIOBase is a class that reads and/or writes image data
  * of a particular format (such as PNG or raw binary). The
