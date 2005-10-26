@@ -465,7 +465,6 @@ std::string SerieHelper::CreateUniqueSeriesIdentifier( File * inFile )
         id.erase(i, 1);
         }
       }
-    std::cout << "id = " << id << std::endl;
     return id;
     }
   else // Could not open inFile
