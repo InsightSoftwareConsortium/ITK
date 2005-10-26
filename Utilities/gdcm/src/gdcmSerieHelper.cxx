@@ -462,9 +462,10 @@ std::string SerieHelper::CreateUniqueSeriesIdentifier( File * inFile )
                  || (id[i] >= '0' && id[i] <= '9')
                  || (id[i] >= 'A' && id[i] <= 'Z')))
         {
-        id = id.erase(i, 1).c_str();
+        id.erase(i, 1);
         }
       }
+    std::cout << "id = " << id << std::endl;
     return id;
     }
   else // Could not open inFile
