@@ -166,4 +166,5 @@ REGISTER_TEST(itkSymmetricEigenAnalysisTest );
 REGISTER_TEST(itkMetaDataDictionaryTest );
 REGISTER_TEST(itkSTLThreadTest );
 REGISTER_TEST(itkVariableLengthVectorTest);
+REGISTER_TEST(itkQuaternionOrientationAdapterTest);
 }

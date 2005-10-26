@@ -183,7 +183,7 @@ ADD_TEST(itkMetaDataDictionaryTest ${COMMON_TESTS} itkMetaDataDictionaryTest)
 ADD_TEST(itkSTLThreadTest ${COMMON_TESTS} itkSTLThreadTest)
 ADD_TEST(itkVariableLengthVectorTest ${COMMON_TESTS} itkVariableLengthVectorTest)
 ADD_TEST(itkOctreeTest ${COMMON_TESTS} itkOctreeTest)
-
+ADD_TEST(itkQuaternionOrientationAdapterTest ${COMMON_TESTS} itkQuaternionOrientationAdapterTest)
 ADD_TEST(itkSystemInformationTest ${SYSTEM_INFORMATION_TEST})
 
 IF(ITK_BINARY_DIR)
@@ -377,6 +377,7 @@ itkSymmetricEigenAnalysisTest.cxx
 itkMetaDataDictionaryTest.cxx
 itkSTLThreadTest.cxx
 itkVariableLengthVectorTest.cxx
+itkQuaternionOrientationAdapterTest.cxx
 )
 
 CONFIGURE_FILE(${ITKTesting_SOURCE_DIR}/Code/Common/itkSystemInformationTest.h.in
