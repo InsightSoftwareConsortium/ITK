@@ -27,6 +27,8 @@ namespace _cable_
     typedef itk::FixedArray<double, 3 >::FixedArray itkFixedArrayD3;
     typedef itk::FixedArray<unsigned int, 2 >::FixedArray itkFixedArrayUI2;
     typedef itk::FixedArray<unsigned int, 3 >::FixedArray itkFixedArrayUI3;
+    typedef itk::FixedArray<bool, 2 >::FixedArray itkFixedArrayB2;
+    typedef itk::FixedArray<bool, 3 >::FixedArray itkFixedArrayB3;
   }
 }
 #endif
