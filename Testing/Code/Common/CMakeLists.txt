@@ -377,8 +377,8 @@ itkSymmetricEigenAnalysisTest.cxx
 itkMetaDataDictionaryTest.cxx
 itkSTLThreadTest.cxx
 itkVariableLengthVectorTest.cxx
-itkQuaternionOrientationAdapterTest.cxx
 )
+# itkQuaternionOrientationAdapterTest.cxx
 
 CONFIGURE_FILE(${ITKTesting_SOURCE_DIR}/Code/Common/itkSystemInformationTest.h.in
                ${ITKTesting_BINARY_DIR}/Code/Common/itkSystemInformationTest.h
