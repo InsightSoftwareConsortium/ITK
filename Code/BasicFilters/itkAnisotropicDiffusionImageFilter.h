@@ -21,6 +21,8 @@
 #include "itkAnisotropicDiffusionFunction.h"
 #include "itkNumericTraits.h"
 
+#define ITK_LEAN_AND_MEAN
+
 namespace itk {
 
 /** \class AnisotropicDiffusionImageFilter
@@ -162,5 +164,7 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkAnisotropicDiffusionImageFilter.txx"
 #endif
+
+#undef ITK_LEAN_AND_MEAN
 
 #endif
