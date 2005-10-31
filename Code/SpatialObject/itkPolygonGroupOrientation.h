@@ -16,11 +16,11 @@
 =========================================================================*/
 #ifndef _itkPolygonGroupOrientation_h
 #define _itkPolygonGroupOrientation_h
+namespace itk {
 /**
  * \Enumerated PolygonGroupOrientation
  * \brief enumerates the possible spatial orientations
  */
-namespace itk {
 typedef enum {
   Axial = 0,
   Coronal = 1,

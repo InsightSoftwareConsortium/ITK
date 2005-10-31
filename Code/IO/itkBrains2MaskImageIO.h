@@ -15,6 +15,20 @@
 
 =========================================================================*/
 
+#ifndef __itkBrains2MaskImageIO_h
+#define __itkBrains2MaskImageIO_h
+
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
+
+#include <fstream>
+#include "itkImageIOBase.h"
+#include "itkBrains2IPLHeaderInfo.h"
+#include "itkOctree.h"
+
+namespace itk
+{
 /**
  * \file   Much of the code for this file reader/writer was taken from 
  *         the University of Iowa Psychiatry departments
@@ -37,20 +51,6 @@
   *  \par Everything still needs to be done.
  */
 
-#ifndef __itkBrains2MaskImageIO_h
-#define __itkBrains2MaskImageIO_h
-
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
-
-#include <fstream>
-#include "itkImageIOBase.h"
-#include "itkBrains2IPLHeaderInfo.h"
-#include "itkOctree.h"
-
-namespace itk
-{
 /** \class Brains2MaskImageIO
  * \author Hans J. Johnson
  * \brief Class that defines how to read Brains2Mask file format. 

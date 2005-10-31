@@ -267,9 +267,11 @@ EXCLUDE               = "@ITK_SOURCE_DIR@/Code/Common/itkPixelTraits.h" \
                         "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraits.h" \
                         "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsRGB.h" \
                         "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsVectorPixel.h" \
-                        "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsTensorPixel.h" 
-                        "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsCovariantVectorPixel.h" 
-                        "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsVariableLengthVectorPixel.h" 
+                        "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsTensorPixel.h" \
+                        "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsCovariantVectorPixel.h" \
+                        "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsVariableLengthVectorPixel.h" \
+                        "@ITK_SOURCE_DIR@/Code/IO/itkPixelData.h" \
+                        "@ITK_SOURCE_DIR@/Code/IO/itkAnalyzeDbh.h" 
               
 # If the value of the INPUT tag contains directories, you can use the 
 # EXCLUDE_PATTERNS tag to specify one or more wildcard patterns to exclude 
@@ -283,7 +285,8 @@ EXCLUDE_PATTERNS      = "*/vxl_copyright.h" "*/vcl/*" "*/dll.h" \
 # directories that contain example code fragments that are included (see 
 # the \include command). 
 
-EXAMPLE_PATH     = "@ITK_SOURCE_DIR@/Testing/Code" "@ITK_SOURCE_DIR@/Examples"
+EXAMPLE_PATH     = "@ITK_SOURCE_DIR@/Testing/Code" "@ITK_SOURCE_DIR@/Examples" "@ITK_SOURCE_DIR@/Examples/DataRepresentation/Image"
+
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the 
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
