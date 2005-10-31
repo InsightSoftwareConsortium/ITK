@@ -28,18 +28,23 @@ namespace itk
 /** \class QuaternionOrientationAdapter
  *  \brief converts QuaternionOrientation flags to/from direction cosines
  */
+namespace QuaternionOrientationAdapterClasses
+  {
+    typedef QuaternionRigidTransform<double> TransformType;
+    typedef TransformType::Pointer TransformPointerType;
+  }
 template <int Dimension>
 class QuaternionOrientationAdapter : 
-    public OrientationAdapterBase<QuaternionRigidTransform<double>::Pointer,Dimension>
+    public OrientationAdapterBase<QuaternionOrientationAdapterClasses::TransformPointerType,Dimension>
 {
 public:
   /** typedef for superclass */
   typedef QuaternionOrientationAdapter Self;
 
-  typedef OrientationAdapterBase<QuaternionRigidTransform<double>,Dimension>
+  typedef OrientationAdapterBase<QuaternionOrientationAdapterClasses::TransformPointerType,Dimension>
   SuperClass;
   typedef QuaternionRigidTransform<double> OrientationRootType;
-  typedef OrientationRootType::Pointer OrientationType;
+  typedef QuaternionOrientationAdapterClasses::TransformPointerType OrientationType;
 
   /** The dimension of the input image must be 3. */
   itkConceptMacro(DimensionShouldBe3,
