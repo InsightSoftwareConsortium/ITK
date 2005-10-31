@@ -57,7 +57,7 @@ namespace itk {
  * normalized correlation.
  * 3) If NormalizedOn(), indicate whether you want the center of the
  * annulus to be bright or dark.
- * 4) call \code{CreateOperator()}
+ * 4) call \c CreateOperator() 
  *
  * \sa NeighborhoodOperator
  * \sa Neighborhood

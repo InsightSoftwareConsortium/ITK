@@ -25,13 +25,15 @@
 #include <iostream>
 
 namespace itk {
-  /**
-   * \author Hans J. Johnson
+  /** \class MetaDataObjectBase
+   * \brief
    * The MetaDataObjectBase class is designed as the
    * common interface for MetaDataObject's.
    * This class is intended as the value part
    * of the (key,value) pair to be stored in
    * a MetaDataDictionary
+   * 
+   * \author Hans J. Johnson
    */
   class ITKCommon_EXPORT MetaDataObjectBase : public LightObject
   {

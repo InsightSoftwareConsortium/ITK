@@ -69,6 +69,7 @@ public:
    *   ...
    *   m_NeighborhoodAccessorFunctor.SetBegin( image->GetBufferPointer() );
    *   }
+   * \endcode
    */
   inline void SetBegin( const InternalPixelType * begin ) 
     { this->m_Begin = const_cast< InternalPixelType * >( begin ); }

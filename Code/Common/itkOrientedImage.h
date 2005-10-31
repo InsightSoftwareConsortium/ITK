@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/** \class Image
+/** \class OrientedImage
  *  \brief Templated n-dimensional oriented image class.
  *
  * \note

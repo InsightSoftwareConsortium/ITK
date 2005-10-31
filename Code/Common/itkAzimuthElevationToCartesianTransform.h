@@ -21,7 +21,11 @@
 #include "itkAffineTransform.h"
 #include "vnl/vnl_math.h"
 
-/** \brief Transforms from an azimuth, elevation, radius coordinate system to 
+namespace itk
+{
+
+/** \class AzimuthElevationToCartesianTransform 
+ * \brief Transforms from an azimuth, elevation, radius coordinate system to 
  * a Cartesian coordinate system, or vice versa.
  *
  * The three coordinate axis are azimuth, elevation, and range.
@@ -69,12 +73,7 @@
  *        Currently, this class derives from AffineTransform, although
  *        it is not an affine transform.
  **/
- 
-namespace itk
-{
-
-
-template < class TScalarType=float,  // Data type for scalars (e.g. float or double)
+ template < class TScalarType=float,  // Data type for scalars (e.g. float or double)
            unsigned int NDimensions=3 >
 class ITK_EXPORT AzimuthElevationToCartesianTransform : 
                             public AffineTransform< TScalarType, NDimensions >
