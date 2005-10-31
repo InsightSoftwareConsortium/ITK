@@ -24,6 +24,7 @@ namespace itk {
 
 /** \class CurvatureFlowFunction
  *  
+ * \brief
  * This class encapsulate the finite difference equation which drives a
  * curvature flow denoising algorithm.
  *
@@ -116,6 +117,7 @@ protected:
 
   /** A global data type for this class of equations.  Used to store
    * values that are needed in calculating the time step. */
+  /// @cond 
   struct GlobalDataStruct
   {
     GlobalDataStruct()
@@ -126,6 +128,7 @@ protected:
     
     ScalarValueType m_MaxChange;
   };
+  /// @endcond 
 
   CurvatureFlowFunction();
   ~CurvatureFlowFunction() {}

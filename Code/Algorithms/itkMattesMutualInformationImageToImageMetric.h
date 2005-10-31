@@ -207,6 +207,7 @@ protected:
   /**
    * A fixed image spatial sample consists of the fixed domain point 
    * and the fixed image value at that point. */
+  /// @cond 
   class FixedImageSpatialSample
   {
   public:
@@ -218,6 +219,7 @@ protected:
     double                        FixedImageValue;
     unsigned int                  FixedImageParzenWindowIndex;
   };
+  /// @endcond 
 
   /** FixedImageSpatialSample typedef support. */
   typedef std::vector<FixedImageSpatialSample>  
