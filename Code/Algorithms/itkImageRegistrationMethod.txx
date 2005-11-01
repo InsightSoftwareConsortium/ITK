@@ -243,8 +243,19 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
     // pass exception to caller
     throw err;
     }
+  
+  this->StartOptimization();
+}
 
 
+/*
+ * Starts the Optimization process
+ */
+template < typename TFixedImage, typename TMovingImage >
+void
+ImageRegistrationMethod<TFixedImage,TMovingImage>
+::StartOptimization( void )
+{ 
   try
     {
     // do the optimization
@@ -260,12 +271,9 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
     throw err;
     }
 
-
   // get the results
   m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
-
   m_Transform->SetParameters( m_LastTransformParameters );
-
 }
 
 

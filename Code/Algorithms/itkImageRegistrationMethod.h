@@ -113,8 +113,14 @@ public:
   /** Smart Pointer type to a DataObject. */
   typedef typename DataObject::Pointer DataObjectPointer;
 
-  /** Method that initiates the registration. */
+  /** Method that initiates the registration. This will Initialize and ensure
+   * that all inputs the registration needs are in place, via a call to 
+   * Initialize() will then start the optimization process via a call to 
+   * StartOptimization()  */
   void StartRegistration(void);
+
+  /** Method that initiates the optimization process. */
+  void StartOptimization(void);
 
   /** Set/Get the Fixed image. */
   void SetFixedImage( const FixedImageType * fixedImage );
