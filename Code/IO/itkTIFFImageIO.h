@@ -17,12 +17,8 @@
 #ifndef __itkTIFFImageIO_h
 #define __itkTIFFImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
-
-#include <fstream>
 #include "itkImageIOBase.h"
+#include <fstream>
 
 namespace itk
 {
@@ -130,8 +126,7 @@ protected:
   ~TIFFImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  void WriteSlice(std::string& fileName, const void* buffer);
-  void WriteVolume(std::string& fileName, const void* buffer);
+  void InternalWrite(const void* buffer);
 
   void InitializeColors();
   void ReadGenericImage( void *out, 
@@ -149,9 +144,14 @@ protected:
   unsigned int  GetFormat();
 
   void GetColor( int index, unsigned short *red, 
-                                 unsigned short *green, unsigned short *blue );
+                 unsigned short *green, unsigned short *blue );
+  // Check that tag t can be found
+  bool  CanFindTIFFTag(unsigned int t);
+  // Read and returns the raw bytes of tag t
+  void* ReadRawByteFromTag(unsigned int t);
 
-
+  TIFFReaderInternal * m_InternalImage;
+  int m_Compression;
 private:
   TIFFImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -161,8 +161,6 @@ private:
   unsigned short *ColorBlue;
   int TotalColors;
   unsigned int ImageFormat;
-  TIFFReaderInternal * m_InternalImage;
-  int m_Compression;
 };
 
 } // end namespace itk
