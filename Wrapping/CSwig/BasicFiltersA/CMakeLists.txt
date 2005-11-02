@@ -1,6 +1,7 @@
 # create the ITKBasicFiltersTcl libraries
 SET(WRAP_SOURCES
-  wrap_itkAnisotropicDiffusionImageFilter
+  wrap_itkAnisotropicDiffusionImageFilter_2D
+  wrap_itkAnisotropicDiffusionImageFilter_3D
   wrap_itkBinaryThresholdImageFilter
   wrap_itkBinaryDilateImageFilter
   wrap_itkBinaryErodeImageFilter
