@@ -84,6 +84,7 @@ ChildTreeIterator<TTreeType>::ChildTreeIterator(TTreeType* tree, const TreeNodeT
   m_ListPosition = 0;
   m_ParentNode = this->m_Position;
   this->m_Position = m_ParentNode->GetChild( m_ListPosition );
+  this->m_Begin = this->m_Position;
 }
 
 template <class TTreeType>
