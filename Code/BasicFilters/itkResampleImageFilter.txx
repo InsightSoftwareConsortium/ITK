@@ -25,6 +25,7 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkProgressReporter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageLinearIteratorWithIndex.h"
 
 namespace itk
 {
@@ -160,10 +161,35 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   const OutputImageRegionType& outputRegionForThread,
   int threadId)
 {
-  itkDebugMacro(<<"Actually executing");
+  // Check whether we can use a fast path for resampling. Fast path
+  // can be used if the transformation is linear.  If the
+  // transformation is subclass of MatrixOffsetTransformBase, then we
+  // can use the fast path.
+  const LinearTransformType *linear = dynamic_cast<const LinearTransformType *>(m_Transform.GetPointer());
 
+  if (linear)
+    {
+    this->LinearThreadedGenerateData(outputRegionForThread, threadId);
+    }
+  else
+    {
+    this->NonlinearThreadedGenerateData(outputRegionForThread, threadId);
+    }
+}
+
+
+template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionType>
+void 
+ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
+::NonlinearThreadedGenerateData(
+  const OutputImageRegionType& outputRegionForThread,
+  int threadId)
+{
   // Get the output pointers
   OutputImagePointer      outputPtr = this->GetOutput();
+
+  // Get ths input pointers
+  InputImageConstPointer inputPtr=this->GetInput();
 
   // Create an iterator that will walk the output region for this thread.
   typedef ImageRegionIteratorWithIndex<TOutputImage> OutputIterator;
@@ -175,15 +201,23 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   PointType outputPoint;         // Coordinates of current output pixel
   PointType inputPoint;          // Coordinates of current input pixel
 
+  typedef ContinuousIndex<TInterpolatorPrecisionType, ImageDimension> ContinuousIndexType;
+  ContinuousIndexType inputIndex;
+
   // Support for progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
         
   typedef typename InterpolatorType::OutputType OutputType;
 
-  // Walk the output region
+  // Min/max values of the output pixel type AND these values
+  // represented as the output type of the interpolator
   const PixelType minValue =  itk::NumericTraits<PixelType >::NonpositiveMin();
   const PixelType maxValue =  itk::NumericTraits<PixelType >::max();
 
+  const OutputType minOutputValue = static_cast<OutputType>(minValue);
+  const OutputType maxOutputValue = static_cast<OutputType>(maxValue);
+  
+  // Walk the output region
   outIt.GoToBegin();
 
   while ( !outIt.IsAtEnd() )
@@ -193,17 +227,18 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
 
     // Compute corresponding input pixel position
     inputPoint = m_Transform->TransformPoint(outputPoint);
+    inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
 
     // Evaluate input at right position and copy to the output
-    if( m_Interpolator->IsInsideBuffer(inputPoint) )
+    if( m_Interpolator->IsInsideBuffer(inputIndex) )
       {
       PixelType pixval;
-      const OutputType value = m_Interpolator->Evaluate(inputPoint);
-      if( value < static_cast<OutputType>( minValue ) )
+      const OutputType value = m_Interpolator->Evaluate(inputIndex);
+      if( value < minOutputValue )
         {
         pixval = minValue;
         }
-      else if( value > static_cast<OutputType>( maxValue ) )
+      else if( value > maxOutputValue )
         {
         pixval = maxValue;
         }
@@ -220,6 +255,141 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
 
     progress.CompletedPixel();
     ++outIt;
+    }
+
+  return;
+}
+
+template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionType>
+void 
+ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
+::LinearThreadedGenerateData(
+  const OutputImageRegionType& outputRegionForThread,
+  int threadId)
+{
+  // Get the output pointers
+  OutputImagePointer      outputPtr = this->GetOutput();
+
+  // Get ths input pointers
+  InputImageConstPointer inputPtr=this->GetInput();
+
+  // Create an iterator that will walk the output region for this thread.
+  typedef ImageLinearIteratorWithIndex<TOutputImage> OutputIterator;
+
+  OutputIterator outIt(outputPtr, outputRegionForThread);
+  outIt.SetDirection( 0 );
+
+  // Define a few indices that will be used to translate from an input pixel
+  // to an output pixel
+  PointType outputPoint;         // Coordinates of current output pixel
+  PointType inputPoint;          // Coordinates of current input pixel
+  PointType tmpOutputPoint;
+  PointType tmpInputPoint;
+
+  typedef ContinuousIndex<TInterpolatorPrecisionType, ImageDimension> ContinuousIndexType;
+  ContinuousIndexType inputIndex;
+  ContinuousIndexType tmpInputIndex;
+  
+  typedef typename PointType::VectorType VectorType;
+  VectorType delta;          // delta in input continuous index coordinate frame
+  IndexType index;
+
+  // Support for progress methods/callbacks
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+        
+  typedef typename InterpolatorType::OutputType OutputType;
+
+  // Cache information from the superclass
+  PixelType defaultValue = this->GetDefaultPixelValue();
+
+  // Min/max values of the output pixel type AND these values
+  // represented as the output type of the interpolator
+  const PixelType minValue =  itk::NumericTraits<PixelType >::NonpositiveMin();
+  const PixelType maxValue =  itk::NumericTraits<PixelType >::max();
+
+  const OutputType minOutputValue = static_cast<OutputType>(minValue);
+  const OutputType maxOutputValue = static_cast<OutputType>(maxValue);
+  
+  
+  // Determine the position of the first pixel in the scanline
+  index = outIt.GetIndex();
+  outputPtr->TransformIndexToPhysicalPoint( index, outputPoint );
+  
+  // Compute corresponding input pixel position
+  inputPoint = m_Transform->TransformPoint(outputPoint);
+  inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
+  
+  // As we walk across a scan line in the output image, we trace
+  // an oriented/scaled/translated line in the input image.  Cache
+  // the delta along this line in continuous index space of the input
+  // image. This allows us to use vector addition to model the
+  // transformation.
+  //
+  // To find delta, we take two pixels adjacent in a scanline 
+  // and determine the continuous indices of these pixels when 
+  // mapped to the input coordinate frame. We use the difference
+  // between these two continuous indices as the delta to apply
+  // to an index to trace line in the input image as we move 
+  // across the scanline of the output image.
+  //
+  // We determine delta in this manner so that Images and
+  // OrientedImages are both handled properly (with the delta for
+  // OrientedImages taking into account the direction cosines).
+  // 
+  ++index[0];
+  outputPtr->TransformIndexToPhysicalPoint( index, tmpOutputPoint );
+  tmpInputPoint = m_Transform->TransformPoint( tmpOutputPoint );
+  inputPtr->TransformPhysicalPointToContinuousIndex(tmpInputPoint,
+                                                    tmpInputIndex);
+  delta = tmpInputIndex - inputIndex;
+
+
+  while ( !outIt.IsAtEnd() )
+    {
+    // Determine the continuous index of the first pixel of output
+    // scanline when mapped to the input coordinate frame.
+    //
+
+    // First get the position of the pixel in the output coordinate frame
+    index = outIt.GetIndex();
+    outputPtr->TransformIndexToPhysicalPoint( index, outputPoint );
+  
+    // Compute corresponding input pixel continuous index, this index
+    // will incremented in the scanline loop
+    inputPoint = m_Transform->TransformPoint(outputPoint);
+    inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
+    
+    while( !outIt.IsAtEndOfLine() )
+      {
+      // Evaluate input at right position and copy to the output
+      if( m_Interpolator->IsInsideBuffer(inputIndex) )
+        {
+        PixelType pixval;
+        const OutputType value = m_Interpolator->Evaluate(inputIndex);
+        if( value <  minOutputValue )
+          {
+          pixval = minValue;
+          }
+        else if( value > maxOutputValue )
+          {
+          pixval = maxValue;
+          }
+        else 
+          {
+          pixval = static_cast<PixelType>( value );
+          }
+        outIt.Set( pixval );      
+        }
+      else
+        {
+        outIt.Set(defaultValue); // default background value
+        }
+      
+      progress.CompletedPixel();
+      ++outIt;
+      inputIndex += delta;
+      }
+    outIt.NextLine();
     }
 
   return;

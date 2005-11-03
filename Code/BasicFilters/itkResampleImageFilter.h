@@ -19,6 +19,7 @@
 
 #include "itkFixedArray.h"
 #include "itkTransform.h"
+#include "itkMatrixOffsetTransformBase.h"
 #include "itkImageFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageToImageFilter.h"
@@ -78,6 +79,7 @@ public:
   typedef TInputImage InputImageType;
   typedef TOutputImage OutputImageType;
   typedef typename InputImageType::Pointer InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
   typedef typename OutputImageType::Pointer OutputImagePointer;
   typedef typename InputImageType::RegionType InputImageRegionType;
 
@@ -99,6 +101,12 @@ public:
   typedef Transform<TInterpolatorPrecisionType, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension)> TransformType;
   typedef typename TransformType::ConstPointer TransformPointerType;
 
+  /** MatrixOffsetTransform typedef. If the transform being used is a
+   * subclass of MatrixOffsetTransform, then we can use a fast path.
+   */
+  typedef MatrixOffsetTransformBase<TInterpolatorPrecisionType, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension)> LinearTransformType;
+  typedef typename LinearTransformType::ConstPointer LinearTransformPointerType;
+  
   /** Interpolator typedef. */
   typedef InterpolateImageFunction<InputImageType, TInterpolatorPrecisionType> InterpolatorType;
   typedef typename InterpolatorType::Pointer  InterpolatorPointerType;
@@ -249,6 +257,17 @@ protected:
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
+
+  /** Default implementation for resampling that works for any
+   * transformation type. */
+  void NonlinearThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+                                     int threadId );
+
+  /** Implementation for resampling that works for with linear 
+   * transformation types. */
+  void LinearThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+                                     int threadId );
+  
 
 private:
   ResampleImageFilter(const Self&); //purposely not implemented
