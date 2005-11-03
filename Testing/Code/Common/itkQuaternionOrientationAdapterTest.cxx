@@ -23,10 +23,8 @@
 #include <itkSpatialOrientationAdapter.h>
 #include <itkQuaternionOrientationAdapter.h>
 
-typedef itk::SpatialOrientation::CoordinateTerms 
-SO_CoordTermsType;
-typedef itk::SpatialOrientation::ValidCoordinateOrientationFlags 
-SO_OrientationType;
+typedef itk::SpatialOrientation::CoordinateTerms SO_CoordTermsType;
+typedef itk::SpatialOrientation::ValidCoordinateOrientationFlags SO_OrientationType;
 
 typedef itk::SpatialOrientationAdapter<3> SO_AdapterType;
 typedef SO_AdapterType::DirectionType DirectionType;
@@ -226,9 +224,14 @@ int itkQuaternionOrientationAdapterTest(int argc, char *argv[])
     {
     SO_OrientationType orient = allOrientations[i];
     std::cout << SO_OrientationToString(orient) << std::endl;
-    DirectionType dir = SO_AdapterType().ToDirectionCosines(orient);
-    Q_OrientationType qorient = Q_AdapterType().FromDirectionCosines(dir);
-    DirectionType dir2 = Q_AdapterType().ToDirectionCosines(qorient);
+    SO_AdapterType::DirectionType dir;
+    Q_AdapterType::DirectionType dir2;
+    Q_OrientationType qorient;
+
+    dir = SO_AdapterType().ToDirectionCosines(orient);
+    qorient = Q_AdapterType().FromDirectionCosines(dir);
+    dir2 = Q_AdapterType().ToDirectionCosines(qorient);
+
     printDirections("Before",dir);
     printDirections("After",dir2);
     for(unsigned ii = 0; ii < 3; ii++)
