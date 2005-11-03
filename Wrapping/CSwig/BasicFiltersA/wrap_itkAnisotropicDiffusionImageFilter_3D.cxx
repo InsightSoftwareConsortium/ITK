@@ -23,7 +23,7 @@
 
 namespace _cable_
 {
-  const char* const group = ITK_WRAP_GROUP(itkAnisotropicDiffusionImageFilter);
+  const char* const group = ITK_WRAP_GROUP(itkAnisotropicDiffusionImageFilter_3D);
   namespace wrappers
   {
     //===========3D Wrapped Filters==============
