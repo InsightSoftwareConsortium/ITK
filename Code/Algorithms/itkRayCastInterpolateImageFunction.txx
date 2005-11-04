@@ -1584,7 +1584,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::EvaluateAtContinuousIndex( const ContinuousIndexType& index ) const
 {
   OutputPointType point;
-  m_Image->TransformContinuousIndexToPhysicalPoint(index, point);
+  this->m_Image->TransformContinuousIndexToPhysicalPoint(index, point);
   
   return this->Evaluate( point );
 }
