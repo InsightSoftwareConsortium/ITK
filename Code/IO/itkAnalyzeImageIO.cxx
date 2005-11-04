@@ -978,7 +978,7 @@ void AnalyzeImageIO::ReadImageInformation()
     dirz[2] = dir[2][2];
     this->SetDirection(0,dirx);
     this->SetDirection(1,diry);
-    if(this->m_hdr.dime.dim[0] > 2)
+    if(numberOfDimensions > 2)
       {
       this->SetDirection(2,dirz);
       }
