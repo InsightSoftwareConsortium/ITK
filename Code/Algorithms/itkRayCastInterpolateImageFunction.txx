@@ -1577,6 +1577,18 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   return ( static_cast<OutputType>( integral ));
 }
 
+template<class TInputImage, class TCoordRep>
+typename RayCastInterpolateImageFunction< TInputImage, TCoordRep >
+::OutputType
+RayCastInterpolateImageFunction< TInputImage, TCoordRep >
+::EvaluateAtContinuousIndex( const ContinuousIndexType& index ) const
+{
+  OutputPointType point;
+  m_Image->TransformContinuousIndexToPhysicalPoint(index, point);
+  
+  return this->Evaluate( point );
+}
+
 } // namespace itk
 
 

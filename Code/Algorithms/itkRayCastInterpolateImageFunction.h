@@ -127,7 +127,7 @@ public:
    * calling the method. 
    */
   virtual OutputType EvaluateAtContinuousIndex( 
-    const ContinuousIndexType & ) const {return 0; };
+    const ContinuousIndexType &index ) const;
 
 
   /** Connect the Transform. */
@@ -158,12 +158,12 @@ public:
       return true;
     }
   bool IsInsideBuffer( const ContinuousIndexType & index ) const
-    { 
-      return Superclass::IsInsideBuffer(index);
+    {
+      return true;
     }
   bool IsInsideBuffer( const IndexType & index ) const
     { 
-      return Superclass::IsInsideBuffer(index);
+      return true;
     }
 
 protected:
