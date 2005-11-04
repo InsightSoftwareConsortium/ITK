@@ -20,6 +20,7 @@
 #include "itkFixedArray.h"
 #include "itkTransform.h"
 #include "itkMatrixOffsetTransformBase.h"
+#include "itkIdentityTransform.h"
 #include "itkImageFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageToImageFilter.h"
@@ -106,6 +107,11 @@ public:
    */
   typedef MatrixOffsetTransformBase<TInterpolatorPrecisionType, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension)> LinearTransformType;
   typedef typename LinearTransformType::ConstPointer LinearTransformPointerType;
+
+  /** IdentityTransform typedef. If the transform being used is an
+   * IdentityTransform, the we can use a fast path. */
+  typedef IdentityTransform<TInterpolatorPrecisionType, itkGetStaticConstMacro(ImageDimension)> IdentityTransformType;
+  typedef typename IdentityTransformType::ConstPointer IdentityTransformPointerType;
   
   /** Interpolator typedef. */
   typedef InterpolateImageFunction<InputImageType, TInterpolatorPrecisionType> InterpolatorType;

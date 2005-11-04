@@ -163,11 +163,13 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
 {
   // Check whether we can use a fast path for resampling. Fast path
   // can be used if the transformation is linear.  If the
-  // transformation is subclass of MatrixOffsetTransformBase, then we
-  // can use the fast path.
-  const LinearTransformType *linear = dynamic_cast<const LinearTransformType *>(m_Transform.GetPointer());
-
-  if (linear)
+  // transformation is subclass of MatrixOffsetTransformBase or
+  // IdentityTransform, then we can use the fast path.
+  if (dynamic_cast<const LinearTransformType *>(m_Transform.GetPointer()))
+    {
+    this->LinearThreadedGenerateData(outputRegionForThread, threadId);
+    }
+  else if (dynamic_cast<const IdentityTransformType *>(m_Transform.GetPointer()))
     {
     this->LinearThreadedGenerateData(outputRegionForThread, threadId);
     }
@@ -228,12 +230,13 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     // Compute corresponding input pixel position
     inputPoint = m_Transform->TransformPoint(outputPoint);
     inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
-
+    
     // Evaluate input at right position and copy to the output
     if( m_Interpolator->IsInsideBuffer(inputIndex) )
       {
       PixelType pixval;
-      const OutputType value = m_Interpolator->Evaluate(inputIndex);
+      const OutputType value
+        = m_Interpolator->EvaluateAtContinuousIndex(inputIndex);
       if( value < minOutputValue )
         {
         pixval = minValue;
@@ -343,7 +346,6 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
                                                     tmpInputIndex);
   delta = tmpInputIndex - inputIndex;
 
-
   while ( !outIt.IsAtEnd() )
     {
     // Determine the continuous index of the first pixel of output
@@ -365,7 +367,8 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
       if( m_Interpolator->IsInsideBuffer(inputIndex) )
         {
         PixelType pixval;
-        const OutputType value = m_Interpolator->Evaluate(inputIndex);
+        const OutputType value
+          = m_Interpolator->EvaluateAtContinuousIndex(inputIndex);
         if( value <  minOutputValue )
           {
           pixval = minValue;
