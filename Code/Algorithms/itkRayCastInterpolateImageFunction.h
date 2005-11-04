@@ -157,11 +157,11 @@ public:
     { 
       return true;
     }
-  bool IsInsideBuffer( const ContinuousIndexType & index ) const
+  bool IsInsideBuffer( const ContinuousIndexType &  ) const
     {
       return true;
     }
-  bool IsInsideBuffer( const IndexType & index ) const
+  bool IsInsideBuffer( const IndexType &  ) const
     { 
       return true;
     }
