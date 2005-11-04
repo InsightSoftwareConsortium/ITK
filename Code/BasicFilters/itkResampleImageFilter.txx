@@ -26,6 +26,7 @@
 #include "itkProgressReporter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageLinearIteratorWithIndex.h"
+#include "itkSpecialCoordinatesImage.h"
 
 namespace itk
 {
