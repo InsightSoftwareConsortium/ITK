@@ -161,6 +161,20 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   const OutputImageRegionType& outputRegionForThread,
   int threadId)
 {
+  // Check whether the input or the output is a
+  // SpecialCoordinatesImage.  If either are, then we cannot use the
+  // fast path since index mapping will definately not be linear.
+  typedef SpecialCoordinatesImage<PixelType, ImageDimension> OutputSpecialCoordinatesImageType;
+  typedef SpecialCoordinatesImage<InputPixelType, InputImageDimension> InputSpecialCoordinatesImageType;
+
+  if (dynamic_cast<const InputSpecialCoordinatesImageType *>(this->GetInput())
+      || dynamic_cast<const OutputSpecialCoordinatesImageType *>(this->GetOutput()))
+    {
+    this->NonlinearThreadedGenerateData(outputRegionForThread, threadId);
+    return;
+    }
+  
+  
   // Check whether we can use a fast path for resampling. Fast path
   // can be used if the transformation is linear.  If the
   // transformation is subclass of MatrixOffsetTransformBase or
@@ -168,14 +182,17 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   if (dynamic_cast<const LinearTransformType *>(m_Transform.GetPointer()))
     {
     this->LinearThreadedGenerateData(outputRegionForThread, threadId);
+    return;
     }
   else if (dynamic_cast<const IdentityTransformType *>(m_Transform.GetPointer()))
     {
     this->LinearThreadedGenerateData(outputRegionForThread, threadId);
+    return;
     }
   else
     {
     this->NonlinearThreadedGenerateData(outputRegionForThread, threadId);
+    return;
     }
 }
 

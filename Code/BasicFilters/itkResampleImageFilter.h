@@ -93,6 +93,9 @@ public:
   /** Number of dimensions. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+
 
   /** Transform typedef.
    *
@@ -129,7 +132,8 @@ public:
 
   /** Image pixel value typedef. */
   typedef typename TOutputImage::PixelType   PixelType;
-
+  typedef typename TInputImage::PixelType    InputPixelType;
+  
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
