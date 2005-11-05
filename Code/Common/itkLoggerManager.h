@@ -78,13 +78,13 @@ public:
   LoggerPointer CreateLogger( 
                           const NameType &name, 
                           PriorityLevelType level, 
-                          PriorityLevelType levelForFlushing = Logger::MUSTFLUSH );
+                          PriorityLevelType levelForFlushing = LoggerBase::MUSTFLUSH );
 
   /** create a thread logger and add it into LoggerManager */
   ThreadLoggerPointer CreateThreadLogger( 
                           const NameType &name, 
                           PriorityLevelType level, 
-                          PriorityLevelType levelForFlushing = Logger::MUSTFLUSH );
+                          PriorityLevelType levelForFlushing = LoggerBase::MUSTFLUSH );
 
   /** Registers a logger */
   void AddLogger( const NameType &name, Logger* logger );

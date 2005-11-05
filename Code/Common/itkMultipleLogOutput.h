@@ -42,7 +42,7 @@ namespace itk
  * \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
  *                     ISIS Center, Georgetown University.
  *
- *  \ingroup OSSystemObjects LoggingObjects                    
+ *  \ingroup OSSystemObjects LoggingObjects
  */
 
 class ITKCommon_EXPORT MultipleLogOutput : public LogOutput
@@ -55,7 +55,7 @@ public:
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  typedef itk::LogOutput               OutputType;
+  typedef LogOutput               OutputType;
 
   itkTypeMacro(MultipleLogOutput, LogOutput);
 

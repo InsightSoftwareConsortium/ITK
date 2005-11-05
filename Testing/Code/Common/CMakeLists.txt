@@ -100,6 +100,7 @@ ADD_TEST(itkLineIteratorTest ${COMMON_TESTS}
 )
 ADD_TEST(itkLevelSetFunctionTest ${COMMON_TESTS} itkLevelSetFunctionTest)
 ADD_TEST(itkLoggerTest ${COMMON_TESTS} itkLoggerTest ${TEMP}/test_logger.txt)
+ADD_TEST(itkLoggerThreadWrapperTest ${COMMON_TESTS} itkLoggerThreadWrapperTest ${TEMP}/test_logger.txt)
 ADD_TEST(itkLoggerOutputTest ${COMMON_TESTS} itkLoggerOutputTest ${TEMP}/test_loggerOutput.txt)
 ADD_TEST(itkLoggerManagerTest ${COMMON_TESTS} itkLoggerManagerTest ${TEMP}/test_LoggerManager.txt)
 ADD_TEST(itkMatrixTest ${COMMON_TESTS} itkMatrixTest)
@@ -293,6 +294,7 @@ itkLandmarkBasedTransformInitializerTest.cxx
 itkLightObjectTest.cxx
 itkLineIteratorTest.cxx
 itkLoggerTest.cxx
+itkLoggerThreadWrapperTest.cxx
 itkLoggerOutputTest.cxx
 itkLoggerManagerTest.cxx
 itkMatrixTest.cxx

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -30,26 +30,25 @@
 #include "itkObjectFactory.h"
 #include "itkMultipleLogOutput.h"
 #include "itkRealTimeClock.h"
+#include "itkLoggerBase.h"
 
 namespace itk
 {
 /** \class Logger
-*   \brief Class Logger is meant for logging information during a run. 
+*   \brief Class Logger is meant for logging information during a run.
 *
 * \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
 *                     ISIS Center, Georgetown University.
 *
 *
- *  \ingroup OSSystemObjects LoggingObjects                    
+ *  \ingroup OSSystemObjects LoggingObjects
 */
 
-class ITKCommon_EXPORT Logger : public Object
+class ITKCommon_EXPORT Logger : public LoggerBase
 {
-
 public:
-  
   typedef Logger  Self;
-  typedef Object  Superclass;
+  typedef LoggerBase  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -59,87 +58,16 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
-  typedef  MultipleLogOutput::OutputType   OutputType;
-
-  /** Definition of types of messages. These codes will be used to regulate the
-   * level of detail of messages reported to the final outputs */
-  typedef enum 
-  { 
-    MUSTFLUSH=0,
-    FATAL,
-    CRITICAL,
-    WARNING,
-    INFO,
-    DEBUG,
-    NOTSET
-  } PriorityLevelType;
-
-  itkSetStringMacro(Name);
-
-  itkGetStringMacro(Name);
-
-  /** Set the priority level for the current logger. Only messages that have
-   * priorities equal or greater than the one set here will be posted to the
-   * current outputs */
-  virtual void SetPriorityLevel( PriorityLevelType level )
-  {
-    m_PriorityLevel = level;
-  }
-
-  /** Get the priority level for the current logger. Only messages that have
-   * priorities equal or greater than the one set here will be posted to the
-   * current outputs */
-  virtual PriorityLevelType GetPriorityLevel() const
-  {
-    return m_PriorityLevel;
-  }
-
-  virtual void SetLevelForFlushing( PriorityLevelType level )
-  {
-    m_LevelForFlushing = level;
-  }
-
-  virtual PriorityLevelType GetLevelForFlushing() const
-  {
-    return m_LevelForFlushing;
-  }
-
-  /** Registers another output stream with the multiple output. */
-  virtual void AddLogOutput( OutputType* output );
-
-  virtual void Write(PriorityLevelType level, std::string const & content);
-
-  virtual void Flush();
-
 protected:
 
   /** Constructor */
-  Logger();
+  Logger() {};
 
   /** Destructor */
-  virtual ~Logger();
-
-  /** Print contents of a Logger */
-  virtual void PrintSelf(std::ostream &os, Indent indent) const;
-
-protected:
-
-  PriorityLevelType m_PriorityLevel;
-
-  PriorityLevelType m_LevelForFlushing;
-
-  MultipleLogOutput::Pointer  m_Output;
-
-private:
-
-  RealTimeClock::Pointer  m_Clock;
-
-  std::string m_Name;
+  virtual ~Logger() {};
 
 };  // class Logger
 
-
 } // namespace itk
-
 
 #endif  // __itkLogger_h

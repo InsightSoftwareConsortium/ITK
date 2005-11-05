@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkThreadLoggerTest.cxx
+  Module:    itkLoggerThreadWrapperTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -23,15 +23,48 @@
 #include <iostream>
 #include <fstream>
 #include "itkStdStreamLogOutput.h"
-#include "itkThreadLogger.h"
+#include "itkLoggerBase.h"
+#include "itkLoggerThreadWrapper.h"
 
+/** \class SimpleLogger
+ *  \brief Class SimpleLogger is meant to demonstrate how to change the formatting of the LoggerBase mechanism
+ *  and how to define a threaded logger that works with this.
+ *
+ *  \author Hans J. Johnson, The University of Iowa
+ *  \ingroup OSSystemObjects LoggingObjects
+ */
 
+class SimpleLogger : public itk::LoggerBase
+{
+public:
+    typedef SimpleLogger  Self;
+    typedef itk::LoggerBase  Superclass;
+    typedef itk::SmartPointer<Self>  Pointer;
+    typedef itk::SmartPointer<const Self>  ConstPointer;
+
+    /** Run-time type information (and related methods). */
+    itkTypeMacro( SimpleLogger, Object );
+
+    /** New macro for creation of through a Smart Pointer */
+    itkNewMacro( Self );
+
+    virtual std::string BuildFormattedEntry(PriorityLevelType level, std::string const & content)
+        {
+        return std::string("<H1>") + content + std::string("</H1>");
+        }
+
+protected:
+    /** Constructor */
+    SimpleLogger() {};
+    /** Destructor */
+    virtual ~SimpleLogger() {};
+};  // class Logger
 
 class LogTester
 {
 public:
-  itk::Logger* GetLogger() { return m_Logger; }
-  void SetLogger(itk::Logger* logger) { m_Logger = logger; }
+  itk::LoggerBase* GetLogger() { return m_Logger; }
+  void SetLogger(itk::LoggerBase* logger) { m_Logger = logger; }
   void log() {
     itkLogMacro( DEBUG, "DEBUG message by itkLogMacro\n" );
     itkLogMacro( INFO, "INFO message by itkLogMacro\n" );
@@ -50,12 +83,11 @@ public:
     itkLogMacroStatic( tester, MUSTFLUSH, "MUSTFLUSH message by itkLogMacroStatic\n" );
   }
 private:
-  itk::Logger* m_Logger;
+  itk::LoggerBase* m_Logger;
 };
 
 
-
-int itkThreadLoggerTest( int argc, char * argv[] )
+int itkLoggerThreadWrapperTest( int argc, char * argv[] )
 {
   try
     {
@@ -64,7 +96,6 @@ int itkThreadLoggerTest( int argc, char * argv[] )
       std::cout << "Usage: " << argv[0] << " logFilename" << std::endl;
       return EXIT_FAILURE;
       }
-    
 
     // Create an ITK StdStreamLogOutputs
     itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
@@ -74,7 +105,7 @@ int itkThreadLoggerTest( int argc, char * argv[] )
     foutput->SetStream(fout);
 
     // Create an ITK ThreadLogger
-    itk::ThreadLogger::Pointer logger = itk::ThreadLogger::New();
+    itk::LoggerThreadWrapper<SimpleLogger>::Pointer logger = itk::LoggerThreadWrapper<SimpleLogger>::New();
 
     std::cout << "Testing itk::ThreadLogger" << std::endl;
 

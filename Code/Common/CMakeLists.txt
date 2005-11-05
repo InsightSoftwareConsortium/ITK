@@ -23,6 +23,7 @@ SET(ITKCommon_SRCS
   itkKernelFunction.cxx
   itkLightObject.cxx
   itkLightProcessObject.cxx
+  itkLoggerBase.cxx
   itkLogger.cxx
   itkLoggerManager.cxx
   itkLoggerOutput.cxx

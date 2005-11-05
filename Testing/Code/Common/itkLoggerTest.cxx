@@ -79,8 +79,8 @@ int itkLoggerTest( int argc, char *argv [] )
 
     // Setting the logger
     logger->SetName("org.itk.rootLogger");
-    logger->SetPriorityLevel(itk::Logger::INFO);
-    logger->SetLevelForFlushing(itk::Logger::CRITICAL);
+    logger->SetPriorityLevel(itk::LoggerBase::INFO);
+    logger->SetLevelForFlushing(itk::LoggerBase::CRITICAL);
 
     std::cout << "  Adding console and file stream LogOutputs" << std::endl;
     logger->AddLogOutput(coutput);
@@ -102,12 +102,12 @@ int itkLoggerTest( int argc, char *argv [] )
 
     // Writing by the logger
     std::cout << "  Writing by itk::Logger" << std::endl;
-    logger->Write(itk::Logger::DEBUG, "This is the DEBUG message.\n");
-    logger->Write(itk::Logger::INFO, "This is the INFO message.\n");
-    logger->Write(itk::Logger::WARNING, "This is the WARNING message.\n");
-    logger->Write(itk::Logger::CRITICAL, "This is the CRITICAL message.\n");
-    logger->Write(itk::Logger::FATAL, "This is the FATAL message.\n");
-    logger->Write(itk::Logger::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
+    logger->Write(itk::LoggerBase::DEBUG, "This is the DEBUG message.\n");
+    logger->Write(itk::LoggerBase::INFO, "This is the INFO message.\n");
+    logger->Write(itk::LoggerBase::WARNING, "This is the WARNING message.\n");
+    logger->Write(itk::LoggerBase::CRITICAL, "This is the CRITICAL message.\n");
+    logger->Write(itk::LoggerBase::FATAL, "This is the FATAL message.\n");
+    logger->Write(itk::LoggerBase::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
     logger->Flush();
     }
   catch(...)

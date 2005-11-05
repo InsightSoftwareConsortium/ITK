@@ -28,7 +28,7 @@ void LoggerOutput::DisplayText(const char* t)
 {
   if( this->m_Logger )
   {
-    this->m_Logger->Write(Logger::INFO, t);
+    this->m_Logger->Write(LoggerBase::INFO, t);
   }
 }
 
@@ -40,7 +40,7 @@ void LoggerOutput::DisplayErrorText(const char *t)
 {
   if( this->m_Logger )
   {
-    this->m_Logger->Write(Logger::CRITICAL, t);
+    this->m_Logger->Write(LoggerBase::CRITICAL, t);
   }
 }
 
@@ -52,7 +52,7 @@ void LoggerOutput::DisplayWarningText(const char *t)
 {
   if( this->m_Logger )
   {
-    this->m_Logger->Write(Logger::WARNING, t);
+    this->m_Logger->Write(LoggerBase::WARNING, t);
   }
 }
 
@@ -64,7 +64,7 @@ void LoggerOutput::DisplayGenericOutputText(const char *t)
 {
   if( this->m_Logger )
   {
-    this->m_Logger->Write(Logger::INFO, t);
+    this->m_Logger->Write(LoggerBase::INFO, t);
   }
 }
 
@@ -76,7 +76,7 @@ void LoggerOutput::DisplayDebugText(const char *t)
 {
   if( this->m_Logger )
   {
-    this->m_Logger->Write(Logger::DEBUG, t);
+    this->m_Logger->Write(LoggerBase::DEBUG, t);
   }
 }
 
