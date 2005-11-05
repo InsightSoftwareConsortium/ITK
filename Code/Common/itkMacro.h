@@ -523,7 +523,7 @@ private:
 {         \
   if (this->GetLogger() ) \
     {  \
-    this->GetLogger()->Write(::itk::Logger::x, y); \
+    this->GetLogger()->Write(::itk::LoggerBase::x, y); \
     }  \
 }
 
@@ -532,7 +532,7 @@ private:
 {         \
   if (obj->GetLogger() ) \
     {  \
-    obj->GetLogger()->Write(::itk::Logger::x, y); \
+    obj->GetLogger()->Write(::itk::LoggerBase::x, y); \
     }  \
 }
 
