@@ -52,6 +52,7 @@ namespace itk
 
 // MSVS6 can't do this type of nested template
 #if defined(USE_MSVS6_HACKS)
+#include "itkLogger.h"
 typedef itk::Logger SimpleLoggerType;
 #define MSVS_HACK_TYPENAME
 #else
