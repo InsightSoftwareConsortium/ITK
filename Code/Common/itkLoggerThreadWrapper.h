@@ -33,6 +33,11 @@
 #include "itkMultiThreader.h"
 #include "itkSimpleFastMutexLock.h"
 
+
+#if defined(_MSC_VER)
+#define USE_MSVS6_HACKS
+#endif
+
 namespace itk
 {
 
@@ -45,8 +50,15 @@ namespace itk
  *  \ingroup OSSystemObjects LoggingObjects
  */
 
+// MSVS6 can't do this type of nested template
+#if defined(USE_MSVS6_HACKS)
+typedef itk::Logger SimpleLoggerType;
+#define MSVS_HACK_TYPENAME
+#else
 template < class SimpleLoggerType >
-class ITKCommon_EXPORT LoggerThreadWrapper : public SimpleLoggerType
+#define MSVS_HACK_TYPENAME typename
+#endif
+class LoggerThreadWrapper : public SimpleLoggerType
 {
 
 public:
@@ -62,9 +74,8 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
-  typedef  typename SimpleLoggerType::OutputType   OutputType;
-
-  typedef  typename SimpleLoggerType::PriorityLevelType  PriorityLevelType;
+  typedef  MSVS_HACK_TYPENAME SimpleLoggerType::OutputType   OutputType;
+  typedef  MSVS_HACK_TYPENAME SimpleLoggerType::PriorityLevelType  PriorityLevelType;
 
   /** Definition of types of operations for LoggerThreadWrapper. */
   typedef enum
@@ -118,7 +129,7 @@ private:
 
   typedef std::queue<PriorityLevelType>  LevelContainerType;
 
-  typedef std::queue<typename OutputType::Pointer>  OutputContainerType;
+  typedef std::queue<MSVS_HACK_TYPENAME OutputType::Pointer>  OutputContainerType;
 
   MultiThreader::Pointer  m_Threader;
 

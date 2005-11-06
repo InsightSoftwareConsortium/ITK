@@ -25,8 +25,12 @@ namespace itk
 /** Set the priority level for the current logger. Only messages that have
  * priorities equal or greater than the one set here will be posted to the
  * current outputs */
+#if defined(USE_MSVS6_HACKS)
+void LoggerThreadWrapper::SetPriorityLevel( PriorityLevelType level )
+#else
 template < class SimpleLoggerType >
 void LoggerThreadWrapper<SimpleLoggerType>::SetPriorityLevel( PriorityLevelType level )
+#endif
 {
   this->m_WaitMutex.Unlock();
   this->m_Mutex.Lock();
@@ -39,8 +43,12 @@ void LoggerThreadWrapper<SimpleLoggerType>::SetPriorityLevel( PriorityLevelType 
 /** Get the priority level for the current logger. Only messages that have
  * priorities equal or greater than the one set here will be posted to the
  * current outputs */
+#if defined(USE_MSVS6_HACKS)
+SimpleLoggerType::PriorityLevelType LoggerThreadWrapper::GetPriorityLevel() const
+#else
 template < class SimpleLoggerType >
 typename SimpleLoggerType::PriorityLevelType LoggerThreadWrapper<SimpleLoggerType>::GetPriorityLevel() const
+#endif
 {
   this->m_Mutex.Lock();
   PriorityLevelType level = this->m_PriorityLevel;
@@ -48,8 +56,12 @@ typename SimpleLoggerType::PriorityLevelType LoggerThreadWrapper<SimpleLoggerTyp
   return level;
 }
 
+#if defined(USE_MSVS6_HACKS)
+void LoggerThreadWrapper::SetLevelForFlushing( PriorityLevelType level )
+#else
 template < class SimpleLoggerType >
 void LoggerThreadWrapper<SimpleLoggerType>::SetLevelForFlushing( PriorityLevelType level )
+#endif
 {
   this->m_WaitMutex.Unlock();
   this->m_Mutex.Lock();
@@ -60,8 +72,12 @@ void LoggerThreadWrapper<SimpleLoggerType>::SetLevelForFlushing( PriorityLevelTy
   this->m_WaitMutex.Lock();
 }
 
+#if defined(USE_MSVS6_HACKS)
+SimpleLoggerType::PriorityLevelType LoggerThreadWrapper::GetLevelForFlushing() const
+#else
 template < class SimpleLoggerType >
 typename SimpleLoggerType::PriorityLevelType LoggerThreadWrapper<SimpleLoggerType>::GetLevelForFlushing() const
+#endif
 {
   this->m_Mutex.Lock();
   PriorityLevelType level = this->m_LevelForFlushing;
@@ -70,8 +86,12 @@ typename SimpleLoggerType::PriorityLevelType LoggerThreadWrapper<SimpleLoggerTyp
 }
 
 /** Adds an output stream to the MultipleLogOutput for writing. */
+#if defined(USE_MSVS6_HACKS)
+void LoggerThreadWrapper::AddLogOutput( OutputType* output )
+#else
 template < class SimpleLoggerType >
 void LoggerThreadWrapper<SimpleLoggerType>::AddLogOutput( OutputType* output )
+#endif
 {
   this->m_WaitMutex.Unlock();
   this->m_Mutex.Lock();
@@ -81,8 +101,12 @@ void LoggerThreadWrapper<SimpleLoggerType>::AddLogOutput( OutputType* output )
   this->m_WaitMutex.Lock();
 }
 
+#if defined(USE_MSVS6_HACKS)
+void LoggerThreadWrapper::Write(PriorityLevelType level, std::string const & content)
+#else
 template < class SimpleLoggerType >
 void LoggerThreadWrapper<SimpleLoggerType>::Write(PriorityLevelType level, std::string const & content)
+#endif
 {
   this->m_WaitMutex.Unlock();
   this->m_Mutex.Lock();
@@ -100,9 +124,12 @@ void LoggerThreadWrapper<SimpleLoggerType>::Write(PriorityLevelType level, std::
   this->m_WaitMutex.Lock();
 }
 
-
+#if defined(USE_MSVS6_HACKS)
+void LoggerThreadWrapper::Flush()
+#else
 template < class SimpleLoggerType >
 void LoggerThreadWrapper<SimpleLoggerType>::Flush()
+#endif
 {
   this->m_Mutex.Lock();
 
@@ -110,27 +137,27 @@ void LoggerThreadWrapper<SimpleLoggerType>::Flush()
     {
       switch( this->m_OperationQ.front() )
       {
-      case LoggerThreadWrapper<SimpleLoggerType>::SET_PRIORITY_LEVEL:
+      case Self::SET_PRIORITY_LEVEL:
         this->m_PriorityLevel = this->m_LevelQ.front();
         this->m_LevelQ.pop();
         break;
 
-      case LoggerThreadWrapper<SimpleLoggerType>::SET_LEVEL_FOR_FLUSHING:
+      case Self::SET_LEVEL_FOR_FLUSHING:
         this->m_LevelForFlushing = this->m_LevelQ.front();
         this->m_LevelQ.pop();
         break;
 
-      case LoggerThreadWrapper<SimpleLoggerType>::ADD_LOG_OUTPUT:
+      case Self::ADD_LOG_OUTPUT:
         this->m_Output->AddLogOutput(this->m_OutputQ.front());
         this->m_OutputQ.pop();
         break;
 
-      case LoggerThreadWrapper<SimpleLoggerType>::WRITE:
+      case Self::WRITE:
         this->SimpleLoggerType::Write(this->m_LevelQ.front(), this->m_MessageQ.front());
         this->m_LevelQ.pop();
         this->m_MessageQ.pop();
         break;
-      case LoggerThreadWrapper<SimpleLoggerType>::FLUSH:
+      case Self::FLUSH:
         this->SimpleLoggerType::Flush();
         break;
       }
@@ -138,13 +165,16 @@ void LoggerThreadWrapper<SimpleLoggerType>::Flush()
     }
     this->m_Output->Flush();
   this->m_Mutex.Unlock();
-
 }
 
 
 /** Constructor */
+#if defined(USE_MSVS6_HACKS)
+LoggerThreadWrapper::LoggerThreadWrapper()
+#else
 template < class SimpleLoggerType >
 LoggerThreadWrapper<SimpleLoggerType>::LoggerThreadWrapper()
+#endif
 {
   this->m_WaitMutex.Lock();
   this->m_Threader = MultiThreader::New();
@@ -153,8 +183,12 @@ LoggerThreadWrapper<SimpleLoggerType>::LoggerThreadWrapper()
 
 
 /** Destructor */
+#if defined(USE_MSVS6_HACKS)
+LoggerThreadWrapper::~LoggerThreadWrapper()
+#else
 template < class SimpleLoggerType >
 LoggerThreadWrapper<SimpleLoggerType>::~LoggerThreadWrapper()
+#endif
 {
   this->Flush();
   this->m_WaitMutex.Unlock();
@@ -165,8 +199,12 @@ LoggerThreadWrapper<SimpleLoggerType>::~LoggerThreadWrapper()
 }
 
 
+#if defined(USE_MSVS6_HACKS)
+ITK_THREAD_RETURN_TYPE LoggerThreadWrapper::ThreadFunction(void* pInfoStruct)
+#else
 template < class SimpleLoggerType >
 ITK_THREAD_RETURN_TYPE LoggerThreadWrapper<SimpleLoggerType>::ThreadFunction(void* pInfoStruct)
+#endif
 {
   struct MultiThreader::ThreadInfoStruct * pInfo = (struct MultiThreader::ThreadInfoStruct*)pInfoStruct;
 
@@ -200,27 +238,27 @@ ITK_THREAD_RETURN_TYPE LoggerThreadWrapper<SimpleLoggerType>::ThreadFunction(voi
     {
       switch( pLogger->m_OperationQ.front() )
       {
-      case LoggerThreadWrapper<SimpleLoggerType>::SET_PRIORITY_LEVEL:
+      case Self::SET_PRIORITY_LEVEL:
         pLogger->m_PriorityLevel = pLogger->m_LevelQ.front();
         pLogger->m_LevelQ.pop();
         break;
 
-      case LoggerThreadWrapper<SimpleLoggerType>::SET_LEVEL_FOR_FLUSHING:
+      case Self::SET_LEVEL_FOR_FLUSHING:
         pLogger->m_LevelForFlushing = pLogger->m_LevelQ.front();
         pLogger->m_LevelQ.pop();
         break;
 
-      case LoggerThreadWrapper<SimpleLoggerType>::ADD_LOG_OUTPUT:
+      case Self::ADD_LOG_OUTPUT:
         pLogger->m_Output->AddLogOutput(pLogger->m_OutputQ.front());
         pLogger->m_OutputQ.pop();
         break;
 
-      case LoggerThreadWrapper<SimpleLoggerType>::WRITE:
+      case Self::WRITE:
         pLogger->SimpleLoggerType::Write(pLogger->m_LevelQ.front(), pLogger->m_MessageQ.front());
         pLogger->m_LevelQ.pop();
         pLogger->m_MessageQ.pop();
         break;
-      case LoggerThreadWrapper<SimpleLoggerType>::FLUSH:
+      case Self::FLUSH:
         pLogger->SimpleLoggerType::Flush();
         break;
       }
@@ -234,8 +272,12 @@ ITK_THREAD_RETURN_TYPE LoggerThreadWrapper<SimpleLoggerType>::ThreadFunction(voi
 
 
 /** Print contents of a LoggerThreadWrapper */
+#if defined(USE_MSVS6_HACKS)
+void LoggerThreadWrapper::PrintSelf(std::ostream &os, Indent indent) const
+#else
 template < class SimpleLoggerType >
 void LoggerThreadWrapper<SimpleLoggerType>::PrintSelf(std::ostream &os, Indent indent) const
+#endif
 {
   Superclass::PrintSelf(os,indent);
 

@@ -26,7 +26,11 @@ namespace itk
 
 /** Needed for backwards compatibility with the original code
   */
+#if defined(USE_MSVS6_HACKS)
+typedef LoggerThreadWrapper ThreadLogger;
+#else
 typedef LoggerThreadWrapper<Logger> ThreadLogger;
+#endif
 
 } // namespace itk
 
