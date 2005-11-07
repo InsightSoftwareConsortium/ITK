@@ -845,7 +845,8 @@ NiftiImageIO
     }
   else
     {
-    dirz[0] = dirz[1] = dirz[2] = 0;
+    //    dirz[0] = dirz[1] = dirz[2] = 0;
+    dirz.push_back(0);  dirz.push_back(0); dirz.push_back(0);
     }
   //  std::cerr << "write: dirz " << dirz[0] << " " << dirz[1] << " " << dirz[2] << std::endl;
   for(unsigned i=0; i < 2; i++)
