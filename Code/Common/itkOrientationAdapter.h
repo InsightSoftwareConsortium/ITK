@@ -38,7 +38,7 @@ class OrientationAdapterBase
 {
 public:
   /** typedef for matching ImageBase*/
-  typedef typename itk::ImageBase<Dimension> ImageType;
+  typedef ImageBase<Dimension> ImageType;
   
   /** typedef for matching Direction Cosines type */
   typedef typename ImageType::DirectionType DirectionType;
