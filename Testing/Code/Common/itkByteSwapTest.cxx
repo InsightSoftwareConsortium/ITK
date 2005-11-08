@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include "itkByteSwapper.h"
+#include "itkExceptionObject.h"
 
 int itkByteSwapTest ( int, char*[] )
 {
@@ -113,9 +114,10 @@ int itkByteSwapTest ( int, char*[] )
       }
     std::cout << "Passed unsigned long: " << ul << std::endl;
     }
-  catch ( itk::ByteSwapperError & )
+  catch ( itk::ExceptionObject &err )
     {
     std::cout << "Caught unsigned long exception size is: " << sizeof ( unsigned long ) << std::endl;
+    (&err)->Print(std::cerr);
     }
 
   try
@@ -136,9 +138,10 @@ int itkByteSwapTest ( int, char*[] )
       }
     std::cout << "Passed float: " << f << std::endl;
     }
-  catch ( itk::ByteSwapperError & )
+  catch ( itk::ExceptionObject &err )
     {
     std::cout << "Caught float exception size is: " << sizeof ( float ) << std::endl;
+    (&err)->Print(std::cerr);
     return 1;
     }
 
@@ -160,9 +163,10 @@ int itkByteSwapTest ( int, char*[] )
       }
     std::cout << "Passed unsigned d: " << d << std::endl;
     }
-  catch ( itk::ByteSwapperError &)
+  catch ( itk::ExceptionObject &err )
     {
     std::cout << "Good catch! Caught double exception size is: " << sizeof ( double ) << std::endl;
+    (&err)->Print(std::cerr);
     return 1;
     }
   // we failed to throw an exception for the double swap (once it's implemented, this should return 0
