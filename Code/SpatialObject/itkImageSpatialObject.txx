@@ -90,19 +90,40 @@ bool
 ImageSpatialObject< TDimension,  PixelType >
 ::IsInside( const PointType & point) const
 {
+  this->ComputeLocalBoundingBox();
+  if( !this->GetBounds()->IsInside(point) )
+    {
+    return false;
+    }
+    
   if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
-  PointType p = this->GetInternalInverseTransform()->TransformPoint(point);
+  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);
 
-  if( this->GetBounds()->IsInside(p))
+  bool isInside = true;
+  typename ImageType::RegionType region = m_Image->GetLargestPossibleRegion();
+  itk::Size<TDimension> size = region.GetSize();
+
+  for(unsigned int i=0;i<TDimension;i++)
     {
-    return true;
+    if( size[i] )
+      {
+      if( (transformedPoint[i] > size[i]) || (transformedPoint[i] < 0) )
+        {
+        isInside = false;
+        break;
+        }
+      }
+    else
+      {
+      itkExceptionMacro(<< "Size of the ImageSpatialObject must be non-zero!" );
+      }
     }
-
-  return false;
+  
+  return isInside;
 }
 
 
@@ -197,7 +218,7 @@ ImageSpatialObject< TDimension,  PixelType >
         pointLow[i] = 0;
         pointHigh[i] = size[i];
         }
-     
+
       pointLow = this->GetIndexToWorldTransform()->TransformPoint(pointLow);
       pointHigh = this->GetIndexToWorldTransform()->TransformPoint(pointHigh);
 
