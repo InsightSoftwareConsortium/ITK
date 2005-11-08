@@ -140,11 +140,9 @@ SpatialOrientationAdapter<Dimension>
     static_cast<CoordinateTerms>
     ((Or >> SpatialOrientation::ITK_COORDINATE_TertiaryMinor) & 0xff);
   DirectionType direction;
-  for(unsigned int i = 0; i < 3; i++)
+  direction.Fill(0.0);
+  for(unsigned int i = 0; i < DirectionType::ColumnDimensions; i++)
     {
-    direction[0][i] = 
-      direction[1][i] = 
-      direction[2][i] = 0.0;
     switch(terms[i])
       {
       case SpatialOrientation::ITK_COORDINATE_Right:
@@ -154,16 +152,16 @@ SpatialOrientationAdapter<Dimension>
         direction[0][i] = -1;
         break;
       case SpatialOrientation::ITK_COORDINATE_Anterior:
-        direction[1][i] = 1;
+        if ( DirectionType::RowDimensions > 1) direction[1][i] = 1;
         break;
       case SpatialOrientation::ITK_COORDINATE_Posterior:
-        direction[1][i] = -1;
+        if ( DirectionType::RowDimensions > 1) direction[1][i] = -1;
         break;
       case SpatialOrientation::ITK_COORDINATE_Inferior:
-        direction[2][i] = 1;
+        if ( DirectionType::RowDimensions > 2) direction[2][i] = 1;
         break;
       case SpatialOrientation::ITK_COORDINATE_Superior:
-        direction[2][i] = -1;
+        if ( DirectionType::RowDimensions > 2) direction[2][i] = -1;
         break;
       case SpatialOrientation::ITK_COORDINATE_UNKNOWN:
       default:

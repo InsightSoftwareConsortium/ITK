@@ -20,31 +20,12 @@
 #ifndef _itkByteSwapper_txx
 #define _itkByteSwapper_txx
 #include "itkByteSwapper.h"
-#include "itkExceptionObject.h"
 #include "itkObjectFactory.h"
 #include <memory>
 
 namespace itk
 {
 
-/** \class ByteSwapperError
- * Exception thrown when trying to swap type of unexpected
- * number of bytes.
- */
-class ByteSwapperError : public ExceptionObject
-{
-public:
-  /** Default constructor.  Needed to ensure the exception object can be copied. */
-  ByteSwapperError() : ExceptionObject() {}
-  
-  /** Constructor. Needed to ensure the exception object can be copied. */
-  ByteSwapperError(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}
-
-  /** Constructor. Needed to ensure the exception object can be copied. */
-  ByteSwapperError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}  
-  
-  itkTypeMacro(ByteSwapperError, ExceptionObject);
-};
 
 
 // The following are the public methods --------------------------------
@@ -92,10 +73,7 @@ ByteSwapper<T>
       ByteSwapper<T>::Swap8((void *)p);      
       return;
     default:  
-      ByteSwapperError e(__FILE__, __LINE__);
-      e.SetLocation("SwapBE");
-      e.SetDescription("Cannot swap number of bytes requested");
-      throw e;
+      itkGenericExceptionMacro (<< "Cannot swap number of bytes requested");
     }
 }
 #endif  
@@ -128,10 +106,8 @@ ByteSwapper<T>
       ByteSwapper<T>::Swap8Range((void *)p,num);      
       return;
     default:  
-      ByteSwapperError e(__FILE__, __LINE__);
-      e.SetLocation("SwapRangeBE");
-      e.SetDescription("Cannot swap number of bytes requested");
-      throw e;
+      itkGenericExceptionMacro (<< "Cannot swap number of bytes requested");
+      return;
     }
 }
 #endif  
@@ -165,10 +141,7 @@ ByteSwapper<T>
       ByteSwapper<T>::SwapWrite8Range((void *)p, num, fp);      
       return;
     default:  
-      ByteSwapperError e(__FILE__, __LINE__);
-      e.SetLocation("SwapWriteRangeBE");
-      e.SetDescription("Cannot swap number of bytes requested");
-      throw e;
+      itkGenericExceptionMacro (<< "Cannot swap number of bytes requested");
     }
 }
 #endif
@@ -195,10 +168,7 @@ ByteSwapper<T>
       ByteSwapper<T>::Swap8((void *)p);      
       return;
     default:  
-      ByteSwapperError e(__FILE__, __LINE__);
-      e.SetLocation("SwapLE");
-      e.SetDescription("Cannot swap number of bytes requested");
-      throw e;
+      itkGenericExceptionMacro (<< "Cannot swap number of bytes requested");
     }
 }
 #else
@@ -229,10 +199,7 @@ ByteSwapper<T>
       ByteSwapper<T>::Swap8Range((void *)p,num);      
       return;
     default:  
-      ByteSwapperError e(__FILE__, __LINE__);
-      e.SetLocation("SwapRangeLE");
-      e.SetDescription("Cannot swap number of bytes requested");
-      throw e;
+      itkGenericExceptionMacro (<< "Cannot swap number of bytes requested");
     }
 }
 #else
@@ -262,10 +229,7 @@ ByteSwapper<T>
       ByteSwapper<T>::SwapWrite8Range((void *)p, num, fp);      
       return;
     default:  
-      ByteSwapperError e(__FILE__, __LINE__);
-      e.SetLocation("SwapWriteRangeLE");
-      e.SetDescription("Cannot swap number of bytes requested");
-      throw e;
+      itkGenericExceptionMacro (<< "Cannot swap number of bytes requested");
     }
 }
 #else
