@@ -168,6 +168,14 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   typedef SpecialCoordinatesImage<PixelType, ImageDimension> OutputSpecialCoordinatesImageType;
   typedef SpecialCoordinatesImage<InputPixelType, InputImageDimension> InputSpecialCoordinatesImageType;
 
+  // Our friend the SGI needs these declarations to avoid unresolved
+  // linker errors.
+#ifdef __sgi
+  InputSpecialCoordinatesImageType::Pointer foo =
+    InputSpecialCoordinatesImageType::New();
+  OutputSpecialCoordinatesImageType::Pointer bar =
+    OutputSpecialCoordinatesImageType::New();
+#endif
   if (dynamic_cast<const InputSpecialCoordinatesImageType *>(this->GetInput())
       || dynamic_cast<const OutputSpecialCoordinatesImageType *>(this->GetOutput()))
     {
