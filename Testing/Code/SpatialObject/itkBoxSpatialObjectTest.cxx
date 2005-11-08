@@ -48,6 +48,11 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   BoxType::Pointer box2 =     BoxType::New();
   box1->SetId(1);
 
+  // Test the SetProperty()
+  typedef BoxType::PropertyType PropertyType;
+  PropertyType::Pointer prop = PropertyType::New();
+  box1->SetProperty(prop);
+
   scene->AddSpatialObject(box1);
   scene->AddSpatialObject(box2);
 
