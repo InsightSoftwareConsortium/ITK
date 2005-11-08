@@ -35,14 +35,17 @@
 #include <stdarg.h>  //only included in implementation file
 #include <stdio.h>   //only included in implementation file
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
-   #include <winsock.h>  // for gethostname and gethostbyname
+#if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
+   #include <winsock.h>  // for gethostname and gethostbyname and GetTickCount...
+// I haven't find a way to determine wether we need to under GetCurrentTime or not...
+// I think the best solution would simply to get rid of this problematic function
+// and use a 'less' common name...
+#if !defined(__BORLANDC__) || (__BORLANDC__ >= 0x0560)
    #undef GetCurrentTime
+#endif
 #else
-#ifndef __BORLANDC__
    #include <unistd.h>  // for gethostname
    #include <netdb.h>   // for gethostbyname
-#endif
 #endif
 
 // For GetMACAddress
@@ -217,7 +220,7 @@ std::string Util::NormalizePath(std::string const &pathname)
    std::string name = pathname;
    int size = name.size();
 
-   if( name[size-1] != SEPARATOR_X && name[size-1] != SEPARATOR_WIN )
+   if ( name[size-1] != SEPARATOR_X && name[size-1] != SEPARATOR_WIN )
    {
       name += SEPARATOR;
    }
@@ -233,7 +236,7 @@ std::string Util::GetPath(std::string const &fullName)
    std::string res = fullName;
    int pos1 = res.rfind("/");
    int pos2 = res.rfind("\\");
-   if( pos1 > pos2)
+   if ( pos1 > pos2 )
    {
       res.resize(pos1);
    }
@@ -256,7 +259,7 @@ std::string Util::GetName(std::string const &fullName)
   std::string::size_type slash_pos = filename.rfind("/");
   std::string::size_type backslash_pos = filename.rfind("\\");
   slash_pos = slash_pos > backslash_pos ? slash_pos : backslash_pos;
-  if(slash_pos != std::string::npos)
+  if (slash_pos != std::string::npos )
     {
     return filename.substr(slash_pos + 1);
     }
@@ -292,7 +295,7 @@ std::string Util::GetCurrentTime()
 
 /**
  * \brief  Get both the date and time at the same time to avoid problem 
- * around midnight where two call could be before and after midnight
+ * around midnight where the two calls could be before and after midnight
  */
 std::string Util::GetCurrentDateTime()
 {
@@ -356,7 +359,7 @@ unsigned int Util::GetCurrentProcessID()
 }
 
 /**
- * \brief   tells us if the processor we are working with is BigEndian or not
+ * \brief   tells us whether the processor we are working with is BigEndian or not
  */
 bool Util::IsCurrentProcessorBigEndian()
 {
@@ -371,7 +374,7 @@ bool Util::IsCurrentProcessorBigEndian()
  * \brief Create a /DICOM/ string:
  * It should a of even length (no odd length ever)
  * It can contain as many (if you are reading this from your
- * editor the following character is is backslash followed by zero
+ * editor the following character is backslash followed by zero
  * that needed to be escaped with an extra backslash for doxygen) \\0
  * as you want.
  */
@@ -386,7 +389,7 @@ std::string Util::DicomString(const char *s, size_t l)
  * \brief Create a /DICOM/ string:
  * It should a of even length (no odd length ever)
  * It can contain as many (if you are reading this from your
- * editor the following character is is backslash followed by zero
+ * editor the following character is backslash followed by zero
  * that needed to be escaped with an extra backslash for doxygen) \\0
  * as you want.
  * This function is similar to DicomString(const char*), 
@@ -396,7 +399,7 @@ std::string Util::DicomString(const char *s, size_t l)
 std::string Util::DicomString(const char *s)
 {
    size_t l = strlen(s);
-   if( l%2 )
+   if ( l%2 )
    {
       l++;
    }
@@ -416,7 +419,7 @@ bool Util::DicomStringEqual(const std::string &s1, const char *s2)
   // s2 is the string from the DICOM reference: 'MONOCHROME1'
   std::string s1_even = s1; //Never change input parameter
   std::string s2_even = DicomString( s2 );
-  if( s1_even[s1_even.size()-1] == ' ')
+  if ( s1_even[s1_even.size()-1] == ' ' )
   {
     s1_even[s1_even.size()-1] = '\0'; //replace space character by null
   }
@@ -633,7 +636,7 @@ int GetMacAddrSys ( unsigned char *addr )
 // max(sizeof(ifreq), sizeof(ifreq.ifr_name)+ifreq.ifr_addr.sa_len
 // However, under earlier systems, sa_len isn't present, so the size is 
 // just sizeof(struct ifreq)
-// We should investiage the use of SIZEOF_ADDR_IFREQ
+// We should investigate the use of SIZEOF_ADDR_IFREQ
 //
 #ifdef HAVE_SA_LEN
    #ifndef max
@@ -645,7 +648,7 @@ int GetMacAddrSys ( unsigned char *addr )
    #define ifreq_size(i) sizeof(struct ifreq)
 #endif // HAVE_SA_LEN
 
-   if( (sd = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP)) < 0 )
+   if ( (sd = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP)) < 0 )
    {
       return -1;
    }
@@ -773,7 +776,7 @@ std::string Util::CreateUniqueUID(const std::string &root)
 {
    std::string prefix;
    std::string append;
-   if( root.empty() )
+   if ( root.empty() )
    {
       // gdcm UID prefix, as supplied by http://www.medicalconnections.co.uk
       prefix = RootUID; 
@@ -794,7 +797,7 @@ std::string Util::CreateUniqueUID(const std::string &root)
    append += Format("%02d", r);
 
    // If append is too long we need to rehash it
-   if( (prefix + append).size() > 64 )
+   if ( (prefix + append).size() > 64 )
    {
       gdcmErrorMacro( "Size of UID is too long." );
       // we need a hash function to truncate this number
@@ -807,7 +810,7 @@ std::string Util::CreateUniqueUID(const std::string &root)
 
 void Util::SetRootUID(const std::string &root)
 {
-   if( root.empty() )
+   if ( root.empty() )
       RootUID = GDCM_UID;
    else
       RootUID = root;
@@ -828,9 +831,7 @@ std::ostream &binary_write(std::ostream &os, const uint16_t &val)
 {
 #if defined(GDCM_WORDS_BIGENDIAN) || defined(GDCM_FORCE_BIGENDIAN_EMULATION)
    uint16_t swap;
-   //swap = ((( val << 8 ) & 0xff00 ) | (( val >> 8 ) & 0x00ff ) );
-   //save CPU time
-   swap = ( val << 8 |  val >> 8  );
+   swap = ( val << 8 |  val >> 8 );
 
    return os.write(reinterpret_cast<const char*>(&swap), 2);
 #else
@@ -847,9 +848,6 @@ std::ostream &binary_write(std::ostream &os, const uint32_t &val)
 {
 #if defined(GDCM_WORDS_BIGENDIAN) || defined(GDCM_FORCE_BIGENDIAN_EMULATION)
    uint32_t swap;
-//   swap = ( ((val<<24) & 0xff000000) | ((val<<8)  & 0x00ff0000) | 
-//            ((val>>8)  & 0x0000ff00) | ((val>>24) & 0x000000ff) );
-// save CPU time
    swap = (  (val<<24)               | ((val<<8)  & 0x00ff0000) | 
             ((val>>8)  & 0x0000ff00) |  (val>>24)               );
    return os.write(reinterpret_cast<const char*>(&swap), 4);
@@ -978,7 +976,7 @@ std::string Util::GetIPAddress()
    char szHostName[HOST_NAME_MAX+1];
    int r = gethostname(szHostName, HOST_NAME_MAX);
  
-   if( r == 0 )
+   if ( r == 0 )
    {
       // Get host adresses
       struct hostent *pHost = gethostbyname(szHostName);
@@ -987,7 +985,7 @@ std::string Util::GetIPAddress()
       {
          for( int j = 0; j<pHost->h_length; j++ )
          {
-            if( j > 0 ) str += ".";
+            if ( j > 0 ) str += ".";
  
             str += Util::Format("%u", 
                 (unsigned int)((unsigned char*)pHost->h_addr_list[i])[j]);

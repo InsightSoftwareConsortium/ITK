@@ -20,6 +20,7 @@
 #include "gdcmDirList.h"
 #include "gdcmFile.h"
 #include "gdcmDebug.h"
+#include "gdcmUtil.h"
 
 #include <math.h>
 #include <vector>
@@ -91,24 +92,74 @@ void SerieHelper::AddFileName(std::string const &filename)
    File *header = new File( filename ); 
    if( header->IsReadable() )
    {
-      std::string id = CreateUniqueSeriesIdentifier( header );
-      // if id == GDCM_UNFOUND then consistently we should find GDCM_UNFOUND
-      // no need here to do anything special
+      int allrules = 1;
+      // First step : the user defined a set of rules for the DICOM file
+      // he is looking for.
+      // Make sure the file corresponds to his set of rules:
 
-      if ( CoherentGdcmFileListHT.count(id) == 0 )
+      std::string s;
+      for(SerieRestrictions::iterator it2 = Restrictions.begin();
+          it2 != Restrictions.end();
+          ++it2)
       {
-         gdcmWarningMacro(" New Serie UID :[" << id << "]");
-         // create a std::list in 'id' position
-         CoherentGdcmFileListHT[id] = new GdcmFileList;
+         const Rule &r = *it2;
+         s = header->GetEntryValue( r.group, r.elem );
+         if ( !Util::DicomStringEqual(s, r.value.c_str() ))
+         {
+           // Argh ! This rule is unmatched; let's just quit
+
+           allrules = 0;
+           break;
+         }
       }
-      // Current Serie UID and DICOM header seems to match add the file:
-      CoherentGdcmFileListHT[id]->push_back( header );
+
+      if ( allrules ) // all rules are respected:
+      {
+         std::string id = CreateUniqueSeriesIdentifier( header );
+         // if id == GDCM_UNFOUND then consistently we should find GDCM_UNFOUND
+         // no need here to do anything special
+
+         if ( CoherentGdcmFileListHT.count(id) == 0 )
+         {
+            gdcmWarningMacro(" New Serie UID :[" << id << "]");
+            // create a std::list in 'id' position
+            CoherentGdcmFileListHT[id] = new GdcmFileList;
+         }
+         // Current Serie UID and DICOM header seems to match add the file:
+         CoherentGdcmFileListHT[id]->push_back( header );
+      }
+      else
+      {
+         // at least one rule was unmatched we need to deallocate the file:
+         delete header;
+      }
    }
    else
    {
       gdcmWarningMacro("Could not read file: " << filename );
       delete header;
    }
+}
+
+/**
+ * \brief add a rules for restricting a DICOM file to be in the serie we are
+ * trying to find. For example you can select only the DICOM file from a
+ * directory which would have a particular EchoTime==4.0.
+ * This method is a user level, value is not required to be formatted as a DICOM
+ * string
+ * @param   group  Group number of the target tag.
+ * @param   elem Element number of the target tag.
+ * @param value value to be checked to exclude File
+ * @param op  operator we want to use to check
+ */
+void SerieHelper::AddRestriction(TagKey const &key, 
+                                 std::string const &value)
+{
+   Rule r;
+   r.group = key[0];
+   r.elem  = key[1];
+   r.value = value;
+   Restrictions.push_back( r ); 
 }
 
 /**
@@ -236,6 +287,7 @@ bool SerieHelper::ImagePositionPatientOrdering( GdcmFileList *fileList )
          ipp[0] = (*it)->GetXOrigin();
          ipp[1] = (*it)->GetYOrigin();
          ipp[2] = (*it)->GetZOrigin();
+
          dist = 0;
          for ( int i = 0; i < 3; ++i )
          {
@@ -252,6 +304,7 @@ bool SerieHelper::ImagePositionPatientOrdering( GdcmFileList *fileList )
          ipp[0] = (*it)->GetXOrigin();
          ipp[1] = (*it)->GetYOrigin();
          ipp[2] = (*it)->GetZOrigin();
+
          dist = 0;
          for ( int i = 0; i < 3; ++i )
          {
@@ -263,6 +316,14 @@ bool SerieHelper::ImagePositionPatientOrdering( GdcmFileList *fileList )
          min = (min < dist) ? min : dist;
          max = (max > dist) ? max : dist;
       }
+   }
+   
+   // Find out if min/max are coherent
+   if ( min == max )
+   {
+     gdcmWarningMacro("Looks like all images have the exact same image position"
+                      << ". No PositionPatientOrdering sort performed" );
+     return false;
    }
 
    // Check to see if image shares a common position
@@ -286,7 +347,6 @@ bool SerieHelper::ImagePositionPatientOrdering( GdcmFileList *fileList )
      {
        return false;
      }
-
 
    fileList->clear();  // doesn't delete list elements, only node
 
@@ -342,7 +402,7 @@ bool SerieHelper::ImageNumberOrdering(GdcmFileList *fileList)
 
 bool SerieHelper::FileNameLessThan(File *file1, File *file2)
 {
-  return file1->GetFileName() < file2->GetFileName();
+   return file1->GetFileName() < file2->GetFileName();
 }
 
 /**
@@ -361,7 +421,7 @@ bool SerieHelper::FileNameOrdering(GdcmFileList *fileList)
 /**
  * \brief   Canonical printer.
  */
-void SerieHelper::Print(std::ostream &os, std::string const & indent)
+void SerieHelper::Print(std::ostream &os, std::string const &indent)
 {
    // For all the Coherent File lists of the gdcm::Serie
    CoherentFileListmap::iterator itl = CoherentGdcmFileListHT.begin();

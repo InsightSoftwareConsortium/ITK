@@ -63,6 +63,9 @@ public:
    GdcmFileList *GetFirstCoherentFileList();
    GdcmFileList *GetNextCoherentFileList();
    GdcmFileList *GetCoherentFileList(std::string serieUID);
+   /// All the following allow user to restrict DICOM file to be part
+   /// of a particular serie
+   void AddRestriction(TagKey const &key, std::string const &value);
 
    /// \brief Use additional series information such as ProtocolName
    ///        and SeriesName to identify when a single SeriesUID contains
@@ -91,6 +94,13 @@ private:
    CoherentFileListmap CoherentGdcmFileListHT;
    CoherentFileListmap::iterator ItListHt;
 
+   typedef struct {
+     uint16_t group;
+     uint16_t elem;
+     std::string value;
+   } Rule;
+   typedef std::vector<Rule> SerieRestrictions;
+   SerieRestrictions Restrictions;
    bool m_UseSeriesDetails;
 };
 

@@ -37,7 +37,7 @@ namespace gdcm
  *  - debug : for information/debug messages
  *  - warning : for warning about DICOM quality (kosher)
  * 
- * A debugging message is only show if the flag is on (DebugFlag)
+ * A debugging message is only shown if the flag is on (DebugFlag)
  * This is static var and can be set at beginning of code:
  *         gdcm::Debug::SetDebugOn();
  */
@@ -52,18 +52,18 @@ public:
    static void SetDebugFlag (bool flag);
    static bool GetDebugFlag ();
    /// \brief Sets the Debug Flag to true
-   static void DebugOn  () { SetDebugFlag(true);  };
+   static void DebugOn  () { SetDebugFlag(true);  }
    /// \brief Sets the Debug Flag to false
-   static void DebugOff () { SetDebugFlag(false); };
+   static void DebugOff () { SetDebugFlag(false); }
 
    /// \brief This is a global flag that controls if debug are redirected
    ///        to a file or not
    static void SetDebugToFile (bool flag);
    static bool GetDebugToFile ();
    /// \brief Next debug messages will be sent in the debug file
-   static void DebugToFileOn  () { SetDebugToFile(true);  };
+   static void DebugToFileOn  () { SetDebugToFile(true);  }
    /// \brief Next debug messages will be sent in the standard output
-   static void DebugToFileOff () { SetDebugToFile(false); };
+   static void DebugToFileOff () { SetDebugToFile(false); }
 
    static void SetDebugFilename (std::string const &filename);
 
@@ -99,7 +99,7 @@ public:
  * @param msg message part
  */
 #ifdef NDEBUG
-#define gdcmDebugMacro(msg)
+#define gdcmDebugMacro(msg) {}
 #else
 #define gdcmDebugMacro(msg)                                 \
 {                                                           \
@@ -123,7 +123,7 @@ public:
  * @param msg message part
  */
 #ifdef NDEBUG
-#define gdcmWarningMacro(msg)
+#define gdcmWarningMacro(msg) {}
 #else
 #define gdcmWarningMacro(msg)                               \
 {                                                           \
@@ -146,7 +146,7 @@ public:
  * @param msg second message part 
  */
 #ifdef NDEBUG
-#define gdcmErrorMacro(msg)
+#define gdcmErrorMacro(msg) {}
 #else
 #define gdcmErrorMacro(msg)                                 \
 {                                                           \
@@ -168,7 +168,7 @@ public:
  *        gdcmAssertMacro( "my message" && 2 < 3 )
  */
 #ifdef NDEBUG
-#define gdcmAssertMacro(arg)
+#define gdcmAssertMacro(arg) {}
 #else
 #define gdcmAssertMacro(arg)                                \
 {                                                           \

@@ -261,7 +261,7 @@ bool JPEGFragment::ReadJPEGFile (std::ifstream *fp, void *image_buffer, int &sta
   // for any output message call my_output_message
   //jerr.pub.output_message = my_output_message;
 
-  /* Establish the setjmp return context for my_error_exit to use. */  
+  // Establish the setjmp return context for my_error_exit to use.
   if (setjmp(jerr.setjmp_buffer))
   {
     // If we get here, the JPEG code has signaled an error.

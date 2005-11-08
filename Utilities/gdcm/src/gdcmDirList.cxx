@@ -30,7 +30,7 @@
    #include <sys/stat.h>
 #endif
 
-namespace gdcm 
+namespace gdcm
 {
 //-----------------------------------------------------------------------------
 // Constructor / Destructor

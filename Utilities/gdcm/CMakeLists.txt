@@ -16,6 +16,9 @@ SET(GDCM_DATA_DIR "/share/gdcm/" CACHE INTERNAL
 MARK_AS_ADVANCED(GDCM_DATA_DIR)
 
 #-----------------------------------------------------------------------------
+# Build shared lib by default
+SET(GDCM_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
+
 #OPTION(GDCM_DEBUG "Turn verbosity of some statement ON." OFF)
 #MARK_AS_ADVANCED(GDCM_DEBUG)
 SET(GDCM_DEBUG 0)

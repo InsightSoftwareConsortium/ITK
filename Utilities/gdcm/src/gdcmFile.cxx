@@ -429,7 +429,7 @@ float File::GetYSpacing()
    // if sscanf cannot read any float value, it won't affect yspacing
    int nbValues = sscanf( strSpacing.c_str(), "%f ", &yspacing);
 
-   // if no values, xspacing is set to 1.0
+   // if no values, yspacing is set to 1.0
    if( nbValues == 0 )
       yspacing = 1.0;
 

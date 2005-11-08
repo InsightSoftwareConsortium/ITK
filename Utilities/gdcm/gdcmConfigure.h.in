@@ -33,7 +33,7 @@
 
 /* Whether we are building shared libraries.  */
 /* This was important as long as GDCM is LGPL */
-#cmakedefine BUILD_SHARED_LIBS
+#cmakedefine GDCM_BUILD_SHARED_LIBS
 
 /* GDCM uses __FUNCTION__ which is not ANSI C, but C99 */
 #cmakedefine GDCM_COMPILER_HAS_FUNCTION

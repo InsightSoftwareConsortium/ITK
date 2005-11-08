@@ -57,17 +57,21 @@
 #endif
 
 // Broken plateform do not respect C99 and do not provide those typedef
-#if defined(_MSC_VER) || defined(__BORLANDC__)
+// Special case for recent borland compiler, comes with stdint.h
+#if defined(_MSC_VER) || defined(__BORLANDC__) && (__BORLANDC__ < 0x0560) \
+                      || defined(__MINGW32__)
 typedef  signed char         int8_t;
 typedef  signed short        int16_t;
 typedef  signed int          int32_t;
 typedef  unsigned char       uint8_t;
 typedef  unsigned short      uint16_t;
 typedef  unsigned int        uint32_t;
+#ifndef UINT32_MAX
 #define UINT32_MAX    (4294967295U)
 #endif
+#endif
 
-#if defined(_WIN32) && defined(BUILD_SHARED_LIBS)
+#if defined(_WIN32) && defined(GDCM_BUILD_SHARED_LIBS)
   #ifdef gdcm_EXPORTS
     #define GDCM_EXPORT __declspec( dllexport )
   #else
@@ -150,7 +154,7 @@ enum DicomDirType {
 /**
  * \brief structure, for internal use only
  */  
-GDCM_EXPORT typedef struct
+struct Element
 {
    /// DicomGroup number
    unsigned short int Group;
@@ -158,7 +162,7 @@ GDCM_EXPORT typedef struct
    unsigned short int Elem;
    /// value (coded as a std::string) of the Element
    std::string Value;
-} Element;
+};
 
 } //namespace gdcm
 //-----------------------------------------------------------------------------

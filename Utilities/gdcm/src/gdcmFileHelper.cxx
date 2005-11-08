@@ -635,7 +635,7 @@ bool FileHelper::CheckWriteIntegrity()
          case WMODE_RAW :
             if( decSize!=PixelWriteConverter->GetUserDataSize() )
             {
-               gdcmErrorMacro( "Data size (Raw) is incorrect. Should be " 
+               gdcmWarningMacro( "Data size (Raw) is incorrect. Should be " 
                            << decSize << " / Found :" 
                            << PixelWriteConverter->GetUserDataSize() );
                return false;
@@ -644,7 +644,7 @@ bool FileHelper::CheckWriteIntegrity()
          case WMODE_RGB :
             if( rgbSize!=PixelWriteConverter->GetUserDataSize() )
             {
-               gdcmErrorMacro( "Data size (RGB) is incorrect. Should be " 
+               gdcmWarningMacro( "Data size (RGB) is incorrect. Should be " 
                           << decSize << " / Found " 
                           << PixelWriteConverter->GetUserDataSize() );
                return false;
