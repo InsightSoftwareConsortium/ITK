@@ -52,9 +52,12 @@ int itkImageSpatialObjectTest(int, char* [])
   Image::SizeType size = {{ 10, 10, 10 }};
   Image::IndexType index = {{ 0, 0, 0 }};
   Image::RegionType region;
+  Image::PointType origin;
+  origin.Fill(5);
   
   region.SetSize(size);
   region.SetIndex(index);
+  image->SetOrigin(origin);
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
   image->SetRequestedRegion(region);
@@ -73,7 +76,7 @@ int itkImageSpatialObjectTest(int, char* [])
  
   imageSO->SetImage(image);
   ImageSpatialObject::TransformType::OffsetType offset;
-  offset.Fill(10);
+  offset.Fill(5);
 
   imageSO->GetObjectToParentTransform()->SetOffset(offset);
   imageSO->ComputeObjectToWorldTransform();
@@ -84,6 +87,8 @@ int itkImageSpatialObjectTest(int, char* [])
   r.Fill(9);
   q.Fill(15);
 
+  imageSO->ComputeBoundingBox();
+  std::cout << "Bounding Box = " << imageSO->GetBoundingBox()->GetBounds() << std::endl;
   std::cout<<"IsInside()...";
   if( imageSO->IsInside(r) || !imageSO->IsInside(q) )
     {
