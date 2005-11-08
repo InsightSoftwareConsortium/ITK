@@ -24,6 +24,7 @@
   // warning C4503: 'insert' : decorated name length exceeded, name was truncated
   #pragma warning ( disable : 4503 )
 #endif
+#if ! defined(_MSC_VER) //NOTE: This class does not work under MSVS6
 
 
 #include <string>
@@ -32,11 +33,6 @@
 #include "itkMacro.h"
 #include "itkMultiThreader.h"
 #include "itkSimpleFastMutexLock.h"
-
-
-#if defined(_MSC_VER)
-#define USE_MSVS6_HACKS
-#endif
 
 namespace itk
 {
@@ -51,14 +47,7 @@ namespace itk
  */
 
 // MSVS6 can't do this type of nested template
-#if defined(USE_MSVS6_HACKS)
-#include "itkLogger.h"
-typedef itk::Logger SimpleLoggerType;
-#define MSVS_HACK_TYPENAME
-#else
 template < class SimpleLoggerType >
-#define MSVS_HACK_TYPENAME typename
-#endif
 class LoggerThreadWrapper : public SimpleLoggerType
 {
 
@@ -75,8 +64,8 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
-  typedef  MSVS_HACK_TYPENAME SimpleLoggerType::OutputType   OutputType;
-  typedef  MSVS_HACK_TYPENAME SimpleLoggerType::PriorityLevelType  PriorityLevelType;
+  typedef  typename SimpleLoggerType::OutputType   OutputType;
+  typedef  typename SimpleLoggerType::PriorityLevelType  PriorityLevelType;
 
   /** Definition of types of operations for LoggerThreadWrapper. */
   typedef enum
@@ -130,7 +119,7 @@ private:
 
   typedef std::queue<PriorityLevelType>  LevelContainerType;
 
-  typedef std::queue<MSVS_HACK_TYPENAME OutputType::Pointer>  OutputContainerType;
+  typedef std::queue<typename OutputType::Pointer>  OutputContainerType;
 
   MultiThreader::Pointer  m_Threader;
 
@@ -157,5 +146,5 @@ private:
 
 
 
-
+#endif  // !defined (_MSC_VER)
 #endif  // __itkLoggerThreadWrapper_h
