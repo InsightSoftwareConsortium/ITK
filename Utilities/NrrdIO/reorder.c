@@ -25,8 +25,6 @@
 #include "NrrdIO.h"
 #include "privateNrrd.h"
 
-#include "teem32bit.h"
-
 /*
 ******** nrrdInvertPerm()
 **
@@ -104,7 +102,9 @@ nrrdAxesInsert(Nrrd *nout, const Nrrd *nin, unsigned int axis) {
   }
   if (nout != nin) {
     if (_nrrdCopy(nout, nin, (NRRD_BASIC_INFO_COMMENTS_BIT
-                              | NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT))) {
+                              | (nrrdStateKeyValuePairsPropagate
+                                 ? 0
+                                 : NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT)))) {
       sprintf(err, "%s:", me);
       biffAdd(NRRD, err); return 1;
     }
@@ -269,7 +269,9 @@ nrrdAxesPermute(Nrrd *nout, const Nrrd *nin, const unsigned int *axes) {
                             | NRRD_BASIC_INFO_DIMENSION_BIT
                             | NRRD_BASIC_INFO_CONTENT_BIT
                             | NRRD_BASIC_INFO_COMMENTS_BIT
-                            | NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT)) {
+                            | (nrrdStateKeyValuePairsPropagate
+                               ? 0
+                               : NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT))) {
         sprintf(err, "%s:", me);
         biffAdd(NRRD, err); airMopError(mop); return 1;
       }
@@ -349,7 +351,7 @@ nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis,
   /* the min and max along the shuffled axis are now meaningless */
   nout->axis[axis].min = nout->axis[axis].max = AIR_NAN;
   /* do the safe thing first */
-  nout->axis[ai].kind = _nrrdKindAltered(nin->axis[ai].kind, AIR_FALSE);
+  nout->axis[axis].kind = _nrrdKindAltered(nin->axis[axis].kind, AIR_FALSE);
   /* try cleverness */
   if (!nrrdStateKindNoop) {
     if (0 == nrrdKindSize(nin->axis[axis].kind)
@@ -404,7 +406,9 @@ nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis,
                         | NRRD_BASIC_INFO_DIMENSION_BIT
                         | NRRD_BASIC_INFO_CONTENT_BIT
                         | NRRD_BASIC_INFO_COMMENTS_BIT
-                        | NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT)) {
+                        | (nrrdStateKeyValuePairsPropagate
+                           ? 0
+                           : NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT))) {
     sprintf(err, "%s:", me);
     biffAdd(NRRD, err); return 1;
   }

@@ -102,7 +102,7 @@ all: $(TEEM_HDRS) $(NEED_SRCS) $(NEED_PRIV_HDRS) NrrdIO.h NrrdIO_Srcs.txt
 ### teem headers in $(NEED_HDRS), but we do need to "unteem" them.
 ###
 $(NEED_PUB_HDRS) $(NEED_PRIV_HDRS):
-	tail +20 $(TEEM_SRC_ROOT)/src/$@ \
+	tail +22 $(TEEM_SRC_ROOT)/src/$@ \
          | perl unteem.pl \
          | grep -v HAS_BEEN_INCLUDED > $(notdir $@)
 NrrdIO.h: $(NEED_PUB_HDRS)
@@ -118,7 +118,7 @@ NrrdIO_Srcs.txt:
 ### The teem*.h headers: we need only change the pre-amble here
 ###
 teem/%.h: 
-	tail +20 $(TEEM_SRC_ROOT)/include/$(notdir $@) \
+	tail +22 $(TEEM_SRC_ROOT)/include/$(notdir $@) \
           | cat preamble.c - > $(notdir $@)
 
 ### The rest: by design, these targets have the library names as part
@@ -126,7 +126,7 @@ teem/%.h:
 ### source file without any VPATH games
 ###
 %.h %.c:
-	tail +20 $(TEEM_SRC_ROOT)/src/$@ \
+	tail +22 $(TEEM_SRC_ROOT)/src/$@ \
           | cat preamble.c - \
           | perl unteem.pl \
           | grep -v HAS_BEEN_INCLUDED > $(notdir $@)

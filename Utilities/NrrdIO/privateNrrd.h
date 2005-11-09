@@ -41,8 +41,8 @@ typedef union {
 } _nrrdAxisInfoGetPtrs;
 
 /* keyvalue.c */
-extern int _nrrdKeyValueFwrite(FILE *file, const char *prefix,
-                               const char *key, const char *value);
+extern int _nrrdKeyValueWrite(FILE *file, char **stringP, const char *prefix,
+                              const char *key, const char *value);
 
 /* formatXXX.c */
 extern const char *_nrrdFormatURLLine0;
@@ -64,8 +64,7 @@ extern const NrrdEncoding _nrrdEncodingGzip;
 extern const NrrdEncoding _nrrdEncodingBzip2;
 
 /* read.c */
-extern int _nrrdOneLine (unsigned int *lenP, NrrdIoState *nio, FILE *file);
-extern int _nrrdCalloc (Nrrd *nrrd, NrrdIoState *nio, FILE *file);
+extern int _nrrdCalloc(Nrrd *nrrd, NrrdIoState *nio, FILE *file);
 extern char _nrrdFieldSep[];
 
 /* arrays.c */
@@ -86,6 +85,8 @@ extern int _nrrdFieldCheckSpaceInfo(const Nrrd *nrrd, int useBiff);
 extern int (*_nrrdFieldCheck[NRRD_FIELD_MAX+1])(const Nrrd *nrrd, int useBiff);
 extern void _nrrdSplitSizes(size_t *pieceSize, size_t *pieceNum, 
                             Nrrd *nrrd, unsigned int listDim);
+extern void _nrrdSpaceVecCopy(double dst[NRRD_SPACE_DIM_MAX], 
+                              const double src[NRRD_SPACE_DIM_MAX]);
 extern void _nrrdSpaceVecScaleAdd2(double sum[NRRD_SPACE_DIM_MAX], 
                                    double sclA, 
                                    const double vecA[NRRD_SPACE_DIM_MAX],
@@ -130,10 +131,7 @@ extern void _nrrdFprintFieldInfo(FILE *file, char *prefix,
                                  int field);
 
 /* parseNrrd.c */
-extern int _nrrdDataFNCheck(NrrdIoState *nio, Nrrd *nrrd, int useBiff);
-extern int _nrrdContainsPercentDAndMore(char *str);
 extern int _nrrdReadNrrdParseField(NrrdIoState *nio, int useBiff);
-extern unsigned int _nrrdDataFNNumber(NrrdIoState *nio);
 
 /* methodsNrrd.c */
 extern void nrrdPeripheralInit(Nrrd *nrrd);

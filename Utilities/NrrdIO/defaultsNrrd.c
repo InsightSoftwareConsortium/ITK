@@ -35,27 +35,28 @@
 ** What IS a "default"?  A default is the assertion of a certain
 ** choice in situations where the user hasn't set it explicitly, but
 ** COULD.  The pad value in resampling is a good example: it is set by
-** a constructor to nrrdDefRsmpPadValue, but the user can also set it
+** a constructor to nrrdDefaultResamplePadValue, but the user can also set it
 ** explicitly.
 */
 
-const NrrdEncoding *nrrdDefWriteEncoding = &_nrrdEncodingRaw;
-int nrrdDefWriteBareText = AIR_TRUE;
-int nrrdDefWriteCharsPerLine = 75;
-int nrrdDefWriteValsPerLine = 8;
-int nrrdDefCenter = nrrdCenterCell;
-double nrrdDefSpacing = 1.0;
+const NrrdEncoding *nrrdDefaultWriteEncoding = &_nrrdEncodingRaw;
+int nrrdDefaultWriteBareText = AIR_TRUE;
+unsigned int nrrdDefaultWriteCharsPerLine = 75;
+unsigned int nrrdDefaultWriteValsPerLine = 8;
+int nrrdDefaultCenter = nrrdCenterCell;
+double nrrdDefaultSpacing = 1.0;
 
 /* these aren't really "defaults" because there's no other channel for
    specifying this information.  It is just global state.  Obviously,
    like defaults, they are not thread-safe if different threads ever
    set them differently. */
 int nrrdStateVerboseIO = 0;
+int nrrdStateKeyValuePairsPropagate = AIR_FALSE;
 int nrrdStateAlwaysSetContent = AIR_TRUE;
 int nrrdStateDisableContent = AIR_FALSE;
 char *nrrdStateUnknownContent = NRRD_UNKNOWN;
 int nrrdStateGrayscaleImage3D = AIR_FALSE;
-/* there is no sane reason to change this default initialization */
+/* there is no sane reason to change this initialization */
 int nrrdStateKeyValueReturnInternalPointers = AIR_FALSE;
 /* Making the default for this be AIR_TRUE means that nrrd is not only
    completely conservative about updating kind, but purposely stupid.

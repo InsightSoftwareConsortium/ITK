@@ -25,7 +25,6 @@
 #include "NrrdIO.h"
 #include "privateNrrd.h"
 
-#include "teem32bit.h"
 #include <limits.h>
 
 const char *
@@ -77,24 +76,37 @@ nrrdSpaceDimension(int space) {
 /*
 ******** nrrdSpaceSet
 **
-** What to use to set space, when a value from nrrdSpace enum is known
+** What to use to set space, when a value from nrrdSpace enum is known,
+** or, to nullify all space-related information when passed nrrdSpaceUnknown
 */
 int
 nrrdSpaceSet(Nrrd *nrrd, int space) {
   char me[]="nrrdSpaceSet", err[AIR_STRLEN_MED];
+  unsigned axi, saxi;
   
   if (!nrrd) {
     sprintf(err, "%s: got NULL pointer", me);
     biffAdd(NRRD, err); return 1;
   }
-  if (nrrdSpaceUnknown != space) {
+  if (nrrdSpaceUnknown == space) {
+    nrrd->space = nrrdSpaceUnknown;
+    nrrd->spaceDim = 0;
+    for (axi=0; axi<NRRD_DIM_MAX; axi++) {
+      _nrrdSpaceVecSetNaN(nrrd->axis[axi].spaceDirection);
+    }
+    for (saxi=0; saxi<NRRD_SPACE_DIM_MAX; saxi++) {
+      airFree(nrrd->spaceUnits[saxi]);
+      nrrd->spaceUnits[saxi] = NULL;
+    }
+    _nrrdSpaceVecSetNaN(nrrd->spaceOrigin);
+  } else {
     if (airEnumValCheck(nrrdSpace, space)) {
       sprintf(err, "%s: given space (%d) not valid", me, space);
       biffAdd(NRRD, err); return 1;
     }
+    nrrd->space = space;
+    nrrd->spaceDim = nrrdSpaceDimension(space);
   }
-  nrrd->space = space;
-  nrrd->spaceDim = nrrdSpaceDimension(space);
   return 0;
 }
 
@@ -291,16 +303,43 @@ nrrdOriginCalculate(const Nrrd *nrrd,
 }
 
 void
+_nrrdSpaceVecCopy(double dst[NRRD_SPACE_DIM_MAX], 
+                  const double src[NRRD_SPACE_DIM_MAX]) {
+  int ii;
+
+  for (ii=0; ii<NRRD_SPACE_DIM_MAX; ii++) {
+    dst[ii] = src[ii];
+  }
+}
+
+/*
+** NOTE: since this was created until Wed Sep 21 13:34:17 EDT 2005,
+** _nrrdSpaceVecScaleAdd2 and _nrrdSpaceVecScale would treat a
+** non-existent vector coefficient as 0.0.  The reason for this had
+** to do with how the function is used.  For example, in nrrdCrop
+**
+**   _nrrdSpaceVecCopy(nout->spaceOrigin, nin->spaceOrigin);
+**   for (ai=0; ai<nin->dim; ai++) {
+**      _nrrdSpaceVecScaleAdd2(nout->spaceOrigin,
+**                             1.0, nout->spaceOrigin,
+**                             min[ai], nin->axis[ai].spaceDirection);
+**   }
+**
+** but the problem with this is that non-spatial axes end up clobbering
+** the existance of otherwise existing spaceOrigin and spaceDirections.
+** It was decided, however, that this logic should be outside the
+** arithmetic functions below, not inside.  NOTE: the old functionality
+** is stuck in ITK 2.2, via NrrdIO.
+*/
+
+void
 _nrrdSpaceVecScaleAdd2(double sum[NRRD_SPACE_DIM_MAX], 
                        double sclA, const double vecA[NRRD_SPACE_DIM_MAX],
                        double sclB, const double vecB[NRRD_SPACE_DIM_MAX]) {
   int ii;
-  double A, B;
   
   for (ii=0; ii<NRRD_SPACE_DIM_MAX; ii++) {
-    A = AIR_EXISTS(vecA[ii]) ? vecA[ii] : 0;
-    B = AIR_EXISTS(vecB[ii]) ? vecB[ii] : 0;
-    sum[ii] = sclA*A + sclB*B;
+    sum[ii] = sclA*vecA[ii] + sclB*vecB[ii];
   }
 }
 
@@ -308,11 +347,9 @@ void
 _nrrdSpaceVecScale(double out[NRRD_SPACE_DIM_MAX], 
                    double scl, const double vec[NRRD_SPACE_DIM_MAX]) {
   int ii;
-  double v;
   
   for (ii=0; ii<NRRD_SPACE_DIM_MAX; ii++) {
-    v = AIR_EXISTS(vec[ii]) ? vec[ii] : 0;
-    out[ii] = scl*v;
+    out[ii] = scl*vec[ii];
   }
 }
 
@@ -1291,13 +1328,13 @@ nrrdSanity (void) {
     biffAdd(NRRD, err); return 0;
   }
 
-  if (!nrrdDefWriteEncoding) {
-    sprintf(err, "%s: nrrdDefWriteEncoding is NULL", me);
+  if (!nrrdDefaultWriteEncoding) {
+    sprintf(err, "%s: nrrdDefaultWriteEncoding is NULL", me);
     biffAdd(NRRD, err); return 0;
   }
-  if (airEnumValCheck(nrrdCenter, nrrdDefCenter)) {
-    sprintf(err, "%s: nrrdDefCenter (%d) not in valid range [%d,%d]",
-            me, nrrdDefCenter,
+  if (airEnumValCheck(nrrdCenter, nrrdDefaultCenter)) {
+    sprintf(err, "%s: nrrdDefaultCenter (%d) not in valid range [%d,%d]",
+            me, nrrdDefaultCenter,
             nrrdCenterUnknown+1, nrrdCenterLast-1);
     biffAdd(NRRD, err); return 0;
   }
@@ -1405,7 +1442,7 @@ nrrdSanity (void) {
     biffAdd(NRRD, err); return 0;
   }
 
-  /* HEY: any other assumptions built into teem? */
+  /* HEY: any other assumptions built into Teem? */
 
   _nrrdSanity = 1;
   return 1;

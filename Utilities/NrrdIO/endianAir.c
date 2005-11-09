@@ -58,7 +58,7 @@ _airEndianVal[] = {
   airEndianBig,
 };
 
-airEnum
+const airEnum
 _airEndian = {
   "endian",
   2,
@@ -68,6 +68,6 @@ _airEndian = {
   AIR_FALSE
 };
 
-airEnum *
+const airEnum *const
 airEndian = &_airEndian;
 

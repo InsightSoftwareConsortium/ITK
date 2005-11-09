@@ -39,13 +39,13 @@
 ******** airTeemReleaseDate
 **
 ** updated with each release to contain a string representation of 
-** the teem version number and release date.  Originated in version 1.5;
+** the Teem version number and release date.  Originated in version 1.5;
 ** use of TEEM_VERSION #defines started in 1.9
 */
 const char *
 airTeemVersion = TEEM_VERSION_STRING;
 const char *
-airTeemReleaseDate = "26 August 2005";
+airTeemReleaseDate = "16 December 2005";
 
 double
 _airSanityHelper(double val) {
@@ -157,16 +157,16 @@ airFclose(FILE *file) {
 */
 int
 airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
-  char *fmt;
-  float valF=0;
-  double valD=0;
+  char *fmt, buff[AIR_STRLEN_LARGE];
+  double val=0, gVal, fVal;
   int ret, isF, isD, cls;
   char *conv=NULL, *p0, *p1, *p2, *p3, *p4, *p5;
   va_list ap;
   
   va_start(ap, _fmt);
   fmt = airStrdup(_fmt);
-  
+
+  /* this is needlessly complicated; the "l" modifier is a no-op */
   p0 = strstr(fmt, "%e");
   p1 = strstr(fmt, "%f");
   p2 = strstr(fmt, "%g");
@@ -175,6 +175,9 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
   p5 = strstr(fmt, "%lg");
   isF = p0 || p1 || p2;
   isD = p3 || p4 || p5;
+  /* the code here says "isF" and "isD" as if it means "is float" or 
+     "is double".  It really should be "is2" or "is3", as in, 
+     "is 2-character conversion sequence, or "is 3-character..." */
   if (isF) {
     conv = p0 ? p0 : (p1 ? p1 : p2);
   }
@@ -182,16 +185,10 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
     conv = p3 ? p3 : (p4 ? p4 : p5);
   }
   if (isF || isD) {
-    if (isF) {
-      /* use "double" instead of "float" because var args are _always_
-         subject to old-style C type promotions: float promotes to double */
-      valF = (float)(va_arg(ap, double));
-      cls = airFPClass_f(valF);
-    }
-    else {
-      valD = va_arg(ap, double);
-      cls = airFPClass_d(valD);
-    }
+    /* use "double" instead of "float" because var args are _always_
+       subject to old-style C type promotions: float promotes to double */
+    val = va_arg(ap, double);
+    cls = airFPClass_d(val);
     switch (cls) {
     case airFP_SNAN:
     case airFP_QNAN:
@@ -199,8 +196,7 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
     case airFP_NEG_INF:
       if (isF) {
         memcpy(conv, "%s", 2);
-      }
-      else {
+      } else {
         /* this sneakiness allows us to replace a 3-character conversion
            sequence for a double (such as %lg) with a 3-character conversion
            for a string, which we know has at most 4 characters */
@@ -221,16 +217,26 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
       ret = PRINT(file, str, fmt, "-inf");
       break;
     default:
-      if (isF) {
-        ret = PRINT(file, str, fmt, valF);
+      if (p2 || p5) {
+        /* got "%g" or "%lg", see if it would be better to use "%f" */
+        sprintf(buff, "%f", val);
+        sscanf(buff, "%lf", &fVal);
+        sprintf(buff, "%g", val);
+        sscanf(buff, "%lf", &gVal);
+        if (fVal != gVal) {
+          /* using %g (or %lg) lost precision!! Use %f (or %lf) instead */
+          if (p2) {
+            memcpy(conv, "%f", 2);
+          } else {
+            memcpy(conv, "%lf", 3);
+          }
+        }
       }
-      else {
-        ret = PRINT(file, str, fmt, valD);
-      }
+      ret = PRINT(file, str, fmt, val);
       break;
     }
-  }
-  else {
+  } else {
+    /* conversion sequence is neither for float nor double */
     ret = file ? vfprintf(file, fmt, ap) : vsprintf(str, fmt, ap);
   }
   

@@ -24,7 +24,6 @@
 
 #include "NrrdIO.h"
 #include "privateNrrd.h"
-#include "teem32bit.h"
 
 /*
   #include <sys/types.h>
@@ -32,7 +31,7 @@
 */
 
 int
-nrrdIoStateSet (NrrdIoState *nio, int parm, int value) {
+nrrdIoStateSet(NrrdIoState *nio, int parm, int value) {
   char me[]="nrrdIoStateSet", err[AIR_STRLEN_MED];
   
   if (!nio) {
@@ -100,7 +99,7 @@ nrrdIoStateSet (NrrdIoState *nio, int parm, int value) {
 }
 
 int
-nrrdIoStateEncodingSet (NrrdIoState *nio, const NrrdEncoding *encoding) {
+nrrdIoStateEncodingSet(NrrdIoState *nio, const NrrdEncoding *encoding) {
   char me[]="nrrdIoStateEncodingSet", err[AIR_STRLEN_MED];
 
   if (!( nio && encoding )) {
@@ -121,7 +120,7 @@ nrrdIoStateEncodingSet (NrrdIoState *nio, const NrrdEncoding *encoding) {
 }
 
 int
-nrrdIoStateFormatSet (NrrdIoState *nio, const NrrdFormat *format) {
+nrrdIoStateFormatSet(NrrdIoState *nio, const NrrdFormat *format) {
   char me[]="nrrdIoStateFormatSet", err[AIR_STRLEN_MED];
 
   if (!( nio && format )) {
@@ -144,7 +143,7 @@ nrrdIoStateFormatSet (NrrdIoState *nio, const NrrdFormat *format) {
 ** no biff
 */
 int
-nrrdIoStateGet (NrrdIoState *nio, int parm) {
+nrrdIoStateGet(NrrdIoState *nio, int parm) {
   char me[]="nrrdIoStateGet";
   int value;
   
@@ -195,7 +194,7 @@ nrrdIoStateGet (NrrdIoState *nio, int parm) {
 ** no biff
 */
 const NrrdEncoding *
-nrrdIoStateEncodingGet (NrrdIoState *nio) {
+nrrdIoStateEncodingGet(NrrdIoState *nio) {
 
   return nio ? nio->encoding : nrrdEncodingUnknown;
 }
@@ -204,7 +203,7 @@ nrrdIoStateEncodingGet (NrrdIoState *nio) {
 ** no biff
 */
 const NrrdFormat *
-nrrdIoStateFormatGet (NrrdIoState *nio) {
+nrrdIoStateFormatGet(NrrdIoState *nio) {
 
   return nio ? nio->format : nrrdFormatUnknown;
 }
@@ -219,7 +218,7 @@ _nrrdStrcatSpaceVector(char *str, int spaceDim,
     strcat(str, "(");
     for (dd=0; dd<spaceDim; dd++) {
       strcpy(buff, "");
-      airSinglePrintf(NULL, buff, "%lg", val[dd]);
+      airSinglePrintf(NULL, buff, "%g", val[dd]);
       strcat(str, buff);
       sprintf(buff, "%s", dd < spaceDim-1 ? "," : ")");
       strcat(str, buff);
@@ -231,7 +230,7 @@ _nrrdStrcatSpaceVector(char *str, int spaceDim,
 }
 
 int
-_nrrdFieldInteresting (const Nrrd *nrrd, NrrdIoState *nio, int field) {
+_nrrdFieldInteresting(const Nrrd *nrrd, NrrdIoState *nio, int field) {
   int ret;
   unsigned int ai;
   
@@ -404,8 +403,8 @@ _nrrdFieldInteresting (const Nrrd *nrrd, NrrdIoState *nio, int field) {
 ** value" is getting pretty tiresome...
 */
 void
-_nrrdSprintFieldInfo (char **strP, char *prefix,
-                      const Nrrd *nrrd, NrrdIoState *nio, int field) {
+_nrrdSprintFieldInfo(char **strP, char *prefix,
+                     const Nrrd *nrrd, NrrdIoState *nio, int field) {
   char me[]="_nrrdSprintFieldInfo", buff[AIR_STRLEN_MED], *fnb;
   double colvec[NRRD_SPACE_DIM_MAX];
   const char *fs;
@@ -476,7 +475,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     *strP = (char *)calloc(fslen + nrrd->dim*30, sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
     for (ii=0; ii<nrrd->dim; ii++) {
-      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[ii].spacing);
+      airSinglePrintf(NULL, buff, " %g", nrrd->axis[ii].spacing);
       strcat(*strP, buff);
     }
     break;
@@ -484,7 +483,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     *strP = (char *)calloc(fslen + nrrd->dim*30, sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
     for (ii=0; ii<nrrd->dim; ii++) {
-      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[ii].thickness);
+      airSinglePrintf(NULL, buff, " %g", nrrd->axis[ii].thickness);
       strcat(*strP, buff);
     }
     break;
@@ -492,7 +491,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     *strP = (char *)calloc(fslen + nrrd->dim*30, sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
     for (ii=0; ii<nrrd->dim; ii++) {
-      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[ii].min);
+      airSinglePrintf(NULL, buff, " %g", nrrd->axis[ii].min);
       strcat(*strP, buff);
     }
     break;
@@ -500,7 +499,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     *strP = (char *)calloc(fslen + nrrd->dim*30, sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
     for (ii=0; ii<nrrd->dim; ii++) {
-      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[ii].max);
+      airSinglePrintf(NULL, buff, " %g", nrrd->axis[ii].max);
       strcat(*strP, buff);
     }
     break;
@@ -592,13 +591,13 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_old_min:
     *strP = (char *)calloc(fslen + 30, sizeof(char));
     sprintf(*strP, "%s%s: ", prefix, fs);
-    airSinglePrintf(NULL, buff, "%lg", nrrd->oldMin);
+    airSinglePrintf(NULL, buff, "%g", nrrd->oldMin);
     strcat(*strP, buff);
     break;
   case nrrdField_old_max:
     *strP = (char *)calloc(fslen + 30, sizeof(char));
     sprintf(*strP, "%s%s: ", prefix, fs);
-    airSinglePrintf(NULL, buff, "%lg", nrrd->oldMax);
+    airSinglePrintf(NULL, buff, "%g", nrrd->oldMax);
     strcat(*strP, buff);
     break;
   case nrrdField_endian:
@@ -739,8 +738,8 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
 ** a file.  Same caveats here: use _nrrdFieldInteresting
 */
 void
-_nrrdFprintFieldInfo (FILE *file, char *prefix,
-                      const Nrrd *nrrd, NrrdIoState *nio, int field) {
+_nrrdFprintFieldInfo(FILE *file, char *prefix,
+                     const Nrrd *nrrd, NrrdIoState *nio, int field) {
   char *line=NULL;
 
   _nrrdSprintFieldInfo(&line, prefix, nrrd, nio, field);
@@ -760,10 +759,10 @@ _nrrdEncodingMaybeSet(NrrdIoState *nio) {
     biffAdd(NRRD, err); return 1;
   }
   if (nrrdEncodingUnknown == nio->encoding) {
-    nio->encoding = nrrdDefWriteEncoding;
+    nio->encoding = nrrdDefaultWriteEncoding;
   }
   if (!nio->encoding->available()) {
-    sprintf(err, "%s: %s encoding not available in this teem build", 
+    sprintf(err, "%s: %s encoding not available in this Teem build", 
             me, nio->encoding->name);
     biffAdd(NRRD, err); return 1;
   }
@@ -777,8 +776,8 @@ _nrrdEncodingMaybeSet(NrrdIoState *nio) {
 ** we must set nio->format to something useful/non-trivial
 */
 int
-_nrrdFormatMaybeGuess (const Nrrd *nrrd, NrrdIoState *nio,
-                       const char *filename) {
+_nrrdFormatMaybeGuess(const Nrrd *nrrd, NrrdIoState *nio,
+                      const char *filename) {
   char me[]="_nrrdFormatMaybeGuess", err[AIR_STRLEN_MED], mesg[AIR_STRLEN_MED];
   int fi, guessed, available, fits;
 
@@ -809,7 +808,7 @@ _nrrdFormatMaybeGuess (const Nrrd *nrrd, NrrdIoState *nio,
   if (!( available && fits )) {
     sprintf(mesg, "can not use %s format: %s", nio->format->name,
             (!available 
-             ? "not available in this teem build"
+             ? "not available in this Teem build"
              : "array doesn\'t fit"));
     if (guessed) {
       if (1 <= nrrdStateVerboseIO) {
@@ -838,7 +837,7 @@ _nrrdFormatMaybeSet(NrrdIoState *nio) {
     nio->format = nrrdFormatNRRD;
   }
   if (!nio->format->available()) {
-    sprintf(err, "%s: %s format not available in this teem build", 
+    sprintf(err, "%s: %s format not available in this Teem build", 
             me, nio->format->name);
     biffAdd(NRRD, err); return 1;
   }
@@ -846,19 +845,26 @@ _nrrdFormatMaybeSet(NrrdIoState *nio) {
 }
 
 /*
-******** nrrdWrite
+** _nrrdWrite
 **
-** Write a nrrd to given file, using the format and and encoding indicated
-** in nio.  There is no cleverness from this point on: all writing parameters
-** must be given explicitly, and their appropriateness is explicitly tested
+** Write a nrrd to given file or string (allocated by nrrd), using the
+** format and and encoding indicated in nio.  Cleverness should be
+** isolated and collected here: by the time nio->format->write() is
+** called, all writing parameters must be given explicitly, and their
+** appropriateness is explicitly tested
 */
 int
-nrrdWrite (FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="nrrdWrite", err[AIR_STRLEN_MED];
+_nrrdWrite(FILE *file, char **stringP, const Nrrd *nrrd, NrrdIoState *_nio) {
+  char me[]="_nrrdWrite", err[AIR_STRLEN_MED];
+  NrrdIoState *nio;
   airArray *mop;
 
-  if (!(file && nrrd)) {
+  if (!((file || stringP) && nrrd)) {
     sprintf(err, "%s: got NULL pointer", me);
+    biffAdd(NRRD, err); return 1;
+  }
+  if (file && stringP) {
+    sprintf(err, "%s: can't write to both file and string", me);
     biffAdd(NRRD, err); return 1;
   }
   if (nrrdCheck(nrrd)) {
@@ -866,7 +872,9 @@ nrrdWrite (FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
     biffAdd(NRRD, err); return 1;
   }
   mop = airMopNew();
-  if (!nio) {
+  if (_nio) {
+    nio = _nio;
+  } else {
     nio = nrrdIoStateNew();
     if (!nio) {
       sprintf(err, "%s: couldn't alloc local NrrdIoState", me);
@@ -886,13 +894,72 @@ nrrdWrite (FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
     biffAdd(NRRD, err); airMopError(mop); return 1;
   }
 
-  /* call the writer appropriate for the format */
-  if (nio->format->write(file, nrrd, nio)) {
-    sprintf(err, "%s:", me);
-    biffAdd(NRRD, err); airMopError(mop); return 1;
+  if (stringP) {
+    if (nrrdFormatNRRD != nio->format) {
+      sprintf(err, "%s: sorry, can only write %s files to strings (not %s)",
+              me, nrrdFormatNRRD->name, nio->format->name);
+      biffAdd(NRRD, err); airMopError(mop); return 1;
+    }
+    /* we do this in two passes; first see how much room is needed
+       for the header, then allocate, then write the header */
+    nio->learningHeaderStrlen = AIR_TRUE;
+    if (nio->format->write(NULL, nrrd, nio)) {
+      sprintf(err, "%s:", me);
+      biffAdd(NRRD, err); airMopError(mop); return 1;
+    }
+    *stringP = (char*)malloc(nio->headerStrlen + 1);
+    if (!*stringP) {
+      sprintf(err, "%s: couldn't allocate header string (%u len )",
+              me, nio->headerStrlen);
+      biffAdd(NRRD, err); airMopError(mop); return 1;
+    }
+    nio->learningHeaderStrlen = AIR_FALSE;
+    nio->headerStringWrite = *stringP;
+    if (nio->format->write(NULL, nrrd, nio)) {
+      sprintf(err, "%s:", me);
+      biffAdd(NRRD, err); airMopError(mop); return 1;
+    }
+  } else {
+    /* call the writer appropriate for the format */
+    if (nio->format->write(file, nrrd, nio)) {
+      sprintf(err, "%s:", me);
+      biffAdd(NRRD, err); airMopError(mop); return 1;
+    }
   }
   
-  airMopOkay(mop); 
+  airMopOkay(mop);
+  return 0;
+}
+
+/*
+******** nrrdWrite
+**
+** wrapper around _nrrdWrite; writes to a FILE*
+*/
+int
+nrrdWrite(FILE *file, const Nrrd *nrrd, NrrdIoState *_nio) {
+  char me[]="nrrdWrite", err[AIR_STRLEN_MED];
+
+  if (_nrrdWrite(file, NULL, nrrd, _nio)) {
+    sprintf(err, "%s: trouble", me);
+    biffAdd(NRRD, err); return 1;
+  }
+  return 0;
+}
+ 
+/*
+******** nrrdStringWrite
+**
+** wrapper around _nrrdWrite; *allocates* and writes to a string
+*/
+int
+nrrdStringWrite(char **stringP, const Nrrd *nrrd, NrrdIoState *_nio) {
+  char me[]="nrrdStringWrite", err[AIR_STRLEN_MED];
+
+  if (_nrrdWrite(NULL, stringP, nrrd, _nio)) {
+    sprintf(err, "%s: trouble", me);
+    biffAdd(NRRD, err); return 1;
+  }
   return 0;
 }
  
@@ -907,7 +974,7 @@ nrrdWrite (FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
 ** game, the data file is ALWAYS header relative.
 */
 int
-nrrdSave (const char *filename, const Nrrd *nrrd, NrrdIoState *nio) {
+nrrdSave(const char *filename, const Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="nrrdSave", err[AIR_STRLEN_MED];
   FILE *file;
   airArray *mop;
