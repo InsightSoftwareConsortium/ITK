@@ -19,12 +19,13 @@
    //Warning about: identifier was truncated to '255' characters in the debug information (MVC6.0 Debug)
 #pragma warning( disable : 4786 )
 #endif
+#if ! defined(_MSC_VER) //NOTE: This class does not work under MSVS6
 
+#include "itkLoggerThreadWrapper.h"
 #include <iostream>
 #include <fstream>
 #include "itkStdStreamLogOutput.h"
 #include "itkLoggerBase.h"
-#include "itkLoggerThreadWrapper.h"
 
 /** \class SimpleLogger
  *  \brief Class SimpleLogger is meant to demonstrate how to change the formatting of the LoggerBase mechanism
@@ -85,10 +86,12 @@ public:
 private:
   itk::LoggerBase* m_Logger;
 };
+#endif// ! defined(_MSC_VER) //NOTE: This class does not work under MSVS6
 
 
 int itkLoggerThreadWrapperTest( int argc, char * argv[] )
 {
+#if ! defined(_MSC_VER) //NOTE: This class does not work under MSVS6
   try
     {
     if (argc < 2)
@@ -153,6 +156,7 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     }
 
   std::cout << "[PASSED]" << std::endl;
+#endif //! defined(_MSC_VER) //NOTE: This class does not work under MSVS6
   return EXIT_SUCCESS;
 }
 

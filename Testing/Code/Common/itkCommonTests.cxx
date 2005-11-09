@@ -81,7 +81,7 @@ REGISTER_TEST(itkLightObjectTest );
 REGISTER_TEST(itkLineIteratorTest );
 REGISTER_TEST(itkLevelSetFunctionTest );
 REGISTER_TEST(itkLoggerTest );
-REGISTER_TEST(itkLoggerThreadWrapperTest );
+//Add this once it is tested under VS6 and VS 7 REGISTER_TEST(itkLoggerThreadWrapperTest );
 REGISTER_TEST(itkLoggerOutputTest );
 REGISTER_TEST(itkLoggerManagerTest );
 REGISTER_TEST(itkMatrixTest );
