@@ -29,8 +29,8 @@ SET(Libraries ITKCommon ITKBasicFilters ITKIO)
 #MyExe will be built using the files MyClass.h and MyClass.cxx, and it will
 #be linked to all the libraries you specified      above.
 #You can build more than one executable            per project
-SET(CurrentExe "MyExe")
-ADD_EXECUTABLE(${ CurrentExe } MyClass.h MyClass.cxx)
+SET(CurrentExe "")
+ADD_EXECUTABLE(${ CurrentExe } test.cxx)
 TARGET_LINK_LIBRARIES(${ CurrentExe } ${ Libraries })
 
 #the following line is an example of how to add a test to your project.
@@ -41,5 +41,5 @@ TARGET_LINK_LIBRARIES(${ CurrentExe } ${ Libraries })
 #any tests you can comment out or delete the following           line.
 #ADD_TEST(Testname ExecutableToRun arg1 arg2 arg3)
 
-ADD_TEST(${ CMAKE_SOURCE_DIR } /.png out.png)
-ADD_TEST(CompareImage ImageCompare out.png ${ CMAKE_SOURCE_DIR } /.png)
+ADD_TEST(${ CurrentExe } ${ CMAKE_SOURCE_DIR } /.png out.png)
+ADD_TEST(CompareImage ImageCompare out.png ${ CMAKE_SOURCE_DIR } / ${ CurrentExe }.png)
