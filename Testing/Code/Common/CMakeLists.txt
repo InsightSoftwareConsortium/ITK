@@ -100,9 +100,7 @@ ADD_TEST(itkLineIteratorTest ${COMMON_TESTS}
 )
 ADD_TEST(itkLevelSetFunctionTest ${COMMON_TESTS} itkLevelSetFunctionTest)
 ADD_TEST(itkLoggerTest ${COMMON_TESTS} itkLoggerTest ${TEMP}/test_logger.txt)
-IF(WIN32)
 ADD_TEST(itkLoggerThreadWrapperTest ${COMMON_TESTS} itkLoggerThreadWrapperTest ${TEMP}/test_logger.txt)
-ENDIF(WIN32)
 ADD_TEST(itkLoggerOutputTest ${COMMON_TESTS} itkLoggerOutputTest ${TEMP}/test_loggerOutput.txt)
 ADD_TEST(itkLoggerManagerTest ${COMMON_TESTS} itkLoggerManagerTest ${TEMP}/test_LoggerManager.txt)
 ADD_TEST(itkMatrixTest ${COMMON_TESTS} itkMatrixTest)
@@ -222,12 +220,7 @@ WRITE_FILE(
   "</Site>\n"
 )
 #-----------------------------------------------------------------------------
-IF(NOT WIN32)
-   SET(WORKING_COMPILER_SRCS  itkLoggerThreadWrapperTest.cxx)
-ENDIF(NOT WIN32)
-
 SET(BasicTests_SRCS
-${WORKING_COMPILER_SRCS}
 itkImageComputeOffsetAndIndexTest.cxx
 itkCommonPrintTest.cxx
 itkConditionVariableTest.cxx
@@ -302,6 +295,7 @@ itkLineIteratorTest.cxx
 itkLoggerTest.cxx
 itkLoggerOutputTest.cxx
 itkLoggerManagerTest.cxx
+itkLoggerThreadWrapperTest.cxx
 itkMatrixTest.cxx
 itkMapContainerTest.cxx
 itkMahalanobisDistanceThresholdImageFunctionTest.cxx
