@@ -60,8 +60,6 @@ public:
   unsigned int TileHeight;
   unsigned short NumberOfTiles;
   unsigned int SubFiles;
-
-  float XResolution;
 };
 
 int TIFFReaderInternal::Open( const char *filename )
@@ -106,7 +104,6 @@ void TIFFReaderInternal::Clean()
   this->TileDepth = 0;
   this->CurrentPage = 0;
   this->NumberOfPages = 0;
-  this->XResolution = 0.0;
   this->NumberOfTiles = 0;
   this->TileRows = 0;
   this->TileColumns = 0;
