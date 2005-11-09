@@ -21,10 +21,12 @@ extern "C" {
 #endif
 
 #include <vxl_config.h>
+#ifndef sqrtf // for VS8
 #if VXL_C_MATH_HAS_SQRTF
 float sqrtf(float);
 #else
 # define sqrtf(f) ((float)sqrt((double)(f)))
+#endif
 #endif
 
   char * F77_aloc(int Len, const char *whence);
