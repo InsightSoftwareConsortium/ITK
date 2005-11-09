@@ -1142,26 +1142,37 @@ AnalyzeImageIO
     strncpy(this->m_hdr.hist.aux_file,temp.c_str(),24);//Note this is necessary because the array is not necessarily null terminated.
     }
 
-  {
-    itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
-    if ( itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient) )
-        {
-        switch (coord_orient)
-            {
-        case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
-            this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE;
-            break;
-        case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
-            this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL;
-            break;
-        case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
-            this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
-            break;
-        default:
-            break;
-            }
-        }
-  }
+  itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
+  if ( !itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient) )
+    {
+    std::vector<double> dirx = this->GetDirection(0),
+      diry = this->GetDirection(1),
+      dirz = this->GetDirection(2);
+    typedef itk::SpatialOrientationAdapter<3>::DirectionType DirectionType;
+    DirectionType dir;
+    for(unsigned int i = 0; i < 3; i++)
+      {
+      dir[i][0] = dirx[i];
+      dir[i][1] = diry[i];
+      dir[i][2] = dirz[i];
+      }
+    coord_orient =
+      itk::SpatialOrientationAdapter<3>().FromDirectionCosines(dir);
+    }
+  switch (coord_orient)
+    {
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
+      this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE;
+      break;
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
+      this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL;
+      break;
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
+      this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
+      break;
+    default:
+      break;
+    }
 
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_FileOriginator,temp))
     {
