@@ -42,6 +42,7 @@ public:
   int CanRead();
   int Open( const char *filename );
   TIFF *Image;
+  bool IsOpen;
   unsigned int Width;
   unsigned int Height;
   unsigned short NumberOfPages;
@@ -83,6 +84,7 @@ int TIFFReaderInternal::Open( const char *filename )
     return 0;
     }
 
+  this->IsOpen = true;
   return 1;
 }
 
@@ -110,6 +112,7 @@ void TIFFReaderInternal::Clean()
   this->TileWidth = 0;
   this->TileHeight = 0;
   this->SubFiles = 0;
+  this->IsOpen = false;
 }
 
 TIFFReaderInternal::TIFFReaderInternal()
@@ -956,11 +959,10 @@ void TIFFImageIO::Read(void* buffer)
 {
 
   if ( m_InternalImage->Compression == COMPRESSION_OJPEG )
-      {
-      itkExceptionMacro( << "This reader cannot read old JPEG compression" );
-      return;
-      }
-
+    {
+    itkExceptionMacro( << "This reader cannot read old JPEG compression" );
+    return;
+    }
 
   // The IO region should be of dimensions 3 otherwise we read only the first page
   if(m_InternalImage->NumberOfPages>0 && this->GetIORegion().GetImageDimension()>2)
@@ -1085,6 +1087,17 @@ void TIFFImageIO::InitializeColors()
   
 void TIFFImageIO::ReadImageInformation()
 {
+  // If the internal image was not open we open it.
+  // This is usually done when the user sets the ImageIO manually
+  if(!m_InternalImage->IsOpen)
+    {
+    if(!this->CanReadFile(this->m_FileName.c_str()))
+      {
+      itkExceptionMacro(<<"Cannot open the file!");
+      return;
+      }
+    }
+ 
   m_Spacing[0] = 1.0;  // We'll look for TIFF pixel size information later,
   m_Spacing[1] = 1.0;  // but set the defaults now
 
