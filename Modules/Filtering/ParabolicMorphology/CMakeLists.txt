@@ -1,6 +1,9 @@
 #Change PROJECT_NAME to the name of your project
 PROJECT()
 
+#set the name of the input image used to run the test
+SET(INPUT_IMAGE "")
+
 #include some macros from another file...
 INCLUDE(IJMacros.txt)
 
@@ -29,9 +32,8 @@ SET(Libraries ITKCommon ITKBasicFilters ITKIO)
 #MyExe will be built using the files MyClass.h and MyClass.cxx, and it will
 #be linked to all the libraries you specified      above.
 #You can build more than one executable            per project
-SET(CurrentExe "")
-ADD_EXECUTABLE(${ CurrentExe } test.cxx)
-TARGET_LINK_LIBRARIES(${ CurrentExe } ${ Libraries })
+ADD_EXECUTABLE(test test.cxx)
+TARGET_LINK_LIBRARIES(test ${ Libraries })
 
 #the following line is an example of how to add a test to your project.
 #Testname is the title for this particular test.ExecutableToRun is the
@@ -41,5 +43,5 @@ TARGET_LINK_LIBRARIES(${ CurrentExe } ${ Libraries })
 #any tests you can comment out or delete the following           line.
 #ADD_TEST(Testname ExecutableToRun arg1 arg2 arg3)
 
-ADD_TEST(Run ${ CurrentExe } ${ CMAKE_SOURCE_DIR } /.png out.png)
-ADD_TEST(CompareImage ImageCompare out.png ${ CMAKE_SOURCE_DIR } / ${ CurrentExe }.png)
+ADD_TEST(Run test ${ CMAKE_SOURCE_DIR } / ${ INPUT_IMAGE } out.png)
+ADD_TEST(CompareImage ImageCompare out.png ${ CMAKE_SOURCE_DIR } / test.png)
