@@ -1,5 +1,5 @@
 #Change PROJECT_NAME to the name of your project
-PROJECT(PROJECT_NAME)
+PROJECT()
 
 #include some macros from another file...
 INCLUDE(IJMacros.txt)
@@ -39,5 +39,7 @@ TARGET_LINK_LIBRARIES(${ CurrentExe } ${ Libraries })
 #project or an external executable.After that list any args that are needed
 #for this test.Include as many tests as you like.If your project doesn't have
 #any tests you can comment out or delete the following           line.
-ADD_TEST(Testname ExecutableToRun arg1 arg2 arg3)
-ADD_TEST(CompareImage ImageCompare ${ CMAKE_SOURCE_DIR } / img1.png ${ CMAKE_SOURCE_DIR } / img1.png.base.png)
+#ADD_TEST(Testname ExecutableToRun arg1 arg2 arg3)
+
+ADD_TEST(${ CMAKE_SOURCE_DIR } /.png out.png)
+ADD_TEST(CompareImage ImageCompare out.png ${ CMAKE_SOURCE_DIR } /.png)
