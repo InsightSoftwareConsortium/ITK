@@ -317,11 +317,6 @@ void
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  // Need to allocate output buffer
-  typename OutputImageType::Pointer output = this->GetOutput();
-  output->SetBufferedRegion(output->GetRequestedRegion());
-  output->Allocate();
-
   typename  InputImageType::ConstPointer  input  = this->GetInput();
   typename  OutputImageType::Pointer zeroCross;
 
