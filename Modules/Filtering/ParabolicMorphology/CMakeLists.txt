@@ -41,5 +41,5 @@ TARGET_LINK_LIBRARIES(${ CurrentExe } ${ Libraries })
 #any tests you can comment out or delete the following           line.
 #ADD_TEST(Testname ExecutableToRun arg1 arg2 arg3)
 
-ADD_TEST(${ CurrentExe } ${ CMAKE_SOURCE_DIR } /.png out.png)
+ADD_TEST(Run ${ CurrentExe } ${ CMAKE_SOURCE_DIR } /.png out.png)
 ADD_TEST(CompareImage ImageCompare out.png ${ CMAKE_SOURCE_DIR } / ${ CurrentExe }.png)
