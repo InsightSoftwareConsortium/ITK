@@ -14,7 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#if ! defined(_MSC_VER)  &&  ( (__GNUC__ >= 2) )//NOTE: This class does not work under MSVS6, or gnu 2.95
+#if ! ( defined(_MSC_VER)  ||   (defined(__GNUC__) && (__GNUC__ <= 2) ))//NOTE: This class does not work under MSVS6, or gnu 2.95
 
 #include<iostream>
 #include "itkLoggerThreadWrapper.h"
