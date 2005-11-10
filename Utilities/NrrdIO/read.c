@@ -30,9 +30,10 @@
 #include <bzlib.h>
 #endif
 
+#include "teem32bit.h"
+
 char _nrrdRelativePathFlag[] = "./";
 char _nrrdFieldSep[] = " \t";
-char _nrrdLineSep[] = "\r\n";
 char _nrrdNoSpaceVector[] = "none";
 char _nrrdTextSep[] = " ,\t";
 
@@ -40,31 +41,6 @@ typedef union {
   char ***c;
   void **v;
 } _cppu;
-
-/*
-** return length of next "line" in nio->headerStringRead
-*/
-unsigned int
-_nrrdHeaderStringOneLineStrlen(NrrdIoState *nio) {
-
-  return strcspn(nio->headerStringRead + nio->headerStrpos, _nrrdLineSep);
-}
-
-/*
-** read next "line" in nio->headerStringRead
-*/
-unsigned int
-_nrrdHeaderStringOneLine(NrrdIoState *nio) {
-  unsigned int len1, len2;
-
-  len1 = _nrrdHeaderStringOneLineStrlen(nio);
-  strncpy(nio->line, nio->headerStringRead + nio->headerStrpos, len1);
-  nio->line[len1] = '\0';
-  nio->headerStrpos += len1;
-  len2 = strspn(nio->headerStringRead + nio->headerStrpos, _nrrdLineSep);
-  nio->headerStrpos += len2;
-  return len1;
-}
 
 /*
 ** _nrrdOneLine
@@ -80,53 +56,31 @@ _nrrdHeaderStringOneLine(NrrdIoState *nio) {
 ** Does use biff
 */
 int
-_nrrdOneLine(unsigned int *lenP, NrrdIoState *nio, FILE *file) {
+_nrrdOneLine (unsigned int *lenP, NrrdIoState *nio, FILE *file) {
   char me[]="_nrrdOneLine", err[AIR_STRLEN_MED], **line;
   airArray *mop, *lineArr;
   int lineIdx;
   _cppu u;
-  unsigned int len, needLen;
+  unsigned int len;
 
-  if (!( lenP && nio && (file || nio->headerStringRead))) {
-    sprintf(err, "%s: got NULL pointer (%p, %p, %p/%p)", me,
-            AIR_CAST(void*, lenP), AIR_CAST(void*, nio),
-            AIR_CAST(void*, file), nio->headerStringRead);
+  if (!( lenP && nio && file)) {
+    sprintf(err, "%s: got NULL pointer (%p, %p, %p)", me,
+            lenP, nio, file);
     biffAdd(NRRD, err); return 1;
   }
   if (0 == nio->lineLen) {
     /* nio->line hasn't been allocated for anything */
+    nio->line = (char*)calloc(3, sizeof(char));
     nio->lineLen = 3;
-    nio->line = (char*)malloc(nio->lineLen);
-    if (!nio->line) {
-      sprintf(err, "%s: couldn't alloc %d-char line\n", me, nio->lineLen);
-      biffAdd(NRRD, err); *lenP = 0; return 1;
-    }
   }
-  if (file) {
-    len = airOneLine(file, nio->line, nio->lineLen);
-  } else {
-    /* NOTE: NULL-ity error check above makes this safe */
-    needLen = _nrrdHeaderStringOneLineStrlen(nio);
-    if (needLen+1 > nio->lineLen) {
-      nio->lineLen = needLen+1;
-      airFree(nio->line);  /* lose previous allocated line */
-      nio->line = (char*)malloc(nio->lineLen);
-      if (!nio->line) {
-        sprintf(err, "%s: couldn't alloc %d-char line\n", me, nio->lineLen);
-        biffAdd(NRRD, err); *lenP = 0; return 1;
-      }
-    }
-    len = _nrrdHeaderStringOneLine(nio);
-  }
+  len = airOneLine(file, nio->line, nio->lineLen);
   if (len <= nio->lineLen) {
-    /* otherwise we hit EOF (or end of nio->headerStringRead) before a
-       newline, or the line (possibly empty) fit within the nio->line,
-       neither of which is an error here */
+    /* otherwise we hit EOF before a newline, or the line (possibly empty)
+       fit within the nio->line, neither of which is an error here */
     *lenP = len;
   } else {
     /* line didn't fit in buffer, so we have to increase line
        buffer size and put the line together in pieces */
-    /* NOTE: this will never happen when reading from nio->headerStringRead */
     u.c = &line;
     lineArr = airArrayNew(u.v, NULL, sizeof(char *), 1);
     if (!lineArr) {
@@ -191,7 +145,7 @@ _nrrdOneLine(unsigned int *lenP, NrrdIoState *nio, FILE *file) {
 ** NOTE: this assumes the checking that is done by _nrrdHeaderCheck
 */
 int
-_nrrdCalloc(Nrrd *nrrd, NrrdIoState *nio, FILE *file) {
+_nrrdCalloc (Nrrd *nrrd, NrrdIoState *nio, FILE *file) {
   char me[]="_nrrdCalloc", err[AIR_STRLEN_MED];
   size_t needDataSize;
   int fd;
@@ -233,7 +187,7 @@ _nrrdCalloc(Nrrd *nrrd, NrrdIoState *nio, FILE *file) {
 ** uses the NrrdIoState for its line buffer (used by _nrrdOneLine)
 */
 int
-nrrdLineSkip(FILE *dataFile, NrrdIoState *nio) {
+nrrdLineSkip (FILE *dataFile, NrrdIoState *nio) {
   unsigned int lsi, skipRet;
   char me[]="nrrdLineSkip", err[AIR_STRLEN_MED];
 
@@ -270,7 +224,7 @@ nrrdLineSkip(FILE *dataFile, NrrdIoState *nio) {
 ** with -1 == byteSkip
 */
 int
-nrrdByteSkip(FILE *dataFile, Nrrd *nrrd, NrrdIoState *nio) {
+nrrdByteSkip (FILE *dataFile, Nrrd *nrrd, NrrdIoState *nio) {
   int i, skipRet;
   char me[]="nrrdByteSkip", err[AIR_STRLEN_MED];
   size_t bsize;
@@ -319,24 +273,21 @@ nrrdByteSkip(FILE *dataFile, Nrrd *nrrd, NrrdIoState *nio) {
 }
 
 /*
-** _nrrdRead()
+******** nrrdRead()
 **
-** read in nrrd from a given file *OR* given string.  The main job of
-** this function is to start reading the file/string, to determine the
-** format, and then call the appropriate format's reader.  This means
-** that the various encoding (data) readers can assume that
-** nio->format is usefully set.
+** read in nrrd from a given file.  The main job of this function is to
+** start reading the file, to determine the format, and then call the
+** appropriate format's reader.  This means that the various encoding
+** (data) readers can assume that nio->format is usefully set.
 **
-** If (file), the only input information that nio is used for is
-** nio->path, so that detached header-relative data files can be
-** found. If (string), the headerStr-related fields in the _nio will
-** be set/used
+** The only input information that nio is used for is nio->path, so that
+** detached header-relative data files can be found.  
+**
 */
 int
-_nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
-  char me[]="_nrrdRead", err[AIR_STRLEN_MED];
+nrrdRead (Nrrd *nrrd, FILE *file, NrrdIoState *nio) {
+  char me[]="nrrdRead", err[AIR_STRLEN_MED];
   unsigned int llen;
-  NrrdIoState *nio;
   int nfi;
   airArray *mop; 
 
@@ -346,18 +297,12 @@ _nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
     biffAdd(NRRD, err); return 1;
   }
 
-  if (!((file || string) && nrrd)) {
+  if (!(file && nrrd)) {
     sprintf(err, "%s: got NULL pointer", me);
     biffAdd(NRRD, err); return 1;
   }
-  if (file && string) {
-    sprintf(err, "%s: can't read from both file and string", me);
-    biffAdd(NRRD, err); return 1;
-  }
   mop = airMopNew();
-  if (_nio) {
-    nio = _nio;
-  } else {
+  if (!nio) {
     nio = nrrdIoStateNew();
     if (!nio) {
       sprintf(err, "%s: couldn't alloc I/O struct", me);
@@ -381,9 +326,6 @@ _nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
   /* initialize given nrrd (but we have thwarted freeing existing memory)  */
   nrrdInit(nrrd);
 
-  /* tell the nio where to find the string to read from */
-  nio->headerStringRead = string;
-
   if (_nrrdOneLine(&llen, nio, file)) {
     sprintf(err, "%s: error getting first line (containing \"magic\")", me);
     biffAdd(NRRD, err); airMopError(mop); return 1;
@@ -405,11 +347,6 @@ _nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
   if (nrrdFormatUnknown == nio->format) {
     sprintf(err, "%s: couldn't parse \"%s\" as magic or beginning of "
             "any recognized format", me, nio->line);
-    biffAdd(NRRD, err); airMopError(mop); return 1;
-  }
-  if (string && nrrdFormatNRRD != nio->format) {
-    sprintf(err, "%s: sorry, can only read %s files from strings (not %s)",
-            me, nrrdFormatNRRD->name, nio->format->name);
     biffAdd(NRRD, err); airMopError(mop); return 1;
   }
   
@@ -447,42 +384,6 @@ _nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
 }
 
 /*
-******** nrrdRead()
-**
-** now just a wrapper around _nrrdRead(); reads a NRRD from a FILE *
-*/
-int
-nrrdRead(Nrrd *nrrd, FILE *file, NrrdIoState *_nio) {
-  char me[]="nrrdRead", err[AIR_STRLEN_MED];
-
-  if (_nrrdRead(nrrd, file, NULL, _nio)) {
-    sprintf(err, "%s: trouble", me);
-    biffAdd(NRRD, err); return 1;
-  }
-  return 0;
-}
-
-/*
-******** nrrdStringRead()
-**
-** also a wrapper around _nrrdRead(); reads a NRRD from a char *.
-**
-** Because the same underlying _nrrdRead() is used, the same semantics
-** about using existing nrrd->data when possible applies, as does the
-** action of nrrdStateGrayscaleImage3D
-*/
-int
-nrrdStringRead(Nrrd *nrrd, const char *string, NrrdIoState *_nio) {
-  char me[]="nrrdRead", err[AIR_STRLEN_MED];
-
-  if (_nrrdRead(nrrd, NULL, string, _nio)) {
-    sprintf(err, "%s: trouble", me);
-    biffAdd(NRRD, err); return 1;
-  }
-  return 0;
-}
-
-/*
 ** _nrrdSplitName()
 **
 ** splits a file name into a path and a base filename.  The directory
@@ -494,7 +395,7 @@ nrrdStringRead(Nrrd *nrrd, const char *string, NrrdIoState *_nio) {
 ** ".", and the name is copied into base.
 */
 void
-_nrrdSplitName(char **dirP, char **baseP, const char *name) {
+_nrrdSplitName (char **dirP, char **baseP, const char *name) {
   char *where;
   
   if (dirP) {
@@ -590,7 +491,7 @@ I plan on shamelessly copying this, just like I shamelessly copied the
 ** 
 */
 int
-nrrdLoad(Nrrd *nrrd, const char *filename, NrrdIoState *nio) {
+nrrdLoad (Nrrd *nrrd, const char *filename, NrrdIoState *nio) {
   char me[]="nrrdLoad", err[AIR_STRLEN_MED];
   FILE *file;
   airArray *mop;

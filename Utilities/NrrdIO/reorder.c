@@ -25,6 +25,8 @@
 #include "NrrdIO.h"
 #include "privateNrrd.h"
 
+#include "teem32bit.h"
+
 /*
 ******** nrrdInvertPerm()
 **
@@ -102,9 +104,7 @@ nrrdAxesInsert(Nrrd *nout, const Nrrd *nin, unsigned int axis) {
   }
   if (nout != nin) {
     if (_nrrdCopy(nout, nin, (NRRD_BASIC_INFO_COMMENTS_BIT
-                              | (nrrdStateKeyValuePairsPropagate
-                                 ? 0
-                                 : NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT)))) {
+                              | NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT))) {
       sprintf(err, "%s:", me);
       biffAdd(NRRD, err); return 1;
     }
@@ -269,9 +269,7 @@ nrrdAxesPermute(Nrrd *nout, const Nrrd *nin, const unsigned int *axes) {
                             | NRRD_BASIC_INFO_DIMENSION_BIT
                             | NRRD_BASIC_INFO_CONTENT_BIT
                             | NRRD_BASIC_INFO_COMMENTS_BIT
-                            | (nrrdStateKeyValuePairsPropagate
-                               ? 0
-                               : NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT))) {
+                            | NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT)) {
         sprintf(err, "%s:", me);
         biffAdd(NRRD, err); airMopError(mop); return 1;
       }
@@ -406,9 +404,7 @@ nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis,
                         | NRRD_BASIC_INFO_DIMENSION_BIT
                         | NRRD_BASIC_INFO_CONTENT_BIT
                         | NRRD_BASIC_INFO_COMMENTS_BIT
-                        | (nrrdStateKeyValuePairsPropagate
-                           ? 0
-                           : NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT))) {
+                        | NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT)) {
     sprintf(err, "%s:", me);
     biffAdd(NRRD, err); return 1;
   }

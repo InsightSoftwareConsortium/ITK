@@ -52,8 +52,6 @@ nrrdIoStateDataFileIterBegin(NrrdIoState *nio) {
 **
 ** NOTE: if the filename is "-", then because it does not start with '/',
 ** it would normally be prefixed by nio->path, so it needs special handling
-**
-** NOTE: this should work okay with nio->headerStringRead, I think ...
 */
 int
 nrrdIoStateDataFileIterNext(FILE **fileP, NrrdIoState *nio, int reading) {
@@ -169,13 +167,7 @@ nrrdIoStateDataFileIterNext(FILE **fileP, NrrdIoState *nio, int reading) {
     }
   } else {
     /* data file is attached */
-    if (nio->headerStringRead) {
-      /* except we were never reading from a file to begin with, but this
-         isn't an error */
-      *fileP = NULL;
-    } else {
-      *fileP = nio->headerFile;
-    }
+    *fileP = nio->headerFile;
   }
   
   airMopOkay(mop);
@@ -227,7 +219,7 @@ _nrrdFormatNRRD_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
 
   if (!( nrrd && encoding )) {
     sprintf(err, "%s: got NULL nrrd (%p) or encoding (%p)",
-            me, AIR_CAST(void*, nrrd), AIR_CAST(void*, encoding));
+            me, nrrd, encoding);
     biffMaybeAdd(NRRD, err, useBiff); 
     return AIR_FALSE;
   }
@@ -261,7 +253,7 @@ _nrrdFormatNRRD_contentStartsLike(NrrdIoState *nio) {
 **
 */
 int
-_nrrdHeaderCheck(Nrrd *nrrd, NrrdIoState *nio, int checkSeen) {
+_nrrdHeaderCheck (Nrrd *nrrd, NrrdIoState *nio, int checkSeen) {
   char me[]="_nrrdHeaderCheck", err[AIR_STRLEN_MED];
   int i;
 
@@ -306,10 +298,10 @@ _nrrdHeaderCheck(Nrrd *nrrd, NrrdIoState *nio, int checkSeen) {
 }
 
 /*
-** NOTE: currently, this will read, without complaints or errors,
-** newer NRRD format features from older NRRD files (as indicated by
-** magic), such as key/value pairs from a NRRD0001 file, even though
-** strictly speaking these are violations of the format.
+** NOTE: currently, this will read advanced NRRD format features 
+** from old NRRD files (with old magic), such as key/value pairs
+** from a NRRD0001 file, without any complaints even though strictly
+** speaking these are violations of the format.
 **
 ** NOTE: by giving a NULL "file", you can make this function basically
 ** do the work of reading in datafiles, without any header parsing 
@@ -330,10 +322,7 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
      nrrdIoStateDataFileIterNext() */
   nio->headerFile = file;
 
-  /* HEY: GLK forgets the context in which file might be reasonably NULL
-     but on Fri Sep 23 09:48:41 EDT 2005 this was "if (file) { ..." */
-  /* nio->headerStringRead is NULL whenever IO from string is not being done */
-  if (file || nio->headerStringRead) {
+  if (file) {
     if (!_nrrdFormatNRRD_contentStartsLike(nio)) {
       if ((err = (char*)malloc(AIR_STRLEN_MED))) {
         sprintf(err, "%s: this doesn't look like a %s file", me,
@@ -387,14 +376,12 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
       }
     } while (llen > 1);
     /* either
-       0 == llen: we're at EOF (or end of nio->headerStringRead), or
+       0 == llen: we're at EOF, or
        1 == llen: we just read the empty line seperating header from data */
-    if (0 == llen
-        && !nio->headerStringRead
+    if (0 == llen 
         && !nio->dataFNFormat
         && 0 == nio->dataFNArr->len) { 
-      /* we're at EOF, we're not reading from a string, but there's
-         apparently no seperate data file */
+      /* we're at EOF, but there's apparently no seperate data file */
       if ((err = (char*)malloc(AIR_STRLEN_MED))) {
         sprintf(err, "%s: hit end of header, but no \"%s\" given", me,
                 airEnumStr(nrrdField, nrrdField_data_file));
@@ -413,10 +400,10 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
     return 1;
   }
 
-  /* we seemed to have read in a valid header; now allocate the memory.
-     For directIO-compatible allocation we need to get the first datafile */
+
+  /* we seemed to have read in a valid header; now allocate the memory */
+  /* for directIO-compatible allocation we need to get the first datafile */
   nrrdIoStateDataFileIterBegin(nio);
-  /* NOTE: if nio->headerStringRead, this may set dataFile to NULL */
   if (nrrdIoStateDataFileIterNext(&dataFile, nio, AIR_TRUE)) {
     if ((err = (char*)malloc(AIR_STRLEN_MED))) {
       sprintf(err, "%s: couldn't open the first datafile", me);
@@ -443,7 +430,7 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
      caller might have set keepNrrdDataFileOpen, in which case you need to
      do any line or byte skipping if it is specified */
   valsPerPiece = nrrdElementNumber(nrrd)/_nrrdDataFNNumber(nio);
-  while (dataFile) {
+  do {
     /* ---------------- skip, if need be */
     if (nrrdLineSkip(dataFile, nio)) {
       if ((err = (char*)malloc(AIR_STRLEN_MED))) {
@@ -499,9 +486,9 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
       }
       return 1;
     }
-  }
+  } while (dataFile);
 
-  if (airEndianUnknown != nio->endian && nrrd->data) {
+  if (airEndianUnknown != nio->endian) {
     /* we positively know the endianness of data just read */
     if (1 < nrrdElementSize(nrrd)
         && nio->encoding->endianMatters
@@ -513,7 +500,7 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
       }
       nrrdSwapEndian(nrrd);
       if (2 <= nrrdStateVerboseIO) {
-        fprintf(stderr, "done)\n");
+        fprintf(stderr, "done)");
         fflush(stderr);
       }
     }
@@ -524,8 +511,7 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
 
 int
 _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="_nrrdFormatNRRD_write", err[AIR_STRLEN_MED], 
-    strbuf[AIR_STRLEN_MED], *strptr, *tmp;
+  char me[]="_nrrdFormatNRRD_write", err[AIR_STRLEN_MED], *tmp;
   int ii;
   unsigned int jj;
   airArray *mop;
@@ -535,23 +521,15 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
 
   mop = airMopNew();
 
-  if (!(file
-        || nio->headerStringWrite
-        || nio->learningHeaderStrlen)) {
-    sprintf(err, "%s: have no file or string to write to, nor are "
-            "learning header string length", me);
-    biffAdd(NRRD, err); airMopError(mop); return 1;
-  }
   if (nrrdTypeBlock == nrrd->type && nrrdEncodingAscii == nio->encoding) {
-    sprintf(err, "%s: can't write nrrd type %s with %s encoding", me,
+    sprintf(err, "%s: can't write nrrd type %s to %s", me,
             airEnumStr(nrrdType, nrrdTypeBlock),
             nrrdEncodingAscii->name);
     biffAdd(NRRD, err); airMopError(mop); return 1;
   }
 
   /* record where the header is being written to for the sake of
-     nrrdIoStateDataFileIterNext(). This may be NULL if
-     nio->headerStringWrite is non-NULL */
+     nrrdIoStateDataFileIterNext() */
   nio->headerFile = file;
 
   /* we have to make sure that the data filename information is set
@@ -587,102 +565,33 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
     jj = airArrayLenIncr(nio->dataFNArr, 1); /* HEY error checking */
     nio->dataFN[jj] = tmp;
   }
+  
+  fprintf(file, "%s%04d\n", MAGIC, _nrrdFormatNRRD_whichVersion(nrrd, nio));
 
-  /* the magic is in fact the first thing to be written */
-  if (file) {
-    fprintf(file, "%s%04d\n", MAGIC, _nrrdFormatNRRD_whichVersion(nrrd, nio));
-  } else if (nio->headerStringWrite) {
-    sprintf(nio->headerStringWrite, "%s%04d\n",
-            MAGIC, _nrrdFormatNRRD_whichVersion(nrrd, nio));
-  } else {
-    nio->headerStrlen = strlen(MAGIC) + strlen("0000");
-  }
-
-  /* write the advertisement about where to get the file format */
-  if (file) {
-    fprintf(file, "# %s\n", _nrrdFormatURLLine0);
-    fprintf(file, "# %s\n", _nrrdFormatURLLine1);
-  } else if (nio->headerStringWrite) {
-    sprintf(strbuf, "# %s\n", _nrrdFormatURLLine0);
-    strcat(nio->headerStringWrite, strbuf);
-    sprintf(strbuf, "# %s\n", _nrrdFormatURLLine1);
-    strcat(nio->headerStringWrite, strbuf);
-  } else {
-    nio->headerStrlen += sprintf(strbuf, "# %s\n", _nrrdFormatURLLine0);
-    nio->headerStrlen += sprintf(strbuf, "# %s\n", _nrrdFormatURLLine1);
-  }
+  /* print out the advertisement about where to get the file format */
+  fprintf(file, "# %s\n", _nrrdFormatURLLine0);
+  fprintf(file, "# %s\n", _nrrdFormatURLLine1);
 
   /* this is where the majority of the header printing happens */
   for (ii=1; ii<=NRRD_FIELD_MAX; ii++) {
     if (_nrrdFieldInteresting(nrrd, nio, ii)) {
-      if (file) {
-        _nrrdFprintFieldInfo (file, "", nrrd, nio, ii);
-      } else if (nio->headerStringWrite) {
-        _nrrdSprintFieldInfo(&strptr, "", nrrd, nio, ii);
-        if (strptr) {
-          strcat(nio->headerStringWrite, strptr);
-          strcat(nio->headerStringWrite, "\n");
-          free(strptr);
-          strptr = NULL;
-        }
-      } else {
-        _nrrdSprintFieldInfo(&strptr, "", nrrd, nio, ii);
-        if (strptr) {
-          nio->headerStrlen += strlen(strptr);
-          nio->headerStrlen += strlen("\n");
-          free(strptr);
-          strptr = NULL;
-        }
-      }
+      _nrrdFprintFieldInfo (file, "", nrrd, nio, ii);
     }
   }
 
   /* comments and key/values handled differently */
   for (jj=0; jj<nrrd->cmtArr->len; jj++) {
-    if (file) {
-      fprintf(file, "%c %s\n", NRRD_COMMENT_CHAR, nrrd->cmt[jj]);
-    } else if (nio->headerStringWrite) {
-      strptr = (char*)malloc(1 + strlen(" ") 
-                             + strlen(nrrd->cmt[jj]) + strlen("\n") + 1);
-      sprintf(strptr, "%c %s\n", NRRD_COMMENT_CHAR, nrrd->cmt[jj]);
-      strcat(nio->headerStringWrite, strptr);
-      free(strptr);
-      strptr = NULL;
-    } else {
-      nio->headerStrlen += (1 + strlen(" ") 
-                            + strlen(nrrd->cmt[jj]) + strlen("\n") + 1);
-    }
+    fprintf(file, "%c %s\n", NRRD_COMMENT_CHAR, nrrd->cmt[jj]);
   }
   for (jj=0; jj<nrrd->kvpArr->len; jj++) {
-    if (file) {
-      _nrrdKeyValueWrite(file, NULL,
-                         NULL, nrrd->kvp[0 + 2*jj], nrrd->kvp[1 + 2*jj]);
-    } else if (nio->headerStringWrite) {
-      _nrrdKeyValueWrite(NULL, &strptr,
-                         NULL, nrrd->kvp[0 + 2*jj], nrrd->kvp[1 + 2*jj]);
-      if (strptr) {
-        strcat(nio->headerStringWrite, strptr);
-        free(strptr);
-        strptr = NULL;
-      }
-    } else {
-      _nrrdKeyValueWrite(NULL, &strptr,
-                         NULL, nrrd->kvp[0 + 2*jj], nrrd->kvp[1 + 2*jj]);
-      if (strptr) {
-        nio->headerStrlen += strlen(strptr);
-        free(strptr);
-        strptr = NULL;
-      }
-    }
+    _nrrdKeyValueFwrite(file, NULL, nrrd->kvp[0 + 2*jj], nrrd->kvp[1 + 2*jj]);
   }
 
-  if (file) {
-    if (!( nio->detachedHeader || _nrrdDataFNNumber(nio) > 1 )) {
-      fprintf(file, "\n");
-    }
+  if (!( nio->detachedHeader || _nrrdDataFNNumber(nio) > 1 )) {
+    fprintf(file, "\n");
   }
 
-  if (file && !nio->skipData) {
+  if (!nio->skipData) {
     nrrdIoStateDataFileIterBegin(nio);
     if (nrrdIoStateDataFileIterNext(&dataFile, nio, AIR_FALSE)) {
       sprintf(err, "%s: couldn't write the first datafile", me);

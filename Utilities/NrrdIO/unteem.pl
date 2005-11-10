@@ -50,9 +50,6 @@ while (<>) {
     s|\/\* NrrdIO-hack-001 \*\/|#define TEEM_BUILD 1|g;
     s|.* \/\* NrrdIO-hack-002 \*\/|#if 1|g;
     s|.* \/\* NrrdIO-hack-003 \*\/|int nrrdStateVerboseIO = 0;|g;
-    s|AIR_EXPORT|NRRDIO_EXPORT|g;
-    s|BIFF_EXPORT|NRRDIO_EXPORT|g;
-    s|NRRD_EXPORT|NRRDIO_EXPORT|g;
 
     print if $printing;
     $printing = 1 if (m/END non-NrrdIO/);

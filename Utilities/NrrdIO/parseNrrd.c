@@ -991,7 +991,7 @@ _nrrdReadNrrdParse_space_dimension (FILE *file, Nrrd *nrrd,
             "space (%s)", me, airEnumStr(nrrdSpace, nrrd->space));
     biffAdd(NRRD, err); return 1;
   }
-  _PARSE_ONE_VAL(nrrd->spaceDim, "%u", "unsigned int");
+  _PARSE_ONE_VAL(nrrd->spaceDim, "%d", "int");
   if (_nrrdFieldCheck[nrrdField_space_dimension](nrrd, useBiff)) {
     sprintf(err, "%s: trouble", me);
     biffMaybeAdd(NRRD, err, useBiff); return 1;
@@ -1230,7 +1230,7 @@ _nrrdReadNrrdParse_data_file (FILE *ffile, Nrrd *nrrd,
               "data filename template", me);
       biffMaybeAdd(NRRD, err, useBiff); airMopError(mop); return 1;
     }
-    if ( 4 == sscanf(nums, "%d %d %d %u", &(nio->dataFNMin), 
+    if ( 4 == sscanf(nums, "%d %d %d %d", &(nio->dataFNMin), 
                      &(nio->dataFNMax), &(nio->dataFNStep), 
                      &(nio->dataFileDim)) ) {
       if (!( nio->dataFileDim >= 1 && nio->dataFileDim <= nrrd->dim )) {
@@ -1267,7 +1267,7 @@ _nrrdReadNrrdParse_data_file (FILE *ffile, Nrrd *nrrd,
     }
     info += strlen(NRRD_LIST_FLAG);
     if (info[0]) {
-      if (1 == sscanf(info, "%u", &(nio->dataFileDim))) {
+      if (1 == sscanf(info, "%d", &(nio->dataFileDim))) {
         if (!( nio->dataFileDim >= 1 && nio->dataFileDim <= nrrd->dim )) {
           sprintf(err, "%s: datafile dimension %d outside valid range [1,%d]",
                   me, nio->dataFileDim, nrrd->dim);

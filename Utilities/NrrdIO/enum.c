@@ -30,7 +30,7 @@
 ** return the value representing "unknown" in an enum
 */
 int
-airEnumUnknown(const airEnum *enm) {
+airEnumUnknown(airEnum *enm) {
   
   if (enm && enm->val) {
     return enm->val[0];
@@ -47,7 +47,7 @@ airEnumUnknown(const airEnum *enm) {
 ** given an invalid enum value, we return zero.
 */
 unsigned int
-_airEnumIndex(const airEnum *enm, int val) {
+_airEnumIndex(airEnum *enm, int val) {
   unsigned int ii, ret;
 
   ret = 0;
@@ -65,13 +65,13 @@ _airEnumIndex(const airEnum *enm, int val) {
 }
 
 int
-airEnumValCheck(const airEnum *enm, int val) {
+airEnumValCheck(airEnum *enm, int val) {
 
   return (0 == _airEnumIndex(enm, val));
 }
 
 const char *
-airEnumStr(const airEnum *enm, int val) {
+airEnumStr(airEnum *enm, int val) {
   int idx;
 
   idx = _airEnumIndex(enm, val);
@@ -79,7 +79,7 @@ airEnumStr(const airEnum *enm, int val) {
 }
 
 const char *
-airEnumDesc(const airEnum *enm, int val) {
+airEnumDesc(airEnum *enm, int val) {
   int idx;
 
   idx = _airEnumIndex(enm, val);
@@ -87,7 +87,7 @@ airEnumDesc(const airEnum *enm, int val) {
 }
 
 int 
-airEnumVal(const airEnum *enm, const char *str) {
+airEnumVal(airEnum *enm, const char *str) {
   char *strCpy, test[AIR_STRLEN_SMALL];
   unsigned int ii;
 
@@ -146,7 +146,7 @@ airEnumVal(const airEnum *enm, const char *str) {
 ** when there is a strEqv[]/valEqv[] pair defining a shorter string)
 */
 char *
-airEnumFmtDesc(const airEnum *enm, int val, int canon, const char *fmt) {
+airEnumFmtDesc(airEnum *enm, int val, int canon, const char *fmt) {
   char *buff, *desc, ident[AIR_STRLEN_SMALL];
   const char *_ident;
   int i;

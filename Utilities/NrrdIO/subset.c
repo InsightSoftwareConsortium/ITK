@@ -128,24 +128,19 @@ nrrdSlice(Nrrd *nout, const Nrrd *nin, unsigned int saxi, size_t pos) {
                         | NRRD_BASIC_INFO_TYPE_BIT
                         | NRRD_BASIC_INFO_BLOCKSIZE_BIT
                         | NRRD_BASIC_INFO_DIMENSION_BIT
-                        | NRRD_BASIC_INFO_SPACEORIGIN_BIT
                         | NRRD_BASIC_INFO_CONTENT_BIT
                         | NRRD_BASIC_INFO_COMMENTS_BIT
-                        | (nrrdStateKeyValuePairsPropagate
-                           ? 0
-                           : NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT))) {
+                        | NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT)) {
     sprintf(err, "%s:", me);
     biffAdd(NRRD, err); return 1;
   }
-  /* translate origin if this was a spatial axis, otherwise copy */
-  /* note that if there is no spatial info at all, this is all harmless */
-  if (AIR_EXISTS(nin->axis[saxi].spaceDirection[0])) {
+  /* but we can set the origin more accurately */
+  if (AIR_EXISTS(nout->spaceOrigin[0])) {
     _nrrdSpaceVecScaleAdd2(nout->spaceOrigin,
                            1.0, nin->spaceOrigin,
                            pos, nin->axis[saxi].spaceDirection);
-  } else {
-    _nrrdSpaceVecCopy(nout->spaceOrigin, nin->spaceOrigin);
   }
+
   return 0;
 }
 
@@ -313,19 +308,15 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
                         | NRRD_BASIC_INFO_TYPE_BIT
                         | NRRD_BASIC_INFO_BLOCKSIZE_BIT
                         | NRRD_BASIC_INFO_DIMENSION_BIT
-                        | NRRD_BASIC_INFO_SPACEORIGIN_BIT
                         | NRRD_BASIC_INFO_CONTENT_BIT
                         | NRRD_BASIC_INFO_COMMENTS_BIT
-                        | (nrrdStateKeyValuePairsPropagate
-                           ? 0
-                           : NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT))) {
+                        | NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT)) {
     sprintf(err, "%s:", me);
     biffAdd(NRRD, err); return 1;
   }
-  /* copy origin, then shift it along the spatial axes */
-  _nrrdSpaceVecCopy(nout->spaceOrigin, nin->spaceOrigin);
-  for (ai=0; ai<nin->dim; ai++) {
-    if (AIR_EXISTS(nin->axis[ai].spaceDirection[0])) {
+  /* but we can set the origin more accurately */
+  if (AIR_EXISTS(nout->spaceOrigin[0])) {
+    for (ai=0; ai<nin->dim; ai++) {
       _nrrdSpaceVecScaleAdd2(nout->spaceOrigin,
                              1.0, nout->spaceOrigin,
                              min[ai], nin->axis[ai].spaceDirection);

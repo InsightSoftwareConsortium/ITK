@@ -59,7 +59,7 @@ _airBoolValEqv[] = {
   AIR_TRUE, AIR_TRUE, AIR_TRUE, AIR_TRUE, AIR_TRUE, AIR_TRUE, AIR_TRUE
 };
 
-const airEnum
+airEnum
 _airBool = {
   "boolean",
   2,
@@ -71,7 +71,7 @@ _airBool = {
   AIR_FALSE
 };
 
-const airEnum *const
+airEnum *
 airBool = &_airBool;
 
 double

@@ -195,33 +195,19 @@ nrrdKeyValueGet(const Nrrd *nrrd, const char *key) {
 }
 
 void
-_nrrdWriteEscaped(FILE *file, char *dst, const char *str) {
-  size_t ci, sl;
+_nrrdFwriteEscaped(FILE *file, const char *str) {
+  size_t ci;
 
   for (ci=0; ci<strlen(str); ci++) {
     switch(str[ci]) {
     case '\n':
-      if (file) {
-        fprintf(file, "\\n");
-      } else {
-        strcat(dst, "\\n");
-      }
+      fprintf(file, "\\n");
       break;
     case '\\':
-      if (file) {
-        fprintf(file, "\\\\");
-      } else {
-        strcat(dst, "\\\\");
-      }
+      fprintf(file, "\\\\");
       break;
     default:
-      if (file) {
-        fputc(str[ci], file);
-      } else {
-        sl = strlen(dst);
-        dst[sl++] = str[ci];
-        dst[sl] = '\0';
-      }
+      fputc(str[ci], file);
       break;
     }
   }
@@ -229,44 +215,25 @@ _nrrdWriteEscaped(FILE *file, char *dst, const char *str) {
 }
 
 /*
-** _nrrdKeyValueWrite
+** _nrrdKeyValueFwrite
 **
 ** writes a given key and value to a file, starting with the given
 ** prefix (if non-NULL), and ending with "\n"
 */
 int
-_nrrdKeyValueWrite(FILE *file, char **stringP, const char *prefix, 
-                   const char *key, const char *value) {
+_nrrdKeyValueFwrite(FILE *file, const char *prefix, 
+                    const char *key, const char *value) {
   
-  if (!( (file || stringP) && key && value )) {
+  if (!( file && key && value )) {
     return 1;
   }
-  if (stringP) {
-    /* 2*strlen() because at worst all characters will be escaped */
-    *stringP = (char *)malloc(airStrlen(prefix) + 2*airStrlen(key)
-                              + strlen(":=") + 2*airStrlen(value)
-                              + strlen("\n") + 1);
-    /* HEY error checking */
-    strcpy(*stringP, "");
-  }
   if (prefix) {
-    if (file) {
-      fprintf(file, "%s", prefix);
-    } else {
-      strcat(*stringP, prefix);
-    }
+    fprintf(file, "%s", prefix);
   }
-  if (file) {
-    _nrrdWriteEscaped(file, NULL, key);
-    fprintf(file, ":=");
-    _nrrdWriteEscaped(file, NULL, value);
-    fprintf(file, "\n");
-  } else {
-    _nrrdWriteEscaped(NULL, *stringP, key);
-    strcat(*stringP, ":=");
-    _nrrdWriteEscaped(NULL, *stringP, value);
-    strcat(*stringP, "\n");
-  }
+  _nrrdFwriteEscaped(file, key);
+  fprintf(file, ":=");
+  _nrrdFwriteEscaped(file, value);
+  fprintf(file, "\n");
   return 0;
 }
 

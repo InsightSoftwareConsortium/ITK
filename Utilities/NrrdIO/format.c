@@ -68,7 +68,7 @@ _nrrdFormatUnknown_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
   
   if (!(nrrd && encoding)) {
     sprintf(err, "%s: got NULL nrrd (%p) or encoding (%p)",
-            me, AIR_CAST(void*, nrrd), AIR_CAST(void*, encoding));
+            me, nrrd, encoding);
     biffMaybeAdd(NRRD, err, useBiff); 
     return AIR_FALSE;
   }
