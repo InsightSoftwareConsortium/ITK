@@ -154,11 +154,13 @@ TARGET_LINK_LIBRARIES(ResampleOrientedImageFilter ITKCommon ITKBasicFilters ITKI
 ADD_EXECUTABLE(ResampleImageFilter2 ResampleImageFilter2.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter2 ITKCommon ITKBasicFilters ITKIO)
 
+IF(NOT BORLAND)
 ADD_EXECUTABLE(ResampleImageFilter3 ResampleImageFilter3.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter3 ITKCommon ITKBasicFilters ITKIO)
 
 ADD_EXECUTABLE(ResampleImageFilter4 ResampleImageFilter4.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter4 ITKCommon ITKBasicFilters ITKIO)
+ENDIF(NOT BORLAND)
 
 ADD_EXECUTABLE(ResampleImageFilter5 ResampleImageFilter5.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter5 ITKCommon ITKBasicFilters ITKIO)
