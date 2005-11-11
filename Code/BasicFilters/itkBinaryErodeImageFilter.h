@@ -75,13 +75,13 @@ class ITK_EXPORT BinaryErodeImageFilter :
 public:
   /** Extract dimension from input and output image. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+        TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+        TOutputImage::ImageDimension);
 
   /** Extract the dimension of the kernel */
   itkStaticConstMacro(KernelDimension, unsigned int,
-                      TKernel::NeighborhoodDimension);
+        TKernel::NeighborhoodDimension);
   
   /** Convenient typedefs for simplifying declarations. */
   typedef TInputImage InputImageType;
@@ -132,10 +132,19 @@ protected:
   virtual ~BinaryErodeImageFilter(){}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * Standard pipeline method. 
-   */
-  void GenerateData();
+  /** BinaryErodeImageFilter can be implemented as a multithreaded filter.
+   * Therefore, this implementation provides a ThreadedGenerateData()
+   * routine which is called for each processing thread. The output
+   * image data is allocated automatically by the superclass prior to
+   * calling ThreadedGenerateData().  ThreadedGenerateData can only
+   * write to the portion of the output image specified by the
+   * parameter "outputRegionForThread"
+   *
+   * \sa ImageToImageFilter::ThreadedGenerateData(),
+   *     ImageToImageFilter::GenerateData() */
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId );
+    
+  void BeforeThreadedGenerateData();
 
   // type inherited from the superclass
   typedef typename Superclass::NeighborIndexContainer NeighborIndexContainer;

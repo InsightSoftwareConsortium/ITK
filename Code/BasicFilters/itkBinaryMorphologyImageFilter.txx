@@ -409,8 +409,8 @@ BinaryMorphologyImageFilter<TInputImage, TOutput, TKernel>
   Superclass::PrintSelf( os, indent );
   os << indent << "Radius which defines connectivity neighborhood: " << m_Radius << std::endl;
   os << indent << "Kernel which defines structuring element: " << m_Kernel << std::endl;
-  os << indent << "Foreground Value: " << m_ForegroundValue << std::endl;
-  os << indent << "Background Value: " << m_BackgroundValue << std::endl;
+  os << indent << "Foreground Value: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue) << std::endl;
+  os << indent << "Background Value: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_BackgroundValue) << std::endl;
 }
 
 } // end namespace itk
