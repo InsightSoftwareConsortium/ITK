@@ -397,7 +397,7 @@ private:
   HistogramFileWriterPointer      m_HistogramFileWriter;
   // Software Guide : EndCodeSnippet
   std::string   outputFile;
-} JointHistogramWriter;
+};
 
 
 // Command - observer invoked after every iteration of the optimizer    
@@ -449,12 +449,12 @@ public:
       // Software Guide : EndLatex
 
       // Software Guide : BeginCodeSnippet
-      JointHistogramWriter.WriteHistogramFile( m_InitialHistogramFile.c_str() );
+      m_JointHistogramWriter.WriteHistogramFile( m_InitialHistogramFile.c_str() );
       // Software Guide : EndCodeSnippet
       }
     if( m_WriteHistogramsAfterEveryIteration )
       {
-      JointHistogramWriter.WriteHistogramFile( optimizer->GetCurrentIteration() );  
+      m_JointHistogramWriter.WriteHistogramFile( optimizer->GetCurrentIteration() );  
       }
     }
   
@@ -467,6 +467,8 @@ public:
     {
     m_InitialHistogramFile = filename;
     }
+
+  HistogramWriter m_JointHistogramWriter;
 
 private:
   bool              m_WriteHistogramsAfterEveryIteration;
@@ -557,8 +559,10 @@ int main( int argc, char *argv[] )
   scales.Fill( 1.0 );
   metric->SetDerivativeStepLengthScales(scales);
 
+  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+
   // Set the metric for the joint histogram writer
-  JointHistogramWriter.SetMetric( metric );
+  observer->m_JointHistogramWriter.SetMetric( metric );
   
   registration->SetMetric( metric  );
 
@@ -626,8 +630,6 @@ int main( int argc, char *argv[] )
   optimizer->SetNumberOfIterations( 200 );
   optimizer->MaximizeOn();
 
-
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
   
   
@@ -668,7 +670,7 @@ int main( int argc, char *argv[] )
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
   //Write Joint Entropy Histogram after registration.
-  JointHistogramWriter.WriteHistogramFile( argv[6] );
+  observer->m_JointHistogramWriter.WriteHistogramFile( argv[6] );
 
   typedef itk::ResampleImageFilter< 
                             MovingImageType, 
