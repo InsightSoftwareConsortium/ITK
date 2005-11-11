@@ -61,7 +61,7 @@ std::string LoggerBase::BuildFormattedEntry(PriorityLevelType level, std::string
 {
     static std::string m_LevelString[] = { "(MUSTFLUSH) ", "(FATAL) ", "(ERROR) ",
         "(WARNING) ", "(INFO) ", "(DEBUG) ", "(NOTSET) " };
-    std::stringstream s;
+    OStringStream s;
     s.precision(30);
     s << m_Clock->GetTimestamp() << "  :  " << this->GetName() <<  "  " <<  m_LevelString[level] << content;
     return s.str();
