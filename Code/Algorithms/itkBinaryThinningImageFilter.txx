@@ -209,11 +209,11 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
           // thinning operation.
           // First find the total number of transitions, and then
           // divide by 2.
-          PixelType transitions = 
-            abs(p3 - p2) + abs(p4 - p3) + abs(p5 - p4) + abs(p6 - p5) + 
-            abs(p7 - p6) + abs(p8 - p7) + abs(p9 - p8) + abs(p2 - p9);
-          transitions /= 2;
-          
+          const PixelType transitions = (
+            vcl_abs(static_cast<int>(p3 - p2)) + vcl_abs(static_cast<int>(p4 - p3)) + vcl_abs(static_cast<int>(p5 - p4)) + vcl_abs(static_cast<int>(p6 - p5)) +
+            vcl_abs(static_cast<int>(p7 - p6)) + vcl_abs(static_cast<int>(p8 - p7)) + vcl_abs(static_cast<int>(p9 - p8)) + vcl_abs(static_cast<int>(p2 - p9)) 
+          ) /2;
+
           if (transitions == 1)
             {
             testB = true;
