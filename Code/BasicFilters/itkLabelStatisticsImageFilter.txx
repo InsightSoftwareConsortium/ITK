@@ -23,8 +23,18 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
+#include "itkFastMutexLock.h"
 
 namespace itk {
+#if defined(__GNUC__) && (__GNUC__ <= 2) //NOTE: This class needs a mutex for gnu 2.95
+/** Used for mutex locking */
+static SimpleFastMutexLock Mutex;
+#define LOCK_HASHMAP Mutex.Lock();
+#define UNLOCK_HASHMAP Mutex.Unlock();
+#else
+#define LOCK_HASHMAP
+#define UNLOCK_HASHMAP
+#endif
 
 template<class TInputImage, class TLabelImage>
 LabelStatisticsImageFilter<TInputImage, TLabelImage>
@@ -252,6 +262,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       {
       // create a new statistics object
       typedef typename MapType::value_type MapValueType;
+      LOCK_HASHMAP;
       if (m_UseHistograms)
         {
         mapIt = m_LabelStatisticsPerThread[threadId].insert( MapValueType(label, 
@@ -262,6 +273,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
         mapIt = m_LabelStatisticsPerThread[threadId].insert( MapValueType(label, 
                LabelStatistics()) ).first;
         }
+      UNLOCK_HASHMAP;
       }
 
     // update the values for this label and this thread
@@ -287,7 +299,6 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
         (*mapIt).second.m_BoundingBox[i + 1] = index[i/2];
         }
       }
-
 
     (*mapIt).second.m_Sum += value;
     (*mapIt).second.m_SumOfSquares += (value * value);
