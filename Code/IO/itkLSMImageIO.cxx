@@ -22,7 +22,7 @@
 #include <string.h> // for memset
 
 extern "C" {
-#include "tiff/tiffio.h"
+#include "tiffio.h"
 }
 /* Structure with LSM-specific data ( only in the first image directory). */
 #define TIF_CZ_LSMINFO 34412 /* 0x866c, Type: TIF_BYTE, Length: 512 */
