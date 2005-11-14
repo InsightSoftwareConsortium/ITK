@@ -19,6 +19,7 @@
 #endif
 
 #include "itkImageIOFactory.h"
+#include "itkBioRadImageIOFactory.h"
 #include "itkBMPImageIOFactory.h"
 #include "itkGDCMImageIOFactory.h"
 #include "itkDICOMImageIO2Factory.h"
@@ -27,6 +28,7 @@
 #include "itkNiftiImageIOFactory.h"
 #include "itkGiplImageIOFactory.h"
 #include "itkJPEGImageIOFactory.h"
+#include "itkLSMImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkPNGImageIOFactory.h"
 #include "itkNrrdImageIOFactory.h"
@@ -102,6 +104,8 @@ ImageIOFactory::RegisterBuiltInFactories()
     ObjectFactoryBase::RegisterFactory( PNGImageIOFactory::New() );
     ObjectFactoryBase::RegisterFactory( VTKImageIOFactory::New() );
     ObjectFactoryBase::RegisterFactory( GiplImageIOFactory::New() );
+    ObjectFactoryBase::RegisterFactory( BioRadImageIOFactory::New() );
+    ObjectFactoryBase::RegisterFactory( LSMImageIOFactory::New()); //should be before TIFF
     ObjectFactoryBase::RegisterFactory( NiftiImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New());
