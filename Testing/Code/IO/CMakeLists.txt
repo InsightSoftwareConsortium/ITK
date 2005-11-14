@@ -10,6 +10,8 @@ itkAnalyzeImageIOTest.cxx
 itkNiftiImageIOTest.cxx
 itkArchetypeSeriesFileNamesTest.cxx
 itkBMPImageIOTest.cxx
+itkBioRadImageIOTest.cxx
+itkLSMImageIOTest.cxx
 itkBrains2MaskImageIOTest.cxx
 itkConvertBufferTest.cxx
 itkConvertBufferTest2.cxx
@@ -144,6 +146,18 @@ ADD_TEST(itkGiplImageIOGzTest ${IO_TESTS}
   itkGiplImageIOTest 
             ${ITK_DATA_ROOT}/Input/ramp.gipl.gz
             ${ITK_TEST_OUTPUT_DIR}/ramp.mhd)
+ADD_TEST(itkLSMImageIOTest ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif
+            ${ITK_TEST_OUTPUT_DIR}/cthead1.tif
+  itkLSMImageIOTest 
+            ${ITK_DATA_ROOT}/Input/cthead1.lsm
+            ${ITK_TEST_OUTPUT_DIR}/cthead1.tif)
+ADD_TEST(itkBioRadImageIOTest ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/biorad.mhd
+            ${ITK_TEST_OUTPUT_DIR}/biorad.mhd
+  itkBioRadImageIOTest 
+            ${ITK_DATA_ROOT}/Input/biorad.pic
+            ${ITK_TEST_OUTPUT_DIR}/biorad.mhd)
 ADD_TEST(itkBMPImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.bmp
             ${ITK_TEST_OUTPUT_DIR}/cthead1.bmp

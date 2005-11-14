@@ -20,6 +20,7 @@
 
 #include "itkImage.h"
 #include "itkAnalyzeImageIO.h"
+#include "itkBioRadImageIO.h"
 #include "itkDICOMImageIO2.h"
 #include "itkDicomImageIO.h"
 #include "itkGE4ImageIO.h"
@@ -30,6 +31,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkJPEGImageIO.h"
+#include "itkLSMImageIO.h"
 #include "itkMetaImageIO.h"
 #include "itkPNGImageIO.h"
 #include "itkRawImageIO.h"
@@ -52,6 +54,11 @@ int itkIOPrintTest(int , char* [])
   Analyzeio = itk::AnalyzeImageIO::New();
   reader->SetImageIO(Analyzeio);
   std::cout << "---------------Analyze" << reader;
+
+  itk::BioRadImageIO::Pointer BioRadio;
+  BioRadio = itk::BioRadImageIO::New();
+  reader->SetImageIO(BioRadio);
+  std::cout << "---------------BioRad" << reader;
 
   itk::DicomImageIO::Pointer Dicomio;
   Dicomio = itk::DicomImageIO::New();
@@ -87,6 +94,11 @@ int itkIOPrintTest(int , char* [])
   JPEGio = itk::JPEGImageIO::New();
   reader->SetImageIO(JPEGio);
   std::cout << "---------------JPEG" << reader;
+
+  itk::LSMImageIO::Pointer LSMio;
+  LSMio = itk::LSMImageIO::New();
+  reader->SetImageIO(LSMio);
+  std::cout << "---------------LSM" << reader;
 
   itk::MetaImageIO::Pointer Metaio;
   Metaio = itk::MetaImageIO::New();

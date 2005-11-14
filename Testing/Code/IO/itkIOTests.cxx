@@ -30,6 +30,8 @@ void RegisterTests()
   REGISTER_TEST(itkConvertBufferTest);
   REGISTER_TEST(itkConvertBufferTest2);
   REGISTER_TEST(itkBMPImageIOTest);
+  REGISTER_TEST(itkBioRadImageIOTest);
+  REGISTER_TEST(itkLSMImageIOTest);
   REGISTER_TEST(itkDicomImageIOTest);
   REGISTER_TEST(itkDICOMImageIO2Test);
   REGISTER_TEST(itkDICOMSeriesFileNamesTest);
