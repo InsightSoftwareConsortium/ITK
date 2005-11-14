@@ -58,7 +58,6 @@ int itkLSMImageIOTest(int argc, char* argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( outfilename );
   writer->SetInput( reader->GetOutput() );
-  writer->SetImageIO( lsmImageIO );
 
   try
     {
