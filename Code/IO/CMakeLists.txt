@@ -4,6 +4,8 @@ SET(ITKIO_SRCS
   itkAnalyzeImageIO.cxx
   itkAnalyzeImageIOFactory.cxx
   itkArchetypeSeriesFileNames.cxx
+  itkBioRadImageIO.cxx
+  itkBioRadImageIOFactory.cxx
   itkBMPImageIO.cxx
   itkBMPImageIOFactory.cxx
   itkBrains2HeaderBase.cxx
@@ -35,6 +37,8 @@ SET(ITKIO_SRCS
   itkImageIORegion.cxx
   itkJPEGImageIO.cxx
   itkJPEGImageIOFactory.cxx
+  itkLSMImageIO.cxx
+  itkLSMImageIOFactory.cxx
   itkMetaImageIO.cxx
   itkMetaImageIOFactory.cxx
   itkNrrdImageIO.cxx
