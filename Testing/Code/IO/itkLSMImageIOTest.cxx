@@ -17,6 +17,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkLSMImageIO.h"
+#include "itkRGBPixel.h"
 #include "itkImage.h"
 
 int itkLSMImageIOTest(int argc, char* argv[])
@@ -27,7 +28,7 @@ int itkLSMImageIOTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char InputPixelType;
+  typedef itk::RGBPixel< unsigned char >   InputPixelType;
   typedef itk::Image< InputPixelType, 2 > InputImageType;
   typedef itk::ImageFileReader< InputImageType > ReaderType;
   typedef itk::LSMImageIO ImageIOType;
