@@ -20,6 +20,7 @@
 #include "itkLSMImageIO.h"
 #include "itkByteSwapper.h"
 #include <string.h> // for memset
+#include <itksys/FundamentalType.h>
 
 extern "C" {
 #include "tiffio.h"
@@ -31,6 +32,9 @@ extern "C" {
 
 namespace itk
 {
+
+typedef itksysFundamentalType_Int32 int32_t;
+typedef itksysFundamentalType_UInt32 uint32_t;
 
 typedef float       float32_t;
 typedef double      float64_t;
