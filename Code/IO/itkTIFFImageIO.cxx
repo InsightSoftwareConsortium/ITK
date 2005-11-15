@@ -195,12 +195,6 @@ int TIFFReaderInternal::Initialize()
       TIFFSetDirectory(this->Image,0);
       }
 
- 
-    if(this->SubFiles>0)
-      {
-      itkGenericOutputMacro( << "This TIFF image contains subfiles: " << this->SubFiles );
-      }
-
     TIFFGetFieldDefaulted(this->Image, TIFFTAG_ORIENTATION,
                           &this->Orientation);
     TIFFGetFieldDefaulted(this->Image, TIFFTAG_SAMPLESPERPIXEL, 
