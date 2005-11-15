@@ -35,7 +35,7 @@ namespace itk
 struct bioradheader {
     unsigned short nx, ny;      // 0   2*2  image width and height in pixels
     unsigned short npic;        // 4   2    number of images in file
-    short ramp1_min, ramp1_max; // 6   2*2  LUT1 ramp min. and max.
+    unsigned short ramp1_min, ramp1_max; // 6   2*2  LUT1 ramp min. and max.
     char notes[4];              // 10  4    no notes=0; has notes=non zero
     short byte_format;          // 14  2    bytes=TRUE(1); words=FALSE(0)
     short image_number;         // 16  2    image number within file
