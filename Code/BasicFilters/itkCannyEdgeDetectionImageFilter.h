@@ -21,6 +21,8 @@
 #include "itkImage.h"
 #include "itkFixedArray.h"
 #include "itkConstNeighborhoodIterator.h"
+#include "itkDiscreteGaussianImageFilter.h"
+#include "itkMultiplyImageFilter.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkMultiThreader.h"
 #include "itkDerivativeOperator.h"
@@ -215,6 +217,11 @@ protected:
 
   void GenerateData();
 
+  typedef DiscreteGaussianImageFilter<InputImageType, OutputImageType>
+                                                      GaussianImageFilterType;
+  typedef MultiplyImageFilter< OutputImageType, 
+              OutputImageType, OutputImageType>       MultiplyImageFilterType;
+
 private:
   virtual ~CannyEdgeDetectionImageFilter(){};
 
@@ -313,9 +320,15 @@ private:
   OutputImagePixelType m_OutsideValue;
 
   /** Update buffers used during calculation of multiple steps */
-  typename OutputImageType::Pointer  m_UpdateBuffer;
   typename OutputImageType::Pointer  m_UpdateBuffer1;
 
+  /** Gaussian filter to smooth the input image  */
+  typename GaussianImageFilterType::Pointer m_GaussianFilter;
+  
+  /** Multiply image filter to multiply with the zero crossings of the second
+   *  derivative.  */
+  typename MultiplyImageFilterType::Pointer m_MultiplyImageFilter;
+  
   /** Function objects that are used in the inner loops of derivatiVex
       calculations. */
   DerivativeOperator<OutputImagePixelType,itkGetStaticConstMacro(ImageDimension)>
