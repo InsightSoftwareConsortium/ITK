@@ -681,7 +681,7 @@ TIFFWritePerSampleShorts(TIFF* tif, ttag_t tag, TIFFDirEntry* dir)
   uint16* w = buf;
   int i, status, samples = tif->tif_dir.td_samplesperpixel;
 
-  if (samples > NITEMS(buf)) {
+  if (samples > (int)NITEMS(buf)) {
     w = (uint16*) _TIFFmalloc(samples * sizeof (uint16));
     if (w == NULL) {
       TIFFError(tif->tif_name,
@@ -716,7 +716,7 @@ TIFFWritePerSampleAnys(TIFF* tif,
   int i, status;
   int samples = (int) tif->tif_dir.td_samplesperpixel;
 
-  if (samples > NITEMS(buf)) {
+  if (samples > (int)NITEMS(buf)) {
     w = (double*) _TIFFmalloc(samples * sizeof (double));
     if (w == NULL) {
       TIFFError(tif->tif_name,
