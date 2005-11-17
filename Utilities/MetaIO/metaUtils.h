@@ -98,7 +98,7 @@ extern bool MET_ValueToValue(MET_ValueEnumType _fromType,
                              double _fromMin=0, double _fromMax=0,
                              double _toMin=0, double _toMax=0);
 
-extern bool MET_StringToWordArray(char *s, int *n, char ***val);
+extern bool MET_StringToWordArray(const char *s, int *n, char ***val);
 
 //
 //
