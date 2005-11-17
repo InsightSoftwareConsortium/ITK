@@ -273,6 +273,10 @@ VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerType>
 
 
 
+extern "C"
+{
+  typedef void(*c_void_cast)();
+}
 
 template<class TVisitedClass, class TVisitorBase, class TVisitFunctionPointerType>
 VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerType>&
@@ -287,7 +291,7 @@ VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerType>
 
     // Make sure that the object that we just created is also destroyed
     // when program finishes.
-    atexit(&CleanUP);
+    atexit(reinterpret_cast<c_void_cast>(&CleanUP));
   }
 
   // Return the actual VisitorDispatcher object

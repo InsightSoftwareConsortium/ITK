@@ -206,6 +206,10 @@ FEMObjectFactory<T>::FEMObjectFactory(const FEMObjectFactory<T>&) {}
 template<class T>
 FEMObjectFactory<T>::~FEMObjectFactory() {}
 
+extern "C"
+{
+  typedef void(*c_void_cast)();
+}
 template<class T>
 FEMObjectFactory<T>& FEMObjectFactory<T>::Instance() 
   {
@@ -220,7 +224,7 @@ FEMObjectFactory<T>& FEMObjectFactory<T>::Instance()
      * Make sure that the object that ws just created is also destroyed
      * when program finishes.
      */
-    atexit(&CleanUP);
+    atexit(reinterpret_cast<c_void_cast>(&CleanUP));
           
     }
 
