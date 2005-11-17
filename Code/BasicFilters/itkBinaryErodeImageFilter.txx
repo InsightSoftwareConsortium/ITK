@@ -196,7 +196,6 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
   
   unsigned int neighborhoodSize       = oNeighbIt.Size();
   unsigned int centerPixelCode = neighborhoodSize / 2;
-  unsigned int centerNeighbIndex      = centerPixelCode;
   
   std::queue<IndexType> propagQueue;
   BorderCellContainer borderContainer;
