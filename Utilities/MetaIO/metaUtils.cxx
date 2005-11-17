@@ -336,7 +336,7 @@ bool MET_ValueToValue(MET_ValueEnumType _fromType, const void *_fromData,
 //
 //
 //
-bool MET_StringToWordArray(char *s, int *n, char ***val)
+bool MET_StringToWordArray(const char *s, int *n, char ***val)
 {
   long l = static_cast<long>( strlen(s) );
 
