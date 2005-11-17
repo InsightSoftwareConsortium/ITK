@@ -61,7 +61,7 @@ void SolverCrankNicolson::AssembleKandM()
   if (NGFN<=0) return;
 
   Float lhsval;
-  Float rhsval=0.0;
+  Float rhsval;
   NMFC=0;  // number of MFC in a system
 
   // temporary storage for pointers to LoadBCMFC objects
