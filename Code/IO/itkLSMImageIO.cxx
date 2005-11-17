@@ -32,6 +32,19 @@ extern "C" {
 
 namespace itk
 {
+extern "C"
+{
+  static void TagExtender(TIFF *tiff)
+  {
+    static const TIFFFieldInfo xtiffFieldInfo[] = {
+        { TIF_CZ_LSMINFO, TIFF_VARIABLE, TIFF_VARIABLE, TIFF_BYTE,
+        FIELD_CUSTOM, 0, 1, (char*)"LSM Private Tag" }
+    };
+  
+    TIFFMergeFieldInfo( tiff, xtiffFieldInfo,
+      sizeof(xtiffFieldInfo) / sizeof(xtiffFieldInfo[0]) );
+  }
+}
 
 typedef itksysFundamentalType_Int32 int32_t;
 typedef itksysFundamentalType_UInt32 uint32_t;
@@ -71,17 +84,6 @@ typedef struct {
   uint32_t    u32OffsetNextRecording;
   uint32_t    u32Reserved [ TIF_CZ_LSMINFO_SIZE_RESERVED ];
 } zeiss_info;
-
-static void TagExtender(TIFF *tiff)
-{
-  static const TIFFFieldInfo xtiffFieldInfo[] = {
-      { TIF_CZ_LSMINFO, TIFF_VARIABLE, TIFF_VARIABLE, TIFF_BYTE,
-      FIELD_CUSTOM, 0, 1, (char*)"LSM Private Tag" }
-  };
-
-  TIFFMergeFieldInfo( tiff, xtiffFieldInfo,
-    sizeof(xtiffFieldInfo) / sizeof(xtiffFieldInfo[0]) );
-}
 
 LSMImageIO::LSMImageIO()
 {
