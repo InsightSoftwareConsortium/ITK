@@ -1491,7 +1491,7 @@ bool TIFFImageIO::CanFindTIFFTag( unsigned int t )
   return true;
 }
 
-void *TIFFImageIO::ReadRawByteFromTag( unsigned int t )
+void *TIFFImageIO::ReadRawByteFromTag( unsigned int t, short &value_count )
 {
   // m_InternalImage needs to be valid
   if( !m_InternalImage )
@@ -1511,8 +1511,6 @@ void *TIFFImageIO::ReadRawByteFromTag( unsigned int t )
     {
     if( fld->field_passcount )
       {
-      short value_count;
-
       if( TIFFGetField( m_InternalImage->Image, tag, &value_count, &raw_data ) != 1 )
         {
         itkExceptionMacro( << "Tag cannot be found" );

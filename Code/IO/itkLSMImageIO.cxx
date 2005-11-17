@@ -158,10 +158,11 @@ void LSMImageIO::ReadImageInformation()
 
   // Now is a good time to check what was read and replaced it with LSM
   // information
-  void *praw = this->TIFFImageIO::ReadRawByteFromTag( TIF_CZ_LSMINFO );
+  short tif_cz_lsminfo_size;
+  void *praw = this->TIFFImageIO::ReadRawByteFromTag( TIF_CZ_LSMINFO, tif_cz_lsminfo_size );
   // FIXME byte swap
   ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(
-    reinterpret_cast<unsigned short*>(praw), TIF_CZ_LSMINFO_SIZE) ;
+    reinterpret_cast<unsigned short*>(praw), tif_cz_lsminfo_size/2) ;
   const zeiss_info *zi = reinterpret_cast<zeiss_info*>(praw);
   if( sizeof(*zi) != TIF_CZ_LSMINFO_SIZE)
     {

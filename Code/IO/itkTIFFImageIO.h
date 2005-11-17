@@ -148,7 +148,7 @@ protected:
   // Check that tag t can be found
   bool  CanFindTIFFTag(unsigned int t);
   // Read and returns the raw bytes of tag t
-  void* ReadRawByteFromTag(unsigned int t);
+  void *ReadRawByteFromTag( unsigned int t, short &value_count );
 
   TIFFReaderInternal * m_InternalImage;
   int m_Compression;
