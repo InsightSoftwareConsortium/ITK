@@ -714,7 +714,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream& os, const void *buffer,
 
 
 template <class TComponent>
-static void ReadBuffer(std::istream& is, TComponent *buffer, unsigned int num)
+void ReadBuffer(std::istream& is, TComponent *buffer, unsigned int num)
 {
   TComponent *ptr = buffer;
   for (unsigned int i=0; i < num; i++, ptr++)
