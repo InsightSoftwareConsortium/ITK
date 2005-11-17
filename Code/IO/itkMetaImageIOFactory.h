@@ -35,8 +35,8 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion(void) const;
-  virtual const char* GetDescription(void) const;
+  virtual const char* GetITKSourceVersion() const;
+  virtual const char* GetDescription() const;
   
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -45,7 +45,7 @@ public:
   itkTypeMacro(MetaImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
-  static void RegisterOneFactory(void)
+  static void RegisterOneFactory()
   {
     MetaImageIOFactory::Pointer metaFactory = MetaImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(metaFactory);
@@ -60,8 +60,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
 };
-  
-  
+ 
 } // end namespace itk
 
 #endif

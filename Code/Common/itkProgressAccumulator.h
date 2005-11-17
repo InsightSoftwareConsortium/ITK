@@ -90,8 +90,8 @@ protected:
 
 private:
   /**  Command for observing progress of pipeline filters */
-  typedef MemberCommand< Self >      CommandType;  
-  typedef CommandType::Pointer       CommandPointer;  
+  typedef MemberCommand< Self >      CommandType;
+  typedef CommandType::Pointer       CommandPointer;
 
   /** Structure associated with each filter in the pipeline */
   struct FilterRecord 

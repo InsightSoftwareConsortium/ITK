@@ -16,7 +16,6 @@
 =========================================================================*/
 #include "itkLightObject.h"
 #include "itkObjectFactory.h"
-#include "itkCommand.h"
 #include "itkFastMutexLock.h"
 #include <list>
 #include <memory>
@@ -152,7 +151,7 @@ LightObject
   m_ReferenceCount--;
   m_ReferenceCountLock.Unlock();
   
-  // ReferenceCount in now unlocked.  We may have a race condition to
+  // ReferenceCount in now unlocked.  We may have a race condition
   // to delete the object.
   if ( m_ReferenceCount <= 0)
     {

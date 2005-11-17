@@ -36,7 +36,7 @@ MetaImageIOFactory::~MetaImageIOFactory()
 }
 
 const char* 
-MetaImageIOFactory::GetITKSourceVersion(void) const
+MetaImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
