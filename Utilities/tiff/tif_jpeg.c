@@ -825,6 +825,7 @@ JPEGDecode(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
 {
     JPEGState *sp = JState(tif);
     tsize_t nrows;
+    (void)s;
 
     nrows = cc / sp->bytesperline;
     if (cc % sp->bytesperline)
@@ -860,6 +861,7 @@ JPEGDecodeRaw(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
 {
   JPEGState *sp = JState(tif);
   tsize_t nrows;
+  (void)s;
 
   /* data is expected to be read in multiples of a scanline */
   if ( (nrows = sp->cinfo.d.image_height) ) {
@@ -1416,7 +1418,7 @@ JPEGVSetField(TIFF* tif, ttag_t tag, va_list ap)
         } else {
       if (td->td_ycbcrsubsampling[0] != 1 ||
           td->td_ycbcrsubsampling[1] != 1)
-          ; /* XXX what about up-sampling? */
+          (void)tif; /* XXX what about up-sampling? */
         }
     }
     /*
@@ -1516,6 +1518,8 @@ JPEGFixupTestSubsampling( TIFF * tif )
 
     TIFFSetField( tif, TIFFTAG_YCBCRSUBSAMPLING, 
                   (uint16) sp->h_sampling, (uint16) sp->v_sampling );
+#else
+  (void)tif;
 #endif /* CHECK_JPEG_YCBCR_SUBSAMPLING */
 }
 

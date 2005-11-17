@@ -505,6 +505,7 @@ TIFFFieldInfo*
 _TIFFCreateAnonFieldInfo(TIFF *tif, ttag_t tag, TIFFDataType field_type)
 {
     TIFFFieldInfo *fld;
+    (void)tif;
 
     fld = (TIFFFieldInfo *) _TIFFmalloc(sizeof (TIFFFieldInfo));
     if (fld == NULL)
