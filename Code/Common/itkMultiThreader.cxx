@@ -39,6 +39,10 @@
 #endif
 
 namespace itk {
+extern "C"
+{
+  typedef void*(*c_void_cast)(void*);
+}
   
 // Initialize static member that controls global maximum number of threads : 0 => Not initialized.
 int MultiThreader::m_GlobalMaximumNumberOfThreads = 0;
@@ -532,7 +536,7 @@ void MultiThreader::MultipleMethodExecute()
                     ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
 #else
     pthread_create( &(process_id[thread_loop]),
-                    &attr, m_MultipleMethod[thread_loop],  
+                    &attr, reinterpret_cast<c_void_cast>(m_MultipleMethod[thread_loop]),  
                     ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
 #endif
     }
@@ -641,11 +645,11 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
   
 #ifdef ITK_HP_PTHREADS
   pthread_create( &(m_SpawnedThreadProcessID[id]),
-                  attr, f,  
+                  attr, reinterpret_cast<c_void_cast>(f),  
                   ( (void *)(&m_SpawnedThreadInfoArray[id]) ) );
 #else
   pthread_create( &(m_SpawnedThreadProcessID[id]),
-                  &attr, f,  
+                  &attr, reinterpret_cast<c_void_cast>(f),  
                   ( (void *)(&m_SpawnedThreadInfoArray[id]) ) );
 #endif
   
@@ -843,12 +847,12 @@ MultiThreader
 
 #ifdef ITK_HP_PTHREADS
     pthread_create( &threadHandle,
-        attr, this->SingleMethodProxy,  
+        attr, reinterpret_cast<c_void_cast>(this->SingleMethodProxy),  
         reinterpret_cast<void *>(threadInfo));
 #else
     int                threadError;
     threadError =
-      pthread_create( &threadHandle, &attr, this->SingleMethodProxy,  
+      pthread_create( &threadHandle, &attr, reinterpret_cast<c_void_cast>(this->SingleMethodProxy),  
           reinterpret_cast<void *>(threadInfo));
     if (threadError != 0)
       {
