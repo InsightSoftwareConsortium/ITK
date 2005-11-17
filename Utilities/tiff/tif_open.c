@@ -81,14 +81,20 @@ static const int litTypeshift[13] = {
  * Dummy functions to fill the omitted client procedures.
  */
 static int
-_tiffDummyMapProc(thandle_t fd, tdata_t* pbase, toff_t* psize)
+_tiffDummyMapProc(thandle_t d, tdata_t* pbase, toff_t* psize)
 {
+  (void)d;
+  (void)pbase;
+  (void)psize;
   return (0);
 }
 
 static void
 _tiffDummyUnmapProc(thandle_t fd, tdata_t base, toff_t size)
 {
+  (void)fd;
+  (void)base;
+  (void)size;
 }
 
 /*
