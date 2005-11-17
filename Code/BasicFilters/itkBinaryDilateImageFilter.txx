@@ -88,6 +88,7 @@ BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,int threadId)
 {
   unsigned int i,j;
+  (void)threadId;
     
   // Retrieve input and output pointers
   typename OutputImageType::Pointer output = this->GetOutput();
@@ -204,7 +205,6 @@ BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel>
   
   unsigned int neighborhoodSize       = oNeighbIt.Size();
   unsigned int centerPixelCode = neighborhoodSize / 2;
-  unsigned int centerNeighbIndex      = centerPixelCode;
   
   std::queue<IndexType> propagQueue;
   BorderCellContainer borderContainer;
