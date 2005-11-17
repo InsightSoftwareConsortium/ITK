@@ -44,8 +44,6 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
 ::BeforeThreadedGenerateData( void )
 {
   // Get values from superclass
-  InputPixelType foregroundValue = this->GetForegroundValue();
-  InputPixelType backgroundValue = this->GetBackgroundValue();
   KernelType kernel = this->GetKernel();
   InputSizeType radius = this->GetRadius();
 
@@ -80,6 +78,7 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,int threadId)
 {
   unsigned int i,j;
+  (void)threadId;
     
   // Retrieve input and output pointers
   typename OutputImageType::Pointer output = this->GetOutput();
