@@ -265,7 +265,7 @@ TIFFGetConfiguredCODECs()
         return NULL;
       }
       codecs = new_codecs;
-      _TIFFmemcpy(codecs + i - 1, (const tdata_t)c, sizeof(TIFFCodec));
+      _TIFFmemcpy(codecs + i - 1, (tdata_t)c, sizeof(TIFFCodec));
       i++;
     }
   }
