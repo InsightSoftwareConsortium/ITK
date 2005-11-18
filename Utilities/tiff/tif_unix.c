@@ -54,13 +54,13 @@
 static tsize_t
 _tiffReadProc(thandle_t fd, tdata_t buf, tsize_t size)
 {
-  return ((tsize_t) read((int) fd, buf, (size_t) size));
+  return ((tsize_t) read((int) (long int)fd, buf, (size_t) size));
 }
 
 static tsize_t
 _tiffWriteProc(thandle_t fd, tdata_t buf, tsize_t size)
 {
-  return ((tsize_t) write((int) fd, buf, (size_t) size));
+  return ((tsize_t) write((int) (long int)fd, buf, (size_t) size));
 }
 
 static toff_t
@@ -72,7 +72,7 @@ _tiffSeekProc(thandle_t fd, toff_t off, int whence)
 static int
 _tiffCloseProc(thandle_t fd)
 {
-  return (close((int) fd));
+  return (close((int) (long int)fd));
 }
 
 
@@ -84,7 +84,7 @@ _tiffSizeProc(thandle_t fd)
   return ((fsize = lseek((int) fd, 0, SEEK_END)) < 0 ? 0 : fsize);
 #else
   struct stat sb;
-  return (toff_t) (fstat((int) fd, &sb) < 0 ? 0 : sb.st_size);
+  return (toff_t) (fstat((int) (long int)fd, &sb) < 0 ? 0 : sb.st_size);
 #endif
 }
 
@@ -97,7 +97,7 @@ _tiffMapProc(thandle_t fd, tdata_t* pbase, toff_t* psize)
   toff_t size = _tiffSizeProc(fd);
   if (size != (toff_t) -1) {
     *pbase = (tdata_t)
-        mmap(0, size, PROT_READ, MAP_SHARED, (int) fd, 0);
+        mmap(0, size, PROT_READ, MAP_SHARED, (int) (long int)fd, 0);
     if (*pbase != (tdata_t) -1) {
       *psize = size;
       return (1);
@@ -136,7 +136,7 @@ TIFFFdOpen(int fd, const char* name, const char* mode)
   TIFF* tif;
 
   tif = TIFFClientOpen(name, mode,
-      (thandle_t) fd,
+      (thandle_t) (long int)fd,
       _tiffReadProc, _tiffWriteProc,
       _tiffSeekProc, _tiffCloseProc, _tiffSizeProc,
       _tiffMapProc, _tiffUnmapProc);
