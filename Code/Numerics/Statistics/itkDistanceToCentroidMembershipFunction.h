@@ -38,7 +38,6 @@ namespace itk{
  * of an instance.  MeasurementVectorSize is the dimension of measurement space.
  * double is type of measurement. 
  */
-
 template< class TVector >
 class ITK_EXPORT DistanceToCentroidMembershipFunction :
       public MembershipFunctionBase< TVector >
@@ -57,6 +56,12 @@ public:
   /** Typedef alias for the measurement vectors */
   typedef TVector MeasurementVectorType ;
 
+  /** Typedef to represent the length of measurement vectors */
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+
+  /**  Set the length of each measurement vector. */
+  virtual void SetMeasurementVectorSize( MeasurementVectorSizeType );
+  
   /** Method to set mean */
   void SetCentroid(const vnl_vector<double> &centroid) ;
   
@@ -84,12 +89,6 @@ private:
 
   // Number of samples defining this density
   int m_NumberOfSamples;
-
-  itkStaticConstMacro(VectorDimension, unsigned int, TVector::Dimension);
-  typedef vnl_matrix_fixed<double,1,itkGetStaticConstMacro(VectorDimension)> ColumnVectorType;
-
-  mutable ColumnVectorType      m_TempVec;
-  mutable ColumnVectorType      m_TempMat;
 };
 
   } // end of namespace Statistics
