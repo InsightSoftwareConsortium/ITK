@@ -595,9 +595,9 @@ M_Write(void)
         }
 
       // Add the extra fields
-      extraList = (*it)->GetExtraFields();
-      DTITubePnt::FieldListType::const_iterator itFields = extraList.begin();
-      while(itFields !=  extraList.end())
+      const DTITubePnt::FieldListType & extraList2 = (*it)->GetExtraFields();
+      DTITubePnt::FieldListType::const_iterator itFields = extraList2.begin();
+      while(itFields !=  extraList2.end())
         {
         MET_DoubleToValue((double)(*itFields).second,m_ElementType,data,i++);  
         itFields++;
