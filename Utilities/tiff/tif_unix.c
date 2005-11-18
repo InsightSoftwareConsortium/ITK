@@ -66,7 +66,7 @@ _tiffWriteProc(thandle_t fd, tdata_t buf, tsize_t size)
 static toff_t
 _tiffSeekProc(thandle_t fd, toff_t off, int whence)
 {
-  return ((toff_t) lseek((int) fd, (off_t) off, whence));
+  return ((toff_t) lseek((int) (long int)fd, (off_t) off, whence));
 }
 
 static int
