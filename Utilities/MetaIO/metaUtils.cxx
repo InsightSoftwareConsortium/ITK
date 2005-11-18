@@ -630,7 +630,7 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
               {
               break;
               }
-            char c = fp.get();
+            c = fp.get();
             (*fieldIter)->value[0] = (double)c;
             fp.getline( s, 500 );
             break;

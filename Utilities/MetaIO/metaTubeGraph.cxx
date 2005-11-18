@@ -367,7 +367,7 @@ M_Read(void)
     }
 
     double td;
-    for(int j=0; j<m_NPoints; j++) 
+    for(j=0; j<m_NPoints; j++) 
     {
       TubeGraphPnt* pnt = new TubeGraphPnt(m_NDims);
       

@@ -99,8 +99,8 @@ ClearFields()
 
     if(!exists)
       {
-      FieldsContainerType::iterator  it2  = m_UserDefinedReadFields.begin();
-      FieldsContainerType::iterator  end2 = m_UserDefinedReadFields.end();
+      it2  = m_UserDefinedReadFields.begin();
+      end2 = m_UserDefinedReadFields.end();
       while( it2 != end2 )
       {
         if(*it2 == field)
@@ -1243,7 +1243,7 @@ M_SetupWriteFields(void)
     }
   if(!valSet)
     {
-    for(int i=0; i<m_NDims; i++)
+    for(i=0; i<m_NDims; i++)
       {
       m_TransformMatrix[i+i*m_NDims] = 1;
       }

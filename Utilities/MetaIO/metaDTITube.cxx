@@ -400,10 +400,10 @@ M_Read(void)
       return false;
       }
 
-    int i=0;
+    i=0;
     double td;
     int d;
-    for(int j=0; j<m_NPoints; j++) 
+    for(j=0; j<m_NPoints; j++) 
       {
       DTITubePnt* pnt = new DTITubePnt(m_NDims);
       
@@ -595,7 +595,7 @@ M_Write(void)
         }
 
       // Add the extra fields
-      const DTITubePnt::FieldListType & extraList = (*it)->GetExtraFields();
+      extraList = (*it)->GetExtraFields();
       DTITubePnt::FieldListType::const_iterator itFields = extraList.begin();
       while(itFields !=  extraList.end())
         {

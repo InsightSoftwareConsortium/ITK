@@ -272,7 +272,7 @@ M_Read(void)
       return false;
     }
 
-    int i=0;
+    i=0;
     double td;
     int d;
     for(int j=0; j<m_NPoints; j++) 
@@ -328,7 +328,7 @@ M_Read(void)
 
       for(k=0; k<m_NDims-1; k++)
       {
-        for(int j=0; j<m_NDims; j++)
+        for(j=0; j<m_NDims; j++)
         {
           *m_ReadStream >> v[j];
           m_ReadStream->get();

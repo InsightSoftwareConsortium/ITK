@@ -458,10 +458,10 @@ M_Read(void)
       return false;
       }
 
-    int i=0;
+    i=0;
     double td;
     int d;
-    for(int j=0; j<m_NPoints; j++) 
+    for(j=0; j<m_NPoints; j++) 
       {
       TubePnt* pnt = new TubePnt(m_NDims);
       
