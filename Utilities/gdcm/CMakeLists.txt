@@ -49,7 +49,7 @@ IF("GDCM_COMPILER_HAS_FUNCTION" MATCHES "^GDCM_COMPILER_HAS_FUNCTION$")
 ENDIF("GDCM_COMPILER_HAS_FUNCTION" MATCHES "^GDCM_COMPILER_HAS_FUNCTION$")
 
 #-----------------------------------------------------------------------------
-# Test if os defines a lenght for sockaddr
+# Test if os defines a length for sockaddr
 IF("HAVE_SA_LEN" MATCHES "^HAVE_SA_LEN$")
   STRING(ASCII 35 POUND)
   FILE(WRITE ${GDCM_BINARY_DIR}/CMakeTmp/gdcmTestHAVESALEN.c
