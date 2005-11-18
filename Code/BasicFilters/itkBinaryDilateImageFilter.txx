@@ -144,7 +144,7 @@ BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel>
   // Support progress methods/callbacks
   // Setup a progress reporter.  We have 4 stages to the algorithm so
   // pretend we have 4 times the number of pixels
-  ProgressReporter progress(this, 0,
+  ProgressReporter progress(this, threadId,
                             outputRegionForThread.GetNumberOfPixels()
                             + 3*tmpRequestedRegion.GetNumberOfPixels() );
   
@@ -457,7 +457,7 @@ BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel>
   ouRegIndexIt.GoToBegin(); 
   
   // InputRegionForThread is the output region for thread padded by
-  // kernel radius We must traverse this padded region because some
+  // kerne lradius We must traverse this padded region because some
   // border pixel in the added band ( the padded band is the region
   // added after padding ) may be responsible to the painting of some
   // pixel in the non padded region.  This happens typically when a

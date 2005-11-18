@@ -129,7 +129,7 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
   // Support progress methods/callbacks
   // Setup a progress reporter.  We have 4 stages to the algorithm so
   // pretend we have 4 times the number of pixels
-  ProgressReporter progress(this, 0,
+  ProgressReporter progress(this, threadId,
                             outputRegionForThread.GetNumberOfPixels()
                             + 3*tmpRequestedRegion.GetNumberOfPixels() );
   
