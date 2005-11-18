@@ -449,7 +449,7 @@ typedef  struct {
   short  field_readcount;  /* read count/TIFF_VARIABLE/TIFF_SPP */
   short  field_writecount;  /* write count/TIFF_VARIABLE */
   TIFFDataType field_type;  /* type of associated data */
-        unsigned short field_bit;  /* bit in fieldsset bit vector */
+  unsigned short field_bit;  /* bit in fieldsset bit vector */
   unsigned char field_oktochange;  /* if true, can change while writing */
   unsigned char field_passcount;  /* if true, pass dir count on set */
   char  *field_name;    /* ASCII name */

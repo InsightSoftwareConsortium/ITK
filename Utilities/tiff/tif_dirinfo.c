@@ -412,7 +412,7 @@ _TIFFFindFieldInfo(TIFF* tif, ttag_t tag, TIFFDataType dt)
     return (tif->tif_foundfield);
   /* NB: use sorted search (e.g. binary search) */
   if(dt != TIFF_ANY) {
-            TIFFFieldInfo key = {0, 0, 0, 0, 0, 0, 0, 0};
+            TIFFFieldInfo key = {0, 0, 0, (TIFFDataType)0, 0, 0, 0, 0};
             key.field_tag = tag;
             key.field_type = dt;
             return((const TIFFFieldInfo *) bsearch(&key, 
@@ -440,7 +440,7 @@ _TIFFFindFieldInfoByName(TIFF* tif, const char *field_name, TIFFDataType dt)
     return (tif->tif_foundfield);
   /* NB: use sorted search (e.g. binary search) */
   if(dt != TIFF_ANY) {
-            TIFFFieldInfo key = {0, 0, 0, 0, 0, 0, 0, 0};
+            TIFFFieldInfo key = {0, 0, 0, (TIFFDataType)0, 0, 0, 0, 0};
             key.field_name = (char *)field_name;
             key.field_type = dt;
             return((const TIFFFieldInfo *) bsearch(&key, 
