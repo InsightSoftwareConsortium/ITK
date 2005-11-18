@@ -45,7 +45,6 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
 {
   // Get values from superclass
   KernelType kernel = this->GetKernel();
-  InputSizeType radius = this->GetRadius();
 
   // Allocate and reset output. We copy the input to the output,
   // except for pixels with DilateValue.  These pixels are initially
