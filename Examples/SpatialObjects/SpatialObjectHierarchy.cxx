@@ -53,7 +53,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // We then add the second object to the first one by using the
-// \code{AddSpatialObject()} method.  As a result \code{object2} becames a
+// \code{AddSpatialObject()} method.  As a result \code{object2} becomes a
 // child of object1.
 //
 // Software Guide : EndLatex 

@@ -20,7 +20,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  This example illustrates how a point set can be parametrized to manage a
+//  This example illustrates how a point set can be parameterized to manage a
 //  particular pixel type. It is quite common to associate vector values with
 //  points for producing geometric representations.  The following code shows
 //  how vector values can be used as pixel type on the PointSet class.  The

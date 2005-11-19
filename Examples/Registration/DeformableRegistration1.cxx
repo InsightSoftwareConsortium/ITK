@@ -114,7 +114,7 @@ typedef itk::fem::VisitorDispatcher<ElementType2,ElementLoadType2, LoadImpFP2>
 
 //  Software Guide : BeginLatex
 //
-//  Once all the necessary components have been instantianted, we can
+//  Once all the necessary components have been instantiated, we can
 //  instantiate the \doxygen{FEMRegistrationFilter}, which depends on the
 //  image input and output types.
 //

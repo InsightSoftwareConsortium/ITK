@@ -57,7 +57,7 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginLatex
   // The deformation field is represented as an image of vector pixel types. The
-  // dimenstion of the vectors is the same as the dimension of the input image.
+  // dimension of the vectors is the same as the dimension of the input image.
   // Each vector in the deformation field represents the distance between a 
   // geometric point in the input space and a point in the output space such that:
   // \begin{equation}

@@ -78,7 +78,7 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// We excplicitly instantiate the pixel type and dimension of the input image,
+// We explicitly instantiate the pixel type and dimension of the input image,
 // and the images that will be used internally for computing the resampling.
 //
 // Software Guide : EndLatex 
@@ -158,7 +158,7 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginLatex
 //
 // The smoothing filter of choice is the \code{RecursiveGaussianImageFilter}.
-// We create three of them in oder to have the freedom of performing smoothings
+// We create three of them in order to have the freedom of performing smoothing
 // with different Sigma values along each dimension.
 //
 // Software Guide : EndLatex 

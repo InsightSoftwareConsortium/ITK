@@ -30,7 +30,7 @@
 // \cite{Udupa1998}. For this reason the current example is located in the
 // \texttt{Examples/Patented} subdirectory.
 //
-// In order to use this algorithim we should first include the header files of
+// In order to use this algorithm we should first include the header files of
 // the filter and the image class.
 //
 // Software Guide : EndLatex 
@@ -45,9 +45,9 @@
 // Software Guide : BeginLatex
 //
 // Since the FuzzyConnectednessImageFilter requires an estimation of the
-// graylevel mean and variance for the region to be segmented, we use here the
+// gray level mean and variance for the region to be segmented, we use here the
 // \doxygen{ConfidenceConnectedImageFilter} as a preprocessor that produces a
-// rough sementation and estimates from it the values of the mean and the
+// rough segmentation and estimates from it the values of the mean and the
 // variance.
 //
 // Software Guide : EndLatex 
@@ -200,7 +200,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The output of the reader is passed as input ot the ConfidenceConnected image filter.
+  //  The output of the reader is passed as input to the ConfidenceConnected image filter.
   //  Then the filter is executed in order to obtain estimations of the mean and variance
   //  gray values for the region to be segmented.
   //

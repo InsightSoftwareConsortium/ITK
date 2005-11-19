@@ -33,7 +33,7 @@
 //
 //  This example illustrates how to use the Fast Fourier Transform filter (FFT)
 //  for processing an image in the spectral domain. Given that FFT computation
-//  can be CPU intensive, there are multiple hardware specific impelmentations
+//  can be CPU intensive, there are multiple hardware specific implementations
 //  of FFT. IT is convenient in many cases to delegate the actual computation
 //  of the transform to local available libraries. Particular examples of those
 //  libraries are fftw\footnote{http://www.fftw.org} and the VXL implementation
@@ -138,7 +138,7 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginLatex
 //
 // The execution of the filter can be triggered by invoking the \code{Update()}
-// method.  Since this invokation can eventually throw and exception, the call
+// method.  Since this invocation can eventually throw and exception, the call
 // must be placed inside a try/catch block.
 //
 // Software Guide : EndLatex 

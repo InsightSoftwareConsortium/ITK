@@ -300,7 +300,7 @@ int main( int argc, char* argv[] )
 
 // Software Guide : BeginLatex
 // 
-// Finally we just close the loop that will walk trhough all the Dictionary
+// Finally we just close the loop that will walk through all the Dictionary
 // entries.
 //
 // Software Guide : EndLatex
@@ -316,7 +316,7 @@ int main( int argc, char* argv[] )
 //  Software Guide : BeginLatex
 //
 //  It is also possible to read a specific tag. In that case the string of the
-//  entry can be used for quering the MetaDataDictionary.
+//  entry can be used for querying the MetaDataDictionary.
 //
 //  Software Guide : EndLatex 
 

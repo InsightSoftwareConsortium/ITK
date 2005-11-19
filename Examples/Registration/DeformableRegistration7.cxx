@@ -227,7 +227,7 @@ int main( int argc, char *argv[] )
   //  finite support region ( 1 grid node at the lower borders and 2
   //  grid nodes at upper borders). Therefore in this example, we set
   //  the grid size to be $8 \times 8$ and place the grid origin such that
-  //  grid node (1,1) coinicides with the first pixel in the fixed image.
+  //  grid node (1,1) coincides with the first pixel in the fixed image.
   // 
   //  \index{BSplineDeformableTransform}
   //

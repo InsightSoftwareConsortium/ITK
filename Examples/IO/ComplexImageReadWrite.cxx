@@ -131,8 +131,8 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginLatex
 //
 // The execution of this short pipeline is triggered by invoking the Update()
-// method of the writer. This invokation must be placed inside a try/catch
-// block since its execution may result in exeptions being thrown.
+// method of the writer. This invocation must be placed inside a try/catch
+// block since its execution may result in exceptions being thrown.
 //
 // Software Guide : EndLatex 
 

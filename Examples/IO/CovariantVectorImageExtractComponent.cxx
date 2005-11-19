@@ -169,7 +169,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The minumum and maximum values for the output image are specified in
+  //  The minimum and maximum values for the output image are specified in
   //  the following. Note the use of the \doxygen{NumericTraits} class which
   //  allows to define a number of type-related constant in a generic
   //  way. The use of traits is a fundamental characteristic of generic

@@ -30,7 +30,7 @@
 //  
 //  Software Guide : BeginLatex
 //
-//  \itkpiccaption[DiscreteGaussianImageFilter gaussian diagram.]{Discretized
+//  \itkpiccaption[DiscreteGaussianImageFilter Gaussian diagram.]{Discretized
 //  Gaussian.\label{fig:DiscretizedGaussian}}
 //  \parpic(7cm,4cm)[r]{\includegraphics[width=6cm]{DiscreteGaussian.eps}}
 //

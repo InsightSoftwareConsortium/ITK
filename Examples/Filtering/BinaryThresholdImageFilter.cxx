@@ -30,7 +30,7 @@
 
 // Software Guide : BeginLatex
 //
-// \itkpiccaption[BinaryThresoldImageFilter transfer function]{Transfer function
+// \itkpiccaption[BinaryThresholdImageFilter transfer function]{Transfer function
 // of the BinaryThresholdImageFilter.
 // \label{fig:BinaryThresholdTransferFunction}}
 // \parpic(8cm,5cm)[r]{\includegraphics[width=7cm]{BinaryThresholdTransferFunction.eps}}

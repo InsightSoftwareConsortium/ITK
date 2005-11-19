@@ -123,7 +123,7 @@ int main( int argc, char* argv[] )
 //
 // At this point we can trigger the reading process by invoking the Update()
 // method.  Since this reading process may eventually throw an exception, we
-// place the invokation inside a try/catch block.
+// place the invocation inside a try/catch block.
 //
 // Software Guide : EndLatex 
 
@@ -181,7 +181,7 @@ int main( int argc, char* argv[] )
 //  Software Guide : BeginLatex
 //
 //  We need to explicitly set the proper image IO (GDCMImageIO) to the writer
-//  filter since the input DICOM dictionary is being passed along the writting
+//  filter since the input DICOM dictionary is being passed along the writing
 //  process. The dictionary contains all necessary information that a valid
 //  DICOM file should contain, like Patient Name, Patient ID, Institution Name,
 //  etc.

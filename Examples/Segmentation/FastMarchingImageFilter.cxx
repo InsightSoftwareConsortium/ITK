@@ -627,7 +627,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Since the front representing the contour will propagate continuosly
+  //  Since the front representing the contour will propagate continuously
   //  over time, it is desirable to stop the process once a certain time has
   //  been reached. This allows us to save computation time under the
   //  assumption that the region of interest has already been computed. The

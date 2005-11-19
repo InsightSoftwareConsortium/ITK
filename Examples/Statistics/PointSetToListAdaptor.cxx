@@ -20,7 +20,7 @@
 
 // Software Guide : BeginLatex
 //
-// We will decribe how to use \doxygen{PointSet} as a
+// We will describe how to use \doxygen{PointSet} as a
 // \subdoxygen{Statistics}{Sample} using an adaptor in this example.
 //
 // \index{itk::Statistics::PointSetToListAdaptor}
@@ -87,7 +87,7 @@ int main()
   // change the dimension of the point. As mentioned earlier, a
   // \code{PointSetToListAdaptor} object cares only about the points, and the
   // type of measurement vectors is the type of points. Therefore, we can
-  // define the measurment vector type as in the following code snippet.
+  // define the measurement vector type as in the following code snippet.
   //
   // Software Guide : EndLatex
 

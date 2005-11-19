@@ -336,7 +336,7 @@ int main( int argc, char *argv[] )
   //  
   //  Invoking the \code{Update()} method on the writer triggers the
   //  execution of the pipeline.  As usual, the call is placed in a
-  //  \code{try/catch} block should any errors ocurr or exceptions be thrown.
+  //  \code{try/catch} block should any errors occur or exceptions be thrown.
   //
   //  Software Guide : EndLatex 
 

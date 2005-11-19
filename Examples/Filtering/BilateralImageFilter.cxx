@@ -42,7 +42,7 @@
 //  range. Bilateral filtering is capable of reducing the noise in an image
 //  by an order of magnitude while maintaining edges.  The bilateral operator
 //  used here was described by Tomasi and Manduchi (\emph{Bilateral Filtering
-//  for Gray and ColorImages}. IEEE ICCV. 1998.)
+//  for Gray and Color Images}. IEEE ICCV. 1998.)
 //
 //  The filtering operation can be described by the following equation
 //

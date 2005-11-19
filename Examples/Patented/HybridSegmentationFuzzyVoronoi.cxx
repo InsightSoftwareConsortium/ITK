@@ -139,7 +139,7 @@ int main( int argc, char *argv[] )
   
   //  Software Guide : BeginLatex
   //  
-  //  In the next step of the hybrid segmentaion method, the prior generated
+  //  In the next step of the hybrid segmentation method, the prior generated
   //  from the fuzzy segmentation is used to build a homogeneity measurement
   //  for the object.  A VoronoiSegmentationImageFilter uses the
   //  homogeneity measurement to drive iterative subdivision of Voronoi regions

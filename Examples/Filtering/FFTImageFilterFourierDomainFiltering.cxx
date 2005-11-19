@@ -55,7 +55,7 @@
 // We start by including the headers of the FFT filters and the Mask image
 // filter. Note that we use two different types of FFT filters here. The first
 // one expects as input an image of real pixel type (real in the sense of
-// complex numbers) and produces as ouput a complex image. The second FFT
+// complex numbers) and produces as output a complex image. The second FFT
 // filter expects as in put a complex image and produces a real image as
 // output.
 //
@@ -110,7 +110,7 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginLatex
 //
 // Both the input image and the mask image can be read from files or could be
-// obtained as the output of a preprocesing pipeline. We omit here the details
+// obtained as the output of a preprocessing pipeline. We omit here the details
 // of reading the image since the process is quite standard.
 //
 // Software Guide : EndLatex 
@@ -187,7 +187,7 @@ maskFilter->SetInput2( maskReader->GetOutput() );
 // Software Guide : BeginLatex
 //
 // For the purpose of verifying the aspect of the spectrum after being filtered
-// witht the mask, we can write out the output of the Mask filter to a file.
+// with the mask, we can write out the output of the Mask filter to a file.
 //
 // Software Guide : EndLatex 
 
@@ -225,7 +225,7 @@ spectralWriter->Update();
 // Software Guide : BeginLatex
 //
 // The execution of the pipeline can be triggered by invoking the
-// \code{Update()} method in this last filter.  Since this invokation can
+// \code{Update()} method in this last filter.  Since this invocation can
 // eventually throw and exception, the call must be placed inside a try/catch
 // block.
 //
@@ -248,7 +248,7 @@ spectralWriter->Update();
 // Software Guide : BeginLatex
 //
 // The result of the filtering can now be saved into an image file, or be
-// passed to a subsequent processsing pipeline. Here we simply write it out to
+// passed to a subsequent processing pipeline. Here we simply write it out to
 // an image file.
 //
 // Software Guide : EndLatex 

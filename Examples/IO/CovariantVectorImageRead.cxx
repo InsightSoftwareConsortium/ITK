@@ -72,7 +72,7 @@ int main( int argc, char ** argv )
   //
   //  We read an image of \doxygen{CovariantVector} pixels and compute pixel
   //  magnitude to produce an image where each pixel is of type
-  //  \code{unsigned short}. The componets of the CovariantVector
+  //  \code{unsigned short}. The components of the CovariantVector
   //  are selected to be \code{float} here. Notice that a renormalization is
   //  required in order to map the dynamic range of the magnitude values into
   //  the range of the output pixel type.  The
@@ -151,7 +151,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  In the following the minumum and maximum values for the output image
+  //  In the following the minimum and maximum values for the output image
   //  are specified. Note the use of the \doxygen{NumericTraits} class which
   //  allows to define a number of type-related constant in a generic
   //  way. The use of traits is a fundamental characteristic of generic

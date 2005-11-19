@@ -173,7 +173,7 @@ int main()
   //
   // In the following code snippet, we query the three nearest neighbors of
   // the \code{queryPoint} on the two tree. The results and procedures are
-  // exacly the same for both. First we define the point from which distances
+  // exactly the same for both. First we define the point from which distances
   // will be measured.
   //
   // Software Guide : EndLatex

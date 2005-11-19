@@ -389,7 +389,7 @@ int main( int argc, char *argv[] )
   //  illustrates the vulnerability of the region growing methods when the
   //  anatomical structures to be segmented do not have a homogeneous
   //  statistical distribution over the image space. You may want to
-  //  experiment with differnt numbers of iterations to verify how the
+  //  experiment with different numbers of iterations to verify how the
   //  accepted region will extend.
   //
   //  Software Guide : EndLatex 

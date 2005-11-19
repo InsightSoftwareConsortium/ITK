@@ -41,7 +41,7 @@ int main(int, char *[])
   //  class. The following line conveniently takes the PointsContainer type
   //  from the PointSet traits and declare it in the global namespace.
   //
-  //  \index{itk::PointSet!PointContainer}
+  //  \index{itk::PointSet!PointsContainer}
   //
   //  Software Guide : EndLatex 
 
@@ -67,8 +67,8 @@ int main(int, char *[])
   //  creation.  The following line creates a point container compatible with
   //  the type of the PointSet from which the trait has been taken.
   //
-  //  \index{PointContainer!New()}
-  //  \index{PointContainer!Pointer}
+  //  \index{PointsContainer!New()}
+  //  \index{PointsContainer!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -119,7 +119,7 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  Finally the PointsContainer can be assigned to the PointSet. This will
-  //  substitute any previously existing PointContainer on the PointSet. The
+  //  substitute any previously existing PointsContainer on the PointSet. The
   //  assignment is done using the \code{SetPoints()} method.
   //
   //  \index{itk::PointSet!SetPoints()}
@@ -133,7 +133,7 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The PointContainer object can be obtained from the PointSet using the
+  //  The PointsContainer object can be obtained from the PointSet using the
   //  \code{GetPoints()} method.  This method returns a pointer
   //  to the actual container owned by the PointSet which is then assigned to
   //  a SmartPointer.

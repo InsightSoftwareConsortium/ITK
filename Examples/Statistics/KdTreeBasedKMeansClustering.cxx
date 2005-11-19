@@ -232,7 +232,7 @@ int main()
   // two components of the first normal distribution's mean vector. We
   // plug-in the k-d tree using the \code{SetKdTree()}.
   //
-  // The remining two methods specify the termination condition. The
+  // The remaining two methods specify the termination condition. The
   // estimation process stops when the number of iterations reaches the
   // maximum iteration value set by the \code{SetMaximumIteration()}, or the
   // distances between the newly calculated mean (centroid) values and
@@ -323,10 +323,10 @@ int main()
   //
   // The \code{classifier} is almost ready to do the classification
   // process except that it needs two membership functions that
-  // represents two clusters resprectively.
+  // represents two clusters respectively.
   //
   // In this example, the two clusters are modeled by two Euclidean distance
-  // funtions. The distance function (model) has only one parameter, its mean
+  // functions. The distance function (model) has only one parameter, its mean
   // (centroid) set by the \code{SetOrigin()} method. To plug-in two distance
   // functions, we call the \code{AddMembershipFunction()} method. Then
   // invocation of the \code{Update()} method will perform the

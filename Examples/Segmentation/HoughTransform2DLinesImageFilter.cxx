@@ -70,7 +70,7 @@ int main( int argc, char *argv[] )
   //  
   //  Next, we declare the pixel type and image dimension and specify the
   //  image type to be used as input. We also specify the image type of the
-  //  accumulator used in the Houghtransform filter.
+  //  accumulator used in the Hough transform filter.
   //
   //  Software Guide : EndLatex 
 

@@ -26,14 +26,14 @@
 //  Software Guide : BeginLatex
 //
 //  The composite filter we will build combines three filters: a gradient
-//  magnutide operator, which will calculate the first-order derivative of
+//  magnitude operator, which will calculate the first-order derivative of
 //  the image; a thresholding step to select edges over a given strength;
 //  and finally a rescaling filter, to ensure the resulting image data is
 //  visible by scaling the intensity to the full spectrum of the output
 //  image type.
 //
 //  Since this filter takes an image and produces another image (of
-//  identical type), we will specialise the ImageToImageFilter:
+//  identical type), we will specialize the ImageToImageFilter:
 //
 //  Software Guide : EndLatex
 
@@ -60,7 +60,7 @@
 //  Now we can declare the filter itself.  It is within the ITK namespace,
 //  and we decide to make it use the same image type for both input and
 //  output, thus the template declaration needs only one parameter.
-//  Deriving from \code{ImageToImageFilter} provides default behaviour for
+//  Deriving from \code{ImageToImageFilter} provides default behavior for
 //  several important aspects, notably allocating the output image (and
 //  making it the same dimensions as the input).
 //

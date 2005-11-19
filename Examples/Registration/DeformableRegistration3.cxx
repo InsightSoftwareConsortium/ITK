@@ -24,7 +24,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example demostrates how to use a variant of the ``demons'' algorithm to
+// This example demonstrates how to use a variant of the ``demons'' algorithm to
 // deformably register two images. This variant uses a different formulation
 // for computing the forces to be applied to the image in order to compute the
 // deformation fields. The variant uses both the gradient of the fixed image
@@ -393,7 +393,7 @@ int main( int argc, char *argv[] )
   // 
   // The result of the demons-based deformable registration is presented in
   // Figure \ref{fig:DeformableRegistration3Output}. The checkerboard
-  // comparision shows that the algorithm was able to recover the misalignment
+  // comparison shows that the algorithm was able to recover the misalignment
   // due to expiration.
   //
   // Software Guide : EndLatex
@@ -423,7 +423,7 @@ int main( int argc, char *argv[] )
   //
   // Note that the file format used for writing the deformation field must be
   // capable of representing multiple components per pixel. This is the case
-  // for the MetaImage and VTK fileformats for example.
+  // for the MetaImage and VTK file formats for example.
   //
   // Software Guide : EndLatex
 

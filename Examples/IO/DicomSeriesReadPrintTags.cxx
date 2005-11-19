@@ -154,7 +154,7 @@ int main( int argc, char* argv[] )
 // Software Guide : BeginLatex
 // 
 // We trigger the reader by invoking the \code{Update()} method. This
-// invokation should normally be done inside a \code{try/catch} block given
+// invocation should normally be done inside a \code{try/catch} block given
 // that it may eventually throw exceptions.
 //
 // Software Guide : EndLatex
@@ -247,7 +247,7 @@ int main( int argc, char* argv[] )
 // attempt to convert it in to a string entry by using the \code{dynamic\_cast}
 // based on RTTI information\footnote{Run Time Type Information}. The
 // dictionary is organized like a \code{std::map} structure, we should use
-// therfore the \code{first} and \code{second} members of every entry in order
+// therefore the \code{first} and \code{second} members of every entry in order
 // to get access to the \{key,value\} pairs.
 //
 // Software Guide : EndLatex
@@ -280,7 +280,7 @@ int main( int argc, char* argv[] )
 //
 //  It is also possible to query for specific entries instead of reading all of
 //  them as we did above. In this case, the user must provide the tag
-//  identifier using the DICOM Standar encoding. The identifier is stored in a
+//  identifier using the standard DICOM encoding. The identifier is stored in a
 //  string and used as key on the dictionary. 
 //
 //  Software Guide : EndLatex 
@@ -305,7 +305,7 @@ int main( int argc, char* argv[] )
 // 
 // Since the entry may or may not be of string type we must again use a
 // \code{dynamic\_cast} in order to attempt to convert it to a string dictionary
-// entry. If the convertion is successful, then we can print out its content.
+// entry. If the conversion is successful, then we can print out its content.
 //
 // Software Guide : EndLatex
 

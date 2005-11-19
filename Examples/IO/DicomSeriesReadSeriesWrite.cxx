@@ -51,14 +51,14 @@
 //  datasets have been processed in any way, and if so, you should inform the
 //  recipients of the data about the purpose and potential consequences of the
 //  processing. This is fundamental if the datasets are intended to be used for
-//  diagnosis, treatement or follow-up of patients. For example, the simple
+//  diagnosis, treatment or follow-up of patients. For example, the simple
 //  reduction of a dataset form a 16-bits/pixel to a 8-bits/pixel
 //  representation may make impossible to detect certain pathologies and as a
 //  result will expose the patient to the risk or remaining untreated for a
 //  long period of time while her/his pathology progresses.
 //  
 //  You are strongly encouraged to get familiar with the report on medical
-//  errors ``To Err is Human'', produced by the U.S. Institue of
+//  errors ``To Err is Human'', produced by the U.S. Institute of
 //  Medicine~\cite{ToErrIsHuman2001}. Raising awareness about the high
 //  frequency of medical errors is a first step in reducing their occurrence.
 //  
@@ -202,7 +202,7 @@ int main( int argc, char* argv[] )
 // Software Guide : BeginLatex
 // 
 // We can trigger the reading process by calling the \code{Update()} method on
-// the series reader. It is wise to put this invokation inside a
+// the series reader. It is wise to put this invocation inside a
 // \code{try/catch} block since the process may eventually throw exceptions.
 //
 // Software Guide : EndLatex
@@ -244,7 +244,7 @@ int main( int argc, char* argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  Second, we make sure the output directory exist, using the cross plateform
+//  Second, we make sure the output directory exist, using the cross platform
 //  tools: itksys::SystemTools. In this case we select to create the directory
 //  if it does not exist yet.
 //
@@ -349,7 +349,7 @@ int main( int argc, char* argv[] )
 
 // Software Guide : BeginLatex
 // 
-// Finally we trigger the writing process by invokig the \code{Update()} method
+// Finally we trigger the writing process by invoking the \code{Update()} method
 // in the series writer. We place this call inside a try/catch block, in case
 // any exception is thrown during the writing process.
 //
@@ -373,8 +373,8 @@ int main( int argc, char* argv[] )
 // Software Guide : BeginLatex
 // 
 // Please keep in mind that you should avoid to generate DICOM files that have
-// the appearance of being produced by a scanner. It should be clear in your
-// directory naming or in your filenaming that this data was the result of the
+// the appearance of being produced by a scanner. It should be clear from the
+// directory or filenames that this data was the result of the
 // execution of some sort of algorithm. This will help to prevent your dataset
 // from being used as scanner data by accident.
 //

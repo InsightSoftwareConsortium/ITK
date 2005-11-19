@@ -171,7 +171,7 @@ int main(int argc, char* argv[])
 // 
 // Now we access the entries in the Meta data dictionary, and for particular
 // key values we assign a new content to the entry. This is done here by taking
-// \{key,value\} pairs from the command line arguments. The relavant method is
+// \{key,value\} pairs from the command line arguments. The relevant method is
 // the EncapsulateMetaData that takes the dictionary and for a given key
 // provided by \code{entryId}, replaces the current value with the content of
 // the \code{value} variable. This is repeated for every potential pair present

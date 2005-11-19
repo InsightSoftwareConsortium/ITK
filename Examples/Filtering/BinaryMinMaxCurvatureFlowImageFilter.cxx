@@ -119,7 +119,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The BinaryMinMaxCurvatureFlow filter type is now instantiated using both the
+  //  The BinaryMinMaxCurvatureFlowFilter type is now instantiated using both the
   //  input image and the output image types. The filter is then created using
   //  the \code{New()} method.
   //

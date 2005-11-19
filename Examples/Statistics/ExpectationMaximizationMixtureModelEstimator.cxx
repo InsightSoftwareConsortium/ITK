@@ -64,7 +64,7 @@
 // The E step is basically a step that calculates the \emph{a posteriori}
 // probability for each measurement vector.
 //
-// The M step is dependant on the type of each PDF. Most of
+// The M step is dependent on the type of each PDF. Most of
 // distributions belonging to exponential family such as Poisson,
 // Binomial, Exponential, and Normal distributions have analytical
 // solutions for updating the parameter set. The

@@ -176,7 +176,7 @@ int main(int, char *[])
   //  class.
   //
   // \index{itk::Mesh!CellsContainer}
-  // \index{itk::Mesh!CellsIterators}
+  // \index{itk::Mesh!CellIterator}
   // \index{itk::Mesh!GetCells()}
   // \index{CellsContainer!Begin()}
   // \index{CellsContainer!End()}

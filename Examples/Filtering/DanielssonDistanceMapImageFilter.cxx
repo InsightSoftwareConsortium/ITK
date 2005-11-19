@@ -39,7 +39,7 @@
 // with the components of the distance vector to the closest point. The input
 // to the map is assumed to be a set of points on the input image. Each
 // point/pixel is considered to be a separate entity even if they share the
-// same graylevel value.
+// same gray level value.
 //
 // \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!Instantiation}
 // \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!Header}

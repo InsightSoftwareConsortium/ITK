@@ -26,7 +26,7 @@
 // use this function for any subclass of the \doxygen{FixedArray}. As a
 // subclass of the \subdoxygen{Statistics}{DistanceMetric}, it has two basic
 // methods, the \code{SetOrigin(measurement vector)} and the
-// \code{Evaluate(mesaurement vector)}. The \code{Evaluate()} method returns
+// \code{Evaluate(measurement vector)}. The \code{Evaluate()} method returns
 // the distance between its argument (a measurement vector) and the measurement
 // vector set by the \code{SetOrigin()} method.
 //
@@ -124,7 +124,7 @@ int main(int, char*[])
             << distanceMetric->Evaluate( queryPointA, queryPointB ) 
             << std::endl;
   
-  std::cout << "Coordinate disntace between " 
+  std::cout << "Coordinate distance between " 
             << "the first components of the two query points = "
             << distanceMetric->Evaluate( queryPointA[0], queryPointB[0] ) 
             << std::endl;

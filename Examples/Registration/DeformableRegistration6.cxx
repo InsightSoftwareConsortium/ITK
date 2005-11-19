@@ -25,7 +25,7 @@
 // This example illustrates the use of the \doxygen{BSplineDeformableTransform}
 // class in a manually controlled multi-resolution scheme. Here we define two
 // transforms at two different resolution levels. A first registration is
-// perfomed with the spline grid of low resolution, and the results are then
+// performed with the spline grid of low resolution, and the results are then
 // used for initializing a higher resolution grid. Since this example is quite
 // similar to the previous example on the use of the
 // \code{BSplineDeformableTransform} we omit here most of the details already
@@ -185,7 +185,7 @@ int main( int argc, char *argv[] )
   //  finite support region ( 1 grid node at the lower borders and 2
   //  grid nodes at upper borders). Therefore in this example, we set
   //  the grid size to be $8 \times 8$ and place the grid origin such that
-  //  grid node (1,1) coinicides with the first pixel in the fixed image.
+  //  grid node (1,1) coincides with the first pixel in the fixed image.
   // 
   //  \index{BSplineDeformableTransform}
   //

@@ -35,10 +35,10 @@
 //  caution. You probably don't want to appear in the newspapers as the
 //  responsible of a surgery mistake in which a doctor extirpates the left
 //  kidney when it should have extracted the right one\footnote{\emph{Wrong
-//  side} surgey accounts for $2\%$ of the reported medical errors in the United
+//  side} surgery accounts for $2\%$ of the reported medical errors in the United
 //  States. Trivial... but equally dangerous.} . If that prospect doesn't
 //  scares you, maybe it is time for you to reconsider your career in medical
-//  image processing. Flipping effects that may seem inocuous at first view may
+//  image processing. Flipping effects that may seem innocuous at first view may
 //  still have dangerous consequences. For example flipping the cranio-caudal
 //  axis of a CT scans forces an observer to flip the left-right axis in order
 //  to make sense of the image.

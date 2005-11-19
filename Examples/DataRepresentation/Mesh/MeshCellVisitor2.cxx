@@ -387,7 +387,7 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  Remember that the LineVisitor required the pointer to the mesh object
+  //  Remember that the LineVisitor requires the pointer to the mesh object
   //  since it needs to get access to actual point coordinates. This is done by
   //  invoking the \code{SetMesh()} method defined above. 
   //

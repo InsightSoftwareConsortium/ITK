@@ -25,7 +25,7 @@
 //
 // This example illustrates the use of the \doxygen{BSplineDeformableTransform}
 // class for performing registration of two $3D$ images and for the case of
-// Multi-Modality images. The image metric of choice in this case is the
+// multi-modality images. The image metric of choice in this case is the
 // \doxygen{MattesMutualInformationImageToImageMetric}.
 //
 // \index{itk::BSplineDeformableTransform}
@@ -59,7 +59,7 @@
 //  Software Guide : BeginLatex
 //  
 //  The parameter space of the \code{BSplineDeformableTransform} is composed by
-//  the set of all the deformations associated with the nodes of the BSpline
+//  the set of all the deformations associated with the nodes of the B-spline
 //  grid.  This large number of parameters makes possible to represent a wide
 //  variety of deformations, but it also has the price of requiring a
 //  significant amount of computation time.
@@ -136,7 +136,7 @@ int main( int argc, char *argv[] )
   //
   //  We instantiate now the type of the \code{BSplineDeformableTransform} using
   //  as template parameters the type for coordinates representation, the
-  //  dimension of the space, and the order of the BSpline. 
+  //  dimension of the space, and the order of the B-spline. 
   // 
   //  \index{BSplineDeformableTransform!New}
   //  \index{BSplineDeformableTransform!Instantiation}
@@ -218,11 +218,11 @@ int main( int argc, char *argv[] )
   //
   //  Here we define the parameters of the BSplineDeformableTransform grid.  We
   //  arbitrarily decide to use a grid with $5 \times 5$ nodes within the image. 
-  //  The reader should note that the BSpline computation requires a
+  //  The reader should note that the B-spline computation requires a
   //  finite support region ( 1 grid node at the lower borders and 2
   //  grid nodes at upper borders). Therefore in this example, we set
   //  the grid size to be $8 \times 8$ and place the grid origin such that
-  //  grid node (1,1) coinicides with the first pixel in the fixed image.
+  //  grid node (1,1) coincides with the first pixel in the fixed image.
   // 
   //  \index{BSplineDeformableTransform}
   //

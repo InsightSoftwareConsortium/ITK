@@ -70,7 +70,7 @@
 // with the value of sigma assigned to the Gaussian. Large values of sigma
 // will result in a large capture radius, but will have poor precision in the
 // location of the edges. A reasonable strategy may involve the use of large
-// sigmas for the initial interations of the model and small sigmas to refine
+// sigmas for the initial iterations of the model and small sigmas to refine
 // the model when it is close to the edges. A similar effect could be
 // achieved using multiresolution and taking advantage of the image pyramid
 // structures already illustrated in the registration framework.
@@ -104,7 +104,7 @@
 //  Software Guide : BeginLatex
 //  
 //  Then we include the header of the DeformableMesh3DFilter that
-//  implementes the deformable model algorithm.
+//  implements the deformable model algorithm.
 //
 //  \index{itk::DeformableMesh3DFilter!Header}
 //
@@ -449,7 +449,7 @@ int main( int argc, char *argv[] )
   //  
   //  Here we connect the output of the binary mask reader to the input of
   //  the BinaryMask3DMeshSource that will apply the isocontouring algorithm
-  //  and generate the inital mesh to be deformed. We must also select the
+  //  and generate the initial mesh to be deformed. We must also select the
   //  value to be used for representing the binary object in the image. In
   //  this case we select the value $200$ and pass it to the filter using its
   //  method \code{SetObjectValue()}.
@@ -569,7 +569,7 @@ int main( int argc, char *argv[] )
   //  and not the cells. See the section on SpatialObjects to produce
   //  a complete binary image from cells using the \doxygen{MeshSpatialObject}
   //  combined with the \doxygen{SpatialObjectToImageFilter}.
-  //  However, using SpatialObjects is computationaly more expensive.
+  //  However, using SpatialObjects is computationally more expensive.
   //  
   //  Software Guide : EndLatex 
  

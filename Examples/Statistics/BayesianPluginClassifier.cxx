@@ -30,7 +30,7 @@
 // all the components of the classifier system and the data flow. This system
 // differs with the previous k-means clustering algorithms in several
 // ways. The biggest difference is that this classifier uses the
-// \subdoxygen{Statistics}{GaussianDensityFunction}s as memberhip functions
+// \subdoxygen{Statistics}{GaussianDensityFunction}s as membership functions
 // instead of the \subdoxygen{Statistics}{EuclideanDistance}. Since the
 // membership function is different, the membership function requires a
 // different set of parameters, mean vectors and covariance matrices. We
@@ -292,7 +292,7 @@ int main( int,  char *[])
   // clusters.
   //
   // In this example, we can imagine that the two clusters are modeled by two
-  // Euclidean distance funtions. The distance function (model) has only one
+  // Euclidean distance functions. The distance function (model) has only one
   // parameter, the mean (centroid) set by the \code{SetOrigin()} method. To
   // plug-in two distance functions, we call the
   // \code{AddMembershipFunction()} method. Then invocation of the

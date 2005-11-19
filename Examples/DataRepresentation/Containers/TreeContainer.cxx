@@ -101,7 +101,7 @@ int main(int, char* [])
 // Software Guide : EndCodeSnippet
   levelIt.GoToBegin();
 // Software Guide : BeginLatex
-// The TreeIterators have usefull functions to test the property of the current
+// The TreeIterators have useful functions to test the property of the current
 // pointed node. Among these functions: \code{IsLeaf{}} returns true if the current
 // node is a leaf, \code{IsRoot{}} returns true if the node is a root, 
 // \code{HasParent{}} returns true if the node has a parent and

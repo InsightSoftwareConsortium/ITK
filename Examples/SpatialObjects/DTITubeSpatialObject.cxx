@@ -26,7 +26,7 @@
 // It represents a fiber tracts from Diffusion Tensor Imaging.
 // A DTITubeSpatialObject is described as a list of centerline points which 
 // have a position, a radius, normals, the fractional anisotropy (FA) value, the ADC value,
-// the geodesic anisotropy (GA) value, the eigen values and vectors as well as the full
+// the geodesic anisotropy (GA) value, the eigenvalues and vectors as well as the full
 // tensor matrix.
 //
 // Let's start by including the appropriate header file.
@@ -69,7 +69,7 @@ int main( int , char *[] )
 // \item The FA value using \code{AddField(DTITubePointType::FA)}.
 // \item The ADC value using \code{AddField(DTITubePointType::ADC)}.
 // \item The GA value using \code{AddField(DTITubePointType::GA)}.
-// \item The full tensor matrix supposed to be symetric definite positive value using \code{SetTensorMatrix()}.
+// \item The full tensor matrix supposed to be symmetric definite positive value using \code{SetTensorMatrix()}.
 // \item The color of the point is set to red in our case.
 // \end{enumerate}
 //

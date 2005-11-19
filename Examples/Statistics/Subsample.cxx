@@ -101,7 +101,7 @@ int main()
   // using the \code{SetSample()} method. However, with regard to data
   // elements, the Subsample is empty. We specify which data elements, among
   // the data elements in the Sample object, are part of the
-  // Subsamplen. There are two ways of doing that. First, if we want to
+  // Subsample. There are two ways of doing that. First, if we want to
   // include every data element (instance) from the sample, we simply call
   // the \code{InitializeWithAllInstances()} method like the following:
   //
@@ -189,7 +189,7 @@ int main()
   
   // Software Guide : BeginLatex
   //
-  // Since we are using a ListSample object as the souce sample, the
+  // Since we are using a ListSample object as the source sample, the
   // following code snippet will return the same value (2) for the
   // \code{Size()} and the \code{GetTotalFrequency()} methods. However, if we
   // used a Histogram object as the source sample, the two return

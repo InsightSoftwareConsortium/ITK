@@ -20,7 +20,7 @@
 
 // Software Guide : BeginLatex
 //
-// We will decribe how to use \doxygen{PointSet} as a \code{Sample} 
+// We will describe how to use \doxygen{PointSet} as a \code{Sample} 
 // using an adaptor in this example.
 //
 // \index{itk::Sample!PointSetToListAdaptor}
@@ -34,7 +34,7 @@
 // \code{PointSetToListAdaptor} object are points from the \code{PointSet}
 // object that is plugged-into the adaptor object.
 //
-// To use, an \doxygen{PointSetToListAdatpr} object, we include the 
+// To use, an \doxygen{PointSetToListAdaptor} object, we include the 
 // header file for the class.
 //
 // Software Guide : EndLatex 

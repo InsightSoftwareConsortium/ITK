@@ -273,7 +273,7 @@ int main(int, char *[])
   //
   //  Many different visitors can be configured in this way. The set of all
   //  visitors can be registered with the MultiVisitor class provided for the
-  //  mesh. A multivisitor class will walk through the cells and delegate
+  //  mesh. An instance of the MultiVisitor class will walk through the cells and delegate
   //  action to every registered visitor when the appropriate cell type is
   //  encountered.
   //

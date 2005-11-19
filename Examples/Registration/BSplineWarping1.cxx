@@ -127,7 +127,7 @@ int main( int argc, char * argv[] )
 //
 //  We instantiate now the type of the \code{BSplineDeformableTransform} using
 //  as template parameters the type for coordinates representation, the
-//  dimension of the space, and the order of the BSpline. 
+//  dimension of the space, and the order of the B-spline. 
 // 
 //  \index{BSplineDeformableTransform!New}
 //  \index{BSplineDeformableTransform!Instantiation}
@@ -153,15 +153,15 @@ int main( int argc, char * argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  Since we are using a BSpline of order 3, the coverage of the BSpling grid
+//  Since we are using a B-spline of order 3, the coverage of the BSpling grid
 //  should exceed by one the spatial extent of the image on the lower region of
 //  image indices, and by two grid points on the upper region of image indices.
-//  We choose here to use a $8 \times 8$ BSpline grid, from which only a $5
+//  We choose here to use a $8 \times 8$ B-spline grid, from which only a $5
 //  \times 5$ sub-grid will be covering the input image. If we use an input
 //  image of size $500 \times 500$ pixels, and pixel spacing $2.0 \times 2.0$
-//  then we need the $5 \times 5$ BSpline grid to cover a physical extent of $1000
+//  then we need the $5 \times 5$ B-spline grid to cover a physical extent of $1000
 //  \times 1000$ mm. This can be achieved by setting the pixel spacing of the
-//  BSpline grid to $250.0 \times 250.0$ mm. The origin of the BSpline grid
+//  B-spline grid to $250.0 \times 250.0$ mm. The origin of the B-spline grid
 //  must be set at one grid position away from the origin of the desired output
 //  image. All this is done with the following lines of code.
 // 
@@ -220,10 +220,10 @@ int main( int argc, char * argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  The BSpline grid should now be fed with coeficients at each node. Since
+//  The B-spline grid should now be fed with coeficients at each node. Since
 //  this is a two dimensional grid, each node should receive two coefficients.
 //  Each coefficient pair is representing a displacement vector at this node.
-//  The coefficients can be passed to the BSpline in the form of an array where
+//  The coefficients can be passed to the B-spline in the form of an array where
 //  the first set of elements are the first component of the displacements for
 //  all the nodes, and the second set of elemets is formed by the second
 //  component of the displacements for all the nodes.
@@ -234,7 +234,7 @@ int main( int argc, char * argv[] )
 //  assigned to the elements of the array. We do this by storing all the odd
 //  elements from the file in the first block of the array, and all the even
 //  elements from the file in the second block of the array. Finally the array
-//  is passed to the BSpline transform using the \code{SetParameters()}.
+//  is passed to the B-spline transform using the \code{SetParameters()}.
 //
 //  Software Guide : EndLatex 
 
@@ -257,7 +257,7 @@ int main( int argc, char * argv[] )
 
 //  Software Guide : BeginLatex
 //
-//   Finally the array is passed to the BSpline transform using the
+//   Finally the array is passed to the B-spline transform using the
 //   \code{SetParameters()}.
 //
 //  Software Guide : EndLatex 

@@ -183,7 +183,7 @@ int main( int argc, char * argv[] )
   //  the BinaryMedianImageFilter filter on a slice of MRI brain image using a
   //  neighborhood radius of \(2,2\), which corresponds to a $ 5 \times 5 $
   //  classical neighborhood.  The filtered image demonstrates the capability
-  //  of this filter for reducing noise both in the background and foregrund of
+  //  of this filter for reducing noise both in the background and foreground of
   //  the image, as well as smoothing the contours of the regions.
   //  
   //  Software Guide : EndLatex 

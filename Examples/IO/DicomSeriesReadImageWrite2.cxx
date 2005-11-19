@@ -298,7 +298,7 @@ int main( int argc, char* argv[] )
 // We proceed now to save the volumetric image in another file, as specified by
 // the user in the command line arguments of this program. Thanks to the
 // ImageIO factory mechanism, only the filename extension is needed to identify
-// the fileformat in this case.
+// the file format in this case.
 //
 // Software Guide : EndLatex
 
