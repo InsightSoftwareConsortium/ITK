@@ -607,8 +607,7 @@ TIFFReadDirectory(TIFF* tif)
         goto bad;
   }
   if (dir) {
-    _TIFFfree((char *)dir);
-    dir = NULL;
+    _TIFFfree(dir);
   }
   if (!TIFFFieldSet(tif, FIELD_MAXSAMPLEVALUE))
     td->td_maxsamplevalue = (uint16)((1L<<td->td_bitspersample)-1);
