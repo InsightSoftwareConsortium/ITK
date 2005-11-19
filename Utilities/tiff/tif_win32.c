@@ -387,4 +387,3 @@ Win32ErrorHandler(const char* module, const char* fmt, va_list ap)
 }
 TIFFErrorHandler _TIFFerrorHandler = Win32ErrorHandler;
 
-/* vim: set ts=8 sts=8 sw=8 noet: */

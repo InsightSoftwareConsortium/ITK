@@ -714,4 +714,3 @@ TIFFSetWriteOffset(TIFF* tif, toff_t off)
   tif->tif_curoff = off;
 }
 
-/* vim: set ts=8 sts=8 sw=8 noet: */

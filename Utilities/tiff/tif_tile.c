@@ -262,4 +262,3 @@ _TIFFDefaultTileSize(TIFF* tif, uint32* tw, uint32* th)
     *th = TIFFroundup(*th, 16);
 }
 
-/* vim: set ts=8 sts=8 sw=8 noet: */

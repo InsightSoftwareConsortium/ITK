@@ -48,7 +48,7 @@
  * derived from this ``base state'' block.
  */
 typedef struct {
-        int     rw_mode;                /* O_RDONLY for decode, else encode */
+  int     rw_mode;                /* O_RDONLY for decode, else encode */
   int  mode;      /* operating mode */
   uint32  rowbytes;    /* bytes in a decoded scanline */
   uint32  rowpixels;    /* pixels in a scanline */
@@ -1554,4 +1554,3 @@ TIFFInitCCITTRLEW(TIFF* tif, int scheme)
 }
 #endif /* CCITT_SUPPORT */
 
-/* vim: set ts=8 sts=8 sw=8 noet: */

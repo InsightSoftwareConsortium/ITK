@@ -141,4 +141,3 @@ TIFFInitNeXT(TIFF* tif, int scheme)
 }
 #endif /* NEXT_SUPPORT */
 
-/* vim: set ts=8 sts=8 sw=8 noet: */

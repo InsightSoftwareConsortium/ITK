@@ -616,4 +616,3 @@ _TIFFprintAsciiTag(FILE* fd, const char* name, const char* value)
   fprintf(fd, "\"\n");
 }
 
-/* vim: set ts=8 sts=8 sw=8 noet: */

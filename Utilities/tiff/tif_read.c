@@ -639,4 +639,3 @@ _TIFFSwab64BitData(TIFF* tif, tidata_t buf, tsize_t cc)
     TIFFSwabArrayOfDouble((double*) buf, cc/8);
 }
 
-/* vim: set ts=8 sts=8 sw=8 noet: */

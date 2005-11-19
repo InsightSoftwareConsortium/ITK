@@ -637,7 +637,9 @@ LogLuvEncodeTile(TIFF* tif, tidata_t bp, tsize_t cc, tsample_t s)
 #ifndef M_PI
 #define M_PI    3.14159265358979323846
 #endif
+#ifndef log2
 #define log2(x)    ((1./M_LN2)*log(x))
+#endif
 #define exp2(x)    exp(M_LN2*(x))
 
 #define itrunc(x,m)  ((m)==SGILOGENCODE_NODITHER ? \
@@ -1597,4 +1599,3 @@ bad:
 }
 #endif /* LOGLUV_SUPPORT */
 
-/* vim: set ts=8 sts=8 sw=8 noet: */

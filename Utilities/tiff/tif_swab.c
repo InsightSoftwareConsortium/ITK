@@ -216,4 +216,3 @@ TIFFReverseBits(register unsigned char* cp, register unsigned long n)
     *cp = TIFFBitRevTable[*cp], cp++;
 }
 
-/* vim: set ts=8 sts=8 sw=8 noet: */

@@ -283,23 +283,24 @@ static const char* StateNames[] = {
  * overwritten and/or undecoded area is white filled.
  */
 #define  CLEANUP_RUNS() do {            \
-    if (RunLength)              \
-  SETVAL(0);              \
-    if (a0 != lastx) {              \
-  badlength(a0, lastx);            \
-  while (a0 > lastx && pa > thisrun)        \
-      a0 -= *--pa;            \
-  if (a0 < lastx) {            \
+  if (RunLength) {            \
+    SETVAL(0);              \
+  }                         \
+  if (a0 != lastx) {              \
+    badlength(a0, lastx);            \
+    while (a0 > lastx && pa > thisrun)        \
+    a0 -= *--pa;            \
+    if (a0 < lastx) {            \
       if (a0 < 0)              \
-    a0 = 0;              \
+      a0 = 0;              \
       if ((pa-thisrun)&1)            \
-    SETVAL(0);            \
+      SETVAL(0);            \
       SETVAL(lastx - a0);            \
-  } else if (a0 > lastx) {          \
+    } else if (a0 > lastx) {          \
       SETVAL(lastx);            \
       SETVAL(0);              \
-  }                \
-    }                  \
+    }                \
+  }                  \
 } while (0)
 
 /*

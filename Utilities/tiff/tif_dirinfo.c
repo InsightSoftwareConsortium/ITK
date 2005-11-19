@@ -533,4 +533,3 @@ _TIFFCreateAnonFieldInfo(TIFF *tif, ttag_t tag, TIFFDataType field_type)
     return fld;    
 }
 
-/* vim: set ts=8 sts=8 sw=8 noet: */

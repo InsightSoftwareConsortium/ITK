@@ -1174,16 +1174,16 @@ DECLAREContigPutFunc(put1bitbwtile)
  */
 DECLAREContigPutFunc(put2bitbwtile)
 {
-    uint32** BWmap = img->BWmap;
+  uint32** BWmap = img->BWmap;
 
-    (void) x; (void) y;
-    fromskew /= 4;
-    while (h-- > 0) {
-  uint32* bw;
-  UNROLL4(w, bw = BWmap[*pp++], *cp++ = *bw++);
-  cp += toskew;
-  pp += fromskew;
-    }
+  (void) x; (void) y;
+  fromskew /= 4;
+  while (h-- > 0) {
+    uint32* bw;
+    UNROLL4(w, bw = BWmap[*pp++], *cp++ = *bw++);
+    cp += toskew;
+    pp += fromskew;
+  }
 }
 
 /*
@@ -1191,16 +1191,16 @@ DECLAREContigPutFunc(put2bitbwtile)
  */
 DECLAREContigPutFunc(put4bitbwtile)
 {
-    uint32** BWmap = img->BWmap;
+  uint32** BWmap = img->BWmap;
 
-    (void) x; (void) y;
-    fromskew /= 2;
-    while (h-- > 0) {
-  uint32* bw;
-  UNROLL2(w, bw = BWmap[*pp++], *cp++ = *bw++);
-  cp += toskew;
-  pp += fromskew;
-    }
+  (void) x; (void) y;
+  fromskew /= 2;
+  while (h-- > 0) {
+    uint32* bw;
+    UNROLL2(w, bw = BWmap[*pp++], *cp++ = *bw++);
+    cp += toskew;
+    pp += fromskew;
+  }
 }
 
 /*
@@ -2594,4 +2594,3 @@ TIFFReadRGBATile(TIFF* tif, uint32 col, uint32 row, uint32 * raster)
     return (ok);
 }
 
-/* vim: set ts=8 sts=8 sw=8 noet: */
