@@ -245,10 +245,10 @@ M_Read(void)
   char** pntVal = NULL;
   MET_StringToWordArray(m_PointDim, &pntDim, &pntVal);
   
-  int i;
-  for(i=0;i<pntDim;i++)
+  int ii;
+  for(ii=0;ii<pntDim;ii++)
     {
-      delete [] pntVal[i];
+      delete [] pntVal[ii];
     }
   delete [] pntVal;
 
@@ -272,7 +272,7 @@ M_Read(void)
       return false;
     }
 
-    i=0;
+    int i=0;
     double td;
     int d;
     for(int j=0; j<m_NPoints; j++) 
@@ -328,7 +328,7 @@ M_Read(void)
 
       for(k=0; k<m_NDims-1; k++)
       {
-        for(j=0; j<m_NDims; j++)
+        for(int j=0; j<m_NDims; j++)
         {
           *m_ReadStream >> v[j];
           m_ReadStream->get();
