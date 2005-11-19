@@ -328,9 +328,9 @@ M_Read(void)
 
       for(k=0; k<m_NDims-1; k++)
       {
-        for(int j=0; j<m_NDims; j++)
+        for(int jj=0; jj<m_NDims; jj++)
         {
-          *m_ReadStream >> v[j];
+          *m_ReadStream >> v[jj];
           m_ReadStream->get();
         }
 
