@@ -33,28 +33,6 @@ MahalanobisDistanceMembershipFunction< TVector >
   m_Mean.fill( 0.0f );
   m_Covariance.set_identity();
   m_InverseCovariance.set_identity();
-  this->m_MeasurementVectorSize = 0;
-}
-
-template< class TVector >
-void 
-MahalanobisDistanceMembershipFunction< TVector >
-::SetMeasurementVectorSize( MeasurementVectorSizeType s )
-{
-  if( s == this->m_MeasurementVectorSize )
-    {
-    return;
-    }
-  
-  if( this->m_MeasurementVectorSize != 0 )
-    {  
-    itkWarningMacro( << "Destructively resizing paramters of the DistanceToCentroidMembershipFunction." );
-    }
-  this->m_MeasurementVectorSize = s;
-  m_Mean.set_size( s );
-  m_TempVec.set_size( this->m_MeasurementVectorSize, this->m_MeasurementVectorSize);
-  m_TempMat.set_size( this->m_MeasurementVectorSize, this->m_MeasurementVectorSize);
-  this->Modified();
 }
 
 template < class TVector >
@@ -62,21 +40,6 @@ void
 MahalanobisDistanceMembershipFunction< TVector >
 ::SetMean(const MeanVectorType & mean)
 {
-  if( this->m_MeasurementVectorSize != 0 )
-    {  
-    if( mean.size() != this->m_MeasurementVectorSize )
-      {
-      itkExceptionMacro( << "Size of the centroid must be same as the length of"
-          << " each measurement vector.");
-      }
-    }
-  else
-    {
-    this->m_MeasurementVectorSize = mean.size();
-    m_TempVec.set_size( this->m_MeasurementVectorSize, this->m_MeasurementVectorSize);
-    m_TempMat.set_size( this->m_MeasurementVectorSize, this->m_MeasurementVectorSize);
-    }
-
   m_Mean = mean ;
 }
 
@@ -86,21 +49,6 @@ void
 MahalanobisDistanceMembershipFunction< TVector >
 ::SetMean(const Array< double > & mean)
 {
-  if( this->m_MeasurementVectorSize != 0 )
-    {  
-    if( mean.Size() != this->m_MeasurementVectorSize )
-      {
-      itkExceptionMacro( << "Size of the centroid must be same as the length of"
-          << " each measurement vector.");
-      }
-    }
-  else
-    {
-    this->m_MeasurementVectorSize = mean.Size();
-    m_TempVec.set_size( this->m_MeasurementVectorSize, this->m_MeasurementVectorSize);
-    m_TempMat.set_size( this->m_MeasurementVectorSize, this->m_MeasurementVectorSize);
-    }
-
   m_Mean = dynamic_cast< MeanVectorType & >(const_cast< Array< double >& >(mean));
 }
 
@@ -119,22 +67,6 @@ void
 MahalanobisDistanceMembershipFunction< TVector >
 ::SetCovariance(const CovarianceMatrixType &cov)
 {
-  if( this->m_MeasurementVectorSize != 0 )
-    {  
-    if( cov.rows() != this->m_MeasurementVectorSize || 
-        cov.cols() != this->m_MeasurementVectorSize )
-      {
-      itkExceptionMacro( << "Size of the centroid must be same as the length of"
-          << " each measurement vector.");
-      }
-    }
-  else
-    {
-    this->m_MeasurementVectorSize = cov.rows();
-    m_TempVec.set_size( this->m_MeasurementVectorSize, this->m_MeasurementVectorSize);
-    m_TempMat.set_size( this->m_MeasurementVectorSize, this->m_MeasurementVectorSize);
-    }
-
   m_Covariance = cov; 
   this->CalculateInverseCovariance();
 }
@@ -146,22 +78,6 @@ void
 MahalanobisDistanceMembershipFunction< TVector >
 ::SetInverseCovariance(const CovarianceMatrixType &invcov)
 {
-  if( this->m_MeasurementVectorSize != 0 )
-    {  
-    if( invcov.rows() != this->m_MeasurementVectorSize || 
-        invcov.cols() != this->m_MeasurementVectorSize )
-      {
-      itkExceptionMacro( << "Size of the centroid must be same as the length of"
-          << " each measurement vector.");
-      }
-    }
-  else
-    {
-    this->m_MeasurementVectorSize = invcov.rows();
-    m_TempVec.set_size( this->m_MeasurementVectorSize, this->m_MeasurementVectorSize);
-    m_TempMat.set_size( this->m_MeasurementVectorSize, this->m_MeasurementVectorSize);
-    }
-
   // use the inverse computation
   m_Covariance = invcov; 
   this->CalculateInverseCovariance();
@@ -179,9 +95,9 @@ MahalanobisDistanceMembershipFunction< TVector >
 
   // pack the cov matrix from in_model to tmp_cov_mat 
   double cov_sum = 0;
-  for(unsigned int band_x = 0; band_x < m_Covariance.cols(); band_x++)
+  for(unsigned int band_x = 0; band_x < VectorDimension; band_x++)
     { 
-    for(unsigned int band_y = 0; band_y < m_Covariance.rows(); band_y++)
+    for(unsigned int band_y = 0; band_y < VectorDimension; band_y++)
       {
       cov_sum += vnl_math_abs( m_Covariance[band_x][band_y] );
       }
@@ -191,14 +107,14 @@ MahalanobisDistanceMembershipFunction< TVector >
   // a very large number; otherwise, inverse it 
   if( cov_sum < m_Epsilon ) 
     {
-    m_InverseCovariance.set_size( m_Covariance.rows(), m_Covariance.cols() );
+    m_InverseCovariance.set_size( VectorDimension, VectorDimension );
     m_InverseCovariance.set_identity();
     m_InverseCovariance *= m_DoubleMax;
     }
   else 
     {
     // check if num_bands == 1, if it is, we just use 1 to divide it
-    if( m_Covariance.rows() < 1 ) 
+    if( VectorDimension < 2 ) 
       {
       m_InverseCovariance.set_size(1,1);
       m_InverseCovariance[0][0] = 1.0 / m_Covariance[0][0];
@@ -220,7 +136,7 @@ MahalanobisDistanceMembershipFunction< TVector >
   double temp;
 
   // Compute |y - mean |   
-  for ( unsigned int i = 0; i < this->m_MeasurementVectorSize; i++ )
+  for ( unsigned int i = 0; i < VectorDimension; i++ )
     {
     m_TempVec[0][i] = measurement[i] - m_Mean[i];
     }
@@ -247,11 +163,10 @@ MahalanobisDistanceMembershipFunction< TVector >
   unsigned int i ;
   Superclass::PrintSelf(os,indent);
 
-  if ( this->m_MeasurementVectorSize &&
-       m_Mean.size() == this->m_MeasurementVectorSize )
+  if ( m_Mean.size() == VectorDimension )
     {
     os << indent << "Mean: [" ;
-    for (i=0 ; (i + 1) < this->m_MeasurementVectorSize; i++)
+    for (i=0 ; (i + 1) < VectorDimension ; i++)
       {
       os << m_Mean[i] << ", ";
       }
@@ -259,7 +174,7 @@ MahalanobisDistanceMembershipFunction< TVector >
     }
   else
     {
-    os << indent << "Mean: not set or size does not match" << std::endl ;
+    os << indent << "Mean: not set." << std::endl ;
     }
 
   os << indent << "Number of Samples: " << m_NumberOfSamples << std::endl;
@@ -267,6 +182,7 @@ MahalanobisDistanceMembershipFunction< TVector >
   os << m_Covariance << std::endl;
   os << indent << "Inverse covariance:        " << std::endl;
   os << m_InverseCovariance << std::endl;
+  os << indent << "VectorSize:        " << VectorDimension << std::endl;
 }
 } // end namespace Statistics
 } // end of namespace itk
