@@ -23,6 +23,7 @@
 #include "itkSimpleDataObjectDecorator.h"
 #include "itk_hash_map.h"
 #include "itkHistogram.h"
+#include "itkFastMutexLock.h"
 #include <vector>
 
 namespace itk {
@@ -329,6 +330,7 @@ private:
   typename HistogramType::SizeType  m_NumBins;
   RealType m_LowerBound;
   RealType m_UpperBound;
+  SimpleFastMutexLock m_Mutex;
 
 } ; // end of class
 

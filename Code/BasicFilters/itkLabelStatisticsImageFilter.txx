@@ -23,14 +23,12 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
-#include "itkFastMutexLock.h"
 
 namespace itk {
 #if defined(__GNUC__) && (__GNUC__ <= 2) //NOTE: This class needs a mutex for gnu 2.95
 /** Used for mutex locking */
-static SimpleFastMutexLock Mutex;
-#define LOCK_HASHMAP Mutex.Lock();
-#define UNLOCK_HASHMAP Mutex.Unlock();
+#define LOCK_HASHMAP this->m_Mutex.Lock()
+#define UNLOCK_HASHMAP this->m_Mutex.Unlock()
 #else
 #define LOCK_HASHMAP
 #define UNLOCK_HASHMAP
