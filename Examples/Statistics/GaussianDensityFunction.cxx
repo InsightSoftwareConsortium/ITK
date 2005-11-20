@@ -20,7 +20,7 @@
 
 // Software Guide : BeginLatex
 //
-// \index{Statistics!Guassian (normal) probability density function}
+// \index{Statistics!Gaussian (normal) probability density function}
 //
 // \index{itk::Statistics::GaussianDensityFunction}
 //

@@ -43,16 +43,16 @@
 // realization that no decent signal processing or algorithms can be performed
 // in such images.
 // 
-// Image analysists have a long educational battle to fight in the radiological
+// Image analysts have a long educational battle to fight in the radiological
 // setting in order to bring the message that 3D datasets acquired with
 // anisotropies larger than $[1:2]$ are simply dismissive of the most fundamental
 // concept of digital signal processing: The Shannon Sampling
 // Theorem~\cite{Shannon1948,Shannon1949}.
 //
-// Face to the inertia of many clinical imaging departments and their
-// nearsighted insistency in that those malformed images should be good enough
-// for image processing, some image analysist have adopted the stoic position
-// of trying to deal with those poor datasets. These image analysist usually
+// Facing the inertia of many clinical imaging departments and their
+// insistence that these images should be good enough
+// for image processing, some image analysts have stoically tried
+// to deal with these poor datasets. These image analysts usually
 // proceed to subsample the high in-plane resolution and to super-sample the
 // inter-slice resolution with the purpose of faking the type of dataset that
 // they should have received in the first place: an \textbf{isotropic} dataset.
@@ -61,28 +61,29 @@
 //
 // Note that this example is not presented here as a \emph{solution} to the
 // problem of anisotropic datasets.  On the contrary, this is simply a
-// \emph{dangeros palliative} that will help to perpetuate the mistake of the
-// image acquisition departments. This code is just an analgesic that will make
-// you believe that you don't have pain, while a real and lethal disease is
-// growing inside you. The real solution to the problem of atrophic anisotropic
-// dataset is to educate radiologist on the fundamental principles of image
-// processing. If you really care about the technical decency of the medical
-// image processing field, and you really care about providing your best effort
-// to the patients who will receive health care directly or indirectly affected
-// by your processed images, then it is your duty to reject anisotropic datasets
-// and to patiently explain radiologist why a barbarity such as a $[1:5]$
-// anisotropy ratio makes a data set to be just ``a collection of slices''
-// instead of an authentic 3D datasets. 
+// \emph{dangerous palliative} that will help to perpetuate the mistake of
+// the image acquisition departments. This code is just an analgesic that
+// will make you believe that you don't have pain, while a real and lethal
+// disease is growing inside you. The real solution to the problem of the
+// atrophic anisotropic dataset is to educate radiologist on the fundamental
+// principles of image processing. If you really care about the technical
+// decency of the medical image processing field, and you really care about
+// providing your best effort to the patients who will receive health care
+// directly or indirectly affected by your processed images, then it is your
+// duty to reject anisotropic datasets and to patiently explain radiologist
+// why a barbarity such as a $[1:5]$ anisotropy ratio makes a data set to be
+// just ``a collection of slices'' instead of an authentic 3D datasets.
 //
-// Please, before daring to use the example in this section, do kindly invite
-// your fellow radiologist to see the dataset in an orthogonal slice. Zoom in
-// that image in a viewer without any linear interpolation until you see the
-// daunting reality of the rectangular pixels. Let her/him know how absurd is
-// to process digital data that have been sampled at ratios of $[1:5]$ or
-// $[1:10]$.  Then, let them know that the first thing that you are going to do
-// is to throw away all that high in-plane resolution and to \emph{make up}
-// data in-between the slices in order to compensate for their low resolution.
-// Only then, you would have gained the right to use this code.
+// Please, before employing the techniques covered in this section, do kindly
+// invite your fellow radiologist to see the dataset in an orthogonal
+// slice. Zoom in that image in a viewer without any linear interpolation
+// until you see the daunting reality of the rectangular pixels. Let her/him
+// know how absurd is to process digital data that have been sampled at
+// ratios of $[1:5]$ or $[1:10]$.  Then, let them know that the first thing
+// that you are going to do is to throw away all that high in-plane
+// resolution and to \emph{make up} data in-between the slices in order to
+// compensate for their low resolution.  Only then, you will have gained the
+// right to use this code.
 //
 // \index{Anisotropic data sets}
 // \index{Subsampling}
@@ -104,7 +105,7 @@
 // This example performs subsampling on the in-plane resolution and performs
 // super-sampling along the inter-slices resolution. The subsampling process
 // requires that we preprocess the data with a smoothing filter in order to
-// avoid the ocurrence of aliasing effects due to overlap of the spectrum in
+// avoid the occurrence of aliasing effects due to overlap of the spectrum in
 // the frequency domain~\cite{Shannon1948,Shannon1949}. The smoothing is
 // performed here using the \code{RecursiveGaussian} filter, given that it
 // provides a convenient run-time performance.
@@ -273,7 +274,7 @@ int main( int argc, char * argv[] )
 // between the evil of subsampling and the evil of supersampling. We advance
 // here the conjecture that the geometrical mean between the in-plane and the
 // inter-slice resolutions should be a convenient isotropic resolution to use.
-// This conjucture is supported on nothing else than intuition and common
+// This conjecture is supported on nothing else than intuition and common
 // sense. You can rightfully argue that this choice deserves a more technical
 // consideration, but then, if you are so inclined to the technical correctness
 // of the image sampling process, you should not be using this code, and should

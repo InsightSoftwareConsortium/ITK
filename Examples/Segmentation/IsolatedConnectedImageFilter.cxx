@@ -43,7 +43,7 @@
 // value that separates both seeds.
 //
 // This example closely follows the previous ones. Only the relevant pieces
-// of code are hightlighted here.
+// of code are highlighted here.
 //
 // Software Guide : EndLatex 
 
@@ -163,7 +163,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The IsolatedConnectedImageFilter expects the user to specify a
-  //  threshold and two seeds. In this example, wetake all of them from the
+  //  threshold and two seeds. In this example, we take all of them from the
   //  command line arguments.
   //
   //  \index{itk::Isolated\-Connected\-Image\-Filter!SetLower()}

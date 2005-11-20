@@ -196,7 +196,7 @@ int main(int, char *[])
   //  points can be visited using PointContainer iterators 
   //
   // \index{itk::Mesh!PointsContainer}
-  // \index{itk::Mesh!PointsIterators}
+  // \index{itk::Mesh!PointIterator}
   // \index{itk::Mesh!GetPoints()}
   // \index{PointsContainer!Begin()}
   // \index{PointsContainer!End()}
@@ -221,7 +221,7 @@ int main(int, char *[])
   //  The cells can be visited using CellsContainer iterators 
   //
   // \index{itk::Mesh!CellsContainer}
-  // \index{itk::Mesh!CellsIterators}
+  // \index{itk::Mesh!CellIterator}
   // \index{itk::Mesh!GetCells()}
   // \index{CellsContainer!Begin()}
   // \index{CellsContainer!End()}
@@ -252,7 +252,7 @@ int main(int, char *[])
   //
   //  The point identifiers to which the cells have been associated can be
   //  visited using iterators defined in the \code{CellType} trait. The
-  //  following code illustrates the use of the PointIdIterators. The
+  //  following code illustrates the use of the PointIdIterator. The
   //  \code{PointIdsBegin()} method returns the iterator to the first
   //  point-identifier in the cell.  The \code{PointIdsEnd()} method returns
   //  the iterator to the past-end point-identifier in the cell.

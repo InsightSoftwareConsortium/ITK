@@ -720,7 +720,7 @@ int main( int argc, char *argv[] )
   //  unsigned pixel values\footnote{This is the case of PNG, BMP, JPEG and
   //  TIFF among other common file formats.}.  We also reduce the
   //  \code{DefaultPixelValue} to ``1'' in order to prevent that value from
-  //  absorving the dynamic range of the differences between the two images.
+  //  absorbing the dynamic range of the differences between the two images.
   //
   //  Software Guide : EndLatex 
 
@@ -830,7 +830,7 @@ int main( int argc, char *argv[] )
   //  the top figure that the step length is reduced progressively as the
   //  optimizer gets closer to the metric extrema. The bottom plot clearly
   //  shows how the metric value decreases as the optimization advances. The
-  //  log plot helps to highlight the normal oscilations of the optimizer
+  //  log plot helps to highlight the normal oscillations of the optimizer
   //  around the extrema value.
   //
   //  Software Guide : EndLatex 

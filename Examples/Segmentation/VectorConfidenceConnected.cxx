@@ -173,7 +173,7 @@ int main( int argc, char *argv[] )
   //  homogeneity of the image intensity representing the anatomical
   //  structure to be segmented. Highly homogeneous regions may only require
   //  a couple of iterations. Regions with ramp effects, like MRI images with
-  //  inhomogenous fields, may require more iterations. In practice, it seems
+  //  inhomogeneous fields, may require more iterations. In practice, it seems
   //  to be more relevant to carefully select the multiplier factor than the
   //  number of iterations.  However, keep in mind that there is no reason to
   //  assume that this algorithm should converge to a stable region. It is

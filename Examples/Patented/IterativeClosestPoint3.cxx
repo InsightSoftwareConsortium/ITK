@@ -21,10 +21,10 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates how to perform Iterative Closest Point (ICP) 
-// registration in ITK using a DistanceMap in order to increse the performance.
+// registration in ITK using a DistanceMap in order to increase the performance.
 // There is of course a trade-off between the time needed for computing the
 // DistanceMap and the time saving obtained by its repeated use during the
-// iterative computaion of the point to point distances. It is then necessary
+// iterative computation of the point to point distances. It is then necessary
 // in practice to ponder both factors.
 //
 // \doxygen{EuclideanDistancePointMetric}.

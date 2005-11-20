@@ -21,7 +21,7 @@
 // Software Guide : BeginLatex
 //
 // This example shows how to compute the histogram of a scalar image.  Since
-// the classes of the Statistics framework operate on Samples and
+// the statistics framework classes operate on Samples and
 // ListOfSamples, we need to introduce a class that will make the image look
 // like a list of samples. This class is the
 // \subdoxygen{Statistics}{ScalarImageToListAdaptor}.  Once we have connected

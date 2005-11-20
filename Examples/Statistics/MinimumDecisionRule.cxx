@@ -22,7 +22,7 @@
 // \index{itk::Statistics::MinimumDecisionRule}
 //
 // The \code{Evaluate()} method of the \doxygen{MinimumDecisionRule}
-// returns the index of the smallest disciminant score among the
+// returns the index of the smallest discriminant score among the
 // vector of discriminant scores that it receives as input.
 //
 // To begin this example, we include the class header file.  We also include

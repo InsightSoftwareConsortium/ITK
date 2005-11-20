@@ -34,7 +34,7 @@
 // 
 // \index{itk::ImageAdaptor!Instantiation}
 // \index{itk::ImageAdaptor!Header}
-// \index{itk::PixelAccessors!with parameters}
+// \index{itk::PixelAccessor!with parameters}
 //
 // Software Guide : EndLatex 
 

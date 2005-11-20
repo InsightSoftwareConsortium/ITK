@@ -27,7 +27,7 @@
 // This example illustrates how to combine the MutualInformation metric with an
 // Evolutionary algorithm for optimization.  Evolutionary algorithms are
 // naturally well-suited for optimizing the Mutual Information metric given its
-// randomic and noisy behavior.
+// random and noisy behavior.
 //
 // The structure of the example is almost identical o the one illustrated in
 // ImageRegistration4. Therefore we will focus here on the setup that is
@@ -289,7 +289,7 @@ int main( int argc, char *argv[] )
   //  Translation Y = 16.9006
   //  \end{verbatim}
   //  These values are a very close match to 
-  //  the true misaligment introduced in the moving image.
+  //  the true misalignment introduced in the moving image.
   //
   //  Software Guide : EndLatex 
 

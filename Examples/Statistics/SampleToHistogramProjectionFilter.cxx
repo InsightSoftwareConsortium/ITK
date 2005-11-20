@@ -20,12 +20,12 @@
 
 // Software Guide : BeginLatex
 //
-// \index{Statistics!Projecting mesurement vectors to 1-D histogram}
+// \index{Statistics!Projecting measurement vectors to 1-D histogram}
 // \index{itk::Statistics::Sample\-To\-Histogram\-Projection\-Filter}
 //
 // The \subdoxygen{Statistics}{SampleToHistogramProjectionFilter} projects
 // measurement vectors of a sample onto a vector and fills up a 1-D
-// \subdoxygen{Statistics}{Histogram}. The histram will be formed around the
+// \subdoxygen{Statistics}{Histogram}. The histogram will be formed around the
 // mean value set by the \code{SetMean()} method. The histogram's measurement
 // values are the distance between the mean and the projected measurement
 // vectors normalized by the standard deviation set by the
@@ -146,7 +146,7 @@ int main()
   // If the bin overlap value is set by the \code{SetHistogramBinOverlap()}
   // method and it is greater than 0.001, the frequency will be weighted based
   // on its closeness of the bin boundaries. In other words, even if a
-  // measurment vector falls into a bin, depending on its closeness to the
+  // measurement vector falls into a bin, depending on its closeness to the
   // adjacent bins, the frequencies of the adjacent bins will be also updated
   // with weights. If we do not want to use the bin overlapping function, we do
   // not call the \code{SetHistogramBinOverlap(double)} method. The default

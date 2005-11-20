@@ -33,7 +33,7 @@
 // \index{itk::Statistics::IntrospectiveSort}
 // \index{itk::Statistics::QuickSelect}
 //
-// Sometimes, we want to sort the measurement vectors in a sample. The sorted
+// Sometimes we want to sort the measurement vectors in a sample. The sorted
 // vectors may reveal some characteristics of the sample.  The \emph{insert
 // sort}, the \emph{heap sort}, and the \emph{introspective sort} algorithms
 // \cite{Musser1997} for samples are implemented in ITK. To learn pros and
@@ -237,7 +237,7 @@ int main()
   // \code{activeDimension}. The last argument tells the algorithm that we
   // want to get the \code{subsample->Size()/2}-th element along the
   // \code{activeDimension}. The quick select algorithm changes the order of
-  // the measurment vectors.
+  // the measurement vectors.
   //
   // Software Guide : EndLatex
 

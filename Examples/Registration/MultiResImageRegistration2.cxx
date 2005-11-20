@@ -495,7 +495,7 @@ int main( int argc, char *argv[] )
   //  transform. The matrix $\bf{M}$ is responsible for scaling, rotation and
   //  shearing while $\bf{T}$ is responsible for translations.  It can be seen
   //  that the translation values in this case closely match the true
-  //  misaligment introduced in the moving image.
+  //  misalignment introduced in the moving image.
   // 
   //  It is important to note that once the images are registered at a
   //  sub-pixel level, any further improvement of the registration relies

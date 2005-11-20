@@ -20,8 +20,8 @@
 
 // Software Guide : BeginLatex
 //
-// From the previous example you would have noticed that there is a significant
-// number of operations to perform in order to compute the simple histogram of
+// From the previous example you will have noticed that there is a significant
+// number of operations to perform to compute the simple histogram of
 // a scalar image. Given that this is a relatively common operation, it is
 // convenient to encapsulate many of these operations in a single helper class. 
 //

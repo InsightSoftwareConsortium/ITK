@@ -21,7 +21,7 @@
 // Software Guide : BeginLatex
 //
 //
-// This example shows how to compute the Entropy of an image.  More formally
+// This example shows how to compute the entropy of an image.  More formally
 // this should be said : The reduction in uncertainty gained when we measure
 // the intensity of \emph{one} randomly selected pixel in this image, given
 // that we already know the statistical distribution of the image intensity
@@ -43,7 +43,7 @@
 
 // Software Guide : BeginLatex
 //
-// Since the first stage in estimating the Entropy of an image is to compute
+// Since the first stage in estimating the entropy of an image is to compute
 // its histogram, we must start by including the headers of the classes that
 // will perform such computation. In this case, we are going to use a scalar
 // image as input, therefore we need the
@@ -128,7 +128,7 @@ int main( int argc, char * argv [] )
 // number of bins and the marginal scale. For convenience in this example, we
 // read the number of bins from the command line arguments. In this way we can
 // easily experiment with different values for the number of bins and see how
-// that choice affects the computation of the Entropy.
+// that choice affects the computation of the entropy.
 //
 // Software Guide : EndLatex 
 
@@ -192,16 +192,16 @@ int main( int argc, char * argv [] )
 
 // Software Guide : BeginLatex
 //
-// We proceed now to compute the \emph{estimation} of Entropy given the
+// We proceed now to compute the \emph{estimation} of entropy given the
 // histogram. The first conceptual jump to be done here is that we assume that
 // the histogram, which is the simple count of frequency of occurrence for the
-// grayscale values of the image pixels, can be normalized in order to estimate
-// the probability density function \textbf{PDF} of the actual estatistical
+// gray scale values of the image pixels, can be normalized in order to estimate
+// the probability density function \textbf{PDF} of the actual statistical
 // distribution of pixel values. 
 //
 //  First we declare an iterator that will visit all the bins in the histogram.
 //  Then we obtain the total number of counts using the
-//  \code{GetTotalFrequency()} method, and we initialize the Entropy variable
+//  \code{GetTotalFrequency()} method, and we initialize the entropy variable
 //  to zero.  
 //
 // Software Guide : EndLatex 
@@ -231,7 +231,7 @@ int main( int argc, char * argv [] )
 // logarithms of zeros.
 //
 //  Note that the $\log{(2)}$ factor is used to convert the natural logarithm
-//  in to a logarithm of base 2, and make possible to report the Entropy in its
+//  in to a logarithm of base 2, and make possible to report the entropy in its
 //  natural unit: the bit.
 //
 // Software Guide : EndLatex 
@@ -255,7 +255,7 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginLatex
 //
 // The result of this sum is considered to be our estimation of the image
-// Entropy. Note that the Entrpy value will change depending on the number of
+// entropy. Note that the Entrpy value will change depending on the number of
 // histogram bins that we use for computing the histogram. This is particularly
 // important when dealing with images whose pixel values have dynamic ranges so
 // large that our number of bins will always underestimate the variability of
@@ -292,9 +292,9 @@ int main( int argc, char * argv [] )
 // \end{center}
 // 
 //
-// This table hightlights the importance of carefully considering the
+// This table highlights the importance of carefully considering the
 // characteristics of the histograms used for estimating Information Theory
-// measures such as the Entropy.
+// measures such as the entropy.
 //
 // Software Guide : EndLatex 
 

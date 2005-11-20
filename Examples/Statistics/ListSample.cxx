@@ -31,7 +31,7 @@
 // \subdoxygen{Statistics}{ListSample} class that requires the type of
 // measurement vectors. The ListSample uses
 // \href{http://www.sgi.com/tech/stl/}{STL} \code{vector} to store
-// measurement vectors. This class conforms to the common iterface of Sample.
+// measurement vectors. This class conforms to the common interface of Sample.
 // Most methods of the Sample class interface are for retrieving measurement
 // vectors, the size of a container, and the total frequency. In this
 // example, we will see those information retrieving methods in addition to
@@ -125,7 +125,7 @@ int main()
   // \code{Size} method returns the number of measurement vectors in the
   // sample.  The primary data stored in Sample subclasses are measurement
   // vectors. However, each measurement vector has its associated frequency
-  // of occurence within the sample. For the
+  // of occurrence within the sample. For the
   // ListSample and the adaptor classes (see Section
   // \ref{sec:SampleAdaptors}), the frequency value is always one.
   // \subdoxygen{Statistics}{Histogram} can have a varying frequency

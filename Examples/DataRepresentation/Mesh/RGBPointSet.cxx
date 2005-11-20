@@ -20,7 +20,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The following example illustrates how a point set can be parametrized to
+//  The following example illustrates how a point set can be parameterized to
 //  manage a particular pixel type. In this case, pixels of RGB type are used.
 //  The first step is then to include the header files of the
 //  \doxygen{RGBPixel} and \doxygen{PointSet} classes.

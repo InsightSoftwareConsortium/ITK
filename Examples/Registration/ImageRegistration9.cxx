@@ -488,7 +488,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.32\textwidth]{ImageRegistration9Output.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceBefore.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceAfter.eps} 
-  // \itkcaption[AffineTransform ouput images]{The resampled moving image
+  // \itkcaption[AffineTransform output images]{The resampled moving image
   // (left), and the difference between the fixed and moving images before (center) 
   // and after (right) registration with the 
   // AffineTransform transform.}

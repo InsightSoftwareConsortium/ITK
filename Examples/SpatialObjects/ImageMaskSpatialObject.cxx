@@ -29,7 +29,7 @@
 // However, the main difference is that the \code{IsInside()} returns true if the pixel
 // intensity in the image is not zero.
 //
-// The suported pixel types does not include \doxygen{RGBPixel}, \doxygen{RGBAPixel}, etc...
+// The supported pixel types does not include \doxygen{RGBPixel}, \doxygen{RGBAPixel}, etc...
 // So far it only allows to manage images of simple types like unsigned short,
 // unsigned int, or \doxygen{Vector}.
 // Let's begin by including the appropriate header file.

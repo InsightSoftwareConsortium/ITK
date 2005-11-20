@@ -25,7 +25,7 @@
 // Software Guide : BeginLatex
 //
 //  This example illustrates the use of the \doxygen{SpatialObject} as a
-//  component of the registration framework in order to perfom model based
+//  component of the registration framework in order to perform model based
 //  registration. The current example creates a geometrical model composed of
 //  several ellipses. Then, it uses the model to produce a synthetic binary
 //  image of the ellipses. Next, it introduces perturbations on the position
@@ -318,7 +318,7 @@ public:
   //  example, the fitness is computed over the points of the
   //  SpatialObject. For each point, its coordinates are mapped
   //  through the transform into image space. The resulting point is used
-  //  to evaluate the image and the resulting value is acummulated in a sum.
+  //  to evaluate the image and the resulting value is accumulated in a sum.
   //  Since we are not allowing scale changes, the optimal value of the sum
   //  will result when all the SpatialObject points are mapped on
   //  the white regions of the image. Note that the argument for the

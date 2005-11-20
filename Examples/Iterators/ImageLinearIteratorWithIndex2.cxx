@@ -53,7 +53,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginLatex
 //
-// First we decrare the types of the images
+// First we declare the types of the images
 //
 // Software Guide : EndLatex
 
@@ -167,10 +167,10 @@ int main( int argc, char *argv[] )
 //
 // As you can see, we avoid to use a 3D iterator to walk
 // over the mean image. The reason is that there is no
-// guarranty that the 3D iterator will walk in the same
+// guarantee that the 3D iterator will walk in the same
 // order as the 4D. Iterators just adhere to their contract
 // of visiting all the pixel, but do not enforce any particular
-// order for the visits.  The linear iterator guarraties to
+// order for the visits.  The linear iterator guarantees to
 // visit the pixels along a line of the image in the order
 // in which they are placed in the line, but do not states
 // in what order one line will be visited with respect to

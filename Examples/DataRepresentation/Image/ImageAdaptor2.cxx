@@ -182,7 +182,7 @@ int main( int argc, char *argv[] )
 //  Software Guide : BeginLatex
 //
 //  Finally, we invoke the \code{Update()} method on the writer and take
-//  precaucions for catching any exception that may eventually be thrown during
+//  precautions to catch any exception that may be thrown during
 //  the execution of the pipeline. 
 //
 //  Software Guide : EndLatex 

@@ -20,7 +20,7 @@
 
 // Software Guide : BeginLatex
 //
-// \index{Statistics!Sampling mesurement vectors using radius}
+// \index{Statistics!Sampling measurement vectors using radius}
 // \index{itk::Statistics::NeighborhoodSampler}
 //
 // When we want to create an \subdoxygen{Statistics}{Subsample} object that
@@ -30,7 +30,7 @@
 // sample.
 //
 // We include the header files for the ListSample and the
-// NeighborhoodSample classes.
+// NeighborhoodSampler classes.
 //
 // Software Guide : EndLatex 
 

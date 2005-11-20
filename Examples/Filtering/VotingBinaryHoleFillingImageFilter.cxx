@@ -154,7 +154,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  Since the filter is expecting a binary image as input, we must specify
-  //  the levels that are going to be considered background and foregrund. This
+  //  the levels that are going to be considered background and foreground. This
   //  is done with the \code{SetForegroundValue()} and
   //  \code{SetBackgroundValue()} methods.
   //
@@ -235,7 +235,7 @@ int main( int argc, char * argv[] )
   //  correspond respectively to neighborhoods of size $ 3 \times 3 $,  $ 5
   //  \times 5 $, $ 7 \times 7 $.  The filtered image demonstrates the
   //  capability of this filter for reducing noise both in the background and
-  //  foregrund of the image, as well as smoothing the contours of the regions.
+  //  foreground of the image, as well as smoothing the contours of the regions.
   //  
   //  Software Guide : EndLatex 
 

@@ -170,7 +170,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   // The \doxygen{CenteredRigid2DTransform} is initialized by 5 parameters, 
-  // indicating the angle of rotation, the centre co-ordinates and the 
+  // indicating the angle of rotation, the center coordinates and the 
   // translation to be applied after rotation. The initialization is done 
   // by the \doxygen{CenteredTransformInitializer}. 
   // The transform can operate in two modes, one assumes that the 
@@ -205,7 +205,7 @@ int main( int argc, char *argv[] )
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
   // Software Guide : BeginLatex
-  // The optimzer scales the metrics (the gradient in this case) by the 
+  // The optimizer scales the metrics (the gradient in this case) by the 
   // scales during each iteration. Hence a large value of the center scale
   // will prevent movement along the center during optimization. Here we
   // assume that the fixed and moving images are likely to be related by 
@@ -323,7 +323,7 @@ int main( int argc, char *argv[] )
   //  \item \code{BrainProtonDensitySliceBorder20.png}
   //  \end{itemize}
   //
-  //  The second image is the result of intentionally shiftng the first
+  //  The second image is the result of intentionally shifting the first
   //  image by $20mm$ in $X$ and $20mm$ in
   //  $Y$. Both images have unit-spacing and are shown in Figure
   //  \ref{fig:FixedMovingImageRegistration1}. The example 
@@ -333,6 +333,6 @@ int main( int argc, char *argv[] )
   //  Translation X = 20
   //  Translation Y = 20
   //  \end{verbatim}
-  //  These values match the true misaligment introduced in the moving image.
+  //  These values match the true misalignment introduced in the moving image.
   //  Software Guide : EndLatex 
 

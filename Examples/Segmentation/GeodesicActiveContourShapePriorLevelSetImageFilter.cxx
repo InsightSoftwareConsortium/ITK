@@ -104,7 +104,7 @@
 // It should be noted that, although particular shape model, transform
 // cost function, and optimizer are used in this example, the implementation
 // is generic, allowing different instances of these components to be
-// plugged in. This flexibility allows a user to tailor the behavoir of the
+// plugged in. This flexibility allows a user to tailor the behavior of the
 // segmentation process to suit the circumstances of the targeted application. 
 //  
 // Let's start the example by including the headers of the new filters 
@@ -981,12 +981,12 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  // Deviating from previous examples, we will demostrate this example using 
+  // Deviating from previous examples, we will demonstrate this example using 
   // \code{BrainMidSagittalSlice.png} 
   // (Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput}, left)
   // from the \code{Examples/Data} directory.
   // The aim here is to segment the corpus callosum from the image using a shape model
-  // defined by \code{CorpusCallosumMeanShape.mha} and the first three prinicpal
+  // defined by \code{CorpusCallosumMeanShape.mha} and the first three principal
   // components \code{CorpusCallosumMode0.mha}, \code{CorpusCallosumMode1.mha} and 
   // \code{CorpusCallosumMode12.mha}. As shown in Figure~\ref{fig:CorpusCallosumPCAModes},
   // the first mode captures scaling, the second mode captures the shifting of mass between
@@ -1003,7 +1003,7 @@ int main( int argc, char *argv[] )
   // The input image to the GeodesicActiveContourShapePriorLevelSetImageFilter is a 
   // synthesized MR-T1 mid-sagittal slice ($217 \times 180$ pixels, $1 \times 1$ mm spacing)
   // of the brain (left) and the initial best-fit shape
-  // (right) choosen to roughly overlap the corpus callosum in the image to be segmented.}
+  // (right) chosen to roughly overlap the corpus callosum in the image to be segmented.}
   //
   // \label{fig:GeodesicActiveContourShapePriorImageFilterOutput}
   // \end{figure}

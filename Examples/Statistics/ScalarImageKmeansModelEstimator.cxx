@@ -31,8 +31,8 @@
 // that represents statistical distributions of intensity values in the pixels.
 // In the context of Medical Imaging, each class is typically associated to a
 // particular type of tissue and can therefore be used as a form of image
-// segmentation. One of the drawbacks fo this technique is that the spatial
-// distribution of the pixels is not considered at all. It is commen therefore
+// segmentation. One of the drawbacks of this technique is that the spatial
+// distribution of the pixels is not considered at all. It is common therefore
 // to combine the classification resulting from K-Means with other segmentation
 // techniques that will use the classification as a prior and add spatial
 // information to it in order to produce a better segmentation.

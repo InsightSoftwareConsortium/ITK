@@ -60,7 +60,7 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// We then translate the groupby 10mm in each direction. 
+// We then translate the group by 10mm in each direction. 
 // Therefore the ellipse is translated in physical space at the same time.
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet

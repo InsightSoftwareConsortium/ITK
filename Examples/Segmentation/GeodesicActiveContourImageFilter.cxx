@@ -56,7 +56,7 @@
 // ITK is based on the paper by Caselles \cite{Caselles1997}.  This
 // implementation extends the functionality of the
 // \doxygen{ShapeDetectionLevelSetImageFilter} by the addition of a third
-// avection term which attracts the level set to the object boundaries.
+// advection term which attracts the level set to the object boundaries.
 //
 // GeodesicActiveContourLevelSetImageFilter expects two inputs.  The first is
 // an initial level set in the form of an \doxygen{Image}. The second input

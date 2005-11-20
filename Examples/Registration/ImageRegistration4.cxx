@@ -223,7 +223,7 @@ int main( int argc, char *argv[] )
   // One mechanism for bringing the Metric to its limit is to disable the
   // sampling and use all the pixels present in the FixedImageRegion. This can
   // be done with the \code{UseAllPixelsOn()} method. You may want to try this
-  // option only while you are fine tunning all other parameters of your
+  // option only while you are fine tuning all other parameters of your
   // registration. We don't use this method in this current example though.
   //
   //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!UseAllPixelsOn()}
@@ -284,9 +284,9 @@ int main( int argc, char *argv[] )
   // direction of movement has changed in the parametric space, it reduces the
   // size of the step length. The rate at which the step length is reduced is
   // controlled by a relaxation factor. The default value of the factor is
-  // $0.5$. This value, however may prove to be inadecuate for noisy metrics
-  // since they tend to create very erratic movements on the optimizers and
-  // therefore make them incurr in many directional changes. In those
+  // $0.5$. This value, however may prove to be inadequate for noisy metrics
+  // since they tend to induce very erratic movements on the optimizers and
+  // therefore result in many directional changes. In those
   // conditions, the optimizer will rapidly shrink the step length while it is
   // still too far from the location of the extrema in the cost function. In
   // this example we set the relaxation factor to a number higher than the
@@ -354,7 +354,7 @@ int main( int argc, char *argv[] )
   //  Translation Y = 17.007
   //  \end{verbatim}
   //
-  //  These values are a very close match to the true misaligment introduced in
+  //  These values are a very close match to the true misalignment introduced in
   //  the moving image.
   //
   //  Software Guide : EndLatex 
@@ -500,7 +500,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // You must note however that there are a number of non-trivial issues
-  // involved in the fine tunning of parameters for the optimization. For
+  // involved in the fine tuning of parameters for the optimization. For
   // example, the number of bins used in the estimation of Mutual Information
   // has a dramatic effect on the performance of the optimizer. In order to
   // illustrate this effect, this same example has been executed using a range
@@ -524,7 +524,7 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
 
-  // Effects such as the one illustrated here hightlight how useless is to
+  // Effects such as the one illustrated here highlight how useless is to
   // compare different algorithms based on a non-exhaustive search of their
   // parameter setting. It is quite difficult to be able to claim that a
   // particular selection of parameters represent the best combination for

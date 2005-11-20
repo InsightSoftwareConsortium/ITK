@@ -161,7 +161,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Explicitly declaring the specific VTKImageIO allow users to
-  //  invoke methods specific to a particulat IO class. For example, the
+  //  invoke methods specific to a particular IO class. For example, the
   //  following line specifies to the writer to use ASCII format when writing
   //  the pixel data.
   // 
@@ -195,7 +195,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Finally we invoke Update() on the ImageFileWriter and
-  //  place this call inside a try/catch block in case any errors ocurr during
+  //  place this call inside a try/catch block in case any errors occur during
   //  the writing process.
   // 
   //  \index{itk::ImageFileWriter!SetImageIO()}

@@ -108,7 +108,7 @@ int main(int, char * [] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // The actual pointer to the passed mesh can be retreived using the
+  // The actual pointer to the passed mesh can be retrieved using the
   // \code{GetMesh()} function.
   // Software Guide : EndLatex
 

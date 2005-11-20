@@ -72,7 +72,7 @@
 //  pixels because the intensities of the Fixed image are quantized into $N$
 //  histogram bins and the intensities of the Moving image are quantized into
 //  $M$ histogram bins. The probability value $p_{ij}$ is computed from the
-//  frequency countings of the histogram bins.
+//  frequency count of the histogram bins.
 //  \begin{equation}
 //  p_{ij} = \frac{q_{ij}}{\sum_{i=0}^{N-1} \sum_{j=0}^{M-1} q_{ij}}
 //  \end{equation}
@@ -98,7 +98,7 @@
 //  \index{HistogramToIntensityImageFilter} 
 //  \index{HistogramToProbabilityImageFilter}
 //
-//  The use of all of these clases is very similar. Note that the log of the
+//  The use of all of these classes is very similar. Note that the log of the
 //  probability is equivalent to units of information, also known as
 //  \textbf{bits}, more details on this concept can be found in
 //  section~\ref{sec:ComputingImageEntropy}
@@ -324,7 +324,7 @@ public:
     // The output of the filter is connected to a filter that will rescale the
     // intensities in order to improve the visualization of the values. This is
     // done because it is common to find histograms of medical images that have
-    // a minority of bins that are largely dominan. Visualizing such histogram
+    // a minority of bins that are largely dominant. Visualizing such histogram
     // in direct values is challenging because only the dominant bins tend to
     // become visible.
     //
@@ -385,7 +385,7 @@ public:
 
 // Software Guide : BeginLatex
 //
-// The following are the member varialbles of our \code{HistogramWriter} class.
+// The following are the member variables of our \code{HistogramWriter} class.
 //
 // Software Guide : EndLatex 
 
@@ -728,7 +728,7 @@ int main( int argc, char *argv[] )
 // seeks a transform that produces a small number of high value bins and a
 // large majority of almost zero bins. Multi-modality registration seeks such a
 // transform while also attempting to maximize the information contribution by
-// the fixed and the moving images in the overalp region of the metric.
+// the fixed and the moving images in the overall region of the metric.
 // 
 // A T1 MRI (fixed image) and a proton density MRI (moving image) as shown in Figure
 // \ref{fig:FixedMovingImageRegistration2}

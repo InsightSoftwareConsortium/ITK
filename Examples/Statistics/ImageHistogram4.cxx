@@ -26,7 +26,7 @@
 // nature of the Histogram class is exploited in the following example in order
 // to build the joint histogram of a color image encoded in RGB values.
 //
-// Note that the same treatement could be applied further to any vector image
+// Note that the same treatment could be applied further to any vector image
 // thanks to the generic programming approach used in the implementation of the
 // statistical framework.
 //
@@ -36,7 +36,7 @@
 // histogram generator. The user is only bound to provide the desired
 // resolution on the histogram bins for each one of the image components.
 //
-// In this example we compute the joint histogram of the thre channels of an
+// In this example we compute the joint histogram of the three channels of an
 // RGB image. Our output histogram will be equivalent to a 3D array of bins.
 // This histogram could be used further for feeding a segmentation method based
 // on statistical pattern recognition. Such method was actually used during the
@@ -273,7 +273,7 @@ int main( int argc, char * argv [] )
 //
 // Note that here the histogram is saved as a block of memory in a raw file. At
 // this point you can use visualization software in order to explore the
-// histogram in a display that would be equivalen to a scatter plot of the RGB
+// histogram in a display that would be equivalent to a scatter plot of the RGB
 // components of the input color image.
 //
 // Software Guide : EndLatex 

@@ -217,7 +217,7 @@ int main( int argc, char * argv [] )
 // The smoothing factor represents the tradeoff between fidelity to the 
 // observed image and the smoothness of the segmented image. Typical smoothing
 // factors have values between 1~5. This factor will multiply the weights that
-// define the influecnce of neighbors on the classification of a given pixel.
+// define the influence of neighbors on the classification of a given pixel.
 // The higher the value, the more uniform will be the regions resulting from
 // the classification refinement.
 // 
@@ -307,7 +307,7 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginLatex
 //
 // We set the Smoothing factor. This factor will multiply the weights that
-// define the influecnce of neighbors on the classification of a given pixel.
+// define the influence of neighbors on the classification of a given pixel.
 // The higher the value, the more uniform will be the regions resulting from
 // the classification refinement.
 // 
@@ -413,7 +413,7 @@ int main( int argc, char * argv [] )
 // \code{OutputImageType} in order to instantiate the type of a
 // \doxygen{ImageFileWriter}. Then create one, and connect it to the output of
 // the classification filter after passing it through an intensity rescaler
-// to rescle it to an 8 bit dynamic range
+// to rescale it to an 8 bit dynamic range
 //
 // Software Guide : EndLatex 
 // Software Guide : BeginCodeSnippet
@@ -459,7 +459,7 @@ int main( int argc, char * argv [] )
     }
   catch( itk::ExceptionObject & excp )
     {
-    std::cerr << "Problem encoutered while writing image file : " << argv[2] << std::endl;
+    std::cerr << "Problem encountered while writing image file : " << argv[2] << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
@@ -482,7 +482,7 @@ int main( int argc, char * argv [] )
   //  Figure \ref{fig:ScalarImageMarkovRandomFieldInputOutput}
   //  illustrates the effect of this filter with three classes.
   //  In this example the filter was run with a smoothing factor of 3.
-  //  The labelled image was produced by ScalarImageKmeansClassifier.cxx
+  //  The labeled image was produced by ScalarImageKmeansClassifier.cxx
   //  and the means were estimated by ScalarImageKmeansModelEstimator.cxx.
   //
   //  Software Guide : EndLatex 

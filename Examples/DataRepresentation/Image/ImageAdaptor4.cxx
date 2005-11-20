@@ -39,8 +39,8 @@
 // \index{itk::ImageAdaptor!Instantiation}
 // \index{itk::ImageAdaptor!Header}
 // \index{itk::ImageAdaptor!performing computation}
-// \index{itk::PixelAccessors!with parameters}
-// \index{itk::PixelAccessors!performing computation}
+// \index{itk::PixelAccessor!with parameters}
+// \index{itk::PixelAccessor!performing computation}
 //
 // Software Guide : EndLatex 
 

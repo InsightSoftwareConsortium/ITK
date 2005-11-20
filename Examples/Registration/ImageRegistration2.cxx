@@ -355,7 +355,7 @@ int main( int argc, char *argv[] )
   //  The number of spatial samples can usually be as low as $1\%$ of the total
   //  number of pixels in the fixed image. Increasing the number of samples
   //  improves the smoothness of the metric from one iteration to another and
-  //  therefore helps when this metric is used in conjuction with optimizers
+  //  therefore helps when this metric is used in conjunction with optimizers
   //  that rely of the continuity of the metric values. The trade-off, of
   //  course, is that a larger number of samples result in longer computation
   //  times per every evaluation of the metric. 
@@ -416,9 +416,9 @@ int main( int argc, char *argv[] )
   // Note that large values of the learning rate will make the optimizer
   // unstable. Small values, on the other hand, may result in the optimizer
   // needing too many iterations in order to walk to the extrema of the cost
-  // function. The easy way of fine tunning this parameter is to start with
+  // function. The easy way of fine tuning this parameter is to start with
   // small values, probably in the range of $\{5.0,10.0\}$. Once the other
-  // registration parameters have been tunned for producing convergence, you
+  // registration parameters have been tuned for producing convergence, you
   // may want to revisit the learning rate and start increasing its value until
   // you observe that the optimization becomes unstable.  The ideal value for
   // this parameter is the one that results in a minimum number of iterations
@@ -499,7 +499,7 @@ int main( int argc, char *argv[] )
   //  Translation Y = 17.0871
   //  \end{verbatim}
   //  These values are approximately within one tenth of a pixel from the true
-  //  misaligment introduced in the moving image.
+  //  misalignment introduced in the moving image.
   //
   //  Software Guide : EndLatex 
 

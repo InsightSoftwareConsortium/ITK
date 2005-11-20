@@ -221,7 +221,7 @@ int main( int argc, char * argv[] )
   //  illustrates the effect of this filter on a MRI proton density image of
   //  the brain using a $\sigma$ value of $3$ (left) and a value of $5$
   //  (right).  The figure shows how the attenuation of noise can be
-  //  regulated by selecting an apropriate sigma.  This type of scale-tunable
+  //  regulated by selecting an appropriate sigma.  This type of scale-tunable
   //  filter is suitable for performing scale-space analysis.
   //
   //  Software Guide : EndLatex 

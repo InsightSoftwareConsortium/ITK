@@ -134,7 +134,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  The metric will compare how well the two images match each
-  //  other. Metric types are usually parametrized by the image types
+  //  other. Metric types are usually parameterized by the image types
   //  as can be seen in the following type declaration. The metric
   //  selected here is suitable for comparing two label maps where the
   //  labels are consistent between the two maps.  This metric

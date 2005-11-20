@@ -385,7 +385,7 @@ int main( int argc, char * argv [] )
 
 // Software Guide : BeginLatex
 //
-// The entropy is computed in a similar maner, just by visiting all the bins on
+// The entropy is computed in a similar manner, just by visiting all the bins on
 // the histogram and accumulating their entropy contributions.
 // 
 //

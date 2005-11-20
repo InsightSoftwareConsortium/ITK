@@ -22,12 +22,12 @@
 // \index{itk::Statistics::Maximum\-Decision\-Rule}
 //
 // The \doxygen{MaximumDecisionRule} returns the index of the largest
-// disciminant score among the discriminant scores in the vector of
-// discriminat scores that is the input argument of the \code{Evaluate()}
+// discriminant score among the discriminant scores in the vector of
+// discriminant scores that is the input argument of the \code{Evaluate()}
 // method.
 //
 // To begin the example, we include the header files for the class and the
-// MaximumDecisionRule. We also include the header file for thte
+// MaximumDecisionRule. We also include the header file for the
 // \code{std::vector} class that will be the container for the discriminant
 // scores.  
 //

@@ -24,7 +24,7 @@
 // \index{itk::Statistics::List\-Sample\-To\-Histogram\-Generator}
 //
 // In previous sections (Section~\ref{sec:ListSampleToHistogramFilter} we
-// decribed how to import data from a \subdoxygen{Statistics}{ListSample} to
+// described how to import data from a \subdoxygen{Statistics}{ListSample} to
 // a \subdoxygen{Statistics}{Histogram}. An alternative way of creating a
 // histogram is to use
 // \subdoxygen{Statistics}{ListSampleToHistogramGenerator}.  With this

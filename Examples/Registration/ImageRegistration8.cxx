@@ -448,7 +448,7 @@ int main( int argc, char *argv[] )
   //  \item Translation   = $(2.64659,  -17.4637,  -0.00232496)$ millimeters
   //  \end{itemize}
   //  
-  //  This Versor is equivalent to a rotaion of $9.98$ degrees around the $Z$
+  //  This Versor is equivalent to a rotation of $9.98$ degrees around the $Z$
   //  axis.
   // 
   //  Note that the reported translation is not the translation of $(15.0,0.0,0.0)$

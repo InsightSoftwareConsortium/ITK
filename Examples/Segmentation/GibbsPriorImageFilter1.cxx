@@ -268,7 +268,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The parameters for the Gibbs prior filter are defined
-  //  below. \code{NumberOfClass} indicates how many different objects are in
+  //  below. \code{NumberOfClasses} indicates how many different objects are in
   //  the image.  The maximum number of iterations is the number of
   //  minimization steps.  \code{ClusterSize} sets the lower limit on the
   //  object's size.  The boundary gradient is the estimate of the variance
@@ -287,7 +287,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  We now set the input classifier for the Gibbs prior filter and the
-  //  input to the classifier. The classifer will calculate the mean and
+  //  input to the classifier. The classifier will calculate the mean and
   //  variance of the object using the class image, and the results will be
   //  used as parameters for the Gibbs prior model.
   //

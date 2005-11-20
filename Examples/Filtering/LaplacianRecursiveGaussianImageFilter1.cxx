@@ -132,7 +132,7 @@ int main( int argc, char * argv[] )
   //  a \doxygen{SmartPointer}.
   //
   //  We need two filters for computing the X component of the Laplacian and
-  //  two other filters for computing the Y compoent.
+  //  two other filters for computing the Y component.
   //
   //  \index{itk::RecursiveGaussianImageFilter!New()}
   //  \index{itk::RecursiveGaussianImageFilter!Pointer}

@@ -25,8 +25,8 @@
 //  Software Guide : BeginLatex
 //  
 //  This example illustrates how to save an image using the
-//  \doxygen{ImageSeriesWriter}. This class allows to save a 3D volume as a set
-//  of files containting one 2D slice per file.
+//  \doxygen{ImageSeriesWriter}. This class enables the saving of a 3D volume as a set
+//  of files containing one 2D slice per file.
 //
 //  \index{itk::ImageFileReader!header}
 //  \index{itk::ImageSeriesWriter!header}
@@ -143,7 +143,7 @@ int main( int argc, char *argv[] )
 //  the values of the first and last slice. This can be done by collecting
 //  information from the input image. Note that before attempting to take any
 //  image information from the reader, its execution must be triggered with
-//  the invokation of the \code{Update()} method, and since this invokation
+//  the invocation of the \code{Update()} method, and since this invocation
 //  can potentially throw exceptions, it must be put inside a
 //  \code{try/catch} block.
 //
@@ -239,7 +239,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginLatex
 //
-// Note that by saving data into isolated slices we are lossing information
+// Note that by saving data into isolated slices we are losing information
 // that may be significant for medical applications, such as the interslice
 // spacing in millimeters.
 //

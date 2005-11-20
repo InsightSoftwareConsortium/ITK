@@ -26,7 +26,7 @@
 // This example illustrates how to explore the domain of an image metric.  This
 // is a useful exercise to do before starting a registration process, since
 // getting familiar with the characteristics of the metric is fundamental for
-// the apropriate selection of the optimizer to be use for driving the
+// the appropriate selection of the optimizer to be use for driving the
 // registration process, as well as for selecting the optimizer parameters.
 // This process makes possible to identify how noisy a metric may be in a given
 // range of parameters, and it will also give an idea of the number of local

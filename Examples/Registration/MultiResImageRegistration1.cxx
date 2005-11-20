@@ -533,7 +533,7 @@ int main( int argc, char *argv[] )
   //  Translation Y = 17.19
   //  \end{verbatim}
   //
-  //  These values are a close match to the true misaligment of $(13,17)$ introduced in
+  //  These values are a close match to the true misalignment of $(13,17)$ introduced in
   //  the moving image.
   //
   //  Software Guide : EndLatex 

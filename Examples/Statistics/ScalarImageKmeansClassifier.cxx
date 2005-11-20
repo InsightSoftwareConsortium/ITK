@@ -165,7 +165,7 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginLatex
 //
 // The \doxygen{ScalarImageKmeansImageFilter} is predefined for producing an 8
-// bits scalar image as output. This output image containes labels associated
+// bits scalar image as output. This output image contains labels associated
 // to each one of the classes in the K-Means algorithm. In the following lines
 // we use the \code{OutputImageType} in order to instantiate the type of a
 // \doxygen{ImageFileWriter}. Then create one, and connect it to the output of
@@ -204,7 +204,7 @@ int main( int argc, char * argv [] )
     }
   catch( itk::ExceptionObject & excp )
     {
-    std::cerr << "Problem encoutered while writing image file : " << argv[2] << std::endl;
+    std::cerr << "Problem encountered while writing image file : " << argv[2] << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }

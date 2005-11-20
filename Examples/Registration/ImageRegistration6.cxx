@@ -40,7 +40,7 @@
 // \doxygen{CenteredTransformInitializer} is quite generic and could be used
 // in other dimensions. The objective of the initializer class is to simplify
 // the computation of the center of rotation and the translation required to
-// initialize certains transforms such as the
+// initialize certain transforms such as the
 // CenteredRigid2DTransform. The initializer accepts two images and
 // a transform as inputs. The images are considered to be the fixed and
 // moving images of the registration problem, while the transform is the one
@@ -477,7 +477,7 @@ int main( int argc, char *argv[] )
   //  this point to $(123.5,146.75)$. Which is close to the result of our
   //  previous computation.
   //
-  //  It is unlikely that we could have chosen such tranlations as the
+  //  It is unlikely that we could have chosen such translations as the
   //  initial guess, since we tend to think about image in a coordinate
   //  system whose origin is in the center of the image.
   // 
