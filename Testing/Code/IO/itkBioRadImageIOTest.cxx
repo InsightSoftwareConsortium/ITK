@@ -40,6 +40,7 @@ int itkBioRadImageIOTest(int argc, char* argv[])
 
   ImageIOType::Pointer bioradImageIO = ImageIOType::New();
   reader->SetImageIO( bioradImageIO );
+  bioradImageIO->DebugOn();
 
   try
     {
