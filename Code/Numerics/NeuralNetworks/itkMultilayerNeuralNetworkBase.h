@@ -38,6 +38,9 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
   itkTypeMacro(MultilayerNeuralNetworkBase, NeuralNetworkObject);
 
+  /** New macro for creation of through a Smart Pointer. */
+  itkNewMacro( Self ); 
+
   typedef typename Superclass::ValueType ValueType;
 
   typedef typename Superclass::LayerType LayerType;
