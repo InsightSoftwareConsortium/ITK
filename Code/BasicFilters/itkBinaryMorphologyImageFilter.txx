@@ -40,6 +40,7 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   m_Radius.Fill(1);
   m_ForegroundValue = NumericTraits<InputPixelType>::max();
   m_BackgroundValue = NumericTraits<OutputPixelType>::NonpositiveMin();
+  this->SetNumberOfThreads(1);
 }
 
 template <class TInputImage, class TOutputImage, class TKernel>
