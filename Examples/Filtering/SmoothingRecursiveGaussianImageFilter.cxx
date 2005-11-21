@@ -298,13 +298,13 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{SmoothingRecursiveGaussianImageFilterOutput3.eps}
   // \includegraphics[width=0.44\textwidth]{SmoothingRecursiveGaussianImageFilterOutput5.eps}
-  // \itkcaption[Output of the RecursiveGaussianImageFilter.]{Effect of the
-  // RecursiveGaussianImageFilter on a slice from a MRI proton density image
+  // \itkcaption[Output of the SmoothingRecursiveGaussianImageFilter.]{Effect of the
+  // SmoothingRecursiveGaussianImageFilter on a slice from a MRI proton density image
   // of the brain.}
-  // \label{fig:RecursiveGaussianImageFilterInputOutput}
+  // \label{fig:SmoothingRecursiveGaussianImageFilterInputOutput}
   // \end{figure}
   //
-  //  Figure~\ref{fig:RecursiveGaussianImageFilterInputOutput} illustrates the
+  //  Figure~\ref{fig:SmoothingRecursiveGaussianImageFilterInputOutput} illustrates the
   //  effect of this filter on a MRI proton density image of the brain using
   //  $\sigma$ values of $3$ (left) and $5$ (right).  The figure shows how the
   //  attenuation of noise can be regulated by selecting the appropriate

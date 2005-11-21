@@ -116,7 +116,7 @@ int main()
   // Software Guide : BeginLatex
   // The final thing we have to is to plug-in the image object to the adaptor.
   // After that, we can use the common methods and iterator interfaces 
-  // shown in \ref{sec:StatInstantiationInterfaces}.
+  // shown in \ref{sec:SampleInterface}.
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet

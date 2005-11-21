@@ -186,7 +186,7 @@ int main( int argc, char * argv[] )
   // \label{fig:SignedDanielssonDistanceMapImageFilterInputOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:SignedDanielssonDistanceMapImageFilterOutput} illustrates
+  //  Figure \ref{fig:SignedDanielssonDistanceMapImageFilterInputOutput} illustrates
   //  the effect of this filter. The
   //  input image and the distance map are shown.
   //
