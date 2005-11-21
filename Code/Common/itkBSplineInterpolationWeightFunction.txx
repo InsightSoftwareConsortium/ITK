@@ -33,9 +33,9 @@ inline int BSplineFloor(double x)
 #if defined mips || defined sparc || defined __ppc__
   return (int)((unsigned int)(x + 2147483648.0) - 2147483648U);
 #elif defined i386 || defined _M_IX86
-  unsigned int hilo[2];
-  *((double *)hilo) = x + 103079215104.0;  // (2**(52-16))*1.5
-  return (int)((hilo[1]<<16)|(hilo[0]>>16));
+  union { unsigned int hilo[2]; double d; } u;  
+  u.d = x + 103079215104.0;
+  return (int)((u.hilo[1]<<16)|(u.hilo[0]>>16));  
 #else
   return int(floor(x));
 #endif
