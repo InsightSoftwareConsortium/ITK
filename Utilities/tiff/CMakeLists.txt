@@ -75,13 +75,13 @@ ELSE (NOT UNIX)
     ADD_EXECUTABLE(mkg3states mkg3states.c)    
     IF(CYGWIN)
       SET(EXE_EXTENSION .exe)
-    ENDIF(CYGWIN)
+    ENDIF(CYGWIN) 
     ADD_CUSTOM_COMMAND(
-      SOURCE ${EXECUTABLE_OUTPUT_PATH}/mkg3states${EXE_EXTENSION}
-      COMMAND ${EXECUTABLE_OUTPUT_PATH}/mkg3states${EXE_EXTENSION}
+      OUTPUT ${ITKTIFF_BINARY_DIR}/tif_fax3sm.c
+      COMMAND ${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}/mkg3states${EXE_EXTENSION}
       ARGS -c const ${ITKTIFF_BINARY_DIR}/tif_fax3sm.c
-      TARGET mkg3states
-      OUTPUTS ${ITKTIFF_BINARY_DIR}/tif_fax3sm.c)
+      DEPENDS mkg3states
+    )
   ELSE(TIFF_RIGHT_VERSION)
       MESSAGE("The new TIFF reader requires CMake 1.2 or newer. Please get the new version of CMake from www.cmake.org.")
   ENDIF(TIFF_RIGHT_VERSION)
