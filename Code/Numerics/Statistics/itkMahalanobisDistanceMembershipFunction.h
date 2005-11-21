@@ -58,12 +58,18 @@ public:
   /** Typedef alias for the measurement vectors */
   typedef TVector MeasurementVectorType ;
 
+  /** Typedef to represent the length of measurement vectors */
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+
   /** Type used for representing the mean vector */
   typedef vnl_vector<double>  MeanVectorType;
 
   /** Type used for representing the covariance matrix */
   typedef vnl_matrix<double>  CovarianceMatrixType;
 
+  /**  Set the length of each measurement vector. */
+  virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType );
+  
   /** Method to set mean */
   void SetMean(const MeanVectorType &mean) ;
   void SetMean(const Array< double > &mean) ;
@@ -121,11 +127,8 @@ private:
   double       m_Epsilon;
   double       m_DoubleMax;
  
-  itkStaticConstMacro(VectorDimension, unsigned int, TVector::Dimension);
-  typedef vnl_matrix_fixed<double,1,itkGetStaticConstMacro(VectorDimension)> ColumnVectorType;
-
-  mutable ColumnVectorType      m_TempVec;
-  mutable ColumnVectorType      m_TempMat;
+  mutable vnl_matrix< double > m_TempVec;
+  mutable vnl_matrix< double > m_TempMat;
 
   void CalculateInverseCovariance(); 
 };

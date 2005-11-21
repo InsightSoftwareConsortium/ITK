@@ -60,19 +60,16 @@ public:
   /** Standard typedefs */
   typedef DistanceMetric Self;
   typedef MembershipFunctionBase< TVector > Superclass;
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
-  /** Typedef for the length of each measurement vector */
-  typedef unsigned int  MeasurementVectorSizeType;
-
-  /** Set/Get Macro to set the length of each measurement vector. */
-  virtual void SetMeasurementVectorSize( MeasurementVectorSizeType );
-  itkGetConstMacro( MeasurementVectorSize, MeasurementVectorSizeType ); 
-  
   /** Run-time type information (and related methods). */
   itkTypeMacro(DistanceMetric, MembershipFunctionBase);
 
   typedef Array< double > OriginType ;
 
+  /**  Set the length of each measurement vector. */
+  virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType );
+  
   /** Sets the origin point that will be used for the single point 
    * version Evaluate() function. This function is necessary part of
    * implementing MembershipFunctionBase's Evaluate() interface */ 
@@ -87,15 +84,11 @@ public:
   virtual double Evaluate(const TVector &x1, const TVector &x2) const = 0 ;
   
 protected:
-  DistanceMetric() { m_MeasurementVectorSize = 0; }
+  DistanceMetric();
   virtual ~DistanceMetric() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   OriginType m_Origin ;
-
-private:
-  MeasurementVectorSizeType m_MeasurementVectorSize;
-  
 } ; // end of class
 
 } // end of namespace Statistics 

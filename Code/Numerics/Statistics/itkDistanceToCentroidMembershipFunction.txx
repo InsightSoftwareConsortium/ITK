@@ -27,6 +27,7 @@ DistanceToCentroidMembershipFunction< TVector >
 ::DistanceToCentroidMembershipFunction():
   m_NumberOfSamples(-1)
 {
+  this->m_MeasurementVectorSize = 0;
   m_Centroid.fill( 0.0f );
 }
 
@@ -35,7 +36,36 @@ void
 DistanceToCentroidMembershipFunction< TVector >
 ::SetCentroid(const vnl_vector< double > & centroid)
 {
-  m_Centroid = centroid ;
+  if( this->m_MeasurementVectorSize != 0 )
+    {  
+    if( centroid.size() != this->m_MeasurementVectorSize )
+      {
+      itkExceptionMacro( << "Size of the centroid must be same as the length of"
+          << " each measurement vector.");
+      }
+    }
+  this->m_MeasurementVectorSize = centroid.size();
+  m_Centroid = centroid;
+  this->Modified();
+}
+
+template< class TVector >
+void 
+DistanceToCentroidMembershipFunction< TVector >
+::SetMeasurementVectorSize( const MeasurementVectorSizeType s )
+{
+  if( s == this->m_MeasurementVectorSize )
+    {
+    return;
+    }
+  
+  if( this->m_MeasurementVectorSize != 0 )
+    {  
+    itkWarningMacro( << "Destructively resizing paramters of the DistanceToCentroidMembershipFunction." );
+    }
+  this->m_MeasurementVectorSize = s;
+  m_Centroid.set_size( s );
+  this->Modified();
 }
 
 template < class TVector >
@@ -51,11 +81,13 @@ double
 DistanceToCentroidMembershipFunction< TVector >
 ::Evaluate(const MeasurementVectorType &measurement) const
 { 
+  // Assuming that measurement has the same length asthe centroid. 
+  
   double temp =0;
   double tempDistance;
 
   // Compute |y - mean |   
-  for ( unsigned int i = 0; i < VectorDimension; i++ )
+  for ( unsigned int i = 0; i < this->m_MeasurementVectorSize; i++ )
     {
     tempDistance = measurement[i] - m_Centroid[i];
     temp += tempDistance * tempDistance;
@@ -74,10 +106,11 @@ DistanceToCentroidMembershipFunction< TVector >
   unsigned int i;
   Superclass::PrintSelf(os,indent);
 
-  if ( m_Centroid.size() == VectorDimension )
+  if ( this->m_MeasurementVectorSize && 
+       m_Centroid.size() == this->m_MeasurementVectorSize )
     {
     os << indent << "Centroid: [" ;
-    for (i=0; i+1 < VectorDimension; i++)
+    for (i=0; i+1 < m_Centroid.size(); i++)
       {
       os << m_Centroid[i] << ", ";
       }
@@ -89,8 +122,8 @@ DistanceToCentroidMembershipFunction< TVector >
     }
   
   os << indent << "Number of Samples: " << m_NumberOfSamples << std::endl;
-  os << indent << "VectorSize:        " << VectorDimension << std::endl;
 }
+
 } // end namespace Statistics
 } // end of namespace itk
 

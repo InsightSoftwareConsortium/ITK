@@ -23,6 +23,13 @@ namespace itk{
 namespace Statistics{
 
 template< class TVector >
+DistanceMetric< TVector >
+::DistanceMetric() 
+{
+  this->m_MeasurementVectorSize = 0;
+}
+
+template< class TVector >
 void 
 DistanceMetric< TVector >
 ::SetOrigin(const OriginType &x)
@@ -36,7 +43,7 @@ DistanceMetric< TVector >
       }
     }
   m_Origin = x ;
-  m_MeasurementVectorSize = x.Size();
+  this->m_MeasurementVectorSize = x.Size();
   this->Modified();
 }
 
@@ -44,7 +51,7 @@ DistanceMetric< TVector >
 template< class TVector >
 void 
 DistanceMetric< TVector >
-::SetMeasurementVectorSize( MeasurementVectorSizeType s )
+::SetMeasurementVectorSize( const MeasurementVectorSizeType s )
 {
   if( s == this->m_MeasurementVectorSize )
     {
@@ -55,7 +62,7 @@ DistanceMetric< TVector >
     {  
     itkWarningMacro( << "Destructively resizing paramters of the DistanceMetric." );
     }
-  m_MeasurementVectorSize = s;
+  this->m_MeasurementVectorSize = s;
   m_Origin.SetSize( s );
   this->Modified();
 }  
@@ -68,10 +75,8 @@ DistanceMetric< TVector >
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "Origin: " << m_Origin << std::endl;
-  os << indent << "Length of measurement vectors" 
-                << m_MeasurementVectorSize << std::endl;
-  
 }
+
 } // end of namespace Statistics 
 } // end of namespace itk
 

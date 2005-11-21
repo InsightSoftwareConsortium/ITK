@@ -47,15 +47,28 @@ public:
   /** Strandard macros */
   itkTypeMacro(MembershipFunctionBase, FunctionBase);
 
+  /** Typedef for the length of each measurement vector */
+  typedef unsigned int  MeasurementVectorSizeType;
+
   /** Method to get membership score (discriminant score) of an entity. */
   virtual double Evaluate(const TVector &x) const = 0 ;
-
+  
+  /** Set/Get Macros to set the length of each measurement vector. */
+  virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType ) = 0;
+  itkGetConstMacro( MeasurementVectorSize, MeasurementVectorSizeType ); 
+ 
 protected:
   MembershipFunctionBase(void) {}
   virtual ~MembershipFunctionBase(void) {}
 
   void PrintSelf(std::ostream& os, Indent indent) const
-  { Superclass::PrintSelf(os,indent) ; }
+    { 
+    Superclass::PrintSelf(os,indent) ; 
+    os << indent << "Length of measurement vectors: " 
+                << m_MeasurementVectorSize << std::endl;
+    }
+
+  MeasurementVectorSizeType m_MeasurementVectorSize;
 } ; // end of class
 
 } // end of namespace Statistics
