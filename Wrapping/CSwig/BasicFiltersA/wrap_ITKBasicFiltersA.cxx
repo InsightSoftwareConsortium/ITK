@@ -45,6 +45,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkImportImageFilter),
     ITK_WRAP_GROUP(itkLaplacianImageFilter),
     ITK_WRAP_GROUP(itkMinimumMaximumImageCalculator),
+    ITK_WRAP_GROUP(itkMorphologyImageFilter),
     ITK_WRAP_GROUP(itkNeighborhoodConnectedImageFilter),
     ITK_WRAP_GROUP(itkSobelEdgeDetectionImageFilter),
     ITK_WRAP_GROUP(itkTernaryMagnitudeImageFilter)

@@ -24,6 +24,7 @@ SET(WRAP_SOURCES
   wrap_itkImportImageFilter
   wrap_itkLaplacianImageFilter
   wrap_itkMinimumMaximumImageCalculator
+  wrap_itkMorphologyImageFilter
   wrap_itkNeighborhoodConnectedImageFilter
   wrap_itkSobelEdgeDetectionImageFilter
   wrap_itkTernaryMagnitudeImageFilter
