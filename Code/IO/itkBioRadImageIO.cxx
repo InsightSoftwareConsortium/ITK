@@ -43,7 +43,7 @@ struct bioradheader {
     short merged;               // 50  2    merged format
     unsigned short color1;      // 52  2    LUT1 color status
     unsigned short file_id;     // 54  2    valid .PIC file=12345
-    short ramp2_min, ramp2_max; // 56  2*2  LUT2 ramp min. and max.
+    unsigned short ramp2_min, ramp2_max; // 56  2*2  LUT2 ramp min. and max.
     unsigned short color2;      // 60  2    LUT2 color status
     short edited;               // 62  2    image has been edited=TRUE(1)
     short lens;                 // 64  2    Integer part of lens magnification
