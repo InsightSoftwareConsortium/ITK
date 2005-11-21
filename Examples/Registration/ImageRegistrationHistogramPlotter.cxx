@@ -94,9 +94,9 @@
 //  \item \doxygen{HistogramToLogProbabilityImageFilter}
 //  \end{itemize}
 //
-//  \index{HistogramToLogProbabilityImageFilter} 
-//  \index{HistogramToIntensityImageFilter} 
-//  \index{HistogramToProbabilityImageFilter}
+//  \index{Histogram\-To\-Log\-Probability\-ImageFilter} 
+//  \index{Histogram\-To\-Intensity\-Image\-Filter} 
+//  \index{Histogram\-To\-Probability\-Image\-Filter}
 //
 //  The use of all of these classes is very similar. Note that the log of the
 //  probability is equivalent to units of information, also known as
@@ -130,8 +130,8 @@
 // The header files of the classes featured in this example are included as a
 // first step.
 //
-// \index{HistogramToProbabilityImageFilter!Header}
-// \index{MutualInformationHistogramImageToImageMetric!Header}
+// \index{Histogram\-To\-Probability\-Image\-Filter!Header}
+// \index{Mutual\-Information\-Histogram\-Image\-To\-Image\-Metric!Header}
 // 
 // Software Guide : EndLatex 
 
@@ -540,8 +540,8 @@ int main( int argc, char *argv[] )
   // of the Moving image. However, this does not have to be the case, we could
   // have selected different numbers of bins for each image.
   // 
-  // \index{MutualInformationHistogramImageToImageMetric!SetHistogramSize()}
-  // \index{SetHistogramSize(),MutualInformationHistogramImageToImageMetric}
+  // \index{Mutual\-Information\-Histogram\-Image\-To\-Image\-Metric!SetHistogramSize()}
+  // \index{SetHistogramSize(),Mutual\-Information\-Histogram\-Image\-To\-Image\-Metric}
   //
   // Software Guide : EndLatex
 
