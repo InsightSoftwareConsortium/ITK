@@ -228,8 +228,9 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream& file)
     }
   file.seekg(0, std::ios::beg);
   file.read((char*)p, BIORAD_HEADER_LENGTH);
+  // Only byte swap the first 66 bytes
   ByteSwapper<unsigned short>::
-    SwapRangeFromSystemToLittleEndian((unsigned short*)p, BIORAD_HEADER_LENGTH/2);
+    SwapRangeFromSystemToLittleEndian((unsigned short*)p, (BIORAD_HEADER_LENGTH - 10)/2);
   itkDebugMacro(<< "Magic number: " << h.file_id);
 
   // Set dim X,Y,Z
@@ -250,9 +251,8 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream& file)
 
   // These are not specified by the format, but we can deduce them:
   // pixel size = scale_factor/lens/mag_factor
-  ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian((unsigned short*)&h.mag_factor,2);
+  ByteSwapper<float>::SwapFromSystemToLittleEndian((float*)&h.mag_factor);
   float mag_factor = *((float*)(h.mag_factor));
-  ByteSwapper<float>::SwapFromSystemToLittleEndian(&mag_factor);
   itkDebugMacro(<< "Mag Factor: " << mag_factor);
   itkDebugMacro(<< "Lens: " << h.lens);
   m_Spacing[0] = m_Spacing[1] = mag_factor/h.lens;
