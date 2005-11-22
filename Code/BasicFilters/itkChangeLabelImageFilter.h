@@ -73,6 +73,11 @@ public:
     m_ChangeMap = changeMap; 
   }
 
+  void ClearChangeMap( )
+  { 
+    m_ChangeMap.clear(); 
+  }
+
   inline TOutput operator()( const TInput & A )
   {
     if ( m_ChangeMap.find(A) != m_ChangeMap.end() )
@@ -129,6 +134,9 @@ public:
   
   /** Set the entire change map */
   void SetChangeMap( const ChangeMapType & changeMap );
+  
+  /** Clears the entire change map */
+  void ClearChangeMap( );
   
 protected:
   ChangeLabelImageFilter();

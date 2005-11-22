@@ -128,6 +128,58 @@ int itkChangeLabelImageFilterTest(int, char* [] )
     ++ot;
     ++it;
   }
+
+
+  // Test to see if clearing the changemap works
+  filter->ClearChangeMap();
+
+  // reexecute the filter
+  try
+    {
+    filter->Update();
+    }
+  catch(...)
+    {
+    std::cerr << "Caught an unexpected exception. " << std::endl;
+    std::cerr << "Test failed. " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Create an iterator for going through the image output
+  InputIteratorType  ita( source->GetOutput(), source->GetOutput()->GetRequestedRegion() ); 
+  OutputIteratorType ota(outputImage, outputImage->GetRequestedRegion());
+  
+
+  //  Check the content of the result image
+  //  Since the change map is clear, input is expected to be the same as output
+  std::cout << "Verification of the output " << std::endl;
+  ota.GoToBegin();
+  ita.GoToBegin();
+  while( !ota.IsAtEnd() ) 
+  {
+
+    const InputPixelType  input  = ita.Get();
+    const OutputPixelType output = ota.Get();
+    std::cout <<  (double) input  << " " << (double) output << std::endl; 
+
+    if( input != output )
+      {
+        pass = false;
+      }
+    if ( !pass )
+      {
+      std::cerr << "Error in itkChangeLaelImageFilterTest " << std::endl;
+      std::cerr << " input = " << input;
+      std::cerr << " output = " << output;
+      std::cerr << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    ++ota;
+    ++ita;
+  }
+
+
  
   if ( pass )
     {

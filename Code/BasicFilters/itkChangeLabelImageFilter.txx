@@ -67,6 +67,19 @@ ChangeLabelImageFilter<TInputImage, TOutputImage>
  *
  */
 template <class TInputImage, class TOutputImage>
+void
+ChangeLabelImageFilter<TInputImage, TOutputImage>
+::ClearChangeMap( )
+{
+   //If the whole map is being set then we assume that a real change is made
+   this->GetFunctor().ClearChangeMap(); 
+   this->Modified();
+}
+
+/**
+ *
+ */
+template <class TInputImage, class TOutputImage>
 void 
 ChangeLabelImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
