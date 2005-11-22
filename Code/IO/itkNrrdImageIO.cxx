@@ -420,6 +420,24 @@ void NrrdImageIO::ReadImageInformation()
         if (AIR_EXISTS(spacing))
           {
           // only set info if we have something to set
+          switch (nrrd->space)
+            {
+            // on read, convert non-LPS coords into LPS coords, when we can
+            case nrrdSpaceRightAnteriorSuperior:
+              spaceDir[0] *= -1;   // R -> L
+              spaceDir[1] *= -1;   // A -> P
+              break;
+            case nrrdSpaceLeftAnteriorSuperior:
+              spaceDir[0] *= -1;   // R -> L
+              break;
+            case nrrdSpaceLeftPosteriorSuperior:
+              // no change needed
+              break;
+            default:
+              // we're not coming from a space for which the conversion
+              // to LPS is well-defined
+              break;
+            }
           this->SetSpacing(axii, spacing);
           for (unsigned int saxi=0; saxi < nrrd->spaceDim; saxi++)
             {
@@ -446,9 +464,32 @@ void NrrdImageIO::ReadImageInformation()
     if (AIR_EXISTS(nrrd->spaceOrigin[0]))
       {
       // only set info if we have something to set
+      double spaceOrigin[NRRD_SPACE_DIM_MAX];
       for (unsigned int saxi=0; saxi < nrrd->spaceDim; saxi++)
         {
-        this->SetOrigin(saxi, nrrd->spaceOrigin[saxi]);
+        spaceOrigin[saxi] = nrrd->spaceOrigin[saxi];
+        }
+      switch (nrrd->space)
+        {
+        // convert non-LPS coords into LPS coords, when we can
+        case nrrdSpaceRightAnteriorSuperior:
+          spaceOrigin[0] *= -1;   // R -> L
+          spaceOrigin[1] *= -1;   // A -> P
+          break;
+        case nrrdSpaceLeftAnteriorSuperior:
+          spaceOrigin[0] *= -1;   // R -> L
+          break;
+        case nrrdSpaceLeftPosteriorSuperior:
+          // no change needed
+          break;
+        default:
+          // we're not coming from a space for which the conversion
+          // to LPS is well-defined
+          break;
+        }
+      for (unsigned int saxi=0; saxi < nrrd->spaceDim; saxi++)
+        {
+        this->SetOrigin(saxi, spaceOrigin[saxi]);
         }
       }
     }
@@ -840,7 +881,10 @@ void NrrdImageIO::Write( const void* buffer)
   if (nrrdWrap_nva(nrrd, const_cast<void *>(buffer),
                    this->ITKToNrrdComponentType( m_ComponentType ),
                    nrrdDim, size)
-      || nrrdSpaceDimensionSet(nrrd, spaceDim)
+      || (3 == spaceDim
+          // special case: ITK is LPS in 3-D
+          ? nrrdSpaceSet(nrrd, nrrdSpaceLeftPosteriorSuperior)
+          : nrrdSpaceDimensionSet(nrrd, spaceDim))
       || nrrdSpaceOriginSet(nrrd, origin))
     {
     char *err = biffGetDone(NRRD); // would be nice to free(err)
