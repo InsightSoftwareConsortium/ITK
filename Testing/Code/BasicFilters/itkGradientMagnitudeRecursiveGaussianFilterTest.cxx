@@ -20,7 +20,7 @@
 #include <itkImage.h>
 #include <itkGradientMagnitudeRecursiveGaussianImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
 
 
 int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] ) 
@@ -106,7 +106,7 @@ int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] )
 
   // Create a  Filter                                
   myFilterType::Pointer filter = myFilterType::New();
-  FilterWatcher watcher(filter);
+  itk::SimpleFilterWatcher watcher(filter);
 
 
   // Connect the input images
