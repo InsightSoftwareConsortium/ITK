@@ -25,10 +25,6 @@
 #include "itkMatrixResizeableDataObject.h"
 #include "itkBinaryMedialNodeMetric.h"
 
-#include "itkPNGImageIO.h"
-#include "itkImageFileWriter.h"
-#include "itkRawImageIO.h"
-
 #include "itkCorrespondenceDataStructure.h"
 #include "itkSecondaryNodeList.h"
 #include "itkCorrespondingList.h"
@@ -174,13 +170,6 @@ private:
   int m_NumberOfNodePairs;
   int m_NumberOfNodeBasePairs;
 
-  /** Flag to output test png files. Off by default. */
-  bool m_OutputPNG;
-
-  /** Flag to output a text file detailing the creation o fthe pair data structure.  Be aware that
-    * This file can become VERY large when working with moderate to large sets of medial nodes.  Off by default. 
-    */
-  bool m_CreateOutputFile;
 };
 
 } // end namespace itk

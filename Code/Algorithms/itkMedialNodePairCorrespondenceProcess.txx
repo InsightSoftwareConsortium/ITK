@@ -32,8 +32,6 @@ template< typename TSourceImage >
 MedialNodePairCorrespondenceProcess< TSourceImage >
 ::MedialNodePairCorrespondenceProcess()
 {
-  itkDebugMacro(<< "itkMedialNodePairCorrespondenceProcess::itkMedialNodePairCorrespondenceProcess() called")
-
   // Setting the output.
   DataStructurePointerType output;
   output  = static_cast<typename MedialNodePairCorrespondenceProcess::DataStructureType*>(this->MakeOutput(0).GetPointer()); 
@@ -46,9 +44,6 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
   m_NumberOfNodePairs = 0;
   m_NumberOfNodeBasePairs = 0;
 
-  // Output testing file creation flags.  Set to off by default.
-  m_CreateOutputFile = false;
-  m_OutputPNG = false;
 }
 
 /**
@@ -87,7 +82,6 @@ void
 MedialNodePairCorrespondenceProcess< TSourceImage >
 ::SetCoreAtomImageA(const CoreAtomImageType * CoreAtomImageA ) 
 {
-  std::cerr << "MedialNodePairCorrespondenceProcess: Setting first input" << std::endl;
   // Process object is not const-correct so the const casting is required.
   SetNthInput(0,  const_cast<TSourceImage *>( CoreAtomImageA ) );
 }
@@ -100,7 +94,6 @@ void
 MedialNodePairCorrespondenceProcess< TSourceImage >
 ::SetCoreAtomImageB(const CoreAtomImageType * CoreAtomImageB ) 
 {
-  std::cerr << "MedialNodePairCorrespondenceProcess: Setting second input" << std::endl;
   // Process object is not const-correct so the const casting is required.
   SetNthInput(1, const_cast<TSourceImage *>( CoreAtomImageB ) );
 }
@@ -113,7 +106,6 @@ void
 MedialNodePairCorrespondenceProcess< TSourceImage >
 ::SetDistanceMatrixA(const DistanceMatrixType * DistanceMatrixA ) 
 {
-  std::cerr << "MedialNodePairCorrespondenceProcess: Setting third input" << std::endl;
   // Process object is not const-correct so the const casting is required.
   SetNthInput(2, const_cast<DistanceMatrixType *>( DistanceMatrixA ) );
 }
@@ -126,7 +118,6 @@ void
 MedialNodePairCorrespondenceProcess< TSourceImage >
 ::SetDistanceMatrixB(const DistanceMatrixType * DistanceMatrixB ) 
 {
-  std::cerr << "MedialNodePairCorrespondenceProcess: Setting fourth input" << std::endl;
   // Process object is not const-correct so the const casting is required.
   SetNthInput(3, const_cast<DistanceMatrixType *>( DistanceMatrixB ) );
 }
@@ -139,7 +130,6 @@ void
 MedialNodePairCorrespondenceProcess< TSourceImage >
 ::SetCorrespondenceMatrix(const CorrespondenceMatrixType * CorrespondenceMatrix ) 
 {
-  std::cerr << "MedialNodePairCorrespondenceProcess: Setting fifth input" << std::endl;
   // Process object is not const-correct so the const casting is required.
   SetNthInput(4, const_cast<CorrespondenceMatrixType *>( CorrespondenceMatrix ) );
 }
@@ -237,7 +227,6 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
   double TemporaryDistance;
   double result1, result2;
 
-  // Initializing objects to write-out a PNG image of correspondance matrix.
   typedef unsigned char CorrespondencePixelType;  
   typedef Image<CorrespondencePixelType, 2> CorrespondenceImageType;
 
@@ -259,17 +248,6 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
   CorrespondenceImage->Allocate();
   CorrespondenceImage->FillBuffer(0);
 
-  typedef ImageFileWriter<CorrespondenceImageType> FileWriterType;
-  FileWriterType::Pointer imageWriter;
-  imageWriter = FileWriterType::New();
-
-  PNGImageIO::Pointer io;
-  io = PNGImageIO::New();
-
-  // Output file for debugging/testing.
-  std::ofstream PairCreationFile;
-  PairCreationFile.open("pair_creation_log.txt",std::ios::out); 
-
   for(int i = 0;i<m_Rows;++i)//iterate through rows in dist matrix A
     {  
     // Create a new NodePairList.
@@ -279,11 +257,6 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
       {
       if(j > i) // Make sure we dont check for the same pair twice.
         {
-        if(m_CreateOutputFile)
-          {
-          PairCreationFile << "Testing base pair: (" << i << "," << j << ")" << std::endl;
-          }
-
         //reset pairAdded to false, as we have just started on a new base pair
         bool BasePairAdded = false;
 
@@ -293,34 +266,17 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
         //get distance between two nodes in question from DMatrixA
         TemporaryDistance = m_DistanceMatrixA->get(i,j);
 
-        if(m_CreateOutputFile)
-          {
-          PairCreationFile << "  Distance for base pair: (" << i << "," << j << ") is: " << TemporaryDistance << std::endl;
-          }
-
         // Iterate through DMatrixB to find distances close enough to TemporaryDistance.
         for(int a = 0;a<m_Columns;++a)//iterate through rows in dist matrix B
           {
           for(int b = 0;b<m_Columns;++b)//iterate through columns in dist matrix B
             {
-            if(m_CreateOutputFile)
-              {
-              PairCreationFile << "\n  Testing pair: (" << a << "," << b << ") for correspondence" << std::endl;
-              PairCreationFile << "    Passed: ";
-              PairCreationFile << "    Distance for corr pair: (" << a << "," << b << ") is: " << m_DistanceMatrixB->get(a,b) << std::endl;
-              }
-
             // If distance of pair in matrix B is close enough to pair in matrix A.
             if( ( m_DistanceMatrixB->get(a,b) > (TemporaryDistance-0.1) ) && ( m_DistanceMatrixB->get(a,b) < (TemporaryDistance+0.1) ) )
               {
               // Check correspondence matrix for matching C values.
               if( m_CorrespondenceMatrix->get(i,a) >= 0.9 && m_CorrespondenceMatrix->get(j,b) >= 0.9 )
                 {
-                if(m_CreateOutputFile)
-                  {
-                  PairCreationFile << " -> Unary 1";
-                  }
-                    
                 // In this case, we are asserting that j~a and i~b.
 
                 //Test (i,j)~(a,b).
@@ -350,34 +306,11 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
                 //If this is true, pair i-j matches pair a-b.
                 if(result1 >= 0.95 && result2 >= 0.95)
                   {
-                  if(m_CreateOutputFile)
-                    {
-                    PairCreationFile << " -> Binary 1" << std::endl;
-                    }
-
-                  if(m_OutputPNG)
-                    {
-                    pixelIndex[0] = i;
-                    pixelIndex[1] = a;
-                    CorrespondenceImage->SetPixel(pixelIndex, 
-                        static_cast<CorrespondencePixelType>(100*m_CorrespondenceMatrix->get(i,a)) );
-
-                    pixelIndex[0] = j;
-                    pixelIndex[1] = b;
-                    CorrespondenceImage->SetPixel(pixelIndex, 
-                      static_cast<CorrespondencePixelType>(100*m_CorrespondenceMatrix->get(j,b)) );
-                    }
-
                   // If it isnt already there, add i-j to pair correspondence structure 
                   // with pair a-b as a matching pair.  if it is, just add pair a-b
                   // to its list of matching pairs. 
                   if(BasePairAdded == false)
                     {
-                    if(m_CreateOutputFile)
-                      {
-                      PairCreationFile << "    Adding base pair " << "(" << i << "," << j << ")" << std::endl;
-                      }
-
                     m_NumberOfNodeBasePairs++;
 
                     // Set the index of the base node in the pair.
@@ -398,11 +331,6 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
                     // corresponding pair list to the pair list.
                     CorrespondingPairListPointer->push_back(NewNode);
 
-                    if(m_CreateOutputFile)
-                      {
-                      PairCreationFile << "    Added corr pair " << "(" << a << "," << b << ")" << std::endl;
-                      }
-
                     // Set pairAdded to true, as it has just been added.
                     BasePairAdded = true;
                     }
@@ -421,20 +349,11 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
                     // Add a node to the corresponding pair list.
                     CorrespondingPairListPointer->push_back(NewNode);
 
-                    if(m_CreateOutputFile)
-                      {
-                      PairCreationFile << "    Added corr pair " << "(" << a << "," << b << ")" << std::endl;
-                      }
                     }
                   }
                 }
               else if( m_CorrespondenceMatrix->get(i,b) >= 0.9 && m_CorrespondenceMatrix->get(j,a) >= 0.9 )
                 {
-
-                if(m_CreateOutputFile)
-                  {
-                  PairCreationFile << " -> Unary 2" << std::endl;
-                  }
 
                 // In this case, we are asserting that i~b and j~a.
 
@@ -462,37 +381,14 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
                 m_BinaryMetric->Initialize();
                 result2 = m_BinaryMetric->GetResult();
 
-                if(m_OutputPNG)
-                  {
-                  pixelIndex[0] = i;
-                  pixelIndex[1] = b;
-                  CorrespondenceImage->SetPixel(pixelIndex,
-                        static_cast<CorrespondencePixelType>(100*m_CorrespondenceMatrix->get(i,b)) );
-
-                  pixelIndex[0] = j;
-                  pixelIndex[1] = a;
-                  CorrespondenceImage->SetPixel(pixelIndex, 
-                      static_cast<CorrespondencePixelType>(100*m_CorrespondenceMatrix->get(j,a)) );
-                  }
-
                 // If this is true, pair i-j matches pair a-b.
                 if(result1 >= 0.95 && result2 >= 0.95)
                   {
-                  if(m_CreateOutputFile)
-                    {
-                    PairCreationFile << " -> Binary 2" << std::endl;
-                    }
-
                   // If it isnt already there, add i-j to pair correspondence structure 
                   // with pair a-b as a matching pair.  if it is, just add pair a-b
                   // to its list of matching pairs.  
                   if(BasePairAdded == false)
                     {
-                    if(m_CreateOutputFile)
-                      {
-                      PairCreationFile << "    Adding base pair " << "(" << i << "," << j << ")" << std::endl;
-                      }
-
                     m_NumberOfNodeBasePairs++;
 
                     // Set the index of the base node in the pair
@@ -512,10 +408,6 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
                     // corresponding pair list to the pair list.
                     CorrespondingPairListPointer->push_back(NewNode);
 
-                    if(m_CreateOutputFile)
-                      {
-                      PairCreationFile << "    Added corr pair " << "(" << b << "," << a << ")" << std::endl;
-                      }
                     BasePairAdded = true;//set pairAdded to true, as it has just been added
                     }
                   else
@@ -533,10 +425,6 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
                     // Add a node to the corresponding pair list.
                     CorrespondingPairListPointer->push_back(NewNode);
 
-                    if(m_CreateOutputFile)
-                      {
-                      PairCreationFile << "    Added corr pair " << "(" << b << "," << a << ")" << std::endl;
-                      }
                     }
                   }
                 }
@@ -567,15 +455,6 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
       delete PairListPointer;
       PairListPointer = 0;
     }// End for i
-  if(m_OutputPNG)
-    {
-    // Write voting image out.
-    std::cerr << "^_^ WRITE OUT CORRESPONDANCE IMAGE TO CorrespondenceImage.png" << std::endl;
-    imageWriter->SetInput(CorrespondenceImage);
-    imageWriter->SetFileName("CorrespondenceImage.png");
-    imageWriter->SetImageIO(io);
-    imageWriter->Write();
-    }
   itkDebugMacro(<< "MedialNodePairCorrespondenceProcess::NumberOfNodePairs: " << m_NumberOfNodePairs << "\n");
   itkDebugMacro(<< "MedialNodePairCorrespondenceProcess::NumberOfNodeBasePairs: " << m_NumberOfNodeBasePairs << "\n");
   itkDebugMacro(<< "Finished MedialNodePairCorrespondenceProcess\n");
