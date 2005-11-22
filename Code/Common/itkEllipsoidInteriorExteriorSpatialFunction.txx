@@ -73,7 +73,7 @@ EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>
     distanceSquared += pow(static_cast<double>((orientationVector * pointVector)/(.5*m_Axes[i])),static_cast<double>(2));
     }        
 
-  if(sqrt(distanceSquared) >= 0 && sqrt(distanceSquared) <= 1)
+  if(distanceSquared <= 1)
     {    
     return 1; // Inside the ellipsoid.
     }
