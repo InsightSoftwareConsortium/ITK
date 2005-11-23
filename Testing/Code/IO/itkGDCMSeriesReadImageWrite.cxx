@@ -54,6 +54,10 @@ int main( int argc, char* argv[] )
   SeriesFileNames::Pointer it = SeriesFileNames::New();
 
   // Get the DICOM filenames from the directory
+  // First add a restriction *before* selecting the input directory
+  // since SetInputDirectory has a side effect of executing
+  gdcm::SerieHelper *sh = it->GetSeriesHelper( );
+  sh->AddRestriction("0010|0010", "Wes Turner");
   it->SetInputDirectory( argv[1] );
 
   ReaderType::Pointer reader = ReaderType::New();
