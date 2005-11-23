@@ -18,10 +18,13 @@
 #define _itkFFTWComplexConjugateToRealImageFilter_txx
 
 #if defined(USE_FFTWF) || defined(USE_FFTWD)
+
 #include "itkFFTWComplexConjugateToRealImageFilter.h"
 #include <iostream>
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"
+#include "itkImageRegionIterator.h"
+
 namespace itk
 {
 /** TODO:  There should be compile time type checks so that
@@ -57,9 +60,11 @@ GenerateData()
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
-  std::complex<TPixel> *in = const_cast<std::complex<TPixel> *>
-    (inputPtr->GetBufferPointer());
+  std::complex<TPixel> *in = 
+    const_cast<std::complex<TPixel> *>( inputPtr->GetBufferPointer() );
+
   unsigned int total_size=1;
+
     {
     fftwf_complex *dptr = reinterpret_cast<fftwf_complex *>(in);
     float *out = reinterpret_cast<float *>(outputPtr->GetBufferPointer());
@@ -97,10 +102,14 @@ GenerateData()
     M_PlanComputed = true;
     fftwf_execute(M_plan);
     }
-     ImageRegionIterator<TOutputImageType> it(outputPtr,outputPtr->GetLargestPossibleRegion());
-  while(!it.IsAtEnd())
+
+  typedef ImageRegionIterator< TOutputImageType >   IteratorType;
+  
+  IteratorType it(outputPtr,outputPtr->GetLargestPossibleRegion());
+
+  while( !it.IsAtEnd() )
     {
-    it.Set(it.Value() / total_size);
+    it.Set( it.Value() / total_size );
     ++it;
     }
 }
