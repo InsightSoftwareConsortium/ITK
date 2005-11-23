@@ -45,6 +45,11 @@ public:
 
 typedef std::list<Element> ListElements;
 
+// Loading
+   //Deprecated : use SetFileName() + Load()
+   bool Load( std::string const &filename ); 
+   virtual bool Load( ); 
+
 // Dictionaries
    Dict *GetPubDict();
    Dict *GetShaDict();
@@ -77,7 +82,9 @@ typedef std::list<Element> ListElements;
    /// Accessor to \ref Filename
    const std::string &GetFileName() const { return Filename; }
    /// Accessor to \ref Filename
-   void SetFileName(std::string const &fileName) { Filename = fileName; }
+   virtual void SetFileName(std::string const &fileName)
+                   { if (Filename != fileName)
+                        Filename = fileName, IsDocumentModified = true; }
 
    std::ifstream *OpenFile();
    bool CloseFile();
@@ -88,6 +95,7 @@ typedef std::list<Element> ListElements;
    virtual void LoadEntryBinArea(BinEntry *entry);
 
    void LoadDocEntrySafe(DocEntry *entry);
+   void SetMaxSizeLoadEntry(long);
  
 // Ordering of Documents
    bool operator<(Document &document);
@@ -147,14 +155,16 @@ protected:
 
    /// List of element to Anonymize
    ListElements AnonymizeList;
+   /// Whether the gdcm::Document was modified since the last Load()
+   bool IsDocumentModified;
 
 private:
 // Methods
    void Initialize();
-
+   bool DoTheLoadingDocumentJob();
    // Read
-   void ParseDES(DocEntrySet *set,long offset, long l_max, bool delim_mode);
-   void ParseSQ (SeqEntry *seq,   long offset, long l_max, bool delim_mode);
+   void ParseDES(DocEntrySet *set, long offset, long l_max, bool delim_mode);
+   void ParseSQ (SeqEntry *seq,    long offset, long l_max, bool delim_mode);
 
    void LoadDocEntry         (DocEntry *e);
    void FindDocEntryLength   (DocEntry *e) throw ( FormatError );
@@ -168,12 +178,11 @@ private:
    void SkipDocEntry          (DocEntry *entry);
    void SkipToNextDocEntry    (DocEntry *entry);
 
-   void FixDocEntryFoundLength(DocEntry *entry,uint32_t l);
+   void FixDocEntryFoundLength(DocEntry *entry, uint32_t l);
    bool IsDocEntryAnInteger   (DocEntry *entry);
 
    bool CheckSwap();
    void SwitchByteSwapCode();
-   void SetMaxSizeLoadEntry(long);
    void SetMaxSizePrintEntry(long);
 
    // DocEntry related utilities
@@ -203,7 +212,7 @@ private:
 
 //  uint32_t GenerateFreeTagKeyInGroup(uint16_t group);
 //  void BuildFlatHashTableRecurse( TagDocEntryHT &builtHT,
-//                                   DocEntrySet *set );
+//                                  DocEntrySet *set );
 
 };
 

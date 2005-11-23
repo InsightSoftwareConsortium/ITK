@@ -46,20 +46,111 @@ const unsigned int Document::MAX_SIZE_PRINT_ELEMENT_VALUE = 0x7fffffff;
 // Constructor / Destructor
 // Constructors and destructors are protected to avoid user to invoke directly
 /**
+ * \brief This default constructor neither loads nor parses the file. 
+ *        You should then invoke \ref Document::Load.
+ *         
+ */
+Document::Document() 
+         :ElementSet(-1)
+{
+   Fp = 0;
+
+   SetMaxSizeLoadEntry(MAX_SIZE_LOAD_ELEMENT_VALUE);
+   Initialize();
+   SwapCode = 1234;
+   Filetype = ExplicitVR;
+   // Load will set it to true if sucessfull
+   Group0002Parsed = false;
+   IsDocumentModified = true;
+   SetFileName("");
+}
+
+/**
  * \brief   constructor  
  * @param   filename 'Document' (File or DicomDir) to be opened for parsing
  */
 Document::Document( std::string const &filename ) 
          :ElementSet(-1)
 {
-   SetMaxSizeLoadEntry(MAX_SIZE_LOAD_ELEMENT_VALUE); 
-   Filename = filename;
+   Fp = 0;
+
+   SetMaxSizeLoadEntry(MAX_SIZE_LOAD_ELEMENT_VALUE);
    Initialize();
+   SwapCode = 1234;
+   Filetype = ExplicitVR;
+   Group0002Parsed = false;
+
+   // Load will set it to true if sucessfull
+   IsDocumentModified = true;
+
+   SetFileName(filename);
+   Load( );
+}
+
+//-----------------------------------------------------------------------------
+// Public
+
+/**
+ * \brief   Loader. use SetLoadMode(), SetFileName() before ! 
+ * @return false if file cannot be open or no swap info was found,
+ *         or no tag was found.
+ */
+bool Document::Load(  ) 
+{
+   if ( GetFileName() == "" )
+   {
+      gdcmWarningMacro( "Use SetFileName, before !" );
+      return false;
+   }
+   return DoTheLoadingDocumentJob( );
+} 
+/**
+ * \brief   Loader. (DEPRECATED : not to break the API)   
+ * @param   fileName 'Document' (File or DicomDir) to be open for parsing
+ * @return false if file cannot be open or no swap info was found,
+ *         or no tag was found.
+ */
+bool Document::Load( std::string const &fileName ) 
+{
+   Filename = fileName;
+   return DoTheLoadingDocumentJob( );
+}
+
+/**
+ * \brief   Performs the Loading Job (internal use only)  
+ * @return false if file cannot be open or no swap info was found,
+ *         or no tag was found.
+ */
+bool Document::DoTheLoadingDocumentJob(  ) 
+{
+   if ( ! IsDocumentModified ) // Nothing to do !
+      return true;
+
+ //     if ( Filename == fileName )
+ //     {
+ //        gdcmWarningMacro( "The file was already parsed inside this "
+ //                       << "gdcm::Document (its name is: "
+ //                       << Filename.c_str() );
+ //        return true;
+ //     }
+  
+   //gdcmWarningMacro( "A file was already parsed inside this "
+   //                  << "gdcm::Document (previous name was: "
+   //                  << Filename.c_str() << ". New name is :"
+   //                  << fileName );
+     // clean out the Entries, if already parsed
+     // (probabely a mistake from the user)
+ 
+   ClearEntry();
 
    Fp = 0;
    if ( !OpenFile() )
    {
-      return;
+      // warning already performed in OpenFile()
+      //gdcmWarningMacro( "Unable to open as an ACR/DICOM file: "
+      //                 << Filename.c_str() );
+      Filetype = Unknown;
+      return false;
    }
 
    Group0002Parsed = false;
@@ -68,10 +159,19 @@ Document::Document( std::string const &filename )
 
    Fp->seekg(0, std::ios::end);
    long lgt = Fp->tellg();
-           
+
    Fp->seekg(0, std::ios::beg);
 
-   CheckSwap();
+   // CheckSwap returns a boolean 
+   // (false if no swap info of any kind was found)
+   if (! CheckSwap() )
+   {
+      gdcmWarningMacro( "Neither a DICOM V3 nor an ACR-NEMA file: " 
+                   << Filename.c_str());
+      CloseFile(); 
+      return false;      
+    }
+
    long beg = Fp->tellg();
    lgt -= beg;
    
@@ -110,7 +210,7 @@ Document::Document( std::string const &filename )
       LoadEntryBinArea(0x0028,0x1222);
       // Segmented Blue  Palette Color LUT Data
       LoadEntryBinArea(0x0028,0x1223);
-   } 
+   }
    //FIXME later : how to use it?
    LoadEntryBinArea(0x0028,0x3006);  //LUT Data (CTX dependent) 
 
@@ -139,23 +239,9 @@ Document::Document( std::string const &filename )
          SetValEntry(rows   , 0x0028, 0x0011);
    }
    // --- End of ACR-LibIDO kludge --- 
+   return true;
 }
 
-/**
- * \brief This default constructor doesn't parse the file. You should
- *        then invoke \ref Document::SetFileName and then the parsing.
- */
-Document::Document() 
-         :ElementSet(-1)
-{
-   Fp = 0;
-
-   SetMaxSizeLoadEntry(MAX_SIZE_LOAD_ELEMENT_VALUE);
-   Initialize();
-   SwapCode = 1234;
-   Filetype = ExplicitVR;
-   Group0002Parsed = false;
-}
 
 /**
  * \brief   Canonical destructor.

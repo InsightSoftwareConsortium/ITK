@@ -99,6 +99,9 @@ public:
    File( std::string const &filename );
    ~File();
 
+   // Loading
+   bool Load( std::string const &filename );
+   bool Load();
    // Standard values and informations contained in the header
    bool IsReadable();
 
@@ -187,6 +190,7 @@ protected:
    uint16_t GrPixel;
 
 private:
+   bool DoTheLoadingJob();
    void ComputeRLEInfo();
    void ComputeJPEGFragmentInfo();
    bool     ReadTag(uint16_t, uint16_t);

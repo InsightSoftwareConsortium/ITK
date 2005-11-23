@@ -19,7 +19,7 @@
 //
 // --------------  Remember ! ----------------------------------
 //
-// Image Position Patient                              (0020,0032):
+// Image Position (Patient)                            (0020,0032):
 // If not found (ACR_NEMA) we try Image Position       (0020,0030)
 // If not found (ACR-NEMA), we consider Slice Location (0020,1041)
 //                                   or Location       (0020,0050) 
@@ -47,15 +47,81 @@ namespace gdcm
 //-----------------------------------------------------------------------------
 // Constructor / Destructor
 /**
- * \brief  Constructor 
+ * \brief Constructor used when we want to generate dicom files from scratch
+ */
+File::File():
+   Document()
+{
+   RLEInfo  = new RLEFramesInfo;
+   JPEGInfo = new JPEGFragmentsInfo;
+   GrPixel  = 0x7fe0;  // to avoid further troubles
+   NumPixel = 0x0010;
+}
+
+/**
+ * \brief  Constructor (DEPRECATED : temporaryly kept not to break the API)
  * @param  filename name of the file whose header we want to analyze
+ * @deprecated do not use any longer
  */
 File::File( std::string const &filename )
-     :Document( filename )
+     :Document( )
 {    
    RLEInfo  = new RLEFramesInfo;
    JPEGInfo = new JPEGFragmentsInfo;
 
+   SetFileName( filename );
+   Load( ); // gdcm::Document is first Loaded, then the 'File part'
+}
+/**
+ * \brief   Loader. (DEPRECATED :  temporaryly kept not to break the API)
+ * @param   fileName file to be open for parsing
+ * @return false if file cannot be open or no swap info was found,
+ *         or no tag was found.
+ * @deprecated Use the Load() [ + SetLoadMode() ] + SetFileName() functions instead
+ */
+bool File::Load( std::string const &fileName ) 
+{
+   SetFileName( fileName );
+   if ( ! this->Document::Load( ) )
+      return false;
+
+   return DoTheLoadingJob( );
+}
+
+
+/**
+ * \brief   Canonical destructor.
+ */
+File::~File ()
+{
+   if ( RLEInfo )
+      delete RLEInfo;
+   if ( JPEGInfo )
+      delete JPEGInfo;
+}
+
+//-----------------------------------------------------------------------------
+// Public
+/**
+ * \brief   Loader  
+ * @return false if file cannot be open or no swap info was found,
+ *         or no tag was found.
+ */
+bool File::Load( ) 
+{
+   if ( ! this->Document::Load( ) )
+      return false;
+
+    return DoTheLoadingJob( );   
+}
+
+/**
+ * \brief   Does the Loading Job (internal use only)
+ * @return false if file cannot be open or no swap info was found,
+ *         or no tag was found.
+ */
+bool File::DoTheLoadingJob( ) 
+{
    // for some ACR-NEMA images GrPixel, NumPixel is *not* 7fe0,0010
    // We may encounter the 'RETired' (0x0028, 0x0200) tag
    // (Image Location") . This entry contains the number of
@@ -144,32 +210,9 @@ File::File( std::string const &filename )
          }
       }
    }
+   return true;
 }
 
-/**
- * \brief Constructor used when we want to generate dicom files from scratch
- */
-File::File():
-   Document()
-{
-   RLEInfo  = new RLEFramesInfo;
-   JPEGInfo = new JPEGFragmentsInfo;
-   InitializeDefaultFile();
-}
-
-/**
- * \brief   Canonical destructor.
- */
-File::~File ()
-{
-   if( RLEInfo )
-      delete RLEInfo;
-   if( JPEGInfo )
-      delete JPEGInfo;
-}
-
-//-----------------------------------------------------------------------------
-// Public
 /**
  * \brief  This predicate, based on hopefully reasonable heuristics,
  *         decides whether or not the current File was properly parsed
@@ -289,7 +332,6 @@ ModalityType File::GetModality()
          return Unknow;
       }
    }
-
    return Unknow;
 }
 
@@ -305,7 +347,6 @@ int File::GetXSize()
    {
       return 0;
    }
-
    return atoi( strSize.c_str() );
 }
 
@@ -1143,7 +1184,6 @@ size_t File::GetPixelAreaLength()
  */
 void File::AddAnonymizeElement (uint16_t group, uint16_t elem, 
                                 std::string const &value) 
-
 { 
    Element el;
    el.Group = group;
@@ -1649,7 +1689,6 @@ bool File::ReadTag(uint16_t testGroup, uint16_t testElement)
    }
    catch ( FormatError e )
    {
-      //std::cerr << e << std::endl;
       return false;
    }
    if ( itemTagGroup != testGroup || itemTagElement != testElement )
