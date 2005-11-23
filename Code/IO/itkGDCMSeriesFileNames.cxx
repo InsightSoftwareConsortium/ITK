@@ -32,7 +32,8 @@ namespace itk
 GDCMSeriesFileNames::GDCMSeriesFileNames()
 {
   m_SerieHelper = new gdcm::SerieHelper();
-  m_Directory = "";
+  m_InputDirectory = "";
+  m_OutputDirectory = "";
   m_UseSeriesDetails = true;
 }
 
@@ -41,13 +42,22 @@ GDCMSeriesFileNames::~GDCMSeriesFileNames()
   delete m_SerieHelper;
 }
 
-const SerieUIDContainer &GDCMSeriesFileNames::GetSeriesUIDs() 
+void GDCMSeriesFileNames::SetInputDirectory (std::string const &name)
 {
-  if ( m_Directory == "" )
+  if ( name == "" )
     {
     itkWarningMacro( << "You need to specify a directory where "
       "the DICOM files are located");
+    return;
     }
+  m_InputDirectory = name;
+  m_SerieHelper->SetUseSeriesDetails( m_UseSeriesDetails );
+  m_SerieHelper->SetDirectory( name ); //as a side effect it also execute
+  this->Modified();
+}
+
+const SerieUIDContainer &GDCMSeriesFileNames::GetSeriesUIDs() 
+{
   m_SeriesUIDs.clear();
   // Accessing the first serie found (assume there is at least one)
   gdcm::GdcmFileList *flist = m_SerieHelper->GetFirstCoherentFileList();
@@ -74,76 +84,38 @@ const SerieUIDContainer &GDCMSeriesFileNames::GetSeriesUIDs()
 
 const FilenamesContainer &GDCMSeriesFileNames::GetFileNames(const std::string serie) 
 {
-  m_FileNames.clear();
+  m_InputFileNames.clear();
   // Accessing the first serie found (assume there is at least one)
   gdcm::GdcmFileList *flist = m_SerieHelper->GetFirstCoherentFileList();
   bool found = false;
-  while(flist && !found)
+  if( serie != "" ) // user did not specify any sub selcection based on UID
     {
-    if( flist->size() ) //make sure we have at leat one serie
+    while(flist && !found)
       {
-      gdcm::File *file = (*flist)[0]; //for example take the first one
-      std::string id = m_SerieHelper->
-                       CreateUniqueSeriesIdentifier( file ).c_str();
-
-      if( id == serie )
+      if( flist->size() ) //make sure we have at leat one serie
         {
-        found = true; // we found a match
-        break;
+        gdcm::File *file = (*flist)[0]; //for example take the first one
+        std::string id = m_SerieHelper->
+          CreateUniqueSeriesIdentifier( file ).c_str();
+
+        if( id == serie )
+          {
+          found = true; // we found a match
+          break;
+          }
         }
+      flist = m_SerieHelper->GetNextCoherentFileList();
       }
-    flist = m_SerieHelper->GetNextCoherentFileList();
-    }
-  if( !found)
-    {
-    itkWarningMacro(<<"No Series were found");
-    return m_FileNames;
+    if( !found)
+      {
+      itkWarningMacro(<<"No Series were found");
+      return m_InputFileNames;
+      }
     }
   m_SerieHelper->OrderGdcmFileList(flist);
 
   gdcm::GdcmFileList::iterator it;
   if( flist->size() )
-    {
-    for(it = flist->begin(); 
-        it != flist->end(); ++it )
-      {
-        gdcm::File * header = *it;
-        if( !header )
-          {
-          itkWarningMacro( << "GDCMSeriesFileNames got NULL header, "
-            "this is a serious bug" );
-          continue;
-          }
-        if( !header->IsReadable() )
-          {
-          itkWarningMacro( << "GDCMSeriesFileNames got a non DICOM file:" 
-            << header->GetFileName() );
-          continue;
-          }
-        m_FileNames.push_back( header->GetFileName() );
-      }
-    }
-  else
-    {
-    itkDebugMacro(<<"No files were found");
-    }
-
-  return m_FileNames;
-}
-
-const FilenamesContainer &GDCMSeriesFileNames::GetInputFileNames() 
-{
-  m_InputFileNames.clear();
-  // Get the DICOM filenames from the directory
-  gdcm::SerieHelper *helper = new gdcm::SerieHelper();
-  helper->SetUseSeriesDetails( m_UseSeriesDetails );
-  helper->SetDirectory( m_InputDirectory );
-  // Accessing the first serie found (assume there is at least one)
-  gdcm::GdcmFileList *flist = helper->GetFirstCoherentFileList();
-  helper->OrderGdcmFileList(flist);
-
-  gdcm::GdcmFileList::iterator it;
-  if( flist && flist->size() )
     {
     for(it = flist->begin(); 
         it != flist->end(); ++it )
@@ -168,9 +140,14 @@ const FilenamesContainer &GDCMSeriesFileNames::GetInputFileNames()
     {
     itkDebugMacro(<<"No files were found");
     }
-  delete helper;
 
   return m_InputFileNames;
+}
+
+const FilenamesContainer &GDCMSeriesFileNames::GetInputFileNames() 
+{
+  // Do not specify any UID
+  return GetFileNames("");
 }
 
 const FilenamesContainer &GDCMSeriesFileNames::GetOutputFileNames() 

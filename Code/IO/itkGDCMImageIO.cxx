@@ -646,7 +646,7 @@ void GDCMImageIO::Write(const void* buffer)
   str << m_Dimensions[1];
   header->InsertValEntry( str.str(), 0x0028,0x0010); // Rows
 
-  if(m_Dimensions[2]>1)
+  if(m_Dimensions.size() > 2 && m_Dimensions[2]>1)
   {
      str.str("");
      str << m_Dimensions[2];

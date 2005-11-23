@@ -77,23 +77,17 @@ public:
     }
 
   /** Set the directory that contains the DICOM series. */
-  void SetInputDirectory (std::string const &name)
-    {
-    m_InputDirectory = name;
-    this->Modified();
-    }
+  void SetInputDirectory (std::string const &name);
 
   /** Set the directory that contains the DICOM series. */
   void SetDirectory (std::string const &name)
     {
-    m_Directory = name;
-    m_SerieHelper->SetUseSeriesDetails( m_UseSeriesDetails );
-    m_SerieHelper->SetDirectory( name ); //as a side effect it also execute
-    this->Modified();
+    SetInputDirectory(name);
     }
 
   /** Returns a vector containing the series' file names. The file
-   * names are ordered by the strategy define in header. */
+   * names are ordered by the strategy define in header. 
+   * No sorting is done based on UID */
   const FilenamesContainer &GetInputFileNames () ;
 
   /** Set the directory where the output DICOM serie should be written. */
@@ -170,18 +164,12 @@ private:
   /** Contains the output directory where the DICOM serie should be written */
   std::string m_OutputDirectory;
 
-  /** Contains the directory where the DICOM serie is found */
-  std::string m_Directory;
-
   /** Internal structure to keep the list of input/output filenames */
   FilenamesContainer  m_InputFileNames;
   FilenamesContainer  m_OutputFileNames;
 
   /** Internal structure to order serie from one directory */
   gdcm::SerieHelper *m_SerieHelper;
-
-  /** Internal structure to keep the list of input/output filenames */
-  FilenamesContainer  m_FileNames;
 
   /** Internal structure to keep the list of series UIDs */
   SerieUIDContainer m_SeriesUIDs;
