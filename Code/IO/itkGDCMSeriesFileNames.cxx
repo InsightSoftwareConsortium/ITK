@@ -87,9 +87,14 @@ const FilenamesContainer &GDCMSeriesFileNames::GetFileNames(const std::string se
   m_InputFileNames.clear();
   // Accessing the first serie found (assume there is at least one)
   gdcm::GdcmFileList *flist = m_SerieHelper->GetFirstCoherentFileList();
-  bool found = false;
+  if( !flist )
+    {
+    itkWarningMacro(<<"No Series can be found, make sure you restiction are not too strong");
+    return m_InputFileNames;
+    }
   if( serie != "" ) // user did not specify any sub selcection based on UID
     {
+    bool found = false;
     while(flist && !found)
       {
       if( flist->size() ) //make sure we have at leat one serie
