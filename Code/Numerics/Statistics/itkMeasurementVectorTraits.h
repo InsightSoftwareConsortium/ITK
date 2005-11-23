@@ -19,6 +19,7 @@
 
 #include "itkMacro.h"
 #include "itkArray.h"
+#include "itkVariableLengthVector.h"
 #include "itkVector.h"
 #include "itkFixedArray.h"
 #include "vnl/vnl_vector_fixed.h"
@@ -82,6 +83,20 @@ public:
     }
 
   template< class TValueType >
+  static void SetLength( VariableLengthVector< TValueType > & m, const unsigned int s )
+    {
+    m.SetSize( s );
+    m.Fill( NumericTraits< TValueType >::Zero );
+    }
+  
+  template< class TValueType >
+  static void SetLength( VariableLengthVector< TValueType > * m, const unsigned int s )
+    {
+    m->SetSize( s );
+    m->Fill( NumericTraits< TValueType >::Zero );
+    }
+
+  template< class TValueType >
   static void SetLength( std::vector< TValueType > & m, const unsigned int s )
     {
     m.resize( s );
@@ -112,6 +127,16 @@ public:
   template< class TValueType >
   static MeasurementVectorLength
                GetLength( const Array< TValueType > *m )
+    {return m->GetSize(); }
+
+  template< class TValueType >
+  static MeasurementVectorLength
+               GetLength( const VariableLengthVector< TValueType > &m )
+    {return m.GetSize(); }
+  
+  template< class TValueType >
+  static MeasurementVectorLength
+               GetLength( const VariableLengthVector< TValueType > *m )
     {return m->GetSize(); }
 
   template< class TValueType >
@@ -147,6 +172,41 @@ public:
   template< class TValueType1, unsigned int TLength, class TValueType2 >
   static MeasurementVectorLength Assert( const FixedArray< TValueType1, TLength > *, 
                       const Array< TValueType2 > *b, const char *errMsg="Length Mismatch")
+    {
+    if( b->Size() == 0 )
+      {
+      return TLength;
+      }
+    else if (b->Size() != TLength)
+      {
+      itkGenericExceptionMacro( << errMsg );
+      return 0;
+      }
+    return 0;
+    }
+
+  template< class TValueType1, unsigned int TLength, class TValueType2 >
+  static MeasurementVectorLength Assert( const FixedArray< TValueType1, TLength > &, 
+                      const VariableLengthVector< TValueType2 > &b, const char *errMsg="Length Mismatch")
+    {
+    if( b.Size() == 0 )
+      {
+      return TLength;
+      }
+    if( b.Size() != 0 )
+      {
+      if (b.Size() != TLength)
+        {
+        itkGenericExceptionMacro( << errMsg );
+        return 0;
+        }
+      }
+    return 0;
+    }
+
+  template< class TValueType1, unsigned int TLength, class TValueType2 >
+  static MeasurementVectorLength Assert( const FixedArray< TValueType1, TLength > *, 
+                      const VariableLengthVector< TValueType2 > *b, const char *errMsg="Length Mismatch")
     {
     if( b->Size() == 0 )
       {
@@ -223,6 +283,35 @@ public:
     }
    
   template< class TValueType >
+  static MeasurementVectorLength Assert( const VariableLengthVector< TValueType > &a, 
+              const MeasurementVectorLength l, const char *errMsg="Length Mismatch")
+    {
+    if( ((l!=0) && (a.Size()!=l)) || (a.Size()==0) )
+      {
+      itkGenericExceptionMacro( << errMsg );
+      }
+    else if( l == 0 )
+      {
+      return a.Size();
+      }
+    return 0;
+    }
+  
+  template< class TValueType >
+  static MeasurementVectorLength Assert( const VariableLengthVector< TValueType > *a, 
+              const MeasurementVectorLength l, const char *errMsg="Length Mismatch")
+    {
+    if( ((l!=0) && (a->Size()!=l)) || (a->Size()==0) )
+      {
+      itkGenericExceptionMacro( << errMsg );
+      }
+    else if( l == 0 )
+      {
+      return a->Size();
+      }
+    return 0;
+    }
+   template< class TValueType >
   static MeasurementVectorLength Assert( const std::vector< TValueType > &a, 
               const MeasurementVectorLength l, const char *errMsg="Length Mismatch")
     {
