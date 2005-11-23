@@ -61,6 +61,7 @@ GDCMImageIO::GDCMImageIO()
   m_FrameOfReferenceInstanceUID = "";
 
   m_KeepOriginalUID = false;
+  m_MaxSizeLoadEntry = 0xfff;
 
   m_InternalComponentType = UNKNOWNCOMPONENTTYPE;
 }
@@ -227,9 +228,6 @@ void GDCMImageIO::Read(void* buffer)
 {
   std::ifstream file;
 
-  //read header information file:
-  this->InternalReadImageInformation(file);
-  
   //Should I handle differently dicom lut ?
   //GdcmHeader.HasLUT()
 
@@ -314,7 +312,9 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     itkExceptionMacro(<< "Cannot read requested file");
     }
 
-  gdcm::File header( m_FileName );
+  gdcm::File header;
+  header.SetMaxSizeLoadEntry(m_MaxSizeLoadEntry);
+  header.Load( m_FileName );
 
   // We don't need to positionate the Endian related stuff (by using
   // this->SetDataByteOrderToBigEndian() or SetDataByteOrderToLittleEndian()

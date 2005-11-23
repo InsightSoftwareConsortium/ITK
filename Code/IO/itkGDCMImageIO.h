@@ -115,7 +115,7 @@ public:
   itkBooleanMacro(KeepOriginalUID);
 
   /** Convenience methods to query patient information and scanner
-   * information. These matheds are here for compatibility with the
+   * information. These methods are here for compatibility with the
    * DICOMImageIO2 class. */
   void GetPatientName(char* name);
   void GetPatientID(char* id);
@@ -143,6 +143,14 @@ public:
   static bool GetLabelFromTag( const std::string & tag, 
                                       std::string & labelId );
 
+  /** A DICOM file can contains multiple binary stream that can be very long
+   * For example an Overlay on the image. Most of the time user do not want to load
+   * this binary structure in memory since it can consume lot of memory. Therefore
+   * any field that is bigger than the default value 0xfff is discarded and just seek'd 
+   * This method allow advanced user to force the reading of such field
+   */
+  itkSetMacro(MaxSizeLoadEntry, long);
+
 protected:
   GDCMImageIO();
   ~GDCMImageIO();
@@ -160,6 +168,7 @@ protected:
   std::string m_SeriesInstanceUID;
   std::string m_FrameOfReferenceInstanceUID;
   bool m_KeepOriginalUID;
+  long m_MaxSizeLoadEntry;
 
 private:
   GDCMImageIO(const Self&); //purposely not implemented
