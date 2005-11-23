@@ -156,8 +156,11 @@ void SerieHelper::AddRestriction(TagKey const &key,
                                  std::string const &value)
 {
    Rule r;
-   r.group = key[0];
-   r.elem  = key[1];
+   unsigned int group, elem;
+   sscanf(key.c_str(), "%04x|%04x", &group, &elem);
+   r.group = group;
+   r.elem = elem;
+   //std::cout << "Elem: " << r.group << "," << r.elem << std::endl;
    r.value = value;
    Restrictions.push_back( r ); 
 }

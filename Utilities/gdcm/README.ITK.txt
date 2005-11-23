@@ -1,5 +1,5 @@
 This directory contains a subset of the CREATIS Dicom library
-gdcm version 0.6.  We only include enough of distribution to build
+gdcm version 1.0.  We only include enough of distribution to build
 gdcm.  We do not include the standard executables that come with
 gdcm (PrintHeader, vtkviewer, or any python sample). 
 
