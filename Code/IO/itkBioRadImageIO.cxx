@@ -251,7 +251,11 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream& file)
 
   // These are not specified by the format, but we can deduce them:
   // pixel size = scale_factor/lens/mag_factor
+  itkDebugMacro(<< "Mag Factor Raw: " << (int)h.mag_factor[0] << ","  
+    << (int)h.mag_factor[1] << "," << (int)h.mag_factor[2] << "," << (int)h.mag_factor[3]);
   ByteSwapper<float>::SwapFromSystemToLittleEndian((float*)&h.mag_factor);
+  itkDebugMacro(<< "Mag Factor BS : " << (int)h.mag_factor[0] << ","  
+    << (int)h.mag_factor[1] << "," << (int)h.mag_factor[2] << "," << (int)h.mag_factor[3]);
   float mag_factor = *((float*)(h.mag_factor));
   itkDebugMacro(<< "Mag Factor: " << mag_factor);
   itkDebugMacro(<< "Lens: " << h.lens);
