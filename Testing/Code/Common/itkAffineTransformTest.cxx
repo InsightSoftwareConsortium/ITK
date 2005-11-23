@@ -272,5 +272,94 @@ int itkAffineTransformTest(int, char *[])
 
     paff->SetIdentity();
     paff->Print( std::cout );
+
+
+  {
+    // Test SetParameters and GetInverse
+    typedef itk::AffineTransform<double,2> TransformType;
+    TransformType::Pointer transform = TransformType::New();
+
+    TransformType::ParametersType parameters;
+    TransformType::ParametersType expectedParameters;
+    expectedParameters.SetSize( transform->GetNumberOfParameters() );
+
+    double epsilon = 1e-10;
+
+    // check the returned parameters
+
+    // Test 1: SetIdentity
+    transform->SetIdentity();
+    parameters = transform->GetParameters();
+
+    expectedParameters.Fill( 0.0 );
+    expectedParameters[0] = 1.0;
+    expectedParameters[3] = 1.0;
+
+    for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
+      {
+      if( abs( parameters[k] - expectedParameters[k] ) > epsilon )
+        {
+        std::cout << "Test failed:" << std::endl;
+        std::cout << "Results=" << parameters << std::endl;
+        std::cout << "Expected=" << expectedParameters << std::endl;
+        any = true;
+        break;
+        }
+      }
+
+
+    // Test 2: SetParameters
+    expectedParameters.Fill( 0.0 );
+    expectedParameters[0] = 2.0;
+    expectedParameters[3] = 2.0;
+
+    transform->SetParameters( expectedParameters );
+    parameters = transform->GetParameters();
+
+    for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
+      {
+      if( abs( parameters[k] - expectedParameters[k] ) > epsilon )
+        {
+        std::cout << "Test failed:" << std::endl;
+        std::cout << "Results=" << parameters << std::endl;
+        std::cout << "Expected=" << expectedParameters << std::endl;
+        any = true;
+        break;
+        }
+      }
+
+
+    // Test 3: GetInverse
+    expectedParameters.Fill( 0.0 );
+    expectedParameters[0] = 2.0;
+    expectedParameters[3] = 2.0;
+
+    transform->SetParameters( expectedParameters );
+
+    TransformType::Pointer other = TransformType::New();
+    transform->GetInverse( other );
+
+    parameters = other->GetParameters();
+
+    expectedParameters.Fill( 0.0 );
+    expectedParameters[0] = 0.5;
+    expectedParameters[3] = 0.5;
+    
+    other->Print( std::cout );
+
+    for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
+      {
+      if( abs( parameters[k] - expectedParameters[k] ) > epsilon )
+        {
+        std::cout << "Test failed:" << std::endl;
+        std::cout << "Results=" << parameters << std::endl;
+        std::cout << "Expected=" << expectedParameters << std::endl;
+        any = true;
+        break;
+        }
+      }
+
+  }
+
     return any;
 }

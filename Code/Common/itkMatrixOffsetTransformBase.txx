@@ -396,6 +396,8 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
     ++par;
     }
 
+  m_MatrixMTime.Modified(); 
+
   this->ComputeMatrix();  // Not necessary since parameters explicitly define
                           //    the matrix
   this->ComputeOffset();
