@@ -16,6 +16,7 @@
 =========================================================================*/
 
 #include "itkTimeProbe.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -23,10 +24,11 @@ namespace itk
 TimeProbe
 ::TimeProbe()
 {
-  m_TotalTicks      = 0;
-  m_Start           = 0;
-  m_NumberOfStarts  = 0;
-  m_NumberOfStops   = 0;
+  m_TotalTime       = NumericTraits< TimeStampType >::ZeroValue();
+  m_Start           = NumericTraits< TimeStampType >::ZeroValue();
+  m_NumberOfStarts  = NumericTraits< CountType >::ZeroValue();
+  m_NumberOfStops   = NumericTraits< CountType >::ZeroValue();
+  m_RealTimeClock   = RealTimeClock::New();
 }
 
 
@@ -42,7 +44,7 @@ TimeProbe
 ::Start(void)
 {
   m_NumberOfStarts++;
-  m_Start = clock();
+  m_Start = m_RealTimeClock->GetTimestamp();
 }
  
 
@@ -51,7 +53,7 @@ void
 TimeProbe
 ::Stop(void)
 {
-  m_TotalTicks += clock() - m_Start;
+  m_TotalTime += m_RealTimeClock->GetTimestamp() - m_Start;
   m_NumberOfStops++;
 }
 
@@ -76,19 +78,15 @@ TimeProbe
 
 
 
-double
+TimeProbe::TimeStampType
 TimeProbe
 ::GetMeanTime(void) const
 {
-  const double seconds =  
-    static_cast<double>(m_TotalTicks) /
-    static_cast<double>(CLOCKS_PER_SEC);
-
-  double meanTime = 0.0f;
+  TimeStampType meanTime = 0.0f;
 
   if( m_NumberOfStops )
     {
-    meanTime = seconds / m_NumberOfStops;
+    meanTime = m_TotalTime / m_NumberOfStops;
     }
 
   return meanTime;

@@ -37,7 +37,10 @@ int itkRealTimeClockTest( int, char * [] )
     std::cout.precision(30);
 
     unsigned int i;
-    double timestamps[5];
+
+    typedef itk::RealTimeClock::TimeStampType  TimeStampType;
+    
+    TimeStampType timestamps[5];
 
     std::cout << "Printing timestamps got one by one" << std::endl;
 

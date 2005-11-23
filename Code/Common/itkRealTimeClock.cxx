@@ -40,15 +40,17 @@ RealTimeClock::RealTimeClock():m_Frequency(1)
   LARGE_INTEGER frequency;
   ::QueryPerformanceFrequency(&frequency);
 
-  this->m_Frequency = double((__int64)frequency.QuadPart);
+  this->m_Frequency = 
+    static_cast< FrequencyType >( (__int64)frequency.QuadPart );
 
   SYSTEMTIME st1;
   SYSTEMTIME st2;
   FILETIME ft1;
   FILETIME ft2;
 
-  ::memset(&st1, 0, sizeof(st1));
-  ::memset(&st2, 0, sizeof(st2));
+  ::memset( &st1, 0, sizeof( st1 ) );
+  ::memset( &st2, 0, sizeof( st2 ) );
+
   st1.wYear = 1601;
   st1.wMonth = 1;
   st1.wDay = 1;
@@ -62,25 +64,37 @@ RealTimeClock::RealTimeClock():m_Frequency(1)
 
   LARGE_INTEGER ui1;
   LARGE_INTEGER ui2;
-  memcpy(&ui1, &ft1, sizeof(ui1));
-  memcpy(&ui2, &ft2, sizeof(ui2));
-  this->m_Difference = double(ui2.QuadPart - ui1.QuadPart) / double(10000000);
+
+  memcpy( &ui1, &ft1, sizeof( ui1 ) );
+  memcpy( &ui2, &ft2, sizeof( ui2 ) );
+  
+  this->m_Difference = 
+    static_cast< TimeStampType >( ui2.QuadPart - ui1.QuadPart) / 
+    static_cast< TimeStampType >( 1e7 );
 
   FILETIME currentTime;
   LARGE_INTEGER intTime;
   LARGE_INTEGER tick;
 
-  ::GetSystemTimeAsFileTime(&currentTime);
-  ::QueryPerformanceCounter(&tick);
-  memcpy(&intTime, &currentTime, sizeof(intTime));
+  ::GetSystemTimeAsFileTime( &currentTime );
+  ::QueryPerformanceCounter( &tick );
 
-  this->m_Origin = double(intTime.QuadPart) / double(10000000) \
-    - (double((__int64)tick.QuadPart) / this->m_Frequency) - this->m_Difference;
+  memcpy( &intTime, &currentTime, sizeof( intTime ) );
+
+  this->m_Origin = 
+    static_cast< TimeStampType >( intTime.QuadPart ) / 
+    static_cast< TimeStampType >( 1e7 );
+
+  this->m_Origin -= 
+    static_cast< TimeStampType >( (__int64)tick.QuadPart ) / 
+    this->m_Frequency;
+    
+  this->m_Origin +=  this->m_Difference;
 
 
 #else
 
-  this->m_Frequency = 1000000;
+  this->m_Frequency = 1e6;;
 
 #endif  // defined(WIN32) || defined(_WIN32)
 }
@@ -91,19 +105,34 @@ RealTimeClock::~RealTimeClock()
 }
 
 /** Returns a timestamp in seconds */
-double RealTimeClock::GetTimestamp() const
+RealTimeClock::TimeStampType
+RealTimeClock::GetTimestamp() const
 {
 #if defined(WIN32) || defined(_WIN32)
 
   LARGE_INTEGER tick;
-  ::QueryPerformanceCounter(&tick);
-  return (double((__int64)tick.QuadPart) / this->m_Frequency) + this->m_Origin;
+  
+  ::QueryPerformanceCounter( &tick );
+
+  TimeStampType value = 
+      static_cast< TimeStampType >( (__int64)tick.QuadPart ) / 
+      this->m_Frequency;
+
+  value += this->m_Origin;
+
+  return value;
 
 #else
 
   struct timeval tval;
-  ::gettimeofday(&tval, 0);
-  return double(tval.tv_sec) + double(tval.tv_usec) / this->m_Frequency;
+
+  ::gettimeofday( &tval, 0 );
+
+  TimeStampType value = 
+    static_cast< TimeStampType >( tval.tv_sec ) +
+    static_cast< TimeStampType >( tval.tv_usec ) / this->m_Frequency;
+
+  return value;
 
 #endif  // defined(WIN32) || defined(_WIN32)
 }

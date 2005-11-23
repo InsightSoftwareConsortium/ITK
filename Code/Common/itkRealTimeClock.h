@@ -51,11 +51,17 @@ public:
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
+  /** Define the type for the timestap */
+  typedef double        TimeStampType;
+
+  /** Define the type for the frequency of the clock */
+  typedef double        FrequencyType;
+
   /** Returns a timestamp in seconds   e.g. 52.341243 seconds */
-  double GetTimestamp() const;
+  TimeStampType GetTimestamp() const;
 
   /** Returns the frequency of a clock */
-  itkGetConstMacro(Frequency, double);
+  itkGetConstMacro(Frequency, FrequencyType);
 
 protected:
 
@@ -70,11 +76,11 @@ protected:
 
 private:
   
-  double m_Frequency;
+  FrequencyType    m_Frequency;
 
-  double m_Difference;
+  TimeStampType    m_Difference;
 
-  double m_Origin;
+  TimeStampType    m_Origin;
 
 };
 
