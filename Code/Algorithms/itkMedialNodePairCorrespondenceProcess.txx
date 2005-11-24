@@ -20,8 +20,6 @@
 
 #include "itkMedialNodePairCorrespondenceProcess.h"
 
-#include <fstream>
-
 namespace itk
 {
 
@@ -71,7 +69,7 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
     }
   
   return static_cast< DataStructureType * >
-                     (this->ProcessObject::GetOutput(0));
+    (this->ProcessObject::GetOutput(0));
 }
 
 /**
@@ -230,7 +228,6 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
   typedef unsigned char CorrespondencePixelType;  
   typedef Image<CorrespondencePixelType, 2> CorrespondenceImageType;
 
-  CorrespondenceImageType::IndexType pixelIndex;
   CorrespondenceImageType::SizeType size;
   size[0]=m_Rows;  
   size[1]=m_Columns;
@@ -445,15 +442,15 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
         }// End if(i<j)
       }// End for j
 
-      // Add pair list to node list.
-      if(PairListPointer->GetSize() != 0)
+    // Add pair list to node list.
+    if(PairListPointer->GetSize() != 0)
       {
-        m_DataStructure->m_NodeList->push_back(*PairListPointer);
+      m_DataStructure->m_NodeList->push_back(*PairListPointer);
       }
 
-      // clean up
-      delete PairListPointer;
-      PairListPointer = 0;
+    // clean up
+    delete PairListPointer;
+    PairListPointer = 0;
     }// End for i
   itkDebugMacro(<< "MedialNodePairCorrespondenceProcess::NumberOfNodePairs: " << m_NumberOfNodePairs << "\n");
   itkDebugMacro(<< "MedialNodePairCorrespondenceProcess::NumberOfNodeBasePairs: " << m_NumberOfNodeBasePairs << "\n");
