@@ -666,7 +666,8 @@ void File::GetImageOrientationPatient( float iop[6] )
 {
    std::string strImOriPat;
    //iop is supposed to be float[6]
-   iop[0] = iop[1] = iop[2] = iop[3] = iop[4] = iop[5] = 0.;
+   iop[0] = iop[4] = 1.;
+   iop[2] = iop[3] = iop[5] = 0.;
 
    // 0020 0037 DS REL Image Orientation (Patient)
    if ( (strImOriPat = GetEntryValue(0x0020,0x0037)) != GDCM_UNFOUND )
