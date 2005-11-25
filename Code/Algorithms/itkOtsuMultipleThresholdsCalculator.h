@@ -43,7 +43,7 @@ class OtsuMultipleThresholdsCalculator :
 public:
   /**Standard class typedefs. */
   typedef OtsuMultipleThresholdsCalculator Self;
-  typedef Object Superclass ;
+  typedef HistogramAlgorithmBase<TInputHistogram> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -60,7 +60,7 @@ public:
   typedef std::vector<InstanceIdentifierType> InstanceIdentifierVectorType;
 
   /**Standard Macros */
-  itkTypeMacro(OtsuMultipleThresholdsCalculator, Object);
+  itkTypeMacro(OtsuMultipleThresholdsCalculator, HistogramAlgorithmsBase);
   itkNewMacro(Self) ;
                                                                                                                                       
   /** Typedef for the thresholds output */
