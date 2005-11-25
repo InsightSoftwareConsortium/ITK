@@ -81,6 +81,7 @@ int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
     {
     std::cerr << exp << std::endl;
     }
+  otsuThresholdCalculator->Print (std::cout);
 
   OtsuMultipleThresholdCalculatorType::OutputType otsuThresholds = otsuThresholdCalculator->GetOutput();
   
