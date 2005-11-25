@@ -956,13 +956,14 @@ void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
   Superclass::PrintSelf(os, indent);
   os << indent << "Internal Component Type: " << this->GetComponentTypeAsString(m_InternalComponentType)
      << std::endl;
-  os << indent << "RescaleSlope: " << m_RescaleSlope << "\n";
-  os << indent << "RescaleIntercept: " << m_RescaleIntercept << "\n";
-  os << indent << "KeepOriginalUID:" << (m_KeepOriginalUID ? "On" : "Off") << "\n";
-  os << indent << "UIDPrefix: " << m_UIDPrefix << "\n";
-  os << indent << "StudyInstanceUID: " << m_StudyInstanceUID << "\n";
-  os << indent << "SeriesInstanceUID: " << m_SeriesInstanceUID << "\n";
-  os << indent << "FrameOfReferenceInstanceUID: " << m_FrameOfReferenceInstanceUID << "\n";
+  os << indent << "RescaleSlope: " << m_RescaleSlope << std::endl;
+  os << indent << "RescaleIntercept: " << m_RescaleIntercept << std::endl;
+  os << indent << "MaxSizeLoadEntry: " << m_MaxSizeLoadEntry << std::endl;
+  os << indent << "KeepOriginalUID:" << (m_KeepOriginalUID ? "On" : "Off") << std::endl;
+  os << indent << "UIDPrefix: " << m_UIDPrefix << std::endl;
+  os << indent << "StudyInstanceUID: " << m_StudyInstanceUID << std::endl;
+  os << indent << "SeriesInstanceUID: " << m_SeriesInstanceUID << std::endl;
+  os << indent << "FrameOfReferenceInstanceUID: " << m_FrameOfReferenceInstanceUID << std::endl;
 
   os << indent << "Patient Name:" << m_PatientName << std::endl;
   os << indent << "Patient ID:" << m_PatientID << std::endl;
