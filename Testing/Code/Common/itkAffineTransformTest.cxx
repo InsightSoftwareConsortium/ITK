@@ -297,7 +297,7 @@ int itkAffineTransformTest(int, char *[])
 
     for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
       {
-      if( abs( parameters[k] - expectedParameters[k] ) > epsilon )
+      if( fabs( parameters[k] - expectedParameters[k] ) > epsilon )
         {
         std::cout << "Test failed:" << std::endl;
         std::cout << "Results=" << parameters << std::endl;
@@ -318,7 +318,7 @@ int itkAffineTransformTest(int, char *[])
 
     for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
       {
-      if( abs( parameters[k] - expectedParameters[k] ) > epsilon )
+      if( fabs( parameters[k] - expectedParameters[k] ) > epsilon )
         {
         std::cout << "Test failed:" << std::endl;
         std::cout << "Results=" << parameters << std::endl;
@@ -349,7 +349,7 @@ int itkAffineTransformTest(int, char *[])
 
     for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
       {
-      if( abs( parameters[k] - expectedParameters[k] ) > epsilon )
+      if( fabs( parameters[k] - expectedParameters[k] ) > epsilon )
         {
         std::cout << "Test failed:" << std::endl;
         std::cout << "Results=" << parameters << std::endl;
