@@ -48,14 +48,6 @@ HistogramAlgorithmBase< TInputHistogram >
 }
 
 
-template< class TInputHistogram >
-void
-HistogramAlgorithmBase< TInputHistogram >
-::GenerateData() 
-{
-  // subclasses should override this function.
-}
-
 } // end of namespace itk
 
 #endif

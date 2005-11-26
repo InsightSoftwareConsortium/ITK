@@ -45,7 +45,6 @@ public:
 
   /**Standard Macros */
   itkTypeMacro(HistogramAlgorithmBase, Object);
-  itkNewMacro(Self) ;
   
   /** Histogram typedefs alias */
   typedef TInputHistogram InputHistogramType ;
@@ -75,7 +74,7 @@ protected:
   virtual ~HistogramAlgorithmBase() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  virtual void GenerateData() ;
+  virtual void GenerateData() = 0;
 
 private:
   /** Target histogram data pointer */
