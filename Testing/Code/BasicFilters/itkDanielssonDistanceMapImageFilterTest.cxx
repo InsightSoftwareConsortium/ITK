@@ -187,9 +187,22 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
 
 
   /* Test Squared Distance functionality */
+  myImageType2D2::IndexType index;
+  index[0] = 0;
+  index[1] = 0;
+  const double distance1 = outputDistance2D->GetPixel( index );
 
   filter2D->SetSquaredDistance( true );
   filter2D->Update();
+
+  const double distance2 = outputDistance2D->GetPixel( index );
+
+  if( fabs( distance2 - distance1 * distance1 ) > 1e-5 )
+    {
+    std::cerr << "Error in use of the SetSquaredDistance() method" << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   /* Show Squared Distance map */
   std::cout << "Squared Distance Map " << std::endl;
