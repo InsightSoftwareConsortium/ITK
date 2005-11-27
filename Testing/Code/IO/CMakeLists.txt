@@ -154,10 +154,10 @@ ADD_TEST(itkLSMImageIOTest ${IO_TESTS}
             ${ITK_TEST_OUTPUT_DIR}/cthead1.tif)
 ADD_TEST(itkBioRadImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/biorad.mhd
-            ${ITK_TEST_OUTPUT_DIR}/biorad.mhd
+            ${ITK_TEST_OUTPUT_DIR}/biorad.pic
   itkBioRadImageIOTest 
             ${ITK_DATA_ROOT}/Input/biorad.pic
-            ${ITK_TEST_OUTPUT_DIR}/biorad.mhd)
+            ${ITK_TEST_OUTPUT_DIR}/biorad.pic)
 ADD_TEST(itkBMPImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.bmp
             ${ITK_TEST_OUTPUT_DIR}/cthead1.bmp
