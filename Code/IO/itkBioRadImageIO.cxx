@@ -256,7 +256,8 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream& file)
   ByteSwapper<float>::SwapFromSystemToLittleEndian((float*)&h.mag_factor);
   itkDebugMacro(<< "Mag Factor BS : " << (int)h.mag_factor[0] << ","  
     << (int)h.mag_factor[1] << "," << (int)h.mag_factor[2] << "," << (int)h.mag_factor[3]);
-  float mag_factor = *((float*)(h.mag_factor));
+  float mag_factor;
+  memcpy (&mag_factor, h.mag_factor, 4);
   itkDebugMacro(<< "Mag Factor: " << mag_factor);
   itkDebugMacro(<< "Lens: " << h.lens);
   m_Spacing[0] = m_Spacing[1] = mag_factor/h.lens;
