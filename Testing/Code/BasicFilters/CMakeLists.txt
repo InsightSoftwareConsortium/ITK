@@ -14,6 +14,7 @@ SET(BASIC_FILTERS_TESTS ${CXX_TEST_PATH}/itkBasicFiltersTests)
 SET(BASIC_FILTERS_TESTS1 ${CXX_TEST_PATH}/itkBasicFiltersTests1)
 SET(BASIC_FILTERS_TESTS2 ${CXX_TEST_PATH}/itkBasicFiltersTests2)
 SET(BASIC_FILTERS_TESTS3 ${CXX_TEST_PATH}/itkBasicFiltersTests3)
+SET(BASIC_FILTERS_TESTS4 ${CXX_TEST_PATH}/itkBasicFiltersTests4)
 
 SET(BASIC_FILTERS_HEADER_TEST ${CXX_TEST_PATH}/itkBasicFiltersHeaderTest)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/BasicFilters)
@@ -619,6 +620,13 @@ ADD_TEST(itkVectorResampleImageFilterTest ${BASIC_FILTERS_TESTS3}
   itkVectorResampleImageFilterTest
             ${ITK_TEST_OUTPUT_DIR}/VectorResampleImageFilterTest.png)
 
+ADD_TEST(itkGrayscaleGeodesicErodeDilateImageFilterTest ${BASIC_FILTERS_TESTS4} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HMaximaMinimaImageFilterTest.png 
+               ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleGeodesicErodeDilateImageFilterTest.png 
+   itkGrayscaleGeodesicErodeDilateImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/cake_easy.png 
+               ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleGeodesicErodeDilateImageFilterTest.png 35)
+
 ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
@@ -862,6 +870,13 @@ itkTriangleMeshToBinaryImageFilterTest.cxx
 itkTriangleMeshToBinaryImageFilterTest2.cxx
 )
 
+SET(BasicFilters4_SRCS
+itkParametricSpaceToImageSpaceMeshFilterTest
+itkGrayscaleGeodesicErodeDilateImageFilterTest
+itkClosingByReconstructionImageFilterTest
+itkOpeningByReconstructionImageFilterTest
+)
+
 ADD_TEST(itkBasicFiltersHeaderTest ${BASIC_FILTERS_HEADER_TEST})
 ADD_EXECUTABLE(itkBasicFiltersHeaderTest itkBasicFiltersHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkBasicFiltersHeaderTest ITKIO ITKNumerics ITKBasicFilters)
@@ -873,6 +888,8 @@ ADD_EXECUTABLE(itkBasicFiltersTests2 itkBasicFiltersTests2.cxx ${BasicFilters2_S
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests2 ITKIO ITKNumerics ITKBasicFilters)
 ADD_EXECUTABLE(itkBasicFiltersTests3 itkBasicFiltersTests3.cxx ${BasicFilters3_SRCS})
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests3 ITKStatistics ITKIO ITKNumerics ITKBasicFilters)
+ADD_EXECUTABLE(itkBasicFiltersTests4 itkBasicFiltersTests4.cxx ${BasicFilters4_SRCS})
+TARGET_LINK_LIBRARIES(itkBasicFiltersTests4 ITKStatistics ITKIO ITKNumerics ITKBasicFilters)
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
 

@@ -27,12 +27,8 @@
 void RegisterTests()
 {
   REGISTER_TEST( itkParametricSpaceToImageSpaceMeshFilterTest );
-  REGISTER_TEST( itkGrayscaleGeodesicDilateImageFilterTest );
-  REGISTER_TEST( itkGrayscaleGeodesicErodeImageFilterTest );
-  REGISTER_TEST( itkGetAverageSliceImageFilterTest );
+  REGISTER_TEST( itkGrayscaleGeodesicErodeDilateImageFilterTest );
   REGISTER_TEST( itkClosingByReconstructionImageFilterTest );
   REGISTER_TEST( itkOpeningByReconstructionImageFilterTest );
-  REGISTER_TEST( itkWhiteTopHatImageFilterTest );
-  REGISTER_TEST( itkBlackTopHatImageFilterTest );
 }
 
