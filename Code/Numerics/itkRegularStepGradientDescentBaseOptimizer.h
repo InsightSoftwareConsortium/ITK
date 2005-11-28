@@ -50,7 +50,7 @@ public:
     GradientMagnitudeTolerance = 1,
     StepTooSmall = 2,
     ImageNotAvailable = 3,
-    SamplesNotAvailable = 4,
+    CostFunctionError = 4,
     MaximumNumberOfIterations = 5
   } StopConditionType;
 

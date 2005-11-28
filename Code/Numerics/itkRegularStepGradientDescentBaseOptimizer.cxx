@@ -99,8 +99,6 @@ RegularStepGradientDescentBaseOptimizer
   while( !m_Stop ) 
     {
 
-    ParametersType currentPosition = this->GetCurrentPosition();
-    
     m_PreviousGradient = m_Gradient;
 
     if( m_Stop )
@@ -108,7 +106,17 @@ RegularStepGradientDescentBaseOptimizer
       break;
       }
 
-    m_CostFunction->GetValueAndDerivative( currentPosition, m_Value, m_Gradient );
+    try
+      {
+      m_CostFunction->GetValueAndDerivative( 
+                               this->GetCurrentPosition(), m_Value, m_Gradient );
+      }
+    catch( ExceptionObject & excp )
+      {
+      m_StopCondition = CostFunctionError;
+      this->StopOptimization();
+      throw excp;
+      }
 
     if( m_Stop )
       {
