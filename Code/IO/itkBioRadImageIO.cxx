@@ -231,18 +231,14 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream& file)
   // Only byte swap the first 66 bytes
   ByteSwapper<unsigned short>::
     SwapRangeFromSystemToLittleEndian((unsigned short*)p, (BIORAD_HEADER_LENGTH - 10)/2);
-  itkDebugMacro(<< "Magic number: " << h.file_id);
 
   // Set dim X,Y,Z
   m_Dimensions[0] = h.nx;
-  itkDebugMacro(<< "h.nx: " << h.nx);
   m_Dimensions[1] = h.ny;
-  itkDebugMacro(<< "h.ny: " << h.ny);
   if( h.npic != 1 )
     {
     this->SetNumberOfDimensions(3);
     m_Dimensions[2] = h.npic;
-    itkDebugMacro(<< "h.npic: " << h.npic);
     }
   else
     {
@@ -251,15 +247,9 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream& file)
 
   // These are not specified by the format, but we can deduce them:
   // pixel size = scale_factor/lens/mag_factor
-  itkDebugMacro(<< "Mag Factor Raw: " << (int)h.mag_factor[0] << ","  
-    << (int)h.mag_factor[1] << "," << (int)h.mag_factor[2] << "," << (int)h.mag_factor[3]);
   ByteSwapper<float>::SwapFromSystemToLittleEndian((float*)&h.mag_factor);
-  itkDebugMacro(<< "Mag Factor BS : " << (int)h.mag_factor[0] << ","  
-    << (int)h.mag_factor[1] << "," << (int)h.mag_factor[2] << "," << (int)h.mag_factor[3]);
   float mag_factor;
   memcpy (&mag_factor, h.mag_factor, 4);
-  itkDebugMacro(<< "Mag Factor: " << mag_factor);
-  itkDebugMacro(<< "Lens: " << h.lens);
   m_Spacing[0] = m_Spacing[1] = mag_factor/h.lens;
   if (m_NumberOfDimensions == 3)
     {
@@ -267,7 +257,6 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream& file)
     }
 
   // Check the pixel size:
-  itkDebugMacro(<< "Byte Format: " << h.byte_format);
   if(h.byte_format == 1)
     {
     SetComponentType(UCHAR);
