@@ -363,7 +363,7 @@ typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::DeepCopy( void ) const
 {
-  Self * clone = Self::New();
+  Pointer clone = Self::New();
 
   // Connect the same points container into the clone
   clone->SetPoints( this->m_PointsContainer );
