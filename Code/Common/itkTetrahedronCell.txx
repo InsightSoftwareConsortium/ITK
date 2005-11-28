@@ -92,8 +92,12 @@ TetrahedronCell< TCellInterface >
                                 InterpolationWeightType* weights)
 {
   unsigned int i;
-  double rhs[PointDimension], c1[PointDimension], c2[PointDimension], c3[PointDimension];
-  double det, p4;
+  double rhs[PointDimension];
+  double c1[PointDimension]; 
+  double c2[PointDimension];
+  double c3[PointDimension];
+  double det;
+  double p4;
 
   CoordRepType pcoords[3];
   pcoords[0] = pcoords[1] = pcoords[2] = 0.0;
@@ -103,10 +107,10 @@ TetrahedronCell< TCellInterface >
     return false;
     }
 
-  PointType pt1 = points->GetElement(0);
-  PointType pt2 = points->GetElement(1);
-  PointType pt3 = points->GetElement(2);
-  PointType pt4 = points->GetElement(3);
+  PointType pt1 = points->GetElement( m_PointIds[0] );
+  PointType pt2 = points->GetElement( m_PointIds[1] );
+  PointType pt3 = points->GetElement( m_PointIds[2] );
+  PointType pt4 = points->GetElement( m_PointIds[3] );
 
   for (i=0; i<PointDimension; i++)
     {
