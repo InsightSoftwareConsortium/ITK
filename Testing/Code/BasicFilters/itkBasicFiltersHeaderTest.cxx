@@ -146,7 +146,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMaximumImageFilter.h"
 #include "itkMeanImageFilter.txx"
 #include "itkMedianImageFilter.txx"
-#include "itkMidsagittalPlaneExtractionImageFilter.txx"
 #include "itkMinimumImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.txx"
 #include "itkMinimumMaximumImageFilter.txx"
