@@ -1150,6 +1150,91 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     }
 }
 
+
+
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+void
+Mesh<TPixelType, VDimension, TMeshTraits>
+::CopyInformation(const DataObject *data)
+{
+  this->Superclass::CopyInformation( data );
+
+  const Self * mesh = NULL;
+  
+  try
+    {
+    mesh = dynamic_cast<const Self*>(data);
+    }
+  catch( ... )
+    {
+    // mesh could not be cast back down
+    itkExceptionMacro(<< "itk::Mesh::CopyInformation() cannot cast "
+                      << typeid(data).name() << " to "
+                      << typeid(Self*).name() );
+    }
+
+  if ( !mesh )
+    {
+    // pointer could not be cast back down
+    itkExceptionMacro(<< "itk::Mesh::CopyInformation() cannot cast "
+                      << typeid(data).name() << " to "
+                      << typeid(Self*).name() );
+    }
+
+
+  // Copy here specific elements of the Mesh
+}
+
+
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+void
+Mesh<TPixelType, VDimension, TMeshTraits>
+::Graft(const DataObject *data)
+{
+  this->Superclass::Graft( data );
+
+  const Self * mesh = NULL;
+  
+  try
+    {
+    mesh = dynamic_cast<const Self*>(data);
+    }
+  catch( ... )
+    {
+    // mesh could not be cast back down
+    itkExceptionMacro(<< "itk::Mesh::CopyInformation() cannot cast "
+                      << typeid(data).name() << " to "
+                      << typeid(Self*).name() );
+    }
+
+  if ( !mesh )
+    {
+    // pointer could not be cast back down
+    itkExceptionMacro(<< "itk::Mesh::CopyInformation() cannot cast "
+                      << typeid(data).name() << " to "
+                      << typeid(Self*).name() );
+    }
+
+
+  this->m_CellsContainer     = mesh->m_CellsContainer;
+  this->m_CellDataContainer  = mesh->m_CellDataContainer;
+  this->m_CellLinksContainer = mesh->m_CellLinksContainer;
+  this->m_BoundaryAssignmentsContainers = mesh->m_BoundaryAssignmentsContainers;
+
+  // Transfer the responsibility for releasing cells memory
+  this->m_CellsAllocationMethod = mesh->m_CellsAllocationMethod;
+
+
+  // Tell the original mesh that the cells were allocated statically 
+  // in order to prevent it from trying to delete the cells.
+  //
+  // Casting away constness here is ugly but necessary...
+  Self * nonConstMesh = const_cast< Self *>( mesh );
+  nonConstMesh->m_CellsAllocationMethod = CellsAllocatedAsStaticArray; 
+
+}
+
+
 } // end namespace itk
 
 #endif

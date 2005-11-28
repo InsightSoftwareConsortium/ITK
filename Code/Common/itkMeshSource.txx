@@ -116,21 +116,48 @@ void
 MeshSource<TOutputMesh>
 ::GraftOutput(OutputMeshType *graft)
 {
-  OutputMeshType * output = this->GetOutput();
+  this->GraftNthOutput(0, graft);
+}
 
-  if (output && graft)
+
+/**
+ * 
+ */
+template<class TOutputMesh>
+void
+MeshSource<TOutputMesh>
+::GraftNthOutput(unsigned int idx, TOutputMesh *graft)
+{
+  if ( idx >= this->GetNumberOfOutputs() )
     {
-    // grab a handle to the bulk data of the specified data object
-    // output->SetPixelContainer( graft->GetPixelContainer() );
-    
-    // copy the region ivars of the specified data object
-    // output->SetRequestedRegion( graft->GetRequestedRegion() );
-    // output->SetLargestPossibleRegion( graft->GetLargestPossibleRegion() );
-    // output->SetBufferedRegion( graft->GetBufferedRegion() );
+    itkExceptionMacro(<<"Requested to graft output " << idx << 
+        " but this filter only has " << this->GetNumberOfOutputs() << " Outputs.");
+    }  
 
-    // copy the meta-information
-    output->CopyInformation( graft );
+  if ( !graft )
+    {
+    itkExceptionMacro(<<"Requested to graft output that is a NULL pointer" );
     }
+
+  OutputMeshType * output = NULL;
+
+  try
+    {
+    output = dynamic_cast< OutputMeshType * >( this->GetOutput(idx) );
+    } 
+  catch( ... )
+    {
+    itkExceptionMacro(<<"Output "<< idx << " has different type from Output 0");
+    } 
+
+  if( !output )
+    {
+    itkExceptionMacro(<<"Output "<< idx << " has different type from Output 0");
+    }
+
+  // We know the output and the graft are Meshes, so call
+  // Graft on the Mesh in order to copy meta-information, and containers.
+  output->Graft( graft );
 }
 
 

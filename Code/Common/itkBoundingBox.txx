@@ -357,6 +357,40 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
   return latestTime;
 }
 
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::Pointer 
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::DeepCopy( void ) const
+{
+  Self * clone = Self::New();
+
+  // Connect the same points container into the clone
+  clone->SetPoints( this->m_PointsContainer );
+  
+  // Copy the corners into the clone.
+  clone->m_CornersContainer->clear();
+  
+  PointsContainerConstIterator itr = this->m_CornersContainer->Begin();
+  PointsContainerConstIterator end = this->m_CornersContainer->End();
+  
+  clone->m_CornersContainer->Reserve( this->m_CornersContainer->Size() );
+  PointsContainerIterator dest = clone->m_CornersContainer->Begin();
+    
+  while( itr != end )
+    {
+    dest.Value() = itr.Value();
+    ++itr;
+    }
+
+  // Copy the bounds into the clone
+  for( unsigned int i=0; i < 2*PointDimension; i++ )
+    {
+    clone->m_Bounds[i] = this->m_Bounds[i];
+    }
+
+  return clone;
+}
 
 
 } // end namespace itk

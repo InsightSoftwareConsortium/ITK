@@ -300,6 +300,10 @@ public:
   void PassStructure(Self* inputMesh);
   virtual void Initialize();
 
+  /** Methods for managing Mesh filters that have internal mini-pipelines */
+  virtual void CopyInformation(const DataObject *data);
+  virtual void Graft(const DataObject *data);
+  
   /** Access m_CellsLinksContainer, which contains parent cell links
    * for each point.  Since a point can be used by multiple cells,
    * each point identifier accesses another container which holds the

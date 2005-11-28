@@ -154,6 +154,9 @@ public:
   /** Method Compute the Modified Time based on changed to the components. */
   unsigned long GetMTime( void ) const;
 
+  /** Duplicates this bounding box */
+  Pointer DeepCopy() const; 
+  
 #if 0
   /**
    * Intersect this bounding box (bounds[PointDimension*2]) with a line

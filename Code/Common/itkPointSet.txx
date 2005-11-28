@@ -243,7 +243,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
 }
 
 /**
- * Copy the geometric and topological structure of the given input mesh.
+ * Copy the geometric and topological structure of the given input pointSet.
  * The copying is done via reference counting.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
@@ -271,7 +271,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
 }
 
 /**
- * Get the bounding box of the entire mesh.
+ * Get the bounding box of the entire pointSet.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 const typename PointSet<TPixelType, VDimension, TMeshTraits>::BoundingBoxType * 
@@ -288,7 +288,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
 
 
 /**
- * Find the closest point in the mesh to the given point
+ * Find the closest point in the pointSet to the given point
  * (coords[PointDimension]).  Returns whether a closest point was found.  If
  * a point is found, its PointIdentifier is set through the "pointId" pointer
  * (if it isn't NULL).
@@ -387,38 +387,91 @@ void
 PointSet<TPixelType, VDimension, TMeshTraits>
 ::CopyInformation(const DataObject *data)
 {
-  const PointSet *mesh;
+  const PointSet * pointSet = NULL;
   
-  mesh = dynamic_cast<const PointSet*>(data);
-
-  if (mesh)
+  try
     {
-    m_MaximumNumberOfRegions = mesh->GetMaximumNumberOfRegions();
+    pointSet = dynamic_cast<const PointSet*>(data);
     }
-  else
+  catch( ... )
     {
     // pointer could not be cast back down
     itkExceptionMacro(<< "itk::PointSet::CopyInformation() cannot cast "
                       << typeid(data).name() << " to "
                       << typeid(PointSet*).name() );
     }
+
+  if ( !pointSet )
+    {
+    // pointer could not be cast back down
+    itkExceptionMacro(<< "itk::PointSet::CopyInformation() cannot cast "
+                      << typeid(data).name() << " to "
+                      << typeid(PointSet*).name() );
+    }
+
+  m_MaximumNumberOfRegions = pointSet->GetMaximumNumberOfRegions();
+
+  // Copy the bounding box by value in order to avoid dependencies between the
+  // source and destination.
+  m_BoundingBox           = pointSet->GetBoundingBox()->DeepCopy();
+
+  m_NumberOfRegions = pointSet->m_NumberOfRegions;
+  m_RequestedNumberOfRegions = pointSet->m_RequestedNumberOfRegions;
+  m_BufferedRegion  = pointSet->m_BufferedRegion;
+  m_RequestedRegion = pointSet->m_RequestedRegion;
 }
 
 //----------------------------------------------------------------------------
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void 
 PointSet<TPixelType, VDimension, TMeshTraits>
+::Graft(const DataObject *data)
+{
+  // Copy Meta Data
+  this->CopyInformation( data );
+ 
+  const Self * pointSet = NULL;
+  
+  try
+    {
+    pointSet = dynamic_cast<const Self*>(data);
+    }
+  catch( ... )
+    {
+    // pointer could not be cast back down
+    itkExceptionMacro(<< "itk::PointSet::CopyInformation() cannot cast "
+                      << typeid(data).name() << " to "
+                      << typeid(Self*).name() );
+    }
+
+  if ( !pointSet )
+    {
+    // pointer could not be cast back down
+    itkExceptionMacro(<< "itk::PointSet::CopyInformation() cannot cast "
+                      << typeid(data).name() << " to "
+                      << typeid(Self*).name() );
+    }
+
+
+  this->SetPoints( pointSet->m_PointsContainer );
+  this->SetPointData( pointSet->m_PointDataContainer );
+}
+ 
+//----------------------------------------------------------------------------
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+void 
+PointSet<TPixelType, VDimension, TMeshTraits>
 ::SetRequestedRegion(DataObject *data)
 {
-  PointSet *mesh;
+  Self *pointSet;
   
-  mesh = dynamic_cast<PointSet*>(data);
+  pointSet = dynamic_cast<Self*>(data);
 
-  if (mesh)
+  if ( pointSet )
     {
     // only copy the RequestedRegion if the parameter is another PointSet
-    m_RequestedRegion = mesh->m_RequestedRegion;
-    m_RequestedNumberOfRegions = mesh->m_RequestedNumberOfRegions;
+    m_RequestedRegion = pointSet->m_RequestedRegion;
+    m_RequestedNumberOfRegions = pointSet->m_RequestedNumberOfRegions;
     }
 }
 

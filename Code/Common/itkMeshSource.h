@@ -104,6 +104,7 @@ public:
    * filter's pipeline mechanism must be consistent with what the
    * mini-pipeline will do). */
   virtual void GraftOutput(OutputMeshType *output);
+  virtual void GraftNthOutput(unsigned int idx, OutputMeshType *output);
 
   /** Make a DataObject of the correct type to used as the specified
    * output.  Every ProcessObject subclass must be able to create a

@@ -36,7 +36,7 @@ int itkBoundingBoxTest (int, char*[])
   std::cout << "Testing Bounding Box" <<std::endl;
   {
   const BB::BoundsArrayType & bounds = myBox->GetBounds();
-  for(unsigned int i=0; i< 1 * 2; i++)
+  for(unsigned int i=0; i< bounds.Size(); i++)
     {
     if( bounds[i] != itk::NumericTraits< BB::CoordRepType >::Zero )
       {
@@ -191,6 +191,30 @@ int itkBoundingBoxTest (int, char*[])
     ++it;
     }
   std::cout << "[PASSED]" << std::endl;
+
+
+
+  // Testing the DeepCopy method 
+  {
+  const double tolerance = 1e-10;
+  CC::Pointer clone = my3DBox->DeepCopy();
+  const CC::BoundsArrayType & originalBounds = my3DBox->GetBounds();
+  const CC::BoundsArrayType & clonedbounds   = clone->GetBounds();
+  for(unsigned int i=0; i< originalBounds.Size(); i++)
+    {
+    if( fabs( originalBounds[i] - clonedbounds[i] ) > tolerance )
+      {
+      std::cerr << "Clonning test failed" << std::endl;
+      std::cerr << originalBounds << std::endl;
+      std::cerr << clonedbounds   << std::endl;
+      return EXIT_FAILURE;
+      }   
+    }
+  }
+
+
+
+
 
   std::cout << "BoundingBox test PASSED ! " << std::endl;
   return EXIT_SUCCESS;

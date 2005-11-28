@@ -110,17 +110,35 @@ void
 ImageSource<TOutputImage>
 ::GraftNthOutput(unsigned int idx, TOutputImage *graft)
 {
-  if (idx < this->GetNumberOfOutputs())
+  if ( idx >= this->GetNumberOfOutputs() )
     {
-    typename ImageSource<TOutputImage>::OutputImageType * output = this->GetOutput(idx);
+    itkExceptionMacro(<<"Requested to graft output " << idx << 
+        " but this filter only has " << this->GetNumberOfOutputs() << " Outputs.");
+    }  
 
-    if (output && graft)
-      {
-      // We know the output and the graft are images, so call
-      // GraftImage to copy meta-information, regions, and the pixel container
-      output->Graft( graft );
-      }
+  if ( !graft )
+    {
+    itkExceptionMacro(<<"Requested to graft output that is a NULL pointer" );
     }
+
+  OutputImageType * output = NULL;
+  try
+    {
+    output = dynamic_cast< OutputImageType * >( this->GetOutput(idx) );
+    } 
+  catch( ... )
+    {
+    itkExceptionMacro(<<"Output "<< idx << " has different type from Output 0");
+    } 
+
+  if( !output )
+    {
+    itkExceptionMacro(<<"Output "<< idx << " has different type from Output 0");
+    }
+
+  // We know the output and the graft are images, so call
+  // GraftImage to copy meta-information, regions, and the pixel container
+  output->Graft( graft );
 }
 
 //----------------------------------------------------------------------------

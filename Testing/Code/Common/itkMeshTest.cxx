@@ -638,6 +638,26 @@ int itkMeshTest(int, char* [] )
 
   std::cout << mesh << std::endl;
 
-  return 0;  
+
+  // Exercising the Graft method
+  MeshType::Pointer newMesh = MeshType::New();
+  newMesh->Graft( mesh );
+
+  if( newMesh->GetNumberOfPoints() != mesh->GetNumberOfPoints() )
+    {
+    std::cerr << "Graft failed !, different number of points" << std::endl;
+    return EXIT_FAILURE;  
+    }
+
+  if( newMesh->GetNumberOfCells() != mesh->GetNumberOfCells() )
+    {
+    std::cerr << "Graft failed !, different number of cells" << std::endl;
+    return EXIT_FAILURE;  
+    }
+
+
+  std::cout << newMesh << std::endl;
+
+  return EXIT_SUCCESS;  
 }
 

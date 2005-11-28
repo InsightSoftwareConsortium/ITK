@@ -142,12 +142,11 @@ public:
           PointDataContainer::ConstIterator     PointDataContainerIterator;
     
   /** Type used to define Regions */
-  typedef int                                   RegionType;
+  typedef unsigned long                         RegionType;
 
   /** Get the maximum number of regions that this data can be
    * separated into. */
-  int GetMaximumNumberOfRegions() const
-    {return m_MaximumNumberOfRegions;}
+  itkGetConstMacro( MaximumNumberOfRegions, RegionType );
       
 protected:
   /** An object containing points used by the mesh.  Individual points are
@@ -207,6 +206,7 @@ public:
   virtual void UpdateOutputInformation();
   virtual void SetRequestedRegionToLargestPossibleRegion();
   virtual void CopyInformation(const DataObject *data);
+  virtual void Graft(const DataObject *data);
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
   virtual bool VerifyRequestedRegion();
   
@@ -241,9 +241,9 @@ protected:
   // RequestedRegion are used to define the currently requested
   // region. The LargestPossibleRegion is always requested region = 0
   // and number of regions = 1;
-  int m_MaximumNumberOfRegions;
-  int m_NumberOfRegions;
-  int m_RequestedNumberOfRegions;
+  RegionType m_MaximumNumberOfRegions;
+  RegionType m_NumberOfRegions;
+  RegionType m_RequestedNumberOfRegions;
   RegionType m_BufferedRegion;
   RegionType m_RequestedRegion;
 
