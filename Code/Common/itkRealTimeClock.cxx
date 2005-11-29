@@ -106,7 +106,7 @@ RealTimeClock::~RealTimeClock()
 
 /** Returns a timestamp in seconds */
 RealTimeClock::TimeStampType
-RealTimeClock::GetTimestamp() const
+RealTimeClock::GetTimeStamp() const
 {
 #if defined(WIN32) || defined(_WIN32)
 

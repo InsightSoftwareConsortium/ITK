@@ -63,7 +63,7 @@ std::string LoggerBase::BuildFormattedEntry(PriorityLevelType level, std::string
         "(WARNING) ", "(INFO) ", "(DEBUG) ", "(NOTSET) " };
     OStringStream s;
     s.precision(30);
-    s << m_Clock->GetTimestamp() << "  :  " << this->GetName() <<  "  " <<  m_LevelString[level] << content;
+    s << m_Clock->GetTimeStamp() << "  :  " << this->GetName() <<  "  " <<  m_LevelString[level] << content;
     return s.str();
 }
 

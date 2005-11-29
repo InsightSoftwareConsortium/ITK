@@ -44,7 +44,7 @@ TimeProbe
 ::Start(void)
 {
   m_NumberOfStarts++;
-  m_Start = m_RealTimeClock->GetTimestamp();
+  m_Start = m_RealTimeClock->GetTimeStamp();
 }
  
 
@@ -53,7 +53,7 @@ void
 TimeProbe
 ::Stop(void)
 {
-  m_TotalTime += m_RealTimeClock->GetTimestamp() - m_Start;
+  m_TotalTime += m_RealTimeClock->GetTimeStamp() - m_Start;
   m_NumberOfStops++;
 }
 
