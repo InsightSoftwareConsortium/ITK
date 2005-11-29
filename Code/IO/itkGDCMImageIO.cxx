@@ -445,6 +445,31 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
       }
     }
 
+  // If the intercept is negative, unsigned integral values need to be
+  // changed to signed integral values. Otherwise, the rescale intercept
+  // code will overflow.
+
+  if (m_RescaleIntercept < 0)
+    {
+    switch (m_ComponentType)
+      {
+      case ImageIOBase::UCHAR:
+        m_ComponentType = ImageIOBase::CHAR;
+        break;
+      case ImageIOBase::UINT:
+        m_ComponentType = ImageIOBase::INT;
+        break;
+      case ImageIOBase::USHORT:
+        m_ComponentType = ImageIOBase::SHORT;
+        break;
+      case ImageIOBase::ULONG:
+        m_ComponentType = ImageIOBase::LONG;
+        break;
+      default:
+        break;
+      }
+    }
+
   //Now copying the gdcm dictionary to the itk dictionary:
   MetaDataDictionary & dico = this->GetMetaDataDictionary();
 
