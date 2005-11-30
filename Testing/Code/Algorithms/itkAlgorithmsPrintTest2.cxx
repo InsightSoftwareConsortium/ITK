@@ -38,7 +38,6 @@
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkRGBGibbsPriorFilter.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
-#include "itkRegionGrowImageFilter.h"
 #include "itkReinitializeLevelSetImageFilter.h"
 
 #include "itkDistanceToCentroidMembershipFunction.h"
@@ -124,9 +123,6 @@ int main(int , char* [])
     itk::RecursiveMultiResolutionPyramidImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------RecursiveMultiResolutionPyramidImageFilter " << RecursiveMultiResolutionPyramidImageFilterObj;
 
-  itk::RegionGrowImageFilter<InputType,OutputType>::Pointer RegionGrowImageFilterObj =
-    itk::RegionGrowImageFilter<InputType,OutputType>::New();
-  std:: cout << "-------------RegionGrowImageFilter " << RegionGrowImageFilterObj;
   itk::ReinitializeLevelSetImageFilter<InputType>::Pointer ReinitializeLevelSetImageFilterObj =
     itk::ReinitializeLevelSetImageFilter<InputType>::New();
   std:: cout << "-------------ReinitializeLevelSetImageFilter " << ReinitializeLevelSetImageFilterObj;

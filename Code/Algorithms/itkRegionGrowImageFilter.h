@@ -82,15 +82,12 @@ class ITK_EXPORT RegionGrowImageFilter :
 public:
   /** Standard class typedefs. */
   typedef RegionGrowImageFilter   Self;
-  typedef Object Superclass;
+  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RegionGrowImageFilter,Object);
+  itkTypeMacro(RegionGrowImageFilter,ImageToImageFilter);
 
   /** Type definition for the input image. */
   typedef TInputImage                           InputImageType;
@@ -119,10 +116,10 @@ public:
   itkGetConstReferenceMacro(MaximumNumberOfRegions, unsigned int);
 
   /** Define a virtual RegionGrowImageFilter function. */
-  virtual void ApplyRegionGrowImageFilter(){};
+  virtual void ApplyRegionGrowImageFilter() = 0;
 
   /** Merge two regions. */
-  virtual void MergeRegions(){};
+  virtual void MergeRegions() = 0;
 
 protected:
   RegionGrowImageFilter();
