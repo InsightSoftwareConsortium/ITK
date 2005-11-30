@@ -36,7 +36,15 @@ PolygonCell< TCellInterface >
   Self * newPolygonCell = new Self;
   cellPointer.TakeOwnership( newPolygonCell );
   const unsigned long numberOfPoints = this->GetNumberOfPoints();
-  newPolygonCell->SetPointIds(0, numberOfPoints, this->GetPointIds());
+  if ( numberOfPoints ) 
+    {
+    newPolygonCell->SetPointIds(0, numberOfPoints, this->GetPointIds());
+    }
+  else
+    {
+    newPolygonCell->ClearPoints(); 
+    // Make sure the new cell has no points or edges
+    }
 }
 
 
