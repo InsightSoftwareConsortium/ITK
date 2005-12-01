@@ -4,6 +4,12 @@ INCLUDE_REGULAR_EXPRESSION("^.*$")
 ADD_EXECUTABLE(BayesianPluginClassifier BayesianPluginClassifier.cxx )
 TARGET_LINK_LIBRARIES(BayesianPluginClassifier ITKCommon ITKStatistics)
 
+ADD_EXECUTABLE( BayesianClassifierInitializer BayesianClassifierInitializer.cxx )
+TARGET_LINK_LIBRARIES(BayesianClassifierInitializer ITKCommon ITKStatistics ITKIO)
+
+ADD_EXECUTABLE( BayesianClassifier BayesianClassifier.cxx )
+TARGET_LINK_LIBRARIES(BayesianClassifier ITKCommon ITKStatistics ITKIO)
+
 ADD_EXECUTABLE(EuclideanDistance EuclideanDistance.cxx )
 TARGET_LINK_LIBRARIES(EuclideanDistance ITKCommon)
 
@@ -106,6 +112,7 @@ IF( NOT ITK_DISABLE_CXX_TESTING )
 SET(STATISTICS_EXAMPLES_WITH_TESTS ${CXX_TEST_PATH}/StatisticsExamplesTests)
 SET(STATISTICS_EXAMPLES_WITH_TESTS2 ${CXX_TEST_PATH}/StatisticsExamplesTests2)
 SET(STATISTICS_EXAMPLES_WITH_TESTS3 ${CXX_TEST_PATH}/StatisticsExamplesTests3)
+SET(STATISTICS_EXAMPLES_WITH_TESTS4 ${CXX_TEST_PATH}/StatisticsExamplesTests4)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Statistics)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
@@ -130,6 +137,25 @@ ADD_TEST( ScalarImageMarkovRandomField1Test ${STATISTICS_EXAMPLES_WITH_TESTS3}
 
 ADD_TEST( BayesianPluginClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS} 
           BayesianPluginClassifierTest)
+        
+ADD_TEST( BayesianClassifierInitializerTest ${STATISTICS_EXAMPLES_WITH_TESTS4}
+  --compare ${BASELINE}/BayesianClassifierInitializerClass2Output.png 
+            ${TEMP}/BayesianClassifierInitializerClass2Output.png
+  BayesianClassifierInitializerTest
+            ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+            ${TEMP}/BayesianClassifierInitializerMemberships.mhd
+            4 2 ${TEMP}/BayesianClassifierInitializerClass2Output.png
+)
+
+# This test uses inputs from BayesianClassifierInitializer. If that fails,
+# so will this.
+ADD_TEST( BayesianClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS4}
+  --compare ${BASELINE}/BayesianClassifierLabelMap.png 
+            ${TEMP}/BayesianClassifierLabelMap.png
+  BayesianClassifierTest
+            ${TEMP}/BayesianClassifierInitializerMemberships.mhd
+            ${TEMP}/BayesianClassifierLabelMap.png 2
+)
 
 ADD_TEST( EuclideanDistanceTest ${STATISTICS_EXAMPLES_WITH_TESTS}
           EuclideanDistanceTest)
@@ -154,5 +180,8 @@ TARGET_LINK_LIBRARIES( StatisticsExamplesTests2 ITKIO ITKCommon ITKStatistics)
 
 ADD_EXECUTABLE( StatisticsExamplesTests3 StatisticsExamplesTests3.cxx)
 TARGET_LINK_LIBRARIES( StatisticsExamplesTests3 ITKIO ITKCommon ITKStatistics)
+
+ADD_EXECUTABLE( StatisticsExamplesTests4 StatisticsExamplesTests4.cxx)
+TARGET_LINK_LIBRARIES( StatisticsExamplesTests4 ITKIO ITKCommon ITKStatistics)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
