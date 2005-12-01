@@ -139,7 +139,7 @@ void MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
             
 
   // Create a Filter                                
-  FilterType::Pointer filter = FilterType::New();
+  typename FilterType::Pointer filter = FilterType::New();
 
   // Connect the inputs
   filter->SetInput( inputMesh ); 
