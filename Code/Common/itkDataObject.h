@@ -440,11 +440,11 @@ public:
    * provide an alternative implementation. */
   virtual void SetRequestedRegion(DataObject *) {};
   
-  /** Method for grafting the content of one data object into another one. This
-   * method is intended to be overloaded by derived classes. Each one of then
-   * should use dynamic_casting in order toverify that the grafet object is
-   * actually of the same type as the calss on which the Graft() method is
-   * invoked. */
+  /** Method for grafting the content of one data object into another one.
+   * This method is intended to be overloaded by derived classes. Each one of
+   * them should use dynamic_casting in order to verify that the grafted 
+   * object is actually of the same type as the class on which the Graft()
+   * method was invoked. */
   virtual void Graft( const DataObject * object ) {};
   
 protected:
