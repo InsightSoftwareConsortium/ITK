@@ -68,7 +68,7 @@ int itkGradientDifferenceImageToImageMetricTest(int , char*[] )
   fixedImageSource->SetOrigin(fixedImageOrigin);
   fixedImageSource->SetSpacing(fixedImageSpacing);
   fixedImageSource->SetNormalized(false);
-  fixedImageSource->SetScale(150.0f);
+  fixedImageSource->SetScale(200.0f);
     
   movingImageSource->Update(); // Force the filter to run
   fixedImageSource->Update();  // Force the filter to run
@@ -127,10 +127,10 @@ int itkGradientDifferenceImageToImageMetricTest(int , char*[] )
     // Do some work
     DerivativeType derivatives( numberOfParameters );
     MetricType::MeasureType value;
-    for (double y = -50.0; y <= 50.0; y += 25.0)
+    for (double y = -10.0; y <= 10.0; y += 5.0)
       {
       parameters[1] = y;
-      for (double x = -50.0; x <= 50.0; x += 25.0)
+      for (double x = -10.0; x <= 10.0; x += 5.0)
         {
         parameters[0] = x;
         metric->GetValueAndDerivative (parameters, value, derivatives);
