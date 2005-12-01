@@ -109,7 +109,12 @@ void
 TranslationTransform<TScalarType, NDimensions>::
 Translate(const OutputVectorType &offset, bool )
 {
-  this->SetParameters (this->m_Offset + offset);
+  ParametersType newOffset;
+  for( unsigned int i=0; i<SpaceDimension; i++ )
+    {
+    newOffset[i] = this->m_Offset[i] + offset[i];
+    }
+  this->SetParameters (newOffset);
   return;
 }
 
