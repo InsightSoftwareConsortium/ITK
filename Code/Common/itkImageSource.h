@@ -148,7 +148,7 @@ public:
    * filter's pipeline mechanism must be consistent with what the
    * mini-pipeline will do).
    *  */
-  virtual void GraftOutput(OutputImageType *output);
+  virtual void GraftOutput(DataObject *output);
 
   /** Graft the specified data object onto this ProcessObject's idx'th
    * output. This is the similar to GraftOutput method except is
@@ -156,7 +156,7 @@ public:
    * must be a valid output number (less than
    * ProcessObject::GetNumberOfOutputs()). See the GraftOutput for
    * general usage information. */
-  virtual void GraftNthOutput(unsigned int idx, OutputImageType *output);
+  virtual void GraftNthOutput(unsigned int idx, DataObject *output);
 
   /** Make a DataObject of the correct type to used as the specified
    * output.  Every ProcessObject subclass must be able to create a

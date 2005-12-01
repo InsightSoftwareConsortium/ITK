@@ -262,6 +262,34 @@ ImageBase<VImageDimension>
 
 
 
+//----------------------------------------------------------------------------
+template<unsigned int VImageDimension>
+void 
+ImageBase<VImageDimension>
+::Graft(const DataObject *data)
+{
+  typedef ImageBase<VImageDimension>  ImageBaseType;
+
+  const ImageBaseType * image  = NULL;
+  
+  try
+    {
+    image = dynamic_cast< const ImageBaseType * >( data );
+    }
+  catch( ... )
+    {
+    return;
+    }
+
+  if( !image )
+    {
+    return;
+    }
+
+  this->Graft( image );
+}
+
+
 
 //----------------------------------------------------------------------------
 template<unsigned int VImageDimension>

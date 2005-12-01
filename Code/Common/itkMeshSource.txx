@@ -114,7 +114,7 @@ MeshSource<TOutputMesh>
 template<class TOutputMesh>
 void
 MeshSource<TOutputMesh>
-::GraftOutput(OutputMeshType *graft)
+::GraftOutput(DataObject *graft)
 {
   this->GraftNthOutput(0, graft);
 }
@@ -126,7 +126,7 @@ MeshSource<TOutputMesh>
 template<class TOutputMesh>
 void
 MeshSource<TOutputMesh>
-::GraftNthOutput(unsigned int idx, TOutputMesh *graft)
+::GraftNthOutput(unsigned int idx, DataObject *graft)
 {
   if ( idx >= this->GetNumberOfOutputs() )
     {
@@ -139,24 +139,9 @@ MeshSource<TOutputMesh>
     itkExceptionMacro(<<"Requested to graft output that is a NULL pointer" );
     }
 
-  OutputMeshType * output = NULL;
+  DataObject * output = this->GetOutput( idx );
 
-  try
-    {
-    output = dynamic_cast< OutputMeshType * >( this->GetOutput(idx) );
-    } 
-  catch( ... )
-    {
-    itkExceptionMacro(<<"Output "<< idx << " has different type from Output 0");
-    } 
-
-  if( !output )
-    {
-    itkExceptionMacro(<<"Output "<< idx << " has different type from Output 0");
-    }
-
-  // We know the output and the graft are Meshes, so call
-  // Graft on the Mesh in order to copy meta-information, and containers.
+  // Call Graft on the Mesh in order to copy meta-information, and containers.
   output->Graft( graft );
 }
 

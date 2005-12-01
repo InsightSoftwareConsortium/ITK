@@ -331,6 +331,7 @@ public:
    * Subclasses of ImageBase are responsible for copying the pixel
    * container. */
   virtual void Graft(const ImageBase<VImageDimension> *data);
+  virtual void Graft(const DataObject *data);
 
   /** Update the information for this DataObject so that it can be used
    * as an output of a ProcessObject.  This method is used the pipeline
