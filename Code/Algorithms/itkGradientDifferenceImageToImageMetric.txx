@@ -260,7 +260,6 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
     if (nPixels > 0) mean[iDimension] /= nPixels;
 
-    std::cout << "mean[" << iDimension << "]: " << mean[iDimension] << std::endl;
     // Calculate the variance
 
     iterate.GoToBegin();
@@ -279,7 +278,6 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
       }
 
     m_Variance[iDimension] /= nPixels;
-    std::cout << "variance[" << iDimension << "]: " << m_Variance[iDimension] << std::endl;
     }
 }
 
