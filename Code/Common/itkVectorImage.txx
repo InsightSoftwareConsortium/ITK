@@ -105,7 +105,7 @@ VectorImage<TPixel, VImageDimension>
 template<class TPixel, unsigned int VImageDimension>
 void 
 VectorImage<TPixel, VImageDimension>
-::Graft(const ImageBase<VImageDimension> *data)
+::Graft(const DataObject *data)
 {
   // call the superclass' implementation
   Superclass::Graft( data );
@@ -113,17 +113,23 @@ VectorImage<TPixel, VImageDimension>
   if ( data )
     {
     // Attempt to cast data to an Image
-    const VectorImage<TPixel, VImageDimension> *imgData;
+    const Self *imgData;
 
-    imgData = dynamic_cast<const VectorImage<TPixel, VImageDimension>*>(data);
+    try
+      {
+      imgData = dynamic_cast< const Self *>( data );
+      }
+    catch( ... )
+      {
+      return;
+      }
 
     // Copy from VectorImage< TPixel, dim >
-    if (imgData)
+    if ( imgData )
       {
       // Now copy anything remaining that is needed
-      this->SetPixelContainer(
-        const_cast<typename VectorImage<TPixel, VImageDimension>::PixelContainer *>
-        (imgData->GetPixelContainer()) );
+      this->SetPixelContainer( const_cast< PixelContainer *>
+                                    (imgData->GetPixelContainer()) );
       }
     else 
       {

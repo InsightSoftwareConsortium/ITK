@@ -91,7 +91,7 @@ ImageAdaptor<TImage , TAccessor>
 template<class TImage, class TAccessor>
 void 
 ImageAdaptor<TImage, TAccessor>
-::Graft(const Superclass *data)
+::Graft(const DataObject *data)
 {
   // call the superclass' implementation
   Superclass::Graft( data );
@@ -101,9 +101,17 @@ ImageAdaptor<TImage, TAccessor>
     // Attempt to cast data to an ImageAdaptor
     const Self *imgData;
 
-    imgData = dynamic_cast<const Self *>(data);
+    try
+      {
+      imgData = dynamic_cast<const Self *>(data);
+      }
+    catch( ... )
+      {
+      return;
+      }
 
-    if (imgData)
+
+    if( imgData )
       {
       // Now copy anything remaining that is needed
       this->SetPixelContainer(
