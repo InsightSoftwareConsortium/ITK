@@ -29,12 +29,6 @@ ADD_TEST(itkAnisotropicFourthOrderLevelSetImageFilterTest ${ALGORITHMS_TESTS} it
 ADD_TEST(itkAntiAliasBinaryImageFilterTest ${ALGORITHMS_TESTS} itkAntiAliasBinaryImageFilterTest)
 ADD_TEST(itkAutomaticTopologyMeshSourceTest ${ALGORITHMS_TESTS} itkAutomaticTopologyMeshSourceTest)
 ADD_TEST(itkBinaryMinMaxCurvatureFlowImageFilterTest ${ALGORITHMS_TESTS} itkBinaryMinMaxCurvatureFlowImageFilterTest )
-
-ADD_TEST(itkBayesianClassifierImageFilterTest ${ALGORITHMS_TESTS4} itkBayesianClassifierImageFilterTest 
-    ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
-    ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestOutput.png 
-    4 )
-
 ADD_TEST(itkBinaryMask3DMeshSourceTest ${ALGORITHMS_TESTS} itkBinaryMask3DMeshSourceTest )
 ADD_TEST(itkBioCellTest ${ALGORITHMS_TESTS} itkBioCellTest )
 ADD_TEST(itkBioCellularAggregateTest ${ALGORITHMS_TESTS} itkBioCellularAggregateTest )
@@ -305,7 +299,6 @@ IF(USE_FFTWD)
   SET(CURVATUREREGISTRATION_SRCS itkCurvatureRegistrationFilterTest.cxx)
 ENDIF(USE_FFTWD)
 SET(AlgorithmsTest4_SRCS
-itkBayesianClassifierImageFilterTest.cxx
 itkFastMarchingUpwindGradientTest.cxx
 itkCollidingFrontsImageFilterTest.cxx
 itkCurvesLevelSetImageFilterZeroSigmaTest.cxx
