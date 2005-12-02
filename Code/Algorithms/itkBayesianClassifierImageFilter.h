@@ -94,17 +94,18 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( BayesianClassifierImageFilter, ImageToImageFilter );
 
+ /** Dimension of the input image */
+  itkStaticConstMacro( Dimension, unsigned int, 
+                       ::itk::GetImageDimension< InputImageType >::ImageDimension );
+
   /** Input and Output image types */
   typedef typename Superclass::InputImageType        InputImageType;
-  typedef typename Superclass::OutputImageType       OutputImageType;
+  typedef Image< TLabelsType, 
+          itkGetStaticConstMacro(Dimension) >        OutputImageType;
   typedef typename InputImageType::ConstPointer      InputImagePointer;
   typedef typename OutputImageType::Pointer          OutputImagePointer;
   typedef typename InputImageType::RegionType        ImageRegionType;
   
-  /** Dimension of the input image */
-  itkStaticConstMacro( Dimension, unsigned int, 
-                       ::itk::GetImageDimension< InputImageType >::ImageDimension );
-
   /** Input and Output image iterators */
   typedef ImageRegionConstIterator< InputImageType > InputImageIteratorType;
   typedef ImageRegionIterator< OutputImageType >     OutputImageIteratorType;
