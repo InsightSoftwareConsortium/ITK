@@ -27,14 +27,14 @@
 
 int itkClosingByReconstructionImageFilterTest(int argc, char* argv [] ) 
 {
- if ( argc < 3 )
+ if ( argc < 4 )
   {
     std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << argv[0] << " Inputimage OutputImage" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " Inputimage OutputImage Radius" << std::endl;
     return EXIT_FAILURE;
   } 
   
-  const int Dimension = 3;
+  const int Dimension = 2;
   typedef unsigned char PixelType;
   typedef itk::Image< PixelType, Dimension >   InputImageType;
   typedef itk::Image< PixelType, Dimension >   OutputImageType;
@@ -64,14 +64,12 @@ int itkClosingByReconstructionImageFilterTest(int argc, char* argv [] )
   MorphologicalFilterType::Pointer   filter = MorphologicalFilterType::New();
  
   StructuringElementType   structuringElement;
-  structuringElement.SetRadius(2);
+  structuringElement.SetRadius(atoi(argv[3]));
   filter->SetKernel( structuringElement );
-
 
   // Connect the pipelines
   filter->SetInput ( reader-> GetOutput() );
   writer->SetInput ( filter-> GetOutput() );
-
 
   // Execute print
   filter->Print( std::cout );

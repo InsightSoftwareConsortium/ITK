@@ -627,6 +627,13 @@ ADD_TEST(itkGrayscaleGeodesicErodeDilateImageFilterTest ${BASIC_FILTERS_TESTS4}
                ${ITK_DATA_ROOT}/Input/cake_easy.png 
                ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleGeodesicErodeDilateImageFilterTest.png 35)
 
+ADD_TEST(itkClosingByReconstructionImageFilterTest ${BASIC_FILTERS_TESTS4} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ClosingByReconstructionImageFilterTest.png 
+               ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTest.png 
+   itkClosingByReconstructionImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/closerec1.jpg
+               ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTest.png 4)
+
 ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
