@@ -259,7 +259,7 @@ ImageBase<VImageDimension>
 {
   typedef ImageBase<VImageDimension>  ImageBaseType;
 
-  const ImageBaseType * image  = NULL;
+  const ImageBaseType * image;
   
   try
     {

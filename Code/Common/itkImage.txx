@@ -108,7 +108,7 @@ Image<TPixel, VImageDimension>
   if ( data )
     {
     // Attempt to cast data to an Image
-    const Self * imgData = NULL;
+    const Self * imgData;
 
     try
       {
