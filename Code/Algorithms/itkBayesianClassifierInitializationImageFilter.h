@@ -81,7 +81,8 @@ public:
   itkStaticConstMacro( Dimension, unsigned int, 
                      ::itk::GetImageDimension< InputImageType >::ImageDimension );
 
-  typedef VectorImage< ProbabilityPrecisionType, Dimension > OutputImageType;
+  typedef VectorImage< ProbabilityPrecisionType, 
+          itkGetStaticConstMacro(Dimension) >      OutputImageType;
   typedef ImageToImageFilter< InputImageType, OutputImageType >  Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -102,8 +103,8 @@ public:
   /** Image Type and Pixel type for the images representing the membership of a
    *  pixel to a particular class. This image has arrays as pixels, the number of 
    *  elements in the array is the same as the number of classes to be used.    */
-  typedef VectorImage< ProbabilityPrecisionType, Dimension >  
-                                                          MembershipImageType;
+  typedef VectorImage< ProbabilityPrecisionType, 
+          itkGetStaticConstMacro(Dimension) >             MembershipImageType;
   typedef typename MembershipImageType::PixelType         MembershipPixelType;
   typedef typename MembershipImageType::Pointer           MembershipImagePointer;
   typedef ImageRegionIterator< MembershipImageType >      MembershipImageIteratorType;

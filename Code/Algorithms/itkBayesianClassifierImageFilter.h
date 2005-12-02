@@ -118,7 +118,7 @@ public:
    * arrays as pixels, the number of elements in the array is the same as the
    * number of classes to be used.  */
   typedef VectorImage< TPriorsPrecisionType, 
-                             Dimension >                  PriorsImageType;
+     itkGetStaticConstMacro(Dimension) >                  PriorsImageType;
   typedef typename PriorsImageType::PixelType             PriorsPixelType;
   typedef typename PriorsImageType::Pointer               PriorsImagePointer;
   typedef ImageRegionConstIterator< PriorsImageType >     PriorsImageIteratorType;
@@ -136,7 +136,7 @@ public:
    * arrays as pixels, the number of elements in the array is the same as the
    * number of classes to be used.  */
   typedef VectorImage< TPosteriorsPrecisionType, 
-                             Dimension >                  PosteriorsImageType;
+     itkGetStaticConstMacro(Dimension) >                  PosteriorsImageType;
   typedef typename PosteriorsImageType::PixelType         PosteriorsPixelType;
   typedef typename PosteriorsImageType::Pointer           PosteriorsImagePointer;
   typedef ImageRegionIterator< PosteriorsImageType >      PosteriorsImageIteratorType;
@@ -146,8 +146,8 @@ public:
   typedef DecisionRuleType::Pointer                       DecisionRulePointer;
 
   /** An image from a single component of the Posterior */
-  typedef itk::Image< TPosteriorsPrecisionType, Dimension > 
-                                                          ExtractedComponentImageType;
+  typedef itk::Image< TPosteriorsPrecisionType, 
+       itkGetStaticConstMacro(Dimension) >                ExtractedComponentImageType;
   
   /** Optional Smoothing filter that will be applied to the Posteriors */
   typedef ImageToImageFilter< 
