@@ -24,13 +24,18 @@ namespace itk
 {
   
 /** \class PolylineMask2DImageFilter
- * \brief Implements image masking operation constrained by a polyline.  The operation is applied
- * on on each 2D image.
+ * \brief Implements 2D image masking operation constrained by a contour.
  *
- * This class is parameterized over the types of the input image, polyline,
- * and output image.  
+ * This class is parameterized over input image type, contour defined by a polyline,
+ * and output image type. If the input image is three dimensional, the masking operation is 
+ * performed on each slice (2D image). The output image will have two regions demarcated
+ * by the contour i.e inside(masked) and outside region.  The pixels in the
+ * masked region will keep their original intensity values. Whereas, intensity 
+ * value of pixels outside the masked region will be set to zero.
+ * 
  * 
  * \ingroup ImageToImageFilter
+ * \sa  PolylineMaskImageFilter
  */
   template <class TInputImage, class TPolyline,
           class TOutputImage>
