@@ -65,6 +65,8 @@ int itkClosingByReconstructionImageFilterTest(int argc, char* argv [] )
  
   StructuringElementType   structuringElement;
   structuringElement.SetRadius(atoi(argv[3]));
+  structuringElement.CreateStructuringElement();
+
   filter->SetKernel( structuringElement );
 
   // Connect the pipelines

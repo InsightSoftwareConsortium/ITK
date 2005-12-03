@@ -66,6 +66,7 @@ int itkOpeningByReconstructionImageFilterTest(int argc, char* argv [] )
   StructuringElementType   structuringElement;
 
   structuringElement.SetRadius(atoi(argv[3]));
+  structuringElement.CreateStructuringElement();
 
   filter->SetKernel( structuringElement );
 
