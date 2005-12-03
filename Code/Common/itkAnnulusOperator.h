@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __itkSobelOperator_h
-#define __itkSobelOperator_h
+#ifndef __itkAnnulusOperator_h
+#define __itkAnnulusOperator_h
 
 #include "itkExceptionObject.h"
 #include "itkNeighborhoodOperator.h"
@@ -27,7 +27,8 @@ namespace itk {
 /**
  * \class AnnulusOperator
  *
- * \brief A NeighborhoodOperator for performing a matched filtering with an annulus (two concentric circles, spheres, hyperspheres, etc.)
+ * \brief A NeighborhoodOperator for performing a matched filtering with an 
+ * annulus (two concentric circles, spheres, hyperspheres, etc.)
  *
  * AnnulusOperator defines a non-directional NeighborhoodOperator
  * representing two concentric circles, spheres, hyperspheres, etc.
