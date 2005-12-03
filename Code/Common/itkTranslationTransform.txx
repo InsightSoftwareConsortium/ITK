@@ -47,9 +47,18 @@ void
 TranslationTransform<TScalarType, NDimensions>
 ::SetParameters( const ParametersType & parameters )
 {
+  bool modified = false;
   for( unsigned int i=0; i<SpaceDimension; i++ )
     {
-    m_Offset[i] = parameters[i];
+    if (m_Offset[i] != parameters[i])
+      {
+      m_Offset[i] = parameters[i];
+      modified = true;
+      }
+    }
+  if (modified)
+    {
+    this->Modified();
     }
 }
 
@@ -89,7 +98,7 @@ void
 TranslationTransform<TScalarType, NDimensions>::
 Compose(const Self * other, bool )
 {
-  m_Offset += other->m_Offset;
+  this->Translate(other->m_Offset);
   return;
 }
 
@@ -100,7 +109,12 @@ void
 TranslationTransform<TScalarType, NDimensions>::
 Translate(const OutputVectorType &offset, bool )
 {
-  m_Offset += offset;
+  ParametersType newOffset(SpaceDimension);
+  for( unsigned int i=0; i<SpaceDimension; i++ )
+    {
+    newOffset[i] = this->m_Offset[i] + offset[i];
+    }
+  this->SetParameters (newOffset);
   return;
 }
 

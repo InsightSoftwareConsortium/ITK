@@ -24,7 +24,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include <iomanip>
 #include <stdio.h>
 
-
+#include "itkSimpleFilterWatcher.h"
 namespace itk
 {
 
@@ -82,15 +82,14 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
   m_TransformMovingImageFilter->SetTransform(    this->m_Transform );
   m_TransformMovingImageFilter->SetInterpolator( this->m_Interpolator );
+  m_TransformMovingImageFilter->SetInput( this->m_MovingImage );
 
   m_TransformMovingImageFilter->SetDefaultPixelValue( 0 );
 
-  m_TransformMovingImageFilter->SetOutputSpacing( this->m_FixedImage->GetSpacing() );
-  m_TransformMovingImageFilter->SetOutputOrigin(  this->m_FixedImage->GetOrigin() );
-
   m_TransformMovingImageFilter->SetSize( this->m_FixedImage->GetLargestPossibleRegion().GetSize() );
-
-  m_TransformMovingImageFilter->SetInput( this->m_MovingImage );
+  m_TransformMovingImageFilter->SetOutputOrigin( this->m_FixedImage->GetOrigin() );
+  m_TransformMovingImageFilter->SetOutputSpacing( this->m_FixedImage->GetSpacing() );
+  m_TransformMovingImageFilter->SetOutputDirection( this->m_FixedImage->GetDirection() );
 
 
   // Compute the image gradients
@@ -98,7 +97,6 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
   // Compute the gradient of the fixed image
 
-  ZeroFluxNeumannBoundaryCondition< FixedGradientImageType > fixedBoundCond;
 
   m_CastFixedImageFilter = CastFixedImageFilterType::New();
   m_CastFixedImageFilter->SetInput( this->m_FixedImage );
@@ -110,19 +108,17 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
     m_FixedSobelFilters[iFilter] = FixedSobelFilter::New();
 
-    m_FixedSobelFilters[iFilter]->OverrideBoundaryCondition( &fixedBoundCond );
+    m_FixedSobelFilters[iFilter]->OverrideBoundaryCondition( &m_FixedBoundCond );
     m_FixedSobelFilters[iFilter]->SetOperator( m_FixedSobelOperators[iFilter] );
 
     m_FixedSobelFilters[iFilter]->SetInput( m_CastFixedImageFilter->GetOutput() );
 
-    m_FixedSobelFilters[iFilter]->Update();
+    m_FixedSobelFilters[iFilter]->UpdateLargestPossibleRegion();
     }
 
   ComputeVariance();
 
   // Compute the gradient of the transformed moving image
-
-  ZeroFluxNeumannBoundaryCondition< MovedGradientImageType > movedBoundCond;
 
   m_CastMovedImageFilter = CastMovedImageFilterType::New();
   m_CastMovedImageFilter->SetInput( m_TransformMovingImageFilter->GetOutput() );
@@ -134,12 +130,12 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
     m_MovedSobelFilters[iFilter] = MovedSobelFilter::New();
 
-    m_MovedSobelFilters[iFilter]->OverrideBoundaryCondition( &movedBoundCond );
+    m_MovedSobelFilters[iFilter]->OverrideBoundaryCondition( &m_MovedBoundCond );
     m_MovedSobelFilters[iFilter]->SetOperator( m_MovedSobelOperators[iFilter] );
 
     m_MovedSobelFilters[iFilter]->SetInput( m_CastMovedImageFilter->GetOutput() );
 
-    m_MovedSobelFilters[iFilter]->Update();
+    m_MovedSobelFilters[iFilter]->UpdateLargestPossibleRegion();
     }
 
 }
@@ -264,7 +260,6 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
     if (nPixels > 0) mean[iDimension] /= nPixels;
 
-
     // Calculate the variance
 
     iterate.GoToBegin();
@@ -283,7 +278,6 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
       }
 
     m_Variance[iDimension] /= nPixels;
-
     }
 }
 
@@ -300,6 +294,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
   unsigned int iDimension;
 
   this->SetTransformParameters( parameters );
+  m_TransformMovingImageFilter->UpdateLargestPossibleRegion();
   MeasureType measure = NumericTraits< MeasureType >::Zero;
 
   for (iDimension=0; iDimension<FixedImageDimension; iDimension++) 
@@ -328,8 +323,8 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     MovedIteratorType movedIterator( m_MovedSobelFilters[iDimension]->GetOutput(),
                                      this->GetFixedImageRegion() );
 
-    m_FixedSobelFilters[iDimension]->Update();
-    m_MovedSobelFilters[iDimension]->Update();
+    m_FixedSobelFilters[iDimension]->UpdateLargestPossibleRegion();
+    m_MovedSobelFilters[iDimension]->UpdateLargestPossibleRegion();
 
     this->m_NumberOfPixelsCounted = 0;
 
@@ -371,20 +366,13 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
   unsigned int iDimension;
 
   this->SetTransformParameters( parameters );
-  m_TransformMovingImageFilter->Update();
-
-  typedef itk::Image< short, 3 > SobelOutputImageType;
-  typedef itk::CastImageFilter< MovedGradientImageType, SobelOutputImageType > CastSobelImageFilterType;
-  typename CastSobelImageFilterType::Pointer castImage = CastSobelImageFilterType::New();
+  m_TransformMovingImageFilter->UpdateLargestPossibleRegion();
 
   // Update the gradient images
 
   for (iFilter=0; iFilter<MovedImageDimension; iFilter++) 
     {
-    m_MovedSobelFilters[iFilter]->Update();
-
-    // Cast the image to short
-
+    m_MovedSobelFilters[iFilter]->UpdateLargestPossibleRegion();
     }
 
   // Compute the range of the moved image gradients
@@ -433,8 +421,6 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
         subtractionFactor[iDimension] += stepSize[iDimension];
         }
       }
-
-
 
     // Compute the new value of the measure for this subtraction factor
 

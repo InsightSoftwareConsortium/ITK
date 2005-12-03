@@ -40,9 +40,14 @@ namespace itk
  * Spatial correspondance between both images is established through a 
  * Transform. Pixel values are taken from the Moving image. Their positions 
  * are mapped to the Fixed image and result in general in non-grid position 
- * on it. Values at these non-grid position of the Fixed image are interpolated 
- * using a user-selected Interpolator.
+ * on it. Values at these non-grid position of the Fixed image are
+ * interpolated using a user-selected Interpolator.
  *
+ * Implementation of this class is based on:
+ * Hipwell, J. H., et. al. (2003), "Intensity-Based 2-D-3D Registration of
+ * Cerebral Angiograms,", IEEE Transactions on Medical Imaging,
+ * 22(11):1417-1426.
+ * 
  * \ingroup RegistrationMetrics
  */
 template < class TFixedImage, class TMovingImage > 
@@ -190,6 +195,8 @@ private:
 
   typename FixedSobelFilter::Pointer m_FixedSobelFilters[itkGetStaticConstMacro( FixedImageDimension )];
 
+  ZeroFluxNeumannBoundaryCondition< MovedGradientImageType > m_MovedBoundCond;
+  ZeroFluxNeumannBoundaryCondition< FixedGradientImageType > m_FixedBoundCond;
 
   /** The Sobel gradients of the moving image */
   CastMovedImageFilterPointer m_CastMovedImageFilter;

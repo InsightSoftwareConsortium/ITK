@@ -142,7 +142,7 @@ public:
           PointDataContainer::ConstIterator     PointDataContainerIterator;
     
   /** Type used to define Regions */
-  typedef unsigned long                         RegionType;
+  typedef long                                  RegionType;
 
   /** Get the maximum number of regions that this data can be
    * separated into. */

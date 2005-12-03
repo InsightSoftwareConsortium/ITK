@@ -209,7 +209,7 @@ public:
    * simply calls CopyInformation() and copies the region ivars.
    * The implementation here refers to the superclass' implementation
    * and then copies over the pixel container. */
-  virtual void Graft(const Superclass *data);
+  virtual void Graft(const DataObject *data);
   
   /** Convenient typedef. */
   typedef InternalPixelType * InternalPixelPointerType;

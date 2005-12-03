@@ -116,6 +116,7 @@ ADD_TEST(itkMedialNodeCorrespondencesTest ${COMMON_TESTS2} itkMedialNodeCorrespo
 ADD_TEST(itkMemoryLeakTest ${COMMON_TESTS2} itkMemoryLeakTest)
 ADD_TEST(itkMeshTest ${COMMON_TESTS2} itkMeshTest)
 ADD_TEST(itkMeshFstreamTest ${COMMON_TESTS2} itkMeshFstreamTest ${TEMP}/testMeshFstream.txt)
+ADD_TEST(itkMeshSourceGraftOutputTest ${COMMON_TESTS2} itkMeshSourceGraftOutputTest)
 ADD_TEST(itkMetaDataDictionaryTest ${COMMON_TESTS2} itkMetaDataDictionaryTest)
 ADD_TEST(itkMinimumDecisionRuleTest ${COMMON_TESTS2} itkMinimumDecisionRuleTest)
 ADD_TEST(itkNearestNeighborExtrapolateImageFunctionTest ${COMMON_TESTS2} itkNearestNeighborExtrapolateImageFunctionTest)
@@ -313,6 +314,7 @@ itkMedianImageFunctionTest.cxx
 itkMemoryLeakTest.cxx
 itkMeshTest.cxx
 itkMeshFstreamTest.cxx
+itkMeshSourceGraftOutputTest.cxx
 itkMetaDataDictionaryTest.cxx
 itkMinimumDecisionRuleTest.cxx
 itkNearestNeighborExtrapolateImageFunctionTest.cxx

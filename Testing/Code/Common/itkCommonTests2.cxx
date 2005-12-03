@@ -15,6 +15,7 @@ REGISTER_TEST(itkMedianImageFunctionTest );
 REGISTER_TEST(itkMemoryLeakTest );
 REGISTER_TEST(itkMeshTest );
 REGISTER_TEST(itkMeshFstreamTest );
+REGISTER_TEST(itkMeshSourceGraftOutputTest );
 REGISTER_TEST(itkMetaDataDictionaryTest );
 REGISTER_TEST(itkMinimumDecisionRuleTest );
 REGISTER_TEST(itkNearestNeighborExtrapolateImageFunctionTest );

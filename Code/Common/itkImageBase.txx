@@ -222,9 +222,16 @@ ImageBase<VImageDimension>
     // Attempt to cast data to an ImageBase
     const ImageBase<VImageDimension> *imgData;
   
-    imgData = dynamic_cast<const ImageBase<VImageDimension>*>(data);
+     try
+       {
+       imgData = dynamic_cast<const ImageBase<VImageDimension>*>(data);
+       }
+     catch( ... )
+       {
+       return;
+       }
 
-    if (imgData)
+    if( imgData )
       {
       // Copy the meta data for this data type
       m_LargestPossibleRegion = imgData->GetLargestPossibleRegion();
@@ -242,24 +249,41 @@ ImageBase<VImageDimension>
     }
 }
 
+
+
 //----------------------------------------------------------------------------
 template<unsigned int VImageDimension>
 void 
 ImageBase<VImageDimension>
-::Graft(const ImageBase<VImageDimension> *data)
+::Graft(const DataObject *data)
 {
-  // Copy the meta-information
-  this->CopyInformation(data);
+  typedef ImageBase<VImageDimension>  ImageBaseType;
 
-  if (data)
+  const ImageBaseType * image;
+  
+  try
     {
-    // Copy the remaining region information. Subclasses are
-    // responsible for copying the pixel container.
-    this->SetBufferedRegion( data->GetBufferedRegion() );
-    this->SetRequestedRegion( data->GetRequestedRegion() );
+    image = dynamic_cast< const ImageBaseType * >( data );
     }
-}
+  catch( ... )
+    {
+    return;
+    }
 
+  if( !image )
+    {
+    return;
+    }
+
+  // Copy the meta-information
+  this->CopyInformation( image );
+
+  // Copy the remaining region information. Subclasses are
+  // responsible for copying the pixel container.
+  this->SetBufferedRegion( image->GetBufferedRegion() );
+  this->SetRequestedRegion( image->GetRequestedRegion() );
+
+}
 
 
 
