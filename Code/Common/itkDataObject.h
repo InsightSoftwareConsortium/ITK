@@ -445,7 +445,7 @@ public:
    * them should use dynamic_casting in order to verify that the grafted 
    * object is actually of the same type as the class on which the Graft()
    * method was invoked. */
-  virtual void Graft( const DataObject * object ) {};
+  virtual void Graft( const DataObject *) {};
   
 protected:
   DataObject();
