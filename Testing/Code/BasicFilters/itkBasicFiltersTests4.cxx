@@ -30,5 +30,6 @@ void RegisterTests()
   REGISTER_TEST( itkGrayscaleGeodesicErodeDilateImageFilterTest );
   REGISTER_TEST( itkClosingByReconstructionImageFilterTest );
   REGISTER_TEST( itkOpeningByReconstructionImageFilterTest );
+  REGISTER_TEST( itkGetAverageSliceImageFilterTest );
 }
 

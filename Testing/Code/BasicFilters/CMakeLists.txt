@@ -641,6 +641,11 @@ ADD_TEST(itkOpeningByReconstructionImageFilterTest ${BASIC_FILTERS_TESTS4}
                ${ITK_DATA_ROOT}/Input/chondt.png
                ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest.png 4)
 
+ADD_TEST(itkGetAverageSliceImageFilterTest ${BASIC_FILTERS_TESTS4} 
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AccumulateImageFilterTest.png
+             ${ITK_TEST_OUTPUT_DIR}/GetAverageSliceImageFilterTest.png
+             itkGetAverageSliceImageFilterTest ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR}/GetAverageSliceImageFilterTest.png)
+
 ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
@@ -889,6 +894,7 @@ itkParametricSpaceToImageSpaceMeshFilterTest
 itkGrayscaleGeodesicErodeDilateImageFilterTest
 itkClosingByReconstructionImageFilterTest
 itkOpeningByReconstructionImageFilterTest
+itkGetAverageSliceImageFilterTest
 )
 
 ADD_TEST(itkBasicFiltersHeaderTest ${BASIC_FILTERS_HEADER_TEST})
