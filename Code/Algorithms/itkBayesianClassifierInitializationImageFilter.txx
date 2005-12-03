@@ -79,17 +79,17 @@ BayesianClassifierInitializationImageFilter<TInputImage,
 {
   // Typedefs for the KMeans filter, Covariance calculator...
   typedef ScalarImageKmeansImageFilter< InputImageType > KMeansFilterType;
-  typedef typename KMeansFilterType::OutputImageType    KMeansOutputImageType;
-  typedef ImageRegionConstIterator< typename 
-                  KMeansFilterType::OutputImageType > ConstKMeansIteratorType;
+  typedef typename KMeansFilterType::OutputImageType  KMeansOutputImageType;
+  typedef ImageRegionConstIterator< 
+                  KMeansOutputImageType >             ConstKMeansIteratorType;
   typedef Array< double >                             CovarianceArrayType;
   typedef Array< double >                             ClassCountArrayType;
   typedef Statistics::GaussianDensityFunction< 
           MeasurementVectorType >                     GaussianMembershipFunctionType;
   typedef VectorContainer< unsigned short, typename 
-    GaussianMembershipFunctionType::MeanType* >         MeanEstimatorsContainerType;
+    GaussianMembershipFunctionType::MeanType* >       MeanEstimatorsContainerType;
   typedef VectorContainer< unsigned short, typename 
-    GaussianMembershipFunctionType::CovarianceType* >   CovarianceEstimatorsContainerType;
+    GaussianMembershipFunctionType::CovarianceType* > CovarianceEstimatorsContainerType;
 
   
   // Run k means to get the means from the input image
