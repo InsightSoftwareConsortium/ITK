@@ -17,26 +17,37 @@
 #ifndef __itkGetAverageSliceImageFilter_h
 #define __itkGetAverageSliceImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkAccumulateImageFilter.h"
   
 namespace itk
 {
   
 /** \class GetAverageSliceImageFilter
- * \brief Implements a Reflection of an image along a selected direction.
+ * \brief Averages a single dimension of an image.
+ *
+ *    This class averages an image along a dimension and reduces the size 
+ * of this dimension to 1. The dimension being averaged is set by 
+ * AveragedOutDimension.
+ *
+ *   Each pixel is the average of the pixels along the collapsed
+ * dimension and reduce the size of the averaged dimension to 1 (only 
+ * on the averaged dimension). 
+ *
+ *   The dimensions of the InputImage and the OutputImage must be the same.
+ *
  *
  * This class is parameterized over the type of the input image and
- * the type of the output image.  
+ * the type of the output image.
  * 
  * \ingroup   IntensityImageFilters     Singlethreaded
  */
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT GetAverageSliceImageFilter : public ImageToImageFilter<TInputImage,TOutputImage> 
+class ITK_EXPORT GetAverageSliceImageFilter : public AccumulateImageFilter<TInputImage,TOutputImage> 
 {
 public:
   /** Standard class typedefs. */
   typedef GetAverageSliceImageFilter  Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
+  typedef AccumulateImageFilter<TInputImage,TOutputImage>  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -44,44 +55,20 @@ public:
   itkNewMacro(Self);
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GetAverageSliceImageFilter, ImageToImageFilter);
-
-  /** Some convenient typedefs. */
-  typedef TInputImage InputImageType;
-  typedef typename    InputImageType::Pointer    InputImagePointer;
-  typedef typename    InputImageType::RegionType InputImageRegionType; 
-  typedef typename    InputImageType::PixelType  InputImagePixelType; 
-  typedef TOutputImage OutputImageType;
-  typedef typename     OutputImageType::Pointer    OutputImagePointer;
-  typedef typename     OutputImageType::RegionType OutputImageRegionType;
-  typedef typename     OutputImageType::PixelType  OutputImagePixelType;
+  itkTypeMacro(GetAverageSliceImageFilter, AccumulateImageFilter);
 
   /** Set the direction in which to reflect the data. */
-  itkGetMacro( Direction, unsigned int );
-  itkSetMacro( Direction, unsigned int );
+  itkGetMacro( AveragedOutDimension, unsigned int );
+  itkSetMacro( AveragedOutDimension, unsigned int );
   
-  /** ImageDimension enumeration */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-
-  void SetAveragedOutDimension(int AOD) {m_AveragedOutDimension=AOD;};
 protected:
   GetAverageSliceImageFilter();
   virtual ~GetAverageSliceImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
-  /** This method implements the actual reflection of the image.
-   *
-   * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData()  */
-  void GenerateData(void);
 
 private:
   GetAverageSliceImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  unsigned int m_Direction;
 
   unsigned int m_AveragedOutDimension;
 
