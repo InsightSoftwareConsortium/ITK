@@ -86,9 +86,9 @@ BayesianClassifierInitializationImageFilter<TInputImage,
   typedef Array< double >                             ClassCountArrayType;
   typedef Statistics::GaussianDensityFunction< 
           MeasurementVectorType >                     GaussianMembershipFunctionType;
-  typedef VectorContainer< unsigned short, typename 
+  typedef VectorContainer< unsigned short, ITK_TYPENAME 
     GaussianMembershipFunctionType::MeanType* >       MeanEstimatorsContainerType;
-  typedef VectorContainer< unsigned short, typename 
+  typedef VectorContainer< unsigned short, ITK_TYPENAME 
     GaussianMembershipFunctionType::CovarianceType* > CovarianceEstimatorsContainerType;
 
   
