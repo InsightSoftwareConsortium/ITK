@@ -242,7 +242,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   itrInputImage.GoToBegin();
   while ( !itrMembershipImage.IsAtEnd() )
     {
-    mv = itrInputImage.Get();
+    mv[0] = itrInputImage.Get();
     for ( unsigned int i = 0; i < m_NumberOfClasses; i++ )
       {
       membershipPixel[i] = (m_MembershipFunctionContainer->GetElement(i))->Evaluate( mv );
