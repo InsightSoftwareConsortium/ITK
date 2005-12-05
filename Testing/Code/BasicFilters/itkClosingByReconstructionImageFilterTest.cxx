@@ -23,6 +23,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 #include "itkBinaryBallStructuringElement.h"
+#include "itkSubtractImageFilter.h"
 
 
 int itkClosingByReconstructionImageFilterTest(int argc, char* argv [] ) 
@@ -30,7 +31,7 @@ int itkClosingByReconstructionImageFilterTest(int argc, char* argv [] )
  if ( argc < 4 )
   {
     std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << argv[0] << " Inputimage OutputImage Radius" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " Inputimage OutputImage Radius DiffImage" << std::endl;
     return EXIT_FAILURE;
   } 
   
@@ -86,7 +87,24 @@ int itkClosingByReconstructionImageFilterTest(int argc, char* argv [] )
     std::cerr << "Exception caught:" << excp << std::endl;
     return  EXIT_FAILURE;
   }
-   
+  // Create a difference image if one is requested
+  if (argc == 5)
+    {
+    itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::Pointer subtract = itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::New();
+    subtract->SetInput( 1, reader->GetOutput() );
+    subtract->SetInput( 0, filter->GetOutput() );
+    try
+      {
+      writer->SetFileName( argv[4] );
+      writer->SetInput( subtract->GetOutput() );
+      writer->Update();
+      }
+    catch( itk::ExceptionObject & excp )
+      {
+      std::cerr << "Exception caught writing diff image:" << excp << std::endl;
+      return  EXIT_FAILURE;
+      }
+    }
   return EXIT_SUCCESS;
 
 }
