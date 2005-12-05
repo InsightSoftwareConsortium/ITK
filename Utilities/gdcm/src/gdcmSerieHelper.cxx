@@ -61,6 +61,12 @@ SerieHelper::SerieHelper()
  */
 SerieHelper::~SerieHelper()
 {
+   Clear();
+}
+
+//-----------------------------------------------------------------------------
+void SerieHelper::Clear()
+{
    // For all the Coherent File lists of the gdcm::Serie
    GdcmFileList *l = GetFirstCoherentFileList();
    while (l)
@@ -78,7 +84,6 @@ SerieHelper::~SerieHelper()
    }
 }
 
-//-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 
@@ -173,6 +178,7 @@ void SerieHelper::AddRestriction(TagKey const &key,
  */
 void SerieHelper::SetDirectory(std::string const &dir, bool recursive)
 {
+
    DirList dirList(dir, recursive); // OS specific
   
    DirListType filenames_list = dirList.GetFilenames();
@@ -316,6 +322,7 @@ bool SerieHelper::ImagePositionPatientOrdering( GdcmFileList *fileList )
          }
 
          distmultimap.insert(std::pair<const double,File *>(dist, *it));
+         std::cerr << "dist: " << dist << std::endl;
 
          min = (min < dist) ? min : dist;
          max = (max > dist) ? max : dist;

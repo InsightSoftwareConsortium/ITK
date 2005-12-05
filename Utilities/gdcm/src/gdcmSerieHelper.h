@@ -52,7 +52,8 @@ public:
    void AddFileName(std::string const &filename);
    void SetDirectory(std::string const &dir, bool recursive=false);
    void OrderGdcmFileList(GdcmFileList *coherentGdcmFileList);
-   
+   void Clear();
+
    /// \brief Gets the FIRST *coherent* File List.
    ///        Deprecated; kept not to break the API
    /// \note Caller must call OrderGdcmFileList first

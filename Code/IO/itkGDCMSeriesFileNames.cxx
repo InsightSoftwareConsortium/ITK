@@ -50,7 +50,12 @@ void GDCMSeriesFileNames::SetInputDirectory (std::string const &name)
       "the DICOM files are located");
     return;
     }
+  if( m_InputDirectory == name )
+    {
+    return;
+    }
   m_InputDirectory = name;
+  m_SerieHelper->Clear();
   m_SerieHelper->SetUseSeriesDetails( m_UseSeriesDetails );
   m_SerieHelper->SetDirectory( name ); //as a side effect it also execute
   this->Modified();
