@@ -646,6 +646,11 @@ ADD_TEST(itkGetAverageSliceImageFilterTest ${BASIC_FILTERS_TESTS4}
              ${ITK_TEST_OUTPUT_DIR}/GetAverageSliceImageFilterTest.png
              itkGetAverageSliceImageFilterTest ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR}/GetAverageSliceImageFilterTest.png)
 
+ADD_TEST(itkMaskNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS4} 
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/MaskNeighborhoodOperatorImageFilterTest.png
+             ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png
+             itkMaskNeighborhoodOperatorImageFilterTest 
+                         ${INPUTDATA}/cthead1.png ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png)
 ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
@@ -895,6 +900,7 @@ itkGrayscaleGeodesicErodeDilateImageFilterTest
 itkClosingByReconstructionImageFilterTest
 itkOpeningByReconstructionImageFilterTest
 itkGetAverageSliceImageFilterTest
+itkMaskNeighborhoodOperatorImageFilterTest
 )
 
 ADD_TEST(itkBasicFiltersHeaderTest ${BASIC_FILTERS_HEADER_TEST})
