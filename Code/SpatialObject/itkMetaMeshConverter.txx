@@ -230,7 +230,7 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
     }
 
   // fill in the Mesh information
-  metamesh->ID(0);
+  metamesh->ID(spatialObject->GetId());
 
   // Add Points
   typedef typename MeshType::PointsContainer PointsContainer;
