@@ -163,10 +163,9 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
         }
       else
         {
-        // Use the default value
-        it.Value() = m_DefaultValue;
+        // Use the default value or the input value
+        it.Value() = m_UseDefaultValue ? m_DefaultValue : bit.GetCenterPixel();
         }
-
       ++bit;
       ++it;
       ++mit;
@@ -183,6 +182,7 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
   Superclass::PrintSelf(os,indent);
   os << indent << "Default value : "
      << static_cast<typename NumericTraits<OutputPixelType>::PrintType>( m_DefaultValue )<< std::endl;
+  os << indent << "UseDefaultValue : " << m_UseDefaultValue << std::endl;
 }
 
 } // end namespace itk

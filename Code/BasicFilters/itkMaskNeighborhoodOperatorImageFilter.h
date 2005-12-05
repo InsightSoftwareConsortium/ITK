@@ -24,10 +24,13 @@ namespace itk
 /** \class MaskNeighborhoodOperatorImageFilter
  * \brief Applies a single NeighborhoodOperator to an image,  processing only those pixels that are under a mask
  *
- * This filter caculates successive inner products between a single
+ * This filter calculates successive inner products between a single
  * NeighborhoodOperator and a NeighborhoodIterator, which is swept
  * across every pixel that is set in the input mask. If no mask is
- * given, this filter is equivalent to its superclass.
+ * given, this filter is equivalent to its superclass. Output pixels
+ * that are outside of the mask will be set to DefaultValue if
+ * UseDefaultValue is true (default). Otherwise, they will be set to
+ * the value of the input pixel.
  *
  * \ingroup ImageFilters
  *
@@ -105,8 +108,19 @@ public:
    * mask. */
   itkGetMacro( DefaultValue, OutputPixelType );
   
+  /** Set the UseDefaultValue flag. If true, the pixels outside the
+   *  mask will e set to m_DefaultValue. Otherwise, they will be set
+   *  to the input pixel. */
+  itkSetMacro(UseDefaultValue,bool);
+
+  /** Get the UseDefaultValue flag. */
+  itkGetConstReferenceMacro(UseDefaultValue,bool);
+  
+  /** Turn on and off the UseDefaultValue flag. */
+  itkBooleanMacro(UseDefaultValue); 
+
 protected:
-  MaskNeighborhoodOperatorImageFilter() : m_DefaultValue( NumericTraits<OutputPixelType>::Zero ){}
+  MaskNeighborhoodOperatorImageFilter() : m_DefaultValue( NumericTraits<OutputPixelType>::Zero), m_UseDefaultValue(true) {}
   virtual ~MaskNeighborhoodOperatorImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
     
@@ -136,7 +150,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   OutputPixelType m_DefaultValue;
-
+  bool m_UseDefaultValue;
 };
   
 } // end namespace itk
