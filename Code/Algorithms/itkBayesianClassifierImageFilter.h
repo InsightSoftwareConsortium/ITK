@@ -36,6 +36,7 @@ namespace itk
  * BayesianClassifierInitializationImageFilter. You may use that filter to
  * generate the membership images or specify your own.
  *
+ * \par
  * The output of the filter is a label map (an image of unsigned char's is the
  * default.) with pixel values indicating the classes they correspond to. Pixels 
  * with intensity 0 belong to the 0th class, 1 belong to the 1st class etc.... 
@@ -52,6 +53,7 @@ namespace itk
  * the number of classes.
  * Posterior membership of a pixel = Prior * Membership
  *
+ * \par
  * The filter optionally accepts a smoothing filter and number of iterations
  * associated with the smoothing filter.
  * The philosophy is that the filter allows you to iteratively

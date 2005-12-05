@@ -40,19 +40,20 @@ namespace itk
  * the number of membership images that will be generated. The user must specify
  * this.
  *
+ * \par
  * Membership functions: The user can optionally plugin in any membership function. 
  * The number of membership functions plugged in should be the
  * same as the number of classes. If the user does not supply membership 
  * functions, the filter will generate membership functions for you. These
  * functions are Gaussian density functions centered around 'n' pixel intensity 
- * values, \f[I_k\f]. These 'n' values are obtained by running K-means on the 
+ * values, \f$ I_k \f$. These 'n' values are obtained by running K-means on the 
  * image. In other words, the default behaviour of the filter is to generate
  * gaussian mixture model for the input image.
  *
  * \par Inputs and Outputs
  * The filter takes a scalar Image as input and generates a VectorImage, each
- * component \f[c\f] of which represents memberships of each pixel to the 
- * class \f[c\f]
+ * component \f$ c \f$ of which represents memberships of each pixel to the 
+ * class \f$ c \f$.
  * 
  * \par Template parameters
  * This filter is templated over the input image type and the data type used
