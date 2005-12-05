@@ -58,7 +58,6 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
   
   for( unsigned int i=0; i < numberOfGradientImages; i++ )
     { 
-    typedef TensorReconstructionImageFilterType::GradientImageType GradientImageType;
     GradientImageType::Pointer gradientImage = GradientImageType::New();
     GradientSizeType  sizeGradientImage  = {{ 4, 4, 4 }};
     GradientIndexType indexGradientImage = {{ 0, 0, 0 }};
@@ -112,7 +111,8 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
   for( unsigned int i=0; i < numberOfGradientImages; i++ )
     { 
     std::cout << "Gradient image " << i << " pixel : " 
-      << tensorReconstructionFilter->GetGradientImage(i)->GetPixel(gradientImageIndex)
+      << static_cast< GradientImageType * >( const_cast< GradientImageType * >(
+          tensorReconstructionFilter->GetInput(i+1)))->GetPixel(gradientImageIndex)
       << std::endl;
     }
 
