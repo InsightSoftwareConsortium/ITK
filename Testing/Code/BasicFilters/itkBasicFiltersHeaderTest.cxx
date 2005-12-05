@@ -137,7 +137,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkLaplacianImageFilter.txx"
 #include "itkLaplacianRecursiveGaussianImageFilter.txx"
 #include "itkLaplacianSharpeningImageFilter.txx"
-#include "itkLazyEdgeDetectionImageFilter3D.txx"
 #include "itkLevelSetFunctionWithRefitTerm.txx"
 #include "itkLog10ImageFilter.h"
 #include "itkLogImageFilter.h"
