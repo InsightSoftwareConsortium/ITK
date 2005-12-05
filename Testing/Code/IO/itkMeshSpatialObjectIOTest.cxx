@@ -116,6 +116,7 @@ int itkMeshSpatialObjectIOTest(int, char*[])
   // Create the mesh Spatial Object
   MeshSpatialObjectType::Pointer meshSO = MeshSpatialObjectType::New();
   meshSO->SetMesh(mesh);
+  meshSO->SetId(3);
   std::cout<<"[PASSED]"<<std::endl;
 
   // Writing the file
@@ -149,8 +150,17 @@ int itkMeshSpatialObjectIOTest(int, char*[])
     return EXIT_FAILURE;
     }
 
+  MeshSpatialObjectType::Pointer meshSO2 = dynamic_cast<MeshSpatialObjectType*>((*(children->begin())).GetPointer());
+
+  std::cout << "Testing ID : ";
+  if(meshSO2->GetId() != 3)
+    {
+    std::cout<<" [FAILED]"<<std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout<<" [PASSED]"<<std::endl;
+
   std::cout<<"Testing Points: ";
-  MeshSpatialObjectType::Pointer meshSO2 = dynamic_cast<MeshSpatialObjectType*>((*(children->begin())).GetPointer()); 
   MeshType::Pointer mesh2 = meshSO2->GetMesh(); 
   // Testing points
   const MeshType::PointsContainer* points = mesh2->GetPoints();
