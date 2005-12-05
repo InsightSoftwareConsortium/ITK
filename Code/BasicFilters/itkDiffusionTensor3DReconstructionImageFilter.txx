@@ -38,6 +38,7 @@ DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   m_NumberOfGradientDirections = 0;
   m_Threshold = NumericTraits< ReferencePixelType >::min();
   m_GradientImageTypeEnumeration = Else;
+  m_GradientDirectionContainer = NULL;
 }
 
 
@@ -376,8 +377,16 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
 
   os << indent << "TensorBasisMatrix: " << m_TensorBasis << std::endl;
   os << indent << "Coeffs: " << m_Coeffs << std::endl;
-  os << indent << "GradientDirectionContainer: "
-     << m_GradientDirectionContainer << std::endl;
+  if ( m_GradientDirectionContainer )
+    {
+    os << indent << "GradientDirectionContainer: "
+       << m_GradientDirectionContainer << std::endl;
+    }
+  else
+    {
+    os << indent << 
+    "GradientDirectionContainer: (Gradient directions not set)" << std::endl;
+    }
   os << indent << "NumberOfGradientDirections: " << 
               m_NumberOfGradientDirections << std::endl;
   os << indent << "Threshold for reference B0 image: " << m_Threshold << std::endl;
