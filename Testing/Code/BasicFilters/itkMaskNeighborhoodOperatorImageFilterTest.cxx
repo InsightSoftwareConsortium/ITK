@@ -66,8 +66,8 @@ int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
   size = region.GetSize();
   index = region.GetIndex();
   unsigned int width = size[0];
-  size[0] = width / 2 - .25 * width;
-  index[0] = size[0] + .25 * width;
+  size[0] = width / 2 - static_cast<unsigned int>(.25 * static_cast<float>(width));
+  index[0] = size[0] + static_cast<unsigned int>(.25 * static_cast<float>(width));
   region.SetSize(size);
   region.SetIndex(index);
   {
