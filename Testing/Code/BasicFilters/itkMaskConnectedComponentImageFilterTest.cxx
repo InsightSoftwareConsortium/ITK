@@ -97,7 +97,7 @@ int itkMaskConnectedComponentImageFilterTest(int argc, char* argv[] )
   
   // use upper left corner
   index.Fill(0);
-  for (unisgned int i=0; i<MaskImageType::ImageDimension; i++)
+  for (unsigned int i=0; i<MaskImageType::ImageDimension; i++)
     {
     size[i] = static_cast<unsigned long> (0.375 * maskSize[i]);
     }
