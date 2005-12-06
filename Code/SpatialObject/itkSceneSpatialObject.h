@@ -69,7 +69,9 @@ public:
    *  not found in the list. */ 
   void RemoveSpatialObject( SpatialObject<SpaceDimension> * object ); 
 
-  /** Returns a list of pointer to the children affiliated to this object.*/ 
+  /** Returns a list of pointer to the objects in the scene.
+   *  \warning This function creates a new list therefore the user is responsible
+   *  for the deletion of the list. */ 
   ObjectListType * GetObjects( unsigned int depth=MaximumDepth,
                                char * name=NULL );
 

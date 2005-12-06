@@ -96,7 +96,7 @@ SceneSpatialObject<SpaceDimension>
   return latestTime;
 }
 
-/** Return the children list */
+/** Returns a new list of objects in the scene */
 template <unsigned int SpaceDimension>
 typename SceneSpatialObject<SpaceDimension>::ObjectListType *
 SceneSpatialObject<SpaceDimension>
