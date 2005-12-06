@@ -108,6 +108,14 @@ public:
 
 
   virtual void Write(PriorityLevelType level, std::string const & content) ;
+  /** Helper methods */
+  void Debug ( std::string const& message ) { this->Write ( LoggerBase::DEBUG, message ); }
+  void Info ( std::string const& message ) { this->Write ( LoggerBase::INFO, message ); }
+  void Warning ( std::string const& message ) { this->Write ( LoggerBase::WARNING, message ); }
+  void Critical ( std::string const& message ) { this->Write ( LoggerBase::CRITICAL, message ); }
+  void Error ( std::string const& message ) { this->Write ( LoggerBase::CRITICAL, message ); }
+  void Fatal ( std::string const& message ) { this->Write ( LoggerBase::FATAL, message ); }
+
   virtual void Flush();
 
 protected:
