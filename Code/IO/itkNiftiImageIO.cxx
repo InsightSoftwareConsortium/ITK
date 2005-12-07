@@ -163,6 +163,14 @@ bool NiftiImageIO::CanWriteFile(const char * FileNameToWrite)
   if(ext != std::string::npos)
     {
     std::string exts = fname.substr(ext);
+    if(exts == ".gz")
+      {
+      std::string::size_type dotpos = fname.rfind('.',ext-1);
+      if(dotpos != std::string::npos)
+        {
+        exts = fname.substr(dotpos);
+        }
+      }
     if(exts == ".hdr" || exts == ".img" || exts == ".img.gz")
       {
       return false;
@@ -277,9 +285,12 @@ void NiftiImageIO::Read(void* buffer)
                         m_RescaleIntercept,numElts);
         break;
       default:
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Datatype not supported");
-        throw exception;
+        if(this->GetPixelType() == SCALAR)
+          {
+          ExceptionObject exception(__FILE__, __LINE__);
+          exception.SetDescription("Datatype not supported");
+          throw exception;
+          }
       }
     }
 }
@@ -400,6 +411,10 @@ void NiftiImageIO::ReadImageInformation()
       m_ComponentType = DOUBLE;
       m_PixelType = SCALAR;
       break;
+    case NIFTI_TYPE_RGB24:
+      m_ComponentType = UCHAR;
+      m_PixelType = RGB;
+      this->SetNumberOfComponents(3);
       //    case DT_RGB:
       // DEBUG -- Assuming this is a triple, not quad
       //image.setDataType( uiig::DATA_RGBQUAD );
@@ -493,6 +508,9 @@ void NiftiImageIO::ReadImageInformation()
       break;
     case NIFTI_TYPE_FLOAT64:
       EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(double).name()));
+      break;
+    case NIFTI_TYPE_RGB24:
+      EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string("RGB"));
       break;
       //    case DT_RGB:
       // DEBUG -- Assuming this is a triple, not quad
@@ -618,6 +636,7 @@ void
 NiftiImageIO
 ::WriteImageInformation(void) //For Nifti this does not write a file, it only fills in the appropriate header information.
 {
+#if 0
   if(this->GetNumberOfComponents() > 1)
     {
     ExceptionObject exception(__FILE__, __LINE__);
@@ -626,6 +645,7 @@ NiftiImageIO
     exception.SetDescription(ErrorMessage.c_str());
     throw exception;
     }
+#endif
   //  MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   //
   // fill out the image header.
@@ -806,6 +826,23 @@ NiftiImageIO
       ExceptionObject exception(__FILE__, __LINE__);
       std::string ErrorMessage=
         "More than one component per pixel not supported";
+      exception.SetDescription(ErrorMessage.c_str());
+      throw exception;
+      }
+    }
+  switch(this->GetPixelType())
+    {
+    case SCALAR:
+      break;
+    case RGB:
+      this->m_NiftiImage->nbyper *= 3;
+      this->m_NiftiImage->datatype = NIFTI_TYPE_RGB24;
+      break;
+    default:
+      {
+      ExceptionObject exception(__FILE__, __LINE__);
+      std::string ErrorMessage =
+        "Unsupported Pixel Type";
       exception.SetDescription(ErrorMessage.c_str());
       throw exception;
       }
