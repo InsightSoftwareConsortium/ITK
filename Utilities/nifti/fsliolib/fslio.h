@@ -157,12 +157,12 @@ void   FslWriteHeader(FSLIO *fslio);
 int   FslFileExists(const char *filename);
 char *FslMakeBaseName(const char *fname);
 int   FslCheckForMultipleFileNames(const char* filename);
-int   FslGetEnvOutputType();
+int   FslGetEnvOutputType(void);
 
 void  FslSetIgnoreMFQ(int flag);
-int   FslGetIgnoreMFQ();
+int   FslGetIgnoreMFQ(void);
 void  FslSetOverrideOutputType(int type);
-int   FslGetOverrideOutputType();
+int   FslGetOverrideOutputType(void);
 
 
 int  FslGetFileType(const FSLIO *fslio);
@@ -181,7 +181,7 @@ int  FslReadRawHeader(void *buffer, const char* filename);
 
   /* simple creation and clone/copy operations */
 
-FSLIO *FslInit();
+FSLIO *FslInit(void);
 void   FslInitHeader(FSLIO *fslio, short t, 
                    size_t x, size_t y, size_t z, size_t v,
                    float vx, float vy, float vz, float tr,

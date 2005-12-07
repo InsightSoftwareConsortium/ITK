@@ -162,7 +162,7 @@ void FslSetWriteMode(FSLIO *fslio, int mode)
 }
 
 
-int FslGetEnvOutputType()
+int FslGetEnvOutputType(void)
 {
   /* return type is one of FSL_TYPE_* or -1 to indicate error */
   char *otype;
@@ -363,7 +363,7 @@ void FslGetHdrImgNames(const char* filename, const FSLIO* fslio,
     \brief allocate space for the FSLIO struct and set some sensible defaults 
     \return  A pointer to an initialized FSLIO data structure
  */
-FSLIO *FslInit()
+FSLIO *FslInit(void)
 {
   FSLIO *fslio;
   fslio = (FSLIO *) calloc(1,sizeof(FSLIO));
@@ -2037,7 +2037,7 @@ void FslSetOverrideOutputType(int type)
   }
 }
 
-int FslGetOverrideOutputType()
+int FslGetOverrideOutputType(void)
 {
   return FslOverrideOutputType;
 }
@@ -2049,7 +2049,7 @@ void FslSetIgnoreMFQ(int flag)
 }
 
 
-int FslGetIgnoreMFQ()
+int FslGetIgnoreMFQ(void)
 {
   return FslIgnoreMFQ;
 }

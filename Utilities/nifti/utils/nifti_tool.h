@@ -14,10 +14,13 @@ typedef struct{
 } int_list;
 
 typedef struct{
-   int      diff_hdr,  diff_nim;
-   int      disp_hdr,  disp_nim;
-   int      disp_exts, add_exts, rm_exts;
-   int      mod_hdr,   mod_nim;
+            /* action options (flags) */
+   int      check_hdr,  check_nim;
+   int      diff_hdr,   diff_nim;
+   int      disp_hdr,   disp_nim;
+   int      disp_exts,  add_exts, rm_exts;
+   int      mod_hdr,    mod_nim;
+
    int      strip;               /* strip extras from dataset(s)  */
    int      cbl, cci;            /* -copy_XXX option flags        */
    int      dts, dci, dci_lines; /* display collapsed img flags   */
@@ -90,6 +93,7 @@ typedef struct {
 int    act_add_exts   ( nt_opts * opts );
 int    act_cbl        ( nt_opts * opts );  /* copy brick list */
 int    act_cci        ( nt_opts * opts );  /* copy collapsed dimensions */
+int    act_check_hdrs ( nt_opts * opts );  /* check for valid hdr or nim */
 int    act_diff_hdrs  ( nt_opts * opts );
 int    act_diff_nims  ( nt_opts * opts );
 int    act_disp_ci    ( nt_opts * opts );  /* display general collapsed data */

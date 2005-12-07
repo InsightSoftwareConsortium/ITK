@@ -167,9 +167,9 @@ typedef struct {                /*!< Image storage struct **/
 
   int                num_ext ;  /*!< number of extensions in ext_list       */
   nifti1_extension * ext_list ; /*!< array of extension structs (with data) */
-  analyze_75_orient_code analyze75_orient; /*!< for old analyze files, orient 
-                                             codes  */
+  analyze_75_orient_code analyze75_orient; /*!< for old analyze files, orient */
 } nifti_image ;
+
 
 
 /* struct for return from nifti_image_read_bricks() */
@@ -254,6 +254,7 @@ int    nifti_validfilename(const char* fname);
 
 int    disp_nifti_1_header(const char * info, const nifti_1_header * hp ) ;
 void   nifti_set_debug_level( int level ) ;
+void   nifti_set_skip_blank_ext( int skip ) ;
 
 int    valid_nifti_brick_list(nifti_image * nim , int nbricks,
                               const int * blist, int disp_error);
@@ -382,7 +383,8 @@ int    valid_nifti_extensions(const nifti_image *nim);
 #ifdef _NIFTI1_IO_C_
 
 typedef struct {
-    int debug;
+    int debug;               /*!< debug level for status reports */
+    int skip_blank_ext;      /*!< skip extender if no extensions */
 } nifti_global_options;
 
 #undef  LNI_FERR /* local nifti file error, to be compact and repetative */

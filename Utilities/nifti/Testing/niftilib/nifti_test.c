@@ -1,6 +1,29 @@
 #include <nifti1_io.h>
 
-nifti_image * generate_reference_image( const char * write_image_filename )
+enum NIFTITEST_BOOL {
+    NIFTITEST_TRUE=1,
+    NIFTITEST_FALSE=0
+};
+
+void PrintTest(const int line,const char * message,const int FailureOccured, const enum NIFTITEST_BOOL isFatal,int *ErrorAccum)
+{
+    if(FailureOccured==NIFTITEST_TRUE)  /* This line can be commented out for a more verbose output */
+        {
+        char const * const PREFIX= (FailureOccured)?"==========ERROR":"..........SUCCESS";
+        char const * const ISFATALPREFIX= (isFatal && FailureOccured)?" FATAL":"";
+        printf("%s%s (LINE %d): %s\n",PREFIX,ISFATALPREFIX,line,message);
+        fflush(stdout);
+        *ErrorAccum+=FailureOccured;
+        if(isFatal==NIFTITEST_TRUE && FailureOccured==NIFTITEST_TRUE)
+            {
+            printf("\n\nTOTAL ERRORS=%d\n",*ErrorAccum);
+            exit( *ErrorAccum);
+            }
+        }
+    return;
+}
+
+nifti_image * generate_reference_image( const char * write_image_filename , int * const Errors)
 {
     nifti_1_header reference_header;
     memset(&reference_header,0,sizeof(reference_header));
@@ -70,7 +93,8 @@ nifti_image * generate_reference_image( const char * write_image_filename )
     nifti_image * reference_image=nifti_convert_nhdr2nim(reference_header,write_image_filename);
         {
         const unsigned int NumVoxels=reference_image->nx*reference_image->ny*reference_image->nz*reference_image->nt*reference_image->nu;
-        reference_image->data=calloc(NumVoxels,sizeof(signed int)) ;                  /*!< pointer to data: nbyper*nvox bytes     */
+        reference_image->data=(signed int *)calloc(NumVoxels,sizeof(signed int)) ; /*!< pointer to data: nbyper*nvox bytes     */
+        PrintTest(__LINE__,"Checking memory allocation",reference_image->data ==0 ,NIFTITEST_TRUE,Errors);
             {
             signed int i=0;
             for(; i < NumVoxels ; i++)
@@ -79,58 +103,64 @@ nifti_image * generate_reference_image( const char * write_image_filename )
                 }
             }
         }
-    if(nifti_set_filenames( reference_image,write_image_filename, 0, 0 ) ) { return NULL; }
-    if(nifti_set_type_from_names( reference_image ) != 0 ) { return NULL; }
-    if(nifti_type_and_names_match( reference_image , 1 ) !=1) { return NULL; }
+        PrintTest(__LINE__,"Setting filenames",nifti_set_filenames( reference_image,write_image_filename, 0, 0 ) != 0, NIFTITEST_TRUE,Errors);
+        PrintTest(__LINE__,"Setting type from names",nifti_set_type_from_names( reference_image ) != 0, NIFTITEST_TRUE,Errors);
+/*   PrintTest(__LINE__,"Checking type and names",nifti_type_and_names_match( reference_image , 1 ) != 1, NIFTITEST_TRUE,Errors); */
+        PrintTest(__LINE__,"Check reference_image data is non null",(reference_image->data==0),NIFTITEST_TRUE,Errors);
     return reference_image;
 }
 
-unsigned int compare_known_values(nifti_image const * const known, nifti_image const * const unknown)
+
+void compare_reference_image_values(nifti_image const * const reference_image, nifti_image const * const reloaded_image, int * const Errors)
 {
-    if(known->nifti_type!=unknown->nifti_type) return __LINE__;
-    if(!strcmp(known->fname,unknown->fname)) return __LINE__;
-    if(!strcmp(known->iname,unknown->iname)) return __LINE__;
-    if(known->ndim!=unknown->ndim) return __LINE__;
-    if(known->nx!=unknown->nx) return __LINE__;
-    if(known->ny!=unknown->ny) return __LINE__;
-    if(known->nz!=unknown->nz) return __LINE__;
-    if(known->nt!=unknown->nt) return __LINE__;
-    if(known->nu!=unknown->nu) return __LINE__;
-    if(known->dx!=unknown->dx) return __LINE__;
-    if(known->dy!=unknown->dy) return __LINE__;
-    if(known->dz!=unknown->dz) return __LINE__;
-    if(known->dt!=unknown->dt) return __LINE__;
-    if(known->du!=unknown->du) return __LINE__;
-    if(known->datatype!=unknown->datatype) return __LINE__;
+    PrintTest(__LINE__,"Checking nifti_type",(reference_image->nifti_type!=reloaded_image->nifti_type),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking fname",(strcmp(reference_image->fname,reloaded_image->fname)),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking iname",(strcmp(reference_image->iname,reloaded_image->iname)),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking ndim",(reference_image->ndim!=reloaded_image->ndim),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking nx",(reference_image->nx!=reloaded_image->nx),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking ny",(reference_image->ny!=reloaded_image->ny),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking nz",(reference_image->nz!=reloaded_image->nz),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking nt",(reference_image->nt!=reloaded_image->nt),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking nu",(reference_image->nu!=reloaded_image->nu),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking dx",(reference_image->dx!=reloaded_image->dx),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking dy",(reference_image->dy!=reloaded_image->dy),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking dz",(reference_image->dz!=reloaded_image->dz),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking dt",(reference_image->dt!=reloaded_image->dt),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking du",(reference_image->du!=reloaded_image->du),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking datatype",(reference_image->datatype!=reloaded_image->datatype),NIFTITEST_FALSE,Errors);
         {
-        const unsigned int NumVoxels=known->nx*known->ny*known->nz*known->nt*known->nu;
+        const unsigned int NumVoxels=reference_image->nx*reference_image->ny*reference_image->nz*reference_image->nt*reference_image->nu;
+        PrintTest(__LINE__,"Check loaded data is non null",(reloaded_image->data==0),NIFTITEST_TRUE,Errors);
+        PrintTest(__LINE__,"Check reference_image data is non null",(reference_image->data==0),NIFTITEST_TRUE,Errors);
             {
-            unsigned int i=0;
-            for(; i < NumVoxels ; i++)
+            unsigned int CurrVoxel=0;
+            for(; CurrVoxel < NumVoxels ; CurrVoxel++)
                 {
-                if( ((unsigned short int *)(known->data))[i] !=  ((unsigned short int *)(unknown->data))[i]) return __LINE__;
+                /*printf("%d ",CurrVoxel); fflush(stdout);*/
+                if( ((int *)(reference_image->data))[CurrVoxel] !=  ((int *)(reloaded_image->data))[CurrVoxel]) 
+                    {
+                       PrintTest(__LINE__,"Incorrect Pixel Value Found",0,NIFTITEST_FALSE,Errors);
+                    }
                 }
             }
         }
-    if(known->xyz_units!=unknown->xyz_units) return __LINE__;
-    if(known->time_units!=unknown->time_units) return __LINE__;
-    if(known->intent_code!=unknown->intent_code) return __LINE__;
-    if(!strcmp(known->intent_name,unknown->intent_name) ) return __LINE__;
-    if(!strcmp(known->descrip,unknown->descrip)) return __LINE__;
-    return 0;
+    PrintTest(__LINE__,"Checking xyz_units",(reference_image->xyz_units!=reloaded_image->xyz_units),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking time_units",(reference_image->time_units!=reloaded_image->time_units),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking intent_code",(reference_image->intent_code!=reloaded_image->intent_code),NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking intent_name",(strncmp(reference_image->intent_name,reloaded_image->intent_name,16) )!=0,NIFTITEST_FALSE,Errors);
+    PrintTest(__LINE__,"Checking description",(strncmp(reference_image->descrip,reloaded_image->descrip,80))!=0,NIFTITEST_FALSE,Errors);
+    return ;
 }
 
-int PrintTest(const int line,const char * message,const int TestValue)
-{
-    char * PREFIX= (TestValue)?"==========ERROR":"..........SUCCESS";
-    printf("%s (%d): %s\n",PREFIX,line,message);
-    fflush(stdout);
-    return TestValue;
-}
 int main (int argc, char *argv[])
 {
     char TEMP_STR[256];
-    int ERRORS_FOUND=0;
+    int Errors=0;
+        {
+        PrintTest(__LINE__,"NOT REALLY AN ERROR, JUST TESTING THE ERROR TEST REPORTING MECHANISM",1,NIFTITEST_FALSE,&Errors);
+        PrintTest(__LINE__,"NOT REALLY AN ERROR, JUST TESTING THE ERROR COUNTING MECHANISM",Errors==1,NIFTITEST_FALSE,&Errors);
+        Errors=0;
+        }
         {
         const char write_image_filename[6][64]={
             "ATestReferenceImageForReadingAndWriting.nii",
@@ -147,14 +177,14 @@ int main (int argc, char *argv[])
             {
             printf("======= Testing with filename: %s ======\n",write_image_filename[filenameindex]);
             fflush(stdout);
-            nifti_image * reference_image = generate_reference_image(write_image_filename[filenameindex]);
-            ERRORS_FOUND+=PrintTest(__LINE__,"",!reference_image);
-                {
+            nifti_image * reference_image = generate_reference_image(write_image_filename[filenameindex],&Errors);
+            PrintTest(__LINE__,"Create reference image",reference_image==0,NIFTITEST_TRUE,&Errors);
                 nifti_image_write   ( reference_image ) ;
-                nifti_image * reloaded_image = nifti_image_read(reference_image->fname,0);
-                ERRORS_FOUND+=PrintTest(__LINE__,"",!reloaded_image);
+                {
+                nifti_image * reloaded_image = nifti_image_read(reference_image->fname,1);
+                PrintTest(__LINE__,"Reload of image ",reloaded_image==0,NIFTITEST_TRUE,&Errors);
                 nifti_image_infodump(reloaded_image);
-                ERRORS_FOUND+=PrintTest(__LINE__,"",!compare_known_values(reference_image,reloaded_image));
+                compare_reference_image_values(reference_image,reloaded_image,&Errors);
                 nifti_image_free(reloaded_image);
                 }
             nifti_image_free(reference_image);
@@ -209,22 +239,22 @@ int main (int argc, char *argv[])
                 {
                 int KnownValid=nifti_validfilename(FILE_NAMES[fni]);
                 snprintf(TEMP_STR,256,"nifti_validfilename(\"%s\")=%d",FILE_NAMES[fni],KnownValid);
-                ERRORS_FOUND+=PrintTest(__LINE__,TEMP_STR,KnownValid != KNOWN_nifti_validfilename[fni]);
+                PrintTest(__LINE__,TEMP_STR,KnownValid != KNOWN_nifti_validfilename[fni],NIFTITEST_FALSE,&Errors);
                 }
                 {
                 int KnownValid=nifti_is_complete_filename(FILE_NAMES[fni]);
                 snprintf(TEMP_STR,256,"nifti_is_complete_filename(\"%s\")=%d",FILE_NAMES[fni],KnownValid);
-                ERRORS_FOUND+=PrintTest(__LINE__,TEMP_STR,KnownValid != KNOWN_nifti_is_complete_filename[fni]);
+                PrintTest(__LINE__,TEMP_STR,KnownValid != KNOWN_nifti_is_complete_filename[fni],NIFTITEST_FALSE,&Errors);
                 }
 
                 {
                 char * basename=nifti_makebasename(FILE_NAMES[fni]);
                 snprintf(TEMP_STR,256,"nifti_makebasename(\"%s\")=\"%s\"",FILE_NAMES[fni],basename);
-                ERRORS_FOUND+=PrintTest(__LINE__,TEMP_STR,strcmp(basename,KNOWN_FILE_BASENAMES[fni]) != 0);
+                PrintTest(__LINE__,TEMP_STR,strcmp(basename,KNOWN_FILE_BASENAMES[fni]) != 0,NIFTITEST_FALSE,&Errors);
                 free(basename);
                 }
             }
         }
-    printf("\n\nTOTAL ERRORS=%d\n",ERRORS_FOUND);
-    return ERRORS_FOUND;
+    printf("\n\nTOTAL ERRORS=%d\n",Errors);
+    return Errors;
 }

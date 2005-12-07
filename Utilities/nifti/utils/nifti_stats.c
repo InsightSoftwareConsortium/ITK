@@ -72,9 +72,11 @@ static void cdff(int*,double*,double*,double*,double*,double*,int*,double*);
 static void cdffnc(int*,double*,double*,double*,double*,double*,double*,
                    int*s,double*);
 static void cdfgam(int*,double*,double*,double*,double*,double*,int*,double*);
+#if defined(__COMPILE_UNUSED_FUNCTIONS__)
 static void cdfnbn(int*,double*,double*,double*,double*,double*,double*,
                    int*,double*);
 static void cdfnor(int*,double*,double*,double*,double*,double*,int*,double*);
+#endif /*defined(__COMPILE_UNUSED_FUNCTIONS__)*/
 static void cdfpoi(int*,double*,double*,double*,double*,int*,double*);
 static void cdft(int*,double*,double*,double*,double*,int*,double*);
 static void cumbet(double*,double*,double*,double*,double*,double*);
@@ -84,26 +86,34 @@ static void cumchn(double*,double*,double*,double*,double*);
 static void cumf(double*,double*,double*,double*,double*);
 static void cumfnc(double*,double*,double*,double*,double*,double*);
 static void cumgam(double*,double*,double*,double*);
+#if defined(__COMPILE_UNUSED_FUNCTIONS__)
 static void cumnbn(double*,double*,double*,double*,double*,double*);
+#endif /*defined(__COMPILE_UNUSED_FUNCTIONS__)*/
 static void cumnor(double*,double*,double*);
 static void cumpoi(double*,double*,double*,double*);
 static void cumt(double*,double*,double*,double*);
+#if defined(__COMPILE_UNUSED_FUNCTIONS__)
 static double dbetrm(double*,double*);
+#endif /*defined(__COMPILE_UNUSED_FUNCTIONS__)*/
 static double devlpl(double [],int*,double*);
+#if defined(__COMPILE_UNUSED_FUNCTIONS__)
 static double dexpm1(double*);
 static double dinvnr(double *p,double *q);
+#endif /*defined(__COMPILE_UNUSED_FUNCTIONS__)*/
 static void E0000(int,int*,double*,double*,unsigned long*,
                   unsigned long*,double*,double*,double*,
                   double*,double*,double*,double*);
 static void dinvr(int*,double*,double*,unsigned long*,unsigned long*);
 static void dstinv(double*,double*,double*,double*,double*,double*,
                    double*);
+#if defined(__COMPILE_UNUSED_FUNCTIONS__)
 static double dlanor(double*);
 static double dln1mx(double*);
 static double dln1px(double*);
 static double dlnbet(double*,double*);
 static double dlngam(double*);
 static double dstrem(double*);
+#endif /*defined(__COMPILE_UNUSED_FUNCTIONS__)*/
 static double dt1(double*,double*,double*);
 static void E0001(int,int*,double*,double*,double*,double*,
                   unsigned long*,unsigned long*,double*,double*,
@@ -2048,7 +2058,7 @@ S120:
 /*
      S
 */
-    if(!(*s < 0.0e0 || *which != 3 && *s > *xn)) goto S160;
+    if(!( *s < 0.0e0 || ( *which != 3 && *s > *xn ))) goto S160;
     if(!(*s < 0.0e0)) goto S140;
     *bound = 0.0e0;
     goto S150;
@@ -3720,7 +3730,7 @@ S250:
 S260:
         fx = ccum-*q;
 S270:
-        if(!(qporq && cum > 1.5e0 || !qporq && ccum > 1.5e0)) goto S280;
+        if(!(( qporq && cum > 1.5e0 ) || (!qporq  &&  ccum > 1.5e0 ))) goto S280;
         *status = 10;
         return;
 S280:
@@ -3761,6 +3771,7 @@ S310:
 #undef inf
 } /* END */
 
+#if defined(__COMPILE_UNUSED_FUNCTIONS__)
 /***=====================================================================***/
 static void cdfnbn(int *which,double *p,double *q,double *s,double *xn,
             double *pr,double *ompr,int *status,double *bound)
@@ -4339,6 +4350,7 @@ S160:
     }
     return;
 } /* END */
+#endif /* defined(__COMPILE_UNUSED_FUNCTIONS__) */
 
 /***=====================================================================***/
 static void cdfpoi(int *which,double *p,double *q,double *s,double *xlam,
@@ -5583,6 +5595,7 @@ S10:
     return;
 } /* END */
 
+#if defined(__COMPILE_UNUSED_FUNCTIONS__)
 /***=====================================================================***/
 static void cumnbn(double *s,double *xn,double *pr,double *ompr,
             double *cum,double *ccum)
@@ -5649,6 +5662,7 @@ static double T1;
     cumbet(pr,ompr,xn,&T1,cum,ccum);
     return;
 } /* END */
+#endif /*defined(__COMPILE_UNUSED_FUNCTIONS__)*/
 
 /***=====================================================================***/
 static void cumnor(double *arg,double *result,double *ccum)
@@ -5980,6 +5994,7 @@ S20:
     return;
 } /* END */
 
+#if defined(__COMPILE_UNUSED_FUNCTIONS__)
 /***=====================================================================***/
 static double dbetrm(double *a,double *b)
 /*
@@ -6031,6 +6046,7 @@ static double dbetrm,T1,T2,T3;
     dbetrm += dstrem(&T3);
     return dbetrm;
 } /* END */
+#endif /* defined(__COMPILE_UNUSED_FUNCTIONS__) */
 
 /***=====================================================================***/
 static double devlpl(double a[],int *n,double *x)
@@ -6075,6 +6091,7 @@ static int i;
     return devlpl;
 } /* END */
 
+#if defined(__COMPILE_UNUSED_FUNCTIONS__)
 /***=====================================================================***/
 static double dexpm1(double *x)
 /*
@@ -6126,6 +6143,7 @@ S20:
     dexpm1 = w*(0.5e0+(0.5e0-1.0e0/w));
     return dexpm1;
 } /* END */
+#endif /*defined(__COMPILE_UNUSED_FUNCTIONS__)*/
 
 /***=====================================================================***/
 static double dinvnr(double *p,double *q)
@@ -6303,7 +6321,7 @@ S90:
     qok = 1;
     return;
 S100:
-    qup = qincr && yy < 0.0e0 || !qincr && yy > 0.0e0;
+    qup = ( qincr && yy < 0.0e0 ) || ( !qincr  &&  yy > 0.0e0 );
 /*
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      HANDLE CASE IN WHICH WE MUST STEP HIGHER
@@ -6327,7 +6345,7 @@ S120:
     goto S300;
 S130:
     yy = *fx;
-    qbdd = qincr && yy >= 0.0e0 || !qincr && yy <= 0.0e0;
+    qbdd = ( qincr && yy >= 0.0e0 ) || (!qincr  &&  yy <= 0.0e0 );
     qlim = xub >= big;
     qcond = qbdd || qlim;
     if(qcond) goto S140;
@@ -6368,7 +6386,7 @@ S190:
     goto S300;
 S200:
     yy = *fx;
-    qbdd = qincr && yy <= 0.0e0 || !qincr && yy >= 0.0e0;
+    qbdd = ( qincr && yy <= 0.0e0 ) || (!qincr  &&  yy >= 0.0e0 );
     qlim = xlb <= small;
     qcond = qbdd || qlim;
     if(qcond) goto S210;
@@ -6572,6 +6590,7 @@ static void dstinv(double *zsmall,double *zbig,double *zabsst,
     zstpmu);
 } /* END */
 
+#if defined(__COMPILE_UNUSED_FUNCTIONS__)
 /***=====================================================================***/
 static double dlanor(double *x)
 /*
@@ -7026,6 +7045,7 @@ S20:
 #undef hln2pi
 #undef ncoef
 } /* END */
+#endif /*defined(__COMPILE_UNUSED_FUNCTIONS__)*/
 
 /***=====================================================================***/
 static double dt1(double *p,double *q,double *df)
@@ -7062,8 +7082,10 @@ static double dt1(double *p,double *q,double *df)
 */
 {
 static double coef[4][5] = {
-    1.0e0,1.0e0,0.0e0,0.0e0,0.0e0,3.0e0,16.0e0,5.0e0,0.0e0,0.0e0,-15.0e0,17.0e0,
-    19.0e0,3.0e0,0.0e0,-945.0e0,-1920.0e0,1482.0e0,776.0e0,79.0e0
+        {1.0e0,1.0e0,0.0e0,0.0e0,0.0e0},
+        {3.0e0,16.0e0,5.0e0,0.0e0,0.0e0},
+        {-15.0e0,17.0e0,19.0e0,3.0e0,0.0e0},
+        {-945.0e0,-1920.0e0,1482.0e0,776.0e0,79.0e0}
 };
 static double denom[4] = {
     4.0e0,96.0e0,384.0e0,92160.0e0
@@ -7230,7 +7252,7 @@ S230:
     goto S80;
 S240:
     *xhi = c;
-    qrzero = fc >= 0.0e0 && fb <= 0.0e0 || fc < 0.0e0 && fb >= 0.0e0;
+    qrzero = ((fc >= 0.0e0  && fb <= 0.0e0 ) || (fc < 0.0e0 && fb >= 0.0e0));
     if(!qrzero) goto S250;
     *status = 0;
     goto S260;
@@ -11207,7 +11229,7 @@ double nifti_stat2hzscore( double val, int code, double p1,double p2,double p3 )
 #ifndef OMIT_MAIN
 int main( int argc , char *argv[] )
 {
-   double val , p , q , p1=0.0,p2=0.0,p3=0.0 ;
+   double val , p , p1=0.0,p2=0.0,p3=0.0 ;
    double vbot,vtop,vdel ;
    int code , iarg=1 , doq=0 , dod=0 , doi=0 , doz=0 , doh=0 ;
 

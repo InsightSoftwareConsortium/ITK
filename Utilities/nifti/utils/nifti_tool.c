@@ -36,6 +36,9 @@
  *   nifti_tool -nifti_hist
  *   nifti_tool -nifti_ver
  *
+ *   nifti_tool -check_hdr -infiles f1 ...
+ *   nifti_tool -check_nim -infiles f1 ...
+
  *   nifti_tool -disp_exts -infiles f1 ...
  *   nifti_tool -disp_hdr [-field fieldname] [...] -infiles f1 ...
  *   nifti_tool -disp_nim [-field fieldname] [...] -infiles f1 ...
@@ -125,9 +128,11 @@ static char * g_history[] =
   "   - added -strip action, to strip all extensions and descrip fields\n"
   "\n",
   "1.9  25 August 2005 [rickr] - const/string cleanup for warnings\n"
+  "\n",
+  "1.10 18 November 2005 [rickr] - added check_hdr and check_nim actions\n"
   "----------------------------------------------------------------------\n"
 };
-static char g_version[] = "version 1.9 (August 25, 2005)";
+static char g_version[] = "version 1.10 (November 18, 2005)";
 static int  g_debug = 1;
 
 #define _NIFTI_TOOL_C_
@@ -160,12 +165,16 @@ int main( int argc, char * argv[] )
    if( (rv = fill_nim_field_array(g_nim_fields)) != 0 )
       return rv;
 
-   /* copy or dts functions, first */
+   /* 'check' functions, first */
+   if( opts.check_hdr || opts.check_nim ) /* allow for both */
+      return act_check_hdrs(&opts);
+
+   /* copy or dts functions */
    if( opts.cbl )             return act_cbl(&opts);  /* just return */
    if( opts.cci )             return act_cci(&opts);
    if( opts.dts || opts.dci ) return act_disp_ci(&opts);
 
-   /* perform modifications first, in case we allow multiple actions */
+   /* perform modifications early, in case we allow multiple actions */
    if( opts.strip     && ((rv = act_strip    (&opts)) != 0) ) return rv;
 
    if( opts.add_exts  && ((rv = act_add_exts (&opts)) != 0) ) return rv;
@@ -241,6 +250,10 @@ int process_opts( int argc, char * argv[], nt_opts * opts )
          if( add_int(&opts->etypes, NIFTI_ECODE_COMMENT) ) return 1;
          opts->add_exts = 1;
       }
+      else if( ! strncmp(argv[ac], "-check_hdr", 10) )
+         opts->check_hdr = 1;
+      else if( ! strncmp(argv[ac], "-check_nim", 10) )
+         opts->check_nim = 1;
       else if( ! strncmp(argv[ac], "-copy_brick_list", 11) ||
                ! strncmp(argv[ac], "-cbl", 4) )
       {
@@ -428,14 +441,15 @@ int verify_opts( nt_opts * opts, char * prog )
    int ac, errs = 0;   /* number of requested action types */
 
    /* check that only one of disp, diff, mod or add_*_ext is used */
-   ac =  (opts->diff_hdr || opts->diff_nim                   ) ? 1 : 0;
-   ac += (opts->disp_hdr || opts->disp_nim || opts->disp_exts) ? 1 : 0;
-   ac += (opts->mod_hdr  || opts->mod_nim                    ) ? 1 : 0;
-   ac += (opts->add_exts || opts->rm_exts                    ) ? 1 : 0;
-   ac += (opts->strip                                        ) ? 1 : 0;
-   ac += (opts->cbl                                          ) ? 1 : 0;
-   ac += (opts->cci                                          ) ? 1 : 0;
-   ac += (opts->dts      || opts->dci                        ) ? 1 : 0;
+   ac  = (opts->check_hdr || opts->check_nim                   ) ? 1 : 0;
+   ac += (opts->diff_hdr  || opts->diff_nim                    ) ? 1 : 0;
+   ac += (opts->disp_hdr  || opts->disp_nim  || opts->disp_exts) ? 1 : 0;
+   ac += (opts->mod_hdr   || opts->mod_nim                     ) ? 1 : 0;
+   ac += (opts->add_exts  || opts->rm_exts                     ) ? 1 : 0;
+   ac += (opts->strip                                          ) ? 1 : 0;
+   ac += (opts->cbl                                            ) ? 1 : 0;
+   ac += (opts->cci                                            ) ? 1 : 0;
+   ac += (opts->dts       || opts->dci                         ) ? 1 : 0;
 
    if( ac < 1 )
    {
@@ -449,8 +463,8 @@ int verify_opts( nt_opts * opts, char * prog )
    {
       fprintf(stderr,
          "** only one action option is allowed, please use only one of:\n"
-         "        '-add_...', '-diff_...', '-disp_...', '-mod_...'\n"
-         "        '-strip', '-dts', '-cbl' or '-cci'\n"
+         "        '-add_...', '-check_...', '-diff_...', '-disp_...',\n"
+         "        '-mod_...', '-strip', '-dts', '-cbl' or '-cci'\n"
          "   (see '%s -help' for details)\n", prog);
       return 1;
    }
@@ -720,6 +734,12 @@ int use_full(char * prog)
    "                  - the data from any collapsed image, given dims. list\n"
    "\n");
    printf(
+   "  one can check   - perform internal check on the nifti_1_header struct\n"
+   "                    (by nifti_hdr_looks_good())\n"
+   "                  - perform internal check on the nifti_image struct\n"
+   "                    (by nifti_nim_is_valid())\n"
+   "\n");
+   printf(
    "  one can modify  - any or all fields in the nifti_1_header structure\n"
    "                  - any or all fields in the nifti_image structure\n"
    "          add/rm  - any or all extensions in the nifti_image structure\n"
@@ -755,6 +775,10 @@ int use_full(char * prog)
    "\n"
    "\n");
    printf(
+   "    nifti_tool -check_hdr -infiles f1 ...\n"
+   "    nifti_tool -check_nim -infiles f1 ...\n"
+   "\n");
+   printf(
    "    nifti_tool -copy_brick_list -infiles f1'[indices...]'\n"
    "    nifti_tool -copy_collapsed_image I J K T U V W -infiles f1\n"
    "\n");
@@ -778,6 +802,116 @@ int use_full(char * prog)
    "    nifti_tool -diff_hdr [-field FIELDNAME] [...] -infiles f1 f2\n"
    "    nifti_tool -diff_nim [-field FIELDNAME] [...] -infiles f1 f2\n"
    "\n"
+   "  ------------------------------\n");
+
+   printf(
+   "\n"
+   "  selected examples:\n"
+   "\n"
+   "    checks header (for problems):\n"
+   "\n"
+   "       nifti_tool -check_hdr -infiles dset0.nii dset1.nii\n"
+   "       nifti_tool -check_hdr -infiles *.nii *.hdr\n"
+   "       nifti_tool -check_hdr -quiet -infiles *.nii *.hdr\n"
+   "\n");
+   printf(
+   "    show header differences:\n"
+   "\n"
+   "       nifti_tool -diff_hdr -field dim -field intent_code  \\\n"
+   "                  -infiles dset0.nii dset1.nii \n"
+   "\n"
+   "    display structures or fields:\n"
+   "\n");
+   printf(
+   "       nifti_tool -disp_hdr -infiles dset0.nii dset1.nii dset2.nii\n"
+   "       nifti_tool -disp_hdr -field dim -field descrip -infiles dset0.nii\n"
+   "\n"
+   "       nifti_tool -disp_exts -infiles dset0.nii dset1.nii dset2.nii\n"
+   "\n"
+   "       nifti_tool -disp_ts 23 0 172 -infiles dset1_time.nii\n"
+   "\n"
+   "       nifti_tool -disp_ci 23 0 172 -1 0 0 0 -infiles dset1_time.nii\n"
+   "\n");
+   printf(
+   "    copy brick list, or copy collapsed image:\n"
+   "\n"
+   "       nifti_tool -cbl -prefix new_07.nii -infiles dset0.nii'[0,7]'\n"
+   "       nifti_tool -cbl -prefix new_partial.nii \\\n"
+   "                  -infiles dset0.nii'[3..$(2)]'\n"
+   "\n"
+   "       nifti_tool -cci 5 4 17 -1 -1 -1 -1 -prefix new_5_4_17.nii\n"
+   "       nifti_tool -cci 5 0 17 -1 -1 2 -1  -keep_hist \\\n"
+   "                    -prefix new_5_0_17_2.nii\n"
+   "\n");
+   printf(
+   "    modify the header:\n"
+   "\n"
+   "       nifti_tool -mod_hdr -prefix dnew -infiles dset0.nii  \\\n"
+   "                  -mod_field dim '4 64 64 20 30 1 1 1 1'\n"
+   "       nifti_tool -mod_hdr -prefix dnew -infiles dset0.nii  \\\n"
+   "                  -mod_field descrip 'beer, brats and cheese, mmmmm...'\n"
+   "\n");
+   printf(
+   "    strip, add or remove extensions:\n"
+   "\n"
+   "       nifti_tool -strip -overwrite -infiles *.nii\n"
+   "\n"
+   "       nifti_tool -add_comment 'converted from MY_AFNI_DSET+orig' \\\n"
+   "                  -prefix dnew -infiles dset0.nii\n"
+   "\n");
+   printf(
+   "       nifti_tool -rm_ext ALL -prefix dset1 -infiles dset0.nii\n"
+   "       nifti_tool -rm_ext 2 -rm_ext 3 -rm_ext 5 -overwrite \\\n"
+   "                  -infiles dset0.nii\n"
+   "\n"
+   "  ------------------------------\n");
+   printf(
+   "\n"
+   "  options for check actions:\n"
+   "\n");
+   printf(
+   "    -check_hdr         : check for a valid nifti_1_header struct\n"
+   "\n"
+   "       This action is used to check the nifti_1_header structure for\n"
+   "       problems.  The nifti_hdr_looks_good() function is used for the\n"
+   "       test, and currently checks:\n"
+   "       \n"
+   "         dim[], sizeof_hdr, magic, datatype\n"
+   "       \n"
+   "       More tests can be requested of the author.\n"
+   "\n");
+   printf(
+   "       e.g. perform checks on the headers of some datasets\n"
+   "       nifti_tool -check_hdr -infiles dset0.nii dset1.nii\n"
+   "       nifti_tool -check_hdr -infiles *.nii *.hdr\n"
+   "       \n"
+   "       e.g. add the -quiet option, so that only erros are reported\n"
+   "       nifti_tool -check_hdr -quiet -infiles *.nii *.hdr\n"
+   "\n");
+   printf(
+   "    -check_nim         : check for a valid nifti_image struct\n"
+   "\n"
+   "       This action is used to check the nifti_image structure for\n"
+   "       problems.  This is tested via both nifti_convert_nhdr2nim()\n"
+   "       and nifti_nim_is_valid(), though other functions are called\n"
+   "       below them, of course.  Current checks are:\n"
+   "\n");
+   printf(
+   "         dim[], sizeof_hdr, datatype, fname, iname, nifti_type\n"
+   "       \n"
+   "       Note that creation of a nifti_image structure depends on good\n"
+   "       header fields.  So errors are terminal, meaning this check would\n"
+   "       probably report at most one error, even if more exist.  The\n"
+   "       -check_hdr action is more complete.\n"
+   "\n");
+   printf(
+   "       More tests can be requested of the author.\n"
+   "\n");
+   printf(
+   "             e.g. nifti_tool -check_nim -infiles dset0.nii dset1.nii\n"
+   "             e.g. nifti_tool -check_nim -infiles *.nii *.hdr\n"
+   "\n");
+   printf(
    "  ------------------------------\n");
 
    printf(
@@ -824,7 +958,7 @@ int use_full(char * prog)
    "       nifti_tool -cbl -prefix new_all.nii -infiles dset0.nii'[0..$]'\n"
    "\n");
    printf(
-   "       e.g. to copy ever other time point, skipping the first three:\n"
+   "       e.g. to copy every other time point, skipping the first three:\n"
    "       nifti_tool -cbl -prefix new_partial.nii \\\n"
    "                  -infiles dset0.nii'[3..$(2)]'\n"
    "\n"
@@ -866,7 +1000,7 @@ int use_full(char * prog)
    "\n");
    printf(
    "         e.g. copy all data where i=3, j=19 and v=2\n"
-   "              (I do not claim a good reason to do this)\n"
+   "              (I do not claim to know a good reason to do this)\n"
    "         nifti_tool -cci 3 19 -1 -1 -1 2 -1 -prefix new_mess.nii\n"
    "\n"
    "       See '-disp_ci' for more information (which displays/prints the\n"
@@ -1105,7 +1239,7 @@ int use_full(char * prog)
    "\n");
    printf(
    "       e.g. to remove the extensions #2, #3 and #5:\n"
-   "       nifti_tool -rm_ext 2 -rm_ext 3 -rm_ext 5 -overwrites \\\n"
+   "       nifti_tool -rm_ext 2 -rm_ext 3 -rm_ext 5 -overwrite \\\n"
    "                  -infiles dset0.nii\n"
    "\n"
    "  ------------------------------\n");
@@ -1314,14 +1448,16 @@ int disp_nt_opts(char * mesg, nt_opts * opts)
    }
 
    fprintf(stderr,"nt_opts @ %p\n"
-                  "   diff_hdr, diff_nim  = %d, %d\n"
-                  "   disp_hdr, disp_nim  = %d, %d\n"
-                  "   disp_exts           = %d\n"
-                  "   add_exts, rm_exts   = %d, %d\n"
-                  "   mod_hdr,  mod_nim   = %d, %d\n"
-                  "   cbl, cci            = %d, %d\n"
-                  "   dts, dci_lines      = %d, %d\n",
+                  "   check_hdr, check_nim = %d, %d\n"
+                  "   diff_hdr, diff_nim   = %d, %d\n"
+                  "   disp_hdr, disp_nim   = %d, %d\n"
+                  "   disp_exts            = %d\n"
+                  "   add_exts, rm_exts    = %d, %d\n"
+                  "   mod_hdr,  mod_nim    = %d, %d\n"
+                  "   cbl, cci             = %d, %d\n"
+                  "   dts, dci_lines       = %d, %d\n",
             (void *)opts,
+            opts->check_hdr, opts->check_nim,
             opts->diff_hdr, opts->diff_nim, opts->disp_hdr, opts->disp_nim,
             opts->disp_exts, opts->add_exts, opts->rm_exts,
             opts->mod_hdr, opts->mod_nim, opts->cbl, opts->cci,
@@ -1744,6 +1880,69 @@ int act_diff_nims( nt_opts * opts )
    nifti_image_free(nim1);
 
    return (diffs > 0);
+}
+
+
+/*----------------------------------------------------------------------
+ * for each file, read nifti1_header
+ *   if checking header, check it
+ *   if checking nifti_image, convert and check it
+ *----------------------------------------------------------------------*/
+int act_check_hdrs( nt_opts * opts )
+{
+   nifti_1_header *  nhdr;
+   nifti_image    *  nim;
+   int               filenum, rv;
+
+   if( g_debug > 2 )
+      fprintf(stderr,"-d checking hdrs/nims for %d nifti datasets...\n",
+              opts->infiles.len);
+
+   for( filenum = 0; filenum < opts->infiles.len; filenum++ )
+   {
+      /* do not validate the header structure */
+      nhdr = nifti_read_header(opts->infiles.list[filenum], NULL, 0);
+      if( !nhdr ) continue;  /* errors are printed from library */
+
+      if( opts->check_hdr )
+      {
+          if( g_debug > 1 )
+             fprintf(stdout,"\nchecking nifti_1_header for file '%s'\n",
+                     opts->infiles.list[filenum]);
+
+          rv = nifti_hdr_looks_good(nhdr);
+
+          if( rv && g_debug > 0 )  /* if quiet, no GOOD response */
+             printf("header IS GOOD for file %s\n",opts->infiles.list[filenum]);
+          else if( ! rv )
+             printf("header FAILURE for file %s\n",opts->infiles.list[filenum]);
+      }
+
+      if( opts->check_nim )
+      {
+          nim = nifti_convert_nhdr2nim(*nhdr, opts->infiles.list[filenum]);
+          if( !nim ) continue;  /* errors are printed from library */
+          
+          if( g_debug > 1 )
+             fprintf(stdout,"\nchecking nifti_image for file '%s'\n",
+                     opts->infiles.list[filenum]);
+
+          rv = nifti_nim_is_valid(nim, 1); /* complain about errors */
+
+          if( rv && g_debug > 0 )  /* if quiet, no GOOD response */
+             printf("nifti_image IS GOOD for file %s\n",
+                    opts->infiles.list[filenum]);
+          else if( ! rv )
+             printf("nifti_image FAILURE for file %s\n",
+                    opts->infiles.list[filenum]);
+
+          free(nim);
+      }
+
+      free(nhdr);
+   }
+
+   return 0;
 }
 
 

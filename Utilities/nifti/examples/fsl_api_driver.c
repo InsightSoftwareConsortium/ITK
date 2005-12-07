@@ -27,18 +27,14 @@
 
 void pusage(char *cmd);
 
-main(argc, argv)
-int argc;
-char *argv[];
+int main(int argc, char * argv[])
 {
 
 FSLIO *fslio;
 void *buffer;
 char *f1name;
-double ****ddata;
 double ***vol;
 int x,y,z,t;
-char *hdrname, *datname;
 
 
 /*** process commandline parameters */

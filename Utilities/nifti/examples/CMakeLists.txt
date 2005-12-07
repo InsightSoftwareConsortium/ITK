@@ -4,7 +4,7 @@ PROJECT(FSLEXAMPLES)
 
 INCLUDE_DIRECTORIES(${NIFTILIB_SOURCE_DIR} ${ZNZLIB_SOURCE_DIR} ${FSLIOLIB_SOURCE_DIR} )
 
-ADD_EXECUTABLE( fsl_api_driver fsl_api_driver.c )
+ADD_EXECUTABLE(  ${PACKAGE_PREFIX}fsl_api_driver fsl_api_driver.c )
 TARGET_LINK_LIBRARIES( fsl_api_driver ${PACKAGE_PREFIX}fslio)
 
-INSTALL_TARGETS(/bin fsl_api_driver)
+INSTALL_TARGETS(/bin  ${PACKAGE_PREFIX}fsl_api_driver)
