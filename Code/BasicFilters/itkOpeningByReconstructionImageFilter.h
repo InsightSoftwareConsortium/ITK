@@ -34,6 +34,12 @@ namespace itk {
  *
  *   OpeningByReconstruction(f) = DilationByRecontruction(f, Erosion(f)).
  *
+ * Opening by reconstruction not only removes structures destroyed by
+ * the erosion, but also levels down the contrast of the brightest
+ * regions. If PreserveIntensities is on, a subsequent reconstruction
+ * by dilation using a marker image that is the original image for all
+ * unaffected pixels.
+ *
  * Opening by reconstruction is described in Chapter 6.3.9 of Pierre
  * Soille's book "Morphological Image Analysis: Principles and
  * Applications", Second Edition, Springer, 2003.
@@ -99,6 +105,14 @@ public:
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
   
+  /**
+   * Set/Get whether the original intensities of the image retained for
+   * those pixels unaffected by the opening by reconstrcution. If Off,
+   * the output pixel contrast will be reduced. */
+  itkSetMacro(PreserveIntensities, bool);
+  itkGetConstReferenceMacro(PreserveIntensities, bool);
+  itkBooleanMacro(PreserveIntensities);
+  
 protected:
   OpeningByReconstructionImageFilter();
   ~OpeningByReconstructionImageFilter() {};
@@ -122,6 +136,7 @@ private:
   /** kernel or structuring element to use. */
   KernelType m_Kernel ;
   bool                m_FullyConnected;
+  bool                m_PreserveIntensities;
 } ; // end of class
 
 } // end namespace itk

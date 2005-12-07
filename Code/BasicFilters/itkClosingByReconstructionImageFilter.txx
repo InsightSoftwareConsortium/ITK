@@ -33,6 +33,7 @@ ClosingByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>
   : m_Kernel()
 {
   m_FullyConnected = false;
+  m_PreserveIntensities = false;
 }
 
 template <class TInputImage, class TOutputImage, class TKernel>
@@ -87,21 +88,53 @@ ClosingByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>
   erode->SetMaskImage( this->GetInput() );
   erode->SetFullyConnected( m_FullyConnected );
 
-  // graft our output to the subtract filter to force the proper regions
-  // to be generated
-  erode->GraftOutput( this->GetOutput() );
+  if (m_PreserveIntensities)
+    {
+    erode->Update();
+    typename TInputImage::Pointer tempImage = TInputImage::New();
+    tempImage->SetRegions (dilate->GetOutput()->GetBufferedRegion());
+    tempImage->Allocate();
 
-  // run the algorithm
-  progress->RegisterInternalFilter(dilate, 0.6f);
-  progress->RegisterInternalFilter(erode, 0.4f);
+    ImageRegionConstIterator<TInputImage> inputIt(this->GetInput(),
+                                                  dilate->GetOutput()->GetBufferedRegion());
+    ImageRegionConstIterator<TInputImage> dilateIt(dilate->GetOutput(),
+                                                   erode->GetOutput()->GetBufferedRegion());
+    ImageRegionConstIterator<TInputImage> erodeIt(erode->GetOutput(),
+                                                  erode->GetOutput()->GetBufferedRegion());
+    ImageRegionIterator<TInputImage> tempIt(tempImage,
+                                            dilate->GetOutput()->GetBufferedRegion());
+    while (!dilateIt.IsAtEnd())
+      {
+      if (dilateIt.Get() == erodeIt.Get())
+        {
+        tempIt.Set(inputIt.Get());
+        }
+      else
+        {
+        tempIt.Set(NumericTraits<InputImagePixelType>::max());
+        }
+      ++dilateIt;
+      ++erodeIt;
+      ++tempIt;
+      ++inputIt;
+      }
 
-  erode->Update();
-
-  // graft the output of the dilate filter back onto this filter's
-  // output. this is needed to get the appropriate regions passed
-  // back.
-  this->GraftOutput( erode->GetOutput() );
-
+    typename ReconstructionByErosionImageFilter<TInputImage, TInputImage>::Pointer
+      erodeAgain = ReconstructionByErosionImageFilter<TInputImage, TInputImage>::New();
+    erodeAgain->SetMaskImage (this->GetInput());
+    erodeAgain->SetMarkerImage (tempImage);
+    erodeAgain->SetFullyConnected( m_FullyConnected );
+    erodeAgain->GraftOutput( this->GetOutput() );
+    progress->RegisterInternalFilter(erodeAgain, 0.25f);
+    erodeAgain->Update();
+    this->GraftOutput( erodeAgain->GetOutput() );
+    }
+  else
+    {
+    erode->GraftOutput( this->GetOutput() );
+    erode->Update();
+    this->GraftOutput( erode->GetOutput() );
+    }
 }
 
 template<class TInputImage, class TOutputImage, class TKernel>

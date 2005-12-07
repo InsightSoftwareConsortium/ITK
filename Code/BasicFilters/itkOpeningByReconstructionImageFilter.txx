@@ -34,6 +34,7 @@ OpeningByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>
   : m_Kernel()
 {
   m_FullyConnected = false;
+  m_PreserveIntensities = false;
 }
 
 template <class TInputImage, class TOutputImage, class TKernel>
@@ -88,21 +89,57 @@ OpeningByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>
   dilate->SetMaskImage( this->GetInput() );
   dilate->SetFullyConnected( m_FullyConnected );
 
-  // graft our output to the subtract filter to force the proper regions
-  // to be generated
-  dilate->GraftOutput( this->GetOutput() );
 
-  // run the algorithm
-  progress->RegisterInternalFilter(erode, 0.6f);
-  progress->RegisterInternalFilter(dilate, 0.4f);
+  progress->RegisterInternalFilter(erode, 0.5f);
+  progress->RegisterInternalFilter(dilate, 0.25f);
 
-  dilate->Update();
+  if (m_PreserveIntensities)
+    {
+    dilate->Update();
+    typename TInputImage::Pointer tempImage = TInputImage::New();
+    tempImage->SetRegions (erode->GetOutput()->GetBufferedRegion());
+    tempImage->Allocate();
 
-  // graft the output of the dilate filter back onto this filter's
-  // output. this is needed to get the appropriate regions passed
-  // back.
-  this->GraftOutput( dilate->GetOutput() );
+    ImageRegionConstIterator<TInputImage> inputIt(this->GetInput(),
+                                                  erode->GetOutput()->GetBufferedRegion());
+    ImageRegionConstIterator<TInputImage> erodeIt(erode->GetOutput(),
+                                                  erode->GetOutput()->GetBufferedRegion());
+    ImageRegionConstIterator<TInputImage> dilateIt(dilate->GetOutput(),
+                                                   erode->GetOutput()->GetBufferedRegion());
+    ImageRegionIterator<TInputImage> tempIt(tempImage,
+                                            erode->GetOutput()->GetBufferedRegion());
+    while (!erodeIt.IsAtEnd())
+      {
+      if (erodeIt.Get() == dilateIt.Get())
+        {
+        tempIt.Set(inputIt.Get());
+        }
+      else
+        {
+        tempIt.Set(NumericTraits<InputImagePixelType>::NonpositiveMin());
+        }
+      ++erodeIt;
+      ++dilateIt;
+      ++tempIt;
+      ++inputIt;
+      }
 
+    typename ReconstructionByDilationImageFilter<TInputImage, TInputImage>::Pointer
+      dilateAgain = ReconstructionByDilationImageFilter<TInputImage, TInputImage>::New();
+    dilateAgain->SetMaskImage (this->GetInput());
+    dilateAgain->SetMarkerImage (tempImage);
+    dilateAgain->SetFullyConnected( m_FullyConnected );
+    dilateAgain->GraftOutput( this->GetOutput() );
+    progress->RegisterInternalFilter(dilateAgain, 0.25f);
+    dilateAgain->Update();
+    this->GraftOutput( dilateAgain->GetOutput() );
+    }
+  else
+    {
+    dilate->GraftOutput( this->GetOutput() );
+    dilate->Update();
+    this->GraftOutput( dilate->GetOutput() );
+    }
 }
 
 template<class TInputImage, class TOutputImage, class TKernel>
@@ -114,6 +151,7 @@ OpeningByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>
 
   os << indent << "Kernel: " << m_Kernel << std::endl;
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
+  os << indent << "PreserveIntensities: "  << m_PreserveIntensities << std::endl;
 }
 
 }// end namespace itk
