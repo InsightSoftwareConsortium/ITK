@@ -79,20 +79,20 @@ public:
   virtual void SetPoints( PointListType & newPoints );
 
   /** Return a point in the list given the index */
-  virtual const SpatialObjectPointType* GetPoint(unsigned long id) const 
-      {return &(m_Points[id]);}
+  virtual const SpatialObjectPointType* GetPoint(unsigned long ind) const 
+      {return &(m_Points[ind]);}
   
   /** Return a point in the list given the index */
-  virtual SpatialObjectPointType* GetPoint(unsigned long id) 
-      {return &(m_Points[id]);}
+  virtual SpatialObjectPointType* GetPoint(unsigned long ind) 
+      {return &(m_Points[ind]);}
   
-  /** Return a point in the list given the index */
-  virtual void SetPoint(unsigned long id, const TubePointType & pnt) 
-      {m_Points[id] = pnt;}
+  /** Set a point in the list at the specified index */
+  virtual void SetPoint(unsigned long ind, const TubePointType & pnt) 
+      {m_Points[ind] = pnt;}
   
-  /** Return a point in the list given the index */
-  virtual void RemovePoint(unsigned long id)
-      { m_Points.erase(m_Points.begin()+id); }
+  /** Remove a point in the list given the index */
+  virtual void RemovePoint(unsigned long ind)
+      { m_Points.erase(m_Points.begin()+ind); }
   
   /** Return the number of points in the list */
   virtual unsigned long GetNumberOfPoints(void) const 
