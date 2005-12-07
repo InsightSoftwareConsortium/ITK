@@ -43,8 +43,12 @@ void
 VectorImage<TPixel, VImageDimension>
 ::Allocate()
 {
+  if ( m_VectorLength == 0 )
+    {
+    itkExceptionMacro( << "Cannot allocate VectorImage with VectorLength = 0");
+    }
+  
   unsigned long num;
-
   this->ComputeOffsetTable();
   num = this->GetOffsetTable()[VImageDimension];
   
@@ -141,6 +145,23 @@ VectorImage<TPixel, VImageDimension>
     }
 }
 
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension>
+unsigned int  
+VectorImage<TPixel, VImageDimension>
+::GetNumberOfComponentsPerPixel() const
+{
+  return this->m_VectorLength;
+}
+  
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension>
+void
+VectorImage<TPixel, VImageDimension>
+::SetNumberOfComponentsPerPixel( unsigned int n )
+{
+  this->SetVectorLength( static_cast< VectorLengthType >(n) );
+}
 
 /**
  *
