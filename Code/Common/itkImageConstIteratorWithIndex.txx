@@ -63,7 +63,7 @@ ImageConstIteratorWithIndex<TImage>
 
   m_PixelAccessor = it.m_PixelAccessor;
   m_PixelAccessorFunctor = it.m_PixelAccessorFunctor;
-  m_PixelAccessorFunctor.SetBegin( m_Begin );
+  m_PixelAccessorFunctor.SetBegin( m_Image->GetBufferPointer() );
 }
 
 
@@ -109,7 +109,7 @@ ImageConstIteratorWithIndex<TImage>
 
   m_PixelAccessor = m_Image->GetPixelAccessor();
   m_PixelAccessorFunctor.SetPixelAccessor( m_PixelAccessor );
-  m_PixelAccessorFunctor.SetBegin( m_Begin );
+  m_PixelAccessorFunctor.SetBegin( buffer );
 
   GoToBegin();
 
@@ -141,7 +141,7 @@ ImageConstIteratorWithIndex<TImage>
 
   m_PixelAccessor = it.m_PixelAccessor;
   m_PixelAccessorFunctor = it.m_PixelAccessorFunctor;
-  m_PixelAccessorFunctor.SetBegin( m_Begin );
+  m_PixelAccessorFunctor.SetBegin( m_Image->GetBufferPointer() );
 
   return *this;
 } 
