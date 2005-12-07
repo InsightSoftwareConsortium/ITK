@@ -390,6 +390,12 @@ private:
   ImageBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  /** Returns/Sets the number of components in the image. Note that for all 
+   * images this is 1. Even for Image< RGBPixel< T >, 3 >.
+   * This is > 1 only for time-series images such as itk::VectorImage. */
+  virtual unsigned int GetNumberOfComponentsPerPixel() const;
+  virtual void SetNumberOfComponentsPerPixel( unsigned int ); // always 1
+
   OffsetValueType  m_OffsetTable[VImageDimension+1];
 
   RegionType          m_LargestPossibleRegion;

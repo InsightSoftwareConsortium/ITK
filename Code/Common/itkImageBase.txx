@@ -238,6 +238,8 @@ ImageBase<VImageDimension>
       m_Spacing = imgData->m_Spacing;
       m_Origin = imgData->m_Origin;
       this->SetDirection(imgData->m_Direction);
+      this->SetNumberOfComponentsPerPixel( 
+          imgData->GetNumberOfComponentsPerPixel() );
       }
     else
       {
@@ -404,7 +406,25 @@ ImageBase<VImageDimension>
     }
 }
 
+//----------------------------------------------------------------------------
+template<unsigned int VImageDimension>
+unsigned int 
+ImageBase<VImageDimension>
+::GetNumberOfComponentsPerPixel() const
+{ 
+  // Returns the number of components in the image. Note that for most images
+  // this is 1. Even for Image< RGBPixel< T >, 3 >.
+  // This is > 1 only for time-series images such as itk::VectorImage. 
+  return 1;
+}
 
+//----------------------------------------------------------------------------
+template<unsigned int VImageDimension>
+void
+ImageBase<VImageDimension>
+::SetNumberOfComponentsPerPixel( unsigned int )
+{ // does nothing (always 1 )
+}
 
 /**
  *
