@@ -634,7 +634,19 @@ ADD_TEST(itkClosingByReconstructionImageFilterTest ${BASIC_FILTERS_TESTS4}
                ${ITK_DATA_ROOT}/Input/closerec1.jpg
                ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTest.png
                4
+               0
                ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestSubtract.png
+)
+
+ADD_TEST(itkClosingByReconstructionImageFilterTest2 ${BASIC_FILTERS_TESTS4} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ClosingByReconstructionImageFilterTest2.png 
+               ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTest2.png 
+   itkClosingByReconstructionImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/closerec1.jpg
+               ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTest2.png
+               4
+               1
+               ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestSubtract2.png
 )
 
 ADD_TEST(itkOpeningByReconstructionImageFilterTest ${BASIC_FILTERS_TESTS4} 
@@ -644,7 +656,19 @@ ADD_TEST(itkOpeningByReconstructionImageFilterTest ${BASIC_FILTERS_TESTS4}
                ${ITK_DATA_ROOT}/Input/chondt.png
                ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest.png
                4
+               0
                ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtract.png
+               )
+
+ADD_TEST(itkOpeningByReconstructionImageFilterTest2 ${BASIC_FILTERS_TESTS4} 
+     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/OpeningByReconstructionImageFilterTest2.png 
+               ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest2.png 
+   itkOpeningByReconstructionImageFilterTest 
+               ${ITK_DATA_ROOT}/Input/chondt.png
+               ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest2.png
+               4
+               1
+               ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtract2.png
                )
 
 ADD_TEST(itkGetAverageSliceImageFilterTest ${BASIC_FILTERS_TESTS4} 

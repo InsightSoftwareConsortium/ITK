@@ -27,10 +27,10 @@
 
 int itkOpeningByReconstructionImageFilterTest(int argc, char* argv [] ) 
 {
- if ( argc < 4 )
+ if ( argc < 5 )
   {
     std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << argv[0] << " Inputimage OutputImage Radius [Diffmage]" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " Inputimage OutputImage Radius PreserveIntensities(0,1) [Diffmage]" << std::endl;
     return EXIT_FAILURE;
   } 
   
@@ -69,6 +69,14 @@ int itkOpeningByReconstructionImageFilterTest(int argc, char* argv [] )
   structuringElement.CreateStructuringElement();
 
   filter->SetKernel( structuringElement );
+  if (atoi(argv[4]) == 0)
+    {
+    filter->PreserveIntensitiesOff();
+    }
+  else
+    {
+    filter->PreserveIntensitiesOn();
+    }
 
   // Connect the pipelines
   filter->SetInput ( reader-> GetOutput() );
@@ -90,14 +98,14 @@ int itkOpeningByReconstructionImageFilterTest(int argc, char* argv [] )
   }
    
   // Create a difference image if one is requested
-  if (argc == 5)
+  if (argc == 6)
     {
     itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::Pointer subtract = itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::New();
     subtract->SetInput( 0, reader->GetOutput() );
     subtract->SetInput( 1, filter->GetOutput() );
     try
       {
-      writer->SetFileName( argv[4] );
+      writer->SetFileName( argv[5] );
       writer->SetInput( subtract->GetOutput() );
       writer->Update();
       }
