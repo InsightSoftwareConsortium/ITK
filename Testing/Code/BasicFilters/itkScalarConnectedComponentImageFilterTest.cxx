@@ -85,7 +85,7 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
   
   // use upper left corner
   index.Fill(0);
-  for (int i=0; i<MaskImageType::ImageDimension; i++)
+  for (unsigned int i=0; i<MaskImageType::ImageDimension; i++)
     {
     size[i] = static_cast<unsigned long> (0.5 * maskSize[i]);
     }
@@ -100,7 +100,7 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
     }
 
   // use middle section
-  for (int i=0; i<MaskImageType::ImageDimension; i++)
+  for (unsigned int i=0; i<MaskImageType::ImageDimension; i++)
     {
     index[i] = static_cast<long> (0.375 * maskSize[i]);
     size[i] = static_cast<unsigned long> (0.25 * maskSize[i]);
