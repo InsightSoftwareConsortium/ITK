@@ -142,6 +142,7 @@ NiftiImageIO::NiftiImageIO():
   this->SetNumberOfDimensions(3);
   m_RescaleSlope = 1.0;
   m_RescaleIntercept = 0.0;
+  nifti_set_debug_level(0); // suppress error messages
 }
 
 NiftiImageIO::~NiftiImageIO()
