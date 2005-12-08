@@ -146,6 +146,7 @@ ClosingByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>
 
   os << indent << "Kernel: " << m_Kernel << std::endl;
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
+  os << indent << "PreserveIntensities: "  << m_PreserveIntensities << std::endl;
 }
 
 }// end namespace itk
