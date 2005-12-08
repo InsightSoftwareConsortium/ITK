@@ -120,15 +120,10 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
       {
       typename GradientImageType::Pointer gradientImagePointer = NULL;
       
-      try
-        {
-        gradientImagePointer = dynamic_cast< GradientImageType * >( 
-                                  this->ProcessObject::GetInput(i) );
-        }
-      catch( ... )
-        {
-        return;
-        }
+      // Would have liked a dynamic_cast here, but seems SGI doesn't like it
+      // The enum will ensure that an inappropriate cast is not done
+      gradientImagePointer = static_cast< GradientImageType * >( 
+                                this->ProcessObject::GetInput(i) );
       
       GradientIteratorType *git = new GradientIteratorType( 
                           gradientImagePointer, outputRegionForThread );
@@ -207,15 +202,10 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
     typedef typename GradientImagesType::PixelType         GradientVectorType;
     typename GradientImagesType::Pointer gradientImagePointer = NULL;
     
-    try
-      {
-      gradientImagePointer = dynamic_cast< GradientImagesType * >( 
-                                this->ProcessObject::GetInput(1) );
-      }
-    catch( ... )
-      {
-      return;
-      }
+    // Would have liked a dynamic_cast here, but seems SGI doesn't like it
+    // The enum will ensure that an inappropriate cast is not done
+    gradientImagePointer = static_cast< GradientImagesType * >( 
+                              this->ProcessObject::GetInput(1) );
     
     GradientIteratorType git(gradientImagePointer, outputRegionForThread );
     git.GoToBegin();
