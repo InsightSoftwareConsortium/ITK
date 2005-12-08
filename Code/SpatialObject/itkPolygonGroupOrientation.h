@@ -18,7 +18,7 @@
 #define _itkPolygonGroupOrientation_h
 namespace itk {
 /**
- * \Enumerated PolygonGroupOrientation
+ * \enum PolygonGroupOrientation
  * \brief enumerates the possible spatial orientations
  */
 typedef enum {
