@@ -24,6 +24,7 @@
 #include "itkImage.h"
 #include "itkBinaryBallStructuringElement.h"
 #include "itkSubtractImageFilter.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkOpeningByReconstructionImageFilterTest(int argc, char* argv [] ) 
 {
@@ -62,6 +63,7 @@ int itkOpeningByReconstructionImageFilterTest(int argc, char* argv [] )
 
   // Create the filter
   MorphologicalFilterType::Pointer   filter = MorphologicalFilterType::New();
+  itk::SimpleFilterWatcher watcher(filter, "Opening"); watcher.QuietOn();
  
   StructuringElementType   structuringElement;
 
