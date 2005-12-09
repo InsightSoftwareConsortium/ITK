@@ -25,7 +25,7 @@ namespace itk
  * \brief Fills in holes and cavities by iteratively applying a voting operation.
  *
  * This filter uses internally the VotingBinaryHoleFillingImageFilter, and runs
- * it iteratively until not pixels are being changed or until it reaches the
+ * it iteratively until no pixels are being changed or until it reaches the
  * maximum number of iterations. The purpose of the filter is to fill in holes
  * of medium size (tens of pixels in radius). In principle the number of
  * iterations is related to the size of the holes to be filled in. The larger
