@@ -14,6 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#if defined(USE_FFTWF) || defined(USE_FFTWD)
 #ifndef _itkCurvatureRegistrationFilter_txx
 #define _itkCurvatureRegistrationFilter_txx
 #include "itkCurvatureRegistrationFilter.h"
@@ -285,3 +286,4 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
 } // end namespace itk
 
 #endif
+#endif //defined(USE_FFTWF) || defined(USE_FFTWD)
