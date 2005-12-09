@@ -30,7 +30,7 @@ enum MET_CellGeometry {MET_VERTEX_CELL=0, MET_LINE_CELL, MET_TRIANGLE_CELL, MET_
         MET_QUADRATIC_EDGE_CELL, MET_QUADRATIC_TRIANGLE_CELL};
 
 const unsigned char MET_CellSize[MET_NUM_VALUE_TYPES] = {
-  0,2,3,4,5,4,8,3,6};
+  1,2,3,4,5,4,8,3,6};
 
 const char MET_CellTypeName[MET_NUM_VALUE_TYPES][4] = {
    {'V','R','T','\0'},
