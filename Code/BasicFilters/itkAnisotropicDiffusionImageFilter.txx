@@ -34,7 +34,7 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
   m_ConductanceScalingParameter = 1.0;
   m_ConductanceScalingUpdateInterval = 1;
   m_TimeStep = 0.5 / pow(2.0, static_cast<double>(ImageDimension));
-  m_FixedAverageGradientMagnitude = 0.0;
+  m_FixedAverageGradientMagnitude = 1.0;
   m_GradientMagnitudeIsFixed = false;
 }
 
@@ -48,7 +48,9 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
     dynamic_cast<AnisotropicDiffusionFunction<UpdateBufferType> *>
     (this->GetDifferenceFunction().GetPointer());
   if (! f)
-    {  throw ExceptionObject(__FILE__, __LINE__);    }
+    {
+    throw ExceptionObject(__FILE__, __LINE__);
+    }
   
   f->SetConductanceParameter(m_ConductanceParameter);
   f->SetTimeStep(m_TimeStep);
@@ -76,9 +78,12 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
     itkWarningMacro(<< std::endl << "Anisotropic diffusion unstable time step: " << m_TimeStep << std::endl << "Minimum stable time step for this image is " << minSpacing / pow(2.0, static_cast<double>(ImageDimension+1)));
     }
   
-  if (m_GradientMagnitudeIsFixed == false && (this->GetElapsedIterations() % m_ConductanceScalingUpdateInterval)==0 )
+  if (m_GradientMagnitudeIsFixed == false)
     {
-    f->CalculateAverageGradientMagnitudeSquared(this->GetOutput());
+    if ((this->GetElapsedIterations() % m_ConductanceScalingUpdateInterval)==0 )
+      {
+      f->CalculateAverageGradientMagnitudeSquared(this->GetOutput());
+      }
     }
   else
     {
@@ -87,11 +92,16 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
                                           m_FixedAverageGradientMagnitude);
     }
   f->InitializeIteration();
-
+  
   if (this->GetNumberOfIterations() != 0)
+    {
     this->UpdateProgress(((float)(this->GetElapsedIterations()))
                          /((float)(this->GetNumberOfIterations())));
-  else this->UpdateProgress(0);
+    }
+  else
+    {
+    this->UpdateProgress(0);
+    }
 }
 
 template <class TInputImage, class TOutputImage>
