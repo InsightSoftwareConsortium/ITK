@@ -25,7 +25,8 @@ gawk -f @ITK_SOURCE_DIR@/Utilities/Dart/NewSince.gawk ${TEMPDIR}/$$.allchanges |
 #
 grep -v Attic ${TEMPDIR}/$$.newandremoved >${TEMPDIR}/$$.new
 
-echo "== New Classes in this Release ==" > ${TEMPDIR}/$$.wikitemp
+echo "This release covers the period ${FROM} through ${TO}" > ${TEMPDIR}/$$.wikitemp
+echo "== New Classes in this Release ==" >> ${TEMPDIR}/$$.wikitemp
 echo "<pre>" >> ${TEMPDIR}/$$.wikitemp
 grep "^Code/Algorithms" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
 echo "" >> ${TEMPDIR}/$$.wikitemp
