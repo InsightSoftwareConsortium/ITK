@@ -123,6 +123,8 @@ int itkVotingBinaryIterativeHoleFillingImageFilterTest(int, char* [] )
     }
   
   std::cout << "Number Of Pixels Changed = " << voting->GetNumberOfPixelsChanged() << std::endl;
+
+  voting->Print( std::cout );
   return EXIT_SUCCESS;
 }
 
