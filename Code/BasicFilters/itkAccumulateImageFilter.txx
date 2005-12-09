@@ -66,19 +66,23 @@ AccumulateImageFilter<TInputImage,TOutputImage>
 
   // Set the LargestPossibleRegion of the output.
   // Reduce the size of the accumulated dimension.
-  for(unsigned int i = 0; i<InputImageDimension; i++) {
-    if (i != m_AccumulateDimension) {
+  for(unsigned int i = 0; i<InputImageDimension; i++)
+    {
+    if (i != m_AccumulateDimension)
+      {
       outputSize[i]  = inputSize[i];
       outputIndex[i] = inputIndex[i];
       outSpacing[i] = inSpacing[i];
       outOrigin[i]  = inOrigin[i];
-    } else {
+      }
+    else
+      {
       outputSize[i]  = 1;
       outputIndex[i] = 0;
       outSpacing[i] = inSpacing[i]*inputSize[i];
       outOrigin[i]  = inOrigin[i] + (i-1)*inSpacing[i]/2;
+      }
     }
-  }
 
   outputRegion.SetSize(outputSize);
   outputRegion.SetIndex(outputIndex);
@@ -100,37 +104,37 @@ AccumulateImageFilter<TInputImage,TOutputImage>
 
   if ( this->GetInput() )
     {
-      typename TInputImage::RegionType RequestedRegion;
-      typename TInputImage::SizeType  inputSize;
-      typename TInputImage::IndexType inputIndex;
-      typename TInputImage::SizeType  inputLargSize;
-      typename TInputImage::IndexType inputLargIndex;
-      typename TOutputImage::SizeType  outputSize;
-      typename TOutputImage::IndexType outputIndex;
+    typename TInputImage::RegionType RequestedRegion;
+    typename TInputImage::SizeType  inputSize;
+    typename TInputImage::IndexType inputIndex;
+    typename TInputImage::SizeType  inputLargSize;
+    typename TInputImage::IndexType inputLargIndex;
+    typename TOutputImage::SizeType  outputSize;
+    typename TOutputImage::IndexType outputIndex;
 
-      outputIndex = this->GetOutput()->GetRequestedRegion().GetIndex();
-      outputSize = this->GetOutput()->GetRequestedRegion().GetSize();
-      inputLargSize = this->GetInput()->GetLargestPossibleRegion().GetSize();
-      inputLargIndex = this->GetInput()->GetLargestPossibleRegion().GetIndex();
+    outputIndex = this->GetOutput()->GetRequestedRegion().GetIndex();
+    outputSize = this->GetOutput()->GetRequestedRegion().GetSize();
+    inputLargSize = this->GetInput()->GetLargestPossibleRegion().GetSize();
+    inputLargIndex = this->GetInput()->GetLargestPossibleRegion().GetIndex();
 
-      for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
+    for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
       {
-        if(i!=m_AccumulateDimension)
+      if(i!=m_AccumulateDimension)
         {
-          inputSize[i] = outputSize[i];
-          inputIndex[i] = outputIndex[i];
+        inputSize[i] = outputSize[i];
+        inputIndex[i] = outputIndex[i];
         }
-        else
+      else
         {
-          inputSize[i]=inputLargSize[i];
-          inputIndex[i]=inputLargIndex[i];
+        inputSize[i]=inputLargSize[i];
+        inputIndex[i]=inputLargIndex[i];
         }
       }
 
-      RequestedRegion.SetSize(inputSize);
-      RequestedRegion.SetIndex(inputIndex);
-      InputImagePointer input = const_cast< TInputImage * > ( this->GetInput() );
-      input->SetRequestedRegion (RequestedRegion);
+    RequestedRegion.SetSize(inputSize);
+    RequestedRegion.SetIndex(inputIndex);
+    InputImagePointer input = const_cast< TInputImage * > ( this->GetInput() );
+    input->SetRequestedRegion (RequestedRegion);
     }
 
   itkDebugMacro("GenerateInputRequestedRegion End");
@@ -146,9 +150,9 @@ AccumulateImageFilter<TInputImage,TOutputImage>
 ::GenerateData( void )
 {
   if(m_AccumulateDimension>=TInputImage::ImageDimension)
-  {
-  itkExceptionMacro(<<"AccumulateImageFilter: invalid dimension to accumulate. AccumulateDimension = " << m_AccumulateDimension);
-  }
+    {
+    itkExceptionMacro(<<"AccumulateImageFilter: invalid dimension to accumulate. AccumulateDimension = " << m_AccumulateDimension);
+    }
 
   typedef typename TOutputImage::PixelType OutputPixelType;
   typedef typename NumericTraits<OutputPixelType>::AccumulateType AccumulateType;
@@ -163,7 +167,7 @@ AccumulateImageFilter<TInputImage,TOutputImage>
   typedef ImageRegionIterator<TOutputImage> outputIterType;
   outputIterType outputIter(outputImage, outputImage->GetBufferedRegion());
   typedef ImageRegionConstIterator<TInputImage> inputIterType;
-
+  
   typename TInputImage::RegionType AccumulatedRegion;
   typename TInputImage::SizeType AccumulatedSize = inputImage->GetLargestPossibleRegion().GetSize();
   typename TInputImage::IndexType AccumulatedIndex = inputImage->GetLargestPossibleRegion().GetIndex();
@@ -171,23 +175,29 @@ AccumulateImageFilter<TInputImage,TOutputImage>
   unsigned long SizeAccumulateDimension = AccumulatedSize[m_AccumulateDimension];
   double SizeAccumulateDimensionDouble = static_cast<double>(SizeAccumulateDimension);
   long IndexAccumulateDimension = AccumulatedIndex[m_AccumulateDimension];
-  for(unsigned int i=0; i< InputImageDimension; i++) {
-    if (i != m_AccumulateDimension ) {
+  for(unsigned int i=0; i< InputImageDimension; i++)
+    {
+    if (i != m_AccumulateDimension )
+      {
       AccumulatedSize[i] = 1;
+      }
     }
-  }
   AccumulatedRegion.SetSize(AccumulatedSize);
   outputIter.GoToBegin();
   while(!outputIter.IsAtEnd())
-  {
+    {
     typename TOutputImage::IndexType OutputIndex = outputIter.GetIndex();
-    for(unsigned int i=0; i<InputImageDimension; i++) {
-      if (i != m_AccumulateDimension) {
+    for(unsigned int i=0; i<InputImageDimension; i++)
+      {
+      if (i != m_AccumulateDimension)
+        {
         AccumulatedIndex[i] = OutputIndex[i];
-      } else {
+        }
+      else
+        {
         AccumulatedIndex[i] = IndexAccumulateDimension;
+        }
       }
-    }
     AccumulatedRegion.SetIndex(AccumulatedIndex);
     inputIterType inputIter(inputImage, AccumulatedRegion);
     inputIter.GoToBegin();
@@ -206,7 +216,7 @@ AccumulateImageFilter<TInputImage,TOutputImage>
       outputIter.Set (static_cast<OutputPixelType>(Value));
       }
     ++outputIter;
-  }
+    }
 }
 
 
