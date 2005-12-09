@@ -104,6 +104,20 @@ int itkAccumulateImageFilterTest(int argc, char *argv[] )
     return EXIT_FAILURE;
 
     }
+
+  // Test dimension check exception.
+  try
+    {
+    accumulate->SetAccumulateDimension( 5 );
+    accumulate->Update();
+    std::cout << "Failed to catch expected exception." << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch ( itk::ExceptionObject &excp )
+    {
+    std::cout << "Caught expected exception." << std::endl;
+    std::cout << excp << std::endl;
+    }
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
