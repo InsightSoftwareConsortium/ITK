@@ -186,6 +186,44 @@ int itkCovariantVectorGeometryTest(int, char* [] )
 
   }
 
+  // Test the Cross products
+  {
+    typedef itk::Vector<double, 3>           ContravariantVectorType;
+    typedef itk::CovariantVector<double, 3>  CovariantVectorType;
+    
+    ContravariantVectorType va;
+    ContravariantVectorType vb;
+
+    va[0] = 1.0;
+    va[1] = 0.0;
+    va[2] = 0.0;
+
+    vb[0] = 0.0;
+    vb[1] = 1.0;
+    vb[2] = 0.0;
+
+    CovariantVectorType normal;
+
+    CrossProduct( normal, va, vb );
+    
+    CovariantVectorType expectedNormal;
+
+    expectedNormal[0] = 0.0;
+    expectedNormal[1] = 0.0;
+    expectedNormal[2] = 1.0;
+    
+    const double tolerance = 1e-7;
+
+    if( fabs( normal[0] - expectedNormal[0] ) > tolerance ||
+        fabs( normal[1] - expectedNormal[1] ) > tolerance ||
+        fabs( normal[2] - expectedNormal[2] ) > tolerance )
+      {
+      std::cerr << "Error in CrossProduct computation." << std::endl;
+      return EXIT_FAILURE;
+      }
+       
+  }
+
   return EXIT_SUCCESS;
 }
 
