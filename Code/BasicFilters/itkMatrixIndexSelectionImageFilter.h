@@ -28,19 +28,19 @@ template< class TInput, class TOutput>
 class MatrixIndexSelection
 {
 public:
-  MatrixIndexSelection() {m_i = m_j = 0;}
+  MatrixIndexSelection() {m_I = m_J = 0;}
   ~MatrixIndexSelection() {}
 
-  void GetIndices(unsigned int& i, unsigned int& j) const {i= m_i; j=m_j;}
-  void SetIndices(unsigned int i,unsigned int j) {m_i= i; m_j =j;}
+  void GetIndices(unsigned int& i, unsigned int& j) const {i= m_I; j=m_J;}
+  void SetIndices(unsigned int i,unsigned int j) {m_I= i; m_J =j;}
 
   inline TOutput operator()( const TInput & A )
   {
-    return static_cast<TOutput>( A[m_i][m_j] );
+    return static_cast<TOutput>( A[m_I][m_J] );
   }
       
 private:
-  unsigned int m_i, m_j;;   
+  unsigned int m_I, m_J;   
 }; 
 }
 
