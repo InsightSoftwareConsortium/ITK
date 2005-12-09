@@ -46,4 +46,9 @@ IF(UNIX)
   CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Dart/cronentry.in
                  ${ITK_BINARY_DIR}/cronentry
                  @ONLY IMMEDIATE)
+  CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Dart/NewSince.csh.in
+                 ${ITK_BINARY_DIR}/NewSince.csh
+                 @ONLY IMMEDIATE)
+  EXEC_PROGRAM(chmod ARGS 755 \"${ITK_BINARY_DIR}/NewSince.csh\"
+                 OUTPUT_VARIABLE ITK_EXEC_PLEASE_BE_QUIET)
 ENDIF(UNIX)
