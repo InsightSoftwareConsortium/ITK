@@ -26,7 +26,7 @@ gawk -f @ITK_SOURCE_DIR@/Utilities/Dart/NewSince.gawk ${TEMPDIR}/$$.allchanges |
 grep -v Attic ${TEMPDIR}/$$.newandremoved >${TEMPDIR}/$$.new
 
 echo "== New Classes in this Release ==" > ${TEMPDIR}/$$.wikitemp
-echo "" >> ${TEMPDIR}/$$.wikitemp
+echo "<pre>" >> ${TEMPDIR}/$$.wikitemp
 grep "^Code/Algorithms" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
 echo "" >> ${TEMPDIR}/$$.wikitemp
 grep "^Code/BasicFilters" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
@@ -44,9 +44,10 @@ echo "" >> ${TEMPDIR}/$$.wikitemp
 grep "^Code/SpatialObject" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
 echo "" >> ${TEMPDIR}/$$.wikitemp
 grep "^Code/Patented" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
+echo "</pre>" >> ${TEMPDIR}/$$.wikitemp
 
 echo "== New Tests in this Release =="  >> ${TEMPDIR}/$$.wikitemp
-echo "" >> ${TEMPDIR}/$$.wikitemp
+echo "<pre>" >> ${TEMPDIR}/$$.wikitemp
 grep "^Testing/Code/Common" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
 echo "" >> ${TEMPDIR}/$$.wikitemp
 grep "^Testing/Code/BasicFilters" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
@@ -60,9 +61,10 @@ echo "" >> ${TEMPDIR}/$$.wikitemp
 grep "^Testing/Code/SpatialObject" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
 echo "" >> ${TEMPDIR}/$$.wikitemp
 grep "^Testing/Code/Patented" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
+echo "</pre>" >> ${TEMPDIR}/$$.wikitemp
 
 echo "== New Examples in this Release ==" >> ${TEMPDIR}/$$.wikitemp
-echo "" >> ${TEMPDIR}/$$.wikitemp
+echo "<pre>" >> ${TEMPDIR}/$$.wikitemp
 grep "^Examples/DataRepresentation" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
 echo "" >> ${TEMPDIR}/$$.wikitemp
 grep "^Examples/Filtering" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
@@ -92,10 +94,12 @@ echo "" >> ${TEMPDIR}/$$.wikitemp
 grep "^Examples/Visualization" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
 echo "" >> ${TEMPDIR}/$$.wikitemp
 grep "^Examples/Wrapping" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
+echo "</pre>" >> ${TEMPDIR}/$$.wikitemp
 
-echo "" >> ${TEMPDIR}/$$.wikitemp
 echo "== New Utilities in this Release ==" >> ${TEMPDIR}/$$.wikitemp
+echo "<pre>" >> ${TEMPDIR}/$$.wikitemp
 grep "^Utilities/" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
+echo "</pre>" >> ${TEMPDIR}/$$.wikitemp
 
 #
 # remove consecutive blank lines
