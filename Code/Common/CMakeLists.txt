@@ -5,6 +5,7 @@ SET(ITKCommon_SRCS
   itkChainCodePath2D.cxx
   itkCommand.h itkCommand.cxx
   itkConditionVariable.cxx
+  itkCovariantVector.cxx
   itkDataObject.cxx
   itkDecisionRuleBase.cxx
   itkDirectory.cxx

@@ -185,6 +185,18 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
 
 };
 
+ITKCommon_EXPORT void CrossProduct(  CovariantVector<double,3> &,
+                                     const Vector<double,3> &,
+                                     const Vector<double,3> &  );
+
+ITKCommon_EXPORT void CrossProduct(  CovariantVector<float,3> &,
+                                     const Vector<float,3> &,
+                                     const Vector<float,3> &  );
+
+ITKCommon_EXPORT void CrossProduct(  CovariantVector<int,3>,
+                                     const Vector<int,3> &,
+                                     const Vector<int,3> &  );
+
 
 } // end namespace itk
   
