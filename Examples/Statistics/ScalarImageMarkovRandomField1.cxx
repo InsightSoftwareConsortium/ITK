@@ -459,16 +459,19 @@ int main( int argc, char * argv [] )
     }
   catch( itk::ExceptionObject & excp )
     {
-    std::cerr << "Problem encountered while writing image file : " << argv[2] << std::endl;
+    std::cerr << "Problem encountered while writing ";
+    std::cerr << " image file : " << argv[2] << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
 // Software Guide : EndCodeSnippet
 
-  std::cout << "Number of Iterations : " << mrfFilter->GetNumberOfIterations() 
-    << std::endl;
-  std::cout << "Stop condition: (1) Maximum number of iterations (2) Error tolerance:  " 
-    << mrfFilter->GetStopCondition() << std::endl;
+  std::cout << "Number of Iterations : ";
+  std::cout << mrfFilter->GetNumberOfIterations() << std::endl;
+  std::cout << "Stop condition: " << std::endl;
+  std::cout << "  (1) Maximum number of iterations " << std::endl;
+  std::cout << "  (2) Error tolerance:  "  << std::endl;
+  std::cout << mrfFilter->GetStopCondition() << std::endl;
 
   //  Software Guide : BeginLatex
   //  
