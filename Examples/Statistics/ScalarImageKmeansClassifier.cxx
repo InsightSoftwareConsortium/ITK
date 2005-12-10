@@ -27,7 +27,8 @@
 
 // Software Guide : BeginLatex
 //
-// This example shows how to use the KMeans model for classifying the pixel of a scalar image.
+// This example shows how to use the KMeans model for classifying the pixel of
+// a scalar image.
 //
 // The  \subdoxygen{Statistics}{ScalarImageKmeansImageFilter} is used for taking
 // a scalar image and applying the K-Means algorithm in order to define classes
@@ -51,7 +52,8 @@ int main( int argc, char * argv [] )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0];
-    std::cerr << " inputScalarImage outputLabeledImage contiguousLabels numberOfClasses mean1 mean2... meanN " << std::endl;
+    std::cerr << " inputScalarImage outputLabeledImage contiguousLabels";
+    std::cerr << " numberOfClasses mean1 mean2... meanN " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -204,7 +206,8 @@ int main( int argc, char * argv [] )
     }
   catch( itk::ExceptionObject & excp )
     {
-    std::cerr << "Problem encountered while writing image file : " << argv[2] << std::endl;
+    std::cerr << "Problem encountered while writing "
+    std::cerr << " image file : " << argv[2] << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
@@ -222,7 +225,8 @@ int main( int argc, char * argv [] )
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  KMeansFilterType::ParametersType estimatedMeans = kmeansFilter->GetFinalMeans();
+  KMeansFilterType::ParametersType estimatedMeans = 
+                                            kmeansFilter->GetFinalMeans();
 
   const unsigned int numberOfClasses = estimatedMeans.Size();
 
