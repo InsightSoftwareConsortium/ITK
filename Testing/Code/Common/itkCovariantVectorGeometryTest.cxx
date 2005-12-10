@@ -204,7 +204,7 @@ int itkCovariantVectorGeometryTest(int, char* [] )
 
     CovariantVectorType normal;
 
-    CrossProduct( normal, va, vb );
+    itk::CrossProduct( normal, va, vb );
     
     CovariantVectorType expectedNormal;
 
