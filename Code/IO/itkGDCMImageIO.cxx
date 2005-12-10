@@ -240,49 +240,49 @@ void GDCMImageIO::Read(void* buffer)
     {
     switch(m_InternalComponentType)
       {
-      case UCHAR:
+      case ImageIOBase::UCHAR:
         {
         RescaleFunction(m_ComponentType, buffer, (unsigned char*)source,
                         m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
-      case CHAR:
+      case ImageIOBase::CHAR:
         {
         RescaleFunction(m_ComponentType, buffer, (char*)source,
                         m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
-      case USHORT:
+      case ImageIOBase::USHORT:
         {
         RescaleFunction(m_ComponentType, buffer, (unsigned short*)source,
                         m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
-      case SHORT:
+      case ImageIOBase::SHORT:
         {
         RescaleFunction(m_ComponentType, buffer, (short*)source,
                         m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
-      case UINT:
+      case ImageIOBase::UINT:
         {
         RescaleFunction(m_ComponentType, buffer, (unsigned int*)source,
                         m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
-      case INT:
+      case ImageIOBase::INT:
         {
         RescaleFunction(m_ComponentType, buffer, (int*)source,
                         m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
-      case FLOAT:
+      case ImageIOBase::FLOAT:
         {
         RescaleFunction(m_ComponentType, buffer, (float*)source,
                         m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
-      case DOUBLE:
+      case ImageIOBase::DOUBLE:
         {
         RescaleFunction(m_ComponentType, buffer, (double *)source,
                         m_RescaleSlope, m_RescaleIntercept, size);
@@ -334,32 +334,32 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   std::string type = header.GetPixelType();
   if( type == "8U")
     {
-    SetComponentType(UCHAR);
+    SetComponentType(ImageIOBase::UCHAR);
     }
   else if( type == "8S")
     {
-    SetComponentType(CHAR);
+    SetComponentType(ImageIOBase::CHAR);
     }
   else if( type == "16U")
     {
-    SetComponentType(USHORT);
+    SetComponentType(ImageIOBase::USHORT);
     }
   else if( type == "16S")
     {
-    SetComponentType(SHORT);
+    SetComponentType(ImageIOBase::SHORT);
     }
   else if( type == "32U")
     {
-    SetComponentType(UINT);
+    SetComponentType(ImageIOBase::UINT);
     }
   else if( type == "32S")
     {
-    SetComponentType(INT);
+    SetComponentType(ImageIOBase::INT);
     }
   else if ( type == "FD" )
     {
     //64 bits Double image
-    SetComponentType(DOUBLE);
+    SetComponentType(ImageIOBase::DOUBLE);
     }
   else
     {
@@ -748,28 +748,28 @@ void GDCMImageIO::Write(const void* buffer)
 
     switch (this->GetComponentType())
       {
-      case CHAR:
+      case ImageIOBase::CHAR:
         bitsAllocated = "8"; // Bits Allocated
         bitsStored    = "8"; // Bits Stored
         highBit       = "7"; // High Bit
         pixelRep      = "1"; // Pixel Representation
         break;
 
-      case UCHAR:
+      case ImageIOBase::UCHAR:
         bitsAllocated = "8"; // Bits Allocated
         bitsStored    = "8"; // Bits Stored
         highBit       = "7"; // High Bit
         pixelRep      = "0"; // Pixel Representation
         break;
 
-      case SHORT:
+      case ImageIOBase::SHORT:
         bitsAllocated = "16"; // Bits Allocated
         bitsStored    = "16"; // Bits Stored
         highBit       = "15"; // High Bit
         pixelRep      = "1";  // Pixel Representation
         break;    
 
-      case USHORT:
+      case ImageIOBase::USHORT:
         bitsAllocated = "16"; // Bits Allocated
         bitsStored    = "16"; // Bits Stored
         highBit       = "15"; // High Bit
