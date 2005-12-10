@@ -32,7 +32,7 @@
 // First, we need to include the headers for the
 // \subdoxygen{Statistics}{ScalarImageToListAdaptor} and the \doxygen{Image} classes.
 //
-// \index{itk::Statistics::ScalarImageToListAdaptor!header}
+// \index{itk::Statistics::Scalar\-Image\-To\-List\-Adaptor!header}
 // \index{Statistics!Images}
 //
 // Software Guide : EndLatex 
@@ -47,7 +47,7 @@
 // Now we include the headers for the \code{ListSampleToHistogramGenerator} and
 // the reader that we will use for reading the image from a file.
 //
-// \index{itk::Statistics::ListSampleToHistogramGenerator!header}
+// \index{itk::Statistics::List\-Sample\-To\-Histogram\-Generator!header}
 //
 // Software Guide : EndLatex 
 
@@ -111,7 +111,7 @@ int main( int argc, char * argv [] )
 // assigning the result to the corresponding smart pointer. Finally we connect
 // the output of the image reader to the input of the adaptor. 
 //
-// \index{itk::Statistics::ScalarImageToListAdaptor!instantiation}
+// \index{itk::Statistics::Scalar\-Image\-To\-List\-Adaptor!instantiation}
 //
 // Software Guide : EndLatex 
 
@@ -160,7 +160,7 @@ int main( int argc, char * argv [] )
 // generator. Having instantiated this type, we proceed to create one generator
 // by invoking its \code{New()} method.
 //
-// \index{itk::Statistics::ListSampleToHistogramGenerator!instantiation}
+// \index{itk::Statistics::List\-Sample\-To\-Histogram\-Generator!instantiation}
 //
 // Software Guide : EndLatex 
 
