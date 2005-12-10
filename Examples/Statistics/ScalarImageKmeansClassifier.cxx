@@ -206,7 +206,7 @@ int main( int argc, char * argv [] )
     }
   catch( itk::ExceptionObject & excp )
     {
-    std::cerr << "Problem encountered while writing "
+    std::cerr << "Problem encountered while writing ";
     std::cerr << " image file : " << argv[2] << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
