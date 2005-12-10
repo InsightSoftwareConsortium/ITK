@@ -27,8 +27,6 @@ SimpleFilterWatcher
 ::SimpleFilterWatcher(ProcessObject* o, const char *comment)
 {
   // Initialize state
-  m_Start = 0;
-  m_End = 0;
   m_Process = o;
   m_Steps = 0;
   m_Comment = comment;
@@ -75,8 +73,6 @@ SimpleFilterWatcher
 ::SimpleFilterWatcher()
 {
   // Initialize state
-  m_Start = 0;
-  m_End = 0;
   m_Steps = 0;
   m_Comment = "Not watching an object";
   m_TestAbort = false;
@@ -118,8 +114,7 @@ SimpleFilterWatcher
     }
   
   // Initialize state
-  m_Start = watch.m_Start;
-  m_End = watch.m_End;
+  m_TimeProbe = watch.m_TimeProbe;
   m_Process = watch.m_Process;
   m_Steps = watch.m_Steps;
   m_Comment = watch.m_Comment;
@@ -196,8 +191,7 @@ SimpleFilterWatcher
     }
 
   // Initialize state
-  m_Start = watch.m_Start;
-  m_End = watch.m_End;
+  m_TimeProbe = watch.m_TimeProbe;
   m_Process = watch.m_Process;
   m_Steps = watch.m_Steps;
   m_Comment = watch.m_Comment;

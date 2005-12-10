@@ -19,7 +19,7 @@
 
 #include "itkCommand.h"
 #include "itkProcessObject.h"
-#include <time.h>
+#include "itkTimeProbe.h"
 
 
 namespace itk
@@ -143,17 +143,20 @@ protected:
   {
     m_Steps = 0;
     m_Iterations = 0;
-    m_Start = ::clock();
+    m_TimeProbe.Start();
     std::cout << "-------- Start "
               << (m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None")
               << " \"" << m_Comment << "\" ";
-    if (m_Process)
+    if (!m_Quiet)
       {
-      std::cout << m_Process;
-      }
-    else
-      {
-      std::cout << "Null";
+      if (m_Process)
+        {
+        std::cout << m_Process;
+        }
+      else
+        {
+        std::cout << "Null";
+        }
       }
     std::cout << (m_Quiet ? "Progress Quiet " : "Progress ")
               << std::flush;
@@ -162,23 +165,26 @@ protected:
   /** Callback method to show the EndEvent */
   virtual void EndFilter()
   {
-    m_End = ::clock();
+    m_TimeProbe.Stop();
     std::cout << std::endl << "Filter took "
-              << static_cast<double>(m_End - m_Start) / CLOCKS_PER_SEC
+              << m_TimeProbe.GetMeanTime()
               << " seconds.";
-    std::cout << std::endl << std::endl
+    std::cout << std::endl
               << "-------- End "
               << (m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None")
-              << " \"" << m_Comment << "\" ";
-    if (m_Process)
+              << " \"" << m_Comment << "\" " << std::endl;
+    if (!m_Quiet)
       {
-      std::cout << m_Process;
+      if (m_Process)
+        {
+        std::cout << m_Process;
+        }
+      else
+        {
+        std::cout << "None";
+        }
+      std::cout << std::flush;
       }
-    else
-      {
-      std::cout << "None";
-      }
-    std::cout << std::flush;
     if (m_Steps < 1)
       {
       itkExceptionMacro ("Filter does not have progress.");
@@ -186,8 +192,7 @@ protected:
     }
 
 private:
-  clock_t m_Start;
-  clock_t m_End;
+  TimeProbe m_TimeProbe;
   int m_Steps;
   int m_Iterations;
   bool m_Quiet;
