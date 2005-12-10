@@ -14,6 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkLoggerThreadWrapper_txx
+#define __itkLoggerThreadWrapper_txx
 #if ! ( defined(_MSC_VER)  ||   (defined(__GNUC__) && (__GNUC__ <= 2) ))//NOTE: This class does not work under MSVS6, or gnu 2.95
 
 #include<iostream>
@@ -249,3 +251,4 @@ void LoggerThreadWrapper<SimpleLoggerType>::PrintSelf(std::ostream &os, Indent i
 } // namespace itk
 
 #endif  // !defined (_MSC_VER)
+#endif
