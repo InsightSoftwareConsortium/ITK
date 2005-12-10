@@ -45,8 +45,8 @@
 // cases of image registration.
 //
 //
-// \index{itk::VersorRigid3DTransform}
-// \index{itk::CenteredTransformInitializer!In 3D}
+// \index{itk::Versor\-Rigid3D\-Transform}
+// \index{itk::Centered\-Transform\-Initializer!In 3D}
 //
 //
 // Software Guide : EndLatex 
@@ -61,8 +61,8 @@
 //  
 //  The following are the most relevant headers of this example.
 //
-//  \index{itk::VersorRigid3DTransform!header}
-//  \index{itk::CenteredTransformInitializer!header}
+//  \index{itk::Versor\-Rigid3D\-Transform!header}
+//  \index{itk::Centered\-Transform\-Initializer!header}
 // 
 //  Software Guide : EndLatex 
 
@@ -84,7 +84,7 @@
 //  array, and Vector addition for updating the last three components of the
 //  parameters array~\cite{Hamilton1866,Joly1905}.
 //
-//  \index{itk::VersorRigid3DTransformOptimizer!header}
+//  \index{itk::Versor\-Rigid3D\-Transform\-Optimizer!header}
 // 
 //  Software Guide : EndLatex 
 
@@ -166,7 +166,7 @@ int main( int argc, char *argv[] )
   //  template parameter to this class is the representation type of the
   //  space coordinates.
   //
-  //  \index{itk::VersorRigid3DTransform!Instantiation}
+  //  \index{itk::Versor\-Rigid3D\-Transform!Instantiation}
   //
   //  Software Guide : EndLatex 
 
@@ -206,9 +206,9 @@ int main( int argc, char *argv[] )
   //  The transform object is constructed below and passed to the registration
   //  method.
   //
-  //  \index{itk::VersorRigid3DTransform!New()}
-  //  \index{itk::VersorRigid3DTransform!Pointer}
-  //  \index{itk::RegistrationMethod!SetTransform()}
+  //  \index{itk::Versor\-Rigid3D\-Transform!New()}
+  //  \index{itk::Versor\-Rigid3D\-Transform!Pointer}
+  //  \index{itk::Registration\-Method!SetTransform()}
   //
   //  Software Guide : EndLatex 
 
@@ -245,9 +245,9 @@ int main( int argc, char *argv[] )
   //  calling the \code{New()} method and assigning the result to a smart
   //  pointer.
   //
-  // \index{itk::CenteredTransformInitializer!Instantiation}
-  // \index{itk::CenteredTransformInitializer!New()}
-  // \index{itk::CenteredTransformInitializer!SmartPointer}
+  // \index{itk::Centered\-Transform\-Initializer!Instantiation}
+  // \index{itk::Centered\-Transform\-Initializer!New()}
+  // \index{itk::Centered\-Transform\-Initializer!SmartPointer}
   //
   //  Software Guide : EndLatex 
 
@@ -282,8 +282,8 @@ int main( int argc, char *argv[] )
   //  \code{GeometryOn()} while the use of center of mass is selected by
   //  calling \code{MomentsOn()}.  Below we select the center of mass mode.
   //
-  //  \index{CenteredTransformInitializer!MomentsOn()}
-  //  \index{CenteredTransformInitializer!GeometryOn()}
+  //  \index{Centered\-Transform\-Initializer!MomentsOn()}
+  //  \index{Centered\-Transform\-Initializer!GeometryOn()}
   //
   //  Software Guide : EndLatex 
 
