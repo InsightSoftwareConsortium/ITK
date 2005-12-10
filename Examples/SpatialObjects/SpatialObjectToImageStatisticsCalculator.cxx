@@ -20,7 +20,7 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::SpatialObjectToImageStatisticsCalculator}
+// \index{itk::Spatial\-Object\-To\-Image\-Statistics\-Calculator}
 // This example describes how to use the
 // \doxygen{SpatialObjectToImageStatisticsCalculator} to compute statistics
 // of an \doxygen{Image} only in a region defined inside a given \doxygen{SpatialObject}.
