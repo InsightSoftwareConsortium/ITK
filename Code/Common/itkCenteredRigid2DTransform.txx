@@ -57,30 +57,42 @@ CenteredRigid2DTransform<TScalarType>
 {
   itkDebugMacro( << "Setting paramaters " << parameters );
 
-  this->m_Parameters = parameters;
-
-  // Set the angle
-  this->SetVarAngle( parameters[0] );
+  bool modified = false;
+  for( unsigned int i=0; i<SpaceDimension; i++ )
+    {
+    if (this->m_Parameters[i] != parameters[i])
+      {
+      this->m_Parameters[i] = parameters[i];
+      modified = true;
+      }
+    }
+  
+  if (modified)
+    {
+    // Set the angle
+    this->SetVarAngle( parameters[0] );
  
-  // Set the center
-  InputPointType center;
-  for(unsigned int i=0; i < SpaceDimension; i++) 
-    {
-    center[i] = parameters[i+1];
-    }
-  this->SetVarCenter( center );
+    // Set the center
+    InputPointType center;
+    for(unsigned int i=0; i < SpaceDimension; i++) 
+      {
+      center[i] = parameters[i+1];
+      }
+    this->SetVarCenter( center );
 
-  // Set the translation
-  OutputVectorType translation;
-  for(unsigned int j=0; j < SpaceDimension; j++) 
-    {
-    translation[j] = parameters[j+1+SpaceDimension];
-    }
-  this->SetVarTranslation( translation );
+    // Set the translation
+    OutputVectorType translation;
+    for(unsigned int j=0; j < SpaceDimension; j++) 
+      {
+      translation[j] = parameters[j+1+SpaceDimension];
+      }
+    this->SetVarTranslation( translation );
 
-  // Update matrix and offset
-  this->ComputeMatrix();
-  this->ComputeOffset();
+    // Update matrix and offset
+    this->ComputeMatrix();
+    this->ComputeOffset();
+    this->Modified();
+    }
 
   itkDebugMacro(<<"After setting parameters ");
 }
