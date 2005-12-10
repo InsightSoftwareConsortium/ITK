@@ -62,7 +62,7 @@
 //  the image---whether the pixel (and hence the spatial object) is
 //  \emph{inside} or \emph{outside} the geometric model.
 //
-//  \index{itk::SpatialObjectToImageFilter!header}
+//  \index{itk::Spatial\-Object\-To\-Image\-Filter!header}
 //
 //  Software Guide : EndLatex 
 
@@ -81,7 +81,7 @@
 //  type of metric is the \doxygen{ImageToSpatialObjectMetric}, whose header is
 //  included below.
 //
-//  \index{itk::ImageToSpatialObjectMetric!header}
+//  \index{itk::Image\-To\-Spatial\-Object\-Metric!header}
 //
 //  Software Guide : EndLatex 
 
@@ -96,7 +96,7 @@
 //  intensity in non-grid positions. The
 //  \doxygen{LinearInterpolateImageFunction} is used here for this purpose.
 //
-//  \index{itk::LinearInterpolateImageFunction!header}
+//  \index{itk::Linear\-Interpolate\-Image\-Function!header}
 //
 //  Software Guide : EndLatex 
 
@@ -324,7 +324,7 @@ public:
   //  the white regions of the image. Note that the argument for the
   //  \code{GetValue()} method is the array of parameters of the transform.
   // 
-  //  \index{ImageToSpatialObjectMetric!GetValue()}
+  //  \index{Image\-To\-Spatial\-Object\-Metric!GetValue()}
   //
   //  Software Guide : EndLatex 
 
@@ -397,8 +397,8 @@ int main( int argc, char *argv[] )
   //  the dimension of the space. In our current example a $2D$ instantiation
   //  is created.
   //
-  //  \index{GroupSpatialObject!Instantiation}
-  //  \index{EllipseSpatialObject!Instantiation}
+  //  \index{Group\-Spatial\-Object!Instantiation}
+  //  \index{Ellipse\-Spatial\-Object!Instantiation}
   //
   //  Software Guide : EndLatex 
 
@@ -533,7 +533,8 @@ int main( int argc, char *argv[] )
   //  this filter is instantiated over the spatial object used and the image
   //  type to be generated.
   //
-  //  \index{itk::SpatialObjectToImageFilter!Instantiation}
+  //
+  //  \index{itk::Spatial\-Object\-To\-Image\-Filter!Instantiation}
   //
   //  Software Guide : EndLatex 
 
@@ -676,7 +677,7 @@ int main( int argc, char *argv[] )
   //  the image type and the spatial object type. As usual, the \code{New()}
   //  method is used to create an object.
   //
-  //  \index{itk::ImageToSpatialObjectMetric!Instantiation}
+  //  \index{itk::Image\-To\-Spatial\-Object\-Metric!Instantiation}
   //
   //  Software Guide : EndLatex 
 
