@@ -112,7 +112,7 @@ Translate(const OutputVectorType &offset, bool )
   ParametersType newOffset(SpaceDimension);
   for( unsigned int i=0; i<SpaceDimension; i++ )
     {
-    newOffset[i] = this->m_Offset[i] + offset[i];
+    newOffset[i] = m_Offset[i] + offset[i];
     }
   this->SetParameters (newOffset);
   return;
