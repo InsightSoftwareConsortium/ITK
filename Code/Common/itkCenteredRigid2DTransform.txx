@@ -67,33 +67,29 @@ CenteredRigid2DTransform<TScalarType>
       }
     }
   
-  if (modified)
+  // Set the angle
+  this->SetVarAngle( parameters[0] );
+  // Set the center
+  InputPointType center;
+  for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    // Set the angle
-    this->SetVarAngle( parameters[0] );
- 
-    // Set the center
-    InputPointType center;
-    for(unsigned int i=0; i < SpaceDimension; i++) 
-      {
-      center[i] = parameters[i+1];
-      }
-    this->SetVarCenter( center );
-
-    // Set the translation
-    OutputVectorType translation;
-    for(unsigned int j=0; j < SpaceDimension; j++) 
-      {
-      translation[j] = parameters[j+1+SpaceDimension];
-      }
-    this->SetVarTranslation( translation );
-
-    // Update matrix and offset
-    this->ComputeMatrix();
-    this->ComputeOffset();
-    this->Modified();
+    center[i] = parameters[i+1];
     }
+  this->SetVarCenter( center );
+  
+  // Set the translation
+  OutputVectorType translation;
+  for(unsigned int j=0; j < SpaceDimension; j++) 
+    {
+    translation[j] = parameters[j+1+SpaceDimension];
+    }
+  this->SetVarTranslation( translation );
 
+  // Update matrix and offset
+  this->ComputeMatrix();
+  this->ComputeOffset();
+
+  this->Modified();
   itkDebugMacro(<<"After setting parameters ");
 }
 
