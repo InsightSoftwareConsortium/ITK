@@ -49,7 +49,7 @@ int main(int argc, char * argv [] )
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << "SecondDerivativeRecursiveGaussianImageFilter inputImage outputPrefix  [sigma] " << std::endl;
+    std::cerr << argv[0] << " inputImage outputPrefix  [sigma] " << std::endl;
     return EXIT_FAILURE;
     }
 
