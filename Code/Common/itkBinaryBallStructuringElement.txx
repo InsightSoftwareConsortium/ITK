@@ -35,7 +35,7 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
   unsigned int i;
   
   // Image typedef
-  typedef itk::Image<TPixel, VDimension> ImageType;
+  typedef Image<TPixel, VDimension> ImageType;
 
   // Create an image to hold the ellipsoid
   //
@@ -50,8 +50,8 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
 
   // Set the background to be zero
   //
-  itk::ImageRegionIterator<ImageType> it =
-    itk::ImageRegionIterator<ImageType>(sourceImage, region);
+  ImageRegionIterator<ImageType> it =
+    ImageRegionIterator<ImageType>(sourceImage, region);
 
   for(it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
@@ -63,7 +63,7 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
   //
 
   // Ellipsoid spatial function typedef
-  typedef itk::EllipsoidInteriorExteriorSpatialFunction<VDimension>
+  typedef EllipsoidInteriorExteriorSpatialFunction<VDimension>
     EllipsoidType;
   
   // Create an ellipsoid spatial function for the source image
@@ -98,8 +98,8 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
     {
     seed[i] = this->GetRadius(i);
     }
-  itk::FloodFilledSpatialFunctionConditionalIterator<ImageType, EllipsoidType> 
-    sfi = itk::FloodFilledSpatialFunctionConditionalIterator<ImageType,
+  FloodFilledSpatialFunctionConditionalIterator<ImageType, EllipsoidType> 
+    sfi = FloodFilledSpatialFunctionConditionalIterator<ImageType,
     EllipsoidType>(sourceImage, spatialFunction, seed);
   sfi.SetCenterInclusionStrategy();
   
