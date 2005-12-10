@@ -39,7 +39,7 @@
 // We should first include the header of the histogram generator and the image
 // class.
 //
-// \index{itk::Statistics::ScalarImageToHistogramGenerator!header}
+// \index{itk::Statistics::Scalar\-Image\-To\-Histogram\-Generator!header}
 //
 // Software Guide : EndLatex 
 
@@ -106,7 +106,7 @@ int main( int argc, char * argv [] )
 // corresponding histogram generator class, and invoke its \code{New()} method
 // in order to construct one.
 //
-// \index{itk::Statistics::ScalarImageToHistogramGenerator!header}
+// \index{itk::Statistics::Scalar\-Image\-To\-Histogram\-Generator!header}
 //
 // Software Guide : EndLatex 
 
@@ -158,7 +158,7 @@ int main( int argc, char * argv [] )
 // not a pipeline object and therefore it is up to you to make sure that the
 // filters providing the input image have been updated.
 //
-// \index{itk::Statistics::ScalarImageToHistogramGenerator!Compute()}
+// \index{itk::Statistics::Scalar\-Image\-To\-Histogram\-Generator!Compute()}
 //
 // Software Guide : EndLatex 
 
