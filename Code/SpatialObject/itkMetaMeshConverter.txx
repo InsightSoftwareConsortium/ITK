@@ -199,14 +199,14 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
   typename CellDataContainer::Pointer cellData = CellDataContainer::New();
 
   typedef MetaMesh::CellDataListType CellDataListType;
-  CellDataListType::const_iterator it_cd = _mesh->GetCellData().begin();
-  
+  CellDataListType::const_iterator it_cd = _mesh->GetCellData().begin();  
   while(it_cd != _mesh->GetCellData().end())
     {
     typedef typename MeshType::CellPixelType CellPixelType;
     cellData->SetElement((*it_cd)->m_Id , static_cast<MeshData<CellPixelType>*>(*it_cd)->m_Data);
     it_cd++;
     }
+
   mesh->SetCellData(cellData);
 
   // Add the mesh
@@ -331,12 +331,13 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
     }
 
   // Add point data
+  metamesh->PointDataType(MET_GetPixelType(typeid(PixelType)));
+
   typedef typename MeshType::PointDataContainer PointDataContainer;
   const PointDataContainer* pd = mesh->GetPointData();
   if(pd)
     {
     typename MeshType::PointDataContainer::ConstIterator it_pd = pd->Begin();
- 
     while(it_pd != pd->End())
       {
       MeshData<PixelType>* data = new MeshData<PixelType>();
@@ -348,6 +349,9 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
     }
 
   // Add cell data
+  typedef typename TMeshTraits::CellPixelType CellPixelType;
+  metamesh->CellDataType(MET_GetPixelType(typeid(CellPixelType)));
+
   typedef typename MeshType::CellDataContainer  CellDataContainer;
   const CellDataContainer* cd = mesh->GetCellData();
   if(cd)
@@ -356,7 +360,6 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
  
     while(it_cd != cd->End())
       {
-      typedef typename TMeshTraits::CellPixelType CellPixelType;
       MeshData<CellPixelType>* data = new MeshData<CellPixelType>();
       data->m_Id = (*it_cd)->Index();
       data->m_Data = (*it_cd)->Value();
