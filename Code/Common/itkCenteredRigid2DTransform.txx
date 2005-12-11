@@ -57,16 +57,8 @@ CenteredRigid2DTransform<TScalarType>
 {
   itkDebugMacro( << "Setting paramaters " << parameters );
 
-  bool modified = false;
-  for( unsigned int i=0; i<SpaceDimension; i++ )
-    {
-    if (this->m_Parameters[i] != parameters[i])
-      {
-      this->m_Parameters[i] = parameters[i];
-      modified = true;
-      }
-    }
-  
+  this->m_Parameters = parameters;
+
   // Set the angle
   this->SetVarAngle( parameters[0] );
   // Set the center
