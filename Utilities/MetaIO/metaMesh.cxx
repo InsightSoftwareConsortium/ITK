@@ -254,19 +254,6 @@ M_SetupReadFields(void)
  
 }
 
-MET_ValueEnumType MetaMesh::
-PointDataType(void) const
-{
-  return m_PointDataType;
-}
-
-void MetaMesh::
-PointDataType(MET_ValueEnumType _elementType)
-{
-  m_PointDataType = _elementType;
-}
-
-
 void MetaMesh::
 M_SetupWriteFields(void)
 {
@@ -565,7 +552,7 @@ M_Read(void)
       char c = ' ';
       while( (c!='\n') && (!m_ReadStream->eof()))
       {
-        c = m_ReadStream->get();// to avoid unrecognize charactere
+        c = m_ReadStream->get();// to avoid unrecognized characters
       }
     }
     }
@@ -676,7 +663,7 @@ M_Read(void)
       char c = ' ';
       while( (c!='\n') && (!m_ReadStream->eof()))
         {
-        c = m_ReadStream->get();// to avoid unrecognize charactere
+        c = m_ReadStream->get();// to avoid unrecognized characters
         }
       }
     }
@@ -740,62 +727,89 @@ M_Read(void)
   for(j=0; j<m_NPointData; j++)  
     {
     MeshDataBase* pd;
-    MET_ValueToDouble(MET_INT, _data, i++, &td);
+    
+    unsigned int k;
+    char* num = new char[sizeof(int)];
+    for(k=0;k<sizeof(int);k++)
+      {
+      num[k] = _data[i+k];
+      }
+    td = (double)((int*)num)[0];
 
-    double val;
-    MET_ValueToDouble(m_PointDataType, _data, i++,  &val);
+    delete [] num;
+    i+=sizeof(int);
+
+    int elementSize;
+    MET_SizeOfType(m_PointDataType, &elementSize);
+    num = new char[elementSize];
+    for(k=0;k<elementSize;k++)
+      {
+      num[k] = _data[i+k];
+      }
+    i+=elementSize;
 
     if(m_PointDataType == MET_CHAR)
-      { 
+      {
+      double val = (double)((char*)num)[0];
       pd = new MeshData<char>(); 
       static_cast<MeshData<char>*>(pd)->m_Data = (char)val; 
       }
     else if(m_PointDataType == MET_UCHAR)
-      { 
+      {
+      double val = (double)((unsigned char*)num)[0];
       pd = new MeshData<unsigned char>();
       static_cast<MeshData<unsigned char>*>(pd)->m_Data = (unsigned char)val; 
       }
     else if(m_PointDataType == MET_SHORT)
-      { 
+      {
+      double val = (double)((short*)num)[0];
       pd = new MeshData<short>();
       static_cast<MeshData<short>*>(pd)->m_Data = (short)val; 
       }
     else if(m_PointDataType == MET_USHORT)
       { 
+      double val = (double)((unsigned short*)num)[0];
       pd = new MeshData<unsigned short>();
       static_cast<MeshData<unsigned short>*>(pd)->m_Data = (unsigned short)val; 
       }
     else if(m_PointDataType == MET_INT)
       {
+      double val = (double)((int*)num)[0];
       pd = new MeshData<int>();
       static_cast<MeshData<int>*>(pd)->m_Data = (int)val; 
       }
     else if(m_PointDataType == MET_UINT)
       { 
+      double val = (double)((char*)num)[0];
       pd = new MeshData<unsigned int>();
       static_cast<MeshData<unsigned int>*>(pd)->m_Data = (unsigned int)val; 
       }
     else if(m_PointDataType == MET_LONG)
       { 
+      double val = (double)((long*)num)[0];
       pd = new MeshData<long>();
       static_cast<MeshData<long>*>(pd)->m_Data = (long)val; 
       }
     else if(m_PointDataType == MET_ULONG)
       { 
+      double val = (double)((unsigned long*)num)[0];
       pd = new MeshData<unsigned long>();
       static_cast<MeshData<unsigned long>*>(pd)->m_Data = (unsigned long)val; 
       }
     else if(m_PointDataType == MET_FLOAT)
       { 
+      double val = (double)((float*)num)[0];
       pd = new MeshData<float>();
       static_cast<MeshData<float>*>(pd)->m_Data = (float)val; 
       }
     else if(m_PointDataType == MET_DOUBLE)
       { 
+      double val = (double)((double*)num)[0];
       pd = new MeshData<double>();
       static_cast<MeshData<double>*>(pd)->m_Data = val; 
       }
-   
+       
+    delete [] num;
     pd->m_Id = (int)td;
     m_PointData.push_back(pd);
     }
@@ -858,69 +872,97 @@ M_Read(void)
     }
   
   i=0;
-
   for(j=0; j<m_NCellData; j++)  
     {
     MeshDataBase* cd;
-    MET_ValueToDouble(MET_INT, _celldata, i++, &td);
 
-    double val;
-    MET_ValueToDouble(m_CellDataType, _celldata, i++,  &val);
+    unsigned int k;
+    char* num = new char[sizeof(int)];
+    for(k=0;k<sizeof(int);k++)
+      {
+      num[k] = _celldata[i+k];
+      }
+    td = (double)((int*)num)[0];
+
+    delete [] num;
+    i+=sizeof(int);
+
+    int elementSize;
+    MET_SizeOfType(m_CellDataType, &elementSize);
+    num = new char[elementSize];
+    for(k=0;k<elementSize;k++)
+      {
+      num[k] = _celldata[i+k];
+      }
+    i+=elementSize;
 
     if(m_CellDataType == MET_CHAR)
       { 
+      double val = (double)((char*)num)[0];
       cd = new MeshData<char>(); 
-      static_cast<MeshData<char>*>(cd)->m_Data = (char)val; 
+      static_cast<MeshData<char>*>(cd)->m_Data = (char)val;
       }
     else if(m_CellDataType == MET_UCHAR)
-      { 
+      {
+      double val = (double)((unsigned char*)num)[0];
       cd = new MeshData<unsigned char>();
       static_cast<MeshData<unsigned char>*>(cd)->m_Data = (unsigned char)val; 
       }
     else if(m_CellDataType == MET_SHORT)
-      { 
+      {
+      double val = (double)((short*)num)[0];
       cd = new MeshData<short>();
       static_cast<MeshData<short>*>(cd)->m_Data = (short)val; 
       }
     else if(m_CellDataType == MET_USHORT)
       { 
+      double val = (double)((unsigned short*)num)[0];
       cd = new MeshData<unsigned short>();
       static_cast<MeshData<unsigned short>*>(cd)->m_Data = (unsigned short)val; 
       }
     else if(m_CellDataType == MET_INT)
       {
+      double val = (double)((int*)num)[0];
       cd = new MeshData<int>();
       static_cast<MeshData<int>*>(cd)->m_Data = (int)val; 
       }
     else if(m_CellDataType == MET_UINT)
       { 
+      double val = (double)((unsigned int*)num)[0];
       cd = new MeshData<unsigned int>();
       static_cast<MeshData<unsigned int>*>(cd)->m_Data = (unsigned int)val; 
       }
     else if(m_CellDataType == MET_LONG)
       { 
+      double val = (double)((long*)num)[0];
       cd = new MeshData<long>();
       static_cast<MeshData<long>*>(cd)->m_Data = (long)val; 
       }
     else if(m_CellDataType == MET_ULONG)
       { 
+      double val = (double)((unsigned long*)num)[0];
       cd = new MeshData<unsigned long>();
       static_cast<MeshData<unsigned long>*>(cd)->m_Data = (unsigned long)val; 
       }
     else if(m_CellDataType == MET_FLOAT)
       { 
+      double val = (double)((float*)num)[0];
       cd = new MeshData<float>();
       static_cast<MeshData<float>*>(cd)->m_Data = (float)val; 
       }
     else if(m_CellDataType == MET_DOUBLE)
       { 
+      double val = (double)((double*)num)[0];
       cd = new MeshData<double>();
       static_cast<MeshData<double>*>(cd)->m_Data = val; 
       }
-   
+       
+    delete [] num;
+
     cd->m_Id = (int)td;
     m_CellData.push_back(cd);
     }
+
   delete [] _celldata;
 
  // If no cell data, reset the pointer to the stream to the previous position
@@ -1170,7 +1212,8 @@ M_Write(void)
       return false;
       }
 
-    /** Then copy all Point data : Always binary to be compatible with everything*/
+    // Then copy all Point data : 
+    // Always binary to be compatible with everything
     it = m_PointData.begin();
     while(it != m_PointData.end())
       {
@@ -1181,8 +1224,8 @@ M_Write(void)
 
     }
 
-  // Now write the point data
-  // Point Data type is the same for the whole mesh
+  // Now write the cell data
+  // Cell Data type is the same for the whole mesh
   if(m_CellData.size()>0)
     {
     MetaObject::ClearFields();
@@ -1215,7 +1258,8 @@ M_Write(void)
       return false;
       }
 
-    /** Then copy all Point data : Always binary to be compatible with everything*/
+    // Then copy all Cell data : 
+    // Always binary to be compatible with everything
     it = m_CellData.begin();
     while(it != m_CellData.end())
       {

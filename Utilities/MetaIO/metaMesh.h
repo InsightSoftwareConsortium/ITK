@@ -157,11 +157,13 @@ public:
 
   virtual void Write( std::ofstream* stream)
     {
-    unsigned int j=0;
-    char* data = new char[sizeof(int)+sizeof(m_Data)];
-    MET_DoubleToValue((double)m_Id,MET_INT,data,j++);
-    MET_DoubleToValue((double)m_Data,GetMetaType(),data,j++);
-    stream->write((char *)data,sizeof(int)+sizeof(m_Data));
+    char* id = new char[sizeof(int)];
+    MET_DoubleToValue((double)m_Id,MET_INT,id,0);
+    stream->write((char *)id,sizeof(int));
+    delete [] id;
+    char* data = new char[sizeof(m_Data)];
+    MET_DoubleToValue((double)m_Data,GetMetaType(),data,0);
+    stream->write((char *)data,sizeof(m_Data));
     delete []data;
     }
 
@@ -250,11 +252,11 @@ class MetaMesh : public MetaObject
     CellDataListType & GetCellData(void) {return m_CellData;}
     const CellDataListType & GetCellData(void) const  {return m_CellData;}
 
-    MET_ValueEnumType PointDataType(void) const;
-    void  PointDataType(MET_ValueEnumType _elementType);
+    MET_ValueEnumType PointDataType(void) const {return m_PointDataType;}
+    void  PointDataType(MET_ValueEnumType _elementType){m_PointDataType = _elementType;}
 
-    MET_ValueEnumType CellDataType(void) const;
-    void  CellDataType(MET_ValueEnumType _elementType);
+    MET_ValueEnumType CellDataType(void) const {return m_CellDataType;}
+    void  CellDataType(MET_ValueEnumType _elementType){m_CellDataType = _elementType;}
 
   ////
   //
