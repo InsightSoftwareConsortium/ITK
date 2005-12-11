@@ -50,7 +50,8 @@ MET_GetFieldRecord(const char * _fieldName,
 
 
 int
-MET_GetFieldRecordNumber(const char * _fieldName,std::vector<MET_FieldRecordType *> * _fields)
+MET_GetFieldRecordNumber(const char * _fieldName,
+                         std::vector<MET_FieldRecordType *> * _fields)
   {
   int i;
   for(i=0; i<(int)_fields->size(); i++)
@@ -68,7 +69,7 @@ MET_GetFieldRecordNumber(const char * _fieldName,std::vector<MET_FieldRecordType
 // Read the type of the object
 //
 std::string MET_ReadType(std::istream &_fp)
-{
+  {
   unsigned int pos = _fp.tellg();
   std::vector<MET_FieldRecordType *> fields;
   MET_FieldRecordType* mF = new MET_FieldRecordType;
@@ -92,13 +93,13 @@ std::string MET_ReadType(std::istream &_fp)
   value[0] = '\0';
   delete mF;
   return value;
-}
+  }
 
 //
 // Read the subtype of the object
 //
 char* MET_ReadSubType(std::istream &_fp)
-{
+  {
   unsigned int pos = _fp.tellg();
   std::vector<MET_FieldRecordType *> fields;
   MET_FieldRecordType* mF;  
@@ -125,31 +126,33 @@ char* MET_ReadSubType(std::istream &_fp)
   ret[value.size()] = '\0';
   delete mF;
   return ret;
-}
+  }
 
 
 //
 // String To Type
 //
 bool MET_StringToType(const char *_s, MET_ValueEnumType *_vType)
-{
+  {
   int i;
   for(i=0; i<MET_NUM_VALUE_TYPES; i++)
+    {
     if(!strcmp(_s, MET_ValueTypeName[i]))
       {
       *_vType = (MET_ValueEnumType)i;
       return true;
       }
+    }
     
   *_vType = MET_OTHER;  
   return false;
-}
+  }
 
 //
 // METType To String
 //
 bool MET_TypeToString(MET_ValueEnumType _vType, char *_s)
-{
+  {
   if(_vType>=0 && _vType<=MET_NUM_VALUE_TYPES)
     {
     sprintf(_s, MET_ValueTypeName[_vType]);
@@ -157,20 +160,24 @@ bool MET_TypeToString(MET_ValueEnumType _vType, char *_s)
     }
   
   return false;
-}
+  }
 
 
 //
 // Sizeof METTYPE
 //
 bool MET_SizeOfType(MET_ValueEnumType _vType, int *s)
-{
+  {
   *s = MET_ValueTypeSize[_vType];
   if(_vType < MET_STRING)
+    {
     return true;
+    }
   else
+    {
     return false;
-}
+    }
+  }
 
 //
 // Value to Double
@@ -183,41 +190,55 @@ bool MET_ValueToDouble(MET_ValueEnumType _type, const void *_data, int _index,
     case MET_ASCII_CHAR:
     case MET_CHAR:
     case MET_CHAR_ARRAY:
-      *_value = (double)(((const char *)_data)[_index]);
+      *_value = (double)(((const MET_CHAR_TYPE *)_data)[_index]);
       return true;
     case MET_UCHAR:
     case MET_UCHAR_ARRAY:
-      *_value = (double)(((const unsigned char *)_data)[_index]);
+      *_value = (double)(((const MET_UCHAR_TYPE *)_data)[_index]);
       return true;
     case MET_SHORT:
     case MET_SHORT_ARRAY:
-      *_value = (double)(((const short *)_data)[_index]);
+      *_value = (double)(((const MET_SHORT_TYPE *)_data)[_index]);
       return true;
     case MET_USHORT:
     case MET_USHORT_ARRAY:
-      *_value = (double)(((const unsigned short *)_data)[_index]);
+      *_value = (double)(((const MET_USHORT_TYPE *)_data)[_index]);
       return true;
     case MET_INT:
     case MET_INT_ARRAY:
-      *_value = (double)(((const int *)_data)[_index]);
+      *_value = (double)(((const MET_INT_TYPE *)_data)[_index]);
+      return true;
+    case MET_LONG:
+    case MET_LONG_ARRAY:
+      *_value = (double)(((const MET_LONG_TYPE *)_data)[_index]);
       return true;
     case MET_UINT:
     case MET_UINT_ARRAY:
-      *_value = (double)(((const unsigned int *)_data)[_index]);
+      *_value = (double)(((const MET_UINT_TYPE *)_data)[_index]);
       return true;
-    case MET_LONG:
     case MET_ULONG:
+    case MET_ULONG_ARRAY:
+      *_value = (double)(((const MET_ULONG_TYPE *)_data)[_index]);
+      return true;
+    case MET_LONG_LONG:
+    case MET_LONG_LONG_ARRAY:
+      *_value = (double)(((const MET_LONG_LONG_TYPE *)_data)[_index]);
+      return true;
+    case MET_ULONG_LONG:
+    case MET_ULONG_LONG_ARRAY:
+      *_value = (double)(((const MET_ULONG_LONG_TYPE *)_data)[_index]);
+      return true;
     case MET_FLOAT:
     case MET_FLOAT_ARRAY:
     case MET_FLOAT_MATRIX:
-      *_value = (double)(((const float *)_data)[_index]);
+      *_value = (double)(((const MET_FLOAT_TYPE *)_data)[_index]);
       return true;
     case MET_DOUBLE:
     case MET_DOUBLE_ARRAY:
-      *_value = (double)(((const double *)_data)[_index]);
+      *_value = (double)(((const MET_DOUBLE_TYPE *)_data)[_index]);
       return true;
     case MET_STRING:
-      *_value = atof(&(((const char *)_data)[_index]));
+      *_value = atof(&(((const MET_CHAR_TYPE *)_data)[_index]));
       return true;
     default:
       *_value = 0;
@@ -232,39 +253,55 @@ bool MET_DoubleToValue(double _value, MET_ValueEnumType _type, void *_data, int 
     case MET_ASCII_CHAR:
     case MET_CHAR:
     case MET_CHAR_ARRAY:
-      ((char *)_data)[_index] = (char)_value;
+      ((MET_CHAR_TYPE *)_data)[_index] = (MET_CHAR_TYPE)_value;
       return true;
     case MET_UCHAR:
     case MET_UCHAR_ARRAY:
-      ((unsigned char *)_data)[_index] = (unsigned char)_value;
+      ((MET_UCHAR_TYPE *)_data)[_index] = (MET_UCHAR_TYPE)_value;
       return true;
     case MET_SHORT:
     case MET_SHORT_ARRAY:
-      ((short *)_data)[_index] = (short)_value;
+      ((MET_SHORT_TYPE *)_data)[_index] = (MET_SHORT_TYPE)_value;
       return true;
     case MET_USHORT:
     case MET_USHORT_ARRAY:
-      ((unsigned short *)_data)[_index] = (unsigned short)_value;
+      ((MET_USHORT_TYPE *)_data)[_index] = (MET_USHORT_TYPE)_value;
       return true;
     case MET_INT:
     case MET_INT_ARRAY:
-      ((int *)_data)[_index] = (int)_value;
+      ((MET_INT_TYPE *)_data)[_index] = (MET_INT_TYPE)_value;
+      return true;
+    case MET_LONG:
+    case MET_LONG_ARRAY:
+      ((MET_LONG_TYPE *)_data)[_index] = (MET_LONG_TYPE)_value;
       return true;
     case MET_UINT:
     case MET_UINT_ARRAY:
-      ((unsigned int *)_data)[_index] = (unsigned int)_value;
+      ((MET_UINT_TYPE *)_data)[_index] = (MET_UINT_TYPE)_value;
+      return true;
+    case MET_ULONG:
+    case MET_ULONG_ARRAY:
+      ((MET_ULONG_TYPE *)_data)[_index] = (MET_ULONG_TYPE)_value;
+      return true;
+    case MET_LONG_LONG:
+    case MET_LONG_LONG_ARRAY:
+      ((MET_LONG_LONG_TYPE *)_data)[_index] = (MET_LONG_LONG_TYPE)_value;
+      return true;
+    case MET_ULONG_LONG:
+    case MET_ULONG_LONG_ARRAY:
+      ((MET_ULONG_LONG_TYPE *)_data)[_index] = (MET_ULONG_LONG_TYPE)_value;
       return true;
     case MET_FLOAT:
     case MET_FLOAT_ARRAY:
     case MET_FLOAT_MATRIX:
-      ((float *)_data)[_index] = (float)_value;
+      ((MET_FLOAT_TYPE *)_data)[_index] = (MET_FLOAT_TYPE)_value;
       return true;
     case MET_DOUBLE:
     case MET_DOUBLE_ARRAY:
-      ((double *)_data)[_index] = (double)_value;
+      ((MET_DOUBLE_TYPE *)_data)[_index] = (MET_DOUBLE_TYPE)_value;
       return true;
     case MET_STRING:
-      sprintf(&(((char *)_data)[_index]), "%f", _value);
+      sprintf(&(((MET_CHAR_TYPE *)_data)[_index]), "%f", _value);
       return true;
     default:
       return false;
@@ -296,37 +333,55 @@ bool MET_ValueToValue(MET_ValueEnumType _fromType, const void *_fromData,
     case MET_ASCII_CHAR:
     case MET_CHAR:
     case MET_CHAR_ARRAY:
-      (((char *)_toData)[_index]) = (char)tf;
+      (((MET_CHAR_TYPE *)_toData)[_index]) = (MET_CHAR_TYPE)tf;
       return true;
     case MET_UCHAR:
     case MET_UCHAR_ARRAY:
-      (((unsigned char *)_toData)[_index]) = (unsigned char)tf;
+      (((MET_UCHAR_TYPE *)_toData)[_index]) = (MET_UCHAR_TYPE)tf;
       return true;
     case MET_SHORT:
     case MET_SHORT_ARRAY:
-      (((short *)_toData)[_index]) = (short)tf;
+      (((MET_SHORT_TYPE *)_toData)[_index]) = (MET_SHORT_TYPE)tf;
       return true;
     case MET_USHORT:
     case MET_USHORT_ARRAY:
-      (((unsigned short *)_toData)[_index]) = (unsigned short)tf;
+      (((MET_USHORT_TYPE *)_toData)[_index]) = (MET_USHORT_TYPE)tf;
       return true;
     case MET_INT:
     case MET_INT_ARRAY:
-      (((int *)_toData)[_index]) = (int)tf;
+      (((MET_INT_TYPE *)_toData)[_index]) = (MET_INT_TYPE)tf;
+      return true;
+    case MET_LONG:
+    case MET_LONG_ARRAY:
+      (((MET_LONG_TYPE *)_toData)[_index]) = (MET_LONG_TYPE)tf;
       return true;
     case MET_UINT:
     case MET_UINT_ARRAY:
-      (((unsigned int *)_toData)[_index]) = (unsigned int)tf;
+      (((MET_UINT_TYPE *)_toData)[_index]) = (MET_UINT_TYPE)tf;
       return true;
-    case MET_LONG:
     case MET_ULONG:
+    case MET_ULONG_ARRAY:
+      (((MET_ULONG_TYPE *)_toData)[_index]) = (MET_ULONG_TYPE)tf;
+      return true;
+    case MET_LONG_LONG:
+    case MET_LONG_LONG_ARRAY:
+      (((MET_LONG_LONG_TYPE *)_toData)[_index]) = (MET_LONG_LONG_TYPE)tf;
+      return true;
+    case MET_ULONG_LONG:
+    case MET_ULONG_LONG_ARRAY:
+      (((MET_ULONG_LONG_TYPE *)_toData)[_index]) = (MET_ULONG_LONG_TYPE)tf;
+      return true;
+    case MET_DOUBLE:
+    case MET_DOUBLE_ARRAY:
+      (((MET_DOUBLE_TYPE *)_toData)[_index]) = (MET_DOUBLE_TYPE)tf;
+      return true;
     case MET_FLOAT:
     case MET_FLOAT_ARRAY:
     case MET_FLOAT_MATRIX:
-      (((float *)_toData)[_index]) = (float)tf;
+      (((MET_FLOAT_TYPE *)_toData)[_index]) = (MET_FLOAT_TYPE)tf;
       return true;
     case MET_STRING:
-      sprintf(&(((char *)_toData)[_index]), "%f", tf);
+      sprintf(&(((MET_CHAR_TYPE *)_toData)[_index]), "%f", tf);
       return true;
     default:
       return false;
@@ -342,60 +397,62 @@ bool MET_StringToWordArray(const char *s, int *n, char ***val)
 
   int p = 0;
   while(p<l && s[p] == ' ')
+    {
     p++;
+    }
   
   *n = 0;
   int pp = p;
   bool space = false;
   while(pp<l)
-  {
-    if(s[pp] == ' ' && !space)
     {
+    if(s[pp] == ' ' && !space)
+      {
       (*n)++;
       space = true;
-    }
+      }
     else
-    {
+      {
       space = false;
-    }
+      }
     pp++;
-  }
+    }
   pp=l-1;
   if(s[pp] == ' ')   
-  {
-    while(pp>=0 && s[pp] == ' ')
     {
+    while(pp>=0 && s[pp] == ' ')
+      {
       (*n)--;
       pp--;
+      }
     }
-  }
   else
-  {
+    {
     (*n)++;
-  }
+    }
   
   *val = new char *[*n];
   
   long i, j;
   for(i=0; i<*n; i++) 
-  {
-    if(p == l)
     {
+    if(p == l)
+      {
       return false;
-    }
+      }
     
     (*val)[i] = new char [80];
     while(p<l && s[p] == ' ')
-    {
+      {
       p++;
-    }
+      }
     j = 0;
     while(p<l && s[p] != ' ')
-    {
+      {
       (*val)[i][j++] = s[p++];
-    }
+      }
     (*val)[i][j] = '\0';
-  }
+    }
   
   return true;
 }
@@ -630,6 +687,7 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
               {
               break;
               }
+            MET_CHAR_TYPE c = fp.get();
             c = fp.get();
             (*fieldIter)->value[0] = (double)c;
             fp.getline( s, 500 );
@@ -644,6 +702,8 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
           case MET_UINT:
           case MET_LONG:
           case MET_ULONG:
+          case MET_LONG_LONG:
+          case MET_ULONG_LONG:
           case MET_FLOAT:
           case MET_DOUBLE:
             {
@@ -663,11 +723,13 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
               {
               break;
               }
-            char * str = (char *)((*fieldIter)->value);
+            MET_CHAR_TYPE * str = (MET_CHAR_TYPE *)((*fieldIter)->value);
             fp.getline( str, 500 );
             j = static_cast<long>( strlen(str) ) - 1;
             while(!isprint(str[j]) || isspace(str[j]))
+              {
               str[j--] = '\0';
+              }
             (*fieldIter)->length = static_cast<int>( strlen( str ) );
             break;
             }
@@ -677,6 +739,10 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
           case MET_USHORT_ARRAY:
           case MET_INT_ARRAY:
           case MET_UINT_ARRAY:
+          case MET_LONG_ARRAY:
+          case MET_ULONG_ARRAY:
+          case MET_LONG_LONG_ARRAY:
+          case MET_ULONG_LONG_ARRAY:
           case MET_FLOAT_ARRAY:
           case MET_DOUBLE_ARRAY:
             {
@@ -798,27 +864,34 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
       case MET_ASCII_CHAR:
         {
         fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
-        fp << (char)(*fieldIter)->value[0] << std::endl;
+        fp << (MET_CHAR_TYPE)(*fieldIter)->value[0] << std::endl;
         break;
         }
       case MET_CHAR:
-      case MET_UCHAR:
       case MET_SHORT:
-      case MET_USHORT:
       case MET_LONG:
-      case MET_ULONG:
+      case MET_LONG_LONG:
       case MET_INT:
-      case MET_UINT:
         {
         fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
-        fp << (int)(*fieldIter)->value[0] << std::endl;
+        fp << (MET_LONG_LONG_TYPE)(*fieldIter)->value[0] << std::endl;
+        break;
+        }
+      case MET_UCHAR:
+      case MET_USHORT:
+      case MET_UINT:
+      case MET_ULONG:
+      case MET_ULONG_LONG:
+        {
+        fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
+        fp << (MET_ULONG_LONG_TYPE)(*fieldIter)->value[0] << std::endl;
         break;
         }
       case MET_FLOAT:
       case MET_DOUBLE:
         {
         fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
-        fp << (double)(*fieldIter)->value[0] << std::endl;
+        fp << (MET_DOUBLE_TYPE)(*fieldIter)->value[0] << std::endl;
         break;
         }
       case MET_STRING:
@@ -839,13 +912,10 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
         break;
         }
       case MET_CHAR_ARRAY:
-      case MET_UCHAR_ARRAY:
       case MET_SHORT_ARRAY:
-      case MET_USHORT_ARRAY:
-      case MET_LONG_ARRAY:
-      case MET_ULONG_ARRAY:
       case MET_INT_ARRAY:
-      case MET_UINT_ARRAY:
+      case MET_LONG_ARRAY:
+      case MET_LONG_LONG_ARRAY:
         {
         fp << (*fieldIter)->name << " " << MET_SeperatorChar;
         if((*fieldIter)->dependsOn >= 0)
@@ -860,7 +930,31 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
           }
         for(j=0; j<(*fieldIter)->length; j++)
           {
-          fp << " " << (int)(*fieldIter)->value[j];
+          fp << " " << (MET_LONG_LONG_TYPE)(*fieldIter)->value[j];
+          }
+        fp << std::endl;
+        break;
+        }
+      case MET_UCHAR_ARRAY:
+      case MET_USHORT_ARRAY:
+      case MET_UINT_ARRAY:
+      case MET_ULONG_ARRAY:
+      case MET_ULONG_LONG_ARRAY:
+        {
+        fp << (*fieldIter)->name << " " << MET_SeperatorChar;
+        if((*fieldIter)->dependsOn >= 0)
+          {
+          if((*fieldIter)->length != 
+             (*fields)[(*fieldIter)->dependsOn]->value[0])
+            {
+            std::cerr << "Warning: ";
+            std::cerr << "Length and dependsOn values not equal in write";
+            std::cerr << std::endl;
+            }
+          }
+        for(j=0; j<(*fieldIter)->length; j++)
+          {
+          fp << " " << (MET_ULONG_LONG_TYPE)(*fieldIter)->value[j];
           }
         fp << std::endl;
         break;
@@ -934,68 +1028,93 @@ bool MET_WriteFieldToFile(std::ostream & _fp, const char *_fieldName,
     case MET_CHAR_ARRAY:
       for(i = 0; i < _n; i++)
         {
-        f.value[i] = (double)(((const char *)_v)[i]);
+        f.value[i] = (double)(((const MET_CHAR_TYPE *)_v)[i]);
         }
       break;
     case MET_UCHAR:
     case MET_UCHAR_ARRAY:
       for(i = 0; i < _n; i++)
         {
-        f.value[i] = (double)(((const unsigned char *)_v)[i]);
+        f.value[i] = (double)(((const MET_UCHAR_TYPE *)_v)[i]);
         }
       break;
     case MET_SHORT:
     case MET_SHORT_ARRAY:
       for(i=0; i<_n; i++)
         {
-        f.value[i] = (double)(((const short *)_v)[i]);
+        f.value[i] = (double)(((const MET_SHORT_TYPE *)_v)[i]);
         }
       break;
     case MET_USHORT:
     case MET_USHORT_ARRAY:
       for(i=0; i<_n; i++)
         {
-        f.value[i] = (double)(((const unsigned short *)_v)[i]);
+        f.value[i] = (double)(((const MET_USHORT_TYPE *)_v)[i]);
         }
       break;
     case MET_INT:
     case MET_INT_ARRAY:
       for(i=0; i<_n; i++)
         {
-        f.value[i] = (double)(((const int *)_v)[i]);
+        f.value[i] = (double)(((const MET_INT_TYPE *)_v)[i]);
         }
       break;
     case MET_UINT:
     case MET_UINT_ARRAY:
       for(i=0; i<_n; i++)
         {
-        f.value[i] = (double)(((const unsigned int *)_v)[i]);
+        f.value[i] = (double)(((const MET_UINT_TYPE *)_v)[i]);
         }
       break;
-
     case MET_LONG:
+    case MET_LONG_ARRAY:
+      for(i=0; i<_n; i++)
+        {
+        f.value[i] = (double)(((const MET_LONG_TYPE *)_v)[i]);
+        }
+      break;
     case MET_ULONG:
+    case MET_ULONG_ARRAY:
+      for(i=0; i<_n; i++)
+        {
+        f.value[i] = (double)(((const MET_ULONG_TYPE *)_v)[i]);
+        }
+      break;
+    case MET_LONG_LONG:
+    case MET_LONG_LONG_ARRAY:
+      for(i=0; i<_n; i++)
+        {
+        f.value[i] = (double)(((const MET_LONG_LONG_TYPE *)_v)[i]);
+        }
+      break;
+    case MET_ULONG_LONG:
+    case MET_ULONG_LONG_ARRAY:
+      for(i=0; i<_n; i++)
+        {
+        f.value[i] = (double)(((const MET_ULONG_LONG_TYPE *)_v)[i]);
+        }
+      break;
     case MET_FLOAT:
     case MET_FLOAT_ARRAY:
       for(i=0; i<_n; i++)
         {
-        f.value[i] = (double)((const float *)_v)[i];
+        f.value[i] = (double)((const MET_FLOAT_TYPE *)_v)[i];
         }
       break;
     case MET_DOUBLE:
     case MET_DOUBLE_ARRAY:
       for(i=0; i<_n; i++)
         {
-        f.value[i] = (double)(((const double *)_v)[i]);
+        f.value[i] = (double)(((const MET_DOUBLE_TYPE *)_v)[i]);
         }
       break;
     case MET_STRING:
-      strcpy((char *)(f.value),(const char *)_v);
+      strcpy((MET_CHAR_TYPE *)(f.value), (const MET_CHAR_TYPE *)_v);
       break;
     case MET_FLOAT_MATRIX:
       for(i=0; i<_n*_n; i++)
         {
-        f.value[i] = (double)((const float *)_v)[i];
+        f.value[i] = (double)((const MET_FLOAT_TYPE *)_v)[i];
         }
       break;
     default:

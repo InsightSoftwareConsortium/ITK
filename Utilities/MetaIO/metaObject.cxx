@@ -387,75 +387,68 @@ PrintInfo(void) const
   FieldsContainerType::const_iterator  itr  = m_UserDefinedReadFields.begin();
   FieldsContainerType::const_iterator  endw = m_UserDefinedWriteFields.end();
   FieldsContainerType::const_iterator it;
-   while( itw != endw )
-   { 
-
-     if((*itw)->defined)
-     {
-       it=itw;
-     }
-     else
-     {
-       it=itr; 
-     }
+  while( itw != endw )
+    { 
+    if((*itw)->defined)
+      {
+      it=itw;
+      }
+    else
+      {
+      it=itr; 
+      }
      
-     printf("%s: ",(*it)->name);
+    printf("%s: ",(*it)->name);
 
-     if((*it)->type == MET_STRING)
-     {
-       printf("%s",(char *) (*it)->value);
-     }
-     else if(
-       (*it)->type == MET_ASCII_CHAR ||
-       (*it)->type == MET_CHAR ||
-       (*it)->type == MET_UCHAR ||
-       (*it)->type == MET_SHORT ||
-       (*it)->type == MET_USHORT ||
-       (*it)->type == MET_LONG ||
-       (*it)->type == MET_ULONG ||
-       (*it)->type == MET_INT ||
-       (*it)->type == MET_UINT ||
-       (*it)->type == MET_FLOAT ||
-       (*it)->type == MET_DOUBLE
-     )
-     {
-       printf("%s : %f\n",(*it)->name,(*it)->value[0]);
-     }
-     else if(
-       (*it)->type ==MET_CHAR_ARRAY || 
-       (*it)->type ==MET_UCHAR_ARRAY ||
-       (*it)->type ==MET_SHORT_ARRAY ||
-       (*it)->type ==MET_USHORT_ARRAY ||
-       (*it)->type ==MET_INT_ARRAY ||
-       (*it)->type ==MET_UINT_ARRAY ||
-       (*it)->type ==MET_FLOAT_ARRAY ||
-       (*it)->type ==MET_DOUBLE_ARRAY
-     )
-     {
-        for(i=0; i<(*it)->length; i++)
+    if((*it)->type == MET_STRING)
+      {
+      printf("%s",(char *) (*it)->value);
+      }
+    else if( (*it)->type == MET_ASCII_CHAR ||
+             (*it)->type == MET_CHAR ||
+             (*it)->type == MET_UCHAR ||
+             (*it)->type == MET_SHORT ||
+             (*it)->type == MET_USHORT ||
+             (*it)->type == MET_LONG ||
+             (*it)->type == MET_ULONG ||
+             (*it)->type == MET_INT ||
+             (*it)->type == MET_UINT ||
+             (*it)->type == MET_FLOAT ||
+             (*it)->type == MET_DOUBLE )
+      {
+      printf("%s : %f\n",(*it)->name,(*it)->value[0]);
+      }
+    else if( (*it)->type ==MET_CHAR_ARRAY || 
+             (*it)->type ==MET_UCHAR_ARRAY ||
+             (*it)->type ==MET_SHORT_ARRAY ||
+             (*it)->type ==MET_USHORT_ARRAY ||
+             (*it)->type ==MET_INT_ARRAY ||
+             (*it)->type ==MET_UINT_ARRAY ||
+             (*it)->type ==MET_FLOAT_ARRAY ||
+             (*it)->type ==MET_DOUBLE_ARRAY )
+      {
+      for(i=0; i<(*it)->length; i++)
         {
-          printf("%f ",(*it)->value[i]);
+        printf("%f ",(*it)->value[i]);
         }    
-     }
-     else if((*it)->type == MET_FLOAT_MATRIX)
-     {
-       std::cout << std::endl;
-       for(i=0; i<(*it)->length*(*it)->length; i++)
-       {
-         printf("%f ",(*it)->value[i]);
-         if(i==(*it)->length-1)
-         {
-           std::cout << std::endl;
-         }
-       }
-     }
-
-     std::cout << std::endl;
+      }
+    else if((*it)->type == MET_FLOAT_MATRIX)
+      {
+      std::cout << std::endl;
+      for(i=0; i<(*it)->length*(*it)->length; i++)
+        {
+        printf("%f ",(*it)->value[i]);
+        if(i==(*it)->length-1)
+          {
+          std::cout << std::endl;
+          }
+        }
+      }
+    std::cout << std::endl;
      
-     itw++;
-     itr++;
-   }
-
+    itw++;
+    itr++;
+    }
   }
 
 const char * MetaObject::

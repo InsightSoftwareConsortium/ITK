@@ -190,7 +190,7 @@ void MetaImageIO::ReadImageInformation()
     case MET_OTHER:
     case MET_NONE:
       this->SetPixelType( UNKNOWNPIXELTYPE );
-      this->SetComponentType( UNKNOWNCOMPONENTTYPE);
+      this->SetComponentType( UNKNOWNCOMPONENTTYPE );
       break;
     case MET_CHAR:
     case MET_ASCII_CHAR:
@@ -226,57 +226,209 @@ void MetaImageIO::ReadImageInformation()
       this->SetPixelType( VECTOR );
       this->SetComponentType( USHORT );
       break;
-    case MET_LONG:
-      this->SetPixelType( SCALAR );
-      this->SetComponentType( LONG );
-      break;
-    case MET_LONG_ARRAY:
-      this->SetPixelType( VECTOR );
-      this->SetComponentType( LONG );
-      break;
-    case MET_ULONG:
-      this->SetPixelType( SCALAR );
-      this->SetComponentType( ULONG );
-      break;
-    case MET_ULONG_ARRAY:
-      this->SetPixelType( VECTOR );
-      this->SetComponentType( ULONG );
-      break;
     case MET_INT:
       this->SetPixelType( SCALAR );
-      this->SetComponentType( INT );
+      if(sizeof(int) == MET_ValueTypeSize[MET_INT])
+        {
+        this->SetComponentType( INT );
+        }
+      else if(sizeof(long) == MET_ValueTypeSize[MET_INT])
+        {
+        this->SetComponentType( LONG );
+        }
       break;
     case MET_INT_ARRAY:
       this->SetPixelType( VECTOR );
-      this->SetComponentType( INT );
+      if(sizeof(int) == MET_ValueTypeSize[MET_INT])
+        {
+        this->SetComponentType( INT );
+        }
+      else if(sizeof(long) == MET_ValueTypeSize[MET_INT])
+        {
+        this->SetComponentType( LONG );
+        }
       break;
     case MET_UINT:
       this->SetPixelType( SCALAR );
-      this->SetComponentType( UINT );
+      if(sizeof(unsigned int) == MET_ValueTypeSize[MET_UINT])
+        {
+        this->SetComponentType( UINT );
+        }
+      else if(sizeof(unsigned long) == MET_ValueTypeSize[MET_UINT])
+        {
+        this->SetComponentType( ULONG );
+        }
       break;
     case MET_UINT_ARRAY: 
       this->SetPixelType( VECTOR );
-      this->SetComponentType( UINT );
+      if(sizeof(int) == MET_ValueTypeSize[MET_INT])
+        {
+        this->SetComponentType( UINT );
+        }
+      else if(sizeof(long) == MET_ValueTypeSize[MET_INT])
+        {
+        this->SetComponentType( ULONG );
+        }
+      break;
+    case MET_LONG:
+      this->SetPixelType( SCALAR );
+      if(sizeof(long) == MET_ValueTypeSize[MET_LONG])
+        {
+        this->SetComponentType( LONG );
+        }
+      else if(sizeof(int) == MET_ValueTypeSize[MET_LONG])
+        {
+        this->SetComponentType( INT );
+        }
+      break;
+    case MET_LONG_ARRAY:
+      this->SetPixelType( VECTOR );
+      if(sizeof(long) == MET_ValueTypeSize[MET_LONG])
+        {
+        this->SetComponentType( LONG );
+        }
+      else if(sizeof(int) == MET_ValueTypeSize[MET_LONG])
+        {
+        this->SetComponentType( INT );
+        }
+      break;
+    case MET_ULONG:
+      this->SetPixelType( SCALAR );
+      if(sizeof(unsigned long) == MET_ValueTypeSize[MET_ULONG])
+        {
+        this->SetComponentType( ULONG );
+        }
+      else if(sizeof(unsigned int) == MET_ValueTypeSize[MET_ULONG])
+        {
+        this->SetComponentType( UINT );
+        }
+      break;
+    case MET_ULONG_ARRAY:
+      this->SetPixelType( VECTOR );
+      if(sizeof(unsigned long) == MET_ValueTypeSize[MET_ULONG])
+        {
+        this->SetComponentType( ULONG );
+        }
+      else if(sizeof(unsigned int) == MET_ValueTypeSize[MET_ULONG])
+        {
+        this->SetComponentType( UINT );
+        }
+      break;
+    case MET_LONG_LONG:
+      this->SetPixelType( SCALAR );
+      if(sizeof(long) == MET_ValueTypeSize[MET_LONG_LONG])
+        {
+        this->SetComponentType( LONG );
+        }
+      else if(sizeof(int) == MET_ValueTypeSize[MET_LONG_LONG])
+        {
+        this->SetComponentType( INT );
+        }
+      else 
+        {
+        this->SetComponentType( UNKNOWNCOMPONENTTYPE );
+        }
+      break;
+    case MET_LONG_LONG_ARRAY:
+      this->SetPixelType( VECTOR );
+      if(sizeof(long) == MET_ValueTypeSize[MET_LONG_LONG])
+        {
+        this->SetComponentType( LONG );
+        }
+      else if(sizeof(int) == MET_ValueTypeSize[MET_LONG_LONG])
+        {
+        this->SetComponentType( INT );
+        }
+      else 
+        {
+        this->SetComponentType( UNKNOWNCOMPONENTTYPE );
+        }
+      break;
+    case MET_ULONG_LONG:
+      this->SetPixelType( SCALAR );
+      if(sizeof(unsigned long) == MET_ValueTypeSize[MET_ULONG_LONG])
+        {
+        this->SetComponentType( ULONG );
+        }
+      else if(sizeof(unsigned int) == MET_ValueTypeSize[MET_ULONG_LONG])
+        {
+        this->SetComponentType( UINT );
+        }
+      else 
+        {
+        this->SetComponentType( UNKNOWNCOMPONENTTYPE );
+        }
+      break;
+    case MET_ULONG_LONG_ARRAY:
+      this->SetPixelType( VECTOR );
+      if(sizeof(unsigned long) == MET_ValueTypeSize[MET_ULONG_LONG])
+        {
+        this->SetComponentType( ULONG );
+        }
+      else if(sizeof(unsigned int) == MET_ValueTypeSize[MET_ULONG_LONG])
+        {
+        this->SetComponentType( UINT );
+        }
+      else 
+        {
+        this->SetComponentType( UNKNOWNCOMPONENTTYPE );
+        }
       break;
     case MET_FLOAT:
       this->SetPixelType( SCALAR );
-      this->SetComponentType( FLOAT );
+      if(sizeof(float) == MET_ValueTypeSize[MET_FLOAT])
+        {
+        this->SetComponentType( FLOAT );
+        }
+      else if(sizeof(double) == MET_ValueTypeSize[MET_FLOAT])
+        {
+        this->SetComponentType( DOUBLE );
+        }
       break;
     case MET_FLOAT_ARRAY: 
       this->SetPixelType( VECTOR );
-      this->SetComponentType( FLOAT );
+      if(sizeof(float) == MET_ValueTypeSize[MET_FLOAT])
+        {
+        this->SetComponentType( FLOAT );
+        }
+      else if(sizeof(double) == MET_ValueTypeSize[MET_FLOAT])
+        {
+        this->SetComponentType( DOUBLE );
+        }
       break;
     case MET_DOUBLE:
       this->SetPixelType( SCALAR );
       this->SetComponentType( DOUBLE );
+      if(sizeof(double) == MET_ValueTypeSize[MET_DOUBLE])
+        {
+        this->SetComponentType( DOUBLE );
+        }
+      else if(sizeof(float) == MET_ValueTypeSize[MET_DOUBLE])
+        {
+        this->SetComponentType( FLOAT );
+        }
       break;
     case MET_DOUBLE_ARRAY:
       this->SetPixelType( VECTOR );
-      this->SetComponentType( DOUBLE );
+      if(sizeof(double) == MET_ValueTypeSize[MET_DOUBLE])
+        {
+        this->SetComponentType( DOUBLE );
+        }
+      else if(sizeof(float) == MET_ValueTypeSize[MET_DOUBLE])
+        {
+        this->SetComponentType( FLOAT );
+        }
       break;
     case MET_FLOAT_MATRIX:
       this->SetPixelType( VECTOR );
-      this->SetComponentType( FLOAT );
+      if(sizeof(float) == MET_ValueTypeSize[MET_FLOAT])
+        {
+        this->SetComponentType( FLOAT );
+        }
+      else if(sizeof(double) == MET_ValueTypeSize[MET_FLOAT])
+        {
+        this->SetComponentType( DOUBLE );
+        }
       this->SetNumberOfComponents(m_NumberOfComponents * m_NumberOfComponents);
       break;
     }
@@ -838,22 +990,45 @@ MetaImageIO
       eType = MET_USHORT;
       break;
     case LONG:
-      eType = MET_LONG;
+      if(sizeof(long) == MET_ValueTypeSize[MET_LONG])
+        eType = MET_LONG;
+      else if(sizeof(long) == MET_ValueTypeSize[MET_INT])
+        eType = MET_INT;
+      else if(sizeof(long) == MET_ValueTypeSize[MET_LONG_LONG])
+        eType = MET_LONG_LONG;
       break;
     case ULONG:
-      eType = MET_ULONG;
+      if(sizeof(long) == MET_ValueTypeSize[MET_LONG])
+        eType = MET_ULONG;
+      else if(sizeof(long) == MET_ValueTypeSize[MET_INT])
+        eType = MET_UINT;
+      else if(sizeof(long) == MET_ValueTypeSize[MET_LONG_LONG])
+        eType = MET_ULONG_LONG;
       break;
     case INT:
       eType = MET_INT;
+      if(sizeof(int) == MET_ValueTypeSize[MET_INT])
+        eType = MET_INT;
+      else if(sizeof(int) == MET_ValueTypeSize[MET_LONG])
+        eType = MET_LONG;
       break;
     case UINT:
-      eType = MET_UINT;
+      if(sizeof(int) == MET_ValueTypeSize[MET_INT])
+        eType = MET_UINT;
+      else if(sizeof(int) == MET_ValueTypeSize[MET_LONG])
+        eType = MET_ULONG;
       break;
     case FLOAT:
-      eType = MET_FLOAT;
+      if(sizeof(float) == MET_ValueTypeSize[MET_FLOAT])
+        eType = MET_FLOAT;
+      else if(sizeof(float) == MET_ValueTypeSize[MET_DOUBLE])
+        eType = MET_DOUBLE;
       break;
     case DOUBLE:
-      eType = MET_DOUBLE;
+      if(sizeof(double) == MET_ValueTypeSize[MET_DOUBLE])
+        eType = MET_DOUBLE;
+      else if(sizeof(double) == MET_ValueTypeSize[MET_FLOAT])
+        eType = MET_FLOAT;
       break;
     }
   

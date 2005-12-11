@@ -390,8 +390,8 @@ ElementByteOrderSwap(void)
       int i;
       for(i=0; i<m_Quantity*m_ElementNumberOfChannels; i++)
         {
-        ((unsigned short *)m_ElementData)[i] = 
-              MET_ByteOrderSwapShort(((unsigned short *)m_ElementData)[i]);
+        ((MET_USHORT_TYPE *)m_ElementData)[i] = 
+              MET_ByteOrderSwapShort(((MET_USHORT_TYPE *)m_ElementData)[i]);
         }
       break;
       }
@@ -400,8 +400,8 @@ ElementByteOrderSwap(void)
       int i;
       for(i=0; i<m_Quantity*m_ElementNumberOfChannels; i++)
         {
-        ((unsigned int *)m_ElementData)[i] =
-              MET_ByteOrderSwapLong(((unsigned int *)m_ElementData)[i]);
+        ((MET_UINT_TYPE *)m_ElementData)[i] =
+              MET_ByteOrderSwapLong(((MET_UINT_TYPE *)m_ElementData)[i]);
         }
       break;
       }
@@ -525,7 +525,9 @@ ConvertElementDataTo(MET_ValueEnumType _elementType,
     }
 
   if(m_AutoFreeElementData)
+    {
     delete [] (char *)m_ElementData;
+    }
   m_ElementData = newElementData;
   m_ElementType = _elementType;
   m_ElementMinMaxValid = true;
@@ -557,7 +559,9 @@ void MetaImage::
 ElementData(void * _elementData)
   {
   if(m_AutoFreeElementData)
-     delete [] (char *)m_ElementData;
+    {
+    delete [] (char *)m_ElementData;
+    }
   m_ElementData = _elementData;
   m_AutoFreeElementData = true;
   }
@@ -664,7 +668,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
       sscanf( m_ElementDataFileName,"%s %d",junk, &fileImageDim);
       if ( (fileImageDim == 0) || (fileImageDim > m_NDims) )
         {
-        // if optional file dimension size is not give or is larger than
+        // if optional file dimension size is not given or is larger than
         // overall dimension then default to a size of m_NDims - 1.
         fileImageDim = m_NDims-1;
         }
@@ -705,9 +709,9 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
             }
 
           M_ReadElements(readStreamTemp,
-                         &(((char *)m_ElementData)[i*m_SubQuantity[fileImageDim]*
-                                                   elementSize]),
-                         m_SubQuantity[fileImageDim]);
+                     &(((char *)m_ElementData)[i*m_SubQuantity[fileImageDim]*
+                                               elementSize]),
+                     m_SubQuantity[fileImageDim]);
 
           readStreamTemp->close();
           }
@@ -744,7 +748,8 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
       if (META_DEBUG)
         {
         std::cout << "Using string '" << wrds[0] << "' with values " 
-                  << minV << " to " << maxV << " stepping " << stepV << std::endl;
+                  << minV << " to " << maxV 
+                  << " stepping " << stepV << std::endl;
         }
       int cnt = 0;
       for(i=minV; i<=maxV; i += stepV)
@@ -778,7 +783,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
 
         readStreamTemp->close();
         }
-        delete readStreamTemp;
+      delete readStreamTemp;
       }
     else
       {
@@ -1085,21 +1090,22 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
         writeStreamTemp->open(dataFileName, std::ios::binary | std::ios::out);
    
         if(!m_CompressedData)
-        {
-        writeStreamTemp->write( (char *)m_ElementData,
-                              m_Quantity * elementNumberOfBytes );  
-        } 
+          {
+          writeStreamTemp->write( (char *)m_ElementData,
+                                m_Quantity * elementNumberOfBytes );  
+          } 
         else
-        {
-        m_CompressedElementData = this->PerformCompression(
-              (unsigned char *)m_ElementData,m_Quantity * elementNumberOfBytes);
-        m_WriteCompressedDataSize = false;
-        writeStreamTemp->write( (char *)m_CompressedElementData,
-                             m_CompressedDataSize); 
-        delete m_CompressedElementData;
-        m_CompressedElementData = NULL;
-        }     
-        
+          {
+          m_CompressedElementData = this->PerformCompression(
+                (unsigned char *)m_ElementData,
+                m_Quantity * elementNumberOfBytes);
+          m_WriteCompressedDataSize = false;
+          writeStreamTemp->write( (char *)m_CompressedElementData,
+                               m_CompressedDataSize); 
+          delete m_CompressedElementData;
+          m_CompressedElementData = NULL;
+          }     
+          
         writeStreamTemp->close();
         delete writeStreamTemp; 
         if(!userDataFileName)

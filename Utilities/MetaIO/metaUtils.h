@@ -185,55 +185,64 @@ extern bool MET_WriteFieldToFile(std::ostream &_fp, const char *_fieldName,
 
 
 extern std::string MET_ReadType(std::istream & _fp);
+
 extern char* MET_ReadSubType(std::istream & _fp);
 
 inline MET_ValueEnumType MET_GetPixelType(const std::type_info& ptype)
 {
-  if( ptype == typeid(unsigned char) )
-  {
+  if( ptype == typeid(MET_UCHAR_TYPE) )
+    {
     return MET_UCHAR;
-  }
-  else if( ptype == typeid(char) )
-  {
+    }
+  else if( ptype == typeid(MET_CHAR_TYPE) )
+    {
     return MET_CHAR;
-  }
-  else if( ptype == typeid(unsigned short))
-  {
+    }
+  else if( ptype == typeid(MET_USHORT_TYPE))
+    {
     return MET_USHORT;
-  }
-  else if( ptype == typeid(short) )
-  {
+    }
+  else if( ptype == typeid(MET_SHORT_TYPE) )
+    {
     return MET_SHORT;
-  }
-  else if( ptype == typeid(unsigned long))
-  {
-    return MET_ULONG;
-  }
-  else if( ptype == typeid(long) )
-  {
-    return MET_LONG;
-  }
-  else if( ptype == typeid(unsigned int) )
-  {
+    }
+  else if( ptype == typeid(MET_UINT_TYPE) )
+    {
     return MET_UINT;
-  }
-  else if( ptype == typeid(int) )
-  {
+    }
+  else if( ptype == typeid(MET_INT_TYPE) )
+    {
     return MET_INT;
-  }
-  else if( ptype == typeid(float) )
-  {
+    }
+  else if( ptype == typeid(MET_ULONG_TYPE))
+    {
+    return MET_ULONG;
+    }
+  else if( ptype == typeid(MET_LONG_TYPE) )
+    {
+    return MET_LONG;
+    }
+  else if( ptype == typeid(MET_ULONG_LONG_TYPE) )
+    {
+    return MET_ULONG_LONG;
+    }
+  else if( ptype == typeid(MET_LONG_LONG_TYPE) )
+    {
+    return MET_LONG_LONG;
+    }
+  else if( ptype == typeid(MET_FLOAT_TYPE) )
+    {
     return MET_FLOAT;
-  }
-  else if( ptype == typeid(double) )
-  {
+    }
+  else if( ptype == typeid(MET_DOUBLE_TYPE) )
+    {
     return MET_DOUBLE;
-  }
+    }
   else
-  {
+    {
     std::cerr  <<"Couldn't convert pixel type" << std::endl;
     return MET_NONE;
-  }
+    }
 }
 
 #endif

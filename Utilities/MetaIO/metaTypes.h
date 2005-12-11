@@ -17,12 +17,33 @@
 #ifndef METATYPES_H
 #define METATYPES_H
 
+typedef char                MET_ASCII_CHAR_TYPE;
+typedef char                MET_CHAR_TYPE;
+typedef unsigned char       MET_UCHAR_TYPE;
+typedef short               MET_SHORT_TYPE;
+typedef unsigned short      MET_USHORT_TYPE;
+typedef int                 MET_INT_TYPE;
+typedef unsigned int        MET_UINT_TYPE;
+typedef int                 MET_LONG_TYPE;
+typedef unsigned int        MET_ULONG_TYPE;
+#if defined(_WIN32) && !defined(__CYGWIN__) && !defined(__MING_W32__)
+typedef __int64             MET_LONG_LONG_TYPE;
+typedef unsigned __int64    MET_ULONG_LONG_TYPE;
+#else
+typedef long long           MET_LONG_LONG_TYPE;
+typedef unsigned long long  MET_ULONG_LONG_TYPE;
+#endif
+typedef float               MET_FLOAT_TYPE;
+typedef double              MET_DOUBLE_TYPE;
+typedef char *              MET_STRING_TYPE;
+
+
 // Value types for the variables in a metaFile
 // Format for variables defined in a metaFile is
 //    <variable> = <value>
 //       where <variable> is a designated fieldname/keyword (e.g., NDims)
 //          and value is an instance of that fieldname's associated valueType
-#define MET_NUM_VALUE_TYPES 25
+#define MET_NUM_VALUE_TYPES 29
 
 typedef enum
    {
@@ -36,6 +57,8 @@ typedef enum
    MET_UINT,
    MET_LONG,
    MET_ULONG,
+   MET_LONG_LONG,
+   MET_ULONG_LONG,
    MET_FLOAT, 
    MET_DOUBLE,
    MET_STRING, 
@@ -47,6 +70,8 @@ typedef enum
    MET_UINT_ARRAY,
    MET_LONG_ARRAY,
    MET_ULONG_ARRAY,
+   MET_LONG_LONG_ARRAY,
+   MET_ULONG_LONG_ARRAY,
    MET_FLOAT_ARRAY, 
    MET_DOUBLE_ARRAY,
    MET_FLOAT_MATRIX,
@@ -55,34 +80,38 @@ typedef enum
 
 
 const unsigned char MET_ValueTypeSize[MET_NUM_VALUE_TYPES] = {
-   0, 1, 1, 1, 2, 2, 4, 4, 4, 4, 4, 8, 1, 1, 1, 2, 2, 4, 4, 4, 4, 4, 8, 4, 0 };
+   0, 1, 1, 1, 2, 2, 4, 4, 4, 4, 8, 8, 4, 8, 1, 1, 1, 2, 2, 4, 4, 4, 4, 8, 8, 4, 8, 4, 0 };
 
-const char MET_ValueTypeName[MET_NUM_VALUE_TYPES][17] = {
-   {'M','E','T','_','N','O','N','E','\0',' ',' ',' ',' ',' ',' ',' ',' '},
-   {'M','E','T','_','A','S','C','I','I','_','C','H','A','R','\0',' ',' '},
-   {'M','E','T','_','C','H','A','R','\0',' ',' ',' ',' ',' ',' ',' ',' '},
-   {'M','E','T','_','U','C','H','A','R','\0',' ',' ',' ',' ',' ',' ',' '},
-   {'M','E','T','_','S','H','O','R','T','\0',' ',' ',' ',' ',' ',' ',' '},
-   {'M','E','T','_','U','S','H','O','R','T','\0',' ',' ',' ',' ',' ',' '},
-   {'M','E','T','_','I','N','T','\0',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-   {'M','E','T','_','U','I','N','T','\0',' ',' ',' ',' ',' ',' ',' ',' '},
-   {'M','E','T','_','L','O','N','G','\0',' ',' ',' ',' ',' ',' ',' ',' '},
-   {'M','E','T','_','U','L','O','N','G','\0',' ',' ',' ',' ',' ',' ',' '},
-   {'M','E','T','_','F','L','O','A','T','\0',' ',' ',' ',' ',' ',' ',' '},
-   {'M','E','T','_','D','O','U','B','L','E','\0',' ',' ',' ',' ',' ',' '},
-   {'M','E','T','_','S','T','R','I','N','G','\0',' ',' ',' ',' ',' ',' '},
-   {'M','E','T','_','C','H','A','R','_','A','R','R','A','Y','\0',' ',' '},
-   {'M','E','T','_','U','C','H','A','R','_','A','R','R','A','Y','\0',' '},
-   {'M','E','T','_','S','H','O','R','T','_','A','R','R','A','Y','\0',' '},
-   {'M','E','T','_','U','S','H','O','R','T','_','A','R','R','A','Y','\0'},
-   {'M','E','T','_','I','N','T','_','A','R','R','A','Y','\0',' ',' ',' '},
-   {'M','E','T','_','U','I','N','T','_','A','R','R','A','Y','\0',' ',' '},
-   {'M','E','T','_','L','O','N','G','_','A','R','R','A','Y','\0',' ',' '},
-   {'M','E','T','_','U','L','O','N','G','_','A','R','R','A','Y','\0',' '},
-   {'M','E','T','_','F','L','O','A','T','_','A','R','R','A','Y','\0',' '},
-   {'M','E','T','_','D','O','U','B','L','E','_','A','R','R','A','Y','\0'},
-   {'M','E','T','_','F','L','O','A','T','_','M','A','T','R','I','X','\0'},
-   {'M','E','T','_','O','T','H','E','R','\0',' ',' ',' ',' ',' ',' ',' '}};
+const char MET_ValueTypeName[MET_NUM_VALUE_TYPES][21] = {
+   {'M','E','T','_','N','O','N','E','\0',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','A','S','C','I','I','_','C','H','A','R','\0',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','C','H','A','R','\0',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','U','C','H','A','R','\0',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','S','H','O','R','T','\0',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','U','S','H','O','R','T','\0',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','I','N','T','\0',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','U','I','N','T','\0',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','L','O','N','G','\0',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','U','L','O','N','G','\0',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','L','O','N','G','_','L','O','N','G','\0',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','U','L','O','N','G','_','L','O','N','G','\0',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','F','L','O','A','T','\0',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','D','O','U','B','L','E','\0',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','S','T','R','I','N','G','\0',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','C','H','A','R','_','A','R','R','A','Y','\0',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','U','C','H','A','R','_','A','R','R','A','Y','\0',' ',' ',' ',' ',' '},
+   {'M','E','T','_','S','H','O','R','T','_','A','R','R','A','Y','\0',' ',' ',' ',' ',' '},
+   {'M','E','T','_','U','S','H','O','R','T','_','A','R','R','A','Y','\0',' ',' ',' ',' '},
+   {'M','E','T','_','I','N','T','_','A','R','R','A','Y','\0',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','U','I','N','T','_','A','R','R','A','Y','\0',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','L','O','N','G','_','A','R','R','A','Y','\0',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','U','L','O','N','G','_','A','R','R','A','Y','\0',' ',' ',' ',' ',' '},
+   {'M','E','T','_','L','O','N','G','_','L','O','N','G','_','A','R','R','A','Y','\0',' '},
+   {'M','E','T','_','U','L','O','N','G','_','L','O','N','G','_','A','R','R','A','Y','\0'},
+   {'M','E','T','_','F','L','O','A','T','_','A','R','R','A','Y','\0',' ',' ',' ',' ',' '},
+   {'M','E','T','_','D','O','U','B','L','E','_','A','R','R','A','Y','\0',' ',' ',' ',' '},
+   {'M','E','T','_','F','L','O','A','T','_','M','A','T','R','I','X','\0',' ',' ',' ',' '},
+   {'M','E','T','_','O','T','H','E','R','\0',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '}};
 
 
 typedef enum { MET_ORIENTATION_RL, MET_ORIENTATION_LR, MET_ORIENTATION_AP,
