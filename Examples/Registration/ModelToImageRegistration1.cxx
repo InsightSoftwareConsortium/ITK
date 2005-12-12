@@ -651,7 +651,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The following lines instantiate the type of the
+  //  Below we instantiate the type of the
   //  \doxygen{ImageToSpatialObjectRegistrationMethod} method and instantiate a
   //  registration object with the \code{New()} method. Note that the
   //  registration type is templated over the Image and the
