@@ -402,7 +402,7 @@ ADD_TEST(itkSimpleContourExtractorImageFilterTest ${BASIC_FILTERS_TESTS2}
      --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/SimpleContourExtractorImageFilterTest.png 
                ${ITK_TEST_OUTPUT_DIR}/SimpleContourExtractorImageFilterTest.png 
    itkSimpleContourExtractorImageFilterTest 
-               ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterTest2.png 
+               ${ITK_DATA_ROOT}/Baseline/BasicFilters/BinaryThresholdImageFilterTest2.png 
                ${ITK_TEST_OUTPUT_DIR}/SimpleContourExtractorImageFilterTest.png )
 
 ADD_TEST(itkGrayscaleFillholeImageFilterTest ${BASIC_FILTERS_TESTS} 
