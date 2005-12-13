@@ -121,7 +121,7 @@ ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage, TFunctor, TMask
     oit.GoToBegin();
     while (!mit.IsAtEnd())
       {
-      if ( mit.Get() != NumericTraits<MaskPixelType>::Zero)
+      if ( mit.Get() == NumericTraits<MaskPixelType>::Zero)
         {
         // mark pixel as unlabeled
         oit.Set(NumericTraits<OutputPixelType>::Zero);
