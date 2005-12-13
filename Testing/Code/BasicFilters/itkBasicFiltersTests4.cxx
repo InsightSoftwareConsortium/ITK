@@ -32,5 +32,6 @@ void RegisterTests()
   REGISTER_TEST( itkOpeningByReconstructionImageFilterTest );
   REGISTER_TEST( itkGetAverageSliceImageFilterTest );
   REGISTER_TEST( itkMaskNeighborhoodOperatorImageFilterTest );
+  REGISTER_TEST( itkVectorConnectedComponentImageFilterTest );
 }
 

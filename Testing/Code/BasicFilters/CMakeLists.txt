@@ -681,6 +681,13 @@ ADD_TEST(itkMaskNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS4}
              ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png
              itkMaskNeighborhoodOperatorImageFilterTest 
                          ${INPUTDATA}/cthead1.png ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png)
+
+ADD_TEST(itkVectorConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS4}
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorConnectedComponentImageFilterTest.png
+         ${ITK_TEST_OUTPUT_DIR}/VectorConnectedComponentImageFilterTest.png
+         itkVectorConnectedComponentImageFilterTest
+             ${ITK_TEST_OUTPUT_DIR}/VectorConnectedComponentImageFilterTest.png)
+
 ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
@@ -931,6 +938,7 @@ itkClosingByReconstructionImageFilterTest
 itkOpeningByReconstructionImageFilterTest
 itkGetAverageSliceImageFilterTest
 itkMaskNeighborhoodOperatorImageFilterTest
+itkVectorConnectedComponentImageFilterTest
 )
 
 ADD_TEST(itkBasicFiltersHeaderTest ${BASIC_FILTERS_HEADER_TEST})
