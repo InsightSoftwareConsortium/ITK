@@ -230,6 +230,8 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 ::StartRegistration( void )
 { 
 
+  ParametersType empty(1);
+  empty.Fill( 0.0 );
   try
     {
     // initialize the interconnects between components
@@ -237,8 +239,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
     }
   catch( ExceptionObject& err )
     {
-    m_LastTransformParameters = ParametersType(1);
-    m_LastTransformParameters.Fill( 0.0f );
+    m_LastTransformParameters = empty;
 
     // pass exception to caller
     throw err;
