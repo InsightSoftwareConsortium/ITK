@@ -167,11 +167,7 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
 {
   itkDebugMacro("GetDerivative( " << parameters << " ) ");
 
-  // Calculate gradient.
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
-  derivative = DerivativeType(ParametersDimension);
-  derivative.Fill(NumericTraits<ITK_TYPENAME
-                  DerivativeType::ValueType>::Zero);
 
   // Make sure the scales have been set
   if (m_DerivativeStepLengthScales.size() != ParametersDimension)
@@ -182,6 +178,11 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
                       << ParametersDimension
                       << ".");
     }
+
+  // Calculate gradient.
+  derivative = DerivativeType(ParametersDimension);
+  derivative.Fill(NumericTraits<ITK_TYPENAME
+                  DerivativeType::ValueType>::Zero);
 
   typename HistogramType::Pointer pHistogram = HistogramType::New();
   this->ComputeHistogram(parameters, *pHistogram);
