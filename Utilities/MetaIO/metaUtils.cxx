@@ -902,7 +902,7 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
       case MET_ULONG_LONG:
         {
 #if defined(_MSC_VER) // NOTE: you cannot use __int64 in an ostream in MSV6
-        fp << (double)((MET_ULONG_LONG_TYPE)((*fieldIter)->value[0])) 
+        fp << (double)((MET_LONG_LONG_TYPE)((MET_ULONG_LONG_TYPE)((*fieldIter)->value[0]))) 
            << std::endl;
         std::cerr << "Programs compiled using MSV6 cannot write 64 bit ints"
                   << std::endl;
@@ -1028,7 +1028,7 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
         for(j=0; j<(*fieldIter)->length; j++)
           {
 #if defined(_MSC_VER) // NOTE: you cannot use __int64 in an ostream in MSV6
-          fp << " " << (double)((MET_ULONG_LONG_TYPE)((*fieldIter)->value[j]));
+          fp << " " << (double)((MET_LONG_LONG_TYPE)((MET_ULONG_LONG_TYPE)((*fieldIter)->value[j])));
           std::cerr << "Programs compiled using MSV6 cannot write 64 bit ints"
                     << std::endl;
           std::cerr << "  Writing as double instead. Loss of precision results."
