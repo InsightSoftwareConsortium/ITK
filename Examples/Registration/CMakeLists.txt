@@ -123,9 +123,6 @@ TARGET_LINK_LIBRARIES(BSplineWarping1 ITKNumerics ITKIO)
 ADD_EXECUTABLE(ModelToImageRegistration1 ModelToImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(ModelToImageRegistration1 ITKStatistics ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
-TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
-
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
 ADD_TEST(ImageRegistration1oTest ${REGISTRATION_EXAMPLESO}
@@ -302,6 +299,10 @@ IF(NOT BORLAND)
   ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter 
                         ITKNumerics ITKIO ITKCommon ITKStatistics)
+
+  ADD_EXECUTABLE(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
+  TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
+
 ENDIF(NOT BORLAND)
 
 ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
