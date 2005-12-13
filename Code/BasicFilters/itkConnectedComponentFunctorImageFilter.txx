@@ -121,7 +121,7 @@ ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage, TFunctor, TMask
     oit.GoToBegin();
     while (!mit.IsAtEnd())
       {
-      if ( !mit.Get() )
+      if ( mit.Get() != NumericTraits<MaskPixelType>::Zero)
         {
         // mark pixel as unlabeled
         oit.Set(NumericTraits<OutputPixelType>::Zero);
@@ -193,7 +193,7 @@ ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage, TFunctor, TMask
         // create a new entry label
         if (maxLabel == maxPossibleLabel)
           {
-          itkWarningMacro(<< "ConnectedComponentFunctorImageFilter::GenerateData: Number of labels exceeds number of available labels for the output type." );
+          itkWarningMacro(<< "ConnectedComponentFunctorImageFilter::GenerateData: Number of labels " << (long) maxLabel << " exceeds number of available labels " << (long) maxPossibleLabel << " for the output type." );
           }
         else
           {

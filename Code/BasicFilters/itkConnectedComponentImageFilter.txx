@@ -166,7 +166,8 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
     oit.GoToBegin();
     while (!it.IsAtEnd())
       {
-      if ( mit.Get()  && (it.Get() != NumericTraits<InputPixelType>::Zero) )
+      if ( (mit.Get() != NumericTraits<MaskPixelType>::Zero) &&
+           (it.Get() != NumericTraits<InputPixelType>::Zero) )
         {
         // mark pixel as unlabeled
         oit.Set(maxPossibleLabel);

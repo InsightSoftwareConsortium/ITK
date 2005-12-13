@@ -69,6 +69,7 @@ public:
   typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
   typedef typename TInputImage::PixelType InputPixelType;
   typedef typename TInputImage::InternalPixelType InputInternalPixelType;
+  typedef typename TMaskImage::PixelType MaskPixelType;
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   
