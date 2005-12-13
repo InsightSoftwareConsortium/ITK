@@ -226,7 +226,11 @@ bool MET_ValueToDouble(MET_ValueEnumType _type, const void *_data, int _index,
       return true;
     case MET_ULONG_LONG:
     case MET_ULONG_LONG_ARRAY:
-      *_value = (double)(((const MET_ULONG_LONG_TYPE *)_data)[_index]);
+#if defined(_MSC_VER) // NOTE: you cannot use __int64 in an ostream in MSV6
+      *_value = (double)((MET_LONG_LONG_TYPE)((((const MET_ULONG_LONG_TYPE *)_data)[_index])));
+#else
+      *_value = (double)((((const MET_ULONG_LONG_TYPE *)_data)[_index]));
+#endif
       return true;
     case MET_FLOAT:
     case MET_FLOAT_ARRAY:
@@ -1173,7 +1177,11 @@ bool MET_WriteFieldToFile(std::ostream & _fp, const char *_fieldName,
     case MET_ULONG_LONG_ARRAY:
       for(i=0; i<_n; i++)
         {
+#if defined(_MSC_VER) // NOTE: you cannot use __int64 in an ostream in MSV6
+        f.value[i] = (double)((MET_LONG_LONG_TYPE)(((const MET_ULONG_LONG_TYPE *)_v)[i]));
+#else
         f.value[i] = (double)(((const MET_ULONG_LONG_TYPE *)_v)[i]);
+#endif
         }
       break;
     case MET_FLOAT:
