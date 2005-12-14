@@ -688,6 +688,12 @@ ADD_TEST(itkVectorConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS4}
          itkVectorConnectedComponentImageFilterTest
              ${ITK_TEST_OUTPUT_DIR}/VectorConnectedComponentImageFilterTest.png)
 
+ADD_TEST(itkMatrixIndexSelectionImageFilterTest ${BASIC_FILTERS_TESTS4}
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/MatrixIndexSelectionImageFilterTest.png
+         ${ITK_TEST_OUTPUT_DIR}/MatrixIndexSelectionImageFilterTest.png
+         itkMatrixIndexSelectionImageFilterTest
+             ${ITK_TEST_OUTPUT_DIR}/MatrixIndexSelectionImageFilterTest.png)
+
 ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
@@ -939,6 +945,7 @@ itkOpeningByReconstructionImageFilterTest
 itkGetAverageSliceImageFilterTest
 itkMaskNeighborhoodOperatorImageFilterTest
 itkVectorConnectedComponentImageFilterTest
+itkMatrixIndexSelectionImageFilterTest
 )
 
 ADD_TEST(itkBasicFiltersHeaderTest ${BASIC_FILTERS_HEADER_TEST})
