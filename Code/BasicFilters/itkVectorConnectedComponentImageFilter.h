@@ -37,7 +37,7 @@ class SimilarVectorsFunctor
 {
 public:
   SimilarVectorsFunctor()
-    {threshold = itk::NumericTraits<typename TInput::ValueType>::Zero;};
+    {threshold = itk::NumericTraits<ITK_TYPENAME TInput::ValueType>::Zero;};
 
   ~SimilarVectorsFunctor() {};
 
