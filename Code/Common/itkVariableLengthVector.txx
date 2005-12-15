@@ -203,9 +203,12 @@ void VariableLengthVector<TValueType >
       }
     else if( m_Data )
       {
-      if( m_NumElements != sz )
+      if( (m_NumElements != sz))
         {
-        delete [] m_Data;
+        if(m_NumElements>0)
+          {
+          delete [] m_Data;
+          }
         }
       else return;
       }
@@ -237,7 +240,7 @@ VariableLengthVector<TValueType >
     {
     return *this;
     }
-  this->SetSize( v.Size() );
+  this->SetSize( v.Size());
   for( ElementIdentifier i=0; i< v.Size(); i++ )
     {
     this->m_Data[i] = v[i];
