@@ -147,13 +147,13 @@ ADD_TEST( BayesianClassifierInitializerTest ${STATISTICS_EXAMPLES_WITH_TESTS4}
             4 2 ${TEMP}/BayesianClassifierInitializerClass2Output.png
 )
 
-# This test uses inputs from BayesianClassifierInitializer. If that fails,
-# so will this.
+# This test uses inputs from BayesianClassifierInitializer.
+# If that output changes, a new file should be placed in Examples/Data.
 ADD_TEST( BayesianClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS4}
   --compare ${BASELINE}/BayesianClassifierLabelMap.png 
             ${TEMP}/BayesianClassifierLabelMap.png
   BayesianClassifierTest
-            ${TEMP}/BayesianClassifierInitializerMemberships.mhd
+            ${ITK_SOURCE_DIR}/Examples/Data/BayesianClassifierInitializerMemberships.mhd
             ${TEMP}/BayesianClassifierLabelMap.png 2
 )
 
