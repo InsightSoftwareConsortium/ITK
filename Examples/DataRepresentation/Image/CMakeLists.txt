@@ -88,6 +88,14 @@ IF(NOT BORLAND)
   ADD_EXECUTABLE(ImageExamples4 ImageExamples4.cxx )
   TARGET_LINK_LIBRARIES(ImageExamples4 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
+  ADD_TEST(RGBImageTest ${IMAGE_EXAMPLES4}
+    RGBImageTest ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+)
+
+  ADD_TEST(VectorImageTest ${IMAGE_EXAMPLES4}
+    VectorImageTest
+)
+
 ENDIF(NOT BORLAND)
 
   ADD_EXECUTABLE(ImageExamples2 ImageExamples2.cxx )
@@ -95,13 +103,6 @@ ENDIF(NOT BORLAND)
 
   ADD_TEST(ImageAdaptor1Test ${IMAGE_EXAMPLES2}
     ImageAdaptor1Test ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
-)
-  ADD_TEST(RGBImageTest ${IMAGE_EXAMPLES4}
-    RGBImageTest ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
-)
-
-  ADD_TEST(VectorImageTest ${IMAGE_EXAMPLES4}
-    VectorImageTest
 )
 
 
