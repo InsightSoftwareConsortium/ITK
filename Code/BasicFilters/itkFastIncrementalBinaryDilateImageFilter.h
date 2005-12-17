@@ -19,7 +19,7 @@
 
 #include <vector>
 #include <queue>
-#include "itkImageToImageFilter.h"
+#include "itkBinaryDilateImageFilter.h"
 #include "itkImage.h"
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodIterator.h"
