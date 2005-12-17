@@ -21,7 +21,7 @@
 
 #include <stdlib.h>
 #include <itkImage.h>
-#include <itkBinaryDilateImageFilter.h>
+#include <itkFastIncrementalBinaryDilateImageFilter.h>
 #include <itkBinaryCrossStructuringElement.h>
 #include <itkImageRegionIterator.h>
 #include <itkExceptionObject.h>
@@ -129,7 +129,7 @@ int itkBinaryDilateImageFilterTest2(int, char* [] )
     myKernelType;
   
   // Declare the type for the morphology Filter
-  typedef itk::BinaryDilateImageFilter<myImageType, myImageType, myKernelType>
+  typedef itk::FastIncrementalBinaryDilateImageFilter<myImageType, myImageType, myKernelType>
     myFilterType;
 
   // Create the filter
