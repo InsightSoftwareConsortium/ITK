@@ -8,7 +8,6 @@
   fun:pthread_create@@GLIBC_2.1
   fun:_ZN3itk13MultiThreader19SingleMethodExecuteEv
 }
-
 {
   Error2
   Memcheck:Free
@@ -20,7 +19,6 @@
   fun:_ZN3itk13MultiThreader19SingleMethodExecuteEv
   fun:_ZN3itk11ImageSourceINS_5ImageIfLj3EEEE12GenerateDataEv
 }
-
 {
   CrazyTclError1
   Memcheck:Leak
@@ -231,8 +229,6 @@
    fun:_Z18itkCommonPrintTestiPPc
    fun:main
 }
-
-
 {
    Below block is after changes to Multithreader, Aug 05 
    Memcheck:Leak
@@ -243,6 +239,57 @@
    fun:pthread_create@@GLIBC_2.1
    fun:_ZN3itk13MultiThreader26DispatchSingleMethodThreadEPNS0_16ThreadInfoStructE
 }
-
-
-
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:calloc
+   obj:/lib/ld-2.3.5.so
+   fun:_dl_allocate_tls
+   fun:pthread_create@@GLIBC_2.1
+   fun:_ZN3itk13MultiThreader26DispatchSingleMethodThreadEPNS0_16ThreadInfoStructE
+   fun:_ZN3itk13MultiThreader19SingleMethodExecuteEv
+   fun:_ZN3itk11ImageSourceINS_5ImageIfLj2EEEE12GenerateDataEv
+   fun:_ZN3itk13ProcessObject16UpdateOutputDataEPNS_10DataObjectE
+   fun:_ZN3itk10DataObject16UpdateOutputDataEv
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:calloc
+   obj:/lib/ld-2.3.5.so
+   fun:_dl_allocate_tls
+   fun:pthread_create@@GLIBC_2.1
+   fun:_ZN3itk13MultiThreader26DispatchSingleMethodThreadEPNS0_16ThreadInfoStructE
+   fun:_ZN3itk13MultiThreader19SingleMethodExecuteEv
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:__cxa_allocate_exception
+   fun:_ZN3itk19ResampleImageFilterINS_5ImageIfLj2EEES2_dE26BeforeThreadedGenerateDataEv
+   fun:_ZN3itk11ImageSourceINS_5ImageIfLj2EEEE12GenerateDataEv
+   fun:_ZN3itk13ProcessObject16UpdateOutputDataEPNS_10DataObjectE
+   fun:_ZN3itk10DataObject16UpdateOutputDataEv
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:__cxa_allocate_exception
+   fun:_ZNK3itk42NormalizedCorrelationPointSetToImageMetricINS_8PointSetIfLj2ENS_23DefaultStaticMeshTraitsIfLj2ELj2EfffEEEENS_5ImageIdLj2EEEE8GetValueERKNS_5ArrayIdEE
+   fun:_Z49itkNormalizedCorrelationPointSetToImageMetricTestiPPc
+   fun:main
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:__cxa_allocate_exception
+   fun:_ZN3itk22PermuteAxesImageFilterINS_5ImageIhLj4EEEE8SetOrderERKNS_10FixedArrayIjLj4EEE
+   fun:_Z29itkPermuteAxesImageFilterTestiPPc
+   fun:main
+}
