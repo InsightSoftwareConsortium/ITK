@@ -204,6 +204,14 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   region.SetSize(dimSize);
   region.SetIndex(start);
  
+  // If a VectorImage, this requires us to set the 
+  // VectorLength before allocate
+  if( strcmp( output->GetNameOfClass(), "VectorImage" ) == 0 ) 
+    {
+    typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
+    AccessorFunctorType::SetVectorLength( output, m_ImageIO->GetNumberOfComponents() );
+    }
+  
   output->SetLargestPossibleRegion(region);
 }
 
@@ -282,15 +290,6 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
 
   // allocate the output buffer
   output->SetBufferedRegion( output->GetRequestedRegion() );
-
-  // If a VectorImage, this requires us to set the 
-  // VectorLength before allocate
-  if( strcmp( output->GetNameOfClass(), "VectorImage" ) == 0 ) 
-    {
-    typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
-    AccessorFunctorType::SetVectorLength( output, m_ImageIO->GetNumberOfComponents() );
-    }
-  
   output->Allocate();
 
   // Test if the file exist and if it can be open.
