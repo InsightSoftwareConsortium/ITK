@@ -555,6 +555,46 @@ int itkVersorTest(int, char* [] )
   }
 
 
+  { // Test for the Set() matrix method
+    
+    std::cout << "Test for Set( MatrixType ) method ...";
+
+    VersorType vv;
+    MatrixType mm;
+
+    // Setting the matrix of a 90 degrees rotation around Z
+    mm[0][0] =  0.0;
+    mm[0][1] =  1.0;
+    mm[0][2] =  0.0;
+
+    mm[1][0] =  0.0;
+    mm[1][1] = -1.0;
+    mm[1][2] =  0.0;
+
+    mm[2][0] =  0.0;
+    mm[2][1] =  0.0;
+    mm[2][2] =  1.0;
+
+    vv.Set( mm );
+
+    const double halfSqrtOfTwo = vcl_sqrt( 2.0 ) / 2.0;
+
+    if( fabs(vv.GetX() -             0.0  ) > epsilon ||
+        fabs(vv.GetY() -             0.0  ) > epsilon ||
+        fabs(vv.GetZ() - (-halfSqrtOfTwo) ) > epsilon ||
+        fabs(vv.GetW() -   halfSqrtOfTwo  ) > epsilon )
+      {
+      std::cout << "Error in Versor Set(Matrix) method ! " << std::endl;
+      std::cout << "vv  = " << vv << std::endl;
+      return EXIT_FAILURE;
+      } 
+    std::cout << " PASSED !" << std::endl;
+
+
+
+  }
+
+
   return EXIT_SUCCESS;
 
 }

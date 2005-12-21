@@ -493,15 +493,15 @@ void
 Versor<T>
 ::Set( const MatrixType & mat )
 {
-  vnl_matrix<double> m(mat.GetVnlMatrix());
+  vnl_matrix<double> m( mat.GetVnlMatrix() );
 
   const double epsilon = 1e-30;
 
-  double trace = m(0,0) + m(1,1) + m(1,1) + 1.0;
+  double trace = m(0,0) + m(1,1) + m(2,2) + 1.0;
 
   if( trace > epsilon)
     {
-    double s = 0.5 / sqrt(trace);
+    const double s = 0.5 / sqrt(trace);
     m_W = 0.25 / s;
     m_X = (m(2,1) - m(1,2)) * s;
     m_Y = (m(0,2) - m(2,0)) * s;
@@ -511,7 +511,7 @@ Versor<T>
     {
     if( m(0,0) > m(1,1) && m(0,0) > m(2,2) )
       {
-      double s = 2.0 * sqrt(1.0 + m(0,0) - m(1,1) - m(2,2));
+      const double s = 2.0 * sqrt(1.0 + m(0,0) - m(1,1) - m(2,2));
       m_X = 0.25 * s;
       m_Y = (m(0,1) + m(1,0)) / s;
       m_Z = (m(0,2) + m(2,0)) / s;
@@ -521,7 +521,7 @@ Versor<T>
       {
       if( m(1,1) > m(2,2) )
         {
-        double s = 2.0 * sqrt(1.0 + m(1,1) - m(0,0) - m(2,2));
+        const double s = 2.0 * sqrt(1.0 + m(1,1) - m(0,0) - m(2,2));
         m_X = (m(0,1) + m(1,0)) / s;
         m_Y = 0.25 * s;
         m_Z = (m(1,2) + m(2,1)) / s;
@@ -529,7 +529,7 @@ Versor<T>
         }
       else
         {
-        double s = 2.0 * sqrt(1.0 + m(2,2) - m(0,0) - m(1,1));
+        const double s = 2.0 * sqrt(1.0 + m(2,2) - m(0,0) - m(1,1));
         m_X = (m(0,2) + m(2,0)) / s;
         m_Y = (m(1,2) + m(2,1)) / s;
         m_Z = 0.25 * s;
