@@ -173,7 +173,7 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
       pcl.insert(*it_link);
       it_link++;
       }
-    linkContainer->SetElement((*it_links)->m_Id,pcl);
+    linkContainer->InsertElement((*it_links)->m_Id,pcl);
     it_links++;
     }
 
@@ -189,7 +189,7 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
      
   while(it_pd != _mesh->GetPointData().end())
     {
-    pointData->SetElement((*it_pd)->m_Id , static_cast<MeshData<PixelType>*>(*it_pd)->m_Data);
+    pointData->InsertElement((*it_pd)->m_Id , static_cast<MeshData<PixelType>*>(*it_pd)->m_Data);
     it_pd++;
     }
   mesh->SetPointData(pointData);
@@ -203,7 +203,7 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
   while(it_cd != _mesh->GetCellData().end())
     {
     typedef typename MeshType::CellPixelType CellPixelType;
-    cellData->SetElement((*it_cd)->m_Id , static_cast<MeshData<CellPixelType>*>(*it_cd)->m_Data);
+    cellData->InsertElement((*it_cd)->m_Id , static_cast<MeshData<CellPixelType>*>(*it_cd)->m_Data);
     it_cd++;
     }
 
