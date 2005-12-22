@@ -742,7 +742,7 @@ M_Read(void)
     int elementSize;
     MET_SizeOfType(m_PointDataType, &elementSize);
     num = new char[elementSize];
-    for(k=0;k<elementSize;k++)
+    for(k=0;k<static_cast<unsigned int>(elementSize);k++)
       {
       num[k] = _data[i+k];
       }
@@ -890,7 +890,7 @@ M_Read(void)
     int elementSize;
     MET_SizeOfType(m_CellDataType, &elementSize);
     num = new char[elementSize];
-    for(k=0;k<elementSize;k++)
+    for(k=0;k<static_cast<unsigned int>(elementSize);k++)
       {
       num[k] = _celldata[i+k];
       }

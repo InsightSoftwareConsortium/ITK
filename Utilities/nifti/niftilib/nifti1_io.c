@@ -285,7 +285,7 @@ static char * gni_history[] =
 static char gni_version[] = "nifti library version 1.17 (Nov 22, 2005)";
 
 /*! global nifti options structure */
-static nifti_global_options g_opts = { 1 };
+static nifti_global_options g_opts = { 1, 0 };
 
 /*---------------------------------------------------------------------------*/
 /* prototypes for internal functions - not part of exported library          */
@@ -2847,7 +2847,7 @@ int is_nifti_file( const char *hname )
 
    ii = znzread( &nhdr , 1 , sizeof(nhdr) , fp ) ;
    znzclose( fp ) ;
-   if( ii < sizeof(nhdr) )               return -1 ;  /* bad read? */
+   if( ii < (int) sizeof(nhdr) )               return -1 ;  /* bad read? */
 
    /* check for NIFTI-ness */
 
@@ -3234,7 +3234,7 @@ nifti_image* nifti_convert_nhdr2nim(struct nifti_1_header nhdr,
 
    if( is_onefile ){
      ioff = (int)nhdr.vox_offset ;
-     if( ioff < sizeof(nhdr) ) ioff = sizeof(nhdr) ;
+     if( ioff < (int) sizeof(nhdr) ) ioff = (int) sizeof(nhdr) ;
    } else {
      ioff = (int)nhdr.vox_offset ;
    }
