@@ -183,6 +183,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
   IndexType inputStart = m_FixedImageRegion.GetIndex();
 
   m_FixedImageRegionPyramid.reserve( m_NumberOfLevels );
+  m_FixedImageRegionPyramid.resize( m_NumberOfLevels );
 
   // Compute the FixedImageRegion corresponding to each level of the 
   // pyramid. This uses the same algorithm of the ShrinkImageFilter 
