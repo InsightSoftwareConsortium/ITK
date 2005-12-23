@@ -518,20 +518,50 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Let's execute this example using the same multi-modality images as
-  //  before.  The registration converged at the first level 
+  //  Let's execute this example using the following images
+  //
+  //  \begin{itemize}
+  //  \item BrainT1SliceBorder20.png
+  //  \item BrainProtonDensitySliceShifted13x17y.png
+  //  \end{itemize}
+  //
+  //  The output produced by the execution of the method is
+  //
   //  after 6 iterations with translation parameters of (13.8663, 18.9939).
   //  The second level converged after 5 iterations with result of
   //  (13.1035, 17.19). Registration converged after 1 iteration at the
   //  last level with the final result being:
   //
   //  \begin{verbatim}
-  //  Translation X = 13.1035
-  //  Translation Y = 17.19
+  //  0   -0.419408   [11.0796, 11.5431]
+  //  1   -0.775143   [18.0515, 25.9442]
+  //  2   -0.621443   [15.2813, 18.4392]
+  //  3   -1.00688    [7.81465, 15.567]
+  //  4   -0.733843   [11.7844, 16.0582]
+  //  5   -1.17593    [15.2929, 17.9792]
+  //
+  //  0   -0.902265   [13.4257, 17.2627]
+  //  1   -1.21519    [11.6959, 16.2588]
+  //  2   -1.04207    [12.6029, 16.68]
+  //  3   -1.21741    [13.4286, 17.2439]
+  //  4   -1.21605    [12.9899, 17.0041]
+  //  5   -1.26825    [13.163,  16.8237]
+  //
+  //  0   -1.25692    [13.0716, 16.909]
+  //  1   -1.29465    [12.9896, 17.0033]
+  //  2   -1.30922    [13.0513, 16.9934]
+  //  3   -1.30722    [13.0205, 16.9987]
+  //  4   -1.30978    [12.9897, 17.0039]
+  //
+  //  Result =
+  //   Translation X = 12.9897
+  //   Translation Y = 17.0039
+  //   Iterations    = 6
+  //   Metric value  = -1.30921
   //  \end{verbatim}
   //
-  //  These values are a close match to the true misalignment of $(13,17)$ introduced in
-  //  the moving image.
+  //  These values are a close match to the true misalignment of $(13,17)$
+  //  introduced in the moving image.
   //
   //  Software Guide : EndLatex 
 
