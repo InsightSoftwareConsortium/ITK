@@ -527,11 +527,6 @@ int main( int argc, char *argv[] )
   //
   //  The output produced by the execution of the method is
   //
-  //  after 6 iterations with translation parameters of (13.8663, 18.9939).
-  //  The second level converged after 5 iterations with result of
-  //  (13.1035, 17.19). Registration converged after 1 iteration at the
-  //  last level with the final result being:
-  //
   //  \begin{verbatim}
   //  0   -0.419408   [11.0796, 11.5431]
   //  1   -0.775143   [18.0515, 25.9442]
