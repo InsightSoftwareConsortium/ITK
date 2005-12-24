@@ -122,6 +122,10 @@ public:
    * representation. */
   typedef TPixel InternalPixelType;
 
+  /** The ImageFileReader uses this trait to convert pixels from the way they
+   * are represented in the image into data that can be stored in the file */
+  typedef DefaultConvertPixelTraits< PixelType > IOPixelTraitsType;
+
   /** Accessor type that convert data between internal and external
    *  representations.  */
   typedef DefaultPixelAccessor< PixelType > AccessorType;

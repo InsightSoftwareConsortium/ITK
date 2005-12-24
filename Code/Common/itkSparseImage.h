@@ -78,6 +78,10 @@ class ITK_EXPORT SparseImage : public Image <TNode*, VImageDimension>
   typedef NeighborhoodAccessorFunctor< Self > 
                                             NeighborhoodAccessorFunctorType;
 
+  /** The ImageFileReader uses this trait to convert pixels from the way they
+   * are represented in the image into data that can be stored in the file */
+  typedef typename Superclass::IOPixelTraitsType   IOPixelTraitsType;
+
   /** The list types for storing the active pixels.*/
   typedef SparseFieldLayer <NodeType> NodeListType;
   typedef ObjectStore      <NodeType> NodeStoreType;

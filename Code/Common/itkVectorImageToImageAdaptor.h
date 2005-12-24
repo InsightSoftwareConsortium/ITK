@@ -131,6 +131,7 @@ public:
   typedef typename Superclass::PixelContainer        PixelContainer;
   typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
   typedef typename Superclass::PixelContainerConstPointer PixelContainerConstPointer;
+  typedef typename Superclass::IOPixelTraitsType   IOPixelTraitsType;
 
   /** Typedef for the length of vectors in the VectorImage. */
   typedef typename VectorImageType::VectorLengthType      VectorLengthType;

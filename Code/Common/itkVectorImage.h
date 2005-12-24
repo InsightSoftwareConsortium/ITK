@@ -56,17 +56,6 @@ namespace itk
  * The API of this class is similar to Image.
  *
  * \note
- * When reading VectorImages, make sure you instantiate the reader with pixel 
- * traits of the InternalPixelType rather than the PixelType. For example:
- *
- * \code
- * typedef itk::VectorImage< float, 3 > VectorImageType;
- * tyepdef VectorImageType::InternalPixelType InternalPixelType;
- * typedef itk::ImageFileReader< VectorImageType, 
- *         itk::DefaultConvertPixelTraits<InternalPixelType> > ReaderType;
- * \endcode
- *
- * \note
  * This work is part of the National Alliance for Medical Image Computing 
  * (NAMIC), funded by the National Institutes of Health through the NIH Roadmap
  * for Medical Research, Grant U54 EB005149.
@@ -113,6 +102,10 @@ public:
 
   /** Typedef alias for PixelType */
   typedef TPixel ValueType ;
+
+  /** The ImageFileReader uses this trait to convert pixels from the way they
+   * are represented in the image into data that can be stored in the file */
+  typedef DefaultConvertPixelTraits< InternalPixelType > IOPixelTraitsType;
 
   /** Accessor type that convert data between internal and external
    *  representations.  */
