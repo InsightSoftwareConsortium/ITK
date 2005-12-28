@@ -48,10 +48,6 @@ struct GetImageDimension
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 }; 
   
-/** Forward declare a trait that will be used by the readers to convert images
- * from their internal representation into data that can be stored in a file */
-template< class T > class DefaultConvertPixelTraits;
-
 /** \class ImageBase
  * \brief Base class for templated image classes.
  *

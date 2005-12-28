@@ -103,9 +103,7 @@ public:
   /** Typedef alias for PixelType */
   typedef TPixel ValueType ;
 
-  /** The ImageFileReader uses this trait to convert pixels from the way they
-   * are represented in the image into data that can be stored in the file */
-  typedef DefaultConvertPixelTraits< InternalPixelType > IOPixelTraitsType;
+  typedef InternalPixelType  IOPixelType;
 
   /** Accessor type that convert data between internal and external
    *  representations.  */

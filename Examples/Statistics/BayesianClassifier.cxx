@@ -73,9 +73,7 @@ int main(int argc, char* argv[] )
   const unsigned int Dimension = 2;
   typedef float InputPixelType;
   typedef itk::VectorImage< InputPixelType, Dimension > InputImageType;
-  typedef itk::ImageFileReader< 
-                     InputImageType, 
-                     itk::DefaultConvertPixelTraits<InputPixelType> >  ReaderType;
+  typedef itk::ImageFileReader< InputImageType >  ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( membershipImageFileName );
