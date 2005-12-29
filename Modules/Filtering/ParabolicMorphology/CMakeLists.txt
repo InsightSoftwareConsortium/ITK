@@ -10,6 +10,7 @@ INCLUDE(IJMacros.txt)
 #The following lines are required to use Dart
 ENABLE_TESTING()
 INCLUDE(Dart)
+FIND_PROGRAM(IMAGE_COMPARE ImageCompare)
 
 #Declare any external dependencies that your project may have here.
 #examples include : ITK, VTK, JPEG, PNG, OpenGL, ZLIB, Perl, Java
@@ -44,4 +45,4 @@ TARGET_LINK_LIBRARIES(check ${ Libraries })
 #ADD_TEST(Testname ExecutableToRun arg1 arg2 arg3)
 
 ADD_TEST(Run check ${ INPUT_IMAGE } out.png)
-ADD_TEST(CompareImage ImageCompare out.png ${ CMAKE_SOURCE_DIR } / images / test.png)
+ADD_TEST(CompareImage ${ IMAGE_COMPARE } out.png ${ CMAKE_SOURCE_DIR } / images / test.png)
