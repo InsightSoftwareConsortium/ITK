@@ -502,9 +502,8 @@ int main( int argc, char *argv[] )
   transform->SetTranslation( translation );
   transform->SetRotation( dtr*rx, dtr*ry, dtr*rz );
 
-  double imOrigin[ Dimension ];
-
-  const itk::Vector<double, 3> imRes = image->GetSpacing();
+  InputImageType::PointType   imOrigin = image->GetOrigin();
+  InputImageType::SpacingType imRes    = image->GetSpacing();
 
   typedef InputImageType::RegionType     InputImageRegionType;
   typedef InputImageRegionType::SizeType InputImageSizeType;
@@ -512,9 +511,9 @@ int main( int argc, char *argv[] )
   InputImageRegionType imRegion = image->GetBufferedRegion();
   InputImageSizeType   imSize   = imRegion.GetSize();
 
-  imOrigin[0] = imRes[0]*((double) imSize[0])/2.; 
-  imOrigin[1] = imRes[1]*((double) imSize[1])/2.; 
-  imOrigin[2] = imRes[2]*((double) imSize[2])/2.; 
+  imOrigin[0] += imRes[0] * static_cast<double>( imSize[0] ) / 2.0; 
+  imOrigin[1] += imRes[1] * static_cast<double>( imSize[1] ) / 2.0; 
+  imOrigin[2] += imRes[2] * static_cast<double>( imSize[2] ) / 2.0; 
 
   TransformType::InputPointType center;
   center[0] = cx + imOrigin[0];
