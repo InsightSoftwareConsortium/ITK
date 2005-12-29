@@ -54,10 +54,6 @@
 // Software Guide : EndCodeSnippet
 
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
 
 //#define WRITE_CUBE_IMAGE_TO_FILE
 
@@ -500,8 +496,11 @@ int main( int argc, char *argv[] )
   translation[1] = ty;
   translation[2] = tz;
 
-  transform->SetTranslation(translation);
-  transform->SetRotation(M_PI/180.0*rx, M_PI/180.0*ry, M_PI/180.0*rz);
+  // constant for converting degrees into radians
+  const double dtr = ( atan(1.0) * 4.0 ) / 180.0;
+
+  transform->SetTranslation( translation );
+  transform->SetRotation( dtr*rx, dtr*ry, dtr*rz );
 
   double imOrigin[ Dimension ];
 
