@@ -19,6 +19,7 @@
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 #include "png.h"
+#include <itksys/SystemTools.hxx>
 
 namespace itk
 {
@@ -130,8 +131,8 @@ void PNGImageIO::Read(void* buffer)
   FILE* fp = pngfp.m_FilePointer;
   if(!fp)
     {
-    itkExceptionMacro("Error PNGImageIO could not open file: " 
-                      << this->GetFileName());
+    itkExceptionMacro("PNGImageIO could not open file: " 
+                      << this->GetFileName() << " for reading. Reason: " << itksys::SystemTools::GetLastSystemError());
     return;
     }
   unsigned char header[8];
@@ -139,7 +140,7 @@ void PNGImageIO::Read(void* buffer)
   bool is_png = !png_sig_cmp(header, 0, 8);
   if(!is_png)
     {
-    itkExceptionMacro("Error File is not png type" << this->GetFileName());
+    itkExceptionMacro("File is not png type: " << this->GetFileName());
     return;
     }
   png_structp png_ptr = png_create_read_struct
@@ -147,7 +148,7 @@ void PNGImageIO::Read(void* buffer)
      NULL, NULL);
   if (!png_ptr)
     {
-    itkExceptionMacro("Error File is not png type" << this->GetFileName());
+    itkExceptionMacro("File is not png type" << this->GetFileName());
     return;
     }
   
@@ -156,7 +157,7 @@ void PNGImageIO::Read(void* buffer)
     {
     png_destroy_read_struct(&png_ptr,
                             (png_infopp)NULL, (png_infopp)NULL);
-    itkExceptionMacro("Error File is not png type" << this->GetFileName());
+    itkExceptionMacro("File is not png type " << this->GetFileName());
     return;
     }
 
@@ -165,14 +166,14 @@ void PNGImageIO::Read(void* buffer)
     {
     png_destroy_read_struct(&png_ptr, &info_ptr,
                             (png_infopp)NULL);
-    itkExceptionMacro("Error File is not png type" << this->GetFileName());
+    itkExceptionMacro("File is not png type " << this->GetFileName());
     return;
     }
   
   if( setjmp( png_jmpbuf( png_ptr ) ) )
     {
     png_destroy_read_struct( &png_ptr, &info_ptr, &end_info );
-    itkExceptionMacro("Error File is not png type" << this->GetFileName());
+    itkExceptionMacro("File is not png type " << this->GetFileName());
     return;    
     }
 
@@ -440,7 +441,10 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
     //            Studio 7.1 in release mode. That compiler will corrupt the RTTI type
     //            of the Exception and prevent the catch() from recognizing it.
     //            For details, see Bug # 1872 in the bugtracker.
-    ::itk::ExceptionObject excp(__FILE__, __LINE__, "Problem while opening the file"); 
+
+    ::itk::OStringStream message;
+    message << "Problem while opening the file " << fileName << " for writing. Reason: " << itksys::SystemTools::GetLastSystemError();
+    ::itk::ExceptionObject excp(__FILE__, __LINE__, message.str().c_str(), "WriteSlice"); 
     throw excp; 
     }
 
@@ -470,7 +474,7 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
     (PNG_LIBPNG_VER_STRING, (png_voidp)NULL, NULL, NULL);
   if (!png_ptr)
     {
-    itkExceptionMacro(<<"Unable to write PNG file!");
+    itkExceptionMacro(<<"Unable to write PNG file! png_create_write_struct failed.");
     }
   
   png_infop info_ptr = png_create_info_struct(png_ptr);
@@ -478,7 +482,7 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
     {
     png_destroy_write_struct(&png_ptr,
                              (png_infopp)NULL);
-    itkExceptionMacro(<<"Unable to write PNG file!");
+    itkExceptionMacro(<<"Unable to write PNG file!. png_create_info_struct failed.");
     }
 
   png_init_io(png_ptr, fp);
