@@ -131,8 +131,11 @@ void PNGImageIO::Read(void* buffer)
   FILE* fp = pngfp.m_FilePointer;
   if(!fp)
     {
-    itkExceptionMacro("PNGImageIO could not open file: " 
-                      << this->GetFileName() << " for reading. Reason: " << itksys::SystemTools::GetLastSystemError());
+    itkExceptionMacro("PNGImageIO could not open file: "
+                      << this->GetFileName() << " for reading."
+                      << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     return;
     }
   unsigned char header[8];
@@ -435,6 +438,7 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
   // use this class so return will call close
   PNGFileWrapper pngfp(fileName.c_str(),"wb");
   FILE* fp = pngfp.m_FilePointer;
+  ::itk::OStringStream message;
   if(!fp)
     {
     // IMPORTANT: The itkExceptionMacro() cannot be used here due to a bug in Visual
@@ -442,7 +446,6 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
     //            of the Exception and prevent the catch() from recognizing it.
     //            For details, see Bug # 1872 in the bugtracker.
 
-    ::itk::OStringStream message;
     message << "Problem while opening the file " << fileName << " for writing. Reason: " << itksys::SystemTools::GetLastSystemError();
     ::itk::ExceptionObject excp(__FILE__, __LINE__, message.str().c_str(), "WriteSlice"); 
     throw excp; 
@@ -491,7 +494,11 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
   if (setjmp(png_ptr->jmpbuf))
     {
     fclose(fp);
-    itkExceptionMacro(<<"Error while writing Slice to file "<<this->GetFileName());
+    itkExceptionMacro("Error while writing Slice to file: "
+                      <<this->GetFileName()
+                      << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     return;
     } 
 
