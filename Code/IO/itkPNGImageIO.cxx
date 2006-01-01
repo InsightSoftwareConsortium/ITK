@@ -438,7 +438,6 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
   // use this class so return will call close
   PNGFileWrapper pngfp(fileName.c_str(),"wb");
   FILE* fp = pngfp.m_FilePointer;
-  ::itk::OStringStream message;
   if(!fp)
     {
     // IMPORTANT: The itkExceptionMacro() cannot be used here due to a bug in Visual
@@ -446,8 +445,7 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
     //            of the Exception and prevent the catch() from recognizing it.
     //            For details, see Bug # 1872 in the bugtracker.
 
-    message << "Problem while opening the file " << fileName << " for writing. Reason: " << itksys::SystemTools::GetLastSystemError();
-    ::itk::ExceptionObject excp(__FILE__, __LINE__, message.str().c_str(), "WriteSlice"); 
+    ::itk::ExceptionObject excp(__FILE__, __LINE__, "Problem while openeing the file.", "WriteSlice"); 
     throw excp; 
     }
 
