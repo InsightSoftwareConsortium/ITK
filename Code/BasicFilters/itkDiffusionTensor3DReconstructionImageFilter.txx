@@ -39,6 +39,7 @@ DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   m_Threshold = NumericTraits< ReferencePixelType >::min();
   m_GradientImageTypeEnumeration = Else;
   m_GradientDirectionContainer = NULL;
+  m_TensorBasis.set_identity();
 }
 
 
