@@ -28,7 +28,7 @@ MetaCommand::MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2005-09-28 01:06:21 $ cvs command */
+/** Extract the date from the $Date: 2006-01-01 17:31:45 $ cvs command */
 std::string MetaCommand::ExtractDateFromCVS(std::string date)
 {
   std::string newdate;
@@ -68,6 +68,7 @@ bool MetaCommand::SetOption(std::string name,
   option.required = required;
   option.description = description;
   option.userDefined = false;
+  option.complete = false;
 
   m_OptionVector.push_back(option);
   return true;
@@ -94,6 +95,7 @@ bool MetaCommand::SetOption(std::string name,
   option.required = required;
   option.description = description;
   option.userDefined = false;
+  option.complete = false;
 
   // Create a field without description as a flag
   Field field;
@@ -133,10 +135,29 @@ bool MetaCommand::AddField(std::string name,
   option.name = name;
   option.description = description;
   option.userDefined = false;
+  option.complete = false;
 
   m_OptionVector.push_back(option);
   return true;
 }
+
+
+/** Collect all the information until the next tag 
+  * \warning this function works only if the field is of type String */ 
+void MetaCommand::SetOptionComplete(std::string optionName,
+                                    bool complete)
+{
+  OptionVector::iterator it = m_OptionVector.begin();
+  while(it != m_OptionVector.end())
+    {
+    if((*it).name == optionName)
+      {
+      (*it).complete = complete;
+      return;
+      }
+    it++;
+    }
+ }
 
 /** Add a field to a given an option */
 bool MetaCommand::AddOptionField(std::string optionName,
@@ -160,7 +181,7 @@ bool MetaCommand::AddOptionField(std::string optionName,
       field.description = description;
       field.userDefined = false;
       field.externaldata = false;
-            
+    
       // If this is the first field in the list we replace the current field
       if((*it).fields[0].type == FLAG)
         {
@@ -884,7 +905,9 @@ bool MetaCommand::Parse(int argc, char* argv[])
   unsigned int currentField = 0; // current field position
   int currentOption = 0; // id of the option to fill
   unsigned int valuesRemaining=0;
-  
+  bool isComplete = false; // check if the option should be parse until the next tag is found
+  std::string completeString = "";
+
   for(unsigned int i=1;i<(unsigned int)argc;i++)
     {
     // If this is a tag
@@ -893,8 +916,18 @@ bool MetaCommand::Parse(int argc, char* argv[])
       // if we have a tag before the expected values we throw an exception
       if(valuesRemaining!=0)
         {
-        std::cout << "Found tag before end of value list!" << std::endl;
-        return false;
+        if(!isComplete)
+          {
+          std::cout << "Found tag before end of value list!" << std::endl;
+          return false;
+          }
+        else
+          {
+          m_OptionVector[currentOption].fields[0].value = completeString;
+          m_OptionVector[currentOption].fields[0].userDefined = true;
+          m_OptionVector[currentOption].userDefined = true;
+          m_ParsedOptionVector.push_back(m_OptionVector[currentOption]);
+          }
         }
       inArgument = false;
       // New tag so we add the previous values to the tag
@@ -906,6 +939,7 @@ bool MetaCommand::Parse(int argc, char* argv[])
         inArgument = true;
         valuesRemaining = this->GetOptionByMinusTag(tag)->fields.size();
         currentOption = this->GetOptionId(this->GetOptionByMinusTag(tag));
+
         if(currentOption < 0)
           {
           std::cout << "Error processing tag " << tag.c_str()
@@ -914,6 +948,8 @@ bool MetaCommand::Parse(int argc, char* argv[])
           }
         else
           {
+          isComplete = m_OptionVector[currentOption].complete;
+
           if(m_OptionVector[currentOption].fields[0].type == FLAG)
             {
             // the tag exists by default
@@ -977,7 +1013,19 @@ bool MetaCommand::Parse(int argc, char* argv[])
       }
 
     // We collect the values
-    if(inArgument && i<(unsigned int)argc && valuesRemaining>0)
+    if(isComplete)
+      {
+      if(completeString.size()==0)
+        {
+        completeString = argv[i];
+        }
+      else
+        {
+        completeString += " ";
+        completeString += argv[i];
+        }
+      }
+    else if(inArgument && i<(unsigned int)argc && valuesRemaining>0)
       {
       if(currentOption >=0 && currentOption < (int)(m_OptionVector.size()))
         {

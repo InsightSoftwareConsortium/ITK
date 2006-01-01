@@ -52,6 +52,7 @@ public:
     std::vector<Field> fields;
     bool required;
     bool userDefined;
+    bool complete;
   };
 
   typedef std::vector<Option>                OptionVector; 
@@ -85,6 +86,11 @@ public:
                       bool required=true,
                       std::string defVal = "",
                       std::string description = "");
+  
+  /** Collect all the information until the next tag 
+   * \warning this function works only if the field is of type String */
+  void SetOptionComplete(std::string optionName,
+                         bool complete);  
 
   /** Get the values given the option name */
   bool GetValueAsBool(std::string optionName,std::string fieldName="");
