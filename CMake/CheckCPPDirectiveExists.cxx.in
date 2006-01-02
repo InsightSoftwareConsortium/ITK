@@ -1,4 +1,9 @@
 #include <iostream>
+#ifdef __BORLANDC__
+ #ifndef __FUNCTION__
+  #define __FUNCTION__ __FUNC__
+ #endif
+#endif
 int main()
 {
 std::cout << ${DIRECTIVE};
