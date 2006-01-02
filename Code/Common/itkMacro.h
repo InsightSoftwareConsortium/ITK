@@ -480,8 +480,19 @@ private:
 
 }//namespace itk
 
+#ifdef ITK_CPP_FUNCTION
+ #ifdef __BORLANDC__
+  #ifndef __FUNCTION__
+   #define __FUNCTION__ __FUNC__
+  #endif
+ #endif
+#define ITK_LOCATION __FUNCTION__
+#else  
+#define ITK_LOCATION "Unknown"
+#endif
+
 #include "itkExceptionObject.h"
-  
+
 /** The exception macro is used to print error information (i.e., usually 
  * a condition that results in program failure). Example usage looks like:
  * itkExceptionMacro(<< "this is error info" << this->SomeVariable); */
@@ -490,7 +501,7 @@ private:
   ::itk::OStringStream message; \
   message << "itk::ERROR: " << this->GetNameOfClass() \
           << "(" << this << "): " x; \
-  ::itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str()); \
+  ::itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(),ITK_LOCATION); \
   throw e_; /* Explicit naming to work around Intel compiler bug.  */ \
   }
 
@@ -498,7 +509,7 @@ private:
   { \
   ::itk::OStringStream message; \
   message << "itk::ERROR: " x; \
-  ::itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str()); \
+  ::itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(),ITK_LOCATION); \
   throw e_; /* Explicit naming to work around Intel compiler bug.  */ \
   }
 

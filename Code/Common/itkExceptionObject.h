@@ -57,7 +57,7 @@ public:
   /** Various types of constructors.  Note that these functions will be
    * called when children are instantiated. */
   ExceptionObject(const char *file="Unknown", unsigned int lineNumber=0,
-                  const char *desc="None", const char *loc="Unknown")
+                  const char *desc="None", const char *loc=ITK_LOCATION)
   {
     m_Location = loc;
     m_Description = desc;
@@ -67,7 +67,7 @@ public:
   };
   ExceptionObject(const std::string& file, unsigned int lineNumber,
                   const std::string& desc="None",
-                  const std::string& loc="Unknown")
+                  const std::string& loc=ITK_LOCATION)
   {
     m_Location = loc;
     m_Description = desc;

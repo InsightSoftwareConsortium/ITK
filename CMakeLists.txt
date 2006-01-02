@@ -457,6 +457,11 @@ IF(ITK_SIZEOF_LONG_LONG)
   ENDIF("ITK_ISTREAM_SUPPORTS_LONG_LONG" MATCHES "^ITK_ISTREAM_SUPPORTS_LONG_LONG$")
 ENDIF(ITK_SIZEOF_LONG_LONG)
 
+#
+# See if compiler preprocessor has the __FUNCTION__ directive used by itkExceptionMacro
+#
+INCLUDE(${ITK_SOURCE_DIR}/CMake/CheckCPPDirective.cmake)
+CHECK_CPP_DIRECTIVE_EXISTS(__FUNCTION__ ITK_CPP_FUNCTION)
 
 #-----------------------------------------------------------------------------
 # Configure the default ITK_DATA_ROOT for the location of ITK Data.
