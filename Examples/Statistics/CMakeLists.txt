@@ -163,6 +163,7 @@ ADD_TEST( EuclideanDistanceTest ${STATISTICS_EXAMPLES_WITH_TESTS}
 ADD_TEST( GaussianDensityFunctionTest ${STATISTICS_EXAMPLES_WITH_TESTS}
           GaussianDensityFunctionTest)
 
+IF(NOT BORLAND)
 ADD_TEST( MinimumDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
           MinimumDecisionRuleTest)
 
@@ -172,11 +173,13 @@ ADD_TEST( MaximumDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
 ADD_TEST( MaximumRatioDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
           MaximumRatioDecisionRuleTest)
 
-ADD_EXECUTABLE( StatisticsExamplesTests StatisticsExamplesTests.cxx)
-TARGET_LINK_LIBRARIES( StatisticsExamplesTests ITKIO ITKCommon ITKStatistics)
-
 ADD_EXECUTABLE( StatisticsExamplesTests2 StatisticsExamplesTests2.cxx)
 TARGET_LINK_LIBRARIES( StatisticsExamplesTests2 ITKIO ITKCommon ITKStatistics)
+
+ENDIF(NOT BORLAND)
+
+ADD_EXECUTABLE( StatisticsExamplesTests StatisticsExamplesTests.cxx)
+TARGET_LINK_LIBRARIES( StatisticsExamplesTests ITKIO ITKCommon ITKStatistics)
 
 ADD_EXECUTABLE( StatisticsExamplesTests3 StatisticsExamplesTests3.cxx)
 TARGET_LINK_LIBRARIES( StatisticsExamplesTests3 ITKIO ITKCommon ITKStatistics)
