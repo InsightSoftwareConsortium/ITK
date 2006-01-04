@@ -6,7 +6,7 @@
 
 MACRO(CHECK_CPP_DIRECTIVE_EXISTS DIRECTIVE VARIABLE)
  IF("HAVE_${VARIABLE}" MATCHES "^HAVE_${VARIABLE}$")
-  MESSAGE(STATUS "Checking to see if this platform has the ${DIRECTIVE} C-Preprocssor directive")
+  MESSAGE(STATUS "Checking to see if this platform has the ${DIRECTIVE} C-Preprocessor directive")
   SET(DIRECTIVE ${DIRECTIVE})
   CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/CMake/CheckCPPDirectiveExists.cxx.in 
     ${CMAKE_BINARY_DIR}/CMakeTmp/CheckCPPDirectiveExists.cxx IMMEDIATE)
@@ -16,14 +16,14 @@ MACRO(CHECK_CPP_DIRECTIVE_EXISTS DIRECTIVE VARIABLE)
     OUTPUT_VARIABLE OUTPUT)
   IF(${VARIABLE})
     SET(HAVE_${VARIABLE} TRUE CACHE INTERNAL " ")
-    MESSAGE(STATUS "Checking to see if this platform supports has the ${DIRECTIVE} C-Preprocssor directive - yes")
+    MESSAGE(STATUS "Checking to see if this platform supports has the ${DIRECTIVE} C-Preprocessor directive - yes")
     FILE(APPEND ${CMAKE_BINARY_DIR}/CMakeOutput.log
-      "Checking to see if this platform supports has the ${DIRECTIVE} C-Preprocssor directive with "
+      "Checking to see if this platform supports has the ${DIRECTIVE} C-Preprocessor directive with "
       "the following output:\n${OUTPUT}\n\n")
   ELSE(${VARIABLE})
-    MESSAGE(STATUS "Checking to see if this platform supports has the ${DIRECTIVE} C-Preprocssor directive - no")
+    MESSAGE(STATUS "Checking to see if this platform supports has the ${DIRECTIVE} C-Preprocessor directive - no")
     FILE(APPEND ${CMAKE_BINARY_DIR}/CMakeError.log
-      "Checking to see if this platform supports has the ${DIRECTIVE} C-Preprocssor directive with "
+      "Checking to see if this platform supports has the ${DIRECTIVE} C-Preprocessor directive with "
       "the following output:\n${OUTPUT}\n\n")
   ENDIF(${VARIABLE})
   ENDIF("HAVE_${VARIABLE}" MATCHES "^HAVE_${VARIABLE}$")
