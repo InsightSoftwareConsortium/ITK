@@ -82,6 +82,8 @@ void SerieHelper::Clear()
       delete l;
       l = GetNextCoherentFileList();
    }
+   // Also clear the coherent File List
+   CoherentGdcmFileListHT.clear();
 }
 
 
