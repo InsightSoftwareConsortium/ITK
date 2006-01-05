@@ -190,7 +190,6 @@ SET( vcl_sources
 
   emulation/vcl_limits.cxx            emulation/vcl_limits.h
   emulation/vcl_string_instances.cxx
-  emulation/vcl_straits.cxx           emulation/vcl_straits.h
   emulation/vcl_rbtree_instances.cxx
   emulation/vcl_hashtable.cxx         emulation/vcl_hashtable.h
   emulation/vcl_alloc.cxx             emulation/vcl_alloc.h
@@ -206,7 +205,6 @@ SET( vcl_sources
   emulation/vcl_multimap.txx          emulation/vcl_multimap.h
   emulation/vcl_rbtree.txx
   emulation/vcl_set.txx               emulation/vcl_set.h
-  emulation/vcl_string.txx            emulation/vcl_string.h
   emulation/vcl_utility.txx           emulation/vcl_utility.h
   emulation/vcl_vector.txx            emulation/vcl_vector.h
   emulation/vcl_algobase.h
