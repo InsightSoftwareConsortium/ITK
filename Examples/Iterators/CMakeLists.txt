@@ -40,11 +40,13 @@ TARGET_LINK_LIBRARIES(NeighborhoodIterators5 ITKIO   )
 ADD_EXECUTABLE(NeighborhoodIterators6 NeighborhoodIterators6.cxx)
 TARGET_LINK_LIBRARIES(NeighborhoodIterators6 ITKAlgorithms ITKBasicFilters ITKIO )
 
+IF(NOT BORLAND)
 ADD_EXECUTABLE(ShapedNeighborhoodIterators1 ShapedNeighborhoodIterators1.cxx)
 TARGET_LINK_LIBRARIES(ShapedNeighborhoodIterators1 ITKAlgorithms ITKBasicFilters ITKIO )
 
 ADD_EXECUTABLE(ShapedNeighborhoodIterators2 ShapedNeighborhoodIterators2.cxx)
 TARGET_LINK_LIBRARIES(ShapedNeighborhoodIterators2 ITKAlgorithms ITKBasicFilters ITKIO )
+ENDIF(NOT BORLAND)
 
 SET(ITERATORS_EXAMPLES ${CXX_TEST_PATH}/IteratorsExamples)
 
