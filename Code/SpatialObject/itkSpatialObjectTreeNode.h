@@ -34,7 +34,6 @@ public:
 
   /** Standard typedefs */
   typedef SpatialObject<TDimension>                SpatialObjectType;
-  //typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
   typedef TreeNode< SpatialObject<TDimension> *>   Superclass;
   typedef SpatialObjectTreeNode<TDimension>        Self;
   typedef SmartPointer<Self>                       Pointer;
@@ -77,6 +76,12 @@ protected:
 
   TransformPointer m_NodeToParentNodeTransform;
   TransformPointer m_NodeToWorldTransform;
+
+private:
+
+  SpatialObjectTreeNode(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };
 
 /** Constructor */

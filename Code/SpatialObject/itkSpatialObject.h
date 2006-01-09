@@ -552,7 +552,11 @@ protected:
   itkGetConstObjectMacro(InternalInverseTransform,TransformType);
 
 private:
-  BoundingBoxPointer  m_Bounds; 
+
+  SpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
+  BoundingBoxPointer          m_Bounds; 
   mutable unsigned long       m_BoundsMTime;
 
   TransformPointer    m_ObjectToParentTransform;
