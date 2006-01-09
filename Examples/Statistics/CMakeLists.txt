@@ -135,6 +135,7 @@ ADD_TEST( ScalarImageMarkovRandomField1Test ${STATISTICS_EXAMPLES_WITH_TESTS3}
             50 3 3 14.8 91.6 134.9
 )
 
+IF(NOT BORLAND)
 ADD_TEST( BayesianPluginClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS} 
           BayesianPluginClassifierTest)
         
@@ -163,7 +164,6 @@ ADD_TEST( EuclideanDistanceTest ${STATISTICS_EXAMPLES_WITH_TESTS}
 ADD_TEST( GaussianDensityFunctionTest ${STATISTICS_EXAMPLES_WITH_TESTS}
           GaussianDensityFunctionTest)
 
-IF(NOT BORLAND)
 ADD_TEST( MinimumDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
           MinimumDecisionRuleTest)
 
@@ -176,15 +176,16 @@ ADD_TEST( MaximumRatioDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
 ADD_EXECUTABLE( StatisticsExamplesTests2 StatisticsExamplesTests2.cxx)
 TARGET_LINK_LIBRARIES( StatisticsExamplesTests2 ITKIO ITKCommon ITKStatistics)
 
-ENDIF(NOT BORLAND)
 
 ADD_EXECUTABLE( StatisticsExamplesTests StatisticsExamplesTests.cxx)
 TARGET_LINK_LIBRARIES( StatisticsExamplesTests ITKIO ITKCommon ITKStatistics)
 
-ADD_EXECUTABLE( StatisticsExamplesTests3 StatisticsExamplesTests3.cxx)
-TARGET_LINK_LIBRARIES( StatisticsExamplesTests3 ITKIO ITKCommon ITKStatistics)
-
 ADD_EXECUTABLE( StatisticsExamplesTests4 StatisticsExamplesTests4.cxx)
 TARGET_LINK_LIBRARIES( StatisticsExamplesTests4 ITKIO ITKCommon ITKStatistics)
+
+ENDIF(NOT BORLAND)
+
+ADD_EXECUTABLE( StatisticsExamplesTests3 StatisticsExamplesTests3.cxx)
+TARGET_LINK_LIBRARIES( StatisticsExamplesTests3 ITKIO ITKCommon ITKStatistics)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
