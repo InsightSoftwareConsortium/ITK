@@ -85,11 +85,11 @@ template <typename TCellInterface>
 bool
 TetrahedronCell< TCellInterface >
 ::EvaluatePosition(CoordRepType* x,
-                                PointsContainer* points,
-                                CoordRepType* closestPoint,
-                                CoordRepType pcoord[3],
-                                double* minDist2,
-                                InterpolationWeightType* weights)
+                   PointsContainer* points,
+                   CoordRepType* closestPoint,
+                   CoordRepType pcoord[3],
+                   double* minDist2,
+                   InterpolationWeightType* weights)
 {
   unsigned int i;
   double rhs[PointDimension];
