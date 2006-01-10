@@ -220,7 +220,7 @@ void BSplineCenteredL2ResampleImageFilterBase<TInputImage, TOutputImage>
     default :
       // Throw an exception for the unsupported splines.
       ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "BSplineCenteredL2ResampleImageFilterBase" );
+      err.SetLocation( ITK_LOCATION );
       err.SetDescription( "SplineOrder for Centered L2 pyramid filter must be 1 through 4. Requested spline order has not been implemented." );
       throw err;
       break;

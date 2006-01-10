@@ -217,7 +217,7 @@ void BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
     default :
       // Throw an execption for unsupported splines.
       ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "BSplineCenteredResampleImageFilterBase" );
+      err.SetLocation( ITK_LOCATION );
       err.SetDescription( "SplineOrder for Centered pyramid filter must be 0 through 4. Requested spline order has not been implemented." );
       throw err;
       break;

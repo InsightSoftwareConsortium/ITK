@@ -95,14 +95,14 @@ PermuteAxesImageFilter<TImage>
     if ( order[j] > ImageDimension - 1 )
       {
       ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "PermuteAxesImageFilter::SetOrder" );
+      err.SetLocation( ITK_LOCATION );
       err.SetDescription( "Order indices is out of range" );
       throw err;
       }
     else if ( used[order[j]] )
       {
       ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "PermuteAxesImageFilter::SetOrder" );
+      err.SetLocation( ITK_LOCATION );
       err.SetDescription( "Order indices must not repeat" );
       throw err;
       }

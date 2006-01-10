@@ -192,7 +192,7 @@ void BSplineL2ResampleImageFilterBase<TInputImage, TOutputImage>
     default :
       // I don't feel well I think I'm going to throw up.
       ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "BSplineL2ResampleImageFilterBase" );
+      err.SetLocation( ITK_LOCATION );
       err.SetDescription( "SplineOrder for L2 pyramid filter must be 0,1,3, or 5. Requested spline order has not been implemented." );
       throw err;
       break;
