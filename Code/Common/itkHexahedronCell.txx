@@ -17,6 +17,8 @@
 #ifndef _itkHexahedronCell_txx
 #define _itkHexahedronCell_txx
 #include "itkHexahedronCell.h"
+#include "vnl/vnl_matrix_fixed.h"
+#include "vnl/algo/vnl_determinant.h"
 
 namespace itk
 {
