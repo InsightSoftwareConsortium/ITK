@@ -335,6 +335,291 @@ HexahedronCell< TCellInterface >
   return true;
 }
 
+/** Evaluate the position inside the cell */
+template <typename TCellInterface>
+bool
+HexahedronCell< TCellInterface >
+::EvaluatePosition(CoordRepType* x,
+                   PointsContainer* points,
+                   CoordRepType* closestPoint,
+                   CoordRepType pcoord[3],
+                   double* dist2,
+                   InterpolationWeightType* weight)
+{
+  static const int ITK_HEX_MAX_ITERATION=10;
+  static const double ITK_HEX_CONVERGED=1.e-03;
+  static const double ITK_DIVERGED = 1.e6;
+
+  int iteration, converged;
+  double  params[3];
+  double  fcol[3], rcol[3], scol[3], tcol[3];
+  int i, j;
+  double  d;
+  PointType pt;
+  CoordRepType derivs[24];
+  InterpolationWeightType weights[8];
+
+  //  set initial position for Newton's method
+  int subId = 0;
+  CoordRepType pcoords[3];
+  pcoords[0] = pcoords[1] = pcoords[2] = params[0] = params[1] = params[2]=0.5;
+
+  //  enter iteration loop
+  for (iteration=converged=0;
+       !converged && (iteration < ITK_HEX_MAX_ITERATION);  iteration++) 
+    {
+    //  calculate element interpolation functions and derivatives
+    this->InterpolationFunctions(pcoords, weights);
+    this->InterpolationDerivs(pcoords, derivs);
+
+    //  calculate newton functions
+    for (i=0; i<3; i++) 
+      {
+      fcol[i] = rcol[i] = scol[i] = tcol[i] = 0.0;
+      }
+    for (i=0; i<8; i++)
+      {
+      pt = points->GetElement( m_PointIds[i] );
+      for (j=0; j<3; j++)
+        {
+        fcol[j] += pt[j] * weights[i];
+        rcol[j] += pt[j] * derivs[i];
+        scol[j] += pt[j] * derivs[i+8];
+        tcol[j] += pt[j] * derivs[i+16];
+        }
+      }
+
+    for (i=0; i<3; i++)
+      {
+      fcol[i] -= x[i];
+      }
+
+    //  compute determinants and generate improvements
+    vnl_matrix_fixed<CoordRepType,3,PointDimension> mat;
+    for(i=0;i<PointDimension;i++)
+      {
+      mat.put(0,i,rcol[i]);
+      mat.put(1,i,scol[i]);
+      mat.put(2,i,tcol[i]);
+     }
+
+    d = vnl_determinant(mat);
+    //d=vtkMath::Determinant3x3(rcol,scol,tcol);
+    if ( fabs(d) < 1.e-20) 
+      {
+      return false;
+      }
+
+    vnl_matrix_fixed<CoordRepType,3,PointDimension> mat1;
+    for(i=0;i<PointDimension;i++)
+      {
+      mat1.put(0,i,fcol[i]);
+      mat1.put(1,i,scol[i]);
+      mat1.put(2,i,tcol[i]);
+     }
+
+    vnl_matrix_fixed<CoordRepType,3,PointDimension> mat2;
+    for(i=0;i<PointDimension;i++)
+      {
+      mat2.put(0,i,rcol[i]);
+      mat2.put(1,i,fcol[i]);
+      mat2.put(2,i,tcol[i]);
+     }
+
+    vnl_matrix_fixed<CoordRepType,3,PointDimension> mat3;
+    for(i=0;i<PointDimension;i++)
+      {
+      mat3.put(0,i,rcol[i]);
+      mat3.put(1,i,scol[i]);
+      mat3.put(2,i,fcol[i]);
+     }
+
+    pcoords[0] = params[0] - vnl_determinant(mat1) / d;
+    pcoords[1] = params[1] - vnl_determinant(mat2) / d;
+    pcoords[2] = params[2] - vnl_determinant(mat3) / d;
+
+    if(pcoord)
+      {
+      pcoord[0] = pcoords[0]; 
+      pcoord[1] = pcoords[1];
+      pcoord[2] = pcoords[2];
+      }
+
+    //  check for convergence
+    if ( ((fabs(pcoords[0]-params[0])) < ITK_HEX_CONVERGED) &&
+         ((fabs(pcoords[1]-params[1])) < ITK_HEX_CONVERGED) &&
+         ((fabs(pcoords[2]-params[2])) < ITK_HEX_CONVERGED) )
+      {
+      converged = 1;
+      }
+
+    // Test for bad divergence (S.Hirschberg 11.12.2001)
+    else if ((fabs(pcoords[0]) > ITK_DIVERGED) || 
+             (fabs(pcoords[1]) > ITK_DIVERGED) || 
+             (fabs(pcoords[2]) > ITK_DIVERGED))
+      {
+      return -1;
+      }
+
+    //  if not converged, repeat
+    else 
+      {
+      params[0] = pcoords[0];
+      params[1] = pcoords[1];
+      params[2] = pcoords[2];
+      }
+    }
+
+  //  if not converged, set the parametric coordinates to arbitrary values
+  //  outside of element
+  if ( !converged )
+    {
+    return false;
+    }
+
+  this->InterpolationFunctions(pcoords, weights);
+
+  if(weight)
+    {
+    for(unsigned int i=0;i<8;i++)
+      {
+      weight[i] = weights[i];
+      }
+    }
+
+  if ( pcoords[0] >= -0.001 && pcoords[0] <= 1.001 &&
+  pcoords[1] >= -0.001 && pcoords[1] <= 1.001 &&
+  pcoords[2] >= -0.001 && pcoords[2] <= 1.001 )
+    {
+    if (closestPoint)
+      {
+      closestPoint[0] = x[0]; closestPoint[1] = x[1]; closestPoint[2] = x[2];
+      *dist2 = 0.0; //inside hexahedron
+      }
+    return true;
+    }
+  else
+    {
+    CoordRepType pc[3], w[8];
+    if (closestPoint)
+      {
+      for (i=0; i<3; i++) //only approximate, not really true for warped hexa
+        {
+        if (pcoords[i] < 0.0)
+          {
+          pc[i] = 0.0;
+          }
+        else if (pcoords[i] > 1.0)
+          {
+          pc[i] = 1.0;
+          }
+        else
+          {
+          pc[i] = pcoords[i];
+          }
+        }
+      this->EvaluateLocation(subId, points, pc, closestPoint, (CoordRepType *)w);
+
+      *dist2 = 0;
+      for(unsigned int i=0;i<3;i++)
+        {
+        *dist2 += (closestPoint[i]-x[i])*(closestPoint[i]-x[i]);
+        }
+      }
+    return false;
+    }
+}
+
+/** Compute iso-parametric interpolation functions */
+template <typename TCellInterface>
+void 
+HexahedronCell< TCellInterface >
+::InterpolationFunctions(CoordRepType pcoords[3], CoordRepType sf[8])
+{
+  double rm, sm, tm;
+
+  rm = 1. - pcoords[0];
+  sm = 1. - pcoords[1];
+  tm = 1. - pcoords[2];
+
+  sf[0] = rm*sm*tm;
+  sf[1] = pcoords[0]*sm*tm;
+  sf[2] = pcoords[0]*pcoords[1]*tm;
+  sf[3] = rm*pcoords[1]*tm;
+  sf[4] = rm*sm*pcoords[2];
+  sf[5] = pcoords[0]*sm*pcoords[2];
+  sf[6] = pcoords[0]*pcoords[1]*pcoords[2];
+  sf[7] = rm*pcoords[1]*pcoords[2];
+}
+
+/** Compute iso-parametric interpolation functions */
+template <typename TCellInterface>
+void 
+HexahedronCell< TCellInterface >
+::InterpolationDerivs(CoordRepType pcoords[3], CoordRepType derivs[24])
+{
+  double rm, sm, tm;
+
+  rm = 1. - pcoords[0];
+  sm = 1. - pcoords[1];
+  tm = 1. - pcoords[2];
+
+  // r-derivatives
+  derivs[0] = -sm*tm;
+  derivs[1] = sm*tm;
+  derivs[2] = pcoords[1]*tm;
+  derivs[3] = -pcoords[1]*tm;
+  derivs[4] = -sm*pcoords[2];
+  derivs[5] = sm*pcoords[2];
+  derivs[6] = pcoords[1]*pcoords[2];
+  derivs[7] = -pcoords[1]*pcoords[2];
+
+  // s-derivatives
+  derivs[8] = -rm*tm;
+  derivs[9] = -pcoords[0]*tm;
+  derivs[10] = pcoords[0]*tm;
+  derivs[11] = rm*tm;
+  derivs[12] = -rm*pcoords[2];
+  derivs[13] = -pcoords[0]*pcoords[2];
+  derivs[14] = pcoords[0]*pcoords[2];
+  derivs[15] = rm*pcoords[2];
+
+  // t-derivatives
+  derivs[16] = -rm*sm;
+  derivs[17] = -pcoords[0]*sm;
+  derivs[18] = -pcoords[0]*pcoords[1];
+  derivs[19] = -rm*pcoords[1];
+  derivs[20] = rm*sm;
+  derivs[21] = pcoords[0]*sm;
+  derivs[22] = pcoords[0]*pcoords[1];
+  derivs[23] = rm*pcoords[1];
+}
+
+/** Evaluate the location inside the cell */
+template <typename TCellInterface>
+void 
+HexahedronCell< TCellInterface >
+::EvaluateLocation(int& itkNotUsed(subId),PointsContainer* points, CoordRepType pcoords[3],
+                   CoordRepType x[3], CoordRepType *weights)
+{
+  int i, j;
+  PointType pt;
+
+  this->InterpolationFunctions(pcoords, weights);
+
+  x[0] = x[1] = x[2] = 0.0;
+  for (i=0; i<8; i++)
+    {
+    pt = points->GetElement( m_PointIds[i] );
+     
+    for (j=0; j<3; j++)
+      {
+      x[j] += pt[j] * weights[i];
+      }
+    }
+}
+
+
 } // end namespace itk
 
 #endif

@@ -93,12 +93,25 @@ public:
   virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);  
   virtual bool GetFace(CellFeatureIdentifier, FaceAutoPointer &);  
   
+  /** Evaluate the position inside the cell */
+  virtual bool EvaluatePosition(CoordRepType* ,
+                                PointsContainer* ,
+                                CoordRepType* ,
+                                CoordRepType [],
+                                double *,
+                                InterpolationWeightType*);
+
   /** Visitor interface */
   itkCellVisitMacro(Superclass::HEXAHEDRON_CELL);
 
 protected:
   /** Store the number of points needed for a hexahedron. */
   PointIdentifier m_PointIds[NumberOfPoints];
+
+  void InterpolationDerivs(CoordRepType pcoords[3], CoordRepType derivs[24]);
+  void InterpolationFunctions(CoordRepType pcoords[3], CoordRepType sf[8]);
+  void EvaluateLocation(int& itkNotUsed(subId), PointsContainer* points, CoordRepType pcoords[3],
+                                     CoordRepType x[3], CoordRepType *weights);
   
 public:
   HexahedronCell() {}
