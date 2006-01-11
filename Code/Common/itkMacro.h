@@ -480,15 +480,18 @@ private:
 
 }//namespace itk
 
-#ifdef ITK_CPP_FUNCTION
- #ifdef __BORLANDC__
-  #ifndef __FUNCTION__
-   #define __FUNCTION__ __FUNC__
+#if defined(ITK_CPP_FUNCTION)
+  #if defined(__BORLANDC__)
+    #define ITK_LOCATION __FUNC__
+  #elif defined(_WIN32)
+    #define ITK_LOCATION __FUNCSIG__
+  #elif defined(__GNUC__)
+    #define ITK_LOCATION __PRETTY_FUNCTION__
+  #else
+    #define ITK_LOCATION __FUNCTION__
   #endif
- #endif
-#define ITK_LOCATION __FUNCTION__
-#else  
-#define ITK_LOCATION "Unknown"
+#else
+  #define ITK_LOCATION "unknown"
 #endif
 
 #include "itkExceptionObject.h"
