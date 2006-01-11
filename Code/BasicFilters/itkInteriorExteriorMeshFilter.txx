@@ -81,6 +81,7 @@ InteriorExteriorMeshFilter<TInputMesh,TOutputMesh,TSpatialFunction>
     {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("Missing Input Mesh");
+    exception.SetLocation(ITK_LOCATION);
     throw exception;
     }
 
@@ -88,6 +89,7 @@ InteriorExteriorMeshFilter<TInputMesh,TOutputMesh,TSpatialFunction>
     {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("Missing Output Mesh");
+    exception.SetLocation(ITK_LOCATION);
     throw exception;
     }
 

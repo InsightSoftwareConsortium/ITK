@@ -129,9 +129,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
     int code= usadd (MultiThreader::GetThreadArena());
     if (code != 0)
       {
-      OStringStream message;
-      message << "Thread failed to join SGI arena: error";
-      throw ::itk::ExceptionObject(__FILE__, __LINE__, message.str().c_str());
+      throw ::itk::ExceptionObject(__FILE__, __LINE__, "Thread failed to join SGI arena: error", ITK_LOCATION);
       }
     }
 #endif
@@ -227,7 +225,10 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
         this->InvokeEvent( IterationEvent() );
         this->WaitForAll();
         this->ResetPipeline();
-        throw ProcessAborted(__FILE__,__LINE__);
+        ProcessAborted e(__FILE__,__LINE__);
+        e.SetDescription("Process aborted.");
+        e.SetLocation(ITK_LOCATION);
+        throw e;
         }
       }
    this->WaitForAll();

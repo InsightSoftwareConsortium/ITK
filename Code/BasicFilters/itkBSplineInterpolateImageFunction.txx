@@ -325,7 +325,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
     default:
       // SplineOrder not implemented yet.
       ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "BSplineInterpolateImageFunction" );
+      err.SetLocation( ITK_LOCATION );
       err.SetDescription( "SplineOrder must be between 0 and 5. Requested spline order has not been implemented yet." );
       throw err;
       break;
@@ -437,7 +437,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
     default:
       // SplineOrder not implemented yet.
       ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "BSplineInterpolateImageFunction" );
+      err.SetLocation( ITK_LOCATION );
       err.SetDescription( "SplineOrder (for derivatives) must be between 1 and 5. Requested spline order has not been implemented yet." );
       throw err;
       break;

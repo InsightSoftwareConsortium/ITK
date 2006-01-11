@@ -142,10 +142,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
     
       // build an exception
       InvalidRequestedRegionError e(__FILE__, __LINE__);
-      OStringStream msg;
-      msg << static_cast<const char *>(this->GetNameOfClass())
-          << "::GenerateInputRequestedRegion()";
-      e.SetLocation(msg.str().c_str());
+      e.SetLocation(ITK_LOCATION);
       e.SetDescription("Requested region for the marker image is (at least partially) outside the largest possible region.");
       e.SetDataObject(markerPtr);
       throw e;

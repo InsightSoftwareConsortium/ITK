@@ -39,8 +39,11 @@ MRFImageFilter<TInputImage,TClassifiedImage>
 {
 
   if( (int)InputImageDimension != (int)ClassifiedImageDimension )
-    throw ExceptionObject(__FILE__, __LINE__);
-
+    {
+    OStringStream msg;
+    msg << "Input image dimension: " << InputImageDimension << " != output image dimension: " << ClassifiedImageDimension; 
+    throw ExceptionObject(__FILE__, __LINE__,msg.str().c_str(),ITK_LOCATION);
+    }
   m_InputImageNeighborhoodRadius.Fill(0);
   m_MRFNeighborhoodWeight.resize(0);
   m_NeighborInfluence.resize(0);
@@ -215,8 +218,9 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 ::SetClassifier( typename ClassifierType::Pointer ptrToClassifier )
 {
   if( ( ptrToClassifier.IsNull() ) || (m_NumberOfClasses <= 0) )
-    throw ExceptionObject(__FILE__, __LINE__);
-
+    {
+    throw ExceptionObject(__FILE__, __LINE__,"NumberOfClasses is <= 0",ITK_LOCATION);
+    }
   m_ClassifierPtr = ptrToClassifier;
   m_ClassifierPtr->SetNumberOfClasses( m_NumberOfClasses );
 }//end SetPtrToClassifier
@@ -360,7 +364,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
     if( m_NeighborhoodSize != static_cast<int>(betaMatrix.size()) )
       {
-      throw ExceptionObject(__FILE__, __LINE__);
+      throw ExceptionObject(__FILE__, __LINE__, "NeighborhoodSize != betaMatrix.szie()", ITK_LOCATION);
       }
 
     //Allocate memory for the weights of the 3D MRF algorithm
@@ -386,7 +390,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 {
   if( m_NumberOfClasses <= 0 )
     {
-    throw ExceptionObject(__FILE__, __LINE__);
+    throw ExceptionObject(__FILE__, __LINE__,"NumberOfClasses <= 0.",ITK_LOCATION);
     }
 
   InputImageSizeType inputImageSize = this->GetInput()->GetBufferedRegion().GetSize();

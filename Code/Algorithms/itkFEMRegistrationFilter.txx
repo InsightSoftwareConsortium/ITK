@@ -721,8 +721,11 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::CreateMesh(double PixelsPe
     //std::cout << " done initializing interpolation grid " << std::endl;
     }
   else 
-    {  
-    throw FEMException(__FILE__, __LINE__, "CreateMesh - wrong image or element type ");
+    {
+    FEMException e(__FILE__, __LINE__);
+    e.SetDescription("CreateMesh - wrong image or element type");
+    e.SetLocation(ITK_LOCATION);
+    throw e;
     }
   
 }

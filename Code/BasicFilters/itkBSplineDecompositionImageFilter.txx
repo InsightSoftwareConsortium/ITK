@@ -167,7 +167,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
     default:
       // SplineOrder not implemented yet.
       ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "BSplineInterpolateImageFunction" );
+      err.SetLocation( ITK_LOCATION);
       err.SetDescription( "SplineOrder must be between 0 and 5. Requested spline order has not been implemented yet." );
       throw err;
       break;

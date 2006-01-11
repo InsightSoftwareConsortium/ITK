@@ -25,6 +25,8 @@
 #include "itkExceptionObject.h"
 #include "itkNumericTraits.h"
 #include "itkIndex.h"
+#include "itkExceptionObject.h"
+
 namespace itk
 {
 
@@ -325,9 +327,7 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
              }
            else
              {
-             ExceptionObject e(__FILE__, __LINE__);
-             e.SetDescription("Gradient norm is lower than pixel precision");
-             throw e;
+             itkExceptionMacro(<<"Gradient norm is lower than pixel precision");
             }
          } // end if (sign != sign_neigh)
        } //end for n               
@@ -527,9 +527,7 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
             }
           else
             {
-             ExceptionObject e(__FILE__, __LINE__);
-             e.SetDescription("Gradient norm is lower than pixel precision");
-             throw e;
+             itkExceptionMacro(<<"Gradient norm is lower than pixel precision");
             }
          } // end if (sign != sign_neigh)
        } //end for n       

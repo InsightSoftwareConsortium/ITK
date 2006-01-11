@@ -78,9 +78,7 @@ SetMatrix(const MatrixType & matrix )
   const double tolerance = 1e-10;
   if( !test.is_identity( tolerance ) ) 
     {
-    itk::ExceptionObject ex;
-    ex.SetDescription("Attempt to set a Non-Orthogonal matrix");
-    ex.SetLocation(__FILE__);
+    itk::ExceptionObject ex(__FILE__,__LINE__,"Attempt to set a Non-Orthogonal matrix",ITK_LOCATION);
     throw ex;
     }
 

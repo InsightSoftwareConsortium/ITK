@@ -202,7 +202,6 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
   if( !m_Interpolator || !this->GetInput() )
     {
     itkExceptionMacro(<< "Interpolator and/or Input not set");
-    throw ExceptionObject(__FILE__,__LINE__ );
     }
 
   // Connect input image to interpolator
@@ -352,10 +351,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
     
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
-    OStringStream msg;
-    msg << (const char *)this->GetNameOfClass()
-        << "::GenerateInputRequestedRegion()";
-    e.SetLocation(msg.str().c_str());
+    e.SetLocation(ITK_LOCATION);
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(inputPtr);
     

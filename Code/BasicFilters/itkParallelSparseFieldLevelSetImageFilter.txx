@@ -1168,7 +1168,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         {
         OStringStream message;
         message << "Thread failed to join SGI arena: error";
-        throw ::itk::ExceptionObject(__FILE__, __LINE__, message.str().c_str());
+        throw ::itk::ExceptionObject(__FILE__, __LINE__, message.str().c_str(),ITK_LOCATION);
         }
       }
     }
@@ -1247,7 +1247,10 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         {
         str->Filter->InvokeEvent( IterationEvent() );
         str->Filter->ResetPipeline(); 
-        throw ProcessAborted(__FILE__,__LINE__);
+        ProcessAborted e(__FILE__,__LINE__);
+        e.SetDescription("Process aborted.");
+        e.SetLocation(ITK_LOCATION);
+        throw e;
         }
       }
     

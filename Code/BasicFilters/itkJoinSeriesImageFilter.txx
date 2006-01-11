@@ -148,12 +148,8 @@ JoinSeriesImageFilter<TInputImage,TOutputImage>
       // InvalidRequestedRegionError, it's impossible to write simply:
       // itkExceptionMacro(<< "Missing input " << idx);
       InvalidRequestedRegionError e(__FILE__, __LINE__);
-      OStringStream loc, desc;
-      loc << static_cast<const char *>(this->GetNameOfClass())
-          << "::GenerateInputRequestedRegion()";
-      e.SetLocation(loc.str().c_str());
-      desc << "Missing input " << idx;
-      e.SetDescription(desc.str().c_str());
+      e.SetLocation(ITK_LOCATION);
+      e.SetDescription("Missing input.");
       e.SetDataObject(this->GetOutput());
       throw e;
       }

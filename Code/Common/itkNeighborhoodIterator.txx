@@ -73,7 +73,10 @@ NeighborhoodIterator<TImage, TBoundaryCondition>
       }
     else
       { // Attempt to write out of bounds
-      throw RangeError(__FILE__, __LINE__);
+      RangeError e(__FILE__, __LINE__);
+      e.SetLocation(ITK_LOCATION);
+      e.SetDescription("Attempt to write out of bounds.");
+      throw e;
       };
     }
 }

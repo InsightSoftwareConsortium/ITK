@@ -473,7 +473,7 @@ RayCastHelper<TInputImage, TCoordRep>
     if ( (A*A + B*B + C*C) == 0 ) 
       {
       itk::ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "RayCastInterpolateImageFunction" );
+      err.SetLocation( ITK_LOCATION );
       err.SetDescription( "Division by zero (planes) "
                           "- CalcPlanesAndCorners().");
       throw err;
@@ -1019,7 +1019,7 @@ RayCastHelper<TInputImage, TCoordRep>
   else 
     {
     itk::ExceptionObject err(__FILE__, __LINE__);
-    err.SetLocation( "RayCastInterpolateImageFunction" );
+    err.SetLocation( ITK_LOCATION );
     err.SetDescription( "The ray traversal direction is unset "
                         "- AdjustRayLength().");
     throw err;
@@ -1264,7 +1264,7 @@ RayCastHelper<TInputImage, TCoordRep>
     default: 
     {
     itk::ExceptionObject err(__FILE__, __LINE__);
-    err.SetLocation( "RayCastInterpolateImageFunction" );
+    err.SetLocation( ITK_LOCATION );
     err.SetDescription( "The ray traversal direction is unset "
                         "- InitialiseVoxelPointers().");
     throw err;
@@ -1358,7 +1358,7 @@ RayCastHelper<TInputImage, TCoordRep>
     default: 
     {
     itk::ExceptionObject err(__FILE__, __LINE__);
-    err.SetLocation( "RayCastInterpolateImageFunction" );
+    err.SetLocation( ITK_LOCATION );
     err.SetDescription( "The ray traversal direction is unset "
                         "- GetCurrentIntensity().");
     throw err;

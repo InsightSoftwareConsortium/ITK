@@ -93,7 +93,6 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   if( !this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator )
     {
     itkExceptionMacro( << "MovingImage, FixedImage and/or Interpolator not set" );
-    throw ExceptionObject(__FILE__,__LINE__);
     }
 
   // cache fixed image information

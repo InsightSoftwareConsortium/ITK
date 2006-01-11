@@ -95,7 +95,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
   // Check if the training and input image dimensions are same
   if( (int)(TInputImage::ImageDimension) != (int)(TTrainingImage::ImageDimension) )
     {
-    throw ExceptionObject(__FILE__, __LINE__);
+    throw ExceptionObject(__FILE__, __LINE__,"Training and input image dimensions are not the same.",ITK_LOCATION);
     }
 
   InputImageSizeType 
@@ -111,7 +111,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
   // Check if size of the two inputs are same
   for( unsigned int i = 0; i < TInputImage::ImageDimension; i++)
     {
-    if( inputImageSize[i] != trainingImageSize[i] ) throw ExceptionObject(__FILE__, __LINE__); 
+    if( inputImageSize[i] != trainingImageSize[i] ) throw ExceptionObject(__FILE__, __LINE__,"Input image size is not the same as the training image size.",ITK_LOCATION); 
     }
 
   //-------------------------------------------------------------------

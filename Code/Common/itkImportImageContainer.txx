@@ -185,7 +185,7 @@ TElement* ImportImageContainer< TElementIdentifier , TElement >
     // of memory.  Do not use the exception macro.
     throw MemoryAllocationError(__FILE__, __LINE__,
                                 "Failed to allocate memory for image.",
-                                "ImportImageContainer::AllocateElements");
+                                ITK_LOCATION);
     }
   return data;
 }

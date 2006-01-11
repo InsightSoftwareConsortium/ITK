@@ -49,7 +49,7 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
     (this->GetDifferenceFunction().GetPointer());
   if (! f)
     {
-    throw ExceptionObject(__FILE__, __LINE__);
+    throw ExceptionObject(__FILE__, __LINE__, "Anisotropic diffusion function is not set.", ITK_LOCATION);
     }
   
   f->SetConductanceParameter(m_ConductanceParameter);

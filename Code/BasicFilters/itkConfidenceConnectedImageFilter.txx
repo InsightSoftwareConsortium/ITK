@@ -333,6 +333,9 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
 
   if( this->GetAbortGenerateData() )
     {
+    ProcessAborted e(__FILE__,__LINE__);
+    e.SetLocation(ITK_LOCATION);
+    e.SetDescription("Process aborted.");
     throw ProcessAborted(__FILE__,__LINE__);
     }
 }

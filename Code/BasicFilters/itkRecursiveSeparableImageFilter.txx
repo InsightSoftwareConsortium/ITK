@@ -326,7 +326,10 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
     delete [] inps;
     delete [] scratch;
     // Throw the final exception.
-    throw ProcessAborted(__FILE__,__LINE__);
+    ProcessAborted e(__FILE__,__LINE__);
+    e.SetDescription("Process aborted.");
+    e.SetLocation(ITK_LOCATION);
+    throw e;
     }
 
   delete [] outs;

@@ -142,7 +142,7 @@ GaussianOperator<TPixel,VDimension, TAllocator>
 
   if (n<2)
     {
-    throw ExceptionObject(__FILE__, __LINE__);  // placeholder
+    throw ExceptionObject(__FILE__, __LINE__, "Order of modified bessel is > 2.", ITK_LOCATION);  // placeholder
     }
   if (y==0.0) return 0.0;
   else

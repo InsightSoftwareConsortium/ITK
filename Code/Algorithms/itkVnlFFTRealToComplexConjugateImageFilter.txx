@@ -97,6 +97,7 @@ namespace itk
       if( !this->Legaldim(inputSize[i]) ) {
         ExceptionObject exception(__FILE__, __LINE__);
         exception.SetDescription("Illegal Array DIM for FFT");
+        exception.SetLocation(ITK_LOCATION);
         throw exception;
       }
       //#endif

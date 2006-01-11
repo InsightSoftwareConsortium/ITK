@@ -344,7 +344,10 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
         {
         this->InvokeEvent( AbortEvent() );
         this->ResetPipeline();
-        throw ProcessAborted(__FILE__,__LINE__);
+        ProcessAborted e(__FILE__,__LINE__);
+        e.SetDescription("Process aborted.");
+        e.SetLocation(ITK_LOCATION);
+        throw e;
         }
       }
 
@@ -491,7 +494,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
         {
         // Discriminant of quadratic eqn. is negative
         ExceptionObject err(__FILE__, __LINE__);
-        err.SetLocation( "UpdateValue" );
+        err.SetLocation( ITK_LOCATION );
         err.SetDescription( "Discriminant of quadratic equation is negative" );
         throw err;
         }
