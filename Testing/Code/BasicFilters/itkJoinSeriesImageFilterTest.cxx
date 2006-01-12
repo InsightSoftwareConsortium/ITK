@@ -235,15 +235,7 @@ int itkJoinSeriesImageFilterTest(int, char* [] )
     }
   catch( itk::InvalidRequestedRegionError & err )
     {
-    if ( strcmp("Missing input 1", err.GetDescription()) == 0 )
-      {
-      passed = true;
-      }
-    else
-      {
-      std::cout << err << std::endl;
-      return EXIT_FAILURE;
-      }
+    passed = true;
     }
   catch( itk::ExceptionObject & err )
     {
