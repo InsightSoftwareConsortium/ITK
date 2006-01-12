@@ -87,17 +87,17 @@ public:
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
    * functor that has ivars set differently than the default functor.
-   * This method requires an operator!=() be defined on the functor
-   * (or the compiler's default implementation of operator!=() being
+   * This method requires an operator==() be defined on the functor
+   * (or the compiler's default implementation of operator==() being
    * appropriate). */
   void SetFunctor(const FunctorType& functor)
-  {
-    if ( m_Functor != functor )
-      {
-      m_Functor = functor;
-      this->Modified();
-      }
-  }
+    {
+      //if (! (functor == m_Functor) )
+      //  {
+        m_Functor = functor;
+        this->Modified();
+      //  }
+    }
 
 protected:
   TernaryFunctorImageFilter();
