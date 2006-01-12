@@ -164,8 +164,8 @@ ImageFileWriter<TInputImage>
     msg << "  You probably failed to set a file suffix, or" << std::endl;
     msg << "    set the suffix to an unsupported type." << std::endl;
     e.SetDescription(msg.str().c_str());
+    e.SetLocation(ITK_LOCATION);
     throw e;
-    return;
     }
 
   // NOTE: this const_cast<> is due to the lack of const-correctness
