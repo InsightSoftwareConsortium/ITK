@@ -59,6 +59,20 @@ public:
   void SetOutsideValue( const TOutput & value )
   { m_OutsideValue = value; }
 
+  bool operator!=( const BinaryThreshold & other ) const
+  {
+    if( this->m_LowerThreshold != other->m_LowerThreshold ||
+        this->m_UpperThreshold != other->m_UpperThreshold ||
+        this->m_InsideValue    != other->m_InsideValue    ||
+        this->m_OutsideValue   != other->m_OutsideValue  )
+        {
+          return true;
+        }
+    return false;
+   }
+  bool operator==( const BinaryThreshold & other ) const
+  { return !(*this != other); }
+
   inline TOutput operator()( const TInput & A )
   {
     if ( m_LowerThreshold <= A && A <= m_UpperThreshold )
