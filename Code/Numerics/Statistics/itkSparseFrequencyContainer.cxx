@@ -14,9 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSparseFrequencyContainer_txx
-#define _itkSparseFrequencyContainer_txx
-
 #include "itkSparseFrequencyContainer.h"
 
 namespace itk{ 
@@ -99,4 +96,3 @@ SparseFrequencyContainer
 } // end of namespace Statistics
 } // end of namespace itk 
 
-#endif
