@@ -51,6 +51,14 @@ class Acos
 public:
   Acos() {};
   ~Acos() {};
+  bool operator!=( const Acos & other ) const
+  {
+    return false;
+   }
+  bool operator==( const Acos & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   {
     return static_cast<TOutput>( acos( static_cast<double>(A) ) );

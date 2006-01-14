@@ -53,6 +53,14 @@ class AbsoluteValueDifference2
 public:
   AbsoluteValueDifference2() {};
   ~AbsoluteValueDifference2() {};
+  bool operator!=( const AbsoluteValueDifference2 & other ) const
+  {
+    return false;
+   }
+  bool operator==( const AbsoluteValueDifference2 & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput1 & A, 
                              const TInput2 & B)
   {

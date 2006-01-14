@@ -35,6 +35,14 @@ class Abs
 public:
   Abs() {}
   ~Abs() {}
+  bool operator!=( const Abs & other ) const
+  {
+    return false;
+   }
+  bool operator==( const Abs & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   { return (TOutput)( ( A > 0 ) ? A : -A ); }
 }; 

@@ -60,6 +60,19 @@ public:
   typedef typename NumericTraits< TInput1 >::RealType       RealType;
   WeightedAdd2() {};
   ~WeightedAdd2() {};
+  bool operator!=( const WeightedAdd2 & other ) const
+  {
+    if( m_Alpha != other.m_Alpha)
+      {
+      return true;
+      }
+    return false;
+   }
+  bool operator==( const WeightedAdd2 & other ) const
+  {
+    return !(*this != other);
+  }
+
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
   {
     const RealType sum1 = A * m_Alpha;

@@ -61,6 +61,14 @@ public:
   typedef typename NumericTraits< TInput1 >::AccumulateType AccumulatorType;
   Add2() {};
   ~Add2() {};
+  bool operator!=( const Add2 & other ) const
+  {
+    return false;
+   }
+  bool operator==( const Add2 & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
   {
     const AccumulatorType sum = A;

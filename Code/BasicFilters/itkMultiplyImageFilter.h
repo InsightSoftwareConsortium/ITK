@@ -39,6 +39,14 @@ class Mult
 public:
   Mult() {}
   ~Mult() {}
+  bool operator!=( const Mult & other ) const
+  {
+    return false;
+   }
+  bool operator==( const Mult & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
   { return (TOutput)(A * B); }
 }; 
