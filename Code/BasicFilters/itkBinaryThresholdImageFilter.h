@@ -61,12 +61,12 @@ public:
 
   bool operator!=( const BinaryThreshold & other ) const
   {
-    if( this->m_LowerThreshold != other->m_LowerThreshold ||
-        this->m_UpperThreshold != other->m_UpperThreshold ||
-        this->m_InsideValue    != other->m_InsideValue    ||
-        this->m_OutsideValue   != other->m_OutsideValue  )
+    if( m_LowerThreshold != other.m_LowerThreshold ||
+        m_UpperThreshold != other.m_UpperThreshold ||
+        m_InsideValue    != other.m_InsideValue    ||
+        m_OutsideValue   != other.m_OutsideValue  )
         {
-          return true;
+        return true;
         }
     return false;
    }
