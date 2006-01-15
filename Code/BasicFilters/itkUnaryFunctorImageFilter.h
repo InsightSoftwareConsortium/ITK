@@ -79,8 +79,11 @@ public:
    * appropriate). */
   void SetFunctor(const FunctorType& functor)
   {
-    m_Functor = functor;
-    this->Modified();
+    if (m_Functor != functor)
+      {
+      m_Functor = functor;
+      this->Modified();
+      }
   }
   
 protected:

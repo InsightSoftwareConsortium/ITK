@@ -44,6 +44,14 @@ class Atan2
 public:
   Atan2() {};
   ~Atan2() {};
+  bool operator!=( const Atan2 & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Atan2 & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
   {
     return static_cast<TOutput>( 

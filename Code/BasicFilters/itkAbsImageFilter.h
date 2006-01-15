@@ -38,7 +38,7 @@ public:
   bool operator!=( const Abs & other ) const
   {
     return false;
-   }
+  }
   bool operator==( const Abs & other ) const
   {
     return !(*this != other);

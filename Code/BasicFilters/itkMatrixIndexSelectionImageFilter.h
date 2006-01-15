@@ -34,6 +34,20 @@ public:
   void GetIndices(unsigned int& i, unsigned int& j) const {i= m_I; j=m_J;}
   void SetIndices(unsigned int i,unsigned int j) {m_I= i; m_J =j;}
 
+  bool operator!=( const MatrixIndexSelection & other ) const
+  {
+    if( m_I != other.m_I ||
+        m_J != other.m_J  )
+        {
+        return true;
+        }
+    return false;
+   }
+  bool operator==( const MatrixIndexSelection & other ) const
+  {
+    return !(*this != other);
+  }
+
   inline TOutput operator()( const TInput & A )
   {
     return static_cast<TOutput>( A[m_I][m_J] );

@@ -150,6 +150,7 @@ int itkTernaryMagnitudeImageFilterTest(int, char* [] )
   
   // Execute the filter
   filter->Update();
+  filter->SetFunctor(filter->GetFunctor());
 
   // Create an iterator for going through the image output
   myIteratorType4 it4(outputImage, outputImage->GetBufferedRegion());

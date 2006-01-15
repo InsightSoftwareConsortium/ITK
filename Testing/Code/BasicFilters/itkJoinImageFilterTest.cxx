@@ -152,6 +152,7 @@ int itkJoinImageFilterTest(int, char* [] )
   myFilterType::Pointer filter = myFilterType::New();
   filter->SetInput1( inputImageA ); 
   filter->SetInput2( inputImageB );
+  filter->SetFunctor(filter->GetFunctor());
 
   //
   // Join image #1#2 and #3

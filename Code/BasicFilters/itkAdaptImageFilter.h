@@ -69,7 +69,13 @@ public:
 
   /** operator!=.  Needed to determine if two accessors are the same. */
   bool operator!=( const Self& functor ) const
-  { return (m_Accessor != functor.m_Accessor); }
+  {
+    return (m_Accessor != functor.m_Accessor);
+  }
+  bool operator==( const Self& other ) const
+  {
+    return !(*this != other);
+  }
     
 private:
   AccessorType m_Accessor;

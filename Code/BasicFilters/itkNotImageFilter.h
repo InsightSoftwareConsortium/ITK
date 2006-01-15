@@ -51,6 +51,14 @@ class NOT
 public:
   NOT() {};
  ~NOT() {};
+  bool operator!=( const NOT & other ) const
+  {
+    return false;
+  }
+  bool operator==( const NOT & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   {
     return static_cast<TOutput>( !A );

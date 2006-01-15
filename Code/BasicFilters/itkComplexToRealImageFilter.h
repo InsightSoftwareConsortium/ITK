@@ -36,6 +36,14 @@ class ComplexToReal
 public:
   ComplexToReal() {}
   ~ComplexToReal() {}
+  bool operator!=( const ComplexToReal & other ) const
+  {
+    return false;
+  }
+  bool operator==( const ComplexToReal & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   { return (TOutput)( A.real() ); }
 }; 

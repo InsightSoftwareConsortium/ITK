@@ -124,7 +124,7 @@ int itkOrImageFilterTest(int, char* [] )
   }
            
 
-  // Create an ADD Filter                                
+  // Create an OR Filter                                
   myFilterTypePointer filter = myFilterType::New();
 
 
@@ -138,6 +138,7 @@ int itkOrImageFilterTest(int, char* [] )
   
   // Execute the filter
   filter->Update();
+  filter->SetFunctor(filter->GetFunctor());
 
   // Create an iterator for going through the image output
   myIteratorType3 it3(outputImage, outputImage->GetBufferedRegion());

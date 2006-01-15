@@ -34,6 +34,18 @@ public:
   unsigned int GetIndex() const { return m_Index; }
   void SetIndex(unsigned int i) { m_Index = i; }
 
+  bool operator!=( const VectorIndexSelectionCast & other ) const
+  {
+    if( m_Index != other.m_Index )
+      {
+      return true;
+      }
+    return false;
+  }
+  bool operator==( const VectorIndexSelectionCast & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   {
     return static_cast<TOutput>( A[m_Index] );

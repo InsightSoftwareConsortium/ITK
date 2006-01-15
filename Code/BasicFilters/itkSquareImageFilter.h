@@ -37,6 +37,14 @@ public:
   typedef typename NumericTraits<TInput>::RealType RealType;
   Square() {}
   ~Square() {}
+  bool operator!=( const Square & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Square & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   {
     const RealType ra = static_cast<RealType>( A );

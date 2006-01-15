@@ -45,6 +45,14 @@ class VectorCast
 public:
   VectorCast() {}
   ~VectorCast() {}
+  bool operator!=( const VectorCast & other ) const
+  {
+    return false;
+  }
+  bool operator==( const VectorCast & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A ) const
   {
     typedef typename TOutput::ValueType OutputValueType;

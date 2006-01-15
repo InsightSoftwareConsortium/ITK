@@ -70,6 +70,7 @@ int itkRescaleIntensityImageFilterTest(int, char* [] )
   try
     {
     filter->UpdateLargestPossibleRegion();
+    filter->SetFunctor(filter->GetFunctor());
     }
   catch (itk::ExceptionObject& e)
     {

@@ -49,6 +49,14 @@ class Asin
 public:
   Asin() {};
   ~Asin() {};
+  bool operator!=( const Asin & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Asin & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   {
     return static_cast<TOutput>(

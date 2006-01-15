@@ -36,19 +36,30 @@ class SimilarPixelsFunctor
 {
 public:
   SimilarPixelsFunctor()
-    {threshold = itk::NumericTraits<TInput>::Zero;};
-
+    {m_Threshold = itk::NumericTraits<TInput>::Zero;};
   ~SimilarPixelsFunctor() {};
+  bool operator!=( const SimilarPixelsFunctor & other ) const
+  {
+    if( m_Threshold != other.m_Threshold )
+        {
+        return true;
+        }
+    return false;
+   }
+  bool operator==( const SimilarPixelsFunctor & other ) const
+  {
+    return !(*this != other);
+  }
 
-  void SetDistanceThreshold(const TInput &thresh) {threshold = thresh;};
-  TInput GetDistanceThreshold() {return (threshold);};
+  void SetDistanceThreshold(const TInput &thresh) {m_Threshold = thresh;};
+  TInput GetDistanceThreshold() {return (m_Threshold);};
   
   bool operator()(const TInput &a, const TInput &b) {
-    return (vnl_math_abs(a-b) <= threshold);
+    return (vnl_math_abs(a-b) <= m_Threshold);
   };
 
 protected:
-  TInput threshold;
+  TInput m_Threshold;
                             
 };
 

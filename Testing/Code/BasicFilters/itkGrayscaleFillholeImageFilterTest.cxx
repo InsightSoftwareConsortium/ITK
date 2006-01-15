@@ -47,9 +47,9 @@ int itkGrayscaleFillholeImageFilterTest( int argc, char * argv[] )
   //
   const unsigned int Dimension = 2;
   
-  typedef unsigned char   InputPixelType;
-  typedef unsigned char   OutputPixelType;
-  typedef unsigned char    WritePixelType;
+  typedef short           InputPixelType;
+  typedef short           OutputPixelType;
+  typedef unsigned char   WritePixelType;
 
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
   typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
@@ -85,10 +85,10 @@ int itkGrayscaleFillholeImageFilterTest( int argc, char * argv[] )
   fillhole->SetInput(  reader->GetOutput() );
   
   // Run the filter
-//   rescaler->SetInput( fillhole->GetOutput() );
-//   rescaler->SetOutputMinimum(   0 );
-//   rescaler->SetOutputMaximum( 255 );
-  writer->SetInput( fillhole->GetOutput() );
+  rescaler->SetInput( fillhole->GetOutput() );
+  rescaler->SetOutputMinimum(   0 );
+  rescaler->SetOutputMaximum( 255 );
+  writer->SetInput( rescaler->GetOutput() );
   writer->Update();
 
   // Output the number of iterations used

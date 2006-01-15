@@ -42,6 +42,14 @@ class Div
 public:
   Div() {};
   ~Div() {};
+  bool operator!=( const Div & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Div & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
   {
     if(B != (TInput2) 0)

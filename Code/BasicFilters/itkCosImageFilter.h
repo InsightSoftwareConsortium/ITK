@@ -49,6 +49,14 @@ class Cos
 public:
   Cos() {};
   ~Cos() {};
+  bool operator!=( const Cos & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Cos & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   {
     return static_cast<TOutput>(cos( static_cast<double>(A)) );

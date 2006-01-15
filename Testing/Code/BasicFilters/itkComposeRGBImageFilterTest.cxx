@@ -73,7 +73,9 @@ int itkComposeRGBImageFilterTest(int , char * [])
   try
     {
     filter->Update();
+    filter->SetFunctor(filter->GetFunctor());
     }
+
   catch( itk::ExceptionObject & excp )
    {
    std::cerr << "Exception caught !" << std::endl;

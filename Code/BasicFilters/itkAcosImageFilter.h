@@ -54,7 +54,7 @@ public:
   bool operator!=( const Acos & other ) const
   {
     return false;
-   }
+  }
   bool operator==( const Acos & other ) const
   {
     return !(*this != other);

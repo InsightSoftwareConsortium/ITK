@@ -42,6 +42,15 @@ public:
   SymmetricEigenAnalysisFunction() {}
   ~SymmetricEigenAnalysisFunction() {}
   typedef SymmetricEigenAnalysis< TInput, TOutput > CalculatorType;
+  bool operator!=( const SymmetricEigenAnalysisFunction & other ) const
+  {
+    return false;
+  }
+  bool operator==( const SymmetricEigenAnalysisFunction & other ) const
+  {
+    return !(*this != other);
+  }
+
   inline TOutput operator()( const TInput & x )
     {
     TOutput eigenValues;

@@ -37,6 +37,21 @@ public:
   void SetOffset( RealType b ) { m_Offset = b; }
   void SetMinimum( TOutput min ) { m_Minimum = min; }
   void SetMaximum( TOutput max ) { m_Maximum = max; }
+  bool operator!=( const IntensityLinearTransform & other ) const
+  {
+    if( m_Factor != other.m_Factor ||
+        m_Offset != other.m_Offset ||
+        m_Maximum != other.m_Maximum    ||
+        m_Minimum != other.m_Minimum )
+      {
+      return true;
+      }
+    return false;
+   }
+  bool operator==( const IntensityLinearTransform & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & x )
   {
     RealType value  = static_cast<RealType>(x) * m_Factor + m_Offset;

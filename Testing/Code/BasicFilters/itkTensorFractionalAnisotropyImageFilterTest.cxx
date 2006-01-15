@@ -137,6 +137,7 @@ int itkTensorFractionalAnisotropyImageFilterTest(int, char* [] )
 
   // Execute the filter
   fractionalAnisotropyFilter->Update();
+  fractionalAnisotropyFilter->SetFunctor(fractionalAnisotropyFilter->GetFunctor());
 
   // Get the Smart Pointer to the Filter Output 
   // It is important to do it AFTER the filter is Updated

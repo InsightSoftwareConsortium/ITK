@@ -58,6 +58,18 @@ public:
 
   typedef std::map<TInput, TOutput> ChangeMapType;
 
+  bool operator!=( const ChangeLabel & other ) const
+  {
+    if (m_ChangeMap != other.m_ChangeMap)
+      {
+      return true;
+      }
+    return false;
+  }
+  bool operator==( const ChangeLabel & other ) const
+  {
+    return !(*this != other);
+  }
   TInput GetChange( const TInput & original )
   { 
     return m_ChangeMap[original]; 

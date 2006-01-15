@@ -176,6 +176,7 @@ int itkVectorConnectedComponentImageFilterTest(int argc, char* argv[] )
     writer->SetInput (relabel->GetOutput());
     writer->SetFileName( argv[1] );
     writer->Update();
+    filter->SetFunctor(filter->GetFunctor());
     }
   catch( itk::ExceptionObject & excep )
     {

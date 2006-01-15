@@ -130,12 +130,15 @@ int itkWeightedAddImageFilterTest(int, char* [] )
 
   filter->SetAlpha( 0.4 );
 
+  filter->SetFunctor (filter->GetFunctor());
+
   // Get the Smart Pointer to the Filter Output 
   myImageType3Pointer outputImage = filter->GetOutput();
 
   
   // Execute the filter
   filter->Update();
+  filter->SetFunctor(filter->GetFunctor());
 
   // Create an iterator for going through the image output
   myIteratorType3 it3(outputImage, outputImage->GetBufferedRegion());

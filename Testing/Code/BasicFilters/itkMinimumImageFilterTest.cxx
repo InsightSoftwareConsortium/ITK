@@ -134,6 +134,7 @@ int itkMinimumImageFilterTest(int, char* [] )
   
   // Execute the filter
   filter->Update();
+  filter->SetFunctor(filter->GetFunctor());
 
   // Create an iterator for going through the image output
   myIteratorType3 it3(outputImage, outputImage->GetBufferedRegion());

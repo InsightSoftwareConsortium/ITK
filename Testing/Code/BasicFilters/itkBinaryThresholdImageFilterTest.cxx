@@ -76,6 +76,8 @@ int itkBinaryThresholdImageFilterTest(int, char* [] )
 
   filter->Print( std::cout );
 
+  filter->SetFunctor(filter->GetFunctor());
+
   // exercise Get methods
   std::cout << "OutsideValue: " << filter->GetOutsideValue() << std::endl;
   std::cout << "InsideValue: " << filter->GetInsideValue() << std::endl;
@@ -96,7 +98,9 @@ int itkBinaryThresholdImageFilterTest(int, char* [] )
   try
     {
     filter->Update();
+    filter->SetFunctor(filter->GetFunctor());
     }
+
   catch(...)
     {
     std::cerr << "Caught an unexpected exception. " << std::endl;

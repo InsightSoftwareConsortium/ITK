@@ -49,6 +49,14 @@ class Cast
 public:
   Cast() {};
   ~Cast() {};
+  bool operator!=( const Cast & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Cast & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   {
     return static_cast<TOutput>( A );

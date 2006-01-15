@@ -134,6 +134,7 @@ int itkGradientToMagnitudeImageFilterTest(int, char* [] )
   try
     {
     magnitude->Update();
+    magnitude->SetFunctor(magnitude->GetFunctor());
     }
   catch(...)
     {

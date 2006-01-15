@@ -42,6 +42,14 @@ class Maximum
 public:
   Maximum() {}
   ~Maximum() {}
+  bool operator!=( const Maximum & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Maximum & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
   { 
    if(A > B)

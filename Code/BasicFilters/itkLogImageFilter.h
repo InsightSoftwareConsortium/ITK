@@ -36,6 +36,14 @@ class Log
 public:
   Log() {}
   ~Log() {}
+  bool operator!=( const Log & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Log & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   {
     return (TOutput)log((double)A);

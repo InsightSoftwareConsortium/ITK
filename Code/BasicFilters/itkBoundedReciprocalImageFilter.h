@@ -38,6 +38,14 @@ class BoundedReciprocal
 public:
   BoundedReciprocal() {};
   ~BoundedReciprocal() {};
+  bool operator!=( const BoundedReciprocal & other ) const
+  {
+    return false;
+  }
+  bool operator==( const BoundedReciprocal & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   {
     return static_cast<TOutput>( 1.0 / ( 1.0 +  static_cast<double>(A) ) );

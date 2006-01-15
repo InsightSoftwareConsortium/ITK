@@ -43,6 +43,14 @@ public:
   typedef RGBPixel<TInput> OutputType;
   ComposeRGB() {}
   ~ComposeRGB() {}
+  bool operator!=( const ComposeRGB & other ) const
+  {
+    return false;
+  }
+  bool operator==( const ComposeRGB & other ) const
+  {
+    return !(*this != other);
+  }
   inline OutputType operator()(  const TInput & R, 
                                  const TInput & G,
                                  const TInput & B)
@@ -50,10 +58,6 @@ public:
     OutputType rgbPixel;
     rgbPixel.Set( R, G, B);
     return rgbPixel;
-  }
-  bool operator != (const ComposeRGB&) const
-  {
-    return false;
   }
 }; 
 }

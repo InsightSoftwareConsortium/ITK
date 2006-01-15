@@ -51,6 +51,14 @@ class OR
 public:
   OR() {};
   ~OR() {};
+  bool operator!=( const OR & other ) const
+  {
+    return false;
+  }
+  bool operator==( const OR & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
   {
     return static_cast<TOutput>( A | B );

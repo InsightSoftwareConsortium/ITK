@@ -39,14 +39,18 @@ class Modulus3
 public:
   Modulus3() {}
   ~Modulus3() {}
+  bool operator!=( const Modulus3 & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Modulus3 & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput1 & A, 
                              const TInput2 & B,
                              const TInput3 & C)
   { return (TOutput) sqrt( (double)(A*A + B*B + C*C) ); }
-  bool operator != (const Modulus3&) const
-  {
-    return false;
-  }
 }; 
 }
 

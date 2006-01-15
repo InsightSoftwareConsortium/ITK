@@ -57,6 +57,16 @@ public:
   /** Read access to the Red component */
   inline const ExternalType & Get( const InternalType & input ) const
     { return input.GetRed(); }
+
+  bool operator!=( const Self & other ) const
+  {
+    return false;
+  }
+
+  bool operator==( const Self & other ) const
+  {
+    return !(*this != other);
+  }
 };
 
   

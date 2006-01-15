@@ -41,6 +41,14 @@ class Sub2
 public:
   Sub2() {}
   ~Sub2() {}
+  bool operator!=( const Sub2 & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Sub2 & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
   { return (TOutput)(A - B); }
 }; 

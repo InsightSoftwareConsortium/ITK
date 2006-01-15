@@ -68,6 +68,15 @@ public:
   /** A vector of the join dimension. */
   typedef Vector<JoinValueType, itkGetStaticConstMacro(JoinDimension)> JoinType;
 
+  bool operator!=( const JoinFunctor & other ) const
+  {
+    return false;
+  }
+  bool operator==( const JoinFunctor & other ) const
+  {
+    return !(*this != other);
+  }
+
   /** operator().  This is the "call" method of the functor. */
   inline JoinType operator()( const TPixel1 & A, const TPixel2 & B)
   {

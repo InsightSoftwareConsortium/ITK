@@ -45,6 +45,14 @@ public:
   GradientMagnitude() {}
   ~GradientMagnitude() {}
 
+  bool operator!=( const GradientMagnitude & other ) const
+  {
+    return false;
+  }
+  bool operator==( const GradientMagnitude & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   {
     return static_cast<TOutput>( A.GetNorm() );

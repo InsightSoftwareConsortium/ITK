@@ -39,6 +39,14 @@ class Add3
 public:
   Add3() {}
   ~Add3() {}
+  bool operator!=( const Add3 & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Add3 & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput1 & A, 
                              const TInput2 & B,
                              const TInput3 & C)

@@ -74,7 +74,9 @@ int itkVectorRescaleIntensityImageFilterTest(int, char* [] )
   try
     {
     filter->Update();
+    filter->SetFunctor(filter->GetFunctor());
     }
+
   catch (itk::ExceptionObject& e)
     {
     std::cerr << "Exception detected: "  << e;

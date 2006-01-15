@@ -55,6 +55,14 @@ class ConstrainedValueAddition
 public:
   ConstrainedValueAddition() {};
   ~ConstrainedValueAddition() {};
+  bool operator!=( const ConstrainedValueAddition & other ) const
+  {
+    return false;
+  }
+  bool operator==( const ConstrainedValueAddition & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput1 & A, 
                              const TInput2 & B)
   {

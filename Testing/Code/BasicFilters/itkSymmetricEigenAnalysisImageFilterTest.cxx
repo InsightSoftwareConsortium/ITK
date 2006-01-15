@@ -121,6 +121,7 @@ int itkSymmetricEigenAnalysisImageFilterTest(int, char* [] )
   
   // Execute the filter
   filter->Update();
+  filter->SetFunctor(filter->GetFunctor());
 
   // Get the Smart Pointer to the Filter Output 
   // It is important to do it AFTER the filter is Updated

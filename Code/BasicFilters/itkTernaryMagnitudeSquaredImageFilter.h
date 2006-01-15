@@ -39,6 +39,14 @@ class ModulusSquare3
 public:
   ModulusSquare3() {}
   ~ModulusSquare3() {}
+  bool operator!=( const ModulusSquare3 & other ) const
+  {
+    return false;
+  }
+  bool operator==( const ModulusSquare3 & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput1 & A, 
                              const TInput2 & B,
                              const TInput3 & C)

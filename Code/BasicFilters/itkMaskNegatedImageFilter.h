@@ -60,6 +60,14 @@ public:
 
   MaskNegatedInput() {};
   ~MaskNegatedInput() {};
+  bool operator!=( const MaskNegatedInput & other ) const
+  {
+    return false;
+  }
+  bool operator==( const MaskNegatedInput & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A, const TMask & B)
   {
     if (B != NumericTraits< TMask >::Zero ) 

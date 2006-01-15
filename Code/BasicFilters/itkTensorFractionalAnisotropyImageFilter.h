@@ -33,6 +33,14 @@ public:
   typedef typename TInput::RealValueType  RealValueType;
   TensorFractionalAnisotropyFunction() {}
   ~TensorFractionalAnisotropyFunction() {}
+  bool operator!=( const TensorFractionalAnisotropyFunction & other ) const
+  {
+    return false;
+  }
+  bool operator==( const TensorFractionalAnisotropyFunction & other ) const
+  {
+    return !(*this != other);
+  }
   inline RealValueType operator()( const TInput & x )
     {
     return x.GetFractionalAnisotropy();

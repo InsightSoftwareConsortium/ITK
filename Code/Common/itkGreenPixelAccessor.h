@@ -61,6 +61,15 @@ public:
   inline const ExternalType & Get( const InternalType & input ) const
     { return input.GetGreen(); }
 
+  bool operator!=( const Self & other ) const
+  {
+    return false;
+  }
+
+  bool operator==( const Self & other ) const
+  {
+    return !(*this != other);
+  }
 };
 
   

@@ -55,6 +55,14 @@ class ConstrainedValueDifference
 public:
   ConstrainedValueDifference() {};
   ~ConstrainedValueDifference() {};
+  bool operator!=( const ConstrainedValueDifference & other ) const
+  {
+    return false;
+  }
+  bool operator==( const ConstrainedValueDifference & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput1 & A, 
                              const TInput2 & B)
   {

@@ -60,6 +60,15 @@ public:
 
   MaskInput(): m_OutsideValue(NumericTraits< TOutput >::ZeroValue()) {};
   ~MaskInput() {};
+  bool operator!=( const MaskInput & other ) const
+  {
+    return false;
+  }
+  bool operator==( const MaskInput & other ) const
+  {
+    return !(*this != other);
+  }
+
   inline TOutput operator()( const TInput & A, const TMask & B)
   {
     if (B != NumericTraits< TMask >::ZeroValue() ) 

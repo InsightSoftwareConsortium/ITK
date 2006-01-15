@@ -40,10 +40,25 @@ class ExpNegative
 public:
   ExpNegative() { m_Factor = 1.0; }
   ~ExpNegative() {};
+
+  bool operator!=( const ExpNegative & other ) const
+  {
+    if( m_Factor != other.m_Factor )
+      {
+      return true;
+      }
+    return false;
+  }
+  bool operator==( const ExpNegative & other ) const
+  {
+    return !(*this != other);
+  }
+  
   inline TOutput operator()( const TInput & A )
   {
     return static_cast<TOutput>( exp( - m_Factor * static_cast<double>(A) ) );
   }
+
   void SetFactor( double factor ) {
     m_Factor = factor;
   }

@@ -34,6 +34,24 @@ public:
   typedef typename NumericTraits< TInput >::RealType RealType;
   IntensityWindowingTransform() {}
   ~IntensityWindowingTransform() {}
+  bool operator!=( const IntensityWindowingTransform & other ) const
+  {
+    if( m_Factor         != other.m_Factor        ||
+        m_Offset         != other.m_Offset        ||
+        m_OutputMaximum  != other.m_OutputMaximum ||
+        m_OutputMinimum  != other.m_OutputMinimum ||
+        m_WindowMaximum  != other.m_WindowMaximum ||
+        m_WindowMinimum  != other.m_WindowMinimum )
+        {
+        return true;
+        }
+    return false;
+   }
+  bool operator==( const IntensityWindowingTransform & other ) const
+  {
+    return !(*this != other);
+  }
+
   void SetFactor( RealType a ) { m_Factor = a; }
   void SetOffset( RealType b ) { m_Offset = b; }
   void SetOutputMinimum( TOutput min ) { m_OutputMinimum = min; }

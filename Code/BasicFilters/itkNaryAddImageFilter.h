@@ -71,7 +71,11 @@ public:
       }       
     return static_cast<TOutput>( sum );
   }
-  bool operator != (const Add1&) const
+  bool operator== (const Add1&) const
+  {
+    return true;
+  }
+  bool operator!= (const Add1&) const
   {
     return false;
   }

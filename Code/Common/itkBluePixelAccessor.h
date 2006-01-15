@@ -59,6 +59,15 @@ public:
   /** Read access to the Blue component */
   inline const ExternalType & Get( const InternalType & input ) const
     { return input.GetBlue(); }
+
+  bool operator!=( const Self & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Self & other ) const
+  {
+    return !(*this != other);
+  }
 };
   
 }  // end namespace itk

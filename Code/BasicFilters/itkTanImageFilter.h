@@ -36,6 +36,14 @@ class Tan
 public:
   Tan() {}
   ~Tan() {}
+  bool operator!=( const Tan & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Tan & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   { return (TOutput)tan((double)A); }
 }; 

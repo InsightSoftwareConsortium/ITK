@@ -42,6 +42,14 @@ class Exp
 public:
   Exp() {};
   ~Exp() {};
+  bool operator!=( const Exp & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Exp & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   {
     return (TOutput)exp((double)A);

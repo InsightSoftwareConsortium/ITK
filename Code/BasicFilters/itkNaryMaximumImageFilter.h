@@ -81,7 +81,11 @@ public:
       return A;
     }
   
-  bool operator != (const Maximum1&) const
+  bool operator== (const Maximum1&) const
+  {
+    return true;
+  }
+  bool operator!= (const Maximum1&) const
   {
     return false;
   }

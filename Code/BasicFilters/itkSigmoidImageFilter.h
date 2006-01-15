@@ -51,6 +51,22 @@ public:
     m_OutputMaximum = NumericTraits< TOutput >::max();
   }
   ~Sigmoid() {};
+  bool operator!=( const Sigmoid & other ) const
+  {
+    if( m_Alpha != other.m_Alpha ||
+        m_Beta != other.m_Beta ||
+        m_OutputMaximum != other.m_OutputMaximum    ||
+        m_OutputMinimum != other.m_OutputMinimum  )
+      {
+      return true;
+      }
+    return false;
+  }
+  bool operator==( const Sigmoid & other ) const
+  {
+    return !(*this != other);
+  }
+
   inline TOutput operator()( const TInput & A )
   {
     const double x = ( static_cast<double>(A) - m_Beta ) / m_Alpha;

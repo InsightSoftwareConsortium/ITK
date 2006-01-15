@@ -53,6 +53,14 @@ class SquaredDifference2
 public:
   SquaredDifference2() {};
   ~SquaredDifference2() {};
+  bool operator!=( const SquaredDifference2 & other ) const
+  {
+    return false;
+  }
+  bool operator==( const SquaredDifference2 & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput1 & A, 
                              const TInput2 & B)
   {

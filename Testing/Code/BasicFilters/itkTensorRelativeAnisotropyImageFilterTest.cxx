@@ -137,6 +137,7 @@ int itkTensorRelativeAnisotropyImageFilterTest(int, char* [] )
 
   // Execute the filter
   relativeAnisotropyFilter->Update();
+  relativeAnisotropyFilter->SetFunctor(relativeAnisotropyFilter->GetFunctor());
 
   // Get the Smart Pointer to the Filter Output 
   // It is important to do it AFTER the filter is Updated

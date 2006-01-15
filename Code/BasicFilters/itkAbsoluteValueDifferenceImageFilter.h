@@ -56,7 +56,7 @@ public:
   bool operator!=( const AbsoluteValueDifference2 & other ) const
   {
     return false;
-   }
+  }
   bool operator==( const AbsoluteValueDifference2 & other ) const
   {
     return !(*this != other);

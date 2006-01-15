@@ -36,6 +36,14 @@ class Sin
 public:
   Sin() {}
   ~Sin() {}
+  bool operator!=( const Sin & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Sin & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   { return (TOutput)sin((double)A); }
 }; 

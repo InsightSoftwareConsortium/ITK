@@ -44,6 +44,14 @@ public:
   typedef Vector<TInput,3> OutputType;
   Compose3DVector() {}
   ~Compose3DVector() {}
+  bool operator!=( const Compose3DVector & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Compose3DVector & other ) const
+  {
+    return !(*this != other);
+  }
   inline OutputType operator()(  const TInput & s1, 
                                  const TInput & s2,
                                  const TInput & s3)
@@ -53,10 +61,6 @@ public:
     v[1] = s2;
     v[2] = s3;
     return v;
-  }
-  bool operator != (const Compose3DVector&) const
-  {
-    return false;
   }
 }; 
 }

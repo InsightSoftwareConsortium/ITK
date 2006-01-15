@@ -42,7 +42,7 @@ public:
   bool operator!=( const Mult & other ) const
   {
     return false;
-   }
+  }
   bool operator==( const Mult & other ) const
   {
     return !(*this != other);

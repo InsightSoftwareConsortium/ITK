@@ -45,6 +45,14 @@ public:
     {threshold = thresh;};
   typename TInput::ValueType GetDistanceThreshold() {return (threshold);};
   
+  bool operator!=( const SimilarVectorsFunctor & other ) const
+  {
+    return false;
+  }
+  bool operator==( const SimilarVectorsFunctor & other ) const
+  {
+    return !(*this != other);
+  }
   bool operator()(const TInput &a, const TInput &b)
     {
     typename TInput::ValueType dotProduct = vnl_math_abs(a * b);

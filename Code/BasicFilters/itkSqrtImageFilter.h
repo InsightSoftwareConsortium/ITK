@@ -36,6 +36,14 @@ class Sqrt
 public:
   Sqrt() {}
   ~Sqrt() {}
+  bool operator!=( const Sqrt & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Sqrt & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   {
     return (TOutput)sqrt((double)A);

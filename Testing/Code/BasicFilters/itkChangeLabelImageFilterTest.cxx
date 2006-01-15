@@ -87,6 +87,7 @@ int itkChangeLabelImageFilterTest(int, char* [] )
   try
     {
     filter->Update();
+    filter->SetFunctor(filter->GetFunctor());
     }
   catch(...)
     {

@@ -102,6 +102,7 @@ int itkMatrixIndexSelectionImageFilterTest(int argc, char* argv[] )
   SelectionFilterType::Pointer filter = SelectionFilterType::New();
   filter->SetInput(image);
   filter->SetIndices(0,1);
+  filter->SetFunctor(filter->GetFunctor());
 
   typedef itk::ImageFileWriter<OutputImageType> WriterType;
   WriterType::Pointer writer = WriterType::New();

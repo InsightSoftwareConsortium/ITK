@@ -43,6 +43,14 @@ public:
 
   RGBToLuminance() {}
   ~RGBToLuminance() {}
+  bool operator!=( const RGBToLuminance & other ) const
+  {
+    return false;
+  }
+  bool operator==( const RGBToLuminance & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   { return static_cast<TOutput>( A.GetLuminance() ); }
 }; 

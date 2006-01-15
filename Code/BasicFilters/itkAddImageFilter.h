@@ -64,7 +64,7 @@ public:
   bool operator!=( const Add2 & other ) const
   {
     return false;
-   }
+  }
   bool operator==( const Add2 & other ) const
   {
     return !(*this != other);

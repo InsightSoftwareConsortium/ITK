@@ -118,6 +118,7 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
   filter->SetInput (reader->GetOutput());
   filter->SetMaskImage (mask);
   filter->SetDistanceThreshold( atoi(argv[3]) );
+  filter->SetFunctor(filter->GetFunctor());
 
   if (argc > 4)
     {

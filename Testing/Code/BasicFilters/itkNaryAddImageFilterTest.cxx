@@ -141,6 +141,7 @@ int itkNaryAddImageFilterTest(int, char* [] )
   
   // Execute the filter
   filter->Update();
+  filter->SetFunctor(filter->GetFunctor());
 
   PrintImage( outputImage, "Resulting image" ); 
 

@@ -35,6 +35,14 @@ class Log10
 public:
   Log10() {}
   ~Log10() {}
+  bool operator!=( const Log10 & other ) const
+  {
+    return false;
+  }
+  bool operator==( const Log10 & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   { return (TOutput)log10((double)A); }
 }; 

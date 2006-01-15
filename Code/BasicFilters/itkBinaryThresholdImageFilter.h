@@ -71,7 +71,9 @@ public:
     return false;
    }
   bool operator==( const BinaryThreshold & other ) const
-  { return !(*this != other); }
+  {
+    return !(*this != other);
+  }
 
   inline TOutput operator()( const TInput & A )
   {

@@ -35,6 +35,18 @@ public:
   ~VectorMagnitudeLinearTransform() {}
   void SetFactor( RealType a ) { m_Factor = a; }
   itkStaticConstMacro(VectorDimension,unsigned int,TInput::Dimension);
+  bool operator!=( const VectorMagnitudeLinearTransform & other ) const
+  {
+    if( m_Factor != other.m_Factor )
+      {
+      return true;
+      }
+    return false;
+   }
+  bool operator==( const VectorMagnitudeLinearTransform & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & x )
   {
     TOutput  result;

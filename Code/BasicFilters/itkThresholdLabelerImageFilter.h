@@ -57,6 +57,20 @@ public:
   void SetLabelOffset( const TOutput & labelOffset )
     { m_LabelOffset = labelOffset; }
 
+  bool operator!=( const ThresholdLabeler & other ) const
+  {
+    if( m_Thresholds != other.m_Thresholds ||
+        m_LabelOffset != other.m_LabelOffset )
+        {
+        return true;
+        }
+    return false;
+   }
+  bool operator==( const ThresholdLabeler & other ) const
+  {
+    return !(*this != other);
+  }
+
   inline TOutput operator()( const TInput & A )
     {
     unsigned int size = m_Thresholds.size();

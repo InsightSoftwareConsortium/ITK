@@ -36,6 +36,14 @@ class ComplexToPhase
 public:
   ComplexToPhase() {}
   ~ComplexToPhase() {}
+  bool operator!=( const ComplexToPhase & other ) const
+  {
+    return false;
+  }
+  bool operator==( const ComplexToPhase & other ) const
+  {
+    return !(*this != other);
+  }
   inline TOutput operator()( const TInput & A )
   { return (TOutput)( atan2( A.imag(), A.real() ) );}
 }; 
