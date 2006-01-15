@@ -34,5 +34,6 @@ void RegisterTests()
   REGISTER_TEST( itkMaskNeighborhoodOperatorImageFilterTest );
   REGISTER_TEST( itkVectorConnectedComponentImageFilterTest );
   REGISTER_TEST( itkMatrixIndexSelectionImageFilterTest );
+  REGISTER_TEST( itkNotImageFilterTest );
 }
 

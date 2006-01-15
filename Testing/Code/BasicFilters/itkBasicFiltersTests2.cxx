@@ -68,6 +68,7 @@ void RegisterTests()
   REGISTER_TEST(itkSubtractImageFilterTest );
   REGISTER_TEST(itkTanImageFilterAndAdaptorTest );
   REGISTER_TEST(itkTernaryMagnitudeImageFilterTest );
+  REGISTER_TEST(itkTernaryMagnitudeSquaredImageFilterTest );
   REGISTER_TEST(itkThresholdImageFilterTest );
   REGISTER_TEST(itkThresholdLabelerImageFilterTest );
   REGISTER_TEST(itkTileImageFilterTest );

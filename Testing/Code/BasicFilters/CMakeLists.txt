@@ -248,6 +248,7 @@ ADD_TEST(itkStreamingImageFilterTest2 ${BASIC_FILTERS_TESTS2} itkStreamingImageF
 ADD_TEST(itkSubtractImageFilterTest ${BASIC_FILTERS_TESTS2} itkSubtractImageFilterTest)
 ADD_TEST(itkTanImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS2} itkTanImageFilterAndAdaptorTest)
 ADD_TEST(itkTernaryMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS2} itkTernaryMagnitudeImageFilterTest)
+ADD_TEST(itkTernaryMagnitudeSquaredImageFilterTest ${BASIC_FILTERS_TESTS2} itkTernaryMagnitudeSquaredImageFilterTest)
 ADD_TEST(itkThresholdImageFilterTest ${BASIC_FILTERS_TESTS2} itkThresholdImageFilterTest)
 ADD_TEST(itkThresholdLabelerImageFilterTest ${BASIC_FILTERS_TESTS2} itkThresholdLabelerImageFilterTest)
 ADD_TEST(itkTransformMeshFilterTest ${BASIC_FILTERS_TESTS2} itkTransformMeshFilterTest)
@@ -275,6 +276,10 @@ ADD_TEST(itkTriangleMeshToBinaryImageFilterTest ${BASIC_FILTERS_TESTS3}
 )
 
 ADD_TEST(itkTriangleMeshToBinaryImageFilterTest2 ${BASIC_FILTERS_TESTS3} itkTriangleMeshToBinaryImageFilterTest2)
+
+ADD_TEST(itkNotImageFilterTest ${BASIC_FILTERS_TESTS4}
+         itkNotImageFilterTest)
+
 IF(ITK_DATA_ROOT)
 ADD_TEST(itkAdaptiveHistogramEqualizationImageFilterTest ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AdaptiveHistogramEqualizationImageFilterTest.png
@@ -891,6 +896,7 @@ itkStreamingImageFilterTest2.cxx
 itkSubtractImageFilterTest.cxx
 itkTanImageFilterAndAdaptorTest.cxx
 itkTernaryMagnitudeImageFilterTest.cxx
+itkTernaryMagnitudeSquaredImageFilterTest.cxx
 itkThresholdImageFilterTest.cxx
 itkThresholdLabelerImageFilterTest.cxx
 itkTileImageFilterTest.cxx
@@ -946,6 +952,7 @@ itkGetAverageSliceImageFilterTest
 itkMaskNeighborhoodOperatorImageFilterTest
 itkVectorConnectedComponentImageFilterTest
 itkMatrixIndexSelectionImageFilterTest
+itkNotImageFilterTest
 )
 
 ADD_TEST(itkBasicFiltersHeaderTest ${BASIC_FILTERS_HEADER_TEST})
