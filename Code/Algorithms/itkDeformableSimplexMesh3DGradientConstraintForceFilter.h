@@ -44,7 +44,7 @@ public:
   unsigned int index;
 
   ImageVoxel() {};
-  ImageVoxel(int *pos, double *subpos, double value, double distance, unsigned int index)
+  ImageVoxel(int *pos, double *subpos, double val, double dist, unsigned int ind)
   {
     this->vpos[0] = pos[0];
     this->vpos[1] = pos[1];
@@ -52,9 +52,9 @@ public:
     this->spos[0] = subpos[0];
     this->spos[1] = subpos[1];
     this->spos[2] = subpos[2];
-    this->value = value;
-    this->distance = distance;
-    this->index = index;
+    this->value = val;
+    this->distance = dist;
+    this->index = ind;
   };
 
   /// returns voxel X coordinate (voxel column)
