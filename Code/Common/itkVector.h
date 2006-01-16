@@ -125,10 +125,24 @@ public:
   Vector& operator= (const ValueType r[NVectorDimension]);
     
   /** Scalar operator*=.  Scales elements by a scalar. */
-  const Self& operator*=(const ValueType &value);
+  template< class Tt > inline const Self& operator*=(const Tt &value)
+    {
+    for( unsigned int i=0; i<NVectorDimension; i++)
+      {
+      (*this)[i] = static_cast< ValueType >((*this)[i] * value);
+      }
+    return *this;
+    }
 
   /** Scalar operator/=.  Scales (divides) elements by a scalar. */
-  const Self& operator/=(const ValueType &value);
+  template< class Tt > inline const Self& operator/=(const Tt &value)
+    {
+    for( unsigned int i=0; i<NVectorDimension; i++)
+      {
+      (*this)[i] = static_cast< ValueType >((*this)[i] / value);
+      }
+    return *this;
+    }
 
   /** Vector operator+=.  Adds a vectors to the current vector. */
   const Self& operator+=(const Self &vec);
@@ -152,11 +166,27 @@ public:
 
   /** Scalar operator*. Scale the elements of a vector by a scalar.
    * Return a new vector. */
-  Self operator*(const ValueType& val) const;
+  template< class Tt > inline Self operator*(const Tt& value) const
+    {
+    Self result;
+    for( unsigned int i=0; i<NVectorDimension; i++) 
+      {
+      result[i] = static_cast< ValueType >((*this)[i] * value);
+      }
+    return result;
+    }
 
   /** Scalar operator/. Scale (divide) the elements of a vector by a scalar.
    * Return a new vector. */
-  Self operator/(const ValueType& val) const;
+  template< class Tt > inline Self operator/(const Tt& value) const
+    {
+    Self result;
+    for( unsigned int i=0; i<NVectorDimension; i++) 
+      {
+      result[i] = static_cast< ValueType >((*this)[i] / value);
+      }
+    return result;
+    }
 
   /** Operators == and != compare a vector component by component. All
    * components must be equal for two vectors to be equal. (Of course
@@ -196,10 +226,10 @@ public:
 };
 
 /** Premultiply Operator for product of a vector and a scalar. 
- *  Vector< T, N >  =  T * Vector< T,N > */
-template< class T, unsigned int NVectorDimension >
+ *  Vector< T, N >  =  Tt * Vector< T,N > */
+template< class T, unsigned int NVectorDimension, class Tt >
 Vector<T,NVectorDimension>
-inline operator*(const typename Vector<T,NVectorDimension>::ValueType& scalar,const  Vector<T,NVectorDimension> & v)
+inline operator*(const Tt &scalar, const  Vector<T,NVectorDimension> & v)
 {
   return v * scalar;
 }

@@ -121,11 +121,33 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
   CovariantVector& operator= (const Self& r);
   CovariantVector& operator= (const ValueType r[NVectorDimension]);
     
+  /** Assignment operator with implicit casting from another data type */
+  template< class Tt >
+  const Self & operator= (const CovariantVector< Tt, NVectorDimension > & v )
+    {
+    BaseArray::operator=(v);
+    return *this;
+    }
+  
   /** Scalar operator*=.  Scales elements by a scalar. */
-  const Self& operator*=(const ValueType &value);
+  template< class Tt > inline const Self& operator*=(const Tt &value)
+    {
+    for( unsigned int i=0; i<NVectorDimension; i++)
+      {
+      (*this)[i] = static_cast< ValueType >((*this)[i] * value);
+      }
+    return *this;
+    }
 
   /** Scalar operator/=.  Scales (divides) elements by a scalar. */
-  const Self& operator/=(const ValueType &value);
+  template< class Tt > const Self& operator/=(const Tt &value)
+    {
+    for( unsigned int i=0; i<NVectorDimension; i++)
+      {
+      (*this)[i] = static_cast< ValueType >((*this)[i] / value);
+      }
+    return *this;
+    }
 
   /** CovariantVector operator+=.  Adds a vectors to the current vector. */
   const Self& operator+=(const Self &vec);
@@ -144,7 +166,15 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
   
   /** Scalar operator*. Scale the elements of a vector by a scalar.
    * Return a new vector. */
-  Self operator*(const ValueType& val) const;
+  template< class Tt > inline Self operator*(const Tt& val) const
+    {
+    Self result;
+    for( unsigned int i=0; i<NVectorDimension; i++) 
+      {
+      result[i] = static_cast< ValueType >((*this)[i] * val);
+      }
+    return result;
+    }
 
   /** CovariantVector operator*.  Performs the inner product of two covariant vectors.
    * \warning This is equivalent to the scalar product only if the reference
@@ -157,7 +187,15 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
 
   /** Scalar operator/. Scale (divide) the elements of a vector by a scalar.
    * Return a new vector. */
-  Self operator/(const ValueType& val) const;
+  template< class Tt > inline Self operator/(const Tt& val) const
+    {
+    Self result;
+    for( unsigned int i=0; i<NVectorDimension; i++) 
+      {
+      result[i] = static_cast< ValueType >((*this)[i] / val);
+      }
+    return result;
+    }
 
   /** Returns the Euclidean Norm of the vector  */
   RealValueType GetNorm( void ) const;
@@ -182,8 +220,16 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
       }
   }
 
-
 };
+
+/** Premultiply Operator for product of a vector and a scalar. 
+ *  CovariantVector< T, N >  =  Tt * CovariantVector< T,N > */
+template< class T, unsigned int NVectorDimension, class Tt >
+CovariantVector<T,NVectorDimension>
+inline operator*(const Tt &scalar, const  CovariantVector<T,NVectorDimension> & v)
+{
+  return v * scalar;
+}
 
 ITKCommon_EXPORT void CrossProduct(  CovariantVector<double,3> &,
                                      const Vector<double,3> &,

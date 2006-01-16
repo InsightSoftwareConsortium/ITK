@@ -56,38 +56,6 @@ Vector<T, TVectorDimension>
  *
  */
 template<class T, unsigned int TVectorDimension>
-const Vector<T, TVectorDimension> &
-Vector<T, TVectorDimension>
-::operator*=( const ValueType & value )
-{
-  for( unsigned int i=0; i<TVectorDimension; i++) 
-    {
-    (*this)[i] *= value;
-    }
-  return *this;
-}
-
-  
-/**
- *
- */
-template<class T, unsigned int TVectorDimension>
-const Vector<T, TVectorDimension> &
-Vector<T, TVectorDimension>
-::operator/=( const ValueType & value )
-{
-  for( unsigned int i=0; i<TVectorDimension; i++) 
-    {
-    (*this)[i] /= value;
-    }
-  return *this;
-}
-
-
-/**
- *
- */
-template<class T, unsigned int TVectorDimension>
 const typename Vector<T, TVectorDimension>::Self &
 Vector<T, TVectorDimension>
 ::operator+=( const Self & vec )
@@ -169,24 +137,6 @@ Vector<T, TVectorDimension>
 }
 
 
-
-/**
- * Multiply components by a constant
- */
-template<class T, unsigned int TVectorDimension>
-Vector<T, TVectorDimension> 
-Vector<T, TVectorDimension>
-::operator*( const ValueType & value ) const
-{
-  Self result;
-  for( unsigned int i=0; i<TVectorDimension; i++) 
-    {
-    result[i] = (*this)[i] * value;
-    }
-  return result;
-}
-
- 
 /**
  * Returns vector's Squared Euclidean Norm
  */
@@ -233,27 +183,6 @@ Vector<T, TVectorDimension>
     }
 }
 
-
-
-
-/**
- * Returns a temporary copy of a vector
- */
-template<class T, unsigned int TVectorDimension>
-Vector<T, TVectorDimension> 
-Vector<T, TVectorDimension>
-::operator/( const ValueType & value ) const
-{
-  Self result;
-  for( unsigned int i=0; i<TVectorDimension; i++) 
-    {
-    result[i] = (*this)[i] / value;
-    }
-  return result;
-}
-
-
-  
 /**
  * Set a vnl_vector
  */

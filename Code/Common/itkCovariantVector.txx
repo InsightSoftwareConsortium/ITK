@@ -61,38 +61,6 @@ CovariantVector<T, NVectorDimension>
  *
  */
 template<class T, unsigned int NVectorDimension>
-const CovariantVector<T, NVectorDimension> &
-CovariantVector<T, NVectorDimension>
-::operator*=( const ValueType & value )
-{
-  for( unsigned int i=0; i<NVectorDimension; i++) 
-    {
-    (*this)[i] *= value;
-    }
-  return *this;
-}
-
-  
-/**
- *
- */
-template<class T, unsigned int NVectorDimension>
-const CovariantVector<T, NVectorDimension> &
-CovariantVector<T, NVectorDimension>
-::operator/=( const ValueType & value )
-{
-  for( unsigned int i=0; i<NVectorDimension; i++) 
-    {
-    (*this)[i] /= value;
-    }
-  return *this;
-}
-
-
-/**
- *
- */
-template<class T, unsigned int NVectorDimension>
 const typename CovariantVector<T, NVectorDimension>::Self &
 CovariantVector<T, NVectorDimension>
 ::operator+=( const Self & vec )
@@ -174,24 +142,6 @@ CovariantVector<T, NVectorDimension>
 }
 
 
-
-/**
- * Returns a temporary copy of a vector
- */
-template<class T, unsigned int NVectorDimension>
-CovariantVector<T, NVectorDimension> 
-CovariantVector<T, NVectorDimension>
-::operator*( const ValueType & value ) const
-{
-  Self result;
-  for( unsigned int i=0; i<NVectorDimension; i++) 
-    {
-    result[i] = (*this)[i] * value;
-    }
-  return result;
-}
-
-
 /**
  *
  */
@@ -226,7 +176,6 @@ CovariantVector<T, NVectorDimension>
 }
 
 
-
 /**
  * Returns vector's Squared Euclidean Norm
  */
@@ -255,24 +204,6 @@ CovariantVector<T, NVectorDimension>
 ::GetNorm( void ) const
 {
   return sqrt( this->GetSquaredNorm() ); 
-}
-
-
-
-/**
- * Returns a temporary copy of a vector
- */
-template<class T, unsigned int NVectorDimension>
-CovariantVector<T, NVectorDimension> 
-CovariantVector<T, NVectorDimension>
-::operator/( const ValueType & value ) const
-{
-  Self result;
-  for( unsigned int i=0; i<NVectorDimension; i++) 
-    {
-    result[i] = (*this)[i] / value;
-    }
-  return result;
 }
 
 
