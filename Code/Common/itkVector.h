@@ -195,6 +195,15 @@ public:
 
 };
 
+/** Premultiply Operator for product of a vector and a scalar. 
+ *  Vector< T, N >  =  T * Vector< T,N > */
+template< class T, unsigned int NVectorDimension >
+Vector<T,NVectorDimension>
+inline operator*(const typename Vector<T,NVectorDimension>::ValueType& scalar,const  Vector<T,NVectorDimension> & v)
+{
+  return v * scalar;
+}
+
 template< class T, unsigned int NVectorDimension >  
 std::ostream& operator<<(std::ostream& os, 
                                     const Vector<T,NVectorDimension> & v); 
