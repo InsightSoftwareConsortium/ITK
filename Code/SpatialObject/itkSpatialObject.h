@@ -390,12 +390,12 @@ public:
   virtual void Update(void);
 
   /** Set the tree container */
-  void SetTreeNode(TreeNodeType* node) {m_TreeNode = node;}
-
+  itkSetObjectMacro(TreeNode, TreeNodeType)
+  
   /** Return a raw pointer to the node container */
-  typename TreeNodeType::Pointer GetTreeNode() {return m_TreeNode;}
-  typename TreeNodeType::ConstPointer GetTreeNode() const {return m_TreeNode;}
-
+  itkGetObjectMacro(TreeNode, TreeNodeType);
+  itkGetConstObjectMacro(TreeNode, TreeNodeType);
+  
   /** Theses functions are just calling the AffineGeometryFrame functions */
   /** Set the spacing of the spatial object. */
   void SetSpacing( const double 
