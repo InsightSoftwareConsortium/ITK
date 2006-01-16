@@ -164,6 +164,15 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
   /** CovariantVector subtraction. Subtract two vectors. Return a new vector. */
   Self operator-(const Self &vec) const;
   
+  /** CovariantVector operator*.  Performs the inner product of two covariant vectors.
+   * \warning This is equivalent to the scalar product only if the reference
+   * system has orthogonal axis and equal scales.  */
+  ValueType operator*(const Self &vec) const;
+
+  /** operator*.  Performs the scalar product with a vector (contravariant).
+   * This scalar product is invariant under affine transformations */
+  ValueType operator*(const Vector<T,NVectorDimension> &vec) const;
+
   /** Scalar operator*. Scale the elements of a vector by a scalar.
    * Return a new vector. */
   template< class Tt > inline Self operator*(const Tt& val) const
@@ -175,15 +184,6 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
       }
     return result;
     }
-
-  /** CovariantVector operator*.  Performs the inner product of two covariant vectors.
-   * \warning This is equivalent to the scalar product only if the reference
-   * system has orthogonal axis and equal scales.  */
-  ValueType operator*(const Self &vec) const;
-
-  /** operator*.  Performs the scalar product with a vector (contravariant).
-   * This scalar product is invariant under affine transformations */
-  ValueType operator*(const Vector<T,NVectorDimension> &vec) const;
 
   /** Scalar operator/. Scale (divide) the elements of a vector by a scalar.
    * Return a new vector. */
