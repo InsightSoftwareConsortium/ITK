@@ -52,7 +52,7 @@ ReplaceStrand(PolygonSpatialObject<TDimension> *toReplace,PolygonSpatialObject<T
       {
       typename TreeNodeChildrenListType::iterator after = it;
       after++;
-      children.insert(after,1,replacement->GetTreeNode().GetPointer());
+      children.insert(after,1,replacement->GetTreeNode());
       children.erase(it);
       return true;
       }
