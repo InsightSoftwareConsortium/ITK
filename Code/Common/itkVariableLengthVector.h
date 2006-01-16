@@ -389,6 +389,15 @@ private:
   ElementIdentifier m_NumElements;
 };
 
+/** Premultiply Operator for product of a VariableLengthVector and a scalar. 
+ *  VariableLengthVector< TValueType >  =  T * VariableLengthVector< TValueType > 
+ */
+template< class TValueType, class T >
+VariableLengthVector<TValueType>
+inline operator*(const T &scalar, const VariableLengthVector<TValueType> &v)
+{
+  return v * scalar;
+}
 
   
 template <typename TValueType >
