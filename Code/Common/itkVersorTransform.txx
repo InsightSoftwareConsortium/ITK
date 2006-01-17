@@ -124,6 +124,8 @@ VersorTransform<TScalarType>
   Superclass::SetIdentity();
 
   m_Versor.SetIdentity();
+  
+  this->Modified();
 }
 
 
