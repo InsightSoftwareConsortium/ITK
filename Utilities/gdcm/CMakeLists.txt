@@ -33,7 +33,7 @@ IF("GDCM_COMPILER_HAS_FUNCTION" MATCHES "^GDCM_COMPILER_HAS_FUNCTION$")
               OUTPUT_VARIABLE OUTPUT)
   IF(GDCM_COMPILER_HAS_FUNCTION)
     MESSAGE(STATUS "Checking support for __FUNCTION__ -- yes")
-    SET(GDCM_COMPILER_HAS_FUNCTION 1 CACHE INTERNAL "Support for extention C __FUNCTION__")
+    SET(GDCM_COMPILER_HAS_FUNCTION 1 CACHE INTERNAL "Support for extension C __FUNCTION__")
     WRITE_FILE(${CMAKE_BINARY_DIR}/CMakeOutput.log
       "Determining if the C compiler supports __FUNCTION__ "
       "passed with the following output:\n"
