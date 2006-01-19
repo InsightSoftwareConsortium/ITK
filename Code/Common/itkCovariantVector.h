@@ -175,7 +175,7 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
 
   /** Scalar operator*. Scale the elements of a vector by a scalar.
    * Return a new vector. */
-  template< class Tt > inline Self operator*(const Tt& val) const
+  inline Self operator*(const ValueType& val) const
     {
     Self result;
     for( unsigned int i=0; i<NVectorDimension; i++) 

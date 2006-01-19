@@ -166,7 +166,7 @@ public:
 
   /** Scalar operator*. Scale the elements of a vector by a scalar.
    * Return a new vector. */
-  template< class Tt > inline Self operator*(const Tt& value) const
+  inline Self operator*(const ValueType& value) const
     {
     Self result;
     for( unsigned int i=0; i<NVectorDimension; i++) 
