@@ -124,6 +124,7 @@ int itkIterativeInverseDeformationFieldImageFilterTest( int argc, char * argv[] 
     {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
     }
 
   // Write an image for regression testing
