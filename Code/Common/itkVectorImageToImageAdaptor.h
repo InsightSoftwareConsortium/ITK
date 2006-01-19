@@ -89,7 +89,7 @@ private:
 
 
 
-/** \class VectorToRGBImageAdaptor
+/** \class VectorImageToImageAdaptor
  * \brief Presents a VectorImage and extracts a component from it into an image.
  *
  * The class is expected to be templated over a pixel type and dimension. These
