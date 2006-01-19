@@ -66,6 +66,7 @@ Euler3DTransform<TScalarType>
   this->SetVarTranslation(newTranslation);
   this->ComputeOffset();
 
+  this->Modified();
   itkDebugMacro(<<"After setting paramaters ");
 }
 
