@@ -19,7 +19,6 @@
 #endif
 
 #include "itkImage.h"
-#include "itkVector.h"
 #include "itkPoint.h"
 #include "itkMesh.h"
 #include "itkEllipseSpatialObject.h"
@@ -123,11 +122,11 @@ int main(int , char* [])
   itk::VoronoiSegmentationImageFilterBase<InputType,OutputType>::Pointer VoronoiSegmentationImageFilterBaseObj =
     itk::VoronoiSegmentationImageFilterBase<InputType,OutputType>::New();
   std:: cout << "-------------VoronoiSegmentationImageFilterBase " << VoronoiSegmentationImageFilterBaseObj;
-#if 0
+#if !defined(__BORLANDC__)
   itk::VoronoiSegmentationRGBImageFilter<VectorImageType,CharType>::Pointer VoronoiSegmentationRGBImageFilterObj =
     itk::VoronoiSegmentationRGBImageFilter<VectorImageType,CharType>::New();
   std:: cout << "-------------VoronoiSegmentationRGBImageFilter " << VoronoiSegmentationRGBImageFilterObj;
-#endif
+
   itk::watershed::Boundary<double,3>::Pointer WatershedBoundaryObj =
     itk::watershed::Boundary<double,3>::New();
   std:: cout << "-------------WatershedBoundary " << WatershedBoundaryObj;
@@ -167,11 +166,10 @@ int main(int , char* [])
   itk::watershed::Segmenter<InputType>::Pointer WatershedSegmenterObj =
     itk::watershed::Segmenter<InputType>::New();
   std:: cout << "-------------WatershedSegmenter " << WatershedSegmenterObj;
-
+#endif
   itk::MRASlabIdentifier<InputType>::Pointer MRASlabIdentifierObj =
     itk::MRASlabIdentifier<InputType>::New();
   std:: cout << "-------------MRASlabIdentifier " << MRASlabIdentifierObj;
-
   return 0;
 
 }
