@@ -218,7 +218,7 @@ TakeAPrior(const BinaryObjectImage* aprior)
 {
 
   RegionType region = this->GetInput()->GetRequestedRegion();
-  itk::ImageRegionIteratorWithIndex <BinaryObjectImage> ait(aprior, region);
+  itk::ImageRegionConstIteratorWithIndex <BinaryObjectImage> ait(aprior, region);
   itk::ImageRegionIteratorWithIndex <RGBHCVImage> iit(m_WorkingImage, region);
 
   int i,j;

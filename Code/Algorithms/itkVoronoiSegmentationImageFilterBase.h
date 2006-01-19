@@ -145,6 +145,10 @@ public:
   itkSetMacro(MeanDeviation, double);
   itkGetMacro(MeanDeviation, double);
 
+  /** Set/Get the region size. */
+  itkSetMacro(Size,SizeType);
+  itkGetMacro(Size,SizeType);
+
   /** Take a prior from other segmentation node. This should be a
    * binary object. */
   virtual void TakeAPrior(const BinaryObjectImage*){};

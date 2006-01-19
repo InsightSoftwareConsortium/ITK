@@ -69,7 +69,9 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
   os << indent << "MeanDeviation = " << m_MeanDeviation << std::endl;
   os << indent << "LastStepSeeds = " << m_LastStepSeeds << std::endl;
   os << indent << "InteractiveSegmentation = " << m_InteractiveSegmentation << std::endl;
-  os << indent << "NumberOfSeedsToAdded = " << m_NumberOfSeedsToAdded << std::endl;
+  os << indent << "NumberOfSeedsToAdded = " << m_NumberOfSeedsToAdded
+     << std::endl;
+  os << indent << "Size = " << m_Size << std::endl;
 }
 
 template <class TInputImage, class TOutputImage, class TBinaryPriorImage>
