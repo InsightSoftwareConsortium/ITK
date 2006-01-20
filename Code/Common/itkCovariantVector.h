@@ -119,7 +119,7 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
     
   /** Assignment operator with implicit casting from another data type */
   template< class Tt >
-  Self & operator= (const CovariantVector< Tt, NVectorDimension > & v )
+  Self & operator= (const Tt & v )
     {
     BaseArray::operator=(v);
     return *this;
