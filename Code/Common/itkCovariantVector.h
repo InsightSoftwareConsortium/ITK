@@ -117,10 +117,6 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
   CovariantVector(const Self& r): BaseArray(r) {}
   CovariantVector(const ValueType r[Dimension]): BaseArray(r) {}  
     
-  /** Pass-through assignment operator for the Array base class. */
-  CovariantVector& operator= (const Self& r);
-  CovariantVector& operator= (const ValueType r[NVectorDimension]);
-    
   /** Assignment operator with implicit casting from another data type */
   template< class Tt >
   Self & operator= (const CovariantVector< Tt, NVectorDimension > & v )
@@ -128,6 +124,10 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
     BaseArray::operator=(v);
     return *this;
     }
+  
+  /** Pass-through assignment operator for the Array base class. */
+  CovariantVector& operator= (const Self& r);
+  CovariantVector& operator= (const ValueType r[NVectorDimension]);
   
   /** Scalar operator*=.  Scales elements by a scalar. */
   template< class Tt > inline const Self& operator*=(const Tt &value)
