@@ -297,34 +297,33 @@ int main( int argc, char *argv[] )
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName( input_name );
 
-    try { 
+
+    try 
+      { 
       reader->Update();
-    } 
-    
+      } 
     catch( itk::ExceptionObject & err ) 
-    { 
+      { 
       std::cerr << "ERROR: ExceptionObject caught !" << std::endl; 
       std::cerr << err << std::endl; 
       return EXIT_FAILURE;
-    } 
+      } 
 
     image = reader->GetOutput();
+
     }
-
-  // No input image specified so create a cube
-
   else 
-    {
+    {   // No input image specified so create a cube
 
     image = InputImageType::New();
 
-    double spacing[InputImageType::ImageDimension];
+    InputImageType::SpacingType spacing;
     spacing[0] = 3.; 
     spacing[1] = 3.;    
     spacing[2] = 3.;
     image->SetSpacing( spacing );
 
-    double origin[InputImageType::ImageDimension];
+    InputImageType::PointType origin;
     origin[0] = 0.; 
     origin[1] = 0.;    
     origin[2] = 0.;
@@ -432,7 +431,7 @@ int main( int argc, char *argv[] )
   if (verbose) 
     {
     unsigned int i;
-    const itk::Vector<double, 3> spacing = image->GetSpacing();  
+    const InputImageType::SpacingType spacing = image->GetSpacing();  
     std::cout << std::endl << "Input ";
     
     InputImageType::RegionType region = image->GetBufferedRegion();
@@ -446,7 +445,7 @@ int main( int argc, char *argv[] )
       }
     std::cout << "]" << std::endl;
     
-    const itk::Point<double, 3> origin = image->GetOrigin();
+    const InputImageType::PointType origin = image->GetOrigin();
     std::cout << "  Origin: [";
     for (i=0; i<Dimension; i++) 
       {
@@ -628,7 +627,7 @@ int main( int argc, char *argv[] )
 
   filter->SetSize( size );
 
-  double spacing[ Dimension ];
+  InputImageType::SpacingType spacing;
 
   spacing[0] = sx;  // pixel spacing along X of the 2D DRR image [mm]
   spacing[1] = sy;  // pixel spacing along Y of the 2D DRR image [mm]
