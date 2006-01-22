@@ -393,8 +393,9 @@ private:
  *  VariableLengthVector< TValueType >  =  T * VariableLengthVector< TValueType > 
  */
 template< class TValueType, class T >
+inline
 VariableLengthVector<TValueType>
-inline operator*(const T &scalar, const VariableLengthVector<TValueType> &v)
+operator*(const T &scalar, const VariableLengthVector<TValueType> &v)
 {
   return v * scalar;
 }

@@ -225,8 +225,9 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
 /** Premultiply Operator for product of a vector and a scalar. 
  *  CovariantVector< T, N >  =  T * CovariantVector< T,N > */
 template< class T, unsigned int NVectorDimension >
+inline
 CovariantVector<T,NVectorDimension>
-inline operator*(const T &scalar, const  CovariantVector<T,NVectorDimension> & v)
+operator*(const T &scalar, const  CovariantVector<T,NVectorDimension> & v)
 {
   return v * scalar;
 }

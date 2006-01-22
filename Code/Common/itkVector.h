@@ -228,8 +228,9 @@ public:
 /** Premultiply Operator for product of a vector and a scalar. 
  *  Vector< T, N >  =  T * Vector< T,N > */
 template< class T, unsigned int NVectorDimension >
+inline
 Vector<T,NVectorDimension>
-inline operator*(const T &scalar, const  Vector<T,NVectorDimension> & v)
+operator*(const T &scalar, const  Vector<T,NVectorDimension> & v)
 {
   return v * scalar;
 }
