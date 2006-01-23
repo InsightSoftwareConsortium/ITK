@@ -53,7 +53,7 @@ class SquaredDifference2
 public:
   SquaredDifference2() {};
   ~SquaredDifference2() {};
-  bool operator!=( const SquaredDifference2 & other ) const
+  bool operator!=( const SquaredDifference2 & ) const
   {
     return false;
   }

@@ -45,7 +45,7 @@ public:
   GradientMagnitude() {}
   ~GradientMagnitude() {}
 
-  bool operator!=( const GradientMagnitude & other ) const
+  bool operator!=( const GradientMagnitude & ) const
   {
     return false;
   }

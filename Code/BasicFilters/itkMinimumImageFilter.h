@@ -42,7 +42,7 @@ class Minimum
 public:
   Minimum() {}
   ~Minimum() {}
-  bool operator!=( const Minimum & other ) const
+  bool operator!=( const Minimum & ) const
   {
     return false;
   }

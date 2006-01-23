@@ -53,7 +53,7 @@ class AbsoluteValueDifference2
 public:
   AbsoluteValueDifference2() {};
   ~AbsoluteValueDifference2() {};
-  bool operator!=( const AbsoluteValueDifference2 & other ) const
+  bool operator!=( const AbsoluteValueDifference2 & ) const
   {
     return false;
   }

@@ -43,7 +43,7 @@ public:
   typedef RGBPixel<TInput> OutputType;
   ComposeRGB() {}
   ~ComposeRGB() {}
-  bool operator!=( const ComposeRGB & other ) const
+  bool operator!=( const ComposeRGB & ) const
   {
     return false;
   }

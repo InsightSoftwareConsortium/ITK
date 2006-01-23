@@ -42,7 +42,7 @@ class Maximum
 public:
   Maximum() {}
   ~Maximum() {}
-  bool operator!=( const Maximum & other ) const
+  bool operator!=( const Maximum & ) const
   {
     return false;
   }

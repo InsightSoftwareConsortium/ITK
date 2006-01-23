@@ -44,7 +44,7 @@ public:
   typedef Vector<TInput,3> OutputType;
   Compose3DVector() {}
   ~Compose3DVector() {}
-  bool operator!=( const Compose3DVector & other ) const
+  bool operator!=( const Compose3DVector & ) const
   {
     return false;
   }

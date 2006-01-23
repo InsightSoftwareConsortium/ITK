@@ -37,7 +37,7 @@ public:
   typedef typename NumericTraits<TInput>::RealType RealType;
   Square() {}
   ~Square() {}
-  bool operator!=( const Square & other ) const
+  bool operator!=( const Square & ) const
   {
     return false;
   }

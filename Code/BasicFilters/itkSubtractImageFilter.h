@@ -41,7 +41,7 @@ class Sub2
 public:
   Sub2() {}
   ~Sub2() {}
-  bool operator!=( const Sub2 & other ) const
+  bool operator!=( const Sub2 & ) const
   {
     return false;
   }

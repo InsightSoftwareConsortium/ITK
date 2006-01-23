@@ -49,7 +49,7 @@ class Cast
 public:
   Cast() {};
   ~Cast() {};
-  bool operator!=( const Cast & other ) const
+  bool operator!=( const Cast & ) const
   {
     return false;
   }

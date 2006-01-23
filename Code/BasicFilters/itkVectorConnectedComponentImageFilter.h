@@ -45,7 +45,7 @@ public:
     {threshold = thresh;};
   typename TInput::ValueType GetDistanceThreshold() {return (threshold);};
   
-  bool operator!=( const SimilarVectorsFunctor & other ) const
+  bool operator!=( const SimilarVectorsFunctor & ) const
   {
     return false;
   }

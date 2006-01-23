@@ -39,7 +39,7 @@ class ModulusSquare3
 public:
   ModulusSquare3() {}
   ~ModulusSquare3() {}
-  bool operator!=( const ModulusSquare3 & other ) const
+  bool operator!=( const ModulusSquare3 & ) const
   {
     return false;
   }

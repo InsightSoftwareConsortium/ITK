@@ -43,7 +43,7 @@ public:
   typedef CovariantVector<TInput,2> OutputType;
   Compose2DCovariantVector() {}
   ~Compose2DCovariantVector() {}
-  bool operator!=( const Compose2DCovariantVector & other ) const
+  bool operator!=( const Compose2DCovariantVector & ) const
   {
     return false;
   }

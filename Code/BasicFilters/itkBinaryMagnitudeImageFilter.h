@@ -53,7 +53,7 @@ class Modulus2
 public:
   Modulus2() {};
   ~Modulus2() {};
-  bool operator!=( const Modulus2 & other ) const
+  bool operator!=( const Modulus2 & ) const
   {
     return false;
   }

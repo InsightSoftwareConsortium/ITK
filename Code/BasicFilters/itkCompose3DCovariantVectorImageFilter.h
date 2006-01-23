@@ -44,7 +44,7 @@ public:
   typedef CovariantVector<TInput,3> OutputType;
   Compose3DCovariantVector() {}
   ~Compose3DCovariantVector() {}
-  bool operator!=( const Compose3DCovariantVector & other ) const
+  bool operator!=( const Compose3DCovariantVector & ) const
   {
     return false;
   }

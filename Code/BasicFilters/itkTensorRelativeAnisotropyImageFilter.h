@@ -33,7 +33,7 @@ public:
   typedef typename TInput::RealValueType  RealValueType;
   TensorRelativeAnisotropyFunction() {}
   ~TensorRelativeAnisotropyFunction() {}
-  bool operator!=( const TensorRelativeAnisotropyFunction & other ) const
+  bool operator!=( const TensorRelativeAnisotropyFunction & ) const
   {
     return false;
   }

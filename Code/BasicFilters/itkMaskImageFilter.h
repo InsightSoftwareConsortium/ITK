@@ -60,7 +60,7 @@ public:
 
   MaskInput(): m_OutsideValue(NumericTraits< TOutput >::ZeroValue()) {};
   ~MaskInput() {};
-  bool operator!=( const MaskInput & other ) const
+  bool operator!=( const MaskInput & ) const
   {
     return false;
   }

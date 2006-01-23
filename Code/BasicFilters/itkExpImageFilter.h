@@ -42,7 +42,7 @@ class Exp
 public:
   Exp() {};
   ~Exp() {};
-  bool operator!=( const Exp & other ) const
+  bool operator!=( const Exp & ) const
   {
     return false;
   }

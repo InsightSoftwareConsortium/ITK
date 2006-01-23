@@ -51,7 +51,7 @@ class Acos
 public:
   Acos() {};
   ~Acos() {};
-  bool operator!=( const Acos & other ) const
+  bool operator!=( const Acos & ) const
   {
     return false;
   }

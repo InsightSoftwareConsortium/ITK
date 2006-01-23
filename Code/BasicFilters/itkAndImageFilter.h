@@ -51,7 +51,7 @@ class AND
 public:
   AND() {};
   ~AND() {};
-  bool operator!=( const AND & other ) const
+  bool operator!=( const AND & ) const
   {
     return false;
   }

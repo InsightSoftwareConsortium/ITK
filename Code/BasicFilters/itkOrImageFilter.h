@@ -51,7 +51,7 @@ class OR
 public:
   OR() {};
   ~OR() {};
-  bool operator!=( const OR & other ) const
+  bool operator!=( const OR & ) const
   {
     return false;
   }

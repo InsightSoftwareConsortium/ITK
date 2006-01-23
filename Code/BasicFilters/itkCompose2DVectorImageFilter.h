@@ -43,7 +43,7 @@ public:
   typedef Vector<TInput,2> OutputType;
   Compose2DVector() {}
   ~Compose2DVector() {}
-  bool operator!=( const Compose2DVector & other ) const
+  bool operator!=( const Compose2DVector & ) const
   {
     return false;
   }

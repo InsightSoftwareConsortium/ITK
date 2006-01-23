@@ -35,7 +35,7 @@ class Log10
 public:
   Log10() {}
   ~Log10() {}
-  bool operator!=( const Log10 & other ) const
+  bool operator!=( const Log10 & ) const
   {
     return false;
   }

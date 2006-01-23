@@ -36,7 +36,7 @@ class ComplexToPhase
 public:
   ComplexToPhase() {}
   ~ComplexToPhase() {}
-  bool operator!=( const ComplexToPhase & other ) const
+  bool operator!=( const ComplexToPhase & ) const
   {
     return false;
   }

@@ -45,7 +45,7 @@ class VectorCast
 public:
   VectorCast() {}
   ~VectorCast() {}
-  bool operator!=( const VectorCast & other ) const
+  bool operator!=( const VectorCast & ) const
   {
     return false;
   }

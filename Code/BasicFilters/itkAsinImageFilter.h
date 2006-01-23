@@ -49,7 +49,7 @@ class Asin
 public:
   Asin() {};
   ~Asin() {};
-  bool operator!=( const Asin & other ) const
+  bool operator!=( const Asin & ) const
   {
     return false;
   }

@@ -51,7 +51,7 @@ class XOR
 public:
   XOR() {};
   ~XOR() {};
-  bool operator!=( const XOR & other ) const
+  bool operator!=( const XOR & ) const
   {
     return false;
   }

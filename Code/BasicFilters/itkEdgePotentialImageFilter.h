@@ -41,7 +41,7 @@ class EdgePotential
 public:
   EdgePotential() {};
   ~EdgePotential() {};
-  bool operator!=( const EdgePotential & other ) const
+  bool operator!=( const EdgePotential & ) const
   {
     return false;
   }

@@ -36,7 +36,7 @@ class ComplexToImaginary
 public:
   ComplexToImaginary() {}
   ~ComplexToImaginary() {}
-  bool operator!=( const ComplexToImaginary & other ) const
+  bool operator!=( const ComplexToImaginary & ) const
   {
     return false;
   }

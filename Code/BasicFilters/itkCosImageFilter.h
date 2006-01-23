@@ -49,7 +49,7 @@ class Cos
 public:
   Cos() {};
   ~Cos() {};
-  bool operator!=( const Cos & other ) const
+  bool operator!=( const Cos & ) const
   {
     return false;
   }

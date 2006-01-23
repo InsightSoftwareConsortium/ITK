@@ -36,7 +36,7 @@ class Tan
 public:
   Tan() {}
   ~Tan() {}
-  bool operator!=( const Tan & other ) const
+  bool operator!=( const Tan & ) const
   {
     return false;
   }

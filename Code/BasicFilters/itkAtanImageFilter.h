@@ -51,7 +51,7 @@ class Atan
 public:
   Atan() {};
   ~Atan() {};
-  bool operator!=( const Atan & other ) const
+  bool operator!=( const Atan & ) const
   {
     return false;
   }

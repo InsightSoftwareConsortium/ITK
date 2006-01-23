@@ -35,7 +35,7 @@ class Abs
 public:
   Abs() {}
   ~Abs() {}
-  bool operator!=( const Abs & other ) const
+  bool operator!=( const Abs & ) const
   {
     return false;
   }

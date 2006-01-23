@@ -55,7 +55,7 @@ class ConstrainedValueDifference
 public:
   ConstrainedValueDifference() {};
   ~ConstrainedValueDifference() {};
-  bool operator!=( const ConstrainedValueDifference & other ) const
+  bool operator!=( const ConstrainedValueDifference & ) const
   {
     return false;
   }

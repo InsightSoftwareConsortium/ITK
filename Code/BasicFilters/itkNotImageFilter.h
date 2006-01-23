@@ -51,7 +51,7 @@ class NOT
 public:
   NOT() {};
  ~NOT() {};
-  bool operator!=( const NOT & other ) const
+  bool operator!=( const NOT & ) const
   {
     return false;
   }

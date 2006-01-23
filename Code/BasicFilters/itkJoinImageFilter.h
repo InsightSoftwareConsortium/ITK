@@ -68,7 +68,7 @@ public:
   /** A vector of the join dimension. */
   typedef Vector<JoinValueType, itkGetStaticConstMacro(JoinDimension)> JoinType;
 
-  bool operator!=( const JoinFunctor & other ) const
+  bool operator!=( const JoinFunctor & ) const
   {
     return false;
   }

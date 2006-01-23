@@ -38,7 +38,7 @@ class BoundedReciprocal
 public:
   BoundedReciprocal() {};
   ~BoundedReciprocal() {};
-  bool operator!=( const BoundedReciprocal & other ) const
+  bool operator!=( const BoundedReciprocal & ) const
   {
     return false;
   }

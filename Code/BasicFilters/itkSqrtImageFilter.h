@@ -36,7 +36,7 @@ class Sqrt
 public:
   Sqrt() {}
   ~Sqrt() {}
-  bool operator!=( const Sqrt & other ) const
+  bool operator!=( const Sqrt & ) const
   {
     return false;
   }

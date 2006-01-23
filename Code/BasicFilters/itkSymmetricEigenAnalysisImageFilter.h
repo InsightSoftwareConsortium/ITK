@@ -42,7 +42,7 @@ public:
   SymmetricEigenAnalysisFunction() {}
   ~SymmetricEigenAnalysisFunction() {}
   typedef SymmetricEigenAnalysis< TInput, TOutput > CalculatorType;
-  bool operator!=( const SymmetricEigenAnalysisFunction & other ) const
+  bool operator!=( const SymmetricEigenAnalysisFunction & ) const
   {
     return false;
   }

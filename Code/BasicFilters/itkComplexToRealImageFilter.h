@@ -36,7 +36,7 @@ class ComplexToReal
 public:
   ComplexToReal() {}
   ~ComplexToReal() {}
-  bool operator!=( const ComplexToReal & other ) const
+  bool operator!=( const ComplexToReal & ) const
   {
     return false;
   }

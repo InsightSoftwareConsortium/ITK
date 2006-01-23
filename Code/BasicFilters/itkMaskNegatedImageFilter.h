@@ -60,7 +60,7 @@ public:
 
   MaskNegatedInput() {};
   ~MaskNegatedInput() {};
-  bool operator!=( const MaskNegatedInput & other ) const
+  bool operator!=( const MaskNegatedInput & ) const
   {
     return false;
   }

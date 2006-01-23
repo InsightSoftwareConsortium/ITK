@@ -39,7 +39,7 @@ class Add3
 public:
   Add3() {}
   ~Add3() {}
-  bool operator!=( const Add3 & other ) const
+  bool operator!=( const Add3 & ) const
   {
     return false;
   }

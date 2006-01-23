@@ -61,7 +61,7 @@ public:
   typedef typename NumericTraits< TInput1 >::AccumulateType AccumulatorType;
   Add2() {};
   ~Add2() {};
-  bool operator!=( const Add2 & other ) const
+  bool operator!=( const Add2 & ) const
   {
     return false;
   }

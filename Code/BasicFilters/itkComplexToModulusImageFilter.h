@@ -36,7 +36,7 @@ class ComplexToModulus
 public:
   ComplexToModulus() {}
   ~ComplexToModulus() {}
-  bool operator!=( const ComplexToModulus & other ) const
+  bool operator!=( const ComplexToModulus & ) const
   {
     return false;
   }

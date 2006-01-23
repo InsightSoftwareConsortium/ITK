@@ -43,7 +43,7 @@ public:
 
   RGBToLuminance() {}
   ~RGBToLuminance() {}
-  bool operator!=( const RGBToLuminance & other ) const
+  bool operator!=( const RGBToLuminance & ) const
   {
     return false;
   }

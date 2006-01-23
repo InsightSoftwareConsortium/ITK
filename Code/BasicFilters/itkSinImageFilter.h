@@ -36,7 +36,7 @@ class Sin
 public:
   Sin() {}
   ~Sin() {}
-  bool operator!=( const Sin & other ) const
+  bool operator!=( const Sin & ) const
   {
     return false;
   }

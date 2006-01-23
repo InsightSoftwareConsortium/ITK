@@ -39,7 +39,7 @@ class Mult
 public:
   Mult() {}
   ~Mult() {}
-  bool operator!=( const Mult & other ) const
+  bool operator!=( const Mult & ) const
   {
     return false;
   }

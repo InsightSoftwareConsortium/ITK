@@ -55,7 +55,7 @@ class ConstrainedValueAddition
 public:
   ConstrainedValueAddition() {};
   ~ConstrainedValueAddition() {};
-  bool operator!=( const ConstrainedValueAddition & other ) const
+  bool operator!=( const ConstrainedValueAddition & ) const
   {
     return false;
   }

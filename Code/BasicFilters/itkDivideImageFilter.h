@@ -42,7 +42,7 @@ class Div
 public:
   Div() {};
   ~Div() {};
-  bool operator!=( const Div & other ) const
+  bool operator!=( const Div & ) const
   {
     return false;
   }
