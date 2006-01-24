@@ -80,7 +80,7 @@ public:
     m_ChangeMap[original] = result; 
   }
   
-  void SetChangeMap( ChangeMapType & changeMap )
+  void SetChangeMap( const ChangeMapType & changeMap )
   { 
     m_ChangeMap = changeMap; 
   }
