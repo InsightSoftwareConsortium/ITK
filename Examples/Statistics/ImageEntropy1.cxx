@@ -284,9 +284,9 @@ int main( int argc, char * argv [] )
 // \begin{center}
 // \begin{tabular}{|l|r|r|r|r|r|}
 // \hline
-// Number of Histogram Bins & 16    & 32    & 64    & 128   & 255 \\
+// Number of Histogram Bins & 16    & 32    & 64    & 128   & 255 \cr
 // \hline
-// Estimated Entropy (bits) & 3.02  & 3.98  & 4.92  & 5.89  & 6.88 \\
+// Estimated Entropy (bits) & 3.02  & 3.98  & 4.92  & 5.89  & 6.88 \cr
 // \hline
 // \end{tabular}
 // \end{center}
