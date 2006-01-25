@@ -1,7 +1,6 @@
 PROJECT(ITKOpenJPEG C)
 INCLUDE_REGULAR_EXPRESSION("^.*$")
-
-# Create the lib
+# Defines the source code for the library
 SET(OpenJPEG_SRCS
   bio.c
   cio.c
@@ -28,6 +27,7 @@ SET(OpenJPEG_SRCS
 CONFIGURE_FILE(${ITKOpenJPEG_SOURCE_DIR}/.NoDartCoverage
                ${ITKOpenJPEG_BINARY_DIR}/.NoDartCoverage)
 
+# Handle the dllimport/dllexport for building shared lib on Win32
 IF (WIN32)
   IF (BUILD_SHARED_LIBS)
     ADD_DEFINITIONS(-DOPJ_SHARED)
@@ -36,7 +36,8 @@ IF (WIN32)
   ENDIF (BUILD_SHARED_LIBS)
 ENDIF (WIN32)
 
-ADD_LIBRARY(itkOpenJPEG ${OpenJPEG_SRCS})
+# Create the library
+ADD_LIBRARY(${OPJ_PREFIX}openjpeg ${OpenJPEG_SRCS})
 
-INSTALL_TARGETS(/lib/InsightToolkit itkOpenJPEG)
+INSTALL_TARGETS(/lib/InsightToolkit ${OPJ_PREFIX}openjpeg)
 

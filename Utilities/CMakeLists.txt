@@ -12,6 +12,7 @@ SUBDIRS(itkjpeg)
 ITK_THIRD_PARTY_SUBDIR(ZLIB zlib)
 ITK_THIRD_PARTY_SUBDIR(PNG  png)
 ITK_THIRD_PARTY_SUBDIR(TIFF tiff)
+SET(OPJ_PREFIX "itk")
 ITK_THIRD_PARTY_SUBDIR(OpenJPEG openjpeg)
 #------------------------------------------------------------------------------
 # Other utilities libraries

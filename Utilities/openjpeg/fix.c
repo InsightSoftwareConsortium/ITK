@@ -30,7 +30,7 @@
 
 #include "fix.h"
 
-#ifdef WIN32
+#if defined(_MSC_VER) || defined(__BORLANDC__)
 #define int64 __int64
 #else
 #define int64 long long
