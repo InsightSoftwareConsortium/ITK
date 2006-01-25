@@ -65,7 +65,7 @@ private:
 }; 
 
 /** 
- * \class LancosWindowFunction
+ * \class LanczosWindowFunction
  * \brief Window function for sinc interpolation.
  * \f[ w(x) = \textrm{sinc} ( \frac{x}{m} ) \f]
  * Note: Paper referenced in WindowedSincInterpolateImageFunction gives
@@ -74,7 +74,7 @@ private:
  */
 template< unsigned int VRadius, 
   class TInput=double, class TOutput=double>
-class LancosWindowFunction
+class LanczosWindowFunction
 {
 public:
   inline TOutput operator()( const TInput & A ) const
@@ -162,7 +162,7 @@ private:
   \par
   Several window functions are provided here in the itk::Function
   namespace. The conclusions of the referenced paper suggest to use the
-  Welch, Cosine, Kaiser, and Lancos windows for m = 4,5. These are based
+  Welch, Cosine, Kaiser, and Lanczos windows for m = 4,5. These are based
   on error in rotating medical images w.r.t. the linear interpolation
   method. In some cases the results achieve a 20-fold improvement in
   accuracy.
@@ -219,7 +219,7 @@ private:
   \sa Function::HammingWindowFunction 
   \sa Function::CosineWindowFunction 
   \sa Function::WelchWindowFunction
-  \sa Function::LancosWindowFunction 
+  \sa Function::LanczosWindowFunction 
   \sa Function::BlackmanWindowFunction
   \ingroup ImageFunctions ImageInterpolators
  */

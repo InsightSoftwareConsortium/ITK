@@ -44,7 +44,7 @@ WelchWindowFunction<VRadius, TInput, TOutput>
 
 template<unsigned int VRadius, class TInput, class TOutput>
 const double
-LancosWindowFunction<VRadius, TInput, TOutput>
+LanczosWindowFunction<VRadius, TInput, TOutput>
 ::m_Factor = vnl_math::pi / VRadius;
 
 template<unsigned int VRadius, class TInput, class TOutput>
