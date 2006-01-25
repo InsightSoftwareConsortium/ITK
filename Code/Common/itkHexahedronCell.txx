@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -57,7 +57,7 @@ HexahedronCell< TCellInterface >
 ::GetNumberOfPoints(void) const
 {
   return Self::NumberOfPoints;
-}  
+}
 
 /**
  * Standard CellInterface:
@@ -86,12 +86,12 @@ HexahedronCell< TCellInterface >
 template <typename TCellInterface>
 bool
 HexahedronCell< TCellInterface >
-::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId, 
+::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId,
                      CellAutoPointer & cellPointer )
 {
   switch (dimension)
     {
-    case 0: 
+    case 0:
     {
     VertexAutoPointer vertexPointer;
     if( this->GetVertex(featureId,vertexPointer) )
@@ -106,7 +106,7 @@ HexahedronCell< TCellInterface >
       }
     break;
     }
-    case 1: 
+    case 1:
     {
     EdgeAutoPointer edgePointer;
     if( this->GetEdge(featureId,edgePointer) )
@@ -121,7 +121,7 @@ HexahedronCell< TCellInterface >
       }
     break;
     }
-    case 2: 
+    case 2:
     {
     FaceAutoPointer facePointer;
     if( this->GetFace(featureId,facePointer) )
@@ -136,7 +136,7 @@ HexahedronCell< TCellInterface >
       }
     break;
     }
-    default: 
+    default:
     {
     cellPointer.Reset();
     return false;
@@ -148,7 +148,7 @@ HexahedronCell< TCellInterface >
 /**
  * Standard CellInterface:
  * Set the point id list used by the cell.  It is assumed that the given
- * iterator can be incremented and safely de-referenced enough times to 
+ * iterator can be incremented and safely de-referenced enough times to
  * get all the point ids needed by the cell.
  */
 template <typename TCellInterface>
@@ -158,7 +158,7 @@ HexahedronCell< TCellInterface >
 {
   PointIdConstIterator ii(first);
   for(int i=0; i < Self::NumberOfPoints ; ++i)
-    {   
+    {
     m_PointIds[i] = *ii++;
     }
 }
@@ -177,7 +177,7 @@ HexahedronCell< TCellInterface >
 {
   int localId=0;
   PointIdConstIterator ii(first);
-  
+
   while(ii != last)
     {
     m_PointIds[localId++] = *ii++;
@@ -295,7 +295,7 @@ HexahedronCell< TCellInterface >
   VertexType * vert = new VertexType;
   vert->SetPointId(0, m_PointIds[vertexId]);
   vertexPointer.TakeOwnership( vert );
-  return true;  
+  return true;
 }
 
 /**
@@ -313,7 +313,7 @@ HexahedronCell< TCellInterface >
     {
     edge->SetPointId(i, m_PointIds[ m_Edges[edgeId][i] ]);
     }
-  edgePointer.TakeOwnership( edge ); 
+  edgePointer.TakeOwnership( edge );
   return true;
 }
 
@@ -333,7 +333,7 @@ HexahedronCell< TCellInterface >
     {
     face->SetPointId(i, m_PointIds[ m_Faces[faceId][i] ]);
     }
-  facePointer.TakeOwnership( face ); 
+  facePointer.TakeOwnership( face );
   return true;
 }
 
@@ -355,7 +355,6 @@ HexahedronCell< TCellInterface >
   int iteration, converged;
   double  params[3];
   double  fcol[3], rcol[3], scol[3], tcol[3];
-  int i, j;
   double  d;
   PointType pt;
   CoordRepType derivs[24];
@@ -368,21 +367,21 @@ HexahedronCell< TCellInterface >
 
   //  enter iteration loop
   for (iteration=converged=0;
-       !converged && (iteration < ITK_HEX_MAX_ITERATION);  iteration++) 
+       !converged && (iteration < ITK_HEX_MAX_ITERATION);  iteration++)
     {
     //  calculate element interpolation functions and derivatives
     this->InterpolationFunctions(pcoords, weights);
     this->InterpolationDerivs(pcoords, derivs);
 
     //  calculate newton functions
-    for (i=0; i<3; i++) 
+    for (unsigned int i=0; i<3; i++)
       {
       fcol[i] = rcol[i] = scol[i] = tcol[i] = 0.0;
       }
-    for (i=0; i<8; i++)
+    for (unsigned int i=0; i<8; i++)
       {
       pt = points->GetElement( m_PointIds[i] );
-      for (j=0; j<3; j++)
+      for (unsigned int j=0; j<3; j++)
         {
         fcol[j] += pt[j] * weights[i];
         rcol[j] += pt[j] * derivs[i];
@@ -391,14 +390,14 @@ HexahedronCell< TCellInterface >
         }
       }
 
-    for (i=0; i<3; i++)
+    for (unsigned int i=0; i<3; i++)
       {
       fcol[i] -= x[i];
       }
 
     //  compute determinants and generate improvements
     vnl_matrix_fixed<CoordRepType,3,PointDimension> mat;
-    for(i=0;i<PointDimension;i++)
+    for(unsigned int i=0;i<PointDimension;i++)
       {
       mat.put(0,i,rcol[i]);
       mat.put(1,i,scol[i]);
@@ -407,13 +406,13 @@ HexahedronCell< TCellInterface >
 
     d = vnl_determinant(mat);
     //d=vtkMath::Determinant3x3(rcol,scol,tcol);
-    if ( fabs(d) < 1.e-20) 
+    if ( vcl_abs(d) < 1.e-20)
       {
       return false;
       }
 
     vnl_matrix_fixed<CoordRepType,3,PointDimension> mat1;
-    for(i=0;i<PointDimension;i++)
+    for(unsigned int i=0;i<PointDimension;i++)
       {
       mat1.put(0,i,fcol[i]);
       mat1.put(1,i,scol[i]);
@@ -421,7 +420,7 @@ HexahedronCell< TCellInterface >
      }
 
     vnl_matrix_fixed<CoordRepType,3,PointDimension> mat2;
-    for(i=0;i<PointDimension;i++)
+    for(unsigned int i=0;i<PointDimension;i++)
       {
       mat2.put(0,i,rcol[i]);
       mat2.put(1,i,fcol[i]);
@@ -429,7 +428,7 @@ HexahedronCell< TCellInterface >
      }
 
     vnl_matrix_fixed<CoordRepType,3,PointDimension> mat3;
-    for(i=0;i<PointDimension;i++)
+    for(unsigned int i=0;i<PointDimension;i++)
       {
       mat3.put(0,i,rcol[i]);
       mat3.put(1,i,scol[i]);
@@ -442,29 +441,29 @@ HexahedronCell< TCellInterface >
 
     if(pcoord)
       {
-      pcoord[0] = pcoords[0]; 
+      pcoord[0] = pcoords[0];
       pcoord[1] = pcoords[1];
       pcoord[2] = pcoords[2];
       }
 
     //  check for convergence
-    if ( ((fabs(pcoords[0]-params[0])) < ITK_HEX_CONVERGED) &&
-         ((fabs(pcoords[1]-params[1])) < ITK_HEX_CONVERGED) &&
-         ((fabs(pcoords[2]-params[2])) < ITK_HEX_CONVERGED) )
+    if ( ((vcl_abs(pcoords[0]-params[0])) < ITK_HEX_CONVERGED) &&
+         ((vcl_abs(pcoords[1]-params[1])) < ITK_HEX_CONVERGED) &&
+         ((vcl_abs(pcoords[2]-params[2])) < ITK_HEX_CONVERGED) )
       {
       converged = 1;
       }
 
     // Test for bad divergence (S.Hirschberg 11.12.2001)
-    else if ((fabs(pcoords[0]) > ITK_DIVERGED) || 
-             (fabs(pcoords[1]) > ITK_DIVERGED) || 
-             (fabs(pcoords[2]) > ITK_DIVERGED))
+    else if ((vcl_abs(pcoords[0]) > ITK_DIVERGED) ||
+             (vcl_abs(pcoords[1]) > ITK_DIVERGED) ||
+             (vcl_abs(pcoords[2]) > ITK_DIVERGED))
       {
       return -1;
       }
 
     //  if not converged, repeat
-    else 
+    else
       {
       params[0] = pcoords[0];
       params[1] = pcoords[1];
@@ -505,7 +504,7 @@ HexahedronCell< TCellInterface >
     CoordRepType pc[3], w[8];
     if (closestPoint)
       {
-      for (i=0; i<3; i++) //only approximate, not really true for warped hexa
+      for (unsigned int i=0; i<3; i++) //only approximate, not really true for warped hexa
         {
         if (pcoords[i] < 0.0)
           {
@@ -534,15 +533,13 @@ HexahedronCell< TCellInterface >
 
 /** Compute iso-parametric interpolation functions */
 template <typename TCellInterface>
-void 
+void
 HexahedronCell< TCellInterface >
 ::InterpolationFunctions(CoordRepType pcoords[3], CoordRepType sf[8])
 {
-  double rm, sm, tm;
-
-  rm = 1. - pcoords[0];
-  sm = 1. - pcoords[1];
-  tm = 1. - pcoords[2];
+  const double rm = 1. - pcoords[0];
+  const double sm = 1. - pcoords[1];
+  const double tm = 1. - pcoords[2];
 
   sf[0] = rm*sm*tm;
   sf[1] = pcoords[0]*sm*tm;
@@ -556,15 +553,13 @@ HexahedronCell< TCellInterface >
 
 /** Compute iso-parametric interpolation functions */
 template <typename TCellInterface>
-void 
+void
 HexahedronCell< TCellInterface >
 ::InterpolationDerivs(CoordRepType pcoords[3], CoordRepType derivs[24])
 {
-  double rm, sm, tm;
-
-  rm = 1. - pcoords[0];
-  sm = 1. - pcoords[1];
-  tm = 1. - pcoords[2];
+  const double rm = 1. - pcoords[0];
+  const double sm = 1. - pcoords[1];
+  const double tm = 1. - pcoords[2];
 
   // r-derivatives
   derivs[0] = -sm*tm;
@@ -599,22 +594,19 @@ HexahedronCell< TCellInterface >
 
 /** Evaluate the location inside the cell */
 template <typename TCellInterface>
-void 
+void
 HexahedronCell< TCellInterface >
 ::EvaluateLocation(int& itkNotUsed(subId),PointsContainer* points, CoordRepType pcoords[3],
                    CoordRepType x[3], CoordRepType *weights)
 {
-  int i, j;
   PointType pt;
-
   this->InterpolationFunctions(pcoords, weights);
-
   x[0] = x[1] = x[2] = 0.0;
-  for (i=0; i<8; i++)
+  for (unsigned int i=0; i<8; i++)
     {
     pt = points->GetElement( m_PointIds[i] );
-     
-    for (j=0; j<3; j++)
+
+    for (unsigned int j=0; j<3; j++)
       {
       x[j] += pt[j] * weights[i];
       }

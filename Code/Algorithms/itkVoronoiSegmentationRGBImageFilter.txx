@@ -221,12 +221,11 @@ TakeAPrior(const BinaryObjectImage* aprior)
   itk::ImageRegionConstIteratorWithIndex <BinaryObjectImage> ait(aprior, region);
   itk::ImageRegionIteratorWithIndex <RGBHCVImage> iit(m_WorkingImage, region);
 
-  int i,j;
   int minx=0,miny=0,maxx=0,maxy=0;
   bool status=0;
-  for(i=0;i<this->GetSize()[1];i++)
+  for(unsigned int i=0;i<this->GetSize()[1];i++)
     {
-    for(j=0;j<this->GetSize()[0];j++)
+    for(unsigned int j=0;j<this->GetSize()[0];j++)
       {
       if( (status==0)&&(ait.Get()) )
         {
@@ -249,7 +248,7 @@ TakeAPrior(const BinaryObjectImage* aprior)
 
   int objnum = 0;
   int bkgnum = 0;
-  
+
   float objaddp[6] = {0.0,0.0,0.0,0.0,0.0,0.0};
   float objaddpp[6] = {0.0,0.0,0.0,0.0,0.0,0.0};
   float bkgaddp[6] = {0.0,0.0,0.0,0.0,0.0,0.0};
@@ -259,22 +258,22 @@ TakeAPrior(const BinaryObjectImage* aprior)
   ait.GoToBegin();
   iit.GoToBegin();
   int k;
-  for(i=0;i<miny;i++)
+  for(int i=0;i<miny;i++)
     {
-    for(j=0;j<this->GetSize()[0];j++)
+    for(unsigned int j=0;j<this->GetSize()[0];j++)
       {
       ++ait;
       ++iit;
       }
     }
-  for(i=miny;i<=maxy;i++)
+  for(int i=miny;i<=maxy;i++)
     {
-    for(j=0;j<minx;j++)
+    for(int j=0;j<minx;j++)
       {
       ++ait;
       ++iit;
       }
-    for(j=minx;j<=maxx;j++)
+    for(int j=minx;j<=maxx;j++)
       {
       currp = iit.Get();
       if(ait.Get())
@@ -297,7 +296,7 @@ TakeAPrior(const BinaryObjectImage* aprior)
         }
       ++ait;++iit;
       }
-    for(j=maxx+1;j<this->GetSize()[0];j++)
+    for(int j=maxx+1;j<this->GetSize()[0];j++)
       {
       ++ait;
       ++iit;
@@ -308,7 +307,7 @@ TakeAPrior(const BinaryObjectImage* aprior)
   double b_STD[6];
   float diffMean[6];
   float diffSTD[6];
-  for(i=0;i<6;i++)
+  for(unsigned int i=0;i<6;i++)
     {
     m_Mean[i] = objaddp[i]/objnum;
     m_STD[i] = sqrt((objaddpp[i] - (objaddp[i]*objaddp[i])/objnum)/(objnum-1));
@@ -330,40 +329,40 @@ TakeAPrior(const BinaryObjectImage* aprior)
     }
 
   if(objnum<10)
-    { 
+    {
 /* a-prior doen's make too much sense */
-    for(i=0;i<6;i++)
+    for(unsigned int i=0;i<6;i++)
       {
       m_MeanTolerance[i] = 0;
       m_STDTolerance[i] = 0;
-      } 
+      }
     }
 
 /*  Sorting. */
   unsigned char tmp[6]={0,1,2,3,4,5};
-  for(j=0;j<3;j++)
+  for(unsigned j=0;j<3;j++)
     {
     k=0;
-    for(i=1;i<6-j;i++)
+    for(unsigned int i=1;i<6-j;i++)
       {
       if(diffMean[tmp[i]]>diffMean[tmp[k]])
         {
         k=i;
-        }   
+        }
       }
     m_TestMean[j]=tmp[k];
     tmp[k]=tmp[5-j];
     }
   unsigned char tmp1[6]={0,1,2,3,4,5};
-  for(j=0;j<3;j++)
+  for(unsigned int j=0;j<3;j++)
     {
     k=0;
-    for(i=1;i<6-j;i++)
+    for(unsigned int i=1;i<6-j;i++)
       {
       if(diffSTD[tmp1[i]]>diffSTD[tmp1[k]])
         {
         k=i;
-        }   
+        }
       }
     m_TestSTD[j]=tmp1[k];
     tmp1[k]=tmp1[5-j];
