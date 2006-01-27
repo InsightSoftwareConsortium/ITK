@@ -142,6 +142,8 @@ ExtractImageFilter<TInputImage,TOutputImage>
     // Copy what we can from the image from spacing and origin of the input
     // This logic needs to be augmented with logic that select which
     // dimensions to copy
+    outputPtr->CopyInformation( inputPtr );
+
     unsigned int i;
     const typename InputImageType::SpacingType& 
       inputSpacing = inputPtr->GetSpacing();
