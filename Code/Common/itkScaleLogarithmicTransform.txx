@@ -55,6 +55,11 @@ ScaleLogarithmicTransform<ScalarType, NDimensions>
     }
   this->m_Parameters = parameters;
   this->SetScale( scales );
+
+  // Modified is always called since we just have a pointer to the
+  // parameters and cannot know if the parameters have changed.
+  this->Modified();
+
 }
 
 

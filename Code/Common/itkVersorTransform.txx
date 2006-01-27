@@ -74,6 +74,10 @@ VersorTransform<TScalarType>
   
   this->ComputeMatrix();
 
+  // Modified is always called since we just have a pointer to the
+  // parameters and cannot know if the parameters have changed.
+  this->Modified();
+
   itkDebugMacro(<<"After setting paramaters ");
 }
 

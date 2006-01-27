@@ -476,6 +476,11 @@ SetParameters( const ParametersType & parameters )
     }
 
   m_SourceLandmarks->SetPoints( landmarks );
+
+  // Modified is always called since we just have a pointer to the
+  // parameters and cannot know if the parameters have changed.
+  this->Modified();
+
 }
 
 // Set the fixed parameters

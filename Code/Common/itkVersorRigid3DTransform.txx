@@ -59,7 +59,6 @@ VersorRigid3DTransform<TScalarType>
 ::SetParameters( const ParametersType & parameters )
 {
 
-
   itkDebugMacro( << "Setting paramaters " << parameters );
 
   // Transfer the versor part
@@ -97,6 +96,10 @@ VersorRigid3DTransform<TScalarType>
   newTranslation[2] = parameters[5];
   this->SetVarTranslation(newTranslation);
   this->ComputeOffset();
+
+  // Modified is always called since we just have a pointer to the
+  // parameters and cannot know if the parameters have changed.
+  this->Modified();
 
   itkDebugMacro(<<"After setting paramaters ");
 }

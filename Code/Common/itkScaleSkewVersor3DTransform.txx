@@ -61,7 +61,7 @@ template <class TScalarType>
 void
 ScaleSkewVersor3DTransform<TScalarType>
 ::SetParameters( const ParametersType & parameters )
-  {
+{
 
   itkDebugMacro( << "Setting paramaters " << parameters );
 
@@ -113,6 +113,10 @@ ScaleSkewVersor3DTransform<TScalarType>
   this->SetVarTranslation(newTranslation);
   this->ComputeMatrix();
   this->ComputeOffset();
+
+  // Modified is always called since we just have a pointer to the
+  // parameters and cannot know if the parameters have changed.
+  this->Modified();
 
   itkDebugMacro(<<"After setting paramaters ");
   }

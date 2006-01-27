@@ -81,7 +81,10 @@ CenteredRigid2DTransform<TScalarType>
   this->ComputeMatrix();
   this->ComputeOffset();
 
+  // Modified is always called since we just have a pointer to the
+  // parameters and cannot know if the parameters have changed.
   this->Modified();
+  
   itkDebugMacro(<<"After setting parameters ");
 }
 

@@ -118,6 +118,10 @@ QuaternionRigidTransform<TScalarType>
   this->SetVarTranslation( translation );
   this->ComputeOffset();
 
+  // Modified is always called since we just have a pointer to the
+  // parameters and cannot know if the parameters have changed.
+  this->Modified();
+
 }
 
 

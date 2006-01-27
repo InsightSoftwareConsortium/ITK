@@ -54,6 +54,10 @@ ScaleTransform<ScalarType, NDimensions>
     m_Scale[i] = parameters[i];
     }
   this->m_Parameters = parameters;
+
+  // Modified is always called since we just have a pointer to the
+  // parameters and cannot know if the parameters have changed.
+  this->Modified();
 }
 
 
