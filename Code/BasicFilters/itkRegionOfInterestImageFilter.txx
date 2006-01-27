@@ -117,15 +117,8 @@ RegionOfInterestImageFilter<TInputImage,TOutputImage>
   region.SetSize( m_RegionOfInterest.GetSize() );
   region.SetIndex( start );
  
-  outputPtr->SetLargestPossibleRegion( region );
-
-  // Copy spacing without modification.
-  const typename Superclass::InputImageType::SpacingType& 
-    spacing = inputPtr->GetSpacing() ;
-  outputPtr->SetSpacing( spacing );
-
-  // Copy directions without modification.
-  outputPtr->SetDirection( inputPtr->GetDirection() );
+  // Copy Information without modification.
+  outputPtr->CopyInformation( inputPtr );
 
   // Correct origin of the extracted region.
   IndexType roiStart( m_RegionOfInterest.GetIndex() );
