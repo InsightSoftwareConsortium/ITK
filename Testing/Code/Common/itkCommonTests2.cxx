@@ -67,6 +67,7 @@ REGISTER_TEST(itkThreadDefsTest );
 REGISTER_TEST(itkThreadLoggerTest );
 REGISTER_TEST(itkTimeProbesTest );
 REGISTER_TEST(itkTransformTest );
+REGISTER_TEST(itkTransformsSetParametersTest );
 REGISTER_TEST(itkTranslationTransformTest );
 REGISTER_TEST(itkTreeContainerTest );
 REGISTER_TEST(itkTreeContainerTest2 );
