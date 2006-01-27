@@ -142,7 +142,10 @@ RegionOfInterestImageFilter<TInputImage,TOutputImage>
     // Generic type of image
     const typename Superclass::InputImageType::PointType&
       inputOrigin = inputPtr->GetOrigin();
-    
+
+    const typename Superclass::InputImageType::SpacingType&
+      spacing = inputPtr->GetSpacing() ;
+ 
     for( unsigned int i=0; i<ImageDimension; i++)
       {
       outputOrigin[i] = inputOrigin[i] + roiStart[i] * spacing[i];
