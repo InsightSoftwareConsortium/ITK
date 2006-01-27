@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkConfidenceConnectedImageFilter.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkConfidenceConnectedImageFilter.txx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) Insight Software Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkConfidenceConnectedImageFilter_txx_
@@ -21,7 +21,7 @@
 #include "itkExceptionObject.h"
 #include "itkImageRegionIterator.h"
 #include "itkMeanImageFunction.h"
-#include "itkVarianceImageFunction.h"
+#include "itkSumOfSquaresImageFunction.h"
 #include "itkBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkFloodFilledImageFunctionConditionalConstIterator.h"
@@ -121,10 +121,10 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     = MeanImageFunction<InputImageType>::New();
   meanFunction->SetInputImage( inputImage );
   meanFunction->SetNeighborhoodRadius( m_InitialNeighborhoodRadius );
-  typename VarianceImageFunction<InputImageType>::Pointer varianceFunction
-    = VarianceImageFunction<InputImageType>::New();
-  varianceFunction->SetInputImage( inputImage );
-  varianceFunction->SetNeighborhoodRadius( m_InitialNeighborhoodRadius );
+  typename SumOfSquaresImageFunction<InputImageType>::Pointer sumOfSquaresFunction
+    = SumOfSquaresImageFunction<InputImageType>::New();
+  sumOfSquaresFunction->SetInputImage( inputImage );
+  sumOfSquaresFunction->SetNeighborhoodRadius( m_InitialNeighborhoodRadius );
   
   // Set up the image function used for connectivity
   typename FunctionType::Pointer function = FunctionType::New();
@@ -138,69 +138,90 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
 
   if( m_InitialNeighborhoodRadius > 0 )
     {
+    InputRealType sumOfSquares = itk::NumericTraits<InputRealType>::Zero;
+
     typename SeedsContainerType::const_iterator si = m_Seeds.begin();
     typename SeedsContainerType::const_iterator li = m_Seeds.end();
     while( si != li )
       {
       m_Mean     += meanFunction->EvaluateAtIndex( *si );
-      m_Variance += varianceFunction->EvaluateAtIndex( *si );
+      sumOfSquares += sumOfSquaresFunction->EvaluateAtIndex( *si );
       si++;
       }
-    const unsigned int N = m_Seeds.size();
-    m_Mean     /= N;
-    m_Variance /= N;
+    const unsigned int num = m_Seeds.size();
+    const unsigned int totalNum = num * sumOfSquaresFunction->GetNeighborhoodSize();
+    m_Mean     /= num;
+    m_Variance  = (sumOfSquares - (m_Mean * m_Mean * double(totalNum))) / (double(totalNum) - 1.0);
     }
-   else 
+  else 
     {
+    InputRealType sum = itk::NumericTraits<InputRealType>::Zero;
+    InputRealType sumOfSquares = itk::NumericTraits<InputRealType>::Zero;
+
     typename SeedsContainerType::const_iterator si = m_Seeds.begin();
     typename SeedsContainerType::const_iterator li = m_Seeds.end();
     while( si != li )
       {
       const InputRealType value = 
-               static_cast< InputRealType >( inputImage->GetPixel( *si ) );
+        static_cast< InputRealType >( inputImage->GetPixel( *si ) );
 
-      m_Mean     += value;
-      m_Variance += value * value;
+      sum += value;
+      sumOfSquares += value * value;
       si++;
       }
-    const unsigned int N = m_Seeds.size();
-    m_Mean     /= N;
-    m_Variance /= N;
-    m_Variance -= m_Mean * m_Mean;
+    const unsigned int num = m_Seeds.size();
+    m_Mean      = sum/double(num);
+    m_Variance  = (sumOfSquares - (sum*sum / double(num))) / (double(num) - 1.0);
     }
+
 
   lower = m_Mean - m_Multiplier * sqrt( m_Variance );
   upper = m_Mean + m_Multiplier * sqrt( m_Variance );
   
-  // Adjust lower and upper to always contain the seed's intensity, otherwise, no pixels will be
-  // returned by the iterator and a zero variance will result
-
+  // Find the highest and lowest seed intensity.
+  InputRealType lowestSeedIntensity = itk::NumericTraits<InputImagePixelType>::max();
+  InputRealType highestSeedIntensity = itk::NumericTraits<InputImagePixelType>::Zero;
   typename SeedsContainerType::const_iterator si = m_Seeds.begin();
   typename SeedsContainerType::const_iterator li = m_Seeds.end();
   while( si != li )
     {
     const InputRealType seedIntensity = 
-            static_cast<InputRealType>(inputImage->GetPixel( *si ));
+      static_cast<InputRealType>(inputImage->GetPixel( *si ));
 
-    if (lower > seedIntensity)
+    if (lowestSeedIntensity > seedIntensity)
       {
-      lower = seedIntensity;
+      lowestSeedIntensity = seedIntensity;
       }
-    if (upper < seedIntensity)
+    if (highestSeedIntensity < seedIntensity)
       {
-      upper = seedIntensity;
+      highestSeedIntensity = seedIntensity;
       }
 
-    if (lower < static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin()))
-      {
-      lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
-      }
-    if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
-      {
-      upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
-      }
     si++;
     }
+
+
+  // Adjust lower and upper to always contain the seed's intensity, otherwise, no pixels will be
+  // returned by the iterator and a zero variance will result
+  if (lower > lowestSeedIntensity)
+    {
+    lower = lowestSeedIntensity;
+    }
+  if (upper < highestSeedIntensity)
+    {
+    upper = highestSeedIntensity;
+    }
+
+  // Make sure the lower and upper limit are not outside the valid range of the input 
+  if (lower < static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin()))
+    {
+    lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
+    }
+  if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
+    {
+    upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
+    }
+
 
   function->ThresholdBetween(static_cast<InputImagePixelType>(lower),
                              static_cast<InputImagePixelType>(upper));
@@ -267,34 +288,24 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
 
     // Adjust lower and upper to always contain the seed's intensity, otherwise, no pixels will be
     // returned by the iterator and a zero variance will result
-    si = m_Seeds.begin();
-    li = m_Seeds.end();
-    while( si != li )
+    if (lower > lowestSeedIntensity)
       {
-      const InputRealType seedIntensity = 
-              static_cast<InputRealType>(inputImage->GetPixel( *si ));
-
-
-      if (lower > seedIntensity)
-        {
-        lower = seedIntensity;
-        }
-      if (upper < seedIntensity)
-        {
-        upper = seedIntensity;
-        }
-
-      // Make sure the lower and upper limit are not outside the valid range of the input 
-      if (lower < static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin()))
-        {
-        lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
-        }
-      if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
-        {
-        upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
-        }
-      si++;
+      lower = lowestSeedIntensity;
       }
+    if (upper < highestSeedIntensity)
+      {
+      upper = highestSeedIntensity;
+      }
+    // Make sure the lower and upper limit are not outside the valid range of the input 
+    if (lower < static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin()))
+      {
+      lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
+      }
+    if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
+      {
+      upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
+      }
+
 
     function->ThresholdBetween(static_cast<InputImagePixelType>(lower),
                                static_cast<InputImagePixelType>(upper));
