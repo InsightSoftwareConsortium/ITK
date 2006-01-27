@@ -367,6 +367,25 @@ public:
    * region is not within the LargestPossibleRegion. */
   virtual bool VerifyRequestedRegion();
   
+  /** INTERNAL This method is used internally by filters to copy meta-data from
+   * the output to the input. Users should not have a need to use this method.
+   *
+   * Filters that override the ProcessObject's GenerateOutputInformation()
+   * should generally have the following line if they want to propagate meta-
+   * data for both Image and VectorImage
+   * \code
+   * outputImage->SetNumberOfComponentsPerPixel(
+   *    inputImage->GetNumberOfComponentsPerPixel() )
+   * \endcode
+   *
+   * \sa ImageBase, VectorImage
+   * 
+   * Returns/Sets the number of components in the image. Note that for all 
+   * images this is 1. Even for Image< RGBPixel< T >, 3 >.
+   * This is >= 1 only for time-series images such as itk::VectorImage. */
+  virtual unsigned int GetNumberOfComponentsPerPixel() const;
+  virtual void SetNumberOfComponentsPerPixel( unsigned int ); 
+
 protected:
   ImageBase();
   ~ImageBase();
@@ -389,12 +408,6 @@ protected:
 private:
   ImageBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  /** Returns/Sets the number of components in the image. Note that for all 
-   * images this is 1. Even for Image< RGBPixel< T >, 3 >.
-   * This is > 1 only for time-series images such as itk::VectorImage. */
-  virtual unsigned int GetNumberOfComponentsPerPixel() const;
-  virtual void SetNumberOfComponentsPerPixel( unsigned int ); // always 1
 
   OffsetValueType  m_OffsetTable[VImageDimension+1];
 

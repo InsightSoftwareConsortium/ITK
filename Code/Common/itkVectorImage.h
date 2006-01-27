@@ -247,6 +247,10 @@ public:
   itkSetMacro( VectorLength, VectorLengthType );
   itkGetConstReferenceMacro( VectorLength, VectorLengthType );
 
+  /** Get/Set the number of components each pixel has, ie the VectorLength */
+  virtual unsigned int GetNumberOfComponentsPerPixel() const;
+  virtual void SetNumberOfComponentsPerPixel( unsigned int  n );
+
 protected:
   VectorImage();
   void PrintSelf( std::ostream& os, Indent indent ) const;
@@ -256,10 +260,6 @@ private:
   VectorImage( const Self & ); // purposely not implementated
   void operator=(const Self&); //purposely not implemented
  
-  /** Get/Set the number of components each pixel has, ie the VectorLength */
-  virtual unsigned int GetNumberOfComponentsPerPixel() const;
-  virtual void SetNumberOfComponentsPerPixel( unsigned int  n );
-
   /** Length of the "vector pixel" */
   VectorLengthType m_VectorLength;
   
