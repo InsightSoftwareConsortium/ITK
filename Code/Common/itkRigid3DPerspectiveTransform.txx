@@ -72,7 +72,7 @@ void
 Rigid3DPerspectiveTransform<TScalarType>
 ::SetParameters( const ParametersType & parameters )
 {
-  itkDebugMacro( << "Setting paramaters " << parameters );
+  itkDebugMacro( << "Setting parameters " << parameters );
 
   // Transfer the versor part
   

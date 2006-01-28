@@ -203,7 +203,7 @@ void
 Rigid2DTransform<TScalarType>::
 SetParameters( const ParametersType & parameters )
 {
-  itkDebugMacro( << "Setting paramaters " << parameters );
+  itkDebugMacro( << "Setting parameters " << parameters );
 
   // Set angle
   this->SetVarAngle( parameters[0] );

@@ -73,7 +73,7 @@ void
 CenteredEuler3DTransform<TScalarType>
 ::SetParameters( const ParametersType & parameters )
 {
-  itkDebugMacro( << "Setting paramaters " << parameters );
+  itkDebugMacro( << "Setting parameters " << parameters );
 
   this->SetVarRotation(parameters[0], parameters[1], parameters[2]);
 

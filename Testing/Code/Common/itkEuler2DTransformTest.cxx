@@ -157,11 +157,11 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
 
   // Testing Parameters
   std::cout << "Testing Parameters: " ;
-  EulerTransformType::ParametersType paramaters = eulerTransform->GetParameters();
+  EulerTransformType::ParametersType parameters = eulerTransform->GetParameters();
   
-  if( paramaters[0] != 0.0
-      || paramaters[1] != 1.0
-      || paramaters[2] != 4.0
+  if( parameters[0] != 0.0
+      || parameters[1] != 1.0
+      || parameters[2] != 4.0
     )
   {
     std::cout << " [ FAILED ] " << std::endl;

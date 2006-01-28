@@ -55,7 +55,7 @@ void
 CenteredRigid2DTransform<TScalarType>
 ::SetParameters( const ParametersType & parameters )
 {
-  itkDebugMacro( << "Setting paramaters " << parameters );
+  itkDebugMacro( << "Setting parameters " << parameters );
 
   this->m_Parameters = parameters;
 

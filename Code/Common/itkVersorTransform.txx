@@ -58,7 +58,7 @@ void
 VersorTransform<TScalarType>
 ::SetParameters( const ParametersType & parameters )
 {
-  itkDebugMacro( << "Setting paramaters " << parameters );
+  itkDebugMacro( << "Setting parameters " << parameters );
 
   // Transfer the versor part
   AxisType rightPart;
@@ -78,7 +78,7 @@ VersorTransform<TScalarType>
   // parameters and cannot know if the parameters have changed.
   this->Modified();
 
-  itkDebugMacro(<<"After setting paramaters ");
+  itkDebugMacro(<<"After setting parameters ");
 }
 
 // Set Parameters
