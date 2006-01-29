@@ -120,6 +120,9 @@ RegionOfInterestImageFilter<TInputImage,TOutputImage>
   // Copy Information without modification.
   outputPtr->CopyInformation( inputPtr );
 
+  // Adjust output region
+  outputPtr->SetLargestPossibleRegion(region);
+
   // Correct origin of the extracted region.
   IndexType roiStart( m_RegionOfInterest.GetIndex() );
   typename Superclass::OutputImageType::PointType  outputOrigin;
