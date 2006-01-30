@@ -28,6 +28,13 @@ ENDFOREACH(Package)
 #examples : ITKCommon, VTKRendering, etc
 SET(Libraries ITKCommon ITKBasicFilters ITKIO)
 
+#option for wrapping
+OPTION(BUILD_WRAPPERS "Wrap library" OFF)
+IF(BUILD_WRAPPERS)
+SUBDIRS(Wrapping)
+ENDIF(BUILD_WRAPPERS)
+
+
 #the following block of code is an example of how to build an executable in
 #cmake.Unmodified, it will add an executable called "MyExe" to the project.
 #MyExe will be built using the files MyClass.h and MyClass.cxx, and it will
