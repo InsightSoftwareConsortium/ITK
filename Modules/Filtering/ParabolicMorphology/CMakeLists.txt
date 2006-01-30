@@ -28,6 +28,14 @@ ENDFOREACH(Package)
 #examples : ITKCommon, VTKRendering, etc
 SET(Libraries ITKCommon ITKBasicFilters ITKIO)
 
+
+#install devel files
+FILE(GLOB develFiles *.h *.txx)
+FOREACH(f ${ develFiles })
+INSTALL_FILES(/ include / InsightToolkit / BasicFilters FILES ${ f })
+ENDFOREACH(f)
+
+
 #option for wrapping
 OPTION(BUILD_WRAPPERS "Wrap library" OFF)
 IF(BUILD_WRAPPERS)
