@@ -106,7 +106,7 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIterator. */
-  ImageRegionIterator( const ImageIteratorWithIndex<TImage> &it);
+  ImageRegionIterator( const ImageIterator<TImage> &it);
   
   /** Set the pixel value */
   void Set( const PixelType & value) const  

@@ -48,7 +48,7 @@ ImageRegionIterator<TImage>
  
 template< typename TImage >
 ImageRegionIterator<TImage>
-::ImageRegionIterator( const ImageIteratorWithIndex<TImage> &it):
+::ImageRegionIterator( const ImageIterator<TImage> &it):
   ImageRegionConstIterator<TImage>(it)
 { 
 }

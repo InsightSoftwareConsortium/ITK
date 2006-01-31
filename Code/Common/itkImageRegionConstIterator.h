@@ -178,7 +178,7 @@ public:
    * ImageIterator to a ImageRegionConstIterator. */
   ImageRegionConstIterator( const ImageIterator<TImage> &it)
   {
-    this->ImageIterator<TImage>::operator=(it);
+    this->ImageConstIterator<TImage>::operator=(it);
     IndexType ind = this->GetIndex();
     m_SpanEndOffset = this->m_Offset + static_cast<long>(this->m_Region.GetSize()[0]) 
       - (ind[0] - this->m_Region.GetIndex()[0]);
