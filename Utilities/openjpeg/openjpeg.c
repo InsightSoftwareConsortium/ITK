@@ -52,6 +52,7 @@ opj_dinfo_t* opj_create_decompress(OPJ_CODEC_FORMAT format) {
         return NULL;
       }
       break;
+    case CODEC_UNKNOWN:
     default:
       opj_free(dinfo);
       return NULL;
@@ -72,6 +73,9 @@ void opj_destroy_decompress(opj_dinfo_t *dinfo) {
         break;
       case CODEC_JP2:
         jp2_destroy_decompress((opj_jp2_t*)dinfo->jp2_handle);
+        break;
+      case CODEC_UNKNOWN:
+      default:
         break;
     }
     /* destroy the decompressor */
@@ -100,6 +104,9 @@ void opj_setup_decoder(opj_dinfo_t *dinfo, opj_dparameters_t *parameters) {
         break;
       case CODEC_JP2:
         jp2_setup_decoder((opj_jp2_t*)dinfo->jp2_handle, parameters);
+        break;
+      case CODEC_UNKNOWN:
+      default:
         break;
     }
   }
@@ -141,6 +148,8 @@ opj_cinfo_t* opj_create_compress(OPJ_CODEC_FORMAT format) {
         return NULL;
       }
       break;
+    case CODEC_JPT:
+    case CODEC_UNKNOWN:
     default:
       opj_free(cinfo);
       return NULL;
@@ -160,6 +169,10 @@ void opj_destroy_compress(opj_cinfo_t *cinfo) {
         break;
       case CODEC_JP2:
         jp2_destroy_decompress((opj_jp2_t*)cinfo->jp2_handle);
+        break;
+      case CODEC_JPT:
+      case CODEC_UNKNOWN:
+      default:
         break;
     }
     /* destroy the decompressor */
@@ -193,6 +206,10 @@ void opj_setup_encoder(opj_cinfo_t *cinfo, opj_cparameters_t *parameters, opj_im
       case CODEC_JP2:
         jp2_setup_encoder((opj_jp2_t*)cinfo->jp2_handle, parameters, image);
         break;
+      case CODEC_JPT:
+      case CODEC_UNKNOWN:
+      default:
+        break;
     }
   }
 }
@@ -204,6 +221,10 @@ bool opj_encode(opj_cinfo_t *cinfo, opj_cio_t *cio, opj_image_t *image, char *in
         return j2k_encode((opj_j2k_t*)cinfo->j2k_handle, cio, image, index);
       case CODEC_JP2:
         return jp2_encode((opj_jp2_t*)cinfo->jp2_handle, cio, image, index);
+      case CODEC_JPT:
+      case CODEC_UNKNOWN:
+      default:
+        break;
     }
   }
 

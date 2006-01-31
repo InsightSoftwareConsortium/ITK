@@ -27,17 +27,35 @@ SET(OpenJPEG_SRCS
 CONFIGURE_FILE(${ITKOpenJPEG_SOURCE_DIR}/.NoDartCoverage
                ${ITKOpenJPEG_BINARY_DIR}/.NoDartCoverage)
 
-# Handle the dllimport/dllexport for building shared lib on Win32
-IF (WIN32)
-  IF (BUILD_SHARED_LIBS)
-    ADD_DEFINITIONS(-DOPJ_SHARED)
-  ELSE (BUILD_SHARED_LIBS)
-    ADD_DEFINITIONS(-DOPJ_STATIC)
-  ENDIF (BUILD_SHARED_LIBS)
-ENDIF (WIN32)
+# Prepare the .def file (Module definition)
+# depending on whether we are:
+# 1. Building a dll (shared lib)
+# 2. Whether we are using cl or bcc32 (underscore convention)
+IF(WIN32 AND BUILD_SHARED_LIBS)
+  SET(UNDERSCORE)
+  # Borland expect symbol to start with _
+  IF(BORLAND)
+    SET(UNDERSCORE "_")
+  ENDIF(BORLAND)
+  # Borland will by default use a .def file if present in
+  # the binary directory
+  CONFIGURE_FILE(
+    ${ITKOpenJPEG_SOURCE_DIR}/openjpeg.def.in
+    ${ITKOpenJPEG_BINARY_DIR}/openjpeg.def
+    @ONLY IMMEDIATE
+    )
+  # You can directly pass a .def file to cl this is
+  # recognized
+  IF(NOT BORLAND)
+    SET(OpenJPEG_SRCS ${OpenJPEG_SRCS}
+      ${ITKOpenJPEG_BINARY_DIR}/openjpeg.def
+      )
+  ENDIF(NOT BORLAND)
+ENDIF(WIN32 AND BUILD_SHARED_LIBS)
 
 # Create the library
 ADD_LIBRARY(${OPJ_PREFIX}openjpeg ${OpenJPEG_SRCS})
 
+# Install library
 INSTALL_TARGETS(/lib/InsightToolkit ${OPJ_PREFIX}openjpeg)
 

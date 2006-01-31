@@ -524,7 +524,7 @@ static void t1_encode_cblk(opj_t1_t *t1, opj_tcd_cblk_t * cblk, int orient, int 
   int passno;
   int bpno, passtype;
   int max;
-  int nmsedec;
+  int nmsedec = 0;
   double cumwmsedec = 0;
   char type = T1_TYPE_MQ;
   

@@ -84,7 +84,6 @@ typedef struct opj_jp2 {
   unsigned int numcl;
   unsigned int *cl;
   opj_jp2_comps_t *comps;
-  opj_image_t *image;
   unsigned int j2k_codestream_offset;
   unsigned int j2k_codestream_length;
 } opj_jp2_t;

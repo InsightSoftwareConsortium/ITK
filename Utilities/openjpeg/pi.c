@@ -545,6 +545,8 @@ bool pi_next(opj_pi_iterator_t * pi) {
       return pi_next_pcrl(pi);
     case CPRL:
       return pi_next_cprl(pi);
+    case PROG_UNKNOWN:
+      return false;
   }
   
   return false;
