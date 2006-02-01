@@ -216,9 +216,22 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
 
   inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() );
-  
+
   inputPtr->SetRequestedRegion( inputRequestedRegion );
 }
+
+template <class TInputImage, class TOutputImage>
+void 
+ShrinkImageFilter<TInputImage,TOutputImage>
+::EnlargeOutputRequestedRegion(DataObject *output)
+{
+  // call the superclass' implementation of this method
+  Superclass::EnlargeOutputRequestedRegion(output);
+  
+  // generate everything in the region of interest
+  output->SetRequestedRegionToLargestPossibleRegion();
+}
+
 
 /** 
  *
@@ -274,7 +287,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   typename TOutputImage::RegionType outputLargestPossibleRegion;
   outputLargestPossibleRegion.SetSize( outputSize );
   outputLargestPossibleRegion.SetIndex( outputStartIndex );
-  
+
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 }
 
