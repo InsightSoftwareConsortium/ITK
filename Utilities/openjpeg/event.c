@@ -61,7 +61,7 @@ _itoa(int i, char *a, int r) {
 
 /* ----------------------------------------------------------------------- */
 
-opj_event_mgr_t* opj_set_event_mgr(opj_common_ptr cinfo, opj_event_mgr_t *event_mgr, void *context) {
+opj_event_mgr_t* OPJ_CALLCONV opj_set_event_mgr(opj_common_ptr cinfo, opj_event_mgr_t *event_mgr, void *context) {
   if(cinfo) {
     opj_event_mgr_t *previous = cinfo->event_mgr;
     cinfo->event_mgr = event_mgr;

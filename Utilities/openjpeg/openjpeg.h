@@ -37,6 +37,27 @@
    Compiler directives
 ==========================================================
 */
+
+#if defined(OPJ_STATIC) || !(defined(WIN32) || defined(__WIN32__))
+#define OPJ_API
+#define OPJ_CALLCONV
+#else
+#define OPJ_CALLCONV __stdcall
+/*
+The following ifdef block is the standard way of creating macros which make exporting 
+from a DLL simpler. All files within this DLL are compiled with the OPJ_EXPORTS
+symbol defined on the command line. this symbol should not be defined on any project
+that uses this DLL. This way any other project whose source files include this file see 
+OPJ_API functions as being imported from a DLL, wheras this DLL sees symbols
+defined with this macro as being exported.
+*/
+#ifdef OPJ_EXPORTS
+#define OPJ_API __declspec(dllexport)
+#else
+#define OPJ_API __declspec(dllimport)
+#endif /* OPJ_EXPORTS */
+#endif /* !OPJ_STATIC || !WIN32 */
+
 #ifndef __cplusplus
 #if defined(HAVE_STDBOOL_H)
 /*
@@ -446,7 +467,7 @@ extern "C" {
 ==========================================================
 */
 
-const char * opj_version();
+OPJ_API const char * OPJ_CALLCONV opj_version();
 
 /* 
 ==========================================================
@@ -461,13 +482,13 @@ Create an image
 @param clrspc image color space
 @return returns a new image structure if successful, returns NULL otherwise
 */
-opj_image_t *opj_image_create(int numcmpts, opj_image_cmptparm_t *cmptparms, OPJ_COLOR_SPACE clrspc);
+OPJ_API opj_image_t* OPJ_CALLCONV opj_image_create(int numcmpts, opj_image_cmptparm_t *cmptparms, OPJ_COLOR_SPACE clrspc);
 
 /**
 Deallocate any resources associated with an image
 @param image image to be destroyed
 */
-void opj_image_destroy(opj_image_t *image);
+OPJ_API void OPJ_CALLCONV opj_image_destroy(opj_image_t *image);
 
 /* 
 ==========================================================
@@ -486,26 +507,26 @@ to contain encoded data.
 @param length Reading: buffer length. Writing: 0
 @return Returns a CIO handle if successful, returns NULL otherwise
 */
-opj_cio_t* opj_cio_open(opj_common_ptr cinfo, unsigned char *buffer, int length);
+OPJ_API opj_cio_t* OPJ_CALLCONV opj_cio_open(opj_common_ptr cinfo, unsigned char *buffer, int length);
 
 /**
 Close and free a CIO handle
 @param cio CIO handle to free
 */
-void opj_cio_close(opj_cio_t *cio);
+OPJ_API void OPJ_CALLCONV opj_cio_close(opj_cio_t *cio);
 
 /**
 Get position in byte stream
 @param cio CIO handle
 @return Returns the position in bytes
 */
-int cio_tell(opj_cio_t *cio);
+OPJ_API int OPJ_CALLCONV cio_tell(opj_cio_t *cio);
 /**
 Set position in byte stream
 @param cio CIO handle
 @param pos Position, in number of bytes, from the beginning of the stream
 */
-void cio_seek(opj_cio_t *cio, int pos);
+OPJ_API void OPJ_CALLCONV cio_seek(opj_cio_t *cio, int pos);
 
 /* 
 ==========================================================
@@ -513,7 +534,7 @@ void cio_seek(opj_cio_t *cio, int pos);
 ==========================================================
 */
 
-opj_event_mgr_t* opj_set_event_mgr(opj_common_ptr cinfo, opj_event_mgr_t *event_mgr, void *context);
+OPJ_API opj_event_mgr_t* OPJ_CALLCONV opj_set_event_mgr(opj_common_ptr cinfo, opj_event_mgr_t *event_mgr, void *context);
 
 /* 
 ==========================================================
@@ -525,42 +546,42 @@ Creates a J2K/JPT/JP2 decompression structure
 @param format Decoder to select
 @return Returns a handle to a decompressor if successful, returns NULL otherwise
 */
-opj_dinfo_t* opj_create_decompress(OPJ_CODEC_FORMAT format);
+OPJ_API opj_dinfo_t* OPJ_CALLCONV opj_create_decompress(OPJ_CODEC_FORMAT format);
 /**
 Destroy a decompressor handle
 @param dinfo decompressor handle to destroy
 */
-void opj_destroy_decompress(opj_dinfo_t *dinfo);
+OPJ_API void OPJ_CALLCONV opj_destroy_decompress(opj_dinfo_t *dinfo);
 /**
 Set decoding parameters to default values
 @param parameters Decompression parameters
 */
-void opj_set_default_decoder_parameters(opj_dparameters_t *parameters);
+OPJ_API void OPJ_CALLCONV opj_set_default_decoder_parameters(opj_dparameters_t *parameters);
 /**
 Setup the decoder decoding parameters using user parameters.
 Decoding parameters are returned in j2k->cp. 
 @param dinfo decompressor handle
 @param parameters decompression parameters
 */
-void opj_setup_decoder(opj_dinfo_t *dinfo, opj_dparameters_t *parameters);
+OPJ_API void OPJ_CALLCONV opj_setup_decoder(opj_dinfo_t *dinfo, opj_dparameters_t *parameters);
 /**
 Decode an image from a JPEG-2000 codestream
 @param dinfo decompressor handle
 @param cio Input buffer stream
 @return Returns a decoded image if successful, returns NULL otherwise
 */
-opj_image_t* opj_decode(opj_dinfo_t *dinfo, opj_cio_t *cio);
+OPJ_API opj_image_t* OPJ_CALLCONV opj_decode(opj_dinfo_t *dinfo, opj_cio_t *cio);
 /**
 Creates a J2K/JP2 compression structure
 @param format Coder to select
 @return Returns a handle to a compressor if successful, returns NULL otherwise
 */
-opj_cinfo_t* opj_create_compress(OPJ_CODEC_FORMAT format);
+OPJ_API opj_cinfo_t* OPJ_CALLCONV opj_create_compress(OPJ_CODEC_FORMAT format);
 /**
 Destroy a compressor handle
 @param cinfo compressor handle to destroy
 */
-void opj_destroy_compress(opj_cinfo_t *cinfo);
+OPJ_API void OPJ_CALLCONV opj_destroy_compress(opj_cinfo_t *cinfo);
 /**
 Set encoding parameters to default values, that means : 
 <ul>
@@ -582,14 +603,14 @@ Set encoding parameters to default values, that means :
 </ul>
 @param parameters Compression parameters
 */
-void opj_set_default_encoder_parameters(opj_cparameters_t *parameters);
+OPJ_API void OPJ_CALLCONV opj_set_default_encoder_parameters(opj_cparameters_t *parameters);
 /**
 Setup the encoder parameters using the current image and using user parameters. 
 @param cinfo compressor handle
 @param parameters compression parameters
 @param image input filled image
 */
-void opj_setup_encoder(opj_cinfo_t *cinfo, opj_cparameters_t *parameters, opj_image_t *image);
+OPJ_API void OPJ_CALLCONV opj_setup_encoder(opj_cinfo_t *cinfo, opj_cparameters_t *parameters, opj_image_t *image);
 /**
 Encode an image into a JPEG-2000 codestream
 @param cinfo compressor handle
@@ -598,7 +619,7 @@ Encode an image into a JPEG-2000 codestream
 @param index Name of the index file if required, NULL otherwise
 @return Returns true if successful, returns false otherwise
 */
-bool opj_encode(opj_cinfo_t *cinfo, opj_cio_t *cio, opj_image_t *image, char *index);
+OPJ_API bool OPJ_CALLCONV opj_encode(opj_cinfo_t *cinfo, opj_cio_t *cio, opj_image_t *image, char *index);
 
 #ifdef __cplusplus
 }

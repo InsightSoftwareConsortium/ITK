@@ -945,7 +945,7 @@ void tcd_makelayer(opj_tcd_t *tcd, int layno, double thresh, int final) {
                 dd = pass->distortiondec - cblk->passes[n - 1].distortiondec;
               }
               if (!dr) {
-                if (dd)
+                if (dd != 0)
                   n = passno + 1;
                 continue;
               }

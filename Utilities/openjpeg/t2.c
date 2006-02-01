@@ -73,7 +73,7 @@ Decode a packet of a tile from a source buffer
 @param pi Packet identity
 @return 
 */
-int t2_decode_packet(opj_t2_t* t2, unsigned char *src, int len, opj_tcd_tile_t *tile, opj_tcp_t *tcp, opj_pi_iterator_t *pi);
+static int t2_decode_packet(opj_t2_t* t2, unsigned char *src, int len, opj_tcd_tile_t *tile, opj_tcp_t *tcp, opj_pi_iterator_t *pi);
 
 /*@}*/
 
@@ -308,7 +308,7 @@ static void t2_init_seg(opj_tcd_seg_t * seg, int cblksty, int first) {
   }
 }
 
-int t2_decode_packet(opj_t2_t* t2, unsigned char *src, int len, opj_tcd_tile_t *tile, opj_tcp_t *tcp, opj_pi_iterator_t *pi) {
+static int t2_decode_packet(opj_t2_t* t2, unsigned char *src, int len, opj_tcd_tile_t *tile, opj_tcp_t *tcp, opj_pi_iterator_t *pi) {
   int bandno, cblkno;
   unsigned char *c = src;
 

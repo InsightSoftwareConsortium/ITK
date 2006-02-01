@@ -32,7 +32,7 @@
 
 /* ----------------------------------------------------------------------- */
 
-opj_cio_t* opj_cio_open(opj_common_ptr cinfo, unsigned char *buffer, int length) {
+opj_cio_t* OPJ_CALLCONV opj_cio_open(opj_common_ptr cinfo, unsigned char *buffer, int length) {
   opj_cp_t *cp = NULL;
   opj_cio_t *cio = (opj_cio_t*)opj_malloc(sizeof(opj_cio_t));
   if(!cio) return NULL;
@@ -77,7 +77,7 @@ opj_cio_t* opj_cio_open(opj_common_ptr cinfo, unsigned char *buffer, int length)
   return cio;
 }
 
-void opj_cio_close(opj_cio_t *cio) {
+void OPJ_CALLCONV opj_cio_close(opj_cio_t *cio) {
   if(cio) {
     if(cio->openmode == OPJ_STREAM_WRITE) {
       /* destroy the allocated buffer */
@@ -94,7 +94,7 @@ void opj_cio_close(opj_cio_t *cio) {
 /*
  * Get position in byte stream.
  */
-int cio_tell(opj_cio_t *cio) {
+int OPJ_CALLCONV cio_tell(opj_cio_t *cio) {
   return cio->bp - cio->start;
 }
 
@@ -103,7 +103,7 @@ int cio_tell(opj_cio_t *cio) {
  *
  * pos : position, in number of bytes, from the beginning of the stream
  */
-void cio_seek(opj_cio_t *cio, int pos) {
+void OPJ_CALLCONV cio_seek(opj_cio_t *cio, int pos) {
   cio->bp = cio->start + pos;
 }
 

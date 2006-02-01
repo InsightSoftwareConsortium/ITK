@@ -31,7 +31,7 @@ opj_image_t* opj_image_create0() {
   return image;
 }
 
-opj_image_t *opj_image_create(int numcmpts, opj_image_cmptparm_t *cmptparms, OPJ_COLOR_SPACE clrspc) {
+opj_image_t* OPJ_CALLCONV opj_image_create(int numcmpts, opj_image_cmptparm_t *cmptparms, OPJ_COLOR_SPACE clrspc) {
   int compno;
   opj_image_t *image = NULL;
 
@@ -68,7 +68,7 @@ opj_image_t *opj_image_create(int numcmpts, opj_image_cmptparm_t *cmptparms, OPJ
   return image;
 }
 
-void opj_image_destroy(opj_image_t *image) {
+void OPJ_CALLCONV opj_image_destroy(opj_image_t *image) {
   int i;
   if(image) {
     if(image->comps) {
