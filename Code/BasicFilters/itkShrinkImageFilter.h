@@ -107,6 +107,7 @@ public:
    * pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
+  virtual void EnlargeOutputRequestedRegion(DataObject *output); 
 
 protected:
   ShrinkImageFilter();
