@@ -20,9 +20,9 @@
 #ifndef GDCMPIXELREADCONVERT_H
 #define GDCMPIXELREADCONVERT_H
 
-#include "gdcmCommon.h"
 #include "gdcmBase.h"
 #include "gdcmException.h"
+#include <fstream>
 
 namespace gdcm
 {
@@ -30,9 +30,13 @@ class File;
 class RLEFramesInfo;
 class JPEGFragmentsInfo;
 
+typedef void (*VOID_FUNCTION_PUINT8_PFILE_POINTER)(uint8_t *, File *);
+
 /**
  * \brief Utility container for gathering the various forms the pixel data
  *        migth take during the user demanded processes.
+ * WARNING : *none* of these functions may be invoked by gdcm user
+ *           (internal use only)
  */
 class GDCM_EXPORT PixelReadConvert : public Base
 {
@@ -43,12 +47,13 @@ public:
    void Print( std::ostream &os = std::cout, std::string const &indent = "" );
 
    // Getter accessors:
-   uint8_t *GetRGB()     { return RGB;     }
-   size_t   GetRGBSize() { return RGBSize; }
-   uint8_t *GetRaw()     { return Raw;     }
-   size_t   GetRawSize() { return RawSize; }
-   uint8_t *GetLutRGBA() { return LutRGBA; }
-
+   uint8_t *GetRGB()           { return RGB;     }
+   size_t   GetRGBSize()       { return RGBSize; }
+   uint8_t *GetRaw()           { return Raw;     }
+   size_t   GetRawSize()       { return RawSize; }
+   uint8_t *GetLutRGBA()       { return LutRGBA; }
+   int      GetLutItemNumber() { return LutItemNumber; }
+   int      GetLutItemSize()   { return LutItemSize;   }
    // Predicates:
    bool IsRawRGB();
 
@@ -57,7 +62,10 @@ public:
    bool ReadAndDecompressPixelData( std::ifstream *fp );
    void Squeeze();
    bool BuildRGBImage();
+   void BuildLUTRGBA();
 
+   void SetUserFunction( VOID_FUNCTION_PUINT8_PFILE_POINTER userFunc ) 
+                         { UserFunction = userFunc; }
 private:
    // Use the fp:
    void ReadAndDecompress12BitsTo16Bits( std::ifstream *fp ) 
@@ -66,10 +74,10 @@ private:
 
    // In place (within Decompressed and with no fp access) decompression
    // or convertion:
-   void BuildLUTRGBA();
    void ConvertSwapZone();
    void ConvertReorderEndianity();
    bool ConvertReArrangeBits() throw ( FormatError );
+   void ConvertFixGreyLevels();
    void ConvertRGBPlanesToRGBPixels();
    void ConvertYcBcRPlanesToRGBPixels();
    void ConvertHandleColor();
@@ -79,7 +87,11 @@ private:
    void AllocateRaw();
 
 // Variables
-   /// Pixel data represented as RGB after LUT color interpretation.
+/**
+ * \brief Pixel data represented as RGB after LUT color interpretation.
+ *        'uint8_t' is just to avoid warnings at compile time.
+ *        feel free to cast it as uint16_t if you need
+ */ 
    uint8_t *RGB;
    /// Size of RGB image.
    size_t   RGBSize;
@@ -90,6 +102,11 @@ private:
    /// \brief Red/Green/Blue/Alpha LookUpTable build out of the
    ///        Red/Green/Blue LUT descriptors (see \ref BuildLUTRGBA ).
    uint8_t *LutRGBA;
+   int LutItemNumber;
+   int LutItemSize;
+
+   // *ALL* the following info belong to the FileHelper
+   // One should think there is an analyze error in the model !
 
    size_t PixelOffset;
    size_t PixelDataLength;
@@ -100,13 +117,9 @@ private:
    int BitsStored;
    int HighBitPosition;
    int SamplesPerPixel;
-   int PixelSize;
+   //int PixelSize; // useless
    bool PixelSign;
    int SwapCode;
-
-   // cache whether this is a strange GE transfer syntax (which has
-   // one transfer syntax for the header and another for the pixel data).
-   bool IsDLXGE;
 
    bool IsRaw;
    bool IsJPEG2000;
@@ -115,6 +128,7 @@ private:
    bool IsJPEGLossy;
    bool IsJPEG;
    bool IsRLELossless;
+   bool IsMPEG;
 
    RLEFramesInfo *RLEInfo;
    JPEGFragmentsInfo *JPEGInfo;
@@ -122,6 +136,7 @@ private:
    // For handling color stage
    int PlanarConfiguration;
    bool IsMonochrome;
+   bool IsMonochrome1;
    bool IsPaletteColor;
    bool IsYBRFull;
    bool HasLUT;
@@ -132,7 +147,9 @@ private:
    uint8_t *LutRedData;
    uint8_t *LutGreenData;
    uint8_t *LutBlueData;
-
+   
+   File *FileInternal; // must be passed to User Function
+   VOID_FUNCTION_PUINT8_PFILE_POINTER UserFunction;
 };
 } // end namespace gdcm
 

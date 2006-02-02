@@ -1,0 +1,96 @@
+See :
+
+www.tamsinfo.toshiba.com/docrequest/pdf/esoft3.5.pdf
+for more fields (page 106 ?!?)
+or
+www.medical.siemens.com/siemens/en_INT/rg_marcom_FBAs/files/brochures/DICOM/mr/MEDWS_DCS_ESK.pdf
+
+CSA Non Image
+-------------
+0029 xx08 CS 1 CSA Data Type
+0029 xx09 LO 1 CSA Data Version
+0029 xx10 OB 1 CSA Data Info
+7fe1 xx10 OB 1 CSA Data
+
+CSA Image Header Module
+-----------------------
+
+0029 xx08  CS 1 CSA  Image Header Type
+0029 xx09  LO 1 CSA  Image Header Version
+0029 xx10  OB 1 CSA  Image Header Info
+
+CSA Series Header Module
+-----------------------
+
+0029 xx08  CS 1 CSA  Series Header Type
+0029 xx09  LO 1 CSA  Series Header Version
+0029 xx10  OB 1 CSA  Series Header Info
+
+0029 xx08  CS 1 syngo Report Type
+0029 xx09  LO 1 syngo Report
+0029 xx15  US 1 SR Variant
+0029 xx17  US 1 SC SOP Instance UID
+
+0029 xx10  OB 1 syngo Report Data
+0029 xx11  OB 1 syngo Report Presentation
+
+MEDCOM Header Module
+--------------------
+
+0029 xx08 CS 1 Medcom Header Type
+0029 xx09 LO 1 Medcom Header Version
+0029 xx10 OB 1 Medcom Header Info
+0029 xx20 OB 1 Medcom History Information
+0029 xx31 LO 1 PMTF Information 1
+0029 xx32 UL 1 PMTF Information 2
+0029 xx33 UL 1 PMTF Information 3
+0029 xx34 CS 1 PMTF Information 4
+0029 xx35 UL 1 PMTF Information 5
+0029 xx40 SQ 1 Application Header Sequence
+0029 xx41 CS 1 Application Header Type
+0029 xx42 LO 1 Application Header ID
+0029 xx43 LO 1 Application Header Version
+0029 xx44 OB 1 Application Header Info
+0029 xx40 SQ 1 Application Header Sequence
+0029 xx50 LO 8 Workflow Control Flags
+0029 xx51 CS 1 Archive Management Flag Keep Online 
+0029 xx52 CS 1 Archive Management Flag Do Not Archive
+0029 xx53 CS 1 Image Location Status
+0029 xx54 DS 1 Estimated Retrieve Time
+0029 xx55 CS 1 Data Size of Retrieved Images 
+
+MEDCOM History Information
+-------------------------- 
+
+
+MEDCOM OOG Module
+-----------------
+0029 xx08 CS 1 MedCom OOG Type
+0029 xx09 LO 1 MedCom OOG Version
+0029 xx10 OB 1 MedCom OOG Info
+
+syngo Report Data
+-----------------
+
+Standard Extensions of NM SOP Class
+-----------------------------------
+0019 00a5 SS 1-n Number of repeats per phase 
+0019 00a6 SS 1-n Cycles per repeat
+0019 00a7 SL 1-n Repeat start time  
+0019 00a8 SL 1-n Repeat stop time  
+0019 00a9 SL 1-n Effective repeat time 
+0019 00aa SS 1-n Adquiered cycles per repeat
+0021 0000 OB 1 ECAT File Menu Header
+-->
+--> 0021 0000 is NOT a group length  ?!?
+-->
+0021 0001 OB 1 ECAT File SubHeader
+0033 0000 FL n Flood correction Matrix Det 1 upto SR 2.0
+0033 0001 FL n Flood correction Matrix Det 2 upto SR 2.0
+
+
+etc ...
+See :
+tamsinfo.toshiba.com/docrequest/pdf/esoft3.5.pdf
+for more fields (page 106 ?!?)
+

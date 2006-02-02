@@ -49,8 +49,9 @@ public:
    RLEFrame() { NumberOfFragments = 0; }
    void Print( std::ostream &os = std::cout, std::string indent = "" );
 
-   void SetNumberOfFragments(unsigned int number) { NumberOfFragments = number; };   
-   unsigned int GetNumberOfFragments() { return NumberOfFragments; };
+   void SetNumberOfFragments(unsigned int number) 
+                                       { NumberOfFragments = number; }   
+   unsigned int GetNumberOfFragments() { return NumberOfFragments; }
    void SetOffset(unsigned int id, long offset);
    long GetOffset(unsigned int id);
    void SetLength(unsigned int id, long length);

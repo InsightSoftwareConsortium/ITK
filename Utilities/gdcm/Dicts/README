@@ -16,3 +16,306 @@ Sources for dicom public dictionaries:
    you can find on the net is very partial.
    WARNING : The Dicom Tag is an identifier inside the Dicom Dictionary,
              The Tag Name *is not*
+
+
+Comment on the file NIH.dic, you can find the following discussion
+on comp.protocol.dicom(*). As clearly specify by David Clunie all
+thoses tags are extremely dangerous to use since they override some
+other, we are only adding them to gdcm to be able to read /apparently/
+some NIH images. SHOULD NOT EVER BE USED FOR WRITTING IMAGES !
+
+(*)
+[Re: Retired element VR and VM, was Re: 0028,3006 LUT Data (nightmare)]
+...
+> 'gdcm' Dicom dictionary uses a few tags, such as :
+>  0018 106b UI 1 Synchronization Frame of Reference
+This should be:
+(0020,0200) Synchronization Frame of Reference UID
+>  0028 0122 US 1 Waveform Padding Value
+(5400,100A)    Waveform Padding Value
+>   003a 0002 SQ 1 Waveform Sequence
+(5400,0100)    Waveform Sequence
+>   003a 0103 CS 1 Data Value Representation
+(50xx,0103)    Data Value Representation
+>   0040 0552 SQ 1 Specimen Description Sequence
+No such attribute
+>   0040 0553 ST 1 Specimen Description
+No such attribute
+>   0040 09f8 SQ 1 Vital Stain Code Sequence
+No such attribute
+>   0040 a16a ST 1 Bibliographics Citation
+No such attribute
+>   0040 a992 ST 1 Uniform Resource Locator
+No such attribute
+
+I suspect these were taken for the draft for trial implementation
+of Sup 23 SR, which was problematic in many ways, not the least
+of which was that some of its attributes with the same number
+were re-used with different purpose and VR, etc.
+
+Some may have been from early drafts of other supplements (e.g.,
+waveform from the looks of things).
+
+None of these should ever be used. 
+...
+
+
+
+
+
+
+Remarks about dicomV3Intera.dic:
+
+This document is produced /somehow/ using document at:
+[Intera 10.1]
+http://www.medical.philips.com/main/company/connectivity/assets/docs/dicomcs/Conformance_Statement_MR_101_v04.pdf
+
+[DICOM Conformance Statement]
+http://www.medical.philips.com/main/company/connectivity/assets/docs/dicomcs/MR_InteraR104dcs.pdf
+
+
+Remarks about GEMS.dic
+
+This document is produced using:
+GE Medical Systems HISPEED ADVANTAGE CT/i CONFORMANCE STATEMENT:
+http://www.gehealthcare.com/euen/interoperability/docs/2162114_100r5.pdf
+
+the 0023 tags were also extracted from:
+[Technical Publications]
+http://www.gehealthcare.com/usen/interoperability/dicom/docs/22046092.pdf
+
+Ok I finally understood the Private Creator thing:
+V 0025|0010 lg :       x(c) 12       Off.:     x(e4e) 3662    [LO]                                                      [gdcm::Unknown] [GEMS_SERS_01]
+V 0027|0010 lg :       x(c) 12       Off.:     x(eda) 3802    [LO]                                                      [gdcm::Unknown] [GEMS_IMAG_01]
+V 0029|0010 lg :       x(c) 12       Off.:    x(10b8) 4280    [LO]                                                      [gdcm::Unknown] [GEMS_IMPS_01]
+V 0043|0010 lg :       x(c) 12       Off.:    x(112a) 4394    [LO]                                                      [gdcm::Unknown] [GEMS_PARM_01]
+
+And if you take document:
+http://www.gehealthcare.com/euen/interoperability/docs/2288567_100r3_0.pdf
+they are all described:
+
+B.2.5 Private Creator Identification (GEMS_STDY_01)
+B.2.6 Private Creator Identification (GEMS_SERS_01)
+B.2.7 Private Creator Identification (GEMS_IMAG_01)
+...
+
+In fact the best document is:
+LightSpeed QX/i 1.2 Conformance Statement for DICOM v3.0 (ID/Net v3.0) 
+http://www.gehealthcare.com/euen/interoperability/docs/2288567_100r3_0.pdf
+
+
+I was searching for 0043 1039, I could only find:
+http://www.gehealthcare.com/it_solutions/connectivity/pdf/hispeed_np.pdf
+ok -> http://www.gehealthcare.com/usen/interoperability/dicom/docs/hispeed_np.pdf
+but the link points nowhere, the document describes:
+HiSpeed LX/i, FX/i, DX/i, DX/iB 2.00/2.01/2.02 CONFORMANCE STATEMENT for DICOM v3.0
+
+..let's use google cache... not fun !
+
+
+0043 1060 was found at: http://www.gehealthcare.com/it_solutions/connectivity/pdf/2246181r25.pdf
+ok -> http://www.gehealthcare.com/usen/interoperability/dicom/docs/2246181r25.pdf
+0043 1060 IS 8 slop_int_10...slop_int_17
+
+I would also need:
+Signa Horizon Lx DICOM CONFORMANCE STATEMENT for DICOM v3.0
+grrrr: Vas flags 0043 1032 SS 1 in http://www.vitalcom.com/it_solutions/connectivity/pdf/2317752r3.pdf
+ok: -> www.gehealthcare.com/usen/interoperability/dicom/docs/2317752r3.pdf
+but 0043 1032 SS 1 Raw data type http://www.vitalcom.com/it_solutions/connectivity/pdf/2171143r25.pdf
+ok -> www.gehealthcare.com/usen/interoperability/dicom/docs/2171143r25.pdf
+
+Adding a page from : http://www.vitalcom.com/it_solutions/connectivity/pdf/2317752r3.pdf
+ 
+A Coord of Top Right Corner (0027,1049) FL 1 
+S Coord of Top Right Corner (0027,104A) FL 1 
+R Coord of Bottom Right Corner (0027,104B) FL 1 
+A Coord of Bottom Right Corner (0027,104C) FL 1 
+S Coord of Bottom Right Corner (0027,104D) FL 1 
+Image dimension - X (0027,1060) FL 1 
+Image dimension - Y (0027,1061) FL 1 
+Number of Excitations (0027,1062) FL 1 
+B.1. 8 Private Creator Identification (GEMS_IMPS_01) 
+Lower range of Pixels1 (0029,1015) SL 1 
+Lower range of Pixels1 (0029,1016) SL 1 
+Lower range of Pixels2 (0029,1017) SL 1 
+Upper range of Pixels2 (0029,1018) SL 1 
+Len of tot hdr in bytes (0029,101A) SL 1 
+Version of the hdr struct (0029,1026) SS 1 
+Advantage comp. Overflow (0029,1034) SL 1 
+Advantage comp. Underflow (0029,1035) SL 1 
+B.1. 9 Private Creator Identification (GEMS_PARM_01) 
+Bitmap of prescan options (0043,1001) SS 1 
+Gradient offset in X (0043,1002) SS 1 
+Gradient offset in Y (0043,1003) SS 1 
+Gradient offset in Z (0043,1004) SS 1 
+Img is original or unoriginal (0043,1005) SS 1 
+Number of EPI shots (0043,1006) SS 1 
+Views per segment (0043,1007) SS 1 
+Respiratory rate, bpm (0043,1008) SS 1 
+Respiratory trigger point (0043,1009) SS 1 
+Type of receiver used (0043,100A) SS 1 
+Peak rate of change of gradient field (0043,100B) DS 1 
+Limits in units of percent (0043,100C) DS 1 
+PSD estimated limit (0043,100D) DS 1 
+PSD estimated limit in tesla per second (0043,100E) DS 1 
+Saravghead (0043,100F) DS 1 
+Window value (0043,1010) US 1 
+GE image integrity (0043,101C) SS 1 
+Level value (0043,101D) SS 1 
+Unique image iden (0043,1028) OB 1 
+Histogram tables (0043,1029) OB 1 
+User defined data (0043,102A) OB 1 
+Private Scan Options (0043,102B) SS 4 
+Effective echo spacing (0043,102C) SS 1 
+String slop field 1 (0043,102D) SH 1 
+String slop field 2 (0043,102E) SH 1 
+Image Type (real, imaginary, phase, magnitude) (0043,102F) SS 1 
+Vas collapse flag (0043,1030) SS 1 
+
+RA cord of target recon center (0043,1031) DS 2 
+Vas flags (0043,1032) SS 1 
+Neg_scanspacing (0043,1033) FL 1 
+Offset Frequency (0043,1034) IS 1 
+User_usage_tag (0043,1035) UL 1 
+User_fill_map_MSW (0043,1036) UL 1 
+User_fill_map_LSW (0043,1037) UL 1 
+User data 25...User data 48 (0043,1038) FL 24
+Slop_int_6... slop_int_9 (0043,1039) IS 4 
+ 6: b_value 
+ 7: private imaging options 2 
+ 8: ihtagging
+ 9: ihtagspc 
+Slop_int_10...slop_int_17 (0043,1060) IS 8
+ 10: ihfcineim 
+ 11: ihfcinent 
+ 12: Reserved
+ 13: oprtarr 
+ 14: averages
+ 15: Current Station #
+ 16: Total # of Stations
+ 17: Reserved 
+ 
+Scanner Study Entity UID (0043,1061) UI 1 
+Scanner Study ID (0043,1062) SH 1 
+Scanner Table Entry (single gradient coil systems only)
+Scanner Table Entry + Gradient Coil Selected (0043,106f) DS 3 or 4
+
+
+-------------------------------------------------
+Notes from:
+PathSpeedtm PACS Version 8.0 CONFORMANCE STATEMENT for DICOM V3.0
+http://www.gehealthcare.com/it_solutions/connectivity/pdf/iis_fp_10282r1.pdf
+ok -> www.gehealthcare.com/usen/interoperability/dicom/docs/iis_fp_10282r1.pdf
+
+See GE_ImageThumbnails
+--------------------------------------------------
+
+
+About ACUSON.dic, generated from aspen3.pdf:
+[Acusion Aspen(tm) Ultrasound System Dicom Conformance Statement for aspen 3.0 3.5]
+http://mais.baikal.ru/library/pdf/aspen3.pdf
+
+
+--------------------------------------------------
+According to :
+http://www.gehealthcare.com/usen/interoperability/dicom/docs/ep250409r4.pdf
+
+2.5 EXTENSIONS / SPECIALIZATIONS / PRIVATIZATIONS 
+If so configured, the product will send ultrasound raw data information in private data elements designated by the Private 
+Creator element: 
+
+Element Name Tag VR VM Description 
+Private Creator 7FE1,00xx LO 1 GEMS_Ultrasound_MovieGroup_001
+ 
+This means that all private tags starting with 7FE1,xx will belong to the GEMS_Ultrasound_MovieGroup_001. 
+If so configured, the product will send preview image in private data elements designated by the Private Creator element: 
+
+Element Name Tag VR VM Description 
+Private Creator 6003,00xx LO 1 GEMS_Ultrasound_ImageGroup_001
+ 
+This means that all private tags starting with 6003,00xx will belong to the GEMS_Ultrasound_ImageGroup_001
+
+--------------------------------------------------
+In preparation for the new Philips dictionaray with values taken from:
+http://www.medical.philips.com/main/company/connectivity/assets/docs/dicomcs/mr91.pdf
+rename the old dictionary to avoid confusion
+
+Basically all the dictionary should have been:
+
+2001 xx22 FL 1 Water Fat Shift
+instead of
+2001 1022 FL 1 Water Fat Shift
+
+
+About GEMS Genie:
+Doc was taken from:
+http://www.gehealthcare.com/usen/fun_img/nmedicine/nmdicom/docs/confstmt.pdf
+
+433  echo "http://www.gehealthcare.com/usen/fun_img/nmedicine/nmdicom/docs/confstmt.pdf" > GEMS-Genie.dic
+To build GEMS-Genie I also used: http://www.gehealthcare.com/usen/fun_img/nmedicine/nmdicom/docs/2383442_100r1.pdf
+
+434  echo "http://www.gehealthcare.com/usen/interoperability/dicom/docs/2270669_100r0_3.pdf" > GEMS-Advance.dic
+
+According to 2270669_100r0_3.pdf, there is different interpretation for:
+
+0009 10b3 SL 1 GE Advance ImageSet.ir_num_subsets
+0009 10b4 FL 1 GE Advance ImageSet.ir_recon_fov
+
+or:
+
+0009 10b4 FL 1 GE Advance ImageSet.ir_num_subsets
+... grrrr
+ok nevermind I found also this document:
+http://www.gehealthcare.com/usen/fun_img/pet/docs/5101600GDOr0.pdf
+that defines:
+0009 10b3 SL 1 GE Advance ImageSet.ir_num_subsets
+
+
+--------------------------------------------------
+About 6002,1000 I only found one ref:
+[Advantage Workstation 4.0 CONFORMANCE STATEMENT for DICOM V3.0]
+http://www.gehealthcare.com/usen/interoperability/dicom/docs/2261302_100r1.pdf
+
+
+--------------------------------------------------
+For GEMS-Advantx.dic
+[EchoPAC PC version 4 CONFORMANCE STATEMENT for DICOM]
+http://www.gehealthcare.com/it_solutions/connectivity/pdf/EP250409r06.pdf
+ok -> www.gehealthcare.com/usen/interoperability/dicom/docs/EP250409r06.pdf
+http://www.gehealthcare.com/usen/xr/dicom/docs/2142506_100r01_ps.pdf
+
+
+--------------------------------------------------
+ELSCINT Dictionary was done by ripping stuff from:
+Value Multiplicity was deducted by looking at the values for this particular image...
+http://www.merge-efilm.com/phpbb2/viewtopic.php?t=171&sid=11cde708c1f4feac179467c117373732
+
+
+About PHILIPS-EasyVision.dic, BE VERY AFRAID:
+http://www.medical.philips.com/main/company/connectivity/assets/docs/dicomcs/ev44_final.pdf
+... pure pleasure...
+
+
+--------------------------------------------------
+SPI.dic and SIEMENS.dic were generated based on D. Clunie work at:
+[3.3.2.2.2 Siemens Magnetom SP SPI Format]
+http://www.dclunie.com/medical-image-faq/html/part4.html
+
+and spi.tpl siemens.tpl from dicom3tools (20050611 snapshot)
+
+
+---------------------------------------------------
+
+Alright SIEMENS is totally screwed up...
+Let's have a look at:
+[Aristos VB10]
+http://www.medical.siemens.com/siemens/en_INT/rg_marcom_FBAs/files/brochures/DICOM/ax/Aristos_DicomConformanceStatement.pdf
+
+SOMATOM syngo VA50A DICOM Conformance Statement
+http://61.62.116.208/webhd/adams/LinkedDocuments/SENSATION_16.pdf
+
+SOMATOM syngo VA45A DICOM Conformance Statement
+http://61.62.116.208/webhd/adams/LinkedDocuments/EMOTION%206%20DICOM.pdf
+
+Somaris/5 VA70A CT DICOM Conformance Statement
+http://www.petscaninfo.com/zportal/portals/ctimi/prodandserv/dicom_statements/xvi.pdf

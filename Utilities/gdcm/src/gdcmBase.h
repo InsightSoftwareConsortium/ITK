@@ -41,11 +41,11 @@ public:
                       std::string const & indent = "" ); 
 
    /// \brief Sets the print level for the Dicom Header Elements
-   /// \note 0 for Light Print; 1 for 'medium' Print, 2 for Heavy
-   void SetPrintLevel(int level) { PrintLevel = level; };
+   /// \note 0 for Light Print; 1 for 'medium' Print, 2 for Heavy Print
+   void SetPrintLevel(int level) { PrintLevel = level; }
 
    /// \brief Gets the print level for the Dicom Entries
-   int GetPrintLevel() { return PrintLevel; };
+   int GetPrintLevel() { return PrintLevel; }
 
 protected:
    /// \brief Amount of printed details for each Dicom Entries :

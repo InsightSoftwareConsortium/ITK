@@ -67,7 +67,7 @@ void ContentEntry::Copy(DocEntry *doc)
    DocEntry::Copy(doc);
 
    ContentEntry *entry = dynamic_cast<ContentEntry *>(doc);
-   if(entry)
+   if ( entry )
       Value = entry->Value;
 }
 

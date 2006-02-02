@@ -21,29 +21,33 @@
 #include "gdcmDebug.h"
 #include "gdcmVR.h"
 #include "gdcmTS.h"
+#include "gdcmDictGroupName.h"
 #include "gdcmDictSet.h"
 #include "gdcmDicomDirElement.h"
 
 namespace gdcm 
 {
 //-----------------------------------------------------------------------------
-/// \brief Those global string that are return by reference everywhere in 
+/// \brief Those global string that are returned by reference everywhere in 
 /// gdcm code used to be in gdcmCommon.h but due to a 'bug' in gcc/MacOSX
 /// you cannot have static initialization in a multithreaded environment
 /// since there is a lazy construction everything got skrew up somehow
 /// Therefore the actual initialization is done in a cxx file (avoid
 /// duplicated symbol), and an extern is used in gdcmCommon.h
+
 const std::string GDCM_UNKNOWN   = "gdcm::Unknown";
 const std::string GDCM_UNFOUND   = "gdcm::Unfound";
 const std::string GDCM_BINLOADED = "gdcm::Binary data loaded";
 const std::string GDCM_NOTLOADED = "gdcm::NotLoaded";
 const std::string GDCM_UNREAD    = "gdcm::UnRead";
-
+const std::string GDCM_NOTASCII  = "gdcm::NotAscii";
+const std::string GDCM_PIXELDATA = "gdcm::Pixel Data to be loaded";
 //-----------------------------------------------------------------------------
-DictSet         *Global::Dicts   = (DictSet *)0;
-VR              *Global::ValRes  = (VR *)0;
-TS              *Global::TranSyn = (TS *)0;
-DicomDirElement *Global::ddElem  = (DicomDirElement *)0;
+DictSet         *Global::Dicts     = (DictSet *)0;
+VR              *Global::ValRes    = (VR *)0;
+TS              *Global::TranSyn   = (TS *)0;
+DictGroupName   *Global::GroupName = (DictGroupName *)0;
+DicomDirElement *Global::ddElem    = (DicomDirElement *)0;
 
 //-----------------------------------------------------------------------------
 /**
@@ -63,10 +67,11 @@ Global::Global()
       gdcmWarningMacro( "VR or TS or Dicts already allocated");
       return;
    }
-   Dicts   = new DictSet();
-   ValRes  = new VR();
-   TranSyn = new TS();
-   ddElem  = new DicomDirElement();
+   Dicts     = new DictSet();
+   ValRes    = new VR();
+   TranSyn   = new TS();
+   GroupName = new DictGroupName();
+   ddElem    = new DicomDirElement();
 }
 
 /**
@@ -77,6 +82,7 @@ Global::~Global()
    delete Dicts;
    delete ValRes;
    delete TranSyn;
+   delete GroupName;
    delete ddElem;
 }
 
@@ -104,6 +110,14 @@ VR *Global::GetVR()
 TS *Global::GetTS()
 {
    return TranSyn;
+}
+
+/**
+ * \brief   returns a pointer to the Group name correspondance table
+ */
+DictGroupName *Global::GetDictGroupName()
+{
+   return GroupName;
 }
 
 /**

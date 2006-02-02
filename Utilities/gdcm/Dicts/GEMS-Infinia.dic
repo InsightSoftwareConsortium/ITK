@@ -1,0 +1,87 @@
+0009 xx10 LO 1 Study Name
+0009 xx11 SL 1 Study Flags
+0009 xx12 SL 1 Study Type
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0009 xx40 PN 1 Patient Object Name
+0009 xx41 SL 1 Patient Flags
+0009 xx42 DA 1 Patient Creation Date
+0009 xx43 TM 1 Patient Creation Time
+
+
+
+
+0011 xx0d LO 1 Radio Nuclide Name
+0011 xx12 LO 1 Dataset Name
+
+0011 xx15 SL 1 Detector Number
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0013 xx11 SL 1 Source Translator
+
+
+
+
+
+
+0013 xx26 LT 1 Study Comments
+0033 xx08 CS 1 GENIE Data Object Type
+0033 xx10 SL 1 Modified
+0033 xx11 LO 1 Name
+0033 xx16 LO 1 ProtocolDataUID
+0033 xx17 SH 1 Date
+0033 xx18 SH 1 Time
+0033 xx19 UL 1 ProtocoldataFlags
+0033 xx1A UL 1 ProtocolName
+0033 xx1B LO 1 RelevantDataUID
+0033 xx1C LO 1 BulkData
+0033 xx1D SL 1-n IntData
+0033 xx1E FD 1-n DoubleData
+0033 xx1F LT 1-n StringData
+0033 xx20 LT 1-n BulkDataFormat
+0033 xx23 LT 1-n StringDataFormat
+0033 xx24 LT 1 Description

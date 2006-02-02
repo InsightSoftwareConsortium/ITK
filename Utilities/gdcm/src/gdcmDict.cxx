@@ -27,7 +27,7 @@
 namespace gdcm 
 {
 //-----------------------------------------------------------------------------
-/// \brief auto generate function, to fill up the Dicom Dictionnary,
+/// \brief auto generated function, to fill up the Dicom Dictionnary,
 ///       if relevant file is not found on user's disk
 void FillDefaultDataDict(Dict *d);
 
@@ -47,14 +47,9 @@ Dict::Dict( )
  */
 Dict::Dict(std::string const &filename)
 {
-   uint16_t group;
-   uint16_t element;
-   TagName vr;
-   TagName vm;
-   TagName name;
 
    std::ifstream from( filename.c_str() );
-   if( !from )
+   if ( !from )
    {
       gdcmWarningMacro( "Can't open dictionary" << filename.c_str());
       // Using default embeded one:
@@ -62,22 +57,8 @@ Dict::Dict(std::string const &filename)
    }
    else
    {
-      while (!from.eof())
-      {
-         from >> std::hex;
-         from >> group;
-         from >> element;
-         from >> vr;
-         from >> vm;
-         from >> std::ws;  //remove white space
-         std::getline(from, name);
-   
-         const DictEntry newEntry(group, element, vr, vm, name);
-         AddEntry(newEntry);
-      }
-
+      DoTheLoadingJob(from);
       Filename = filename;
-      from.close();
    }
 }
 
@@ -91,6 +72,67 @@ Dict::~Dict()
 
 //-----------------------------------------------------------------------------
 // Public
+
+/**
+ * \brief   Add a all the entries held in a source dictionary
+ * \note it concerns only Private Dictionnary
+ * @param   filename from which to build the dictionary.
+ */
+bool Dict::AddDict(std::string const &filename)
+{
+
+   std::ifstream from( filename.c_str() );
+   if ( !from )
+   {
+      gdcmWarningMacro( "Can't open dictionary" << filename.c_str());
+      return false;
+   }
+   else
+   {
+      DoTheLoadingJob(from);
+      return true;
+   }
+}
+
+
+/**
+ * \brief   Removes from the current Dicom Dict all the entries held in a source dictionary
+ * \note it concerns only Private Dictionnary
+ * @param   filename from which we read the entries to remove.
+ */
+bool Dict::RemoveDict(std::string const &filename)
+{
+   std::ifstream from( filename.c_str() );
+   if ( !from )
+   {
+      gdcmWarningMacro( "Can't open dictionary" << filename.c_str());
+      return false;
+   }
+   else
+   {
+      uint16_t group;
+      uint16_t elem;
+      TagName vr;
+      TagName vm;
+      TagName name;
+
+      while (!from.eof() && from)
+      {
+         from >> std::hex;
+         from >> group;
+         from >> elem;
+         from >> vr;
+         from >> vm;
+        // from >> std::ws;  //remove white space
+         std::getline(from, name);
+ 
+        RemoveEntry(DictEntry::TranslateToKey(group, elem));
+      }
+      from.close();
+      return true;
+   }
+}
+
 /**
  * \brief  adds a new Dicom Dictionary Entry 
  * @param   newEntry entry to add 
@@ -100,9 +142,9 @@ bool Dict::AddEntry(DictEntry const &newEntry)
 {
    const TagKey &key = newEntry.GetKey();
 
-   if(KeyHt.count(key) == 1)
+   if ( KeyHt.count(key) == 1 )
    {
-      gdcmWarningMacro( "Already present" << key.c_str());
+      gdcmErrorMacro( "Already present:" << key );
       return false;
    } 
    else 
@@ -136,7 +178,7 @@ bool Dict::ReplaceEntry(DictEntry const &newEntry)
 bool Dict::RemoveEntry(TagKey const &key) 
 {
    TagKeyHT::const_iterator it = KeyHt.find(key);
-   if(it != KeyHt.end()) 
+   if ( it != KeyHt.end() ) 
    {
       KeyHt.erase(key);
 
@@ -144,7 +186,7 @@ bool Dict::RemoveEntry(TagKey const &key)
    } 
    else 
    {
-      gdcmWarningMacro( "Unfound entry" << key.c_str());
+      gdcmWarningMacro( "Unfound entry" << key );
       return false;
   }
 }
@@ -172,9 +214,8 @@ void Dict::ClearEntry()
 }
 
 /**
- * \brief   Get the dictionary entry identified by a given tag (group,element)
- * @param   group   group of the entry to be found
- * @param   elem element of the entry to be found
+ * \brief   Get the dictionary entry identified by a given tag ("group|element")
+ * @param   key   tag of the entry to be found
  * @return  the corresponding dictionary entry when existing, NULL otherwise
  */
 DictEntry *Dict::GetEntry(TagKey const &key)
@@ -205,7 +246,7 @@ DictEntry *Dict::GetEntry(uint16_t group, uint16_t elem)
 DictEntry *Dict::GetFirstEntry()
 {
    ItKeyHt = KeyHt.begin();
-   if( ItKeyHt != KeyHt.end() )
+   if ( ItKeyHt != KeyHt.end() )
       return &(ItKeyHt->second);
    return NULL;
 }
@@ -230,7 +271,33 @@ DictEntry *Dict::GetNextEntry()
 
 //-----------------------------------------------------------------------------
 // Private
+/**
+ * \brief Add all the dictionary entries from an already open source file 
+ * @param from input stream to read from.
+ */
+void Dict::DoTheLoadingJob(std::ifstream &from)
+{
+   uint16_t group;
+   uint16_t elem;
+   TagName vr;
+   TagName vm;
+   TagName name;
 
+   while (!from.eof() && from)
+   {
+      from >> std::hex;
+      from >> group;
+      from >> elem;
+      from >> vr;
+      from >> vm;
+      from >> std::ws;  //remove white space
+      std::getline(from, name);
+ 
+      const DictEntry newEntry(group, elem, vr, vm, name);
+      AddEntry(newEntry);
+   }
+   from.close();
+}
 //-----------------------------------------------------------------------------
 // Print
 /**

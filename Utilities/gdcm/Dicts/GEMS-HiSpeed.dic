@@ -1,0 +1,34 @@
+0009 1031 SH 1 Mobile Location Code 
+0019 1002 SL 1 Detector Channel 
+0019 1023 DS 1 Table Speed 
+0019 1024 DS 1 mid scan time 
+0019 1026 SL 1 Tube Azimuth 
+0019 1027 DS 1 Gantry Velocity 
+0019 1039 SS 1 SFOV Type 
+0019 1042 SS 1 Segment number 
+0019 1043 SS 1 Total segments required 
+0043 1012 SS 3 X-Ray Chain 
+0043 101e DS 1 Delta start time 
+0043 1035 US 1 Infant indicator 
+0043 1036 CS 1 language 
+0043 1037 CS 1 Gantry type 
+0043 1038 SH 1 Raw data ID 
+0043 1039 IS 1 Reconstruction Matrix 
+0043 1040 CS 1-n Image Filter 
+0043 1041 US 1 Prospective Addition Indicator 
+0043 1043 US 1 Motion Correction Indicator 
+0043 1044 US 1 Helical Correction Indicator 
+0043 1045 US 1 Cine Correction Indicator
+0043 1046 US 1 IBO Correction Indicator 
+0043 1047 US 1 BBH Correction Indicator 
+0043 1048 US 1 Advanced Noise Reduction Indicator 
+0043 1049 US 1 Scatter Correction Indicator 
+0043 104a DS 3 Recon Center Coordinates 
+0043 1050 US 1 Cross-Talk Correction Indicator 
+0043 1051 US 1 Q-Cal Correction Indicator 
+0043 1052 US 1 Afterglow Correction Indicator 
+0043 1053 US 1 Local Decon Correction Indicator 
+0043 1054 DS 1 Scan Start Location 
+0043 1055 DS 1 Scan End Location 
+0043 1056 IS 1 Detector Row 
+0043 1057 CS 1 Tube Focus 

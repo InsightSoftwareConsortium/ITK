@@ -899,12 +899,7 @@
 0028 0010 US 1 Rows
 0028 0011 US 1 Columns
 0028 0012 US 1 Planes
-0028 0013 US 1 Instants (special LibIDO)
 0028 0014 US 1 Ultrasound Color Data Present
-0028 0015 US 1 UsedNbX ACR Libido special
-0028 0016 US 1 UsedNbY ACR Libido special
-0028 0017 US 1 UsedNbZ ACR Libido special
-0028 0018 US 1 UsedNbT ACR Libido special
 0028 0030 DS 2 Pixel Spacing
 0028 0031 DS 2 Zoom Factor
 0028 0032 DS 2 Zoom Center
@@ -1258,7 +1253,6 @@
 0040 db0c UI 1 Template Extension Organization UID (RET)
 0040 db0d UI 1 Template Extension Creator UID (RET)
 0040 db73 UL 1-n Referenced Content Item Identifier
-0041 1050 SQ 1 Special PAPYRUS 3.0
 
 0050 0000 UL 1 Group Length
 0050 0004 CS 1 Calibration Image
@@ -2564,4 +2558,3 @@ fffc fffc OB 1 Data Set Trailing Padding
 fffe e000 UL 1 Item
 fffe e00d UL 1 Item Delimitation Item
 fffe e0dd UL 1 Sequence Delimitation Item
-ffff ffff UK 1 Unknown Code

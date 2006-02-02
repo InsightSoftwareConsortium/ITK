@@ -32,7 +32,7 @@ typedef std::vector<std::string> DirListType;
 
 //-----------------------------------------------------------------------------
 
-// NOTE: Due to a VC6 'feature' we can not export a std::list in a dll, 
+// NOTE: Due to a VC6 'feature' we cannot export a std::list in a dll, 
 // so GDCM_EXPORT keyword was removed for this class only
 
 /**
@@ -51,7 +51,7 @@ public :
    std::string const &GetDirName() const { return DirName; }
 
    /// Return the file names
-   DirListType const &GetFilenames() const { return Filenames; };
+   DirListType const &GetFilenames() const { return Filenames; }
 
    static bool IsDirectory(std::string const &dirName);
 

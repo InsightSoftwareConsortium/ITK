@@ -55,7 +55,7 @@ DicomDirObject::~DicomDirObject()
  */
 void DicomDirObject::FillObject(ListDicomDirMetaElem const &elemList)
 {
-  // FillObject fills up the SQItem that will be conneected to the right place
+  // FillObject fills up the SQItem that will be connected to the right place
    ListDicomDirMetaElem::const_iterator it;
    uint16_t tmpGr,tmpEl;
    DictEntry *dictEntry;
@@ -73,7 +73,7 @@ void DicomDirObject::FillObject(ListDicomDirMetaElem const &elemList)
 
       AddEntry(entry);
    }   
-}   
+}  
 
 //-----------------------------------------------------------------------------
 // Private

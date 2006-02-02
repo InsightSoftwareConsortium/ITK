@@ -70,9 +70,9 @@ bool ElementSet::AddEntry(DocEntry *newEntry)
 {
    const TagKey &key = newEntry->GetKey();
 
-   if( TagHT.count(key) == 1 )
+   if ( TagHT.count(key) == 1 )
    {
-      gdcmWarningMacro( "Key already present: " << key.c_str());
+      gdcmWarningMacro( "Key already present: " << key );
       return false;
    }
    else
@@ -89,7 +89,7 @@ bool ElementSet::AddEntry(DocEntry *newEntry)
 bool ElementSet::RemoveEntry( DocEntry *entryToRemove)
 {
    const TagKey &key = entryToRemove->GetKey();
-   if( TagHT.count(key) == 1 )
+   if ( TagHT.count(key) == 1 )
    {
       TagHT.erase(key);
       //gdcmWarningMacro( "One element erased.");
@@ -97,7 +97,7 @@ bool ElementSet::RemoveEntry( DocEntry *entryToRemove)
       return true;
    }
 
-   gdcmWarningMacro( "Key not present");
+   gdcmWarningMacro( "Key not present : " << key);
    return false ;
 }
 
@@ -108,14 +108,14 @@ bool ElementSet::RemoveEntry( DocEntry *entryToRemove)
 bool ElementSet::RemoveEntryNoDestroy(DocEntry *entryToRemove)
 {
    const TagKey &key = entryToRemove->GetKey();
-   if( TagHT.count(key) == 1 )
+   if ( TagHT.count(key) == 1 )
    {
       TagHT.erase(key);
       //gdcmWarningMacro( "One element erased.");
       return true;
    }
 
-   gdcmWarningMacro( "Key not present");
+   gdcmWarningMacro( "Key not present " << key);
    return false ;
 }
 
@@ -194,6 +194,14 @@ DocEntry *ElementSet::GetDocEntry(uint16_t group, uint16_t elem)
   */ 
 void ElementSet::Print(std::ostream &os, std::string const & )
 {
+   // Let's change the 'warning value' for Pixel Data,
+   // to avoid human reader to be confused by 'gdcm::NotLoaded'.   
+   gdcm::BinEntry *pixelElement = GetBinEntry(0x7fe0,0x0010);
+   if ( pixelElement != 0 )
+   {
+      pixelElement->SetValue( gdcm::GDCM_PIXELDATA);
+   }      
+
    for( TagDocEntryHT::const_iterator i = TagHT.begin(); i != TagHT.end(); ++i)
    {
       DocEntry *entry = i->second;

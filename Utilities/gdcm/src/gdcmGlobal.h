@@ -26,6 +26,7 @@ namespace gdcm
 class DictSet;
 class VR;
 class TS;
+class DictGroupName;
 class DicomDirElement;
 //-----------------------------------------------------------------------------
 /**
@@ -41,6 +42,7 @@ public:
    static DictSet *GetDicts();
    static VR *GetVR();
    static TS *GetTS();
+   static DictGroupName *GetDictGroupName();
    static DicomDirElement *GetDicomDirElements();
 
 private:
@@ -51,6 +53,9 @@ private:
    /// \brief Pointer to a hash table containing the Transfer Syntax codes 
    ///        and their english description 
    static TS *TranSyn; 
+   /// \brief Pointer to a hash table containing the Group codes 
+   ///        and their english name (from NIH) 
+   static DictGroupName *GroupName; 
    /// \brief Pointer to the hash table containing the Dicom Elements necessary 
    ///        to describe each part of a DICOMDIR 
    static DicomDirElement *ddElem;

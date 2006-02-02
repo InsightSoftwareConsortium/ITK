@@ -47,7 +47,8 @@ public:
    ElementSet(int);
    ~ElementSet();
 
-   virtual void Print(std::ostream &os = std::cout, std::string const &indent = "" ); 
+   virtual void Print(std::ostream &os = std::cout, 
+                      std::string const &indent = "" ); 
 
    void WriteContent(std::ofstream *fp, FileType filetype); 
 
@@ -60,7 +61,7 @@ public:
    DocEntry *GetNextEntry();
    DocEntry *GetDocEntry(uint16_t group, uint16_t elem);
    /// Tells us if the ElementSet contains no entry
-   bool IsEmpty() { return TagHT.empty(); };
+   bool IsEmpty() { return TagHT.empty(); }
 
 protected:
 

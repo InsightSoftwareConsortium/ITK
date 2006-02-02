@@ -1,0 +1,8 @@
+7fdf 0010 LO 1 Private Creator (ACUSON:1.2.840.113680.1.0)
+7fdf 1000 IS 1 Lossy Compression Ratio
+7fdf 1001 US 1 Image Format
+7fdf 1002 US 1 Acuson Region Type
+7fdf 100b UL 1 Acuson Image Apex X
+7fdf 100c UL 1 Acuson Image Apex Y
+7fdf 100d IS 1 B-Color-On Flag
+7fdf fe00 OB 1 Data Padding

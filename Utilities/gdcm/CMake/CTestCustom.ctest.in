@@ -1,0 +1,14 @@
+SET(CTEST_CUSTOM_WARNING_EXCEPTION
+  ${CTEST_CUSTOM_WARNING_EXCEPTION}
+  "comparison is always (true|false) due to limited range of data type"
+  "ld: warning prebinding disabled because \\((__TEXT|__DATA|__LINKEDIT) segment \\(address = 0x[a-f0-9]+ size = 0x[a-f0-9]+\\) of (.*) overlaps with (__LINKEDIT|__TEXT|__DATA) segment \\(address = 0x[a-f0-9]+ size = 0x[a-f0-9]+\\) of (.*)"
+  "ld: warning prebinding disabled because dependent library: (.*).dylib is not prebound"
+  "gdcmjasper/(.*) warning: statement not reached"
+  "warning: string length `[0-9]+' is greater than the length `509' ISO C89 compilers are required to support"
+  "warning: string length '[0-9]+' is greater than the length '509' ISO C89 compilers are required to support"
+  "/.../gdcm/src/gdcmjasper/src/libjasper/(.*)"
+  "\"/.../gdcm/src/gdcmjpeg/jccolor.c\", line 107: warning: integer overflow detected: op \"<<\""
+  "Warning W8004.*gdcmjasper[\\]src[\\]libjasper.*"
+  )
+
+

@@ -1,0 +1,14 @@
+00e1 0010 LO 1 Implementor ID
+00e1 1022 DS 2 Presentation Relative Center
+00e1 1023 DS 2 Presentation Relative Part
+00e1 1024 CS 1 Presentation Horizontal Invert
+00e1 1025 CS 1 Presentation Vertical Invert
+00e1 1040 SH 1 Image Label
+01f3 0010 LO 1 Implementor ID
+01f3 1011 SQ 1 PS Sequence
+07a1 0010 LO 1 Implementor ID
+07a1 1010 LO 1 Tamar Software Version
+6001 0010 LO 1 Implementor ID
+6001 1010 CS 1 Text Overlay Flag
+00e1 0010 LO 1 Implementor ID
+00e1 1022 DS 2 Presentation Relative Center

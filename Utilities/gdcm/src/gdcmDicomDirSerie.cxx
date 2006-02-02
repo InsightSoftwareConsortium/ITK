@@ -33,7 +33,7 @@ namespace gdcm
 DicomDirSerie::DicomDirSerie(bool empty):
    DicomDirObject()
 {
-   if( !empty )
+   if ( !empty )
    {
       ListDicomDirSerieElem const &elemList = 
          Global::GetDicomDirElements()->GetDicomDirSerieElements();   

@@ -1,0 +1,35 @@
+0011 00xx LO 1 Private Creator PATIENT_01
+0011 xx01 LT 1 Patient DOB
+0015 00xx LO 1 Private Creator EXAM_01
+0015 xx01 DS 1 Stenos_calibr_ratio
+0015 xx02 DS 1 Stenos_magnification
+0015 xx03 DS 1 Cardiac_calibr_ratio
+0019 00xx LO 1 Private Creator SERIE_01
+0019 xx01 DS 1 Angle_value_1
+0019 xx02 DS 1 Angle_value_2
+0019 xx03 DS 1 Angle_value_3
+0019 xx04 CS 1 Angle_label_1
+0019 xx05 CS 1 Angle_label_2
+0019 xx06 CS 1 Angle_label_3
+0019 xx07 ST 1 Adx_procedure_name
+0019 xx08 ST 1 Adx_exam_name
+0019 xx09 SH 1 Adx_patient_size
+0019 000A IS 1 Acq_record view
+0019 xx10 DS 1 Adx_injector_delay
+0019 xx11 CS 1 Adx_auto_inject
+0019 xx14 IS 1 Adx_acq_mod
+0019 xx15 CS 1 Adx_camera_rotation_enable
+0019 xx16 CS 1 Adx_reverse_sweep
+0019 xx17 IS 1 Cur_spatial_filter_strength
+0019 xx18 IS 1 Zoom_factor
+0019 xx19 IS 1 X_zoom
+0019 xx1A IS 1 Y_zoom
+0019 xx1B DS 1 Adx_focus
+0019 xx1C CS 1 Adx_dose
+0019 xx1D IS 1 Side_mark
+0019 xx1E IS 1 Percentage_landscape
+0019 xx1F DS 1 Adx_exposure_duration
+70nn 00xx LO 1 Private Creator ANNOT_01
+70nn xx04 ST 1 Text_annotation
+70nn xx05 IS 2 Box
+70nn xx07 IS 2 Arrow end

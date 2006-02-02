@@ -42,64 +42,65 @@ class GDCM_EXPORT DocEntry : public Base
 public:
    DocEntry(DictEntry*);
    /// \brief Canonical Destructor
-   virtual ~DocEntry() {};
+   virtual ~DocEntry() {}
 
    virtual void Print (std::ostream &os = std::cout, std::string const &indent = ""); 
    virtual void WriteContent(std::ofstream *fp, FileType filetype);
 
    /// \brief  Gets the DicEntry of the current Dicom entry
    /// @return The DicEntry of the current Dicom entry
-   DictEntry * GetDictEntry() { return DicomDict; }; 
+   DictEntry * GetDictEntry() { return DicomDict; } 
 
    /// Returns the Dicom Group number of the current Dicom entry
-   uint16_t      GetGroup()     { return DicomDict->GetGroup();  };
+   uint16_t      GetGroup()     { return DicomDict->GetGroup();  }
 
    /// Returns the Dicom Element number of the current Dicom entry
-   uint16_t      GetElement()   { return DicomDict->GetElement();};
+   uint16_t      GetElement()   { return DicomDict->GetElement();}
 
    /// Set the 'key' of the current Dicom entry
    void  SetKey( TagKey const &key ) { Key = key; }
+
    /// Returns the 'key' of the current Dicom entry
-   std::string const &GetKey() const { return Key; }
+   TagKey const &GetKey() const { return Key; }
 
    /// \brief Returns the 'Name' '(e.g. "Patient's Name") found in the Dicom
    /// Dictionnary of the current Dicom Header Entry
-   std::string const &GetName() const { return DicomDict->GetName(); };
+   std::string const &GetName() const { return DicomDict->GetName(); }
 
    /// \brief Returns the 'Value Representation' (e.g. "PN" : Person Name,
    /// "SL" : Signed Long), found in the Dicom header or in the Dicom
    /// Dictionnary, of the current Dicom entry
-   std::string const &GetVR() const { return DicomDict->GetVR(); };
+   std::string const &GetVR() const { return DicomDict->GetVR(); }
 
    /// \brief Returns the 'Value Multiplicity' (e.g. "1", "1-n", "6"),
    /// found in the Dicom entry or in the Dicom Dictionnary
    /// of the current Dicom entry
-   std::string const &GetVM() const { return DicomDict->GetVM(); };
+   std::string const &GetVM() const { return DicomDict->GetVM(); }
 
    /// Sets the 'Value Multiplicity' of the current Dicom entry
-   void SetVM( TagName const &v) { DicomDict->SetVM(v); }; 
+   void SetVM( TagName const &v) { DicomDict->SetVM(v); } 
 
    /// \brief Returns offset (since the beginning of the file, including
    /// the File Preamble, if any) of the value of the current Dicom entry
    /// \warning offset of the *value*, not of the Dicom entry
-   size_t GetOffset() { return Offset; };
+   size_t GetOffset() { return Offset; }
 
    /// \brief Sets only 'Read Length' (*not* 'Usable Length') of the current
    /// Dicom entry
-   void SetReadLength(uint32_t l) { ReadLength = l; };
+   void SetReadLength(uint32_t l) { ReadLength = l; }
    /// \brief Returns the 'read length' of the current Dicom entry
    /// \warning this value is the one stored in the Dicom header but not
    ///          mandatoryly the one thats's used (in case on SQ, or delimiters,
    ///          the usable length is set to zero)
-   uint32_t GetReadLength() { return ReadLength; };
+   uint32_t GetReadLength() { return ReadLength; }
 
    /// \brief Sets both 'Read Length' and 'Usable Length' of the current
    /// Dicom entry
-   void SetLength(uint32_t l) { Length = l; };
+   void SetLength(uint32_t l) { Length = l; }
    /// \brief Returns the actual value length of the current Dicom entry
    /// \warning this value is not *always* the one stored in the Dicom header
    ///          in case of well knowned bugs
-   uint32_t GetLength() { return Length; };
+   uint32_t GetLength() { return Length; }
 
    uint32_t GetFullLength();
 
@@ -107,24 +108,25 @@ public:
    /// \brief   Sets the offset of the Dicom entry
    /// \warning use with caution !
    /// @param   of offset to be set
-   void SetOffset(size_t of) { Offset = of; };
+   void SetOffset(size_t of) { Offset = of; }
 
    /// Sets to TRUE the ImplicitVr flag of the current Dicom entry
-   void SetImplicitVR() { ImplicitVR = true; };
+   void SetImplicitVR() { ImplicitVR = true; }
  
    /// \brief Tells us if the current Dicom entry was checked as ImplicitVr
    /// @return true if the current Dicom entry was checked as ImplicitVr
-   bool IsImplicitVR() { return ImplicitVR; };
+   bool IsImplicitVR() { return ImplicitVR; }
 
    /// \brief Tells us if the VR of the current Dicom entry is Unknown
    /// @return true if the VR is unknown
-   bool IsVRUnknown() { return DicomDict->IsVRUnknown(); };
+   bool IsVRUnknown() { return DicomDict->IsVRUnknown(); }
 
    /// \brief Tells us if the VM of the current Dicom entry is Unknown
    /// @return true if the VM is unknown
-   bool IsVMUnknown() { return DicomDict->IsVMUnknown(); };
+   bool IsVMUnknown() { return DicomDict->IsVMUnknown(); }
 
    bool IsItemDelimitor();
+   bool IsItemStarter();
    bool IsSequenceDelimitor();   
    
    virtual void Copy(DocEntry *e);

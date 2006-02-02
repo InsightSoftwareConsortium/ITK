@@ -40,10 +40,11 @@ public:
    virtual void WriteContent(std::ofstream *fp, FileType filetype) = 0;
 
    /// Sets the value (string) of the current Dicom entry
-   virtual void SetValue(std::string const &val) { Value = val; };
-   /// \brief Returns the 'Value' (e.g. "Dupond Marcel") converted 
+   virtual void SetValue(std::string const &val) { Value = val; }
+   /// \brief Returns the 'Value' (e.g. "Dupond^Marcel") converted 
    /// into a 'string', event if it's physically stored on disk as an integer
-   std::string const &GetValue() const { return Value; };
+   /// (e.g. : 0x000c returned as "12")
+   std::string const &GetValue() const { return Value; }
 
    void Copy(DocEntry *doc);
 

@@ -29,9 +29,7 @@
 namespace gdcm 
 {
 //-----------------------------------------------------------------------------
-#define MAX_SIZE_PRINT_ELEMENT_VALUE 64
 
-//-----------------------------------------------------------------------------
 // Constructor / Destructor
 /**
  * \brief   Constructor from a given DictEntry
@@ -77,16 +75,18 @@ void DocEntry::WriteContent(std::ofstream *fp, FileType filetype)
    binary_write( *fp, group); //group number
    binary_write( *fp, el);    //element number
 
-   if ( filetype == ExplicitVR )
+   // Dicom V3 group 0x0002 is *always* Explicit VR !
+   if ( filetype == ExplicitVR || group == 0x0002 )
    {
       // Special case of delimiters:
       if (group == 0xfffe)
       {
          // Delimiters have NO Value Representation
          // Hence we skip writing the VR.
+         //
          // In order to avoid further troubles, we choose to write them
          // as 'no-length' Item Delimitors (we pad by writing 0xffffffff)
-         // We shall force the end of a given Item by writting 
+         // We shall force the end of a given SeqItem by writting 
          //  a Item Delimitation Item (fffe, e00d)
 
          uint32_t ff = 0xffffffff;
@@ -94,24 +94,31 @@ void DocEntry::WriteContent(std::ofstream *fp, FileType filetype)
          return;
       }
 
-      uint16_t z = 0;
-      uint16_t shortLgr = lgth;
+      uint16_t zero = 0;
+      uint16_t shortLgr = (uint16_t)lgth;
 
       if (vr == GDCM_UNKNOWN)
       {
-         // Unknown was 'written'
-         // deal with Little Endian            
-         binary_write(*fp, shortLgr);
-         binary_write(*fp, z);
+         // GDCM_UNKNOWN was stored in the Entry VR;
+         // deal with Entry as if TS were Implicit VR
+ 
+         // FIXME : troubles expected on big endian processors :
+         // let lgth = 0x00001234
+         // we write 34 12 00 00 on little endian proc (OK)
+         // we write 12 34 00 00 on big endian proc (KO)          
+         //binary_write(*fp, shortLgr);
+         //binary_write(*fp, zero);
+
+         binary_write(*fp, lgth);
       }
       else
       {
          binary_write(*fp, vr);
          gdcmAssertMacro( vr.size() == 2 );
                   
-         if ( (vr == "OB") || (vr == "OW") || (vr == "SQ") || (vr == "UN") )
+         if ( (vr == "OB") || (vr == "OW") || (vr == "SQ") /*|| (vr == "UN")*/ )
          {
-            binary_write(*fp, z);
+            binary_write(*fp, zero);
             if (vr == "SQ")
             {
                // we set SQ length to ffffffff
@@ -178,6 +185,15 @@ bool DocEntry::IsItemDelimitor()
 }
 
 /**
+ * \brief   tells us if entry is the first one of an Item 
+ *          (fffe,e000) 
+ */
+bool DocEntry::IsItemStarter()
+{
+   return (GetGroup() == 0xfffe && GetElement() == 0xe000);
+}
+
+/**
  * \brief   tells us if entry is the last one of a 'no length' Sequence 
  *          (fffe,e0dd) 
  */
@@ -222,7 +238,7 @@ void DocEntry::Print(std::ostream &os, std::string const & )
 
    o  = GetOffset();
    vr = GetVR();
-   if(vr==GDCM_UNKNOWN)
+   if ( vr==GDCM_UNKNOWN )
       vr="  ";
 
    s << DictEntry::TranslateToKey(GetGroup(),GetElement()); 
@@ -230,41 +246,49 @@ void DocEntry::Print(std::ostream &os, std::string const & )
    if (PrintLevel >= 2)
    {
       s << " lg : ";
-      lgth = GetReadLength(); // ReadLength, as opposed to Length
+      lgth = GetReadLength(); // ReadLength, as opposed to (usable) Length
       if (lgth == 0xffffffff)
       {
-         st = Util::Format("x(ffff)");  // I said : "x(ffff)" !
+         st = " ffff ";
          s.setf(std::ios::left);
-         s << std::setw(10-st.size()) << " ";  
-         s << st << " ";
+         s << std::setw(4);  
+         s << "    x(ffff) ";
          s.setf(std::ios::left);
          s << std::setw(8) << "-1"; 
       }
       else
       {
-         st = Util::Format("x(%x)",lgth);
+         st = Util::Format("x(%x)",lgth); // we may keep it
          s.setf(std::ios::left);
-         s << std::setw(10-st.size()) << " ";
+         s << std::setw(11-st.size()) << " ";
          s << st << " ";
          s.setf(std::ios::left);
          s << std::setw(8) << lgth; 
       }
       s << " Off.: ";
-      st = Util::Format("x(%x)",o); 
-      s << std::setw(10-st.size()) << " ";
+      st = Util::Format("x(%x)",o);  // we may keep it
+      s << std::setw(11-st.size()) << " ";
       s << st << " ";
       s << std::setw(8) << o; 
    }
+   if (PrintLevel >= 1)
+      s << " ";
 
    s << "[" << vr  << "] ";
+
+   std::string name;
+   if ( GetElement() == 0x0000 )
+      name = "Group Length";
+   else
+      name = GetName();
 
    if (PrintLevel >= 1)
    {
       s.setf(std::ios::left);
-      s << std::setw(66-GetName().length()) << " ";
+      s << std::setw(66-name.length()) << " ";
    }
     
-   s << "[" << GetName()<< "]";
+   s << "[" << name << "]";
    os << s.str();      
 }
 

@@ -20,7 +20,8 @@
 #define GDCMSERIEHELPER_H
 
 #include "gdcmCommon.h" 
-
+#include "gdcmDebug.h"  // for LEGACY
+ 
 #include <vector>
 #include <iostream>
 #include <map>
@@ -28,45 +29,76 @@
 namespace gdcm 
 {
 class File;
-typedef std::vector<File* > GdcmFileList;
+typedef std::vector<File* > FileList;
+   /// XCoherent stands for 'Extra Coherent', 
+   /// (The name 'Coherent' would be enough but it was used before;
+   /// I don't want to put a bomb in the code)
+   /// Any 'better name' is welcome !
+typedef std::map<std::string, FileList *> XCoherentFileSetmap;
+   
+typedef bool (*BOOL_FUNCTION_PFILE_PFILE_POINTER)(File *, File *);
 
 //-----------------------------------------------------------------------------
 /**
  * \brief  
  * - This class should be used for a stack of 2D dicom images.
  *   It allows to explore (recursively or not) a directory and 
- *   makes a set of 'Coherent Files' list (coherent : same Serie UID)
- *   It allows to sort any of the Coherent File list on the image postion
+ *   makes a set of 'Coherent Files' lists (coherent : same SerieUID)
+ *   It allows :
+ *   - to sort any of the Coherent File list on the image position.
+ *   - to split any of the Single SerieUID Filesets (better use this name than
+ *   'Coherent File List' : it's NOT a std::list, files are NOT coherent ...)
+ *    into several XCoherent Filesets 
+ *   XCoherent stands for 'Extra Coherent' (same orientation, or same position)
  */
 class GDCM_EXPORT SerieHelper 
 {
 public:
-   typedef std::map<std::string, GdcmFileList *> CoherentFileListmap;
-   typedef std::vector<File* > GdcmFileVector;
+   // SingleSerieUIDFileSetmap replaces the former CoherentFileListmap
+   // ( List were actually std::vectors, and wher no coherent at all :
+   //   They were only Single SeriesInstanceUID File sets)
+   typedef std::map<std::string, FileList *> SingleSerieUIDFileSetmap;
 
+   typedef std::vector<File* > FileVector;
+   
    SerieHelper();
    ~SerieHelper();
    void Print(std::ostream &os = std::cout, std::string const &indent = "" );
 
    /// \todo should return bool or throw error ?
    void AddFileName(std::string const &filename);
-   void SetDirectory(std::string const &dir, bool recursive=false);
-   void OrderGdcmFileList(GdcmFileList *coherentGdcmFileList);
-   void Clear();
+   void AddGdcmFile(File *header);
 
-   /// \brief Gets the FIRST *coherent* File List.
+   void SetDirectory(std::string const &dir, bool recursive=false);
+   bool IsCoherent(FileList *fileSet);
+   void OrderFileList(FileList *fileSet);
+   void Clear() { ClearAll(); }
+
+   /// \brief Gets the FIRST Single SerieUID Fileset.
    ///        Deprecated; kept not to break the API
-   /// \note Caller must call OrderGdcmFileList first
-   /// @return the (first) *coherent* File List
-   const GdcmFileList &GetGdcmFileList() { return
-                       *CoherentGdcmFileListHT.begin()->second; }
+   /// \note Caller must call OrderFileList first
+   /// @return the (first) Single SerieUID Fileset
+   const FileList &GetFileList()
+                           { return *SingleSerieUIDFileSetHT.begin()->second; }
   
-   GdcmFileList *GetFirstCoherentFileList();
-   GdcmFileList *GetNextCoherentFileList();
-   GdcmFileList *GetCoherentFileList(std::string serieUID);
+   GDCM_LEGACY(   FileList *GetFirstCoherentFileList()  );
+   GDCM_LEGACY(   FileList *GetNextCoherentFileList()   );
+   GDCM_LEGACY(   FileList *GetCoherentFileList(std::string serieUID)  );
+
+   FileList *GetFirstSingleSerieUIDFileSet();
+   FileList *GetNextSingleSerieUIDFileSet();
+   FileList *GetSingleSerieUIDFileSet(std::string serieUID);
+
    /// All the following allow user to restrict DICOM file to be part
    /// of a particular serie
-   void AddRestriction(TagKey const &key, std::string const &value);
+   GDCM_LEGACY( void AddRestriction(TagKey const &key, std::string const &value) );
+   /// Allow user to specify that the serie should also be consistent (== operation),
+   /// on the particular tag (group,element)
+   void AddRestriction(uint16_t group, uint16_t elem); 
+   /// Allow user to refine the selection of a serie by specifying operation (op) on a 
+   /// particular tag (group, elem) with a particular value (value).
+   void AddRestriction(uint16_t group, uint16_t elem, 
+                       std::string const &value, int op);
 
    /// \brief Use additional series information such as ProtocolName
    ///        and SeriesName to identify when a single SeriesUID contains
@@ -79,6 +111,33 @@ public:
      {
      return m_UseSeriesDetails;
      }
+   void CreateDefaultUniqueSeriesIdentifier();
+ 
+/**
+ * \brief Sets the LoadMode as a boolean string. 
+ *        LD_NOSEQ, LD_NOSHADOW, LD_NOSHADOWSEQ
+ *        ... (nothing more, right now)
+ *        WARNING : before using LD_NOSHADOW, be sure *all* your files
+ *        contain accurate values in the 0x0000 element (if any) 
+ *        of *each* Shadow Group. The parser will fail if the size is wrong !
+ * @param   mode Load mode to be used    
+ */
+   void SetLoadMode (int mode) { LoadMode = mode; }
+
+/// Brief User wants the files to be sorted Direct Order (default value)
+   void SetSortOrderToDirect()  { DirectOrder = true;  }
+
+/// Brief User wants the files to be sorted Reverse Order 
+   void SetSortOrderToReverse() { DirectOrder = false; }
+
+   /// to allow user to give is own comparison function
+   void SetUserLessThanFunction( BOOL_FUNCTION_PFILE_PFILE_POINTER userFunc ) 
+                        { UserLessThanFunction = userFunc; }  
+
+   XCoherentFileSetmap SplitOnOrientation(FileList *fileSet); 
+   XCoherentFileSetmap SplitOnPosition(FileList *fileSet); 
+   XCoherentFileSetmap SplitOnTagValue(FileList *fileSet,
+                                                 uint16_t group, uint16_t element);
 
    /// \brief Create a string that uniquely identifies a series.   By default
    //         uses the SeriesUID.   If UseSeriesDetails(true) has been called,
@@ -86,23 +145,55 @@ public:
    std::string CreateUniqueSeriesIdentifier( File * inFile );
 
 private:
-   bool ImagePositionPatientOrdering(GdcmFileList *coherentGdcmFileList);
-   bool ImageNumberOrdering(GdcmFileList *coherentGdcmFileList);
-   bool FileNameOrdering(GdcmFileList *coherentGdcmFileList);
+   void ClearAll();
+   bool UserOrdering(FileList *fileSet);
+   bool ImagePositionPatientOrdering(FileList *fileSet);
+   bool ImageNumberOrdering(FileList *fileSet);
+   bool FileNameOrdering(FileList *fileSet);
    
    static bool ImageNumberLessThan(File *file1, File *file2);
+   static bool ImageNumberGreaterThan(File *file1, File *file2);
    static bool FileNameLessThan(File *file1, File *file2);
-   CoherentFileListmap CoherentGdcmFileListHT;
-   CoherentFileListmap::iterator ItListHt;
+   static bool FileNameGreaterThan(File *file1, File *file2);
 
-   typedef struct {
-     uint16_t group;
-     uint16_t elem;
-     std::string value;
-   } Rule;
+//Attributes:
+   
+   SingleSerieUIDFileSetmap SingleSerieUIDFileSetHT;
+   SingleSerieUIDFileSetmap::iterator ItFileSetHt;
+   
+#ifndef VTK_LEGACY_REMOVE
+   typedef std::pair<TagKey, std::string> Rule;
    typedef std::vector<Rule> SerieRestrictions;
    SerieRestrictions Restrictions;
-   bool m_UseSeriesDetails;
+#endif
+   
+   // New style for (extented) Rules (Moreover old one doesn't compile)
+   typedef struct {
+      uint16_t group;
+      uint16_t elem;
+      std::string value;
+      int op;
+   } ExRule;
+   typedef std::vector<ExRule> SerieExRestrictions;
+   SerieExRestrictions ExRestrictions;
+   SerieExRestrictions ExRefine;
+
+   /// \brief Bit string integer (each one considered as a boolean)
+   ///        Bit 0 : Skip Sequences,    if possible
+   ///        Bit 1 : Skip Shadow Groups if possible
+   ///        Probabely, some more to add
+   int LoadMode;
+
+   /// \brief whether we want to sort in direct order or not (reverse order).
+   ///        To be used by aware user only
+   bool DirectOrder;
+
+   /// \brief If user knows more about his images than gdcm does,
+   ///        he may supply his own comparison function.
+    BOOL_FUNCTION_PFILE_PFILE_POINTER UserLessThanFunction;
+
+    bool m_UseSeriesDetails;
+
 };
 
 } // end namespace gdcm

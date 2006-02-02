@@ -59,6 +59,7 @@ enum SpecialType {
   JPEG2000Lossless,  
   JPEG2000,
   RLELossless,
+  MPEG2MainProfile,  
   UnknownTS
 };
 
@@ -77,6 +78,7 @@ public:
    bool IsJPEG2000(TSKey const &key);
    bool IsJPEG(TSKey const &key);
    bool IsJPEGLS(TSKey const &key);
+   bool IsMPEG(TSKey const &key);
 
    // This should be deprecated very soon
    SpecialType GetSpecialTransferSyntax(TSKey const &key);

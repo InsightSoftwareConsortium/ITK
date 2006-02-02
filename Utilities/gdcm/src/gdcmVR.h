@@ -46,12 +46,17 @@ public:
 
    void Print(std::ostream &os = std::cout);
 
-   int Count(VRKey const &key);
+   /// \brief   Get the count for an element
+   int Count(VRKey const &key) { return vr.count(key); };
+
    bool IsVROfBinaryRepresentable(VRKey const &tested);
    bool IsVROfStringRepresentable(VRKey const &tested);
-   bool IsVROfSequence(VRKey const &tested);
 
-   bool IsValidVR(VRKey const &key);
+   /// \brief   Simple predicate that checks whether the given argument
+   ///          corresponds to the Value Representation of a \ref SeqEntry
+   bool IsVROfSequence(VRKey const &tested) { return tested == "SQ"; }
+
+   bool IsValidVR(VRKey const &key) { return vr.find(key) != vr.end(); }
 
 private:
    VRHT vr;

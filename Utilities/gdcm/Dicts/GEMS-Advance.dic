@@ -1,0 +1,306 @@
+0009 0010 SH 1 Private Creator Data Element
+0009 1001 LO 2 GE Advance Implementation Version Name
+0009 1002 LO 1 GE Advance Patient.patient_id
+0009 1003 SH 1 GE Advance Patient.compatible_version
+0009 1004 SH 1 GE Advance Patient.software_version
+0009 1005 DT 1 GE Advance Patient.patient_datetime
+0009 1006 SL 1 GE Advance Patient.type
+0009 1007 UI 1 GE Advance Exam.exam_id
+0009 1008 SH 1 GE Advance Exam.compatible_version
+0009 1009 SH 1 GE Advance Exam.software_version
+0009 100a UI 1 GE Advance Scan.scan_id
+0009 100b SH 1 GE Advance Scan.compatible_version
+0009 100c SH 1 GE Advance Scan.software_version
+0009 100d DT 1 GE Advance Scan.scan_datetime
+0009 100e DT 1 GE Advance Scan.scan_ready
+0009 100f UI 1 GE Advance Scan.scan_description
+0009 1010 LO 1 GE Advance Scan.hospital_name
+0009 1011 LO 1 GE Advance Scan.scanner_desc
+0009 1012 LO 1 GE Advance Scan.manufacturer
+0009 1013 UI 1 GE Advance Scan.for_identifier
+0009 1014 LO 1 GE Advance Scan.landmark_name
+0009 1015 SH 1 GE Advance Scan.landmark_abbrev
+0009 1016 SL 1 GE Advance Scan.patient_position
+0009 1017 SL 1 GE Advance Scan.scan_perspective
+0009 1018 SL 1 GE Advance Scan.scan_type
+0009 1019 SL 1 GE Advance Scan.scan_mode
+0009 101a SL 1 GE Advance Scan.start_condition
+0009 101b SL 1 GE Advance Scan.start_cond_data
+0009 101c SL 1 GE Advance Scan.sel_stop_cond
+0009 101d SL 1 GE Advance Scan.sel_stop_cond_data
+0009 101e SL 1 GE Advance Scan.collect_deadtime
+0009 101f SL 1 GE Advance Scan.collect_singles
+0009 1020 SL 1 GE Advance Scan.collect_countrate
+0009 1021 SL 1 GE Advance Scan.countrate_period
+0009 1022 SL 1 GE Advance Scan.delayed_events
+0009 1023 SL 1 GE Advance Scan.delayed_bias
+0009 1024 SL 1 GE Advance Scan.word_size
+0009 1025 SL 1 GE Advance Scan.axial_acceptance
+0009 1026 SL 1 GE Advance Scan.axial_angle_3d
+0009 1027 SL 1 GE Advance Scan.theta_compression
+0009 1028 SL 1 GE Advance Scan.axial_compression
+0009 1029 FL 1 GE Advance Scan.gantry_tilt_angle
+0009 102a SL 1 GE Advance Scan.collimation
+0009 102b SL 1 GE Advance Scan.scan_fov
+0009 102c SL 1 GE Advance Scan.axial_fov
+0009 102d SL 1 GE Advance Scan.event_separation
+0009 102e SL 1 GE Advance Scan.mask_width
+0009 102f SL 1 GE Advance Scan.binning_mode
+0009 1030 SL 1 GE Advance Scan.trig_rej_method
+0009 1031 SL 1 GE Advance Scan.number_for_reject
+0009 1032 SL 1 GE Advance Scan.lower_reject_limit
+0009 1033 SL 1 GE Advance Scan.upper_reject_limit
+0009 1034 SL 1 GE Advance Scan.triggers_acquired
+0009 1035 SL 1 GE Advance Scan.triggers_rejected
+0009 1036 LO 1 GE Advance Scan.tracer_name
+0009 1037 LO 1 GE Advance Scan.batch_description
+0009 1038 FL 1 GE Advance Scan.tracer_activity
+0009 1039 DT 1 GE Advance Scan.meas_datetime
+0009 103a FL 1 GE Advance Scan.pre_inj_volume
+0009 103b DT 1 GE Advance Scan.admin_datetime
+0009 103c FL 1 GE Advance Scan.post_inj_activity
+0009 103d DT 1 GE Advance Scan.post_inj_datetime
+0009 103e SH 1 GE Advance Scan.radionuclide_name
+0009 103f FL 1 GE Advance Scan.half_life
+0009 1040 FL 1 GE Advance Scan.positron_fraction
+0009 1041 SL 1 GE Advance Scan.source1_holder
+0009 1042 FL 1 GE Advance Scan.source1_activity
+0009 1043 DT 1 GE Advance Scan.source1_meas_dt
+0009 1044 SH 1 GE Advance Scan.source1_radnuclide
+0009 1045 FL 1 GE Advance Scan.source1_half_life
+0009 1046 SL 1 GE Advance Scan.source2_holder
+0009 1047 FL 1 GE Advance Scan.source2_activity
+0009 1048 DT 1 GE Advance Scan.source2_meas_dt
+0009 1049 SH 1 GE Advance Scan.source2_radnuclide
+0009 104a FL 1 GE Advance Scan.source2_half_life
+0009 104b SL 1 GE Advance Scan.source_speed
+0009 104c FL 1 GE Advance Scan.source_location
+0009 104d SL 1 GE Advance Scan.emission_present
+0009 104e SL 1 GE Advance Scan.lower_axial_acc
+0009 104f SL 1 GE Advance Scan.upper_axial_acc
+0009 1050 SL 1 GE Advance Scan.lower_coinc_limit
+0009 1051 SL 1 GE Advance Scan.upper_coinc_limit
+0009 1052 SL 1 GE Advance Scan.coinc_delay_offset
+0009 1053 SL 1 GE Advance Scan.coinc_output_mode
+0009 1054 SL 1 GE Advance Scan.upper_energy_limit
+0009 1055 SL 1 GE Advance Scan.lower_energy_limit
+0009 1056 UI 1 GE Advance Scan.normal_cal_id
+0009 1057 UI 1 GE Advance Scan.normal_2d_cal_id
+0009 1058 UI 1 GE Advance Scan.blank_cal_id
+0009 1059 UI 1 GE Advance Scan.wc_cal_id
+0009 105a SL 1 GE Advance Scan.derived
+0009 105b LO 1 GE Advance Scan.contrast_agent
+0009 105c UI 1 GE Advance Frame.frame_id
+0009 105d UI 1 GE Advance Frame.scan_id
+0009 105e UI 1 GE Advance Frame.exam_id
+0009 105f LO 1 GE Advance Frame.patient_id
+0009 1060 SH 1 GE Advance Frame.compatible_version
+0009 1061 SH 1 GE Advance Frame.software_version
+0009 1062 ST 1 GE Advance Frame.where_is_frame
+0009 1063 SL 1 GE Advance Frame.frame_size
+0009 1064 SL 1 GE Advance Frame.file_exists
+0009 1065 SL 1 GE Advance Frame.patient_entry
+0009 1066 FL 1 GE Advance Frame.table_height
+0009 1067 FL 1 GE Advance Frame.table_z_position
+0009 1068 DT 1 GE Advance Frame.landmark_datetime
+0009 1069 SL 1 GE Advance Frame.slice_count
+0009 106a FL 1 GE Advance Frame.start_location
+0009 106b SL 1 GE Advance Frame.acq_delay
+0009 106c DT 1 GE Advance Frame.acq_start
+0009 106d SL 1 GE Advance Frame.acq_duration
+0009 106e SL 1 GE Advance Frame.acq_bin_dur
+0009 106f SL 1 GE Advance Frame.acq_bin_start
+0009 1070 SL 1 GE Advance Frame.actual_stop_cond
+0009 1071 FD 1 GE Advance Frame.total_prompts
+0009 1072 FD 1 GE Advance Frame.total_delays
+0009 1073 SL 1 GE Advance Frame.frame_valid
+0009 1074 SL 1 GE Advance Frame.validity_info
+0009 1075 SL 1 GE Advance Frame.archived
+0009 1076 SL 1 GE Advance Frame.compression
+0009 1077 SL 1 GE Advance Frame.uncompressed_size
+0009 1078 SL 1 GE Advance Frame.accum_bin_dur
+0009 1079 SH 1 GE Advance ImageSet.compatible_version
+0009 107a SH 1 GE Advance ImageSet.software_version
+0009 107b DT 1 GE Advance ImageSet.is_datetime
+0009 107c SL 1 GE Advance ImageSet.is_source
+0009 107d SL 1 GE Advance ImageSet.is_contents
+0009 107e SL 1 GE Advance ImageSet.is_type
+0009 107f FL 3 GE Advance ImageSet.is_reference
+0009 1080 SL 1 GE Advance ImageSet.multi_patient
+0009 1081 SL 1 GE Advance ImageSet.number_of_normals
+0009 1082 UI 1 GE Advance ImageSet.color_map_id
+0009 1083 SL 1 GE Advance ImageSet.window_level_type
+0009 1084 FL 1 GE Advance ImageSet.rotate
+0009 1085 SL 1 GE Advance ImageSet.flip
+0009 1086 FL 1 GE Advance ImageSet.zoom
+0009 1087 SL 1 GE Advance ImageSet.pan_x
+0009 1088 SL 1 GE Advance ImageSet.pan_y
+0009 1089 FL 1 GE Advance ImageSet.window_level_min
+0009 108a FL 1 GE Advance ImageSet.window_level_max
+0009 108b SL 1 GE Advance ImageSet.recon_method
+0009 108c SL 1 GE Advance ImageSet.attenuation
+0009 108d FL 1 GE Advance ImageSet.atten_coefficient
+0009 108e SL 1 GE Advance ImageSet.bp_filter
+0009 108f FL 1 GE Advance ImageSet.bp_filter_cutoff
+0009 1090 SL 1 GE Advance ImageSet.bp_filter_order
+0009 1091 FL 1 GE Advance ImageSet.bp_center_l
+0009 1092 FL 1 GE Advance ImageSet.bp_center_p
+0009 1093 SL 1 GE Advance ImageSet.atten_smooth
+0009 1094 SL 1 GE Advance ImageSet.atten_smooth_param
+0009 1095 SL 1 GE Advance ImageSet.angle_smooth_param
+0009 1096 UI 1 GE Advance ImageSet.wellcountercal_id
+0009 1097 UI 1 GE Advance ImageSet.trans_scan_id
+0009 1098 UI 1 GE Advance ImageSet.norm_cal_id
+0009 1099 UI 1 GE Advance ImageSet.blnk_cal_id
+0009 109a FL 1 GE Advance ImageSet.cac_edge_threshold
+0009 109b FL 1 GE Advance ImageSet.cac_skull_offset
+0009 109c UI 1 GE Advance ImageSet.emiss_sub_id
+0009 109d SL 1 GE Advance ImageSet.radial_filter_3d
+0009 109e FL 1 GE Advance ImageSet.radial_cutoff_3d
+0009 109f SL 1 GE Advance ImageSet.axial_filter_3d
+0009 10a0 FL 1 GE Advance ImageSet.axial_cutoff_3d
+0009 10a1 FL 1 GE Advance ImageSet.axial_start
+0009 10a2 FL 1 GE Advance ImageSet.axial_spacing
+0009 10a3 SL 1 GE Advance ImageSet.axial_angles_used
+0009 10b2 SL 1 GE Advance ImageSet.ir_num_iterations
+0009 10b3 SL 1 GE Advance ImageSet.ir_num_subsets
+0009 10b4 FL 1 GE Advance ImageSet.ir_recon_fov
+0009 10b5 SL 1 GE Advance ImageSet.ir_corr_model
+0009 10b6 SL 1 GE Advance ImageSet.ir_loop_filter
+0009 10b7 FL 1 GE Advance ImageSet.ir_pre_filt_parm
+0009 10b8 SL 1 GE Advance ImageSet.ir_loop_filt_parm
+0009 10b9 FL 1 GE Advance ImageSet.response_filt_parm
+0009 10ba SL 1 GE Advance ImageSet.post_filter
+0009 10bb FL 1 GE Advance ImageSet.post_filt_parm
+0009 10bc SL 1 GE Advance ImageSet.ir_regularize
+0009 10bd FL 1 GE Advance ImageSet.regularize_parm
+0009 10be SL 1 GE Advance ImageSet.ac_bp_filter
+0009 10bf FL 1 GE Advance ImageSet.ac_bp_filt_cut_off
+0009 10c0 SL 1 GE Advance ImageSet.ac_bp_filt_order
+0009 10c1 SL 1 GE Advance ImageSet.ac_img_smooth
+0009 10c2 FL 1 GE Advance ImageSet.ac_img_smooth_parm
+0009 10c3 SL 1 GE Advance ImageSet.scatter_method
+0009 10c4 SL 1 GE Advance ImageSet.scatter_num_iter
+0009 10c5 FL 1 GE Advance ImageSet.scatter_parm
+0009 10a4 SH 1 GE Advance Image.compatible_version
+0009 10a5 SH 1 GE Advance Image.software_version
+0009 10a6 SL 1 GE Advance Image.slice_number
+0009 10a7 FL 1 GE Advance Image.total_counts
+0009 10a8 OB 1 GE Advance Image.other_atts
+0009 10a9 SL 1 GE Advance Image.other_atts_size
+0009 10aa SL 1 GE Advance Image.archived
+0009 10ab FL 1 GE Advance Image.bp_center_x
+0009 10ac FL 1 GE Advance Image.bp_center_y
+0009 10ad UI 1 GE Advance Image.trans_frame_id
+0009 10ae UI 1 GE Advance Image.tpluse_frame_id
+0009 10c6 FL 1 GE Advance Image.seg_qc_parm
+0009 10c7 SL 1 GE Advance Image.overlap
+0009 10c8 UI 1 GE Advance Image.ovlp_frm_id
+0009 10c9 UI 1 GE Advance Image.ovlp_trans_frm_id
+0009 10ca UI 1 GE Advance Image.ovlp_tpulse_frm_id
+0011 0010 SH 1 Private Creator Data Element
+0011 1001 SQ 1 GE Advance ROI Sequence
+0011 1002 UI 1 > GE Advance ROI.roi_id
+0011 1003 UI 1 > GE Advance ROI.image_id
+0011 1004 SH 1 > GE Advance ROI.compatible_version
+0011 1005 SH 1 > GE Advance ROI.software_version
+0011 1006 LO 1 > GE Advance ROI.roi_name
+0011 1007 DT 1 > GE Advance ROI.roi_datetime
+0011 1008 SL 1 > GE Advance ROI.roi_type
+0011 1009 FL 1 > GE Advance ROI.center_x
+0011 100a FL 1 > GE Advance ROI.center_y
+0011 100b FL 1 > GE Advance ROI.width
+0011 100c FL 1 > GE Advance ROI.height
+0011 100d FL 1 > GE Advance ROI.angle
+0011 100e SL 1 > GE Advance ROI.number_of_points
+0011 100f OB 1 > GE Advance ROI.roi_data
+0011 1010 SL 1 > GE Advance ROI.roi_size
+0011 1011 LO 1 > GE Advance ROI.color
+0011 1012 SL 1 > GE Advance ROI.line_type
+0011 1013 SL 1 > GE Advance ROI.line_width
+0011 1014 SL 1 > GE Advance ROI.roi_number
+0011 1015 SL 1 > GE Advance ROI.convex
+0011 1016 SL 1 > GE Advance ROI.atten_corr_flag
+0013 0010 SH 1 Private Creator Data Element
+0013 1001 SQ 1 GE Advance Annotation Sequence
+0013 1002 UI 1 > GE Advance Annotation.annotation_id
+0013 1003 UI 1 > GE Advance Annotation.image_id
+0013 1004 SH 1 > GE Advance Annotation.compatible_version
+0013 1005 SH 1 > GE Advance Annotation.software_version
+0013 1006 SL 1 > GE Advance Annotation.type
+0013 1007 LO 1 > GE Advance Annotation.font_name
+0013 1008 SH 1 > GE Advance Annotation.font_size
+0013 1009 LO 1 > GE Advance Annotation.foreground_color
+0013 100a LO 1 > GE Advance Annotation.background_color
+0013 100b SL 1 > GE Advance Annotation.coordinate_system
+0013 100c FL 1 > GE Advance Annotation.start_x
+0013 100d FL 1 > GE Advance Annotation.start_y
+0013 100e FL 1 > GE Advance Annotation.end_x
+0013 100f FL 1 > GE Advance Annotation.end_y
+0013 1010 SL 1 > GE Advance Annotation.start_symbol
+0013 1011 SL 1 > GE Advance Annotation.end_symbol
+0013 1012 OB 1 > GE Advance Annotation.annotation_data
+0013 1013 SL 1 > GE Advance Annotation.annotation_size
+0013 1014 LO 1 > GE Advance Annotation.label_id
+5001 0010 SH 1 Private Creator Data Element
+5001 1001 UI 1 GE Advance Curve.curve_id
+5001 1002 SH 1 GE Advance Curve.compatible_version
+5001 1003 SH 1 GE Advance Curve.software_version
+5001 1004 SL 1 GE Advance Curve.statistics_type
+5001 1005 LT 1 GE Advance Curve.how_derived
+5001 1006 SL 1 GE Advance Curve.how_derived_size
+5001 1007 SL 1 GE Advance Curve.multi_patient
+5001 1008 SL 1 GE Advance Curve.deadtime
+5003 0010 SH 1 Private Creator Data Element
+5003 1001 SQ 1 GE Advance Graph Sequence
+5003 1002 UI 1 > GE Advance Graph.graph_id
+5003 1003 SH 1 > GE Advance Graph.compatible_version
+5003 1004 SH 1 > GE Advance Graph.software_version
+5003 1005 LO 1 > GE Advance Graph.title
+5003 1006 DT 1 > GE Advance Graph.graph_datetime
+5003 1007 ST 1 > GE Advance Graph.graph_description
+5003 1008 LO 1 > GE Advance Graph.title_font_name
+5003 1009 SH 1 > GE Advance Graph.title_font_size
+5003 100a LO 1 > GE Advance Graph.footer
+5003 100b SH 1 > GE Advance Graph.footer_font_size
+5003 100c LO 1 > GE Advance Graph.foreground_color
+5003 100d LO 1 > GE Advance Graph.background_color
+5003 100e SL 1 > GE Advance Graph.graph_border
+5003 100f SL 1 > GE Advance Graph.graph_width
+5003 1010 SL 1 > GE Advance Graph.graph_height
+5003 1011 SL 1 > GE Advance Graph.grid
+5003 1012 LO 1 > GE Advance Graph.label_font_name
+5003 1013 SH 1 > GE Advance Graph.label_font_size
+5003 1014 LO 1 > GE Advance Graph.axes_color
+5003 1015 LO 1 > GE Advance Graph.x_axis_label
+5003 1016 SL 1 > GE Advance Graph.x_axis_units
+5003 1017 FL 1 > GE Advance Graph.x_major_tics
+5003 1018 FL 1 > GE Advance Graph.x_axis_min
+5003 1019 FL 1 > GE Advance Graph.x_axis_max
+5003 101a LO 1 > GE Advance Graph.y_axis_label
+5003 101b SL 1 > GE Advance Graph.y_axis_units
+5003 101c FL 1 > GE Advance Graph.y_major_tics
+5003 101d FL 1 > GE Advance Graph.y_axis_min
+5003 101e FL 1 > GE Advance Graph.y_axis_max
+5003 101f LO 1 > GE Advance Graph.legend_font_name
+5003 1020 SH 1 > GE Advance Graph.legend_font_size
+5003 1021 SL 1 > GE Advance Graph.legend_location_x
+5003 1022 SL 1 > GE Advance Graph.legend_location_y
+5003 1023 SL 1 > GE Advance Graph.legend_width
+5003 1024 SL 1 > GE Advance Graph.legend_height
+5003 1025 SL 1 > GE Advance Graph.legend_border
+5003 1026 SL 1 > GE Advance Graph.multi_patient
+5005 0010 SH 1 Private Creator Data Element
+5005 1001 SQ 1 GE Advance CurvePresentation Sequence
+5005 1002 UI 1 > GE Advance CurvePresentation.curvepresent_id
+5005 1003 UI 1 > GE Advance CurvePresentation.graph_id
+5005 1004 UI 1 > GE Advance CurvePresentation.curve_id
+5005 1005 SH 1 > GE Advance CurvePresentation.compatible_version
+5005 1006 SH 1 > GE Advance CurvePresentation.software_version
+5005 1007 LO 1 > GE Advance CurvePresentation.curve_label
+5005 1008 LO 1 > GE Advance CurvePresentation.color
+5005 1009 SL 1 > GE Advance CurvePresentation.line_type
+5005 100a SL 1 > GE Advance CurvePresentation.line_width
+5005 100b SL 1 > GE Advance CurvePresentation.point_symbol
+5005 100c SL 1 > GE Advance CurvePresentation.point_symbol_dim
+5005 100d LO 1 > GE Advance CurvePresentation.point_color

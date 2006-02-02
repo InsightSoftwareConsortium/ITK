@@ -81,8 +81,12 @@ const char* Orientation::GetOrientationTypeString(OrientationType const o)
 OrientationType Orientation::GetOrientationType( File *f )
 {
    float iop[6];
-   f->GetImageOrientationPatient( iop );
-
+   bool succ = f->GetImageOrientationPatient( iop );
+   if ( !succ )
+   {
+      gdcmErrorMacro( "No Image Orientation (0020,0037)/(0020,0032) found in the file, cannot proceed." )
+      return NotApplicable;
+   }
    vector3D ori1;
    vector3D ori2;
 
@@ -425,7 +429,8 @@ have multiple letters in as described under "refinements" in C.7.6.1.1.1):
 std::string Orientation::GetOrientation ( File *f )
 {
    float iop[6];
-   f->GetImageOrientationPatient( iop );
+   if ( !f->GetImageOrientationPatient( iop ) )
+   return GDCM_UNFOUND;
 
    std::string orientation;
    orientation = GetSingleOrientation ( iop ) 

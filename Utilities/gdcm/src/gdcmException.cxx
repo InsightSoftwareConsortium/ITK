@@ -19,6 +19,8 @@
 #include "gdcmException.h"
 
 #include <typeinfo>
+#include <stdlib.h> // for exit
+
 namespace gdcm 
 {
 //-----------------------------------------------------------------------------
@@ -84,7 +86,7 @@ std::string Exception::getName() const throw()
 
       std::string name;
       std::string iname = typeid(*this).name();
-      if(iname[0] == 'Q')
+      if ( iname[0] == 'Q' )
       {
          nested = iname[1] - '0';
          iname = std::string(iname, 2, std::string::npos);
@@ -94,8 +96,8 @@ std::string Exception::getName() const throw()
          ::sscanf(iname.c_str(), "%u%n", &nb, &offset);
          iname = std::string(iname, offset, std::string::npos);
          name += std::string(iname, 0, nb);
-         if(i + 1 < nested) name += "::";
-         iname = std::string(iname, nb, std::string::npos);
+         if ( i + 1 < nested) name += "::";
+         iname = std::string(iname, nb, std::string::npos );
       }
       return name;
 #else           // no class name demangling

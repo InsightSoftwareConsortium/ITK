@@ -82,7 +82,7 @@ void SeqEntry::WriteContent(std::ofstream *fp, FileType filetype)
 {
    uint16_t seq_term_gr = 0xfffe;
    uint16_t seq_term_el = 0xe0dd;
-   uint32_t seq_term_lg = 0xffffffff;
+   uint32_t seq_term_lg = 0x00000000;
 
    //uint16_t item_term_gr = 0xfffe;
    //uint16_t item_term_el = 0xe00d;
@@ -228,10 +228,12 @@ void SeqEntry::Print( std::ostream &os, std::string const & )
    // at end, print the sequence terminator item, if any
    if (DelimitorMode)
    {
-      for ( int i = 0; i < SQDepthLevel; i++ )
-      {
+      int i;
+      for ( i = 0; i < SQDepthLevel; i++ )
          os << "   | " ;
-      }
+      os << " --- "  << std::endl;
+      for ( i = 0; i < SQDepthLevel; i++ )
+         os << "   | " ;
       if (SeqTerm != NULL)
       {
          SeqTerm->SetPrintLevel(PrintLevel);

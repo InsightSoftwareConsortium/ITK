@@ -1,0 +1,16 @@
+0041 0000 UL 1 Group Length
+0041 0010 LO 1 Owner ID (PAPYRUS 3.0)
+0041 1000 LT 1 Comments
+0041 1010 SQ 1 Pointer Sequence
+0041 1011 UL 1 Image Pointer
+0041 1012 UL 1 Pixel Offset
+0041 1013 SQ 1 Image Identifier Sequence
+0041 1014 SQ 1 External PAPYRUS-File Reference Sequence
+0041 1015 US 1 Number of images
+0041 1021 UI 1 Referenced SOP Class UID
+0041 1022 UI 1 Referenced SOP Instance UID
+0041 1031 LO 1 Referenced File Name
+0041 1032 LO 1-n Referenced File Path
+0041 1041 UI 1 Referenced Image SOP Class UID
+0041 1042 UI 1 Referenced Image SOP Instance UID
+0041 1050 SQ 1 Image Sequence

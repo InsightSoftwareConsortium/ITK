@@ -72,6 +72,7 @@ imageElem   0008 0016 ""                     // SOP Class UID :    to be set/for
 imageElem   0008 0018 ""                     // SOP Instance UID : to be set/forged later
 imageElem   0008 0023 ""                     // Content Date
 imageElem   0008 0033 ""                     // Content Time
+imageElem   0018 1060 "0"                    // Trigger Time
 imageElem   0020 0013 "0"                    // Image Number
 imageElem   0020 0032 "1.0\1.0\1.0 "         // Image Position Patient
 imageElem   0020 0037 "1\0\0\0\1\0 "         // Image Orientation Patient

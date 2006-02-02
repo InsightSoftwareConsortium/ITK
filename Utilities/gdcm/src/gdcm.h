@@ -33,6 +33,10 @@
 #include "gdcmFileHelper.h"
 #include "gdcmSerieHelper.h"
 
+#include "gdcmValEntry.h"
+#include "gdcmBinEntry.h"
+#include "gdcmSeqEntry.h"
+
 #include "gdcmUtil.h"
 
 #endif

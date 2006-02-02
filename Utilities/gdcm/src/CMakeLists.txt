@@ -2,6 +2,7 @@
 # Rebuild gdcm whenever a file starting with gdcm* is modified
 INCLUDE_REGULAR_EXPRESSION("^gdcm.*$")
 
+# Add proper includes
 INCLUDE_DIRECTORIES(
   ${GDCM_SOURCE_DIR}/src
   ${GDCM_BINARY_DIR} #for gdcmConfigure.h
@@ -9,6 +10,7 @@ INCLUDE_DIRECTORIES(
 )
 
 SET(libgdcm_la_SOURCES
+   gdcmArgMgr.cxx
    gdcmBase.cxx
    gdcmBinEntry.cxx
    gdcmContentEntry.cxx
@@ -19,10 +21,12 @@ SET(libgdcm_la_SOURCES
    gdcmDicomDirMeta.cxx
    gdcmDicomDirObject.cxx
    gdcmDicomDirPatient.cxx
+   gdcmDicomDirVisit.cxx
    gdcmDicomDirSerie.cxx
    gdcmDicomDirStudy.cxx
    gdcmDict.cxx
    gdcmDictEntry.cxx
+   gdcmDictGroupName.cxx
    gdcmDictSet.cxx
    gdcmDirList.cxx
    gdcmDocEntry.cxx
@@ -51,15 +55,17 @@ SET(libgdcm_la_SOURCES
    gdcmTS.cxx
    gdcmUtil.cxx
    gdcmValEntry.cxx   
+   gdcmValidator.cxx
    gdcmVR.cxx
    ${GDCM_BINARY_DIR}/src/gdcmDefaultDicts.cxx
    )
 
-ADD_LIBRARY(itkgdcm ${libgdcm_la_SOURCES} )
+ADD_LIBRARY(itkgdcm ${libgdcm_la_SOURCES})
 TARGET_LINK_LIBRARIES(itkgdcm 
   itkjpeg8 
   itkjpeg12
   itkjpeg16
+  itkopenjpeg
 )
 IF(WIN32)
   IF(NOT BORLAND)
@@ -72,7 +78,6 @@ ENDIF(WIN32)
 IF(CMAKE_SYSTEM MATCHES "SunOS.*")
   TARGET_LINK_LIBRARIES(itkgdcm socket nsl)
 ENDIF(CMAKE_SYSTEM MATCHES "SunOS.*")
-
 
 INSTALL_FILES(/include/InsightToolkit/gdcm/src "\\.h$")
 INSTALL_TARGETS(/lib/InsightToolkit itkgdcm)

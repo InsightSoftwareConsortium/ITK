@@ -44,7 +44,7 @@ public:
    // Image methods
    DicomDirImage *NewImage();
    /// Add a new gdcm::DicomDirImage to the Serie
-   void AddImage(DicomDirImage *obj) { Images.push_back(obj); };
+   void AddImage(DicomDirImage *obj) { Images.push_back(obj); }
    void ClearImage();
 
    DicomDirImage *GetFirstImage();

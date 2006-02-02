@@ -75,7 +75,7 @@ public:
  
    /// \brief   sets the key of the current DictEntry
    /// @param k New key to be set.
-   void SetKey(TagName const &k)  { Key = k; }
+   void SetKey(TagKey const &k)  { Key = k; }
  
    /// \brief   returns the VM field of the current DictEntry
    /// @return  The 'Value Multiplicity' field

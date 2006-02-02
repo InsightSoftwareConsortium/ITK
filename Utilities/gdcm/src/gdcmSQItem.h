@@ -51,18 +51,20 @@ public:
    bool RemoveEntry(DocEntry *EntryToRemove);
    bool RemoveEntryNoDestroy(DocEntry *EntryToRemove);
    void ClearEntry();
+   void ClearEntryNoDestroy();
+   void MoveObject(SQItem *source);
   
    DocEntry *GetFirstEntry();
    DocEntry *GetNextEntry();
 
    DocEntry *GetDocEntry(uint16_t group, uint16_t elem);
 
-   bool IsEmpty() { return DocEntries.empty(); };
+   bool IsEmpty() { return DocEntries.empty(); }
 
    /// \brief   returns the ordinal position of a given SQItem
-   int GetSQItemNumber() { return SQItemNumber; };
+   int GetSQItemNumber() { return SQItemNumber; }
    /// \brief   Sets the ordinal position of a given SQItem
-   void SetSQItemNumber(int itemNumber) { SQItemNumber = itemNumber; };
+   void SetSQItemNumber(int itemNumber) { SQItemNumber = itemNumber; }
 
    ///  \brief Accessor on \ref SQDepthLevel.
    int GetDepthLevel() { return SQDepthLevel; }                                                                             
@@ -70,11 +72,11 @@ public:
    ///  \brief Accessor on \ref SQDepthLevel.
    void SetDepthLevel(int depth) { SQDepthLevel = depth; }
 
-   ///  \brief Accessor on \ref BaseTagKey.
-   void SetBaseTagKey( BaseTagKey const &key ) { BaseTagKeyNested = key; }
-
-   ///  \brief Accessor on \ref BaseTagKey.
-   BaseTagKey const &GetBaseTagKey() const { return BaseTagKeyNested; }
+   // waste time hunting
+   // /  \brief Accessor on \ref BaseTagKey.
+   //void SetBaseTagKey( BaseTagKey const &key ) { BaseTagKeyNested = key; }
+   // /  \brief Accessor on \ref BaseTagKey.
+   //BaseTagKey const &GetBaseTagKey() const { return BaseTagKeyNested; }
 
 protected:
 // Variables that need to be accessed in subclasses
@@ -93,9 +95,10 @@ private:
    ///        (see \ref Print).
    int SQDepthLevel;
 
-   /// \brief A TagKey of a DocEntry nested in a sequence is prepended
-   ///        with this BaseTagKey.
-   BaseTagKey BaseTagKeyNested;
+   // waste time hunting
+   // / \brief A TagKey of a DocEntry nested in a sequence is prepended
+   // /        with this BaseTagKey.
+   //BaseTagKey BaseTagKeyNested;
 
    /// \brief SQ Item ordinal number 
    int SQItemNumber;

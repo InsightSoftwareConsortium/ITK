@@ -85,7 +85,6 @@ bool RLEFrame::ReadAndDecompressRLEFragment( uint8_t *subRaw,
    long numberOfOutputBytes = 0;
    long numberOfReadBytes = 0;
 
-
    while( numberOfOutputBytes < rawSegmentSize )
    {
       fp->read( (char*)&count, 1 );

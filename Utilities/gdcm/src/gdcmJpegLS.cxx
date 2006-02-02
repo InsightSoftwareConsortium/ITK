@@ -26,7 +26,11 @@ namespace gdcm
 
 //-----------------------------------------------------------------------------
  /**
- * \brief   routine for JPEG decompression 
+ * \brief   routine for JPEG decompression. WARNING LPEG-LS is NOT
+ *   the 'classical' jpeg lossless. See :
+ *   http://www.jpeg.org/jpeg/jpegls.html
+ *   gdcm DOES deal with 'classical' jpeg lossless
+ *
  * @param fp pointer to an already open file descriptor 
  *                      JPEG-LS encoded image
  * @param image_buffer to receive uncompressed pixels

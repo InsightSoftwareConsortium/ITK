@@ -22,14 +22,17 @@
 #include "gdcmGlobal.h"
 #include "gdcmUtil.h"
 #include "gdcmDebug.h"
+#include "gdcmDocument.h"
 
 #include <fstream>
+#include <ctype.h>  // for isdigit
+#include <stdlib.h> // for atoi
 
 namespace gdcm 
 {
 //-----------------------------------------------------------------------------
-#define MAX_SIZE_PRINT_ELEMENT_VALUE 128
-
+#define MAX_SIZE_PRINT_ELEMENT_VALUE 0x7fffffff
+uint32_t ValEntry::MaxSizePrintEntry = MAX_SIZE_PRINT_ELEMENT_VALUE;
 //-----------------------------------------------------------------------------
 // Constructor / Destructor
 /**
@@ -114,6 +117,26 @@ void ValEntry::WriteContent(std::ofstream *fp, FileType filetype)
    binary_write(*fp, GetValue());
 } 
 
+
+/**
+ * \brief Header Elements too long will not be printed
+ * @param newSize new size
+ */ 
+void ValEntry::SetMaxSizePrintEntry(long newSize) 
+{
+   if ( newSize < 0 )
+   {
+      return;
+   }
+   if ((uint32_t)newSize >= (uint32_t)0xffffffff )
+   {
+      ValEntry::MaxSizePrintEntry = 0xffffffff;
+      return;
+   }
+   ValEntry::MaxSizePrintEntry = newSize;
+}
+
+
 /**
  * \brief   Sets the std::string representable' value of a ValEntry
  * @param  val value to set 
@@ -125,13 +148,13 @@ void ValEntry::SetValue(std::string const &val)
    if ( l != 0) // To avoid to be cheated by 'zero length' integers
    {   
       const VRKey &vr = GetVR();
-      if( vr == "US" || vr == "SS" )
+      if ( vr == "US" || vr == "SS" )
       {
          // for multivaluated items
          l = (Util::CountSubstring(val, "\\") + 1) * 2;
          ContentEntry::SetValue(val);
       }
-      else if( vr == "UL" || vr == "SL" )
+      else if ( vr == "UL" || vr == "SL" )
       {
          // for multivaluated items
          l = (Util::CountSubstring(val, "\\") + 1) * 4;;
@@ -193,7 +216,7 @@ void ValEntry::Print(std::ostream &os, std::string const &)
     
    TSAtr v  = GetValue();     
    d2 = Util::CreateCleanString(v);  // replace non printable characters by '.'            
-   if( GetLength() <= MAX_SIZE_PRINT_ELEMENT_VALUE
+   if ( (long)GetLength() <= ValEntry::GetMaxSizePrintEntry()
     || PrintLevel >= 3
     || d2.find(GDCM_NOTLOADED) < d2.length() )
    {
@@ -260,7 +283,7 @@ void ValEntry::Print(std::ostream &os, std::string const &)
    {
       if (v == "4294967295") // to avoid troubles in convertion 
       {
-         st = Util::Format(" x(ffffffff)");
+         st = "ffffffff";
       }
       else
       {
@@ -270,7 +293,7 @@ void ValEntry::Print(std::ostream &os, std::string const &)
          }
          else
          {
-            st = Util::Format(" ");
+            st = " ";
          }
       }
       s << st;

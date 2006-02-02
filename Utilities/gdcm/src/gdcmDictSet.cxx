@@ -20,6 +20,7 @@
 #include "gdcmDebug.h"
 #include <fstream>
 #include <stdlib.h>  // For getenv
+#include <stdio.h>   // For sprintf
 
 namespace gdcm 
 {
@@ -56,7 +57,7 @@ DictSet::~DictSet()
    Dicts.clear();
 
    // Remove virtual dictionary entries
-   VirtualEntry.clear();
+   VirtualEntries.clear();
 }
 
 //-----------------------------------------------------------------------------
@@ -87,7 +88,7 @@ Dict *DictSet::LoadDictFromFile(std::string const &filename,
 Dict *DictSet::GetDict(DictKey const &dictName) 
 {
    DictSetHT::iterator dict = Dicts.find(dictName);
-   if(dict != Dicts.end())
+   if ( dict != Dicts.end() )
    {
       return dict->second;
    }
@@ -95,33 +96,51 @@ Dict *DictSet::GetDict(DictKey const &dictName)
 }
 
 /**
- * \brief   Create a DictEntry which will be referenced 
- *          in no dictionary
+ * \brief   Create a DictEntry which will be referenced in no dictionary
+ * @param   group   Group number of the Entry 
+ * @param   elem  Element number of the Entry
+ * @param   vr  Value Representation of the Entry
+ * @param   vm  Value Multiplicity of the Entry
+ * @param   name  English name of the Entry
  * @return  virtual entry
  */
 DictEntry *DictSet::NewVirtualDictEntry( uint16_t group,
-                                         uint16_t element,
+                                         uint16_t elem,
                                          TagName vr,
                                          TagName vm,
                                          TagName name)
 {
    DictEntry *entry;
-   const std::string tag = DictEntry::TranslateToKey(group,element)
-                           + "#" + vr + "#" + vm + "#" + name;
-   TagKeyHT::iterator it;
+
+  // Let's follow 'Purify' advice
+  //
+  // const std::string tag = DictEntry::TranslateToKey(group,elem)
+  //                         + "#" + vr + "#" + vm + "#" + name;
+#if FASTTAGKEY && 0
+   // FIXME
+   TagKey tag;
+   tag.tab[0] = group;
+   tag.tab[1] = elem;
+#else
+   char res[10];
+   sprintf(res,"%04x|%04x", group, elem);
+   ExtendedTagKey tag = res;
+   tag += "#" + vr + "#" + vm + "#" + name;  
+#endif
+  
+   ExtendedTagKeyHT::iterator it;
    
-   it = VirtualEntry.find(tag);
-   if(it != VirtualEntry.end())
+   it = VirtualEntries.find(tag);
+   if ( it != VirtualEntries.end() )
    {
       entry = &(it->second);
    }
    else
    {
-      DictEntry ent(group, element, vr, vm, name);
-      VirtualEntry.insert(
-         std::map<TagKey, DictEntry>::value_type
-            (tag, ent));
-      entry = &(VirtualEntry.find(tag)->second);
+      DictEntry ent(group, elem, vr, vm, name);
+      VirtualEntries.insert(
+         ExtendedTagKeyHT::value_type(tag, ent) );
+      entry = &(VirtualEntries.find(tag)->second);
    }
 
    return entry;
@@ -134,7 +153,7 @@ DictEntry *DictSet::NewVirtualDictEntry( uint16_t group,
 Dict *DictSet::GetFirstEntry()
 {
    ItDictHt = Dicts.begin();
-   if( ItDictHt != Dicts.end() )
+   if ( ItDictHt != Dicts.end() )
       return ItDictHt->second;
    return NULL;
 }
@@ -170,15 +189,15 @@ std::string DictSet::BuildDictPath()
    if (envPath && (strlen(envPath) != 0)) 
    {
       resultPath = envPath;
-      if ( resultPath[resultPath.length()-1] != '/' )
-      {
-         resultPath += '/';
-      }
       gdcmWarningMacro( "Dictionary path set from environnement");
    } 
    else
    {
       resultPath = PUB_DICT_PATH;
+   }
+   if ( resultPath[resultPath.length()-1] != '/' )
+   {
+      resultPath += '/';
    }
 
    return resultPath;

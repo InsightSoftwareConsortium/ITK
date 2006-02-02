@@ -23,6 +23,7 @@
 #include "gdcmDictEntry.h"
 
 #include <iostream>
+#include <fstream> // for ifstream
 #include <list>
 #include <map>
 
@@ -49,6 +50,8 @@ public:
    Dict(std::string const &filename);
    ~Dict();
 
+   bool AddDict(std::string const &filename);
+   bool RemoveDict(std::string const &filename);
 // Print
    void Print(std::ostream &os = std::cout, std::string const &indent = "");
 
@@ -67,6 +70,8 @@ public:
    DictEntry *GetNextEntry();
 
 private:
+   void DoTheLoadingJob(std::ifstream &ifs);
+
    /// ASCII file holding the Dictionnary
    std::string Filename;
 

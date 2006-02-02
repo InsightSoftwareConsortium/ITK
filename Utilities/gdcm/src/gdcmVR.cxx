@@ -40,7 +40,7 @@ VR::VR()
 {
    std::string filename = DictSet::BuildDictPath() + DICT_VR;
    std::ifstream from(filename.c_str());
-   if(!from)
+   if ( !from )
    {
       gdcmWarningMacro("Can't open dictionary" << filename.c_str());
       FillDefaultVRDict(vr);
@@ -63,7 +63,7 @@ VR::VR()
          from >> std::ws;
          from.getline(buff, 1024, '\n');
    
-         if(key != "")
+         if ( key != "" )
          {
             vr[key] = name;
          }
@@ -82,14 +82,6 @@ VR::~VR()
 
 //-----------------------------------------------------------------------------
 // Public
-/**
- * \brief   Get the count for an element
- * @param   key key to count
- */
-int VR::Count(VRKey const &key) 
-{
-   return vr.count(key);
-}
 
 /**
  * \brief   Simple predicate that checks whether the given argument
@@ -98,8 +90,12 @@ int VR::Count(VRKey const &key)
  */
 bool VR::IsVROfBinaryRepresentable(VRKey const &tested)
 {
-   if ( tested == GDCM_UNKNOWN)
-      return true;
+   //if ( tested == GDCM_UNKNOWN)
+   //{
+   //std::cout << "---------- never used --------------" << tested 
+   //          << std::endl;
+   //   return true;
+   //}
 
    if ( IsVROfStringRepresentable(tested) )
       return false;
@@ -118,6 +114,8 @@ bool VR::IsVROfBinaryRepresentable(VRKey const &tested)
  */
 bool VR::IsVROfStringRepresentable(VRKey const &tested)
 {
+
+
    return tested == "AE" ||
           tested == "AS" ||
           tested == "CS" ||
@@ -134,23 +132,18 @@ bool VR::IsVROfStringRepresentable(VRKey const &tested)
           tested == "TM" ||
           tested == "UI" ||
           tested == "UL" ||
-          tested == "UN" ||
-          tested == "US";
-}
+          tested == "US" ||
+          tested == "UT";
 
-/**
- * \brief   Simple predicate that checks whether the given argument
- *          corresponds to the Value Representation of a \ref SeqEntry
- * @param   tested value representation to check for.
- */
-bool VR::IsVROfSequence(VRKey const &tested)
-{
-   return tested == "SQ";
-}
-
-bool VR::IsValidVR(VRKey const &key)
-{
-   return vr.find(key) != vr.end();
+   // Should be quicker --> But it doesn't work : revert to old code
+/*
+   return tested != "FL" &&
+          tested != "FD" &&
+          tested != "OB" &&
+          tested != "OW" &&
+          tested != "AT" && // Attribute Tag ?!?
+          tested != "SQ" ;
+*/
 }
 
 //-----------------------------------------------------------------------------

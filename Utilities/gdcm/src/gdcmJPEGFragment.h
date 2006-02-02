@@ -52,11 +52,11 @@ public:
    bool ReadJPEGFile12 (std::ifstream *fp, void *image_buffer, int &statesuspension );
    bool ReadJPEGFile16 (std::ifstream *fp, void *image_buffer, int &statesuspension );
 
-   void SetLength(uint32_t length) { Length = length; };
-   uint32_t GetLength()            { return Length;   };
-   void SetOffset(uint32_t offset) { Offset = offset; };
-   uint32_t GetOffset()            { return Offset;   };
-   uint8_t *GetImage()             { return pImage;   };
+   void SetLength(uint32_t length) { Length = length; }
+   uint32_t GetLength()            { return Length;   }
+   void SetOffset(uint32_t offset) { Offset = offset; }
+   uint32_t GetOffset()            { return Offset;   }
+   uint8_t *GetImage()             { return pImage;   }
 
 private:
    uint32_t Offset;

@@ -24,6 +24,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <ctype.h> // for isdigit
 
 // TODO
 // a lot of troubles expected with TS : 1.2.840.113619.5.2
@@ -34,7 +35,7 @@
 namespace gdcm 
 {
 //-----------------------------------------------------------------------------
-/// \brief Transfer Syntaxes gdcm deals with (internal use onky)
+/// \brief Transfer Syntaxes gdcm deals with (internal use only)
 static const char *SpecialStrings[] =  {
   // Implicit VR Little Endian
   "1.2.840.10008.1.2",
@@ -71,6 +72,8 @@ static const char *SpecialStrings[] =  {
   "1.2.840.10008.1.2.4.91",
   // RLE Lossless
   "1.2.840.10008.1.2.5",
+  // MPEG2 Main Profile @ Main Level
+  "1.2.840.10008.1.2.4.100",
   // Unknown
   "Unknown Transfer Syntax"
 };
@@ -86,7 +89,7 @@ TS::TS()
 {
    std::string filename = DictSet::BuildDictPath() + DICT_TS;
    std::ifstream from(filename.c_str());
-   if( !from )
+   if ( !from )
    {
       gdcmWarningMacro("Can't open dictionary" << filename.c_str());
       FillDefaultTSDict( TsMap );
@@ -102,7 +105,7 @@ TS::TS()
          from >> std::ws;
          std::getline(from, name);
 
-         if(key != "")
+         if (key != "")
          {
             TsMap[key] = name;
          }
@@ -125,11 +128,11 @@ int TS::Count(TSKey const &key)
    return TsMap.count(key);
 }
 
-/// \brief returns the human reabable value of a Transfer Synatx string 
+/// \brief returns the human readable value of a Transfer Syntax string 
 TSAtr const &TS::GetValue(TSKey const &key) 
 {
    // First thing clean up the string 
-   // (sometime the transfer syntax is padded with spaces)
+   // (sometimes the transfer syntax is padded with spaces)
    std::string copy = key;
    while ( copy.size() && !isdigit((unsigned char)copy[copy.size()-1]) )
    {
@@ -146,8 +149,8 @@ TSAtr const &TS::GetValue(TSKey const &key)
 /**
  * \brief   Determines if the key passed corresponds to a 'Transfer Syntax'
  *          as defined in DICOM (and stored in gdcm::TS class)
- * @return  True when key is an actual 'Transfer Syntax'. False in all
- *          other cases.
+ * @return  True when key is an actual 'Transfer Syntax'. 
+ *          False in all other cases.
  */
 bool TS::IsTransferSyntax(TSKey const &key)
 {
@@ -158,14 +161,14 @@ bool TS::IsTransferSyntax(TSKey const &key)
 /**
  * \brief   Determines if the Transfer Syntax was already encountered
  *          and if it corresponds to a Run Length Encoding Lossless one
- * @return  True when Run Length Encoding Lossless found. False in all
- *          other cases.
+ * @return  True when Run Length Encoding Lossless found. 
+ *          False in all other cases.
  */
 bool TS::IsRLELossless(TSKey const &key)
 {
    bool r = false;
    // First check this is an actual transfer syntax
-   if( IsTransferSyntax(key) )
+   if ( IsTransferSyntax(key) )
    {
       if ( key == SpecialStrings[RLELossless] )
       {
@@ -178,14 +181,14 @@ bool TS::IsRLELossless(TSKey const &key)
 /**
  * \brief   Determines if the Transfer Syntax was already encountered
  *          and if it corresponds to a 'classical' JPEG Lossless one
- * @return  True when 'classical' Lossless found. False in all
- *          other cases.
+ * @return  True when 'classical' Lossless found. 
+ *          False in all other cases.
  */
 bool TS::IsJPEGLossless(TSKey const &key)
 {
    bool r = false;
    // First check this is an actual transfer syntax
-   if( IsTransferSyntax(key) )
+   if ( IsTransferSyntax(key) )
    {
       if ( key == SpecialStrings[JPEGFullProgressionProcess10_12]
         || key == SpecialStrings[JPEGLosslessProcess14]
@@ -200,14 +203,14 @@ bool TS::IsJPEGLossless(TSKey const &key)
 /**
  * \brief   Determines if the Transfer Syntax was already encountered
  *          and if it corresponds to a 'classical' JPEG Lossy one
- * @return  True when 'classical' Lossy found. False in all
- *          other cases.
+ * @return  True when 'classical' Lossy found. 
+ *          False in all other cases.
  */
 bool TS::IsJPEGLossy(TSKey const &key)
 {
    bool r = false;
    // First check this is an actual transfer syntax
-   if( IsTransferSyntax(key) )
+   if ( IsTransferSyntax(key) )
    {
       if ( key == SpecialStrings[JPEGBaselineProcess1]
         || key == SpecialStrings[JPEGExtendedProcess2_4]
@@ -223,14 +226,14 @@ bool TS::IsJPEGLossy(TSKey const &key)
 /**
  * \brief   Determines if the Transfer Syntax was already encountered
  *          and if it corresponds to a JPEG2000 one
- * @return  True when JPEG2000 (Lossly or LossLess) found. False in all
- *          other cases.
+ * @return  True when JPEG2000 (Lossly or LossLess) found. 
+ *          False in all other cases.
  */
 bool TS::IsJPEG2000(TSKey const &key)
 {
    bool r = false;
    // First check this is an actual transfer syntax
-   if( IsTransferSyntax(key) )
+   if ( IsTransferSyntax(key) )
    {
       if ( key == SpecialStrings[JPEG2000Lossless]
         || key == SpecialStrings[JPEG2000] )
@@ -250,10 +253,12 @@ bool TS::IsJPEG(TSKey const &key)
 {
    bool r = false;
    // First check this is an actual transfer syntax
-   if( IsTransferSyntax(key) )
+   if ( IsTransferSyntax(key) )
    {
       if ( IsJPEGLossy( key )
         || IsJPEGLossless( key )
+        || IsJPEG2000( key )
+        || IsJPEGLS( key )
          )
       {
          r = true;
@@ -271,7 +276,7 @@ bool TS::IsJPEGLS(TSKey const &key)
 {
    bool r = false;
    // First check this is an actual transfer syntax
-   if( IsTransferSyntax(key) )
+   if ( IsTransferSyntax(key) )
    {
       if ( key == SpecialStrings[JPEGLSLossless]
         || key == SpecialStrings[JPEGLSNearLossless] ) 
@@ -282,6 +287,30 @@ bool TS::IsJPEGLS(TSKey const &key)
    return r;
 }
 
+/**
+ * \brief   Determines if the Transfer Syntax corresponds to any form
+ *          of MPEG encoded Pixel data.
+ * @return  True when any form of MPEG found. False otherwise.
+ */
+bool TS::IsMPEG(TSKey const &key)
+{
+   bool r = false;
+   // First check this is an actual transfer syntax
+   if ( IsTransferSyntax(key) )
+   {
+      if ( key == SpecialStrings[MPEG2MainProfile] ) 
+      {
+         r = true;
+      }
+   }
+   return r;
+}
+
+/**
+ * \brief   GetSpecialTransferSyntax ??
+ * @param  key TSKey const &key ??
+ * @return  TS::SpecialType ??.
+ */
 TS::SpecialType TS::GetSpecialTransferSyntax(TSKey const &key)
 {
    for (int i = 0; SpecialStrings[i] != NULL; i++)
@@ -291,10 +320,14 @@ TS::SpecialType TS::GetSpecialTransferSyntax(TSKey const &key)
          return SpecialType(i);
       }
    }
-
    return UnknownTS;
 }
 
+/**
+ * \brief   GetSpecialTransferSyntax ??
+ * @param  t SpecialType t ??
+ * @return  char* TS : SpecialStrings[t] ??.
+ */
 const char* TS::GetSpecialTransferSyntax(SpecialType t)
 {
    return SpecialStrings[t];

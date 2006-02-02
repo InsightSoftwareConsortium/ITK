@@ -85,7 +85,9 @@ void SQItem::WriteContent(std::ofstream *fp, FileType filetype)
       // we just *always* ignore spurious fffe|0000 tag ! 
       if ( (*it)->GetGroup() == 0xfffe && (*it)->GetElement() == 0x0000 )
       {
-         break; // FIXME : continue; ?!?
+          break; // FIXME : break or continue; ?!?  
+                 // --> makes no difference since the only bugged file we have
+                 // contains 'impossible tag' fffe|0000 in last position !                            
       }
 
       (*it)->WriteContent(fp, filetype);
@@ -103,6 +105,7 @@ void SQItem::WriteContent(std::ofstream *fp, FileType filetype)
  * \brief   Inserts *in the right place* any Entry (Dicom Element)
  *          into the Sequence Item
  * @param entry Entry to add
+ * @return always true 
  */
 bool SQItem::AddEntry(DocEntry *entry)
 {   
@@ -147,7 +150,7 @@ bool SQItem::RemoveEntry( DocEntry *entryToRemove )
                               it != DocEntries.end();
                             ++it)
    {
-      if( *it == entryToRemove )
+      if ( *it == entryToRemove )
       {
          DocEntries.erase(it);
          gdcmWarningMacro( "One element erased: " << entryToRemove->GetKey() );
@@ -170,10 +173,10 @@ bool SQItem::RemoveEntryNoDestroy(DocEntry *entryToRemove)
                               it != DocEntries.end();
                             ++it)
    {
-      if( *it == entryToRemove )
+      if ( *it == entryToRemove )
       {
          DocEntries.erase(it);
-         gdcmWarningMacro( "One element erased, no destroyed: "
+         gdcmWarningMacro( "One element removed, no destroyed: "
                             << entryToRemove->GetKey() );
          return true;
       }
@@ -198,13 +201,31 @@ void SQItem::ClearEntry()
 }
 
 /**
+ * \brief  Clear the std::list from given Sequence Item  BUT keep the entries
+ */
+void SQItem::ClearEntryNoDestroy()
+{
+   DocEntries.clear();
+}
+
+
+/**
+ * \brief  Move all the entries from a given Sequence Item 
+ */
+void SQItem::MoveObject(SQItem *source)
+{
+   DocEntries = source->DocEntries;
+   source->ClearEntryNoDestroy();
+}
+
+/**
  * \brief   Get the first Dicom entry while visiting the SQItem
  * \return  The first DocEntry if found, otherwhise 0
  */
 DocEntry *SQItem::GetFirstEntry()
 {
    ItDocEntries = DocEntries.begin();
-   if( ItDocEntries != DocEntries.end() )
+   if ( ItDocEntries != DocEntries.end() )
       return *ItDocEntries;
    return 0;   
 }
@@ -216,7 +237,7 @@ DocEntry *SQItem::GetFirstEntry()
 DocEntry *SQItem::GetNextEntry()
 {
    ++ItDocEntries;
-   if( ItDocEntries != DocEntries.end() )
+   if ( ItDocEntries != DocEntries.end() )
       return  *ItDocEntries;
    return NULL;
 }

@@ -31,16 +31,16 @@ class BinEntry;
 class SeqEntry;
 class DictEntry;
 
-typedef std::string BaseTagKey;
+typedef TagKey BaseTagKey;
 
 //-----------------------------------------------------------------------------
 /**
  * \brief
  * \ref DocEntrySet is an abstract base class for \ref ElementSet
  * and \ref SQItem which are both containers for DocEntries.
- * \ref ElementSet is based on the STL map<> container
- * (see \ref ElementSet::TagHT), as opposed to \ref SQItem
- * which is based on an STL list container (see \ref ListDocEntry).
+ *  - \ref ElementSet is based on the STL map<> container
+ * (see \ref ElementSet::TagHT)
+ *  - \ref SQItem is based on an STL list container (see \ref ListDocEntry).
  * Since the syntax for adding a new element to a map<> or a list<>
  * differ, \ref DocEntrySet is designed as an adapter to unify the
  * interfaces of \ref DocEntrySet and \ref ElementSet.
@@ -60,9 +60,9 @@ class GDCM_EXPORT DocEntrySet : public Base
 {
 public:
    /// Canonical Constructor
-   DocEntrySet() {};
+   DocEntrySet();
    /// Canonical Destructor
-   virtual ~DocEntrySet() {};
+   virtual ~DocEntrySet() {}
 
    /// \brief write any type of entry to the entry set
    virtual void WriteContent (std::ofstream *fp, FileType filetype) = 0;
@@ -70,21 +70,22 @@ public:
    /// \brief Remove all Entry in the entry set
    virtual void ClearEntry() = 0;
    /// \brief adds any type of entry to the entry set
-   virtual bool AddEntry(DocEntry *Entry) = 0;
+   virtual bool AddEntry(DocEntry *entry) = 0;
    /// \brief Removes any type of entry out of the entry set, and destroys it
-   virtual bool RemoveEntry(DocEntry *EntryToRemove) = 0;
+   virtual bool RemoveEntry(DocEntry *entryToRemove) = 0;
    /// \brief Removes any type of entry out of the entry set, DOESN'T destroy it
-   virtual bool RemoveEntryNoDestroy(DocEntry *EntryToRemove) = 0;
+   virtual bool RemoveEntryNoDestroy(DocEntry *entryToRemove) = 0;
    /// Gets the first entry of any type of set
    virtual DocEntry *GetFirstEntry()=0;
    /// Gets the next entry of any type of set
    virtual DocEntry *GetNextEntry()=0;
 
    virtual std::string GetEntryValue(uint16_t group, uint16_t elem);
-   virtual void *GetEntryBinArea(uint16_t group, uint16_t elem);   
+   virtual void *GetEntryBinArea(uint16_t group, uint16_t elem);
+   
    virtual int GetEntryLength(uint16_t group, uint16_t elem);
    virtual std::string GetEntryVR(uint16_t group, uint16_t elem);
-
+   virtual std::string GetEntryForcedAsciiValue(uint16_t group, uint16_t elem);
    /// \brief Gets any type of DocEntry, identified by its (group,elem)
    virtual DocEntry *GetDocEntry(uint16_t group, uint16_t elem) = 0;
    /// \brief Gets a ValEntry, identified by its (group, elem)
@@ -130,6 +131,8 @@ protected:
    DictEntry *GetDictEntry(uint16_t group, uint16_t elem);
    DictEntry *GetDictEntry(uint16_t group, uint16_t elem,
                            TagName const &vr);
+   /// To be able to backtrack (Private Sequence, Implicit VR related pb)
+   DocEntry *PreviousDocEntry;
 
 private:
 };

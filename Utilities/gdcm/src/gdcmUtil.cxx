@@ -19,7 +19,6 @@
 #include "gdcmUtil.h"
 #include "gdcmDebug.h"
 #include <iostream>
-#include <stdarg.h> // for va_list
 
 // For GetCurrentDate, GetCurrentTime
 #include <time.h>
@@ -96,6 +95,9 @@ namespace gdcm
 //-------------------------------------------------------------------------
 const std::string Util::GDCM_UID = "1.2.826.0.1.3680043.2.1143";
 std::string Util::RootUID        = GDCM_UID;
+const uint16_t Util::FMIV = 0x0001;
+uint8_t *Util::FileMetaInformationVersion = (uint8_t *)&FMIV;
+std::string Util::GDCM_MAC_ADRESS = GetMACAddress();
 
 //-------------------------------------------------------------------------
 // Public
@@ -178,9 +180,45 @@ int Util::CountSubstring (const std::string &str,
 }
 
 /**
+ * \brief  Checks whether a 'string' is printable or not (in order
+ *         to avoid corrupting the terminal of invocation when printing)
+ * @param s string to check
+ */
+bool Util::IsCleanString(std::string const &s)
+{
+  std::cout<< std::endl << s << std::endl;
+   for(unsigned int i=0; i<s.size(); i++)
+   {
+      //std::cout<< std::endl << i << " : " << (unsigned char)s[i] << std::endl;
+      if (!isprint((unsigned char)s[i]) )
+      {
+         return false;
+      }
+   }
+return true;   
+}
+
+/**
+ * \brief  Checks whether an 'area' is printable or not (in order
+ *         to avoid corrupting the terminal of invocation when printing)
+ * @param s area to check (uint8_t is just for prototyping. feel free to cast)
+ * @param l area length to check
+ */
+bool Util::IsCleanArea(uint8_t *s, int l)
+{
+   for( int i=0; i<l; i++)
+   {
+      if (!isprint((unsigned char)s[i]) )
+      {
+         return false;
+      }
+   }
+   return true;   
+}
+/**
  * \brief  Weed out a string from the non-printable characters (in order
  *         to avoid corrupting the terminal of invocation when printing)
- * @param s string to remove non printable characters from
+ * @param s string to check (uint8_t is just for prototyping. feel free to cast)
  */
 std::string Util::CreateCleanString(std::string const &s)
 {
@@ -188,17 +226,17 @@ std::string Util::CreateCleanString(std::string const &s)
 
    for(unsigned int i=0; i<str.size(); i++)
    {
-      if(!isprint((unsigned char)str[i]))
+      if (!isprint((unsigned char)str[i]) )
       {
          str[i] = '.';
       }
    }
 
-   if(str.size() > 0)
+   if (str.size() > 0 )
    {
-      if(!isprint((unsigned char)s[str.size()-1]))
+      if (!isprint((unsigned char)s[str.size()-1]) )
       {
-         if(s[str.size()-1] == 0)
+         if (s[str.size()-1] == 0 )
          {
             str[str.size()-1] = ' ';
          }
@@ -208,6 +246,30 @@ std::string Util::CreateCleanString(std::string const &s)
    return str;
 }
 
+/**
+ * \brief  Weed out a string from the non-printable characters (in order
+ *         to avoid corrupting the terminal of invocation when printing)
+ * @param s area to process (uint8_t is just for prototyping. feel free to cast)
+ * @param l area length to check
+ */
+std::string Util::CreateCleanString(uint8_t *s, int l)
+{
+   std::string str;
+
+   for( int i=0; i<l; i++)
+   {
+      if (!isprint((unsigned char)s[i]) )
+      {
+         str = str + '.';
+      }
+   else
+      {
+         str = str + (char )s[i];
+      }
+   }
+
+   return str;
+}
 /**
  * \brief   Add a SEPARATOR to the end of the name is necessary
  * @param   pathname file/directory name to normalize 
@@ -322,10 +384,11 @@ std::string Util::GetCurrentDateTime()
    strftime (tmp, sizeof (tmp), "%Y%m%d%H%M%S", ptm);
 
    // Add milliseconds
-   std::string r = tmp;
-   r += Format("%03ld", milliseconds);
+   // Don't use Util::Format to accelerate execution of code
+   char tmpAll[80];
+   sprintf(tmpAll,"%s%03ld",tmp,milliseconds);
 
-   return r;
+   return tmpAll;
 }
 
 unsigned int Util::GetCurrentThreadID()
@@ -333,18 +396,20 @@ unsigned int Util::GetCurrentThreadID()
 // FIXME the implementation is far from complete
 #if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
   return (unsigned int)GetCurrentThreadId();
-#endif
+#else
 #ifdef __linux__
    return 0;
    // Doesn't work on fedora, but is in the man page...
    //return (unsigned int)gettid();
-#endif
+#else
 #ifdef __sun
    return (unsigned int)thr_self();
 #else
    //default implementation
    return 0;
-#endif
+#endif // __sun
+#endif // __linux__
+#endif // Win32
 }
 
 unsigned int Util::GetCurrentProcessID()
@@ -409,14 +474,14 @@ std::string Util::DicomString(const char *s)
 }
 
 /**
- * \brief Safely compare two Dicom String:
- *        - Both string should be of even length
+ * \brief Safely check the equality of two Dicom String:
+ *        - Both strings should be of even length
  *        - We allow padding of even length string by either a null 
  *          character of a space
  */
 bool Util::DicomStringEqual(const std::string &s1, const char *s2)
 {
-  // s2 is the string from the DICOM reference: 'MONOCHROME1'
+  // s2 is the string from the DICOM reference e.g. : 'MONOCHROME1'
   std::string s1_even = s1; //Never change input parameter
   std::string s2_even = DicomString( s2 );
   if ( s1_even[s1_even.size()-1] == ' ' )
@@ -424,6 +489,41 @@ bool Util::DicomStringEqual(const std::string &s1, const char *s2)
     s1_even[s1_even.size()-1] = '\0'; //replace space character by null
   }
   return s1_even == s2_even;
+}
+
+/**
+ * \brief Safely compare two Dicom String:
+ *        - Both strings should be of even length
+ *        - We allow padding of even length string by either a null 
+ *          character of a space
+ */
+bool Util::CompareDicomString(const std::string &s1, const char *s2, int op)
+{
+  // s2 is the string from the DICOM reference e.g. : 'MONOCHROME1'
+  std::string s1_even = s1; //Never change input parameter
+  std::string s2_even = DicomString( s2 );
+  if ( s1_even[s1_even.size()-1] == ' ' )
+  {
+    s1_even[s1_even.size()-1] = '\0'; //replace space character by null
+  }
+  switch (op)
+  {
+     case GDCM_EQUAL :
+        return s1_even == s2_even;
+     case GDCM_DIFFERENT :  
+        return s1_even != s2_even;
+     case GDCM_GREATER :  
+        return s1_even >  s2_even;  
+     case GDCM_GREATEROREQUAL :  
+        return s1_even >= s2_even;
+     case GDCM_LESS :
+        return s1_even <  s2_even;
+     case GDCM_LESSOREQUAL :
+        return s1_even <= s2_even;
+     default :
+        gdcmDebugMacro(" Wrong operator : " << op);
+        return false;
+  }
 }
 
 #ifdef _WIN32
@@ -450,13 +550,15 @@ bool Util::DicomStringEqual(const std::string &s1, const char *s2)
 #endif //_WIN32
 
 /// \brief gets current M.A.C adress (for internal use only)
+int GetMacAddrSys ( unsigned char *addr );
 int GetMacAddrSys ( unsigned char *addr )
 {
 #ifdef _WIN32
    WSADATA WinsockData;
-   if (WSAStartup(MAKEWORD(2, 0), &WinsockData) != 0) 
+   if ( (WSAStartup(MAKEWORD(2, 0), &WinsockData)) != 0 ) 
    {
-      std::cerr << "This program requires Winsock 2.x!" << std::endl;
+      std::cerr << "in Get MAC Adress (internal) : This program requires Winsock 2.x!" 
+             << std::endl;
       return -1;
    }
 
@@ -550,7 +652,8 @@ int GetMacAddrSys ( unsigned char *addr )
                  && (varBind[1].value.asnValue.address.stream[4] == 0x00) )
                {
                    // Ignore all dial-up networking adapters
-                   std::cerr << "Interface #" << j << " is a DUN adapter\n";
+                   std::cerr << "in Get MAC Adress (internal) : Interface #" 
+                             << j << " is a DUN adapter\n";
                    continue;
                }
                if ( (varBind[1].value.asnValue.address.stream[0] == 0x00)
@@ -562,7 +665,8 @@ int GetMacAddrSys ( unsigned char *addr )
                {
                   // Ignore NULL addresses returned by other network
                   // interfaces
-                  std::cerr << "Interface #" << j << " is a NULL address\n";
+                  std::cerr << "in Get MAC Adress (internal) :  Interface #" 
+                            << j << " is a NULL address\n";
                   continue;
                }
                memcpy( addr, varBind[1].value.asnValue.address.stream, 6);
@@ -589,18 +693,18 @@ int GetMacAddrSys ( unsigned char *addr )
    char                    **paddrs;
    int                     sock, status=0;
 
-   if(gethostname(hostname,  MAXHOSTNAMELEN) != 0)
+   if (gethostname(hostname,  MAXHOSTNAMELEN) != 0 )
    {
-      perror("gethostname");
+      perror("in Get MAC Adress (internal) : gethostname");
       return -1;
    }
    phost = gethostbyname(hostname);
    paddrs = phost->h_addr_list;
 
    sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-   if(sock == -1)
+   if (sock == -1 )
    {
-      perror("sock");
+      perror("in Get MAC Adress (internal) : sock");
       return -1;
    }
    memset(&parpreq, 0, sizeof(struct arpreq));
@@ -611,9 +715,9 @@ int GetMacAddrSys ( unsigned char *addr )
    memcpy(&psa->sin_addr, *paddrs, sizeof(struct in_addr));
 
    status = ioctl(sock, SIOCGARP, &parpreq);
-   if(status == -1)
+   if (status == -1 )
    {
-      perror("SIOCGARP");
+      perror("in Get MAC Adress (internal) : SIOCGARP");
       return -1;
    }
    memcpy(addr, parpreq.arp_ha.sa_data, 6);
@@ -686,7 +790,7 @@ int GetMacAddrSys ( unsigned char *addr )
          continue;
       a = (unsigned char *) &sdlp->sdl_data[sdlp->sdl_nlen];
 #else
-      perror("No way to access hardware");
+      perror("in Get MAC Adress (internal) : No way to access hardware");
       close(sd);
       return -1;
 #endif // AF_LINK
@@ -704,7 +808,7 @@ int GetMacAddrSys ( unsigned char *addr )
    close(sd);
 #endif
    // Not implemented platforms
-   perror("There was a configuration problem on your plateform");
+   perror("in Get MAC Adress (internal) : There was a configuration problem on your plateform");
    memset(addr,0,6);
    return -1;
 #endif //__sun
@@ -728,7 +832,7 @@ inline int getlastdigit(unsigned char *data)
 }
 
 /**
- * \brief Encode the mac address on a fixed length string of 15 characters.
+ * \brief Encode the mac address on a fixed lenght string of 15 characters.
  * we save space this way.
  */
 std::string Util::GetMACAddress()
@@ -788,13 +892,17 @@ std::string Util::CreateUniqueUID(const std::string &root)
 
    // A root was specified use it to forge our new UID:
    append += ".";
-   append += Util::GetMACAddress();
+   //append += Util::GetMACAddress(); // to save CPU time
+   append += Util::GDCM_MAC_ADRESS;
    append += ".";
    append += Util::GetCurrentDateTime();
 
    //Also add a mini random number just in case:
+   char tmp[10];
    int r = (int) (100.0*rand()/RAND_MAX);
-   append += Format("%02d", r);
+   // Don't use Util::Format to accelerate the execution
+   sprintf(tmp,"%02d", r);
+   append += tmp;
 
    // If append is too long we need to rehash it
    if ( (prefix + append).size() > 64 )
@@ -831,7 +939,7 @@ std::ostream &binary_write(std::ostream &os, const uint16_t &val)
 {
 #if defined(GDCM_WORDS_BIGENDIAN) || defined(GDCM_FORCE_BIGENDIAN_EMULATION)
    uint16_t swap;
-   swap = ( val << 8 |  val >> 8 );
+   swap = ( val << 8 | val >> 8 );
 
    return os.write(reinterpret_cast<const char*>(&swap), 2);
 #else

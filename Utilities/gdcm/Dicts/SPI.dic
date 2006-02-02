@@ -1,0 +1,8 @@
+0009 0010 LO 1 Comments
+0009 0015 LO 1 UID
+0009 0040 US 1 Data Object Type
+0009 0041 SH 1 Data Object Subtype
+0011 0010 LO 1 Organ
+0011 0015 LO 1 Allergy Indication
+0011 0020 LO 1 Pregnancy
+0029 0060 LO 1 Compression Algorithm

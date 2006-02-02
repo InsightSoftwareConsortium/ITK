@@ -70,7 +70,7 @@ void Debug::SetDebugToFile (bool flag)
 }
 
 /**
- * \brief   Accessor to know if debug info are redirected to file
+ * \brief   Accessor to know whether debug info are redirected to file
  */ 
 bool Debug::GetDebugToFile ()
 {
@@ -79,7 +79,7 @@ bool Debug::GetDebugToFile ()
 
 /**
  * \brief Set the filename the debug stream should be redirect to
- *        Settting a filename also set DebugToFile to true
+ *        Settting a filename also sets DebugToFile to true
  * @param   filename  File to redirect debug info
  *          Absolutely nothing is check. You have to pass in
  *          a correct filename
@@ -87,8 +87,8 @@ bool Debug::GetDebugToFile ()
 void Debug::SetDebugFilename (std::string const &filename)
 {
    DebugToFile = true;  // Just in case ... 
-   DebugFlag = true;    // Just in case ...
-   if( DebugFile.is_open() )
+   DebugFlag   = true;  // Just in case ...
+   if ( DebugFile.is_open() )
       DebugFile.close();
    DebugFile.open( filename.c_str() );
 }

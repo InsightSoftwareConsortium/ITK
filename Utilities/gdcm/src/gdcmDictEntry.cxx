@@ -22,6 +22,7 @@
 
 #include <iomanip> // for std::ios::left, ...
 #include <fstream>
+#include <stdio.h> // for sprintf
 
 namespace gdcm 
 {
@@ -32,8 +33,8 @@ namespace gdcm
  * @param   group      DICOM-Group Number
  * @param   elem       DICOM-Element Number
  * @param   vr         Value Representation
- * @param   vm         Value Mutlplicity 
- * @param   name      description of the element
+ * @param   vm         Value Multiplicity 
+ * @param   name       description of the element
 */
 
 DictEntry::DictEntry(uint16_t group, uint16_t elem,
@@ -94,7 +95,21 @@ void DictEntry::SetVM(TagName const &vm)
  */
 TagKey DictEntry::TranslateToKey(uint16_t group, uint16_t elem)
 {
-   return Util::Format("%04x|%04x", group, elem);
+   // according to 'Purify', TranslateToKey is one of the most
+   // time consuming methods.
+   // Let's try to shorten it !
+ 
+   //return Util::Format("%04x|%04x", group, elem); // too much time !
+#if FASTTAGKEY
+   TagKey r;
+   r.tab[0] = group;
+   r.tab[1] = elem;
+   return r;
+#else
+   char res[10];
+   sprintf(res,"%04x|%04x", group, elem);
+   return res;
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -116,13 +131,13 @@ void DictEntry::Print(std::ostream &os, std::string const & )
    itksys_ios::ostringstream s;
 
    vr = GetVR();
-   if(vr==GDCM_UNKNOWN)
+   if ( vr==GDCM_UNKNOWN )
       vr="  ";
 
    s << DictEntry::TranslateToKey(GetGroup(),GetElement()); 
    s << " [" << vr  << "] ";
 
-   if (PrintLevel >= 1)
+   if ( PrintLevel >= 1 )
    {
       s.setf(std::ios::left);
       s << std::setw(66-GetName().length()) << " ";

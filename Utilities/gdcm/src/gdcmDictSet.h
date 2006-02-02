@@ -28,6 +28,8 @@
 namespace gdcm 
 {
 typedef std::map<DictKey, Dict*> DictSetHT;
+typedef std::string ExtendedTagKey;
+typedef std::map<ExtendedTagKey, DictEntry>  ExtendedTagKeyHT;
 
 //-----------------------------------------------------------------------------
 /**
@@ -54,12 +56,12 @@ public:
 
    Dict *GetDict( DictKey const &DictName );
 
-   /// \brief   Retrieve the default reference DICOM V3 public dictionary.
-   Dict* GetDefaultPubDict() { return GetDict(PUB_DICT_NAME); };
+   /// \brief   Returns the default reference DICOM V3 public dictionary.
+   Dict* GetDefaultPubDict() { return GetDict(PUB_DICT_NAME); }
 
-   // \brief   Retrieve the virtual reference DICOM dictionary.
-   // \warning : not end user intended
-   // Dict *GetVirtualDict() { return &VirtualEntry; };
+   // \ brief   Returns the virtual references DICOM dictionary.
+   // \ warning : not end user intended
+   // Dict *GetVirtualDict() { return &VirtualEntries; }
 
    DictEntry *NewVirtualDictEntry(uint16_t group, uint16_t elem,
                                   TagName vr     = GDCM_UNKNOWN,
@@ -83,7 +85,7 @@ private:
    std::string DictPath;
 
    /// H table for the on the fly created DictEntries  
-   TagKeyHT VirtualEntry; 
+   ExtendedTagKeyHT VirtualEntries; 
 };
 } // end namespace gdcm
 

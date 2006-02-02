@@ -1,0 +1,217 @@
+0009 1010 CS 1 Storage Mode
+0009 1015 LO 1 UID
+0009 1040 SH 1 Data Object Subtype
+0009 1041 SH 1 Data Object Subtype
+
+0009 1110 LO 1 Recognition Code
+0009 1130 UL 1 Byte Offset of Original Header
+0009 1131 UL 1 Length of Original Header
+0009 1140 UL 1 Byte Offset of Pixelmatrix
+0009 1141 UL 1 Length of Pixelmatrix In Bytes
+
+0009 1310 LO 1 Generator Identification Label
+0009 1311 LO 1 Gantry Identification Label
+0009 1312 LO 1 X-Ray Tube Identification Label
+0009 1313 LO 1 Detector Identification Label
+0009 1314 LO 1 DAS Identification Label
+0009 1315 LO 1 SMI Identification Label
+0009 1316 LO 1 CPU Identification Label
+0009 1320 SH 1 Header Version
+
+0011 0000 UL 1 Group Length
+0011 0003 LO 1 Patient UID
+0011 0004 LO 1 Patient ID
+0011 000a LO 1 Case ID
+0011 0010 DA 1 Registration Date
+0011 0010 LO 1 Patient UID
+0011 0011 TM 1 Registration Time
+0011 0011 LO 1 Patient ID
+0011 0020 DA 1 Patient Registration Date
+0011 0021 TM 1 Patient Registration Time
+0011 0022 LO 1 Request ID
+0011 0023 DS 1 Used Patient Weight
+0011 0023 LO 1 Examination UID
+0011 0030 LO 1 Patientname RIS
+0011 0031 LO 1 Patientprename RIS
+0011 0040 IS 1 Organ Code
+0011 0040 LO 1 Patient Hospital Status
+0011 0041 LO 1 Medical Alerts
+0011 0042 LO 1 Contrast Allergies
+0011 00a1 DA 1 Patient Registration Date
+0011 00a2 TM 1 Patient Registration Time
+0011 00b0 LO 1 Patient Last Name
+0011 00b2 LO 1 Patient First Name
+0011 00b4 LO 1 Patient Hospital Status
+0011 00bc TM 1 Current Location Time
+0011 00c0 LO 1 Patient Insurance Status
+0011 00d0 LO 1 Patient Billing Type
+0011 00d2 LO 1 Patient Billing Address
+
+0013 0000 PN 1 Modifying Physician
+0013 0010 DA 1 Modification Date
+0013 0012 TM 1 Modification Time
+0013 0020 PN 1 Patient Name
+0013 0022 LO 1 Patient Id
+0013 0030 DA 1 Patient Birthdate
+0013 0031 DS 1 Patient Weight
+0013 0032 LO 1 Patients Maiden Name
+0013 0033 LO 1 Referring Physician
+0013 0034 LO 1 Admitting Diagnosis
+0013 0035 LO 1 Patient Sex
+0013 0040 LO 1 Procedure Description
+0013 0042 LO 1 Patient Rest Direction
+0013 0044 LO 1 Patient Position
+0013 0046 LO 1 View Direction
+
+0019 1010 IS 1 Net Frequency
+0019 1020 CS 1 Measurement Mode
+0019 1030 CS 1 Calculation Mode
+0019 1050 IS 1 Noise Level
+0019 1060 IS 1 Number of Data Bytes
+0019 1210 DS 1 Total Measurement Time Nominal
+0019 1211 DS 1 Total Measurement Time Current
+0019 1212 DS 1 Start Delay Time
+0019 1213 DS 1 Dwell Time
+0019 1214 IS 1 Number of Phases
+0019 1216 UL 2 Sequence Control Mask
+0019 1218 UL 1 Measurement Status Mask
+0019 1220 IS 1 Number of Fourier Lines Nominal
+0019 1221 IS 1 Number of Fourier Lines Current
+0019 1226 IS 1 Number of Fourier Lines after Zero
+0019 1228 IS 1 First Measured Fourier Line
+0019 1230 IS 1 Acquisition Columns
+0019 1231 IS 1 Reconstruction Columns
+0019 1240 IS 1 Array Coil Element Number
+0019 1241 UL 1 Array Coil Element Select Mask
+0019 1242 UL 1 Array Coil Element Data Mask
+0019 1243 IS 1-n Array Coil Element To ADC Connect
+0019 1244 DS 1-n Array Coil Element Noise Level
+0019 1245 IS 1 Array Coil ADC Pair Number
+0019 1246 UL 1 Array Coil Combination Mask
+0019 1250 IS 1 Number of Averages Current
+0019 1260 DS 1 Flip Angle
+0019 1270 IS 1 Number of Prescans
+0019 1281 CS 1 Filter Type for Raw Data
+0019 1282 DS 1-n Filter Parameter for Raw Data
+0019 1283 CS 1 Filter Type for Image Data
+0019 1284 DS 1-n Filter Parameter for Image Data
+0019 1285 CS 1 Filter Type for Phase Correction
+0019 1286 DS 1-n Filter Parameter for Phase Correction
+0019 1287 CS 1 Normalization Filter Type for Image Data
+0019 1288 DS 1-n Normalization Filter Parameter for Image Data
+0019 1290 IS 1 Number of Saturation Regions
+0019 1291 DS 6 Saturation Phase Encoding Vector Sagittal Component
+0019 1292 DS 6 Saturation Readout Vector Sagittal Component
+0019 1293 IS 1 EPI Stimulation Monitor Mode
+0019 1294 DS 1 Image Rotation Angle
+0019 1296 UL 3 Coil ID Mask
+0019 1297 UL 2 Coil Class Mask
+0019 1298 DS 3 Coil Position
+0019 12a0 DS 1 EPI Reconstruction Phase
+0019 12a1 DS 1 EPI Reconstruction Slope
+
+0019 1410 IS 1 Distance Source To Source Side Collimator
+0019 1411 IS 1 Distance Source To Detector Side Collimator
+0019 1412 DS 1 Magnetic Field Strength
+0019 1414 DS 1 ADC Voltage
+0019 1416 DS 2 ADC Offset
+0019 1420 DS 1 Transmitter Amplitude
+0019 1420 IS 1 Number of Possible Channels
+0019 1421 IS 1 Mean Channel Number
+0019 1421 IS 1 Number of Transmitter Amplitudes
+0019 1422 DS 1 Detector Spacing
+0019 1422 DS 1 Transmitter Attenuator
+0019 1423 DS 1 Detector Center
+0019 1424 DS 1 Reading Integration Time
+0019 1424 DS 1 Transmitter Calibration
+0019 1426 DS 1 Transmitter Reference
+0019 1450 DS 1 Detector Alignment
+0019 1450 DS 1 Receiver Total Gain
+0019 1451 DS 1 Receiver Amplifier Gain
+0019 1452 DS 1 Receiver Preamplifier Gain
+0019 1454 DS 1 Receiver Cable Attenuation
+0019 1455 DS 1 Receiver Reference Gain
+0019 1456 DS 1 Receiver Filter Frequency
+0019 1460 DS 1 Focus Alignment
+0019 1460 DS 1 Reconstruction Scale Factor
+0019 1462 DS 1 Reference Scale Factor
+0019 1465 UL 1 Focal Spot Deflection Amplitude
+0019 1466 UL 1 Focal Spot Deflection Phase
+0019 1467 UL 1 Focal Spot Deflection Offset
+0019 1470 DS 1 Water Scaling Factor
+0019 1470 DS 1 Phase Gradient Amplitude
+0019 1471 DS 1 Interpolation Factor
+0019 1471 DS 1 Readout Gradient Amplitude
+0019 1472 DS 1 Selection Gradient Amplitude
+0019 1480 DS 3 Gradient Delay Time
+0019 1480 CS 1 Patient Region
+0019 1482 DS 1 Total Gradient Delay Time
+0019 1482 CS 1 Patient Phase of Life
+0019 1490 DS 1 Osteo Offset
+0019 1490 LO 1 Sensitivity Correction Label
+0019 1491 DS 6 Saturation Phase Encoding Vector Coronal Component
+0019 1492 DS 6 Saturation Readout Vector Coronal Component
+0019 1492 DS 1 Osteo Regression Line Slope
+0019 1493 DS 1 Osteo Regression Line Intercept
+0019 1494 IS 1 Osteo Standardization Code
+0019 1496 IS 1 Osteo Phantom Number
+0019 14a0 IS 1 RF Watchdog Mask
+0019 14a1 DS 1 EPI Reconstruction Slope
+0019 14a2 DS 1 RF Power Error Indicator
+0019 14a5 DS 3 Specific Absorption Rate Whole Body
+0019 14a6 DS 3 Specific Energy Dose
+0019 14b0 DS 1 Feed per Rotation
+0019 14b0 UL 1 Adjustment Status Mask
+0019 14bd IS 1 Pulmo Trigger Level
+0019 14be DS 1 Expiratoric Reserve Volume
+0019 14bf DS 1 Vital Capacity
+0019 14c0 DS 1 Pulmo Water
+0019 14c1 DS 1 Pulmo Air
+0019 14c1 DS 6 EPI Capacity
+0019 14c2 DS 3 EPI Inductance
+0019 14c2 DA 1 PulmoDate
+0019 14c3 IS 1-n EPI Switch Configuration Code
+0019 14c3 TM 1 PulmoTime
+0019 14c4 IS 1-n EPI Switch Hardware Code
+0019 14c5 DS 1-n EPI Switch Delay Time
+0019 14d1 DS 1 Flow Sensitivity
+0019 14d2 CS 1 Calculation Submode
+0019 14d3 DS 1 Field of View Ratio
+0019 14d4 IS 1 Base Raw Matrix Size
+0019 14d5 IS 1 2D Oversampling Lines
+0019 14d6 IS 1 3D Phase Oversampling Partitions
+0019 14d7 IS 1 Echo Line Position
+0019 14d8 IS 1 Echo Column Position
+0019 14d9 IS 1 Lines Per Segment
+0019 14da CS 1 Phase Coding Direction
+0019 1456 DS 1 Receiver Filter Frequency
+
+0029 1110 CS 1 Window Style
+0029 1120 CS 3 Pixel Quality Code
+0029 1122 IS 3 Pixel Quality Value
+0029 1150 CS 1 Archive Code
+0029 1151 CS 1 Exposure Code
+0029 1152 IS 1 Sort Code
+0029 1160 LO 1 Splash
+
+0029 1108 CS 1 MedCom Header Type
+0029 1109 LO 1 MedCom Header Version
+0029 1110 OB 1 MedCom Header Info
+0029 1120 OB 1 MedCom History Information
+0029 1131 LO 1 PMTF Information 1
+0029 1132 UL 1 PMTF Information 2
+0029 1133 UL 1 PMTF Information 3
+0029 1134 CS 1 PMTF Information 4
+0029 1135 UL 1 PMTF Information 5
+0029 1140 SQ 1 Application Header Sequence
+0029 1141 CS 1 Application Header Type
+0029 1142 LO 1 Application Header ID
+0029 1143 LO 1 Application Header Version
+0029 1144 OB 1 Application Header Info
+0029 1150 LO 8 Workflow Control Flags
+0029 1151 CS 1 Archive Management Flag Keep Online
+0029 1152 CS 1 Archive Management Flag Do Not Archive
+0029 1153 CS 1 Image Location Status
+0029 1154 DS 1 Estimated Retrieve Time
+0029 1155 DS 1 Data Size of Retrieved Images
+

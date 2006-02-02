@@ -31,7 +31,7 @@ namespace gdcm
 DicomDirMeta::DicomDirMeta(bool empty):
    DicomDirObject()
 {
-   if( !empty )
+   if ( !empty )
    {
       ListDicomDirStudyElem const &elemList = 
          Global::GetDicomDirElements()->GetDicomDirMetaElements();

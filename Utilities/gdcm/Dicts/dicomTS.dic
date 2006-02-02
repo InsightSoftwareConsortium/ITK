@@ -170,6 +170,7 @@
 1.2.840.10008.5.1.4.1.1.88.50     Mammography CAD SR
 1.2.840.10008.5.1.4.1.1.88.59     Key Object Selection Document
 1.2.840.10008.5.1.4.1.1.88.65     Chest CAD SR
+1.2.840.10008.5.1.4.1.1.104.1     Encapsulated PDF Storage
 1.2.840.10008.5.1.4.1.1.128       Positron Emission Tomography Image Storage
 1.2.840.10008.5.1.4.1.1.129       Standalone PET Curve Storage
 1.2.840.10008.5.1.4.1.1.481.1     RT Image Storage
@@ -200,4 +201,5 @@
 1.2.840.10008.5.1.4.37.3          Cardiac Relevant Patient Information Query
 
 1.2.840.113619.5.2                Implicit VR Big Endian DLX (G.E Private)
-
+1.3.12.2.1107.5.9.1               CSA Non-Image Storage
+1.3.46.670589.2.5.1.1             3D Subpage Storage

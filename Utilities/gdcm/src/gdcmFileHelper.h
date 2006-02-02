@@ -19,8 +19,11 @@
 #ifndef GDCMFILEHELPER_H
 #define GDCMFILEHELPER_H
 
+#include "gdcmDebug.h"
 #include "gdcmBase.h"
-#include <iostream>
+//#include <iostream>
+
+
 
 namespace gdcm 
 {
@@ -31,6 +34,9 @@ class SeqEntry;
 class PixelReadConvert;
 class PixelWriteConvert;
 class DocEntryArchive;
+
+typedef void (*VOID_FUNCTION_PUINT8_PFILE_POINTER)(uint8_t *, File *);
+
 //-----------------------------------------------------------------------------
 /**
  * \brief In addition to Dicom header exploration, this class is designed
@@ -49,15 +55,22 @@ public:
 public:
    FileHelper( );
    FileHelper( File *header );
-   FileHelper( std::string const &filename );
- 
+   GDCM_LEGACY(FileHelper( std::string const &filename ));
+   
    virtual ~FileHelper();
 
    void Print(std::ostream &os = std::cout, std::string const &indent = ""); 
 
    /// Accessor to \ref File
    File *GetFile() { return FileInternal; }
+   
 
+   void SetLoadMode(int loadMode);
+   void SetFileName(std::string const &fileName);
+   bool Load();
+   /// to allow user to modify pixel order (e.g. Mirror, TopDown,...)
+   void SetUserFunction( VOID_FUNCTION_PUINT8_PFILE_POINTER userFunc ) 
+                        { UserFunction = userFunc; }   
    // File methods
    bool SetValEntry(std::string const &content,
                     uint16_t group, uint16_t elem);
@@ -76,7 +89,8 @@ public:
 
    uint8_t *GetImageData();
    uint8_t *GetImageDataRaw();
-   size_t GetImageDataIntoVector(void *destination, size_t maxSize);
+
+   GDCM_LEGACY(size_t GetImageDataIntoVector(void *destination,size_t maxSize));
 
    void SetImageData(uint8_t *data, size_t expectedSize);
 
@@ -93,35 +107,38 @@ public:
 
    // LUT
    uint8_t* GetLutRGBA();
+   int GetLutItemNumber();
+   int GetLutItemSize();
 
    // Write mode
 
-   /// \brief Tells the writer we want to write a Raw File (no header)
-  void SetWriteModeToRaw()           { SetWriteMode(WMODE_RAW);  };
+   /// \brief Tells the writer we want to keep 'Grey pixels + Palettes color'
+   ///        when possible (as opposed to convert 'Palettes color' to RGB)
+   void SetWriteModeToRaw()           { SetWriteMode(WMODE_RAW);  }
    /// \brief Tells the writer we want to write RGB image when possible
-   ///        (as opposite to 'Grey pixels + Palettes color')
-   void SetWriteModeToRGB()           { SetWriteMode(WMODE_RGB);  };
+   ///        (as opposed to 'Grey pixels + Palettes color')
+   void SetWriteModeToRGB()           { SetWriteMode(WMODE_RGB);  }
    /// \brief Sets the Write Mode ( )
-   void SetWriteMode(FileMode mode)   { WriteMode = mode;         };
+   void SetWriteMode(FileMode mode)   { WriteMode = mode;         }
    /// \brief Gets the Write Mode ( )
-   FileMode GetWriteMode()            { return WriteMode;         };
+   FileMode GetWriteMode()            { return WriteMode;         }
 
    // Write format
 
    /// \brief Tells the writer we want to write as Implicit VR
-   void SetWriteTypeToDcmImplVR()     { SetWriteType(ImplicitVR); };
+   void SetWriteTypeToDcmImplVR()     { SetWriteType(ImplicitVR); }
    /// \brief Tells the writer we want to write as Explicit VR
-   void SetWriteTypeToDcmExplVR()     { SetWriteType(ExplicitVR); };
+   void SetWriteTypeToDcmExplVR()     { SetWriteType(ExplicitVR); }
    /// \brief Tells the writer we want to write as ACR-NEMA
-   void SetWriteTypeToAcr()           { SetWriteType(ACR);        };
+   void SetWriteTypeToAcr()           { SetWriteType(ACR);        }
    /// \brief Tells the writer we want to write as LibIDO
-   void SetWriteTypeToAcrLibido()     { SetWriteType(ACR_LIBIDO); };
-   /// \brief Tells the writer which format want to write
+   void SetWriteTypeToAcrLibido()     { SetWriteType(ACR_LIBIDO); }
+   /// \brief Tells the writer which format we want to write
    /// (ImplicitVR, ExplicitVR, ACR, ACR_LIBIDO)
-   void SetWriteType(FileType format) { WriteType = format;       };
-   /// \brief Gets the format we want to write
+   void SetWriteType(FileType format) { WriteType = format;       }
+   /// \brief Gets the format we talled the write we wanted to write
    ///   (ImplicitVR, ExplicitVR, ACR, ACR_LIBIDO)
-   FileType GetWriteType()            { return WriteType;         };
+   FileType GetWriteType()            { return WriteType;         }
 
    // Write pixels of ONE image on hard drive
    // No test is made on processor "endianness"
@@ -151,6 +168,8 @@ protected:
    ValEntry *CopyValEntry(uint16_t group, uint16_t elem);
    BinEntry *CopyBinEntry(uint16_t group, uint16_t elem, 
                           const std::string &vr);
+   void CheckMandatoryElements();
+   void RestoreWriteMandatory();
 
 private:
    void Initialize();
@@ -162,11 +181,11 @@ private:
    File *FileInternal;
 
    /// \brief Whether the underlying \ref gdcm::File was loaded by
-   ///  the constructor or passed to the constructor. When false
-   ///  the destructor is in charge of deletion.
+   ///  the constructor or passed to the constructor. 
+   ///  When false the destructor is in charge of deletion.
    bool SelfHeader;
    
-   /// Wether already parsed or not
+   /// Whether already parsed or not
    bool Parsed;
 
    // Utility pixel converter
@@ -184,6 +203,13 @@ private:
    FileMode WriteMode;
    /// \brief (ImplicitVR, ExplicitVR, ACR, ACR_LIBIDO)
    FileType WriteType;
+   /// Pointer to a user supplied function to allow modification of pixel order
+   /// (i.e. : Mirror, TopDown, 90°Rotation, ...)
+   /// use as : void userSuppliedFunction(uint8_t *im, gdcm::File *f)
+   /// NB : the "uint8_t *" type of first param is just for prototyping.
+   /// User will Cast it according what he founds with f->GetPixelType()
+   /// See vtkgdcmSerieViewer for an example
+   VOID_FUNCTION_PUINT8_PFILE_POINTER UserFunction;
 };
 } // end namespace gdcm
 

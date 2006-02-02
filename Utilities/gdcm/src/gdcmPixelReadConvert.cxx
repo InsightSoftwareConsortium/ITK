@@ -1,5 +1,5 @@
 /*=========================================================================
-
+ 
   Program:   gdcm
   Module:    gdcmPixelReadConvert.cxx
   Language:  C++
@@ -16,22 +16,24 @@
                                                                                 
 =========================================================================*/
 
+#include "gdcmPixelReadConvert.h"
 #include "gdcmDebug.h"
 #include "gdcmFile.h"
 #include "gdcmGlobal.h"
 #include "gdcmTS.h"
-#include "gdcmPixelReadConvert.h"
 #include "gdcmDocEntry.h"
 #include "gdcmRLEFramesInfo.h"
 #include "gdcmJPEGFragmentsInfo.h"
-
-#include "gdcmUtil.h"
 
 #include <fstream>
 #include <stdio.h> //for sscanf
 
 namespace gdcm
 {
+
+//bool ReadMPEGFile (std::ifstream *fp, void *image_buffer, size_t lenght);
+bool gdcm_read_JPEG2000_file (void* raw, 
+                              char *inputdata, size_t inputlength);
 //-----------------------------------------------------------------------------
 #define str2num(str, typeNum) *((typeNum *)(str))
 
@@ -48,7 +50,10 @@ PixelReadConvert::PixelReadConvert()
    LutRedData   = 0;
    LutGreenData = 0;
    LutBlueData  = 0;
-   IsDLXGE      = false;
+   RLEInfo      = 0;
+   JPEGInfo     = 0;
+   UserFunction = 0;
+   FileInternal = 0;
 }
 
 /// Canonical Destructor
@@ -106,10 +111,9 @@ void PixelReadConvert::GrabInformationsFromFile( File *file )
    YSize           = file->GetYSize();
    ZSize           = file->GetZSize();
    SamplesPerPixel = file->GetSamplesPerPixel();
-   PixelSize       = file->GetPixelSize();
+   //PixelSize       = file->GetPixelSize();  Useless
    PixelSign       = file->IsSignedPixelData();
    SwapCode        = file->GetSwapCode();
-
    std::string ts  = file->GetTransferSyntax();
    IsRaw =
         ( ! file->IsDicomV3() )
@@ -119,17 +123,7 @@ void PixelReadConvert::GrabInformationsFromFile( File *file )
      || Global::GetTS()->GetSpecialTransferSyntax(ts) == TS::ExplicitVRBigEndian
      || Global::GetTS()->GetSpecialTransferSyntax(ts) == TS::DeflatedExplicitVRLittleEndian;
 
-   // cache whether this is a strange GE transfer syntax (which uses
-   // a little endian transfer syntax for the header and a big endian
-   // transfer syntax for the pixel data).
-   if (file->IsDicomV3())
-   {
-     IsDLXGE = Global::GetTS()->GetSpecialTransferSyntax(ts) == TS::ImplicitVRLittleEndianDLXGE;
-   }
-   else
-   {
-    IsDLXGE = false;
-   }
+   IsMPEG          = Global::GetTS()->IsMPEG(ts);
    IsJPEG2000      = Global::GetTS()->IsJPEG2000(ts);
    IsJPEGLS        = Global::GetTS()->IsJPEGLS(ts);
    IsJPEGLossy     = Global::GetTS()->IsJPEGLossy(ts);
@@ -138,13 +132,15 @@ void PixelReadConvert::GrabInformationsFromFile( File *file )
 
    PixelOffset     = file->GetPixelOffset();
    PixelDataLength = file->GetPixelAreaLength();
-   RLEInfo  = file->GetRLEInfo();
-   JPEGInfo = file->GetJPEGInfo();
+   RLEInfo         = file->GetRLEInfo();
+   JPEGInfo        = file->GetJPEGInfo();
+
+   IsMonochrome    = file->IsMonochrome();
+   IsMonochrome1   = file->IsMonochrome1();
+   IsPaletteColor  = file->IsPaletteColor();
+   IsYBRFull       = file->IsYBRFull();
 
    PlanarConfiguration = file->GetPlanarConfiguration();
-   IsMonochrome = file->IsMonochrome();
-   IsPaletteColor = file->IsPaletteColor();
-   IsYBRFull = file->IsYBRFull();
 
    /////////////////////////////////////////////////////////////////
    // LUT section:
@@ -156,6 +152,9 @@ void PixelReadConvert::GrabInformationsFromFile( File *file )
       LutGreenDescriptor = file->GetEntryValue( 0x0028, 0x1102 );
       LutBlueDescriptor  = file->GetEntryValue( 0x0028, 0x1103 );
    
+      // The following comment is probabely meaningless, since LUT are *always*
+      // loaded at parsing time, whatever their length is.
+         
       // Depending on the value of Document::MAX_SIZE_LOAD_ELEMENT_VALUE
       // [ refer to invocation of Document::SetMaxSizeLoadEntry() in
       // Document::Document() ], the loading of the value (content) of a
@@ -175,7 +174,7 @@ void PixelReadConvert::GrabInformationsFromFile( File *file )
       LutRedData = (uint8_t*)file->GetEntryBinArea( 0x0028, 0x1201 );
       if ( ! LutRedData )
       {
-         gdcmWarningMacro( "Unable to read Red LUT data" );
+         gdcmWarningMacro( "Unable to read Red Palette Color Lookup Table data" );
       }
 
       // //// Green round:
@@ -183,7 +182,7 @@ void PixelReadConvert::GrabInformationsFromFile( File *file )
       LutGreenData = (uint8_t*)file->GetEntryBinArea(0x0028, 0x1202 );
       if ( ! LutGreenData)
       {
-         gdcmWarningMacro( "Unable to read Green LUT data" );
+         gdcmWarningMacro( "Unable to read Green Palette Color Lookup Table data" );
       }
 
       // //// Blue round:
@@ -191,9 +190,10 @@ void PixelReadConvert::GrabInformationsFromFile( File *file )
       LutBlueData = (uint8_t*)file->GetEntryBinArea( 0x0028, 0x1203 );
       if ( ! LutBlueData )
       {
-         gdcmWarningMacro( "Unable to read Blue LUT data" );
+         gdcmWarningMacro( "Unable to read Blue Palette Color Lookup Table data" );
       }
    }
+   FileInternal = file;   
 
    ComputeRawAndRGBSizes();
 }
@@ -215,7 +215,7 @@ bool PixelReadConvert::ReadAndDecompressPixelData( std::ifstream *fp )
    }
 
    fp->seekg( PixelOffset, std::ios::beg );
-   if( fp->fail() || fp->eof())
+   if ( fp->fail() || fp->eof() )
    {
       gdcmWarningMacro( "Unable to find PixelOffset in file." );
       return false;
@@ -224,7 +224,7 @@ bool PixelReadConvert::ReadAndDecompressPixelData( std::ifstream *fp )
    AllocateRaw();
 
    //////////////////////////////////////////////////
-   //// Second stage: read from disk dans decompress.
+   //// Second stage: read from disk and decompress.
    if ( BitsAllocated == 12 )
    {
       ReadAndDecompress12BitsTo16Bits( fp);
@@ -235,12 +235,12 @@ bool PixelReadConvert::ReadAndDecompressPixelData( std::ifstream *fp )
       // after the field containing the image data. In this case, these
       // bad data are added to the size of the image (in the PixelDataLength
       // variable). But RawSize is the right size of the image !
-      if( PixelDataLength != RawSize)
+      if ( PixelDataLength != RawSize )
       {
          gdcmWarningMacro( "Mismatch between PixelReadConvert : "
                             << PixelDataLength << " and RawSize : " << RawSize );
       }
-      if( PixelDataLength > RawSize)
+      if ( PixelDataLength > RawSize )
       {
          fp->read( (char*)Raw, RawSize);
       }
@@ -263,6 +263,14 @@ bool PixelReadConvert::ReadAndDecompressPixelData( std::ifstream *fp )
          return false;
       }
    }
+   else if ( IsMPEG )
+   {
+      //gdcmWarningMacro( "Sorry, MPEG not yet taken into account" );
+      //return false;
+      // fp has already been seek to start of mpeg
+      //ReadMPEGFile(fp, Raw, PixelDataLength); 
+      return true;
+   }
    else
    {
       // Default case concerns JPEG family
@@ -277,6 +285,9 @@ bool PixelReadConvert::ReadAndDecompressPixelData( std::ifstream *fp )
    //// Third stage: twigle the bytes and bits.
    ConvertReorderEndianity();
    ConvertReArrangeBits();
+   ConvertFixGreyLevels();
+   if (UserFunction) // user is allowed to Mirror, TopDown, Rotate,...the image
+      UserFunction( Raw, FileInternal);
    ConvertHandleColor();
 
    return true;
@@ -299,7 +310,7 @@ void PixelReadConvert::Squeeze()
 }
 
 /**
- * \brief Build the RGB image from the Raw imagage and the LUTs.
+ * \brief Build the RGB image from the Raw image and the LUTs.
  */
 bool PixelReadConvert::BuildRGBImage()
 {
@@ -321,17 +332,37 @@ bool PixelReadConvert::BuildRGBImage()
       // The job can't be done
       return false;
    }
+
+   gdcmWarningMacro( "--> BuildRGBImage" );
                                                                                 
    // Build RGB Pixels
    AllocateRGB();
-   uint8_t *localRGB = RGB;
-   for (size_t i = 0; i < RawSize; ++i )
+   
+   int j;
+   if ( BitsAllocated <= 8 )
    {
-      int j  = Raw[i] * 4;
-      *localRGB++ = LutRGBA[j];
-      *localRGB++ = LutRGBA[j+1];
-      *localRGB++ = LutRGBA[j+2];
-   }
+      uint8_t *localRGB = RGB;
+      for (size_t i = 0; i < RawSize; ++i )
+      {
+         j  = Raw[i] * 4;
+         *localRGB++ = LutRGBA[j];
+         *localRGB++ = LutRGBA[j+1];
+         *localRGB++ = LutRGBA[j+2];
+      }
+    }
+ 
+    else  // deal with 16 bits pixels and 16 bits Palette color
+    {
+      uint16_t *localRGB = (uint16_t *)RGB;
+      for (size_t i = 0; i < RawSize/2; ++i )
+      {
+         j  = ((uint16_t *)Raw)[i] * 4;
+         *localRGB++ = ((uint16_t *)LutRGBA)[j];
+         *localRGB++ = ((uint16_t *)LutRGBA)[j+1];
+         *localRGB++ = ((uint16_t *)LutRGBA)[j+2];
+      } 
+    }
+ 
    return true;
 }
 
@@ -398,27 +429,96 @@ bool PixelReadConvert::ReadAndDecompressJPEGFile( std::ifstream *fp )
 {
    if ( IsJPEG2000 )
    {
-      gdcmWarningMacro( "Sorry, JPEG2000 not yet taken into account" );
-      fp->seekg( JPEGInfo->GetFirstFragment()->GetOffset(), std::ios::beg);
-//    if ( ! gdcm_read_JPEG2000_file( fp,Raw ) )
-          return false;
-   }
+     // make sure this is the right JPEG compression
+     assert( !IsJPEGLossless || !IsJPEGLossy || !IsJPEGLS );
+     // FIXME this is really ugly but it seems I have to load the complete
+     // jpeg2000 stream to use jasper:
+     // I don't think we'll ever be able to deal with multiple fragments properly
 
-   if ( IsJPEGLS )
+      unsigned long inputlength = 0;
+      JPEGFragment *jpegfrag = JPEGInfo->GetFirstFragment();
+      while( jpegfrag )
+      {
+         inputlength += jpegfrag->GetLength();
+         jpegfrag = JPEGInfo->GetNextFragment();
+      }
+      gdcmAssertMacro( inputlength != 0);
+      uint8_t *inputdata = new uint8_t[inputlength];
+      char *pinputdata = (char*)inputdata;
+      jpegfrag = JPEGInfo->GetFirstFragment();
+      while( jpegfrag )
+      {
+         fp->seekg( jpegfrag->GetOffset(), std::ios::beg);
+         fp->read(pinputdata, jpegfrag->GetLength());
+         pinputdata += jpegfrag->GetLength();
+         jpegfrag = JPEGInfo->GetNextFragment();
+      }
+      // Warning the inputdata buffer is delete in the function
+      if ( ! gdcm_read_JPEG2000_file( Raw, 
+          (char*)inputdata, inputlength ) )
+      {
+         return true;
+      }
+      // wow what happen, must be an error
+      return false;
+   }
+   else if ( IsJPEGLS )
    {
+     // make sure this is the right JPEG compression
+     assert( !IsJPEGLossless || !IsJPEGLossy || !IsJPEG2000 );
+   // WARNING : JPEG-LS is NOT the 'classical' Jpeg Lossless : 
+   // [JPEG-LS is the basis for new lossless/near-lossless compression
+   // standard for continuous-tone images intended for JPEG2000. The standard
+   // is based on the LOCO-I algorithm (LOw COmplexity LOssless COmpression
+   // for Images) developed at Hewlett-Packard Laboratories]
+   //
+   // see http://datacompression.info/JPEGLS.shtml
+   //
+#if 0
+   std::cerr << "count:" << JPEGInfo->GetFragmentCount() << std::endl;
+      unsigned long inputlength = 0;
+      JPEGFragment *jpegfrag = JPEGInfo->GetFirstFragment();
+      while( jpegfrag )
+      {
+         inputlength += jpegfrag->GetLength();
+         jpegfrag = JPEGInfo->GetNextFragment();
+      }
+      gdcmAssertMacro( inputlength != 0);
+      uint8_t *inputdata = new uint8_t[inputlength];
+      char *pinputdata = (char*)inputdata;
+      jpegfrag = JPEGInfo->GetFirstFragment();
+      while( jpegfrag )
+      {
+         fp->seekg( jpegfrag->GetOffset(), std::ios::beg);
+         fp->read(pinputdata, jpegfrag->GetLength());
+         pinputdata += jpegfrag->GetLength();
+         jpegfrag = JPEGInfo->GetNextFragment();
+      }  
+      
+  //fp->read((char*)Raw, PixelDataLength);
+
+  std::ofstream out("/tmp/jpegls.jpg");
+  out.write((char*)inputdata, inputlength);
+  out.close();
+  delete[] inputdata;
+#endif
+
       gdcmWarningMacro( "Sorry, JPEG-LS not yet taken into account" );
       fp->seekg( JPEGInfo->GetFirstFragment()->GetOffset(), std::ios::beg);
 //    if ( ! gdcm_read_JPEGLS_file( fp,Raw ) )
          return false;
    }
+   else
+   {
+     // make sure this is the right JPEG compression
+     assert( !IsJPEGLS || !IsJPEG2000 );
+     // Precompute the offset localRaw will be shifted with
+     int length = XSize * YSize * SamplesPerPixel;
+     int numberBytes = BitsAllocated / 8;
 
-   // else ??
-   // Precompute the offset localRaw will be shifted with
-   int length = XSize * YSize * SamplesPerPixel;
-   int numberBytes = BitsAllocated / 8;
-
-   JPEGInfo->DecompressFromFile(fp, Raw, BitsStored, numberBytes, length );
-   return true;
+     JPEGInfo->DecompressFromFile(fp, Raw, BitsStored, numberBytes, length );
+     return true;
+   }
 }
 
 /**
@@ -438,7 +538,13 @@ bool PixelReadConvert::ReadAndDecompressJPEGFile( std::ifstream *fp )
  */
 void PixelReadConvert::BuildLUTRGBA()
 {
+
+   // Note to code reviewers :
+   // The problem is *much more* complicated, since a lot of manufacturers
+   // Don't follow the norm :
+   // have a look at David Clunie's remark at the end of this .cxx file.
    if ( LutRGBA )
+   
    {
       return;
    }
@@ -454,6 +560,7 @@ void PixelReadConvert::BuildLUTRGBA()
        || LutGreenDescriptor == GDCM_UNFOUND
        || LutBlueDescriptor  == GDCM_UNFOUND )
    {
+      gdcmWarningMacro( "(At least) a LUT Descriptor is missing" );
       return;
    }
 
@@ -462,21 +569,23 @@ void PixelReadConvert::BuildLUTRGBA()
    int lengthR;   // Red LUT length in Bytes
    int debR;      // Subscript of the first Lut Value
    int nbitsR;    // Lut item size (in Bits)
-   int nbRead = sscanf( LutRedDescriptor.c_str(),
+   int nbRead;    // nb of items in LUT descriptor (must be = 3)
+
+   nbRead = sscanf( LutRedDescriptor.c_str(),
                         "%d\\%d\\%d",
                         &lengthR, &debR, &nbitsR );
-   if( nbRead != 3 )
+   if ( nbRead != 3 )
    {
       gdcmWarningMacro( "Wrong Red LUT descriptor" );
-   }
-                                                                                
+   }                                                                                
    int lengthG;  // Green LUT length in Bytes
    int debG;     // Subscript of the first Lut Value
    int nbitsG;   // Lut item size (in Bits)
+
    nbRead = sscanf( LutGreenDescriptor.c_str(),
                     "%d\\%d\\%d",
-                    &lengthG, &debG, &nbitsG );
-   if( nbRead != 3 )
+                    &lengthG, &debG, &nbitsG );  
+   if ( nbRead != 3 )
    {
       gdcmWarningMacro( "Wrong Green LUT descriptor" );
    }
@@ -487,71 +596,162 @@ void PixelReadConvert::BuildLUTRGBA()
    nbRead = sscanf( LutRedDescriptor.c_str(),
                     "%d\\%d\\%d",
                     &lengthB, &debB, &nbitsB );
-   if( nbRead != 3 )
+   if ( nbRead != 3 )
    {
       gdcmWarningMacro( "Wrong Blue LUT descriptor" );
    }
+ 
+   gdcmWarningMacro(" lengthR " << lengthR << " debR " 
+                 << debR << " nbitsR " << nbitsR);
+   gdcmWarningMacro(" lengthG " << lengthG << " debG " 
+                 << debG << " nbitsG " << nbitsG);
+   gdcmWarningMacro(" lengthB " << lengthB << " debB " 
+                 << debB << " nbitsB " << nbitsB);
+
+   if ( !lengthR ) // if = 2^16, this shall be 0 see : CP-143
+      lengthR=65536;
+   if ( !lengthG ) // if = 2^16, this shall be 0
+      lengthG=65536;
+   if ( !lengthB ) // if = 2^16, this shall be 0
+      lengthB=65536; 
                                                                                 
    ////////////////////////////////////////////////////////
+
    if ( ( ! LutRedData ) || ( ! LutGreenData ) || ( ! LutBlueData ) )
    {
+      gdcmWarningMacro( "(At least) a LUT is missing" );
       return;
    }
 
-   ////////////////////////////////////////////////
-   // forge the 4 * 8 Bits Red/Green/Blue/Alpha LUT
-   LutRGBA = new uint8_t[ 1024 ]; // 256 * 4 (R, G, B, Alpha)
-   if ( !LutRGBA )
-      return;
-
-   memset( LutRGBA, 0, 1024 );
-                                                                                
-   int mult;
-   if ( ( nbitsR == 16 ) && ( BitsAllocated == 8 ) )
+   // -------------------------------------------------------------
+   
+   if ( BitsAllocated <= 8 )
    {
-      // when LUT item size is different than pixel size
-      mult = 2; // high byte must be = low byte
+      // forge the 4 * 8 Bits Red/Green/Blue/Alpha LUT
+      LutRGBA = new uint8_t[ 1024 ]; // 256 * 4 (R, G, B, Alpha)
+      if ( !LutRGBA )
+         return;
+      LutItemNumber = 256;
+      LutItemSize   = 8;
+      memset( LutRGBA, 0, 1024 );
+                                                                                
+      int mult;
+      if ( ( nbitsR == 16 ) && ( BitsAllocated == 8 ) )
+      {
+         // when LUT item size is different than pixel size
+         mult = 2; // high byte must be = low byte
+      }
+      else
+      {
+         // See PS 3.3-2003 C.11.1.1.2 p 619
+         mult = 1;
+      }
+                                                                                
+      // if we get a black image, let's just remove the '+1'
+      // from 'i*mult+1' and check again
+      // if it works, we shall have to check the 3 Palettes
+      // to see which byte is ==0 (first one, or second one)
+      // and fix the code
+      // We give up the checking to avoid some (useless ?) overhead
+      // (optimistic asumption)
+      int i;
+      uint8_t *a;
+
+      //take "Subscript of the first Lut Value" (debR,debG,debB) into account!
+
+      //FIXME :  +1 : to get 'low value' byte
+      //         Trouble expected on Big Endian Processors ?
+      //         16 BIts Per Pixel Palette Color to be swapped?
+
+      a = LutRGBA + 0 + debR;
+      for( i=0; i < lengthR; ++i )
+      {
+         *a = LutRedData[i*mult+1]; 
+         a += 4;
+      }
+                                                                                
+      a = LutRGBA + 1 + debG;
+      for( i=0; i < lengthG; ++i)
+      {
+         *a = LutGreenData[i*mult+1];
+         a += 4;
+      }
+                                                                                
+      a = LutRGBA + 2 + debB;
+      for(i=0; i < lengthB; ++i)
+      {
+         *a = LutBlueData[i*mult+1];
+         a += 4;
+      }
+                                    
+      a = LutRGBA + 3 ;
+      for(i=0; i < 256; ++i)
+      {
+         *a = 1; // Alpha component
+         a += 4;
+      }
    }
    else
    {
-      // See PS 3.3-2003 C.11.1.1.2 p 619
-      mult = 1;
-   }
+      // Probabely the same stuff is to be done for 16 Bits Pixels
+      // with 65536 entries LUT ?!?
+      // Still looking for accurate info on the web :-(
+
+      gdcmWarningMacro( "Sorry Palette Color Lookup Tables not yet dealt with"
+                         << " for 16 Bits Per Pixel images" );
+
+      // forge the 4 * 16 Bits Red/Green/Blue/Alpha LUT
+
+      LutRGBA = (uint8_t *)new uint16_t[ 65536*4 ]; // 2^16 * 4 (R, G, B, Alpha)
+      if ( !LutRGBA )
+         return;
+      memset( LutRGBA, 0, 65536*4*2 );  // 16 bits = 2 bytes ;-)
+
+      LutItemNumber = 65536;
+      LutItemSize   = 16;
+
+      int i;
+      uint16_t *a16;
+
+      //take "Subscript of the first Lut Value" (debR,debG,debB) into account!
+
+      a16 = (uint16_t*)LutRGBA + 0 + debR;
+      for( i=0; i < lengthR; ++i )
+      {
+         *a16 = ((uint16_t*)LutRedData)[i];
+         a16 += 4;
+      }
+                                                                              
+      a16 = (uint16_t*)LutRGBA + 1 + debG;
+      for( i=0; i < lengthG; ++i)
+      {
+         *a16 = ((uint16_t*)LutGreenData)[i];
+         a16 += 4;
+      }
                                                                                 
-   // if we get a black image, let's just remove the '+1'
-   // from 'i*mult+1' and check again
-   // if it works, we shall have to check the 3 Palettes
-   // to see which byte is ==0 (first one, or second one)
-   // and fix the code
-   // We give up the checking to avoid some (useless ?) overhead
-   // (optimistic asumption)
-   int i;
-   uint8_t *a = LutRGBA + 0;
-   for( i=0; i < lengthR; ++i )
-   {
-      *a = LutRedData[i*mult+1];
-      a += 4;
-   }
-                                                                                
-   a = LutRGBA + 1;
-   for( i=0; i < lengthG; ++i)
-   {
-      *a = LutGreenData[i*mult+1];
-      a += 4;
-   }
-                                                                                
-   a = LutRGBA + 2;
-   for(i=0; i < lengthB; ++i)
-   {
-      *a = LutBlueData[i*mult+1];
-      a += 4;
-   }
-                                                                                
-   a = LutRGBA + 3;
-   for(i=0; i < 256; ++i)
-   {
-      *a = 1; // Alpha component
-      a += 4;
+      a16 = (uint16_t*)LutRGBA + 2 + debB;
+      for(i=0; i < lengthB; ++i)
+      {
+         *a16 = ((uint16_t*)LutBlueData)[i];
+         a16 += 4;
+      }
+                                                                             
+      a16 = (uint16_t*)LutRGBA + 3 ;
+      for(i=0; i < 65536; ++i)
+      {
+         *a16 = 1; // Alpha component
+         a16 += 4;
+      }
+/* Just to 'see' the LUT, at debug time
+
+      a16=(uint16_t*)LutRGBA;
+      for (int j=0;j<65536;j++)
+      {
+         std::cout << *a16     << " " << *(a16+1) << " "
+                   << *(a16+2) << " " << *(a16+3) << std::endl;
+         a16+=4;
+      }
+*/
    }
 }
 
@@ -562,46 +762,10 @@ void PixelReadConvert::ConvertSwapZone()
 {
    unsigned int i;
 
-   // If this file is TS::ImplicitVRLittleEndianDLXGE, then the header
-   // is in little endian format and the pixel data is in big endian
-   // format.  When reading the header, GDCM has already established
-   // a byte swapping code suitable for this machine to read the
-   // header. In TS::ImplicitVRLittleEndianDLXGE, this code will need
-   // to be switched in order to read the pixel data.  This must be
-   // done REGARDLESS of the processor endianess!
-   //
-   // Example:  Assume we are on a little endian machine.  When
-   // GDCM reads the header, the header will match the machine
-   // endianess and the swap code will be established as a no-op.
-   // When GDCM reaches the pixel data, it will need to switch the
-   // swap code to do big endian to little endian conversion.
-   //
-   // Now, assume we are on a big endian machine.  When GDCM reads the
-   // header, the header will be recognized as a different endianess
-   // than the machine endianess, and a swap code will be established
-   // to convert from little endian to big endian.  When GDCM readers
-   // the pixel data, the pixel data endianess will now match the
-   // machine endianess.  But we currently have a swap code that
-   // converts from little endian to big endian.  In this case, we
-   // need to switch the swap code to a no-op.
-   //
-   // Therefore, in either case, if the file is in
-   // ImplicitVRLittleEndianDLXGE, then GDCM needs to switch the byte
-   // swapping code when entering the pixel data.
-   int tempSwapCode = SwapCode;
-   if (IsDLXGE) {
-     if (SwapCode == 1234) {
-       tempSwapCode = 4321;
-     }
-     else if (SwapCode == 4321) {
-       tempSwapCode = 1234;
-     }
-   }
-
-   if( BitsAllocated == 16 )
+   if ( BitsAllocated == 16 )
    {
       uint16_t *im16 = (uint16_t*)Raw;
-      switch( tempSwapCode )
+      switch( SwapCode )
       {
          case 1234:
             break;
@@ -617,13 +781,13 @@ void PixelReadConvert::ConvertSwapZone()
             gdcmWarningMacro("SwapCode value (16 bits) not allowed.");
       }
    }
-   else if( BitsAllocated == 32 )
+   else if ( BitsAllocated == 32 )
    {
       uint32_t s32;
       uint16_t high;
       uint16_t low;
       uint32_t *im32 = (uint32_t*)Raw;
-      switch ( tempSwapCode )
+      switch ( SwapCode )
       {
          case 1234:
             break;
@@ -662,7 +826,6 @@ void PixelReadConvert::ConvertSwapZone()
             gdcmWarningMacro("SwapCode value (32 bits) not allowed." );
       }
    }
-
 }
 
 /**
@@ -684,7 +847,7 @@ void PixelReadConvert::ConvertReorderEndianity()
       uint16_t *deb = (uint16_t *)Raw;
       for(int i = 0; i<l; i++)
       {
-         if( *deb == 0xffff )
+         if ( *deb == 0xffff )
          {
            *deb = 0;
          }
@@ -694,39 +857,163 @@ void PixelReadConvert::ConvertReorderEndianity()
 }
 
 /**
+ * \brief Deal with Grey levels i.e. re-arange them
+ *        to have low values = dark, high values = bright
+ */
+void PixelReadConvert::ConvertFixGreyLevels()
+{
+   if (!IsMonochrome1)
+      return;
+
+   uint32_t i; // to please M$VC6
+   int16_t j;
+
+   if (!PixelSign)
+   {
+      if ( BitsAllocated == 8 )
+      {
+         uint8_t *deb = (uint8_t *)Raw;
+         for (i=0; i<RawSize; i++)      
+         {
+            *deb = 255 - *deb;
+            deb++;
+         }
+         return;
+      }
+
+      if ( BitsAllocated == 16 )
+      {
+         uint16_t mask =1;
+         for (j=0; j<BitsStored-1; j++)
+         {
+            mask = (mask << 1) +1; // will be fff when BitsStored=12
+         }
+
+         uint16_t *deb = (uint16_t *)Raw;
+         for (i=0; i<RawSize/2; i++)      
+         {
+            *deb = mask - *deb;
+            deb++;
+         }
+         return;
+       }
+   }
+   else
+   {
+      if ( BitsAllocated == 8 )
+      {
+         uint8_t smask8 = 255;
+         uint8_t *deb = (uint8_t *)Raw;
+         for (i=0; i<RawSize; i++)      
+         {
+            *deb = smask8 - *deb;
+            deb++;
+         }
+         return;
+      }
+      if ( BitsAllocated == 16 )
+      {
+         uint16_t smask16 = 65535;
+         uint16_t *deb = (uint16_t *)Raw;
+         for (i=0; i<RawSize/2; i++)      
+         {
+            *deb = smask16 - *deb;
+            deb++;
+         }
+         return;
+      }
+   }
+}
+
+/**
  * \brief  Re-arrange the bits within the bytes.
- * @return Boolean
+ * @return Boolean always true
  */
 bool PixelReadConvert::ConvertReArrangeBits() throw ( FormatError )
 {
+
    if ( BitsStored != BitsAllocated )
    {
       int l = (int)( RawSize / ( BitsAllocated / 8 ) );
       if ( BitsAllocated == 16 )
       {
-         uint16_t mask = 0xffff;
-         mask = mask >> ( BitsAllocated - BitsStored );
+         // pmask : to mask the 'unused bits' (may contain overlays)
+         uint16_t pmask = 0xffff;
+         pmask = pmask >> ( BitsAllocated - BitsStored );
+
          uint16_t *deb = (uint16_t*)Raw;
-         for(int i = 0; i<l; i++)
+
+         if ( !PixelSign )  // Pixels are unsigned
          {
-            *deb = (*deb >> (BitsStored - HighBitPosition - 1)) & mask;
-            deb++;
+            for(int i = 0; i<l; i++)
+            {   
+               *deb = (*deb >> (BitsStored - HighBitPosition - 1)) & pmask;
+               deb++;
+            }
+         }
+         else // Pixels are signed
+         {
+            // smask : to check the 'sign' when BitsStored != BitsAllocated
+            uint16_t smask = 0x0001;
+            smask = smask << ( 16 - (BitsAllocated - BitsStored + 1) );
+            // nmask : to propagate sign bit on negative values
+            int16_t nmask = (int16_t)0x8000;  
+            nmask = nmask >> ( BitsAllocated - BitsStored - 1 );
+ 
+            for(int i = 0; i<l; i++)
+            {
+               *deb = *deb >> (BitsStored - HighBitPosition - 1);
+               if ( *deb & smask )
+               {
+                  *deb = *deb | nmask;
+               }
+               else
+               {
+                  *deb = *deb & pmask;
+               }
+               deb++;
+            }
          }
       }
       else if ( BitsAllocated == 32 )
       {
-         uint32_t mask = 0xffffffff;
-         mask = mask >> ( BitsAllocated - BitsStored );
+         // pmask : to mask the 'unused bits' (may contain overlays)
+         uint32_t pmask = 0xffffffff;
+         pmask = pmask >> ( BitsAllocated - BitsStored );
+
          uint32_t *deb = (uint32_t*)Raw;
-         for(int i = 0; i<l; i++)
+
+         if ( !PixelSign )
          {
-            *deb = (*deb >> (BitsStored - HighBitPosition - 1)) & mask;
-            deb++;
+            for(int i = 0; i<l; i++)
+            {             
+               *deb = (*deb >> (BitsStored - HighBitPosition - 1)) & pmask;
+               deb++;
+            }
+         }
+         else
+         {
+            // smask : to check the 'sign' when BitsStored != BitsAllocated
+            uint32_t smask = 0x00000001;
+            smask = smask >> ( 32 - (BitsAllocated - BitsStored +1 ));
+            // nmask : to propagate sign bit on negative values
+            int32_t nmask = 0x80000000;   
+            nmask = nmask >> ( BitsAllocated - BitsStored -1 );
+
+            for(int i = 0; i<l; i++)
+            {
+               *deb = *deb >> (BitsStored - HighBitPosition - 1);
+               if ( *deb & smask )
+                  *deb = *deb | nmask;
+               else
+                  *deb = *deb & pmask;
+               deb++;
+            }
          }
       }
       else
       {
-         gdcmWarningMacro("Weird image");
+         gdcmWarningMacro("Weird image (BitsAllocated !=8, 12, 16, 32)");
          throw FormatError( "Weird image !?" );
       }
    }
@@ -739,6 +1026,8 @@ bool PixelReadConvert::ConvertReArrangeBits() throw ( FormatError )
  */
 void PixelReadConvert::ConvertRGBPlanesToRGBPixels()
 {
+   gdcmWarningMacro("--> ConvertRGBPlanesToRGBPixels");
+
    uint8_t *localRaw = Raw;
    uint8_t *copyRaw = new uint8_t[ RawSize ];
    memmove( copyRaw, localRaw, RawSize );
@@ -764,6 +1053,17 @@ void PixelReadConvert::ConvertRGBPlanesToRGBPixels()
  */
 void PixelReadConvert::ConvertYcBcRPlanesToRGBPixels()
 {
+  // Remarks for YBR newbees :
+  // YBR_FULL works very much like RGB, i.e. three samples per pixel, 
+  // just the color space is YCbCr instead of RGB. This is particularly useful
+  // for doppler ultrasound where most of the image is grayscale 
+  // (i.e. only populates the Y components) and Cb and Cr are mostly zero,
+  // except for the few patches of color on the image.
+  // On such images, RLE achieves a compression ratio that is much better 
+  // than the compression ratio on an equivalent RGB image. 
+ 
+   gdcmWarningMacro("--> ConvertYcBcRPlanesToRGBPixels");
+   
    uint8_t *localRaw = Raw;
    uint8_t *copyRaw = new uint8_t[ RawSize ];
    memmove( copyRaw, localRaw, RawSize );
@@ -776,30 +1076,35 @@ void PixelReadConvert::ConvertYcBcRPlanesToRGBPixels()
    int l        = XSize * YSize;
    int nbFrames = ZSize;
 
-   uint8_t *a = copyRaw;
+   uint8_t *a = copyRaw + 0;
    uint8_t *b = copyRaw + l;
-   uint8_t *c = copyRaw + l + l;
-   double R, G, B;
+   uint8_t *c = copyRaw + l+ l;
+   int32_t R, G, B;
 
-   /// \todo : Replace by the 'well known' integer computation
-   ///         counterpart. Refer to
+   ///  We replaced easy to understand but time consuming floating point
+   ///  computations by the 'well known' integer computation counterpart
+   ///  Refer to :
    ///            http://lestourtereaux.free.fr/papers/data/yuvrgb.pdf
-   ///         for code optimisation.
+   ///  for code optimisation.
 
    for ( int i = 0; i < nbFrames; i++ )
    {
       for ( int j = 0; j < l; j++ )
       {
-         R = 1.164 *(*a-16) + 1.596 *(*c -128) + 0.5;
-         G = 1.164 *(*a-16) - 0.813 *(*c -128) - 0.392 *(*b -128) + 0.5;
-         B = 1.164 *(*a-16) + 2.017 *(*b -128) + 0.5;
+         R = 38142 *(*a-16) + 52298 *(*c -128);
+         G = 38142 *(*a-16) - 26640 *(*c -128) - 12845 *(*b -128);
+         B = 38142 *(*a-16) + 66093 *(*b -128);
 
-         if (R < 0.0)   R = 0.0;
-         if (G < 0.0)   G = 0.0;
-         if (B < 0.0)   B = 0.0;
-         if (R > 255.0) R = 255.0;
-         if (G > 255.0) G = 255.0;
-         if (B > 255.0) B = 255.0;
+         R = (R+16384)>>15;
+         G = (G+16384)>>15;
+         B = (B+16384)>>15;
+
+         if (R < 0)   R = 0;
+         if (G < 0)   G = 0;
+         if (B < 0)   B = 0;
+         if (R > 255) R = 255;
+         if (G > 255) G = 255;
+         if (B > 255) B = 255;
 
          *(localRaw++) = (uint8_t)R;
          *(localRaw++) = (uint8_t)G;
@@ -845,7 +1150,7 @@ void PixelReadConvert::ConvertHandleColor()
    //     - "Planar Configuration" = 0,
    //     - "Photometric Interpretation" = "PALETTE COLOR".
    // Hence gdcm will use the folowing "heuristic" in order to be tolerant
-   // towards Dicom-non-conformance files:
+   // towards Dicom-non-conformant files:
    //   << whatever the "Planar Configuration" value might be, a
    //      "Photometric Interpretation" set to "PALETTE COLOR" forces
    //      a LUT intervention >>
@@ -857,9 +1162,13 @@ void PixelReadConvert::ConvertHandleColor()
    // - [Planar 1] AND [Photo C] handled with ConvertYcBcRPlanesToRGBPixels()
    // - [Planar 2] OR  [Photo D] requires LUT intervention.
 
+   gdcmWarningMacro("--> ConvertHandleColor"
+                    << "Planar Configuration " << PlanarConfiguration );
+
    if ( ! IsRawRGB() )
    {
       // [Planar 2] OR  [Photo D]: LUT intervention done outside
+      gdcmWarningMacro("--> RawRGB : LUT intervention done outside");
       return;
    }
                                                                                 
@@ -868,22 +1177,27 @@ void PixelReadConvert::ConvertHandleColor()
       if ( IsYBRFull )
       {
          // [Planar 1] AND [Photo C] (remember YBR_FULL_422 acts as RGB)
+         gdcmWarningMacro("--> YBRFull");
          ConvertYcBcRPlanesToRGBPixels();
       }
       else
       {
          // [Planar 1] AND [Photo C]
+         gdcmWarningMacro("--> YBRFull");
          ConvertRGBPlanesToRGBPixels();
       }
       return;
    }
                                                                                 
    // When planarConf is 0, and RLELossless (forbidden by Dicom norm)
-   // pixels need to be RGB-fied anyway
+   // pixels need to be RGB-fyied anyway
+
    if (IsRLELossless)
-   {
+   { 
+     gdcmWarningMacro("--> RLE Lossless");
      ConvertRGBPlanesToRGBPixels();
    }
+
    // In *normal *case, when planarConf is 0, pixels are already in RGB
 }
 
@@ -904,7 +1218,7 @@ void PixelReadConvert::ComputeRawAndRGBSizes()
                      * SamplesPerPixel;
    if ( HasLUT )
    {
-      RGBSize = 3 * RawSize;
+      RGBSize = 3 * RawSize; // works for 8 and 16 bits per Pixel
    }
    else
    {
@@ -975,13 +1289,160 @@ void PixelReadConvert::Print( std::ostream &os, std::string const &indent )
 //-----------------------------------------------------------------------------
 } // end namespace gdcm
 
-// NOTES on File internal calls
-// User
-// ---> GetImageData
-//     ---> GetImageDataIntoVector
-//        |---> GetImageDataIntoVectorRaw
-//        | lut intervention
-// User
-// ---> GetImageDataRaw
-//     ---> GetImageDataIntoVectorRaw
+// Note to developpers :
+// Here is a very detailled post from David Clunie, on the troubles caused 
+// 'non standard' LUT and LUT description
+// We shall have to take it into accound in our code.
+// Some day ...
 
+
+/*
+Subject: Problem with VOI LUTs in Agfa and Fuji CR and GE DX images, was Re: VOI LUT issues
+Date: Sun, 06 Feb 2005 17:13:40 GMT
+From: David Clunie <dclunie@dclunie.com>
+Reply-To: dclunie@dclunie.com
+Newsgroups: comp.protocols.dicom
+References: <1107553502.040221.189550@o13g2000cwo.googlegroups.com>
+
+> THE LUT that comes with [my] image claims to be 16-bit, but none of the
+> values goes higher than 4095.  That being said, though, none of my
+> original pixel values goes higher than that, either.  I have read
+> elsewhere on this group that when that happens you are supposed to
+> adjust the LUT.  Can someone be more specific?  There was a thread from
+> 2002 where Marco and David were mentioning doing precisely that.
+>
+> Thanks
+>
+> -carlos rodriguez
+
+
+You have encountered the well known "we know what the standard says but
+we are going to ignore it and do what we have been doing for almost
+a decade regardless" CR vendor bug. Agfa started this, but they are not
+the only vendor doing this now; GE and Fuji may have joined the club.
+
+Sadly, one needs to look at the LUT Data, figure out what the maximum
+value actually encoded is, and find the next highest power of 2 (e.g.
+212 in this case), to figure out what the range of the data is
+supposed to be. I have assumed that if the maximum value in the LUT
+data is less than a power of 2 minus 1 (e.g. 0xebc) then the intent
+of the vendor was not to use the maximum available grayscale range
+of the display (e.g. the maximum is 0xfff in this case). An alternative
+would be to scale to the actual maximum rather than a power of two.
+
+Very irritating, and in theory not totally reliable if one really
+intended the full 16 bits and only used, say 15, but that is extremely
+unlikely since everything would be too dark, and this heuristic
+seems to work OK.
+
+There has never been anything in the standard that describes having
+to go through these convolutions. Since the only value in the
+standard that describes the bit depth of the LUT values is LUT
+Descriptor value 3 and that is (usually) always required to be
+either 8 or 16, it mystifies me how the creators' of these images
+imagine that the receiver is going to divine the range that is intended. Further, the standard is quite explicit that this 3rd
+value defines the range of LUT values, but as far as I am aware, all
+the vendors are ignoring the standard and indeed sending a third value
+of 16 in all cases.
+
+This problem is not confined to CR, and is also seen with DX products.
+
+Typically I have seen:
+
+- Agfa CR, which usually (always ?) sends LUTs, values up to 0x0fff
+- Fuji CR, which occasionally send LUTs, values up to 0x03ff
+- GE DX, for presentation, which always have LUTs, up to 0x3fff
+
+Swissray, Siemens, Philips, Canon and Kodak never seem to send VOI LUTs
+at this point (which is a whole other problem). Note that the presence
+or absence of a VOI LUT as opposed to window values may be configurable
+on the modality in some cases, and I have just looked at what I happen
+to have received from a myriad of sites over whose configuration I have
+no control. This may be why the majority of Fuji images have no VOI LUTs,
+but a few do (or it may be the Siemens system that these Fuji images went
+through that perhaps added it). I do have some test Hologic DX images that
+are not from a clinical site that do actually get this right (a value
+of 12 for the third value and a max of 0xfff).
+
+Since almost every vendor that I have encountered that encodes LUTs
+makes this mistake, perhaps it is time to amend the standard to warn
+implementor's of receivers and/or sanction this bad behavior. We have
+talked about this in the past in WG 6 but so far everyone has been
+reluctant to write into the standard such a comment. Maybe it is time
+to try again, since if one is not aware of this problem, one cannot
+effectively implement display using VOI LUTs, and there is a vast
+installed base to contend with.
+
+I did not check presentation states, in which VOI LUTs could also be
+encountered, for the prevalence of this mistake, nor did I look at the
+encoding of Modality LUT's, which are unusual. Nor did I check digital
+mammography images. I would be interested to hear from anyone who has.
+
+David
+
+PS. The following older thread in this newsgroup discusses this:
+
+"http://groups-beta.google.com/group/comp.protocols.dicom/browse_frm/t hread/6a033444802a35fc/0f0a9a1e35c1468e?q=voi+lut&_done=%2Fgroup%2Fcom p.protocols.dicom%2Fsearch%3Fgroup%3Dcomp.protocols.dicom%26q%3Dvoi+lu t%26qt_g%3D1%26searchnow%3DSearch+this+group%26&_doneTitle=Back+to+Sea rch&&d#0f0a9a1e35c1468e"
+
+PPS. From a historical perspective, the following may be of interest.
+
+In the original standard in 1993, all that was said about this was a
+reference to the corresponding such where Modality LUTs are described
+that said:
+
+"The third value specifies the number of bits for each entry in the
+LUT Data. It shall take the value 8 or 16. The LUT Data shall be stored
+in a format equivalent to 8 or 16 bits allocated and high bit equal
+1-bits allocated."
+
+Since the high bit hint was not apparently explicit enough, a very
+early CP, CP 15 (submitted by Agfa as it happens), replaced this with:
+
+"The third value conveys the range of LUT entry values. It shall take
+the value 8 or 16, corresponding with the LUT entry value range of
+256 or 65536.
+
+Note:    The third value is not required for describing the
+    LUT data and is only included for informational usage
+    and for maintaining compatibility with ACRNEMA 2.0.
+
+The LUT Data contains the LUT entry values."
+
+That is how it read in the 1996, 1998 and 1999 editions.
+
+By the 2000 edition, Supplement 33 that introduced presentation states
+extensively reworked this entire section and tried to explain this in
+different words:
+
+"The output range is from 0 to 2^n-1 where n is the third value of LUT
+Descriptor. This range is always unsigned."
+
+and also added a note to spell out what the output range meant in the
+VOI LUT section:
+
+"9. The output of the Window Center/Width or VOI LUT transformation
+is either implicitly scaled to the full range of the display device
+if there is no succeeding transformation defined, or implicitly scaled
+to the full input range of the succeeding transformation step (such as
+the Presentation LUT), if present. See C.11.6.1."
+
+It still reads this way in the 2004 edition.
+
+Note that LUTs in other applications than the general VOI LUT allow for
+values other than 8 or 16 in the third value of LUT descriptor to permit
+ranges other than 0 to 255 or 65535.
+
+In addition, the DX Image Module specializes the VOI LUT
+attributes as follows, in PS 3.3 section C.8.11.3.1.5 (added in Sup 32):
+
+"The third value specifies the number of bits for each entry in the LUT
+Data (analogous to ìbits storedî). It shall be between 10-16. The LUT
+Data shall be stored in a format equivalent to 16 ìbits allocatedî and
+ìhigh bitî equal to ìbits storedî - 1. The third value conveys the range
+of LUT entry values. These unsigned LUT entry values shall range between
+0 and 2^n-1, where n is the third value of the LUT Descriptor."
+
+So in the case of the GE DX for presentation images, the third value of
+LUT descriptor is allowed to be and probably should be 14 rather than 16.
+
+*/

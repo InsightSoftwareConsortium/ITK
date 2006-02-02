@@ -1,0 +1,29 @@
+0011 1001 LT 1 Patient DOB
+0015 1001 DS 1 Stenosis Calibration Ratio
+0015 1002 DS 1 Stenosis Magnification
+0015 1003 DS 1 Cardiac Calibration Ratio
+
+0019 1001 DS 1 Angle Value L Arm
+0019 1002 DS 1 Angle Value P Arm
+0019 1003 DS 1 Angle Value C Arm
+0019 1004 CS 1 Angle Label L Arm
+0019 1005 CS 1 Angle Label P Arm
+0019 1006 CS 1 Angle Label C Arm
+0019 1007 ST 1 Adx Procedure Name
+0019 1008 ST 1 Adx Exam Name
+0019 1009 SH 1 Adx Patient Size
+0019 100a IS 1 Acquisition Record View
+0019 1010 DS 1 Adx Injector Delay
+0019 1011 CS 1 Adx Auto Inject
+0019 1014 IS 1 Adx Acquisition Mode
+0019 1015 CS 1 Adx Camera Rotation Enabled
+0019 1016 CS 1 Adx Reverse Sweep
+0019 1017 IS 1 Cur Spatial Filter Strength
+0019 1018 IS 1 Zoom Factor
+0019 1019 IS 1 X Zoom
+0019 101a IS 1 Y Zoom
+0019 101b DS 1 Adx Focus
+0019 101c CS 1 Adx Dose
+0019 101d IS 1 Side Mark
+0019 101e IS 1 Percentage Landscape
+0019 101f DS 1 Adx Exposure Duration

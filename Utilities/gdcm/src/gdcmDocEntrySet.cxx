@@ -25,12 +25,16 @@
 #include "gdcmSeqEntry.h"
 #include "gdcmValEntry.h"
 #include "gdcmBinEntry.h"
+#include "gdcmUtil.h"
 
 namespace gdcm 
 {
 //-----------------------------------------------------------------------------
 // Constructor / Destructor
-
+DocEntrySet::DocEntrySet() 
+{ 
+   PreviousDocEntry = 0;
+}
 //-----------------------------------------------------------------------------
 // Public
 /**
@@ -38,12 +42,12 @@ namespace gdcm
  * @param   group  Group number of the searched tag.
  * @param   elem Element number of the searched tag.
  * @return  Corresponding element value when it exists,
- *          and the string GDCM_UNFOUND ("gdcm::Unfound") otherwise.
+ *          and the string GDCM_UNFOUND otherwise.
  */
 std::string DocEntrySet::GetEntryValue(uint16_t group, uint16_t elem)
 {
    ContentEntry *entry = dynamic_cast<ContentEntry *>(GetDocEntry(group,elem));
-   if( entry )
+   if ( entry )
       return entry->GetValue();
    return GDCM_UNFOUND;
 }
@@ -57,9 +61,37 @@ std::string DocEntrySet::GetEntryValue(uint16_t group, uint16_t elem)
 void *DocEntrySet::GetEntryBinArea(uint16_t group, uint16_t elem) 
 {
    BinEntry *entry = GetBinEntry(group, elem);
-   if( entry )
+   if ( entry )
       return entry->GetBinArea();
    return 0;
+}
+
+/**
+ * \brief   Return the value of the BinEntry if it's "std::string representable"
+ * @param   group  Group number of the searched tag.
+ * @param   elem Element number of the searched tag.
+ * @return  Corresponding element value when it's "std::string representable"
+ *          and the string GDCM_NOTASCII otherwise.
+ */
+std::string DocEntrySet::GetEntryForcedAsciiValue(uint16_t group, uint16_t elem)
+{
+   DocEntry *d = GetDocEntry(group,elem);
+   if ( !d )
+      return GDCM_UNFOUND;
+
+   if (ValEntry *v = dynamic_cast<ValEntry *>(d))
+      return v->GetValue();
+
+   if (BinEntry *b = dynamic_cast<BinEntry *>(d))
+   {
+      uint8_t *a = b->GetBinArea();
+      if (!b)
+         return GDCM_NOTLOADED;
+         // TODO : unify those two methods.
+      if (Util::IsCleanArea(a, b->GetLength()) )
+         return  Util::CreateCleanString(a, b->GetLength());
+   }
+   return GDCM_NOTASCII;
 }
 
 /**
@@ -73,7 +105,7 @@ void *DocEntrySet::GetEntryBinArea(uint16_t group, uint16_t elem)
 int DocEntrySet::GetEntryLength(uint16_t group, uint16_t elem)
 {
    DocEntry *entry = GetDocEntry(group, elem);
-   if( entry )
+   if ( entry )
       return entry->GetLength();
    return -1;
 }
@@ -94,7 +126,7 @@ int DocEntrySet::GetEntryLength(uint16_t group, uint16_t elem)
 std::string DocEntrySet::GetEntryVR(uint16_t group, uint16_t elem)
 {
    DocEntry *entry = GetDocEntry(group, elem);
-   if( entry )
+   if ( entry )
       return entry->GetVR();
    return GDCM_UNFOUND;
 }
@@ -210,7 +242,7 @@ bool DocEntrySet::SetBinEntry(uint8_t *content, int lgth,
  */
 bool DocEntrySet::SetValEntry(std::string const &content, ValEntry *entry)
 {
-   if(entry)
+   if (entry)
    {
       entry->SetValue(content);
       return true;
@@ -227,7 +259,7 @@ bool DocEntrySet::SetValEntry(std::string const &content, ValEntry *entry)
  */
 bool DocEntrySet::SetBinEntry(uint8_t *content, int lgth, BinEntry *entry)
 {
-   if(entry)
+   if (entry)
    {
       entry->SetBinArea(content);  
       entry->SetLength(lgth);
@@ -259,14 +291,14 @@ ValEntry *DocEntrySet::InsertValEntry(std::string const &value,
       valEntry = dynamic_cast<ValEntry *>(currentEntry);
 
       // Verify the VR
-      if( valEntry )
-         if( valEntry->GetVR()!=vr )
+      if ( valEntry )
+         if ( valEntry->GetVR()!=vr )
             valEntry = NULL;
 
       // if currentEntry doesn't correspond to the requested valEntry
-      if( !valEntry)
+      if ( !valEntry)
       {
-         if( !RemoveEntry(currentEntry) )
+         if ( !RemoveEntry(currentEntry) )
          {
             gdcmWarningMacro( "Removal of previous DocEntry failed.");
 
@@ -276,7 +308,7 @@ ValEntry *DocEntrySet::InsertValEntry(std::string const &value,
    }
 
    // Create a new valEntry if necessary
-   if( !valEntry )
+   if ( !valEntry )
    {
       valEntry = NewValEntry( group, elem, vr );
 
@@ -319,14 +351,14 @@ BinEntry *DocEntrySet::InsertBinEntry(uint8_t *binArea, int lgth,
       binEntry = dynamic_cast<BinEntry *>(currentEntry);
 
       // Verify the VR
-      if( binEntry )
-         if( binEntry->GetVR()!=vr )
+      if ( binEntry )
+         if ( binEntry->GetVR()!=vr )
             binEntry = NULL;
 
       // if currentEntry doesn't correspond to the requested valEntry
-      if( !binEntry)
+      if ( !binEntry)
       {
-         if( !RemoveEntry(currentEntry) )
+         if ( !RemoveEntry(currentEntry) )
          {
             gdcmWarningMacro( "Removal of previous DocEntry failed.");
 
@@ -336,13 +368,13 @@ BinEntry *DocEntrySet::InsertBinEntry(uint8_t *binArea, int lgth,
    }
 
    // Create a new binEntry if necessary
-   if( !binEntry)
+   if ( !binEntry)
    {
       binEntry = NewBinEntry(group, elem, vr);
 
       if ( !AddEntry(binEntry) )
       {
-         gdcmWarningMacro( "AddEntry failed allthough this is a creation.");
+         gdcmWarningMacro( "AddEntry failed although this is a creation.");
 
          delete binEntry;
          return NULL;
@@ -351,7 +383,7 @@ BinEntry *DocEntrySet::InsertBinEntry(uint8_t *binArea, int lgth,
 
    // Set the binEntry value
    uint8_t *tmpArea;
-   if( lgth>0 && binArea )
+   if ( lgth>0 && binArea )
    {
       tmpArea = new uint8_t[lgth];
       memcpy(tmpArea,binArea,lgth);
@@ -360,9 +392,9 @@ BinEntry *DocEntrySet::InsertBinEntry(uint8_t *binArea, int lgth,
    {
       tmpArea = 0;
    }
-   if( !SetBinEntry(tmpArea,lgth,binEntry) )
+   if ( !SetBinEntry(tmpArea,lgth,binEntry) )
    {
-      if( tmpArea )
+      if ( tmpArea )
       {
          delete[] tmpArea;
       }
@@ -385,16 +417,16 @@ SeqEntry *DocEntrySet::InsertSeqEntry(uint16_t group, uint16_t elem)
    DocEntry *currentEntry = GetDocEntry( group, elem );
 
    // Verify the currentEntry
-   if( currentEntry )
+   if ( currentEntry )
    {
       seqEntry = dynamic_cast<SeqEntry *>(currentEntry);
 
       // Verify the VR
-      if( seqEntry )
+      if ( seqEntry )
          seqEntry = NULL;
 
       // if currentEntry doesn't correspond to the requested seqEntry
-      if( !seqEntry )
+      if ( !seqEntry )
       {
          if (!RemoveEntry(currentEntry))
          {
@@ -405,13 +437,13 @@ SeqEntry *DocEntrySet::InsertSeqEntry(uint16_t group, uint16_t elem)
       }
    }
    // Create a new seqEntry if necessary
-   if( !seqEntry )
+   if ( !seqEntry )
    {
       seqEntry = NewSeqEntry(group, elem);
 
-      if( !AddEntry(seqEntry) )
+      if ( !AddEntry(seqEntry) )
       {
-         gdcmWarningMacro( "AddEntry failed allthough this is a creation.");
+         gdcmWarningMacro( "AddEntry failed although this is a creation.");
 
          delete seqEntry;
          return NULL;
@@ -422,8 +454,6 @@ SeqEntry *DocEntrySet::InsertSeqEntry(uint16_t group, uint16_t elem)
    //       in the SeqEntry, at the end.
    return seqEntry;
 } 
-
-
  
 /**
  * \brief   Checks if a given Dicom Element exists within the H table
@@ -440,9 +470,9 @@ bool DocEntrySet::CheckIfEntryExist(uint16_t group, uint16_t elem )
  * \brief   Build a new Val Entry from all the low level arguments. 
  *          Check for existence of dictionary entry, and build
  *          a default one when absent.
- * @param   group group   number of the new Entry
- * @param   elem  element number of the new Entry
- * @param   vr     VR of the new Entry 
+ * @param   group Group number   of the new Entry
+ * @param   elem  Element number of the new Entry
+ * @param   vr    V(alue) R(epresentation) of the new Entry 
  */
 ValEntry *DocEntrySet::NewValEntry(uint16_t group,uint16_t elem,
                                    TagName const &vr) 
@@ -464,9 +494,9 @@ ValEntry *DocEntrySet::NewValEntry(uint16_t group,uint16_t elem,
  * \brief   Build a new Bin Entry from all the low level arguments. 
  *          Check for existence of dictionary entry, and build
  *          a default one when absent.
- * @param   group group   number of the new Entry
- * @param   elem  element number of the new Entry
- * @param   vr     VR of the new Entry 
+ * @param   group Group   number of the new Entry
+ * @param   elem  Element number of the new Entry
+ * @param   vr    V(alue) R(epresentation) of the new Entry 
  */
 BinEntry *DocEntrySet::NewBinEntry(uint16_t group, uint16_t elem,
                                    TagName const &vr) 
@@ -487,8 +517,8 @@ BinEntry *DocEntrySet::NewBinEntry(uint16_t group, uint16_t elem,
  * \brief   Build a new Seq Entry from all the low level arguments. 
  *          Check for existence of dictionary entry, and build
  *          a default one when absent.
- * @param   group group   number of the new Entry
- * @param   elem  element number of the new Entry
+ * @param   group Group   number of the new Entry
+ * @param   elem  Element number of the new Entry
  */
 SeqEntry* DocEntrySet::NewSeqEntry(uint16_t group, uint16_t elem) 
 {
@@ -506,10 +536,10 @@ SeqEntry* DocEntrySet::NewSeqEntry(uint16_t group, uint16_t elem)
 
 /**
  * \brief   Request a new virtual dict entry to the dict set
- * @param   group group  number of the underlying DictEntry
- * @param   elem  element number of the underlying DictEntry
- * @param   vr    VR (Value Representation) of the underlying DictEntry
- * @param   vm    VM (Value Multiplicity)   of the underlying DictEntry
+ * @param   group Group   number of the underlying DictEntry
+ * @param   elem  Element number of the underlying DictEntry
+ * @param   vr    V(alue) R(epresentation) of the underlying DictEntry
+ * @param   vm    V(alue) M(ultiplicity)   of the underlying DictEntry
  * @param   name   english name
  */
 DictEntry* DocEntrySet::NewVirtualDictEntry( uint16_t group, uint16_t elem,
@@ -526,9 +556,9 @@ DictEntry* DocEntrySet::NewVirtualDictEntry( uint16_t group, uint16_t elem,
  * \brief   Searches [both] the public [and the shadow dictionary (when they
  *          exist)] for the presence of the DictEntry with given
  *          group and element. The public dictionary has precedence on the
- *          shadow one.
- * @param   group  group number of the searched DictEntry
- * @param   elem element number of the searched DictEntry
+ *          shadow one(s), if any.
+ * @param   group  Group number of the searched DictEntry
+ * @param   elem Element number of the searched DictEntry
  * @return  Corresponding DictEntry when it exists, NULL otherwise.
  */
 DictEntry *DocEntrySet::GetDictEntry(uint16_t group,uint16_t elem) 
@@ -552,7 +582,7 @@ DictEntry *DocEntrySet::GetDictEntry(uint16_t group,uint16_t elem)
  *          group and element, and create a new virtual DictEntry if necessary
  * @param   group  group number of the searched DictEntry
  * @param   elem element number of the searched DictEntry
- * @param   vr Value Representation to use, if necessary 
+ * @param   vr V(alue) R(epresentation) to use, if necessary 
  * @return  Corresponding DictEntry when it exists, NULL otherwise.
  */
 DictEntry *DocEntrySet::GetDictEntry(uint16_t group, uint16_t elem,

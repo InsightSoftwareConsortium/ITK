@@ -23,6 +23,7 @@
 #include "gdcmDict.h"
 #include "gdcmElementSet.h"
 #include "gdcmException.h"
+#include "gdcmDebug.h"
 
 #include <map>
 #include <list>
@@ -47,7 +48,7 @@ typedef std::list<Element> ListElements;
 
 // Loading
    //Deprecated : use SetFileName() + Load()
-   bool Load( std::string const &filename ); 
+   GDCM_LEGACY( virtual bool Load( std::string const &filename ) ); 
    virtual bool Load( ); 
 
 // Dictionaries
@@ -82,7 +83,7 @@ typedef std::list<Element> ListElements;
    /// Accessor to \ref Filename
    const std::string &GetFileName() const { return Filename; }
    /// Accessor to \ref Filename
-   virtual void SetFileName(std::string const &fileName)
+   virtual void SetFileName(std::string const &fileName) 
                    { if (Filename != fileName)
                         Filename = fileName, IsDocumentModified = true; }
 
@@ -96,9 +97,22 @@ typedef std::list<Element> ListElements;
 
    void LoadDocEntrySafe(DocEntry *entry);
    void SetMaxSizeLoadEntry(long);
+   void AddForceLoadElement(uint16_t group, uint16_t elem);
  
 // Ordering of Documents
    bool operator<(Document &document);
+
+/**
+ * \brief Sets the LoadMode as a boolean string. 
+ *        LD_NOSEQ, LD_NOSHADOW, LD_NOSHADOWSEQ
+ ... (nothing more, right now)
+ *        WARNING : before using NO_SHADOW, be sure *all* your files
+ *        contain accurate values in the 0x0000 element (if any) 
+ *        of *each* Shadow Group. The parser will fail if the size is wrong !
+ * @param   mode Load mode to be used    
+ */
+   void SetLoadMode (int mode) { if (LoadMode != mode) 
+                                     LoadMode=mode, IsDocumentModified = true; }
 
 protected:
 // Methods
@@ -112,7 +126,7 @@ protected:
    uint16_t ReadInt16() throw ( FormatError );
    uint32_t ReadInt32() throw ( FormatError );
    void     SkipBytes(uint32_t);
-   int ComputeGroup0002Length( FileType filetype );
+   int ComputeGroup0002Length( );
 
 // Variables
    /// Refering underlying filename.
@@ -149,12 +163,24 @@ protected:
    /// \brief Elements whose value is longer than MAX_SIZE_LOAD_ELEMENT_VALUE
    /// are NOT loaded.
    static const unsigned int MAX_SIZE_LOAD_ELEMENT_VALUE;
-   /// \brief Elements whose value is longer than  MAX_SIZE_PRINT_ELEMENT_VALUE
-   /// are NOT printed.
-   static const unsigned int MAX_SIZE_PRINT_ELEMENT_VALUE;
 
-   /// List of element to Anonymize
-   ListElements AnonymizeList;
+   /// User supplied list of elements to Anonymize
+   ListElements UserAnonymizeList;
+
+   /// User supplied list of elements to force Load
+   ListElements UserForceLoadList;
+
+   /// \brief Bit string integer (each one considered as a boolean)
+   ///        Bit 0 : Skip Sequences,    if possible
+   ///        Bit 1 : Skip Shadow Groups if possible
+   ///        Probabely, some more to add
+   int LoadMode;
+   
+   /// \brief Whether the gdcm::Document is already parsed/loaded :
+   /// False from the creation of the gdcm::Document untill 
+   ///   gdcm::Document:Load()
+   bool IsDocumentAlreadyLoaded; // FIXME : probabely useless now
+
    /// Whether the gdcm::Document was modified since the last Load()
    bool IsDocumentModified;
 
@@ -166,7 +192,7 @@ private:
    void ParseDES(DocEntrySet *set, long offset, long l_max, bool delim_mode);
    void ParseSQ (SeqEntry *seq,    long offset, long l_max, bool delim_mode);
 
-   void LoadDocEntry         (DocEntry *e);
+   void LoadDocEntry         (DocEntry *e, bool forceLoad = false);
    void FindDocEntryLength   (DocEntry *e) throw ( FormatError );
    uint32_t FindDocEntryLengthOBOrOW() throw( FormatUnexpected );
    std::string FindDocEntryVR();
@@ -183,13 +209,13 @@ private:
 
    bool CheckSwap();
    void SwitchByteSwapCode();
-   void SetMaxSizePrintEntry(long);
 
    // DocEntry related utilities
    DocEntry *ReadNextDocEntry();
 
    void HandleBrokenEndian  (uint16_t &group, uint16_t &elem);
    void HandleOutOfGroup0002(uint16_t &group, uint16_t &elem);
+   DocEntry *Backtrack(DocEntry *docEntry);
 
 // Variables
    /// Public dictionary used to parse this header
@@ -204,12 +230,6 @@ private:
    /// when one considers the definition of the various VR contents).
    uint32_t MaxSizeLoadEntry;
    
-   /// \brief Size threshold above which an element value will NOT be *printed*
-   /// in order no to polute the screen output. By default, this upper bound
-   /// is fixed to 64 bytes.
-   uint32_t MaxSizePrintEntry;   
-
-
 //  uint32_t GenerateFreeTagKeyInGroup(uint16_t group);
 //  void BuildFlatHashTableRecurse( TagDocEntryHT &builtHT,
 //                                  DocEntrySet *set );

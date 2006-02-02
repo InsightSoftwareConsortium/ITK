@@ -1,3 +1,21 @@
+/*=========================================================================
+                                                                                
+  Program:   gdcm
+  Module:    gdcmConfigure.h.in
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+                                                                                
+  Copyright (c) CREATIS (Centre de Recherche et d'Applications en Traitement de
+  l'Image). All rights reserved. See Doc/License.txt or
+  http://www.creatis.insa-lyon.fr/Public/Gdcm/License.html for details.
+                                                                                
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+                                                                                
+=========================================================================*/
+
 #ifndef __gdcmConfigure_h
 #define __gdcmConfigure_h
 
@@ -18,6 +36,11 @@
 /* Hardcode the path to GDCM_DATA_ROOT */
 #define GDCM_DATA_ROOT "@GDCM_DATA_ROOT@"
 
+/* Usefull in particular for loadshared where the full path
+ * to the lib is needed */
+#define GDCM_EXECUTABLE_OUTPUT_PATH "@EXECUTABLE_OUTPUT_PATH@"
+#define GDCM_LIBRARY_OUTPUT_PATH    "@LIBRARY_OUTPUT_PATH@"
+
 /* For older gcc / broken plateform */
 #cmakedefine GDCM_NO_ANSI_STRING_STREAM
 
@@ -33,7 +56,7 @@
 
 /* Whether we are building shared libraries.  */
 /* This was important as long as GDCM is LGPL */
-#cmakedefine GDCM_BUILD_SHARED_LIBS
+#cmakedefine BUILD_SHARED_LIBS
 
 /* GDCM uses __FUNCTION__ which is not ANSI C, but C99 */
 #cmakedefine GDCM_COMPILER_HAS_FUNCTION
@@ -61,6 +84,11 @@
 #define GDCM_MINOR_VERSION @GDCM_MINOR_VERSION@
 #define GDCM_BUILD_VERSION @GDCM_BUILD_VERSION@
 #define GDCM_VERSION "@GDCM_VERSION@"
+
+/*--------------------------------------------------------------------------*/
+/* GDCM deprecation mechanism                                               */
+#cmakedefine GDCM_LEGACY_REMOVE
+#cmakedefine GDCM_LEGACY_SILENT
 
 
 #endif

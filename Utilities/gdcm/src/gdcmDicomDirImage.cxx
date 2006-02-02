@@ -31,7 +31,7 @@ namespace gdcm
 DicomDirImage::DicomDirImage(bool empty):
    DicomDirObject()
 {
-   if( !empty )
+   if ( !empty )
    {
       ListDicomDirImageElem const &elemList = 
          Global::GetDicomDirElements()->GetDicomDirImageElements();
@@ -70,7 +70,7 @@ void DicomDirImage::Print(std::ostream &os, std::string const & )
                               i!= DocEntries.end();
                               ++i)
    {
-      if( (*i)->GetGroup() == 0x0004 && (*i)->GetElement() == 0x1500 )
+      if ( (*i)->GetGroup() == 0x0004 && (*i)->GetElement() == 0x1500 )
       {
          os << (dynamic_cast<ValEntry *>(*i))->GetValue(); //FIXME
       }

@@ -41,7 +41,7 @@ DicomDirElement::DicomDirElement()
 {
    std::string filename = DictSet::BuildDictPath() + DICT_ELEM;
    std::ifstream from(filename.c_str());
-   if(!from)
+   if ( !from )
    {
       gdcmWarningMacro( "Can't open DicomDirElement dictionary" 
                         << filename.c_str());
@@ -60,15 +60,15 @@ DicomDirElement::DicomDirElement()
          from.getline(buff, 1024, ' ');
          strType = buff;
 
-         if( strType == "metaElem" )
+         if ( strType == "metaElem" )
             type = DD_META;
-         else if( strType == "patientElem" )
+         else if ( strType == "patientElem" )
             type = DD_PATIENT;
-         else if( strType == "studyElem" )
+         else if ( strType == "studyElem" )
             type = DD_STUDY;
-         else if( strType == "serieElem" )
+         else if ( strType == "serieElem" )
             type = DD_SERIE;
-         else if( strType == "imageElem" )
+         else if ( strType == "imageElem" )
             type = DD_IMAGE;
          else
          {
@@ -77,7 +77,7 @@ DicomDirElement::DicomDirElement()
             type = DD_UNKNOWN;
          }
 
-         if( type!=DD_UNKNOWN )
+         if ( type!=DD_UNKNOWN )
          {
             from >> std::hex >> elem.Group >> elem.Elem;
 
@@ -173,40 +173,40 @@ void DicomDirElement::Print(std::ostream &os)
    itksys_ios::ostringstream s;
    std::list<Element>::iterator it;
    //char greltag[10];  //group element tag
-   std::string greltag;
+   TagKey greltag;
 
    s << "Meta Elements :"<<std::endl;
    for (it = DicomDirMetaList.begin(); it != DicomDirMetaList.end(); ++it)
    {
-      greltag = Util::Format("%04x|%04x ",it->Group,it->Elem);
+      greltag = DictEntry::TranslateToKey(it->Group,it->Elem);
       s << "   (" << greltag << ") = " << it->Value << std::endl;
    }
 
    s << "Patient Elements :"<<std::endl;
    for (it = DicomDirPatientList.begin(); it != DicomDirPatientList.end(); ++it)
    {
-      greltag = Util::Format("%04x|%04x ",it->Group,it->Elem);
+      greltag = DictEntry::TranslateToKey(it->Group,it->Elem);
       s << "   (" << greltag << ") = " << it->Value << std::endl;
    }
 
    s << "Study Elements :"<<std::endl;
    for (it = DicomDirStudyList.begin(); it != DicomDirStudyList.end(); ++it)
    {
-      greltag = Util::Format("%04x|%04x ", it->Group, it->Elem);
+      greltag = DictEntry::TranslateToKey(it->Group, it->Elem);
       s << "   (" << greltag << ") = " << it->Value << std::endl;
    }
 
    s << "Serie Elements :"<<std::endl;
    for (it = DicomDirSerieList.begin(); it != DicomDirSerieList.end(); ++it)
    {
-      greltag = Util::Format("%04x|%04x ", it->Group, it->Elem);
+      greltag = DictEntry::TranslateToKey( it->Group, it->Elem);
       s << "   (" << greltag << ") = " << it->Value << std::endl;
    }
 
    s << "Image Elements :"<<std::endl;
    for (it = DicomDirImageList.begin(); it != DicomDirImageList.end(); ++it)
    {
-      greltag = Util::Format("%04x|%04x ", it->Group, it->Elem);
+      greltag = DictEntry::TranslateToKey(it->Group, it->Elem);
       s << "   (" << greltag << ") = " << it->Value << std::endl;
    }
 

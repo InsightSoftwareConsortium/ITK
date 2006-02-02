@@ -45,27 +45,27 @@ DocEntryArchive::~DocEntryArchive()
 //-----------------------------------------------------------------------------
 // Public
 /**
- * \brief   Replace in the Header a DocEntry by the new DocEntry. The last
- *          DocEntry is kept in archive
+ * \brief   Replaces in the Header a DocEntry by the new DocEntry. 
+ *          The initial DocEntry is kept in archive.
  * @param   newEntry New entry to substitute to an other entry of the Header
- * @return  FALSE when an other DocEntry is already archived with the same
- *          generalized key, TRUE otherwise
+ * @return  FALSE when an other DocEntry is already archived with the same key
+ *          TRUE otherwise
  */
 bool DocEntryArchive::Push(DocEntry *newEntry)
 {
-   if(!newEntry)
+   if ( !newEntry )
       return false;
 
    uint16_t group = newEntry->GetDictEntry()->GetGroup();
-   uint16_t elem = newEntry->GetDictEntry()->GetElement();
-   std::string key = DictEntry::TranslateToKey(group,elem);
+   uint16_t elem  = newEntry->GetDictEntry()->GetElement();
+   TagKey key = DictEntry::TranslateToKey(group,elem);
 
-   if( Archive.find(key)==Archive.end() )
+   if ( Archive.find(key) == Archive.end() )
    {
       // Save the old DocEntry if any
-      DocEntry *old = ArchFile->GetDocEntry(group,elem);
-      Archive[key] = old;
-      if( old )
+      DocEntry *old = ArchFile->GetDocEntry(group, elem);
+      Archive[key]  = old;
+      if ( old )
          ArchFile->RemoveEntryNoDestroy(old);
 
       // Set the new DocEntry
@@ -77,23 +77,23 @@ bool DocEntryArchive::Push(DocEntry *newEntry)
 }
 
 /**
- * \brief   Replace in the Header a DocEntry by the new DocEntry. The last
- *          DocEntry is kept in archive
- * @param   group   Group number of the Entry 
- * @param   elem  Element number of the Entry
- * @return  FALSE when an other DocEntry is already archived with the same
- *          generalized key, TRUE otherwise
+ * \brief   Removes out of the Header a DocEntry.
+ *          (it's kept in archive).
+ * @param   group   Group number of the Entry to remove
+ * @param   elem  Element number of the Entry to remove
+ * @return  FALSE when an other DocEntry is already archived with the same key
+ *          TRUE otherwise
  */
-bool DocEntryArchive::Push(uint16_t group,uint16_t elem)
+bool DocEntryArchive::Push(uint16_t group, uint16_t elem)
 {
-   std::string key = DictEntry::TranslateToKey(group,elem);
+   TagKey key = DictEntry::TranslateToKey(group, elem);
 
-   if( Archive.find(key)==Archive.end() )
+   if ( Archive.find(key)==Archive.end() )
    {
       // Save the old DocEntry if any
-      DocEntry *old = ArchFile->GetDocEntry(group,elem);
+      DocEntry *old = ArchFile->GetDocEntry(group, elem);
       Archive[key] = old;
-      if( old )
+      if ( old )
          ArchFile->RemoveEntryNoDestroy(old);
 
       return true;
@@ -102,27 +102,27 @@ bool DocEntryArchive::Push(uint16_t group,uint16_t elem)
 }
 
 /**
- * \brief   Restore in the Header the DocEntry that have the generalized key. 
- *          The old entry is destroyed.
- * @param   group   Group number of the Entry 
- * @param   elem  Element number of the Entry
- * @return  FALSE when the generalized key isn't in the archive, 
+ * \brief   Restore in the Header the DocEntry specified by (group,element). 
+ *          The archive entry is destroyed.
+ * @param   group   Group number of the Entry to restore
+ * @param   elem  Element number of the Entry to restore
+ * @return  FALSE when the key isn't in the archive, 
  *          TRUE otherwise
  */
-bool DocEntryArchive::Restore(uint16_t group,uint16_t elem)
+bool DocEntryArchive::Restore(uint16_t group, uint16_t elem)
 {
-   std::string key=DictEntry::TranslateToKey(group,elem);
+   TagKey key=DictEntry::TranslateToKey(group, elem);
 
    TagDocEntryHT::iterator restoreIt=Archive.find(key);
-   if( restoreIt!=Archive.end() )
+   if ( restoreIt!=Archive.end() )
    {
       // Delete the new value
-      DocEntry *rem = ArchFile->GetDocEntry(group,elem);
-      if( rem )
+      DocEntry *rem = ArchFile->GetDocEntry(group, elem);
+      if ( rem )
          ArchFile->RemoveEntry(rem);
 
       // Restore the old value
-      if( Archive[key] )
+      if ( Archive[key] )
          ArchFile->AddEntry(Archive[key]);
 
       Archive.erase(restoreIt);
@@ -133,8 +133,8 @@ bool DocEntryArchive::Restore(uint16_t group,uint16_t elem)
 }
 
 /**
- * \brief   Remove all DocEntry that are in the archive.  
- *          The entries aren't restored but only destroyed.
+ * \brief   Removes all DocEntry from the archive, and destroy them.  
+ *          The archives entries aren't restored.
  */
 void DocEntryArchive::ClearArchive( )
 {
@@ -166,7 +166,7 @@ void DocEntryArchive::Print(std::ostream &os)
        it!=Archive.end();
        ++it)
    {
-      if(it->second)
+      if ( it->second )
          it->second->Print(os);
    }
 }

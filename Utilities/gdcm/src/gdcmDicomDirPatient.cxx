@@ -34,7 +34,7 @@ namespace gdcm
 DicomDirPatient::DicomDirPatient(bool empty)
                 :DicomDirObject()
 {
-   if( !empty )
+   if ( !empty )
    {
       ListDicomDirStudyElem const &elemList = 
          Global::GetDicomDirElements()->GetDicomDirPatientElements();

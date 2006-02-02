@@ -44,7 +44,7 @@ public:
   
    // Patient methods
    /// \brief Adds a new gdcmDicomDirStudy to the Patient
-   void AddStudy(DicomDirStudy *obj) { Studies.push_back(obj); };
+   void AddStudy(DicomDirStudy *obj) { Studies.push_back(obj); }
    DicomDirStudy *NewStudy(); 
    void ClearStudy();
 

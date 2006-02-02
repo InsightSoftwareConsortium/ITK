@@ -24,15 +24,16 @@
 namespace gdcm 
 {
 class DicomDirSerie;
+class DicomDirVisit;
 //-----------------------------------------------------------------------------
 typedef std::list<DicomDirSerie *> ListDicomDirSerie;
 
-/*
+
 // For future use (Full DICOMDIR)
 typedef std::list<DicomDirVisit *> ListDicomDirVisit;
+/*
 typedef std::list<DicomDirResult *> ListDicomDirResult;
 typedef std::list<DicomDirStudyComponent *> ListDicomDirStudyComponent;
-
 */
 //-----------------------------------------------------------------------------
 /**
@@ -48,30 +49,34 @@ public:
    void Print(std::ostream &os = std::cout, std::string const &indent = "" );
    void WriteContent(std::ofstream *fp, FileType t);
 
-   // Serie methods
+   // 'Serie' methods
    DicomDirSerie *NewSerie();
-   /// Adds a gdcm::DicomDirSerie to a Study
-   void AddSerie(DicomDirSerie *obj) { Series.push_back(obj); };
+   /// Adds a gdcm::DicomDirSerie to a gdcm::DicomDirStudy
+   void AddSerie(DicomDirSerie *obj) { Series.push_back(obj); }
    void ClearSerie();
-
    DicomDirSerie *GetFirstSerie();
    DicomDirSerie *GetNextSerie();
    DicomDirSerie *GetLastSerie();
 
-/*
-   // for future use (Full DICOMDIR)
-
+   // 'Visit' methods
+   DicomDirVisit *NewVisit();
+   /// Adds a gdcm::DicomDirVisit to a gdcm::DicomDirStudy
+   void AddVisit(DicomDirVisit *obj) { Visits.push_back(obj); }
+   void ClearVisit();
    DicomDirVisit *GetFirstVisit();
    DicomDirVisit *GetNextVisit();
-
+   DicomDirVisit *GetLastVisit();
+   
+   // for future use (Full DICOMDIR)
+/*
    DicomDirResult *GetFirstResult();
    DicomDirResult *GetNextResult();
+   DicomDirResult *GetLastResult();
 
    DicomDirStudyComponent *GetFirstStudyComponent();
    DicomDirStudyComponent *GetNextStudyComponent();
-
-*/
-    
+   DicomDirStudyComponent *GetLastStudyComponent();
+*/    
 private:
 
    /// chained list of DicomDirSeries (to be exploited hierarchicaly)
@@ -79,14 +84,14 @@ private:
    /// iterator on the DicomDirSeries of the current DicomDirStudy
    ListDicomDirSerie::iterator ItSerie;
 
-/*
-   // for future use (Full DICOMDIR)
-
    /// chained list of DicomDirVisits(single level)
    ListDicomDirVisit Visits;
    /// iterator on the DicomDirVisits of the current DicomDirStudy
    ListDicomDirVisit::iterator ItVisit;
+   
 
+   // for future use (Full DICOMDIR)
+/*
    /// chained list of DicomDirResults(single level)
    ListDicomDirResult Results;
    /// iterator on the DicomDirResults of the current DicomDirStudy

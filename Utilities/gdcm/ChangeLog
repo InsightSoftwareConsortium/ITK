@@ -1,8 +1,709 @@
+Thu Aug 25 16:59:49 2005 by jpr
+   gdcmBinEntry.cxx
+   Now Print displays the BinEntry Content (if it's printable, and loaded)
+   Usefull for a lot od Implicit VR 'Bin'Entry (if we knew there VR, they wouldn't
+   be Bin ...)
+   Appreciate the difference having a look at PrintFile result for
+   gdcmData/SIEMENS_MAGNETOM-12-MONO2-FileSeq0.dcm.
+
+Thu Aug 25 16:55:47 2005 by jpr
+   gdcmUtil.cxx
+   Add methods to check the 'printability' of a bin area
+
+Thu Aug 25 15:45:40 2005  by jpr
+  gdcmBinEntry.cxx 
+  According to Mathieu's suggestion, Print now display FL BinEntries in a human
+  readable form
+
+Thu Aug 25 15:12:43 2005 by jpr
+   gdcmDocEntry.cxx
+   According to Mathieu's suggestion, *all* the elements 0x000
+   are now named 'Group Length' (even if they belong to a Shadow Group')
+
+Wed Aug 24 14:09:13 2005 by jpr
+  gdcmDocEntry.cxx,h, gdcmDocEntrySet.cxx,h
+  Removal of QD patch for Private Sequence + Immplicit VR.
+   Add a clean solution (Backtracking if an Item Starter is found
+    out of any SQItem)
+
+Tue Aug 23 14:57:49 2005 by jpr
+   gdcmDocument.cxx
+   Brutal patch, waiting till we find a clever way to guess
+   if a doc entry is a Sequence,
+        - when it's odd number
+		  - and the file is Implicit VR Transfert Syntax
+It solves temporarily some Philips Medical Systems image problems
+
+Mon Aug 22 18:17:54 200 by jpr
+   gdcmUtil.cxx
+   Save a *few* microseconds at run time : inline method Util::GetVersion()
+   ;-)
+
+Tue Aug 23 14:58:49 2005 by jpr
+   gdcmSeqEntry.cxx, gdcmDocEntry.cxx
+   Improve 'Print' methods
+
+Sat Aug 20 11:10:24 2005by jpr
+   TestWriteSimple.cxx
+   Use new style FileHelper contructor
+
+Sat Aug 20 11:04:50 2005 by jpr
+   gdcmFileHelper.cxx
+   FileHelper::Initialize() doesn't call GrabInformationFromFile(),
+   in order not to do the job twice when using new style FileHelper Constructor.
+
+Fri Aug 19 18:31:07 2005 by malaterre
+  gdcmCommon.h
+  ENH: Provide a GetVersion function, apparently need for python
+
+Fri Aug 19 15:12:15 2005 by jpr
+   gdcmFileHelper.cxx
+   Initialize UserFunction pointer to 0, even for 'deprecated' form 
+	of constructor.
+
+Sat Jul 30 20:27:00 2005 by jpr
+   gdcmFileHelper.cxx, gdcmPixelReadConvertor.cxx
+      User is now allowed to pass a Pointer to a function of his own
+      to allow modification of pixel order (i.e. : Mirror, TopDown, )
+      to gdcm::FileHeleper, using SetUserFunction(userSuppliedFunction)
+      described as : void userSuppliedFunction(uint8_t *im, gdcm::File *f);
+      NB : the "uint8_t *" type of first param is just for prototyping.
+        User will Cast it according what he founds with f->GetPixelType()
+        See ctkgdcmSerieViewer for an example
+
+Sat Jul 30 20:13:24 2005 by jpr
+   gdcmSerieHelper.cxx
+   Add SerieHelper::IsCoherent() method to allow checking that the files with same
+   Serie UID have the same sizes and pixel type.
+	
+Fri Jul 29 17:07:16 2005 by jpr
+   gdcmSerieHelper.cxx
+   User may now use
+      SetSortOrderToDirect() or SetSortOrderToReverse()
+   to choose the ways the File* will be sorted.
+
+Thu Jul 21 06:55:50 2005 by jpr
+   AnonymizeDicomDir.cxx, AnomymizeNoLoad.cxx, PrintFile.cxx, PrintDicomDir.cxx
+   Unify user interface
+
+Thu Jul 21 06:55:30 2005 by jpr
+   exSerieHelper.cxx
+   Add an example of use for SerieHelper
+
+Thu Jul 21 07:00:15 2005 by jpr
+   gdcmSerieHelper.cxx
+   Extend 'Restriction' syntax :
+   void SerieHelper::AddRestriction(uint16_t group, uint16_t elem,
+                                    std::string const &value, int op)
+   op belongs to :
+   /// \brief comparaison operators
+   enum CompOperators {
+      GDCM_EQUAL = 0,
+      GDCM_DIFFERENT,
+      GDCM_GREATER,
+      GDCM_GREATEROREQUAL,
+      GDCM_LESS,
+      GDCM_LESSOREQUAL
+   };
+
+Wed Jul 20 15:39:00 2005  by jpr
+   AnonymizeNoLoad.cxx
+   AnonymizeNoLoad user can now ask for anonymization of 'BinEntries'
+   (e.g. Private entries when the TS is Implict VR)
+   AnonymizeNoLoad filein=... rubout=0x0009-0x0001,0x0013-0x1100
+   Thx to Luca Picello for reporting pb and supplying data to fix the bug.
+
+Wed Jul 20 16:49:41 2005 by jpr
+   gdcmFile.cxx
+   Use GDCM_LEGACY for DicomDir, as well
+
+Wed Jul 20 15:31:01 2005 by jpr
+   gdcmFile.cxx
+   We can now anonymize 'BinEntries' as well
+
+Wed Jul 20 15:29:42 2005 by jpr
+   gdcmArgMgr.cxx
+   Add ArgMgrGetXInt16Enum to decode from the command line pairs of unsigned int
+   16, written in hexadecimal.
+   (usefull to allow terminal user to pass the (private) elements he wants to
+   anonymize)
+
+Tue Jul 19 17:25:53 2005  by jpr
+   gdcmFile.cxx
+   Add some comments on the 'Patient Position'
+
+Tue Jul 19 11:04:58 2005 by jpr
+   gdcmSerieHelper.cxx
+   Add SerieHelper::AddGdcmFile(File *header) method.
+    * \brief add a gdcm::File to the first (and supposed to be unique) list
+    *        of the gdcm::SerieHelper.
+    * \warning : this method should be used by aware users only!
+    *            User is supposed to know the files he want to deal with
+    *           and consider them they belong to the same Serie
+    *           (even if their Serie UID is different)
+    *           user will probabely OrderFileList() this list (actually, ordering
+    *           user choosen gdm::File is the sole interest of this method)
+    *           Moreover, using vtkGdcmReader::SetCoherentFileList() will avoid
+    *           vtkGdcmReader parsing twice the same files.
+    *           *no* coherence check is performed, but those specified
+    *           by SerieHelper::AddRestriction()
+
+Mon Jul 18 12:20:20 2005 by jpr
+   gdcmCommon.cxx
+   In order to prepare the future extension of SerieHelper::AddRestriction (key,
+   string, operator)
+   operator = { EQUAL, DIFFERENT, LESS, LESSOREQUAL, GREATER, GREATEROOREQUAL}
+   add method
+   bool Util::CompareDicomString(const std::string &s1, const char *s2, int op)
+
+Sun Jul 17 06:27:49 2005 by jpr
+   gdcmSerieHelper.cxx
+   Use new style for Loading files
+
+Tue Jul 12 19:08:12 2005 by jpr
+   gdcmCommon.cxx, gdcmSQItem.cxx
+   To speed up DicomDir, instead of copying -and removing the source afterwards-
+   each entry of the SQItem (found after gdcm::Document parsing) towards
+   the gdcm::Object  belonging to the gdcm::DicomDir, we just copy
+   the chained list itself.
+
+Tue Jul 12 16:55:43 2005 by jpr
+   AnonymizeNoLoad.cxx
+   AnonymizeNoLoad has now one more option :
+   dirin=
+   to give the (single Patient) directory name whose content we want to anonymize.
+
+Mon Jul 11 10:20:25 2005 by jpr
+   gdcmDicomDirStudy.cxx
+   Reorder methods
+
+Fri Jul 8 21:07:12 2005 by jpr
+   gdcmDicomDir...
+   Add the VISIT object within DicomDir
+
+Fri Jul 8 12:15:08 2005 by jpr
+   gdcmDicomDir...
+   Use new style for DicomDir loading
+
+Fri Jul 8 16:36:48 2005 by jpr
+   gdcmFileHelper.cxx
+   To remain unimpared, gdcm::FileHelper class needs also its
+   void FileHelper::SetLoadMode(int loadMode)
+   void FileHelper::SetFileName(std::string const &fileName)
+   bool FileHelper::Load()
+
+Thu Jul 7 19:31:53 2005 by jpr
+   Example/*.cxx
+   Begin of kosherization of Example
+   New 'gdcm2' style.
+
+Thu Jul 7 18:37:40 2005 by jpr
+   gdcmDocument.cxx
+   On the way to gdcm2 ...
+   Now, the stand way to use a file is :
+   gdcm::File *f = new gdcm::File();
+   f->SetLoadMode ( user say here what he wants *not* to load );
+   f->SetFileName("myFile.gdcm");
+   f->Load();
+   Old styles are kept, not to break the C++ API.
+      - gdcm::File *f = new gdcm::File("myFile.gdcm");
+      - f->Load("myFile.gdcm");
+   Due to the syntaxic abilities of Python maybe some troubles will occur
+   (not sure ...)
+
+Thu Jul 7 15:55:39 2005 by jpr
+  gdcmDocument.cxx
+  Comment out the time consuming, never used/useless
+  'Extended tag' stuff for Sequence embedded Entries
+
+Thu Jul 7 15:11:38 2005 by jpr
+  gdcmDocument.cxx
+  Move code lines LTTG so save some CPU time.
+  (hope so)
+
+Tue Jun 7 13:12:10 2005 CEST by jpr
+   Example/*.cxx
+   Use Argument Manager in 'utilities'
+
+Thu Jul 7 12:12:32 2005 by jpr
+   gdcmFile.cxx
+   Due to something stupid in the gdcm::File constructor, the file was parsed 
+   twice when we used old style, e.g :
+   gdcm::File *f = new gdcm::File(fileName);
+   instead of new style, e.g. :
+   gdcm::File *f = new gdcm::File( );
+   f->SetLoadMode ( choose what you want *not* to load here );
+   f->Load( filename );
+
+Wed Jul 6 11:53:43 2005 by jpr
+   TestAllReadCompareDicom.cxx, TestReadWriteReadCompare.cxx
+   Now TestAllReadCompareDicom.cxx TestReadWriteReadCompare.cxx accept a third
+   param, in order not to have to recompile to gdcm::Debug::DebugOn().
+
+Wed Jul 6 17:18:42 2005 by jpr
+   gdcmDocument.cxx
+   According to Mathieu's requirement, Load twice the same file keeps the rseult of
+   the first Load (instead of doing it twice)
+
+Wed Jul 6 11:25:12 2005 by jpr
+   gdcmDocument.cxx
+   - Clean out the Entries if a Document is parsed more than once
+   - Uncomment (usefull) warning messages
+
+Wed Jul 6 10:42:33 2005 by jpr
+   gdcmDocument.cxx
+   - Comment out a for the moment too much verbose warning message.
+   - Delay some statement as late as possible, to save some CPU time when they're
+     useless
+  
+Wed Jul 6 13:01:08 2005 by jpr
+   gdcmFile.cxx
+   Now gdcmFile::Load() returns false if file is not gdcm parsable
+   Only gdcmDocument::Load() did it, before.
+   Thx to Benoit for reporting bug
+
+Sun Jul 3 14:42:04 2005 by jpr
+   gdcmDocument.cxx
+   Should avoid some troubles with 'no length' SQItems within 'true length'
+   Sequences.
+   Thx to Loic Boussel for providing data to fix the bug.
+
+Sun Jul 3 14:42:04 2005 by jpr
+   gdcmDocument.cxx
+   Should avoid some troubles with 'no length' SQItems within 'true length'
+   Sequences.
+   Thx to Loic Boussel for providing data to fix the bug.
+
+Sun Jul 3 14:47:23 2005 by jpr 
+   gdcmSQItem.cxx
+   Enh warning message
+
+Fri Jul 1 13:25:51 2005 by jpr
+   gdcmPixelReadConvert.cxx
+   Initialize RLEInfo and JPEGInfo to 0 a avoid further problems
+   (e.g. PrintFile on a DICOMDIR document)
+
+Thu Jun 30 16:49:02 2005 by jpr
+   gdcmFile.cxx
+   Enhance gdcm::File::IsReable() heuristics to be able to process some Loic
+   Boussel's Hall of Shame Dicom images
+
+Wed Jun 29 17:58:33 2005 by jpr
+   gdcmDocument.cxx
+   Add the NO_SHADOWSEQ load mode
+
+2005-06-26 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+    * Quite a few new dictionaries were added in gdcm. The file:
+      gdcm/Dict/README should always explain were the info was found
+      (in case of double check). Also some dict are still only
+      express as 'template' (they contain 'xx'), therefore
+      a python script should be run first to generate a full dict.
+      In the longer term this python script should be replaced by
+      a cmake script.
+
+2005-06-25 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * dicomV3.dic is deprecated in favor of gdcm.dic
+     There is now a dictionary per family:
+     - dicomV3.dic -> DICOM V3
+     - Papyrus.dic -> Papyrus
+     - NIH.dic     -> tags that were never allowed in the main standard
+
+Fri Jun 24 12:50:20 2005 CEST by jpr
+   gdcmFile.cxx
+   Pixel Spacing related problems : update comments.
+   Thx to D. Clunie for providing data to check the code
+
+Fri Jun 24 12:55:58 2005 by jpr
+   Summer nights are really too hot to sleep.
+   Coding style : kosherization of all the 'if's (300 amongst 900 were haram)
+
+Thu Jun 23 11:20:23 2005 by jpr
+   gdcmDocument.cxx
+   Extend warning message, for debugging purpose
+
+Wed Jun 22 10:11:23 2005 by jpr
+   gdcmFile.cxx
+   Coding Style
+
+Wed Jun 22 10:00:29 2005  by jpr
+   gdcmPixelReadConvert.cxx
+   Fix misstyping, while removing spurious \t characters
+
+Wed Jun 22 09:52:32 2005 by jpr
+   gdcmPixelReadConvert.cxx
+   Some constructors (at least one ...) use BitsAllocated =! BitsStored for
+   negative Pixels.
+   That break at lot of viewers ...
+   We now *propagate the sign bit* upon the unused ones, better than masking them
+   out.
+   Thx to Luca Picello for profiding data to fix the bug
+
+Wed Jun 22 09:53:52 2005 by jpr
+   gdcmFileHelper.cxx
+   gdcm images are now "GDCM 1.1" built.
+
+Mon Jun 20 19:10:17 2005 by jpr
+   gdcmFileHelper.cxx
+   Avoid re writing Palette Color Lookup Table UID when Palette Color is removed
+
+Mon Jun 20 17:58:53 2005 by jpr
+   gdcmDocument.cxx
+   Preventive bug fix for LUT Data.
+   I said : LUT Date, *not* Palette Color
+
+Sun Jun 19 17:57:29 2005 by jpr
+   gdcmDocumentcxx
+   To avoid warnings at compile time
+
+Fri Jun 17 14:27:52 2005 by jpr
+   gdcmRLEFrames.cxx
+   Try to solve RLE pb
+
+Fri Jun 17 14:36:07 2005 by jpr
+   gdcmDocument.cxx
+   Add comments
+
+Fri Jun 17 14:35:00 2005 by jpr
+   gdcmFileHelper.cxx
+   Add some accessors for debugging purpose
+
+Tue Jun 14 15:56:41 2005 by jpr
+   gdcmPixelReadConvert.cxx
+   Now gdcm deals with 16 bits per pixel images with 16 bits Palette colors
+   (3 * 65536 short int ...)
+   Nice fat header.
+   "Segmented Palettes" pb still pending, but I never saw any viewer dealing with it.
+
+Mon Jun 13 17:43:48 2005 by jpr
+   gdcmPixelReadConvert.cxx
+   Some more oddities dealt with.
+   Doesn't work yet with 65536 entries 16 Bits LUT (?!?), with 16 bits pixels.
+   Still looking for accurate info on the web about it
+
+Fri Jun 10 16:05:38 2005 by jpr
+   gdcmDocument.cxx
+   Bug fix in Load method.
+   Thx to Benoit for providing fix.
+2005-06-08 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmUtil.cxx : change call to Util::Format to sprintf because of 
+     lantency with the Util::Format function
+
+Tue Jun 7 15:48:35 2005 by jpr
+   gdcmUtil.cxx
+   The highy time consuming method GetMacAdress is now called just once
+
+Tue Jun 7 11:58:29 2005 by jpr
+   gdcmDicomDirElement.cxx
+   Use TranslateToKey better than Format
+
+Tue Jun 7 12:07:20 by jpr
+   gdcmDictEntry.cxx
+   Remove some spurious calls to Format
+   // according to 'Purify', TranslateToKey is one of the most
+   // time consuming methods.
+   // Let's try to shorten it !
+
+Mon Jun 6 14:37:58 2005
+   class ArgMgr (for Arguments Manager) is designed for
+       command line arguments management
+       (to make programmer's live easier)
+       (could be used for any kind of 'command line program')
+
+2005-06-07 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Adding users file in CVSROOT for mail blaming 
+
+2005-06-04 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Adding potential support for JPEG-LS DICOM files.
+
+Fri Jun 3 18:05:23 2005 by jpr
+   gdcmDocument.cxx
+   Fix VR processing, to be CP-288 conform.
+   Now we can parse any kind of DICOM SR.
+
+Fri Jun 3 11:05:15 2005 by jpr
+   gdcmDocument.h
+   Doxygenation
+
+Thu Jun 2 15:42:18 2005 by jpr
+  gdcmDocument.cxx
+   Add warning about Load Mode
+
+Thu Jun 2 16:20:14 2005 by jpr
+   gdcmFile.cxx
+   Harden gdcm::File::IsReadable(), in order not to be confused any longer
+   by lost of Pixel Element
+
+Fri May 27 12:51:00 2005 by jpr
+   gdcmFileHelper.cxx
+   To avoid pushing out twice the meta elements, wile trying to write 'ACR-NEMA-
+   style.
+   And avoid some memry leaks -hope so-
+
+Wed May 25 14:54:17 2005 by jpr
+   gdcmDocument.cxx
+   Should avoid some memory leaks
+
+2005-05-22 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Adding potential support for mpeg and jpeg2000 through two new lin
+    - JasPer for JPEG2000
+    - libmpeg2 from the MPEG consortium
+    Also adding intial work to use this lib.
+
+Fri May 20 10:27:55 2005 by jpr
+   gdcmFileHelper.cxx
+   To avoid warning.
+   (this time, it's wasn't dangerous at run time)
+
+Thu May 19 17:31:21 2005 by jpr
+   gdcmFileHelper.cxx
+   FIX possible troubles when checking
+     'Hight Bit Position' vs 'Bits Allocated' and 'Bits Stored'
+   Thx to Mathieu for reporting bug
+
+Wed May 18 12:12:07 2005 by jpr
+   gdcmDocument.cxx
+   Fix : now dcm deals with 'No preamble', Big Endian Explicit VR group 0002.
+   Thx to Dennis Hu for providing a sample image to fix the bug.
+
+Tue May 17 14:44:09 2005 by jpr
+   gdcmFile.cxx
+   ENH : According to David Clunie's advice, we check now 'Imager Pixel Spacing'
+      before 'Pixel Spacing', when we want to get X or Y Spacing.
+
+Tue May 17 19:10:49 2005 by jpr
+   gdcmFileHelper.cxx
+   ENH : Now, FileHelper::CheckMandatoryElements() makes some consistency checking,
+         at LTTG (Least Time To Go)
+         around Bits Allocated, Bits Stored, High Bit Position,
+         to avoid unaware user to mess up the stuff.
+
+Tue May 3 11:43:04 2005 by jpr
+   gdcmDicomDir.h, .cxx
+   Load returns now a bool (allow user not to call IsReadable() )
+
+Tue May 3 11:51:06 2005by jpr
+   gdcmFileHelper.cxx
+   Now the gdcm::File remains unimpaired after writting, in any case
+
+Fri Apr 29 17:10:55 2005by jpr
+   gdcmDocument.cxx
+   Don't abort the prog when File not open
+
+Wed Apr 27 12:00:35 2005 by jpr
+   gdcmFile.cxx
+   Removal of now useless lut-related stuff
+
+Wed Apr 27 11:52:27 2005 by jpr
+   gdcmFile.cxx
+   Pb of 'Bits Allocated = 12' is now dealt with in
+   FileHelper::CheckMandatoryElements, no longer in File::Write.
+   Thx to Mathieu for reporting bug.
+
+2005-04-26 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Testing/TestAllReadCompareDicom.cxx : update the test printed results and
+     description.
+
+Tue Apr 26 18:18:23 2005 by jpr
+   gdcmDocument.cxx
+   Should leave gdcm::Document constructor in a much quicker
+   and much cleaner way when anything wrong occurs.
+
+Tue Apr 26 18:25:49 2005 by jpr
+   gdcmPixelReadConvert.cxx
+   Prepare MPEG Dicom encapsulated processing (within a loooong future)
+
+Fri Apr 22 14:59:58 2005 by jpr
+   gdcmDocument.cxx
+   Modify Print() output
+
+Fri Apr 22 15:37:57 2005  by jpr
+   gdcmTS.cxx
+   Prepare (future) MPEG integration
+
+Thu Apr 21 09:40:00 2005 by jpr
+   gdcmTS.cxx
+   Taking into account Dicom MPEG
+
+2005-04-20 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * FIX : Numerical exception on borland (cannot divide by 0, doh !)
+         But this is a case where we should really signify the user there is
+         few chance the serie is really a serie...
+
+2005-04-20 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * FIX : on X, the python part is correctly installed. All files are
+     installed in gdcm sub-directory
+
+Tue Apr 19 11:58:19 2005 by jpr
+   gdcmDocEntry
+   Should suppress some warnings from Borland compiler
+
+2005-04-19 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Builder/ : add something to facilitate the RPM creation of gdcm
+
+2005-04-15 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * Fix gdcmDirList::IsDirectory. Apparently borland did not like the ending
+     '/'
+   * Also fix compilation on gcc 3.3.5 does not have ios::failure either ...
+
+Thu Apr 14 16:26:19 2005 by jpr
+   gdcmDicomDir.h, .cxx
+   Now, user can ask gdcm::DicomDir to skip SeqEntries or shadow groups, when
+   possible :
+     // Old style (still available) :
+     dcmdir = new gdcm::DicomDir(dirName, true);
+
+    // new style (user is allowed no to load Sequences an/or Shadow Groups)
+    dcmdir = new gdcm::DicomDir( );
+    dcmdir->SetParseDir(true);
+    dcmdir->SetLoadMode(NO_SEQ | NO_SHADOW);
+    dcmdir->Load(dirName);
+
+2005-04-11 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+   * vtk/vtkGdcmWriter fix bug when writing spacing. The Y spacing comes first
+     then the X spacing.
+    * Fix compilation on gcc 2.96 (which does not have ios::failure)
+
+Mon Apr 4 17:15:24 2005 by jpr
+   gdcmFileHelper.cxx
+   Fix stupid bug when writting ACR-NEMA image from 'ACR-LibIDO' one.
+
+2005-04-05 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmDictGroupName.[h|cxx] : add a correlation between a group (number)
+     and it's representation name (for the NIH)
+
+2005-03-31 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmPixelReadConvert.cxx : problems of around of double to uint8, when
+     conversion of YBR to RGB pixels. So, now, the conversion is made using 
+     integers only
+
+2005-03-30 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * Testing/TestAllReadCompareDicom.cxx : now use test files (invented file
+     format) to replace 'at-run' dicom files generated by the 
+     TestAllReadCompareDicom test
+
+Tue Mar 22 12:29:37 2005 by jpr
+   gdcmDocument.cxx
+   * FIX : element 0x0000 of shadow groups is now force to a ValEntry, 
+     and it's VR is forced to UL
+   * ENH : user id now allowed to tell he doesn't want to deal with Sequences
+      and/or with Shadow groups
+      use SetLoadMode (NO_SEQ | NO-SHADOW);
+
+Tue Mar 22 12:40:13 2005 by jpr
+   gdcmFileHelper.cxx
+   *FIX Restore pushed out elements
+
+Fri Mar 11 12:08:31 2005 by jpr
+   gdcmDocEntry.cxx
+   Remove spurious #define MAX_SIZE_PRINT_ELEMENT_VALUE
+
+Fri Mar 11 12:12:13 2005 by jpr
+   gdcmFile.cxx
+   Final removal of gdcmFileHelper::InitializeDefaultFile();
+
+Wed Mar 9 20:29:38 2005 by jpr
+   gdcmDicomDir.h, .cxx
+   Add Anonymize method (not yet fully checked)
+
+2005-03-07 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmFileHelper.cxx : remove memory leaks and bugs when writing files
+
+Wed Mar 2 18:18:32 2005by jpr
+   gdcmFile.cxx
+   Fix gdcm::FileHelper::CheckMandatoryElements() to take into account David
+   Clunie's remarks.
+
+2005-02-22 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmFileHelper.cxx : JPR bad personal choices fix
+
+Mon Feb 21 18:45:41 2005 by jpr
+   gdcmFileHelper.cxx
+   * Replace method CheckMetaElements by CheckManadatoryElements
+     To deal with the pb of UID's, and with Type 1 an Type 2 Entries
+     (probabely some stuff still missing)
+   * We shall have to decide the way we proceed to allow user 'freeze' Serie UID
+      between a given call and the next one (to add images to a Serie he just
+      created)
+  * We shall have to decide the way we proceed to allow user 'freeze' Study UID
+      between a given call and the next one, or to reuse an already existing
+      Study UID (i he wants to add his own Series to an already existing Study)
+
+Thu Feb 17 17:18:33 2005 by jpr
+   gdcmFile.cxx
+   To avoid further pb, Initialize defaults now Photochromatic Interpretation to
+   MONOCHROME2 (low values = dark), better than MONOCHRONE1.
+   Thx to Benoit for reporting bug
+
+Thu Feb 17 11:56:20 2005 by jpr
+   gdcmUtil.cxx
+   Prepare FileMetaInformationVersion (group 0002) management
+
+Thu Feb 17 12:02:47 2005 by jpr
+   gdcmFile.cxx
+   Group 0002 management
+
+Thu Feb 17 12:03:32 2005 by jpr
+   gdcmDocEntryArchive.cxx
+   Fix comments
+
+Wed Feb 16 11:19:19 2005 CET by jpr
+   gdcmPixelReadConvert.cxx
+   Taking into account MONOCHROME1 + Signed Pixels (?!)
+
+Tue Feb 15 19:12:34 2005  by jpr
+   gdcmFile.cxx
+   Taking into account the difference between MONOCHROME1 (low values = bright)
+   and MONOCHROME2 (low values = dark)
+
+Mon Feb 14 11:45:04 2005by jpr
+   gdcmDocument.cxx
+   Remove some useless mask operations, to save CPU time
+
+Mon Feb 14 15:51:10 2005 by jpr
+   gdcmUtil.cxx
+   *never* forget to re-compile just *before* committing!
+
+Mon Feb 14 15:34:27 2005 by jpr
+   gdcmUtil.cxx
+   First commit on the post 1.0 (Version? / Tag? / Branch?) :
+   Fix Doxygen warnings
+
+Mon Feb 14 11:45:47 2005 by jpr
+   gdcmValEntry.cxx
+   remove useless comments
+
 2005-02-11 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
    * Testing/TestMAkeIcon.cxx : complete the test
 
 2005-02-10 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
-   * Testing/TestWriteSimple.cxx, TestSequence.cxx : fix memroy leaks
+   * Testing/TestWriteSimple.cxx, TestSequence.cxx : fix memory leaks
+
+Fri Feb 11 16:22:18 2005 by jpr
+   gdcmDocEntrySet.cxx
+   Typo, comments, doxygenation
+
+Thu Feb 10 11:55:26 2005 by jpr
+   gdcmFile.cxx
+   AnonymizeNoLoad improvement
+
+Thu Feb 10 10:07:19 2005 by jpr
+   gdcmFile.cxx
+   Duplicate Matthieu's hack to prevent bombing in Anonymize
+
+Thu Feb 10 12:20:34 2005by jpr
+   gdcmDocEntrySrt.cxx
+   The following gdcm::DocEntrySet methods, no re-definable is child classes are no
+   longer virtual
+    virtual ValEntry *GetValEntry(uint16_t group, uint16_t elem);
+    virtual BinEntry *GetBinEntry(uint16_t group, uint16_t elem);
+    virtual SeqEntry *GetSeqEntry(uint16_t group, uint16_t elem);
+    virtual bool SetValEntry(std::string const &content,
+    virtual bool SetBinEntry(uint8_t *content, int lgth,
+    virtual bool SetValEntry(std::string const &content, ValEntry *entry);
+    virtual bool SetBinEntry(uint8_t *content, int lgth, BinEntry *entry);
+    virtual ValEntry *InsertValEntry(std::string const &value,
+    virtual BinEntry *InsertBinEntry(uint8_t *binArea, int lgth,
+    virtual SeqEntry *InsertSeqEntry(uint16_t group, uint16_t elem);
 
 2005-02-09 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
    * src/gdcmFileHelper.[h|cxx] : now correctly set the VR of the datas when 
@@ -14,6 +715,11 @@
 2005-02-09 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
    * Test/ : accelerate tests (it's not very significant accelerations).
      Remove TestCopyDicom that is redundant with TestCopyRescaleDicom
+
+Mon Feb 7 15:48:34 2005 by jpr
+   gdcmDicomDir.h, .cxx
+   Add some commented out lines to prepare future version of 'Full DICOMDIR' stuff
+
 
 2005-02-07 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
    * Testing/TestSequence.cxx : add test for sequences of images... test that
@@ -27,6 +733,18 @@
    * src/gdcmFile.cxx : bug fix when reading values
    * gdcmPython/demo/ : change file names. Remove useless files
 
+Sun Feb 6 15:31:09 2005 by jpr
+   gdcmDicomDirStudy.h
+   Update comments for DicomDir stuff
+
+Sun Feb 6 15:39:35 2005 by jpr
+   gdcmDocument.cxx
+   * Add method File::AnonymizeNoLoad, to allow anomymizing files
+           even when the pixels are not gdcm Readable
+    * Add methods File::AddAnonymizeElement and File::ClearAnonymizeList
+            to allow user to choose the elements whose value
+            he wants to white out / replace
+
 2005-02-04 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
    * src/gdcmFile.cxx : remove the default array of initialization.
      The static array contained pointers to non-static values (comming from
@@ -34,9 +752,18 @@
      static. So, the array can't be static, too ! To simplify, the array have
      been replaced by repeted lines to insert values in the File
 
+Fri Feb 4 15:49:01 2005 by jpr
+   gdcmDocEntry.cxx
+   * Add GetFirstValEntry + GetNextValEntry, for Python users
+   * Some more Doxygenation + typo fixing
+
 2005-02-03 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
    * src/gdcmBinEntry.cxx : bug fix for BIG_ENDIAN part when writing the content
    * gdcmPython/gdcm.i : rename gdcmHeader to gdcmHelper
+
+Thu Feb 3 18:12:46 2005 by jpr
+   gdcmPixelReadConvert.cxx
+   Fix Doxygen warning
 
 2005-02-02 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
    * FIX SQItem::AddEntry inserts now *in the right place* any Entry
@@ -52,24 +779,24 @@
 2005-01-31 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
    * Finish cleaning up my JPEG mess. Should be ok now.
    * Getting toward a RLE very similar to JPEG. Every RLE stuff is now self
-	  contained within the RLE* class(doh!)
+      contained within the RLE* class(doh!)
 
 2005-01-30 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
    * SerieHeader::SetDirectory() allow recursive exploration of the Directory
-	* SerieHeader::AddFileName() creates as many Coherent Files lists 
-	              (same Serie UID) as it founds different Serie UID 
-					   amongst the files instead of discarting any file 
-						that doesn't match with the first one he found.
-	* SerieHeader::OrderGdcmFileList has now one parameter : 
-	               the Coherent Files list the user wants to sort
+   * SerieHeader::AddFileName() creates as many Coherent Files lists 
+             (same Serie UID) as it founds different Serie UID 
+              amongst the files instead of discarting any file 
+             that doesn't match with the first one he found.
+    * SerieHeader::OrderGdcmFileList has now one parameter : 
+               the Coherent Files list the user wants to sort
    * SerieHeader::GetFirstCoherentFileList()  |
    * SerieHeader::GetLastCoherentFileList()   | allow to parse 
-	               the set of Coherent Files lists 
+               the set of Coherent Files lists 
    * const SerieHeader::GdcmFileList &GetGdcmFileList() is kept, for backwards
-	               compatibility (it returns the *first* Coherent Files list, 
-						since there was only one before)
-	* Test/TestSerieHeader gets gdcmData as a default root directory		
-					  
+               compatibility (it returns the *first* Coherent Files list, 
+               since there was only one before)
+   * Test/TestSerieHeader gets gdcmData as a default root directory
+  
 2005-01-28 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
    * Remove friend between DocEntry and File classes
    * Remove friend between PixelReadConverter and RLEFramesInfo, 
@@ -95,8 +822,8 @@
 
 2005-01-27 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
    * Rewrite the base 256 to base 10 conversion, using string operation only.
-	 This allows us to get rid of the problematic 64bits integer type (does not
-	 always exist on target platform).
+     This allows us to get rid of the problematic 64bits integer type (does not
+     always exist on target platform).
 
 2005-01-27 Jean-Pierre Roux <jpr@creatis.univ-lyon1.fr>
    * Add construct and destructor to class gdcm::Debug to close the debug file
@@ -1063,7 +1790,7 @@
     gdcmHeader  ->   gdcm::Header
   It would be nice if people keep in mind to no open the namespace, since it
   allows compilation on broken plateform which were defining common symbol in
-  the standart namespace (like LP, Unknown ...)
+  the standard namespace (like LP, Unknown ...)
 
 2004-10-10 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
   * CLEANUP_ROUND (10) for gdcmPixelConvert (Xanax is my friend stage)
@@ -1100,7 +1827,7 @@
     - src/gdcmDocument.[cxx|h] Parse7Fe0 renamed to ComputeRLEInfo.
       This is because Parse7Fe0 used to parse the pixels to compute the
       length. This task was passed over to FindDocEntryLengthOB() a long
-      time ago, EXCEPT I had forgotten the OW case...
+      time ago, EXCEPT I forgot the OW case...
       Hence Parse7Fe0 was no longer necessary. When renaming to ComputeRLEInfo
       we just recylce the code for parsing RLE fragments and computing
       offsets.
@@ -2510,7 +3237,7 @@
      * ENH: Generate both user and dev documentation
      * ENH: Should work on windows too
      * ENH: Only one doxygen config.in file is needed 
-     * FIX: make install should be ok now on ùnix plateform
+     * FIX: make install should be ok now on Unix plateform
      * FIX: PATH to dictionary was wrong (missing /)
      * ENH: OpenFile, return true if the file looks like an ACR or DICOM file 
                      
@@ -2585,7 +3312,7 @@
       * removed leaks
 
 2003-09-24 Jean-Pierre Roux
-      * The lines are now eigthy characters long.for 
+      * The lines are now eigthy characters long for 
         gdcmHeader.cxx gdcmHeaderHelper.cxx gdcmParse.cxx 
 
 2003-09-22  Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>

@@ -20,6 +20,7 @@
 #define GDCMDICOMDIR_H
 
 #include "gdcmDocument.h"
+#include "gdcmDebug.h"
 
 #include <list>
 #include <vector>
@@ -32,11 +33,12 @@ class DicomDirMeta;
 class DicomDirElement;
 class DicomDirStudy;
 class DicomDirSerie;
+class DicomDirVisit;
 class DicomDirImage;
 class SQItem;
 
-typedef std::list<DicomDirPatient *>   ListDicomDirPatient;
-typedef std::vector<Document *>  VectDocument;
+typedef std::list<DicomDirPatient *> ListDicomDirPatient;
+typedef std::vector<Document *> VectDocument;
 
 //-----------------------------------------------------------------------------
 /**
@@ -49,22 +51,35 @@ typedef std::vector<Document *>  VectDocument;
 class GDCM_EXPORT DicomDir: public Document
 {
 public:
-   typedef void(Method)(void*);
+   typedef void Method(void*);
 
-   DicomDir( std::string const &filename, bool parseDir = false );
    DicomDir(); 
-                   
+   GDCM_LEGACY( DicomDir(std::string const &filename, bool parseDir = false) ); 
    ~DicomDir();
 
+   GDCM_LEGACY( bool Load(std::string const &filename) );
+   bool Load( );
    void Print(std::ostream &os = std::cout, std::string const &indent = "" );
+   
+   /// Sets the root Directory name to parse, recursively
+   void SetDirectoryName(std::string const &dirName) 
+        { ParseDir = true; if (Filename != dirName)
+                               Filename = dirName, IsDocumentModified = true; }
+   /// Accessor to \ref Filename
+   virtual void SetFileName(std::string const &fileName) 
+                   { ParseDir = false; if (Filename != fileName)
+                              Filename = fileName, IsDocumentModified = true;}
 
+   /// DEPRECATED : use SetDirectoryName
+   GDCM_LEGACY( void SetParseDir(bool parseDir) );
+   
    // Informations contained in the parser
    virtual bool IsReadable();
 
    // Meta
-   DicomDirMeta    *NewMeta();
+   DicomDirMeta *NewMeta();
    /// Returns a pointer to the DicomDirMeta for this DICOMDIR. 
-   DicomDirMeta *GetMeta() { return MetaElems; };
+   DicomDirMeta *GetMeta() { return MetaElems; }
 
    // Patients
    DicomDirPatient *NewPatient();
@@ -78,29 +93,39 @@ public:
 
    // Note: the DicomDir:: namespace prefix is needed by Swig in the 
    //       following method declarations. Refer to gdcmPython/gdcm.i
-   //       for the reasons of this unecessary notation at C++ level.
+   //       for the reasons of this unnecessary notation at C++ level.
    void SetStartMethod(    DicomDir::Method *method,
-                           void *arg = NULL,
-                           DicomDir::Method *argDelete = NULL );
-   void SetProgressMethod( DicomDir::Method *method, 
-                           void *arg = NULL,
-                           DicomDir::Method *argDelete = NULL );
+                           void *arg = NULL );
+   void SetProgressMethod( DicomDir::Method *method,
+                           void *arg = NULL );
    void SetEndMethod(      DicomDir::Method *method,
-                           void *arg = NULL, 
-                           DicomDir::Method *argDelete = NULL );
-   void SetStartMethodArgDelete( DicomDir::Method *m );
-   void SetProgressMethodArgDelete( DicomDir::Method *m );
-   void SetEndMethodArgDelete( DicomDir::Method *m );
+                           void *arg = NULL );
+   // Note: replace DicomDir::Method *method to void(*method)(void *) to
+   //       avoid wrapping problems with the typemap conversions
+   void SetStartMethod(    void(*method)(void *), // DicomDir::Method *method
+                           void *arg,
+                           void(*argDelete)(void *));
+   void SetProgressMethod( void(*method)(void *), // DicomDir::Method *method
+                           void *arg,
+                           void(*argDelete)(void *));
+   void SetEndMethod(      void(*method)(void *), // DicomDir::Method *method
+                           void *arg, 
+                           void(*argDelete)(void *));
+   void SetStartMethodArgDelete   ( DicomDir::Method *method );
+   void SetProgressMethodArgDelete( DicomDir::Method *method );
+   void SetEndMethodArgDelete     ( DicomDir::Method *method );
 
    /// GetProgress GetProgress
-   float GetProgress()  { return Progress; };
+   float GetProgress()   { return Progress; }
    /// AbortProgress AbortProgress
-   void  AbortProgress() { Abort = true; };
+   void  AbortProgress() { Abort = true; }
    /// IsAborted IsAborted
-   bool  IsAborted() { return Abort; };
+   bool  IsAborted() { return Abort; }
 
    // Write
-   bool WriteDicomDir(std::string const &fileName);
+   bool Write(std::string const &fileName);
+
+   bool Anonymize();
 
    /// Types of the DicomDirObject within the DicomDir
    typedef enum
@@ -110,6 +135,7 @@ public:
       GDCM_DICOMDIR_PATIENT,
       GDCM_DICOMDIR_STUDY,
       GDCM_DICOMDIR_SERIE,
+      GDCM_DICOMDIR_VISIT,
       GDCM_DICOMDIR_IMAGE
    } DicomDirType;
    
@@ -122,10 +148,11 @@ protected:
 private:
    void Initialize();
    void CreateDicomDir();
-
+   bool DoTheLoadingJob();
    bool AddPatientToEnd(DicomDirPatient *dd);
    bool AddStudyToEnd  (DicomDirStudy *dd);
    bool AddSerieToEnd  (DicomDirSerie *dd);
+   bool AddVisitToEnd  (DicomDirVisit *dd);
    bool AddImageToEnd  (DicomDirImage *dd);
 
    void SetElements(std::string const &path, VectDocument const &list);
@@ -166,6 +193,7 @@ private:
    float Progress;
    /// value of the ??? for any progress bar   
    bool Abort;
+   bool ParseDir;
 };
 } // end namespace gdcm
 //-----------------------------------------------------------------------------

@@ -1,0 +1,394 @@
+0009 0000 UL 1 Group Length
+0009 0010 LO 1 Private Creator Identification (GEMS_IDEN_01) 
+0009 1001 LO 1 Full fidelity
+0009 1002 SH 1 Suite id
+0009 1004 SH 1 Product id
+0009 1027 SL 1 Image actual date
+0009 1030 SH 1 Service id
+0009 1031 SH 1 Mobile location number
+0009 10e3 UI 1 Equipment UID
+0009 10e6 SH 1 Genesis Version - now
+0009 10e7 UL 1 Exam Record checksum
+0009 10e9 SL 1 Actual series data time stamp
+
+0011 0000 UL 1 Group Length
+0011 0010 LO 1 Private Creator Identification (GEMS_PATI_01) 
+0011 1010 SS 1 Patient Status
+
+0019 0000 UL 1 Group Length
+0019 0010 LO 1 Private Creator Identification (GEMS_ACQU_01) 
+0019 1002 SL 1 Number of cells I in Detector
+0019 1003 DS 1 Cell number at Theta
+0019 1004 DS 1 Cell spacing
+0019 100f DS 1 Horiz. Frame of ref.
+0019 1011 SS 1 Series contrast
+0019 1012 SS 1 Last pseq
+0019 1013 SS 1 Start number for baseline
+0019 1014 SS 1 End number for baseline
+0019 1015 SS 1 Start number for enhanced scans
+0019 1016 SS 1 End number for enhanced scans
+0019 1017 SS 1 Series plane
+0019 1018 LO 1 First scan ras
+0019 1019 DS 1 First scan location
+0019 101a LO 1 Last scan ras
+0019 101b DS 1 Last scan loc
+0019 101e DS 1 Display field of view
+0019 1023 DS 1 Table speed
+0019 1024 DS 1 Mid scan time
+0019 1025 SS 1 Mid scan flag
+0019 1026 SL 1 Degrees of azimuth
+0019 1027 DS 1 Gantry period
+0019 102a DS 1 x-ray On position
+0019 102b DS 1 x-ray Off position
+0019 102c SL 1 Number of triggers
+0019 102e DS 1 Angle of first view
+0019 102f DS 1 Trigger frequency
+0019 1039 SS 1 Scan FOV type
+0019 1040 SS 1 Stat recon flag
+0019 1041 SS 1 Compute type
+0019 1042 SS 1 Segment number
+0019 1043 SS 1 Total segments requested
+0019 1044 DS 1 Interscan delay
+0019 1047 SS 1 View compression factor
+0019 104a SS 1 Total no. of ref channels
+0019 104b SL 1 Data size for scan data
+0019 1052 SS 1 Recon post proc. Flag
+0019 1057 SS 1 CT water number
+0019 1058 SS 1 CT bone number
+0019 105a FL 1 Acquisition Duration
+0019 105e SL 1 Number of channels (1...512)
+0019 105f SL 1 Increment between channels
+0019 1060 SL 1 Starting view
+0019 1061 SL 1 Number of views
+0019 1062 SL 1 Increment between views
+0019 106a SS 1 Dependent on #views processed
+0019 106b SS 1 Field of view in detector cells
+0019 1070 SS 1 Value of back projection button
+0019 1071 SS 1 Set if fatq estimates were used
+0019 1072 DS 1 Z chan avg over views
+0019 1073 DS 1 Avg of left ref chans over views
+0019 1074 DS 1 Max left chan over views
+0019 1075 DS 1 Avg of right ref chans over views
+0019 1076 DS 1 Max right chan over views
+0019 107d DS 1 Second echo
+0019 107e SS 1 Number of echoes
+0019 107f DS 1 Table delta
+0019 1081 SS 1 Contiguous
+0019 1084 DS 1 Peak SAR
+0019 1085 SS 1 Monitor SAR
+0019 1087 DS 1 Cardiac repetition time
+0019 1088 SS 1 Images per cardiac cycle
+0019 108a SS 1 Actual receive gain analog
+0019 108b SS 1 Actual receive gain digital
+0019 108d DS 1 Delay after trigger
+0019 108f SS 1 Swappf
+0019 1090 SS 1 Pause Interval
+0019 1091 DS 1 Pulse Time
+0019 1092 SL 1 Slice offset on freq axis
+0019 1093 DS 1 Center Frequency
+0019 1094 SS 1 Transmit Gain
+0019 1095 SS 1 Analog receiver gain
+0019 1096 SS 1 Digital receiver gain
+0019 1097 SL 1 Bitmap defining CVs
+0019 1098 SS 1 Center freq. Method
+0019 109b SS 1 Pulse seq. Mode
+0019 109c LO 1 Pulse seq. Name
+0019 109d DT 1 Pulse seq. Date
+0019 109e LO 1 Internal pulse seq. Name
+0019 109f SS 1 Transmitting coil
+0019 10a0 SS 1 Surface Coil Type
+0019 10a1 SS 1 Extremity Coil flag
+0019 10a2 SL 1 Raw data run number
+0019 10a3 UL 1 Calibrated Field strength
+0019 10a4 SS 1 SAT fat/water/bone
+0019 10a5 DS 1 Receive bandwidth
+0019 10a7 DS 1 User data
+0019 10a8 DS 1 User data
+0019 10a9 DS 1 User data
+0019 10aa DS 1 User data
+0019 10ab DS 1 User data
+0019 10ac DS 1 User data
+0019 10ad DS 1 User data
+0019 10ae DS 1 User data
+0019 10af DS 1 User data
+0019 10b0 DS 1 User data
+0019 10b1 DS 1 User data
+0019 10b2 DS 1 User data
+0019 10b3 DS 1 User data
+0019 10b4 DS 1 User data
+0019 10b5 DS 1 User data
+0019 10b6 DS 1 User data
+0019 10b7 DS 1 User data
+0019 10b8 DS 1 User data
+0019 10b9 DS 1 User data
+0019 10ba DS 1 User data
+0019 10bb DS 1 User data
+0019 10bc DS 1 User data
+0019 10bd DS 1 User data
+0019 10be DS 1 Projection angle
+0019 10c0 SS 1 Saturation planes
+0019 10c1 SS 1 Surface coil intensity
+0019 10c2 SS 1 SAT location R
+0019 10c3 SS 1 SAT location L
+0019 10c4 SS 1 SAT location A
+0019 10c5 SS 1 SAT location P
+0019 10c6 SS 1 SAT location H
+0019 10c7 SS 1 SAT location F
+0019 10c8 SS 1 SAT thickness R/L
+0019 10c9 SS 1 SAT thickness A/P
+0019 10ca SS 1 SAT thickness H/F
+0019 10cb SS 1 Prescribed flow axis
+0019 10cc SS 1 Velocity encoding
+0019 10cd SS 1 Thickness disclaimer
+0019 10ce SS 1 Prescan type
+0019 10cf SS 1 Prescan status
+0019 10d0 SH 1 Raw data type
+0019 10d2 SS 1 Projection Algorithm
+0019 10d3 SH 1 Projection algorithm
+0019 10d5 SS 1 Fractional echo
+0019 10d6 SS 1 Prep pulse
+0019 10d7 SS 1 Cardiac phases
+0019 10d8 SS 1 Variable echoflag
+0019 10d9 DS 1 Concatenated SAT
+0019 10da SS 1 Reference channel used
+0019 10db DS 1 Back projector coefficient
+0019 10dc SS 1 Primary speed correction used
+0019 10dd SS 1 Overrange correction used
+0019 10de DS 1 Dynamic Z alpha value
+0019 10df DS 1 User data
+0019 10e0 DS 1 User data
+0019 10e2 DS 1 Velocity Encode Scale
+0019 10f2 SS 1 Fast phases
+0019 10f9 DS 1 Transmission gain
+
+0021 0000 UL 1 Group Length
+0021 0010 LO 1 Private Creator Identification (GEMS_RELA_01) 
+0021 1003 SS 1 Series from which Prescribed
+0021 1005 SH 1 Genesis Version - now
+0021 1007 UL 1 Series Record checksum
+0021 1018 SH 1 Genesis version - Now
+0021 1019 UL 1 Acq recon record checksum
+0021 1019 UL 1 Acqrecon record checksum
+0021 1020 DS 1 Table start location
+0021 1035 SS 1 Series from which prescribed
+0021 1036 SS 1 Image from which prescribed
+0021 1037 SS 1 Screen Format
+0021 104a LO 1 Anatomical reference for scout
+0021 104f SS 1 Locations in acquisition
+0021 1050 SS 1 Graphically prescribed
+0021 1051 DS 1 Rotation from source x rot
+0021 1052 DS 1 Rotation from source y rot
+0021 1053 DS 1 Rotation from source z rot
+0021 1054 SH 3 Image position
+0021 1055 SH 6 Image orientation
+0021 1056 SL 1 Integer slop
+0021 1057 SL 1 Integer slop
+0021 1058 SL 1 Integer slop
+0021 1059 SL 1 Integer slop
+0021 105a SL 1 Integer slop
+0021 105b DS 1 Float slop
+0021 105c DS 1 Float slop
+0021 105d DS 1 Float slop
+0021 105e DS 1 Float slop
+0021 105f DS 1 Float slop
+0021 1081 DS 1 Auto window/level alpha
+0021 1082 DS 1 Auto window/level beta
+0021 1083 DS 1 Auto window/level window
+0021 1084 DS 1 To window/level level
+0021 1090 SS 1 Tube focal spot position
+0021 1091 SS 1 Biopsy position
+0021 1092 FL 1 Biopsy T location
+0021 1093 FL 1 Biopsy ref location
+
+0023 0000 UL 1 Group Length
+0023 0010 LO 1 Private Creator Identification (GEMS_STDY_01) 
+0023 1001 SL 1 Number of series in Study
+0023 1002 SL 1 Number of unarchived Series
+0023 1010 SS 1 Reference image field
+0023 1050 SS 1 Summary image
+0023 1070 FD 1 Start time(secs) in first axial
+0023 1074 SL 1 No. of updates to header
+0023 107d SS 1 Indicates if the study has complete info (DICOM/genesis)
+
+0025 0000 UL 1 Group Length
+0025 0010 LO 1 Private Creator Identification (GEMS_SERS_01) 
+0025 1006 SS 1 Last pulse sequence used
+0025 1007 SL 1 Images in Series
+0025 1010 SL 1 Landmark Counter
+0025 1011 SS 1 Number of Acquisitions
+0025 1014 SL 1 Indicates no. of updates to header
+0025 1017 SL 1 Series Complete Flag
+0025 1018 SL 1 Number of images archived
+0025 1019 SL 1 Last image number used
+0025 101a SH 1 Primary Receiver Suite and Host
+
+0027 0000 UL 1 Group Length
+0027 0010 LO 1 Private Creator Identification (GEMS_IMAG_01) 
+0027 1006 SL 1 Image archive flag
+0027 1010 SS 1 Scout Type
+0027 101c SL 1 Vma mamp
+0027 101d SS 1 Vma phase
+0027 101e SL 1 Vma mod
+0027 101f SL 1 Vma clip
+0027 1020 SS 1 Smart scan ON/OFF flag
+0027 1030 SH 1 Foreign Image Revision
+0027 1031 SS 1 Imaging Mode
+0027 1032 SS 1 Pulse Sequence
+0027 1033 SL 1 Imaging Options
+0027 1035 SS 1 Plane Type
+0027 1036 SL 1 Oblique Plane
+0027 1040 SH 1 RAS letter of image location
+0027 1041 FL 1 Image location
+0027 1042 FL 1 Center R coord of plane image
+0027 1043 FL 1 Center A coord of plane image
+0027 1044 FL 1 Center S coord of plane image
+0027 1045 FL 1 Normal R coord
+0027 1046 FL 1 Normal A coord
+0027 1047 FL 1 Normal S coord
+0027 1048 FL 1 R Coord of Top Right Corner
+0027 1049 FL 1 A Coord of Top Right Corner
+0027 104a FL 1 S Coord of Top Right Corner
+0027 104b FL 1 R Coord of Bottom Right Corner
+0027 104c FL 1 A Coord of Bottom Right Corner
+0027 104d FL 1 S Coord of Bottom Right Corner
+0027 1050 FL 1 Table start location
+0027 1051 FL 1 Table end location
+0027 1052 SH 1 RAS letter for side of image
+0027 1053 SH 1 RAS letter for anterior/posterior
+0027 1054 SH 1 RAS letter for scout start loc
+0027 1055 SH 1 RAS letter for scout end loc
+0027 1060 FL 1 Image dimension - X
+0027 1061 FL 1 Image dimension - Y
+0027 1062 FL 1 Number of Excitations
+
+0029 0000 UL 1 Group Length
+0029 0010 LO 1 Private Creator Identification (GEMS_IMPS_01) 
+0029 1004 SL 1 Lower range of Pixels1
+0029 1005 DS 1 Lower range of Pixels1
+0029 1006 DS 1 Lower range of Pixels1
+0029 1007 SL 1 Lower range of Pixels1
+0029 1008 SH 1 Lower range of Pixels1
+0029 1009 SH 1 Lower range of Pixels1
+0029 100a SS 1 Lower range of Pixels1
+0029 1015 SL 1 Lower range of Pixels1
+0029 1016 SL 1 Lower range of Pixels1
+0029 1017 SL 1 Lower range of Pixels2
+0029 1018 SL 1 Upper range of Pixels2
+0029 101a SL 1 Len of tot hdr in bytes
+0029 1026 SS 1 Version of the hdr struct
+0029 1034 SL 1 Advantage comp. Overflow
+0029 1035 SL 1 Advantage comp. Underflow
+
+0043 0000 UL 1 Group Length
+0043 0010 LO 1 Private Creator Identification (GEMS_PARM_01) 
+0043 1001 SS 1 Bitmap of prescan options
+0043 1002 SS 1 Gradient offset in X
+0043 1003 SS 1 Gradient offset in Y
+0043 1004 SS 1 Gradient offset in Z
+0043 1005 SS 1 Img is original or unoriginal
+0043 1006 SS 1 Number of EPI shots
+0043 1007 SS 1 Views per segment
+0043 1008 SS 1 Respiratory rate, bpm
+0043 1009 SS 1 Respiratory trigger point
+0043 100a SS 1 Type of receiver used
+0043 100b DS 1 Peak rate of change of gradient field
+0043 100c DS 1 Limits in units of percent
+0043 100d DS 1 PSD estimated limit
+0043 100e DS 1 PSD estimated limit in tesla per second
+0043 100f DS 1 Saravghead
+0043 1010 US 1 Window value
+0043 1011 US 1 Total input views
+0043 1012 SS 3 X-ray chain
+0043 1013 SS 5 Decon kernel parameters
+0043 1014 SS 3 Calibration parameters
+0043 1015 SS 3 Total output views
+0043 1016 SS 5 Number of overranges
+0043 1017 DS 1 IBH image scale factors
+0043 1018 DS 3 BBH coefficients
+0043 1019 SS 1 Number of BBH chains to blend
+0043 101a SL 1 Starting channel number
+0043 101b SS 1 Ppscan parameters
+0043 101c SS 1 GE image integrity
+0043 101d SS 1 Level value
+0043 101e DS 1 Delta start time
+0043 101f SL 1 Max overranges in a view
+0043 1020 DS 1 Avg overranges all views
+0043 1021 SS 1 Corrected after glow terms
+0043 1025 SS 6 Reference channels
+0043 1026 US 6 No views ref chans blocked
+0043 1027 SH 1 Scan pitch ratio
+0043 1028 OB 1 Unique image iden
+0043 1029 OB 1 Histogram tables
+0043 102a OB 1 User defined data
+0043 102b SS 4 Private Scan Options
+0043 102c SS 1 Effective echo spacing
+0043 102d SH 1 String slop field 1
+0043 102e SH 1 String slop field 2
+0043 102f SS 1 Raw data type
+0043 1030 SS 1 Raw data type
+0043 1031 DS 2 RA cord of target recon center
+0043 1032 SS 1 Vas flags
+0043 1033 FL 1 Neg_scanspacing
+0043 1034 IS 1 Offset Frequency
+0043 1035 UL 1 User_usage_tag
+0043 1036 UL 1 User_fill_map_MSW
+0043 1037 UL 1 User_fill_map_LSW
+0043 1038 FL 24 User25...User48
+0043 1039 IS 4 Slop_int_6... slop_int_9
+0043 1040 FL 4 Trigger on position
+0043 1041 FL 4 Degree of rotation
+0043 1042 SL 4 DAS trigger source
+0043 1043 SL 4 DAS fpa gain
+0043 1044 SL 4 DAS output source
+0043 1045 SL 4 DAS ad input
+0043 1046 SL 4 DAS cal mode
+0043 1047 SL 4 DAS cal frequency
+0043 1048 SL 4 DAS reg xm
+0043 1049 SL 4 DAS auto zero
+0043 104a SS 4 Starting channel of view
+0043 104b SL 4 DAS xm pattern
+0043 104c SS 4 TGGC trigger mode
+0043 104d FL 4 Start scan to X-ray on delay
+0043 104e FL 4 Duration of X-ray on
+0043 1060 IS 8 slop_int_10...slop_int_17
+0043 1061 UI 1 Scanner Study Entity UID
+0043 1062 SH 1 Scanner Study ID
+0043 106f DS 3 Scanner Table Entry (single gradient coil systems only)
+0043 106f DS 4 Scanner Table Entry + Gradient Coil Selected
+
+0045 0000 UL 1 Group Length
+0045 0010 LO 1 Private Creator Identification (GEMS_HELIOS_01) 
+0045 1001 SS 1 Number of Macro Rows in Detector
+0045 1002 FL 1 Macro width at ISO Center
+0045 1003 SS 1 DAS type
+0045 1004 SS 1 DAS gain
+0045 1005 SS 1 DAS Temprature
+0045 1006 CS 1 Table Direction
+0045 1007 FL 1 Z smoothing Factor
+0045 1008 SS 1 View Weighting Mode
+0045 1009 SS 1 Sigma Row number
+0045 100a FL 1 Minimum DAS value
+0045 100b FL 1 Maximum Offset Value
+0045 100c SS 1 Number of Views shifted
+0045 100d SS 1 Z tracking Flag
+0045 100e FL 1 Mean Z error
+0045 100f FL 1 Z tracking Error
+0045 1010 SS 1 Start View 2A
+0045 1011 SS 1 Number of Views 2A
+0045 1012 SS 1 Start View 1A
+0045 1013 SS 1 Sigma Mode
+0045 1014 SS 1 Number of Views 1A
+0045 1015 SS 1 Start View 2B
+0045 1016 SS 1 Number Views 2B
+0045 1017 SS 1 Start View 1B
+0045 1018 SS 1 Number of Views 1B
+0045 1019 SS 1 Air Calibration Date
+0045 101a SS 1 Air Calibration Time
+0045 101b SS 1 Phantom Calibration Date
+0045 101c SS 1 Phantom Calibration Time
+0045 101d SS 1 Z Slope Calibration Date
+0045 101e SS 1 Z Slope Calibration Time
+0045 101f SS 1 Cross Talk Calibration Date
+0045 1020 SS 1 Cross Talk Calibration Time
+0045 1021 SS 1 Iterbone Flag
+0045 1022 SS 1 Perisstaltic Flag

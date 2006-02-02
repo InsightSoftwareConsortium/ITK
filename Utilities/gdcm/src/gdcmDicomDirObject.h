@@ -48,6 +48,7 @@ protected:
    ~DicomDirObject();
 
    void FillObject(ListDicomDirMetaElem const &elemList);
+
 };
 } // end namespace gdcm
 

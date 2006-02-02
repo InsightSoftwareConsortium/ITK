@@ -19,10 +19,14 @@
 #ifndef GDCMFILE_H
 #define GDCMFILE_H
 
+#include "gdcmDebug.h"
 #include "gdcmDocument.h"
+
+
 
 namespace gdcm 
 {
+
 class RLEFramesInfo;
 class JPEGFragmentsInfo;
 
@@ -84,7 +88,7 @@ enum ModalityType {
  * dicom files according to header information e.g. to create a file hierarchy
  * reflecting the Patient/Study/Serie informations, or extracting a given
  * SerieId. Accessing the content (image[s] or volume[s]) is beyond the
- * functionality of this class and belongs to gdmcFile.
+ * functionality of this class and belongs to gdcm::FileHelper.
  * \note  The various entries of the explicit value representation (VR) shall
  *        be managed within a dictionary which is shared by all File
  *        instances.
@@ -96,12 +100,12 @@ class GDCM_EXPORT File : public Document
 {
 public:
    File();
-   File( std::string const &filename );
+   GDCM_LEGACY(File( std::string const &filename ));
    ~File();
 
    // Loading
-   bool Load( std::string const &filename );
-   bool Load();
+   GDCM_LEGACY(bool Load( std::string const &filename ));
+   bool Load(); 
    // Standard values and informations contained in the header
    bool IsReadable();
 
@@ -121,7 +125,7 @@ public:
    float GetYOrigin();
    float GetZOrigin();
 
-   void GetImageOrientationPatient( float iop[6] );
+   bool GetImageOrientationPatient( float iop[6] );
 
    int GetBitsStored();
    int GetBitsAllocated();
@@ -132,6 +136,7 @@ public:
    std::string GetPixelType();
    bool IsSignedPixelData();
    bool IsMonochrome();
+   bool IsMonochrome1();
    bool IsPaletteColor();
    bool IsYBRFull();
 
@@ -162,7 +167,7 @@ public:
    void AddAnonymizeElement (uint16_t group, uint16_t elem, 
                              std::string const &value);
    /// Clears the list of elements to be anonymized
-   void ClearAnonymizeList() { AnonymizeList.clear(); }      
+   void ClearAnonymizeList() { UserAnonymizeList.clear(); }      
    void AnonymizeNoLoad();
    /// Replace patient's own information by info from the Anonymization list
    bool AnonymizeFile();
@@ -170,8 +175,6 @@ public:
    bool Write(std::string fileName, FileType filetype);
 
 protected:
-   /// Initialize DICOM File when none
-   void InitializeDefaultFile();
  
    /// Store the RLE frames info obtained during parsing of pixels.
    RLEFramesInfo *RLEInfo;
@@ -184,9 +187,9 @@ protected:
    /// NumPixel to provide a unique access facility. 
    uint16_t NumPixel;
    /// \brief In some cases (e.g. for some ACR-NEMA images) the header entry for
-   /// the group of pixels is *not* found at 0x7fe0. In order to
-   /// make things easier the parser shall store the proper value in
-   /// GrPixel to provide a unique access facility.
+   /// the group of pixels is *not* found at 0x7fe0. 
+   /// In order to make things easier the parser shall store the proper value
+   /// in GrPixel to provide a unique access facility.
    uint16_t GrPixel;
 
 private:
@@ -195,7 +198,8 @@ private:
    void ComputeJPEGFragmentInfo();
    bool     ReadTag(uint16_t, uint16_t);
    uint32_t ReadTagLength(uint16_t, uint16_t);
-   void ReadAndSkipEncapsulatedBasicOffsetTable();
+   void ReadEncapsulatedBasicOffsetTable();
+   uint32_t *BasicOffsetTableItemValue;
 
 };
 } // end namespace gdcm

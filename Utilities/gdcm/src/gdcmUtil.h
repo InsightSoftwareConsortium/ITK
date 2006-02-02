@@ -26,7 +26,7 @@
 namespace gdcm 
 {
 /**
- * \brief    Here are some utility functions, belonging to the Util class,
+ * \brief    Here are some utility functions, belonging to the gdcm::Util class,
  *           dealing with strings, file names... that can be called
  *           from anywhere by whomsoever they can help.
  */
@@ -44,12 +44,18 @@ public:
                                       const std::string &subStr);       
 
    static std::string CreateCleanString(std::string const &s);
+   static std::string CreateCleanString(uint8_t *s, int l);
+   static bool IsCleanString(std::string const &s);
+   static bool IsCleanArea(uint8_t *s, int l);
    static std::string NormalizePath(std::string const &name);
    static std::string GetPath(std::string const &fullName);
    static std::string GetName(std::string const &fullName);
    static std::string GetCurrentDate();
    static std::string GetCurrentTime();
    static std::string GetCurrentDateTime();
+   /// Provides a simple static GetVersion() function
+   static std::string GetVersion() 
+                      { return GDCM_VERSION;}
    static unsigned int GetCurrentThreadID();
    static unsigned int GetCurrentProcessID();
    static bool         IsCurrentProcessorBigEndian();
@@ -57,18 +63,27 @@ public:
    static std::string DicomString(const char *s, size_t l);
    static std::string DicomString(const char *s);
    static bool        DicomStringEqual(const std::string &s1, const char *s2);
-
+   static bool        CompareDicomString(const std::string &s1, 
+                                         const char *s2, int op);
    static std::string GetMACAddress();
 
    static std::string CreateUniqueUID(const std::string &root = "");
    static void SetRootUID(const std::string &root = "");
    static const std::string &GetRootUID();
 
+   static const uint8_t *GetFileMetaInformationVersion() 
+                     { return FileMetaInformationVersion;}
+   static void SetFileMetaInformationVersion( uint16_t fmiv )
+                     { FileMetaInformationVersion = (uint8_t *)&fmiv; }
+
 private:
    static std::string GetIPAddress(); //Do not expose this method
 
    static std::string RootUID;
    static const std::string GDCM_UID;
+   static uint8_t *FileMetaInformationVersion;
+   static const uint16_t FMIV;
+   static std::string GDCM_MAC_ADRESS;
 };
 
 GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const uint16_t &val);

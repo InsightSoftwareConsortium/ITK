@@ -30,7 +30,7 @@ namespace gdcm
  * \brief   Any Dicom Document (File or DicomDir) contains 
  *           a set of DocEntry - Dicom entries - 
  *          BinEntry is an elementary DocEntry (i.e. a ContentEntry, 
- *           as opposite to SeqEntry) whose content is non std::string
+ *           as opposed to SeqEntry) whose content is non std::string
  *          representable
  *          BinEntry is a specialisation of ContentEntry
  */
@@ -43,7 +43,7 @@ public:
 
    ~BinEntry();
    
-   void Print( std::ostream &os = std::cout, std::string const & indent = "" );
+   void Print( std::ostream &os = std::cout, std::string const &indent = "" );
 
    void WriteContent( std::ofstream *fp, FileType ft);
 
@@ -53,9 +53,9 @@ public:
    void  SetBinArea( uint8_t *area, bool self = true );
 
    /// \brief Sets SelfArea
-   void SetSelfArea(bool area) { SelfArea = area; };
+   void SetSelfArea(bool area) { SelfArea = area; }
    /// \brief Returns SelfArea
-   bool IsSelfArea() { return SelfArea; };
+   bool IsSelfArea() { return SelfArea; }
 
 private:
    /// \brief memory area to hold 'non std::string' representable values 

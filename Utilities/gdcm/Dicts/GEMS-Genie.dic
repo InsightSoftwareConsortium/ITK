@@ -1,0 +1,87 @@
+0009 0010 LO 1 Private Creator Identification 
+0009 xx11 SL 1 Study Flags 
+0009 xx12 SL 1 Study Type 
+0009 xx21 SL 1 Series Flags 
+0009 xx22 SH 1 User Orientation 
+0009 xx23 SL 1 Initiation Type 
+0009 xx24 SL 1 Initiation Delay 
+0009 xx25 SL 1 Initiation Count Rate 
+0009 xx26 SL 1 Number Energy Sets 
+0009 xx27 SL 1 Number Detectors 
+0009 xx2c LO 1 Series Comments
+0009 xx2d SL 1 Track Beat Average 
+0009 xx2e FD 1 Distance Prescribed 
+0009 xx35 SL 1 Gantry Locus Type 
+0009 xx37 SL 1 Starting Heart Rate 
+0009 xx38 SL 1 RR Window Width 
+0009 xx39 SL 1 RR Window Offset 
+0009 xx3a SL 1 Percent Cycle Imaged 
+0009 xx40 PN 1 Patient Object Name
+0009 xx41 SL 1 Patient Flags
+0009 xx42 DA 1 Patient Creation Date
+0009 xx43 TM 1 Patient Creation Time
+0011 0010 LO 1 Private Creator Identification 
+0011 xx0a SL 1 Series Type  
+0011 xx0b SL 1 Effective Series Duration 
+0011 xx0c SL 1 Num Beats 
+0011 xx0d LO 1 Radio Nuclide Name 
+0011 xx12 LO 1 Dataset Name 
+0011 xx13 SL 1 Dataset Type 
+0011 xx15 SL 1 Detector Number 
+0011 xx16 SL 1 Energy Number 
+0011 xx17 SL 1 RR Interval Window Number 
+0011 xx18 SL 1 MG Bin Number 
+0011 xx19 FD 1 Radius Of Rotation  
+0011 xx1a SL 1 Detector Count Zone 
+0011 xx1b SL 1 Num Energy Windows 
+0011 xx1c SL 4 Energy Offset 
+0011 xx1d SL 1 Energy Range 
+0011 xx1f SL 1 Image Orientation 
+0011 xx23 SL 1 Use FOV Mask 
+0011 xx24 SL 1 FOV Mask Y Cutoff Angle 
+0011 xx25 SL 1 FOV Mask Cutoff Angle 
+0011 xx26 SL 1 Table Orientation 
+0011 xx27 SL 2 ROI Top Left 
+0011 xx28 SL 2 ROI Bottom Right 
+0011 xx33 LO 1 Energy Correct Name 
+0011 xx34 LO 1 Spatial Correct Name 
+0011 xx35 LO 1 Tuning Calib Name 
+0011 xx36 LO 1 Uniformity Correct Name 
+0011 xx37 LT 1 Acquisition Specific Correction Name 
+0011 xx38 SL 1 Byte Order 
+0011 xx3a SL 1 Picture Format 
+0011 xx3b FD 1 Pixel Scale 
+0011 xx3c FD 1 Pixel Offset 
+0011 xx3e SL 1 FOV Shape 
+0011 xx3f SL 1 Dataset Flags 
+0011 xx44 FD 1 Threshold Center 
+0011 xx45 FD 1 Threshold Width 
+0011 xx46 SL 1 Interpolation Type 
+0011 xx55 FD 1 Period 
+0011 xx56 FD 1 Elapsed Time 
+0013 0010 LO 1 Private Creator Identification 
+0013 xx10 FD 2 Digital FOV 
+0013 xx11 SL 1 Source Translator
+0013 xx16 SL 1 AutoTrack Peak 
+0013 xx17 SL 1 AutoTrack Width 
+0013 xx18 FD 1 Transmission Scan Time 
+0013 xx19 FD 1 Transmission Mask Width 
+0013 xx1a FD 1 Copper Attenuator Thickness 
+0013 xx1e FD 1-n Tomo View Offset 
+0013 xx26 LT 1 Study Comments
+0033 xx08 CS 1 GENIE Data Object Type
+0033 xx10 SL 1 Modified
+0033 xx11 LO 1 Name
+0033 xx16 LO 1 ProtocolDataUID
+0033 xx17 SH 1 Date
+0033 xx18 SH 1 Time
+0033 xx19 UL 1 ProtocoldataFlags
+0033 xx1A UL 1 ProtocolName
+0033 xx1B LO 1 RelevantDataUID
+0033 xx1C LO 1 BulkData
+0033 xx1D SL 1-n IntData
+0033 xx1E FD 1-n DoubleData
+0033 xx1F LT 1-n StringData
+0033 xx20 LT 1-n BulkDataFormat
+0033 xx23 LT 1-n StringDataFormat
+0033 xx24 LT 1 Description
