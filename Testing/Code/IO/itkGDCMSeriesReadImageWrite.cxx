@@ -57,7 +57,9 @@ int main( int argc, char* argv[] )
   // First add a restriction *before* selecting the input directory
   // since SetInputDirectory has a side effect of executing
   gdcm::SerieHelper *sh = it->GetSeriesHelper( );
-  sh->AddRestriction("0010|0010", "Wes Turner");
+  sh->AddRestriction(0x0010, 0x0010, "Wes Turner", gdcm::GDCM_EQUAL);
+  sh->AddRestriction(0x0020, 0x0013, "75", gdcm::GDCM_GREATEROREQUAL);
+  sh->AddRestriction(0x0020, 0x0013, "77", gdcm::GDCM_LESSOREQUAL);
   it->SetInputDirectory( argv[1] );
 
   ReaderType::Pointer reader = ReaderType::New();
