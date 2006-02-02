@@ -97,46 +97,7 @@ void SerieHelper::AddFileName(std::string const &filename)
 
    if ( header->IsReadable() )
    {
-      int allrules = 1;
-      // First step : the user defined a set of rules for the DICOM file
-      // he is looking for.
-      // Make sure the file corresponds to his set of rules:
-
-      std::string s;
-      for(SerieExRestrictions::iterator it2 = ExRestrictions.begin();
-          it2 != ExRestrictions.end();
-          ++it2)
-      {
-         const ExRule &r = *it2;
-         s = header->GetEntryValue( r.group, r.elem );
-         if ( !Util::CompareDicomString(s, r.value.c_str(), r.op) )
-         {
-           // Argh ! This rule is unmatched; let's just quit
-           allrules = 0;
-           break;
-         }
-      }
-
-      if ( allrules ) // all rules are respected:
-      {
-         // Allright! we have a found a DICOM that matches the user expectation. 
-         // Let's add it to the specific 'id' which by default is uid (Serie UID)
-         // but can be `refined` by user with more paramater (see AddRestriction(g,e))
-
-         std::string id = CreateUniqueSeriesIdentifier( header );
-         // if id == GDCM_UNFOUND then consistently we should find GDCM_UNFOUND
-         // no need here to do anything special
-
-         if ( SingleSerieUIDFileSetHT.count(id) == 0 )
-         {
-            gdcmDebugMacro(" New Serie UID :[" << id << "]");
-            // create a std::list in 'id' position
-            SingleSerieUIDFileSetHT[id] = new FileList;
-         }
-         // Current Serie UID and DICOM header seems to match add the file:
-         SingleSerieUIDFileSetHT[id]->push_back( header );
-      }
-      else
+      if ( !AddFile( header ) )
       {
          // at least one rule was unmatched we need to deallocate the file:
          delete header;
@@ -166,45 +127,55 @@ void SerieHelper::AddFileName(std::string const &filename)
  *           *no* coherence check is performed, but those specified
  *           by SerieHelper::AddRestriction()
  * @param   header gdcm::File* of the file to deal with
+ * @return  true if file was added, false if file was rejected
  */
-void SerieHelper::AddGdcmFile(File *header)
+bool SerieHelper::AddFile(File *header)
 {
-      int allrules = 1;
-      // First step the user has defined a set of rules for the DICOM 
-      // he is looking for.
-      // make sure the file correspond to his set of rules:
-      for(SerieRestrictions::iterator it =  Restrictions.begin();
-                                      it != Restrictions.end();
-                                    ++it)
+   int allrules = 1;
+   // First step the user has defined a set of rules for the DICOM 
+   // he is looking for.
+   // make sure the file correspond to his set of rules:
+ 
+   std::string s;
+   for(SerieExRestrictions::iterator it2 = ExRestrictions.begin();
+     it2 != ExRestrictions.end();
+     ++it2)
+   {
+      const ExRule &r = *it2;
+      s = header->GetEntryValue( r.group, r.elem );
+      if ( !Util::CompareDicomString(s, r.value.c_str(), r.op) )
       {
-         const Rule &r = *it;
-         const std::string s;// = header->GetEntryValue( r.first );
-         if ( !Util::DicomStringEqual(s, r.second.c_str()) )
-         {
-           // Argh ! This rule is unmatch let's just quit
-           allrules = 0;
-           break;
-         }
+         // Argh ! This rule is unmatched; let's just quit
+         allrules = 0;
+         break;
       }
-      if ( allrules ) // all rules are respected:
+   }
+ 
+   if ( allrules ) // all rules are respected:
+   {
+      // Allright! we have a found a DICOM that matches the user expectation. 
+      // Let's add it to the specific 'id' which by default is uid (Serie UID)
+      // but can be `refined` by user with more paramater (see AddRestriction(g,e))
+ 
+      std::string id = CreateUniqueSeriesIdentifier( header );
+      // if id == GDCM_UNFOUND then consistently we should find GDCM_UNFOUND
+      // no need here to do anything special
+ 
+      if ( SingleSerieUIDFileSetHT.count(id) == 0 )
       {
-         // Allright ! we have a found a DICOM that match the user expectation. 
-         // Let's add it !
-
-         const std::string &uid = "0";
-         // Serie UID of the gdcm::File* may be different.
-         // User is supposed to know what he wants
-
-         if ( SingleSerieUIDFileSetHT.count(uid) == 0 )
-         {
-            gdcmDebugMacro(" New Serie UID :[" << uid << "]");
-            // create a std::list in 'uid' position
-            SingleSerieUIDFileSetHT[uid] = new FileList;
-         }
-         // Current Serie UID and DICOM header seems to match; add the file:
-         SingleSerieUIDFileSetHT[uid]->push_back( header );
+         gdcmDebugMacro(" New Serie UID :[" << id << "]");
+         // create a std::list in 'id' position
+         SingleSerieUIDFileSetHT[id] = new FileList;
       }
-         // Even if a rule was unmatch we don't deallocate the gdcm::File:
+      // Current Serie UID and DICOM header seems to match add the file:
+      SingleSerieUIDFileSetHT[id]->push_back( header );
+   }
+   else
+   {
+      // one rule not matched, tell user:
+      return false;
+   }
+   return true;
 }
 
 /**

@@ -67,7 +67,7 @@ public:
 
    /// \todo should return bool or throw error ?
    void AddFileName(std::string const &filename);
-   void AddGdcmFile(File *header);
+   bool AddFile(File *header);
 
    void SetDirectory(std::string const &dir, bool recursive=false);
    bool IsCoherent(FileList *fileSet);
@@ -160,13 +160,13 @@ private:
    
    SingleSerieUIDFileSetmap SingleSerieUIDFileSetHT;
    SingleSerieUIDFileSetmap::iterator ItFileSetHt;
-   
-#ifndef VTK_LEGACY_REMOVE
+
+#ifndef GDCM_LEGACY_REMOVE
    typedef std::pair<TagKey, std::string> Rule;
    typedef std::vector<Rule> SerieRestrictions;
    SerieRestrictions Restrictions;
 #endif
-   
+
    // New style for (extented) Rules (Moreover old one doesn't compile)
    typedef struct {
       uint16_t group;
