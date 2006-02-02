@@ -176,7 +176,7 @@ static
 int PREFIX(checkPiTarget)(const ENCODING *enc, const char *ptr, const char *end, int *tokPtr)
 {
   int upper = 0;
-  vtkExpatUnused(enc);
+  itkExpatUnused(enc);
   *tokPtr = XML_TOK_PI;
   if (end - ptr != MINBPC(enc)*3)
     return 1;
@@ -286,7 +286,7 @@ int PREFIX(scanCdataSection)(const ENCODING *enc, const char *ptr, const char *e
 {
   static const char CDATA_LSQB[] = { ASCII_C, ASCII_D, ASCII_A, ASCII_T, ASCII_A, ASCII_LSQB };
   int i;
-  vtkExpatUnused(enc);
+  itkExpatUnused(enc);
   /* CDATA[ */
   if (end - ptr < 6 * MINBPC(enc))
     return XML_TOK_PARTIAL;
@@ -1518,7 +1518,7 @@ static
 int PREFIX(charRefNumber)(const ENCODING *enc, const char *ptr)
 {
   int result = 0;
-  vtkExpatUnused(enc);
+  itkExpatUnused(enc);
   /* skip &# */
   ptr += 2*MINBPC(enc);
   if (CHAR_MATCHES(enc, ptr, ASCII_x)) {
@@ -1558,7 +1558,7 @@ int PREFIX(charRefNumber)(const ENCODING *enc, const char *ptr)
 static
 int PREFIX(predefinedEntityName)(const ENCODING *enc, const char *ptr, const char *end)
 {
-  vtkExpatUnused(enc);
+  itkExpatUnused(enc);
   switch ((end - ptr)/MINBPC(enc)) {
   case 2:
     if (CHAR_MATCHES(enc, ptr + MINBPC(enc), ASCII_t)) {
@@ -1677,7 +1677,7 @@ static
 int PREFIX(nameMatchesAscii)(const ENCODING *enc, const char *ptr1,
                              const char *end1, const char *ptr2)
 {
-  vtkExpatUnused(enc);
+  itkExpatUnused(enc);
   for (; *ptr2; ptr1 += MINBPC(enc), ptr2++) {
     if (ptr1 == end1)
       return 0;

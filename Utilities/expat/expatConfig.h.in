@@ -39,4 +39,4 @@
 
 #define VERSION "1.95.2"
 
-#define vtkExpatUnused(x) (void)x
+#define itkExpatUnused(x) (void)x

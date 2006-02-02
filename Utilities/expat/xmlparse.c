@@ -3338,9 +3338,9 @@ enum XML_Error errorProcessor(XML_Parser parser,
                               const char *end,
                               const char **nextPtr)
 {
-  vtkExpatUnused(s);
-  vtkExpatUnused(end);
-  vtkExpatUnused(nextPtr);
+  itkExpatUnused(s);
+  itkExpatUnused(end);
+  itkExpatUnused(nextPtr);
   return errorCode;
 }
 
@@ -4149,7 +4149,7 @@ static int copyEntityTable(HASH_TABLE *newTable,
   HASH_TABLE_ITER iter;
   const XML_Char *cachedOldBase = 0;
   const XML_Char *cachedNewBase = 0;
-  vtkExpatUnused(parser);
+  itkExpatUnused(parser);
 
   hashTableIterInit(&iter, oldTable);
 
