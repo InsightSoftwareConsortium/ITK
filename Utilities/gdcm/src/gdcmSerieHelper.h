@@ -30,6 +30,9 @@ namespace gdcm
 {
 class File;
 typedef std::vector<File* > FileList;
+#ifndef GDCM_LEGACY_REMOVE
+typedef std::vector<File* > GdcmFileList;
+#endif
    /// XCoherent stands for 'Extra Coherent', 
    /// (The name 'Coherent' would be enough but it was used before;
    /// I don't want to put a bomb in the code)
@@ -68,6 +71,9 @@ public:
    /// \todo should return bool or throw error ?
    void AddFileName(std::string const &filename);
    bool AddFile(File *header);
+#ifndef GDCM_LEGACY_REMOVE
+   bool AddGdcmFile(File* header) { return AddFile(header); }
+#endif
 
    void SetDirectory(std::string const &dir, bool recursive=false);
    bool IsCoherent(FileList *fileSet);
