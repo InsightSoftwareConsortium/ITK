@@ -51,11 +51,15 @@ that uses this DLL. This way any other project whose source files include this f
 OPJ_API functions as being imported from a DLL, wheras this DLL sees symbols
 defined with this macro as being exported.
 */
-#ifdef OPJ_EXPORTS
+#if defined(_WIN32) && defined(BUILD_SHARED_LIBS)
+#ifdef ITKOpenJPEG_EXPORTS
 #define OPJ_API __declspec(dllexport)
 #else
 #define OPJ_API __declspec(dllimport)
 #endif /* OPJ_EXPORTS */
+#else
+#define OPJ_API 
+#endif
 #endif /* !OPJ_STATIC || !WIN32 */
 
 #ifndef __cplusplus
