@@ -121,7 +121,7 @@ void ImageSeriesReader<TOutputImage>
       ExposeMetaData<Array<float> > ( reader1->GetImageIO()->GetMetaDataDictionary(), key, position1);
 
       // Compute the inter slice spacing by computing the distance
-      // between two consective slices
+      // between two consecutive slices
       interSliceSpacing = 0.0;
       for (i = 0; i < position1.size(); i++)
         {
@@ -170,7 +170,7 @@ void ImageSeriesReader<TOutputImage>
         }
       else
         {
-         origin[i] = reader1->GetOutput()->GetOrigin()[i];
+        origin[i] = reader1->GetOutput()->GetOrigin()[i];
         }
       }
     spacing[m_NumberOfDimensionsInImage] = interSliceSpacing;
