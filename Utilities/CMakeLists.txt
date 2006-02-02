@@ -42,7 +42,7 @@ ENDIF(NOT ITK_USE_SYSTEM_VXL)
 #------------------------------------------------------------------------------
 # Build testing as needed
 IF (BUILD_TESTING)
-SUBDIRS(Dart)
+  SUBDIRS(Dart)
 ENDIF (BUILD_TESTING)
 
 #-----------------------------------------------------------------------------
