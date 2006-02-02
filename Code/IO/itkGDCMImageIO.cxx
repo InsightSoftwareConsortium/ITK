@@ -162,7 +162,9 @@ bool GDCMImageIO::CanReadFile(const char* filename)
   // Check to see if its a valid dicom file gdcm is able to parse:
   // We are parsing the header one time here:
 
-  gdcm::File header( fname );
+  gdcm::File header;
+  header.SetFileName( fname );
+  header.Load();
   if (!header.IsReadable())
     {
     return false;
@@ -231,7 +233,9 @@ void GDCMImageIO::Read(void* buffer)
   //Should I handle differently dicom lut ?
   //GdcmHeader.HasLUT()
 
-  gdcm::FileHelper gfile( m_FileName );
+  gdcm::FileHelper gfile;
+  gfile.SetFileName( m_FileName );
+  gfile.Load();
   size_t size = gfile.GetImageDataSize();
   unsigned char *source = (unsigned char*)gfile.GetImageData();
 
@@ -314,7 +318,8 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
 
   gdcm::File header;
   header.SetMaxSizeLoadEntry(m_MaxSizeLoadEntry);
-  header.Load( m_FileName );
+  header.SetFileName( m_FileName );
+  header.Load();
 
   // We don't need to positionate the Endian related stuff (by using
   // this->SetDataByteOrderToBigEndian() or SetDataByteOrderToLittleEndian()

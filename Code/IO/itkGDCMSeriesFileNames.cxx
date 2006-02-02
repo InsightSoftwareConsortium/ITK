@@ -65,7 +65,7 @@ const SerieUIDContainer &GDCMSeriesFileNames::GetSeriesUIDs()
 {
   m_SeriesUIDs.clear();
   // Accessing the first serie found (assume there is at least one)
-  gdcm::GdcmFileList *flist = m_SerieHelper->GetFirstCoherentFileList();
+  gdcm::FileList *flist = m_SerieHelper->GetFirstSingleSerieUIDFileSet();
   while(flist)
     {
     if( flist->size() ) //make sure we have at leat one serie
@@ -78,7 +78,7 @@ const SerieUIDContainer &GDCMSeriesFileNames::GetSeriesUIDs()
 
       m_SeriesUIDs.push_back( id.c_str() );
       }
-    flist = m_SerieHelper->GetNextCoherentFileList();
+    flist = m_SerieHelper->GetNextSingleSerieUIDFileSet();
     }
   if( !m_SeriesUIDs.size() )
     {
@@ -91,13 +91,13 @@ const FilenamesContainer &GDCMSeriesFileNames::GetFileNames(const std::string se
 {
   m_InputFileNames.clear();
   // Accessing the first serie found (assume there is at least one)
-  gdcm::GdcmFileList *flist = m_SerieHelper->GetFirstCoherentFileList();
+  gdcm::FileList *flist = m_SerieHelper->GetFirstSingleSerieUIDFileSet();
   if( !flist )
     {
     itkWarningMacro(<<"No Series can be found, make sure you restiction are not too strong");
     return m_InputFileNames;
     }
-  if( serie != "" ) // user did not specify any sub selcection based on UID
+  if( serie != "" ) // user did not specify any sub selection based on UID
     {
     bool found = false;
     while(flist && !found)
@@ -114,7 +114,7 @@ const FilenamesContainer &GDCMSeriesFileNames::GetFileNames(const std::string se
           break;
           }
         }
-      flist = m_SerieHelper->GetNextCoherentFileList();
+      flist = m_SerieHelper->GetNextSingleSerieUIDFileSet();
       }
     if( !found)
       {
@@ -122,9 +122,9 @@ const FilenamesContainer &GDCMSeriesFileNames::GetFileNames(const std::string se
       return m_InputFileNames;
       }
     }
-  m_SerieHelper->OrderGdcmFileList(flist);
+  m_SerieHelper->OrderFileList(flist);
 
-  gdcm::GdcmFileList::iterator it;
+  gdcm::FileList::iterator it;
   if( flist->size() )
     {
     for(it = flist->begin(); 
@@ -224,18 +224,12 @@ const FilenamesContainer &GDCMSeriesFileNames::GetOutputFileNames()
         }
 
       // construct a filename, adding an extension if necessary
-      std::string filename;
-      if (hasExtension)
-        {
-        filename = 
-          m_OutputDirectory + itksys::SystemTools::GetFilenameName( *it );
-        }
-      else
+      std::string filename =
+        m_OutputDirectory + itksys::SystemTools::GetFilenameName( *it );
+      if (!hasExtension)
         {
         // input filename has no extension, add a ".dcm"
-        filename = 
-          m_OutputDirectory + itksys::SystemTools::GetFilenameName( *it )
-          + ".dcm";
+        filename += ".dcm";
         }
 
       // Add the file name to the output list
