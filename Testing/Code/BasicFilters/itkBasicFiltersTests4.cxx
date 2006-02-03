@@ -36,6 +36,7 @@ void RegisterTests()
   REGISTER_TEST( itkMatrixIndexSelectionImageFilterTest );
   REGISTER_TEST( itkNotImageFilterTest );
   REGISTER_TEST( itkInvertIntensityImageFilterTest );
+  REGISTER_TEST( itkModulusImageFilterTest );
   REGISTER_TEST( itkMorphologicalGradientImageFilterTest );
 }
 

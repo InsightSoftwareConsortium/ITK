@@ -707,6 +707,14 @@ ADD_TEST(itkInvertIntensityImageFilterTest ${BASIC_FILTERS_TESTS4}
          ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png
          )
 
+ADD_TEST(itkModulusImageFilterTest ${BASIC_FILTERS_TESTS4} 
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ModulusImageFilterTest.png
+         ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png
+         itkModulusImageFilterTest
+         ${INPUTDATA}/Spots.png 
+         ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png
+         )
+
 ADD_TEST(itkMorphologicalGradientImageFilterTest ${BASIC_FILTERS_TESTS4} 
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/MorphologicalGradientImageFilterTest.png
          ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest.png
@@ -970,6 +978,7 @@ itkVectorConnectedComponentImageFilterTest
 itkMatrixIndexSelectionImageFilterTest
 itkNotImageFilterTest
 itkInvertIntensityImageFilterTest
+itkModulusImageFilterTest
 itkMorphologicalGradientImageFilterTest
 )
 
