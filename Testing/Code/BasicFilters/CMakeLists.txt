@@ -699,6 +699,22 @@ ADD_TEST(itkMatrixIndexSelectionImageFilterTest ${BASIC_FILTERS_TESTS4}
          itkMatrixIndexSelectionImageFilterTest
              ${ITK_TEST_OUTPUT_DIR}/MatrixIndexSelectionImageFilterTest.png)
 
+ADD_TEST(itkInvertIntensityImageFilterTest ${BASIC_FILTERS_TESTS4} 
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/InvertIntensityImageFilterTest.png
+         ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png
+         itkInvertIntensityImageFilterTest
+         ${INPUTDATA}/cthead1.png 
+         ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png
+         )
+
+ADD_TEST(itkMorphologicalGradientImageFilterTest ${BASIC_FILTERS_TESTS4} 
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/MorphologicalGradientImageFilterTest.png
+         ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest.png
+         itkMorphologicalGradientImageFilterTest
+         ${INPUTDATA}/cthead1.png 
+         ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest.png
+         )
+
 ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
@@ -953,6 +969,8 @@ itkMaskNeighborhoodOperatorImageFilterTest
 itkVectorConnectedComponentImageFilterTest
 itkMatrixIndexSelectionImageFilterTest
 itkNotImageFilterTest
+itkInvertIntensityImageFilterTest
+itkMorphologicalGradientImageFilterTest
 )
 
 ADD_TEST(itkBasicFiltersHeaderTest ${BASIC_FILTERS_HEADER_TEST})
