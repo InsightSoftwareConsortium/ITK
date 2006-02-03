@@ -25,6 +25,7 @@
 #include <vector>
 #include <iostream>
 #include <map>
+#include <stdio.h> // for sscanf
 
 namespace gdcm 
 {
