@@ -18,9 +18,6 @@ IF( USE_FFTWF )
   TARGET_LINK_LIBRARIES(FFTDirectInverse2 ITKCommon ITKIO ITKAlgorithms )
 ENDIF( USE_FFTWF )
 
-ADD_EXECUTABLE(FFTImageFilterFourierDomainFiltering FFTImageFilterFourierDomainFiltering.cxx )
-TARGET_LINK_LIBRARIES(FFTImageFilterFourierDomainFiltering ITKCommon ITKIO)
-
 ADD_EXECUTABLE(GradientMagnitudeImageFilter GradientMagnitudeImageFilter.cxx )
 TARGET_LINK_LIBRARIES(GradientMagnitudeImageFilter ITKCommon ITKIO)
 
@@ -155,6 +152,9 @@ ADD_EXECUTABLE(ResampleImageFilter2 ResampleImageFilter2.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter2 ITKCommon ITKBasicFilters ITKIO)
 
 IF(NOT BORLAND)
+ADD_EXECUTABLE(FFTImageFilterFourierDomainFiltering FFTImageFilterFourierDomainFiltering.cxx )
+TARGET_LINK_LIBRARIES(FFTImageFilterFourierDomainFiltering ITKCommon ITKIO)
+
 ADD_EXECUTABLE(ResampleImageFilter3 ResampleImageFilter3.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter3 ITKCommon ITKBasicFilters ITKIO)
 
@@ -202,6 +202,7 @@ SET(FILTERING_EXAMPLES4 ${CXX_TEST_PATH}/FilteringExamples4)
 SET(FILTERING_EXAMPLES5 ${CXX_TEST_PATH}/FilteringExamples5)
 SET(FILTERING_EXAMPLES6 ${CXX_TEST_PATH}/FilteringExamples6)
 SET(FILTERING_EXAMPLES7 ${CXX_TEST_PATH}/FilteringExamples7)
+SET(FILTERING_EXAMPLES8 ${CXX_TEST_PATH}/FilteringExamples8)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Filtering)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -345,7 +346,7 @@ ADD_TEST( DiscreteGaussianImageFilterTest ${FILTERING_EXAMPLES}
         ${TEMP}/DiscreteGaussianImageFilter.png
         1.73 10
 )
-ADD_TEST( GradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
+ADD_TEST( GradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/GradientAnisotropicDiffusionImageFilter.png
             ${TEMP}/GradientAnisotropicDiffusionImageFilter.png
   GradientAnisotropicDiffusionImageFilterTest
@@ -353,14 +354,14 @@ ADD_TEST( GradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
         ${TEMP}/GradientAnisotropicDiffusionImageFilter.png
         5 0.125 1.0
 )
-ADD_TEST( GradientMagnitudeImageFilterTest ${FILTERING_EXAMPLES}
+ADD_TEST( GradientMagnitudeImageFilterTest ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/GradientMagnitudeImageFilter.png
             ${TEMP}/GradientMagnitudeImageFilter.png
   GradientMagnitudeImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/GradientMagnitudeImageFilter.png
 )
-ADD_TEST( GradientMagnitudeRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES}
+ADD_TEST( GradientMagnitudeRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/GradientMagnitudeRecursiveGaussianImageFilter.png
             ${TEMP}/GradientMagnitudeRecursiveGaussianImageFilter.png
   GradientMagnitudeRecursiveGaussianImageFilterTest
@@ -377,7 +378,7 @@ ADD_TEST( DerivativeImageFilterTest ${FILTERING_EXAMPLES}
         ${TEMP}/DerivativeImageFilter.png
         1 1
 )
-ADD_TEST( LaplacianImageFilterTest ${FILTERING_EXAMPLES}
+ADD_TEST( LaplacianImageFilterTest ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/LaplacianImageFilter.png
             ${TEMP}/LaplacianImageFilter.png
   LaplacianImageFilterTest
@@ -391,7 +392,7 @@ ADD_TEST( LaplacianSharpeningImageFilterTest ${FILTERING_EXAMPLES2}
         ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
         ${TEMP}/LaplacianSharpeningImageFilter.png
 )
-ADD_TEST( MathematicalMorphologyBinaryFiltersTest ${FILTERING_EXAMPLES}
+ADD_TEST( MathematicalMorphologyBinaryFiltersTest ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/MathematicalMorphologyBinaryFiltersErode.png
             ${TEMP}/MathematicalMorphologyBinaryFiltersErode.png
   MathematicalMorphologyBinaryFiltersTest
@@ -400,7 +401,7 @@ ADD_TEST( MathematicalMorphologyBinaryFiltersTest ${FILTERING_EXAMPLES}
         ${TEMP}/MathematicalMorphologyBinaryFiltersDilate.png
         150 180
 )
-ADD_TEST( MathematicalMorphologyGrayscaleFiltersTest ${FILTERING_EXAMPLES}
+ADD_TEST( MathematicalMorphologyGrayscaleFiltersTest ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/MathematicalMorphologyGrayscaleFiltersErode.png
             ${TEMP}/MathematicalMorphologyGrayscaleFiltersErode.png
   MathematicalMorphologyGrayscaleFiltersTest
@@ -408,14 +409,14 @@ ADD_TEST( MathematicalMorphologyGrayscaleFiltersTest ${FILTERING_EXAMPLES}
         ${TEMP}/MathematicalMorphologyGrayscaleFiltersErode.png
         ${TEMP}/MathematicalMorphologyGrayscaleFiltersDilate.png
 )
-ADD_TEST( MeanImageFilterTest ${FILTERING_EXAMPLES}
+ADD_TEST( MeanImageFilterTest ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/MeanImageFilter.png
             ${TEMP}/MeanImageFilter.png
   MeanImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/MeanImageFilter.png
 )
-ADD_TEST( MedianImageFilterTest ${FILTERING_EXAMPLES}
+ADD_TEST( MedianImageFilterTest ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/MedianImageFilter.png
             ${TEMP}/MedianImageFilter.png
   MedianImageFilterTest
@@ -645,7 +646,7 @@ ADD_TEST( VectorIndexSelectionTest ${FILTERING_EXAMPLES2}
         1
 )
 
-ADD_TEST( RGBGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
+ADD_TEST( RGBGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/RGBGradientAnisotropicDiffusionImageFilter.png
             ${TEMP}/RGBGradientAnisotropicDiffusionImageFilter.png
   RGBGradientAnisotropicDiffusionImageFilterTest
@@ -654,7 +655,7 @@ ADD_TEST( RGBGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
         0.125 20
 )
 
-ADD_TEST( RGBCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES}
+ADD_TEST( RGBCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/RGBCurvatureAnisotropicDiffusionImageFilter.png
             ${TEMP}/RGBCurvatureAnisotropicDiffusionImageFilter.png
   RGBCurvatureAnisotropicDiffusionImageFilterTest
@@ -885,6 +886,9 @@ TARGET_LINK_LIBRARIES(FilteringExamples5 ITKIO ITKBasicFilters ITKCommon
 
 ADD_EXECUTABLE(FilteringExamples7 FilteringExamples7.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples7 ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(FilteringExamples8 FilteringExamples8.cxx)
+TARGET_LINK_LIBRARIES(FilteringExamples8 ITKIO ITKBasicFilters ITKCommon)
 
 ADD_EXECUTABLE(FilteringExamples6 FilteringExamples6.cxx)
 IF( USE_FFTWF )

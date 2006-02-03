@@ -116,6 +116,7 @@ SET(STATISTICS_EXAMPLES_WITH_TESTS4 ${CXX_TEST_PATH}/StatisticsExamplesTests4)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Statistics)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
+IF(NOT BORLAND)
 ADD_TEST( ScalarImageKmeansClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS3}
   --compare ${BASELINE}/ScalarImageKmeansClassifierOutput.png
             ${TEMP}/ScalarImageKmeansClassifierOutput.png
@@ -135,7 +136,6 @@ ADD_TEST( ScalarImageMarkovRandomField1Test ${STATISTICS_EXAMPLES_WITH_TESTS3}
             50 3 3 14.8 91.6 134.9
 )
 
-IF(NOT BORLAND)
 ADD_TEST( BayesianPluginClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS} 
           BayesianPluginClassifierTest)
         
@@ -183,9 +183,9 @@ TARGET_LINK_LIBRARIES( StatisticsExamplesTests ITKIO ITKCommon ITKStatistics)
 ADD_EXECUTABLE( StatisticsExamplesTests4 StatisticsExamplesTests4.cxx)
 TARGET_LINK_LIBRARIES( StatisticsExamplesTests4 ITKIO ITKCommon ITKStatistics)
 
-ENDIF(NOT BORLAND)
-
 ADD_EXECUTABLE( StatisticsExamplesTests3 StatisticsExamplesTests3.cxx)
 TARGET_LINK_LIBRARIES( StatisticsExamplesTests3 ITKIO ITKCommon ITKStatistics)
+
+ENDIF(NOT BORLAND)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )

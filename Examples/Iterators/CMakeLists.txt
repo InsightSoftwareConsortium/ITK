@@ -16,9 +16,6 @@ TARGET_LINK_LIBRARIES(ImageLinearIteratorWithIndex ITKIO   )
 ADD_EXECUTABLE(ImageLinearIteratorWithIndex2 ImageLinearIteratorWithIndex2.cxx)
 TARGET_LINK_LIBRARIES(ImageLinearIteratorWithIndex2 ITKIO   )
 
-ADD_EXECUTABLE(ImageSliceIteratorWithIndex ImageSliceIteratorWithIndex.cxx)
-TARGET_LINK_LIBRARIES(ImageSliceIteratorWithIndex ITKIO   )
-
 ADD_EXECUTABLE(ImageRandomConstIteratorWithIndex ImageRandomConstIteratorWithIndex.cxx)
 TARGET_LINK_LIBRARIES(ImageRandomConstIteratorWithIndex ITKIO   )
 
@@ -41,6 +38,9 @@ ADD_EXECUTABLE(NeighborhoodIterators6 NeighborhoodIterators6.cxx)
 TARGET_LINK_LIBRARIES(NeighborhoodIterators6 ITKAlgorithms ITKBasicFilters ITKIO )
 
 IF(NOT BORLAND)
+ADD_EXECUTABLE(ImageSliceIteratorWithIndex ImageSliceIteratorWithIndex.cxx)
+TARGET_LINK_LIBRARIES(ImageSliceIteratorWithIndex ITKIO   )
+
 ADD_EXECUTABLE(ShapedNeighborhoodIterators1 ShapedNeighborhoodIterators1.cxx)
 TARGET_LINK_LIBRARIES(ShapedNeighborhoodIterators1 ITKAlgorithms ITKBasicFilters ITKIO )
 

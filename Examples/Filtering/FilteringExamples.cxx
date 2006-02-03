@@ -24,17 +24,6 @@ REGISTER_TEST(CurvatureFlowImageFilterTest);
 REGISTER_TEST(DanielssonDistanceMapImageFilterTest);
 REGISTER_TEST(DerivativeImageFilterTest);
 REGISTER_TEST(DiscreteGaussianImageFilterTest);
-REGISTER_TEST(GradientAnisotropicDiffusionImageFilterTest);
-REGISTER_TEST(GradientMagnitudeImageFilterTest);
-REGISTER_TEST(GradientMagnitudeRecursiveGaussianImageFilterTest);
-REGISTER_TEST(LaplacianImageFilterTest);
-REGISTER_TEST(MathematicalMorphologyBinaryFiltersTest);
-REGISTER_TEST(MathematicalMorphologyGrayscaleFiltersTest);
-REGISTER_TEST(MeanImageFilterTest);
-REGISTER_TEST(MedianImageFilterTest);
-REGISTER_TEST(MinMaxCurvatureFlowImageFilterTest);
-REGISTER_TEST(RGBCurvatureAnisotropicDiffusionImageFilterTest);
-REGISTER_TEST(RGBGradientAnisotropicDiffusionImageFilterTest);
 }
 
 #undef main
@@ -76,49 +65,3 @@ REGISTER_TEST(RGBGradientAnisotropicDiffusionImageFilterTest);
 #undef main
 #define main DiscreteGaussianImageFilterTest
 #include "DiscreteGaussianImageFilter.cxx"
-
-#undef main
-#define main GradientAnisotropicDiffusionImageFilterTest
-#include "GradientAnisotropicDiffusionImageFilter.cxx"
-
-#undef main
-#define main GradientMagnitudeImageFilterTest
-#include "GradientMagnitudeImageFilter.cxx"
-
-#undef main
-#define main GradientMagnitudeRecursiveGaussianImageFilterTest
-#include "GradientMagnitudeRecursiveGaussianImageFilter.cxx"
-
-#undef main
-#define main LaplacianImageFilterTest
-#include "LaplacianImageFilter.cxx"
-
-#undef main
-#define main MathematicalMorphologyBinaryFiltersTest
-#include "MathematicalMorphologyBinaryFilters.cxx"
-
-#undef main
-#define main MathematicalMorphologyGrayscaleFiltersTest
-#include "MathematicalMorphologyGrayscaleFilters.cxx"
-
-#undef main
-#define main MeanImageFilterTest
-#include "MeanImageFilter.cxx"
-
-#undef main
-#define main MedianImageFilterTest
-#include "MedianImageFilter.cxx"
-
-#undef main
-#define main MinMaxCurvatureFlowImageFilterTest
-#include "MinMaxCurvatureFlowImageFilter.cxx"
-
-#undef main
-#define main RGBCurvatureAnisotropicDiffusionImageFilterTest
-#include "RGBCurvatureAnisotropicDiffusionImageFilter.cxx"
-
-#undef main
-#define main RGBGradientAnisotropicDiffusionImageFilterTest
-#include "RGBGradientAnisotropicDiffusionImageFilter.cxx"
-
-
