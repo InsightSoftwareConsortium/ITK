@@ -30,7 +30,7 @@ namespace itk
 /** \class GDCMImageIO
  *
  *  \brief ImageIO class for reading and writing DICOM v3 and ACR/NEMA images
- *  This class is only an adaptor to the gdcm library (currently gdcm 0.6.x is used):
+ *  This class is only an adaptor to the gdcm library (currently gdcm 1.2.x is used):
  *  
  *  http://creatis-www.insa-lyon.fr/Public/Gdcm/
  *
@@ -141,7 +141,7 @@ public:
    * this static method returns true and the actual string descriptor of the
    * tagkey is returned in the variable labelId. */
   static bool GetLabelFromTag( const std::string & tag, 
-                                      std::string & labelId );
+                               std::string & labelId );
 
   /** A DICOM file can contains multiple binary stream that can be very long
    * For example an Overlay on the image. Most of the time user do not want to load

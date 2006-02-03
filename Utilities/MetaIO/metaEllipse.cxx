@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <string.h> // for memset
 
 #include <metaUtils.h>
 #include <metaObject.h>

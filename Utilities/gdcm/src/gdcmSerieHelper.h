@@ -101,6 +101,13 @@ public:
    /// Allow user to specify that the serie should also be consistent (== operation),
    /// on the particular tag (group,element)
    void AddRestriction(uint16_t group, uint16_t elem); 
+   /// Same as above accept use the format: "0x1234|0x5678"
+   void AddRestriction(const std::string & tag)
+     {
+     unsigned int group, element;
+     sscanf( tag.c_str(), "%04x|%04x", &group, &element);
+     AddRestriction( group, element );
+     }
    /// Allow user to refine the selection of a serie by specifying operation (op) on a 
    /// particular tag (group, elem) with a particular value (value).
    void AddRestriction(uint16_t group, uint16_t elem, 
@@ -117,6 +124,14 @@ public:
      {
      return m_UseSeriesDetails;
      }
+   /// \brief This function will add the following DICOM tag as being part of a
+   /// 'fake' uid. This is usefull when the Serie UID is not enough to disseminate
+   /// into multiple sub serie when needed:
+   /// 0020 0011 Series Number
+   /// 0018 0024 Sequence Name
+   /// 0018 0050 Slice Thickness
+   /// 0028 0010 Rows
+   /// 0028 0011 Columns
    void CreateDefaultUniqueSeriesIdentifier();
  
 /**

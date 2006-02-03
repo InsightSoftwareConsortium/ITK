@@ -803,35 +803,31 @@ void SerieHelper::Print(std::ostream &os, std::string const &indent)
 
 void SerieHelper::CreateDefaultUniqueSeriesIdentifier()
 {
-    if(m_UseSeriesDetails)
-      {
-      // If the user requests, additional information can be appended
-      // to the SeriesUID to further differentiate volumes in the DICOM
-      // objects being processed.
-
-      // 0020 0011 Series Number
-      // A scout scan prior to a CT volume scan can share the same
-      //   SeriesUID, but they will sometimes have a different Series Number
-      AddRestriction( 0x0020, 0x0011);
-      // 0018 0024 Sequence Name
-      // For T1-map and phase-contrast MRA, the different flip angles and
-      //   directions are only distinguished by the Sequence Name
-      AddRestriction(0x0018, 0x0024);
-      // 0018 0050 Slice Thickness
-      // On some CT systems, scout scans and subsequence volume scans will
-      //   have the same SeriesUID and Series Number - YET the slice 
-      //   thickness will differ from the scout slice and the volume slices.
-      AddRestriction(0x0018, 0x0050);
-      // 0028 0010 Rows
-      // If the 2D images in a sequence don't have the same number of rows,
-      // then it is difficult to reconstruct them into a 3D volume.
-      AddRestriction(0x0028, 0x0010);
-      // 0028 0011 Columns
-      // If the 2D images in a sequence don't have the same number of columns,
-      // then it is difficult to reconstruct them into a 3D volume.
-      AddRestriction(0x0028, 0x0011);
-      }
-
+   // If the user requests, additional information can be appended
+   // to the SeriesUID to further differentiate volumes in the DICOM
+   // objects being processed.
+ 
+   // 0020 0011 Series Number
+   // A scout scan prior to a CT volume scan can share the same
+   //   SeriesUID, but they will sometimes have a different Series Number
+   AddRestriction( 0x0020, 0x0011);
+   // 0018 0024 Sequence Name
+   // For T1-map and phase-contrast MRA, the different flip angles and
+   //   directions are only distinguished by the Sequence Name
+   AddRestriction(0x0018, 0x0024);
+   // 0018 0050 Slice Thickness
+   // On some CT systems, scout scans and subsequence volume scans will
+   //   have the same SeriesUID and Series Number - YET the slice 
+   //   thickness will differ from the scout slice and the volume slices.
+   AddRestriction(0x0018, 0x0050);
+   // 0028 0010 Rows
+   // If the 2D images in a sequence don't have the same number of rows,
+   // then it is difficult to reconstruct them into a 3D volume.
+   AddRestriction(0x0028, 0x0010);
+   // 0028 0011 Columns
+   // If the 2D images in a sequence don't have the same number of columns,
+   // then it is difficult to reconstruct them into a 3D volume.
+   AddRestriction(0x0028, 0x0011);
 }
 
 std::string SerieHelper::CreateUniqueSeriesIdentifier( File * inFile )

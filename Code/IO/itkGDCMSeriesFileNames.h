@@ -127,6 +127,7 @@ public:
     {
     m_UseSeriesDetails = useSeriesDetails;
     m_SerieHelper->SetUseSeriesDetails( m_UseSeriesDetails );
+    m_SerieHelper->CreateDefaultUniqueSeriesIdentifier();
     }
 
   /** Returns true if using additional series information such as ProtocolName
@@ -147,6 +148,16 @@ public:
   gdcm::SerieHelper * GetSeriesHelper( void )
     {
     return m_SerieHelper;
+    }
+
+  /** Add more restriction on the selection of a Serie. This follow the same 
+   * approach as SetUseSeriesDetails, but allow a user to add even more DICOM
+   * tag to take into account for subrefining a set of DICOM files into multiple
+   * series. Format for tag is "group|element" of a DICOM tag.
+   */
+  void AddRestriction(const std::string & tag)
+    {
+    m_SerieHelper->AddRestriction( tag );
     }
 
 protected:

@@ -138,7 +138,18 @@ int main( int argc, char* argv[] )
 // a scout scan and its 3D volume; by using additional DICOM information
 // the scout scan will not be included as part of the 3D volume.  Note that
 // \code{SetUseSeriesDetails(true)} must be called prior to calling
-// \code{SetDirectory()}.
+// \code{SetDirectory()}. By default \code{SetUseSeriesDetails(true)} will use
+// the following DICOM tags to sub-refine a set of files into multiple series:
+// * 0020 0011 Series Number
+// * 0018 0024 Sequence Name
+// * 0018 0050 Slice Thickness
+// * 0028 0010 Rows
+// * 0028 0011 Columns
+// If this is not enough for your specific case you can always add some more
+// restrictions using the \code{AddRestriction()} method. In this example we will use
+// the DICOM Tag: 0008 0021 DA 1 Series Date, to sub-refine each series. The format
+// for passing the argument is a string containing first the group then the element
+// of the DICOM tag, separed by a pipe (|) sign.
 //
 //
 // \index{itk::GDCMSeriesFileNames!SetDirectory()}
@@ -150,6 +161,7 @@ int main( int argc, char* argv[] )
   NamesGeneratorType::Pointer nameGenerator = NamesGeneratorType::New();
 
   nameGenerator->SetUseSeriesDetails( true );
+  nameGenerator->AddRestriction("0008|0021" );
 
   nameGenerator->SetDirectory( argv[1] );
 // Software Guide : EndCodeSnippet
@@ -336,7 +348,7 @@ int main( int argc, char* argv[] )
     }
   catch (itk::ExceptionObject &ex)
     {
-      std::cout << ex << std::endl;
+    std::cout << ex << std::endl;
     return EXIT_FAILURE;
     }
 
