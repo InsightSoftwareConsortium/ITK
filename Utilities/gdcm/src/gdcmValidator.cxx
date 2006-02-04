@@ -21,7 +21,7 @@
 #include "gdcmBinEntry.h"
 #include "gdcmValEntry.h"
 
-#include <sstream>
+#include <itksys/ios/sstream>
 
 namespace gdcm 
 {
@@ -47,7 +47,7 @@ bool CheckVM(ValEntry *v)
   n++; // number of '\' + 1 == Value Multiplicity
 
   unsigned int m;
-  std::istringstream os;
+  itksys_ios::istringstream os;
   os.str( v->GetVM());
   os >> m;
 
