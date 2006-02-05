@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __itk_StdStreamLogOutput_h_
-#define __itk_StdStreamLogOutput_h_
+#ifndef __itkStdStreamLogOutput_h
+#define __itkStdStreamLogOutput_h
 
 #include <iostream>
 #include <string>
@@ -94,4 +94,4 @@ private:
 
 }
 
-#endif //__itk_StdStreamLogOutput_h_
+#endif //__itkStdStreamLogOutput_h

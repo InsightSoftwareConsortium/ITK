@@ -1,5 +1,21 @@
-#ifndef ITKSTRUCTHASHFUNCTION_H
-#define ITKSTRUCTHASHFUNCTION_H
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkStructHashFunction.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#ifndef itkStructHashFunction_h
+#define itkStructHashFunction_h
 
 namespace itk
 {
@@ -49,4 +65,4 @@ StructHashFunction< TInput >
 
 }
 
-#endif  // ndef ITKSTRUCTHASHFUNCTION_H
+#endif  // ndef itkStructHashFunction_h

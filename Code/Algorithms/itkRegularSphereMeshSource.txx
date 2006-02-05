@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __RegularSphereMeshSource_txx
-#define __RegularSphereMeshSource_txx
+#ifndef __itkRegularSphereMeshSource_txx
+#define __itkRegularSphereMeshSource_txx
 
 #include "itkRegularSphereMeshSource.h"
 

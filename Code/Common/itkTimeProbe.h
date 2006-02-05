@@ -14,12 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkTimeProbe_H
-#define __itkTimeProbe_H
+#ifndef __itkTimeProbe_h
+#define __itkTimeProbe_h
 
 
 #include "itkRealTimeClock.h"
-#include "itkWin32Header.h"
 
 
 namespace itk 

@@ -15,9 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __itk_Bio_Cell_Txx
-#define __itk_Bio_Cell_Txx
-
+#ifndef __itkBioCell_txx
+#define __itkBioCell_txx
 
 #include "itkBioCell.h"
 #include "vnl/vnl_math.h"

@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _SimplexMeshAdaptTopologyFilter_h
-#define _SimplexMeshAdaptTopologyFilter_h
+#ifndef __itkSimplexMeshAdaptTopologyFilter_h
+#define __itkSimplexMeshAdaptTopologyFilter_h
 
 #include "itkMesh.h"
 #include "itkPolygonCell.h"
@@ -332,5 +332,5 @@ class SimplexMeshAdaptTopologyFilter : public MeshToMeshFilter<TInputMesh, TOutp
 #include "itkSimplexMeshAdaptTopologyFilter.txx"
 #endif
 
-#endif //_SimplexMeshAdaptTopologyFilter_h
+#endif // __itkSimplexMeshAdaptTopologyFilter_h
 

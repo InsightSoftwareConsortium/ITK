@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __ITKMVTSUNF_H
-#define __ITKMVTSUNF_H
+#ifndef __itkMvtSunf_h
+#define __itkMvtSunf_h
 namespace itk
 {
 extern float MvtSunf(int numb);

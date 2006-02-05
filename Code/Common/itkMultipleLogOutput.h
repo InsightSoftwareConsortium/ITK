@@ -15,21 +15,13 @@
 
 =========================================================================*/
 
-#ifndef __itk_MultipleLogOutput_h_
-#define __itk_MultipleLogOutput_h_
+#ifndef __itkMultipleLogOutput_h
+#define __itkMultipleLogOutput_h
 
-#if defined(_MSC_VER)
-   //Warning about: identifier was truncated to '255' characters in the debug information (MVC6.0 Debug)
-   #pragma warning( disable : 4786 )
-  // warning C4503: 'insert' : decorated name length exceeded, name was truncated
-  #pragma warning ( disable : 4503 )
-#endif
-
+#include "itkLogOutput.h"
 
 #include <fstream>
 #include <set>
-
-#include "itkLogOutput.h"
 
 namespace itk
 {
@@ -99,4 +91,4 @@ private:
 
 }
 
-#endif //__itk_MultipleLogOutput_h_
+#endif //__itkMultipleLogOutput_h

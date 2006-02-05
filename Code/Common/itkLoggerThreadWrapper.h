@@ -18,21 +18,14 @@
 #ifndef __itkLoggerThreadWrapper_h
 #define __itkLoggerThreadWrapper_h
 
-#if defined(_MSC_VER)
-   //Warning about: identifier was truncated to '255' characters in the debug information (MVC6.0 Debug)
-   #pragma warning( disable : 4786 )
-  // warning C4503: 'insert' : decorated name length exceeded, name was truncated
-  #pragma warning ( disable : 4503 )
-#endif
-#if ! ( defined(_MSC_VER)  ||   (defined(__GNUC__) && (__GNUC__ <= 2) ))//NOTE: This class does not work under MSVS6, or gnu 2.95
-
-
-#include <string>
-#include <queue>
+#if ! ( defined(_MSC_VER) || ( defined(__GNUC__) && (__GNUC__ <= 2) ))//NOTE: This class does not work under MSVS6, or gnu 2.95
 
 #include "itkMacro.h"
 #include "itkMultiThreader.h"
 #include "itkSimpleFastMutexLock.h"
+
+#include <string>
+#include <queue>
 
 namespace itk
 {

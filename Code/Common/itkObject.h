@@ -22,8 +22,8 @@
 
 #include "itkLightObject.h"
 #include "itkEventObject.h"
-
 #include "itkMetaDataDictionary.h"
+
 namespace itk
 {
 class SubjectImplementation;

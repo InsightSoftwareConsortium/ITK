@@ -14,9 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __Bio_Cellular_Aggregate_H
-#define __Bio_Cellular_Aggregate_H
-
+#ifndef __itkBioCellularAggregate_h
+#define __itkBioCellularAggregate_h
 
 #include "itkBioCellularAggregateBase.h"
 #include "itkDefaultDynamicMeshTraits.h"
@@ -27,7 +26,6 @@
 
 #include <iostream>
 #include <vector>
-
 
 
 namespace itk {

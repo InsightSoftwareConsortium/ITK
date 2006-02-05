@@ -18,29 +18,19 @@
 #ifndef __itkThreadLogger_h
 #define __itkThreadLogger_h
 
-#if defined(_MSC_VER)
-   //Warning about: identifier was truncated to '255' characters in the debug information (MVC6.0 Debug)
-   #pragma warning( disable : 4786 )
-  // warning C4503: 'insert' : decorated name length exceeded, name was truncated
-  #pragma warning ( disable : 4503 )
-#endif
-
-
-#include <string>
-#include <queue>
-
 #include "itkMacro.h"
 #include "itkMultiThreader.h"
 #include "itkLogger.h"
 #include "itkSimpleFastMutexLock.h"
 
-
+#include <string>
+#include <queue>
 
 namespace itk
 {
 /** \class ThreadLogger
- *  \brief Class ThreadLogger is meant for providing logging service as a separate thread.
- *
+ *  \brief Class ThreadLogger is meant for providing logging service 
+ *  as a separate thread.
  *
  *
  * \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,

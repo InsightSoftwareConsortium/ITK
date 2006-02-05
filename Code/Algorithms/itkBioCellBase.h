@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itk_Bio_Cell_Base_H
-#define __itk_Bio_Cell_Base_H
+#ifndef __itkBioCellBase_h
+#define __itkBioCellBase_h
 
 #include "itkRGBPixel.h"
 #include "itkVector.h"

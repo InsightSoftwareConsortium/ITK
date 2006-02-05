@@ -1,5 +1,21 @@
-#ifndef __ITKOCTREENODE_H__
-#define __ITKOCTREENODE_H__
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkOctreeNode.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#ifndef __itkOctreeNode_h
+#define __itkOctreeNode_h
 /*********************************** MH-CRC IPL *****************************************
  * Iowa MH-CRC IPL C Header File
  * Copyright (C) 1998 Nancy C. Andreasen and Vincent A. Magnotta
@@ -121,4 +137,4 @@ namespace itk {
     OctreeNode m_Leaves[8];
   };
 } //End of itk Namespace
-#endif                          /* __ITKOCTREENODE_H__ */
+#endif                          /* __itkOctreeNode_h */

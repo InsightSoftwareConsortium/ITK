@@ -1,25 +1,27 @@
 /*=========================================================================
 
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkDeformableSimplexMesh3DBalloonForceFilter.txx
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkDeformableSimplexMesh3DBalloonForceFilter.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-PURPOSE.  See the above copyright notices for more information.
+  Portions of this code are covered under the VTK copyright.
+  See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkDeformableSimplexMesh3DBalloonForceFilter_TXX
-#define __itkDeformableSimplexMesh3DBalloonForceFilter_TXX
+#ifndef __itkDeformableSimplexMesh3DBalloonForceFilter_txx
+#define __itkDeformableSimplexMesh3DBalloonForceFilter_txx
 
 #include "itkDeformableSimplexMesh3DBalloonForceFilter.h"
 #include "itkNumericTraits.h"
-//#include "itkMapContainer.h"
 
 #include <set>
 
@@ -150,4 +152,4 @@ namespace itk
 
   } /* end namespace itk. */
 
-#endif //__itkDeformableSimplexMesh3DBalloonForceFilter_TXX
+#endif //__itkDeformableSimplexMesh3DBalloonForceFilter_txx

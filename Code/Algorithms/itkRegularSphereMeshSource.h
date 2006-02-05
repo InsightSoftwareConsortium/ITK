@@ -29,7 +29,7 @@ namespace itk
  * \brief 
  * Inputs are the center of the mesh, the scale (radius in each dimension) of the mesh
  * and a resolution parameter, which corresponds to the recursion 
- * depth whilie creating a sphereical triangle mesh.
+ * depth whlie creating a spherical triangle mesh.
  *
  * Don't use recursion depths larger than 5, because mesh generation gets very slow. 
  *
@@ -120,6 +120,8 @@ private:
 
 } // end namespace itk
 
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkRegularSphereMeshSource.txx"
+#endif
 
-#endif //_itkRegularSphereMeshSource_H
+#endif //_itkRegularSphereMeshSource_h

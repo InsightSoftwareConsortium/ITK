@@ -1,22 +1,21 @@
 /*=========================================================================
 
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkOctree.h
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkOctree.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-PURPOSE.  See the above copyright notices for more information.
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-#ifndef __ITKOCTREE_H__
-#define __ITKOCTREE_H__
+#ifndef __itkOctree_h
+#define __itkOctree_h
 
 #include "itkOctreeNode.h"
 #include "itkImage.h"
@@ -169,4 +168,4 @@ namespace itk {
 #include "itkOctree.txx"
 #endif
 
-#endif                          /* __ITKOCTREE_H__ */
+#endif                          /* __itkOctree_h */

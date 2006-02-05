@@ -15,8 +15,9 @@ PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
-#ifndef __itk_PolygonSpatialObject_txx_
-#define __itk_PolygonSpatialObject_txx_
+#ifndef __itkPolygonSpatialObject_txx
+#define __itkPolygonSpatialObject_txx
+
 #include "itkPolygonSpatialObject.h"
 #include "itkExceptionObject.h"
 

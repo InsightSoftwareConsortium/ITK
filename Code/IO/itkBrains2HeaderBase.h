@@ -1,9 +1,26 @@
-#ifndef __Brains2_HEADERBASE_H__
-#define __Brains2_HEADERBASE_H__
+/*=========================================================================
 
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkBrains2HeaderBase.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+  Portions of this code are covered under the VTK copyright.
+  See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#ifndef __itkBrains2HeaderBase_h
+#define __itkBrains2HeaderBase_h
+
+#include "itkMacro.h"
 
 #include <string>
 #include <list>
@@ -110,4 +127,4 @@ protected:
 private:
 };
 } //End of namespace itk
-#endif // __Brains2_HEADERINFO_H__
+#endif // __itkBrains2HeaderBase_h

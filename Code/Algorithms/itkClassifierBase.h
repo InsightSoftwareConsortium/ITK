@@ -17,11 +17,11 @@
 #ifndef _itkClassifierBase_h
 #define _itkClassifierBase_h
 
-#include <vector>
-
 #include "itkLightProcessObject.h"
 #include "itkMembershipFunctionBase.h"
 #include "itkDecisionRuleBase.h"
+
+#include <vector>
 
 namespace itk
 {
@@ -179,22 +179,5 @@ private:
 #include "itkClassifierBase.txx"
 #endif
 
-
-
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

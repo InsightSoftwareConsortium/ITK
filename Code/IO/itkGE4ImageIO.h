@@ -1,17 +1,20 @@
 /*=========================================================================
 
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkGE4ImageIO.h
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkGE4ImageIO.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-PURPOSE.  See the above copyright notices for more information.
+  Portions of this code are covered under the VTK copyright.
+  See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
@@ -31,14 +34,11 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef __itkGE4ImageIO_h
 #define __itkGE4ImageIO_h
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
-
-#include <fstream>
 #include "itkIPLCommonImageIO.h"
 #include "itkImageIOBase.h"
 #include "itkGEImageHeader.h"
+
+#include <fstream>
 
 namespace itk
 {
@@ -418,4 +418,4 @@ private:
 
 } // end namespace itk
 
-#endif // __itkAnalyzeImageIO_h
+#endif // __itkGE4ImageIO_h

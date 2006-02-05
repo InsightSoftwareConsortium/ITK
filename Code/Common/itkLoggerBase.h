@@ -18,14 +18,6 @@
 #ifndef __itkLoggerBase_h
 #define __itkLoggerBase_h
 
-#if defined(_MSC_VER)
-   //Warning about: identifier was truncated to '255' characters in the debug information (MVC6.0 Debug)
-   #pragma warning( disable : 4786 )
-  // warning C4503: 'insert' : decorated name length exceeded, name was truncated
-  #pragma warning ( disable : 4503 )
-#endif
-
-#include "itkMacro.h"
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkMultipleLogOutput.h"

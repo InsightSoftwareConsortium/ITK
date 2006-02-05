@@ -15,8 +15,8 @@
 
 =========================================================================*/
 #if defined(USE_FFTWF) || defined(USE_FFTWD)
-#ifndef _itkCurvatureRegistrationFilter_txx
-#define _itkCurvatureRegistrationFilter_txx
+#ifndef __itkCurvatureRegistrationFilter_txx
+#define __itkCurvatureRegistrationFilter_txx
 #include "itkCurvatureRegistrationFilter.h"
 
 #include "itkImageRegionIterator.h"

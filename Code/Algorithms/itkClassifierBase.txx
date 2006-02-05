@@ -19,7 +19,6 @@
 
 #include "itkClassifierBase.h"
 #include "itkCommand.h"
-#include "itkMacro.h"
 
 namespace itk
 {
@@ -100,26 +99,5 @@ ClassifierBase< TDataContainer >
 }
 
 } // namespace itk
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif

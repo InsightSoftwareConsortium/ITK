@@ -15,14 +15,14 @@
 
 =========================================================================*/
 
-#ifndef __itk_LogOutput_h_
-#define __itk_LogOutput_h_
+#ifndef __itkLogOutput_h
+#define __itkLogOutput_h
 
-#include<string>
-#include"itkMacro.h"
-#include"itkObject.h"
-#include"itkObjectFactory.h"
+#include "itkMacro.h"
+#include "itkObject.h"
+#include "itkObjectFactory.h"
 
+#include <string>
 
 namespace itk
 {
@@ -70,4 +70,4 @@ protected:
 
 }
 
-#endif //__itk_LogOutput_h_
+#endif //__itkLogOutput_h

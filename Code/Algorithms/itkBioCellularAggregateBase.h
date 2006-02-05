@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __Bio_Cellular_Aggregate_Base_H
-#define __Bio_Cellular_Aggregate_Base_H
+#ifndef __itkBioCellularAggregateBase_h
+#define __itkBioCellularAggregateBase_h
 
 
 #include "itkObject.h" 

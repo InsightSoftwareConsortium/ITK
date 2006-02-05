@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __itk_Bio_Cellular_Aggregate_Txx
-#define __itk_Bio_Cellular_Aggregate_Txx
+#ifndef __itkBioCellularAggregate_txx
+#define __itkBioCellularAggregate_txx
 
 
 #include "itkBioCellularAggregate.h"
