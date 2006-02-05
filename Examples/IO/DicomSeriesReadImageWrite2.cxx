@@ -146,7 +146,7 @@ int main( int argc, char* argv[] )
 // * 0028 0010 Rows
 // * 0028 0011 Columns
 // If this is not enough for your specific case you can always add some more
-// restrictions using the \code{AddRestriction()} method. In this example we will use
+// restrictions using the \code{AddSeriesRestriction()} method. In this example we will use
 // the DICOM Tag: 0008 0021 DA 1 Series Date, to sub-refine each series. The format
 // for passing the argument is a string containing first the group then the element
 // of the DICOM tag, separed by a pipe (|) sign.
@@ -161,7 +161,7 @@ int main( int argc, char* argv[] )
   NamesGeneratorType::Pointer nameGenerator = NamesGeneratorType::New();
 
   nameGenerator->SetUseSeriesDetails( true );
-  nameGenerator->AddRestriction("0008|0021" );
+  nameGenerator->AddSeriesRestriction("0008|0021" );
 
   nameGenerator->SetDirectory( argv[1] );
 // Software Guide : EndCodeSnippet
