@@ -20,8 +20,7 @@
 #include "gdcmElementSet.h"
 #include "gdcmBinEntry.h"
 #include "gdcmValEntry.h"
-
-#include <itksys/ios/sstream>
+#include "gdcmDebug.h" // hidden way to include sstream
 
 namespace gdcm 
 {
