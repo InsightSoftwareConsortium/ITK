@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkWindowedSincInterpolateImageFunction_txx
-#define _itkWindowedSincInterpolateImageFunction_txx
+#ifndef __itkWindowedSincInterpolateImageFunction_txx
+#define __itkWindowedSincInterpolateImageFunction_txx
 
 #include "itkWindowedSincInterpolateImageFunction.h"
 

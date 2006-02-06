@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBinaryThresholdImageFunction_h
-#define _itkBinaryThresholdImageFunction_h
+#ifndef __itkBinaryThresholdImageFunction_h
+#define __itkBinaryThresholdImageFunction_h
 
 #include "itkImageFunction.h"
 
@@ -147,7 +147,7 @@ private:
   PixelType m_Upper;
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkBinaryThresholdImageFunction.txx"

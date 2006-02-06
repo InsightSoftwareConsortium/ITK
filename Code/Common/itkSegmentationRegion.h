@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSegmentationRegion_h
-#define _itkSegmentationRegion_h
+#ifndef __itkSegmentationRegion_h
+#define __itkSegmentationRegion_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -86,10 +86,10 @@ private:
   RegionLabelType           m_RegionLabel;
   double                    m_RegionArea;
 
-}; // class SegmentationRegion
+};
 
 
-} // namespace itk
+} // end namespace itk
 
 
 #endif

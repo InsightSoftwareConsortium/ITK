@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSimpleFilterWatcher_h
-#define _itkSimpleFilterWatcher_h
+#ifndef __itkSimpleFilterWatcher_h
+#define __itkSimpleFilterWatcher_h
 
 #include "itkCommand.h"
 #include "itkProcessObject.h"

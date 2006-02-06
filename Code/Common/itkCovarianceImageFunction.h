@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkCovarianceImageFunction_h
-#define _itkCovarianceImageFunction_h
+#ifndef __itkCovarianceImageFunction_h
+#define __itkCovarianceImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkNumericTraits.h"
@@ -123,7 +123,7 @@ private:
 
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCovarianceImageFunction.txx"

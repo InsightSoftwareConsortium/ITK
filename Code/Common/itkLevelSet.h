@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLevelSet_h
-#define _itkLevelSet_h
+#ifndef __itkLevelSet_h
+#define __itkLevelSet_h
 
 #include "itkIndex.h"
 #include "itkImage.h"
@@ -207,6 +207,6 @@ class ITK_EXPORT AuxVarTypeDefault
 };
 
 
-} // namespace itk
+} // end namespace itk
 
 #endif

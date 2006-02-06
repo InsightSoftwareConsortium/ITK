@@ -14,11 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSphereSignedDistanceFunction_txx
-#define _itkSphereSignedDistanceFunction_txx
+#ifndef __itkSphereSignedDistanceFunction_txx
+#define __itkSphereSignedDistanceFunction_txx
 
 #include "itkSphereSignedDistanceFunction.h"
-
 
 namespace itk
 {
@@ -90,6 +89,6 @@ SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>
 
 }
   
-} // namespace
+} // end namespace itk
 
 #endif

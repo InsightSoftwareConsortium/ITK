@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkGaussianDerivativeImageFunction_h
-#define _itkGaussianDerivativeImageFunction_h
+#ifndef __itkGaussianDerivativeImageFunction_h
+#define __itkGaussianDerivativeImageFunction_h
 
 #include "itkNeighborhoodOperatorImageFunction.h"
 #include "itkImageFunction.h"

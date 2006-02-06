@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageFunction_txx
-#define _itkImageFunction_txx
+#ifndef __itkImageFunction_txx
+#define __itkImageFunction_txx
 
 #include "itkImageFunction.h"
 

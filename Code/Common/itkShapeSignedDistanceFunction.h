@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkShapeSignedDistanceFunction_h
-#define _itkShapeSignedDistanceFunction_h
+#ifndef __itkShapeSignedDistanceFunction_h
+#define __itkShapeSignedDistanceFunction_h
 
 #include "itkSpatialFunction.h"
 #include "itkArray.h"
@@ -115,6 +115,6 @@ private:
 
 };
 
-} // namespace itk
+} // end namespace itk
 
 #endif

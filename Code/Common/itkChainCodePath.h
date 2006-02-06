@@ -14,13 +14,13 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-#ifndef _itkChainCodePath_h
-#define _itkChainCodePath_h
+#ifndef __itkChainCodePath_h
+#define __itkChainCodePath_h
 
 #include "itkPath.h"
 #include "itkIndex.h"
 #include "itkOffset.h"
+
 #include <vector>
 
 namespace itk
@@ -160,7 +160,7 @@ private:
   ChainCodeType m_Chain;            // the chain code (vector of offsets)
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkChainCodePath.txx"

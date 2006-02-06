@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVarianceImageFunction_h
-#define _itkVarianceImageFunction_h
+#ifndef __itkVarianceImageFunction_h
+#define __itkVarianceImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkNumericTraits.h"
@@ -117,7 +117,7 @@ private:
 
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVarianceImageFunction.txx"

@@ -14,11 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPCAShapeSignedDistanceFunction_txx
-#define _itkPCAShapeSignedDistanceFunction_txx
+#ifndef __itkPCAShapeSignedDistanceFunction_txx
+#define __itkPCAShapeSignedDistanceFunction_txx
 
 #include "itkPCAShapeSignedDistanceFunction.h"
-
 #include "itkTranslationTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNearestNeighborExtrapolateImageFunction.h"
@@ -226,6 +225,6 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension,TImage>
 }
   
 
-} // namespace
+} // end namespace itk
 
 #endif

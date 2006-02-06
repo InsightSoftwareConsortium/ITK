@@ -14,11 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkKernelFunction_h
-#define _itkKernelFunction_h
+#ifndef __itkKernelFunction_h
+#define __itkKernelFunction_h
 
-#include "vnl/vnl_math.h"
 #include "itkFunctionBase.h"
+#include "vnl/vnl_math.h"
 
 namespace itk
 {
@@ -60,7 +60,7 @@ protected:
 };
 
 
-} // namespace itk
+} // end namespace itk
 
 #endif
 

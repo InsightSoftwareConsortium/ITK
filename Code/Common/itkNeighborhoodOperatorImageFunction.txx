@@ -14,11 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNeighborhoodOperatorImageFunction_txx
-#define _itkNeighborhoodOperatorImageFunction_txx
+#ifndef __itkNeighborhoodOperatorImageFunction_txx
+#define __itkNeighborhoodOperatorImageFunction_txx
 
 #include "itkNeighborhoodOperatorImageFunction.h"
-
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkConstNeighborhoodIterator.h"
 
@@ -58,6 +57,6 @@ NeighborhoodOperatorImageFunction<TInputImage,TOutput>
 
 
 
-} // namespace itk
+} // end namespace itk
 
 #endif

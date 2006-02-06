@@ -14,14 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-
-#ifndef _itkPolyLineParametricPath_txx
-#define _itkPolyLineParametricPath_txx
+#ifndef __itkPolyLineParametricPath_txx
+#define __itkPolyLineParametricPath_txx
 
 #include "itkPolyLineParametricPath.h"
 #include <math.h>
-
 
 
 namespace itk
@@ -96,6 +93,6 @@ PolyLineParametricPath<VDimension>
 
 
 
-} // end namespaceitk
+} // end namespace itk
 
 #endif

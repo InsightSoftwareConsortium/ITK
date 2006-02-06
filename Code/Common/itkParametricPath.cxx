@@ -14,8 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-
 #include "itkParametricPath.h"
 
 namespace itk
@@ -30,5 +28,5 @@ namespace itk
 template class ITKCommon_EXPORT ParametricPath<2>;
 
 
-} // end namespaceitk
+} // end namespace itk
 

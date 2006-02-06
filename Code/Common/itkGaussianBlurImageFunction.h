@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkGaussianBlurImageFunction_h
-#define _itkGaussianBlurImageFunction_h
+#ifndef __itkGaussianBlurImageFunction_h
+#define __itkGaussianBlurImageFunction_h
 
 #include "itkNeighborhoodOperatorImageFunction.h"
 #include "itkGaussianOperator.h"
@@ -199,7 +199,7 @@ private:
   GaussianFunctionPointer m_GaussianFunction;
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkGaussianBlurImageFunction.txx"

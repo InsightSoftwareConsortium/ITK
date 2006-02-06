@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMahalanobisDistanceThresholdImageFunction_h
-#define _itkMahalanobisDistanceThresholdImageFunction_h
+#ifndef __itkMahalanobisDistanceThresholdImageFunction_h
+#define __itkMahalanobisDistanceThresholdImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkMahalanobisDistanceMembershipFunction.h"
@@ -168,7 +168,7 @@ private:
 
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMahalanobisDistanceThresholdImageFunction.txx"

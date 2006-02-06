@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSumOfSquaresImageFunction_h
-#define _itkSumOfSquaresImageFunction_h
+#ifndef __itkSumOfSquaresImageFunction_h
+#define __itkSumOfSquaresImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkNumericTraits.h"
@@ -130,7 +130,7 @@ private:
   unsigned int m_NeighborhoodSize;
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSumOfSquaresImageFunction.txx"

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkGaussianDerivativeImageFunction_txx
-#define _itkGaussianDerivativeImageFunction_txx
+#ifndef __itkGaussianDerivativeImageFunction_txx
+#define __itkGaussianDerivativeImageFunction_txx
 
 #include "itkGaussianDerivativeImageFunction.h"
 
@@ -473,6 +473,6 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
   return this->Evaluate(point);
 }
 
-} // namespace itk
+} // end namespace itk
 
 #endif

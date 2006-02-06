@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkConceptChecking_h
-#define _itkConceptChecking_h
+#ifndef __itkConceptChecking_h
+#define __itkConceptChecking_h
 
 /** Choose a concept checking implementation based on compiler abilities. */
 #ifndef ITK_CONCEPT_NO_CHECKING
@@ -359,8 +359,8 @@ struct SameDimension
   itkConceptConstraintsMacro();
 };
 
-} // namespace Concept
+} // end namespace Concept
 
-} // namespace itk
+} // end namespace itk
 
 #endif

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBinaryThresholdSpatialFunction_h
-#define _itkBinaryThresholdSpatialFunction_h
+#ifndef __itkBinaryThresholdSpatialFunction_h
+#define __itkBinaryThresholdSpatialFunction_h
 
 #include "itkSpatialFunction.h"
 #include "itkImageBase.h"
@@ -101,7 +101,7 @@ private:
 
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkBinaryThresholdSpatialFunction.txx"

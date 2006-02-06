@@ -14,8 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkCentralDifferenceImageFunction_txx
-#define _itkCentralDifferenceImageFunction_txx
+#ifndef __itkCentralDifferenceImageFunction_txx
+#define __itkCentralDifferenceImageFunction_txx
+
 #include "itkCentralDifferenceImageFunction.h"
 
 namespace itk
@@ -89,6 +90,6 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep>
 }
 
 
-} // namespace itk
+} // end namespace itk
 
 #endif

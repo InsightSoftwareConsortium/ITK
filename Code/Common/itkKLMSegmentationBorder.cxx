@@ -14,9 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkKLMSegmentationBorder_cxx
-#define _itkKLMSegmentationBorder_cxx
-
 #include "itkKLMSegmentationBorder.h"
 
 namespace itk
@@ -120,10 +117,8 @@ KLMSegmentationBorder
 
   std::cout << "Location      : " << this << std::endl;
   std::cout << "Lambda        : " << m_Lambda << std::endl;
-} // end PrintBorderResults
+}
 
 
 } // namespace itk
 
-
-#endif

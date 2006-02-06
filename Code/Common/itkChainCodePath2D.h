@@ -14,14 +14,14 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-#ifndef _itkChainCodePath2D_h
-#define _itkChainCodePath2D_h
+#ifndef __itkChainCodePath2D_h
+#define __itkChainCodePath2D_h
 
 #include "itkChainCodePath.h"
 #include "itkObjectFactory.h"
 #include "itkIndex.h"
 #include "itkOffset.h"
+
 #include <vector>
 #include <string>
 
@@ -178,6 +178,6 @@ private:
   OffsetType m_ReverseFreemanCode[9];
 };
 
-} // namespace itk
+} // end namespace itk
 
 #endif

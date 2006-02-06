@@ -14,8 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVectorLinearInterpolateImageFunction_txx
-#define _itkVectorLinearInterpolateImageFunction_txx
+#ifndef __itkVectorLinearInterpolateImageFunction_txx
+#define __itkVectorLinearInterpolateImageFunction_txx
+
 #include "itkVectorLinearInterpolateImageFunction.h"
 
 #include "vnl/vnl_math.h"
@@ -138,6 +139,6 @@ VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
   return ( output );
 }
 
-} // namespace itk
+} // end namespace itk
 
 #endif

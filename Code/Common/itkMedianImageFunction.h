@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMedianImageFunction_h
-#define _itkMedianImageFunction_h
+#ifndef __itkMedianImageFunction_h
+#define __itkMedianImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkNumericTraits.h"
@@ -106,7 +106,7 @@ private:
 
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMedianImageFunction.txx"

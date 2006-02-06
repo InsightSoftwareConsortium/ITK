@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBSplineInterpolationWeightFunction_txx
-#define _itkBSplineInterpolationWeightFunction_txx
+#ifndef __itkBSplineInterpolationWeightFunction_txx
+#define __itkBSplineInterpolationWeightFunction_txx
 
 #include "itkBSplineInterpolationWeightFunction.h"
 #include "itkImage.h"

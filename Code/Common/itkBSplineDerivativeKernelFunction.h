@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBSplineDerivativeKernelFunction_h
-#define _itkBSplineDerivativeKernelFunction_h
+#ifndef __itkBSplineDerivativeKernelFunction_h
+#define __itkBSplineDerivativeKernelFunction_h
 
 #include "itkKernelFunction.h"
 #include "itkBSplineKernelFunction.h"
@@ -90,6 +90,6 @@ private:
 
 
 
-} // namespace itk
+} // end namespace itk
 
 #endif

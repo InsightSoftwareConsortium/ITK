@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef  _itkConditionVariable_h_
-#define  _itkConditionVariable_h_
+#ifndef  __itkConditionVariable_h
+#define  __itkConditionVariable_h
 
 #include "itkConfigure.h"
 
@@ -118,6 +118,6 @@ private:
 #endif
 };
 
-}//end of itk namespace
+} // end namespace itk
 
 #endif

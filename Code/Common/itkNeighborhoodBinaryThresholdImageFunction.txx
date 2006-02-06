@@ -14,10 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNeighborhoodBinaryThresholdImageFunction_txx
-#define _itkNeighborhoodBinaryThresholdImageFunction_txx
-#include "itkNeighborhoodBinaryThresholdImageFunction.h"
+#ifndef __itkNeighborhoodBinaryThresholdImageFunction_txx
+#define __itkNeighborhoodBinaryThresholdImageFunction_txx
 
+#include "itkNeighborhoodBinaryThresholdImageFunction.h"
 #include "itkNumericTraits.h"
 #include "itkConstNeighborhoodIterator.h"
 
@@ -95,6 +95,6 @@ NeighborhoodBinaryThresholdImageFunction<TInputImage,TCoordRep>
 }
 
 
-} // namespace itk
+} // end namespace itk
 
 #endif

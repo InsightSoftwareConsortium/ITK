@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkGaussianKernelFunction_h
-#define _itkGaussianKernelFunction_h
+#ifndef __itkGaussianKernelFunction_h
+#define __itkGaussianKernelFunction_h
 
 #include "itkKernelFunction.h"
 #include "vnl/vnl_math.h"
@@ -68,6 +68,6 @@ private:
 
 };
 
-} // namespace itk
+} // end namespace itk
 
 #endif

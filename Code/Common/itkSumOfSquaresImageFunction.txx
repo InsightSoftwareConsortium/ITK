@@ -14,8 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSumOfSquaresImageFunction_txx
-#define _itkSumOfSquaresImageFunction_txx
+#ifndef __itkSumOfSquaresImageFunction_txx
+#define __itkSumOfSquaresImageFunction_txx
+
 #include "itkSumOfSquaresImageFunction.h"
 
 #include "itkNumericTraits.h"
@@ -95,6 +96,6 @@ SumOfSquaresImageFunction<TInputImage,TCoordRep>
 }
 
 
-} // namespace itk
+} // end namespace itk
 
 #endif

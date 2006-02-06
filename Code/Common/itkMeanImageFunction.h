@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMeanImageFunction_h
-#define _itkMeanImageFunction_h
+#ifndef __itkMeanImageFunction_h
+#define __itkMeanImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkNumericTraits.h"
@@ -120,7 +120,7 @@ private:
 
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMeanImageFunction.txx"

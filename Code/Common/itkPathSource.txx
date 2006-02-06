@@ -14,9 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkPathSource_txx
+#define __itkPathSource_txx
 
-#ifndef _itkPathSource_txx
-#define _itkPathSource_txx
 #include "itkPathSource.h"
 
 namespace itk

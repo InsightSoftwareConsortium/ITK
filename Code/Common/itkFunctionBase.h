@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFunctionBase_h
-#define _itkFunctionBase_h
+#ifndef __itkFunctionBase_h
+#define __itkFunctionBase_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -71,6 +71,6 @@ private:
 
 };
 
-} // namespace itk
+} // end namespace itk
 
 #endif

@@ -14,9 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-#ifndef _itkPolyLineParametricPathPath_h
-#define _itkPolyLineParametricPathPath_h
+#ifndef __itkPolyLineParametricPathPath_h
+#define __itkPolyLineParametricPathPath_h
 
 #include "itkParametricPath.h"
 #include "itkVectorContainer.h"
@@ -133,7 +132,7 @@ private:
   VertexListPointer m_VertexList;
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPolyLineParametricPath.txx"

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkProgressReporter_h
-#define _itkProgressReporter_h
+#ifndef __itkProgressReporter_h
+#define __itkProgressReporter_h
 
 #include "itkProcessObject.h"
 

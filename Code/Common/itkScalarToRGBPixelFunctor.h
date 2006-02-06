@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkScalarToRGBPixelFunctor_h
-#define _itkScalarToRGBPixelFunctor_h
+#ifndef __itkScalarToRGBPixelFunctor_h
+#define __itkScalarToRGBPixelFunctor_h
 
 #include "itkRGBPixel.h"
 

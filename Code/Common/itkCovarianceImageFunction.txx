@@ -1,21 +1,22 @@
 /*=========================================================================
 
-    Program:   Insight Segmentation & Registration Toolkit
-    Module:    itkCovarianceImageFunction.txx
-    Language:  C++
-    Date:      $Date$
-    Version:   $Revision$
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkCovarianceImageFunction.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-    Copyright (c) Insight Software Consortium. All rights reserved.
-    See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-       This software is distributed WITHOUT ANY WARRANTY; without even 
-       the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-       PURPOSE.  See the above copyright notices for more information.
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
-  =========================================================================*/
-#ifndef _itkCovarianceImageFunction_txx
-#define _itkCovarianceImageFunction_txx
+=========================================================================*/
+#ifndef __itkCovarianceImageFunction_txx
+#define __itkCovarianceImageFunction_txx
+
 #include "itkCovarianceImageFunction.h"
 #include "itkMatrix.h"
 #include "itkNumericTraits.h"
@@ -135,6 +136,6 @@ CovarianceImageFunction<TInputImage,TCoordRep>
 }
 
 
-} // namespace itk
+} // end namespace itk
 
 #endif

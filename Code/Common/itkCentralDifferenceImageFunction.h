@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkCentralDifferenceImageFunction_h
-#define _itkCentralDifferenceImageFunction_h
+#ifndef __itkCentralDifferenceImageFunction_h
+#define __itkCentralDifferenceImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkCovariantVector.h"
@@ -119,7 +119,7 @@ private:
 
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCentralDifferenceImageFunction.txx"

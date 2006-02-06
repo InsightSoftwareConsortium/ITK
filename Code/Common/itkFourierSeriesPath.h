@@ -14,9 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-#ifndef _itkFourierSeriesPath_h
-#define _itkFourierSeriesPath_h
+#ifndef __itkFourierSeriesPath_h
+#define __itkFourierSeriesPath_h
 
 #include "itkParametricPath.h"
 #include "itkVectorContainer.h"
@@ -129,7 +128,7 @@ private:
   CoefficientsPointer m_SinCoefficients;
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFourierSeriesPath.txx"

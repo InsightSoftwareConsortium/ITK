@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNeighborhoodOperatorImageFunction_h
-#define _itkNeighborhoodOperatorImageFunction_h
+#ifndef __itkNeighborhoodOperatorImageFunction_h
+#define __itkNeighborhoodOperatorImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkNeighborhood.h"
@@ -120,7 +120,7 @@ private:
 
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkNeighborhoodOperatorImageFunction.txx"

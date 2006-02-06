@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkKLMSegmentationRegion_h
-#define _itkKLMSegmentationRegion_h
+#ifndef __itkKLMSegmentationRegion_h
+#define __itkKLMSegmentationRegion_h
 
 #include "itkObject.h"
 #include "itkKLMSegmentationBorder.h"

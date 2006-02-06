@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkIterationReporter_h
-#define _itkIterationReporter_h
+#ifndef __itkIterationReporter_h
+#define __itkIterationReporter_h
 
 #include "itkProcessObject.h"
 

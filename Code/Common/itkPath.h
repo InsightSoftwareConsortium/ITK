@@ -14,11 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkPath_h
+#define __itkPath_h
 
-#ifndef _itkPath_h
-#define _itkPath_h
-
-//#include "itkFunctionBase.h"
 #include "itkDataObject.h"
 #include "itkIndex.h"
 #include "itkOffset.h"

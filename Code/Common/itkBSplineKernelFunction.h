@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBSplineKernelFunction_h
-#define _itkBSplineKernelFunction_h
+#ifndef __itkBSplineKernelFunction_h
+#define __itkBSplineKernelFunction_h
 
 #include "itkKernelFunction.h"
 #include "vnl/vnl_math.h"
@@ -172,6 +172,6 @@ private:
 
 
 
-} // namespace itk
+} // end namespace itk
 
 #endif

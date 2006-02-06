@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBinaryThresholdImageFunction_txx
-#define _itkBinaryThresholdImageFunction_txx
+#ifndef __itkBinaryThresholdImageFunction_txx
+#define __itkBinaryThresholdImageFunction_txx
 
 #include "itkBinaryThresholdImageFunction.h"
 

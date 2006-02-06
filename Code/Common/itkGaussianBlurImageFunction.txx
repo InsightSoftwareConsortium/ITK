@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkGaussianBlurImageFunction_txx
-#define _itkGaussianBlurImageFunction_txx
+#ifndef __itkGaussianBlurImageFunction_txx
+#define __itkGaussianBlurImageFunction_txx
 
 #include "itkGaussianBlurImageFunction.h"
 #include "itkImageLinearIteratorWithIndex.h"
@@ -554,6 +554,6 @@ GaussianBlurImageFunction<TInputImage,TOutput>
 
 }
 
-} // namespace itk
+} // end namespace itk
 
 #endif

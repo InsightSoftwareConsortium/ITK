@@ -14,9 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkKLMSegmentationRegion_cxx
-#define _itkKLMSegmentationRegion_cxx
-
 #include "itkKLMSegmentationRegion.h"
 
 namespace itk
@@ -596,5 +593,3 @@ KLMSegmentationRegion
 
 } // namespace itk
 
-
-#endif

@@ -14,8 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVectorNearestNeighborInterpolateImageFunction_txx
-#define _itkVectorNearestNeighborInterpolateImageFunction_txx
+#ifndef __itkVectorNearestNeighborInterpolateImageFunction_txx
+#define __itkVectorNearestNeighborInterpolateImageFunction_txx
+
 #include "itkVectorNearestNeighborInterpolateImageFunction.h"
 
 #include "vnl/vnl_math.h"
@@ -157,6 +158,6 @@ VectorNearestNeighborInterpolateImageFunction< TInputImage, TCoordRep >
   return ( output );
 }
 
-} // namespace itk
+} // end namespace itk
 
 #endif

@@ -1,23 +1,23 @@
 /*=========================================================================
 
-    Program:   Insight Segmentation & Registration Toolkit
-    Module:    itkMeanImageFunction.txx
-    Language:  C++
-    Date:      $Date$
-    Version:   $Revision$
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkMeanImageFunction.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-    Copyright (c) Insight Software Consortium. All rights reserved.
-    See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-       This software is distributed WITHOUT ANY WARRANTY; without even 
-       the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-       PURPOSE.  See the above copyright notices for more information.
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
-  =========================================================================*/
-#ifndef _itkMeanImageFunction_txx
-#define _itkMeanImageFunction_txx
+=========================================================================*/
+#ifndef __itkMeanImageFunction_txx
+#define __itkMeanImageFunction_txx
+
 #include "itkMeanImageFunction.h"
-
 #include "itkNumericTraits.h"
 #include "itkConstNeighborhoodIterator.h"
 
@@ -93,6 +93,6 @@ MeanImageFunction<TInputImage,TCoordRep>
 }
 
 
-} // namespace itk
+} // end namespace itk
 
 #endif

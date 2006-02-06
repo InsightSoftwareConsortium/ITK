@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkScatterMatrixImageFunction_h
-#define _itkScatterMatrixImageFunction_h
+#ifndef __itkScatterMatrixImageFunction_h
+#define __itkScatterMatrixImageFunction_h
 
 #include "itkImageFunction.h"
 #include "itkNumericTraits.h"
@@ -123,7 +123,7 @@ private:
 
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkScatterMatrixImageFunction.txx"

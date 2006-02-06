@@ -14,9 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSegmentationBorder_cxx
-#define _itkSegmentationBorder_cxx
-
 #include "itkSegmentationBorder.h"
 
 namespace itk
@@ -46,9 +43,7 @@ SegmentationBorder
   Superclass::PrintSelf(os,indent);
   os << indent << "Segmentation border object" << std::endl;
   os << indent << "Length of the border: " << m_BorderLength << std::endl;
+}
 
-}// end PrintSelf
+} // end namespace itk
 
-} // namespace itk
-
-#endif

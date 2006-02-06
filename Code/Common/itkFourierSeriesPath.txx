@@ -14,10 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-
-#ifndef _itkFourierSeriesPath_txx
-#define _itkFourierSeriesPath_txx
+#ifndef __itkFourierSeriesPath_txx
+#define __itkFourierSeriesPath_txx
 
 #include "itkFourierSeriesPath.h"
 #include <math.h>
@@ -125,8 +123,6 @@ FourierSeriesPath<VDimension>
   os << indent << "Cos Coefficients:  " << m_CosCoefficients << std::endl;
   os << indent << "Sin Coefficients:  " << m_SinCoefficients << std::endl;
 }
-
-
 
 } // end namespaceitk
 

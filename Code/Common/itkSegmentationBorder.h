@@ -14,11 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSegmentationBorder_h
-#define _itkSegmentationBorder_h
+#ifndef __itkSegmentationBorder_h
+#define __itkSegmentationBorder_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
+
 namespace itk
 {
 
@@ -76,10 +77,10 @@ private:
 
   double m_BorderLength;
 
-}; // class SegmentationBorder
+};
 
 
-} // namespace itk
+} // end namespace itk
 
 
 #endif

@@ -14,12 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkKLMSegmentationBorder_h
-#define _itkKLMSegmentationBorder_h
+#ifndef __itkKLMSegmentationBorder_h
+#define __itkKLMSegmentationBorder_h
 
 #include "itkObject.h"
 #include "itkSegmentationBorder.h"
-
 #include "itkKLMSegmentationRegion.h"
 #include "itkExceptionObject.h"
 
@@ -189,10 +188,10 @@ private:
   KLMSegmentationRegion *m_Region1;
   KLMSegmentationRegion *m_Region2;
 
-}; // class KLMSegmentationBorder
+};
 
 
-} // namespace itk
+} // end namespace itk
 
 
 #endif

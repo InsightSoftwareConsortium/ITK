@@ -14,8 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVarianceImageFunction_txx
-#define _itkVarianceImageFunction_txx
+#ifndef __itkVarianceImageFunction_txx
+#define __itkVarianceImageFunction_txx
+
 #include "itkVarianceImageFunction.h"
 
 #include "itkNumericTraits.h"
@@ -100,6 +101,6 @@ VarianceImageFunction<TInputImage,TCoordRep>
 }
 
 
-} // namespace itk
+} // end namespace itk
 
 #endif

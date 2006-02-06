@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNeighborhoodBinaryThresholdImageFunction_h
-#define _itkNeighborhoodBinaryThresholdImageFunction_h
+#ifndef __itkNeighborhoodBinaryThresholdImageFunction_h
+#define __itkNeighborhoodBinaryThresholdImageFunction_h
 
 #include "itkBinaryThresholdImageFunction.h"
 
@@ -115,7 +115,7 @@ private:
   InputSizeType m_Radius;
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkNeighborhoodBinaryThresholdImageFunction.txx"

@@ -14,12 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-#ifndef _itkPathToPathFilter_txx
-#define _itkPathToPathFilter_txx
+#ifndef __itkPathToPathFilter_txx
+#define __itkPathToPathFilter_txx
 
 #include "itkPathToPathFilter.h"
-
 
 namespace itk
 {

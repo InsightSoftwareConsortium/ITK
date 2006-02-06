@@ -14,9 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-#ifndef _itkPathToPathFilter_h
-#define _itkPathToPathFilter_h
+#ifndef __itkPathToPathFilter_h
+#define __itkPathToPathFilter_h
 
 #include "itkPathSource.h"
 #include "itkPath.h"

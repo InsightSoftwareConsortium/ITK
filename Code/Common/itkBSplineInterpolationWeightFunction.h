@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBSplineInterpolationWeightFunction_h
-#define _itkBSplineInterpolationWeightFunction_h
+#ifndef __itkBSplineInterpolationWeightFunction_h
+#define __itkBSplineInterpolationWeightFunction_h
 
 #include "itkFunctionBase.h"
 #include "itkContinuousIndex.h"
@@ -132,7 +132,7 @@ private:
   
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkBSplineInterpolationWeightFunction.txx"

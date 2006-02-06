@@ -14,9 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-#ifndef _itkPathFunctions_h
-#define _itkPathFunctions_h
+#ifndef __itkPathFunctions_h
+#define __itkPathFunctions_h
 
 
 #include "itkPath.h"
@@ -144,6 +143,6 @@ void MakeFourierSeriesPathTraceChainCode( TFourierSeriesPath & FSPath,
 
 
 
-} // namespace itk
+} // end namespace itk
 
 #endif

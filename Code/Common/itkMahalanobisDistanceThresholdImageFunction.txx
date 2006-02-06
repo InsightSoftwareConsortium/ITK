@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMahalanobisDistanceThresholdImageFunction_txx
-#define _itkMahalanobisDistanceThresholdImageFunction_txx
+#ifndef __itkMahalanobisDistanceThresholdImageFunction_txx
+#define __itkMahalanobisDistanceThresholdImageFunction_txx
 
 #include "itkMahalanobisDistanceThresholdImageFunction.h"
 

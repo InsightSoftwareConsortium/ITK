@@ -14,9 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSegmentationRegion_cxx
-#define _itkSegmentationRegion_cxx
-
 #include "itkSegmentationRegion.h"
 
 namespace itk
@@ -50,9 +47,7 @@ SegmentationRegion
   os << indent << "Segmentation region object" << std::endl;
   os << indent << "Region label            : " << m_RegionLabel << std::endl;
   os << indent << "Area of the region      : " << m_RegionArea << std::endl;
-}// end PrintSelf
+}
 
-} // namespace itk
+} // end namespace itk
 
-
-#endif

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNearestNeighborInterpolateImageFunction_h
-#define _itkNearestNeighborInterpolateImageFunction_h
+#ifndef __itkNearestNeighborInterpolateImageFunction_h
+#define __itkNearestNeighborInterpolateImageFunction_h
 
 #include "itkInterpolateImageFunction.h"
 
@@ -94,6 +94,6 @@ private:
 
 };
 
-} // namespace itk
+} // end namespace itk
 
 #endif

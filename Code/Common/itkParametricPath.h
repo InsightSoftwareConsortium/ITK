@@ -14,9 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-#ifndef _itkParametricPath_h
-#define _itkParametricPath_h
+#ifndef __itkParametricPath_h
+#define __itkParametricPath_h
 
 #include "itkPath.h"
 #include "itkContinuousIndex.h"

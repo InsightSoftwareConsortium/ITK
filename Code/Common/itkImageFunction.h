@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageFunction_h
-#define _itkImageFunction_h
+#ifndef __itkImageFunction_h
+#define __itkImageFunction_h
 
 #include "itkFunctionBase.h"
 #include "itkPoint.h"
@@ -206,7 +206,7 @@ private:
   
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageFunction.txx"

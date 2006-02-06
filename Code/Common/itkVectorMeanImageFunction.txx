@@ -14,10 +14,10 @@
        PURPOSE.  See the above copyright notices for more information.
 
   =========================================================================*/
-#ifndef _itkVectorMeanImageFunction_txx
-#define _itkVectorMeanImageFunction_txx
-#include "itkVectorMeanImageFunction.h"
+#ifndef __itkVectorMeanImageFunction_txx
+#define __itkVectorMeanImageFunction_txx
 
+#include "itkVectorMeanImageFunction.h"
 #include "itkNumericTraits.h"
 #include "itkConstNeighborhoodIterator.h"
 
@@ -107,6 +107,6 @@ VectorMeanImageFunction<TInputImage,TCoordRep>
 }
 
 
-} // namespace itk
+} // end namespace itk
 
 #endif

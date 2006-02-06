@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLinearInterpolateImageFunction_h
-#define _itkLinearInterpolateImageFunction_h
+#ifndef __itkLinearInterpolateImageFunction_h
+#define __itkLinearInterpolateImageFunction_h
 
 #include "itkInterpolateImageFunction.h"
 
@@ -99,7 +99,7 @@ private:
 
 };
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkLinearInterpolateImageFunction.txx"

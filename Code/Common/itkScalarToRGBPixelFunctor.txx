@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkScalarToRGBPixelFunctor_txx
-#define _itkScalarToRGBPixelFunctor_txx
+#ifndef __itkScalarToRGBPixelFunctor_txx
+#define __itkScalarToRGBPixelFunctor_txx
 
 #include "itkScalarToRGBPixelFunctor.h"
 
@@ -32,8 +32,9 @@ ScalarToRGBPixelFunctor<TScalar>
   for (unsigned int i = 0; i < l && i < 3; ++i)
     {      m_Index[i] = i;    }
 
+#ifdef ITK_WORDS_BIGENDIAN
   m_IsBigEndian = true;
-#ifndef ITK_WORDS_BIGENDIAN
+#else
   m_IsBigEndian = false;
 #endif
 }

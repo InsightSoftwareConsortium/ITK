@@ -14,9 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef  _itkConditionVariable_cxx_
-#define  _itkConditionVariable_cxx_
-
 #include "itkConditionVariable.h"
 
 namespace itk {
@@ -166,4 +163,3 @@ void ConditionVariable::Wait(SimpleMutexLock *mutex)
 
 }//end of namespace itk
 
-#endif

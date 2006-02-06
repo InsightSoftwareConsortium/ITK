@@ -14,15 +14,15 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMedianImageFunction_txx
-#define _itkMedianImageFunction_txx
-#include "itkMedianImageFunction.h"
+#ifndef __itkMedianImageFunction_txx
+#define __itkMedianImageFunction_txx
 
+#include "itkMedianImageFunction.h"
 #include "itkNumericTraits.h"
 #include "itkConstNeighborhoodIterator.h"
+
 #include <vector>
 #include <algorithm>
-
 
 namespace itk
 {

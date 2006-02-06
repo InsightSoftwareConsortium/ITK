@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPointSet_txx
-#define _itkPointSet_txx
+#ifndef __itkPointSet_txx
+#define __itkPointSet_txx
 
 #include "itkPointSet.h"
 #include "itkProcessObject.h"

@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPath_txx
-#define _itkPath_txx
+#ifndef __itkPath_txx
+#define __itkPath_txx
 
 #include "itkPath.h"
 #include "itkProcessObject.h"
