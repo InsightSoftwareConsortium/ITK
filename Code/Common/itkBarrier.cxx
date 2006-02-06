@@ -14,9 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkBarrier_cxx_
-#define __itkBarrier_cxx_
-
 #include "itkBarrier.h"
 #include "itkMacro.h"
 
@@ -134,4 +131,3 @@ void Barrier::Wait()
 
 }// end namespace itk
 
-#endif

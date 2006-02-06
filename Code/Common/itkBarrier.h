@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkBarrier_h_
-#define __itkBarrier_h_
+#ifndef __itkBarrier_h
+#define __itkBarrier_h
 
 #include "itkLightObject.h"
 #include "itkConditionVariable.h"

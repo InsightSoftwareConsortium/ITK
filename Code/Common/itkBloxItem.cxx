@@ -14,9 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkBloxItem_cxx
-#define __itkBloxItem_cxx
-
 #include "itkBloxItem.h"
 
 namespace itk
@@ -34,4 +31,3 @@ BloxItem::~BloxItem()
 
 } // end namespace itk
 
-#endif

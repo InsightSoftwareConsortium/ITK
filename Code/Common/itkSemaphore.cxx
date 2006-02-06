@@ -14,9 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSemaphore_cxx_
-#define __itkSemaphore_cxx_
-
 #include "itkConfigure.h"
 #include "itkSemaphore.h"
 
@@ -462,4 +459,3 @@ void Semaphore::UnixIpcSemaphoreCall (int sid, int op)
 
 }//end if namespace itk
 
-#endif
