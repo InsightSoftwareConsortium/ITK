@@ -25,6 +25,7 @@
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkGEImageHeader.h"
+#include "itkSpatialOrientationAdapter.h"
 //#include "idbm_hdr_def.h"
 #include "itkDirectory.h"
 #include "itkMetaDataObject.h"
@@ -199,8 +200,8 @@ void IPLCommonImageIO::Read(void* buffer)
 
   for(;it != itend; it++)
     {
-    std::ifstream f((*it)->GetimageFileName().c_str(),
-                    std::ios::binary | std::ios::in);
+    std::string curfilename = (*it)->GetimageFileName();
+    std::ifstream f(curfilename.c_str(),std::ios::binary | std::ios::in);
 
     //std::cerr << (*it)->imageFileName << std::endl; std::cerr.flush();
     if(!f.is_open())
@@ -279,6 +280,32 @@ void IPLCommonImageIO::ReadImageInformation()
   itk::EncapsulateMetaData<short int>(thisDic,ITK_OnDiskBitPerPixel,(short int)16);
     
   itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation,m_ImageHeader->coordinateOrientation);
+
+  //
+  // has to be set before setting dir cosines, 
+  // otherwise the vector doesn't get allocated
+  this->SetNumberOfDimensions(3);
+  //
+  // set direction cosines
+  typedef SpatialOrientationAdapter<3> OrientAdapterType;
+  SpatialOrientationAdapter<3>::DirectionType dir 
+    =  OrientAdapterType().ToDirectionCosines(m_ImageHeader->coordinateOrientation);
+  std::vector<double> dirx(3,0),
+    diry(3,0),
+    dirz(3,0);
+  dirx[0] = dir[0][0];
+  dirx[1] = dir[1][0];
+  dirx[2] = dir[2][0];
+  diry[0] = dir[0][1];
+  diry[1] = dir[1][1];
+  diry[2] = dir[2][1];
+  dirz[0] = dir[0][2];
+  dirz[1] = dir[1][2];
+  dirz[2] = dir[2][2];
+  this->SetDirection(0,dirx);
+  this->SetDirection(1,diry);
+  this->SetDirection(2,dirz);  
+  
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_PatientID,std::string(m_ImageHeader->patientId));
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_ExperimentDate,std::string(m_ImageHeader->date));
 
@@ -299,17 +326,17 @@ void IPLCommonImageIO::ReadImageInformation()
     {
     *lastslash = '\0';
     }
-  itk::Directory::Pointer dir = itk::Directory::New();
-  if(dir->Load(imagePath) == 0)
+  itk::Directory::Pointer Dir = itk::Directory::New();
+  if(Dir->Load(imagePath) == 0)
     RAISE_EXCEPTION();
   std::vector<std::string>::size_type i;
-  std::vector<std::string>::size_type numfiles;
+  std::vector<std::string>::size_type numfiles; 
     
   struct GEImageHeader *curImageHeader;
 
-  for(i = 0, numfiles = dir->GetNumberOfFiles(); i < numfiles; i++) 
+  for(i = 0, numfiles = Dir->GetNumberOfFiles(); i < numfiles; i++) 
     {
-    const char *curFname =  dir->GetFile(i);
+    const char *curFname =  Dir->GetFile(i);
     char fullPath[IOCommon::ITK_MAXPATHLEN+1];
     sprintf(fullPath,"%s/%s",imagePath,curFname);
 
@@ -352,7 +379,6 @@ void IPLCommonImageIO::ReadImageInformation()
   //
   //
   // set the image properties
-  this->SetNumberOfDimensions(3);
   this->SetDimensions(0,m_ImageHeader->imageXsize);
   this->SetDimensions(1,m_ImageHeader->imageYsize);
   this->SetDimensions(2,m_fnlist->NumFiles());
