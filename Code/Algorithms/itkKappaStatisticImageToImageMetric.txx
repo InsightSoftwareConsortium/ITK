@@ -288,6 +288,20 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
 
 
 /*
+ * Get both the match Measure and theDerivative Measure 
+ */
+template <class TFixedImage, class TMovingImage> 
+void
+KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
+::GetValueAndDerivative(const TransformParametersType & parameters, 
+                        MeasureType & Value, DerivativeType  & Derivative) const
+{
+  Value      = this->GetValue( parameters );
+  this->GetDerivative( parameters, Derivative );
+}
+
+
+/*
  * PrintSelf
  */
 template <class TFixedImage, class TMovingImage> 

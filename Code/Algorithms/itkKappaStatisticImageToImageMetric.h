@@ -95,6 +95,10 @@ public:
    *  been set, the metric value is 1.0-2*|A&B|/(|A|+|B|). */
   MeasureType GetValue( const TransformParametersType & parameters ) const;
 
+  /** Get both the value and derivative. This method internally calls the 
+    \c GetValue() and the \c GetDerivative() method. */
+  void GetValueAndDerivative( const TransformParametersType & parameters,
+                              MeasureType& Value, DerivativeType& Derivative ) const;
 
   /** This method allows the user to set the foreground value.  The default 
    *  value is 255. */
