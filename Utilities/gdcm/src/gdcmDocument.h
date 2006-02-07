@@ -48,7 +48,9 @@ typedef std::list<Element> ListElements;
 
 // Loading
    //Deprecated : use SetFileName() + Load()
+#ifndef GDCM_LEGACY_REMOVE 
    virtual bool Load( std::string const &filename ); 
+#endif
    virtual bool Load( ); 
 
 // Dictionaries
