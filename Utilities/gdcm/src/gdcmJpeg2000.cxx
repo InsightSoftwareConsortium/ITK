@@ -78,9 +78,9 @@ bool gdcm_read_JPEG2000_file (void* raw, char *inputdata, size_t inputlength)
 {
   opj_dparameters_t parameters;  /* decompression parameters */
   opj_event_mgr_t event_mgr;    /* event manager */
-  opj_image_t *image = NULL;
-  opj_dinfo_t* dinfo = NULL;  /* handle to a decompressor */
-  opj_cio_t *cio = NULL;
+  opj_image_t *image;
+  opj_dinfo_t* dinfo;  /* handle to a decompressor */
+  opj_cio_t *cio;
   unsigned char *src = (unsigned char*)inputdata; 
   int file_length = inputlength;
 
@@ -130,8 +130,6 @@ bool gdcm_read_JPEG2000_file (void* raw, char *inputdata, size_t inputlength)
 
   /* free the memory containing the code-stream */
   delete[] src;  //FIXME
-  src = NULL;
-
 
    // Copy buffer
    for (int compno = 0; compno < image->numcomps; compno++)
