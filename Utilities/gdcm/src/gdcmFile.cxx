@@ -1857,6 +1857,9 @@ File::File( std::string const &filename )
 {    
    RLEInfo  = new RLEFramesInfo;
    JPEGInfo = new JPEGFragmentsInfo;
+   GrPixel  = 0x7fe0;  // to avoid further troubles
+   NumPixel = 0x0010;
+   BasicOffsetTableItemValue = 0;
 
    SetFileName( filename );
    Load( ); // gdcm::Document is first Loaded, then the 'File part'
