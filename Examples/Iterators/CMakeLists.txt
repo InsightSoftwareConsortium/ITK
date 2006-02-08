@@ -4,18 +4,6 @@
 PROJECT(IteratorExamples)
 INCLUDE_REGULAR_EXPRESSION("^.*$")
 
-ADD_EXECUTABLE(ImageRegionIterator ImageRegionIterator.cxx)
-TARGET_LINK_LIBRARIES(ImageRegionIterator ITKIO   )
-
-ADD_EXECUTABLE(ImageRegionIteratorWithIndex ImageRegionIteratorWithIndex.cxx)
-TARGET_LINK_LIBRARIES(ImageRegionIteratorWithIndex ITKIO   )
-
-ADD_EXECUTABLE(ImageLinearIteratorWithIndex ImageLinearIteratorWithIndex.cxx)
-TARGET_LINK_LIBRARIES(ImageLinearIteratorWithIndex ITKIO   )
-
-ADD_EXECUTABLE(ImageLinearIteratorWithIndex2 ImageLinearIteratorWithIndex2.cxx)
-TARGET_LINK_LIBRARIES(ImageLinearIteratorWithIndex2 ITKIO   )
-
 ADD_EXECUTABLE(ImageRandomConstIteratorWithIndex ImageRandomConstIteratorWithIndex.cxx)
 TARGET_LINK_LIBRARIES(ImageRandomConstIteratorWithIndex ITKIO   )
 
@@ -38,6 +26,18 @@ ADD_EXECUTABLE(NeighborhoodIterators6 NeighborhoodIterators6.cxx)
 TARGET_LINK_LIBRARIES(NeighborhoodIterators6 ITKAlgorithms ITKBasicFilters ITKIO )
 
 IF(NOT BORLAND)
+ADD_EXECUTABLE(ImageRegionIteratorWithIndex ImageRegionIteratorWithIndex.cxx)
+TARGET_LINK_LIBRARIES(ImageRegionIteratorWithIndex ITKIO   )
+
+ADD_EXECUTABLE(ImageRegionIterator ImageRegionIterator.cxx)
+TARGET_LINK_LIBRARIES(ImageRegionIterator ITKIO   )
+
+ADD_EXECUTABLE(ImageLinearIteratorWithIndex2 ImageLinearIteratorWithIndex2.cxx)
+TARGET_LINK_LIBRARIES(ImageLinearIteratorWithIndex2 ITKIO   )
+
+ADD_EXECUTABLE(ImageLinearIteratorWithIndex ImageLinearIteratorWithIndex.cxx)
+TARGET_LINK_LIBRARIES(ImageLinearIteratorWithIndex ITKIO   )
+
 ADD_EXECUTABLE(ImageSliceIteratorWithIndex ImageSliceIteratorWithIndex.cxx)
 TARGET_LINK_LIBRARIES(ImageSliceIteratorWithIndex ITKIO   )
 
