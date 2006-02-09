@@ -266,7 +266,7 @@ TileImageFilter<TInputImage, TOutputImage>
   while (!it.IsAtEnd())
     {
     value = it.Get().m_ImageNumber;
-    if (value > 0)
+    if (value >= 0)
       {
       typename TileImageType::IndexType tileIndex = it.GetIndex();
 
@@ -293,7 +293,7 @@ TileImageFilter<TInputImage, TOutputImage>
     }
 
   typename TOutputImage::RegionType outputLargestPossibleRegion;
-  outputSize[OutputImageDimension - 1] = m_Layout[OutputImageDimension - 1];
+
   outputLargestPossibleRegion.SetSize( outputSize );
   outputLargestPossibleRegion.SetIndex( outputIndex );
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
