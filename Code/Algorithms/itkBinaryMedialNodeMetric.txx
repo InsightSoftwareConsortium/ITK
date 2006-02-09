@@ -14,10 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBinaryMedialNodeMetric_cxx
-#define _itkBinaryMedialNodeMetric_cxx
+#ifndef __itkBinaryMedialNodeMetric_txx
+#define __itkBinaryMedialNodeMetric_txx
 
 #include "itkBinaryMedialNodeMetric.h"
+#include "vnl/vnl_vector_fixed.h"
 
 namespace itk
 {

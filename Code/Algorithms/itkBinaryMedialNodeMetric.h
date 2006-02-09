@@ -18,8 +18,6 @@
 #define __itkBinaryMedialNodeMetric_h
 
 #include "itkLightObject.h"
-
-#include "vnl/vnl_vector_fixed.h"
 #include "itkBloxCoreAtomPixel.h"
 
 namespace itk
