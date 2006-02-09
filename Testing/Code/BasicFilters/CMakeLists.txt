@@ -538,6 +538,18 @@ ADD_TEST(itkTileImageFilterTest ${BASIC_FILTERS_TESTS2}
             ${ITK_DATA_ROOT}/Input/smooth_square.png
             ${ITK_TEST_OUTPUT_DIR}/TileImageFilterTest%d.png)
 
+ADD_TEST(itkPushPopTileImageFilterTest ${BASIC_FILTERS_TESTS2}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/PushPopTileImageFilterTest.png
+            ${ITK_TEST_OUTPUT_DIR}/PushPopTileImageFilterTest.png
+  itkPushPopTileImageFilterTest
+            ${ITK_DATA_ROOT}/Input/Shapes.png
+            ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
+            ${ITK_DATA_ROOT}/Input/cake_easy.png
+            ${ITK_DATA_ROOT}/Input/cthead1.png
+            ${ITK_TEST_OUTPUT_DIR}/PushPopTileImageFilterTest.png)
+
+
+
 ADD_TEST(itkPasteImageFilterTest ${BASIC_FILTERS_TESTS1}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/PasteImageFilterTest.png
             ${ITK_TEST_OUTPUT_DIR}/PasteImageFilterTest.png
@@ -893,6 +905,7 @@ itkDeformationFieldJacobianDeterminantFilterTest.cxx
 itkGrayscaleMorphologicalClosingImageFilterTest.cxx
 itkGrayscaleMorphologicalOpeningImageFilterTest.cxx
 itkJoinSeriesImageFilterTest.cxx
+itkPushPopTileImageFilterTest.cxx
 itkSimpleContourExtractorImageFilterTest.cxx
 itkShiftScaleImageFilterTest.cxx
 itkShiftScaleInPlaceImageFilterTest.cxx

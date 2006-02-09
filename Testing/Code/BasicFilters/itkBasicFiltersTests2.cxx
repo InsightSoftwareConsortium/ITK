@@ -42,6 +42,7 @@ void RegisterTests()
   REGISTER_TEST(itkJoinSeriesImageFilterPrintTest);
   REGISTER_TEST(itkJoinSeriesImageFilterTest );
   REGISTER_TEST(itkShiftScaleImageFilterTest );
+  REGISTER_TEST(itkPushPopTileImageFilterTest );
   REGISTER_TEST(itkShiftScaleInPlaceImageFilterTest );
   REGISTER_TEST(itkShrinkImageTest );
   REGISTER_TEST(itkSigmoidImageFilterTest );
