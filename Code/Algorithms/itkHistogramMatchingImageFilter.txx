@@ -433,18 +433,18 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
   histogram->Initialize( size );
 
   // set up min/max values in the histogram
-  float stepSize = ( maxValue - minValue ) / 
-    static_cast<float>( m_NumberOfHistogramLevels );
+  const double stepSize = ( maxValue - minValue ) /
+    static_cast<double>( m_NumberOfHistogramLevels );
 
   unsigned long ibin;
   for ( ibin = 0; ibin < m_NumberOfHistogramLevels - 1; ibin++ )
     {
-    histogram->SetBinMin( 0, ibin, ibin * stepSize + minValue );
-    histogram->SetBinMax( 0, ibin, ( ibin + 1 ) * stepSize + minValue );
+    histogram->SetBinMin( 0, ibin, static_cast<InputPixelType>( (ibin      ) * stepSize + minValue ) );
+    histogram->SetBinMax( 0, ibin, static_cast<InputPixelType>( ( ibin + 1 ) * stepSize + minValue ) );
     }
 
-  histogram->SetBinMin( 0, ibin, ibin * stepSize + minValue );
-  histogram->SetBinMax( 0, ibin, maxValue + stepSize );
+  histogram->SetBinMin( 0, ibin, static_cast<InputPixelType>( ibin * stepSize + minValue ) );
+  histogram->SetBinMax( 0, ibin, static_cast<InputPixelType>(        stepSize + maxValue ) );
 
 
   // put each image pixel into the histogram
@@ -465,9 +465,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
       measurement[0] = value;
       histogram->IncreaseFrequency( measurement, 1 );
       }
-
     ++iter;
-    
     }
 
 }
