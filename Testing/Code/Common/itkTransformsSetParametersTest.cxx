@@ -46,7 +46,7 @@
 
 
 // Main Program
-int itkTransformsSetParametersTest( int argc, char *argv[] )
+int itkTransformsSetParametersTest( int , char *[] )
 {
 
 
