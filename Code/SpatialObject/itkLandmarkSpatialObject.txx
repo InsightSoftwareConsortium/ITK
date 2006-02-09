@@ -128,7 +128,7 @@ LandmarkSpatialObject< TDimension >
 
       while(it!= end) 
         {  
-        PointType pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
+        pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
         const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pt);
         it++;
         }

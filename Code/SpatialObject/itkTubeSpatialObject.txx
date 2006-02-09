@@ -168,8 +168,8 @@ TubeSpatialObject< TDimension, TTubePointType >
       it++;
       while(it!= end) 
        {
-        PointType ptMin = (*it).GetPosition()-(*it).GetRadius();
-        PointType ptMax = (*it).GetPosition()+(*it).GetRadius();
+        ptMin = (*it).GetPosition()-(*it).GetRadius();
+        ptMax = (*it).GetPosition()+(*it).GetRadius();
         bb->ConsiderPoint(ptMin);
         bb->ConsiderPoint(ptMax);
         it++;
@@ -177,12 +177,12 @@ TubeSpatialObject< TDimension, TTubePointType >
 
       typedef typename BoundingBoxType::PointsContainer PointsContainer;
       const PointsContainer * corners = bb->GetCorners();
-      typename BoundingBoxType::PointsContainer::const_iterator it = corners->begin();
-      while(it != corners->end())
+      typename BoundingBoxType::PointsContainer::const_iterator itBB = corners->begin();
+      while(itBB != corners->end())
         {
-        PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(*it);
+        PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(*itBB);
         const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pnt);       
-        ++it;
+        ++itBB;
         }
       }
     }

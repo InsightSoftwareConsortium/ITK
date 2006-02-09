@@ -36,9 +36,9 @@ Euler3DTransform<TScalarType>
 // Constructor with arguments
 template <class TScalarType>
 Euler3DTransform<TScalarType>
-::Euler3DTransform(unsigned int SpaceDimension,
-                   unsigned int ParametersDimension):
-  Superclass(SpaceDimension, ParametersDimension)
+::Euler3DTransform(unsigned int spaceDimension,
+                   unsigned int parametersDimension):
+  Superclass(spaceDimension, parametersDimension)
 {
   m_ComputeZYX = false;
   m_AngleX = m_AngleY = m_AngleZ = 0.0;
