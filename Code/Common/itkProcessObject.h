@@ -297,6 +297,17 @@ protected:
   virtual void RemoveInput(DataObject *input);
   itkSetMacro(NumberOfRequiredInputs,unsigned int);
   itkGetConstReferenceMacro(NumberOfRequiredInputs,unsigned int);
+
+  /** Push/Pop an input of this process object. These methods allow a
+   * filter to model its input vector as a queue or stack.  These
+   * routines may not be appropriate for all filters, especially
+   * filters with different types of inputs.  These routines follow
+   * the semantics of STL. */
+  virtual void PushBackInput(const DataObject *input);
+  virtual void PopBackInput();
+  virtual void PushFrontInput(const DataObject *input);
+  virtual void PopFrontInput();
+  
   
   /** Called to allocate the input array. Copies old inputs. */
   void SetNumberOfInputs(unsigned int num);

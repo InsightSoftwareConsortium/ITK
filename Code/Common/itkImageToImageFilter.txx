@@ -182,7 +182,41 @@ ImageToImageFilter<TInputImage,TOutputImage>
   Superclass::PrintSelf(os, indent);
 }
 
+template<class TInputImage, class TOutputImage>
+void 
+ImageToImageFilter<TInputImage,TOutputImage>
+::PushBackInput(const InputImageType *input)
+{
+  // Forward to the protected method in the superclass
+  this->ProcessObject::PushBackInput(input);
+}
 
+template<class TInputImage, class TOutputImage>
+void 
+ImageToImageFilter<TInputImage,TOutputImage>
+::PopBackInput()
+{
+  // Forward to the protected method in the superclass
+  this->ProcessObject::PopBackInput();
+}
+
+template<class TInputImage, class TOutputImage>
+void 
+ImageToImageFilter<TInputImage,TOutputImage>
+::PushFrontInput(const InputImageType *input)
+{
+  // Forward to the protected method in the superclass
+  this->ProcessObject::PushFrontInput(input);
+}
+
+template<class TInputImage, class TOutputImage>
+void 
+ImageToImageFilter<TInputImage,TOutputImage>
+::PopFrontInput()
+{
+  // Forward to the protected method in the superclass
+  this->ProcessObject::PopFrontInput();
+}
 
 } // end namespace itk
 

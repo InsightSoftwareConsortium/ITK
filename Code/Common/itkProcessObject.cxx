@@ -226,6 +226,71 @@ ProcessObject
   this->Modified();
 }
 
+/**
+ * Model a queue on the input list by providing a push back
+ */
+void
+ProcessObject
+::PushBackInput(const DataObject *input)
+{
+  m_Inputs.push_back(const_cast<DataObject*>(input));
+  this->Modified();
+}
+
+/**
+ * Model a stack on the input list by providing a pop back
+ */
+void
+ProcessObject
+::PopBackInput()
+{
+  if (!m_Inputs.empty())
+    {
+    m_Inputs.pop_back();
+    this->Modified();
+    }
+}
+
+/**
+ * 
+ */
+void
+ProcessObject
+::PushFrontInput(const DataObject* input)
+{
+  // add an empty element to the end of the vector to make sure that
+  // we have enough space for the copy
+  m_Inputs.push_back(0);
+
+  // shift the current inputs down by one place
+  std::copy_backward(m_Inputs.begin(), m_Inputs.end()-1,
+                     m_Inputs.end());
+
+  // put in the new input in the front
+  m_Inputs[0] = const_cast<DataObject*>(input);
+
+  this->Modified();
+}
+
+/**
+ *
+ */
+void
+ProcessObject
+::PopFrontInput()
+{
+  if (!m_Inputs.empty())
+    {
+    std::copy(m_Inputs.begin()+1, m_Inputs.end(),
+              m_Inputs.begin());
+
+    m_Inputs.pop_back();
+    this->Modified();
+    }
+}
+
+
+
 void 
 ProcessObject
 ::RemoveOutput(DataObject *output)

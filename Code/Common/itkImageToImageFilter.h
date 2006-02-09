@@ -96,6 +96,30 @@ public:
   const InputImageType * GetInput(void);
   const InputImageType * GetInput(unsigned int idx);
 
+  /** Push/Pop the input of this process object. These methods allow a
+   * filter to model its input vector as a queue or stack.  These
+   * routines may not be appropriate for all filters, especially
+   * filters with different types of inputs.  These routines follow
+   * the semantics of STL.
+   *
+   * The routines are useful for applications that need to process
+   * "rolling" sets of images.  For instance, if an application has 10
+   * images and they need to run a filter on images 1, 2, 3, 4, then
+   * run the filter on images 2, 3, 4, 5, then run the filter on
+   * images 3, 4, 5, 6, the application can accomplish this by popping
+   * an input off the front of the input list and push a new image
+   * onto the back of input list.  Again, this only makes sense for
+   * filters that single type of input.
+   *
+   * Other uses are also possible. For a single input filter, pushing
+   * and popping inputs allow the application to temporarily replace
+   * an input to a filter.
+   **/
+  virtual void PushBackInput( const InputImageType *image);
+  virtual void PopBackInput();
+  virtual void PushFrontInput( const InputImageType *image);
+  virtual void PopFrontInput();
+  
 
  protected:
   ImageToImageFilter();
