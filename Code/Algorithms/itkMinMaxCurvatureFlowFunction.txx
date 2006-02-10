@@ -369,7 +369,7 @@ MinMaxCurvatureFlowFunction<TImage>
     {
     gradient[2] = -1.0;
     }
-  theta = acos( gradient[2] );
+  theta = acos( (double)gradient[2] );
 
   if ( gradient[0] == 0 )
     {
@@ -377,7 +377,7 @@ MinMaxCurvatureFlowFunction<TImage>
     }
   else
     {
-    phi = atan( gradient[1]/ gradient[0] );
+    phi = atan( (double)gradient[1]/ (double)gradient[0] );
     }
 
 
