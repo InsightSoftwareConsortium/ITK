@@ -236,6 +236,19 @@ public:
                               const InputImageRegionType &srcRegion);
   
 
+  /**
+   * PushBackInput(), PushFronInput() in the public section force the
+   * input to be the type expected by an ImageToImageFilter. However,
+   * these methods end of "hiding" the versions from the superclass
+   * (ProcessObject) whose arguments are DataObjects. Here, we re-expose
+   * the versions from ProcessObject to avoid warnings about hiding
+   * methods from the superclass. 
+   */
+  void PushBackInput(const DataObject *input)
+    { Superclass::PushBackInput(input); }
+  void PushFrontInput(const DataObject *input)
+    { Superclass::PushFrontInput(input); }
+  
 private:
   ImageToImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
