@@ -607,7 +607,16 @@ int TIFFImageIO::EvaluateImageAt( void* out, void* in )
       if ( m_InternalImage->Photometrics == 
            PHOTOMETRIC_MINISBLACK )
         {
-        *image = *source;
+        if(m_ComponentType == USHORT)
+          {
+          unsigned short *image_us = (unsigned short*)out;
+          unsigned short *source_us = (unsigned short*)in;
+          *image_us = *source_us;
+          }
+        else
+          {
+          *image = *source;
+          }
         }
       else
         {
