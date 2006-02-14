@@ -550,26 +550,26 @@ bool Util::CompareDicomString(const std::string &s1, const char *s2, int op)
 #endif //_WIN32
 
 #ifdef __sgi
-  static int
-  SGIGetMacAddress(unsigned char *addr)
-  {
-    FILE *f = popen("/etc/nvram eaddr","r");
-    if(f == 0)
-      return -1;
-    char buf[256];
-    unsigned x[6];
-    if(fscanf(f,"%02x:%02x:%02x:%02x:%02x:%02x",
-              x,x+1,x+2,x+3,x+4,x+5) != 6)
-      {
-      fclose(f);
-      return -1;
-      }
-    for(unsigned i = 0; i < 6; i++)
-      {
-      addr[i] = static_cast<unsigned char>(x[i]);
-      }
-    return 0;
-  }
+static int SGIGetMacAddress(unsigned char *addr)
+{
+  FILE *f = popen("/etc/nvram eaddr","r");
+  if(f == 0)
+    {
+    return -1;
+    }
+  unsigned int x[6];
+  if(fscanf(f,"%02x:%02x:%02x:%02x:%02x:%02x",
+            x,x+1,x+2,x+3,x+4,x+5) != 6)
+    {
+    pclose(f);
+    return -1;
+    }
+  for(unsigned int i = 0; i < 6; i++)
+    {
+    addr[i] = static_cast<unsigned char>(x[i]);
+    }
+  return 0;
+}
 #endif
 
 /// \brief gets current M.A.C adress (for internal use only)
