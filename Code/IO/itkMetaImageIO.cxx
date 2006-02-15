@@ -1049,7 +1049,7 @@ MetaImageIO
     int j;
     for(j=0; j<nDims; j++)
       {
-      eOrigin[i] += indx[j] * eSpacing[i] * this->GetDirection(j)[i];
+      eOrigin[i] += indx[j] * eSpacing[j] * this->GetDirection(j)[i];
       }
     }
 
