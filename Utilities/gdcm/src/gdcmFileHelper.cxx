@@ -1495,17 +1495,6 @@ void FileHelper::CheckMandatoryElements()
       e_0028_0030->SetValue("1.0\\1.0");
       Archive->Push(e_0028_0030);
    }  
-   
-   // Remove some inconstencies (probably some more will be added)
-
-   // if (0028 0008)Number of Frames exists
-   //    Push out (0020 0052),Frame of Reference UID
-   //    (only meaningfull within a Serie)
-   ValEntry *e_0028_0008 = FileInternal->GetValEntry(0x0028, 0x0008);
-   if ( !e_0028_0008 )
-   {
-      Archive->Push(0x0020, 0X0052);
-   }
 } 
  
 /**
