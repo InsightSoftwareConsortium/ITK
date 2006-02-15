@@ -22,6 +22,7 @@
 #include <itkImageRegionIteratorWithIndex.h>
 #include <itkDiscreteGaussianImageFilter.h>
 #include <itkMinimumMaximumImageCalculator.h>
+#include <itkCastImageFilter.h>
 
 #ifndef PI 
 #define PI 3.1415926535897932384626433832795
@@ -109,7 +110,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
 ::GenerateData()
 {
   itkDebugMacro(<<"HoughTransform2DLinesImageFilter called");
- 
+
   // Get the input and output pointers
   InputImageConstPointer  inputImage  = this->GetInput(0);
   OutputImagePointer outputImage = this->GetOutput(0);
@@ -238,32 +239,26 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
   m_LinesList.clear();
 
   /** Blur the accumulator in order to find the maximum */
-  typedef Image<float,2> InternalImageType;
-  
-  OutputImagePointer  outputImage = OutputImageType::New();
-  outputImage->SetRegions( this->GetOutput(0)->GetLargestPossibleRegion() );
-  outputImage->SetOrigin(this->GetOutput(0)->GetOrigin());
-  outputImage->SetSpacing(this->GetOutput(0)->GetSpacing());
-  outputImage->Allocate();
-  outputImage->FillBuffer(0);
+  typedef float          InternalImagePixelType;
+  typedef Image< InternalImagePixelType,2 > InternalImageType;
 
-  ImageRegionConstIteratorWithIndex< OutputImageType >  image_it( this->GetOutput(0),  this->GetOutput(0)->GetRequestedRegion() );
-  image_it.GoToBegin();
+  OutputImagePointer outputImage = this->GetOutput(0); 
 
-  ImageRegionIterator< InternalImageType >  it( outputImage,  outputImage->GetRequestedRegion() );
- 
-  while( !image_it.IsAtEnd() )
+  if( !outputImage )
     {
-    it.Set(image_it.Get());
-    ++image_it;
-    ++it;
-    }
+    itkExceptionMacro("Update() must be called before GetLines().");
+    } 
 
+  /** Convert the accumulator output image type to internal image type*/
+  typedef CastImageFilter< OutputImageType, InternalImageType> CastImageFilterType;
 
-  typedef itk::DiscreteGaussianImageFilter<OutputImageType,InternalImageType> GaussianFilterType;
+  typename CastImageFilterType::Pointer castImageFilter = CastImageFilterType::New();
+  castImageFilter->SetInput(outputImage);
+  
+  typedef DiscreteGaussianImageFilter<InternalImageType,InternalImageType> GaussianFilterType;
   typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
 
-  gaussianFilter->SetInput(outputImage); // the output is the accumulator image
+  gaussianFilter->SetInput(castImageFilter->GetOutput()); // the output is the accumulator image
   double variance[2];
   variance[0] = m_Variance;
   variance[1] = m_Variance;
@@ -271,9 +266,10 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
   gaussianFilter->Update();
   InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
-  typedef itk::MinimumMaximumImageCalculator<InternalImageType> MinMaxCalculatorType;
+  typedef MinimumMaximumImageCalculator<InternalImageType> MinMaxCalculatorType;
   typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
-  itk::ImageRegionIterator<InternalImageType> it_input(postProcessImage,postProcessImage->GetLargestPossibleRegion());
+  itk::ImageRegionIterator<InternalImageType> 
+                     it_input(postProcessImage,postProcessImage->GetLargestPossibleRegion());
 
   itk::Index<2> index;
 
