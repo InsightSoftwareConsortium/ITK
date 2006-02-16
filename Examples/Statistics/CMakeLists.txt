@@ -96,9 +96,6 @@ TARGET_LINK_LIBRARIES(ImageEntropy1 ITKIO ITKCommon ITKStatistics)
 ADD_EXECUTABLE(ImageMutualInformation1 ImageMutualInformation1.cxx )
 TARGET_LINK_LIBRARIES(ImageMutualInformation1 ITKIO ITKCommon ITKStatistics )
 
-ADD_EXECUTABLE(ScalarImageKmeansModelEstimator ScalarImageKmeansModelEstimator.cxx )
-TARGET_LINK_LIBRARIES(ScalarImageKmeansModelEstimator ITKIO ITKCommon )
-
 ADD_EXECUTABLE(ScalarImageKmeansClassifier ScalarImageKmeansClassifier.cxx )
 TARGET_LINK_LIBRARIES(ScalarImageKmeansClassifier ITKIO ITKCommon )
 
@@ -117,6 +114,9 @@ SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Statistics)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 IF(NOT BORLAND)
+ADD_EXECUTABLE(ScalarImageKmeansModelEstimator ScalarImageKmeansModelEstimator.cxx )
+TARGET_LINK_LIBRARIES(ScalarImageKmeansModelEstimator ITKIO ITKCommon )
+
 ADD_TEST( ScalarImageKmeansClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS3}
   --compare ${BASELINE}/ScalarImageKmeansClassifierOutput.png
             ${TEMP}/ScalarImageKmeansClassifierOutput.png

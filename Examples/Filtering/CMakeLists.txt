@@ -155,6 +155,9 @@ IF(NOT BORLAND)
 ADD_EXECUTABLE(FFTImageFilterFourierDomainFiltering FFTImageFilterFourierDomainFiltering.cxx )
 TARGET_LINK_LIBRARIES(FFTImageFilterFourierDomainFiltering ITKCommon ITKIO)
 
+ADD_EXECUTABLE(LaplacianImageFilter LaplacianImageFilter.cxx )
+TARGET_LINK_LIBRARIES(LaplacianImageFilter ITKCommon ITKBasicFilters ITKIO)
+
 ADD_EXECUTABLE(ResampleImageFilter3 ResampleImageFilter3.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter3 ITKCommon ITKBasicFilters ITKIO)
 
@@ -182,9 +185,6 @@ TARGET_LINK_LIBRARIES(WarpImageFilter1 ITKCommon ITKBasicFilters ITKIO)
 
 ADD_EXECUTABLE(SubsampleVolume SubsampleVolume.cxx )
 TARGET_LINK_LIBRARIES(SubsampleVolume ITKCommon ITKBasicFilters ITKIO)
-
-ADD_EXECUTABLE(LaplacianImageFilter LaplacianImageFilter.cxx )
-TARGET_LINK_LIBRARIES(LaplacianImageFilter ITKCommon ITKBasicFilters ITKIO)
 
 ADD_EXECUTABLE(LaplacianSharpeningImageFilter LaplacianSharpeningImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianSharpeningImageFilter ITKCommon ITKBasicFilters ITKIO)
