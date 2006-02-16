@@ -408,7 +408,11 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
    {                                                   \
    if( strcmp( this->GetOutput()->GetNameOfClass(), "VectorImage" ) == 0 ) \
      { \
-     memcpy( outputData, inputData, numberOfPixels * m_ImageIO->GetNumberOfComponents() * sizeof( type ) ); \
+     for( unsigned long i=0; i< numberOfPixels * m_ImageIO->GetNumberOfComponents(); i++ ) \
+       { \
+       outputData[i] = static_cast< typename ConvertPixelTraits::ComponentType >( \
+                       static_cast< type* >(inputData)[i]); \
+       } \
      } \
    else \
      { \
