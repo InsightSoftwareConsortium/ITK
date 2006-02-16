@@ -26,6 +26,7 @@
 
 #include "itkMetaDataObject.h"
 
+#include <itksys/SystemTools.hxx>
 #include <itksys/Base64.h>
 #include "gdcm/src/gdcmValEntry.h" //internal of gdcm
 #include "gdcm/src/gdcmBinEntry.h" //internal of gdcm
@@ -132,7 +133,11 @@ bool GDCMImageIO::OpenGDCMFileForWriting(std::ofstream& os,
 
   if( os.fail() )
     {
-    itkExceptionMacro(<< "Could not open file for writing: " << filename);
+    itkExceptionMacro(<< "Could not open file: "
+                      << filename << " for writing."
+                      << std::endl
+                      << "Reasion: "
+                      << itksys::SystemTools::GetLastSystemError());
     return false;
     }
 
@@ -220,7 +225,7 @@ void RescaleFunction(ImageIOBase::IOComponentType bufferType,
     default:
       ::itk::OStringStream message;
       message << "itk::ERROR: GDCMImageIO: Unknown component type : " << bufferType;
-      ::itk::ExceptionObject e(__FILE__, __LINE__, message.str().c_str());
+      ::itk::ExceptionObject e(__FILE__, __LINE__, message.str().c_str(),ITK_LOCATION);
       throw e;
     }
 }

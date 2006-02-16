@@ -195,9 +195,7 @@ AnalyzeImageIO::SwapBytesIfNecessary( void* buffer,
           ((double*)buffer, numberOfPixels );
         break;
       default:
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Pixel Type Unknown");
-        throw exception;
+        itkExceptionMacro(<< "Pixel Type Unknown");
       }
     }
   else
@@ -245,9 +243,7 @@ AnalyzeImageIO::SwapBytesIfNecessary( void* buffer,
           ((double *)buffer, numberOfPixels );
         break;
       default:
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Pixel Type Unknown");
-        throw exception;
+        itkExceptionMacro(<< "Pixel Type Unknown");
       }
     }
 }
@@ -394,9 +390,7 @@ AnalyzeImageIO::SwapHeaderBytesIfNecessary( struct dsr * const imageheader )
     }
   else
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Machine Endian Type Unknown");
-    throw exception;
+    itkExceptionMacro(<< "Machine Endian Type Unknown");
     }
 }
 
@@ -614,9 +608,7 @@ void  AnalyzeImageIO::DefineHeaderObjectDataType()
       //  break;
     default:
       eNewType=ANALYZE_DT_INDEX_UNKNOWN;
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("Pixel Type Unknown");
-      throw exception;
+      itkExceptionMacro(<< "Pixel Type Unknown");
     }
   m_hdr.dime.datatype=DataTypeKey[eNewType];
   m_hdr.dime.bitpix=DataTypeSizes[eNewType];
@@ -698,6 +690,7 @@ void AnalyzeImageIO::Read(void* buffer)
       message += ImageFileName;
       message += '\n';
       exception.SetDescription(message.c_str());
+      exception.SetLocation(ITK_LOCATION);
       throw exception;
       }
     }
@@ -790,17 +783,13 @@ void AnalyzeImageIO::ReadImageInformation()
                          std::ios::in | std::ios::binary);
   if( local_InputStream.fail())
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("File cannot be read");
-    throw exception;
+    itkExceptionMacro(<< "File cannot be read");
     }
   if( ! this->ReadBufferAsBinary( local_InputStream, 
                                   (void *)&(this->m_hdr), 
                                   sizeof(struct dsr) ) )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Unexpected end of file");
-    throw exception;
+    itkExceptionMacro(<< "Unexpected end of file");
     }
   local_InputStream.close();
 
@@ -1011,11 +1000,7 @@ AnalyzeImageIO
   unsigned int dim;
   if(this->GetNumberOfComponents() > 1) 
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    std::string ErrorMessage=
-      "More than one component per pixel not supported";
-    exception.SetDescription(ErrorMessage.c_str());
-    throw exception;
+    itkExceptionMacro(<< "More than one component per pixel not supported");
     }
   const std::string HeaderFileName = GetHeaderFileName( m_FileName );
   std::ofstream   local_OutputStream;
@@ -1023,11 +1008,7 @@ AnalyzeImageIO
                            std::ios::out | std::ios::binary );
   if( local_OutputStream.fail() )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    std::string ErrorMessage="File cannot be written";
-    ErrorMessage+=HeaderFileName;
-    exception.SetDescription(ErrorMessage.c_str());
-    throw exception;
+    itkExceptionMacro(<< "File cannot be written");
     }
   {
   std::string temp;
@@ -1239,9 +1220,7 @@ AnalyzeImageIO
   local_OutputStream.write( (const char *)&(this->m_hdr), sizeof(struct dsr) );
   if( local_OutputStream.eof() )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Unexpected end of file");
-    throw exception;
+    itkExceptionMacro(<< "Unexpected end of file");
     }
   local_OutputStream.close();
   return;
@@ -1275,6 +1254,7 @@ AnalyzeImageIO
       std::string ErrorMessage="Error, Can not write compressed image file for ";
       ErrorMessage+=m_FileName;
       exception.SetDescription(ErrorMessage.c_str());
+      exception.SetLocation(ITK_LOCATION);
       throw exception;
       }
 
@@ -1369,6 +1349,7 @@ AnalyzeImageIO
       std::string ErrorMessage="Error opening image data file for writing.";
       ErrorMessage+=m_FileName;
       exception.SetDescription(ErrorMessage.c_str());
+      exception.SetLocation(ITK_LOCATION);
       throw exception;
       }
     local_OutputStream.write((const char *)p, this->GetImageSizeInBytes() );
@@ -1380,6 +1361,7 @@ AnalyzeImageIO
       std::string ErrorMessage="Error writing image data.";
       ErrorMessage+=m_FileName;
       exception.SetDescription(ErrorMessage.c_str());
+      exception.SetLocation(ITK_LOCATION);
       throw exception;
       }
     //RemoveFile FileNameToRead.img.gz so that it does not get confused with FileNameToRead.img
