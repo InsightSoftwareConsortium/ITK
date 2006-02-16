@@ -97,10 +97,6 @@ protected:
 private:
   VectorNearestNeighborInterpolateImageFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  /** Number of neighbors used in the interpolation */
-  static const unsigned long  m_Neighbors;  
-
 };
 
 } // end namespace itk
