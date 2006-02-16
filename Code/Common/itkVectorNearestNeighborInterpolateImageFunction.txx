@@ -96,12 +96,12 @@ VectorNearestNeighborInterpolateImageFunction< TInputImage, TCoordRep >
   output.Fill( 0.0 );
 
   double uniformOverlap = (1/(static_cast <double> (m_Neighbors)));
+  double currentMaxOverlap = 0.0; // max overlap until now
 
   for( unsigned int counter = 0; counter < m_Neighbors; counter++ )
     {
 
     double overlap = 1.0;          // fraction overlap
-    double currentMaxOverlap = 0.0; // max overlap until now
     unsigned int upper = counter;  // each bit indicates upper/lower neighbour
     IndexType neighIndex;
 
