@@ -19,6 +19,7 @@
 #include "itkByteSwapper.h"
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
+#include <itksys/SystemTools.hxx>
 #include <iostream>
 #include <list>
 #include <string>
@@ -279,7 +280,11 @@ void BMPImageIO::ReadImageInformation()
   m_Ifstream.open( m_FileName.c_str(), std::ios::in | std::ios::binary );
   if( m_Ifstream.fail() )
     {
-    return;
+    itkExceptionMacro("BMPImageIO could not open file: "
+                      << this->GetFileName() << " for reading."
+                      << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     }
  
   char magic_number1, magic_number2;
@@ -500,9 +505,7 @@ BMPImageIO
     break; 
     }
     default:
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("Pixel Type Unknown");
-      throw exception;
+      itkExceptionMacro(<< "Pixel Type Unknown");
     }
 }
 
@@ -525,9 +528,7 @@ BMPImageIO
 
   if(nDims != 2)
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("BMPImageIO cannot write images with a dimension != 2");
-    throw exception;
+    itkExceptionMacro(<< "BMPImageIO cannot write images with a dimension != 2");
     }
 
   if(this->GetComponentType() != UCHAR)
@@ -549,9 +550,10 @@ BMPImageIO
   m_Ofstream.open(m_FileName.c_str(), std::ios::binary | std::ios::out);
   if( m_Ofstream.fail() )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("File cannot be write");
-    throw exception;
+    itkExceptionMacro(<< "File: " << this->GetFileName() << " cannot be written."
+                      << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     }
 
   // Write the header  

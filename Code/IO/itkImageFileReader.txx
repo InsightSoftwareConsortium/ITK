@@ -96,7 +96,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   //
   if ( m_FileName == "" )
     {
-    throw ImageFileReaderException(__FILE__, __LINE__, "FileName must be specified");
+    throw ImageFileReaderException(__FILE__, __LINE__, "FileName must be specified", ITK_LOCATION);
     }
 
   // Test if the file exist and if it can be open.
@@ -111,7 +111,6 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   
   if ( m_ImageIO.IsNull() )
     {
-    ImageFileReaderException e(__FILE__, __LINE__);
     OStringStream msg;
     msg << " Could not create IO object for file "
         << m_FileName.c_str() << std::endl;
@@ -126,7 +125,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
       }
     msg << "  You probably failed to set a file suffix, or" << std::endl;
     msg << "    set the suffix to an unsupported type." << std::endl;
-    e.SetDescription(msg.str().c_str());
+    ImageFileReaderException e(__FILE__, __LINE__, msg.str().c_str(), ITK_LOCATION);
     throw e;
     return;
     }
@@ -241,12 +240,11 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
     if( readTester.fail() )
       {
       readTester.close();
-      ImageFileReaderException e(__FILE__, __LINE__);
       OStringStream msg;
-      msg <<"The file couldn't be open for reading access. "
-          << std::endl << "Filename = " << m_FileName
+      msg <<"The file couldn't be opened for reading. "
+          << std::endl << "Filename: " << m_FileName
           << std::endl;
-      e.SetDescription(msg.str().c_str());
+      ImageFileReaderException e(__FILE__, __LINE__,msg.str().c_str(),ITK_LOCATION);
       throw e;
       return;
 
@@ -459,6 +457,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
           << std::endl << "    " << typeid(double).name()
           << std::endl;
       e.SetDescription(msg.str().c_str());
+      e.SetLocation(ITK_LOCATION);
       throw e;
       return;
       }
