@@ -48,9 +48,8 @@ int itkBMPImageIOTest( int ac, char* av[] )
     }
   catch (itk::ExceptionObject & e)
     {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e.GetDescription() << std::endl;
-    std::cerr << e.GetLocation() << std::endl;
+    std::cerr << "exception in image file reader " << std::endl;
+    std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
   
@@ -69,7 +68,16 @@ int itkBMPImageIOTest( int ac, char* av[] )
   writer = itk::ImageFileWriter<myImage>::New();
   writer->SetInput( reader->GetOutput() );
   writer->SetFileName(av[2]);
-  writer->Update();
+  try
+    {
+    writer->Update();
+    }
+  catch (itk::ExceptionObject & e)
+    {
+    std::cerr << "exception in image file writer " << std::endl;
+    std::cerr << e << std::endl;
+    return EXIT_FAILURE;
+    }
 
   // Print the IO
   writer->GetImageIO()->Print(std::cout); 
