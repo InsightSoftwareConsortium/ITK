@@ -413,64 +413,20 @@ typename GaussianDerivativeImageFunction<TInputImage,TOutput>::OutputType
 GaussianDerivativeImageFunction<TInputImage,TOutput>
 ::Evaluate(const PointType& point) const
 {
-  OutputType gradient;
- 
   IndexType index;
-
-  double offset[itkGetStaticConstMacro(ImageDimension2)];
-  for(unsigned int i=0; i<itkGetStaticConstMacro(ImageDimension2);i++)
-    {
-    index[i] = (unsigned long)point[i];
-    offset[i] = point[i]-index[i];
-    }
-
-  this->RecomputeContinuousGaussianKernel(offset);
-
-  for(unsigned int i=0; i<itkGetStaticConstMacro(ImageDimension2);i++)
-    { 
-    // Apply each gaussian kernel to a subset of the image
-    InputPixelType pixel = this->GetInputImage()->GetPixel(index);
-    double value = pixel;
-
-    // gaussian blurring first 
-    for(unsigned int direction=0;direction<itkGetStaticConstMacro(ImageDimension2);direction++)
-      {
-      if(i != direction)
-        {
-        unsigned int id= 2*direction+1; // select only gaussian kernel;
-        unsigned int center = (unsigned int)((m_ContinuousOperatorArray[id].GetSize()[direction]-1)/2);
-        TOutput centerval = m_ContinuousOperatorArray[id][center];
-        m_ContinuousOperatorArray[id][center] = 0;
-        m_OperatorImageFunction->SetOperator(m_ContinuousOperatorArray[id]);
-        value = m_OperatorImageFunction->EvaluateAtIndex(index)+centerval*value;
-        }
-      }
-    
-    // then derivative in the direction
-    signed int center = (unsigned int)((m_ContinuousOperatorArray[2*i].GetSize()[i]-1)/2);
-    TOutput centerval = m_ContinuousOperatorArray[2*i][center];
-    m_ContinuousOperatorArray[2*i][center] = 0;
-    m_OperatorImageFunction->SetOperator(m_ContinuousOperatorArray[2*i]);      
-    value = m_OperatorImageFunction->EvaluateAtIndex(index)+centerval*value;
-
-    gradient[i] = value;
-    }
-
-  return gradient;
+  this->ConvertPointToNearestIndex( point , index );
+  return this->EvaluateAtIndex ( index );
 }
 
 /** Evaluate the function at specified ContinousIndex position.*/
 template <class TInputImage, class TOutput>
 typename GaussianDerivativeImageFunction<TInputImage,TOutput>::OutputType
 GaussianDerivativeImageFunction<TInputImage,TOutput>
-::EvaluateAtContinuousIndex(const ContinuousIndexType & index ) const
+::EvaluateAtContinuousIndex(const ContinuousIndexType & cindex ) const
 {
-  PointType point;
-  for(unsigned int i=0; i<itkGetStaticConstMacro(ImageDimension2);i++)
-    {
-    point[i] = index[i];
-    }
-  return this->Evaluate(point);
+  IndexType index;
+  this->ConvertContinuousIndexToNearestIndex( cindex, index  ); 
+  return this->EvaluateAtIndex( index );
 }
 
 } // end namespace itk
