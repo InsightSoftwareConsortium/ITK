@@ -29,7 +29,7 @@ namespace itk
 
 /** \class GDCMImageIO
  *
- *  \brief ImageIO class for reading and writing DICOM v3 and ACR/NEMA images
+ *  \brief ImageIO class for reading and writing DICOM V3.0 and ACR/NEMA (V1.0 & V2.0) images
  *  This class is only an adaptor to the gdcm library (currently gdcm 1.2.x is used):
  *  
  *  http://creatis-www.insa-lyon.fr/Public/Gdcm/
@@ -46,6 +46,9 @@ namespace itk
  *                             - The SeQuence DICOM field (SQ).
  *                             - Fields from Private Dictionary with unresolved Name (= unknown at runtime)
  *           *  As of 01/15 the binary fields are properly passed.
+              *  Some very long (>0xfff) binary fields are not loaded (typically 0029|0010), 
+ *              you need to explicitely set the maximum length of elements to load to be bigger
+ *              (see Get/SetMaxSizeLoadEntry)
  *
  *  \ingroup IOFilters
  *
