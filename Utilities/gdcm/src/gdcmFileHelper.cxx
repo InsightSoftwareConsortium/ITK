@@ -1229,11 +1229,6 @@ void FileHelper::CheckMandatoryElements()
       e_0002_0002->SetValue("1.2.840.10008.5.1.4.1.1.7"); 
       Archive->Push(e_0002_0002);
  
-   // 'Media Stored SOP Instance UID'   
-      ValEntry *e_0002_0003 = CopyValEntry(0x0002,0x0003);
-      e_0002_0003->SetValue(Util::CreateUniqueUID());
-      Archive->Push(e_0002_0003); 
-
    // 'Implementation Class UID'
       ValEntry *e_0002_0012 = CopyValEntry(0x0002,0x0012);
       e_0002_0012->SetValue(Util::CreateUniqueUID());
@@ -1359,12 +1354,6 @@ void FileHelper::CheckMandatoryElements()
    }
 
 // ---- The user will never have to take any action on the following ----.
-
-   // new value for 'SOP Instance UID'
-   ValEntry *e_0008_0018 = new ValEntry(
-         Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x0018) );
-   e_0008_0018->SetValue( Util::CreateUniqueUID() );
-   Archive->Push(e_0008_0018);
 
    // Instance Creation Date
    ValEntry *e_0008_0012 = CopyValEntry(0x0008,0x0012);
