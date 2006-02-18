@@ -20,6 +20,10 @@
 #include "gdcmDebug.h"
 #include "gdcmUtil.h"
 
+#if defined(__BORLANDC__)
+   #include <mem.h> // for memset
+#endif 
+
 namespace gdcm 
 {
 //-------------------------------------------------------------------------

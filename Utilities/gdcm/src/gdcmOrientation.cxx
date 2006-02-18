@@ -69,6 +69,8 @@ static const char  *OrientationTypeStrings[] = {
   NULL
 };
 
+/// \brief returns human readable interpretation of the most 
+///        similar basic orientation (Axial, Coronal, Sagital, ...) of the image
 const char* Orientation::GetOrientationTypeString(OrientationType const o)
 {
   int k = (int)o;
@@ -78,6 +80,8 @@ const char* Orientation::GetOrientationTypeString(OrientationType const o)
   return OrientationTypeStrings[k];
 }
 
+/// \brief returns of the most similar basic orientation
+///        (Axial, Coronal, Sagital, ...) of the image
 OrientationType Orientation::GetOrientationType( File *f )
 {
    float iop[6];
@@ -410,21 +414,22 @@ have multiple letters in as described under "refinements" in C.7.6.1.1.1):
 */
 
 /**
- * \brief computes the Patient Orientation relative to the image plane
+ * \brief Computes the Patient Orientation relative to the image plane
  *          from the 'Image Orientation (Patient)'
- *          The first entry is the direction of the rows, given by the 
+ *          - or from 0020 0035Image Orientation (RET) -
+ *          - The first entry is the direction of the rows, given by the 
  *          direction of the last pixel in the first row from the first 
  *          pixel in that row. 
- *          The second entry is the direction of the columns, given by 
+ *          - The second entry is the direction of the columns, given by 
  *          the direction of the last pixel in the first column from the
  *          first pixel in that column. 
  *          Anatomical direction is designated by the capital 
  *          letters: A (anterior), P (posterior), R (right),L (left), 
  *          H (head), F (foot).
- *          Refinements in the orientation descriptions are designated 
+ *          - Refinements in the orientation descriptions are designated 
  *          by one or two additional letters in each value.
  *          Use it when "Patient Orientation" (0020,0020) is not found 
- * @return orientation string as "rawOrientation\columnsOrientation"
+ * @return orientation string as "rowsOrientation\columnsOrientation"
  */
 std::string Orientation::GetOrientation ( File *f )
 {
@@ -485,7 +490,12 @@ Some more stuff, from XMedcon
 
 ---> Personal remark from JPRx :
 --> patient_position (0x0018,0x5100) can be "HFS ", "FFS ", "HFP ", "FFP " 
---> the cosines may ahave any value -1< <+1, for MR images !
+--> or, not so common, 
+// HFDR = Head First-Decubitus Right
+// HFDL = Head First-Decubitus Left
+// FFDR = Feet First-Decubitus Right
+// FFDL = Feet First-Decubitus Left
+--> the cosines may have any value -1.< <+1., for MR images !
 
 enum patient_slice_orientation_type
   {

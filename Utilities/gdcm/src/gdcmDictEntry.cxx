@@ -128,7 +128,7 @@ TagKey DictEntry::TranslateToKey(uint16_t group, uint16_t elem)
 void DictEntry::Print(std::ostream &os, std::string const & )
 {
    std::string vr;
-   itksys_ios::ostringstream s;
+   std::ostringstream s;
 
    vr = GetVR();
    if ( vr==GDCM_UNKNOWN )

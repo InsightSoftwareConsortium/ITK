@@ -18,9 +18,11 @@
 
 #include "gdcmDirList.h"
 #include "gdcmUtil.h"
+#include "gdcmDebug.h"
 
 #include <iterator>
 #include <assert.h>
+#include <errno.h>
 #include <sys/stat.h>  //stat function
 
 #ifdef _MSC_VER
@@ -62,20 +64,22 @@ DirList::~DirList()
  */
 bool DirList::IsDirectory(std::string const &dirName)
 {
-  struct stat fs;
-  assert( dirName[dirName.size()-1] != '/' );
-  if ( stat(dirName.c_str(), &fs) == 0 )
-    {
+   struct stat fs;
+   assert( dirName[dirName.size()-1] != '/' );
+   if ( stat(dirName.c_str(), &fs) == 0 )
+   {
 #if _WIN32
-    return ((fs.st_mode & _S_IFDIR) != 0);
+      return ((fs.st_mode & _S_IFDIR) != 0);
 #else
-    return S_ISDIR(fs.st_mode);
+      return S_ISDIR(fs.st_mode);
 #endif
-    }
-  else
-    {
-    return false;
-    }
+   }
+   else
+   {
+      const char *str = strerror(errno);
+      gdcmErrorMacro( str );
+      return false;
+   }
 }
 
 //-----------------------------------------------------------------------------
@@ -96,6 +100,7 @@ int DirList::Explore(std::string const &dirpath, bool recursive)
    std::string dirName = Util::NormalizePath(dirpath);
 #ifdef _MSC_VER
    WIN32_FIND_DATA fileData;
+   //assert( dirName[dirName.size()-1] == '' );
    HANDLE hFile = FindFirstFile((dirName+"*").c_str(), &fileData);
 
    for(BOOL b = (hFile != INVALID_HANDLE_VALUE); b;
@@ -116,7 +121,23 @@ int DirList::Explore(std::string const &dirpath, bool recursive)
          numberOfFiles++;
       }
    }
-   if (hFile != INVALID_HANDLE_VALUE) FindClose(hFile);
+   DWORD dwError = GetLastError();
+   if (hFile != INVALID_HANDLE_VALUE) 
+      FindClose(hFile);
+   if (dwError != ERROR_NO_MORE_FILES) 
+   {
+      LPVOID lpMsgBuf;
+      FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|
+                    FORMAT_MESSAGE_FROM_SYSTEM|
+                    FORMAT_MESSAGE_IGNORE_INSERTS,
+                    NULL,GetLastError(),
+                    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+                    (LPTSTR) &lpMsgBuf,0,NULL);
+
+      gdcmErrorMacro("FindNextFile error. Error is " << (char *)lpMsgBuf
+                   <<" for the directory : "<<dirName);
+      return -1;
+   }
 
 #else
   // Real POSIX implementation: scandir is a BSD extension only, and doesn't 
@@ -138,7 +159,11 @@ int DirList::Explore(std::string const &dirpath, bool recursive)
    for (d = readdir(dir); d; d = readdir(dir))
    {
       fileName = dirName + d->d_name;
-      stat(fileName.c_str(), &buf); //really discard output ?
+      if( stat(fileName.c_str(), &buf) != 0 )
+      {
+         const char *str = strerror(errno);
+         gdcmErrorMacro( str );
+      }
       if ( S_ISREG(buf.st_mode) )    //is it a regular file?
       {
          Filenames.push_back( fileName );
@@ -153,11 +178,15 @@ int DirList::Explore(std::string const &dirpath, bool recursive)
       }
       else
       {
-         // we might need to do a different treament
-         //abort();
+         gdcmErrorMacro( "Unexpected error" );
+         return -1;
       }
    }
-  closedir(dir);
+   if( closedir(dir) != 0 )
+   {
+      const char *str = strerror(errno);
+      gdcmErrorMacro( str );
+   }
 #endif
 
   return numberOfFiles;
@@ -169,7 +198,7 @@ int DirList::Explore(std::string const &dirpath, bool recursive)
  * \brief   Print method
  * @param os ostream to write to 
  */
-void DirList::Print(std::ostream &os)
+void DirList::Print(std::ostream &os, std::string const &)
 {
    std::copy(Filenames.begin(), Filenames.end(), 
              std::ostream_iterator<std::string>(os, "\n"));

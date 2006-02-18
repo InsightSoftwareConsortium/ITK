@@ -42,7 +42,10 @@ namespace gdcm
  */
 class GDCM_EXPORT RLEFramesInfo
 {
-public:
+friend class PixelReadConvert;
+friend class File;
+
+private:
    ~RLEFramesInfo();
    void Print( std::ostream &os = std::cout, std::string indent = "" );
    bool DecompressRLEFile( std::ifstream *fp, uint8_t *subRaw, int xSize, 
@@ -55,7 +58,6 @@ public:
    RLEFrame *GetFirstFrame();
    RLEFrame *GetNextFrame();
 
-private:
    typedef std::list<RLEFrame *> RLEFrameList;
 
    RLEFrameList Frames;

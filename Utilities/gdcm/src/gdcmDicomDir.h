@@ -116,7 +116,7 @@ public:
    void SetEndMethodArgDelete     ( DicomDir::Method *method );
 
    /// GetProgress GetProgress
-   float GetProgress()   { return Progress; }
+   float GetProgress() const { return Progress; }
    /// AbortProgress AbortProgress
    void  AbortProgress() { Abort = true; }
    /// IsAborted IsAborted

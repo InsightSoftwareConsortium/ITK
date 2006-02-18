@@ -43,7 +43,7 @@ class GDCM_EXPORT JPEGFragment
 {
 public:
    JPEGFragment();
-   void Print( std::ostream &os = std::cout, std::string indent = "" );
+   void Print( std::ostream &os = std::cout, std::string const &indent = "" );
    void DecompressJPEGFramesFromFile(std::ifstream *fp, 
                                      uint8_t *buffer, int nBits, 
                                      int &statesuspension);

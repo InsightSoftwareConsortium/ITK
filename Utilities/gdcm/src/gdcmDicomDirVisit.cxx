@@ -72,7 +72,8 @@ void DicomDirVisit::Print(std::ostream &os, std::string const & )
    {
       if ( (*i)->GetGroup() == 0x0004 && (*i)->GetElement() == 0x1500 )
       {
-         os << (dynamic_cast<ValEntry *>(*i))->GetValue(); //FIXME // ????
+         if( dynamic_cast<ValEntry *>(*i) )
+            os << (dynamic_cast<ValEntry *>(*i))->GetValue();
       }
    }
    os << std::endl;

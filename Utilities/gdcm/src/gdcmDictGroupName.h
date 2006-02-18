@@ -33,7 +33,8 @@ typedef std::map<uint16_t, TagName> DictGroupNameHT;
 
 //-----------------------------------------------------------------------------
 /**
- * \brief Container for dicom Value Representation Hash Table
+ * \brief Container for dicom 'Group Name' Hash Table.
+ *        (formerly NIH defined ACR-NEMA group name)
  * \note   This is a singleton
  */
 class GDCM_EXPORT DictGroupName 
@@ -42,7 +43,8 @@ public:
    DictGroupName(void);
    ~DictGroupName();
 
-   void Print(std::ostream &os = std::cout);
+   void Print(std::ostream &os = std::cout, 
+              std::string const &indent = "" );
 
    const TagName &GetName(uint16_t group);
 

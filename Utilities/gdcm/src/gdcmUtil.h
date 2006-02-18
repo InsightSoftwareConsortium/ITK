@@ -41,7 +41,7 @@ public:
                                 std::vector<std::string> &tokens,
                                 const std::string &delimiters = " ");
    static int         CountSubstring (const std::string &str,
-                                      const std::string &subStr);       
+                                      const std::string &subStr);
 
    static std::string CreateCleanString(std::string const &s);
    static std::string CreateCleanString(uint8_t *s, int l);
@@ -88,6 +88,7 @@ private:
 
 GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const uint16_t &val);
 GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const uint32_t &val);
+GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const double &val);
 GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const char *val);
 GDCM_EXPORT std::ostream &binary_write(std::ostream &os, std::string const &val);
 GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const uint8_t *val, size_t len);

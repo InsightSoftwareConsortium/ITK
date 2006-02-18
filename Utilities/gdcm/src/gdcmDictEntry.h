@@ -23,7 +23,6 @@
 
 namespace gdcm 
 {
-
 //-----------------------------------------------------------------------------
 /**
  * \brief
@@ -33,7 +32,7 @@ namespace gdcm
  *    i.e. the Group number
  *         the Element number
  *  - the VR (Value Representation)
- *  - the VM (Value Multplicity)
+ *  - the VM (Value Multiplicity)
  *  - the corresponding name in english
  */
 class GDCM_EXPORT DictEntry : public Base
@@ -165,7 +164,7 @@ private:
    /// \brief Value Multiplicity (e.g. "1", "1-n", "6")
    TagName VM; 
 
-   /// e.g. "Patient's Name"                    
+   /// \brief English name of the entry (e.g. "Patient's Name")                   
    TagName Name;      
 
    /// Redundant with (group, elem) but we add it for efficiency purpose.

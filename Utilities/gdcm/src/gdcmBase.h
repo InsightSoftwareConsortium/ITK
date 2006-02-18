@@ -26,7 +26,7 @@ namespace gdcm
 {
 //-----------------------------------------------------------------------------
 /**
- * \brief Base class of all gdcm classes
+ * \brief Base class of all gdcm classes.
  * Contains the Print related methods :
  *  - Print 
  *  - SetPrintLevel / GetPrintLevel 
@@ -37,8 +37,9 @@ public:
    Base( );
    virtual ~Base();
 
-   virtual void Print(std::ostream &os = std::cout, 
-                      std::string const & indent = "" ); 
+   /// \brief Printer
+   virtual void Print(std::ostream &os = std::cout,
+                      std::string const & indent = "" );
 
    /// \brief Sets the print level for the Dicom Header Elements
    /// \note 0 for Light Print; 1 for 'medium' Print, 2 for Heavy Print

@@ -126,7 +126,7 @@ bool Dict::RemoveDict(std::string const &filename)
         // from >> std::ws;  //remove white space
          std::getline(from, name);
  
-        RemoveEntry(DictEntry::TranslateToKey(group, elem));
+         RemoveEntry(DictEntry::TranslateToKey(group, elem));
       }
       from.close();
       return true;
@@ -215,7 +215,7 @@ void Dict::ClearEntry()
 
 /**
  * \brief   Get the dictionary entry identified by a given tag ("group|element")
- * @param   key   tag of the entry to be found
+ * @param   key   tag of the searched entry 
  * @return  the corresponding dictionary entry when existing, NULL otherwise
  */
 DictEntry *Dict::GetEntry(TagKey const &key)
@@ -228,6 +228,12 @@ DictEntry *Dict::GetEntry(TagKey const &key)
    return &(it->second);
 }
 
+/**
+ * \brief   Get the dictionary entry identified by it's "group" and "element")
+ * @param   group  Group number of the searched entry.
+ * @param   elem Element number of the searched entry.
+ * @return  the corresponding dictionary entry when existing, NULL otherwise
+ */
 DictEntry *Dict::GetEntry(uint16_t group, uint16_t elem)
 {
    TagKey key = DictEntry::TranslateToKey(group, elem);
@@ -292,7 +298,7 @@ void Dict::DoTheLoadingJob(std::ifstream &from)
       from >> vm;
       from >> std::ws;  //remove white space
       std::getline(from, name);
- 
+
       const DictEntry newEntry(group, elem, vr, vm, name);
       AddEntry(newEntry);
    }
@@ -309,7 +315,7 @@ void Dict::DoTheLoadingJob(std::ifstream &from)
 void Dict::Print(std::ostream &os, std::string const & )
 {
    os << "Dict file name : " << Filename << std::endl;
-   itksys_ios::ostringstream s;
+   std::ostringstream s;
 
    for (TagKeyHT::iterator tag = KeyHt.begin(); tag != KeyHt.end(); ++tag)
    {

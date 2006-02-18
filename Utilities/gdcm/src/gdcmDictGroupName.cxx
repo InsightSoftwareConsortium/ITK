@@ -28,7 +28,7 @@
 namespace gdcm 
 {
 //-----------------------------------------------------------------------------
-/// \brief auto generated function, to fill up the 'Value Representation'
+/// \brief auto generated function, to fill up the 'Group Name'
 ///        Dictionnary, if relevant file is not found on user's disk
 void FillDefaultDictGroupName(DictGroupNameHT &groupName);
 
@@ -80,6 +80,7 @@ DictGroupName::~DictGroupName()
 
 //-----------------------------------------------------------------------------
 // Public
+/// \returns the formerly NIH defined ACR-NEMA group name
 const TagName &DictGroupName::GetName(uint16_t group)
 {
    DictGroupNameHT::const_iterator it = groupName.find(group);
@@ -102,9 +103,9 @@ const TagName &DictGroupName::GetName(uint16_t group)
  * \brief   Print all 
  * @param   os The output stream to be written to.
  */
-void DictGroupName::Print(std::ostream &os) 
+void DictGroupName::Print(std::ostream &os,std::string const &) 
 {
-   itksys_ios::ostringstream s;
+   std::ostringstream s;
 
    for (DictGroupNameHT::iterator it = groupName.begin(); it != groupName.end(); ++it)
    {

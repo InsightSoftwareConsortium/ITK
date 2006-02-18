@@ -42,32 +42,33 @@ class GDCM_EXPORT TS
 {
 public:
 enum SpecialType {
-  ImplicitVRLittleEndian = 0,
-  ImplicitVRLittleEndianDLXGE,
-  ExplicitVRLittleEndian,
-  DeflatedExplicitVRLittleEndian,
-  ExplicitVRBigEndian,
-  JPEGBaselineProcess1,
-  JPEGExtendedProcess2_4,
-  JPEGExtendedProcess3_5,
-  JPEGSpectralSelectionProcess6_8,
-  JPEGFullProgressionProcess10_12,
-  JPEGLosslessProcess14,
-  JPEGLosslessProcess14_1,
-  JPEGLSLossless,
-  JPEGLSNearLossless,
-  JPEG2000Lossless,  
-  JPEG2000,
-  RLELossless,
-  MPEG2MainProfile,  
-  UnknownTS
+   ImplicitVRLittleEndian = 0,
+   ImplicitVRBigEndianPrivateGE,
+   ExplicitVRLittleEndian,
+   DeflatedExplicitVRLittleEndian,
+   ExplicitVRBigEndian,
+   JPEGBaselineProcess1,
+   JPEGExtendedProcess2_4,
+   JPEGExtendedProcess3_5,
+   JPEGSpectralSelectionProcess6_8,
+   JPEGFullProgressionProcess10_12,
+   JPEGLosslessProcess14,
+   JPEGLosslessProcess14_1,
+   JPEGLSLossless,
+   JPEGLSNearLossless,
+   JPEG2000Lossless,  
+   JPEG2000,
+   RLELossless,
+   MPEG2MainProfile,  
+   UnknownTS
 };
 
 public:
    TS();
    ~TS();
 
-   void Print(std::ostream &os = std::cout);
+   void Print(std::ostream &os = std::cout,
+              std::string const &s = "");
 
    int Count(TSKey const &key);
    TSAtr const &GetValue(TSKey const &key);

@@ -45,9 +45,11 @@ namespace gdcm
  */
 class GDCM_EXPORT RLEFrame
 {
-public:
+friend class File;
+friend class RLEFramesInfo;
+private:
    RLEFrame() { NumberOfFragments = 0; }
-   void Print( std::ostream &os = std::cout, std::string indent = "" );
+   void Print( std::ostream &os = std::cout, std::string const &indent = "" );
 
    void SetNumberOfFragments(unsigned int number) 
                                        { NumberOfFragments = number; }   
@@ -62,7 +64,6 @@ public:
    bool ReadAndDecompressRLEFragment( uint8_t *subRaw, long fragmentSize,
                                       long rawSegmentSize, std::ifstream *fp );
 
-private:
    unsigned int NumberOfFragments;
    long Offset[15];
    long Length[15];

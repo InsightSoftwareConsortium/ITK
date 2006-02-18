@@ -83,10 +83,11 @@ void SeqEntry::WriteContent(std::ofstream *fp, FileType filetype)
    uint16_t seq_term_gr = 0xfffe;
    uint16_t seq_term_el = 0xe0dd;
    uint32_t seq_term_lg = 0x00000000;
+ 
+   // ignore 'Zero length' Sequences
+   if ( GetReadLength() == 0 )
+      return;
 
-   //uint16_t item_term_gr = 0xfffe;
-   //uint16_t item_term_el = 0xe00d;
-   
    DocEntry::WriteContent(fp, filetype);
    for(ListSQItem::iterator cc  = Items.begin();
                             cc != Items.end();
@@ -100,6 +101,23 @@ void SeqEntry::WriteContent(std::ofstream *fp, FileType filetype)
    binary_write(*fp, seq_term_gr);
    binary_write(*fp, seq_term_el);
    binary_write(*fp, seq_term_lg);
+}
+
+/**
+ * \brief   Compute the full length of the SeqEntry (not only value
+ *          length) depending on the VR.
+ */
+uint32_t SeqEntry::ComputeFullLength()
+{
+   uint32_t l = 12; // Tag (4) + VR (explicit) 4 + 4 (length);   
+   for(ListSQItem::iterator cc  = Items.begin();
+                            cc != Items.end();
+                          ++cc)
+   {        
+      l += (*cc)->ComputeFullLength();
+   }   
+   l += 8; // seq_term Tag (4) +  seq_term_lg (4)
+   return l;
 }
 
 /**
@@ -198,7 +216,6 @@ unsigned int SeqEntry::GetNumberOfSQItems()
 
 //-----------------------------------------------------------------------------
 // Protected
-
 
 //-----------------------------------------------------------------------------
 // Private

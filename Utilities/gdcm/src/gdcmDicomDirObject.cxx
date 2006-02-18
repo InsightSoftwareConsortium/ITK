@@ -72,7 +72,7 @@ void DicomDirObject::FillObject(ListDicomDirMetaElem const &elemList)
       entry->SetValue(it->Value);
 
       AddEntry(entry);
-   }   
+   }
 }  
 
 //-----------------------------------------------------------------------------

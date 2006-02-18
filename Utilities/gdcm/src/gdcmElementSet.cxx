@@ -29,7 +29,6 @@ namespace gdcm
 /**
  * \brief   Constructor for a given ElementSet
  */
-//BOZ depthLevel is not usefull anymore
 ElementSet::ElementSet(int depthLevel) 
           : DocEntrySet()
 {
@@ -92,7 +91,6 @@ bool ElementSet::RemoveEntry( DocEntry *entryToRemove)
    if ( TagHT.count(key) == 1 )
    {
       TagHT.erase(key);
-      //gdcmWarningMacro( "One element erased.");
       delete entryToRemove;
       return true;
    }
@@ -200,7 +198,7 @@ void ElementSet::Print(std::ostream &os, std::string const & )
    if ( pixelElement != 0 )
    {
       pixelElement->SetValue( gdcm::GDCM_PIXELDATA);
-   }      
+   }
 
    for( TagDocEntryHT::const_iterator i = TagHT.begin(); i != TagHT.end(); ++i)
    {

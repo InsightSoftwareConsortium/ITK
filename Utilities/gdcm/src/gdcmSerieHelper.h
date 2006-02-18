@@ -30,27 +30,30 @@
 namespace gdcm 
 {
 class File;
-typedef std::vector<File* > FileList;
+
+   typedef std::vector<File* > FileList;
 #ifndef GDCM_LEGACY_REMOVE
 typedef std::vector<File* > GdcmFileList;
 #endif
-   /// XCoherent stands for 'Extra Coherent', 
-   /// (The name 'Coherent' would be enough but it was used before;
-   /// I don't want to put a bomb in the code)
-   /// Any 'better name' is welcome !
-typedef std::map<std::string, FileList *> XCoherentFileSetmap;
-   
-typedef bool (*BOOL_FUNCTION_PFILE_PFILE_POINTER)(File *, File *);
+
+   /// \brief XCoherent stands for 'Extra Coherent',
+   ///        (The name 'Coherent' would be enough but it was used before;
+   ///        I don't want to put a bomb in the code)
+   ///        Any 'better name' is welcome !
+   typedef std::map<std::string, FileList *> XCoherentFileSetmap;
+
+   typedef bool (*BOOL_FUNCTION_PFILE_PFILE_POINTER)(File *, File *);
 
 //-----------------------------------------------------------------------------
 /**
  * \brief  
- * - This class should be used for a stack of 2D dicom images.
- *   It allows to explore (recursively or not) a directory and 
+ *  This class should be used for a stack of 2D dicom images.
+ *   
+ *   - It allows to explore (recursively or not) a directory and 
  *   makes a set of 'Coherent Files' lists (coherent : same SerieUID)
- *   It allows :
- *   - to sort any of the Coherent File list on the image position.
- *   - to split any of the Single SerieUID Filesets (better use this name than
+ *   - It allows :
+ *   - - to sort any of the Coherent File list on the image position.
+ *   - - to split any of the Single SerieUID Filesets (better use this name than
  *   'Coherent File List' : it's NOT a std::list, files are NOT coherent ...)
  *    into several XCoherent Filesets 
  *   XCoherent stands for 'Extra Coherent' (same orientation, or same position)
@@ -58,13 +61,13 @@ typedef bool (*BOOL_FUNCTION_PFILE_PFILE_POINTER)(File *, File *);
 class GDCM_EXPORT SerieHelper 
 {
 public:
-   // SingleSerieUIDFileSetmap replaces the former CoherentFileListmap
-   // ( List were actually std::vectors, and wher no coherent at all :
-   //   They were only Single SeriesInstanceUID File sets)
+   /// SingleSerieUIDFileSetmap replaces the former CoherentFileListmap
+   /// ( List were actually std::vectors, and wher no coherent at all :
+   ///   They were only Single SeriesInstanceUID File sets)
    typedef std::map<std::string, FileList *> SingleSerieUIDFileSetmap;
 
    typedef std::vector<File* > FileVector;
-   
+
    SerieHelper();
    ~SerieHelper();
    void Print(std::ostream &os = std::cout, std::string const &indent = "" );
@@ -95,7 +98,9 @@ public:
    FileList *GetFirstSingleSerieUIDFileSet();
    FileList *GetNextSingleSerieUIDFileSet();
    FileList *GetSingleSerieUIDFileSet(std::string serieUID);
-
+   /// brief returns the 'Series Instance UID' Single SerieUID FileSet
+   std::string GetCurrentSerieUIDFileSetUID()
+                             { return  (*ItFileSetHt).first; }
    /// All the following allow user to restrict DICOM file to be part
    /// of a particular serie
    GDCM_LEGACY( void AddRestriction(TagKey const &key, std::string const &value) );
@@ -121,7 +126,7 @@ public:
      {
      m_UseSeriesDetails = useSeriesDetails;
      }
-   bool GetUseSeriesDetails( void )
+   bool GetUseSeriesDetails()
      {
      return m_UseSeriesDetails;
      }
@@ -134,6 +139,10 @@ public:
    /// 0028 0010 Rows
    /// 0028 0011 Columns
    void CreateDefaultUniqueSeriesIdentifier();
+   /// \brief Create a string that uniquely identifies a series.   By default
+   //         uses the SeriesUID.   If UseSeriesDetails(true) has been called,
+   //         then additional identifying information is used.
+   std::string CreateUniqueSeriesIdentifier( File * inFile );
  
 /**
  * \brief Sets the LoadMode as a boolean string. 
@@ -159,12 +168,8 @@ public:
    XCoherentFileSetmap SplitOnOrientation(FileList *fileSet); 
    XCoherentFileSetmap SplitOnPosition(FileList *fileSet); 
    XCoherentFileSetmap SplitOnTagValue(FileList *fileSet,
-                                                 uint16_t group, uint16_t element);
+                                               uint16_t group, uint16_t element);
 
-   /// \brief Create a string that uniquely identifies a series.   By default
-   //         uses the SeriesUID.   If UseSeriesDetails(true) has been called,
-   //         then additional identifying information is used.
-   std::string CreateUniqueSeriesIdentifier( File * inFile );
 
 private:
    void ClearAll();
@@ -189,7 +194,7 @@ private:
    SerieRestrictions Restrictions;
 #endif
 
-   // New style for (extented) Rules (Moreover old one doesn't compile)
+   // New style for (extented) Rules
    typedef struct {
       uint16_t group;
       uint16_t elem;
@@ -212,10 +217,11 @@ private:
 
    /// \brief If user knows more about his images than gdcm does,
    ///        he may supply his own comparison function.
-    BOOL_FUNCTION_PFILE_PFILE_POINTER UserLessThanFunction;
+   BOOL_FUNCTION_PFILE_PFILE_POINTER UserLessThanFunction;
 
-    bool m_UseSeriesDetails;
+   void Sort(FileList *fileList, bool (*pt2Func)( File *file1, File *file2) );
 
+   bool m_UseSeriesDetails;
 };
 
 } // end namespace gdcm

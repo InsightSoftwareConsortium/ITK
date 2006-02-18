@@ -45,10 +45,10 @@ PixelWriteConvert::~PixelWriteConvert()
 //-----------------------------------------------------------------------------
 // Public
 /**
- * \brief   SetReadData
+ * \brief   sets Read Data (and size)
  * @param   data data (uint8_t is for prototyping. if your data is not uint8_t
  *                     just cast the pointer for calling the method)
- * @param   size size in bytes
+ * @param   size data size, in bytes
  */
 void PixelWriteConvert::SetReadData(uint8_t *data, size_t size)
 {
@@ -57,10 +57,16 @@ void PixelWriteConvert::SetReadData(uint8_t *data, size_t size)
 }
 
 /**
- * \brief   Sets User Data
+ * \brief   Sets the internal pointer to the caller's inData
+ *          image representation, BUT WITHOUT COPYING THE DATA.
+ *          - 'image' Pixels are presented as C-like 2D arrays : line per line.
+ *          - 'volume'Pixels are presented as C-like 3D arrays : plane per plane 
+ * \warning Since the pixels are not copied, it is the caller's responsability
+ *          not to deallocate its data before gdcm uses them (e.g. with
+ *          the Write() method )
  * @param   data data (uint8_t is for prototyping. if your data is not uint8_t
  *                     just cast the pointer for calling the method)
- * @param   size size in bytes
+ * @param   size size, in bytes.
  */
 void PixelWriteConvert::SetUserData(uint8_t *data, size_t size)
 {
@@ -87,7 +93,7 @@ uint8_t *PixelWriteConvert::GetData()
 
 /**
  * \brief   Get Data Size (UserData or ReadData)
- * @return  size size in bytes
+ * @return  size, in bytes.
  */
 size_t PixelWriteConvert::GetDataSize()
 {

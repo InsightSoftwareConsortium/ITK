@@ -36,7 +36,10 @@ namespace gdcm
  */
 class GDCM_EXPORT DocEntryArchive 
 {
-public:
+
+friend class FileHelper;
+
+private:
    DocEntryArchive(File *file);
    ~DocEntryArchive();
 
@@ -48,7 +51,6 @@ public:
 
    void ClearArchive(void);
 
-private:
    /// pointer to the gdcm::File pointer we want to save values from
    File *ArchFile;
    /// H table to save values.

@@ -41,10 +41,11 @@ typedef std::map<VRKey, VRAtr> VRHT;
 class GDCM_EXPORT VR 
 {
 public:
-   VR(void);
+   VR();
    ~VR();
 
-   void Print(std::ostream &os = std::cout);
+   void Print(std::ostream &os = std::cout,
+              std::string const &s = "");
 
    /// \brief   Get the count for an element
    int Count(VRKey const &key) { return vr.count(key); };

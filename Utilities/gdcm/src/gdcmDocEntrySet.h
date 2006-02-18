@@ -41,15 +41,17 @@ typedef TagKey BaseTagKey;
  *  - \ref ElementSet is based on the STL map<> container
  * (see \ref ElementSet::TagHT)
  *  - \ref SQItem is based on an STL list container (see \ref ListDocEntry).
+ * 
  * Since the syntax for adding a new element to a map<> or a list<>
  * differ, \ref DocEntrySet is designed as an adapter to unify the
  * interfaces of \ref DocEntrySet and \ref ElementSet.
+ * 
  * As an illustration of this design, please refer to the implementation
  * of \ref AddEntry (or any pure virtual method) in both derived classes.
  * This adapter unification of interfaces enables the parsing of a
  * DICOM header containing (optionaly heavily nested) sequences to be
  * written recursively [see \ref Document::ParseDES 
- * which calls \ref Document::ParseSQ, which in turns calls 
+ * which calls \ref Document::ParseSQ, which in turn calls 
  * \ref Document::ParseDES ].
  *
  * \note Developpers should strongly resist to the temptation of adding
@@ -67,17 +69,17 @@ public:
    /// \brief write any type of entry to the entry set
    virtual void WriteContent (std::ofstream *fp, FileType filetype) = 0;
 
-   /// \brief Remove all Entry in the entry set
+   /// \brief Remove all Entry of the current set
    virtual void ClearEntry() = 0;
-   /// \brief adds any type of entry to the entry set
+   /// \brief adds any type of entry to the current set
    virtual bool AddEntry(DocEntry *entry) = 0;
    /// \brief Removes any type of entry out of the entry set, and destroys it
    virtual bool RemoveEntry(DocEntry *entryToRemove) = 0;
    /// \brief Removes any type of entry out of the entry set, DOESN'T destroy it
    virtual bool RemoveEntryNoDestroy(DocEntry *entryToRemove) = 0;
-   /// Gets the first entry of any type of set
+   /// \brief Gets the first entry (of any type) of the current set
    virtual DocEntry *GetFirstEntry()=0;
-   /// Gets the next entry of any type of set
+   /// \brief Gets the next entry (of any type) of the current set
    virtual DocEntry *GetNextEntry()=0;
 
    virtual std::string GetEntryValue(uint16_t group, uint16_t elem);
@@ -96,9 +98,9 @@ public:
    SeqEntry *GetSeqEntry(uint16_t group, uint16_t elem);
 
    bool SetValEntry(std::string const &content,
-                            uint16_t group, uint16_t elem);
+                    uint16_t group, uint16_t elem);
    bool SetBinEntry(uint8_t *content, int lgth,
-                            uint16_t group, uint16_t elem);
+                    uint16_t group, uint16_t elem);
    bool SetValEntry(std::string const &content, ValEntry *entry);
    bool SetBinEntry(uint8_t *content, int lgth, BinEntry *entry);
 
@@ -109,7 +111,7 @@ public:
                                     uint16_t group, uint16_t elem,
                                     TagName const &vr = GDCM_UNKNOWN);
    SeqEntry *InsertSeqEntry(uint16_t group, uint16_t elem);
-   /// tells us if the set contains no entry
+   /// \brief Tells us if the set contains no entry
    virtual bool IsEmpty() = 0;
    virtual bool CheckIfEntryExist(uint16_t group, uint16_t elem);
 

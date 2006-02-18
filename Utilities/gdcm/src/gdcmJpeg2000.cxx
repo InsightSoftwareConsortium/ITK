@@ -21,7 +21,13 @@
 #include <iostream>
 #include <fstream>
 
-#include "openjpeg/openjpeg.h"
+#if defined(__BORLANDC__)
+   #include <mem.h> // for memset
+#endif 
+
+extern "C" {
+  #include <openjpeg.h>
+}
 
 namespace gdcm 
 {

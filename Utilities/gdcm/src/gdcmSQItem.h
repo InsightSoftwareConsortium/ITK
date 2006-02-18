@@ -46,6 +46,7 @@ public:
 
    virtual void Print(std::ostream &os = std::cout, std::string const &indent = "" ); 
    void WriteContent(std::ofstream *fp, FileType filetype);
+   uint32_t ComputeFullLength();
 
    bool AddEntry(DocEntry *Entry); // add to the List
    bool RemoveEntry(DocEntry *EntryToRemove);
@@ -72,12 +73,6 @@ public:
    ///  \brief Accessor on \ref SQDepthLevel.
    void SetDepthLevel(int depth) { SQDepthLevel = depth; }
 
-   // waste time hunting
-   // /  \brief Accessor on \ref BaseTagKey.
-   //void SetBaseTagKey( BaseTagKey const &key ) { BaseTagKeyNested = key; }
-   // /  \brief Accessor on \ref BaseTagKey.
-   //BaseTagKey const &GetBaseTagKey() const { return BaseTagKeyNested; }
-
 protected:
 // Variables that need to be accessed in subclasses
    /// \brief Chained list of Doc Entries
@@ -94,11 +89,6 @@ private:
    ///        counterpart are only defined on printing purposes
    ///        (see \ref Print).
    int SQDepthLevel;
-
-   // waste time hunting
-   // / \brief A TagKey of a DocEntry nested in a sequence is prepended
-   // /        with this BaseTagKey.
-   //BaseTagKey BaseTagKeyNested;
 
    /// \brief SQ Item ordinal number 
    int SQItemNumber;

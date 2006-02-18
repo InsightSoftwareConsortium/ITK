@@ -179,7 +179,8 @@ enum FileType {
    ExplicitVR, // DicomDir is in this case. Except when it's ImplicitVR !...
    ImplicitVR,
    ACR,
-   ACR_LIBIDO
+   ACR_LIBIDO,
+   JPEG
 };
 
 /// \brief type of the elements composing a DICOMDIR (for internal use only)
@@ -219,9 +220,9 @@ enum LodModeType
  */  
 struct Element
 {
-   /// DicomGroup number
+   /// Dicom Group number
    unsigned short int Group;
-   /// DicomElement number
+   /// Dicom Element number
    unsigned short int Elem;
    /// value (coded as a std::string) of the Element
    std::string Value;

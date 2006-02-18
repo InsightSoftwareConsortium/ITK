@@ -46,6 +46,7 @@ public:
    
    void Print(std::ostream &os = std::cout, std::string const &indent = "" ); 
    void WriteContent(std::ofstream *fp, FileType filetype);
+   uint32_t ComputeFullLength();
 
    void AddSQItem(SQItem *it, int itemNumber);
    void ClearSQItem();
@@ -56,12 +57,11 @@ public:
       
    /// Sets the delimitor mode
    void SetDelimitorMode(bool dm) { DelimitorMode = dm; }
-
    /// Sets the Sequence Delimitation Item
    void SetDelimitationItem(DocEntry *e) { SeqTerm = e;   }
 
    /// Gets the Sequence Delimitation Item
-   DocEntry *GetDelimitationItem()       { return SeqTerm;}
+   DocEntry *GetDelimitationItem() { return SeqTerm;}
 
    /// Gets the depth level
    int GetDepthLevel() const { return SQDepthLevel; }

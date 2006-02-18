@@ -77,6 +77,7 @@ private:
 
    /// Access through TagKey
    TagKeyHT KeyHt;
+   /// Iterator for the entries
    TagKeyHT::iterator ItKeyHt;
 };
 } // end namespace gdcm

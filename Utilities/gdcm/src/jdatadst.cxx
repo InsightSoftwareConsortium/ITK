@@ -27,8 +27,12 @@ extern "C" {
 typedef struct {
   struct jpeg_destination_mgr pub; /* public fields */
 
-  std::ofstream * outfile; /* target stream */ 
+  std::ostream * outfile; /* target stream */ 
   JOCTET * buffer;         /* start of buffer */
+//  boolean start_of_file;  /* have we gotten any data yet? */
+
+  size_t frag_length;  //we have to control this one to spec the size of the frag
+  size_t bytes_written;
 } my_destination_mgr;
 
 typedef my_destination_mgr * my_dest_ptr;
@@ -84,18 +88,29 @@ empty_output_buffer (j_compress_ptr cinfo)
 {
   my_dest_ptr dest = (my_dest_ptr) cinfo->dest;
 
-#if 0
-  if (JFWRITE(dest->outfile, dest->buffer, OUTPUT_BUF_SIZE) !=
-      (size_t) OUTPUT_BUF_SIZE)
+  if( dest->bytes_written == dest->frag_length )
+    {
+    // Start the I/O suspension simply by returning false here:
+    return FALSE;
+    }
+
+  size_t output_buf_size = OUTPUT_BUF_SIZE;
+  if( (dest->bytes_written + OUTPUT_BUF_SIZE) > dest->frag_length )
+    {
+    output_buf_size = dest->frag_length - dest->bytes_written;
+    }
+  dest->outfile->write((char*)dest->buffer, output_buf_size);
+  size_t nbytes = output_buf_size; //dest->outfile->gcount();
+
+  if( nbytes <= 0 )
     ERREXIT(cinfo, JERR_FILE_WRITE);
-#else
-  dest->outfile->write((char*)dest->buffer, OUTPUT_BUF_SIZE);
+
   if( dest->outfile->fail() )
     ERREXIT(cinfo, JERR_FILE_WRITE);
-#endif
 
   dest->pub.next_output_byte = dest->buffer;
-  dest->pub.free_in_buffer = OUTPUT_BUF_SIZE;
+  dest->pub.free_in_buffer = nbytes; //OUTPUT_BUF_SIZE;
+  dest->bytes_written += nbytes;
 
   return TRUE;
 }
@@ -147,7 +162,7 @@ term_destination (j_compress_ptr cinfo)
  */
 
 GLOBAL(void)
-jpeg_stdio_dest (j_compress_ptr cinfo, std::ofstream * outfile)
+jpeg_stdio_dest (j_compress_ptr cinfo, std::ostream * outfile, size_t frag_length, int flag)
 {
   my_dest_ptr dest;
 
@@ -168,4 +183,12 @@ jpeg_stdio_dest (j_compress_ptr cinfo, std::ofstream * outfile)
   dest->pub.empty_output_buffer = reinterpret_cast<boolean_jpeg_compress_struct>(empty_output_buffer);
   dest->pub.term_destination = reinterpret_cast<void_jpeg_compress_struct>(term_destination);
   dest->outfile = outfile;
+
+  // Need to setup a new buffer, clean bytes_in_buffer and next_input_byte
+  if( flag )
+    {
+    dest->bytes_written = 0;
+    }
+  // only upate the new fragment, valid for both 'flag' value
+  dest->frag_length = frag_length;
 }

@@ -39,6 +39,11 @@
 
 #include <setjmp.h>
 #include <fstream>
+
+#if defined(__BORLANDC__)
+   #include <mem.h> // for memset
+#endif 
+
 #include "jdatasrc.cxx"
 #include "jdatadst.cxx"
 
@@ -56,7 +61,7 @@ namespace gdcm
  * @return 1 on success, 0 on error
  */
  
-bool gdcm_write_JPEG_file (std::ofstream *fp, void *im_buf, 
+bool gdcm_write_JPEG_file (std::ostream *fp, void *im_buf, 
                            int image_width, int image_height, int quality)
 {
 
@@ -107,7 +112,9 @@ bool gdcm_write_JPEG_file (std::ofstream *fp, void *im_buf,
  //   exit(1);
  //
  // }
-  jpeg_stdio_dest(&cinfo, fp);
+  assert( 0 );
+  (void)fp;
+  //jpeg_stdio_dest(&cinfo, fp, 0, 0, image_width, image_height, quality);
 
   /* Step 3: set parameters for compression */
 
@@ -211,7 +218,7 @@ METHODDEF(void) my_error_exit (j_common_ptr cinfo) {
 }
 //-----------------------------------------------------------------------------
  
- /**
+/**
  * \brief   routine for JPEG decompression 
  * @param fp pointer to an already open file descriptor 
  *                      8 significant bits per pixel

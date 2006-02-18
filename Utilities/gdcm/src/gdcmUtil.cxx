@@ -18,7 +18,9 @@
 
 #include "gdcmUtil.h"
 #include "gdcmDebug.h"
+
 #include <iostream>
+#include <stdarg.h> // for va_list
 
 // For GetCurrentDate, GetCurrentTime
 #include <time.h>
@@ -95,6 +97,12 @@ namespace gdcm
 //-------------------------------------------------------------------------
 const std::string Util::GDCM_UID = "1.2.826.0.1.3680043.2.1143";
 std::string Util::RootUID        = GDCM_UID;
+/*
+ * File Meta Information Version (0002,0001) shall contain a two byte OB 
+ * value consisting of a 0x00 byte, followed by 0x01 byte, and not the 
+ * value 0x0001 encoded as a little endian 16 bit short value, 
+ * which would be the other way around...
+ */
 const uint16_t Util::FMIV = 0x0100;
 uint8_t *Util::FileMetaInformationVersion = (uint8_t *)&FMIV;
 std::string Util::GDCM_MAC_ADRESS = GetMACAddress();
@@ -104,11 +112,11 @@ std::string Util::GDCM_MAC_ADRESS = GetMACAddress();
 /**
  * \brief Provide a better 'c++' approach for sprintf
  * For example c code is:
- * char result[200]; // hope 200 is enough
+ * char result[2048]; // hope 2048 is enough
  * sprintf(result, "%04x|%04x", group , elem);
  *
  * c++ code is 
- * itksys_ios::ostringstream buf;
+ * std::ostringstream buf;
  * buf << std::right << std::setw(4) << std::setfill('0') << std::hex
  *     << group << "|" << std::right << std::setw(4) << std::setfill('0') 
  *     << std::hex <<  elem;
@@ -120,7 +128,7 @@ std::string Util::GDCM_MAC_ADRESS = GetMACAddress();
  */
 std::string Util::Format(const char *format, ...)
 {
-   char buffer[2048];
+   char buffer[2048]; // hope 2048 is enough
    va_list args;
    va_start(args, format);
    vsprintf(buffer, format, args);  //might be a security flaw
@@ -186,16 +194,14 @@ int Util::CountSubstring (const std::string &str,
  */
 bool Util::IsCleanString(std::string const &s)
 {
-  std::cout<< std::endl << s << std::endl;
    for(unsigned int i=0; i<s.size(); i++)
    {
-      //std::cout<< std::endl << i << " : " << (unsigned char)s[i] << std::endl;
       if (!isprint((unsigned char)s[i]) )
       {
          return false;
       }
    }
-return true;   
+   return true;   
 }
 
 /**
@@ -271,7 +277,7 @@ std::string Util::CreateCleanString(uint8_t *s, int l)
    return str;
 }
 /**
- * \brief   Add a SEPARATOR to the end of the name is necessary
+ * \brief   Add a SEPARATOR to the end of the name if necessary
  * @param   pathname file/directory name to normalize 
  */
 std::string Util::NormalizePath(std::string const &pathname)
@@ -476,8 +482,8 @@ std::string Util::DicomString(const char *s)
 /**
  * \brief Safely check the equality of two Dicom String:
  *        - Both strings should be of even length
- *        - We allow padding of even length string by either a null 
- *          character of a space
+ *        - We allow padding of even length string by either
+ *          a null character of a space
  */
 bool Util::DicomStringEqual(const std::string &s1, const char *s2)
 {
@@ -494,8 +500,8 @@ bool Util::DicomStringEqual(const std::string &s1, const char *s2)
 /**
  * \brief Safely compare two Dicom String:
  *        - Both strings should be of even length
- *        - We allow padding of even length string by either a null 
- *          character of a space
+ *        - We allow padding of even length string by either
+ *          a null character of a space
  */
 bool Util::CompareDicomString(const std::string &s1, const char *s2, int op)
 {
@@ -834,8 +840,8 @@ int GetMacAddrSys ( unsigned char *addr )
    }
    close(sd);
 #endif
-   // Not implemented platforms
-   perror("in Get MAC Adress (internal) : There was a configuration problem on your plateform");
+   // Not implemented platforms (or no cable !)
+   perror("in Get MAC Adress (internal) : There was a configuration problem (or no cable !) on your plateform");
    memset(addr,0,6);
    return -1;
 #endif //__sun
@@ -859,7 +865,7 @@ inline int getlastdigit(unsigned char *data)
 }
 
 /**
- * \brief Encode the mac address on a fixed lenght string of 15 characters.
+ * \brief Encode the mac address on a fixed length string of 15 characters.
  * we save space this way.
  */
 std::string Util::GetMACAddress()
@@ -898,8 +904,8 @@ std::string Util::GetMACAddress()
 }
 
 /**
- * \brief Creates a new UID. As stipulate in the DICOM ref
- *        each time a DICOM image is create it should have 
+ * \brief Creates a new UID. As stipulated in the DICOM ref
+ *        each time a DICOM image is created it should have 
  *        a unique identifier (URI)
  * @param root is the DICOM prefix assigned by IOS group
  */
@@ -960,7 +966,7 @@ const std::string &Util::GetRootUID()
 /**
  * \brief binary_write binary_write
  * @param os ostream to write to 
- * @param val val
+ * @param val 16 bits value to write
  */ 
 std::ostream &binary_write(std::ostream &os, const uint16_t &val)
 {
@@ -977,7 +983,7 @@ std::ostream &binary_write(std::ostream &os, const uint16_t &val)
 /**
  * \brief binary_write binary_write
  * @param os ostream to write to
- * @param val val
+ * @param val 32 bits value to write
  */ 
 std::ostream &binary_write(std::ostream &os, const uint32_t &val)
 {
@@ -992,9 +998,36 @@ std::ostream &binary_write(std::ostream &os, const uint32_t &val)
 }
 
 /**
+ * \brief binary_write binary_write
+ * @param os ostream to write to
+ * @param val double (64 bits) value to write
+ */ 
+std::ostream &binary_write(std::ostream &os, const double &val)
+{
+#if defined(GDCM_WORDS_BIGENDIAN) || defined(GDCM_FORCE_BIGENDIAN_EMULATION)    
+   double swap = val;
+   
+   char *beg = (char *)&swap;
+   char *end = beg + 7;
+   char t;
+   for (unsigned int i = 0; i<7; i++)
+   {
+      t    = *beg;
+      *beg = *end;
+      *end = t;
+      beg++,
+      end--;  
+   }  
+   return os.write(reinterpret_cast<const char*>(&swap), 8);
+#else
+   return os.write(reinterpret_cast<const char*>(&val), 8);
+#endif //GDCM_WORDS_BIGENDIAN
+}
+
+/**
  * \brief  binary_write binary_write
  * @param os ostream to write to
- * @param val val
+ * @param val 8 bits characters aray to write
  */ 
 std::ostream &binary_write(std::ostream &os, const char *val)
 {
@@ -1002,9 +1035,9 @@ std::ostream &binary_write(std::ostream &os, const char *val)
 }
 
 /**
- * \brief
+ * \brief  binary_write binary_write
  * @param os ostream to write to
- * @param val val
+ * @param val std::string value to write
  */ 
 std::ostream &binary_write(std::ostream &os, std::string const &val)
 {
@@ -1014,7 +1047,7 @@ std::ostream &binary_write(std::ostream &os, std::string const &val)
 /**
  * \brief  binary_write binary_write
  * @param os ostream to write to
- * @param val value
+ * @param val 8 bits 'characters' aray to write
  * @param len length of the 'value' to be written
  */ 
 std::ostream &binary_write(std::ostream &os, const uint8_t *val, size_t len)
@@ -1026,8 +1059,8 @@ std::ostream &binary_write(std::ostream &os, const uint8_t *val, size_t len)
 /**
  * \brief  binary_write binary_write
  * @param os ostream to write to
- * @param val val
- * @param len length of the 'value' to be written 
+ * @param val 16 bits words aray to write
+ * @param len length (in bytes) of the 'value' to be written 
  */ 
 std::ostream &binary_write(std::ostream &os, const uint16_t *val, size_t len)
 {

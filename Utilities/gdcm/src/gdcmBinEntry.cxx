@@ -159,6 +159,15 @@ void BinEntry::SetBinArea( uint8_t *area, bool self )
    SelfArea=self;
 }
 
+/**
+ * \brief   Compute the full length of the elementary DataEntry (not only value
+ *          length) depending on the VR.
+ */
+uint32_t BinEntry::ComputeFullLength()
+{
+   return GetFullLength();
+}
+
 //-----------------------------------------------------------------------------
 // Protected
 
@@ -176,7 +185,7 @@ void BinEntry::Print(std::ostream &os, std::string const & )
 {
    os << "B ";
    DocEntry::Print(os);
-   itksys_ios::ostringstream s;
+   std::ostringstream s;
    void* binArea = GetBinArea();
    if (binArea)
    {

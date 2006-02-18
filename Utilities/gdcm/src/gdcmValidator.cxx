@@ -46,9 +46,9 @@ bool CheckVM(ValEntry *v)
   n++; // number of '\' + 1 == Value Multiplicity
 
   unsigned int m;
-  itksys_ios::istringstream os;
-  os.str( v->GetVM());
-  os >> m;
+  std::istringstream is;
+  is.str( v->GetVM());
+  is >> m;
 
   return n == m;
 }
@@ -70,7 +70,7 @@ void Validator::SetInput(ElementSet *input)
     {   
       if ( !CheckVM(v) )
       {
-        std::cout << "Rah this DICOM contains one wrong tag:" << 
+        std::cout << "This DICOM contains one wrong tag:" << 
         v->GetValue() << " " <<
         v->GetGroup() << "," << v->GetElement() << "," <<
         v->GetVR() << " " << v->GetVM() << " " << v->GetName() << std::endl;
@@ -80,7 +80,7 @@ void Validator::SetInput(ElementSet *input)
     {
       // We skip pb of SQ recursive exploration
     }
-      d=input->GetNextEntry();
+    d=input->GetNextEntry();
   }
 }
 

@@ -27,6 +27,7 @@
 
 namespace gdcm 
 {
+//-----------------------------------------------------------------------------
 typedef std::map<DictKey, Dict*> DictSetHT;
 typedef std::string ExtendedTagKey;
 typedef std::map<ExtendedTagKey, DictEntry>  ExtendedTagKeyHT;
@@ -35,8 +36,8 @@ typedef std::map<ExtendedTagKey, DictEntry>  ExtendedTagKeyHT;
 /**
  * \brief  Container for managing a set of loaded dictionaries (Dict).
  * \note   Hopefully, sharing dictionaries should avoid
- * \par    reloading an already loaded dictionary (saving time)
- * \par    having many in memory representations of the same dictionary
+ *         - reloading an already loaded dictionary (saving time)
+ *         - having many in memory representations of the same dictionary
  *        (saving memory).
  */
 class GDCM_EXPORT DictSet : public Base

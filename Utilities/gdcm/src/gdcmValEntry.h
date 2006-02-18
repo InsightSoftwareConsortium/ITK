@@ -56,6 +56,8 @@ public:
    /// The size is updated
    void SetValue(std::string const &val);
 
+   uint32_t ComputeFullLength();
+
 
    /// \brief returns the size threshold above which an element value 
    ///        will NOT be *printed* in order no to polute the screen output

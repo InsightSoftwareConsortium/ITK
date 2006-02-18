@@ -52,6 +52,8 @@ public:
    uint8_t *GetBinArea()  { return BinArea; }
    void  SetBinArea( uint8_t *area, bool self = true );
 
+   uint32_t ComputeFullLength();
+
    /// \brief Sets SelfArea
    void SetSelfArea(bool area) { SelfArea = area; }
    /// \brief Returns SelfArea

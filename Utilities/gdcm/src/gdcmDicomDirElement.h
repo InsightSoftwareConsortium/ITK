@@ -22,6 +22,7 @@
 #include "gdcmCommon.h"
 
 #include <list>
+#include <iostream>
 
 namespace gdcm 
 {
@@ -71,10 +72,11 @@ public:
    DicomDirElement();
    ~DicomDirElement();
 
-  /**
+   /**
     * \brief   canonical Printer 
     */ 
-   void Print(std::ostream &os);
+   void Print(std::ostream &os = std::cout, 
+              std::string const &indent = "" );
 
    /**
     * \brief   returns a reference to the chained List 

@@ -55,8 +55,8 @@ DicomDirMeta::~DicomDirMeta()
  * @return
  */ 
 void DicomDirMeta::WriteContent(std::ofstream *fp, FileType filetype)
-{   
-   for (ListDocEntry::iterator i = DocEntries.begin();  
+{
+  for (ListDocEntry::iterator i = DocEntries.begin();  
                               i != DocEntries.end();
                               ++i)
    {

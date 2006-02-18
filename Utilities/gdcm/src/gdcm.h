@@ -23,6 +23,8 @@
 // external users of gdcm. It exposes the necessary API.
 
 #include "gdcmCommon.h"
+#include "gdcmUtil.h"
+#include "gdcmDebug.h"
 
 #include "gdcmDictEntry.h"
 #include "gdcmDict.h"
@@ -30,6 +32,7 @@
 
 #include "gdcmDocument.h"
 #include "gdcmFile.h"
+
 #include "gdcmFileHelper.h"
 #include "gdcmSerieHelper.h"
 
@@ -37,6 +40,6 @@
 #include "gdcmBinEntry.h"
 #include "gdcmSeqEntry.h"
 
-#include "gdcmUtil.h"
+#include "gdcmValidator.h"
 
 #endif

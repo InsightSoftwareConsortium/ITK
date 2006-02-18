@@ -52,6 +52,11 @@
 #else
 #   include <unistd.h>
 #endif
+
+#if defined(__BORLANDC__)
+   #include <mem.h> // for memset
+#endif
+
 // ----------------------------------------------------------------------------
 //         Note for future developpers
 // ----------------------------------------------------------------------------
@@ -274,12 +279,19 @@ bool DicomDir::DoTheLoadingJob( )
       {
          // user passed '.' as Name
          // we get current directory name
-         char dummy[1000];
-         getcwd(dummy, (size_t)1000);
-         SetFileName( dummy ); // will be converted into a string
+         char buf[2048];
+         const char *cwd = getcwd(buf, 2048);
+         if( cwd )
+         {
+            SetFileName( buf ); // will be converted into a string
+         }
+         else
+         {
+            gdcmErrorMacro( "Path was too long to fit on 2048 bytes" );
+         }
       }
       NewMeta();
-      gdcmWarningMacro( "Parse directory and create the DicomDir : " 
+      gdcmDebugMacro( "Parse directory and create the DicomDir : " 
                          << GetFileName() );
       ParseDirectory();
    }
@@ -298,7 +310,7 @@ bool DicomDir::IsReadable()
 {
    if ( Filetype == Unknown )
    {
-      gdcmWarningMacro( "Wrong filetype");
+      gdcmErrorMacro( "Wrong filetype for " << GetFileName());
       return false;
    }
    if ( !MetaElems )
@@ -531,8 +543,8 @@ void DicomDir::SetEndMethodArgDelete( DicomDir::Method *method )
 bool DicomDir::Write(std::string const &fileName) 
 {  
    int i;
-   uint16_t sq[4] = { 0x0004, 0x1220, 0xffff, 0xffff };
-   uint16_t sqt[4]= { 0xfffe, 0xe0dd, 0xffff, 0xffff };
+   uint16_t sq[6] = { 0x0004, 0x1220, 0x5153, 0x0000, 0xffff, 0xffff };
+   uint16_t sqt[4]= { 0xfffe, 0xe0dd, 0x0000, 0x0000 };
 
    std::ofstream *fp = new std::ofstream(fileName.c_str(),  
                                          std::ios::out | std::ios::binary);
@@ -551,7 +563,7 @@ bool DicomDir::Write(std::string const &fileName)
    ptrMeta->WriteContent(fp, ExplicitVR);
    
    // force writing 0004|1220 [SQ ], that CANNOT exist within DicomDirMeta
-   for(i=0;i<4;++i)
+   for(i=0;i<6;++i)
    {
       binary_write(*fp, sq[i]);
    }
@@ -566,7 +578,7 @@ bool DicomDir::Write(std::string const &fileName)
    // force writing Sequence Delimitation Item
    for(i=0;i<4;++i)
    {
-      binary_write(*fp, sqt[i]);  // fffe e0dd ffff ffff 
+      binary_write(*fp, sqt[i]);  // fffe e0dd 0000 0000 
    }
 
    fp->close();
@@ -584,7 +596,7 @@ bool DicomDir::Anonymize()
 {
    ValEntry *v;
    // Something clever to be found to forge the Patient names
-   itksys_ios::ostringstream s;
+   std::ostringstream s;
    int i = 1;
    for(ListDicomDirPatient::iterator cc = Patients.begin();
                                      cc!= Patients.end();
@@ -642,22 +654,16 @@ void DicomDir::CreateDicomDirChainedList(std::string const &path)
       }
 
       f = new File( );
-      f->SetLoadMode(LoadMode); // we allow user not to load Sequences, or Shadow
-                              //             groups, or ......
+      f->SetLoadMode(LoadMode); // we allow user not to load Sequences, 
+                                //        or Shadow groups, or ......
       f->SetFileName( it->c_str() );
    /*int res = */f->Load( );
 
-//     if ( !f )
-//     {
-//         gdcmWarningMacro( "Failure in new gdcm::File " << it->c_str() );
-//         continue;
-//      }
-      
       if ( f->IsReadable() )
       {
          // Add the file to the chained list:
          list.push_back(f);
-         gdcmWarningMacro( "Readable " << it->c_str() );
+         gdcmDebugMacro( "Readable " << it->c_str() );
        }
        else
        {
@@ -752,6 +758,7 @@ void DicomDir::CreateDicomDir()
    //  3 - we find an other tag
    //       + we create the object for the precedent tag
    //       + loop to 1 -
+   gdcmDebugMacro("Create DicomDir");
 
    // Directory record sequence
    DocEntry *e = GetDocEntry(0x0004, 0x1220);
@@ -790,7 +797,7 @@ void DicomDir::CreateDicomDir()
 
       // A decent DICOMDIR has much more images than series,
       // more series than studies, and so on.
-      // This is the right order to preform the tests
+      // This is the right order to perform the tests
 
       if ( v == "IMAGE " ) 
       {
@@ -846,7 +853,7 @@ void DicomDir::CreateDicomDir()
       {
          // It was neither a 'PATIENT', nor a 'STUDY', nor a 'SERIE',
          // nor an 'IMAGE' SQItem. Skip to next item.
-         gdcmWarningMacro( " -------------------------------------------"
+         gdcmDebugMacro( " -------------------------------------------"
          << "a non PATIENT/STUDY/SERIE/IMAGE SQItem was found : "
          << v);
 
@@ -1092,6 +1099,9 @@ void DicomDir::SetElement(std::string const &path, DicomDirType type,
       default:
          return;
    }
+
+   // FIXME : troubles found when it's a SeqEntry
+
    // removed all the seems-to-be-useless stuff about Referenced Image Sequence
    // to avoid further troubles
    // imageElem 0008 1140 "" // Referenced Image Sequence
@@ -1100,8 +1110,6 @@ void DicomDir::SetElement(std::string const &path, DicomDirType type,
    // imageElem 0008 1155 "" // Referenced SOP Instance UID : to be set/forged later
    // imageElem fffe e00d "" // Item delimitation : length to be set to ZERO later
  
-   // FIXME : troubles found when it's a SeqEntry
-
    // for all the relevant elements found in their own spot of the DicomDir.dic
    for( it = elemList.begin(); it != elemList.end(); ++it)
    {
@@ -1158,7 +1166,7 @@ void DicomDir::SetElement(std::string const &path, DicomDirType type,
 
       if ( type == GDCM_DICOMDIR_META ) // fusible : should never print !
       {
-         gdcmWarningMacro("GDCM_DICOMDIR_META ?!? should never print that");
+         gdcmDebugMacro("GDCM_DICOMDIR_META ?!? should never print that");
       }
       si->AddEntry(entry);
    }
@@ -1170,10 +1178,11 @@ void DicomDir::SetElement(std::string const &path, DicomDirType type,
  * @param dst destination SQItem
  * @param src source SQItem
  */
-void DicomDir::MoveSQItem(DocEntrySet *dst,DocEntrySet *src)
+void DicomDir::MoveSQItem(DocEntrySet *dst, DocEntrySet *src)
 { 
    DocEntry *entry;
-
+// todo : rewrite the whole stuff, without using RemoveEntry an AddEntry,
+//        to save time
    entry = src->GetFirstEntry();
    while(entry)
    {

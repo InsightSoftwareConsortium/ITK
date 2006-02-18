@@ -21,6 +21,12 @@
 #include <ctype.h>
 #include <string.h>  // For strlen
 
+// No strcasecmp in WIN32 world, but stricmp
+// http://www.opengroup.org/onlinepubs/007908799/xsh/strcasecmp.html
+#ifdef _WIN32
+#define strcasecmp stricmp
+#endif
+
 #include <string.h>  // For strtok and strlen
 #include <stdlib.h>  // For strtol and strtod
 
@@ -162,7 +168,7 @@ char *ArgMgr::ArgMgrValue ( const char *param )
  * \brief  Search for the first not yet used label
  * @return Pointer to the char array holding the first non used label
  */
-char *ArgMgr::ArgMgrUnused ( )
+const char *ArgMgr::ArgMgrUnused ( )
 {
    int i ;
    for ( i=ArgCount-1; i>0; i-- )
@@ -182,7 +188,7 @@ char *ArgMgr::ArgMgrUnused ( )
  */
 int ArgMgr::ArgMgrPrintUnusedLabels ()
 {
-   char *label;
+   const char *label;
    int i=0;
    while ( (label=ArgMgrUnused())!=0 )
    {
@@ -217,7 +223,7 @@ int ArgMgr::ArgMgrUsage(const char **usage )
  * @param param  char. array that defines the parameter
  * @return   Entier correspondant au rang dans la liste de labels
  */
-int ArgMgr::ArgMgrSave ( char *param )
+int ArgMgr::ArgMgrSave ( const char *param )
 {
    static int   deja = 0;
    FILE         *fd;
@@ -277,7 +283,7 @@ float ArgMgr::ArgMgrGetFloat(const char *param, float defaultVal)
  * @param defaultVal default value
  * @return parameter value
  */
-char *ArgMgr::ArgMgrGetString(const char *param, char *defaultVal)
+const char *ArgMgr::ArgMgrGetString(const char *param, const char *defaultVal)
 {
    return    ( (ArgMgrDefined(param)) 
               ? (ArgMgrValue(param))
@@ -295,22 +301,23 @@ char *ArgMgr::ArgMgrGetString(const char *param, char *defaultVal)
  * @param val  number of default value
  * @return   int : range of value amongst the values list
  */
-int ArgMgr::ArgMgrGetLabel (const char *param, char *liste, int val )
+int ArgMgr::ArgMgrGetLabel (const char *param, const char *liste, int val )
 {
   char *lab;
-  char *vallab;
+  const char *vallab;
   int i = 1;
   char *tmp;
   tmp = (char *) malloc(strlen(liste)+1);
   strcpy(tmp,liste);
 
-  if ( (vallab = ArgMgrGetString(param,(char *)NULL)) != 0 ) 
+  if ( (vallab = ArgMgrGetString(param,(const char *)NULL)) != 0 ) 
   { 
      for ( lab = strtok (tmp,"\\"); 
            lab != 0; 
            lab = strtok(0L,"\\"), i++ )
      { 
-        if ( strcmp(maj(lab),maj(vallab))==0)
+        // strcmp ignoring case
+        if( strcasecmp(lab, vallab) == 0)
            return i;
      } 
      val=0;
@@ -326,18 +333,19 @@ int ArgMgr::ArgMgrGetLabel (const char *param, char *liste, int val )
  * @param liste  character Chain describing the various values.
  *               Labels are separated by  '\\'.
  *               No case sensitive.
+ *               WARNING this will be changed (not const)
  * @param usage Usage program (displayed if label not found)
  * @return   int : range of value amongst the values list
  */
 int ArgMgr::ArgMgrWantLabel (const char *param, char *liste, const char **usage )
 {
    char *lab;
-   char *vallab;
+   const char *vallab;
    int i = 1;
    if ( (vallab = ArgMgrGetString(param,0)) != 0 ) 
    {
       for ( lab = strtok (liste,"\\"); lab != 0; lab = strtok(0L,"\\"), i++ )
-        if ( strcmp(maj(lab),maj(vallab))==0) 
+        if ( strcasecmp(lab,vallab)==0) 
            return i;
       return 0;
    }
@@ -405,7 +413,10 @@ char **ArgMgr::ArgMgrGetListOfString ( const char *label, int *number )
   char **elem;
   char  *chainecur; 
   if (!value)
+  {
+     *number = 0;
      return 0;
+  }
   *number = IdStrCountChar(value,',')+1; /* nb Elements = nb Commas +1 */
   taille = *number;
   liste = (char **) malloc (sizeof(char*) * taille + strlen(value)+1);
@@ -435,14 +446,17 @@ int *ArgMgr::ArgMgrGetListOfInt ( const char *label, int *number )
   int *elem;
   int taille;
   if (!value)
+  {
+     *number = 0;
      return 0;
+  }
   *number = IdStrCountChar(value,',')+1; /* nb Elements = nb Commas +1 */
   taille= *number;
   liste = (int *) calloc (1,sizeof(int)*taille );
   if ( !liste )
      return 0;
   elem = liste;
-  *number = 1;
+  //*number = 1;
 
   while ( taille>0 ) 
   {
@@ -477,9 +491,12 @@ float *ArgMgr::ArgMgrGetListOfFloat ( const char *label, int *number )
   taille= *number;
   liste = (float *) calloc (1,sizeof(float)*taille );
   if ( !liste )
+  {
+     *number = 0;
      return 0;
+  }
   elem = liste;
-  *number = 1;
+  //*number = 1;
 
   while ( taille>0 ) 
   {
@@ -752,7 +769,7 @@ char *ArgMgr::Majuscule (const char *chaine )
 * Valeur retournee . : false if OK.                                       *
 *                      true if KO.                                        *
 **************************************************************************/
-int ArgMgr::FiltreLong ( char *arg  )
+int ArgMgr::FiltreLong ( const char *arg  )
 {
   int  n = 0 ;
   while ( (n++<ARG_LONG_MAX) && (*(arg++) != '\0') ) ;
@@ -815,7 +832,7 @@ const char *ArgMgr::LoadedParam ( const char *param, FILE *fd )
  |              Role     : parameter File name
  |
  +------------------------------------------------------------------------*/
-int ArgMgr::ArgLoadFromFile ( char *filename )
+int ArgMgr::ArgLoadFromFile ( const char *filename )
 {
   int   nbl = 0;
   char  param[ARG_LONG_MAX+1];

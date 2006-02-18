@@ -27,10 +27,14 @@
 #include <ctype.h> // for isdigit
 
 // TODO
-// a lot of troubles expected with TS : 1.2.840.113619.5.2
+// troubles expected with TS : 1.2.840.113619.5.2
 // Implicit VR - Big Endian
 // http://www.gemedicalsystemseurope.com/euen/it_solutions/pdf/lsqxi_rev2.pdf
-// 
+// G.E. deliberately violated a lot of Dicom rules are
+// (probabely to to avoid other people to read their images)
+// Just try and error on new images :
+// PrintFile debug filein=...
+// and fix the bugs
 
 namespace gdcm 
 {
@@ -39,7 +43,7 @@ namespace gdcm
 static const char *SpecialStrings[] =  {
   // Implicit VR Little Endian
   "1.2.840.10008.1.2",
-  // Implicit VR Big Endian DLX (G.E Private)
+  // Implicit VR Big Endian (G.E Private)
   "1.2.840.113619.5.2",
   // Explicit VR Little Endian
   "1.2.840.10008.1.2.1",
@@ -75,7 +79,8 @@ static const char *SpecialStrings[] =  {
   // MPEG2 Main Profile @ Main Level
   "1.2.840.10008.1.2.4.100",
   // Unknown
-  "Unknown Transfer Syntax"
+  "Unknown Transfer Syntax", // Pretty sure we never use this case...
+  NULL // Compilers have no obligation to finish by NULL, do it ourself
 };
 
 //-----------------------------------------------------------------------------
@@ -345,9 +350,9 @@ const char* TS::GetSpecialTransferSyntax(SpecialType t)
  * \brief   Print all 
  * @param   os The output stream to be written to.
  */
-void TS::Print(std::ostream &os) 
+void TS::Print(std::ostream &os,std::string const &)
 {
-   itksys_ios::ostringstream s;
+   std::ostringstream s;
 
    for (TSHT::const_iterator it = TsMap.begin(); it != TsMap.end(); ++it)
    {

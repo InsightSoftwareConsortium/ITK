@@ -60,10 +60,10 @@ void SQItem::WriteContent(std::ofstream *fp, FileType filetype)
 {
    int j;
    uint16_t item[4] = { 0xfffe, 0xe000, 0xffff, 0xffff };
-   uint16_t itemt[4]= { 0xfffe, 0xe00d, 0xffff, 0xffff };
+   uint16_t itemt[4]= { 0xfffe, 0xe00d, 0x0000, 0x0000 };
 
     //we force the writting of an 'Item' Start Element
-    // because we want to write the Item as a 'no Length' item
+    // because we want to write the Item as a 'No Length' item
    for(j=0;j<4;++j)
    {
       binary_write( *fp, item[j]);  // fffe e000 ffff ffff 
@@ -97,8 +97,31 @@ void SQItem::WriteContent(std::ofstream *fp, FileType filetype)
     // because we wrote the Item as a 'no Length' item
    for(j=0;j<4;++j)
    {
-      binary_write( *fp, itemt[j]);  // fffe e000 ffff ffff 
+      binary_write( *fp, itemt[j]);  // fffe e000 0000 0000
    } 
+}
+
+/**
+ * \brief   Compute the full length of the SQItem (not only value length)
+ *           depending on the VR.
+ */
+uint32_t SQItem::ComputeFullLength()
+{
+   uint32_t l = 8;  // Item Starter length
+   for (ListDocEntry::iterator it = DocEntries.begin();  
+                               it != DocEntries.end();
+                             ++it)
+   {   
+      // we skip delimitors (start and end one) because 
+      // we force them as 'no length'
+      if ( (*it)->GetGroup() == 0xfffe )
+      {
+         continue;
+      }
+      l += (*it)->ComputeFullLength();
+   }
+   l += 8; // 'Item Delimitation' item 
+   return l;  
 }
 
 /**
@@ -275,7 +298,7 @@ DocEntry *SQItem::GetDocEntry(uint16_t group, uint16_t elem)
  */
 void SQItem::Print(std::ostream &os, std::string const &)
 {
-   itksys_ios::ostringstream s;
+   std::ostringstream s;
 
    if (SQDepthLevel > 0)
    {

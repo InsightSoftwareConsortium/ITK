@@ -119,7 +119,9 @@ bool RLEFrame::ReadAndDecompressRLEFragment( uint8_t *subRaw,
                                                                                 
       if ( numberOfReadBytes > fragmentSize )
       {
-         gdcmWarningMacro( "Read more bytes than the segment size.");
+         gdcmWarningMacro( "Read more bytes (" << numberOfReadBytes
+                              << " ) than the segment size. (" 
+                              << fragmentSize << ")" );
          return false;
       }
    }
@@ -139,7 +141,7 @@ bool RLEFrame::ReadAndDecompressRLEFragment( uint8_t *subRaw,
  * @param indent Indentation string to be prepended during printing.
  * @param os     Stream to print to.
  */
-void RLEFrame::Print( std::ostream &os, std::string indent )
+void RLEFrame::Print( std::ostream &os, std::string const &indent )
 {
    os << indent
       << "--- fragments"

@@ -32,12 +32,12 @@ typedef std::vector<std::string> DirListType;
 
 //-----------------------------------------------------------------------------
 
-// NOTE: Due to a VC6 'feature' we cannot export a std::list in a dll, 
+// NOTE: Due to a M$VC6 'feature' we cannot export a std::list in a dll, 
 // so GDCM_EXPORT keyword was removed for this class only
 
 /**
- * \brief   List containing the file headers of all the gdcm readable files
- *          found by exploring recursively a root directory. 
+ * \brief   List containing the file headers of all the 'gdcm readable' files
+ *          found by exploring (possibly recursively) a root directory. 
  */
 class GDCM_EXPORT DirList
 {
@@ -45,7 +45,7 @@ public :
    DirList(std::string const &dirName, bool recursive=false);
    ~DirList();
 
-   void Print(std::ostream &os = std::cout);
+   void Print(std::ostream &os = std::cout, std::string const &indent = "" );
 
    /// Return the name of the directory
    std::string const &GetDirName() const { return DirName; }

@@ -27,7 +27,7 @@ extern "C" {
 typedef struct {
   struct jpeg_source_mgr pub;  /* public fields */
 
-  std::ifstream *infile;  /* source stream */ 
+  std::istream *infile;  /* source stream */ 
   JOCTET * buffer;        /* start of buffer */
   boolean start_of_file;  /* have we gotten any data yet? */
 
@@ -198,7 +198,7 @@ term_source (j_decompress_ptr cinfo)
  */
 
 GLOBAL(void)
-jpeg_stdio_src (j_decompress_ptr cinfo, std::ifstream * infile, gdcm::JPEGFragment *frag, int flag)
+jpeg_stdio_src (j_decompress_ptr cinfo, std::istream * infile, gdcm::JPEGFragment *frag, int flag)
 {
   my_src_ptr src;
 

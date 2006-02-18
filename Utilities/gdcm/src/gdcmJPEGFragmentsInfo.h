@@ -39,7 +39,10 @@ namespace gdcm
  */
 class GDCM_EXPORT JPEGFragmentsInfo
 {
-public:
+friend class File;
+friend class PixelReadConvert;
+
+private:
    JPEGFragmentsInfo();
    ~JPEGFragmentsInfo();
    void Print( std::ostream &os = std::cout, std::string const &indent = "" );
@@ -52,7 +55,6 @@ public:
    JPEGFragment *GetNextFragment();
    unsigned int GetFragmentCount();
 
-private:
    typedef std::list<JPEGFragment *> JPEGFragmentsList;
 
     //Some mathieu hack:

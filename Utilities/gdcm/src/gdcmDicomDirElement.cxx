@@ -60,20 +60,21 @@ DicomDirElement::DicomDirElement()
          from.getline(buff, 1024, ' ');
          strType = buff;
 
-         if ( strType == "metaElem" )
-            type = DD_META;
-         else if ( strType == "patientElem" )
-            type = DD_PATIENT;
-         else if ( strType == "studyElem" )
-            type = DD_STUDY;
+         if ( strType == "imageElem" )
+            type = DD_IMAGE;
          else if ( strType == "serieElem" )
             type = DD_SERIE;
-         else if ( strType == "imageElem" )
-            type = DD_IMAGE;
+         else if ( strType == "studyElem" )
+            type = DD_STUDY;
+         else if ( strType == "patientElem" )
+            type = DD_PATIENT;
+         else if ( strType == "metaElem" )
+            type = DD_META;
          else
          {
-            gdcmWarningMacro("Unknown type found in the file : "
-                             <<filename.c_str());
+            gdcmWarningMacro("Unknown type (" << strType 
+                             << ") found in the file : "
+                             << filename.c_str());
             type = DD_UNKNOWN;
          }
 
@@ -119,20 +120,20 @@ bool DicomDirElement::AddEntry(DicomDirType type, Element const &elem)
 {
    switch( type )
    {
-      case DD_META :
-         DicomDirMetaList.push_back(elem);
-         break;
-      case DD_PATIENT :
-         DicomDirPatientList.push_back(elem);
-         break;
-      case DD_STUDY :
-         DicomDirStudyList.push_back(elem);
+      case DD_IMAGE :
+         DicomDirImageList.push_back(elem);
          break;
       case DD_SERIE :
          DicomDirSerieList.push_back(elem);
          break;
-      case DD_IMAGE :
-         DicomDirImageList.push_back(elem);
+      case DD_STUDY :
+         DicomDirStudyList.push_back(elem);
+         break;
+      case DD_PATIENT :
+         DicomDirPatientList.push_back(elem);
+         break;
+      case DD_META :
+         DicomDirMetaList.push_back(elem);
          break;
       default :
          return false;
@@ -156,6 +157,7 @@ void DicomDirElement::AddDicomDirElement(DicomDirType type,
    el.Value = "";
    AddEntry(type, el);
 }
+
 //-----------------------------------------------------------------------------
 // Protected
 
@@ -168,9 +170,9 @@ void DicomDirElement::AddDicomDirElement(DicomDirType type,
  * \brief   Print all
  * @param   os The output stream to be written to.
  */
-void DicomDirElement::Print(std::ostream &os)
+void DicomDirElement::Print(std::ostream &os,std::string const &)
 {
-   itksys_ios::ostringstream s;
+   std::ostringstream s;
    std::list<Element>::iterator it;
    //char greltag[10];  //group element tag
    TagKey greltag;

@@ -58,26 +58,32 @@ void DocEntry::WriteContent(std::ofstream *fp, FileType filetype)
 {
    uint32_t ffff  = 0xffffffff;
    uint16_t group = GetGroup();
+
+   ///\todo allow skipping Shadow groups 
+ 
    VRKey vr       = GetVR();
-   uint16_t el    = GetElement();
+   uint16_t elem    = GetElement();
    uint32_t lgth  = GetLength();
 
-   if ( group == 0xfffe && el == 0x0000 )
+   if ( group == 0xfffe && elem == 0x0000 )
    {
      // Fix in order to make some MR PHILIPS images e-film readable
      // see gdcmData/gdcm-MR-PHILIPS-16-Multi-Seq.dcm:
      // we just *always* ignore spurious fffe|0000 tag !   
       return;
    }
+
    //
    // ----------- Writes the common part
    //
    binary_write( *fp, group); //group number
-   binary_write( *fp, el);    //element number
+   binary_write( *fp, elem);  //element number
 
    // Dicom V3 group 0x0002 is *always* Explicit VR !
-   if ( filetype == ExplicitVR || group == 0x0002 )
+   if ( filetype == ExplicitVR || filetype == JPEG || group == 0x0002 )
    {
+// ----------- Writes the common part : the VR + the length 
+
       // Special case of delimiters:
       if (group == 0xfffe)
       {
@@ -102,13 +108,6 @@ void DocEntry::WriteContent(std::ofstream *fp, FileType filetype)
          // GDCM_UNKNOWN was stored in the Entry VR;
          // deal with Entry as if TS were Implicit VR
  
-         // FIXME : troubles expected on big endian processors :
-         // let lgth = 0x00001234
-         // we write 34 12 00 00 on little endian proc (OK)
-         // we write 12 34 00 00 on big endian proc (KO)          
-         //binary_write(*fp, shortLgr);
-         //binary_write(*fp, zero);
-
          binary_write(*fp, lgth);
       }
       else
@@ -116,7 +115,9 @@ void DocEntry::WriteContent(std::ofstream *fp, FileType filetype)
          binary_write(*fp, vr);
          gdcmAssertMacro( vr.size() == 2 );
                   
-         if ( (vr == "OB") || (vr == "OW") || (vr == "SQ") /*|| (vr == "UN")*/ )
+         // See PS 3.5-2004 page 33, 36                  
+         if ( (vr == "SQ") || (vr == "OB") || (vr == "OW") || (vr == "OF") 
+          ||  (vr == "UN") || (vr == "UT") )
          {
             binary_write(*fp, zero);
             if (vr == "SQ")
@@ -139,6 +140,7 @@ void DocEntry::WriteContent(std::ofstream *fp, FileType filetype)
    } 
    else // IMPLICIT VR 
    { 
+// ----------- Writes the common part : the VR  
       if (vr == "SQ")
       {
          binary_write(*fp, ffff);
@@ -203,7 +205,7 @@ bool DocEntry::IsSequenceDelimitor()
 }
 
 /**
- * \brief   Copies all the attributes from an other DocEntry 
+ * \brief Copies all the attributes from an other DocEntry 
  * @param doc entry to copy from
  */
 void DocEntry::Copy(DocEntry *doc)
@@ -233,13 +235,13 @@ void DocEntry::Print(std::ostream &os, std::string const & )
    std::string st;
    TSKey v;
    std::string d2, vr;
-   itksys_ios::ostringstream s;
+   std::ostringstream s;
    uint32_t lgth;
 
    o  = GetOffset();
    vr = GetVR();
    if ( vr==GDCM_UNKNOWN )
-      vr="  ";
+      vr = "  ";
 
    s << DictEntry::TranslateToKey(GetGroup(),GetElement()); 
 

@@ -33,6 +33,10 @@
 #include "gdcmPixelWriteConvert.h"
 #include "gdcmDocEntryArchive.h"
 #include "gdcmDictSet.h"
+#include "gdcmOrientation.h"
+#if defined(__BORLANDC__)
+   #include <mem.h> // for memset
+#endif 
 
 #include <fstream>
 
@@ -224,8 +228,7 @@ FileHelper::~FileHelper()
 
 /**
  * \brief Sets the LoadMode of the internal gdcm::File as a boolean string. 
- *        NO_SEQ, NO_SHADOW, NO_SHADOWSEQ
- *... (nothing more, right now)
+ *        NO_SEQ, NO_SHADOW, NO_SHADOWSEQ ... (nothing more, right now)
  *        WARNING : before using NO_SHADOW, be sure *all* your files
  *        contain accurate values in the 0x0000 element (if any) 
  *        of *each* Shadow Group. The parser will fail if the size is wrong !
@@ -323,11 +326,11 @@ BinEntry *FileHelper::InsertBinEntry(uint8_t *binArea, int lgth,
 }
 
 /**
- * \brief   Modifies the value of a given DocEntry (Dicom entry)
- *          when it exists. Creates it, empty (?!) when unexistant.
+ * \brief   Adds an empty SeqEntry 
+ *          (remove any existing entry with same group,elem)
  * @param   group   Group number of the Entry 
  * @param   elem  Element number of the Entry
- * \return  pointer to the modified/created Dicom entry (NULL when creation
+ * \return  pointer to the created SeqEntry (NULL when creation
  *          failed).
  */
 SeqEntry *FileHelper::InsertSeqEntry(uint16_t group, uint16_t elem)
@@ -353,7 +356,7 @@ size_t FileHelper::GetImageDataSize()
 }
 
 /**
- * \brief   Get the size of the image data
+ * \brief   Get the size of the image data.
  *          If the image could be converted to RGB using a LUT, 
  *          this transformation is not taken into account by GetImageDataRawSize
  *          (use GetImageDataSize if you wish)
@@ -369,13 +372,15 @@ size_t FileHelper::GetImageDataRawSize()
 }
 
 /**
- * \brief   - Allocates necessary memory,
+ * \brief brings pixels into memory :  
+ *          - Allocates necessary memory,
  *          - Reads the pixels from disk (uncompress if necessary),
  *          - Transforms YBR pixels, if any, into RGB pixels,
  *          - Transforms 3 planes R, G, B, if any, into a single RGB Plane
  *          - Transforms single Grey plane + 3 Palettes into a RGB Plane
  *          - Copies the pixel data (image[s]/volume[s]) to newly allocated zone.
  * @return  Pointer to newly allocated pixel data.
+ *          (uint8_t is just for prototyping. feel free to cast)
  *          NULL if alloc fails 
  */
 uint8_t *FileHelper::GetImageData()
@@ -403,13 +408,15 @@ uint8_t *FileHelper::GetImageData()
 }
 
 /**
- * \brief   Allocates necessary memory, 
- *          Transforms YBR pixels (if any) into RGB pixels
- *          Transforms 3 planes R, G, B  (if any) into a single RGB Plane
- *          Copies the pixel data (image[s]/volume[s]) to newly allocated zone. 
- *          DOES NOT transform Grey plane + 3 Palettes into a RGB Plane
+ * \brief brings pixels into memory :  
+ *          - Allocates necessary memory, 
+ *          - Transforms YBR pixels (if any) into RGB pixels
+ *          - Transforms 3 planes R, G, B  (if any) into a single RGB Plane
+ *          - Copies the pixel data (image[s]/volume[s]) to newly allocated zone. 
+ *          - DOES NOT transform Grey plane + 3 Palettes into a RGB Plane
  * @return  Pointer to newly allocated pixel data.
- *          NULL if alloc fails 
+ *          (uint8_t is just for prototyping. feel free to cast)
+ *          NULL if alloc fails
  */
 uint8_t *FileHelper::GetImageDataRaw ()
 {
@@ -417,7 +424,7 @@ uint8_t *FileHelper::GetImageDataRaw ()
 }
 
 #ifndef GDCM_LEGACY_REMOVE
-/**
+/*
  * \brief   Useless function, since PixelReadConverter forces us 
  *          copy the Pixels anyway.  
  *          Reads the pixels from disk (uncompress if necessary),
@@ -710,6 +717,9 @@ bool FileHelper::Write(std::string const &fileName)
          SetWriteFileTypeToACR();
         // SetWriteFileTypeToImplicitVR(); // ACR IS implicit VR !
          break;
+      case JPEG:
+         SetWriteFileTypeToJPEG();
+         break;
    }
    CheckMandatoryElements();
 
@@ -743,6 +753,7 @@ bool FileHelper::Write(std::string const &fileName)
    }
 
    bool check = CheckWriteIntegrity(); // verifies length
+   if (WriteType == JPEG ) check = true;
    if (check)
    {
       check = FileInternal->Write(fileName,WriteType);
@@ -816,7 +827,8 @@ bool FileHelper::CheckWriteIntegrity()
             }
             break;
       }
-   }   
+   }
+
    return true;
 }
 
@@ -1010,6 +1022,20 @@ void FileHelper::SetWriteFileTypeToACR()
 }
 
 /**
+ * \brief Sets in the File the TransferSyntax to 'JPEG'
+ */ 
+void FileHelper::SetWriteFileTypeToJPEG()
+{
+   std::string ts = Util::DicomString( 
+      Global::GetTS()->GetSpecialTransferSyntax(TS::JPEGBaselineProcess1) );
+
+   ValEntry *tss = CopyValEntry(0x0002,0x0010);
+   tss->SetValue(ts);
+
+   Archive->Push(tss);
+}
+
+/**
  * \brief Sets in the File the TransferSyntax to 'Explicit VR Little Endian"   
  */ 
 void FileHelper::SetWriteFileTypeToExplicitVR()
@@ -1144,13 +1170,13 @@ ValEntry *FileHelper::CopyValEntry(uint16_t group, uint16_t elem)
  * \return  pointer to the new Bin Entry (NULL when creation failed).
  */ 
 BinEntry *FileHelper::CopyBinEntry(uint16_t group, uint16_t elem,
-                                   const std::string &vr)
+                                   const TagName &vr)
 {
    DocEntry *oldE = FileInternal->GetDocEntry(group, elem);
    BinEntry *newE;
 
-   if ( oldE ) 
-      if ( oldE->GetVR()!=vr )
+   if ( oldE && vr != GDCM_UNKNOWN ) 
+      if ( oldE->GetVR() != vr )
          oldE = NULL;
 
    if ( oldE )
@@ -1168,10 +1194,10 @@ BinEntry *FileHelper::CopyBinEntry(uint16_t group, uint16_t elem,
 
 /**
  * \brief   This method is called automatically, just before writting
- *         in order to produce a 'True Dicom V3' image
- *         We cannot know *how* the user made the File (reading an old ACR-NEMA
- *         file or a not very clean DICOM file ...) 
- *          
+ *         in order to produce a 'True Dicom V3' image.
+ *
+ *         We cannot know *how* the user made the File :
+ *         (reading an old ACR-NEMA file or a not very clean DICOM file ...) 
  *          Just before writting :
  *             - we check the Entries
  *             - we create the mandatory entries if they are missing
@@ -1179,9 +1205,19 @@ BinEntry *FileHelper::CopyBinEntry(uint16_t group, uint16_t elem,
  *             - we push the sensitive entries to the Archive
  *          The writing process will restore the entries as they where before 
  *          entering FileHelper::CheckMandatoryElements, so the user will always
- *          see the entries just as he left them.
+ *          see the entries just as they were before he decided to write.
+ *
+ * \note
+ *       -  Entries whose type is 1 are mandatory, with a mandatory value
+ *       -  Entries whose type is 1c are mandatory-inside-a-Sequence,
+ *                             with a mandatory value
+ *       -  Entries whose type is 2 are mandatory, with an optional value
+ *       -  Entries whose type is 2c are mandatory-inside-a-Sequence,
+ *                             with an optional value
+ *       -  Entries whose type is 3 are optional
  * 
- * \todo : - warn the user if we had to add some entries :
+ * \todo 
+ *         - warn the user if we had to add some entries :
  *         even if a mandatory entry is missing, we add it, with a default value
  *         (we don't want to give up the writting process if user forgot to
  *         specify Lena's Patient ID, for instance ...)
@@ -1191,9 +1227,155 @@ BinEntry *FileHelper::CopyBinEntry(uint16_t group, uint16_t elem,
  *         - write a user callable full checker, to allow post reading
  *         and/or pre writting image consistency check.           
  */ 
+
+/* -------------------------------------------------------------------------------------
+To be moved to User's guide / WIKI  ?
+
+We have to deal with 4 *very* different cases :
+-1) user created ex nihilo his own image  and wants to write it as a Dicom image.
+-2) user modified the pixels of an existing image.
+-3) user created a new image, using existing images (eg MIP, MPR, cartography image)
+-4) user anonymized an image without processing the pixels.
+
+gdcm::FileHelper::CheckMandatoryElements() deals automatically with these cases.
+
+1)2)3)4)
+0008 0012 Instance Creation Date
+0008 0013 Instance Creation Time
+0008 0018 SOP Instance UID
+are *always* created with the current values; user has *no* possible intervention on
+them.
+
+'Serie Instance UID'(0x0020,0x000e)
+'Study Instance UID'(0x0020,0x000d) are kept as is if already exist,
+                                    created  if it doesn't.
+ The user is allowed to create his own Series/Studies, 
+     keeping the same 'Serie Instance UID' / 'Study Instance UID' for various images
+ Warning :     
+ The user shouldn't add any image to a 'Manufacturer Serie'
+     but there is no way no to allowed him to do that
+     
+ None of the 'shadow elements' are droped out.
+     
+
+1)
+'Modality' (0x0008,0x0060)       is defaulted to "OT" (other) if missing.
+'Conversion Type (0x0008,0x0064) is forced to 'SYN' (Synthetic Image).
+'Study Date', 'Study Time' are defaulted to current Date and Time.
  
+1)2)3)
+'Media Storage SOP Class UID' (0x0002,0x0002)
+'SOP Class UID'               (0x0008,0x0016) are set to 
+                                               [Secondary Capture Image Storage]
+'Image Type'                  (0x0008,0x0008) is forced to  "DERIVED\PRIMARY"
+Conversion Type               (0x0008,0x0064) is forced to 'SYN' (Synthetic Image)
+
+2)4)
+If 'SOP Class UID' exists in the native image  ('true DICOM' image)
+    we create the 'Source Image Sequence' SeqEntry (0x0008, 0x2112)    
+    --> 'Referenced SOP Class UID' (0x0008, 0x1150)
+         whose value is the original 'SOP Class UID'
+    --> 'Referenced SOP Instance UID' (0x0008, 0x1155)
+         whose value is the original 'SOP Class UID'
+
+3) TODO : find a trick to allow user to pass to the writter the list of the Dicom images 
+          or the Series, (or the Study ?) he used to created his image 
+          (MIP, MPR, cartography image, ...)
+           These info should be stored (?)
+          0008 1110 SQ 1 Referenced Study Sequence
+          0008 1115 SQ 1 Referenced Series Sequence
+          0008 1140 SQ 1 Referenced Image Sequence
+       
+4) When user *knows* he didn't modified the pixels, he may ask the writer to keep some
+informations unchanged :
+'Media Storage SOP Class UID' (0x0002,0x0002)
+'SOP Class UID'               (0x0008,0x0016)
+'Image Type'                  (0x0008,0x0008)
+'Conversion Type'             (0x0008,0x0064)
+He has to use gdcm::FileHelper::SetKeepMediaStorageSOPClassUID(true)
+(probabely name has to be changed)
+
+
+Bellow follows the full description (hope so !) of the consistency checks performed 
+by gdcm::FileHelper::CheckMandatoryElements()
+
+
+-->'Media Storage SOP Class UID' (0x0002,0x0002)
+-->'SOP Class UID'               (0x0008,0x0016) are set to 
+                                               [Secondary Capture Image Storage]
+   (Potentialy, the image was modified by user, and post-processed; 
+    it's no longer a 'native' image)
+  Except if user told he wants to keep MediaStorageSOPClassUID,
+  when *he* knows he didn't modify the image (e.g. : he just anonymized the file)
+
+--> 'Image Type'  (0x0008,0x0008)
+     is forced to  "DERIVED\PRIMARY"
+     (The written image is no longer an 'ORIGINAL' one)
+  Except if user told he wants to keep MediaStorageSOPClassUID,
+  when *he* knows he didn't modify the image (e.g. : he just anonymized the file)
+   
+ -->  Conversion Type (0x0008,0x0064)
+     is forced to 'SYN' (Synthetic Image)
+  Except if user told he wants to keep MediaStorageSOPClassUID,
+  when *he* knows he didn't modify the image (e.g. : he just anonymized the file)
+            
+--> 'Modality' (0x0008,0x0060)   
+    is defaulted to "OT" (other) if missing.   
+    (a fully user created image belongs to *no* modality)
+      
+--> 'Media Storage SOP Instance UID' (0x0002,0x0003)
+--> 'Implementation Class UID'       (0x0002,0x0012)
+    are automatically generated; no user intervention possible
+
+--> 'Serie Instance UID'(0x0020,0x000e)
+--> 'Study Instance UID'(0x0020,0x000d) are kept as is if already exist
+                                             created  if it doesn't.
+     The user is allowed to create his own Series/Studies, 
+     keeping the same 'Serie Instance UID' / 'Study Instance UID' 
+     for various images
+     Warning :     
+     The user shouldn't add any image to a 'Manufacturer Serie'
+     but there is no way no to allowed him to do that 
+             
+--> If 'SOP Class UID' exists in the native image  ('true DICOM' image)
+    we create the 'Source Image Sequence' SeqEntry (0x0008, 0x2112)
+    
+    --> 'Referenced SOP Class UID' (0x0008, 0x1150)
+         whose value is the original 'SOP Class UID'
+    --> 'Referenced SOP Instance UID' (0x0008, 0x1155)
+         whose value is the original 'SOP Class UID'
+    
+--> Bits Stored, Bits Allocated, Hight Bit Position are checked for consistency
+--> Pixel Spacing     (0x0028,0x0030) is defaulted to "1.0\1.0"
+--> Samples Per Pixel (0x0028,0x0002) is defaulted to 1 (grayscale)
+
+--> Imager Pixel Spacing (0x0018,0x1164) : defaulted to Pixel Spacing value
+
+--> Instance Creation Date, Instance Creation Time are forced to current Date and Time
+
+--> Study Date, Study Time are defaulted to current Date and Time
+   (they remain unchanged if they exist)
+
+--> Patient Orientation : (0x0020,0x0020), if not present, is deduced from 
+    Image Orientation (Patient) : (0020|0037) or from
+    Image Orientation (RET)     : (0020 0035)
+   
+--> Study ID, Series Number, Instance Number, Patient Orientation (Type 2)
+    are created, with empty value if there are missing.
+
+--> Manufacturer, Institution Name, Patient's Name, (Type 2)
+    are defaulted with a 'gdcm' value.
+    
+--> Patient ID, Patient's Birth Date, Patient's Sex, (Type 2)
+--> Referring Physician's Name  (Type 2)
+    are created, with empty value if there are missing.  
+
+ -------------------------------------------------------------------------------------*/
+
 void FileHelper::CheckMandatoryElements()
 {
+   std::string sop =  Util::CreateUniqueUID();
+
    // just to remember : 'official' 0002 group
    if ( WriteType != ACR && WriteType != ACR_LIBIDO )
    {
@@ -1213,38 +1395,27 @@ void FileHelper::CheckMandatoryElements()
    // Create them if not found
    // Always modify the value
    // Push the entries to the archive.
-      ValEntry *e_0002_0000 = CopyValEntry(0x0002,0x0000);
-      e_0002_0000->SetValue("0"); // for the moment
-      Archive->Push(e_0002_0000);
-  
+      CopyMandatoryEntry(0x0002,0x0000,"0");
+
       BinEntry *e_0002_0001 = CopyBinEntry(0x0002,0x0001, "OB");
       e_0002_0001->SetBinArea((uint8_t*)Util::GetFileMetaInformationVersion(),
                                false);
       e_0002_0001->SetLength(2);
       Archive->Push(e_0002_0001);
 
-   // 'Media Stored SOP Class UID' 
-      ValEntry *e_0002_0002 = CopyValEntry(0x0002,0x0002);
-      // [Secondary Capture Image Storage]
-      e_0002_0002->SetValue("1.2.840.10008.5.1.4.1.1.7"); 
-      Archive->Push(e_0002_0002);
- 
+   // 'Media Storage SOP Class UID'  --> [Secondary Capture Image Storage]
+         CopyMandatoryEntry(0x0002,0x0002,"1.2.840.10008.5.1.4.1.1.7");    
+
+   // 'Media Storage SOP Instance UID'   
+      CopyMandatoryEntry(0x0002,0x0003,sop);
+      
    // 'Implementation Class UID'
-      ValEntry *e_0002_0012 = CopyValEntry(0x0002,0x0012);
-      e_0002_0012->SetValue(Util::CreateUniqueUID());
-      Archive->Push(e_0002_0012); 
+      CopyMandatoryEntry(0x0002,0x0012,Util::CreateUniqueUID());
 
    // 'Implementation Version Name'
-      ValEntry *e_0002_0013 = CopyValEntry(0x0002,0x0013);
       std::string version = "GDCM ";
       version += Util::GetVersion();
-      e_0002_0013->SetValue(version);
-      Archive->Push(e_0002_0013);
-
-   //'Source Application Entity Title' Not Mandatory
-   //ValEntry *e_0002_0016 = CopyValEntry(0x0002,0x0016);
-   //   e_0002_0016->SetValue("1.2.840.10008.5.1.4.1.1.7");
-   //   Archive->Push(e_0002_0016);
+      CopyMandatoryEntry(0x0002,0x0013,version);
    }
 
    // Push out 'LibIDO-special' entries, if any
@@ -1257,21 +1428,17 @@ void FileHelper::CheckMandatoryElements()
    // - we're gonna write the image as Bits Stored = 16
    if ( FileInternal->GetEntryValue(0x0028,0x0100) ==  "12")
    {
-      ValEntry *e_0028_0100 = CopyValEntry(0x0028,0x0100);
-      e_0028_0100->SetValue("16");
-      Archive->Push(e_0028_0100);
+      CopyMandatoryEntry(0x0028,0x0100,"16");
    }
 
    // Check if user wasn't drunk ;-)
 
-   itksys_ios::ostringstream s;
+   std::ostringstream s;
    // check 'Bits Allocated' vs decent values
    int nbBitsAllocated = FileInternal->GetBitsAllocated();
    if ( nbBitsAllocated == 0 || nbBitsAllocated > 32)
    {
-      ValEntry *e_0028_0100 = CopyValEntry(0x0028,0x0100);
-      e_0028_0100->SetValue("16");
-      Archive->Push(e_0028_0100); 
+      CopyMandatoryEntry(0x0028,0x0100,"16");
       gdcmWarningMacro("(0028,0100) changed from "
          << nbBitsAllocated << " to 16 for consistency purpose");
       nbBitsAllocated = 16; 
@@ -1280,10 +1447,9 @@ void FileHelper::CheckMandatoryElements()
    int nbBitsStored = FileInternal->GetBitsStored();
    if ( nbBitsStored == 0 || nbBitsStored > nbBitsAllocated )
    {
+      s.str("");
       s << nbBitsAllocated;
-      ValEntry *e_0028_0101 = CopyValEntry(0x0028,0x0101);
-      e_0028_0101->SetValue( s.str() );
-      Archive->Push(e_0028_0101);
+      CopyMandatoryEntry(0x0028,0x0101,s.str());
       gdcmWarningMacro("(0028,0101) changed from "
                        << nbBitsStored << " to " << nbBitsAllocated
                        << " for consistency purpose" );
@@ -1295,23 +1461,39 @@ void FileHelper::CheckMandatoryElements()
         highBitPosition > nbBitsAllocated-1 ||
         highBitPosition < nbBitsStored-1  )
    {
-      ValEntry *e_0028_0102 = CopyValEntry(0x0028,0x0102);
-
+      s.str("");
       s << nbBitsStored - 1; 
-      e_0028_0102->SetValue( s.str() );
-      Archive->Push(e_0028_0102);
+      CopyMandatoryEntry(0x0028,0x0102,s.str());
       gdcmWarningMacro("(0028,0102) changed from "
                        << highBitPosition << " to " << nbBitsAllocated-1
                        << " for consistency purpose");
    }
-  // --- Check UID-related Entries ---
+
+   std::string pixelSpacing = FileInternal->GetEntryValue(0x0028,0x0030);
+   if ( pixelSpacing == GDCM_UNFOUND )
+   {
+      pixelSpacing = "1.0\\1.0";
+       // if missing, Pixel Spacing forced to "1.0\1.0"
+      CopyMandatoryEntry(0x0028,0x0030,pixelSpacing);
+   }
+   
+   // 'Imager Pixel Spacing' : defaulted to 'Pixel Spacing'
+   // --> This one is the *legal* one !
+   // FIXME : we should write it only when we are *sure* the image comes from
+   //         an imager (see also 0008,0x0064)          
+   CheckMandatoryEntry(0x0018,0x1164,pixelSpacing);
+   
+   // Samples Per Pixel (type 1) : default to grayscale 
+   CheckMandatoryEntry(0x0028,0x0002,"1");
+
+   // --- Check UID-related Entries ---
 
    // If 'SOP Class UID' exists ('true DICOM' image)
    // we create the 'Source Image Sequence' SeqEntry
    // to hold informations about the Source Image
 
    ValEntry *e_0008_0016 = FileInternal->GetValEntry(0x0008, 0x0016);
-   if ( e_0008_0016 != 0 )
+   if ( e_0008_0016 )
    {
       // Create 'Source Image Sequence' SeqEntry
       SeqEntry *sis = new SeqEntry (
@@ -1336,9 +1518,7 @@ void FileHelper::CheckMandatoryElements()
       Archive->Push(sis);
  
       // 'Image Type' (The written image is no longer an 'ORIGINAL' one)
-      ValEntry *e_0008_0008 = CopyValEntry(0x0008,0x0008);
-      e_0008_0008->SetValue("DERIVED\\PRIMARY");
-      Archive->Push(e_0008_0008);
+      CopyMandatoryEntry(0x0008,0x0008,"DERIVED\\PRIMARY");
    } 
    else
    {
@@ -1353,139 +1533,164 @@ void FileHelper::CheckMandatoryElements()
       Archive->Push(e_0008_0016); 
    }
 
-// ---- The user will never have to take any action on the following ----.
+   // At the end, not to overwrite the original ones,
+   // needed by 'Referenced SOP Instance UID', 'Referenced SOP Class UID'   
+   // 'SOP Instance UID'  
+   CopyMandatoryEntry(0x0008,0x0018,sop);
+   
+   // the gdcm written image is a [Secondary Capture Image Storage]
+   // except if user told us he dind't modify the pixels, and, therefore
+   // he want to keep the 'Media Storage SOP Class UID'
+   
+      // 'Media Storage SOP Class UID' : [Secondary Capture Image Storage]
+   if ( KeepMediaStorageSOPClassUID)
+   {      
+      // It up to the use to *know* whether he modified the pixels or not.
+      // he is allowed to keep the original 'Media Storage SOP Class UID'
+      CheckMandatoryEntry(0x0008,0x0016,"1.2.840.10008.5.1.4.1.1.7");    
+   }
+   else
+   {
+       // Potentialy this is a post-processed image 
+       // 'Media Storage SOP Class UID'  --> [Secondary Capture Image Storage]
+      CopyMandatoryEntry(0x0008,0x0016,"1.2.840.10008.5.1.4.1.1.7");    
+
+       // FIXME : Must we Force Value, or Default value ?
+       // Is it Type 1 for any Modality ?
+       //    --> Answer seems to be NO :-(
+       // FIXME : we should write it only when we are *sure* the image 
+       //         *does not* come from an imager (see also 0018,0x1164)
+
+       // Conversion Type.
+       // Other possible values are :
+       // See PS 3.3, Page 408
+   
+       // DV = Digitized Video
+       // DI = Digital Interface   
+       // DF = Digitized Film
+       // WSD = Workstation
+       // SD = Scanned Document
+       // SI = Scanned Image
+       // DRW = Drawing
+       // SYN = Synthetic Image
+     
+      CheckMandatoryEntry(0x0008,0x0064,"SYN");
+   }   
+           
+   // ---- The user will never have to take any action on the following ----
+
+   // new value for 'SOP Instance UID'
+   //ValEntry *e_0008_0018 = new ValEntry(
+   //      Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x0018) );
+   //e_0008_0018->SetValue( Util::CreateUniqueUID() );
+   //Archive->Push(e_0008_0018);
 
    // Instance Creation Date
-   ValEntry *e_0008_0012 = CopyValEntry(0x0008,0x0012);
-   std::string date = Util::GetCurrentDate();
-   e_0008_0012->SetValue(date.c_str());
-   Archive->Push(e_0008_0012);
+   const std::string &date = Util::GetCurrentDate();
+   CopyMandatoryEntry(0x0008,0x0012,date);
  
    // Instance Creation Time
-   ValEntry *e_0008_0013 = CopyValEntry(0x0008,0x0013);
-   std::string time = Util::GetCurrentTime();
-   e_0008_0013->SetValue(time.c_str());
-   Archive->Push(e_0008_0013);
+   const std::string &time = Util::GetCurrentTime();
+   CopyMandatoryEntry(0x0008,0x0013,time);
 
-// ----- Add Mandatory Entries if missing ---
+   // Study Date
+   CheckMandatoryEntry(0x0008,0x0020,date);
+   // Study Time
+   CheckMandatoryEntry(0x0008,0x0030,time);
 
-// Entries whose type is 1 are mandatory, with a mandatory value
-// Entries whose type is 1c are mandatory-inside-a-Sequence
-// Entries whose type is 2 are mandatory, with a optional value
-// Entries whose type is 2c are mandatory-inside-a-Sequence
-// Entries whose type is 3 are optional
+   // Accession Number
+   //CopyMandatoryEntry(0x0008,0x0050,"");
+   CheckMandatoryEntry(0x0008,0x0050,"");
+   
 
-   // 'Serie Instance UID'
-   // Keep the value if exists
-   // The user is allowed to create his own Series, 
-   // keeping the same 'Serie Instance UID' for various images
-   // The user shouldn't add any image to a 'Manufacturer Serie'
-   // but there is no way no to allowed him to do that 
-   ValEntry *e_0020_000e = FileInternal->GetValEntry(0x0020, 0x000e);
-   if ( !e_0020_000e )
-   {
-      e_0020_000e = new ValEntry(
-           Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0020, 0x000e) );
-      e_0020_000e->SetValue(Util::CreateUniqueUID() );
-      Archive->Push(e_0020_000e);
-   } 
+   // ----- Add Mandatory Entries if missing ---
+   // Entries whose type is 1 are mandatory, with a mandatory value
+   // Entries whose type is 1c are mandatory-inside-a-Sequence,
+   //                          with a mandatory value
+   // Entries whose type is 2 are mandatory, with an optional value
+   // Entries whose type is 2c are mandatory-inside-a-Sequence,
+   //                          with an optional value
+   // Entries whose type is 3 are optional
 
    // 'Study Instance UID'
    // Keep the value if exists
    // The user is allowed to create his own Study, 
    //          keeping the same 'Study Instance UID' for various images
    // The user may add images to a 'Manufacturer Study',
-   //          adding new series to an already existing Study 
-   ValEntry *e_0020_000d = FileInternal->GetValEntry(0x0020, 0x000d);
-   if ( !e_0020_000d )
-   {
-      e_0020_000d = new ValEntry(
-            Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0020, 0x000d) );
-      e_0020_000d->SetValue(Util::CreateUniqueUID() );
-      Archive->Push(e_0020_000d);
-   }
+   //          adding new Series to an already existing Study 
+   CheckMandatoryEntry(0x0020,0x000d,Util::CreateUniqueUID());
+
+   // 'Serie Instance UID'
+   // Keep the value if exists
+   // The user is allowed to create his own Series, 
+   // keeping the same 'Serie Instance UID' for various images
+   // The user shouldn't add any image to a 'Manufacturer Serie'
+   // but there is no way no to prevent him for doing that 
+   CheckMandatoryEntry(0x0020,0x000e,Util::CreateUniqueUID());
+
+   // Study ID
+   CheckMandatoryEntry(0x0020,0x0010,"");
+
+   // Series Number
+   CheckMandatoryEntry(0x0020,0x0011,"");
+
+   // Instance Number
+   CheckMandatoryEntry(0x0020,0x0013,"");
+   
+   // Patient Orientation
+   // Can be computed from (0020|0037) :  Image Orientation (Patient)
+   gdcm::Orientation o;
+   std::string ori = o.GetOrientation ( FileInternal );
+   if (ori != "\\" && ori != GDCM_UNFOUND)
+      CheckMandatoryEntry(0x0020,0x0020,ori);
+   else   
+      CheckMandatoryEntry(0x0020,0x0020,"");
 
    // Modality : if missing we set it to 'OTher'
-   ValEntry *e_0008_0060 = FileInternal->GetValEntry(0x0008, 0x0060);
-   if ( !e_0008_0060 )
-   {
-      e_0008_0060 = new ValEntry(
-            Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x0060) );
-      e_0008_0060->SetValue("OT");
-      Archive->Push(e_0008_0060);
-   } 
+   CheckMandatoryEntry(0x0008,0x0060,"OT");
 
    // Manufacturer : if missing we set it to 'GDCM Factory'
-   ValEntry *e_0008_0070 = FileInternal->GetValEntry(0x0008, 0x0070);
-   if ( !e_0008_0070 )
-   {
-      e_0008_0070 = new ValEntry(
-            Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x0070) );
-      e_0008_0070->SetValue("GDCM Factory");
-      Archive->Push(e_0008_0070);
-   } 
+   CheckMandatoryEntry(0x0008,0x0070,"GDCM Factory");
 
    // Institution Name : if missing we set it to 'GDCM Hospital'
-   ValEntry *e_0008_0080 = FileInternal->GetValEntry(0x0008, 0x0080);
-   if ( !e_0008_0080 )
-   {
-      e_0008_0080 = new ValEntry(
-            Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x0080) );
-      e_0008_0080->SetValue("GDCM Hospital");
-      Archive->Push(e_0008_0080);
-   } 
+   CheckMandatoryEntry(0x0008,0x0080,"GDCM Hospital");
 
    // Patient's Name : if missing, we set it to 'GDCM^Patient'
-   ValEntry *e_0010_0010 = FileInternal->GetValEntry(0x0010, 0x0010);
-   if ( !e_0010_0010 )
-   {
-      e_0010_0010 = new ValEntry(
-            Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0010, 0x0010) );
-      e_0010_0010->SetValue("GDCM^Patient");
-      Archive->Push(e_0010_0010);
-   } 
+   CheckMandatoryEntry(0x0010,0x0010,"GDCM^Patient");
+
+   // Patient ID
+   CheckMandatoryEntry(0x0010,0x0020,"");
 
    // Patient's Birth Date : 'type 2' entry -> must exist, value not mandatory
-   ValEntry *e_0010_0030 = FileInternal->GetValEntry(0x0010, 0x0030);
-   if ( !e_0010_0030 )
-   {
-      e_0010_0030 = new ValEntry(
-            Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0010, 0x0030) );
-      e_0010_0030->SetValue("");
-      Archive->Push(e_0010_0030);
-   }
+   CheckMandatoryEntry(0x0010,0x0030,"");
 
    // Patient's Sex :'type 2' entry -> must exist, value not mandatory
-   ValEntry *e_0010_0040 = FileInternal->GetValEntry(0x0010, 0x0040);
-   if ( !e_0010_0040 )
-   {
-      e_0010_0040 = new ValEntry(
-            Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0010, 0x0040) );
-      e_0010_0040->SetValue("");
-      Archive->Push(e_0010_0040);
-   }
+   CheckMandatoryEntry(0x0010,0x0040,"");
 
    // Referring Physician's Name :'type 2' entry -> must exist, value not mandatory
-   ValEntry *e_0008_0090 = FileInternal->GetValEntry(0x0008, 0x0090);
-   if ( !e_0008_0090 )
-   {
-      e_0008_0090 = new ValEntry(
-            Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x0090) );
-      e_0008_0090->SetValue("");
-      Archive->Push(e_0008_0090);
-   }
+   CheckMandatoryEntry(0x0008,0x0090,"");
 
-    // Pixel Spacing : defaulted to 1.0\1.0
-   ValEntry *e_0028_0030 = FileInternal->GetValEntry(0x0028, 0x0030);
-   if ( !e_0028_0030 )
-   {
-      e_0028_0030 = new ValEntry(
-            Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0028, 0x0030) );
-      e_0028_0030->SetValue("1.0\\1.0");
-      Archive->Push(e_0028_0030);
-   }  
 } 
- 
+
+void FileHelper::CheckMandatoryEntry(uint16_t group,uint16_t elem,std::string value)
+{
+   ValEntry *ve = FileInternal->GetValEntry(group, elem);
+   if ( !ve)
+   {
+      ve = new ValEntry(
+            Global::GetDicts()->GetDefaultPubDict()->GetEntry(group, elem) );
+      ve->SetValue( value );
+      Archive->Push(ve);
+   }
+}
+
+void FileHelper::CopyMandatoryEntry(uint16_t group,uint16_t elem,std::string value)
+{
+   ValEntry *entry = CopyValEntry(group,elem);
+   entry->SetValue(value);
+   Archive->Push(entry);
+}
+
 /**
  * \brief Restore in the File the initial group 0002
  */
@@ -1530,6 +1735,7 @@ void FileHelper::RestoreWriteMandatory()
 void FileHelper::Initialize()
 {
    UserFunction = 0;
+   KeepMediaStorageSOPClassUID = false;
 
    WriteMode = WMODE_RAW;
    WriteType = ExplicitVR;

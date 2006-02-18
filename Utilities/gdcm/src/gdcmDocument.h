@@ -60,6 +60,7 @@ typedef std::list<Element> ListElements;
    bool SetShaDict(DictKey const &dictName);
 
 // Informations contained in the gdcm::Document
+   bool IsParsable();
    virtual bool IsReadable();
    bool IsDicomV3();
    bool IsPapyrus();
@@ -122,9 +123,9 @@ protected:
    // to instanciate from this class Document (only gdcm::File and
    // gdcm::DicomDir are meaningfull).
    Document();
-   Document( std::string const &filename );
+   GDCM_LEGACY( Document( std::string const &filename ) );
    virtual ~Document();
-   
+
    uint16_t ReadInt16() throw ( FormatError );
    uint32_t ReadInt32() throw ( FormatError );
    void     SkipBytes(uint32_t);
@@ -231,7 +232,7 @@ private:
    /// this upper bound is fixed to 1024 bytes (which might look reasonable
    /// when one considers the definition of the various VR contents).
    uint32_t MaxSizeLoadEntry;
-   
+
 //  uint32_t GenerateFreeTagKeyInGroup(uint16_t group);
 //  void BuildFlatHashTableRecurse( TagDocEntryHT &builtHT,
 //                                  DocEntrySet *set );

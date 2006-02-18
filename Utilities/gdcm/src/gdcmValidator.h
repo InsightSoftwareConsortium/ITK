@@ -24,7 +24,7 @@
 namespace gdcm 
 {
 /**
- * \brief
+ * \brief Class to perform some verifications on a gdcm::Document
  */
 class ElementSet;
 class GDCM_EXPORT Validator : public Base

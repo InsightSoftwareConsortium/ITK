@@ -31,7 +31,6 @@ static std::ofstream DebugFile;
 // Constructor / Destructor
 Debug::Debug()
 {
-
 }
 
 Debug::~Debug()

@@ -21,7 +21,6 @@
 
 #include "gdcmDebug.h"
 #include "gdcmBase.h"
-//#include <iostream>
 
 
 
@@ -133,11 +132,13 @@ public:
    void SetWriteTypeToAcr()           { SetWriteType(ACR);        }
    /// \brief Tells the writer we want to write as LibIDO
    void SetWriteTypeToAcrLibido()     { SetWriteType(ACR_LIBIDO); }
+   /// \brief Tells the writer we want to write as JPEG   
+   void SetWriteTypeToJPEG()          { SetWriteType(JPEG);       }
    /// \brief Tells the writer which format we want to write
    /// (ImplicitVR, ExplicitVR, ACR, ACR_LIBIDO)
    void SetWriteType(FileType format) { WriteType = format;       }
    /// \brief Gets the format we talled the write we wanted to write
-   ///   (ImplicitVR, ExplicitVR, ACR, ACR_LIBIDO)
+   /// (ImplicitVR, ExplicitVR, ACR, ACR_LIBIDO)
    FileType GetWriteType()            { return WriteType;         }
 
    // Write pixels of ONE image on hard drive
@@ -148,6 +149,12 @@ public:
    bool WriteDcmExplVR(std::string const &fileName);
    bool WriteAcr      (std::string const &fileName);
    bool Write         (std::string const &fileName);
+   /// \brief if user knows he didn't modify the pixels (e.g. he just anonymized 
+   ///        the file), he is allowed to ask to keep the original
+   ///        'Media Storage SOP Class UID' and 'Image Type'   
+   void SetKeepMediaStorageSOPClassUID (bool v) 
+                              { KeepMediaStorageSOPClassUID = v; }
+   // no GetKeepMediaStorageSOPClassUID() method, on purpose!
 
 protected:
    bool CheckWriteIntegrity();
@@ -157,6 +164,7 @@ protected:
    void RestoreWrite();
 
    void SetWriteFileTypeToACR();
+   void SetWriteFileTypeToJPEG();
    void SetWriteFileTypeToExplicitVR();
    void SetWriteFileTypeToImplicitVR();
    void RestoreWriteFileType();
@@ -169,6 +177,8 @@ protected:
    BinEntry *CopyBinEntry(uint16_t group, uint16_t elem, 
                           const std::string &vr);
    void CheckMandatoryElements();
+   void CheckMandatoryEntry(uint16_t group, uint16_t elem,std::string value);
+   void CopyMandatoryEntry(uint16_t group, uint16_t elem,std::string value);
    void RestoreWriteMandatory();
 
 private:
@@ -201,15 +211,22 @@ private:
    // Write variables
    /// \brief (WMODE_RAW, WMODE_RGB)
    FileMode WriteMode;
+
    /// \brief (ImplicitVR, ExplicitVR, ACR, ACR_LIBIDO)
    FileType WriteType;
-   /// Pointer to a user supplied function to allow modification of pixel order
+
+   /// \brief Pointer to a user supplied function to allow modification of pixel order
    /// (i.e. : Mirror, TopDown, 90°Rotation, ...)
    /// use as : void userSuppliedFunction(uint8_t *im, gdcm::File *f)
    /// NB : the "uint8_t *" type of first param is just for prototyping.
    /// User will Cast it according what he founds with f->GetPixelType()
    /// See vtkgdcmSerieViewer for an example
    VOID_FUNCTION_PUINT8_PFILE_POINTER UserFunction;
+   
+   /// \brief if user knows he didn't modify the pixels (e.g. he just 
+   /// anonymized the file), he is allowed to ask to keep the original
+   /// 'Media Storage SOP Class UID' and 'Image Type'  
+   bool KeepMediaStorageSOPClassUID;
 };
 } // end namespace gdcm
 

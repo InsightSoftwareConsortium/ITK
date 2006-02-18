@@ -23,6 +23,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <string.h>
 
 namespace gdcm 
 {
@@ -42,7 +43,7 @@ VR::VR()
    std::ifstream from(filename.c_str());
    if ( !from )
    {
-      gdcmWarningMacro("Can't open dictionary" << filename.c_str());
+      gdcmWarningMacro("Can't open dictionary " << filename.c_str());
       FillDefaultVRDict(vr);
    }
    else
@@ -55,6 +56,9 @@ VR::VR()
       {
          from >> std::ws;
          from.getline(buff, 1024, ' ');
+         if( strcmp(buff,"") == 0)
+            continue;
+
          key = buff;
          from >> std::ws;
          from.getline(buff, 1024, ';');
@@ -63,10 +67,7 @@ VR::VR()
          from >> std::ws;
          from.getline(buff, 1024, '\n');
    
-         if ( key != "" )
-         {
-            vr[key] = name;
-         }
+         vr[key] = name;
       }
       from.close();
    }
@@ -90,13 +91,6 @@ VR::~VR()
  */
 bool VR::IsVROfBinaryRepresentable(VRKey const &tested)
 {
-   //if ( tested == GDCM_UNKNOWN)
-   //{
-   //std::cout << "---------- never used --------------" << tested 
-   //          << std::endl;
-   //   return true;
-   //}
-
    if ( IsVROfStringRepresentable(tested) )
       return false;
 
@@ -115,12 +109,13 @@ bool VR::IsVROfBinaryRepresentable(VRKey const &tested)
 bool VR::IsVROfStringRepresentable(VRKey const &tested)
 {
 
-
    return tested == "AE" ||
           tested == "AS" ||
           tested == "CS" ||
           tested == "DA" ||
           tested == "DS" ||
+          tested == "FL" ||
+          tested == "FD" || 
           tested == "IS" || 
           tested == "LO" ||
           tested == "LT" ||
@@ -135,13 +130,14 @@ bool VR::IsVROfStringRepresentable(VRKey const &tested)
           tested == "US" ||
           tested == "UT";
 
-   // Should be quicker --> But it doesn't work : revert to old code
+   // Should be quicker
+   // --> will *never* work : any rotten value would be considered as OK !
 /*
-   return tested != "FL" &&
-          tested != "FD" &&
-          tested != "OB" &&
+   return tested != "OB" &&
           tested != "OW" &&
-          tested != "AT" && // Attribute Tag ?!?
+          tested != "OF" &&
+          tested != "AT" && // Attribute Tag ?!? contain no printable character
+          tested != "UN" && // UN is an actual VR !
           tested != "SQ" ;
 */
 }
@@ -158,15 +154,12 @@ bool VR::IsVROfStringRepresentable(VRKey const &tested)
  * \brief   Print all 
  * @param   os The output stream to be written to.
  */
-void VR::Print(std::ostream &os) 
+void VR::Print(std::ostream &os,std::string const &) 
 {
-   itksys_ios::ostringstream s;
-
    for (VRHT::iterator it = vr.begin(); it != vr.end(); ++it)
    {
-      s << "VR : " << it->first << " = " << it->second << std::endl;
+      os << "VR : " << it->first << " = " << it->second << std::endl;
    }
-   os << s.str();
 }
 
 //-----------------------------------------------------------------------------

@@ -99,7 +99,7 @@ void JPEGFragment::DecompressJPEGFramesFromFile(std::ifstream *fp,
  * @param os     Stream to print to.
  * @param indent Indentation string to be prepended during printing.
  */
-void JPEGFragment::Print( std::ostream &os, std::string indent )
+void JPEGFragment::Print( std::ostream &os, std::string const &indent )
 {
    os << indent
       << "JPEG fragment: offset : " <<  Offset
