@@ -912,15 +912,15 @@
 0028 0101 US 1 Bits Stored
 0028 0102 US 1 High Bit
 0028 0103 US 1 Pixel Representation
-0028 0104 US 1 Smallest Valid Pixel Value (RET)
-0028 0105 US 1 Largest Valid Pixel Value (RET)
-0028 0106 US 1 Smallest Image Pixel Value
-0028 0107 US 1 Largest Image Pixel Value
-0028 0108 US 1 Smallest Pixel Value in Series
-0028 0109 US 1 Largest Pixel Value in Series
-0028 0110 US 1 Smallest Image Pixel Value in Plane
-0028 0111 US 1 Largest Image Pixel Value in Plane
-0028 0120 US 1 Pixel Padding Value
+0028 0104 SS 1 Smallest Valid Pixel Value (RET)
+0028 0105 SS 1 Largest Valid Pixel Value (RET)
+0028 0106 SS 1 Smallest Image Pixel Value
+0028 0107 SS 1 Largest Image Pixel Value
+0028 0108 SS 1 Smallest Pixel Value in Series
+0028 0109 SS 1 Largest Pixel Value in Series
+0028 0110 SS 1 Smallest Image Pixel Value in Plane
+0028 0111 SS 1 Largest Image Pixel Value in Plane
+0028 0120 SS 1 Pixel Padding Value
 0028 0200 SS 1 Image Location (RET)
 0028 0300 CS 1 Quality Control Image
 0028 0301 CS 1 Burned In Annotation
