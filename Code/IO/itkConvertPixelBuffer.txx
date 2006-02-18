@@ -538,6 +538,24 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
     }
 }
 
+template < typename InputPixelType,
+           typename OutputPixelType,
+           class OutputConvertTraits >
+void
+ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
+::ConvertVectorImage(InputPixelType* inputData, 
+          int inputNumberOfComponents, 
+          OutputPixelType* outputData , int size)
+{
+  for( unsigned long i=0; i< size * inputNumberOfComponents; i++ )
+    {
+    OutputConvertTraits::SetNthComponent( 0, *outputData, 
+        static_cast <  OutputComponentType >( *inputData ));
+    ++outputData;
+    ++inputData;
+    }
+}
+  
  
 
 }// end namespace itk

@@ -29,6 +29,7 @@ namespace itk
  * complex pixel types like RGB and RGBA a traits class is used.
  * OutputConvertTraits() is the traits class.  The default one used is
  * DefaultConvertPixelTraits.  
+ *
  */
 template <
   typename InputPixelType,
@@ -43,6 +44,9 @@ public:
 
   /** General method converts from one type to another. */
   static void Convert(InputPixelType* inputData, 
+                      int inputNumberOfComponents, 
+                      OutputPixelType* outputData , int size);
+  static void ConvertVectorImage(InputPixelType* inputData, 
                       int inputNumberOfComponents, 
                       OutputPixelType* outputData , int size);
 protected:
