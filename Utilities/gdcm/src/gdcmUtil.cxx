@@ -95,7 +95,7 @@ namespace gdcm
 //-------------------------------------------------------------------------
 const std::string Util::GDCM_UID = "1.2.826.0.1.3680043.2.1143";
 std::string Util::RootUID        = GDCM_UID;
-const uint16_t Util::FMIV = 0x0001;
+const uint16_t Util::FMIV = 0x0100;
 uint8_t *Util::FileMetaInformationVersion = (uint8_t *)&FMIV;
 std::string Util::GDCM_MAC_ADRESS = GetMACAddress();
 
