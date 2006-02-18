@@ -28,72 +28,97 @@
 
 namespace itk{
 /** \class DiffusionTensor3DReconstructionImageFilter
- * \brief This class takes as input a reference image (acquired in the 
+ * \brief This class takes as input one or more reference image (acquired in the 
  * absence of diffusion sensitizing gradients) and 'n' diffusion
  * weighted images and their gradient directions and computes an image of 
  * tensors. (with DiffusionTensor3D as the pixel type). Once that is done, you 
  * can apply filters on this tensor image to compute FA, ADC, RGB weighted 
  * maps etc. 
  *
- * \par Inputs
- * The Reference image (typically the B0 image) is supplied via SetReferenceImage.
- * 
- * The Gradient images can be input using one of two methods. The first method is
- * provided as a convenience to the user assuming that he/she has several gradient
- * images read in seperately. The second method is convenient, when the gradient
- * image is available as a single (multi-component) image.
- * 1. AddGradientImage: (Each of the \c n gradient images will be an Image)
- * 2. SetGradientImage: (The gradient image will be a VectorImage. It will be 
- *    assumed that the vectorImage has the same dimension as the Reference image 
- *    and a vector length parameter of \c n)
- * 
+ * \par Inputs and Usage
+ * There are two ways to use this class. When you have one reference image and \c n
+ * gradient images, you would use the class as
+ * \code
+ *       filter->SetReferenceImage( image0 );
+ *       filter->AddGradientImage( direction1, image1 );
+ *       filter->AddGradientImage( direction2, image2 );
+ *   ...
+ * \endcode
+ *
+ * \par
+ * When you have the 'n' gradient and one or more reference images in a single 
+ * multi-component image (VectorImage), you can specify the images simply as
+ * \code
+ *       filter->SetGradientImage( directionsContainer, vectorImage );
+ * \endcode
+ * Note that this method is used to specify both the reference and gradient images.
+ * This is convenient when the DWI images are read in using the 
+ * <a href="http://wiki.na-mic.org/Wiki/index.php/NAMIC_Wiki:DTI:Nrrd_format">NRRD</a> 
+ * format. Like the Nrrd format, the reference images are those components of the 
+ * vectorImage whose gradient direction is (0,0,0). If more than one reference image
+ * is present, they are averaged prior to applying the Stejskal-Tanner equations.
+ *
  * \par Outputs
  * The output image is an image of Tensors:
- \verbatim
- Image< DiffusionTensor3D< TTensorPixelType >, 3 >
- \endverbatim
+ * \code
+ *       Image< DiffusionTensor3D< TTensorPixelType >, 3 >
+ * \endcode
  *
  * \par Parameters
- * Threshold -  Threshold on the reference image data. The output tensor will 
+ * \li Threshold -  Threshold on the reference image data. The output tensor will 
  * be a null tensor for pixels in the reference image that have a value less 
  * than this.
- *  
+ * \li BValue - See the documentation of SetBValue().
+ * \li At least 6 gradient images must be specified for the filter to be able 
+ * to run.
+ * 
+ * 
  * \par Template parameters
  * The class is templated over the pixel type of the reference and gradient 
  * images (expected to be scalar data types) and the internal representation
  * of the DiffusionTensor3D pixel (double, float etc).
  *  
  * \par References:
- * 1. C.F.Westin, S.E.Maier, H.Mamata, A.Nabavi, F.A.Jolesz, R.Kikinis,
+ * \li<a href="http://lmi.bwh.harvard.edu/papers/pdfs/2002/westinMEDIA02.pdf">[1]</a> 
+ * <em>C.F.Westin, S.E.Maier, H.Mamata, A.Nabavi, F.A.Jolesz, R.Kikinis,
  * "Processing and visualization for Diffusion tensor MRI", Medical image
- * Analysis, 2002, pp 93-108.
- * 
- * 2. splweb.bwh.harvard.edu:8000/pages/papers/westin/ISMRM2002.pdf
- * "A Dual Tensor Basis Solution to the Stejskal-Tanner Equations for DT-MRI"
+ * Analysis, 2002, pp 93-108.</em>
+ * \li<a href="splweb.bwh.harvard.edu:8000/pages/papers/westin/ISMRM2002.pdf">[2]</a>
+ * <em>A Dual Tensor Basis Solution to the Stejskal-Tanner Equations for DT-MRI</em>
  * 
  * \par WARNING:
  * Although this filter has been written to support multiple threads, please 
  * set the number of threads to 1.
- \verbatim
- filter->SetNumberOfThreads(1);
- \endverbatim
+ * \code
+ *         filter->SetNumberOfThreads(1);
+ * \endcode
  * This is due to buggy code in netlib/dsvdc, that is called by vnl_svd. 
  * (used to compute the psudo-inverse to find the dual tensor basis).
  *
- * \author Based on code from Xiaodong Tao, GE CRD. 
+ * \author Thanks to Xiaodong Tao, GE, for contributing parts of this class. Also
+ * thanks to Casey Goodlet, UNC for patches to support multiple baseline images
+ * and other improvements.
  * 
  * \note
- * This work is part of the National Alliance for Medical Image Computing 
+ * This work is part of the National Alliance for Medical image Computing 
  * (NAMIC), funded by the National Institutes of Health through the NIH Roadmap
  * for Medical Research, Grant U54 EB005149.
  *
+ * \par Examples and Datasets
+ * See Examples/Filtering/DiffusionTensor3DReconstructionImageFilter.cxx
+ * Sample DTI datasets may be obtained from 
+ \begin verbatim
+     ftp://public.kitware.com/pub/namic/DTI/Data/dwi.nhdr
+     ftp://public.kitware.com/pub/namic/DTI/Data/dwi.img.gz ( gunzip this )
+ \end verbatim
+ *
  * \sa DiffusionTensor3D SymmetricSecondRankTensor 
- * 
  * \ingroup Multithreaded  TensorObjects
  */
 
 template< class TReferenceImagePixelType, 
-          class TGradientImagePixelType, class TTensorPixelType=double >
+          class TGradientImagePixelType=TReferenceImagePixelType,
+          class TTensorPixelType=double >
 class ITK_EXPORT DiffusionTensor3DReconstructionImageFilter :
   public ImageToImageFilter< Image< TReferenceImagePixelType, 3 >, 
                              Image< DiffusionTensor3D< TTensorPixelType >, 3 > >
@@ -121,7 +146,7 @@ public:
 
   typedef DiffusionTensor3D< TTensorPixelType >    TensorPixelType;
 
-  /** Reference image data,  This image is aquired in teh absence 
+  /** Reference image data,  This image is aquired in the absence 
    * of a diffusion sensitizing field gradient */
   typedef typename Superclass::InputImageType      ReferenceImageType;
   
@@ -161,14 +186,23 @@ public:
    * image. The image here is a VectorImage. The user is expected to pass the 
    * gradient directions in a container. The ith element of the container 
    * corresponds to the gradient direction of the ith component image the 
-   * VectorImage.  */
+   * VectorImage.  For the baseline image, a vector of all zeros
+   * should be set.*/
   void SetGradientImage( GradientDirectionContainerType *, 
                                              const GradientImagesType *image);
   
   /** Set method to set the reference image. */
   void SetReferenceImage( ReferenceImageType *referenceImage )
     {
+    if( m_GradientImageTypeEnumeration == GradientIsInASingleImage)
+      {
+      itkExceptionMacro( << "Cannot call both methods:" 
+      << "AddGradientImage and SetGradientImage. Please call only one of them.");
+      }
+  
     this->ProcessObject::SetNthInput( 0, referenceImage );
+
+    m_GradientImageTypeEnumeration = GradientIsInManyImages;
     }
     
   /** Get reference image */
@@ -192,6 +226,15 @@ public:
   itkGetMacro( Threshold, ReferencePixelType );
 
   
+  /** 
+   * The BValue \f$ (s/mm^2) \f$ value used in normalizing the tensors to 
+   * physically meaningful units.  See equation (24) of the first reference for
+   * a description of how this is applied to the tensor estimation.
+   * Equation (1) of the same reference describes the physical significance.
+   */
+  itkSetMacro( BValue, float);
+  itkGetMacro( BValue, float);
+
 protected:
   DiffusionTensor3DReconstructionImageFilter();
   ~DiffusionTensor3DReconstructionImageFilter() {};
@@ -217,7 +260,7 @@ private:
   /* Tensor basis coeffs */
   TensorBasisMatrixType                             m_TensorBasis;
   
-  CoefficientMatrixType                             m_Coeffs;
+  CoefficientMatrixType                             m_BMatrix;
 
   /** container to hold gradient directions */
   GradientDirectionContainerType::Pointer           m_GradientDirectionContainer;
@@ -225,8 +268,14 @@ private:
   /** Number of gradient measurements */
   unsigned int                                      m_NumberOfGradientDirections;
 
+  /** Number of baseline images */
+  unsigned int                                      m_NumberOfBaselineImages;
+
   /** Threshold on the reference image data */
   ReferencePixelType                                m_Threshold;
+
+  /** LeBihan's b-value for normalizing tensors */
+  TTensorPixelType                                  m_BValue;
 
   /** Gradient image was specified in a single image or in multiple images */
   GradientImageTypeEnumeration                      m_GradientImageTypeEnumeration;
