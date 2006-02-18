@@ -15,6 +15,8 @@ void RegisterTests()
 {
 REGISTER_TEST(OtsuThresholdImageFilterTest);
 REGISTER_TEST(OtsuMultipleThresholdImageFilterTest);
+REGISTER_TEST(DiffusionTensor3DReconstructionImageFilterTest1);
+REGISTER_TEST(DiffusionTensor3DReconstructionImageFilterTest2);
 }
 
 #undef main
@@ -24,3 +26,11 @@ REGISTER_TEST(OtsuMultipleThresholdImageFilterTest);
 #undef main
 #define main OtsuMultipleThresholdImageFilterTest
 #include "OtsuMultipleThresholdImageFilter.cxx"
+
+#undef main
+#define main DiffusionTensor3DReconstructionImageFilterTest1 
+#include "DiffusionTensor3DReconstructionImageFilter.cxx"
+
+#undef main
+#define main DiffusionTensor3DReconstructionImageFilterTest2
+#include "DiffusionTensor3DReconstructionImageFilter.cxx"

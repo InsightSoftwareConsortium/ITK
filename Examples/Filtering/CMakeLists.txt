@@ -868,6 +868,28 @@ ADD_TEST( SubsampleVolumeTest ${FILTERING_EXAMPLES4}
         2 2 2
 )
 
+# The test tests 3 filters. 
+#   DiffusionTensor3DReconstructionImageFilter
+#   TensorFractionalAnisotropyImageFilter
+#   TensorRelativeAnisotropyImageFilter
+#
+ADD_TEST( DiffusionTensor3DReconstructionImageFilterTest1 ${FILTERING_EXAMPLES5}
+  --compare ${BASELINE}/FACorpusCallosum.mhd
+            ${TEMP}/FACorpusCallosum.mhd
+  DiffusionTensor3DReconstructionImageFilterTest1
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/DwiCorpusCallosum.nhdr
+        80 ${TEMP}/Tensors.mhd ${TEMP}/FACorpusCallosum.mhd
+        ${TEMP}/RACorpusCallosum.mhd 0
+)
+ADD_TEST( DiffusionTensor3DReconstructionImageFilterTest2 ${FILTERING_EXAMPLES5}
+  --compare ${BASELINE}/RACorpusCallosum.mhd
+            ${TEMP}/RACorpusCallosum.mhd
+  DiffusionTensor3DReconstructionImageFilterTest2
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/DwiCorpusCallosum.nhdr
+        80 ${TEMP}/Tensors.mhd ${TEMP}/FACorpusCallosum.mhd
+        ${TEMP}/RACorpusCallosum.mhd 0
+)
+
 ADD_EXECUTABLE(FilteringExamples FilteringExamples.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples ITKIO ITKBasicFilters ITKCommon)
 
