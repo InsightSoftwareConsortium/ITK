@@ -232,11 +232,8 @@ public:
    * a description of how this is applied to the tensor estimation.
    * Equation (1) of the same reference describes the physical significance.
    */
-  itkSetMacro( BValue, TTensorPixelType);
-#ifdef GetBValue
-#undef GetBValue
-#endif
-  itkGetConstReferenceMacro( BValue, TTensorPixelType);
+  itkSetMacro( BValue, float);
+  itkGetMacro( BValue, float);
 
 protected:
   DiffusionTensor3DReconstructionImageFilter();
