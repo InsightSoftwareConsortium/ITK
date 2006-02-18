@@ -26,7 +26,7 @@
 #endif 
 
 extern "C" {
-  #include <openjpeg.h>
+  #include "openjpeg/openjpeg.h"
 }
 
 namespace gdcm 
