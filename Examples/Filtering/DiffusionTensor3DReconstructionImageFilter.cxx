@@ -150,7 +150,6 @@ int main( int argc, char *argv[] )
 
   for (; itKey != imgMetaKeys.end(); itKey ++)
     {
-    int pos;
     double x,y,z;
 
     itk::ExposeMetaData<std::string> (imgMetaDictionary, *itKey, metaString);
