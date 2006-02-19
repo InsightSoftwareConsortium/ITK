@@ -408,27 +408,10 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   this->SetDirection(1, columnDirection);
   this->SetDirection(2, sliceDirection);
 
-  // DICOM specifies its origin in LPS coordinate, regardless of how
-  // the data is acquired. itk's origin must be in the same
-  // coordinate system as the data. This code transforms the DICOM
-  // origin into the itk origin. The itk origin is computed by
-  // multiplying the inverse(transpose) of the direction cosine times
-  // the dicom origin.
-  vnl_vector<double> itkOrigin(3), dicomOrigin(3);
-  vnl_matrix<double> dicomDirection(3,3);
-  dicomOrigin[0] = header.GetXOrigin();
-  dicomOrigin[1] = header.GetYOrigin();
-  dicomOrigin[2] = header.GetZOrigin();
-  for (unsigned int ii = 0; ii < 3; ii++)
-    {
-    dicomDirection[0][ii] = rowDirection[ii];
-    dicomDirection[1][ii] = columnDirection[ii];
-    dicomDirection[2][ii] = sliceDirection[ii];
-    }
-  itkOrigin = dicomDirection * dicomOrigin;
-  m_Origin[0] = itkOrigin[0];
-  m_Origin[1] = itkOrigin[1];
-  m_Origin[2] = itkOrigin[2];
+  // Dicom's origin is always in LPS
+  m_Origin[0] = header.GetXOrigin();
+  m_Origin[1] = header.GetYOrigin();
+  m_Origin[2] = header.GetZOrigin();
 
   //For grayscale image :
   m_RescaleSlope = header.GetRescaleSlope();
@@ -698,7 +681,7 @@ void GDCMImageIO::Write(const void* buffer)
 // This code still needs work. Spacing, origin and direction are all
 // 3D, yet the image is 2D. If the user set these, all is well,
 // because the user will pass in the proper number (3) of
-// elements. However, ImageSerierWriter will call ImageFileWriter with
+// elements. However, ImageSeriesWriter will call ImageFileWriter with
 // 2D images. ImageFileWriter will call its ImageIO with 2D images and
 // only pass in spacing, origin and direction with 2 elements. For
 // now, we expect that the MetaDataDictionary will have the proper
