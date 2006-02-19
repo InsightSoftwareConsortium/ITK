@@ -118,9 +118,9 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
 
   double  expectedResult[3][3] = 
     {
-      {4.60517, -2.66978, -8.40705},
-      {-2.66978, 1.56848, 0.899627},
-      {-8.40705, 0.899627, 2.62356}
+      {4.60517, -2.6698, -8.4079},
+      {-2.6698, 1.56783, 0.900034},
+      {-8.4079, 0.900034, 2.62504}
     };
   
   std::cout << std::endl << "Reconstructed tensor : " << std::endl; 
@@ -161,7 +161,3 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
   return EXIT_SUCCESS;
 }
 
-     
-    
-    
-    
