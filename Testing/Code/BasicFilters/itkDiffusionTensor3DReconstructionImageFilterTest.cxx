@@ -132,7 +132,7 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
     for( unsigned int j = 0; j<3; j++ )
       {
       std::cout << tensorImage->GetPixel(tensorImageIndex)(i,j) << " ";
-      if( (tensorImage->GetPixel(tensorImageIndex)(i,j) - expectedResult[i][j]) > precision )
+      if( (vnl_math_abs(tensorImage->GetPixel(tensorImageIndex)(i,j) - expectedResult[i][j])) > precision )
         {
         passed = false;
         }
