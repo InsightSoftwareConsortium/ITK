@@ -52,10 +52,10 @@ public:
    DictEntry * GetDictEntry() { return DicomDict; } 
 
    /// Returns the Dicom Group number of the current Dicom entry
-   const uint16_t GetGroup() const { return DicomDict->GetGroup();  }
+   uint16_t GetGroup() const { return DicomDict->GetGroup();  }
 
    /// Returns the Dicom Element number of the current Dicom entry
-   const uint16_t GetElement() const { return DicomDict->GetElement();}
+   uint16_t GetElement() const { return DicomDict->GetElement();}
 
    /// Set the 'key' of the current Dicom entry
    void  SetKey( TagKey const &key ) { Key = key; }

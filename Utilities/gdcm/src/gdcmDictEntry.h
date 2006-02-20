@@ -61,11 +61,11 @@ public:
 
    /// \brief  Returns the Dicom Group Number of the current DictEntry
    /// @return the Dicom Group Number
-   uint16_t GetGroup() { return Group; }
+   uint16_t GetGroup() const { return Group; }
   
    /// \brief  Returns the Dicom Element Number of the current DictEntry
    /// @return the Dicom Element Number
-   uint16_t GetElement() { return Element; }
+   uint16_t GetElement() const { return Element; }
  
    /// \brief  Returns the Dicom Value Representation of the current
    ///         DictEntry
