@@ -547,7 +547,8 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
           int inputNumberOfComponents, 
           OutputPixelType* outputData , int size)
 {
-  for( unsigned long i=0; i< size * inputNumberOfComponents; i++ )
+  unsigned long length = static_cast< unsigned long >(size* inputNumberOfComponents);
+  for( unsigned long i=0; i< length; i++ )
     {
     OutputConvertTraits::SetNthComponent( 0, *outputData, 
         static_cast <  OutputComponentType >( *inputData ));
