@@ -1407,7 +1407,7 @@ void FileHelper::CheckMandatoryElements()
          CopyMandatoryEntry(0x0002,0x0002,"1.2.840.10008.5.1.4.1.1.7");    
 
    // 'Media Storage SOP Instance UID'   
-      CopyMandatoryEntry(0x0002,0x0003,sop);
+   //   CopyMandatoryEntry(0x0002,0x0003,sop);
       
    // 'Implementation Class UID'
       CopyMandatoryEntry(0x0002,0x0012,Util::CreateUniqueUID());
@@ -1536,7 +1536,7 @@ void FileHelper::CheckMandatoryElements()
    // At the end, not to overwrite the original ones,
    // needed by 'Referenced SOP Instance UID', 'Referenced SOP Class UID'   
    // 'SOP Instance UID'  
-   CopyMandatoryEntry(0x0008,0x0018,sop);
+   //CopyMandatoryEntry(0x0008,0x0018,sop);
    
    // the gdcm written image is a [Secondary Capture Image Storage]
    // except if user told us he dind't modify the pixels, and, therefore
