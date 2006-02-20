@@ -596,7 +596,7 @@ bool DicomDir::Anonymize()
 {
    ValEntry *v;
    // Something clever to be found to forge the Patient names
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
    int i = 1;
    for(ListDicomDirPatient::iterator cc = Patients.begin();
                                      cc!= Patients.end();

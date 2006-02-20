@@ -185,7 +185,7 @@ void BinEntry::Print(std::ostream &os, std::string const & )
 {
    os << "B ";
    DocEntry::Print(os);
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
    void* binArea = GetBinArea();
    if (binArea)
    {

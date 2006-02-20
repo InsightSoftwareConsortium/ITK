@@ -105,7 +105,7 @@ const TagName &DictGroupName::GetName(uint16_t group)
  */
 void DictGroupName::Print(std::ostream &os,std::string const &) 
 {
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
 
    for (DictGroupNameHT::iterator it = groupName.begin(); it != groupName.end(); ++it)
    {

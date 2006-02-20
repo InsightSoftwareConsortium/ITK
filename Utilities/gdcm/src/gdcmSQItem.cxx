@@ -298,7 +298,7 @@ DocEntry *SQItem::GetDocEntry(uint16_t group, uint16_t elem)
  */
 void SQItem::Print(std::ostream &os, std::string const &)
 {
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
 
    if (SQDepthLevel > 0)
    {

@@ -410,7 +410,7 @@ XCoherentFileSetmap SerieHelper::SplitOnOrientation(FileList *fileSet)
       return CoherentFileSet;
    float iop[6];
    std::string strOrient;
-   std::ostringstream ossOrient;
+   itksys_ios::ostringstream ossOrient;
 
    FileList::const_iterator it = fileSet->begin();
    it ++;
@@ -460,7 +460,7 @@ XCoherentFileSetmap SerieHelper::SplitOnPosition(FileList *fileSet)
       return CoherentFileSet;
    float pos[3];
    std::string strImPos;  // read on disc
-   std::ostringstream ossPosition;
+   itksys_ios::ostringstream ossPosition;
    std::string strPosition; // re computed
    FileList::const_iterator it = fileSet->begin();
    it ++;

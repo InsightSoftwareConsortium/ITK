@@ -1521,7 +1521,7 @@ bool File::Write(std::string fileName, FileType writetype)
    ValEntry *e0000 = GetValEntry(0x0002,0x0000);
    if ( e0000 )
    {
-      std::ostringstream sLen;
+      itksys_ios::ostringstream sLen;
       sLen << ComputeGroup0002Length( );
       e0000->SetValue(sLen.str());
    }

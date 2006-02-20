@@ -46,7 +46,7 @@ bool CheckVM(ValEntry *v)
   n++; // number of '\' + 1 == Value Multiplicity
 
   unsigned int m;
-  std::istringstream is;
+  itksys_ios::istringstream is;
   is.str( v->GetVM());
   is >> m;
 

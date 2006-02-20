@@ -1393,7 +1393,7 @@ void Document::LoadDocEntry(DocEntry *entry, bool forceLoad)
    // are not loaded. Instead we leave a short notice on the offset of
    // the element content and it's length.
 
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
 
    if (!forceLoad)
    {
@@ -1750,7 +1750,7 @@ std::string Document::GetDocEntryValue(DocEntry *entry)
       std::string val = ((ValEntry *)entry)->GetValue();
       std::string vr  = entry->GetVR();
       uint32_t length = entry->GetLength();
-      std::ostringstream s;
+      itksys_ios::ostringstream s;
       int nbInt;
 
       // When short integer(s) are expected, read and convert the following 
@@ -1824,7 +1824,7 @@ std::string Document::GetDocEntryUnvalue(DocEntry *entry)
    {
       std::string vr = entry->GetVR();
       std::vector<std::string> tokens;
-      std::ostringstream s;
+      itksys_ios::ostringstream s;
 
       if ( vr == "US" || vr == "SS" ) 
       {

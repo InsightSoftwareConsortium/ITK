@@ -1433,7 +1433,7 @@ void FileHelper::CheckMandatoryElements()
 
    // Check if user wasn't drunk ;-)
 
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
    // check 'Bits Allocated' vs decent values
    int nbBitsAllocated = FileInternal->GetBitsAllocated();
    if ( nbBitsAllocated == 0 || nbBitsAllocated > 32)

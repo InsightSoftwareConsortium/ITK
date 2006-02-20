@@ -208,7 +208,7 @@ void ValEntry::Print(std::ostream &os, std::string const &)
    uint16_t g = GetGroup();
    uint16_t e = GetElement();
    VRKey vr   = GetVR();
-   std::ostringstream s; 
+   itksys_ios::ostringstream s; 
    std::string st;
    std::string d2;
      

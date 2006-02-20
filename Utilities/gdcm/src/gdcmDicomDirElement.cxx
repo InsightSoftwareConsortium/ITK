@@ -172,7 +172,7 @@ void DicomDirElement::AddDicomDirElement(DicomDirType type,
  */
 void DicomDirElement::Print(std::ostream &os,std::string const &)
 {
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
    std::list<Element>::iterator it;
    //char greltag[10];  //group element tag
    TagKey greltag;
