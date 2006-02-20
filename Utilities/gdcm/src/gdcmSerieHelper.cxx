@@ -699,15 +699,56 @@ bool SerieHelper::ImagePositionPatientOrdering( FileList *fileList )
    return true;
 }
 
-bool SerieHelper::ImageNumberLessThan(File *file1, File *file2)
+//-----------------------------------------------------------------------------
+static bool ImageNumberLessThan(File *file1, File *file2)
 {
   return file1->GetImageNumber() < file2->GetImageNumber();
 }
-
-bool SerieHelper::ImageNumberGreaterThan(File *file1, File *file2)
+static bool ImageNumberGreaterThan (File *file1, File *file2)
 {
   return file1->GetImageNumber() > file2->GetImageNumber();
 }
+static bool FileNameLessThan (File *file1, File *file2)
+{
+   return file1->GetFileName() < file2->GetFileName();
+}
+static bool FileNameGreaterThan (File *file1, File *file2)
+{
+   return file1->GetFileName() > file2->GetFileName();
+}
+
+class SortFunctor
+{
+public:
+  bool operator() (File *file1, File *file2)
+    {
+    return (SortFunction)(file1, file2);
+    }
+  BOOL_FUNCTION_PFILE_PFILE_POINTER SortFunction;
+  SortFunctor()
+    {
+    SortFunction = 0;
+    }
+  SortFunctor(SortFunctor const &sf)
+    {
+    SortFunction = sf.SortFunction;
+    }
+  void operator=(BOOL_FUNCTION_PFILE_PFILE_POINTER sf)
+    {
+    SortFunction = sf;
+    }
+};
+
+//-----------------------------------------------------------------------------
+// Sort
+/**
+ * \brief   Sort FileList.
+ */
+static void Sort(FileList *fileList, SortFunctor &sf)
+{
+  std::sort(fileList->begin(), fileList->end(), sf );
+}
+
 
 /**
  * \brief sorts the images, according to their Image Number
@@ -739,22 +780,14 @@ bool SerieHelper::ImageNumberOrdering(FileList *fileList)
                         << " No ImageNumberOrdering sort performed.");
       return false;
    }
+   SortFunctor sf;
    if (DirectOrder)
-      Sort(fileList,SerieHelper::ImageNumberLessThan);
+     sf = ImageNumberLessThan;
    else
-      Sort(fileList,SerieHelper::ImageNumberGreaterThan);
+     sf = ImageNumberGreaterThan;
+   Sort(fileList, sf);
 
    return true;
-}
-
-bool SerieHelper::FileNameLessThan(File *file1, File *file2)
-{
-   return file1->GetFileName() < file2->GetFileName();
-}
-
-bool SerieHelper::FileNameGreaterThan(File *file1, File *file2)
-{
-   return file1->GetFileName() > file2->GetFileName();
 }
 /**
  * \brief sorts the images, according to their File Name
@@ -763,10 +796,12 @@ bool SerieHelper::FileNameGreaterThan(File *file1, File *file2)
  */
 bool SerieHelper::FileNameOrdering(FileList *fileList)
 {
+   SortFunctor sf;
    if (DirectOrder) 
-      Sort(fileList,SerieHelper::FileNameLessThan);
+      sf = FileNameLessThan;
    else
-      Sort(fileList,SerieHelper::FileNameGreaterThan);   
+      sf = FileNameGreaterThan;
+   Sort(fileList, sf);
 
    return true;
 }
@@ -778,7 +813,9 @@ bool SerieHelper::FileNameOrdering(FileList *fileList)
  */
 bool SerieHelper::UserOrdering(FileList *fileList)
 {
-   Sort(fileList,SerieHelper::UserLessThanFunction);   
+   SortFunctor sf;
+   sf = SerieHelper::UserLessThanFunction;
+   Sort(fileList,sf);
    if (!DirectOrder) 
    {
       std::reverse(fileList->begin(), fileList->end());
@@ -906,15 +943,6 @@ std::string SerieHelper::CreateUniqueSeriesIdentifier( File *inFile )
     }
 }
 
-//-----------------------------------------------------------------------------
-// Sort
-/**
- * \brief   Sort FileList.
- */
-void SerieHelper::Sort(FileList *fileList, bool (*pt2Func)( File *file1, File *file2) )
-{
- std::sort(fileList->begin(), fileList->end(), pt2Func );
-}
 
 //-----------------------------------------------------------------------------
 } // end namespace gdcm

@@ -178,11 +178,6 @@ private:
    bool ImageNumberOrdering(FileList *fileSet);
    bool FileNameOrdering(FileList *fileSet);
    
-   static bool ImageNumberLessThan(File *file1, File *file2);
-   static bool ImageNumberGreaterThan(File *file1, File *file2);
-   static bool FileNameLessThan(File *file1, File *file2);
-   static bool FileNameGreaterThan(File *file1, File *file2);
-
 //Attributes:
    
    SingleSerieUIDFileSetmap SingleSerieUIDFileSetHT;
@@ -218,8 +213,6 @@ private:
    /// \brief If user knows more about his images than gdcm does,
    ///        he may supply his own comparison function.
    BOOL_FUNCTION_PFILE_PFILE_POINTER UserLessThanFunction;
-
-   void Sort(FileList *fileList, bool (*pt2Func)( File *file1, File *file2) );
 
    bool m_UseSeriesDetails;
 };
