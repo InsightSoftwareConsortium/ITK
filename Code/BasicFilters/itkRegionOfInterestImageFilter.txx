@@ -132,13 +132,8 @@ RegionOfInterestImageFilter<TInputImage,TOutputImage>
     dynamic_cast< const ImageType * >( inputPtr.GetPointer() );
   if ( imagePtr )
     {
-    // Input image supports TransformContinuousIndexToPhysicalPoint
-    ContinuousIndex<double, Superclass::InputImageDimension> index;
-    for ( unsigned int dim = 0; dim < Superclass::InputImageDimension; ++dim )
-      {
-      index[dim] = roiStart[dim];
-      }
-    imagePtr->TransformContinuousIndexToPhysicalPoint( index, outputOrigin );
+    // Input image supports TransformIndexToContinuousPoint
+    inputPtr->TransformIndexToPhysicalPoint( roiStart, outputOrigin);
     }
   else
     {
