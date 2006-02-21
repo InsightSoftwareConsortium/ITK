@@ -18,9 +18,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include <iostream>
-#include "itkImage.h"
+#include "itkOrientedImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkRegionOfInterestImageFilter.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkRegionOfInterestImageFilterTest(int, char* [] )
 {
@@ -28,7 +29,7 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
   const unsigned int               Dimension = 3;
   typedef itk::Index<Dimension>    PixelType;
 
-  typedef itk::Image< PixelType, 
+  typedef itk::OrientedImage< PixelType, 
                       Dimension >   ImageType;
 
   typedef itk::RegionOfInterestImageFilter< 
@@ -100,6 +101,7 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
   regionOfInterest.SetIndex( roiStart );
   regionOfInterest.SetSize(  roiSize  );
 
+  itk::SimpleFilterWatcher watcher(filter);
   filter->SetRegionOfInterest( regionOfInterest );
   
 
