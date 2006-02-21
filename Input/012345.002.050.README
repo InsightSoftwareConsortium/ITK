@@ -1,4 +1,5 @@
-The ITK IO mechanism currently does not read this image correctly.
+The ITK IO mechanism currently does read this image correctly, thanks to the
+GDCM DICOM library.
 
 This image is the 50th slice from a volumetric dataset.  Most of the raw dicom
 images that we work with are in this format.
