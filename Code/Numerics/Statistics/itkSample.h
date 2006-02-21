@@ -128,7 +128,8 @@ public:
 protected:
   Sample()
     {
-    m_MeasurementVectorSize = 0;
+    m_MeasurementVectorSize = MeasurementVectorTraits::GetLength( 
+                                        MeasurementVectorType() );
     }
 
   virtual ~Sample() {}
