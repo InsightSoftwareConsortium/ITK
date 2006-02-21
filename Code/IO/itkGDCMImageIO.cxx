@@ -624,7 +624,7 @@ void GDCMImageIO::Write(const void* buffer)
       {
       if (dictEntry->GetVR() != "OB" && dictEntry->GetVR() != "OW")
         {
-        if(dictEntry->GetGroup() != 0 || dictEntry->GetElement() != 0)
+        if(dictEntry->GetGroup() != 0 && dictEntry->GetElement() != 0)
           {
           header->InsertValEntry( value,
                                   dictEntry->GetGroup(), 
