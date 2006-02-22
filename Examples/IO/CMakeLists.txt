@@ -9,6 +9,9 @@ TARGET_LINK_LIBRARIES(ImageReadCastWrite ITKCommon ITKIO)
 ADD_EXECUTABLE(ImageReadExtractWrite ImageReadExtractWrite.cxx )
 TARGET_LINK_LIBRARIES(ImageReadExtractWrite ITKCommon ITKIO)
 
+ADD_EXECUTABLE(ImageReadExtractFilterInsertWrite ImageReadExtractFilterInsertWrite.cxx )
+TARGET_LINK_LIBRARIES(ImageReadExtractFilterInsertWrite ITKCommon ITKIO)
+
 ADD_EXECUTABLE(ImageReadRegionOfInterestWrite ImageReadRegionOfInterestWrite.cxx )
 TARGET_LINK_LIBRARIES(ImageReadRegionOfInterestWrite ITKCommon ITKIO)
 
