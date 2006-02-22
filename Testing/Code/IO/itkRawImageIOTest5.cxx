@@ -98,6 +98,21 @@ public:
     RawImageIOType::Pointer rawImageIO = RawImageIOType::New();
     reader->SetImageIO( rawImageIO );
 
+    unsigned int dim[2] = {16,16};
+    double spacing[2] = {1.0, 1.0};
+    double origin[2] = {0.0,0.0};
+
+    for(unsigned int i=0; i<2; i++)
+      {
+      rawImageIO->SetDimensions(i,dim[i]);
+      rawImageIO->SetSpacing(i,spacing[i]);
+      rawImageIO->SetOrigin(i,origin[i]);
+      }
+
+    rawImageIO->SetHeaderSize(0);
+    rawImageIO->SetByteOrderToLittleEndian();
+    rawImageIO->SetNumberOfComponents(1);
+
     reader->Update();
 
     ImageType::ConstPointer image = reader->GetOutput();
