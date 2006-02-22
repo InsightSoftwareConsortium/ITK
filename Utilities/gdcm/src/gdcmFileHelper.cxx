@@ -1538,50 +1538,6 @@ void FileHelper::CheckMandatoryElements()
       Archive->Push(e_0008_0016); 
    }
 
-   // At the end, not to overwrite the original ones,
-   // needed by 'Referenced SOP Instance UID', 'Referenced SOP Class UID'   
-   // 'SOP Instance UID'  
-   //CopyMandatoryEntry(0x0008,0x0018,sop);
-   
-   // the gdcm written image is a [Secondary Capture Image Storage]
-   // except if user told us he dind't modify the pixels, and, therefore
-   // he want to keep the 'Media Storage SOP Class UID'
-   
-      // 'Media Storage SOP Class UID' : [Secondary Capture Image Storage]
-   if ( KeepMediaStorageSOPClassUID)
-   {      
-      // It up to the use to *know* whether he modified the pixels or not.
-      // he is allowed to keep the original 'Media Storage SOP Class UID'
-      CheckMandatoryEntry(0x0008,0x0016,"1.2.840.10008.5.1.4.1.1.7");    
-   }
-   else
-   {
-       // Potentialy this is a post-processed image 
-       // 'Media Storage SOP Class UID'  --> [Secondary Capture Image Storage]
-      CopyMandatoryEntry(0x0008,0x0016,"1.2.840.10008.5.1.4.1.1.7");    
-
-       // FIXME : Must we Force Value, or Default value ?
-       // Is it Type 1 for any Modality ?
-       //    --> Answer seems to be NO :-(
-       // FIXME : we should write it only when we are *sure* the image 
-       //         *does not* come from an imager (see also 0018,0x1164)
-
-       // Conversion Type.
-       // Other possible values are :
-       // See PS 3.3, Page 408
-   
-       // DV = Digitized Video
-       // DI = Digital Interface   
-       // DF = Digitized Film
-       // WSD = Workstation
-       // SD = Scanned Document
-       // SI = Scanned Image
-       // DRW = Drawing
-       // SYN = Synthetic Image
-     
-      CheckMandatoryEntry(0x0008,0x0064,"SYN");
-   }   
-           
    // ---- The user will never have to take any action on the following ----
 
    // new value for 'SOP Instance UID'
