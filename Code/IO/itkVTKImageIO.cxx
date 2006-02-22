@@ -438,6 +438,8 @@ void VTKImageIO::Write(const void* buffer)
     {
     file << "DIMENSIONS " << this->GetDimensions(0) << " "
          << this->GetDimensions(1) << " 1\n";
+    file.setf( std::ios_base::scientific, std::ios_base::floatfield);
+    file.precision(16);
     file << "SPACING " << m_Spacing[0] << " " << m_Spacing[1] << " 1.0\n";
     file << "ORIGIN " << m_Origin[0] << " " << m_Origin[1] << " 0.0\n";
     }
@@ -445,6 +447,8 @@ void VTKImageIO::Write(const void* buffer)
     {
     file << "DIMENSIONS " << this->GetDimensions(0) << " "
          << this->GetDimensions(1) << " " << this->GetDimensions(2) << "\n";
+    file.setf( std::ios_base::scientific, std::ios_base::floatfield);
+    file.precision(16);
     file << "SPACING " << m_Spacing[0] << " " 
          << m_Spacing[1] << " " << m_Spacing[2] << "\n";
     file << "ORIGIN " << m_Origin[0] << " "
