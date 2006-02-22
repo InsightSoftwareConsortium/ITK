@@ -46,6 +46,7 @@ itkRawImageIOTest.cxx
 itkRawImageIOTest2.cxx
 itkRawImageIOTest3.cxx
 itkRawImageIOTest4.cxx
+itkRawImageIOTest5.cxx
 itkReadWriteSpatialObjectTest.cxx
 itkRegularExpressionSeriesFileNamesTest.cxx
 itkStimulateImageIOTest.cxx
@@ -100,6 +101,9 @@ ADD_TEST(itkRawImageIOTest3 ${IO_TESTS} itkRawImageIOTest3
 ADD_TEST(itkRawImageIOTest4 ${IO_TESTS} itkRawImageIOTest4
                            ${TEMP}/bigendian.raw ${TEMP}/littleendian.raw
 )
+
+ADD_TEST(itkRawImageIOTest5 ${IO_TESTS} itkRawImageIOTest5 ${TEMP} )
+
 ADD_TEST(itkVectorImageReadWriteTest ${IO_TESTS} itkVectorImageReadWriteTest
                            ${TEMP}/VectorImageReadWriteTest.mhd
 )
