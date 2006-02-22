@@ -1404,7 +1404,12 @@ void FileHelper::CheckMandatoryElements()
       Archive->Push(e_0002_0001);
 
    // 'Media Storage SOP Class UID'  --> [Secondary Capture Image Storage]
-         CopyMandatoryEntry(0x0002,0x0002,"1.2.840.10008.5.1.4.1.1.7");    
+   // Only if not specified by user, to let people create DERIVED images
+   ValEntry *e_0002_0002 = FileInternal->GetValEntry(0x0002, 0x0002);
+   if( !e_0002_0002)
+     {
+     CopyMandatoryEntry(0x0002,0x0002,"1.2.840.10008.5.1.4.1.1.7");    
+     }
 
    // 'Media Storage SOP Instance UID'   
    //   CopyMandatoryEntry(0x0002,0x0003,sop);
@@ -1645,6 +1650,9 @@ void FileHelper::CheckMandatoryElements()
       CheckMandatoryEntry(0x0020,0x0020,ori);
    else   
       CheckMandatoryEntry(0x0020,0x0020,"");
+
+   // Default Patient Position to HFS
+   CheckMandatoryEntry(0x0018,0x5100,"HFS");
 
    // Modality : if missing we set it to 'OTher'
    CheckMandatoryEntry(0x0008,0x0060,"OT");
