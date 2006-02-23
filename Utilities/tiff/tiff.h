@@ -1,3 +1,4 @@
+#include  "itk_tiff_mangle.h"
 /* Id */
 
 /*
