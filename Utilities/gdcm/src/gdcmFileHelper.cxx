@@ -1598,18 +1598,6 @@ void FileHelper::CheckMandatoryElements()
    // Instance Number
    CheckMandatoryEntry(0x0020,0x0013,"");
    
-   // Patient Orientation
-   // Can be computed from (0020|0037) :  Image Orientation (Patient)
-   gdcm::Orientation o;
-   std::string ori = o.GetOrientation ( FileInternal );
-   if (ori != "\\" && ori != GDCM_UNFOUND)
-      CheckMandatoryEntry(0x0020,0x0020,ori);
-   else   
-      CheckMandatoryEntry(0x0020,0x0020,"");
-
-   // Default Patient Position to HFS
-   CheckMandatoryEntry(0x0018,0x5100,"HFS");
-
    // Modality : if missing we set it to 'OTher'
    CheckMandatoryEntry(0x0008,0x0060,"OT");
 
