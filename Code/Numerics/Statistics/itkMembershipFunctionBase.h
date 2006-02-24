@@ -18,6 +18,7 @@
 #define __itkMembershipFunctionBase_h
 
 #include "itkFunctionBase.h"
+#include "itkMeasurementVectorTraits.h"
 
 namespace itk{ 
 namespace Statistics{
@@ -54,11 +55,12 @@ public:
   virtual double Evaluate(const TVector &x) const = 0 ;
   
   /** Set/Get Macros to set the length of each measurement vector. */
-  virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType ) = 0;
+  itkSetMacro( MeasurementVectorSize, MeasurementVectorSizeType );
   itkGetConstMacro( MeasurementVectorSize, MeasurementVectorSizeType ); 
  
 protected:
-  MembershipFunctionBase(void) {}
+  MembershipFunctionBase() : m_MeasurementVectorSize( 
+      MeasurementVectorTraits::GetLength( TVector() ) ) {}
   virtual ~MembershipFunctionBase(void) {}
 
   void PrintSelf(std::ostream& os, Indent indent) const
