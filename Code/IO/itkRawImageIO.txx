@@ -219,6 +219,8 @@ void RawImageIO<TPixel,VImageDimension>
   // Swap bytes if necessary
   if itkReadRawBytesAfterSwappingMacro( unsigned short, USHORT ) 
   else if itkReadRawBytesAfterSwappingMacro( short, SHORT ) 
+  else if itkReadRawBytesAfterSwappingMacro( char, CHAR ) 
+  else if itkReadRawBytesAfterSwappingMacro( unsigned char, UCHAR ) 
   else if itkReadRawBytesAfterSwappingMacro( unsigned int, UINT ) 
   else if itkReadRawBytesAfterSwappingMacro( int, INT ) 
   else if itkReadRawBytesAfterSwappingMacro( long, LONG ) 
@@ -297,6 +299,8 @@ void RawImageIO<TPixel,VImageDimension>
     // Swap bytes if necessary
     if itkWriteRawBytesAfterSwappingMacro( unsigned short, USHORT ) 
     else if itkWriteRawBytesAfterSwappingMacro( short, SHORT ) 
+    else if itkWriteRawBytesAfterSwappingMacro( char, CHAR ) 
+    else if itkWriteRawBytesAfterSwappingMacro( unsigned char, UCHAR ) 
     else if itkWriteRawBytesAfterSwappingMacro( unsigned int, UINT ) 
     else if itkWriteRawBytesAfterSwappingMacro( int, INT ) 
     else if itkWriteRawBytesAfterSwappingMacro( long, LONG ) 
