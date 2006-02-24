@@ -32,11 +32,11 @@
 #include "tiffiop.h"
 
 #if HAVE_IEEEFP
-#define  TIFFCvtNativeToIEEEFloat(tif, n, fp)
-#define  TIFFCvtNativeToIEEEDouble(tif, n, dp)
+#define  itk_TIFFCvtNativeToIEEEFloat(tif, n, fp)
+#define  itk_TIFFCvtNativeToIEEEDouble(tif, n, dp)
 #else
-extern  void TIFFCvtNativeToIEEEFloat(TIFF*, uint32, float*);
-extern  void TIFFCvtNativeToIEEEDouble(TIFF*, uint32, double*);
+extern  void itk_TIFFCvtNativeToIEEEFloat(TIFF*, uint32, float*);
+extern  void itk_TIFFCvtNativeToIEEEDouble(TIFF*, uint32, double*);
 #endif
 
 static  int TIFFWriteNormalTag(TIFF*, TIFFDirEntry*, const TIFFFieldInfo*);

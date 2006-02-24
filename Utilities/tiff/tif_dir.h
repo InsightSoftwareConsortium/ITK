@@ -250,11 +250,12 @@ extern  const TIFFFieldInfo* _TIFFFindOrRegisterFieldInfo( TIFF *tif,
 extern  TIFFFieldInfo* _TIFFCreateAnonFieldInfo( TIFF *tif, ttag_t tag,
                                                  TIFFDataType dt );
 
-#define _TIFFMergeFieldInfo      TIFFMergeFieldInfo
-#define _TIFFFindFieldInfo      TIFFFindFieldInfo
-#define _TIFFFindFieldInfoByName    TIFFFindFieldInfoByName
-#define _TIFFFieldWithTag      TIFFFieldWithTag
-#define _TIFFFieldWithName      TIFFFieldWithName
+#define _TIFFMergeFieldInfo      itk_TIFFMergeFieldInfo
+#define _TIFFFindFieldInfo      itk_TIFFFindFieldInfo
+#define _TIFFFindFieldInfoByName    itk_TIFFFindFieldInfoByName
+#define _TIFFFieldWithTag      itk_TIFFFieldWithTag
+#define _TIFFFieldWithName      itk_TIFFFieldWithName
+
 
 #if defined(__cplusplus)
 }

@@ -31,7 +31,7 @@
  */
 #include "tiffiop.h"
 
-#ifndef TIFFSwabShort
+#ifndef itk_TIFFSwabShort
 void
 TIFFSwabShort(uint16* wp)
 {
@@ -42,7 +42,7 @@ TIFFSwabShort(uint16* wp)
 }
 #endif
 
-#ifndef TIFFSwabLong
+#ifndef itk_TIFFSwabLong
 void
 TIFFSwabLong(uint32* lp)
 {
@@ -54,7 +54,7 @@ TIFFSwabLong(uint32* lp)
 }
 #endif
 
-#ifndef TIFFSwabArrayOfShort
+#ifndef itk_TIFFSwabArrayOfShort
 void
 TIFFSwabArrayOfShort(uint16* wp, register unsigned long n)
 {
@@ -70,7 +70,7 @@ TIFFSwabArrayOfShort(uint16* wp, register unsigned long n)
 }
 #endif
 
-#ifndef TIFFSwabArrayOfLong
+#ifndef itk_TIFFSwabArrayOfLong
 void
 TIFFSwabArrayOfLong(register uint32* lp, register unsigned long n)
 {
@@ -87,7 +87,7 @@ TIFFSwabArrayOfLong(register uint32* lp, register unsigned long n)
 }
 #endif
 
-#ifndef TIFFSwabDouble
+#ifndef itk_TIFFSwabDouble
 void
 TIFFSwabDouble(double *dp)
 {
@@ -99,7 +99,7 @@ TIFFSwabDouble(double *dp)
 }
 #endif
 
-#ifndef TIFFSwabArrayOfDouble
+#ifndef itk_TIFFSwabArrayOfDouble
 void
 TIFFSwabArrayOfDouble(double* dp, register unsigned long n)
 {

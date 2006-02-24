@@ -34,11 +34,11 @@
 #define  IGNORE  0    /* tag placeholder used below */
 
 #if HAVE_IEEEFP
-#define  TIFFCvtIEEEFloatToNative(tif, n, fp)
-#define  TIFFCvtIEEEDoubleToNative(tif, n, dp)
+#define itk_TIFFCvtIEEEFloatToNative(tif, n, fp)
+#define itk_TIFFCvtIEEEDoubleToNative(tif, n, dp)
 #else
-extern  void TIFFCvtIEEEFloatToNative(TIFF*, uint32, float*);
-extern  void TIFFCvtIEEEDoubleToNative(TIFF*, uint32, double*);
+extern  void itk_TIFFCvtIEEEFloatToNative(TIFF*, uint32, float*);
+extern  void itk_TIFFCvtIEEEDoubleToNative(TIFF*, uint32, double*);
 #endif
 
 static  int EstimateStripByteCounts(TIFF*, TIFFDirEntry*, uint16);

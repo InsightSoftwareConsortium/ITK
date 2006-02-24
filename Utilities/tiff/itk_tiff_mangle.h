@@ -56,18 +56,45 @@ nm libitktiff.a |grep " T "
 #define TIFFGetFieldDefaulted itk_TIFFGetFieldDefaulted
 #define TIFFGetMode itk_TIFFGetMode
 #define TIFFGetVersion itk_TIFFGetVersion
-#define TIFFInitCCITTFax3 itk_TIFFInitCCITTFax3
-#define TIFFInitCCITTFax4 itk_TIFFInitCCITTFax4
-#define TIFFInitCCITTRLE itk_TIFFInitCCITTRLE
-#define TIFFInitCCITTRLEW itk_TIFFInitCCITTRLEW
 #define TIFFInitDumpMode itk_TIFFInitDumpMode
-#define TIFFInitJPEG itk_TIFFInitJPEG
-#define TIFFInitLZW itk_TIFFInitLZW
-#define TIFFInitNeXT itk_TIFFInitNeXT
-#define TIFFInitPackBits itk_TIFFInitPackBits
-#define TIFFInitSGILog itk_TIFFInitSGILog
+
+#ifdef  LZW_SUPPORT
+ #define  TIFFInitLZW    itk_TIFFInitLZW
+#endif
+#ifdef  PACKBITS_SUPPORT
+#define  TIFFInitPackBits  itk_TIFFInitPackBits
+#endif
+#ifdef  THUNDER_SUPPORT
 #define TIFFInitThunderScan itk_TIFFInitThunderScan
-#define TIFFInitZIP itk_TIFFInitZIP
+#endif
+#ifdef  NEXT_SUPPORT
+#define  TIFFInitNeXT    itk_TIFFInitNeXT
+#endif
+#ifdef  JPEG_SUPPORT
+#define  TIFFInitJPEG    itk_TIFFInitJPEG
+#endif
+#ifdef  OJPEG_SUPPORT
+#define  TIFFInitOJPEG    itk_TIFFInitOJPEG
+#endif
+#ifdef  CCITT_SUPPORT
+#define  TIFFInitCCITTRLE  itk_TIFFInitCCITTRLE
+#define  TIFFInitCCITTRLEW  itk_TIFFInitCCITTRLEW
+#define  TIFFInitCCITTFax3  itk_TIFFInitCCITTFax3
+#define  TIFFInitCCITTFax4  itk_TIFFInitCCITTFax4
+#endif
+#ifdef JBIG_SUPPORT
+#define  TIFFInitJBIG    itk_TIFFInitJBIG
+#endif
+#ifdef  ZIP_SUPPORT
+#define  TIFFInitZIP    itk_TIFFInitZIP
+#endif
+#ifdef  PIXARLOG_SUPPORT
+#define  TIFFInitPixarLog  itk_TIFFInitPixarLog
+#endif
+#ifdef LOGLUV_SUPPORT
+#define TIFFInitSGILog    itk_TIFFInitSGILog
+#endif
+
 #define TIFFIsByteSwapped itk_TIFFIsByteSwapped
 #define TIFFIsMSB2LSB itk_TIFFIsMSB2LSB
 #define TIFFIsTiled itk_TIFFIsTiled
@@ -138,9 +165,10 @@ nm libitktiff.a |grep " T "
 #define _TIFFDefaultStripSize itk__TIFFDefaultStripSize
 #define _TIFFDefaultTileSize itk__TIFFDefaultTileSize
 #define _TIFFFax3fillruns itk__TIFFFax3fillruns
-#define _TIFFFieldWithTag itk__TIFFFieldWithTag
-#define _TIFFFindFieldInfo itk__TIFFFindFieldInfo
-#define _TIFFMergeFieldInfo itk__TIFFMergeFieldInfo
+#define TIFFFieldWithTag itk_TIFFFieldWithTag
+#define TIFFFindFieldInfo itk_TIFFFindFieldInfo
+#define TIFFMergeFieldInfo itk_TIFFMergeFieldInfo
+
 #define _TIFFNoPostDecode itk__TIFFNoPostDecode
 #define _TIFFNoPreCode itk__TIFFNoPreCode
 #define _TIFFNoRowDecode itk__TIFFNoRowDecode
@@ -186,4 +214,13 @@ nm libitktiff.a |grep " T "
 #define _TIFFFaxBlackTable itk__TIFFFaxBlackTable
 #define _TIFFFaxWhiteTable itk__TIFFFaxWhiteTable
 #define _TIFFFaxMainTable itk__TIFFFaxMainTable
+#define TIFFDataWidth itk_TIFFDataWidth
+#define _TIFFCreateAnonFieldInfo itk__TIFFCreateAnonFieldInfo
+#define _TIFFFindOrRegisterFieldInfo itk__TIFFFindOrRegisterFieldInfo
+#define TIFFRawStripSize itk__TIFFRawStripSize
+#define TIFFFillStrip itk_TIFFFillStrip
+#define TIFFFillTile itk_TIFFFillTile
+#define TIFFSetupStrips itk_TIFFSetupStrips
+#define TIFFCheckpointDirectory itk_TIFFCheckpointDirectory
+
 #endif
