@@ -22,6 +22,13 @@
 #include "itkMatrix.h"
 #include "itkSymmetricEigenAnalysis.h"
 
+#include <math.h>
+// not all versions of math.h seem to define M_PI:
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
+
 namespace itk
 {
 
@@ -384,6 +391,10 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
         if( fabs(s_dot) > 0.00005 )
           {
           rotationAngle = atan2(s_cross, s_dot);
+          }
+        else
+          {
+          rotationAngle = -0.5 * M_PI;
           }
         } 
       else
