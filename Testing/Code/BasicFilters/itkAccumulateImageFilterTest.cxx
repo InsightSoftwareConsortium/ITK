@@ -73,7 +73,6 @@ int itkAccumulateImageFilterTest(int argc, char *argv[] )
   AccumulaterType::Pointer accumulate = AccumulaterType::New();
   accumulate->SetInput( reader->GetOutput() );
   accumulate->SetAccumulateDimension( 2 );
-  accumulate->AverageOn();
 
   try
     {
@@ -88,6 +87,28 @@ int itkAccumulateImageFilterTest(int argc, char *argv[] )
   accumulate->GetOutput()->Print(std::cout);
 
   accumulate->Print( std::cout );
+
+  // Now turn averaging off
+  accumulate->AverageOff();
+  try
+    {
+    WriterType::Pointer writer = WriterType::New();
+    writer->SetFileName ( argv[2] );
+    
+    writer->SetInput(accumulate->GetOutput());
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Error writing the series" << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+
+    }
+
+  // Now turn averaging on
+  accumulate->AverageOn();
+  std::cout << "Average: " << accumulate->GetAverage() << std::endl;
 
   try
     {
