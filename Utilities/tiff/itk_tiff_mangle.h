@@ -9,9 +9,10 @@ It is included in all files while building the tiff library.  Due to
 namespace pollution, no tiff headers should be included in .h files in
 ITK.
 
-The following command was used to obtain the symbol list:
+The following commands were used to obtain the symbol list:
 
 nm libitktiff.a |grep " T "
+nm libitktiff.a |grep " D "
 
 */
 
@@ -223,4 +224,29 @@ nm libitktiff.a |grep " T "
 #define TIFFSetupStrips itk_TIFFSetupStrips
 #define TIFFCheckpointDirectory itk_TIFFCheckpointDirectory
 
+#define TIFFAccessTagMethods itk_TIFFAccessTagMethods
+#define TIFFCleanup itk_TIFFCleanup
+#define TIFFClientdata itk_TIFFClientdata
+#define TIFFGetClientInfo itk_TIFFGetClientInfo
+#define TIFFGetCloseProc itk_TIFFGetCloseProc
+#define TIFFGetConfiguredCODECs itk_TIFFGetConfiguredCODECs
+#define TIFFGetMapFileProc itk_TIFFGetMapFileProc
+#define TIFFGetReadProc itk_TIFFGetReadProc
+#define TIFFGetSeekProc itk_TIFFGetSeekProc
+#define TIFFGetSizeProc itk_TIFFGetSizeProc
+#define TIFFGetTagListCount itk_TIFFGetTagListCount
+#define TIFFGetTagListEntry itk_TIFFGetTagListEntry
+#define TIFFGetUnmapFileProc itk_TIFFGetUnmapFileProc
+#define TIFFGetWriteProc itk_TIFFGetWriteProc
+#define TIFFIsBigEndian itk_TIFFIsBigEndian
+#define TIFFIsCODECConfigured itk_TIFFIsCODECConfigured
+#define TIFFReadRGBAImageOriented itk_TIFFReadRGBAImageOriented
+#define TIFFSetClientdata itk_TIFFSetClientdata
+#define TIFFSetClientInfo itk_TIFFSetClientInfo
+#define TIFFSetFileName itk_TIFFSetFileName
+#define TIFFSetFileno itk_TIFFSetFileno
+#define TIFFSetMode itk_TIFFSetMode
+
+#define display_sRGB itk_display_sRGB
+#define _TIFFBuiltinCODECS itk_TIFFBuiltinCODECS
 #endif
