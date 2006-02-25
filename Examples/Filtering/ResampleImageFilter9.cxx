@@ -102,7 +102,6 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   nearestFilter->SetDefaultPixelValue( 50 );
-  nearestFilter->SetNumberOfThreads(1);
   linearFilter->SetDefaultPixelValue( 50 );
   // Software Guide : EndCodeSnippet
 
