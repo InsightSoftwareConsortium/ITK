@@ -106,9 +106,10 @@ public:
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
-  /** Image spacing typedef */
+  /** Image spacing, origin and direction typedef */
   typedef typename TOutputImage::SpacingType SpacingType;
   typedef typename TOutputImage::PointType   OriginPointType;
+  typedef typename TOutputImage::DirectionType DirectionType;
   
   /** Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this
@@ -153,6 +154,10 @@ public:
 
   /** Get the output image origin. */
   itkGetConstReferenceMacro( OutputOrigin, PointType );
+
+  /** Set the output direciton cosine matrix. */
+  itkSetMacro(OutputDirection, DirectionType);
+  itkGetConstReferenceMacro(OutputDirection, DirectionType);
 
   /** Set the start index of the output largest possible region. 
    * The default is an index of all zeros. */
@@ -215,6 +220,7 @@ private:
   // is outside the image
   SpacingType             m_OutputSpacing; // output image spacing
   PointType               m_OutputOrigin;  // output image origin
+  DirectionType           m_OutputDirection; // output image direction cosines
   IndexType               m_OutputStartIndex; // output start index
 };
 

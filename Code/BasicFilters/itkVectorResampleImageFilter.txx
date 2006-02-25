@@ -24,6 +24,7 @@
 #include "itkIdentityTransform.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkProgressReporter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
@@ -37,6 +38,7 @@ VectorResampleImageFilter<TInputImage, TOutputImage>
 {
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
+  m_OutputDirection.SetIdentity();
   m_Size.Fill( 0 );
   m_OutputStartIndex.Fill( 0 );
 
@@ -65,6 +67,7 @@ VectorResampleImageFilter<TInputImage, TOutputImage>
   os << indent << "OutputStartIndex: " << m_OutputStartIndex << std::endl;
   os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
   os << indent << "OutputOrigin: " << m_OutputOrigin << std::endl;
+  os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
   os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
 
@@ -117,6 +120,7 @@ VectorResampleImageFilter<TInputImage,TOutputImage>
 
   // Connect input image to interpolator
   m_Interpolator->SetInputImage( this->GetInput() );
+
 }
 
 /**
@@ -127,8 +131,9 @@ void
 VectorResampleImageFilter<TInputImage,TOutputImage>
 ::AfterThreadedGenerateData()
 {
-  //Disconnect input image from interpolator
+  // Disconnect input image from the interpolator
   m_Interpolator->SetInputImage( NULL );
+
 }
 
 /**
@@ -148,44 +153,50 @@ VectorResampleImageFilter<TInputImage,TOutputImage>
   // Get the output pointers
   OutputImagePointer      outputPtr = this->GetOutput();
 
+  // Get ths input pointers
+  InputImageConstPointer inputPtr=this->GetInput();
+
   // Create an iterator that will walk the output region for this thread.
-  typedef
-    ImageRegionIterator<TOutputImage> OutputIterator;
+  typedef ImageRegionIteratorWithIndex<TOutputImage> OutputIterator;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
-  typedef typename VectorLinearInterpolateImageFunction<InputImageType, double>::OutputType OutputType;
-
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
-  IndexType outputIndex;         // Index to current output pixel
   PointType outputPoint;         // Coordinates of current output pixel
   PointType inputPoint;          // Coordinates of current input pixel
+
+  typedef ContinuousIndex<double, ImageDimension> ContinuousIndexType;
+  ContinuousIndexType inputIndex;
 
   const unsigned int numberOfComponents = PixelType::GetNumberOfComponents();
 
   // Support for progress methods/callbacks
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels(), 10);
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
         
+  typedef typename InterpolatorType::OutputType OutputType;
 
   // Walk the output region
-  for (i=0; !outIt.IsAtEnd(); ++outIt, i++ )
+  outIt.GoToBegin();
+
+  while ( !outIt.IsAtEnd() )
     {
     // Determine the index of the current output pixel
-    outputIndex = outIt.GetIndex();
-    outputPtr->TransformIndexToPhysicalPoint( outputIndex, outputPoint );
+    outputPtr->TransformIndexToPhysicalPoint( outIt.GetIndex(), outputPoint );
 
     // Compute corresponding input pixel position
     inputPoint = m_Transform->TransformPoint(outputPoint);
+    inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
 
     // Evaluate input at right position and copy to the output
-    if( m_Interpolator->IsInsideBuffer(inputPoint) )
+    if( m_Interpolator->IsInsideBuffer(inputIndex) )
       {
       PixelType   pixval; 
-      OutputType  output = m_Interpolator->Evaluate( inputPoint );
+      const OutputType  value
+        = m_Interpolator->EvaluateAtContinuousIndex( inputIndex );
       for( unsigned int i=0; i< numberOfComponents; i++ )
         {
-        pixval[i] = static_cast<PixelComponentType>( output[i] );
+        pixval[i] = static_cast<PixelComponentType>( value[i] );
         }
       outIt.Set( pixval );      
       }
@@ -195,6 +206,7 @@ VectorResampleImageFilter<TInputImage,TOutputImage>
       }
 
     progress.CompletedPixel();
+    ++outIt;
     }
   return;
 }
@@ -227,6 +239,7 @@ VectorResampleImageFilter<TInputImage,TOutputImage>
   // Request the entire input image
   InputImageRegionType inputRegion;
   inputRegion = inputPtr->GetLargestPossibleRegion();
+  inputPtr->SetLargestPossibleRegion(inputRegion);
   inputPtr->SetRequestedRegion(inputRegion);
 
   return;
@@ -260,6 +273,7 @@ VectorResampleImageFilter<TInputImage,TOutputImage>
   // Set spacing and origin
   outputPtr->SetSpacing( m_OutputSpacing );
   outputPtr->SetOrigin( m_OutputOrigin );
+  outputPtr->SetDirection( m_OutputDirection );
 
   return;
 }
