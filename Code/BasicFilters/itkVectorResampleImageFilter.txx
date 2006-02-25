@@ -146,8 +146,6 @@ VectorResampleImageFilter<TInputImage,TOutputImage>
   const OutputImageRegionType& outputRegionForThread,
   int threadId)
 {
-  unsigned int i;
-  
   itkDebugMacro(<<"Actually executing");
 
   // Get the output pointers
