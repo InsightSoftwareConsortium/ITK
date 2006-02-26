@@ -110,7 +110,7 @@ int main(int ac, char* av[] )
       av += 1;
       ac -= 1;
       }
-    else if (strcmp(av[1], "--compare") == 0)
+    if (strcmp(av[1], "--compare") == 0)
       {
       baselineFilename = av[2];
       testFilename = av[3];

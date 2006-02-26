@@ -87,12 +87,18 @@ public:
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
   virtual OutputType EvaluateAtContinuousIndex( 
-    const ContinuousIndexType & index ) const;
+    const ContinuousIndexType & index ) const
+  {
+   IndexType nindex;
+   this->ConvertContinuousIndexToNearestIndex(index, nindex);
+   return static_cast<OutputType>( this->GetInputImage()->GetPixel( nindex ) );
+  }
 
 protected:
-  VectorNearestNeighborInterpolateImageFunction();
+  VectorNearestNeighborInterpolateImageFunction(){};
   ~VectorNearestNeighborInterpolateImageFunction(){};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const
+   { Superclass::PrintSelf( os, indent ); }
 
 private:
   VectorNearestNeighborInterpolateImageFunction(const Self&); //purposely not implemented
@@ -100,9 +106,5 @@ private:
 };
 
 } // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorNearestNeighborInterpolateImageFunction.txx"
-#endif
 
 #endif
