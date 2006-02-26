@@ -101,8 +101,10 @@ int main( int argc, char * argv[] )
   linearFilter->SetTransform( transform );
 
   // Software Guide : BeginCodeSnippet
-  nearestFilter->SetDefaultPixelValue( 50 );
-  linearFilter->SetDefaultPixelValue( 50 );
+  PixelType defaultValue;
+  defaultValue.Fill(50);
+  nearestFilter->SetDefaultPixelValue( defaultValue );
+  linearFilter->SetDefaultPixelValue( defaultValue );
   // Software Guide : EndCodeSnippet
 
 
