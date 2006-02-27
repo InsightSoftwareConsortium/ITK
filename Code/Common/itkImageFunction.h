@@ -173,7 +173,7 @@ public:
 
   /** Convert point to continuous idnex */
    void ConvertPointToContinousIndex( const PointType & point,
-    IndexType & cindex ) const
+    ContinuousIndexType & cindex ) const
     {
     m_Image->TransformPhysicalPointToContinuousIndex( point, cindex );
     }
