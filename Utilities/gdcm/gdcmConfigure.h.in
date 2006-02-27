@@ -76,6 +76,10 @@
 
 #cmakedefine GDCM_FORCE_BIGENDIAN_EMULATION
 
+/* For OpenJPEG */
+#cmakedefine OPJ_EXPORTS
+#cmakedefine OPJ_STATIC
+
 /*--------------------------------------------------------------------------*/
 /* GDCM Versioning                                                          */
 

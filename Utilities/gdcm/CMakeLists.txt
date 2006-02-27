@@ -134,6 +134,15 @@ IF( ${CMAKE_HAVE_SYS_SOCKET_H} )
 ENDIF( ${CMAKE_HAVE_SYS_SOCKET_H} )
 
 #-----------------------------------------------------------------------------
+# Do the OpenJPEG export thing
+IF (WIN32)
+  IF (BUILD_SHARED_LIBS)
+    SET(OPJ_EXPORTS 1)
+  ELSE (BUILD_SHARED_LIBS)
+    SET(OPJ_STATIC 1)
+  ENDIF (BUILD_SHARED_LIBS)
+ENDIF (WIN32)
+
 
 CONFIGURE_FILE(${GDCM_SOURCE_DIR}/gdcmConfigure.h.in
                ${GDCM_BINARY_DIR}/gdcmConfigure.h @ONLY IMMEDIATE)
