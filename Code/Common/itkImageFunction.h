@@ -171,6 +171,13 @@ public:
     this->ConvertContinuousIndexToNearestIndex( cindex, index );
     }
 
+  /** Convert point to continuous idnex */
+   void ConvertPointToContinousIndex( const PointType & point,
+    IndexType & cindex ) const
+    {
+    m_Image->TransformPhysicalPointToContinuousIndex( point, cindex );
+    }
+
   /** Convert continuous index to nearest index. */
   void ConvertContinuousIndexToNearestIndex( const ContinuousIndexType & cindex,
     IndexType & index ) const
