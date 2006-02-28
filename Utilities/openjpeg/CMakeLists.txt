@@ -6,9 +6,7 @@ SET(OpenJPEG_SRCS
   cio.c
   dwt.c
   event.c
-  fix.c
   image.c
-  int.c
   j2k.c
   j2k_lib.c
   jp2.c
@@ -27,11 +25,14 @@ SET(OpenJPEG_SRCS
 CONFIGURE_FILE(${ITKOpenJPEG_SOURCE_DIR}/.NoDartCoverage
                ${ITKOpenJPEG_BINARY_DIR}/.NoDartCoverage)
 
-# Pass proper definition to preprocessor to generate
-# shared lib
-IF(WIN32 AND BUILD_SHARED_LIBS)
-  ADD_DEFINITIONS(-DOPJ_EXPORTS)
-ENDIF(WIN32 AND BUILD_SHARED_LIBS)
+# Pass proper definition to preprocessor to generate shared lib
+IF (WIN32)
+  IF (BUILD_SHARED_LIBS)
+    ADD_DEFINITIONS(-DOPJ_EXPORTS)
+  ELSE (BUILD_SHARED_LIBS)
+    ADD_DEFINITIONS(-DOPJ_STATIC)
+  ENDIF (BUILD_SHARED_LIBS)
+ENDIF (WIN32)
 
 # Create the library
 ADD_LIBRARY(${OPJ_PREFIX}openjpeg ${OpenJPEG_SRCS})
