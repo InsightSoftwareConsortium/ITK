@@ -55,6 +55,9 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
+  /** Path dimension. The dimension of a path is fixed at construction. */
+  itkStaticConstMacro(PathDimension, unsigned int, VDimension);
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(Path, FunctionBase);
   
