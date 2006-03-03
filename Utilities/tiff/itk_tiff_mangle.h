@@ -13,6 +13,7 @@ The following commands were used to obtain the symbol list:
 
 nm libitktiff.a |grep " T "
 nm libitktiff.a |grep " D "
+nm libitktiff.a |grep " R "
 
 */
 
@@ -249,4 +250,11 @@ nm libitktiff.a |grep " D "
 
 #define display_sRGB itk_display_sRGB
 #define _TIFFBuiltinCODECS itk_TIFFBuiltinCODECS
+
+#define TIFFFaxBlackCodes itk_TIFFFaxBlackCodes
+#define TIFFFaxBlackTable itk_TIFFFaxBlackTable
+#define TIFFFaxMainTable itk_TIFFFaxMainTable
+#define TIFFFaxWhiteCodes itk_TIFFFaxWhiteCodes
+#define TIFFFaxWhiteTable itk_TIFFFaxWhiteTable
+
 #endif
