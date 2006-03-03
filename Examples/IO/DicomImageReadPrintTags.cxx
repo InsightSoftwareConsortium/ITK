@@ -365,7 +365,7 @@ int main( int argc, char* argv[] )
         {
         std::string tagvalue = entryvalue->GetMetaDataObjectValue();
         std::cout << "Patient's Name (" << entryId <<  ") ";
-        std::cout << " is: " << tagvalue << std::endl;
+        std::cout << " is: " << tagvalue.c_str() << std::endl;
         }
 // Software Guide : EndCodeSnippet
 
