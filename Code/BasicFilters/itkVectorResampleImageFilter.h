@@ -37,7 +37,7 @@ namespace itk
  *
  * Note that the choice of interpolator function can be important.
  * This function is set via SetInterpolator().  The default is
- * itk::VectorLinearInterpolateImageFunction<InputImageType, double>, which
+ * itk::VectorLinearInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>, which
  * is reasonable for ordinary medical images.  
  *
  * Since this filter produces an image which is a different size than
@@ -52,7 +52,7 @@ namespace itk
  *
  * \ingroup GeometricTransforms
  */
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionType=double>
 class ITK_EXPORT VectorResampleImageFilter:
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -84,11 +84,11 @@ public:
    * \todo Check that input and output images have the same number of 
    * dimensions; this is required by the current implementation of 
    * AffineTransform. */
-  typedef Transform<double, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension)> TransformType;
-  typedef typename TransformType::Pointer TransformPointerType;
+  typedef Transform<TInterpolatorPrecisionType, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension)> TransformType;
+  typedef typename TransformType::ConstPointer TransformPointerType;
 
   /** Interpolator typedef. */
-  typedef VectorInterpolateImageFunction<InputImageType, double> InterpolatorType;
+  typedef VectorInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType> InterpolatorType;
   typedef typename InterpolatorType::Pointer  InterpolatorPointerType;
 
   /** Image size typedef. */
@@ -107,7 +107,7 @@ public:
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
-  /** Image spacing, origin and direction typedef */
+  /** Image spacing,origin and direction typedef */
   typedef typename TOutputImage::SpacingType SpacingType;
   typedef typename TOutputImage::PointType   OriginPointType;
   typedef typename TOutputImage::DirectionType DirectionType;
@@ -116,18 +116,18 @@ public:
    * Set the coordinate transform to use for resampling.  Note that this
    * must be in index coordinates and is the output-to-input transform,
    * NOT the input-to-output transform that you might naively expect.
-   * The default is itk::AffineTransform<double, ImageDimension>. */
-  itkSetObjectMacro( Transform, TransformType ); 
+   * The default is itk::AffineTransform<TInterpolatorPrecisionType, ImageDimension>. */
+  itkSetConstObjectMacro( Transform, TransformType ); 
 
   /** Get a pointer to the coordinate transform. */
-  itkGetObjectMacro( Transform, TransformType );
+  itkGetConstObjectMacro( Transform, TransformType );
 
   /** Set the interpolator function.  The default is
-   * itk::VectorLinearInterpolateImageFunction<InputImageType, double>.  */
+   * itk::VectorLinearInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>.  */
   itkSetObjectMacro( Interpolator, InterpolatorType );
 
   /** Get a pointer to the interpolator function. */
-  itkGetObjectMacro( Interpolator, InterpolatorType );
+  itkGetConstObjectMacro( Interpolator, InterpolatorType );
 
   /** Set the size of the output image. */
   itkSetMacro( Size, SizeType );
