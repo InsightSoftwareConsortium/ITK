@@ -109,7 +109,7 @@ public:
 
     m_NeighborhoodSize = 1;
     long twoRPlus1 = 2*m_NeighborhoodRadius + 1;
-    for (int i=0; i < ImageDimension; i++)
+    for (unsigned int i=0; i < ImageDimension; i++)
       {
       m_NeighborhoodSize *= twoRPlus1;
       }
