@@ -7,12 +7,6 @@ INCLUDE_REGULAR_EXPRESSION("^.*$")
 ADD_EXECUTABLE(ImageRandomConstIteratorWithIndex ImageRandomConstIteratorWithIndex.cxx)
 TARGET_LINK_LIBRARIES(ImageRandomConstIteratorWithIndex ITKIO   )
 
-ADD_EXECUTABLE(NeighborhoodIterators1 NeighborhoodIterators1.cxx)
-TARGET_LINK_LIBRARIES(NeighborhoodIterators1 ITKIO   )
-
-ADD_EXECUTABLE(NeighborhoodIterators2 NeighborhoodIterators2.cxx)
-TARGET_LINK_LIBRARIES(NeighborhoodIterators2 ITKIO   )
-
 ADD_EXECUTABLE(NeighborhoodIterators3 NeighborhoodIterators3.cxx)
 TARGET_LINK_LIBRARIES(NeighborhoodIterators3 ITKIO   )
 
@@ -26,6 +20,12 @@ ADD_EXECUTABLE(NeighborhoodIterators6 NeighborhoodIterators6.cxx)
 TARGET_LINK_LIBRARIES(NeighborhoodIterators6 ITKAlgorithms ITKBasicFilters ITKIO )
 
 IF(NOT BORLAND)
+ADD_EXECUTABLE(NeighborhoodIterators1 NeighborhoodIterators1.cxx)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators1 ITKIO   )
+
+ADD_EXECUTABLE(NeighborhoodIterators2 NeighborhoodIterators2.cxx)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators2 ITKIO   )
+
 ADD_EXECUTABLE(ImageRegionIteratorWithIndex ImageRegionIteratorWithIndex.cxx)
 TARGET_LINK_LIBRARIES(ImageRegionIteratorWithIndex ITKIO   )
 
