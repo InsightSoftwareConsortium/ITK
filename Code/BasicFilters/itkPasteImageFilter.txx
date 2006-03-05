@@ -216,7 +216,7 @@ PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
     while( !outIt.IsAtEnd() )
       {
       // copy the input pixel to the output
-      outIt.Set( static_cast<OutputmagePixelType>( sourceIt.Get()) );
+      outIt.Set( static_cast<OutputImagePixelType>( sourceIt.Get()) );
       ++outIt; 
       ++sourceIt; 
       progress.CompletedPixel();
@@ -265,7 +265,7 @@ PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
     while( !outIt.IsAtEnd() )
       {
       // copy the input pixel to the output
-      outIt.Set( static_cast<OutputImagePixelType<(sourceIt.Get()) );
+      outIt.Set( static_cast<OutputImagePixelType>(sourceIt.Get()) );
       ++outIt; 
       ++sourceIt; 
       progress.CompletedPixel();
