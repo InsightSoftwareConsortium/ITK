@@ -21,6 +21,7 @@
 #include "itkRGBPixel.h"
 #include "itkImageFileReader.h"
 #include "itkImageSeriesWriter.h"
+#include "itkOrientedImage.h"
 
 int itkTileImageFilterTest(int argc, char *argv[] )
 {
@@ -29,8 +30,8 @@ int itkTileImageFilterTest(int argc, char *argv[] )
   enum { InputImageDimension = 2 };
   enum { OutputImageDimension = 3 };
 
-  typedef itk::Image<PixelType,InputImageDimension> InputImageType;
-  typedef itk::Image<PixelType,OutputImageDimension> OutputImageType;
+  typedef itk::OrientedImage<PixelType,InputImageDimension> InputImageType;
+  typedef itk::OrientedImage<PixelType,OutputImageDimension> OutputImageType;
   typedef itk::ImageFileReader< InputImageType > ImageReaderType ;
   typedef itk::TileImageFilter<InputImageType,OutputImageType> TilerType;
   typedef itk::ImageSeriesWriter<OutputImageType,InputImageType> WriterType; 
