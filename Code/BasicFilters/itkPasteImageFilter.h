@@ -39,14 +39,14 @@ namespace itk
  *
  * \ingroup GeometricTransforms
  */
-template <class TInputImage>
+template <class TInputImage, class TSourceImage=TInputImage, class TOutputImage=TInputImage>
 class ITK_EXPORT PasteImageFilter:
-    public InPlaceImageFilter<TInputImage,TInputImage>
+    public InPlaceImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef PasteImageFilter         Self;
-  typedef InPlaceImageFilter<TInputImage,TInputImage>  Superclass;
+  typedef InPlaceImageFilter<TInputImage,TOutputImage>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -60,25 +60,34 @@ public:
   typedef typename Superclass::InputImagePointer InputImagePointer;
   typedef typename Superclass::OutputImagePointer OutputImagePointer;
 
+  typedef typename TSourceImage::Pointer SourceImagePointer;
+  typedef typename TSourceImage::ConstPointer SourceImageConstPointer;
+
   /** Typedef to describe the output and input image region types. */
-  typedef typename TInputImage::RegionType OutputImageRegionType;
+  typedef typename TOutputImage::RegionType OutputImageRegionType;
   typedef typename TInputImage::RegionType InputImageRegionType;
+  typedef typename TSourceImage::RegionType SourceImageRegionType;
 
   /** Typedef to describe the type of pixel. */
-  typedef typename TInputImage::PixelType OutputImagePixelType;
+  typedef typename TOutputImage::PixelType OutputImagePixelType;
   typedef typename TInputImage::PixelType InputImagePixelType;
+  typedef typename TSourceImage::PixelType SourceImagePixelType;
 
   /** Typedef to describe the output and input image index and size types. */
-  typedef typename TInputImage::IndexType OutputImageIndexType;
+  typedef typename TOutputImage::IndexType OutputImageIndexType;
+  typedef typename TOutputImage::SizeType OutputImageSizeType;
   typedef typename TInputImage::IndexType InputImageIndexType;
-  typedef typename TInputImage::SizeType OutputImageSizeType;
   typedef typename TInputImage::SizeType InputImageSizeType;
+  typedef typename TSourceImage::IndexType SourceImageIndexType;
+  typedef typename TSourceImage::SizeType SourceImageSizeType;
 
   /** ImageDimension enumeration */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+                      TOutputImage::ImageDimension);
+  itkStaticConstMacro(SourceImageDimension, unsigned int,
+                      TSourceImage::ImageDimension);
 
   /** Set/Get the destination index (where in the first input the second
    * input will be pasted. */
@@ -87,8 +96,8 @@ public:
 
   /** Set/Get the source region (what part of the second input will be
    * pasted. */
-  itkSetMacro(SourceRegion, InputImageRegionType);
-  itkGetMacro(SourceRegion, InputImageRegionType);
+  itkSetMacro(SourceRegion, SourceImageRegionType);
+  itkGetMacro(SourceRegion, SourceImageRegionType);
 
   /** Set/Get the "destination" image.  This is the image that will be
    * obscured by the paste operation. */
@@ -96,9 +105,9 @@ public:
   const TInputImage* GetDestinationImage() { return this->GetInput(0); };
 
   /** Set/Get the "source" image.  This is the image that will be
-   * pasted over the destination imaeg. */
-  void SetSourceImage(TInputImage *src) { this->SetNthInput(1, src); }
-  const TInputImage* GetSourceImage() { return this->GetInput(1); };
+   * pasted over the destination image. */
+  void SetSourceImage(TSourceImage *src) { this->SetNthInput(1, src); }
+  const TSourceImage* GetSourceImage() { return this->GetInput(1); };
   
   /** PasteImageFilter needs to set the input requested regions for its
    * inputs.  The first input's requested region will be set to match
@@ -129,7 +138,7 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
-  InputImageRegionType m_SourceRegion;
+  SourceImageRegionType m_SourceRegion;
   InputImageIndexType m_DestinationIndex;
 
 private:

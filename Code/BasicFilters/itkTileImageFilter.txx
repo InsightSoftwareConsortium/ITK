@@ -55,7 +55,7 @@ TileImageFilter<TInputImage, TOutputImage>
     {
     if (it.Get().m_ImageNumber >= 0)
       {
-      typename PasteImageFilter<TOutputImage>::Pointer paste = PasteImageFilter<TOutputImage>::New();
+      typename PasteImageFilter<TOutputImage,TempImageType>::Pointer paste = PasteImageFilter<TOutputImage,TempImageType>::New();
       paste->SetDestinationImage(output);
       paste->InPlaceOn();
 
