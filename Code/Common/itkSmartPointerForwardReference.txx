@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkSmartPointerForwardReference_txx
 #define _itkSmartPointerForwardReference_txx
+
 #include "itkSmartPointerForwardReference.h"
 
 namespace itk

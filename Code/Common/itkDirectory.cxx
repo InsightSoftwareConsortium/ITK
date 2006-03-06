@@ -15,6 +15,7 @@
 
 =========================================================================*/
 #include "itkDirectory.h"
+#include <itksys/Directory.hxx>
 
 namespace itk
 {
@@ -22,157 +23,48 @@ namespace itk
 /**
  *
  */
-Directory
-::Directory() 
+Directory::Directory() 
 {
+  m_Internal = new Directory;
 }
 
 /**
  *
  */
-Directory
-::~Directory() 
+Directory::~Directory() 
 {
+  delete m_Internal;
 }
-
-/*
-ostream& operator << (ostream& os, string& s)
-{
-  os << s.c_str();
-  return os;
-}
-*/
 
 /**
  *
  */
-void 
-Directory
-::PrintSelf(std::ostream& os, Indent indent) const
+void Directory::PrintSelf(std::ostream& os, Indent indent) const
 { 
   Superclass::PrintSelf(os, indent);
-  os << indent << "Directory for: " << m_Path << "\n";
+  os << indent << "Directory for: " << m_Internal->GetPath() << "\n";
   os << indent << "Contains the following files:\n";
   indent = indent.GetNextIndent();
-  for(std::vector<std::string>::const_iterator i = m_Files.begin();
-      i != m_Files.end(); ++i)
+  unsigned long numFiles = m_Internal->GetNumberOfFiles();
+  for ( unsigned long i = 0; i < numFiles; ++i)
     {
-    os << indent << (*i) << "\n";
+    os << indent << m_Internal->GetFile(i) << "\n";
     }
 }
-
-} // end namespace itk
-
-// First microsoft compilers
-
-#ifdef _MSC_VER
-#include "itkWindows.h"
-#include <io.h>
-#include <ctype.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-
-namespace itk
-{
-  
 /**
  *
  */
-bool 
-Directory
-::Load(const char* name)
+bool Directory::Load(const char* dir)
 {
-  char* buf;
-  int n = static_cast<int>( strlen(name) );
-  if ( name[n - 1] == '/' ) 
-    {
-    buf = new char[n + 1 + 1];
-    sprintf(buf, "%s*", name);
-    } 
-  else
-    {
-    buf = new char[n + 2 + 1];
-    sprintf(buf, "%s/*", name);
-    }
-  struct _finddata_t data;  // data of current file
-  
-  // Now put them into the file array
-  long srchHandle = _findfirst(buf, &data);
-  delete [] buf;
-  
-  if ( srchHandle == -1 )
-    {
-    return 0;
-    }
-  
-  // Loop through names
-  do 
-    {
-    m_Files.push_back(data.name);
-    } 
-  while ( _findnext(srchHandle, &data) != -1 );
-  m_Path = name;
-  return _findclose(srchHandle) != -1;
+  return m_Internal->Load(dir);
 }
 
-} // end namespace itk
-
-#else
-
-// Now the POSIX style directory access
-
-#include <sys/types.h>
-#include <dirent.h>
-
-namespace itk
-{
-  
 /**
  *
  */
-bool 
-Directory
-::Load(const char* name)
+const char* Directory::GetFile(unsigned int index)
 {
-  DIR* dir = opendir(name);
-  if ( !dir ) 
-    {
-    return 0;
-    }
-  for (dirent* d = readdir(dir); d; d = readdir(dir) )
-    {
-    m_Files.push_back(d->d_name);
-    }
-  m_Path = name;
-  closedir(dir);
-  return 1;
-}
-
-} // end namespace itk
-
-#endif
-
-namespace itk
-{
-  
-/**
- *
- */
-const char* 
-Directory
-::GetFile(unsigned int index)
-{
-  if ( index >= m_Files.size() )
-    {
-    itkGenericOutputMacro( << "Bad index for GetFile on itk::Directory\n");
-    return 0;
-    }
-  
-  return m_Files[index].c_str();
+  return m_Internal->GetFile(index);
 }
 
 } // end namespace itk

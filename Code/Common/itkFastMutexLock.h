@@ -64,10 +64,10 @@ public:
   itkTypeMacro(FastMutexLock,Object);
 
   /** Lock the itkFastMutexLock. */
-  void Lock( void );
+  void Lock();
 
   /** Unlock the FastMutexLock. */
-  void Unlock( void );
+  void Unlock();
 
 protected:
   FastMutexLock() {}

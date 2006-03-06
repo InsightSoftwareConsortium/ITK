@@ -82,10 +82,10 @@ public:
   ~SimpleFastMutexLock();
   
   /** Lock access. */
-  void Lock( void ) const;
+  void Lock() const;
 
   /** Unlock access. */
-  void Unlock( void ) const;
+  void Unlock() const;
 
 protected:
   mutable FastMutexType   m_FastMutexLock;

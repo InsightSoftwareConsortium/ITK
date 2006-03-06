@@ -27,7 +27,7 @@ namespace itk
 
 /** \class SmartPointerForwardReference
  * \brief Implements transparent reference counting in situations where forward
- *        references / cyclic include depndencies are a problem.
+ *        references / cyclic include dependencies are a problem.
  *
  * SmartPointerForwardReference implements reference counting by overloading
  * operator -> (and *) among others. This allows natural interface

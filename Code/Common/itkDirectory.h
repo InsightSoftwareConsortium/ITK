@@ -18,24 +18,21 @@
 #define __itkDirectory_h
 
 #include "itkObject.h"
-#include "itkObjectFactory.h"
-#include <iostream>
-#include <string>
-#include <vector>
 
 namespace itk
 {
 /** \class Directory
  * \brief Portable directory/filename traversal.
  * 
- * itkDirectory provides a portable way of finding the names of the files
+ * itk::Directory provides a portable way of finding the names of the files
  * in a system directory.
  *
- * itkDirectory works with windows and unix only.
+ * itk::Directory works with Windows and Unix (POSIX) operating systems.
  * \ingroup OSSystemObjects 
  */
 
 
+class Directory;
 class ITKCommon_EXPORT Directory : public Object
 {
 public:
@@ -58,7 +55,7 @@ public:
   bool Load(const char* dir);
 
   /** Return the number of files in the current directory. */
-  std::vector<std::string>::size_type GetNumberOfFiles() { return m_Files.size();}
+  std::vector<std::string>::size_type GetNumberOfFiles();
 
   /** Return the file at the given index, the indexing is 0 based */
   const char* GetFile(unsigned int index);
@@ -72,8 +69,7 @@ private:
   Directory(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  std::vector<std::string> m_Files; // Array of Files
-  std::string m_Path;               // Path to Open'ed directory
+  Directory* m_Internal;
 }; // End Class: Directory
 
 } // end namespace itk
