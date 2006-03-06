@@ -35,7 +35,7 @@
 #include "itkImage.h"
 #include "itkThresholdMaximumConnectedComponentsImageFilter.h" 
 
-int ThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv [] )
+int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv [] )
 {
   if( argc < 3 )
     {

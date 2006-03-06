@@ -26,14 +26,15 @@ itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest ITKAlgorithms ITKIO 
                                               ITKBasicFilters ITKFEM)
+
 ADD_EXECUTABLE(itkReviewHeaderTest itkReviewHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewHeaderTest ITKAlgorithms ITKIO 
                                               ITKBasicFilters ITKFEM)
 
 ADD_TEST(itkReviewHeaderTest ${REVIEW_HEADER_TESTS})
 
-ADD_EXECUTABLE(itkReviewTests itkReviewTests.cxx 
-                                  ${ReviewTest_SRCS})
+ADD_EXECUTABLE(itkReviewTests itkReviewTests.cxx ${ReviewTest_SRCS})
+
 TARGET_LINK_LIBRARIES(itkReviewTests 
                       ITKAlgorithms ITKIO 
                       ITKBasicFilters ITKFEM ITKStatistics)
