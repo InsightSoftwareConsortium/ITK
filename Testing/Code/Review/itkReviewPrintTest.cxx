@@ -31,7 +31,7 @@ int main(int , char* [])
   typedef itk::Image<VectorType, 2> VectorImageType;
 
   itk::ThresholdMaximumConnectedComponentsImageFilter<InputType>::Pointer ThresholdMaximumConnectedComponentsImageFilterObj =
-  itk::ThresholdMaximumConnectedComponentsImageFilter<InputType,InputType>::New();
+  itk::ThresholdMaximumConnectedComponentsImageFilter<InputType>::New();
   std:: cout << "-------------ThresholdMaximumConnectedComponentsImageFilter " << ThresholdMaximumConnectedComponentsImageFilterObj;
 
   return 0;
