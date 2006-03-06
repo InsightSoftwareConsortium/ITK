@@ -35,7 +35,7 @@
 #include "itkImage.h"
 #include "itkThresholdMaximumConnectedComponentsImageFilter.h" 
 
-int main( int argc, char * argv[] )
+int ThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv [] )
 {
   if( argc < 3 )
     {
@@ -87,13 +87,13 @@ int main( int argc, char * argv[] )
   // dark objects.
 
   unsigned int numberOfObjects = 0;
-  unsigned int thresholdSetPoint = 0;
+  unsigned int thresholdValue = 0;
 
   typedef itk::ThresholdMaximumConnectedComponentsImageFilter< InputImageType>  ThresholdType;
   ThresholdType::Pointer automaticThreshold = ThresholdType::New();
   
   automaticThreshold->SetInput( reader->GetOutput() );
-  automaticThreshold->SetMinimumPixelArea( minimumPixelArea );
+  automaticThreshold->SetMinimumObjectSizeInPixels( minimumPixelArea );
 
   //For counting Myofibers, the inside value should be the minLabel
   //If you wanted to count a solid object (ie dapi nuclei) ser the
@@ -112,11 +112,11 @@ int main( int argc, char * argv[] )
     std::cerr << err << std::endl;
     }
    
-  numberOfObjects   = automaticThreshold->GetNumberOfObjects();
-  thresholdSetPoint = automaticThreshold->GetThresholdSetPoint();
+  numberOfObjects  = automaticThreshold->GetNumberOfObjects();
+  thresholdValue   = automaticThreshold->GetThresholdValue();
   
-  std::cout << "numberOfObjects = " << numberOfObjects << std::endl;
-  std::cout << "thresholdSetPoint = " << thresholdSetPoint << std::endl;
+  std::cout << "Number of Objects = " << numberOfObjects << std::endl;
+  std::cout << "Threshold Value   = " << thresholdValue  << std::endl;
 
   // *****************************************************************************************
   // Image File Writer
