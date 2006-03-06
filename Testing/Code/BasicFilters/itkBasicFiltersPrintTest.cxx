@@ -141,6 +141,10 @@ int itkBasicFiltersPrintTest(int , char* [])
   typedef itk::DifferenceOfGaussiansGradientImageFilter<CharType3D,
     double> DOGFilterType;
 
+  // Used for BloxBoundaryProfileImageToBloxCoreAtomImageFilter
+  typedef itk::BloxBoundaryProfileImage<3> BloxProfileImageType;
+  typedef itk::BloxCoreAtomImage<3> CoreAtomImageType;
+
   // cygwin linker just can't handle this much code
 #ifndef __CYGWIN__
 
@@ -224,8 +228,8 @@ int itkBasicFiltersPrintTest(int , char* [])
     itk::BloxBoundaryPointToCoreAtomImageFilter<3>::New();
   std::cout << "-------------BloxBoundaryPointToCoreAtomImageFilter" << BloxBoundaryPointToCoreAtomImageFilterObj;
 
-  itk::BloxBoundaryProfileImageToBloxCoreAtomImageFilter<CharType3D, 3>::Pointer BloxBoundaryProfileImageToBloxCoreAtomImageFilterObj =
-    itk::BloxBoundaryProfileImageToBloxCoreAtomImageFilter<CharType3D, 3>::New();
+  itk::BloxBoundaryProfileImageToBloxCoreAtomImageFilter<BloxProfileImageType, CoreAtomImageType, CharType3D>::Pointer BloxBoundaryProfileImageToBloxCoreAtomImageFilterObj =
+    itk::BloxBoundaryProfileImageToBloxCoreAtomImageFilter<BloxProfileImageType, CoreAtomImageType, CharType3D>::New();
   std::cout << "-------------BloxBoundaryProfileImageToBloxCoreAtomImageFilter" << BloxBoundaryProfileImageToBloxCoreAtomImageFilterObj;
 
   itk::CannyEdgeDetectionImageFilter<InputType,OutputType>::Pointer CannyEdgeDetectionImageFilterObj =

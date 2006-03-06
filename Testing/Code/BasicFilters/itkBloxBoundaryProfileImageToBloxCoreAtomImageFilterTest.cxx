@@ -224,9 +224,12 @@ int itkBloxBoundaryProfileImageToBloxCoreAtomImageFilterTest(int, char*[])
 
   //-------------Blox Brofile Core Atom Analysis-----------------------------
   
-  typedef itk::BloxBoundaryProfileImageToBloxCoreAtomImageFilter<ImageType, 3> ProfileCAFilterType;
+  typedef itk::BloxCoreAtomImage<dim> CoreAtomImageType;
+  typedef itk::BloxBoundaryProfileImageToBloxCoreAtomImageFilter<BloxProfileImageType, 
+                                                                 CoreAtomImageType, 
+                                                                 ImageType> ProfileCAFilterType;
   typedef ProfileCAFilterType::Pointer ProfileCAFilterPointerType;
-  typedef ProfileCAFilterType::TOutputImage ProfileCAImageType;
+  typedef ProfileCAFilterType::OutputImageType ProfileCAImageType;
   typedef ProfileCAImageType::Pointer ProfileCAImagePointerType;
 
   /** Pointer to the Boundary Profile Core Atom Images. */

@@ -26,8 +26,8 @@
 namespace itk
 {
 
-template< typename TSourceImage, unsigned int dim >
-BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
+template< typename TInputImage, typename TOutputImage, typename TSourceImage >
+BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TInputImage, TOutputImage, TSourceImage >
 ::BloxBoundaryProfileImageToBloxCoreAtomImageFilter()
 {
   itkDebugMacro(<< "BloxBoundaryProfileImageToBloxCoreAtomImageFilter::BloxBoundaryProfileImageToBloxCoreAtomImageFilter() called");
@@ -40,28 +40,28 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
 }
 
 
-template< typename TSourceImage, unsigned int dim >
+template< typename TInputImage, typename TOutputImage, typename TSourceImage >
 void
-BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
+BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TInputImage, TOutputImage, TSourceImage >
 ::SetInput1(const SourceImageType * image1 ) 
 {
   // Process object is not const-correct so the const casting is required.
   SetNthInput(1,  const_cast<SourceImageType *>( image1 ) );
 }
 
-template< typename TSourceImage, unsigned int dim >
+template< typename TInputImage, typename TOutputImage, typename TSourceImage >
 void
-BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
-::SetInput2(const BoundaryProfileImageType * image2 ) 
+BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TInputImage, TOutputImage, TSourceImage >
+::SetInput2(const InputImageType * image2 ) 
 {
   // Process object is not const-correct so the const casting is required.
-  SetNthInput(0, const_cast<BoundaryProfileImageType *>( image2 ) );
+  SetNthInput(0, const_cast<InputImageType *>( image2 ) );
 }
 
 
-template< typename TSourceImage, unsigned int dim >
+template< typename TInputImage, typename TOutputImage, typename TSourceImage >
 void
-BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
+BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TInputImage, TOutputImage, TSourceImage >
 ::GenerateInputRequestedRegion()
 {
   itkDebugMacro(<< "BloxBoundaryProfileImageToBloxCoreAtomImageFilter::GenerateInputRequestedRegion() called");
@@ -70,9 +70,9 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
 }
 
 
-template< typename TSourceImage, unsigned int dim >
+template< typename TInputImage, typename TOutputImage, typename TSourceImage >
 void
-BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
+BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TInputImage, TOutputImage, TSourceImage >
 ::GenerateData()
 {
   std::cerr << "BloxBoundaryProfileImageToBloxCoreAtomImageFilter: GenerateData()" << std::endl;
@@ -95,13 +95,13 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
   this->FindCoreAtoms();
 }
 
-template< typename TSourceImage, unsigned int dim >
+template< typename TInputImage, typename TOutputImage, typename TSourceImage >
 void
-BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
+BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TInputImage, TOutputImage, TSourceImage >
 ::FindCoreAtoms()
 {
   // Create an iterator to walk the source image
-  typedef ImageRegionConstIterator<BoundaryProfileImageType> ImageIteratorType;
+  typedef ImageRegionConstIterator<InputImageType> ImageIteratorType;
 
   ImageIteratorType imageIt ( m_BoundaryProfileImagePtr,
                               m_BoundaryProfileImagePtr->GetRequestedRegion() );
@@ -110,7 +110,7 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
   for ( imageIt.GoToBegin(); !imageIt.IsAtEnd(); ++imageIt)
     {
     // The iterator for accessing linked list info
-    typename BloxBoundaryProfilePixel<dim>::const_iterator bpiterator;
+    typename BloxBoundaryProfilePixel<NDimensions>::const_iterator bpiterator;
 
     // Walk through all of the elements at the pixel
     for (bpiterator = imageIt.Value().begin(); bpiterator != imageIt.Value().end(); ++bpiterator)
@@ -129,10 +129,10 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
     }  
 }
 
-template< typename TSourceImage, unsigned int dim >
+template< typename TInputImage, typename TOutputImage, typename TSourceImage >
 void
-BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
-::FindCoreAtomsAtBoundaryPoint(BloxBoundaryProfileItem<dim>* pBPOne)
+BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TInputImage, TOutputImage, TSourceImage >
+::FindCoreAtomsAtBoundaryPoint(BloxProfileItemType* pBPOne)
 {
   //typedef BloxBoundaryPointItemBase<NDimensions> BPItemType;
 
@@ -177,7 +177,7 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
     spatialFunc->SetOriginGradient(spatialFunctionGradient);
 
     // Create a seed position for the spatial function iterator we'll use shortly
-    typename BoundaryProfileImageType::IndexType seedIndex;
+    SourceImageIndexType seedIndex;
 
     // Normalize the origin gradient
     VectorType seedVector;
@@ -197,7 +197,7 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
     if( m_BoundaryProfileImagePtr->TransformPhysicalPointToIndex(seedPos, seedIndex) )
       {
       // Create and initialize a spatial function iterator
-      typedef FloodFilledSpatialFunctionConditionalConstIterator<BoundaryProfileImageType, FunctionType> SphereItType;
+      typedef FloodFilledSpatialFunctionConditionalConstIterator<InputImageType, FunctionType> SphereItType;
       SphereItType sfi = SphereItType(m_BoundaryProfileImagePtr, spatialFunc, seedIndex);
 
       // Walk the spatial function
@@ -362,7 +362,7 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
               pCoreAtom->SetDiameter(coreAtomDiameter);
 
               // Figure out the data space coordinates of the center
-              IndexType coreAtomPos;
+              OutputImageIndexType coreAtomPos;
           
               m_OutputPtr->TransformPhysicalPointToIndex(coreAtomCenter, coreAtomPos);
          
@@ -377,9 +377,9 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
     }
 }
 
-template< typename TSourceImage, unsigned int dim >
+template< typename TInputImage, typename TOutputImage, typename TSourceImage >
 void
-BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
+BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TInputImage, TOutputImage, TSourceImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
