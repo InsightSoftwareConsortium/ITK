@@ -78,7 +78,7 @@ class ITK_EXPORT VectorImage :
 public:
   /** Standard class typedefs */
   typedef VectorImage                  Self;
-  typedef ImageBase<VImageDimension>   Superclass;
+  typedef Image< VariableLengthVector< TPixel >, VImageDimension >   Superclass;
   typedef SmartPointer<Self>           Pointer;
   typedef SmartPointer<const Self>     ConstPointer;
   typedef WeakPointer<const Self>      ConstWeakPointer;
