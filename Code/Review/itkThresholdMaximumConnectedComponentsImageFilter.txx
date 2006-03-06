@@ -96,13 +96,13 @@ void ThresholdMaximumConnectedComponentsImageFilter<TImage>
   // generates an error message. This converts any pixel type to the internal filter type. At the 
   // end of this filter, the output image is converted back to the input pixel type 
   typedef CastImageFilter < InputImageType, FilterImageType >  InputToFilterCastFilterType;
-  InputToFilterCastFilterType::Pointer inputToFilterCastFilter= InputToFilterCastFilterType::New();
+  typename InputToFilterCastFilterType::Pointer inputToFilterCastFilter= InputToFilterCastFilterType::New();
   inputToFilterCastFilter->SetInput(inputPtr);
   inputToFilterCastFilter->Update(); 
   
   //Binary Threshold Filter
   typedef BinaryThresholdImageFilter<FilterImageType, FilterImageType>  ThresholdFilterType;
-  ThresholdFilterType::Pointer thresholdFilter = ThresholdFilterType::New();
+  typename ThresholdFilterType::Pointer thresholdFilter = ThresholdFilterType::New();
   thresholdFilter->SetInput( inputToFilterCastFilter->GetOutput() );
   thresholdFilter->SetOutsideValue( m_OutsideValue );
   thresholdFilter->SetInsideValue( m_InsideValue );
@@ -112,13 +112,13 @@ void ThresholdMaximumConnectedComponentsImageFilter<TImage>
 
   //Connected Components Filter  
   typedef ConnectedComponentImageFilter< FilterImageType, FilterImageType > ConnectedFilterType;
-  ConnectedFilterType::Pointer connectedComponent = ConnectedFilterType::New();
+  typename ConnectedFilterType::Pointer connectedComponent = ConnectedFilterType::New();
   connectedComponent->SetInput( thresholdFilter->GetOutput() );
   connectedComponent->Update();
   
   //Relabeled Components Filter    
   typedef RelabelComponentImageFilter< FilterImageType, FilterImageType > RelabelFilterType;
-  RelabelFilterType::Pointer labeledComponent = RelabelFilterType::New();
+  typename RelabelFilterType::Pointer labeledComponent = RelabelFilterType::New();
   labeledComponent->SetInput( connectedComponent->GetOutput() );
   labeledComponent->Update();
   m_NumberOfObjects = labeledComponent->GetNumberOfObjects();
@@ -192,7 +192,7 @@ void ThresholdMaximumConnectedComponentsImageFilter<TImage>::GenerateData( void 
     midpointR = ( upperBound - ( upperBound - midpoint ) / 2 );
 
     itkDebugMacro("new midpointL:" << midpointL << "new midpoint:" << midpoint << "new midpointR:" << midpointR );
-    itkDebugMacro("Iteration # :" << j << );
+    itkDebugMacro("Iteration # :" << j );
     
     j++; 
     
@@ -213,7 +213,7 @@ void ThresholdMaximumConnectedComponentsImageFilter<TImage>::GenerateData( void 
   //
   //Binary Threshold Filter
   typedef BinaryThresholdImageFilter<InputImageType, InputImageType>  ThresholdFilterType;
-  ThresholdFilterType::Pointer thresholdFilter = ThresholdFilterType::New();
+  typename ThresholdFilterType::Pointer thresholdFilter = ThresholdFilterType::New();
   thresholdFilter->SetInput( inputPtr );
   thresholdFilter->SetOutsideValue( m_OutsideValue );
   thresholdFilter->SetInsideValue( m_InsideValue );

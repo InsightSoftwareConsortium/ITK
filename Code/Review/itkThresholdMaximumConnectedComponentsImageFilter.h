@@ -151,11 +151,11 @@ private:
   /** Typedef for filter pixel type.  */   
   typedef unsigned int FilterPixelType;
 
-  itkStaticConstMacro( ImageDimension, unsigned int, TImage::Dimension );
+  itkStaticConstMacro( ImageDimension, unsigned int, TImage::ImageDimension );
 
   typedef itk::Image< FilterPixelType, ImageDimension > FilterImageType; 
 
-  typedef FilterImageType::Pointer FilterImagePointer;
+  typedef typename FilterImageType::Pointer FilterImagePointer;
 
   ThresholdMaximumConnectedComponentsImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -197,7 +197,7 @@ private:
 } // end namespace itk
   
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "ThresholdMaximumConnectedComponentsImageFilter.txx"
+#include "itkThresholdMaximumConnectedComponentsImageFilter.txx"
 #endif
   
 #endif
