@@ -45,8 +45,6 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv
     return EXIT_FAILURE;
     }
 
-  // Read the Input Image
-  std::cout << "About to load image 'InputImage.tif' from root directory" << std::endl;
 
   typedef unsigned char InputPixelType;
   typedef unsigned char OutputPixelType;
@@ -61,12 +59,15 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv
   InputPixelType maxLabel= itk::NumericTraits<InputPixelType>::max();
   InputPixelType minLabel= itk::NumericTraits<InputPixelType>::min(); 
   
-  const unsigned int minimumPixelArea = atoi(argv[3]);
+  const unsigned int minimumPixelArea = atoi( argv[3] );
  
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
 
   reader->SetFileName( argv[1] );
+
+  // Read the Input Image
+  std::cout << "About to load input image " << std::endl;
 
   try
     {
