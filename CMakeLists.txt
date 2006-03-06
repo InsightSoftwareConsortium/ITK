@@ -131,6 +131,12 @@ OPTION(ITK_USE_PATENTED "Build algorithms that are covered with Patents. It is Y
 MARK_AS_ADVANCED(ITK_USE_PATENTED)
 
 #-----------------------------------------------------------------------------
+# ITK build classes that are in the review process
+OPTION(ITK_USE_REVIEW "Build algorithms that are candidates to be included in the Toolkit. This classes are not covered by the Backward Compatibility Policy, nor the Copyright Policy of ITK." OFF)
+MARK_AS_ADVANCED(ITK_USE_REVIEW)
+
+
+#-----------------------------------------------------------------------------
 # Do we need CableSwig?
 SET(ITK_NEED_CableSwig 0)
 

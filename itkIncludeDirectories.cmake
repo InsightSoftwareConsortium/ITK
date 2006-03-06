@@ -70,6 +70,17 @@ IF(ITK_USE_PATENTED)
 ENDIF(ITK_USE_PATENTED)
 
 
+# Review include directories added only if the user explicitly enabled the
+# ITK_USE_REVIEW option. Users are responsible for getting a license from the
+# copyright holders in order to use any of those methods. The methods are not
+# covered by the backward compatibility policy either.
+IF(ITK_USE_REVIEW)
+  SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
+    ${ITK_SOURCE_DIR}/Code/Review
+    )
+ENDIF(ITK_USE_REVIEW)
+
+
 #-----------------------------------------------------------------------------
 # Include directories needed for .cxx files in ITK.  These include
 # directories will NOT be available to user projects.
@@ -118,6 +129,17 @@ IF(ITK_USE_PATENTED)
     ${ITK_INSTALL_INCLUDE_DIR}/Patented
     )
 ENDIF(ITK_USE_PATENTED)
+
+# Review include directories added only if the user explicitly enabled the
+# ITK_USE_REVIEW option. Users are responsible for getting a license from the
+# copyright holders in order to use any of those methods. The methods are not
+# covered by the backward compatibility policy either.
+IF(ITK_USE_REVIEW)
+  SET(ITK_INCLUDE_DIRS_INSTALL_TREE ${ITK_INCLUDE_DIRS_INSTALL_TREE}
+    ${ITK_INSTALL_INCLUDE_DIR}/Review
+    )
+ENDIF(ITK_USE_REVIEW)
+
 
 #-----------------------------------------------------------------------------
 # Include directories for 3rd-party utilities provided by ITK.
