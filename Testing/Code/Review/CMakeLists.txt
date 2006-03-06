@@ -33,6 +33,15 @@ ADD_TEST( itkThresholdMaximumConnectedComponentsImageFilterTest1
           ${INPUTDATA}/CellsFluorescence1.png
           ${TEMP}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png 10)
 
+ADD_TEST( itkThresholdMaximumConnectedComponentsImageFilterTest2 
+          ${REVIEW_TESTS} 
+  --compare ${BASELINE}/itkThresholdMaximumConnectedComponentsImageFilterTest2.png
+            ${TEMP}/itkThresholdMaximumConnectedComponentsImageFilterTest2.png
+          itkThresholdMaximumConnectedComponentsImageFilterTest 
+          ${INPUTDATA}/CellsFluorescence2.png
+          ${TEMP}/itkThresholdMaximumConnectedComponentsImageFilterTest2.png 10)
+
+
 SET(ReviewTest_SRCS
 itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
 )
