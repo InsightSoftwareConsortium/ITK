@@ -137,6 +137,11 @@ public:
   void GetModel(char* model);
   void GetScanOptions(char *options);
 
+  /** More general method to retrieve an arbitrary DICOM value based
+   * on a DICOM Tag (eg "0123|4567").
+   */
+  bool GetValueFromTag(const std::string & tag, std::string & value);
+
   /** Method for consulting the DICOM dictionary and recovering the text
    * description of a field using its numeric tag represented as a string.  If
    * the tagkey is not found in the dictionary then this static method return

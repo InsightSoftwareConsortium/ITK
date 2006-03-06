@@ -953,6 +953,11 @@ void GDCMImageIO::GetScanOptions( char *name)
   strcpy (name, m_ScanOptions.c_str());
 }
 
+bool GDCMImageIO::GetValueFromTag(const std::string & tag, std::string & value)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  return ExposeMetaData<std::string>(dict, tag, value);
+}
 
 bool GDCMImageIO::GetLabelFromTag( const std::string & tagkey, 
                                          std::string & labelId )

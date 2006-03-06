@@ -371,6 +371,36 @@ int main( int argc, char* argv[] )
 
       }
 
+// Software Guide : BeginLatex
+// 
+//  Another way to read a specific tag is to use the encapsulation above MetaDataDictionary
+//  Note that this is stricly equivalent to the above code.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
+    std::string tagkey = "0008|1050";
+    std::string labelId;
+    if( itk::GDCMImageIO::GetLabelFromTag( tagkey, labelId ) )
+      {
+      std::string value;
+      std::cout << labelId << " (" << tagkey << "): ";
+      if( dicomIO->GetValueFromTag(tagkey, value) )
+        {
+        std::cout << value;
+        }
+      else
+        {
+        std::cout << "(No Value Found in File)";
+        }
+      std::cout << std::endl;
+      }
+    else
+      {
+      std::cerr << "Trying to access inexistant DICOM tag." << std::endl;
+      }
+// Software Guide : EndCodeSnippet
+
 
 // Software Guide : BeginLatex
 // 
@@ -379,6 +409,7 @@ int main( int argc, char* argv[] )
 // \code{Insight/Utilities/gdcm/Dicts/dicomV3.dic}
 //
 // Software Guide : EndLatex
+
 
   return EXIT_SUCCESS;
 
