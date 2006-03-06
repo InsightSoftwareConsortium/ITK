@@ -18,6 +18,7 @@
 #define __itkDirectory_h
 
 #include "itkObject.h"
+#include <itksys/Directory.hxx>
 
 namespace itk
 {
@@ -29,10 +30,11 @@ namespace itk
  *
  * itk::Directory works with Windows and Unix (POSIX) operating systems.
  * \ingroup OSSystemObjects 
+ *
+ * See also itksys::Directory
  */
 
 
-class Directory;
 class ITKCommon_EXPORT Directory : public Object
 {
 public:
@@ -69,7 +71,7 @@ private:
   Directory(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  Directory* m_Internal;
+  itksys::Directory* m_Internal;
 }; // End Class: Directory
 
 } // end namespace itk

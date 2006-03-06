@@ -15,7 +15,6 @@
 
 =========================================================================*/
 #include "itkDirectory.h"
-#include <itksys/Directory.hxx>
 
 namespace itk
 {
@@ -25,7 +24,7 @@ namespace itk
  */
 Directory::Directory() 
 {
-  m_Internal = new Directory;
+  m_Internal = new itksys::Directory;
 }
 
 /**
@@ -57,6 +56,14 @@ void Directory::PrintSelf(std::ostream& os, Indent indent) const
 bool Directory::Load(const char* dir)
 {
   return m_Internal->Load(dir);
+}
+
+/**
+ *
+ */
+std::vector<std::string>::size_type Directory::GetNumberOfFiles()
+{
+  return m_Internal->GetNumberOfFiles();
 }
 
 /**
