@@ -76,6 +76,7 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv
     {
     std::cerr << "Exception Caught!" << std::endl;
     std::cerr << err << std::endl;
+    return EXIT_FAILURE;
     }
 
   // ****************************************************************************
@@ -110,6 +111,7 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv
     {
     std::cerr << "Exception Caught!" << std::endl;
     std::cerr << err << std::endl;
+    return EXIT_FAILURE;
     }
    
   numberOfObjects  = automaticThreshold->GetNumberOfObjects();
@@ -135,6 +137,7 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv
     {
     std::cerr << "Exception Caught!" << std::endl;
     std::cerr << err << std::endl;
+    return EXIT_FAILURE;
     }
   
   return EXIT_SUCCESS;

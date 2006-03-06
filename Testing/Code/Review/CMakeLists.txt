@@ -16,8 +16,13 @@ SET(REVIEW_HEADER_TESTS ${CXX_TEST_PATH}/itkReviewHeaderTest)
 
 ADD_TEST(itkReviewPrintTest ${REVIEW_PRINT_TEST})
 
-ADD_TEST( itkThresholdMaximumConnectedComponentsImageFilterTest
-          ${REVIEW_TESTS} itkThresholdMaximumConnectedComponentsImageFilterTest)
+ADD_TEST( itkThresholdMaximumConnectedComponentsImageFilterTest1
+          ${REVIEW_TESTS} itkThresholdMaximumConnectedComponentsImageFilterTest
+  --compare ${BASELINE}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png
+            ${TEMP}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png
+            itkThresholdMaximumConnectedComponentsImageFilterTest 
+            ${INPUTDATA}/CellsFluorescence1.png
+            ${TEMP}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png 10)
 
 SET(ReviewTest_SRCS
 itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
