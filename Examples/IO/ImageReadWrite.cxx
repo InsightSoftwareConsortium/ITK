@@ -91,7 +91,7 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned short      PixelType;
+  typedef short      PixelType;
   const   unsigned int        Dimension = 2;
   typedef itk::Image< PixelType, Dimension >    ImageType;
   // Software Guide : EndCodeSnippet

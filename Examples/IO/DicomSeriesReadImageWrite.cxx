@@ -81,7 +81,7 @@ int main( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<unsigned short,3>            ImageType;
+  typedef itk::Image<short,3>            ImageType;
   typedef itk::ImageSeriesReader< ImageType >     ReaderType;
 
   itk::DICOMImageIO2::Pointer dicomIO = itk::DICOMImageIO2::New();
