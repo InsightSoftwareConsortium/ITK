@@ -241,6 +241,7 @@ void GDCMImageIO::Read(void* buffer)
   gdcm::FileHelper gfile;
   gfile.SetFileName( m_FileName );
   gfile.Load();
+
   size_t size = gfile.GetImageDataSize();
   unsigned char *source = (unsigned char*)gfile.GetImageData();
 
@@ -782,18 +783,41 @@ void GDCMImageIO::Write(const void* buffer)
       default:
         itkExceptionMacro(<<"DICOM does not support this component type");
       }
-
-    // Write component specific information in the header:
-    header->InsertValEntry( bitsAllocated, 0x0028, 0x0100 ); //Bits Allocated
-    header->InsertValEntry( bitsStored, 0x0028, 0x0101 ); //Bits Stored
-    header->InsertValEntry( highBit, 0x0028, 0x0102 ); //High Bit
-    header->InsertValEntry( pixelRep, 0x0028, 0x0103 ); //Pixel Representation
     }
-  else
+  else if( m_NumberOfComponents == 3 )
     {
     // Write the image as RGB DICOM
     gfile->SetWriteModeToRGB();
+    switch (this->GetComponentType())
+      {
+      case ImageIOBase::CHAR:
+        bitsAllocated = "24"; // Bits Allocated
+        bitsStored    = "24"; // Bits Stored
+        highBit       = "24"; // High Bit
+        pixelRep      = "1"; // Pixel Representation
+        break;
+
+      case ImageIOBase::UCHAR:
+        bitsAllocated = "24"; // Bits Allocated
+        bitsStored    = "24"; // Bits Stored
+        highBit       = "24"; // High Bit
+        pixelRep      = "0"; // Pixel Representation
+        break;
+
+      default:
+        itkExceptionMacro(<<"DICOM does not support this component type");
+      }
     }
+  else
+    {
+    itkExceptionMacro(<<"DICOM does not support RGBPixels with components != 3");
+    }
+
+  // Write component specific information in the header:
+  header->InsertValEntry( bitsAllocated, 0x0028, 0x0100 ); //Bits Allocated
+  header->InsertValEntry( bitsStored, 0x0028, 0x0101 ); //Bits Stored
+  header->InsertValEntry( highBit, 0x0028, 0x0102 ); //High Bit
+  header->InsertValEntry( pixelRep, 0x0028, 0x0103 ); //Pixel Representation
 
   if( !m_KeepOriginalUID )
   {
@@ -821,12 +845,16 @@ void GDCMImageIO::Write(const void* buffer)
   //copy data from buffer to DICOM buffer
   uint8_t* imageData = new uint8_t[numberOfBytes];
   memcpy(imageData, buffer, numberOfBytes);
- 
+
   // Here we are passing directly a pointer, this should
   gfile->SetUserData( imageData, numberOfBytes);
   if( ! gfile->Write( m_FileName ) )
     {
-    itkExceptionMacro(<< "Cannot write requested file:" << m_FileName );
+    itkExceptionMacro(<< "Cannot write the requested file:"
+                      << m_FileName
+                      << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     }
 
   // Clean up
