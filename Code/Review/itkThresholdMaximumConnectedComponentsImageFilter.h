@@ -159,7 +159,7 @@ private:
 
   itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
 
-  typedef itk::Image< FilterPixelType, ImageDimension > FilterImageType; 
+  typedef itk::Image< FilterPixelType, itkGetStaticConstMacro(ImageDimension) > FilterImageType; 
 
   typedef typename FilterImageType::Pointer FilterImagePointer;
 
