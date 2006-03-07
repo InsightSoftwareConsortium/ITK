@@ -29,10 +29,6 @@
 #include "itkNumericTraits.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
-#include "itkBinaryThresholdImageFilter.h"
-#include "itkConnectedComponentImageFilter.h"
-#include "itkRelabelComponentImageFilter.h"
-#include "itkCastImageFilter.h"
 
 
 
@@ -46,6 +42,19 @@ template <class TInputImage>
 ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
 ::ThresholdMaximumConnectedComponentsImageFilter()
 {
+
+  m_ThresholdFilter = ThresholdFilterType::New();
+
+  m_ConnectedComponent = ConnectedFilterType::New();
+
+  m_LabeledComponent = RelabelFilterType::New();
+ 
+  //
+  // Connecting the internal pipeline.
+  // 
+  m_ConnectedComponent->SetInput( m_ThresholdFilter->GetOutput() );
+  m_LabeledComponent->SetInput( m_ConnectedComponent->GetOutput() );
+
 
   const PixelType maxLabel = NumericTraits<PixelType>::max();
   const PixelType minLabel = NumericTraits<PixelType>::min(); 
@@ -76,62 +85,22 @@ void ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
 ::ComputeConnectedComponents()
 {
 
-  // Get the input and output pointers
-  typename Superclass::InputImageConstPointer  inputPtr = this->GetInput();
+  m_ThresholdFilter->SetLowerThreshold( m_ThresholdValue );
 
-  // Convert input pixel to internal pixel type
-  // This is necessary for images with a pixel type that has a maximum value that is less than the 
-  // number of connected components in the image. For example, an unsigned char image has a maximum
-  // pixel value of 255, however if the image has 300 objects, the connected components filter 
-  // generates an error message. This converts any pixel type to the internal filter type. At the 
-  // end of this filter, the output image is converted back to the input pixel type.
-  //
-  typedef CastImageFilter < InputImageType, FilterImageType >  InputToFilterCastFilterType;
-  typename InputToFilterCastFilterType::Pointer inputToFilterCastFilter= InputToFilterCastFilterType::New();
-
-  inputToFilterCastFilter->SetInput( inputPtr );
+  m_LabeledComponent->Update();
+  
+  const unsigned long totalNumberOfConnectedComponents = m_LabeledComponent->GetNumberOfObjects();
   
   //
-  // Binary Threshold Filter
-  //
-  typedef BinaryThresholdImageFilter< FilterImageType, InputImageType >  ThresholdFilterType;
-  typename ThresholdFilterType::Pointer thresholdFilter = ThresholdFilterType::New();
-
-  thresholdFilter->SetInput( inputToFilterCastFilter->GetOutput() );
-  thresholdFilter->SetOutsideValue( m_OutsideValue );
-  thresholdFilter->SetInsideValue( m_InsideValue );
-  thresholdFilter->SetLowerThreshold( m_ThresholdValue );
-  thresholdFilter->SetUpperThreshold( m_UpperBoundary );
-
-  // 
-  // Connected Components Filter  
-  //
-  typedef ConnectedComponentImageFilter< InputImageType, FilterImageType > ConnectedFilterType;
-  typename ConnectedFilterType::Pointer connectedComponent = ConnectedFilterType::New();
-
-  connectedComponent->SetInput( thresholdFilter->GetOutput() );
-  
-  //
-  // Relabeled Components Filter    
-  //
-  typedef RelabelComponentImageFilter< FilterImageType, FilterImageType > RelabelFilterType;
-  typename RelabelFilterType::Pointer labeledComponent = RelabelFilterType::New();
-
-  labeledComponent->SetInput( connectedComponent->GetOutput() );
-  labeledComponent->Update();
-  
-  const unsigned long totalNumberOfConnectedComponents = labeledComponent->GetNumberOfObjects();
-  
-  //
-  // Count Valid Connected Components 
-  // This removes any cc's that are below the input minimum pixel area
+  // Count Valid Connected Components. 
+  // This removes any connected components that are below the input minimum pixel area.
   // 
   m_NumberOfConnectedComponentsInThisIteration = 0;
 
   for( int i=0; i < totalNumberOfConnectedComponents; i++ )
     {
 
-    const unsigned int connectedComponentSize = labeledComponent->GetSizeOfObjectsInPixels()[i];
+    const unsigned int connectedComponentSize = m_LabeledComponent->GetSizeOfObjectsInPixels()[i];
     
     if( connectedComponentSize > m_MinimumObjectSizeInPixels )
       {
@@ -153,8 +122,20 @@ void ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
  * Remove the comments on the output statements to see how the search strategy works.   
  */
 template <class TInputImage>
-void ThresholdMaximumConnectedComponentsImageFilter<TInputImage>::GenerateData( void )
+void ThresholdMaximumConnectedComponentsImageFilter< TInputImage >
+::GenerateData( void )
 {
+  
+  //
+  //  Setup pointers for to get input image and send info to ouput image
+  //
+  typename Superclass::InputImageConstPointer  inputPtr  = this->GetInput();
+  
+  m_ThresholdFilter->SetInput( inputPtr );
+  m_ThresholdFilter->SetOutsideValue( m_OutsideValue );
+  m_ThresholdFilter->SetInsideValue( m_InsideValue );
+  m_ThresholdFilter->SetUpperThreshold( m_UpperBoundary );
+
 
   const PixelType maxLabel = NumericTraits<PixelType>::max();
   const PixelType minLabel = NumericTraits<PixelType>::min(); 
@@ -218,51 +199,15 @@ void ThresholdMaximumConnectedComponentsImageFilter<TInputImage>::GenerateData( 
   //
   m_ThresholdValue = midpoint;
   
+  m_ThresholdFilter->SetLowerThreshold( m_ThresholdValue );
+  m_ThresholdFilter->Update();
+
   //
-  //  Setup pointers for to get input image and send info to ouput image
-  //
-  typename Superclass::InputImageConstPointer  inputPtr = this->GetInput();
-  typename Superclass::OutputImagePointer outputPtr = this->GetOutput(0);
+  // Graft the output of the thresholding filter to the output of this filter.
+  // 
+  this->GraftOutput( m_ThresholdFilter->GetOutput() );
   
-  outputPtr->SetRequestedRegion( inputPtr->GetRequestedRegion() );
-  outputPtr->SetBufferedRegion( inputPtr->GetBufferedRegion() );
-  outputPtr->SetLargestPossibleRegion( inputPtr->GetLargestPossibleRegion() );
-  outputPtr->Allocate();  
-  
-  //
-  //Binary Threshold Filter
-  typedef BinaryThresholdImageFilter<InputImageType, InputImageType>  ThresholdFilterType;
-  typename ThresholdFilterType::Pointer thresholdFilter = ThresholdFilterType::New();
-  thresholdFilter->SetInput( inputPtr );
-  thresholdFilter->SetOutsideValue( m_OutsideValue );
-  thresholdFilter->SetInsideValue( m_InsideValue );
-  thresholdFilter->SetLowerThreshold( m_ThresholdValue );
-  thresholdFilter->SetUpperThreshold( m_UpperBoundary );
-  thresholdFilter->Update();
-   
-  //
-  // Writes to Output Image Pointer
-  // This converts the image from the filter pixel type back to the input pixel type.
-  //
-  //  REVIEW COMMENT: Why not just grafting the output image ???
-  //
-  typename Superclass::OutputImagePointer tempOutputPtr = thresholdFilter->GetOutput();
-  typedef    ImageRegionConstIterator< InputImageType >    InputIterator;
-  typedef    ImageRegionIterator< OutputImageType >        OutputIterator;
-  
-  InputIterator  it1( tempOutputPtr, inputPtr->GetLargestPossibleRegion() );
-  OutputIterator it2( outputPtr, outputPtr->GetLargestPossibleRegion() );
-  inputPtr = thresholdFilter->GetOutput();
-  
-  it1.GoToBegin();
-  it2.GoToBegin();
-  while (!it1.IsAtEnd()) 
-    {
-    it2.Set ( it1.Get() );
-    ++it1;
-    ++it2;
-    }    
-  
+
 } // end of GenerateData Process
 
 

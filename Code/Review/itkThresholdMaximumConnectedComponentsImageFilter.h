@@ -23,6 +23,10 @@
 #define __ThresholdMaximumConnectedComponentsImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
+#include "itkBinaryThresholdImageFilter.h"
+#include "itkConnectedComponentImageFilter.h"
+#include "itkRelabelComponentImageFilter.h"
+#include "itkCastImageFilter.h"
 
 #include "itkConceptChecking.h"
 
@@ -162,6 +166,33 @@ private:
   ThresholdMaximumConnectedComponentsImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
    
+  
+  //
+  // Binary Threshold Filter
+  //
+  typedef BinaryThresholdImageFilter< InputImageType, InputImageType >  ThresholdFilterType;
+
+  
+  // 
+  // Connected Components Filter  
+  //
+  typedef ConnectedComponentImageFilter< InputImageType, FilterImageType > ConnectedFilterType;
+
+  
+  //
+  // Relabeled Components Filter    
+  //
+  typedef RelabelComponentImageFilter< FilterImageType, FilterImageType > RelabelFilterType;
+
+  
+  // 
+  // Declare member variables for the filters of the internal pipeline.
+  //
+  typename ThresholdFilterType::Pointer            m_ThresholdFilter;
+  typename ConnectedFilterType::Pointer            m_ConnectedComponent;
+  typename RelabelFilterType::Pointer              m_LabeledComponent;
+
+
   // Variables defined by the user
   unsigned int m_MinimumObjectSizeInPixels;
   
