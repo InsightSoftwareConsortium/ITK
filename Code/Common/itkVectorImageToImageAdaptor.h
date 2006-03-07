@@ -57,7 +57,7 @@ public:
   /** The pixel type that TInternalContainerType holds */
   typedef TType                  PixelType;
 
-  inline void Set(InternalType & output, const ExternalType & input) const
+  inline void Set(InternalType output, const ExternalType & input) const
     { 
     output[m_ComponentIdx] = input;
     }
