@@ -233,10 +233,14 @@ MapContainer< TElementIdentifier , TElement >
 }
 
 /**
- * Tell the container to allocate enough memory to allow at least
- * as many elements as the size given to be stored.  This is NOT
- * guaranteed to actually allocate any memory, but is useful if the
- * implementation of the container allocates contiguous storage.
+ * Tell the container to allocate enough memory to allow at least as many
+ * elements as the size given to be stored.  This is NOT guaranteed to actually
+ * allocate any memory, but is useful if the implementation of the container
+ * allocates contiguous storage.
+ *
+ * \warning In the particular case of the MapContainer, this method only
+ * allocates memory for one element, not for the ones with index between zero
+ * and "size".
  */
 template <typename TElementIdentifier, typename TElement>
 void

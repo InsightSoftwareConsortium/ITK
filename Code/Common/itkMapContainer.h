@@ -164,24 +164,120 @@ public:
     friend class Iterator;
   };
 
-  /** Declare the public interface routines. */
+  /* Declare the public interface routines. */
+
+  /**
+   * Get a reference to the element at the given index.
+   * If the index does not exist, it is created automatically.
+   *
+   * It is assumed that the value of the element is modified through the
+   * reference.
+   */
   Element& ElementAt(ElementIdentifier);
+
+  /**
+   * Get a reference to the element at the given index.
+   *
+   */
   const Element& ElementAt(ElementIdentifier) const;
+
+  /**
+   * Get a reference to the element at the given index.
+   * If the index does not exist, it is created automatically.
+   *
+   * It is assumed that the value of the element is modified through the
+   * reference.
+   */
   Element& CreateElementAt(ElementIdentifier);
+
+  /**
+   * Get the element at the specified index.  There is no check for
+   * existence performed.
+   */
   Element GetElement(ElementIdentifier) const;
+
+  /**
+   * Set the given index value to the given element.  If the index doesn't
+   * exist, it is automatically created.
+   */
   void SetElement(ElementIdentifier, Element);
+
+  /**
+   * Set the given index value to the given element.  If the index doesn't
+   * exist, it is automatically created.
+   */
   void InsertElement(ElementIdentifier, Element);
+
+  /**
+   * Check if the STL map has an entry corresponding to the given index.
+   * The count will be either 1 or 0.
+   */
   bool IndexExists(ElementIdentifier) const;
+
+  /**
+   * If the given index doesn't exist in the map, return false.
+   * Otherwise, set the element through the pointer (if it isn't null), and
+   * return true.
+   */
   bool GetElementIfIndexExists(ElementIdentifier, Element*) const;
+
+  /**
+   * The map will create an entry for a given index through the indexing
+   * operator.  Whether or not it is created, it will be assigned to the
+   * default element.
+   */
   void CreateIndex(ElementIdentifier);
+
+  /**
+   * Delete the entry in the STL map corresponding to the given identifier.
+   * If the entry does not exist, nothing happens.
+   */
   void DeleteIndex(ElementIdentifier);
+
+  /**
+   * Get a begin const iterator for the map.
+   */
   ConstIterator Begin(void) const;
+
+  /**
+   * Get an end const iterator for the map.
+   */
   ConstIterator End(void) const;  
+
+  /**
+   * Get a begin const iterator for the map.
+   */
   Iterator Begin(void);
+
+  /**
+   * Get an end const iterator for the map.
+   */
   Iterator End(void);  
+  
+  /**
+   * Get the number of elements currently stored in the map.
+   */
   unsigned long Size(void) const;
+
+  /**
+   * Tell the container to allocate enough memory to allow at least
+   * as many elements as the size given to be stored.  This is NOT
+   * guaranteed to actually allocate any memory, but is useful if the
+   * implementation of the container allocates contiguous storage.
+   */
   void Reserve(ElementIdentifier);
+
+  /**
+   * Tell the container to try to minimize its memory usage for storage of
+   * the current number of elements.  This is NOT guaranteed to decrease
+   * memory usage.
+   */
   void Squeeze(void);
+
+  /**
+   * Tell the container to release any memory it may have allocated and
+   * return itself to its initial state.
+   */
   void Initialize(void);
     
 };
