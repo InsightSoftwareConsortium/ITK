@@ -55,6 +55,10 @@ namespace itk
  *
  * The API of this class is similar to Image.
  *
+ * \section Caveats:
+ * When using Iterators on this image, you cannot use the it.Value(). You must use
+ * Set/Get() methods instead.
+ *
  * \note
  * This work is part of the National Alliance for Medical Image Computing 
  * (NAMIC), funded by the National Institutes of Health through the NIH Roadmap
