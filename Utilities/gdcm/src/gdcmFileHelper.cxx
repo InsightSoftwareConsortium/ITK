@@ -1481,6 +1481,12 @@ void FileHelper::CheckMandatoryElements()
        // if missing, Pixel Spacing forced to "1.0\1.0"
       CopyMandatoryEntry(0x0028,0x0030,pixelSpacing);
    }
+   std::string imageOrientationPatient = FileInternal->GetEntryValue(0x0020,0x0037);
+   if ( imageOrientationPatient == GDCM_UNFOUND )
+   {
+      imageOrientationPatient = "1\\0\\0\\0\\1\\0";
+      CopyMandatoryEntry(0x0020,0x0037,imageOrientationPatient);
+   }
    
    // 'Imager Pixel Spacing' : defaulted to 'Pixel Spacing'
    // --> This one is the *legal* one !
@@ -1597,7 +1603,16 @@ void FileHelper::CheckMandatoryElements()
 
    // Instance Number
    CheckMandatoryEntry(0x0020,0x0013,"");
-   
+  
+   // Patient Orientation    
+   // Can be computed from (0020|0037) :  Image Orientation (Patient)    
+   gdcm::Orientation o;    
+   std::string ori = o.GetOrientation ( FileInternal );    
+   if (ori != "\\" && ori != GDCM_UNFOUND)    
+      CheckMandatoryEntry(0x0020,0x0020,ori);    
+   else    
+      CheckMandatoryEntry(0x0020,0x0020,"");
+
    // Modality : if missing we set it to 'OTher'
    CheckMandatoryEntry(0x0008,0x0060,"OT");
 
