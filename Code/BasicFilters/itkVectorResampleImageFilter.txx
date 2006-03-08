@@ -45,6 +45,11 @@ VectorResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType>
   m_Transform = IdentityTransform<TInterpolatorPrecisionType, ImageDimension>::New();
   m_Interpolator = VectorLinearInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>::New();
   m_DefaultPixelValue.Fill(0);
+
+// Borland does not produce reliable results for nulti processors
+#ifdef __BORLANDC__
+  this->SetNumberOfThreads(1);
+#endif
 }
 
 
