@@ -676,12 +676,12 @@ void GDCMImageIO::Write(const void* buffer)
   header->InsertValEntry( str.str(), 0x0028,0x0010); // Rows
 
   if(m_Dimensions.size() > 2 && m_Dimensions[2]>1)
-  {
-     str.str("");
-     str << m_Dimensions[2];
-     //header->Insert(str.str(),0x0028,0x0012); // Planes
-     header->InsertValEntry(str.str(),0x0028,0x0008); // Number of Frames
-  }
+    {
+    str.str("");
+    str << m_Dimensions[2];
+    //header->Insert(str.str(),0x0028,0x0012); // Planes
+    header->InsertValEntry(str.str(),0x0028,0x0008); // Number of Frames
+    }
 
   // Handle pixel spacing:
   str.str("");
@@ -689,6 +689,15 @@ void GDCMImageIO::Write(const void* buffer)
   str << m_Spacing[1] << "\\" << m_Spacing[0];
   header->InsertValEntry(str.str(),0x0028,0x0030); // Pixel Spacing
 
+  // Anyway we will still allow writting of the 3d component of the spacing
+  // when we are writing 3d images:
+  if(m_Dimensions.size() > 2 && m_Dimensions[2]>1)
+    {
+    str.str("");
+    str << m_Spacing[2];
+    header->InsertValEntry(str.str(),0x0018,0x0088); // Spacing Between Slices
+    }
+ 
 // This code still needs work. Spacing, origin and direction are all
 // 3D, yet the image is 2D. If the user set these, all is well,
 // because the user will pass in the proper number (3) of
@@ -700,10 +709,6 @@ void GDCMImageIO::Write(const void* buffer)
 // patient and the row/column direction cosines.
 
 #if 0
-  str.str("");
-  str << m_Spacing[2];
-  header->InsertValEntry(str.str(),0x0018,0x0088); // Spacing Between Slices
- 
   // Handle Origin = Image Position Patient
   // Origin must be converted into LPS coordinates
   // DICOM specifies its origin in LPS coordinate, regardless of how
