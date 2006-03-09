@@ -28,18 +28,16 @@ namespace itk
 /** \class RealTimeClock
 * \brief The RealTimeClock provides a timestamp from a real-time clock
 *
-* This class represents a real-time clock object 
+* This class represents a real-time clock object
 * and provides a timestamp in platform-independent format.
 *
 * \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
 *                     ISIS Center, Georgetown University.
 */
 
-class ITKCommon_EXPORT RealTimeClock : public itk::Object
+class ITKCommon_EXPORT RealTimeClock : public Object
 {
-  
 public:
-  
   typedef RealTimeClock Self;
   typedef itk::Object Superclass;
   typedef itk::SmartPointer< Self > Pointer;
@@ -59,10 +57,10 @@ public:
 
   /** Returns a timestamp in seconds   e.g. 52.341243 seconds */
   TimeStampType GetTimeStamp() const;
-  TimeStampType GetTimestamp() const 
+  TimeStampType GetTimestamp() const
     {
     itkWarningMacro("This call is deprecated. "
-        "Its namimg was not conforming to ITK Style. "
+        "Its naming was not conforming to ITK Style. "
         "Please use GetTimeStamp() instead. Note the capital S");
     return this->GetTimeStamp();
     }
@@ -82,16 +80,11 @@ protected:
   virtual void PrintSelf( std::ostream& os, itk::Indent indent ) const;
 
 private:
-  
   FrequencyType    m_Frequency;
-
   TimeStampType    m_Difference;
-
   TimeStampType    m_Origin;
-
 };
 
 } // end of namespace itk
-
 
 #endif  // __itkRealTimeClock_h

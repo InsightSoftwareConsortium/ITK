@@ -58,7 +58,7 @@ namespace itk
 
    */
   template <class MetaDataObjectType>
-    class ITK_EXPORT MetaDataObject: public itk::MetaDataObjectBase
+    class ITK_EXPORT MetaDataObject: public MetaDataObjectBase
     {
       public:
         /** Smart pointer typedef support. */
