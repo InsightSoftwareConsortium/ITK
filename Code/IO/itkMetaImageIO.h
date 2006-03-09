@@ -93,7 +93,7 @@ public:
    */
   virtual void SetDoublePrecision(unsigned int precision)
   {
-    m_MetaImage->SetDoublePrecision(precision);
+    m_MetaImage.SetDoublePrecision(precision);
   }
 protected:
   MetaImageIO();
