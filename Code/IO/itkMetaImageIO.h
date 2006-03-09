@@ -89,6 +89,12 @@ public:
       independent files */
   virtual void SetDataFileName( const char * filename );
 
+  /** set the precision in the MetaImage member
+   */
+  virtual void SetDoublePrecision(unsigned int precision)
+  {
+    m_MetaImage->SetDoublePrecision(precision);
+  }
 protected:
   MetaImageIO();
   ~MetaImageIO();
