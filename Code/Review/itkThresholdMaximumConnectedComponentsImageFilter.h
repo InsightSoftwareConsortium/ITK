@@ -149,7 +149,7 @@ protected:
 
   /* Runs a series of filters that thresholds the image, dilates/erodes for edge enhancement, 
    * and counts the number of relabeled connected components  */
-  void ComputeConnectedComponents(void); 
+  unsigned long int ComputeConnectedComponents(void); 
 
 
 private:
@@ -205,7 +205,6 @@ private:
   // Filter variables
   PixelType      m_ThresholdValue;
   unsigned long  m_NumberOfObjects;
-  unsigned long  m_NumberOfConnectedComponentsInThisIteration;
 
   
 };

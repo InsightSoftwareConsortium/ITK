@@ -81,7 +81,8 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
  * 
  */
 template <class TInputImage>
-void ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
+unsigned long int
+ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
 ::ComputeConnectedComponents()
 {
 
@@ -95,7 +96,7 @@ void ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
   // Count Valid Connected Components. 
   // This removes any connected components that are below the input minimum pixel area.
   // 
-  m_NumberOfConnectedComponentsInThisIteration = 0;
+  unsigned long int numberOfConnectedComponentsInThisIteration = 0;
 
   for( int i=0; i < totalNumberOfConnectedComponents; i++ )
     {
@@ -104,9 +105,11 @@ void ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
     
     if( connectedComponentSize > m_MinimumObjectSizeInPixels )
       {
-      m_NumberOfConnectedComponentsInThisIteration++;
+      numberOfConnectedComponentsInThisIteration++;
       }
     } // end of for loop       
+
+  return numberOfConnectedComponentsInThisIteration;
 
 }  //  end of ComputeConnectedComponents()
 
@@ -156,14 +159,13 @@ void ThresholdMaximumConnectedComponentsImageFilter< TInputImage >
     
     m_ThresholdValue = midpointR;
     
-    this->ComputeConnectedComponents();
+    const unsigned long connectedComponentsRight = 
+                                          this->ComputeConnectedComponents();
     
-    const unsigned long connectedComponentsRight = m_NumberOfConnectedComponentsInThisIteration;
     m_ThresholdValue = midpointL;
     
-    this->ComputeConnectedComponents();
-    
-    const unsigned long connectedComponentsLeft = m_NumberOfConnectedComponentsInThisIteration;
+    const unsigned long connectedComponentsLeft =
+                                          this->ComputeConnectedComponents();
     
     if( connectedComponentsRight > connectedComponentsLeft ) 
       {
@@ -222,6 +224,9 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
 {
   Superclass::PrintSelf(os,indent);
 
+  os << indent << "InsideValue: "
+     << static_cast<typename NumericTraits<PixelType>::PrintType>( m_InsideValue )
+     << std::endl;
   os << indent << "OutsideValue: "
      << static_cast<typename NumericTraits<PixelType>::PrintType>( m_OutsideValue )
      << std::endl;
@@ -231,6 +236,10 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
   os << indent << "Upper: "
      << static_cast<typename NumericTraits<PixelType>::PrintType>( m_UpperBoundary )
      << std::endl;
+  os << indent << "Threshold Value: "
+     << static_cast<typename NumericTraits<PixelType>::PrintType>( m_ThresholdValue )
+     << std::endl;
+  os << indent << "Number of Objects: " <<  m_NumberOfObjects << std::endl;
 }
 
 
