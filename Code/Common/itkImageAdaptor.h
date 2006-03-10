@@ -220,7 +220,6 @@ public:
    * the image iterator class. */
   InternalPixelType *GetBufferPointer();
   const InternalPixelType *GetBufferPointer() const;
-  void GetBufferPointer2( InternalPixelPointerType  & );
   
   /** Set the spacing (size of a pixel) of the image. */
   virtual void SetSpacing( const SpacingType values );
