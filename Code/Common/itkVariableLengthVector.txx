@@ -295,6 +295,22 @@ VariableLengthVector<TValueType >
   return false;
 }
 
+/**
+ * Returns vector's Squared Euclidean Norm
+ */
+template < typename TValueType > 
+typename VariableLengthVector< TValueType >::RealValueType
+VariableLengthVector<TValueType >
+::GetSquaredNorm( void ) const
+{
+  RealValueType sum = 0.0;
+  for( unsigned int i=0; i< this->m_NumElements; i++) 
+    {
+    const RealValueType value = (*this)[i];
+    sum += value * value;
+    }
+  return sum;
+}
 
 } // namespace itk
 

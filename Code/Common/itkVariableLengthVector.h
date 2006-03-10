@@ -18,6 +18,7 @@
 #define __itkVariableLengthVector_h
 
 #include "itkMacro.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -71,6 +72,7 @@ public:
   /** The element type stored at each location in the Array. */
   typedef TValueType           ValueType;
   typedef TValueType           ComponentType;
+  typedef typename NumericTraits< ValueType >::RealType RealValueType;
   typedef VariableLengthVector Self;
 
   /** Typedef used to indicate the number of elements in the vector */
@@ -379,7 +381,8 @@ public:
   bool operator==( const Self &v) const;
   bool operator!=( const Self &v) const;
     
-
+  /** Returns vector's Squared Euclidean Norm  */
+  RealValueType GetSquaredNorm() const;
 
 private:
 
