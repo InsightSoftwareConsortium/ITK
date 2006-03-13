@@ -1939,10 +1939,21 @@ void Document::FixDocEntryFoundLength(DocEntry *entry,
    // Occurence of such images is quite low (unless one leaves close to a
    // 'Leonardo' source. Hence, one might consider commenting out the
    // following fix on efficiency reasons.
-   else if ( gr   == 0x0009 && ( elem == 0x1113 || elem == 0x1114 ) )
+   else if ( gr == 0x0009 && ( elem == 0x1113 || elem == 0x1114 ) )
    {
-      foundLength = 4;
-      entry->SetReadLength(4); // a bug is to be fixed !
+      // Ideally we should check we are in Explicit and double check
+      // that VR=UL... this is done properly in gdcm2
+      if( foundLength == 6 )
+      {
+         gdcmWarningMacro( "Replacing Length from 6 into 4" );
+         foundLength = 4;
+         entry->SetReadLength(4); // a bug is to be fixed !
+      }
+      else if ( foundLength%4 )
+      {
+         gdcmErrorMacro( "This looks like to a buggy Siemens DICOM file."
+          "The length of this tag seems to be wrong" );
+      }
    } 
  
    else if ( entry->GetVR() == "SQ" )
