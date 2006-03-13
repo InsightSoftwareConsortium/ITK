@@ -49,9 +49,13 @@ ENDIF(BUILD_WRAPPERS)
 #be linked to all the libraries you specified      above.
 #You can build more than one executable            per project
 
+IF(BUILD_TESTING)
+
 SET(CurrentExe "check")
 ADD_EXECUTABLE(${ CurrentExe } ${ CurrentExe }.cxx)
 TARGET_LINK_LIBRARIES(${ CurrentExe } ${ Libraries })
+
+ENDIF(BUILD_TESTING)
 
 #the following line is an example of how to add a test to your project.
 #Testname is the title for this particular test.ExecutableToRun is the
