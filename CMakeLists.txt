@@ -135,6 +135,10 @@ MARK_AS_ADVANCED(ITK_USE_PATENTED)
 OPTION(ITK_USE_REVIEW "Build algorithms that are candidates to be included in the Toolkit. This classes are not covered by the Backward Compatibility Policy, nor the Copyright Policy of ITK." OFF)
 MARK_AS_ADVANCED(ITK_USE_REVIEW)
 
+#-----------------------------------------------------------------------------
+# ITK turn on concept checking
+OPTION(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." OFF)
+MARK_AS_ADVANCED(ITK_USE_CONCEPT_CHECKING)
 
 #-----------------------------------------------------------------------------
 # Do we need CableSwig?

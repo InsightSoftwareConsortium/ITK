@@ -122,9 +122,6 @@ public:
   typedef typename TInputImage::PixelType  InputPixelType;
   typedef typename TOutputImage::PixelType OutputPixelType;
 
-  /** The input pixel type must support comparison operators. */
-  itkConceptMacro(PixelTypeComparable, (Concept::Comparable<InputPixelType>));
-
   /** Type of DataObjects to use for scalar inputs */
   typedef SimpleDataObjectDecorator<InputPixelType> InputPixelObjectType;
   
@@ -158,7 +155,16 @@ public:
   virtual InputPixelType GetLowerThreshold() const;
   virtual InputPixelObjectType *GetLowerThresholdInput();
   virtual const InputPixelObjectType *GetLowerThresholdInput() const;
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(OutputEqualityComparableCheck,
+                  (Concept::EqualityComparable<OutputPixelType>));
+  itkConceptMacro(PixelTypeComparable,
+                  (Concept::Comparable<InputPixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   BinaryThresholdImageFilter();
   virtual ~BinaryThresholdImageFilter() {}

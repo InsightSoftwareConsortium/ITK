@@ -18,6 +18,7 @@
 #define __itkAbsImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
+#include "itkConceptChecking.h"
 
 namespace itk
 {
@@ -67,7 +68,15 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(ConvertibleCheck,
+    (Concept::Convertible<typename TInputImage::PixelType,
+                          typename TOutputImage::PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   AbsImageFilter() {}
   virtual ~AbsImageFilter() {}
