@@ -30,10 +30,13 @@ SET(Libraries ITKCommon ITKBasicFilters ITKIO)
 
 
 #install devel files
+OPTION(INSTALL_DEVEL_FILES "Install C++ headers" ON)
+IF(INSTALL_DEVEL_FILES)
 FILE(GLOB develFiles *.h *.txx)
 FOREACH(f ${ develFiles })
 INSTALL_FILES(/ include / InsightToolkit / BasicFilters FILES ${ f })
 ENDFOREACH(f)
+ENDIF(INSTALL_DEVEL_FILES)
 
 
 #option for wrapping
