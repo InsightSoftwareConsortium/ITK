@@ -68,7 +68,15 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<typename TInputImage::PixelType::value_type,
+                          typename TOutputImage::PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   ComplexToImaginaryImageFilter() {}
   virtual ~ComplexToImaginaryImageFilter() {}
