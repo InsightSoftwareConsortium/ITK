@@ -196,11 +196,20 @@ int main( int argc, char * argv [] )
   typedef GeneratorType::HistogramType  HistogramType;
 
   HistogramType::SizeType size;
-  size.Fill( 255 );
+  size.Fill( 256 );
 
   generator->SetListSample( adaptor );
   generator->SetNumberOfBins( size );
   generator->SetMarginalScale( 10.0 );
+
+  HistogramType::MeasurementVectorType min;
+  HistogramType::MeasurementVectorType max;
+  
+  min.Fill(   0 );
+  max.Fill( 255 );
+  
+  generator->SetHistogramMin( min );
+  generator->SetHistogramMax( max );
 
   generator->Update();
 // Software Guide : EndCodeSnippet
