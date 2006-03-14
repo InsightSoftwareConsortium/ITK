@@ -170,7 +170,7 @@ struct Convertible
   {
     void constraints()
       {
-      T2 b = a;
+      T2 b = static_cast<T2>(a);
       Detail::IgnoreUnusedVariable(b);
       }
     T1 a;
