@@ -75,6 +75,30 @@ ScalarImageToHistogramGenerator< TImage >
 }
 
 
+template < class TImage >
+void
+ScalarImageToHistogramGenerator< TImage >
+::SetHistogramMin( RealPixelType minimumValue ) 
+{
+  typedef typename GeneratorType::MeasurementVectorType     MeasurementVectorType;
+  MeasurementVectorType minVector;
+  minVector[0] = minimumValue;
+  m_HistogramGenerator->SetHistogramMin( minVector );
+}
+
+
+template < class TImage >
+void
+ScalarImageToHistogramGenerator< TImage >
+::SetHistogramMax( RealPixelType maximumValue ) 
+{
+  typedef typename GeneratorType::MeasurementVectorType     MeasurementVectorType;
+  MeasurementVectorType maxVector;
+  maxVector[0] = maximumValue;
+  m_HistogramGenerator->SetHistogramMax( maxVector );
+}
+
+
 
 template < class TImage >
 void

@@ -48,10 +48,11 @@ public:
                                                       >   AdaptorType;
   typedef typename AdaptorType::Pointer                   AdaptorPointer;
   typedef typename ImageType::PixelType                   PixelType;
+  typedef typename NumericTraits< PixelType >::RealType   RealPixelType;
 
   typedef itk::Statistics::ListSampleToHistogramGenerator< 
                                   AdaptorType, 
-                                  PixelType,
+                                  RealPixelType,
                                   DenseFrequencyContainer
                                                           > GeneratorType;
 
@@ -80,6 +81,11 @@ public:
   /** Set marginal scale value to be passed to the histogram generator */
   void SetMarginalScale( double marginalScale );
 
+  /** Set the minimum value from which the bins will be computed */
+  void SetHistogramMin( RealPixelType minimumValue );
+
+  /** Set the maximum value from which the bins will be computed */
+  void SetHistogramMax( RealPixelType maximumValue );
 
 protected:
   ScalarImageToHistogramGenerator();
