@@ -22,6 +22,7 @@
 #include "itkHistogram.h"
 #include "itkStatisticsAlgorithm.h"
 #include "itkDenseFrequencyContainer.h"
+#include "itkNumericTraits.h"
 
 namespace itk{
 namespace Statistics{
@@ -87,7 +88,11 @@ public:
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TMeasurementVectorLength);
 
-  typedef Histogram< THistogramMeasurement, 
+  /** Type needed for defining the limits of the histogram bins */
+  typedef typename NumericTraits< THistogramMeasurement >::RealType 
+                                                 HistogramMeasurementRealType;
+
+  typedef Histogram< HistogramMeasurementRealType, 
                      itkGetStaticConstMacro(MeasurementVectorSize),
                      TFrequencyContainer > HistogramType ;
 
