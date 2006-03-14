@@ -205,8 +205,8 @@ int main( int argc, char * argv [] )
   HistogramType::MeasurementVectorType min;
   HistogramType::MeasurementVectorType max;
   
-  min.Fill(   0 );
-  max.Fill( 255 );
+  min.Fill(   -0.5 );
+  max.Fill(  255.5 );
   
   generator->SetHistogramMin( min );
   generator->SetHistogramMax( max );
