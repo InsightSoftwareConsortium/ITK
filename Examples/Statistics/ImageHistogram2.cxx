@@ -145,10 +145,12 @@ int main( int argc, char * argv [] )
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  histogramGenerator->SetNumberOfBins( 255 );
+  histogramGenerator->SetNumberOfBins( 256 );
   histogramGenerator->SetMarginalScale( 10.0 );
-// Software Guide : EndCodeSnippet
 
+  histogramGenerator->SetHistogramMin(  -0.5 );
+  histogramGenerator->SetHistogramMax( 255.5 );
+// Software Guide : EndCodeSnippet
 
 
 // Software Guide : BeginLatex
