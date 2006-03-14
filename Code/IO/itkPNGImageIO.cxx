@@ -445,7 +445,7 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
     //            of the Exception and prevent the catch() from recognizing it.
     //            For details, see Bug # 1872 in the bugtracker.
 
-    ::itk::ExceptionObject excp(__FILE__, __LINE__, "Problem while openeing the file.", "WriteSlice"); 
+    ::itk::ExceptionObject excp(__FILE__, __LINE__, "Problem while opening the file.", ITK_LOCATION); 
     throw excp; 
     }
 
