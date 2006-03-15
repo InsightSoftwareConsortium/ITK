@@ -4,9 +4,9 @@
 #include <fstream>
 #include <string>
 
-#include <metaUtils.h>
-#include <metaObject.h>
-#include <metaTransform.h>
+#include "metaUtils.h"
+#include "metaObject.h"
+#include "metaTransform.h"
 
 /** MetaTransform constructors */
 MetaTransform::

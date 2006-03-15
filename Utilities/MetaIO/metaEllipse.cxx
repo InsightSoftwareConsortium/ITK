@@ -5,9 +5,9 @@
 #include <string>
 #include <string.h> // for memset
 
-#include <metaUtils.h>
-#include <metaObject.h>
-#include <metaEllipse.h>
+#include "metaUtils.h"
+#include "metaObject.h"
+#include "metaEllipse.h"
 
 //
 // MedImage Constructors

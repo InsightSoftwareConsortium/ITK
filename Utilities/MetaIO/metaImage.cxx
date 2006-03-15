@@ -7,10 +7,11 @@
 #include <math.h>
 
 
-#include <metaUtils.h>
-#include <metaObject.h>
-#include <metaImage.h>
-#include <zlib.h>
+#include "metaUtils.h"
+#include "metaObject.h"
+#include "metaImage.h"
+
+#include "zlib.h"
 
 //
 // MetaImage Constructors
@@ -205,6 +206,12 @@ PrintInfo() const
     std::cout << "Min and Max are not valid" << std::endl;
     }
 
+  std::cout << "ElementToIntensityFunctionSlope = " 
+            << m_ElementToIntensityFunctionSlope << std::endl;
+  std::cout << "ElementToIntensityFunctionOffset = " 
+            << m_ElementToIntensityFunctionOffset << std::endl;
+  
+
   std::cout << "AutoFreeElementData = " 
             << ((m_AutoFreeElementData)?"True":"False") << std::endl;
 
@@ -226,6 +233,8 @@ CopyInfo(const MetaImage * _im)
   SequenceID(_im->SequenceID());
   ElementMin(_im->ElementMin());
   ElementMax(_im->ElementMax());
+  ElementToIntensityFunctionSlope(_im->ElementToIntensityFunctionSlope());
+  ElementToIntensityFunctionOffset(_im->ElementToIntensityFunctionOffset());
   }
 
 int MetaImage::
@@ -503,6 +512,30 @@ ElementMax(double _elementMax)
   m_ElementMax = _elementMax;
   }
 
+double MetaImage::
+ElementToIntensityFunctionSlope(void) const
+  {
+  return m_ElementToIntensityFunctionSlope;
+  }
+
+void MetaImage::
+ElementToIntensityFunctionSlope(double _elementToIntensityFunctionSlope)
+  {
+  m_ElementToIntensityFunctionSlope = _elementToIntensityFunctionSlope;
+  }
+
+double MetaImage::
+ElementToIntensityFunctionOffset(void) const
+  {
+  return m_ElementToIntensityFunctionOffset;
+  }
+
+void MetaImage::
+ElementToIntensityFunctionOffset(double _elementOffset)
+  {
+  m_ElementToIntensityFunctionOffset = _elementOffset;
+  }
+
 bool MetaImage::
 ConvertElementDataTo(MET_ValueEnumType _elementType,
                      double _toMin, double _toMax)
@@ -537,6 +570,40 @@ ConvertElementDataTo(MET_ValueEnumType _elementType,
   m_AutoFreeElementData = true;
 
   return true;
+  }
+
+bool MetaImage::
+ConvertElementDataToIntensityData(MET_ValueEnumType _elementType)
+  {
+  ElementByteOrderFix();
+  if(!ElementMinMaxValid())
+    {
+    ElementMinMaxRecalc();
+    }
+
+  double toMin = m_ElementMin + m_ElementToIntensityFunctionOffset;
+  double toMax = (m_ElementMax-m_ElementMin) 
+                   * m_ElementToIntensityFunctionSlope 
+                   + m_ElementMin;
+
+  return ConvertElementDataTo(_elementType, toMin, toMax);
+  }
+
+bool MetaImage::
+ConvertIntensityDataToElementData(MET_ValueEnumType _elementType)
+  {
+  ElementByteOrderFix();
+  if(!ElementMinMaxValid())
+    {
+    ElementMinMaxRecalc();
+    }
+
+  double toMin = m_ElementMin - m_ElementToIntensityFunctionOffset;
+  double toMax = (m_ElementMax - m_ElementMin) 
+                   / m_ElementToIntensityFunctionSlope 
+                   + toMin;
+
+  return ConvertElementDataTo(_elementType, toMin, toMax);
   }
 
 void * MetaImage::
@@ -1153,6 +1220,9 @@ Clear(void)
   m_SubQuantity[0] = 0;
   m_DimSize[0] = 0;
 
+  m_ElementToIntensityFunctionSlope = 1;
+  m_ElementToIntensityFunctionOffset = 0;
+
   MetaObject::Clear();
 
   m_BinaryData = true;
@@ -1298,6 +1368,14 @@ M_SetupReadFields(void)
   MET_InitReadField(mF, "ElementNBits", MET_INT, false);
   m_Fields.push_back(mF);
 
+  mF = new MET_FieldRecordType;  // Used by ConvertElementToIntensity funcs
+  MET_InitReadField(mF, "ElementToIntensityFunctionSlope", MET_FLOAT, false);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;  // Used by ConvertElementToIntensity funcs
+  MET_InitReadField(mF, "ElementToIntensityFunctionOffset", MET_FLOAT, false);
+  m_Fields.push_back(mF);
+
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ElementType", MET_STRING, true);
   mF->required = true;
@@ -1392,6 +1470,19 @@ M_SetupWriteFields(void)
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "ElementSize", MET_FLOAT_ARRAY, m_NDims,
                        m_ElementSize);
+    m_Fields.push_back(mF);
+    }
+
+  if(m_ElementToIntensityFunctionSlope != 1 ||
+     m_ElementToIntensityFunctionOffset != 0)
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "ElementToIntensityFunctionSlope",
+                       MET_FLOAT, m_ElementToIntensityFunctionSlope);
+    m_Fields.push_back(mF);
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "ElementToIntensityFunctionOffset",
+                       MET_FLOAT, m_ElementToIntensityFunctionOffset);
     m_Fields.push_back(mF);
     }
 
@@ -1705,6 +1796,19 @@ M_Read(void)
       {
       m_ElementSize[i] = m_ElementSpacing[i];
       }
+    }
+
+  m_ElementToIntensityFunctionSlope = 1;
+  m_ElementToIntensityFunctionOffset = 0;
+  mF = MET_GetFieldRecord("ElementToIntensityFunctionSlope", &m_Fields);
+  if(mF && mF->defined)
+    {
+    m_ElementToIntensityFunctionSlope = mF->value[0];
+    }
+  mF = MET_GetFieldRecord("ElementToIntensityFunctionOffset", &m_Fields);
+  if(mF && mF->defined)
+    {
+    m_ElementToIntensityFunctionOffset = mF->value[0];
     }
 
   mF = MET_GetFieldRecord("ElementType", &m_Fields);

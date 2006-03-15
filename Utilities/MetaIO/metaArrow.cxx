@@ -4,9 +4,9 @@
 #include <fstream>
 #include <string>
 
-#include <metaUtils.h>
-#include <metaObject.h>
-#include <metaArrow.h>
+#include "metaUtils.h"
+#include "metaObject.h"
+#include "metaArrow.h"
 
 //
 // Constructors

@@ -20,10 +20,10 @@
 #ifndef META_ITK_UTILS_H
 #define META_ITK_UTILS_H
 
-#include<metaImage.h>
-#include<itkImage.h>
-#include<itkProcessObject.h>
-#include<itkImageRegionIterator.h>
+#include "metaImage.h"
+#include "itkImage.h"
+#include "itkProcessObject.h"
+#include "itkImageRegionIterator.h"
 
 
 template <class T>

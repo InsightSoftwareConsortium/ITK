@@ -10,8 +10,8 @@
 #include <arpa/inet.h>
 #endif
 
-#include <metaTypes.h>
-#include <metaUtils.h>
+#include "metaTypes.h"
+#include "metaUtils.h"
 
 #include <stdlib.h>
 #include <string>

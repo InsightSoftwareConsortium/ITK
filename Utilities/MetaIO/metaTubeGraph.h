@@ -1,9 +1,9 @@
 #ifndef METATUBEGRAPH_H
 #define METATUBEGRAPH_H
 
-#include <metaTypes.h>
-#include <metaUtils.h>
-#include <metaObject.h>
+#include "metaTypes.h"
+#include "metaUtils.h"
+#include "metaObject.h"
 
 #include <vector>
 

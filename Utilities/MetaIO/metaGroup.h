@@ -1,9 +1,9 @@
 #ifndef METAGroup_H
 #define METAGroup_H
 
-#include <metaTypes.h>
-#include <metaUtils.h>
-#include <metaObject.h>
+#include "metaTypes.h"
+#include "metaUtils.h"
+#include "metaObject.h"
 
 #include <list>
 

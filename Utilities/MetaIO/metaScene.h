@@ -1,9 +1,9 @@
 #ifndef METASCENE_H
 #define METASCENE_H
 
-#include <metaTypes.h>
-#include <metaUtils.h>
-#include <metaObject.h>
+#include "metaTypes.h"
+#include "metaUtils.h"
+#include "metaObject.h"
 
 #include <list>
 

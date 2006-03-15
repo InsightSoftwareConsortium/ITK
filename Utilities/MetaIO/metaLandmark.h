@@ -1,9 +1,9 @@
 #ifndef METALANDMARK_H
 #define METALANDMARK_H
 
-#include <metaTypes.h>
-#include <metaUtils.h>
-#include <metaObject.h>
+#include "metaTypes.h"
+#include "metaUtils.h"
+#include "metaObject.h"
 
 #include <list>
 

@@ -1,9 +1,9 @@
 #ifndef METAEllipse_H
 #define METAEllipse_H
 
-#include <metaTypes.h>
-#include <metaUtils.h>
-#include <metaObject.h>
+#include "metaTypes.h"
+#include "metaUtils.h"
+#include "metaObject.h"
 
 #include <list>
 

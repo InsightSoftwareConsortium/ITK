@@ -6,8 +6,8 @@
 #include <math.h>
 
 
-#include <metaUtils.h>
-#include <metaObject.h>
+#include "metaUtils.h"
+#include "metaObject.h"
 
 int META_DEBUG = 0;
 //
@@ -25,6 +25,7 @@ MetaObject(void)
   m_FileName[0] = '\0';
   m_Event = NULL;
   m_DoublePrecision = 6;
+  m_DistanceUnits = MET_DISTANCE_UNITS_UNKNOWN;
   }
 
 MetaObject::
@@ -39,6 +40,7 @@ MetaObject(const char * _fileName)
   this->Read(_fileName);
   m_Event = NULL;
   m_DoublePrecision = 6;
+  m_DistanceUnits = MET_DISTANCE_UNITS_UNKNOWN;
   }
 
 MetaObject::
@@ -54,6 +56,7 @@ MetaObject(unsigned int dim)
   InitializeEssential(dim);
   m_Event = NULL;
   m_DoublePrecision = 6;
+  m_DistanceUnits = MET_DISTANCE_UNITS_UNKNOWN;
   }
 
 
@@ -212,6 +215,7 @@ CopyInfo(const MetaObject * _object)
   Name(_object->Name());
   BinaryData(_object->BinaryData());
   BinaryDataByteOrderMSB(_object->BinaryDataByteOrderMSB());
+  DistanceUnits(_object->DistanceUnits());
   }
 
 bool MetaObject::
@@ -289,9 +293,9 @@ Write(const char *_fileName)
   M_SetupWriteFields();
 
   if(!m_WriteStream)
-  {
+    {
     m_WriteStream = new std::ofstream;
-  }  
+    }  
  
 #ifdef __sgi
   // Create the file. This is required on some older sgi's
@@ -300,9 +304,9 @@ Write(const char *_fileName)
 #endif
   m_WriteStream->open(m_FileName,std::ios::binary | std::ios::out);
   if(!m_WriteStream->is_open())
-  {
+    {
     return false;
-  }
+    }
 
   bool result = M_Write();
 
@@ -329,18 +333,30 @@ PrintInfo(void) const
   std::cout << "ID = " << m_ID << std::endl;
   std::cout << "ParentID = " << m_ParentID << std::endl;
   if(m_CompressedData)
+    {
     std::cout << "CompressedData = True" << std::endl;
+    }
   else
+    {
     std::cout << "CompressedData = False" << std::endl;
+    }
   std::cout << "m_CompressedDataSize = " << m_CompressedDataSize << std::endl;
   if(m_BinaryData)
+    {
     std::cout << "BinaryData = True" << std::endl;
+    }
   else
+    {
     std::cout << "BinaryData = False" << std::endl;
+    }
   if(m_BinaryData && m_BinaryDataByteOrderMSB)
+    {
     std::cout << "BinaryDataByteOrderMSB = True" << std::endl;
+    }
   else
+    {
     std::cout << "BinaryDataByteOrderMSB = False" << std::endl;
+    }
   std::cout << "Color = " ;
   for(i=0; i<4; i++)
     {
@@ -381,6 +397,7 @@ PrintInfo(void) const
     }
   std::cout << std::endl;
 
+  std::cout << "DistanceUnits = " << this->DistanceUnitsName() << std::endl;
 
   // Print User's fields : 
   FieldsContainerType::const_iterator  itw = m_UserDefinedWriteFields.begin();
@@ -697,6 +714,45 @@ CenterOfRotation(int _i, double _value)
   }
 
 //
+const char * MetaObject::
+DistanceUnitsName(void) const
+  {
+  return (const char *)(MET_DistanceUnitsTypeName[m_DistanceUnits]);
+  }
+
+MET_DistanceUnitsEnumType MetaObject::
+DistanceUnits(void) const
+  {
+  return m_DistanceUnits;
+  }
+
+void MetaObject::
+DistanceUnits(MET_DistanceUnitsEnumType _distanceUnits)
+  {
+  m_DistanceUnits = _distanceUnits;
+  }
+
+void MetaObject::
+DistanceUnits(const char * _distanceUnits)
+  {
+  int i;
+  bool found = false;
+  for(i=0; i<MET_NUM_DISTANCE_UNITS_TYPES; i++)
+    {
+    if(!strcmp(_distanceUnits, MET_DistanceUnitsTypeName[i]))
+      {
+      m_DistanceUnits = static_cast<MET_DistanceUnitsEnumType>(i);
+      found = true;
+      break;
+      }
+    }
+  if(!found)
+    {
+    m_DistanceUnits = MET_DISTANCE_UNITS_UNKNOWN;
+    }
+  }
+
+//
 //
 const char * MetaObject::
 AnatomicalOrientationAcronym(void) const
@@ -928,6 +984,8 @@ Clear(void)
   m_CompressedData = false;
   m_WriteCompressedDataSize = true;
 
+  m_DistanceUnits = MET_DISTANCE_UNITS_UNKNOWN;
+
   if(META_DEBUG) 
     {
     std::cout << "MetaObject: Clear: m_NDims=" << m_NDims << std::endl;
@@ -1093,6 +1151,10 @@ M_SetupReadFields(void)
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "DistanceUnits", MET_STRING, false);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "AnatomicalOrientation", MET_STRING, false);
   m_Fields.push_back(mF);
 
@@ -1106,10 +1168,10 @@ M_SetupReadFields(void)
   FieldsContainerType::iterator  it  = m_UserDefinedReadFields.begin();
   FieldsContainerType::iterator  end = m_UserDefinedReadFields.end();
   while( it != end )
-  {
+    {
     m_Fields.push_back(*it); 
     it++;
-  }
+    }
 
 
  }
@@ -1255,6 +1317,15 @@ M_SetupWriteFields(void)
   MET_InitWriteField(mF, "CenterOfRotation", MET_FLOAT_ARRAY, m_NDims,
                      m_CenterOfRotation);
   m_Fields.push_back(mF);
+
+  if(m_DistanceUnits != MET_DISTANCE_UNITS_UNKNOWN)
+    {
+    const char * str = DistanceUnitsName();
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "DistanceUnits",
+                       MET_STRING, strlen(str), str);
+    m_Fields.push_back(mF);
+    }
 
   if(m_AnatomicalOrientation[0] != MET_ORIENTATION_UNKNOWN)
     {
@@ -1490,10 +1561,16 @@ M_Read(void)
       }
     }
 
+  mF = MET_GetFieldRecord("DistanceUnits", &m_Fields);
+  if(mF && mF->defined)
+    {
+    DistanceUnits((const char *)(mF->value));
+    }
+
   mF = MET_GetFieldRecord("AnatomicalOrientation", &m_Fields);
   if(mF && mF->defined)
     {
-    AnatomicalOrientation((char *)(mF->value));
+    AnatomicalOrientation((const char *)(mF->value));
     }
 
   mF = MET_GetFieldRecord("ElementSpacing", &m_Fields);

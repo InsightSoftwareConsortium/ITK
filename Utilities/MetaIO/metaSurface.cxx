@@ -4,9 +4,9 @@
 #include <fstream>
 #include <string>
 
-#include <metaUtils.h>
-#include <metaObject.h>
-#include <metaSurface.h>
+#include "metaUtils.h"
+#include "metaObject.h"
+#include "metaSurface.h"
 
 //
 // MetaSurface Constructors

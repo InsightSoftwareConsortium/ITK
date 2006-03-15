@@ -128,8 +128,21 @@ const char MET_OrientationTypeName[MET_NUM_ORIENTATION_TYPES][3] = {
    {'S','I','\0'},
    {'I','S','\0'},
    {'?','?','\0'}};
-
    
+
+// Type associated with the units for distance measures reported in the header
+typedef enum { MET_DISTANCE_UNITS_UNKNOWN, MET_DISTANCE_UNITS_UM,
+               MET_DISTANCE_UNITS_MM, MET_DISTANCE_UNITS_CM 
+             } MET_DistanceUnitsEnumType;
+
+#define MET_NUM_DISTANCE_UNITS_TYPES 4
+
+const char MET_DistanceUnitsTypeName[MET_NUM_DISTANCE_UNITS_TYPES][3] = {
+    {'?', '\0', '\0'},
+    {'u', 'm', '\0'},
+    {'m', 'm', '\0'},
+    {'c', 'm', '\0'}};
+
 // Structure used to define a field (variable = value definition) in a MetaFile
 typedef struct
    {

@@ -5,9 +5,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <metaTypes.h>
-#include <metaUtils.h>
-#include <metaObject.h>
+#include "metaTypes.h"
+#include "metaUtils.h"
+#include "metaObject.h"
 
 #include <list>
 

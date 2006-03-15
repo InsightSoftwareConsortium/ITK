@@ -4,8 +4,8 @@
 #include <iostream>
 #include <fstream>
 
-#include <metaUtils.h>
-#include <metaEvent.h>
+#include "metaUtils.h"
+#include "metaEvent.h"
 
 extern int META_DEBUG;
 
@@ -42,6 +42,8 @@ class MetaObject
 
       MET_OrientationEnumType m_AnatomicalOrientation[10];
 
+      MET_DistanceUnitsEnumType m_DistanceUnits;   // "DistanceUnits = mm"
+
       float m_ElementSpacing[10];   // "ElementSpacing = "   0,0,0
 
       float m_Color[4];             // "Color = "            1.0, 0.0, 0.0, 1.0
@@ -57,7 +59,8 @@ class MetaObject
       bool  m_BinaryDataByteOrderMSB;
 
       unsigned int m_CompressedDataSize;
-      bool m_WriteCompressedDataSize; // Used internally to set if the dataSize should be written
+      // Used internally to set if the dataSize should be written
+      bool m_WriteCompressedDataSize; 
       bool m_CompressedData;
       
       virtual void M_Destroy(void);
@@ -174,6 +177,14 @@ class MetaObject
       void  CenterOfRotation(const double * _position);
       void  CenterOfRotation(int _i, double _value);
 
+      //
+      //
+      //
+      const char * DistanceUnitsName(void) const;
+      MET_DistanceUnitsEnumType DistanceUnits(void) const;
+      void DistanceUnits(MET_DistanceUnitsEnumType _distanceUnits);
+      void DistanceUnits(const char * _distanceUnits);
+
       const char * AnatomicalOrientationAcronym(void) const;
       const MET_OrientationEnumType * AnatomicalOrientation(void) const;
       MET_OrientationEnumType AnatomicalOrientation(int _dim) const;
@@ -239,13 +250,16 @@ class MetaObject
       //
       //
       // User's field definitions 
-      bool AddUserField(const char* _fieldName,MET_ValueEnumType _type,int _length=0,
-                        bool _required=true,int _dependsOn=-1);
+      bool AddUserField(const char* _fieldName, MET_ValueEnumType _type,
+                        int _length=0, bool _required=true,
+                        int _dependsOn=-1);
+
       // Add a user's field
       template <class T>
-      bool AddUserField(const char* _fieldName,MET_ValueEnumType _type, int _length,
-                        T *_v,bool _required=true,int _dependsOn=-1 )
-      {
+      bool AddUserField(const char* _fieldName, MET_ValueEnumType _type,
+                        int _length, T *_v, bool _required=true,
+                        int _dependsOn=-1 )
+        {
         MET_FieldRecordType* mFw = new MET_FieldRecordType;
         MET_InitWriteField(mFw, _fieldName, _type, _length,_v);
         m_UserDefinedWriteFields.push_back(mFw);
@@ -255,7 +269,7 @@ class MetaObject
         m_UserDefinedReadFields.push_back(mFr);
 
         return true;
-      }
+        }
 
       // Clear UserFields
       void ClearUserFields();
@@ -265,8 +279,14 @@ class MetaObject
       void SetEvent(metaEvent* event) {m_Event = event;}
 
       // Set the double precision for writing
-      void SetDoublePrecision(unsigned int precision) {m_DoublePrecision = precision;}
-      unsigned int GetDoublePrecision() {return m_DoublePrecision;}
+      void SetDoublePrecision(unsigned int precision) 
+        {
+        m_DoublePrecision = precision;
+        }
+      unsigned int GetDoublePrecision() 
+        {
+        return m_DoublePrecision;
+        }
 
   };
 

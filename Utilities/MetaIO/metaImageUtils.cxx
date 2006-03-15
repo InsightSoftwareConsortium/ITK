@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <metaImageTypes.h>
+#include "metaImageTypes.h"
 
 bool MET_StringToImageModality(const char * _str,
                                MET_ImageModalityEnumType * _type)

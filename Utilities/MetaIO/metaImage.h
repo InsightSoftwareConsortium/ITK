@@ -1,12 +1,12 @@
 #ifndef METAIMAGE_H
 #define METAIMAGE_H
 
-#include <metaTypes.h>
-#include <metaUtils.h>
-#include <metaObject.h>
+#include "metaTypes.h"
+#include "metaUtils.h"
+#include "metaObject.h"
 
-#include <metaImageTypes.h>
-#include <metaImageUtils.h>
+#include "metaImageTypes.h"
+#include "metaImageUtils.h"
 
 /*!    MetaImage (.h and .cpp)
  *
@@ -14,20 +14,26 @@
  *    Reads and Writes MetaImageFiles.
  *    MetaImageFiles can be in one of two possible formats:
  *       a combined header/data format, typically designated .mha files
- *       or as separate header and data files, typically designated .mhd and .mda files
+ *       or as separate header and data files, typically designated
+ *       .mhd and .mda files
  *
  * Features:
- *    Header information is in ascii format - for easy creation, editing, and review.
- *    If separate files are used, a specified number of header-bytes in the datafile can be skipped
- *       - in this manner, different file formats (e.g., bmp, img, and /usr/Image) can 
- *          be converted to metaImageFile format by merely specifying a separate text header
- *          (.mhd) file and in that file specifying how many data-header-bytes should be skipped.
- *          Thereby the data files can serve a dual role (as bitmap files and as metaImage data files)
+ *    Header information is in ascii format - for easy creation, editing,
+ *    and review. If separate files are used, a specified number of
+ *    header-bytes in the datafile can be skipped
+ *       - in this manner, different file formats (e.g., bmp, img,
+ *          and /usr/Image) can be converted to metaImageFile format by
+ *          merely specifying a separate text header (.mhd) file and in that
+ *          file specifying how many data-header-bytes should be skipped.
+ *          Thereby the data files can serve a dual role (as bitmap files
+ *          and as metaImage data files) 
  *    Supports all pixel formats
  *    Handles byte ordering (MSB/LSB)
- *    Provides the ability to handle associated medical image information (element size, element spacing, etc).
- *    Has required and optional header data (provides rapid formation or extensive documentation).
- *       REQUIRED: NDims, DimSize, ByteOrderMSB, DataFileName
+ *    Provides the ability to handle associated medical image
+ *          information (element size, element spacing, etc).
+ *    Has required and optional header data (provides rapid formation
+ *          or extensive documentation).
+ *    REQUIRED: NDims, DimSize, ByteOrderMSB, ElementDataType, DataFileName
  *
  * \author Stephen R. Aylward
  * 
@@ -67,6 +73,9 @@ class MetaImage : public MetaObject
     bool   m_ElementMinMaxValid;
     double m_ElementMin;
     double m_ElementMax;
+
+    double m_ElementToIntensityFunctionSlope;
+    double m_ElementToIntensityFunctionOffset;
 
     bool  m_AutoFreeElementData;
     void  * m_ElementData;
@@ -209,11 +218,20 @@ class MetaImage : public MetaObject
     double ElementMax(void) const;
     void  ElementMax(double _elementMax);
 
+    double ElementToIntensityFunctionSlope(void) const;
+    void   ElementToIntensityFunctionSlope(double _slope);
+    double ElementToIntensityFunctionOffset(void) const;
+    void   ElementToIntensityFunctionOffset(double _offset);
+
     //    ConverTo(...)
     //       Converts to a new data type
     //       Rescales using Min and Max (see above)
-    bool  ConvertElementDataTo(MET_ValueEnumType _elementType=MET_UCHAR,
-                       double _toMin=0, double _toMax=0);
+    bool  ConvertElementDataTo(MET_ValueEnumType _elementType=MET_USHORT,
+                               double _toMin=0, double _toMax=0);
+    bool  ConvertElementDataToIntensityData(
+                               MET_ValueEnumType _intensityType=MET_SHORT);
+    bool  ConvertIntensityDataToElementData(
+                               MET_ValueEnumType _elementType=MET_USHORT);
 
     //
     //

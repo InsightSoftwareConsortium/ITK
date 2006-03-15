@@ -4,9 +4,9 @@
 #include <fstream>
 #include <string>
 
-#include <metaUtils.h>
-#include <metaObject.h>
-#include <metaLandmark.h>
+#include "metaUtils.h"
+#include "metaObject.h"
+#include "metaLandmark.h"
 
 //
 // MedImage Constructors
