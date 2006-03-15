@@ -92,6 +92,25 @@ public:
       }
   }
 
+  /** ImageDimension constants */
+  itkStaticConstMacro(
+    InputImage1Dimension, unsigned int, TInputImage1::ImageDimension);
+  itkStaticConstMacro(
+    InputImage2Dimension, unsigned int, TInputImage2::ImageDimension);
+  itkStaticConstMacro(
+    OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck1,
+    (Concept::SameDimension<itkGetStaticConstMacro(InputImage1Dimension),
+                            itkGetStaticConstMacro(InputImage2Dimension)>));
+  itkConceptMacro(SameDimensionCheck2,
+    (Concept::SameDimension<itkGetStaticConstMacro(InputImage1Dimension),
+                            itkGetStaticConstMacro(OutputImageDimension)>));
+  /** End concept checking */
+#endif
+
 protected:
   BinaryFunctorImageFilter();
   virtual ~BinaryFunctorImageFilter() {};

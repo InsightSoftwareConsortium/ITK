@@ -18,6 +18,7 @@
 #define __itkAbsoluteValueDifferenceImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
+#include "itkConceptChecking.h"
 
 namespace itk
 {
@@ -96,7 +97,18 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(Input1CovertibleToDoubleCheck,
+    (Concept::Convertible<typename TInputImage1::PixelType, double>));
+  itkConceptMacro(Input2ConvertibleToDoubleCheck,
+    (Concept::Convertible<typename TInputImage2::PixelType, double>));
+  itkConceptMacro(DoubleCovertibleToOutputCheck,
+    (Concept::Convertible<double, typename TOutputImage::PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   AbsoluteValueDifferenceImageFilter() {}
   virtual ~AbsoluteValueDifferenceImageFilter() {}

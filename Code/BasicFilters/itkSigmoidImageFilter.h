@@ -171,6 +171,17 @@ public:
     this->Modified();
   }
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputConvertibleToDoubleCheck,
+    (Concept::Convertible<typename TInputImage::PixelType, double>));
+  itkConceptMacro(OutputAdditiveOperatorsCheck,
+    (Concept::AdditiveOperators<OutputPixelType>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck,
+                  (Concept::Convertible<double, OutputPixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   SigmoidImageFilter() {}
   virtual ~SigmoidImageFilter() {}
