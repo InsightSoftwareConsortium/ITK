@@ -33,6 +33,7 @@ ThresholdLabelerImageFilter<TInputImage, TOutputImage>
 ::ThresholdLabelerImageFilter()
 {
   m_Thresholds.clear();
+  m_RealThresholds.clear();
   m_LabelOffset = NumericTraits<OutputPixelType>::Zero;
 }
 
@@ -53,6 +54,14 @@ ThresholdLabelerImageFilter<TInputImage, TOutputImage>
     os << m_Thresholds[j] << " ";
     }
   os << std::endl;
+
+  os << indent << "Real Thresholds: ";
+  for (unsigned long i=0; i<m_RealThresholds.size(); i++)
+    {
+    os << m_RealThresholds[i] << " ";
+    }
+  os << std::endl;
+
 
   os << indent << "LabelOffset: " << m_LabelOffset << std::endl;
 }
@@ -75,7 +84,7 @@ ThresholdLabelerImageFilter<TInputImage, TOutputImage>
     }
 
   // set up the functor values
-  this->GetFunctor().SetThresholds( m_Thresholds );
+  this->GetFunctor().SetThresholds( m_RealThresholds );
   this->GetFunctor().SetLabelOffset( m_LabelOffset );
 }
 

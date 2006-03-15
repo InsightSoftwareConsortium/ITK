@@ -19,6 +19,7 @@
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkConceptChecking.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -47,10 +48,11 @@ public:
   ThresholdLabeler() { m_LabelOffset = NumericTraits<TOutput>::One; }
   ~ThresholdLabeler() {};
 
-  typedef std::vector<TInput> ThresholdVector;
+  typedef typename NumericTraits< TInput >::RealType RealThresholdType;
+  typedef std::vector<RealThresholdType> RealThresholdVector;
 
   /** Set the vector of thresholds. */
-  void SetThresholds( const ThresholdVector & thresholds )
+  void SetThresholds( const RealThresholdVector & thresholds )
     { m_Thresholds = thresholds; }
 
   /** Set the offset which labels have to start from. */
@@ -95,7 +97,7 @@ public:
 
 private:
 
-  ThresholdVector m_Thresholds;
+  RealThresholdVector m_Thresholds;
   TOutput m_LabelOffset;
 };
 }
@@ -113,9 +115,9 @@ public:
   typedef ThresholdLabelerImageFilter  Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
                                   Functor::ThresholdLabeler< 
-    typename TInputImage::PixelType,
-    typename TOutputImage::PixelType>   
-  >  Superclass;
+                                  typename TInputImage::PixelType,
+                                  typename TOutputImage::PixelType>   
+                                                        >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -131,16 +133,51 @@ public:
 
   /** Threshold vector types. */
   typedef std::vector<InputPixelType> ThresholdVector;
+  typedef typename NumericTraits< InputPixelType >::RealType 
+                                                    RealThresholdType;
+  typedef std::vector<RealThresholdType> RealThresholdVector;
+
 
   /** The input pixel type must support comparison operators. */
   itkConceptMacro(PixelTypeComparable, (Concept::Comparable<InputPixelType>));
 
   /** Set the vector of thresholds. */
   void SetThresholds( const ThresholdVector & thresholds )
-  { m_Thresholds = thresholds; }
+  { 
+    m_Thresholds = thresholds;
+    m_RealThresholds.resize( m_Thresholds.size() );
+    ThresholdVector::const_iterator itr = m_Thresholds.begin();
+    while( itr != m_Thresholds.end() )
+      {
+      m_RealThresholds.push_back( static_cast< RealThresholdType >( *itr ) );
+      ++itr;
+      }
+    this->Modified();
+  }
+
   /** Get the vector of thresholds. */
-  const ThresholdVector & GetThresholds()
-  { return m_Thresholds; }
+  const ThresholdVector & GetThresholds() const
+    { return m_Thresholds; }
+
+  /** Set the vector of real type thresholds. */
+  void SetRealThresholds( const RealThresholdVector & thresholds )
+  { 
+    m_RealThresholds = thresholds;
+    m_Thresholds.resize( m_RealThresholds.size() );
+    RealThresholdVector::const_iterator itr = m_RealThresholds.begin();
+    while( itr != m_RealThresholds.end() )
+      {
+      m_Thresholds.push_back( static_cast< InputPixelType >( *itr ) );
+      ++itr;
+      }
+    this->Modified();
+  }
+
+  /** Get the vector of real thresholds. */
+  const RealThresholdVector & GetRealThresholds() const
+    { return m_RealThresholds; }
+
+
 
   /** Set the offset which labels have to start from. */
   itkSetClampMacro(LabelOffset,OutputPixelType, NumericTraits<OutputPixelType>::Zero,NumericTraits<OutputPixelType>::max() );
@@ -159,8 +196,9 @@ private:
   ThresholdLabelerImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  ThresholdVector m_Thresholds;
-  OutputPixelType m_LabelOffset;
+  ThresholdVector        m_Thresholds;
+  RealThresholdVector    m_RealThresholds;
+  OutputPixelType        m_LabelOffset;
 };
 
 } // end namespace itk

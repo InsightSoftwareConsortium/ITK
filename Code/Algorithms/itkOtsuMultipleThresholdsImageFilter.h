@@ -19,6 +19,8 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkFixedArray.h"
+#include "itkOtsuMultipleThresholdsCalculator.h"
+#include "itkScalarImageToHistogramGenerator.h"
 
 namespace itk {
 
@@ -73,7 +75,11 @@ public:
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** Threshold vector types. */
-  typedef std::vector<InputPixelType> ThresholdVectorType;
+  typedef itk::Statistics::ScalarImageToHistogramGenerator< 
+                                           TInputImage > HistogramGeneratorType;
+  typedef typename HistogramGeneratorType::HistogramType HistogramType;
+  typedef OtsuMultipleThresholdsCalculator< HistogramType > OtsuCalculatorType;
+  typedef typename OtsuCalculatorType::OutputType  ThresholdVectorType;
   
   /** Image related typedefs. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -96,7 +102,7 @@ public:
   /** Get the computed threshold. */
   const ThresholdVectorType & GetThresholds() const
     {
-      return m_Thresholds;
+    return m_Thresholds;
     }
 
 
