@@ -152,7 +152,7 @@ public:
   void SetThresholds( const ThresholdVector & thresholds )
   { 
     m_Thresholds = thresholds;
-    m_RealThresholds.resize( m_Thresholds.size() );
+    m_RealThresholds.clear();
     typename ThresholdVector::const_iterator itr = m_Thresholds.begin();
     while( itr != m_Thresholds.end() )
       {
@@ -170,7 +170,7 @@ public:
   void SetRealThresholds( const RealThresholdVector & thresholds )
   { 
     m_RealThresholds = thresholds;
-    m_Thresholds.resize( m_RealThresholds.size() );
+    m_Thresholds.clear();
     typename RealThresholdVector::const_iterator itr = m_RealThresholds.begin();
     while( itr != m_RealThresholds.end() )
       {
