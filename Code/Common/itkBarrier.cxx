@@ -73,7 +73,8 @@ void Barrier::Initialize( unsigned int n )
   // Create the reservoir.
   if (Barrier::m_ReservoirInitialized == false)
     {
-    Barrier::m_Reservoir = atomic_alloc_reservoir(USE_DEFAULT_PM, m_MaxBarriers, 0);
+    Barrier::m_Reservoir = atomic_alloc_reservoir(USE_DEFAULT_PM, 
+                                                  m_MaxBarriers, 0);
     if (Barrier::m_Reservoir != 0)
       {
       Barrier::m_ReservoirInitialized = true;
@@ -130,4 +131,3 @@ void Barrier::Wait()
 }
 
 }// end namespace itk
-

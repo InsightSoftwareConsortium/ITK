@@ -35,37 +35,38 @@ namespace itk
  * an itkBloxPixel.  Each itk::BloxPixel generally covers many pixels in the
  * underlying image and is used to store a variable number of image primitives
  * (such as boundary points) or features (such as medial nodes) gathered within
- * that region of geometric space.  To do this, each itkBloxPixel contains a linked list.
-
- * The itk::BloxImage object facilitates certain forms of analysis by providing geometric
- * hashing.  For example, if boundary points are stored in an itk::BloxImage,
- * pairs of boundary points that face each other (called "core atoms") can be found
- * by searching relatively small regions of geometric space that face each boundary
- * point for appropriate mates.  Because an itk::BloxImage is rectilinear in geometric
- * space (even though the underlying image may not be) subsequent analysis can be
- * invariant to rotation and translation.
-
- * itk::BloxImage is templated over pixel type; in general, the pixel type should be derived
- * from itk::BloxPixel, however this is not enforced and other implementations are
- * possible.
+ * that region of geometric space.  To do this, each itkBloxPixel contains a 
+ * linked list.
  *
- * Note that itk::BloxPixel is itself templated over item type (the type of object
- * stored in the linked list).
+ * The itk::BloxImage object facilitates certain forms of analysis by providing
+ * geometric hashing.  For example, if boundary points are stored in an 
+ * itk::BloxImage, pairs of boundary points that face each other 
+ * (called "core atoms") can be found by searching relatively small regions of 
+ * geometric space that face each boundary point for appropriate mates.  
+ * Because an itk::BloxImage is rectilinear in geometric space (even though the
+ * underlying image may not be) subsequent analysis can be invariant to 
+ * rotation and translation.
+ *
+ * itk::BloxImage is templated over pixel type; in general, the pixel type 
+ * should be derived from itk::BloxPixel, however this is not enforced and 
+ * other implementations are possible.
+ *
+ * Note that itk::BloxPixel is itself templated over item type (the type of 
+ * object stored in the linked list).
  *
  * \ingroup ImageObjects
  *
- * */
-
-template <typename TBloxPixelType, unsigned int VImageDimension=3>
-class ITK_EXPORT BloxImage : public Image<TBloxPixelType, VImageDimension>
+ */
+template <typename TBloxPixelType, unsigned int TImageDimension=3>
+class ITK_EXPORT BloxImage : public Image<TBloxPixelType, TImageDimension>
 {
 public:
   /** Standard class typedefs. */
-  typedef BloxImage  Self;
-  typedef Image<TBloxPixelType, VImageDimension>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  typedef WeakPointer<const Self>  ConstWeakPointer;
+  typedef BloxImage                               Self;
+  typedef Image<TBloxPixelType, TImageDimension>  Superclass;
+  typedef SmartPointer<Self>                      Pointer;
+  typedef SmartPointer<const Self>                ConstPointer;
+  typedef WeakPointer<const Self>                 ConstWeakPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -93,14 +94,14 @@ public:
    * templated over image type (as opposed to being templated over pixel
    * type and dimension) when they need compile time access to the dimension
    * of the image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, TImageDimension);
 
   /** Convenient typedefs obtained from Superclass. */
   typedef typename Superclass::PixelContainer PixelContainer;
-  typedef typename Superclass::SizeType SizeType;
-  typedef typename Superclass::IndexType IndexType;
-  typedef typename Superclass::OffsetType OffsetType;
-  typedef typename Superclass::RegionType RegionType;
+  typedef typename Superclass::SizeType       SizeType;
+  typedef typename Superclass::IndexType      IndexType;
+  typedef typename Superclass::OffsetType     OffsetType;
+  typedef typename Superclass::RegionType     RegionType;
   
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;

@@ -36,15 +36,15 @@ namespace itk {
  * \ingroup Operators
  *
  */
-template<class TPixel, unsigned int VDimension=2,
+template<class TPixel, unsigned int TDimension=2,
   class TAllocator = NeighborhoodAllocator<TPixel> >
 class ITK_EXPORT BackwardDifferenceOperator
-  : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
+  : public NeighborhoodOperator<TPixel, TDimension, TAllocator>
 {
 public:
   /** Standard class typedefs. */
-  typedef BackwardDifferenceOperator Self;
-  typedef NeighborhoodOperator<TPixel, VDimension, TAllocator> Superclass;
+  typedef BackwardDifferenceOperator                           Self;
+  typedef NeighborhoodOperator<TPixel, TDimension, TAllocator> Superclass;
     
   /** From Superclass */
   typedef typename Superclass::PixelType PixelType;
@@ -76,5 +76,3 @@ private:
 #endif
 
 #endif
-
-

@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 class ITK_EXPORT BloxBoundaryProfileItem : public BloxItem
 {
 public:
@@ -30,16 +30,17 @@ public:
   itkTypeMacro( BloxBoundaryProfileItem, BloxItem );
 
   /** The point type used to store the position of the boundary profile */
-  typedef Point<double, VImageDimension> PositionType;
+  typedef Point<double, TImageDimension> PositionType;
 
-  /** The type of vector used to store the gradient of the BoundaryPointItem * */
-  typedef CovariantVector<double, VImageDimension> GradientType;
+  /** The type of vector used to store the gradient of the BoundaryPointItem
+   */
+  typedef CovariantVector<double, TImageDimension> GradientType;
 
   /** Vector type */
   typedef vnl_vector<double> VectorType;
 
   /** The type of boundary point item we store pointers to */
-  typedef BloxBoundaryPointItem<VImageDimension> BPItemType;
+  typedef BloxBoundaryPointItem<TImageDimension> BPItemType;
 
   /** Set the position of the first boundary point in physical space */
   void SetBoundaryPoint(BPItemType * point);
@@ -53,7 +54,6 @@ public:
   double GetUpperIntensity(void);
 
   /** Set and get mean estimates */
-  //void SetMean(double mean) {m_Mean = mean;}
   void SetMean(double mean);
   double GetMean(void);
 
@@ -75,7 +75,8 @@ public:
   double GetStandardDeviationNormalized(void);
 
   /** Set and get optimal boundary location */
-  void SetOptimalBoundaryLocation(VectorType spatialFunctionOriginVector, VectorType orientation);
+  void SetOptimalBoundaryLocation(VectorType spatialFunctionOriginVector, 
+                                                      VectorType orientation);
 
   PositionType GetOptimalBoundaryLocation(void);
 

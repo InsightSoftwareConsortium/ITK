@@ -14,16 +14,18 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBackwardDifferenceOperator_txx
-#define _itkBackwardDifferenceOperator_txx
+#ifndef __itkBackwardDifferenceOperator_txx
+#define __itkBackwardDifferenceOperator_txx
+
 #include "itkBackwardDifferenceOperator.h"
+
 namespace itk
 {
 
-template <class TPixel, unsigned int VDimension, class TAllocator>
-typename BackwardDifferenceOperator<TPixel, VDimension, TAllocator>
+template <class TPixel, unsigned int TDimension, class TAllocator>
+typename BackwardDifferenceOperator<TPixel, TDimension, TAllocator>
 ::CoefficientVector
-BackwardDifferenceOperator<TPixel, VDimension, TAllocator>
+BackwardDifferenceOperator<TPixel, TDimension, TAllocator>
 ::GenerateCoefficients()
 {
   CoefficientVector coeff(3);

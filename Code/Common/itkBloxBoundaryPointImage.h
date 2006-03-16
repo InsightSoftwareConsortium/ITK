@@ -29,19 +29,18 @@ namespace itk
  * \brief Templated n-dimensional image class used to store linked lists.
  * \ingroup ImageObjects
  *
- * */
-
-template <unsigned int VImageDimension>
+ */
+template <unsigned int TImageDimension>
 class ITK_EXPORT BloxBoundaryPointImage :
-  public BloxImage< BloxBoundaryPointPixel<VImageDimension >, VImageDimension >
+  public BloxImage< BloxBoundaryPointPixel<TImageDimension >, TImageDimension >
 {
 public:
   /** Standard class typedefs. */
-  typedef BloxBoundaryPointImage  Self;
-  typedef BloxImage<BloxBoundaryPointPixel<VImageDimension>,
-                    VImageDimension >  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef BloxBoundaryPointImage       Self;
+  typedef BloxImage<BloxBoundaryPointPixel<TImageDimension>,
+                    TImageDimension >  Superclass;
+  typedef SmartPointer<Self>           Pointer;
+  typedef SmartPointer<const Self>     ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(BloxBoundaryPointImage, BloxImage);
@@ -51,7 +50,7 @@ public:
 
   /** Pixel typedef support. Used to declare pixel type in filters
    * or other operations. */
-  typedef BloxBoundaryPointPixel<VImageDimension> PixelType;
+  typedef BloxBoundaryPointPixel<TImageDimension> PixelType;
 
   /** Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
@@ -67,10 +66,10 @@ public:
 
   /** Convenient typedefs obtained from Superclass. */
   typedef typename Superclass::PixelContainer PixelContainer;
-  typedef typename Superclass::SizeType SizeType;
-  typedef typename Superclass::IndexType IndexType;
-  typedef typename Superclass::OffsetType OffsetType;
-  typedef typename Superclass::RegionType RegionType;
+  typedef typename Superclass::SizeType       SizeType;
+  typedef typename Superclass::IndexType      IndexType;
+  typedef typename Superclass::OffsetType     OffsetType;
+  typedef typename Superclass::RegionType     RegionType;
   
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;

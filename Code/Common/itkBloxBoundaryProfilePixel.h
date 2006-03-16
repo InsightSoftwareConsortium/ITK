@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkBloxBoundaryProfilePixel.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #ifndef __itkBloxBoundaryProfilePixel_h
 #define __itkBloxBoundaryProfilePixel_h
 
@@ -10,9 +26,11 @@ namespace itk
 {
 
 template <unsigned int NDimensions>
-class ITK_EXPORT BloxBoundaryProfilePixel : public BloxPixel< BloxBoundaryProfileItem<NDimensions> >
+class ITK_EXPORT BloxBoundaryProfilePixel : public BloxPixel< 
+                                        BloxBoundaryProfileItem<NDimensions> >
 {
 public:
+
   /** Run-time type information (and related methods). */
   itkTypeMacro( BloxBoundaryProfilePixel, BloxPixel );
 

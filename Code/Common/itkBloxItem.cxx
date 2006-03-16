@@ -30,4 +30,3 @@ BloxItem::~BloxItem()
 }
 
 } // end namespace itk
-

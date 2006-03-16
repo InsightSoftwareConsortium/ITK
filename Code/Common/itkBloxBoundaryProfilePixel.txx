@@ -22,18 +22,18 @@
 namespace itk
 {
 
-template <unsigned int NDimensions>
-BloxBoundaryProfilePixel<NDimensions>
+/** Constructor */
+template <unsigned int TDimensions>
+BloxBoundaryProfilePixel<TDimensions>
 ::BloxBoundaryProfilePixel()
 {
-
 }
 
-template <unsigned int NDimensions>
-BloxBoundaryProfilePixel<NDimensions>
+/** Destructor */
+template <unsigned int TDimensions>
+BloxBoundaryProfilePixel<TDimensions>
 ::~BloxBoundaryProfilePixel()
 {
-
 }
 
 } // end namespace itk

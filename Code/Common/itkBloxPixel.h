@@ -29,18 +29,18 @@ namespace itk
  * \brief Holds a linked list of BloxItem's
  *
  * itk::BloxPixel is a specialized "value added" version of the basic STL list
- * intended as a base class for all pixels stored in itk::BloxImage derived classes.
+ * intended as a base class for all pixels stored in itk::BloxImage derived 
+ * classes.
  * A particular type of itk::BloxImage is fully specialized by setting the type
  * of itk::BloxPixel that it holds, so in some sense this is the most important
  * class in the blox hierarchy.
  *
- * It is assumed that particular itk::BloxPixel derived types will add functionality
- * to this base class; for example, eigenanalysis of core atom populations in
- * itk::BloxCoreAtomPixel
+ * It is assumed that particular itk::BloxPixel derived types will add 
+ * functionality to this base class; for example, eigenanalysis of core atom 
+ * populations in itk::BloxCoreAtomPixel
  *
  * \ingroup ImageObjects
- * */
-
+ */
 template <typename TItemType>
 class BloxPixel : public std::list<TItemType*>
 {

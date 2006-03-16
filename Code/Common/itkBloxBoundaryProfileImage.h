@@ -36,45 +36,44 @@ namespace itk
 /** \class BloxBoundaryProfileImage
  * \brief N-dimensional image class which handles BloxBoundaryProfileItems
  *
- * A BloxBoundaryProfileImage stores and processes BloxBoundaryProfileItem's (in BloxPixel
- * linked lists). The primary task of BloxBoundaryProfileImage is finding boundary profiles
- * and storing them in the correct blox location.
+ * A BloxBoundaryProfileImage stores and processes BloxBoundaryProfileItem's 
+ * (in BloxPixel linked lists). The primary task of BloxBoundaryProfileImage 
+ * is finding boundary profilesand storing them in the correct blox location.
  * \ingroup ImageObjects
  */
-
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 class ITK_EXPORT BloxBoundaryProfileImage :
-public BloxImage<BloxBoundaryProfilePixel<VImageDimension >, VImageDimension>
+public BloxImage<BloxBoundaryProfilePixel<TImageDimension>, TImageDimension>
 {
 public:
 
   /** Standard image class typedefs. */
-  typedef BloxBoundaryProfileImage  Self;
-  typedef BloxImage<BloxBoundaryProfilePixel<VImageDimension>,
-                    VImageDimension >  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef BloxBoundaryProfileImage     Self;
+  typedef BloxImage<BloxBoundaryProfilePixel<TImageDimension>,
+                    TImageDimension >  Superclass;
+  typedef SmartPointer<Self>           Pointer;
+  typedef SmartPointer<const Self>     ConstPointer;
   
   itkNewMacro(Self);
 
   itkTypeMacro(BloxBoundaryProfileImage, BloxImage);
 
-  typedef BloxBoundaryProfilePixel<VImageDimension> PixelType;
-  typedef PixelType InternalPixelType;
+  typedef BloxBoundaryProfilePixel<TImageDimension> PixelType;
+  typedef PixelType                                 InternalPixelType;
 
   typedef DefaultPixelAccessor< PixelType > AccessorType;
 
-  typedef Point<double, VImageDimension> PositionType;
+  typedef Point<double, TImageDimension> PositionType;
 
   typedef typename PositionType::VectorType VectorType;
 
-  typedef CovariantVector<double, VImageDimension> GradientType;
+  typedef CovariantVector<double, TImageDimension> GradientType;
 
   typedef typename Superclass::PixelContainer PixelContainer;
-  typedef typename Superclass::SizeType SizeType;
-  typedef typename Superclass::IndexType IndexType;
-  typedef typename Superclass::OffsetType OffsetType;
-  typedef typename Superclass::RegionType RegionType;
+  typedef typename Superclass::SizeType       SizeType;
+  typedef typename Superclass::IndexType      IndexType;
+  typedef typename Superclass::OffsetType     OffsetType;
+  typedef typename Superclass::RegionType     RegionType;
   
   typedef typename PixelContainer::Pointer PixelContainerPointer;
   

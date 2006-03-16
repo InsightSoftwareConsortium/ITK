@@ -14,15 +14,15 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkBloxBoundaryProfile_txx
-#define __itkBloxBoundaryProfile_txx
+#ifndef __itkBloxBoundaryProfileItem_txx
+#define __itkBloxBoundaryProfileItem_txx
 
 #include "itkBloxBoundaryProfileItem.h"
 
 namespace itk
 {
-template <unsigned int VImageDimension>
-BloxBoundaryProfileItem<VImageDimension>
+template <unsigned int TImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::BloxBoundaryProfileItem()
 {
   m_LowerIntensity = 0;
@@ -37,164 +37,166 @@ BloxBoundaryProfileItem<VImageDimension>
   m_Gradient2.Fill(0);
 }
 
-template <unsigned int VImageDimension>
-BloxBoundaryProfileItem<VImageDimension>
+template <unsigned int TImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::~BloxBoundaryProfileItem()
 {
 
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 void
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::SetBoundaryPoint(BPItemType * point) 
 {
   m_BoundaryPoint = point;
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 void
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::SetLowerIntensity(double lowerIntensity)
 {
   m_LowerIntensity = lowerIntensity;
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 double
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::GetLowerIntensity(void)
 {
   return m_LowerIntensity;
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 void
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::SetUpperIntensity(double upperIntensity)
 {
   m_UpperIntensity = upperIntensity;
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 double
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::GetUpperIntensity(void)
 {
   return(m_UpperIntensity);
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 void
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::SetMean(double mean)
 {
   m_Mean = mean;
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 double
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::GetMean(void)
 {
   return(m_Mean);
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 void 
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::SetProfileLength(unsigned int profileLength)
 {
   m_ProfileLength = profileLength;
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 unsigned int
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::GetProfileLength(void)
 {
   return(m_ProfileLength);
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 void
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::SetMeanNormalized(void)
 {
   m_MeanNormalized = m_Mean - m_ProfileLength/2;
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 double
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::GetMeanNormalized(void)
 {
   return(m_MeanNormalized);
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 void
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::SetStandardDeviation(double standardDeviation)
 {
   m_StandardDeviation = standardDeviation;
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 double
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::GetStandardDeviation(void)
 {
   return(m_StandardDeviation);
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 void
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::SetStandardDeviationNormalized(void)
 {
   m_StandardDeviationNormalized = m_StandardDeviation / m_ProfileLength;
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 double
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::GetStandardDeviationNormalized(void)
 {
   return(m_StandardDeviationNormalized);
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 void
-BloxBoundaryProfileItem<VImageDimension>
-::SetOptimalBoundaryLocation(VectorType spatialFunctionOriginVector, VectorType orientation)
+BloxBoundaryProfileItem<TImageDimension>
+::SetOptimalBoundaryLocation(VectorType spatialFunctionOriginVector, 
+                                                       VectorType orientation)
 {
   VectorType optimalBoundaryLocation;
   optimalBoundaryLocation = m_MeanNormalized * orientation;
-  optimalBoundaryLocation = spatialFunctionOriginVector + optimalBoundaryLocation;
-  for(unsigned int i = 0; i < VImageDimension; i++)
+  optimalBoundaryLocation = spatialFunctionOriginVector + 
+                                                      optimalBoundaryLocation;
+  for(unsigned int i = 0; i < TImageDimension; i++)
     m_OptimalBoundaryLocation[i] = optimalBoundaryLocation[i];
 }
 
-template <unsigned int VImageDimension>
-typename BloxBoundaryProfileItem<VImageDimension>::PositionType
-BloxBoundaryProfileItem<VImageDimension>
+template <unsigned int TImageDimension>
+typename BloxBoundaryProfileItem<TImageDimension>::PositionType
+BloxBoundaryProfileItem<TImageDimension>
 ::GetOptimalBoundaryLocation(void)
 {
   return(m_OptimalBoundaryLocation);
 }
 
-template <unsigned int VImageDimension>
+template <unsigned int TImageDimension>
 void
-BloxBoundaryProfileItem<VImageDimension>
+BloxBoundaryProfileItem<TImageDimension>
 ::SetGradient(GradientType * gradient)
 {
   m_Gradient = gradient;
 }
 
-template <unsigned int VImageDimension>
-typename BloxBoundaryProfileItem<VImageDimension>::GradientType *
-BloxBoundaryProfileItem<VImageDimension>
+template <unsigned int TImageDimension>
+typename BloxBoundaryProfileItem<TImageDimension>::GradientType *
+BloxBoundaryProfileItem<TImageDimension>
 ::GetGradient()
 {
   return(m_Gradient);
@@ -203,4 +205,3 @@ BloxBoundaryProfileItem<VImageDimension>
 } // end namespace itk
 
 #endif
-

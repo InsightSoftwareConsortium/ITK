@@ -22,19 +22,20 @@
 namespace itk
 {
 
-template <unsigned int VImageDimension>
-BloxBoundaryPointItem<VImageDimension>
+/** Constructor */
+template <unsigned int TImageDimension>
+BloxBoundaryPointItem<TImageDimension>
 ::BloxBoundaryPointItem()
 {
   m_PhysicalPosition.Fill(0);
   m_Gradient.Fill(0);
 }
 
-template <unsigned int VImageDimension>
-BloxBoundaryPointItem<VImageDimension>
+/** Destructor */
+template <unsigned int TImageDimension>
+BloxBoundaryPointItem<TImageDimension>
 ::~BloxBoundaryPointItem()
 {
-
 }
 
 } // end namespace itk
