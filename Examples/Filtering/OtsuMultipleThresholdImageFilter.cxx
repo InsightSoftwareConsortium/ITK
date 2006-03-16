@@ -60,29 +60,39 @@ int main( int argc, char * argv[] )
   typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
   
   // Software Guide : BeginLatex
-  // OtsuMultipleThresholdsCalculator calculates thresholds for a give histogram
-  // so as to maximize the between-class variance. We use 
-  // ScalarImageToHistogramGenerator to generate histograms 
+  //
+  // OtsuMultipleThresholdsCalculator calculates thresholds for a given
+  // histogram so as to maximize the between-class variance. We use
+  // ScalarImageToHistogramGenerator to generate histograms. The histogram type
+  // defined by the generator is then used for instantiating the type of the
+  // Otsu threshold calculator. 
+  // 
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ScalarImageToHistogramGenerator< InputImageType > 
-    ScalarImageToHistogramGeneratorType;
-  typedef itk::OtsuMultipleThresholdsCalculator< 
-    ScalarImageToHistogramGeneratorType::HistogramType >   CalculatorType;
+  typedef itk::Statistics::ScalarImageToHistogramGenerator< 
+                                                InputImageType > 
+                                                    ScalarImageToHistogramGeneratorType;
+
+  typedef ScalarImageToHistogramGeneratorType::HistogramType    HistogramType;
+
+  typedef itk::OtsuMultipleThresholdsCalculator< HistogramType >   CalculatorType;
   // Software Guide : EndCodeSnippet
 
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
   typedef itk::ImageFileWriter< InputImageType >  WriterType;
 
+
   // Software Guide : BeginLatex
+  // 
   // Once thresholds are computed we will use BinaryThresholdImageFilter to 
   // segment the input image into segments.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::BinaryThresholdImageFilter< InputImageType, OutputImageType >  
-    FilterType;
+  typedef itk::BinaryThresholdImageFilter< 
+                               InputImageType, OutputImageType >  FilterType;
   // Software Guide : EndCodeSnippet
   
   //Create using static New() method
@@ -90,6 +100,7 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   ScalarImageToHistogramGeneratorType::Pointer scalarImageToHistogramGenerator = 
     ScalarImageToHistogramGeneratorType::New();
+
   CalculatorType::Pointer calculator = CalculatorType::New();
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -100,12 +111,13 @@ int main( int argc, char * argv[] )
   //Set Properties
 
   // Software Guide : BeginCodeSnippet
-  scalarImageToHistogramGenerator->SetNumberOfBins(128);
-  calculator->SetNumberOfThresholds(atoi(argv[4]));
+  scalarImageToHistogramGenerator->SetNumberOfBins( 128 );
+  calculator->SetNumberOfThresholds( atoi( argv[4] ) );
   // Software Guide : EndCodeSnippet
 
   const OutputPixelType outsideValue = 0;
   const OutputPixelType insideValue = 255;
+
   filter->SetOutsideValue( outsideValue );
   filter->SetInsideValue(  insideValue  );
 
@@ -116,16 +128,18 @@ int main( int argc, char * argv[] )
   // The pipeline will look as follows:
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  scalarImageToHistogramGenerator->SetInput(reader->GetOutput());
-  calculator->SetInputHistogram(scalarImageToHistogramGenerator->GetOutput());
+  scalarImageToHistogramGenerator->SetInput( reader->GetOutput() );
+  calculator->SetInputHistogram( scalarImageToHistogramGenerator->GetOutput() );
   filter->SetInput( reader->GetOutput() );
-  writer->SetInput(filter->GetOutput());
+  writer->SetInput( filter->GetOutput() );
   // Software Guide : EndCodeSnippet
   
   
   //Invoke pipeline
   try
-    { reader->Update();  }
+    { 
+    reader->Update();
+    }
   catch( itk::ExceptionObject & excp )
     {
     std::cerr << "Exception thrown while reading image" << excp << std::endl;
@@ -133,7 +147,9 @@ int main( int argc, char * argv[] )
   scalarImageToHistogramGenerator->Compute();
   
   try
-    { calculator->Update();  }
+    { 
+    calculator->Update();
+    }
   catch( itk::ExceptionObject & excp )
     {
     std::cerr << "Exception thrown " << excp << std::endl;
@@ -152,6 +168,7 @@ int main( int argc, char * argv[] )
   //Threshold into seperate segments and write out as binary images
   std::string outputFileBase = argv[2];
   std::string outputFile;
+  
   double lowerThreshold = 0;
   double upperThreshold;
   
@@ -166,9 +183,12 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
     
     upperThreshold = (*itNum);
+    
     filter->SetLowerThreshold( static_cast<OutputPixelType> (lowerThreshold) );
     filter->SetUpperThreshold( static_cast<OutputPixelType> (upperThreshold) );
+
     lowerThreshold = upperThreshold;
+
     std::string format = argv[2];
     
     char outputFilename[1000];
@@ -178,7 +198,9 @@ int main( int argc, char * argv[] )
     writer->SetFileName( outputFilename );
     
     try
-      { writer->Update(); }
+      { 
+      writer->Update(); 
+      }
     catch( itk::ExceptionObject & excp )
       {
       std::cerr << "Exception thrown " << excp << std::endl;
