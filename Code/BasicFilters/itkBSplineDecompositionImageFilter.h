@@ -87,6 +87,8 @@ public:
 
   /** Dimension underlying input image. */
   itkStaticConstMacro(ImageDimension, unsigned int,TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
 
   /** Iterator typedef support */
   typedef itk::ImageLinearIteratorWithIndex<TOutputImage> OutputLinearIterator;
@@ -96,6 +98,21 @@ public:
   void SetSplineOrder(unsigned int SplineOrder);
   itkGetMacro(SplineOrder, int);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(DimensionCheck,
+    (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputConvertibleToDoubleCheck,
+    (Concept::Convertible<typename TInputImage::PixelType, double>));
+  itkConceptMacro(OutputConvertibleToDoubleCheck,
+    (Concept::Convertible<typename TOutputImage::PixelType, double>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+     (Concept::Convertible<typename TInputImage::PixelType,
+                           typename TOutputImage::PixelType>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck,
+    (Concept::Convertible<double, typename TOutputImage::PixelType>));
+  /** End concept checking */
+#endif
 
 protected:
   BSplineDecompositionImageFilter();

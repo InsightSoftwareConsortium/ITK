@@ -53,6 +53,7 @@ public:
 
   /** Number of dimensions */
   itkStaticConstMacro(NDimensions, unsigned int, TInputImage::ImageDimension);
+  itkStaticConstMacro(NOutputDimensions, unsigned int, TOutputImage::ImageDimension);
 
   /** typedef for images */
   typedef TInputImage                             InputImageType;
@@ -82,6 +83,18 @@ public:
    * that is 2*Repetitions larger than the output. In other words, this
    * filter needs a border of "Repetitions" pixels. */
   void GenerateInputRequestedRegion();
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<itkGetStaticConstMacro(NDimensions),
+                            itkGetStaticConstMacro(NOutputDimensions)>));
+  itkConceptMacro(InputConvertibleToDoubleCheck,
+    (Concept::Convertible<typename TInputImage::PixelType, double>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck,
+    (Concept::Convertible<double, PixelType>));
+  /** End concept checking */
+#endif
 
 protected:
   BinomialBlurImageFilter();

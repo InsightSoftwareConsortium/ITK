@@ -112,6 +112,13 @@ public:
   itkSetMacro(OutsideValue, InputPixelType);
   itkGetMacro(OutsideValue, InputPixelType);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputEqualityComparableCheck,
+    (Concept::EqualityComparable<typename InputImageType::PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   ApproximateSignedDistanceMapImageFilter();
   virtual ~ApproximateSignedDistanceMapImageFilter() {};

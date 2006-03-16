@@ -107,7 +107,17 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(MaskEqualityComparableCheck,
+    (Concept::EqualityComparable<typename TMaskImage::PixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<typename TInputImage::PixelType,
+                          typename TOutputImage::PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   MaskNegatedImageFilter() {}
   virtual ~MaskNegatedImageFilter() {}

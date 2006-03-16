@@ -129,7 +129,17 @@ public:
     {
     this->GetFunctor().SetOutsideValue( outsudeValue );
     }
-    
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(MaskEqualityComparableCheck,
+    (Concept::EqualityComparable<typename TMaskImage::PixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<typename TInputImage::PixelType,
+                          typename TOutputImage::PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   MaskImageFilter() {}
   virtual ~MaskImageFilter() {}

@@ -95,7 +95,14 @@ public:
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(IntConvertibleToInput2Check,
+    (Concept::Convertible<int, typename TInputImage2::PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   DivideImageFilter() {}
   virtual ~DivideImageFilter() {}
