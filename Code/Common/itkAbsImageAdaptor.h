@@ -46,10 +46,12 @@ public:
   typedef TInternalType InternalType;
 
   static inline void Set(TInternalType & output, const TExternalType & input) 
-    {output = (TInternalType)((input > NumericTraits<TExternalType>::Zero) ? input : -input );}
+    {output = (TInternalType)(
+             (input > NumericTraits<TExternalType>::Zero) ? input : -input );}
 
   static inline TExternalType Get( const TInternalType & input ) 
-    {return (TExternalType) ( (input > NumericTraits<TInternalType>::Zero) ? input : -input );}
+    {return (TExternalType) ( 
+             (input > NumericTraits<TInternalType>::Zero) ? input : -input );}
 };
   
 } // end namespace Accessor
@@ -75,8 +77,8 @@ public:
   typedef ImageAdaptor<TImage, Accessor::AbsPixelAccessor<
                                typename TImage::PixelType,
                                TOutputPixelType> >  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                        Pointer;
+  typedef SmartPointer<const Self>                  ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -84,11 +86,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( AbsImageAdaptor, ImageAdaptor );
 
- protected:
+protected:
   AbsImageAdaptor() {}
   virtual ~AbsImageAdaptor() {}
   
- private:
+private:
   AbsImageAdaptor(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

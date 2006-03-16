@@ -41,8 +41,8 @@ class ITK_EXPORT AtanPixelAccessor
 {
 public:
 
- /** External typedef. It defines the external aspect
-   * that this class will exhibit. */
+  /** External typedef. It defines the external aspect
+   *  that this class will exhibit. */
   typedef TExternalType ExternalType;
 
   /** Internal typedef. It defines the internal real
@@ -78,13 +78,13 @@ class ITK_EXPORT AtanImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef AtanImageAdaptor  Self;
+  typedef AtanImageAdaptor                                  Self;
   typedef ImageAdaptor<TImage,Accessor::AtanPixelAccessor<
                                        typename TImage::PixelType,
                                        TOutputPixelType> >
                                                             Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                Pointer;
+  typedef SmartPointer<const Self>                          ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro( AtanImageAdaptor, ImageAdaptor );

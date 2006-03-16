@@ -46,8 +46,8 @@ class Array : public vnl_vector< TValueType >
 public:
  
   /** The element type stored at each location in the Array. */
-  typedef TValueType  ValueType;
-  typedef Array Self;
+  typedef TValueType             ValueType;
+  typedef Array                  Self;
   typedef vnl_vector<TValueType> VnlVectorType;
   
 public:
@@ -73,7 +73,8 @@ public:
    * that location and it is the user's responsibility to delete it. 
    * If "LetArrayManageMemory" is true, then this class will free the
    * memory when this object is destroyed. */ 
-  Array( const ValueType* data, unsigned int sz, bool LetArrayManageMemory = false);
+  Array( const ValueType* data, unsigned int sz, 
+         bool LetArrayManageMemory = false);
 
 
   /** Set the all the elements of the array to the specified value */
@@ -118,14 +119,13 @@ public:
    * the responsibility of freeing the memory for this data.  If
    * "LetArrayManageMemory" is true, then this class will free the
    * memory when this object is destroyed. */
-  void SetData(TValueType* data, unsigned int sz, bool LetArrayManageMemory = false);
+  void SetData(TValueType* data, unsigned int sz, 
+               bool LetArrayManageMemory = false);
 
   
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
   ~Array();
-
-
 
 private:
 
@@ -134,7 +134,6 @@ private:
 };
 
 
-  
 template <typename TValueType >
 std::ostream & operator<<(std::ostream &os, const Array<TValueType> &arr)
 {
@@ -155,7 +154,6 @@ std::ostream & operator<<(std::ostream &os, const Array<TValueType> &arr)
 }
 
 } // namespace itk
-
 
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -129,19 +129,17 @@ public:
     { return m_IsOwner; }
 
   /** Release the pointer hold by the current AutoPointer 
-      and return the raw pointer so it can be hold by 
-      another AutoPointer. This operation is intended to
-      be used for facilitating polymorphism.
-  
-      Example: if class Cow derives from Mammal,
-      AutoPointer<Cow> onecow = new Cow;
-      AutoPointer<Mammal> onemammal = onecow.ReleaseOwnership(); 
-
-      Note that the AutoPointer still points to the object after the
-      ReleaseOwnership operation, but it doesn't own the object any
-      more.
-
-    */
+   *  and return the raw pointer so it can be hold by 
+   *  another AutoPointer. This operation is intended to
+   *  be used for facilitating polymorphism.
+   * 
+   *  Example: if class Cow derives from Mammal,
+   *  AutoPointer<Cow> onecow = new Cow;
+   *  AutoPointer<Mammal> onemammal = onecow.ReleaseOwnership(); 
+   *
+   *  Note that the AutoPointer still points to the object after the
+   *  ReleaseOwnership operation, but it doesn't own the object any
+   *  more. */
   ObjectType * ReleaseOwnership( void ) 
     {
     m_IsOwner = false;
@@ -229,7 +227,8 @@ template <typename TAutoPointerBase, typename TAutoPointerDerived>
 void
 ITK_EXPORT TransferAutoPointer(TAutoPointerBase & pa, TAutoPointerDerived & pb)
 {
-  pa.TakeNoOwnership( pb.GetPointer() ); // give a chance to natural polymorphism
+  // give a chance to natural polymorphism
+  pa.TakeNoOwnership( pb.GetPointer() ); 
   if( pb.IsOwner() )
     {
     pa.TakeOwnership();      // pa Take Ownership

@@ -1,4 +1,4 @@
-/*
+/*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkAffineTransform.h
@@ -312,8 +312,3 @@ private:
 #endif
 
 #endif /* __itkAffineTransform_h */
-
-
-
-
-

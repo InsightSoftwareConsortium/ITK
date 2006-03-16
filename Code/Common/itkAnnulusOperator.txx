@@ -14,8 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkAnnulusOperator_txx
-#define _itkAnnulusOperator_txx
+
+#ifndef __itkAnnulusOperator_txx
+#define __itkAnnulusOperator_txx
 
 #include "itkAnnulusOperator.h"
 #include "itkSphereSpatialFunction.h"
@@ -23,12 +24,10 @@
 namespace itk
 {
 
-
-
-//Create the operator
-template <class TPixel, unsigned int VDimension, class TAllocator>
+/** Create the operator */
+template <class TPixel, unsigned int TDimension, class TAllocator>
 void
-AnnulusOperator<TPixel, VDimension, TAllocator>
+AnnulusOperator<TPixel, TDimension, TAllocator>
 ::CreateOperator()
 {
   CoefficientVector coefficients;
@@ -36,16 +35,15 @@ AnnulusOperator<TPixel, VDimension, TAllocator>
   coefficients = this->GenerateCoefficients();
 
   this->Fill(coefficients);
-  
 }
 
-//This function fills the coefficients into the corresponding neighborhodd.
-template <class TPixel, unsigned int VDimension, class TAllocator>
+/** This function fills the coefficients into the corresponding 
+ *  neighborhood. */
+template <class TPixel, unsigned int TDimension, class TAllocator>
 void  
-AnnulusOperator <TPixel, VDimension, TAllocator>
+AnnulusOperator <TPixel, TDimension, TAllocator>
 ::Fill(const CoefficientVector &coeff)
 {
-
   typename Superclass::CoefficientVector::const_iterator it;
 
   std::slice* temp_slice;
@@ -61,13 +59,12 @@ AnnulusOperator <TPixel, VDimension, TAllocator>
     {
     *data = *it;
     }
-
 }
 
-template <class TPixel, unsigned int VDimension, class TAllocator>
-typename AnnulusOperator<TPixel, VDimension, TAllocator>
+template <class TPixel, unsigned int TDimension, class TAllocator>
+typename AnnulusOperator<TPixel, TDimension, TAllocator>
 ::CoefficientVector
-AnnulusOperator<TPixel, VDimension, TAllocator>
+AnnulusOperator<TPixel, TDimension, TAllocator>
 ::GenerateCoefficients()
 {
   // Determine the initial kernel values...
@@ -94,14 +91,14 @@ AnnulusOperator<TPixel, VDimension, TAllocator>
   SizeType r;
   unsigned int i, j;
   double outerRadius = m_InnerRadius + m_Thickness;
-  for (i=0; i < VDimension; ++i)
+  for (i=0; i < TDimension; ++i)
     {
     r[i] = static_cast<SizeValueType>(ceil(outerRadius / m_Spacing[i]));
     }
   this->SetRadius(r);
 
   // Use a couple of sphere spatial functions...
-  typedef SphereSpatialFunction<VDimension> SphereType;
+  typedef SphereSpatialFunction<TDimension> SphereType;
   typename SphereType::Pointer innerS = SphereType::New();
   typename SphereType::Pointer  outerS = SphereType::New();
   
@@ -129,7 +126,7 @@ AnnulusOperator<TPixel, VDimension, TAllocator>
     offset = this->GetOffset(i);
 
     // convert to a position
-    for (j=0; j < VDimension; ++j)
+    for (j=0; j < TDimension; ++j)
       {
       point[j] = m_Spacing[j] * offset[j];
       }

@@ -65,25 +65,25 @@ namespace itk {
  * 
  * \ingroup Operators
  */
-template<class TPixel, unsigned int VDimension=2,
+template<class TPixel, unsigned int TDimension=2,
   class TAllocator = NeighborhoodAllocator<TPixel> >
 class ITK_EXPORT AnnulusOperator
-  : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
+  : public NeighborhoodOperator<TPixel, TDimension, TAllocator>
 {
 public:
   /** Standard typedefs */
-  typedef AnnulusOperator Self;
-  typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>  Superclass;
+  typedef AnnulusOperator                                       Self;
+  typedef NeighborhoodOperator<TPixel, TDimension, TAllocator>  Superclass;
 
   /** Additional typedefs */
-  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::SizeType   SizeType;
   typedef typename Superclass::OffsetType OffsetType;
-  typedef Vector<double, VDimension> SpacingType;
+  typedef Vector<double, TDimension>      SpacingType;
   
   itkTypeMacro(AnnulusOperator, NeighborhoodOperator);
   
   AnnulusOperator()
-    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(),
+    : NeighborhoodOperator<TPixel, TDimension, TAllocator>(),
       m_Normalize(false), m_BrightCenter(false),
       m_InteriorValue(NumericTraits<PixelType>::Zero),
       m_AnnulusValue(NumericTraits<PixelType>::One),
@@ -91,7 +91,7 @@ public:
     { m_Spacing.Fill(1.0); }
 
   AnnulusOperator(const Self& other)
-    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
+    : NeighborhoodOperator<TPixel, TDimension, TAllocator>(other)
     {
     m_InnerRadius = other.m_InnerRadius;
     m_Thickness = other.m_Thickness;
@@ -168,11 +168,9 @@ public:
   TPixel GetExteriorValue() const
     { return m_ExteriorValue; }
   
-  /**
-   * Assignment operator
-   */
+  /** Assignment operator */
   Self &operator=(const Self& other)
-  {
+    {
     Superclass::operator=(other);
     m_InnerRadius = other.m_InnerRadius;
     m_Thickness = other.m_Thickness;
@@ -183,12 +181,11 @@ public:
     m_Normalize = other.m_Normalize;
     m_BrightCenter = other.m_BrightCenter;
     return *this;
-  }
-  /**
-   * Prints some debugging information
-   */
+    }
+
+  /** Prints some debugging information */
   virtual void PrintSelf(std::ostream &os, Indent i) const  
-  { 
+    { 
     os << i << "AnnulusOperator { this=" << this
        << ", m_InnerRadius = " << m_InnerRadius
        << ", m_Thickness = " << m_Thickness
@@ -199,28 +196,23 @@ public:
        << ", m_ExteriorValue = " << m_ExteriorValue
        << "}" << std::endl;
     Superclass::PrintSelf(os, i.GetNextIndent());
-  }
-
+    }
   
 protected:
-  /**
-   * Typedef support for coefficient vector type.  Necessary to
-   * work around compiler bug on VC++.
-   */
+  
+  /** Typedef support for coefficient vector type.  Necessary to
+   *  work around compiler bug on VC++. */
   typedef typename Superclass::CoefficientVector CoefficientVector;
-  typedef typename Superclass::PixelType PixelType;
+  typedef typename Superclass::PixelType         PixelType;
 
-  /**
-   * Calculates operator coefficients.
-   */
+  /** Calculates operator coefficients. */
   CoefficientVector GenerateCoefficients();
 
-  /**
-   * Arranges coefficients spatially in the memory buffer.
-   */
+  /** Arranges coefficients spatially in the memory buffer. */
   void Fill(const CoefficientVector &c);
 
 private:
+
   double m_InnerRadius;
   double m_Thickness;
   bool m_Normalize;
@@ -238,5 +230,3 @@ private:
 #endif
 
 #endif
-
-

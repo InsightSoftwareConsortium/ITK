@@ -14,15 +14,15 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkArray_txx
-#define _itkArray_txx
+#ifndef __itkArray_txx
+#define __itkArray_txx
 
 #include "itkArray.h"
 
 namespace itk
 {
 
-/** Default constructor  */
+/** Default constructor s*/
 template < typename TValueType >
 Array<TValueType >
 ::Array():vnl_vector<TValueType>()
@@ -61,7 +61,7 @@ Array<TValueType >
 }
 
 
-/** Destructor*/
+/** Destructor */
 template < typename TValueType >
 Array<TValueType >
 ::~Array()
@@ -141,7 +141,6 @@ void Array<TValueType >
     }
     
 }
-
 
 
 template < typename TValueType >

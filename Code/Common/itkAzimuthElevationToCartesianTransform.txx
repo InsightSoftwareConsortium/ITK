@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkAzimuthElevationToCartesianTransform_txx
-#define _itkAzimuthElevationToCartesianTransform_txx
+#ifndef __itkAzimuthElevationToCartesianTransform_txx
+#define __itkAzimuthElevationToCartesianTransform_txx
 
 #include "itkAzimuthElevationToCartesianTransform.h"
 
@@ -56,63 +56,78 @@ PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "x = z*tan(Azimuth)"  <<std::endl;
-  os << indent << "y = z*tan(Elevation)"  <<std::endl;
+  os << indent << "x = z*tan(Azimuth)" << std::endl;
+  os << indent << "y = z*tan(Elevation)" << std::endl;
   os << indent << "z = sqrt(r*r * cos(Azimuth)*cos(Azimuth) " 
-     << " / (1 + cos(Azimuth) * cos(Azimuth) * tan(Elevation) * tan(Elevation)))"  <<std::endl;
-  os << indent << "Azimuth = 1 / (tan(x/y))"  <<std::endl;
-  os << indent << "Elevation = 1 / (tan(y/z))"  <<std::endl;
-  os << indent << "r = sqrt(x*x + y*y + z*z)"  <<std::endl;
-  os << indent << "m_MaxAzimuth = "<<m_MaxAzimuth<<std::endl;
-  os << indent << "m_MaxElevation = "<<m_MaxElevation<<std::endl;
-  os << indent << "m_RadiusSampleSize = "<<m_RadiusSampleSize<<std::endl;
-  os << indent << "m_AzimuthAngularSeparation = "<<m_AzimuthAngularSeparation<<std::endl;
-  os << indent << "m_ElevationAngularSeparation = "<<m_ElevationAngularSeparation<<std::endl;
-  os << indent << "m_FirstSampleDistance = "<<m_FirstSampleDistance<<std::endl;
-  os << indent << "m_ForwardAzimuthElevationToPhysical = "<< (m_ForwardAzimuthElevationToPhysical ? "True" : "False")<<std::endl;
-
+     << " / (1 + cos(Azimuth) * cos(Azimuth) * tan(Elevation)"
+     << "* tan(Elevation)))" << std::endl;
+  os << indent << "Azimuth = 1 / (tan(x/y))" << std::endl;
+  os << indent << "Elevation = 1 / (tan(y/z))" << std::endl;
+  os << indent << "r = sqrt(x*x + y*y + z*z)" << std::endl;
+  os << indent << "m_MaxAzimuth = " << m_MaxAzimuth << std::endl;
+  os << indent << "m_MaxElevation = " << m_MaxElevation << std::endl;
+  os << indent << "m_RadiusSampleSize = " << m_RadiusSampleSize << std::endl;
+  os << indent << "m_AzimuthAngularSeparation = ";
+  os << indent << m_AzimuthAngularSeparation << std::endl;
+  os << indent << "m_ElevationAngularSeparation = ";
+  os << indent << m_ElevationAngularSeparation << std::endl;
+  os << indent << "m_FirstSampleDistance = "; 
+  os << indent << m_FirstSampleDistance << std::endl;
+  os << indent << "m_ForwardAzimuthElevationToPhysical = ";
+  os << indent << (m_ForwardAzimuthElevationToPhysical ? "True" : "False");
+  os << indent << std::endl;
 }
 
 
 template<class TScalarType, unsigned int NDimensions>
-typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::OutputPointType
+typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>
+::OutputPointType
 AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
 TransformPoint(const InputPointType &point) const 
 {
   OutputPointType result;
-  if (m_ForwardAzimuthElevationToPhysical) result = TransformAzElToCartesian(point);
-  else result = TransformCartesianToAzEl(point);
+  if (m_ForwardAzimuthElevationToPhysical)
+    {
+    result = TransformAzElToCartesian(point);
+    }
+  else
+    {
+    result = TransformCartesianToAzEl(point);
+    }
   return result;
 }
 
 
-// Transform a point, from azimuth-elevation to cartesian
+/** Transform a point, from azimuth-elevation to cartesian */
 template<class TScalarType, unsigned int NDimensions>
-typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::OutputPointType
+typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>
+::OutputPointType
 AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
 TransformAzElToCartesian(const InputPointType &point) const 
 {
   OutputPointType result;
-  ScalarType Azimuth = ((2*vnl_math::pi) / 360) * (point[0]*m_AzimuthAngularSeparation 
-                                                   - ((m_MaxAzimuth-1)/2.0) );
-  ScalarType Elevation   = ((2*vnl_math::pi) / 360) * (point[1]*m_ElevationAngularSeparation 
-                                                       - ((m_MaxElevation-1)/2.0) );
+  ScalarType Azimuth = ((2*vnl_math::pi) / 360) 
+                       * (point[0]*m_AzimuthAngularSeparation 
+                       - ((m_MaxAzimuth-1)/2.0) );
+  ScalarType Elevation   = ((2*vnl_math::pi) / 360) 
+                           * (point[1]*m_ElevationAngularSeparation 
+                           - ((m_MaxElevation-1)/2.0) );
   ScalarType r = (m_FirstSampleDistance + point[2]) * m_RadiusSampleSize;
 
   ScalarType cosOfAzimuth = cos(Azimuth);
   ScalarType tanOfElevation = tan(Elevation);
   result[2] = sqrt((r*r*cosOfAzimuth*cosOfAzimuth)
-                   / (1 + cosOfAzimuth * cosOfAzimuth * tanOfElevation * tanOfElevation));
+                   / (1 + cosOfAzimuth * cosOfAzimuth * tanOfElevation 
+                   * tanOfElevation));
   result[0] = result[2] * tan(Azimuth);
   result[1] = result[2] * tanOfElevation;
   return result;
 }
     
-
-
-// Back transform a point
+/** Back transform a point */
 template<class TScalarType, unsigned int NDimensions>
-typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::InputPointType
+typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>
+::InputPointType
 AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
 BackTransform(const OutputPointType &point) const 
 {
@@ -128,11 +143,10 @@ BackTransform(const OutputPointType &point) const
   return result;
 }
 
-
-
-// Back transform a point
+/** Back transform a point */
 template<class TScalarType, unsigned int NDimensions>
-typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::InputPointType
+typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>
+::InputPointType
 AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
 BackTransformPoint(const OutputPointType &point) const 
 {
@@ -149,16 +163,17 @@ BackTransformPoint(const OutputPointType &point) const
 }
 
 
-
-
 template<class TScalarType, unsigned int NDimensions>
-typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::OutputPointType
+typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>
+::OutputPointType
 AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
 TransformCartesianToAzEl(const OutputPointType &point) const 
 {
   InputPointType result;       // Converted point
-  result[0] = (atan(point[0] / point[2])) * (360 / (2*vnl_math::pi)) + ((m_MaxAzimuth-1)/2.0);
-  result[1] = (atan(point[1] / point[2])) * (360 / (2*vnl_math::pi)) + ((m_MaxElevation-1)/2.0);
+  result[0] = (atan(point[0] / point[2])) * (360 / (2*vnl_math::pi)) 
+                                            + ((m_MaxAzimuth-1)/2.0);
+  result[1] = (atan(point[1] / point[2])) * (360 / (2*vnl_math::pi)) 
+                                            + ((m_MaxElevation-1)/2.0);
   result[2] = ((sqrt( point[0] * point[0] +
                       point[1] * point[1] +
                       point[2] * point[2]) 
@@ -179,8 +194,10 @@ SetAzimuthElevationToCartesianParameters(const double sampleSize,
                                          const double azimuthAngleSeparation,
                                          const double elevationAngleSeparation)
 {
-  SetMaxAzimuth(static_cast<long>(static_cast<double>(maxAzimuth) * azimuthAngleSeparation));
-  SetMaxElevation(static_cast<long>(static_cast<double>(maxElevation) * elevationAngleSeparation));
+  SetMaxAzimuth(static_cast<long>(static_cast<double>(maxAzimuth) 
+                                                   * azimuthAngleSeparation));
+  SetMaxElevation(static_cast<long>(static_cast<double>(maxElevation) 
+                                                 * elevationAngleSeparation));
   SetRadiusSampleSize(sampleSize);
   SetAzimuthAngularSeparation(azimuthAngleSeparation);
   SetElevationAngularSeparation(elevationAngleSeparation);
@@ -195,9 +212,9 @@ SetAzimuthElevationToCartesianParameters(const double sampleSize,
                                          const long maxAzimuth, 
                                          const long maxElevation )
 {
-  SetAzimuthElevationToCartesianParameters(sampleSize, firstSampleDistance, maxAzimuth, maxElevation, 1.0, 1.0);
+  SetAzimuthElevationToCartesianParameters(sampleSize, firstSampleDistance, 
+                                          maxAzimuth, maxElevation, 1.0, 1.0);
 }
-
 
 
 template<class TScalarType, unsigned int NDimensions>
@@ -209,7 +226,6 @@ SetForwardAzimuthElevationToCartesian()
 }
 
 
-
 template<class TScalarType, unsigned int NDimensions>
 void
 AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
@@ -217,7 +233,6 @@ SetForwardCartesianToAzimuthElevation()
 {
   m_ForwardAzimuthElevationToPhysical = false;
 }
-
 
 
 }//namespace

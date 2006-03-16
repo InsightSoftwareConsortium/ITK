@@ -38,12 +38,12 @@ class ITK_EXPORT AddImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef AddImageAdaptor  Self;
+  typedef AddImageAdaptor                                        Self;
   typedef ImageAdaptor<TImage,
                        Accessor::AddPixelAccessor<
                                  typename TImage::PixelType > >  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                     Pointer;
+  typedef SmartPointer<const Self>                               ConstPointer;
   
   typedef typename TImage::PixelType      PixelType;
 

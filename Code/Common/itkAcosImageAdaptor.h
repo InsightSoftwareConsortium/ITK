@@ -63,8 +63,7 @@ public:
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.
  *
- * \ingroup ImageAdaptors 
-*/
+ * \ingroup ImageAdaptors */
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT AcosImageAdaptor : public
 ImageAdaptor<TImage,Accessor::AcosPixelAccessor<
@@ -73,11 +72,11 @@ ImageAdaptor<TImage,Accessor::AcosPixelAccessor<
 {
 public:
   /** Standard class typedefs. */
-  typedef AcosImageAdaptor  Self;
+  typedef AcosImageAdaptor          Self;
   typedef ImageAdaptor<TImage,Accessor::AcosPixelAccessor<
     typename TImage::PixelType,
-    TOutputPixelType> >  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+    TOutputPixelType> >             Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Method for creation through the object factory. */

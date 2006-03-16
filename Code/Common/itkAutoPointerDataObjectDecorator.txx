@@ -17,17 +17,15 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkAutoPointerDataObjectDecorator_txx
-#define _itkAutoPointerDataObjectDecorator_txx
+#ifndef __itkAutoPointerDataObjectDecorator_txx
+#define __itkAutoPointerDataObjectDecorator_txx
 
 #include "itkAutoPointerDataObjectDecorator.h"
 
 namespace itk
 {
-
-/**
- *
- */
+ 
+/** Constructor */
 template<class T>
 AutoPointerDataObjectDecorator<T>
 ::AutoPointerDataObjectDecorator() : m_Component()
@@ -35,19 +33,14 @@ AutoPointerDataObjectDecorator<T>
 }
 
 
-/**
- *
- */
+/** Destructor */
 template<class T>
 AutoPointerDataObjectDecorator<T>
 ::~AutoPointerDataObjectDecorator()
 {
 }
 
-
-/**
- *
- */
+/** Set value */
 template<class T>
 void
 AutoPointerDataObjectDecorator<T>
@@ -63,9 +56,7 @@ AutoPointerDataObjectDecorator<T>
 }
 
 
-/**
- *
- */
+/** PrintSelf method */
 template<class T>
 void 
 AutoPointerDataObjectDecorator<T>

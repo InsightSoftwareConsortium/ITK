@@ -34,14 +34,13 @@ namespace Accessor {
  * to the types defined as template parameters
  * 
  * \ingroup ImageAdaptors */
-
 template <class TInternalType, class TExternalType >
 class ITK_EXPORT AsinPixelAccessor  
 {
 public:
 
- /** External typedef. It defines the external aspect
-   * that this class will exhibit. */
+  /** External typedef. It defines the external aspect
+   *  that this class will exhibit. */
   typedef TExternalType ExternalType;
 
   /** Internal typedef. It defines the internal real
@@ -75,13 +74,12 @@ class ITK_EXPORT AsinImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef AsinImageAdaptor  Self;
+  typedef AsinImageAdaptor                                    Self;
   typedef ImageAdaptor<TImage,Accessor::AsinPixelAccessor<
                                        typename TImage::PixelType,
-                                       TOutputPixelType> >
-                                                            Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+                                       TOutputPixelType> >    Superclass;
+  typedef SmartPointer<Self>                                  Pointer;
+  typedef SmartPointer<const Self>                            ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro( AsinImageAdaptor, ImageAdaptor );

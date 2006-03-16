@@ -18,7 +18,6 @@
 #define __itkAddPixelAccessor_h
 
 
-
 namespace itk
 {
 namespace Accessor
@@ -42,7 +41,7 @@ public:
   /** Standard class typedefs. */
   typedef   AddPixelAccessor        Self;
 
- /** External typedef. It defines the external aspect
+  /** External typedef. It defines the external aspect
    * that this class will exhibit */
   typedef     TPixel      ExternalType;
 
@@ -68,8 +67,10 @@ public:
 
   /** Assignment Operator */
   Self & operator=( const Self & apa )
-    { this->m_Value = apa.m_Value;
-      return *this; }
+    { 
+    this->m_Value = apa.m_Value;
+    return *this; 
+    }
 
   /** Constructors */
   AddPixelAccessor():m_Value( NumericTraits<TPixel>::Zero ) {}
@@ -88,4 +89,3 @@ private:
 
 
 #endif
-
