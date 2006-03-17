@@ -77,6 +77,8 @@ public:
   typedef typename TMaskImage::PixelType MaskPixelType;
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
   
   /**
    * Image typedef support
@@ -126,7 +128,26 @@ public:
     m_Functor = functor;
     this->Modified();
   }
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  itkConceptMacro(InputEqualityComparableCheck,
+    (Concept::EqualityComparable<InputPixelType>));
+  itkConceptMacro(OutputEqualityComparableCheck,
+    (Concept::EqualityComparable<OutputPixelType>));
+  itkConceptMacro(OutputConvertibleToUnsignedIntCheck,
+    (Concept::Convertible<OutputPixelType, unsigned int>));
+  itkConceptMacro(OutputConvertibleToUnsignedLongCheck,
+    (Concept::Convertible<OutputPixelType, unsigned long>));
+  itkConceptMacro(OutputConvertibleToLongCheck,
+    (Concept::Convertible<OutputPixelType, long>));
+  itkConceptMacro(UnsignedLongConvertibleToOutputCheck,
+    (Concept::Convertible<unsigned long, OutputPixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   ConnectedComponentFunctorImageFilter() {}
   virtual ~ConnectedComponentFunctorImageFilter() {}

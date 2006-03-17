@@ -80,6 +80,29 @@ public:
   /** Get the value to be assigned to eroded pixels */
   itkGetMacro(BackgroundValue, PixelType);
 
+  /** ImageDimension enumeration */
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension );
+  itkStaticConstMacro(KernelDimension, unsigned int,
+                      TKernel::NeighborhoodDimension);  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputEqualityComparable,
+    (Concept::EqualityComparable<PixelType>));
+  itkConceptMacro(SameDimensionCheck1,
+    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(SameDimensionCheck2,
+    (Concept::SameDimension<InputImageDimension, KernelDimension>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(IntConvertibleToOutputCheck,
+    (Concept::Convertible<int, typename TOutputImage::PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   ErodeObjectMorphologyImageFilter();
   ~ErodeObjectMorphologyImageFilter() {};

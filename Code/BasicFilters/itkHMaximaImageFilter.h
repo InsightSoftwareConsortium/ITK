@@ -110,7 +110,16 @@ public:
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputEqualityComparableCheck,
+    (Concept::EqualityComparable<InputImagePixelType>));
+  itkConceptMacro(IntConvertibleToInputCheck,
+    (Concept::Convertible<int, InputImagePixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   HMaximaImageFilter();
   ~HMaximaImageFilter() {};

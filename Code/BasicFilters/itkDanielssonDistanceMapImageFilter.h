@@ -91,9 +91,11 @@ public:
   /** Type for the size of the input image. */
   typedef typename RegionType::SizeType   SizeType;
   
-  /** The dimension of the input image. */
+  /** The dimension of the input and output images. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       InputImageType::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
 
   /** Pointer Type for the vector distance image */
   typedef Image< OffsetType,
@@ -158,6 +160,22 @@ public:
 
   /** Get vector field of distances. */
   VectorImageType * GetVectorDistanceMap(void);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(UnsignedIntConvertibleToOutputCheck,
+    (Concept::Convertible<unsigned int, typename TOutputImage::PixelType>));
+  itkConceptMacro(IntConvertibleToOutputCheck,
+    (Concept::Convertible<int, typename TOutputImage::PixelType>));
+  itkConceptMacro(DoubleConvertibleToOutputCheck,
+    (Concept::Convertible<double, typename TOutputImage::PixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<typename TInputImage::PixelType,
+                          typename TOutputImage::PixelType>));
+  /** End concept checking */
+#endif
 
 protected:
   DanielssonDistanceMapImageFilter();

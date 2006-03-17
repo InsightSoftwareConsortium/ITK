@@ -66,14 +66,27 @@ public:
   typedef typename Superclass::OutputImageSizeType OutputImageSizeType;
   typedef typename Superclass::InputImageSizeType InputImageSizeType;
 
-  /** ImageDimension constant */
+  /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
 
   /** Set/Get the pad value.  Default is Zero. */
   itkSetMacro(Constant, OutputImagePixelType);
   itkGetMacro(Constant, OutputImagePixelType);
-                 
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(OutputEqualityComparableCheck,
+    (Concept::EqualityComparable<OutputImagePixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  /** End concept checking */
+#endif
+
 protected:
   ConstantPadImageFilter();
   ~ConstantPadImageFilter() {};

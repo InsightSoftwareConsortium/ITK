@@ -114,6 +114,27 @@ public:
   virtual InputPixelObjectType * GetUpperInput();
   virtual InputPixelObjectType * GetLowerInput();
 
+  /** Image dimension constants */
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(OutputEqualityComparableCheck,
+    (Concept::EqualityComparable<OutputImagePixelType>));
+  itkConceptMacro(InputEqualityComparableCheck,
+    (Concept::EqualityComparable<InputImagePixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(IntConvertibleToInputCheck,
+    (Concept::Convertible<int, InputImagePixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   ConnectedThresholdImageFilter();
   ~ConnectedThresholdImageFilter(){};

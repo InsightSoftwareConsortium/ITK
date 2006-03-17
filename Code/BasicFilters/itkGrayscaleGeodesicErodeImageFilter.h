@@ -136,6 +136,17 @@ public:
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<MarkerImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputComparableCheck,
+    (Concept::Comparable<MarkerImagePixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<MarkerImagePixelType, OutputImagePixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   GrayscaleGeodesicErodeImageFilter();
   ~GrayscaleGeodesicErodeImageFilter() {};

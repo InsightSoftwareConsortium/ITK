@@ -98,7 +98,16 @@ public:
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputEqualityComparableCheck,
+    (Concept::EqualityComparable<InputImagePixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   GrayscaleConnectedClosingImageFilter();
   ~GrayscaleConnectedClosingImageFilter() {};

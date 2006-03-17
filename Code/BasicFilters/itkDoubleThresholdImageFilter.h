@@ -75,9 +75,6 @@ public:
   typedef typename TInputImage::PixelType  InputPixelType;
   typedef typename TOutputImage::PixelType OutputPixelType;
 
-  /** The input pixel type must support comparison operators. */
-  itkConceptMacro(PixelTypeComparable, (Concept::Comparable<InputPixelType>));
-
   /** Set the "outside" pixel value. The default value 
    * NumericTraits<OutputPixelType>::Zero. */
   itkSetMacro(OutsideValue,OutputPixelType);
@@ -125,7 +122,16 @@ public:
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(OutputEqualityComparableCheck,
+                  (Concept::EqualityComparable<OutputPixelType>));
+  itkConceptMacro(PixelTypeComparable,
+                  (Concept::Comparable<InputPixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   DoubleThresholdImageFilter();
   virtual ~DoubleThresholdImageFilter() {}
