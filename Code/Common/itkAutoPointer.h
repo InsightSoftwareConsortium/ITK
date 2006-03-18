@@ -50,9 +50,7 @@ public:
   typedef AutoPointer   Self;
   
   /** Constructor.  */
-  AutoPointer ():
-    m_Pointer(0),
-    m_IsOwner(false)
+  AutoPointer (): m_Pointer(0),m_IsOwner(false)
     { }
 
   /** Copy constructor.  */
@@ -64,11 +62,9 @@ public:
 
 
   /** Constructor to pointer p.  */
-  explicit AutoPointer ( ObjectType * p, bool takeOwnership ):
-                    m_Pointer(p),
-                    m_IsOwner(takeOwnership)
-      { }
-
+  explicit AutoPointer ( ObjectType * p, bool takeOwnership ): 
+                                        m_Pointer(p), m_IsOwner(takeOwnership)
+    { }
 
   /** Destructor.  */
   ~AutoPointer ()
@@ -150,7 +146,7 @@ public:
   ObjectType *GetPointer () const 
     { return m_Pointer; }
 
-   /** Comparison of pointers. Equal comparison.  */
+  /** Comparison of pointers. Equal comparison.  */
   bool operator == (const AutoPointer &r) const
     { return (void*)m_Pointer == (void*) r.m_Pointer; }
 

@@ -43,8 +43,8 @@ BloxBoundaryPointImage<VImageDimension>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-
-  os << indent << "Total number of boundary points: " << m_NumBoundaryPoints << std::endl;
+  os << indent << "Total number of boundary points: "
+     << m_NumBoundaryPoints << std::endl;
 }
 
 } // end namespace itk

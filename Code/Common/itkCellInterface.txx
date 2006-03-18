@@ -14,8 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkCellInterface_txx
-#define _itkCellInterface_txx
+#ifndef __itkCellInterface_txx
+#define __itkCellInterface_txx
+
 #include "itkCellInterface.h"
 
 namespace itk

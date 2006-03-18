@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVersorTransform_txx
-#define _itkVersorTransform_txx
+#ifndef __itkVersorTransform_txx
+#define __itkVersorTransform_txx
 
 #include "itkVersorTransform.h"
 
@@ -23,16 +23,15 @@
 namespace itk
 {
 
-// Constructor with default arguments
+/** Constructor with default arguments */
 template <class TScalarType>
 VersorTransform<TScalarType>
-::VersorTransform() :
-  Superclass(OutputSpaceDimension, ParametersDimension)
+::VersorTransform() : Superclass(OutputSpaceDimension, ParametersDimension)
 {
   m_Versor.SetIdentity();
 }
 
-// Constructor with default arguments
+/** Constructor with default arguments */
 template<class TScalarType>
 VersorTransform<TScalarType>::
 VersorTransform(unsigned int spaceDimension, 
@@ -42,17 +41,16 @@ VersorTransform(unsigned int spaceDimension,
   m_Versor.SetIdentity();
 }
 
-// Constructor with default arguments
+/** Constructor with default arguments */
 template<class TScalarType>
 VersorTransform<TScalarType>::
 VersorTransform(const MatrixType & matrix,
-                const OutputVectorType & offset) :
-  Superclass(matrix, offset)
+                const OutputVectorType & offset) : Superclass(matrix, offset)
 {
   this->ComputeMatrixParameters();  // called in MatrixOffset baseclass
 }
 
-// Set Parameters
+/** Set Parameters */
 template <class TScalarType>
 void
 VersorTransform<TScalarType>
@@ -81,7 +79,7 @@ VersorTransform<TScalarType>
   itkDebugMacro(<<"After setting parameters ");
 }
 
-// Set Parameters
+/** Set Parameters */
 template <class TScalarType>
 const typename VersorTransform<TScalarType>::ParametersType & 
 VersorTransform<TScalarType>
@@ -94,8 +92,7 @@ VersorTransform<TScalarType>
   return this->m_Parameters;
 }
 
-
-// Set Rotational Part
+/** Set Rotational Part */
 template <class TScalarType>
 void
 VersorTransform<TScalarType>
@@ -107,8 +104,7 @@ VersorTransform<TScalarType>
 }
 
 
-
-// Set Rotational Part
+/** Set Rotational Part */
 template <class TScalarType>
 void
 VersorTransform<TScalarType>
@@ -119,7 +115,7 @@ VersorTransform<TScalarType>
   this->ComputeOffset();
 }
 
-// Set Identity 
+/** Set Identity */
 template <class TScalarType>
 void
 VersorTransform<TScalarType>
@@ -133,7 +129,7 @@ VersorTransform<TScalarType>
 }
 
 
-// Compute the matrix
+/** Compute the matrix */
 template <class TScalarType>
 void
 VersorTransform<TScalarType>
@@ -168,7 +164,7 @@ VersorTransform<TScalarType>
   this->SetVarMatrix(newMatrix);
 }
 
-// Compute the matrix
+/** Compute the matrix */
 template <class TScalarType>
 void
 VersorTransform<TScalarType>
@@ -177,7 +173,7 @@ VersorTransform<TScalarType>
   m_Versor.Set( this->GetMatrix() );
 }
 
-// Set parameters
+/** Get the Jacobian */
 template<class TScalarType>
 const typename VersorTransform<TScalarType>::JacobianType &
 VersorTransform<TScalarType>::
@@ -237,7 +233,7 @@ GetJacobian( const InputPointType & p ) const
 
 }
   
-// Print self
+/** Print self */
 template<class TScalarType>
 void
 VersorTransform<TScalarType>::

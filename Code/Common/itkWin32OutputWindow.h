@@ -45,9 +45,9 @@ class ITKCommon_EXPORT Win32OutputWindow : public OutputWindow
 {
 public:
   /** Standard class typedefs. */
-  typedef Win32OutputWindow   Self;
-  typedef OutputWindow  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef Win32OutputWindow         Self;
+  typedef OutputWindow              Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Method for creation through the object factory. */

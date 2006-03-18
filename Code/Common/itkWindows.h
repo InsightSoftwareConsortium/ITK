@@ -25,4 +25,3 @@
 #include <windows.h>
 #include <winbase.h>
 #endif
-

@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkByteSwapper_txx
-#define _itkByteSwapper_txx
+#ifndef __itkByteSwapper_txx
+#define __itkByteSwapper_txx
 #include "itkByteSwapper.h"
 #include "itkObjectFactory.h"
 #include <memory>
@@ -26,11 +26,8 @@
 namespace itk
 {
 
-
-
 // The following are the public methods --------------------------------
 //
-
 // Machine definitions
 #ifdef CMAKE_WORDS_BIGENDIAN
 template <class T>
@@ -67,10 +64,10 @@ ByteSwapper<T>
       ByteSwapper<T>::Swap2((void *)p);
       return;
     case 4:
-      ByteSwapper<T>::Swap4((void *)p);      
+      ByteSwapper<T>::Swap4((void *)p);
       return;
     case 8:
-      ByteSwapper<T>::Swap8((void *)p);      
+      ByteSwapper<T>::Swap8((void *)p);
       return;
     default:  
       itkGenericExceptionMacro (<< "Cannot swap number of bytes requested");
@@ -82,7 +79,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapRangeFromSystemToBigEndian(T *, unsigned long ) // unused arguments removed
+::SwapRangeFromSystemToBigEndian(T *, unsigned long )
 {  
   // nothing needs to be done here...
 }
@@ -100,10 +97,10 @@ ByteSwapper<T>
       ByteSwapper<T>::Swap2Range((void *)p,num);
       return;
     case 4:
-      ByteSwapper<T>::Swap4Range((void *)p,num);      
+      ByteSwapper<T>::Swap4Range((void *)p,num);
       return;
     case 8:
-      ByteSwapper<T>::Swap8Range((void *)p,num);      
+      ByteSwapper<T>::Swap8Range((void *)p,num);
       return;
     default:  
       itkGenericExceptionMacro (<< "Cannot swap number of bytes requested");
@@ -135,10 +132,10 @@ ByteSwapper<T>
       ByteSwapper<T>::SwapWrite2Range((void *)p, num, fp);
       return;
     case 4:
-      ByteSwapper<T>::SwapWrite4Range((void *)p, num, fp);      
+      ByteSwapper<T>::SwapWrite4Range((void *)p, num, fp);
       return;
     case 8:
-      ByteSwapper<T>::SwapWrite8Range((void *)p, num, fp);      
+      ByteSwapper<T>::SwapWrite8Range((void *)p, num, fp);
       return;
     default:  
       itkGenericExceptionMacro (<< "Cannot swap number of bytes requested");
@@ -162,10 +159,10 @@ ByteSwapper<T>
       ByteSwapper<T>::Swap2((void *)p);
       return;
     case 4:
-      ByteSwapper<T>::Swap4((void *)p);      
+      ByteSwapper<T>::Swap4((void *)p);
       return;
     case 8:
-      ByteSwapper<T>::Swap8((void *)p);      
+      ByteSwapper<T>::Swap8((void *)p);
       return;
     default:  
       itkGenericExceptionMacro (<< "Cannot swap number of bytes requested");
@@ -193,10 +190,10 @@ ByteSwapper<T>
       ByteSwapper<T>::Swap2Range((void *)p,num);
       return;
     case 4:
-      ByteSwapper<T>::Swap4Range((void *)p,num);      
+      ByteSwapper<T>::Swap4Range((void *)p,num);
       return;
     case 8:
-      ByteSwapper<T>::Swap8Range((void *)p,num);      
+      ByteSwapper<T>::Swap8Range((void *)p,num);
       return;
     default:  
       itkGenericExceptionMacro (<< "Cannot swap number of bytes requested");
@@ -223,10 +220,10 @@ ByteSwapper<T>
       ByteSwapper<T>::SwapWrite2Range((void *)p, num, fp);
       return;
     case 4:
-      ByteSwapper<T>::SwapWrite4Range((void *)p, num, fp);      
+      ByteSwapper<T>::SwapWrite4Range((void *)p, num, fp);
       return;
     case 8:
-      ByteSwapper<T>::SwapWrite8Range((void *)p, num, fp);      
+      ByteSwapper<T>::SwapWrite8Range((void *)p, num, fp);
       return;
     default:  
       itkGenericExceptionMacro (<< "Cannot swap number of bytes requested");

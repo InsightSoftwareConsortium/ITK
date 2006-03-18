@@ -73,7 +73,7 @@ class ITK_EXPORT AbsImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef AbsImageAdaptor  Self;
+  typedef AbsImageAdaptor                           Self;
   typedef ImageAdaptor<TImage, Accessor::AbsPixelAccessor<
                                typename TImage::PixelType,
                                TOutputPixelType> >  Superclass;

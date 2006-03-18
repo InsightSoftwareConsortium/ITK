@@ -22,7 +22,8 @@
 namespace itk
 {
 /** \class XMLFileOutputWindow
- * \brief Messages sent from the system are sent to a file with each message enclosed by XML tags.
+ * \brief Messages sent from the system are sent to a file with each message 
+ *        enclosed by XML tags.
  *
  * Writes debug/warning/error output to an XML file.  Uses predefined XML
  * tags for each text display method.  The text is processed to replace
@@ -47,9 +48,9 @@ class ITKCommon_EXPORT XMLFileOutputWindow : public FileOutputWindow
 {
 public:
   /** Standard class typedefs. */
-  typedef XMLFileOutputWindow        Self;
-  typedef FileOutputWindow  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef XMLFileOutputWindow       Self;
+  typedef FileOutputWindow          Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Method for creation through the object factory. */

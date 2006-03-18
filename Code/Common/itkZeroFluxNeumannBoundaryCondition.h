@@ -60,14 +60,14 @@ class ITK_EXPORT  ZeroFluxNeumannBoundaryCondition
 {
 public:
   /** Standard class typedefs. */ 
-  typedef ZeroFluxNeumannBoundaryCondition Self;
-  typedef ImageBoundaryCondition<TImage> Superclass;
+  typedef ZeroFluxNeumannBoundaryCondition    Self;
+  typedef ImageBoundaryCondition<TImage>      Superclass;
   
   /** Extract information from the image type. */
-  typedef typename Superclass::PixelType PixelType;
+  typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::PixelPointerType PixelPointerType;
-  typedef typename Superclass::IndexType IndexType;
-  typedef typename Superclass::OffsetType OffsetType;
+  typedef typename Superclass::IndexType        IndexType;
+  typedef typename Superclass::OffsetType       OffsetType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
 
   typedef typename Superclass::NeighborhoodAccessorFunctorType 

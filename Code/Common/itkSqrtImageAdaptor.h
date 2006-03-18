@@ -38,7 +38,7 @@ template <class TInternalType, class TExternalType >
 class ITK_EXPORT SqrtPixelAccessor  
 {
 public:
- /** External typedef. It defines the external aspect
+  /** External typedef. It defines the external aspect
    * that this class will exhibit. */
   typedef TExternalType ExternalType;
 
@@ -71,12 +71,12 @@ class ITK_EXPORT SqrtImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef SqrtImageAdaptor  Self;
+  typedef SqrtImageAdaptor                                 Self;
   typedef ImageAdaptor<TImage,Accessor::SqrtPixelAccessor<
                                        typename TImage::PixelType,
                                        TOutputPixelType> > Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -84,11 +84,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( SqrtImageAdaptor, ImageAdaptor );
 
- protected:
+protected:
   SqrtImageAdaptor() {}
   virtual ~SqrtImageAdaptor() {}
   
- private:
+private:
   SqrtImageAdaptor(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 };

@@ -189,8 +189,8 @@ public:
     os << i << "AnnulusOperator { this=" << this
        << ", m_InnerRadius = " << m_InnerRadius
        << ", m_Thickness = " << m_Thickness
-       << ", m_Spacing = " << m_Spacing 
-       << ", m_Normalize = " << m_Normalize  
+       << ", m_Spacing = " << m_Spacing
+       << ", m_Normalize = " << m_Normalize
        << ", m_BrightCenter = " << m_BrightCenter
        << ", m_InteriorValue = " << m_InteriorValue
        << ", m_ExteriorValue = " << m_ExteriorValue

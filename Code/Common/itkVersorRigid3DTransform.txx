@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVersorRigid3DTransform_txx
-#define _itkVersorRigid3DTransform_txx
+#ifndef __itkVersorRigid3DTransform_txx
+#define __itkVersorRigid3DTransform_txx
 
 #include "itkVersorRigid3DTransform.h"
 

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkCenteredAffineTransform_txx
-#define _itkCenteredAffineTransform_txx
+#ifndef __itkCenteredAffineTransform_txx
+#define __itkCenteredAffineTransform_txx
 
 #include "itkNumericTraits.h"
 #include "itkCenteredAffineTransform.h"
@@ -42,7 +42,8 @@ CenteredAffineTransform<TScalarType, NDimensions>::
 
 // Get parameters
 template<class TScalarType, unsigned int NDimensions>
-const typename CenteredAffineTransform<TScalarType, NDimensions>::ParametersType &
+const typename CenteredAffineTransform<TScalarType, 
+                                       NDimensions>::ParametersType &
 CenteredAffineTransform<TScalarType, NDimensions>::
 GetParameters( void ) const
 {
@@ -83,10 +84,7 @@ GetParameters( void ) const
 
 }
 
-
-
-
-// Set parameters
+/** Set the parameters */
 template<class TScalarType, unsigned int NDimensions>
 void
 CenteredAffineTransform<TScalarType, NDimensions>::
@@ -138,7 +136,8 @@ SetParameters( const ParametersType & parameters )
 
 // Compute the Jacobian in one position 
 template<class TScalarType, unsigned int NDimensions>
-const typename CenteredAffineTransform<TScalarType, NDimensions>::JacobianType & 
+const typename CenteredAffineTransform<TScalarType, NDimensions>
+::JacobianType & 
 CenteredAffineTransform<TScalarType, NDimensions>::
 GetJacobian( const InputPointType & p ) const
 {

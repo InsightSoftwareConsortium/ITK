@@ -14,15 +14,16 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVolumeSplineKernelTransform_txx
-#define _itkVolumeSplineKernelTransform_txx
+#ifndef __itkVolumeSplineKernelTransform_txx
+#define __itkVolumeSplineKernelTransform_txx
 #include "itkVolumeSplineKernelTransform.h"
 
 namespace itk
 {
 
 template <class TScalarType, unsigned int NDimensions>
-const typename VolumeSplineKernelTransform<TScalarType, NDimensions>::GMatrixType &
+const typename VolumeSplineKernelTransform<TScalarType, 
+                                           NDimensions>::GMatrixType &
 VolumeSplineKernelTransform<TScalarType, NDimensions>::
 ComputeG(const InputVectorType & x) const
 {
@@ -38,7 +39,6 @@ ComputeG(const InputVectorType & x) const
 }
 
 
-
 template <class TScalarType, unsigned int NDimensions>
 void
 VolumeSplineKernelTransform<TScalarType, NDimensions>::
@@ -46,7 +46,8 @@ ComputeDeformationContribution( const InputPointType  & thisPoint,
                                 OutputPointType & result     ) const
 {
 
-  unsigned long numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numberOfLandmarks = 
+                              this->m_SourceLandmarks->GetNumberOfPoints();
 
   PointsIterator sp  = this->m_SourceLandmarks->GetPoints()->Begin();
 

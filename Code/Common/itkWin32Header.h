@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkWIN32Header_h
-#define __itkWIN32Header_h
+#ifndef __itkWin32Header_h
+#define __itkWin32Header_h
 
 #include "itkConfigure.h"
 

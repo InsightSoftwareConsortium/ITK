@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVersor_txx
-#define _itkVersor_txx
+#ifndef __itkVersor_txx
+#define __itkVersor_txx
 
 #include "itkVersor.h"
 #include "itkVector.h" 
@@ -26,10 +26,7 @@
 namespace itk
 {
 
-
-/**
- * Constructor to initialize entire vector to one value.
- */
+/** Constructor to initialize entire vector to one value. */
 template<class T>
 Versor<T>
 ::Versor()
@@ -40,11 +37,7 @@ Versor<T>
   m_W = NumericTraits<T>::One;
 }
 
-
-
-/**
- * Copy Constructor 
- */
+/** Copy Constructor */
 template<class T>
 Versor<T>
 ::Versor( const Self & v)
@@ -55,11 +48,7 @@ Versor<T>
   m_W = v.m_W;
 }
 
-
-
-/**
- * Assignment Operator
- */
+/** Assignment Operator */
 template<class T>
 const Versor<T> &
 Versor<T>
@@ -72,10 +61,7 @@ Versor<T>
   return *this;
 }
 
-
-/**
- * Set to an identity transform
- */
+/** Set to an identity transform */
 template<class T>
 void
 Versor<T>
@@ -87,12 +73,7 @@ Versor<T>
   m_W = NumericTraits<T>::One;
 }
 
-
-
-
-/**
- * Return a vnl_quaternion
- */
+/** Return a vnl_quaternion */
 template<class T>
 vnl_quaternion<T>
 Versor<T>
@@ -101,17 +82,12 @@ Versor<T>
   return vnl_quaternion<T>(m_X,m_Y,m_Z,m_W);
 }
 
-
-
-/**
- * Assignment and Composition Operator
- */
+/** Assignment and Composition Operator */
 template<class T>
 const Versor<T> &
 Versor<T>
 ::operator*=( const Self & v)
 {
-
   const double mx =  m_W*v.m_X - m_Z*v.m_Y + m_Y*v.m_Z + m_X*v.m_W;
   const double my =  m_Z*v.m_X + m_W*v.m_Y - m_X*v.m_Z + m_Y*v.m_W;
   const double mz = -m_Y*v.m_X + m_X*v.m_Y + m_W*v.m_Z + m_Z*v.m_W;
@@ -125,11 +101,7 @@ Versor<T>
   return *this;
 }
 
-
-
-/**
- * Composition Operator
- */
+/** Composition Operator */
 template<class T>
 Versor<T> 
 Versor<T>
@@ -146,18 +118,12 @@ Versor<T>
   return result;
 }
 
-
-
-
-/**
- * Division and Assignment Operator
- */
+/** Division and Assignment Operator */
 template<class T>
 const Versor<T> &
 Versor<T>
 ::operator/=( const Self & v)
 {
-  
   const double mx = -m_W*v.m_X + m_Z*v.m_Y - m_Y*v.m_Z + m_X*v.m_W;
   const double my = -m_Z*v.m_X - m_W*v.m_Y + m_X*v.m_Z + m_Y*v.m_W;
   const double mz =  m_Y*v.m_X - m_X*v.m_Y - m_W*v.m_Z + m_Z*v.m_W;
@@ -169,19 +135,14 @@ Versor<T>
   m_W = mw;
 
   return *this;
-
 }
 
-
-/**
- * Division Operator 
- */
+/** Division Operator  */
 template<class T>
 Versor<T> 
 Versor<T>
 ::operator/( const Self & v) const
 {
-  
   Self result;
 
   result.m_X = -m_W*v.m_X + m_Z*v.m_Y - m_Y*v.m_Z + m_X*v.m_W;
@@ -192,12 +153,7 @@ Versor<T>
   return result;
 }
 
-
-
-
-/**
- * Comparision operator
- */
+/** Comparision operator */
 template<class T>
 bool
 Versor<T>
@@ -206,22 +162,17 @@ Versor<T>
   return !(*this == v);
 }
 
-
-
-/**
- * Comparision operator
- */
+/** Comparision operator */
 template<class T>
 bool
 Versor<T>
 ::operator==( const Self & v) const
 {
-
   // Evaluate the quaternion ratio between them
   Self ratio = *this * v.GetReciprocal();
   
   const typename itk::NumericTraits< T >::AccumulateType 
-    square = ratio.m_W * ratio.m_W;
+                                            square = ratio.m_W * ratio.m_W;
   
   const double epsilon = 1e-300;
 
@@ -234,11 +185,7 @@ Versor<T>
 
 }
 
-
-
-/**
- * Get Conjugate
- */
+/** Get Conjugate */
 template<class T>
 Versor<T> 
 Versor<T>
@@ -254,12 +201,7 @@ Versor<T>
   return result;
 }
  
-
-
-
-/**
- * Get Reciprocal
- */
+/** Get Reciprocal */
 template<class T>
 Versor<T> 
 Versor<T>
@@ -275,12 +217,7 @@ Versor<T>
   return result;
 }
  
-
-
-
-/**
- * Get Tensor part
- */
+/** Get Tensor part */
 template<class T>
 typename Versor<T>::ValueType
 Versor<T>
@@ -294,11 +231,7 @@ Versor<T>
   return tensor;
 }
  
-
-
-/**
- * Normalize
- */
+/** Normalize */
 template<class T>
 void
 Versor<T>
@@ -309,30 +242,24 @@ Versor<T>
   if( fabs( tensor ) < 1e-20 )
     {
     ExceptionObject except;
-    except.SetDescription("Attempt to normalize a itk::Versor with zero tensor");
+    except.SetDescription("Attempt to normalize a \
+                           itk::Versor with zero tensor");
     except.SetLocation(__FILE__);
     throw except;
     }
-  m_X /=  tensor;
-  m_Y /=  tensor;
-  m_Z /=  tensor;
-  m_W /=  tensor;
+  m_X /= tensor;
+  m_Y /= tensor;
+  m_Z /= tensor;
+  m_W /= tensor;
 
 }
  
-
-
-
-
-/**
- * Get Axis
- */
+/** Get Axis */
 template<class T>
 typename Versor<T>::VectorType 
 Versor<T>
 ::GetAxis( void ) const
 {
-
   VectorType axis;
   
   const RealType ax = static_cast<RealType>( m_X );
@@ -357,11 +284,7 @@ Versor<T>
   return axis;
 }
  
-
-
-/**
- * Get Right part
- */
+/** Get Right part */
 template<class T>
 typename Versor<T>::VectorType 
 Versor<T>
@@ -376,12 +299,7 @@ Versor<T>
   return axis;
 }
  
-
-
-
-/**
- * Get Scalar part
- */
+/** Get Scalar part */
 template<class T>
 typename Versor<T>::ValueType 
 Versor<T>
@@ -390,11 +308,7 @@ Versor<T>
   return m_W;
 }
  
-
-
-/**
- * Get Angle (in radians)
- */
+/** Get Angle (in radians) */
 template<class T>
 typename Versor<T>::ValueType
 Versor<T>
@@ -409,20 +323,14 @@ Versor<T>
   const ValueType angle = 2.0 * atan2( vectorNorm, m_W );
   
   return angle;
-
 }
  
-
-
-/**
- * Get the Square root of the unit quaternion
- */
+/** Get the Square root of the unit quaternion */
 template<class T>
 Versor<T>
 Versor<T>
 ::SquareRoot( void ) const
 {
-
   const ValueType newScalar = sqrt( static_cast<double>( 1.0 + m_W ) );
   const double sqrtOfTwo    = sqrt( 2.0f );
 
@@ -436,39 +344,28 @@ Versor<T>
   result.m_W = newScalar / sqrtOfTwo;
 
   return result;
-
 }
- 
 
-/**
- *  Compute the Exponential of the quaternion
- */
+/** Compute the Exponential of the quaternion */
 template<class T>
 Versor<T>
 Versor<T>
 ::Exponential( ValueType exponent ) const
 {
-
   Self result;
   
   result.Set( this->GetAxis(), 
               this->GetAngle() * exponent );
 
   return result;
-
 }
  
-
-
-/**
- * Set Axis and Angle (in radians)
- */
+/** Set Axis and Angle (in radians) */
 template<class T>
 void
 Versor<T>
 ::Set( const VectorType & axis, ValueType angle )
 {
-
   const RealType vectorNorm = axis.GetNorm();
 
   const RealType cosangle2 = cos( angle / 2.0 );
@@ -481,13 +378,9 @@ Versor<T>
   m_Z = axis[2] * factor;
   
   m_W = cosangle2;
-
 }
  
-
-/**
- * Set using an orthogonal matrix.
- */
+/**  Set using an orthogonal matrix. */
 template<class T>
 void
 Versor<T>
@@ -541,9 +434,7 @@ Versor<T>
 }
 
 
-/**
- * Set right Part (in radians)
- */
+/** Set right Part (in radians) */
 template<class T>
 void
 Versor<T>
@@ -570,13 +461,9 @@ Versor<T>
 
 }
  
-
-
-/**
- * Set the Versor from four components.
- * After assignment, the quaternion is normalized
- * in order to get a consistent Versor (unit quaternion).
- */
+/** Set the Versor from four components.
+ *  After assignment, the quaternion is normalized
+ *  in order to get a consistent Versor (unit quaternion). */
 template<class T>
 void
 Versor<T>
@@ -589,13 +476,9 @@ Versor<T>
   this->Normalize();
 }
 
-
-
-/**
- * Set from a vnl_quaternion
- * After assignment, the quaternion is normalized
- * in order to get a consistent Versor (unit quaternion).
- */
+/** Set from a vnl_quaternion
+ *  After assignment, the quaternion is normalized
+ *  in order to get a consistent Versor (unit quaternion). */
 template<class T>
 void
 Versor<T>
@@ -608,18 +491,12 @@ Versor<T>
   this->Normalize();
 }
 
-
-
-
-/**
- * Set rotation around X axis 
- */
+/** Set rotation around X axis */
 template<class T>
 void
 Versor<T>
 ::SetRotationAroundX( ValueType angle )
 {
-
   const ValueType sinangle2 = sin( angle / 2.0 );
   const ValueType cosangle2 = cos( angle / 2.0 );
   
@@ -627,20 +504,14 @@ Versor<T>
   m_Y = NumericTraits< T >::Zero;
   m_Z = NumericTraits< T >::Zero;
   m_W = cosangle2;
-
 }
  
-
-
-/**
- * Set rotation around Y axis 
- */
+/** Set rotation around Y axis  */
 template<class T>
 void
 Versor<T>
 ::SetRotationAroundY( ValueType angle )
 {
-
   const ValueType sinangle2 = sin( angle / 2.0 );
   const ValueType cosangle2 = cos( angle / 2.0 );
   
@@ -648,20 +519,14 @@ Versor<T>
   m_Y = sinangle2;
   m_Z = NumericTraits< T >::Zero;
   m_W = cosangle2;
-
 }
  
-
-
-/**
- * Set rotation around Z axis 
- */
+/**  Set rotation around Z axis  */
 template<class T>
 void
 Versor<T>
 ::SetRotationAroundZ( ValueType angle )
 {
-
   const ValueType sinangle2 = sin( angle / 2.0 );
   const ValueType cosangle2 = cos( angle / 2.0 );
   
@@ -669,14 +534,9 @@ Versor<T>
   m_Y = NumericTraits< T >::Zero;
   m_Z = sinangle2;
   m_W = cosangle2;
-
 }
  
-
-
-/**
- * Transform a Vector
- */
+/** Transform a Vector */
 template<class T>
 typename Versor<T>::VectorType 
 Versor<T>
@@ -710,16 +570,10 @@ Versor<T>
 
   return result;
 }
- 
 
-
-
-
-/**
- * Transform a CovariantVector
- * given that this is an orthogonal transformation
- * CovariantVectors are transformed as vectors.
- */
+/** Transform a CovariantVector
+ *  given that this is an orthogonal transformation
+ *  CovariantVectors are transformed as vectors. */
 template<class T>
 typename Versor<T>::CovariantVectorType 
 Versor<T>
@@ -754,12 +608,7 @@ Versor<T>
   return result;
 }
 
-
-
-
-/**
- * Transform a Point
- */
+/** Transform a Point */
 template<class T>
 typename Versor<T>::PointType 
 Versor<T>
@@ -794,12 +643,7 @@ Versor<T>
   return result;
 }
 
-
-
-
-/**
- * Transform a VnlVector
- */
+/** Transform a VnlVector */
 template<class T>
 typename Versor<T>::VnlVectorType 
 Versor<T>
@@ -832,15 +676,9 @@ Versor<T>
   result[2] = mzx * v[0] + mzy * v[1] + mzz * v[2];
 
   return result;
-
 }
  
-
-
-
-/**
- * Get Matrix representation
- */
+/** Get Matrix representation */
 template<class T>
 Matrix<T,3,3>
 Versor<T>
@@ -869,12 +707,8 @@ Versor<T>
   matrix[1][2] = 2.0 * ( yz - xw );
     
   return matrix;
-
 }
- 
-
 
 } // end namespace itk
-
 
 #endif

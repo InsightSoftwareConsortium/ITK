@@ -14,16 +14,14 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVertexCell_txx
-#define _itkVertexCell_txx
+#ifndef __itkVertexCell_txx
+#define __itkVertexCell_txx
 #include "itkVertexCell.h"
 
 namespace itk
 {
  
-/**
- * Standard CellInterface:
- */
+/** Standard CellInterface: */
 template <typename TCellInterface>
 void
 VertexCell< TCellInterface >
@@ -33,13 +31,8 @@ VertexCell< TCellInterface >
   cellPointer->SetPointIds(this->GetPointIds());
 }
 
-
-
-  
-/**
- * Standard CellInterface:
- * Get the topological dimension of this cell.
- */
+/** Standard CellInterface:
+ *  Get the topological dimension of this cell. */
 template <typename TCellInterface>
 unsigned int
 VertexCell< TCellInterface >
@@ -49,10 +42,8 @@ VertexCell< TCellInterface >
 }
 
 
-/**
- * Standard CellInterface:
- * Get the number of points required to define the cell.
- */
+/** Standard CellInterface:
+ *  Get the number of points required to define the cell. */
 template <typename TCellInterface>
 unsigned int
 VertexCell< TCellInterface >
@@ -62,10 +53,8 @@ VertexCell< TCellInterface >
 }  
 
 
-/**
- * Standard CellInterface:
- * A vertex has no boundary entities of any dimension.
- */
+/** Standard CellInterface: 
+ *  A vertex has no boundary entities of any dimension. */
 template <typename TCellInterface>
 typename VertexCell< TCellInterface >::CellFeatureCount
 VertexCell< TCellInterface >
@@ -75,10 +64,8 @@ VertexCell< TCellInterface >
 }
 
 
-/**
- * Standard CellInterface:
- * A vertex has no boundary entities.  Just return null.
- */
+/** Standard CellInterface:
+ *  A vertex has no boundary entities.  Just return null. */
 template <typename TCellInterface >
 bool
 VertexCell< TCellInterface >
@@ -89,32 +76,28 @@ VertexCell< TCellInterface >
 }
 
 
-/**
- * Standard CellInterface:
- * Set the point id list used by the cell.  It is assumed that the given
- * iterator can be incremented and safely de-referenced enough times to 
- * get all the point ids needed by the cell.
- */
+/** Standard CellInterface:
+ *  Set the point id list used by the cell.  It is assumed that the given
+ *  iterator can be incremented and safely de-referenced enough times to 
+ *  get all the point ids needed by the cell. */
 template <typename TCellInterface>
 void
 VertexCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
-  for(unsigned int i=0; i < Self::NumberOfPoints ; ++i)
+  for(unsigned int i=0; i<Self::NumberOfPoints; ++i)
     {
     m_PointIds[i] = *ii++;
     }
 }
 
 
-/**
- * Standard CellInterface:
- * Set the point id list used by the cell.  It is assumed that the range
- * of iterators [first, last) contains the correct number of points needed to
- * define the cell.  The position *last is NOT referenced, so it can safely
- * be one beyond the end of an array or other container.
- */
+/** Standard CellInterface:
+ *  Set the point id list used by the cell.  It is assumed that the range
+ *  of iterators [first, last) contains the correct number of points needed to
+ *  define the cell.  The position *last is NOT referenced, so it can safely
+ *  be one beyond the end of an array or other container. */
 template <typename TCellInterface>
 void
 VertexCell< TCellInterface >
@@ -130,10 +113,8 @@ VertexCell< TCellInterface >
 }
 
 
-/**
- * Standard CellInterface:
- * Set an individual point identifier in the cell.
- */
+/** Standard CellInterface:
+ *  Set an individual point identifier in the cell. */
 template <typename TCellInterface>
 void
 VertexCell< TCellInterface >
@@ -143,10 +124,8 @@ VertexCell< TCellInterface >
 }
 
 
-/**
- * Standard CellInterface:
- * Get a begin iterator to the list of point identifiers used by the cell.
- */
+/** Standard CellInterface:
+ *  Get a begin iterator to the list of point identifiers used by the cell.*/
 template <typename TCellInterface>
 typename VertexCell< TCellInterface >::PointIdIterator
 VertexCell< TCellInterface >
@@ -156,11 +135,9 @@ VertexCell< TCellInterface >
 }
 
 
-/**
- * Standard CellInterface:
- * Get a const begin iterator to the list of point identifiers used
- * by the cell.
- */
+/** Standard CellInterface:
+ *  Get a const begin iterator to the list of point identifiers used
+ *  by the cell. */
 template <typename TCellInterface>
 typename VertexCell< TCellInterface >::PointIdConstIterator
 VertexCell< TCellInterface >
@@ -170,10 +147,8 @@ VertexCell< TCellInterface >
 }
 
 
-/**
- * Standard CellInterface:
- * Get an end iterator to the list of point identifiers used by the cell.
- */
+/** Standard CellInterface:
+ *  Get an end iterator to the list of point identifiers used by the cell. */
 template <typename TCellInterface>
 typename VertexCell< TCellInterface >::PointIdIterator
 VertexCell< TCellInterface >
@@ -183,11 +158,9 @@ VertexCell< TCellInterface >
 }
 
 
-/**
- * Standard CellInterface:
- * Get a const end iterator to the list of point identifiers used
- * by the cell.
- */
+/** Standard CellInterface:
+ *  Get a const end iterator to the list of point identifiers used
+ *  by the cell. */
 template <typename TCellInterface>
 typename VertexCell< TCellInterface >::PointIdConstIterator
 VertexCell< TCellInterface >
@@ -197,10 +170,8 @@ VertexCell< TCellInterface >
 }
 
 
-/**
- * Vertex-specific:
- * Set the identifier of the point defining the vertex.
- */
+/** Vertex-specific:
+ *  Set the identifier of the point defining the vertex. */
 template <typename TCellInterface>
 void
 VertexCell< TCellInterface >
@@ -210,10 +181,8 @@ VertexCell< TCellInterface >
 }
 
 
-/**
- * Vertex-specific:
- * Get the identifier of the point defining the vertex.
- */
+/** Vertex-specific:
+ *  Get the identifier of the point defining the vertex. */
 template <typename TCellInterface>
 typename VertexCell< TCellInterface >::PointIdentifier
 VertexCell< TCellInterface >
@@ -251,10 +220,10 @@ VertexCell< TCellInterface >
       }
     }
   
- if(minDist2)
-   {
-   *minDist2 = dist2;
-   }
+  if(minDist2)
+    {
+    *minDist2 = dist2;
+    }
 
   if(weights)
     {

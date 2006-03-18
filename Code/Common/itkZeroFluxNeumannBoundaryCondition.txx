@@ -33,10 +33,10 @@ ZeroFluxNeumannBoundaryCondition<TImage>
     linear_index += (point_index[i] + boundary_offset[i]) * data->GetStride(i);
     }
 
-  // The reinterpret_cast is necessary, cause we will have a warning if we do not do 
-  // ths. (In fact this function exists for legacy 
-  // reasons. The overloaded function below should be (and is) used instead). See
-  // any of the neighborhood iterators.
+  // The reinterpret_cast is necessary, cause we will have a warning if we 
+  // do not do this. (In fact this function exists for legacy 
+  // reasons. The overloaded function below should be (and is) used instead). 
+  // See any of the neighborhood iterators.
   // 
   // (data->operator[](linear_index)) is guaranteed to be a pointer to 
   // TImage::PixelType except for VectorImage, in which case, it will be a 
@@ -63,7 +63,7 @@ typename ZeroFluxNeumannBoundaryCondition<TImage>::PixelType
 ZeroFluxNeumannBoundaryCondition<TImage>
 ::operator()(const OffsetType& point_index, const OffsetType& boundary_offset,
              const NeighborhoodType *data,
-             const NeighborhoodAccessorFunctorType &neighborhoodAccessorFunctor) const
+     const NeighborhoodAccessorFunctorType &neighborhoodAccessorFunctor) const
 {
   int linear_index = 0;
 
