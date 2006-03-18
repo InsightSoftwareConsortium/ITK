@@ -627,16 +627,6 @@ void GDCMImageIO::Write(const void* buffer)
         {
         if(dictEntry->GetGroup() != 0 && dictEntry->GetElement() != 0)
           {
-          // Sometime input DICOM is not perfect so let's make sure not to pass
-          // anything bad.
-          if (dictEntry->GetVR() == "PN" )
-            {
-            std::string::size_type pos = value.find(' ');
-            if( pos != std::string::npos )
-              {
-              value.replace(pos,1,"^");
-              }
-            }
           header->InsertValEntry( value,
                                   dictEntry->GetGroup(), 
                                   dictEntry->GetElement());
