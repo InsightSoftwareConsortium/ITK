@@ -20,7 +20,8 @@
 #include <itkTreeIteratorBase.h>
 
 
-namespace itk{
+namespace itk
+{
 
 template <class TTreeType>
 class ChildTreeIterator : public TreeIteratorBase<TTreeType> 
@@ -28,10 +29,10 @@ class ChildTreeIterator : public TreeIteratorBase<TTreeType>
 public:
   
   /** Typedefs */
-  typedef TreeIteratorBase<TTreeType>  Superclass;
-  typedef TTreeType TreeType;
-  typedef typename Superclass::Self Self;
-  typedef typename TTreeType::ValueType ValueType;
+  typedef TreeIteratorBase<TTreeType>       Superclass;
+  typedef TTreeType                         TreeType;
+  typedef typename Superclass::Self         Self;
+  typedef typename TTreeType::ValueType     ValueType;
   typedef typename Superclass::TreeNodeType TreeNodeType;
 
   /** Constructor */
@@ -56,7 +57,8 @@ public:
   Self& operator=(Superclass& iterator) 
     {
     Superclass::operator=(iterator);
-    ChildTreeIterator<TTreeType>& it = static_cast<ChildTreeIterator<TTreeType>&>(iterator);
+    ChildTreeIterator<TTreeType>& it = 
+                        static_cast<ChildTreeIterator<TTreeType>&>(iterator);
     m_ListPosition = it.m_ListPosition;
     m_ParentNode = it.m_ParentNode;
     return *this;
@@ -78,7 +80,8 @@ private:
 
 /** Constructor */
 template <class TTreeType>
-ChildTreeIterator<TTreeType>::ChildTreeIterator(TTreeType* tree, const TreeNodeType* start)  
+ChildTreeIterator<TTreeType>::ChildTreeIterator(TTreeType* tree, 
+                                                const TreeNodeType* start)  
   :TreeIteratorBase<TTreeType>(tree, start)
 {
   m_ListPosition = 0;
@@ -88,7 +91,8 @@ ChildTreeIterator<TTreeType>::ChildTreeIterator(TTreeType* tree, const TreeNodeT
 }
 
 template <class TTreeType>
-ChildTreeIterator<TTreeType>::ChildTreeIterator(const TreeIteratorBase<TTreeType>& iterator)
+ChildTreeIterator<TTreeType>::ChildTreeIterator(
+                                  const TreeIteratorBase<TTreeType>& iterator)
   :TreeIteratorBase<TTreeType>(iterator.GetTree(), iterator.GetNode())
 {
   m_ListPosition = 0;
@@ -169,7 +173,8 @@ ChildTreeIterator<TTreeType>::Next()
 template <class TTreeType>
 TreeIteratorBase<TTreeType>* ChildTreeIterator<TTreeType>::Clone() 
 {
-  ChildTreeIterator<TTreeType>* clone = new ChildTreeIterator<TTreeType>( const_cast<TTreeType*>(this->m_Tree), this->m_Position );   
+  ChildTreeIterator<TTreeType>* clone = new ChildTreeIterator<TTreeType>( 
+                      const_cast<TTreeType*>(this->m_Tree),this->m_Position );   
   *clone = *this;
   return clone;
 }

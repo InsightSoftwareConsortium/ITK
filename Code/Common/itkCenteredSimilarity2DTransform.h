@@ -24,12 +24,14 @@
 namespace itk
 {
 
-/** \brief CenteredSimilarity2DTransform of a vector space (e.g. space coordinates)
+/** \brief CenteredSimilarity2DTransform of a vector space 
+ *        (e.g. space coordinates)
  *
  * This transform applies a homogenous scale and rigid transform in
  * 2D space. The transform is specified as a scale and rotation around
  * a arbitrary center and is followed by a translation.
- * given one angle for rotation, a homogeneous scale and a 2D offset for translation. 
+ * given one angle for rotation, a homogeneous scale and a 2D offset 
+ * for translation. 
  *
  * The main difference between this class and its superclass
  * Similarity2DTransform is that the center of transformation is exposed
@@ -50,16 +52,16 @@ namespace itk
  *
  * \ingroup Transforms
  */
-template < class TScalarType=double >    // Data type for scalars (float or double)
+template < class TScalarType=double >    // Data type for scalars
 class ITK_EXPORT CenteredSimilarity2DTransform : 
             public Similarity2DTransform< TScalarType > 
 {
 public:
   /** Standard class typedefs. */
-  typedef CenteredSimilarity2DTransform Self;
+  typedef CenteredSimilarity2DTransform          Self;
   typedef Similarity2DTransform< TScalarType >   Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                     Pointer;
+  typedef SmartPointer<const Self>               ConstPointer;
     
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );
@@ -94,8 +96,10 @@ public:
   typedef typename Superclass::OutputVectorType  OutputVectorType;
   
   /** CovariantVector type. */
-  typedef typename Superclass::InputCovariantVectorType   InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType  OutputCovariantVectorType;
+  typedef typename Superclass::InputCovariantVectorType   
+                                                 InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType  
+                                                 OutputCovariantVectorType;
   
   /** VnlVector type. */
   typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;

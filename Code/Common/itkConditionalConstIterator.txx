@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkConditionalConstIterator_txx
-#define _itkConditionalConstIterator_txx
+#ifndef __itkConditionalConstIterator_txx
+#define __itkConditionalConstIterator_txx
 
 #include "itkConditionalConstIterator.h"
 
@@ -34,9 +34,6 @@ ConditionalConstIterator<TImageType>
 ::~ConditionalConstIterator()
 {
 }
-
-
-
 
 } // end namespace itk
 

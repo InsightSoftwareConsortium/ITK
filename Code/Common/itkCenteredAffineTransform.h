@@ -27,28 +27,28 @@ namespace itk
 /**
  * \brief Affine transformation with a specified center of rotation.
  *
- * This class implements an Affine transform in which the rotation center can be explicitly selected.
- * Note that the method "ComputeOffset()" must be called just before using the transform for mapping
- * points, vectors or covariantvectors. This is necessary for updating the offset of the transform
- * taking into account the center of rotation.
+ * This class implements an Affine transform in which the rotation center 
+ * can be explicitly selected.
+ * Note that the method "ComputeOffset()" must be called just before using 
+ * the transform for mapping points, vectors or covariantvectors. 
+ * This is necessary for updating the offset of the transform taking into 
+ * account the center of rotation.
  *
- * 
  * \ingroup Transforms
  *
- *
  */
-
 template <
- class TScalarType=double,         // Data type for scalars (e.g. float or double)
+ class TScalarType=double,         // Data type for scalars
  unsigned int NDimensions=3>       // Number of dimensions in the input space
-class ITK_EXPORT CenteredAffineTransform : public AffineTransform< TScalarType, NDimensions >
+class ITK_EXPORT CenteredAffineTransform : public AffineTransform< TScalarType, 
+                                                                  NDimensions >
 {
 public:
   /** Standard typedefs   */
-  typedef CenteredAffineTransform  Self;
+  typedef CenteredAffineTransform                      Self;
   typedef AffineTransform< TScalarType, NDimensions >  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
   
   /** Run-time type information (and related methods).   */
   itkTypeMacro( CenteredAffineTransform, AffineTransform );
@@ -68,8 +68,10 @@ public:
   typedef typename Superclass::ScalarType                   ScalarType;
   typedef typename Superclass::InputVectorType              InputVectorType;
   typedef typename Superclass::OutputVectorType             OutputVectorType;
-  typedef typename Superclass::InputCovariantVectorType     InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType    OutputCovariantVectorType;
+  typedef typename Superclass::InputCovariantVectorType     
+                                                     InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType    
+                                                     OutputCovariantVectorType;
   typedef typename Superclass::InputVnlVectorType           InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType          OutputVnlVectorType;
   typedef typename Superclass::InputPointType               InputPointType;
@@ -100,7 +102,7 @@ public:
 
 protected:
   /** Construct an CenteredAffineTransform object **/
-     CenteredAffineTransform();      
+     CenteredAffineTransform();
   
   /** Destroy an CenteredAffineTransform object   **/
   virtual ~CenteredAffineTransform();
@@ -119,8 +121,3 @@ private:
 #endif
 
 #endif /* __itkCenteredAffineTransform_h */
-
-
-
-
-

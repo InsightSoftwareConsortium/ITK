@@ -77,8 +77,8 @@ public:
   typedef ImageAdaptor<TImage, Accessor::ComplexToPhasePixelAccessor<
                                typename TImage::PixelType,
                                TOutputPixelType> >  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                        Pointer;
+  typedef SmartPointer<const Self>                  ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -86,11 +86,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( ComplexToPhaseImageAdaptor, ImageAdaptor );
 
- protected:
+protected:
   ComplexToPhaseImageAdaptor() {}
   virtual ~ComplexToPhaseImageAdaptor() {}
   
- private:
+private:
   ComplexToPhaseImageAdaptor(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

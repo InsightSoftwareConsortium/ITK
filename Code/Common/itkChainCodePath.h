@@ -57,7 +57,7 @@ public:
   typedef ChainCodePath<VDimension>                               Self;
   typedef Path< unsigned int, Offset< VDimension >, VDimension >  Superclass;
 
-  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Run-time type information (and related methods). */
@@ -73,8 +73,6 @@ public:
   typedef Index<VDimension>        IndexType;
 
   typedef std::vector<OffsetType>  ChainCodeType;
-
-
 
   // Functions inherited from Path
   
@@ -143,8 +141,6 @@ public:
     m_Start = this->GetZeroIndex();
     this->Clear();
     }
-
-
 
 protected:
   ChainCodePath();

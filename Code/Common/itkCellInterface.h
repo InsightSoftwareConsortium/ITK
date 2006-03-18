@@ -30,15 +30,16 @@
 // by the MultiVisitor class
 #define itkCellVisitMacro(TopologyId) \
   static int GetTopologyId() {return TopologyId;}\
-  virtual void Accept(unsigned long cellid, typename CellInterface<PixelType, CellTraits>::MultiVisitor* mv)\
+  virtual void Accept(unsigned long cellid, typename CellInterface<PixelType,\
+                                               CellTraits>::MultiVisitor* mv)\
     {\
-      typename CellInterfaceVisitor<PixelType, CellTraits>::Pointer v = mv->GetVisitor(TopologyId);\
-      if(v)\
-        {\
-        v->VisitFromCell(cellid, this);\
-        }\
+    typename CellInterfaceVisitor<PixelType, CellTraits>::Pointer v = \
+                                             mv->GetVisitor(TopologyId);\
+    if(v)\
+      {\
+      v->VisitFromCell(cellid, this);\
+      }\
     }
-
 
 
 // Define a macro for the common typedefs required by the 
@@ -72,7 +73,8 @@
   typedef typename Superclass::CellConstRawPointer     CellConstRawPointer;  \
   typedef typename Superclass::CellTraits              CellTraits;  \
   typedef typename Superclass::CoordRepType            CoordRepType;  \
-  typedef typename Superclass::InterpolationWeightType InterpolationWeightType; \
+  typedef typename Superclass::InterpolationWeightType \
+                                                     InterpolationWeightType; \
   typedef typename Superclass::PointIdentifier         PointIdentifier; \
   typedef typename Superclass::PointIdIterator         PointIdIterator; \
   typedef typename Superclass::PointIdConstIterator    PointIdConstIterator; \
@@ -83,12 +85,12 @@
   typedef typename Superclass::PointsContainer         PointsContainer; \
   typedef typename Superclass::UsingCellsContainer     UsingCellsContainer; \
   typedef typename Superclass::CellGeometry            CellGeometry;  \
-  typedef typename Superclass::ParametricCoordArrayType  ParametricCoordArrayType;  \
-  typedef typename Superclass::ShapeFunctionsArrayType   ShapeFunctionsArrayType;  \
+  typedef typename Superclass::ParametricCoordArrayType  \
+                                                  ParametricCoordArrayType;  \
+  typedef typename Superclass::ShapeFunctionsArrayType   \
+                                                   ShapeFunctionsArrayType;  \
   itkStaticConstMacro(PointDimension, unsigned int, Superclass::PointDimension)
  
-
-
 
 namespace itk
 {
@@ -151,8 +153,8 @@ public:
   typedef CellFeatureIdentifier  CellFeatureCount;
 
   /**  Cell Visitor interfaces */
-  enum CellGeometry {VERTEX_CELL=0, LINE_CELL, TRIANGLE_CELL, QUADRILATERAL_CELL, 
-        POLYGON_CELL, TETRAHEDRON_CELL, HEXAHEDRON_CELL, 
+  enum CellGeometry {VERTEX_CELL=0, LINE_CELL, TRIANGLE_CELL, 
+        QUADRILATERAL_CELL, POLYGON_CELL, TETRAHEDRON_CELL, HEXAHEDRON_CELL, 
         QUADRATIC_EDGE_CELL, QUADRATIC_TRIANGLE_CELL,
         LAST_ITK_CELL, MAX_ITK_CELLS=255};
 
@@ -175,7 +177,7 @@ public:
     typedef CellInterfaceVisitor<TPixelType, TCellTraits> VisitorType;
 
     /** Standard class typedefs.   */
-    typedef MultiVisitor       Self;
+    typedef MultiVisitor        Self;
     typedef SmartPointer<Self>  Pointer;
       
     /** Method for creation through the object factory.   */
@@ -186,49 +188,55 @@ public:
     itkTypeMacro(MultiVisitor,LightObject);
   
     /** Typedefs for the visitor class.   */
-    typedef typename VisitorType::Pointer VisitorPointer;
-    typedef typename std::map<int, VisitorPointer>::value_type VisitorPointerValueType;
+    typedef typename VisitorType::Pointer       VisitorPointer;
+    typedef typename std::map<int, VisitorPointer>::value_type 
+                                                VisitorPointerValueType;
 
   public:
     VisitorType * GetVisitor(int id)
       {
-        if(id <= LAST_ITK_CELL)
-          {
-          return m_Visitors[id];
-          }
-        else
-          {
-          typename std::map<int, ITK_TYPENAME VisitorType::Pointer>::iterator
+      if(id <= LAST_ITK_CELL)
+        {
+        return m_Visitors[id];
+        }
+      else
+        {
+        typename std::map<int, ITK_TYPENAME VisitorType::Pointer>::iterator
             pos = m_UserDefined.find(id);
-          if(pos != m_UserDefined.end())
-            {
-            return (*pos).second;
-            }
+        if(pos != m_UserDefined.end())
+          {
+          return (*pos).second;
           }
+        }
         return 0;
       }
+
     void AddVisitor(VisitorType* v)
       {
-        int id = v->GetCellTopologyId();
-        if(id <= LAST_ITK_CELL)
-          {
-          m_Visitors[id] = v;
-          }
-        else
-          {
-          m_UserDefined.insert(VisitorPointerValueType(id,v));
-          }
+      int id = v->GetCellTopologyId();
+      if(id <= LAST_ITK_CELL)
+        {
+        m_Visitors[id] = v;
+        }
+      else
+        {
+        m_UserDefined.insert(VisitorPointerValueType(id,v));
+        }
       }
     virtual ~MultiVisitor() {}
+
   protected:
-    VisitorPointer m_Visitors[LAST_ITK_CELL]; // fixed array set to the size from the enum
-    std::map<int,VisitorPointer> m_UserDefined; // user defined cell types go here
+    VisitorPointer m_Visitors[LAST_ITK_CELL]; // fixed array set to the size 
+                                              // from the enum
+    std::map<int,VisitorPointer> m_UserDefined; // user defined cell types 
+                                                // go here
   };
 
   /** This must be implemented by all sub-classes of CellInterface */
   virtual void Accept(unsigned long cellId, MultiVisitor*)= 0; 
   
-  /**  Return the type of the cell (one of the CellGeometry enums listed above). */
+  /**  Return the type of the cell (one of the CellGeometry enums 
+   *   listed above). */
   virtual CellGeometry GetType(void) const =0;
 
   /** Create a new copy of this cell.  This is provided so that a copy can
@@ -248,7 +256,8 @@ public:
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const =0;
   
   /** Get the boundary feature corresponding to the given dimension and Id. */
-  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer & )=0;
+  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, 
+                                                        CellAutoPointer & )=0;
 
   /** Get the point id list used by the cell in a form suitable to pass to
    * SetPointIds(first) on another cell.  This is equivalent to
@@ -267,7 +276,8 @@ public:
   virtual void SetPointIds(PointIdConstIterator first,
                            PointIdConstIterator last)=0;
   
-  /** Set the point identifier for a given spot in the point list for the cell. */
+  /** Set the point identifier for a given spot in the point list 
+   *  for the cell. */
   virtual void SetPointId(int localId, PointIdentifier)=0;
   
   /** Get a begin iterator to the list of point identifiers used by the cell. */

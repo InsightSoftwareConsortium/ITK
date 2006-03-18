@@ -41,7 +41,8 @@ template <
   class TCoordRep = float >
 class ITK_EXPORT CentralDifferenceImageFunction :
   public ImageFunction< TInputImage, 
-                        CovariantVector<double, ::itk::GetImageDimension<TInputImage>::ImageDimension>, 
+                        CovariantVector<double, \
+                        ::itk::GetImageDimension<TInputImage>::ImageDimension>, 
                         TCoordRep >
 {
 public:
@@ -52,10 +53,11 @@ public:
   /** Standard class typedefs. */
   typedef CentralDifferenceImageFunction Self;
   typedef ImageFunction<TInputImage,
-                        CovariantVector<double, itkGetStaticConstMacro(ImageDimension)>,
+                        CovariantVector<double, 
+                        itkGetStaticConstMacro(ImageDimension)>,
                         TCoordRep> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(CentralDifferenceImageFunction, ImageFunction);
@@ -87,7 +89,8 @@ public:
    * calling the method. */
   virtual OutputType EvaluateAtIndex( const IndexType& index ) const;
   
-  /** Evalulate the image derivative by central differencing at non-integer positions.
+  /** Evalulate the image derivative by central differencing at non-integer 
+   *  positions.
    *
    *  No bounds checking is done.
    *  The point is assume to lie within the image buffer.
@@ -96,16 +99,16 @@ public:
    * calling the method. */
    virtual OutputType Evaluate( const PointType& point ) const
     { 
-      IndexType index;
-      this->ConvertPointToNearestIndex( point, index );
-      return this->EvaluateAtIndex( index ); 
+    IndexType index;
+    this->ConvertPointToNearestIndex( point, index );
+    return this->EvaluateAtIndex( index ); 
     }
   virtual OutputType EvaluateAtContinuousIndex( 
     const ContinuousIndexType& cindex ) const
     { 
-      IndexType index;
-      this->ConvertContinuousIndexToNearestIndex( cindex, index );
-      return this->EvaluateAtIndex( index ) ; 
+    IndexType index;
+    this->ConvertContinuousIndexToNearestIndex( cindex, index );
+    return this->EvaluateAtIndex( index ) ; 
     }
   
 protected:
@@ -126,4 +129,3 @@ private:
 #endif
 
 #endif
-

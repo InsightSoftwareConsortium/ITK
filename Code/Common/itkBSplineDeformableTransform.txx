@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBSplineDeformableTransform_txx
-#define _itkBSplineDeformableTransform_txx
+#ifndef __itkBSplineDeformableTransform_txx
+#define __itkBSplineDeformableTransform_txx
 
 #include "itkBSplineDeformableTransform.h"
 #include "itkContinuousIndex.h"
@@ -87,13 +87,11 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     m_JacobianImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
     }
 
-  /********************************************************** 
-    Fixed Parameters store the following information:
-        Grid Size
-        Grid Origin
-        Grid Spacing
-     The size of these is equal to the  NInputDimensions
-  **********************************************************/
+  /** Fixed Parameters store the following information:
+   *     Grid Size
+   *     Grid Origin
+   *     Grid Spacing
+   *  The size of these is equal to the  NInputDimensions */
   this->m_FixedParameters.SetSize ( NDimensions * 3 );
   this->m_FixedParameters.Fill ( 0.0 );
   
@@ -179,7 +177,6 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
     this->Modified();
     }
-
 }
 
 

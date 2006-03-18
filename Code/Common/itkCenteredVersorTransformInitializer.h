@@ -65,8 +65,10 @@ public:
 
   /** Dimension of parameters. */
   itkStaticConstMacro(SpaceDimension, unsigned int, Superclass::SpaceDimension);
-  itkStaticConstMacro(InputSpaceDimension, unsigned int, Superclass::InputSpaceDimension);
-  itkStaticConstMacro(OutputSpaceDimension, unsigned int, Superclass::OutputSpaceDimension);
+  itkStaticConstMacro(InputSpaceDimension, unsigned int, 
+                                               Superclass::InputSpaceDimension);
+  itkStaticConstMacro(OutputSpaceDimension, unsigned int, 
+                                              Superclass::OutputSpaceDimension);
 
   
   /** Image Types to use in the initialization of the transform */
@@ -75,8 +77,6 @@ public:
 
   typedef   typename Superclass::FixedImagePointer   FixedImagePointer;
   typedef   typename Superclass::MovingImagePointer  MovingImagePointer;
-
-
 
   /** Offset type. */
   typedef typename Superclass::OffsetType  OffsetType;
@@ -87,10 +87,8 @@ public:
   /** Vector type. */
   typedef typename Superclass::OutputVectorType  OutputVectorType;
   
-
   /** Initialize the transform using data from the images */
   void InitializeTransform() const;
-
 
 protected:
   CenteredVersorTransformInitializer();
@@ -101,7 +99,6 @@ protected:
 private:
   CenteredVersorTransformInitializer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
 
 }; //class CenteredVersorTransformInitializer
 

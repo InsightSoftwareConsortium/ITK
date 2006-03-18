@@ -41,9 +41,9 @@ class ITKCommon_EXPORT Command : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef Command         Self;
-  typedef Object Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef Command                   Self;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Run-time type information (and related methods). */
@@ -86,7 +86,7 @@ public:
   typedef  void (T::*TConstMemberFunctionPointer)(const Object*, const EventObject &);
     
   /** Standard class typedefs. */
-  typedef MemberCommand         Self;
+  typedef MemberCommand       Self;
   typedef SmartPointer<Self>  Pointer;
   
   /** Method for creation through the object factory. */
@@ -100,35 +100,36 @@ public:
   void SetCallbackFunction(T* object,  
                            TMemberFunctionPointer memberFunction)
     {
-      m_This = object;
-      m_MemberFunction = memberFunction;
+    m_This = object;
+    m_MemberFunction = memberFunction;
     }
   void SetCallbackFunction(T* object,  
                            TConstMemberFunctionPointer memberFunction)
     {
-      m_This = object;
-      m_ConstMemberFunction = memberFunction;
+    m_This = object;
+    m_ConstMemberFunction = memberFunction;
     }
   
   /**  Invoke the member function. */
   virtual void Execute(Object *caller, const EventObject & event )
     { 
-      if( m_MemberFunction ) 
+    if( m_MemberFunction ) 
       {
-        ((*m_This).*(m_MemberFunction))(caller, event);
+      ((*m_This).*(m_MemberFunction))(caller, event);
       }
     }
 
   /**  Invoke the member function with a const object. */
   virtual void Execute( const Object *caller, const EventObject & event )
     { 
-      if( m_ConstMemberFunction ) 
+    if( m_ConstMemberFunction ) 
       {
-        ((*m_This).*(m_ConstMemberFunction))(caller, event);
+      ((*m_This).*(m_ConstMemberFunction))(caller, event);
       }
     }
 
 protected:
+
   T* m_This;
   TMemberFunctionPointer m_MemberFunction;
   TConstMemberFunctionPointer m_ConstMemberFunction;
@@ -158,8 +159,8 @@ public:
   typedef  void (T::*TMemberFunctionPointer)(const EventObject &);
   
   /** Standard class typedefs. */
-  typedef ReceptorMemberCommand         Self;
-  typedef SmartPointer<Self>  Pointer;
+  typedef ReceptorMemberCommand  Self;
+  typedef SmartPointer<Self>     Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -172,25 +173,25 @@ public:
   void SetCallbackFunction(T* object,  
                            TMemberFunctionPointer memberFunction)
     {
-      m_This = object;
-      m_MemberFunction = memberFunction;
+    m_This = object;
+    m_MemberFunction = memberFunction;
     }
 
   /**  Invoke the member function. */
   virtual void Execute(Object *, const EventObject & event )
     { 
-      if( m_MemberFunction ) 
+    if( m_MemberFunction ) 
       {
-        ((*m_This).*(m_MemberFunction))(event);
+      ((*m_This).*(m_MemberFunction))(event);
       }
     }
 
   /**  Invoke the member function with a const object */
   virtual void Execute( const Object *, const EventObject & event )
     { 
-      if( m_MemberFunction ) 
+    if( m_MemberFunction ) 
       {
-        ((*m_This).*(m_MemberFunction))(event);
+      ((*m_This).*(m_MemberFunction))(event);
       }
     }
 
@@ -223,8 +224,8 @@ public:
   typedef  void (T::*TMemberFunctionPointer)(); 
   
   /** Standard class typedefs. */
-  typedef SimpleMemberCommand         Self;
-  typedef SmartPointer<Self>  Pointer;
+  typedef SimpleMemberCommand   Self;
+  typedef SmartPointer<Self>    Pointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(SimpleMemberCommand,Command);
@@ -236,23 +237,23 @@ public:
   void SetCallbackFunction(T* object,  
                            TMemberFunctionPointer memberFunction)
     {
-      m_This = object;
-      m_MemberFunction = memberFunction;
+    m_This = object;
+    m_MemberFunction = memberFunction;
     }
   
   /** Invoke the callback function. */
   virtual void Execute(Object *,const EventObject & ) 
     { 
-      if( m_MemberFunction ) 
+    if( m_MemberFunction ) 
       {
-        ((*m_This).*(m_MemberFunction))();
+      ((*m_This).*(m_MemberFunction))();
       }
     }
   virtual void Execute(const Object *,const EventObject & ) 
     { 
-      if( m_MemberFunction ) 
+    if( m_MemberFunction ) 
       {
-        ((*m_This).*(m_MemberFunction))();
+      ((*m_This).*(m_MemberFunction))();
       }
     }
   
@@ -285,8 +286,8 @@ public:
   typedef  void (T::*TMemberFunctionPointer)() const; 
 
   /** Standard class typedefs. */
-  typedef SimpleConstMemberCommand         Self;
-  typedef SmartPointer<Self>  Pointer;
+  typedef SimpleConstMemberCommand  Self;
+  typedef SmartPointer<Self>        Pointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(SimpleConstMemberCommand,Command);
@@ -298,23 +299,23 @@ public:
   void SetCallbackFunction(const T* object,  
                            TMemberFunctionPointer memberFunction)
     {
-      m_This = object;
-      m_MemberFunction = memberFunction;
+    m_This = object;
+    m_MemberFunction = memberFunction;
     }
   
   /** Invoke the const member method callback. */
   virtual void Execute(Object *,const EventObject & ) 
     { 
-      if( m_MemberFunction ) 
+    if( m_MemberFunction ) 
       {
-        ((*m_This).*(m_MemberFunction))();
+      ((*m_This).*(m_MemberFunction))();
       }
     }
   virtual void Execute(const Object *,const EventObject & ) 
     { 
-      if( m_MemberFunction ) 
+    if( m_MemberFunction ) 
       {
-        ((*m_This).*(m_MemberFunction))();
+      ((*m_This).*(m_MemberFunction))();
       }
     }
   
@@ -351,7 +352,7 @@ public:
   typedef  void (*DeleteDataFunctionPointer)(void*);
   
   /** Standard class typedefs. */
-  typedef CStyleCommand         Self;
+  typedef CStyleCommand       Self;
   typedef SmartPointer<Self>  Pointer;
   
   /** Run-time type information (and related methods). */
@@ -393,10 +394,11 @@ public:
     };
 
 protected:
-  CStyleCommand(): m_ClientData(0),
-                   m_Callback(0),
-                   m_ConstCallback(0),
-                   m_ClientDataDeleteCallback(0) {}
+  CStyleCommand(): m_ClientData(0), m_Callback(0), m_ConstCallback(0),
+                   m_ClientDataDeleteCallback(0) 
+    {
+    // not implemented
+    }
   ~CStyleCommand() 
     { 
     if (m_ClientDataDeleteCallback)
@@ -404,9 +406,9 @@ protected:
       m_ClientDataDeleteCallback(m_ClientData);
       }
     };
-  void *m_ClientData;
-  FunctionPointer m_Callback;
-  ConstFunctionPointer m_ConstCallback;
+  void *                    m_ClientData;
+  FunctionPointer           m_Callback;
+  ConstFunctionPointer      m_ConstCallback;
   DeleteDataFunctionPointer m_ClientDataDeleteCallback;
 };
 

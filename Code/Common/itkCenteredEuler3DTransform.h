@@ -39,10 +39,10 @@ class ITK_EXPORT CenteredEuler3DTransform :
 {
 public:
   /** Standard class typedefs. */
-  typedef CenteredEuler3DTransform Self;
+  typedef CenteredEuler3DTransform        Self;
   typedef Euler3DTransform< TScalarType > Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>              Pointer;
+  typedef SmartPointer<const Self>        ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro( CenteredEuler3DTransform, Euler3DTransform );

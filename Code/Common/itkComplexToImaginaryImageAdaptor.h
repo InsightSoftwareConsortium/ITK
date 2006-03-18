@@ -57,7 +57,8 @@ public:
 } // end namespace Accessor
  
 /** \class ComplexToImaginaryImageAdaptor
- * \brief Presents a complex image as being composed of imag() part of its pixels
+ * \brief Presents a complex image as being composed of imag() part of 
+ * its pixels.
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.
@@ -77,7 +78,7 @@ public:
   typedef ImageAdaptor<TImage, Accessor::ComplexToImaginaryPixelAccessor<
                                typename TImage::PixelType,
                                TOutputPixelType> >  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Method for creation through the object factory. */
@@ -86,11 +87,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( ComplexToImaginaryImageAdaptor, ImageAdaptor );
 
- protected:
+protected:
   ComplexToImaginaryImageAdaptor() {}
   virtual ~ComplexToImaginaryImageAdaptor() {}
   
- private:
+private:
   ComplexToImaginaryImageAdaptor(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

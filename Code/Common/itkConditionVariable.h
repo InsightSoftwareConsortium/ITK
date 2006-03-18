@@ -68,9 +68,9 @@ class ITKCommon_EXPORT ConditionVariable : public LightObject
 {
 public:
   /** Standard class typedefs. */
-  typedef ConditionVariable Self;
-  typedef LightObject Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef ConditionVariable        Self;
+  typedef LightObject              Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   
   /** Method for creation through the object factory. */
@@ -103,7 +103,8 @@ private:
 #else
   int m_NumberOfWaiters;                   // number of waiting threads
 #ifdef WIN32
-  CRITICAL_SECTION m_NumberOfWaitersLock;  // Serialize access to m_NumberOfWaiters
+  CRITICAL_SECTION m_NumberOfWaitersLock;  // Serialize access to 
+                                           // m_NumberOfWaiters
 
   HANDLE m_Semaphore;                      // Semaphore to queue threads 
   HANDLE m_WaitersAreDone;                 // Auto-reset event used by the

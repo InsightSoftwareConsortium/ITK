@@ -34,9 +34,9 @@ class ITK_EXPORT ColorTable : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef ColorTable   Self;
-  typedef Object Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef ColorTable                Self;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Method for creation through the object factory. */

@@ -70,11 +70,11 @@ public:
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
   Self &operator=(const Self& it)
-  {
+    {
     m_Image = it.m_Image;     // copy the smart pointer
     m_Region = it.m_Region;   // copy the region
     return *this;
-  }
+    }
   
   /** Get the dimension (size) of the index. */
   static unsigned int GetIteratorDimension() 

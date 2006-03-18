@@ -48,16 +48,16 @@ namespace itk
  *
  * \ingroup Transforms
  */
-template < class TScalarType=double >    // Data type for scalars (float or double)
+template < class TScalarType=double >    // Data type for scalars
 class ITK_EXPORT CenteredRigid2DTransform : 
             public Rigid2DTransform< TScalarType > 
 {
 public:
   /** Standard class typedefs. */
-  typedef CenteredRigid2DTransform Self;
+  typedef CenteredRigid2DTransform          Self;
   typedef Rigid2DTransform< TScalarType >   Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
     
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );
@@ -91,8 +91,10 @@ public:
   typedef typename Superclass::OutputVectorType  OutputVectorType;
   
   /** CovariantVector type. */
-  typedef typename Superclass::InputCovariantVectorType   InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType  OutputCovariantVectorType;
+  typedef typename Superclass::InputCovariantVectorType   
+                                                InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType  
+                                                OutputCovariantVectorType;
   
   /** VnlVector type. */
   typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;

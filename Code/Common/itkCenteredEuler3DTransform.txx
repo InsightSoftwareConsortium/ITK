@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkCenteredEuler3DTransform_txx
-#define _itkCenteredEuler3DTransform_txx
+#ifndef __itkCenteredEuler3DTransform_txx
+#define __itkCenteredEuler3DTransform_txx
 
 #include "itkCenteredEuler3DTransform.h"
 
@@ -164,7 +164,8 @@ GetJacobian( const InputPointType & p ) const
     
     this->m_Jacobian[0][2] = (-sz*cy)*px+(-sz*sy*sx-cz*cx)*py
                                         +(-sz*sy*cx+cz*sx)*pz;
-    this->m_Jacobian[1][2] = (cz*cy)*px+(cz*sy*sx-sz*cx)*py+(cz*sy*cx+sz*sx)*pz;  
+    this->m_Jacobian[1][2] = (cz*cy)*px+(cz*sy*sx-sz*cx)*py
+                                                        +(cz*sy*cx+sz*sx)*pz;  
     this->m_Jacobian[2][2] = 0;
     }
   else

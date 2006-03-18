@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkColorTable_txx
-#define _itkColorTable_txx
+#ifndef __itkColorTable_txx
+#define __itkColorTable_txx
 
 #include "itkColorTable.h"
 #include "vnl/vnl_sample.h"
@@ -36,9 +36,9 @@ ColorTable<TPixel>
 template<class TPixel>
 ColorTable<TPixel>
 ::~ColorTable()
-  {
+{
   this->DeleteColors();
-  }
+}
 
 template<class TPixel>
 void
@@ -67,22 +67,23 @@ template<class TPixel>
 void
 ColorTable<TPixel>
 ::PrintSelf(std::ostream & os, Indent indent) const
-  {
+{
   Superclass::PrintSelf(os, indent);
 
   os << indent << "m_NumberOfColors = " << m_NumberOfColors << std::endl;
   os << indent << "m_Color = " << m_Color << std::endl;
   for (unsigned int i = 0; i < m_NumberOfColors; i++)
     {
-    os << indent << "m_ColorName[" << i << "] = " << m_ColorName[i] << std::endl;
+    os << indent << "m_ColorName[" << i << "] = " 
+       << m_ColorName[i] << std::endl;
     }
-  }
+}
 
 template<class TPixel>
 void 
 ColorTable<TPixel>
 ::UseDiscreteColors(void)
-  {
+{
   this->DeleteColors();
 
   m_NumberOfColors = 8;
@@ -116,7 +117,7 @@ ColorTable<TPixel>
 
   m_Color[7].Set((TPixel)1.0,(TPixel)1.0,(TPixel)1.8);
   sprintf(m_ColorName[7], "White");
-  }
+}
 
 template<class TPixel>
 void 
@@ -146,7 +147,7 @@ ColorTable<TPixel>
     m_Color[i].Set(gray, gray, gray);
     sprintf(m_ColorName[i], "Gray%.02f", static_cast<float>(gray));
     }
-  }
+}
 
 template<class TPixel>
 void
@@ -180,7 +181,7 @@ ColorTable<TPixel>
     m_Color[(int)(i+n/2.0)].SetBlue((i+1)/(TPixel)(n/2.0+1));
     sprintf(m_ColorName[(int)(i+n/2.0)], "Heat%.02f", (i+n/2.0)/(float)n);
     }
-  }
+}
 
 template<class TPixel>
 void
@@ -201,34 +202,37 @@ ColorTable<TPixel>
   TPixel r, g, b;
   for(i=0; i<n; i++) 
     {
-    r = static_cast<TPixel>(vnl_sample_uniform(NumericTraits<TPixel>::NonpositiveMin(), NumericTraits<TPixel>::max()));
+    r = static_cast<TPixel>(vnl_sample_uniform(NumericTraits<TPixel>
+                           ::NonpositiveMin(), NumericTraits<TPixel>::max()));
     m_Color[i].SetRed( r );
-    g = static_cast<TPixel>(vnl_sample_uniform(NumericTraits<TPixel>::NonpositiveMin(), NumericTraits<TPixel>::max()));
+    g = static_cast<TPixel>(vnl_sample_uniform(NumericTraits<TPixel>
+                           ::NonpositiveMin(), NumericTraits<TPixel>::max()));
     m_Color[i].SetGreen( g );
-    b = static_cast<TPixel>(vnl_sample_uniform(NumericTraits<TPixel>::NonpositiveMin(), NumericTraits<TPixel>::max()));
+    b = static_cast<TPixel>(vnl_sample_uniform(NumericTraits<TPixel>
+                           ::NonpositiveMin(), NumericTraits<TPixel>::max()));
     m_Color[i].SetBlue( b );
     sprintf(m_ColorName[i], "Random(%.02f,%.02f,%.02f)",
             static_cast<float>(r),
             static_cast<float>(g),
             static_cast<float>(b));
     }
-  }
+}
 
 template<class TPixel>
 unsigned int
 ColorTable<TPixel>
 ::size(void)
-  {
+{
   itkWarningMacro(<< "Call to itkColorTable.size() is being depreciated. " \
                   << "Use itkColorTable.GetNumberOfColors() instead.");
   return m_NumberOfColors;
-  }
+}
 
 template<class TPixel>
 bool 
 ColorTable<TPixel>
 ::SetColor(unsigned int c, TPixel r, TPixel g, TPixel b, const char *name)
-  {
+{
   if(c < m_NumberOfColors)
     {
     m_Color[c].SetRed( r );
@@ -238,13 +242,13 @@ ColorTable<TPixel>
     return true;
     }
   return false;
-  }
+}
 
 template<class TPixel>
 RGBPixel<TPixel> * 
 ColorTable<TPixel>
 ::GetColor(unsigned int c)
-  {
+{
   if(c < m_NumberOfColors)
     {
     return & m_Color[c];
@@ -253,24 +257,24 @@ ColorTable<TPixel>
     {
     return NULL;
     }
-  }
+}
 
 template<class TPixel>
 RGBPixel<TPixel>* 
 ColorTable<TPixel>
 ::color(unsigned int c)
-  {
+{
   itkWarningMacro(<< "Call to itkColorTable.color(unsigned int colorID) " \
-                  << "is being depreciated. " \
-                  << "Use itkColorTable.GetColor(unsigned int colorID) instead.");
+               << "is being depreciated. " \
+               << "Use itkColorTable.GetColor(unsigned int colorID) instead.");
   return this->GetColor(c);
-  }
+}
 
 template<class TPixel>
 TPixel
 ColorTable<TPixel>
 ::GetColorComponent(unsigned int c, char rgb)
-  {
+{
   if(c < m_NumberOfColors)
     {
     switch(rgb) 
@@ -297,24 +301,25 @@ ColorTable<TPixel>
     {
     return 0;
     }
-  }
+}
 
 template<class TPixel>
 TPixel
 ColorTable<TPixel>
 ::color(unsigned int c, char rgb)
-  {
-  itkWarningMacro(<< "Call to itkColorTable.color(unsigned int colorID, char rgb) " \
-                  << "is being depreciated. " \
-                  << "Use itkColorTable.GetColorComponent(unsigned int colorID, char rgb) instead.");
+{
+  itkWarningMacro(<< "Call to itkColorTable.color(unsigned int colorID, "
+                  << "char rgb) is being depreciated. "
+                  << "Use itkColorTable.GetColorComponent("
+                  << "unsigned int colorID, char rgb) instead.");
   return this->GetColorComponent(c, rgb);
-  }
+}
 
 template<class TPixel>
 char * 
 ColorTable<TPixel>
 ::GetColorName(unsigned int c)
-  {
+{
   if(c<m_NumberOfColors)
     {
     return m_ColorName[c];
@@ -323,24 +328,25 @@ ColorTable<TPixel>
     {
     return NULL;
     }
-  }
+}
 
 template<class TPixel>
 char * 
 ColorTable<TPixel>
 ::colorName(unsigned int c)
-  {
-  itkWarningMacro(<< "Call to itkColorTable.colorName(unsigned int colorID) " \
-                  << "is being depreciated. " \
-                  << "Use itkColorTable.GetColorName(unsigned int colorID) instead.");
+{
+  itkWarningMacro(<< "Call to itkColorTable.colorName(unsigned int colorID)" \
+                  << "is being depreciated." \
+                  << "Use itkColorTable.GetColorName(unsigned int colorID)"
+                  << "instead.");
   return this->GetColorName(c);
-  }
+}
 
 template<class TPixel>
 unsigned int 
 ColorTable<TPixel>
 ::GetClosestColorTableId(TPixel r, TPixel g, TPixel b)
-  {
+{
   double match;
   double bestMatch = 0; 
   unsigned int bestMatchColor = 0;
@@ -359,7 +365,7 @@ ColorTable<TPixel>
       }
     }
   return bestMatchColor;
-  }
+}
 
 } // namespace itk
 

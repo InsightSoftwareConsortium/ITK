@@ -83,7 +83,7 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep>
 
     derivative[dim] *= 0.5 / this->GetInputImage()->GetSpacing()[dim];
     neighIndex[dim] += 1;
-  }
+    }
 
   return ( derivative );
 

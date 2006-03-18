@@ -149,7 +149,8 @@ void ConditionVariable::Wait(SimpleMutexLock *mutex)
     // This call atomically signals the m_WaitersAreDone event and waits
     // until it can acquire the external mutex.  This is required to
     // ensure fairness
-    SignalObjectAndWait( m_WaitersAreDone, mutex->GetMutexLock(), INFINITE, FALSE);
+    SignalObjectAndWait( m_WaitersAreDone, mutex->GetMutexLock(), 
+                                                             INFINITE, FALSE);
     }
   else
     {
@@ -162,4 +163,3 @@ void ConditionVariable::Wait(SimpleMutexLock *mutex)
 }
 
 }//end of namespace itk
-

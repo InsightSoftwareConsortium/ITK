@@ -51,12 +51,10 @@ public:
     { m_Pointer = 0; }
 
   /** Copy constructor.  */
-  WeakPointer (const WeakPointer<ObjectType> &p):
-    m_Pointer(p.m_Pointer) { }
+  WeakPointer (const WeakPointer<ObjectType> &p): m_Pointer(p.m_Pointer) {}
 
   /** Constructor to pointer p.  */
-  WeakPointer (ObjectType *p):
-    m_Pointer(p) { }                             
+  WeakPointer (ObjectType *p): m_Pointer(p) { }
   
   /** Destructor.  */
   ~WeakPointer ()
@@ -108,7 +106,7 @@ public:
   
   /** Overload operator assignment.  */
   WeakPointer &operator = (ObjectType *r)
-   {
+    {
     m_Pointer = r; 
     return *this;
     }

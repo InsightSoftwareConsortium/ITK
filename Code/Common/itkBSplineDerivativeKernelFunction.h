@@ -44,8 +44,8 @@ class ITK_EXPORT BSplineDerivativeKernelFunction : public KernelFunction
 public:
   /** Standard class typedefs. */
   typedef BSplineDerivativeKernelFunction Self;
-  typedef KernelFunction Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef KernelFunction                  Superclass;
+  typedef SmartPointer<Self>              Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self); 
@@ -87,8 +87,6 @@ private:
   typename KernelType::Pointer  m_KernelFunction;
 
 };
-
-
 
 } // end namespace itk
 

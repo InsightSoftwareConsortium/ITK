@@ -34,9 +34,12 @@ namespace itk
  * \brief  Represent a 2D path as a sequence of connected image index offsets
  *
  * This class is intended to represent sequences of connected indices in a 2D
- * image plane.  It does so by storing the offset of each index from its immediately
- * preceeding, connected, index using a standard Freeman code (1=up, 2=up to the right, and so on proceeding clockwise to 8=up to the left).  The only image index stored directly is that
- * of the first index.  ChainCodePath2D maps a 1D integer input (step number) to
+ * image plane.  It does so by storing the offset of each index from its 
+ * immediately preceeding, connected, index using a standard Freeman code 
+ * (1=up, 2=up to the right, and so on proceeding clockwise to 8=up 
+ * to the left).  The only image index stored directly is thatof the first 
+ * index.  
+ * ChainCodePath2D maps a 1D integer input (step number) to
  * a 2D interger output (either an offset or an image index, depending on
  * whether Evaluate or EvaluateToIndex is called).
  *
@@ -58,13 +61,12 @@ public:
   typedef ChainCodePath2D   Self;
   typedef ChainCodePath<2>  Superclass;
 
-  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ChainCodePath2D, ChainCodePath);
-
-  
+ 
   /** OutputType typedef support. */
   typedef Superclass::OutputType   OutputType;
   typedef Superclass::InputType    InputType;
@@ -77,8 +79,6 @@ public:
   typedef std::vector<OffsetType>  ChainCodeType;
   /** ChainCodePath2D stores its data as a Freeman-encoded chain code */
   typedef std::vector<int>         ChainCode2DType;
-
-
 
   // Functions inherited from Path
   
@@ -94,8 +94,6 @@ public:
    * may be used to check for the end of the chain code. */
   virtual OffsetType IncrementInput(InputType & input) const;
 
-
-
   // Functions specific to ChainCodePath and its descendents
 
   /** New() method for dynamic construction */
@@ -107,28 +105,27 @@ public:
   
   /** Insert a new step into the chaincode at a specified position */
   inline void InsertStep( InputType position, int encodedStep )
-  {
+    {
     m_Chain2D.insert( m_Chain2D.begin()+position, encodedStep );
     this->Modified();
-  }
+    }
   inline void InsertStep( InputType position, OffsetType step )
-  {
+    {
     m_Chain2D.insert( m_Chain2D.begin()+position, EncodeOffset(step) );
     this->Modified();
-  }
-  
+    }
   
   /** Change the direction of a step in the chaincode */
   inline void ChangeStep( InputType position, int encodedStep )
-  {
+    {
     m_Chain2D[position]=encodedStep;
     this->Modified();
-  }
+    }
   inline void ChangeStep( InputType position, OffsetType step )
-  {
+    {
     m_Chain2D[position]=EncodeOffset(step);
     this->Modified();
-  }
+    }
   
   /** Remove all steps from the chain code */
   virtual inline void Clear()
@@ -138,8 +135,6 @@ public:
     }
   
   std::string GetChainCodeAsString(void) const;
-
-
 
 protected:
   ChainCodePath2D();
@@ -155,7 +150,6 @@ protected:
     {
     return m_ReverseFreemanCode[ encodedStep ];
     }
-
 
 
 private:

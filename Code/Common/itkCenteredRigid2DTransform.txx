@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkCenteredRigid2DTransform_txx
-#define _itkCenteredRigid2DTransform_txx
+#ifndef __itkCenteredRigid2DTransform_txx
+#define __itkCenteredRigid2DTransform_txx
 
 #include "itkCenteredRigid2DTransform.h"
 
@@ -125,7 +125,6 @@ CenteredRigid2DTransform<TScalarType>
 }
 
 
-
 // Compute the transformation Jacobian
 template<class TScalarType>
 const typename CenteredRigid2DTransform<TScalarType>::JacobianType &
@@ -162,7 +161,6 @@ GetJacobian( const InputPointType & p ) const
   this->m_Jacobian[1][4] = 1.0;
 
   return this->m_Jacobian;
-
 }
 
 template <class TScalarType>
@@ -170,7 +168,7 @@ void
 CenteredRigid2DTransform<TScalarType>
 ::SetFixedParameters( const ParametersType & itkNotUsed(parameters) )
 {
- // no fixed parameters
+  // no fixed parameters
 }
 
 template <class TScalarType>
@@ -193,7 +191,8 @@ CloneInverseTo( Pointer & result ) const
   result = New();
   result->SetCenter( this->GetCenter() );  // inverse have the same center
   result->SetAngle( -this->GetAngle() );
-  result->SetTranslation( -( this->GetInverseMatrix() * this->GetTranslation() ) );
+  result->SetTranslation( -( this->GetInverseMatrix() 
+                                                 * this->GetTranslation() ) );
 }
 
 // Create and return an clone transformation
