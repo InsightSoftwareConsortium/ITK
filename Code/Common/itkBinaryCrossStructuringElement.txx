@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBinaryCrossStructuringElement_txx
-#define _itkBinaryCrossStructuringElement_txx
+#ifndef __itkBinaryCrossStructuringElement_txx
+#define __itkBinaryCrossStructuringElement_txx
 #include "itkBinaryCrossStructuringElement.h"
 
 #include "itkNumericTraits.h"
@@ -56,7 +56,8 @@ BinaryCrossStructuringElement<TPixel, VDimension, TAllocator>
     for (i=-1; i<=1; i+=2)
       {
       offset[d] = i;
-      (*this)[offset] = NumericTraits<TPixel>::One; // a neighbor pixel in dimension d
+      // a neighbor pixel in dimension d
+      (*this)[offset] = NumericTraits<TPixel>::One; 
       }
     offset[d] = 0;
     }

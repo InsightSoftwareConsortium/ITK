@@ -30,8 +30,8 @@ namespace itk
 /** \class BSplineDeformableTransform
  * \brief Deformable transform using a BSpline representation
  *
- * This class encapsulates a deformable transform of points from one N-dimensional
- * one space to another N-dimensional space.
+ * This class encapsulates a deformable transform of points from one 
+ * N-dimensional one space to another N-dimensional space.
  * The deformation field is modeled using B-splines. 
  * A deformation is defined on a sparse regular grid of control points
  * \f$ \vec{\lambda}_j \f$ and is varied by defining a deformation 
@@ -41,9 +41,9 @@ namespace itk
  *
  * The deformation field grid is defined by a user specified GridRegion, 
  * GridSpacing and GridOrigin. Each grid/control point has associated with it
- * N deformation coefficients \f$ \vec{\delta}_j \f$, representing the N directional 
- * components of the deformation. Deformation outside the grid plus support
- * region for the BSpline interpolation is assumed to be zero.
+ * N deformation coefficients \f$ \vec{\delta}_j \f$, representing the N 
+ * directional components of the deformation. Deformation outside the grid
+ * plus support region for the BSpline interpolation is assumed to be zero.
  *
  * Additionally, the user can specified an addition bulk transform \f$ B \f$
  * such that the transformed point is given by:
@@ -70,7 +70,8 @@ namespace itk
  *
  * // NB: the region must be set first before setting the parameters
  *
- * TransformType::ParametersType parameters( transform->GetNumberOfParameters() );
+ * TransformType::ParametersType parameters( 
+ *                                       transform->GetNumberOfParameters() );
  *
  * // Fill the parameters with values
  *
@@ -104,7 +105,7 @@ namespace itk
  * \ingroup Transforms
  */
 template <
-    class TScalarType = double,          // Data type for scalars (float or double)
+    class TScalarType = double,          // Data type for scalars
     unsigned int NDimensions = 3,        // Number of dimensions
     unsigned int VSplineOrder = 3 >      // Spline order
 class ITK_EXPORT BSplineDeformableTransform : 
@@ -112,10 +113,10 @@ class ITK_EXPORT BSplineDeformableTransform :
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineDeformableTransform Self;
+  typedef BSplineDeformableTransform                         Self;
   typedef Transform< TScalarType, NDimensions, NDimensions > Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                 Pointer;
+  typedef SmartPointer<const Self>                           ConstPointer;
       
   /** New macro for creation of through the object factory.*/
   itkNewMacro( Self );
@@ -146,15 +147,15 @@ public:
 
   /** Standard covariant vector type for this class. */
   typedef CovariantVector<TScalarType,
-                          itkGetStaticConstMacro(SpaceDimension)> InputCovariantVectorType;
+             itkGetStaticConstMacro(SpaceDimension)> InputCovariantVectorType;
   typedef CovariantVector<TScalarType,
-                          itkGetStaticConstMacro(SpaceDimension)> OutputCovariantVectorType;
+            itkGetStaticConstMacro(SpaceDimension)> OutputCovariantVectorType;
   
   /** Standard vnl_vector type for this class. */
   typedef vnl_vector_fixed<TScalarType,
-                           itkGetStaticConstMacro(SpaceDimension)> InputVnlVectorType;
+                   itkGetStaticConstMacro(SpaceDimension)> InputVnlVectorType;
   typedef vnl_vector_fixed<TScalarType,
-                           itkGetStaticConstMacro(SpaceDimension)> OutputVnlVectorType;
+                  itkGetStaticConstMacro(SpaceDimension)> OutputVnlVectorType;
   
   /** Standard coordinate point type for this class. */
   typedef Point<TScalarType,
@@ -187,7 +188,8 @@ public:
    * For a BSpline deformation transform, the parameters are the following:
    *    Grid Size, Grid Origin, and Grid Spacing
    * 
-   * The fixed parameters are the three times the size of the templated dimensions.
+   * The fixed parameters are the three times the size of the templated 
+   * dimensions.
    * This function has the effect of make the following calls:
    *       transform->SetGridSpacing( spacing );
    *       transform->SetGridOrigin( origin );
@@ -235,9 +237,9 @@ public:
   virtual const ParametersType& GetFixedParameters(void) const;
   
   /** Parameters as SpaceDimension number of images. */
-  typedef typename ParametersType::ValueType PixelType;
+  typedef typename ParametersType::ValueType                      PixelType;
   typedef Image<PixelType,itkGetStaticConstMacro(SpaceDimension)> ImageType;
-  typedef typename ImageType::Pointer ImagePointer;
+  typedef typename ImageType::Pointer                          ImagePointer;
 
   /** Get the array of coefficient images. */
   virtual ImagePointer * GetCoefficientImage()
@@ -259,10 +261,11 @@ public:
 
   /** Typedefs for specifying the extend to the grid. */
   typedef ImageRegion<itkGetStaticConstMacro(SpaceDimension)>    RegionType;
-  typedef typename RegionType::IndexType IndexType;
-  typedef typename RegionType::SizeType  SizeType;
+  
+  typedef typename RegionType::IndexType  IndexType;
+  typedef typename RegionType::SizeType   SizeType;
   typedef typename ImageType::SpacingType SpacingType;
-  typedef typename ImageType::PointType OriginType;
+  typedef typename ImageType::PointType   OriginType;
 
   /** This method specifies the region over which the grid resides. */
   virtual void SetGridRegion( const RegionType& region );
@@ -282,7 +285,7 @@ public:
   /** Typedef of the bulk transform. */
   typedef Transform<ScalarType,itkGetStaticConstMacro(SpaceDimension),
                     itkGetStaticConstMacro(SpaceDimension)> BulkTransformType;
-  typedef typename BulkTransformType::ConstPointer  BulkTransformPointer;
+  typedef typename BulkTransformType::ConstPointer       BulkTransformPointer;
 
   /** This method specifies the bulk transform to be applied. 
    * The default is the identity transform.
@@ -295,10 +298,11 @@ public:
 
   /** Interpolation weights function type. */
   typedef BSplineInterpolationWeightFunction<ScalarType,
-                                             itkGetStaticConstMacro(SpaceDimension),
-                                             itkGetStaticConstMacro(SplineOrder)> WeightsFunctionType;
-  typedef typename WeightsFunctionType::WeightsType WeightsType;
-  typedef typename WeightsFunctionType::ContinuousIndexType ContinuousIndexType;
+                     itkGetStaticConstMacro(SpaceDimension),
+                     itkGetStaticConstMacro(SplineOrder)> WeightsFunctionType;
+  typedef typename WeightsFunctionType::WeightsType       WeightsType;
+  typedef typename WeightsFunctionType::ContinuousIndexType 
+                                                          ContinuousIndexType;
 
   /** Parameter index array type. */
   typedef Array<unsigned long> ParameterIndexArrayType;
@@ -320,26 +324,29 @@ public:
   unsigned long GetNumberOfWeights() const
     { return m_WeightsFunction->GetNumberOfWeights(); }
 
-  /**  Method to transform a vector - not applicable for this type of transform. */
+  /** Method to transform a vector - 
+   *  not applicable for this type of transform. */
   virtual OutputVectorType TransformVector(const InputVectorType &) const
     { 
-      itkExceptionMacro(<< "Method not applicable for deformable transform." );
-      return OutputVectorType(); 
+    itkExceptionMacro(<< "Method not applicable for deformable transform." );
+    return OutputVectorType(); 
     }
 
-  /**  Method to transform a vnl_vector - not applicable for this type of transform */
+  /** Method to transform a vnl_vector - 
+   *  not applicable for this type of transform */
   virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const
     { 
-      itkExceptionMacro(<< "Method not applicable for deformable transform. ");
-      return OutputVnlVectorType(); 
+    itkExceptionMacro(<< "Method not applicable for deformable transform. ");
+    return OutputVnlVectorType(); 
     }
 
-  /**  Method to transform a CovariantVector - not applicable for this type of transform */
+  /** Method to transform a CovariantVector - 
+   *  not applicable for this type of transform */
   virtual OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType &) const
     { 
-      itkExceptionMacro(<< "Method not applicable for deformable transfrom. ");
-      return OutputCovariantVectorType(); 
+    itkExceptionMacro(<< "Method not applicable for deformable transfrom. ");
+    return OutputCovariantVectorType(); 
     } 
     
   /** Compute the Jacobian Matrix of the transformation at one point */
@@ -392,7 +399,8 @@ private:
   /** Array holding images wrapped from the flat parameters. */
   ImagePointer   m_WrappedImage[NDimensions];
 
-  /** Array of images representing the B-spline coefficients in each dimension. */
+  /** Array of images representing the B-spline coefficients 
+   *  in each dimension. */
   ImagePointer   m_CoefficientImage[NDimensions];
 
   /** Jacobian as SpaceDimension number of images. */

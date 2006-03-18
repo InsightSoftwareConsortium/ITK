@@ -35,22 +35,24 @@ template <unsigned int VImageDimension>
 class ITK_EXPORT BloxBoundaryPointItem: public BloxItem
 {
 public:
-  /** The type of vector used to store the position of the BoundaryPointItem * */
+  /** The type of vector used to store the position of the 
+   *  BoundaryPointItem */
   typedef Point<double, VImageDimension> PositionType;
   
-  /** The type of vector used to store the gradient of the BoundaryPointItem * */
+  /** The type of vector used to store the gradient of the 
+   *  BoundaryPointItem */
   typedef CovariantVector<double, VImageDimension> GradientType;
 
-  /** Set the position of the boundary point in physical space * */
+  /** Set the position of the boundary point in physical space */
   void SetPhysicalPosition(PositionType physPos){m_PhysicalPosition = physPos;};
 
-  /** Get the position of the boundary point in physical space * */
+  /** Get the position of the boundary point in physical space */
   PositionType GetPhysicalPosition(){return m_PhysicalPosition;};
 
-  /** Set the gradient of the boundary point * */
+  /** Set the gradient of the boundary point */
   void SetGradient(GradientType grad){m_Gradient = grad;};
 
-  /** Get the gradient of the boundary point * */
+  /** Get the gradient of the boundary point */
   GradientType GetGradient(){return m_Gradient;};
   
   BloxBoundaryPointItem();
@@ -59,10 +61,10 @@ public:
 private:
 
   /** The position of the boundary point in the coordinate system of the
-   * physical image in which the boundary pixel was located * */
+   * physical image in which the boundary pixel was located */
   PositionType m_PhysicalPosition;
 
-  /** The gradient of the boundary point (non-normalized) * */
+  /** The gradient of the boundary point (non-normalized) */
   GradientType m_Gradient;
 
 };

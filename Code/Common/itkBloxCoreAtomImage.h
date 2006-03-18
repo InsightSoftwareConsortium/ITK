@@ -40,9 +40,9 @@ namespace itk
  * and storing them in the correct blox location.
  * \ingroup ImageObjects
  */
-template <unsigned int dim>
+template <unsigned int NDimensions>
 class ITK_EXPORT BloxCoreAtomImage :
-  public BloxImage<BloxCoreAtomPixel<dim>, dim>
+  public BloxImage<BloxCoreAtomPixel<NDimensions>, NDimensions>
 {
 public:
   /** Standard class typedefs. */
@@ -52,12 +52,13 @@ public:
    * templated over image type (as opposed to being templated over pixel
    * type and dimension) when they need compile time access to the dimension
    * of the image. */
-  itkStaticConstMacro(NDimensions, unsigned int, dim);
+  itkStaticConstMacro(NDimensions, unsigned int, NDimensions);
 
-  typedef BloxImage<BloxCoreAtomPixel<dim>, dim>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  typedef WeakPointer<const Self>  ConstWeakPointer;
+  typedef BloxImage<BloxCoreAtomPixel<NDimensions>, NDimensions>  Superclass;
+
+  typedef SmartPointer<Self>         Pointer;
+  typedef SmartPointer<const Self>   ConstPointer;
+  typedef WeakPointer<const Self>    ConstWeakPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,11 +67,11 @@ public:
   itkTypeMacro(BloxCoreAtomImage, BloxImage);
 
   /** The type of boundary point item we process * */
-  typedef BloxBoundaryPointItem<dim> BPItemType;
+  typedef BloxBoundaryPointItem<NDimensions> BPItemType;
 
   /** Pixel typedef support. Used to declare pixel type in filters
    * or other operations. */
-  typedef BloxCoreAtomPixel<dim > PixelType;
+  typedef BloxCoreAtomPixel<NDimensions > PixelType;
 
   /** Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
@@ -83,18 +84,18 @@ public:
   typedef DefaultPixelAccessor< PixelType > AccessorType;
 
   /** The type of Point used to convert between physical and blox space */
-  typedef Point<double, dim> PositionType;
+  typedef Point<double, NDimensions> PositionType;
 
   /** The vector between two points */
   typedef typename PositionType::VectorType VectorType;
 
   /** How we represent gradients. */
-  typedef CovariantVector<double, dim> GradientType;
+  typedef CovariantVector<double, NDimensions> GradientType;
 
   /** get macro for m_MedialNodeCount. */
   itkGetMacro(MedialNodeCount, int);
 
-  typedef std::vector<PixelType*> NodePointerListType;
+  typedef std::vector<PixelType*>   NodePointerListType;
   typedef std::vector<PixelType*> * NodePointerListPointer;
 
   /** get macro for m_NodePointerList. */
@@ -105,11 +106,11 @@ public:
    * Vector calls!!! Scalar and vector traits are not defined and do not
    * make sense for linked lists (at the present time). */
   typedef typename Superclass::PixelContainer PixelContainer;
-  typedef typename Superclass::SizeType SizeType;
-  typedef typename Superclass::IndexType IndexType;
-  typedef typename IndexType::IndexValueType IndexValueType;
-  typedef typename Superclass::OffsetType OffsetType;
-  typedef typename Superclass::RegionType RegionType;
+  typedef typename Superclass::SizeType       SizeType;
+  typedef typename Superclass::IndexType      IndexType;
+  typedef typename IndexType::IndexValueType  IndexValueType;
+  typedef typename Superclass::OffsetType     OffsetType;
+  typedef typename Superclass::RegionType     RegionType;
   
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
@@ -119,10 +120,6 @@ public:
 
   /** Core atom voting routine. */
   void DoCoreAtomVoting();
-
-
- // ImageRegionIterator<Self> ReturnIterator();
-
 
 protected:
   BloxCoreAtomImage();

@@ -49,8 +49,8 @@ public:
   typedef SpatialFunction< bool, 
                            ::itk::GetImageDimension<TFunction>::ImageDimension, 
                            ITK_TYPENAME TFunction::InputType > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                   Pointer;
+  typedef SmartPointer<const Self>                             ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(BinaryThresholdSpatialFunction, SpatialFunction);

@@ -69,21 +69,22 @@ class ITK_EXPORT BoundingBox : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef BoundingBox         Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef BoundingBox               Self;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
     
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TPointIdentifier PointIdentifier;
-  typedef TCoordRep CoordRepType;
-  typedef TPointsContainer PointsContainer;
-  typedef typename PointsContainer::Pointer PointsContainerPointer;
-  typedef typename PointsContainer::ConstPointer PointsContainerConstPointer;
-  typedef Point< CoordRepType, VPointDimension >  PointType;
+  typedef TPointIdentifier                        PointIdentifier;
+  typedef TCoordRep                               CoordRepType;
+  typedef TPointsContainer                        PointsContainer;
+  typedef typename PointsContainer::Pointer       PointsContainerPointer;
+  typedef typename PointsContainer::ConstPointer  PointsContainerConstPointer;
+
+  typedef Point< CoordRepType, VPointDimension >         PointType;
   typedef FixedArray< CoordRepType, VPointDimension*2 >  BoundsArrayType;
   
   /** Hold on to the dimensions specified by the template parameters. */
@@ -193,7 +194,8 @@ private:
   PointsContainerConstPointer m_PointsContainer;
   PointsContainerPointer      m_CornersContainer;
   mutable  BoundsArrayType    m_Bounds;
-  mutable  TimeStamp          m_BoundsMTime; //The last time the bounds were computed.
+  mutable  TimeStamp          m_BoundsMTime; // The last time the bounds 
+                                             // were computed.
 
 };
 

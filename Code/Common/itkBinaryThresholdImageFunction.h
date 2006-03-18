@@ -23,30 +23,31 @@ namespace itk
 {
 
 /** \class BinaryThresholdImageFunction
- * \brief Returns true is the value of an image lies within a range of thresholds
-This ImageFunction returns true (or false) if the pixel value lies
-within (outside) a lower and upper threshold value. The threshold
-range can be set with the ThresholdBelow, ThresholdBetween or
-ThresholdAbove methods.  The input image is set via method
-SetInputImage().
-
-Methods Evaluate, EvaluateAtIndex and EvaluateAtContinuousIndex
-respectively evaluate the function at an geometric point, image index
-and continuous image index.
-
+ * \brief Returns true is the value of an image lies within a range 
+ *        of thresholds
+ * This ImageFunction returns true (or false) if the pixel value lies
+ * within (outside) a lower and upper threshold value. The threshold
+ * range can be set with the ThresholdBelow, ThresholdBetween or
+ * ThresholdAbove methods.  The input image is set via method
+ * SetInputImage().
+ *
+ * Methods Evaluate, EvaluateAtIndex and EvaluateAtContinuousIndex
+ * respectively evaluate the function at an geometric point, image index
+ * and continuous image index.
+ *
  * \ingroup ImageFunctions
  * 
- * */
+ */
 template <class TInputImage, class TCoordRep = float>
 class ITK_EXPORT BinaryThresholdImageFunction : 
   public ImageFunction<TInputImage,bool,TCoordRep> 
 {
 public:
   /** Standard class typedefs. */
-  typedef BinaryThresholdImageFunction Self;
+  typedef BinaryThresholdImageFunction              Self;
   typedef ImageFunction<TInputImage,bool,TCoordRep> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                        Pointer;
+  typedef SmartPointer<const Self>                  ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(BinaryThresholdImageFunction, ImageFunction);
@@ -99,10 +100,10 @@ public:
   virtual bool EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const
     {
-      IndexType nindex;
+    IndexType nindex;
 
-      this->ConvertContinuousIndexToNearestIndex (index, nindex);
-      return this->EvaluateAtIndex(nindex);
+    this->ConvertContinuousIndexToNearestIndex (index, nindex);
+    return this->EvaluateAtIndex(nindex);
     }
 
   /** BinaryThreshold the image at an index position.

@@ -22,7 +22,8 @@
 namespace itk {
   
 /** \class BinaryCrossStructuringElement
- * \brief A Neighborhood that represents a cross structuring element with binary elements.
+ * \brief A Neighborhood that represents a cross structuring element 
+ *        with binary elements.
  *
  * This class defines a Neighborhood whose elements are either 0 or 1
  * depending on whether they are the face connected neighbors of the
@@ -45,7 +46,7 @@ class ITK_EXPORT BinaryCrossStructuringElement
 {
 public:
   /** Standard class typedefs. */
-  typedef BinaryCrossStructuringElement Self;
+  typedef BinaryCrossStructuringElement                Self;
   typedef Neighborhood<TPixel, VDimension, TAllocator> Superclass;
 
   /** External support for allocator type. */
@@ -60,15 +61,15 @@ public:
   /** Iterator typedef support. Note the naming is intentional, i.e.,
   * ::iterator and ::const_iterator, because the allocator may be a
   * vnl object or other type, which uses this form. */
-  typedef typename AllocatorType::iterator Iterator;
+  typedef typename AllocatorType::iterator       Iterator;
   typedef typename AllocatorType::const_iterator ConstIterator;
   
   /** Size and value typedef support. */
-  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::SizeType      SizeType;
   typedef typename Superclass::SizeValueType SizeValueType;
 
   /** Offset and value typedef support. */
-  typedef typename Superclass::OffsetType OffsetType;
+  typedef typename Superclass::OffsetType      OffsetType;
   typedef typename OffsetType::OffsetValueType OffsetValueType;
   
   /** Radius typedef support. */
@@ -86,15 +87,15 @@ public:
   /** Copy constructor. */
   BinaryCrossStructuringElement(const Self& other)
     : Neighborhood<TPixel, VDimension, TAllocator>(other)
-  {
-  }
+    {
+    }
 
   /** Assignment operator. */
   Self &operator=(const Self& other)
-  {
+    {
     Superclass::operator=(other);
     return *this;
-  }
+    }
 
   /** Build the structuring element */
   void CreateStructuringElement();   

@@ -176,7 +176,7 @@ public:
 
 protected:
   /** Create an AzimuthElevationToCartesianTransform object. */
-  AzimuthElevationToCartesianTransform();      
+  AzimuthElevationToCartesianTransform();
 
   /** Destroy an AzimuthElevationToCartesianTransform object. */
   virtual ~AzimuthElevationToCartesianTransform();

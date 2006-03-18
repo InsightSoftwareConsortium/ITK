@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBoundingBox_txx
-#define _itkBoundingBox_txx
+#ifndef __itkBoundingBox_txx
+#define __itkBoundingBox_txx
 #include "itkBoundingBox.h"
 #include "itkNumericTraits.h"
 #include "itkPoint.h"
@@ -37,7 +37,7 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Bounding Box: ( " ;
+  os << indent << "Bounding Box: ( ";
   for (unsigned int i=0; i<PointDimension; i++)
     {
     os << m_Bounds[2*i] << "," << m_Bounds[2*i+1] << " ";
@@ -65,7 +65,8 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
 /** Access routine to get the points container. */
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-const typename BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >::PointsContainer *
+const typename BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, 
+                                        TPointsContainer >::PointsContainer *
 BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
 ::GetPoints(void) const
 {
@@ -77,7 +78,8 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
 /** Compute and get the corners of the bounding box */
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-const typename BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >::PointsContainer *
+const typename BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, 
+                                        TPointsContainer >::PointsContainer *
 BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
 ::GetCorners(void)
 {
@@ -92,11 +94,12 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
     }
     
   for(unsigned int j=0;j<pow(2.0,(double)VPointDimension);j++)
-    {       
+    {
     PointType pnt;
     for(unsigned int i=0; i<VPointDimension;i++)
       {
-      pnt[i]=center[i]+pow(-1.0,((double)(j/(int(pow(2.0,(double)i))))))*radius[i];
+      pnt[i]=center[i]+pow(-1.0,((double)(j/(int(pow(2.0,(double)i))))))
+                                                                    *radius[i];
       }
     m_CornersContainer->push_back(pnt);   
     }
@@ -104,14 +107,11 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
   return m_CornersContainer.GetPointer();
 }
 
-/******************************************************************************
- * PROTECTED METHOD DEFINITIONS
- *****************************************************************************/
+/** */
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
-::BoundingBox():
-  m_PointsContainer(NULL)
+::BoundingBox(): m_PointsContainer(NULL)
 {
   m_Bounds.Fill( NumericTraits< CoordRepType >::Zero );
   m_CornersContainer = PointsContainer::New();
@@ -188,7 +188,8 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType 
+typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,
+                                                TPointsContainer>::PointType 
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::GetCenter(void) const
 {
@@ -205,7 +206,8 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType 
+typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,
+                                                TPointsContainer>::PointType 
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::GetMinimum(void) const
 {
@@ -236,7 +238,8 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType 
+typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,
+                                             TPointsContainer>::PointType 
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::GetMaximum(void) const
 {
@@ -294,7 +297,8 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::AccumulateType 
+typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,
+                                             TPointsContainer>::AccumulateType 
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::GetDiagonalLength2(void) const
 {
@@ -312,9 +316,6 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 
   return dist2;
 }
-
-
-
 
 
 template <typename TPointIdentifier, int VPointDimension,
@@ -359,7 +360,8 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::Pointer 
+typename BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,
+                                                   TPointsContainer>::Pointer
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 ::DeepCopy( void ) const
 {

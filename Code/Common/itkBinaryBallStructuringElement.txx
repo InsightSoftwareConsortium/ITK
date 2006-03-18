@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBinaryBallStructuringElement_txx
-#define _itkBinaryBallStructuringElement_txx
+#ifndef __itkBinaryBallStructuringElement_txx
+#define __itkBinaryBallStructuringElement_txx
 #include "itkBinaryBallStructuringElement.h"
 
 #include "itkImage.h"
@@ -63,8 +63,7 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
   //
 
   // Ellipsoid spatial function typedef
-  typedef EllipsoidInteriorExteriorSpatialFunction<VDimension>
-    EllipsoidType;
+  typedef EllipsoidInteriorExteriorSpatialFunction<VDimension> EllipsoidType;
   
   // Create an ellipsoid spatial function for the source image
   typename EllipsoidType::Pointer spatialFunction = EllipsoidType::New();

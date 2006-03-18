@@ -39,7 +39,8 @@ namespace itk
  * */
 
 template <unsigned int NDimensions>
-class ITK_EXPORT BloxCoreAtomPixel : public BloxPixel< BloxCoreAtomItem<NDimensions> >
+class ITK_EXPORT BloxCoreAtomPixel : public BloxPixel< 
+                                            BloxCoreAtomItem<NDimensions> >
 {
 public:
 
@@ -76,7 +77,8 @@ public:
   /** Calculate and store the mean of core atom diameters. */
   double CalcMeanCoreAtomDiameter();
 
-  /** Perform eigenanalysis on the population of core atoms stored in this pixel. */
+  /** Perform eigenanalysis on the population of core atoms 
+   *  stored in this pixel. */
   bool DoCoreAtomEigenanalysis();
 
   /** Perform eigenanalysis on the voted CMatrix */

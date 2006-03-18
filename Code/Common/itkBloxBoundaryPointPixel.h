@@ -31,7 +31,8 @@ namespace itk
  * */
 
 template <unsigned int NDimensions>
-class ITK_EXPORT BloxBoundaryPointPixel : public BloxPixel< BloxBoundaryPointItem<NDimensions> >
+class ITK_EXPORT BloxBoundaryPointPixel : public BloxPixel< 
+                                          BloxBoundaryPointItem<NDimensions> >
 {
 public:
   BloxBoundaryPointPixel();

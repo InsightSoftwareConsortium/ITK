@@ -289,7 +289,7 @@ protected:
                   const OutputVectorType &offset);
   AffineTransform(unsigned int outputDims,
                   unsigned int paramDims);
-  AffineTransform();      
+  AffineTransform();
   
   /** Destroy an AffineTransform object   **/
   virtual ~AffineTransform();
