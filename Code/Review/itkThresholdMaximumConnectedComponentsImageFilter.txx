@@ -28,9 +28,6 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
 #include "itkObjectFactory.h"
-#include "itkProgressReporter.h"
-
-
 
 namespace itk
 {
@@ -57,7 +54,7 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
 
 
   const PixelType maxLabel = NumericTraits<PixelType>::max();
-  const PixelType minLabel = NumericTraits<PixelType>::min(); 
+  const PixelType minLabel = NumericTraits<PixelType>::NonpositiveMin(); 
   
   m_MinimumObjectSizeInPixels = 0; //Default. Use ITK set macro "SetMinimumObjectSizeInPixels" to change
 
@@ -139,9 +136,8 @@ void ThresholdMaximumConnectedComponentsImageFilter< TInputImage >
   m_ThresholdFilter->SetInsideValue( m_InsideValue );
   m_ThresholdFilter->SetUpperThreshold( m_UpperBoundary );
 
-
   const PixelType maxLabel = NumericTraits<PixelType>::max();
-  const PixelType minLabel = NumericTraits<PixelType>::min(); 
+  const PixelType minLabel = NumericTraits<PixelType>::NonpositiveMin(); 
   
   //Initial values to maximize search strategy
   PixelType lowerBound = minLabel;
@@ -239,7 +235,12 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
   os << indent << "Threshold Value: "
      << static_cast<typename NumericTraits<PixelType>::PrintType>( m_ThresholdValue )
      << std::endl;
-  os << indent << "Number of Objects: " <<  m_NumberOfObjects << std::endl;
+  os << indent << "Number of Objects: "
+     << m_NumberOfObjects
+     << std::endl;
+  os << indent << "Minimum Object Size in Pixels: "
+     <<  m_MinimumObjectSizeInPixels
+     << std::endl;
 }
 
 
