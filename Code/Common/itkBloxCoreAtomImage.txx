@@ -30,24 +30,24 @@
 namespace itk
 {
 
-template <unsigned int NDimensions>
-BloxCoreAtomImage<NDimensions>
+template <unsigned int NDimension>
+BloxCoreAtomImage<NDimension>
 ::BloxCoreAtomImage()
 {
   m_MedialNodeCount = 0;
-  m_NodePointerList = new std::vector<BloxCoreAtomPixel<NDimensions>*>();
+  m_NodePointerList = new std::vector<BloxCoreAtomPixel<NDimension>*>();
 }
 
-template <unsigned int NDimensions>
-BloxCoreAtomImage<NDimensions>
+template <unsigned int NDimension>
+BloxCoreAtomImage<NDimension>
 ::~BloxCoreAtomImage()
 {
   delete m_NodePointerList;
 }
 
-template <unsigned int NDimensions>
+template <unsigned int NDimension>
 void
-BloxCoreAtomImage<NDimensions>
+BloxCoreAtomImage<NDimension>
 ::DoEigenanalysis()
 {
   itk::ImageRegionIterator<Self> bloxIt = 
@@ -59,9 +59,9 @@ BloxCoreAtomImage<NDimensions>
     }
 }
 
-template <unsigned int NDimensions>
+template <unsigned int NDimension>
 void
-BloxCoreAtomImage<NDimensions>
+BloxCoreAtomImage<NDimension>
 ::DoCoreAtomVoting()
 {
   //cerr << "BloxCoreAtomImage::DoCoreAtomVoting()" << endl;
@@ -71,15 +71,15 @@ BloxCoreAtomImage<NDimensions>
     ImageRegionIterator<Self>(this, this->GetLargestPossibleRegion() );
 
   // Pointer for accessing pixels
-  BloxCoreAtomPixel<NDimensions>* pPixel = 0;
+  BloxCoreAtomPixel<NDimension>* pPixel = 0;
 
   // Results of eigenanalysis from each pixel
-  typename BloxCoreAtomPixel<NDimensions>::EigenvalueType eigenvalues;
-  typename BloxCoreAtomPixel<NDimensions>::EigenvectorType eigenvectors;
+  typename BloxCoreAtomPixel<NDimension>::EigenvalueType eigenvalues;
+  typename BloxCoreAtomPixel<NDimension>::EigenvectorType eigenvectors;
 
   // Results of eigenanalysis from each pixel
-  typename BloxCoreAtomPixel<NDimensions>::EigenvalueType sf_eigenvalues;
-  typename BloxCoreAtomPixel<NDimensions>::EigenvectorType sf_eigenvectors;
+  typename BloxCoreAtomPixel<NDimension>::EigenvalueType sf_eigenvalues;
+  typename BloxCoreAtomPixel<NDimension>::EigenvectorType sf_eigenvectors;
 
   unsigned int voterCount = 0;
   for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
@@ -102,7 +102,7 @@ BloxCoreAtomImage<NDimensions>
     eigenvectors = pPixel->GetEigenvectors();
 
     // Ellipsoid axis length array
-    Point<double, NDimensions> axisLengthArray;
+    Point<double, NDimension> axisLengthArray;
 
     // Compute first length
     axisLengthArray[0] = 0.5 * pPixel->GetMeanCoreAtomDiameter();
@@ -116,14 +116,14 @@ BloxCoreAtomImage<NDimensions>
       alphaOne = 0.001;
       }
     // Now compute the rest of the lengths
-    for(unsigned int i = 1; i < NDimensions; i++)
+    for(unsigned int i = 1; i < NDimension; i++)
       {
       axisLengthArray[i] = ( (1 - eigenvalues[i]) / alphaOne) 
                                                         * axisLengthArray[0];
       }
 
     // Build the ellipsoid voting region
-    typedef EllipsoidInteriorExteriorSpatialFunction<NDimensions, PositionType> 
+    typedef EllipsoidInteriorExteriorSpatialFunction<NDimension, PositionType> 
                                                               VoteFunctionType;
     typename VoteFunctionType::Pointer ellipsoid = VoteFunctionType::New();
 
@@ -139,9 +139,9 @@ BloxCoreAtomImage<NDimensions>
     // of the voting pixel
     typename VoteFunctionType::InputType centerPosition;
 
-    ContinuousIndex<double, NDimensions> contIndex;
+    ContinuousIndex<double, NDimension> contIndex;
 
-    for(unsigned int i = 0; i < NDimensions; i ++ )
+    for(unsigned int i = 0; i < NDimension; i ++ )
       {
       contIndex[i] = (double)seedPos[i] + 0.5;
       }
@@ -157,7 +157,7 @@ BloxCoreAtomImage<NDimensions>
     ItType sfi = ItType(this, ellipsoid, seedPos);
 
     // Get the position of the voting blox
-    typedef Point<double, NDimensions> TPosition;
+    typedef Point<double, NDimension> TPosition;
     TPosition voterPosition;
     typename Self::IndexType voterIndex = bloxIt.GetIndex();
     this->TransformIndexToPhysicalPoint(voterIndex, voterPosition);
@@ -192,7 +192,7 @@ BloxCoreAtomImage<NDimensions>
       double de = 0;
       double sf_de_sqr = 0;
 
-      for (unsigned int i = 0; i < NDimensions; i++)
+      for (unsigned int i = 0; i < NDimension; i++)
         {
         de += vcl_pow((dot_product(eigenvectors.get_column(i),
                   dbar.GetVnlVector() ) / axisLengthArray[i] ), 2);
@@ -213,7 +213,7 @@ BloxCoreAtomImage<NDimensions>
       sf_eigenvalues = sfi.Get().GetEigenvalues();
       sf_eigenvectors = sfi.Get().GetEigenvectors();
 
-      for (unsigned int i = 0; i < NDimensions; i++)
+      for (unsigned int i = 0; i < NDimension; i++)
         {
         sf_de_sqr += vcl_pow((dot_product(sf_eigenvectors.get_column(i), 
                           dbar.GetVnlVector() ) / axisLengthArray[i] ), 2);
@@ -252,9 +252,9 @@ BloxCoreAtomImage<NDimensions>
   //cerr << "MedialNodeCount = " << m_MedialNodeCount << endl;
 }
 
-template <unsigned int NDimensions>
+template <unsigned int NDimension>
 void
-BloxCoreAtomImage<NDimensions>
+BloxCoreAtomImage<NDimension>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -264,11 +264,11 @@ BloxCoreAtomImage<NDimensions>
     ImageRegionConstIterator<Self>(this, this->GetLargestPossibleRegion() );
 
   // Pointer for accessing pixels
-  BloxCoreAtomPixel<NDimensions> pPixel;
+  BloxCoreAtomPixel<NDimension> pPixel;
 
   // Results of eigenanalysis from each pixel
-  typename BloxCoreAtomPixel<NDimensions>::EigenvalueType eigenvalues;
-  typename BloxCoreAtomPixel<NDimensions>::EigenvalueType veigenvalues;
+  typename BloxCoreAtomPixel<NDimension>::EigenvalueType eigenvalues;
+  typename BloxCoreAtomPixel<NDimension>::EigenvalueType veigenvalues;
 
   os << indent << "Index\t# Core Atoms\tEigen Values\t\t\tMean CA Length\t\
                   Voted Eigen Values\n" 

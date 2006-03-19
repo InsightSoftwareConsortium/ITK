@@ -40,9 +40,9 @@ namespace itk
  * and storing them in the correct blox location.
  * \ingroup ImageObjects
  */
-template <unsigned int NDimensions>
+template <unsigned int NDimension>
 class ITK_EXPORT BloxCoreAtomImage :
-  public BloxImage<BloxCoreAtomPixel<NDimensions>, NDimensions>
+  public BloxImage<BloxCoreAtomPixel<NDimension>, NDimension>
 {
 public:
   /** Standard class typedefs. */
@@ -52,9 +52,9 @@ public:
    * templated over image type (as opposed to being templated over pixel
    * type and dimension) when they need compile time access to the dimension
    * of the image. */
-  itkStaticConstMacro(NDimensions, unsigned int, NDimensions);
+  itkStaticConstMacro(NDimensions, unsigned int, NDimension);
 
-  typedef BloxImage<BloxCoreAtomPixel<NDimensions>, NDimensions>  Superclass;
+  typedef BloxImage<BloxCoreAtomPixel<NDimension>, NDimension>  Superclass;
 
   typedef SmartPointer<Self>         Pointer;
   typedef SmartPointer<const Self>   ConstPointer;
@@ -67,11 +67,11 @@ public:
   itkTypeMacro(BloxCoreAtomImage, BloxImage);
 
   /** The type of boundary point item we process * */
-  typedef BloxBoundaryPointItem<NDimensions> BPItemType;
+  typedef BloxBoundaryPointItem<NDimension> BPItemType;
 
   /** Pixel typedef support. Used to declare pixel type in filters
    * or other operations. */
-  typedef BloxCoreAtomPixel<NDimensions > PixelType;
+  typedef BloxCoreAtomPixel<NDimension > PixelType;
 
   /** Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
@@ -84,13 +84,13 @@ public:
   typedef DefaultPixelAccessor< PixelType > AccessorType;
 
   /** The type of Point used to convert between physical and blox space */
-  typedef Point<double, NDimensions> PositionType;
+  typedef Point<double, NDimension> PositionType;
 
   /** The vector between two points */
   typedef typename PositionType::VectorType VectorType;
 
   /** How we represent gradients. */
-  typedef CovariantVector<double, NDimensions> GradientType;
+  typedef CovariantVector<double, NDimension> GradientType;
 
   /** get macro for m_MedialNodeCount. */
   itkGetMacro(MedialNodeCount, int);
