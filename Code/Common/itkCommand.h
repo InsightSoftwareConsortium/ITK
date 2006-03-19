@@ -69,7 +69,7 @@ private:
  
 // some implementations for several callback types
 
-/** \Class MemberCommand
+/** \class MemberCommand
  *  \brief Command subclass that calls a pointer to a member function
  *
  *  MemberCommand calls a pointer to a member function with the same
@@ -83,7 +83,8 @@ class MemberCommand : public Command
 public:
   /** pointer to a member function that takes a Object* and the event */
   typedef  void (T::*TMemberFunctionPointer)(Object*, const EventObject &);
-  typedef  void (T::*TConstMemberFunctionPointer)(const Object*, const EventObject &);
+  typedef  void (T::*TConstMemberFunctionPointer)(const Object*, 
+                                                  const EventObject &);
     
   /** Standard class typedefs. */
   typedef MemberCommand       Self;
@@ -143,7 +144,7 @@ private:
 };
 
 
-/** \Class ReceptorMemberCommand
+/** \class ReceptorMemberCommand
  *  \brief Command subclass that calls a pointer to a member function
  *
  *  ReceptorMemberCommand calls a pointer to a member function with 
@@ -208,7 +209,7 @@ private:
 };
 
 
-/** \Class SimpleMemberCommand
+/** \class SimpleMemberCommand
  *  \brief Command subclass that calls a pointer to a member function
  *
  *  SimpleMemberCommand calls a pointer to a member function with no 
@@ -270,7 +271,7 @@ private:
 };
 
 
-/** \Class SimpleConstMemberCommand
+/** \class SimpleConstMemberCommand
  *  \brief Command subclass that calls a pointer to a member function
  *
  *  SimpleConstMemberCommand calls a pointer to a member function with no 
@@ -332,7 +333,7 @@ private:
 };
 
 
-/** \Class CStyleCommand
+/** \class CStyleCommand
  *  \brief Command subclass that calls a pointer to a C function
  *
  *  CStyleCommand calls a pointer to a C function with the following
@@ -348,7 +349,8 @@ class CStyleCommand : public Command
 public:
   /** Typedefs for C-style callbacks. */
   typedef  void (*FunctionPointer)(Object*, const EventObject &, void*);
-  typedef  void (*ConstFunctionPointer)(const Object*, const EventObject &, void*);
+  typedef  void (*ConstFunctionPointer)(const Object*, 
+                                        const EventObject &, void*);
   typedef  void (*DeleteDataFunctionPointer)(void*);
   
   /** Standard class typedefs. */

@@ -24,7 +24,7 @@ namespace itk
 {
 
 
-/**
+/** \class CenteredAffineTransform
  * \brief Affine transformation with a specified center of rotation.
  *
  * This class implements an Affine transform in which the rotation center 
@@ -68,9 +68,9 @@ public:
   typedef typename Superclass::ScalarType                   ScalarType;
   typedef typename Superclass::InputVectorType              InputVectorType;
   typedef typename Superclass::OutputVectorType             OutputVectorType;
-  typedef typename Superclass::InputCovariantVectorType     
+  typedef typename Superclass::InputCovariantVectorType
                                                      InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType    
+  typedef typename Superclass::OutputCovariantVectorType
                                                      OutputCovariantVectorType;
   typedef typename Superclass::InputVnlVectorType           InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType          OutputVnlVectorType;
@@ -102,7 +102,7 @@ public:
 
 protected:
   /** Construct an CenteredAffineTransform object **/
-     CenteredAffineTransform();
+  CenteredAffineTransform();
   
   /** Destroy an CenteredAffineTransform object   **/
   virtual ~CenteredAffineTransform();

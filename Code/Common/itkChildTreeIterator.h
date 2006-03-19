@@ -174,7 +174,7 @@ template <class TTreeType>
 TreeIteratorBase<TTreeType>* ChildTreeIterator<TTreeType>::Clone() 
 {
   ChildTreeIterator<TTreeType>* clone = new ChildTreeIterator<TTreeType>( 
-                      const_cast<TTreeType*>(this->m_Tree),this->m_Position );   
+                    const_cast<TTreeType*>(this->m_Tree),this->m_Position );   
   *clone = *this;
   return clone;
 }

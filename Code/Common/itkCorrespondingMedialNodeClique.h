@@ -50,37 +50,45 @@ public:
   std::vector<ItemType*> ItemPointer;
 
   /** Set the pointer to medial nodes. */
-  void SetNodePointer(ItemType* itemPointer, unsigned int index) {ItemPointer[index] = itemPointer;}
+  void SetNodePointer(ItemType* itemPointer, unsigned int index) 
+    {ItemPointer[index] = itemPointer;}
 
   /** Coordinate of node in clique in physical space. */
-  typedef FixedArray<vnl_vector_fixed<double, VImageDimension>, VCliqueSize> CoordinateType; 
+  typedef FixedArray<vnl_vector_fixed<double, VImageDimension>, VCliqueSize> 
+                                                              CoordinateType; 
  
   /** Center mass of node clique in physical space. */
   typedef vnl_vector_fixed<double, VCliqueSize> CenterOfMassType;
 
   /** Transform matrix. */
-  typedef vnl_matrix_fixed<double, VImageDimension+1, VImageDimension+1> TransformMatrixType;  
+  typedef vnl_matrix_fixed<double, VImageDimension+1, VImageDimension+1> 
+                                                          TransformMatrixType;  
 
   /** Set and get the coordinates of the nodes in the clique. */
-  void SetNodeCoordinates(CoordinateType * coordinates) {m_NodeCoordinates = coordinates;}
+  void SetNodeCoordinates(CoordinateType * coordinates) 
+    {m_NodeCoordinates = coordinates;}
   CoordinateType * GetNodeCoordinates() {return m_NodeCoordinates;}
 
   /** Set and get the center of mass of the clique. */
-  void SetCenterOfMass(CenterOfMassType * centerOfMass) {m_CenterOfMass = centerOfMass;}
+  void SetCenterOfMass(CenterOfMassType * centerOfMass) 
+    {m_CenterOfMass = centerOfMass;}
   CenterOfMassType * GetCenterOfMass() { return m_CenterOfMass;}
 
   /** Set and get the transform matrix. */
-  void SetTransformMatrix(TransformMatrixType* transformMatrix) {m_TransformMatrix = transformMatrix;}
+  void SetTransformMatrix(TransformMatrixType* transformMatrix) 
+    {m_TransformMatrix = transformMatrix;}
   TransformMatrixType * GetTransformMatrix() {return m_TransformMatrix;}
 
   /** Set and get the node index. */
-  void SetNodeIndex(int index, int nodeIndex) {m_NodeIndex[index] = nodeIndex;}
+  void SetNodeIndex(int index, int nodeIndex) 
+    {m_NodeIndex[index] = nodeIndex;}
   int GetNodeIndex(int index) {return m_NodeIndex[index];}
 
   /** Set and get the correspondence value. */
   void SetCorrespondenceValue(int index, float correspondenceValue) 
     {m_CorrespondenceValue[index] = correspondenceValue;}
-  float GetCorrespondenceValue(int index) {return m_CorrespondenceValue[index];}
+  float GetCorrespondenceValue(int index) 
+    {return m_CorrespondenceValue[index];}
 
   CorrespondingMedialNodeClique();
   ~CorrespondingMedialNodeClique();

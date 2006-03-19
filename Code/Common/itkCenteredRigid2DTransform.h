@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \brief CenteredRigid2DTransform of a vector space (e.g. space coordinates)
+/** \class CenteredRigid2DTransform
+ * \brief CenteredRigid2DTransform of a vector space (e.g. space coordinates)
  *
  * This transform applies a rigid transformation is 2D space.
  * The transform is specified as a rotation around arbitrary center

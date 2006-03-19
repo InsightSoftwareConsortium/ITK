@@ -74,12 +74,12 @@ class ITK_EXPORT ComplexToImaginaryImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef ComplexToImaginaryImageAdaptor  Self;
+  typedef ComplexToImaginaryImageAdaptor            Self;
   typedef ImageAdaptor<TImage, Accessor::ComplexToImaginaryPixelAccessor<
                                typename TImage::PixelType,
                                TOutputPixelType> >  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                        Pointer;
+  typedef SmartPointer<const Self>                  ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  

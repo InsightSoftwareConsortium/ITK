@@ -73,7 +73,7 @@ class ITK_EXPORT ComplexToPhaseImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef ComplexToPhaseImageAdaptor  Self;
+  typedef ComplexToPhaseImageAdaptor                Self;
   typedef ImageAdaptor<TImage, Accessor::ComplexToPhasePixelAccessor<
                                typename TImage::PixelType,
                                TOutputPixelType> >  Superclass;

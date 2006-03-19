@@ -1,4 +1,3 @@
-
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
@@ -34,7 +33,8 @@ namespace itk
  * "worst case" that BoundaryPoint2 is somewhere in that search area pointing
  * directly at BoundaryPoint1. 
  *
- * The search area (ConicShell?) from each BoundaryPoint1 has the following parameters: 
+ * The search area (ConicShell?) from each BoundaryPoint1 has the following 
+ * parameters: 
  *
  * DistanceMax and DistanceMin from the location of the BoundaryPoint 
  *
@@ -47,7 +47,8 @@ namespace itk
  * then you are in the ConicShell.  This epsilon is the same one determining
  * face-to-faceness in the IEEE TMI paper. 
  *
- * Polarity, i.e. which direction along the gradient of BoundaryPoint1 you want to look.
+ * Polarity, i.e. which direction along the gradient of BoundaryPoint1 
+ * you want to look.
  * 
  * \ingroup SpatialFunctions
  *
@@ -60,13 +61,14 @@ class ITK_EXPORT ConicShellInteriorExteriorSpatialFunction:
 public:
 
   /** Standard class typedefs. */
-  typedef ConicShellInteriorExteriorSpatialFunction Self;
+  typedef ConicShellInteriorExteriorSpatialFunction   Self;
   typedef InteriorExteriorSpatialFunction<VDimension> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
     
   /** Run time information. */
-  itkTypeMacro(ConicShellInteriorExteriorSpatialFunction,InteriorExteriorSpatialFunction);
+  itkTypeMacro(ConicShellInteriorExteriorSpatialFunction,
+               InteriorExteriorSpatialFunction);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -113,7 +115,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  ConicShellInteriorExteriorSpatialFunction(const Self&); //purposely not implemented
+  ConicShellInteriorExteriorSpatialFunction(const Self&); //not implemented
   void operator=(const Self&); //purposely not implemented
 
   /** The origin of the conic shell */

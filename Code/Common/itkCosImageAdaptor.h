@@ -73,12 +73,12 @@ class ITK_EXPORT CosImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef CosImageAdaptor  Self;
+  typedef CosImageAdaptor                                   Self;
   typedef ImageAdaptor<TImage,Accessor::CosPixelAccessor<
                                        typename TImage::PixelType,
                                        TOutputPixelType> >  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                Pointer;
+  typedef SmartPointer<const Self>                          ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -86,11 +86,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( CosImageAdaptor, ImageAdaptor );
 
- protected:
+protected:
   CosImageAdaptor() {}
   virtual ~CosImageAdaptor() {}
   
- private:
+private:
   CosImageAdaptor(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 };

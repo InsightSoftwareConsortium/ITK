@@ -26,7 +26,8 @@
 namespace itk
 {
 
-/** \brief CenteredEuler3DTransform of a vector space (e.g. space coordinates)
+/** \class CenteredEuler3DTransform
+ * \brief CenteredEuler3DTransform of a vector space (e.g. space coordinates)
  *
  * This transform applies a rotation about a specific coordinate or
  * centre of rotation followed by a translation.

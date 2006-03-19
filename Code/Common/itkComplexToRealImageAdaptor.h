@@ -74,7 +74,7 @@ class ITK_EXPORT ComplexToRealImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef ComplexToRealImageAdaptor  Self;
+  typedef ComplexToRealImageAdaptor                 Self;
   typedef ImageAdaptor<TImage, Accessor::ComplexToRealPixelAccessor<
                                typename TImage::PixelType,
                                TOutputPixelType> >  Superclass;

@@ -55,9 +55,9 @@ public:
   typedef ImageFunction<TInputImage,
                         CovariantVector<double, 
                         itkGetStaticConstMacro(ImageDimension)>,
-                        TCoordRep> Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+                        TCoordRep>       Superclass;
+  typedef SmartPointer<Self>             Pointer;
+  typedef SmartPointer<const Self>       ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(CentralDifferenceImageFunction, ImageFunction);
@@ -108,7 +108,7 @@ public:
     { 
     IndexType index;
     this->ConvertContinuousIndexToNearestIndex( cindex, index );
-    return this->EvaluateAtIndex( index ) ; 
+    return this->EvaluateAtIndex( index ); 
     }
   
 protected:

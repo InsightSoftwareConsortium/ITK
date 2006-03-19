@@ -43,9 +43,9 @@ public:
 
   /** Standard class typedefs */
   typedef CoreAtomImageToDistanceMatrixProcess  Self;
-  typedef ProcessObject Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ProcessObject                         Superclass;
+  typedef SmartPointer<Self>                    Pointer;
+  typedef SmartPointer<const Self>              ConstPointer;
 
   /** Smart Pointer type to a DataObject. */
   typedef DataObject::Pointer DataObjectPointer;
@@ -60,14 +60,14 @@ public:
   itkGetMacro(NumberOfNodes, int);
 
   /** Typedef for core atom image */
-  typedef TSourceImage CoreAtomImageType;
-  typedef typename CoreAtomImageType::Pointer CoreAtomImagePointer;
-  typedef typename CoreAtomImageType::RegionType CoreAtomImageRegionType; 
-  typedef typename CoreAtomImageType::PixelType CoreAtomImagePixelType; 
+  typedef TSourceImage                             CoreAtomImageType;
+  typedef typename CoreAtomImageType::Pointer      CoreAtomImagePointer;
+  typedef typename CoreAtomImageType::RegionType   CoreAtomImageRegionType; 
+  typedef typename CoreAtomImageType::PixelType    CoreAtomImagePixelType; 
   typedef typename CoreAtomImageType::ConstPointer CoreAtomImageConstPointer;
 
   /** Typedef for distance matrix */
-  typedef MatrixResizeableDataObject<double> DistanceMatrixType;
+  typedef MatrixResizeableDataObject<double>   DistanceMatrixType;
   typedef typename DistanceMatrixType::Pointer DistanceMatrixPointer;
 
   //MedialNode typedef

@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \brief CenteredSimilarity2DTransform of a vector space 
+/** \class CenteredSimilarity2DTransform
+ *  \brief CenteredSimilarity2DTransform of a vector space 
  *        (e.g. space coordinates)
  *
  * This transform applies a homogenous scale and rigid transform in

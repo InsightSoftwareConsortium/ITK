@@ -74,7 +74,7 @@ class ITK_EXPORT ComplexToModulusImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef ComplexToModulusImageAdaptor  Self;
+  typedef ComplexToModulusImageAdaptor              Self;
   typedef ImageAdaptor<TImage, Accessor::ComplexToModulusPixelAccessor<
                                typename TImage::PixelType,
                                TOutputPixelType> >  Superclass;

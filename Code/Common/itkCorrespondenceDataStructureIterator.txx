@@ -14,16 +14,14 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkCorrespondenceDataStructureIterator_txx
-#define _itkCorrespondenceDataStructureIterator_txx
+#ifndef __itkCorrespondenceDataStructureIterator_txx
+#define __itkCorrespondenceDataStructureIterator_txx
 
 #include "itkCorrespondenceDataStructureIterator.h"
 
 namespace itk
 {
-/**
- * Constructor.  Initializes iterators, pointers, and m_IsAtEnd.
- */
+/** Constructor.  Initializes iterators, pointers, and m_IsAtEnd. */
 template <typename TStructureType>
 CorrespondenceDataStructureIterator<TStructureType>
 ::CorrespondenceDataStructureIterator(TStructureType *StructurePtr)
@@ -39,18 +37,14 @@ CorrespondenceDataStructureIterator<TStructureType>
   m_IsAtEnd = false;
 }
 
-/**
- * Destructor.
- */
+/** Destructor. */
 template <typename TStructureType>
 CorrespondenceDataStructureIterator<TStructureType>
 ::~CorrespondenceDataStructureIterator()
 {
 }
 
-/**
- * Used to verify that the iterator is at the end of the data structure.
- */
+/** Used to verify that the iterator is at the end of the data structure. */
 template <typename TStructureType>
 bool
 CorrespondenceDataStructureIterator<TStructureType>
@@ -59,9 +53,8 @@ CorrespondenceDataStructureIterator<TStructureType>
   return m_IsAtEnd;
 }
 
-/**
- * Goes to the next corresponding node clique in the structure, moving on to the next base node clique if necessary. 
- */
+/** Goes to the next corresponding node clique in the structure, 
+ *  moving on to the next base node clique if necessary. */
 template <typename TStructureType>
 void
 CorrespondenceDataStructureIterator<TStructureType>
@@ -97,9 +90,7 @@ CorrespondenceDataStructureIterator<TStructureType>
     }
 }
 
-/**
- * Goes to the next base node clique. 
- */
+/** Goes to the next base node clique. */
 template <typename TStructureType>
 void
 CorrespondenceDataStructureIterator<TStructureType>
@@ -130,9 +121,7 @@ CorrespondenceDataStructureIterator<TStructureType>
     }
 }
 
-/**
- * Resets the iterator to the default settings/placement.
- */
+/** Resets the iterator to the default settings/placement.*/
 template <typename TStructureType>
 void
 CorrespondenceDataStructureIterator<TStructureType>

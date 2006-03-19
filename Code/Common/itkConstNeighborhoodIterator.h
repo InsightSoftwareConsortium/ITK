@@ -56,42 +56,46 @@ class ITK_EXPORT ConstNeighborhoodIterator
 public:
   /** Extract image type information. */
   typedef typename TImage::InternalPixelType InternalPixelType;
-  typedef typename TImage::PixelType PixelType;
+  typedef typename TImage::PixelType         PixelType;
     
   /** Save the image dimension. */
   itkStaticConstMacro(Dimension, unsigned int, TImage::ImageDimension);
   
   /** Standard class typedefs. */
-  typedef ConstNeighborhoodIterator Self;
-  typedef Neighborhood<InternalPixelType *, itkGetStaticConstMacro(Dimension)> Superclass;
+  typedef ConstNeighborhoodIterator               Self;
+  typedef Neighborhood<InternalPixelType *, 
+            itkGetStaticConstMacro(Dimension)>    Superclass;
 
   /** Inherit typedefs from superclass */
-  typedef typename Superclass::OffsetType OffsetType;
+  typedef typename Superclass::OffsetType      OffsetType;
   typedef typename OffsetType::OffsetValueType OffsetValueType;
-  typedef typename Superclass::RadiusType RadiusType;  
-  typedef typename Superclass::SizeType SizeType;
-  typedef typename Superclass::SizeValueType SizeValueType;
-  typedef typename Superclass::Iterator Iterator;
-  typedef typename Superclass::ConstIterator ConstIterator;
+  typedef typename Superclass::RadiusType      RadiusType;  
+  typedef typename Superclass::SizeType        SizeType;
+  typedef typename Superclass::SizeValueType   SizeValueType;
+  typedef typename Superclass::Iterator        Iterator;
+  typedef typename Superclass::ConstIterator   ConstIterator;
   
   /** Typedef support for common objects */
-  typedef TImage ImageType;
-  typedef typename TImage::RegionType RegionType;
+  typedef TImage                                   ImageType;
+  typedef typename TImage::RegionType              RegionType;
   typedef Index<itkGetStaticConstMacro(Dimension)> IndexType;
-  typedef typename IndexType::IndexValueType IndexValueType;
-  typedef Neighborhood<PixelType, itkGetStaticConstMacro(Dimension)> NeighborhoodType;
+  typedef typename IndexType::IndexValueType       IndexValueType;
+  typedef Neighborhood<PixelType, itkGetStaticConstMacro(Dimension)> 
+                                                   NeighborhoodType;
 
   /** Typedef for the functor used to access neighborhoods of pixel pointers.
    * This is obtained as a trait from the image and is different for Image
    * and VectorImage. */
-  typedef typename ImageType::NeighborhoodAccessorFunctorType NeighborhoodAccessorFunctorType;
+  typedef typename ImageType::NeighborhoodAccessorFunctorType 
+                                              NeighborhoodAccessorFunctorType;
 
   /** Typedef for boundary condition type. */
   typedef TBoundaryCondition BoundaryConditionType;
   
   /** Typedef for generic boundary condition pointer */
   typedef ImageBoundaryCondition<ImageType> *ImageBoundaryConditionPointerType;
-  typedef ImageBoundaryCondition<ImageType> const *ImageBoundaryConditionConstPointerType;
+  typedef ImageBoundaryCondition<ImageType> const *
+                                        ImageBoundaryConditionConstPointerType;
 
   /** Default constructor */
   ConstNeighborhoodIterator();
@@ -106,16 +110,15 @@ public:
    * over which to walk. */
   ConstNeighborhoodIterator(const SizeType &radius,
                        const ImageType * ptr,
-                       const RegionType &region
-                       )
-  {
+                       const RegionType &region)
+    {
     this->Initialize(radius, ptr, region);
     for (unsigned int i=0; i < Dimension; i++)
       { m_InBounds[i] = false; }
     this->ResetBoundaryCondition();
     m_NeighborhoodAccessorFunctor = ptr->GetNeighborhoodAccessor();
     m_NeighborhoodAccessorFunctor.SetBegin( ptr->GetBufferPointer() );
-  }
+    }
 
   /** Assignment operator */
   Self &operator=(const Self& orig);
@@ -140,9 +143,10 @@ public:
   const InternalPixelType *GetCenterPointer() const
     {    return (this->operator[]((this->Size())>>1));  }
   
-  /** Returns the pixel referenced at the center of the ConstNeighborhoodIterator. */
+  /** Returns the pixel referenced at the center of the 
+   *  ConstNeighborhoodIterator. */
   PixelType GetCenterPixel() const
-    {    return m_NeighborhoodAccessorFunctor.Get( this->GetCenterPointer() );  }
+    {return m_NeighborhoodAccessorFunctor.Get( this->GetCenterPointer() );}
 
   /** Returns a smartpointer to the image on which this iterator operates. */
   const ImageType * GetImagePointer(void) const
@@ -178,7 +182,10 @@ public:
   /** Returns the pixel value located at the itk::Offset o from the center of
       the neighborhood. */
   virtual PixelType GetPixel(const OffsetType &o) const
-  { bool inbounds; return (this->GetPixel(this->GetNeighborhoodIndex(o), inbounds)); }
+    { 
+    bool inbounds; 
+    return (this->GetPixel(this->GetNeighborhoodIndex(o), inbounds)); 
+    }
 
   /** Returns the pixel value located at the itk::Offset o from the center of
    * the neighborhood. Sets "IsInBounds" to true if the offset is inside the
@@ -187,34 +194,34 @@ public:
    * image and the pixel value returned is a boundary condition. */
   virtual PixelType GetPixel(const OffsetType &o,
                              bool& IsInBounds) const
-  { return (this->GetPixel(this->GetNeighborhoodIndex(o), IsInBounds)); }
+    {return (this->GetPixel(this->GetNeighborhoodIndex(o), IsInBounds)); }
   
-  /** Returns the pixel value located i pixels distant from the neighborhood center in
-      the positive specified ``axis'' direction. No bounds checking is done on
-      the size of the neighborhood. */
+  /** Returns the pixel value located i pixels distant from the neighborhood 
+   *  center in the positive specified ``axis'' direction. No bounds checking 
+   *  is done on the size of the neighborhood. */
   virtual PixelType GetNext(const unsigned axis, const unsigned i) const
-  {    return (this->GetPixel(this->GetCenterNeighborhoodIndex()
+    { return (this->GetPixel(this->GetCenterNeighborhoodIndex()
                            + (i * this->GetStride(axis)))); }
 
-  /** Returns the pixel value located one pixel distant from the neighborhood center in
-      the specifed positive axis direction. No bounds checking is done on the
-      size of the neighborhood. */
+  /** Returns the pixel value located one pixel distant from the neighborhood
+   *  center in the specifed positive axis direction. No bounds checking is 
+   *  done on the size of the neighborhood. */
   virtual PixelType GetNext(const unsigned axis) const
-  {    return (this->GetPixel(this->GetCenterNeighborhoodIndex()
+    { return (this->GetPixel(this->GetCenterNeighborhoodIndex()
                            + this->GetStride(axis))); }
 
-  /** Returns the pixel value located i pixels distant from the neighborhood center in
-      the negative specified ``axis'' direction. No bounds checking is done on
-      the size of the neighborhood. */
+  /** Returns the pixel value located i pixels distant from the neighborhood 
+   *  center in the negative specified ``axis'' direction. No bounds checking 
+   *  is done on the size of the neighborhood. */
   virtual PixelType GetPrevious(const unsigned axis, const unsigned i) const
-  { return (this->GetPixel(this->GetCenterNeighborhoodIndex()
+    { return (this->GetPixel(this->GetCenterNeighborhoodIndex()
                            - (i * this->GetStride(axis)))); }
   
-  /** Returns the pixel value located one pixel distant from the neighborhood center in
-      the specifed negative axis direction. No bounds checking is done on the
-      size of the neighborhood. */
+  /** Returns the pixel value located one pixel distant from the neighborhood 
+   *  center in the specifed negative axis direction. No bounds checking is 
+   *  done on the size of the neighborhood. */
   virtual PixelType GetPrevious(const unsigned axis) const
-  { return (this->GetPixel(this->GetCenterNeighborhoodIndex()
+    { return (this->GetPixel(this->GetCenterNeighborhoodIndex()
                            - this->GetStride(axis))); } 
   
   /** Returns the image index for neighbor pixel at offset o from the center of
@@ -266,27 +273,27 @@ public:
   virtual void Initialize(const SizeType &radius, const ImageType *ptr,
                           const RegionType &region);
 
-  /** Virtual method for determining whether the the iterator is at the
+  /** Virtual method for determining whether the iterator is at the
    * beginning of its iteration region. */
   virtual bool IsAtBegin() const
     {    return ( this->GetCenterPointer() == m_Begin );   }
   
-  /** Virtual method for determining whether the the iterator has reached the
+  /** Virtual method for determining whether the iterator has reached the
    * end of its iteration region. */
   virtual bool IsAtEnd() const
     {
-      if ( this->GetCenterPointer() > m_End )
-        {
-        ExceptionObject e(__FILE__, __LINE__);
-        OStringStream msg;
-        msg << "In method IsAtEnd, CenterPointer = " << this->GetCenterPointer()
-            << " is greater than End = " << m_End
-            << std::endl
-            << "  " << *this;
-        e.SetDescription(msg.str().c_str());
-        throw e;
-        }
-      return ( this->GetCenterPointer() == m_End );
+    if ( this->GetCenterPointer() > m_End )
+      {
+      ExceptionObject e(__FILE__, __LINE__);
+      OStringStream msg;
+      msg << "In method IsAtEnd, CenterPointer = " << this->GetCenterPointer()
+          << " is greater than End = " << m_End
+          << std::endl
+          << "  " << *this;
+      e.SetDescription(msg.str().c_str());
+      throw e;
+      }
+    return ( this->GetCenterPointer() == m_End );
     }
   
   /** Increments the pointers in the ConstNeighborhoodIterator,
@@ -343,8 +350,8 @@ public:
    * prior to iteration.  This method is not optimized for speed. */
   void SetLocation( const IndexType& position )
     {
-      this->SetLoop(position);
-      this->SetPixelPointers(position);
+    this->SetLoop(position);
+    this->SetPixelPointers(position);
     }
   
 
@@ -353,16 +360,16 @@ public:
    * region will produce undefined results. */
   Self &operator+=(const OffsetType &);
 
-  /** Subtraction of an itk::Offset. Note that this method does not do any bounds
-   * checking.  Subtracting an offset that moves the iterator out of its
-   * assigned region will produce undefined results. */
+  /** Subtraction of an itk::Offset. Note that this method does not do any 
+   *  bounds checking.  Subtracting an offset that moves the iterator out 
+   * of its assigned region will produce undefined results. */
   Self &operator-=(const OffsetType &);
 
   /** Distance between two iterators */
   OffsetType operator-(const Self& b)
-  {  return m_Loop - b.m_Loop;  }
+    {  return m_Loop - b.m_Loop;  }
 
- /** Returns false if the iterator overlaps region boundaries, true
+  /** Returns false if the iterator overlaps region boundaries, true
    * otherwise.  Also updates an internal boolean array indicating
    * which of the iterator's faces are out of bounds. */
   bool InBounds() const;
@@ -372,7 +379,8 @@ public:
    * object during the time it is referenced.  The overriding condition
    * can be of a different type than the default type as long as it is
    * a subclass of ImageBoundaryCondition. */
-  virtual void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
+  virtual void OverrideBoundaryCondition(const 
+                                         ImageBoundaryConditionPointerType i)
     { m_BoundaryCondition = i; }
 
   /** Resets the boundary condition to the internal, default conditions
@@ -384,28 +392,27 @@ public:
   void SetBoundaryCondition( const TBoundaryCondition &c )
   { m_InternalBoundaryCondition = c; }
 
-   /** */
+  /** */
   const BoundaryConditionType *GetBoundaryCondition() const
   { return dynamic_cast<BoundaryConditionType *>(m_BoundaryCondition); }
 
   /** */
   void NeedToUseBoundaryConditionOn()
-  {
+    {
     this->SetNeedToUseBoundaryCondition(true);
-  }
+    }
   void NeedToUseBoundaryConditionOff()
-  {
+    {
     this->SetNeedToUseBoundaryCondition(false);
-  }
+    }
   void SetNeedToUseBoundaryCondition(bool b)
-  {
+    {
     m_NeedToUseBoundaryCondition = b;
-  }
+    }
   bool GetNeedToUseBoundaryCondition() const
-  {
+    {
     return m_NeedToUseBoundaryCondition;
-  }
-  
+    }
   
 protected:
   
@@ -447,9 +454,7 @@ protected:
   /** The image on which iteration is defined. */
   typename ImageType::ConstWeakPointer m_ConstImage;
 
-  /*
-   * A pointer to one past the last pixel in the iteration region.
-   */
+  /** A pointer to one past the last pixel in the iteration region. */
   const InternalPixelType *m_End;
 
   /** The end index for iteration within the itk::Image region
@@ -462,10 +467,11 @@ protected:
   /** The region over which iteration is defined. */
   RegionType m_Region;
 
-  /** The internal array of offsets that provide support for regions of interest.
-   * An offset for each dimension is necessary to shift pointers when wrapping
-   * around region edges because region memory is not necessarily contiguous
-   * within the buffer. */
+  /** The internal array of offsets that provide support for regions of 
+   *  interest.
+   *  An offset for each dimension is necessary to shift pointers when wrapping
+   *  around region edges because region memory is not necessarily contiguous
+   *  within the buffer. */
   OffsetType m_WrapOffset;
 
   /** Pointer to the actual boundary condition that will be used.
@@ -474,7 +480,7 @@ protected:
    * boundary condition.  */
   ImageBoundaryConditionPointerType m_BoundaryCondition;
 
-   /** Denotes which of the iterators dimensional sides spill outside
+  /** Denotes which of the iterators dimensional sides spill outside
    * region of interest boundaries. */
   mutable bool m_InBounds[Dimension];
 
@@ -534,18 +540,6 @@ operator-(const ConstNeighborhoodIterator<TImage> &it,
   return ret;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-  
 } // namespace itk
 
 

@@ -26,7 +26,8 @@
 namespace itk
 {
 
-/** \brief CenteredVersorTransformInitializer is a helper class intended to
+/** \class CenteredVersorTransformInitializer
+ * \brief CenteredVersorTransformInitializer is a helper class intended to
  * initialize the center of rotation, versor, and translation of the 
  * VersorRigid3DTransform.
  * 

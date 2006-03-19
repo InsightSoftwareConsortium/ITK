@@ -29,17 +29,17 @@
 // to define the Accept and GetTopologyId virtuals used
 // by the MultiVisitor class
 #define itkCellVisitMacro(TopologyId) \
-  static int GetTopologyId() {return TopologyId;}\
-  virtual void Accept(unsigned long cellid, typename CellInterface<PixelType,\
+static int GetTopologyId() {return TopologyId;}\
+virtual void Accept(unsigned long cellid, typename CellInterface<PixelType,\
                                                CellTraits>::MultiVisitor* mv)\
+{\
+  typename CellInterfaceVisitor<PixelType, CellTraits>::Pointer v = \
+                                           mv->GetVisitor(TopologyId);\
+  if(v)\
     {\
-    typename CellInterfaceVisitor<PixelType, CellTraits>::Pointer v = \
-                                             mv->GetVisitor(TopologyId);\
-    if(v)\
-      {\
-      v->VisitFromCell(cellid, this);\
-      }\
-    }
+    v->VisitFromCell(cellid, this);\
+    }\
+}
 
 
 // Define a macro for the common typedefs required by the 
@@ -164,7 +164,8 @@ public:
 
   static int GetNextUserCellId(); // never return > MAX_INTERFACE
 
-  /** \brief A visitor that can visit different cell types in a mesh.
+  /** \class MultiVisitor 
+   * \brief A visitor that can visit different cell types in a mesh.
    * CellInterfaceVisitor instances can be registered for each
    * type of cell that needs to be visited.
    *
@@ -442,7 +443,7 @@ private:
 };
 
 
-/**
+/** \class CellTraitsInfo
  * \brief A simple utility class to define the cell type inside a mesh type
  * structure definition.  This just makes a copy of existing type information
  * that is needed for a cell type template parameter.

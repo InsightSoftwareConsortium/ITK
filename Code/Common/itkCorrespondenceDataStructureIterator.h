@@ -21,7 +21,8 @@ namespace itk
 {
 
 /** \class CorrespondenceDataStructureIterator
- * \brief An iterator designed to easily traverse an itkCorrespondenceDataStructure.
+ * \brief An iterator designed to easily traverse an 
+ *        itkCorrespondenceDataStructure.
  * 
  * \ingroup 
  */
@@ -33,7 +34,7 @@ public:
 
   /** Get the dimension (size) of the index. */
   static unsigned int GetIteratorDimension() 
-  {return TStructureType::dim;}
+    {return TStructureType::dim;}
 
   /** Is the iterator at the end of the region? */
   bool IsAtEnd();
@@ -44,7 +45,8 @@ public:
   /** Walk forward one index. (postfix) */
   void operator++(int){GoToNext();}
 
-  /** Goes to the next corresponding node clique in the structure, moving on to the next base node clique if necessary. */
+  /** Goes to the next corresponding node clique in the structure, 
+   *  moving on to the next base node clique if necessary. */
   void GoToNext();
 
   /** Goes to the next base node clique. */
@@ -60,16 +62,17 @@ public:
   virtual ~CorrespondenceDataStructureIterator();
 
   typedef typename TStructureType::CorrespondingListType CorrespondingListType;
-  typedef typename TStructureType::ItemType ItemType;
+  typedef typename TStructureType::ItemType              ItemType;
   typedef typename TStructureType::SecondaryNodeListType SecondaryNodeListType;
-  typedef typename TStructureType::NodeListType NodeListType;
+  typedef typename TStructureType::NodeListType          NodeListType;
 
   typedef typename CorrespondingListType::iterator CorrespondingListIterator;
   typedef typename SecondaryNodeListType::iterator SecondaryNodeListIterator;
-  typedef typename NodeListType::iterator NodeListIterator;
+  typedef typename NodeListType::iterator          NodeListIterator;
 
   /** Get m_CorrespondingListPointer.  */
-  CorrespondingListType * GetCorrespondingListPointer(){return m_CorrespondingListPointer;}
+  CorrespondingListType * GetCorrespondingListPointer()
+    {return m_CorrespondingListPointer;}
 
   CorrespondingListIterator m_CorrespondingListIterator;
   SecondaryNodeListIterator m_SecondaryListIterator;

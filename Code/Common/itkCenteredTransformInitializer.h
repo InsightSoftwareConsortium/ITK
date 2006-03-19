@@ -27,7 +27,8 @@
 namespace itk
 {
 
-/** \brief CenteredTransformInitializer is a helper class intended to
+/** \class CenteredTransformInitializer
+ * \brief CenteredTransformInitializer is a helper class intended to
  * initialize the center of rotation and the translation of Transforms having
  * the center of rotation among their parameters.
  * 
@@ -97,9 +98,9 @@ public:
   typedef ImageMomentsCalculator< FixedImageType >   FixedImageCalculatorType;
   typedef ImageMomentsCalculator< MovingImageType >  MovingImageCalculatorType;
 
-  typedef typename FixedImageCalculatorType::Pointer    
+  typedef typename FixedImageCalculatorType::Pointer
                                                  FixedImageCalculatorPointer;
-  typedef typename MovingImageCalculatorType::Pointer   
+  typedef typename MovingImageCalculatorType::Pointer 
                                                  MovingImageCalculatorPointer;
 
 

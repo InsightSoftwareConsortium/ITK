@@ -21,12 +21,13 @@
 #include <list>
 #include "itkNeighborhoodIterator.h"
 
-namespace itk {
+namespace itk 
+{
 
 /** \class ConstShapedNeighborhoodIterator
  *
- * \brief Const version of ShapedNeighborhoodIterator, defining iteration of a local
- * N-dimensional neighborhood of pixels across an itk::Image.
+ * \brief Const version of ShapedNeighborhoodIterator, defining iteration 
+ * of a local N-dimensional neighborhood of pixels across an itk::Image.
  *
  * ConstShapedNeighborhoodIterator implements the read-only methods of
  * ShapedNeighborhoodIterator.  A "shaped" neighborhood iterator is one that
@@ -70,33 +71,35 @@ class ITK_EXPORT ConstShapedNeighborhoodIterator
   :  private NeighborhoodIterator<TImage, TBoundaryCondition>
 {
 public:
+
   /** Extract image type information. */
   typedef typename TImage::InternalPixelType InternalPixelType;
-  typedef typename TImage::PixelType PixelType;
+  typedef typename TImage::PixelType         PixelType;
     
   /** Save the image dimension. */
   itkStaticConstMacro(Dimension, unsigned int, TImage::ImageDimension);
   
   /** Standard class typedefs. */
-  typedef ConstShapedNeighborhoodIterator Self;
+  typedef ConstShapedNeighborhoodIterator                  Self;
   typedef NeighborhoodIterator<TImage, TBoundaryCondition> Superclass;
 
   /** Inherit typedefs from superclass */
-  typedef typename Superclass::OffsetType OffsetType;
+  typedef typename Superclass::OffsetType      OffsetType;
   typedef typename OffsetType::OffsetValueType OffsetValueType;
-  typedef typename Superclass::RadiusType RadiusType;  
-  typedef typename Superclass::SizeType SizeType;
-  typedef typename Superclass::SizeValueType SizeValueType;
+  typedef typename Superclass::RadiusType      RadiusType;  
+  typedef typename Superclass::SizeType        SizeType;
+  typedef typename Superclass::SizeValueType   SizeValueType;
   
   /** Typedef support for common objects */
-  typedef TImage ImageType;
-  typedef typename TImage::RegionType RegionType;
+  typedef TImage                                   ImageType;
+  typedef typename TImage::RegionType              RegionType;
   typedef Index<itkGetStaticConstMacro(Dimension)> IndexType;
-  typedef typename IndexType::IndexValueType IndexValueType;
-  typedef Neighborhood<PixelType, itkGetStaticConstMacro(Dimension)> NeighborhoodType;
+  typedef typename IndexType::IndexValueType       IndexValueType;
+  typedef Neighborhood<PixelType, itkGetStaticConstMacro(Dimension)> 
+                                                   NeighborhoodType;
 
   /** An stl storage container type that can be sorted.  The type used for
-      the list of active offsets in the neighborhood.*/
+   *  the list of active offsets in the neighborhood.*/
   typedef std::list<unsigned int> IndexListType;
 
   /** Typedef for boundary condition type. */
@@ -104,104 +107,111 @@ public:
   
   /** Typedef for generic boundary condition pointer */
   typedef ImageBoundaryCondition<ImageType> *ImageBoundaryConditionPointerType;
-
-  /** A const iterator for the ShapedNeighborhood classes.*/
+  
+  /** Const Interator */
   struct ConstIterator
-  {
+    {
     ConstIterator() { m_NeighborhoodIterator = 0; }
     ConstIterator(Self *s)
-    {
+      {
       m_NeighborhoodIterator = s;
       this->GoToBegin();
-    }
+      }
     ~ConstIterator() {}
     const ConstIterator &operator=(const ConstIterator &o)
-    {
+      {
       m_NeighborhoodIterator = o.m_NeighborhoodIterator;
       m_ListIterator = o.m_ListIterator;
       return *this;
-    }
-    
+      }
+      
     ConstIterator(const ConstIterator &o)
-    {
+      {
       m_NeighborhoodIterator = o.m_NeighborhoodIterator;
       m_ListIterator = o.m_ListIterator;
-    }
+      }
 
     void operator++(int)
-    { m_ListIterator++; }
+      { m_ListIterator++; }
 
     void operator--(int)
-    { m_ListIterator--; }
-    
+      { m_ListIterator--; }
+      
     const ConstIterator &operator++()
-    {
+      {
       m_ListIterator++;
       return *this;
-    }
+      }
     const ConstIterator &operator--()
-    {
+      {
       m_ListIterator--;
       return *this;
-    }
-    
+      }
+      
     bool operator!=(const ConstIterator &o) const
-    { return m_ListIterator.operator!=(o.m_ListIterator); }
+      { return m_ListIterator.operator!=(o.m_ListIterator); }
     bool operator==(const ConstIterator &o) const
-    { return m_ListIterator.operator==(o.m_ListIterator); }
+      { return m_ListIterator.operator==(o.m_ListIterator); }
 
     bool IsAtEnd() const
-    {
+      {
       if (m_ListIterator == m_NeighborhoodIterator->GetActiveIndexList().end())
-        { return true; }
-      else { return false; }
-    }
+        {
+        return true; 
+        }
+      else 
+        { 
+        return false; 
+        }
+      }
 
     void GoToBegin()
-    {
+      {
       m_ListIterator = m_NeighborhoodIterator->GetActiveIndexList().begin();
-    }
+      }
 
     void GoToEnd()
-    {
+      {
       m_ListIterator = m_NeighborhoodIterator->GetActiveIndexList().end();
-    }
+      }
 
     PixelType Get() const
-    { return m_NeighborhoodIterator->GetPixel(*m_ListIterator); }
+      { return m_NeighborhoodIterator->GetPixel(*m_ListIterator); }
 
     OffsetType GetNeighborhoodOffset() const
-    { return m_NeighborhoodIterator->GetOffset(*m_ListIterator); }
+      { return m_NeighborhoodIterator->GetOffset(*m_ListIterator); }
 
     typename IndexListType::value_type GetNeighborhoodIndex() const
-    { return *m_ListIterator; }
+      { return *m_ListIterator; }
 
   protected:
+      
     Self *m_NeighborhoodIterator;
+      
     typename IndexListType::const_iterator m_ListIterator;
 
     void ProtectedSet(const PixelType &v) const
-    { m_NeighborhoodIterator->SetPixel(*m_ListIterator, v); } 
-  };
+      { m_NeighborhoodIterator->SetPixel(*m_ListIterator, v); } 
+    };
 
   /** Returns a const iterator for the neighborhood which points to the first
    * pixel in the neighborhood. */
   const ConstIterator &Begin() const
-  {    return m_ConstBeginIterator;  }
+    { return m_ConstBeginIterator; }
 
   /** Returns a const iterator for the neighborhood which points to the last
    * pixel in the neighborhood. */
   const ConstIterator &End() const
-  {    return m_ConstEndIterator;  }
+    { return m_ConstEndIterator; }
   
   /** Default constructor */
   ConstShapedNeighborhoodIterator()
-  {
+    {
     m_ConstBeginIterator = ConstIterator(this);
     m_ConstEndIterator = ConstIterator(this);
     m_ConstEndIterator.GoToEnd();
     m_CenterIsActive = false;
-  }
+    }
 
   /** Virtual destructor */
   virtual ~ConstShapedNeighborhoodIterator()  { }
@@ -210,15 +220,14 @@ public:
    * over which to walk. */
   ConstShapedNeighborhoodIterator(const SizeType &radius,
                        const ImageType * ptr,
-                       const RegionType &region
-                                  ) : Superclass (radius, const_cast<ImageType*>(ptr),
-                                                  region)
-  {
+                       const RegionType &region) 
+                   : Superclass (radius, const_cast<ImageType*>(ptr), region)
+    {
     m_ConstBeginIterator = ConstIterator(this);
     m_ConstEndIterator = ConstIterator(this);
     m_ConstEndIterator.GoToEnd();
     m_CenterIsActive = false;
-  }
+    }
   
   // Expose the following methods from the superclass.  This is a restricted
   // subset of the methods available for ConstNeighborhoodIterator.
@@ -255,7 +264,7 @@ public:
   
   /** Assignment operator */
   Self &operator=(const Self& orig)
-  {
+    {
     Superclass::operator=(orig);
     m_ActiveIndexList = orig.m_ActiveIndexList;
     m_CenterIsActive = orig.m_CenterIsActive;
@@ -264,35 +273,35 @@ public:
     m_ConstBeginIterator.GoToBegin();
     m_ConstEndIterator.GoToBegin();
     return *this;
-  }
+    }
 
   /** Standard itk print method */
   virtual void PrintSelf(std::ostream &, Indent) const;
 
-  /** Add/Remove a neighborhood offset (from the center of the neighborhood) to/from the
-      active list.  Active list offsets are the only locations updated and
-      accessible through the iterator.  */
+  /** Add/Remove a neighborhood offset (from the center of the neighborhood) 
+   *  to/from the active list.  Active list offsets are the only locations 
+   *  updated and accessible through the iterator.  */
   virtual void ActivateOffset(const OffsetType& off)
-  { this->ActivateIndex( Superclass::GetNeighborhoodIndex(off) ); }
+    { this->ActivateIndex( Superclass::GetNeighborhoodIndex(off) ); }
   virtual void DeactivateOffset(const OffsetType& off)
-  { this->DeactivateIndex( Superclass::GetNeighborhoodIndex(off) ); }
+    { this->DeactivateIndex( Superclass::GetNeighborhoodIndex(off) );}
 
   /** Removes all active pixels from this neighborhood. */
   virtual void ClearActiveList()
-  {
+    {
     m_ActiveIndexList.clear();
     m_ConstBeginIterator.GoToBegin();
     m_ConstEndIterator.GoToEnd();
     m_CenterIsActive = false;
-  }
+    }
   
   /** Returns the list of active indicies in the neighborhood */
   const IndexListType &GetActiveIndexList() const
-  { return m_ActiveIndexList; }
+    { return m_ActiveIndexList; }
 
   /** Returns the size of the list of active neighborhood indicies. */
   typename IndexListType::size_type GetActiveIndexListSize() const
-  { return m_ActiveIndexList.size(); }
+    { return m_ActiveIndexList.size(); }
 
   /** Reimplements the operator++ method so that only active pixel locations
    * are updataed.*/
@@ -302,14 +311,14 @@ public:
    * are updataed.*/
   Self &operator--();
 
- /** Addition of an itk::Offset.  Note that this method does not do any bounds
+  /** Addition of an itk::Offset.  Note that this method does not do any bounds
    * checking.  Adding an offset that moves the iterator out of its assigned
    * region will produce undefined results. */
   Self &operator+=(const OffsetType &);
 
-  /** Subtraction of an itk::Offset. Note that this method does not do any bounds
-   * checking.  Subtracting an offset that moves the iterator out of its
-   * assigned region will produce undefined results. */
+  /** Subtraction of an itk::Offset. Note that this method does not do 
+   *  any bounds checking.  Subtracting an offset that moves the iterator 
+   *  out of its assigned region will produce undefined results. */
   Self &operator-=(const OffsetType &);
 
   // Should be protected, but Borland compiler will not allow it.  A workaround
@@ -317,7 +326,7 @@ public:
   Superclass::SetPixel;
   Superclass::SetCenterPixel;
 protected:
-   /** Copy constructor */
+  /** Copy constructor */
   ConstShapedNeighborhoodIterator( const ConstShapedNeighborhoodIterator & );
   // purposely not implemented
 
@@ -351,4 +360,3 @@ protected:
 #endif
 
 #endif
-
