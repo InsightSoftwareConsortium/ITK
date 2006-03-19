@@ -55,16 +55,16 @@ FiniteCylinderSpatialFunction<VDimension, TInput>
     }
 
   //take square root to normalize the orientation vector
-  medialAxisVector[0] = sqrt(m_Orientation[0]);
-  medialAxisVector[1] = sqrt(m_Orientation[1]);
-  medialAxisVector[2] = sqrt(m_Orientation[2]);
+  medialAxisVector[0] = vcl_sqrt(m_Orientation[0]);
+  medialAxisVector[1] = vcl_sqrt(m_Orientation[1]);
+  medialAxisVector[2] = vcl_sqrt(m_Orientation[2]);
 
   //if length_test is less than the length of the cylinder (half actually, because its length from the center), than
   //the point is within the length of the cylinder along the medial axis
   const double distanceFromCenter = dot_product( medialAxisVector.GetVnlVector(), pointVector.GetVnlVector() );
 
   if(fabs(distanceFromCenter) <= (halfAxisLength) 
-     && m_Radius >= sqrt(pow(pointVector.GetVnlVector().magnitude(),2.0) - pow(distanceFromCenter,2.0)))
+     && m_Radius >= vcl_sqrt(pow(pointVector.GetVnlVector().magnitude(),2.0) - vcl_pow(distanceFromCenter,2.0)))
     {
     return 1;
     }

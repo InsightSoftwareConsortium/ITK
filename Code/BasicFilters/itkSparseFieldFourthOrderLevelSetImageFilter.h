@@ -229,7 +229,7 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
       processing band. */
   unsigned int GetMinimumNumberOfLayers() const
   {
-    return (int)ceil(m_CurvatureBandWidth+
+    return (int)vcl_ceil(m_CurvatureBandWidth+
                      itkGetStaticConstMacro(ImageDimension));
   }
 

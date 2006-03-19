@@ -33,7 +33,7 @@ ADD_LIBRARY(ITKNumerics
   lbfgsb.c
 )
 
-TARGET_LINK_LIBRARIES (ITKNumerics ITKCommon)
+TARGET_LINK_LIBRARIES (ITKNumerics ITKCommon itkvcl )
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKNumerics)
 INSTALL_FILES(/include/InsightToolkit/Numerics "(\\.h|\\.txx)$")

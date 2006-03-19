@@ -24,7 +24,7 @@ namespace itk
 {
   
 /** \class Log10ImageFilter
- * \brief Computes the log10(x) pixel-wise
+ * \brief Computes the vcl_log10(x) pixel-wise
  * \ingroup IntensityImageFilters  Multithreaded
  */
 namespace Function {  
@@ -44,7 +44,7 @@ public:
     return !(*this != other);
   }
   inline TOutput operator()( const TInput & A )
-  { return (TOutput)log10((double)A); }
+  { return (TOutput)vcl_log10((double)A); }
 }; 
 }
 template <class TInputImage, class TOutputImage>

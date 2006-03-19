@@ -24,7 +24,7 @@ namespace itk
 {
   
 /** \class TanImageFilter
- * \brief Computes the tan(x) pixel-wise
+ * \brief Computes the vcl_tan(x) pixel-wise
  *
  * \ingroup IntensityImageFilters  Multithreaded
  */
@@ -45,7 +45,7 @@ public:
     return !(*this != other);
   }
   inline TOutput operator()( const TInput & A )
-  { return (TOutput)tan((double)A); }
+  { return (TOutput)vcl_tan((double)A); }
 }; 
 }
 template <class TInputImage, class TOutputImage>

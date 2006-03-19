@@ -226,7 +226,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
   m_VolumeCorrectionMaximumIteration = 2000 ;
   m_InterSliceCorrectionMaximumIteration = 4000 ;
   m_OptimizerGrowthFactor = 1.05 ;
-  m_OptimizerShrinkFactor = pow(m_OptimizerGrowthFactor, -0.25);
+  m_OptimizerShrinkFactor = vcl_pow(m_OptimizerGrowthFactor, -0.25);
     
   m_EnergyFunction = 0 ;
   m_NormalVariateGenerator = NormalVariateGeneratorType::New() ;
@@ -598,13 +598,13 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
     const unsigned int size = m_TissueClassMeans.Size();
     for( unsigned int i = 0 ; i < size; i++ ) 
       {
-      m_TissueClassSigmas[i] = log(1.0 + m_TissueClassSigmas[i] / 
+      m_TissueClassSigmas[i] = vcl_log(1.0 + m_TissueClassSigmas[i] / 
                                    (m_TissueClassMeans[i] + 1.0)) ;
-      m_TissueClassMeans[i] = log(m_TissueClassMeans[i] + 1.0) ;
+      m_TissueClassMeans[i] = vcl_log(m_TissueClassMeans[i] + 1.0) ;
       }
 
         
-    m_OptimizerInitialRadius = log(1.0 + m_OptimizerInitialRadius) ;
+    m_OptimizerInitialRadius = vcl_log(1.0 + m_OptimizerInitialRadius) ;
         
     this->Log1PImage(m_InternalInput.GetPointer(),
                      m_InternalInput.GetPointer()) ;
@@ -960,12 +960,12 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
     const unsigned int size = m_TissueClassMeans.Size();
     for( unsigned int i = 0 ; i < size; i++ ) 
       {      
-      m_TissueClassMeans[i] = exp(m_TissueClassMeans[i]) - 1.0 ;
-      m_TissueClassSigmas[i] = exp(m_TissueClassSigmas[i]) * 
+      m_TissueClassMeans[i] = vcl_exp(m_TissueClassMeans[i]) - 1.0 ;
+      m_TissueClassSigmas[i] = vcl_exp(m_TissueClassSigmas[i]) * 
                                (1.0 + m_TissueClassMeans[i])
                                - m_TissueClassMeans[i];
       }
-    m_OptimizerInitialRadius = exp(m_OptimizerInitialRadius) - 1.0 ;
+    m_OptimizerInitialRadius = vcl_exp(m_OptimizerInitialRadius) - 1.0 ;
     }
 
   if (m_GeneratingOutput)
@@ -1059,7 +1059,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
     if (pixel < 0)
       t_iter.Set( 0.0 ) ;
     else
-      t_iter.Set( log( pixel + 1 ) ) ;
+      t_iter.Set( vcl_log(pixel + 1 ) ) ;
         
     ++s_iter ;
     ++t_iter ;
@@ -1086,7 +1086,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
     {
     temp = s_iter.Get() ;
     //t_iter.Set( m_EnergyFunction->GetEnergy0(temp)) ;
-    temp = exp(temp) - 1;
+    temp = vcl_exp(temp) - 1;
     t_iter.Set( (InternalImagePixelType) temp  ) ;
     
     ++s_iter ;

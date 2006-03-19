@@ -24,7 +24,7 @@ namespace itk
 {
  
 /** \class AddImageAdaptor
- * \brief Presents an image as being composed of the log() of its pixels
+ * \brief Presents an image as being composed of the vcl_log() of its pixels
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.

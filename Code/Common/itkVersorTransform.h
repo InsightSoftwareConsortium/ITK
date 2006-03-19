@@ -92,7 +92,7 @@ public:
    * There are 3 parameters. They represent the components
    * of the right part of the versor. This can be seen
    * as the components of the vector parallel to the rotation
-   * axis and multiplied by sin( angle / 2 ). */
+   * axis and multiplied by vcl_sin( angle / 2 ). */
   void SetParameters( const ParametersType & parameters );
 
   /** Get the Transformation Parameters. */
@@ -129,7 +129,7 @@ protected:
    * initializing the Versor */
   virtual void SetRotationMatrix(const MatrixType & matrix)
     { this->Superclass::SetRotationMatrix( matrix ); }
-    
+
   void SetVarVersor(const VersorType & newVersor)
     { m_Versor = newVersor; }
 

@@ -33,7 +33,7 @@ namespace itk
  * in each dimension. The algorithm implemented is a simple subsample. 
  * The output image size in each dimension is given by:
  *
- * outputSize[j] = max( floor(inputSize[j]/shrinkFactor[j]), 1 ); 
+ * outputSize[j] = max( vcl_floor(inputSize[j]/shrinkFactor[j]), 1 ); 
  *
  * Since this filter produces an image which is a different resolution 
  * and with different pixel spacing than its input image, 

@@ -27,7 +27,7 @@
 
 #include <map>
 #include <string>
-#include <math.h>
+#include "vcl_cmath.h"
 
 namespace itk {
 
@@ -62,7 +62,7 @@ public:
    *  be used for gene network computations.  */
   static double Sigmoide( double threshold, double slant, double value )
     {
-    return atan(   ( value - threshold ) / slant   ) / 3.1416 + 0.5001;
+    return vcl_atan(( value - threshold ) / slant   ) / 3.1416 + 0.5001;
     }
 
 private:

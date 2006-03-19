@@ -49,7 +49,7 @@ public:
   /** Return the type that can be printed. */
   typedef T PrintType; 
 
-  /** Return value of abs(). */
+  /** Return value of vcl_abs(). */
   typedef T AbsType; 
 
   /** Accumulation of addition and multiplication. */

@@ -71,9 +71,9 @@ namespace itk {
         m_InverseDifferenceMoment += frequency /
           (1.0 + (index[0] - index[1]) * (index[0] - index[1]) );
         m_Inertia += (index[0] - index[1]) * (index[0] - index[1]) * frequency;
-        m_ClusterShade += pow( (index[0] - pixelMean) + (index[1] - pixelMean), 3) *
+        m_ClusterShade += vcl_pow((index[0] - pixelMean) + (index[1] - pixelMean), 3) *
           frequency;
-        m_ClusterProminence += pow( (index[0] - pixelMean) + (index[1] - pixelMean), 4) *
+        m_ClusterProminence += vcl_pow((index[0] - pixelMean) + (index[1] - pixelMean), 4) *
           frequency;
         m_HaralickCorrelation += index[0] * index[1] * frequency;
         }
@@ -138,7 +138,7 @@ namespace itk {
           M(1) = x(1), M(k) = M(k-1) + (x(k) - M(k-1) ) / k
           S(1) = 0, S(k) = S(k-1) + (x(k) - M(k-1)) * (x(k) - M(k))
           for 2 <= k <= n, then
-          sigma = sqrt(S(n) / n) (or divide by n-1 for sample SD instead of
+          sigma = vcl_sqrt(S(n) / n) (or divide by n-1 for sample SD instead of
           population SD).
       */
       marginalMean = marginalSums[0];

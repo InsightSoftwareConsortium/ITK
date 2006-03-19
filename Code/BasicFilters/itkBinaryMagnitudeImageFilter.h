@@ -37,7 +37,7 @@ namespace itk
  * - cast the input 2 pixel value to \c double 
  * - compute the sum of squares of the two pixel values
  * - compute the square root of the sum
- * - cast the \c double value resulting from \c sqrt() to the pixel type of the output image 
+ * - cast the \c double value resulting from \c vcl_sqrt() to the pixel type of the output image 
  * - store the casted value into the output image.
  * 
  * The filter expect all images to have the same dimension 
@@ -66,7 +66,7 @@ public:
   {
     const double dA = static_cast<double>( A );
     const double dB = static_cast<double>( B );
-    return static_cast<TOutput>( sqrt( dA*dA + dB*dB) );
+    return static_cast<TOutput>( vcl_sqrt(dA*dA + dB*dB) );
   }
 }; 
 }

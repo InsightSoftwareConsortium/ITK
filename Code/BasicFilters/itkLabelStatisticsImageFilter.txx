@@ -225,7 +225,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       }
     
     // sigma
-    (*mapIt).second.m_Sigma = sqrt((*mapIt).second.m_Variance);
+    (*mapIt).second.m_Sigma = vcl_sqrt((*mapIt).second.m_Variance);
     }
   
 }

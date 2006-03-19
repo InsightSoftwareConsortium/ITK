@@ -24,7 +24,7 @@ namespace itk
 {
   
 /** \class SqrtImageFilter
- * \brief Computes the sqrt(x) pixel-wise
+ * \brief Computes the vcl_sqrt(x) pixel-wise
  *
  * \ingroup IntensityImageFilters  Multithreaded
  */
@@ -46,7 +46,7 @@ public:
   }
   inline TOutput operator()( const TInput & A )
   {
-    return (TOutput)sqrt((double)A);
+    return (TOutput)vcl_sqrt((double)A);
   }
 }; 
 }

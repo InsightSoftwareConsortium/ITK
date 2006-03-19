@@ -103,7 +103,7 @@ for (i=0; i<3; i++)
 if ( this->Automatic && (estNumPts > 0) )
 {
   level = (float) estNumPts / this->NumberOfPointsPerBucket;
-  level = ::ceil( pow((double)level,(double)0.33333333) );
+  level = ::ceil( vcl_pow((double)level,(double)0.33333333) );
   for (i=0; i<3; i++)
     {
     ndivs[i] = (int) level;

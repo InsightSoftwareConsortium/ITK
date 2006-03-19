@@ -52,7 +52,7 @@ LogLikelihoodGoodnessOfFitFunction< TInputHistogram >
 
     if ( ratio > this->GetEpsilon() && px > 0 )
       {
-      sum += px * log(ratio);
+      sum += px * vcl_log(ratio);
       }
     else
       {

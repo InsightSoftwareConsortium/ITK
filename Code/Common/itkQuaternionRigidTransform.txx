@@ -29,7 +29,7 @@ QuaternionRigidTransform<TScalarType>
 ::QuaternionRigidTransform() :
   Superclass(SpaceDimension, ParametersDimension) 
 {
-  m_Rotation = VnlQuaternionType(0,0,0,1); // axis * sin(t/2), cos(t/2)
+  m_Rotation = VnlQuaternionType(0,0,0,1); // axis * vcl_sin(t/2), vcl_cos(t/2)
 }
 
 // Constructor with default arguments
@@ -39,7 +39,7 @@ QuaternionRigidTransform( unsigned int outputSpaceDimension,
                           unsigned int parametersDimension ) :
   Superclass(outputSpaceDimension, parametersDimension)
 {
-  m_Rotation = VnlQuaternionType(0,0,0,1); // axis * sin(t/2), cos(t/2)
+  m_Rotation = VnlQuaternionType(0,0,0,1); // axis * vcl_sin(t/2), vcl_cos(t/2)
 }
 
 

@@ -24,7 +24,7 @@ namespace itk
 {
   
 /** \class AsinImageFilter
- * \brief Computes the asin(x) pixel-wise
+ * \brief Computes the vcl_asin(x) pixel-wise
  *
  * This filter is templated over the pixel type of the input image
  * and the pixel type of the output image. 
@@ -33,8 +33,8 @@ namespace itk
  * each one of them it will do the following: 
  *
  * - cast the pixel value to \c double, 
- * - apply the \c asin() function to the \c double value
- * - cast the \c double value resulting from \c asin() to the pixel type of the output image 
+ * - apply the \c vcl_asin() function to the \c double value
+ * - cast the \c double value resulting from \c vcl_asin() to the pixel type of the output image 
  * - store the casted value into the output image.
  * 
  * The filter expect both images to have the same dimension (e.g. both 2D, or both 3D, or both ND)
@@ -60,7 +60,7 @@ public:
   inline TOutput operator()( const TInput & A )
   {
     return static_cast<TOutput>(
-      asin(
+      vcl_asin(
         static_cast<double>(A)
         )
       );

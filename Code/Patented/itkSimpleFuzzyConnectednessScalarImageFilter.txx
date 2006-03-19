@@ -80,10 +80,10 @@ SimpleFuzzyConnectednessScalarImageFilter<TInputImage,TOutputImage>
             (exp(-0.5 * tmp1 * tmp1 / m_Variance)));
     }
   else{
-  double tmp2 = fabs(static_cast<double>(f1) - static_cast<double>(f2)) - m_Diff_Mean;
+  double tmp2 = vcl_fabs(static_cast<double>(f1) - static_cast<double>(f2)) - m_Diff_Mean;
   return( (NumericTraits<unsigned short>::max()) *
-          (this->GetWeight() * exp(-0.5 * tmp1 * tmp1 / m_Variance) + 
-           (1 - this->GetWeight()) * exp(-0.5 * tmp2 * tmp2 / m_Diff_Variance)));
+          (this->GetWeight() * vcl_exp(-0.5 * tmp1 * tmp1 / m_Variance) + 
+           (1 - this->GetWeight()) * vcl_exp(-0.5 * tmp2 * tmp2 / m_Diff_Variance)));
   }
 }
 

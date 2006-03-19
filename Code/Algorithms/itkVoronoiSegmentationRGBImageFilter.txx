@@ -64,7 +64,7 @@ SetMeanPercentError(double x[6])
   for(unsigned int i=0;i<6;i++)
     {
     m_MeanPercentError[i] = x[i];
-    m_MeanTolerance[i] = fabs(x[i]*m_Mean[i]);
+    m_MeanTolerance[i] = vcl_fabs(x[i]*m_Mean[i]);
     }
 }
 
@@ -130,15 +130,15 @@ VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>
     X =  0.607*ipixel[0] + 0.174*ipixel[1] + 0.201*ipixel[2];
     Y =  0.299*ipixel[0] + 0.587*ipixel[1] + 0.114*ipixel[2];
     Z =  0.066*ipixel[1] + 1.117*ipixel[2];
-    X = pow((X/X0),0.3333);
-    Y = pow((Y/Y0),0.3333);
-    Z = pow((Z/Z0),0.3333);
+    X = vcl_pow((X/X0),0.3333);
+    Y = vcl_pow((Y/Y0),0.3333);
+    Z = vcl_pow((Z/Z0),0.3333);
     L = 116*Y - 16;
     a = 500*(X - Y);
     b = 200*(Y - Z);
   
-    wpixel[3] = atan(b/a);     //H
-    wpixel[4] = sqrt(a*a+b*b); //C
+    wpixel[3] = vcl_atan(b/a);     //H
+    wpixel[4] = vcl_sqrt(a*a+b*b); //C
     wpixel[5] = L;             //V 
     wit.Set(wpixel);
     ++wit;
@@ -172,7 +172,7 @@ TestHomogeneity(IndexList &Plist)
     for(i=0;i<6;i++)
       {
       savemean[i] = addp[i]/num;
-      saveSTD[i] = sqrt((addpp[i] - (addp[i]*addp[i])/(num) )/(num-1));
+      saveSTD[i] = vcl_sqrt((addpp[i] - (addp[i]*addp[i])/(num) )/(num-1));
       }
     }
   else
@@ -310,10 +310,10 @@ TakeAPrior(const BinaryObjectImage* aprior)
   for(unsigned int i=0;i<6;i++)
     {
     m_Mean[i] = objaddp[i]/objnum;
-    m_STD[i] = sqrt((objaddpp[i] - (objaddp[i]*objaddp[i])/objnum)/(objnum-1));
+    m_STD[i] = vcl_sqrt((objaddpp[i] - (objaddp[i]*objaddp[i])/objnum)/(objnum-1));
     m_STDTolerance[i] = m_STD[i]*m_STDPercentError[i];
     b_Mean[i] = bkgaddp[i]/bkgnum;
-    b_STD[i] = sqrt((bkgaddpp[i] - (bkgaddp[i]*bkgaddp[i])/bkgnum)/(bkgnum-1));
+    b_STD[i] = vcl_sqrt((bkgaddpp[i] - (bkgaddp[i]*bkgaddp[i])/bkgnum)/(bkgnum-1));
     diffMean[i] = (b_Mean[i]-m_Mean[i])/m_Mean[i];
     if(diffMean[i] < 0) diffMean[i] = -diffMean[i];
     diffSTD[i] = (b_STD[i]-m_STD[i])/m_STD[i];
@@ -324,7 +324,7 @@ TakeAPrior(const BinaryObjectImage* aprior)
       }
     else
       {
-      m_MeanTolerance[i] = fabs(m_Mean[i]*m_MeanPercentError[i]);
+      m_MeanTolerance[i] = vcl_fabs(m_Mean[i]*m_MeanPercentError[i]);
       }
     }
 

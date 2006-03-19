@@ -66,7 +66,7 @@ KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, \
     double TrainingFreq = training_it.GetFrequency()+m_Epsilon;
     double MeasuredFreq = measured_it.GetFrequency()+m_Epsilon;
 
-    KullbackLeibler += MeasuredFreq*log(MeasuredFreq/TrainingFreq);
+    KullbackLeibler += MeasuredFreq*vcl_log(MeasuredFreq/TrainingFreq);
 
     ++measured_it;
     ++training_it;
@@ -87,7 +87,7 @@ KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, \
     this->GetHistogramSize()[0]*this->GetHistogramSize()[1]*m_Epsilon;
 
   KullbackLeibler = KullbackLeibler/static_cast<MeasureType>(AdjustedTotalMeasuredFreq)
-    - log(AdjustedTotalMeasuredFreq/AdjustedTotalTrainingFreq);
+    - vcl_log(AdjustedTotalMeasuredFreq/AdjustedTotalTrainingFreq);
 
   return KullbackLeibler;
 }

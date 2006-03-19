@@ -1243,7 +1243,7 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::InterpolateVectorField(SolverTy
         if ( temp < 0 || temp > (long int) m_FieldSize[f]-1)  inimage=false;
 
         }
-//        interperror=sqrt(interperror);
+//        interperror=vcl_sqrt(interperror);
 //        std::cout << " rindex " << rindex << " inimage " << inimage << std::endl;
       //if (inimage && interperror < 0.25) 
       if (inimage) field->SetPixel(rindex, disp );
@@ -1562,7 +1562,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::EnforceDiffeomorphism(floa
           interped[jj]=interpolatedValue[jj];
           temp+=interped[jj]*interped[jj];
           }
-        pathsteplength+=sqrt(temp);
+        pathsteplength+=vcl_sqrt(temp);
         m_TotalField->SetPixel(index,m_TotalField->GetPixel(index)+interped);
         ++m_FieldIter; 
         }
@@ -1632,7 +1632,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::EnforceDiffeomorphism(floa
         unsigned int ii=m_CurrentLevel; 
         for (unsigned int jj=0; jj<ImageDimension; jj++) 
           { 
-          unsigned int scale=m_ImageScaling[jj]/(unsigned int)pow(2.0,(double)ii);
+          unsigned int scale=m_ImageScaling[jj]/(unsigned int)vcl_pow(2.0,(double)ii);
           if (scale < 1) scale=1;
           SizeReductionMoving[0][jj]=scale;
           }
@@ -1831,7 +1831,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::PrintVectorField(unsigned 
     //for (unsigned int i=0; i<ImageDimension; i++) disp[i]=-9.9;
     if ((ct % modnum) == 0)  std::cout << " field pix " << m_FieldIter.Get() << std::endl;
     for (unsigned int i=0; i<ImageDimension;i++)
-      if (fabs(disp[i]) > max ) max=fabs(disp[i]);
+      if (fabs(disp[i]) > max ) max=vcl_fabs(disp[i]);
     ++m_FieldIter; 
     ct++;
 
@@ -1883,8 +1883,8 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::MultiResSolve()
       unsigned int ii=m_CurrentLevel; 
       for (unsigned int jj=0; jj<ImageDimension; jj++) 
         { 
-        unsigned int scale=m_ImageScaling[jj]/(unsigned int)pow(2.0,(double)ii);
-        unsigned int nextscale = m_ImageScaling[jj]/(unsigned int)pow(2.0,(double)(ii+1));
+        unsigned int scale=m_ImageScaling[jj]/(unsigned int)vcl_pow(2.0,(double)ii);
+        unsigned int nextscale = m_ImageScaling[jj]/(unsigned int)vcl_pow(2.0,(double)(ii+1));
         if (scale < 1) scale=1;
         if (nextscale < 1) nextscale=1;
         SizeReductionMoving[0][jj]=scale;
@@ -2027,7 +2027,7 @@ Element::Float FEMRegistrationFilter<TMovingImage,TFixedImage>::EvaluateResidual
       SimE=maxsim-SimE;
       }
   //std::cout << " SimE " << SimE << " Def E " << defe << std::endl;
-  return fabs(static_cast<double>(SimE)); //+defe;
+  return vcl_fabs(static_cast<double>(SimE)); //+defe;
 }
 
 template<class TMovingImage,class TFixedImage>
@@ -2041,8 +2041,8 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::FindBracketingTriplet(Solv
   const Float Tiny=1.e-20;
   Float ax=0.0;
   Float bx=1.0;
-  Float fa=fabs(EvaluateResidual(mySolver, ax));
-  Float fb=fabs(EvaluateResidual(mySolver, bx));
+  Float fa=vcl_fabs(EvaluateResidual(mySolver, ax));
+  Float fb=vcl_fabs(EvaluateResidual(mySolver, bx));
 
 
   Float dum;
@@ -2053,11 +2053,11 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::FindBracketingTriplet(Solv
     }
 
   Float cx=bx+Gold*(bx-ax);  // first guess for c - the 3rd pt needed to bracket the min
-  Float fc=fabs(EvaluateResidual(mySolver, cx));
+  Float fc=vcl_fabs(EvaluateResidual(mySolver, cx));
 
   Float ulim,u,r,q,fu;
   while (fb > fc  )
-    // && fabs(ax) < 3. && fabs(bx) < 3. && fabs(cx) < 3.)
+    // && vcl_fabs(ax) < 3. && vcl_fabs(bx) < 3. && vcl_fabs(cx) < 3.)
     {
     r=(bx-ax)*(fb-fc);
     q=(bx-cx)*(fb-fa);
@@ -2066,7 +2066,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::FindBracketingTriplet(Solv
     ulim=bx + Glimit*(cx-bx);
     if ((bx-u)*(u-cx) > 0.0)
       {
-      fu=fabs(EvaluateResidual(mySolver, u));
+      fu=vcl_fabs(EvaluateResidual(mySolver, u));
       if (fu < fc)
         {
         ax=bx;
@@ -2082,28 +2082,28 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::FindBracketingTriplet(Solv
         }
 
       u=cx+Gold*(cx-bx);
-      fu=fabs(EvaluateResidual(mySolver, u));
+      fu=vcl_fabs(EvaluateResidual(mySolver, u));
 
       }
     else if ( (cx-u)*(u-ulim) > 0.0)
       {
-      fu=fabs(EvaluateResidual(mySolver, u));
+      fu=vcl_fabs(EvaluateResidual(mySolver, u));
       if (fu < fc)
         {
         bx=cx; cx=u; u=cx+Gold*(cx-bx);
-        fb=fc; fc=fu; fu=fabs(EvaluateResidual(mySolver, u));
+        fb=fc; fc=fu; fu=vcl_fabs(EvaluateResidual(mySolver, u));
         }
 
       }
     else if ( (u-ulim)*(ulim-cx) >= 0.0)
       {
       u=ulim;
-      fu=fabs(EvaluateResidual(mySolver, u));
+      fu=vcl_fabs(EvaluateResidual(mySolver, u));
       }
     else
       {
       u=cx+Gold*(cx-bx);
-      fu=fabs(EvaluateResidual(mySolver, u));
+      fu=vcl_fabs(EvaluateResidual(mySolver, u));
       }
 
     ax=bx; bx=cx; cx=u;
@@ -2111,7 +2111,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::FindBracketingTriplet(Solv
 
     }
 
-  if ( fabs(ax) > 1.e3  || fabs(bx) > 1.e3 || fabs(cx) > 1.e3)
+  if ( vcl_fabs(ax) > 1.e3  || vcl_fabs(bx) > 1.e3 || vcl_fabs(cx) > 1.e3)
     {ax=-2.0;  bx=1.0;  cx=2.0; } // to avoid crazy numbers caused by bad bracket (u goes nuts)
 
   *a=ax; *b=bx; *c=cx;
@@ -2135,7 +2135,7 @@ Element::Float FEMRegistrationFilter<TMovingImage,TFixedImage>::GoldenSection(So
   Float x1;
   Float x2;
   Float x3=cx;
-  if (fabs(cx-bx) > fabs(bx-ax))
+  if (fabs(cx-bx) > vcl_fabs(bx-ax))
     {
     x1=bx;
     x2=bx+C*(cx-bx);
@@ -2146,21 +2146,21 @@ Element::Float FEMRegistrationFilter<TMovingImage,TFixedImage>::GoldenSection(So
     x1=bx-C*(bx-ax);
     }
 
-  Float f1=fabs(EvaluateResidual(mySolver, x1));
-  Float f2=fabs(EvaluateResidual(mySolver, x2));
+  Float f1=vcl_fabs(EvaluateResidual(mySolver, x1));
+  Float f2=vcl_fabs(EvaluateResidual(mySolver, x2));
   unsigned int iters=0;
-  while (fabs(x3-x0) > tol*(fabs(x1)+fabs(x2)) && iters < MaxIters)
+  while (fabs(x3-x0) > tol*(fabs(x1)+vcl_fabs(x2)) && iters < MaxIters)
     {
     iters++;
     if (f2 < f1)
       {
       x0=x1; x1=x2; x2=R*x1+C*x3;
-      f1=f2; f2=fabs(EvaluateResidual(mySolver, x2));
+      f1=f2; f2=vcl_fabs(EvaluateResidual(mySolver, x2));
       } 
     else
       {
       x3=x2; x2=x1; x1=R*x2+C*x0;
-      f2=f1; f1=fabs(EvaluateResidual(mySolver, x1));
+      f2=f1; f1=vcl_fabs(EvaluateResidual(mySolver, x1));
       }
     }
   Float xmin,fmin;
@@ -2177,7 +2177,7 @@ Element::Float FEMRegistrationFilter<TMovingImage,TFixedImage>::GoldenSection(So
 
   mySolver.SetEnergyToMin(xmin);
   std:: cout << " emin " << fmin <<  " at xmin " << xmin << std::endl;
-  return fabs(static_cast<double>(fmin));
+  return vcl_fabs(static_cast<double>(fmin));
 }
 
 template<class TMovingImage,class TFixedImage>

@@ -112,7 +112,7 @@ readOctree (std::ifstream & octreestream,
     OctreeNode *curnode = 
       CurrentNodeBranch->GetLeaf(static_cast<enum LeafIdentifier>(i));
 
-    switch ((colorCode >> (i << 1)) & 3)  //(colorCode/pow(2,i*2) ) & 00000011b
+    switch ((colorCode >> (i << 1)) & 3)  //(colorCode/vcl_pow(2,i*2) ) & 00000011b
       {
       case Brains2_MASKFILE_WHITE: // 0
         curnode->SetColor(Brains2_MASKFILE_WHITE);

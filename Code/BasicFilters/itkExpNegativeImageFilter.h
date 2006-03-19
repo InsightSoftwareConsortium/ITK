@@ -24,9 +24,9 @@ namespace itk
 {
   
 /** \class ExpNegativeImageFilter
- * \brief Computes the function exp(-K.x) pixel-wise
+ * \brief Computes the function vcl_exp(-K.x) pixel-wise
  *
- * Every output pixel is equal to exp(-K.x ). where x is the intensity of the
+ * Every output pixel is equal to vcl_exp(-K.x ). where x is the intensity of the
  * homologous input pixel, and K is a user-provided constant.
  * 
  * \ingroup IntensityImageFilters  Multithreaded
@@ -56,7 +56,7 @@ public:
   
   inline TOutput operator()( const TInput & A )
   {
-    return static_cast<TOutput>( exp( - m_Factor * static_cast<double>(A) ) );
+    return static_cast<TOutput>( vcl_exp(- m_Factor * static_cast<double>(A) ) );
   }
 
   void SetFactor( double factor ) {

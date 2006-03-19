@@ -176,7 +176,7 @@ Versor<T>
   
   const double epsilon = 1e-300;
 
-  if( fabs( 1.0f - square ) < epsilon )
+  if( vcl_fabs(1.0f - square ) < epsilon )
     {
     return true;
     }
@@ -226,7 +226,7 @@ Versor<T>
   
   const ValueType tensor = 
     static_cast< ValueType > (
-      sqrt( m_X*m_X + m_Y*m_Y + m_Z*m_Z + m_W*m_W ) );
+      vcl_sqrt(m_X*m_X + m_Y*m_Y + m_Z*m_Z + m_W*m_W ) );
 
   return tensor;
 }
@@ -239,7 +239,7 @@ Versor<T>
 {
   const ValueType tensor = this->GetTensor();
 
-  if( fabs( tensor ) < 1e-20 )
+  if( vcl_fabs(tensor ) < 1e-20 )
     {
     ExceptionObject except;
     except.SetDescription("Attempt to normalize a \
@@ -266,7 +266,7 @@ Versor<T>
   const RealType ay = static_cast<RealType>( m_Y );
   const RealType az = static_cast<RealType>( m_Z );
   
-  const RealType vectorNorm = sqrt( ax * ax  +  ay * ay  +  az * az  );
+  const RealType vectorNorm = vcl_sqrt(ax * ax  +  ay * ay  +  az * az  );
 
   if( vectorNorm == NumericTraits<RealType>::Zero )
     {
@@ -318,9 +318,9 @@ Versor<T>
   const RealType ay = static_cast<RealType>( m_Y );
   const RealType az = static_cast<RealType>( m_Z );
   
-  const RealType vectorNorm = sqrt( ax * ax  +  ay * ay  +  az * az  );
+  const RealType vectorNorm = vcl_sqrt(ax * ax  +  ay * ay  +  az * az  );
 
-  const ValueType angle = 2.0 * atan2( vectorNorm, m_W );
+  const ValueType angle = 2.0 * vcl_atan2(vectorNorm, m_W );
   
   return angle;
 }
@@ -331,8 +331,8 @@ Versor<T>
 Versor<T>
 ::SquareRoot( void ) const
 {
-  const ValueType newScalar = sqrt( static_cast<double>( 1.0 + m_W ) );
-  const double sqrtOfTwo    = sqrt( 2.0f );
+  const ValueType newScalar = vcl_sqrt( static_cast<double>( 1.0 + m_W ) );
+  const double sqrtOfTwo    = vcl_sqrt( 2.0f );
 
   const double factor = 1.0f / ( newScalar * sqrtOfTwo );
 
@@ -368,8 +368,8 @@ Versor<T>
 {
   const RealType vectorNorm = axis.GetNorm();
 
-  const RealType cosangle2 = cos( angle / 2.0 );
-  const RealType sinangle2 = sin( angle / 2.0 );
+  const RealType cosangle2 = vcl_cos(angle / 2.0 );
+  const RealType sinangle2 = vcl_sin(angle / 2.0 );
   
   const RealType factor = sinangle2 / vectorNorm;
   
@@ -394,7 +394,7 @@ Versor<T>
 
   if( trace > epsilon)
     {
-    const double s = 0.5 / sqrt(trace);
+    const double s = 0.5 / vcl_sqrt(trace);
     m_W = 0.25 / s;
     m_X = (m(2,1) - m(1,2)) * s;
     m_Y = (m(0,2) - m(2,0)) * s;
@@ -404,7 +404,7 @@ Versor<T>
     {
     if( m(0,0) > m(1,1) && m(0,0) > m(2,2) )
       {
-      const double s = 2.0 * sqrt(1.0 + m(0,0) - m(1,1) - m(2,2));
+      const double s = 2.0 * vcl_sqrt(1.0 + m(0,0) - m(1,1) - m(2,2));
       m_X = 0.25 * s;
       m_Y = (m(0,1) + m(1,0)) / s;
       m_Z = (m(0,2) + m(2,0)) / s;
@@ -414,7 +414,7 @@ Versor<T>
       {
       if( m(1,1) > m(2,2) )
         {
-        const double s = 2.0 * sqrt(1.0 + m(1,1) - m(0,0) - m(2,2));
+        const double s = 2.0 * vcl_sqrt(1.0 + m(1,1) - m(0,0) - m(2,2));
         m_X = (m(0,1) + m(1,0)) / s;
         m_Y = 0.25 * s;
         m_Z = (m(1,2) + m(2,1)) / s;
@@ -422,7 +422,7 @@ Versor<T>
         }
       else
         {
-        const double s = 2.0 * sqrt(1.0 + m(2,2) - m(0,0) - m(1,1));
+        const double s = 2.0 * vcl_sqrt(1.0 + m(2,2) - m(0,0) - m(1,1));
         m_X = (m(0,2) + m(2,0)) / s;
         m_Y = (m(1,2) + m(2,1)) / s;
         m_Z = 0.25 * s;
@@ -451,7 +451,7 @@ Versor<T>
     throw exception;
     }
   
-  const ValueType cosangle2 =  sqrt( 1.0 - sinangle2 * sinangle2 );
+  const ValueType cosangle2 =  vcl_sqrt(1.0 - sinangle2 * sinangle2 );
   
   m_X = axis[0];
   m_Y = axis[1];
@@ -497,9 +497,9 @@ void
 Versor<T>
 ::SetRotationAroundX( ValueType angle )
 {
-  const ValueType sinangle2 = sin( angle / 2.0 );
-  const ValueType cosangle2 = cos( angle / 2.0 );
-  
+  const ValueType sinangle2 = vcl_sin( angle / 2.0 );
+  const ValueType cosangle2 = vcl_cos( angle / 2.0 );
+
   m_X = sinangle2;
   m_Y = NumericTraits< T >::Zero;
   m_Z = NumericTraits< T >::Zero;
@@ -512,9 +512,9 @@ void
 Versor<T>
 ::SetRotationAroundY( ValueType angle )
 {
-  const ValueType sinangle2 = sin( angle / 2.0 );
-  const ValueType cosangle2 = cos( angle / 2.0 );
-  
+  const ValueType sinangle2 = vcl_sin( angle / 2.0 );
+  const ValueType cosangle2 = vcl_cos( angle / 2.0 );
+
   m_X = NumericTraits< T >::Zero;
   m_Y = sinangle2;
   m_Z = NumericTraits< T >::Zero;
@@ -527,9 +527,9 @@ void
 Versor<T>
 ::SetRotationAroundZ( ValueType angle )
 {
-  const ValueType sinangle2 = sin( angle / 2.0 );
-  const ValueType cosangle2 = cos( angle / 2.0 );
-  
+  const ValueType sinangle2 = vcl_sin( angle / 2.0 );
+  const ValueType cosangle2 = vcl_cos( angle / 2.0 );
+
   m_X = NumericTraits< T >::Zero;
   m_Y = NumericTraits< T >::Zero;
   m_Z = sinangle2;

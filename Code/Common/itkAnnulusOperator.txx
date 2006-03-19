@@ -171,13 +171,13 @@ AnnulusOperator<TPixel, TDimension, TAllocator>
     double mean = sumNotExterior / num;
     double var = ( sumNotExteriorSq - ( sumNotExterior*sumNotExterior / num ) )
       / ( num - 1.0 );
-    double std = sqrt(var);
+    double std = vcl_sqrt(var);
 
     // convert std to a scaling factor k such that
     //
     //        || (coeffP - mean) / k || = 1.0
     //
-    double k = std * sqrt(num-1.0);
+    double k = std * vcl_sqrt(num-1.0);
 
     // Run through the kernel again, shifting and normalizing the
     // elements that are not exterior to the annulus.  This forces the

@@ -80,7 +80,7 @@ GaussianOperator<TPixel,VDimension, TAllocator>
   double d, accumulator;
   double m;
 
-  if ((d=fabs(y)) < 3.75)
+  if ((d=vcl_fabs(y)) < 3.75)
     {
     m=y/3.75;
     m*=m;
@@ -107,7 +107,7 @@ GaussianOperator<TPixel,VDimension, TAllocator>
   double d, accumulator;
   double m;
 
-  if ((d=fabs(y)) < 3.75)
+  if ((d=vcl_fabs(y)) < 3.75)
     {
     m=y/3.75;
     m*=m;
@@ -147,7 +147,7 @@ GaussianOperator<TPixel,VDimension, TAllocator>
   if (y==0.0) return 0.0;
   else
     {
-    toy=2.0/fabs(y);
+    toy=2.0/vcl_fabs(y);
     qip=accumulator=0.0;
     qi=1.0;
     for (j=2*(n+(int)::sqrt(ACCURACY*n)); j>0 ; j--)

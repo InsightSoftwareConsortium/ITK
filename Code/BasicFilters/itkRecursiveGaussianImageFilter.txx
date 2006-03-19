@@ -237,12 +237,12 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
            ScalarRealType& N0, ScalarRealType& N1, ScalarRealType& N2, ScalarRealType& N3,
            ScalarRealType& SN, ScalarRealType& DN, ScalarRealType& EN)
 {
-  ScalarRealType Sin1 = sin(W1 / sigmad);
-  ScalarRealType Sin2 = sin(W2 / sigmad);
-  ScalarRealType Cos1 = cos(W1 / sigmad);
-  ScalarRealType Cos2 = cos(W2 / sigmad);
-  ScalarRealType Exp1 = exp(L1 / sigmad);
-  ScalarRealType Exp2 = exp(L2 / sigmad);
+  ScalarRealType Sin1 = vcl_sin(W1 / sigmad);
+  ScalarRealType Sin2 = vcl_sin(W2 / sigmad);
+  ScalarRealType Cos1 = vcl_cos(W1 / sigmad);
+  ScalarRealType Cos2 = vcl_cos(W2 / sigmad);
+  ScalarRealType Exp1 = vcl_exp(L1 / sigmad);
+  ScalarRealType Exp2 = vcl_exp(L2 / sigmad);
   
   N0  = A1 + A2;
   N1  = Exp2 * (B2*Sin2 - (A2+2*A1) * Cos2); 
@@ -270,12 +270,12 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
            ScalarRealType W1, ScalarRealType L1, ScalarRealType W2, ScalarRealType L2,
            ScalarRealType& SD, ScalarRealType& DD, ScalarRealType& ED) 
 {
-  //  const ScalarRealType Sin1 = sin(W1 / sigmad);
-  //  const ScalarRealType Sin2 = sin(W2 / sigmad);
-  const ScalarRealType Cos1 = cos(W1 / sigmad);
-  const ScalarRealType Cos2 = cos(W2 / sigmad);
-  const ScalarRealType Exp1 = exp(L1 / sigmad);
-  const ScalarRealType Exp2 = exp(L2 / sigmad);
+  //  const ScalarRealType Sin1 = vcl_sin(W1 / sigmad);
+  //  const ScalarRealType Sin2 = vcl_sin(W2 / sigmad);
+  const ScalarRealType Cos1 = vcl_cos(W1 / sigmad);
+  const ScalarRealType Cos2 = vcl_cos(W2 / sigmad);
+  const ScalarRealType Exp1 = vcl_exp(L1 / sigmad);
+  const ScalarRealType Exp2 = vcl_exp(L2 / sigmad);
   
   this->m_D4  =     Exp1*Exp1*Exp2*Exp2;
   this->m_D3  =  -2*Cos1*Exp1*Exp2*Exp2;

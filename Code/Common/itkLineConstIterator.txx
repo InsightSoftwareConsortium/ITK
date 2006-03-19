@@ -43,7 +43,7 @@ LineConstIterator<TImage>
   int maxDistanceDimension = 0;
   for (i = 0; i < TImage::ImageDimension; ++i)
     {
-    IndexValueType distance = abs(difference[i]);
+    IndexValueType distance = vcl_abs(difference[i]);
     if (distance > maxDistance)
       {
       maxDistance = distance;

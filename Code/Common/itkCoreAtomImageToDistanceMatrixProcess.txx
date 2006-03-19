@@ -164,7 +164,7 @@ CoreAtomImageToDistanceMatrixProcess< TSourceImage >
       DistanceVector[1] = Location1[1] - Location2[1];
       DistanceVector[2] = Location1[2] - Location2[2];
 
-      distance = sqrt( pow((double)DistanceVector[0],2.0) + pow((double)DistanceVector[1],2.0) + pow((double)DistanceVector[2],2.0) );
+      distance = vcl_sqrt(vcl_pow((double)DistanceVector[0],2.0) + vcl_pow((double)DistanceVector[1],2.0) + vcl_pow((double)DistanceVector[2],2.0) );
 
       m_DistanceMatrix->put(counter1,counter2,distance);
   

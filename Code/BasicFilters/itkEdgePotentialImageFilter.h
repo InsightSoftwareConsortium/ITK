@@ -51,7 +51,7 @@ public:
   }
   inline TOutput operator()( const TInput & A )
   {
-    return static_cast<TOutput>( exp( -1.0 * A.GetNorm() ) );
+    return static_cast<TOutput>( vcl_exp(-1.0 * A.GetNorm() ) );
   }
 };
 }

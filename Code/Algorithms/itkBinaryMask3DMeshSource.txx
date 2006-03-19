@@ -2515,7 +2515,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
   unsigned long lindex = static_cast<unsigned long>( index );
   if ( (end - start) > 1 ) 
     {
-    mid = static_cast<int>( floor(static_cast<float>((start + end)/2)) );
+    mid = static_cast<int>( vcl_floor(static_cast<float>((start + end)/2)) );
     if ( lindex == m_LastRow[mid][0] ) 
       {
       m_PointFound = 1;
@@ -2559,7 +2559,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
   unsigned long result = 0;
   if ( (end - start) > 1 ) 
     {
-    mid = static_cast<int>( floor(static_cast<float>((start + end)/2)) );
+    mid = static_cast<int>( vcl_floor(static_cast<float>((start + end)/2)) );
     if ( lindex == m_LastFrame[mid][0] ) 
       {
       m_PointFound = 1;

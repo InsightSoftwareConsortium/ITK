@@ -95,8 +95,8 @@ SimpleFuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
       + s02*(m_Diff_VarianceInverse[0][2]+m_Diff_VarianceInverse[2][0])
       + s12*(m_Diff_VarianceInverse[1][2]+m_Diff_VarianceInverse[2][1]);
 
-    return( (NumericTraits<unsigned short>::max())*(this->GetWeight()*exp(-0.5*tmp1)  
-                                                    +(1-this->GetWeight())*exp(-0.5*tmp3)) );
+    return( (NumericTraits<unsigned short>::max())*(this->GetWeight()*vcl_exp(-0.5*tmp1)  
+                                                    +(1-this->GetWeight())*vcl_exp(-0.5*tmp3)) );
     }
 }
 

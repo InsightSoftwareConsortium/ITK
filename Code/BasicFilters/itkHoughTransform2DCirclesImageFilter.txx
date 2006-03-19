@@ -128,7 +128,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
 
       if( (fabs(Vx)>1) || (fabs(Vy)>1) ) // if the gradient is not flat
         {
-        double norm = sqrt(Vx*Vx+Vy*Vy);
+        double norm = vcl_sqrt(Vx*Vx+Vy*Vy);
         Vx /= norm;
         Vy /= norm;
         
@@ -139,10 +139,10 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
         
           do
             {
-            index[0] = (long int)(point[0]-i*(Vx*cos(angle)+Vy*sin(angle)));
-            index[1] = (long int)(point[1]-i*(Vx*sin(angle)+Vy*cos(angle)));
+            index[0] = (long int)(point[0]-i*(Vx*vcl_cos(angle)+Vy*vcl_sin(angle)));
+            index[1] = (long int)(point[1]-i*(Vx*vcl_sin(angle)+Vy*vcl_cos(angle)));
             
-            distance = sqrt( (index[1]-point[1])*(index[1]-point[1])
+            distance = vcl_sqrt((index[1]-point[1])*(index[1]-point[1])
                              +(index[0]-point[0])*(index[0]-point[0]) );
 
 
@@ -251,8 +251,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
           {     
           for(double length = 0; length < m_DiscRadiusRatio*Circle->GetRadius()[0];length += 1)
             {
-            index[0] = (long int)(it_input.GetIndex()[0] + length * cos(angle));
-            index[1] = (long int)(it_input.GetIndex()[1] + length * sin(angle));
+            index[0] = (long int)(it_input.GetIndex()[0] + length * vcl_cos(angle));
+            index[1] = (long int)(it_input.GetIndex()[1] + length * vcl_sin(angle));
             if(postProcessImage->GetLargestPossibleRegion().IsInside( index ))
               {
               postProcessImage->SetPixel(index,0);

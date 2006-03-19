@@ -952,7 +952,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
          // to surfaces that pass close to the center of cells.  This is a
          // heuristic fudge factor that improves interpolation and reduces
          // "wiggling" at convergence.
-                offset[i] = (offset[i] * centerValue) * sqrt(ImageDimension +0.5)
+                offset[i] = (offset[i] * centerValue) * vcl_sqrt(ImageDimension +0.5)
                   / (norm_grad_phi_squared + MIN_NORM);
         //        offset[i] = (offset[i] * centerValue) / (sqrt(norm_grad_phi_squared) + MIN_NORM);
         }

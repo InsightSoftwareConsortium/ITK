@@ -122,7 +122,7 @@ public:
   Float BrentsMethod(Float tol=0.01,unsigned int MaxIters=25);
   Float EvaluateResidual(Float t=1.0);
   Float GetDeformationEnergy(Float t=1.0);
-  inline Float GSSign(Float a,Float b) { return (b > 0.0 ? fabs(a) : -1.*fabs(a)); }
+  inline Float GSSign(Float a,Float b) { return (b > 0.0 ? vcl_fabs(a) : -1.*vcl_fabs(a)); }
   inline Float GSMax(Float a,Float b) { return (a > b ? a : b); }
 
   void SetEnergyToMin(Float xmin);

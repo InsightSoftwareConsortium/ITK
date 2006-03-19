@@ -95,7 +95,7 @@ protected:
   virtual void InitializeIteration()
   {
     Superclass::InitializeIteration();
-    if (this->GetTimeStep() >  0.5 / pow(2.0, static_cast<double>(ImageDimension))  )
+    if (this->GetTimeStep() >  0.5 / vcl_pow(2.0, static_cast<double>(ImageDimension))  )
       {
       itkWarningMacro(<< "Anisotropic diffusion has attempted to use a time step which may introduce instability into the solution." );
       }

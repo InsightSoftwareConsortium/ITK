@@ -126,20 +126,20 @@ BinaryMedialNodeMetric<VDimensions>
     m_DistanceVectorA[j] = LocationA1[j] - LocationA2[j];
     m_DistanceVectorB[j] = LocationB1[j] - LocationB2[j];
 
-    distanceA += pow(m_DistanceVectorA[j],2);
-    distanceB += pow(m_DistanceVectorB[j],2);
+    distanceA += vcl_pow(m_DistanceVectorA[j],2);
+    distanceB += vcl_pow(m_DistanceVectorB[j],2);
     }
 
-  distanceA = sqrt(distanceA);
-  distanceB = sqrt(distanceB);
+  distanceA = vcl_sqrt(distanceA);
+  distanceB = vcl_sqrt(distanceB);
 
   for(int k = 0;k < VDimensions;k++)
     {
     m_DistanceVectorA[k] /= distanceA;
     m_DistanceVectorB[k] /= distanceB;
 
-    m_DistanceVectorA[k] = fabs(m_DistanceVectorA[k]);
-    m_DistanceVectorB[k] = fabs(m_DistanceVectorB[k]);
+    m_DistanceVectorA[k] = vcl_fabs(m_DistanceVectorA[k]);
+    m_DistanceVectorB[k] = vcl_fabs(m_DistanceVectorB[k]);
     }
   
   OrderValues();
@@ -151,7 +151,7 @@ BinaryMedialNodeMetric<VDimensions>
     m_Result += (m_CombinedDistanceValues[m]*m_CombinedEigenValues[m])*m_CombinedEigensKey[m];
   }
 
-  m_Result = 1.0 - fabs(m_Result);
+  m_Result = 1.0 - vcl_fabs(m_Result);
 
   //std::cout << "\n\nTotal Metric Difference:  " << m_Result << std::endl;
 

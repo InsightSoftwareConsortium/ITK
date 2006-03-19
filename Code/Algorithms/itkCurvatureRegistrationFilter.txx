@@ -164,9 +164,9 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
     for ( int idx = 0; idx < m_FixedImageDimensions[dim]; ++idx )
       {
 #ifdef SLOW_DCT
-      m_DiagonalElements[dim][idx] = -2 + 2 * cos( vnl_math::pi * idx / m_FixedImageDimensions[dim] );
+      m_DiagonalElements[dim][idx] = -2 + 2 * vcl_cos(vnl_math::pi * idx / m_FixedImageDimensions[dim] );
 #else
-      m_DiagonalElements[dim][idx] = -2 + 2 * cos( vnl_math::pi * (idx+1) / m_FixedImageDimensions[dim] );
+      m_DiagonalElements[dim][idx] = -2 + 2 * vcl_cos(vnl_math::pi * (idx+1) / m_FixedImageDimensions[dim] );
 #endif
       }
     }

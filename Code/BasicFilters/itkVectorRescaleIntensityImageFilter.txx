@@ -98,7 +98,7 @@ VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>
     ++it;
     }
 
-  m_InputMaximumMagnitude = sqrt( maximumSquaredMagnitude );
+  m_InputMaximumMagnitude = vcl_sqrt(maximumSquaredMagnitude );
 
   m_Scale = static_cast<InputRealType>( m_OutputMaximumMagnitude ) /
             static_cast<InputRealType>( m_InputMaximumMagnitude  ) ;

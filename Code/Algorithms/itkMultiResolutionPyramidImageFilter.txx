@@ -404,11 +404,11 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
       outputSpacing[idim] = inputSpacing[idim] * shrinkFactor;
 
       outputSize[idim] = static_cast<SizeValueType>(
-        floor( static_cast<double>(inputSize[idim]) / shrinkFactor ) );
+        vcl_floor(static_cast<double>(inputSize[idim]) / shrinkFactor ) );
       if( outputSize[idim] < 1 ) { outputSize[idim] = 1; }
 
       outputStartIndex[idim] = static_cast<IndexValueType>(
-        ceil( static_cast<double>(inputStartIndex[idim]) / shrinkFactor ) );
+        vcl_ceil(static_cast<double>(inputStartIndex[idim]) / shrinkFactor ) );
 
       }
   
@@ -500,11 +500,11 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
         double factor = static_cast<double>( m_Schedule[ilevel][idim] );
 
         outputSize[idim] = static_cast<SizeValueType>(
-          floor( static_cast<double>(baseSize[idim]) / factor ) );
+          vcl_floor(static_cast<double>(baseSize[idim]) / factor ) );
         if( outputSize[idim] < 1 ) { outputSize[idim] = 1; } 
 
         outputIndex[idim] = static_cast<IndexValueType>(
-          ceil( static_cast<double>(baseIndex[idim]) / factor ) );      
+          vcl_ceil(static_cast<double>(baseIndex[idim]) / factor ) );      
 
         }
 

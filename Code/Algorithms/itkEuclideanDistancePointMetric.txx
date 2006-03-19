@@ -118,7 +118,7 @@ EuclideanDistancePointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
 
         if(!m_ComputeSquaredDistance)
           {
-          dist = sqrt(dist);
+          dist = vcl_sqrt(dist);
           }
 
         if(dist<minimumDistance)

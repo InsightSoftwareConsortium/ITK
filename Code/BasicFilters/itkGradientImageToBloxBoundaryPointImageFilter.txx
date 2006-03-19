@@ -178,14 +178,14 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
     outputSpacing[i] = inputSpacing[i] * m_BloxResolution[i];
 
     outputSize[i] = static_cast<SizeValueType>(
-      floor( static_cast<float>( inputSize[i] )/ m_BloxResolution[i]));
+      vcl_floor(static_cast<float>( inputSize[i] )/ m_BloxResolution[i]));
     if( outputSize[i] < 1 )
       {
       outputSize[i] = 1;
       }
     
     outputStartIndex[i] = static_cast<IndexValueType>(
-      ceil( static_cast<float>( inputStartIndex[i] ) / m_BloxResolution[i] ));
+      vcl_ceil(static_cast<float>( inputStartIndex[i] ) / m_BloxResolution[i] ));
     }
   
   outputPtr->SetSpacing( outputSpacing );
@@ -242,7 +242,7 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
       mag += inputIt.Get()[i] * inputIt.Get()[i];
       }
 
-    mag = sqrt(mag);
+    mag = vcl_sqrt(mag);
 
     // If the pixel meets threshold requirements, add it to the image
     if( mag >= m_Threshold)

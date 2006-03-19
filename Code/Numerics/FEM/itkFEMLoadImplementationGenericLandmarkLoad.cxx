@@ -64,7 +64,7 @@ LoadImplementationGenericLandmarkLoad
   force =  (load->m_target-new_source) / load->eta ;
  
 //  std::cout << " disp " << disp <<  std::endl;
-  //force /= sqrt(fmag);
+  //force /= vcl_sqrt(fmag);
   new_source = (load->GetTarget() - new_source);
 //  std::cout << " force = " << force <<  " distance  " << new_source.magnitude() << std::endl;
   

@@ -25,7 +25,7 @@ namespace itk
  
 namespace Accessor {
 /** \class ExpPixelAccessor
- * \brief Give access to the exp() function of a value
+ * \brief Give access to the vcl_exp() function of a value
  *
  * ExpPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
@@ -47,17 +47,17 @@ public:
   typedef TInternalType InternalType;
 
   static inline void Set(TInternalType & output, const TExternalType & input) 
-    {output = (TInternalType)exp((double)input);}
+    {output = (TInternalType)vcl_exp((double)input);}
 
   static inline TExternalType Get( const TInternalType & input ) 
-    {return (TExternalType)exp((double)input);}
+    {return (TExternalType)vcl_exp((double)input);}
 
 };
   
 } // end namespace Accessor
 
 /** \class ExpImageAdaptor
- * \brief Presents an image as being composed of the exp() of its pixels
+ * \brief Presents an image as being composed of the vcl_exp() of its pixels
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.

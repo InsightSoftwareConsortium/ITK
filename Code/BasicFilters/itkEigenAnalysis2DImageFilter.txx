@@ -234,7 +234,7 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
     const double dxy = xx - yy;
     const double sxy = xx + yy;
 
-    const double S = sqrt( dxy * dxy + 4.0 * xy * xy);
+    const double S = vcl_sqrt(dxy * dxy + 4.0 * xy * xy);
 
     const double pp =  ( sxy + S ) / 2.0;
     const double qq =  ( sxy - S ) / 2.0;

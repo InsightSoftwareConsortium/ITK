@@ -31,7 +31,7 @@ namespace itk
  * Numeric conversions (castings) are done by the C++ defaults.
  * 
  * Both pixel input types are casted to \c double in order to be 
- * used as parameters of \c atan2(). The resulting \c double value
+ * used as parameters of \c vcl_atan2(). The resulting \c double value
  * is casted to the output pixel type.
  *
  * \ingroup IntensityImageFilters Multithreaded
@@ -55,7 +55,7 @@ public:
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
   {
     return static_cast<TOutput>( 
-      atan2(
+      vcl_atan2(
         static_cast<double>(A),
         static_cast<double>(B)  )
       );

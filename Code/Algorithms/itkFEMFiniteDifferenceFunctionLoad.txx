@@ -155,7 +155,7 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Ele
       try
       {
         this->Fe(Gpos,Gsol); // FIXME
-        tempe=fabs(0.0);
+        tempe=vcl_fabs(0.0);
       }
       catch( ... )
       { 
@@ -173,7 +173,7 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Ele
   }
    
   //std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
-  return fabs((double)energy*(double)m_Gamma-(double)defe);
+  return vcl_fabs((double)energy*(double)m_Gamma-(double)defe);
 }
 #endif
 
@@ -225,7 +225,7 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::Fe
     
     if ( vnl_math_isnan(Gpos[k])  || vnl_math_isinf(Gpos[k]) ||
         vnl_math_isnan(Gsol[k])  || vnl_math_isinf(Gsol[k]) ||
-         fabs(Gpos[k]) > 1.e33  || fabs(Gsol[k]) > 1.e33  ) 
+         vcl_fabs(Gpos[k]) > 1.e33  || vcl_fabs(Gsol[k]) > 1.e33  ) 
     {
       return femVec;
     }

@@ -188,7 +188,7 @@ VoronoiPartitioningImageFilter <TInputImage,TOutputImage>
   double savevar;
   if(num > 1)
     {
-    savevar = sqrt((addpp - (addp*addp)/static_cast<double>(num) )
+    savevar = vcl_sqrt((addpp - (addp*addp)/static_cast<double>(num) )
                    /(static_cast<double>(num)-1.0));
     }
   else
@@ -197,7 +197,7 @@ VoronoiPartitioningImageFilter <TInputImage,TOutputImage>
     }
 
   
-  return (savevar >= 0 && sqrt(savevar) < m_SigmaThreshold);
+  return (savevar >= 0 && vcl_sqrt(savevar) < m_SigmaThreshold);
 }
 
 template <class TInputImage, class TOutputImage>

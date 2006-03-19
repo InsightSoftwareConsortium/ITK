@@ -80,9 +80,9 @@ namespace itk
     coord[1] = static_cast<GradientIndexValueType>(data->pos[1]);
     coord[2] = static_cast<GradientIndexValueType>(data->pos[2]);
 
-    coord2[0] = static_cast<GradientIndexValueType>( ceil(data->pos[0]) );
-    coord2[1] = static_cast<GradientIndexValueType>( ceil(data->pos[1]) );
-    coord2[2] = static_cast<GradientIndexValueType>( ceil(data->pos[2]) );
+    coord2[0] = static_cast<GradientIndexValueType>( vcl_ceil(data->pos[0]) );
+    coord2[1] = static_cast<GradientIndexValueType>( vcl_ceil(data->pos[1]) );
+    coord2[2] = static_cast<GradientIndexValueType>( vcl_ceil(data->pos[2]) );
 
     tmp_co_1[0] = coord2[0];
     tmp_co_1[1] = coord[1];

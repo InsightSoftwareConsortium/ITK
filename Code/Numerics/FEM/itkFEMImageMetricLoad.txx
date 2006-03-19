@@ -146,7 +146,7 @@ ImageMetricLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Element::ArrayTy
       float tempe=0.0;
       try
       {
-      tempe=fabs(GetMetric(InVec));
+      tempe=vcl_fabs(GetMetric(InVec));
       }
       catch( itk::ExceptionObject & )
       { 
@@ -164,7 +164,7 @@ ImageMetricLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Element::ArrayTy
   }
    
   //std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
-  return fabs((double)energy*(double)m_Gamma-(double)defe);
+  return vcl_fabs((double)energy*(double)m_Gamma-(double)defe);
 
 }
 
@@ -192,7 +192,7 @@ ImageMetricLoad<TMoving , TFixed>::Fe
   for( unsigned int k = 0; k < ImageDimension; k++ ) {
     if ( vnl_math_isnan(Gpos[k])  || vnl_math_isinf(Gpos[k]) ||
         vnl_math_isnan(Gsol[k])  || vnl_math_isinf(Gsol[k]) ||
-         fabs(Gpos[k]) > 1.e33  || fabs(Gsol[k]) > 1.e33  ) 
+         vcl_fabs(Gpos[k]) > 1.e33  || vcl_fabs(Gsol[k]) > 1.e33  ) 
     {
       OutVec.set_size(ImageDimension);  OutVec.fill(0.0);  return OutVec;
     }
@@ -201,7 +201,7 @@ ImageMetricLoad<TMoving , TFixed>::Fe
 //  OutVec=this->GetPolynomialFitToMetric(Gpos,Gsol); // gradient direction
 //  for( unsigned int k = 0; k < ImageDimension; k++ ) {
 //    if ( vnl_math_isnan(OutVec[k])  || vnl_math_isinf(OutVec[k])
-//      || fabs(OutVec[k]) > 1.e33 ) OutVec[k]=0.0;
+//      || vcl_fabs(OutVec[k]) > 1.e33 ) OutVec[k]=0.0;
 //    else OutVec[k]=m_Sign*OutVec[k];
 //  }
 //  return OutVec;
@@ -270,9 +270,9 @@ ImageMetricLoad<TMoving , TFixed>::Fe
  // IN FACT, IT SEEMS MEANSQRS AND NCC POINT IN DIFFT DIRS
   //std::cout   << " deriv " << derivative <<  " val " << measure << endl;
   //if (m_Temp !=0.0) 
-  //return OutVec * exp(-1.*OutVec.magnitude()/m_Temp);
+  //return OutVec * vcl_exp(-1.*OutVec.magnitude()/m_Temp);
   //else 
-  return OutVec/sqrt(gmag);
+  return OutVec/vcl_sqrt(gmag);
 }
 
 

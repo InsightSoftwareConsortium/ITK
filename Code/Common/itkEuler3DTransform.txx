@@ -125,44 +125,44 @@ Euler3DTransform<TScalarType>
   if(m_ComputeZYX)
     {
     m_AngleY = -asin(this->GetMatrix()[2][0]);
-    double C = cos(m_AngleY);
+    double C = vcl_cos(m_AngleY);
     if(fabs(C)>0.00005)
       {
       double x = this->GetMatrix()[2][2] / C;
       double y = this->GetMatrix()[2][1] / C;
-      m_AngleX = atan2(y,x);
+      m_AngleX = vcl_atan2(y,x);
       x = this->GetMatrix()[0][0] / C;
       y = this->GetMatrix()[1][0] / C;
-      m_AngleZ = atan2(y,x);
+      m_AngleZ = vcl_atan2(y,x);
       }
     else
       {
       m_AngleX = 0;
       double x = this->GetMatrix()[1][1];
       double y = -this->GetMatrix()[0][1];
-      m_AngleZ = atan2(y,x);
+      m_AngleZ = vcl_atan2(y,x);
       }
     }
   else
     {
-    m_AngleX = asin(this->GetMatrix()[2][1]);
-    double A = cos(m_AngleX);
+    m_AngleX = vcl_asin(this->GetMatrix()[2][1]);
+    double A = vcl_cos(m_AngleX);
     if(fabs(A)>0.00005)
       {
       double x = this->GetMatrix()[2][2] / A;
       double y = -this->GetMatrix()[2][0] / A;
-      m_AngleY = atan2(y,x);
+      m_AngleY = vcl_atan2(y,x);
 
       x = this->GetMatrix()[1][1] / A;
       y = -this->GetMatrix()[0][1] / A;
-      m_AngleZ = atan2(y,x);
+      m_AngleZ = vcl_atan2(y,x);
       }
     else
       {
       m_AngleZ = 0;
       double x = this->GetMatrix()[0][0];
       double y = this->GetMatrix()[1][0];
-      m_AngleY = atan2(y,x);
+      m_AngleY = vcl_atan2(y,x);
       }
     }
   this->ComputeMatrix();
@@ -176,12 +176,12 @@ Euler3DTransform<TScalarType>
 ::ComputeMatrix( void )
 {
   // need to check if angles are in the right order
-  const double cx = cos(m_AngleX);
-  const double sx = sin(m_AngleX);
-  const double cy = cos(m_AngleY);
-  const double sy = sin(m_AngleY); 
-  const double cz = cos(m_AngleZ);
-  const double sz = sin(m_AngleZ);
+  const double cx = vcl_cos(m_AngleX);
+  const double sx = vcl_sin(m_AngleX);
+  const double cy = vcl_cos(m_AngleY);
+  const double sy = vcl_sin(m_AngleY); 
+  const double cz = vcl_cos(m_AngleZ);
+  const double sz = vcl_sin(m_AngleZ);
 
   Matrix<TScalarType,3,3> RotationX;
   RotationX[0][0]=1;RotationX[0][1]=0;RotationX[0][2]=0;
@@ -220,12 +220,12 @@ Euler3DTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {
   // need to check if angles are in the right order
-  const double cx = cos(m_AngleX);
-  const double sx = sin(m_AngleX);
-  const double cy = cos(m_AngleY);
-  const double sy = sin(m_AngleY); 
-  const double cz = cos(m_AngleZ);
-  const double sz = sin(m_AngleZ);
+  const double cx = vcl_cos(m_AngleX);
+  const double sx = vcl_sin(m_AngleX);
+  const double cy = vcl_cos(m_AngleY);
+  const double sy = vcl_sin(m_AngleY); 
+  const double cz = vcl_cos(m_AngleZ);
+  const double sz = vcl_sin(m_AngleZ);
 
   this->m_Jacobian.Fill(0.0);
 

@@ -226,7 +226,7 @@ GaussianGoodnessOfFitComponent< TInputSample >
   double mean = 0.0 ;
   double standardDeviation = 1.0 ;
 
-  double nx = fabs( x - mean ) / standardDeviation ;
+  double nx = vcl_fabs(x - mean ) / standardDeviation ;
   
   double t = 1 / (1 + 0.2316419 * nx);
   double tt = t*t;
@@ -234,7 +234,7 @@ GaussianGoodnessOfFitComponent< TInputSample >
   double tttt = ttt*t;
   double ttttt = tttt*t;
   
-  double z = exp(-nx*nx/2) / sqrt(2*vnl_math::pi);
+  double z = vcl_exp(-nx*nx/2) / vcl_sqrt(2*vnl_math::pi);
   
   if ( x > mean )
     {

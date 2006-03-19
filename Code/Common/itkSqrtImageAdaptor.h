@@ -25,7 +25,7 @@ namespace itk
  
 namespace Accessor {
 /** \class SqrtPixelAccessor
- * \brief Give access to the sqrt() function of a value
+ * \brief Give access to the vcl_sqrt() function of a value
  *
  * SqrtPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
@@ -47,16 +47,16 @@ public:
   typedef TInternalType InternalType;
 
   static inline void Set(TInternalType & output, const TExternalType & input) 
-    {output = (TInternalType)sqrt((double)input);}
+    {output = (TInternalType)vcl_sqrt((double)input);}
 
   static inline TExternalType Get( const TInternalType & input ) 
-    {return (TExternalType)sqrt((double)input);}
+    {return (TExternalType)vcl_sqrt((double)input);}
 };
 
 } // end namespace Accessor
  
 /** \class SqrtImageAdaptor
- * \brief Presents an image as being composed of the sqrt() of its pixels
+ * \brief Presents an image as being composed of the vcl_sqrt() of its pixels
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.

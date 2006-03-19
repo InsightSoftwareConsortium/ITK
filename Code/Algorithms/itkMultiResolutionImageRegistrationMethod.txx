@@ -197,14 +197,14 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
       const float scaleFactor = static_cast<float>( schedule[ level ][ dim ] );
 
       size[ dim ] = static_cast<typename SizeType::SizeValueType>(
-        floor( static_cast<float>( inputSize[ dim ] ) / scaleFactor ) );
+        vcl_floor(static_cast<float>( inputSize[ dim ] ) / scaleFactor ) );
       if( size[ dim ] < 1 )
         {
         size[ dim ] = 1;
         }
       
       start[ dim ] = static_cast<typename IndexType::IndexValueType>(
-        ceil(  static_cast<float>( inputStart[ dim ] ) / scaleFactor ) ); 
+        vcl_ceil(static_cast<float>( inputStart[ dim ] ) / scaleFactor ) ); 
       }
     m_FixedImageRegionPyramid[ level ].SetSize( size );
     m_FixedImageRegionPyramid[ level ].SetIndex( start );

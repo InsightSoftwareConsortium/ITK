@@ -203,7 +203,7 @@ typename CovariantVector<T, NVectorDimension>::RealValueType
 CovariantVector<T, NVectorDimension>
 ::GetNorm( void ) const
 {
-  return sqrt( this->GetSquaredNorm() ); 
+  return vcl_sqrt(this->GetSquaredNorm() ); 
 }
 
 

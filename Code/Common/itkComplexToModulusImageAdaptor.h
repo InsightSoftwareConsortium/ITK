@@ -51,14 +51,14 @@ public:
     {output = (TInternalType)(input);}
 
   static inline TExternalType Get( const TInternalType & input ) 
-    {return (TExternalType)( sqrt( input.real() * input.real() + 
+    {return (TExternalType)( vcl_sqrt(input.real() * input.real() + 
                                    input.imag() * input.imag() ) ); }
 };
   
 } // end namespace Accessor
  
 /** \class ComplexToModulusImageAdaptor
- * \brief Presents a complex image as being composed of abs() part of its pixels
+ * \brief Presents a complex image as being composed of vcl_abs() part of its pixels
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.

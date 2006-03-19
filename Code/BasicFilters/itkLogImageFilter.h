@@ -24,7 +24,7 @@ namespace itk
 {
   
 /** \class LogImageFilter
- * \brief Computes the log(x) pixel-wise
+ * \brief Computes the vcl_log(x) pixel-wise
  *
  * \ingroup IntensityImageFilters  Multithreaded
  */
@@ -46,7 +46,7 @@ public:
   }
   inline TOutput operator()( const TInput & A )
   {
-    return (TOutput)log((double)A);
+    return (TOutput)vcl_log((double)A);
   }
 }; 
 }

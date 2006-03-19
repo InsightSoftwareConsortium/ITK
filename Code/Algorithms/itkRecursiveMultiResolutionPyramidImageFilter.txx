@@ -321,14 +321,14 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
       requestedIndex[idim] += radius[idim];
       
       // take into account shrink component
-      requestedSize[idim] = static_cast<SizeValueType>( floor(
+      requestedSize[idim] = static_cast<SizeValueType>( vcl_floor(
                                                           static_cast<double>(requestedSize[idim]) / 
                                                           static_cast<double>(factors[idim]) ) );
       if( requestedSize[idim] < 1 )
         {
         requestedSize[idim] = 1;
         }
-      requestedIndex[idim] = static_cast<IndexValueType>( ceil(
+      requestedIndex[idim] = static_cast<IndexValueType>( vcl_ceil(
                                                             static_cast<double>(requestedIndex[idim]) /
                                                             static_cast<double>(factors[idim]) ) );
 

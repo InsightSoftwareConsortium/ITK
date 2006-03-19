@@ -173,10 +173,10 @@ AffineTransform<TScalarType, NDimensions>
       }
     trans[i][i] = 1.0;
     }
-  trans[axis1][axis1] =  cos(angle);
-  trans[axis1][axis2] =  sin(angle);
+  trans[axis1][axis1] =  vcl_cos(angle);
+  trans[axis1][axis2] =  vcl_sin(angle);
   trans[axis2][axis1] = -sin(angle);
-  trans[axis2][axis2] =  cos(angle);
+  trans[axis2][axis2] =  vcl_cos(angle);
   if (pre) 
     {
     this->SetVarMatrix( this->GetMatrix() * trans );
@@ -203,10 +203,10 @@ AffineTransform<TScalarType, NDimensions>
 {
   MatrixType trans;
 
-  trans[0][0] =  cos(angle);
+  trans[0][0] =  vcl_cos(angle);
   trans[0][1] = -sin(angle);
-  trans[1][0] = sin(angle);
-  trans[1][1] =  cos(angle);
+  trans[1][0] = vcl_sin(angle);
+  trans[1][1] =  vcl_cos(angle);
   if (pre) 
     {
     this->SetVarMatrix( this->GetMatrix() * trans );
@@ -236,16 +236,16 @@ AffineTransform<TScalarType, NDimensions>
   ScalarType q0, q1, q2, q3;
 
   // Convert the axis to a unit vector
-  r = sqrt(axis[0]*axis[0] + axis[1]*axis[1] + axis[2]*axis[2]);
+  r = vcl_sqrt(axis[0]*axis[0] + axis[1]*axis[1] + axis[2]*axis[2]);
   x1 = axis[0] / r;
   x2 = axis[1] / r;
   x3 = axis[2] / r;
 
   // Compute quaternion elements
-  q0 = cos(angle/2.0);
-  q1 = x1 * sin(angle/2.0);
-  q2 = x2 * sin(angle/2.0);
-  q3 = x3 * sin(angle/2.0);
+  q0 = vcl_cos(angle/2.0);
+  q1 = x1 * vcl_sin(angle/2.0);
+  q2 = x2 * vcl_sin(angle/2.0);
+  q3 = x3 * vcl_sin(angle/2.0);
 
   // Compute elements of the rotation matrix
   trans[0][0] = q0*q0 + q1*q1 - q2*q2 - q3*q3;
@@ -327,7 +327,7 @@ AffineTransform<TScalarType, NDimensions>
     term = this->GetOffset()[i] - other->GetOffset()[i];
     result += term * term;
     }
-  return sqrt(result);
+  return vcl_sqrt(result);
 }
 
 
@@ -357,7 +357,7 @@ AffineTransform<TScalarType, NDimensions>
     result += term * term;
     }
 
-  return sqrt(result);
+  return vcl_sqrt(result);
 }
 
 /** Back transform a point */

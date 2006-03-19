@@ -164,7 +164,7 @@ typename Vector<T, TVectorDimension>::RealValueType
 Vector<T, TVectorDimension>
 ::GetNorm( void ) const
 {
-  return RealValueType( sqrt( double(this->GetSquaredNorm()) )); 
+  return RealValueType( vcl_sqrt(double(this->GetSquaredNorm()) )); 
 }
 
 

@@ -100,10 +100,10 @@ ADD_LIBRARY(itkvnl_inst
   vnl_vector+ushort-.cxx
   vnl_vector+char-.cxx
   )
-TARGET_LINK_LIBRARIES (itkvnl_inst ${VXL_NUMERICS_LIBRARIES})
+TARGET_LINK_LIBRARIES (itkvnl_inst ${VXL_NUMERICS_LIBRARIES} )
 
 ADD_LIBRARY(ITKCommon ${ITK_COMMON_BUILD_TYPE} ${ITKCommon_SRCS})
-TARGET_LINK_LIBRARIES (ITKCommon itkvnl_inst itksys)
+TARGET_LINK_LIBRARIES (ITKCommon itkvnl_inst itkvcl itksys)
 IF(UNIX)
   TARGET_LINK_LIBRARIES(ITKCommon ${CMAKE_THREAD_LIBS} ${CMAKE_DL_LIBS} -lm)
 ENDIF(UNIX)

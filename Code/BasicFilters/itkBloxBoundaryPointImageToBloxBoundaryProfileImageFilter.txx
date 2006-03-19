@@ -29,8 +29,8 @@
 typedef vnl_matrix<double> MatrixType;
 typedef vnl_vector<double> VectorType;
 
-const double INV_SQRT_TWO_PI         = 0.398942280401; // 1/sqrt(2*pi)
-const double SQUARE_ROOT_OF_TWO      = 1.41421356237;  // sqrt(2)
+const double INV_SQRT_TWO_PI         = 0.398942280401; // 1/vcl_sqrt(2*pi)
+const double SQUARE_ROOT_OF_TWO      = 1.41421356237;  // vcl_sqrt(2)
 
 namespace itk
 {
@@ -369,13 +369,13 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           double a = 2;
           double b = .6; // for weight .5
 
-          this->AddSplatToAccumulatorAndNormalizer(binNumber-1, double(a*exp(-.5*(pow((binJitter+1)/b, 2)))),
+          this->AddSplatToAccumulatorAndNormalizer(binNumber-1, double(a*vcl_exp(-.5*(pow((binJitter+1)/b, 2)))),
                                                    sourcePixelValue);
-          this->AddSplatToAccumulatorAndNormalizer(binNumber,   double(a*exp(-.5*(pow((binJitter  )/b, 2)))),
+          this->AddSplatToAccumulatorAndNormalizer(binNumber,   double(a*vcl_exp(-.5*(pow((binJitter  )/b, 2)))),
                                                    sourcePixelValue);
-          this->AddSplatToAccumulatorAndNormalizer(binNumber+1, double(a*exp(-.5*(pow((binJitter-1)/b, 2)))),
+          this->AddSplatToAccumulatorAndNormalizer(binNumber+1, double(a*vcl_exp(-.5*(pow((binJitter-1)/b, 2)))),
                                                    sourcePixelValue);
-          this->AddSplatToAccumulatorAndNormalizer(binNumber+2, double(a*exp(-.5*(pow((binJitter-2)/b, 2)))),
+          this->AddSplatToAccumulatorAndNormalizer(binNumber+2, double(a*vcl_exp(-.5*(pow((binJitter-2)/b, 2)))),
                                                    sourcePixelValue);
           }
 

@@ -33,7 +33,7 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
   m_ConductanceParameter = 1.0;
   m_ConductanceScalingParameter = 1.0;
   m_ConductanceScalingUpdateInterval = 1;
-  m_TimeStep = 0.5 / pow(2.0, static_cast<double>(ImageDimension));
+  m_TimeStep = 0.5 / vcl_pow(2.0, static_cast<double>(ImageDimension));
   m_FixedAverageGradientMagnitude = 1.0;
   m_GradientMagnitudeIsFixed = false;
 }
@@ -72,10 +72,10 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
     {
     minSpacing = 1.0;
     }
-  if ( m_TimeStep >  (minSpacing / pow(2.0, static_cast<double>(ImageDimension) + 1))  )
+  if ( m_TimeStep >  (minSpacing / vcl_pow(2.0, static_cast<double>(ImageDimension) + 1))  )
     {
-    //    f->SetTimeStep(1.0 / pow(2.0, static_cast<double>(ImageDimension))); 
-    itkWarningMacro(<< std::endl << "Anisotropic diffusion unstable time step: " << m_TimeStep << std::endl << "Minimum stable time step for this image is " << minSpacing / pow(2.0, static_cast<double>(ImageDimension+1)));
+    //    f->SetTimeStep(1.0 / vcl_pow(2.0, static_cast<double>(ImageDimension))); 
+    itkWarningMacro(<< std::endl << "Anisotropic diffusion unstable time step: " << m_TimeStep << std::endl << "Minimum stable time step for this image is " << minSpacing / vcl_pow(2.0, static_cast<double>(ImageDimension+1)));
     }
   
   if (m_GradientMagnitudeIsFixed == false)

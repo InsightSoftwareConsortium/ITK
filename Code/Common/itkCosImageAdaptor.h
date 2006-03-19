@@ -25,7 +25,7 @@ namespace itk
  
 namespace Accessor {
 /** \class CosPixelAccessor
- * \brief Give access to the cos() function of a value
+ * \brief Give access to the vcl_cos() function of a value
  *
  * CosPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
@@ -47,10 +47,10 @@ public:
   typedef TInternalType InternalType;
 
   static inline void Set(TInternalType & output, const TExternalType & input) 
-    {output = (TInternalType)cos((double)input);}
+    {output = (TInternalType)vcl_cos((double)input);}
 
   static inline TExternalType Get( const TInternalType & input ) 
-    {return (TExternalType)cos((double)input);}
+    {return (TExternalType)vcl_cos((double)input);}
 
 };
 
@@ -58,7 +58,7 @@ public:
 } // end namespace Accessor
 
 /** \class CosImageAdaptor
- * \brief Presents an image as being composed of the cos() of its pixels
+ * \brief Presents an image as being composed of the vcl_cos() of its pixels
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.

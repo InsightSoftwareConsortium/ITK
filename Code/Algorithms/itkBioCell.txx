@@ -73,8 +73,8 @@ Cell<NSpaceDimension>
 
   // Broad compensation for Volume distribution among daugthers.
   // The type of root should depend on the Dimension...
-  siblingA->m_Radius   = m_Radius / sqrt( 2.0f );
-  siblingB->m_Radius   = m_Radius / sqrt( 2.0f );
+  siblingA->m_Radius   = m_Radius / vcl_sqrt(2.0f );
+  siblingB->m_Radius   = m_Radius / vcl_sqrt(2.0f );
 
   // Update Teleomeres
   siblingA->m_Generation = m_Generation + 1; 
@@ -216,7 +216,7 @@ Cell<NSpaceDimension>
   if( m_ChemoAttractantLevel > ChemoAttractantLowThreshold &&
       m_ChemoAttractantLevel < ChemoAttractantHighThreshold   )
     {
-    double factor = 1.0 / pow( m_Radius, (double)(NSpaceDimension) );
+    double factor = 1.0 / vcl_pow(m_Radius, (double)(NSpaceDimension) );
     m_Force    += force;
     m_Pressure += force.GetNorm() * factor;
     }

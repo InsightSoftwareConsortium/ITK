@@ -58,7 +58,7 @@ PrintSelf(std::ostream &os, Indent indent) const
 
   os << indent << "x = z*tan(Azimuth)" << std::endl;
   os << indent << "y = z*tan(Elevation)" << std::endl;
-  os << indent << "z = sqrt(r*r * cos(Azimuth)*cos(Azimuth) " 
+  os << indent << "z = sqrt(r*r * cos(Azimuth)*cos(Azimuth) "
      << " / (1 + cos(Azimuth) * cos(Azimuth) * tan(Elevation)"
      << "* tan(Elevation)))" << std::endl;
   os << indent << "Azimuth = 1 / (tan(x/y))" << std::endl;
@@ -114,16 +114,16 @@ TransformAzElToCartesian(const InputPointType &point) const
                            - ((m_MaxElevation-1)/2.0) );
   ScalarType r = (m_FirstSampleDistance + point[2]) * m_RadiusSampleSize;
 
-  ScalarType cosOfAzimuth = cos(Azimuth);
-  ScalarType tanOfElevation = tan(Elevation);
-  result[2] = sqrt((r*r*cosOfAzimuth*cosOfAzimuth)
-                   / (1 + cosOfAzimuth * cosOfAzimuth * tanOfElevation 
+  ScalarType cosOfAzimuth = vcl_cos(Azimuth);
+  ScalarType tanOfElevation = vcl_tan(Elevation);
+  result[2] = vcl_sqrt((r*r*cosOfAzimuth*cosOfAzimuth)
+                   / (1 + cosOfAzimuth * cosOfAzimuth * tanOfElevation
                    * tanOfElevation));
-  result[0] = result[2] * tan(Azimuth);
+  result[0] = result[2] * vcl_tan(Azimuth);
   result[1] = result[2] * tanOfElevation;
   return result;
 }
-    
+
 /** Back transform a point */
 template<class TScalarType, unsigned int NDimensions>
 typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>

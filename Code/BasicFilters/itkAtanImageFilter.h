@@ -24,7 +24,7 @@ namespace itk
 {
   
 /** \class AtanImageFilter
- * \brief Computes the atan(x) pixel-wise
+ * \brief Computes the vcl_atan(x) pixel-wise
  *
  * This filter is templated over the pixel type of the input image
  * and the pixel type of the output image. 
@@ -33,8 +33,8 @@ namespace itk
  * each one of them it will do the following: 
  *
  * - cast the pixel value to \c double, 
- * - apply the \c atan() function to the \c double value
- * - cast the \c double value resulting from \c atan() to the pixel type of the output image 
+ * - apply the \c vcl_atan() function to the \c double value
+ * - cast the \c double value resulting from \c vcl_atan() to the pixel type of the output image 
  * - store the casted value into the output image.
  * 
  * The filter expect both images to have the same dimension (e.g. both 2D, or both 3D, or both ND)
@@ -61,7 +61,7 @@ public:
   }
   inline TOutput operator()( const TInput & A )
   {
-    return static_cast<TOutput>( atan( static_cast<double>(A) ) );
+    return static_cast<TOutput>( vcl_atan(static_cast<double>(A) ) );
   }
 }; 
 

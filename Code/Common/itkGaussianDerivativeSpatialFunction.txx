@@ -75,7 +75,7 @@ GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>
     }
 
  
-  double value = -2*(position[m_Direction] - m_Mean[m_Direction])*m_Scale * (1 / prefixDenom) * exp(-1 * suffixExp);
+  double value = -2*(position[m_Direction] - m_Mean[m_Direction])*m_Scale * (1 / prefixDenom) * vcl_exp(-1 * suffixExp);
  
   return (TOutput) value;
 }

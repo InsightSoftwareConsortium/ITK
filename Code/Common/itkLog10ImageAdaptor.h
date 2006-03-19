@@ -25,7 +25,7 @@ namespace itk
  
 namespace Accessor {
 /** \class Log10PixelAccessor
- * \brief Give access to the log10() function of a value
+ * \brief Give access to the vcl_log10() function of a value
  *
  * Log10PixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
@@ -48,10 +48,10 @@ public:
   typedef TInternalType InternalType;
 
   static inline void Set(TInternalType & output, const TExternalType & input) 
-    {output = (TInternalType)log10((double)input);}
+    {output = (TInternalType)vcl_log10((double)input);}
 
   static inline TExternalType Get( const TInternalType & input ) 
-    {return (TExternalType)log10((double)input);}
+    {return (TExternalType)vcl_log10((double)input);}
 
 };
 
@@ -61,7 +61,7 @@ public:
 
  
 /** \class Log10ImageAdaptor
- * \brief Presents an image as being composed of the log10() of its pixels
+ * \brief Presents an image as being composed of the vcl_log10() of its pixels
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.

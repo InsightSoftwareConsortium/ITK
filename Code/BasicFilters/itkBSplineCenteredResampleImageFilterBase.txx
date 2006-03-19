@@ -341,7 +341,7 @@ void BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
     outVal2 = 0;
     for (long k = -k0; k < this->m_hSize; k += 2L )
       {
-      long kk = abs(static_cast<int>(k));
+      long kk = vcl_abs(static_cast<int>(k));
       i1 = inK + ( k + 1L )/2L;
       if (i1 < 0L )
         {

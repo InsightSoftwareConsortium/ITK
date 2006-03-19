@@ -148,7 +148,7 @@ MatrixType kb(NDOF,NDOF);
 
 Float x=m_node[1]->GetCoordinates()[0]-m_node[0]->GetCoordinates()[0];
 Float y=m_node[1]->GetCoordinates()[1]-m_node[0]->GetCoordinates()[1];
-Float l=sqrt(x*x+y*y);
+Float l=vcl_sqrt(x*x+y*y);
 
   k[0][0]= 1; k[0][1]= 0; k[0][2]= 0; k[0][3]=-1; k[0][4]= 0; k[0][5]= 0;
   k[1][0]= 0; k[1][1]= 0; k[1][2]= 0; k[1][3]= 0; k[1][4]= 0; k[1][5]= 0;
@@ -197,7 +197,7 @@ MatrixType k(NDOF,NDOF,0.0);
 
 Float x=m_node[1]->GetCoordinates()[0]-m_node[0]->GetCoordinates()[0];
 Float y=m_node[1]->GetCoordinates()[1]-m_node[0]->GetCoordinates()[1];
-Float l=sqrt(x*x+y*y);
+Float l=vcl_sqrt(x*x+y*y);
 
   m[0][0]=2.0; m[0][3]=1.0;
   m[3][0]=1.0; m[3][3]=2.0;

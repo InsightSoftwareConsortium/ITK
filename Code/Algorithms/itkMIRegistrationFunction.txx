@@ -396,7 +396,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       if ( index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd]-1) ) inimage=false;
       d+=(index[dd]-oindex[dd])*(index[dd]-oindex[dd]);
       }
-    if (inimage  && sqrt(d) <= 1.0)
+    if (inimage  && vcl_sqrt(d) <= 1.0)
       {
 
       fixedValue=0.;
@@ -484,12 +484,12 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     }
   
 
-  fsigma=sqrt(fsigma/numsamplesA);
+  fsigma=vcl_sqrt(fsigma/numsamplesA);
   float sigmaw=0.8;
   double m_FixedImageStandardDeviation=fsigma*sigmaw;
-  msigma=sqrt(msigma/numsamplesA);
+  msigma=vcl_sqrt(msigma/numsamplesA);
   double m_MovingImageStandardDeviation=msigma*sigmaw;
-  jointsigma=sqrt(jointsigma/numsamplesA);
+  jointsigma=vcl_sqrt(jointsigma/numsamplesA);
   
   if (fsigma < 1.e-7 || msigma < 1.e-7 ) return update;
 
@@ -516,11 +516,11 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
       valueFixed = ( fixedSamplesB[bsamples] - fixedSamplesA[asamples] )
         / m_FixedImageStandardDeviation;
-      valueFixed = exp(-0.5*valueFixed*valueFixed);
+      valueFixed = vcl_exp(-0.5*valueFixed*valueFixed);
 
       valueMoving = ( movingSamplesB[bsamples] - movingSamplesA[asamples] )
         / m_MovingImageStandardDeviation;
-      valueMoving = exp(-0.5*valueMoving*valueMoving);
+      valueMoving = vcl_exp(-0.5*valueMoving*valueMoving);
 
       dDenominatorMoving += valueMoving;
       dDenominatorFixed += valueFixed;
@@ -534,9 +534,9 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
       } // end of sample A loop
 
-    dLogSumFixed -= log( dSumFixed );
-    dLogSumMoving    -= log( dDenominatorMoving );
-    dLogSumJoint  -= log( dDenominatorJoint );
+    dLogSumFixed -= vcl_log(dSumFixed );
+    dLogSumMoving    -= vcl_log(dDenominatorMoving );
+    dLogSumJoint  -= vcl_log(dDenominatorJoint );
 
      
     // this loop estimates the density
@@ -552,11 +552,11 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
       valueFixed = ( fixedSamplesB[bsamples] - fixedSamplesA[asamples] )
         / m_FixedImageStandardDeviation;
-      valueFixed = exp(-0.5*valueFixed*valueFixed);
+      valueFixed = vcl_exp(-0.5*valueFixed*valueFixed);
 
       valueMoving = ( movingSamplesB[bsamples] - movingSamplesA[asamples] )
         / m_MovingImageStandardDeviation;
-      valueMoving = exp(-0.5*valueMoving*valueMoving);
+      valueMoving = vcl_exp(-0.5*valueMoving*valueMoving);
 //      weightMoving = valueMoving / dDenominatorMoving;
       weightFixed = valueFixed / dDenominatorFixed;
 
@@ -577,7 +577,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
     } // end of sample B loop
 
-  double threshold = -0.1 * nsamp * log( m_MinProbability );
+  double threshold = -0.1 * nsamp * vcl_log(m_MinProbability );
   if( dLogSumMoving > threshold || dLogSumFixed > threshold ||
       dLogSumJoint > threshold  )
     {
@@ -590,7 +590,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   double value=0.0;
   value  = dLogSumFixed + dLogSumMoving - dLogSumJoint;
   value /= nsamp;
-  value += log( nsamp );
+  value += vcl_log(nsamp );
 
   m_MetricTotal+=value;  
   this->m_Energy+=value;
@@ -603,7 +603,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     {
     updatenorm+=derivative[tt]*derivative[tt];
     }
-  updatenorm=sqrt(updatenorm);
+  updatenorm=vcl_sqrt(updatenorm);
   
   if (updatenorm > 1.e-20 && this->GetNormalizeGradient()) 
     {

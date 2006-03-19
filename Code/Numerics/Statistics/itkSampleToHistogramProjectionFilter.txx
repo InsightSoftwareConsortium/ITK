@@ -242,7 +242,7 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
       {
       if (minWeight < 1.0)
         {
-        minWeight = 1.0 / (1.0 + exp(-minWeight / scale)) ;
+        minWeight = 1.0 / (1.0 + vcl_exp(-minWeight / scale)) ;
         }
       else
         {
@@ -251,7 +251,7 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
   
       if (maxWeight < 1.0)
         {
-        maxWeight = 1.0 / (1.0 + exp(-maxWeight / scale)) ;
+        maxWeight = 1.0 / (1.0 + vcl_exp(-maxWeight / scale)) ;
         }
       else
         {
@@ -295,7 +295,7 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 
   if (m_HistogramBinOverlap)
     {
-    scale = log(1.0 + m_HistogramBinOverlap / 10.0 ) ;
+    scale = vcl_log(1.0 + m_HistogramBinOverlap / 10.0 ) ;
     }
 
   typename HistogramType::InstanceIdentifier binId ;
@@ -332,7 +332,7 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
       }
 
     marginalDistance = 
-      sqrt(vnl_math_abs(squaredDistance - dotProduct * dotProduct)) /
+      vcl_sqrt(vnl_math_abs(squaredDistance - dotProduct * dotProduct)) /
       ((*m_StandardDeviation) * extent) ;
 
     dotProduct /= (*m_StandardDeviation) ;
@@ -360,7 +360,7 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
       if ( marginalDistance > -1.0 )
         {
         marginalDistance = 
-          1.0 / (1.0 + exp(-marginalDistance / scale)) ;
+          1.0 / (1.0 + vcl_exp(-marginalDistance / scale)) ;
               
         for (binId = 0 ; binId <= (numberOfBins / 2UL) ; 
              binId++)

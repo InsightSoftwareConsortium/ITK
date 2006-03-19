@@ -209,7 +209,7 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
     {
     // The following "if" block is equivalent to the following line without
     // having to call floor.
-    //    baseIndex[dim] = (long) floor( index[dim] );
+    //    baseIndex[dim] = (long) vcl_floor(index[dim] );
     if (index[dim] >= 0.0)
       {
       baseIndex[dim] = (long) index[dim];
@@ -259,7 +259,7 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
         {
         // Increment the offset, taking it through the range
         // (dist + rad - 1, ..., dist - rad), i.e. all x
-        // such that abs(x) <= rad
+        // such that vcl_abs(x) <= rad
         x -= 1.0;
 
         // Compute the weight for this m

@@ -131,8 +131,8 @@ const typename CenteredRigid2DTransform<TScalarType>::JacobianType &
 CenteredRigid2DTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {
-  const double ca = cos(this->GetAngle());
-  const double sa = sin(this->GetAngle());
+  const double ca = vcl_cos(this->GetAngle());
+  const double sa = vcl_sin(this->GetAngle());
 
   this->m_Jacobian.Fill(0.0);
 

@@ -30,7 +30,7 @@ namespace itk
     const MeasureType varianceX  = this->VarianceX(  histogram );
     const MeasureType varianceY  = this->VarianceY(  histogram );
     const MeasureType covariance = this->Covariance( histogram );
-    return fabs( covariance /( sqrt( varianceX )* sqrt( varianceY )));
+    return vcl_fabs(covariance /( vcl_sqrt(varianceX )* vcl_sqrt(varianceY )));
   }
 
   template <class TFixedImage, class TMovingImage>
@@ -85,10 +85,10 @@ namespace itk
       {
       varX += static_cast<double>(histogram.GetFrequency(i, 0))/
         histogram.GetTotalFrequency()*
-        pow(histogram.GetMeasurement(i, 0), 2);
+        vcl_pow(histogram.GetMeasurement(i, 0), 2);
       }
 
-    return varX - pow(MeanX(histogram), 2);
+    return varX - vcl_pow(MeanX(histogram), 2);
   }
 
   template <class TFixedImage, class TMovingImage>
@@ -103,10 +103,10 @@ namespace itk
       {
       varY += static_cast<double>(histogram.GetFrequency(i, 1))/
         histogram.GetTotalFrequency()*
-        pow(histogram.GetMeasurement(i, 1), 2);
+        vcl_pow(histogram.GetMeasurement(i, 1), 2);
       }
 
-    return varY - pow(MeanY(histogram), 2);
+    return varY - vcl_pow(MeanY(histogram), 2);
   }
 
   template <class TFixedImage, class TMovingImage>

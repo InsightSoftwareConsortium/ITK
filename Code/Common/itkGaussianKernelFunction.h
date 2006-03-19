@@ -52,7 +52,7 @@ public:
 
   /** Evaluate the function. */
   inline double Evaluate (const double& u) const
-    { return ( exp( -0.5 * vnl_math_sqr( u ) ) * m_Factor ); }
+    { return ( vcl_exp(-0.5 * vnl_math_sqr( u ) ) * m_Factor ); }
 
 protected:
   GaussianKernelFunction();

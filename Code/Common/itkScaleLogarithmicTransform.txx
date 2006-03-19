@@ -51,7 +51,7 @@ ScaleLogarithmicTransform<ScalarType, NDimensions>
   ScaleType scales;
   for( unsigned int i=0; i<SpaceDimension; i++ )
     {
-    scales[i] = exp( parameters[i] );
+    scales[i] = vcl_exp(parameters[i] );
     }
   this->m_Parameters = parameters;
   this->SetScale( scales );
@@ -75,7 +75,7 @@ ScaleLogarithmicTransform<TScalarType,NDimensions>
   // Transfer the translation part
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    this->m_Parameters[i] = log( scales[i] );
+    this->m_Parameters[i] = vcl_log(scales[i] );
     }
 
   itkDebugMacro(<<"After getting parameters " << this->m_Parameters );

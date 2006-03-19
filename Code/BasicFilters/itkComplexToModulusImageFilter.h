@@ -45,7 +45,7 @@ public:
     return !(*this != other);
   }
   inline TOutput operator()( const TInput & A )
-  { return (TOutput)( sqrt( A.real() * A.real() + 
+  { return (TOutput)( vcl_sqrt(A.real() * A.real() + 
                             A.imag() * A.imag() ) ); }
 }; 
 }

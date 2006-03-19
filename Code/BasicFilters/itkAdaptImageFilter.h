@@ -90,7 +90,7 @@ private:
  * (i.e. short to float) or can extract a subcomponent of a pixel
  * (i.e. extract the green component of an RGB pixel.
  * AdaptImageFilter could also be used for performing simple
- * arithmetic operations at a pixel (i.e. taking the sqrt() or sin()
+ * arithmetic operations at a pixel (i.e. taking the vcl_sqrt() or vcl_sin()
  * of a pixel); however, these types of operations could also be
  * accomplished using the itk::UnaryImageFilter.
  *

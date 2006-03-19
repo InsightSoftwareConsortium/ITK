@@ -40,7 +40,7 @@ namespace itk
     *  pp. 525 - 532.
     *
     *  The metric is given by KL(P_test||P_train) 
-    *  = Sum_{i1,i2} P_test(i1,i2) log (P_test(i1,i2)/P_train(i1,i2))
+    *  = Sum_{i1,i2} P_test(i1,i2) vcl_log(P_test(i1,i2)/P_train(i1,i2))
     *  where P_test and P_train are probabilities given my normalized
     *  histograms, and i1 and i2 are the intensity bins in the histogram.
     *

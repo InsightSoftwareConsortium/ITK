@@ -238,7 +238,7 @@ public:
   template < typename TCoordRepB >
   RealType EuclideanDistanceTo( const Point<TCoordRepB,NPointDimension> & pa ) const
   {
-  const double distance = sqrt( 
+  const double distance = vcl_sqrt(
     static_cast<double>( this->SquaredEuclideanDistanceTo( pa ) ) ) ;
   return static_cast<RealType>( distance );
   }

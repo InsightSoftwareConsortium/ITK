@@ -140,8 +140,8 @@ BSplineDownsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
     //TODO:  Verify this is being rounded correctly.
     outputSpacing[i] = inputSpacing[i] * (double) 2;
     //TODO:  Verify this is being rounded correctly.
-    outputSize[i] = (unsigned int) floor( (double)(inputSize[i] / 2.0) );
-    outputStartIndex[i] = (int)ceil( (double) inputStartIndex[i] / 2.0 );
+    outputSize[i] = (unsigned int) vcl_floor((double)(inputSize[i] / 2.0) );
+    outputStartIndex[i] = (int)vcl_ceil((double) inputStartIndex[i] / 2.0 );
     }
 
   outputPtr->SetSpacing( outputSpacing );

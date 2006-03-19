@@ -491,7 +491,7 @@ TriangleCell< TCellInterface >
   //
   for (maxComponent=0.0, i=0; i<3; i++)
     {
-    // trying to avoid an expensive call to fabs()
+    // trying to avoid an expensive call to vcl_fabs()
     if (n[i] < 0)
       {
       fabsn = -n[i];

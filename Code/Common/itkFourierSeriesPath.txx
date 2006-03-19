@@ -48,8 +48,8 @@ FourierSeriesPath<VDimension>
     {
     // input defined over [0,1] maps to theta defined over [0,2pi * n]
     theta = M_PI*2.0*n*input;
-    output += ( m_CosCoefficients->ElementAt(n) * cos(theta) +
-                m_SinCoefficients->ElementAt(n) * sin(theta) ) * 2.0;
+    output += ( m_CosCoefficients->ElementAt(n) * vcl_cos(theta) +
+                m_SinCoefficients->ElementAt(n) * vcl_sin(theta) ) * 2.0;
     }
   
   return output;
@@ -73,8 +73,8 @@ FourierSeriesPath<VDimension>
     {
     // input defined over [0,1] maps to theta defined over [0,2pi * n]
     theta = M_PI*2.0*n*input;
-    output += ( m_SinCoefficients->ElementAt(n) * cos(theta) -
-                m_CosCoefficients->ElementAt(n) * sin(theta) ) * (2.0 * n);
+    output += ( m_SinCoefficients->ElementAt(n) * vcl_cos(theta) -
+                m_CosCoefficients->ElementAt(n) * vcl_sin(theta) ) * (2.0 * n);
     }
   
   return output;

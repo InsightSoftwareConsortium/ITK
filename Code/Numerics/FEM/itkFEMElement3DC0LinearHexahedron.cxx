@@ -234,7 +234,7 @@ Element3DC0LinearHexahedron
 //   cn = (dx * ycn) - (dy * xcn);
 
 //   localPt[0] = (2 * ce) / (-sqrt((be * be) - (2 * J1 * ce)) - be);
-//   localPt[1] = (2 * cn) / ( sqrt((bn * bn) + (2 * J2 * cn)) - bn);
+//   localPt[1] = (2 * cn) / ( vcl_sqrt((bn * bn) + (2 * J2 * cn)) - bn);
 
   // FIXME
   bool IsInside=false;

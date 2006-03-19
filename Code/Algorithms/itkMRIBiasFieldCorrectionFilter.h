@@ -479,13 +479,13 @@ protected:
   bool CheckMaskImage(ImageMaskType* mask) ;
 
 protected:
-  /** Converts image data from source to target applying log(pixel + 1)
+  /** Converts image data from source to target applying vcl_log(pixel + 1)
    * to all pixels. If the source pixel has negative value, it sets 
    * the value of the corresponding pixel in the targe image as zero.  */
   void Log1PImage(InternalImageType* source, 
                   InternalImageType* target) ;
 
-  /** Converts image data from source to target applying exp(pixel) - 1
+  /** Converts image data from source to target applying vcl_exp(pixel) - 1
    * to all pixels.  */
   void ExpImage(InternalImageType* source, 
                 InternalImageType* target) ;

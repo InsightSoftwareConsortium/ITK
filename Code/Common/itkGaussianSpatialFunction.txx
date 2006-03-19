@@ -76,7 +76,7 @@ GaussianSpatialFunction<TOutput, VImageDimension, TInput>
     suffixExp += (position[i] - m_Mean[i])*(position[i] - m_Mean[i]) / (2 * m_Sigma[i] * m_Sigma[i]);
     }
 
-  double value = m_Scale * (1 / prefixDenom) * exp(-1 * suffixExp);
+  double value = m_Scale * (1 / prefixDenom) * vcl_exp(-1 * suffixExp);
 
   return (TOutput) value;
 }

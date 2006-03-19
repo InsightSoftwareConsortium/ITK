@@ -238,7 +238,7 @@ TubeSpatialObject< TDimension, TTubePointType >
       double lambda = A/B;
 
       if( ((it != m_Points.begin()) && 
-          (lambda>-((*it).GetRadius()/(2*sqrt(B))))
+          (lambda>-((*it).GetRadius()/(2*vcl_sqrt(B))))
           && (lambda<0))
           || ((lambda <= 1.0) && (lambda >= 0.0))       
         )
@@ -275,7 +275,7 @@ TubeSpatialObject< TDimension, TTubePointType >
      it++;
      }
 
-     double dist = sqrt(minSquareDist);
+     double dist = vcl_sqrt(minSquareDist);
      if( dist <= ((*min).GetRadius()) ) 
        {
        return true;
@@ -388,7 +388,7 @@ TubeSpatialObject< TDimension, TTubePointType >
       l = l + t[i]*t[i];
       }
     
-    l = sqrt(l);
+    l = vcl_sqrt(l);
     if(l == 0)
       {
       std::cerr << "TubeSpatialObject::ComputeTangentAndNormals() : "; 

@@ -81,22 +81,22 @@ FrustumSpatialFunction<VImageDimension,TInput>
     const double dy = relativePosition[1];
     const double dz = relativePosition[2];
 
-    const double distanceXZ = sqrt( dx * dx + dz * dz );
+    const double distanceXZ = vcl_sqrt(dx * dx + dz * dz );
 
-    const double deg2rad = atan( 1.0f ) / 45.0;
+    const double deg2rad = vcl_atan(1.0f ) / 45.0;
 
     //  Check planes along Y
-    const double angleY = atan2( dy, distanceXZ );
-    if( fabs( angleY ) > m_ApertureAngleY * deg2rad )
+    const double angleY = vcl_atan2(dy, distanceXZ );
+    if( vcl_fabs(angleY ) > m_ApertureAngleY * deg2rad )
       {
       return 0;
       }
 
     //  Check planes along X
-    const double angleX = atan2( dx, dz );
+    const double angleX = vcl_atan2(dx, dz );
       
-    if( cos( angleX  + ( 180.0 + m_AngleZ ) * deg2rad )  < 
-        cos( deg2rad * m_ApertureAngleX ) )
+    if( vcl_cos(angleX  + ( 180.0 + m_AngleZ ) * deg2rad )  < 
+        vcl_cos(deg2rad * m_ApertureAngleX ) )
       {
       return 0;
       }
@@ -109,22 +109,22 @@ FrustumSpatialFunction<VImageDimension,TInput>
     const double dy = relativePosition[1];
     const double dz = relativePosition[2];
 
-    const double distanceYZ = sqrt( dy * dy + dz * dz );
+    const double distanceYZ = vcl_sqrt(dy * dy + dz * dz );
 
-    const double deg2rad = atan( 1.0f ) / 45.0;
+    const double deg2rad = vcl_atan(1.0f ) / 45.0;
 
     //  Check planes along X
-    const double angleX = atan2( dx, distanceYZ );
-    if( fabs( angleX ) > m_ApertureAngleX * deg2rad )
+    const double angleX = vcl_atan2(dx, distanceYZ );
+    if( vcl_fabs(angleX ) > m_ApertureAngleX * deg2rad )
       {
       return 0;
       }
 
     //  Check planes along Y
-    const double angleY = atan2( dy, dz );
+    const double angleY = vcl_atan2(dy, dz );
       
-    if( cos( angleY  + ( 180.0 + m_AngleZ ) * deg2rad )  < 
-        cos( deg2rad * m_ApertureAngleY ) )
+    if( vcl_cos(angleY  + ( 180.0 + m_AngleZ ) * deg2rad )  < 
+        vcl_cos(deg2rad * m_ApertureAngleY ) )
       {
       return 0;
       }

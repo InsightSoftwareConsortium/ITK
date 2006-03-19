@@ -154,8 +154,8 @@ ActiveShapeModelGradientSearchMethod<TImage>
          dx = dxyRef2[ 1 ] - dxyRef1[ 1 ];
          dy = dxyRef1[ 0 ] - dxyRef2[ 0 ];
 
-         ax = abs(dx) * 2;
-         ay = abs(dy) * 2;
+         ax = vcl_abs(dx) * 2;
+         ay = vcl_abs(dy) * 2;
          if (dx < 0) sx = -1; else sx = 1;
          if (dy < 0) sy = -1; else sy = 1;
            unsigned int count = 0;
@@ -247,14 +247,14 @@ ActiveShapeModelGradientSearchMethod<TImage>
 
          for(unsigned int j = 0; j < numberOfEigenValues; j++)
            {
-           m_Blimit[j] = 2 * sqrt(m_EigenValues[j]);
+           m_Blimit[j] = 2 * vcl_sqrt(m_EigenValues[j]);
            }
 
          for(unsigned int j = 0; j < numberOfEigenValues; j++)
            {
            if(fabs(m_Db[j]) >  m_Blimit[j])
              {
-             m_Db[j] = ( m_Db[j] / fabs(m_Db[j]) ) * m_Blimit[j];
+             m_Db[j] = ( m_Db[j] / vcl_fabs(m_Db[j]) ) * m_Blimit[j];
              }
            }
 

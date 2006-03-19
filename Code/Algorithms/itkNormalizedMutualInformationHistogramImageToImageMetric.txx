@@ -39,22 +39,22 @@ namespace itk
       HistogramFrequencyType freq = histogram.GetFrequency(i, 0);
       if (freq > 0)
       {
-        entropyX += freq*log(freq);
+        entropyX += freq*vcl_log(freq);
       }
     }
 
-    entropyX = -entropyX/static_cast<MeasureType>(totalFreq) + log(totalFreq);
+    entropyX = -entropyX/static_cast<MeasureType>(totalFreq) + vcl_log(totalFreq);
 
     for (unsigned int i = 0; i < this->GetHistogramSize()[1]; i++)
     {
       HistogramFrequencyType freq = histogram.GetFrequency(i, 1);
       if (freq > 0) 
       {
-        entropyY += freq*log(freq);
+        entropyY += freq*vcl_log(freq);
       }
     }
     
-    entropyY = -entropyY/static_cast<MeasureType>(totalFreq) + log(totalFreq);
+    entropyY = -entropyY/static_cast<MeasureType>(totalFreq) + vcl_log(totalFreq);
 
     HistogramIteratorType it = histogram.Begin();
     HistogramIteratorType end = histogram.End();
@@ -63,13 +63,13 @@ namespace itk
       HistogramFrequencyType freq = it.GetFrequency();
       if (freq > 0)
       {
-        jointEntropy += freq*log(freq);
+        jointEntropy += freq*vcl_log(freq);
       }
       ++it;
     }
 
     jointEntropy = -jointEntropy/static_cast<MeasureType>(totalFreq) +
-      log(totalFreq);
+      vcl_log(totalFreq);
 
     return (entropyX + entropyY)/jointEntropy;
   }

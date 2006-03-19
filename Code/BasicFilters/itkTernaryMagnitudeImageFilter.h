@@ -50,7 +50,7 @@ public:
   inline TOutput operator()( const TInput1 & A, 
                              const TInput2 & B,
                              const TInput3 & C)
-  { return (TOutput) sqrt( (double)(A*A + B*B + C*C) ); }
+  { return (TOutput) vcl_sqrt((double)(A*A + B*B + C*C) ); }
 }; 
 }
 

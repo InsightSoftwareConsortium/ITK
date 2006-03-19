@@ -36,7 +36,7 @@ Element3DC0LinearTetrahedron
   // FIXME: Write rules for other integration orders
   pt.set_size(3);
 
-  Float d = 1.0/sqrt(3.0);
+  Float d = 1.0/vcl_sqrt(3.0);
 
   pt[0] = d;
   pt[1] = d;

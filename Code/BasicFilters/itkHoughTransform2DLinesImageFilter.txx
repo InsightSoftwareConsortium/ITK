@@ -130,7 +130,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
       { 
       for(double angle=-PI;angle<PI;angle+=PI/m_AngleResolution)
         {  
-        index[0]=(long unsigned int)(image_it.GetIndex()[0]*cos(angle)+image_it.GetIndex()[1]*sin(angle)); // m_R
+        index[0]=(long unsigned int)(image_it.GetIndex()[0]*vcl_cos(angle)+image_it.GetIndex()[1]*vcl_sin(angle)); // m_R
         index[1]= (long unsigned int)((m_AngleResolution/2)+m_AngleResolution*angle/(2*PI)); // m_Theta
   
         if ( (index[0]>0) && (index[0]<=(long)outputImage->GetBufferedRegion().GetSize()[0])) // the preceeding "if" should be replacable with "if ( outputImage->GetBufferedRegion().IsInside(index) )" but the algorithm fails if it is
@@ -190,7 +190,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
       maxIndex[1]=0;
       for(double angle=-PI;angle<PI;angle+=PI/m_AngleResolution)
         {  
-        index[0]= (long int)(image_it.GetIndex()[0]*cos(angle)+image_it.GetIndex()[1]*sin(angle)); // m_R
+        index[0]= (long int)(image_it.GetIndex()[0]*vcl_cos(angle)+image_it.GetIndex()[1]*vcl_sin(angle)); // m_R
         index[1]= (long int)((m_AngleResolution/2)+m_AngleResolution*angle/(2*PI)); // m_Theta
   
         if ( outputImage->GetBufferedRegion().IsInside(index) )
@@ -293,9 +293,9 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
 
         double radius = it_input.GetIndex()[0]; 
         double teta   = ((it_input.GetIndex()[1])*2*PI/this->GetAngleResolution())-PI ;
-        double Vx = radius*cos( teta );
-        double Vy = radius*sin( teta );
-        double norm = sqrt(Vx*Vx+Vy*Vy);
+        double Vx = radius*vcl_cos(teta );
+        double Vy = radius*vcl_sin(teta );
+        double norm = vcl_sqrt(Vx*Vx+Vy*Vy);
         double VxNorm = Vx/norm;
         double VyNorm = Vy/norm;
 
@@ -336,8 +336,8 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
           {     
           for(double length = 0; length < m_DiscRadius;length += 1)
             {
-            index[0] = (long int)(it_input.GetIndex()[0] + length * cos(angle));
-            index[1] = (long int)(it_input.GetIndex()[1] + length * sin(angle));
+            index[0] = (long int)(it_input.GetIndex()[0] + length * vcl_cos(angle));
+            index[1] = (long int)(it_input.GetIndex()[1] + length * vcl_sin(angle));
             if( postProcessImage->GetBufferedRegion().IsInside(index) )
               {
               postProcessImage->SetPixel(index,0);

@@ -24,7 +24,7 @@ namespace itk
 {
   
 /** \class AcosImageFilter
- * \brief Computes the acos(x) pixel-wise.
+ * \brief Computes the vcl_acos(x) pixel-wise.
  *
  * This filter is templated over the pixel type of the input image
  * and the pixel type of the output image. 
@@ -33,8 +33,8 @@ namespace itk
  * each one of them it will do the following: 
  *
  * - cast the pixel value to \c double, 
- * - apply the \c acos() function to the \c double value
- * - cast the \c double value resulting from \c acos() to the pixel type 
+ * - apply the \c vcl_acos() function to the \c double value
+ * - cast the \c double value resulting from \c vcl_acos() to the pixel type 
  *   of the output image 
  * - store the casted value into the output image.
  * 
@@ -61,7 +61,7 @@ public:
   }
   inline TOutput operator()( const TInput & A )
   {
-    return static_cast<TOutput>( acos( static_cast<double>(A) ) );
+    return static_cast<TOutput>( vcl_acos(static_cast<double>(A) ) );
   }
 }; 
 }

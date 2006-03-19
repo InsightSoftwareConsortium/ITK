@@ -149,7 +149,7 @@ GaussianSpatialObject< TDimension >
   if(name == NULL || strstr(typeid(Self).name(), name) )
     {
     double zsq = this->SquaredZScore(point);
-    value = m_Maximum * (ScalarType)exp( -zsq / 2.0 );
+    value = m_Maximum * (ScalarType)vcl_exp(-zsq / 2.0 );
     return true;
     }
   return Superclass::ValueAt( point, value, depth,  name );

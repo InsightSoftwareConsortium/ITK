@@ -175,7 +175,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
         {
         if (ppptti1[tti1 + i][tti1 + j] == 0)
           {
-          tt1 = sqrt(pow(((double) i) * anisotropy_row,2.0) + pow(((double) j) * anisotropy_col, 2.0));
+          tt1 = vcl_sqrt(pow(((double) i) * anisotropy_row,2.0) + vcl_pow(((double) j) * anisotropy_col, 2.0));
           if (tt1 <= ((double) k) + 0.5)
             {
             m_CirclePointsNum[k] = m_CirclePointsNum[k] + 1;
@@ -315,8 +315,8 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
             {
             result = result + sum_vector[xx]*value1[xx];
             }
-          count_obj = count_obj + exp(-0.5*result/9.0);
-          count_nonobj = count_nonobj + 1.0 - exp(-0.5*result/9.0);
+          count_obj = count_obj + vcl_exp(-0.5*result/9.0);
+          count_nonobj = count_nonobj + 1.0 - vcl_exp(-0.5*result/9.0);
           }
 
         if (100.0 * count_nonobj >= Tolerance * (count_nonobj + count_obj)) 
@@ -370,10 +370,10 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   for(i = 1;i<=MAX_SCALE;i++)
     {
     tt1 = (double)i*0.5;
-    tt2 = -0.5 / pow(tt1, 2.0);
+    tt2 = -0.5 / vcl_pow(tt1, 2.0);
     for(j = 0;j<i;j++)
       {
-      inv_k = exp(tt2 * pow((double)j, 2.0));
+      inv_k = vcl_exp(tt2 * vcl_pow((double)j, 2.0));
       weight[i-1][j] = inv_k;
       }
     }
@@ -461,7 +461,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
     {
     result = result + temp_vector[i]*(double)temp[i];
     }
-  homo_affinity = exp(-0.5*result);
+  homo_affinity = vcl_exp(-0.5*result);
 
   /* Object feature-based affinity */
   /* first voxel  */
@@ -483,7 +483,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
     {
     result = result + temp_vector[i]*(double)temp[i];
     } 
-  object_affinity1 = exp(-0.5*result);
+  object_affinity1 = vcl_exp(-0.5*result);
 
 
   /* second voxel */
@@ -505,7 +505,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
     {
     result = result + temp_vector[i]*(double)temp[i];
     }
-  object_affinity2 = exp(-0.5*result);
+  object_affinity2 = vcl_exp(-0.5*result);
 
   /* minimum one between them */
   if(object_affinity1>object_affinity2) 
@@ -513,7 +513,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   else 
     {material = object_affinity1;}
 
-  result = sqrt(homo_affinity*material);
+  result = vcl_sqrt(homo_affinity*material);
   return (result);
 }
 

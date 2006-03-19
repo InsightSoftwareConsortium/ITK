@@ -97,7 +97,7 @@ GaussianDensityFunction< TMeasurementVector >
       
     // calculate coefficient C of multivariate gaussian
     m_PreFactor = 1.0 / (sqrt(det) * 
-                         pow(sqrt(2.0 * vnl_math::pi), double(this->GetMeasurementVectorSize()))) ;
+                         vcl_pow(sqrt(2.0 * vnl_math::pi), double(this->GetMeasurementVectorSize()))) ;
     }
 }
 
@@ -152,7 +152,7 @@ GaussianDensityFunction< TMeasurementVector >
       temp += tempVector2[i] * tempVector[i] ;
       }
       
-    return  m_PreFactor * exp( -0.5 * temp ) ;
+    return  m_PreFactor * vcl_exp(-0.5 * temp ) ;
     }
   else
     {

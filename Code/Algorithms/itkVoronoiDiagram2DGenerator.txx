@@ -1036,7 +1036,7 @@ GenerateVDFortune(void)
 
   m_Deltay = m_Pymax - m_Pymin;
   m_Deltax = m_Pxmax - m_Pxmin;
-  m_SqrtNSites = sqrt((float) (m_NumberOfSeeds + 4));
+  m_SqrtNSites = vcl_sqrt((float) (m_NumberOfSeeds + 4));
 
 /* Initialize outputLists. */
   m_Nedges = 0;

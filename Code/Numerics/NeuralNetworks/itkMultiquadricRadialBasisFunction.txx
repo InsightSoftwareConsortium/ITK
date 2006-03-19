@@ -45,7 +45,7 @@ ScalarType
 MultiquadricRadialBasisFunction<ScalarType>
 ::Evaluate(const ScalarType& input) const
 {
-  const ScalarType val = pow((input*input)+(m_Radius*m_Radius),0.5);
+  const ScalarType val = vcl_pow((input*input)+(m_Radius*m_Radius),0.5);
   return val;
 }
 

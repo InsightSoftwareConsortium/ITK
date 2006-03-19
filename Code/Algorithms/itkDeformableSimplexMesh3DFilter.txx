@@ -236,7 +236,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
     double tmpNormalProd = dot_product(tmp.Get_vnl_vector(),data->normal.Get_vnl_vector());
 
     double sinphi =  2 * data->circleRadius * D * vnl_math_sgn( tmpNormalProd );
-    double phi = asin(sinphi);
+    double phi = vcl_asin(sinphi);
 
     data->phi = phi;
     data->meanCurvature = vcl_abs(sinphi/data->circleRadius);
@@ -359,9 +359,9 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   coord[1] = static_cast<GradientIndexValueType>(data->pos[1]);
   coord[2] = static_cast<GradientIndexValueType>(data->pos[2]);
 
-  coord2[0] = static_cast<GradientIndexValueType>( ceil(data->pos[0]) );
-  coord2[1] = static_cast<GradientIndexValueType>( ceil(data->pos[1]) );
-  coord2[2] = static_cast<GradientIndexValueType>( ceil(data->pos[2]) );
+  coord2[0] = static_cast<GradientIndexValueType>( vcl_ceil(data->pos[0]) );
+  coord2[1] = static_cast<GradientIndexValueType>( vcl_ceil(data->pos[1]) );
+  coord2[2] = static_cast<GradientIndexValueType>( vcl_ceil(data->pos[2]) );
 
   tmp_co_1[0] = coord2[0];
   tmp_co_1[1] = coord[1];
@@ -510,7 +510,7 @@ double DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   double r2 = r*r;
   double d2 = d*d;
   double r2Minusd2 = r2-d2;
-  double tanPhi = tan(phi);
+  double tanPhi = vcl_tan(phi);
 
   double eps = 1.0;
   if (phi*vnl_math_sgn(phi) > vnl_math::pi_over_2)

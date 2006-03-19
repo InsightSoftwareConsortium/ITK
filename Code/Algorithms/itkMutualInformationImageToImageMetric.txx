@@ -250,15 +250,15 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
       } // end of sample A loop
 
-    dLogSumFixed  -= ( dSumFixed > 0.0 ) ? log( dSumFixed  ) : 0.0;
-    dLogSumMoving -= ( dSumMoving> 0.0 ) ? log( dSumMoving ) : 0.0;
-    dLogSumJoint  -= ( dSumJoint > 0.0 ) ? log( dSumJoint  ) : 0.0;
+    dLogSumFixed  -= ( dSumFixed > 0.0 ) ? vcl_log(dSumFixed  ) : 0.0;
+    dLogSumMoving -= ( dSumMoving> 0.0 ) ? vcl_log(dSumMoving ) : 0.0;
+    dLogSumJoint  -= ( dSumJoint > 0.0 ) ? vcl_log(dSumJoint  ) : 0.0;
 
     } // end of sample B loop
 
   double nsamp   = double( m_NumberOfSpatialSamples );
 
-  double threshold = -0.5 * nsamp * log( m_MinProbability );
+  double threshold = -0.5 * nsamp * vcl_log(m_MinProbability );
   if( dLogSumMoving > threshold || dLogSumFixed > threshold ||
       dLogSumJoint > threshold  )
     {
@@ -269,7 +269,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   MeasureType measure = dLogSumFixed + dLogSumMoving - dLogSumJoint;
   measure /= nsamp;
-  measure += log( nsamp );
+  measure += vcl_log(nsamp );
 
   return measure;
 
@@ -365,15 +365,15 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
     if( dSumFixed > 0.0 )
       {
-      dLogSumFixed -= log( dSumFixed );
+      dLogSumFixed -= vcl_log(dSumFixed );
       }
     if( dDenominatorMoving > 0.0 )
       {
-      dLogSumMoving    -= log( dDenominatorMoving );
+      dLogSumMoving    -= vcl_log(dDenominatorMoving );
       }
     if( dDenominatorJoint > 0.0 )
       {
-      dLogSumJoint  -= log( dDenominatorJoint );
+      dLogSumJoint  -= vcl_log(dDenominatorJoint );
       }
 
     // get the image derivative for this B sample
@@ -416,7 +416,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   double nsamp    = double( m_NumberOfSpatialSamples );
 
-  double threshold = -0.5 * nsamp * log( m_MinProbability );
+  double threshold = -0.5 * nsamp * vcl_log(m_MinProbability );
   if( dLogSumMoving > threshold || dLogSumFixed > threshold ||
       dLogSumJoint > threshold  )
     {
@@ -428,7 +428,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   value  = dLogSumFixed + dLogSumMoving - dLogSumJoint;
   value /= nsamp;
-  value += log( nsamp );
+  value += vcl_log(nsamp );
 
   derivative  /= nsamp;
   derivative  /= vnl_math_sqr( m_MovingImageStandardDeviation );

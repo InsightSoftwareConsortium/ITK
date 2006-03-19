@@ -194,15 +194,15 @@ BloxCoreAtomImage<NDimensions>
 
       for (unsigned int i = 0; i < NDimensions; i++)
         {
-        de += pow((dot_product(eigenvectors.get_column(i), 
+        de += vcl_pow((dot_product(eigenvectors.get_column(i),
                   dbar.GetVnlVector() ) / axisLengthArray[i] ), 2);
         }
 
-      de = sqrt(de);
+      de = vcl_sqrt(de);
 
       //printf("De = %f\n", de);
 
-      double weight_factor = exp(-1.0*de*de);
+      double weight_factor = vcl_exp(-1.0*de*de);
 
       // vote strength
       double voteStrength = pPixel->size()*weight_factor;
@@ -215,14 +215,14 @@ BloxCoreAtomImage<NDimensions>
 
       for (unsigned int i = 0; i < NDimensions; i++)
         {
-        sf_de_sqr += pow((dot_product(sf_eigenvectors.get_column(i), 
+        sf_de_sqr += vcl_pow((dot_product(sf_eigenvectors.get_column(i), 
                           dbar.GetVnlVector() ) / axisLengthArray[i] ), 2);
         }
 
-      //printf("sf_de = %f\n", sqrt(sf_de_sqr));
+      //printf("sf_de = %f\n", vcl_sqrt(sf_de_sqr));
 
       //CALCULATE WEIGHT FACTOR FOR INDEX OF SPATIAL FUNCTION ITERATION
-      double sf_weight_factor = exp(-1.0*sf_de_sqr);
+      double sf_weight_factor = vcl_exp(-1.0*sf_de_sqr);
 
       //HERE WE CALL CalcWeightedCoreAtomLocation using de to keep track 
       //of the weighted location of each voted medial node based on 

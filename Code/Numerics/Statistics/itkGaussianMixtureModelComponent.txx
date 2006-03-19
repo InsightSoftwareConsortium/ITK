@@ -149,7 +149,7 @@ GaussianMixtureModelComponent< TSample >
       }
     }
 
-  changes = sqrt(changes) ;
+  changes = vcl_sqrt(changes) ;
   return changes ;
 }
 
@@ -177,7 +177,7 @@ GaussianMixtureModelComponent< TSample >
     {
     temp = m_Mean[i] - meanEstimate[i] ;
     changes = temp * temp ;
-    changes = sqrt(changes) ;
+    changes = vcl_sqrt(changes) ;
     if ( changes > this->GetMinimalParametersChange() )
       {
       changed = true ;
@@ -210,7 +210,7 @@ GaussianMixtureModelComponent< TSample >
       temp = m_Covariance.GetVnlMatrix().get(i, j) - 
         covEstimate.GetVnlMatrix().get(i, j) ;
       changes = temp * temp ;
-      changes = sqrt(changes) ;
+      changes = vcl_sqrt(changes) ;
       if ( changes > this->GetMinimalParametersChange() )
         {
         changed = true ;

@@ -249,10 +249,10 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
     {
     outputSpacing[i] = inputSpacing[i] * (double) m_ShrinkFactors[i];
     outputSize[i] = (unsigned int)
-      floor( ((double)(inputSize[i] - m_ShrinkFactors[i] + 1))
+      vcl_floor(((double)(inputSize[i] - m_ShrinkFactors[i] + 1))
              / (double) m_ShrinkFactors[i]);
     outputStartIndex[i] = (int)
-      ceil( (double) inputStartIndex[i] / (double) m_ShrinkFactors[i] );
+      vcl_ceil((double) inputStartIndex[i] / (double) m_ShrinkFactors[i] );
     }
 
   outputPtr->SetSpacing( outputSpacing );

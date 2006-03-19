@@ -61,7 +61,7 @@ UnaryMedialNodeMetric<VDimensions>
   for(int i = 0; i < VDimensions - 1; ++i)
     {
     double differenceTemp = (eigenvalueA(i) - eigenvalueB(i));
-    difference += pow(differenceTemp,2);
+    difference += vcl_pow(differenceTemp,2);
     }
 
   // Eigenvalue term for the metric.
@@ -71,7 +71,7 @@ UnaryMedialNodeMetric<VDimensions>
   double scaleA = m_MedialNodeA->GetMeanCoreAtomDiameter();
   double scaleB = m_MedialNodeB->GetMeanCoreAtomDiameter();
 
-  double scaleResult = 1 - fabs( (scaleA - scaleB)/(scaleA + scaleB) );
+  double scaleResult = 1 - vcl_fabs((scaleA - scaleB)/(scaleA + scaleB) );
 
   // The final metric calculation.
   m_MetricResult = eigenResult * scaleResult;

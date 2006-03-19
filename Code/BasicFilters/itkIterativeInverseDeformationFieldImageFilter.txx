@@ -150,9 +150,9 @@ void IterativeInverseDeformationFieldImageFilter<TInputImage, TOutputImage>
         smallestError = 0;
         for(unsigned int j = 0; j < ImageDimension; j++ )
           {
-          smallestError += pow(mappedPoint[j] + forwardVector[j]-originalPoint[j],2);
+          smallestError += vcl_pow(mappedPoint[j] + forwardVector[j]-originalPoint[j],2);
           }
-        smallestError = sqrt(smallestError);
+        smallestError = vcl_sqrt(smallestError);
         }
 
       // iteration loop
@@ -174,9 +174,9 @@ void IterativeInverseDeformationFieldImageFilter<TInputImage, TOutputImage>
             tmp = 0;
             for (unsigned int l=0; l<ImageDimension; l++)
               {
-              tmp += pow(mappedPoint[l] + forwardVector[l] - originalPoint[l], 2);
+              tmp += vcl_pow(mappedPoint[l] + forwardVector[l] - originalPoint[l], 2);
               }
-            tmp = sqrt(tmp);
+            tmp = vcl_sqrt(tmp);
             if(tmp < smallestError)
               {
               smallestError = tmp;
@@ -194,9 +194,9 @@ void IterativeInverseDeformationFieldImageFilter<TInputImage, TOutputImage>
             tmp = 0;
             for (unsigned int l=0; l<ImageDimension; l++)
               {
-              tmp += pow(mappedPoint[l] + forwardVector[l] - originalPoint[l], 2);
+              tmp += vcl_pow(mappedPoint[l] + forwardVector[l] - originalPoint[l], 2);
               }
-            tmp = sqrt(tmp);
+            tmp = vcl_sqrt(tmp);
             if(tmp < smallestError)
               {
               smallestError = tmp;

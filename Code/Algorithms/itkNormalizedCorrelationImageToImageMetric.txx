@@ -116,7 +116,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     sfm -= ( sf * sm / this->m_NumberOfPixelsCounted );
     }
 
-  const RealType denom = -1.0 * sqrt( sff * smm );
+  const RealType denom = -1.0 * vcl_sqrt(sff * smm );
 
   if( this->m_NumberOfPixelsCounted > 0 && denom != 0.0)
     {
@@ -310,7 +310,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     sfm -= ( sf * sm / this->m_NumberOfPixelsCounted );
     }
 
-  const RealType denom = -1.0 * sqrt( sff * smm );
+  const RealType denom = -1.0 * vcl_sqrt(sff * smm );
 
   if( this->m_NumberOfPixelsCounted > 0 && denom != 0.0)
     {
@@ -509,7 +509,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     sfm -= ( sf * sm / this->m_NumberOfPixelsCounted );
     }
 
-  const RealType denom = -1.0 * sqrt( sff * smm );
+  const RealType denom = -1.0 * vcl_sqrt(sff * smm );
 
   if( this->m_NumberOfPixelsCounted > 0 && denom != 0.0)
     {

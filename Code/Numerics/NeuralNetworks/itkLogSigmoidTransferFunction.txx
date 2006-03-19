@@ -45,7 +45,7 @@ ScalarType
 LogSigmoidTransferFunction<ScalarType>
 ::Evaluate(const ScalarType& input)  const
 {
-  const ScalarType v = 1.0 / (1.0 + exp(-input));
+  const ScalarType v = 1.0 / (1.0 + vcl_exp(-input));
   return v;
 }
 

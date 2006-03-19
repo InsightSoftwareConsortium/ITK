@@ -369,7 +369,7 @@ MinMaxCurvatureFlowFunction<TImage>
     {
     gradient[2] = -1.0;
     }
-  theta = acos( (double)gradient[2] );
+  theta = vcl_acos((double)gradient[2] );
 
   if ( gradient[0] == 0 )
     {
@@ -377,14 +377,14 @@ MinMaxCurvatureFlowFunction<TImage>
     }
   else
     {
-    phi = atan( (double)gradient[1]/ (double)gradient[0] );
+    phi = vcl_atan((double)gradient[1]/ (double)gradient[0] );
     }
 
 
-  double cosTheta = cos( theta );
-  double sinTheta = sin( theta );
-  double cosPhi   = cos( phi );
-  double sinPhi   = sin( phi );
+  double cosTheta = vcl_cos(theta );
+  double sinTheta = vcl_sin(theta );
+  double cosPhi   = vcl_cos(phi );
+  double sinPhi   = vcl_sin(phi );
 
   double rSinTheta       = m_StencilRadius * sinTheta;
   double rCosThetaCosPhi = m_StencilRadius * cosTheta * cosPhi;

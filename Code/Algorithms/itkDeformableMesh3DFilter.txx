@@ -722,9 +722,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   coord[1] = static_cast<IndexValueType>(vec_loc[1]);
   coord[2] = static_cast<IndexValueType>(vec_loc[2]);
 
-  coord2[0] = static_cast<IndexValueType>( ceil(vec_loc[0]) );
-  coord2[1] = static_cast<IndexValueType>( ceil(vec_loc[1]) );
-  coord2[2] = static_cast<IndexValueType>( ceil(vec_loc[2]) );
+  coord2[0] = static_cast<IndexValueType>( vcl_ceil(vec_loc[0]) );
+  coord2[1] = static_cast<IndexValueType>( vcl_ceil(vec_loc[1]) );
+  coord2[2] = static_cast<IndexValueType>( vcl_ceil(vec_loc[2]) );
 
   tmp_co_1[0] = coord2[0];
   tmp_co_1[1] = coord[1];
@@ -772,7 +772,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   vec_for[1] = m_GradientMagnitude*mag*vec_nor[1]/*num_for*/; 
   vec_for[2] = m_GradientMagnitude*mag*vec_nor[2]/*num_for*/; 
 
-  mag = sqrt (vec_for[0]*vec_for[0] + vec_for[1]*vec_for[1]+ vec_for[2]*vec_for[2]);
+  mag = vcl_sqrt(vec_for[0]*vec_for[0] + vec_for[1]*vec_for[1]+ vec_for[2]*vec_for[2]);
   if (mag > 0.5) 
     for (int i=0; i<3; i++) vec_for[i] = (0.5 * vec_for[i])/mag;
   forces.Value() = vec_for;
@@ -867,7 +867,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   while( normals != myNormals->End() ) {
   v1 = normals.Value();
 
-  absvec = sqrt ((double) ((v1[0]*v1[0]) + (v1[1]*v1[1]) + 
+  absvec = vcl_sqrt((double) ((v1[0]*v1[0]) + (v1[1]*v1[1]) + 
                            (v1[2]*v1[2])));
   v1[0] = v1[0]/absvec;
   v1[1] = v1[1]/absvec;

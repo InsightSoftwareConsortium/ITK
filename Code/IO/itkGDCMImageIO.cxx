@@ -429,8 +429,8 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   float fs = float(s);
   float fi = float(i);
 
-  double slope_dif = fabs(fs - m_RescaleSlope);
-  double inter_dif = fabs(fi - m_RescaleIntercept);
+  double slope_dif = vcl_fabs(fs - m_RescaleSlope);
+  double inter_dif = vcl_fabs(fi - m_RescaleIntercept);
   if (slope_dif > 0.0 || inter_dif > 0.0)
     {
     if (m_ComponentType != ImageIOBase::DOUBLE)

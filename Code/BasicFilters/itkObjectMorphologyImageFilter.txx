@@ -190,7 +190,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 
   static const unsigned int s =
-    (unsigned int)pow((double)3.0,
+    (unsigned int)vcl_pow((double)3.0,
                       (double)(ImageDimension));
 
   PixelType tf;

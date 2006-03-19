@@ -223,7 +223,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   for (componentIndex = 0 ; componentIndex < m_ComponentVector.size() ;
        componentIndex++)
     {
-    logProportion = log(m_Proportions[componentIndex]) ; 
+    logProportion = vcl_log(m_Proportions[componentIndex]) ; 
     for (measurementVectorIndex = 0 ; measurementVectorIndex < size ;
          measurementVectorIndex++)
       {
@@ -231,7 +231,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
         GetWeight(measurementVectorIndex) ;
       sum += 
         temp * ( logProportion + 
-                 log( m_ComponentVector[componentIndex]->
+                 vcl_log(m_ComponentVector[componentIndex]->
                       GetWeight(measurementVectorIndex) ) ) ;
       }
     }

@@ -40,7 +40,7 @@ EuclideanDistance< TVector >
     distance += temp * temp ;
     }
   
-  return sqrt(distance) ;
+  return vcl_sqrt(distance) ;
 }
 
 
@@ -66,7 +66,7 @@ EuclideanDistance< TVector >
     distance += temp * temp ;
     }
   
-  return sqrt(distance) ;
+  return vcl_sqrt(distance) ;
 }
 
 template< class TVector >
@@ -75,7 +75,7 @@ EuclideanDistance< TVector >
 ::Evaluate(const ValueType &a, const ValueType &b) const
 {
   double temp = a - b ;
-  return sqrt(temp * temp) ;
+  return vcl_sqrt(temp * temp) ;
 }
 
 template< class TVector >

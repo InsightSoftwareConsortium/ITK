@@ -150,7 +150,7 @@ LevelSetFunction< TImageType >
     {
     discriminant = 0.0;
     }
-  discriminant = sqrt(discriminant);
+  discriminant = vcl_sqrt(discriminant);
   return  (mean_curve - discriminant);
 }
 

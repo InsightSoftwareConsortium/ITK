@@ -272,14 +272,14 @@ ShrinkImageFilter<TInputImage,TOutputImage>
     
     outputSpacing[i] = inputSpacing[i] * (float) m_ShrinkFactors[i];
     outputSize[i] = (unsigned long)
-      floor( (float) inputSize[i] / (float) m_ShrinkFactors[i]);
+      vcl_floor((float) inputSize[i] / (float) m_ShrinkFactors[i]);
     if( outputSize[i] < 1 )
       {
       outputSize[i] = 1;
       }
     
     outputStartIndex[i] = (long)
-      ceil( (float) inputStartIndex[i] / (float) m_ShrinkFactors[i] );
+      vcl_ceil((float) inputStartIndex[i] / (float) m_ShrinkFactors[i] );
     }
   
   outputPtr->SetSpacing( outputSpacing );

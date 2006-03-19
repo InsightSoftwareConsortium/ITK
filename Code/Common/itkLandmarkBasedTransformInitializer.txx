@@ -388,9 +388,9 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
           }
 
         itkDebugMacro(<< "Dot Product of landmarks: " << s_dot << " Cross Product: " << s_cross);
-        if( fabs(s_dot) > 0.00005 )
+        if( vcl_fabs(s_dot) > 0.00005 )
           {
-          rotationAngle = atan2(s_cross, s_dot);
+          rotationAngle = vcl_atan2(s_cross, s_dot);
           }
         else
           {

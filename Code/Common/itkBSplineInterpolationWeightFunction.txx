@@ -55,7 +55,7 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>
 
   // Initialize the number of weights;
   m_NumberOfWeights = 
-    static_cast<unsigned long>( pow( static_cast<double>(SplineOrder + 1),
+    static_cast<unsigned long>( vcl_pow(static_cast<double>(SplineOrder + 1),
                                      static_cast<double>(SpaceDimension) ) );
 
   // Initialize support region is a hypercube of length SplineOrder + 1

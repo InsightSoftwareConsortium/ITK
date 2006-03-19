@@ -59,7 +59,7 @@ CumulativeGaussianOptimizer
 
   for(int i=0; i<(int)(extendedArray->GetNumberOfElements()); i++)
     {
-    extendedArray->put(i, amplitude * exp( - ( pow((i-mean),2) / (2*pow(sd,2)) ) ));
+    extendedArray->put(i, amplitude * vcl_exp(- ( vcl_pow((i-mean),2) / (2*vcl_pow(sd,2)) ) ));
     }
   // Then insert the originalArray over the middle section of extendedArray.
   for(int i=0; i<(int)(originalArray->GetNumberOfElements()); i++)
@@ -162,15 +162,15 @@ void CumulativeGaussianOptimizer
 
   // Calculate the standard deviation
   for(int i = 0; i < (int)(array->GetNumberOfElements()); i++)
-    m_ComputedStandardDeviation += array->get(i) * pow( (i - m_ComputedMean), 2);
+    m_ComputedStandardDeviation += array->get(i) * vcl_pow((i - m_ComputedMean), 2);
 
-  m_ComputedStandardDeviation = sqrt( m_ComputedStandardDeviation/sum );
+  m_ComputedStandardDeviation = vcl_sqrt(m_ComputedStandardDeviation/sum );
 
   // For the ERF, sum is the difference between the lower and upper intensities.
   m_ComputedTransitionHeight = sum;
 
   // Calculate the amplitude.
-  m_ComputedAmplitude =  sum / (m_ComputedStandardDeviation * sqrt(2*3.14159265));
+  m_ComputedAmplitude =  sum / (m_ComputedStandardDeviation * vcl_sqrt(2*3.14159265));
 }
   
 void 
@@ -208,7 +208,7 @@ CumulativeGaussianOptimizer
     if( i < startingPointForInsertion ||            
         i >= startingPointForInsertion + (int)(originalArray->GetNumberOfElements()) )
       {
-      extendedArray->put(i, amplitude * exp(-(pow((i - mean),2) / (2 * pow(sd,2))))); 
+      extendedArray->put(i, amplitude * vcl_exp(-(pow((i - mean),2) / (2 * vcl_pow(sd,2))))); 
       }
     }
   return extendedArray;
@@ -254,7 +254,7 @@ CumulativeGaussianOptimizer
   
   // Generate new Gaussian array with final parameters.
   for(int i = 0; i < sampledGaussianArraySize; i++)
-    sampledGaussianArray->put(i, m_ComputedAmplitude * exp( - ( pow((i-m_ComputedMean),2) / (2*pow(m_ComputedStandardDeviation,2)) ) ));
+    sampledGaussianArray->put(i, m_ComputedAmplitude * vcl_exp(- ( vcl_pow((i-m_ComputedMean),2) / (2*vcl_pow(m_ComputedStandardDeviation,2)) ) ));
 
   // Add 0.5 to the mean of the sampled Gaussian curve to make up for the 0.5 
   // shift during derivation, then take the integral of the Gaussian sample

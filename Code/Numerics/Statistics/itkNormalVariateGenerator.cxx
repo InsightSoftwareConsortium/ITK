@@ -87,11 +87,11 @@ void NormalVariateGenerator::Initialize(int randomSeed)
 //          Z = (sqrt (1/2TLEN)) * A * (B + n)
 //      where:
 //          B = C / A.
-//      We set chic1 = A * sqrt (0.5 / TLEN),  chic2 = B
+//      We set chic1 = A * vcl_sqrt(0.5 / TLEN),  chic2 = B
   
   fake = 1.0 + 0.125 / TLEN;   // This is A 
-  chic2 = sqrt (2.0 * TLEN  -  fake*fake) /  fake;
-  chic1 = fake * sqrt (0.5 / TLEN);
+  chic2 = vcl_sqrt(2.0 * TLEN  -  fake*fake) /  fake;
+  chic1 = fake * vcl_sqrt(0.5 / TLEN);
 
   actualRSD = 0.0 ;
   return;
@@ -324,16 +324,16 @@ double NormalVariateGenerator::FastNorm(void)
   irs = (irs <= 0) ? ((irs << 1) ^ 333556017):(irs << 1);
   r = irs + lseed;
   if (r < 0) r = ~r;
-  tz = -2.0 * log ((r + 0.5) * Rcons);   /* Sum of squares */
+  tz = -2.0 * vcl_log((r + 0.5) * Rcons);   /* Sum of squares */
   ts += tz;
-  tz = sqrt ( tz / tr );
+  tz = vcl_sqrt(tz / tr );
   vec1 [p++] = (int) (Scale *  tx * tz) ;
   vec1 [p++] = (int) (Scale *  ty * tz) ;
   if (p < TLEN) goto nextpair;
   /*    Horrid, but good enough */
   /*    Calc correction factor to make sum of squares = TLEN    */
   ts = TLEN / ts;  /* Should be close to 1.0  */
-  tr = sqrt (ts);
+  tr = vcl_sqrt(ts);
   for (p = 0; p < TLEN; p++)    {
   tx = vec1 [p] * tr;
   vec1 [p] = (int) ((tx < 0.0) ? (tx - 0.5) : (tx + 0.5)) ;
@@ -347,7 +347,7 @@ double NormalVariateGenerator::FastNorm(void)
   ts += (tx * tx);
   }
   /*    Now ts should be Scale*Scale*TLEN or thereabouts   */
-  ts = sqrt (ts / (Scale * Scale * TLEN));
+  ts = vcl_sqrt(ts / (Scale * Scale * TLEN));
   actualRSD = 1.0 / ts;   /* Reciprocal of actual Standard Devtn */
   goto startpass;
 

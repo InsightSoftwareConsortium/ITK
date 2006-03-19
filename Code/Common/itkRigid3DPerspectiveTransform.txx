@@ -86,7 +86,7 @@ Rigid3DPerspectiveTransform<TScalarType>
   axis[2] = parameters[2];
   if( norm > 0)
     {
-    norm = sqrt(norm);
+    norm = vcl_sqrt(norm);
     }
 
   double epsilon = 1e-10;
@@ -161,8 +161,8 @@ void
 Rigid3DPerspectiveTransform<TScalarType>::
 SetRotation(const Vector<TScalarType,3> & axis, double angle )
 {
-  const double sinus   = sin(angle/2.0);
-  const double cosinus = cos(angle/2.0);
+  const double sinus   = vcl_sin(angle/2.0);
+  const double cosinus = vcl_cos(angle/2.0);
   Vector<TScalarType,3> norm;
   norm = axis;
   norm.Normalize();

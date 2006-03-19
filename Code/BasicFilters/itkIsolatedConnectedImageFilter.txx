@@ -136,8 +136,8 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
     // two sets of seeds.
     const unsigned int maximumIterationsInBinarySearch = 
       static_cast< unsigned int > (
-        log( ( static_cast<float>( upper ) - static_cast< float >( lower ) ) /
-             static_cast<float>( m_IsolatedValueTolerance ) )  / log( 2.0 ) );
+        vcl_log(( static_cast<float>( upper ) - static_cast< float >( lower ) ) /
+             static_cast<float>( m_IsolatedValueTolerance ) )  / vcl_log(2.0 ) );
 
     progressWeight = 1.0f / static_cast<float>( maximumIterationsInBinarySearch + 2 );
     cumulatedProgress = 0.0f;
@@ -202,8 +202,8 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
     // two sets of seeds.
     const unsigned int maximumIterationsInBinarySearch = 
       static_cast< unsigned int > (
-        log( ( static_cast<float>( upper ) - static_cast< float >( lower ) ) /
-             static_cast<float>( m_IsolatedValueTolerance ) )  / log( 2.0 ) );
+        vcl_log(( static_cast<float>( upper ) - static_cast< float >( lower ) ) /
+             static_cast<float>( m_IsolatedValueTolerance ) )  / vcl_log(2.0 ) );
 
     progressWeight = 1.0f / static_cast<float>( maximumIterationsInBinarySearch + 2 );
     cumulatedProgress = 0.0f;

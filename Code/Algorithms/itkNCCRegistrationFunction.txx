@@ -227,13 +227,13 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   double updatenorm=0.0;
   if( (sff*smm) != 0.0)
   {
-    double factor = 1.0 / sqrt( sff * smm );
+    double factor = 1.0 / vcl_sqrt(sff * smm );
     for(unsigned int i=0; i<ImageDimension; i++)
     {
       update[i] = factor * ( derivativeF[i] - (sfm/smm)*derivativeM[i]);
       updatenorm+=(update[i]*update[i]);
     }
-    updatenorm=sqrt(updatenorm);
+    updatenorm=vcl_sqrt(updatenorm);
     m_MetricTotal+=sfm*factor;
     this->m_Energy+=sfm*factor;
   } 

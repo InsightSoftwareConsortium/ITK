@@ -77,7 +77,7 @@ VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
 
   for( dim = 0; dim < ImageDimension; dim++ )
     {
-    baseIndex[dim] = (long) floor( index[dim] );
+    baseIndex[dim] = (long) vcl_floor(index[dim] );
     distance[dim] = index[dim] - double( baseIndex[dim] );
     }
   

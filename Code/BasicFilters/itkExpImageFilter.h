@@ -28,7 +28,7 @@ namespace itk
 {
   
 /** \class ExpImageFilter
- * \brief Computes the exp(x) pixel-wise
+ * \brief Computes the vcl_exp(x) pixel-wise
  *
  * 
  * \ingroup IntensityImageFilters  Multithreaded
@@ -52,7 +52,7 @@ public:
   }
   inline TOutput operator()( const TInput & A )
   {
-    return (TOutput)exp((double)A);
+    return (TOutput)vcl_exp((double)A);
   }
 }; 
 }

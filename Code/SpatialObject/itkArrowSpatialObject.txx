@@ -189,7 +189,7 @@ ArrowSpatialObject< TDimension >
 
   if(m_Length != 0.0)
     {
-    m_Length = sqrt(m_Length);
+    m_Length = vcl_sqrt(m_Length);
     }
   else
   {
@@ -208,7 +208,7 @@ ArrowSpatialObject< TDimension >
     double anglez = 0;
     
     #ifndef PI    
-     const double PI = 4.0 * atan( 1.0 );
+     const double PI = 4.0 * vcl_atan(1.0 );
     #endif
 
     if(m_Direction[0] == 0.0)
@@ -226,11 +226,11 @@ ArrowSpatialObject< TDimension >
       {
       if(m_Direction[0]<0.0)
         {
-        anglez = PI+atan(m_Direction[1]/m_Direction[0]);
+        anglez = PI+vcl_atan(m_Direction[1]/m_Direction[0]);
         }
       else
         {
-        anglez = atan(m_Direction[1]/m_Direction[0]);
+        anglez = vcl_atan(m_Direction[1]/m_Direction[0]);
         }
       }
     angley = -asin(m_Direction[2]);

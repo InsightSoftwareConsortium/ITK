@@ -163,8 +163,8 @@ BlobSpatialObject< TDimension >
       typename PointType::VectorType difference = 
         transformedPoint - it->GetPosition();
       if(fabs(difference[0]) <= 0.5 && 
-         fabs(difference[1]) <= 0.5 && 
-         fabs(difference[2]) <= 0.5)
+         vcl_fabs(difference[1]) <= 0.5 && 
+         vcl_fabs(difference[2]) <= 0.5)
         {
         return true;
         }

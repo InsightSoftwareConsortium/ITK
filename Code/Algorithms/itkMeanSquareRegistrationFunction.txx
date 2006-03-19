@@ -170,7 +170,7 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   if (normalizemetric) 
   {  
     denominator = speedValue*speedValue *fixedGradientSquaredMagnitude;
-    denominator = sqrt(denominator);
+    denominator = vcl_sqrt(denominator);
   }
   if (denominator == 0) denominator=1.0;
  

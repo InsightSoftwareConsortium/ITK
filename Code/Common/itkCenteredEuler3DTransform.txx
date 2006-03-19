@@ -138,12 +138,12 @@ CenteredEuler3DTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {
   // need to check if angles are in the right order
-  const double cx = cos(this->GetAngleX());
-  const double sx = sin(this->GetAngleX());
-  const double cy = cos(this->GetAngleY());
-  const double sy = sin(this->GetAngleY()); 
-  const double cz = cos(this->GetAngleZ());
-  const double sz = sin(this->GetAngleZ());
+  const double cx = vcl_cos(this->GetAngleX());
+  const double sx = vcl_sin(this->GetAngleX());
+  const double cy = vcl_cos(this->GetAngleY());
+  const double sy = vcl_sin(this->GetAngleY()); 
+  const double cz = vcl_cos(this->GetAngleZ());
+  const double sz = vcl_sin(this->GetAngleZ());
 
   this->m_Jacobian.Fill(0.0);
 

@@ -24,7 +24,7 @@ namespace itk
 {
   
 /** \class SinImageFilter
- * \brief Computes the sin(x) pixel-wise
+ * \brief Computes the vcl_sin(x) pixel-wise
  * 
  * \ingroup IntensityImageFilters  Multithreaded
  */
@@ -45,7 +45,7 @@ public:
     return !(*this != other);
   }
   inline TOutput operator()( const TInput & A )
-  { return (TOutput)sin((double)A); }
+  { return (TOutput)vcl_sin((double)A); }
 }; 
 }
 

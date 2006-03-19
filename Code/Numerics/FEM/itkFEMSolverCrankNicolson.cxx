@@ -269,8 +269,8 @@ void SolverCrankNicolson::FindBracketingTriplet(Float* a, Float* b, Float* c)
   Float ax, bx,cx;
   ax=0.0; bx=1.;
   Float fc;
-  Float fa=fabs(EvaluateResidual(ax));
-  Float fb=fabs(EvaluateResidual(bx));
+  Float fa=vcl_fabs(EvaluateResidual(ax));
+  Float fb=vcl_fabs(EvaluateResidual(bx));
   
   Float ulim,u,r,q,fu,dum;
 
@@ -281,10 +281,10 @@ void SolverCrankNicolson::FindBracketingTriplet(Float* a, Float* b, Float* c)
   }
 
   cx=bx+Gold*(bx-ax);  // first guess for c - the 3rd pt needed to bracket the min
-  fc=fabs(EvaluateResidual(cx));
+  fc=vcl_fabs(EvaluateResidual(cx));
 
   
-  while (fb > fc  /*&& fabs(ax) < 3. && fabs(bx) < 3. && fabs(cx) < 3.*/)
+  while (fb > fc  /*&& vcl_fabs(ax) < 3. && vcl_fabs(bx) < 3. && vcl_fabs(cx) < 3.*/)
     {
     r=(bx-ax)*(fb-fc);
     q=(bx-cx)*(fb-fa);
@@ -293,7 +293,7 @@ void SolverCrankNicolson::FindBracketingTriplet(Float* a, Float* b, Float* c)
     ulim=bx + Glimit*(cx-bx);
     if ((bx-u)*(u-cx) > 0.0)
       {
-      fu=fabs(EvaluateResidual(u));
+      fu=vcl_fabs(EvaluateResidual(u));
       if (fu < fc)
         {
         ax=bx;
@@ -309,28 +309,28 @@ void SolverCrankNicolson::FindBracketingTriplet(Float* a, Float* b, Float* c)
         }
       
         u=cx+Gold*(cx-bx);
-        fu=fabs(EvaluateResidual(u));
+        fu=vcl_fabs(EvaluateResidual(u));
         
       }
     else if ( (cx-u)*(u-ulim) > 0.0)
       {
-      fu=fabs(EvaluateResidual(u));
+      fu=vcl_fabs(EvaluateResidual(u));
       if (fu < fc)
         {
         bx=cx; cx=u; u=cx+Gold*(cx-bx);
-        fb=fc; fc=fu; fu=fabs(EvaluateResidual(u));
+        fb=fc; fc=fu; fu=vcl_fabs(EvaluateResidual(u));
         }
       
       }
     else if ( (u-ulim)*(ulim-cx) >= 0.0)
       {
       u=ulim;
-      fu=fabs(EvaluateResidual(u));
+      fu=vcl_fabs(EvaluateResidual(u));
       }
     else
       {
       u=cx+Gold*(cx-bx);
-      fu=fabs(EvaluateResidual(u));
+      fu=vcl_fabs(EvaluateResidual(u));
       }
     
     ax=bx; bx=cx; cx=u;
@@ -338,7 +338,7 @@ void SolverCrankNicolson::FindBracketingTriplet(Float* a, Float* b, Float* c)
     
   }
 
-  if ( fabs(ax) > 1.e3  || fabs(bx) > 1.e3 || fabs(cx) > 1.e3)
+  if ( vcl_fabs(ax) > 1.e3  || vcl_fabs(bx) > 1.e3 || vcl_fabs(cx) > 1.e3)
   { ax=-2.0;  bx=1.0;  cx=2.0; } // to avoid crazy numbers caused by bad bracket (u goes nuts)
   
   *a=ax; *b=bx; *c=cx;
@@ -368,12 +368,12 @@ Element::Float SolverCrankNicolson::BrentsMethod(Float tol,unsigned int MaxIters
   b=((ax  > cx) ? ax : cx);
   
   x=w=v=bx;
-  fw=fv=fx=fabs(EvaluateResidual(x));
+  fw=fv=fx=vcl_fabs(EvaluateResidual(x));
 
   for (iter = 1; iter <=MaxIters; iter++)
   {
     xm=0.5*(a+b);
-    tol2=2.0*(tol1=tol*fabs(x)+ZEPS);
+    tol2=2.0*(tol1=tol*vcl_fabs(x)+ZEPS);
     if (fabs(x-xm) <= (tol2-0.5*(b-a)))
     {
       xmin=x;
@@ -387,10 +387,10 @@ Element::Float SolverCrankNicolson::BrentsMethod(Float tol,unsigned int MaxIters
       p=(x-v)*q-(x-w)*r;
       q=2.0*(q-r);
       if (q>0.0) p = -1.*p;
-      q=fabs(q);
+      q=vcl_fabs(q);
       etemp=e;
       e=d;
-      if (fabs(p) >= fabs(0.5*q*etemp) || p <= q*(a-x) || p >= q*(b-x))
+      if (fabs(p) >= vcl_fabs(0.5*q*etemp) || p <= q*(a-x) || p >= q*(b-x))
          d=CGOLD*(e=(x>=xm ? a-x : b-x));
       else{
         if (q == 0.0) q=q +ZEPS;
@@ -403,7 +403,7 @@ Element::Float SolverCrankNicolson::BrentsMethod(Float tol,unsigned int MaxIters
     }
   
     u=(fabs(d) >= tol1 ? x+d : x + GSSign(tol1,d));
-    fu=fabs(EvaluateResidual(u));
+    fu=vcl_fabs(EvaluateResidual(u));
     if (fu <= fx){
       if ( u >= x ) a=x; else b=x;
       v=w; w=x;x=u;
@@ -446,25 +446,25 @@ Element::Float SolverCrankNicolson::GoldenSection(Float tol,unsigned int MaxIter
 
   x0=ax;
   x3=cx;
-  if (fabs(cx-bx) > fabs(bx-ax)){
+  if (fabs(cx-bx) > vcl_fabs(bx-ax)){
     x1=bx;
     x2=bx+C*(cx-bx);
   } else {
     x2=bx;
     x1=bx-C*(bx-ax);
   }
-  f1=fabs(EvaluateResidual(x1));
-  f2=fabs(EvaluateResidual(x2));
+  f1=vcl_fabs(EvaluateResidual(x1));
+  f2=vcl_fabs(EvaluateResidual(x2));
   unsigned int iters=0;
-  while (fabs(x3-x0) > tol*(fabs(x1)+fabs(x2)) && iters < MaxIters)
+  while (fabs(x3-x0) > tol*(fabs(x1)+vcl_fabs(x2)) && iters < MaxIters)
   {
     iters++;
     if (f2 < f1){
       x0=x1; x1=x2; x2=R*x1+C*x3;
-      f1=f2; f2=fabs(EvaluateResidual(x2));
+      f1=f2; f2=vcl_fabs(EvaluateResidual(x2));
     } else {
       x3=x2; x2=x1; x1=R*x2+C*x0;
-      f2=f1; f1=fabs(EvaluateResidual(x1));
+      f2=f1; f1=vcl_fabs(EvaluateResidual(x1));
     }
   }
   if (f1<f2){
@@ -581,7 +581,7 @@ Element::Float SolverCrankNicolson::EvaluateResidual(Float t)
     }
     DeformationEnergy+=iSolVal*TempRowVal;
   }
-  Float Energy=(Float) fabs(DeformationEnergy-ForceEnergy);
+  Float Energy=(Float) vcl_fabs(DeformationEnergy-ForceEnergy);
   return Energy;
 }
 
@@ -610,7 +610,7 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
     else if (CurrentSolution > maxs2 ) {
       maxs2=CurrentSolution;
     } 
-    if (fabs(CurrentSolution) > absmax) absmax=fabs(CurrentSolution);
+    if (fabs(CurrentSolution) > absmax) absmax=vcl_fabs(CurrentSolution);
 
 //  note: set rather than add - i.e. last solution of system not total solution  
 #ifdef LOCE
@@ -634,8 +634,8 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
     m_ls->AddVectorValue(i , CurrentForce, ForceTotalIndex);
     CurrentTotSolution=m_ls->GetSolutionValue(i,TotalSolutionIndex);
    
-    if ( fabs(CurrentTotSolution) > maxs ) {
-      maxs=fabs(CurrentTotSolution);
+    if ( vcl_fabs(CurrentTotSolution) > maxs ) {
+      maxs=vcl_fabs(CurrentTotSolution);
     }
 
     

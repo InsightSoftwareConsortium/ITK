@@ -119,8 +119,8 @@ CenteredSimilarity2DTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {
   const double angle = this->GetAngle();
-  const double ca = cos( angle );
-  const double sa = sin( angle );
+  const double ca = vcl_cos(angle );
+  const double sa = vcl_sin(angle );
 
   this->m_Jacobian.Fill(0.0);
 

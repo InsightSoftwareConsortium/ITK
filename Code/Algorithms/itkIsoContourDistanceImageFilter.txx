@@ -307,11 +307,11 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
             grad[ng] = (grad0[ng]*alpha0 + grad1[ng]*alpha1)/vs_2[ng];
             norm += grad[ng]*grad[ng];
             }
-          norm = sqrt((float)norm);
+          norm = vcl_sqrt((float)norm);
 
           if (norm > NumericTraits<PixelType>::min())
             {
-            val = fabs((float)grad[n])*vs[n]/norm/diff;
+            val = vcl_fabs((float)grad[n])*vs[n]/norm/diff;
             
             val0_new = val0*val;
             val1_new = val1*val;    
@@ -511,18 +511,18 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
              grad[ng] = (grad0[ng]*alpha0 + grad1[ng]*alpha1)/vs_2[ng];
              norm += grad[ng]*grad[ng];
              }
-          norm = sqrt((float)norm);
+          norm = vcl_sqrt((float)norm);
           
           if (norm > NumericTraits<PixelType>::min())
             {
-            val = fabs((float)grad[n])*vs[n]/norm/diff;
+            val = vcl_fabs((float)grad[n])*vs[n]/norm/diff;
             
             val0_new = val0*val;
             val1_new = val1*val;    
            
-            if(fabs((float)val0_new) < fabs((float)outNeigIt.GetNext(n,0)))
+            if(fabs((float)val0_new) < vcl_fabs((float)outNeigIt.GetNext(n,0)))
               outNeigIt.SetNext(n,0,static_cast<PixelType>(val0_new) );
-            if(fabs((float)val1_new) < fabs((float)outNeigIt.GetNext(n,1)))
+            if(fabs((float)val1_new) < vcl_fabs((float)outNeigIt.GetNext(n,1)))
               outNeigIt.SetNext(n,1,static_cast<PixelType>(val1_new) );
             }
           else

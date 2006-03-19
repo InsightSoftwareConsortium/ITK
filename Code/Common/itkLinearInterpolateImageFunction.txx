@@ -80,7 +80,7 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
     {
     // The following "if" block is equivalent to the following line without
     // having to call floor.
-    //    baseIndex[dim] = (long) floor( index[dim] );
+    //    baseIndex[dim] = (long) vcl_floor(index[dim] );
     if (index[dim] >= 0.0)
       {
       baseIndex[dim] = (long) index[dim];

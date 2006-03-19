@@ -29,7 +29,7 @@ namespace Function {
 /** 
  * \class CosineWindowFunction
  * \brief Window function for sinc interpolation.
- * \f[ w(x) = cos ( \frac{\pi x}{2 m} ) \f]
+ * \f[ w(x) = cos(\frac{\pi x}{2 m} ) \f]
  * \sa WindowedSincInterpolateImageFunction 
  */
 template< unsigned int VRadius, 
@@ -38,7 +38,7 @@ class CosineWindowFunction
 {
 public:
   inline TOutput operator()( const TInput & A ) const
-    { return (TOutput) cos( A * m_Factor ); }
+    { return (TOutput) vcl_cos(A * m_Factor ); }
 private:
   /** Equal to \f$ \frac{\pi}{2 m} \f$ */
   static const double m_Factor;
@@ -47,7 +47,7 @@ private:
 /** 
  * \class HammingWindowFunction
  * \brief Window function for sinc interpolation.
- * \f[ w(x) = 0.54 + 0.46 cos ( \frac{\pi x}{m} ) \f]
+ * \f[ w(x) = 0.54 + 0.46 cos(\frac{\pi x}{m} ) \f]
  * \sa WindowedSincInterpolateImageFunction 
  */
 template< unsigned int VRadius, 
@@ -56,7 +56,7 @@ class HammingWindowFunction
 {
 public:
   inline TOutput operator()( const TInput & A ) const
-   { return (TOutput) 0.54 + 0.46 * cos( A * m_Factor ); }
+   { return (TOutput) 0.54 + 0.46 * vcl_cos(A * m_Factor ); }
 private:
   /** Equal to \f$ \frac{\pi}{m} \f$ */
   static const double m_Factor;
@@ -97,7 +97,7 @@ public:
     {
     if(A == 0.0) return (TOutput) 1.0;
     double z = m_Factor * A;
-    return (TOutput) ( sin(z) / z ); 
+    return (TOutput) ( vcl_sin(z) / z ); 
     }
 private:
   /** Equal to \f$ \frac{\pi}{m} \f$ */
@@ -118,7 +118,7 @@ public:
   inline TOutput operator()( const TInput & A ) const
     {
     return (TOutput)
-      (0.42 + 0.5 * cos(A * m_Factor1) + 0.08 * cos(A * m_Factor2));
+      (0.42 + 0.5 * vcl_cos(A * m_Factor1) + 0.08 * vcl_cos(A * m_Factor2));
     }
 private:
   /** Equal to \f$ \frac{\pi}{m} \f$ */
@@ -130,11 +130,11 @@ private:
 
 } // namespace Function
 
-/** 
+/**
  * \class WindowedSincInterpolateImageFunction
  * \brief Use the windowed sinc function to interpolate
  * \author Paul A. Yushkevich
- * 
+ *
  * \par THEORY
  *
  * This function is intended to provide an interpolation function that 
@@ -328,7 +328,7 @@ private:
   inline double Sinc(double x) const
     { 
     double px = vnl_math::pi * x;
-    return (x == 0.0) ? 1.0 : sin(px) / px;
+    return (x == 0.0) ? 1.0 : vcl_sin(px) / px;
     }
 };
 

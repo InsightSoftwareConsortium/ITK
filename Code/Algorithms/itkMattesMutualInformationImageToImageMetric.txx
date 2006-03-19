@@ -567,7 +567,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     double windowTerm =
       static_cast<double>( (*iter).FixedImageValue ) / m_FixedImageBinSize -
         m_FixedImageNormalizedMin;
-    unsigned int pindex = static_cast<unsigned int>( floor( windowTerm ) );
+    unsigned int pindex = static_cast<unsigned int>( vcl_floor(windowTerm ) );
 
     // Make sure the extreme values are in valid bins
     if ( pindex < 2 )
@@ -647,7 +647,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       double movingImageParzenWindowTerm =
         movingImageValue / m_MovingImageBinSize - m_MovingImageNormalizedMin;
       unsigned int movingImageParzenWindowIndex = 
-        static_cast<unsigned int>( floor( movingImageParzenWindowTerm ) );
+        static_cast<unsigned int>( vcl_floor(movingImageParzenWindowTerm ) );
 
       // Make sure the extreme values are in valid bins
       if ( movingImageParzenWindowIndex < 2 )
@@ -818,10 +818,10 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       if( jointPDFValue > 1e-16 &&  movingImagePDFValue > 1e-16 )
         {
 
-        double pRatio = log( jointPDFValue / movingImagePDFValue );
+        double pRatio = vcl_log(jointPDFValue / movingImagePDFValue );
         if( fixedImagePDFValue > 1e-16)
           {
-          sum += jointPDFValue * ( pRatio - log( fixedImagePDFValue ) );
+          sum += jointPDFValue * ( pRatio - vcl_log(fixedImagePDFValue ) );
           }
 
         }  // end if-block to check non-zero bin contribution
@@ -906,7 +906,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       double movingImageParzenWindowTerm =
         movingImageValue / m_MovingImageBinSize - m_MovingImageNormalizedMin;
       unsigned int movingImageParzenWindowIndex = 
-        static_cast<unsigned int>( floor( movingImageParzenWindowTerm ) );
+        static_cast<unsigned int>( vcl_floor(movingImageParzenWindowTerm ) );
 
      // Make sure the extreme values are in valid bins     
       if ( movingImageParzenWindowIndex < 2 )
@@ -1108,11 +1108,11 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       if( jointPDFValue > 1e-16 &&  movingImagePDFValue > 1e-16 )
         {
 
-        double pRatio = log( jointPDFValue / movingImagePDFValue );
+        double pRatio = vcl_log(jointPDFValue / movingImagePDFValue );
 
         if( fixedImagePDFValue > 1e-16)
           {
-          sum += jointPDFValue * ( pRatio - log( fixedImagePDFValue ) );
+          sum += jointPDFValue * ( pRatio - vcl_log(fixedImagePDFValue ) );
           }
 
         // move joint pdf derivative pointer to the right position

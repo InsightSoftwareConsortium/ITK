@@ -106,7 +106,7 @@ MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
   double mahalanobisDistance = 
     m_MahalanobisDistanceMembershipFunction->Evaluate( 
                                     this->GetInputImage()->GetPixel( index ) );
-  return ( sqrt( mahalanobisDistance ) <= m_Threshold );
+  return ( vcl_sqrt(mahalanobisDistance ) <= m_Threshold );
 }
 
 
@@ -132,7 +132,7 @@ MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
     m_MahalanobisDistanceMembershipFunction->Evaluate( 
                                   this->GetInputImage()->GetPixel( index ) );
   
-  const double mahalanobisDistance = sqrt( mahalanobisDistanceSquared );
+  const double mahalanobisDistance = vcl_sqrt(mahalanobisDistanceSquared );
 
   return  mahalanobisDistance;
 }

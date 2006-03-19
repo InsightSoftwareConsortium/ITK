@@ -123,7 +123,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
   rightP=vertlist.back();
 
   double beginy=currP[1];
-  int intbeginy=(int)ceil(beginy); 
+  int intbeginy=(int)vcl_ceil(beginy); 
   idx[1]=intbeginy;
   double leftendy=leftP[1];
   double rightendy=rightP[1];
@@ -167,7 +167,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
     rightDx=(rightP[0]-endx)/(rightP[1]-beginy);
     }
 
-  int intendy=(int)floor(endy);
+  int intendy=(int)vcl_floor(endy);
   if(intbeginy>intendy)
     { //no scanline
     if(RorL)
@@ -269,8 +269,8 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
       endy=leftendy;
       }
 
-    intendy=(int)floor(endy);
-    intbeginy=(int)ceil(beginy); 
+    intendy=(int)vcl_floor(endy);
+    intbeginy=(int)vcl_ceil(beginy); 
 
     if(intbeginy>intendy)
       { //no scanline
@@ -314,8 +314,8 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
     beginy=leftP[1];
     endy=rightP[1];
     }
-  intbeginy=(int)ceil(beginy);
-  intendy=(int)floor(endy);
+  intbeginy=(int)vcl_ceil(beginy);
+  intendy=(int)vcl_floor(endy);
   if(intbeginy<=intendy)
     {
     if(RorL)
@@ -686,7 +686,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
   rightP=vertlist.back();
   
   double beginy=currP[1];
-  int intbeginy=(int)ceil(beginy); 
+  int intbeginy=(int)vcl_ceil(beginy); 
   idx[1]=intbeginy;
   double leftendy=leftP[1];
   double rightendy=rightP[1];
@@ -728,7 +728,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
     {
     rightDx=(rightP[0]-endx)/(rightP[1]-beginy);
     }
-  int intendy=(int)floor(endy);
+  int intendy=(int)vcl_floor(endy);
   if(intbeginy>intendy)
     { //no scanline
     if(RorL)
@@ -830,8 +830,8 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
       endy=leftendy;
       }
 
-    intendy=(int)floor(endy);
-    intbeginy=(int)ceil(beginy); 
+    intendy=(int)vcl_floor(endy);
+    intbeginy=(int)vcl_ceil(beginy); 
 
     if(intbeginy>intendy)
       { //no scanline
@@ -875,8 +875,8 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
     beginy=leftP[1];
     endy=rightP[1];
     }
-  intbeginy=(int)ceil(beginy);
-  intendy=(int)floor(endy);
+  intbeginy=(int)vcl_ceil(beginy);
+  intendy=(int)vcl_floor(endy);
   if(intbeginy<=intendy)
     {
     if(RorL)
