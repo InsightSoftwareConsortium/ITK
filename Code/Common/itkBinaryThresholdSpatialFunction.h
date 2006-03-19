@@ -45,7 +45,7 @@ class ITK_EXPORT BinaryThresholdSpatialFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef BinaryThresholdSpatialFunction Self;
+  typedef BinaryThresholdSpatialFunction                       Self;
   typedef SpatialFunction< bool, 
                            ::itk::GetImageDimension<TFunction>::ImageDimension, 
                            ITK_TYPENAME TFunction::InputType > Superclass;

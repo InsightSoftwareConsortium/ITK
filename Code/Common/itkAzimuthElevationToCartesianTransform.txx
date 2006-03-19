@@ -176,9 +176,8 @@ TransformCartesianToAzEl(const OutputPointType &point) const
                                             + ((m_MaxElevation-1)/2.0);
   result[2] = ((sqrt( point[0] * point[0] +
                       point[1] * point[1] +
-                      point[2] * point[2]) 
-                / m_RadiusSampleSize)
-               - m_FirstSampleDistance);
+                      point[2] * point[2]) / m_RadiusSampleSize) 
+                      - m_FirstSampleDistance);
   return result;
 }
 

@@ -112,8 +112,7 @@ BinaryBallStructuringElement<TPixel, VDimension, TAllocator>
   // Copy the ellipsoid into the kernel
   //
   Iterator kernel_it;
-  for (it.GoToBegin(), kernel_it=this->Begin(); !it.IsAtEnd();
-       ++it, ++kernel_it)
+  for (it.GoToBegin(), kernel_it=this->Begin();!it.IsAtEnd();++it,++kernel_it)
     {
     *kernel_it = it.Get();
     }

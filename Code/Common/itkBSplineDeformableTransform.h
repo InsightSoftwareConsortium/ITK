@@ -239,7 +239,7 @@ public:
   /** Parameters as SpaceDimension number of images. */
   typedef typename ParametersType::ValueType                      PixelType;
   typedef Image<PixelType,itkGetStaticConstMacro(SpaceDimension)> ImageType;
-  typedef typename ImageType::Pointer                          ImagePointer;
+  typedef typename ImageType::Pointer                             ImagePointer;
 
   /** Get the array of coefficient images. */
   virtual ImagePointer * GetCoefficientImage()
