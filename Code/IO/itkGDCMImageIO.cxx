@@ -698,41 +698,41 @@ void GDCMImageIO::Write(const void* buffer)
 // settings for pixel spacing, spacing between slices, image position
 // patient and the row/column direction cosines.
 
-#if 0
-  // Handle Origin = Image Position Patient
-  // Origin must be converted into LPS coordinates
-  // DICOM specifies its origin in LPS coordinate, regardless of how
-  // the data is acquired. itk's origin must be in the same
-  // coordinate system as the data.
-  Point<double,3> itkOrigin, dicomOrigin;
-  Matrix<double,3,3> itkDirection;
-  itkOrigin[0] = m_Origin[0];
-  itkOrigin[1] = m_Origin[1];
-  itkOrigin[2] = m_Origin[2];
-  std::cout << "m_Origin: " << itkOrigin << std::endl;
-  for (unsigned int i = 0; i < 3; i++)
+  if(m_Dimensions.size() > 2 && m_Dimensions[2]>1)
     {
-    for (unsigned int j = 0; j < 3; j++)
+    // Handle Origin = Image Position Patient
+    // Origin must be converted into LPS coordinates
+    // DICOM specifies its origin in LPS coordinate, regardless of how
+    // the data is acquired. itk's origin must be in the same
+    // coordinate system as the data.
+    Point<double,3> itkOrigin, dicomOrigin;
+    Matrix<double,3,3> itkDirection;
+    itkOrigin[0] = m_Origin[0];
+    itkOrigin[1] = m_Origin[1];
+    itkOrigin[2] = m_Origin[2];
+    std::cout << "m_Origin: " << itkOrigin << std::endl;
+    for (unsigned int i = 0; i < 3; i++)
       {
-      itkDirection[i][j] = m_Direction[i][j];
+      for (unsigned int j = 0; j < 3; j++)
+        {
+        itkDirection[i][j] = m_Direction[i][j];
+        }
       }
-    }
-  dicomOrigin = itkDirection * itkOrigin;
-  std::cout << "Direction: " << itkDirection;
-  str.str("");
-  str << dicomOrigin[0] << "\\" << dicomOrigin[1] << "\\" << dicomOrigin[2];
-  header->InsertValEntry(str.str(),0x0020,0x0032); // Image Position Patient
+    dicomOrigin = itkDirection * itkOrigin;
+    str.str("");
+    str << dicomOrigin[0] << "\\" << dicomOrigin[1] << "\\" << dicomOrigin[2];
+    header->InsertValEntry(str.str(),0x0020,0x0032); // Image Position (Patient)
 
-  // Handle Direction = Image Orientation Patient
-  str.str("");
-  str << m_Direction[0][0] << "\\" 
+    // Handle Direction = Image Orientation Patient
+    str.str("");
+    str << m_Direction[0][0] << "\\" 
       << m_Direction[1][0] << "\\" 
       << m_Direction[2][0] << "\\" 
       << m_Direction[0][1] << "\\" 
       << m_Direction[1][1] << "\\" 
       << m_Direction[2][1];
-  header->InsertValEntry(str.str(),0x0020,0x0037); // Image Orientation Patient
-#endif
+    header->InsertValEntry(str.str(),0x0020,0x0037); // Image Orientation (Patient)
+    }
 
   str.unsetf( itksys_ios::ios::fixed ); // back to normal
   // Handle the bitDepth:
