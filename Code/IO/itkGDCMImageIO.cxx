@@ -786,16 +786,16 @@ void GDCMImageIO::Write(const void* buffer)
     switch (this->GetComponentType())
       {
       case ImageIOBase::CHAR:
-        bitsAllocated = "24"; // Bits Allocated
-        bitsStored    = "24"; // Bits Stored
-        highBit       = "24"; // High Bit
+        bitsAllocated = "8"; // Bits Allocated
+        bitsStored    = "8"; // Bits Stored
+        highBit       = "7"; // High Bit
         pixelRep      = "1"; // Pixel Representation
         break;
 
       case ImageIOBase::UCHAR:
-        bitsAllocated = "24"; // Bits Allocated
-        bitsStored    = "24"; // Bits Stored
-        highBit       = "24"; // High Bit
+        bitsAllocated = "8"; // Bits Allocated
+        bitsStored    = "8"; // Bits Stored
+        highBit       = "7"; // High Bit
         pixelRep      = "0"; // Pixel Representation
         break;
 
@@ -813,6 +813,10 @@ void GDCMImageIO::Write(const void* buffer)
   header->InsertValEntry( bitsStored, 0x0028, 0x0101 ); //Bits Stored
   header->InsertValEntry( highBit, 0x0028, 0x0102 ); //High Bit
   header->InsertValEntry( pixelRep, 0x0028, 0x0103 ); //Pixel Representation
+
+  str.str("");
+  str << m_NumberOfComponents;
+  header->InsertValEntry(str.str(),0x0028,0x0002); // Samples per Pixel
 
   if( !m_KeepOriginalUID )
   {
