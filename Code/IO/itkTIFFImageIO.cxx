@@ -17,7 +17,7 @@
 =========================================================================*/
 #ifdef _MSC_VER
 #pragma warning( disable : 4611 )
-#endif 
+#endif
 
 #include "itkTIFFImageIO.h"
 #include "itkRGBPixel.h"
@@ -71,7 +71,7 @@ int TIFFReaderInternal::Open( const char *filename )
     {
     return 0;
     }
-  
+
   this->Image = TIFFOpen(filename, "r");
   if ( !this->Image)
     {
@@ -130,13 +130,14 @@ int TIFFReaderInternal::Initialize()
       {
       return 0;
       }
-   
-    // Check the number of pages. First by looking at the number of directories 
-    this->NumberOfPages=TIFFNumberOfDirectories(this->Image);
-            
+
+    // Check the number of pages. First by looking at the number of directories
+    this->NumberOfPages = TIFFNumberOfDirectories(this->Image);
+
     if(this->NumberOfPages == 0)
       {
-      if ( !TIFFGetField(this->Image,TIFFTAG_PAGENUMBER,&this->CurrentPage, &this->NumberOfPages))
+      if ( !TIFFGetField(this->Image,TIFFTAG_PAGENUMBER,&this->CurrentPage,
+          &this->NumberOfPages))
         {
         // Check the Image Description tag to know the number of images
         // This is used by ImageJ
@@ -159,12 +160,13 @@ int TIFFReaderInternal::Initialize()
     if(this->NumberOfPages == 0 && TIFFIsTiled(this->Image))
       {
       this->NumberOfTiles = TIFFNumberOfTiles(this->Image);
-      
+
       if ( !TIFFGetField(this->Image,TIFFTAG_TILEWIDTH,&this->TileWidth)
         || !TIFFGetField(this->Image,TIFFTAG_TILELENGTH,&this->TileHeight)
         )
         {
-        itkGenericExceptionMacro( << "Cannot read tile width and tile length from file" );
+        itkGenericExceptionMacro(
+          << "Cannot read tile width and tile length from file" );
         }
       else
         {
@@ -242,15 +244,15 @@ int TIFFReaderInternal::CanRead()
 
 
 
-bool TIFFImageIO::CanReadFile(const char* file) 
-{ 
+bool TIFFImageIO::CanReadFile(const char* file)
+{
   // First check the extension
   std::string filename = file;
   if(  filename == "" )
     {
     itkDebugMacro(<<"No filename specified.");
     return false;
-    }   
+    }
 
   // Now check if this is a valid TIFF image
   TIFFErrorHandler save = TIFFSetErrorHandler(0);
@@ -292,7 +294,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage( void *out,
           itkExceptionMacro( << "Problem reading the row: " << row );
           break;
           }
-          
+
         if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
           {
           image = reinterpret_cast<unsigned char*>(out) + row * width * inc;
@@ -302,12 +304,12 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage( void *out,
           image = reinterpret_cast<unsigned char*>(out) + width * inc * (height - (row + 1));
           }
 
-        for (cc = 0; cc < isize; 
+        for (cc = 0; cc < isize;
              cc += m_InternalImage->SamplesPerPixel )
           {
-          inc = this->EvaluateImageAt( image, 
+          inc = this->EvaluateImageAt( image,
                                        static_cast<unsigned char *>(buf) +
-                                       cc );      
+                                       cc );
           image += inc;
           }
         }
@@ -315,7 +317,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage( void *out,
     else if(m_InternalImage->PlanarConfig == PLANARCONFIG_SEPARATE)
       {
       unsigned long s;
-      unsigned long nsamples;
+      unsigned long nsamples = 0;
       TIFFGetField(m_InternalImage->Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
       for (s = 0; s < nsamples; s++)
         {
@@ -326,7 +328,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage( void *out,
             itkExceptionMacro( << "Problem reading the row: " << row );
             break;
             }
-          
+
           inc = 3;
 
           if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
@@ -340,7 +342,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage( void *out,
 
           // We translate the output pixel to be on the right RGB
           image += s;
-          for (cc = 0; cc < isize; 
+          for (cc = 0; cc < isize;
                cc += 1)
             {
             (*image) = *(static_cast<unsigned char *>(buf) + cc);
@@ -364,7 +366,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage( void *out,
           itkExceptionMacro( << "Problem reading the row: " << row );
           break;
           }
-          
+
         if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
           {
           image = reinterpret_cast<unsigned short*>(out) + row * width * inc;
@@ -374,12 +376,12 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage( void *out,
           image = reinterpret_cast<unsigned short*>(out) + width * inc * (height - (row + 1));
           }
 
-        for (cc = 0; cc < isize; 
+        for (cc = 0; cc < isize;
              cc += m_InternalImage->SamplesPerPixel )
           {
-          inc = this->EvaluateImageAt( image, 
+          inc = this->EvaluateImageAt( image,
                                        static_cast<unsigned short *>(buf) +
-                                       cc );      
+                                       cc );
           image += inc;
           }
         }
@@ -397,7 +399,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage( void *out,
             itkExceptionMacro( << "Problem reading the row: " << row );
             break;
             }
-          
+
           if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
             {
             image = reinterpret_cast<unsigned short*>(out) + row * width * inc;
