@@ -78,7 +78,7 @@ ContourSpatialObject< TDimension >
 {
   m_ControlPoints.clear();
         
-  typename PointListType::iterator it,end;
+  typename ControlPointListType::iterator it,end;
   it = points.begin();    
   end = points.end();
   while(it != end)
@@ -117,7 +117,7 @@ ContourSpatialObject< TDimension >
 {
   m_InterpolatedPoints.clear();
         
-  typename PointListType::iterator it,end;
+  typename InterpolatedPointListType::iterator it,end;
   it = points.begin();    
   end = points.end();
   while(it != end)
