@@ -161,4 +161,15 @@ typedef struct
    } MET_FieldRecordType;
 
 
+typedef enum { MET_NO_INTERPOLATION, MET_EXPLICIT_INTERPOLATION, MET_BEZIER_INTERPOLATION, MET_LINEAR_INTERPOLATION} 
+                                                                        MET_InterpolationEnumType;
+
+#define MET_NUM_INTERPOLATION_TYPES 4
+
+const char MET_InterpolationTypeName[MET_NUM_INTERPOLATION_TYPES][17] = {
+   {'M','E','T','_','N','O','N','E','\0',' ',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','E','X','P','L','I','C','I','T','\0',' ',' ',' ',' '},
+   {'M','E','T','_','B','E','Z','I','E','R','\0',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','L','I','N','E','A','R','\0',' ',' ',' ',' ',' ',' '}};
+
 #endif

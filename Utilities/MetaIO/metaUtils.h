@@ -245,4 +245,10 @@ inline MET_ValueEnumType MET_GetPixelType(const std::type_info& ptype)
     }
 }
 
+extern bool MET_StringToInterpolationType(const char * _str,
+                               MET_InterpolationEnumType * _type);
+
+extern bool MET_InterpolationTypeToString(MET_InterpolationEnumType _type,
+                               char * _str);
+
 #endif

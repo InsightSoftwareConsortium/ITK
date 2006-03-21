@@ -12,6 +12,7 @@
 #include "metaObject.h"
 #include "metaScene.h"
 #include "metaTube.h"
+#include "metaContour.h"
 #include "metaDTITube.h"
 #include "metaVesselTube.h"
 #include "metaEllipse.h"
@@ -215,6 +216,15 @@ Read(const char *_headerName)
       ellipse->SetEvent(m_Event);
       ellipse->ReadStream(m_NDims,m_ReadStream);
       m_ObjectList.push_back(ellipse);
+    }
+
+    else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Contour",7) ||
+            ((MET_ReadType(*m_ReadStream).size()==0) && !strcmp(suf, "ctr")))
+    {
+      MetaContour* contour = new MetaContour();
+      contour->SetEvent(m_Event);
+      contour->ReadStream(m_NDims,m_ReadStream);
+      m_ObjectList.push_back(contour);
     }
 
     else if(!strncmp(MET_ReadType(*m_ReadStream).c_str(),"Arrow",5))

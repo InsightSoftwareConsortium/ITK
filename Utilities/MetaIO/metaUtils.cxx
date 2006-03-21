@@ -1240,3 +1240,26 @@ bool MET_WriteFieldToFile(std::ostream & _fp, const char *_fieldName,
   return true;
   }
 
+bool MET_StringToInterpolationType(const char * _str,
+                               MET_InterpolationEnumType * _type)
+  {
+  int i;
+
+  for(i=0; i<MET_NUM_INTERPOLATION_TYPES; i++)
+    if(!strcmp(MET_InterpolationTypeName[i], _str))
+      {
+      *_type = (MET_InterpolationEnumType)i;
+      return true;
+      }
+
+  *_type = MET_NO_INTERPOLATION;
+
+  return false;
+  }
+
+bool MET_InterpolationTypeToString(MET_InterpolationEnumType _type,
+                               char * _str)
+  {
+  strcpy(_str, MET_InterpolationTypeName[(int)_type]);
+  return true;
+  }
