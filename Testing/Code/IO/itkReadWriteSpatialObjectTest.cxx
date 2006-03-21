@@ -21,6 +21,7 @@
 #include "itkTubeSpatialObject.h"
 #include "itkDTITubeSpatialObject.h"
 #include "itkVesselTubeSpatialObject.h"
+#include "itkContourSpatialObject.h"
 #include "itkGroupSpatialObject.h"
 #include "itkSpatialObjectWriter.h"
 #include "itkSpatialObjectReader.h"
@@ -44,6 +45,8 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   typedef LandmarkType::Pointer            LandmarkPointer;
   typedef itk::VesselTubeSpatialObject<3>  VesselTubeType;
   typedef itk::DTITubeSpatialObject<3>     DTITubeType;
+  typedef itk::ContourSpatialObject<3>     ContourType;
+
 
   typedef itk::ImageSpatialObject<3,unsigned short>  ImageType;
 
@@ -287,16 +290,47 @@ int itkReadWriteSpatialObjectTest(int, char*[])
 
   tubeN2->AddSpatialObject( image );
 
+
+  // Define a contour
+  ContourType::Pointer contour = ContourType::New();
+  contour->GetProperty()->SetName("My First Contour");
+  contour->SetInterpolationType(ContourType::EXPLICIT_INTERPOLATION);
+  contour->SetClosed(true);
+
+  for(int i = 0;i<10;i++)
+    {
+    ContourType::ControlPointType ctrlPt;
+    ctrlPt.SetID(i);
+    ctrlPt.SetPickedPoint(-i,-i,-i);
+    ctrlPt.SetPosition(i,i,i);
+    ctrlPt.SetNormal(i,i,i);
+    ctrlPt.SetRed(i);
+    ctrlPt.SetGreen(i+1);
+    ctrlPt.SetBlue(i+2);
+    ctrlPt.SetAlpha(i+3);
+    contour->GetControlPoints().push_back(ctrlPt);
+    
+    ContourType::InterpolatedPointType iPt;
+    iPt.SetID(i);
+    iPt.SetRed(i);
+    iPt.SetGreen(i+1);
+    iPt.SetBlue(i+2);
+    iPt.SetAlpha(i+3);
+    iPt.SetPosition(i,i,i);
+    contour->GetInterpolatedPoints().push_back(iPt);
+    }
+  
   tubeN1->AddSpatialObject( tubeN2 );
   tubeN1->AddSpatialObject( blob );
   tubeN1->AddSpatialObject( line );
   tubeN1->AddSpatialObject( surface );
   tubeN1->AddSpatialObject( landmark );
   tubeN1->AddSpatialObject( ellipse );
+  tubeN1->AddSpatialObject( contour );
 
   std::cout<<"Testing Number of children: ";
   
-  if( tubeN1->GetNumberOfChildren() != 8 )
+  if( tubeN1->GetNumberOfChildren() != 9)
     {
     std::cout<< tubeN1->GetNumberOfChildren()  << "[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -341,9 +375,9 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     }
 
   std::cout<<"Testing Number of children:";
-  if(myScene->GetNumberOfObjects(1) != 9)
+  if(myScene->GetNumberOfObjects(1) != 10)
     {
-    std::cout << "found " << myScene->GetNumberOfObjects(1) << " instead of 9" << std::endl;
+    std::cout << "found " << myScene->GetNumberOfObjects(1) << " instead of 10" << std::endl;
     std::cout<<" [FAILED]"<<std::endl;
     return EXIT_FAILURE;
     }
@@ -857,8 +891,146 @@ int itkReadWriteSpatialObjectTest(int, char*[])
         }
       }
     }
-  delete mySceneChildren;
+  
   std::cout<<" [PASSED]"<<std::endl; 
+  std::cout<<"Testing Contour validity:";
+  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+    {
+    if(!strcmp((*obj)->GetTypeName(),"ContourSpatialObject"))
+      {
+      if(!dynamic_cast<ContourType*>((*obj).GetPointer())->GetClosed())
+        {
+        std::cout << "The contour should be closed" << std::endl;
+        return EXIT_FAILURE;
+        }
+
+      ContourType::ControlPointListType::const_iterator ctrl;
+      int value = 0;
+
+      for(ctrl = dynamic_cast<ContourType*>((*obj).GetPointer())->GetControlPoints().begin(); 
+          ctrl != dynamic_cast<ContourType*>((*obj).GetPointer())->GetControlPoints().end(); 
+          ctrl++)
+        {
+        for(unsigned int d=0;d<3;d++)
+          {       
+          if((*ctrl).GetID() != value)
+            {
+            std::cout << "Control ID [FAILED]" << (*ctrl).GetID() 
+                      << " v.s. " << value << std::endl;
+            return EXIT_FAILURE;
+            }
+
+          if((*ctrl).GetPosition()[d]!=value)
+            {
+            std::cout << "Control Position [FAILED]" << std::endl;
+            return EXIT_FAILURE;
+            }
+
+         if((*ctrl).GetPickedPoint()[d]!=-value)
+            {
+            std::cout << "Picked Point [FAILED]" << (*ctrl).GetPickedPoint() 
+                      << " v.s. " << -value << std::endl;
+            return EXIT_FAILURE;
+            }
+
+          if(((*ctrl).GetNormal())[d]!= value)
+            {
+            std::cout << "Normal [FAILED]" << std::endl;
+            return EXIT_FAILURE;
+            }
+
+          // Testing the color of the tube points
+          if( (*ctrl).GetRed() != value)
+            {
+            std::cout << " [FAILED] : CRed : found " << (*ctrl).GetRed() 
+                      << " instead of " << value <<std::endl;
+            return EXIT_FAILURE;
+            }
+          
+          if((*ctrl).GetGreen()!=value+1)
+            {
+            std::cout << " [FAILED] : CGreen : found " << (*ctrl).GetGreen() 
+                      << " instead of " << value+1 <<std::endl;
+            return EXIT_FAILURE;
+            }
+      
+          if((*ctrl).GetBlue()!=value+2)
+            {
+            std::cout << " [FAILED] : CBlue : found " << (*ctrl).GetBlue()
+                      << " instead of " << value+2 <<std::endl;
+            return EXIT_FAILURE;
+            }
+    
+          if((*ctrl).GetAlpha()!=value+3)
+            {
+            std::cout << " [FAILED] : CAlpha : found " << (*ctrl).GetAlpha() 
+                      << " instead of " << value+3 <<std::endl;
+            return EXIT_FAILURE;
+            }
+          }
+        value++;
+        }
+
+      ContourType::InterpolatedPointListType::const_iterator inter;
+      value = 0;
+      for(inter = dynamic_cast<ContourType*>((*obj).GetPointer())->GetInterpolatedPoints().begin(); 
+          inter != dynamic_cast<ContourType*>((*obj).GetPointer())->GetInterpolatedPoints().end(); 
+          inter++)
+        {
+        for(unsigned int d=0;d<3;d++)
+          {
+          if((*inter).GetID()!=value)
+            {
+            std::cout << "Interpolated ID [FAILED]" << std::endl;
+            return EXIT_FAILURE;
+            }
+
+          if((*inter).GetPosition()[d]!=value)
+            {
+            std::cout << "Interpolated Position [FAILED]" << std::endl;
+            return EXIT_FAILURE;
+            }
+
+          // Testing the color of the tube points
+          if( (*inter).GetRed() != value)
+            {
+            std::cout << " [FAILED] : IRed : found " << (*inter).GetRed() 
+                      << " instead of " << value <<std::endl;
+            return EXIT_FAILURE;
+            }
+          
+          if((*inter).GetGreen()!=value+1)
+            {
+            std::cout << " [FAILED] : IGreen : found " << (*inter).GetGreen() 
+                      << " instead of " << value+1 <<std::endl;
+            return EXIT_FAILURE;
+            }
+      
+          if((*inter).GetBlue()!=value+2)
+            {
+            std::cout << " [FAILED] : IBlue : found " << (*inter).GetBlue() 
+                      << " instead of " << value+2 <<std::endl;
+            return EXIT_FAILURE;
+            }
+    
+          if((*inter).GetAlpha()!=value+3)
+            {
+            std::cout << " [FAILED] : IAlpha : found " << (*inter).GetAlpha() 
+                      << " instead of " << value+3 <<std::endl;
+            return EXIT_FAILURE;
+            }
+          }
+        value++;
+        }
+      }
+    }
+  
+  std::cout<<" [PASSED]"<<std::endl; 
+
+
+
+  delete mySceneChildren;
+
 
 /*
   // Now testing to read/write a scene
