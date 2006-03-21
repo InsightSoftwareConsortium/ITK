@@ -34,7 +34,7 @@ namespace gdcm
  *          representable
  *          BinEntry is a specialisation of ContentEntry
  */
- 
+
 class GDCM_EXPORT BinEntry  : public ContentEntry
 {
 public:

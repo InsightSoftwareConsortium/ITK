@@ -1625,7 +1625,7 @@ void FileHelper::CheckMandatoryElements()
    // Patient's Name : if missing, we set it to 'GDCM^Patient'
    CheckMandatoryEntry(0x0010,0x0010,"GDCM^Patient");
 
-   // Patient ID
+   // Patient ID : 'type 2' entry but some DICOM implementation really needs it.
    CheckMandatoryEntry(0x0010,0x0020,"GDCM ID");
 
    // Patient's Birth Date : 'type 2' entry -> must exist, value not mandatory

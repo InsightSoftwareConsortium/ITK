@@ -114,6 +114,7 @@ bool VR::IsVROfStringRepresentable(VRKey const &tested)
           tested == "CS" ||
           tested == "DA" ||
           tested == "DS" ||
+          tested == "DT" ||
           tested == "FL" ||
           tested == "FD" || 
           tested == "IS" || 

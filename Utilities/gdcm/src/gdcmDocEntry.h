@@ -25,7 +25,7 @@
 #include <iostream>
 #include <fstream>
 
-namespace gdcm 
+namespace gdcm
 {
 class File;
 class ValEntry;
@@ -49,7 +49,7 @@ public:
 
    /// \brief  Gets the DicEntry of the current Dicom entry
    /// @return The DicEntry of the current Dicom entry
-   DictEntry * GetDictEntry() { return DicomDict; } 
+   DictEntry * GetDictEntry() { return DicomDict; }
 
    /// Returns the Dicom Group number of the current Dicom entry
    uint16_t GetGroup() const { return DicomDict->GetGroup();  }
@@ -78,7 +78,7 @@ public:
    std::string const &GetVM() const { return DicomDict->GetVM(); }
 
    /// Sets the 'Value Multiplicity' of the current Dicom entry
-   void SetVM( TagName const &v) { DicomDict->SetVM(v); } 
+   void SetVM( TagName const &v) { DicomDict->SetVM(v); }
 
    /// \brief Returns offset (since the beginning of the file, including
    /// the File Preamble, if any) of the value of the current Dicom entry
@@ -113,7 +113,7 @@ public:
 
    /// Sets to TRUE the ImplicitVr flag of the current Dicom entry
    void SetImplicitVR() { ImplicitVR = true; }
- 
+
    /// \brief Tells us if the current Dicom entry was checked as ImplicitVr
    /// @return true if the current Dicom entry was checked as ImplicitVr
    bool IsImplicitVR() const { return ImplicitVR; }
@@ -128,18 +128,18 @@ public:
 
    bool IsItemDelimitor();
    bool IsItemStarter();
-   bool IsSequenceDelimitor();   
+   bool IsSequenceDelimitor();
 
    virtual void Copy(DocEntry *e);
 
 protected:
    /// \brief pointer to the underlying Dicom dictionary element
    DictEntry *DicomDict;
-   
+
    /// \brief Correspond to the real length of the data
    /// This length might always be even
-   uint32_t Length; 
-  
+   uint32_t Length;
+
    /// \brief Length to read in the file to obtain data
    uint32_t ReadLength;
 
@@ -149,7 +149,7 @@ protected:
    bool ImplicitVR;
 
    /// Offset from the beginning of file for direct user access
-   size_t Offset; 
+   size_t Offset;
 
    /// \brief Generalized key of this DocEntry (for details on
    ///        the generalized key refer to \ref TagKey documentation).

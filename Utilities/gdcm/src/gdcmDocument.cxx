@@ -1031,23 +1031,23 @@ void Document::ParseDES(DocEntrySet *set, long offset,
          newDocEntry = Backtrack(newDocEntry);
       }
       else
-      { 
-         PreviousDocEntry = newDocEntry; 
+      {
+         PreviousDocEntry = newDocEntry;
       }
- 
+
       used = true;
       newValEntry = dynamic_cast<ValEntry*>(newDocEntry);
       newBinEntry = dynamic_cast<BinEntry*>(newDocEntry);
 
-      if ( newValEntry || newBinEntry )  
+      if ( newValEntry || newBinEntry )
       {
        //////////////////////////// ContentEntry
          if ( newBinEntry )
          {
             vr = newDocEntry->GetVR();
-            if ( Filetype == ExplicitVR && 
+            if ( Filetype == ExplicitVR &&
                  !Global::GetVR()->IsVROfBinaryRepresentable(vr) )
-            { 
+            {
                 ////// Neither ValEntry NOR BinEntry: should mean UNKOWN VR
                 gdcmWarningMacro( std::hex << newDocEntry->GetGroup() 
                                   << "|" << newDocEntry->GetElement()
@@ -1073,12 +1073,12 @@ void Document::ParseDES(DocEntrySet *set, long offset,
             //   newBinEntry->SetKey(  parentSQItem->GetBaseTagKey()
             //                       + newBinEntry->GetKey() );
             //}
-           
+
             if ( !set->AddEntry( newBinEntry ) )
             {
                gdcmWarningMacro( "in ParseDES : cannot add a BinEntry "
-                                   << newBinEntry->GetKey()  
-                                   << " (at offset : " 
+                                   << newBinEntry->GetKey()
+                                   << " (at offset : "
                                    << newBinEntry->GetOffset() << " )" );
                used=false;
             }
@@ -2303,7 +2303,7 @@ DocEntry *Document::ReadNextDocEntry()
    // In 'true DICOM' files Group 0002 is always little endian
    if ( HasDCMPreamble )
       HandleOutOfGroup0002(group, elem);
- 
+
    std::string vr = FindDocEntryVR();
    std::string realVR = vr;
 
@@ -2314,8 +2314,8 @@ DocEntry *Document::ReadNextDocEntry()
          realVR = "UL";     // must be UL
       }
       else if (group%2 == 1 &&  (elem >= 0x0010 && elem <=0x00ff ))
-      {  
-      // DICOM PS 3-5 7.8.1 a) states that those 
+      {
+      // DICOM PS 3-5 7.8.1 a) states that those
       // (gggg-0010->00FF where gggg is odd) attributes have to be LO
          realVR = "LO";
       }
@@ -2344,7 +2344,7 @@ DocEntry *Document::ReadNextDocEntry()
          // We thought this was explicit VR, but we end up with an
          // implicit VR tag. Let's backtrack.
          if ( newEntry->GetGroup() != 0xfffe )
-         { 
+         {
             std::string msg;
             int offset = Fp->tellg();
             msg = Util::Format("Entry (%04x,%04x) at 0x(%x) should be Explicit VR\n", 
