@@ -60,6 +60,9 @@ TARGET_LINK_LIBRARIES(DicomImageReadPrintTags ITKCommon ITKIO)
 ADD_EXECUTABLE(DicomImageReadWrite DicomImageReadWrite.cxx )
 TARGET_LINK_LIBRARIES(DicomImageReadWrite ITKCommon ITKIO)
 
+ADD_EXECUTABLE(ImageReadDicomSeriesWrite ImageReadDicomSeriesWrite.cxx )
+TARGET_LINK_LIBRARIES(ImageReadDicomSeriesWrite ITKCommon ITKIO)
+
 ADD_EXECUTABLE(DicomImageReadChangeHeaderWrite DicomImageReadChangeHeaderWrite.cxx )
 TARGET_LINK_LIBRARIES(DicomImageReadChangeHeaderWrite ITKCommon ITKIO)
 
@@ -71,3 +74,4 @@ TARGET_LINK_LIBRARIES(DicomPrintPatientInformation ITKCommon ITKIO)
 
 ADD_EXECUTABLE(TransformReadWrite TransformReadWrite.cxx )
 TARGET_LINK_LIBRARIES(TransformReadWrite ITKCommon ITKIO)
+
