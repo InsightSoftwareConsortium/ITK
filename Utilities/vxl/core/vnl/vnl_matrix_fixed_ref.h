@@ -464,58 +464,58 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   //: Add \a s to each element of lhs matrix in situ
   vnl_matrix_fixed_ref const& operator+= (T s) const
   {
-    add( data_block(), s, data_block() ); return *this;
+    vnl_matrix_fixed_ref::add( data_block(), s, data_block() ); return *this;
   }
 
   //: Subtract \a s from each element of lhs matrix in situ
   vnl_matrix_fixed_ref const& operator-= (T s) const
   {
-    sub( data_block(), s, data_block() ); return *this;
+    vnl_matrix_fixed_ref::sub( data_block(), s, data_block() ); return *this;
   }
 
   //:
   vnl_matrix_fixed_ref const& operator*= (T s) const
   {
-    mul( data_block(), s, data_block() ); return *this;
+    vnl_matrix_fixed_ref::mul( data_block(), s, data_block() ); return *this;
   }
 
   //:
   vnl_matrix_fixed_ref const& operator/= (T s) const
   {
-    div( data_block(), s, data_block() ); return *this;
+    vnl_matrix_fixed_ref::div( data_block(), s, data_block() ); return *this;
   }
 
   //:
   vnl_matrix_fixed_ref const & operator+= (vnl_matrix_fixed_ref_const<T,num_rows,num_cols> const& m) const
   {
-    add( data_block(), m.data_block(), data_block() ); return *this;
+    vnl_matrix_fixed_ref::add( data_block(), m.data_block(), data_block() ); return *this;
   }
 
   //:
   vnl_matrix_fixed_ref const& operator+= (vnl_matrix<T> const& m) const
   {
     assert( m.rows() == num_rows && m.cols() == num_cols );
-    add( data_block(), m.data_block(), data_block() ); return *this;
+    vnl_matrix_fixed_ref::add( data_block(), m.data_block(), data_block() ); return *this;
   }
 
   //:
   vnl_matrix_fixed_ref const& operator-= (vnl_matrix_fixed_ref_const<T,num_rows,num_cols> const& m) const
   {
-    sub( data_block(), m.data_block(), data_block() ); return *this;
+    vnl_matrix_fixed_ref::sub( data_block(), m.data_block(), data_block() ); return *this;
   }
 
   //:
   vnl_matrix_fixed_ref const& operator-= (vnl_matrix<T> const& m) const
   {
     assert( m.rows() == num_rows && m.cols() == num_cols );
-    sub( data_block(), m.data_block(), data_block() ); return *this;
+    vnl_matrix_fixed_ref::sub( data_block(), m.data_block(), data_block() ); return *this;
   }
 
   //: Negate all elements of matrix
   vnl_matrix_fixed<T,num_rows,num_cols> operator- () const
   {
     vnl_matrix_fixed<T,num_rows,num_cols> r;
-    sub( T(0), data_block(), r.data_block() );
+    vnl_matrix_fixed_ref<T,num_rows,num_cols>::sub( T(0), data_block(), r.data_block() );
     return r;
   }
 

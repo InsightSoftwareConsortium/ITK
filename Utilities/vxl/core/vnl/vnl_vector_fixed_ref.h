@@ -366,44 +366,44 @@ class vnl_vector_fixed_ref : public vnl_vector_fixed_ref_const<T,n>
 
   //:
   vnl_vector_fixed_ref<T,n> const & operator+=( T s ) const {
-    add( data_block(), s, data_block() ); return *this;
+    vnl_vector_fixed_ref<T,n>::add( data_block(), s, data_block() ); return *this;
   }
 
   //:
   vnl_vector_fixed_ref<T,n> const & operator-=( T s ) const {
-    sub( data_block(), s, data_block() ); return *this;
+    vnl_vector_fixed_ref<T,n>::sub( data_block(), s, data_block() ); return *this;
   }
 
   //:
   vnl_vector_fixed_ref<T,n> const & operator*=( T s ) const {
-    mul( data_block(), s, data_block() ); return *this;
+    vnl_vector_fixed_ref<T,n>::mul( data_block(), s, data_block() ); return *this;
   }
 
   //:
   vnl_vector_fixed_ref<T,n> const & operator/=( T s ) const {
-    div( data_block(), s, data_block() ); return *this;
+    vnl_vector_fixed_ref<T,n>::div( data_block(), s, data_block() ); return *this;
   }
 
   //:
   vnl_vector_fixed_ref<T,n> const & operator+=( const vnl_vector_fixed<T,n>& v ) const {
-    add( data_block(), v.data_block(), data_block() ); return *this;
+    vnl_vector_fixed_ref<T,n>::add( data_block(), v.data_block(), data_block() ); return *this;
   }
 
   //:
   vnl_vector_fixed_ref<T,n> const & operator-=( const vnl_vector_fixed<T,n>& v ) const {
-    sub( data_block(), v.data_block(), data_block() ); return *this;
+    vnl_vector_fixed_ref<T,n>::sub( data_block(), v.data_block(), data_block() ); return *this;
   }
 
   //:
   vnl_vector_fixed_ref<T,n> const & operator+=( const vnl_vector<T>& v ) const {
     assert( v.size() == n );
-    add( data_block(), v.data_block(), data_block() ); return *this;
+    vnl_vector_fixed_ref<T,n>::add( data_block(), v.data_block(), data_block() ); return *this;
   }
 
   //:
   vnl_vector_fixed_ref<T,n> const & operator-=( const vnl_vector<T>& v ) const {
     assert( v.size() == n );
-    sub( data_block(), v.data_block(), data_block() ); return *this;
+    vnl_vector_fixed_ref<T,n>::sub( data_block(), v.data_block(), data_block() ); return *this;
   }
 };
 
