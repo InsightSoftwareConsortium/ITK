@@ -3,6 +3,8 @@ ADD_LIBRARY(ITKMetaIO
   metaBlob.cxx
   metaCommand.h
   metaCommand.cxx
+  metaContour.h
+  metaContour.cxx
   metaDTITube.cxx
   metaEllipse.cxx
   metaGroup.cxx
