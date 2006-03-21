@@ -46,7 +46,7 @@ namespace itk
 
 GDCMImageIO::GDCMImageIO()
 {
-  this->SetNumberOfDimensions(3); //needed for getting the 3 coordinates of 
+  this->SetNumberOfDimensions(3); //needed for getting the 3 coordinates of
                                   // the origin, even if it is a 2D slice.
   m_ByteOrder = LittleEndian; //default
   m_FileType = Binary;  //default...always true
@@ -71,10 +71,10 @@ GDCMImageIO::~GDCMImageIO()
 {
 }
 
-bool GDCMImageIO::OpenGDCMFileForReading(std::ifstream& os, 
+bool GDCMImageIO::OpenGDCMFileForReading(std::ifstream& os,
                                          const char* filename)
 {
-  // Make sure that we have a file to 
+  // Make sure that we have a file to
   if ( filename == "" )
     {
     itkExceptionMacro(<<"A FileName must be specified.");
@@ -86,7 +86,7 @@ bool GDCMImageIO::OpenGDCMFileForReading(std::ifstream& os,
     {
     os.close();
     }
-  
+
   // Open the new file for reading
   itkDebugMacro(<< "Initialize: opening file " << filename);
 
@@ -102,11 +102,10 @@ bool GDCMImageIO::OpenGDCMFileForReading(std::ifstream& os,
 }
 
 
-bool GDCMImageIO::OpenGDCMFileForWriting(std::ofstream& os, 
+bool GDCMImageIO::OpenGDCMFileForWriting(std::ofstream& os,
                                          const char* filename)
-                                       
 {
-  // Make sure that we have a file to 
+  // Make sure that we have a file to
   if ( filename == "" )
     {
     itkExceptionMacro(<<"A FileName must be specified.");
@@ -118,14 +117,14 @@ bool GDCMImageIO::OpenGDCMFileForWriting(std::ofstream& os,
     {
     os.close();
     }
-  
+
   // Open the new file for writing
   itkDebugMacro(<< "Initialize: opening file " << filename);
 
 #ifdef __sgi
   // Create the file. This is required on some older sgi's
   std::ofstream tFile(filename,std::ios::out);
-  tFile.close();                    
+  tFile.close();
 #endif
 
   // Actually open the file
@@ -147,8 +146,8 @@ bool GDCMImageIO::OpenGDCMFileForWriting(std::ofstream& os,
 
 // This method will only test if the header looks like a
 // GDCM image file.
-bool GDCMImageIO::CanReadFile(const char* filename) 
-{ 
+bool GDCMImageIO::CanReadFile(const char* filename)
+{
   std::ifstream file;
   std::string fname(filename);
 
@@ -482,7 +481,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
           // base64 streams have to be a multiple of 4 bytes long
           int encodedLengthEstimate = 2 * b->GetLength();
           encodedLengthEstimate = ((encodedLengthEstimate / 4) + 1) * 4;
-            
+
           char *bin = new char[encodedLengthEstimate];
           int encodedLengthActual = itksysBase64_Encode(
             (const unsigned char *) b->GetBinArea(),
@@ -490,16 +489,16 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
             (unsigned char *) bin,
             0);
           std::string encodedValue(bin, encodedLengthActual);
-          EncapsulateMetaData<std::string>(dico, b->GetKey(), encodedValue); 
+          EncapsulateMetaData<std::string>(dico, b->GetKey(), encodedValue);
           delete []bin;
-          }      
+          }
         }
       }
     else if ( gdcm::ValEntry* v = dynamic_cast<gdcm::ValEntry*>(d) )
-      {   
+      {
       // Only copying field from the public DICOM dictionary
       if( v->GetName() != "unkn")
-        {       
+        {
         EncapsulateMetaData<std::string>(dico, v->GetKey(), v->GetValue() );
         }
       }
@@ -559,7 +558,7 @@ bool GDCMImageIO::CanWriteFile(const char* name)
     {
     return true;
     }
-  
+
   std::string::size_type dicomPos = filename.rfind(".dicom");
   if ( (dicomPos != std::string::npos)
        && (dicomPos == filename.length() - 6) )
@@ -573,11 +572,11 @@ bool GDCMImageIO::CanWriteFile(const char* name)
     {
     return true;
     }
-    
+
   return false;
 }
 
-void GDCMImageIO::WriteImageInformation() 
+void GDCMImageIO::WriteImageInformation()
 {
 }
 
@@ -598,11 +597,11 @@ void GDCMImageIO::Write(const void* buffer)
   std::string value;
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 #if defined(_MSC_VER) && _MSC_VER < 1300
-  // Not using real iterators, but instead the GetKeys() method 
+  // Not using real iterators, but instead the GetKeys() method
   // since VS6 is broken and does not export properly iterators
-  // GetKeys will duplicate the entire DICOM header 
+  // GetKeys will duplicate the entire DICOM header
   std::vector<std::string> keys = dict.GetKeys();
-  for( std::vector<std::string>::const_iterator it = keys.begin(); 
+  for( std::vector<std::string>::const_iterator it = keys.begin();
     it != keys.end(); ++it )
     {
     const std::string &key = *it; //Needed for bcc32
@@ -628,7 +627,7 @@ void GDCMImageIO::Write(const void* buffer)
         if(dictEntry->GetGroup() != 0 && dictEntry->GetElement() != 0)
           {
           header->InsertValEntry( value,
-                                  dictEntry->GetGroup(), 
+                                  dictEntry->GetGroup(),
                                   dictEntry->GetElement());
           }
         }
@@ -645,7 +644,7 @@ void GDCMImageIO::Write(const void* buffer)
           {
           header->InsertBinEntry( bin,
                                   decodedLengthActual,
-                                  dictEntry->GetGroup(), 
+                                  dictEntry->GetGroup(),
                                   dictEntry->GetElement());
           }
         delete []bin;
@@ -687,7 +686,7 @@ void GDCMImageIO::Write(const void* buffer)
     str << m_Spacing[2];
     header->InsertValEntry(str.str(),0x0018,0x0088); // Spacing Between Slices
     }
- 
+
 // This code still needs work. Spacing, origin and direction are all
 // 3D, yet the image is 2D. If the user set these, all is well,
 // because the user will pass in the proper number (3) of
@@ -710,7 +709,6 @@ void GDCMImageIO::Write(const void* buffer)
     itkOrigin[0] = m_Origin[0];
     itkOrigin[1] = m_Origin[1];
     itkOrigin[2] = m_Origin[2];
-    std::cout << "m_Origin: " << itkOrigin << std::endl;
     for (unsigned int i = 0; i < 3; i++)
       {
       for (unsigned int j = 0; j < 3; j++)
@@ -725,11 +723,11 @@ void GDCMImageIO::Write(const void* buffer)
 
     // Handle Direction = Image Orientation Patient
     str.str("");
-    str << m_Direction[0][0] << "\\" 
-      << m_Direction[1][0] << "\\" 
-      << m_Direction[2][0] << "\\" 
-      << m_Direction[0][1] << "\\" 
-      << m_Direction[1][1] << "\\" 
+    str << m_Direction[0][0] << "\\"
+      << m_Direction[1][0] << "\\"
+      << m_Direction[2][0] << "\\"
+      << m_Direction[0][1] << "\\"
+      << m_Direction[1][1] << "\\"
       << m_Direction[2][1];
     header->InsertValEntry(str.str(),0x0020,0x0037); // Image Orientation (Patient)
     }
@@ -766,7 +764,7 @@ void GDCMImageIO::Write(const void* buffer)
         bitsStored    = "16"; // Bits Stored
         highBit       = "15"; // High Bit
         pixelRep      = "1";  // Pixel Representation
-        break;    
+        break;
 
       case ImageIOBase::USHORT:
         bitsAllocated = "16"; // Bits Allocated
@@ -831,7 +829,7 @@ void GDCMImageIO::Write(const void* buffer)
       m_FrameOfReferenceInstanceUID = gdcm::Util::CreateUniqueUID( m_UIDPrefix );
     }
     std::string uid = gdcm::Util::CreateUniqueUID( m_UIDPrefix );
-  
+
     header->InsertValEntry( uid, 0x0008, 0x0018); //[SOP Instance UID]
     header->InsertValEntry( uid, 0x0002, 0x0003); //[Media Stored SOP Instance UID]
     header->InsertValEntry( m_StudyInstanceUID, 0x0020, 0x000d); //[Study Instance UID]
@@ -986,7 +984,7 @@ bool GDCMImageIO::GetValueFromTag(const std::string & tag, std::string & value)
   return ExposeMetaData<std::string>(dict, tag, value);
 }
 
-bool GDCMImageIO::GetLabelFromTag( const std::string & tagkey, 
+bool GDCMImageIO::GetLabelFromTag( const std::string & tagkey,
                                          std::string & labelId )
 {
   gdcm::Dict *pubDict = gdcm::Global::GetDicts()->GetDefaultPubDict();
@@ -994,8 +992,8 @@ bool GDCMImageIO::GetLabelFromTag( const std::string & tagkey,
   gdcm::DictEntry *dictentry = pubDict->GetEntry( tagkey );
 
   bool found;
-  
-  // If tagkey was found (ie DICOM tag from public dictionary), 
+
+  // If tagkey was found (ie DICOM tag from public dictionary),
   // then return the name:
   if( dictentry )
     {
