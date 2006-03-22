@@ -53,19 +53,19 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
   m_LabeledComponent->SetInput( m_ConnectedComponent->GetOutput() );
 
 
-  const PixelType maxLabel = NumericTraits<PixelType>::max();
-  const PixelType minLabel = NumericTraits<PixelType>::NonpositiveMin(); 
+  const NumericTraits<PixelType>::AccumulateType maxLabel = NumericTraits<PixelType>::max();
+  const NumericTraits<PixelType>::AccumulateType minLabel = NumericTraits<PixelType>::NonpositiveMin(); 
   
   m_MinimumObjectSizeInPixels = 0; //Default. Use ITK set macro "SetMinimumObjectSizeInPixels" to change
 
-  m_ThresholdValue = ( maxLabel - minLabel ) / 2; 
-  
+  m_ThresholdValue = static_cast<PixelType>(( maxLabel + minLabel ) / 2);
+
   // Initialize values for the theshold filters
-  m_OutsideValue = minLabel; // Default. Use ITK set macro "SetOutsideValue" to change
-  m_InsideValue  = maxLabel; // Default. Use ITK set macro "SetInsideValue" to change
+  m_OutsideValue = static_cast<PixelType>(minLabel); // Default. Use ITK set macro "SetOutsideValue" to change
+  m_InsideValue  = static_cast<PixelType>(maxLabel); // Default. Use ITK set macro "SetInsideValue" to change
 
   m_LowerBoundary = m_ThresholdValue;
-  m_UpperBoundary = maxLabel;  // Default. Use ITK set macro "SetUpperBoundary" to change
+  m_UpperBoundary = static_cast<PixelType>(maxLabel);  // Default. Use ITK set macro "SetUpperBoundary" to change
   
  
   // Initialize the counter for the number of connected components (objects) in the image.
