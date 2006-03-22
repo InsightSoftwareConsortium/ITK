@@ -18,9 +18,6 @@ TARGET_LINK_LIBRARIES(Image4 ITKCommon)
 ADD_EXECUTABLE(Image5 Image5.cxx )
 TARGET_LINK_LIBRARIES(Image5 ITKCommon ITKIO)
 
-ADD_EXECUTABLE(RGBImage RGBImage.cxx )
-TARGET_LINK_LIBRARIES(RGBImage ITKCommon ITKIO) 
-
 ADD_EXECUTABLE(VectorImage VectorImage.cxx )
 TARGET_LINK_LIBRARIES(VectorImage ITKCommon)
 
@@ -63,6 +60,9 @@ ADD_TEST(ImageAdaptor4Test ${IMAGE_EXAMPLES3}
 
 
 IF(NOT BORLAND)
+  ADD_EXECUTABLE(RGBImage RGBImage.cxx )
+  TARGET_LINK_LIBRARIES(RGBImage ITKCommon ITKIO) 
+
   ADD_EXECUTABLE(ImageExamples ImageExamples.cxx )
   TARGET_LINK_LIBRARIES(ImageExamples ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
