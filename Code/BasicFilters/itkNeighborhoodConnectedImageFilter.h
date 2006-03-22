@@ -103,6 +103,23 @@ public:
   /** Get the radius of the neighborhood used to compute the median */
   itkGetConstReferenceMacro(Radius, InputImageSizeType);
 
+  /** ImageDimension constants */
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputEqualityComparableCheck,
+    (Concept::EqualityComparable<InputImagePixelType>));
+  itkConceptMacro(OutputEqualityComparableCheck,
+    (Concept::EqualityComparable<OutputImagePixelType>));
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  /** End concept checking */
+#endif
+
 protected:
   NeighborhoodConnectedImageFilter();
   ~NeighborhoodConnectedImageFilter(){};

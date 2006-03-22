@@ -93,8 +93,10 @@ public:
   typedef typename TInputImage::PixelType InputPixelType;
   typedef typename TInputImage::InternalPixelType InputInternalPixelType;
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-  
+                      TOutputImage::ImageDimension); 
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+ 
   /**
    * Image typedef support
    */
@@ -195,9 +197,23 @@ public:
         {
         return 0;
         }
-    }  
+    }
 
-  
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputEqualityComparableCheck,
+    (Concept::EqualityComparable<InputPixelType>));
+  itkConceptMacro(UnsignedLongConvertibleToInputCheck,
+    (Concept::Convertible<unsigned long, InputPixelType>));
+  itkConceptMacro(OutputLongConvertibleToUnsignedLongCheck,
+    (Concept::Convertible<OutputPixelType, unsigned long>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<InputPixelType, OutputPixelType>));
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  /** End concept checking */
+#endif
+
 protected:
 
   RelabelComponentImageFilter()

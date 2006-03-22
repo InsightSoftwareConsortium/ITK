@@ -78,6 +78,8 @@ public:
   /** ImageDimension enumeration. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension );
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension );
 
   /** Set the shrink factors. Values are clamped to 
    * a minimum value of 1. Default is 1 for all dimensions. */
@@ -108,6 +110,15 @@ public:
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
   virtual void EnlargeOutputRequestedRegion(DataObject *output); 
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  /** End concept checking */
+#endif
 
 protected:
   ShrinkImageFilter();

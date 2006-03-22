@@ -175,15 +175,6 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** The dimensions of the input image must equal those of the
-      output image. */
-  itkConceptMacro(SameDimension,
-    (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),itkGetStaticConstMacro(OutputImageDimension)>));
-
-  /** The dimension of the input image must be 3. */
-  itkConceptMacro(DimensionShouldBe3,
-    (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),3>));
-
   /** Standard New method. */
   itkNewMacro(Self);
 
@@ -247,6 +238,17 @@ public:
    * below.
    * \sa ProcessObject::GenerateOutputInformaton() */
   virtual void GenerateOutputInformation();
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputConvertibleToOutput,
+    (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  itkConceptMacro(SameDimension,
+    (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),itkGetStaticConstMacro(OutputImageDimension)>));
+  itkConceptMacro(DimensionShouldBe3,
+    (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),3>));
+  /** End concept checking */
+#endif
 
 protected:
   OrientImageFilter();

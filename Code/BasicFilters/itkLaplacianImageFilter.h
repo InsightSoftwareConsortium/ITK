@@ -63,6 +63,8 @@ public:
   typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
   typedef typename TInputImage::PixelType InputPixelType;
   typedef typename TInputImage::InternalPixelType InputInternalPixelType;
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   
@@ -104,8 +106,14 @@ public:
       image in its calculations */
   itkSetMacro(UseImageSpacing, bool);
   itkGetMacro(UseImageSpacing, bool);
-  
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  /** End concept checking */
+#endif
+
 protected:
   LaplacianImageFilter()
   {

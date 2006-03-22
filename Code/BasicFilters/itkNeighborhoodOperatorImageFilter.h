@@ -71,6 +71,8 @@ public:
    * of the two images is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
   
   /** Image typedef support. */
   typedef TInputImage  InputImageType;
@@ -124,6 +126,21 @@ public:
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() throw (InvalidRequestedRegionError);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  itkConceptMacro(OperatorConvertibleToOutputCheck,
+    (Concept::Convertible<OperatorValueType, OutputPixelType>));
+  itkConceptMacro(InputConvertibleToOperatorCheck,
+    (Concept::Convertible<InputPixelType, OperatorValueType>));
+  itkConceptMacro(OperatorMultiplicativeOperatorsCheck,
+    (Concept::MultiplicativeOperators<OperatorValueType>));
+  itkConceptMacro(OperatorAdditiveOperatorsCheck,
+    (Concept::AdditiveOperators<OperatorValueType>));
+  /** End concept checking */
+#endif
 
 protected:
   NeighborhoodOperatorImageFilter()

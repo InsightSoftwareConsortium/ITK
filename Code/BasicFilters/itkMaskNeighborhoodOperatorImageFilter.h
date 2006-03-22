@@ -70,6 +70,10 @@ public:
    * of the two images is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+  itkStaticConstMacro(MaskImageDimension, unsigned int,
+                      TMaskImage::ImageDimension);
   
   /** Image typedef support. */
   typedef TInputImage  InputImageType;
@@ -118,6 +122,21 @@ public:
   
   /** Turn on and off the UseDefaultValue flag. */
   itkBooleanMacro(UseDefaultValue); 
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(OutputEqualityComparableCheck,
+    (Concept::EqualityComparable<OutputPixelType>));
+  itkConceptMacro(SameDimensionCheck1,
+    (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  itkConceptMacro(SameDimensionCheck2,
+    (Concept::SameDimension<InputImageDimension, MaskImageDimension>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<InputPixelType, OutputPixelType>));
+  itkConceptMacro(OperatorConvertibleToOutputCheck,
+    (Concept::Convertible<OperatorValueType, OutputPixelType>));
+  /** End concept checking */
+#endif
 
 protected:
   MaskNeighborhoodOperatorImageFilter() : m_DefaultValue( NumericTraits<OutputPixelType>::Zero), m_UseDefaultValue(true) {}

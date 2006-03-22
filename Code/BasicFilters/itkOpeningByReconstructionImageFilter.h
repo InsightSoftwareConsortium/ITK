@@ -112,7 +112,14 @@ public:
   itkSetMacro(PreserveIntensities, bool);
   itkGetConstReferenceMacro(PreserveIntensities, bool);
   itkBooleanMacro(PreserveIntensities);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputEqualityComparableCheck,
+                  (Concept::EqualityComparable<InputImagePixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   OpeningByReconstructionImageFilter();
   ~OpeningByReconstructionImageFilter() {};
