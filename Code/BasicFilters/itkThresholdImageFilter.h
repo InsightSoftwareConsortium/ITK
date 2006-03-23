@@ -59,8 +59,13 @@ public:
   typedef typename TImage::PixelType PixelType;
   
   /** The pixel type must support comparison operators. */
-  itkConceptMacro(PixelTypeComparable, (Concept::Comparable<PixelType>));
-  
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(PixelTypeComparable,
+                  (Concept::Comparable<PixelType>));
+  /** End concept checking */
+#endif
+
   /** Set the "outside" pixel value. The default value 
    * NumericTraits<PixelType>::Zero. */
   itkSetMacro(OutsideValue,PixelType);

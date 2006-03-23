@@ -85,6 +85,8 @@ public:
   /** ImageDimension enumeration   */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension );
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension );
   
   /** ZeroCrossingImageFilter needs a larger input requested
    * region than the output requested region (larger by the kernel
@@ -103,7 +105,18 @@ public:
   /** Set/Get the label value for non-zero-crossing pixels. */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
   itkGetMacro(BackgroundValue, OutputImagePixelType);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(OutputEqualityComparableCheck,
+    (Concept::EqualityComparable<OutputImagePixelType>));
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputComparableCheck,
+     (Concept::Comparable<InputImagePixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   ZeroCrossingImageFilter()
   {

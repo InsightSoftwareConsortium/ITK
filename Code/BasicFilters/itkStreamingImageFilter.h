@@ -70,6 +70,8 @@ public:
   /** Dimension of input image. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       InputImageType::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      OutputImageType::ImageDimension);
 
   /** SmartPointer to a region splitting object */
   typedef ImageRegionSplitter<itkGetStaticConstMacro(InputImageDimension)>
@@ -96,7 +98,16 @@ public:
    * in UpdateOutputData() since it must update a little, execute a little,
    * update some more, execute some more, etc. */
   virtual void UpdateOutputData(DataObject *output);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   StreamingImageFilter();
   ~StreamingImageFilter();

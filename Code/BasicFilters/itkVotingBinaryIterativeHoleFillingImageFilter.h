@@ -130,6 +130,13 @@ public:
   /** Returns the number of pixels that changed when the filter was executed. */
   itkGetConstReferenceMacro( NumberOfPixelsChanged, unsigned int );
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputEqualityComparableCheck,
+    (Concept::EqualityComparable<InputPixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   VotingBinaryIterativeHoleFillingImageFilter();
   virtual ~VotingBinaryIterativeHoleFillingImageFilter() {}

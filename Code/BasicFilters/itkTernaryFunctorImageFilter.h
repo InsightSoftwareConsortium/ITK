@@ -99,6 +99,27 @@ public:
         }
     }
 
+  /** Image dimensions */
+  itkStaticConstMacro(Input1ImageDimension, unsigned int,
+                      TInputImage1::ImageDimension);
+  itkStaticConstMacro(Input2ImageDimension, unsigned int,
+                      TInputImage2::ImageDimension);
+  itkStaticConstMacro(Input3ImageDimension, unsigned int,
+                      TInputImage3::ImageDimension);
+  itkStaticConstMacro(OuputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck1,
+    (Concept::SameDimension<Input1ImageDimension, Input2ImageDimension>));
+  itkConceptMacro(SameDimensionCheck2,
+    (Concept::SameDimension<Input1ImageDimension, Input3ImageDimension>));
+  itkConceptMacro(SameDimensionCheck3,
+    (Concept::SameDimension<Input1ImageDimension, OutputImageDimension>));
+  /** End concept checking */
+#endif
+
 protected:
   TernaryFunctorImageFilter();
   virtual ~TernaryFunctorImageFilter() {};

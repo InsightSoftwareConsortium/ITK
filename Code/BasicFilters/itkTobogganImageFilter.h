@@ -92,6 +92,13 @@ public:
   typedef ConstNeighborhoodIterator<TInputImage> 
   NeighborhoodIteratorType ;
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(LessThanComparableCheck,
+                  (Concept::LessThanComparable<InputImagePixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   TobogganImageFilter();
   ~TobogganImageFilter() {};
