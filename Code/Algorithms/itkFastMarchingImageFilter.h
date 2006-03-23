@@ -135,19 +135,21 @@ public:
     int m_Axis;
   };
 
-  /** Dimension of the level set. */
-  itkStaticConstMacro(SetDimension, unsigned int,
-                      LevelSetType::SetDimension);
-
-  /** Index typedef support. */
-  typedef Index<itkGetStaticConstMacro(SetDimension)> IndexType;
-
   /** SpeedImage typedef support. */
   typedef TSpeedImage SpeedImageType;
 
   /** SpeedImagePointer typedef support. */
   typedef typename SpeedImageType::Pointer        SpeedImagePointer;
   typedef typename SpeedImageType::ConstPointer   SpeedImageConstPointer;
+
+  /** Dimension of the level set and the speed image. */
+  itkStaticConstMacro(SetDimension, unsigned int,
+                      LevelSetType::SetDimension);
+  itkStaticConstMacro(SpeedImageDimension, unsigned int,
+                      SpeedImageType::ImageDimension);
+
+  /** Index typedef support. */
+  typedef Index<itkGetStaticConstMacro(SetDimension)> IndexType;
 
   /** Enum of Fast Marching algorithm point types. FarPoints represent far
    * away points; TrialPoints represent points within a narrowband of the
@@ -254,6 +256,17 @@ public:
   itkSetMacro( OverrideOutputInformation, bool );
   itkGetConstReferenceMacro( OverrideOutputInformation, bool );
   itkBooleanMacro( OverrideOutputInformation );
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<SetDimension, SpeedImageDimension>));
+  itkConceptMacro(SpeedConvertibleToDoubleCheck,
+    (Concept::Convertible<typename TSpeedImage::PixelType, double>));
+  itkConceptMacro(DoubleConvertibleToLevelSetCheck,
+    (Concept::Convertible<double, PixelType>));
+  /** End concept checking */
+#endif
 
 protected:
   FastMarchingImageFilter();

@@ -86,9 +86,11 @@ public:
   /** Type for the size of the input image. */
   typedef typename RegionType::SizeType   SizeType;
   
-  /** The dimension of the input image. */
+  /** The dimension of the input and output images. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       InputImageType::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      OutputImageType::ImageDimension);
   
   /** Pointer Type for input image. */
   typedef typename InputImageType::ConstPointer InputImagePointer;
@@ -135,6 +137,19 @@ public:
   NarrowBandPointer GetNarrowBand() const
   { return m_NarrowBand; }
   
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  itkConceptMacro(SameTypeCheck,
+    (Concept::SameType<PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(FloatConvertibleToPixelTypeCheck,
+    (Concept::Convertible<float, PixelType>));
+  itkConceptMacro(PixelTypeConvertibleToFloatCheck,
+    (Concept::Convertible<PixelType, float>));
+  /** End concept checking */
+#endif
+
 protected:
   FastChamferDistanceImageFilter();
   virtual ~FastChamferDistanceImageFilter() {};

@@ -102,6 +102,24 @@ public:
   itkSetMacro(Iteration, unsigned int);
   itkGetMacro(Iteration, unsigned int);
 
+  /** ImageDimension enumeration   */
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension );
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension );
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Start concept checking */
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(SameTypeCheck,
+    (Concept::SameType<PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(AdditiveOperatorsCheck,
+    (Concept::AdditiveOperators<PixelType>));
+  itkConceptMacro(IntConvertibleToPixelTypeCheck,
+    (Concept::Convertible<int, PixelType>));
+  /** End concept checking */
+#endif
 
 protected:
   BinaryPruningImageFilter();
