@@ -107,6 +107,8 @@ public:
     (Concept::Convertible<typename TInputImage2::PixelType, double>));
   itkConceptMacro(DoubleConvertibleToOutputCastCheck,
     (Concept::Convertible<double, typename TOutputImage::PixelType>));
+  itkConceptMacro(DoubleLessThanOutputCheck,
+    (Concept::LessThanComparable<double, typename TOutputImage::PixelType>));
   /** End concept checking */
 #endif
 

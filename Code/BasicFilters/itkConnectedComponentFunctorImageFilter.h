@@ -145,6 +145,8 @@ public:
     (Concept::Convertible<OutputPixelType, long>));
   itkConceptMacro(UnsignedLongConvertibleToOutputCheck,
     (Concept::Convertible<unsigned long, OutputPixelType>));
+  itkConceptMacro(OutputIncrementDecrementOperatorsCheck,
+    (Concept::IncrementDecrementOperators<OutputPixelType>));
   /** End concept checking */
 #endif
 

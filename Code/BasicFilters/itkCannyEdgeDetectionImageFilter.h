@@ -210,6 +210,15 @@ public:
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()  */  
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<InputImagePixelType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<OutputImagePixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   CannyEdgeDetectionImageFilter();
   CannyEdgeDetectionImageFilter(const Self&) {}

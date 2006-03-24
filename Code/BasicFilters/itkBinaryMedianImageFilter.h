@@ -114,6 +114,8 @@ public:
                           typename TOutputImage::PixelType>));
   itkConceptMacro(SameDimensionCheck,
     (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputOStreamWritableCheck,
+    (Concept::OStreamWritable<typename TInputImage::PixelType>));
   /** End concept checking */
 #endif
 

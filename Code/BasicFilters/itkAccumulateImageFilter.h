@@ -81,12 +81,13 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Input and output images must be the same dimension. */
+  /** Input and output images must be the same dimension, or the output's
+      dimension must be one less than that of the input. */
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(ImageDimensionCheck,
-      (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
-                              itkGetStaticConstMacro(OutputImageDimension)>));
+      (Concept::SameDimensionOrMinusOne<itkGetStaticConstMacro(InputImageDimension),
+                                        itkGetStaticConstMacro(OutputImageDimension)>));
   /** End concept checking */
 #endif
 

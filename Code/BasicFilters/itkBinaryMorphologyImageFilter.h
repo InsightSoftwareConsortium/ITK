@@ -153,16 +153,21 @@ public:
   typedef typename InputImageType::SizeType InputSizeType;
 
   /** Input and output images must be the same dimension. */
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
   itkConceptMacro(ImageDimensionCheck,
       (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
                               itkGetStaticConstMacro(OutputImageDimension)>));
-
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<InputPixelType>));
 // Cannot get this to work with gcc compiler
 #if 0
   /** Input and structuring element must be the same dimnesion. */
   itkConceptMacro(KernelDimensionCheck,
       (Concept::SameDimension<itkGetStaticConstMacro(KernelDimension),
                               itkGetStaticConstMacro(InputImageDimension)>));
+#endif
+  /** End concept checking */
 #endif
 
   /** Set kernel (structuring element).*/

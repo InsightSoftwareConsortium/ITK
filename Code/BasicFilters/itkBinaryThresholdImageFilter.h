@@ -160,8 +160,12 @@ public:
   /** Begin concept checking */
   itkConceptMacro(OutputEqualityComparableCheck,
                   (Concept::EqualityComparable<OutputPixelType>));
-  itkConceptMacro(PixelTypeComparable,
+  itkConceptMacro(InputPixelTypeComparable,
                   (Concept::Comparable<InputPixelType>));
+  itkConceptMacro(InputOStreamWritableCheck,
+                  (Concept::OStreamWritable<InputPixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck,
+                  (Concept::OStreamWritable<OutputPixelType>));
   /** End concept checking */
 #endif
 
