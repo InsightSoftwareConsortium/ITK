@@ -544,9 +544,11 @@ struct SameDimensionOrMinusOne
 {
   struct Constraints
   {
-    void f( Detail::UniqueType_unsigned_int<  D1 >  ) {};
-    void f( Detail::UniqueType_unsigned_int< D1-1 > ) {};
+    typedef Detail::UniqueType_unsigned_int< D1 > Type1;
+    typedef Detail::UniqueType_unsigned_int< D1-1 > Type2;
 
+    void f( Type1 ) {}
+    void f( Type2, int = 0 ) {}
 
     void constraints()
       {
