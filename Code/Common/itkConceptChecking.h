@@ -199,8 +199,9 @@ struct Assignable
   itkConceptConstraintsMacro();
 };
 
-/** Concept requiring T to have operator <.  (BOOST) */
-template <typename T>
+/** Concept requiring T1 to have operators < and <= with a right-hand operator
+    of type T2.  (BOOST) */
+template <typename T1, typename T2=T1>
 struct LessThanComparable
 {
   struct Constraints
@@ -208,15 +209,37 @@ struct LessThanComparable
     void constraints()
       {
       Detail::RequireBooleanExpression(a < b);
+      Detail::RequireBooleanExpression(a <= b);
       }
-    T a, b;
+    T1 a;
+    T2 b;
   };
   
   itkConceptConstraintsMacro();
 };
 
-/** Concept requiring T to have operators == and != (BOOST) */
-template <typename T>
+/** Concept requiring T1 to have operators > and >= with a right-hand operator
+    of type T2.  (BOOST) */
+template <typename T1, typename T2=T1>
+struct GreaterThanComparable
+{
+  struct Constraints
+  {
+    void constraints()
+      {
+      Detail::RequireBooleanExpression(a > b);
+      Detail::RequireBooleanExpression(a >= b);
+      }
+    T1 a;
+    T2 b;
+  };
+  
+  itkConceptConstraintsMacro();
+};
+
+/** Concept requiring T1 to have operators == and != with a right-hand operator
+    of type T2.  (BOOST) */
+template <typename T1, typename T2=T1>
 struct EqualityComparable
 {
   struct Constraints
@@ -226,14 +249,16 @@ struct EqualityComparable
       Detail::RequireBooleanExpression(a == b);
       Detail::RequireBooleanExpression(a != b);
       }
-    T a, b;
+    T1 a;
+    T2 b;
   };
   
   itkConceptConstraintsMacro();
 };
 
-/** Concept requiring T to have operators <, >, <=, >=, ==, !=. (BOOST) */
-template <typename T>
+/** Concept requiring T1 to have operators <, >, <=, >=, ==, != with a
+    right-hand operator of type T2. (BOOST) */
+template <typename T1, typename T2=T1>
 struct Comparable
 {
   struct Constraints
@@ -247,61 +272,153 @@ struct Comparable
       Detail::RequireBooleanExpression(a == b);
       Detail::RequireBooleanExpression(a != b);
       }
-    T a, b;
+    T1 a;
+    T2 b;
   };
   
   itkConceptConstraintsMacro();
 };
 
-/** Concept requiring T to have operators +, -, +=, -=. */
-template <typename T>
+/** Concept requiring T1 to have operators +, -, +=, -= in the form 
+    T1 op T2 = T3.  */
+template <typename T1, typename T2=T1, typename T3=T1>
 struct AdditiveOperators
 {
   struct Constraints
   {
     void constraints()
       {
-      a = b + b;
-      a = b - b;
-      a += b;
-      a -= b;
-      const_constraints(b);
-      }
-    void const_constraints(const T& c)
-      {
-      a = c + c;
-      a = c - c;
+      a = b + c;
+      a = b - c;
       a += c;
       a -= c;
+      const_constraints(b, c);
       }
-    T a, b;
+    void const_constraints(const T1& d, const T2& e)
+      {
+      a = d + e;
+      a = d - e;
+      a += e;
+      a -= e;
+      }
+    T3 a;
+    T1 b;
+    T2 c;
   };
   
   itkConceptConstraintsMacro();
 };
 
-/** Concept requiring T to have operators *, /, *=, /=. */
-template <typename T>
+/** Concept requiring T to have operators *, /, *=, /= in the form
+    T1 op T2 = T3. */
+template <typename T1, typename T2=T1, typename T3=T1>
 struct MultiplicativeOperators
 {
   struct Constraints
   {
     void constraints()
       {
-      a = b * b;
-      a = b / b;
-      a *= b;
-      a /= b;
-      const_constraints(b);
-      }
-    void const_constraints(const T& c)
-      {
-      a = c * c;
-      a = c / c;
+      a = b * c;
+      a = b / c;
       a *= c;
       a /= c;
+      const_constraints(b, c);
       }
-    T a, b;
+    void const_constraints(const T1& d, const T2& e)
+      {
+      a = d * e;
+      a = e / e;
+      a *= e;
+      a /= e;
+      }
+    T3 a;
+    T1 b;
+    T2 c;
+  };
+  
+  itkConceptConstraintsMacro();
+};
+
+/** Concept requiring T1 to have operators &, |, and ^ in the form 
+    T1 op T2 = T3.  */
+template <typename T1, typename T2=T1, typename T3=T1>
+struct LogicalOperators
+{
+  struct Constraints
+  {
+    void constraints()
+      {
+      a = b & c;
+      a = b | c;
+      a = b ^ c;
+      a &= c;
+      a |= c;
+      a ^= c;
+      const_constraints(b, c);
+      }
+    void const_constraints(const T1& d, const T2& e)
+      {
+      a = d & e;
+      a = d | e;
+      a = d ^ e;
+      a &= e;
+      a |= e;
+      a ^= e;
+      }
+    T3 a;
+    T1 b;
+    T2 c;
+  };
+  
+  itkConceptConstraintsMacro();
+};
+
+/** Concept requiring T to have operator !.  */
+template <typename T>
+struct NotOperator
+{
+  struct Constraints
+  {
+    void constraints()
+      {
+      a = !a;
+      }
+    T a;
+  };
+  
+  itkConceptConstraintsMacro();
+};
+
+/** Concept requiring T to have operators ++ and --.  */
+template <typename T>
+struct IncrementDecrementOperators
+{
+  struct Constraints
+  {
+    void constraints()
+      {
+        a++;
+        a--;
+        ++a;
+        --a;
+      }
+    T a;
+  };
+  
+  itkConceptConstraintsMacro();
+};
+
+/** Concept requiring T to be writable to an ostream.  */
+template <typename T>
+struct OStreamWritable
+{
+  struct Constraints
+  {
+    void constraints()
+      {
+        std::cout << a;
+      }
+    T a;
   };
   
   itkConceptConstraintsMacro();
@@ -354,6 +471,87 @@ struct SameDimension
       {
         DT1 a = DT2();
         Detail::IgnoreUnusedVariable(a);
+      }
+  };
+  itkConceptConstraintsMacro();
+};
+
+/** Concept requiring T to have NumericTraits */
+template <typename T>
+struct HasNumericTraits
+{
+  struct Constraints
+  {
+    void constraints()
+      { 
+        typedef typename NumericTraits<T>::ValueType ValueType;
+        typedef typename NumericTraits<T>::PrintType PrintType;
+        typedef typename NumericTraits<T>::AbsType AbsType;
+        typedef typename NumericTraits<T>::AccumulateType AccumulateType;
+        typedef typename NumericTraits<T>::RealType RealType;
+        typedef typename NumericTraits<T>::ScalarRealType ScalarRealType;
+        typedef typename NumericTraits<T>::FloatType FloatType;
+        T a;
+        bool b;
+        a = NumericTraits<T>::Zero;
+        a = NumericTraits<T>::One;
+        a = NumericTraits<T>::NonpositiveMin();
+        a = NumericTraits<T>::ZeroValue();
+        b = NumericTraits<T>::IsPositive(a);
+        b = NumericTraits<T>::IsNonpositive(a);
+        b = NumericTraits<T>::IsNegative(a);
+        b = NumericTraits<T>::IsNonnegative(a);
+      }
+  };
+  
+  itkConceptConstraintsMacro();
+};
+
+/** Concept requiring T to have PixelTraits */
+template <typename T>
+struct HasPixelTraits
+{
+  struct Constraints
+  {
+    void constraints()
+      { 
+        typedef typename PixelTraits<T>::ValueType ValueType;
+        unsigned int a = PixelTraits<T>::Dimension;
+      }
+  };
+  
+  itkConceptConstraintsMacro();
+};
+
+/** Concept requiring T to have JoinTraits */
+template <typename T1, typename T2>
+struct HasJoinTraits
+{
+  struct Constraints
+  {
+    void constraints()
+      { 
+        typedef typename JoinTraits<T1, T2>::ValueType ValueType;
+      }
+  };
+  
+  itkConceptConstraintsMacro();
+};
+
+/** Concept requiring D1 and D2 to be the same dimension or D2-1 = D1. */
+template <unsigned int D1, unsigned int D2>
+struct SameDimensionOrMinusOne
+{
+  struct Constraints
+  {
+    void f( Detail::UniqueType_unsigned_int<  D1 >  ) {};
+    void f( Detail::UniqueType_unsigned_int< D1-1 > ) {};
+
+
+    void constraints()
+      {
+      Detail::UniqueType_unsigned_int< D2 > tt;
+      this->f( tt );
       }
   };
   itkConceptConstraintsMacro();
