@@ -71,6 +71,9 @@ public:
   /** Type for input image. */
   typedef   TInputImage       InputImageType;
   
+  /** Type for input image. */
+  typedef   TOutputImage      OutputImageType;
+  
   /** Type for the region of the input image. */
   typedef typename InputImageType::RegionType   RegionType;
   
@@ -147,6 +150,16 @@ public:
     (Concept::Convertible<float, PixelType>));
   itkConceptMacro(PixelTypeConvertibleToFloatCheck,
     (Concept::Convertible<PixelType, float>));
+  itkConceptMacro(PixelTypeGreaterThanFloatCheck,
+    (Concept::GreaterThanComparable<PixelType, float>));
+  itkConceptMacro(PixelTypeLessThanFloatCheck,
+    (Concept::LessThanComparable<PixelType, float>));
+  itkConceptMacro(PixelTypeFloatAdditiveOperatorsCheck,
+    (Concept::AdditiveOperators<PixelType, float, float>));
+  itkConceptMacro(FloatGreaterThanPixelTypeCheck,
+    (Concept::GreaterThanComparable<float, PixelType>));
+  itkConceptMacro(FloatLessThanPixelTypeCheck,
+    (Concept::LessThanComparable<float, PixelType>));
   /** End concept checking */
 #endif
 
