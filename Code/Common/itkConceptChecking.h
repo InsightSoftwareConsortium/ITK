@@ -20,6 +20,8 @@
 #ifndef __itkConceptChecking_h
 #define __itkConceptChecking_h
 
+#include "itkPixelTraits.h"
+
 /** Choose a concept checking implementation based on compiler abilities. */
 #ifndef ITK_CONCEPT_NO_CHECKING
 #  if defined(_MSC_VER) && !defined(__ICL)
@@ -515,8 +517,8 @@ struct HasPixelTraits
   {
     void constraints()
       { 
-        typedef typename PixelTraits<T>::ValueType ValueType;
-        unsigned int a = PixelTraits<T>::Dimension;
+      typedef typename PixelTraits<T>::ValueType ValueType;
+      unsigned int a = PixelTraits<T>::Dimension;
       }
   };
   
