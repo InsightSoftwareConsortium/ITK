@@ -7,17 +7,11 @@ INCLUDE_REGULAR_EXPRESSION("^.*$")
 ADD_EXECUTABLE(ImageRandomConstIteratorWithIndex ImageRandomConstIteratorWithIndex.cxx)
 TARGET_LINK_LIBRARIES(ImageRandomConstIteratorWithIndex ITKIO   )
 
-ADD_EXECUTABLE(NeighborhoodIterators3 NeighborhoodIterators3.cxx)
-TARGET_LINK_LIBRARIES(NeighborhoodIterators3 ITKIO   )
-
 ADD_EXECUTABLE(NeighborhoodIterators4 NeighborhoodIterators4.cxx)
 TARGET_LINK_LIBRARIES(NeighborhoodIterators4 ITKIO   )
 
 ADD_EXECUTABLE(NeighborhoodIterators5 NeighborhoodIterators5.cxx)
 TARGET_LINK_LIBRARIES(NeighborhoodIterators5 ITKIO   )
-
-ADD_EXECUTABLE(NeighborhoodIterators6 NeighborhoodIterators6.cxx)
-TARGET_LINK_LIBRARIES(NeighborhoodIterators6 ITKAlgorithms ITKBasicFilters ITKIO )
 
 IF(NOT BORLAND)
 ADD_EXECUTABLE(NeighborhoodIterators1 NeighborhoodIterators1.cxx)
@@ -25,6 +19,12 @@ TARGET_LINK_LIBRARIES(NeighborhoodIterators1 ITKIO   )
 
 ADD_EXECUTABLE(NeighborhoodIterators2 NeighborhoodIterators2.cxx)
 TARGET_LINK_LIBRARIES(NeighborhoodIterators2 ITKIO   )
+
+ADD_EXECUTABLE(NeighborhoodIterators3 NeighborhoodIterators3.cxx)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators3 ITKIO   )
+
+ADD_EXECUTABLE(NeighborhoodIterators6 NeighborhoodIterators6.cxx)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators6 ITKAlgorithms ITKBasicFilters ITKIO )
 
 ADD_EXECUTABLE(ImageRegionIteratorWithIndex ImageRegionIteratorWithIndex.cxx)
 TARGET_LINK_LIBRARIES(ImageRegionIteratorWithIndex ITKIO   )
@@ -46,6 +46,10 @@ TARGET_LINK_LIBRARIES(ShapedNeighborhoodIterators1 ITKAlgorithms ITKBasicFilters
 
 ADD_EXECUTABLE(ShapedNeighborhoodIterators2 ShapedNeighborhoodIterators2.cxx)
 TARGET_LINK_LIBRARIES(ShapedNeighborhoodIterators2 ITKAlgorithms ITKBasicFilters ITKIO )
+
+ADD_EXECUTABLE(IteratorsExamples IteratorsExamples.cxx )
+TARGET_LINK_LIBRARIES(IteratorsExamples ITKIO ITKBasicFilters )
+
 ENDIF(NOT BORLAND)
 
 SET(ITERATORS_EXAMPLES ${CXX_TEST_PATH}/IteratorsExamples)
@@ -88,5 +92,3 @@ ADD_TEST(ImageSliceIteratorWithIndexTest ${ITERATORS_EXAMPLES}
 )
 
 
-ADD_EXECUTABLE(IteratorsExamples IteratorsExamples.cxx )
-TARGET_LINK_LIBRARIES(IteratorsExamples ITKIO ITKBasicFilters )
