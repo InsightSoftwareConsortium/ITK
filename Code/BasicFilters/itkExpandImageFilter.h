@@ -146,6 +146,15 @@ public:
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TInputImage::PixelType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<OutputPixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   ExpandImageFilter();
   ~ExpandImageFilter() {}

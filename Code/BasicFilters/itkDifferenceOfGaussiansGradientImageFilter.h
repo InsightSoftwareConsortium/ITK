@@ -76,6 +76,13 @@ public:
   itkGetMacro(Width, unsigned int);
   itkSetMacro(Width, unsigned int);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(DataTypeHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TDataType>));
+  /** End concept checking */
+#endif
+
 protected:
   DifferenceOfGaussiansGradientImageFilter();
   virtual ~DifferenceOfGaussiansGradientImageFilter() {};

@@ -191,6 +191,13 @@ public:
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<OutputPixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   DiscreteGaussianImageFilter()
   {

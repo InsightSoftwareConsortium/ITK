@@ -73,6 +73,13 @@ public:
   typedef typename Superclass::DefaultBoundaryConditionType 
                                              DefaultBoundaryConditionType ;
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(KernelGreaterThanIntCheck,
+    (Concept::GreaterThanComparable<typename TKernel::PixelType, int>));
+  /** End concept checking */
+#endif
+
 protected:
   DilateObjectMorphologyImageFilter();
   ~DilateObjectMorphologyImageFilter() {};

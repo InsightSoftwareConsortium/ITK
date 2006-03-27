@@ -102,6 +102,10 @@ public:
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension );
+  itkStaticConstMacro(KernelDimension, unsigned int,
+                      TKernel::NeighborhoodDimension);  
 
   /** Neighborhood iterator type. */
   typedef ConstNeighborhoodIterator<TInputImage> 
@@ -165,6 +169,26 @@ public:
    * not consider that outside extent when determining if a pixel is on
    * an object's boundary. */
   itkGetMacro(UseBoundaryCondition, bool);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck1,
+    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(SameDimensionCheck2,
+    (Concept::SameDimension<InputImageDimension, KernelDimension>));
+  itkConceptMacro(OutputInputEqualityComparableCheck,
+    (Concept::EqualityComparable<typename TOutputImage::PixelType,
+                                 PixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(IntConvertibleToOutputCheck,
+    (Concept::Convertible<int, typename TOutputImage::PixelType>));
+  itkConceptMacro(InputEqualityComparable,
+    (Concept::EqualityComparable<PixelType>));
+  itkConceptMacro(InputOStreamWritableCheck,
+    (Concept::OStreamWritable<PixelType>));
+  /** End concept checking */
+#endif
 
 protected:
   ObjectMorphologyImageFilter();

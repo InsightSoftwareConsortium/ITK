@@ -76,7 +76,14 @@ public:
   /** Extract superclass image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TOutputImage::PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   CurvatureAnisotropicDiffusionImageFilter()
   {

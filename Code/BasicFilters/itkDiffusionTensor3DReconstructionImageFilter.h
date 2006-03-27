@@ -248,6 +248,13 @@ public:
     (Concept::Convertible<GradientPixelType, double>));
   itkConceptMacro(DoubleConvertibleToTensorCheck,
     (Concept::Convertible<double, TensorPixelType>));
+  itkConceptMacro(GradientReferenceAdditiveOperatorsCheck,
+    (Concept::AdditiveOperators<GradientPixelType, GradientPixelType,
+                                ReferencePixelType>));
+  itkConceptMacro(ReferenceOStreamWritableCheck,
+    (Concept::OStreamWritable<ReferencePixelType>));
+  itkConceptMacro(TensorOStreamWritableCheck,
+    (Concept::OStreamWritable<TensorPixelType>));
   /** End concept checking */
 #endif
 

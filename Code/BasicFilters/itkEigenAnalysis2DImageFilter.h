@@ -101,6 +101,13 @@ public:
   /**  Create the Output */
   DataObject::Pointer MakeOutput(unsigned int idx);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(VectorComponentHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<VectorComponentType>));
+  /** End concept checking */
+#endif
+
 protected:
   EigenAnalysis2DImageFilter();
   virtual ~EigenAnalysis2DImageFilter() {};

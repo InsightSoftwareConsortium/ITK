@@ -114,6 +114,13 @@ public:
   /** Return the computed directed Hausdorff distance. */
   itkGetMacro(DirectedHausdorffDistance,RealType);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<InputImage1PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   DirectedHausdorffDistanceImageFilter();
   ~DirectedHausdorffDistanceImageFilter(){};
