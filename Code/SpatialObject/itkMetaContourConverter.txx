@@ -55,6 +55,8 @@ MetaContourConverter<NDimensions>
   contour->GetProperty()->SetBlue(Contour->Color()[2]);
   contour->GetProperty()->SetAlpha(Contour->Color()[3]);
   contour->SetClosed(Contour->Closed());
+  contour->SetAttachedToSlice(Contour->AttachedToSlice());
+  contour->SetDisplayOrientation(Contour->DisplayOrientation());
 
   // First the control points
   typedef typename ContourSpatialObjectType::ControlPointType ControlPointType;
@@ -242,6 +244,9 @@ MetaContourConverter<NDimensions>
   Contour->Color(color);
   Contour->ID( spatialObject->GetId());
   Contour->Closed(spatialObject->GetClosed());
+  Contour->AttachedToSlice(spatialObject->GetAttachedToSlice());
+  Contour->DisplayOrientation(spatialObject->GetDisplayOrientation());
+
   if(spatialObject->GetParent())
     {
     Contour->ParentID(spatialObject->GetParent()->GetId());

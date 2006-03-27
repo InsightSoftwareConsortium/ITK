@@ -123,6 +123,15 @@ public:
   itkSetMacro(Closed,bool);
   itkGetConstMacro(Closed,bool);
 
+  /** Set/Get the display orientation of the contour */
+  itkSetMacro(DisplayOrientation,int);
+  itkGetConstMacro(DisplayOrientation,int);
+
+  /** Set/Get the slice attached to the contour if any
+   *  -1 is returned if no contour attached*/
+  itkSetMacro(AttachedToSlice,int);
+  itkGetConstMacro(AttachedToSlice,int);
+
   /** Returns true if the Contour is evaluable at the requested point, 
    *  false otherwise. */
   bool IsEvaluableAt( const PointType & point, 
@@ -153,6 +162,8 @@ protected:
   InterpolatedPointListType   m_InterpolatedPoints;
   InterpolationType           m_InterpolationType;
   bool                        m_Closed;
+  int                         m_DisplayOrientation;
+  long int                    m_AttachedToSlice;
 
   ContourSpatialObject();
   virtual ~ContourSpatialObject();

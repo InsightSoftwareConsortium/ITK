@@ -41,6 +41,8 @@ ContourSpatialObject< TDimension >
   this->GetProperty()->SetAlpha(1); 
   m_InterpolationType = NO_INTERPOLATION;
   m_Closed = false;
+  m_DisplayOrientation = -1;
+  m_AttachedToSlice = -1;
 } 
 
 /** Destructor */ 
@@ -140,6 +142,8 @@ ContourSpatialObject< TDimension >
      << static_cast< unsigned long>( m_ControlPoints.size() ) << std::endl;
   os << indent << "Interpolation type: " << m_InterpolationType << std::endl;
   os << indent << "Contour closed: " << m_Closed << std::endl;
+  os << indent << "Display Orientation : " << m_DisplayOrientation << std::endl;
+  os << indent << "Pin to slice : " << m_AttachedToSlice << std::endl;
   Superclass::PrintSelf( os, indent ); 
 } 
   

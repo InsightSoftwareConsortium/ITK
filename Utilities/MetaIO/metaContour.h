@@ -124,6 +124,12 @@ public:
   void Closed(bool close);
   bool Closed();
 
+  void     AttachedToSlice(long int slice);
+  long int AttachedToSlice();
+
+  void DisplayOrientation(int display);
+  int  DisplayOrientation();
+
   void  Clear(void);
 
   ControlPointListType & GetControlPoints(void) 
@@ -153,6 +159,10 @@ protected:
   MET_InterpolationEnumType m_InterpolationType;
   ControlPointListType      m_ControlPointsList;
   InterpolatedPointListType m_InterpolatedPointsList;
+
+  int       m_DisplayOrientation;
+  long      m_AttachedToSlice;
+
 };
 
 

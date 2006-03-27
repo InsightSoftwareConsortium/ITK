@@ -296,6 +296,8 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   contour->GetProperty()->SetName("My First Contour");
   contour->SetInterpolationType(ContourType::EXPLICIT_INTERPOLATION);
   contour->SetClosed(true);
+  contour->SetAttachedToSlice(50);
+  contour->SetDisplayOrientation(2);
 
   for(int i = 0;i<10;i++)
     {
@@ -904,6 +906,21 @@ int itkReadWriteSpatialObjectTest(int, char*[])
         return EXIT_FAILURE;
         }
 
+      if(dynamic_cast<ContourType*>((*obj).GetPointer())->GetDisplayOrientation() != 2)
+        {
+        std::cout << "The contour should have display orientation == 2 instead of" 
+                  << dynamic_cast<ContourType*>((*obj).GetPointer())->GetDisplayOrientation() 
+                  << std::endl;
+        return EXIT_FAILURE;
+        }
+
+      if(dynamic_cast<ContourType*>((*obj).GetPointer())->GetAttachedToSlice() != 50)
+        {
+        std::cout << "The contour should be attached to slice 50 instead of" 
+                  << dynamic_cast<ContourType*>((*obj).GetPointer())->GetAttachedToSlice() 
+                  << std::endl;
+        return EXIT_FAILURE;
+        }
       ContourType::ControlPointListType::const_iterator ctrl;
       int value = 0;
 

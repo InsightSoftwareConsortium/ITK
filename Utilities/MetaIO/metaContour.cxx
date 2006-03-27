@@ -65,6 +65,8 @@ PrintInfo() const
   std::cout << "NControlPoints = " << m_NControlPoints << std::endl;
   std::cout << "InterpolatedPointDim = " << m_InterpolatedPointDim << std::endl;
   std::cout << "NInterpolatedPoints = " << m_NInterpolatedPoints << std::endl;
+  std::cout << "Display Orientation = " << m_DisplayOrientation << std::endl;
+  std::cout << "Attached to Slice = " << m_AttachedToSlice << std::endl;
 }
 
 void MetaContour::
@@ -168,6 +170,8 @@ Clear(void)
   strcpy(m_ControlPointDim, "id x y z xp yp zp nx ny nz r g b a");
   strcpy(m_InterpolatedPointDim, "id x y z r g b a");
   m_Closed = false;
+  m_DisplayOrientation = -1;
+  m_AttachedToSlice = -1;
 }
         
 /** Destroy Contour information */
@@ -175,6 +179,33 @@ void MetaContour::
 M_Destroy(void)
 {
   MetaObject::M_Destroy();
+}
+  
+/** Set if the contour is pinned to a particulare slice */
+void MetaContour::
+AttachedToSlice(long int slice)
+{
+  m_AttachedToSlice = slice;
+}
+
+/** Get if the contour is pinned to a particulare slice */
+long int MetaContour::
+AttachedToSlice()
+{
+  return m_AttachedToSlice;
+}
+
+/** Get the orientation of the display */
+void MetaContour::
+DisplayOrientation(int display)
+{
+  m_DisplayOrientation = display;
+}
+ 
+int MetaContour::
+DisplayOrientation()
+{
+  return m_DisplayOrientation;
 }
 
 /** Set Read fields */
@@ -189,6 +220,14 @@ M_SetupReadFields(void)
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "Closed", MET_INT, true);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "PinToSlice", MET_INT, false);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "DisplayOrientation", MET_INT, false);
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
@@ -218,6 +257,20 @@ M_SetupWriteFields(void)
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "Closed", MET_INT, m_Closed);
   m_Fields.push_back(mF);
+
+  if(m_AttachedToSlice != -1)
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "PinToSlice", MET_INT, m_AttachedToSlice);
+    m_Fields.push_back(mF);
+    }
+
+  if(m_DisplayOrientation != -1)
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "DisplayOrientation", MET_INT, m_DisplayOrientation);
+    m_Fields.push_back(mF);
+    }
 
   if(strlen(m_ControlPointDim)>0)
     {
@@ -259,6 +312,24 @@ M_Read(void)
     if(mF->value[0])
       {
       m_Closed = true;
+      }
+    }
+
+  mF = MET_GetFieldRecord("DisplayOrientation", &m_Fields);
+  if(mF->defined)
+    {
+    if(mF->value[0])
+      {
+      m_DisplayOrientation = (int)mF->value[0];
+      }
+    }
+
+  mF = MET_GetFieldRecord("PinToSlice", &m_Fields);
+  if(mF->defined)
+    {
+    if(mF->value[0])
+      {
+      m_AttachedToSlice = (long int)mF->value[0];
       }
     }
 
