@@ -329,7 +329,7 @@ struct MultiplicativeOperators
     void const_constraints(const T1& d, const T2& e)
       {
       a = d * e;
-      a = e / e;
+      a = d / e;
       a *= e;
       a /= e;
       }
