@@ -17,7 +17,7 @@
 #ifndef __itkVectorImage_h
 #define __itkVectorImage_h
 
-#include "itkImage.h"
+#include "itkImageBase.h"
 #include "itkImageRegion.h"
 #include "itkImportImageContainer.h"
 #include "itkDefaultVectorPixelAccessor.h"
@@ -77,12 +77,12 @@ namespace itk
  */
 template <class TPixel, unsigned int VImageDimension=3 >
 class ITK_EXPORT VectorImage : 
-    public Image< VariableLengthVector< TPixel >, VImageDimension >
+    public ImageBase< VImageDimension >
 {
 public:
   /** Standard class typedefs */
   typedef VectorImage                  Self;
-  typedef Image< VariableLengthVector< TPixel >, VImageDimension >   Superclass;
+  typedef ImageBase< VImageDimension > Superclass;
   typedef SmartPointer<Self>           Pointer;
   typedef SmartPointer<const Self>     ConstPointer;
   typedef WeakPointer<const Self>      ConstWeakPointer;
@@ -91,7 +91,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VectorImage, Image);
+  itkTypeMacro(VectorImage, ImageBase);
 
   /** Pixel typedef support. Used to declare pixel type in filters
    * or other operations. This is not the actual pixel type contained in 
@@ -120,6 +120,12 @@ public:
   /** Tyepdef for the functor used to access a neighborhood of pixel pointers.*/
   typedef VectorImageNeighborhoodAccessorFunctor< 
                           Self >              NeighborhoodAccessorFunctorType;
+
+  /** Dimension of the image.  This constant is used by functions that are
+   * templated over image type (as opposed to being templated over pixel type
+   * and dimension) when they need compile time access to the dimension of
+   * the image. */
+  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
   /** Container used to store pixels in the image. */
   typedef ImportImageContainer<unsigned long, InternalPixelType> PixelContainer;
@@ -160,6 +166,24 @@ public:
    * already be set, e.g. by calling SetRegions(). */
   void Allocate();
 
+  /** Convenience methods to set the LargestPossibleRegion,
+   *  BufferedRegion and RequestedRegion. Allocate must still be called.
+   */
+  void SetRegions(RegionType region)
+    {
+    this->SetLargestPossibleRegion(region);
+    this->SetBufferedRegion(region);
+    this->SetRequestedRegion(region);
+    };
+
+  void SetRegions(SizeType size)
+    {
+    RegionType region; region.SetSize(size);
+    this->SetLargestPossibleRegion(region);
+    this->SetBufferedRegion(region);
+    this->SetRequestedRegion(region);
+    };
+
   /** Restore the data object to its initial state. This means releasing
    * memory. */
   virtual void Initialize();
@@ -168,7 +192,12 @@ public:
    * first. */
   void FillBuffer(const PixelType& value);
 
-  void SetPixel( const IndexType &index, const PixelType& value )
+  /** \brief Set a pixel value.
+   *
+   * Allocate() needs to have been called first -- for efficiency,
+   * this function does not check that the image has actually been
+   * allocated yet. */
+   void SetPixel( const IndexType &index, const PixelType& value )
     {
     OffsetValueType offset = m_VectorLength * this->ComputeOffset(index);
     for( VectorLengthType i = 0; i < m_VectorLength; i++ )
@@ -180,7 +209,8 @@ public:
   /** \brief Get a pixel (read only version).
    *
    * For efficiency, this function does not check that the
-   * image has actually been allocated yet. */
+   * image has actually been allocated yet. Note that the method returns a 
+   * pixel on the stack. */
   const PixelType GetPixel(const IndexType &index) const
     {
     OffsetValueType offset = m_VectorLength * this->ComputeOffset(index);
@@ -198,6 +228,20 @@ public:
     PixelType p( &((*m_Buffer)[offset]), m_VectorLength ); 
     return p;
     }
+
+  /** \brief Access a pixel. This version can be an lvalue.
+   *
+   * For efficiency, this function does not check that the
+   * image has actually been allocated yet. */
+  TPixel & operator[](const IndexType &index)
+     { return this->GetPixel(index); }
+
+  /** \brief Access a pixel. This version can only be an rvalue.
+   *
+   * For efficiency, this function does not check that the
+   * image has actually been allocated yet. */
+  const TPixel& operator[](const IndexType &index) const
+     { return this->GetPixel(index); }
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
@@ -254,6 +298,84 @@ public:
   /** Get/Set the number of components each pixel has, ie the VectorLength */
   virtual unsigned int GetNumberOfComponentsPerPixel() const;
   virtual void SetNumberOfComponentsPerPixel( unsigned int  n );
+
+  /** \brief Get the continuous index from a physical point
+   *
+   * Returns true if the resulting index is within the image, false otherwise.
+   * \sa Transform */
+  template<class TCoordRep>
+  bool TransformPhysicalPointToContinuousIndex(
+              const Point<TCoordRep, VImageDimension>& point,
+              ContinuousIndex<TCoordRep, VImageDimension>& index   ) const
+    {
+    // Update the output index
+    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+      {
+      index[i] = static_cast<TCoordRep>( (point[i]- this->m_Origin[i]) / this->m_Spacing[i] );
+      }
+
+    // Now, check to see if the index is within allowed bounds
+    const bool isInside =
+      this->GetLargestPossibleRegion().IsInside( index );
+
+    return isInside;
+    }
+
+  /** Get the index (discrete) from a physical point.
+   * Floating point index results are truncated to integers.
+   * Returns true if the resulting index is within the image, false otherwise
+   * \sa Transform */
+  template<class TCoordRep>
+  bool TransformPhysicalPointToIndex(
+            const Point<TCoordRep, VImageDimension>& point,
+            IndexType & index                                ) const
+    {
+    typedef typename IndexType::IndexValueType IndexValueType;
+
+    // Update the output index
+    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+      {
+      index[i] = static_cast<IndexValueType>( (point[i]- this->m_Origin[i]) / this->m_Spacing[i] );
+      }
+
+    // Now, check to see if the index is within allowed bounds
+    const bool isInside =
+      this->GetLargestPossibleRegion().IsInside( index );
+
+    return isInside;
+    }
+
+  /** Get a physical point (in the space which
+   * the origin and spacing infomation comes from)
+   * from a continuous index (in the index space)
+   * \sa Transform */
+  template<class TCoordRep>
+  void TransformContinuousIndexToPhysicalPoint(
+            const ContinuousIndex<TCoordRep, VImageDimension>& index,
+            Point<TCoordRep, VImageDimension>& point        ) const
+    {
+    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+      {
+      point[i] = static_cast<TCoordRep>( this->m_Spacing[i] * index[i] + this->m_Origin[i] );
+      }
+    }
+
+  /** Get a physical point (in the space which
+   * the origin and spacing infomation comes from)
+   * from a discrete index (in the index space)
+   *
+   * \sa Transform */
+  template<class TCoordRep>
+  void TransformIndexToPhysicalPoint(
+                      const IndexType & index,
+                      Point<TCoordRep, VImageDimension>& point ) const
+    {
+    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+      {
+      point[i] = static_cast<TCoordRep>( this->m_Spacing[i] *
+        static_cast<double>( index[i] ) + this->m_Origin[i] );
+      }
+    }
 
 protected:
   VectorImage();
