@@ -101,25 +101,25 @@ typedef std::list<Element> ListElements;
    void LoadDocEntrySafe(DocEntry *entry);
    void SetMaxSizeLoadEntry(long);
    void AddForceLoadElement(uint16_t group, uint16_t elem);
- 
+
 // Ordering of Documents
    bool operator<(Document &document);
 
 /**
- * \brief Sets the LoadMode as a boolean string. 
+ * \brief Sets the LoadMode as a boolean string.
  *        LD_NOSEQ, LD_NOSHADOW, LD_NOSHADOWSEQ
  ... (nothing more, right now)
  *        WARNING : before using NO_SHADOW, be sure *all* your files
- *        contain accurate values in the 0x0000 element (if any) 
+ *        contain accurate values in the 0x0000 element (if any)
  *        of *each* Shadow Group. The parser will fail if the size is wrong !
- * @param   mode Load mode to be used    
+ * @param   mode Load mode to be used
  */
-   void SetLoadMode (int mode) { if (LoadMode != mode) 
+   void SetLoadMode (int mode) { if (LoadMode != mode)
                                      LoadMode=mode, IsDocumentModified = true; }
 
 protected:
 // Methods
-   // Constructor and destructor are protected to forbid end user 
+   // Constructor and destructor are protected to forbid end user
    // to instanciate from this class Document (only gdcm::File and
    // gdcm::DicomDir are meaningfull).
    Document();

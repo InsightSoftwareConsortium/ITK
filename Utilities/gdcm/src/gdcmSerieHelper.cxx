@@ -43,6 +43,7 @@ SerieHelper::SerieHelper()
    ClearAll();
    UserLessThanFunction = 0;
    DirectOrder = true;
+   LoadMode = 0;
 }
 
 /**
