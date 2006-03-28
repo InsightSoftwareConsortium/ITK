@@ -436,9 +436,18 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     typename Superclass::InputPointType inputPoint;
 
     iter=samples.begin();
-
+    int count = 0;
+    int maxcount = m_NumberOfSpatialSamples * 10;
     while( iter != end )
       {
+
+      if ( count > maxcount )
+        {
+        itkExceptionMacro( "Drew too many samples from the mask (is it too small?): "
+                       << maxcount << std::endl );
+        }
+      count++;
+      
       // Get sampled index
       FixedImageIndexType index = randIter.GetIndex();
       // Check if the Index is inside the mask, translate index to point
