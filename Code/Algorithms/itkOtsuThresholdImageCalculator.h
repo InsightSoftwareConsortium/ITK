@@ -67,6 +67,9 @@ public:
   /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType PixelType;
   
+  /** Type definition for the input image region type. */
+  typedef typename TInputImage::RegionType RegionType;
+  
   /** Set the input image. */
   itkSetConstObjectMacro(Image,ImageType);
 
@@ -81,6 +84,9 @@ public:
                     NumericTraits<unsigned long>::max() );
   itkGetMacro( NumberOfHistogramBins, unsigned long );
 
+  /** Set the region over which the values will be computed */
+  void SetRegion( const RegionType & region );
+
 protected:
   OtsuThresholdImageCalculator();
   virtual ~OtsuThresholdImageCalculator() {};
@@ -93,6 +99,8 @@ private:
   PixelType            m_Threshold;
   unsigned long        m_NumberOfHistogramBins;
   ImageConstPointer    m_Image;
+  RegionType           m_Region;
+  bool                 m_RegionSetByUser;
 
 };
 

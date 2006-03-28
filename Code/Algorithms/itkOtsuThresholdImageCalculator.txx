@@ -36,6 +36,7 @@ OtsuThresholdImageCalculator<TInputImage>
   m_Image = NULL;
   m_Threshold = NumericTraits<PixelType>::Zero;
   m_NumberOfHistogramBins = 128;
+  m_RegionSetByUser = false;
 }
 
 
@@ -51,8 +52,12 @@ OtsuThresholdImageCalculator<TInputImage>
   unsigned int j;
 
   if ( !m_Image ) { return; }
+  if( !m_RegionSetByUser )
+    {
+    m_Region = m_Image->GetRequestedRegion();
+    }
 
-  double totalPixels = (double) m_Image->GetBufferedRegion().GetNumberOfPixels();
+  double totalPixels = (double) m_Region.GetNumberOfPixels();
   if ( totalPixels == 0 ) { return; }
 
 
@@ -83,7 +88,7 @@ OtsuThresholdImageCalculator<TInputImage>
     (double) ( imageMax - imageMin );
 
   typedef ImageRegionConstIteratorWithIndex<TInputImage> Iterator;
-  Iterator iter( m_Image, m_Image->GetBufferedRegion() );
+  Iterator iter( m_Image, m_Region );
 
   while ( !iter.IsAtEnd() )
     {
@@ -163,6 +168,16 @@ OtsuThresholdImageCalculator<TInputImage>
                                         ( maxBinNumber + 1 ) / binMultiplier );
 }
 
+template<class TInputImage>
+void
+OtsuThresholdImageCalculator<TInputImage>
+::SetRegion( const RegionType & region )
+{
+  m_Region = region;
+  m_RegionSetByUser = true;
+}
+
+  
 template<class TInputImage>
 void
 OtsuThresholdImageCalculator<TInputImage>
