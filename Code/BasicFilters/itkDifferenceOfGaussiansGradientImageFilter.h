@@ -79,7 +79,7 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(DataTypeHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename TDataType>));
+    (Concept::HasNumericTraits<TDataType>));
   /** End concept checking */
 #endif
 

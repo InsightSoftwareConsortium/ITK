@@ -147,7 +147,13 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(IntConvertibleToOutputCheck,
-    (Concept::Convertible<int, typename TOutputPixelType>));
+    (Concept::Convertible<int, TOutputPixelType>));
+  itkConceptMacro(InputGreaterThanDoubleCheck,
+    (Concept::GreaterThanComparable<PixelType, double>));
+  itkConceptMacro(OutputPlusIntCheck,
+    (Concept::AdditiveOperators<TOutputPixelType, int>));
+  itkConceptMacro(OutputDividedByIntCheck,
+    (Concept::MultiplicativeOperators<TOutputPixelType, int>));
   /** End concept checking */
 #endif
 
