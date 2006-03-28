@@ -42,6 +42,25 @@ public:
   static ValueType ZeroValue() { return Zero; }
   
 };
+/** \class NumericTraits<RGBPixel<unsigned short> >
+ * \brief Define traits for type RGBPixel<unsigned char>.
+ * \ingroup DataRepresentation
+ */
+template <>
+class NumericTraits<RGBPixel<unsigned short> > {
+public:
+  typedef RGBPixel<unsigned char> ValueType;
+  typedef RGBPixel<unsigned char> PrintType;
+  typedef RGBPixel<unsigned char> AbsType;
+  typedef RGBPixel<unsigned short> AccumulateType;
+  typedef RGBPixel<double> RealType;
+  typedef double           ScalarRealType;
+  typedef RGBPixel<float>  FloatType;
+  static const RGBPixel<unsigned short> ITKCommon_EXPORT Zero;
+  static const RGBPixel<unsigned short> ITKCommon_EXPORT One;
+  static ValueType ZeroValue() { return Zero; }
+  
+};
 
 } // end namespace itk
 
