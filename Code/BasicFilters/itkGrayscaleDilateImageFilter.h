@@ -76,6 +76,29 @@ public:
   /** Default boundary condition type */
   typedef typename Superclass::DefaultBoundaryConditionType DefaultBoundaryConditionType;
 
+  /** ImageDimension constants */
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
+  itkStaticConstMacro(KernelDimension, unsigned int,
+                      TKernel::NeighborhoodDimension);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(SameDimensionCheck1,
+     (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(SameDimensionCheck2,
+    (Concept::SameDimension<InputImageDimension, KernelDimension>));
+  itkConceptMacro(InputGreaterThanComparableCheck,
+    (Concept::GreaterThanComparable<PixelType>));
+  itkConceptMacro(KernelGreaterThanIntCheck,
+    (Concept::GreaterThanComparable<typename TKernel::PixelType, int>));
+  /** End concept checking */
+#endif
+
 protected:
   GrayscaleDilateImageFilter();
   ~GrayscaleDilateImageFilter() {};

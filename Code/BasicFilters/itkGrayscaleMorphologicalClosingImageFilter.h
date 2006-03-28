@@ -75,6 +75,31 @@ public:
   /** Get the kernel (structuring element). */
   itkGetConstReferenceMacro(Kernel, KernelType);
 
+  /** ImageDimension constants */
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
+  itkStaticConstMacro(KernelDimension, unsigned int,
+                      TKernel::NeighborhoodDimension);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameTypeCheck,
+    (Concept::SameType<PixelType, typename TOutputImage::PixelType>));
+  itkConceptMacro(SameDimensionCheck1,
+    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(SameDimensionCheck2,
+    (Concept::SameDimension<InputImageDimension, KernelDimension>));
+  itkConceptMacro(InputLessThanComparableCheck,
+    (Concept::LessThanComparable<PixelType>));
+  itkConceptMacro(InputGreaterThanComparableCheck,
+    (Concept::GreaterThanComparable<PixelType>));
+  itkConceptMacro(KernelGreaterThanIntCheck,
+    (Concept::GreaterThanComparable<typename TKernel::PixelType, int>));
+  /** End concept checking */
+#endif
+
 protected:
   GrayscaleMorphologicalClosingImageFilter();
   ~GrayscaleMorphologicalClosingImageFilter() {};

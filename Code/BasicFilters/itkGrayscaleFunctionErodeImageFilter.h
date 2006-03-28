@@ -100,6 +100,8 @@ public:
     (Concept::AdditiveOperators<PixelType>));
   itkConceptMacro(InputLessThanComparableCheck,
     (Concept::LessThanComparable<PixelType>));
+  itkConceptMacro(KernelGreaterThanIntCheck,
+    (Concept::GreaterThanComparable<typename TKernel::PixelType, int>));
   /** End concept checking */
 #endif
 
