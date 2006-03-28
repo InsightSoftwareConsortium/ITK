@@ -46,6 +46,10 @@
  * Binding Parametric Polymorphism in C++" by Jeremy Siek and Andrew
  * Lumsdaine, University of Notre Dame.
  */
+
+// Leave ()'s off the sizeof to force the caller to pass them in the
+// concept argument of the itkConceptMacro.  This is necessary because
+// the argument may contain commas.
 #  define itkConceptConstraintsMacro() \
     template <void (Constraints::*)()> struct Enforcer {}; \
     typedef Enforcer<&Constraints::constraints> EnforcerInstantiation
