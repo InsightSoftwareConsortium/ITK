@@ -106,7 +106,7 @@ public:
                       TInputImage2::ImageDimension);
   itkStaticConstMacro(Input3ImageDimension, unsigned int,
                       TInputImage3::ImageDimension);
-  itkStaticConstMacro(OuputImageDimension, unsigned int,
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
