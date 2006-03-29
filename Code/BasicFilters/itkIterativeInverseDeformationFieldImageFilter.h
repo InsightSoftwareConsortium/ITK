@@ -107,6 +107,13 @@ namespace itk
 
     char* GetReport() {return this->m_Report;}
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+    /** Begin concept checking */
+    itkConceptMacro(OutputHasNumericTraitsCheck,
+                    (Concept::HasNumericTraits<OutputImageValueType>));
+    /** End concept checking */
+#endif
+
   protected:
     IterativeInverseDeformationFieldImageFilter();
     ~IterativeInverseDeformationFieldImageFilter() {}

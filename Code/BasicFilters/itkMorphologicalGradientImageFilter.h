@@ -76,6 +76,8 @@ public:
                       TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
+  itkStaticConstMacro(KernelDimension, unsigned int,
+                      TKernel::NeighborhoodDimension);
 
   /** Standard New method. */
   itkNewMacro(Self);  
@@ -89,6 +91,25 @@ public:
   
   /** Get the kernel (structuring element). */
   itkGetConstReferenceMacro(Kernel, KernelType);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck1,
+    (Concept::SameDimension<InputImageDimension, KernelDimension>));
+  itkConceptMacro(SameDimensionCheck2,
+    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputLessThanComparableCheck,
+    (Concept::LessThanComparable<InputImagePixelType>));
+  itkConceptMacro(InputGreaterThanComparableCheck,
+    (Concept::GreaterThanComparable<InputImagePixelType>));
+  itkConceptMacro(InputAdditiveOperatorsCheck,
+    (Concept::AdditiveOperators<InputImagePixelType>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  itkConceptMacro(KernelGreaterThanIntCheck,
+    (Concept::GreaterThanComparable<typename TKernel::PixelType, int>));
+  /** End concept checking */
+#endif
 
 protected:
   MorphologicalGradientImageFilter();

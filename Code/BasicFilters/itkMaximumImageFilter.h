@@ -96,6 +96,9 @@ public:
   itkConceptMacro(Input2ConvertibleToOutputCheck,
     (Concept::Convertible<typename TInputImage2::PixelType,
                           typename TOutputImage::PixelType>));
+  itkConceptMacro(Input1GreaterThanInput2Check,
+    (Concept::GreaterThanComparable<typename TInputImage1::PixelType,
+                                    typename TInputImage2::PixelType>));
   /** End concept checking */
 #endif
 

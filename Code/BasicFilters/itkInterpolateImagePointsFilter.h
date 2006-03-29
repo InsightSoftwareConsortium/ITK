@@ -143,6 +143,13 @@ public:
   /**  Overloaded to set the input image to the largest possible region */
   void GenerateInputRequestedRegion();
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TInputImage::PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   /** Main function for calculating interpolated values at each coordinate 
     * set.  Access is through the update() call. */

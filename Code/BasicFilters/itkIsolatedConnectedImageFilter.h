@@ -195,6 +195,13 @@ public:
    * threshold. */
   itkGetConstReferenceMacro(ThresholdingFailed, bool);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<InputImagePixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   IsolatedConnectedImageFilter();
   ~IsolatedConnectedImageFilter(){};

@@ -135,6 +135,8 @@ public:
     (Concept::Convertible<InputPixelType, OutputPixelType>));
   itkConceptMacro(OperatorConvertibleToOutputCheck,
     (Concept::Convertible<OperatorValueType, OutputPixelType>));
+  itkConceptMacro(OutputOStreamWritable,
+    (Concept::OStreamWritable<OutputPixelType>));
   /** End concept checking */
 #endif
 

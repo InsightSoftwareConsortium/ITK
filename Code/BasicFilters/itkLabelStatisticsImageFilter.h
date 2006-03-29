@@ -293,6 +293,13 @@ public:
   void SetHistogramParameters(const int numBins, RealType lowerBound,
     RealType upperBound) ;
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   LabelStatisticsImageFilter();
   ~LabelStatisticsImageFilter(){};

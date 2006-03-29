@@ -164,6 +164,13 @@ public:
   /** Method Compute the Modified Time based on changed to the components. */
   unsigned long GetMTime( void ) const;
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<OutputPixelComponentType>));
+  /** End concept checking */
+#endif
+
 protected:
   InverseDeformationFieldImageFilter();
   ~InverseDeformationFieldImageFilter() {};

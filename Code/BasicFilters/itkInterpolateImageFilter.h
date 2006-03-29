@@ -104,6 +104,13 @@ public:
   /** This method is used to run after multi-threading. */
   void AfterThreadedGenerateData();
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<InputPixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   InterpolateImageFilter();
   ~InterpolateImageFilter() {};

@@ -109,6 +109,13 @@ public:
   /** Process to execute before entering the multithreaded section */
   void BeforeThreadedGenerateData(void);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<InputPixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   InvertIntensityImageFilter();
   virtual ~InvertIntensityImageFilter() {};

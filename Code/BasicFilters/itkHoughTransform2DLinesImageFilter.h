@@ -143,6 +143,17 @@ public:
   itkSetMacro(Variance,float);
   itkGetMacro(Variance,float);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(IntConvertibleToOutputCheck,
+    (Concept::Convertible<int, TOutputPixelType>));
+  itkConceptMacro(InputGreaterThanFloatCheck,
+    (Concept::GreaterThanComparable<PixelType, float>));
+  itkConceptMacro(OutputPlusIntCheck,
+    (Concept::AdditiveOperators<TOutputPixelType, int>));
+  /** End concept checking */
+#endif
+
 protected:
 
   HoughTransform2DLinesImageFilter();

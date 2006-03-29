@@ -98,7 +98,17 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<typename TInputImage::PixelType,
+                          typename TOutputImage::PixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TInputImage::PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   NaryAddImageFilter() {}
   virtual ~NaryAddImageFilter() {}
