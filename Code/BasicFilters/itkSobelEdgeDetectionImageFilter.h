@@ -61,6 +61,8 @@ public:
   typedef typename TInputImage::InternalPixelType InputInternalPixelType;
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension );
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension );
   
   /**
    * Image typedef support
@@ -95,6 +97,15 @@ public:
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()
    */
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<OutputPixelType>));
+  /** End concept checking */
+#endif
 
 protected:
   SobelEdgeDetectionImageFilter() {}

@@ -56,6 +56,15 @@ public:
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType ;
   typedef typename TOutputImage::PixelType OutputImagePixelType ;
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename OutputImagePixelType::ValueType>));
+  itkConceptMacro(OutputHasPixelTraitsCheck,
+    (Concept::HasPixelTraits<OutputImagePixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   ScalarToArrayCastImageFilter() ;
   virtual ~ScalarToArrayCastImageFilter() {}

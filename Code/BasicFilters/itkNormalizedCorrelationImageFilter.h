@@ -70,6 +70,8 @@ public:
    * of the two images is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
+  itkStaticConstMacro(MaskImageDimension, unsigned int,
+                      TMaskImage::ImageDimension);
   
   /** Image typedef support. */
   typedef TInputImage  InputImageType;
@@ -106,6 +108,17 @@ public:
   {
     this->SetOperator(t);
   }
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<InputImageDimension, MaskImageDimension>));
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<OutputPixelType>));
+  itkConceptMacro(OperatorHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<OperatorValueType>));
+  /** End concept checking */
+#endif
 
 protected:
   NormalizedCorrelationImageFilter() {}

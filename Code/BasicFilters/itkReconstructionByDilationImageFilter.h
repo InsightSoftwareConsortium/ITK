@@ -116,6 +116,19 @@ public:
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<MarkerImagePixelType, OutputImagePixelType>));
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<MarkerImageDimension, OutputImageDimension>));
+  itkConceptMacro(OutputComparableCheck,
+    (Concept::Comparable<OutputImagePixelType>));
+  itkConceptMacro(InputGreaterThanComparableCheck,
+    (Concept::GreaterThanComparable<MarkerImagePixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   ReconstructionByDilationImageFilter();
   ~ReconstructionByDilationImageFilter() {};

@@ -119,6 +119,13 @@ public:
    * output. */
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   StatisticsImageFilter();
   ~StatisticsImageFilter(){};

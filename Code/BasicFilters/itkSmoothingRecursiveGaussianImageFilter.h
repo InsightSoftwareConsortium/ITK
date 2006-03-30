@@ -113,6 +113,13 @@ public:
   void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
   itkGetMacro( NormalizeAcrossScale, bool );
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   SmoothingRecursiveGaussianImageFilter();
   virtual ~SmoothingRecursiveGaussianImageFilter() {};

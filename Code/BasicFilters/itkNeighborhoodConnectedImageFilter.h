@@ -117,6 +117,10 @@ public:
     (Concept::EqualityComparable<OutputImagePixelType>));
   itkConceptMacro(SameDimensionCheck,
     (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputOStreamWritableCheck,
+    (Concept::OStreamWritable<InputImagePixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck,
+    (Concept::OStreamWritable<OutputImagePixelType>));
   /** End concept checking */
 #endif
 

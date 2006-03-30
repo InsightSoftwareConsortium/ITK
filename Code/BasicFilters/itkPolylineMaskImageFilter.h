@@ -109,7 +109,13 @@ public:
   ProjPlanePointType TransformProjectPoint(PointType inputPoint);
   /* Generate Data */
   void GenerateData(void);
- 
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(VectorHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename VectorType::ValueType>));
+  /** End concept checking */
+#endif
 
 protected:
   PolylineMaskImageFilter();

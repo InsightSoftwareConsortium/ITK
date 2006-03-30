@@ -75,7 +75,14 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TInputImage::PixelType::ComponentType>));
+  /** End concept checking */
+#endif
+
 protected:
   RGBToLuminanceImageFilter() {}
   virtual ~RGBToLuminanceImageFilter() {}

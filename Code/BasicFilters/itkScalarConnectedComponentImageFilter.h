@@ -97,11 +97,13 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputEqualityComparableCheck,
-                  (Concept::EqualityComparable<InputPixelType>));
+    (Concept::EqualityComparable<InputPixelType>));
   itkConceptMacro(OutputEqualityComparableCheck,
-                  (Concept::EqualityComparable<typename TOutputImage::PixelType>));
+    (Concept::EqualityComparable<typename TOutputImage::PixelType>));
   itkConceptMacro(MaskEqualityComparableCheck,
-                  (Concept::EqualityComparable<typename TMaskImage::PixelType>));
+    (Concept::EqualityComparable<typename TMaskImage::PixelType>));
+  itkConceptMacro(OutputIncrementDecrementOperatorsCheck,
+    (Concept::IncrementDecrementOperators<typename TOutputImage::PixelType>));
   /** End concept checking */
 #endif
 

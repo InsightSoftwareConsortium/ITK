@@ -129,6 +129,15 @@ public:
   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<InputPixelType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<OutputPixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   SimpleContourExtractorImageFilter();
   virtual ~SimpleContourExtractorImageFilter() {}

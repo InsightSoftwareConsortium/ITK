@@ -271,6 +271,13 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
     m_RefitIteration++;
   }
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<ValueType>));
+  /** End concept checking */
+#endif
+
 protected:
   SparseFieldFourthOrderLevelSetImageFilter();
   ~SparseFieldFourthOrderLevelSetImageFilter() {};

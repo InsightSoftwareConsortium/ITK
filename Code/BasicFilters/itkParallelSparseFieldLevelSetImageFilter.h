@@ -328,6 +328,8 @@ public:
                   (Concept::EqualityComparable<PixelType>));
   itkConceptMacro(DoubleConvertibleToOutputCheck,
                   (Concept::Convertible<double, PixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck,
+                  (Concept::OStreamWritable<PixelType>));
   /** End concept checking */
 #endif
 
