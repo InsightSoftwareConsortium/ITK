@@ -82,11 +82,23 @@ namespace itk
 #   define ITK_NO_INCLASS_MEMBER_INITIALIZATION
 #endif
 
+// A class template like this will not instantiate on GCC 2.95:
+//   template<class T> struct A
+//   {
+//     static const int N = 1;
+//     enum { S = sizeof(A::N) };
+//   };
+// We need to use enum for static constants instead.
+#if defined(__GNUC__) && __GNUC__ < 3
+# define ITK_NO_SIZEOF_CONSTANT_LOOKUP
+#endif
+
 #if defined(_MSC_VER) && (_MSC_VER <= 1300) 
 #define ITK_NO_SELF_AS_TRAIT_IN_TEMPLATE_ARGUMENTS
 #endif
 
-#ifdef ITK_NO_INCLASS_MEMBER_INITIALIZATION
+#if defined(ITK_NO_INCLASS_MEMBER_INITIALIZATION) || \
+    defined(ITK_NO_SIZEOF_CONSTANT_LOOKUP)
 #   define itkStaticConstMacro(name,type,value) enum { name = value }
 #else
 #   define itkStaticConstMacro(name,type,value) static const type name = value
