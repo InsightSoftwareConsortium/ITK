@@ -74,8 +74,6 @@ public:
   itkConceptMacro(ConvertibleCheck,
     (Concept::Convertible<typename TInputImage::PixelType,
                           typename TOutputImage::PixelType>));
-  itkConceptMacro(InputSignedCheck,
-    (Concept::Signed<typename TInputImage::PixelType>));
   itkConceptMacro(InputGreaterThanIntCheck,
     (Concept::GreaterThanComparable<typename TInputImage::PixelType, int>));
   /** End concept checking */
