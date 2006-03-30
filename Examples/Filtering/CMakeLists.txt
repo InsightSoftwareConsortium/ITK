@@ -189,9 +189,6 @@ TARGET_LINK_LIBRARIES(SubsampleVolume ITKCommon ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(LaplacianSharpeningImageFilter LaplacianSharpeningImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianSharpeningImageFilter ITKCommon ITKBasicFilters ITKIO)
 
-ADD_EXECUTABLE(SurfaceExtraction SurfaceExtraction.cxx )
-TARGET_LINK_LIBRARIES(SurfaceExtraction ITKCommon ITKBasicFilters ITKIO)
-
 ADD_EXECUTABLE(VectorIndexSelection VectorIndexSelection.cxx )
 TARGET_LINK_LIBRARIES(VectorIndexSelection ITKCommon ITKBasicFilters ITKIO)
 
@@ -927,6 +924,9 @@ TARGET_LINK_LIBRARIES(DiffusionTensor3DReconstructionImageFilter ITKIO ITKBasicF
   TARGET_LINK_LIBRARIES(FFTDirectInverse ITKCommon ITKIO)
 
 IF(NOT BORLAND)
+  ADD_EXECUTABLE(SurfaceExtraction SurfaceExtraction.cxx )
+  TARGET_LINK_LIBRARIES(SurfaceExtraction ITKCommon ITKBasicFilters ITKIO)
+
   ADD_EXECUTABLE(DigitallyReconstructedRadiograph1 DigitallyReconstructedRadiograph1.cxx )
   TARGET_LINK_LIBRARIES(DigitallyReconstructedRadiograph1 ITKCommon ITKIO)
 
