@@ -665,7 +665,7 @@ struct IsFloatingPoint
     typedef Detail::UniqueType_bool<itkGetStaticConstMacro(IsExact)> ExactT;
     void constraints()
       {
-        IntegralT a = FasleT();
+        IntegralT a = FalseT();
         ExactT b = FalseT();
         Detail::IgnoreUnusedVariable(a);
         Detail::IgnoreUnusedVariable(b);
@@ -690,7 +690,7 @@ struct IsFixedPoint
     typedef Detail::UniqueType_bool<itkGetStaticConstMacro(IsExact)> ExactT;
     void constraints()
       {
-        IntegralT a = FasleT();
+        IntegralT a = FalseT();
         ExactT b = TrueT();
         Detail::IgnoreUnusedVariable(a);
         Detail::IgnoreUnusedVariable(b);
