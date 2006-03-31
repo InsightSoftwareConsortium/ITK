@@ -139,13 +139,13 @@ void vnl_scalar_join_iterator<T>::next()
 }
 
 template <class T>
-unsigned vnl_scalar_join_iterator<T>::row1()
+unsigned vnl_scalar_join_iterator<T>::row1() const
 {
   return (*index1).original_index;
 }
 
 template <class T>
-unsigned vnl_scalar_join_iterator<T>::row2()
+unsigned vnl_scalar_join_iterator<T>::row2() const
 {
   return (*index2).original_index;
 }
