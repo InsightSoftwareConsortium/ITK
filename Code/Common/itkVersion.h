@@ -25,10 +25,10 @@
 
 #define ITK_VERSION_TO_STRING(x) ITK_VERSION_TO_STRING0(x)
 #define ITK_VERSION_TO_STRING0(x) #x
-#define ITK_VERSION ITK_VERSION_TO_STRING(ITK_VERSION_MAJOR) \
-                    ITK_VERSION_TO_STRING(ITK_VERSION_MINOR) \
+#define ITK_VERSION ITK_VERSION_TO_STRING(ITK_VERSION_MAJOR) "." \
+                    ITK_VERSION_TO_STRING(ITK_VERSION_MINOR) "." \
                     ITK_VERSION_TO_STRING(ITK_VERSION_PATCH)
-#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.1948 $, $Date: 2006-03-31 01:10:00 $ (GMT)"
+#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.1949 $, $Date: 2006-03-31 16:45:02 $ (GMT)"
 
 namespace itk
 {
