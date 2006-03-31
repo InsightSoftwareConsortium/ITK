@@ -28,6 +28,7 @@ const char *const SPM_ROI_SCALE = "SPM_ROI_SCALE";
 const char *const ITK_FileNotes = "ITK_FileNotes";
 const char *const ITK_CoordinateOrientation = "ITK_CoordinateOrientation";
 const char *const ITK_Origin = "ITK_Origin";
+const char *const ITK_Spacing = "ITK_Spacing";
 const char *const ITK_FileOriginator = "ITK_FileOriginator";
 const char *const ITK_OriginationDate = "ITK_OriginationDate";
 const char *const ITK_PatientID = "ITK_PatientID";
