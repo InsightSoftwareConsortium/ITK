@@ -401,56 +401,6 @@ ImageSeriesWriter<TInputImage,TOutputImage>
         EncapsulateMetaData< DoubleArrayType >( dictionary, ITK_Spacing, spacingArray );
         EncapsulateMetaData<  unsigned int   >( dictionary, ITK_NumberOfDimensions, inputImageDimension );
 
-        DictionaryType::ConstIterator itr = dictionary.Begin();
-        DictionaryType::ConstIterator end = dictionary.End();
-
-        while( itr != end )
-          {
-          std::string tagkey   = itr->first;
-          std::string labelId;
-          bool found =  itk::GDCMImageIO::GetLabelFromTag( tagkey, labelId );
-          std::cout << tagkey << " : ";
-          if( found )
-            {
-            std::cout << labelId << " : ";
-            }
-          else
-            {
-              std::cout << " Unknown Label : ";
-            }
-          itk::MetaDataObjectBase::Pointer  entry = itr->second;
-          
-          typedef itk::MetaDataObject< std::string > MetaDataStringType;
-          typedef itk::MetaDataObject< DoubleArrayType > MetaDataDoubleArrayType;
-
-          MetaDataStringType::Pointer entryvalue = 
-            dynamic_cast<MetaDataStringType *>( entry.GetPointer() ) ;
-          if( entryvalue )
-            {
-            std::string tagvalue = entryvalue->GetMetaDataObjectValue();
-            std::cout << " = " << tagvalue.c_str() << std::endl;
-            }
-          else
-            {
-            MetaDataDoubleArrayType::Pointer entryvalue = 
-              dynamic_cast<MetaDataDoubleArrayType *>( entry.GetPointer() ) ;
-            if( entryvalue )
-              {
-              DoubleArrayType tagvalue = entryvalue->GetMetaDataObjectValue();
-              std::cout << " = ";
-              for(unsigned int i=0; i < tagvalue.Size(); i++)
-                {
-                std::cout << tagvalue[i] << " ";
-                }
-              std::cout << std::endl;
-              }
-            else
-              {
-              std::cout << std::endl;
-              }
-            }
-          ++itr;
-          }
         }
       }
     
