@@ -143,6 +143,21 @@ public:
 
   virtual void GenerateOutputInformation(); 
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputMultiplyOperatorCheck,
+    (Concept::MultiplyOperator<InputPixelType>));
+  itkConceptMacro(DoubleConvertibleToProbabilityCheck,
+    (Concept::Convertible<double, TProbabilityPrecisionType>));
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<InputPixelType>));
+  itkConceptMacro(ProbabilityHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<TProbabilityPrecisionType>));
+  itkConceptMacro(DoublePlusInputCheck,
+    (Concept::AdditiveOperators<double, InputPixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   BayesianClassifierInitializationImageFilter();
   virtual ~BayesianClassifierInitializationImageFilter() {}

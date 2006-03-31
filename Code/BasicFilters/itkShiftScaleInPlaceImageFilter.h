@@ -97,6 +97,17 @@ public:
   itkGetMacro(UnderflowCount,long);
   itkGetMacro(OverflowCount,long);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<InputImagePixelType>));
+  itkConceptMacro(InputPlusRealTypeCheck,
+                  (Concept::AdditiveOperators<InputImagePixelType, RealType, RealType>));
+  itkConceptMacro(RealTypeMultiplyOperatorCheck,
+                  (Concept::MultiplyOperator<RealType>));
+  /** End concept checking */
+#endif
+
 protected:
   ShiftScaleInPlaceImageFilter();
   ~ShiftScaleInPlaceImageFilter();

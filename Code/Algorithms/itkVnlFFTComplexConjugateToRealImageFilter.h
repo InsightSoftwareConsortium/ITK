@@ -50,6 +50,14 @@ public:
   // these should be defined in every FFT filter class
   virtual void GenerateData();  // generates output from input
   virtual bool FullMatrix();
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(PixelUnsignedIntDivisionOperatorsCheck,
+    (Concept::DivisionOperators<TPixel, unsigned int>));
+  /** End concept checking */
+#endif
+
 protected:
   VnlFFTComplexConjugateToRealImageFilter()  { }
   virtual ~VnlFFTComplexConjugateToRealImageFilter(){ }

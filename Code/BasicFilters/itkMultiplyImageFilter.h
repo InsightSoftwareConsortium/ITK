@@ -75,7 +75,16 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(Input1Input2OutputMultiplyOperatorCheck,
+    (Concept::MultiplyOperator<typename TInputImage1::PixelType,
+                               typename TInputImage2::PixelType,
+                               typename TOutputImage::PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   MultiplyImageFilter() {}
   virtual ~MultiplyImageFilter() {}

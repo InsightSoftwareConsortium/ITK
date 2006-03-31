@@ -72,8 +72,8 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputMultiplicativeOperatorsCheck,
-    (Concept::MultiplicativeOperators<typename TInputImage::PixelType::value_type>));
+  itkConceptMacro(InputMultiplyOperatorCheck,
+    (Concept::MultiplyOperator<typename TInputImage::PixelType::value_type>));
   /** End concept checking */
 #endif
 

@@ -135,8 +135,8 @@ public:
     (Concept::Convertible<OperatorValueType, OutputPixelType>));
   itkConceptMacro(InputConvertibleToOperatorCheck,
     (Concept::Convertible<InputPixelType, OperatorValueType>));
-  itkConceptMacro(OperatorMultiplicativeOperatorsCheck,
-    (Concept::MultiplicativeOperators<OperatorValueType>));
+  itkConceptMacro(OperatorMultiplyOperatorCheck,
+    (Concept::MultiplyOperator<OperatorValueType>));
   itkConceptMacro(OperatorAdditiveOperatorsCheck,
     (Concept::AdditiveOperators<OperatorValueType>));
   /** End concept checking */

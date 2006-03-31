@@ -178,7 +178,11 @@ public:
   itkConceptMacro(OutputAdditiveOperatorsCheck,
     (Concept::AdditiveOperators<OutputPixelType>));
   itkConceptMacro(DoubleConvertibleToOutputCheck,
-                  (Concept::Convertible<double, OutputPixelType>));
+    (Concept::Convertible<double, OutputPixelType>));
+  itkConceptMacro(OutputTimesDoubleCheck,
+    (Concept::MultiplyOperator<OutputPixelType, double>));
+  itkConceptMacro(OutputDoubleAdditiveOperatorsCheck,
+    (Concept::AdditiveOperators<OutputPixelType, OutputPixelType, double>));
   /** End concept checking */
 #endif
 

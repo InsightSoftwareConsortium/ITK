@@ -90,6 +90,16 @@ public:
   itkGetMacro(UnderflowCount,long);
   itkGetMacro(OverflowCount,long);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<OutputImagePixelType>));
+  itkConceptMacro(InputPlusRealTypeCheck,
+                  (Concept::AdditiveOperators<InputImagePixelType, RealType, RealType>));
+  itkConceptMacro(RealTypeMultiplyOperatorCheck,
+                  (Concept::MultiplyOperator<RealType>));
+  /** End concept checking */
+#endif
 
 protected:
   ShiftScaleImageFilter();

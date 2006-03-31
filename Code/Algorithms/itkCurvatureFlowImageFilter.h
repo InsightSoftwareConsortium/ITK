@@ -138,11 +138,19 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(DoubleConvertibleToOutputCheck,
-                  (Concept::Convertible<double, PixelType>));
+    (Concept::Convertible<double, PixelType>));
   itkConceptMacro(OutputConvertibleToDoubleCheck,
-                  (Concept::Convertible<PixelType, double>));
-  itkConceptMacro(OutputMultiplicativeOperatorsCheck,
-                  (Concept::MultiplicativeOperators<PixelType>));
+    (Concept::Convertible<PixelType, double>));
+  itkConceptMacro(OutputDivisionOperatorsCheck,
+    (Concept::DivisionOperators<PixelType>));
+  itkConceptMacro(DoubleOutputMultiplyOperatorCheck,
+    (Concept::MultiplyOperator<double, PixelType, PixelType>));
+  itkConceptMacro(IntOutputMultiplyOperatorCheck,
+    (Concept::MultiplyOperator<int, PixelType, PixelType>));
+  itkConceptMacro(OutputLessThanDoubleCheck,
+    (Concept::LessThanComparable<PixelType, double>));
+  itkConceptMacro(OutputDoubleAdditiveOperatorsCheck,
+    (Concept::AdditiveOperators<PixelType, double>));
   /** End concept checking */
 #endif
 

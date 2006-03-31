@@ -241,6 +241,19 @@ public:
   // Override since the filter produces all of its output
   void EnlargeOutputRequestedRegion(DataObject *data);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputEqualityComparableCheck,
+    (Concept::EqualityComparable<ScalarType>));
+  itkConceptMacro(InputAdditiveOperatorsCheck,
+    (Concept::AdditiveOperators<ScalarType>));
+  itkConceptMacro(DoubleInputMultiplyOperatorCheck,
+    (Concept::MultiplyOperator<double, ScalarType, ScalarType>));
+  itkConceptMacro(InputLessThanComparableCheck,
+    (Concept::LessThanComparable<ScalarType>));
+  /** End concept checking */
+#endif
+
 protected:
   WatershedImageFilter();
   virtual ~WatershedImageFilter() {}

@@ -153,7 +153,7 @@ public:
   itkConceptMacro(OutputPlusIntCheck,
     (Concept::AdditiveOperators<TOutputPixelType, int>));
   itkConceptMacro(OutputDividedByIntCheck,
-    (Concept::MultiplicativeOperators<TOutputPixelType, int>));
+    (Concept::DivisionOperators<TOutputPixelType, int>));
   /** End concept checking */
 #endif
 
