@@ -141,6 +141,8 @@ public:
    */
   itkSetMacro( TargetReachedMode, int );
   itkGetConstReferenceMacro( TargetReachedMode, int );
+  void SetTargetReachedModeToNoTargets()
+    { this->SetTargetReachedMode(NoTargets); }
   void SetTargetReachedModeToOneTarget() 
     { this->SetTargetReachedMode(OneTarget); }
   void SetTargetReachedModeToAllTargets() 
@@ -151,8 +153,9 @@ public:
 
   enum
     {
-    OneTarget,
-    AllTargets
+      NoTargets,
+      OneTarget,
+      AllTargets
     };
 
 protected:
@@ -161,6 +164,8 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   virtual void Initialize( LevelSetImageType * );
+
+  void GenerateData();
 
   virtual void UpdateNeighbors( const IndexType& index, 
                                 const SpeedImageType *, LevelSetImageType * );

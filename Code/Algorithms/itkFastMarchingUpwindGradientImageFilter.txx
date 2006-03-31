@@ -40,7 +40,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
   m_GradientImage = GradientImageType::New();
   m_GenerateGradientImage = false;
   m_TargetOffset = 1.0;
-  m_TargetReachedMode = OneTarget;
+  m_TargetReachedMode = NoTargets;
   m_TargetValue = 0.0;
 }
 
@@ -98,11 +98,48 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
       }
     }
 
+
+  // Need to reset the target value.
+  m_TargetValue = 0.0; 
+
   if ( m_TargetReachedMode == AllTargets )
     {
     m_ReachedTargetPoints = NodeContainer::New();
     }
+
 }
+
+
+template <class TLevelSet, class TSpeedImage>
+void
+FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
+::GenerateData()
+{
+  // cache the original stopping value that was set by the user
+  // because this subclass may change it once a target point is
+  // reached in order to control the execution of the superclass.
+  double stoppingValue = this->GetStoppingValue();
+
+  // run the GenerateData() method of the superclass
+  try 
+    {
+    Superclass::GenerateData();
+    }
+  catch (ProcessAborted &exc)
+    {
+    // process was aborted, clean up the state of the filter
+    // (most of the cleanup will have already been done by the
+    // superclass)
+
+    // restore the original stopping value
+    this->SetStoppingValue( stoppingValue );
+    throw exc;
+    }
+
+  // restore the original stopping value
+  this->SetStoppingValue( stoppingValue );
+}
+
 
 template <class TLevelSet, class TSpeedImage>
 void
@@ -121,7 +158,9 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
 
   AxisNodeType node;
 
-  if ( m_TargetPoints )
+  // Only check for reached targets if the mode is not NoTargets and
+  // there is at least one TargetPoint.
+  if( m_TargetReachedMode != NoTargets &&  m_TargetPoints )
     {
     bool targetReached = false;
     
@@ -149,7 +188,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
 
         if (node.GetIndex() == index)
           {
-          m_ReachedTargetPoints->InsertElement(m_ReachedTargetPoints->Size()-1,node);
+          m_ReachedTargetPoints->InsertElement(m_ReachedTargetPoints->Size(),node);
           break;
           }
         }
@@ -166,6 +205,10 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
       double newStoppingValue = m_TargetValue + m_TargetOffset;
       if (newStoppingValue < this->GetStoppingValue())
         {
+        // This changes the stopping value that may have been set by
+        // the user.  Therefore, the value set by the user needs to be
+        // cached in GenerateUpdate() so that it will be correct for
+        // future Update() commands.
         this->SetStoppingValue(newStoppingValue);
         }
       }
@@ -254,6 +297,8 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
 
   gradientImage->SetPixel( index, gradientPixel );
 }
+
+
 
 } // namespace itk
 
