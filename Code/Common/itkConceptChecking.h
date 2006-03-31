@@ -640,7 +640,7 @@ struct IsNonInteger
   struct Constraints
   {
     typedef Detail::UniqueType_bool<false> FalseT;
-    typedef Detail::UniqueType_bool<itkGetStaticConstMacro(Integral)> NonIntegralT;
+    typedef Detail::UniqueType_bool<itkGetStaticConstMacro(NonIntegral)> NonIntegralT;
     void constraints()
       {
         NonIntegralT a = FalseT();
