@@ -53,8 +53,8 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
   m_LabeledComponent->SetInput( m_ConnectedComponent->GetOutput() );
 
 
-  const NumericTraits<PixelType>::AccumulateType maxLabel = NumericTraits<PixelType>::max();
-  const NumericTraits<PixelType>::AccumulateType minLabel = NumericTraits<PixelType>::NonpositiveMin(); 
+  const typename NumericTraits<PixelType>::AccumulateType maxLabel = NumericTraits<PixelType>::max();
+  const typename  NumericTraits<PixelType>::AccumulateType minLabel = NumericTraits<PixelType>::NonpositiveMin(); 
   
   m_MinimumObjectSizeInPixels = 0; //Default. Use ITK set macro "SetMinimumObjectSizeInPixels" to change
 
