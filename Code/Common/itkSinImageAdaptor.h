@@ -72,11 +72,11 @@ class ITK_EXPORT SinImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef SinImageAdaptor  Self;
+  typedef SinImageAdaptor           Self;
   typedef ImageAdaptor<TImage, Accessor::SinPixelAccessor<
                                typename TImage::PixelType,
                                TOutputPixelType> >  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Method for creation through the object factory. */
@@ -85,11 +85,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( SinImageAdaptor, ImageAdaptor );
 
- protected:
+protected:
   SinImageAdaptor() {}
   virtual ~SinImageAdaptor() {}
   
- private:
+private:
   SinImageAdaptor(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

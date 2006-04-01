@@ -50,7 +50,7 @@ public:
   
   /** Compatible Size and value typedef */
   typedef   Size<VDimension>  SizeType;
-  typedef   unsigned long  SizeValueType;
+  typedef   unsigned long     SizeValueType;
   
   /** Get the dimension of the size object. */
   static unsigned int GetSizeDimension(void) { return VDimension; }
@@ -207,16 +207,21 @@ std::ostream & operator<<(std::ostream &os, const Size<VDimension> &size)
   return os;
 }
 #ifdef ITK_EXPLICIT_INSTANTIATION
-   extern template class Size<1>;
-   extern template class Size<2>;
-   extern template class Size<3>;
-   extern template class Size<4>;
-   extern template class Size<5>;
-   extern template std::ostream & operator<<(std::ostream &os, const Size<1> &size);
-   extern template std::ostream & operator<<(std::ostream &os, const Size<2> &size);
-   extern template std::ostream & operator<<(std::ostream &os, const Size<3> &size);
-   extern template std::ostream & operator<<(std::ostream &os, const Size<4> &size);
-   extern template std::ostream & operator<<(std::ostream &os, const Size<5> &size);
+  extern template class Size<1>;
+  extern template class Size<2>;
+  extern template class Size<3>;
+  extern template class Size<4>;
+  extern template class Size<5>;
+  extern template std::ostream & operator<<(std::ostream &os,
+                                            const Size<1> &size);
+  extern template std::ostream & operator<<(std::ostream &os,
+                                            const Size<2> &size);
+  extern template std::ostream & operator<<(std::ostream &os,
+                                            const Size<3> &size);
+  extern template std::ostream & operator<<(std::ostream &os,
+                                            const Size<4> &size);
+  extern template std::ostream & operator<<(std::ostream &os,
+                                            const Size<5> &size);
 #endif
 
 } // end namespace itk

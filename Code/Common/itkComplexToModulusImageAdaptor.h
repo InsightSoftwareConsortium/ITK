@@ -58,7 +58,8 @@ public:
 } // end namespace Accessor
  
 /** \class ComplexToModulusImageAdaptor
- * \brief Presents a complex image as being composed of vcl_abs() part of its pixels
+ * \brief Presents a complex image as being composed of vcl_abs() part
+ * of its pixels
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.

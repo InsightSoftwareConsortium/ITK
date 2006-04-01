@@ -38,7 +38,8 @@ namespace itk
  * 
  * The equations form performing the conversion from azimuth-elevation 
  * coordinates to cartesian coordinates are as follows:
- * z = vcl_sqrt((r^2*(cos(azimuth))^2)/(1 + (cos(azimuth))^2 * (tan(elevation))^2);
+ * z = vcl_sqrt((r^2*(cos(azimuth))^2)/(1 + (cos(azimuth))^2 *
+ *     (tan(elevation))^2);
  * x = z * vcl_tan(azimuth)
  * y = z * vcl_tan(elevation)
  *
