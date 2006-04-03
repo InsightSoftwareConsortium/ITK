@@ -105,6 +105,13 @@ public:
     }
   unsigned int GetIndex(void) const { return this->GetFunctor().GetIndex(); }
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
+  /** End concept checking */
+#endif
+
 protected:
   VectorIndexSelectionCastImageFilter() {}
   virtual ~VectorIndexSelectionCastImageFilter() {}

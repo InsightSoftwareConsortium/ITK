@@ -241,6 +241,15 @@ public:
    *  Necessary to multi-thread the 3D case */
   static int CubicSolver(double *, double *);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<typename InputPixelType::ValueType>));
+  itkConceptMacro(RealTypeHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<RealType>));
+  /** End concept checking */
+#endif
+
 protected:
   VectorGradientMagnitudeImageFilter();
   virtual ~VectorGradientMagnitudeImageFilter() {}

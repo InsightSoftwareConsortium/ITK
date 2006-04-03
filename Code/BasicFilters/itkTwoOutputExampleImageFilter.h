@@ -93,6 +93,8 @@ public:
   /** Begin concept checking */
   itkConceptMacro(ComparableCheck,
                   (Concept::Comparable<PixelType>));
+  itkConceptMacro(OStreamWritableCheck,
+                  (Concept::OStreamWritable<PixelType>));
   /** Begin concept checking */
 #endif
 

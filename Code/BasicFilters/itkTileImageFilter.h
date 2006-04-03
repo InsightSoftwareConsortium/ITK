@@ -111,6 +111,8 @@ public:
                   (Concept::EqualityComparable<OutputPixelType>));
   itkConceptMacro(SameTypeCheck,
                   (Concept::SameType<InputPixelType, OutputPixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck,
+                  (Concept::OStreamWritable<OutputPixelType>));
   /** End concept checking */
 #endif
 

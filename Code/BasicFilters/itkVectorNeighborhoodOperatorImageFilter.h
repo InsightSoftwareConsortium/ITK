@@ -121,6 +121,15 @@ public:
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() throw (InvalidRequestedRegionError);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TOutputImage::PixelType::ValueType>));
+  /** End concept checking */
+#endif
+
 protected:
   VectorNeighborhoodOperatorImageFilter() {}
   virtual ~VectorNeighborhoodOperatorImageFilter() {}

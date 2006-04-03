@@ -94,6 +94,12 @@ public:
   void PrintSelf(std::ostream& os, Indent indent) const
     { this->Superclass::PrintSelf( os, indent ); }
   
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<InputValueType>));
+  /** End concept checking */
+#endif
 
 protected:
   TensorFractionalAnisotropyImageFilter() {};

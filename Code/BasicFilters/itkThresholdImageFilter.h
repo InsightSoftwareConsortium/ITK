@@ -61,8 +61,10 @@ public:
   /** The pixel type must support comparison operators. */
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(PixelTypeComparable,
+  itkConceptMacro(PixelTypeComparableCheck,
                   (Concept::Comparable<PixelType>));
+  itkConceptMacro(PixelTypeOStreamWritableCheck,
+                  (Concept::OStreamWritable<PixelType>));
   /** End concept checking */
 #endif
 

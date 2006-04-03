@@ -83,7 +83,19 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TOutputImage::PixelType::ValueType>));
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible<typename TInputImage::PixelType::ValueType,
+                          typename TOutputImage::PixelType::ValueType>));
+  /** End concept checking */
+#endif
+
 protected:
   VectorCastImageFilter() {}
   virtual ~VectorCastImageFilter() {}

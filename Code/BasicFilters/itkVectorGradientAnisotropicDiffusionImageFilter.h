@@ -76,7 +76,16 @@ public:
   /** Determine the image dimension from the  superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension );
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TOutputImage::PixelType::ValueType>));
+  /** End concept checking */
+#endif
+
 protected:
   VectorGradientAnisotropicDiffusionImageFilter()
   {
