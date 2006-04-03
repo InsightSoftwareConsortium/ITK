@@ -70,10 +70,15 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  typedef typename TInputImage::PixelType   InputPixelType;
+  typedef typename TOutputImage::PixelType  OutputPixelType;
+  typedef typename NumericTraits< InputPixelType >::ValueType InputPixelValueType;
+
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputMultiplyOperatorCheck,
-    (Concept::MultiplyOperator<typename TInputImage::PixelType::value_type>));
+    (Concept::MultiplyOperator<InputPixelValueType>));
   /** End concept checking */
 #endif
 

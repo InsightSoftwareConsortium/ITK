@@ -69,13 +69,17 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  typedef typename TInputImage::PixelType   InputPixelType;
+  typedef typename TOutputImage::PixelType  OutputPixelType;
+  typedef typename NumericTraits< InputPixelType >::ValueType InputPixelValueType;
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<typename TInputImage::PixelType::value_type,
-                          typename TOutputImage::PixelType>));
+    (Concept::Convertible<InputPixelValueType, OutputPixelType>));
   /** End concept checking */
 #endif
+
 
 protected:
   ComplexToRealImageFilter() {}
