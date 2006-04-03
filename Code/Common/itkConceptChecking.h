@@ -294,18 +294,18 @@ struct AdditiveOperators
   {
     void constraints()
       {
-      a = b + c;
-      a = b - c;
-      a += c;
-      a -= c;
+      a = static_cast<T3>(b + c);
+      a = static_cast<T3>(b - c);
+      a += static_cast<T3>(c);
+      a -= static_cast<T3>(c);
       const_constraints(b, c);
       }
     void const_constraints(const T1& d, const T2& e)
       {
-      a = d + e;
-      a = d - e;
-      a += e;
-      a -= e;
+      a = static_cast<T3>(d + e);
+      a = static_cast<T3>(d - e);
+      a += static_cast<T3>(e);
+      a -= static_cast<T3>(e);
       }
     T3 a;
     T1 b;
@@ -324,12 +324,12 @@ struct MultiplyOperator
   {
     void constraints()
       {
-      a = b * c;
+      a = static_cast<T3>(b * c);
       const_constraints(b, c);
       }
     void const_constraints(const T1& d, const T2& e)
       {
-      a = d * e;
+      a = static_cast<T3>(d * e);
       }
     T3 a;
     T1 b;
@@ -348,12 +348,12 @@ struct MultiplyAndAssignOperator
   {
     void constraints()
       {
-      a *= b;
+      a *= static_cast<T2>(b);
       const_constraints(b);
       }
     void const_constraints(const T1& d)
       {
-      a *= d;
+      a *= static_cast<T2>(d);
       }
     T2 a;
     T1 b;
@@ -371,14 +371,14 @@ struct DivisionOperators
   {
     void constraints()
       {
-      a = b / c;
-      a /= c;
+      a = static_cast<T3>(b / c);
+      a /= static_cast<T3>(c);
       const_constraints(b, c);
       }
     void const_constraints(const T1& d, const T2& e)
       {
-      a = d / e;
-      a /= e;
+      a = static_cast<T3>(d / e);
+      a /= static_cast<T3>(e);
       }
     T3 a;
     T1 b;
@@ -397,22 +397,22 @@ struct LogicalOperators
   {
     void constraints()
       {
-      a = b & c;
-      a = b | c;
-      a = b ^ c;
-      a &= c;
-      a |= c;
-      a ^= c;
+      a = static_cast<T3>(b & c);
+      a = static_cast<T3>(b | c);
+      a = static_cast<T3>(b ^ c);
+      a &= static_cast<T3>(c);
+      a |= static_cast<T3>(c);
+      a ^= static_cast<T3>(c);
       const_constraints(b, c);
       }
     void const_constraints(const T1& d, const T2& e)
       {
-      a = d & e;
-      a = d | e;
-      a = d ^ e;
-      a &= e;
-      a |= e;
-      a ^= e;
+      a = static_cast<T3>(d & e);
+      a = static_cast<T3>(d | e);
+      a = static_cast<T3>(d ^ e);
+      a &= static_cast<T3>(e);
+      a |= static_cast<T3>(e);
+      a ^= static_cast<T3>(e);
       }
     T3 a;
     T1 b;
