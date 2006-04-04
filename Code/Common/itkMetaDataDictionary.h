@@ -19,18 +19,8 @@
 
 #include "itkMetaDataObjectBase.h"
 #include <vector>
-#include <itk_hash_map.h>
+#include <map>
 #include <string>
-
-// Need to define a hash function for strings
-template<>
-struct itk::hash<std::string> {
-  itk::hash<char*> h;
-  size_t operator()(const std::string &s) const {
-    return h(s.c_str());
-  };
-};
-
 
 namespace itk
 {
@@ -55,7 +45,7 @@ public:
   // Declare the datastructure that will be used to hold the
   // dictionary. 
   class MetaDataDictionaryMapType 
-    : public itk::hash_map<std::string, MetaDataObjectBase::Pointer>
+    : public std::map<std::string, MetaDataObjectBase::Pointer>
       {
       };
 
