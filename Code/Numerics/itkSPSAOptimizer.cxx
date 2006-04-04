@@ -6,7 +6,6 @@
 #include "itkEventObject.h"
 #include "itkExceptionObject.h"
 
-#include "vnl/vnl_sample.h"
 #include "vnl/vnl_math.h"
 
 
@@ -37,6 +36,7 @@ namespace itk
     m_A = m_MaximumNumberOfIterations / 10;
     m_Alpha = 0.602;
     m_Gamma = 0.101;    
+    m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
     
   } // end Constructor
   
@@ -336,7 +336,9 @@ namespace itk
     for ( unsigned int j = 0; j < spaceDimension; j++ )
       {
       /** Generate randomly -1 or 1. */
-      m_Delta[ j ] = 2 * vnl_math_rnd( vnl_sample_uniform(0.0f,1.0f) ) - 1;
+      // m_Delta[ j ] = 2 * vnl_math_rnd( vnl_sample_uniform(0.0f,1.0f) ) - 1;
+      
+      m_Delta[ j ] = 2 * vnl_math_rnd ( this->m_Generator->GetUniformVariate (0.0f, 1.0f) ) - 1;
 
       /**
        * Take scales into account. The perturbation of a parameter that has a 

@@ -2,6 +2,7 @@
 #define __itkSPSAOptimizer_h
 
 #include "itkSingleValuedNonLinearOptimizer.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 
 namespace itk
@@ -186,6 +187,9 @@ namespace itk
     StopConditionType            m_StopCondition;
     double                       m_StateOfConvergence;
     unsigned long                m_CurrentIteration;
+
+    /** Random number generator */
+    Statistics::MersenneTwisterRandomVariateGenerator::Pointer m_Generator;
     
     /** Method to compute the learning rate at iteration k (a_k).*/
     virtual double Compute_a( unsigned long k ) const;
