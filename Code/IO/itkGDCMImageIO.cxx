@@ -166,15 +166,8 @@ bool GDCMImageIO::CanReadFile(const char* filename)
   // Check to see if its a valid dicom file gdcm is able to parse:
   // We are parsing the header one time here:
 
-  gdcm::File header;
-  header.SetFileName( fname );
-  header.Load();
-  if (!header.IsReadable())
-    {
-    return false;
-    }
-
-  return true;
+  bool pre;
+  return gdcm::Document::CanReadFile(file, pre);
 }
 
 // Internal function to rescale pixel according to Rescale Slope/Intercept
