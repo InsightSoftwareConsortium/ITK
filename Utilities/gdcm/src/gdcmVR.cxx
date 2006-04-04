@@ -24,6 +24,7 @@
 #include <fstream>
 #include <iostream>
 #include <string.h>
+#include <algorithm>
 
 namespace gdcm 
 {
@@ -108,39 +109,17 @@ bool VR::IsVROfBinaryRepresentable(VRKey const &tested)
  */
 bool VR::IsVROfStringRepresentable(VRKey const &tested)
 {
+  // important: vrs must be specified in sorted order!!!
+  static const std::string vrs[] = { "AE", "AS", "CS", "DA", "DS",
+                                     "DT", "FD", "FL", "IS", "LO",
+                                     "LT", "PN", "SH", "SL", "SS",
+                                     "ST", "TM", "UI", "UL", "US",
+                                     "UT"};
+  static const int vrSize = sizeof(std::string("AE"));
+  static const int numVRs = sizeof(vrs) / vrSize;
+  static const std::string *end = vrs + numVRs;
 
-   return tested == "AE" ||
-          tested == "AS" ||
-          tested == "CS" ||
-          tested == "DA" ||
-          tested == "DS" ||
-          tested == "DT" ||
-          tested == "FL" ||
-          tested == "FD" || 
-          tested == "IS" || 
-          tested == "LO" ||
-          tested == "LT" ||
-          tested == "PN" ||
-          tested == "SH" ||
-          tested == "SL" ||
-          tested == "SS" ||
-          tested == "ST" ||
-          tested == "TM" ||
-          tested == "UI" ||
-          tested == "UL" ||
-          tested == "US" ||
-          tested == "UT";
-
-   // Should be quicker
-   // --> will *never* work : any rotten value would be considered as OK !
-/*
-   return tested != "OB" &&
-          tested != "OW" &&
-          tested != "OF" &&
-          tested != "AT" && // Attribute Tag ?!? contain no printable character
-          tested != "UN" && // UN is an actual VR !
-          tested != "SQ" ;
-*/
+  return std::binary_search(vrs, end, tested);
 }
 
 //-----------------------------------------------------------------------------
