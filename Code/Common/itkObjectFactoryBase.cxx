@@ -515,7 +515,6 @@ LightObject::Pointer
 ObjectFactoryBase
 ::CreateObject(const char* itkclassname)
 {
-  m_OverrideMap->find(itkclassname);
   OverRideMap::iterator pos = m_OverrideMap->find(itkclassname);
   if ( pos != m_OverrideMap->end() )
     {
