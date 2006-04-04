@@ -134,6 +134,10 @@ public:
     (Concept::Convertible<InputPixelType, PixelType>));
   itkConceptMacro(OutputAdditiveOperatorsCheck,
     (Concept::AdditiveOperators<PixelType>));
+  itkConceptMacro(InputOStreamWritableCheck,
+    (Concept::OStreamWritable<InputPixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck,
+    (Concept::OStreamWritable<PixelType>));
   /** End concept checking */
 #endif
 

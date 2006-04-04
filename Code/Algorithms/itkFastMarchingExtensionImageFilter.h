@@ -114,6 +114,13 @@ public:
   typename AuxValueContainer::Pointer GetAuxiliaryTrialValues()
   { return m_AuxTrialValues; }
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(AuxValueHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<TAuxValue>));
+  /** End concept checking */
+#endif
+
 protected:
   FastMarchingExtensionImageFilter();
   ~FastMarchingExtensionImageFilter(){};

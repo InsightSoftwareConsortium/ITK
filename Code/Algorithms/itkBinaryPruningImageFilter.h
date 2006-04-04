@@ -118,6 +118,8 @@ public:
     (Concept::AdditiveOperators<PixelType>));
   itkConceptMacro(IntConvertibleToPixelTypeCheck,
     (Concept::Convertible<int, PixelType>));
+  itkConceptMacro(PixelLessThanIntCheck,
+    (Concept::LessThanComparable<PixelType, int>));
   /** End concept checking */
 #endif
 

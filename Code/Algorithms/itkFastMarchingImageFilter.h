@@ -265,6 +265,8 @@ public:
     (Concept::Convertible<typename TSpeedImage::PixelType, double>));
   itkConceptMacro(DoubleConvertibleToLevelSetCheck,
     (Concept::Convertible<double, PixelType>));
+  itkConceptMacro(LevelSetOStreamWritableCheck,
+    (Concept::OStreamWritable<PixelType>));
   /** End concept checking */
 #endif
 

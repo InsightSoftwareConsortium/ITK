@@ -98,6 +98,15 @@ public:
   /** Get one of the extended velocity images. */
   AuxImageType * GetOutputVelocityImage( unsigned int idx = 0 );
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(AuxValueHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<TAuxValue>));
+  itkConceptMacro(LevelSetOStreamWritableCheck,
+    (Concept::OStreamWritable<PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   ExtensionVelocitiesImageFilter();
   ~ExtensionVelocitiesImageFilter(){};
