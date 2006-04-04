@@ -56,8 +56,8 @@ MetaDataDictionary
       it != m_Dictionary->end();
       it++)
     {
-    os << it->first <<  "  " ;
-    it->second->Print(os);
+    os << (*it).first <<  "  " ;
+    (*it).second->Print(os);
     }
 }
 
