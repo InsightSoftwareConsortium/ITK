@@ -134,6 +134,8 @@ public:
   /** Begin concept checking */
   itkConceptMacro(InputEqualityComparableCheck,
     (Concept::EqualityComparable<InputPixelType>));
+  itkConceptMacro(InputOStreamWritableeCheck,
+    (Concept::OStreamWritable<InputPixelType>));
   /** End concept checking */
 #endif
 

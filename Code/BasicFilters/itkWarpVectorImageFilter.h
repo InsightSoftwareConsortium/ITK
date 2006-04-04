@@ -189,6 +189,17 @@ public:
    * multi-threading. */
   virtual void BeforeThreadedGenerateData();
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<ValueType>));
+  itkConceptMacro(DeformationFieldHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TDeformationField::PixelType::ValueType>));
+  /** End concept checking */
+#endif
+
 protected:
   WarpVectorImageFilter();
   ~WarpVectorImageFilter() {};

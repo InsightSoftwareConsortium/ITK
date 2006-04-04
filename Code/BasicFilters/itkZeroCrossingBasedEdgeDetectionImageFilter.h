@@ -137,6 +137,8 @@ public:
     (Concept::SameDimension<ImageDimension, OutputImageDimension>));
   itkConceptMacro(SameTypeCheck,
     (Concept::SameType<InputImagePixelType, OutputImagePixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck,
+    (Concept::OStreamWritable<OutputImagePixelType>));
   /** End concept checking */
 #endif
 
