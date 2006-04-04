@@ -91,6 +91,7 @@ typedef std::list<Element> ListElements;
                         Filename = fileName, IsDocumentModified = true; }
 
    std::ifstream *OpenFile();
+   static bool CanReadFile(std::istream &os, bool &hasPreamble);
    bool CloseFile();
    void WriteContent( std::ofstream *fp, FileType type );
 

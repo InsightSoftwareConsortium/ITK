@@ -609,13 +609,25 @@ std::ifstream *Document::OpenFile()
       //exit(1); // No function is allowed to leave the application instead
                  // of warning the caller
    }
- 
-   uint16_t zero = 0;
-   Fp->read((char*)&zero, (size_t)2);
-   if ( Fp->eof() )
+   if( !CanReadFile(*Fp, HasDCMPreamble) )
    {
+      // -- Neither ACR/No Preamble Dicom nor DICOMV3 file
       CloseFile();
+      gdcmWarningMacro( "Neither ACR/No Preamble Dicom nor DICOMV3 file: "
+                      << Filename.c_str()); 
       return 0;
+   }
+   return Fp;
+}
+
+bool Document::CanReadFile(std::istream &os, bool &hasPreamble)
+{
+   hasPreamble = false;
+   uint16_t zero = 0;
+   os.read((char*)&zero, (size_t)2);
+   if ( os.eof() )
+   {
+      return false;
    }
  
    //-- Broken ACR or DICOM with no Preamble; may start with a Shadow Group --
@@ -631,31 +643,23 @@ std::ifstream *Document::OpenFile()
         "ACR/DICOM starting by 0x(%04x) at the beginning of the file\n", zero);
       // FIXME : is it a Warning message, or a Debug message?
       gdcmWarningMacro( msg.c_str() );
-      return Fp;
+      return true;
    }
  
    //-- DICOM --
-   Fp->seekg(126L, std::ios::cur);  // Once per Document
+   os.seekg(126L, std::ios::cur);  // Once per Document
    char dicm[4]; // = {' ',' ',' ',' '};
-   Fp->read(dicm,  (size_t)4);
-   if ( Fp->eof() )
+   os.read(dicm,  (size_t)4);
+   if ( os.eof() )
    {
-      CloseFile();
-      return 0;
+      return false;
    }
    if ( memcmp(dicm, "DICM", 4) == 0 )
    {
-      HasDCMPreamble = true;
-      return Fp;
+      hasPreamble = true;
+      return true;
    }
-
-   // -- Neither ACR/No Preamble Dicom nor DICOMV3 file
-   CloseFile();
-   // Don't user Warning nor Error, not to pollute the output
-   // while directory recursive parsing ...
-   gdcmDebugMacro( "Neither ACR/No Preamble Dicom nor DICOMV3 file: "
-                      << Filename.c_str()); 
-   return 0;
+   return false;
 }
 
 /**
