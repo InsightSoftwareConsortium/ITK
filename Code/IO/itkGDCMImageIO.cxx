@@ -43,9 +43,15 @@
 
 namespace itk
 {
+class InternalHeader
+{
+public:
+  gdcm::File m_Header;
+};
 
 GDCMImageIO::GDCMImageIO()
 {
+  this->DICOMHeader = new InternalHeader;
   this->SetNumberOfDimensions(3); //needed for getting the 3 coordinates of
                                   // the origin, even if it is a 2D slice.
   m_ByteOrder = LittleEndian; //default
@@ -69,6 +75,7 @@ GDCMImageIO::GDCMImageIO()
 
 GDCMImageIO::~GDCMImageIO()
 {
+  delete this->DICOMHeader;
 }
 
 bool GDCMImageIO::OpenGDCMFileForReading(std::ifstream& os,
@@ -230,9 +237,8 @@ void GDCMImageIO::Read(void* buffer)
   //Should I handle differently dicom lut ?
   //GdcmHeader.HasLUT()
 
-  gdcm::FileHelper gfile;
-  gfile.SetFileName( m_FileName );
-  gfile.Load();
+  gdcm::File *header = &this->DICOMHeader->m_Header;
+  gdcm::FileHelper gfile(header);
 
   size_t size = gfile.GetImageDataSize();
   unsigned char *source = (unsigned char*)gfile.GetImageData();
@@ -314,7 +320,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     itkExceptionMacro(<< "Cannot read requested file");
     }
 
-  gdcm::File header;
+  gdcm::File &header = this->DICOMHeader->m_Header;
   header.SetMaxSizeLoadEntry(m_MaxSizeLoadEntry);
   header.SetFileName( m_FileName );
   header.Load();

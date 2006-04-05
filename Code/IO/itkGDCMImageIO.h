@@ -53,6 +53,7 @@ namespace itk
  *  \ingroup IOFilters
  *
  */
+class InternalHeader;
 class ITK_EXPORT GDCMImageIO : public ImageIOBase
 {
 public:
@@ -200,6 +201,7 @@ private:
   std::string m_ScanOptions;
 
   ImageIOBase::IOComponentType m_InternalComponentType;
+  InternalHeader *DICOMHeader;
 };
 
 } // end namespace itk
