@@ -519,7 +519,7 @@ HexahedronCell< TCellInterface >
           pc[i] = pcoords[i];
           }
         }
-      this->EvaluateLocation(subId, points, pc, closestPoint, (CoordRepType *)w);
+      this->EvaluateLocation(subId, points, pc, closestPoint, (InterpolationWeightType *)w);
 
       *dist2 = 0;
       for(unsigned int i=0;i<3;i++)
@@ -535,7 +535,7 @@ HexahedronCell< TCellInterface >
 template <typename TCellInterface>
 void
 HexahedronCell< TCellInterface >
-::InterpolationFunctions(CoordRepType pcoords[3], CoordRepType sf[8])
+::InterpolationFunctions(CoordRepType pcoords[3], InterpolationWeightType sf[8])
 {
   const double rm = 1. - pcoords[0];
   const double sm = 1. - pcoords[1];
@@ -597,7 +597,7 @@ template <typename TCellInterface>
 void
 HexahedronCell< TCellInterface >
 ::EvaluateLocation(int& itkNotUsed(subId),PointsContainer* points, CoordRepType pcoords[3],
-                   CoordRepType x[3], CoordRepType *weights)
+                   CoordRepType x[3], InterpolationWeightType *weights)
 {
   PointType pt;
   this->InterpolationFunctions(pcoords, weights);

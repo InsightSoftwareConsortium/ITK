@@ -109,9 +109,9 @@ protected:
   PointIdentifier m_PointIds[NumberOfPoints];
 
   void InterpolationDerivs(CoordRepType pcoords[3], CoordRepType derivs[24]);
-  void InterpolationFunctions(CoordRepType pcoords[3], CoordRepType sf[8]);
+  void InterpolationFunctions(CoordRepType pcoords[3], InterpolationWeightType sf[8]);
   void EvaluateLocation(int& itkNotUsed(subId), PointsContainer* points, CoordRepType pcoords[3],
-                                     CoordRepType x[3], CoordRepType *weights);
+                                     CoordRepType x[3], InterpolationWeightType *weights);
   
 public:
   HexahedronCell() {}
