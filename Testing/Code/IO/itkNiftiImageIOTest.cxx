@@ -451,3 +451,131 @@ int itkNiftiImageIOTest2(int ac, char* av[])
     }
 
 }
+
+
+#include "itkRandomImageSource.h"
+#include <vnl/vnl_random.h>
+
+
+/** Test writing and reading a Vector Image
+ */
+int itkNiftiImageIOTest3(int ac, char* av[])
+{
+  //
+  // first argument is passing in the writable directory to do all testing
+  if(ac > 1) 
+    {
+    char *testdir = *++av;
+    --ac;
+    itksys::SystemTools::ChangeDirectory(testdir);
+    }
+  else
+    {
+    return EXIT_FAILURE;
+    }
+  typedef float FieldValueType;
+  /** Deformation field pixel type. */
+  typedef itk::Vector<FieldValueType,3> FieldPixelType;
+
+  /** Deformation field type. */
+  typedef itk::Image<FieldPixelType,3> VectorImageType;
+  /** file reader type */
+  typedef itk::ImageFileReader< VectorImageType >  FieldReaderType;
+  /** file writer type */
+  typedef itk::ImageFileWriter< VectorImageType >  FieldWriterType;
+
+  //
+  // swizzle up a random vector image.
+  VectorImageType::Pointer vi = VectorImageType::New();
+  VectorImageType::RegionType imageRegion;
+  VectorImageType::SizeType size = {2,2,2};
+  VectorImageType::IndexType index = {0,0,0};
+  double _spacing[] = { 1.0, 1.0, 1.0 };
+  VectorImageType::SpacingType spacing(_spacing);
+  double _origin[] = { 0, 0, 0 };
+  VectorImageType::PointType origin(_origin);
+  imageRegion.SetSize(size); 
+  imageRegion.SetIndex(index);
+  vi->SetRegions(imageRegion);
+  vi->SetSpacing(spacing);
+  vi->SetOrigin(origin);
+  vi->Allocate();
+
+  typedef itk::ImageRegionIterator<VectorImageType> IteratorType;
+  typedef itk::ImageRegionConstIterator<VectorImageType> ConstIteratorType;
+  vnl_random randgen;
+
+  //  for(fillIt.GoToBegin(); !fillIt.IsAtEnd(); ++fillIt)
+  for(unsigned i = 0; i < 2; i++)
+    {
+    for(unsigned j = 0; j < 2; j++)
+      {
+      for(unsigned k = 0; k < 2; k++)
+        {
+        FieldPixelType p(3);
+        p[0] = randgen.drand32(100.0,200.0);
+        p[1] = randgen.drand32(300.0,500.0);
+        p[2] = randgen.drand32(600.0,800.0);
+        index[0] = i; index[1] = j; index[2] = k;
+        vi->SetPixel(index,p);
+        }
+      }
+    }
+  FieldWriterType::Pointer writer = FieldWriterType::New();
+  writer->SetInput(vi);
+  std::string fname("vectorImageTest.nii.gz");
+  writer->SetFileName(fname.c_str());
+  try
+    {
+    writer->Write();
+    }
+  catch(itk::ExceptionObject &ex)
+    {
+    std::string message;
+    message = "Problem found while writing image ";
+    message += fname; message += "\n";
+    message += ex.GetLocation(); message += "\n";
+    message += ex.GetDescription(); std::cerr << message << std::endl;
+    Remove(fname.c_str());
+    return EXIT_FAILURE;
+    }
+  //
+  // read it back in.
+  VectorImageType::Pointer readback;
+  FieldReaderType::Pointer reader = FieldReaderType::New();
+  try
+    {
+    reader->SetFileName(fname.c_str());
+    reader->Update();
+    readback = reader->GetOutput();
+    }
+  catch(itk::ExceptionObject &ex)
+    {
+    std::string message;
+    message = "Problem found while reading image ";
+    message += fname; message += "\n";
+    message += ex.GetLocation(); message += "\n";
+    message += ex.GetDescription(); std::cerr << message << std::endl;
+    Remove(fname.c_str());
+    return EXIT_FAILURE;
+    }
+  bool same = true;
+  for(unsigned i = 0; i < 2; i++)
+    {
+    for(unsigned j = 0; j < 2; j++)
+      {
+      for(unsigned k = 0; k < 2; k++)
+        {
+        index[0] = i; index[1] = j; index[2] = k;
+        FieldPixelType p1 = vi->GetPixel(index);
+        FieldPixelType p2 = readback->GetPixel(index);
+        if(p1 != p2)
+          {
+          same = false;
+          }
+        }
+      }
+    }
+  Remove(fname.c_str());
+  return same ? 0 : EXIT_FAILURE;
+}

@@ -20,6 +20,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
+#include "itkArrayAddr.h"
 #include <itksys/SystemTools.hxx>
 #include <vnl/vnl_math.h>
 #include <zlib.h>
@@ -29,111 +30,200 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
+  //#define __USE_VERY_VERBOSE_NIFTI_DEBUGGING__
 #if defined(__USE_VERY_VERBOSE_NIFTI_DEBUGGING__)
 namespace
 {
-inline
-int print_hex_vals( char const * const data, const int nbytes, FILE * const fp )
-{
-   int c;
+  inline
+  int print_hex_vals( char const * const data, const int nbytes, FILE * const fp )
+  {
+    int c;
 
-   if ( !data || nbytes < 1 || !fp ) return -1;
+    if ( !data || nbytes < 1 || !fp ) return -1;
 
-   fputs("0x", fp);
-   for ( c = 0; c < nbytes; c++ )
+    fputs("0x", fp);
+    for ( c = 0; c < nbytes; c++ )
       fprintf(fp, " %x", data[c]);
 
-   return 0;
-}
+    return 0;
+  }
+  static char *str_intent(unsigned int intent)
+  {
+    switch(intent)
+      {
+      case NIFTI_INTENT_NONE:
+        return "NIFTI_INTENT_NONE";
+      case NIFTI_INTENT_CORREL:
+        return "NIFTI_INTENT_CORREL";
+      case NIFTI_INTENT_TTEST:
+        return "NIFTI_INTENT_TTEST";
+      case NIFTI_INTENT_FTEST:
+        return "NIFTI_INTENT_FTEST";
+      case NIFTI_INTENT_ZSCORE:
+        return "NIFTI_INTENT_ZSCORE";
+      case NIFTI_INTENT_CHISQ:
+        return "NIFTI_INTENT_CHISQ";
+      case NIFTI_INTENT_BETA:
+        return "NIFTI_INTENT_BETA";
+      case NIFTI_INTENT_BINOM:
+        return "NIFTI_INTENT_BINOM";
+      case NIFTI_INTENT_GAMMA:
+        return "NIFTI_INTENT_GAMMA";
+      case NIFTI_INTENT_POISSON:
+        return "NIFTI_INTENT_POISSON";
+      case NIFTI_INTENT_NORMAL:
+        return "NIFTI_INTENT_NORMAL";
+      case NIFTI_INTENT_FTEST_NONC:
+        return "NIFTI_INTENT_FTEST_NONC";
+      case NIFTI_INTENT_CHISQ_NONC:
+        return "NIFTI_INTENT_CHISQ_NONC";
+      case NIFTI_INTENT_LOGISTIC:
+        return "NIFTI_INTENT_LOGISTIC";
+      case NIFTI_INTENT_LAPLACE:
+        return "NIFTI_INTENT_LAPLACE";
+      case NIFTI_INTENT_UNIFORM:
+        return "NIFTI_INTENT_UNIFORM";
+      case NIFTI_INTENT_TTEST_NONC:
+        return "NIFTI_INTENT_TTEST_NONC";
+      case NIFTI_INTENT_WEIBULL:
+        return "NIFTI_INTENT_WEIBULL";
+      case NIFTI_INTENT_CHI:
+        return "NIFTI_INTENT_CHI";
+      case NIFTI_INTENT_INVGAUSS:
+        return "NIFTI_INTENT_INVGAUSS";
+      case NIFTI_INTENT_EXTVAL:
+        return "NIFTI_INTENT_EXTVAL";
+      case NIFTI_INTENT_PVAL:
+        return "NIFTI_INTENT_PVAL";
+      case NIFTI_INTENT_LOGPVAL:
+        return "NIFTI_INTENT_LOGPVAL";
+      case NIFTI_INTENT_LOG10PVAL:
+        return "NIFTI_INTENT_LOG10PVAL";
+      case NIFTI_INTENT_ESTIMATE:
+        return "NIFTI_INTENT_ESTIMATE";
+      case NIFTI_INTENT_LABEL:
+        return "NIFTI_INTENT_LABEL";
+      case NIFTI_INTENT_NEURONAME:
+        return "NIFTI_INTENT_NEURONAME";
+      case NIFTI_INTENT_GENMATRIX:
+        return "NIFTI_INTENT_GENMATRIX";
+      case NIFTI_INTENT_SYMMATRIX:
+        return "NIFTI_INTENT_SYMMATRIX";
+      case NIFTI_INTENT_DISPVECT:
+        return "NIFTI_INTENT_DISPVECT";
+      case NIFTI_INTENT_VECTOR:
+        return "NIFTI_INTENT_VECTOR";
+      case NIFTI_INTENT_POINTSET:
+        return "NIFTI_INTENT_POINTSET";
+      case NIFTI_INTENT_TRIANGLE:
+        return "NIFTI_INTENT_TRIANGLE";
+      case NIFTI_INTENT_QUATERNION:
+        return "NIFTI_INTENT_QUATERNION";
+      case NIFTI_INTENT_DIMLESS:
+        return "NIFTI_INTENT_DIMLESS";
+      default:
+        return "UNKNOWN_INTENT";
+      }
+  }
+  /*----------------------------------------------------------------------*/
+  /*! display the contents of the nifti_1_header (send to stdout)
+   *//*--------------------------------------------------------------------*/
+  inline
+  int DumpNiftiHeader( const std::string &fname )
+  {
+    int c;
+    nifti_1_header *hp;
+    int swap;
+    hp = nifti_read_header(fname.c_str(),&swap,true);
+    fputs( "-------------------------------------------------------\n", stderr );
+    if ( !hp  ){ fputs(" ** no nifti_1_header to display!\n",stderr); return 1; }
 
-/*----------------------------------------------------------------------*/
-/*! display the contents of the nifti_1_header (send to stdout)
-*//*--------------------------------------------------------------------*/
-inline
-int DumpNiftiHeader( const std::string &fname )
-{
-   int c;
-   nifti_1_header *hp;
-   int swap;
-   hp = nifti_read_header(fname.c_str(),&swap,true);
-   fputs( "-------------------------------------------------------\n", stderr );
-      if ( !hp  ){ fputs(" ** no nifti_1_header to display!\n",stderr); return 1; }
+    fprintf(stderr," nifti_1_header :\n"
+            "    sizeof_hdr     = %d\n"
+            "    data_type[10]  = ", hp->sizeof_hdr);
+    print_hex_vals(hp->data_type, 10, stderr);
+    fprintf(stderr, "\n"
+            "    db_name[18]    = ");
+    print_hex_vals(hp->db_name, 18, stderr);
+    fprintf(stderr, "\n"
+            "    extents        = %d\n"
+            "    session_error  = %d\n"
+            "    regular        = 0x%x\n"
+            "    dim_info       = 0x%x\n",
+            hp->extents, hp->session_error, hp->regular, hp->dim_info );
+    fprintf(stderr, "    dim[8]         =");
+    for ( c = 0; c < 8; c++ ) fprintf(stderr," %d", hp->dim[c]);
+    fprintf(stderr, "\n"
+            "    intent_p1      = %f\n"
+            "    intent_p2      = %f\n"
+            "    intent_p3      = %f\n"
+            "    intent_code    = %s\n"
+            "    datatype       = %d\n"
+            "    bitpix         = %d\n"
+            "    slice_start    = %d\n"
+            "    pixdim[8]      =",
+            hp->intent_p1, hp->intent_p2, hp->intent_p3, str_intent(hp->intent_code),
+            hp->datatype, hp->bitpix, hp->slice_start);
+    /* break pixdim over 2 lines */
+    for ( c = 0; c < 4; c++ ) fprintf(stderr," %f", hp->pixdim[c]);
+    fprintf(stderr, "\n                    ");
+    for ( c = 4; c < 8; c++ ) fprintf(stderr," %f", hp->pixdim[c]);
+    fprintf(stderr, "\n"
+            "    vox_offset     = %f\n"
+            "    scl_slope      = %f\n"
+            "    scl_inter      = %f\n"
+            "    slice_end      = %d\n"
+            "    slice_code     = %d\n"
+            "    xyzt_units     = 0x%x\n"
+            "    cal_max        = %f\n"
+            "    cal_min        = %f\n"
+            "    slice_duration = %f\n"
+            "    toffset        = %f\n"
+            "    glmax          = %d\n"
+            "    glmin          = %d\n",
+            hp->vox_offset, hp->scl_slope, hp->scl_inter, hp->slice_end,
+            hp->slice_code, hp->xyzt_units, hp->cal_max, hp->cal_min,
+            hp->slice_duration, hp->toffset, hp->glmax, hp->glmin);
+    fprintf(stderr,
+            "    descrip        = '%.80s'\n"
+            "    aux_file       = '%.24s'\n"
+            "    qform_code     = %d\n"
+            "    sform_code     = %d\n"
+            "    quatern_b      = %f\n"
+            "    quatern_c      = %f\n"
+            "    quatern_d      = %f\n"
+            "    qoffset_x      = %f\n"
+            "    qoffset_y      = %f\n"
+            "    qoffset_z      = %f\n"
+            "    srow_x[4]      = %f, %f, %f, %f\n"
+            "    srow_y[4]      = %f, %f, %f, %f\n"
+            "    srow_z[4]      = %f, %f, %f, %f\n"
+            "    intent_name    = '%-.16s'\n"
+            "    magic          = '%-.4s'\n",
+            hp->descrip, hp->aux_file, hp->qform_code, hp->sform_code,
+            hp->quatern_b, hp->quatern_c, hp->quatern_d,
+            hp->qoffset_x, hp->qoffset_y, hp->qoffset_z,
+            hp->srow_x[0], hp->srow_x[1], hp->srow_x[2], hp->srow_x[3],
+            hp->srow_y[0], hp->srow_y[1], hp->srow_y[2], hp->srow_y[3],
+            hp->srow_z[0], hp->srow_z[1], hp->srow_z[2], hp->srow_z[3],
+            hp->intent_name, hp->magic);
+    fputs( "-------------------------------------------------------\n", stderr );
+    fflush(stderr);
 
-   fprintf(stderr," nifti_1_header :\n"
-           "    sizeof_hdr     = %d\n"
-           "    data_type[10]  = ", hp->sizeof_hdr);
-   print_hex_vals(hp->data_type, 10, stderr);
-   fprintf(stderr, "\n"
-           "    db_name[18]    = ");
-   print_hex_vals(hp->db_name, 18, stderr);
-   fprintf(stderr, "\n"
-           "    extents        = %d\n"
-           "    session_error  = %d\n"
-           "    regular        = 0x%x\n"
-           "    dim_info       = 0x%x\n",
-      hp->extents, hp->session_error, hp->regular, hp->dim_info );
-   fprintf(stderr, "    dim[8]         =");
-   for ( c = 0; c < 8; c++ ) fprintf(stderr," %d", hp->dim[c]);
-   fprintf(stderr, "\n"
-           "    intent_p1      = %f\n"
-           "    intent_p2      = %f\n"
-           "    intent_p3      = %f\n"
-           "    intent_code    = %d\n"
-           "    datatype       = %d\n"
-           "    bitpix         = %d\n"
-           "    slice_start    = %d\n"
-           "    pixdim[8]      =",
-           hp->intent_p1, hp->intent_p2, hp->intent_p3, hp->intent_code,
-           hp->datatype, hp->bitpix, hp->slice_start);
-   /* break pixdim over 2 lines */
-   for ( c = 0; c < 4; c++ ) fprintf(stderr," %f", hp->pixdim[c]);
-   fprintf(stderr, "\n                    ");
-   for ( c = 4; c < 8; c++ ) fprintf(stderr," %f", hp->pixdim[c]);
-   fprintf(stderr, "\n"
-           "    vox_offset     = %f\n"
-           "    scl_slope      = %f\n"
-           "    scl_inter      = %f\n"
-           "    slice_end      = %d\n"
-           "    slice_code     = %d\n"
-           "    xyzt_units     = 0x%x\n"
-           "    cal_max        = %f\n"
-           "    cal_min        = %f\n"
-           "    slice_duration = %f\n"
-           "    toffset        = %f\n"
-           "    glmax          = %d\n"
-           "    glmin          = %d\n",
-           hp->vox_offset, hp->scl_slope, hp->scl_inter, hp->slice_end,
-           hp->slice_code, hp->xyzt_units, hp->cal_max, hp->cal_min,
-           hp->slice_duration, hp->toffset, hp->glmax, hp->glmin);
-   fprintf(stderr,
-           "    descrip        = '%.80s'\n"
-           "    aux_file       = '%.24s'\n"
-           "    qform_code     = %d\n"
-           "    sform_code     = %d\n"
-           "    quatern_b      = %f\n"
-           "    quatern_c      = %f\n"
-           "    quatern_d      = %f\n"
-           "    qoffset_x      = %f\n"
-           "    qoffset_y      = %f\n"
-           "    qoffset_z      = %f\n"
-           "    srow_x[4]      = %f, %f, %f, %f\n"
-           "    srow_y[4]      = %f, %f, %f, %f\n"
-           "    srow_z[4]      = %f, %f, %f, %f\n"
-           "    intent_name    = '%-.16s'\n"
-           "    magic          = '%-.4s'\n",
-           hp->descrip, hp->aux_file, hp->qform_code, hp->sform_code,
-           hp->quatern_b, hp->quatern_c, hp->quatern_d,
-           hp->qoffset_x, hp->qoffset_y, hp->qoffset_z,
-           hp->srow_x[0], hp->srow_x[1], hp->srow_x[2], hp->srow_x[3],
-           hp->srow_y[0], hp->srow_y[1], hp->srow_y[2], hp->srow_y[3],
-           hp->srow_z[0], hp->srow_z[1], hp->srow_z[2], hp->srow_z[3],
-           hp->intent_name, hp->magic);
-   fputs( "-------------------------------------------------------\n", stderr );
-   fflush(stderr);
-
-   return 0;
+    return 0;
+  }
+  static void dumpdata(const void *x)
+  {
+    std::cerr << "----------------------" << std::endl;
+    
+    //    typedef const float (*itkarray)[1][2][2][2][3];
+    const float *a = (const float *)x;
+    for(unsigned i = 0; i < 24; i++)         // t
+      std::cerr << a[i] << std::endl;
+  }
 }
-}
+#else
+#define dumpdata(x)
 #endif // #if defined(__USE_VERY_VERBOSE_NIFTI_DEBUGGING__)
 
 NiftiImageIO::NiftiImageIO():
@@ -194,6 +284,7 @@ void RescaleFunction(TBuffer* buffer, double slope, double intercept, size_t siz
    }
 }
 
+
 void NiftiImageIO::Read(void* buffer)
 {
   this->m_NiftiImage=nifti_image_read(m_FileName.c_str(),true);
@@ -227,9 +318,51 @@ void NiftiImageIO::Read(void* buffer)
     default:
       numElts = 0;
     }
-  const size_t NumBytes=numElts * this->m_NiftiImage->nbyper;
-  memcpy(buffer, this->m_NiftiImage->data, NumBytes);
+  unsigned numComponents = this->GetNumberOfComponents();
+  if(numComponents == 1)
+    {
+    const size_t NumBytes=numElts * this->m_NiftiImage->nbyper;
+    memcpy(buffer, this->m_NiftiImage->data, NumBytes);
+    }
+  else
+    {
+    unsigned nbyper = this->m_NiftiImage->nbyper;
+    int *dim = this->m_NiftiImage->dim;
+    const char *frombuf = (const char *)this->m_NiftiImage->data;
+    char *tobuf = (char *)buffer;
 
+    for(unsigned vec = 0; vec < (unsigned)dim[5]; vec++)
+      {
+      for(unsigned t = 0; t < (unsigned)dim[4]; t++)
+        {
+        for(unsigned z = 0; z < (unsigned)dim[3]; z++)
+          {
+          for(unsigned y = 0; y < (unsigned)dim[2]; y++)
+            {
+            for(unsigned x = 0; x < (unsigned)dim[1]; x++)
+              {
+              // to[t][z][y][x][vec] = from[vec][t][z][y][x]
+              const char *from = frombuf +
+                (x * nbyper) +
+                (y * dim[1] * nbyper) +
+                (z * dim[1] * dim[2] * nbyper) +
+                (t * dim[1] * dim[2] * dim[3] * nbyper) +
+                (vec * dim[1] * dim[2] * dim[3] * dim[4] * nbyper);
+              char *to = tobuf +
+                (vec * nbyper) +
+                (x * dim[5] * nbyper) +
+                (y * dim[5] * dim[1] * nbyper) +
+                (z * dim[5] * dim[1] * dim[2] * nbyper) +
+                (t * dim[5] * dim[1] * dim[2] * dim[3] * nbyper);
+              memcpy(to,from,nbyper);
+              }
+            }
+          }
+        }
+      }
+    }
+  dumpdata(this->m_NiftiImage->data);
+  dumpdata(buffer);
   if(m_RescaleSlope > 1 ||
      m_RescaleIntercept != 0)
     {
@@ -451,7 +584,16 @@ void NiftiImageIO::ReadImageInformation()
       timingscale=1e-6;;
       break;
       }
-  const int dims=this->GetNumberOfDimensions();
+  int dims=this->GetNumberOfDimensions();
+  // vector images? 
+  if((this->m_NiftiImage->dim[0] == 5 && this->m_NiftiImage->dim[5] > 1))
+    {
+    dims = 4;                   // as far as ITK is concerned, the dimension
+    // should now be 4
+    //
+    // each pixel is a vector
+    this->SetNumberOfComponents(this->m_NiftiImage->nu);
+    }
   switch(dims)
       {
   case 7:
@@ -637,16 +779,6 @@ void
 NiftiImageIO
 ::WriteImageInformation(void) //For Nifti this does not write a file, it only fills in the appropriate header information.
 {
-#if 0
-  if(this->GetNumberOfComponents() > 1)
-    {
-    ExceptionObject exception(__FILE__, __LINE__);
-    std::string ErrorMessage=
-      "More than one component per pixel not supported";
-    exception.SetDescription(ErrorMessage.c_str());
-    throw exception;
-    }
-#endif
   //  MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   //
   // fill out the image header.
@@ -719,6 +851,7 @@ NiftiImageIO
     this->m_NiftiImage->ndim =
     this->m_NiftiImage->dim[0] =
     this->GetNumberOfDimensions();
+  unsigned short origdims = dims;
 //     FIELD         NOTES
 //     -----------------------------------------------------
 //     sizeof_hdr    must be 348
@@ -734,51 +867,72 @@ NiftiImageIO
   //      Having the time specified for a purly spatial image has no consequence, so go ahead and set it
   //      to seconds.
   this->m_NiftiImage->xyz_units=NIFTI_UNITS_MM | NIFTI_UNITS_SEC;
-  switch(dims)
+  if(this->GetNumberOfComponents() > 1)
+    {
+    this->m_NiftiImage->intent_code = NIFTI_INTENT_VECTOR;
+    //
+    // we're bumping dim to 5, so make sure dim 4 is 1 if we're coming from dim < 4
+    if(dims < 4)
       {
-  case 7:
+      this->m_NiftiImage->nt =
+      this->m_NiftiImage->dim[4] = 1;
+      }
+    if(dims < 3)
+      {
+      this->m_NiftiImage->nz =
+      this->m_NiftiImage->dim[3] = 1;
+      }
+    dims =                      // has to be 5 
+      this->m_NiftiImage->ndim =
+      this->m_NiftiImage->dim[0] = 5;
+    this->m_NiftiImage->nu =
+    this->m_NiftiImage->dim[5] = this->GetNumberOfComponents();
+    }
+  switch(origdims)
+    {
+    case 7:
       this->m_NiftiImage->nvox *=
-          this->m_NiftiImage->dim[7] =
-          this->m_NiftiImage->nw = this->GetDimensions(6);
+        this->m_NiftiImage->dim[7] =
+        this->m_NiftiImage->nw = this->GetDimensions(6);
       this->m_NiftiImage->pixdim[7] = 
         this->m_NiftiImage->dw = this->GetSpacing(6);
-  case 6:
+    case 6:
       this->m_NiftiImage->nvox *=
-          this->m_NiftiImage->dim[6] =
-          this->m_NiftiImage->nv = this->GetDimensions(5);
+        this->m_NiftiImage->dim[6] =
+        this->m_NiftiImage->nv = this->GetDimensions(5);
       this->m_NiftiImage->pixdim[6] =
-          this->m_NiftiImage->dv = this->GetSpacing(5);
-  case 5:
-      this->m_NiftiImage->nvox *=
-          this->m_NiftiImage->dim[5] =
-          this->m_NiftiImage->nu = this->GetDimensions(4);
+        this->m_NiftiImage->dv = this->GetSpacing(5);
+    case 5:
+      this->m_NiftiImage->dim[5] =
+        this->m_NiftiImage->nu = this->GetDimensions(4);
       this->m_NiftiImage->pixdim[5] =
-          this->m_NiftiImage->du = this->GetSpacing(4);
-  case 4:
+        this->m_NiftiImage->du = this->GetSpacing(4);
+      this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[5];
+    case 4:
       this->m_NiftiImage->nvox *=
-          this->m_NiftiImage->dim[4] =
-          this->m_NiftiImage->nt = this->GetDimensions(3);
+        this->m_NiftiImage->dim[4] =
+        this->m_NiftiImage->nt = this->GetDimensions(3);
       this->m_NiftiImage->pixdim[4] =
-          this->m_NiftiImage->dt = this->GetSpacing(3);
-  case 3:
+        this->m_NiftiImage->dt = this->GetSpacing(3);
+    case 3:
       this->m_NiftiImage->nvox *=
-          this->m_NiftiImage->dim[3] =
-          this->m_NiftiImage->nz = this->GetDimensions(2);
+        this->m_NiftiImage->dim[3] =
+        this->m_NiftiImage->nz = this->GetDimensions(2);
       this->m_NiftiImage->pixdim[3] =
-          this->m_NiftiImage->dz = this->GetSpacing(2);
-  case 2:
+        this->m_NiftiImage->dz = this->GetSpacing(2);
+    case 2:
       this->m_NiftiImage->nvox *=
-          this->m_NiftiImage->dim[2] =
-          this->m_NiftiImage->ny = this->GetDimensions(1);
+        this->m_NiftiImage->dim[2] =
+        this->m_NiftiImage->ny = this->GetDimensions(1);
       this->m_NiftiImage->pixdim[2] =
-          this->m_NiftiImage->dy = this->GetSpacing(1);
-  case 1:
+        this->m_NiftiImage->dy = this->GetSpacing(1);
+    case 1:
       this->m_NiftiImage->nvox *=
-          this->m_NiftiImage->dim[1] =
-          this->m_NiftiImage->nx = this->GetDimensions(0);
+        this->m_NiftiImage->dim[1] =
+        this->m_NiftiImage->nx = this->GetDimensions(0);
       this->m_NiftiImage->pixdim[1] =
-          this->m_NiftiImage->dx = this->GetSpacing(0);
-      }
+        this->m_NiftiImage->dx = this->GetSpacing(0);
+    }
 
 //     -----------------------------------------------------
 //     datatype      needed to specify type of image data
@@ -839,14 +993,19 @@ NiftiImageIO
       this->m_NiftiImage->nbyper *= 3;
       this->m_NiftiImage->datatype = NIFTI_TYPE_RGB24;
       break;
+      // TODO: handle vector data.
     default:
-      {
-      ExceptionObject exception(__FILE__, __LINE__);
-      std::string ErrorMessage =
-        "Unsupported Pixel Type";
-      exception.SetDescription(ErrorMessage.c_str());
-      throw exception;
-      }
+      this->m_NiftiImage->nbyper *= this->GetNumberOfComponents();
+      //    this->m_NiftiImage->nbyper *=
+      //      this->m_NiftiImage->dim[5];
+      break;
+//       {
+//       ExceptionObject exception(__FILE__, __LINE__);
+//       std::string ErrorMessage =
+//         "Unsupported Pixel Type";
+//       exception.SetDescription(ErrorMessage.c_str());
+//       throw exception;
+//       }
     }
 //     -----------------------------------------------------
 //     vox_offset    required for an "n+1" header
@@ -950,10 +1109,56 @@ NiftiImageIO
 ::Write( const void* buffer)
 {
   this->WriteImageInformation(); //Write the image Information before writing data
-  this->m_NiftiImage->data=const_cast<void *>(buffer);//Need a const cast here so that we don't have to copy the memory for writing.
-  nifti_image_write(this->m_NiftiImage);
-  this->m_NiftiImage->data = 0; // if left pointing to data buffer
-                                // nifti_image_free will try and free this memory
+  unsigned numComponents = this->GetNumberOfComponents();
+  if(numComponents == 1)
+    {
+    this->m_NiftiImage->data=const_cast<void *>(buffer);//Need a const cast here so that we don't have to copy the memory for writing.
+    nifti_image_write(this->m_NiftiImage);
+    this->m_NiftiImage->data = 0; // if left pointing to data buffer
+    // nifti_image_free will try and free this memory
+    }
+  else
+    {
+    // have to rearrange data; output[vec][t][z][y][x] = input[t][z][y][z][vec]
+    unsigned nbyper = this->m_NiftiImage->nbyper/numComponents;
+    int *dim = this->m_NiftiImage->dim;
+    char *tobuffer = new char[dim[1]*dim[2]*dim[3]*dim[4]*dim[5]*nbyper];
+    for(unsigned t = 0; t < (unsigned)dim[4]; t++)
+      {
+      for(unsigned z = 0; z < (unsigned)dim[3]; z++)
+        {
+        for(unsigned y = 0; y < (unsigned)dim[2]; y++)
+          {
+          for(unsigned x = 0; x < (unsigned)dim[1]; x++)
+            {
+            for(unsigned vec = 0; vec < (unsigned)dim[5]; vec++)
+              {
+              const char *frombuf = (const char *)buffer +
+                (vec * nbyper) +
+                (x * nbyper * dim[5]) +
+                (y * nbyper * dim[5] * dim[1]) +
+                (z * nbyper * dim[5] * dim[1] * dim[2]) +
+                (t * nbyper * dim[5] * dim[1] * dim[2] * dim[3]);
+              char *tobuf = tobuffer +
+                (x * nbyper) +
+                (y * nbyper * dim[1]) +
+                (z * nbyper * dim[1] * dim[2]) +
+                (t * nbyper * dim[1] * dim[2] * dim[3]) +
+                (vec * nbyper * dim[1] * dim[2] * dim[3] * dim[4]);
+              memcpy(tobuf,frombuf,nbyper);
+              }
+            }
+          }
+        }
+      }
+    dumpdata(buffer);
+    dumpdata(tobuffer);
+    //Need a const cast here so that we don't have to copy the memory for writing.
+    this->m_NiftiImage->data=static_cast<void *>(tobuffer);
+    nifti_image_write(this->m_NiftiImage);
+    this->m_NiftiImage->data = 0; // if left pointing to data buffer
+    delete [] tobuffer;
+    }
 }
 
 } // end namespace itk
