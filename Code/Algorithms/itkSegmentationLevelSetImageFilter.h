@@ -446,6 +446,13 @@ public:
       filter execution unless AutoGenerateSpeedAdvection is set to Off.*/
   void GenerateAdvectionImage();
   
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<TOutputPixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   virtual ~SegmentationLevelSetImageFilter() {}
   SegmentationLevelSetImageFilter(const Self&);

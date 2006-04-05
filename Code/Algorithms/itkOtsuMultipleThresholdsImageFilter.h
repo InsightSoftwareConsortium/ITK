@@ -105,6 +105,14 @@ public:
     return m_Thresholds;
     }
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(OutputComparableCheck,
+    (Concept::Comparable<OutputPixelType>));
+  itkConceptMacro(OutputOStreamWritableCheck,
+    (Concept::OStreamWritable<OutputPixelType>));
+  /** End concept checking */
+#endif
 
 protected:
   OtsuMultipleThresholdsImageFilter();

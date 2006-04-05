@@ -76,6 +76,21 @@ public:
   itkSetMacro(SigmaThreshold, double);
   itkGetMacro(SigmaThreshold, double);
 
+  /** ImageDimension enumeration   */
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension );
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension );
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro(IntConvertibleToOutputCheck,
+    (Concept::Convertible<int, OutputPixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   VoronoiPartitioningImageFilter();
   ~VoronoiPartitioningImageFilter();

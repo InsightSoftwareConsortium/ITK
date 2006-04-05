@@ -120,6 +120,15 @@ public:
   NodeContainerPointer GetOutputNarrowBand() const
   { return m_OutputNarrowBand; }
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(LevelSetDoubleAdditiveOperatorsCheck,
+                  (Concept::AdditiveOperators<PixelType, double>));
+  itkConceptMacro(LevelSetOStreamWritableCheck,
+                  (Concept::OStreamWritable<PixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   ReinitializeLevelSetImageFilter();
   ~ReinitializeLevelSetImageFilter(){};

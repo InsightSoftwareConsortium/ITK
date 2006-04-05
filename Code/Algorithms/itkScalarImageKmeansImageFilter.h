@@ -136,6 +136,13 @@ public:
   /** Get the region over which the statistics will be computed */
   itkGetConstReferenceMacro( ImageRegion, ImageRegionType );
   
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<InputPixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   ScalarImageKmeansImageFilter();
   virtual ~ScalarImageKmeansImageFilter() {}

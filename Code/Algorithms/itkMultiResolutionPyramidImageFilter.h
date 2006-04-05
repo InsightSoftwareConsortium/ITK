@@ -126,6 +126,8 @@ public:
   /** ImageDimension enumeration. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
 
   /** Inherit types from Superclass. */
   typedef typename Superclass::InputImageType InputImageType;
@@ -196,6 +198,14 @@ public:
   itkSetMacro(MaximumError,double);
   itkGetConstReferenceMacro(MaximumError,double);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  itkConceptMacro(OutputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TOutputImage::PixelType>));
+  /** End concept checking */
+#endif
 protected:
   MultiResolutionPyramidImageFilter();
   ~MultiResolutionPyramidImageFilter() {};

@@ -212,7 +212,14 @@ public:
 
   /** Get the number of elapsed iterations of the iterative E-M algorithm. */
   itkGetMacro(ElapsedIterations, unsigned int);
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasNumericTraitsCheck,
+                  (Concept::HasNumericTraits<InputPixelType>));
+  /** End concept checking */
+#endif
+
 protected:
   STAPLEImageFilter()
   {

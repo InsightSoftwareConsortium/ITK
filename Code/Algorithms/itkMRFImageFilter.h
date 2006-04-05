@@ -303,7 +303,22 @@ public:
   
   /* Get macro for number of iterations */
   itkGetConstReferenceMacro( NumberOfIterations, unsigned int );
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(UnsignedIntConvertibleToClassifiedCheck,
+    (Concept::Convertible<unsigned int, LabelledImagePixelType>));
+  itkConceptMacro(ClassifiedConvertibleToUnsignedIntCheck,
+    (Concept::Convertible<LabelledImagePixelType, unsigned int> ));
+  itkConceptMacro(ClassifiedConvertibleToIntCheck,
+    (Concept::Convertible<LabelledImagePixelType, int> ));
+  itkConceptMacro(IntConvertibleToClassifiedCheck,
+    (Concept::Convertible<int, LabelledImagePixelType>));
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<InputImageDimension, ClassifiedImageDimension>));
+  /** End concept checking */
+#endif
+
 protected:
   MRFImageFilter();
   ~MRFImageFilter();
