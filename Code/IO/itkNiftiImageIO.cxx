@@ -20,7 +20,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
-#include "itkArrayAddr.h"
 #include <itksys/SystemTools.hxx>
 #include <vnl/vnl_math.h>
 #include <zlib.h>
