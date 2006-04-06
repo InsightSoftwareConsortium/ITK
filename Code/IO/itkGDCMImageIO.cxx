@@ -43,13 +43,23 @@
 
 namespace itk
 {
-class InternalHeader
+
+// Initialize static members
+bool GDCMImageIO::m_LoadSequencesDefault = false;
+bool GDCMImageIO::m_LoadPrivateTagsDefault = false;
+
+
+class InternalHeader 
 {
 public:
-  gdcm::File m_Header;
+  InternalHeader() {header = new gdcm::File();};
+  ~InternalHeader() { delete header; };
+  gdcm::File *header;
 };
 
 GDCMImageIO::GDCMImageIO()
+  : m_LoadSequences( m_LoadSequencesDefault ),
+    m_LoadPrivateTags( m_LoadPrivateTagsDefault )
 {
   this->DICOMHeader = new InternalHeader;
   this->SetNumberOfDimensions(3); //needed for getting the 3 coordinates of
@@ -237,7 +247,7 @@ void GDCMImageIO::Read(void* buffer)
   //Should I handle differently dicom lut ?
   //GdcmHeader.HasLUT()
 
-  gdcm::File *header = &this->DICOMHeader->m_Header;
+  gdcm::File *header = this->DICOMHeader->header;
   gdcm::FileHelper gfile(header);
 
   size_t size = gfile.GetImageDataSize();
@@ -320,17 +330,19 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     itkExceptionMacro(<< "Cannot read requested file");
     }
 
-  gdcm::File &header = this->DICOMHeader->m_Header;
-  header.SetMaxSizeLoadEntry(m_MaxSizeLoadEntry);
-  header.SetFileName( m_FileName );
-  header.Load();
+  gdcm::File *header = this->DICOMHeader->header;
+  header->SetMaxSizeLoadEntry(m_MaxSizeLoadEntry);
+  header->SetFileName( m_FileName );
+  header->SetLoadMode( (m_LoadSequences ? 0 : gdcm::LD_NOSEQ)
+                       | (m_LoadPrivateTags ? 0 : gdcm::LD_NOSHADOW));
+  header->Load();
 
   // We don't need to positionate the Endian related stuff (by using
   // this->SetDataByteOrderToBigEndian() or SetDataByteOrderToLittleEndian()
   // since the reading of the file is done by gdcm.
   // But we do need to set up the data type for downstream filters:
 
-  int numComp = header.GetNumberOfScalarComponents();
+  int numComp = header->GetNumberOfScalarComponents();
   this->SetNumberOfComponents(numComp);
   if (numComp == 1)
     {
@@ -340,7 +352,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     {
     this->SetPixelType(RGB);
     }
-  std::string type = header.GetPixelType();
+  std::string type = header->GetPixelType();
   if( type == "8U")
     {
     SetComponentType(ImageIOBase::UCHAR);
@@ -380,17 +392,17 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   m_InternalComponentType = m_ComponentType;
 
   // set values in case we don't find them
-  m_Dimensions[0] = header.GetXSize();
-  m_Dimensions[1] = header.GetYSize();
-  m_Dimensions[2] = header.GetZSize();
+  m_Dimensions[0] = header->GetXSize();
+  m_Dimensions[1] = header->GetYSize();
+  m_Dimensions[2] = header->GetZSize();
 
-  m_Spacing[0] = header.GetXSpacing();
-  m_Spacing[1] = header.GetYSpacing();
-  m_Spacing[2] = header.GetZSpacing();
+  m_Spacing[0] = header->GetXSpacing();
+  m_Spacing[1] = header->GetYSpacing();
+  m_Spacing[2] = header->GetZSpacing();
 
 
   float imageOrientation[6];
-  header.GetImageOrientationPatient(imageOrientation);
+  header->GetImageOrientationPatient(imageOrientation);
   vnl_vector<double> rowDirection(3), columnDirection(3);
 
   rowDirection[0] = imageOrientation[0];
@@ -408,13 +420,13 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   this->SetDirection(2, sliceDirection);
 
   // Dicom's origin is always in LPS
-  m_Origin[0] = header.GetXOrigin();
-  m_Origin[1] = header.GetYOrigin();
-  m_Origin[2] = header.GetZOrigin();
+  m_Origin[0] = header->GetXOrigin();
+  m_Origin[1] = header->GetYOrigin();
+  m_Origin[2] = header->GetZOrigin();
 
   //For grayscale image :
-  m_RescaleSlope = header.GetRescaleSlope();
-  m_RescaleIntercept = header.GetRescaleIntercept();
+  m_RescaleSlope = header->GetRescaleSlope();
+  m_RescaleIntercept = header->GetRescaleIntercept();
 
   // Before copying the image we need to check the slope/offset
   // If they are not integer the scalar become FLOAT:
@@ -465,9 +477,9 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   //Now copying the gdcm dictionary to the itk dictionary:
   MetaDataDictionary & dico = this->GetMetaDataDictionary();
 
-  gdcm::DocEntry* d = header.GetFirstEntry();
+  gdcm::DocEntry* d = header->GetFirstEntry();
 
-  // Copy of the header content
+  // Copy of the header->content
   while(d)
   {
     // Because BinEntry is a ValEntry...
@@ -504,7 +516,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     //else
     // We skip pb of SQ recursive exploration, and we do not copy binary entries
 
-    d = header.GetNextEntry();
+    d = header->GetNextEntry();
   }
 
   // Now is a good time to fill in the class member:

@@ -161,6 +161,24 @@ public:
     m_SerieHelper->AddRestriction( tag );
     }
 
+
+  /** Parse any sequences in the DICOM file. Defaults to false
+   *  to skip sequences. This makes loading DICOM files faster when
+   *  sequences are not needed.
+   */
+  itkSetMacro(LoadSequences, bool);
+  itkGetMacro(LoadSequences, bool);
+  itkBooleanMacro(LoadSequences);
+
+  /** Parse any private tags in the DICOM file. Defaults to false
+   * to skip private tags. This makes loading DICOM files faster when
+   * private tags are not needed.
+   */
+  itkSetMacro(LoadPrivateTags, bool);
+  itkGetMacro(LoadPrivateTags, bool);
+  itkBooleanMacro(LoadPrivateTags);
+
+  
 protected:
   GDCMSeriesFileNames();
   ~GDCMSeriesFileNames();
@@ -187,6 +205,9 @@ private:
   SerieUIDContainer m_SeriesUIDs;
 
   bool              m_UseSeriesDetails;
+  bool m_LoadSequences;
+  bool m_LoadPrivateTags;
+
 };
 
 } //namespace ITK
