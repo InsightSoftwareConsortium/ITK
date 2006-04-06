@@ -43,19 +43,17 @@
 
 namespace itk
 {
+class InternalHeader
+{
+public:
+  InternalHeader() : m_Header(0) {}
+  gdcm::File *m_Header;
+};
 
 // Initialize static members
 bool GDCMImageIO::m_LoadSequencesDefault = false;
 bool GDCMImageIO::m_LoadPrivateTagsDefault = false;
 
-
-class InternalHeader 
-{
-public:
-  InternalHeader() {header = new gdcm::File();};
-  ~InternalHeader() { delete header; };
-  gdcm::File *header;
-};
 
 GDCMImageIO::GDCMImageIO()
   : m_LoadSequences( m_LoadSequencesDefault ),
@@ -247,7 +245,7 @@ void GDCMImageIO::Read(void* buffer)
   //Should I handle differently dicom lut ?
   //GdcmHeader.HasLUT()
 
-  gdcm::File *header = this->DICOMHeader->header;
+  gdcm::File *header = this->DICOMHeader->m_Header;
   gdcm::FileHelper gfile(header);
 
   size_t size = gfile.GetImageDataSize();
@@ -330,7 +328,9 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     itkExceptionMacro(<< "Cannot read requested file");
     }
 
-  gdcm::File *header = this->DICOMHeader->header;
+  gdcm::File *header = new gdcm::File;
+  delete this->DICOMHeader->m_Header;
+  this->DICOMHeader->m_Header = header;
   header->SetMaxSizeLoadEntry(m_MaxSizeLoadEntry);
   header->SetFileName( m_FileName );
   header->SetLoadMode( (m_LoadSequences ? 0 : gdcm::LD_NOSEQ)
