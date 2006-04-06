@@ -191,10 +191,105 @@ void RescaleFunction(TBuffer* buffer, TSource *source,
                      double slope, double intercept, size_t size)
 {
   size /= sizeof(TSource);
-  for(unsigned int i=0; i<size; i++)
-   {
-   buffer[i] = (TBuffer)(source[i]*slope + intercept);
-   }
+
+  if (slope != 1.0 && intercept != 0.0)
+    {
+    // Duff's device.  Instead of this code:
+    //
+    //   for(unsigned int i=0; i<size; i++)
+    //    {
+    //    buffer[i] = (TBuffer)(source[i]*slope + intercept);
+    //    }
+    //
+    // use Duff's device which exploits "fall through"
+    register size_t n = (size + 7) / 8;
+    switch ( size % 8)
+      {
+      case 0: do { *buffer++ = (TBuffer)((*source++)*slope + intercept);
+      case 7:      *buffer++ = (TBuffer)((*source++)*slope + intercept);
+      case 6:      *buffer++ = (TBuffer)((*source++)*slope + intercept);
+      case 5:      *buffer++ = (TBuffer)((*source++)*slope + intercept);
+      case 4:      *buffer++ = (TBuffer)((*source++)*slope + intercept);
+      case 3:      *buffer++ = (TBuffer)((*source++)*slope + intercept);
+      case 2:      *buffer++ = (TBuffer)((*source++)*slope + intercept);
+      case 1:      *buffer++ = (TBuffer)((*source++)*slope + intercept);
+                 }  while (--n > 0);
+      }
+    }
+  else if (slope == 1.0 && intercept != 0.0)
+    {
+    // Duff's device.  Instead of this code:
+    //
+    //   for(unsigned int i=0; i<size; i++)
+    //    {
+    //    buffer[i] = (TBuffer)(source[i] + intercept);
+    //    }
+    //
+    // use Duff's device which exploits "fall through"
+    register size_t n = (size + 7) / 8;
+    switch ( size % 8)
+      {
+      case 0: do { *buffer++ = (TBuffer)(*source++ + intercept);
+      case 7:      *buffer++ = (TBuffer)(*source++ + intercept);
+      case 6:      *buffer++ = (TBuffer)(*source++ + intercept);
+      case 5:      *buffer++ = (TBuffer)(*source++ + intercept);
+      case 4:      *buffer++ = (TBuffer)(*source++ + intercept);
+      case 3:      *buffer++ = (TBuffer)(*source++ + intercept);
+      case 2:      *buffer++ = (TBuffer)(*source++ + intercept);
+      case 1:      *buffer++ = (TBuffer)(*source++ + intercept);
+                 }  while (--n > 0);
+      }
+    }
+  else if (slope != 1.0 && intercept == 0.0)
+    {
+    // Duff's device.  Instead of this code:
+    //
+    //   for(unsigned int i=0; i<size; i++)
+    //    {
+    //    buffer[i] = (TBuffer)(source[i]*slope);
+    //    }
+    //
+    // use Duff's device which exploits "fall through"
+    register size_t n = (size + 7) / 8;
+    switch ( size % 8)
+      {
+      case 0: do { *buffer++ = (TBuffer)((*source++)*slope);
+      case 7:      *buffer++ = (TBuffer)((*source++)*slope);
+      case 6:      *buffer++ = (TBuffer)((*source++)*slope);
+      case 5:      *buffer++ = (TBuffer)((*source++)*slope);
+      case 4:      *buffer++ = (TBuffer)((*source++)*slope);
+      case 3:      *buffer++ = (TBuffer)((*source++)*slope);
+      case 2:      *buffer++ = (TBuffer)((*source++)*slope);
+      case 1:      *buffer++ = (TBuffer)((*source++)*slope);
+                 }  while (--n > 0);
+      }
+    }
+  else
+    {
+    // Duff's device.  Instead of this code:
+    //
+    //   for(unsigned int i=0; i<size; i++)
+    //    {
+    //    buffer[i] = (TBuffer)(source[i]);
+    //    }
+    //
+    // use Duff's device which exploits "fall through"
+    register size_t n = (size + 7) / 8;
+    switch ( size % 8)
+      {
+      case 0: do { *buffer++ = (TBuffer)(*source++);
+      case 7:      *buffer++ = (TBuffer)(*source++);
+      case 6:      *buffer++ = (TBuffer)(*source++);
+      case 5:      *buffer++ = (TBuffer)(*source++);
+      case 4:      *buffer++ = (TBuffer)(*source++);
+      case 3:      *buffer++ = (TBuffer)(*source++);
+      case 2:      *buffer++ = (TBuffer)(*source++);
+      case 1:      *buffer++ = (TBuffer)(*source++);
+                 }  while (--n > 0);
+      }
+    }
+    
+    
 }
 
 
