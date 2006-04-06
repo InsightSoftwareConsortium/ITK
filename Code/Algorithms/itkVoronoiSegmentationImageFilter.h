@@ -119,7 +119,7 @@ public:
   itkConceptMacro(SameDimensionCheck,
     (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
   itkConceptMacro(IntConvertibleToOutputCheck,
-    (Concept::Convertible<int, OutputPixelType>));
+    (Concept::Convertible<int, typename TOutputImage::PixelType>));
   /** End concept checking */
 #endif
 
