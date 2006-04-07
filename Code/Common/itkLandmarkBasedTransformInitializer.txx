@@ -261,7 +261,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
         }
       else
         {
-        itkWarningMacro(<< "Less than 3 landmarks available. Rotation is not computed");
+        // Remember.. 
+        // Less than 3 landmarks available. Rotation is not computed 
         }
       
       transform->SetCenter(fixedCentroid);
