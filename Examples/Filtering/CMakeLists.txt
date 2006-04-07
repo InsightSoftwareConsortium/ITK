@@ -88,12 +88,6 @@ TARGET_LINK_LIBRARIES(DiscreteGaussianImageFilter ITKCommon ITKBasicFilters ITKI
 ADD_EXECUTABLE(GaussianBlurImageFunction GaussianBlurImageFunction.cxx )
 TARGET_LINK_LIBRARIES(GaussianBlurImageFunction ITKCommon ITKBasicFilters ITKIO)
 
-ADD_EXECUTABLE(SmoothingRecursiveGaussianImageFilter SmoothingRecursiveGaussianImageFilter.cxx )
-TARGET_LINK_LIBRARIES(SmoothingRecursiveGaussianImageFilter ITKCommon ITKBasicFilters ITKIO)
-
-ADD_EXECUTABLE(SmoothingRecursiveGaussianImageFilter2 SmoothingRecursiveGaussianImageFilter2.cxx )
-TARGET_LINK_LIBRARIES(SmoothingRecursiveGaussianImageFilter2 ITKCommon ITKBasicFilters ITKIO)
-
 ADD_EXECUTABLE(LaplacianRecursiveGaussianImageFilter1 LaplacianRecursiveGaussianImageFilter1.cxx )
 TARGET_LINK_LIBRARIES(LaplacianRecursiveGaussianImageFilter1 ITKCommon ITKBasicFilters ITKIO)
 
@@ -143,6 +137,21 @@ ADD_EXECUTABLE(ResampleImageFilter2 ResampleImageFilter2.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter2 ITKCommon ITKBasicFilters ITKIO)
 
 IF(NOT BORLAND)
+ADD_TEST( SmoothingRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/SmoothingRecursiveGaussianImageFilter.png
+            ${TEMP}/SmoothingRecursiveGaussianImageFilter.png
+  SmoothingRecursiveGaussianImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/SmoothingRecursiveGaussianImageFilter.png
+        3
+)
+
+ADD_EXECUTABLE(SmoothingRecursiveGaussianImageFilter SmoothingRecursiveGaussianImageFilter.cxx )
+TARGET_LINK_LIBRARIES(SmoothingRecursiveGaussianImageFilter ITKCommon ITKBasicFilters ITKIO)
+
+ADD_EXECUTABLE(SmoothingRecursiveGaussianImageFilter2 SmoothingRecursiveGaussianImageFilter2.cxx )
+TARGET_LINK_LIBRARIES(SmoothingRecursiveGaussianImageFilter2 ITKCommon ITKBasicFilters ITKIO)
+
 ADD_EXECUTABLE(LaplacianRecursiveGaussianImageFilter2 LaplacianRecursiveGaussianImageFilter2.cxx )
 TARGET_LINK_LIBRARIES(LaplacianRecursiveGaussianImageFilter2 ITKCommon ITKBasicFilters ITKIO)
 
@@ -566,14 +575,6 @@ ADD_TEST( SigmoidImageFilterTest ${FILTERING_EXAMPLES2}
         10 240 10 170
 )
 
-ADD_TEST( SmoothingRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES2}
-  --compare ${BASELINE}/SmoothingRecursiveGaussianImageFilter.png
-            ${TEMP}/SmoothingRecursiveGaussianImageFilter.png
-  SmoothingRecursiveGaussianImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${TEMP}/SmoothingRecursiveGaussianImageFilter.png
-        3
-)
 
 ADD_TEST( SmoothingRecursiveGaussianImageFilter2Test ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/SmoothingRecursiveGaussianImageFilter2.png
