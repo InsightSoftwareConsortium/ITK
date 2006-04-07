@@ -228,6 +228,18 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(JoinImageFilter, BinaryFunctorImageFilter);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(Input1HasPixelTraitsCheck,
+    (Concept::HasPixelTraits<typename TInputImage1::PixelType>));
+  itkConceptMacro(Input2HasPixelTraitsCheck,
+    (Concept::HasPixelTraits<typename TInputImage2::PixelType>));
+  itkConceptMacro(Input1Input2HasJoinTraitsCheck,
+    (Concept::HasJoinTraits<typename PixelTraits<TInputImage1::PixelType>::ValueType,
+                            typename PixelTraits<TInputImage2::PixelType>::ValueType>));
+  /** End concept checking */
+#endif
+
 protected:
   JoinImageFilter() {}
   virtual ~JoinImageFilter() {}
