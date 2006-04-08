@@ -235,8 +235,8 @@ public:
   itkConceptMacro(Input2HasPixelTraitsCheck,
     (Concept::HasPixelTraits<typename TInputImage2::PixelType>));
   itkConceptMacro(Input1Input2HasJoinTraitsCheck,
-    (Concept::HasJoinTraits<typename PixelTraits<TInputImage1::PixelType>::ValueType,
-                            typename PixelTraits<TInputImage2::PixelType>::ValueType>));
+    (Concept::HasJoinTraits<typename PixelTraits<typename TInputImage1::PixelType>::ValueType,
+                            typename PixelTraits<typename TInputImage2::PixelType>::ValueType>));
   /** End concept checking */
 #endif
 
