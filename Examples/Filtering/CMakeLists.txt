@@ -127,9 +127,6 @@ TARGET_LINK_LIBRARIES(SignedDanielssonDistanceMapImageFilter ITKCommon ITKBasicF
 ADD_EXECUTABLE(BilateralImageFilter BilateralImageFilter.cxx )
 TARGET_LINK_LIBRARIES(BilateralImageFilter ITKCommon ITKBasicFilters ITKIO)
 
-ADD_EXECUTABLE(ResampleImageFilter ResampleImageFilter.cxx )
-TARGET_LINK_LIBRARIES(ResampleImageFilter ITKCommon ITKBasicFilters ITKIO)
-
 ADD_EXECUTABLE(ResampleOrientedImageFilter ResampleOrientedImageFilter.cxx )
 TARGET_LINK_LIBRARIES(ResampleOrientedImageFilter ITKCommon ITKBasicFilters ITKIO)
 
@@ -137,6 +134,9 @@ ADD_EXECUTABLE(ResampleImageFilter2 ResampleImageFilter2.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter2 ITKCommon ITKBasicFilters ITKIO)
 
 IF(NOT BORLAND)
+ADD_EXECUTABLE(ResampleImageFilter ResampleImageFilter.cxx )
+TARGET_LINK_LIBRARIES(ResampleImageFilter ITKCommon ITKBasicFilters ITKIO)
+
 ADD_EXECUTABLE(SmoothingRecursiveGaussianImageFilter SmoothingRecursiveGaussianImageFilter.cxx )
 TARGET_LINK_LIBRARIES(SmoothingRecursiveGaussianImageFilter ITKCommon ITKBasicFilters ITKIO)
 
