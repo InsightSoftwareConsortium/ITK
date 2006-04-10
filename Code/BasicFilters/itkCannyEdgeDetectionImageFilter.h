@@ -135,6 +135,8 @@ public:
   /** ImageDimension constant    */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
   
   /** Typedef of double containers */
   typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
@@ -216,6 +218,12 @@ public:
     (Concept::HasNumericTraits<InputImagePixelType>));
   itkConceptMacro(OutputHasNumericTraitsCheck,
     (Concept::HasNumericTraits<OutputImagePixelType>));
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputIsFloatingPointCheck,
+    (Concept::IsFloatingPoint<InputImagePixelType>));
+  itkConceptMacro(OutputIsFloatingPointCheck,
+    (Concept::IsFloatingPoint<OutputImagePixelType>));
   /** End concept checking */
 #endif
 
