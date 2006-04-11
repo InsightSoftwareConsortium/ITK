@@ -115,7 +115,7 @@ bool VR::IsVROfStringRepresentable(VRKey const &tested)
                                      "LT", "PN", "SH", "SL", "SS",
                                      "ST", "TM", "UI", "UL", "US",
                                      "UT"};
-  static const int vrSize = sizeof(std::string("AE"));
+  static const int vrSize = sizeof(std::string);
   static const int numVRs = sizeof(vrs) / vrSize;
   static const std::string *end = vrs + numVRs;
 
