@@ -86,6 +86,20 @@ public:
   void GetValueAndDerivative( const TransformParametersType & parameters,
                               MeasureType& Value, DerivativeType& Derivative ) const;
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(MovingPixelTypeHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<typename TMovingImage::PixelType>));
+  itkConceptMacro(MovingRealTypeAdditivieOperatorsCheck,
+    (Concept::AdditiveOperators<
+     typename NumericTraits<typename TMovingImage::PixelType>::RealType>));
+  itkConceptMacro(MovingRealTypeMultiplyOperatorCheck,
+    (Concept::MultiplyOperator<
+     typename NumericTraits<typename TMovingImage::PixelType>::RealType>));
+
+  /** End concept checking */
+#endif
+
 protected:
   MeanSquaresImageToImageMetric();
   virtual ~MeanSquaresImageToImageMetric() {};
