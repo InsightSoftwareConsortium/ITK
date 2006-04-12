@@ -100,7 +100,7 @@ void CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>
     m_Canny->SetInput(m_Caster->GetOutput());
     }
 
-  m_Canny->SetThreshold(m_Threshold);
+  m_Canny->SetUpperThreshold(m_Threshold);
   m_Canny->SetVariance(m_Variance);
   m_Canny->SetMaximumError(0.01);
   m_Canny->SetOutsideValue(NumericTraits<ScalarValueType>::Zero);
