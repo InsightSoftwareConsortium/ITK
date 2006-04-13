@@ -260,7 +260,7 @@ IF(ITK_USE_SYSTEM_VXL)
   ENDIF(VXL_FOUND)
 ELSE(ITK_USE_SYSTEM_VXL)
   SET(VXL_NETLIB_INCLUDE_DIR ${ITK_SOURCE_DIR}/Utilities/vxl/v3p/netlib)
-  SET(VXL_NUMERICS_LIBRARIES itkvnl itkvnl_algo itknetlib)
+  SET(VXL_NUMERICS_LIBRARIES itkvnl itkvnl_algo itknetlib itkvcl)
 ENDIF(ITK_USE_SYSTEM_VXL)
 
 # Provide options to use system versions of third-party libraries.
