@@ -370,27 +370,20 @@ private:
   /** Memory for the current buffer. */
   PixelContainerPointer m_Buffer;
 };
-#ifdef ITK_EXPLICIT_INSTANTIATION
-   extern template class Image<float         ,2>;
-   extern template class Image<double        ,2>;
-   extern template class Image<unsigned char ,2>;
-   extern template class Image<unsigned short,2>;
-   extern template class Image<unsigned int  ,2>;
-   extern template class Image<signed char   ,2>;
-   extern template class Image<signed short  ,2>;
-   extern template class Image<signed int    ,2>;
-   extern template class Image<float         ,3>;
-   extern template class Image<double        ,3>;
-   extern template class Image<unsigned char ,3>;
-   extern template class Image<unsigned short,3>;
-   extern template class Image<unsigned int  ,3>;
-   extern template class Image<signed char   ,3>;
-   extern template class Image<signed short  ,3>;
-   extern template class Image<signed int    ,3>;
-#endif
+
 } // end namespace itk
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImage.txx"
+
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_Image(_, EXPORT, x) namespace itk { \
+  _(2(class EXPORT Image< ITK_TEMPLATE_2 x >)) \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkImage+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkImage.txx"
 #endif
 
 #endif

@@ -258,24 +258,6 @@ private:
   DirectionType m_IndexToPhysicalPoint;
   DirectionType m_PhysicalPointToIndex;
 };
-#ifdef ITK_EXPLICIT_INSTANTIATION
-   extern template class OrientedImage<float         ,2>;
-   extern template class OrientedImage<double        ,2>;
-   extern template class OrientedImage<unsigned char ,2>;
-   extern template class OrientedImage<unsigned short,2>;
-   extern template class OrientedImage<unsigned int  ,2>;
-   extern template class OrientedImage<signed char   ,2>;
-   extern template class OrientedImage<signed short  ,2>;
-   extern template class OrientedImage<signed int    ,2>;
-   extern template class OrientedImage<float         ,3>;
-   extern template class OrientedImage<double        ,3>;
-   extern template class OrientedImage<unsigned char ,3>;
-   extern template class OrientedImage<unsigned short,3>;
-   extern template class OrientedImage<unsigned int  ,3>;
-   extern template class OrientedImage<signed char   ,3>;
-   extern template class OrientedImage<signed short  ,3>;
-   extern template class OrientedImage<signed int    ,3>;
-#endif
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkOrientedImage.txx"

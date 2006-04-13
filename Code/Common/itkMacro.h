@@ -612,7 +612,186 @@ private:
   itkWarningMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.  Use " #replace " instead.")
 #endif
 
+#if defined(__INTEL_COMPILER)
+# pragma warning (disable: 193) /* #if testing undefined identifier */
+#endif
+
+//=============================================================================
+/* Choose a way to prevent template instantiation on this platform.
+  - ITK_TEMPLATE_DO_NOT_INSTANTIATE = use #pragma do_not_instantiate to
+                                      prevent instantiation
+  - ITK_TEMPLATE_EXTERN = use extern template to prevent instantiation
+
+   Note that VS 6 supports extern template instantiation but it is
+   hard to block the resulting warning because its stream headers
+   re-enable it.  Therefore we just disable support for now.
+*/
+#if defined(__sgi) && defined(_COMPILER_VERSION)
+# define ITK_TEMPLATE_DO_NOT_INSTANTIATE 1
+#elif defined(__INTEL_COMPILER) && __INTEL_COMPILER >= 700
+# define ITK_TEMPLATE_EXTERN 1
+#elif defined(__GNUC__) && __GNUC__ >= 3
+# define ITK_TEMPLATE_EXTERN 1
+#elif defined(_MSC_VER) && _MSC_VER >= 1300
+# define ITK_TEMPLATE_EXTERN 1
+#endif
+#if !defined(ITK_TEMPLATE_DO_NOT_INSTANTIATE)
+# define ITK_TEMPLATE_DO_NOT_INSTANTIATE 0
+#endif
+#if !defined(ITK_TEMPLATE_EXTERN)
+# define ITK_TEMPLATE_EXTERN 0
+#endif
+
+/* Define a macro to explicitly instantiate a template.
+  - ITK_TEMPLATE_EXPORT(X) =
+      Explicitly instantiate X, where X is of the form N(a1[,a2...,aN]).
+      examples: ITK_TEMPLATE_EXPORT(1(class Foo<int>))
+                ITK_TEMPLATE_EXPORT(2(class Bar<int, char>))
+      Use one level of expansion delay to allow user code to have
+      a macro determining the number of arguments. */
+#define ITK_TEMPLATE_EXPORT(x) ITK_TEMPLATE_EXPORT_DELAY(x)
+#define ITK_TEMPLATE_EXPORT_DELAY(x) template ITK_TEMPLATE_##x;
+
+/* Define a macro to prevent template instantiations.
+  - ITK_TEMPLATE_IMPORT(X) =
+      Prevent instantiation of X, where X is of the form N(a1[,a2...,aN]).
+      examples: ITK_TEMPLATE_IMPORT(1(class Foo<int>))
+                ITK_TEMPLATE_IMPORT(2(class Bar<int, char>))
+      Use one level of expansion delay to allow user code to have
+      a macro determining the number of arguments.
+*/
+#if ITK_TEMPLATE_EXTERN
+# define ITK_TEMPLATE_IMPORT_DELAY(x) extern template ITK_TEMPLATE_##x;
+# if defined(_MSC_VER)
+#  pragma warning (disable: 4231) /* extern template extension */
+# endif
+#elif ITK_TEMPLATE_DO_NOT_INSTANTIATE
+# define ITK_TEMPLATE_IMPORT_DELAY(x) \
+         ITK_TEMPLATE_IMPORT_IMPL(do_not_instantiate ITK_TEMPLATE_##x)
+# define ITK_TEMPLATE_IMPORT_IMPL(x) _Pragma(#x)
+#endif
+#if defined(ITK_TEMPLATE_IMPORT_DELAY)
+# define ITK_TEMPLATE_IMPORT(x) ITK_TEMPLATE_IMPORT_DELAY(x)
+# define ITK_TEMPLATE_IMPORT_WORKS 1
+#else
+# define ITK_TEMPLATE_IMPORT(x)
+# define ITK_TEMPLATE_IMPORT_WORKS 0
+#endif
+
+/* Define macros to export and import template instantiations.  These
+   depend on each class providing a macro defining the instantiations
+   given template arguments in X.  The argument X is of the form
+   N(a1[,a2...,aN]).  Typical usage is
+
+     ITK_EXPORT_TEMPLATE(itkfoo_EXPORT, Foo, (int))
+     ITK_EXPORT_TEMPLATE(itkfoo_EXPORT, Bar, (int, char))
+
+   The ITK_TEMPLATE_<name> macro should be defined in itk<name>.h and
+   is of the following form:
+
+     #define ITK_TEMPLATE_<name>(_, EXPORT, x) namespace itk { \
+       _(<n>(class EXPORT Foo< ITK_TEMPLATE_<n> x >)) \
+     }
+
+   Note the use of ITK_TEMPLATE_<n>, where <n> is the number of
+   template arguments for the class template.  Note also that the
+   number of tempalte arguments is usually the length of the list
+   nested within the inner parentheses, so the instantiation is listed
+   inside a form <n>().  Example definitions:
+
+     #define ITK_TEMPLATE_Foo(_, EXPORT, x) namespace itk { \
+       _(1(class EXPORT Foo< ITK_TEMPLATE_1 x >)) \
+       _(1(EXPORT std::ostream& operator<<(std::ostream&, \
+                                           const Foo< ITK_TEMPLATE_1 x >&))) \
+     }
+
+     #define ITK_TEMPLATE_Bar(_, EXPORT, x) namespace itk { \
+       _(2(class EXPORT Bar< ITK_TEMPLATE_2 x >)) \
+       _(1(EXPORT std::ostream& operator<<(std::ostream&, \
+                                           const Bar< ITK_TEMPLATE_2 x >&))) \
+     }
+
+   Note that in the stream operator for template Bar there is a "1" at
+   the beginning even though two arguments are taken.  This is because
+   the expression "ITK_TEMPLATE_2 x" is contained inside the
+   parentheses of the function signature which protects the resulting
+   comma from separating macro arguments.  Therefore the nested
+   parentheses contain a list of only one macro argument.
+
+   The ITK_EMPTY macro used in these definitions is a hack to work
+   around a VS 6.0 preprocessor bug when EXPORT is empty.
+*/
+#define ITK_EXPORT_TEMPLATE(EXPORT, c, x) \
+        ITK_TEMPLATE_##c(ITK_TEMPLATE_EXPORT, EXPORT ITK_EMPTY, x)
+#define ITK_IMPORT_TEMPLATE(EXPORT, c, x) \
+        ITK_TEMPLATE_##c(ITK_TEMPLATE_IMPORT, EXPORT ITK_EMPTY, x)
+#define ITK_EMPTY
+
+/* Define macros to support passing a variable number of arguments
+   throug other macros.  This is used by ITK_TEMPLATE_EXPORT,
+   ITK_TEMPLATE_IMPORT, and by each template's instantiation
+   macro.  */
+#define ITK_TEMPLATE_1(x1)                         x1
+#define ITK_TEMPLATE_2(x1,x2)                      x1,x2
+#define ITK_TEMPLATE_3(x1,x2,x3)                   x1,x2,x3
+#define ITK_TEMPLATE_4(x1,x2,x3,x4)                x1,x2,x3,x4
+#define ITK_TEMPLATE_5(x1,x2,x3,x4,x5)             x1,x2,x3,x4,x5
+#define ITK_TEMPLATE_6(x1,x2,x3,x4,x5,x6)          x1,x2,x3,x4,x5,x6
+#define ITK_TEMPLATE_7(x1,x2,x3,x4,x5,x6,x7)       x1,x2,x3,x4,x5,x6,x7
+#define ITK_TEMPLATE_8(x1,x2,x3,x4,x5,x6,x7,x8)    x1,x2,x3,x4,x5,x6,x7,x8
+#define ITK_TEMPLATE_9(x1,x2,x3,x4,x5,x6,x7,x8,x9) x1,x2,x3,x4,x5,x6,x7,x8,x9
+
+/* In order to support both implicit and explicit instantation a .h
+   file needs to know whether it should include its .txx file
+   containing the template definitions.  Define a macro to tell
+   it.  Typical usage in itkFoo.h:
+     #if ITK_TEMPLATE_TXX
+     # include "itkFoo.txx"
+     #endif
+*/
+#if defined(ITK_MANUAL_INSTANTIATION)
+# define ITK_TEMPLATE_TXX 0
+#else
+# define ITK_TEMPLATE_TXX !(ITK_TEMPLATE_CXX || ITK_TEMPLATE_TYPE)
+#endif
+
+/* All explicit instantiation source files define ITK_TEMPLATE_CXX.
+   Define ITK_MANUAL_INSTANTIATION to tell .h files that have not been
+   converted to this explicit instantiation scheme to not include
+   their .txx files.  Also disable warnings that commonly occur in
+   these files but are not useful.  */
+#if ITK_TEMPLATE_CXX
+# undef ITK_MANUAL_INSTANTIATION
+# define ITK_MANUAL_INSTANTIATION
+# if defined(_MSC_VER)
+#  pragma warning (disable: 4275) /* non dll-interface base */
+#  pragma warning (disable: 4661) /* no definition available */
+# endif
+#endif
+//=============================================================================
+
+/* Define macros to export and import template instantiations for each
+   library in ITK.  */
+#define ITK_EXPORT_ITKCommon(c, x) ITK_EXPORT_TEMPLATE(ITKCommon_EXPORT, c, x)
+#define ITK_IMPORT_ITKCommon(c, x) ITK_IMPORT_TEMPLATE(ITKCommon_EXPORT, c, x)
+
+/* Define a macro to decide whether to block instantiation of ITK
+   templates.  They should be blocked only if the platform supports
+   blocking template instantiation and the explicit instantiations are
+   available.
+
+   - ITK_TEMPLATE_EXPLICIT =
+      Whether to include "XXX+-.h" from "XXX.h" to prevent implicit
+      instantiations of templates explicitly instantiated elsewhere.
+      Typical usage in itkFoo.h:
+        #if ITK_TEMPLATE_EXPLICIT
+        # include "itkFoo+-.h"
+        #endif
+*/
+#if ITK_TEMPLATE_IMPORT_WORKS && defined(ITK_EXPLICIT_INSTANTIATION)
+# define ITK_TEMPLATE_EXPLICIT !ITK_TEMPLATE_CXX
+#else
+# define ITK_TEMPLATE_EXPLICIT 0
+#endif
 
 #endif //end of itkMacro.h
-
-

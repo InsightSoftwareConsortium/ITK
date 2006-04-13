@@ -22,8 +22,10 @@
 
 #include "itkFixedArray.h"
 
+#ifndef ITK_EXPLICIT_INSTANTIATION
 // Explicit instantiation to make sure all methods are compiled.
 template class itk::FixedArray<float, 3>;
+#endif
 
 void Set_c_Array(int x[3])
 {

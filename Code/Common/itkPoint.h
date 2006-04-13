@@ -17,9 +17,12 @@
 #ifndef __itkPoint_h
 #define __itkPoint_h
 
+#include "itkFixedArray.h"
+
+#include "itkNumericTraits.h"
 #include "itkVector.h"
-#include "vnl/vnl_vector_ref.h"
-#include "itkIndent.h"
+
+#include <vnl/vnl_vector_ref.h>
 
 namespace itk
 {
@@ -293,18 +296,23 @@ public:
     const WeightContainerType & weights );
 };
 
-#ifdef ITK_EXPLICIT_INSTANTIATION
-   extern template class Point<float         ,2>;
-   extern template class Point<double        ,2>;
-   extern template class Point<float         ,3>;
-   extern template class Point<double        ,3>;
-#endif
-
 }  // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPoint.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_Point(_, EXPORT, x) namespace itk { \
+  _(2(class EXPORT Point< ITK_TEMPLATE_2 x >)) \
+  _(1(EXPORT std::ostream& operator<<(std::ostream&, \
+                                      const Point< ITK_TEMPLATE_2 x >&))) \
+  _(1(EXPORT std::istream& operator>>(std::istream&, \
+                                      Point< ITK_TEMPLATE_2 x >&))) \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkPoint+-.h"
 #endif
 
+#if ITK_TEMPLATE_TXX
+# include "itkPoint.txx"
+#endif
 
 #endif 

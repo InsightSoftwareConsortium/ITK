@@ -20,6 +20,8 @@
 #ifndef _itkImportImageContainer_txx
 #define _itkImportImageContainer_txx
 
+#include "itkImportImageContainer.h"
+
 namespace itk
 {
 

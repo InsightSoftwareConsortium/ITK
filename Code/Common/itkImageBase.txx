@@ -19,8 +19,11 @@
 =========================================================================*/
 #ifndef _itkImageBase_txx
 #define _itkImageBase_txx
+
 #include "itkImageBase.h"
+
 #include "itkFastMutexLock.h"
+#include "itkProcessObject.h"
 #include "itkSpatialOrientation.h"
 
 namespace itk

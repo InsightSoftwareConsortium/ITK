@@ -19,6 +19,7 @@
 =========================================================================*/
 #ifndef _itkImageRegion_txx
 #define _itkImageRegion_txx
+
 #include "itkImageRegion.h"
 
 namespace itk
@@ -192,6 +193,13 @@ ImageRegion<VImageDimension>
   return ImageRegion<SliceDimension>(sliceIndex, sliceSize);
 }
 
+template<unsigned int VImageDimension>
+std::ostream & operator<<(std::ostream &os, const ImageRegion<VImageDimension> &region)
+{
+  region.Print(os);
+  return os;
+}
 
 } // end namespace itk
+
 #endif

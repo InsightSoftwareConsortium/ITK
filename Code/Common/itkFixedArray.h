@@ -216,24 +216,7 @@ public:
 };
   
 template <typename TValueType, unsigned int VLength>
-std::ostream & operator<<(std::ostream &os, const FixedArray<TValueType,VLength> &arr)
-{
-  os << "[";
-  if ( VLength == 1 )
-    {
-    os << arr[0] ;
-    }
-  else
-    {
-    for (int i=0; i < static_cast<int>(VLength) - 1; ++i)
-      {
-      os << arr[i] << ", ";
-      }
-    os << arr[VLength-1];
-    }
-  os << "]";
-  return os;
-}
+std::ostream & operator<<(std::ostream &os, const FixedArray<TValueType,VLength> &arr);
 
 } // namespace itk
 
@@ -241,8 +224,19 @@ std::ostream & operator<<(std::ostream &os, const FixedArray<TValueType,VLength>
 # pragma warning (pop)
 #endif
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFixedArray.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_FixedArray(_, EXPORT, x) namespace itk { \
+  _(2(class EXPORT FixedArray< ITK_TEMPLATE_2 x >)) \
+  _(1(EXPORT std::ostream& operator<<(std::ostream&, \
+                                      const FixedArray< ITK_TEMPLATE_2 x >&))) \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkFixedArray+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkFixedArray.txx"
 #endif
 
 #endif

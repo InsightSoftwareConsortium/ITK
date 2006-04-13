@@ -316,24 +316,6 @@ private:
   /** Memory for the current buffer. */
   PixelContainerPointer m_Buffer;
 };
-#ifdef ITK_EXPLICIT_INSTANTIATION
-   extern template class SpecialCoordinatesImage<float         ,2>;
-   extern template class SpecialCoordinatesImage<double        ,2>;
-   extern template class SpecialCoordinatesImage<unsigned char ,2>;
-   extern template class SpecialCoordinatesImage<unsigned short,2>;
-   extern template class SpecialCoordinatesImage<unsigned int  ,2>;
-   extern template class SpecialCoordinatesImage<signed char   ,2>;
-   extern template class SpecialCoordinatesImage<signed short  ,2>;
-   extern template class SpecialCoordinatesImage<signed int    ,2>;
-   extern template class SpecialCoordinatesImage<float         ,3>;
-   extern template class SpecialCoordinatesImage<double        ,3>;
-   extern template class SpecialCoordinatesImage<unsigned char ,3>;
-   extern template class SpecialCoordinatesImage<unsigned short,3>;
-   extern template class SpecialCoordinatesImage<unsigned int  ,3>;
-   extern template class SpecialCoordinatesImage<signed char   ,3>;
-   extern template class SpecialCoordinatesImage<signed short  ,3>;
-   extern template class SpecialCoordinatesImage<signed int    ,3>;
-#endif
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSpecialCoordinatesImage.txx"

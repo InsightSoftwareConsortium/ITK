@@ -75,8 +75,91 @@ SET(ITKCommon_SRCS
   itkMetaDataObjectBase.cxx
   itkMetaDataDictionary.cxx
   itkOctreeNode.cxx
-  itkExplicitInstantiations.cxx
 )
+
+IF(ITK_EXPLICIT_INSTANTIATION)
+  SET(ITKCommon_SRCS ${ITKCommon_SRCS}
+    Templates/itkFixedArray+double.2-.cxx
+    Templates/itkFixedArray+double.3-.cxx
+    Templates/itkFixedArray+float.2-.cxx
+    Templates/itkFixedArray+float.3-.cxx
+    Templates/itkImage+double.2-.cxx
+    Templates/itkImage+double.3-.cxx
+    Templates/itkImage+float.2-.cxx
+    Templates/itkImage+float.3-.cxx
+    Templates/itkImage+int.2-.cxx
+    Templates/itkImage+int.3-.cxx
+    Templates/itkImage+long.2-.cxx
+    Templates/itkImage+long.3-.cxx
+    Templates/itkImage+short.2-.cxx
+    Templates/itkImage+short.3-.cxx
+    Templates/itkImage+unsigned_char.2-.cxx
+    Templates/itkImage+unsigned_char.3-.cxx
+    Templates/itkImage+unsigned_int.2-.cxx
+    Templates/itkImage+unsigned_int.3-.cxx
+    Templates/itkImage+unsigned_long.2-.cxx
+    Templates/itkImage+unsigned_long.3-.cxx
+    Templates/itkImage+unsigned_short.2-.cxx
+    Templates/itkImage+unsigned_short.3-.cxx
+    Templates/itkImageBase+2-.cxx
+    Templates/itkImageBase+3-.cxx
+    Templates/itkImageRegion+2-.cxx
+    Templates/itkImageRegion+3-.cxx
+    Templates/itkImageSource+Image+double.2--.cxx
+    Templates/itkImageSource+Image+double.3--.cxx
+    Templates/itkImageSource+Image+float.2--.cxx
+    Templates/itkImageSource+Image+float.3--.cxx
+    Templates/itkImageSource+Image+int.2--.cxx
+    Templates/itkImageSource+Image+int.3--.cxx
+    Templates/itkImageSource+Image+long.2--.cxx
+    Templates/itkImageSource+Image+long.3--.cxx
+    Templates/itkImageSource+Image+short.2--.cxx
+    Templates/itkImageSource+Image+short.3--.cxx
+    Templates/itkImageSource+Image+unsigned_char.2--.cxx
+    Templates/itkImageSource+Image+unsigned_char.3--.cxx
+    Templates/itkImageSource+Image+unsigned_int.2--.cxx
+    Templates/itkImageSource+Image+unsigned_int.3--.cxx
+    Templates/itkImageSource+Image+unsigned_long.2--.cxx
+    Templates/itkImageSource+Image+unsigned_long.3--.cxx
+    Templates/itkImageSource+Image+unsigned_short.2--.cxx
+    Templates/itkImageSource+Image+unsigned_short.3--.cxx
+#     Templates/itkImageToImageFilter+Image+double.2-.Image+double.2--.cxx
+#     Templates/itkImageToImageFilter+Image+double.3-.Image+double.3--.cxx
+#     Templates/itkImageToImageFilter+Image+float.2-.Image+float.2--.cxx
+#     Templates/itkImageToImageFilter+Image+float.3-.Image+float.3--.cxx
+#     Templates/itkImageToImageFilter+Image+int.2-.Image+int.2--.cxx
+#     Templates/itkImageToImageFilter+Image+int.3-.Image+int.3--.cxx
+#     Templates/itkImageToImageFilter+Image+long.2-.Image+long.2--.cxx
+#     Templates/itkImageToImageFilter+Image+long.3-.Image+long.3--.cxx
+#     Templates/itkImageToImageFilter+Image+short.2-.Image+short.2--.cxx
+#     Templates/itkImageToImageFilter+Image+short.3-.Image+short.3--.cxx
+#     Templates/itkImageToImageFilter+Image+unsigned_char.2-.Image+unsigned_char.2--.cxx
+#     Templates/itkImageToImageFilter+Image+unsigned_char.3-.Image+unsigned_char.3--.cxx
+#     Templates/itkImageToImageFilter+Image+unsigned_int.2-.Image+unsigned_int.2--.cxx
+#     Templates/itkImageToImageFilter+Image+unsigned_int.3-.Image+unsigned_int.3--.cxx
+#     Templates/itkImageToImageFilter+Image+unsigned_long.2-.Image+unsigned_long.2--.cxx
+#     Templates/itkImageToImageFilter+Image+unsigned_long.3-.Image+unsigned_long.3--.cxx
+#     Templates/itkImageToImageFilter+Image+unsigned_short.2-.Image+unsigned_short.2--.cxx
+#     Templates/itkImageToImageFilter+Image+unsigned_short.3-.Image+unsigned_short.3--.cxx
+    Templates/itkImportImageContainer+unsigned_long.double-.cxx
+    Templates/itkImportImageContainer+unsigned_long.float-.cxx
+    Templates/itkImportImageContainer+unsigned_long.int-.cxx
+    Templates/itkImportImageContainer+unsigned_long.long-.cxx
+    Templates/itkImportImageContainer+unsigned_long.short-.cxx
+    Templates/itkImportImageContainer+unsigned_long.unsigned_char-.cxx
+    Templates/itkImportImageContainer+unsigned_long.unsigned_int-.cxx
+    Templates/itkImportImageContainer+unsigned_long.unsigned_long-.cxx
+    Templates/itkImportImageContainer+unsigned_long.unsigned_short-.cxx
+    Templates/itkPoint+double.2-.cxx
+    Templates/itkPoint+double.3-.cxx
+    Templates/itkPoint+float.2-.cxx
+    Templates/itkPoint+float.3-.cxx
+    Templates/itkVector+double.2-.cxx
+    Templates/itkVector+double.3-.cxx
+    Templates/itkVector+float.2-.cxx
+    Templates/itkVector+float.3-.cxx
+    )
+ENDIF(ITK_EXPLICIT_INSTANTIATION)
 
 IF (WIN32)
    SET(ITKCommon_SRCS ${ITKCommon_SRCS};itkWin32OutputWindow.cxx;itkSmartPointerForwardReferenceProcessObject.cxx)

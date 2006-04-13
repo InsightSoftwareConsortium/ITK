@@ -148,9 +148,18 @@ private:
 };
 
 } // end namespace itk
-  
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImportImageContainer.txx"
+
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ImportImageContainer(_, EXPORT, x) namespace itk { \
+  _(2(class EXPORT ImportImageContainer< ITK_TEMPLATE_2 x >)) \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkImportImageContainer+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkImportImageContainer.txx"
 #endif
 
 #endif

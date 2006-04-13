@@ -254,48 +254,6 @@ private:
   void operator=(const Self&); //purposely not implemented
 };
 
-
-#ifdef ITK_EXPLICIT_INSTANTIATION
-   export template class ImageToImageFilter<Image<float         ,2>, Image<float         ,2> >;
-   export template class ImageToImageFilter<Image<double        ,2>, Image<double        ,2> >;
-   export template class ImageToImageFilter<Image<unsigned char ,2>, Image<unsigned char ,2> >;
-   export template class ImageToImageFilter<Image<unsigned short,2>, Image<unsigned short,2> >;
-   export template class ImageToImageFilter<Image<signed char   ,2>, Image<signed char   ,2> >;
-   export template class ImageToImageFilter<Image<signed short  ,2>, Image<signed short  ,2> >;
-   export template class ImageToImageFilter<Image<signed int    ,2>, Image<signed int    ,2> >;
-
-   export template class ImageToImageFilter<Image<double        ,2>, Image<float         ,2> >;
-   export template class ImageToImageFilter<Image<unsigned char ,2>, Image<float         ,2> >;
-   export template class ImageToImageFilter<Image<unsigned short,2>, Image<float         ,2> >;
-   export template class ImageToImageFilter<Image<signed char   ,2>, Image<float         ,2> >;
-   export template class ImageToImageFilter<Image<signed short  ,2>, Image<float         ,2> >;
-
-   export template class ImageToImageFilter<Image<float         ,2>, Image<double        ,2> >;
-   export template class ImageToImageFilter<Image<float         ,2>, Image<unsigned char ,2> >;
-   export template class ImageToImageFilter<Image<float         ,2>, Image<unsigned short,2> >;
-   export template class ImageToImageFilter<Image<float         ,2>, Image<signed char   ,2> >;
-   export template class ImageToImageFilter<Image<float         ,2>, Image<signed short  ,2> >;
-
-   export template class ImageToImageFilter<Image<float         ,3>, Image<float         ,3> >;
-   export template class ImageToImageFilter<Image<double        ,3>, Image<double        ,3> >;
-   export template class ImageToImageFilter<Image<unsigned char ,3>, Image<unsigned char ,3> >;
-   export template class ImageToImageFilter<Image<unsigned short,3>, Image<unsigned short,3> >;
-   export template class ImageToImageFilter<Image<signed char   ,3>, Image<signed char   ,3> >;
-   export template class ImageToImageFilter<Image<signed short  ,3>, Image<signed short  ,3> >;
-   export template class ImageToImageFilter<Image<signed int    ,3>, Image<signed int    ,3> >;
-
-   export template class ImageToImageFilter<Image<double        ,3>, Image<float         ,3> >;
-   export template class ImageToImageFilter<Image<unsigned char ,3>, Image<float         ,3> >;
-   export template class ImageToImageFilter<Image<unsigned short,3>, Image<float         ,3> >;
-   export template class ImageToImageFilter<Image<signed char   ,3>, Image<float         ,3> >;
-   export template class ImageToImageFilter<Image<signed short  ,3>, Image<float         ,3> >;
-
-   export template class ImageToImageFilter<Image<float         ,3>, Image<double        ,3> >;
-   export template class ImageToImageFilter<Image<float         ,3>, Image<unsigned char ,3> >;
-   export template class ImageToImageFilter<Image<float         ,3>, Image<unsigned short,3> >;
-   export template class ImageToImageFilter<Image<float         ,3>, Image<signed char   ,3> >;
-   export template class ImageToImageFilter<Image<float         ,3>, Image<signed short  ,3> >;
-#endif
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

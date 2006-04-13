@@ -21,9 +21,12 @@
 #define __itkImageBase_h
 
 #include "itkDataObject.h"
-#include "itkProcessObject.h"
+
+#include "itkImageRegion.h"
 #include "itkIndex.h"
+#include "itkObjectFactory.h"
 #include "itkOffset.h"
+#include "itkPoint.h"
 #include "itkSize.h"
 #include "itkFixedArray.h"
 #include "itkPoint.h"
@@ -416,16 +419,19 @@ private:
   RegionType          m_BufferedRegion;
 };
 
-#ifdef ITK_EXPLICIT_INSTANTIATION
-   extern template class ImageBase<2>;
-   extern template class ImageBase<3>;
-#endif
-
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageBase.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ImageBase(_, EXPORT, x) namespace itk { \
+  _(1(class EXPORT ImageBase< ITK_TEMPLATE_1 x >)) \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkImageBase+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkImageBase.txx"
 #endif
 
 #endif
-

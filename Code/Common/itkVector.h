@@ -18,9 +18,9 @@
 #define __itkVector_h
 
 #include "itkFixedArray.h"
-#include "itkNumericTraits.h"
-#include "vnl/vnl_vector_ref.h"
-#include "itkIndent.h"
+
+#include "itkNumericTraits.h"   // RealValueType type
+#include <vnl/vnl_vector_ref.h> // Get_vnl_vector method return
 
 
 namespace itk
@@ -253,11 +253,22 @@ ITKCommon_EXPORT Vector<int,3> CrossProduct( const Vector<int,3> &,
                                        const Vector<int,3> &  );
 
 } // end namespace itk
-  
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVector.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_Vector(_, EXPORT, x) namespace itk { \
+  _(2(class EXPORT Vector< ITK_TEMPLATE_2 x >)) \
+  _(1(EXPORT std::ostream& operator<<(std::ostream&, \
+                                      const Vector< ITK_TEMPLATE_2 x >&))) \
+  _(1(EXPORT std::istream& operator>>(std::istream&, \
+                                      Vector< ITK_TEMPLATE_2 x >&))) \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkVector+-.h"
 #endif
 
+#if ITK_TEMPLATE_TXX
+# include "itkVector.txx"
+#endif
 
-#endif 
+#endif

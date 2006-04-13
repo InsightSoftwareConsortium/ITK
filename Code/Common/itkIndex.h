@@ -321,20 +321,6 @@ std::ostream & operator<<(std::ostream &os, const Index<VIndexDimension> &ind)
   return os;
 }
 
-#ifdef ITK_EXPLICIT_INSTANTIATION
-   extern template class Index<1>;
-   extern template class Index<2>;
-   extern template class Index<3>;
-   extern template class Index<4>;
-   extern template class Index<5>;
-   extern template std::ostream & operator<<(std::ostream &os, const Index<1> &ind);
-   extern template std::ostream & operator<<(std::ostream &os, const Index<2> &ind);
-   extern template std::ostream & operator<<(std::ostream &os, const Index<3> &ind);
-   extern template std::ostream & operator<<(std::ostream &os, const Index<4> &ind);
-   extern template std::ostream & operator<<(std::ostream &os, const Index<5> &ind);
-#endif
-
-
 } // end namespace itk
 
 #endif 

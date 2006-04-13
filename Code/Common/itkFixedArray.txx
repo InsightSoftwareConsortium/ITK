@@ -225,6 +225,25 @@ FixedArray<TValueType, VLength>
   return array;
 }
 
+template <typename TValueType, unsigned int VLength>
+std::ostream & operator<<(std::ostream &os, const FixedArray<TValueType,VLength> &arr)
+{
+  os << "[";
+  if ( VLength == 1 )
+    {
+    os << arr[0] ;
+    }
+  else
+    {
+    for (int i=0; i < static_cast<int>(VLength) - 1; ++i)
+      {
+      os << arr[i] << ", ";
+      }
+    os << arr[VLength-1];
+    }
+  os << "]";
+  return os;
+}
 
 } // namespace itk
 

@@ -276,29 +276,20 @@ private:
   void operator=(const Self&); //purposely not implemented
 
 };
-#ifdef ITK_EXPLICIT_INSTANTIATION
-   extern template class ImageSource<Image<float         ,2> >;
-   extern template class ImageSource<Image<double        ,2> >;
-   extern template class ImageSource<Image<unsigned char ,2> >;
-   extern template class ImageSource<Image<unsigned short,2> >;
-   extern template class ImageSource<Image<unsigned int  ,2> >;
-   extern template class ImageSource<Image<signed char   ,2> >;
-   extern template class ImageSource<Image<signed short  ,2> >;
-   extern template class ImageSource<Image<signed int    ,2> >;
-   extern template class ImageSource<Image<float         ,3> >;
-   extern template class ImageSource<Image<double        ,3> >;
-   extern template class ImageSource<Image<unsigned char ,3> >;
-   extern template class ImageSource<Image<unsigned short,3> >;
-   extern template class ImageSource<Image<unsigned int  ,3> >;
-   extern template class ImageSource<Image<signed char   ,3> >;
-   extern template class ImageSource<Image<signed short  ,3> >;
-   extern template class ImageSource<Image<signed int    ,3> >;
-#endif
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageSource.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ImageSource(_, EXPORT, x) namespace itk { \
+  _(2(class EXPORT ImageSource< ITK_TEMPLATE_2 x >)) \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkImageSource+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkImageSource.txx"
 #endif
 
 #endif

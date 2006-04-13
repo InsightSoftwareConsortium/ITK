@@ -323,16 +323,6 @@ private:
   double  m_FirstSampleDistance;
   
 };
-#ifdef ITK_EXPLICIT_INSTANTIATION
-   extern template class PhasedArray3DSpecialCoordinatesImage<float         >;
-   extern template class PhasedArray3DSpecialCoordinatesImage<double        >;
-   extern template class PhasedArray3DSpecialCoordinatesImage<unsigned char >;
-   extern template class PhasedArray3DSpecialCoordinatesImage<unsigned short>;
-   extern template class PhasedArray3DSpecialCoordinatesImage<unsigned int  >;
-   extern template class PhasedArray3DSpecialCoordinatesImage<signed char   >;
-   extern template class PhasedArray3DSpecialCoordinatesImage<signed short  >;
-   extern template class PhasedArray3DSpecialCoordinatesImage<signed int    >;
-#endif
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPhasedArray3DSpecialCoordinatesImage.txx"
