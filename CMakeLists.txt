@@ -113,13 +113,11 @@ OPTION(ITK_CSWIG_TCL "Build cswig Tcl wrapper support (requires CableSwig)." OFF
 OPTION(ITK_CSWIG_PYTHON "Build cswig Python wrapper support (requires CableSwig)." OFF)
 OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support " OFF)
 
-# Options for building some of the most common core templates explicitly only
-# once.  This has only been tested on gcc compilers.
+# Options for building some of the most common core templates
+# explicitly only once.
 OPTION(ITK_EXPLICIT_INSTANTIATION "BETA-Try to explicitly build some of the core templates explictitly rather than over and over again." OFF)
 MARK_AS_ADVANCED(ITK_EXPLICIT_INSTANTIATION)
-IF( ITK_EXPLICIT_INSTANTIATION )
- ADD_DEFINITIONS(-DITK_EXPLICIT_INSTANTIATION)
-ENDIF( ITK_EXPLICIT_INSTANTIATION )
+
 # perl support does not work, contact bill hoffman at kitware
 # if you are interested in perl wrapping.  It is close, but
 # not there yet.
