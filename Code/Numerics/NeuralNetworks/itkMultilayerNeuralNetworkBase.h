@@ -42,7 +42,7 @@ public:
   itkNewMacro( Self ); 
 
   typedef typename Superclass::ValueType ValueType;
-
+  typedef typename Superclass::NetworkOutputType NetworkOutputType;
   typedef typename Superclass::LayerType LayerType;
   typedef typename Superclass::WeightSetType WeightSetType;
   typedef typename Superclass::WeightSetPointer WeightSetPointer;

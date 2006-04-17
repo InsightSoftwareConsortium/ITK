@@ -37,6 +37,7 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   typedef typename Superclass::ErrorVectorType ErrorVectorType;
+  typedef typename Superclass::InternalVectorType InternalVectorType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MeanSquaredErrorFunction, FunctionBase);

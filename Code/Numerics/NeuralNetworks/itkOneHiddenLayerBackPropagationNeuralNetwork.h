@@ -50,7 +50,8 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   typedef typename Superclass::ValueType ValueType;
-
+  typedef typename Superclass::NetworkOutputType NetworkOutputType;
+  
   typedef TransferFunctionBase<ValueType> TransferFunctionType;
   typedef InputFunctionBase<ValueType*, ValueType> InputFunctionType;
   

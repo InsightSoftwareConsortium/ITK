@@ -41,7 +41,7 @@ public:
   typedef typename Superclass::ValueType ValueType;
   typedef typename Superclass::ValuePointer ValuePointer;
   typedef vnl_vector<ValueType> NodeVectorType;
-
+  typedef typename Superclass::InternalVectorType InternalVectorType;
   typedef typename Superclass::OutputVectorType OutputVectorType;
 
   //Member Functions
