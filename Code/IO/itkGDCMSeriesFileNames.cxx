@@ -254,6 +254,9 @@ void GDCMSeriesFileNames::PrintSelf(std::ostream& os, Indent indent) const
 
   unsigned int i;
   os << indent << "InputDirectory: " << m_InputDirectory << std::endl;
+  os << indent << "LoadSequences:" << m_LoadSequences << std::endl;
+  os << indent << "LoadPrivateTags:" << m_LoadPrivateTags << std::endl;
+
   for (i = 0; i < m_InputFileNames.size(); i++)
     {
     os << indent << "InputFilenames[" << i << "]: " << m_InputFileNames[i] << std::endl;

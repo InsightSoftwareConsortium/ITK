@@ -1128,6 +1128,8 @@ void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "StudyInstanceUID: " << m_StudyInstanceUID << std::endl;
   os << indent << "SeriesInstanceUID: " << m_SeriesInstanceUID << std::endl;
   os << indent << "FrameOfReferenceInstanceUID: " << m_FrameOfReferenceInstanceUID << std::endl;
+  os << indent << "LoadSequences:" << m_LoadSequences << std::endl;
+  os << indent << "LoadPrivateTags:" << m_LoadPrivateTags << std::endl;
 
   os << indent << "Patient Name:" << m_PatientName << std::endl;
   os << indent << "Patient ID:" << m_PatientID << std::endl;
