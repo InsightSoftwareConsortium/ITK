@@ -37,8 +37,8 @@ NNetClassifierTest3(int argc, char* argv[])
   int num_train=800;
   int num_test=200;
 
-  char* trainFileName =argv[1]; //"train.txt"; //argv[1];
-  char* testFileName = argv[2]; //"test.txt"; //argv[2];
+  char* trainFileName =argv[1];
+  char* testFileName = argv[2];
 
   const int num_input_nodes = 2;
   const int num_hidden_nodes = 2;
@@ -125,7 +125,7 @@ NNetClassifierTest3(int argc, char* argv[])
     {
     mv = iter1.GetMeasurementVector();
     tv = iter2.GetMeasurementVector();
-    ov = net1->GenerateOutput(mv);
+    ov.Set_vnl_vector(net1->GenerateOutput(mv));
     flag = 0;
     if (fabs(tv[0]-ov[0])>0.2)
       {

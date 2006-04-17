@@ -20,6 +20,7 @@
 #include "itkBatchSupervisedTrainingFunction.h"
 #include "itkVector.h"
 #include "itkListSample.h"
+#include "itkArray.h"
 
 #include <vector>
 #include <fstream>
@@ -34,20 +35,27 @@ XORTest1(int argc, char* argv[])
     std::cout << "ERROR: data file name argument missing." << std::endl ;
     return EXIT_FAILURE;
     }
-
+  
   char* dataFileName = argv[1] ;
-  const int num_input_nodes = 2;
-  const int num_hidden_nodes = 2;
-  const int num_output_nodes = 1;
 
-  typedef itk::Vector<double, num_input_nodes> MeasurementVectorType;
-  typedef itk::Vector<double, num_output_nodes> TargetVectorType;
+ 
+  unsigned int num_input_nodes = 2;
+  unsigned int num_hidden_nodes = 5;
+  unsigned int num_output_nodes = 1;
+  
+  typedef itk::Array<double> MeasurementVectorType;
+  typedef itk::Array<double> TargetVectorType;
+
   typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
   typedef itk::Statistics::ListSample<TargetVectorType> TargetType;
   typedef itk::Statistics::BatchSupervisedTrainingFunction<SampleType, TargetType, double> TrainingFcnType;
 
   MeasurementVectorType mv;
+  mv.SetSize(num_input_nodes);
+
   TargetVectorType tv;
+  tv.SetSize(num_output_nodes);
+
   SampleType::Pointer sample = SampleType::New();
   TargetType::Pointer targets = TargetType::New();
   sample->SetMeasurementVectorSize( num_input_nodes);
@@ -56,7 +64,7 @@ XORTest1(int argc, char* argv[])
   std::ifstream infile1;
   infile1.open(dataFileName, std::ios::in);
 
-  infile1 >> mv[0] >> mv[1] >> tv[0];
+  infile1 >> mv[0] >> mv[1]>> tv[0];
 
   while (!infile1.eof())
     {
@@ -64,8 +72,8 @@ XORTest1(int argc, char* argv[])
     std::cout << "target =" << tv << std::endl;
     sample->PushBack(mv);
     targets->PushBack(tv);
-    infile1 >> mv[0] >> mv[1] >> tv[0];
-    }
+    infile1 >> mv[0] >> mv[1]>> tv[0];
+   }
   infile1.close();
 
   std::cout << sample->Size() << std::endl;
@@ -75,10 +83,10 @@ XORTest1(int argc, char* argv[])
   net1->SetNumOfInputNodes(num_input_nodes);
   net1->SetNumOfHiddenNodes(num_hidden_nodes);
   net1->SetNumOfOutputNodes(num_output_nodes);
-    
+ 
   net1->SetHiddenLayerBias(1.0);
   net1->SetOutputLayerBias(1.0);
-  
+
   net1->Initialize();
   net1->InitializeWeights();
   net1->SetLearningRate(0.05);
@@ -93,6 +101,8 @@ XORTest1(int argc, char* argv[])
   std::cout << sample->Size() << std::endl;
   std::cout << "Network Simulation" << std::endl;
   TargetVectorType ov;
+  ov.SetSize(num_output_nodes);
+
   SampleType::ConstIterator iter1 = sample->Begin();
   TargetType::ConstIterator iter2 = targets->Begin();
   unsigned int error1 = 0 ;
@@ -104,7 +114,7 @@ XORTest1(int argc, char* argv[])
     {
     mv = iter1.GetMeasurementVector();
     tv = iter2.GetMeasurementVector();
-    ov = net1->GenerateOutput(mv);
+    ov=net1->GenerateOutput(mv);
     flag = 0;
     if (fabs(tv[0]-ov[0])>0.3)
       {
@@ -130,6 +140,14 @@ XORTest1(int argc, char* argv[])
             << " vectors are misclassified." << std::endl ;
   std::cout<<"Network Weights and Biases after Training= "<<std::endl;
   std::cout << net1 << std::endl;
+/*  
+for(int i=0; i<(net1->GetWeightSet(0)->GetNumberOfOutputNodes()*net1->GetWeightSet(0)->GetNumberOfInputNodes()); i++)
+    std::cout<<"weightset 1  = "<<net1->GetWeightSet(0)->GetWeightValues()[i]<<std::endl;
+std::cout<<std::endl;
+for(int i=0; i<(net1->GetWeightSet(1)->GetNumberOfOutputNodes()*net1->GetWeightSet(1)->GetNumberOfInputNodes()); i++)
+    std::cout<<"weightset 2  = "<<net1->GetWeightSet(1)->GetWeightValues()[i]<<std::endl;
+      
+*/    
 
   if ((error1 + error2) > 2)
     {

@@ -19,6 +19,7 @@
 #include "itkIterativeSupervisedTrainingFunction.h"
 #include "itkBatchSupervisedTrainingFunction.h"
 #include "itkVector.h"
+#include "itkArray.h"
 #include "itkListSample.h"
 #include <vector>
 #include <fstream>
@@ -40,12 +41,12 @@ NNetClassifierTest1(int argc, char* argv[])
   char* trainFileName = argv[1]; //"train.txt"; //argv[1];
   char* testFileName = argv[2]; //"test.txt"; //argv[2];
 
-  const int num_input_nodes = 2;
-  const int num_hidden_nodes = 2;
-  const int num_output_nodes = 1;
+  int num_input_nodes = 2;
+  int num_hidden_nodes = 5;
+  int num_output_nodes = 1;
 
-  typedef itk::Vector<double, num_input_nodes> MeasurementVectorType;
-  typedef itk::Vector<double, num_output_nodes> TargetVectorType;
+  typedef itk::Array<double> MeasurementVectorType;
+  typedef itk::Array<double> TargetVectorType;
   typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
   typedef itk::Statistics::ListSample<TargetVectorType> TargetType;
   typedef itk::Statistics::BatchSupervisedTrainingFunction<SampleType, TargetType, double> TrainingFcnType;
@@ -53,6 +54,9 @@ NNetClassifierTest1(int argc, char* argv[])
   MeasurementVectorType mv;
   TargetVectorType tv;
   TargetVectorType ov;
+  mv.SetSize(num_input_nodes);
+  ov.SetSize(num_output_nodes);
+  tv.SetSize(num_output_nodes);
 
   SampleType::Pointer trainsample = SampleType::New();
   SampleType::Pointer testsample = SampleType::New();

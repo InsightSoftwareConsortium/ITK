@@ -19,6 +19,7 @@
 #include "itkIterativeSupervisedTrainingFunction.h"
 #include "itkBatchSupervisedTrainingFunction.h"
 #include "itkVector.h"
+#include "itkArray.h"
 #include "itkListSample.h"
 #include <vector>
 #include <fstream>
@@ -36,20 +37,22 @@ QPropXORTest1(int argc, char* argv[])
     }
 
   char* dataFileName =argv[1]; //"qpropxortest.txt";
-  const int num_input_nodes = 2;
-  const int num_hidden_nodes = 2;
-  const int num_output_nodes = 1;
+  
+  int num_input_nodes = 2;
+  int num_hidden_nodes = 2;
+  int num_output_nodes = 1;
 
   srand(time(0)); 
-  typedef itk::Vector<double, num_input_nodes> MeasurementVectorType;
-  typedef itk::Vector<double, num_output_nodes> TargetVectorType;
+  
+  typedef itk::Array<double> MeasurementVectorType;
+  typedef itk::Array<double> TargetVectorType;
   typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
   typedef itk::Statistics::ListSample<TargetVectorType> TargetType;
 
   typedef itk::Statistics::BatchSupervisedTrainingFunction<SampleType, TargetType, double> TrainingFcnType;
 
-  MeasurementVectorType mv;
-  TargetVectorType tv;
+  MeasurementVectorType mv(num_input_nodes);
+  TargetVectorType tv(num_output_nodes);
   SampleType::Pointer sample = SampleType::New();
   TargetType::Pointer targets = TargetType::New();
   sample->SetMeasurementVectorSize( num_input_nodes);
@@ -106,7 +109,7 @@ QPropXORTest1(int argc, char* argv[])
   //Network Simulation
   std::cout << sample->Size() << std::endl;
   std::cout << "Network Simulation" << std::endl;
-  TargetVectorType ov;
+  TargetVectorType ov(num_output_nodes);
   SampleType::ConstIterator iter1 = sample->Begin();
   TargetType::ConstIterator iter2 = targets->Begin();
 
@@ -136,7 +139,7 @@ QPropXORTest1(int argc, char* argv[])
       {
       mv = iter1.GetMeasurementVector();
       tv = iter2.GetMeasurementVector();
-      ov = net1->GenerateOutput(mv);
+      ov=net1->GenerateOutput(mv);
       outfile<<mv[0]<<" "<<mv[1]<<" "<<tv[0]<<" "<<ov[0]<<std::endl;
       std::cout << "Network Input = " << mv << std::endl;
       std::cout << "Network Output = " << ov << std::endl;
