@@ -37,8 +37,8 @@ CompletelyConnectedWeightSet<TVector,TOutput>
 ::SetCompleteConnectivity()
 {
   vnl_matrix<int> c;
-  unsigned int rows = WeightSetBase<TVector, TOutput>::GetNumberOfInputNodes();
-  unsigned int cols = WeightSetBase<TVector, TOutput>::GetNumberOfOutputNodes();
+  unsigned int rows = WeightSetBase<TVector, TOutput>::GetNumberOfOutputNodes();
+  unsigned int cols = WeightSetBase<TVector, TOutput>::GetNumberOfInputNodes();
   std::cout << "Connectivity matrix size= " << rows << " " << cols << std::endl;
   c.set_size(rows, cols);
   c.fill(1);
