@@ -43,15 +43,17 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  typedef ScalarType ValueType;
   typedef typename TSample::MeasurementVectorType VectorType;
   typedef typename TOutput::MeasurementVectorType OutputVectorType;
+  typedef typename Array<ValueType> InternalVectorType;
 
   typedef std::vector<VectorType> InputSampleVectorType;
   typedef std::vector<OutputVectorType> OutputSampleVectorType;
-  typedef ScalarType ValueType;
   typedef NeuralNetworkObject<VectorType, OutputVectorType> NetworkType;
-  typedef ErrorFunctionBase<OutputVectorType, ScalarType> PerformanceFunctionType;
-  typedef SquaredDifferenceErrorFunction<OutputVectorType, ScalarType> DefaultPerformanceType;
+  typedef ErrorFunctionBase<InternalVectorType, ScalarType> PerformanceFunctionType;
+  typedef SquaredDifferenceErrorFunction<InternalVectorType, ScalarType> DefaultPerformanceType;
+  //typedef MeanSquaredErrorFunction<InternalVectorType, ScalarType> DefaultPerformanceType;
 
   void SetTrainingSamples(TSample* samples);
   void SetTargetValues(TOutput* targets);
@@ -85,6 +87,7 @@ public:
   targetconverter(typename TOutput::MeasurementVectorType v)
     {
     OutputVectorType temp;
+    
     for (unsigned int i = 0; i < v.Size(); i++)
       {
       temp[i] = static_cast<ScalarType>(v[i]) ;

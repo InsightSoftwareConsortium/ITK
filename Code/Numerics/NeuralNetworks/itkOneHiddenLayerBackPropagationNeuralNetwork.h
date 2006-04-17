@@ -78,7 +78,8 @@ public:
   itkSetMacro(OutputLayerBias, ValueType);
   itkGetConstReferenceMacro(OutputLayerBias, ValueType);
 
-  ValueType* GenerateOutput(TVector samplevector);
+  //ValueType* GenerateOutput(TVector samplevector);
+  NetworkOutputType GenerateOutput(TVector samplevector);
 
   void SetInputTransferFunction(TransferFunctionType* f);
   void SetHiddenTransferFunction(TransferFunctionType* f);

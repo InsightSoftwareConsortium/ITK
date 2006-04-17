@@ -59,11 +59,11 @@ public:
 
   void SetConnectivityMatrix(vnl_matrix < int>);
 
-  void SetNumberOfInputNodes(int n);
-  int GetNumberOfInputNodes();
+  void SetNumberOfInputNodes(unsigned int n);
+  unsigned int GetNumberOfInputNodes();
 
-  void SetNumberOfOutputNodes(int n);
-  int GetNumberOfOutputNodes();
+  void SetNumberOfOutputNodes(unsigned int n);
+  unsigned int GetNumberOfOutputNodes();
 
   void SetRange(ValueType Range);
  
@@ -102,6 +102,7 @@ public:
   ValuePointer GetPrevDeltaBValues();
 
   ValuePointer GetWeightValues();
+
   
   void SetWeightValues(ValuePointer weights);
 
@@ -125,6 +126,15 @@ public:
 
   void InitializeWeights();
 
+  itkSetMacro(WeightSetId,int);
+  itkGetMacro(WeightSetId,int);
+  
+  itkSetMacro(InputLayerId,int);
+  itkGetMacro(InputLayerId,int);
+  
+  itkSetMacro(OutputLayerId,int);
+  itkGetMacro(OutputLayerId,int);
+  
 protected: 
   
   WeightSetBase();        
@@ -134,8 +144,8 @@ protected:
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
   typename RandomVariateGeneratorType::Pointer m_RandomGenerator;
-  int                       m_NumberOfInputNodes;
-  int                       m_NumberOfOutputNodes;
+  unsigned int                       m_NumberOfInputNodes;
+  unsigned int                       m_NumberOfOutputNodes;
   vnl_matrix<ValueType>     m_OutputValues;
   vnl_matrix<ValueType>     m_InputErrorValues;
   
@@ -175,6 +185,10 @@ protected:
   bool      m_FirstPass;
   bool      m_SecondPass;
   ValueType m_Range;
+  int m_InputLayerId;
+  int m_OutputLayerId;
+  int m_WeightSetId;
+
 };  //class
 
 } // end namespace Statistics

@@ -47,7 +47,7 @@ public:
   /** Evaluate at the specified Error position */
   ScalarType Evaluate(const TVector& Errors) const;
 
-  ErrorVectorType EvaluateDerivative(const TVector& Errors) const;
+  InternalVectorType EvaluateDerivative(const TVector& Errors) const;
 
 protected:
 

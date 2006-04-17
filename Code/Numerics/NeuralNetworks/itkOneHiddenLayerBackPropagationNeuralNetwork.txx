@@ -144,7 +144,7 @@ OneHiddenLayerBackPropagationNeuralNetwork<TVector,TOutput>
 
 /** Generate output */
 template<class TVector, class TOutput>
-typename OneHiddenLayerBackPropagationNeuralNetwork<TVector, TOutput>::ValueType*
+typename OneHiddenLayerBackPropagationNeuralNetwork<TVector, TOutput>::NetworkOutputType
 OneHiddenLayerBackPropagationNeuralNetwork<TVector,TOutput>
 ::GenerateOutput(TVector samplevector)
 {

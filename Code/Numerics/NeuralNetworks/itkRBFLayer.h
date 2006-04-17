@@ -44,19 +44,28 @@ public:
 
   typedef typename Superclass::ValueType ValueType;
   typedef typename Superclass::ValuePointer ValuePointer;
-  typedef vnl_vector<ValueType> NodeVectorType;
-  typedef Array<ValueType> NodeArrayType;
+  //typedef vnl_vector<ValueType> NodeVectorType;
+  //typedef Array<ValueType> NodeArrayType;
+  typedef Superclass::InternalVectorType InternalVectorType;
+
   typedef typename Superclass::OutputVectorType OutputVectorType;
   
   typedef RadialBasisFunctionBase<ValueType> RBFType;
 
   //Distance Metric
-  typedef EuclideanDistance<TVector> DistanceMetricType; 
+  typedef EuclideanDistance<InternalVectorType> DistanceMetricType; 
   typedef typename DistanceMetricType::Pointer DistanceMetricPointer;
   //Member Functions
-  void SetNumberOfNodes(unsigned int);
+  void SetNumberOfNodes(unsigned int numNodes);
+  //void SetMeasurementVectorSize(unsigned int size);
+  itkGetMacro(RBF_Dim, unsigned int);
+  void SetRBF_Dim(unsigned int size);
+ 
+
   ValueType GetInputValue(unsigned int i);
-  void SetInputValue(unsigned int i, ValueType value);
+  void SetInputValue(unsigned int i,ValueType value);
+
+  itkGetMacro(LayerType, unsigned int);
 
   ValueType GetOutputValue(int);
   void SetOutputValue(int, ValueType);
@@ -78,7 +87,8 @@ public:
   ValuePointer GetInputErrorVector();
   void SetInputErrorValue(ValueType, int node_id);
 
-  TVector GetCenter(int i);
+  //TVector GetCenter(int i);
+  InternalVectorType GetCenter(int i);
   void SetCenter(TVector c,int i);
 
   ValueType GetRadii(int i);
@@ -110,14 +120,15 @@ protected:
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
 private:
-
+  
   typename DistanceMetricType::Pointer  m_DistanceMetric;
   NodeVectorType                        m_NodeInputValues;
   NodeVectorType                        m_NodeOutputValues;
   NodeVectorType                        m_InputErrorValues;
   NodeVectorType                        m_OutputErrorValues;
-  std::vector<TVector>                  m_Centers;  // ui....uc
-  NodeArrayType                         m_Radii;
+  //std::vector<TVector>                  m_Centers;  // ui....uc
+  std::vector<InternalVectorType>       m_Centers;  // ui....uc
+  InternalVectorType                    m_Radii;
   int                                   m_NumClasses;
   ValueType                             m_Bias;
   int                                   m_RBF_Dim;

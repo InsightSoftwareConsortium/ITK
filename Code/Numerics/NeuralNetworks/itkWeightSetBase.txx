@@ -43,14 +43,14 @@ WeightSetBase<TVector,TOutput>
 template<class TVector, class TOutput>
 void
 WeightSetBase<TVector,TOutput>
-::SetNumberOfInputNodes(int n)
+::SetNumberOfInputNodes(unsigned int n)
 {
   m_NumberOfInputNodes = n + 1;  //including bias
   this->Modified();
 }
 
 template<class TVector, class TOutput>
-int
+unsigned int
 WeightSetBase<TVector,TOutput>
 ::GetNumberOfInputNodes()
 {
@@ -60,14 +60,14 @@ WeightSetBase<TVector,TOutput>
 template<class TVector, class TOutput>
 void
 WeightSetBase<TVector,TOutput>
-::SetNumberOfOutputNodes(int n)
+::SetNumberOfOutputNodes(unsigned int n)
 {
   m_NumberOfOutputNodes = n;
   this->Modified();
 }
 
 template<class TVector, class TOutput>
-int
+unsigned int
 WeightSetBase<TVector,TOutput>
 ::GetNumberOfOutputNodes()
 {
@@ -130,15 +130,18 @@ void
 WeightSetBase<TVector,TOutput>
 ::InitializeWeights()
 {
-  int num_rows = m_WeightMatrix.rows();
-  int num_cols = m_WeightMatrix.cols();
+  unsigned int num_rows = m_WeightMatrix.rows();
+  unsigned int num_cols = m_WeightMatrix.cols();
+  std::cout<<num_rows <<" "<<num_cols<<std::endl;
+  std::cout<<"conectivity matrix size = "<<m_ConnectivityMatrix.rows()<<" "
+  << m_ConnectivityMatrix.cols()<<std::endl;
 
-  for (int i = 0; i < num_rows; i++)
+  for (unsigned int i = 0; i < num_rows; i++)
     {
-    for (int j = 0; j < num_cols; j++)
+    for (unsigned int j = 0; j < num_cols; j++)
       {
         if(m_ConnectivityMatrix[i][j]==1)
-         m_WeightMatrix(i, j) = RandomWeightValue(-m_Range,m_Range);
+         m_WeightMatrix(i, j) = RandomWeightValue(-1*m_Range,m_Range);
         else
          m_WeightMatrix(i, j) = 0;
       }
@@ -208,8 +211,8 @@ WeightSetBase<TVector,TOutput>
   W_temp.copy_in(w);
  
   m_WeightMatrix = W_temp;
-  ValueType v=0.0;
-  m_WeightMatrix.set_column( m_NumberOfInputNodes-1,v);
+ // ValueType v=0.0;
+ // m_WeightMatrix.set_column( m_NumberOfInputNodes-1,v);
   this->Modified();
 }
 

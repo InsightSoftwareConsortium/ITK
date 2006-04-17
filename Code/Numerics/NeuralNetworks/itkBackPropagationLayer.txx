@@ -210,7 +210,7 @@ BackPropagationLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 void
 BackPropagationLayer<TVector,TOutput>
-::BackwardPropagate(TOutput errors)
+::BackwardPropagate(InternalVectorType errors)
 {
   int num_nodes = this->GetNumberOfNodes();
   typename Superclass::WeightSetType::Pointer inputweightset;
@@ -253,7 +253,10 @@ void
 BackPropagationLayer<TVector,TOutput>
 ::SetOutputErrorValues(TOutput errors)
 {
-  m_OutputErrorValues = errors.GetVnlVector();
+  for(unsigned int i=0; i<errors.Size(); i++)
+    m_OutputErrorValues[i] = errors[i];
+  
+  //m_OutputErrorValues = errors.GetVnlVector();
   this->Modified();
 }
 

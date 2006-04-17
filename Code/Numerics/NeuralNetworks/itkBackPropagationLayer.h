@@ -58,7 +58,7 @@ public:
   void ForwardPropagate();
   void ForwardPropagate(TVector);
 
-  void BackwardPropagate(TOutput e);
+  void BackwardPropagate(InternalVectorType e);
   void BackwardPropagate();
 
   void SetOutputErrorValues(TOutput);

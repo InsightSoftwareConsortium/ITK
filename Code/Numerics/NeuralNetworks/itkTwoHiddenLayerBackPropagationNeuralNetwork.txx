@@ -123,7 +123,7 @@ TwoHiddenLayerBackPropagationNeuralNetwork<TVector,TOutput>
 }
 
 template<class TVector, class TOutput>
-typename TwoHiddenLayerBackPropagationNeuralNetwork<TVector, TOutput>::ValueType*
+typename TwoHiddenLayerBackPropagationNeuralNetwork<TVector, TOutput>::NetworkOutputType
 TwoHiddenLayerBackPropagationNeuralNetwork<TVector,TOutput>
 ::GenerateOutput(TVector samplevector)
 {

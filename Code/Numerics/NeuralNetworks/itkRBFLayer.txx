@@ -34,9 +34,9 @@ RBFLayer<TVector,TOutput>
   typedef GaussianRadialBasisFunction<ValueType> GRBFType;
   m_RBF=GRBFType::New();
   m_DistanceMetric = DistanceMetricType::New();
-  TVector origin;
+//  TVector origin;
   
-  m_DistanceMetric->SetMeasurementVectorSize(origin.GetVectorDimension());
+//  m_DistanceMetric->SetMeasurementVectorSize(origin.Size());
   m_RBF_Dim = 0;
 }
 
@@ -54,14 +54,22 @@ RBFLayer<TVector,TOutput>
   m_RBF = f;
   this->Modified();
 }
+template<class TVector, class TOutput>
+void
+RBFLayer<TVector,TOutput>
+::SetRBF_Dim(unsigned int dim)
+{
+  m_RBF_Dim=dim;
+  m_DistanceMetric->SetMeasurementVectorSize(m_RBF_Dim);
+}
 
 template<class TVector, class TOutput>
 void
 RBFLayer<TVector,TOutput>
 ::SetNumberOfNodes(unsigned int c)
 {
-  TVector sampleinputvector;
-  m_RBF_Dim= sampleinputvector.GetVectorDimension();
+  //TVector sampleinputvector;
+  //m_RBF_Dim= sampleinputvector.Size();
   Superclass::SetNumberOfNodes(c);
   this->m_NodeInputValues.set_size(m_RBF_Dim); //c);
   this->m_NodeOutputValues.set_size(c);
@@ -70,7 +78,8 @@ RBFLayer<TVector,TOutput>
  
   if(this->GetLayerType()!=3)
     {
-    TVector temp;
+    //TVector temp;
+    InternalVectorType temp(m_RBF_Dim);
     for(unsigned int i=0; i<c; i++)
       {
       m_Centers.push_back(temp);
@@ -155,12 +164,17 @@ void
 RBFLayer<TVector,TOutput>
 ::SetCenter(TVector c,int i)
 {
-  m_Centers[i]=c;
+  InternalVectorType temp(c.Size());
+  for(int j=0; j<c.Size(); j++)
+  {
+    temp[j]=c[j];
+  }
+  m_Centers[i]=temp; //c;
   this->Modified();
 }
 
 template<class TVector, class TOutput>
-TVector
+typename RBFLayer<TVector,TOutput>::InternalVectorType
 RBFLayer<TVector,TOutput>
 ::GetCenter(int i)
 {
@@ -257,11 +271,14 @@ RBFLayer<TVector,TOutput>
     width_increment.fill(0);
     width_increment= center_increment.get_column(inputweightset->GetNumberOfInputNodes()-1);
     ValueType temp_radius;
-    NodeArrayType temp_center;
+    InternalVectorType temp_center;
     temp_center.SetSize(m_RBF_Dim);
-    TVector tempvector1;
-    TVector tempvector2;
-    TVector tempcenter;
+    //TVector tempvector1;
+    //TVector tempvector2;
+    //TVector tempcenter;
+    InternalVectorType tempvector1(m_RBF_Dim);
+    InternalVectorType tempvector2(m_RBF_Dim);
+    InternalVectorType tempcenter(m_RBF_Dim);
  
     for (int i = 0; i < m_NumClasses; i++)
       {
@@ -277,18 +294,21 @@ RBFLayer<TVector,TOutput>
       temp_radius = m_Radii.GetElement(i);
       temp_radius += width_increment[i];
       m_Radii.SetElement(i,temp_radius);
-      NodeArrayType array1(m_NodeInputValues.size());
+      InternalVectorType array1(m_NodeInputValues.size());
    
       array1= m_NodeInputValues;
  
-      tempvector1.Set_vnl_vector(m_NodeInputValues);
+      for(int j=0; j<tempvector1.size(); j++)
+        tempvector1[j]=m_NodeInputValues[j];
+        
+      //tempvector1.Set_vnl_vector(m_NodeInputValues);
       tempvector2=m_Centers[i];
       tempcenter= m_Centers[i];
       //double dt= m_DistanceMetric->Evaluate(tempvector1,tempvector2);
       //std::cout<<"Euclidean in layer ="<<dt<<std::endl;
       m_RBF->SetRadius(m_Radii.GetElement(i));
-      NodeArrayType temp_array(m_RBF_Dim);
-      TVector temp_vector=  m_Centers[i];
+      InternalVectorType temp_array(m_RBF_Dim);
+      NodeVectorType temp_vector=  m_Centers[i];
       for(int ii=0; ii<m_RBF_Dim; ii++)
          temp_array.SetElement(ii,temp_vector[ii]);
       m_RBF->SetCenter(temp_array);
@@ -327,7 +347,11 @@ void
 RBFLayer<TVector,TOutput>
 ::SetOutputErrorValues(TOutput errors)
 {
-  m_OutputErrorValues = errors.GetVnlVector();
+
+  for(unsigned int i=0; i<errors.Size(); i++)
+    m_OutputErrorValues[i] = errors[i];
+  
+  this->Modified();
 }
 
 template<class TVector, class TOutput>
@@ -366,9 +390,13 @@ RBFLayer<TVector,TOutput>
   vnl_vector<ValueType> deltaww;
   deltaww.set_size(cols);
   deltaww.fill(0);
+  /*
   TVector tempvector1;
-  TVector tempvector2;
- 
+  TVector tempvector2;*/
+
+  InternalVectorType tempvector1(m_RBF_Dim);
+  InternalVectorType tempvector2(m_RBF_Dim);
+  
   for(int c1=0; c1<rows; c1++)
     {
     for(int c2=0; c2<cols; c2++)
@@ -383,12 +411,14 @@ RBFLayer<TVector,TOutput>
     }
   
   //compute gradient for centers 
-  NodeArrayType array1(m_NodeInputValues.size());
+  InternalVectorType array1(m_NodeInputValues.size());
   array1= m_NodeInputValues;
   vnl_matrix<ValueType> DW_temp(inputweightset->GetNumberOfOutputNodes(),
                                            inputweightset->GetNumberOfInputNodes());
   DW_temp.fill(0.0);
-  tempvector1.Set_vnl_vector(array1);
+  
+  for(int k=0; k<array1.Size(); k++) 
+    tempvector1[k]=array1[k];
     
   for(int k=0; k<num_nodes; k++)
     {  
@@ -397,8 +427,8 @@ RBFLayer<TVector,TOutput>
       tempvector2=m_Centers[k];
       double dist=m_DistanceMetric->Evaluate(tempvector1,tempvector2); 
       m_RBF->SetRadius(m_Radii.GetElement(k));
-      TVector temp_vector=  m_Centers[k];
-      NodeArrayType temp_array(m_RBF_Dim);
+      NodeVectorType temp_vector=  m_Centers[k];
+      InternalVectorType temp_array(m_RBF_Dim);
       for(int ii=0; ii<m_RBF_Dim; ii++)
          temp_array.SetElement(ii,temp_vector[ii]);      
       m_RBF->SetCenter(temp_array);

@@ -71,7 +71,8 @@ public:
   itkSetMacro(NumOfOutputNodes, int);
   itkGetConstReferenceMacro(NumOfOutputNodes, int);
 
-  ValueType* GenerateOutput(TVector samplevector);
+  //ValueType* GenerateOutput(TVector samplevector);
+  virtual NetworkOutputType GenerateOutput(TVector samplevector);
 
 protected:
 

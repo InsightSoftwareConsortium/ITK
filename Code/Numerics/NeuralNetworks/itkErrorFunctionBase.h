@@ -44,10 +44,13 @@ public:
   /** Output type */
   typedef TOutput OutputType;
 
+  typedef Array<double> InternalVectorType;
+
   virtual OutputType Evaluate(const ErrorVectorType&) const = 0;
 
-  virtual ErrorVectorType EvaluateDerivative(const ErrorVectorType&) const = 0;
-
+  //virtual ErrorVectorType EvaluateDerivative(const ErrorVectorType&) const = 0;
+  virtual InternalVectorType EvaluateDerivative(const ErrorVectorType&) const = 0;
+  
 protected:
 
   ErrorFunctionBase(){};

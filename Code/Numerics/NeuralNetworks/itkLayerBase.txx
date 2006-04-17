@@ -72,6 +72,26 @@ LayerBase<TVector,TOutput>
   this->Modified();
 }
 
+template<class TVector, class TOutput>
+void
+LayerBase<TVector,TOutput>
+::SetInputWeightSet(WeightSetType* weightset)
+{
+  m_InputWeightSet=weightset; 
+  m_InputWeightSet->SetOutputLayerId(m_LayerId);
+  this->Modified();
+}
+
+template<class TVector, class TOutput>
+void
+LayerBase<TVector,TOutput>
+::SetOutputWeightSet(WeightSetType* weightset)
+{
+  m_OutputWeightSet=weightset; 
+  m_OutputWeightSet->SetInputLayerId(m_LayerId);
+  this->Modified();
+}
+
 /** Print the object */
 template<class TVector, class TOutput>
 void  

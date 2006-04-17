@@ -51,6 +51,7 @@ public:
   typedef typename TVector::ValueType ValueType;
   typedef ValueType* ValuePointer;
   typedef vnl_vector<ValueType> NodeVectorType;
+  typedef Array<ValueType> InternalVectorType;
 
   typedef WeightSetBase<TVector,TOutput> WeightSetType;
 
@@ -61,6 +62,8 @@ public:
   typedef typename InputFunctionType::Pointer InputFunctionPointer;
 
   typedef typename TransferFunctionType::Pointer TransferFunctionPointer;
+
+  typedef typename WeightSetType::Pointer WeightSetPointer;
 
   virtual void SetNumberOfNodes(unsigned int);
   unsigned int GetNumberOfNodes();
@@ -73,7 +76,7 @@ public:
 
   virtual void ForwardPropagate(TVector){};
 
-  virtual void BackwardPropagate(TOutput){};
+  virtual void BackwardPropagate(InternalVectorType){};
 
   virtual void BackwardPropagate(){};
   virtual ValueType GetOutputErrorValue(unsigned int) = 0;
@@ -83,10 +86,12 @@ public:
   virtual ValuePointer GetInputErrorVector() = 0;
   virtual void SetInputErrorValue(ValueType, int) {};
 
-  itkSetObjectMacro(InputWeightSet, WeightSetType);
+  //itkSetObjectMacro(InputWeightSet, WeightSetType);
+  void SetInputWeightSet(WeightSetType*);
   itkGetObjectMacro(InputWeightSet, WeightSetType);
 
-  itkSetObjectMacro(OutputWeightSet, WeightSetType);
+  //itkSetObjectMacro(OutputWeightSet, WeightSetType);
+  void SetOutputWeightSet(WeightSetType*);
   itkGetObjectMacro(OutputWeightSet, WeightSetType);
 
   void SetNodeInputFunction(InputFunctionType* f);
@@ -101,9 +106,13 @@ public:
   itkSetMacro(LayerType, unsigned int);
   itkGetMacro(LayerType, unsigned int);
 
+  itkSetMacro(LayerId,int);
+  itkGetMacro(LayerId,int);
+
   virtual void SetBias(ValueType) = 0;
   virtual ValueType GetBias() = 0;
 
+  
 protected:
 
   LayerBase(); 
@@ -113,6 +122,7 @@ protected:
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
   unsigned int m_LayerType; //input, hidden, output
+  unsigned int m_LayerId; //input, hidden, output
   unsigned int m_NumberOfNodes; 
 
   typename WeightSetType::Pointer m_InputWeightSet;
@@ -120,6 +130,8 @@ protected:
 
   TransferFunctionPointer m_ActivationFunction;
   InputFunctionPointer    m_NodeInputFunction;
+  
+ 
 
 }; //class layer base
 

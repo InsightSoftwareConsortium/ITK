@@ -50,10 +50,16 @@ void IterativeSupervisedTrainingFunction<TSample,TOutput,ScalarType>
 {
   this->SetTrainingSamples(samples); 
   this->SetTargetValues(targets);
-  typename Superclass::OutputVectorType outputvector;
+  
+  InternalVectorType outputvector;
+  InternalVectorType errorvector;
+  outputvector.SetSize(targets->GetMeasurementVectorSize());
+  errorvector.SetSize(targets->GetMeasurementVectorSize());
+  
+  //typename Superclass::OutputVectorType outputvector;
   typename Superclass::VectorType inputvector;
   typename Superclass::OutputVectorType targetvector;
-  typename Superclass::OutputVectorType errorvector;
+  //typename Superclass::OutputVectorType errorvector;
 
   std::ofstream outfile;
   outfile.open("output.txt");
@@ -67,7 +73,8 @@ void IterativeSupervisedTrainingFunction<TSample,TOutput,ScalarType>
     inputvector = this->m_InputSamples[temp];
     targetvector = this->m_Targets[temp];
     outputvector = Net->GenerateOutput(inputvector);
-    errorvector = targetvector - outputvector; 
+    for(unsigned int k=0; k<targetvector.Size(); k++)
+      errorvector[k] = targetvector[k] - outputvector[k]; 
     outfile <<errorvector[0] << std::endl;
     Net->BackwardPropagate(this->m_PerformanceFunction->EvaluateDerivative(errorvector));  
     Net->UpdateWeights(this->m_LearningRate);

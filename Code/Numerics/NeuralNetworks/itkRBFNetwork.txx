@@ -81,9 +81,11 @@ RBFNetwork<TVector,TOutput>
 
 
   typename rbflayertype::Pointer hiddenlayer = rbflayertype::New();
+  hiddenlayer->SetRBF_Dim(m_NumOfInputNodes);
   hiddenlayer->SetLayerType(2);
   hiddenlayer->SetNumClasses(m_Classes); 
   hiddenlayer->SetNumberOfNodes(m_NumOfHiddenNodes);
+  
   
   typename bplayertype::Pointer outputlayer = bplayertype::New();
   hiddenlayer->SetNumClasses(m_Classes); 
@@ -124,7 +126,7 @@ RBFNetwork<TVector,TOutput>
 
   Superclass::AddWeightSet(IW);
   Superclass::AddWeightSet(HW);
-  
+  /*
   TVector temp1;
   TVector temp2;
   temp1[0]=110;
@@ -142,7 +144,13 @@ RBFNetwork<TVector,TOutput>
   
   hiddenlayer->SetRadii(2*width,0);  
   hiddenlayer->SetRadii(2*width,1);  
-
+  */
+  for(int j=0; j<m_Centers.size(); j++)
+  {
+    hiddenlayer->SetCenter(m_Centers[j],j);
+    hiddenlayer->SetRadii(m_Radii[j],j);
+  }
+    
 }
 
 template<class TVector, class TOutput>
@@ -186,12 +194,28 @@ RBFNetwork<TVector,TOutput>
 }
 
 template<class TVector, class TOutput>
-typename RBFNetwork<TVector, TOutput>::ValueType*
+typename RBFNetwork<TVector, TOutput>::NetworkOutputType
 RBFNetwork<TVector,TOutput>
 ::GenerateOutput(TVector samplevector)
 {
   return Superclass::GenerateOutput(samplevector);
 }
+
+template<class TVector, class TOutput>
+void 
+RBFNetwork<TVector,TOutput>
+::SetCenter(TVector c)
+{
+   m_Centers.push_back(c);
+} 
+
+template<class TVector, class TOutput>
+void 
+RBFNetwork<TVector,TOutput>
+::SetRadius(ValueType r)
+{
+   m_Radii.push_back(r);
+} 
 
 /** Print the object */
 template<class TVector, class TOutput>

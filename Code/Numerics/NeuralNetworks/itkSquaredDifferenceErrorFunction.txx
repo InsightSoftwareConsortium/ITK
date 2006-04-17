@@ -45,19 +45,27 @@ ScalarType
 SquaredDifferenceErrorFunction <TVector,ScalarType>
 ::Evaluate(const TVector& errors)  const
 {
-  vnl_vector <ScalarType> temp(errors.GetVnlVector());
+  vnl_vector <ScalarType> temp;
+  temp.set_size(errors.Size());
+  for(unsigned int i=0; i<errors.Size(); i++)
+    temp[i]=errors[i];
+
+  //temp.(errors.GetVnlVector());
+
   return (temp.squared_magnitude() / 2);
 }
 
 /** Evaluate derivatives */
 template<class TVector, class ScalarType>
 typename SquaredDifferenceErrorFunction <TVector,ScalarType>
-::ErrorVectorType
+::InternalVectorType
 SquaredDifferenceErrorFunction <TVector,ScalarType>
 ::EvaluateDerivative(const TVector& errors)  const
 {
-  TVector diff;
-  for(unsigned int i=0; i<errors.GetVectorDimension(); i++)
+  //TVector diff;
+  InternalVectorType diff;
+  diff.SetSize(errors.Size());
+  for(unsigned int i=0; i<errors.Size(); i++)
     {
     if ((-0.1 < errors[i]) && (errors[i] < 0.1))
       {

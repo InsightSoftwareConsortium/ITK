@@ -55,17 +55,24 @@ public:
 
   itkSetMacro(NumOfLayers, int);
   itkGetConstReferenceMacro(NumOfLayers, int);
+  
+  itkSetMacro(NumOfWeightSets, int);
+  itkGetConstReferenceMacro(NumOfWeightSets, int);
 
   void AddLayer(LayerType*);
+  LayerType* GetLayer(int layer_id);
 
   void AddWeightSet(WeightSetType*);
+  WeightSetType* GetWeightSet(int id);
 
   void SetLearningFunction(LearningFunctionType* f);
 
-  virtual ValueType* GenerateOutput(TVector samplevector);
+ // virtual ValueType* GenerateOutput(TVector samplevector);
+  virtual NetworkOutputType GenerateOutput(TVector samplevector);
 
-  virtual void BackwardPropagate(TOutput errors);
-
+//  virtual void BackwardPropagate(TOutput errors);
+  virtual void BackwardPropagate(NetworkOutputType errors);
+ 
   virtual void UpdateWeights(ValueType);
 
   void SetLearningRule(LearningFunctionType*);
@@ -83,7 +90,7 @@ protected:
   LearningFunctionPointer   m_LearningFunction;
   ValueType                 m_LearningRate;
   int                       m_NumOfLayers;
-
+  int                       m_NumOfWeightSets;
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 };

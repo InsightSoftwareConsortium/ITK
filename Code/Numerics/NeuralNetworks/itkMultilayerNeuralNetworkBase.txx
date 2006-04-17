@@ -32,6 +32,7 @@ MultilayerNeuralNetworkBase<TVector,TOutput>
   m_LearningFunction = DefaultLearningFunctionType::New();
   m_LearningRate = 0.001;
   m_NumOfLayers = 0;
+  m_NumOfWeightSets=0;
 }
 
 template<class TVector, class TOutput>
@@ -67,7 +68,17 @@ MultilayerNeuralNetworkBase<TVector,TOutput>
 }
 
 template<class TVector, class TOutput>
-typename MultilayerNeuralNetworkBase<TVector, TOutput>::ValueType*
+typename MultilayerNeuralNetworkBase<TVector, TOutput>::LayerType*
+MultilayerNeuralNetworkBase<TVector,TOutput>
+::GetLayer(int layer_id)
+{
+  return m_Layers[layer_id].GetPointer();
+}
+
+
+
+template<class TVector, class TOutput>
+typename MultilayerNeuralNetworkBase<TVector, TOutput>::NetworkOutputType
 MultilayerNeuralNetworkBase<TVector,TOutput>
 ::GenerateOutput(TVector samplevector)
 {
@@ -78,13 +89,18 @@ MultilayerNeuralNetworkBase<TVector,TOutput>
     this->m_Weights[i]->ForwardPropagate(this->m_Layers[i]->GetOutputVector());
     this->m_Layers[i + 1]->ForwardPropagate();
     }
-  return this->m_Layers[i]->GetOutputVector();
+  NetworkOutputType temp_output;
+  temp_output.SetSize(this->m_Layers[i]->GetNumberOfNodes());
+  for(unsigned int k=0; k<temp_output.Size(); k++)
+       temp_output[k]=this->m_Layers[i]->GetOutputVector()[k];
+//  return this->m_Layers[i]->GetOutputVector();
+  return temp_output;
 }
 
 template<class TVector, class TOutput>
 void
 MultilayerNeuralNetworkBase<TVector,TOutput>
-::BackwardPropagate(TOutput errors)
+::BackwardPropagate(NetworkOutputType errors)
 {
   int i = this->m_Layers.size();
   i--;
@@ -129,7 +145,17 @@ MultilayerNeuralNetworkBase<TVector,TOutput>
 ::AddWeightSet(WeightSetType* weightset)
 {
   m_Weights.push_back(weightset);
+  m_NumOfWeightSets++;
 }
+
+template<class TVector, class TOutput>
+typename MultilayerNeuralNetworkBase<TVector, TOutput>::WeightSetType*
+MultilayerNeuralNetworkBase<TVector,TOutput>
+::GetWeightSet(int id)
+{
+  return m_Weights[id].GetPointer();
+}
+
 
 template<class TVector, class TOutput>
 void
