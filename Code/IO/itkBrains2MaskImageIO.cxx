@@ -139,9 +139,7 @@ void Brains2MaskImageIO
   local_InputStream.open( this->m_FileName.c_str(), std::ios::in | std::ios::binary );
   if( local_InputStream.fail() )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("File cannot be read");
-    throw exception;
+    itkExceptionMacro(<< "File cannot be read");
     }
   //Just fast forward throuth the file header NOTE: This re-reads the header information.
   this->m_B2MaskHeader.ReadBrains2Header(local_InputStream);
@@ -379,16 +377,12 @@ Brains2MaskImageIO
 {
   if(this->m_FileName == "") 
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Error in OctreeCreation");
-    throw exception;
+    itkExceptionMacro(<< "Error in OctreeCreation");
     }
   std::ofstream output(this->m_FileName.c_str(), std::ios::out | std::ios::binary );
   if(output.fail())
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Error in OctreeCreation");
-    throw exception;
+    itkExceptionMacro(<< "Error in OctreeCreation");
     }
   const unsigned xsize = this->GetDimensions(0);
   const unsigned ysize = this->GetDimensions(1);
@@ -514,9 +508,7 @@ Brains2MaskImageIO
     }
   else
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Pixel Type Unknown");
-    throw exception;
+    itkExceptionMacro(<< "Pixel Type Unknown");
     }
   octBasePtr->BuildFromBuffer(buffer,xsize,ysize,zsize);
   tree = octBasePtr->GetTree();

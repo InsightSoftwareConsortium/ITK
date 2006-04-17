@@ -99,9 +99,7 @@ std::ifstream & Brains2HeaderBase::ReadBrains2Header(std::ifstream  & inputstrea
 //DEBUG:    std::cerr << "ReadBrains2Header: Key is |" << Key << "|" << std::endl;
     if(inputstream.eof() == true)
       {
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("Unexpected end of file");
-      throw exception;
+      itkGenericExceptionMacro(<< "Unexpected end of file");
       }
     //Check for the case where the specific header type begins and ends
     //i.e. MASK_HEADER_BEGIN and MASK_HEADER_END, or IMAGE_HEADER_BEGIN and IMAGE_HEADER_END
