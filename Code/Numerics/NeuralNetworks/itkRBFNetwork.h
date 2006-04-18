@@ -61,6 +61,8 @@ public:
   typename RBFType::Pointer HiddenTransferFunction;
   typename TransferFunctionType::Pointer OutputTransferFunction;
   
+  typedef typename Superclass::NetworkOutputType NetworkOutputType;
+
   /* Method for creation through the object factory. */
   itkTypeMacro(RBFNetwork,
                MultilayerNeuralNetworkBase);  

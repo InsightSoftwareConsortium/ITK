@@ -46,7 +46,7 @@ public:
   typedef ScalarType ValueType;
   typedef typename TSample::MeasurementVectorType VectorType;
   typedef typename TOutput::MeasurementVectorType OutputVectorType;
-  typedef typename Array<ValueType> InternalVectorType;
+  typedef Array<ValueType> InternalVectorType;
 
   typedef std::vector<VectorType> InputSampleVectorType;
   typedef std::vector<OutputVectorType> OutputSampleVectorType;

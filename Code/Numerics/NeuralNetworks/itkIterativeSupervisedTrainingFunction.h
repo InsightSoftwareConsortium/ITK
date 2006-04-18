@@ -43,6 +43,7 @@ public:
   itkNewMacro(Self);
 
   typedef typename Superclass::NetworkType NetworkType;
+  typedef typename Superclass::InternalVectorType InternalVectorType;
 
   void SetNumOfIterations(long i);
 

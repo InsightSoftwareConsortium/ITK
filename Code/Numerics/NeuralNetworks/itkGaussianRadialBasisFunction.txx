@@ -60,7 +60,7 @@ GaussianRadialBasisFunction< ScalarType>
 ::EvaluateDerivative(const ScalarType& dist,const ArrayType& input,
                           char mode,int element_id) const
 {
-  ScalarType val;
+  ScalarType val = 0;;
   ScalarType radius=Superclass::GetRadius(); 
   ArrayType center = Superclass::GetCenter();
   if(mode=='u') //w.r.t centers

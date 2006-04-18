@@ -48,6 +48,8 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
+  typedef typename Superclass::NetworkOutputType NetworkOutputType;
+
   /* Method for creation through the object factory. */
   itkTypeMacro(TwoHiddenLayerBackPropagationNeuralNetwork,
                MultilayerNeuralNetworkBase);  
