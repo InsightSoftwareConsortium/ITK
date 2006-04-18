@@ -53,6 +53,30 @@ namespace itk
  * the Fixed image. For doing so, a Metric will be continously applied to 
  * compare the Fixed image with the Transformed Moving SpatialObject.
  *
+ * The ImageToSpatialObjectRegistrationMethod is different from the rest of the
+ * registration framework in ITK regarding the interpretation of the Transform
+ * with respect to the Fixed and Moving objects. In most of the ITK
+ * registration framework, the Transform computed by the optimizer is the one
+ * that maps points from the space of the Fixed object into the space of the
+ * Moving object. This direction of the transform is the one that makes easier
+ * to resample the Moving object into the space of the Fixed object.
+ *
+ * In the particular case of the ImageToSpatialObject registration, the
+ * Transform to be computed is the one mapping points from the SpatialObject
+ * into the Image, despite the fact that the SpatialObject is called the
+ * "Moving" object and the image is called the "Fixed" object. This change of
+ * reference system is the consequence of using this type of registration in
+ * applications that are based on Visualization. In the context of such
+ * visualizations it is simpler to think in terms of the Transform that can be
+ * used for displaying the SpatialObject in the appropriate position with
+ * respect to the image. Since this process does not involve resampling, but
+ * providing a Transform to a visualization routine, it is usually more
+ * natural to use the Transform that maps points from the SpatialObject space
+ * the image space.
+ *
+ * A full discussion of the Transform directions in the ITK registration
+ * framework can be found in the ITK Software Guide.
+ *
  * \ingroup RegistrationFilters
  */
 template <typename TFixedImage, typename TMovingSpatialObject>
