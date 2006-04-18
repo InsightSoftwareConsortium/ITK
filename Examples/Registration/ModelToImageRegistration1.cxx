@@ -268,7 +268,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SimpleImageToSpatialObjectMetric, ImageToSpatialObjectMetric);
 
-  enum { SpaceDimension = 3 };
+  itkStaticConstMacro( ParametricSpaceDimension, unsigned int, 3 );
 
   /** Specify the moving spatial object. */
   void SetMovingSpatialObject( const MovingSpatialObjectType * object)
@@ -286,13 +286,13 @@ public:
 
       itk::Point<double,2> point;
 
-      while(!it.IsAtEnd())
+      while( !it.IsAtEnd() )
         {
         this->m_FixedImage->TransformIndexToPhysicalPoint( it.GetIndex(), point );
 
         if(this->m_MovingSpatialObject->IsInside(point,99999))
           { 
-          m_PointList.push_back(point);
+          m_PointList.push_back( point );
           }    
         ++it;
         }
@@ -300,7 +300,7 @@ public:
       std::cout << "Number of points in the metric = " << static_cast<unsigned long>( m_PointList.size() ) << std::endl;
     }
 
-  unsigned int GetNumberOfParameters(void) const  {return SpaceDimension;};
+  unsigned int GetNumberOfParameters(void) const  {return ParametricSpaceDimension;};
 
   /** Get the Derivatives of the Match Measure */
   void GetDerivative( const ParametersType &, DerivativeType & ) const
@@ -341,16 +341,12 @@ public:
       itk::Index<2> start = this->m_FixedImage->GetBufferedRegion().GetIndex();
 
       value = 0;
-      while(it != m_PointList.end())
+      while( it != m_PointList.end() )
         {
         PointType transformedPoint = this->m_Transform->TransformPoint(*it);
-        this->m_FixedImage->TransformPhysicalPointToIndex(transformedPoint,index);
-        if(    index[0]> start[0] 
-               && index[1]> start[1]
-               && index[0]< static_cast< signed long >( size[0] )
-               && index[1]< static_cast< signed long >( size[1] )  )
+        if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
           {
-          value += this->m_FixedImage->GetPixel(index);
+          value += this->m_Interpolator->Evaluate( transformedPoint );
           }
         it++;
         }
