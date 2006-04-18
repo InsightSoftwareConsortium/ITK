@@ -33,6 +33,14 @@ namespace itk
  * depending on whether of not the corresponding input image pixel
  * lie between the two thresholds ( LowerThreshold and UpperThreshold ).
  * Values equal to either threshold is considered to be between the thresholds.
+ *
+ * More precisely
+ * \f[ Output(x_i) =
+       \begin{cases}
+         InsideValue & \text{if $LowerThreshold \leq x_i \leq UpperThreshold$} \     \
+         OutsideValue & \text{otherwise}
+       \end{cases}
+   \f]
  * 
  * This filter is templated over the input image type
  * and the output image type.
