@@ -140,7 +140,7 @@ public:
                                       DerivativeType  & Derivative ) const =0;
 
   /** Initialize the metric */
-  virtual void Initialize(void) {}
+  virtual void Initialize(void) throw (ExceptionObject);
  
   /** Get the last transformation parameters visited by 
    * the optimizer. This function overload the superclass's one */

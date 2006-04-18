@@ -35,6 +35,53 @@ ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>
 
 }
 
+
+/*
+ * Initialize
+ */
+
+template < class TFixedImage, class TMovingSpatialObject> 
+void
+ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>
+::Initialize(void) throw ( ExceptionObject )
+{
+
+  if( !m_Transform )
+    {
+    itkExceptionMacro(<<"Transform is not present");
+    }
+
+  if( !m_Interpolator )
+    {
+    itkExceptionMacro(<<"Interpolator is not present");
+    }
+
+  if( !m_MovingSpatialObject )
+    {
+    itkExceptionMacro(<<"MovingSpatialObject is not present");
+    }
+
+  if( !m_FixedImage )
+    {
+    itkExceptionMacro(<<"FixedImage is not present");
+    }
+
+  // If the image is provided by a source, update the source.
+  if( m_FixedImage->GetSource() )
+    {
+    m_FixedImage->GetSource()->Update();
+    }
+
+  m_Interpolator->SetInputImage( m_FixedImage );
+ 
+
+  // If there are any observers on the metric, call them to give the
+  // user code a chance to set parameters on the metric
+  this->InvokeEvent( InitializeEvent() );
+}
+ 
+
+
 /** PrintSelf */
 template < class TFixedImage, class TMovingSpatialObject> 
 void

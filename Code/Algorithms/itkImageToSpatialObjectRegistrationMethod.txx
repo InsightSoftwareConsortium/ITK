@@ -82,6 +82,7 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage,TMovingSpatialObject>
     itkExceptionMacro(<<"Interpolator is not present");
     }
 
+  m_Interpolator->SetInputImage( m_FixedImage );
 
   // Setup the metric
   m_Metric->SetFixedImage( m_FixedImage );
