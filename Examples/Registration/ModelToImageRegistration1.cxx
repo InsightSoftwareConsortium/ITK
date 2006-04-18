@@ -288,10 +288,7 @@ public:
 
       while(!it.IsAtEnd())
         {
-        for(unsigned int i=0;i<Self::ObjectDimension;i++)
-          {
-          point[i]=it.GetIndex()[i];
-          }
+        this->m_FixedImage->TransformIndexToPhysicalPoint( it.GetIndex(), point );
 
         if(this->m_MovingSpatialObject->IsInside(point,99999))
           { 
