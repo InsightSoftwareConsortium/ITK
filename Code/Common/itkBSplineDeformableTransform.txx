@@ -157,10 +157,13 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
     // Set the valid region
     // If the grid spans the interval [start,last].
-    // The valid interval for evaluation is [start+offset,last-offset] when spline order is even.
-    // The valid interval for evaluation is [start+offset,last-offset) when spline order is odd
+    // The valid interval for evaluation is [start+offset,last-offset]
+    // when spline order is even.
+    // The valid interval for evaluation is [start+offset,last-offset)
+    // when spline order is odd.
     // Where offset = vcl_floor(spline / 2 ).
-    // Note that the last pixel is not included in the valid region with odd spline orders.
+    // Note that the last pixel is not included in the valid region
+    // with odd spline orders.
     typename RegionType::SizeType size = m_GridRegion.GetSize();
     typename RegionType::IndexType index = m_GridRegion.GetIndex();
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
@@ -234,7 +237,8 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 {
    if( m_InputParametersPointer )
      {
-     ParametersType * parameters = const_cast<ParametersType *>( m_InputParametersPointer );
+     ParametersType * parameters =
+       const_cast<ParametersType *>( m_InputParametersPointer );
      parameters->Fill( 0.0 );
      this->Modified();
      }
@@ -252,8 +256,10 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   // expected number of parameters
   if ( parameters.Size() != this->GetNumberOfParameters() )
     {
-    itkExceptionMacro(<<"Mismatched between parameters size " << parameters.size() 
-                      << " and region size " << m_GridRegion.GetNumberOfPixels() );
+    itkExceptionMacro(<<"Mismatched between parameters size "
+                      << parameters.size() 
+                      << " and region size "
+                      << m_GridRegion.GetNumberOfPixels() );
     }
 
   // Clean up buffered parameters
@@ -281,8 +287,10 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   // expected number of parameters
   if ( parameters.Size() != NDimensions*3 )
     {
-    itkExceptionMacro(<<"Mismatched between parameters size " << parameters.size() 
-                      << " and number of fixed parameters " << NDimensions*3 );
+    itkExceptionMacro(<< "Mismatched between parameters size "
+                      << parameters.size() 
+                      << " and number of fixed parameters "
+                      << NDimensions*3 );
     }
 
   /********************************************************** 
