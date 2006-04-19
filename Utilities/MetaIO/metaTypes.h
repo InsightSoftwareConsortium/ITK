@@ -25,7 +25,7 @@ typedef unsigned short      MET_USHORT_TYPE;
 typedef int                 MET_INT_TYPE;
 typedef unsigned int        MET_UINT_TYPE;
 typedef int                 MET_LONG_TYPE;
-typedef unsigned int        MET_ULONG_TYPE;
+typedef unsigned long       MET_ULONG_TYPE;
 #if defined(_WIN32) && !defined(__CYGWIN__) && !defined(__MING_W32__)
 typedef __int64             MET_LONG_LONG_TYPE;
 typedef unsigned __int64    MET_ULONG_LONG_TYPE;
