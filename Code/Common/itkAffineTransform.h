@@ -304,11 +304,20 @@ private:
 
 }; //class AffineTransform
 
-}  // namespace itk
+}  // namespace itks
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_AffineTransform(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT AffineTransform< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef AffineTransform< ITK_TEMPLATE_2 x > AffineTransform##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAffineTransform.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkAffineTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkAffineTransform.txx"
 #endif
 
 #endif /* __itkAffineTransform_h */

@@ -79,6 +79,10 @@ SET(ITKCommon_SRCS
 
 IF(ITK_EXPLICIT_INSTANTIATION)
   SET(ITKCommon_SRCS ${ITKCommon_SRCS}
+    Templates/itkAffineTransformD2.cxx
+    Templates/itkAffineTransformD3.cxx
+    Templates/itkAffineTransformF2.cxx
+    Templates/itkAffineTransformF3.cxx
     Templates/itkFixedArrayD2.cxx
     Templates/itkFixedArrayD3.cxx
     Templates/itkFixedArrayF2.cxx
