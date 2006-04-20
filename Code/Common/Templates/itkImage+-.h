@@ -1,23 +1,18 @@
-#ifndef ITK_TEMPLATE_H_Image
-#define ITK_TEMPLATE_H_Image
-
-ITK_IMPORT_ITKCommon(Image, (double, 2))
-ITK_IMPORT_ITKCommon(Image, (double, 3))
-ITK_IMPORT_ITKCommon(Image, (float, 2))
-ITK_IMPORT_ITKCommon(Image, (float, 3))
-ITK_IMPORT_ITKCommon(Image, (int, 2))
-ITK_IMPORT_ITKCommon(Image, (int, 3))
-ITK_IMPORT_ITKCommon(Image, (long, 2))
-ITK_IMPORT_ITKCommon(Image, (long, 3))
-ITK_IMPORT_ITKCommon(Image, (short, 2))
-ITK_IMPORT_ITKCommon(Image, (short, 3))
-ITK_IMPORT_ITKCommon(Image, (unsigned char, 2))
-ITK_IMPORT_ITKCommon(Image, (unsigned char, 3))
-ITK_IMPORT_ITKCommon(Image, (unsigned int, 2))
-ITK_IMPORT_ITKCommon(Image, (unsigned int, 3))
-ITK_IMPORT_ITKCommon(Image, (unsigned long, 2))
-ITK_IMPORT_ITKCommon(Image, (unsigned long, 3))
-ITK_IMPORT_ITKCommon(Image, (unsigned short, 2))
-ITK_IMPORT_ITKCommon(Image, (unsigned short, 3))
-
-#endif
+#include "Templates/itkImageD2.h"
+#include "Templates/itkImageD3.h"
+#include "Templates/itkImageF2.h"
+#include "Templates/itkImageF3.h"
+#include "Templates/itkImageI2.h"
+#include "Templates/itkImageI3.h"
+#include "Templates/itkImageL2.h"
+#include "Templates/itkImageL3.h"
+#include "Templates/itkImageS2.h"
+#include "Templates/itkImageS3.h"
+#include "Templates/itkImageUC2.h"
+#include "Templates/itkImageUC3.h"
+#include "Templates/itkImageUI2.h"
+#include "Templates/itkImageUI3.h"
+#include "Templates/itkImageUL2.h"
+#include "Templates/itkImageUL3.h"
+#include "Templates/itkImageUS2.h"
+#include "Templates/itkImageUS3.h"

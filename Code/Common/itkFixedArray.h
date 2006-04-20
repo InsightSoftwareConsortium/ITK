@@ -225,10 +225,11 @@ std::ostream & operator<<(std::ostream &os, const FixedArray<TValueType,VLength>
 #endif
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_FixedArray(_, EXPORT, x) namespace itk { \
+#define ITK_TEMPLATE_FixedArray(_, EXPORT, x, y) namespace itk { \
   _(2(class EXPORT FixedArray< ITK_TEMPLATE_2 x >)) \
   _(1(EXPORT std::ostream& operator<<(std::ostream&, \
                                       const FixedArray< ITK_TEMPLATE_2 x >&))) \
+  namespace Templates { typedef FixedArray< ITK_TEMPLATE_2 x > FixedArray##y; } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

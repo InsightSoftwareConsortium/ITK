@@ -1,9 +1,4 @@
-#ifndef ITK_TEMPLATE_H_FixedArray
-#define ITK_TEMPLATE_H_FixedArray
-
-ITK_IMPORT_ITKCommon(FixedArray, (float, 2))
-ITK_IMPORT_ITKCommon(FixedArray, (float, 3))
-ITK_IMPORT_ITKCommon(FixedArray, (double, 2))
-ITK_IMPORT_ITKCommon(FixedArray, (double, 3))
-
-#endif
+#include "Templates/itkFixedArrayD2.h"
+#include "Templates/itkFixedArrayD3.h"
+#include "Templates/itkFixedArrayF2.h"
+#include "Templates/itkFixedArrayF3.h"

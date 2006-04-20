@@ -255,12 +255,13 @@ ITKCommon_EXPORT Vector<int,3> CrossProduct( const Vector<int,3> &,
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_Vector(_, EXPORT, x) namespace itk { \
+#define ITK_TEMPLATE_Vector(_, EXPORT, x, y) namespace itk { \
   _(2(class EXPORT Vector< ITK_TEMPLATE_2 x >)) \
   _(1(EXPORT std::ostream& operator<<(std::ostream&, \
                                       const Vector< ITK_TEMPLATE_2 x >&))) \
   _(1(EXPORT std::istream& operator>>(std::istream&, \
                                       Vector< ITK_TEMPLATE_2 x >&))) \
+  namespace Templates { typedef Vector< ITK_TEMPLATE_2 x > Vector##y; } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

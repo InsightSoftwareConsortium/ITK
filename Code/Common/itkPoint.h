@@ -299,12 +299,13 @@ public:
 }  // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_Point(_, EXPORT, x) namespace itk { \
+#define ITK_TEMPLATE_Point(_, EXPORT, x, y) namespace itk { \
   _(2(class EXPORT Point< ITK_TEMPLATE_2 x >)) \
   _(1(EXPORT std::ostream& operator<<(std::ostream&, \
                                       const Point< ITK_TEMPLATE_2 x >&))) \
   _(1(EXPORT std::istream& operator>>(std::istream&, \
                                       Point< ITK_TEMPLATE_2 x >&))) \
+  namespace Templates { typedef Point< ITK_TEMPLATE_2 x > Point##y; } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

@@ -274,10 +274,11 @@ std::ostream & operator<<(std::ostream &os, const ImageRegion<VImageDimension> &
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageRegion(_, EXPORT, x) namespace itk { \
+#define ITK_TEMPLATE_ImageRegion(_, EXPORT, x, y) namespace itk { \
   _(1(class EXPORT ImageRegion< ITK_TEMPLATE_1 x >)) \
   _(1(EXPORT std::ostream& operator<<(std::ostream&, \
                                       const ImageRegion< ITK_TEMPLATE_1 x >&))) \
+  namespace Templates { typedef ImageRegion< ITK_TEMPLATE_1 x > ImageRegion##y; } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

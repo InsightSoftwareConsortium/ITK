@@ -1,14 +1,9 @@
-#ifndef ITK_TEMPLATE_H_ImportImageContainer
-#define ITK_TEMPLATE_H_ImportImageContainer
-
-ITK_IMPORT_ITKCommon(ImportImageContainer, (unsigned long, double))
-ITK_IMPORT_ITKCommon(ImportImageContainer, (unsigned long, float))
-ITK_IMPORT_ITKCommon(ImportImageContainer, (unsigned long, int))
-ITK_IMPORT_ITKCommon(ImportImageContainer, (unsigned long, long))
-ITK_IMPORT_ITKCommon(ImportImageContainer, (unsigned long, short))
-ITK_IMPORT_ITKCommon(ImportImageContainer, (unsigned long, unsigned char))
-ITK_IMPORT_ITKCommon(ImportImageContainer, (unsigned long, unsigned int))
-ITK_IMPORT_ITKCommon(ImportImageContainer, (unsigned long, unsigned long))
-ITK_IMPORT_ITKCommon(ImportImageContainer, (unsigned long, unsigned short))
-
-#endif
+#include "Templates/itkImportImageContainerUL_D.h"
+#include "Templates/itkImportImageContainerUL_F.h"
+#include "Templates/itkImportImageContainerUL_I.h"
+#include "Templates/itkImportImageContainerUL_L.h"
+#include "Templates/itkImportImageContainerUL_S.h"
+#include "Templates/itkImportImageContainerUL_UC.h"
+#include "Templates/itkImportImageContainerUL_UI.h"
+#include "Templates/itkImportImageContainerUL_UL.h"
+#include "Templates/itkImportImageContainerUL_US.h"

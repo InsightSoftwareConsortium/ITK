@@ -681,34 +681,47 @@ private:
 /* Define macros to export and import template instantiations.  These
    depend on each class providing a macro defining the instantiations
    given template arguments in X.  The argument X is of the form
-   N(a1[,a2...,aN]).  Typical usage is
+   N(a1[,a2...,aN]).  The argument Y is a valid preprocessing token
+   unique to the template arguments given in X.  Typical usage is
 
-     ITK_EXPORT_TEMPLATE(itkfoo_EXPORT, Foo, (int))
-     ITK_EXPORT_TEMPLATE(itkfoo_EXPORT, Bar, (int, char))
+     ITK_EXPORT_TEMPLATE(itkfoo_EXPORT, Foo, (int), I)
+     ITK_EXPORT_TEMPLATE(itkfoo_EXPORT, Bar, (int, char), IC)
 
    The ITK_TEMPLATE_<name> macro should be defined in itk<name>.h and
    is of the following form:
 
-     #define ITK_TEMPLATE_<name>(_, EXPORT, x) namespace itk { \
-       _(<n>(class EXPORT Foo< ITK_TEMPLATE_<n> x >)) \
+     #define ITK_TEMPLATE_<name>(_, EXPORT, x, y) namespace itk { \
+       _(<n>(class EXPORT <name>< ITK_TEMPLATE_<n> x >)) \
+       namespace Templates { typedef <name>< ITK_TEMPLATE_<n> x > <name>##y; }\
      }
+
+   The argument "_" will be replaced by another macro such as
+   ITK_TEMPLATE_EXPORT or ITK_TEMPLATE_IMPORT, so it should be used as
+   if calling one of these macros.  The argument "EXPORT" will be
+   replaced by a dllexport/dllimport macro such as ITKCommon_EXPORT.
+   The argument "x" is a paren-enclosed list of template arguments.
+   The argument "y" is a preprocessing token corresponding to the
+   given template arguments and should be used to construct typedef
+   names for the instantiations.
 
    Note the use of ITK_TEMPLATE_<n>, where <n> is the number of
    template arguments for the class template.  Note also that the
-   number of tempalte arguments is usually the length of the list
+   number of template arguments is usually the length of the list
    nested within the inner parentheses, so the instantiation is listed
-   inside a form <n>().  Example definitions:
+   with the form <n>(...).  Example definitions:
 
-     #define ITK_TEMPLATE_Foo(_, EXPORT, x) namespace itk { \
+     #define ITK_TEMPLATE_Foo(_, EXPORT, x, y) namespace itk { \
        _(1(class EXPORT Foo< ITK_TEMPLATE_1 x >)) \
        _(1(EXPORT std::ostream& operator<<(std::ostream&, \
                                            const Foo< ITK_TEMPLATE_1 x >&))) \
+       namespace Templates { typedef Foo< ITK_TEMPLATE_1 x > Foo##y; }\
      }
 
-     #define ITK_TEMPLATE_Bar(_, EXPORT, x) namespace itk { \
+     #define ITK_TEMPLATE_Bar(_, EXPORT, x, y) namespace itk { \
        _(2(class EXPORT Bar< ITK_TEMPLATE_2 x >)) \
        _(1(EXPORT std::ostream& operator<<(std::ostream&, \
                                            const Bar< ITK_TEMPLATE_2 x >&))) \
+       namespace Templates { typedef Bar< ITK_TEMPLATE_2 x > Bar##y; }\
      }
 
    Note that in the stream operator for template Bar there is a "1" at
@@ -721,10 +734,10 @@ private:
    The ITK_EMPTY macro used in these definitions is a hack to work
    around a VS 6.0 preprocessor bug when EXPORT is empty.
 */
-#define ITK_EXPORT_TEMPLATE(EXPORT, c, x) \
-        ITK_TEMPLATE_##c(ITK_TEMPLATE_EXPORT, EXPORT ITK_EMPTY, x)
-#define ITK_IMPORT_TEMPLATE(EXPORT, c, x) \
-        ITK_TEMPLATE_##c(ITK_TEMPLATE_IMPORT, EXPORT ITK_EMPTY, x)
+#define ITK_EXPORT_TEMPLATE(EXPORT, c, x, y) \
+        ITK_TEMPLATE_##c(ITK_TEMPLATE_EXPORT, EXPORT ITK_EMPTY, x, y)
+#define ITK_IMPORT_TEMPLATE(EXPORT, c, x, y) \
+        ITK_TEMPLATE_##c(ITK_TEMPLATE_IMPORT, EXPORT ITK_EMPTY, x, y)
 #define ITK_EMPTY
 
 /* Define macros to support passing a variable number of arguments
@@ -772,8 +785,10 @@ private:
 
 /* Define macros to export and import template instantiations for each
    library in ITK.  */
-#define ITK_EXPORT_ITKCommon(c, x) ITK_EXPORT_TEMPLATE(ITKCommon_EXPORT, c, x)
-#define ITK_IMPORT_ITKCommon(c, x) ITK_IMPORT_TEMPLATE(ITKCommon_EXPORT, c, x)
+#define ITK_EXPORT_ITKCommon(c, x, n) \
+        ITK_EXPORT_TEMPLATE(ITKCommon_EXPORT, c, x, n)
+#define ITK_IMPORT_ITKCommon(c, x, n) \
+        ITK_IMPORT_TEMPLATE(ITKCommon_EXPORT, c, x, n)
 
 /* Define a macro to decide whether to block instantiation of ITK
    templates.  They should be blocked only if the platform supports

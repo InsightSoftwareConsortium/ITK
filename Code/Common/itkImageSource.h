@@ -280,8 +280,9 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageSource(_, EXPORT, x) namespace itk { \
-  _(2(class EXPORT ImageSource< ITK_TEMPLATE_2 x >)) \
+#define ITK_TEMPLATE_ImageSource(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT ImageSource< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef ImageSource< ITK_TEMPLATE_1 x > ImageSource##y; } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

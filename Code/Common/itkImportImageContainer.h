@@ -150,8 +150,9 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImportImageContainer(_, EXPORT, x) namespace itk { \
+#define ITK_TEMPLATE_ImportImageContainer(_, EXPORT, x, y) namespace itk { \
   _(2(class EXPORT ImportImageContainer< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef ImportImageContainer< ITK_TEMPLATE_2 x > ImportImageContainer##y; } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
