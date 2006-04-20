@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPeriodicBoundaryConditionTest.cxx
+  Module:    itkZeroFluxBoundaryConditionTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -19,11 +19,11 @@
 #endif
 #include <iostream>
 
-#include "itkPeriodicBoundaryCondition.h"
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkImage.h"
 
-void PBCTest_PrintNeighborhood( itk::ConstNeighborhoodIterator<itk::Image<int, 2> > &p )
+void ZFBCTest_PrintNeighborhood( itk::ConstNeighborhoodIterator<itk::Image<int, 2> > &p )
 {
   std::cout << std::endl;
   unsigned x, y, i=0;
@@ -38,7 +38,7 @@ void PBCTest_PrintNeighborhood( itk::ConstNeighborhoodIterator<itk::Image<int, 2
   
 }
 
-int itkPeriodicBoundaryConditionTest(int, char* [] )
+int itkZeroFluxBoundaryConditionTest(int, char* [] )
 {
   typedef itk::Image<int, 2> ImageType;
   typedef itk::ConstNeighborhoodIterator<ImageType> IteratorType;
@@ -69,7 +69,7 @@ int itkPeriodicBoundaryConditionTest(int, char* [] )
   rad[0] = rad[1] = 1;
   IteratorType it(rad, img, img->GetRequestedRegion());
 
-  itk::PeriodicBoundaryCondition<ImageType> bc;
+  itk::ZeroFluxNeumannBoundaryCondition<ImageType> bc;
 
   it.OverrideBoundaryCondition(&bc);
 
@@ -78,7 +78,7 @@ int itkPeriodicBoundaryConditionTest(int, char* [] )
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
-    PBCTest_PrintNeighborhood(it);
+    ZFBCTest_PrintNeighborhood(it);
     }
 
   //  RadiusType radTwo;
@@ -92,7 +92,7 @@ int itkPeriodicBoundaryConditionTest(int, char* [] )
   
   for (it2.GoToBegin(); !it2.IsAtEnd(); ++it2)
     {
-    PBCTest_PrintNeighborhood(it2);
+    ZFBCTest_PrintNeighborhood(it2);
     }
   
   return EXIT_SUCCESS;
