@@ -92,6 +92,14 @@ public:
       const NeighborhoodAccessorFunctorType &neighborhoodAccessorFunctor) const = 0;
   
   virtual ~ImageBoundaryCondition() {}
+
+  /** Tell if the boundary condition can index to any location within
+    * the associated iterator's neighborhood or if it has some limited
+    * subset (such as none) that it relies upon.
+    * Subclasses should override this method if they can safely limit
+    * indexes to active pixels (or no pixels).
+    */
+  virtual bool RequiresCompleteNeighborhood() { return true; }
 };
   
 }// end namespace itk

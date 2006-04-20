@@ -106,6 +106,11 @@ public:
   const PixelType &GetConstant() const
     {  return m_Constant;  }
   
+  /** Tell if the boundary condition can index to any location within
+    * the associated iterator's neighborhood or if it has some limited
+    * subset (such as none) that it relies upon. */
+  bool RequiresCompleteNeighborhood() { return false; }
+
 private:
   PixelType m_Constant;
 };
