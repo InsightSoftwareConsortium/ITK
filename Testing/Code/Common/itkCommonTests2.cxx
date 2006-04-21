@@ -86,6 +86,7 @@ REGISTER_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest );
 REGISTER_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest );
 REGISTER_TEST(itkSymmetricSecondRankTensorTest );
 REGISTER_TEST(itkSymmetricEigenAnalysisTest );
+REGISTER_TEST(itkZeroFluxBoundaryConditionTest );
 //This is a separate executable REGISTER_TEST(itkSystemInformationTest );
 REGISTER_TEST(itkSTLThreadTest );
 REGISTER_TEST(itkVariableLengthVectorTest);
