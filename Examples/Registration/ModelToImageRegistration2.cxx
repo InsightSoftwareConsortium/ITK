@@ -146,7 +146,7 @@ int main( int argc, char * argv [] )
     {
     std::cerr << "Missing argument" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " movingImageFileName " << std::endl;
+    std::cerr << argv[0] << " movingImageFileName [initialX initialY] " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -274,7 +274,15 @@ int main( int argc, char * argv [] )
   
   spatialObject->SetSize( boxSize );
 
+  ImageType::RegionType region = 
+                movingImage->GetLargestPossibleRegion();
+
+  ImageType::SizeType   imageSize = region.GetSize(); 
+
   rasterizationFilter->SetInput( spatialObject );
+  rasterizationFilter->SetSize( imageSize );
+
+  narrowBandPointSetFilter->SetBandWidth( 5.0 );
       
   narrowBandPointSetFilter->SetInput( 
                     rasterizationFilter->GetOutput() ); 
@@ -283,6 +291,8 @@ int main( int argc, char * argv [] )
 
   fixedPointSet = narrowBandPointSetFilter->GetOutput();
   
+  fixedPointSet->Print( std::cout );
+
   registrationMethod->SetOptimizer(     optimizer     );
   registrationMethod->SetInterpolator(  linearInterpolator  );
   registrationMethod->SetMetric(        metric        );
@@ -306,8 +316,14 @@ int main( int argc, char * argv [] )
 
 
   TransformType::TranslationType  initialTranslation;
-  initialTranslation[0] = 50.0;
-  initialTranslation[1] = 50.0;
+  initialTranslation[0] = 0.0;
+  initialTranslation[1] = 0.0;
+
+  if( argc >= 4 )
+    {
+    initialTranslation[0] = atof( argv[2] );
+    initialTranslation[1] = atof( argv[3] );
+    }
 
   transform->SetIdentity();
   transform->SetTranslation( initialTranslation );
