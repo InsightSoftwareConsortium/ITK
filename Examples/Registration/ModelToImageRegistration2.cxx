@@ -107,17 +107,18 @@ int main( int argc, char * argv [] )
 
   typedef itk::SpatialObjectToImageFilter< 
                               SpatialObjectType, 
-                              MaskImageType >   
-                                            SpatialObjectToImageFilterType;
+                              MaskImageType 
+                                >   SpatialObjectToImageFilterType;
 
   typedef itk::PointSet< float, Dimension >       FixedPointSetType;
 
 
   typedef itk::BinaryMaskToNarrowBandPointSetFilter<
-                              MaskImageType,
-                              FixedPointSetType >     NarrowBandFilterType;
+                                    MaskImageType,
+                                    FixedPointSetType 
+                                            >  NarrowBandFilterType;
 
-  typedef  signed short        PixelType;
+  typedef  signed short   PixelType;
   
   typedef itk::Image< PixelType, Dimension >  ImageType;
 
@@ -153,6 +154,7 @@ int main( int argc, char * argv [] )
 
   typedef itk::ImageFileReader< ImageType >      ImageReaderType;
 
+  SpatialObjectType::Pointer            spatialObject;
 
   TransformType::Pointer                transform;
   OptimizerType::Pointer                optimizer;
@@ -171,7 +173,11 @@ int main( int argc, char * argv [] )
 
   SpatialObjectToImageFilterType::Pointer    rasterizationFilter;
 
+  NarrowBandFilterType::Pointer      narrowBandPointSetFilter;
+
   
+  spatialObject       = SpatialObjectType::New();
+
   metric              = MetricType::New();
   transform           = TransformType::New();
   optimizer           = OptimizerType::New();
@@ -182,6 +188,8 @@ int main( int argc, char * argv [] )
   movingImageReader  = ImageReaderType::New();
 
   rasterizationFilter = SpatialObjectToImageFilterType::New();
+
+  narrowBandPointSetFilter = NarrowBandFilterType::New();
 
 
   movingImageReader->SetFileName( argv[1] );
@@ -201,7 +209,22 @@ int main( int argc, char * argv [] )
 
   
   movingImage = movingImageReader->GetOutput();
+  
+  SpatialObjectType::SizeType boxSize;
+  boxSize[0] = 200;
+  boxSize[1] = 100;
+  
+  spatialObject->SetSize( boxSize );
 
+  rasterizationFilter->SetInput( spatialObject );
+      
+  narrowBandPointSetFilter->SetInput( 
+                    rasterizationFilter->GetOutput() ); 
+
+  narrowBandPointSetFilter->Update();
+
+  fixedPointSet = narrowBandPointSetFilter->GetOutput();
+  
   registrationMethod->SetOptimizer(     optimizer     );
   registrationMethod->SetInterpolator(  linearInterpolator  );
   registrationMethod->SetMetric(        metric        );
