@@ -85,6 +85,60 @@
 #include "itkImageFileReader.h"
 
 
+
+//
+// Observer to the optimizer
+//
+class CommandIterationUpdate : public itk::Command 
+{
+public:
+  typedef  CommandIterationUpdate   Self;
+  typedef  itk::Command             Superclass;
+  typedef  itk::SmartPointer<Self>  Pointer;
+  itkNewMacro( Self );
+protected:
+  CommandIterationUpdate() {};
+public:
+  typedef   itk::RegularStepGradientDescentOptimizer  OptimizerType;
+  typedef   const OptimizerType   *           OptimizerPointer;
+
+  void Execute(itk::Object *caller, const itk::EventObject & event)
+    {
+      Execute( (const itk::Object *)caller, event);
+    }
+
+  void Execute(const itk::Object * object, const itk::EventObject & event)
+    {
+      OptimizerPointer optimizer = 
+        dynamic_cast< OptimizerPointer >( object );
+      if( typeid( event ) != typeid( itk::IterationEvent ) )
+        {
+        return;
+        }
+
+      OptimizerType::DerivativeType gradient = optimizer->GetGradient();
+      OptimizerType::ScalesType     scales   = optimizer->GetScales();
+
+      double magnitude2 = 0.0;
+
+      for(unsigned int i=0; i<gradient.size(); i++)
+        {
+        const double fc = gradient[i] / scales[i];
+        magnitude2 += fc * fc;
+        }  
+
+      const double gradientMagnitude = sqrt( magnitude2 );
+
+      std::cout << optimizer->GetCurrentIteration() << "   ";
+      std::cout << optimizer->GetValue() << "   ";
+      std::cout << gradientMagnitude << "   ";
+      std::cout << optimizer->GetCurrentPosition() << std::endl;
+    }
+};
+
+
+
+
 int main( int argc, char * argv [] )
 {
 
@@ -152,12 +206,19 @@ int main( int argc, char * argv [] )
                                     ImageType  >   RegistrationType;
 
 
+  typedef CommandIterationUpdate    IterationObserverType;
+
   typedef itk::ImageFileReader< ImageType >      ImageReaderType;
+
+
 
   SpatialObjectType::Pointer            spatialObject;
 
   TransformType::Pointer                transform;
+
   OptimizerType::Pointer                optimizer;
+
+  IterationObserverType::Pointer        iterationObserver;
 
   LinearInterpolatorType::Pointer       linearInterpolator;
 
@@ -176,22 +237,19 @@ int main( int argc, char * argv [] )
   NarrowBandFilterType::Pointer      narrowBandPointSetFilter;
 
   
-  spatialObject       = SpatialObjectType::New();
-
   metric              = MetricType::New();
   transform           = TransformType::New();
   optimizer           = OptimizerType::New();
   linearInterpolator  = LinearInterpolatorType::New();
-
   registrationMethod  = RegistrationType::New();
+  iterationObserver   = IterationObserverType::New();
 
-  movingImageReader  = ImageReaderType::New();
-
-  rasterizationFilter = SpatialObjectToImageFilterType::New();
-
+  spatialObject            = SpatialObjectType::New();
+  rasterizationFilter      = SpatialObjectToImageFilterType::New();
   narrowBandPointSetFilter = NarrowBandFilterType::New();
 
-
+  movingImageReader        = ImageReaderType::New();
+  
   movingImageReader->SetFileName( argv[1] );
 
   try
@@ -211,8 +269,8 @@ int main( int argc, char * argv [] )
   movingImage = movingImageReader->GetOutput();
   
   SpatialObjectType::SizeType boxSize;
-  boxSize[0] = 200;
-  boxSize[1] = 100;
+  boxSize[0] = 60;
+  boxSize[1] = 60;
   
   spatialObject->SetSize( boxSize );
 
@@ -239,6 +297,20 @@ int main( int argc, char * argv [] )
   optimizer->SetNumberOfIterations( 300 );
   optimizer->SetRelaxationFactor( 0.90 );
   optimizer->SetGradientMagnitudeTolerance( 0.05 );
+
+
+
+
+
+  optimizer->AddObserver( itk::IterationEvent(), iterationObserver );
+
+
+  TransformType::TranslationType  initialTranslation;
+  initialTranslation[0] = 50.0;
+  initialTranslation[1] = 50.0;
+
+  transform->SetIdentity();
+  transform->SetTranslation( initialTranslation );
 
   registrationMethod->SetInitialTransformParameters( 
                                   transform->GetParameters() ); 
