@@ -19,29 +19,27 @@
 #endif
 #include <iostream>
 
+#include "itkConstShapedNeighborhoodIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
-#include "itkConstNeighborhoodIterator.h"
 #include "itkImage.h"
 
-void ZFBCTest_PrintNeighborhood( itk::ConstNeighborhoodIterator<itk::Image<int, 2> > &p )
+void ZFBCTest_PrintNeighborhood( itk::ConstShapedNeighborhoodIterator<itk::Image<int, 2> > &p )
 {
-  std::cout << std::endl;
-  unsigned x, y, i=0;
-  for (y = 0; y < p.GetSize()[1]; ++y)
+  itk::ConstShapedNeighborhoodIterator<itk::Image<int, 2> >::ConstIterator
+    ci = p.Begin();
+  while (!ci.IsAtEnd())
     {
-      for (x = 0; x < p.GetSize()[0]; ++x, ++i)
-        {
-          std::cout << p.GetPixel(i) << " ";
-        }
-      std::cout << std::endl;
+    std::cout << "    "
+              << ci.GetNeighborhoodIndex() << " -> "
+              << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+    ci++;
     }
-  
 }
 
 int itkZeroFluxBoundaryConditionTest(int, char* [] )
 {
   typedef itk::Image<int, 2> ImageType;
-  typedef itk::ConstNeighborhoodIterator<ImageType> IteratorType;
+  typedef itk::ConstShapedNeighborhoodIterator<ImageType> IteratorType;
   typedef IteratorType::RadiusType RadiusType;
   
   ImageType::Pointer img = ImageType::New();
@@ -73,11 +71,20 @@ int itkZeroFluxBoundaryConditionTest(int, char* [] )
 
   it.OverrideBoundaryCondition(&bc);
 
+  itk::ConstShapedNeighborhoodIterator<ImageType>::OffsetType off;
+  off[0] = -1; off[1] = -1;
+  it.ActivateOffset(off);
+  off[0] = 0; off[1] = 0;
+  it.ActivateOffset(off);
+  off[0] = 1; off[1] = 1;
+  it.ActivateOffset(off);
+
   pos[0] = pos[1] = 0;
   it.SetLocation(pos);
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
+    std::cout << "Index: " << it.GetIndex() << std::endl;
     ZFBCTest_PrintNeighborhood(it);
     }
 
