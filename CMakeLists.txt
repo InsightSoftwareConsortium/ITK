@@ -135,8 +135,13 @@ MARK_AS_ADVANCED(ITK_USE_REVIEW)
 
 #-----------------------------------------------------------------------------
 # ITK turn on concept checking
-OPTION(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." OFF)
-MARK_AS_ADVANCED(ITK_USE_CONCEPT_CHECKING)
+IF( NOT BORLAND )
+  OPTION(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." OFF)
+  MARK_AS_ADVANCED(ITK_USE_CONCEPT_CHECKING)
+ELSE( NOT BORLAND )
+  SET(ITK_USE_CONCEPT_CHECKING OFF)
+  MARK_AS_ADVANCED(ITK_USE_CONCEPT_CHECKING)
+ENDIF( NOT BORLAND )
 
 #-----------------------------------------------------------------------------
 # Do we need CableSwig?
