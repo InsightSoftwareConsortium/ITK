@@ -70,7 +70,7 @@
 #include "itkBinaryMaskToNarrowBandPointSetFilter.h"
 //  Software Guide : EndCodeSnippet 
 
-
+#include "itkBinaryMaskToNarrowBandPointSetFilter.h"
 
 #include "itkImage.h"
 #include "itkPointSet.h"
@@ -82,10 +82,19 @@
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkResampleImageFilter.h"
 
+#include "itkImageFileReader.h"
 
 
-int main()
+int main( int argc, char * argv [] )
 {
+
+  if( argc < 2 )
+    {
+    std::cerr << "Missing argument" << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << " movingImageFileName " << std::endl;
+    return EXIT_FAILURE;
+    }
 
   const unsigned int Dimension = 2;
 
@@ -101,6 +110,12 @@ int main()
                               MaskImageType >   
                                             SpatialObjectToImageFilterType;
 
+  typedef itk::PointSet< float, Dimension >       FixedPointSetType;
+
+
+  typedef itk::BinaryMaskToNarrowBandPointSetFilter<
+                              MaskImageType,
+                              FixedPointSetType >     NarrowBandFilterType;
 
   typedef  signed short        PixelType;
   
@@ -120,15 +135,12 @@ int main()
 
   typedef itk::LinearInterpolateImageFunction< 
                                     ImageType,
-                                    double             > LinearInterpolatorType;
-
-
-  typedef itk::PointSet< float, Dimension >       FixedPointSetType;
+                                    double     > LinearInterpolatorType;
 
 
   typedef itk::MeanSquaresPointSetToImageMetric< 
                                     FixedPointSetType, 
-                                    ImageType          >   MetricType;                                          
+                                    ImageType  >   MetricType;                                          
                                           
 
   typedef OptimizerType::ScalesType       OptimizerScalesType;
@@ -136,13 +148,10 @@ int main()
 
   typedef itk::PointSetToImageRegistrationMethod< 
                                     FixedPointSetType,
-                                    ImageType  >         RegistrationType;
+                                    ImageType  >   RegistrationType;
 
 
-  typedef itk::ResampleImageFilter< 
-                            ImageType, 
-                            ImageType >    ResampleFilterType;
-
+  typedef itk::ImageFileReader< ImageType >      ImageReaderType;
 
 
   TransformType::Pointer                transform;
@@ -154,11 +163,15 @@ int main()
 
   RegistrationType::Pointer             registrationMethod;
 
+  ImageReaderType::Pointer              movingImageReader;
+
   FixedPointSetType::Pointer            fixedPointSet;
 
-  ImageType::ConstPointer               fixedImage;
   ImageType::ConstPointer               movingImage;
 
+  SpatialObjectToImageFilterType::Pointer    rasterizationFilter;
+
+  
   metric              = MetricType::New();
   transform           = TransformType::New();
   optimizer           = OptimizerType::New();
@@ -166,11 +179,36 @@ int main()
 
   registrationMethod  = RegistrationType::New();
 
+  movingImageReader  = ImageReaderType::New();
+
+  rasterizationFilter = SpatialObjectToImageFilterType::New();
+
+
+  movingImageReader->SetFileName( argv[1] );
+
+  try
+    {
+    movingImageReader->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Problem reading Moving image from = " << std::endl;
+    std::cerr << argv[1] << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  
+  movingImage = movingImageReader->GetOutput();
+
   registrationMethod->SetOptimizer(     optimizer     );
   registrationMethod->SetInterpolator(  linearInterpolator  );
   registrationMethod->SetMetric(        metric        );
   registrationMethod->SetTransform(     transform     );
 
+  registrationMethod->SetMovingImage(   movingImage  );
+  registrationMethod->SetFixedPointSet( fixedPointSet );
 
 
   optimizer->SetMaximumStepLength( 2.00 );
