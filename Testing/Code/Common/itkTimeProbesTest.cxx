@@ -27,6 +27,7 @@
 #include "itkSize.h"
 
 #include <iostream>
+#include <fstream>
 
 template <class T>
 void TestTransformIndexToPhysicalPoint(T * image)
@@ -150,6 +151,16 @@ int itkTimeProbesTest(int, char* [] )
 
   // Print the results of the time probes
   collector.Report();
+
+  // Test writing to a ostream
+  std::ofstream  logfile;
+  logfile.open("itkTimeProbesTest.txt");
+  collector.Report( logfile );
+  logfile.close();
+
+  // Print to the standar error
+  collector.Report( std::cerr );
+
 
   return EXIT_SUCCESS;
 

@@ -55,7 +55,7 @@ public:
   virtual void Stop( const char * name );
   
   /** Report the summary of results from the time probes */
-  virtual void Report(void) const;
+  virtual void Report( std::ostream & os = std::cout ) const;
 
   /** Destroy the set of probes. New probes can be created after invoking this method. */
   virtual void Clear(void);
