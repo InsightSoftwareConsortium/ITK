@@ -192,6 +192,8 @@ inline SymmetricSecondRankTensor< TValueType, VLength> operator*
 
 } // end namespace itk
 
+#include "itkNumericTraitsTensorPixel.h"
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSymmetricSecondRankTensor.txx"
 #endif

@@ -247,6 +247,7 @@ ITKCommon_EXPORT void CrossProduct(  CovariantVector<int,3>,
 
 } // end namespace itk
   
+#include "itkNumericTraitsCovariantVectorPixel.h"
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCovariantVector.txx"
