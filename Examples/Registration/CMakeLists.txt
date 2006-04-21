@@ -123,6 +123,9 @@ TARGET_LINK_LIBRARIES(BSplineWarping1 ITKNumerics ITKIO)
 ADD_EXECUTABLE(ModelToImageRegistration1 ModelToImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(ModelToImageRegistration1 ITKStatistics ITKNumerics ITKIO)
 
+ADD_EXECUTABLE(ModelToImageRegistration2 ModelToImageRegistration2.cxx )
+TARGET_LINK_LIBRARIES(ModelToImageRegistration2 ITKStatistics ITKNumerics ITKIO)
+
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
 ADD_TEST(ImageRegistration1oTest ${REGISTRATION_EXAMPLESO}
