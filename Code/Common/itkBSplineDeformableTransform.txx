@@ -235,13 +235,13 @@ void
 BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::SetIdentity()
 {
-   if( m_InputParametersPointer )
-     {
-     ParametersType * parameters =
-       const_cast<ParametersType *>( m_InputParametersPointer );
-     parameters->Fill( 0.0 );
-     this->Modified();
-     }
+  if( m_InputParametersPointer )
+    {
+    ParametersType * parameters =
+      const_cast<ParametersType *>( m_InputParametersPointer );
+    parameters->Fill( 0.0 );
+    this->Modified();
+    }
 }
 
 
@@ -345,7 +345,8 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
    * NOTE: For efficiency, parameters are not copied locally. The parameters
    * are assumed to be maintained by the caller.
    */
-  PixelType * dataPointer = const_cast<PixelType *>(( m_InputParametersPointer->data_block() ));
+  PixelType * dataPointer =
+    const_cast<PixelType *>(( m_InputParametersPointer->data_block() ));
   unsigned int numberOfPixels = m_GridRegion.GetNumberOfPixels();
 
   for ( unsigned int j = 0; j < SpaceDimension; j++ )
@@ -385,8 +386,10 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   // expected number of parameters
   if ( parameters.Size() != this->GetNumberOfParameters() )
     {
-    itkExceptionMacro(<<"Mismatched between parameters size " << parameters.size() 
-                      << " and region size " << m_GridRegion.GetNumberOfPixels() );
+    itkExceptionMacro(<<"Mismatched between parameters size "
+                      << parameters.size() 
+                      << " and region size "
+                      << m_GridRegion.GetNumberOfPixels() );
     }
 
   // copy it
@@ -650,8 +653,6 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     }
 
 }
-
-
 
 // Transform a point
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
