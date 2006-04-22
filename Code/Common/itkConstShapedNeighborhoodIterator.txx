@@ -28,7 +28,8 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
   os << indent <<  "ConstShapedNeighborhoodIterator {this = " << this;
   os << " m_ActiveIndexList = [";
   for (IndexListType::const_iterator it = m_ActiveIndexList.begin();
-       it != m_ActiveIndexList.end(); ++it)
+       it != m_ActiveIndexList.end();
+       ++it)
     {
     os << *it << " ";
     }
@@ -155,7 +156,9 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
       }
     
     // Increment pointers for only the active pixels.
-    for (it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); it++)
+    for (it = m_ActiveIndexList.begin();
+         it != m_ActiveIndexList.end();
+         it++)
       {
       (this->GetElement(*it))++;
       }
@@ -172,7 +175,9 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
           this->GetElement(this->GetCenterNeighborhoodIndex()) += 
             this->m_WrapOffset[i];
           }
-        for (it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); it++)
+        for (it = m_ActiveIndexList.begin();
+             it != m_ActiveIndexList.end();
+             it++)
           {
           (this->GetElement(*it)) += this->m_WrapOffset[i];
           }
@@ -212,7 +217,9 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
       }
     
     // Decrement pointers for only the active pixels.
-    for (it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); it++)
+    for (it = m_ActiveIndexList.begin();
+         it != m_ActiveIndexList.end();
+         it++)
       {
       (this->GetElement(*it))--;
       }
@@ -228,7 +235,9 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
           this->GetElement(this->GetCenterNeighborhoodIndex()) -= 
             this->m_WrapOffset[i];
           }
-        for (it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); it++)
+        for (it = m_ActiveIndexList.begin();
+             it != m_ActiveIndexList.end();
+             it++)
           {
           (this->GetElement(*it)) -= this->m_WrapOffset[i];
           }
@@ -287,14 +296,16 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
       }  
     
     // Increment pointers only for those active pixels
-    for (it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); it++)
+    for (it = m_ActiveIndexList.begin();
+         it != m_ActiveIndexList.end();
+         it++)
       {
       (this->GetElement(*it)) += accumulator;
       }
     
     // Update loop counter values
     this->m_Loop += idx;
-    }      
+    }
   return *this;
 }
 
@@ -339,12 +350,13 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
     // Center pointer is always updated even if not active.
     if (! m_CenterIsActive)
       {
-      this->GetElement(this->GetCenterNeighborhoodIndex()) -=
-        accumulator;
+      this->GetElement(this->GetCenterNeighborhoodIndex()) -= accumulator;
       }  
     
     // Increment pointers only for those active pixels
-    for (it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); it++)
+    for (it = m_ActiveIndexList.begin();
+         it != m_ActiveIndexList.end();
+         it++)
       {
       (this->GetElement(*it)) -= accumulator;
       }
