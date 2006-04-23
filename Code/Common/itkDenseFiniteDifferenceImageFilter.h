@@ -29,7 +29,7 @@ namespace itk {
  * performs ``dense'' iteration, ie. iteration over all pixels in the input and
  * output at each change calculation and update step. Dense iteration is in
  * contrast to a ``sparse'' iteration over a subset of the pixels.  See
- * documenation for FiniteDifferenceImageFilter for an overview of the
+ * documentation for FiniteDifferenceImageFilter for an overview of the
  * iterative finite difference algorithm:
  *
  * \par
@@ -119,7 +119,7 @@ protected:
   virtual void CopyInputToOutput();
 
   /** This method applies changes from the m_UpdateBuffer to the output using
-   * the ThreadedAPplyUpdate() method and a multithreading mechanism.  "dt" is
+   * the ThreadedApplyUpdate() method and a multithreading mechanism.  "dt" is
    * the time step to use for the update of each pixel. */
   virtual void ApplyUpdate(TimeStepType dt);
 
