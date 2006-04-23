@@ -23,33 +23,30 @@
 
 namespace itk
 {
-
 /** \class BinaryPruningImageFilter
-*
-* This class is parametrized over the type of the input image
-* and the type of the output image.
-*
-* This filter remove spurs pixel of less than a certain length input image.
-* 
-*
-* The input is assumed to be a binary image.
-
-*
-* This filter is sequential pruning algorithm and known to be computational time
-* dependable of the image size.  The algorithm is the N-dimensional version
-* of the  given for two dimensions in:
-* 
-* Rafael C. Gonzales and Richard E. Woods. 
-* Digital Image Processing. 
-* Addison Wesley, 491-494, (1993).
-*
-* \sa MorphologyImageFilter
-* \sa BinaryPruningImageFilter
-* \sa BinaryErodeImageFilter
-* \sa BinaryDilateImageFilter
-* \sa BinaryThinningImageFilter
-* \ingroup ImageEnhancement MathematicalMorphologyImageFilters
-*/
+ *
+ * \brief This filter removes "spurs" of less than a certain
+ * length in the input image.
+ *
+ * This class is parametrized over the type of the input image
+ * and the type of the output image.
+ *
+ * The input is assumed to be a binary image.  
+ *
+ * This filter is a sequential pruning algorithm and known to be computational time
+ * dependable of the image size.  The algorithm is the N-dimensional version
+ * of that given for two dimensions in:
+ * 
+ * Rafael C. Gonzales and Richard E. Woods. 
+ * Digital Image Processing. 
+ * Addison Wesley, 491-494, (1993).
+ *
+ * \sa MorphologyImageFilter
+ * \sa BinaryErodeImageFilter
+ * \sa BinaryDilateImageFilter
+ * \sa BinaryThinningImageFilter
+ * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
+ */
 
 template <class TInputImage,class TOutputImage>
 class ITK_EXPORT BinaryPruningImageFilter :
