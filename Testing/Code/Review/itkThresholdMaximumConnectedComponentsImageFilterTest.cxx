@@ -1,8 +1,9 @@
 /*=========================================================================
 
-  Program:   AutoThreshold v 1.0 
+  Module:    itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
   Language:  C++
-  Version:   version 1.0 (build 1)
+  Date:      $Date$
+  Version:   $Revision$
 
   Copyright (c) 2005 Ken Urish 
   All rights reserved.
@@ -41,7 +42,7 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv
     {
     std::cerr << "Usage: " << argv[0] << std::endl;
     std::cerr << " 1: InputImage Name 2:OutputImage Name" << std::endl;
-    std::cerr << " 3: minimumPixelArea" << std::endl; //is this the first image in the stack
+    std::cerr << " 3: minimumPixelArea" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -50,14 +51,16 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv
   typedef unsigned char OutputPixelType;
   const   unsigned int Dimension = 2;
   
-  typedef itk::Image< InputPixelType, Dimension > InputImageType;
+  typedef itk::Image< InputPixelType, Dimension >  InputImageType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
-  typedef InputImageType::Pointer InputImagePointer;
+  typedef InputImageType::Pointer  InputImagePointer;
   typedef OutputImageType::Pointer OutputImagePointer;
 
-  InputPixelType maxLabel= itk::NumericTraits<InputPixelType>::max();
-  InputPixelType minLabel= itk::NumericTraits<InputPixelType>::min(); 
+  InputPixelType maxLabel = 
+    itk::NumericTraits<InputPixelType>::max();
+  InputPixelType minLabel =
+    itk::NumericTraits<InputPixelType>::NonpositiveMin();
   
   const unsigned int minimumPixelArea = atoi( argv[3] );
  
@@ -80,7 +83,7 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv
     return EXIT_FAILURE;
     }
 
-  // ****************************************************************************
+  // ************************************************************************
   // Automatic Threshold Filter
   // This filter essentially chooses the optimum place to threshold the object.
   // It also indirectly will count the number of objects for you.
@@ -88,18 +91,19 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv
   // the number of light objects. If the reverse, it will count the number of 
   // dark objects.
 
-  unsigned int numberOfObjects = 0;
-  unsigned int thresholdValue = 0;
+  unsigned int numberOfObjects;
+  unsigned int thresholdValue;
 
-  typedef itk::ThresholdMaximumConnectedComponentsImageFilter< InputImageType>  ThresholdType;
+  typedef itk::ThresholdMaximumConnectedComponentsImageFilter< InputImageType>
+  ThresholdType;
   ThresholdType::Pointer automaticThreshold = ThresholdType::New();
   
   automaticThreshold->SetInput( reader->GetOutput() );
   automaticThreshold->SetMinimumObjectSizeInPixels( minimumPixelArea );
 
-  //For counting Myofibers, the inside value should be the minLabel
-  //If you wanted to count a solid object (ie dapi nuclei) ser the
-  //inside value to minLabel.
+  // For counting Myofibers, the inside value should be the minLabel
+  // If you wanted to count a solid object (ie dapi nuclei) set the
+  // inside value to minLabel.
   //
   automaticThreshold->SetInsideValue( minLabel );
   automaticThreshold->SetOutsideValue( maxLabel );
@@ -121,7 +125,7 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv
   std::cout << "Number of Objects = " << numberOfObjects << std::endl;
   std::cout << "Threshold Value   = " << thresholdValue  << std::endl;
 
-  // *****************************************************************************************
+  // *****************************************************************
   // Image File Writer
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
@@ -143,5 +147,3 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv
   
   return EXIT_SUCCESS;
 }
-
-

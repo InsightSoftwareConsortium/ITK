@@ -22,17 +22,19 @@
 
 int main(int , char* [])
 {
-  typedef itk::Image<float,2> InputType; 
-  typedef itk::Image<float,2> OutputType;
+  typedef itk::Image<float,2>          InputType; 
+  typedef itk::Image<float,2>          OutputType;
   typedef itk::Image<unsigned short,2> UShortImageType;
-  typedef itk::Image<unsigned char,2> CharType;
+  typedef itk::Image<unsigned char,2>  CharType;
 
-  typedef itk::Vector<float,2> VectorType;
+  typedef itk::Vector<float,2>      VectorType;
   typedef itk::Image<VectorType, 2> VectorImageType;
 
-  itk::ThresholdMaximumConnectedComponentsImageFilter<InputType>::Pointer ThresholdMaximumConnectedComponentsImageFilterObj =
-  itk::ThresholdMaximumConnectedComponentsImageFilter<InputType>::New();
-  std:: cout << "-------------ThresholdMaximumConnectedComponentsImageFilter " << ThresholdMaximumConnectedComponentsImageFilterObj;
+  itk::ThresholdMaximumConnectedComponentsImageFilter<InputType>::Pointer
+    ThresholdMaximumConnectedComponentsImageFilterObj =
+    itk::ThresholdMaximumConnectedComponentsImageFilter<InputType>::New();
+  std:: cout << "-------------ThresholdMaximumConnectedComponentsImageFilter "
+             << ThresholdMaximumConnectedComponentsImageFilterObj;
 
   return 0;
 
