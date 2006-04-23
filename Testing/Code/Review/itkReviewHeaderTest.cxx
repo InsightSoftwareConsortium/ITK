@@ -1,16 +1,18 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit (ITK)
-  Module:
+  Module:    itkReviewHeaderTest.cxx
   Language:  C++
-  Date:
-  Version:
+  Date:      $Date$
+  Version:   $Revision$
 
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
-See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #if defined(_MSC_VER)
