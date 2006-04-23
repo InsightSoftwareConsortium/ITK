@@ -414,7 +414,7 @@ protected:
   m_NeighborList;
   
   /** The constant gradient to maintain between isosurfaces in the
-      spare-field of the level-set image.  This value defaults to 1.0 */
+      sparse-field of the level-set image.  This value defaults to 1.0 */
   static double m_ConstantGradientValue;
 
   /** Multiplicative identity of the ValueType. */
