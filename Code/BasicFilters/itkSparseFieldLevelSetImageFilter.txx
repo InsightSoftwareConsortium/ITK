@@ -537,7 +537,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     statusIt.Set( m_StatusNull );
     }
 
-  // Initialize the boundary pixels in the status images to
+  // Initialize the boundary pixels in the status image to
   // m_StatusBoundaryPixel values.  Uses the face calculator to find all of the
   // region faces.
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<StatusImageType>
@@ -590,7 +590,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // outside of the active layer.
   this->ConstructActiveLayer();
 
-  // Construct the rest of the non active set layers using the first two
+  // Construct the rest of the non-active set layers using the first two
   // layers. Inside layers are odd numbers, outside layers are even numbers.
   for (i = 1; i < m_Layers.size() - 2; ++i)
     {
@@ -666,7 +666,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   //
   // During construction we also check whether any of the layers of the active
   // set (or the active set itself) is sitting on a boundary pixel location. If
-  // this is the case, then we need to active bounds checking in the solver
+  // this is the case, then we need to do active bounds checking in the solver.
   //
   
   unsigned int i;
@@ -921,7 +921,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
           { //  Neighbors are same sign OR at least one neighbor is zero.
           dx_forward  = forwardValue - centerValue;
           dx_backward = centerValue - backwardValue;
-          
+
           // Pick the larger magnitude derivative.
           if (::vnl_math_abs(dx_forward) > ::vnl_math_abs(dx_backward) )
             {
