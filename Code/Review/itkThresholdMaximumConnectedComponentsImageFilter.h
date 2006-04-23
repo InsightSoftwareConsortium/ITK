@@ -1,11 +1,10 @@
 /*=========================================================================
   
-  Filter: Automatic Threshold Image Filter
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkThresholdMaximumConnectedComponentsImageFilter.h
   Language:  C++
-  Date:      11 July 2005
-  Version:   Revision: 1.00
+  Date:      $Date$
+  Version:   $Revision$
 
   Copyright (c) Ken Urish 2005. All rights reserved.
   
@@ -19,8 +18,8 @@
      PURPOSE.  See the above copyright notices for more information.
 =========================================================================*/
 
-#ifndef __ThresholdMaximumConnectedComponentsImageFilter_h
-#define __ThresholdMaximumConnectedComponentsImageFilter_h
+#ifndef __itkThresholdMaximumConnectedComponentsImageFilter_h
+#define __itkThresholdMaximumConnectedComponentsImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
@@ -38,10 +37,11 @@ namespace itk
  * of objects in the image that are larger than a given minimal size. 
  *
  * \par
- * This method is based on Topological Stable State Thresholding to calculate the
- * threshold set point. This method is particularly effective when there are a large
- * number of objects in a microscopy image. Uncomment the output statements in the 
- * GenerateData section to see how the filter focuses in on a threshold value.
+ * This method is based on Topological Stable State Thresholding to
+ * calculate the threshold set point. This method is particularly
+ * effective when there are a large number of objects in a microscopy
+ * image. Uncomment the output statements in the GenerateData section
+ * to see how the filter focuses in on a threshold value.
  * Please see the Insight Journal's MICCAI 2005 workshop for a complete 
  * description. References are below.
  *
@@ -80,15 +80,16 @@ class ITK_EXPORT ThresholdMaximumConnectedComponentsImageFilter :
 public:
   /** Standard class typedefs. */
   typedef ThresholdMaximumConnectedComponentsImageFilter Self;
-  typedef ImageToImageFilter<TInputImage,TInputImage>  Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ImageToImageFilter<TInputImage,TInputImage>    Superclass;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ThresholdMaximumConnectedComponentsImageFilter, ImageToImageFilter );
+  itkTypeMacro( ThresholdMaximumConnectedComponentsImageFilter,
+                ImageToImageFilter );
 
   /** Typedef to describe the type of pixel. */
   typedef typename TInputImage::PixelType   PixelType;
@@ -96,20 +97,29 @@ public:
   /** The pixel type must support comparison operators. */
   itkConceptMacro(PixelTypeComparable, (Concept::Comparable<PixelType>));
    
-  /** Set the minimum pixel area used to count objects on the image. Thus, only objects that 
-   *  have a pixel area greater than the minimum pixel area will be counted as an object 
-   *  in the optimization portion of this filter. Essentially, it eliminates noise from being 
-   *  counted as an object. The default value is zero. */
+  /**
+   * Set the minimum pixel area used to count objects on the
+   * image. Thus, only objects that have a pixel area greater than the
+   * minimum pixel area will be counted as an object in the
+   * optimization portion of this filter. Essentially, it eliminates
+   * noise from being counted as an object. The default value is
+   * zero. */
   itkSetMacro( MinimumObjectSizeInPixels, unsigned int );
   itkGetMacro( MinimumObjectSizeInPixels, unsigned int );
   
-  /** The following Set/Get methods are for the binary threshold function.
-   *  This class automatically calculates the lower threshold boundary.
-   *  The upper threshold boundary, inside value, and outside value can be defined 
-   *  by the user, however the standard values are used as default if not set by the user. 
-   *  The default value of the: Inside value is the maximum pixel type intensity.
-   *                            Outside value is the minimum pixel type intensity. 
-   *                            Upper threshold boundary is the maximum pixel type intensity. */
+  /**
+   * The following Set/Get methods are for the binary threshold
+   * function. This class automatically calculates the lower threshold
+   * boundary. The upper threshold boundary, inside value, and outside
+   * value can be defined   by the user, however the standard values
+   * are used as default if not set by the user. 
+   *  The default value of the: Inside value is the maximum pixel type
+   *                              intensity. 
+   *                            Outside value is the minimum pixel
+   *                              type intensity.
+   *                            Upper threshold boundary is the
+   *                              maximum pixel type intensity.
+   */
   itkSetMacro( InsideValue, PixelType );
   itkSetMacro( OutsideValue, PixelType );
   itkSetMacro( UpperBoundary, PixelType );
@@ -117,25 +127,28 @@ public:
   itkGetMacro( OutsideValue, PixelType );
   itkGetMacro( UpperBoundary, PixelType );
 
-  /** Returns the number of objects in the image. This information is only
-   * valid after the filter has executed. Useful if your counting someething*/
+  /**
+   * Returns the number of objects in the image. This information is
+   * only valid after the filter has executed. Useful if your counting
+   * something */
   itkGetMacro( NumberOfObjects, unsigned long );
 
-  /** Returns the automatic threshold setpoint. This information is only
-   * valid after the filter has executed. */
+  /**
+   * Returns the automatic threshold setpoint. This information is
+   * only valid after the filter has executed. */
   itkGetMacro( ThresholdValue, PixelType );
 
   /** Some additional typedefs.  */
-  typedef TInputImage InputImageType;
+  typedef TInputImage                           InputImageType;
   typedef typename InputImageType::ConstPointer InputImagePointer;
   typedef typename InputImageType::RegionType   InputImageRegionType;
   typedef typename InputImageType::PixelType    InputImagePixelType;
 
   /** Some additional typedefs.  */
-  typedef TInputImage OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef TInputImage                          OutputImageType;
+  typedef typename OutputImageType::Pointer    OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename OutputImageType::PixelType OutputImagePixelType;
+  typedef typename OutputImageType::PixelType  OutputImagePixelType;
   
 
 protected:
@@ -147,8 +160,10 @@ protected:
    *ImageToImageFilter::GenerateData()  */
   void GenerateData(void);
 
-  /* Runs a series of filters that thresholds the image, dilates/erodes for edge enhancement, 
-   * and counts the number of relabeled connected components  */
+  /**
+   * Runs a series of filters that thresholds the image,
+   * dilates/erodes  for edge enhancement, and counts the number of
+   * relabeled connected components */
   unsigned long int ComputeConnectedComponents(void); 
 
 
@@ -157,32 +172,39 @@ private:
   /** Typedef for filter pixel type.  */   
   typedef unsigned int FilterPixelType;
 
-  itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
+  itkStaticConstMacro( ImageDimension,
+                       unsigned int,
+                       TInputImage::ImageDimension );
 
-  typedef itk::Image< FilterPixelType, itkGetStaticConstMacro(ImageDimension) > FilterImageType; 
+  typedef itk::Image< FilterPixelType, itkGetStaticConstMacro(ImageDimension) >
+ FilterImageType; 
 
   typedef typename FilterImageType::Pointer FilterImagePointer;
 
-  ThresholdMaximumConnectedComponentsImageFilter(const Self&); //purposely not implemented
+  //purposely not implemented
+  ThresholdMaximumConnectedComponentsImageFilter(const Self&);
   void operator=(const Self&); //purposely not implemented
    
   
   //
   // Binary Threshold Filter
   //
-  typedef BinaryThresholdImageFilter< InputImageType, InputImageType >  ThresholdFilterType;
+  typedef BinaryThresholdImageFilter< InputImageType, InputImageType >
+  ThresholdFilterType;
 
   
   // 
   // Connected Components Filter  
   //
-  typedef ConnectedComponentImageFilter< InputImageType, FilterImageType > ConnectedFilterType;
+  typedef ConnectedComponentImageFilter< InputImageType, FilterImageType >
+  ConnectedFilterType;
 
   
   //
-  // Relabeled Components Filter    
+  // Relabeled Components Filter
   //
-  typedef RelabelComponentImageFilter< FilterImageType, FilterImageType > RelabelFilterType;
+  typedef RelabelComponentImageFilter< FilterImageType, FilterImageType >
+  RelabelFilterType;
 
   
   // 
@@ -217,4 +239,3 @@ private:
 #endif
   
 #endif
-
