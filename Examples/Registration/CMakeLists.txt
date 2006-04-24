@@ -448,6 +448,14 @@ ADD_TEST(ImageRegistration12Test ${REGISTRATION_EXAMPLES4}
         ${TEMP}/ImageRegistration12Test.png
 )
 
+
+ADD_TEST(ModelToImageRegistration2Test ${REGISTRATION_EXAMPLES9}
+  ModelToImageRegistration2Test
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/cake_easy.png  12 12
+)
+
+
+
 ADD_EXECUTABLE(RegistrationExamples RegistrationExamples.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
 
