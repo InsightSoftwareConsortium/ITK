@@ -186,7 +186,7 @@ int main( int argc, char * argv [] )
   typedef TransformType::ParametersType          ParametersType;
 
 
-  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
+  typedef itk::RegularStepGradientDescentOptimizer    OptimizerType;
 
   typedef itk::LinearInterpolateImageFunction< 
                                     ImageType,
@@ -281,7 +281,11 @@ int main( int argc, char * argv [] )
 
   rasterizationFilter->SetInput( spatialObject );
   rasterizationFilter->SetSize( imageSize );
+  rasterizationFilter->SetSpacing( movingImage->GetSpacing() );
+  rasterizationFilter->SetOrigin( movingImage->GetOrigin() );
 
+
+  
   narrowBandPointSetFilter->SetBandWidth( 5.0 );
       
   narrowBandPointSetFilter->SetInput( 
@@ -302,7 +306,7 @@ int main( int argc, char * argv [] )
   registrationMethod->SetFixedPointSet( fixedPointSet );
 
 
-  optimizer->SetMaximumStepLength( 2.00 );
+  optimizer->SetMaximumStepLength( 1.00 );
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 300 );
   optimizer->SetRelaxationFactor( 0.90 );
@@ -331,7 +335,31 @@ int main( int argc, char * argv [] )
   registrationMethod->SetInitialTransformParameters( 
                                   transform->GetParameters() ); 
 
-  registrationMethod->StartRegistration(); 
+  OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
+
+  const double translationScale = 1.0 / 1000.0;
+
+  optimizerScales[0] = 1.0;
+  optimizerScales[1] = translationScale;
+  optimizerScales[2] = translationScale;
+
+  optimizer->SetScales( optimizerScales );
+
+
+
+  try
+    {
+    registrationMethod->StartRegistration(); 
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Problem found during the registration" << std::endl;
+    std::cerr << argv[1] << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
 
   ParametersType transformParameters = 
          registrationMethod->GetLastTransformParameters();
