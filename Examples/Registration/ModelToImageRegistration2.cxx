@@ -75,7 +75,7 @@
 #include "itkImage.h"
 #include "itkPointSet.h"
 #include "itkPointSetToImageRegistrationMethod.h"
-#include "itkMeanSquaresPointSetToImageMetric.h"
+#include "itkNormalizedCorrelationPointSetToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkRigid2DTransform.h"
@@ -193,7 +193,7 @@ int main( int argc, char * argv [] )
                                     double     > LinearInterpolatorType;
 
 
-  typedef itk::MeanSquaresPointSetToImageMetric< 
+  typedef itk::NormalizedCorrelationPointSetToImageMetric< 
                                     FixedPointSetType, 
                                     ImageType  >   MetricType;                                          
                                           
@@ -269,8 +269,8 @@ int main( int argc, char * argv [] )
   movingImage = movingImageReader->GetOutput();
   
   SpatialObjectType::SizeType boxSize;
-  boxSize[0] = 60;
-  boxSize[1] = 60;
+  boxSize[0] = 60.0;  // mm
+  boxSize[1] = 60.0;  // mm
   
   spatialObject->SetSize( boxSize );
 
@@ -311,7 +311,7 @@ int main( int argc, char * argv [] )
   optimizer->SetNumberOfIterations( 300 );
   optimizer->SetRelaxationFactor( 0.90 );
   optimizer->SetGradientMagnitudeTolerance( 0.05 );
-
+  optimizer->MinimizeOn();
 
 
 
@@ -329,7 +329,13 @@ int main( int argc, char * argv [] )
     initialTranslation[1] = atof( argv[3] );
     }
 
+
+  TransformType::OutputPointType rotationCenter;
+  rotationCenter[0] = boxSize[0] / 2.0;
+  rotationCenter[1] = boxSize[1] / 2.0;
+
   transform->SetIdentity();
+  transform->SetCenter( rotationCenter );
   transform->SetTranslation( initialTranslation );
 
   registrationMethod->SetInitialTransformParameters( 
