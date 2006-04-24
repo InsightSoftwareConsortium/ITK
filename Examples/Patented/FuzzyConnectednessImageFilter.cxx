@@ -26,7 +26,7 @@
 // indicates for every pixels how homogeneous is the path that will link it to
 // the seed point.
 //
-// Please note that the Fuzzy Connectedness algorithm is covered by a Patent
+// Please note that the Fuzzy Connectedness algorithm is covered by a patent
 // \cite{Udupa1998}. For this reason the current example is located in the
 // \texttt{Examples/Patented} subdirectory.
 //
