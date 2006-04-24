@@ -232,30 +232,22 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
 
   os << indent << "InsideValue: "
      << static_cast<typename NumericTraits<PixelType>::PrintType>(
-       m_InsideValue )
-     << std::endl;
+       m_InsideValue ) << std::endl;
   os << indent << "OutsideValue: "
      << static_cast<typename NumericTraits<PixelType>::PrintType>(
-       m_OutsideValue )
-     << std::endl;
+       m_OutsideValue ) << std::endl;
   os << indent << "Lower: "
      << static_cast<typename NumericTraits<PixelType>::PrintType>(
-       m_LowerBoundary )
-     << std::endl;
+       m_LowerBoundary ) << std::endl;
   os << indent << "Upper: "
      << static_cast<typename NumericTraits<PixelType>::PrintType>(
-       m_UpperBoundary )
-     << std::endl;
+       m_UpperBoundary ) << std::endl;
   os << indent << "Threshold Value: "
      << static_cast<typename NumericTraits<PixelType>::PrintType>(
-       m_ThresholdValue)
-     << std::endl;
-  os << indent << "Number of Objects: "
-     << m_NumberOfObjects
-     << std::endl;
-  os << indent << "Minimum Object Size in Pixels: "
-     <<  m_MinimumObjectSizeInPixels
-     << std::endl;
+       m_ThresholdValue) << std::endl;
+  os << indent << "Number of Objects: " << m_NumberOfObjects << std::endl;
+  os << indent << "Minimum Object Size in Pixels: " 
+     <<  m_MinimumObjectSizeInPixels << std::endl;
 }
 
 } // end namespace itk

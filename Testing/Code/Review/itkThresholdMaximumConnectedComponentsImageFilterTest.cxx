@@ -13,19 +13,15 @@
 
 =========================================================================*/
 
-/*
-
- An example program to see how ThresholdMaximumConnectedComponentsImageFilter 
- works for the Insight Journal: 
- 
- Urish KL, August J, Huard J. "Unsupervised segmentation for myofiber 
- counting in immunoflourescent images". Insight Journal. 
- ISC/NA-MIC/MICCAI Workshop on Open-Source Software (2005)
-
- Dspace handle: http://hdl.handle.net/1926/48
- 
-*/
-
+/** 
+ * An example program to see how ThresholdMaximumConnectedComponentsImageFilter 
+ * works for the Insight Journal: 
+ *
+ * Urish KL, August J, Huard J. "Unsupervised segmentation for myofiber 
+ * counting in immunoflourescent images". Insight Journal. 
+ * ISC/NA-MIC/MICCAI Workshop on Open-Source Software (2005)
+ *
+ * Dspace handle: http://hdl.handle.net/1926/48 */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,7 +32,8 @@
 #include "itkImage.h"
 #include "itkThresholdMaximumConnectedComponentsImageFilter.h" 
 
-int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv [] )
+int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc, 
+                                                           char * argv [] )
 {
   if( argc < 3 )
     {
@@ -57,10 +54,9 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc, char * argv
   typedef InputImageType::Pointer  InputImagePointer;
   typedef OutputImageType::Pointer OutputImagePointer;
 
-  InputPixelType maxLabel = 
-    itk::NumericTraits<InputPixelType>::max();
-  InputPixelType minLabel =
-    itk::NumericTraits<InputPixelType>::NonpositiveMin();
+  InputPixelType maxLabel = itk::NumericTraits<InputPixelType>::max();
+  InputPixelType minLabel = 
+                 itk::NumericTraits<InputPixelType>::NonpositiveMin();
   
   const unsigned int minimumPixelArea = atoi( argv[3] );
  
