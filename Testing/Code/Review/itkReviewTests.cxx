@@ -25,4 +25,5 @@ void RegisterTests()
 {
   vnl_sample_reseed(8775070);
   REGISTER_TEST(itkThresholdMaximumConnectedComponentsImageFilterTest );
+  REGISTER_TEST(itkSignedMaurerDistanceMapImageFilterTest );
 }
