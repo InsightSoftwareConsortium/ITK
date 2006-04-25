@@ -134,6 +134,27 @@ OPTION(ITK_USE_REVIEW "Build algorithms that are candidates to be included in th
 MARK_AS_ADVANCED(ITK_USE_REVIEW)
 
 #-----------------------------------------------------------------------------
+# ITK uses KWStyle for checking the coding style
+OPTION(ITK_USE_KWSTYLE "Run KWStyle in order to check for violations of the coding standard." OFF)
+MARK_AS_ADVANCED(ITK_USE_KWSTYLE)
+
+IF(ITK_USE_KWSTYLE)
+  FIND_PROGRAM(KWSTYLE_EXECUTABLE
+  NAMES KWStyle 
+  PATHS
+  /usr/local/bin
+  )
+  MARK_AS_ADVANCED(KWSTYLE_EXECUTABLE)
+  ADD_CUSTOM_COMMAND(
+    OUTPUT ${ITK_BINARY_DIR}/KWStyleReport.txt
+    COMMAND ${KWSTYLE_EXECUTABLE}
+    ARGS    -xml ${ITK_BINARY_DIR}/ITK.kws.xml -o ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITKOverwrite.txt -R -v -d ${ITK_SOURCE_DIR} 
+    COMMENT "Coding Style Checker"
+    )
+  ADD_CUSTOM_TARGET(StyleCheck DEPENDS ${ITK_BINARY_DIR}/KWStyleReport.txt)
+ENDIF(ITK_USE_KWSTYLE)
+
+#-----------------------------------------------------------------------------
 # ITK turn on concept checking
 IF( NOT BORLAND )
   OPTION(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." OFF)
@@ -490,6 +511,8 @@ CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
                ${ITK_BINARY_DIR}/doxygen.config)
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in
                ${ITK_BINARY_DIR}/itkdoxygen.pl)
+CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/KWStyle/ITK.kws.xml.in
+               ${ITK_BINARY_DIR}/ITK.kws.xml)
 
 #-----------------------------------------------------------------------------
 # The entire ITK tree should use the same include path, except for the
