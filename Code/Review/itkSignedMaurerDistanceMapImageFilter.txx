@@ -22,7 +22,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
-#include "itkFastIncrementalBinaryDilateImageFilter.h"
+#include "itkBinaryDilateImageFilter.h"
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkSubtractImageFilter.h"
 
@@ -32,24 +32,25 @@
 //Simple functor to invert an image for Outside Danielsson distance map
 namespace itk
 {
-  namespace Functor
+namespace Functor
+{
+template <class InputPixelType> 
+class InvertIntensityFunctor
+{
+public:
+  InputPixelType operator()( InputPixelType input )
     {
-    template <class InputPixelType> class InvertIntensityFunctor
-    {
-    public:
-      InputPixelType operator()( InputPixelType input )
-        {
-        if (input)
-          {
-          return NumericTraits<InputPixelType>::Zero;
-          }
-        else
-          {
-          return NumericTraits<InputPixelType>::One;
-          }
-        }
-    };
-  }
+    if ( input )
+      {
+      return NumericTraits<InputPixelType>::Zero;
+      }
+    else
+      {
+      return NumericTraits<InputPixelType>::One;
+      }
+    }
+};
+}
 }
 
 
@@ -74,7 +75,6 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 }
 
 
-
 template<class TInputImage, class TOutputImage>
 void
 SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
@@ -87,8 +87,6 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   this->GetOutput()->Allocate();
 
   m_Spacing = this->GetOutput()->GetSpacing();
-
-  m_MaximumValue = vnl_huge_val( m_MaximumValue );
 
   m_BinaryImage = InputImageType::New();
   m_BinaryImage->SetRegions( this->GetInput()->GetRequestedRegion() );
@@ -126,7 +124,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
                      InputPixelType,
                      InputImageDimension  > StructuringElementType;
 
-  typedef FastIncrementalBinaryDilateImageFilter<
+  typedef BinaryDilateImageFilter<
                          InputImageType,
                          InputImageType,
                          StructuringElementType >     DilatorType;
@@ -165,7 +163,14 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
         !inIterator.IsAtEnd();
         ++inIterator, ++outIterator)
     {
-    outIterator.Set( inIterator.Get() ? 0 : m_MaximumValue );
+    if( inIterator.Get() )
+      {
+      outIterator.Set( NumericTraits< OutputPixelType >::Zero ); 
+      }
+    else
+      {
+      outIterator.Set( NumericTraits< OutputPixelType >::max() ); 
+      }
     }
 
   vnl_vector<unsigned int> k(InputImageDimension-1);
@@ -216,7 +221,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
         index %= k[ count ];
         count++;
         }
-      this->VoronoiEDT(i, idx);
+      this->Voronoi(i, idx);
       }
     }
 
@@ -250,11 +255,10 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 }
 
 
-
 template<class TInputImage, class TOutputImage>
 void
 SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
-::VoronoiEDT(unsigned int d, OutputIndexType idx)
+::Voronoi(unsigned int d, OutputIndexType idx)
 {
   typename OutputImageType::Pointer output(this->GetOutput());
   unsigned int nd = output->GetRequestedRegion().GetSize()[d];
@@ -283,7 +287,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
       iw  = static_cast<OutputPixelType>(i);
       }
 
-    if( di != m_MaximumValue )
+    if( di != NumericTraits< OutputPixelType >::max() )
       {
       if( l < 1 )
         {
@@ -294,7 +298,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
       else
         {
         while( (l >= 1) &&
-               this->RemoveEDT(g(l-1), g(l), di, h(l-1), h(l), iw) )
+               this->Remove( g(l-1), g(l), di, h(l-1), h(l), iw) )
           {
           l--;
           }
@@ -354,8 +358,8 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 bool
 SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
-::RemoveEDT(OutputPixelType d1, OutputPixelType d2, OutputPixelType df,
-            OutputPixelType x1, OutputPixelType x2, OutputPixelType xf)
+::Remove( OutputPixelType d1, OutputPixelType d2, OutputPixelType df,
+          OutputPixelType x1, OutputPixelType x2, OutputPixelType xf )
 {
   OutputPixelType a = x2 - x1;
   OutputPixelType b = xf - x2;
@@ -364,7 +368,6 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   return ( (   c * vnl_math_abs( d2 ) - b * vnl_math_abs( d1 )
              - a * vnl_math_abs( df ) - a * b * c ) > 0);
 }
-
 
 
 /**
@@ -378,8 +381,6 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   Superclass::PrintSelf( os, indent );
   os << indent << "Background Value: "
      << this->m_BackgroundValue << std::endl;
-  os << indent << "Maximum Value: "
-     << this->m_MaximumValue << std::endl;
   os << indent << "Spacing: "
      << this->m_Spacing << std::endl;
   os << indent << "Inside is positive: "

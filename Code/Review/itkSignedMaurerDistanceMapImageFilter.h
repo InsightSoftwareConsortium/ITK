@@ -155,13 +155,12 @@ private:
   SignedMaurerDistanceMapImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  void VoronoiEDT(unsigned int, OutputIndexType);
-  bool RemoveEDT(OutputPixelType, OutputPixelType, OutputPixelType, 
-                 OutputPixelType, OutputPixelType, OutputPixelType);
+  void Voronoi( unsigned int, OutputIndexType );
+  bool Remove( OutputPixelType, OutputPixelType, OutputPixelType, 
+               OutputPixelType, OutputPixelType, OutputPixelType );
   
   typename InputImageType::Pointer    m_BinaryImage;
   InputPixelType                      m_BackgroundValue;  
-  OutputPixelType                     m_MaximumValue;
   InputSpacingType                    m_Spacing;
 
   bool     m_InsideIsPositive;
@@ -177,4 +176,3 @@ private:
 #endif
 
 #endif
-
