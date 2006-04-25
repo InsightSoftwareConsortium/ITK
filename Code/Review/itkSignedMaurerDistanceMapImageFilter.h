@@ -22,32 +22,33 @@
 
 /** \class SignedMaurerDistanceMapImageFilter
  *
- *  \brief This filter calculates the squared Euclidean distance transform of a binary 
- *  image in linear time for arbitrary dimensions. 
+ *  \brief This filter calculates the squared Euclidean distance transform 
+ *  of a binary image in linear time for arbitrary dimensions. 
  *
  *  \par Inputs and Outputs
- *  This is an image-to-image filter.  The dimensionality is arbitrary.  The only
- *  dimensionality constraint is that the input and output images be of the same
- *  dimensions and size.  To maintain integer arithmetic within the filter, the
- *  default output is the signed squared distance.  This implies that the
- *  input image should be of type "unsigned int" or "int" whereas the output 
- *  image is of type "int".  Obviously, if the user wishes to utilize the image
- *  spacing or to have a filter with the Euclidean distance (as opposed to the
- *  squared distance), output image types of float or double should be used.
+ *  This is an image-to-image filter.  The dimensionality is arbitrary.  The
+ *  only dimensionality constraint is that the input and output images be of
+ *  the same dimensions and size.  To maintain integer arithmetic within the
+ *  filter, the default output is the signed squared distance.  This implies
+ *  that the input image should be of type "unsigned int" or "int" whereas the
+ *  output image is of type "int".  Obviously, if the user wishes to utilize
+ *  the image spacing or to have a filter with the Euclidean distance (as
+ *  opposed to the squared distance), output image types of float or double
+ *  should be used.
  *
  *  The inside is considered as having negative distances. Outside is treated
- *  as having positive distances. To change the convention, use the 
+ *  as having positive distances. To change the convention, use the
  *  InsideIsPositive(bool) function.
  *
  *  \par Parameters
  *  Set/GetBackgroundValue specifies the background of the value of the input
- *  binary image.  Normally this is zero and, as such, zero is the default 
- *  value.  Other than that, the usage is completely analagous to the 
- *  itkDanielssonDistanceImageFilterClass except is does not return the
- *  Voronoi map.
+ *  binary image.  Normally this is zero and, as such, zero is the default
+ *  value.  Other than that, the usage is completely analagous to the
+ *  itkDanielssonDistanceImageFilterClass except is does not return the Voronoi
+ *  map.
  *
- *  \cite C. R. Maurer, Jr., R. Qi, and V. Raghavan, "A Linear Time Algorithm for
- *  Computing Exact Euclidean Distance Transforms of Binary Images in 
+ *  \cite C. R. Maurer, Jr., R. Qi, and V. Raghavan, "A Linear Time Algorithm
+ *  for Computing Exact Euclidean Distance Transforms of Binary Images in
  *  Arbitrary Dimensions", IEEE - Transactions on Pattern Analysis and Machine
  *  Intelligence, 25(2): 265-270, 2003.
  *
@@ -72,29 +73,32 @@ public:
 
 
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage    InputImageType;
+  typedef TOutputImage   OutputImageType;
 
   /** Standard class typedefs. */
-  typedef SignedMaurerDistanceMapImageFilter Self;
-  typedef ImageToImageFilter<InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SignedMaurerDistanceMapImageFilter   Self;
+  typedef ImageToImageFilter<
+                       InputImageType, 
+                       OutputImageType>        Superclass;
+
+  typedef SmartPointer<Self>                   Pointer;
+  typedef SmartPointer<const Self>             ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  typedef typename InputImageType::PixelType   InputPixelType;
+  typedef typename OutputImageType::PixelType  OutputPixelType;
 
-  typedef typename InputImageType::SizeType InputSizeType;
-  typedef typename OutputImageType::SizeType OutputSizeType;
+  typedef typename InputImageType::SizeType    InputSizeType;
+  typedef typename OutputImageType::SizeType   OutputSizeType;
 
-  typedef typename InputImageType::IndexType InputIndexType;
-  typedef typename OutputImageType::IndexType OutputIndexType;
+  typedef typename InputImageType::IndexType   InputIndexType;
+  typedef typename OutputImageType::IndexType  OutputIndexType;
 
-  typedef typename InputImageType::SpacingType InputSpacingType;
+  typedef typename InputImageType::SpacingType  InputSpacingType;
   typedef typename OutputImageType::SpacingType OutputSpacingType;
 
   /** Set if the distance should be squared. */
