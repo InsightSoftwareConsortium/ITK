@@ -28,12 +28,12 @@ int itkSignedMaurerDistanceMapImageFilterTest( int argc, char * argv[] )
   typedef int             InputPixelType;
   typedef double          OutputPixelType;
 
-  typedef itk::Image<InputPixelType,  ImageDimension> InputImageType;
-  typedef itk::Image<OutputPixelType, ImageDimension> OutputImageType;
+  typedef itk::Image<InputPixelType,  ImageDimension>  InputImageType;
+  typedef itk::Image<OutputPixelType, ImageDimension>  OutputImageType;
 
-  typedef itk::ImageFileReader<InputImageType> ReaderType;
-  typedef itk::ImageFileWriter<OutputImageType> WriterType;
-  typedef InputImageType::SizeType InputSizeType;
+  typedef itk::ImageFileReader<InputImageType>    ReaderType;
+  typedef itk::ImageFileWriter<OutputImageType>   WriterType;
+  typedef InputImageType::SizeType                InputSizeType;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
@@ -56,17 +56,4 @@ int itkSignedMaurerDistanceMapImageFilterTest( int argc, char * argv[] )
 
   return 0;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
