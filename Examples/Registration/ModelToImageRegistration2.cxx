@@ -83,6 +83,7 @@
 #include "itkResampleImageFilter.h"
 
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 
 
 
@@ -147,6 +148,7 @@ int main( int argc, char * argv [] )
     std::cerr << "Missing argument" << std::endl;
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " movingImageFileName [initialX initialY] " << std::endl;
+    std::cerr << "[rasterizedObjectFileName] [BoxSizeX BoxSizeY]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -272,6 +274,16 @@ int main( int argc, char * argv [] )
   boxSize[0] = 60.0;  // mm
   boxSize[1] = 60.0;  // mm
   
+  if( argc > 6 )
+    {
+    boxSize[0] = atof( argv[5] );
+    boxSize[1] = atof( argv[6] );
+    }
+
+  // 
+  // The geometry of the BoxSpatialObject is such that one of 
+  // its corners is located at the origin of coordinates.
+  // 
   spatialObject->SetSize( boxSize );
 
   ImageType::RegionType region = 
@@ -279,11 +291,15 @@ int main( int argc, char * argv [] )
 
   ImageType::SizeType   imageSize = region.GetSize(); 
 
+  ImageType::SpacingType spacing = movingImage->GetSpacing();
+  ImageType::PointType  origin;
+  origin[0] = ( boxSize[0] - imageSize[0] * spacing[0] ) / 2.0;
+  origin[1] = ( boxSize[1] - imageSize[1] * spacing[1] ) / 2.0;
+
   rasterizationFilter->SetInput( spatialObject );
   rasterizationFilter->SetSize( imageSize );
-  rasterizationFilter->SetSpacing( movingImage->GetSpacing() );
-  rasterizationFilter->SetOrigin( movingImage->GetOrigin() );
-
+  rasterizationFilter->SetSpacing( spacing );
+  rasterizationFilter->SetOrigin( origin );
 
   
   narrowBandPointSetFilter->SetBandWidth( 5.0 );
@@ -293,6 +309,15 @@ int main( int argc, char * argv [] )
 
   narrowBandPointSetFilter->Update();
 
+  if( argc > 4 )
+    {
+    typedef itk::ImageFileWriter< MaskImageType > MaskWriterType;
+    MaskWriterType::Pointer maskWriter = MaskWriterType::New();
+    maskWriter->SetInput( rasterizationFilter->GetOutput() );
+    maskWriter->SetFileName( argv[4] );
+    maskWriter->Update();
+    }
+  
   fixedPointSet = narrowBandPointSetFilter->GetOutput();
   
   fixedPointSet->Print( std::cout );
