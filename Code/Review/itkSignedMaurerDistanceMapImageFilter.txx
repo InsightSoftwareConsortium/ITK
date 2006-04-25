@@ -59,17 +59,17 @@ namespace itk
 
 template<class TInputImage, class TOutputImage>
 SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
-::SignedMaurerDistanceMapImageFilter() : m_BackgroundValue(0), 
+::SignedMaurerDistanceMapImageFilter() : m_BackgroundValue(0),
                                          m_InsideIsPositive(false),
                                          m_SquaredDistance(true),
-                                         m_UseImageSpacing(false) 
+                                         m_UseImageSpacing(false)
 {
 }
 
 
 template<class TInputImage, class TOutputImage>
 SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
-::~SignedMaurerDistanceMapImageFilter() 
+::~SignedMaurerDistanceMapImageFilter()
 {
 }
 
@@ -85,7 +85,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
                          this->GetInput()->GetRequestedRegion() );
 
   this->GetOutput()->Allocate();
-  
+
   m_Spacing = this->GetOutput()->GetSpacing();
 
   m_MaximumValue = vnl_huge_val( m_MaximumValue );
@@ -94,9 +94,9 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   m_BinaryImage->SetRegions( this->GetInput()->GetRequestedRegion() );
   m_BinaryImage->Allocate();
 
-  typedef BinaryThresholdImageFilter<InputImageType, 
+  typedef BinaryThresholdImageFilter<InputImageType,
                                      InputImageType> BinaryFilterType;
-  
+
   typename BinaryFilterType::Pointer binaryFilter = BinaryFilterType::New();
 
   binaryFilter->SetLowerThreshold( m_BackgroundValue );
@@ -110,7 +110,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 
   typedef Functor::InvertIntensityFunctor<InputPixelType>  FunctorType;
 
-  typedef UnaryFunctorImageFilter< InputImageType, 
+  typedef UnaryFunctorImageFilter< InputImageType,
                                    InputImageType,
                                    FunctorType >    InverterType;
 
@@ -121,15 +121,15 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 
   // Dilate the inverted image by 1 pixel to give it the same boundary
   // as the univerted this->GetInput().
-  
-  typedef BinaryBallStructuringElement< 
-                     InputPixelType, 
-                     InputImageDimension  > StructuringElementType;  
 
-  typedef FastIncrementalBinaryDilateImageFilter< 
-                         InputImageType, 
-                         InputImageType, 
-                         StructuringElementType >     DilatorType; 
+  typedef BinaryBallStructuringElement<
+                     InputPixelType,
+                     InputImageDimension  > StructuringElementType;
+
+  typedef FastIncrementalBinaryDilateImageFilter<
+                         InputImageType,
+                         InputImageType,
+                         StructuringElementType >     DilatorType;
 
   typename DilatorType::Pointer dilator = DilatorType::New();
 
@@ -141,32 +141,32 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   dilator->SetInput( inverter1->GetOutput() );
   inverter2->SetInput( dilator->GetOutput() );
 
-  typedef SubtractImageFilter<InputImageType, 
-                              InputImageType, 
+  typedef SubtractImageFilter<InputImageType,
+                              InputImageType,
                               InputImageType > SubtracterType;
-  
+
   typename SubtracterType::Pointer subtracter = SubtracterType::New();
-  
+
   subtracter->SetInput1( m_BinaryImage );
   subtracter->SetInput2( inverter2->GetOutput() );
   subtracter->Update();
 
   typedef ImageRegionConstIterator<InputImageType> InputIterator;
-  
-  InputIterator inIterator( subtracter->GetOutput(), 
+
+  InputIterator inIterator( subtracter->GetOutput(),
                             subtracter->GetOutput()->GetRequestedRegion() );
-  
+
   typedef ImageRegionIterator<OutputImageType>  OutputIterator;
-  
-  OutputIterator outIterator( this->GetOutput(), 
+
+  OutputIterator outIterator( this->GetOutput(),
                               this->GetOutput()->GetRequestedRegion() );
 
-  for (  inIterator.GoToBegin(), outIterator.GoToBegin(); 
-        !inIterator.IsAtEnd(); 
+  for (  inIterator.GoToBegin(), outIterator.GoToBegin();
+        !inIterator.IsAtEnd();
         ++inIterator, ++outIterator)
     {
     outIterator.Set( inIterator.Get() ? 0 : m_MaximumValue );
-    }     
+    }
 
   vnl_vector<unsigned int> k(InputImageDimension-1);
 
@@ -178,39 +178,39 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 
 
   for (unsigned int i = 0; i < InputImageDimension; i++)
-    {    
+    {
     OutputIndexType idx;
     unsigned int NumberOfRows = 1;
     for (unsigned int d = 0; d < InputImageDimension; d++)
-      { 
-      idx[d] = 0;   
+      {
+      idx[d] = 0;
       if( d != i )
         {
         NumberOfRows *= size[ d ];
-        }    
-      }  
+        }
+      }
 
-    k[0] = 1;  
+    k[0] = 1;
     unsigned int count = 1;
 
-    
+
     for (unsigned int d = i+2; d < i+InputImageDimension; d++)
-      { 
-      k[ count ] = k[ count-1 ] * size[ d % InputImageDimension ];    
+      {
+      k[ count ] = k[ count-1 ] * size[ d % InputImageDimension ];
       count++;
-      }  
+      }
     k.flip();
 
-    unsigned int index;      
+    unsigned int index;
     for (unsigned int n = 0; n < NumberOfRows;n++)
-      { 
+      {
       index = n;
       count = 0;
-      for (unsigned int d = i+1; d < i+InputImageDimension; d++)      
+      for (unsigned int d = i+1; d < i+InputImageDimension; d++)
         {
-        idx[ d % InputImageDimension ] = 
+        idx[ d % InputImageDimension ] =
              static_cast<unsigned int>(
-                 static_cast<double>( index ) / 
+                 static_cast<double>( index ) /
                  static_cast<double>( k[count] ) );
 
         index %= k[ count ];
@@ -222,18 +222,21 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 
   if ( !m_SquaredDistance )
     {
-    typedef ImageRegionIteratorWithIndex<OutputImageType> OutputIteratorWithIndex;
-    OutputIteratorWithIndex It( this->GetOutput(), 
+    typedef ImageRegionIteratorWithIndex<
+                                  OutputImageType
+                                           > OutputIteratorWithIndex;
+
+    OutputIteratorWithIndex It( this->GetOutput(),
                                 this->GetOutput()->GetRequestedRegion() );
 
     for( It.GoToBegin(); !It.IsAtEnd(); ++It )
       {
 
-      const OutputPixelType outputValue = 
-                 static_cast<OutputPixelType>( 
+      const OutputPixelType outputValue =
+                 static_cast<OutputPixelType>(
                                 sqrt( vnl_math_abs( It.Get() ) ) );
 
-      if( m_BinaryImage->GetPixel( It.GetIndex() ) && m_InsideIsPositive ) 
+      if( m_BinaryImage->GetPixel( It.GetIndex() ) && m_InsideIsPositive )
         {
         It.Set(  outputValue );
         }
@@ -268,9 +271,9 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
     idx[d] = i;
 
     di = output->GetPixel(idx);
-    
+
     OutputPixelType iw;
-    
+
     if( m_UseImageSpacing )
       {
       iw = static_cast<OutputPixelType>( i * m_Spacing[d] );
@@ -279,7 +282,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
       {
       iw  = static_cast<OutputPixelType>(i);
       }
-    
+
     if( di != m_MaximumValue )
       {
       if( l < 1 )
@@ -287,10 +290,10 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
         l++;
         g(l) = di;
         h(l) = iw;
-        }    
+        }
       else
-        {         
-        while( (l >= 1) && 
+        {
+        while( (l >= 1) &&
                this->RemoveEDT(g(l-1), g(l), di, h(l-1), h(l), iw) )
           {
           l--;
@@ -308,14 +311,14 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
     }
 
   int ns = l;
-  
+
   l = 0;
 
   for( unsigned int i = 0; i < nd; i++ )
     {
 
     OutputPixelType iw;
-    
+
     if( m_UseImageSpacing )
       {
       iw = static_cast<OutputPixelType>( i * m_Spacing[d] );
@@ -332,15 +335,15 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
       {
       l++;
       d1 = d2;
-      d2 = vnl_math_abs(g(l+1)) + (h(l+1)-iw)*(h(l+1)-iw);      
+      d2 = vnl_math_abs(g(l+1)) + (h(l+1)-iw)*(h(l+1)-iw);
       }
     idx[d] = i;
 
-    if( m_BinaryImage->GetPixel( idx ) && m_InsideIsPositive ) 
+    if( m_BinaryImage->GetPixel( idx ) && m_InsideIsPositive )
       {
       output->SetPixel( idx,  d1 );
       }
-    else 
+    else
       {
       output->SetPixel( idx, -d1 );
       }
@@ -351,14 +354,14 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 bool
 SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
-::RemoveEDT(OutputPixelType d1, OutputPixelType d2, OutputPixelType df, 
+::RemoveEDT(OutputPixelType d1, OutputPixelType d2, OutputPixelType df,
             OutputPixelType x1, OutputPixelType x2, OutputPixelType xf)
 {
   OutputPixelType a = x2 - x1;
   OutputPixelType b = xf - x2;
   OutputPixelType c = xf - x1;
 
-  return ( (   c * vnl_math_abs( d2 ) - b * vnl_math_abs( d1 ) 
+  return ( (   c * vnl_math_abs( d2 ) - b * vnl_math_abs( d1 )
              - a * vnl_math_abs( df ) - a * b * c ) > 0);
 }
 
@@ -373,12 +376,18 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 ::PrintSelf( std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
-  os << indent << "Background Value: " << this->m_BackgroundValue << std::endl;
-  os << indent << "Maximum Value: " << this->m_MaximumValue << std::endl;
-  os << indent << "Spacing: " << this->m_Spacing << std::endl;
-  os << indent << "Inside is positive: " << this->m_InsideIsPositive << std::endl;
-  os << indent << "Use image spacing: " << this->m_UseImageSpacing << std::endl;
-  os << indent << "Squared distance: " << this->m_SquaredDistance << std::endl;
+  os << indent << "Background Value: "
+     << this->m_BackgroundValue << std::endl;
+  os << indent << "Maximum Value: "
+     << this->m_MaximumValue << std::endl;
+  os << indent << "Spacing: "
+     << this->m_Spacing << std::endl;
+  os << indent << "Inside is positive: "
+     << this->m_InsideIsPositive << std::endl;
+  os << indent << "Use image spacing: "
+     << this->m_UseImageSpacing << std::endl;
+  os << indent << "Squared distance: "
+     << this->m_SquaredDistance << std::endl;
 }
 
 } // end namespace itk
