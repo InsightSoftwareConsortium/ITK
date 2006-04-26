@@ -1,9 +1,6 @@
 PROJECT(FilteringExamples)
 INCLUDE_REGULAR_EXPRESSION("^.*$")
 
-ADD_EXECUTABLE(AntiAliasBinaryImageFilter AntiAliasBinaryImageFilter.cxx )
-TARGET_LINK_LIBRARIES(AntiAliasBinaryImageFilter ITKCommon ITKIO)
-
 ADD_EXECUTABLE(CompositeFilterExample CompositeFilterExample.cxx )
 TARGET_LINK_LIBRARIES(CompositeFilterExample ITKCommon ITKIO ITKBasicFilters)
 
@@ -134,6 +131,9 @@ ADD_EXECUTABLE(ResampleImageFilter2 ResampleImageFilter2.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter2 ITKCommon ITKBasicFilters ITKIO)
 
 IF(NOT BORLAND)
+ADD_EXECUTABLE(AntiAliasBinaryImageFilter AntiAliasBinaryImageFilter.cxx )
+TARGET_LINK_LIBRARIES(AntiAliasBinaryImageFilter ITKCommon ITKIO)
+
 ADD_EXECUTABLE(ResampleImageFilter ResampleImageFilter.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter ITKCommon ITKBasicFilters ITKIO)
 
