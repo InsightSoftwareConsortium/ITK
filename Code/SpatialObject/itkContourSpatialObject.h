@@ -114,7 +114,7 @@ public:
     };
 
   /** Set/Get the interpolation type */
-  const InterpolationType GetInterpolationType() const
+  InterpolationType GetInterpolationType() const
     { return m_InterpolationType; }
   void SetInterpolationType(InterpolationType interpolation)
     {m_InterpolationType = interpolation;}
