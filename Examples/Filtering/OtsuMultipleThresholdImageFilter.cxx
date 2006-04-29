@@ -53,8 +53,8 @@ int main( int argc, char * argv[] )
     }
   
   //Convenience typedefs
-  typedef  unsigned char  InputPixelType;
-  typedef  unsigned char  OutputPixelType;
+  typedef  unsigned short  InputPixelType;
+  typedef  unsigned char   OutputPixelType;
   
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
   typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
@@ -71,8 +71,8 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::ScalarImageToHistogramGenerator< 
-                                                InputImageType > 
-                                                    ScalarImageToHistogramGeneratorType;
+  InputImageType > 
+    ScalarImageToHistogramGeneratorType;
 
   typedef ScalarImageToHistogramGeneratorType::HistogramType    HistogramType;
 
@@ -80,7 +80,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
-  typedef itk::ImageFileWriter< InputImageType >  WriterType;
+  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
 
   // Software Guide : BeginLatex
@@ -92,7 +92,7 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::BinaryThresholdImageFilter< 
-                               InputImageType, OutputImageType >  FilterType;
+  InputImageType, OutputImageType >  FilterType;
   // Software Guide : EndCodeSnippet
   
   //Create using static New() method
@@ -165,38 +165,41 @@ int main( int argc, char * argv[] )
   CalculatorType::OutputType::const_iterator itNum = thresholdVector.begin();
   // Software Guide : EndCodeSnippet
 
-  //Threshold into seperate segments and write out as binary images
+  //Threshold into separate segments and write out as binary images
   std::string outputFileBase = argv[2];
   std::string outputFile;
   
-  double lowerThreshold = 0;
-  double upperThreshold;
+  InputPixelType lowerThreshold = 0;
+  InputPixelType upperThreshold;
+
+  std::string format = argv[2];
+    
+  char outputFilename[1000];
+  outputFile = outputFileBase + "%03d.";
+  outputFile += argv[3];   // filename extension
+
   
   // Software Guide : BeginCodeSnippet
   for(; itNum < thresholdVector.end(); itNum++) 
     {
     std::cout << "OtsuThreshold["
-      << (int)(itNum - thresholdVector.begin())
-      << "] = " << 
-      static_cast<itk::NumericTraits<CalculatorType::MeasurementType>::PrintType>
-      (*itNum) << std::endl;  
-  // Software Guide : EndCodeSnippet
+              << (int)(itNum - thresholdVector.begin())
+              << "] = " 
+              << static_cast<itk::NumericTraits<CalculatorType::MeasurementType>::PrintType>(*itNum) 
+              << std::endl;  
+    // Software Guide : EndCodeSnippet
     
-    upperThreshold = (*itNum);
+    upperThreshold = static_cast<InputPixelType>(*itNum);
     
-    filter->SetLowerThreshold( static_cast<OutputPixelType> (lowerThreshold) );
-    filter->SetUpperThreshold( static_cast<OutputPixelType> (upperThreshold) );
+    filter->SetLowerThreshold( lowerThreshold );
+    filter->SetUpperThreshold( upperThreshold );
 
     lowerThreshold = upperThreshold;
 
-    std::string format = argv[2];
-    
-    char outputFilename[1000];
-    outputFile = outputFileBase + "%03d.";
-    outputFile += argv[3];   // filename extension
     sprintf (outputFilename, outputFile.c_str(), (itNum - thresholdVector.begin()));
     writer->SetFileName( outputFilename );
     
+
     try
       { 
       writer->Update(); 
@@ -205,9 +208,29 @@ int main( int argc, char * argv[] )
       {
       std::cerr << "Exception thrown " << excp << std::endl;
       }
-  // Software Guide : BeginCodeSnippet
+    // Software Guide : BeginCodeSnippet
     }
   // Software Guide : EndCodeSnippet
+
+  // Also write out the image thresholded between the upper threshold and
+  // the max intensity.
+  upperThreshold = itk::NumericTraits<InputPixelType>::max();
+  filter->SetLowerThreshold( lowerThreshold );
+  filter->SetUpperThreshold( upperThreshold );
+  
+  sprintf (outputFilename, outputFile.c_str(), (thresholdVector.size() ));
+  writer->SetFileName( outputFilename );
+    
+  try
+    { 
+    writer->Update(); 
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Exception thrown " << excp << std::endl;
+    }
+
+
   return EXIT_SUCCESS;
 }
 
