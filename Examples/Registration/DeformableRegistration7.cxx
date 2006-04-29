@@ -28,9 +28,10 @@
 // for the most part identical to the code presented in
 // Section~\ref{sec:DeformableRegistration}.  The major difference is that this
 // example we set the image dimension to 3 and replace the
-// \doxygen{LBFGSOptimizer} optimizer with the \doxygen{LBFGSBOptimizer}.  This
-// optimizer is more appropriate for performing optimization in a parametric
-// spaces of higher dimensions.
+// \doxygen{LBFGSOptimizer} optimizer with the \doxygen{LBFGSBOptimizer}. We
+// made the modification because we found that LBFGS does not behave well when
+// the starting positions is at or close to optimal; instead we used LBFGSB in
+// unconstrained mode.
 // 
 //
 // \index{itk::BSplineDeformableTransform}
