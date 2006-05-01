@@ -74,9 +74,9 @@ namespace watershed
  * \par Parameters
  * Threshold is specified as a percentage (0.0 - 1.0) of the maximum height of
  * the image. This filter thresholds the input image to remove all values below
- * /f$ L = min + T * (max - min) /f$, where /f$ max, min /f$ are the maximum,
- * minimum values in the image and /f$ T /f$ is the threshold parameter
- * value. Values in the image less than /f$ L /f$ are raised to /f$ L /f$.
+ * \f$ L = min + T * (max - min) \f$, where \f$ max, min \f$ are the maximum,
+ * minimum values in the image and \f$ T \f$ is the threshold parameter
+ * value. Values in the image less than \f$ L \f$ are raised to \f$ L \f$.
  *
  * \par
  * Thresholding minimum values in the image decreases the number of local
@@ -192,10 +192,10 @@ public:
 
   /** Gets/Sets the input threshold. Threshold is specified as a percentage
    * (0.0 - 1.0) of the maximum height of the image. This filter thresholds the
-   * input image to remove all values below /f$ L = min + T * (max -  min) /f$,
-   * where /f$ max, min /f$ are the maximum, minimum values in the image and /f$
-   * T /f$ is the threshold parameter value. Values in the image less than /f$ L
-   * /f$ are raised to /f$ L /f$. Thresholding minimum values in the image
+   * input image to remove all values below \f$ L = min + T * (max -  min) \f$,
+   * where \f$ max, min \f$ are the maximum, minimum values in the image and \f$
+   * T \f$ is the threshold parameter value. Values in the image less than \f$ L
+   * \f$ are raised to \f$ L \f$. Thresholding minimum values in the image
    * decreases the number of local minima in the image and produces an initial
    * segmentation with fewer segments.  The assumption is that the ``shallow''
    * regions that this thresholding eliminates are generally not of interest.*/ 
