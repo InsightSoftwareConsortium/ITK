@@ -193,6 +193,11 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     this->LinearThreadedGenerateData(outputRegionForThread, threadId);
     return;
     }
+  if (dynamic_cast<const TranslationTransformType *>(m_Transform.GetPointer()))
+    {
+    this->LinearThreadedGenerateData(outputRegionForThread, threadId);
+    return;
+    }
   else if (dynamic_cast<const IdentityTransformType *>(m_Transform.GetPointer()))
     {
     this->LinearThreadedGenerateData(outputRegionForThread, threadId);
