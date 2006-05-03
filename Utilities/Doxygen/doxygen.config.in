@@ -1079,7 +1079,9 @@ PREDEFINED  =  "itkNotUsed(x)="\
                   virtual const char *GetNameOfClass() const;" \
                "itkEventMacro(thisClass,superclass)= \
                   class thisClass : public superclass {};" \
-               "itkConceptMacro(name,concept)= \
+               "itkConceptMacro(thisName,thisConcept)= \
+                  /** This class requires thisName \
+                      in the form of thisConcept */   \
                   typedef concept name;" \
                "vcl_numeric_limits= \
                   std::numeric_limits" \
