@@ -106,10 +106,33 @@ ArchetypeSeriesFileNames
     }
 
   // Parse the fileNameName and fileNamePath
-  std::string fileName = itksys::SystemTools::GetFilenameName( unixArchetype.c_str() );
+  std::string origFileName = itksys::SystemTools::GetFilenameName( unixArchetype.c_str() );
   std::string fileNamePath = itksys::SystemTools::GetFilenamePath( unixArchetype.c_str() );
   std::string pathPrefix;
 
+  // "Clean" the filename by escaping any special characters with backslashes.
+  // This allows us to pass in filenames that include these special characters.
+  std::string fileName;
+  for( unsigned int j = 0; j < origFileName.length(); j++ )
+    {
+    char oneChar = origFileName[j];
+    if( oneChar == '^' ||
+        oneChar == '$' ||
+        oneChar == '.' ||
+        oneChar == '[' ||
+        oneChar == ']' ||
+        oneChar == '-' ||
+        oneChar == '*' ||
+        oneChar == '+' ||
+        oneChar == '?' ||
+        oneChar == '(' ||
+        oneChar == ')' )
+      {
+      fileName += "\\";
+      }
+    fileName += oneChar;
+    }
+    
   // If there is no "/" in the name, the directory is not specified.
   // In that case, use the default ".".  This is necessary for the RegularExpressionSeriesFileNames.
   if (fileNamePath == "")
@@ -147,16 +170,24 @@ ArchetypeSeriesFileNames
     }
 
 
+
+
   // Create a set of regular expressions, one for each group of
   // numbers in m_FileName. We walk the regular expression groups
   // from right to left since numbers at the end of filenames are more
   // likely to be image numbers.
+  // It is also necessary to walk backward so that the numGroupStart
+  // indices remain correct since the length of numbers we are replacing may
+  // be different from the length of regExpString.
   int i;
   for (i = (int)numGroupLength.size()-1 ; i >= 0; i--)
     {
     std::string regExpFileName = fileName;
-
+    
     regExpFileName.replace(numGroupStart[i],numGroupLength[i],regExpString);
+    // Include only filenames that exactly match this regular expression.  Don't
+    // match filenames that have this string as a substring (ie. that have extra
+    // prefixes or suffixes).
     regExpFileName = "^" + regExpFileName + "$";
     regExpFileNameVector.push_back( regExpFileName );
     }
@@ -172,7 +203,7 @@ ArchetypeSeriesFileNames
     fit->SetSubMatch(1);
     fit->NumericSortOn();
     names = fit->GetFileNames();
-    
+
     std::vector<std::string>::iterator ait;
     ait = std::find(names.begin(), names.end(), pathPrefix + unixArchetype);
 
@@ -184,8 +215,8 @@ ArchetypeSeriesFileNames
       }
     }
 
-  // if the group list is empty, create a single group containing the
-  // archetype
+  // If the group list is empty, create a single group containing the
+  // archetype.
   if ( m_Groupings.size() == 0 && itksys::SystemTools::FileExists(unixArchetype.c_str()))
     {
     std::vector<std::string> tlist;
