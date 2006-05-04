@@ -1082,7 +1082,7 @@ PREDEFINED  =  "itkNotUsed(x)="\
                "itkConceptMacro(thisName,thisConcept)= \
                   /** This class requires thisName \
                       in the form of thisConcept */   \
-                  typedef concept name;" \
+                  typedef thisConcept thisName;" \
                "vcl_numeric_limits= \
                   std::numeric_limits" \
                "ITK_TYPENAME= \
