@@ -18,7 +18,9 @@
 
 =========================================================================*/
 #include "itkGDCMImageIO.h"
+#include "itkIOCommon.h"
 #include "itkPoint.h"
+#include "itkArray.h"
 #include "itkMatrix.h"
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
@@ -79,6 +81,11 @@ GDCMImageIO::GDCMImageIO()
   m_MaxSizeLoadEntry = 0xfff;
 
   m_InternalComponentType = UNKNOWNCOMPONENTTYPE;
+
+  // by default assume that images will be 2D.
+  // This number is updated according the information 
+  // received through the MetaDataDictionary
+  m_GlobalNumberOfDimensions = 2;
 }
 
 GDCMImageIO::~GDCMImageIO()
@@ -756,6 +763,46 @@ void GDCMImageIO::Write(const void* buffer)
         delete []bin;
         }
       }
+    else
+      {
+      // This is not a DICOM entry, then check if it is one of the ITK standard ones
+      if( key == ITK_NumberOfDimensions )
+        {
+        unsigned int numberOfDimensions;
+        ExposeMetaData<unsigned int>(dict, key, numberOfDimensions);
+        m_GlobalNumberOfDimensions = numberOfDimensions;
+        }
+      else 
+        {
+        if( key == ITK_Origin )
+          {
+          typedef Array< double > DoubleArrayType;
+          DoubleArrayType originArray;
+          ExposeMetaData< DoubleArrayType >( dict, key, originArray );
+          m_Origin[0] = originArray[0];
+          m_Origin[1] = originArray[1];
+          m_Origin[2] = originArray[2];
+          }
+        else
+          {
+          if( key == ITK_Spacing )
+            {
+            typedef Array< double > DoubleArrayType;
+            DoubleArrayType spacingArray;
+            ExposeMetaData< DoubleArrayType >( dict, key, spacingArray );
+            m_Spacing[0] = spacingArray[0];
+            m_Spacing[1] = spacingArray[1];
+            m_Spacing[2] = spacingArray[2];
+            }
+          else
+            {
+            std::cerr << "GDCMImageIO: non-DICOM and non-ITK standard key = ";
+            std::cerr << key << std::endl;
+            }
+          }
+        }
+      }
+
 #if !(defined(_MSC_VER) && _MSC_VER < 1300)
     ++itr;
 #endif
@@ -770,7 +817,7 @@ void GDCMImageIO::Write(const void* buffer)
   str << m_Dimensions[1];
   header->InsertValEntry( str.str(), 0x0028,0x0010); // Rows
 
-  if(m_Dimensions.size() > 2 && m_Dimensions[2]>1)
+  if( m_Dimensions.size() > 2 && m_Dimensions[2] > 1 )
     {
     str.str("");
     str << m_Dimensions[2];
@@ -793,17 +840,16 @@ void GDCMImageIO::Write(const void* buffer)
     header->InsertValEntry(str.str(),0x0018,0x0088); // Spacing Between Slices
     }
 
-// This code still needs work. Spacing, origin and direction are all
-// 3D, yet the image is 2D. If the user set these, all is well,
-// because the user will pass in the proper number (3) of
-// elements. However, ImageSeriesWriter will call ImageFileWriter with
-// 2D images. ImageFileWriter will call its ImageIO with 2D images and
-// only pass in spacing, origin and direction with 2 elements. For
-// now, we expect that the MetaDataDictionary will have the proper
-// settings for pixel spacing, spacing between slices, image position
-// patient and the row/column direction cosines.
+// This code still needs work. Spacing, origin and direction are all 3D, yet
+// the image is 2D. If the user set these, all is well, because the user will
+// pass in the proper number (3) of elements. However, ImageSeriesWriter will
+// call its ImageIO with 2D images and only pass in spacing, origin and
+// direction with 2 elements. For now, we expect that the MetaDataDictionary
+// will have the proper settings for pixel spacing, spacing between slices,
+// image position patient and the row/column direction cosines.
 
-  if(m_Dimensions.size() > 2 && m_Dimensions[2]>1)
+  if( ( m_Dimensions.size() > 2 && m_Dimensions[2]>1 ) || 
+        m_GlobalNumberOfDimensions == 3 )
     {
     // Handle Origin = Image Position Patient
     // Origin must be converted into LPS coordinates

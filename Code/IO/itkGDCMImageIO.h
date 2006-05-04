@@ -253,6 +253,10 @@ private:
   static bool m_LoadSequencesDefault;
   static bool m_LoadPrivateTagsDefault;
   
+  /** defines whether this image is a 2D out of a 2D image
+   *  or a 2D out of a 3D image. */
+  unsigned int m_GlobalNumberOfDimensions;
+  
   ImageIOBase::IOComponentType m_InternalComponentType;
   InternalHeader *DICOMHeader;
 };
