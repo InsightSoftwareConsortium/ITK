@@ -9,6 +9,10 @@ IF(ITK_USE_SYSTEM_VXL)
     )
 ENDIF(ITK_USE_SYSTEM_VXL)
 
+IF(ITK_USE_SYSTEM_GDCM)
+  SET(ITK_INCLUDE_DIRS_SYSTEM ${GDCM_DIR})
+ENDIF(ITK_USE_SYSTEM_GDCM)
+
 #-----------------------------------------------------------------------------
 # Include directories from the build tree.
 SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_BINARY_DIR})
@@ -59,6 +63,13 @@ IF(NOT ITK_USE_SYSTEM_VXL)
     ${ITK_BINARY_DIR}/Utilities/vxl/core
     )
 ENDIF(NOT ITK_USE_SYSTEM_VXL)
+
+# GDCM include directories.
+IF(NOT ITK_USE_SYSTEM_GDCM)
+  SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
+    ${ITK_BINARY_DIR}/Utilities/gdcm
+    )
+ENDIF(NOT ITK_USE_SYSTEM_GDCM)
 
 # Patended include directories added only if the user explicitly enabled the
 # ITK_USE_PATENTED option. Users are responsible for getting a license from the

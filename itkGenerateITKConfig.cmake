@@ -8,6 +8,13 @@ ELSE(ITK_USE_SYSTEM_VXL)
   SET(ITK_VXL_DIR)
 ENDIF(ITK_USE_SYSTEM_VXL)
 
+# System GDCM
+IF(ITK_USE_SYSTEM_GDCM)
+  SET(ITK_GDCM_DIR ${GDCM_DIR})
+ELSE(ITK_USE_SYSTEM_GDCM)
+  SET(ITK_GDCM_DIR)
+ENDIF(ITK_USE_SYSTEM_GDCM)
+
 #-----------------------------------------------------------------------------
 # Settings specific to the build tree.
 

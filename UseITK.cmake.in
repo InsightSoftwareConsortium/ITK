@@ -66,3 +66,48 @@ IF(ITK_USE_SYSTEM_VXL)
     ENDIF(VXL_FOUND)
   ENDIF(VXL_FOUND)
 ENDIF(ITK_USE_SYSTEM_VXL)
+
+
+# Load settings from the system GDCM with which ITK was built, if any.
+IF(ITK_USE_SYSTEM_GDCM)
+  # If GDCM has already been found, make sure it is the one used to
+  # build ITK.
+  IF(WIN32 OR APPLE)
+    STRING(TOLOWER "${GDCM_DIR}" ITK_CHECK_GDCM_DIR)
+    STRING(TOLOWER "${ITK_GDCM_DIR}" ITK_CHECK_ITK_GDCM_DIR)
+  ELSE(WIN32 OR APPLE)
+    SET(ITK_CHECK_GDCM_DIR "${GDCM_DIR}")
+    SET(ITK_CHECK_ITK_GDCM_DIR "${ITK_GDCM_DIR}")
+  ENDIF(WIN32 OR APPLE)
+  STRING(COMPARE EQUAL "${ITK_CHECK_GDCM_DIR}" "${ITK_CHECK_ITK_GDCM_DIR}"
+         ITK_GDCM_DIR_MATCH)
+  IF(GDCM_FOUND)
+    IF(NOT ITK_GDCM_DIR_MATCH)
+      MESSAGE(FATAL_ERROR
+        "ITK was built with GDCM from \"${ITK_GDCM_DIR}\", "
+        "but this project is using GDCM from \"${GDCM_DIR}\".  "
+        "Please set GDCM_DIR to match the one used to build ITK."
+        )
+    ENDIF(NOT ITK_GDCM_DIR_MATCH)
+  ELSE(GDCM_FOUND)
+    IF(GDCM_DIR)
+      IF(NOT ITK_GDCM_DIR_MATCH)
+        MESSAGE(
+          "Warning: ITK was built with GDCM from \"${ITK_GDCM_DIR}\", "
+          "but this project has set GDCM_DIR to \"${GDCM_DIR}\".  "
+          "ITK is changing GDCM_DIR to match the GDCM with which it was built."
+          )
+      ENDIF(NOT ITK_GDCM_DIR_MATCH)
+    ENDIF(GDCM_DIR)
+    SET(GDCM_DIR ${ITK_GDCM_DIR})
+    FIND_PACKAGE(GDCM)
+    IF(GDCM_FOUND)
+      INCLUDE(${GDCM_CMAKE_DIR}/GDCMUse.cmake)
+    ELSE(GDCM_FOUND)
+      MESSAGE(FATAL_ERROR
+        "UseITK could not load GDCM settings from \"${GDCM_DIR}\" even through "
+        "ITK was built using GDCM from this location."
+        )
+    ENDIF(GDCM_FOUND)
+  ENDIF(GDCM_FOUND)
+ENDIF(ITK_USE_SYSTEM_GDCM)

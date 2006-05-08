@@ -8,7 +8,7 @@ MACRO(CHECK_CPP_DIRECTIVE_EXISTS DIRECTIVE VARIABLE)
  IF("HAVE_${VARIABLE}" MATCHES "^HAVE_${VARIABLE}$")
   MESSAGE(STATUS "Checking to see if this platform has the ${DIRECTIVE} C-Preprocessor directive")
   SET(DIRECTIVE ${DIRECTIVE})
-  CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/CMake/CheckCPPDirectiveExists.cxx.in 
+  CONFIGURE_FILE(${ITK_SOURCE_DIR}/CMake/CheckCPPDirectiveExists.cxx.in 
     ${CMAKE_BINARY_DIR}/CMakeTmp/CheckCPPDirectiveExists.cxx IMMEDIATE)
   TRY_COMPILE(${VARIABLE}
     ${CMAKE_BINARY_DIR}

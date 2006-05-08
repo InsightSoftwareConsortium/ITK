@@ -70,7 +70,7 @@ ITKNrrdIO
 itkjpeg8
 itkjpeg12
 itkjpeg16
-itkgdcm
+${ITK_GDCM_LIBRARIES}
 ${ITK_PNG_LIBRARIES}
 ${ITK_ZLIB_LIBRARIES}
 ${ITK_TIFF_LIBRARIES}

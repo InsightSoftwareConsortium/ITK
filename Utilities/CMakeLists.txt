@@ -19,7 +19,9 @@ ITK_THIRD_PARTY_SUBDIR(OpenJPEG openjpeg)
 SUBDIRS(MetaIO)
 SUBDIRS(NrrdIO)
 SUBDIRS(expat)
-SUBDIRS(gdcm)
+IF(NOT ITK_USE_SYSTEM_GDCM)
+  SUBDIRS(gdcm)
+ENDIF(NOT ITK_USE_SYSTEM_GDCM)
 SUBDIRS(nifti)
 
 #------------------------------------------------------------------------------
