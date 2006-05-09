@@ -99,12 +99,12 @@ ImageIOFactory::RegisterBuiltInFactories()
   MutexLockHolder<SimpleMutexLock> mutexHolder( mutex );
   if( firstTime )
     {
+    ObjectFactoryBase::RegisterFactory( BioRadImageIOFactory::New() );
     ObjectFactoryBase::RegisterFactory( GDCMImageIOFactory::New() );
     ObjectFactoryBase::RegisterFactory( MetaImageIOFactory::New() );
     ObjectFactoryBase::RegisterFactory( PNGImageIOFactory::New() );
     ObjectFactoryBase::RegisterFactory( VTKImageIOFactory::New() );
     ObjectFactoryBase::RegisterFactory( GiplImageIOFactory::New() );
-    ObjectFactoryBase::RegisterFactory( BioRadImageIOFactory::New() );
     ObjectFactoryBase::RegisterFactory( LSMImageIOFactory::New()); //should be before TIFF
     ObjectFactoryBase::RegisterFactory( NiftiImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New());
