@@ -171,7 +171,7 @@ public:
     this->ConvertContinuousIndexToNearestIndex( cindex, index );
     }
 
-  /** Convert point to continuous idnex */
+  /** Convert point to continuous index */
    void ConvertPointToContinousIndex( const PointType & point,
     ContinuousIndexType & cindex ) const
     {
