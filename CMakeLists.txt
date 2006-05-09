@@ -77,8 +77,12 @@ ENDIF(BUILD_TESTING)
 
 #-----------------------------------------------------------------------------
 # Output directories.
-SET (LIBRARY_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all libraries.")
-SET (EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
+IF(NOT LIBRARY_OUTPUT_PATH)
+  SET (LIBRARY_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all libraries.")
+ENDIF(NOT LIBRARY_OUTPUT_PATH)
+IF(NOT EXECUTABLE_OUTPUT_PATH)
+  SET (EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
+ENDIF(NOT EXECUTABLE_OUTPUT_PATH)
 MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH)
 SET(ITK_LIBRARY_PATH "${LIBRARY_OUTPUT_PATH}")
 SET(ITK_EXECUTABLE_PATH "${EXECUTABLE_OUTPUT_PATH}")
@@ -288,6 +292,11 @@ ELSE(ITK_USE_SYSTEM_VXL)
   SET(VXL_NETLIB_INCLUDE_DIR ${ITK_SOURCE_DIR}/Utilities/vxl/v3p/netlib)
   SET(VXL_NUMERICS_LIBRARIES itkvnl itkvnl_algo itknetlib itkvcl)
 ENDIF(ITK_USE_SYSTEM_VXL)
+
+# You must specify the variables 
+# GDCM_DIR: pointing to the GDCM binary dir or the install path
+# GDCM_USE_FILE: pointing to UseGDCM.cmake. Older versions of GDCM called it
+#                GDCMUse.cmake. So you must specify it for clarity.
 
 OPTION(ITK_USE_SYSTEM_GDCM "Use an outside build of GDCM." OFF)
 MARK_AS_ADVANCED(ITK_USE_SYSTEM_GDCM)
