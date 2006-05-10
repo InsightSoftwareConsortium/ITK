@@ -50,8 +50,11 @@ IF(NOT ITK_NO_LIBRARY_DEPENDS)
   INCLUDE("@ITK_LIBRARY_DEPENDS_FILE@")
 ENDIF(NOT ITK_NO_LIBRARY_DEPENDS)
 
-# Whether ITK was built using a system VXL.
+# Whether ITK was built using a system VXL or system gdcm
 SET(ITK_USE_SYSTEM_VXL "@ITK_USE_SYSTEM_VXL@")
+SET(ITK_USE_SYSTEM_GDCM "@ITK_USE_SYSTEM_GDCM@")
 
 # The VXL_DIR setting used to build ITK.  Set if ITK_USE_SYSTEM_VXL is true.
+# same for gdcm
 SET(ITK_VXL_DIR "@ITK_VXL_DIR@")
+SET(ITK_GDCM_DIR "@ITK_GDCM_DIR@")
