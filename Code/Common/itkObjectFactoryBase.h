@@ -148,7 +148,7 @@ protected:
       bool enableFlag,
       CreateObjectFunctionBase* createFunction);
     
-  /** This method is provioded by sub-classes of ObjectFactoryBase.
+  /** This method is provided by sub-classes of ObjectFactoryBase.
    * It should create the named itk object or return 0 if that object
    * is not supported by the factory implementation. */
   virtual LightObject::Pointer CreateObject(const char* itkclassname );
@@ -183,7 +183,7 @@ private:
   void* m_LibraryHandle;
   unsigned long m_LibraryDate;
   std::string m_LibraryPath;
-  };
+};
 
 } // end namespace itk
 

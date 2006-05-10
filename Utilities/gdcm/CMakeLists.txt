@@ -101,7 +101,7 @@ IF(UNIX) #Avoid polluting Win32 cmakecache
 ENDIF(UNIX)
 
 #-----------------------------------------------------------------------------
-# Test if os defines a lenght for sockaddr
+# Test if os defines a length for sockaddr
 # only doing the test when we have sys/socket
 IF( ${CMAKE_HAVE_SYS_SOCKET_H} )
   IF("HAVE_SA_LEN" MATCHES "^HAVE_SA_LEN$")

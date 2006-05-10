@@ -50,10 +50,10 @@ namespace itk
 /** \class DynamicLoader
  * \brief Portable loading of dynamic libraries or dll's.
  *
- * DynamicLoader provides a portable interface to loading dynamic 
- * libraries or dll's into a process. 
+ * DynamicLoader provides a portable interface to loading dynamic
+ * libraries or dll's into a process.
  *
- * \ingroup OSSystemObjects 
+ * \ingroup OSSystemObjects
  */
 
 
@@ -65,22 +65,22 @@ public:
   typedef Object  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-    
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(DynamicLoader,Object);
 
   /** Load a dynamic library into the current process.
-   * The returned LibHandle can be used to access the symbols in the 
+   * The returned LibHandle can be used to access the symbols in the
    * library. */
   static LibHandle OpenLibrary(const char*);
 
   /** Attempt to detach a dynamic library from the
    * process.  A value of true is returned if it is sucessful. */
   static int CloseLibrary(LibHandle);
-  
+
   /** Find the address of the symbol in the given library. */
   static void* GetSymbolAddress(LibHandle, const char*);
 
@@ -92,7 +92,7 @@ public:
 
   /** Return the last error produced from a calls made on this class. */
   static const char* LastError();
-  
+
 protected:
   DynamicLoader();
   ~DynamicLoader();
@@ -104,5 +104,5 @@ private:
 };
 
 } // end namespace itk
-  
+
 #endif

@@ -49,7 +49,7 @@ public:
   typedef LightObject  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  
+
   /** Method for creation through the object factory. */
   static Pointer New();
 

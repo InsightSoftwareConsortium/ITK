@@ -61,7 +61,7 @@ bool operator==(const ObjectFactoryBase::OverrideInformation& rhs,
                 const ObjectFactoryBase::OverrideInformation& lhs)
 {
   return (rhs.m_Description == lhs.m_Description
-          && rhs.m_OverrideWithName == lhs.m_OverrideWithName);
+       && rhs.m_OverrideWithName == lhs.m_OverrideWithName);
 }
 
 /**
@@ -400,7 +400,7 @@ ObjectFactoryBase
 {
   if ( factory->m_LibraryHandle == 0 )
     {
-    const char* nonDynamicName = "Non-Dynamicly loaded factory";
+    const char nonDynamicName[] = "Non-Dynamicaly loaded factory";
     factory->m_LibraryPath = nonDynamicName;
     }
   if ( strcmp(factory->GetITKSourceVersion(), 

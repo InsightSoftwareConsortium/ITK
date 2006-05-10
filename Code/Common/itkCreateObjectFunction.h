@@ -67,14 +67,14 @@ public:
   /** Methods from itk:LightObject. */
   itkFactorylessNewMacro(Self);
   LightObject::Pointer CreateObject() { return T::New().GetPointer(); }
-  
+
 protected:
   CreateObjectFunction() {}
   ~CreateObjectFunction() {}
   
 private:
   CreateObjectFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented  
+  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namespace itk

@@ -184,12 +184,12 @@ MACRO(CSWIG_CREATE_PYTHON_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx 
    ADD_CUSTOM_COMMAND(
      COMMENT "${OutputTclCxx} from "
      SOURCE ${Bin}/${InputIdx}
-     COMMAND ${CSWIG} 
+     COMMAND ${CSWIG}
      ARGS ${ITK_SWG_FILE}
           -I${ITK_SWIG_DEFAULT_LIB}
           -I${ITK_SWIG_DEFAULT_LIB}/python
           -noruntime ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
-          -outdir "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}" 
+          -outdir "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}"
           -o ${Bin}/${OutputTclCxx} -python -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
@@ -209,7 +209,7 @@ MACRO(CSWIG_CREATE_JAVA_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Li
    ADD_CUSTOM_COMMAND(
      COMMENT "${OutputTclCxx} from "
      SOURCE ${Bin}/${InputIdx}
-     COMMAND ${CSWIG} 
+     COMMAND ${CSWIG}
      ARGS -I${ITK_SWIG_DEFAULT_LIB}
           -I${ITK_SWIG_DEFAULT_LIB}/java
           ${ITK_SWG_FILE}
@@ -305,9 +305,9 @@ SET(ITK_KITS VXLNumerics CommonA CommonB Numerics
   BasicFiltersA BasicFiltersB IO Algorithms
   )
 SUBDIRS(SwigRuntime ${ITK_KITS} Tests)
-IF(ITK_CSWIG_JAVA) 
+IF(ITK_CSWIG_JAVA)
   SUBDIRS(Java)
-ENDIF(ITK_CSWIG_JAVA) 
+ENDIF(ITK_CSWIG_JAVA)
 
 
 IF(UNIX)
@@ -402,7 +402,7 @@ IF(PYTHON_EXECUTABLE AND ITK_CSWIG_PYTHON)
   SET(ITK_PYTHON_FILES)
 
   # Wrapping/CSwig/Python/*.py
-  SET(ITK_PYTHON_FILES 
+  SET(ITK_PYTHON_FILES
     ${ITK_PYTHON_FILES}
     InsightToolkit
     itkalgorithms
@@ -457,7 +457,7 @@ IF(PYTHON_EXECUTABLE AND ITK_CSWIG_PYTHON)
       ENDFOREACH(file)
     ENDIF(ITK_CSWIG_CONFIGURATION_TYPES)
   ENDIF ("${ITK_BINARY_DIR}" MATCHES "^${ITK_SOURCE_DIR}$")
-  
+
   # Byte compile the Python files.
   WRITE_FILE(${ITK_BINARY_DIR}/Wrapping/CSwig/Python/compile_all_itk
         "import compileall\n"
@@ -773,7 +773,7 @@ MACRO(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_
         "${ITK_EXTRA_PERL_WRAP}" ${LIBRARY_NAME}Perl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
     ENDIF(ITK_EXTRA_PERL_WRAP)
   ENDIF(ITK_CSWIG_PERL)
-   
+
   IF(ITK_CSWIG_PYTHON)
     # python
     WRAP_PYTHON_SOURCES(${ITK_TOP}/Wrapping/CSwig/${DIRECTORY} ${WrapITK_BINARY_DIR}/${DIRECTORY}

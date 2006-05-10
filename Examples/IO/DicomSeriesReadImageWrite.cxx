@@ -89,7 +89,7 @@ int main( int argc, char* argv[] )
   // Get the DICOM filenames from the directory
   itk::DICOMSeriesFileNames::Pointer nameGenerator = itk::DICOMSeriesFileNames::New();
   nameGenerator->SetDirectory( argv[1] );
-  
+
 
   try
     {

@@ -30,7 +30,7 @@ namespace itk
  * ImageAdaptors are templated over the ImageType and over a functor
  * that will specify what part of the pixel can be accessed
  *
- * The basic aspects of this class are the types it defines.  
+ * The basic aspects of this class are the types it defines.
  *
  * Image adaptors can be used as intermediate classes that allow
  * the sending of an image to a filter, specifying what part of the
@@ -40,7 +40,7 @@ namespace itk
  * These two will specify how data can be put
  * and get from parts of each pixel. It should define the types
  * ExternalType and InternalType too.
- * 
+ *
  * \ingroup ImageAdaptors
  *
  */

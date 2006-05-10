@@ -14,14 +14,12 @@ ITK_THIRD_PARTY_SUBDIR(PNG  png)
 ITK_THIRD_PARTY_SUBDIR(TIFF tiff)
 SET(OPJ_PREFIX "itk")
 ITK_THIRD_PARTY_SUBDIR(OpenJPEG openjpeg)
+ITK_THIRD_PARTY_SUBDIR(GDCM gdcm)
 #------------------------------------------------------------------------------
 # Other utilities libraries
 SUBDIRS(MetaIO)
 SUBDIRS(NrrdIO)
 SUBDIRS(expat)
-IF(NOT ITK_USE_SYSTEM_GDCM)
-  SUBDIRS(gdcm)
-ENDIF(NOT ITK_USE_SYSTEM_GDCM)
 SUBDIRS(nifti)
 
 #------------------------------------------------------------------------------

@@ -394,8 +394,8 @@ virtual LightObject::Pointer CreateAnother(void) const \
 
 namespace itk
 {
-/** 
- * The following is used to output debug, warning, and error messages. 
+/**
+ * The following is used to output debug, warning, and error messages.
  * Use a global function which actually calls:
  * OutputWindow::GetInstance()->DisplayText();
  * This is to avoid Object #include of OutputWindow

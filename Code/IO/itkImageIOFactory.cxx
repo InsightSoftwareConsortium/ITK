@@ -40,15 +40,15 @@
 
 namespace itk
 {
-  
-ImageIOBase::Pointer 
+
+ImageIOBase::Pointer
 ImageIOFactory::CreateImageIO(const char* path, FileModeType mode)
 {
 
   RegisterBuiltInFactories();
 
   std::list<ImageIOBase::Pointer> possibleImageIO;
-  std::list<LightObject::Pointer> allobjects = 
+  std::list<LightObject::Pointer> allobjects =
     ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
   for(std::list<LightObject::Pointer>::iterator i = allobjects.begin();
       i != allobjects.end(); ++i)
@@ -61,13 +61,13 @@ ImageIOFactory::CreateImageIO(const char* path, FileModeType mode)
     else
       {
       std::cerr << "Error ImageIO factory did not return an ImageIOBase: "
-                << (*i)->GetNameOfClass() 
+                << (*i)->GetNameOfClass()
                 << std::endl;
       }
     }
   for(std::list<ImageIOBase::Pointer>::iterator k = possibleImageIO.begin();
       k != possibleImageIO.end(); ++k)
-    { 
+    {
     if( mode == ReadMode )
       {
       if((*k)->CanReadFile(path))
@@ -94,7 +94,7 @@ ImageIOFactory::RegisterBuiltInFactories()
 
   static SimpleMutexLock mutex;
   {
-  // This helper class makes sure the Mutex is unlocked 
+  // This helper class makes sure the Mutex is unlocked
   // in the event an exception is thrown.
   MutexLockHolder<SimpleMutexLock> mutexHolder( mutex );
   if( firstTime )

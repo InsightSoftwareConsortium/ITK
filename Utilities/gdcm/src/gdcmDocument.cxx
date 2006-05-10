@@ -550,16 +550,16 @@ uint32_t Document::SwapLong(uint32_t a)
       case 1234 :
          break;
       case 4321 :
-//         a=( ((a<<24) & 0xff000000) | ((a<<8)  & 0x00ff0000) | 
+//         a=( ((a<<24) & 0xff000000) | ((a<<8)  & 0x00ff0000) |
 //             ((a>>8)  & 0x0000ff00) | ((a>>24) & 0x000000ff) );
 // save CPU time
-         a=( ( a<<24)               | ((a<<8)  & 0x00ff0000) | 
+         a=( ( a<<24)               | ((a<<8)  & 0x00ff0000) |
              ((a>>8)  & 0x0000ff00) |  (a>>24)                );
-         break;   
+         break;
       case 3412 :
 //       a=( ((a<<16) & 0xffff0000) | ((a>>16) & 0x0000ffff) );
          a=( (a<<16)                | (a>>16)  );
-         break;  
+         break;
       case 2143 :
          a=( ((a<< 8) & 0xff00ff00) | ((a>>8) & 0x00ff00ff)  );
       break;
@@ -568,19 +568,19 @@ uint32_t Document::SwapLong(uint32_t a)
          a = 0;
    }
    return a;
-} 
+}
 
 //
 // -----------------File I/O ---------------
 /**
  * \brief  Tries to open the file \ref Document::Filename and
  *         checks the preamble when existing.
- * @return The FILE pointer on success. 
+ * @return The FILE pointer on success.
  */
 std::ifstream *Document::OpenFile()
 {
    HasDCMPreamble = false;
-   if (Filename.length() == 0) 
+   if (Filename.length() == 0)
    {
       return 0;
    }
@@ -595,13 +595,13 @@ std::ifstream *Document::OpenFile()
    if ( ! *Fp )
    {
    // Don't user gdcmErrorMacro :
-   // a spurious message will appear when you use, for instance 
+   // a spurious message will appear when you use, for instance
    // gdcm::FileHelper *fh = new gdcm::FileHelper( outputFileName );
    // to create outputFileName.
-   
-   // FIXME : if the upper comment is still usefull 
+
+   // FIXME : if the upper comment is still useful
    //         --> the constructor is not so good ...
-   
+
       gdcmWarningMacro( "Cannot open file: " << Filename.c_str());
       delete Fp;
       Fp = 0;
@@ -614,7 +614,7 @@ std::ifstream *Document::OpenFile()
       // -- Neither ACR/No Preamble Dicom nor DICOMV3 file
       CloseFile();
       gdcmWarningMacro( "Neither ACR/No Preamble Dicom nor DICOMV3 file: "
-                      << Filename.c_str()); 
+                      << Filename.c_str());
       return 0;
    }
    return Fp;
@@ -629,11 +629,11 @@ bool Document::CanReadFile(std::istream &os, bool &hasPreamble)
    {
       return false;
    }
- 
+
    //-- Broken ACR or DICOM with no Preamble; may start with a Shadow Group --
    // FIXME : We cannot be sure the preable is only zeroes..
    //         (see ACUSON-24-YBR_FULL-RLE.dcm )
-   if ( 
+   if (
        zero == 0x0001 || zero == 0x0100 || zero == 0x0002 || zero == 0x0200 ||
        zero == 0x0003 || zero == 0x0300 || zero == 0x0004 || zero == 0x0400 ||
        zero == 0x0005 || zero == 0x0500 || zero == 0x0006 || zero == 0x0600 ||
@@ -645,7 +645,7 @@ bool Document::CanReadFile(std::istream &os, bool &hasPreamble)
       gdcmWarningMacro( msg.c_str() );
       return true;
    }
- 
+
    //-- DICOM --
    os.seekg(126L, std::ios::cur);  // Once per Document
    char dicm[4]; // = {' ',' ',' ',' '};
@@ -663,8 +663,8 @@ bool Document::CanReadFile(std::istream &os, bool &hasPreamble)
 }
 
 /**
- * \brief closes the file  
- * @return  TRUE if the close was successfull 
+ * \brief closes the file
+ * @return  TRUE if the close was successfull
  */
 bool Document::CloseFile()
 {
@@ -678,9 +678,9 @@ bool Document::CloseFile()
 }
 
 /**
- * \brief Writes in a file all the Entries (Dicom Elements) 
+ * \brief Writes in a file all the Entries (Dicom Elements)
  * @param fp file pointer on an already open file (actually: Output File Stream)
- * @param filetype Type of the File to be written 
+ * @param filetype Type of the File to be written
  *          (ACR-NEMA, ExplicitVR, ImplicitVR)
  */
 void Document::WriteContent(std::ofstream *fp, FileType filetype)

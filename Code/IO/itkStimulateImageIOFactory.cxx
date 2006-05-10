@@ -33,18 +33,18 @@ StimulateImageIOFactory::StimulateImageIOFactory()
                          1,
                          CreateObjectFunction<StimulateImageIO>::New());
 }
-  
+
 StimulateImageIOFactory::~StimulateImageIOFactory()
 {
 }
 
-const char* 
+const char*
 StimulateImageIOFactory::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char* 
+const char*
 StimulateImageIOFactory::GetDescription(void) const
 {
   return "Stimulate ImageIO Factory, allows the loading of Stimulate images into ITK";

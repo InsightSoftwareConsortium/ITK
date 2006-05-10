@@ -1,7 +1,7 @@
 # This file demonstrates how to connect VTK and ITK pipelines together
 # in scripted languages with the new ConnectVTKITK wrapping functionality.
 # Data is loaded in with VTK, processed with ITK and written back to disc
-# with VTK. 
+# with VTK.
 #
 # For this to work, you have to build InsightApplications/ConnectVTKITK
 # as well.
@@ -37,7 +37,7 @@ vtkExporter.SetInput(imageCast.GetOutput())
 # the subsequent ITK pipeline; two-dimensional float type
 itkImporter = itk.itkVTKImageImportF2_New()
 
-# Call the magic function that connects the two.  This will only be 
+# Call the magic function that connects the two.  This will only be
 # available if you built ITK with ITK_CSWIG_CONNECTVTKITK set to ON.
 CVIPy.ConnectVTKToITKF2(vtkExporter, itkImporter.GetPointer())
 
@@ -52,7 +52,7 @@ rescaler.SetOutputMaximum(65535)
 # this is to show off the new PyCommand functionality. :)
 def progressEvent():
     print "%.0f%s done..." % (canny.GetProgress() * 100.0, '%')
-    
+
 pc = itk.itkPyCommand_New()
 pc.SetCommandCallable(progressEvent)
 canny.AddObserver(itk.itkProgressEvent(), pc.GetPointer())

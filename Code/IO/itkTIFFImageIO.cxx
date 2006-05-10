@@ -736,7 +736,7 @@ void TIFFImageIO::GetColor( int index, unsigned short *red,
 
 unsigned int TIFFImageIO::GetFormat( )
 {
-  unsigned int cc;  
+  unsigned int cc;
 
   if ( this->ImageFormat != TIFFImageIO::NOFORMAT )
     {
@@ -746,8 +746,8 @@ unsigned int TIFFImageIO::GetFormat( )
 
   switch ( m_InternalImage->Photometrics )
     {
-    case PHOTOMETRIC_RGB: 
-    case PHOTOMETRIC_YCBCR: 
+    case PHOTOMETRIC_RGB:
+    case PHOTOMETRIC_YCBCR:
       this->ImageFormat = TIFFImageIO::RGB_;
       return this->ImageFormat;
     case PHOTOMETRIC_MINISWHITE:
@@ -755,7 +755,7 @@ unsigned int TIFFImageIO::GetFormat( )
       this->ImageFormat = TIFFImageIO::GRAYSCALE;
       return this->ImageFormat;
     case PHOTOMETRIC_PALETTE:
-      for( cc=0; cc<256; cc++ ) 
+      for( cc=0; cc<256; cc++ )
         {
         unsigned short red, green, blue;
         this->GetColor( cc, &red, &green, &blue );
@@ -772,7 +772,7 @@ unsigned int TIFFImageIO::GetFormat( )
   return this->ImageFormat;
 }
 
-/** Read a tiled tiff */  
+/** Read a tiled tiff */
 void TIFFImageIO::ReadTiles(void* buffer)
 {
   unsigned char* volume = reinterpret_cast<unsigned char*>(buffer);
@@ -791,7 +791,7 @@ void TIFFImageIO::ReadTiles(void* buffer)
           {
           delete [] tempImage;
           }
-      
+
         return;
         }
 
@@ -811,7 +811,7 @@ void TIFFImageIO::ReadTiles(void* buffer)
     }
 }
 
-/** Read a multipage tiff */  
+/** Read a multipage tiff */
 void TIFFImageIO::ReadVolume(void* buffer)
 {
   int width  = m_InternalImage->Width;
@@ -854,20 +854,20 @@ void TIFFImageIO::ReadVolume(void* buffer)
       uint32 *tempImage;
       tempImage = new uint32[ width * height ];
 
-      if ( !TIFFReadRGBAImage(m_InternalImage->Image, 
-                              width, height, 
+      if ( !TIFFReadRGBAImage(m_InternalImage->Image,
+                              width, height,
                               tempImage, 1 ) )
         {
         itkExceptionMacro( << "Cannot read TIFF image or as a TIFF RGBA image" );
         if ( tempImage != buffer )
           {
           delete [] tempImage;
-          } 
+          }
         return;
         }
       int xx, yy;
       uint32* ssimage;
-      
+
       if(m_ComponentType == USHORT)
         {
         unsigned short *fimage = (unsigned short *)buffer;
@@ -881,7 +881,7 @@ void TIFFImageIO::ReadVolume(void* buffer)
             unsigned short green = static_cast<unsigned short>(TIFFGetG(*ssimage));
             unsigned short blue  = static_cast<unsigned short>(TIFFGetB(*ssimage));
             unsigned short alpha = static_cast<unsigned short>(TIFFGetA(*ssimage));
-         
+
             *(fimage  ) = red;
             *(fimage+1) = green;
             *(fimage+2) = blue;
@@ -904,7 +904,7 @@ void TIFFImageIO::ReadVolume(void* buffer)
             unsigned char green = static_cast<unsigned char>(TIFFGetG(*ssimage));
             unsigned char blue  = static_cast<unsigned char>(TIFFGetB(*ssimage));
             unsigned char alpha = static_cast<unsigned char>(TIFFGetA(*ssimage));
-      
+
             *(fimage  ) = red;
             *(fimage+1) = green;
             *(fimage+2) = blue;
@@ -921,12 +921,12 @@ void TIFFImageIO::ReadVolume(void* buffer)
       }
     else
       {
-      unsigned int format = this->GetFormat();  
-    
+      unsigned int format = this->GetFormat();
+
       switch ( format )
         {
         case TIFFImageIO::GRAYSCALE:
-        case TIFFImageIO::RGB_: 
+        case TIFFImageIO::RGB_:
         case TIFFImageIO::PALETTE_RGB:
         case TIFFImageIO::PALETTE_GRAYSCALE:
           if(m_ComponentType == USHORT)
@@ -950,7 +950,7 @@ void TIFFImageIO::ReadVolume(void* buffer)
     }
 }
 
-  
+
 void TIFFImageIO::Read(void* buffer)
 {
 

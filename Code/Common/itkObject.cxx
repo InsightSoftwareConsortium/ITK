@@ -31,20 +31,20 @@ bool Object::m_GlobalWarningDisplay = true;
 class Observer
 {
 public:
-  Observer(Command* c, 
+  Observer(Command* c,
            const EventObject * event,
            unsigned long tag) :m_Command(c),
                                m_Event(event),
                                m_Tag(tag)
   { }
-  virtual ~Observer() 
+  virtual ~Observer()
   { delete m_Event; }
   Command::Pointer m_Command;
   const EventObject * m_Event;
   unsigned long m_Tag;
 };
-    
-  
+
+
 class SubjectImplementation
 {
 public:
@@ -75,7 +75,7 @@ SubjectImplementation::
 }
 
 
-unsigned long 
+unsigned long
 SubjectImplementation::
 AddObserver(const EventObject & event,
             Command* cmd)
@@ -87,7 +87,7 @@ AddObserver(const EventObject & event,
 }
 
 
-unsigned long 
+unsigned long
 SubjectImplementation::
 AddObserver(const EventObject & event,
             Command* cmd) const
@@ -130,7 +130,7 @@ RemoveAllObservers()
 }
 
 
-void 
+void
 SubjectImplementation::
 InvokeEvent( const EventObject & event,
              Object* self)
@@ -146,7 +146,7 @@ InvokeEvent( const EventObject & event,
     }
 }
 
-void 
+void
 SubjectImplementation::
 InvokeEvent( const EventObject & event,
              const Object* self)
@@ -185,7 +185,7 @@ HasObserver(const EventObject & event) const
   for(std::list<Observer* >::const_iterator i = m_Observers.begin();
       i != m_Observers.end(); ++i)
     {
-    const EventObject * e =  (*i)->m_Event; 
+    const EventObject * e =  (*i)->m_Event;
     if(e->CheckEvent(&event))
       {
       return true;
@@ -202,7 +202,7 @@ PrintObservers(std::ostream& os, Indent indent) const
     {
     return false;
     }
-    
+
   for(std::list<Observer* >::const_iterator i = m_Observers.begin();
       i != m_Observers.end(); ++i)
     {
@@ -237,7 +237,7 @@ Object::CreateAnother() const
 /**
  * Turn debugging output on.
  */
-void 
+void
 Object
 ::DebugOn() const
 {
@@ -248,7 +248,7 @@ Object
 /**
  * Turn debugging output off.
  */
-void 
+void
 Object
 ::DebugOff() const
 {
@@ -259,7 +259,7 @@ Object
 /**
  * Get the value of the debug flag.
  */
-bool 
+bool
 Object
 ::GetDebug() const
 {
@@ -270,7 +270,7 @@ Object
 /**
  * Set the value of the debug flag. A non-zero value turns debugging on.
  */
-void 
+void
 Object
 ::SetDebug(bool debugFlag) const
 {
@@ -281,7 +281,7 @@ Object
 /**
  * Return the modification for this object.
  */
-unsigned long 
+unsigned long
 Object
 ::GetMTime() const
 {
@@ -292,7 +292,7 @@ Object
 /**
  * Make sure this object's modified time is greater than all others.
  */
-void 
+void
 Object
 ::Modified() const
 {
@@ -304,7 +304,7 @@ Object
 /**
  * Increase the reference count (mark as used by another object).
  */
-void 
+void
 Object
 ::Register() const
 {
@@ -319,11 +319,11 @@ Object
 /**
  * Decrease the reference count (release by another object).
  */
-void 
+void
 Object
 ::UnRegister() const
 {
-  // call the parent 
+  // call the parent
   itkDebugMacro(<< "UnRegistered, "
                 << "ReferenceCount = " << (m_ReferenceCount-1));
 
@@ -342,7 +342,7 @@ Object
 /**
  * Sets the reference count (use with care)
  */
-void 
+void
 Object
 ::SetReferenceCount(int ref)
 {
@@ -365,7 +365,7 @@ Object
 /**
  * Set the value of the global debug output control flag.
  */
-void 
+void
 Object
 ::SetGlobalWarningDisplay(bool val)
 {
@@ -376,7 +376,7 @@ Object
 /**
  * Get the value of the global debug output control flag.
  */
-bool 
+bool
 Object
 ::GetGlobalWarningDisplay()
 {
@@ -384,7 +384,7 @@ Object
 }
 
 
-unsigned long 
+unsigned long
 Object
 ::AddObserver(const EventObject & event, Command *cmd)
 {
@@ -396,7 +396,7 @@ Object
 }
 
 
-unsigned long 
+unsigned long
 Object
 ::AddObserver(const EventObject & event, Command *cmd) const
 {
@@ -420,7 +420,7 @@ Object
   return NULL;
 }
 
-void 
+void
 Object
 ::RemoveObserver(unsigned long tag)
 {
@@ -430,7 +430,7 @@ Object
     }
 }
 
-void 
+void
 Object
 ::RemoveAllObservers()
 {
@@ -441,7 +441,7 @@ Object
 }
 
 
-void 
+void
 Object
 ::InvokeEvent( const EventObject & event )
 {
@@ -452,7 +452,7 @@ Object
 }
 
 
-void 
+void
 Object
 ::InvokeEvent( const EventObject & event ) const
 {
@@ -511,7 +511,7 @@ Object
 {
   itkDebugMacro(<< "Destructing!");
   delete m_SubjectImplementation;
-  delete m_MetaDataDictionary;//Deleteing a NULL pointer does nothing.
+  delete m_MetaDataDictionary;//Deleting a NULL pointer does nothing.
 }
 
 
@@ -519,7 +519,7 @@ Object
  * Chaining method to print an object's instance variables, as well as
  * its superclasses.
  */
-void 
+void
 Object
 ::PrintSelf(std::ostream& os, Indent indent) const
 {

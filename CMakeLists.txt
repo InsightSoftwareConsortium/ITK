@@ -295,28 +295,16 @@ ENDIF(ITK_USE_SYSTEM_VXL)
 
 # ITK_USE_SYSTEM_GDCM is provided so that you can use an installed or external
 # version of gdcm. If its on, you must specify the variables 
-# GDCM_DIR: pointing to the GDCM binary dir or the install path
-# GDCM_USE_FILE: pointing to UseGDCM.cmake. Older versions of GDCM called it
-#                GDCMUse.cmake. So you must specify it for clarity.
-#
-# Alternatively, if you are building GDCM *and* ITK as subprojects in a larger
-# project, (ie you always know where GDCM is), set GDCM_FOUND=1, GDCM_DIR
-# (gdcm bin dir) and GDCM_USE_FILE (defines the gdcm export configuration)
-
 OPTION(ITK_USE_SYSTEM_GDCM "Use an outside build of GDCM." OFF)
 MARK_AS_ADVANCED(ITK_USE_SYSTEM_GDCM)
 IF(ITK_USE_SYSTEM_GDCM)
-  IF(NOT GDCM_FOUND)
-    FIND_PACKAGE(GDCM)
-    IF(GDCM_FOUND)
-      INCLUDE(${GDCM_USE_FILE})
-      SET(ITK_GDCM_LIBRARIES gdcm)
-    ELSE(GDCM_FOUND)
-      MESSAGE(FATAL_ERROR "Must set GDCM_DIR for ITK_USE_SYSTEM_GDCM.")
-    ENDIF(GDCM_FOUND)
-  ELSE(NOT GDCM_FOUND)
+  FIND_PACKAGE(GDCM)
+  IF(GDCM_FOUND)
     INCLUDE(${GDCM_USE_FILE})
-  ENDIF(NOT GDCM_FOUND)
+    SET(ITK_GDCM_LIBRARIES gdcm)
+  ELSE(GDCM_FOUND)
+    MESSAGE(FATAL_ERROR "Must set GDCM_DIR for ITK_USE_SYSTEM_GDCM.")
+  ENDIF(GDCM_FOUND)
 ELSE(ITK_USE_SYSTEM_GDCM)
   SET(ITK_GDCM_LIBRARIES itkgdcm)
 ENDIF(ITK_USE_SYSTEM_GDCM)

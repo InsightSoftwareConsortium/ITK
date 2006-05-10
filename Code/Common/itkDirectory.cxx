@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,7 @@ namespace itk
 /**
  *
  */
-Directory::Directory() 
+Directory::Directory()
 {
   m_Internal = new itksys::Directory;
 }
@@ -30,7 +30,7 @@ Directory::Directory()
 /**
  *
  */
-Directory::~Directory() 
+Directory::~Directory()
 {
   delete m_Internal;
 }
@@ -39,7 +39,7 @@ Directory::~Directory()
  *
  */
 void Directory::PrintSelf(std::ostream& os, Indent indent) const
-{ 
+{
   Superclass::PrintSelf(os, indent);
   os << indent << "Directory for: " << m_Internal->GetPath() << "\n";
   os << indent << "Contains the following files:\n";

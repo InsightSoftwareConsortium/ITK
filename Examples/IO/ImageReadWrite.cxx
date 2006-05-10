@@ -45,7 +45,7 @@
 //  \index{itk::ImageFileWriter|textbf}
 //  \index{itk::ImageFileWriter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
@@ -88,7 +88,7 @@ int main( int argc, char ** argv )
   //  A typical selection for medical images is illustrated in
   //  the following lines.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef short      PixelType;
@@ -110,7 +110,7 @@ int main( int argc, char ** argv )
   //  \index{itk::ImageFileReader!Instantiation}
   //  \index{itk::ImageFileWriter!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< ImageType >  ReaderType;

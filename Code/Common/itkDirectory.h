@@ -71,7 +71,7 @@ private:
   Directory(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  itksys::Directory* m_Internal;
+  ::itksys::Directory* m_Internal;
 }; // End Class: Directory
 
 } // end namespace itk

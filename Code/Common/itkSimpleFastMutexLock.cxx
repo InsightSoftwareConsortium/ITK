@@ -22,7 +22,7 @@
 namespace itk
 {
 
-// Construct a new SimpleMutexLock 
+// Construct a new SimpleMutexLock
 SimpleFastMutexLock::SimpleFastMutexLock()
 {
 #ifdef ITK_USE_SPROC
@@ -30,7 +30,7 @@ SimpleFastMutexLock::SimpleFastMutexLock()
 #endif
 
 #if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
-  //this->MutexLock = CreateMutex( NULL, FALSE, NULL ); 
+  //this->MutexLock = CreateMutex( NULL, FALSE, NULL );
   InitializeCriticalSection(&m_FastMutexLock);
 #endif
 

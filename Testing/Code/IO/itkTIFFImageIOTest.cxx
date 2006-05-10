@@ -14,13 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-#include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
+#include <fstream>
 
 int itkTIFFImageIOTest( int ac, char* av[] )
 {
@@ -31,12 +28,8 @@ int itkTIFFImageIOTest( int ac, char* av[] )
     return EXIT_FAILURE;
     }
   
-  // ATTENTION THIS IS THE PIXEL TYPE FOR 
-  // THE RESULTING IMAGE
   typedef itk::RGBPixel<unsigned char> PixelType;
-
   typedef itk::Image<PixelType, 2> myImage;
-
   typedef itk::Image<unsigned char, 3> myImage3D;
 
   itk::ImageFileReader<myImage>::Pointer reader 

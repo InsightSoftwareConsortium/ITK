@@ -19,6 +19,7 @@
 =========================================================================*/
 #ifndef _itkImage_txx
 #define _itkImage_txx
+
 #include "itkImage.h"
 #include "itkProcessObject.h"
 

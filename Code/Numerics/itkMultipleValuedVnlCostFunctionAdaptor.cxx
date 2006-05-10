@@ -114,7 +114,7 @@ MultipleValuedVnlCostFunctionAdaptor
 void 
 MultipleValuedVnlCostFunctionAdaptor
 ::compute( const InternalParametersType   & x,
-           InternalMeasureType      * f, 
+           InternalMeasureType      * ff, 
            InternalDerivativeType   * g   )
 {
   // delegate the computation to the CostFunction
@@ -132,7 +132,7 @@ MultipleValuedVnlCostFunctionAdaptor
     parameters.SetData(const_cast<double*>(x.data_block()));
     }
 
-   *f = static_cast<InternalMeasureType>(
+   *ff = static_cast<InternalMeasureType>(
         m_CostFunction->GetValue( parameters ) );
   m_CostFunction->GetDerivative( parameters, externalGradient );
 
