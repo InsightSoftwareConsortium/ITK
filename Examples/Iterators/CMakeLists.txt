@@ -57,6 +57,7 @@ SET(ITERATORS_EXAMPLES ${CXX_TEST_PATH}/IteratorsExamples)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Iterators)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
+IF(NOT BORLAND)
 ADD_TEST(ImageLinearIteratorWithIndexTest ${ITERATORS_EXAMPLES}
   --compare ${BASELINE}/ImageLinearIteratorWithIndexTest.png
             ${TEMP}/ImageLinearIteratorWithIndexTest.png
@@ -90,5 +91,6 @@ ADD_TEST(ImageSliceIteratorWithIndexTest ${ITERATORS_EXAMPLES}
         ${TEMP}/ImageSliceIteratorWithIndexTest.mha
         2
 )
+ENDIF(NOT BORLAND)
 
 
