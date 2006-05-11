@@ -40,6 +40,8 @@
 
 #include "itkAffineTransform.h"
 #include "itkBSplineDeformableTransform.h"
+#include "itkTransformFactory.h"
+#include "itkTransformFileWriter.h"
 
 int main(int itkNotUsed(ac), char* itkNotUsed(av)[])
 {
@@ -131,6 +133,14 @@ int main(int itkNotUsed(ac), char* itkNotUsed(av)[])
 // Software Guide : BeginCodeSnippet
   itk::TransformFileReader::Pointer reader;
   reader = itk::TransformFileReader::New();
+// Software Guide : EndCodeSnippet
+
+// Software Guide : BeginLatex
+// Some transforms (like the BSpline transform) might not be registered 
+// with the factory so we add them manually. 
+// Software Guide : EndLatex 
+// Software Guide : BeginCodeSnippet
+  itk::TransformFactory<BSplineTransformType>::RegisterTransform();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
