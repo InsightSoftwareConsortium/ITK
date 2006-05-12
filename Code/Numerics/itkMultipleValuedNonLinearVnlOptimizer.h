@@ -19,6 +19,7 @@
 
 #include "itkMultipleValuedNonLinearOptimizer.h"
 #include "itkMultipleValuedVnlCostFunctionAdaptor.h"
+#include "itkCommand.h"
 
 
 namespace itk
@@ -67,9 +68,20 @@ public:
   void UseCostFunctionGradientOff() { this->SetUseCostFunctionGradient( false ); };
   bool GetUseCostFunctionGradient() const;
 
+  /** Return Cached Values. These method have the advantage of not triggering a
+   * recomputation of the metric value, but it has the disadvantage of returning
+   * a value that may not be the one corresponding to the current parameters. For
+   * GUI update purposes, this method is a good option, for mathematical
+   * validation you should rather call GetValue(). */
+  itkGetConstReferenceMacro(CachedValue, MeasureType);
+  itkGetConstReferenceMacro(CachedDerivative, DerivativeType);
+  itkGetConstReferenceMacro(CachedCurrentPosition, ParametersType);
+
 protected:
   MultipleValuedNonLinearVnlOptimizer();
   virtual ~MultipleValuedNonLinearVnlOptimizer();
+
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   typedef MultipleValuedVnlCostFunctionAdaptor   CostFunctionAdaptorType;
 
@@ -81,12 +93,28 @@ protected:
    *  correctness in vnl cost_functions and optimizers */
   CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor( void ) const;
 
+  /** Command observer that will interact with the ITK-VNL cost-function
+   * adaptor in order to generate iteration events. This will allow to overcome
+   * the limitation of VNL optimizers not offering callbacks for every
+   * iteration */
+  typedef ReceptorMemberCommand< Self >           CommandType;
+
 private:
   MultipleValuedNonLinearVnlOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  /** Callback function for the Command Observer */
+  void IterationReport( const EventObject & event );
+  
   CostFunctionAdaptorType * m_CostFunctionAdaptor;
   bool                      m_UseGradient;
+
+  CommandType::Pointer      m_Command;
+
+  mutable ParametersType    m_CachedCurrentPosition;
+  mutable MeasureType       m_CachedValue;
+  mutable DerivativeType    m_CachedDerivative;
+
 };
 
 } // end namespace itk

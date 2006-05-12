@@ -105,12 +105,38 @@ public:
   /** Set current parameters scaling. */
   void SetScales(const ScalesType & scales);
 
+  /** This AddObserver method allows to simulate that this class derives from
+   * an itkObject for the purpose of reporting iteration events. The goal of
+   * this method is to allow ITK-vnl optimizer adaptors to get iteration events
+   * despite the fact that VNL does not provide callbacks. */
+  unsigned long AddObserver(const EventObject & event, Command *) const;
+
+  /** Return the value of the last evaluation to the value of the cost function.
+   *  Note that this method DOES NOT triggers a computation of the function or
+   *  the derivatives, it only returns previous values. Therefore the values here
+   *  are only valid after you invoke the f() or gradf() methods. */
+  const MeasureType & GetCachedValue() const;
+  const DerivativeType & GetCachedDerivative() const;
+  const ParametersType & GetCachedCurrentParameters() const;
+ 
+protected:
+
+  /** This method is intended to be called by the derived classes in order to
+   * notify of an iteration event to any Command/Observers */
+  void ReportIteration( const EventObject & event ) const;
+
+
 private:
 
   MultipleValuedCostFunction::Pointer   m_CostFunction;
+
   bool                    m_ScalesInitialized;
   ScalesType              m_Scales;
+  Object::Pointer         m_Reporter;
 
+  mutable MeasureType     m_CachedValue;
+  mutable DerivativeType  m_CachedDerivative;
+  mutable ParametersType  m_CachedCurrentParameters;
 
 };  // end of Class CostFunction
 

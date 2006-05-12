@@ -29,6 +29,7 @@ MultipleValuedVnlCostFunctionAdaptor
   vnl_least_squares_function(spaceDimension,numberOfValues) 
 { 
   m_ScalesInitialized =false;
+  m_Reporter = Object::New();
 }    
 
     
@@ -71,6 +72,11 @@ MultipleValuedVnlCostFunctionAdaptor
 
    measures = m_CostFunction->GetValue( parameters );
 
+  // Notify observers. This is used for overcoming the limitaion of VNL
+  // optimizers of not providing callbacks per iteration.
+  m_CachedValue = measures;
+  m_CachedCurrentParameters = parameters;
+  this->ReportIteration( FunctionEvaluationIterationEvent() ); 
 
 }
   
@@ -137,6 +143,14 @@ MultipleValuedVnlCostFunctionAdaptor
   m_CostFunction->GetDerivative( parameters, externalGradient );
 
   ConvertExternalToInternalGradient( externalGradient, *g );  
+
+  // Notify observers. This is used for overcoming the limitaion of VNL
+  // optimizers of not providing callbacks per iteration.
+  // Note that m_CachedDerivative is already loaded in the GetDerivative() above.
+  m_CachedValue = *ff;
+  m_CachedCurrentParameters = parameters;
+  this->ReportIteration( FunctionAndGradientEvaluationIterationEvent() ); 
+ 
 }
 
 /**  Convert external derviative measures into internal type  */
@@ -194,6 +208,53 @@ MultipleValuedVnlCostFunctionAdaptor
 
 }
  
+
+
+/**  This method reports iterations events. It is intended to 
+ *   help monitoring the progress of the optimization process. */
+void 
+MultipleValuedVnlCostFunctionAdaptor
+::ReportIteration( const EventObject & event ) const
+{
+  this->m_Reporter->InvokeEvent( event );
+}
+ 
+
+
+/**  Connects a Command/Observer to the internal reporter class.
+ *   This is useful for reporting iteration event to potential observers. */
+unsigned long 
+MultipleValuedVnlCostFunctionAdaptor
+::AddObserver(const EventObject & event, Command * command) const
+{
+  return m_Reporter->AddObserver( event, command );
+}
+
+
+/**  Return the cached value of the cost function */
+const MultipleValuedVnlCostFunctionAdaptor::MeasureType &
+MultipleValuedVnlCostFunctionAdaptor
+::GetCachedValue() const
+{
+  return m_CachedValue;
+}
+
+
+/**  Return the cached value of the cost function derivative */
+const MultipleValuedVnlCostFunctionAdaptor::DerivativeType &
+MultipleValuedVnlCostFunctionAdaptor
+::GetCachedDerivative() const
+{
+  return m_CachedDerivative;
+}
+
+/**  Return the cached value of the parameters used for computing the function */
+const MultipleValuedVnlCostFunctionAdaptor::ParametersType &
+MultipleValuedVnlCostFunctionAdaptor
+::GetCachedCurrentParameters() const
+{
+  return m_CachedCurrentParameters;
+}
 
 
 } // end namespace itk

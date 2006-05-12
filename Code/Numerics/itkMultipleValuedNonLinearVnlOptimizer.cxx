@@ -30,6 +30,12 @@ MultipleValuedNonLinearVnlOptimizer
 {
   m_CostFunctionAdaptor = 0;
   m_UseGradient = true;
+  m_Command = CommandType::New();
+  m_Command->SetCallbackFunction( this, 
+      &MultipleValuedNonLinearVnlOptimizer::IterationReport );
+  m_CachedValue.Fill(0);
+  m_CachedCurrentPosition.Fill(0);
+  m_CachedDerivative.Fill(0);
 }
 
 
@@ -68,6 +74,7 @@ MultipleValuedNonLinearVnlOptimizer
 
   this->SetUseCostFunctionGradient(m_UseGradient);
 
+  m_CostFunctionAdaptor->AddObserver( IterationEvent(), m_Command );
 }
 
 
@@ -127,6 +134,42 @@ MultipleValuedNonLinearVnlOptimizer
     {
     return m_UseGradient;
     }
+}
+
+
+
+/** The purpose of this method is to get around the lack of iteration reporting
+ * in VNL optimizers. By interfacing directly with the ITK cost function
+ * adaptor we are generating here Iteration Events. Note the iteration events
+ * here are produce PER EVALUATION of the metric, not per real iteration of the
+ * vnl optimizer. Optimizers that evaluate the metric multiple times at each
+ * iteration will generate a lot more of Iteration events here. */
+void
+MultipleValuedNonLinearVnlOptimizer
+::IterationReport( const EventObject & event ) 
+{
+  const CostFunctionAdaptorType * adaptor = this->GetCostFunctionAdaptor();
+  m_CachedValue = adaptor->GetCachedValue();
+  m_CachedDerivative = adaptor->GetCachedDerivative();
+  m_CachedCurrentPosition = adaptor->GetCachedCurrentParameters();
+  this->InvokeEvent( event );
+}
+
+
+/**
+ * PrintSelf
+ */
+void
+MultipleValuedNonLinearVnlOptimizer
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+  os << indent << "Cached Value: " << m_CachedValue << std::endl;
+  os << indent << "Cached Derivative: " << m_CachedDerivative << std::endl;
+  os << indent << "Cached current positiion: "
+     << m_CachedCurrentPosition << std::endl;
+  os << "Command observer " << m_Command.GetPointer() << std::endl;
+  os << "Cost Function adaptor" << m_CostFunctionAdaptor << std::endl;
 }
 
 

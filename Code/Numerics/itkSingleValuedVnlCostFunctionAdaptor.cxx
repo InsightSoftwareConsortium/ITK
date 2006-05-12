@@ -211,8 +211,8 @@ SingleValuedVnlCostFunctionAdaptor
   return m_NegateCostFunction;
 }
 
-/**  Returns whether the cost function is going to be negated or not. 
- *   This is useful for adapting optimizers that are only minimizers. */
+/**  This method reports iterations events. It is intended to 
+ *   help monitoring the progress of the optimization process. */
 void 
 SingleValuedVnlCostFunctionAdaptor
 ::ReportIteration( const EventObject & event ) const
@@ -256,7 +256,6 @@ SingleValuedVnlCostFunctionAdaptor
 {
   return m_CachedCurrentParameters;
 }
-
 
 
 
