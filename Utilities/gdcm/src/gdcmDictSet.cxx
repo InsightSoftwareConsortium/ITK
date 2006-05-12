@@ -186,16 +186,16 @@ std::string DictSet::BuildDictPath()
    const char *envPath;
    envPath = getenv("GDCM_DICT_PATH");
 
-   if (envPath && (strlen(envPath) != 0)) 
+   if (envPath && (strlen(envPath) != 0))
    {
       resultPath = envPath;
       gdcmWarningMacro( "Dictionary path set from environnement");
-   } 
+   }
    else
    {
       resultPath = PUB_DICT_PATH;
    }
-   if ( resultPath[resultPath.length()-1] != '/' )
+   if ( resultPath.length() && resultPath[resultPath.length()-1] != '/' )
    {
       resultPath += '/';
    }
