@@ -40,7 +40,7 @@ class InvertIntensityFunctor
 public:
   InputPixelType operator()( InputPixelType input )
     {
-    if ( input )
+    if( input )
       {
       return NumericTraits<InputPixelType>::Zero;
       }
@@ -60,10 +60,10 @@ namespace itk
 
 template<class TInputImage, class TOutputImage>
 SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
-::SignedMaurerDistanceMapImageFilter() : m_BackgroundValue(0),
-                                         m_InsideIsPositive(false),
-                                         m_SquaredDistance(true),
-                                         m_UseImageSpacing(false)
+::SignedMaurerDistanceMapImageFilter() : m_BackgroundValue( 0 ),
+                                         m_InsideIsPositive( false ),
+                                         m_SquaredDistance( true ),
+                                         m_UseImageSpacing( false )
 {
 }
 
@@ -85,26 +85,20 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
                          this->GetInput()->GetRequestedRegion() );
 
   this->GetOutput()->Allocate();
+  this->m_Spacing = this->GetOutput()->GetSpacing();
 
-  m_Spacing = this->GetOutput()->GetSpacing();
-
-  m_BinaryImage = InputImageType::New();
-  m_BinaryImage->SetRegions( this->GetInput()->GetRequestedRegion() );
-  m_BinaryImage->Allocate();
-
-  typedef BinaryThresholdImageFilter<InputImageType,
-                                     InputImageType> BinaryFilterType;
-
+  typedef BinaryThresholdImageFilter<InputImageType, 
+                                     InputImageType
+                                        > BinaryFilterType;
+  
   typename BinaryFilterType::Pointer binaryFilter = BinaryFilterType::New();
 
-  binaryFilter->SetLowerThreshold( m_BackgroundValue );
-  binaryFilter->SetUpperThreshold( m_BackgroundValue );
+  binaryFilter->SetLowerThreshold( this->m_BackgroundValue );
+  binaryFilter->SetUpperThreshold( this->m_BackgroundValue );
   binaryFilter->SetInsideValue( 0 );
   binaryFilter->SetOutsideValue( 1 );
   binaryFilter->SetInput( this->GetInput() );
   binaryFilter->Update();
-
-  m_BinaryImage = binaryFilter->GetOutput();
 
   typedef Functor::InvertIntensityFunctor<InputPixelType>  FunctorType;
 
@@ -115,7 +109,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   typename InverterType::Pointer inverter1 = InverterType::New();
   typename InverterType::Pointer inverter2 = InverterType::New();
 
-  inverter1->SetInput(m_BinaryImage);
+  inverter1->SetInput( binaryFilter->GetOutput() );
 
   // Dilate the inverted image by 1 pixel to give it the same boundary
   // as the univerted this->GetInput().
@@ -145,7 +139,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 
   typename SubtracterType::Pointer subtracter = SubtracterType::New();
 
-  subtracter->SetInput1( m_BinaryImage );
+  subtracter->SetInput1( binaryFilter->GetOutput() );
   subtracter->SetInput2( inverter2->GetOutput() );
   subtracter->Update();
 
@@ -161,15 +155,15 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 
   for (  inIterator.GoToBegin(), outIterator.GoToBegin();
         !inIterator.IsAtEnd();
-        ++inIterator, ++outIterator)
+        ++inIterator, ++outIterator )
     {
     if( inIterator.Get() )
       {
-      outIterator.Set( NumericTraits< OutputPixelType >::Zero ); 
+      outIterator.Set( NumericTraits< OutputPixelType >::Zero );
       }
     else
       {
-      outIterator.Set( NumericTraits< OutputPixelType >::max() ); 
+      outIterator.Set( NumericTraits< OutputPixelType >::max() );
       }
     }
 
@@ -225,30 +219,52 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
       }
     }
 
-  if ( !m_SquaredDistance )
+  if ( !this->m_SquaredDistance )
     {
-    typedef ImageRegionIteratorWithIndex<
-                                  OutputImageType
-                                           > OutputIteratorWithIndex;
+    typedef ImageRegionIterator< OutputImageType > OutputIterator;
+    typedef ImageRegionIterator< InputImageType  > InputIterator;
 
-    OutputIteratorWithIndex It( this->GetOutput(),
-                                this->GetOutput()->GetRequestedRegion() );
+    OutputImageType::RegionType region =
+                       this->GetOutput()->GetRequestedRegion();
 
-    for( It.GoToBegin(); !It.IsAtEnd(); ++It )
+    OutputIterator Ot( this->GetOutput(), region );
+    InputIterator  It( this->GetInput(),  region );
+
+    Ot.GoToBegin();
+    It.GoToBegin();
+
+    while( !Ot.IsAtEnd() )
       {
 
       const OutputPixelType outputValue =
                  static_cast<OutputPixelType>(
-                                sqrt( vnl_math_abs( It.Get() ) ) );
+                                sqrt( vnl_math_abs( Ot.Get() ) ) );
 
-      if( m_BinaryImage->GetPixel( It.GetIndex() ) && m_InsideIsPositive )
+      if( It.Get()  != this->m_BackgroundValue )
         {
-        It.Set(  outputValue );
+        if( this->GetInsideIsPositive() )
+          {
+          It.Set(  outputValue );
+          }
+        else
+          {
+          It.Set( -outputValue );
+          }
         }
       else
         {
-        It.Set( -outputValue );
+        if( this->GetInsideIsPositive() )
+          {
+          It.Set( -outputValue );
+          }
+        else
+          {
+          It.Set(  outputValue );
+          }
         }
+
+      ++Ot;
+      ++It;
       }
     }
 
@@ -278,9 +294,9 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 
     OutputPixelType iw;
 
-    if( m_UseImageSpacing )
+    if( this->GetUseImageSpacing() )
       {
-      iw = static_cast<OutputPixelType>( i * m_Spacing[d] );
+      iw = static_cast<OutputPixelType>( i * this->m_Spacing[d] );
       }
     else
       {
@@ -323,9 +339,9 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 
     OutputPixelType iw;
 
-    if( m_UseImageSpacing )
+    if( this->GetUseImageSpacing() )
       {
-      iw = static_cast<OutputPixelType>( i * m_Spacing[d] );
+      iw = static_cast<OutputPixelType>( i * this->m_Spacing[d] );
       }
     else
       {
@@ -343,13 +359,27 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
       }
     idx[d] = i;
 
-    if( m_BinaryImage->GetPixel( idx ) && m_InsideIsPositive )
+    if ( this->GetInput()->GetPixel( idx ) != this->m_BackgroundValue )
       {
-      output->SetPixel( idx,  d1 );
-      }
+      if ( this->m_InsideIsPositive )
+        {
+        output->SetPixel( idx,  d1 );
+        }
+      else
+        {
+        output->SetPixel( idx, -d1 );
+        }
+      }    
     else
       {
-      output->SetPixel( idx, -d1 );
+      if ( this->m_InsideIsPositive )
+        {
+        output->SetPixel( idx, -d1 );
+        }
+      else
+        {
+        output->SetPixel( idx,  d1 );
+        }
       }
     }
 }

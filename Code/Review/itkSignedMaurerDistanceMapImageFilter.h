@@ -159,9 +159,8 @@ private:
   bool Remove( OutputPixelType, OutputPixelType, OutputPixelType, 
                OutputPixelType, OutputPixelType, OutputPixelType );
   
-  typename InputImageType::Pointer    m_BinaryImage;
-  InputPixelType                      m_BackgroundValue;  
-  InputSpacingType                    m_Spacing;
+  InputPixelType         m_BackgroundValue;  
+  InputSpacingType       m_Spacing;
 
   bool     m_InsideIsPositive;
   bool     m_UseImageSpacing;
