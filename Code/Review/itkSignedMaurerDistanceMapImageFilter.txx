@@ -222,9 +222,9 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   if ( !this->m_SquaredDistance )
     {
     typedef ImageRegionIterator< OutputImageType > OutputIterator;
-    typedef ImageRegionIterator< InputImageType  > InputIterator;
+    typedef ImageRegionConstIterator< InputImageType  > InputIterator;
 
-    OutputImageType::RegionType region =
+    typename OutputImageType::RegionType region =
                        this->GetOutput()->GetRequestedRegion();
 
     OutputIterator Ot( this->GetOutput(), region );
@@ -244,22 +244,22 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
         {
         if( this->GetInsideIsPositive() )
           {
-          It.Set(  outputValue );
+          Ot.Set(  outputValue );
           }
         else
           {
-          It.Set( -outputValue );
+          Ot.Set( -outputValue );
           }
         }
       else
         {
         if( this->GetInsideIsPositive() )
           {
-          It.Set( -outputValue );
+          Ot.Set( -outputValue );
           }
         else
           {
-          It.Set(  outputValue );
+          Ot.Set(  outputValue );
           }
         }
 
