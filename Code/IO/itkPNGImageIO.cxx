@@ -218,6 +218,10 @@ void PNGImageIO::Read(void* buffer)
 #endif
     }
 
+  if (info_ptr->valid & PNG_INFO_sBIT)
+    {
+    png_set_shift(png_ptr, &(info_ptr->sig_bit));
+    }
   // have libpng handle interlacing
   //int number_of_passes = png_set_interlace_handling(png_ptr);
   // update the info now that we have defined the filters
