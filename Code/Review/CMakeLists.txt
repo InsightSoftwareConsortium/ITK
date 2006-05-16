@@ -11,3 +11,31 @@ SET(ITKReview_SRCS
 # ADD_LIBRARY(ITKReview ${ITK_REVIEW_BUILD_TYPE} ${ITKReview_SRCS})
 # TARGET_LINK_LIBRARIES (ITKReview ITKCommon)
 
+ADD_LIBRARY(ITKDistributions
+  itkGaussianDistribution.cxx
+  itkTDistribution.cxx
+  itkChiSquareDistribution.cxx
+
+  # from SLATEC/FNLIB
+  d1mach.c
+  d9lgmc.c
+  d9gmit.c
+  d9lgic.c
+  d9lgit.c
+  dbetai.c
+  dcsevl.c
+  dgami.c
+  dgamit.c
+  dgamlm.c
+  dgamma.c
+  dgamr.c
+  dlbeta.c
+  dlgams.c
+  dlngam.c
+  dlnrel.c
+  initds.c
+  xermsg.c
+  d_int.c
+  d_mod.c
+ )
+
