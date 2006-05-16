@@ -20,7 +20,6 @@ SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Review)
 SET(INPUTDATA ${ITK_DATA_ROOT}/Input)
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
-
 #
 #  List of Tests in this directory
 #
@@ -68,7 +67,15 @@ ADD_TEST( itkSignedMaurerDistanceMapImageFilterTest3
 SET(ReviewTest_SRCS
   itkSignedMaurerDistanceMapImageFilterTest.cxx
   itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
+  itkChiSquareDistributionTest.cxx
+  itkGaussianDistributionTest.cxx
+  itkTDistributionTest.cxx
 )
+
+ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS} itkChiSquareDistributionTest)
+ADD_TEST(itkGaussianDistributionTest ${REVIEW_TESTS} itkGaussianDistributionTest)
+ADD_TEST(itkTDistributionTest ${REVIEW_TESTS} itkTDistributionTest)
+
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest ITKAlgorithms ITKIO 
@@ -84,7 +91,7 @@ ADD_EXECUTABLE(itkReviewTests itkReviewTests.cxx ${ReviewTest_SRCS})
 
 TARGET_LINK_LIBRARIES(itkReviewTests 
                       ITKAlgorithms ITKIO 
-                      ITKBasicFilters ITKFEM ITKStatistics)
+                      ITKBasicFilters ITKFEM ITKStatistics ITKDistributions)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
