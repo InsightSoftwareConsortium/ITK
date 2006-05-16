@@ -150,7 +150,7 @@ ChiSquareDistribution
 {
   if (p.GetSize() == 1)
     {
-    return ChiSquareDistribution::CDF(x, p[0]);
+    return ChiSquareDistribution::CDF(x, (long) p[0]);
     }
   else
     {
