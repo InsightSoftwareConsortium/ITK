@@ -33,26 +33,29 @@ class MetaCommand
 
 public:
 
-  typedef enum {INT,FLOAT,CHAR,STRING,LIST,FLAG} TypeEnumType;
+  typedef enum {DATA_NONE,DATA_IN,DATA_OUT} DataEnumType;
+  typedef enum {INT,FLOAT,CHAR,STRING,LIST,FLAG,BOOL} TypeEnumType;
 
   struct Field{
-    std::string name;
-    std::string description;
-    std::string value;
+    std::string  name;
+    std::string  description;
+    std::string  value;
     TypeEnumType type;
-    bool externaldata;
-    bool required;
-    bool userDefined;
+    DataEnumType externaldata;
+    std::string  rangeMin;
+    std::string  rangeMax;
+    bool         required;
+    bool         userDefined;
     };
 
   struct Option{
-    std::string name;
-    std::string description;
-    std::string tag;
+    std::string        name;
+    std::string        description;
+    std::string        tag;
     std::vector<Field> fields;
-    bool required;
-    bool userDefined;
-    bool complete;
+    bool               required;
+    bool               userDefined;
+    bool               complete;
   };
 
   typedef std::vector<Option>                OptionVector; 
@@ -77,7 +80,28 @@ public:
   bool AddField(std::string name,
                 std::string description,
                 TypeEnumType type,
-                bool externalData);
+                DataEnumType externalData = DATA_NONE,
+                std::string rangeMin = "",
+                std::string rangeMax = ""
+                );
+
+  /** For backward compatibility */
+  bool AddField(std::string name,
+                std::string description,
+                TypeEnumType type,
+                bool externalData
+                )
+    {
+    if(externalData)
+      {
+      return this->AddField(name,description,type,DATA_IN);
+      }
+    else
+      {
+      return this->AddField(name,description,type,DATA_NONE);
+      }
+    }
+
   
   /** Add a field to an option */
   bool AddOptionField(std::string optionName,
@@ -85,8 +109,16 @@ public:
                       TypeEnumType type,
                       bool required=true,
                       std::string defVal = "",
-                      std::string description = "");
+                      std::string description = "",
+                      DataEnumType externalData = DATA_NONE);
   
+  /** Set the range of value as an option */
+  bool SetOptionRange(std::string optionName,
+                      std::string name,
+                      std::string rangeMin,
+                      std::string rangeMax);
+
+
   /** Collect all the information until the next tag 
    * \warning this function works only if the field is of type String */
   void SetOptionComplete(std::string optionName,
@@ -126,6 +158,10 @@ public:
   /** Given an XML buffer fill in the command line arguments */
   bool ParseXML(const char* buffer);
 
+  /** Export the current command line arguments to a Grid Application
+   *  Description file */
+  bool ExportGAD(bool dynamic=false);
+
   /** Extract the date from cvs date */
   std::string ExtractDateFromCVS(std::string date);
 
@@ -142,6 +178,15 @@ public:
 
   void SetDate(const char* date) 
     { m_Date=date; }
+
+  void SetName(const char* name) 
+    { m_Name=name; }
+
+  void SetDescription(const char* description) 
+    { m_Description=description; }
+
+  void SetAuthor(const char* author) 
+    { m_Author=author; }
 
   long GetOptionId(Option* option);
 
@@ -166,6 +211,10 @@ protected:
 
   std::string m_Version;
   std::string m_Date;
+  std::string m_Name;
+  std::string m_Description;
+  std::string m_Author;
+  std::string m_ExecutableName;
 
 private:
 

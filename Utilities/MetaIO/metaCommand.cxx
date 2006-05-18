@@ -17,6 +17,7 @@
 #include "metaCommand.h"
 #include <stdio.h>
 #include <string>
+#include <fstream>
 
 MetaCommand::MetaCommand()
 {
@@ -24,11 +25,14 @@ MetaCommand::MetaCommand()
   m_OptionVector.clear();
   m_Version = "Not defined";
   m_Date = "Not defined";
+  m_Name = "";
+  m_Author = "Not defined";
+  m_Description = "";
   m_ParsedOptionVector.clear();
 }
 
 
-/** Extract the date from the $Date: 2006-01-01 17:31:45 $ cvs command */
+/** Extract the date from the $Date: 2006-05-18 14:38:56 $ cvs command */
 std::string MetaCommand::ExtractDateFromCVS(std::string date)
 {
   std::string newdate;
@@ -99,12 +103,21 @@ bool MetaCommand::SetOption(std::string name,
 
   // Create a field without description as a flag
   Field field;
-  field.name = name;
-  field.externaldata = false;
+  if(type == LIST)
+    {
+    field.name = "NumberOfValues";
+    }
+  else
+    {
+    field.name = name;
+    }
+  field.externaldata = DATA_NONE;
   field.type = type;
   field.value = defVal;
   field.userDefined = false;
   field.required = true;
+  field.rangeMin = "";
+  field.rangeMax = "";
   option.fields.push_back(field);
 
   m_OptionVector.push_back(option);
@@ -116,7 +129,9 @@ bool MetaCommand::SetOption(std::string name,
 bool MetaCommand::AddField(std::string name,
                            std::string description,
                            TypeEnumType type,
-                           bool externalData)
+                           DataEnumType externalData,
+                           std::string rangeMin,
+                           std::string rangeMax)
 {
   // need to add some tests here to check if the option is not defined yet
   Option option;
@@ -129,6 +144,8 @@ bool MetaCommand::AddField(std::string name,
   field.required = true;
   field.userDefined = false;
   field.externaldata = externalData;
+  field.rangeMin = rangeMin;
+  field.rangeMax = rangeMax;
   option.fields.push_back(field);
 
   option.required = true;
@@ -165,7 +182,9 @@ bool MetaCommand::AddOptionField(std::string optionName,
                                  TypeEnumType type,
                                  bool required,
                                  std::string defVal,
-                                 std::string description)
+                                 std::string description,
+                                 DataEnumType externalData
+                                 )
 { 
   OptionVector::iterator it = m_OptionVector.begin();
   while(it != m_OptionVector.end())
@@ -180,7 +199,9 @@ bool MetaCommand::AddOptionField(std::string optionName,
       field.value = defVal;
       field.description = description;
       field.userDefined = false;
-      field.externaldata = false;
+      field.externaldata = externalData;
+      field.rangeMin = "";
+      field.rangeMax = "";
     
       // If this is the first field in the list we replace the current field
       if((*it).fields[0].type == FLAG)
@@ -197,6 +218,36 @@ bool MetaCommand::AddOptionField(std::string optionName,
     }
   return false;
 }
+
+/** Set the range of an option */
+bool MetaCommand::SetOptionRange(std::string optionName,
+                                 std::string name,
+                                 std::string rangeMin,
+                                 std::string rangeMax)
+{
+  OptionVector::iterator it = m_OptionVector.begin();
+  while(it != m_OptionVector.end())
+    {
+    if((*it).name == optionName)
+      {
+      std::vector<Field> & fields = (*it).fields;
+      std::vector<Field>::iterator itField = fields.begin();
+      while(itField != fields.end())
+        {
+        if((*itField).name == name)
+          {
+          (*itField).rangeMin = rangeMin;
+          (*itField).rangeMax = rangeMax;
+          return true;
+          }
+        itField++;
+        }
+      }
+    it++;
+    }
+  return false;
+}
+
 
 /** Return the value of the option as a boolean */
 bool MetaCommand::GetValueAsBool(std::string optionName,std::string fieldName)
@@ -365,8 +416,6 @@ int MetaCommand::GetValueAsInt(Option option,std::string fieldName)
   return 0;
 }
 
-
-
 /** Return the value of the option as a string */
 std::string MetaCommand::GetValueAsString(std::string optionName,
                                           std::string fieldName)
@@ -464,12 +513,12 @@ GetOptionWasSet(Option option)
 bool MetaCommand::
 GetOptionWasSet( std::string optionName)
 {
-  OptionVector::const_iterator it = m_OptionVector.begin();
-  while(it != m_OptionVector.end())
+  OptionVector::const_iterator it = m_ParsedOptionVector.begin();
+  while(it != m_ParsedOptionVector.end())
     {
     if((*it).name == optionName)
       {
-      return this->GetOptionWasSet(*it);
+      return true;
       }
     it++;
     }
@@ -669,11 +718,18 @@ bool MetaCommand::ParseXML(const char* buffer)
       field.type = this->StringToType(this->GetXML(f.c_str(),"type",0).c_str());
       if(atoi(this->GetXML(f.c_str(),"external",0).c_str()) == 0)
         {
-        field.externaldata = false;
+        field.externaldata = DATA_NONE;
         }
       else
         {
-        field.externaldata = true;
+        if(atoi(this->GetXML(f.c_str(),"external",0).c_str()) == 1)
+          {
+          field.externaldata = DATA_IN;
+          }
+        else
+          {
+          field.externaldata = DATA_OUT;
+          }
         }
       if(atoi(this->GetXML(f.c_str(),"required",0).c_str()) == 0)
         {
@@ -859,11 +915,254 @@ MetaCommand::GetOptionId(Option* option)
   return -1;
 }
 
+/** Export the current command line arguments to a Grid Application
+ *  Description file */
+bool MetaCommand::ExportGAD(bool dynamic)
+{
+  std::cout << "Exporting GAD file...";
+
+  OptionVector options = m_OptionVector;
+  if(dynamic)
+    {
+    options = m_ParsedOptionVector;
+    }
+
+  if(m_Name=="")
+    {
+    std::cout << "Set the name of the application using SetName()" << std::endl;
+    return false;
+    }
+
+  std::string filename = m_Name;
+  filename += ".gad.xml";
+
+  std::ofstream file;
+  file.open(filename.c_str(), std::ios::binary | std::ios::out);
+  if(!file.is_open())
+    {
+    std::cout << "Cannot open file for writing: " << filename.c_str() <<  std::endl;
+    return false;
+    }
+  
+  file << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" << std::endl;
+  file << "<GridApplication" << std::endl;
+  file << "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" << std::endl;
+  file << "xsi:noNamespaceSchemaLocation=\"grid-application-description.xsd\"" << std::endl;
+  file << "Name=\"" << m_Name.c_str() << "\"" << std::endl;
+  file << "Description=\"" << m_Description.c_str() << "\">" << std::endl;
+  file << "<ApplicationComponent Name=\"Client\" RemoteExecution=\"true\">" << std::endl;
+  file << "<ComponentActionList>" << std::endl;
+  file << std::endl;
+
+  unsigned int order = 1;
+  // Write out the input data to be transfered
+  OptionVector::const_iterator it = options.begin();
+  while(it != options.end())
+    {
+    std::vector<Field>::const_iterator itFields = (*it).fields.begin();
+    while(itFields != (*it).fields.end())
+      {
+      if((*itFields).externaldata == DATA_IN)
+        {
+        file << " <ComponentAction Type=\"DataRelocation\" Order=\"" << order << "\">" << std::endl;
+        file << "  <parameter Name=\"Name\" Value=\"" << (*itFields).name <<"\"/>" << std::endl;
+        file << "  <parameter Name=\"Host\" Value=\"hostname\"/>" << std::endl;
+        file << "  <parameter Name=\"Description\" Value=\"" << (*itFields).description << "\"/>" << std::endl;
+        file << "  <parameter Name=\"Direction\" Value=\"In\"/>" << std::endl;
+        file << "  <parameter Name=\"Protocol\" Value=\"gsiftp\"/>" << std::endl;
+        file << "  <parameter Name=\"SourceDataPath\" Value=\"" << (*itFields).value << "\"/>" << std::endl;
+
+        std::string datapath = (*itFields).value;
+        long int slash = datapath.find_last_of("/");
+        if(slash>0)
+          {
+          datapath = datapath.substr(slash+1,datapath.size()-slash-1);
+          }
+        slash = datapath.find_last_of("\\");
+        if(slash>0)
+          {
+          datapath = datapath.substr(slash+1,datapath.size()-slash-1);
+          }
+        file << "  <parameter Name=\"DestDataPath\" Value=\"" << datapath.c_str() << "\"/>" << std::endl;
+        file << " </ComponentAction>" << std::endl;
+        file << std::endl;
+        order++;
+        }
+      itFields++;
+      }
+    it++;
+    }
+
+  file << " <ComponentAction Type=\"JobSubmission\" Order=\"" << order << "\">" << std::endl;
+  file << "  <parameter Name=\"Executable\" Value=\"" << m_ExecutableName.c_str() << "\"/>" << std::endl;
+  file << "  <parameter Name=\"Arguments\"  Value=\"";
+  // Write out the command line arguments
+  it = options.begin();
+  while(it != options.end())
+    {
+    if(it != options.begin())
+      {
+      file << " ";
+      }
+    file << "{" << (*it).name.c_str() << "}";
+    it++;
+    }
+  file << "\"/>" << std::endl;
+
+  file << "   <arguments>" << std::endl;
+  // Write out the arguments that are not data
+  it = options.begin();
+  while(it != options.end())
+    {
+    // Find if this is a non data field
+    bool isData = false;
+    std::vector<Field>::const_iterator itFields = (*it).fields.begin();
+    while(itFields != (*it).fields.end())
+      {
+      if((*itFields).externaldata != DATA_NONE)
+        {
+        isData = true;
+        break;
+        }
+      itFields++;
+      }
+
+    if(isData)
+      {
+      it++;
+      continue;
+      }
+
+    file << "   <group Name=\"" << (*it).name.c_str();
+    file << "\" Syntax=\"";
+    
+    if((*it).tag.size()>0)
+      {
+      file << "-" << (*it).tag.c_str() << " ";
+      }
+
+    itFields = (*it).fields.begin();
+    while(itFields != (*it).fields.end())
+      {
+      if(itFields != (*it).fields.begin())
+        {
+        file << " ";
+        }
+      file << "{" << (*it).name << (*itFields).name << "}";
+      itFields++;
+      }  
+    file << "\"";
+    
+    if(!(*it).required)
+      {
+      file << " Optional=\"true\"";
+      
+      // Add if the option was selected
+      if((*it).userDefined)
+        {
+        file << " Selected=\"true\"";
+        }
+      else
+        {
+        file << " Selected=\"false\"";
+        }
+      }
+    
+    file << ">" << std::endl; 
+
+    // Now writes the value of the arguments 
+    itFields = (*it).fields.begin();
+    while(itFields != (*it).fields.end())
+      {
+      file << "    <argument Name=\"" << (*it).name << (*itFields).name;
+      file << "\" Value=\"" << (*itFields).value;
+      file << "\" Type=\"" << this->TypeToString((*itFields).type).c_str();
+      file << "\"";
+      
+      if((*itFields).rangeMin != "")
+        {
+        file << " RangeMin=\"" << (*itFields).rangeMin << "\"";
+        }
+
+      if((*itFields).rangeMax != "")
+        {
+        file << " RangeMax=\"" << (*itFields).rangeMax << "\"";
+        } 
+      file << ">" << std::endl;
+      file << "    </argument>" << std::endl;
+      itFields++;
+      }
+    file << "  </group>" << std::endl;
+    it++;
+    }
+  file << "  </arguments>" << std::endl;
+  file << " </ComponentAction>" << std::endl;
+  order++;
+  file << std::endl;
+  // Write out the input data to be transfered
+  it = options.begin();
+  while(it != options.end())
+    {
+    std::vector<Field>::const_iterator itFields = (*it).fields.begin();
+    while(itFields != (*it).fields.end())
+      {
+      if((*itFields).externaldata == DATA_OUT)
+        {
+        file << " <ComponentAction Type=\"DataRelocation\" Order=\"" << order << "\">" << std::endl;
+        file << "  <parameter Name=\"Name\" Value=\"" << (*itFields).name <<"\"/>" << std::endl;
+        file << "  <parameter Name=\"Host\" Value=\"hostname\"/>" << std::endl;
+        file << "  <parameter Name=\"Description\" Value=\"" << (*itFields).description << "\"/>" << std::endl;
+        file << "  <parameter Name=\"Direction\" Value=\"Out\"/>" << std::endl;
+        file << "  <parameter Name=\"Protocol\" Value=\"gsiftp\"/>" << std::endl;
+        std::string datapath = (*itFields).value;
+        long int slash = datapath.find_last_of("/");
+        if(slash>0)
+          {
+          datapath = datapath.substr(slash+1,datapath.size()-slash-1);
+          }
+        slash = datapath.find_last_of("\\");
+        if(slash>0)
+          {
+          datapath = datapath.substr(slash+1,datapath.size()-slash-1);
+          }
+        file << "  <parameter Name=\"SourceDataPath\" Value=\"" << datapath.c_str() << "\"/>" << std::endl;
+        file << "  <parameter Name=\"DestDataPath\" Value=\"" << (*itFields).value << "\"/>" << std::endl;
+        file << " </ComponentAction>" << std::endl;
+        file << std::endl;
+        order++;
+        }
+      itFields++;
+      }
+    it++;
+    }
+  file << std::endl;
+  file << "    </ComponentActionList>" << std::endl;
+  file << "  </ApplicationComponent>" << std::endl;
+  file << "</GridApplication>" << std::endl;
+
+  file.close();
+
+  std::cout << "done" << std::endl;
+  return true;
+}
 
 
 /** Parse the command line */
 bool MetaCommand::Parse(int argc, char* argv[])
 {  
+  m_ExecutableName = argv[0];
+
+  long int slash = m_ExecutableName.find_last_of("/");
+  if(slash>0)
+    {
+    m_ExecutableName = m_ExecutableName.substr(slash+1,m_ExecutableName.size()-slash-1);
+    }
+  slash = m_ExecutableName.find_last_of("\\");
+  if(slash>0)
+    {
+    m_ExecutableName = m_ExecutableName.substr(slash+1,m_ExecutableName.size()-slash-1);
+    }
+
   // List the options if using -V
   if((argc == 2 && !strcmp(argv[1],"-V"))
      || (argc == 2 && !strcmp(argv[1],"-H")))
@@ -895,6 +1194,11 @@ bool MetaCommand::Parse(int argc, char* argv[])
     std::cout << "Date: " << m_Date.c_str() << std::endl;
     return false;
     }
+  else if(argc == 2 && !strcmp(argv[1],"-exportGAD"))
+    {
+    this->ExportGAD();
+    return false;
+    }
 
   // Fill in the results
   m_ParsedOptionVector.clear();
@@ -908,11 +1212,20 @@ bool MetaCommand::Parse(int argc, char* argv[])
   bool isComplete = false; // check if the option should be parse until the next tag is found
   std::string completeString = "";
 
+  bool exportGAD = false;
+
   for(unsigned int i=1;i<(unsigned int)argc;i++)
     {
+    // If we have the tag -export-gad
+    if(!strcmp(argv[i],"-exportGAD"))
+      {
+      exportGAD = true;
+      continue;
+      }
+
     // If this is a tag
     if(argv[i][0] == '-' && (atof(argv[i])==0))
-      {
+      {    
       // if we have a tag before the expected values we throw an exception
       if(valuesRemaining!=0)
         {
@@ -959,10 +1272,12 @@ bool MetaCommand::Parse(int argc, char* argv[])
             }
           else if(m_OptionVector[currentOption].fields[0].type == LIST)
             {
-            inArgument = true;
-            valuesRemaining = (int)atoi(argv[++i]);
+            inArgument = true;        
+            unsigned int valuesInList = (int)atoi(argv[++i]);
+            m_OptionVector[currentOption].fields[0].value = argv[i];
+            valuesRemaining += valuesInList-1;
             char optName[255];
-            for(unsigned int j=0; j<valuesRemaining; j++)
+            for(unsigned int j=0; j<valuesInList; j++)
               {
               sprintf(optName, "%03d", j);
               this->AddOptionField( m_OptionVector[currentOption].name,
@@ -1038,7 +1353,7 @@ bool MetaCommand::Parse(int argc, char* argv[])
       }
 
     if(valuesRemaining == 0)
-      {
+      {         
       inArgument = false;
       m_OptionVector[currentOption].userDefined = true;
       m_ParsedOptionVector.push_back(m_OptionVector[currentOption]);
@@ -1053,7 +1368,9 @@ bool MetaCommand::Parse(int argc, char* argv[])
     std::cout << "Options: " << std::endl
               << "  -v or -h for help listed in short format" << std::endl
               << "  -V or -H for help listed in long format" << std::endl
-              << "  -vxml for help listed in xml format" << std::endl;
+              << "  -vxml for help listed in xml format" << std::endl
+              << "  -export-gad to export Grid Application"
+              << "Description file format" << std::endl;
 
     return false;
     }
@@ -1065,6 +1382,16 @@ bool MetaCommand::Parse(int argc, char* argv[])
     {
     if((*it).required)
       {
+      // First check if the option is actually defined
+      if(!(*it).userDefined)
+        {
+        std::cout << "Option " << (*it).name 
+                  << " is required but not defined" << std::endl;
+        requiredAndNotDefined = true;
+        it++;
+        continue;
+        }
+
       // Check if the values are defined
       std::vector<Field>::const_iterator itFields = (*it).fields.begin();
       bool defined = true;
@@ -1101,8 +1428,58 @@ bool MetaCommand::Parse(int argc, char* argv[])
               << "Options: " << std::endl
               << "  -v or -h for help listed in short format" << std::endl
               << "  -V or -H for help listed in long format" << std::endl
-              << "  -vxml for help listed in xml format" << std::endl;
+              << "  -vxml for help listed in xml format" << std::endl
+              << "  -export-gad to export Grid Application"
+              << "Description file format" << std::endl;
     return false;
+    }
+
+  // Check if the values are in range (if the range is defined)
+  OptionVector::iterator itParsed = m_ParsedOptionVector.begin();
+  bool valueInRange = true;
+  while(itParsed != m_ParsedOptionVector.end())
+    {
+    std::vector<Field>::const_iterator itFields = (*itParsed).fields.begin();
+    while(itFields != (*itParsed).fields.end())
+      {
+      // Check only if this is a number
+      if(((*itFields).type == INT ||
+        (*itFields).type == FLOAT ||
+        (*itFields).type == CHAR)
+        && ((*itFields).value != "")
+        )
+        {
+        // Check the range min
+        if(
+          (((*itFields).rangeMin != "")
+          && (atof((*itFields).rangeMin.c_str())>atof((*itFields).value.c_str())))
+          ||
+          (((*itFields).rangeMax != "")
+          && (atof((*itFields).rangeMax.c_str())<atof((*itFields).value.c_str())))
+          )
+          {
+          std::cout << (*itParsed).name << "." << (*itFields).name
+                    << " : Value (" << (*itFields).value << ") "
+                    << "is not in the range [" << (*itFields).rangeMin
+                    << "," << (*itFields).rangeMax << "]" << std::endl;
+          valueInRange = false;
+          }
+        } 
+      itFields++;
+      }
+    itParsed++;
+    }
+
+  if(!valueInRange)
+    {
+    return false;
+    }
+
+  // If everything is ok
+  if(exportGAD)
+    {
+    this->ExportGAD(true);
+    return false; // prevent from running the application
     }
 
   return true;  
@@ -1123,6 +1500,8 @@ std::string MetaCommand::TypeToString(TypeEnumType type)
       return "list";
     case FLAG:
       return "flag";
+    case BOOL:
+      return "boolean";
     default:
       return "not defined";
     }
