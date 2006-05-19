@@ -63,6 +63,9 @@ namespace itk
 class ITKCommon_EXPORT SimpleFilterWatcher
 {
 public:
+  /** Classes that need access to filter's private data */
+  friend class XMLFilterWatcher;
+
   /** Constructor. Takes a ProcessObject to monitor and an optional
    * comment string that is prepended to each event message. */
   SimpleFilterWatcher(itk::ProcessObject* o, const char *comment="");
