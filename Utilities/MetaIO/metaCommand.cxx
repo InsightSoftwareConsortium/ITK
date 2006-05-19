@@ -32,7 +32,7 @@ MetaCommand::MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2006-05-18 14:38:56 $ cvs command */
+/** Extract the date from the $Date: 2006-05-19 18:15:22 $ cvs command */
 std::string MetaCommand::ExtractDateFromCVS(std::string date)
 {
   std::string newdate;
@@ -1088,8 +1088,7 @@ bool MetaCommand::ExportGAD(bool dynamic)
         {
         file << " RangeMax=\"" << (*itFields).rangeMax << "\"";
         } 
-      file << ">" << std::endl;
-      file << "    </argument>" << std::endl;
+      file << "/>" << std::endl;
       itFields++;
       }
     file << "  </group>" << std::endl;
