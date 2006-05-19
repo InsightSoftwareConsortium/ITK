@@ -25,6 +25,7 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkConnectedComponentImageFilter.h"
 #include "itkRelabelComponentImageFilter.h"
+#include "itkMinimumMaximumImageCalculator.h"
 #include "itkCastImageFilter.h"
 
 #include "itkConceptChecking.h"
@@ -207,13 +208,18 @@ private:
   RelabelFilterType;
 
   
+  //
+  // Minimum maximum calculator
+  //
+  typedef MinimumMaximumImageCalculator< InputImageType > MinMaxCalculatorType;
+
   // 
   // Declare member variables for the filters of the internal pipeline.
   //
   typename ThresholdFilterType::Pointer            m_ThresholdFilter;
   typename ConnectedFilterType::Pointer            m_ConnectedComponent;
   typename RelabelFilterType::Pointer              m_LabeledComponent;
-
+  typename MinMaxCalculatorType::Pointer           m_MinMaxCalculator;
 
   // Variables defined by the user
   unsigned int m_MinimumObjectSizeInPixels;
@@ -227,7 +233,6 @@ private:
   // Filter variables
   PixelType      m_ThresholdValue;
   unsigned long  m_NumberOfObjects;
-
   
 };
 
