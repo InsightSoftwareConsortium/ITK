@@ -34,7 +34,7 @@ bool EquivalencyTable::Add(unsigned long a, unsigned long b)
   
   if (result.second == false)
     { // Stop endless loops.
-    if ( (*(result.first)).second  == b ) return false;
+    if ( (*(result.first)).second == b ) return false;
     else return (this->Add((*(result.first)).second, b));
     }
   else return true;
@@ -58,7 +58,7 @@ bool EquivalencyTable::AddAndFlatten(unsigned long a, unsigned long b)
   
   if (result.second == false)
     { // Stop endless loops.
-    if ( (*(result.first)).second  == bFlattened ) return false;
+    if ( (*(result.first)).second == bFlattened ) return false;
     else return (this->Add((*(result.first)).second, bFlattened));
     }
   else
@@ -121,4 +121,3 @@ void EquivalencyTable
 
   
 }// end namespace itk
-
