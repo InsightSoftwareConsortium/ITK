@@ -285,7 +285,7 @@ int itkChiSquareDistributionTest(int, char* [] )
   std::cout << std::endl;
   
   std::cout << "Inverse Chi-Square CDF" << std::endl;
-  tol = 1e-10;
+  tol = 1e-8;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
@@ -373,7 +373,7 @@ int itkChiSquareDistributionTest(int, char* [] )
   std::cout << std::endl;
   
   std::cout << "Inverse Chi-Square CDF (parameter vector API)" << std::endl;
-  tol = 1e-10;
+  tol = 1e-9;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
@@ -456,7 +456,7 @@ int itkChiSquareDistributionTest(int, char* [] )
   std::cout << std::endl;
   
   std::cout << "Inverse Chi-Square CDF (separate parameter API)" << std::endl;
-  tol = 1e-10;
+  tol = 1e-8;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
