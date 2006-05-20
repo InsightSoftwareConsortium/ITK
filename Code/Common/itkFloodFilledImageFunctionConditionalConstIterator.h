@@ -30,12 +30,15 @@ namespace itk
  *
  */
 template<class TImage, class TFunction>
-class ITK_EXPORT FloodFilledImageFunctionConditionalConstIterator: public FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
+class ITK_EXPORT FloodFilledImageFunctionConditionalConstIterator:
+    public FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 {
 public:
   /** Standard class typedefs. */
-  typedef FloodFilledImageFunctionConditionalConstIterator Self;
-  typedef FloodFilledFunctionConditionalConstIterator<TImage, TFunction> Superclass;
+  typedef FloodFilledImageFunctionConditionalConstIterator
+          Self;
+  typedef FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
+          Superclass;
   
   /** Type of function */
   typedef typename Superclass::FunctionType FunctionType;
@@ -70,22 +73,30 @@ public:
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses
    * an explicit seed pixel for the flood fill, the "startIndex" */
-  FloodFilledImageFunctionConditionalConstIterator(const ImageType *imagePtr,
-                                     FunctionType *fnPtr,
-                                     IndexType startIndex): Superclass(imagePtr, fnPtr, startIndex) {};
+  FloodFilledImageFunctionConditionalConstIterator(
+    const ImageType *imagePtr,
+    FunctionType *fnPtr,
+    IndexType startIndex): Superclass(imagePtr,
+                                      fnPtr,
+                                      startIndex) {};
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses
    * an explicit list of seed pixels for the flood fill, the "startIndex" */
-  FloodFilledImageFunctionConditionalConstIterator(const ImageType *imagePtr,
-                                     FunctionType *fnPtr,
-                                     std::vector<IndexType>& startIndex): Superclass(imagePtr, fnPtr, startIndex) {};
+  FloodFilledImageFunctionConditionalConstIterator(
+    const ImageType *imagePtr,
+    FunctionType *fnPtr,
+    std::vector<IndexType>& startIndex): Superclass(imagePtr,
+                                                    fnPtr,
+                                                    startIndex) {};
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor
    * should be used when the seed pixel is unknown. */
-  FloodFilledImageFunctionConditionalConstIterator(const ImageType *imagePtr,
-                                     FunctionType *fnPtr): Superclass(imagePtr, fnPtr) {};
+  FloodFilledImageFunctionConditionalConstIterator(
+    const ImageType *imagePtr,
+    FunctionType *fnPtr): Superclass(imagePtr,
+                                     fnPtr) {};
   /** Default Destructor. */
   virtual ~FloodFilledImageFunctionConditionalConstIterator() {};
 

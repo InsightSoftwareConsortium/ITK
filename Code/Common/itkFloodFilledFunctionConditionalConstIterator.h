@@ -36,7 +36,8 @@ namespace itk
  *
  */
 template<class TImage, class TFunction>
-class ITK_EXPORT FloodFilledFunctionConditionalConstIterator: public ConditionalConstIterator<TImage>
+class ITK_EXPORT FloodFilledFunctionConditionalConstIterator:
+    public ConditionalConstIterator<TImage>
 {
 public:
   /** Standard class typedefs. */
@@ -94,7 +95,7 @@ public:
 
   /** Automatically find a seed pixel and set m_StartIndex. Does nothing
    * if a seed pixel isn't found. A seed pixel is determined by
-   * traversing the input image's image's LargestPossibleRegion and
+   * traversing the input image's LargestPossibleRegion and
    * applying the IsPixelIncluded() test.*/
   void FindSeedPixel();
 
@@ -113,11 +114,11 @@ public:
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
   Self &operator=(const Self& it)
-  {
+    {
     this->m_Image = it.m_Image;     // copy the smart pointer
     this->m_Region = it.m_Region;
     return *this;
-  }
+    } 
   
   /** Get the dimension (size) of the index. */
   static unsigned int GetIteratorDimension() 
@@ -140,15 +141,15 @@ public:
 
   /** Put more seeds on the list */
   void AddSeed ( const IndexType seed )
-  {
+    {
     m_StartIndices.push_back ( seed );
-  };
+    };
 
   /** Clear all the seeds */
   void ClearSeeds ()
-  {
+    {
     m_StartIndices.clear();
-  };
+    };
   
  /** Move an iterator to the beginning of the region. "Begin" is
   * defined as the first pixel in the region. */
@@ -162,7 +163,9 @@ public:
 
     this->m_IsAtEnd = true;
     // Initialize the temporary image
-    tempPtr->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
+    tempPtr->FillBuffer(
+      NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero
+      );
     
     for ( unsigned int i = 0; i < m_StartIndices.size(); i++ )
       {
@@ -175,7 +178,8 @@ public:
         // Obviously, we're at the beginning
         this->m_IsAtEnd = false;
         
-        // Mark the start index in the temp image as inside the function, neighbor check incomplete
+        // Mark the start index in the temp image as inside the
+        // function, neighbor check incomplete
         tempPtr->SetPixel(m_StartIndices[i], 2);
         }
       }
@@ -188,9 +192,9 @@ public:
   void DoFloodStep();
   
   virtual SmartPointer<FunctionType> GetFunction() const
-  {
+    {
     return m_Function;
-  }
+    }
 
 
 protected: //made protected so other iterators can access 
@@ -223,7 +227,8 @@ protected: //made protected so other iterators can access
   /** Location vector used in the flood algorithm */
   FunctionInputType m_LocationVector;
 
-  /** Indicates whether or not we've found a neighbor that needs to be checked. */
+  /** Indicates whether or not we've found a neighbor that needs to be
+    * checked.  */
   bool m_FoundUncheckedNeighbor;
 
   /** Indicates whether or not an index is valid (inside an image)/ */

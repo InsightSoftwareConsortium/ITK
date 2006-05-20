@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFloodFilledImageFunctionConditionalConstIterator_txx
-#define _itkFloodFilledImageFunctionConditionalConstIterator_txx
+#ifndef __itkFloodFilledImageFunctionConditionalConstIterator_txx
+#define __itkFloodFilledImageFunctionConditionalConstIterator_txx
 
 #include "itkFloodFilledImageFunctionConditionalConstIterator.h"
 
