@@ -47,6 +47,7 @@ public:
     typename ImageType::SizeType       size;
     typename ImageType::IndexType      start;
 
+    start.Fill(0);
     size[0] = 16;  // To fill the range of 8 bits image 
     size[1] = 16;
 
