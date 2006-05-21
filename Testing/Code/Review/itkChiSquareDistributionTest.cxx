@@ -464,7 +464,8 @@ int itkChiSquareDistributionTest(int, char* [] )
   for (i = 0; i <= 5; ++i)
     {
 
-    value = distributionFunction->EvaluateInverseCDF( expected100[i], (long)params[0] );
+    value = distributionFunction->EvaluateInverseCDF(
+      expected100[i], (long)params[0] );
 
     diff = fabs(value - double(50+20*i));
 
@@ -494,9 +495,4 @@ int itkChiSquareDistributionTest(int, char* [] )
     }
     
   return status;
-
-
 }
-
-
-

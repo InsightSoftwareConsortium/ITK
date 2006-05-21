@@ -410,9 +410,4 @@ int itkTDistributionTest(int, char* [] )
     }
         
   return status;
-
-
 }
-
-
-

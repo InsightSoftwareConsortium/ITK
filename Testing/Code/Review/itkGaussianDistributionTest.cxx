@@ -121,8 +121,6 @@ int itkGaussianDistributionTest(int, char* [] )
     }
   std::cout << std::endl;
 
-
-
   // do the same tests at a different mean/variance
   distributionFunction->SetMean( 5.0 );
   distributionFunction->SetVariance( 2.0 );
@@ -318,6 +316,3 @@ int itkGaussianDistributionTest(int, char* [] )
 
 
 }
-
-
-

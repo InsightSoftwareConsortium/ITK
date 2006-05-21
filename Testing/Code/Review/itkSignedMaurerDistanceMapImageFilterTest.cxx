@@ -23,8 +23,13 @@
 
 int itkSignedMaurerDistanceMapImageFilterTest( int argc, char * argv[] )
 {
- 
-  const unsigned int      ImageDimension = 2;
+   if(argc < 3)
+    {
+    std::cerr << "Usage: " << argv[0] << " InputImage OutputImage\n";
+    return -1;
+    }
+
+ const unsigned int      ImageDimension = 2;
   typedef int             InputPixelType;
   typedef double          OutputPixelType;
 
