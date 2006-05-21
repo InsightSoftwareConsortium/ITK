@@ -30,72 +30,75 @@ namespace itk
 class ITKCommon_EXPORT XMLFilterWatcher: public SimpleFilterWatcher
 {
 public:
-  XMLFilterWatcher(itk::ProcessObject* o, const char *comment="") : SimpleFilterWatcher(o, comment) {};
+  XMLFilterWatcher(itk::ProcessObject* o, const char *comment="")
+    : SimpleFilterWatcher(o, comment) {};
 
 protected:
 
-  /** Callback method to show the ProgressEvent */
-  virtual void ShowProgress()
-  {
-    if (m_Process)
-      {
-      m_Steps++;
-      if (!m_Quiet)
-        {
-        std::cout << "<filter-progress>"
-                  << m_Process->GetProgress()
-                  << "</filter-progress>"
-                  << std::endl;
-        std::cout << std::flush;
-        }
-      }
-  }
-
-  /** Callback method to show the StartEvent */
-  virtual void StartFilter()
-  {
-    m_Steps = 0;
-    m_Iterations = 0;
-    m_TimeProbe.Start();
+/** Callback method to show the ProgressEvent */
+virtual void ShowProgress()
+{
+  if (m_Process)
+    {
+    m_Steps++;
     if (!m_Quiet)
       {
-      std::cout << "<filter-start>"
-                << std::endl;
-      std::cout << "<filter-name>"
-                << (m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None")
-                << "</filter-name>"
-                << std::endl;
-      std::cout << "<filter-comment>"
-                << " \"" << m_Comment << "\" "
-                << "</filter-comment>"
-                << std::endl;
-      std::cout << "</filter-start>"
+      std::cout << "<filter-progress>"
+                << m_Process->GetProgress()
+                << "</filter-progress>"
                 << std::endl;
       std::cout << std::flush;
       }
-  }
+    }
+}
 
-  /** Callback method to show the EndEvent */
-  virtual void EndFilter()
-  {
-    m_TimeProbe.Stop();
-    if (!m_Quiet)
-      {
-      std::cout << "<filter-end>"
-                << std::endl;
-      std::cout << "<filter-name>"
-                << (m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None")
-                << "</filter-name>"
-                << std::endl;
-      std::cout << "<filter-time>"
-                << m_TimeProbe.GetMeanTime()
-                << "</filter-time>"
-                << std::endl;
-      std::cout << "</filter-end>";
-      std::cout << std::flush;
-      }
-  }
+/** Callback method to show the StartEvent */
+virtual void StartFilter()
+{
+  m_Steps = 0;
+  m_Iterations = 0;
+  m_TimeProbe.Start();
+  if (!m_Quiet)
+    {
+    std::cout << "<filter-start>"
+              << std::endl;
+    std::cout << "<filter-name>"
+              << (m_Process.GetPointer()
+                  ? m_Process->GetNameOfClass() : "None")
+              << "</filter-name>"
+              << std::endl;
+    std::cout << "<filter-comment>"
+              << " \"" << m_Comment << "\" "
+              << "</filter-comment>"
+              << std::endl;
+    std::cout << "</filter-start>"
+              << std::endl;
+    std::cout << std::flush;
+    }
+}
 
+/** Callback method to show the EndEvent */
+virtual void EndFilter()
+{
+  m_TimeProbe.Stop();
+  if (!m_Quiet)
+    {
+    std::cout << "<filter-end>"
+              << std::endl;
+    std::cout << "<filter-name>"
+              << (m_Process.GetPointer()
+                  ? m_Process->GetNameOfClass() : "None")
+              << "</filter-name>"
+              << std::endl;
+    std::cout << "<filter-time>"
+              << m_TimeProbe.GetMeanTime()
+              << "</filter-time>"
+              << std::endl;
+    std::cout << "</filter-end>";
+    std::cout << std::flush;
+    }
+}
+  
 };
 
 } // end namespace itk
