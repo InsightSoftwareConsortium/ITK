@@ -24,8 +24,8 @@
 extern "C" double dgami_(double *a, double *x);
 extern "C" double dgamma_(double *x);
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 ChiSquareDistribution
 ::ChiSquareDistribution()
@@ -293,7 +293,7 @@ ChiSquareDistribution
     ::itk::OStringStream message;
     message << "itk::ERROR: " << this->GetNameOfClass() 
             << "(" << this << "): "
-          << "Invalid number of parameters to describe distribution.";
+            << "Invalid number of parameters to describe distribution.";
     exp.SetDescription(message.str());
     exp.SetLocation(ITK_LOCATION);
     throw exp;

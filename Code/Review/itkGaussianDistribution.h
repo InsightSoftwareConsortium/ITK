@@ -19,11 +19,12 @@
 
 #include "itkProbabilityDistribution.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class GaussianDistribution
- * \brief GaussianDistribution class defines the interface for a univariate Gaussian distribution (pdfs, cdfs, etc.).
+ * \brief GaussianDistribution class defines the interface for a
+ * univariate Gaussian distribution (pdfs, cdfs, etc.).
  *
  * GaussianDistribution provides access to the probability density
  * function (pdf), the cumulative distribution function (cdf), and the
@@ -54,9 +55,9 @@ class ITK_EXPORT GaussianDistribution :
 {
 public:
   /** Standard class typedefs */
-  typedef GaussianDistribution Self;
-  typedef ProbabilityDistribution Superclass ;
-  typedef SmartPointer<Self> Pointer;
+  typedef GaussianDistribution     Self;
+  typedef ProbabilityDistribution  Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Strandard macros */
@@ -109,7 +110,9 @@ public:
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0.  The parameters
    * of the distribution are passed as separate parameters. */
-  virtual double EvaluateInverseCDF(double p, double mean, double variance) const;
+  virtual double EvaluateInverseCDF(double p,
+                                    double mean,
+                                    double variance) const;
 
   /** Set the mean of the Gaussian distribution. Defaults to 0.0. The
    * mean is stored in position 0 of the parameters vector. */
@@ -229,14 +232,9 @@ private:
   GaussianDistribution(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-} ; // end of class
+}; // end of class
 
 } // end of namespace Statistics
 } // end namespace itk
 
 #endif
-
-
-
-
-

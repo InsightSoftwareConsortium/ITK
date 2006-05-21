@@ -164,7 +164,8 @@ void ThresholdMaximumConnectedComponentsImageFilter< TInputImage >
     const unsigned long connectedComponentsLeft =
       this->ComputeConnectedComponents();
 
-    // If the two thresholds give equal number of connected components, we choose the lower threshold.
+    // If the two thresholds give equal number of connected
+    // components, we choose the lower threshold.
     if( connectedComponentsRight > connectedComponentsLeft ) 
       {
       lowerBound = midpoint;

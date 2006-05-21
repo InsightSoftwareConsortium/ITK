@@ -24,8 +24,8 @@
 extern "C" double dbetai_(double *x, double *pin, double *qin);
 extern "C" double dgamma_(double *x);
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 TDistribution
 ::TDistribution()
@@ -227,7 +227,11 @@ TDistribution
     + (gaussX3 + gaussX) / (4.0 * dof)
     + (5.0*gaussX5 + 16.0*gaussX3 + 3*gaussX) / (96.0 * dof2)
     + (3.0*gaussX7 + 19.0*gaussX5 + 17.0*gaussX3 - 15.0*gaussX) / (384.0*dof3)
-    + (79.0*gaussX9 + 776.0*gaussX7 + 1482.0*gaussX5 - 1920.0*gaussX3 - 945.0*gaussX) / (92160.0 * dof4);
+    + (79.0*gaussX9
+       + 776.0*gaussX7 
+       + 1482.0*gaussX5
+       - 1920.0*gaussX3
+       - 945.0*gaussX) / (92160.0 * dof4);
 
   // The polynomial approximation above is only accurate for large degrees
   // of freedom.  We'll improve the approximation by a few Newton

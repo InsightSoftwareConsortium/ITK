@@ -20,11 +20,12 @@
 #include "itkProbabilityDistribution.h"
 #include "itkNumericTraits.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class ChiSquareDistribution
- * \brief ChiSquareDistribution class defines the interface for a univariate Chi-Square distribution (pdfs, cdfs, etc.).
+ * \brief ChiSquareDistribution class defines the interface for a
+ * univariate Chi-Square distribution (pdfs, cdfs, etc.).
  *
  * ChiSquareDistribution provides access to the probability density
  * function (pdf), the cumulative distribution function (cdf), and the
@@ -55,9 +56,9 @@ class ITK_EXPORT ChiSquareDistribution :
 {
 public:
   /** Standard class typedefs */
-  typedef ChiSquareDistribution Self;
-  typedef ProbabilityDistribution Superclass ;
-  typedef SmartPointer<Self> Pointer;
+  typedef ChiSquareDistribution    Self;
+  typedef ProbabilityDistribution  Superclass ;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Strandard macros */
@@ -201,14 +202,9 @@ private:
   ChiSquareDistribution(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-} ; // end of class
+}; // end of class
 
 } // end of namespace Statistics
 } // end namespace itk
 
 #endif
-
-
-
-
-

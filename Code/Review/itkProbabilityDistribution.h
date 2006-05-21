@@ -21,11 +21,12 @@
 #include "itkObjectFactory.h"
 #include "itkArray.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class ProbabilityDistribution
- * \brief ProbabilityDistribution class defines common interface for statistical distributions (pdfs, cdfs, etc.).
+ * \brief ProbabilityDistribution class defines common interface for
+ * statistical distributions (pdfs, cdfs, etc.).
  *
  * ProbabilityDistribution defines a common interface for parameteric
  * and non-parametric distributions.  ProbabilityDistribution provides
@@ -68,9 +69,9 @@ class ITK_EXPORT ProbabilityDistribution :
 {
 public:
   /** Standard class typedefs */
-  typedef ProbabilityDistribution Self;
-  typedef Object Superclass ;
-  typedef SmartPointer<Self> Pointer;
+  typedef ProbabilityDistribution  Self;
+  typedef Object                   Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Standard macros */
@@ -149,6 +150,11 @@ public:
 protected:
   ProbabilityDistribution(void) {}
   virtual ~ProbabilityDistribution(void) {}
+  void PrintSelf(std::ostream& os, Indent indent) const
+  {
+    Superclass::PrintSelf(os,indent);
+    os << indent << "Parameters: " << m_Parameters << std::endl;
+  };
 
   ParametersType m_Parameters;
 
@@ -156,7 +162,7 @@ private:
   ProbabilityDistribution(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-} ; // end of class
+}; // end of class
 
 } // end of namespace Statistics
 } // end namespace itk

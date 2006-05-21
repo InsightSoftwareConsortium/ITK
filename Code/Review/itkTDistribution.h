@@ -20,11 +20,12 @@
 #include "itkProbabilityDistribution.h"
 #include "itkNumericTraits.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class TDistribution
- * \brief TDistribution class defines the interface for a univariate Student-t distribution (pdfs, cdfs, etc.).
+ * \brief TDistribution class defines the interface for a univariate
+ * Student-t distribution (pdfs, cdfs, etc.).
  *
  * TDistribution provides access to the probability density
  * function (pdf), the cumulative distribution function (cdf), and the
@@ -55,9 +56,9 @@ class ITK_EXPORT TDistribution :
 {
 public:
   /** Standard class typedefs */
-  typedef TDistribution Self;
-  typedef ProbabilityDistribution Superclass ;
-  typedef SmartPointer<Self> Pointer;
+  typedef TDistribution            Self;
+  typedef ProbabilityDistribution  Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Strandard macros */
@@ -203,14 +204,9 @@ private:
   TDistribution(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-} ; // end of class
+}; // end of class
 
 } // end of namespace Statistics
 } // end namespace itk
 
 #endif
-
-
-
-
-

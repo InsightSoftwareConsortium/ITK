@@ -237,10 +237,10 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
       {
 
       const OutputPixelType outputValue =
-                 static_cast<OutputPixelType>(
-                                sqrt( vnl_math_abs( Ot.Get() ) ) );
+        static_cast<OutputPixelType>(
+          sqrt( vnl_math_abs( Ot.Get() ) ) );
 
-      if( It.Get()  != this->m_BackgroundValue )
+      if( It.Get() != this->m_BackgroundValue )
         {
         if( this->GetInsideIsPositive() )
           {
@@ -369,7 +369,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
         {
         output->SetPixel( idx, -d1 );
         }
-      }    
+      }
     else
       {
       if ( this->m_InsideIsPositive )
