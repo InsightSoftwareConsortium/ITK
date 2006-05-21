@@ -113,7 +113,7 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< InputImageType >  WriterType;
+  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
   // Software Guide : EndCodeSnippet
 
 
