@@ -146,7 +146,7 @@ public:
   /** Image spacing,origin and direction typedef */
   typedef typename TOutputImage::SpacingType SpacingType;
   typedef typename TOutputImage::PointType   OriginPointType;
-  typedef typename TInputImage::DirectionType DirectionType;
+  typedef typename TOutputImage::DirectionType DirectionType;
   
   /** Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this
@@ -304,7 +304,7 @@ private:
   PixelType               m_DefaultPixelValue; // default pixel value if the point 
                                                // is outside the image
   SpacingType             m_OutputSpacing; // output image spacing
-  PointType               m_OutputOrigin;  // output image origin
+  OriginPointType         m_OutputOrigin;  // output image origin
   DirectionType           m_OutputDirection; // output image direction cosines
   IndexType               m_OutputStartIndex; // output image start index
   bool m_UseReferenceImage;
