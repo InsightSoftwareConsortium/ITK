@@ -132,7 +132,7 @@ public:
 template <> class NumericTraits<Vector<unsigned long, 2> > {
 public:
   typedef Vector<unsigned long, 2> ValueType;
-  typedef Vector<unsigned long, 2> PrlongType;
+  typedef Vector<unsigned long, 2> PrintType;
   typedef Vector<unsigned long, 2> AbsType;
   typedef Vector<unsigned long, 2> AccumulateType;
   typedef Vector<double, 2> RealType;
@@ -288,7 +288,7 @@ public:
 template <> class NumericTraits<Vector<unsigned long, 3> > {
 public:
   typedef Vector<unsigned long, 3> ValueType;
-  typedef Vector<unsigned long, 3> PrlongType;
+  typedef Vector<unsigned long, 3> PrintType;
   typedef Vector<unsigned long, 3> AbsType;
   typedef Vector<unsigned long, 3> AccumulateType;
   typedef Vector<double, 3> RealType;
@@ -444,7 +444,7 @@ public:
 template <> class NumericTraits<Vector<unsigned long, 4> > {
 public:
   typedef Vector<unsigned long, 4> ValueType;
-  typedef Vector<unsigned long, 4> PrlongType;
+  typedef Vector<unsigned long, 4> PrintType;
   typedef Vector<unsigned long, 4> AbsType;
   typedef Vector<unsigned long, 4> AccumulateType;
   typedef Vector<double, 4> RealType;
@@ -600,7 +600,7 @@ public:
 template <> class NumericTraits<Vector<unsigned long, 5> > {
 public:
   typedef Vector<unsigned long, 5> ValueType;
-  typedef Vector<unsigned long, 5> PrlongType;
+  typedef Vector<unsigned long, 5> PrintType;
   typedef Vector<unsigned long, 5> AbsType;
   typedef Vector<unsigned long, 5> AccumulateType;
   typedef Vector<double, 5> RealType;
@@ -756,7 +756,7 @@ public:
 template <> class NumericTraits<Vector<unsigned long, 6> > {
 public:
   typedef Vector<unsigned long, 6> ValueType;
-  typedef Vector<unsigned long, 6> PrlongType;
+  typedef Vector<unsigned long, 6> PrintType;
   typedef Vector<unsigned long, 6> AbsType;
   typedef Vector<unsigned long, 6> AccumulateType;
   typedef Vector<double, 6> RealType;
@@ -912,7 +912,7 @@ public:
 template <> class NumericTraits<Vector<unsigned long, 7> > {
 public:
   typedef Vector<unsigned long, 7> ValueType;
-  typedef Vector<unsigned long, 7> PrlongType;
+  typedef Vector<unsigned long, 7> PrintType;
   typedef Vector<unsigned long, 7> AbsType;
   typedef Vector<unsigned long, 7> AccumulateType;
   typedef Vector<double, 7> RealType;
@@ -1068,7 +1068,7 @@ public:
 template <> class NumericTraits<Vector<unsigned long, 8> > {
 public:
   typedef Vector<unsigned long, 8> ValueType;
-  typedef Vector<unsigned long, 8> PrlongType;
+  typedef Vector<unsigned long, 8> PrintType;
   typedef Vector<unsigned long, 8> AbsType;
   typedef Vector<unsigned long, 8> AccumulateType;
   typedef Vector<double, 8> RealType;
@@ -1224,7 +1224,7 @@ public:
 template <> class NumericTraits<Vector<unsigned long, 9> > {
 public:
   typedef Vector<unsigned long, 9> ValueType;
-  typedef Vector<unsigned long, 9> PrlongType;
+  typedef Vector<unsigned long, 9> PrintType;
   typedef Vector<unsigned long, 9> AbsType;
   typedef Vector<unsigned long, 9> AccumulateType;
   typedef Vector<double, 9> RealType;
