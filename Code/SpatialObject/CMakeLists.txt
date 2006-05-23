@@ -6,5 +6,8 @@ SET(ITKSpatialObject_SRCS
 
 ADD_LIBRARY(ITKSpatialObject ${ITKSpatialObject_SRCS})
 TARGET_LINK_LIBRARIES(ITKSpatialObject ITKNumerics ITKCommon ITKMetaIO) 
+IF(ITK_LIBRARY_PROPERTIES)
+  SET_TARGET_PROPERTIES(ITKSpatialObject PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+ENDIF(ITK_LIBRARY_PROPERTIES)
 INSTALL_TARGETS(/lib/InsightToolkit ITKSpatialObject)
 INSTALL_FILES(/include/InsightToolkit/SpatialObject "(\\.h|\\.txx)$")

@@ -21,6 +21,9 @@ TARGET_LINK_LIBRARIES(itkwish
 )
 
 INSTALL_PROGRAMS(/bin itkwish itkwish)
+IF(ITK_LIBRARY_PROPERTIES)
+  SET_TARGET_PROPERTIES(itkwish PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+ENDIF(ITK_LIBRARY_PROPERTIES)
 INSTALL_TARGETS(/lib/InsightToolkit itkwish)
 
 INSTALL_FILES(/lib/InsightToolkit/tcl .tcl itkinteraction itktesting itkdata)

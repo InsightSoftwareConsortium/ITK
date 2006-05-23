@@ -57,6 +57,7 @@ SET(KWSYS_USE_CommandLineArguments 1)
 SET(KWSYS_HEADER_ROOT ${ITK_BINARY_DIR}/Utilities)
 SET(KWSYS_LIBRARY_INSTALL_DIR /lib/InsightToolkit)
 SET(KWSYS_HEADER_INSTALL_DIR /include/InsightToolkit/Utilities)
+SET(KWSYS_PROPERTIES_CXX ${ITK_LIBRARY_PROPERTIES})
 SUBDIRS(kwsys)
 
 #-----------------------------------------------------------------------------

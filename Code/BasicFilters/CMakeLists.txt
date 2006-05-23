@@ -1,4 +1,7 @@
 ADD_LIBRARY(ITKBasicFilters itkVTKImageExportBase.cxx)
 TARGET_LINK_LIBRARIES(ITKBasicFilters ITKCommon)
+IF(ITK_LIBRARY_PROPERTIES)
+  SET_TARGET_PROPERTIES(ITKBasicFilters PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+ENDIF(ITK_LIBRARY_PROPERTIES)
 INSTALL_TARGETS(/lib/InsightToolkit ITKBasicFilters)
 INSTALL_FILES(/include/InsightToolkit/BasicFilters "(\\.h|\\.txx)$")
