@@ -35,7 +35,7 @@ namespace itk
 namespace Functor
 {
 template <class InputPixelType> 
-class InvertIntensityFunctor
+class InvertBinaryIntensityFunctor
 {
 public:
   InputPixelType operator()( InputPixelType input )
@@ -100,7 +100,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   binaryFilter->SetInput( this->GetInput() );
   binaryFilter->Update();
 
-  typedef Functor::InvertIntensityFunctor<InputPixelType>  FunctorType;
+  typedef Functor::InvertBinaryIntensityFunctor<InputPixelType>  FunctorType;
 
   typedef UnaryFunctorImageFilter< InputImageType,
                                    InputImageType,
