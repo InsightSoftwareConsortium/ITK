@@ -48,5 +48,7 @@ void RegisterTests()
   REGISTER_TEST(itkSCSLFFTTest);
 #endif
   REGISTER_TEST(itkMeanReciprocalSquareDifferencePointSetToImageMetricTest );
+  REGISTER_TEST(itkMeanReciprocalSquareDifferencePointSetToImageMetricTest );
+  REGISTER_TEST(itkThresholdMaximumConnectedComponentsImageFilterTest );
 }
 

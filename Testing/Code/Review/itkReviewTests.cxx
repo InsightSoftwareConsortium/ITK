@@ -24,8 +24,6 @@
 void RegisterTests()
 {
   vnl_sample_reseed(8775070);
-  REGISTER_TEST(itkThresholdMaximumConnectedComponentsImageFilterTest );
-  REGISTER_TEST(itkSignedMaurerDistanceMapImageFilterTest );
   REGISTER_TEST(itkChiSquareDistributionTest );
   REGISTER_TEST(itkGaussianDistributionTest );
   REGISTER_TEST(itkTDistributionTest );

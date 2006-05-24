@@ -7,6 +7,8 @@ IF(ITK_BINARY_DIR)
   ENDIF(TCL_TCLSH)
 ENDIF(ITK_BINARY_DIR)
 
+SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Algorithms)
+SET(INPUTDATA ${ITK_DATA_ROOT}/Input)
 
 SET(ALGORITHMS_TESTS ${CXX_TEST_PATH}/itkAlgorithmsTests)
 SET(ALGORITHMS_TESTS2 ${CXX_TEST_PATH}/itkAlgorithmsTests2)
@@ -127,6 +129,22 @@ ADD_TEST(itkShapePriorMAPCostFunctionTest ${ALGORITHMS_TESTS3} itkShapePriorMAPC
 ADD_TEST(itkShapePriorSegmentationLevelSetFunctionTest ${ALGORITHMS_TESTS3} itkShapePriorSegmentationLevelSetFunctionTest)
 ADD_TEST(itkSpatialObjectToImageRegistrationTest ${ALGORITHMS_TESTS3} itkSpatialObjectToImageRegistrationTest)
 ADD_TEST(itkSupervisedImageClassifierTest ${ALGORITHMS_TESTS3} itkSupervisedImageClassifierTest)
+ADD_TEST( itkThresholdMaximumConnectedComponentsImageFilterTest1 
+          ${ALGORITHMS_TESTS4} 
+  --compare ${BASELINE}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png
+            ${TEMP}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png
+          itkThresholdMaximumConnectedComponentsImageFilterTest 
+          ${INPUTDATA}/CellsFluorescence1.png
+          ${TEMP}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png 10)
+
+ADD_TEST( itkThresholdMaximumConnectedComponentsImageFilterTest2 
+          ${ALGORITHMS_TESTS4} 
+  --compare ${BASELINE}/itkThresholdMaximumConnectedComponentsImageFilterTest2.png
+            ${TEMP}/itkThresholdMaximumConnectedComponentsImageFilterTest2.png
+          itkThresholdMaximumConnectedComponentsImageFilterTest 
+          ${INPUTDATA}/CellsFluorescence2.png
+          ${TEMP}/itkThresholdMaximumConnectedComponentsImageFilterTest2.png 10)
+
 ADD_TEST(itkThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS2} itkThresholdSegmentationLevelSetImageFilterTest)
 ADD_TEST(itkGibbsTest ${ALGORITHMS_TESTS3} itkGibbsTest)
 ADD_TEST(itkDeformableTest ${ALGORITHMS_TESTS3} itkDeformableTest)
@@ -311,6 +329,7 @@ itkWatershedImageFilterTest.cxx
 itkVoronoiPartitioningImageFilterTest.cxx
 itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx
 itkMeanReciprocalSquareDifferencePointSetToImageMetricTest.cxx
+itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
 )
 
 ADD_EXECUTABLE(itkAlgorithmsPrintTest itkAlgorithmsPrintTest.cxx)

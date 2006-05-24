@@ -24,49 +24,7 @@ SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 #  List of Tests in this directory
 #
 
-ADD_TEST( itkThresholdMaximumConnectedComponentsImageFilterTest1 
-          ${REVIEW_TESTS} 
-  --compare ${BASELINE}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png
-            ${TEMP}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png
-          itkThresholdMaximumConnectedComponentsImageFilterTest 
-          ${INPUTDATA}/CellsFluorescence1.png
-          ${TEMP}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png 10)
-
-ADD_TEST( itkThresholdMaximumConnectedComponentsImageFilterTest2 
-          ${REVIEW_TESTS} 
-  --compare ${BASELINE}/itkThresholdMaximumConnectedComponentsImageFilterTest2.png
-            ${TEMP}/itkThresholdMaximumConnectedComponentsImageFilterTest2.png
-          itkThresholdMaximumConnectedComponentsImageFilterTest 
-          ${INPUTDATA}/CellsFluorescence2.png
-          ${TEMP}/itkThresholdMaximumConnectedComponentsImageFilterTest2.png 10)
-
-ADD_TEST( itkSignedMaurerDistanceMapImageFilterTest1
-          ${REVIEW_TESTS} 
-  --compare ${BASELINE}/itkSignedMaurerDistanceMapImageFilterTest1.mhd
-            ${TEMP}/itkSignedMaurerDistanceMapImageFilterTest1.mhd
-          itkSignedMaurerDistanceMapImageFilterTest
-          ${INPUTDATA}/SquareBinary201.png
-          ${TEMP}/itkSignedMaurerDistanceMapImageFilterTest1.mhd)
-
-ADD_TEST( itkSignedMaurerDistanceMapImageFilterTest2
-          ${REVIEW_TESTS} 
-  --compare ${BASELINE}/itkSignedMaurerDistanceMapImageFilterTest2.mhd
-            ${TEMP}/itkSignedMaurerDistanceMapImageFilterTest2.mhd
-          itkSignedMaurerDistanceMapImageFilterTest
-          ${INPUTDATA}/BrainSliceBinary.png
-          ${TEMP}/itkSignedMaurerDistanceMapImageFilterTest2.mhd)
-
-ADD_TEST( itkSignedMaurerDistanceMapImageFilterTest3
-          ${REVIEW_TESTS} 
-  --compare ${BASELINE}/itkSignedMaurerDistanceMapImageFilterTest3.mhd
-            ${TEMP}/itkSignedMaurerDistanceMapImageFilterTest3.mhd
-          itkSignedMaurerDistanceMapImageFilterTest
-          ${INPUTDATA}/LungSliceBinary.png
-          ${TEMP}/itkSignedMaurerDistanceMapImageFilterTest3.mhd)
-
 SET(ReviewTest_SRCS
-  itkSignedMaurerDistanceMapImageFilterTest.cxx
-  itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
   itkChiSquareDistributionTest.cxx
   itkGaussianDistributionTest.cxx
   itkTDistributionTest.cxx

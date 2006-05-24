@@ -38,5 +38,6 @@ void RegisterTests()
   REGISTER_TEST( itkInvertIntensityImageFilterTest );
   REGISTER_TEST( itkModulusImageFilterTest );
   REGISTER_TEST( itkMorphologicalGradientImageFilterTest );
+  REGISTER_TEST(itkSignedMaurerDistanceMapImageFilterTest );
 }
 

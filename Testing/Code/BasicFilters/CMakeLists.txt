@@ -735,6 +735,27 @@ ADD_TEST(itkMorphologicalGradientImageFilterTest ${BASIC_FILTERS_TESTS4}
          ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest.png
          )
 
+ADD_TEST( itkSignedMaurerDistanceMapImageFilterTest1 ${BASIC_FILTERS_TESTS4}
+  --compare ${BASELINE}/itkSignedMaurerDistanceMapImageFilterTest1.mhd
+            ${TEMP}/itkSignedMaurerDistanceMapImageFilterTest1.mhd
+          itkSignedMaurerDistanceMapImageFilterTest
+          ${INPUTDATA}/SquareBinary201.png
+          ${TEMP}/itkSignedMaurerDistanceMapImageFilterTest1.mhd)
+
+ADD_TEST( itkSignedMaurerDistanceMapImageFilterTest2 ${BASIC_FILTERS_TESTS4} 
+  --compare ${BASELINE}/itkSignedMaurerDistanceMapImageFilterTest2.mhd
+            ${TEMP}/itkSignedMaurerDistanceMapImageFilterTest2.mhd
+          itkSignedMaurerDistanceMapImageFilterTest
+          ${INPUTDATA}/BrainSliceBinary.png
+          ${TEMP}/itkSignedMaurerDistanceMapImageFilterTest2.mhd)
+
+ADD_TEST( itkSignedMaurerDistanceMapImageFilterTest3 ${BASIC_FILTERS_TESTS4} 
+  --compare ${BASELINE}/itkSignedMaurerDistanceMapImageFilterTest3.mhd
+            ${TEMP}/itkSignedMaurerDistanceMapImageFilterTest3.mhd
+          itkSignedMaurerDistanceMapImageFilterTest
+          ${INPUTDATA}/LungSliceBinary.png
+          ${TEMP}/itkSignedMaurerDistanceMapImageFilterTest3.mhd)
+
 ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
@@ -915,6 +936,7 @@ itkSimilarityIndexImageFilterTest.cxx
 itkSimplexMeshToTriangleMeshFilterTest.cxx
 itkSimplexMeshAdaptTopologyFilterTest.cxx
 itkSignedDanielssonDistanceMapImageFilterTest.cxx
+itkSignedMaurerDistanceMapImageFilterTest.cxx
 itkSinImageFilterAndAdaptorTest.cxx
 itkSobelEdgeDetectionImageFilterTest.cxx
 itkSmoothingRecursiveGaussianImageFilterTest.cxx
@@ -993,6 +1015,7 @@ itkNotImageFilterTest
 itkInvertIntensityImageFilterTest
 itkModulusImageFilterTest
 itkMorphologicalGradientImageFilterTest
+itkSignedMaurerDistanceMapImageFilterTest
 )
 
 ADD_TEST(itkBasicFiltersHeaderTest ${BASIC_FILTERS_HEADER_TEST})
