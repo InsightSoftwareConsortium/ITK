@@ -72,10 +72,12 @@ public:
   /** Image dimension = 3. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       ::itk::GetImageDimension<InputImageType>::ImageDimension);
+  itkStaticConstMacro(InputPixelDimension, unsigned int,
+                      InputPixelType::ImageDimension);
 
-  typedef   itk::FixedArray< double, InputPixelType::Dimension >
+  typedef  FixedArray< double, itkGetStaticConstMacro(InputPixelDimension) >
                                                           EigenValueArrayType;
-  typedef  itk::Image< EigenValueArrayType, InputImageType::ImageDimension >
+  typedef  Image< EigenValueArrayType, itkGetStaticConstMacro(ImageDimension) >
                                                           EigenValueImageType;
   typedef   SymmetricEigenAnalysisImageFilter< 
               InputImageType, EigenValueImageType >     EigenAnalysisFilterType;
