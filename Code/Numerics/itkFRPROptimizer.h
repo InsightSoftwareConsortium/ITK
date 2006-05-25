@@ -71,11 +71,17 @@ public:
   typedef  CostFunctionType::Pointer        CostFunctionPointer;
 
   /** Start optimization. */
-  void StartOptimization() ;
+  void StartOptimization();
 
+  /** Set it to the Fletch-Reeves optimizer */
+  void SetToFletchReeves();
+  
+  /** Set it to the Fletch-Reeves optimizer */
+  void SetToPolakRibiere();
+  
 protected:
   FRPROptimizer() ;
-  virtual ~FRPROptimizer() ; 
+  virtual ~FRPROptimizer(); 
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -91,6 +97,14 @@ protected:
 
 private:
   FRPROptimizer(const FRPROptimizer&) ; // not implemented
+
+  typedef enum 
+    {
+    FletchReeves,
+    PolakRibiere
+    }               OptimizationType;
+
+  OptimizationType  m_OptimizationType;
 
 } ; // end of class
 

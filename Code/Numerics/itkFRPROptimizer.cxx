@@ -28,6 +28,7 @@ const double FRPR_TINY = 1e-20;
 FRPROptimizer
 ::FRPROptimizer()
 {
+  m_OptimizationType = PolakRibiere;
 }
 
 FRPROptimizer
@@ -95,18 +96,20 @@ FRPROptimizer
 
   this->SetSpaceDimension(m_CostFunction->GetNumberOfParameters());
 
-  double gg, gam, dgg;
-  FRPROptimizer::ParametersType g(this->GetSpaceDimension());
-  FRPROptimizer::ParametersType h(this->GetSpaceDimension());
-  FRPROptimizer::ParametersType xi(this->GetSpaceDimension());
+  const unsigned int SpaceDimension = this->GetSpaceDimension();
 
-  FRPROptimizer::ParametersType p(this->GetSpaceDimension());
+  double gg, gam, dgg;
+  FRPROptimizer::ParametersType g( SpaceDimension );
+  FRPROptimizer::ParametersType h( SpaceDimension );
+  FRPROptimizer::ParametersType xi( SpaceDimension );
+
+  FRPROptimizer::ParametersType p( SpaceDimension );
   p = this->GetInitialPosition();
 
   double fp;
   this->GetValueAndDerivative(p, &fp, &xi);
 
-  for(i=0; i<this->GetSpaceDimension(); i++)
+  for( i = 0; i < SpaceDimension ; i++ )
     {
     g[i] = -xi[i];
     xi[i] = g[i];
@@ -128,7 +131,7 @@ FRPROptimizer
     if ( 2.0 * vcl_abs(fret - fp) <= 
       this->GetValueTolerance() * (vcl_abs(fret)+ vcl_abs(fp) + FRPR_TINY) )
     {
-      if(limitCount < this->GetSpaceDimension())
+      if( limitCount <  SpaceDimension )
         {
         this->GetValueAndDerivative(p, &fp, &xi);
         xi[limitCount] = 1;
@@ -149,11 +152,22 @@ FRPROptimizer
 
     gg = 0.0;
     dgg = 0.0;
-    for(i=0; i<this->GetSpaceDimension(); i++)
+    
+    if( m_OptimizationType == PolakRibiere )
       {
-      gg += g[i] * g[i];
-      //dgg += xi[i] * xi[i];  // Uncomment for Fletcher-Reeves
-      dgg += (xi[i] + g[i]) * xi[i];    // Uncoment for Polak-Ribiere
+      for( i=0; i< SpaceDimension ; i++ )
+        {
+        gg += g[i] * g[i];
+        dgg += (xi[i] + g[i]) * xi[i];    
+        }
+      } 
+    if( m_OptimizationType == FletchReeves )
+      {
+      for( i=0; i< SpaceDimension ; i++ )
+        {
+        gg += g[i] * g[i];
+        dgg += xi[i] * xi[i];  
+        }
       }
 
     if(gg == 0)
@@ -164,7 +178,7 @@ FRPROptimizer
       }
 
     gam = dgg/gg;
-    for(i=0; i<this->GetSpaceDimension(); i++)
+    for( i = 0; i < SpaceDimension ; i++)
       {
       g[i] = -xi[i];
       xi[i] = g[i] + gam * h[i];
@@ -184,9 +198,33 @@ FRPROptimizer
  */
 void
 FRPROptimizer
+::SetToPolakRibiere()
+{
+  m_OptimizationType = PolakRibiere;
+}
+
+
+/**
+ *
+ */
+void
+FRPROptimizer
+::SetToFletchReeves()
+{
+  m_OptimizationType = FletchReeves;
+}
+
+
+/**
+ *
+ */
+void
+FRPROptimizer
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+  os << indent << "Optimization Type = " << m_OptimizationType << std::endl;
+  os << indent << "0=FletchReeves, 1=PolakRibiere" << std::endl;
 }
 
 } // end of namespace itk
