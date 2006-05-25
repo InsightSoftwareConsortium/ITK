@@ -19,10 +19,11 @@
 
 #include "itkFRPROptimizer.h"
 
-#define FRPR_TINY 1e-20
 
 namespace itk
 {
+
+const double FRPR_TINY = 1e-20;
 
 FRPROptimizer
 ::FRPROptimizer()
