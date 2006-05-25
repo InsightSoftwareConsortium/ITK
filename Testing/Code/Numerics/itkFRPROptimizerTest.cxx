@@ -144,6 +144,13 @@ int itkFRPROptimizerTest(int, char* [] )
   itkOptimizer->SetMaximize(false);
   itkOptimizer->SetMaximumIteration( 50 );
 
+
+
+  {
+  // Exercise the methods that set the optimization mode
+  std::cout << "Testing Fletch Reeves Mode" << std::endl;
+  itkOptimizer->SetToFletchReeves();
+
   itkOptimizer->SetInitialPosition( initialPosition );
 
   try 
@@ -192,7 +199,62 @@ int itkFRPROptimizerTest(int, char* [] )
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
+  }
 
+  {
+  // Exercise the methods that set the optimization mode
+  std::cout << "Testing Polak Ribiere Mode" << std::endl;
+  itkOptimizer->SetToPolakRibiere();
+
+  itkOptimizer->SetInitialPosition( initialPosition );
+
+  try 
+    {
+    itkOptimizer->StartOptimization();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cout << "Exception thrown ! " << std::endl;
+    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "Location    = " << e.GetLocation()    << std::endl;
+    std::cout << "Description = " << e.GetDescription() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
+  std::cout << "Solution        = (";
+  std::cout << finalPosition[0] << "," ;
+  std::cout << finalPosition[1] << ")" << std::endl;  
+
+  //
+  // check results to see if it is within range
+  //
+  bool pass = true;
+  double trueParameters[2] = { 2, -2 };
+  for( unsigned int j = 0; j < 2; j++ )
+    {
+    if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+      pass = false;
+    }
+
+  // Exercise various member functions.
+  std::cout << "Maximize: " << itkOptimizer->GetMaximize() << std::endl;
+  std::cout << std::endl;
+  std::cout << "MaximumIteration: " << itkOptimizer->GetMaximumIteration();
+  std::cout << std::endl;
+
+  itkOptimizer->Print( std::cout );
+
+  if( !pass )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test passed." << std::endl;
+  return EXIT_SUCCESS;
+
+  }
 }
 
 
