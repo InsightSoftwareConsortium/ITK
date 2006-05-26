@@ -102,7 +102,7 @@ IF(ITK_USE_SYSTEM_GDCM)
     SET(GDCM_DIR ${ITK_GDCM_DIR})
     FIND_PACKAGE(GDCM)
     IF(GDCM_FOUND)
-      INCLUDE(${GDCM_CMAKE_DIR}/GDCMUse.cmake)
+      INCLUDE(${GDCM_USE_FILE})
     ELSE(GDCM_FOUND)
       MESSAGE(FATAL_ERROR
         "UseITK could not load GDCM settings from \"${GDCM_DIR}\" even through "

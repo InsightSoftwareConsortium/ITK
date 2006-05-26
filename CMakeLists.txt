@@ -302,22 +302,6 @@ ELSE(ITK_USE_SYSTEM_VXL)
   SET(VXL_NUMERICS_LIBRARIES itkvnl itkvnl_algo itknetlib itkvcl)
 ENDIF(ITK_USE_SYSTEM_VXL)
 
-# ITK_USE_SYSTEM_GDCM is provided so that you can use an installed or external
-# version of gdcm. If its on, you must specify the variables 
-OPTION(ITK_USE_SYSTEM_GDCM "Use an outside build of GDCM." OFF)
-MARK_AS_ADVANCED(ITK_USE_SYSTEM_GDCM)
-IF(ITK_USE_SYSTEM_GDCM)
-  FIND_PACKAGE(GDCM)
-  IF(GDCM_FOUND)
-    INCLUDE(${GDCM_USE_FILE})
-    SET(ITK_GDCM_LIBRARIES gdcm)
-  ELSE(GDCM_FOUND)
-    MESSAGE(FATAL_ERROR "Must set GDCM_DIR for ITK_USE_SYSTEM_GDCM.")
-  ENDIF(GDCM_FOUND)
-ELSE(ITK_USE_SYSTEM_GDCM)
-  SET(ITK_GDCM_LIBRARIES itkgdcm)
-ENDIF(ITK_USE_SYSTEM_GDCM)
-
 
 # Provide options to use system versions of third-party libraries.
 ITK_THIRD_PARTY_OPTION(ZLIB zlib)
@@ -564,6 +548,28 @@ INCLUDE_DIRECTORIES(
   ${ITK_INCLUDE_DIRS_BUILD_TREE_CXX}
   ${ITK_INCLUDE_DIRS_SYSTEM}
 )
+
+#-----------------------------------------------------------------------------
+# ITK_USE_SYSTEM_GDCM is provided so that you can use an installed or external
+# version of gdcm. If its on, you must specify the variables 
+# Important: INCLUDE(${GDCM_USE_FILE}) *has* to be set after the
+# INCLUDE_DIRECTORIES that sets all the include paths for ITK, otherwise
+# if GDCM was build with VTK support, including it will bring the VTK
+# include paths as well, and the wrong DICOMParser will be picked.
+
+OPTION(ITK_USE_SYSTEM_GDCM "Use an outside build of GDCM." OFF)
+MARK_AS_ADVANCED(ITK_USE_SYSTEM_GDCM)
+IF(ITK_USE_SYSTEM_GDCM)
+  FIND_PACKAGE(GDCM)
+  IF(GDCM_FOUND)
+    INCLUDE(${GDCM_USE_FILE})
+    SET(ITK_GDCM_LIBRARIES gdcm)
+  ELSE(GDCM_FOUND)
+    MESSAGE(FATAL_ERROR "Must set GDCM_DIR for ITK_USE_SYSTEM_GDCM.")
+  ENDIF(GDCM_FOUND)
+ELSE(ITK_USE_SYSTEM_GDCM)
+  SET(ITK_GDCM_LIBRARIES itkgdcm)
+ENDIF(ITK_USE_SYSTEM_GDCM)
 
 #-----------------------------------------------------------------------------
 # Help other projects use ITK.
