@@ -810,10 +810,16 @@ void AnalyzeImageIO::ReadImageInformation()
   //   m_hdr.dime.dim[3] = 1;
   //   m_hdr.dime.dim[4] = 1;
   unsigned int numberOfDimensions = this->m_hdr.dime.dim[0];
+  // Some UCLA datasets have set m_hdr.dime.dim[0] to 0
+  if (numberOfDimensions == 0)
+    {
+    numberOfDimensions = 4;
+    this->m_hdr.dime.dim[0] = 4;
+    }
   while(this->m_hdr.dime.dim[numberOfDimensions] <=1 )
-      {
-      --numberOfDimensions;
-      }
+    {
+    --numberOfDimensions;
+    }
     
   this->SetNumberOfDimensions(numberOfDimensions);
   switch( this->m_hdr.dime.datatype )
