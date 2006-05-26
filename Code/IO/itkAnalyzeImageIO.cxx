@@ -810,11 +810,18 @@ void AnalyzeImageIO::ReadImageInformation()
   //   m_hdr.dime.dim[3] = 1;
   //   m_hdr.dime.dim[4] = 1;
   unsigned int numberOfDimensions = this->m_hdr.dime.dim[0];
-  // Some UCLA datasets have set m_hdr.dime.dim[0] to 0
+
   if (numberOfDimensions == 0)
     {
-    numberOfDimensions = 4;
-    this->m_hdr.dime.dim[0] = 4;
+    itkExceptionMacro("AnalyzeImageIO cannot process file: "
+                      << this->GetFileName()
+                      << ". Number of dimensions is 0." <<std::endl
+                      << "hdr.dime[0] = " << m_hdr.dime.dim[0] << std::endl
+                      << "hdr.dime[1] = " << m_hdr.dime.dim[1] << std::endl
+                      << "hdr.dime[2] = " << m_hdr.dime.dim[2] << std::endl
+                      << "hdr.dime[3] = " << m_hdr.dime.dim[3] << std::endl
+                      << "hdr.dime[4] = " << m_hdr.dime.dim[4] << std::endl);
+    return;
     }
   while(this->m_hdr.dime.dim[numberOfDimensions] <=1 )
     {
