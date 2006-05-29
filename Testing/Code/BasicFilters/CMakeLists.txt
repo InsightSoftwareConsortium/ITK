@@ -756,6 +756,27 @@ ADD_TEST( itkSignedMaurerDistanceMapImageFilterTest3 ${BASIC_FILTERS_TESTS4}
           ${INPUTDATA}/LungSliceBinary.png
           ${TEMP}/itkSignedMaurerDistanceMapImageFilterTest3.mhd)
 
+ADD_TEST( itkVectorIndexSelectionCastImageFilterTest1 ${BASIC_FILTERS_TESTS4}
+  --compare ${BASELINE}/itkVectorIndexSelectionCastImageFilterTest1.mha
+            ${TEMP}/itkVectorIndexSelectionCastImageFilterTest1.mha
+          itkVectorIndexSelectionCastImageFilterTest
+          ${INPUTDATA}/RGBTestImage.tif
+          ${TEMP}/itkVectorIndexSelectionCastImageFilterTest1.mha 0)
+
+ADD_TEST( itkVectorIndexSelectionCastImageFilterTest2 ${BASIC_FILTERS_TESTS4}
+  --compare ${BASELINE}/itkVectorIndexSelectionCastImageFilterTest2.mha
+            ${TEMP}/itkVectorIndexSelectionCastImageFilterTest2.mha
+          itkVectorIndexSelectionCastImageFilterTest
+          ${INPUTDATA}/RGBTestImage.tif
+          ${TEMP}/itkVectorIndexSelectionCastImageFilterTest2.mha 1)
+
+ADD_TEST( itkVectorIndexSelectionCastImageFilterTest3 ${BASIC_FILTERS_TESTS4}
+  --compare ${BASELINE}/itkVectorIndexSelectionCastImageFilterTest3.mha
+            ${TEMP}/itkVectorIndexSelectionCastImageFilterTest3.mha
+          itkVectorIndexSelectionCastImageFilterTest
+          ${INPUTDATA}/RGBTestImage.tif
+          ${TEMP}/itkVectorIndexSelectionCastImageFilterTest3.mha 2)
+
 ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
@@ -1015,6 +1036,7 @@ itkInvertIntensityImageFilterTest
 itkModulusImageFilterTest
 itkMorphologicalGradientImageFilterTest
 itkSignedMaurerDistanceMapImageFilterTest
+itkVectorIndexSelectionCastImageFilterTest
 )
 
 ADD_TEST(itkBasicFiltersHeaderTest ${BASIC_FILTERS_HEADER_TEST})

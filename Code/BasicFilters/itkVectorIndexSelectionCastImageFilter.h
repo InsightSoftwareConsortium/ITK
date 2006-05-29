@@ -103,7 +103,10 @@ public:
         this->Modified();
         }
     }
-  unsigned int GetIndex(void) const { return this->GetFunctor().GetIndex(); }
+  unsigned int GetIndex(void) const 
+    { 
+    return this->GetFunctor().GetIndex(); 
+    }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -116,6 +119,24 @@ protected:
   VectorIndexSelectionCastImageFilter() {}
   virtual ~VectorIndexSelectionCastImageFilter() {}
     
+  virtual void BeforeThreadedGenerateData()
+    {
+    const unsigned int index = this->GetIndex();
+    const TInputImage * image = this->GetInput();
+
+    const unsigned int numberOfComponents = 
+               image->GetNumberOfComponentsPerPixel();
+    
+    if( index >= numberOfComponents )
+      {
+        itkExceptionMacro(
+            << "Selected index = " << index 
+            << " is greater than the number of components = "
+            << numberOfComponents );
+      }
+    }
+    
+
 private:
   VectorIndexSelectionCastImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
