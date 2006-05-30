@@ -124,9 +124,27 @@ protected:
     const unsigned int index = this->GetIndex();
     const TInputImage * image = this->GetInput();
 
-    const unsigned int numberOfComponents = 
+    const unsigned int numberOfRunTimeComponents = 
                image->GetNumberOfComponentsPerPixel();
     
+    typedef typename TInputImage::PixelType    PixelType;
+
+    typedef typename itk::NumericTraits< PixelType >::RealType 
+                                                         PixelRealType;
+
+    typedef typename itk::NumericTraits< PixelType >::ScalarRealType 
+                                                         PixelScalarRealType;
+
+    const unsigned int numberOfCompileTimeComponents =
+             sizeof( PixelRealType ) / sizeof( PixelScalarRealType );
+
+    unsigned int numberOfComponents = numberOfRunTimeComponents;
+
+    if( numberOfCompileTimeComponents > numberOfRunTimeComponents )
+      {
+      numberOfComponents = numberOfCompileTimeComponents;
+      }
+      
     if( index >= numberOfComponents )
       {
         itkExceptionMacro(
