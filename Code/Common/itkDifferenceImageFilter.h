@@ -25,10 +25,13 @@ namespace itk
 {
   
 /** \class DifferenceImageFilter
- * \brief Implements pixel-wise comparison of two images.
+ * \brief Implements comparison between two images.
  *
- * This filter is used by the testing system to compute the difference
- * between a valid image and an image produced by the test.
+ * This filter is used by the testing system to compute the difference between
+ * a valid image and an image produced by the test. The comparison value is
+ * computed by visiting all the pixels in the baseline images and comparing
+ * their values with the pixel values in the neighborhood of the homologous
+ * pixel in the other image.
  * 
  * \ingroup IntensityImageFilters   Multithreaded
  */

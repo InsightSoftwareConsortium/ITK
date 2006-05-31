@@ -107,7 +107,7 @@ DifferenceImageFilter<TInputImage, TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType &threadRegion, int threadId)
 {
   typedef ConstNeighborhoodIterator<InputImageType> SmartIterator;
-  typedef ImageRegionConstIterator<OutputImageType> InputIterator;
+  typedef ImageRegionConstIterator<InputImageType> InputIterator;
   typedef ImageRegionIterator<OutputImageType> OutputIterator;
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> FacesCalculator;
   typedef typename FacesCalculator::RadiusType RadiusType;
