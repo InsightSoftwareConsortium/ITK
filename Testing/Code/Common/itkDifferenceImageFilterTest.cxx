@@ -73,6 +73,8 @@ int itkDifferenceImageFilterTest(int argc, char *argv [] )
 
   WriterType::Pointer writer = WriterType::New();
 
+  writer->SetInput( filter->GetOutput() );
+
   writer->SetFileName( argv[2] );
 
   try
