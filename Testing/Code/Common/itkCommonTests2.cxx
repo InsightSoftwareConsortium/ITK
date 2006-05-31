@@ -9,6 +9,7 @@
 
 void RegisterTests()
 {
+REGISTER_TEST(itkDifferenceImageFilterTest );
 REGISTER_TEST(itkMeanImageFunctionTest );
 REGISTER_TEST(itkMedialNodeCorrespondencesTest );
 REGISTER_TEST(itkMedianImageFunctionTest );

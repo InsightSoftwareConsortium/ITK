@@ -111,6 +111,17 @@ ADD_TEST(itkMahalanobisDistanceThresholdImageFunctionTest ${COMMON_TESTS} itkMah
 ADD_TEST(itkMaximumDecisionRuleTest ${COMMON_TESTS} itkMaximumDecisionRuleTest)
 ADD_TEST(itkMaximumRatioDecisionRuleTest ${COMMON_TESTS} itkMaximumRatioDecisionRuleTest)
 ADD_TEST(itkMeanImageFunctionTest ${COMMON_TESTS2} itkMeanImageFunctionTest)
+
+IF(ITK_DATA_ROOT)
+  ADD_TEST(itkDifferenceImageFilterTest ${COMMON_TESTS2} 
+       --compare ${BASELINE}/itkDifferenceImageFilterTest.png 
+                 ${ITK_TEST_OUTPUT_DIR}/itkDifferenceImageFilterTest.png 
+     itkDifferenceImageFilterTest 
+                 ${ITK_DATA_ROOT}/Input/cake_easy.png 
+                 ${ITK_DATA_ROOT}/Input/cake_hard.png 
+                 ${ITK_TEST_OUTPUT_DIR}/itkDifferenceImageFilterTest.png 10 1)
+ENDIF(ITK_DATA_ROOT)
+
 ADD_TEST(itkMedianImageFunctionTest ${COMMON_TESTS2} itkMedianImageFunctionTest)
 ADD_TEST(itkMedialNodeCorrespondencesTest ${COMMON_TESTS2} itkMedialNodeCorrespondencesTest)
 ADD_TEST(itkMemoryLeakTest ${COMMON_TESTS2} itkMemoryLeakTest)
@@ -310,6 +321,7 @@ itkMaximumRatioDecisionRuleTest.cxx
 
 #-----------------------------------------------------------------------------
 SET(BasicTests2_SRCS
+itkDifferenceImageFilterTest.cxx 
 itkMeanImageFunctionTest.cxx 
 itkMedialNodeCorrespondencesTest.cxx
 itkMedianImageFunctionTest.cxx 
