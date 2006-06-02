@@ -26,11 +26,11 @@
 
 int itkDifferenceImageFilterTest(int argc, char *argv [] )
 {
-  if( argc < 5 )
+  if( argc < 6 )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0];
-    std::cerr << "  inputImageFile1 inputImageFile2 outputImage" << std::endl;
+    std::cerr << "  inputImageFile1 inputImageFile2 outputImage threshold radius" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -48,9 +48,11 @@ int itkDifferenceImageFilterTest(int argc, char *argv [] )
 
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  ReaderType::Pointer reader1 = ReaderType::New();
+  ReaderType::Pointer reader2 = ReaderType::New();
 
-  reader->SetFileName( argv[1] );
+  reader1->SetFileName( argv[1] );
+  reader2->SetFileName( argv[2] );
 
   // Define the filter
   typedef itk::DifferenceImageFilter<
@@ -60,13 +62,14 @@ int itkDifferenceImageFilterTest(int argc, char *argv [] )
   FilterType::Pointer filter = FilterType::New();
 
   // setup the filter
-  filter->SetDifferenceThreshold( atoi( argv[3] ) );
-  filter->SetToleranceRadius(     atoi( argv[4] ) );
+  filter->SetDifferenceThreshold( atoi( argv[4] ) );
+  filter->SetToleranceRadius(     atoi( argv[5] ) );
 
   itk::SimpleFilterWatcher watcher( filter, "Difference");
   
   // wire the pipeline
-  filter->SetInput( reader->GetOutput() );
+  filter->SetValidInput( reader1->GetOutput() );
+  filter->SetTestInput(  reader2->GetOutput() );
 
   // Write the output
   typedef itk::ImageFileWriter< OutputImageType >       WriterType;
@@ -75,7 +78,7 @@ int itkDifferenceImageFilterTest(int argc, char *argv [] )
 
   writer->SetInput( filter->GetOutput() );
 
-  writer->SetFileName( argv[2] );
+  writer->SetFileName( argv[3] );
 
   try
     {
