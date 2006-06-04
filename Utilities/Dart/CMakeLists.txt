@@ -12,6 +12,11 @@ IF(WIN32)
                    @ONLY IMMEDIATE)
     EXEC_PROGRAM(chmod ARGS 755 \"${ITK_BINARY_DIR}/BuildContinuous.sh\"
                        OUTPUT_VARIABLE ITK_EXEC_PLEASE_BE_QUIET)
+    CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Dart/BuildContinuousWithCTest.sh.in
+                   ${ITK_BINARY_DIR}/BuildContinuousWithCTest.sh
+                   @ONLY IMMEDIATE)
+    EXEC_PROGRAM(chmod ARGS 755 \"${ITK_BINARY_DIR}/BuildContinuousWithCTest.sh\"
+                       OUTPUT_VARIABLE ITK_EXEC_PLEASE_BE_QUIET)
     CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Dart/AllowContinuous.sh.in
                    ${ITK_BINARY_DIR}/AllowContinuous.sh
                    @ONLY IMMEDIATE)
@@ -33,6 +38,11 @@ IF(UNIX)
                  @ONLY IMMEDIATE)
   EXEC_PROGRAM(chmod ARGS 755 \"${ITK_BINARY_DIR}/BuildContinuous.sh\"
                      OUTPUT_VARIABLE ITK_EXEC_PLEASE_BE_QUIET)
+  CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Dart/BuildContinuousWithCTest.sh.in
+                 ${ITK_BINARY_DIR}/BuildContinuousWithCTest.sh
+                 @ONLY IMMEDIATE)
+  EXEC_PROGRAM(chmod ARGS 755 \"${ITK_BINARY_DIR}/BuildContinuousWithCTest.sh\"
+                       OUTPUT_VARIABLE ITK_EXEC_PLEASE_BE_QUIET)
   CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Dart/AllowContinuous.sh.in
                  ${ITK_BINARY_DIR}/AllowContinuous.sh
                  @ONLY IMMEDIATE)
