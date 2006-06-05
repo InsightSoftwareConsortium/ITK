@@ -6,6 +6,8 @@ IF(WIN32)
                  ${ITK_BINARY_DIR}/PreventContinuous.bat)
   CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Dart/BuildContinuous.bat.in
                  ${ITK_BINARY_DIR}/BuildContinuous.bat)
+  CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Dart/BuildContinuousWithCTest.bat.in
+                 ${ITK_BINARY_DIR}/BuildContinuousWithCTest.bat)
   ELSE(NOT MINGW)
     CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Dart/BuildContinuous.sh.in
                    ${ITK_BINARY_DIR}/BuildContinuous.sh
