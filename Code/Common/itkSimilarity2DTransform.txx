@@ -18,7 +18,7 @@
 #define _itkSimilarity2DTransform_txx
 
 #include "itkSimilarity2DTransform.h"
-
+#include "vnl/vnl_math.h"
 
 namespace itk
 {
