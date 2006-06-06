@@ -235,6 +235,7 @@ int itkJoinSeriesImageFilterTest(int, char* [] )
     }
   catch( itk::InvalidRequestedRegionError & err )
     {
+    std::cout << err << std::endl;
     passed = true;
     }
   catch( itk::ExceptionObject & err )
