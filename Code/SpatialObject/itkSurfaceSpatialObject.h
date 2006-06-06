@@ -106,7 +106,9 @@ public:
   bool Approximate3DNormals();
 
 protected:
-
+  SurfaceSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+   
   PointListType  m_Points;
 
   SurfaceSpatialObject();

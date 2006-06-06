@@ -87,7 +87,9 @@ public:
   itkGetMacro(UpperPoint,PointType);
 
 protected:
-
+  PlaneSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+   
   PlaneSpatialObject( void );
   ~PlaneSpatialObject( void );
 

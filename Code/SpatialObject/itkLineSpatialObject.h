@@ -103,7 +103,9 @@ public:
   bool ComputeLocalBoundingBox() const;
 
 protected:
-
+  LineSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+   
   PointListType   m_Points;
 
   LineSpatialObject();

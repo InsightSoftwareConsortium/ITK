@@ -106,7 +106,9 @@ public:
   bool ComputeLocalBoundingBox( void ) const;
 
 protected:
-
+  LandmarkSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+   
   PointListType   m_Points;
 
   LandmarkSpatialObject();

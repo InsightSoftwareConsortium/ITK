@@ -145,7 +145,9 @@ protected:
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
 private:
-
+  ArrowSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+   
   VectorType   m_Direction;
   PointType    m_Position;
   double       m_Length;

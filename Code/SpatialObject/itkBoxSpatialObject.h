@@ -87,7 +87,9 @@ public:
   virtual bool ComputeLocalBoundingBox() const;
 
 protected:
-
+  BoxSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+   
   BoxSpatialObject( void );
   ~BoxSpatialObject( void );
 

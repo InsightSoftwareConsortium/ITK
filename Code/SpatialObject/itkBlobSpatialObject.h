@@ -109,7 +109,9 @@ public:
   bool ComputeLocalBoundingBox() const;
 
 protected:
-
+  BlobSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+   
   PointListType   m_Points;
 
   BlobSpatialObject();

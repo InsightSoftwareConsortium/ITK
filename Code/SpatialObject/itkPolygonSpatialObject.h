@@ -96,6 +96,9 @@ public:
   };
 
 private:
+  PolygonSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   PolygonGroupOrientation m_Orientation;
   double m_Thickness;
   PolygonSpatialObject() 

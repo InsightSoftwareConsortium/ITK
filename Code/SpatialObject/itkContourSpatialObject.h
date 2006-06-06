@@ -157,7 +157,9 @@ public:
   bool ComputeLocalBoundingBox( void ) const;
 
 protected:
-
+  ContourSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+   
   ControlPointListType        m_ControlPoints;
   InterpolatedPointListType   m_InterpolatedPoints;
   InterpolationType           m_InterpolationType;

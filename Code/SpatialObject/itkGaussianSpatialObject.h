@@ -109,7 +109,9 @@ public:
   typename EllipseSpatialObject< TDimension >::Pointer GetEllipsoid() const;
 
 protected:
-
+  GaussianSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+   
   GaussianSpatialObject( void );
   ~GaussianSpatialObject( void );
 
