@@ -199,44 +199,44 @@ ArrowSpatialObject< TDimension >
 
   m_Direction.Normalize();
 
-  if(TDimension == 3)
-    {
-    typedef itk::Euler3DTransform<double> EulerTransformType;
-    EulerTransformType::Pointer euler = EulerTransformType::New();
+#if(TDimension == 3)
+  
+  typedef itk::Euler3DTransform<double> EulerTransformType;
+  EulerTransformType::Pointer euler = EulerTransformType::New();
 
-    double angley;
-    double anglez = 0;
+  double angley;
+  double anglez = 0;
     
-    #ifndef PI    
-     const double PI = 4.0 * vcl_atan(1.0 );
-    #endif
+  #ifndef PI    
+    const double PI = 4.0 * vcl_atan(1.0 );
+  #endif
 
-    if(m_Direction[0] == 0.0)
+  if(m_Direction[0] == 0.0)
+    {
+    if(m_Direction[1]>0.0)
       {
-      if(m_Direction[1]>0.0)
-        {
-        anglez=PI/2;
-        }
-      else if(m_Direction[1]<0.0)
-        {
-        anglez=-PI/2;
-        }
+      anglez=PI/2;
+      }
+    else if(m_Direction[1]<0.0)
+      {
+      anglez=-PI/2;
+      }
+    }
+  else
+    {
+    if(m_Direction[0]<0.0)
+      {
+      anglez = PI+vcl_atan(m_Direction[1]/m_Direction[0]);
       }
     else
       {
-      if(m_Direction[0]<0.0)
-        {
-        anglez = PI+vcl_atan(m_Direction[1]/m_Direction[0]);
-        }
-      else
-        {
-        anglez = vcl_atan(m_Direction[1]/m_Direction[0]);
-        }
+      anglez = vcl_atan(m_Direction[1]/m_Direction[0]);
       }
-    angley = -asin(m_Direction[2]);
-    euler->SetRotation(0,angley,anglez);
-    this->GetObjectToParentTransform()->SetMatrix(euler->GetRotationMatrix());
     }
+  angley = -asin(m_Direction[2]);
+  euler->SetRotation(0,angley,anglez);
+  this->GetObjectToParentTransform()->SetMatrix(euler->GetRotationMatrix());
+#endif
 
   this->Modified();
 }
