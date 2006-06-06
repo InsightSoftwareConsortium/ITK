@@ -21,7 +21,7 @@
 #include "itkObjectFactory.h"
 #include "itkExceptionObject.h"
 #include <vector>
-#include "gdcm/src/gdcmSerieHelper.h"
+#include "gdcmSerieHelper.h"
 
 namespace itk
 {

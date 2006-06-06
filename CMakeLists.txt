@@ -569,6 +569,9 @@ IF(ITK_USE_SYSTEM_GDCM)
   ENDIF(GDCM_FOUND)
 ELSE(ITK_USE_SYSTEM_GDCM)
   SET(ITK_GDCM_LIBRARIES itkgdcm)
+  INCLUDE_DIRECTORIES(
+    ${ITK_SOURCE_DIR}/Utilities/gdcm/src
+    )
 ENDIF(ITK_USE_SYSTEM_GDCM)
 
 #-----------------------------------------------------------------------------
