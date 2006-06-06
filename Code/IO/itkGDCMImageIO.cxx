@@ -30,13 +30,13 @@
 
 #include <itksys/SystemTools.hxx>
 #include <itksys/Base64.h>
-#include "gdcm/src/gdcmValEntry.h" //internal of gdcm
-#include "gdcm/src/gdcmBinEntry.h" //internal of gdcm
-#include "gdcm/src/gdcmFile.h"
-#include "gdcm/src/gdcmFileHelper.h"
-#include "gdcm/src/gdcmUtil.h"
-#include "gdcm/src/gdcmGlobal.h"   // access to dictionary
-#include "gdcm/src/gdcmDictSet.h"  // access to dictionary
+#include "gdcmValEntry.h" //internal of gdcm
+#include "gdcmBinEntry.h" //internal of gdcm
+#include "gdcmFile.h"
+#include "gdcmFileHelper.h"
+#include "gdcmUtil.h"
+#include "gdcmGlobal.h"   // access to dictionary
+#include "gdcmDictSet.h"  // access to dictionary
 
 
 #include <fstream>
