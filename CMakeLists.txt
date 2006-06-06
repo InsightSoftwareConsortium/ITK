@@ -32,20 +32,20 @@ ENDIF(WIN32)
 
 # Don't build anything unless the version of CMake is high enough.
 # The matching ELSE/ENDIF should be the last lines in the file.
-IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" GREATER 1.9)
+IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" GREATER 2.1)
 
 # If CMake is the version we're expecting, don't show the
 # CMAKE_BACKWARDS_COMPATIBILITY option.
-IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.0$")
+IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.2$")
   MARK_AS_ADVANCED(FORCE CMAKE_BACKWARDS_COMPATIBILITY)
-ELSE("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.0$")
+ELSE("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.2$")
   MARK_AS_ADVANCED(CLEAR CMAKE_BACKWARDS_COMPATIBILITY)
-ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.0$")
+ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.2$")
 
 #-----------------------------------------------------------------------------
 # ITK version number.  An even minor number corresponds to releases.
 SET(ITK_VERSION_MAJOR "2")
-SET(ITK_VERSION_MINOR "8")
+SET(ITK_VERSION_MINOR "9")
 SET(ITK_VERSION_PATCH "0")
 
 # Version string should not include patch level.  The major.minor is
@@ -622,9 +622,9 @@ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 # If the version of CMake was too old, complain and build nothing.
 # These should be the last lines in this file.
-ELSE("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" GREATER 1.9)
+ELSE("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" GREATER 2.1)
   MESSAGE(SEND_ERROR
           "This version of CMake is too old to build this version of ITK.  "
-          "Please upgrade to CMake 2.0 or higher.")
-ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" GREATER 1.9)
+          "Please upgrade to CMake 2.2 or higher.")
+ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" GREATER 2.1)
 
