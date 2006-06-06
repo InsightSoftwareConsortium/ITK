@@ -105,6 +105,7 @@ FRPROptimizer
 
   FRPROptimizer::ParametersType p( SpaceDimension );
   p = this->GetInitialPosition();
+  this->SetCurrentPosition(p);
 
   double fp;
   this->GetValueAndDerivative(p, &fp, &xi);
