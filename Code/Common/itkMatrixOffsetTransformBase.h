@@ -402,9 +402,18 @@ private:
 
 }  // namespace itk
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_MatrixOffsetTransformBase(_, EXPORT, x, y) namespace itk { \
+  _(3(class EXPORT MatrixOffsetTransformBase< ITK_TEMPLATE_3 x >)) \
+  namespace Templates { typedef MatrixOffsetTransformBase< ITK_TEMPLATE_3 x > MatrixOffsetTransformBase##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMatrixOffsetTransformBase.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkMatrixOffsetTransformBase+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkMatrixOffsetTransformBase.txx"
 #endif
 
 #endif /* __itkMatrixOffsetTransformBase_h */
