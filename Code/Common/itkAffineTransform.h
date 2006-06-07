@@ -304,7 +304,7 @@ private:
 
 }; //class AffineTransform
 
-}  // namespace itks
+}  // namespace itk
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_AffineTransform(_, EXPORT, x, y) namespace itk { \
