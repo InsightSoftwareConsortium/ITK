@@ -233,14 +233,14 @@ public:
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  TPixel & operator[](const IndexType &index)
+  PixelType & operator[](const IndexType &index)
      { return this->GetPixel(index); }
 
   /** \brief Access a pixel. This version can only be an rvalue.
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  const TPixel& operator[](const IndexType &index) const
+  const PixelType& operator[](const IndexType &index) const
      { return this->GetPixel(index); }
 
   /** Return a pointer to the beginning of the buffer.  This is used by
@@ -395,8 +395,19 @@ private:
 
 
 } // end namespace itk
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorImage.txx"
+
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_VectorImage(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT VectorImage< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef VectorImage< ITK_TEMPLATE_2 x > VectorImage##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkVectorImage+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkVectorImage.txx"
 #endif
 
 #endif

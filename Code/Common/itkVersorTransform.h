@@ -156,9 +156,18 @@ private:
 
 }  // namespace itk
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_VersorTransform(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT VersorTransform< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef VersorTransform< ITK_TEMPLATE_1 x > VersorTransform##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVersorTransform.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkVersorTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkVersorTransform.txx"
 #endif
 
 #endif /* __itkVersorTransform_h */

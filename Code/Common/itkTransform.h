@@ -226,8 +226,18 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTransform.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_Transform(_, EXPORT, x, y) namespace itk { \
+  _(3(class EXPORT Transform< ITK_TEMPLATE_3 x >)) \
+  namespace Templates { typedef Transform< ITK_TEMPLATE_3 x > Transform##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkTransform.txx"
 #endif
 
 #endif

@@ -427,8 +427,18 @@ std::ostream & operator<<(std::ostream &os, const VariableLengthVector<TValueTyp
 
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVariableLengthVector.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_VariableLengthVector(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT VariableLengthVector< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef VariableLengthVector< ITK_TEMPLATE_1 x > VariableLengthVector##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkVariableLengthVector+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkVariableLengthVector.txx"
 #endif
 
 #endif
