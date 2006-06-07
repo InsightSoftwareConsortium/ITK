@@ -158,9 +158,18 @@ private:
 
 }  // namespace itk
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_Rigid3DTransform(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT Rigid3DTransform< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef Rigid3DTransform< ITK_TEMPLATE_1 x > Rigid3DTransform##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRigid3DTransform.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkRigid3DTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkRigid3DTransform.txx"
 #endif
 
 #endif /* __itkRigid3DTransform_h */

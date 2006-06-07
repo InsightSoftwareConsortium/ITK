@@ -173,11 +173,19 @@ ITK_EXPORT std::ostream& operator<<(std::ostream& os,
 
   
 } // end namespace itk
-  
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMatrix.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_Matrix(_, EXPORT, x, y) namespace itk { \
+  _(3(class EXPORT Matrix< ITK_TEMPLATE_3 x >)) \
+  namespace Templates { typedef Matrix< ITK_TEMPLATE_3 x > Matrix##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkMatrix+-.h"
 #endif
 
+#if ITK_TEMPLATE_TXX
+# include "itkMatrix.txx"
+#endif
 
 #endif 

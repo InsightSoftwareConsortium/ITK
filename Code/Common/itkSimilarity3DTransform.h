@@ -123,9 +123,18 @@ private:
 
 }  // namespace itk
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_Similarity3DTransform(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT Similarity3DTransform< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef Similarity3DTransform< ITK_TEMPLATE_1 x > Similarity3DTransform##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSimilarity3DTransform.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkSimilarity3DTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkSimilarity3DTransform.txx"
 #endif
 
 #endif /* __itkSimilarity3DTransform_h */

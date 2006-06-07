@@ -203,9 +203,18 @@ private:
 
 }  // namespace itk
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_AzimuthElevationToCartesianTransform(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT AzimuthElevationToCartesianTransform< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef AzimuthElevationToCartesianTransform< ITK_TEMPLATE_2 x > AzimuthElevationToCartesianTransform##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAzimuthElevationToCartesianTransform.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkAzimuthElevationToCartesianTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkAzimuthElevationToCartesianTransform.txx"
 #endif
 
 #endif /* __itkAzimuthElevationToCartesianTransform_h */

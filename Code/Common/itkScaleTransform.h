@@ -185,9 +185,19 @@ private:
 
 }  // namespace itk
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ScaleTransform(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT ScaleTransform< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef ScaleTransform< ITK_TEMPLATE_2 x > ScaleTransform##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScaleTransform.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkScaleTransform+-.h"
 #endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkScaleTransform.txx"
+#endif
+
 
 #endif /* __itkScaleTransform_h */
