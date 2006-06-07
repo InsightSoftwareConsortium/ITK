@@ -31,8 +31,8 @@ const unsigned int WIDTH  = (128);
 float square(unsigned x, unsigned y)
 {
     float X, Y;
-    X = ::fabs(x - (float)WIDTH/2.0);
-    Y = ::fabs(y - (float)HEIGHT/2.0);
+    X = vnl_math_abs(x - (float)WIDTH/2.0);
+    Y = vnl_math_abs(y - (float)HEIGHT/2.0);
     float dis;
     if (!((X > RADIUS)&&(Y > RADIUS)))
       dis = RADIUS - vnl_math_max(X, Y);

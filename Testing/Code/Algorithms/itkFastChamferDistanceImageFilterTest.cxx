@@ -41,7 +41,7 @@ SimpleSignedDistance( const TPoint & p )
     accum += vnl_math_sqr( p[j] - center[j] );
     }
   accum = vcl_sqrt( accum );
-  if (fabs(accum - radius) > 1)
+  if (vnl_math_abs(accum - radius) > 1)
     {
     if((accum - radius) > 0)
       return radius;

@@ -165,7 +165,7 @@ try {
  iter.GoToBegin();
  while (!iter.IsAtEnd())
  {
-      if (fabs(iter.Get()) < 5)
+      if (vnl_math_abs(iter.Get()) < 5)
          {
          node.m_Index=iter.GetIndex();
          band->PushBack(node);

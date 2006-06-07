@@ -203,7 +203,7 @@ int itkImageRegistrationMethodTest_5_Func( int argc,
     // the parameters are negated in order to get the inverse transformation.
     // this only works for comparing translation parameters....
     std::cout << finalParameters[i+offsetOrder] << " == " << -actualParameters[i] << std::endl;
-    if( fabs ( finalParameters[i+offsetOrder] - (-actualParameters[i]) ) > tolerance )
+    if( vnl_math_abs ( finalParameters[i+offsetOrder] - (-actualParameters[i]) ) > tolerance )
       {
       std::cout << "Tolerance exceeded at component " << i << std::endl;
       pass = false;

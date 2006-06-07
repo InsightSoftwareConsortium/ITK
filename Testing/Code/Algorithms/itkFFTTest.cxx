@@ -149,10 +149,10 @@ test_fft(unsigned int *SizeOfDimensions)
     {
     TPixel val = OriginalImageIterator.Value();
     TPixel val2 = InverseFFTImageIterator.Value();
-    TPixel diff = fabs(val-val2);
+    TPixel diff = vnl_math_abs(val-val2);
     if(val != 0)
       {
-      diff /= fabs(val);
+      diff /= vnl_math_abs(val);
       }
     if(diff > 0.01)
       {

@@ -97,7 +97,7 @@ SimpleVelocity( const TPoint & p )
     }  
   else
     {
-    value = atan( y / x );
+    value = vcl_atan( y / x );
     if ( value < 0.0 )
       {
       value += vnl_math::pi;

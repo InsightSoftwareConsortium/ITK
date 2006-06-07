@@ -171,26 +171,26 @@ itkImageMomentsTest( int itkNotUsed(argc), char * itkNotUsed(argv) [] )
 
 
     /* Compute and report max abs error in computed */
-    double tmerr = fabs(ttm - ctm);  // Error in total mass
+    double tmerr = vnl_math_abs(ttm - ctm);  // Error in total mass
     double cgerr = 0.0;             // Error in center of gravity
     double pmerr = 0.0;             // Error in moments
     double paerr = 0.0;             // Error in axes
 
     for ( int i = 0; i < 3; ++i) 
     {
-      if ( fabs(ccg[i] - tcg[i]) > cgerr ) 
+      if ( vnl_math_abs(ccg[i] - tcg[i]) > cgerr ) 
       {
-        cgerr = fabs(ccg[i] - tcg[i]);
+        cgerr = vnl_math_abs(ccg[i] - tcg[i]);
       }
-      if ( fabs(cpm[i] - tpm[i]) > pmerr ) 
+      if ( vnl_math_abs(cpm[i] - tpm[i]) > pmerr ) 
       {
-        pmerr = fabs(cpm[i] - tpm[i]);
+        pmerr = vnl_math_abs(cpm[i] - tpm[i]);
       }
       for (int j = 0; j < 3; ++j) 
       {
-        if ( fabs(cpa[i][j] - tpa[i][j]) > paerr)
+        if ( vnl_math_abs(cpa[i][j] - tpa[i][j]) > paerr)
         {
-          paerr = fabs(cpa[i][j] - tpa[i][j]);
+          paerr = vnl_math_abs(cpa[i][j] - tpa[i][j]);
         }
       }
     }
