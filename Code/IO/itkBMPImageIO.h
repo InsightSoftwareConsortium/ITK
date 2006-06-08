@@ -24,6 +24,7 @@
 #include <fstream>
 #include "itkImageIOBase.h"
 #include <stdio.h>
+#include "itkRGBPixel.h"
 
 namespace itk
 {
@@ -39,9 +40,10 @@ class ITK_EXPORT BMPImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef BMPImageIO            Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef BMPImageIO              Self;
+  typedef ImageIOBase             Superclass;
+  typedef SmartPointer<Self>      Pointer;
+  typedef RGBPixel<unsigned char> RGBPixelType;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -91,6 +93,11 @@ private:
   bool            m_FileLowerLeft;
   short           m_Depth;
   bool            m_Allow8BitBMP;
+  short           m_NumberOfColors;
+  long            m_BMPCompression;
+  long            m_BMPDataSize;
+  std::vector<RGBPixelType> m_ColorPalette;
+ 
 };
 
 } // end namespace itk

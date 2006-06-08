@@ -44,6 +44,9 @@ BMPImageIO::BMPImageIO()
   m_FileLowerLeft = 0;
   m_Depth = 8;
   m_Allow8BitBMP = true;
+  m_NumberOfColors = 0;
+  m_BMPCompression = 0;
+  m_BMPDataSize = 0;
 }
 
 
@@ -158,8 +161,6 @@ bool BMPImageIO::CanReadFile( const char* filename )
 
 }
   
-
-
 bool BMPImageIO::CanWriteFile( const char * name )
 {
   std::string filename = name;
@@ -194,14 +195,10 @@ bool BMPImageIO::CanWriteFile( const char * name )
     return true;
     }
   return false;
-
 }
-
-
  
 void BMPImageIO::Read(void* buffer)
 {
-
   char * p = static_cast<char *>(buffer);
   unsigned long l=0;
   unsigned long step = this->GetNumberOfComponents();
@@ -216,12 +213,53 @@ void BMPImageIO::Read(void* buffer)
   char* value = new char[paddedStreamRead+1];
   if (m_FileLowerLeft)
     {
+    // If the file is RLE compressed
+    if(m_BMPCompression == 1 && this->GetNumberOfComponents()==3)
+      {
+      delete [] value;
+      value = new char[m_BMPDataSize+1];
+      m_Ifstream.seekg(m_BitMapOffset,std::ios::beg);
+      m_Ifstream.read((char *)value, m_BMPDataSize);
+ 
+      unsigned int posLine=0;
+      unsigned int line = m_Dimensions[1]-1;
+      for(unsigned int i=0;i<m_BMPDataSize;i++)
+        {
+        unsigned long n = value[i];
+        i++;
+        unsigned char valpix = value[i];
+        for(unsigned long j=0;j<n;j++)
+          {
+          RGBPixelType rbg;
+          if((valpix>=0) && (valpix<m_ColorPalette.size()))
+            {
+            rbg = m_ColorPalette[valpix];
+            }
+          else
+            {
+            rbg.SetRed(0);
+            rbg.SetGreen(0);
+            rbg.SetBlue(0);
+            }
+          l=3*(line*m_Dimensions[0]+posLine);
+          p[l]=rbg.GetBlue();
+          p[l+1]=rbg.GetGreen();
+          p[l+2]=rbg.GetRed();
+          posLine++;
+          if(posLine == m_Dimensions[0])
+            {
+            line--;
+            posLine=0;
+            }
+          }
+        }
+      }
+    else
     for(unsigned int id=0;id<m_Dimensions[1];id++)
       {
       m_Ifstream.seekg(m_BitMapOffset + paddedStreamRead*(m_Dimensions[1] - id - 1),std::ios::beg);
       m_Ifstream.read((char *)value, paddedStreamRead);
-
-      for(long i=0;i<streamRead;i+=step)
+      for(long i=0;i<streamRead;i++)
         {
         if(this->GetNumberOfComponents() == 1)
           {
@@ -229,9 +267,31 @@ void BMPImageIO::Read(void* buffer)
           }
         else
           {
-          p[l++]=value[i+2];
-          p[l++]=value[i+1];
-          p[l++]=value[i];
+          if(m_NumberOfColors == 0)
+            {
+            p[l++]=value[i+2];
+            p[l++]=value[i+1];
+            p[l++]=value[i];
+            i += step-1;
+            }
+          else
+            {
+            unsigned char val = value[i];       
+            RGBPixelType rbg;
+            if((val>=0) && (val<m_ColorPalette.size()))
+              {
+              rbg = m_ColorPalette[val];
+              }
+            else
+              {
+              rbg.SetRed(0);
+              rbg.SetGreen(0);
+              rbg.SetBlue(0);
+              }
+            p[l++]=rbg.GetBlue();
+            p[l++]=rbg.GetGreen();
+            p[l++]=rbg.GetRed();
+            }
           }
         }
       }
@@ -268,7 +328,6 @@ void BMPImageIO::Read(void* buffer)
  */
 void BMPImageIO::ReadImageInformation()
 {
-
   int xsize, ysize;
   long tmp;
   short stmp;
@@ -423,11 +482,57 @@ void BMPImageIO::ReadImageInformation()
   // skip over rest of info for long format
   if (infoSize == 40)
     {
+    // Compression
+    m_Ifstream.read((char*)&m_BMPCompression,4);
+    ByteSwapper<long>::SwapFromSystemToLittleEndian(&m_BMPCompression);
+    // Image Data Size
+    m_Ifstream.read((char*)&m_BMPDataSize,4);
+    ByteSwapper<long>::SwapFromSystemToLittleEndian(&m_BMPDataSize);
+    // Horizontal Resolution
     m_Ifstream.read((char*)&tmp,4);
+    // Vertical Resolution
     m_Ifstream.read((char*)&tmp,4);
+    // Number of colors
     m_Ifstream.read((char*)&tmp,4);
+    m_NumberOfColors = tmp;
+    // Number of important colors
     m_Ifstream.read((char*)&tmp,4);
-    m_Ifstream.read((char*)&tmp,4);
+    }
+  else
+    {
+    // Compression
+    m_Ifstream.read((char*)&tmp,sizeof(long));
+    ByteSwapper<long>::SwapFromSystemToLittleEndian(&tmp);
+    // Image Data Size
+    m_Ifstream.read((char*)&tmp,sizeof(long));
+    ByteSwapper<long>::SwapFromSystemToLittleEndian(&tmp);
+    // Horizontal Resolution
+    m_Ifstream.read((char*)&tmp,sizeof(long));
+    ByteSwapper<long>::SwapFromSystemToLittleEndian(&tmp);
+    // Vertical Resolution
+    m_Ifstream.read((char*)&tmp,sizeof(long));
+    ByteSwapper<long>::SwapFromSystemToLittleEndian(&tmp);
+    // Number of colors
+    m_Ifstream.read((char*)&tmp,sizeof(long));
+    ByteSwapper<long>::SwapFromSystemToLittleEndian(&tmp);
+    m_NumberOfColors = tmp;
+    // Number of important colors
+    m_Ifstream.read((char*)&tmp,sizeof(long));
+    ByteSwapper<long>::SwapFromSystemToLittleEndian(&tmp);
+    }
+    
+  // Read the color palette
+  for(unsigned long i=0;i<m_NumberOfColors;i++)
+    {
+    RGBPixelType p;
+    m_Ifstream.read((char*)&tmp,1);
+    p.SetRed(tmp);
+    m_Ifstream.read((char*)&tmp,1);
+    p.SetGreen(tmp);
+    m_Ifstream.read((char*)&tmp,1);
+    p.SetBlue(tmp);
+    m_Ifstream.read((char*)&tmp,1);
+    m_ColorPalette.push_back(p);
     }
 
   if ((m_Depth == 8) && m_Allow8BitBMP)
@@ -439,6 +544,10 @@ void BMPImageIO::ReadImageInformation()
     this->SetNumberOfComponents(3);
     }
 
+  if(m_NumberOfColors>0)
+    {
+    this->SetNumberOfComponents(3);
+    }
 }
 
 
@@ -753,6 +862,8 @@ void BMPImageIO::PrintSelf(std::ostream& os, Indent indent) const
     {
     os << indent << "m_Allow8BitBMP : False" << "\n";
     }
+  os << indent << "BMPCompression = " << m_BMPCompression << "\n";
+  os << indent << "DataSize = " << m_BMPDataSize << "\n";
 }
 
 
