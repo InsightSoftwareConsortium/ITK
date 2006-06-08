@@ -22,6 +22,7 @@
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkMultiResolutionPyramidImageFilter.h"
 #include "itkNumericTraits.h"
+#include "itkDataObjectDecorator.h"
 
 namespace itk
 {
@@ -96,6 +97,12 @@ public:
   typedef typename MetricType::TransformType       TransformType;
   typedef typename TransformType::Pointer          TransformPointer;
 
+  /** Type for the output: Using Decorator pattern for enabling
+   *  the Transform to be passed in the data pipeline */
+  typedef  DataObjectDecorator< TransformType >    TransformOutputType;
+  typedef typename TransformOutputType::Pointer    TransformOutputPointer;
+  typedef typename TransformOutputType::ConstPointer    TransformOutputConstPointer;
+  
   /**  Type of the Interpolator. */
   typedef typename MetricType::InterpolatorType    InterpolatorType;
   typedef typename InterpolatorType::Pointer       InterpolatorPointer;
@@ -118,6 +125,9 @@ public:
   /** Type of the Transformation parameters This is the same type used to
    *  represent the search space of the optimization algorithm */
   typedef  typename MetricType::TransformParametersType    ParametersType;
+
+  /** Smart Pointer type to a DataObject. */
+  typedef typename DataObject::Pointer DataObjectPointer;
 
   /** Method that initiates the registration. */
   void StartRegistration();
@@ -183,10 +193,25 @@ public:
    * the optimizer. */
   itkGetConstReferenceMacro( LastTransformParameters, ParametersType );  
 
+  /** Returns the transform resulting from the registration process  */
+  const TransformOutputType * GetOutput() const;
+
+  /** Make a DataObject of the correct type to be used as the specified
+   * output. */
+  virtual DataObjectPointer MakeOutput(unsigned int idx);
+
+  /** Method to return the latest modified time of this object or
+   * any of its cached ivars */
+  unsigned long GetMTime() const;  
+  
 protected:
   MultiResolutionImageRegistrationMethod();
   virtual ~MultiResolutionImageRegistrationMethod() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** Method invoked by the pipeline in order to trigger the computation of 
+   * the registration. */
+  void  GenerateData ();
 
   /** Initialize by setting the interconnects between the components.
       This method is executed at every level of the pyramid with the

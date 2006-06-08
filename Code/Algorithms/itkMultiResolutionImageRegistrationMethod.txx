@@ -30,6 +30,7 @@ template < typename TFixedImage, typename TMovingImage >
 MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 ::MultiResolutionImageRegistrationMethod()
 {
+  this->SetNumberOfRequiredOutputs( 1 );  // for the Transform
 
   m_FixedImage   = 0; // has to be provided by the user.
   m_MovingImage  = 0; // has to be provided by the user.
@@ -56,6 +57,12 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
   m_InitialTransformParametersOfNextLevel.Fill( 0.0f );
   m_LastTransformParameters.Fill( 0.0f );
 
+
+  TransformOutputPointer transformDecorator = 
+                 static_cast< TransformOutputType * >( 
+                                  this->MakeOutput(0).GetPointer() );
+
+  this->ProcessObject::SetNthOutput( 0, transformDecorator.GetPointer() );
 }
 
 
@@ -101,6 +108,13 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
   m_Optimizer->SetCostFunction( m_Metric );
   m_Optimizer->SetInitialPosition( m_InitialTransformParametersOfNextLevel );
 
+  //
+  // Connect the transform to the Decorator.
+  //
+  TransformOutputType * transformOutput =  
+     static_cast< TransformOutputType * >( this->ProcessObject::GetOutput(0) );
+
+  transformOutput->Set( m_Transform.GetPointer() );
 
 }
 
@@ -225,63 +239,81 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 ::StartRegistration( void )
 { 
 
-  m_Stop = false;
-
-  this->PreparePyramids();
-
-  for ( m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels;
-        m_CurrentLevel++ )
+  // StartRegistration is an old API from before
+  // this egistrationMethod was a subclass of ProcessObject.
+  // Historically, one could call StartRegistration() instead of
+  // calling Update().  However, when called directly by the user, the
+  // inputs to the RegistrationMethod may not be up to date.  This
+  // may cause an unexpected behavior.
+  //
+  // Since we cannot eliminate StartRegistration for backward
+  // compability reasons, we check whether StartRegistration was
+  // called directly or whether Update() (which in turn called 
+  // StartRegistration()).
+  if (!m_Updating)
     {
-
-    // Invoke an iteration event.
-    // This allows a UI to reset any of the components between
-    // resolution level.
-    this->InvokeEvent( IterationEvent() );
-
-    // Check if there has been a stop request
-    if ( m_Stop ) 
+    this->Update();
+    }
+  else
+    {
+    m_Stop = false;
+    
+    this->PreparePyramids();
+    
+    for ( m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels;
+          m_CurrentLevel++ )
       {
-      break;
-      }
-
-    try
-      {
-      // initialize the interconnects between components
-      this->Initialize();
-      }
-    catch( ExceptionObject& err )
-      {
-      m_LastTransformParameters = ParametersType(1);
-      m_LastTransformParameters.Fill( 0.0f );
-
-      // pass exception to caller
-      throw err;
-      }
-
-    try
-      {
-      // do the optimization
-      m_Optimizer->StartOptimization();
-      }
-    catch( ExceptionObject& err )
-      {
-      // An error has occurred in the optimization.
-      // Update the parameters
+      
+      // Invoke an iteration event.
+      // This allows a UI to reset any of the components between
+      // resolution level.
+      this->InvokeEvent( IterationEvent() );
+      
+      // Check if there has been a stop request
+      if ( m_Stop ) 
+        {
+        break;
+        }
+      
+      try
+        {
+        // initialize the interconnects between components
+        this->Initialize();
+        }
+      catch( ExceptionObject& err )
+        {
+        m_LastTransformParameters = ParametersType(1);
+        m_LastTransformParameters.Fill( 0.0f );
+        
+        // pass exception to caller
+        throw err;
+        }
+      
+      try
+        {
+        // do the optimization
+        m_Optimizer->StartOptimization();
+        }
+      catch( ExceptionObject& err )
+        {
+        // An error has occurred in the optimization.
+        // Update the parameters
+        m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
+        
+        // Pass exception to caller
+        throw err;
+        }
+      
+      // get the results
       m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
-
-      // Pass exception to caller
-      throw err;
-      }
-
-    // get the results
-    m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
-    m_Transform->SetParameters( m_LastTransformParameters );
-
-    // setup the initial parameters for next level
-    if ( m_CurrentLevel < m_NumberOfLevels - 1 )
-      {
-      m_InitialTransformParametersOfNextLevel =
-        m_LastTransformParameters;
+      m_Transform->SetParameters( m_LastTransformParameters );
+      
+      // setup the initial parameters for next level
+      if ( m_CurrentLevel < m_NumberOfLevels - 1 )
+        {
+        m_InitialTransformParametersOfNextLevel =
+          m_LastTransformParameters;
+        }
       }
     }
 
@@ -331,7 +363,99 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
+/*
+ * Generate Data
+ */
+template < typename TFixedImage, typename TMovingImage >
+void
+MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
+::GenerateData()
+{
+  this->StartRegistration();
+}
 
+
+
+template < typename TFixedImage, typename TMovingImage >
+unsigned long
+MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
+::GetMTime() const
+{
+  unsigned long mtime = Superclass::GetMTime();
+  unsigned long m;
+
+
+  // Some of the following should be removed once ivars are put in the
+  // input and output lists
+  
+  if (m_Transform)
+    {
+    m = m_Transform->GetMTime();
+    mtime = (m > mtime ? m : mtime);
+    }
+
+  if (m_Interpolator)
+    {
+    m = m_Interpolator->GetMTime();
+    mtime = (m > mtime ? m : mtime);
+    }
+
+  if (m_Metric)
+    {
+    m = m_Metric->GetMTime();
+    mtime = (m > mtime ? m : mtime);
+    }
+
+  if (m_Optimizer)
+    {
+    m = m_Optimizer->GetMTime();
+    mtime = (m > mtime ? m : mtime);
+    }
+
+  if (m_FixedImage)
+    {
+    m = m_FixedImage->GetMTime();
+    mtime = (m > mtime ? m : mtime);
+    }
+
+  if (m_MovingImage)
+    {
+    m = m_MovingImage->GetMTime();
+    mtime = (m > mtime ? m : mtime);
+    }
+
+  return mtime;
+  
+}
+
+/*
+ *  Get Output
+ */
+template < typename TFixedImage, typename TMovingImage >
+const typename MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>::TransformOutputType *
+MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
+::GetOutput() const
+{
+  return static_cast< const TransformOutputType * >( this->ProcessObject::GetOutput(0) );
+}
+
+
+
+template < typename TFixedImage, typename TMovingImage >
+DataObject::Pointer
+MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
+::MakeOutput(unsigned int output)
+{
+  switch (output)
+    {
+    case 0:
+      return static_cast<DataObject*>(TransformOutputType::New().GetPointer());
+      break;
+    default:
+      itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");
+      return 0;
+    }
+}
 
 } // end namespace itk
 
