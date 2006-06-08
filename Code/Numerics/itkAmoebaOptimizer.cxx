@@ -202,6 +202,7 @@ AmoebaOptimizer
     }
 
   ParametersType initialPosition = this->GetInitialPosition();
+  this->SetCurrentPosition( initialPosition );
 
   ParametersType parameters( initialPosition );
 
