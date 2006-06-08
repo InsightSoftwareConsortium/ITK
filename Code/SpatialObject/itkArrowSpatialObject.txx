@@ -131,9 +131,7 @@ template< unsigned int TDimension >
 bool 
 ArrowSpatialObject< TDimension >
 ::IsInside( const PointType & point) const
-{  
-  
-
+{
   if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
@@ -169,7 +167,6 @@ ArrowSpatialObject< TDimension >
 }
 
 
-
 /** Update the local transform from the position and the direction */ 
 template< unsigned int TDimension >
 void  
@@ -199,6 +196,7 @@ ArrowSpatialObject< TDimension >
 
   m_Direction.Normalize();
 
+#ifndef __BORLANDC__
 #if(TDimension == 3)
   
   typedef itk::Euler3DTransform<double> EulerTransformType;
@@ -236,6 +234,7 @@ ArrowSpatialObject< TDimension >
   angley = -asin(m_Direction[2]);
   euler->SetRotation(0,angley,anglez);
   this->GetObjectToParentTransform()->SetMatrix(euler->GetRotationMatrix());
+#endif
 #endif
 
   this->Modified();
