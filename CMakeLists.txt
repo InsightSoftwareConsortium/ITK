@@ -178,6 +178,61 @@ ELSE( NOT BORLAND )
 ENDIF( NOT BORLAND )
 
 #-----------------------------------------------------------------------------
+# Installation vars.
+# ITK_INSTALL_BIN_DIR          - binary dir (executables)
+# ITK_INSTALL_LIB_DIR          - library dir (libs)
+# ITK_INSTALL_DATA_DIR         - share dir (say, examples, data, etc)
+# ITK_INSTALL_INCLUDE_DIR      - include dir (headers)
+# ITK_INSTALL_PACKAGE_DIR      - package/export configuration files
+# ITK_INSTALL_NO_DEVELOPMENT   - do not install development files
+# ITK_INSTALL_NO_RUNTIME       - do not install runtime files
+# ITK_INSTALL_NO_DOCUMENTATION - do not install documentation files
+
+IF(NOT ITK_INSTALL_BIN_DIR)
+  SET(ITK_INSTALL_BIN_DIR "/bin")
+ENDIF(NOT ITK_INSTALL_BIN_DIR)
+
+IF(NOT ITK_INSTALL_LIB_DIR)
+  SET(ITK_INSTALL_LIB_DIR "/lib/InsightToolkit")
+ENDIF(NOT ITK_INSTALL_LIB_DIR)
+
+IF(NOT ITK_INSTALL_DATA_DIR)
+  SET(ITK_INSTALL_DATA_DIR "/share/InsightToolkit")
+ENDIF(NOT ITK_INSTALL_DATA_DIR)
+
+IF(NOT ITK_INSTALL_INCLUDE_DIR)
+  SET(ITK_INSTALL_INCLUDE_DIR "/include/InsightToolkit")
+ENDIF(NOT ITK_INSTALL_INCLUDE_DIR)
+
+IF(NOT ITK_INSTALL_PACKAGE_DIR)
+  SET(ITK_INSTALL_PACKAGE_DIR ${ITK_INSTALL_LIB_DIR}
+    CACHE INTERNAL "")
+ENDIF(NOT ITK_INSTALL_PACKAGE_DIR)
+
+IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
+  SET(ITK_INSTALL_NO_DEVELOPMENT 0)
+ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
+
+IF(NOT ITK_INSTALL_NO_RUNTIME)
+  SET(ITK_INSTALL_NO_RUNTIME 0)
+ENDIF(NOT ITK_INSTALL_NO_RUNTIME)
+
+IF(NOT ITK_INSTALL_NO_DOCUMENTATION)
+  SET(ITK_INSTALL_NO_DOCUMENTATION 0)
+ENDIF(NOT ITK_INSTALL_NO_DOCUMENTATION)
+
+SET(ITK_INSTALL_NO_LIBRARIES)
+IF(ITK_BUILD_SHARED_LIBS)
+  IF(ITK_INSTALL_NO_RUNTIME AND ITK_INSTALL_NO_DEVELOPMENT)
+    SET(ITK_INSTALL_NO_LIBRARIES 1)
+  ENDIF(ITK_INSTALL_NO_RUNTIME AND ITK_INSTALL_NO_DEVELOPMENT)
+ELSE(ITK_BUILD_SHARED_LIBS)
+  IF(ITK_INSTALL_NO_DEVELOPMENT)
+    SET(ITK_INSTALL_NO_LIBRARIES 1)
+  ENDIF(ITK_INSTALL_NO_DEVELOPMENT)
+ENDIF(ITK_BUILD_SHARED_LIBS)
+
+#-----------------------------------------------------------------------------
 # Do we need CableSwig?
 SET(ITK_NEED_CableSwig 0)
 
@@ -213,7 +268,7 @@ IF(ITK_NEED_CableSwig)
     SET(ITK_BUILD_CABLESWIG 1)
     SET(CableSwig_DIR ${ITK_BINARY_DIR}/Utilities/CableSwig)
     SET(CableSwig_FOUND 1)
-    SET(CableSwig_INSTALL_ROOT /lib/InsightToolkit/CSwig)
+    SET(CableSwig_INSTALL_ROOT ${ITK_INSTALL_LIB_DIR}/CSwig)
     INCLUDE(${CableSwig_DIR}/CableSwigConfig.cmake OPTIONAL) 
   ELSE(EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
     # CableSwig is not included in the source distribution.  Find it.
@@ -525,11 +580,18 @@ MARK_AS_ADVANCED(ITK_DATA_ROOT)
 #-----------------------------------------------------------------------------
 # Configure files with settings for use by the build.
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/itkConfigure.h.in 
-               ${ITK_BINARY_DIR}/itkConfigure.h)
+  ${ITK_BINARY_DIR}/itkConfigure.h)
+IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
+  INSTALL_FILES(${ITK_INSTALL_INCLUDE_DIR} FILES 
+    ${ITK_BINARY_DIR}/itkConfigure.h)
+ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
+
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
                ${ITK_BINARY_DIR}/doxygen.config)
+
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in
                ${ITK_BINARY_DIR}/itkdoxygen.pl)
+
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/KWStyle/ITK.kws.xml.in
                ${ITK_BINARY_DIR}/ITK.kws.xml)
 
@@ -584,7 +646,6 @@ CONFIGURE_FILE(${ITK_SOURCE_DIR}/UseITK.cmake.in
 # Save the compiler settings so another project can import them.
 INCLUDE(${CMAKE_ROOT}/Modules/CMakeExportBuildSettings.cmake)
 CMAKE_EXPORT_BUILD_SETTINGS(${ITK_BINARY_DIR}/ITKBuildSettings.cmake)
-INSTALL_FILES(/lib/InsightToolkit .cmake ITKBuildSettings)
 
 # Save library dependencies.
 EXPORT_LIBRARY_DEPENDENCIES(${ITK_BINARY_DIR}/ITKLibraryDepends.cmake)
@@ -592,9 +653,12 @@ EXPORT_LIBRARY_DEPENDENCIES(${ITK_BINARY_DIR}/ITKLibraryDepends.cmake)
 # Create the ITKConfig.cmake file containing the ITK configuration.
 INCLUDE (${ITK_SOURCE_DIR}/itkGenerateITKConfig.cmake)
 
-# Install some files.
-INSTALL_FILES(/include/InsightToolkit .h itkConfigure)
-INSTALL_FILES(/lib/InsightToolkit .cmake UseITK ITKLibraryDepends)
+IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
+  INSTALL_FILES(${ITK_INSTALL_PACKAGE_DIR} FILES
+    ${ITK_BINARY_DIR}/ITKBuildSettings.cmake
+    ${ITK_BINARY_DIR}/ITKLibraryDepends.cmake
+    )
+ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
 
 #-----------------------------------------------------------------------------
 # Add compiler flags ITK needs to work on this platform.  This must be

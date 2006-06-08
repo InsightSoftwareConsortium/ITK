@@ -365,12 +365,21 @@ ENDIF( BUILD_TESTING)
 IF(ITK_LIBRARY_PROPERTIES)
   SET_TARGET_PROPERTIES(itkvcl PROPERTIES ${ITK_LIBRARY_PROPERTIES})
 ENDIF(ITK_LIBRARY_PROPERTIES)
-INSTALL_TARGETS(/lib/InsightToolkit itkvcl)
-INSTALL_FILES(${VXL_INSTALL_ROOT}/vcl "(\\.h|\\.txx)$")
-INSTALL_FILES(${VXL_INSTALL_ROOT}/vcl ".h"
-              "vcl_config_compiler"
-              "vcl_config_headers"
-              "vcl_config_manual")
+
+IF(NOT VXL_INSTALL_NO_LIBRARIES)
+  INSTALL_TARGETS(
+    ${VXL_INSTALL_LIB_DIR}
+    RUNTIME_DIRECTORY ${VXL_INSTALL_BIN_DIR}
+    itkvcl)
+ENDIF(NOT VXL_INSTALL_NO_LIBRARIES)
+
+IF(NOT VXL_INSTALL_NO_DEVELOPMENT)
+  INSTALL_FILES(${VXL_INSTALL_ROOT}/vcl "(\\.h|\\.txx)$")
+  INSTALL_FILES(${VXL_INSTALL_ROOT}/vcl ".h"
+    "vcl_config_compiler"
+    "vcl_config_headers"
+    "vcl_config_manual")
+ENDIF(NOT VXL_INSTALL_NO_DEVELOPMENT)
 
 SUBDIRS(borland55 borland56 egcs emulation gcc generic iso mwerks sgi
         sunpro vcl_sys)

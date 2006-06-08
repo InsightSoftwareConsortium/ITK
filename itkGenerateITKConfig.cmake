@@ -55,15 +55,15 @@ CONFIGURE_FILE(${ITK_SOURCE_DIR}/ITKConfig.cmake.in
 # Settings specific to the install tree.
 
 # The "use" file.
-SET(ITK_USE_FILE ${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit/UseITK.cmake)
+SET(ITK_USE_FILE ${CMAKE_INSTALL_PREFIX}${ITK_INSTALL_LIB_DIR}/UseITK.cmake)
 
 # The library dependencies file.
 SET(ITK_LIBRARY_DEPENDS_FILE
-    ${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit/ITKLibraryDepends.cmake)
+    ${CMAKE_INSTALL_PREFIX}${ITK_INSTALL_LIB_DIR}/ITKLibraryDepends.cmake)
 
 # The build settings file.
 SET(ITK_BUILD_SETTINGS_FILE
-    ${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit/ITKBuildSettings.cmake)
+    ${CMAKE_INSTALL_PREFIX}${ITK_INSTALL_LIB_DIR}/ITKBuildSettings.cmake)
 
 # Include directories.
 SET(ITK_INCLUDE_DIRS_CONFIG
@@ -72,7 +72,7 @@ SET(ITK_INCLUDE_DIRS_CONFIG
 )
 
 # Link directories.
-SET(ITK_LIBRARY_DIRS_CONFIG ${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit)
+SET(ITK_LIBRARY_DIRS_CONFIG ${CMAKE_INSTALL_PREFIX}${ITK_INSTALL_LIB_DIR})
 
 # The CableSwig configuration directory.
 IF(ITK_NEED_CableSwig)

@@ -24,6 +24,6 @@ INSTALL_PROGRAMS(/bin itkwish itkwish)
 IF(ITK_LIBRARY_PROPERTIES)
   SET_TARGET_PROPERTIES(itkwish PROPERTIES ${ITK_LIBRARY_PROPERTIES})
 ENDIF(ITK_LIBRARY_PROPERTIES)
-INSTALL_TARGETS(/lib/InsightToolkit itkwish)
+INSTALL_TARGETS(${ITK_INSTALL_LIB_DIR} itkwish)
 
-INSTALL_FILES(/lib/InsightToolkit/tcl .tcl itkinteraction itktesting itkdata)
+INSTALL_FILES(${ITK_INSTALL_LIB_DIR}/tcl .tcl itkinteraction itktesting itkdata)

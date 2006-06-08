@@ -21,7 +21,7 @@ ENDIF(ITK_CSWIG_JAVA)
 IF(WIN32)
   SET(ITK_INSTALL_JAVA_LIBS_DIR /bin)
 ELSE(WIN32)
-  SET(ITK_INSTALL_JAVA_LIBS_DIR /lib/InsightToolkit)
+  SET(ITK_INSTALL_JAVA_LIBS_DIR ${ITK_INSTALL_LIB_DIR})
 ENDIF(WIN32)
 
 # We have found CableSwig.  Use the settings.
@@ -349,7 +349,7 @@ SET(ITK_CSWIG_TEST_ROOT "<NO_DEFAULT>")
 CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/Tcl/pkgIndex.tcl.in"
                "${ITK_BINARY_DIR}/Wrapping/CSwig/Tcl/InstallOnly/Hide/pkgIndex.tcl"
                IMMEDIATE @ONLY)
-INSTALL_FILES(/lib/InsightToolkit/tcl FILES
+INSTALL_FILES(${ITK_INSTALL_LIB_DIR}/tcl FILES
               "${ITK_BINARY_DIR}/Wrapping/CSwig/Tcl/InstallOnly/Hide/pkgIndex.tcl")
 
 #-----------------------------------------------------------------------------
@@ -503,7 +503,7 @@ IF(ITK_CSWIG_PYTHON)
         ${WrapITK_BINARY_DIR}/pythonfiles.sh @ONLY IMMEDIATE)
       EXEC_PROGRAM(chmod ${WrapITK_BINARY_DIR} ARGS 755 pythonfiles.sh
         OUTPUT_VARIABLE ITK_EXEC_PLEASE_BE_QUIET)
-      INSTALL_FILES(/lib/InsightToolkit FILES "`${WrapITK_BINARY_DIR}/pythonfiles.sh`")
+      INSTALL_FILES(${ITK_INSTALL_LIB_DIR} FILES "`${WrapITK_BINARY_DIR}/pythonfiles.sh`")
     ENDIF(UNIX)
   ELSE(ITK_OLD_CMAKE_INSTALL)
     CONFIGURE_FILE(
@@ -517,7 +517,7 @@ IF(ITK_CSWIG_PYTHON)
 
   # Install the package python files.
   FOREACH(file ${ITK_PYTHON_FILES})
-    INSTALL_FILES(/lib/InsightToolkit/python FILES
+    INSTALL_FILES(${ITK_INSTALL_LIB_DIR}/python FILES
       "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/${file}.py")
   ENDFOREACH(file)
   
@@ -527,7 +527,7 @@ IF(ITK_CSWIG_PYTHON)
   CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/Python/itkbase.py.in"
                  "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/InstallOnly/itkbase.py"
                  @ONLY IMMEDIATE)
-  INSTALL_FILES(/lib/InsightToolkit/python FILES
+  INSTALL_FILES(${ITK_INSTALL_LIB_DIR}/python FILES
     "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/InstallOnly/itkbase.py")
 ENDIF(ITK_CSWIG_PYTHON)
 
@@ -600,7 +600,7 @@ MACRO(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_
     SET_TARGET_PROPERTIES(${LIBRARY_NAME}Tcl PROPERTIES LINK_FLAGS "${CSWIG_EXTRA_LINKFLAGS}")
     ENDIF(ITK_LIBRARY_PROPERTIES)
     TARGET_LINK_LIBRARIES(${LIBRARY_NAME}Tcl ${EXTRA_LIBS} SwigRuntimeTcl ${TCL_LIBRARY})
-    INSTALL_TARGETS(/lib/InsightToolkit ${LIBRARY_NAME}Tcl )
+    INSTALL_TARGETS(${ITK_INSTALL_LIB_DIR} ${LIBRARY_NAME}Tcl )
     IF(ITK_SWIG_FILE)
       ADD_CUSTOM_COMMAND(
         COMMENT "run native swig on ${ITK_SWIG_FILE}"
@@ -638,7 +638,7 @@ MACRO(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_
         ADD_DEPENDENCIES(${LIBRARY_NAME}Perl ${lib}Perl)
       ENDFOREACH(lib)
     ENDIF(ITK_WRAP_NEEDS_DEPEND)
-    INSTALL_TARGETS(/lib/InsightToolkit ${LIBRARY_NAME}Perl )
+    INSTALL_TARGETS(${ITK_INSTALL_LIB_DIR} ${LIBRARY_NAME}Perl )
     IF(ITK_SWIG_FILE)
       ADD_CUSTOM_COMMAND(
         COMMENT "run native swig on ${ITK_SWIG_FILE}"
@@ -676,7 +676,7 @@ MACRO(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_
     SET_TARGET_PROPERTIES( _${LIBRARY_NAME}Python PROPERTIES PREFIX "")
     ENDIF(ITK_LIBRARY_PROPERTIES)
     TARGET_LINK_LIBRARIES(_${LIBRARY_NAME}Python ${EXTRA_LIBS} SwigRuntimePython ${PYTHON_LIBRARY})
-    INSTALL_TARGETS(/lib/InsightToolkit _${LIBRARY_NAME}Python) 
+    INSTALL_TARGETS(${ITK_INSTALL_LIB_DIR} _${LIBRARY_NAME}Python) 
     IF(ITK_SWIG_FILE)
       ADD_CUSTOM_COMMAND(
         COMMENT "run native swig on ${ITK_SWIG_FILE}"

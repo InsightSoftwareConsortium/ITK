@@ -1,1 +1,3 @@
-INSTALL_FILES(/include/InsightToolkit/Numerics/NeuralNetworks "(\\.h|\\.txx)$")
+IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
+  INSTALL_FILES(${ITK_INSTALL_INCLUDE_DIR}/Numerics/NeuralNetworks "(\\.h|\\.txx)$")
+ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
