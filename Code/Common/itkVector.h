@@ -254,8 +254,6 @@ ITKCommon_EXPORT Vector<int,3> CrossProduct( const Vector<int,3> &,
 
 } // end namespace itk
 
-#include "itkNumericTraitsVectorPixel.h"
-
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_Vector(_, EXPORT, x, y) namespace itk { \
@@ -274,5 +272,8 @@ ITKCommon_EXPORT Vector<int,3> CrossProduct( const Vector<int,3> &,
 #if ITK_TEMPLATE_TXX
 # include "itkVector.txx"
 #endif
+
+#include "itkNumericTraitsVectorPixel.h"
+
 
 #endif
