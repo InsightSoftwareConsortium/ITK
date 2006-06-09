@@ -27,7 +27,7 @@ namespace itk
  * filter and reporting these events to std::cout. Formats reports
  * with xml.
  */
-class ITKCommon_EXPORT XMLFilterWatcher: public SimpleFilterWatcher
+class XMLFilterWatcher: public SimpleFilterWatcher
 {
 public:
   XMLFilterWatcher(itk::ProcessObject* o, const char *comment="")
