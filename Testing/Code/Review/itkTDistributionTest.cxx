@@ -238,7 +238,8 @@ int itkTDistributionTest(int, char* [] )
   // Same test but with the parameter vector API
   std::cout << "-----------------------------------------------"
             << std::endl << std::endl;
-  std::cout << "Testing distribution with 11 degrees of freedom (parameter vector API)" << std::endl;
+  std::cout << "Testing distribution with 11 degrees of freedom"
+            << " (parameter vector API)" << std::endl;
   
   std::cout << "Student-t CDF" << std::endl;
   tol = 1e-15;   
@@ -327,7 +328,8 @@ int itkTDistributionTest(int, char* [] )
   // Same test but with the separate parameter API
   std::cout << "-----------------------------------------------"
             << std::endl << std::endl;
-  std::cout << "Testing distribution with 11 degrees of freedom (separate parameter API)" << std::endl;
+  std::cout << "Testing distribution with 11 degrees of freedom"
+            << " (separate parameter API)" << std::endl;
   
   std::cout << "Student-t CDF" << std::endl;
   tol = 1e-15;   

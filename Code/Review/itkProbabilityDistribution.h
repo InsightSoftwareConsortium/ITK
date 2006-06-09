@@ -95,11 +95,11 @@ public:
    * methods for setting parameters, i.e. SetDegreesOfFreedom(), etc.*/
   virtual void SetParameters(const ParametersType& params)
     {
-      if (params != m_Parameters)
-        {
-        m_Parameters = params;
-        this->Modified();
-        }
+    if (params != m_Parameters)
+      {
+      m_Parameters = params;
+      this->Modified();
+      }
     }
 
   /** Evaluate the probability density function (pdf). The parameters
@@ -151,10 +151,10 @@ protected:
   ProbabilityDistribution(void) {}
   virtual ~ProbabilityDistribution(void) {}
   void PrintSelf(std::ostream& os, Indent indent) const
-  {
+    {
     Superclass::PrintSelf(os,indent);
     os << indent << "Parameters: " << m_Parameters << std::endl;
-  };
+    };
 
   ParametersType m_Parameters;
 
@@ -168,8 +168,3 @@ private:
 } // end namespace itk
 
 #endif
-
-
-
-
-

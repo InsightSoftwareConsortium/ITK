@@ -28,7 +28,5 @@ See COPYRIGHT.txt for copyright details.
 
 int main ( int , char*  )
 {
-  
   return 0;
 }
-

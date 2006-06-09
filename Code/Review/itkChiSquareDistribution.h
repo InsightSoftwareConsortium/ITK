@@ -57,7 +57,7 @@ class ITK_EXPORT ChiSquareDistribution :
 public:
   /** Standard class typedefs */
   typedef ChiSquareDistribution    Self;
-  typedef ProbabilityDistribution  Superclass ;
+  typedef ProbabilityDistribution  Superclass;
   typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
