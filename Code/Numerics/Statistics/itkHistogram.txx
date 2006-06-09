@@ -137,85 +137,8 @@ inline const typename Histogram<TMeasurement, VMeasurementVectorSize,
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::GetIndex(const MeasurementVectorType& measurement) const
 {
-  // now using something similar to binary search to find
-  // index.
-  unsigned int dim ;
-  
-  int begin, mid, end ;
-  MeasurementType median ;
-  MeasurementType tempMeasurement ;
-
-  for (dim = 0 ; dim < MeasurementVectorSize ; dim++)
-    {
-    tempMeasurement = measurement[dim] ;
-    begin = 0 ;
-    if (tempMeasurement < m_Min[dim][begin])
-      {
-      // one of measurement is below the minimum
-      if(!m_ClipBinsAtEnds)
-        {
-        m_TempIndex[dim] = (long) 0 ;
-        }
-      else
-        {
-        // If clipping and this is below, then set to an illegal value
-        // then set to m_Size[dim] to flag this as an illegal index;
-        // Must be set to m_Size[dim] since -1 might not be a valid value.
-        // This is why you must call IsIndexOutOfBounds before using the
-        // index returned by this function.
-        m_TempIndex[dim] = (long) m_Size[dim] ;
-        itkWarningMacro(<<"One of the measurements is below the minimum");
-        }
-      }
-
-    end = m_Min[dim].size() - 1 ;
-    if (tempMeasurement >= m_Max[dim][end])
-      {
-      // one of measurement is above the maximum
-      if(!m_ClipBinsAtEnds)
-        {
-        m_TempIndex[dim] = (long) m_Size[dim] - 1;
-        }
-      else
-        {
-        // If clipping and this is below, then set to an illegal value
-        // then set to m_Size[dim] to flag this as an illegal index;
-        // Must be set to m_Size[dim] since -1 might not be a valid value.
-        // This is why you must call IsIndexOutOfBounds before using the
-        // index returned by this function.
-        m_TempIndex[dim] = (long) m_Size[dim] ;
-        itkWarningMacro(<<"One of the measurements is above the maximum");
-        }
-      }
-
-    mid = (end + 1) / 2 ;
-    median = m_Min[dim][mid] ;
-    while(true)
-      {
-      if (tempMeasurement < median )
-        {
-        end = mid - 1 ;
-        } 
-      else if (tempMeasurement > median)
-        {
-        if (tempMeasurement < m_Max[dim][mid])
-          {
-          m_TempIndex[dim] = mid ;
-          break ;
-          }
-              
-        begin = mid + 1 ;
-        }
-      else
-        {
-        // measurement[dim] = m_Min[dim][med] 
-        m_TempIndex[dim] = mid ;
-        break ;
-        }
-      mid = begin + (end - begin) / 2 ;
-      median = m_Min[dim][mid] ;
-      } // end of while
-    } // end of for()
+  // Have this deprecated method call the un-deprecated one.. 
+  this->GetIndex( measurement, m_TempIndex );
   return m_TempIndex;
 }
 
@@ -242,16 +165,34 @@ bool Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
     if (tempMeasurement < m_Min[dim][begin])
       {
       // one of measurement is below the minimum
-      index[dim] = (long) m_Size[dim] ;
-      return false;
+      // its ok if we extend the bins to infinity.. not ok if we don't
+      if(!m_ClipBinsAtEnds)
+        {
+        index[dim] = (long) 0 ;
+        continue;
+        }
+      else
+        { // set an illegal value and return 0
+        index[dim] = (long) m_Size[dim]; 
+        return false;
+        }
       }
 
     end = m_Min[dim].size() - 1 ;
     if (tempMeasurement >= m_Max[dim][end])
       {
-      // one of measurement is above the maximum
-      index[dim] = (long) m_Size[dim] ;
-      return false;
+      // one of measurement is below the minimum
+      // its ok if we extend the bins to infinity.. not ok if we don't
+      if(!m_ClipBinsAtEnds)
+        {
+        index[dim] = (long) m_Size[dim]-1;
+        continue;
+        }
+      else
+        { // set an illegal value and return 0
+        index[dim] = (long) m_Size[dim]; 
+        return false;
+        }
       }
 
     mid = (end + 1) / 2 ;
