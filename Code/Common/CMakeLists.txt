@@ -144,6 +144,60 @@ IF(ITK_EXPLICIT_INSTANTIATION)
     Templates/itkVectorD3.cxx
     Templates/itkVectorF2.cxx
     Templates/itkVectorF3.cxx
+    Templates/itkImageConstIteratorD2.cxx
+    Templates/itkImageConstIteratorD3.cxx
+    Templates/itkImageConstIteratorF2.cxx
+    Templates/itkImageConstIteratorF3.cxx
+    Templates/itkImageConstIteratorI2.cxx
+    Templates/itkImageConstIteratorI3.cxx
+    Templates/itkImageConstIteratorL2.cxx
+    Templates/itkImageConstIteratorL3.cxx
+    Templates/itkImageConstIteratorS2.cxx
+    Templates/itkImageConstIteratorS3.cxx
+    Templates/itkImageConstIteratorUC2.cxx
+    Templates/itkImageConstIteratorUC3.cxx
+    Templates/itkImageConstIteratorUI2.cxx
+    Templates/itkImageConstIteratorUI3.cxx
+    Templates/itkImageConstIteratorUL2.cxx
+    Templates/itkImageConstIteratorUL3.cxx
+    Templates/itkImageConstIteratorUS2.cxx
+    Templates/itkImageConstIteratorUS3.cxx
+    Templates/itkImageRegionConstIteratorD2.cxx
+    Templates/itkImageRegionConstIteratorD3.cxx
+    Templates/itkImageRegionConstIteratorF2.cxx
+    Templates/itkImageRegionConstIteratorF3.cxx
+    Templates/itkImageRegionConstIteratorI2.cxx
+    Templates/itkImageRegionConstIteratorI3.cxx
+    Templates/itkImageRegionConstIteratorL2.cxx
+    Templates/itkImageRegionConstIteratorL3.cxx
+    Templates/itkImageRegionConstIteratorS2.cxx
+    Templates/itkImageRegionConstIteratorS3.cxx
+    Templates/itkImageRegionConstIteratorUC2.cxx
+    Templates/itkImageRegionConstIteratorUC3.cxx
+    Templates/itkImageRegionConstIteratorUI2.cxx
+    Templates/itkImageRegionConstIteratorUI3.cxx
+    Templates/itkImageRegionConstIteratorUL2.cxx
+    Templates/itkImageRegionConstIteratorUL3.cxx
+    Templates/itkImageRegionConstIteratorUS2.cxx
+    Templates/itkImageRegionConstIteratorUS3.cxx
+    Templates/itkImageRegionIteratorD2.cxx
+    Templates/itkImageRegionIteratorD3.cxx
+    Templates/itkImageRegionIteratorF2.cxx
+    Templates/itkImageRegionIteratorF3.cxx
+    Templates/itkImageRegionIteratorI2.cxx
+    Templates/itkImageRegionIteratorI3.cxx
+    Templates/itkImageRegionIteratorL2.cxx
+    Templates/itkImageRegionIteratorL3.cxx
+    Templates/itkImageRegionIteratorS2.cxx
+    Templates/itkImageRegionIteratorS3.cxx
+    Templates/itkImageRegionIteratorUC2.cxx
+    Templates/itkImageRegionIteratorUC3.cxx
+    Templates/itkImageRegionIteratorUI2.cxx
+    Templates/itkImageRegionIteratorUI3.cxx
+    Templates/itkImageRegionIteratorUL2.cxx
+    Templates/itkImageRegionIteratorUL3.cxx
+    Templates/itkImageRegionIteratorUS2.cxx
+    Templates/itkImageRegionIteratorUS3.cxx
     )
 ENDIF(ITK_EXPLICIT_INSTANTIATION)
 

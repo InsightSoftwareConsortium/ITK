@@ -293,9 +293,24 @@ protected:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageRegionConstIterator.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ImageRegionConstIterator(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT ImageRegionConstIterator< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef ImageRegionConstIterator< ITK_TEMPLATE_1 x > ImageRegionConstIterator##y; } \
+  }
+
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkImageRegionConstIterator+-.h"
 #endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkImageRegionConstIterator.txx"
+#endif
+
+// #ifndef ITK_MANUAL_INSTANTIATION
+// #include "itkImageRegionConstIterator.txx"
+// #endif
 
 #if defined(_MSC_VER)
 #undef ITK_LEAN_AND_MEAN
