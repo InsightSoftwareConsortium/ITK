@@ -113,7 +113,6 @@ SET(ITK_INCLUDE_DIRS_INSTALL_TREE ${ITK_INCLUDE_DIRS_INSTALL_TREE}
   ${ITK_INSTALL_INCLUDE_PATH}/BasicFilters
   ${ITK_INSTALL_INCLUDE_PATH}/Common
   ${ITK_INSTALL_INCLUDE_PATH}/expat
-  ${ITK_INSTALL_INCLUDE_PATH}/gdcm/src
   ${ITK_INSTALL_INCLUDE_PATH}/Numerics
   ${ITK_INSTALL_INCLUDE_PATH}/IO
   ${ITK_INSTALL_INCLUDE_PATH}/Numerics/FEM
@@ -132,6 +131,13 @@ IF(NOT ITK_USE_SYSTEM_VXL)
     ${ITK_INSTALL_INCLUDE_PATH}/Utilities/vxl/core
     )
 ENDIF(NOT ITK_USE_SYSTEM_VXL)
+
+IF(NOT ITK_USE_SYSTEM_GDCM)
+  SET(ITK_INCLUDE_DIRS_INSTALL_TREE ${ITK_INCLUDE_DIRS_INSTALL_TREE}
+    ${ITK_BINARY_DIR}/Utilities/gdcm
+    ${ITK_SOURCE_DIR}/Utilities/gdcm/src
+    )
+ENDIF(NOT ITK_USE_SYSTEM_GDCM)
 
 # Patended include directories added only if the user explicitly enabled the
 # ITK_USE_PATENTED option. Users are responsible for getting a license from the
