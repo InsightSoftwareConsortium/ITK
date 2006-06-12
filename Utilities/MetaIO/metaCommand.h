@@ -172,6 +172,10 @@ public:
   void SetVersion(const char* version) 
     { m_Version=version; }
   
+  /** Get the name of the application */
+  std::string GetApplicationName() 
+    { return m_ExecutableName; }
+
   /** Set the date of the app */
   std::string GetDate() 
     { return m_Date; }
@@ -184,9 +188,13 @@ public:
 
   void SetDescription(const char* description) 
     { m_Description=description; }
+  std::string GetDescription() const
+    {return m_Description;}
 
   void SetAuthor(const char* author) 
     { m_Author=author; }
+  std::string GetAuthor() const
+    {return m_Author;}
 
   long GetOptionId(Option* option);
 
@@ -200,11 +208,11 @@ public:
 
   void SetHelpCallBack(void (* newHelpCallBack)(void))
     { m_HelpCallBack = newHelpCallBack; }
-
-protected:
-
+  
   std::string TypeToString(TypeEnumType type);
   TypeEnumType StringToType(const char* type);
+
+protected:
 
   /** Small XML helper */
   std::string GetXML(const char* buffer,const char* desc,unsigned long pos);

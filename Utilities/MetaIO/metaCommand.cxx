@@ -32,7 +32,7 @@ MetaCommand::MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2006-05-19 18:15:22 $ cvs command */
+/** Extract the date from the $Date: 2006-06-12 22:00:24 $ cvs command */
 std::string MetaCommand::ExtractDateFromCVS(std::string date)
 {
   std::string newdate;
@@ -945,13 +945,13 @@ bool MetaCommand::ExportGAD(bool dynamic)
     }
   
   file << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" << std::endl;
-  file << "<GridApplication" << std::endl;
+  file << "<gridApplication" << std::endl;
   file << "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" << std::endl;
   file << "xsi:noNamespaceSchemaLocation=\"grid-application-description.xsd\"" << std::endl;
-  file << "Name=\"" << m_Name.c_str() << "\"" << std::endl;
-  file << "Description=\"" << m_Description.c_str() << "\">" << std::endl;
-  file << "<ApplicationComponent Name=\"Client\" RemoteExecution=\"true\">" << std::endl;
-  file << "<ComponentActionList>" << std::endl;
+  file << "name=\"" << m_Name.c_str() << "\"" << std::endl;
+  file << "description=\"" << m_Description.c_str() << "\">" << std::endl;
+  file << "<applicationComponent name=\"Client\" remoteExecution=\"true\">" << std::endl;
+  file << "<componentActionList>" << std::endl;
   file << std::endl;
 
   unsigned int order = 1;
@@ -964,13 +964,13 @@ bool MetaCommand::ExportGAD(bool dynamic)
       {
       if((*itFields).externaldata == DATA_IN)
         {
-        file << " <ComponentAction Type=\"DataRelocation\" Order=\"" << order << "\">" << std::endl;
-        file << "  <parameter Name=\"Name\" Value=\"" << (*itFields).name <<"\"/>" << std::endl;
-        file << "  <parameter Name=\"Host\" Value=\"hostname\"/>" << std::endl;
-        file << "  <parameter Name=\"Description\" Value=\"" << (*itFields).description << "\"/>" << std::endl;
-        file << "  <parameter Name=\"Direction\" Value=\"In\"/>" << std::endl;
-        file << "  <parameter Name=\"Protocol\" Value=\"gsiftp\"/>" << std::endl;
-        file << "  <parameter Name=\"SourceDataPath\" Value=\"" << (*itFields).value << "\"/>" << std::endl;
+        file << " <componentAction type=\"DataRelocation\" order=\"" << order << "\">" << std::endl;
+        file << "  <parameter name=\"Name\" value=\"" << (*itFields).name <<"\"/>" << std::endl;
+        file << "  <parameter name=\"Host\" value=\"hostname\"/>" << std::endl;
+        file << "  <parameter name=\"Description\" value=\"" << (*itFields).description << "\"/>" << std::endl;
+        file << "  <parameter name=\"Direction\" value=\"In\"/>" << std::endl;
+        file << "  <parameter name=\"Protocol\" value=\"gsiftp\"/>" << std::endl;
+        file << "  <parameter name=\"SourceDataPath\" value=\"" << (*itFields).value << "\"/>" << std::endl;
 
         std::string datapath = (*itFields).value;
         long int slash = datapath.find_last_of("/");
@@ -983,8 +983,8 @@ bool MetaCommand::ExportGAD(bool dynamic)
           {
           datapath = datapath.substr(slash+1,datapath.size()-slash-1);
           }
-        file << "  <parameter Name=\"DestDataPath\" Value=\"" << datapath.c_str() << "\"/>" << std::endl;
-        file << " </ComponentAction>" << std::endl;
+        file << "  <parameter name=\"DestDataPath\" value=\"" << datapath.c_str() << "\"/>" << std::endl;
+        file << " </componentAction>" << std::endl;
         file << std::endl;
         order++;
         }
@@ -993,9 +993,9 @@ bool MetaCommand::ExportGAD(bool dynamic)
     it++;
     }
 
-  file << " <ComponentAction Type=\"JobSubmission\" Order=\"" << order << "\">" << std::endl;
-  file << "  <parameter Name=\"Executable\" Value=\"" << m_ExecutableName.c_str() << "\"/>" << std::endl;
-  file << "  <parameter Name=\"Arguments\"  Value=\"";
+  file << " <componentAction type=\"JobSubmission\" order=\"" << order << "\">" << std::endl;
+  file << "  <parameter name=\"Executable\" value=\"" << m_ExecutableName.c_str() << "\"/>" << std::endl;
+  file << "  <parameter name=\"Arguments\"  value=\"";
   // Write out the command line arguments
   it = options.begin();
   while(it != options.end())
@@ -1008,8 +1008,6 @@ bool MetaCommand::ExportGAD(bool dynamic)
     it++;
     }
   file << "\"/>" << std::endl;
-
-  file << "   <arguments>" << std::endl;
   // Write out the arguments that are not data
   it = options.begin();
   while(it != options.end())
@@ -1033,8 +1031,8 @@ bool MetaCommand::ExportGAD(bool dynamic)
       continue;
       }
 
-    file << "   <group Name=\"" << (*it).name.c_str();
-    file << "\" Syntax=\"";
+    file << "   <group name=\"" << (*it).name.c_str();
+    file << "\" syntax=\"";
     
     if((*it).tag.size()>0)
       {
@@ -1055,16 +1053,16 @@ bool MetaCommand::ExportGAD(bool dynamic)
     
     if(!(*it).required)
       {
-      file << " Optional=\"true\"";
+      file << " optional=\"true\"";
       
       // Add if the option was selected
       if((*it).userDefined)
         {
-        file << " Selected=\"true\"";
+        file << " selected=\"true\"";
         }
       else
         {
-        file << " Selected=\"false\"";
+        file << " selected=\"false\"";
         }
       }
     
@@ -1074,19 +1072,19 @@ bool MetaCommand::ExportGAD(bool dynamic)
     itFields = (*it).fields.begin();
     while(itFields != (*it).fields.end())
       {
-      file << "    <argument Name=\"" << (*it).name << (*itFields).name;
-      file << "\" Value=\"" << (*itFields).value;
-      file << "\" Type=\"" << this->TypeToString((*itFields).type).c_str();
+      file << "    <argument name=\"" << (*it).name << (*itFields).name;
+      file << "\" value=\"" << (*itFields).value;
+      file << "\" type=\"" << this->TypeToString((*itFields).type).c_str();
       file << "\"";
       
       if((*itFields).rangeMin != "")
         {
-        file << " RangeMin=\"" << (*itFields).rangeMin << "\"";
+        file << " rangeMin=\"" << (*itFields).rangeMin << "\"";
         }
 
       if((*itFields).rangeMax != "")
         {
-        file << " RangeMax=\"" << (*itFields).rangeMax << "\"";
+        file << " rangeMax=\"" << (*itFields).rangeMax << "\"";
         } 
       file << "/>" << std::endl;
       itFields++;
@@ -1094,8 +1092,7 @@ bool MetaCommand::ExportGAD(bool dynamic)
     file << "  </group>" << std::endl;
     it++;
     }
-  file << "  </arguments>" << std::endl;
-  file << " </ComponentAction>" << std::endl;
+  file << " </componentAction>" << std::endl;
   order++;
   file << std::endl;
   // Write out the input data to be transfered
@@ -1107,12 +1104,12 @@ bool MetaCommand::ExportGAD(bool dynamic)
       {
       if((*itFields).externaldata == DATA_OUT)
         {
-        file << " <ComponentAction Type=\"DataRelocation\" Order=\"" << order << "\">" << std::endl;
-        file << "  <parameter Name=\"Name\" Value=\"" << (*itFields).name <<"\"/>" << std::endl;
-        file << "  <parameter Name=\"Host\" Value=\"hostname\"/>" << std::endl;
-        file << "  <parameter Name=\"Description\" Value=\"" << (*itFields).description << "\"/>" << std::endl;
-        file << "  <parameter Name=\"Direction\" Value=\"Out\"/>" << std::endl;
-        file << "  <parameter Name=\"Protocol\" Value=\"gsiftp\"/>" << std::endl;
+        file << " <componentAction type=\"DataRelocation\" order=\"" << order << "\">" << std::endl;
+        file << "  <parameter name=\"Name\" Value=\"" << (*itFields).name <<"\"/>" << std::endl;
+        file << "  <parameter name=\"Host\" Value=\"hostname\"/>" << std::endl;
+        file << "  <parameter name=\"Description\" value=\"" << (*itFields).description << "\"/>" << std::endl;
+        file << "  <parameter name=\"Direction\" value=\"Out\"/>" << std::endl;
+        file << "  <parameter name=\"Protocol\" value=\"gsiftp\"/>" << std::endl;
         std::string datapath = (*itFields).value;
         long int slash = datapath.find_last_of("/");
         if(slash>0)
@@ -1124,9 +1121,9 @@ bool MetaCommand::ExportGAD(bool dynamic)
           {
           datapath = datapath.substr(slash+1,datapath.size()-slash-1);
           }
-        file << "  <parameter Name=\"SourceDataPath\" Value=\"" << datapath.c_str() << "\"/>" << std::endl;
-        file << "  <parameter Name=\"DestDataPath\" Value=\"" << (*itFields).value << "\"/>" << std::endl;
-        file << " </ComponentAction>" << std::endl;
+        file << "  <parameter name=\"SourceDataPath\" value=\"" << datapath.c_str() << "\"/>" << std::endl;
+        file << "  <parameter name=\"DestDataPath\" value=\"" << (*itFields).value << "\"/>" << std::endl;
+        file << " </componentAction>" << std::endl;
         file << std::endl;
         order++;
         }
@@ -1134,10 +1131,9 @@ bool MetaCommand::ExportGAD(bool dynamic)
       }
     it++;
     }
-  file << std::endl;
-  file << "    </ComponentActionList>" << std::endl;
-  file << "  </ApplicationComponent>" << std::endl;
-  file << "</GridApplication>" << std::endl;
+  file << "    </componentActionList>" << std::endl;
+  file << "  </applicationComponent>" << std::endl;
+  file << "</gridApplication>" << std::endl;
 
   file.close();
 
@@ -1223,7 +1219,7 @@ bool MetaCommand::Parse(int argc, char* argv[])
       }
 
     // If this is a tag
-    if(argv[i][0] == '-' && (atof(argv[i])==0))
+    if(argv[i][0] == '-' && (atof(argv[i])==0) && (strlen(argv[i])>1))
       {    
       // if we have a tag before the expected values we throw an exception
       if(valuesRemaining!=0)
