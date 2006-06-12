@@ -87,12 +87,12 @@ public:
 
   /** Get the parameters of the distribution. See concrete subclasses
    * for the order of parameters. Subclasses may provide convenience
-   * methods for setting parameters, i.e. SetDegreesOfFreedom(), etc.*/
+   * methods for setting parameters, i.e. SetDegreesOfFreedom(), etc. */
   itkGetConstReferenceMacro(Parameters, ParametersType);
 
   /** Set the parameters of the distribution. See concrete subclasses
    * for the order of the parameters. Subclasses may provide convenience
-   * methods for setting parameters, i.e. SetDegreesOfFreedom(), etc.*/
+   * methods for setting parameters, i.e. SetDegreesOfFreedom(), etc. */
   virtual void SetParameters(const ParametersType& params)
     {
     if (params != m_Parameters)
