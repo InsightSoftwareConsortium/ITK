@@ -11,7 +11,7 @@ SET(ITKReview_SRCS
 # ADD_LIBRARY(ITKReview ${ITK_REVIEW_BUILD_TYPE} ${ITKReview_SRCS})
 # TARGET_LINK_LIBRARIES (ITKReview ITKCommon)
 
-ADD_LIBRARY(ITKDistributions
+ADD_LIBRARY(ITKDistributions ${ITK_REVIEW_BUILD_TYPE}
   itkGaussianDistribution.cxx
   itkTDistribution.cxx
   itkChiSquareDistribution.cxx
@@ -38,4 +38,10 @@ ADD_LIBRARY(ITKDistributions
   d_int.c
   d_mod.c
  )
+
+TARGET_LINK_LIBRARIES(ITKDistributions ITKStatistics ITKCommon)
+
+IF(ITK_LIBRARY_PROPERTIES)
+  SET_TARGET_PROPERTIES(ITKDistributions PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+ENDIF(ITK_LIBRARY_PROPERTIES)
 
