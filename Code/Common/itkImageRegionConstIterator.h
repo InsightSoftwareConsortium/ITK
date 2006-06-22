@@ -308,10 +308,6 @@ protected:
 # include "itkImageRegionConstIterator.txx"
 #endif
 
-// #ifndef ITK_MANUAL_INSTANTIATION
-// #include "itkImageRegionConstIterator.txx"
-// #endif
-
 #if defined(_MSC_VER)
 #undef ITK_LEAN_AND_MEAN
 #endif
