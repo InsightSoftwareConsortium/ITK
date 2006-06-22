@@ -89,7 +89,7 @@ namespace itk
 //     enum { S = sizeof(A::N) };
 //   };
 // We need to use enum for static constants instead.
-#if defined(__GNUC__) && __GNUC__ < 3
+#if defined(__GNUC__)
 # define ITK_NO_SIZEOF_CONSTANT_LOOKUP
 #endif
 
