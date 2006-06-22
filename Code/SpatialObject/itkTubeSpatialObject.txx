@@ -245,12 +245,32 @@ TubeSpatialObject< TDimension, TTubePointType >
         {
         PointType p;
 
-        for(unsigned int i = 0;i<TDimension;i++)
+        if(lambda >= 0)
           {
-          p[i] = a[i]+lambda*(b[i]-a[i]);
+          for(unsigned int i = 0;i<TDimension;i++)
+            {
+            p[i] = a[i]+lambda*(b[i]-a[i]);
+            }
           }
+        else
+          {
+          for(unsigned int i = 0;i<TDimension;i++)
+            {
+            p[i] = b[i]+lambda*(b[i]-a[i]);
+            }
+          }
+
         tempSquareDist=transformedPoint.EuclideanDistanceTo(p);
-        double R =  (*it).GetRadius()+lambda*((*it2).GetRadius()-(*it).GetRadius());
+        
+        double R = 0;
+        if(lambda >= 0)
+          {
+          R = (*it).GetRadius()+lambda*((*it2).GetRadius()-(*it).GetRadius());
+          }
+        else
+          {
+          R = (*it2).GetRadius()+lambda*((*it2).GetRadius()-(*it).GetRadius());
+          }
 
         if(tempSquareDist <= R)
           {
