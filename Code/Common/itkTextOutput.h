@@ -14,6 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkTextOutput_h
+#define __itkTextOutput_h
+
 #include "itkOutputWindow.h"
 #include "itkObjectFactory.h"
 
@@ -44,3 +47,4 @@ private:
 }
 
 
+#endif
