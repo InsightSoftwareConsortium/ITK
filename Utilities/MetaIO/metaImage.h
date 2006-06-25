@@ -1,7 +1,10 @@
-#ifndef METAIMAGE_H
-#define METAIMAGE_H
-
 #include "metaTypes.h"
+
+#define NAMESPACE_METAIMAGE_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METAIMAGE_H)
+#ifndef $NAMESPACE_METAIMAGE_H
+#define $NAMESPACE_METAIMAGE_H
+
 #include "metaUtils.h"
 #include "metaObject.h"
 
@@ -43,7 +46,12 @@
  *    MetaUtils.h
  *    MetaFileLib.h
  */
-class MetaImage : public MetaObject
+
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
+
+class METAIO_EXPORT MetaImage : public MetaObject
   {
   ////
   //
@@ -86,7 +94,7 @@ class MetaImage : public MetaObject
 
     void  M_SetupWriteFields(void);
 
-    bool  M_ReadElements(std::ifstream * _fstream, void * _data,
+    bool  M_ReadElements(METAIO_STREAM::ifstream * _fstream, void * _data,
                          int _dataQuantity);
 
     bool  M_Read(void);
@@ -261,7 +269,7 @@ class MetaImage : public MetaObject
 
     virtual bool Append(const char *_headName=NULL);
 
-    bool ReadStream(int _nDims, std::ifstream * _stream);
+    bool ReadStream(int _nDims, METAIO_STREAM::ifstream * _stream);
 
     void Clear(void);
 
@@ -274,6 +282,10 @@ class MetaImage : public MetaObject
                                      bool _allocElementMemory=true);
 
   };
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 
 #endif

@@ -1,7 +1,10 @@
-#ifndef METAMESH_H
-#define METAMESH_H
-
 #include "metaTypes.h"
+
+#define NAMESPACE_METAMESH_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METAMESH_H)
+#ifndef $NAMESPACE_METAMESH_H
+#define $NAMESPACE_METAMESH_H
+
 #include "metaUtils.h"
 #include "metaObject.h"
 
@@ -21,6 +24,9 @@
  *    MetaUtils.h
  */
 
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
 /** Typedef for the type of cells */
 #define MET_NUM_CELL_TYPES 9
@@ -45,7 +51,7 @@ const char MET_CellTypeName[MET_NUM_VALUE_TYPES][4] = {
 
 
 /** Define a mesh point */
-class MeshPoint
+class METAIO_EXPORT MeshPoint
 {
 public:
 
@@ -72,7 +78,7 @@ public:
 /** Define a mesh cell 
  *  a cell contains a list of Ids corresponding to the list 
  *  of points */
-class MeshCell
+class METAIO_EXPORT MeshCell
 {
 public:
 
@@ -100,7 +106,7 @@ public:
 /** Define a mesh cell links
  *  a celllink contains a list of Ids corresponding to the list 
  *  of links cells */
-class MeshCellLink
+class METAIO_EXPORT MeshCellLink
 {
 public:
 
@@ -113,11 +119,11 @@ public:
     };
 
   int m_Id; // id of the cell link
-  std::list<int> m_Links;
+  METAIO_STL::list<int> m_Links;
 };
 
 /** Define a mesh point data */
-class MeshDataBase
+class METAIO_EXPORT MeshDataBase
 {
 public:
 
@@ -129,21 +135,21 @@ public:
     { 
     };
   
-  virtual void Write( std::ofstream* stream) = 0;
+  virtual void Write( METAIO_STREAM::ofstream* stream) = 0;
   virtual unsigned int GetSize(void) = 0;
   virtual MET_ValueEnumType GetMetaType() = 0;
   int m_Id;
 
 protected:
 
-  std::ifstream* m_ReadStream;
-  std::ofstream* m_WriteStream;
+  METAIO_STREAM::ifstream* m_ReadStream;
+  METAIO_STREAM::ofstream* m_WriteStream;
 
 };
 
 /** Mesh point data class for basic types (i.e int, float ... ) */
 template<typename TElementType>
-class MeshData : public MeshDataBase
+class METAIO_EXPORT MeshData : public MeshDataBase
 {
 public:
 
@@ -155,7 +161,7 @@ public:
     return MET_GetPixelType(typeid(TElementType));
     }
 
-  virtual void Write( std::ofstream* stream)
+  virtual void Write( METAIO_STREAM::ofstream* stream)
     {
     char* id = new char[sizeof(int)];
     MET_DoubleToValue((double)m_Id,MET_INT,id,0);
@@ -178,7 +184,7 @@ public:
 };
 
 
-class MetaMesh : public MetaObject
+class METAIO_EXPORT MetaMesh : public MetaObject
   {
 
   /////
@@ -188,11 +194,11 @@ class MetaMesh : public MetaObject
   ////
   public:
 
-   typedef std::list<MeshPoint*> PointListType;
-   typedef std::list<MeshCell*>  CellListType;
-   typedef std::list<MeshCellLink*>  CellLinkListType;
-   typedef std::list<MeshDataBase*> PointDataListType;
-   typedef std::list<MeshDataBase*> CellDataListType;
+   typedef METAIO_STL::list<MeshPoint*> PointListType;
+   typedef METAIO_STL::list<MeshCell*>  CellListType;
+   typedef METAIO_STL::list<MeshCellLink*>  CellLinkListType;
+   typedef METAIO_STL::list<MeshDataBase*> PointDataListType;
+   typedef METAIO_STL::list<MeshDataBase*> CellDataListType;
 
     ////
     //
@@ -297,6 +303,10 @@ class MetaMesh : public MetaObject
     MET_ValueEnumType m_CellDataType;
 
   };
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 
 #endif

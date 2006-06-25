@@ -1,7 +1,10 @@
-#ifndef METAArrow_H
-#define METAArrow_H
-
 #include "metaTypes.h"
+
+#define NAMESPACE_METAARROW_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METAARROW_H)
+#ifndef $NAMESPACE_METAARROW_H
+#define $NAMESPACE_METAARROW_H
+
 #include "metaUtils.h"
 #include "metaObject.h"
 
@@ -22,8 +25,11 @@
  *    MetaObject.h
  */
 
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
-class MetaArrow : public MetaObject
+class METAIO_EXPORT MetaArrow : public MetaObject
   {
 
   /////
@@ -80,5 +86,8 @@ class MetaArrow : public MetaObject
 
   };
 
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 #endif

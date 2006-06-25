@@ -1,7 +1,10 @@
-#ifndef METAVesselTube_H
-#define METAVesselTube_H
-
 #include "metaTypes.h"
+
+#define NAMESPACE_METAVESSELTUBE_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METAVESSELTUBE_H)
+#ifndef $NAMESPACE_METAVESSELTUBE_H
+#define $NAMESPACE_METAVESSELTUBE_H
+
 #include "metaUtils.h"
 #include "metaObject.h"
 
@@ -18,7 +21,11 @@
  * \date May 22, 2002
  */
 
-class VesselTubePnt
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
+
+class METAIO_EXPORT VesselTubePnt
 {
 public:
 
@@ -81,7 +88,7 @@ public:
 
 
 
-class MetaVesselTube : public MetaObject
+class METAIO_EXPORT MetaVesselTube : public MetaObject
   {
 
   /////
@@ -91,7 +98,7 @@ class MetaVesselTube : public MetaObject
   ////
   public:
 
-   typedef std::list<VesselTubePnt*> PointListType;
+   typedef METAIO_STL::list<VesselTubePnt*> PointListType;
     ////
     //
     // Constructors & Destructor
@@ -183,5 +190,8 @@ class MetaVesselTube : public MetaObject
     MET_ValueEnumType m_ElementType;
   };
 
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 #endif

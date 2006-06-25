@@ -1,12 +1,18 @@
-#ifndef METAContour_H
-#define METAContour_H
+#include "metaTypes.h"
 
-#include <metaTypes.h>
-#include <metaUtils.h>
-#include <metaObject.h>
+#define NAMESPACE_METACONTOUR_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METACONTOUR_H)
+#ifndef $NAMESPACE_METACONTOUR_H
+#define $NAMESPACE_METACONTOUR_H
+
+#include "metaUtils.h"
+#include "metaObject.h"
 
 #include <list>
 
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
 /**
  * Description:
@@ -17,7 +23,7 @@
  * \date March 2006
  * 
  */
-class ContourControlPnt
+class METAIO_EXPORT ContourControlPnt
 {
 public:
 
@@ -56,7 +62,7 @@ public:
 };
 
 
-class ContourInterpolatedPnt
+class METAIO_EXPORT ContourInterpolatedPnt
 {
 public:
 
@@ -84,13 +90,13 @@ public:
 };
 
 
-class MetaContour : public MetaObject
+class METAIO_EXPORT MetaContour : public MetaObject
 {
 
 public:
 
- typedef std::list<ContourControlPnt*> ControlPointListType;
- typedef std::list<ContourInterpolatedPnt*> InterpolatedPointListType;
+ typedef METAIO_STL::list<ContourControlPnt*> ControlPointListType;
+ typedef METAIO_STL::list<ContourInterpolatedPnt*> InterpolatedPointListType;
 
  MetaContour(void);
  MetaContour(const char *_headerName);   
@@ -164,6 +170,10 @@ protected:
   long      m_AttachedToSlice;
 
 };
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 
 #endif

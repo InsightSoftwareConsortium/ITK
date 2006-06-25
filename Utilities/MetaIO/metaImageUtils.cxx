@@ -1,9 +1,11 @@
-#ifndef METAIMAGEUTILS_H
-#define METAIMAGEUTILS_H
-
 #include <stdio.h>
-#include <string.h>
+
 #include "metaImageTypes.h"
+
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
+
 
 bool MET_StringToImageModality(const char * _str,
                                MET_ImageModalityEnumType * _type)
@@ -29,4 +31,7 @@ bool MET_ImageModalityToString(MET_ImageModalityEnumType _type,
   return true;
   }
 
+#if (METAIO_USE_NAMESPACE)
+};
 #endif
+

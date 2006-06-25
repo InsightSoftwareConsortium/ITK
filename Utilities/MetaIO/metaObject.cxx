@@ -1,13 +1,14 @@
+#include "metaObject.h"
+
 #include <stdlib.h>
 #include <stdio.h>
-#include <iostream>
-#include <fstream>
 #include <string.h>
 #include <math.h>
 
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
-#include "metaUtils.h"
-#include "metaObject.h"
 
 int META_DEBUG = 0;
 //
@@ -77,7 +78,7 @@ MetaObject::
 void MetaObject::
 ClearFields()
 {
-  if(META_DEBUG) std::cout << "MetaObject:ClearFields" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject:ClearFields" << METAIO_STREAM::endl;
 
   FieldsContainerType::iterator  it  = m_Fields.begin();
   FieldsContainerType::iterator  end = m_Fields.end();
@@ -197,8 +198,8 @@ CopyInfo(const MetaObject * _object)
   {
   if(NDims() != _object->NDims())
     {
-    std::cout << "MetaObject: CopyInfo: Warning: NDims not same size" 
-              << std::endl;
+    METAIO_STREAM::cout << "MetaObject: CopyInfo: Warning: NDims not same size" 
+              << METAIO_STREAM::endl;
     }
 
   FileName(_object->FileName());
@@ -221,7 +222,7 @@ CopyInfo(const MetaObject * _object)
 bool MetaObject::
 Read(const char *_fileName)
   {
-  if(META_DEBUG)  std::cout << "MetaObject: Read" << std::endl;
+  if(META_DEBUG)  METAIO_STREAM::cout << "MetaObject: Read" << METAIO_STREAM::endl;
   if(_fileName != NULL)
     {
     strcpy(m_FileName, _fileName);
@@ -240,7 +241,7 @@ Read(const char *_fileName)
   m_ReadStream->open(m_FileName);
   if(!m_ReadStream->is_open())
     {
-    std::cout << "MetaObject: Read: Cannot open file" << std::endl;
+    METAIO_STREAM::cout << "MetaObject: Read: Cannot open file" << METAIO_STREAM::endl;
     return false;
     }
 
@@ -252,9 +253,9 @@ Read(const char *_fileName)
   }
 
 bool MetaObject::
-ReadStream(int _nDims, std::ifstream * _stream)
+ReadStream(int _nDims, METAIO_STREAM::ifstream * _stream)
 {
-  if(META_DEBUG) std::cout << "MetaObject: ReadStream" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject: ReadStream" << METAIO_STREAM::endl;
 
   M_Destroy();
   
@@ -294,15 +295,15 @@ Write(const char *_fileName)
 
   if(!m_WriteStream)
     {
-    m_WriteStream = new std::ofstream;
+    m_WriteStream = new METAIO_STREAM::ofstream;
     }  
  
 #ifdef __sgi
   // Create the file. This is required on some older sgi's
-  std::ofstream tFile(m_FileName,std::ios::out);
+  METAIO_STREAM::ofstream tFile(m_FileName,METAIO_STREAM::ios::out);
   tFile.close();                    
 #endif
-  m_WriteStream->open(m_FileName,std::ios::binary | std::ios::out);
+  m_WriteStream->open(m_FileName,METAIO_STREAM::ios::binary | METAIO_STREAM::ios::out);
   if(!m_WriteStream->is_open())
     {
     return false;
@@ -324,80 +325,80 @@ PrintInfo(void) const
   {
   int i, j;
 
-  std::cout << "FileName = _" << m_FileName << "_" << std::endl;
-  std::cout << "Comment = _" << m_Comment << "_" << std::endl;
-  std::cout << "ObjectType = _" << m_ObjectTypeName << "_" << std::endl;
-  std::cout << "ObjectSubType = _" << m_ObjectSubTypeName << "_" << std::endl;
-  std::cout << "NDims = " << m_NDims << std::endl;
-  std::cout << "Name = " << m_Name << std::endl;
-  std::cout << "ID = " << m_ID << std::endl;
-  std::cout << "ParentID = " << m_ParentID << std::endl;
+  METAIO_STREAM::cout << "FileName = _" << m_FileName << "_" << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "Comment = _" << m_Comment << "_" << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "ObjectType = _" << m_ObjectTypeName << "_" << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "ObjectSubType = _" << m_ObjectSubTypeName << "_" << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "NDims = " << m_NDims << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "Name = " << m_Name << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "ID = " << m_ID << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "ParentID = " << m_ParentID << METAIO_STREAM::endl;
   if(m_CompressedData)
     {
-    std::cout << "CompressedData = True" << std::endl;
+    METAIO_STREAM::cout << "CompressedData = True" << METAIO_STREAM::endl;
     }
   else
     {
-    std::cout << "CompressedData = False" << std::endl;
+    METAIO_STREAM::cout << "CompressedData = False" << METAIO_STREAM::endl;
     }
-  std::cout << "m_CompressedDataSize = " << m_CompressedDataSize << std::endl;
+  METAIO_STREAM::cout << "m_CompressedDataSize = " << m_CompressedDataSize << METAIO_STREAM::endl;
   if(m_BinaryData)
     {
-    std::cout << "BinaryData = True" << std::endl;
+    METAIO_STREAM::cout << "BinaryData = True" << METAIO_STREAM::endl;
     }
   else
     {
-    std::cout << "BinaryData = False" << std::endl;
+    METAIO_STREAM::cout << "BinaryData = False" << METAIO_STREAM::endl;
     }
   if(m_BinaryData && m_BinaryDataByteOrderMSB)
     {
-    std::cout << "BinaryDataByteOrderMSB = True" << std::endl;
+    METAIO_STREAM::cout << "BinaryDataByteOrderMSB = True" << METAIO_STREAM::endl;
     }
   else
     {
-    std::cout << "BinaryDataByteOrderMSB = False" << std::endl;
+    METAIO_STREAM::cout << "BinaryDataByteOrderMSB = False" << METAIO_STREAM::endl;
     }
-  std::cout << "Color = " ;
+  METAIO_STREAM::cout << "Color = " ;
   for(i=0; i<4; i++)
     {
-    std::cout << m_Color[i] << " ";
+    METAIO_STREAM::cout << m_Color[i] << " ";
     }
-  std::cout << std::endl;
+  METAIO_STREAM::cout << METAIO_STREAM::endl;
 
-  std::cout << "Offset = ";
+  METAIO_STREAM::cout << "Offset = ";
   for(i=0; i<m_NDims; i++)
     {
-    std::cout << m_Offset[i] << " ";
+    METAIO_STREAM::cout << m_Offset[i] << " ";
     }
-  std::cout << std::endl;
+  METAIO_STREAM::cout << METAIO_STREAM::endl;
   
-  std::cout << "TransformMatrix = ";
-  std::cout << std::endl;
+  METAIO_STREAM::cout << "TransformMatrix = ";
+  METAIO_STREAM::cout << METAIO_STREAM::endl;
   for(i=0; i<m_NDims; i++)
     {
     for(j=0; j<m_NDims; j++)
       { 
-      std::cout << m_TransformMatrix[i*m_NDims+j] << " ";
+      METAIO_STREAM::cout << m_TransformMatrix[i*m_NDims+j] << " ";
       }
-    std::cout << std::endl;
+    METAIO_STREAM::cout << METAIO_STREAM::endl;
     }
 
-  std::cout << "CenterOfRotation = ";
-  std::cout << std::endl;
+  METAIO_STREAM::cout << "CenterOfRotation = ";
+  METAIO_STREAM::cout << METAIO_STREAM::endl;
   for(i=0; i<m_NDims; i++)
     {
-    std::cout << m_CenterOfRotation[i] << " ";
+    METAIO_STREAM::cout << m_CenterOfRotation[i] << " ";
     }
-  std::cout << std::endl;
+  METAIO_STREAM::cout << METAIO_STREAM::endl;
 
-  std::cout << "ElementSpacing = ";
+  METAIO_STREAM::cout << "ElementSpacing = ";
   for(i=0; i<m_NDims; i++)
     {
-    std::cout << m_ElementSpacing[i] << " ";
+    METAIO_STREAM::cout << m_ElementSpacing[i] << " ";
     }
-  std::cout << std::endl;
+  METAIO_STREAM::cout << METAIO_STREAM::endl;
 
-  std::cout << "DistanceUnits = " << this->DistanceUnitsName() << std::endl;
+  METAIO_STREAM::cout << "DistanceUnits = " << this->DistanceUnitsName() << METAIO_STREAM::endl;
 
   // Print User's fields : 
   FieldsContainerType::const_iterator  itw = m_UserDefinedWriteFields.begin();
@@ -451,17 +452,17 @@ PrintInfo(void) const
       }
     else if((*it)->type == MET_FLOAT_MATRIX)
       {
-      std::cout << std::endl;
+      METAIO_STREAM::cout << METAIO_STREAM::endl;
       for(i=0; i<(*it)->length*(*it)->length; i++)
         {
         printf("%f ",(*it)->value[i]);
         if(i==(*it)->length-1)
           {
-          std::cout << std::endl;
+          METAIO_STREAM::cout << METAIO_STREAM::endl;
           }
         }
       }
-    std::cout << std::endl;
+    METAIO_STREAM::cout << METAIO_STREAM::endl;
      
     itw++;
     itr++;
@@ -961,7 +962,7 @@ BinaryDataByteOrderMSB(bool _elementByteOrderMSB)
 void MetaObject::
 Clear(void)
   {
-  if(META_DEBUG)  std::cout << "MetaObject: Clear()" << std::endl;
+  if(META_DEBUG)  METAIO_STREAM::cout << "MetaObject: Clear()" << METAIO_STREAM::endl;
   strcpy(m_Comment, "");
   strcpy(m_ObjectTypeName, "Object");
   strcpy(m_ObjectSubTypeName, "");
@@ -988,7 +989,7 @@ Clear(void)
 
   if(META_DEBUG) 
     {
-    std::cout << "MetaObject: Clear: m_NDims=" << m_NDims << std::endl;
+    METAIO_STREAM::cout << "MetaObject: Clear: m_NDims=" << m_NDims << METAIO_STREAM::endl;
     }
   int i;
   for(i=0; i<10; i++)
@@ -997,14 +998,14 @@ Clear(void)
     m_AnatomicalOrientation[i] = MET_ORIENTATION_UNKNOWN;
     }
 /*
-  std::vector<MET_FieldRecordType *>::iterator fieldIter;
+  METAIO_STL::vector<MET_FieldRecordType *>::iterator fieldIter;
   for(fieldIter=m_Fields.begin(); fieldIter!=m_Fields.end(); fieldIter++)
     {
-    if(META_DEBUG) std::cout << "field = " << (*fieldIter)->name << std::endl;
+    if(META_DEBUG) METAIO_STREAM::cout << "field = " << (*fieldIter)->name << METAIO_STREAM::endl;
     MET_FieldRecordType* field = *fieldIter;
     delete field;
     field = NULL;
-    if(META_DEBUG) std::cout << " has been deleted." << std::endl;
+    if(META_DEBUG) METAIO_STREAM::cout << " has been deleted." << METAIO_STREAM::endl;
     }
   m_Fields.clear();*/
   this->ClearFields();
@@ -1013,27 +1014,27 @@ Clear(void)
 bool MetaObject::
 InitializeEssential(int _nDims)
   {
-  if(META_DEBUG) std::cout << "MetaObject: Initialize" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject: Initialize" << METAIO_STREAM::endl;
 
   M_Destroy();
 
   if(_nDims > 10)
     {
-    std::cout 
+    METAIO_STREAM::cout 
       << "MetaObject: Initialize: Warning: Number of dimensions limited to 10" 
-      << std::endl
+      << METAIO_STREAM::endl
       << "Resetting number of dimensions to 10"
-      << std::endl;
+      << METAIO_STREAM::endl;
     _nDims = 10;
     }
 
   if(_nDims < 0)
     {
-    std::cout
+    METAIO_STREAM::cout
       << "MetaObject: Initialize: Warning: Number of dimensions must be >= 0"
-      << std::endl
+      << METAIO_STREAM::endl
       << "Resetting number of dimensions to 0"
-      << std::endl;
+      << METAIO_STREAM::endl;
     _nDims = 0;
     }
 
@@ -1045,14 +1046,14 @@ InitializeEssential(int _nDims)
 void MetaObject::
 M_Destroy(void)
   {
-  if(META_DEBUG) std::cout << "MetaObject: Destroy" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject: Destroy" << METAIO_STREAM::endl;
   }
 
 void MetaObject::
 M_SetupReadFields(void)
   {
   this->ClearFields();
-  if(META_DEBUG) std::cout << "MetaObject: M_SetupReadFields" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject: M_SetupReadFields" << METAIO_STREAM::endl;
 
   MET_FieldRecordType * mF;
 
@@ -1180,12 +1181,12 @@ M_SetupReadFields(void)
 void MetaObject::
 M_SetupWriteFields(void)
   {
-  if(META_DEBUG) std::cout << "MetaObject: M_SetupWriteFields" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject: M_SetupWriteFields" << METAIO_STREAM::endl;
 
   this->ClearFields();
 
-  if(META_DEBUG) std::cout << "MetaObject: M_SetupWriteFields: Creating Fields"
-                           << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject: M_SetupWriteFields: Creating Fields"
+                           << METAIO_STREAM::endl;
 
   MET_FieldRecordType * mF;
 
@@ -1357,7 +1358,7 @@ M_Read(void)
 
   if(!MET_Read(*m_ReadStream, & m_Fields))
     {
-    std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
+    METAIO_STREAM::cout << "MetaObject: Read: MET_Read Failed" << METAIO_STREAM::endl;
     return false;
     }
 
@@ -1580,8 +1581,8 @@ M_Read(void)
       {
       m_ElementSpacing[i] = static_cast<float>( mF->value[i] );
       if (META_DEBUG) 
-        std::cout << "metaObject: M_Read: elementSpacing[" << i << "] = " 
-                  << m_ElementSpacing[i] << std::endl;
+        METAIO_STREAM::cout << "metaObject: M_Read: elementSpacing[" << i << "] = " 
+                  << m_ElementSpacing[i] << METAIO_STREAM::endl;
       }
     }
   else
@@ -1590,8 +1591,8 @@ M_Read(void)
       {
       m_ElementSpacing[i] = 1;
       if (META_DEBUG) 
-        std::cout << "metaObject: M_Read: elementSpacing[" << i << "] = " 
-                  << m_ElementSpacing[i] << std::endl;
+        METAIO_STREAM::cout << "metaObject: M_Read: elementSpacing[" << i << "] = " 
+                  << m_ElementSpacing[i] << METAIO_STREAM::endl;
       }
     }
 
@@ -1615,7 +1616,7 @@ M_Write(void)
 
   if(!MET_Write(*m_WriteStream, & m_Fields))
     {
-    std::cout << "MetaObject: Write: MET_Write Failed" << std::endl;
+    METAIO_STREAM::cout << "MetaObject: Write: MET_Write Failed" << METAIO_STREAM::endl;
     return false;
     }
 
@@ -1626,7 +1627,7 @@ M_Write(void)
 bool MetaObject
 ::Append(const char *_headName)
 {
-  if(META_DEBUG) std::cout << "MetaObject: Append" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject: Append" << METAIO_STREAM::endl;
 
   if(_headName != NULL)
   {
@@ -1637,12 +1638,12 @@ bool MetaObject
 
   if(!m_WriteStream)
   {
-    m_WriteStream = new std::ofstream;
+    m_WriteStream = new METAIO_STREAM::ofstream;
   }
 
 #ifndef __sgi
   m_WriteStream->open(m_FileName,
-                      std::ios::binary | std::ios::out | std::ios::app);
+                      METAIO_STREAM::ios::binary | METAIO_STREAM::ios::out | METAIO_STREAM::ios::app);
   if(!m_WriteStream->is_open())
     {
     delete m_WriteStream;
@@ -1651,14 +1652,14 @@ bool MetaObject
     }
 #else
   m_WriteStream->open(m_FileName,
-                      std::ios::binary | std::ios::out | std::ios::in);
+                      METAIO_STREAM::ios::binary | METAIO_STREAM::ios::out | METAIO_STREAM::ios::in);
   if(!m_WriteStream->is_open())
     {
     delete m_WriteStream;
     m_WriteStream = 0;
     return false;
     }
-  m_WriteStream->seekp(0,std::ios::end);
+  m_WriteStream->seekp(0,METAIO_STREAM::ios::end);
 #endif
 
   M_Write();
@@ -1741,6 +1742,11 @@ void MetaObject::M_PrepareNewReadStream()
     }
   else
     {
-    m_ReadStream = new std::ifstream;
+    m_ReadStream = new METAIO_STREAM::ifstream;
     }  
 }
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
+

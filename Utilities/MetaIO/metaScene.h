@@ -1,7 +1,10 @@
-#ifndef METASCENE_H
-#define METASCENE_H
-
 #include "metaTypes.h"
+
+#define NAMESPACE_METASCENE_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METASCENE_H)
+#ifndef $NAMESPACE_METASCENE_H
+#define $NAMESPACE_METASCENE_H
+
 #include "metaUtils.h"
 #include "metaObject.h"
 
@@ -19,8 +22,11 @@
  *
  */
 
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
-class MetaScene : public MetaObject
+class METAIO_EXPORT MetaScene : public MetaObject
   {
 
   /////
@@ -30,7 +36,7 @@ class MetaScene : public MetaObject
   ////
   public:
 
-   typedef std::list<MetaObject*>    ObjectListType;
+   typedef METAIO_STL::list<MetaObject*>    ObjectListType;
    
    ////
     //
@@ -59,7 +65,7 @@ class MetaScene : public MetaObject
 
     bool Write(const char *_headName=NULL);
 
-    bool Append(const char* =NULL) {std::cout << "Not Implemented !" << std::endl;return true;}
+    bool Append(const char* =NULL) {METAIO_STREAM::cout << "Not Implemented !" << METAIO_STREAM::endl;return true;}
 
     void  Clear(void);
 
@@ -98,5 +104,8 @@ class MetaScene : public MetaObject
     
   };
 
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 #endif

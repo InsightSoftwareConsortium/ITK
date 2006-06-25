@@ -1,12 +1,13 @@
+#include "metaLine.h"
+
 #include <stdio.h>
 #include <ctype.h>
-#include <iostream>
-#include <fstream>
 #include <string>
 
-#include "metaUtils.h"
-#include "metaObject.h"
-#include "metaLine.h"
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
+
 
 //
 // MetaLine Constructors
@@ -15,7 +16,7 @@ MetaLine::
 MetaLine()
 :MetaObject()
 {
-  if(META_DEBUG) std::cout << "MetaLine()" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaLine()" << METAIO_STREAM::endl;
   Clear();
 }
 
@@ -24,7 +25,7 @@ MetaLine::
 MetaLine(const char *_headerName)
 :MetaObject(_headerName)
 {
-  if(META_DEBUG)  std::cout << "MetaLine()" << std::endl;
+  if(META_DEBUG)  METAIO_STREAM::cout << "MetaLine()" << METAIO_STREAM::endl;
   Clear();
   Read(_headerName);
 }
@@ -34,7 +35,7 @@ MetaLine::
 MetaLine(const MetaLine *_line)
 :MetaObject()
 {
-  if(META_DEBUG)  std::cout << "MetaLine()" << std::endl;
+  if(META_DEBUG)  METAIO_STREAM::cout << "MetaLine()" << METAIO_STREAM::endl;
   Clear();
   CopyInfo(_line);
 }
@@ -46,7 +47,7 @@ MetaLine::
 MetaLine(unsigned int dim)
 :MetaObject(dim)
 {
-  if(META_DEBUG) std::cout << "MetaLine()" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaLine()" << METAIO_STREAM::endl;
   Clear();
 }
 
@@ -63,11 +64,11 @@ void MetaLine::
 PrintInfo() const
 {
   MetaObject::PrintInfo();
-  std::cout << "PointDim = " << m_PointDim << std::endl;
-  std::cout << "NPoints = " << m_NPoints << std::endl;
+  METAIO_STREAM::cout << "PointDim = " << m_PointDim << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "NPoints = " << m_NPoints << METAIO_STREAM::endl;
   char str[255];
   MET_TypeToString(m_ElementType, str);
-  std::cout << "ElementType = " << str << std::endl;
+  METAIO_STREAM::cout << "ElementType = " << str << METAIO_STREAM::endl;
 }
 
 void MetaLine::
@@ -106,7 +107,7 @@ NPoints(void) const
 void MetaLine::
 Clear(void)
 {
-  if(META_DEBUG) std::cout << "MetaLine: Clear" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaLine: Clear" << METAIO_STREAM::endl;
   MetaObject::Clear();
   m_NPoints = 0;
     // Delete the list of pointers to lines.
@@ -134,7 +135,7 @@ M_Destroy(void)
 void MetaLine::
 M_SetupReadFields(void)
 {
-  if(META_DEBUG) std::cout << "MetaLine: M_SetupReadFields" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaLine: M_SetupReadFields" << METAIO_STREAM::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -211,15 +212,15 @@ ElementType(MET_ValueEnumType _elementType)
 bool MetaLine::
 M_Read(void)
 {
-  if(META_DEBUG) std::cout << "MetaLine: M_Read: Loading Header" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaLine: M_Read: Loading Header" << METAIO_STREAM::endl;
 
   if(!MetaObject::M_Read())
   {
-    std::cout << "MetaLine: M_Read: Error parsing file" << std::endl;
+    METAIO_STREAM::cout << "MetaLine: M_Read: Error parsing file" << METAIO_STREAM::endl;
     return false;
   }
 
-  if(META_DEBUG) std::cout << "MetaLine: M_Read: Parsing Header" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaLine: M_Read: Parsing Header" << METAIO_STREAM::endl;
  
   MET_FieldRecordType * mF;
  
@@ -266,9 +267,9 @@ M_Read(void)
     int gc = m_ReadStream->gcount();
     if(gc != readSize)
     {
-      std::cout << "MetaLine: m_Read: data not read completely" 
-                << std::endl;
-      std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
+      METAIO_STREAM::cout << "MetaLine: m_Read: data not read completely" 
+                << METAIO_STREAM::endl;
+      METAIO_STREAM::cout << "   ideal = " << readSize << " : actual = " << gc << METAIO_STREAM::endl;
       return false;
     }
 
@@ -369,7 +370,7 @@ M_Write(void)
 
   if(!MetaObject::M_Write())
   {
-    std::cout << "MetaLine: M_Read: Error parsing file" << std::endl;
+    METAIO_STREAM::cout << "MetaLine: M_Read: Error parsing file" << METAIO_STREAM::endl;
     return false;
   }
 
@@ -435,7 +436,7 @@ M_Write(void)
         *m_WriteStream << (*it)->m_Color[d] << " ";
       }
 
-      *m_WriteStream << std::endl;
+      *m_WriteStream << METAIO_STREAM::endl;
       it++;
     }
   }
@@ -443,3 +444,8 @@ M_Write(void)
   return true;
 
 }
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
+

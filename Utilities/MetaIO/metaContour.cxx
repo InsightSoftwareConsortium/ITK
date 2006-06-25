@@ -1,19 +1,19 @@
+#include "metaContour.h"
+
 #include <stdio.h>
 #include <ctype.h>
-#include <iostream>
-#include <fstream>
 #include <string>
 
-#include <metaUtils.h>
-#include <metaObject.h>
-#include <metaContour.h>
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
 /** Constructor */
 MetaContour::
 MetaContour()
 :MetaObject()
 {
-  if(META_DEBUG) std::cout << "MetaContour()" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaContour()" << METAIO_STREAM::endl;
   Clear();
 }
 
@@ -22,7 +22,7 @@ MetaContour::
 MetaContour(const char *_headerName)
 :MetaObject()
 {
-  if(META_DEBUG)  std::cout << "MetaContour()" << std::endl;
+  if(META_DEBUG)  METAIO_STREAM::cout << "MetaContour()" << METAIO_STREAM::endl;
   Clear();
   Read(_headerName);
 }
@@ -32,7 +32,7 @@ MetaContour::
 MetaContour(const MetaContour *_Contour)
 :MetaObject()
 {
-  if(META_DEBUG)  std::cout << "MetaContour()" << std::endl;
+  if(META_DEBUG)  METAIO_STREAM::cout << "MetaContour()" << METAIO_STREAM::endl;
   Clear();
   CopyInfo(_Contour);
 }
@@ -44,7 +44,7 @@ MetaContour::
 MetaContour(unsigned int dim)
 :MetaObject(dim)
 {
-  if(META_DEBUG) std::cout << "MetaContour()" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaContour()" << METAIO_STREAM::endl;
   Clear();
 }
 
@@ -61,12 +61,12 @@ void MetaContour::
 PrintInfo() const
 {
   MetaObject::PrintInfo();
-  std::cout << "ControlPointDim = " << m_ControlPointDim << std::endl;
-  std::cout << "NControlPoints = " << m_NControlPoints << std::endl;
-  std::cout << "InterpolatedPointDim = " << m_InterpolatedPointDim << std::endl;
-  std::cout << "NInterpolatedPoints = " << m_NInterpolatedPoints << std::endl;
-  std::cout << "Display Orientation = " << m_DisplayOrientation << std::endl;
-  std::cout << "Attached to Slice = " << m_AttachedToSlice << std::endl;
+  METAIO_STREAM::cout << "ControlPointDim = " << m_ControlPointDim << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "NControlPoints = " << m_NControlPoints << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "InterpolatedPointDim = " << m_InterpolatedPointDim << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "NInterpolatedPoints = " << m_NInterpolatedPoints << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "Display Orientation = " << m_DisplayOrientation << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "Attached to Slice = " << m_AttachedToSlice << METAIO_STREAM::endl;
 }
 
 void MetaContour::
@@ -141,7 +141,7 @@ void MetaContour::Interpolation(MET_InterpolationEnumType _interpolation)
 void MetaContour::
 Clear(void)
 {
-  if(META_DEBUG) std::cout << "MetaContour: Clear" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaContour: Clear" << METAIO_STREAM::endl;
   MetaObject::Clear();
   m_InterpolationType = MET_NO_INTERPOLATION;
   m_NControlPoints = 0;
@@ -212,7 +212,7 @@ DisplayOrientation()
 void MetaContour::
 M_SetupReadFields(void)
 {
-  if(META_DEBUG) std::cout << "MetaContour: M_SetupReadFields" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaContour: M_SetupReadFields" << METAIO_STREAM::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -247,7 +247,7 @@ M_SetupReadFields(void)
 void MetaContour::
 M_SetupWriteFields(void)
 {
-  if(META_DEBUG) std::cout << "MetaContour: M_SetupWriteFields" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaContour: M_SetupWriteFields" << METAIO_STREAM::endl;
 
   strcpy(m_ObjectTypeName,"Contour");
   MetaObject::M_SetupWriteFields();
@@ -294,15 +294,15 @@ M_SetupWriteFields(void)
 bool MetaContour::
 M_Read(void)
 {
-  if(META_DEBUG) std::cout << "MetaContour: M_Read: Loading Header" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaContour: M_Read: Loading Header" << METAIO_STREAM::endl;
 
   if(!MetaObject::M_Read())
   {
-    std::cout << "MetaContour: M_Read: Error parsing file" << std::endl;
+    METAIO_STREAM::cout << "MetaContour: M_Read: Error parsing file" << METAIO_STREAM::endl;
     return false;
   }
 
-  if(META_DEBUG) std::cout << "MetaContour: M_Read: Parsing Header" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaContour: M_Read: Parsing Header" << METAIO_STREAM::endl;
  
   MET_FieldRecordType * mF;
  
@@ -368,9 +368,9 @@ M_Read(void)
     int gc = m_ReadStream->gcount();
     if(gc != readSize)
       {
-      std::cout << "MetaContour: m_Read: data not read completely" 
-                << std::endl;
-      std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
+      METAIO_STREAM::cout << "MetaContour: m_Read: data not read completely" 
+                << METAIO_STREAM::endl;
+      METAIO_STREAM::cout << "   ideal = " << readSize << " : actual = " << gc << METAIO_STREAM::endl;
       return false;
       }
 
@@ -530,9 +530,9 @@ M_Read(void)
       int gc = m_ReadStream->gcount();
       if(gc != readSize)
         {
-        std::cout << "MetaContour: m_Read: data not read completely" 
-                  << std::endl;
-        std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
+        METAIO_STREAM::cout << "MetaContour: m_Read: data not read completely" 
+                  << METAIO_STREAM::endl;
+        METAIO_STREAM::cout << "   ideal = " << readSize << " : actual = " << gc << METAIO_STREAM::endl;
         return false;
         }
 
@@ -608,11 +608,11 @@ M_Read(void)
 bool MetaContour::
 M_Write(void)
 {
-  if(META_DEBUG) std::cout << "MetaContour: M_Write" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaContour: M_Write" << METAIO_STREAM::endl;
 
   if(!MetaObject::M_Write())
     {
-    std::cout << "MetaContour: M_Read: Error parsing file" << std::endl;
+    METAIO_STREAM::cout << "MetaContour: M_Read: Error parsing file" << METAIO_STREAM::endl;
     return false;
     }
 
@@ -682,7 +682,7 @@ M_Write(void)
         {
         *m_WriteStream << (*it)->m_Color[d] << " ";
         }
-      *m_WriteStream << std::endl;
+      *m_WriteStream << METAIO_STREAM::endl;
       it++;
       }
     }
@@ -763,9 +763,14 @@ M_Write(void)
         {
         *m_WriteStream << (*it)->m_Color[d] << " ";
         }
-      *m_WriteStream << std::endl;
+      *m_WriteStream << METAIO_STREAM::endl;
       it++;
       }
     }
   return true;
 }
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
+

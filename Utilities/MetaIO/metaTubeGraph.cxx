@@ -1,19 +1,19 @@
+#include "metaTubeGraph.h"
+
 #include <stdio.h>
 #include <ctype.h>
-#include <iostream>
-#include <fstream>
 #include <string>
 
-#include "metaUtils.h"
-#include "metaObject.h"
-#include "metaTubeGraph.h"
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
 /** MetaTubeGraph Constructors */
 MetaTubeGraph::
 MetaTubeGraph()
 :MetaObject()
 {
-  if(META_DEBUG) std::cout << "MetaTubeGraph()" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaTubeGraph()" << METAIO_STREAM::endl;
   Clear();
 }
 
@@ -22,7 +22,7 @@ MetaTubeGraph::
 MetaTubeGraph(const char *_headerName)
 :MetaObject()
 {
-  if(META_DEBUG)  std::cout << "MetaTubeGraph()" << std::endl;
+  if(META_DEBUG)  METAIO_STREAM::cout << "MetaTubeGraph()" << METAIO_STREAM::endl;
   Clear();
   Read(_headerName);
 }
@@ -32,7 +32,7 @@ MetaTubeGraph::
 MetaTubeGraph(const MetaTubeGraph *_tube)
 :MetaObject()
 {
-  if(META_DEBUG)  std::cout << "MetaTubeGraph()" << std::endl;
+  if(META_DEBUG)  METAIO_STREAM::cout << "MetaTubeGraph()" << METAIO_STREAM::endl;
   Clear();
   CopyInfo(_tube);
 }
@@ -42,7 +42,7 @@ MetaTubeGraph::
 MetaTubeGraph(unsigned int dim)
 :MetaObject(dim)
 {
-  if(META_DEBUG) std::cout << "MetaTubeGraph()" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaTubeGraph()" << METAIO_STREAM::endl;
   Clear();
 }
 
@@ -67,12 +67,12 @@ void MetaTubeGraph::
 PrintInfo() const
 {
   MetaObject::PrintInfo();
-  std::cout << "Root = " << m_Root << std::endl;
-  std::cout << "PointDim = " << m_PointDim << std::endl;
-  std::cout << "NPoints = " << m_NPoints << std::endl;
+  METAIO_STREAM::cout << "Root = " << m_Root << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "PointDim = " << m_PointDim << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "NPoints = " << m_NPoints << METAIO_STREAM::endl;
   char str[255];
   MET_TypeToString(m_ElementType, str);
-  std::cout << "ElementType = " << str << std::endl;
+  METAIO_STREAM::cout << "ElementType = " << str << METAIO_STREAM::endl;
 }
 
 void MetaTubeGraph::
@@ -124,7 +124,7 @@ Root(void) const
 void MetaTubeGraph::
 Clear(void)
 {
-  if(META_DEBUG) std::cout << "MetaTubeGraph: Clear" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaTubeGraph: Clear" << METAIO_STREAM::endl;
   MetaObject::Clear();
   // Delete the list of pointers to tubes.
   PointListType::iterator it = m_PointList.begin();
@@ -153,7 +153,7 @@ M_Destroy(void)
 void MetaTubeGraph::
 M_SetupReadFields(void)
 {
-  if(META_DEBUG) std::cout << "MetaTubeGraph: M_SetupReadFields" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaTubeGraph: M_SetupReadFields" << METAIO_STREAM::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -266,15 +266,15 @@ M_SetupWriteFields(void)
 bool MetaTubeGraph::
 M_Read(void)
 {
-  if(META_DEBUG) std::cout << "MetaTubeGraph: M_Read: Loading Header" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaTubeGraph: M_Read: Loading Header" << METAIO_STREAM::endl;
 
   if(!MetaObject::M_Read())
   {
-    std::cout << "MetaTubeGraph: M_Read: Error parsing file" << std::endl;
+    METAIO_STREAM::cout << "MetaTubeGraph: M_Read: Error parsing file" << METAIO_STREAM::endl;
     return false;
   }
 
-  if(META_DEBUG) std::cout << "MetaTubeGraph: M_Read: Parsing Header" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaTubeGraph: M_Read: Parsing Header" << METAIO_STREAM::endl;
  
   MET_FieldRecordType * mF;
  
@@ -308,7 +308,7 @@ M_Read(void)
   MET_StringToWordArray(m_PointDim, &pntDim, &pntVal); 
  
   if(META_DEBUG)
-    { std::cout << "MetaTubeGraph: Parsing point dim" << std::endl; }
+    { METAIO_STREAM::cout << "MetaTubeGraph: Parsing point dim" << METAIO_STREAM::endl; }
 
   int j;
   for(j = 0; j < pntDim; j++) 
@@ -359,10 +359,10 @@ M_Read(void)
     int gc = m_ReadStream->gcount();
     if(gc != readSize)
     {
-      std::cout << "MetaLine: m_Read: data not read completely" 
-                << std::endl;
-      std::cout << "   ideal = " << readSize << " : actual = " << gc
-                << std::endl;
+      METAIO_STREAM::cout << "MetaLine: m_Read: data not read completely" 
+                << METAIO_STREAM::endl;
+      METAIO_STREAM::cout << "   ideal = " << readSize << " : actual = " << gc
+                << METAIO_STREAM::endl;
       return false;
     }
 
@@ -472,7 +472,7 @@ M_Write(void)
 
   if(!MetaObject::M_Write())
   {
-    std::cout << "MetaTubeGraph: M_Read: Error parsing file" << std::endl;
+    METAIO_STREAM::cout << "MetaTubeGraph: M_Read: Error parsing file" << METAIO_STREAM::endl;
     return false;
   }
 
@@ -525,7 +525,7 @@ M_Write(void)
          *m_WriteStream << (*it)->m_T[d] << " ";
       }
 
-      *m_WriteStream << std::endl;
+      *m_WriteStream << METAIO_STREAM::endl;
 
       it++;
     }
@@ -533,4 +533,8 @@ M_Write(void)
   return true;
 
 }
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 

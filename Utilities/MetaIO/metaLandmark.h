@@ -1,7 +1,10 @@
-#ifndef METALANDMARK_H
-#define METALANDMARK_H
-
 #include "metaTypes.h"
+
+#define NAMESPACE_METALANDMARK_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METALANDMARK_H)
+#ifndef $NAMESPACE_METALANDMARK_H
+#define $NAMESPACE_METALANDMARK_H
+
 #include "metaUtils.h"
 #include "metaObject.h"
 
@@ -21,6 +24,10 @@
  *    MetaUtils.h
  *    MetaFileLib.h
  */
+
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
 class LandmarkPnt
 {
@@ -54,7 +61,7 @@ public:
 
 
 
-class MetaLandmark : public MetaObject
+class METAIO_EXPORT MetaLandmark : public MetaObject
   {
 
   /////
@@ -64,7 +71,7 @@ class MetaLandmark : public MetaObject
   ////
   public:
 
-   typedef std::list<LandmarkPnt*> PointListType;
+   typedef METAIO_STL::list<LandmarkPnt*> PointListType;
     ////
     //
     // Constructors & Destructor
@@ -132,6 +139,10 @@ class MetaLandmark : public MetaObject
 
     MET_ValueEnumType m_ElementType;
   };
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 
 #endif

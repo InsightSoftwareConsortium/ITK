@@ -1,7 +1,10 @@
-#ifndef METAGroup_H
-#define METAGroup_H
-
 #include "metaTypes.h"
+
+#define NAMESPACE_METAGROUP_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METAGROUP_H)
+#ifndef $NAMESPACE_METAGROUP_H
+#define $NAMESPACE_METAGROUP_H
+
 #include "metaUtils.h"
 #include "metaObject.h"
 
@@ -22,8 +25,11 @@
  *    MetaObject.h
  */
 
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
-class MetaGroup : public MetaObject
+class METAIO_EXPORT MetaGroup : public MetaObject
   {
 
   /////
@@ -71,6 +77,10 @@ class MetaGroup : public MetaObject
     bool  M_Read(void);
 
   };
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 
 #endif

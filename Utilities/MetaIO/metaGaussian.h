@@ -1,7 +1,10 @@
-#ifndef METAGaussian_H
-#define METAGaussian_H
-
 #include "metaTypes.h"
+
+#define NAMESPACE_METAGAUSSIAN_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METAGAUSSIAN_H)
+#ifndef $NAMESPACE_METAGAUSSIAN_H
+#define $NAMESPACE_METAGAUSSIAN_H
+
 #include "metaUtils.h"
 #include "metaObject.h"
 
@@ -22,8 +25,11 @@
  *    MetaObject.h
  */
 
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
-class MetaGaussian : public MetaObject
+class METAIO_EXPORT MetaGaussian : public MetaObject
   {
 
   /////
@@ -80,6 +86,11 @@ class MetaGaussian : public MetaObject
     float m_Radius;
 
   };
+
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 
 #endif

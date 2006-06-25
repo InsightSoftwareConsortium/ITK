@@ -1,7 +1,10 @@
-#ifndef METASURFACE_H
-#define METASURFACE_H
-
 #include "metaTypes.h"
+
+#define NAMESPACE_METASURFACE_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METASURFACE_H)
+#ifndef $NAMESPACE_METASURFACE_H
+#define $NAMESPACE_METASURFACE_H
+
 #include "metaUtils.h"
 #include "metaObject.h"
 
@@ -18,6 +21,10 @@
  * \date July 02, 2002
  * 
  */
+
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
 class SurfacePnt
 {
@@ -54,7 +61,7 @@ public:
 
 
 
-class MetaSurface : public MetaObject
+class METAIO_EXPORT MetaSurface : public MetaObject
   {
 
   /////
@@ -64,7 +71,7 @@ class MetaSurface : public MetaObject
   ////
   public:
 
-   typedef std::list<SurfacePnt*> PointListType;
+   typedef METAIO_STL::list<SurfacePnt*> PointListType;
     ////
     //
     // Constructors & Destructor
@@ -134,5 +141,8 @@ class MetaSurface : public MetaObject
 
   };
 
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 #endif

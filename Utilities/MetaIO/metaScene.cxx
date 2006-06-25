@@ -4,8 +4,6 @@
 
 #include <stdio.h>
 #include <ctype.h>
-#include <iostream>
-#include <fstream>
 #include <string>
 
 #include "metaUtils.h"
@@ -29,6 +27,10 @@
 #include "metaTransform.h"
 #include "metaTubeGraph.h"
 
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
+
 //
 // MetaScene Constructors
 //
@@ -36,7 +38,7 @@ MetaScene::
 MetaScene()
 :MetaObject()
 {
-  if(META_DEBUG) std::cout << "MetaScene()" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaScene()" << METAIO_STREAM::endl;
   Clear();
 }
 
@@ -46,7 +48,7 @@ MetaScene::
 MetaScene(const MetaScene *_scene)
 :MetaObject()
 {
-  if(META_DEBUG) std::cout << "MetaScene()" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaScene()" << METAIO_STREAM::endl;
   Clear();
   CopyInfo(_scene);
 }
@@ -56,7 +58,7 @@ MetaScene::
 MetaScene(unsigned int dim)
 :MetaObject(dim)
 {
-  if(META_DEBUG) std::cout << "MetaScene()" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaScene()" << METAIO_STREAM::endl;
   Clear();
 }
 
@@ -74,7 +76,7 @@ void MetaScene::
 PrintInfo() const
 {
   MetaObject::PrintInfo();
-  std::cout << "Number of Objects = " << m_NObjects << std::endl;
+  METAIO_STREAM::cout << "Number of Objects = " << m_NObjects << METAIO_STREAM::endl;
 }
 
 void MetaScene::
@@ -105,7 +107,7 @@ AddObject(MetaObject* object)
 bool MetaScene::
 Read(const char *_headerName)
 {
-  if(META_DEBUG) std::cout << "MetaScene: Read" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaScene: Read" << METAIO_STREAM::endl;
 
   int i = 0;
   char suf[80];
@@ -126,21 +128,21 @@ Read(const char *_headerName)
     strcpy(m_FileName, _headerName);
   }
 
-  if(META_DEBUG) std::cout << "MetaScene: Read: Opening stream" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaScene: Read: Opening stream" << METAIO_STREAM::endl;
  
   M_PrepareNewReadStream();
   
-  m_ReadStream->open(m_FileName, std::ios::binary | std::ios::in);
+  m_ReadStream->open(m_FileName, METAIO_STREAM::ios::binary | METAIO_STREAM::ios::in);
   
   if(!m_ReadStream->is_open())
   {
-    std::cout << "MetaScene: Read: Cannot open file" << std::endl;
+    METAIO_STREAM::cout << "MetaScene: Read: Cannot open file" << METAIO_STREAM::endl;
     return false;
   }
 
   if(!M_Read())
   {
-    std::cout << "MetaScene: Read: Cannot parse file" << std::endl;
+    METAIO_STREAM::cout << "MetaScene: Read: Cannot parse file" << METAIO_STREAM::endl;
     m_ReadStream->close();
     return false;
   }
@@ -158,7 +160,7 @@ Read(const char *_headerName)
   /** Objects should be added here */
   for(i=0;i<m_NObjects;i++)
   {
-    if(META_DEBUG) std::cout << MET_ReadType(*m_ReadStream) << std::endl;
+    if(META_DEBUG) METAIO_STREAM::cout << MET_ReadType(*m_ReadStream) << METAIO_STREAM::endl;
 
     if(m_Event)
       {
@@ -334,7 +336,7 @@ Read(const char *_headerName)
 bool MetaScene::
 Write(const char *_headName)
 {
-  if(META_DEBUG) std::cout << "MetaScene: Write" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaScene: Write" << METAIO_STREAM::endl;
 
   if(_headName != NULL)
   {
@@ -349,16 +351,16 @@ Write(const char *_headName)
 
   if(!m_WriteStream)
   { 
-    m_WriteStream = new std::ofstream;
+    m_WriteStream = new METAIO_STREAM::ofstream;
   }
 
 #ifdef __sgi
   // Create the file. This is required on some older sgi's
-  std::ofstream tFile(m_FileName,std::ios::out);
+  METAIO_STREAM::ofstream tFile(m_FileName,METAIO_STREAM::ios::out);
   tFile.close();                    
 #endif
 
-  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
+  m_WriteStream->open(m_FileName, METAIO_STREAM::ios::binary | METAIO_STREAM::ios::out);
   if(!m_WriteStream->is_open())
     {
     return false;
@@ -388,7 +390,7 @@ Write(const char *_headName)
 void MetaScene::
 Clear(void)
 {
-  if(META_DEBUG) std::cout << "MetaScene: Clear" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaScene: Clear" << METAIO_STREAM::endl;
   MetaObject::Clear();
   // Delete the list of pointers to objects in the scene.
   ObjectListType::iterator it = m_ObjectList.begin();
@@ -414,7 +416,7 @@ M_Destroy(void)
 void MetaScene::
 M_SetupReadFields(void)
 {
-  if(META_DEBUG) std::cout << "MetaScene: M_SetupReadFields" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaScene: M_SetupReadFields" << METAIO_STREAM::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -464,7 +466,7 @@ M_SetupWriteFields(void)
 bool MetaScene::
 M_Read(void)
 {
-  if(META_DEBUG) std::cout<<"MetaScene: M_Read: Loading Header"<<std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout<<"MetaScene: M_Read: Loading Header"<<METAIO_STREAM::endl;
   if(strncmp(MET_ReadType(*m_ReadStream).c_str(),"Scene",5))
     {
     m_NObjects = 1;
@@ -473,11 +475,11 @@ M_Read(void)
 
   if(!MetaObject::M_Read())
     {
-    std::cout << "MetaScene: M_Read: Error parsing file" << std::endl;
+    METAIO_STREAM::cout << "MetaScene: M_Read: Error parsing file" << METAIO_STREAM::endl;
     return false;
     }
 
-  if(META_DEBUG) std::cout << "MetaScene: M_Read: Parsing Header" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaScene: M_Read: Parsing Header" << METAIO_STREAM::endl;
  
   MET_FieldRecordType * mF;
 
@@ -495,9 +497,14 @@ M_Write(void)
 {
   if(!MetaObject::M_Write())
   {
-    std::cout << "MetaScene: M_Write: Error parsing file" << std::endl;
+    METAIO_STREAM::cout << "MetaScene: M_Write: Error parsing file" << METAIO_STREAM::endl;
     return false;
   }
 
   return true;
 }
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
+

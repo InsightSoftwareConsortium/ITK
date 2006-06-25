@@ -1,11 +1,16 @@
-#ifndef METADTITube_H
-#define METADTITube_H
+#include "metaTypes.h"
+
+
+#define NAMESPACE_METADTITUBE_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METADTITUBE_H)
+#ifndef $NAMESPACE_METADTITUBE_H
+#define $NAMESPACE_METADTITUBE_H
+
 
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "metaTypes.h"
 #include "metaUtils.h"
 #include "metaObject.h"
 
@@ -22,12 +27,16 @@
  * \date May 22, 2002
  */
 
-class DTITubePnt
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
+
+class METAIO_EXPORT DTITubePnt
 {
 public:
 
-  typedef std::pair<std::string,float>  FieldType;
-  typedef std::vector<FieldType>        FieldListType;
+  typedef METAIO_STL::pair<METAIO_STL::string,float>  FieldType;
+  typedef METAIO_STL::vector<FieldType>        FieldListType;
 
   const FieldListType & GetExtraFields() const {return m_ExtraFields;}
   void AddField(const char* name, float value)
@@ -88,7 +97,7 @@ public:
 
 
 
-class MetaDTITube : public MetaObject
+class METAIO_EXPORT MetaDTITube : public MetaObject
   {
 
   /////
@@ -98,8 +107,8 @@ class MetaDTITube : public MetaObject
   ////
   public:
 
-   typedef std::list<DTITubePnt*> PointListType;
-   typedef std::pair<std::string,unsigned int> PositionType;
+   typedef METAIO_STL::list<DTITubePnt*> PointListType;
+   typedef METAIO_STL::pair<METAIO_STL::string,unsigned int> PositionType;
 
    ////
     //
@@ -178,14 +187,18 @@ class MetaDTITube : public MetaObject
 
     int m_NPoints;      // "NPoints = "         0
 
-    std::string m_PointDim; // "PointDim = "       "x y z r"
+    METAIO_STL::string m_PointDim; // "PointDim = "       "x y z r"
 
     PointListType m_PointList;
     MET_ValueEnumType m_ElementType;
-    std::vector<PositionType> m_Positions;
+    METAIO_STL::vector<PositionType> m_Positions;
 
     int GetPosition(const char*) const;
   };
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 
 #endif

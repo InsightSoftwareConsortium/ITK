@@ -1,7 +1,10 @@
-#ifndef METATUBEGRAPH_H
-#define METATUBEGRAPH_H
-
 #include "metaTypes.h"
+
+#define NAMESPACE_METATUBEGRAPH_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METATUBEGRAPH_H)
+#ifndef $NAMESPACE_METATUBEGRAPH_H
+#define $NAMESPACE_METATUBEGRAPH_H
+
 #include "metaUtils.h"
 #include "metaObject.h"
 
@@ -17,6 +20,10 @@
  * 
  * \date May 22, 2002
  */
+
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
 class TubeGraphPnt
 {
@@ -46,7 +53,7 @@ public:
 
 
 
-class MetaTubeGraph : public MetaObject
+class METAIO_EXPORT MetaTubeGraph : public MetaObject
   {
 
   /////
@@ -56,7 +63,7 @@ class MetaTubeGraph : public MetaObject
   ////
   public:
 
-   typedef std::vector<TubeGraphPnt*> PointListType;
+   typedef METAIO_STL::vector<TubeGraphPnt*> PointListType;
     ////
     //
     // Constructors & Destructor
@@ -131,5 +138,8 @@ class MetaTubeGraph : public MetaObject
     MET_ValueEnumType m_ElementType;
   };
 
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 #endif

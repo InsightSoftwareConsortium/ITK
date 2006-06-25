@@ -20,25 +20,30 @@
  *    February 22, 2002
  *
  **/
-#ifndef METAFILEUTILS_H
-#define METAFILEUTILS_H
+#include "metaTypes.h"
 
-#include <iostream>
+#define NAMESPACE_METAUTILS_H META_MERGE_TOKENS($META_IO_NAMESPACE, METAUTILS_H)
+#ifndef $NAMESPACE_METAUTILS_H
+#define $NAMESPACE_METAUTILS_H
+
+
 #include <vector>
 #include <string>
 #include <typeinfo>
 
-#include "metaTypes.h"
+
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
 
-
-extern MET_FieldRecordType * MET_GetFieldRecord(const char * _fieldName,
-                           std::vector<MET_FieldRecordType *> * _fields);
+METAIO_EXPORT MET_FieldRecordType * MET_GetFieldRecord(const char * _fieldName,
+                           METAIO_STL::vector<MET_FieldRecordType *> * _fields);
  
-extern int MET_GetFieldRecordNumber(const char * _fieldName,
-                           std::vector<MET_FieldRecordType *> * _fields);
+METAIO_EXPORT int MET_GetFieldRecordNumber(const char * _fieldName,
+                           METAIO_STL::vector<MET_FieldRecordType *> * _fields);
 
-extern bool MET_SystemByteOrderMSB(void);
+METAIO_EXPORT bool MET_SystemByteOrderMSB(void);
 
 inline unsigned short MET_ByteOrderSwapShort(unsigned short x)
   {
@@ -74,23 +79,23 @@ inline void MET_ByteOrderSwap8(void* x)
   p[4] = one_byte;
   }
 
-extern bool MET_StringToType(const char *_str, MET_ValueEnumType *_type);
+METAIO_EXPORT bool MET_StringToType(const char *_str, MET_ValueEnumType *_type);
 
-extern bool MET_TypeToString(MET_ValueEnumType _type, char *_str);
+METAIO_EXPORT bool MET_TypeToString(MET_ValueEnumType _type, char *_str);
 
-extern bool MET_SizeOfType(MET_ValueEnumType _type, int *_size);
+METAIO_EXPORT bool MET_SizeOfType(MET_ValueEnumType _type, int *_size);
 
-extern bool MET_ValueToDouble(MET_ValueEnumType _pType,
+METAIO_EXPORT bool MET_ValueToDouble(MET_ValueEnumType _pType,
                               const void *_data,
                               int _index,
                               double *_value);
 
-extern bool MET_DoubleToValue(double _value, 
+METAIO_EXPORT bool MET_DoubleToValue(double _value, 
                               MET_ValueEnumType _type, 
                               void *_data, 
                               int _index);
 
-extern bool MET_ValueToValue(MET_ValueEnumType _fromType,
+METAIO_EXPORT bool MET_ValueToValue(MET_ValueEnumType _fromType,
                              const void *_fromData,
                              int _index,
                              MET_ValueEnumType _toType,
@@ -98,21 +103,21 @@ extern bool MET_ValueToValue(MET_ValueEnumType _fromType,
                              double _fromMin=0, double _fromMax=0,
                              double _toMin=0, double _toMax=0);
 
-extern bool MET_StringToWordArray(const char *s, int *n, char ***val);
+METAIO_EXPORT bool MET_StringToWordArray(const char *s, int *n, char ***val);
 
 //
 //
 //
-extern bool MET_GetFilePath(const char *_fName, char *_fPath);
+METAIO_EXPORT bool MET_GetFilePath(const char *_fName, char *_fPath);
 
-extern bool MET_GetFileSuffixPtr(const char *_fName, int *i);
+METAIO_EXPORT bool MET_GetFileSuffixPtr(const char *_fName, int *i);
 
-extern bool MET_SetFileSuffix(char *_fName, const char *_suf);
+METAIO_EXPORT bool MET_SetFileSuffix(char *_fName, const char *_suf);
 
 //
 //
 //
-extern bool MET_InitWriteField(MET_FieldRecordType * _mf, 
+METAIO_EXPORT bool MET_InitWriteField(MET_FieldRecordType * _mf, 
                                    const char *_name, 
                                    MET_ValueEnumType _type, 
                                    double _v=0);
@@ -155,7 +160,7 @@ bool MET_InitWriteField(MET_FieldRecordType * _mf,
   }
 
 
-extern bool MET_InitReadField(MET_FieldRecordType * _mf, 
+METAIO_EXPORT bool MET_InitReadField(MET_FieldRecordType * _mf, 
                                   const char *_name, 
                                   MET_ValueEnumType _type, 
                                   bool _required=true,
@@ -167,28 +172,28 @@ extern bool MET_InitReadField(MET_FieldRecordType * _mf,
 //       at which file parsing should stop (e.g., if binary data follows)
 //    fromTopOfFile indicates whether the File pointer fp should be reset
 //       to topOfFile before parsing begins
-extern bool MET_Read(std::istream &fp,
-                     std::vector<MET_FieldRecordType *> * fields,
+METAIO_EXPORT bool MET_Read(METAIO_STREAM::istream &fp,
+                     METAIO_STL::vector<MET_FieldRecordType *> * fields,
                      char _sepChar='=', bool oneLine=false, bool display_warnings=true);
 
 // Given an array of fieldRecs, creates a metaFile.
-extern bool MET_Write(std::ostream &fp,
-                      std::vector<MET_FieldRecordType *> * fields,
+METAIO_EXPORT bool MET_Write(METAIO_STREAM::ostream &fp,
+                      METAIO_STL::vector<MET_FieldRecordType *> * fields,
                       char _sepChar='=');
 
-extern bool MET_WriteFieldToFile(std::ostream &_fp, const char *_fieldName,
+METAIO_EXPORT bool MET_WriteFieldToFile(METAIO_STREAM::ostream &_fp, const char *_fieldName,
                                  MET_ValueEnumType _pType, int _n, const void *_v);
 
-extern bool MET_WriteFieldToFile(std::ostream &_fp, const char *_fieldName,
+METAIO_EXPORT bool MET_WriteFieldToFile(METAIO_STREAM::ostream &_fp, const char *_fieldName,
                                  MET_ValueEnumType _pType, double _v);
 
 
 
-extern std::string MET_ReadType(std::istream & _fp);
+METAIO_EXPORT METAIO_STL::string MET_ReadType(METAIO_STREAM::istream & _fp);
 
-extern char* MET_ReadSubType(std::istream & _fp);
+METAIO_EXPORT char* MET_ReadSubType(METAIO_STREAM::istream & _fp);
 
-inline MET_ValueEnumType MET_GetPixelType(const std::type_info& ptype)
+inline MET_ValueEnumType MET_GetPixelType(const METAIO_STL::type_info& ptype)
 {
   if( ptype == typeid(MET_UCHAR_TYPE) )
     {
@@ -240,16 +245,22 @@ inline MET_ValueEnumType MET_GetPixelType(const std::type_info& ptype)
     }
   else
     {
-    std::cerr << "MET_GetPixelType: Couldn't convert pixel type : " 
-              << ptype.name() << std::endl;
+    METAIO_STREAM::cerr << "MET_GetPixelType: Couldn't convert pixel type : " 
+              << ptype.name() << METAIO_STREAM::endl;
     return MET_NONE;
     }
 }
 
-extern bool MET_StringToInterpolationType(const char * _str,
+METAIO_EXPORT bool MET_StringToInterpolationType(const char * _str,
                                MET_InterpolationEnumType * _type);
 
-extern bool MET_InterpolationTypeToString(MET_InterpolationEnumType _type,
+METAIO_EXPORT bool MET_InterpolationTypeToString(MET_InterpolationEnumType _type,
                                char * _str);
+
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
+
 
 #endif

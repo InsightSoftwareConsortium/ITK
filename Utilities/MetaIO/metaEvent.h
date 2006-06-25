@@ -1,5 +1,10 @@
-#ifndef METAEvent_H
-#define METAEvent_H
+#include "metaTypes.h"
+
+#define NAMESPACE_METAEVENT_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METAEVENT_H)
+#ifndef $NAMESPACE_METAEVENT_H
+#define $NAMESPACE_METAEVENT_H
+
 
 /*!    MetaEvent (.h)
  *
@@ -11,8 +16,12 @@
  *
  */
 
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
-class metaEvent
+
+class METAIO_EXPORT metaEvent
 {
  
 public:
@@ -38,6 +47,10 @@ protected:
   int m_Level;
 
 };
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 
 #endif

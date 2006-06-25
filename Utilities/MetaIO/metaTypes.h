@@ -1,3 +1,15 @@
+#include "localMetaConfiguration.h"
+
+#ifndef METATYPES_H_ONCE
+#define METATYPES_H_ONCE
+#define META_MERGE_TOKENS(a, b) a ## b
+#endif
+
+#define NAMESPACE_METATYPES_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METATYPES_H)
+#ifndef $NAMESPACE_METATYPES_H
+#define $NAMESPACE_METATYPES_H
+
 /*!
  * File:
  *   MetaTypes (.h and .cpp)
@@ -12,10 +24,9 @@
  * \date August 29, 1999
  * 
  */
-
-
-#ifndef METATYPES_H
-#define METATYPES_H
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
 typedef char                MET_ASCII_CHAR_TYPE;
 typedef char                MET_CHAR_TYPE;
@@ -171,5 +182,11 @@ const char MET_InterpolationTypeName[MET_NUM_INTERPOLATION_TYPES][17] = {
    {'M','E','T','_','E','X','P','L','I','C','I','T','\0',' ',' ',' ',' '},
    {'M','E','T','_','B','E','Z','I','E','R','\0',' ',' ',' ',' ',' ',' '},
    {'M','E','T','_','L','I','N','E','A','R','\0',' ',' ',' ',' ',' ',' '}};
+
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
+
 
 #endif

@@ -1,12 +1,12 @@
+#include "metaArrow.h"
+
 #include <stdio.h>
 #include <ctype.h>
-#include <iostream>
-#include <fstream>
 #include <string>
 
-#include "metaUtils.h"
-#include "metaObject.h"
-#include "metaArrow.h"
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
 //
 // Constructors
@@ -15,7 +15,7 @@ MetaArrow::
 MetaArrow()
 :MetaObject()
 {
-  if(META_DEBUG) std::cout << "MetaArrow()" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaArrow()" << METAIO_STREAM::endl;
   Clear();
 }
 
@@ -24,7 +24,7 @@ MetaArrow::
 MetaArrow(const char *_headerName)
 :MetaObject()
 {
-  if(META_DEBUG)  std::cout << "MetaArrow()" << std::endl;
+  if(META_DEBUG)  METAIO_STREAM::cout << "MetaArrow()" << METAIO_STREAM::endl;
   Clear();
   Read(_headerName);
 }
@@ -34,7 +34,7 @@ MetaArrow::
 MetaArrow(const MetaArrow *_Arrow)
 :MetaObject()
 {
-  if(META_DEBUG)  std::cout << "MetaArrow()" << std::endl;
+  if(META_DEBUG)  METAIO_STREAM::cout << "MetaArrow()" << METAIO_STREAM::endl;
   Clear();
   CopyInfo(_Arrow);
 }
@@ -43,7 +43,7 @@ MetaArrow::
 MetaArrow(unsigned int dim)
 :MetaObject(dim)
 {
-  if(META_DEBUG) std::cout << "MetaArrow()" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaArrow()" << METAIO_STREAM::endl;
   Clear();
 }
 
@@ -59,7 +59,7 @@ void MetaArrow::
 PrintInfo() const
 {
   MetaObject::PrintInfo();
-  std::cout << "Length = " << M_Length << std::endl;
+  METAIO_STREAM::cout << "Length = " << M_Length << METAIO_STREAM::endl;
 }
 
 void MetaArrow::
@@ -86,7 +86,7 @@ Length(void) const
 void MetaArrow::
 Clear(void)
 {
-  if(META_DEBUG) std::cout << "MetaArrow: Clear" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaArrow: Clear" << METAIO_STREAM::endl;
   MetaObject::Clear();
   M_Length = 1;
 }
@@ -102,7 +102,7 @@ M_Destroy(void)
 void MetaArrow::
 M_SetupReadFields(void)
 {
-  if(META_DEBUG) std::cout << "MetaArrow: M_SetupReadFields" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaArrow: M_SetupReadFields" << METAIO_STREAM::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -131,15 +131,15 @@ M_SetupWriteFields(void)
 bool MetaArrow::
 M_Read(void)
 {
-  if(META_DEBUG) std::cout << "MetaArrow: M_Read: Loading Header" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaArrow: M_Read: Loading Header" << METAIO_STREAM::endl;
   
   if(!MetaObject::M_Read())
   {
-    std::cout << "MetaArrow: M_Read: Error parsing file" << std::endl;
+    METAIO_STREAM::cout << "MetaArrow: M_Read: Error parsing file" << METAIO_STREAM::endl;
     return false;
   }
 
-  if(META_DEBUG) std::cout << "MetaArrow: M_Read: Parsing Header" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaArrow: M_Read: Parsing Header" << METAIO_STREAM::endl;
  
   MET_FieldRecordType * mF;
  
@@ -151,4 +151,8 @@ M_Read(void)
 
   return true;
 }
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 

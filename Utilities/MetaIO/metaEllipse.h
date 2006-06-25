@@ -1,7 +1,10 @@
-#ifndef METAEllipse_H
-#define METAEllipse_H
-
 #include "metaTypes.h"
+
+#define NAMESPACE_METAELLIPSE_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METAELLIPSE_H)
+#ifndef $NAMESPACE_METAELLIPSE_H
+#define $NAMESPACE_METAELLIPSE_H
+
 #include "metaUtils.h"
 #include "metaObject.h"
 
@@ -22,8 +25,12 @@
  *    MetaObject.h
  */
 
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
-class MetaEllipse : public MetaObject
+
+class METAIO_EXPORT MetaEllipse : public MetaObject
   {
 
   /////
@@ -79,6 +86,10 @@ class MetaEllipse : public MetaObject
     float m_Radius[100];  // "Radius = "     0
 
   };
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 
 #endif

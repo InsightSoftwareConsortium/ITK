@@ -1,13 +1,13 @@
+#include "metaEllipse.h"
+
 #include <stdio.h>
 #include <ctype.h>
-#include <iostream>
-#include <fstream>
 #include <string>
 #include <string.h> // for memset
 
-#include "metaUtils.h"
-#include "metaObject.h"
-#include "metaEllipse.h"
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
 //
 // MedImage Constructors
@@ -16,7 +16,7 @@ MetaEllipse::
 MetaEllipse()
 :MetaObject()
 {
-  if(META_DEBUG) std::cout << "MetaEllipse()" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaEllipse()" << METAIO_STREAM::endl;
   Clear();
 
 }
@@ -26,7 +26,7 @@ MetaEllipse::
 MetaEllipse(const char *_headerName)
 :MetaObject()
 {
-  if(META_DEBUG)  std::cout << "MetaEllipse()" << std::endl;
+  if(META_DEBUG)  METAIO_STREAM::cout << "MetaEllipse()" << METAIO_STREAM::endl;
   Clear();
   Read(_headerName);
 }
@@ -36,7 +36,7 @@ MetaEllipse::
 MetaEllipse(const MetaEllipse *_ellipse)
 :MetaObject()
 {
-  if(META_DEBUG)  std::cout << "MetaEllipse()" << std::endl;
+  if(META_DEBUG)  METAIO_STREAM::cout << "MetaEllipse()" << METAIO_STREAM::endl;
   Clear();
   CopyInfo(_ellipse);
 }
@@ -45,7 +45,7 @@ MetaEllipse::
 MetaEllipse(unsigned int dim)
 :MetaObject(dim)
 {
-  if(META_DEBUG) std::cout << "MetaEllipse()" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaEllipse()" << METAIO_STREAM::endl;
   Clear();
 }
 
@@ -61,12 +61,12 @@ void MetaEllipse::
 PrintInfo() const
 {
   MetaObject::PrintInfo();
-  std::cout << "Radius = ";
+  METAIO_STREAM::cout << "Radius = ";
   for(int i=0;i<m_NDims;i++)
   {
-    std::cout << m_Radius[i] << " ";
+    METAIO_STREAM::cout << m_Radius[i] << " ";
   }
-  std::cout << std::endl;
+  METAIO_STREAM::cout << METAIO_STREAM::endl;
 }
 
 void MetaEllipse::
@@ -119,7 +119,7 @@ Radius(void) const
 void MetaEllipse::
 Clear(void)
 {
-  if(META_DEBUG) std::cout << "MetaEllipse: Clear" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaEllipse: Clear" << METAIO_STREAM::endl;
   MetaObject::Clear();
   memset(m_Radius, 0, 100*sizeof(float));
   
@@ -140,7 +140,7 @@ M_Destroy(void)
 void MetaEllipse::
 M_SetupReadFields(void)
 {
-  if(META_DEBUG) std::cout << "MetaEllipse: M_SetupReadFields" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaEllipse: M_SetupReadFields" << METAIO_STREAM::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -172,15 +172,15 @@ M_SetupWriteFields(void)
 bool MetaEllipse::
 M_Read(void)
 {
-  if(META_DEBUG) std::cout << "MetaEllipse: M_Read: Loading Header" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaEllipse: M_Read: Loading Header" << METAIO_STREAM::endl;
   
   if(!MetaObject::M_Read())
   {
-    std::cout << "MetaEllipse: M_Read: Error parsing file" << std::endl;
+    METAIO_STREAM::cout << "MetaEllipse: M_Read: Error parsing file" << METAIO_STREAM::endl;
     return false;
   }
 
-  if(META_DEBUG) std::cout << "MetaEllipse: M_Read: Parsing Header" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaEllipse: M_Read: Parsing Header" << METAIO_STREAM::endl;
  
   MET_FieldRecordType * mF;
  
@@ -195,4 +195,8 @@ M_Read(void)
 
   return true;
 }
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 

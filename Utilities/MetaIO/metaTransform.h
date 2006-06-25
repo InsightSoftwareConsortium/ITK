@@ -1,7 +1,10 @@
-#ifndef MetaTransform_H
-#define MetaTransform_H
-
 #include "metaTypes.h"
+
+#define NAMESPACE_METATRANSFORM_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METATRANSFORM_H)
+#ifndef $NAMESPACE_METATRANSFORM_H
+#define $NAMESPACE_METATRANSFORM_H
+
 #include "metaUtils.h"
 #include "metaObject.h"
 
@@ -22,8 +25,12 @@
  *    MetaObject.h
  */
 
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
-class MetaTransform : public MetaObject
+
+class METAIO_EXPORT MetaTransform : public MetaObject
   {
 
   /////
@@ -106,6 +113,10 @@ class MetaTransform : public MetaObject
   double gridRegionIndex[100];
 
   };
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 
 #endif

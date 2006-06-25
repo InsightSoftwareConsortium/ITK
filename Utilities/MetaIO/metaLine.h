@@ -1,7 +1,10 @@
-#ifndef METALINE_H
-#define METALINE_H
-
 #include "metaTypes.h"
+
+#define NAMESPACE_METALINE_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METALINE_H)
+#ifndef $NAMESPACE_METALINE_H
+#define $NAMESPACE_METALINE_H
+
 #include "metaUtils.h"
 #include "metaObject.h"
 
@@ -18,6 +21,10 @@
  * \date July 02, 2002
  *
  */
+
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
 class LinePnt
 {
@@ -66,7 +73,7 @@ public:
 
 
 
-class MetaLine : public MetaObject
+class METAIO_EXPORT MetaLine : public MetaObject
   {
 
   /////
@@ -76,7 +83,7 @@ class MetaLine : public MetaObject
   ////
   public:
 
-   typedef std::list<LinePnt*> PointListType;
+   typedef METAIO_STL::list<LinePnt*> PointListType;
     ////
     //
     // Constructors & Destructor
@@ -146,6 +153,10 @@ class MetaLine : public MetaObject
     MET_ValueEnumType m_ElementType;
 
   };
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 
 #endif

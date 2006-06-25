@@ -1,5 +1,6 @@
+#include "metaUtils.h"
+
 #include <stdio.h>
-#include <iostream>
 #include <ctype.h>
 
 #include <sys/stat.h>
@@ -10,11 +11,12 @@
 #include <arpa/inet.h>
 #endif
 
-#include "metaTypes.h"
-#include "metaUtils.h"
-
 #include <stdlib.h>
 #include <string>
+
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
 char MET_SeperatorChar = '=';
 
@@ -35,9 +37,9 @@ bool MET_SystemByteOrderMSB(void)
 
 MET_FieldRecordType * 
 MET_GetFieldRecord(const char * _fieldName,
-                   std::vector<MET_FieldRecordType *> * _fields)
+                   METAIO_STL::vector<MET_FieldRecordType *> * _fields)
   {
-  std::vector<MET_FieldRecordType *>::iterator fieldIter;
+  METAIO_STL::vector<MET_FieldRecordType *>::iterator fieldIter;
   for(fieldIter=_fields->begin(); fieldIter!=_fields->end(); fieldIter++)
     {
     if(!strcmp((*fieldIter)->name, _fieldName))
@@ -51,7 +53,7 @@ MET_GetFieldRecord(const char * _fieldName,
 
 int
 MET_GetFieldRecordNumber(const char * _fieldName,
-                         std::vector<MET_FieldRecordType *> * _fields)
+                         METAIO_STL::vector<MET_FieldRecordType *> * _fields)
   {
   int i;
   for(i=0; i<(int)_fields->size(); i++)
@@ -68,10 +70,10 @@ MET_GetFieldRecordNumber(const char * _fieldName,
 //
 // Read the type of the object
 //
-std::string MET_ReadType(std::istream &_fp)
+METAIO_STL::string MET_ReadType(METAIO_STREAM::istream &_fp)
   {
   unsigned int pos = _fp.tellg();
-  std::vector<MET_FieldRecordType *> fields;
+  METAIO_STL::vector<MET_FieldRecordType *> fields;
   MET_FieldRecordType* mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ObjectType", MET_STRING, false);
   mF->required = false;
@@ -81,7 +83,7 @@ std::string MET_ReadType(std::istream &_fp)
   MET_Read(_fp, &fields, '=', true);
   _fp.seekg(pos);
 
-  std::string value;
+  METAIO_STL::string value;
 
   if(mF && mF->defined)
     {
@@ -98,10 +100,10 @@ std::string MET_ReadType(std::istream &_fp)
 //
 // Read the subtype of the object
 //
-char* MET_ReadSubType(std::istream &_fp)
+char* MET_ReadSubType(METAIO_STREAM::istream &_fp)
   {
   unsigned int pos = _fp.tellg();
-  std::vector<MET_FieldRecordType *> fields;
+  METAIO_STL::vector<MET_FieldRecordType *> fields;
   MET_FieldRecordType* mF;  
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ObjectType", MET_STRING, false);
@@ -113,7 +115,7 @@ char* MET_ReadSubType(std::istream &_fp)
   // Find the line right after the ObjectType
   char s[1024];
   _fp.getline( s, 500 );
-  std::string value = s;
+  METAIO_STL::string value = s;
   int position = value.find("=");
   if(position!=-1)
     {
@@ -576,7 +578,7 @@ bool MET_InitReadField(MET_FieldRecordType * _mf,
 //
 //
 //
-bool MET_SkipToVal(std::istream &fp)
+bool MET_SkipToVal(METAIO_STREAM::istream &fp)
   {
   char c;
   if( fp.eof() )
@@ -598,7 +600,7 @@ bool MET_SkipToVal(std::istream &fp)
   
   if( fp.eof() )
     {
-    std::cerr << "Incomplete file record definition" << std::endl;
+    METAIO_STREAM::cerr << "Incomplete file record definition" << METAIO_STREAM::endl;
     return false;
     }
   
@@ -610,15 +612,15 @@ bool MET_SkipToVal(std::istream &fp)
 //
 //
 //
-bool MET_IsComplete(std::vector<MET_FieldRecordType *> * fields)
+bool MET_IsComplete(METAIO_STL::vector<MET_FieldRecordType *> * fields)
   {
-  std::vector<MET_FieldRecordType *>::iterator fieldIter;
+  METAIO_STL::vector<MET_FieldRecordType *>::iterator fieldIter;
   for(fieldIter=fields->begin(); fieldIter!=fields->end(); fieldIter++)
     {
     if((*fieldIter)->required && !(*fieldIter)->defined)
       {
-      std::cerr << (*fieldIter)->name << " required and not defined." 
-                << std::endl;
+      METAIO_STREAM::cerr << (*fieldIter)->name << " required and not defined." 
+                << METAIO_STREAM::endl;
       return false;
       }
     }
@@ -626,14 +628,14 @@ bool MET_IsComplete(std::vector<MET_FieldRecordType *> * fields)
   }
 
 //
-bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
+bool MET_Read(METAIO_STREAM::istream &fp, METAIO_STL::vector<MET_FieldRecordType *> * fields,
               char _MET_SeperatorChar, bool oneLine, bool display_warnings)
   {
 
   char s[1024];
   int i, j;
 
-  std::vector<MET_FieldRecordType *>::iterator fieldIter;
+  METAIO_STL::vector<MET_FieldRecordType *>::iterator fieldIter;
   
   MET_SeperatorChar = _MET_SeperatorChar;
   
@@ -675,8 +677,8 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
         if((*fieldIter)->dependsOn >= 0)
           if(!(*fields)[(*fieldIter)->dependsOn]->defined)
             {
-            std::cerr << (*fieldIter)->name << " defined prior to defining ";
-            std::cerr << (*fields)[(*fieldIter)->dependsOn]->name << std::endl;
+            METAIO_STREAM::cerr << (*fieldIter)->name << " defined prior to defining ";
+            METAIO_STREAM::cerr << (*fields)[(*fieldIter)->dependsOn]->name << METAIO_STREAM::endl;
             return false;
             }
         switch((*fieldIter)->type)
@@ -768,9 +770,9 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
               {
               if((*fieldIter)->length <= 0)
                 {
-                std::cerr << 
+                METAIO_STREAM::cerr << 
                   "Arrays must have dependency or pre-specified lengths"
-                  << std::endl;
+                  << METAIO_STREAM::endl;
                 return false;
                 }
               for(j=0; j<(*fieldIter)->length; j++)
@@ -802,9 +804,9 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
               {
               if((*fieldIter)->length <= 0)
                 {
-                std::cerr << 
+                METAIO_STREAM::cerr << 
                   "Arrays must have dependency or pre-specified lengths"
-                  << std::endl;
+                  << METAIO_STREAM::endl;
                 return false;
                 }
               for(j=0; j<(*fieldIter)->length*(*fieldIter)->length; j++)
@@ -834,7 +836,7 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
       {
       if(display_warnings)
         {
-        std::cerr << "Skipping unrecognized field " << s << std::endl;
+        METAIO_STREAM::cerr << "Skipping unrecognized field " << s << METAIO_STREAM::endl;
         }
       fp.getline( s, 500 );
       }
@@ -848,13 +850,13 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
   }
   
 //
-bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
+bool MET_Write(METAIO_STREAM::ostream &fp, METAIO_STL::vector<MET_FieldRecordType *> * fields,
                char _MET_SeperatorChar)
   {
   MET_SeperatorChar = _MET_SeperatorChar;
   
   int j;
-  std::vector<MET_FieldRecordType *>::iterator fieldIter;
+  METAIO_STL::vector<MET_FieldRecordType *>::iterator fieldIter;
   for(fieldIter=fields->begin(); fieldIter!=fields->end(); fieldIter++)
     {
     switch((*fieldIter)->type)
@@ -862,13 +864,13 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
       case MET_NONE:
         {
         fp << (*fieldIter)->name << " " << MET_SeperatorChar << " " 
-           << std::endl;
+           << METAIO_STREAM::endl;
         break;
         }
       case MET_ASCII_CHAR:
         {
         fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
-        fp << (MET_CHAR_TYPE)(*fieldIter)->value[0] << std::endl;
+        fp << (MET_CHAR_TYPE)(*fieldIter)->value[0] << METAIO_STREAM::endl;
         break;
         }
       case MET_CHAR:
@@ -877,20 +879,20 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
       case MET_INT:
         {
         fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
-        fp << (MET_LONG_TYPE)((*fieldIter)->value[0]) << std::endl;
+        fp << (MET_LONG_TYPE)((*fieldIter)->value[0]) << METAIO_STREAM::endl;
         break;
         }
       case MET_LONG_LONG:
         {
 #if defined(_MSC_VER) // NOTE: you cannot use __int64 in an ostream in MSV6
         fp << (double)((MET_LONG_LONG_TYPE)((*fieldIter)->value[0])) 
-           << std::endl;
-        std::cerr << "Programs compiled using MSV6 cannot write 64 bit ints"
-                  << std::endl;
-        std::cerr << "  Writing as double instead.  Loss of precision results."
-                  << std::endl;
+           << METAIO_STREAM::endl;
+        METAIO_STREAM::cerr << "Programs compiled using MSV6 cannot write 64 bit ints"
+                  << METAIO_STREAM::endl;
+        METAIO_STREAM::cerr << "  Writing as double instead.  Loss of precision results."
+                  << METAIO_STREAM::endl;
 #else
-        fp << (MET_LONG_LONG_TYPE)((*fieldIter)->value[0]) << std::endl;
+        fp << (MET_LONG_LONG_TYPE)((*fieldIter)->value[0]) << METAIO_STREAM::endl;
 #endif
         break;
         }
@@ -900,20 +902,20 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
       case MET_ULONG:
         {
         fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
-        fp << (MET_ULONG_TYPE)((*fieldIter)->value[0]) << std::endl;
+        fp << (MET_ULONG_TYPE)((*fieldIter)->value[0]) << METAIO_STREAM::endl;
         break;
         }
       case MET_ULONG_LONG:
         {
 #if defined(_MSC_VER) // NOTE: you cannot use __int64 in an ostream in MSV6
         fp << (double)((MET_LONG_LONG_TYPE)((MET_ULONG_LONG_TYPE)((*fieldIter)->value[0]))) 
-           << std::endl;
-        std::cerr << "Programs compiled using MSV6 cannot write 64 bit ints"
-                  << std::endl;
-        std::cerr << "  Writing as double instead.  Loss of precision results."
-                  << std::endl;
+           << METAIO_STREAM::endl;
+        METAIO_STREAM::cerr << "Programs compiled using MSV6 cannot write 64 bit ints"
+                  << METAIO_STREAM::endl;
+        METAIO_STREAM::cerr << "  Writing as double instead.  Loss of precision results."
+                  << METAIO_STREAM::endl;
 #else
-        fp << (MET_ULONG_LONG_TYPE)((*fieldIter)->value[0]) << std::endl;
+        fp << (MET_ULONG_LONG_TYPE)((*fieldIter)->value[0]) << METAIO_STREAM::endl;
 #endif
         break;
         }
@@ -921,7 +923,7 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
       case MET_DOUBLE:
         {
         fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
-        fp << (MET_DOUBLE_TYPE)(*fieldIter)->value[0] << std::endl;
+        fp << (MET_DOUBLE_TYPE)(*fieldIter)->value[0] << METAIO_STREAM::endl;
         break;
         }
       case MET_STRING:
@@ -932,13 +934,13 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
           if((*fieldIter)->length != 
              (*fields)[(*fieldIter)->dependsOn]->value[0])
             {
-            std::cerr << "Warning:";
-            std::cerr << "length and dependsOn values not equal in write";
-            std::cerr << std::endl;
+            METAIO_STREAM::cerr << "Warning:";
+            METAIO_STREAM::cerr << "length and dependsOn values not equal in write";
+            METAIO_STREAM::cerr << METAIO_STREAM::endl;
             }
           }
         fp.write( (char *)((*fieldIter)->value), (*fieldIter)->length );
-        fp << std::endl;
+        fp << METAIO_STREAM::endl;
         break;
         }
       case MET_CHAR_ARRAY:
@@ -952,16 +954,16 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
           if((*fieldIter)->length != 
              (*fields)[(*fieldIter)->dependsOn]->value[0])
             {
-            std::cerr << "Warning: ";
-            std::cerr << "Length and dependsOn values not equal in write";
-            std::cerr << std::endl;
+            METAIO_STREAM::cerr << "Warning: ";
+            METAIO_STREAM::cerr << "Length and dependsOn values not equal in write";
+            METAIO_STREAM::cerr << METAIO_STREAM::endl;
             }
           }
         for(j=0; j<(*fieldIter)->length; j++)
           {
           fp << " " << (MET_LONG_TYPE)((*fieldIter)->value[j]);
           }
-        fp << std::endl;
+        fp << METAIO_STREAM::endl;
         break;
         }
       case MET_LONG_LONG_ARRAY:
@@ -972,24 +974,24 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
           if((*fieldIter)->length != 
              (*fields)[(*fieldIter)->dependsOn]->value[0])
             {
-            std::cerr << "Warning: ";
-            std::cerr << "Length and dependsOn values not equal in write";
-            std::cerr << std::endl;
+            METAIO_STREAM::cerr << "Warning: ";
+            METAIO_STREAM::cerr << "Length and dependsOn values not equal in write";
+            METAIO_STREAM::cerr << METAIO_STREAM::endl;
             }
           }
         for(j=0; j<(*fieldIter)->length; j++)
           {
 #if defined(_MSC_VER) // NOTE: you cannot use __int64 in an ostream in MSV6
           fp << " " << (double)((MET_LONG_LONG_TYPE)((*fieldIter)->value[j]));
-          std::cerr << "Programs compiled using MSV6 cannot write 64 bit ints"
-                    << std::endl;
-          std::cerr << "  Writing as double instead. Loss of precision results."
-                    << std::endl;
+          METAIO_STREAM::cerr << "Programs compiled using MSV6 cannot write 64 bit ints"
+                    << METAIO_STREAM::endl;
+          METAIO_STREAM::cerr << "  Writing as double instead. Loss of precision results."
+                    << METAIO_STREAM::endl;
 #else
           fp << " " << (MET_LONG_LONG_TYPE)((*fieldIter)->value[j]);
 #endif
           }
-        fp << std::endl;
+        fp << METAIO_STREAM::endl;
         break;
         }
 
@@ -1004,16 +1006,16 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
           if((*fieldIter)->length != 
              (*fields)[(*fieldIter)->dependsOn]->value[0])
             {
-            std::cerr << "Warning: ";
-            std::cerr << "Length and dependsOn values not equal in write";
-            std::cerr << std::endl;
+            METAIO_STREAM::cerr << "Warning: ";
+            METAIO_STREAM::cerr << "Length and dependsOn values not equal in write";
+            METAIO_STREAM::cerr << METAIO_STREAM::endl;
             }
           }
         for(j=0; j<(*fieldIter)->length; j++)
           {
           fp << " " << (MET_ULONG_TYPE)((*fieldIter)->value[j]);
           }
-        fp << std::endl;
+        fp << METAIO_STREAM::endl;
         break;
         }
       case MET_ULONG_LONG_ARRAY:
@@ -1024,24 +1026,24 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
           if((*fieldIter)->length != 
              (*fields)[(*fieldIter)->dependsOn]->value[0])
             {
-            std::cerr << "Warning: ";
-            std::cerr << "Length and dependsOn values not equal in write";
-            std::cerr << std::endl;
+            METAIO_STREAM::cerr << "Warning: ";
+            METAIO_STREAM::cerr << "Length and dependsOn values not equal in write";
+            METAIO_STREAM::cerr << METAIO_STREAM::endl;
             }
           }
         for(j=0; j<(*fieldIter)->length; j++)
           {
 #if defined(_MSC_VER) // NOTE: you cannot use __int64 in an ostream in MSV6
           fp << " " << (double)((MET_LONG_LONG_TYPE)((MET_ULONG_LONG_TYPE)((*fieldIter)->value[j])));
-          std::cerr << "Programs compiled using MSV6 cannot write 64 bit ints"
-                    << std::endl;
-          std::cerr << "  Writing as double instead. Loss of precision results."
-                    << std::endl;
+          METAIO_STREAM::cerr << "Programs compiled using MSV6 cannot write 64 bit ints"
+                    << METAIO_STREAM::endl;
+          METAIO_STREAM::cerr << "  Writing as double instead. Loss of precision results."
+                    << METAIO_STREAM::endl;
 #else
           fp << " " << (MET_ULONG_LONG_TYPE)((*fieldIter)->value[j]);
 #endif
           }
-        fp << std::endl;
+        fp << METAIO_STREAM::endl;
         break;
         }
 
@@ -1054,16 +1056,16 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
           if((*fieldIter)->length != 
              (*fields)[(*fieldIter)->dependsOn]->value[0])
             {
-            std::cerr << "Warning: ";
-            std::cerr << "length and dependsOn values not equal in write";
-            std::cerr << std::endl;
+            METAIO_STREAM::cerr << "Warning: ";
+            METAIO_STREAM::cerr << "length and dependsOn values not equal in write";
+            METAIO_STREAM::cerr << METAIO_STREAM::endl;
             }
           }
         for(j=0; j<(*fieldIter)->length; j++)
           {
           fp << " " << (double)(*fieldIter)->value[j];
           }
-        fp << std::endl;
+        fp << METAIO_STREAM::endl;
         break;
         }
       case MET_FLOAT_MATRIX:
@@ -1074,16 +1076,16 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
           if((*fieldIter)->length != 
              (*fields)[(*fieldIter)->dependsOn]->value[0])
             {
-            std::cerr << "Warning: ";
-            std::cerr << "length and dependsOn values not equal in write";
-            std::cerr << std::endl;
+            METAIO_STREAM::cerr << "Warning: ";
+            METAIO_STREAM::cerr << "length and dependsOn values not equal in write";
+            METAIO_STREAM::cerr << METAIO_STREAM::endl;
             }
           }
         for(j=0; j<(*fieldIter)->length*(*fieldIter)->length; j++)
           {
           fp << " " << (double)(*fieldIter)->value[j];
           }
-        fp << std::endl;
+        fp << METAIO_STREAM::endl;
         break;
         }
       case MET_OTHER:
@@ -1095,7 +1097,7 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
   return true;
 }
 
-bool MET_WriteFieldToFile(std::ostream & _fp, const char *_fieldName,
+bool MET_WriteFieldToFile(METAIO_STREAM::ostream & _fp, const char *_fieldName,
                           MET_ValueEnumType _pType, int _n, const void *_v)
   {
   int i;
@@ -1211,7 +1213,7 @@ bool MET_WriteFieldToFile(std::ostream & _fp, const char *_fieldName,
       break;
     }
   
-  std::vector<MET_FieldRecordType *> l;
+  METAIO_STL::vector<MET_FieldRecordType *> l;
   l.clear();
   l.push_back(&f);
   MET_Write(_fp, &l);
@@ -1219,7 +1221,7 @@ bool MET_WriteFieldToFile(std::ostream & _fp, const char *_fieldName,
   return true;
   }
 
-bool MET_WriteFieldToFile(std::ostream & _fp, const char *_fieldName,
+bool MET_WriteFieldToFile(METAIO_STREAM::ostream & _fp, const char *_fieldName,
   MET_ValueEnumType _pType, double _v)
   {
   MET_FieldRecordType f;
@@ -1232,7 +1234,7 @@ bool MET_WriteFieldToFile(std::ostream & _fp, const char *_fieldName,
   f.type = _pType;
   f.value[0] = _v;
   
-  std::vector<MET_FieldRecordType *> l;
+  METAIO_STL::vector<MET_FieldRecordType *> l;
   l.clear();
   l.push_back(&f);
   MET_Write(_fp, &l);
@@ -1263,3 +1265,8 @@ bool MET_InterpolationTypeToString(MET_InterpolationEnumType _type,
   strcpy(_str, MET_InterpolationTypeName[(int)_type]);
   return true;
   }
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
+

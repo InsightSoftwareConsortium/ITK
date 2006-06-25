@@ -2,22 +2,22 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#include "metaDTITube.h"
+
 #include <stdio.h>
 #include <ctype.h>
-#include <iostream>
-#include <fstream>
 #include <string>
 
-#include "metaUtils.h"
-#include "metaObject.h"
-#include "metaDTITube.h"
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
 /** MetaDTITube Constructors */
 MetaDTITube::
 MetaDTITube()
 :MetaObject()
 {
-  if(META_DEBUG) std::cout << "MetaDTITube()" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaDTITube()" << METAIO_STREAM::endl;
   Clear();
 }
 
@@ -26,7 +26,7 @@ MetaDTITube::
 MetaDTITube(const char *_headerName)
 :MetaObject()
 {
-  if(META_DEBUG)  std::cout << "MetaDTITube()" << std::endl;
+  if(META_DEBUG)  METAIO_STREAM::cout << "MetaDTITube()" << METAIO_STREAM::endl;
   Clear();
   Read(_headerName);
 }
@@ -36,7 +36,7 @@ MetaDTITube::
 MetaDTITube(const MetaDTITube *_DTITube)
 :MetaObject()
 {
-  if(META_DEBUG)  std::cout << "MetaDTITube()" << std::endl;
+  if(META_DEBUG)  METAIO_STREAM::cout << "MetaDTITube()" << METAIO_STREAM::endl;
   Clear();
   CopyInfo(_DTITube);
 }
@@ -46,7 +46,7 @@ MetaDTITube::
 MetaDTITube(unsigned int dim)
 :MetaObject(dim)
 {
-  if(META_DEBUG) std::cout << "MetaDTITube()" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaDTITube()" << METAIO_STREAM::endl;
   Clear();
 }
 
@@ -71,20 +71,20 @@ void MetaDTITube::
 PrintInfo() const
 {
   MetaObject::PrintInfo();
-  std::cout << "ParentPoint = " << m_ParentPoint << std::endl;
+  METAIO_STREAM::cout << "ParentPoint = " << m_ParentPoint << METAIO_STREAM::endl;
   if(m_Root)
     {
-    std::cout << "Root = " << "True" << std::endl;
+    METAIO_STREAM::cout << "Root = " << "True" << METAIO_STREAM::endl;
     }
   else
     {
-    std::cout << "Root = " << "True" << std::endl;
+    METAIO_STREAM::cout << "Root = " << "True" << METAIO_STREAM::endl;
     }
-  std::cout << "PointDim = " << m_PointDim << std::endl;
-  std::cout << "NPoints = " << m_NPoints << std::endl;
+  METAIO_STREAM::cout << "PointDim = " << m_PointDim << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "NPoints = " << m_NPoints << METAIO_STREAM::endl;
   char str[255];
   MET_TypeToString(m_ElementType, str);
-  std::cout << "ElementType = " << str << std::endl;
+  METAIO_STREAM::cout << "ElementType = " << str << METAIO_STREAM::endl;
 }
 
 void MetaDTITube::
@@ -148,7 +148,7 @@ ParentPoint(void) const
 void MetaDTITube::
 Clear(void)
 {
-  if(META_DEBUG) std::cout << "MetaDTITube: Clear" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaDTITube: Clear" << METAIO_STREAM::endl;
   MetaObject::Clear();
   // Delete the list of pointers to DTITubes.
   PointListType::iterator it = m_PointList.begin();
@@ -178,7 +178,7 @@ M_Destroy(void)
 void MetaDTITube::
 M_SetupReadFields(void)
 {
-  if(META_DEBUG) std::cout << "MetaDTITube: M_SetupReadFields" << std::endl;
+  if(META_DEBUG) METAIO_STREAM::cout << "MetaDTITube: M_SetupReadFields" << METAIO_STREAM::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -273,7 +273,7 @@ M_SetupWriteFields(void)
 /** Return the position given the name of the field */
 int MetaDTITube::GetPosition(const char* name) const
 {
-  std::vector<PositionType>::const_iterator it = m_Positions.begin();
+  METAIO_STL::vector<PositionType>::const_iterator it = m_Positions.begin();
   while(it != m_Positions.end())
     {
     if(!strcmp((*it).first.c_str(),name))
@@ -291,18 +291,18 @@ M_Read(void)
 {
   if(META_DEBUG)
     {
-    std::cout << "MetaDTITube: M_Read: Loading Header" << std::endl;
+    METAIO_STREAM::cout << "MetaDTITube: M_Read: Loading Header" << METAIO_STREAM::endl;
     }
 
   if(!MetaObject::M_Read())
     {
-    std::cout << "MetaDTITube: M_Read: Error parsing file" << std::endl;
+    METAIO_STREAM::cout << "MetaDTITube: M_Read: Error parsing file" << METAIO_STREAM::endl;
     return false;
     }
 
   if(META_DEBUG)
     {
-    std::cout << "MetaDTITube: M_Read: Parsing Header" << std::endl;
+    METAIO_STREAM::cout << "MetaDTITube: M_Read: Parsing Header" << METAIO_STREAM::endl;
     }
  
   MET_FieldRecordType * mF;
@@ -357,7 +357,7 @@ M_Read(void)
 
   if(META_DEBUG)
     { 
-    std::cout << "MetaDTITube: Parsing point dim" << std::endl; 
+    METAIO_STREAM::cout << "MetaDTITube: Parsing point dim" << METAIO_STREAM::endl; 
     }
 
   int j;
@@ -393,10 +393,10 @@ M_Read(void)
     int gc = m_ReadStream->gcount();
     if(gc != readSize)
       {
-      std::cout << "MetaLine: m_Read: data not read completely" 
-                << std::endl;
-      std::cout << "   ideal = " << readSize 
-                << " : actual = " << gc << std::endl;
+      METAIO_STREAM::cout << "MetaLine: m_Read: data not read completely" 
+                << METAIO_STREAM::endl;
+      METAIO_STREAM::cout << "   ideal = " << readSize 
+                << " : actual = " << gc << METAIO_STREAM::endl;
       return false;
       }
 
@@ -419,7 +419,7 @@ M_Read(void)
         pnt->m_TensorMatrix[d] = (float)td;
         }
 
-      std::vector<PositionType>::const_iterator itFields = m_Positions.begin();
+      METAIO_STL::vector<PositionType>::const_iterator itFields = m_Positions.begin();
       while(itFields !=  m_Positions.end())
         {
         if(strcmp((*itFields).first.c_str(),"x") 
@@ -507,7 +507,7 @@ M_Read(void)
         }
 
       // Add the extrafields
-      std::vector<PositionType>::const_iterator itFields = m_Positions.begin();
+      METAIO_STL::vector<PositionType>::const_iterator itFields = m_Positions.begin();
       while(itFields !=  m_Positions.end())
         {
         if(strcmp((*itFields).first.c_str(),"x") 
@@ -563,7 +563,7 @@ M_Write(void)
 
   if(!MetaObject::M_Write())
     {
-    std::cout << "MetaDTITube: M_Read: Error parsing file" << std::endl;
+    METAIO_STREAM::cout << "MetaDTITube: M_Read: Error parsing file" << METAIO_STREAM::endl;
     return false;
     }
 
@@ -636,11 +636,15 @@ M_Write(void)
         itFields++;
         }
 
-      *m_WriteStream << std::endl;
+      *m_WriteStream << METAIO_STREAM::endl;
       it++;
       }
     }
   return true;
 
 }
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 

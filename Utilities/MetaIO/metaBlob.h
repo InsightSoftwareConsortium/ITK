@@ -1,7 +1,10 @@
-#ifndef METABLOB_H
-#define METABLOB_H
-
 #include "metaTypes.h"
+
+#define NAMESPACE_METABLOB_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METABLOB_H)
+#ifndef $NAMESPACE_METABLOB_H
+#define $NAMESPACE_METABLOB_H
+
 #include "metaUtils.h"
 #include "metaObject.h"
 
@@ -22,7 +25,11 @@
  *    MetaFileLib.h
  */
 
-class BlobPnt
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
+
+class METAIO_EXPORT BlobPnt
 {
 public:
 
@@ -54,7 +61,7 @@ public:
 
 
 
-class MetaBlob : public MetaObject
+class METAIO_EXPORT MetaBlob : public MetaObject
   {
 
   /////
@@ -64,7 +71,7 @@ class MetaBlob : public MetaObject
   ////
   public:
 
-   typedef std::list<BlobPnt*> PointListType;
+   typedef METAIO_STL::list<BlobPnt*> PointListType;
     ////
     //
     // Constructors & Destructor
@@ -133,5 +140,8 @@ class MetaBlob : public MetaObject
     MET_ValueEnumType m_ElementType;
   };
 
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 #endif

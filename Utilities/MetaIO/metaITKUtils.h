@@ -17,14 +17,21 @@
 // Utility file - definition of loadImage
 // Templated over the Pixel Type
 
-#ifndef META_ITK_UTILS_H
-#define META_ITK_UTILS_H
+#include "metaTypes.h"
+
+#define NAMESPACE_METAITKUTILS_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METAITKUTILS_H)
+#ifndef $NAMESPACE_METAITKUTILS_H
+#define $NAMESPACE_METAITKUTILS_H
 
 #include "metaImage.h"
 #include "itkImage.h"
 #include "itkProcessObject.h"
 #include "itkImageRegionIterator.h"
 
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
 
 template <class T>
 typename itk::Image<T, 3>::Pointer 
@@ -129,5 +136,9 @@ bool metaITKUtilSaveImage(const char *fname, const char *dname,
 
   return res;
   }
+
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 #endif

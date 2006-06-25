@@ -1,16 +1,21 @@
-#ifndef METAOBJECT_H
-#define METAOBJECT_H
+#include "metaTypes.h"
 
-#include <iostream>
-#include <fstream>
+#define NAMESPACE_METAOBJECT_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
+                                                 METAOBJECT_H)
+#ifndef $NAMESPACE_METAOBJECT_H
+#define $NAMESPACE_METAOBJECT_H
 
 #include "metaUtils.h"
 #include "metaEvent.h"
 
+
+#if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE {
+#endif
+
 extern int META_DEBUG;
 
-
-class MetaObject
+class METAIO_EXPORT MetaObject
   {
   ////
   //
@@ -19,10 +24,10 @@ class MetaObject
   ////
   protected:
 
-      std::ifstream* m_ReadStream;
-      std::ofstream* m_WriteStream;
+      METAIO_STREAM::ifstream* m_ReadStream;
+      METAIO_STREAM::ofstream* m_WriteStream;
 
-      typedef std::vector<MET_FieldRecordType *> FieldsContainerType;
+      typedef METAIO_STL::vector<MET_FieldRecordType *> FieldsContainerType;
 
       FieldsContainerType m_Fields;
       FieldsContainerType m_UserDefinedWriteFields;
@@ -104,7 +109,7 @@ class MetaObject
 
       bool  Read(const char * _fileName=NULL);
 
-      bool  ReadStream(int _nDims, std::ifstream * _stream);
+      bool  ReadStream(int _nDims, METAIO_STREAM::ifstream * _stream);
 
       bool  Write(const char * _fileName=NULL);
 
@@ -290,5 +295,8 @@ class MetaObject
 
   };
 
+#if (METAIO_USE_NAMESPACE)
+};
+#endif
 
 #endif
