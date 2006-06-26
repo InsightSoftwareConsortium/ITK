@@ -130,6 +130,9 @@ OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support " OFF)
 # explicitly only once.
 OPTION(ITK_EXPLICIT_INSTANTIATION "BETA-Try to explicitly build some of the core templates explictitly rather than over and over again." OFF)
 MARK_AS_ADVANCED(ITK_EXPLICIT_INSTANTIATION)
+IF(ITK_EXPLICIT_INSTANTIATION)
+  SUBDIRS(${ITK_SOURCE_DIR}/Wrapping/ExplicitITK)
+ENDIF(ITK_EXPLICIT_INSTANTIATION)
 
 # perl support does not work, contact bill hoffman at kitware
 # if you are interested in perl wrapping.  It is close, but
