@@ -334,11 +334,6 @@ public:
     
       PointListType::const_iterator it = m_PointList.begin();
     
-      typename TFixedImage::SizeType size =
-        this->m_FixedImage->GetBufferedRegion().GetSize();
-
-      itk::Index<2> start = this->m_FixedImage->GetBufferedRegion().GetIndex();
-
       value = 0;
       while( it != m_PointList.end() )
         {
