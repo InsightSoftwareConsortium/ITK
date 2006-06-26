@@ -1,9 +1,20 @@
 #include "metaTypes.h"
 
+#ifdef __sgi 
+#pragma once
+#endif
+
+#undef  METAARROW_ONCE
+#ifndef __sgi 
 #define NAMESPACE_METAARROW_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
                                                  METAARROW_H)
 #ifndef $NAMESPACE_METAARROW_H
 #define $NAMESPACE_METAARROW_H
+#define METAARROW_ONCE
+#endif
+#endif
+
+#if defined(__sgi) || defined(METAARROW_ONCE)
 
 #include "metaUtils.h"
 #include "metaObject.h"
