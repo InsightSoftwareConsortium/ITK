@@ -337,7 +337,6 @@ public:
       typename TFixedImage::SizeType size =
         this->m_FixedImage->GetBufferedRegion().GetSize();
 
-      itk::Index<2> index;
       itk::Index<2> start = this->m_FixedImage->GetBufferedRegion().GetIndex();
 
       value = 0;
