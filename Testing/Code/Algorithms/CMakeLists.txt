@@ -339,13 +339,24 @@ TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest ITKAlgorithms ITKIO
 ADD_EXECUTABLE(itkAlgorithmsPrintTest2 itkAlgorithmsPrintTest2.cxx)
 TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest2 ITKAlgorithms ITKIO 
                                               ITKBasicFilters ITKFEM)
+IF(ITK_EXPLICIT_INSTANTIATION)
+  TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest2 ITKCommonExplicit)
+ENDIF(ITK_EXPLICIT_INSTANTIATION)
+
 ADD_EXECUTABLE(itkAlgorithmsPrintTest3 itkAlgorithmsPrintTest3.cxx)
 TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest3 ITKAlgorithms ITKIO 
                                               ITKBasicFilters ITKFEM)
+IF(ITK_EXPLICIT_INSTANTIATION)
+  TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest3 ITKCommonExplicit)
+ENDIF(ITK_EXPLICIT_INSTANTIATION)
+
 ADD_EXECUTABLE(itkAlgorithmsPrintTest4 itkAlgorithmsPrintTest4.cxx)
 TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest4 ITKAlgorithms ITKIO 
                                               ITKBasicFilters ITKFEM
                                               ITKStatistics)
+IF(ITK_EXPLICIT_INSTANTIATION)
+  TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest4 ITKCommonExplicit)
+ENDIF(ITK_EXPLICIT_INSTANTIATION)
 
 ADD_EXECUTABLE(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkAlgorithmsHeaderTest ITKAlgorithms ITKIO 
@@ -366,6 +377,9 @@ TARGET_LINK_LIBRARIES(itkAlgorithmsTests3 ITKAlgorithms ITKIO ITKBasicFilters IT
 
 ADD_EXECUTABLE(itkAlgorithmsTests4 itkAlgorithmsTests4.cxx ${AlgorithmsTest4_SRCS})
 TARGET_LINK_LIBRARIES(itkAlgorithmsTests4 ITKAlgorithms ITKIO ITKBasicFilters ITKFEM ITKStatistics)
+IF(ITK_EXPLICIT_INSTANTIATION)
+  TARGET_LINK_LIBRARIES(itkAlgorithmsTests4 ITKCommonExplicit)
+ENDIF(ITK_EXPLICIT_INSTANTIATION)
 
 
 IF(ITK_DATA_ROOT)
