@@ -95,6 +95,13 @@ int itkArrowSpatialObjectTest(int, char* [])
 
   std::cout << "[PASSED]" << std::endl;
 
+  std::cout << "Testing 2D Arrow:";
+  typedef itk::ArrowSpatialObject<2>   Arrow2DType;
+  Arrow2DType::Pointer myArrow2D = Arrow2DType::New(); 
+  myArrow2D->Print(std::cout);
+
+  std::cout << "[PASSED]" << std::endl;
+
   std::cout << "Test: [DONE]" << std::endl;
   return EXIT_SUCCESS;
 
