@@ -1,0 +1,3 @@
+WRAP_CLASS("itk::Rigid2DTransform" POINTER)
+  WRAP_TEMPLATE("${ITKM_D}" "${ITKT_D}")
+END_WRAP_CLASS()
