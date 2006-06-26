@@ -77,130 +77,6 @@ SET(ITKCommon_SRCS
   itkOctreeNode.cxx
 )
 
-IF(ITK_EXPLICIT_INSTANTIATION)
-  SET(ITKCommon_SRCS ${ITKCommon_SRCS}
-    Templates/itkAffineTransformD2.cxx
-    Templates/itkAffineTransformD3.cxx
-    Templates/itkAffineTransformF2.cxx
-    Templates/itkAffineTransformF3.cxx
-    Templates/itkFixedArrayD2.cxx
-    Templates/itkFixedArrayD3.cxx
-    Templates/itkFixedArrayF2.cxx
-    Templates/itkFixedArrayF3.cxx
-    Templates/itkImageBase2.cxx
-    Templates/itkImageBase3.cxx
-    Templates/itkImageD2.cxx
-    Templates/itkImageD3.cxx
-    Templates/itkImageF2.cxx
-    Templates/itkImageF3.cxx
-    Templates/itkImageI2.cxx
-    Templates/itkImageI3.cxx
-    Templates/itkImageL2.cxx
-    Templates/itkImageL3.cxx
-    Templates/itkImageRegion2.cxx
-    Templates/itkImageRegion3.cxx
-    Templates/itkImageS2.cxx
-    Templates/itkImageS3.cxx
-    Templates/itkImageSourceD2.cxx
-    Templates/itkImageSourceD3.cxx
-    Templates/itkImageSourceF2.cxx
-    Templates/itkImageSourceF3.cxx
-    Templates/itkImageSourceI2.cxx
-    Templates/itkImageSourceI3.cxx
-    Templates/itkImageSourceL2.cxx
-    Templates/itkImageSourceL3.cxx
-    Templates/itkImageSourceS2.cxx
-    Templates/itkImageSourceS3.cxx
-    Templates/itkImageSourceUC2.cxx
-    Templates/itkImageSourceUC3.cxx
-    Templates/itkImageSourceUI2.cxx
-    Templates/itkImageSourceUI3.cxx
-    Templates/itkImageSourceUL2.cxx
-    Templates/itkImageSourceUL3.cxx
-    Templates/itkImageSourceUS2.cxx
-    Templates/itkImageSourceUS3.cxx
-    Templates/itkImageUC2.cxx
-    Templates/itkImageUC3.cxx
-    Templates/itkImageUI2.cxx
-    Templates/itkImageUI3.cxx
-    Templates/itkImageUL2.cxx
-    Templates/itkImageUL3.cxx
-    Templates/itkImageUS2.cxx
-    Templates/itkImageUS3.cxx
-    Templates/itkImportImageContainerUL_D.cxx
-    Templates/itkImportImageContainerUL_F.cxx
-    Templates/itkImportImageContainerUL_I.cxx
-    Templates/itkImportImageContainerUL_L.cxx
-    Templates/itkImportImageContainerUL_S.cxx
-    Templates/itkImportImageContainerUL_UC.cxx
-    Templates/itkImportImageContainerUL_UI.cxx
-    Templates/itkImportImageContainerUL_UL.cxx
-    Templates/itkImportImageContainerUL_US.cxx
-    Templates/itkPointD2.cxx
-    Templates/itkPointD3.cxx
-    Templates/itkPointF2.cxx
-    Templates/itkPointF3.cxx
-    Templates/itkVectorD2.cxx
-    Templates/itkVectorD3.cxx
-    Templates/itkVectorF2.cxx
-    Templates/itkVectorF3.cxx
-    Templates/itkImageConstIteratorD2.cxx
-    Templates/itkImageConstIteratorD3.cxx
-    Templates/itkImageConstIteratorF2.cxx
-    Templates/itkImageConstIteratorF3.cxx
-    Templates/itkImageConstIteratorI2.cxx
-    Templates/itkImageConstIteratorI3.cxx
-    Templates/itkImageConstIteratorL2.cxx
-    Templates/itkImageConstIteratorL3.cxx
-    Templates/itkImageConstIteratorS2.cxx
-    Templates/itkImageConstIteratorS3.cxx
-    Templates/itkImageConstIteratorUC2.cxx
-    Templates/itkImageConstIteratorUC3.cxx
-    Templates/itkImageConstIteratorUI2.cxx
-    Templates/itkImageConstIteratorUI3.cxx
-    Templates/itkImageConstIteratorUL2.cxx
-    Templates/itkImageConstIteratorUL3.cxx
-    Templates/itkImageConstIteratorUS2.cxx
-    Templates/itkImageConstIteratorUS3.cxx
-    Templates/itkImageRegionConstIteratorD2.cxx
-    Templates/itkImageRegionConstIteratorD3.cxx
-    Templates/itkImageRegionConstIteratorF2.cxx
-    Templates/itkImageRegionConstIteratorF3.cxx
-    Templates/itkImageRegionConstIteratorI2.cxx
-    Templates/itkImageRegionConstIteratorI3.cxx
-    Templates/itkImageRegionConstIteratorL2.cxx
-    Templates/itkImageRegionConstIteratorL3.cxx
-    Templates/itkImageRegionConstIteratorS2.cxx
-    Templates/itkImageRegionConstIteratorS3.cxx
-    Templates/itkImageRegionConstIteratorUC2.cxx
-    Templates/itkImageRegionConstIteratorUC3.cxx
-    Templates/itkImageRegionConstIteratorUI2.cxx
-    Templates/itkImageRegionConstIteratorUI3.cxx
-    Templates/itkImageRegionConstIteratorUL2.cxx
-    Templates/itkImageRegionConstIteratorUL3.cxx
-    Templates/itkImageRegionConstIteratorUS2.cxx
-    Templates/itkImageRegionConstIteratorUS3.cxx
-    Templates/itkImageRegionIteratorD2.cxx
-    Templates/itkImageRegionIteratorD3.cxx
-    Templates/itkImageRegionIteratorF2.cxx
-    Templates/itkImageRegionIteratorF3.cxx
-    Templates/itkImageRegionIteratorI2.cxx
-    Templates/itkImageRegionIteratorI3.cxx
-    Templates/itkImageRegionIteratorL2.cxx
-    Templates/itkImageRegionIteratorL3.cxx
-    Templates/itkImageRegionIteratorS2.cxx
-    Templates/itkImageRegionIteratorS3.cxx
-    Templates/itkImageRegionIteratorUC2.cxx
-    Templates/itkImageRegionIteratorUC3.cxx
-    Templates/itkImageRegionIteratorUI2.cxx
-    Templates/itkImageRegionIteratorUI3.cxx
-    Templates/itkImageRegionIteratorUL2.cxx
-    Templates/itkImageRegionIteratorUL3.cxx
-    Templates/itkImageRegionIteratorUS2.cxx
-    Templates/itkImageRegionIteratorUS3.cxx
-    )
-ENDIF(ITK_EXPLICIT_INSTANTIATION)
-
 IF (WIN32)
    SET(ITKCommon_SRCS ${ITKCommon_SRCS};itkWin32OutputWindow.cxx;itkSmartPointerForwardReferenceProcessObject.cxx)
 ENDIF (WIN32)
@@ -226,6 +102,10 @@ ADD_LIBRARY(itkvnl_inst
 TARGET_LINK_LIBRARIES (itkvnl_inst ${VXL_NUMERICS_LIBRARIES} )
 
 ADD_LIBRARY(ITKCommon ${ITK_COMMON_BUILD_TYPE} ${ITKCommon_SRCS})
+IF(ITK_EXPLICIT_INSTANTIATION)
+  TARGET_LINK_LIBRARIES (ITKCommon ITKCommonExplicit)
+ENDIF(ITK_EXPLICIT_INSTANTIATION)
+
 TARGET_LINK_LIBRARIES (ITKCommon itkvnl_inst itksys)
 IF(UNIX)
   TARGET_LINK_LIBRARIES(ITKCommon ${CMAKE_THREAD_LIBS} ${CMAKE_DL_LIBS} -lm)
