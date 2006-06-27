@@ -20,11 +20,11 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkGrayscaleGrindPeakImageFilter.h"
-//#include "itkGrayscaleGeodesicDilateImageFilter.h"
+#include "itkReconstructionByDilationImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkImageRegionExclusionConstIteratorWithIndex.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"
-#include "itkReconstructionByDilationImageFilter.h"
+#include "itkProgressAccumulator.h"
 
 namespace itk {
 
@@ -91,6 +91,9 @@ GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
   markerPtr->SetBufferedRegion( this->GetInput()->GetBufferedRegion() );
   markerPtr
     ->SetLargestPossibleRegion( this->GetInput()->GetLargestPossibleRegion() );
+  markerPtr->SetOrigin(this->GetInput()->GetOrigin());
+  markerPtr->SetSpacing(this->GetInput()->GetSpacing());
+  markerPtr->SetDirection(this->GetInput()->GetDirection());
   markerPtr->Allocate();
 
   // fill the marker image with the maximum value from the input
@@ -123,6 +126,11 @@ GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
   typename ReconstructionByDilationImageFilter<TInputImage, TInputImage>::Pointer
     dilate
        = ReconstructionByDilationImageFilter<TInputImage, TInputImage>::New();
+
+  // Create a process accumulator for tracking the progress of this minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+  progress->RegisterInternalFilter(dilate,1.0f);
 
   // set up the dilate filter
   //dilate->RunOneIterationOff();             // run to convergence
