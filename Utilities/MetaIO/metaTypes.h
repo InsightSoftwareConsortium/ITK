@@ -12,7 +12,7 @@
 #  define NAMESPACE_METATYPES_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
                                                  METATYPES_H)
 #  if !defined($NAMESPACE_METATYPES_H)
-#    define $NAMESPACE_METATYPES_H
+#    define ($NAMESPACE_METATYPES_H)
 #    define META_ONCE
 #  endif
 #endif
