@@ -1,9 +1,7 @@
 #include "metaTypes.h"
 
-#define NAMESPACE_METALANDMARK_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
-                                                 METALANDMARK_H)
-#ifndef $NAMESPACE_METALANDMARK_H
-#define $NAMESPACE_METALANDMARK_H
+#ifndef ITKMetaIO_METALANDMARK_H
+#define ITKMetaIO_METALANDMARK_H
 
 #include "metaUtils.h"
 #include "metaObject.h"

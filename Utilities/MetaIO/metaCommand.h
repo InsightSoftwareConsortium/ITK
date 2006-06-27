@@ -16,10 +16,8 @@
 =========================================================================*/
 #include "metaTypes.h"
 
-#define NAMESPACE_METACOMMAND_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
-                                                 METACOMMAND_H)
-#ifndef $NAMESPACE_METACOMMAND_H
-#define $NAMESPACE_METACOMMAND_H
+#ifndef ITKMetaIO_METACOMMAND_H
+#define ITKMetaIO_METACOMMAND_H
 
 
 #ifdef _MSC_VER

@@ -1,9 +1,7 @@
 #include "metaTypes.h"
 
-#define NAMESPACE_METAGAUSSIAN_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
-                                                 METAGAUSSIAN_H)
-#ifndef $NAMESPACE_METAGAUSSIAN_H
-#define $NAMESPACE_METAGAUSSIAN_H
+#ifndef ITKMetaIO_METAGAUSSIAN_H
+#define ITKMetaIO_METAGAUSSIAN_H
 
 #include "metaUtils.h"
 #include "metaObject.h"

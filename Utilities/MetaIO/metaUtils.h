@@ -22,9 +22,8 @@
  **/
 #include "metaTypes.h"
 
-#define NAMESPACE_METAUTILS_H META_MERGE_TOKENS($META_IO_NAMESPACE, METAUTILS_H)
-#ifndef $NAMESPACE_METAUTILS_H
-#define $NAMESPACE_METAUTILS_H
+#ifndef ITKMetaIO_METAUTILS_H
+#define ITKMetaIO_METAUTILS_H
 
 
 #include <vector>

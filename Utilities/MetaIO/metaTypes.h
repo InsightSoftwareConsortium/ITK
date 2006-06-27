@@ -1,23 +1,7 @@
 #include "localMetaConfiguration.h"
 
-#ifndef METATYPES_H_ONCE
-#define METATYPES_H_ONCE
-#define META_MERGE_TOKENS(a, b) a ## b
-#endif
-
-#ifdef __sgi
-#  pragma once
-#else
-#  undef META_ONCE
-#  define NAMESPACE_METATYPES_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
-                                                 METATYPES_H)
-#  if !defined($NAMESPACE_METATYPES_H)
-#    define ($NAMESPACE_METATYPES_H)
-#    define META_ONCE
-#  endif
-#endif
-
-#if defined(__sgi) || defined(META_ONCE)
+#ifndef ITKMetaIO_METATYPES_H
+#define ITKMetaIO_METATYPES_H
 
 /*!
  * File:

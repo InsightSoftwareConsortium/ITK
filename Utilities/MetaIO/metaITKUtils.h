@@ -19,10 +19,8 @@
 
 #include "metaTypes.h"
 
-#define NAMESPACE_METAITKUTILS_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
-                                                 METAITKUTILS_H)
-#ifndef $NAMESPACE_METAITKUTILS_H
-#define $NAMESPACE_METAITKUTILS_H
+#ifndef ITKMetaIO_METAITKUTILS_H
+#define ITKMetaIO_METAITKUTILS_H
 
 #include "metaImage.h"
 #include "itkImage.h"

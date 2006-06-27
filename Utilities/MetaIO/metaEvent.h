@@ -1,9 +1,7 @@
 #include "metaTypes.h"
 
-#define NAMESPACE_METAEVENT_H META_MERGE_TOKENS($METAIO_NAMESPACE, \
-                                                 METAEVENT_H)
-#ifndef $NAMESPACE_METAEVENT_H
-#define $NAMESPACE_METAEVENT_H
+#ifndef ITKMetaIO_METAEVENT_H
+#define ITKMetaIO_METAEVENT_H
 
 
 /*!    MetaEvent (.h)
