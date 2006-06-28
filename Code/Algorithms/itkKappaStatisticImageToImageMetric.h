@@ -83,6 +83,8 @@ public:
   typedef typename Superclass::MovingImageConstPointer  MovingImageConstPointer;
   typedef typename Superclass::FixedImageRegionType     FixedImageRegionType;
 
+  /** Computes the gradient image and assigns it to m_GradientImage */
+  void ComputeGradient();
 
   /** Get the derivatives of the match measure. */
   void GetDerivative( const TransformParametersType &,
@@ -125,9 +127,9 @@ private:
   KappaStatisticImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  RealType  m_ForegroundValue;
-  bool      m_Complement;
-  
+  RealType   m_ForegroundValue;
+  bool       m_Complement;
+
 };
 
 } // end namespace itk

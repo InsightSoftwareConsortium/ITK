@@ -19,8 +19,8 @@
 
 #include "itkKappaStatisticImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkImageFileWriter.h" //debug
-#include "itkImage.h" //debug
+#include "itkImageRegionIteratorWithIndex.h"
+
 namespace itk
 {
 
@@ -75,7 +75,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
     {
     itkExceptionMacro( << "Moving image has not been assigned" );
     }
-  
+
   //Following are used in the metric computation.  'measure' is the
   //value of the metric.  'fixedForegroundArea' is the total area
   //of the foreground region in the fixed image.
@@ -134,7 +134,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
     //
     //
     if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
-      {    
+      {
       const RealType movingValue = this->m_Interpolator->Evaluate( transformedPoint );
       if (movingValue==m_ForegroundValue)
         {        
@@ -181,7 +181,6 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
     }
 
   FixedImageConstPointer fixedImage = this->m_FixedImage;
-
   if( !fixedImage ) 
     {
     itkExceptionMacro( << "Fixed image has not been assigned" );
@@ -189,11 +188,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
 
   const unsigned int ImageDimension = FixedImageType::ImageDimension;
 
-  typedef  itk::ImageRegionConstIteratorWithIndex<
-    FixedImageType> FixedIteratorType;
-
-  typedef  itk::ImageRegionConstIteratorWithIndex<
-    ITK_TYPENAME Superclass::GradientImageType> GradientIteratorType;
+  typedef  itk::ImageRegionConstIteratorWithIndex< FixedImageType > FixedIteratorType;
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
   
@@ -207,8 +202,19 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
   derivative = DerivativeType( ParametersDimension );
   derivative.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
 
-  ti.GoToBegin();
+  typedef Array<double> ArrayType;
 
+  ArrayType sum1 = ArrayType( ParametersDimension );
+  sum1.Fill(  NumericTraits<ITK_TYPENAME ArrayType::ValueType>::Zero );
+
+  ArrayType sum2 = ArrayType( ParametersDimension );
+  sum2.Fill(  NumericTraits<ITK_TYPENAME ArrayType::ValueType>::Zero );
+
+  int fixedArea = 0;
+  int movingArea = 0;
+  int intersection = 0;
+
+  ti.GoToBegin();
   while(!ti.IsAtEnd())
     {    
     index = ti.GetIndex();
@@ -220,6 +226,12 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
       {
       ++ti;
       continue;
+      }
+
+    const RealType fixedValue = ti.Value();       
+    if ( fixedValue == m_ForegroundValue )
+      {
+      fixedArea++;
       }
 
     typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
@@ -234,12 +246,20 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
       {
       const RealType movingValue  = this->m_Interpolator->Evaluate( transformedPoint );
       
+      if ( movingValue == m_ForegroundValue )
+        {
+        movingArea++;
+        }
+
+      if (( movingValue == m_ForegroundValue )&&( fixedValue == m_ForegroundValue ))
+        {
+        intersection++;
+        }
+
       const TransformJacobianType & jacobian =
         this->m_Transform->GetJacobian( inputPoint ); 
       
-      const RealType fixedValue     = ti.Value();
       this->m_NumberOfPixelsCounted++;
-      const RealType diff = movingValue - fixedValue; 
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
@@ -257,17 +277,18 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
         mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempIndex[j] ) );
         }
       
-      const GradientPixelType gradient = 
-        this->GetGradientImage()->GetPixel( mappedIndex );
+      const GradientPixelType gradient = m_GradientImage->GetPixel( mappedIndex );
 
       for(unsigned int par=0; par<ParametersDimension; par++)
         {
-        RealType sum = NumericTraits< RealType >::Zero;
         for(unsigned int dim=0; dim<ImageDimension; dim++)
           {
-          sum += 2.0 * diff * jacobian( dim, par ) * gradient[dim];
+          sum2[par] += jacobian( dim, par )*gradient[dim];
+          if ( fixedValue == m_ForegroundValue )
+            {
+            sum1[par] += 2.0*jacobian( dim, par )*gradient[dim];
+            }            
           }
-        derivative[par] += sum;
         }
       }
     ++ti;
@@ -279,13 +300,86 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
     }
   else
     {
-    for(unsigned int i=0; i<ParametersDimension; i++)
+    double areaSum = double(fixedArea)+double(movingArea);
+    for(unsigned int par=0; par<ParametersDimension; par++)
       {
-      derivative[i] /= this->m_NumberOfPixelsCounted;
+      derivative[par] = -(areaSum*sum1[par]-2.0*intersection*sum2[par])/(areaSum*areaSum);
       }
     }
 }
 
+
+/*
+ * Compute the image gradient and assign to m_GradientImage.
+ */
+template <class TFixedImage, class TMovingImage> 
+void
+KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
+::ComputeGradient()
+{
+  const unsigned int dim = MovingImageType::ImageDimension;
+
+  typedef itk::Image< GradientPixelType, dim > GradientImageType;
+  GradientImageType::Pointer tempGradientImage = GradientImageType::New();
+    tempGradientImage->SetRegions( this->m_MovingImage->GetBufferedRegion().GetSize() );
+    tempGradientImage->Allocate();
+    tempGradientImage->Update();
+
+  typedef  itk::ImageRegionIteratorWithIndex< GradientImageType > GradientIteratorType;
+  typedef  itk::ImageRegionConstIteratorWithIndex< MovingImageType > MovingIteratorType; 
+
+  GradientIteratorType git( tempGradientImage, tempGradientImage->GetBufferedRegion() );
+  MovingIteratorType mit( this->m_MovingImage, this->m_MovingImage->GetBufferedRegion() );
+
+  git.GoToBegin();
+  mit.GoToBegin();
+
+  typename MovingImageType::IndexType minusIndex;
+  typename MovingImageType::IndexType plusIndex;
+  typename MovingImageType::IndexType currIndex;
+  typename GradientImageType::PixelType tempGradPixel;
+  typename MovingImageType::SizeType movingSize = this->m_MovingImage->GetBufferedRegion().GetSize();
+  while(!mit.IsAtEnd())
+    {
+    currIndex = mit.GetIndex();
+    minusIndex = mit.GetIndex();
+    plusIndex = mit.GetIndex();
+    for ( int i=0; i<dim; i++ )
+      {
+      if ((currIndex[i] == 0)||(currIndex[i]==(movingSize[i]-1)))
+        {
+        tempGradPixel[i] = 0;
+        }
+      else
+        {
+        minusIndex[i] = currIndex[i]-1;
+        plusIndex[i] = currIndex[i]+1;
+        double minusVal = double(this->m_MovingImage->GetPixel(minusIndex));
+        double val      = double(this->m_MovingImage->GetPixel(currIndex));
+        double plusVal  = double(this->m_MovingImage->GetPixel(plusIndex));
+        if ((minusVal != m_ForegroundValue)&&(plusVal == m_ForegroundValue))
+          {
+          tempGradPixel[i] = 1;
+          }
+        else if ((minusVal == m_ForegroundValue)&&(plusVal != m_ForegroundValue))
+          {
+          tempGradPixel[i] = -1;
+          }
+        else
+          {
+          tempGradPixel[i] = 0;
+          }
+        }
+      minusIndex = currIndex;
+      plusIndex  = currIndex;
+      }
+    git.Set( tempGradPixel );
+    ++git;
+    ++mit;
+    }
+
+  m_GradientImage = tempGradientImage;
+}
 
 /*
  * Get both the match Measure and theDerivative Measure 
