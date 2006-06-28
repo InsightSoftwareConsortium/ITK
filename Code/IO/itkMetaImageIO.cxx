@@ -22,9 +22,20 @@
 #include "itkMetaImageIO.h"
 #include "itkExceptionObject.h"
 #include "itkSpatialOrientation.h"
-#include "itkSpatialOrientationAdapter.h"
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
+
+// Work around a GCC 3.3 bug with generating references to virtual
+// methods in SpatialOrientationAdapter.  This workaround should
+// appear after all headers except itkSpatialOrientationAdapter.h have
+// been included.
+#if defined(__GNUC__) && __GNUC__ == 3 && __GNUC_MINOR__ == 3
+# if !defined(ITK_MANUAL_INSTANTIATION)
+#  define ITK_MANUAL_INSTANTIATION
+# endif
+#endif
+
+#include "itkSpatialOrientationAdapter.h"
 
 namespace itk
 {

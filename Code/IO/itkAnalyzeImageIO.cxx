@@ -20,12 +20,23 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
-#include "itkSpatialOrientationAdapter.h"
 #include <itksys/SystemTools.hxx>
 
 #include <zlib.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+// Work around a GCC 3.3 bug with generating references to virtual
+// methods in SpatialOrientationAdapter.  This workaround should
+// appear after all headers except itkSpatialOrientationAdapter.h have
+// been included.
+#if defined(__GNUC__) && __GNUC__ == 3 && __GNUC_MINOR__ == 3
+# if !defined(ITK_MANUAL_INSTANTIATION)
+#  define ITK_MANUAL_INSTANTIATION
+# endif
+#endif
+
+#include "itkSpatialOrientationAdapter.h"
 
 namespace itk
 {

@@ -25,7 +25,6 @@
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkGEImageHeader.h"
-#include "itkSpatialOrientationAdapter.h"
 //#include "idbm_hdr_def.h"
 #include "itkDirectory.h"
 #include "itkMetaDataObject.h"
@@ -41,6 +40,18 @@
 #ifdef __BORLANDC__
 #include <dxtmpl.h>
 #endif
+
+// Work around a GCC 3.3 bug with generating references to virtual
+// methods in SpatialOrientationAdapter.  This workaround should
+// appear after all headers except itkSpatialOrientationAdapter.h have
+// been included.
+#if defined(__GNUC__) && __GNUC__ == 3 && __GNUC_MINOR__ == 3
+# if !defined(ITK_MANUAL_INSTANTIATION)
+#  define ITK_MANUAL_INSTANTIATION
+# endif
+#endif
+
+#include "itkSpatialOrientationAdapter.h"
 
 //From uiig library "The University of Iowa Imaging Group-UIIG"
 
