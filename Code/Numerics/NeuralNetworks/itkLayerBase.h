@@ -69,7 +69,7 @@ public:
   unsigned int GetNumberOfNodes();
 
   virtual ValueType GetInputValue(unsigned int) = 0;
-  virtual ValueType GetOutputValue(int) = 0;
+  virtual ValueType GetOutputValue(unsigned int) = 0;
   virtual ValuePointer GetOutputVector() = 0;
 
   virtual void ForwardPropagate(){};
@@ -82,9 +82,9 @@ public:
   virtual ValueType GetOutputErrorValue(unsigned int) = 0;
   virtual void SetOutputErrorValues(TOutput) {};
 
-  virtual ValueType GetInputErrorValue(int) = 0;
+  virtual ValueType GetInputErrorValue(unsigned int) = 0;
   virtual ValuePointer GetInputErrorVector() = 0;
-  virtual void SetInputErrorValue(ValueType, int) {};
+  virtual void SetInputErrorValue(ValueType, unsigned int) {};
 
   //itkSetObjectMacro(InputWeightSet, WeightSetType);
   void SetInputWeightSet(WeightSetType*);
@@ -106,8 +106,8 @@ public:
   itkSetMacro(LayerType, unsigned int);
   itkGetMacro(LayerType, unsigned int);
 
-  itkSetMacro(LayerId,int);
-  itkGetMacro(LayerId,int);
+  itkSetMacro(LayerId,unsigned int);
+  itkGetMacro(LayerId,unsigned int);
 
   virtual void SetBias(ValueType) = 0;
   virtual ValueType GetBias() = 0;
