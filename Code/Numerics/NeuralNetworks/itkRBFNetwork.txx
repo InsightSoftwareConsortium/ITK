@@ -145,7 +145,7 @@ RBFNetwork<TVector,TOutput>
   hiddenlayer->SetRadii(2*width,0);  
   hiddenlayer->SetRadii(2*width,1);  
   */
-  for(int j=0; j<m_Centers.size(); j++)
+  for(unsigned int j=0; j<m_Centers.size(); j++)
   {
     hiddenlayer->SetCenter(m_Centers[j],j);
     hiddenlayer->SetRadii(m_Radii[j],j);
