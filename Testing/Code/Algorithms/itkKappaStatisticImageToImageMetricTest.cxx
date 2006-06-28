@@ -19,111 +19,228 @@
 #endif
 #include "itkKappaStatisticImageToImageMetric.h"
 #include "itkImage.h"
-#include "itkArray.h"
-#include "itkTranslationTransform.h"
-#include "itkExceptionObject.h"
+#include "itkImageRegionIterator.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
-#include "itkImageFileReader.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkTranslationTransform.h"
 
-#include <iostream>
+/**
+ *  This test exercised the various methods in the
+ *  itkKappaStatisticImageToImageMetric class.  Two binary images are
+ *  created for testing purposes -- one of a square and another of the
+ *  same square translated in both x and y.
+ *
+ */
 
-int itkKappaStatisticImageToImageMetricTest(int argc, char* argv[] )
+int itkKappaStatisticImageToImageMetricTest(int, char* [] )
 {
+  typedef itk::Image< unsigned char, 2 >                                               UCharImage2DType;
+  typedef itk::Image< double, 2 >                                                      DoubleImage2DType;
+  typedef itk::KappaStatisticImageToImageMetric< UCharImage2DType, UCharImage2DType >  MetricType;
+  typedef itk::ImageRegionIteratorWithIndex< UCharImage2DType >                        UCharIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< DoubleImage2DType >                       DoubleIteratorType;
+  typedef itk::TranslationTransform< double, 2 >                                       TransformType;
+  typedef itk::NearestNeighborInterpolateImageFunction< UCharImage2DType, double >     InterpolatorType;
 
-  if (argc < 2)
-    {
-    std::cout << "Usage: " << argv[0] << " InputFile" << std::endl;
-    exit (1);
-    }
+  double epsilon = 0.000001;
 
-  typedef itk::Image<unsigned char,2> ImageType;
-  typedef itk::TranslationTransform<double, 2> TransformType;
-  typedef TransformType::OutputVectorType OffsetType;
-  typedef itk::KappaStatisticImageToImageMetric<ImageType,ImageType> MetricType;
-  typedef itk::ImageFileReader<ImageType> ReaderType;
-  typedef itk::NearestNeighborInterpolateImageFunction<ImageType,double> InterpolatorType;
-
-  ReaderType::Pointer reader = ReaderType::New();
-  MetricType::Pointer metric = MetricType::New();
-  TransformType::Pointer transform = TransformType::New();
+  TransformType::Pointer    transform    = TransformType::New(); 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  itk::Array<double> offset(2);                                                        
+  UCharImage2DType::SizeType imageSize;
+    imageSize[0] = 128;
+    imageSize[1] = 128;
 
-  reader->SetFileName (argv[1]);
-  reader->Update();
-
-  metric->SetMovingImage (reader->GetOutput());
-  metric->SetFixedImage (reader->GetOutput());
-  metric->SetInterpolator (interpolator);
-  metric->SetTransform (transform);
-  metric->SetFixedImageRegion (reader->GetOutput()->GetLargestPossibleRegion());
-  metric->SetForegroundValue (255);
-
-  metric->Initialize();
-
-  unsigned int numberOfParameters = transform->GetNumberOfParameters();
-
-  std::cout << "First measure matches..." << std::endl;
-  for (float x = -200.0; x <= 200.0; x+= 50.0)
+  // Create fixed image
+  UCharImage2DType::Pointer fixedImage = UCharImage2DType::New();
+    fixedImage->SetRegions(imageSize);
+    fixedImage->Allocate();
+    fixedImage->FillBuffer(0);
+    fixedImage->Update();
+    
+  UCharIteratorType fixedIt( fixedImage, fixedImage->GetBufferedRegion() );
+  for ( fixedIt.GoToBegin(); !fixedIt.IsAtEnd(); ++fixedIt )
     {
-    offset[0] = x;
-    for (float y = 0.0; y <= 0.0; y+= 10.0)
+    UCharImage2DType::IndexType index = fixedIt.GetIndex();
+    if ((index[0]>=48)&&(index[0]<=80)&&(index[1]>=48)&&(index[1]<=80))
       {
-      offset[1] = y;
-      try
-        {
-        MetricType::DerivativeType derivative( numberOfParameters );
-        metric->GetDerivative(offset, derivative);
-        std::cout << "Offset: " 
-                  << offset 
-                  << " = " 
-                  << metric->GetValue(offset)
-                  << ", "
-                  << derivative
-                  << std::endl;
-        }
-      catch( itk::ExceptionObject & exp )
-        {
-        std::cerr << "Exception thrown while computing the metric " << std::endl;
-        std::cerr << exp << std::endl;
-        return EXIT_FAILURE;
-        }
+      fixedIt.Set(255);
       }
     }
-      
-  std::cout << "Now measure complement..." << std::endl;
+
+  // Create moving image
+  UCharImage2DType::Pointer movingImage = UCharImage2DType::New();
+    movingImage->SetRegions(imageSize);
+    movingImage->Allocate();
+    movingImage->FillBuffer(0);
+    movingImage->Update();
+    
+  UCharIteratorType movingIt( movingImage, movingImage->GetBufferedRegion() );
+  for ( movingIt.GoToBegin(); !movingIt.IsAtEnd(); ++movingIt )
+    {
+    UCharImage2DType::IndexType index = movingIt.GetIndex();
+    if ((index[0]>=55)&&(index[0]<=87)&&(index[1]>=55)&&(index[1]<=87))
+      {
+      movingIt.Set(255);
+      }
+    }
+
+  MetricType::Pointer metric = MetricType::New();
+
+
+  //------------------------------------------------------------------
+  // exercise [Set,Get]ForegroundValue method
+  //------------------------------------------------------------------
+  std::cout << "Test [Set,Get]ForegroundValue method..." << std::endl;
+
+    metric->SetForegroundValue(255);
+  if (metric->GetForegroundValue()!=255)
+    {
+    std::cerr << "Error!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << " [ PASSED ] " << std::endl;
+  
+
+  //------------------------------------------------------------------
+  // exercise GetValue method
+  //------------------------------------------------------------------
+  std::cout << "Test GetValue method..." << std::endl;
+  transform->SetIdentity();
+
+  TransformType::ParametersType parameters = transform->GetParameters();
+
+    metric->SetFixedImage( fixedImage );
+    metric->SetMovingImage( movingImage );
+    metric->SetInterpolator( interpolator );
+    metric->SetTransform( transform );
+    metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
+  try
+    {
+    metric->Initialize();
+    }
+  catch ( itk::ExceptionObject &excp )
+    {
+    std::cerr << "Exception caught while initializing metric." << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // The value 0.620753 was computed by hand for these two images
+  if (!((metric->GetValue( parameters ) >= 0.620753-epsilon)&&(metric->GetValue( parameters ) <= 0.620753+epsilon)))
+    {
+    std::cerr << "Error!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << " [ PASSED ] " << std::endl;
+
+
+  //------------------------------------------------------------------
+  // exercise ComputeGradient method
+  //------------------------------------------------------------------
+  std::cout << "Test ComputeGradient method..." << std::endl;
+  metric->ComputeGradient();
+
+  DoubleImage2DType::Pointer xGradImage = DoubleImage2DType::New();
+    xGradImage->SetRegions(imageSize);
+    xGradImage->Allocate();
+    xGradImage->FillBuffer(0);
+    xGradImage->Update();
+
+  DoubleImage2DType::Pointer yGradImage = DoubleImage2DType::New();
+    yGradImage->SetRegions(imageSize);
+    yGradImage->Allocate();
+    yGradImage->FillBuffer(0);
+    yGradImage->Update();
+
+  DoubleIteratorType xGradIt( xGradImage, xGradImage->GetBufferedRegion() );
+  DoubleIteratorType yGradIt( yGradImage, yGradImage->GetBufferedRegion() );
+
+  xGradIt.GoToBegin();
+  yGradIt.GoToBegin();
+
+  // Construct the gradient images explicitly based on what we know
+  // they should be and use them to validate metric's version
+  while ( !xGradIt.IsAtEnd() )
+    {
+    DoubleImage2DType::IndexType index = xGradIt.GetIndex();
+
+    if (((index[0]==54)||(index[0]==55))&&(index[1]>=55)&&(index[1]<=87))
+      {
+      xGradIt.Set(1);
+      }
+    if (((index[0]==87)||(index[0]==88))&&(index[1]>=55)&&(index[1]<=87))
+      {
+      xGradIt.Set(-1);
+      }
+    if (((index[1]==54)||(index[1]==55))&&(index[0]>=55)&&(index[0]<=87))
+      {
+      yGradIt.Set(1);
+      }
+    if (((index[1]==87)||(index[1]==88))&&(index[0]>=55)&&(index[0]<=87))
+      {
+      yGradIt.Set(-1);
+      }
+
+    ++xGradIt;
+    ++yGradIt;
+    }
+
+  typedef itk::ImageRegionIteratorWithIndex< const typename MetricType::GradientImageType >  GradIteratorType;
+  GradIteratorType gradIt( metric->GetGradientImage(), metric->GetGradientImage()->GetBufferedRegion() );
+  gradIt.GoToBegin();
+  xGradIt.GoToBegin();
+  yGradIt.GoToBegin();
+  while ( !gradIt.IsAtEnd() )
+    {
+    if (((gradIt.Get())[0] != xGradIt.Get())||((gradIt.Get())[1] != yGradIt.Get()))
+      {
+      std::cerr << "Error!" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    ++gradIt;
+    ++xGradIt;
+    ++yGradIt;
+    }
+  std::cout << " [ PASSED ] " << std::endl;
+
+
+  //------------------------------------------------------------------
+  // exercise GetDerivative method
+  //------------------------------------------------------------------
+  std::cout << "Test GetDerivative method..." << std::endl;
+  MetricType::DerivativeType derivative;
+  metric->GetDerivative( parameters, derivative );
+
+  // The value 0.0477502 was computed by hand
+  if (!((derivative[0]>=-0.0477502-epsilon)&&(derivative[0]<=-0.0477502+epsilon)))
+    {
+    std::cerr << "Error!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (!((derivative[1]>=-0.0477502-epsilon)&&(derivative[1]<=-0.0477502+epsilon)))
+    {
+    std::cerr << "Error!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << " [ PASSED ] " << std::endl;
+
+
+  //------------------------------------------------------------------
+  // exercise Complement method
+  //------------------------------------------------------------------
+  std::cout << "Test Complement method..." << std::endl;
   metric->ComplementOn();
 
-  for (float x = -200.0; x <= 200.0; x+= 50.0)
+  // The value 0.379247 was computed by hand
+  if (!((metric->GetValue(parameters)>=0.379247-epsilon)&&(metric->GetValue(parameters)<=0.379247+epsilon)))
     {
-    offset[0] = x;
-    for (float y = 0.0; y <= 0.0; y+= 10.0)
-      {
-      offset[1] = y;
-      try
-        {
-        MetricType::DerivativeType derivative( numberOfParameters );
-        metric->GetDerivative(offset, derivative);
-        std::cout << "Offset: " 
-                  << offset 
-                  << " = " 
-                  << metric->GetValue(offset)
-                  << ", "
-                  << derivative
-                  << std::endl;
-        }
-      catch( itk::ExceptionObject & exp )
-        {
-        std::cerr << "Exception thrown while computing the metric " << std::endl;
-        std::cerr << exp << std::endl;
-        return EXIT_FAILURE;
-        }
-      }
+    std::cerr << "Error!" << std::endl;
+    return EXIT_FAILURE;
     }
-      
-  metric->Print (std::cout);
+  std::cout << " [ PASSED ] " << std::endl;    
+
+
   return EXIT_SUCCESS;
-
 }
-
