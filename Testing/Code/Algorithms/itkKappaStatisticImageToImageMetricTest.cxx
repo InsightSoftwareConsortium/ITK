@@ -186,7 +186,7 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
     ++yGradIt;
     }
 
-  typedef itk::ImageRegionIteratorWithIndex< const typename MetricType::GradientImageType >  GradIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< const MetricType::GradientImageType >  GradIteratorType;
   GradIteratorType gradIt( metric->GetGradientImage(), metric->GetGradientImage()->GetBufferedRegion() );
   gradIt.GoToBegin();
   xGradIt.GoToBegin();
