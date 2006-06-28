@@ -95,7 +95,7 @@ BackPropagationLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 typename BackPropagationLayer<TVector,TOutput>::ValueType
 BackPropagationLayer<TVector,TOutput>
-::GetOutputValue(int i)
+::GetOutputValue(unsigned int i)
 {
   return m_NodeOutputValues(i);
 }
@@ -120,7 +120,7 @@ BackPropagationLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 typename BackPropagationLayer<TVector,TOutput>::ValueType
 BackPropagationLayer<TVector,TOutput>
-::GetInputErrorValue(int n)
+::GetInputErrorValue(unsigned int n)
 {
   return m_InputErrorValues[n];
 }
@@ -136,7 +136,7 @@ BackPropagationLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 void
 BackPropagationLayer<TVector,TOutput>
-::SetInputErrorValue(ValueType v, int i)
+::SetInputErrorValue(ValueType v, unsigned int i)
 {
   m_InputErrorValues[i] = v;
   this->Modified();
@@ -236,7 +236,7 @@ BackPropagationLayer<TVector,TOutput>
   tempInputLayerOutput.copy_in(inputweightset->GetInputValues());
  
   InputLayerOutput.fill(0.0);
-  for(int i=0; i<inputweightset->GetNumberOfInputNodes()-1; i++)
+  for(unsigned int i=0; i<inputweightset->GetNumberOfInputNodes()-1; i++)
     InputLayerOutput.put(0,i, tempInputLayerOutput.get(0,i));
 
   //InputLayerOutput.copy_in(inputweightset->GetInputValues());
@@ -330,7 +330,7 @@ BackPropagationLayer<TVector,TOutput>
   tempInputLayerOutput.copy_in(inputweightset->GetInputValues());
  
   InputLayerOutput.fill(0.0);
-  for(int i=0; i<inputweightset->GetNumberOfInputNodes()-1; i++)
+  for(unsigned int i=0; i<inputweightset->GetNumberOfInputNodes()-1; i++)
     InputLayerOutput.put(0,i, tempInputLayerOutput.get(0,i));
 
   DW_temp = inputerrormatrix * InputLayerOutput; 
