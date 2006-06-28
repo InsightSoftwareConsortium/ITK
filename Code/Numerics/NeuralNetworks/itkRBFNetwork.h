@@ -21,7 +21,6 @@
 
 #include "itkMultilayerNeuralNetworkBase.h"
 #include "itkBackPropagationLayer.h"
-#include "itkRBFLayer.h"
 #include "itkCompletelyConnectedWeightSet.h"
 #include "itkSigmoidTransferFunction.h"
 #include "itkLogSigmoidTransferFunction.h"
@@ -72,14 +71,14 @@ public:
   // 1 input, 1 hidden, 1 output 
   void Initialize();
 
-  itkSetMacro(NumOfInputNodes, int);
-  itkGetConstReferenceMacro(NumOfInputNodes, int);
+  itkSetMacro(NumOfInputNodes,unsigned int);
+  itkGetConstReferenceMacro(NumOfInputNodes,unsigned int);
 
-  itkSetMacro(NumOfHiddenNodes, int);
-  itkGetConstReferenceMacro(NumOfHiddenNodes, int);
+  itkSetMacro(NumOfHiddenNodes,unsigned int);
+  itkGetConstReferenceMacro(NumOfHiddenNodes, unsigned int);
 
-  itkSetMacro(NumOfOutputNodes, int);
-  itkGetConstReferenceMacro(NumOfOutputNodes, int);
+  itkSetMacro(NumOfOutputNodes,unsigned int);
+  itkGetConstReferenceMacro(NumOfOutputNodes, unsigned int);
 
   itkSetMacro(HiddenLayerBias, ValueType);
   itkGetConstReferenceMacro(HiddenLayerBias, ValueType);
@@ -87,8 +86,8 @@ public:
   itkSetMacro(OutputLayerBias, ValueType);
   itkGetConstReferenceMacro(OutputLayerBias, ValueType);
 
-  itkSetMacro(Classes, int);
-  itkGetConstReferenceMacro(Classes,int);
+  itkSetMacro(Classes,unsigned int);
+  itkGetConstReferenceMacro(Classes,unsigned int);
 
  // ValueType* GenerateOutput(TVector samplevector);
   virtual NetworkOutputType GenerateOutput(TVector samplevector);
@@ -114,10 +113,10 @@ protected:
 
 private:
 
-  int       m_NumOfInputNodes;
-  int       m_NumOfHiddenNodes;
-  int       m_NumOfOutputNodes;
-  int       m_Classes;
+  unsigned int       m_NumOfInputNodes;
+  unsigned int       m_NumOfHiddenNodes;
+  unsigned int       m_NumOfOutputNodes;
+  unsigned int       m_Classes;
   ValueType m_HiddenLayerBias;
   ValueType m_OutputLayerBias;
   std::vector<TVector> m_Centers;  // ui....uc

@@ -62,7 +62,7 @@ MeanSquaredErrorFunction <TVector,ScalarType>
 {
   ScalarType m = static_cast<ScalarType>(2) / errors.Size();
   InternalVectorType temp(errors.Size());
-  for(int i=0; i<errors.Size(); i++)
+  for(unsigned int i=0; i<errors.Size(); i++)
   {
      temp[i]=errors[i]*m;
   }

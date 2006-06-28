@@ -61,17 +61,17 @@ public:
   // 1 input, 1 hidden, 1 output 
   void Initialize();
 
-  itkSetMacro(NumOfInputNodes, int);
-  itkGetConstReferenceMacro(NumOfInputNodes, int);
+  itkSetMacro(NumOfInputNodes,unsigned int);
+  itkGetConstReferenceMacro(NumOfInputNodes,unsigned int);
 
   itkSetMacro(NumOfHiddenNodes1, int);
-  itkGetConstReferenceMacro(NumOfHiddenNodes1, int);
+  itkGetConstReferenceMacro(NumOfHiddenNodes1,unsigned int);
 
   itkSetMacro(NumOfHiddenNodes2, int);
-  itkGetConstReferenceMacro(NumOfHiddenNodes2, int);
+  itkGetConstReferenceMacro(NumOfHiddenNodes2,unsigned int);
 
-  itkSetMacro(NumOfOutputNodes, int);
-  itkGetConstReferenceMacro(NumOfOutputNodes, int);
+  itkSetMacro(NumOfOutputNodes,unsigned int);
+  itkGetConstReferenceMacro(NumOfOutputNodes,unsigned int);
 
   //ValueType* GenerateOutput(TVector samplevector);
   virtual NetworkOutputType GenerateOutput(TVector samplevector);
@@ -86,10 +86,10 @@ protected:
 
 private:
 
-  int m_NumOfInputNodes;
-  int m_NumOfHiddenNodes1;
-  int m_NumOfHiddenNodes2;
-  int m_NumOfOutputNodes;
+  unsigned int m_NumOfInputNodes;
+  unsigned int m_NumOfHiddenNodes1;
+  unsigned int m_NumOfHiddenNodes2;
+  unsigned int m_NumOfOutputNodes;
 };
 
 } // end namespace Statistics

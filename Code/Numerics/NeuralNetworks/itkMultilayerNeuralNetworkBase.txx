@@ -102,7 +102,7 @@ void
 MultilayerNeuralNetworkBase<TVector,TOutput>
 ::BackwardPropagate(NetworkOutputType errors)
 {
-  int i = this->m_Layers.size();
+  unsigned int i = this->m_Layers.size();
   i--;
   this->m_Layers[i]->BackwardPropagate(errors);
   i--;
@@ -118,7 +118,7 @@ void
 MultilayerNeuralNetworkBase<TVector,TOutput>
 ::InitializeWeights()
 {
-  int num_wts = this->m_Weights.size();
+  unsigned int num_wts = this->m_Weights.size();
   for(int i=0; i<num_wts; i++)
     {
     this->m_Weights[i]->InitializeWeights();
@@ -130,7 +130,7 @@ void
 MultilayerNeuralNetworkBase<TVector,TOutput>
 ::UpdateWeights(ValueType itkNotUsed(lr))
 {
-  int i = this->m_Layers.size();
+  unsigned int i = this->m_Layers.size();
   while(i>1)
     {
     i--;
@@ -151,7 +151,7 @@ MultilayerNeuralNetworkBase<TVector,TOutput>
 template<class TVector, class TOutput>
 typename MultilayerNeuralNetworkBase<TVector, TOutput>::WeightSetType*
 MultilayerNeuralNetworkBase<TVector,TOutput>
-::GetWeightSet(int id)
+::GetWeightSet(unsigned int id)
 {
   return m_Weights[id].GetPointer();
 }

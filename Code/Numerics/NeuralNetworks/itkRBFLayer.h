@@ -67,8 +67,8 @@ public:
 
   itkGetMacro(LayerType, unsigned int);
 
-  ValueType GetOutputValue(int);
-  void SetOutputValue(int, ValueType);
+  ValueType GetOutputValue(unsigned int);
+  void SetOutputValue(unsigned int, ValueType);
 
   ValuePointer GetOutputVector();
   void SetOutputVector(TVector value);
@@ -83,16 +83,16 @@ public:
   ValueType GetOutputErrorValue(unsigned int node_id);
 
   
-  ValueType GetInputErrorValue(int node_id);
+  ValueType GetInputErrorValue(unsigned int node_id);
   ValuePointer GetInputErrorVector();
-  void SetInputErrorValue(ValueType, int node_id);
+  void SetInputErrorValue(ValueType, unsigned int node_id);
 
   //TVector GetCenter(int i);
-  InternalVectorType GetCenter(int i);
-  void SetCenter(TVector c,int i);
+  InternalVectorType GetCenter(unsigned int i);
+  void SetCenter(TVector c,unsigned int i);
 
-  ValueType GetRadii(int i);
-  void SetRadii(ValueType c,int i);
+  ValueType GetRadii(unsigned int i);
+  void SetRadii(ValueType c,unsigned int i);
 
 
   ValueType Activation(ValueType);
@@ -105,8 +105,8 @@ public:
   void SetDistanceMetric(DistanceMetricType* f);
   DistanceMetricPointer GetDistanceMetric(){return m_DistanceMetric;}
 
-  itkSetMacro(NumClasses, int);
-  itkGetConstReferenceMacro(NumClasses,int);
+  itkSetMacro(NumClasses,unsigned int);
+  itkGetConstReferenceMacro(NumClasses,unsigned int);
 
   void SetRBF(RBFType* f);
   itkGetObjectMacro(RBF, RBFType);
@@ -129,9 +129,9 @@ private:
   //std::vector<TVector>                  m_Centers;  // ui....uc
   std::vector<InternalVectorType>       m_Centers;  // ui....uc
   InternalVectorType                    m_Radii;
-  int                                   m_NumClasses;
+  unsigned int                          m_NumClasses;
   ValueType                             m_Bias;
-  int                                   m_RBF_Dim;
+  unsigned int                          m_RBF_Dim;
   typename RBFType::Pointer             m_RBF;
 };
 

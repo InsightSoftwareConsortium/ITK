@@ -48,7 +48,7 @@ public:
   /** Evaluate at the specified input position */
   virtual OutputType Evaluate(const InputVectorType& input) const = 0;
 
-  virtual void SetSize(long) = 0;
+  virtual void SetSize(unsigned int) = 0;
 
 protected:
 

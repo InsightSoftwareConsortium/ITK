@@ -64,14 +64,14 @@ public:
   // 1 input, 1 hidden, 1 output 
   void Initialize();
 
-  itkSetMacro(NumOfInputNodes, int);
-  itkGetConstReferenceMacro(NumOfInputNodes, int);
+  itkSetMacro(NumOfInputNodes, unsigned int);
+  itkGetConstReferenceMacro(NumOfInputNodes, unsigned int);
 
-  itkSetMacro(NumOfHiddenNodes, int);
-  itkGetConstReferenceMacro(NumOfHiddenNodes, int);
+  itkSetMacro(NumOfHiddenNodes, unsigned int);
+  itkGetConstReferenceMacro(NumOfHiddenNodes, unsigned int);
 
-  itkSetMacro(NumOfOutputNodes, int);
-  itkGetConstReferenceMacro(NumOfOutputNodes, int);
+  itkSetMacro(NumOfOutputNodes, unsigned int);
+  itkGetConstReferenceMacro(NumOfOutputNodes, unsigned int);
 
   itkSetMacro(HiddenLayerBias, ValueType);
   itkGetConstReferenceMacro(HiddenLayerBias, ValueType);
@@ -98,9 +98,9 @@ protected:
 
 private:
 
-  int       m_NumOfInputNodes;
-  int       m_NumOfHiddenNodes;
-  int       m_NumOfOutputNodes;
+  unsigned int       m_NumOfInputNodes;
+  unsigned int       m_NumOfHiddenNodes;
+  unsigned int       m_NumOfOutputNodes;
   ValueType m_HiddenLayerBias;
   ValueType m_OutputLayerBias;
 

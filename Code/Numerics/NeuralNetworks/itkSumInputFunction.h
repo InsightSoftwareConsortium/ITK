@@ -46,14 +46,14 @@ public:
   /** Evaluate at the specified input position */
   ScalarType Evaluate(const TVector& input) const;
 
-  void SetSize(long n);
+  void SetSize(unsigned int n);
 
 protected:
 
   SumInputFunction();
   ~SumInputFunction();
 
-  long m_Size;
+  unsigned int m_Size;
 
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;

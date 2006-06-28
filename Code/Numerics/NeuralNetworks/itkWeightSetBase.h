@@ -126,14 +126,14 @@ public:
 
   void InitializeWeights();
 
-  itkSetMacro(WeightSetId,int);
-  itkGetMacro(WeightSetId,int);
+  itkSetMacro(WeightSetId,unsigned int);
+  itkGetMacro(WeightSetId,unsigned int);
   
-  itkSetMacro(InputLayerId,int);
-  itkGetMacro(InputLayerId,int);
+  itkSetMacro(InputLayerId,unsigned int);
+  itkGetMacro(InputLayerId,unsigned int);
   
-  itkSetMacro(OutputLayerId,int);
-  itkGetMacro(OutputLayerId,int);
+  itkSetMacro(OutputLayerId,unsigned int);
+  itkGetMacro(OutputLayerId,unsigned int);
   
 protected: 
   
@@ -185,9 +185,9 @@ protected:
   bool      m_FirstPass;
   bool      m_SecondPass;
   ValueType m_Range;
-  int m_InputLayerId;
-  int m_OutputLayerId;
-  int m_WeightSetId;
+  unsigned int m_InputLayerId;
+  unsigned int m_OutputLayerId;
+  unsigned int m_WeightSetId;
 
 };  //class
 

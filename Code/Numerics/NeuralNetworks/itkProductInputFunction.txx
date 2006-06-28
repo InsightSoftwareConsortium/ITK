@@ -47,7 +47,7 @@ ProductInputFunction <TVector,ScalarType>
 {
   vnl_vector<ScalarType> temp(input);
   ScalarType product = temp[0];
-  for (int i = 1; i < input.Size(); i++)
+  for (unsigned int i = 1; i < input.Size(); i++)
     {
     product *= temp[i];
     }

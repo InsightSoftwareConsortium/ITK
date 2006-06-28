@@ -49,7 +49,7 @@ public:
   ValueType GetInputValue(unsigned int i);
   void SetInputValue(unsigned int i, ValueType value);
 
-  ValueType GetOutputValue(int);
+  ValueType GetOutputValue(unsigned int);
   void SetOutputValue(int, ValueType);
 
   ValuePointer GetOutputVector();
@@ -64,9 +64,9 @@ public:
   void SetOutputErrorValues(TOutput);
   ValueType GetOutputErrorValue(unsigned int);
 
-  ValueType GetInputErrorValue(int);
+  ValueType GetInputErrorValue(unsigned int);
   ValuePointer GetInputErrorVector();
-  void SetInputErrorValue(ValueType, int);
+  void SetInputErrorValue(ValueType, unsigned int);
 
   ValueType Activation(ValueType);
   ValueType DActivation(ValueType);

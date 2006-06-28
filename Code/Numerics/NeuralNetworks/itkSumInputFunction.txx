@@ -44,7 +44,7 @@ SumInputFunction<TVector,ScalarType>
 template<class TVector, class ScalarType>
 void
 SumInputFunction<TVector,ScalarType>
-::SetSize(long n)
+::SetSize(unsigned int n)
 {
   m_Size = n;
   this->Modified();

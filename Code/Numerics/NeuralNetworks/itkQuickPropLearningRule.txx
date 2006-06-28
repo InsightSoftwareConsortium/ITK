@@ -104,9 +104,9 @@ QuickPropLearningRule<LayerType,TOutput>
   ValueType step_val;
   float shrink_factor =(float)m_Max_Growth_Factor/(1.0+ m_Max_Growth_Factor);
  
-  for(int i=0; i<input_rows; i++)
+  for(unsigned int i=0; i<input_rows; i++)
     {
-    for(int j=0; j<input_cols; j++)
+    for(unsigned int j=0; j<input_cols; j++)
       {
       step_val=0;
       DW_temp(i,j)+=m_Decay*weights(i,j);
