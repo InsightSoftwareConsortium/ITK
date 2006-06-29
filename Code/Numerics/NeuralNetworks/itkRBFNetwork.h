@@ -32,6 +32,7 @@
 #include "itkTanHTransferFunction.h"
 #include "itkIdentityTransferFunction.h"
 #include "itkSumInputFunction.h"
+#include "itkEuclideanDistance.h"
 
 namespace itk
 {
