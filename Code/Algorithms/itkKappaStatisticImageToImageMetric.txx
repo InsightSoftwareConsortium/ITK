@@ -277,7 +277,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
         mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempIndex[j] ) );
         }
       
-      const GradientPixelType gradient = m_GradientImage->GetPixel( mappedIndex );
+      const GradientPixelType gradient = this->m_GradientImage->GetPixel( mappedIndex );
 
       for(unsigned int par=0; par<ParametersDimension; par++)
         {
@@ -320,7 +320,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
   const unsigned int dim = MovingImageType::ImageDimension;
 
   typedef itk::Image< GradientPixelType, dim > GradientImageType;
-  GradientImageType::Pointer tempGradientImage = GradientImageType::New();
+  typename GradientImageType::Pointer tempGradientImage = GradientImageType::New();
     tempGradientImage->SetRegions( this->m_MovingImage->GetBufferedRegion().GetSize() );
     tempGradientImage->Allocate();
     tempGradientImage->Update();
@@ -378,7 +378,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
     ++mit;
     }
 
-  m_GradientImage = tempGradientImage;
+  this->m_GradientImage = tempGradientImage;
 }
 
 /*
