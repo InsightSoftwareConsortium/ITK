@@ -182,6 +182,9 @@ public:
   itkGetConstReferenceMacro( ComputeGradient, bool);
   itkBooleanMacro(ComputeGradient);
 
+  /** Computes the gradient image and assigns it to m_GradientImage */
+  virtual void ComputeGradient();
+
   /** Get Gradient Image. */
   itkGetConstObjectMacro( GradientImage, GradientImageType );
 
