@@ -102,8 +102,16 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   // Test if the file exist and if it can be open.
   // and exception will be thrown otherwise.
   //
-  this->TestFileExistanceAndReadability();
-  
+  try
+    {
+    m_ExceptionMessage = "";
+    this->TestFileExistanceAndReadability();
+    }
+  catch(itk::ExceptionObject &err)
+    {
+    m_ExceptionMessage = err.GetDescription();
+    }
+
   if ( m_UserSpecifiedImageIO == false ) //try creating via factory
     {
     m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), ImageIOFactory::ReadMode );
@@ -114,17 +122,24 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
     OStringStream msg;
     msg << " Could not create IO object for file "
         << m_FileName.c_str() << std::endl;
-    msg << "  Tried to create one of the following:" << std::endl;
-    std::list<LightObject::Pointer> allobjects = 
-      ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
-    for(std::list<LightObject::Pointer>::iterator i = allobjects.begin();
-        i != allobjects.end(); ++i)
+    if (m_ExceptionMessage.size())
       {
-      ImageIOBase* io = dynamic_cast<ImageIOBase*>(i->GetPointer());
-      msg << "    " << io->GetNameOfClass() << std::endl; 
+      msg << m_ExceptionMessage;
       }
-    msg << "  You probably failed to set a file suffix, or" << std::endl;
-    msg << "    set the suffix to an unsupported type." << std::endl;
+    else
+      {
+      msg << "  Tried to create one of the following:" << std::endl;
+      std::list<LightObject::Pointer> allobjects = 
+        ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
+      for(std::list<LightObject::Pointer>::iterator i = allobjects.begin();
+          i != allobjects.end(); ++i)
+        {
+        ImageIOBase* io = dynamic_cast<ImageIOBase*>(i->GetPointer());
+        msg << "    " << io->GetNameOfClass() << std::endl; 
+        }
+      msg << "  You probably failed to set a file suffix, or" << std::endl;
+      msg << "    set the suffix to an unsupported type." << std::endl;
+      }
     ImageFileReaderException e(__FILE__, __LINE__, msg.str().c_str(), ITK_LOCATION);
     throw e;
     return;
@@ -226,7 +241,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
       {
       ImageFileReaderException e(__FILE__, __LINE__);
       OStringStream msg;
-      msg <<"The file doesn't exists. "
+      msg <<"The file doesn't exist. "
           << std::endl << "Filename = " << m_FileName
           << std::endl;
       e.SetDescription(msg.str().c_str());
@@ -292,7 +307,15 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
 
   // Test if the file exist and if it can be open.
   // and exception will be thrown otherwise.
-  this->TestFileExistanceAndReadability();
+  try
+    {
+    m_ExceptionMessage = "";
+    this->TestFileExistanceAndReadability();
+    }
+  catch(itk::ExceptionObject &err)
+    {
+    m_ExceptionMessage = err.GetDescription();
+    }
 
   // Tell the ImageIO to read the file
   //
