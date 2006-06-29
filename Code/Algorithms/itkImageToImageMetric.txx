@@ -115,36 +115,46 @@ ImageToImageMetric<TFixedImage,TMovingImage>
  
   if ( m_ComputeGradient )
     {
-
-    GradientImageFilterPointer gradientFilter
-      = GradientImageFilterType::New();
-
-    gradientFilter->SetInput( m_MovingImage );
-
-    const typename MovingImageType::SpacingType&
-      spacing = m_MovingImage->GetSpacing();
-    double maximumSpacing=0.0;
-    for(unsigned int i=0; i<MovingImageDimension; i++)
-      {
-      if( spacing[i] > maximumSpacing )
-        {
-        maximumSpacing = spacing[i];
-        }
-      }
-    gradientFilter->SetSigma( maximumSpacing );
-    gradientFilter->SetNormalizeAcrossScale( true );
-
-    gradientFilter->Update();
-
-    m_GradientImage = gradientFilter->GetOutput();
-
+    this->ComputeGradient();
     }
 
   // If there are any observers on the metric, call them to give the
   // user code a chance to set parameters on the metric
   this->InvokeEvent( InitializeEvent() );
 }
- 
+
+
+/*
+ * Compute the gradient image and assign it to m_GradientImage.
+ */
+template <class TFixedImage, class TMovingImage> 
+void
+ImageToImageMetric<TFixedImage,TMovingImage>
+::ComputeGradient() 
+{
+  GradientImageFilterPointer gradientFilter
+    = GradientImageFilterType::New();
+
+  gradientFilter->SetInput( m_MovingImage );
+
+  const typename MovingImageType::SpacingType&
+    spacing = m_MovingImage->GetSpacing();
+  double maximumSpacing=0.0;
+  for(unsigned int i=0; i<MovingImageDimension; i++)
+    {
+    if( spacing[i] > maximumSpacing )
+      {
+      maximumSpacing = spacing[i];
+      }
+    }
+  gradientFilter->SetSigma( maximumSpacing );
+  gradientFilter->SetNormalizeAcrossScale( true );
+  
+  gradientFilter->Update();
+  
+  m_GradientImage = gradientFilter->GetOutput();
+}
+
 
 /*
  * PrintSelf
