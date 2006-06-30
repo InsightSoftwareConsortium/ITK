@@ -50,7 +50,7 @@ public:
   void SetInputValue(unsigned int i, ValueType value);
 
   ValueType GetOutputValue(unsigned int);
-  void SetOutputValue(int, ValueType);
+  void SetOutputValue(unsigned int, ValueType);
 
   ValuePointer GetOutputVector();
   void SetOutputVector(TVector value);

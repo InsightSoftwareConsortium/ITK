@@ -86,7 +86,7 @@ BackPropagationLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 void
 BackPropagationLayer<TVector,TOutput>
-::SetOutputValue(int i, ValueType value)
+::SetOutputValue(unsigned int i, ValueType value)
 {
   m_NodeOutputValues(i) = value;
   this->Modified();

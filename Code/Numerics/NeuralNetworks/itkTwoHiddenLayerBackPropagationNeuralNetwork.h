@@ -64,10 +64,10 @@ public:
   itkSetMacro(NumOfInputNodes,unsigned int);
   itkGetConstReferenceMacro(NumOfInputNodes,unsigned int);
 
-  itkSetMacro(NumOfHiddenNodes1, int);
+  itkSetMacro(NumOfHiddenNodes1, unsigned int);
   itkGetConstReferenceMacro(NumOfHiddenNodes1,unsigned int);
 
-  itkSetMacro(NumOfHiddenNodes2, int);
+  itkSetMacro(NumOfHiddenNodes2, unsigned int);
   itkGetConstReferenceMacro(NumOfHiddenNodes2,unsigned int);
 
   itkSetMacro(NumOfOutputNodes,unsigned int);
