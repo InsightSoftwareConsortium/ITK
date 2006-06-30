@@ -119,7 +119,7 @@ MultilayerNeuralNetworkBase<TVector,TOutput>
 ::InitializeWeights()
 {
   unsigned int num_wts = this->m_Weights.size();
-  for(int i=0; i<num_wts; i++)
+  for(unsigned int i=0; i<num_wts; i++)
     {
     this->m_Weights[i]->InitializeWeights();
     }
