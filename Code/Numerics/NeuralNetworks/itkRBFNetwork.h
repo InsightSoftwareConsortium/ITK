@@ -21,6 +21,7 @@
 
 #include "itkMultilayerNeuralNetworkBase.h"
 #include "itkBackPropagationLayer.h"
+#include "itkRBFLayer.h"
 #include "itkCompletelyConnectedWeightSet.h"
 #include "itkSigmoidTransferFunction.h"
 #include "itkLogSigmoidTransferFunction.h"
