@@ -37,6 +37,8 @@ ADD_LIBRARY(${METAIO_NAMESPACE}
   metaMesh.cxx
   metaMesh.h
   metaObject.cxx
+  metaOutput.h
+  metaOutput.cxx
   metaScene.cxx
   metaSurface.cxx
   metaTube.cxx
