@@ -52,8 +52,8 @@ QuickPropLearningRule<LayerType,TOutput>
   typename LayerType::ValuePointer Delvalues = inputweightset->GetTotalDeltaValues();
   typename LayerType::ValuePointer weightvalues = inputweightset->GetWeightValues();
    
-  int input_cols = inputweightset->GetNumberOfInputNodes();
-  int input_rows = inputweightset->GetNumberOfOutputNodes();
+  unsigned int input_cols = inputweightset->GetNumberOfInputNodes();
+  unsigned int input_rows = inputweightset->GetNumberOfOutputNodes();
 
   vnl_matrix<ValueType> DW_m_1(input_rows, input_cols);
   DW_m_1.fill(0);
