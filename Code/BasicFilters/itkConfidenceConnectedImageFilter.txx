@@ -99,8 +99,9 @@ void
 ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
-  typedef BinaryThresholdImageFunction<InputImageType> FunctionType;
-  typedef BinaryThresholdImageFunction<OutputImageType> SecondFunctionType;
+  typedef BinaryThresholdImageFunction<InputImageType,double> FunctionType;
+  typedef BinaryThresholdImageFunction<OutputImageType,double> SecondFunctionType;
+
   typedef FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType> IteratorType;
   typedef FloodFilledImageFunctionConditionalConstIterator<InputImageType, SecondFunctionType> SecondIteratorType;
 
@@ -117,12 +118,21 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
 
   // Compute the statistics of the seed point
-  typename MeanImageFunction<InputImageType>::Pointer meanFunction
-    = MeanImageFunction<InputImageType>::New();
+  typedef MeanImageFunction< InputImageType,
+                              double> MeanImageFunctionType;
+
+  typedef SumOfSquaresImageFunction< InputImageType,
+                                      double > SumOfSquaresImageFunctionType;
+  
+  typename MeanImageFunctionType::Pointer meanFunction = 
+                                    MeanImageFunctionType::New();
+
   meanFunction->SetInputImage( inputImage );
   meanFunction->SetNeighborhoodRadius( m_InitialNeighborhoodRadius );
-  typename SumOfSquaresImageFunction<InputImageType>::Pointer sumOfSquaresFunction
-    = SumOfSquaresImageFunction<InputImageType>::New();
+
+  typename SumOfSquaresImageFunctionType::Pointer sumOfSquaresFunction =
+                                    SumOfSquaresImageFunctionType::New();
+  
   sumOfSquaresFunction->SetInputImage( inputImage );
   sumOfSquaresFunction->SetNeighborhoodRadius( m_InitialNeighborhoodRadius );
   
