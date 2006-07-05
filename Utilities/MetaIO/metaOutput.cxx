@@ -30,6 +30,8 @@
 #include <itksys/SystemTools.hxx>
 #include "zlib/zlib.h"
 
+#include <typeinfo>
+
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE {
 #endif
