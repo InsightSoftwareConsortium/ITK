@@ -63,7 +63,7 @@ ImageBase<VImageDimension>
   memset( m_OffsetTable, 0, (VImageDimension+1)*sizeof(unsigned long) );
 
   // Clear the BufferedRegion ivar
-  m_BufferedRegion = RegionType();
+  this->SetBufferedRegion( RegionType() );
 }
 
 
@@ -172,7 +172,7 @@ void
 ImageBase<VImageDimension>
 ::UpdateOutputInformation()
 {
-  if (this->GetSource())
+  if( this->GetSource() )
     {
     this->GetSource()->UpdateOutputInformation();
     }
@@ -185,9 +185,9 @@ ImageBase<VImageDimension>
     // filters to overwrite their inputs safely (taking ownership of
     // the pixel buffers), yet respond to subsequent requests for
     // information.
-    if (m_BufferedRegion.GetNumberOfPixels() > 0)
+    if( this->GetBufferedRegion().GetNumberOfPixels() > 0)
       {
-      m_LargestPossibleRegion = m_BufferedRegion;
+      this->SetLargestPossibleRegion( this->GetBufferedRegion() );
       }
     }
   
@@ -195,7 +195,7 @@ ImageBase<VImageDimension>
   // requested region was not set yet, (or has been set to something 
   // invalid - with no data in it ) then set it to the largest possible
   // region.
-  if ( m_RequestedRegion.GetNumberOfPixels() == 0)
+  if ( this->GetRequestedRegion().GetNumberOfPixels() == 0)
     {
     this->SetRequestedRegionToLargestPossibleRegion();
     }
@@ -208,7 +208,7 @@ void
 ImageBase<VImageDimension>
 ::SetRequestedRegionToLargestPossibleRegion()
 {
-  m_RequestedRegion = m_LargestPossibleRegion;
+  this->SetRequestedRegion( this->GetLargestPossibleRegion() );
 }
 
 //----------------------------------------------------------------------------
@@ -237,10 +237,10 @@ ImageBase<VImageDimension>
     if( imgData )
       {
       // Copy the meta data for this data type
-      m_LargestPossibleRegion = imgData->GetLargestPossibleRegion();
-      m_Spacing = imgData->m_Spacing;
-      m_Origin = imgData->m_Origin;
-      this->SetDirection(imgData->m_Direction);
+      this->SetLargestPossibleRegion( imgData->GetLargestPossibleRegion() );
+      this->SetSpacing( imgData->GetSpacing() );
+      this->SetOrigin( imgData->GetOrigin() );
+      this->SetDirection(imgData->GetDirection() );
       this->SetNumberOfComponentsPerPixel( 
           imgData->GetNumberOfComponentsPerPixel() );
       }
@@ -299,11 +299,11 @@ ImageBase<VImageDimension>
 ::RequestedRegionIsOutsideOfTheBufferedRegion()
 {
   unsigned int i;
-  const IndexType &requestedRegionIndex = m_RequestedRegion.GetIndex();
-  const IndexType &bufferedRegionIndex = m_BufferedRegion.GetIndex();
+  const IndexType &requestedRegionIndex = this->GetRequestedRegion().GetIndex();
+  const IndexType &bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
 
-  const SizeType& requestedRegionSize = m_RequestedRegion.GetSize();
-  const SizeType& bufferedRegionSize = m_BufferedRegion.GetSize();
+  const SizeType& requestedRegionSize = this->GetRequestedRegion().GetSize();
+  const SizeType& bufferedRegionSize = this->GetBufferedRegion().GetSize();
   
   for (i=0; i< VImageDimension; i++)
     {
@@ -331,13 +331,13 @@ ImageBase<VImageDimension>
   // Is the requested region within the LargestPossibleRegion?
   // Note that the test is indeed against the largest possible region
   // rather than the buffered region; see DataObject::VerifyRequestedRegion.
-  const IndexType &requestedRegionIndex = m_RequestedRegion.GetIndex();
+  const IndexType &requestedRegionIndex = this->GetRequestedRegion().GetIndex();
   const IndexType &largestPossibleRegionIndex
-    = m_LargestPossibleRegion.GetIndex();
+    = this->GetLargestPossibleRegion().GetIndex();
 
-  const SizeType& requestedRegionSize = m_RequestedRegion.GetSize();
+  const SizeType& requestedRegionSize = this->GetRequestedRegion().GetSize();
   const SizeType& largestPossibleRegionSize
-    = m_LargestPossibleRegion.GetSize();
+    = this->GetLargestPossibleRegion().GetSize();
   
   for (i=0; i< VImageDimension; i++)
     {
@@ -392,7 +392,7 @@ ImageBase<VImageDimension>
   if (imgData)
     {
     // only copy the RequestedRegion if the parameter object is an image
-    m_RequestedRegion = imgData->GetRequestedRegion();
+    this->SetRequestedRegion( imgData->GetRequestedRegion() );
     }
 }
 
@@ -440,19 +440,19 @@ ImageBase<VImageDimension>
   Superclass::PrintSelf(os,indent);
 
   os << indent << "LargestPossibleRegion: " << std::endl;
-  m_LargestPossibleRegion.PrintSelf(os, indent.GetNextIndent());
+  this->GetLargestPossibleRegion().PrintSelf(os, indent.GetNextIndent());
 
   os << indent << "BufferedRegion: " << std::endl;
-  m_BufferedRegion.PrintSelf(os, indent.GetNextIndent());
+  this->GetBufferedRegion().PrintSelf(os, indent.GetNextIndent());
 
   os << indent << "RequestedRegion: " << std::endl;
-  m_RequestedRegion.PrintSelf(os, indent.GetNextIndent());
+  this->GetRequestedRegion().PrintSelf(os, indent.GetNextIndent());
 
-  os << indent << "Spacing: " << m_Spacing << std::endl;
+  os << indent << "Spacing: " << this->GetSpacing() << std::endl;
 
-  os << indent << "Origin: " << m_Origin << std::endl;\
+  os << indent << "Origin: " << this->GetOrigin() << std::endl;\
 
-  os << indent << "Direction: " << std::endl << m_Direction << std::endl;
+  os << indent << "Direction: " << std::endl << this->GetDirection() << std::endl;
 }
 
 } // end namespace itk
