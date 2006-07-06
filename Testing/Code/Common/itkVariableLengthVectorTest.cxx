@@ -63,6 +63,8 @@ int itkVariableLengthVectorTest(int, char*[])
       }    
     std::cout << x << std::endl;
     x.SetSize( 5 , false); 
+    x[3] = 3.0;
+    x[4] = 4.0;
     std::cout << x << std::endl;
     if( (d[0] != 0.1) || (x[0] != 0.1) ) // increase length but preserve existing data
       {
