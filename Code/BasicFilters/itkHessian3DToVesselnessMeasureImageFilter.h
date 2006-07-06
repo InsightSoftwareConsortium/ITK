@@ -73,7 +73,7 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       ::itk::GetImageDimension<InputImageType>::ImageDimension);
   itkStaticConstMacro(InputPixelDimension, unsigned int,
-                      InputPixelType::ImageDimension);
+                      InputPixelType::Dimension);
 
   typedef  FixedArray< double, itkGetStaticConstMacro(InputPixelDimension) >
                                                           EigenValueArrayType;
@@ -96,7 +96,7 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(DoubleConvertibleToOutputCheck,
-                  (Concept::Convertible<OutputPixelType>));
+                  (Concept::Convertible<double, OutputPixelType>));
   /** End concept checking */
 #endif
 

@@ -26,19 +26,20 @@
 
 void RegisterTests()
 {
-  REGISTER_TEST( itkParametricSpaceToImageSpaceMeshFilterTest );
-  REGISTER_TEST( itkGrayscaleGeodesicErodeDilateImageFilterTest );
   REGISTER_TEST( itkClosingByReconstructionImageFilterTest );
-  REGISTER_TEST( itkOpeningByReconstructionImageFilterTest );
   REGISTER_TEST( itkGetAverageSliceImageFilterTest );
-  REGISTER_TEST( itkMaskNeighborhoodOperatorImageFilterTest );
-  REGISTER_TEST( itkVectorConnectedComponentImageFilterTest );
-  REGISTER_TEST( itkMatrixIndexSelectionImageFilterTest );
-  REGISTER_TEST( itkNotImageFilterTest );
+  REGISTER_TEST( itkGrayscaleGeodesicErodeDilateImageFilterTest );
+  REGISTER_TEST( itkHessian3DToVesselnessMeasureImageFilterTest );
   REGISTER_TEST( itkInvertIntensityImageFilterTest );
+  REGISTER_TEST( itkMaskNeighborhoodOperatorImageFilterTest );
+  REGISTER_TEST( itkMatrixIndexSelectionImageFilterTest );
   REGISTER_TEST( itkModulusImageFilterTest );
   REGISTER_TEST( itkMorphologicalGradientImageFilterTest );
-  REGISTER_TEST(itkSignedMaurerDistanceMapImageFilterTest );
-  REGISTER_TEST(itkVectorIndexSelectionCastImageFilterTest );
+  REGISTER_TEST( itkNotImageFilterTest );
+  REGISTER_TEST( itkOpeningByReconstructionImageFilterTest );
+  REGISTER_TEST( itkParametricSpaceToImageSpaceMeshFilterTest );
+  REGISTER_TEST( itkSignedMaurerDistanceMapImageFilterTest );
+  REGISTER_TEST( itkVectorIndexSelectionCastImageFilterTest );
+  REGISTER_TEST( itkVectorConnectedComponentImageFilterTest );
 }
 
