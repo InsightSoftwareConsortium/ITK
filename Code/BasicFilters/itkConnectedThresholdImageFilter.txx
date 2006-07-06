@@ -252,7 +252,7 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
   outputImage->Allocate();
   outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
   
-  typedef BinaryThresholdImageFunction<InputImageType> FunctionType;
+  typedef BinaryThresholdImageFunction<InputImageType, double> FunctionType;
   typedef FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType> IteratorType;
 
   typename FunctionType::Pointer function = FunctionType::New();
