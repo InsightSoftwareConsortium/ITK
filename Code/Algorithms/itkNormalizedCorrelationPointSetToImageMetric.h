@@ -56,7 +56,8 @@ public:
   itkNewMacro(Self);
  
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NormalizedCorrelationPointSetToImageMetric, Object);
+  itkTypeMacro(NormalizedCorrelationPointSetToImageMetric, 
+                                    PointSetToImageMetric);
 
  
   /** Types transferred from the base class */
