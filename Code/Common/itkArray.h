@@ -78,7 +78,7 @@ public:
 
 
   /** Set the all the elements of the array to the specified value */
-  void Fill (TValueType const& v) { fill(v); }
+  void Fill (TValueType const& v) { this->fill(v); }
 
   /** Copy opertor */
   const Self & operator=( const Self &rhs );

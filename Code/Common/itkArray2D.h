@@ -60,7 +60,7 @@ public:
   const Self & operator=( const Self & array );
   const Self & operator=( const VnlMatrixType & matrix );
 
-  void Fill (TValueType const& v) { fill(v); }
+  void Fill (TValueType const& v) { this->fill(v); }
   
   /** Destructively set the size to that given.  Will lose data.  */
   void SetSize(unsigned int m, unsigned int n);
