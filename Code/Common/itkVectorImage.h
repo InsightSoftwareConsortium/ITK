@@ -229,23 +229,25 @@ public:
     return p;
     }
 
-  /** \brief Access a pixel. This version can be an lvalue.
+  /** \brief Access a pixel. This version cannot be an lvalue because the pixel
+   * is converted on the fly to a VariableLengthVector.
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  PixelType & operator[](const IndexType &index)
+  PixelType operator[](const IndexType &index)
      { return this->GetPixel(index); }
 
-  /** \brief Access a pixel. This version can only be an rvalue.
+  /** \brief Access a pixel. This version can only be an rvalue because the
+   * pixel is converted on the fly to a VariableLengthVector.
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  const PixelType& operator[](const IndexType &index) const
+  PixelType operator[](const IndexType &index) const
      { return this->GetPixel(index); }
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
-  InternalPixelType *GetBufferPointer()
+  InternalPixelType * GetBufferPointer()
     { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
   const InternalPixelType *GetBufferPointer() const
     { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
