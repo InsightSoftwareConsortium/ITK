@@ -1442,11 +1442,11 @@ void FileHelper::CheckMandatoryElements()
    ValEntry *e_0002_0002 = FileInternal->GetValEntry(0x0002, 0x0002);
    if( !e_0002_0002)
      {
-     CopyMandatoryEntry(0x0002,0x0002,"1.2.840.10008.5.1.4.1.1.7");    
+     CopyMandatoryEntry(0x0002,0x0002,"1.2.840.10008.5.1.4.1.1.7");
      }
 
    // 'Media Storage SOP Instance UID'
-   //CopyMandatoryEntry(0x0002,0x0003,sop);
+   CopyMandatoryEntry(0x0002,0x0003,sop);
 
    // 'Implementation Class UID'
       CopyMandatoryEntry(0x0002,0x0012,Util::CreateUniqueUID());
@@ -1521,14 +1521,14 @@ void FileHelper::CheckMandatoryElements()
       imageOrientationPatient = "1\\0\\0\\0\\1\\0";
       CopyMandatoryEntry(0x0020,0x0037,imageOrientationPatient);
    }
-   
+
    // 'Imager Pixel Spacing' : defaulted to 'Pixel Spacing'
    // --> This one is the *legal* one !
    // FIXME : we should write it only when we are *sure* the image comes from
    //         an imager (see also 0008,0x0064)
-   //CheckMandatoryEntry(0x0018,0x1164,pixelSpacing);
+   CheckMandatoryEntry(0x0018,0x1164,pixelSpacing);
 
-   // Samples Per Pixel (type 1) : default to grayscale 
+   // Samples Per Pixel (type 1) : default to grayscale
    CheckMandatoryEntry(0x0028,0x0002,"1");
 
    // --- Check UID-related Entries ---
@@ -1604,7 +1604,7 @@ void FileHelper::CheckMandatoryElements()
    // Instance Creation Date
    const std::string &date = Util::GetCurrentDate();
    CopyMandatoryEntry(0x0008,0x0012,date);
- 
+
    // Instance Creation Time
    const std::string &time = Util::GetCurrentTime();
    CopyMandatoryEntry(0x0008,0x0013,time);
