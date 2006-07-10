@@ -499,6 +499,7 @@ size_t FileHelper::GetImageDataIntoVector (void *destination, size_t maxSize)
  */
 void FileHelper::SetImageData(uint8_t *inData, size_t expectedSize)
 {
+   //assert( WriteType != Unknown );
    SetUserData(inData, expectedSize);
 }
 
@@ -512,7 +513,18 @@ void FileHelper::SetImageData(uint8_t *inData, size_t expectedSize)
  */
 void FileHelper::SetUserData(uint8_t *inData, size_t expectedSize)
 {
-   PixelWriteConverter->SetUserData(inData, expectedSize);
+   if( WriteType == JPEG2000 )
+   {
+      PixelWriteConverter->SetCompressJPEG2000UserData(inData, expectedSize, FileInternal);
+   }
+   else if( WriteType == JPEG )
+   {
+      PixelWriteConverter->SetCompressJPEGUserData(inData, expectedSize, FileInternal);
+   }
+   else
+   {
+      PixelWriteConverter->SetUserData(inData, expectedSize);
+   }
 }
 
 /**
@@ -720,6 +732,9 @@ bool FileHelper::Write(std::string const &fileName)
       case JPEG:
          SetWriteFileTypeToJPEG();
          break;
+      case JPEG2000:
+         SetWriteFileTypeToJPEG2000();
+         break;
    }
    CheckMandatoryElements();
 
@@ -753,7 +768,7 @@ bool FileHelper::Write(std::string const &fileName)
    }
 
    bool check = CheckWriteIntegrity(); // verifies length
-   if (WriteType == JPEG ) check = true;
+   if (WriteType == JPEG || WriteType == JPEG2000 ) check = true;
    if (check)
    {
       check = FileInternal->Write(fileName,WriteType);
@@ -791,14 +806,14 @@ bool FileHelper::CheckWriteIntegrity()
       int numberBitsAllocated = FileInternal->GetBitsAllocated();
       if ( numberBitsAllocated == 0 || numberBitsAllocated == 12 )
       {
-         gdcmWarningMacro( "numberBitsAllocated changed from "
-                          << numberBitsAllocated << " to 16 "
+         gdcmWarningMacro( "numberBitsAllocated changed from " 
+                          << numberBitsAllocated << " to 16 " 
                           << " for consistency purpose" );
          numberBitsAllocated = 16;
       }
 
       size_t decSize = FileInternal->GetXSize()
-                     * FileInternal->GetYSize()
+                     * FileInternal->GetYSize() 
                      * FileInternal->GetZSize()
                      * FileInternal->GetSamplesPerPixel()
                      * ( numberBitsAllocated / 8 );
@@ -811,8 +826,8 @@ bool FileHelper::CheckWriteIntegrity()
          case WMODE_RAW :
             if ( decSize!=PixelWriteConverter->GetUserDataSize() )
             {
-               gdcmWarningMacro( "Data size (Raw) is incorrect. Should be "
-                           << decSize << " / Found :"
+               gdcmWarningMacro( "Data size (Raw) is incorrect. Should be " 
+                           << decSize << " / Found :" 
                            << PixelWriteConverter->GetUserDataSize() );
                return false;
             }
@@ -820,8 +835,8 @@ bool FileHelper::CheckWriteIntegrity()
          case WMODE_RGB :
             if ( rgbSize!=PixelWriteConverter->GetUserDataSize() )
             {
-               gdcmWarningMacro( "Data size (RGB) is incorrect. Should be "
-                          << decSize << " / Found "
+               gdcmWarningMacro( "Data size (RGB) is incorrect. Should be " 
+                          << decSize << " / Found " 
                           << PixelWriteConverter->GetUserDataSize() );
                return false;
             }
@@ -1022,12 +1037,26 @@ void FileHelper::SetWriteFileTypeToACR()
 }
 
 /**
+ * \brief Sets in the File the TransferSyntax to 'JPEG2000'
+ */
+void FileHelper::SetWriteFileTypeToJPEG2000()
+{
+   std::string ts = Util::DicomString(
+      Global::GetTS()->GetSpecialTransferSyntax(TS::JPEG2000Lossless) );
+
+   ValEntry *tss = CopyValEntry(0x0002,0x0010);
+   tss->SetValue(ts);
+
+   Archive->Push(tss);
+}
+
+/**
  * \brief Sets in the File the TransferSyntax to 'JPEG'
- */ 
+ */
 void FileHelper::SetWriteFileTypeToJPEG()
 {
-   std::string ts = Util::DicomString( 
-      Global::GetTS()->GetSpecialTransferSyntax(TS::JPEGBaselineProcess1) );
+   std::string ts = Util::DicomString(
+      Global::GetTS()->GetSpecialTransferSyntax(TS::JPEGLosslessProcess14_1) );
 
    ValEntry *tss = CopyValEntry(0x0002,0x0010);
    tss->SetValue(ts);
@@ -1383,8 +1412,8 @@ void FileHelper::CheckMandatoryElements()
   
    //0002 0000 UL 1 Meta Group Length
    //0002 0001 OB 1 File Meta Information Version
-   //0002 0002 UI 1 Media Stored SOP Class UID
-   //0002 0003 UI 1 Media Stored SOP Instance UID
+   //0002 0002 UI 1 Media Storage SOP Class UID
+   //0002 0003 UI 1 Media Storage SOP Instance UID
    //0002 0010 UI 1 Transfer Syntax UID
    //0002 0012 UI 1 Implementation Class UID
    //0002 0013 SH 1 Implementation Version Name
@@ -1392,6 +1421,11 @@ void FileHelper::CheckMandatoryElements()
    //0002 0100 UI 1 Private Information Creator
    //0002 0102 OB 1 Private Information
   
+   // Push out 'ACR-NEMA-special' entries, if any
+   Archive->Push(0x0008,0x0001); // Length to End
+   Archive->Push(0x0008,0x0010); // Recognition Code
+   Archive->Push(0x0028,0x0005); // Image Dimension
+
    // Create them if not found
    // Always modify the value
    // Push the entries to the archive.
@@ -1411,9 +1445,9 @@ void FileHelper::CheckMandatoryElements()
      CopyMandatoryEntry(0x0002,0x0002,"1.2.840.10008.5.1.4.1.1.7");    
      }
 
-   // 'Media Storage SOP Instance UID'   
-   //   CopyMandatoryEntry(0x0002,0x0003,sop);
-      
+   // 'Media Storage SOP Instance UID'
+   //CopyMandatoryEntry(0x0002,0x0003,sop);
+
    // 'Implementation Class UID'
       CopyMandatoryEntry(0x0002,0x0012,Util::CreateUniqueUID());
 
@@ -1491,9 +1525,9 @@ void FileHelper::CheckMandatoryElements()
    // 'Imager Pixel Spacing' : defaulted to 'Pixel Spacing'
    // --> This one is the *legal* one !
    // FIXME : we should write it only when we are *sure* the image comes from
-   //         an imager (see also 0008,0x0064)          
-   CheckMandatoryEntry(0x0018,0x1164,pixelSpacing);
-   
+   //         an imager (see also 0008,0x0064)
+   //CheckMandatoryEntry(0x0018,0x1164,pixelSpacing);
+
    // Samples Per Pixel (type 1) : default to grayscale 
    CheckMandatoryEntry(0x0028,0x0002,"1");
 
@@ -1510,13 +1544,13 @@ void FileHelper::CheckMandatoryElements()
       SeqEntry *sis = new SeqEntry (
             Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x2112) );
       SQItem *sqi = new SQItem(1);
-      // (we assume 'SOP Instance UID' exists too) 
+      // (we assume 'SOP Instance UID' exists too)
       // create 'Referenced SOP Class UID'
       ValEntry *e_0008_1150 = new ValEntry(
             Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x1150) );
       e_0008_1150->SetValue( e_0008_0016->GetValue());
       sqi->AddEntry(e_0008_1150);
-      
+
       // create 'Referenced SOP Instance UID'
       ValEntry *e_0008_0018 = FileInternal->GetValEntry(0x0008, 0x0018);
       ValEntry *e_0008_1155 = new ValEntry(
@@ -1524,24 +1558,38 @@ void FileHelper::CheckMandatoryElements()
       e_0008_1155->SetValue( e_0008_0018->GetValue());
       sqi->AddEntry(e_0008_1155);
 
-      sis->AddSQItem(sqi,1); 
-      // temporarily replaces any previous 'Source Image Sequence' 
+      sis->AddSQItem(sqi,1);
+      // temporarily replaces any previous 'Source Image Sequence'
       Archive->Push(sis);
- 
+
       // 'Image Type' (The written image is no longer an 'ORIGINAL' one)
       CopyMandatoryEntry(0x0008,0x0008,"DERIVED\\PRIMARY");
-   } 
+   }
    else
    {
-      // There was no 'SOP Class UID'.
-      // the source image was NOT a true Dicom one.
-      // We consider the image is a 'Secondary Capture' one
-      // SOP Class UID
-      e_0008_0016  =  new ValEntry( 
-            Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x0016) );
-      // [Secondary Capture Image Storage]
-      e_0008_0016 ->SetValue("1.2.840.10008.5.1.4.1.1.7"); 
-      Archive->Push(e_0008_0016); 
+     ValEntry *e_0002_0002 = FileInternal->GetValEntry(0x0002, 0x0002);
+     if( e_0002_0002 )
+       {
+       e_0008_0016  =  new ValEntry(
+         Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x0016) );
+       e_0008_0016 ->SetValue( e_0002_0002->GetValue() );
+       ValEntry *e_0008_0018 = FileInternal->GetValEntry(0x0008, 0x0018);
+       e_0008_0018->SetValue(
+         FileInternal->GetValEntry(0x0002,0x0003)->GetValue() );
+       Archive->Push(e_0008_0016);
+       }
+     else
+       {
+       // There was no 'SOP Class UID' nor 'Media Storage SOP UID'
+       // the source image was NOT a true Dicom one.
+       // We consider the image is a 'Secondary Capture' one
+       // SOP Class UID
+       e_0008_0016  =  new ValEntry(
+         Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x0016) );
+       // [Secondary Capture Image Storage]
+       e_0008_0016 ->SetValue("1.2.840.10008.5.1.4.1.1.7");
+       Archive->Push(e_0008_0016);
+       }
    }
 
    // ---- The user will never have to take any action on the following ----
@@ -1551,6 +1599,7 @@ void FileHelper::CheckMandatoryElements()
    //      Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x0018) );
    //e_0008_0018->SetValue( Util::CreateUniqueUID() );
    //Archive->Push(e_0008_0018);
+   CheckMandatoryEntry(0x0008,0x0018,sop);
 
    // Instance Creation Date
    const std::string &date = Util::GetCurrentDate();
@@ -1603,18 +1652,21 @@ void FileHelper::CheckMandatoryElements()
 
    // Instance Number
    CheckMandatoryEntry(0x0020,0x0013,"");
-  
-   // Patient Orientation    
-   // Can be computed from (0020|0037) :  Image Orientation (Patient)    
-   gdcm::Orientation o;    
-   std::string ori = o.GetOrientation ( FileInternal );    
-   if (ori != "\\" && ori != GDCM_UNFOUND)    
-      CheckMandatoryEntry(0x0020,0x0020,ori);    
-   else    
+
+   // Patient Orientation
+   // Can be computed from (0020|0037) :  Image Orientation (Patient)
+   gdcm::Orientation o;
+   std::string ori = o.GetOrientation ( FileInternal );
+   if (ori != "\\" && ori != GDCM_UNFOUND)
+      CheckMandatoryEntry(0x0020,0x0020,ori);
+   else
       CheckMandatoryEntry(0x0020,0x0020,"");
 
    // Modality : if missing we set it to 'OTher'
    CheckMandatoryEntry(0x0008,0x0060,"OT");
+
+   // Conversion Type: if missing we set it to 'SYN'
+   CheckMandatoryEntry(0x0008,0x0064,"SYN");
 
    // Manufacturer : if missing we set it to 'GDCM Factory'
    CheckMandatoryEntry(0x0008,0x0070,"GDCM Factory");
@@ -1625,7 +1677,7 @@ void FileHelper::CheckMandatoryElements()
    // Patient's Name : if missing, we set it to 'GDCM^Patient'
    CheckMandatoryEntry(0x0010,0x0010,"GDCM^Patient");
 
-   // Patient ID : 'type 2' entry but some DICOM implementation really needs it.
+    // Patient ID : 'type 2' entry but some DICOM implementation really needs it.
    CheckMandatoryEntry(0x0010,0x0020,"GDCM ID");
 
    // Patient's Birth Date : 'type 2' entry -> must exist, value not mandatory
@@ -1637,7 +1689,7 @@ void FileHelper::CheckMandatoryElements()
    // Referring Physician's Name :'type 2' entry -> must exist, value not mandatory
    CheckMandatoryEntry(0x0008,0x0090,"");
 
-} 
+}
 
 void FileHelper::CheckMandatoryEntry(uint16_t group,uint16_t elem,std::string value)
 {
@@ -1705,7 +1757,8 @@ void FileHelper::Initialize()
    KeepMediaStorageSOPClassUID = false;
 
    WriteMode = WMODE_RAW;
-   WriteType = ExplicitVR;
+   //WriteType = ExplicitVR;
+   WriteType = Unknown;
 
    PixelReadConverter  = new PixelReadConvert;
    PixelWriteConverter = new PixelWriteConvert;

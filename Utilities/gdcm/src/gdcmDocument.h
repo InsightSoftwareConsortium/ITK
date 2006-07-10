@@ -124,7 +124,7 @@ protected:
    // to instanciate from this class Document (only gdcm::File and
    // gdcm::DicomDir are meaningfull).
    Document();
-   GDCM_LEGACY( Document( std::string const &filename ) );
+   GDCM_LEGACY( Document( std::string const &filename ) )
    virtual ~Document();
 
    uint16_t ReadInt16() throw ( FormatError );

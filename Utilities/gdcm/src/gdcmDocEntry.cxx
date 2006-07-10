@@ -80,7 +80,7 @@ void DocEntry::WriteContent(std::ofstream *fp, FileType filetype)
    binary_write( *fp, elem);  //element number
 
    // Dicom V3 group 0x0002 is *always* Explicit VR !
-   if ( filetype == ExplicitVR || filetype == JPEG || group == 0x0002 )
+   if ( filetype == ExplicitVR || filetype == JPEG || filetype == JPEG2000 || group == 0x0002 )
    {
 // ----------- Writes the common part : the VR + the length 
 
@@ -107,20 +107,26 @@ void DocEntry::WriteContent(std::ofstream *fp, FileType filetype)
       {
          // GDCM_UNKNOWN was stored in the Entry VR;
          // deal with Entry as if TS were Implicit VR
- 
+
          binary_write(*fp, lgth);
       }
       else
       {
          binary_write(*fp, vr);
          gdcmAssertMacro( vr.size() == 2 );
-                  
-         // See PS 3.5-2004 page 33, 36                  
-         if ( (vr == "SQ") || (vr == "OB") || (vr == "OW") || (vr == "OF") 
+
+         // See PS 3.5-2004 page 33, 36
+         if ( (vr == "SQ") || (vr == "OB") || (vr == "OW") || (vr == "OF")
           ||  (vr == "UN") || (vr == "UT") )
          {
             binary_write(*fp, zero);
-            if (vr == "SQ")
+            if ( (filetype == JPEG || filetype == JPEG2000)
+              && GetGroup() == 0x7fe0 && GetElement() == 0x0010)
+            {
+               //gdcmAssertMacro( GetVR() == "OW" );
+               binary_write(*fp, ffff);
+            }
+            else if (vr == "SQ")
             {
                // we set SQ length to ffffffff
                // and  we shall write a Sequence Delimitor Item 

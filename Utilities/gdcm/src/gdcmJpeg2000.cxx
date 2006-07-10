@@ -24,6 +24,7 @@
 #if defined(__BORLANDC__)
    #include <mem.h> // for memset
 #endif 
+#include <stdio.h> // for fprintf
 
 extern "C" {
   #include "openjpeg/openjpeg.h"
@@ -55,8 +56,8 @@ void warning_callback(const char *msg, void *) {
 /**
 sample debug callback expecting no client object
 */
-void info_callback(const char *msg, void *) {
-  std::cerr << "Info in gdcmopenjpeg" << msg << std::endl;
+void info_callback(const char *, void *) {
+//  std::cerr << "Info in gdcmopenjpeg" << msg << std::endl;
 }
 
 #define J2K_CFMT 0
@@ -113,9 +114,9 @@ bool gdcm_read_JPEG2000_file (void* raw, char *inputdata, size_t inputlength)
 
       /* get a decoder handle */
       dinfo = opj_create_decompress(CODEC_J2K);
-      
+
       /* catch events using our callbacks and give a local context */
-      opj_set_event_mgr((opj_common_ptr)dinfo, &event_mgr, NULL);      
+      opj_set_event_mgr((opj_common_ptr)dinfo, &event_mgr, NULL);
 
       /* setup the decoder decoding parameters using user parameters */
       opj_setup_decoder(dinfo, &parameters);
@@ -141,43 +142,46 @@ bool gdcm_read_JPEG2000_file (void* raw, char *inputdata, size_t inputlength)
    for (int compno = 0; compno < image->numcomps; compno++)
    {
       opj_image_comp_t *comp = &image->comps[compno];
-  
+
       int w = image->comps[compno].w;
       int wr = int_ceildivpow2(image->comps[compno].w, image->comps[compno].factor);
-  
+
       //int h = image.comps[compno].h;
       int hr = int_ceildivpow2(image->comps[compno].h, image->comps[compno].factor);
-  
+
       if (comp->prec <= 8)
       {
-         uint8_t *data8 = (uint8_t*)raw;
-         for (int i = 0; i < wr * hr; i++) 
+         uint8_t *data8 = (uint8_t*)raw + compno;
+         for (int i = 0; i < wr * hr; i++)
          {
             int v = image->comps[compno].data[i / wr * w + i % wr];
-            *data8++ = (uint8_t)v;
+            *data8 = (uint8_t)v;
+            data8 += image->numcomps;
          }
       }
       else if (comp->prec <= 16)
       {
-         uint16_t *data16 = (uint16_t*)raw;
-         for (int i = 0; i < wr * hr; i++) 
+         uint16_t *data16 = (uint16_t*)raw + compno;
+         for (int i = 0; i < wr * hr; i++)
          {
             int v = image->comps[compno].data[i / wr * w + i % wr];
-            *data16++ = (uint16_t)v;
+            *data16 = (uint16_t)v;
+            data16 += image->numcomps;
          }
       }
       else
       {
-         uint32_t *data32 = (uint32_t*)raw;
-         for (int i = 0; i < wr * hr; i++) 
+         uint32_t *data32 = (uint32_t*)raw + compno;
+         for (int i = 0; i < wr * hr; i++)
          {
             int v = image->comps[compno].data[i / wr * w + i % wr];
-            *data32++ = (uint32_t)v;
+            *data32 = (uint32_t)v;
+            data32 += image->numcomps;
          }
       }
       //free(image.comps[compno].data);
    }
- 
+
 
   /* free remaining structures */
   if(dinfo) {
@@ -186,6 +190,246 @@ bool gdcm_read_JPEG2000_file (void* raw, char *inputdata, size_t inputlength)
 
   /* free image data structure */
   opj_image_destroy(image);
+
+  return true;
+}
+
+template<typename T>
+void rawtoimage_fill(T *inputbuffer, int w, int h, int numcomps, opj_image_t *image)
+{
+  T *p = inputbuffer;
+  for (int i = 0; i < w * h; i++)
+    {
+    for(int compno = 0; compno < numcomps; compno++)
+      {
+      /* compno : 0 = GREY, (0, 1, 2) = (R, G, B) */
+      image->comps[compno].data[i] = *p;
+      ++p;
+      }
+    }
+}
+
+opj_image_t* rawtoimage(char *inputbuffer, opj_cparameters_t *parameters,
+  int fragment_size, int image_width, int image_height, int sample_pixel,
+  int bitsallocated, int sign, int quality)
+{
+  (void)quality;
+  (void)fragment_size;
+  int w, h;
+  int numcomps;
+  OPJ_COLOR_SPACE color_space;
+  opj_image_cmptparm_t cmptparm[3]; /* maximum of 3 components */
+  opj_image_t * image = NULL;
+
+  assert( sample_pixel == 1 || sample_pixel == 3 );
+  if( sample_pixel == 1 )
+    {
+    numcomps = 1;
+    color_space = CLRSPC_GRAY;
+    }
+  else // sample_pixel == 3
+    {
+    numcomps = 3;
+    color_space = CLRSPC_SRGB;
+    }
+  int subsampling_dx = parameters->subsampling_dx;
+  int subsampling_dy = parameters->subsampling_dy;
+
+  // FIXME
+  w = image_width;
+  h = image_height;
+
+  /* initialize image components */
+  memset(&cmptparm[0], 0, 3 * sizeof(opj_image_cmptparm_t));
+  //assert( bitsallocated == 8 );
+  for(int i = 0; i < numcomps; i++) {
+    cmptparm[i].prec = bitsallocated;
+    cmptparm[i].bpp = bitsallocated;
+    cmptparm[i].sgnd = sign;
+    cmptparm[i].dx = subsampling_dx;
+    cmptparm[i].dy = subsampling_dy;
+    cmptparm[i].w = w;
+    cmptparm[i].h = h;
+  }
+
+  /* create the image */
+  image = opj_image_create(numcomps, &cmptparm[0], color_space);
+  if(!image) {
+    return NULL;
+  }
+  /* set image offset and reference grid */
+  image->x0 = parameters->image_offset_x0;
+  image->y0 = parameters->image_offset_y0;
+  image->x1 = parameters->image_offset_x0 + (w - 1) * subsampling_dx + 1;
+  image->y1 = parameters->image_offset_y0 + (h - 1) * subsampling_dy + 1;
+
+  /* set image data */
+
+  //assert( fragment_size == numcomps*w*h*(bitsallocated/8) );
+  if (bitsallocated <= 8)
+    {
+    if( sign )
+      {
+      rawtoimage_fill<int8_t>((int8_t*)inputbuffer,w,h,numcomps,image);
+      }
+    else
+      {
+      rawtoimage_fill<uint8_t>((uint8_t*)inputbuffer,w,h,numcomps,image);
+      }
+    }
+  else if (bitsallocated <= 16)
+    {
+    if( sign )
+      {
+      rawtoimage_fill<int16_t>((int16_t*)inputbuffer,w,h,numcomps,image);
+      }
+    else
+      {
+      rawtoimage_fill<uint16_t>((uint16_t*)inputbuffer,w,h,numcomps,image);
+      }
+    }
+  else if (bitsallocated <= 32)
+    {
+    if( sign )
+      {
+      rawtoimage_fill<int32_t>((int32_t*)inputbuffer,w,h,numcomps,image);
+      }
+    else
+      {
+      rawtoimage_fill<uint32_t>((uint32_t*)inputbuffer,w,h,numcomps,image);
+      }
+    }
+  else
+    {
+    abort();
+    }
+
+  return image;
+}
+
+/*
+ * The following function was copy paste from image_to_j2k.c with part from convert.c
+ */
+bool gdcm_write_JPEG2000_file (std::ostream *fp, char *inputdata, size_t inputlength, 
+  int image_width, int image_height, int numZ, int sample_pixel, int bitsallocated,
+  int sign, int quality)
+{
+//// input_buffer is ONE image
+//// fragment_size is the size of this image (fragment)
+  (void)numZ;
+  bool bSuccess;
+  //bool delete_comment = true;
+  opj_cparameters_t parameters;  /* compression parameters */
+  opj_event_mgr_t event_mgr;    /* event manager */
+  opj_image_t *image = NULL;
+  //quality = 100;
+
+  /*
+  configure the event callbacks (not required)
+  setting of each callback is optionnal
+  */
+  memset(&event_mgr, 0, sizeof(opj_event_mgr_t));
+  event_mgr.error_handler = error_callback;
+  event_mgr.warning_handler = warning_callback;
+  event_mgr.info_handler = info_callback;
+
+  /* set encoding parameters to default values */
+  memset(&parameters, 0, sizeof(parameters));
+  opj_set_default_encoder_parameters(&parameters);
+
+  /* if no rate entered, lossless by default */
+  parameters.tcp_rates[0] = 0;
+  parameters.tcp_numlayers = 1;
+  parameters.cp_disto_alloc = 1;
+
+  if(parameters.cp_comment == NULL) {
+    const char comment[] = "Created by GDCM/OpenJPEG version 1.0";
+    parameters.cp_comment = (char*)malloc(strlen(comment) + 1);
+    strcpy(parameters.cp_comment, comment);
+    /* no need to delete parameters.cp_comment on exit */
+    //delete_comment = false;
+  }
+
+  
+  /* decode the source image */
+  /* ----------------------- */
+
+  image = rawtoimage((char*)inputdata, &parameters, inputlength, 
+    image_width, image_height,
+    sample_pixel, bitsallocated, sign, quality);
+  if (!image) {
+    return 1;
+  }
+
+    /* encode the destination image */
+  /* ---------------------------- */
+   parameters.cod_format = J2K_CFMT; /* J2K format output */
+    int codestream_length;
+    opj_cio_t *cio = NULL;
+    //FILE *f = NULL;
+
+    /* get a J2K compressor handle */
+    opj_cinfo_t* cinfo = opj_create_compress(CODEC_J2K);
+
+    /* catch events using our callbacks and give a local context */
+    opj_set_event_mgr((opj_common_ptr)cinfo, &event_mgr, stderr);
+
+    /* setup the encoder parameters using the current image and using user parameters */
+    opj_setup_encoder(cinfo, &parameters, image);
+
+    /* open a byte stream for writing */
+    /* allocate memory for all tiles */
+    cio = opj_cio_open((opj_common_ptr)cinfo, NULL, 0);
+
+    /* encode the image */
+    bSuccess = opj_encode(cinfo, cio, image, parameters.index);
+    if (!bSuccess) {
+      opj_cio_close(cio);
+      fprintf(stderr, "failed to encode image\n");
+      return 1;
+    }
+    codestream_length = cio_tell(cio);
+
+    /* write the buffer to disk */
+    //f = fopen(parameters.outfile, "wb");
+    //if (!f) {
+    //  fprintf(stderr, "failed to open %s for writing\n", parameters.outfile);
+    //  return 1;
+    //}
+    //fwrite(cio->buffer, 1, codestream_length, f);
+//#define MDEBUG
+#ifdef MDEBUG
+    static int c = 0;
+    itksys_ios::ostringstream os;
+    os << "/tmp/debug";
+    os << c;
+    c++;
+    os << ".j2k";
+    std::ofstream debug(os.str().c_str());
+    debug.write((char*)(cio->buffer), codestream_length);
+    debug.close();
+#endif
+    fp->write((char*)(cio->buffer), codestream_length);
+    //fclose(f);
+
+    /* close and free the byte stream */
+    opj_cio_close(cio);
+
+    /* free remaining compression structures */
+    opj_destroy_compress(cinfo);
+
+
+      /* free user parameters structure */
+  //if(delete_comment) {
+    if(parameters.cp_comment) free(parameters.cp_comment);
+  //}
+  if(parameters.cp_matrice) free(parameters.cp_matrice);
+
+  /* free image data */
+  opj_image_destroy(image);
+
+
+
 
   return true;
 }

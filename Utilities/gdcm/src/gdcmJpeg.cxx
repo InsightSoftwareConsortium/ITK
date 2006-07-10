@@ -42,30 +42,32 @@
 
 #if defined(__BORLANDC__)
    #include <mem.h> // for memset
-#endif 
+#endif
 
 #include "jdatasrc.cxx"
 #include "jdatadst.cxx"
 
-namespace gdcm 
+namespace gdcm
 {
 
  /**
- * \brief   routine for JPEG decompression 
- * @param fp pointer to an already open file descriptor 
+ * \brief   routine for JPEG decompression
+ * @param fp pointer to an already open file descriptor
  *                      8 significant bits per pixel
  * @param im_buf Points to array (of R,G,B-order) data to compress
  * @param quality compression quality
- * @param image_height Number of rows in image 
+ * @param image_height Number of rows in image
  * @param image_width Number of columns in image
  * @return 1 on success, 0 on error
  */
- 
-bool gdcm_write_JPEG_file (std::ostream *fp, void *im_buf, 
-                           int image_width, int image_height, int quality)
-{
 
-   JSAMPLE *image_buffer = (JSAMPLE*) im_buf;
+bool gdcm_write_JPEG_file (std::ostream *fp, char *inputdata, size_t inputlength,
+                           int image_width, int image_height, int numZ,
+                           int sample_pixel, int bitsallocated, int quality)
+{
+  (void)bitsallocated;
+  struct jpeg_compress_struct cinfo;
+  int row_stride;            /* physical row width in image buffer */
 
   /* This struct contains the JPEG compression parameters and pointers to
    * working space (which is allocated as needed by the JPEG library).
@@ -73,7 +75,7 @@ bool gdcm_write_JPEG_file (std::ostream *fp, void *im_buf,
    * compression/decompression processes, in existence at once.  We refer
    * to any one struct (and its associated working data) as a "JPEG object".
    */
-  struct jpeg_compress_struct cinfo;
+  //struct jpeg_compress_struct cinfo;
   /* This struct represents a JPEG error handler.  It is declared separately
    * because applications often want to supply a specialized error handler
    * (see the second half of this file for an example).  But here we just
@@ -84,9 +86,6 @@ bool gdcm_write_JPEG_file (std::ostream *fp, void *im_buf,
    */
   struct jpeg_error_mgr jerr;
   /* More stuff */
-  //FILE*  outfile;    /* target FILE* /
-  JSAMPROW row_pointer[1];   /* pointer to JSAMPLE row[s] */
-  int row_stride;            /* physical row width in image buffer */
 
   /* Step 1: allocate and initialize JPEG compression object */
 
@@ -102,19 +101,8 @@ bool gdcm_write_JPEG_file (std::ostream *fp, void *im_buf,
   /* Step 2: specify data destination (eg, a file) */
   /* Note: steps 2 and 3 can be done in either order. */
 
-  /* Here we use the library-supplied code to send compressed data to a
-   * stdio stream.  You can also write your own code to do something else.
-   * VERY IMPORTANT: use "b" option to fopen() if you are on a machine that
-   * requires it in order to write binary files.
-   */
- // if ((outfile = fopen(filename, "wb")) == NULL) {
- //   fprintf(stderr, "can't open %s\n", filename);
- //   exit(1);
- //
- // }
-  assert( 0 );
-  (void)fp;
-  //jpeg_stdio_dest(&cinfo, fp, 0, 0, image_width, image_height, quality);
+  int fragment_size = inputlength;
+  jpeg_stdio_dest(&cinfo, fp, fragment_size, 1);
 
   /* Step 3: set parameters for compression */
 
@@ -123,13 +111,36 @@ bool gdcm_write_JPEG_file (std::ostream *fp, void *im_buf,
    */
   cinfo.image_width = image_width;/* image width and height, in pixels */
   cinfo.image_height = image_height;
-  cinfo.input_components = 3;     /* # of color components per pixel */
-  cinfo.in_color_space = JCS_RGB; /* colorspace of input image */
+  if ( sample_pixel == 3 )
+    {
+    cinfo.input_components = 3;     /* # of color components per pixel */
+    cinfo.in_color_space = JCS_RGB; /* colorspace of input image */
+    }
+  else
+    {
+    cinfo.input_components = 1;     /* # of color components per pixel */
+    cinfo.in_color_space = JCS_GRAYSCALE; /* colorspace of input image */
+    }
   /* Now use the library's routine to set default compression parameters.
    * (You must set at least cinfo.in_color_space before calling this,
    * since the defaults depend on the source color space.)
    */
   jpeg_set_defaults(&cinfo);
+  /*
+   * http://www.koders.com/c/fid80DBBF1D49D004EF71CE7C493C34610C4F17D3D3.aspx
+   * http://studio.imagemagick.org/pipermail/magick-users/2002-September/004685.html
+   * You need to set -quality 101 or greater.  If quality is 100 or less you
+   * get regular JPEG output.  This is not explained in the documentation, only
+   * in the comments in coder/jpeg.c.  When you have configured libjpeg with
+   * lossless support, then
+   * 
+   *    quality=predictor*100 + point_transform
+   * 
+   * If you don't know what these values should be, just use 101.
+   * They only affect the compression ratio, not the image appearance,
+   * which is lossless.
+   */
+  jpeg_simple_lossless (&cinfo, 1, 1);
   /* Now you can set any non-default parameters you wish to.
    * Here we just illustrate the use of quality (quantization table) scaling:
    */
@@ -150,25 +161,57 @@ bool gdcm_write_JPEG_file (std::ostream *fp, void *im_buf,
    * To keep things simple, we pass one scanline per call; you can pass
    * more if you wish, though.
    */
-  row_stride = image_width * 3;/* JSAMPLEs per row in image_buffer */
+  if (sample_pixel == 3)
+    {
+    row_stride = image_width * 3;/* JSAMPLEs per row in image_buffer */
+    }
+  else
+    {
+    assert( sample_pixel == 1 );
+    row_stride = image_width * 1;/* JSAMPLEs per row in image_buffer */
+    }
+
+  (void)numZ;
+
+  uint8_t* input_buffer = (uint8_t*)inputdata;
+  //uint8_t *pbuffer = input_buffer;
+  //int i;
+  //for(i=0; i<numZ; ++i)
+//    {
+  JSAMPLE *image_buffer = (JSAMPLE*) input_buffer;
+  JSAMPROW row_pointer[1];   /* pointer to JSAMPLE row[s] */
+  row_pointer[0] = image_buffer;
 
   while (cinfo.next_scanline < cinfo.image_height) {
     /* jpeg_write_scanlines expects an array of pointers to scanlines.
      * Here the array is only one element long, but you could pass
      * more than one scanline at a time if that's more convenient.
      */
-    row_pointer[0] = & image_buffer[cinfo.next_scanline * row_stride];
+    //row_pointer[0] = & image_buffer[cinfo.next_scanline * row_stride];
 
-    (void) jpeg_write_scanlines(&cinfo, row_pointer, 1);
+    if( jpeg_write_scanlines(&cinfo, row_pointer, 1) != 1)
+      {
+      //entering suspension mode, basically we wrote the whole jpeg fragment
+      // technically we could enforce that by checkig the value of row_pointer to
+      // actually be at the end of the image...TODO
+      return false;
+      }
+    row_pointer[0] += row_stride;
   }
+//    pbuffer+=fragment_size; //shift to next image
+
+    //Upodate frag size
+//    size_t end = fp->tellp();
+//    std::cerr << "DIFF: " << end-beg << std::endl;
+
+//    JpegPair &jp = v[i];
+//    jp.second = end-beg;
+    //beg = end; //
+ //   }
 
   /* Step 6: Finish compression */
 
   jpeg_finish_compress(&cinfo);
-  
-  /* After finish_compress, we can close the output file. */
-  
- // fclose(fp); --> the caller will close (multiframe treatement)
 
   /* Step 7: release JPEG compression object */
 

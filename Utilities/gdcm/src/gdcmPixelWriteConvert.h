@@ -31,6 +31,7 @@ namespace gdcm
  * \warning None of the methods may be called by end user (they have no
  *          meaning outside the class FileHelper)
  */
+class File;
 class GDCM_EXPORT PixelWriteConvert : public Base
 {
 friend class FileHelper;
@@ -57,6 +58,9 @@ private:
    uint8_t *GetData();
    size_t   GetDataSize();
 
+   void SetCompressJPEG2000UserData(uint8_t *data, size_t size, File *image);
+   void SetCompressJPEGUserData(uint8_t *data, size_t size, File *image);
+
 // Variables
    /// Pixel data represented as RGB after LUT color interpretation.
    uint8_t *ReadData;
@@ -67,6 +71,8 @@ private:
    uint8_t *UserData;
    /// Size of User image.
    size_t   UserDataSize;
+
+   bool Compressed;
 };
 } // end namespace gdcm
 

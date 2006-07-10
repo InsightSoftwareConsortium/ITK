@@ -1,3 +1,7 @@
+Mon Jul 10 10:39:12 EDT 2006 by malaterre
+  Adding support for JPEG Lossless and JPEG 2000
+	Bumping release to 1.2.2 because of new feature
+
 Thu Aug 25 16:59:49 2005 by jpr
    gdcmBinEntry.cxx
    Now Print displays the BinEntry Content (if it's printable, and loaded)

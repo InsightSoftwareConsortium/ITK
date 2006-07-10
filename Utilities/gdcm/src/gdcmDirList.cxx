@@ -76,8 +76,7 @@ bool DirList::IsDirectory(std::string const &dirName)
    }
    else
    {
-      const char *str = strerror(errno);
-      gdcmErrorMacro( str );
+      gdcmErrorMacro( strerror(errno) );
       return false;
    }
 }
@@ -161,8 +160,7 @@ int DirList::Explore(std::string const &dirpath, bool recursive)
       fileName = dirName + d->d_name;
       if( stat(fileName.c_str(), &buf) != 0 )
       {
-         const char *str = strerror(errno);
-         gdcmErrorMacro( str );
+         gdcmErrorMacro( strerror(errno) );
       }
       if ( S_ISREG(buf.st_mode) )    //is it a regular file?
       {
@@ -184,8 +182,7 @@ int DirList::Explore(std::string const &dirpath, bool recursive)
    }
    if( closedir(dir) != 0 )
    {
-      const char *str = strerror(errno);
-      gdcmErrorMacro( str );
+      gdcmErrorMacro( strerror(errno) );
    }
 #endif
 

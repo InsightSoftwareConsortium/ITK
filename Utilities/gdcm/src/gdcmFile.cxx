@@ -591,7 +591,7 @@ float File::GetZSpacing()
 {
    // There are still a lot of modality we are not dealing with, esp US
    // There are tags like: D 3004|000c [DS]    [Grid Frame Offset Vector] [0.0\2.00000003000000...]
-   // or D 0018|1065 [DS] [Frame Time Vector] [0.0\8.000000e+01\8.000000e+01\
+   // or D 0018|1065 [DS] [Frame Time Vector] [0.0\8.000000e+01\8.000000e+01\...
    // That are perfeclty valid to be used
    // Spacing Between Slices : distance between the middle of 2 slices
    // Slices may be :
@@ -1806,6 +1806,7 @@ uint32_t File::ReadTagLength(uint16_t testGroup, uint16_t testElem)
                                                                                 
    //// Then read the associated Item Length
    long currentPosition = Fp->tellg();
+   (void)currentPosition;
    uint32_t itemLength  = ReadInt32();
    {
       gdcmWarningMacro( "Basic Item Length is: "

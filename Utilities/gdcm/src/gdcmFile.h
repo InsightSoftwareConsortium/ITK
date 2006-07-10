@@ -100,11 +100,11 @@ class GDCM_EXPORT File : public Document
 {
 public:
    File();
-   GDCM_LEGACY(File( std::string const &filename ));
+   GDCM_LEGACY(File( std::string const &filename ))
    ~File();
 
    // Loading
-   GDCM_LEGACY(bool Load( std::string const &filename ));
+   GDCM_LEGACY(bool Load( std::string const &filename ))
    bool Load(); 
    // Standard values and informations contained in the header
    bool IsReadable();

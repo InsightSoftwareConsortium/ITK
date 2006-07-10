@@ -688,7 +688,7 @@ void Document::WriteContent(std::ofstream *fp, FileType filetype)
    // Skip if user wants to write an ACR-NEMA file
 
    if ( filetype == ImplicitVR || filetype == ExplicitVR ||
-        filetype == JPEG )
+        filetype == JPEG || filetype == JPEG2000 )
    {
       // writing Dicom File Preamble
       char filePreamble[128];
@@ -1757,7 +1757,7 @@ std::string Document::GetDocEntryValue(DocEntry *entry)
       itksys_ios::ostringstream s;
       int nbInt;
 
-      // When short integer(s) are expected, read and convert the following 
+      // When short integer(s) are expected, read and convert the following
       // n * 2 bytes properly i.e. as a multivaluated strings
       // (each single value is separated fromthe next one by '\'
       // as usual for standard multivaluated filels
@@ -1830,7 +1830,7 @@ std::string Document::GetDocEntryUnvalue(DocEntry *entry)
       std::vector<std::string> tokens;
       itksys_ios::ostringstream s;
 
-      if ( vr == "US" || vr == "SS" ) 
+      if ( vr == "US" || vr == "SS" )
       {
          uint16_t newInt16;
 
@@ -1991,6 +1991,7 @@ bool Document::IsDocEntryAnInteger(DocEntry *entry)
 {
    uint16_t elem         = entry->GetElement();
    uint16_t group        = entry->GetGroup();
+   (void)group;
    const std::string &vr = entry->GetVR();
    uint32_t length       = entry->GetLength();
 
@@ -2013,7 +2014,8 @@ bool Document::IsDocEntryAnInteger(DocEntry *entry)
          // encounter such an ill-formed image, we simply display a warning
          // message and proceed on parsing (while crossing fingers).
          long filePosition = Fp->tellg(); // Only when elem 0x0000 length is not 4 (?!?)
-         gdcmWarningMacro( "Erroneous Group Length element length  on : (" 
+         (void)filePosition;
+         gdcmWarningMacro( "Erroneous Group Length element length  on : ("
            << std::hex << group << " , " << elem
            << ") -before- position x(" << filePosition << ")"
            << "lgt : " << length );

@@ -206,7 +206,7 @@ public:
 # define GDCM_LEGACY(method)
 #elif defined(GDCM_LEGACY_SILENT) || defined(SWIG)
   // Provide legacy methods with no warnings.
-# define GDCM_LEGACY(method) method
+# define GDCM_LEGACY(method) method;
 #else
   // Setup compile-time warnings for uses of deprecated methods if
   // possible on this compiler.
@@ -214,14 +214,14 @@ public:
 #if defined(__APPLE__) && (__GNUC__ == 3) && (__GNUC_MINOR__ == 3)
 // Seems like there is a bug in APPLE gcc for deprecated attribute and ctor
 // This is fixed in g++ 4.0 (Tiger)
-#  define GDCM_LEGACY(method) method
+#  define GDCM_LEGACY(method) method;
 #else
-#  define GDCM_LEGACY(method) method __attribute__((deprecated))
+#  define GDCM_LEGACY(method) method __attribute__((deprecated));
 #endif
 # elif defined(_MSC_VER) && _MSC_VER >= 1300
-#  define GDCM_LEGACY(method) __declspec(deprecated) method
+#  define GDCM_LEGACY(method) __declspec(deprecated) method;
 # else
-#  define GDCM_LEGACY(method) method
+#  define GDCM_LEGACY(method) method;
 # endif
 #endif
 

@@ -180,7 +180,8 @@ enum FileType {
    ImplicitVR,
    ACR,
    ACR_LIBIDO,
-   JPEG
+   JPEG,
+   JPEG2000
 };
 
 /// \brief type of the elements composing a DICOMDIR (for internal use only)

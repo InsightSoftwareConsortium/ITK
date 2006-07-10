@@ -6,9 +6,10 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "gdcmjasper/(.*) warning: statement not reached"
   "warning: string length `[0-9]+' is greater than the length `509' ISO C89 compilers are required to support"
   "warning: string length '[0-9]+' is greater than the length '509' ISO C89 compilers are required to support"
-  "/.../gdcm/src/gdcmjasper/src/libjasper/(.*)"
+  "/.../gdcm/src/gdcmopenjpeg/(.*)"
   "\"/.../gdcm/src/gdcmjpeg/jccolor.c\", line 107: warning: integer overflow detected: op \"<<\""
   "Warning W8004.*gdcmjasper[\\]src[\\]libjasper.*"
+  "Warning W8004.*gdcmopenjpeg[\\]libopenjpeg.*"
   )
 
 

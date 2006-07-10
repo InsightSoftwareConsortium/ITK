@@ -127,3 +127,13 @@
    fun:__driRegisterExtensions
    fun:__glXRegisterExtensions
 }
+{
+   <insert a suppression name here>
+   Memcheck:Cond
+   obj:/lib/ld-2.3.6.so
+   obj:/lib/ld-2.3.6.so
+   obj:/lib/ld-2.3.6.so
+   obj:/lib/ld-2.3.6.so
+   obj:/lib/ld-2.3.6.so
+   obj:/lib/ld-2.3.6.so
+}

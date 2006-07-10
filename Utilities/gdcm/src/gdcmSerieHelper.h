@@ -91,9 +91,9 @@ public:
    const FileList &GetFileList()
                            { return *SingleSerieUIDFileSetHT.begin()->second; }
   
-   GDCM_LEGACY(   FileList *GetFirstCoherentFileList()  );
-   GDCM_LEGACY(   FileList *GetNextCoherentFileList()   );
-   GDCM_LEGACY(   FileList *GetCoherentFileList(std::string serieUID)  );
+   GDCM_LEGACY(   FileList *GetFirstCoherentFileList()  )
+   GDCM_LEGACY(   FileList *GetNextCoherentFileList()   )
+   GDCM_LEGACY(   FileList *GetCoherentFileList(std::string serieUID)  )
 
    FileList *GetFirstSingleSerieUIDFileSet();
    FileList *GetNextSingleSerieUIDFileSet();
@@ -103,7 +103,7 @@ public:
                              { return  (*ItFileSetHt).first; }
    /// All the following allow user to restrict DICOM file to be part
    /// of a particular serie
-   GDCM_LEGACY( void AddRestriction(TagKey const &key, std::string const &value) );
+   GDCM_LEGACY( void AddRestriction(TagKey const &key, std::string const &value) )
    /// Allow user to specify that the serie should also be consistent (== operation),
    /// on the particular tag (group,element)
    void AddRestriction(uint16_t group, uint16_t elem); 

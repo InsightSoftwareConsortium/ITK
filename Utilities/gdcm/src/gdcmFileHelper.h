@@ -54,7 +54,7 @@ public:
 public:
    FileHelper( );
    FileHelper( File *header );
-   GDCM_LEGACY(FileHelper( std::string const &filename ));
+   GDCM_LEGACY(FileHelper( std::string const &filename ))
    
    virtual ~FileHelper();
 
@@ -89,7 +89,7 @@ public:
    uint8_t *GetImageData();
    uint8_t *GetImageDataRaw();
 
-   GDCM_LEGACY(size_t GetImageDataIntoVector(void *destination,size_t maxSize));
+   GDCM_LEGACY(size_t GetImageDataIntoVector(void *destination,size_t maxSize))
 
    void SetImageData(uint8_t *data, size_t expectedSize);
 
@@ -132,8 +132,10 @@ public:
    void SetWriteTypeToAcr()           { SetWriteType(ACR);        }
    /// \brief Tells the writer we want to write as LibIDO
    void SetWriteTypeToAcrLibido()     { SetWriteType(ACR_LIBIDO); }
-   /// \brief Tells the writer we want to write as JPEG   
+   /// \brief Tells the writer we want to write as JPEG
    void SetWriteTypeToJPEG()          { SetWriteType(JPEG);       }
+   /// \brief Tells the writer we want to write as JPEG2000
+   void SetWriteTypeToJPEG2000()          { SetWriteType(JPEG2000);       }
    /// \brief Tells the writer which format we want to write
    /// (ImplicitVR, ExplicitVR, ACR, ACR_LIBIDO)
    void SetWriteType(FileType format) { WriteType = format;       }
@@ -165,6 +167,7 @@ protected:
 
    void SetWriteFileTypeToACR();
    void SetWriteFileTypeToJPEG();
+   void SetWriteFileTypeToJPEG2000();
    void SetWriteFileTypeToExplicitVR();
    void SetWriteFileTypeToImplicitVR();
    void RestoreWriteFileType();

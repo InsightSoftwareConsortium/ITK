@@ -54,10 +54,10 @@ public:
    typedef void Method(void*);
 
    DicomDir(); 
-   GDCM_LEGACY( DicomDir(std::string const &filename, bool parseDir = false) ); 
+   GDCM_LEGACY( DicomDir(std::string const &filename, bool parseDir = false) )
    ~DicomDir();
 
-   GDCM_LEGACY( bool Load(std::string const &filename) );
+   GDCM_LEGACY( bool Load(std::string const &filename) )
    bool Load( );
    void Print(std::ostream &os = std::cout, std::string const &indent = "" );
    
@@ -71,7 +71,7 @@ public:
                               Filename = fileName, IsDocumentModified = true;}
 
    /// DEPRECATED : use SetDirectoryName
-   GDCM_LEGACY( void SetParseDir(bool parseDir) );
+   GDCM_LEGACY( void SetParseDir(bool parseDir) )
    
    // Informations contained in the parser
    virtual bool IsReadable();

@@ -67,11 +67,13 @@ void JPEGFragment::DecompressJPEGFramesFromFile(std::ifstream *fp,
    }
    else if ( nBits <= 12 )
    {
+       assert( nBits >= 8 );
       // JPEG Lossy : call to IJG 6b - 12 bits
       ReadJPEGFile12 ( fp, buffer, statesuspension);
    }
    else if ( nBits <= 16 )
    {
+       assert( nBits >= 12 );
       // JPEG Lossy : call to IJG 6b - 16 bits
       ReadJPEGFile16 ( fp, buffer, statesuspension);
       //gdcmAssertMacro( IsJPEGLossless );

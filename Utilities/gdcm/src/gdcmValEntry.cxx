@@ -79,6 +79,7 @@ void ValEntry::WriteContent(std::ofstream *fp, FileType filetype)
 
    const VRKey &vr = GetVR();
    unsigned int lgth = GetLength();
+   (void)lgth;
    if (vr == "US" || vr == "SS")
    {
       // some 'Short integer' fields may be multivaluated
@@ -162,7 +163,19 @@ void ValEntry::SetValue(std::string const &val)
       }
       else
       {
-         std::string finalVal = Util::DicomString( val.c_str() );
+         std::string finalVal;
+         if( GetVR() == "UI" )
+         {
+            finalVal = Util::DicomString( val.c_str() );
+         }
+         else
+         {
+            finalVal = val;
+            if( finalVal.size() % 2 )
+              {
+              finalVal.append( 1, ' ' );
+              }
+         }
          gdcmAssertMacro( !(finalVal.size() % 2) );
 
          l = finalVal.length();

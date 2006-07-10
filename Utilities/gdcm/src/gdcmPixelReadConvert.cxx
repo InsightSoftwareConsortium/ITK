@@ -447,33 +447,60 @@ bool PixelReadConvert::ReadAndDecompressJPEGFile( std::ifstream *fp )
      // jpeg2000 stream to use jasper:
      // I don't think we'll ever be able to deal with multiple fragments properly
 
-      unsigned long inputlength = 0;
-      JPEGFragment *jpegfrag = JPEGInfo->GetFirstFragment();
-      while( jpegfrag )
-      {
+     if( ZSize == 1 )
+       {
+       unsigned long inputlength = 0;
+       JPEGFragment *jpegfrag = JPEGInfo->GetFirstFragment();
+       while( jpegfrag )
+         {
          inputlength += jpegfrag->GetLength();
          jpegfrag = JPEGInfo->GetNextFragment();
-      }
-      gdcmAssertMacro( inputlength != 0);
-      uint8_t *inputdata = new uint8_t[inputlength];
-      char *pinputdata = (char*)inputdata;
-      jpegfrag = JPEGInfo->GetFirstFragment();
-      while( jpegfrag )
-      {
+         }
+       gdcmAssertMacro( inputlength != 0);
+       uint8_t *inputdata = new uint8_t[inputlength];
+       char *pinputdata = (char*)inputdata;
+       jpegfrag = JPEGInfo->GetFirstFragment();
+       while( jpegfrag )
+         {
          fp->seekg( jpegfrag->GetOffset(), std::ios::beg);
          fp->read(pinputdata, jpegfrag->GetLength());
          pinputdata += jpegfrag->GetLength();
          jpegfrag = JPEGInfo->GetNextFragment();
-      }
-      // Warning the inputdata buffer is delete in the function
-      if ( ! gdcm_read_JPEG2000_file( Raw, 
-          (char*)inputdata, inputlength ) )
-      {
+         }
+       // Warning the inputdata buffer is delete in the function
+       if ( gdcm_read_JPEG2000_file( Raw,
+           (char*)inputdata, inputlength ) )
+         {
          return true;
-      }
-      // wow what happen, must be an error
-      gdcmWarningMacro( "gdcm_read_JPEG2000_file() failed "); 
-      return false;
+         }
+       // wow what happen, must be an error
+       gdcmWarningMacro( "gdcm_read_JPEG2000_file() failed "); 
+       return false;
+       }
+     else
+       {
+       if( (unsigned int)ZSize != JPEGInfo->GetFragmentCount() )
+         {
+         gdcmErrorMacro( "Sorry GDCM does not handle this type of fragments" );
+         return false;
+         }
+       // Hopefully every dicom fragment is *exactly* the j2k stream
+       JPEGFragment *jpegfrag = JPEGInfo->GetFirstFragment();
+       char *praw = (char*)Raw;
+       while( jpegfrag )
+         {
+         unsigned long inputlength = jpegfrag->GetLength();
+         char *inputdata = new char[inputlength];
+         fp->seekg( jpegfrag->GetOffset(), std::ios::beg);
+         fp->read(inputdata, jpegfrag->GetLength());
+         // Warning the inputdata buffer is delete in the function
+         gdcm_read_JPEG2000_file( praw, 
+           inputdata, inputlength) ;
+         praw += XSize*YSize*SamplesPerPixel*(BitsAllocated/8);
+         jpegfrag = JPEGInfo->GetNextFragment();
+         }
+       return true;
+       }
    }
    else if ( IsJPEGLS )
    {
