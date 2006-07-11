@@ -242,8 +242,12 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     parameters->Fill( 0.0 );
     this->Modified();
     }
+  else 
+    {
+    itkExceptionMacro( << "Input parameters for the spline haven't been set ! "
+       << "Set them using the SetParameters or SetCoefficientImage method first." );
+    }
 }
-
 
 // Set the parameters
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
