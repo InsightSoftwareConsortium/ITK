@@ -46,7 +46,7 @@ ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.2$")
 # ITK version number.  An even minor number corresponds to releases.
 SET(ITK_VERSION_MAJOR "2")
 SET(ITK_VERSION_MINOR "8")
-SET(ITK_VERSION_PATCH "0")
+SET(ITK_VERSION_PATCH "1")
 
 # Version string should not include patch level.  The major.minor is
 # enough to distinguish available features of the toolkit.
