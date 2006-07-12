@@ -1134,12 +1134,8 @@ void Document::ParseDES(DocEntrySet *set, long offset,
                   if ( LoadMode & LD_NOSHADOW ) // if user asked to skip shad.gr
                   {
                      std::string strLgrGroup = newValEntry->GetValue();
-                     int lgrGroup;
                      if ( strLgrGroup != GDCM_UNFOUND)
                      {
-                        lgrGroup = atoi(strLgrGroup.c_str());
-                        Fp->seekg(lgrGroup, std::ios::cur);
-                        //used = false;  // never used
                         RemoveEntry( newDocEntry );  // Remove and delete
                         // bcc 5.5 is right "assigned a value that's never used"
                         // newDocEntry = 0;
