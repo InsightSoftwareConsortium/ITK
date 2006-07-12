@@ -86,6 +86,9 @@ GDCMImageIO::GDCMImageIO()
   // This number is updated according the information 
   // received through the MetaDataDictionary
   m_GlobalNumberOfDimensions = 2;
+  // By default use JPEG2000. For legacy system, one should prefer JPEG since
+  // JPEG2000 was only recently added to the DICOM standart
+  m_CompressionType = JPEG2000;
 }
 
 GDCMImageIO::~GDCMImageIO()
@@ -295,8 +298,6 @@ void RescaleFunction(TBuffer* buffer, TSource *source,
                  }  while (--n > 0);
       }
     }
-    
-    
 }
 
 
@@ -772,7 +773,7 @@ void GDCMImageIO::Write(const void* buffer)
         ExposeMetaData<unsigned int>(dict, key, numberOfDimensions);
         m_GlobalNumberOfDimensions = numberOfDimensions;
         }
-      else 
+      else
         {
         if( key == ITK_Origin )
           {
@@ -851,26 +852,8 @@ void GDCMImageIO::Write(const void* buffer)
   if( ( m_Dimensions.size() > 2 && m_Dimensions[2]>1 ) || 
         m_GlobalNumberOfDimensions == 3 )
     {
-    // Handle Origin = Image Position Patient
-    // Origin must be converted into LPS coordinates
-    // DICOM specifies its origin in LPS coordinate, regardless of how
-    // the data is acquired. itk's origin must be in the same
-    // coordinate system as the data.
-    Point<double,3> itkOrigin, dicomOrigin;
-    Matrix<double,3,3> itkDirection;
-    itkOrigin[0] = m_Origin[0];
-    itkOrigin[1] = m_Origin[1];
-    itkOrigin[2] = m_Origin[2];
-    for (unsigned int i = 0; i < 3; i++)
-      {
-      for (unsigned int j = 0; j < 3; j++)
-        {
-        itkDirection[i][j] = m_Direction[i][j];
-        }
-      }
-    dicomOrigin = itkDirection * itkOrigin;
     str.str("");
-    str << dicomOrigin[0] << "\\" << dicomOrigin[1] << "\\" << dicomOrigin[2];
+    str << m_Origin[0] << "\\" << m_Origin[1] << "\\" << m_Origin[2];
     header->InsertValEntry(str.str(),0x0020,0x0032); // Image Position (Patient)
 
     // Handle Direction = Image Orientation Patient
@@ -995,7 +978,22 @@ void GDCMImageIO::Write(const void* buffer)
   uint8_t* imageData = new uint8_t[numberOfBytes];
   memcpy(imageData, buffer, numberOfBytes);
 
-  // Here we are passing directly a pointer, this should
+  // If user ask to use compression:
+  if( m_UseCompression )
+    {
+    if( m_CompressionType == JPEG )
+      {
+      gfile->SetWriteTypeToJPEG();
+      }
+    else if ( m_CompressionType == JPEG2000 )
+      {
+      gfile->SetWriteTypeToJPEG2000();
+      }
+    else
+      {
+      itkExceptionMacro(<< "Unknow compression type" );
+      }
+    }
   gfile->SetUserData( imageData, numberOfBytes);
   if( ! gfile->Write( m_FileName ) )
     {
@@ -1007,7 +1005,7 @@ void GDCMImageIO::Write(const void* buffer)
     }
 
   // Clean up
-  if( gfile->GetUserData() && gfile->GetUserDataSize()>0 )
+  if( gfile->GetUserData() && gfile->GetUserDataSize()>0 && !m_UseCompression)
   {
      delete[] gfile->GetUserData();
   }
@@ -1176,6 +1174,7 @@ void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "FrameOfReferenceInstanceUID: " << m_FrameOfReferenceInstanceUID << std::endl;
   os << indent << "LoadSequences:" << m_LoadSequences << std::endl;
   os << indent << "LoadPrivateTags:" << m_LoadPrivateTags << std::endl;
+  os << indent << "CompressionType:" << m_CompressionType << std::endl;
 
   os << indent << "Patient Name:" << m_PatientName << std::endl;
   os << indent << "Patient ID:" << m_PatientID << std::endl;

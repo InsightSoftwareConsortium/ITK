@@ -203,11 +203,14 @@ public:
     { m_LoadPrivateTagsDefault = true; }
   static void LoadPrivateTagsDefaultOff()
     { m_LoadPrivateTagsDefault = false; }
-  static bool GetLoadPrivateTagsDefault() 
+  static bool GetLoadPrivateTagsDefault()
     { return m_LoadPrivateTagsDefault; }
-  
-  
-  
+
+   /** Set/Get a boolean to use the JPEG2000 compression or not. */
+  typedef enum { JPEG = 0, JPEG2000 } TCompressionType;
+  itkSetMacro(CompressionType,TCompressionType);
+  itkGetConstReferenceMacro(CompressionType,TCompressionType);
+
 protected:
   GDCMImageIO();
   ~GDCMImageIO();
@@ -256,6 +259,7 @@ private:
   /** defines whether this image is a 2D out of a 2D image
    *  or a 2D out of a 3D image. */
   unsigned int m_GlobalNumberOfDimensions;
+  TCompressionType m_CompressionType;
   
   ImageIOBase::IOComponentType m_InternalComponentType;
   InternalHeader *DICOMHeader;
