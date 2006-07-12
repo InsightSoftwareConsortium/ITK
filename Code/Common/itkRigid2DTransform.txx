@@ -18,6 +18,7 @@
 #define _itkRigid2DTransform_txx
 
 #include "itkRigid2DTransform.h"
+#include "vnl/algo/vnl_svd.h"
 
 
 namespace itk
@@ -102,7 +103,7 @@ Rigid2DTransform<TScalarType>
   p = this->GetMatrix().GetVnlMatrix();
   vnl_svd<TScalarType> svd(p);
   vnl_matrix<TScalarType> r(2, 2);
-  r = svd.U() * vnl_transpose(svd.V());
+  r = svd.U() * svd.V().transpose();
 
   m_Angle = vcl_acos(r[0][0]); 
 
