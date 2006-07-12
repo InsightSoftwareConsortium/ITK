@@ -96,14 +96,22 @@ void
 Rigid2DTransform<TScalarType>
 ::ComputeMatrixParameters( void )
 {
-  m_Angle = vcl_acos(this->GetMatrix()[0][0]); 
+  // Extract the orthogonal part of the matrix
+  //
+  vnl_matrix<double> p(2, 2);
+  p = this->GetMatrix().GetVnlMatrix();
+  vnl_svd<double> svd(p);
+  vnl_matrix<double> r(2, 2);
+  r = svd.U() * vnl_transpose(svd.V());
 
-  if(this->GetMatrix()[1][0]<0.0)
+  m_Angle = vcl_acos(r[0][0]); 
+
+  if(r[1][0]<0.0)
     {
     m_Angle = -m_Angle;
     }
 
-  if(this->GetMatrix()[1][0]-sin(m_Angle) > 0.000001)
+  if(r[1][0]-sin(m_Angle) > 0.000001)
     {
     itkWarningMacro("Bad Rotation Matrix " << this->GetMatrix() ); 
     }
