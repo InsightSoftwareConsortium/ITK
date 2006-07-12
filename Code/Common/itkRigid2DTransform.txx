@@ -98,10 +98,10 @@ Rigid2DTransform<TScalarType>
 {
   // Extract the orthogonal part of the matrix
   //
-  vnl_matrix<double> p(2, 2);
+  vnl_matrix<TScalarType> p(2, 2);
   p = this->GetMatrix().GetVnlMatrix();
-  vnl_svd<double> svd(p);
-  vnl_matrix<double> r(2, 2);
+  vnl_svd<TScalarType> svd(p);
+  vnl_matrix<TScalarType> r(2, 2);
   r = svd.U() * vnl_transpose(svd.V());
 
   m_Angle = vcl_acos(r[0][0]); 
