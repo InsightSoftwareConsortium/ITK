@@ -19,8 +19,6 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkSpatialObjectToImageStatisticsCalculator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkVector.h"
-#include "itkListSample.h"
 #include "itkMeanCalculator.h"
 #include "itkCovarianceCalculator.h"
 
@@ -40,8 +38,54 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   m_InternalImageTime = 0;
   m_InternalSpatialObjectTime = 0;
   m_Sum = 0;
-  m_NumberOfPixels = 0;;
+  m_NumberOfPixels = 0;
+  m_Sample = SampleType::New();
 }
+
+
+/** Compute Statistics from the Sample vector */
+template<class TInputImage,class TInputSpatialObject, unsigned int TSampleDimension>
+bool 
+SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSampleDimension>
+::ComputeStatistics()
+{
+  typedef itk::Statistics::MeanCalculator< SampleType >
+    MeanAlgorithmType ;
+  
+  typename MeanAlgorithmType::Pointer meanAlgorithm = MeanAlgorithmType::New() ;
+  meanAlgorithm->SetInputSample( m_Sample ) ;
+  meanAlgorithm->Update() ;
+
+  typename MeanAlgorithmType::OutputType mean = 
+                                *(meanAlgorithm->GetOutput());
+  for( unsigned int i=0; i< SampleDimension; i++ )
+    {
+    m_Mean[i] = mean[i];
+    }
+
+  typedef itk::Statistics::CovarianceCalculator< SampleType >
+    CovarianceAlgorithmType ;
+  
+  typename CovarianceAlgorithmType::Pointer covarianceAlgorithm = 
+    CovarianceAlgorithmType::New() ;
+
+  covarianceAlgorithm->SetInputSample( m_Sample ) ;
+  covarianceAlgorithm->SetMean( meanAlgorithm->GetOutput() ) ;
+  covarianceAlgorithm->Update();
+  
+  typename CovarianceAlgorithmType::OutputType covarianceMatrix
+      = *(covarianceAlgorithm->GetOutput());
+  for( unsigned int i=0; i< covarianceMatrix.Rows(); i++ )
+    {
+    for( unsigned int j=0; j< covarianceMatrix.Rows(); j++ )
+      {
+      m_CovarianceMatrix(i,j) = covarianceMatrix(i,j);
+      }
+    }
+
+  return true;
+}
+
 
 /** */
 template<class TInputImage,class TInputSpatialObject, unsigned int TSampleDimension>
@@ -63,90 +107,88 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
     return; // No need to update
     }
 
-  
   m_InternalImageTime = m_Image->GetMTime();
   m_InternalSpatialObjectTime = m_SpatialObject->GetMTime();
-
-  // Get the bounding box
-  typename SpatialObjectType::BoundingBoxType::Pointer boundingBox;
-  m_SpatialObject->ComputeBoundingBox();
-  boundingBox = m_SpatialObject->GetBoundingBox();
   
-  Point<double,itkGetStaticConstMacro(ObjectDimension)> pt;
-  for(unsigned int i=0;i<itkGetStaticConstMacro(ObjectDimension);i++)
-    {
-    pt[i]=boundingBox->GetBounds()[i*2]+(boundingBox->GetBounds()[i*2+1]-boundingBox->GetBounds()[i*2])/2;
-    }
-
-  IndexType index;
-  
-  // We should remove the spacing and the origin of the image since the FloodFill iterator is
-  // considering them.
-  for(unsigned int i=0;i<itkGetStaticConstMacro(ObjectDimension);i++)
-    {
-    index[i]=(long int)((pt[i]-m_Image->GetOrigin()[i])/m_Image->GetSpacing()[i]);
-    }
-
-  IteratorType it = IteratorType(m_Image,m_SpatialObject,index);
-  it.SetOriginInclusionStrategy();
-  it.GoToBegin();
-
   typedef typename ImageType::PixelType PixelType;
-  typedef itk::Statistics::ListSample< VectorType > SampleType;
-  typename SampleType::Pointer sample = SampleType::New();
-  sample->SetMeasurementVectorSize( SampleDimension );
- 
+  m_Sample = SampleType::New();
+  m_Sample->SetMeasurementVectorSize( SampleDimension );
+   
   m_NumberOfPixels = 0;
 
-  while(!it.IsAtEnd())
+  // If this is an ImageMaskSpatialObject we cannot use the flood filled iterator
+  if(!strcmp(m_SpatialObject->GetTypeName(),"ImageMaskSpatialObject"))
     {
-    IndexType ind = it.GetIndex();
-    VectorType mv ;
-    mv[0] = it.Get();
-    for(unsigned int i=1;i<itkGetStaticConstMacro(SampleDimension);i++)
+    typedef Image<unsigned char,itkGetStaticConstMacro(ObjectDimension)> MaskImageType;
+    typedef ImageMaskSpatialObject<itkGetStaticConstMacro(ObjectDimension)> MaskSOType;
+    typedef ImageRegionConstIterator<MaskImageType> MaskIteratorType;
+    typename MaskImageType::ConstPointer maskImage =  
+                        static_cast<MaskSOType*>(m_SpatialObject)->GetImage();
+    MaskIteratorType it(maskImage,maskImage->GetLargestPossibleRegion());
+    it.GoToBegin();
+    while(!it.IsAtEnd())
       {
-      ind[m_SampleDirection] += 1;
-      mv[i]= m_Image->GetPixel(ind);
-      m_Sum += static_cast< AccumulateType >(mv[i]);
-      }
-    sample->PushBack( mv );
-    m_NumberOfPixels++;
-    ++it;
-    }
-
-  typedef itk::Statistics::MeanCalculator< SampleType >
-    MeanAlgorithmType ;
-  
-  typename MeanAlgorithmType::Pointer meanAlgorithm = MeanAlgorithmType::New() ;
-  meanAlgorithm->SetInputSample( sample ) ;
-  meanAlgorithm->Update() ;
-
-  typename MeanAlgorithmType::OutputType mean = 
-                                *(meanAlgorithm->GetOutput());
-  for( unsigned int i=0; i< SampleDimension; i++ )
-    {
-    m_Mean[i] = mean[i];
-    }
-
-  typedef itk::Statistics::CovarianceCalculator< SampleType >
-    CovarianceAlgorithmType ;
-  
-  typename CovarianceAlgorithmType::Pointer covarianceAlgorithm = 
-    CovarianceAlgorithmType::New() ;
-
-  covarianceAlgorithm->SetInputSample( sample ) ;
-  covarianceAlgorithm->SetMean( meanAlgorithm->GetOutput() ) ;
-  covarianceAlgorithm->Update();
-  
-  typename CovarianceAlgorithmType::OutputType covarianceMatrix
-      = *(covarianceAlgorithm->GetOutput());
-  for( unsigned int i=0; i< covarianceMatrix.Rows(); i++ )
-    {
-    for( unsigned int j=0; j< covarianceMatrix.Rows(); j++ )
-      {
-      m_CovarianceMatrix(i,j) = covarianceMatrix(i,j);
+      if(it.Get()>0) // if inside the mask
+        {
+        IndexType ind = it.GetIndex();
+        VectorType mv;
+        mv[0] = m_Image->GetPixel(ind);
+        for(unsigned int i=1;i<itkGetStaticConstMacro(SampleDimension);i++)
+          {
+          ind[m_SampleDirection] += 1;
+          mv[i]= m_Image->GetPixel(ind);
+          m_Sum += static_cast< AccumulateType >(mv[i]);
+          }
+        m_Sample->PushBack( mv );
+        m_NumberOfPixels++;
+        }
+      ++it;
       }
     }
+  else
+    {
+    // Get the bounding box
+    typename SpatialObjectType::BoundingBoxType::Pointer boundingBox;
+    m_SpatialObject->ComputeBoundingBox();
+    boundingBox = m_SpatialObject->GetBoundingBox();
+    
+    Point<double,itkGetStaticConstMacro(ObjectDimension)> pt;
+    for(unsigned int i=0;i<itkGetStaticConstMacro(ObjectDimension);i++)
+      {
+      pt[i]=boundingBox->GetBounds()[i*2]+(boundingBox->GetBounds()[i*2+1]-boundingBox->GetBounds()[i*2])/2;
+      }
+
+    IndexType index;
+    
+    // We should remove the spacing and the origin of the image since the FloodFill iterator is
+    // considering them.
+    for(unsigned int i=0;i<itkGetStaticConstMacro(ObjectDimension);i++)
+      {
+      index[i]=(long int)((pt[i]-m_Image->GetOrigin()[i])/m_Image->GetSpacing()[i]);
+      }
+
+    IteratorType it = IteratorType(m_Image,m_SpatialObject,index);
+    it.SetOriginInclusionStrategy();
+    it.GoToBegin();
+
+    while(!it.IsAtEnd())
+      {
+      IndexType ind = it.GetIndex();
+      VectorType mv ;
+      mv[0] = it.Get();
+      for(unsigned int i=1;i<itkGetStaticConstMacro(SampleDimension);i++)
+        {
+        ind[m_SampleDirection] += 1;
+        mv[i]= m_Image->GetPixel(ind);
+        m_Sum += static_cast< AccumulateType >(mv[i]);
+        }
+      m_Sample->PushBack( mv );
+      m_NumberOfPixels++;
+      ++it;
+      }
+    }
+
+  this->ComputeStatistics();
 }
 
 template<class TInputImage,class TInputSpatialObject, unsigned int TSampleDimension>
@@ -164,6 +206,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   os << indent << "Internal Image Time: " << m_InternalImageTime << std::endl;
   os << indent << "Internal Spatial Object Time: " << m_InternalSpatialObjectTime << std::endl;
   os << indent << "SampleDirection: " << m_SampleDirection << std::endl;
+  os << indent << "Sample: " << m_Sample << std::endl;
 }
 
 } // end namespace itk
