@@ -22,8 +22,6 @@
 #include "itkFloodFilledSpatialFunctionConditionalConstIterator.h"
 #include "itkMatrix.h"
 #include "itkNumericTraits.h"
-#include "itkListSample.h"
-#include "itkVector.h"
 
 namespace itk
 {
@@ -70,7 +68,7 @@ public:
   typedef TInputSpatialObject SpatialObjectType;  
   typedef typename SpatialObjectType::Pointer  SpatialObjectPointer;
   typedef typename SpatialObjectType::ConstPointer SpatialObjectConstPointer;
-  
+
   /** Type definition of the flood fill iterator */
   typedef itk::FloodFilledSpatialFunctionConditionalConstIterator<ImageType,
                                                  SpatialObjectType> IteratorType;
@@ -78,9 +76,6 @@ public:
   /** Vector and Matrix Type */
   typedef Vector< double, TSampleDimension> VectorType;
   typedef Matrix< double, TSampleDimension, TSampleDimension > MatrixType ;
-
-  /** Type definitions for the samples */
-  typedef itk::Statistics::ListSample< VectorType > SampleType;
 
   /** Set/Get the direction of the sample */
   itkSetMacro(SampleDirection,unsigned int);
@@ -112,23 +107,20 @@ protected:
   virtual ~SpatialObjectToImageStatisticsCalculator() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  bool ComputeStatistics();
-
 private:
   SpatialObjectToImageStatisticsCalculator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  ImageConstPointer            m_Image;
-  SpatialObjectPointer         m_SpatialObject;
-  VectorType                   m_Mean;
-  AccumulateType               m_Sum;
-  unsigned long                m_NumberOfPixels;
-  MatrixType                   m_CovarianceMatrix;
-  unsigned int                 m_SampleDirection;
-  unsigned long                m_InternalImageTime;
-  unsigned long                m_InternalSpatialObjectTime;
-  TimeStamp                    m_ModifiedTime;
-  typename SampleType::Pointer m_Sample;
+  ImageConstPointer          m_Image;
+  SpatialObjectPointer       m_SpatialObject;
+  VectorType                 m_Mean;
+  AccumulateType             m_Sum;
+  unsigned long              m_NumberOfPixels;
+  MatrixType                 m_CovarianceMatrix;
+  unsigned int               m_SampleDirection;
+  unsigned long              m_InternalImageTime;
+  unsigned long              m_InternalSpatialObjectTime;
+  TimeStamp                  m_ModifiedTime;
 };
 
 } // end namespace itk
