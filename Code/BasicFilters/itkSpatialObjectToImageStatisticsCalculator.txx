@@ -124,7 +124,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
     typedef ImageMaskSpatialObject<itkGetStaticConstMacro(ObjectDimension)> MaskSOType;
     typedef ImageRegionConstIterator<MaskImageType> MaskIteratorType;
     typename MaskImageType::ConstPointer maskImage =  
-                        static_cast<MaskSOType*>(m_SpatialObject.GetPointer())->GetImage();
+                        dynamic_cast<MaskSOType*>(m_SpatialObject.GetPointer())->GetImage();
     MaskIteratorType it(maskImage,maskImage->GetLargestPossibleRegion());
     it.GoToBegin();
     while(!it.IsAtEnd())
