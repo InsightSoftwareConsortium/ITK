@@ -179,6 +179,7 @@ protected:
   /** Constructors */
   TreeIteratorBase( TTreeType* tree, const TreeNodeType* start);
   TreeIteratorBase( const TTreeType* tree, const TreeNodeType* start);
+  virtual ~TreeIteratorBase() {}
 
   mutable TreeNodeType* m_Position; // Current position of the iterator
   mutable TreeNodeType* m_Begin;
