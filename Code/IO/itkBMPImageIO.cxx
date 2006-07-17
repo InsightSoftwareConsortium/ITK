@@ -231,7 +231,7 @@ void BMPImageIO::Read(void* buffer)
         for(unsigned long j=0;j<n;j++)
           {
           RGBPixelType rbg;
-          if((valpix>=0) && (valpix<m_ColorPalette.size()))
+          if(valpix<m_ColorPalette.size())
             {
             rbg = m_ColorPalette[valpix];
             }
@@ -278,7 +278,7 @@ void BMPImageIO::Read(void* buffer)
             {
             unsigned char val = value[i];       
             RGBPixelType rbg;
-            if((val>=0) && (val<m_ColorPalette.size()))
+            if(val<m_ColorPalette.size())
               {
               rbg = m_ColorPalette[val];
               }
