@@ -62,8 +62,8 @@ template<class TInputImage, class TOutputImage>
 SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 ::SignedMaurerDistanceMapImageFilter() : m_BackgroundValue( 0 ),
                                          m_InsideIsPositive( false ),
-                                         m_SquaredDistance( true ),
-                                         m_UseImageSpacing( false )
+                                         m_UseImageSpacing( false ),
+                                         m_SquaredDistance( true )
 {
 }
 
