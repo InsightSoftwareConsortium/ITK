@@ -44,6 +44,16 @@ GDCMSeriesFileNames::~GDCMSeriesFileNames()
   delete m_SerieHelper;
 }
 
+void GDCMSeriesFileNames::SetInputDirectory (const char * name)
+{
+   if ( !name )
+     {
+     itkExceptionMacro(<<"SetInputDirectory() received a NULL string");
+     }
+   std::string fname = name;
+   this->SetInputDirectory( fname );
+}
+
 void GDCMSeriesFileNames::SetInputDirectory (std::string const &name)
 {
   if ( name == "" )

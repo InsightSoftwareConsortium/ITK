@@ -66,16 +66,7 @@ public:
   /* -------- Define the API for GDCMSeriesFileNames ----------- */
 
   /** Set the directory that contains the DICOM series. */
-  void SetInputDirectory (const char * name)
-    {
-    if( !name )
-      {
-      itkExceptionMacro(<<"SetInputDirectory() received a NULL string");
-      }
-    std::string fname = name;
-    this->SetInputDirectory( fname );
-    }
-
+  void SetInputDirectory (const char * name);
   /** Set the directory that contains the DICOM series. */
   void SetInputDirectory (std::string const &name);
 
