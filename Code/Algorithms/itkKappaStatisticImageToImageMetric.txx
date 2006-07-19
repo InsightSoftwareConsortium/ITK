@@ -344,7 +344,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
     currIndex = mit.GetIndex();
     minusIndex = mit.GetIndex();
     plusIndex = mit.GetIndex();
-    for ( int i=0; i<dim; i++ )
+    for ( unsigned int i=0; i<dim; i++ )
       {
       if ((currIndex[i] == 0)||(currIndex[i]==(movingSize[i]-1)))
         {
