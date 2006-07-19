@@ -240,7 +240,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
       typename NumericTraits<ReferencePixelType>::AccumulateType b0 = NumericTraits<ReferencePixelType>::Zero;
 
       // Average the baseline image pixels
-      for(int i = 0; i < baselineind.size(); ++i)
+      for(unsigned int i = 0; i < baselineind.size(); ++i)
         {
         b0 += b[baselineind[i]];
         }
