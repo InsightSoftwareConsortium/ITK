@@ -78,6 +78,8 @@ ADD_TEST(itkCommonHeaderTest ${COMMON_HEADER_TEST})
 ADD_TEST(itkHashTableTest ${COMMON_TESTS} itkHashTableTest)
 ADD_TEST(itkIdentityTransformTest ${COMMON_TESTS} itkIdentityTransformTest)
 ADD_TEST(itkImageAdaptorTest ${COMMON_TESTS} itkImageAdaptorTest)
+ADD_TEST(itkImageAdaptorInterpolateImageFunctionTest ${COMMON_TESTS} itkImageAdaptorInterpolateImageFunctionTest)
+ADD_TEST(itkRGBInterpolateImageFunctionTest ${COMMON_TESTS2} itkRGBInterpolateImageFunctionTest)
 ADD_TEST(itkImageDuplicatorTest ${COMMON_TESTS} itkImageDuplicatorTest)
 ADD_TEST(itkImageIteratorTest ${COMMON_TESTS} itkImageIteratorTest)
 ADD_TEST(itkImageIteratorsForwardBackwardTest ${COMMON_TESTS} itkImageIteratorsForwardBackwardTest)
@@ -108,8 +110,9 @@ ADD_TEST(itkLoggerManagerTest ${COMMON_TESTS} itkLoggerManagerTest ${TEMP}/test_
 ADD_TEST(itkMatrixTest ${COMMON_TESTS} itkMatrixTest)
 ADD_TEST(itkMapContainerTest ${COMMON_TESTS} itkMapContainerTest)
 ADD_TEST(itkMahalanobisDistanceThresholdImageFunctionTest ${COMMON_TESTS} itkMahalanobisDistanceThresholdImageFunctionTest)
-ADD_TEST(itkMaximumDecisionRuleTest ${COMMON_TESTS} itkMaximumDecisionRuleTest)
-ADD_TEST(itkMaximumRatioDecisionRuleTest ${COMMON_TESTS} itkMaximumRatioDecisionRuleTest)
+
+ADD_TEST(itkMaximumDecisionRuleTest ${COMMON_TESTS2} itkMaximumDecisionRuleTest)
+ADD_TEST(itkMaximumRatioDecisionRuleTest ${COMMON_TESTS2} itkMaximumRatioDecisionRuleTest)
 ADD_TEST(itkMeanImageFunctionTest ${COMMON_TESTS2} itkMeanImageFunctionTest)
 
 IF(ITK_DATA_ROOT)
@@ -291,6 +294,7 @@ itkGaussianDerivativeImageFunctionTest.cxx
 itkHashTableTest.cxx
 itkIdentityTransformTest.cxx
 itkImageAdaptorTest.cxx
+itkImageAdaptorInterpolateImageFunctionTest.cxx
 itkImageDuplicatorTest.cxx
 itkImageIteratorTest.cxx
 itkImageIteratorsForwardBackwardTest.cxx
@@ -314,13 +318,13 @@ itkLoggerManagerTest.cxx
 itkMatrixTest.cxx
 itkMapContainerTest.cxx
 itkMahalanobisDistanceThresholdImageFunctionTest.cxx
-itkMaximumDecisionRuleTest.cxx
-itkMaximumRatioDecisionRuleTest.cxx
 )
 
 
 #-----------------------------------------------------------------------------
 SET(BasicTests2_SRCS
+itkMaximumDecisionRuleTest.cxx
+itkMaximumRatioDecisionRuleTest.cxx
 itkDifferenceImageFilterTest.cxx 
 itkMeanImageFunctionTest.cxx 
 itkMedialNodeCorrespondencesTest.cxx

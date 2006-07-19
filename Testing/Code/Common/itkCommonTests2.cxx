@@ -9,6 +9,8 @@
 
 void RegisterTests()
 {
+REGISTER_TEST(itkMaximumDecisionRuleTest );
+REGISTER_TEST(itkMaximumRatioDecisionRuleTest );
 REGISTER_TEST(itkDifferenceImageFilterTest );
 REGISTER_TEST(itkMeanImageFunctionTest );
 REGISTER_TEST(itkMedialNodeCorrespondencesTest );

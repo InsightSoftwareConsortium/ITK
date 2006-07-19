@@ -63,6 +63,7 @@ REGISTER_TEST(itkGaussianDerivativeImageFunctionTest);
 REGISTER_TEST(itkHashTableTest );
 REGISTER_TEST(itkIdentityTransformTest );
 REGISTER_TEST(itkImageAdaptorTest );
+REGISTER_TEST(itkImageAdaptorInterpolateImageFunctionTest );
 REGISTER_TEST(itkImageDuplicatorTest );
 REGISTER_TEST(itkImageIteratorTest );
 REGISTER_TEST(itkImageIteratorsForwardBackwardTest );
@@ -87,7 +88,5 @@ REGISTER_TEST(itkLoggerManagerTest );
 REGISTER_TEST(itkMatrixTest );
 REGISTER_TEST(itkMapContainerTest );
 REGISTER_TEST(itkMahalanobisDistanceThresholdImageFunctionTest );
-REGISTER_TEST(itkMaximumDecisionRuleTest );
-REGISTER_TEST(itkMaximumRatioDecisionRuleTest );
 }
 

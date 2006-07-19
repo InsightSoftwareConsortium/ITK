@@ -274,6 +274,56 @@ public:
   virtual void UpdateOutputData();
   virtual bool VerifyRequestedRegion();
  
+  /** \brief Get the continuous index from a physical point
+   *
+   * Returns true if the resulting index is within the image, false otherwise.
+   * \sa Transform */
+  template<class TCoordRep>
+  bool TransformPhysicalPointToContinuousIndex(
+              const Point<TCoordRep, ImageDimension>& point,
+              ContinuousIndex<TCoordRep, ImageDimension>& index   ) const
+    {
+    return m_Image->TransformPhysicalPointToContinuousIndex( point, index );
+    }
+
+  /** Get the index (discrete) from a physical point.
+   * Floating point index results are truncated to integers.
+   * Returns true if the resulting index is within the image, false otherwise
+   * \sa Transform */
+  template<class TCoordRep>
+  bool TransformPhysicalPointToIndex(
+            const Point<TCoordRep, ImageDimension>& point,
+            IndexType & index                                ) const
+    {
+    return m_Image->TransformPhysicalPointToIndex( point, index );
+    }
+
+  /** Get a physical point (in the space which
+   * the origin and spacing infomation comes from)
+   * from a continuous index (in the index space)
+   * \sa Transform */
+  template<class TCoordRep>
+  void TransformContinuousIndexToPhysicalPoint(
+            const ContinuousIndex<TCoordRep, ImageDimension>& index,
+            Point<TCoordRep, ImageDimension>& point        ) const
+    {
+    m_Image->TransformContinuousIndexToPhysicalPoint( index, point );
+    }
+
+  /** Get a physical point (in the space which
+   * the origin and spacing infomation comes from)
+   * from a discrete index (in the index space)
+   *
+   * \sa Transform */
+  template<class TCoordRep>
+  void TransformIndexToPhysicalPoint(
+                      const IndexType & index,
+                      Point<TCoordRep, ImageDimension>& point ) const
+    {
+    m_Image->TransformIndexToPhysicalPoint( index, point );
+    }
+
+
 protected:
   ImageAdaptor();
   virtual ~ImageAdaptor();
