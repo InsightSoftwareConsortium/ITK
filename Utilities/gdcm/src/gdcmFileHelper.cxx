@@ -1452,7 +1452,7 @@ void FileHelper::CheckMandatoryElements()
       CopyMandatoryEntry(0x0002,0x0012,Util::CreateUniqueUID());
 
    // 'Implementation Version Name'
-      std::string version = "GDCM ";
+      std::string version = "ITK/GDCM ";
       version += Util::GetVersion();
       CopyMandatoryEntry(0x0002,0x0013,version);
    }

@@ -343,7 +343,7 @@ bool gdcm_write_JPEG2000_file (std::ostream *fp, char *inputdata, size_t inputle
   parameters.cp_disto_alloc = 1;
 
   if(parameters.cp_comment == NULL) {
-    const char comment[] = "Created by GDCM/OpenJPEG version 1.0";
+    const char comment[] = "Created by ITK/GDCM/OpenJPEG version 1.0";
     parameters.cp_comment = (char*)malloc(strlen(comment) + 1);
     strcpy(parameters.cp_comment, comment);
     /* no need to delete parameters.cp_comment on exit */
