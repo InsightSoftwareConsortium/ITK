@@ -150,140 +150,168 @@ const std::type_info& ImageIOBase::GetComponentTypeInfo() const
 // This macro enforces pixel type information to be available for all different
 // pixel types.
 //
-#define itkCheckPTypeMacro(type, ntype) \
-    ( ptype == typeid(type) ) \
-    { \
-    this->SetNumberOfComponents(1); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    this->SetPixelType(ImageIOBase::SCALAR); \
-    } \
-  else if ( ptype == typeid(RGBPixel<type>) ) \
-    { \
-    this->SetNumberOfComponents(3); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    this->SetPixelType(ImageIOBase::RGB); \
-    } \
-  else if ( ptype == typeid(RGBAPixel<type>) ) \
-    { \
-    this->SetNumberOfComponents(4); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    this->SetPixelType(ImageIOBase::RGBA); \
-    } \
-  else if ( ptype == typeid(Vector<type,2>) ) \
-    { \
-    this->SetNumberOfComponents(2); \
-    this->SetPixelType(ImageIOBase::VECTOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(Vector<type,3>) ) \
-    { \
-    this->SetNumberOfComponents(3); \
-    this->SetPixelType(ImageIOBase::VECTOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(Vector<type,4>) ) \
-    { \
-    this->SetNumberOfComponents(4); \
-    this->SetPixelType(ImageIOBase::VECTOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(Vector<type,5>) ) \
-    { \
-    this->SetNumberOfComponents(5); \
-    this->SetPixelType(ImageIOBase::VECTOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(Vector<type,6>) ) \
-    { \
-    this->SetNumberOfComponents(6); \
-    this->SetPixelType(ImageIOBase::VECTOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(Vector<type,7>) ) \
-    { \
-    this->SetNumberOfComponents(7); \
-    this->SetPixelType(ImageIOBase::VECTOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(CovariantVector<type,2>) ) \
-    { \
-    this->SetNumberOfComponents(2); \
-    this->SetPixelType(ImageIOBase::COVARIANTVECTOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(CovariantVector<type,3>) ) \
-    { \
-    this->SetNumberOfComponents(3); \
-    this->SetPixelType(ImageIOBase::COVARIANTVECTOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(CovariantVector<type,4>) ) \
-    { \
-    this->SetNumberOfComponents(4); \
-    this->SetPixelType(ImageIOBase::COVARIANTVECTOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(CovariantVector<type,5>) ) \
-    { \
-    this->SetNumberOfComponents(5); \
-    this->SetPixelType(ImageIOBase::COVARIANTVECTOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(CovariantVector<type,6>) ) \
-    { \
-    this->SetNumberOfComponents(6); \
-    this->SetPixelType(ImageIOBase::COVARIANTVECTOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(CovariantVector<type,7>) ) \
-    { \
-    this->SetNumberOfComponents(7); \
-    this->SetPixelType(ImageIOBase::COVARIANTVECTOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(FixedArray<type,2>) ) \
-    { \
-    this->SetNumberOfComponents(2); \
-    this->SetPixelType(ImageIOBase::FIXEDARRAY); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(SymmetricSecondRankTensor<type,3>) ) \
-    { \
-    this->SetNumberOfComponents(6); \
-    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(SymmetricSecondRankTensor<type,4>) ) \
-    { \
-    this->SetNumberOfComponents(10); \
-    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(SymmetricSecondRankTensor<type,5>) ) \
-    { \
-    this->SetNumberOfComponents(15); \
-    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(SymmetricSecondRankTensor<type,6>) ) \
-    { \
-    this->SetNumberOfComponents(21); \
-    this->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    } \
-  else if ( ptype == typeid(DiffusionTensor3D<type>) ) \
-    { \
-    this->SetNumberOfComponents(6); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    this->SetPixelType(ImageIOBase::DIFFUSIONTENSOR3D); \
-    } \
-  else if ( ptype == typeid(std::complex<type>) ) \
-    { \
-    this->SetNumberOfComponents(2); \
-    this->SetComponentType(ImageIOBase::ntype); \
-    this->SetPixelType(ImageIOBase::COMPLEX); \
+template <typename type>
+bool
+itkSetPixelType(ImageIOBase *This,
+              const std::type_info &ptype,
+              ImageIOBase::IOComponentType ntype)
+{
+  if( ptype == typeid(type) )
+    {
+    This->SetNumberOfComponents(1);
+    This->SetComponentType(ntype);
+    This->SetPixelType(ImageIOBase::SCALAR);
+    return true;
+    }
+  else if ( ptype == typeid(RGBPixel<type>) )
+    {
+    This->SetNumberOfComponents(3);
+    This->SetComponentType(ntype);
+    This->SetPixelType(ImageIOBase::RGB);
+    return true;
+    }
+  else if ( ptype == typeid(RGBAPixel<type>) )
+    {
+    This->SetNumberOfComponents(4);
+    This->SetComponentType(ntype);
+    This->SetPixelType(ImageIOBase::RGBA);
+    return true;
+    }
+  else if ( ptype == typeid(Vector<type,2>) )
+    {
+    This->SetNumberOfComponents(2);
+    This->SetPixelType(ImageIOBase::VECTOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(Vector<type,3>) )
+    {
+    This->SetNumberOfComponents(3);
+    This->SetPixelType(ImageIOBase::VECTOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(Vector<type,4>) )
+    {
+    This->SetNumberOfComponents(4);
+    This->SetPixelType(ImageIOBase::VECTOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(Vector<type,5>) )
+    {
+    This->SetNumberOfComponents(5);
+    This->SetPixelType(ImageIOBase::VECTOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(Vector<type,6>) )
+    {
+    This->SetNumberOfComponents(6);
+    This->SetPixelType(ImageIOBase::VECTOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(Vector<type,7>) )
+    {
+    This->SetNumberOfComponents(7);
+    This->SetPixelType(ImageIOBase::VECTOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(CovariantVector<type,2>) )
+    {
+    This->SetNumberOfComponents(2);
+    This->SetPixelType(ImageIOBase::COVARIANTVECTOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(CovariantVector<type,3>) )
+    {
+    This->SetNumberOfComponents(3);
+    This->SetPixelType(ImageIOBase::COVARIANTVECTOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(CovariantVector<type,4>) )
+    {
+    This->SetNumberOfComponents(4);
+    This->SetPixelType(ImageIOBase::COVARIANTVECTOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(CovariantVector<type,5>) )
+    {
+    This->SetNumberOfComponents(5);
+    This->SetPixelType(ImageIOBase::COVARIANTVECTOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(CovariantVector<type,6>) )
+    {
+    This->SetNumberOfComponents(6);
+    This->SetPixelType(ImageIOBase::COVARIANTVECTOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(CovariantVector<type,7>) )
+    {
+    This->SetNumberOfComponents(7);
+    This->SetPixelType(ImageIOBase::COVARIANTVECTOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(FixedArray<type,2>) )
+    {
+    This->SetNumberOfComponents(2);
+    This->SetPixelType(ImageIOBase::FIXEDARRAY);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(SymmetricSecondRankTensor<type,3>) )
+    {
+    This->SetNumberOfComponents(6);
+    This->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(SymmetricSecondRankTensor<type,4>) )
+    {
+    This->SetNumberOfComponents(10);
+    This->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(SymmetricSecondRankTensor<type,5>) )
+    {
+    This->SetNumberOfComponents(15);
+    This->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(SymmetricSecondRankTensor<type,6>) )
+    {
+    This->SetNumberOfComponents(21);
+    This->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(DiffusionTensor3D<type>) )
+    {
+    This->SetNumberOfComponents(6);
+    This->SetComponentType(ntype);
+    This->SetPixelType(ImageIOBase::DIFFUSIONTENSOR3D);
+    return true;
+    }
+  else if ( ptype == typeid(std::complex<type>) )
+    {
+    This->SetNumberOfComponents(2);
+    This->SetComponentType(ntype);
+    This->SetPixelType(ImageIOBase::COMPLEX);
+    return true;
     } 
-
+  return false;
+}
   
  
 
@@ -296,44 +324,37 @@ bool ImageIOBase::SetPixelTypeInfo(const std::type_info& ptype)
   this->SetComponentType(ImageIOBase::UNKNOWNCOMPONENTTYPE);
 
   
-  if itkCheckPTypeMacro(char, CHAR)
-  else if itkCheckPTypeMacro(unsigned char, UCHAR)
-  else if itkCheckPTypeMacro(short, SHORT)
-  else if itkCheckPTypeMacro(unsigned short, USHORT)
-  else if itkCheckPTypeMacro(int, INT)
-
-  // Breaking up the if-else chain due to 
-  // nesting level limitations of Visual Studio.
-  
-  if itkCheckPTypeMacro(unsigned int, UINT)
-  else if itkCheckPTypeMacro(long, LONG)
-  else if itkCheckPTypeMacro(unsigned long, ULONG)
-  else if itkCheckPTypeMacro(float, FLOAT)
-  else if itkCheckPTypeMacro(double, DOUBLE)
-
-  // Breaking up the if-else chain due to 
-  // nesting level limitations of Visual Studio.
-
-  if ( ptype == typeid(Offset<2>) )
+  if (!itkSetPixelType<char>(this,ptype,ImageIOBase::CHAR) &&
+      !itkSetPixelType<unsigned char>(this,ptype,ImageIOBase::UCHAR) &&
+      !itkSetPixelType<short>(this,ptype,ImageIOBase::SHORT) &&
+      !itkSetPixelType<unsigned short>(this,ptype,ImageIOBase::USHORT) &&
+      !itkSetPixelType<int>(this,ptype,ImageIOBase::INT) &&
+      !itkSetPixelType<unsigned int>(this,ptype,ImageIOBase::UINT) &&
+      !itkSetPixelType<long>(this,ptype,ImageIOBase::LONG) &&
+      !itkSetPixelType<unsigned long>(this,ptype,ImageIOBase::ULONG) &&
+      !itkSetPixelType<float>(this,ptype,ImageIOBase::FLOAT) &&
+      !itkSetPixelType<double>(this,ptype,ImageIOBase::DOUBLE))
     {
-    this->SetNumberOfComponents(2);
-    this->SetPixelType(ImageIOBase::OFFSET);
-    this->SetComponentType(ImageIOBase::LONG);
-    }
-  else if ( ptype == typeid(Offset<3>) )
-    {
-    this->SetNumberOfComponents(3);
-    this->SetPixelType(ImageIOBase::OFFSET);
-    this->SetComponentType(ImageIOBase::LONG);
-    }
-  else if ( ptype == typeid(Offset<4>) )
-    {
-    this->SetNumberOfComponents(4);
-    this->SetPixelType(ImageIOBase::OFFSET);
-    this->SetComponentType(ImageIOBase::LONG);
-    }
+    if ( ptype == typeid(Offset<2>) )
+      {
+      this->SetNumberOfComponents(2);
+      this->SetPixelType(ImageIOBase::OFFSET);
+      this->SetComponentType(ImageIOBase::LONG);
+      }
+    else if ( ptype == typeid(Offset<3>) )
+      {
+      this->SetNumberOfComponents(3);
+      this->SetPixelType(ImageIOBase::OFFSET);
+      this->SetComponentType(ImageIOBase::LONG);
+      }
+    else if ( ptype == typeid(Offset<4>) )
+      {
+      this->SetNumberOfComponents(4);
+      this->SetPixelType(ImageIOBase::OFFSET);
+      this->SetComponentType(ImageIOBase::LONG);
+      }
 
-
+    }
 
   if( this->GetPixelType()     == ImageIOBase::UNKNOWNPIXELTYPE )
     {
