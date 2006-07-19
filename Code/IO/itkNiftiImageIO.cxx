@@ -10,7 +10,7 @@ See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
 This software is distributed WITHOUT ANY WARRANTY; without even
 the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-PURPOSE.  See the above copyright notices for more information.
+PURPOSE.  See the above copyright notices for mwore information.
 
 =========================================================================*/
 
@@ -318,7 +318,7 @@ void NiftiImageIO::Read(void* buffer)
       numElts = 0;
     }
   unsigned numComponents = this->GetNumberOfComponents();
-  if(numComponents == 1)
+  if(numComponents == 1 || this->GetPixelType() == COMPLEX)
     {
     const size_t NumBytes=numElts * this->m_NiftiImage->nbyper;
     memcpy(buffer, this->m_NiftiImage->data, NumBytes);
@@ -543,6 +543,16 @@ void NiftiImageIO::ReadImageInformation()
     case NIFTI_TYPE_FLOAT64:
       m_ComponentType = DOUBLE;
       m_PixelType = SCALAR;
+      break;
+    case NIFTI_TYPE_COMPLEX64:
+      m_ComponentType = FLOAT;
+      m_PixelType = COMPLEX;
+      this->SetNumberOfComponents(2);
+      break;
+    case NIFTI_TYPE_COMPLEX128:
+      m_ComponentType = DOUBLE;
+      m_PixelType = COMPLEX;
+      this->SetNumberOfComponents(2);
       break;
     case NIFTI_TYPE_RGB24:
       m_ComponentType = UCHAR;
@@ -866,7 +876,8 @@ NiftiImageIO
   //      Having the time specified for a purly spatial image has no consequence, so go ahead and set it
   //      to seconds.
   this->m_NiftiImage->xyz_units=NIFTI_UNITS_MM | NIFTI_UNITS_SEC;
-  if(this->GetNumberOfComponents() > 1)
+  if(this->GetNumberOfComponents() > 1 && !(this->GetPixelType() == COMPLEX &&
+                                            this->GetNumberOfComponents() == 2))
     {
     this->m_NiftiImage->intent_code = NIFTI_INTENT_VECTOR;
     //
@@ -991,6 +1002,26 @@ NiftiImageIO
     case RGB:
       this->m_NiftiImage->nbyper *= 3;
       this->m_NiftiImage->datatype = NIFTI_TYPE_RGB24;
+      break;
+    case COMPLEX:
+      this->m_NiftiImage->nbyper *= 2;
+      switch(this->GetComponentType())
+        {
+        case FLOAT:
+          this->m_NiftiImage->datatype = NIFTI_TYPE_COMPLEX64;
+          break;
+        case DOUBLE:
+          this->m_NiftiImage->datatype = NIFTI_TYPE_COMPLEX128;
+          break;
+        default:
+          {
+          ExceptionObject exception(__FILE__, __LINE__);
+          std::string ErrorMessage=
+            "Only float or double precision complex type supported";
+          exception.SetDescription(ErrorMessage.c_str());
+          throw exception;
+          }
+        }
       break;
       // TODO: handle vector data.
     default:
@@ -1119,9 +1150,26 @@ NiftiImageIO
   else
     {
     // have to rearrange data; output[vec][t][z][y][x] = input[t][z][y][z][vec]
-    unsigned nbyper = this->m_NiftiImage->nbyper/numComponents;
+    unsigned       nbyper = this->m_NiftiImage->nbyper;
+    if(this->GetPixelType() != COMPLEX)
+      {
+      nbyper /= numComponents;
+      }
     int *dim = this->m_NiftiImage->dim;
-    char *tobuffer = new char[dim[1]*dim[2]*dim[3]*dim[4]*dim[5]*nbyper];
+    for(unsigned i = 1; i < 6; i++)
+      {
+      if(dim[i] == 0)
+        {
+        dim[i] = 1;
+        }
+      }
+    unsigned buffer_size = dim[1] * 
+      dim[2] * 
+      dim[3] * 
+      dim[4] * 
+      dim[5] * 
+      nbyper;
+    char *tobuffer = new char[buffer_size];
     for(unsigned t = 0; t < (unsigned)dim[4]; t++)
       {
       for(unsigned z = 0; z < (unsigned)dim[3]; z++)
