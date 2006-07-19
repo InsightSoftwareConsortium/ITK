@@ -802,7 +802,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ApplyLoads(SolverType& myS
         unsigned int ct=0;
         for(loaditerator=mySolver.load.begin(); loaditerator!=mySolver.load.end(); loaditerator++) 
           {
-          if (l3=dynamic_cast<LoadLandmark*>( &(*(*loaditerator)) ) ) 
+          if ((l3=dynamic_cast<LoadLandmark*>( &(*(*loaditerator)) )) != 0 ) 
             {
             LoadLandmark::Pointer l4=dynamic_cast<LoadLandmark*>(l3->Clone());
             m_LandmarkArray[ct]=l4;
