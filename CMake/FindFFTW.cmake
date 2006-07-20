@@ -11,9 +11,6 @@
 
 IF(USE_FFTWD OR USE_FFTWF)
 
-  MARK_AS_ADVANCED(FFTW_INCLUDE_PATH)
-  OPTION(FFTW_INCLUDE_PATH "The base path of the directory that includes fftw3.h" )
-
   SET(FFTW_INC_SEARCHPATH
     /sw/include
     /usr/include
