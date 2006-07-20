@@ -280,8 +280,10 @@ public:
    * \sa Transform */
   template<class TCoordRep>
   bool TransformPhysicalPointToContinuousIndex(
-              const Point<TCoordRep, ImageDimension>& point,
-              ContinuousIndex<TCoordRep, ImageDimension>& index   ) const
+              const Point<TCoordRep,
+              itkGetStaticConstMacro(ImageDimension)>& point,
+              ContinuousIndex<TCoordRep,
+              itkGetStaticConstMacro(ImageDimension)>& index   ) const
     {
     return m_Image->TransformPhysicalPointToContinuousIndex( point, index );
     }
@@ -292,7 +294,8 @@ public:
    * \sa Transform */
   template<class TCoordRep>
   bool TransformPhysicalPointToIndex(
-            const Point<TCoordRep, ImageDimension>& point,
+            const Point<TCoordRep,
+            itkGetStaticConstMacro(ImageDimension)>& point,
             IndexType & index                                ) const
     {
     return m_Image->TransformPhysicalPointToIndex( point, index );
@@ -304,8 +307,10 @@ public:
    * \sa Transform */
   template<class TCoordRep>
   void TransformContinuousIndexToPhysicalPoint(
-            const ContinuousIndex<TCoordRep, ImageDimension>& index,
-            Point<TCoordRep, ImageDimension>& point        ) const
+            const ContinuousIndex<TCoordRep,
+            itkGetStaticConstMacro(ImageDimension)>& index,
+            Point<TCoordRep,
+            itkGetStaticConstMacro(ImageDimension)>& point        ) const
     {
     m_Image->TransformContinuousIndexToPhysicalPoint( index, point );
     }
@@ -318,7 +323,8 @@ public:
   template<class TCoordRep>
   void TransformIndexToPhysicalPoint(
                       const IndexType & index,
-                      Point<TCoordRep, ImageDimension>& point ) const
+                      Point<TCoordRep,
+                      itkGetStaticConstMacro(ImageDimension)>& point ) const
     {
     m_Image->TransformIndexToPhysicalPoint( index, point );
     }
