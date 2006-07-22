@@ -50,7 +50,7 @@ class ITK_EXPORT ImageToParametricSpaceFilter :
 public:
   /** Standard class typedefs. */
   typedef ImageToParametricSpaceFilter                Self;
-  typedef ImageToMeshFilter<TInputImage,TOutputMesh   Superclass;
+  typedef ImageToMeshFilter<TInputImage,TOutputMesh>  Superclass;
   typedef SmartPointer<Self>                          Pointer;
   typedef SmartPointer<const Self>                    ConstPointer;
 
