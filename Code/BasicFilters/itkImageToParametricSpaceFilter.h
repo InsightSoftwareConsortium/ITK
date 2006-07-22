@@ -49,16 +49,16 @@ class ITK_EXPORT ImageToParametricSpaceFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageToParametricSpaceFilter  Self;
-  typedef  ProcessObject  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ImageToParametricSpaceFilter                Self;
+  typedef ImageToMeshFilter<TInputImage,TOutputMesh   Superclass;
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToParametricSpaceFilter, ProcessObject);
+  itkTypeMacro(ImageToParametricSpaceFilter, ImageToMeshFilter);
 
   /** Some typedefs associated with the input images. */
   typedef TInputImage                               InputImageType;
