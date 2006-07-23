@@ -442,8 +442,12 @@ void VTKImageIO::Write(const void* buffer)
     }
 
   // Save original formatting flags
-  const itksys_ios::ios::fmtflags origianlFlags     = file.flags();
-  const itksys_ios::streamsize    origianlPrecision = file.precision();
+  const itksys_ios::ios::fmtflags originalFlags     = file.flags();
+#if (defined(__GNUC__) && (__GNUC__ <=2))
+  const itksys_ios::ios::streamsize    originalPrecision = file.precision();
+#else
+  const itksys_ios::streamsize    originalPrecision = file.precision();
+#endif
 
   file.setf( itksys_ios::ios::scientific, 
              itksys_ios::ios::floatfield );
@@ -470,8 +474,8 @@ void VTKImageIO::Write(const void* buffer)
     }
 
   // Restore the original formatting flags
-  file.flags( origianlFlags );
-  file.precision( origianlPrecision );
+  file.flags( originalFlags );
+  file.precision( originalPrecision );
 
   file << "POINT_DATA " << this->GetImageSizeInPixels() << "\n";
   file << "SCALARS scalars " 
