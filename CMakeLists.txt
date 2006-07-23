@@ -5,6 +5,12 @@ PROJECT(ITK)
 INCLUDE_REGULAR_EXPRESSION("^([Nn]rrd|itk|vtk|vnl|vcl|vxl|f2c|netlib|ce|itpack|DICOM|meta|png|dbh|tif|jpeg|zlib|gdcm).*$")
 SOURCE_GROUP("XML Files" REGULAR_EXPRESSION "[.]xml$")
 
+# We will require CMake 2.4 as of August 15th 2006
+IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.4)
+  MESSAGE("ITK Will require CMake 2.4 as of August 15th 2006. Please update your CMake and this message will go away.")
+  ADD_TEST(Require.CMake.2.4 "ITK will require CMake 2.4. Update CMake and this failed test will go away")
+ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.4)
+
 # On Visual Studio 8 MS deprecated C. This removes all 1.276E1265 security
 # warnings
 IF(WIN32)
