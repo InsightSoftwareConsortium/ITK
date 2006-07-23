@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef USE_FFTWF
-#error "This program needs FFTWF to work."
+#ifndef USE_FFTWD
+#error "This program needs FFTWD to work."
 #endif
 
 
