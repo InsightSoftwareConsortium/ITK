@@ -240,7 +240,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
     / static_cast<double>(m_NumberOfRangeGaussianSamples);
 
   // Finally, build the table
-  m_RangeGaussianTable.reserve( m_NumberOfRangeGaussianSamples );
+  m_RangeGaussianTable.resize( m_NumberOfRangeGaussianSamples );
   for (i = 0, v = 0.0; i < m_NumberOfRangeGaussianSamples;
        ++i, v += tableDelta)
     {
