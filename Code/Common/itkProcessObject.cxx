@@ -992,11 +992,10 @@ ProcessObject
       }
     catch( ProcessAborted & excp )
       {
-      excp = excp;
       this->InvokeEvent( AbortEvent() );
       this->ResetPipeline();
       this->RestoreInputReleaseDataFlags();
-      throw ProcessAborted(__FILE__,__LINE__);
+      throw excp;
       }
     catch( ExceptionObject& excp )
       {

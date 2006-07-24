@@ -131,7 +131,7 @@ protected:
   /** Callback method to show the AbortEvent */
   virtual void ShowAbort()
   {
-    std::cout << std::endl << "      ABORT" << std::endl << std::flush;
+    std::cout << std::endl << "-------Aborted" << std::endl << std::flush;
   }
 
   /** Callback method to show the IterationEvent */

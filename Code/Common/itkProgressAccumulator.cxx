@@ -112,7 +112,7 @@ ProgressAccumulator
 
 void 
 ProgressAccumulator
-::ReportProgress(Object *, const EventObject &event)
+::ReportProgress(Object *who, const EventObject &event)
 {
   ProgressEvent  pe;
   IterationEvent ie;
@@ -129,6 +129,20 @@ ProgressAccumulator
 
     // Update the progress of the client mini-pipeline filter
     m_MiniPipelineFilter->UpdateProgress(m_AccumulatedProgress);
+
+    // check for abort
+    if ( m_MiniPipelineFilter->GetAbortGenerateData() )
+      {
+      // Abort the filter that is reporting progress
+      FilterRecordVector::iterator it;
+      for(it = m_FilterRecord.begin();it!=m_FilterRecord.end();++it)
+        {
+        if (who == it->Filter)
+          {
+          it->Filter->AbortGenerateDataOn();
+          }
+        }
+      }
     }
   else if (typeid( event ) == typeid ( ie ) )
     {

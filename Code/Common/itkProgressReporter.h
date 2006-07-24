@@ -85,7 +85,11 @@ public:
       // all threads needs to check the abort flag
       if( m_Filter->GetAbortGenerateData() )
         {
-        throw ProcessAborted();
+        std::string msg;
+        ProcessAborted e(__FILE__, __LINE__);
+        msg += "Object " + std::string(m_Filter->GetNameOfClass()) + ": AbortGenerateDataOn";
+        e.SetDescription(msg);
+        throw e;
         }
       }
     }
