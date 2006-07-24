@@ -44,6 +44,68 @@
 #include "itkVersorRigid3DTransform.h"
 #include "itkVolumeSplineKernelTransform.h"
 
+#include "vnl/vnl_sample.h"
+
+// Generic Kernel Transform Tester
+template<class KernelType> int TestKernelTransform(const char *name, KernelType *)
+{
+  std::cout << name << std::flush;
+
+  typedef typename KernelType::PointSetType KernelPointSetType;
+
+  typename KernelType::Pointer kernel = KernelType::New();
+  typename KernelPointSetType::Pointer targetLandmarks =
+    KernelPointSetType::New ();
+  typename KernelPointSetType::Pointer sourceLandmarks =
+    KernelPointSetType::New ();
+
+  targetLandmarks->GetPoints()->Reserve( 4 );
+  sourceLandmarks->GetPoints()->Reserve( 4 );
+
+  // Generate some random coordinates
+  typedef itk::PointSet<float>  PointSet;
+  typedef typename PointSet::PointType PointType;
+  typename KernelPointSetType::CoordRepType randomCoords[3];
+  for(int i=0; i < 4 ; ++i)
+    {
+    randomCoords[0] = (typename KernelPointSetType::CoordRepType) 
+      vnl_sample_uniform((double)-1.0,(double)1.0);
+    randomCoords[1] = (typename KernelPointSetType::CoordRepType) 
+      vnl_sample_uniform((double)-1.0,(double)1.0);
+    randomCoords[2] = (typename KernelPointSetType::CoordRepType) 
+      vnl_sample_uniform((double)-1.0,(double)1.0);
+    targetLandmarks->GetPoints()->SetElement(i, randomCoords);
+
+    randomCoords[0] = (typename KernelPointSetType::CoordRepType) 
+      vnl_sample_uniform((double)-1.0,(double)1.0);
+    randomCoords[1] = (typename KernelPointSetType::CoordRepType) 
+      vnl_sample_uniform((double)-1.0,(double)1.0);
+    randomCoords[2] = (typename KernelPointSetType::CoordRepType) 
+      vnl_sample_uniform((double)-1.0,(double)1.0);
+    sourceLandmarks->GetPoints()->SetElement(i, randomCoords);
+    }
+
+  kernel->SetSourceLandmarks( sourceLandmarks );
+  kernel->SetTargetLandmarks( targetLandmarks );
+
+  unsigned int beginMTime;
+  unsigned int endMTime;
+  beginMTime = kernel->GetMTime();
+  typename KernelType::ParametersType kernelParams = kernel->GetParameters();
+  kernelParams[0] = 1.0;
+  kernel->SetParameters( kernelParams );
+  endMTime = kernel->GetMTime();
+  if ( endMTime > beginMTime) 
+    {
+    std::cout << "PASS" << std::endl;
+    return 0;
+    }
+  else
+    {
+    std::cout << "FAIL" << std::endl;
+    return 1;
+    }
+}
 
 // Main Program
 int itkTransformsSetParametersTest( int , char *[] )
@@ -392,6 +454,21 @@ int itkTransformsSetParametersTest( int , char *[] )
   else
     std::cout << "FAIL" << std::endl;
 
+  std::cout << "VersorRigid3DTransform->SetParameters() - " << std::flush;
+  typedef itk::VersorRigid3DTransform< double > VersorRigid3D;
+  VersorRigid3D::Pointer versorRigid3D =
+    VersorRigid3D::New();
+  beginMTime = versorRigid3D->GetMTime();
+  VersorRigid3D::ParametersType versorRigid3DParams =
+    versorRigid3D->GetParameters();
+  versorRigid3DParams[0] = 1.0;
+  versorRigid3D->SetParameters( versorRigid3DParams );
+  endMTime = versorRigid3D->GetMTime();
+  if ( endMTime > beginMTime) 
+    std::cout << "PASS" << std::endl;
+  else
+    std::cout << "FAIL" << std::endl;
+
 
   std::cout << "BSplineDeformableTransform->SetParameters() - Not Tested (manual check indicates PASS)"
             << std::endl;
@@ -410,192 +487,28 @@ int itkTransformsSetParametersTest( int , char *[] )
 
 
 
-  std::cout << "ElasticBodyReciprocalSplineKernelTransform->SetParameters() - " 
-            << std::flush;
+  TestKernelTransform
+    ("ElasticBodyReciprocalSplineKernelTransform->SetParameters() -",
+     static_cast<itk::ElasticBodyReciprocalSplineKernelTransform<double,3> *>(0));
+  TestKernelTransform
+    ("ElasticBodySplineKernelTransform->SetParameters() - ",
+     static_cast<itk::ElasticBodySplineKernelTransform< double, 3 > *>(0));
 
-  typedef itk::ElasticBodyReciprocalSplineKernelTransform< double, 3 >
-    ElasticBodyReciprocalSplineKernel;
-  ElasticBodyReciprocalSplineKernel::Pointer elasticBodyReciprocal =
-    ElasticBodyReciprocalSplineKernel::New();
+  TestKernelTransform
+    ("KernelTransform->SetParameters() - ",
+     static_cast<itk::KernelTransform< double, 3 > *>(0));
 
-  typedef ElasticBodyReciprocalSplineKernel::PointSetType EBRSKPointSetType3D;
-  EBRSKPointSetType3D::Pointer EBRSKsourceLandmarks2D =
-    EBRSKPointSetType3D::New();
-  EBRSKPointSetType3D::Pointer EBRSKtargetLandmarks2D =
-    EBRSKPointSetType3D::New();
-    EBRSKsourceLandmarks2D->GetPoints()->Reserve( 4 );
-    EBRSKtargetLandmarks2D->GetPoints()->Reserve( 4 );
-    elasticBodyReciprocal->SetSourceLandmarks( EBRSKsourceLandmarks2D );
-    elasticBodyReciprocal->SetTargetLandmarks( EBRSKtargetLandmarks2D );
+  TestKernelTransform
+    ("ThinPlateR2LogRSplineKernelTransform->SetParameters() - ",
+     static_cast<itk::ThinPlateR2LogRSplineKernelTransform< double, 3 > *>(0));
 
-  beginMTime = elasticBodyReciprocal->GetMTime();
-  ElasticBodyReciprocalSplineKernel::ParametersType
-    elasticBodyReciprocalParams = elasticBodyReciprocal->GetParameters();
-  elasticBodyReciprocalParams[0] = 1.0;
-  elasticBodyReciprocal->SetParameters( elasticBodyReciprocalParams );
-  endMTime = elasticBodyReciprocal->GetMTime();
-  if ( endMTime > beginMTime) 
-    std::cout << "PASS" << std::endl;
-  else
-    std::cout << "FAIL" << std::endl;
+  TestKernelTransform
+    ("ThinPlateSplineKernelTransform->SetParameters() - ",
+     static_cast<itk::ThinPlateSplineKernelTransform< double, 3 > *>(0));
 
-
-
-  std::cout << "ElasticBodySplineKernelTransform->SetParameters() - "
-            << std::flush;
-  typedef itk::ElasticBodySplineKernelTransform< double, 3 >
-    ElasticBodySplineKernel;
-  ElasticBodySplineKernel::Pointer elasticBody =
-    ElasticBodySplineKernel::New();
-  typedef ElasticBodySplineKernel::PointSetType EBSKPointSetType3D;
-  EBSKPointSetType3D::Pointer EBSKsourceLandmarks2D =
-    EBSKPointSetType3D::New();
-  EBSKPointSetType3D::Pointer EBSKtargetLandmarks2D =
-    EBSKPointSetType3D::New();
-    EBSKsourceLandmarks2D->GetPoints()->Reserve( 4 );
-    EBSKtargetLandmarks2D->GetPoints()->Reserve( 4 );
-    elasticBody->SetSourceLandmarks( EBSKsourceLandmarks2D );
-    elasticBody->SetTargetLandmarks( EBSKtargetLandmarks2D );
-
-  beginMTime = elasticBody->GetMTime();
-  ElasticBodySplineKernel::ParametersType elasticBodyParams =
-    elasticBody->GetParameters();
-  elasticBodyParams[0] = 1.0;
-  elasticBody->SetParameters( elasticBodyParams );
-  endMTime = elasticBody->GetMTime();
-  if ( endMTime > beginMTime) 
-    std::cout << "PASS" << std::endl;
-  else
-    std::cout << "FAIL" << std::endl;
-
-
-
-  std::cout << "KernelTransform->SetParameters() - " << std::flush;
-  typedef itk::KernelTransform< double, 3 > Kernel;
-  Kernel::Pointer kernel =
-    Kernel::New();
-  typedef Kernel::PointSetType KPointSetType3D;
-  KPointSetType3D::Pointer KsourceLandmarks2D =
-    KPointSetType3D::New();
-  KPointSetType3D::Pointer KtargetLandmarks2D =
-    KPointSetType3D::New();
-    KsourceLandmarks2D->GetPoints()->Reserve( 4 );
-    KtargetLandmarks2D->GetPoints()->Reserve( 4 );
-    kernel->SetSourceLandmarks( KsourceLandmarks2D );
-    kernel->SetTargetLandmarks( KtargetLandmarks2D );
-
-  beginMTime = kernel->GetMTime();
-  Kernel::ParametersType kernelParams =
-    kernel->GetParameters();
-  kernelParams[0] = 1.0;
-  kernel->SetParameters( kernelParams );
-  endMTime = kernel->GetMTime();
-  if ( endMTime > beginMTime) 
-    std::cout << "PASS" << std::endl;
-  else
-    std::cout << "FAIL" << std::endl;
-
-
-  
-  std::cout << "ThinPlateR2LogRSplineKernelTransform->SetParameters() - "
-            << std::flush;
-  typedef itk::ThinPlateR2LogRSplineKernelTransform< double, 3 >
-    ThinPlateR2LogRSplineKernel;
-  ThinPlateR2LogRSplineKernel::Pointer thinPlateR2 =
-    ThinPlateR2LogRSplineKernel::New();
-  typedef ThinPlateR2LogRSplineKernel::PointSetType TPR2PointSetType3D;
-  TPR2PointSetType3D::Pointer TPR2sourceLandmarks2D =
-    TPR2PointSetType3D::New();
-  TPR2PointSetType3D::Pointer TPR2targetLandmarks2D =
-    TPR2PointSetType3D::New();
-    TPR2sourceLandmarks2D->GetPoints()->Reserve( 4 );
-    TPR2targetLandmarks2D->GetPoints()->Reserve( 4 );
-    thinPlateR2->SetSourceLandmarks( TPR2sourceLandmarks2D );
-    thinPlateR2->SetTargetLandmarks( TPR2targetLandmarks2D );
-
-  beginMTime = thinPlateR2->GetMTime();
-  ThinPlateR2LogRSplineKernel::ParametersType thinPlateR2Params =
-    thinPlateR2->GetParameters();
-  thinPlateR2Params[0] = 1.0;
-  thinPlateR2->SetParameters( thinPlateR2Params );
-  endMTime = thinPlateR2->GetMTime();
-  if ( endMTime > beginMTime) 
-    std::cout << "PASS" << std::endl;
-  else
-    std::cout << "FAIL" << std::endl;
-  
-
-
-  std::cout << "ThinPlateSplineKernelTransform->SetParameters() - "
-            << std::flush;
-  typedef itk::ThinPlateSplineKernelTransform< double, 3 > ThinPlateSpline;
-  ThinPlateSpline::Pointer thinPlate =
-    ThinPlateSpline::New();
-  typedef ThinPlateSpline::PointSetType TPPointSetType3D;
-  TPPointSetType3D::Pointer TPsourceLandmarks2D =
-    TPPointSetType3D::New();
-  TPPointSetType3D::Pointer TPtargetLandmarks2D =
-    TPPointSetType3D::New();
-    TPsourceLandmarks2D->GetPoints()->Reserve( 4 );
-    TPtargetLandmarks2D->GetPoints()->Reserve( 4 );
-    thinPlate->SetSourceLandmarks( TPsourceLandmarks2D );
-    thinPlate->SetTargetLandmarks( TPtargetLandmarks2D );
-  beginMTime = thinPlate->GetMTime();
-  ThinPlateSpline::ParametersType thinPlateParams =
-    thinPlate->GetParameters();
-  thinPlateParams[0] = 1.0;
-  thinPlate->SetParameters( thinPlateParams );
-  endMTime = thinPlate->GetMTime();
-  if ( endMTime > beginMTime) 
-    std::cout << "PASS" << std::endl;
-  else
-    std::cout << "FAIL" << std::endl;
-
-
-
-  std::cout << "VersorRigid3DTransform->SetParameters() - " << std::flush;
-  typedef itk::VersorRigid3DTransform< double > VersorRigid3D;
-  VersorRigid3D::Pointer versorRigid3D =
-    VersorRigid3D::New();
-  beginMTime = versorRigid3D->GetMTime();
-  VersorRigid3D::ParametersType versorRigid3DParams =
-    versorRigid3D->GetParameters();
-  versorRigid3DParams[0] = 1.0;
-  versorRigid3D->SetParameters( versorRigid3DParams );
-  endMTime = versorRigid3D->GetMTime();
-  if ( endMTime > beginMTime) 
-    std::cout << "PASS" << std::endl;
-  else
-    std::cout << "FAIL" << std::endl;
-
-
-
-  std::cout << "VolumeSplineKernelTransform->SetParameters() - " << std::flush;
-  typedef itk::VolumeSplineKernelTransform< double, 3 > VolumeSplineKernel;
-  VolumeSplineKernel::Pointer volumeSplineKernel =
-    VolumeSplineKernel::New();
-  typedef VolumeSplineKernel::PointSetType VSPointSetType3D;
-  VSPointSetType3D::Pointer VSsourceLandmarks2D =
-    VSPointSetType3D::New();
-  VSPointSetType3D::Pointer VStargetLandmarks2D =
-    VSPointSetType3D::New();
-    VSsourceLandmarks2D->GetPoints()->Reserve( 4 );
-    VStargetLandmarks2D->GetPoints()->Reserve( 4 );
-    volumeSplineKernel->SetSourceLandmarks( TPsourceLandmarks2D );
-    volumeSplineKernel->SetTargetLandmarks( TPtargetLandmarks2D );
-
-  beginMTime = volumeSplineKernel->GetMTime();
-  VolumeSplineKernel::ParametersType volumeSplineKernelParams =
-    volumeSplineKernel->GetParameters();
-  volumeSplineKernelParams[0] = 1.0;
-  volumeSplineKernel->SetParameters( volumeSplineKernelParams );
-  endMTime = volumeSplineKernel->GetMTime();
-  if ( endMTime > beginMTime) 
-    std::cout << "PASS" << std::endl;
-  else
-    std::cout << "FAIL" << std::endl;
-
-
+  TestKernelTransform
+    ("VolumeSplineKernelTransform->SetParameters() - ",
+     static_cast<itk::VolumeSplineKernelTransform< double, 3 > *>(0));
 
   std::cout << std::endl << "Done." << std::endl;
 
