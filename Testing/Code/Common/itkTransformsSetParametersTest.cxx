@@ -54,7 +54,8 @@ int itkTransformsSetParametersTest( int , char *[] )
   unsigned int endMTime;
 
 
-  std::cout << "Begin testing of SetParameters() method for all itkTransforms" << std::endl << std::endl;
+  std::cout << "Begin testing of SetParameters() method for all itkTransforms"
+            << std::endl << std::endl;
 
   std::cout << "AffineTransform->SetParameters() - " << std::flush;
   typedef itk::AffineTransform< double, 3 > Affine;
@@ -72,9 +73,11 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "CenteredAffineTransform->SetParameters() - " << std::flush;
   typedef itk::CenteredAffineTransform< double, 3 > CenteredAffine;
-  CenteredAffine::Pointer centeredAffine = CenteredAffine::New();
+  CenteredAffine::Pointer centeredAffine =
+    CenteredAffine::New();
   beginMTime = centeredAffine->GetMTime();
-  CenteredAffine::ParametersType centeredAffineParams = centeredAffine->GetParameters();
+  CenteredAffine::ParametersType centeredAffineParams =
+    centeredAffine->GetParameters();
   centeredAffineParams[0] = 1.0;
   centeredAffine->SetParameters( centeredAffineParams );
   endMTime = centeredAffine->GetMTime();
@@ -87,9 +90,11 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "CenteredEuler3DTransform->SetParameters() - " << std::flush;
   typedef itk::CenteredEuler3DTransform< double > CenteredEuler3D;
-  CenteredEuler3D::Pointer centeredEuler3D = CenteredEuler3D::New();
+  CenteredEuler3D::Pointer centeredEuler3D =
+    CenteredEuler3D::New();
   beginMTime = centeredEuler3D->GetMTime();
-  CenteredEuler3D::ParametersType centeredEuler3DParams = centeredEuler3D->GetParameters();
+  CenteredEuler3D::ParametersType centeredEuler3DParams =
+    centeredEuler3D->GetParameters();
   centeredEuler3DParams[0] = 1.0;
   centeredEuler3D->SetParameters( centeredEuler3DParams );
   endMTime = centeredEuler3D->GetMTime();
@@ -102,9 +107,11 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "CenteredRigid2DTransform->SetParameters() - " << std::flush;
   typedef itk::CenteredRigid2DTransform< double > CenteredRigid2D;
-  CenteredRigid2D::Pointer centeredRigid2D = CenteredRigid2D::New();
+  CenteredRigid2D::Pointer centeredRigid2D =
+    CenteredRigid2D::New();
   beginMTime = centeredRigid2D->GetMTime();
-  CenteredRigid2D::ParametersType centeredRigid2DParams = centeredRigid2D->GetParameters();
+  CenteredRigid2D::ParametersType centeredRigid2DParams =
+    centeredRigid2D->GetParameters();
   centeredRigid2DParams[0] = 1.0;
   centeredRigid2D->SetParameters( centeredRigid2DParams );
   endMTime = centeredRigid2D->GetMTime();
@@ -117,9 +124,11 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "CenteredSimilarity2DTransform->SetParameters() - " << std::flush;
   typedef itk::CenteredSimilarity2DTransform< double > CenteredSimilarity2D;
-  CenteredSimilarity2D::Pointer centeredSimilarity2D = CenteredSimilarity2D::New();
+  CenteredSimilarity2D::Pointer centeredSimilarity2D =
+    CenteredSimilarity2D::New();
   beginMTime = centeredSimilarity2D->GetMTime();
-  CenteredSimilarity2D::ParametersType centeredSimilarity2DParams = centeredSimilarity2D->GetParameters();
+  CenteredSimilarity2D::ParametersType centeredSimilarity2DParams =
+    centeredSimilarity2D->GetParameters();
   centeredSimilarity2DParams[0] = 1.0;
   centeredSimilarity2D->SetParameters( centeredSimilarity2DParams );
   endMTime = centeredSimilarity2D->GetMTime();
@@ -132,9 +141,11 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "Euler2DTransform->SetParameters() - " << std::flush;
   typedef itk::Euler2DTransform< double > Euler2D;
-  Euler2D::Pointer euler2D = Euler2D::New();
+  Euler2D::Pointer euler2D =
+    Euler2D::New();
   beginMTime = euler2D->GetMTime();
-  Euler2D::ParametersType euler2DParams = euler2D->GetParameters();
+  Euler2D::ParametersType euler2DParams =
+    euler2D->GetParameters();
   euler2DParams[0] = 1.0;
   euler2D->SetParameters( euler2DParams );
   endMTime = euler2D->GetMTime();
@@ -147,9 +158,11 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "Euler3DTransform->SetParameters() - " << std::flush;
   typedef itk::Euler3DTransform< double > Euler3D;
-  Euler3D::Pointer euler3D = Euler3D::New();
+  Euler3D::Pointer euler3D =
+    Euler3D::New();
   beginMTime = euler3D->GetMTime();
-  Euler3D::ParametersType euler3DParams = euler3D->GetParameters();
+  Euler3D::ParametersType euler3DParams =
+    euler3D->GetParameters();
   euler3DParams[0] = 1.0;
   euler3D->SetParameters( euler3DParams );
   endMTime = euler3D->GetMTime();
@@ -162,9 +175,11 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "FixedCenteredAffineTransform->SetParameters() - " << std::flush;
   typedef itk::FixedCenterOfRotationAffineTransform< double, 3 > FixedCenteredAffine;
-  FixedCenteredAffine::Pointer fixedCenteredAffine = FixedCenteredAffine::New();
+  FixedCenteredAffine::Pointer fixedCenteredAffine =
+    FixedCenteredAffine::New();
   beginMTime = fixedCenteredAffine->GetMTime();
-  FixedCenteredAffine::ParametersType fixedCenteredAffineParams = fixedCenteredAffine->GetParameters();
+  FixedCenteredAffine::ParametersType fixedCenteredAffineParams =
+    fixedCenteredAffine->GetParameters();
   fixedCenteredAffineParams[0] = 1.0;
   fixedCenteredAffine->SetParameters( fixedCenteredAffineParams );
   endMTime = fixedCenteredAffine->GetMTime();
@@ -176,9 +191,11 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "QuaternionRigidTransform->SetParameters() - " << std::flush;
   typedef itk::QuaternionRigidTransform< double > QuaternionRigid;
-  QuaternionRigid::Pointer quaternionRigid = QuaternionRigid::New();
+  QuaternionRigid::Pointer quaternionRigid =
+    QuaternionRigid::New();
   beginMTime = quaternionRigid->GetMTime();
-  QuaternionRigid::ParametersType quaternionRigidParams = quaternionRigid->GetParameters();
+  QuaternionRigid::ParametersType quaternionRigidParams =
+    quaternionRigid->GetParameters();
   quaternionRigidParams[0] = 1.0;
   quaternionRigid->SetParameters( quaternionRigidParams );
   endMTime = quaternionRigid->GetMTime();
@@ -191,9 +208,11 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "Rigid2DTransform->SetParameters() - " << std::flush;
   typedef itk::Rigid2DTransform< double > Rigid2D;
-  Rigid2D::Pointer rigid2D = Rigid2D::New();
+  Rigid2D::Pointer rigid2D =
+    Rigid2D::New();
   beginMTime = rigid2D->GetMTime();
-  Rigid2D::ParametersType rigid2DParams = rigid2D->GetParameters();
+  Rigid2D::ParametersType rigid2DParams =
+    rigid2D->GetParameters();
   rigid2DParams[0] = 1.0;
   rigid2D->SetParameters( rigid2DParams );
   endMTime = rigid2D->GetMTime();
@@ -205,9 +224,11 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "Rigid3DPerspectiveTransform->SetParameters() - " << std::flush;
   typedef itk::Rigid3DPerspectiveTransform< double > Rigid3DPerspective;
-  Rigid3DPerspective::Pointer rigid3DPerspective = Rigid3DPerspective::New();
+  Rigid3DPerspective::Pointer rigid3DPerspective =
+    Rigid3DPerspective::New();
   beginMTime = rigid3DPerspective->GetMTime();
-  Rigid3DPerspective::ParametersType rigid3DPerspectiveParams = rigid3DPerspective->GetParameters();
+  Rigid3DPerspective::ParametersType rigid3DPerspectiveParams =
+    rigid3DPerspective->GetParameters();
   rigid3DPerspectiveParams[0] = 1.0;
   rigid3DPerspective->SetParameters( rigid3DPerspectiveParams );
   endMTime = rigid3DPerspective->GetMTime();
@@ -220,9 +241,11 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "ScalableAffineTransform->SetParameters() - " << std::flush;
   typedef itk::ScalableAffineTransform< double, 3 > ScalableAffine;
-  ScalableAffine::Pointer scalableAffine = ScalableAffine::New();
+  ScalableAffine::Pointer scalableAffine =
+    ScalableAffine::New();
   beginMTime = scalableAffine->GetMTime();
-  ScalableAffine::ParametersType scalableAffineParams = scalableAffine->GetParameters();
+  ScalableAffine::ParametersType scalableAffineParams =
+    scalableAffine->GetParameters();
   scalableAffineParams[0] = 1.0;
   scalableAffine->SetParameters( scalableAffineParams );
   endMTime = scalableAffine->GetMTime();
@@ -235,9 +258,11 @@ int itkTransformsSetParametersTest( int , char *[] )
   
   std::cout << "ScaleLogarithmicTransform->SetParameters() - " << std::flush;
   typedef itk::ScaleLogarithmicTransform< double, 3 > ScaleLogarithmic;
-  ScaleLogarithmic::Pointer scaleLogarithmic = ScaleLogarithmic::New();
+  ScaleLogarithmic::Pointer scaleLogarithmic =
+    ScaleLogarithmic::New();
   beginMTime = scaleLogarithmic->GetMTime();
-  ScaleLogarithmic::ParametersType scaleLogarithmicParams = scaleLogarithmic->GetParameters();
+  ScaleLogarithmic::ParametersType scaleLogarithmicParams =
+    scaleLogarithmic->GetParameters();
   scaleLogarithmicParams[0] = 1.0;
   scaleLogarithmic->SetParameters( scaleLogarithmicParams );
   endMTime = scaleLogarithmic->GetMTime();
@@ -250,9 +275,11 @@ int itkTransformsSetParametersTest( int , char *[] )
   
   std::cout << "ScaleSkewVersor3DTransform->SetParameters() - " << std::flush;
   typedef itk::ScaleSkewVersor3DTransform< double > ScaleSkewVersor3D;
-  ScaleSkewVersor3D::Pointer scaleSkewVersor3D = ScaleSkewVersor3D::New();
+  ScaleSkewVersor3D::Pointer scaleSkewVersor3D =
+    ScaleSkewVersor3D::New();
   beginMTime = scaleSkewVersor3D->GetMTime();
-  ScaleSkewVersor3D::ParametersType scaleSkewVersor3DParams = scaleSkewVersor3D->GetParameters();
+  ScaleSkewVersor3D::ParametersType scaleSkewVersor3DParams =
+    scaleSkewVersor3D->GetParameters();
   scaleSkewVersor3DParams[0] = 1.0;
   scaleSkewVersor3D->SetParameters( scaleSkewVersor3DParams );
   endMTime = scaleSkewVersor3D->GetMTime();
@@ -265,9 +292,11 @@ int itkTransformsSetParametersTest( int , char *[] )
   
   std::cout << "ScaleTransform->SetParameters() - " << std::flush;
   typedef itk::ScaleTransform< double, 3 > Scale;
-  Scale::Pointer scale = Scale::New();
+  Scale::Pointer scale =
+    Scale::New();
   beginMTime = scale->GetMTime();
-  Scale::ParametersType scaleParams = scale->GetParameters();
+  Scale::ParametersType scaleParams =
+    scale->GetParameters();
   scaleParams[0] = 1.0;
   scale->SetParameters( scaleParams );
   endMTime = scale->GetMTime();
@@ -280,9 +309,11 @@ int itkTransformsSetParametersTest( int , char *[] )
   
   std::cout << "Similarity2DTransform->SetParameters() - " << std::flush;
   typedef itk::Similarity2DTransform< double > Similarity2D;
-  Similarity2D::Pointer similarity2D = Similarity2D::New();
+  Similarity2D::Pointer similarity2D =
+    Similarity2D::New();
   beginMTime = similarity2D->GetMTime();
-  Similarity2D::ParametersType similarity2DParams = similarity2D->GetParameters();
+  Similarity2D::ParametersType similarity2DParams =
+    similarity2D->GetParameters();
   similarity2DParams[0] = 1.0;
   similarity2D->SetParameters( similarity2DParams );
   endMTime = similarity2D->GetMTime();
@@ -295,9 +326,11 @@ int itkTransformsSetParametersTest( int , char *[] )
   
   std::cout << "Similarity3DTransform->SetParameters() - " << std::flush;
   typedef itk::Similarity3DTransform< double > Similarity3D;
-  Similarity3D::Pointer similarity3D = Similarity3D::New();
+  Similarity3D::Pointer similarity3D =
+    Similarity3D::New();
   beginMTime = similarity3D->GetMTime();
-  Similarity3D::ParametersType similarity3DParams = similarity3D->GetParameters();
+  Similarity3D::ParametersType similarity3DParams =
+    similarity3D->GetParameters();
   similarity3DParams[0] = 1.0;
   similarity3D->SetParameters( similarity3DParams );
   endMTime = similarity3D->GetMTime();
@@ -310,9 +343,11 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "TranslationTransform->SetParameters() - " << std::flush;
   typedef itk::TranslationTransform< double, 3 > Translation;
-  Translation::Pointer translation = Translation::New();
+  Translation::Pointer translation =
+    Translation::New();
   beginMTime = translation->GetMTime();
-  Translation::ParametersType translationParams = translation->GetParameters();
+  Translation::ParametersType translationParams =
+    translation->GetParameters();
   translationParams[0] = 1.0;
   translation->SetParameters( translationParams );
   endMTime = translation->GetMTime();
@@ -325,9 +360,11 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "VersorTransform->SetParameters() - " << std::flush;
   typedef itk::VersorTransform< double > Versor;
-  Versor::Pointer versor = Versor::New();
+  Versor::Pointer versor =
+    Versor::New();
   beginMTime = versor->GetMTime();
-  Versor::ParametersType versorParams = versor->GetParameters();
+  Versor::ParametersType versorParams =
+    versor->GetParameters();
   versorParams[0] = 1.0;
   versor->SetParameters( versorParams );
   endMTime = versor->GetMTime();
@@ -338,11 +375,15 @@ int itkTransformsSetParametersTest( int , char *[] )
 
 
 
-  std::cout << "AzimuthElevationToCartesianTransform->SetParameters() - " << std::flush;
-  typedef itk::AzimuthElevationToCartesianTransform< double, 3 > AzimuthElevationToCartesian;
-  AzimuthElevationToCartesian::Pointer azimuthElevation = AzimuthElevationToCartesian::New();
+  std::cout << "AzimuthElevationToCartesianTransform->SetParameters() - "
+            << std::flush;
+  typedef itk::AzimuthElevationToCartesianTransform< double, 3 >
+    AzimuthElevationToCartesian;
+  AzimuthElevationToCartesian::Pointer azimuthElevation =
+    AzimuthElevationToCartesian::New();
   beginMTime = azimuthElevation->GetMTime();
-  AzimuthElevationToCartesian::ParametersType azimuthElevationParams = azimuthElevation->GetParameters();
+  AzimuthElevationToCartesian::ParametersType azimuthElevationParams =
+    azimuthElevation->GetParameters();
   azimuthElevationParams[0] = 1.0;
   azimuthElevation->SetParameters( azimuthElevationParams );
   endMTime = azimuthElevation->GetMTime();
@@ -352,7 +393,8 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
 
-  std::cout << "BSplineDeformableTransform->SetParameters() - Not Tested (manaul check indicates PASS)" << std::endl;
+  std::cout << "BSplineDeformableTransform->SetParameters() - Not Tested (manual check indicates PASS)"
+            << std::endl;
 //    typedef itk::BSplineDeformableTransform< double > BSplineDeformable;
 //    BSplineDeformable::Pointer bSplineDeformable = BSplineDeformable::New();
 //    beginMTime = bSplineDeformable->GetMTime();
@@ -368,11 +410,27 @@ int itkTransformsSetParametersTest( int , char *[] )
 
 
 
-  std::cout << "ElasticBodyReciprocalSplineKernelTransform->SetParameters() - " << std::flush;
-  typedef itk::ElasticBodyReciprocalSplineKernelTransform< double, 3 > ElasticBodyReciprocalSplineKernel;
-  ElasticBodyReciprocalSplineKernel::Pointer elasticBodyReciprocal = ElasticBodyReciprocalSplineKernel::New();
+  std::cout << "ElasticBodyReciprocalSplineKernelTransform->SetParameters() - " 
+            << std::flush;
+
+  typedef itk::ElasticBodyReciprocalSplineKernelTransform< double, 3 >
+    ElasticBodyReciprocalSplineKernel;
+  ElasticBodyReciprocalSplineKernel::Pointer elasticBodyReciprocal =
+    ElasticBodyReciprocalSplineKernel::New();
+
+  typedef ElasticBodyReciprocalSplineKernel::PointSetType EBRSKPointSetType3D;
+  EBRSKPointSetType3D::Pointer EBRSKsourceLandmarks2D =
+    EBRSKPointSetType3D::New();
+  EBRSKPointSetType3D::Pointer EBRSKtargetLandmarks2D =
+    EBRSKPointSetType3D::New();
+    EBRSKsourceLandmarks2D->GetPoints()->Reserve( 4 );
+    EBRSKtargetLandmarks2D->GetPoints()->Reserve( 4 );
+    elasticBodyReciprocal->SetSourceLandmarks( EBRSKsourceLandmarks2D );
+    elasticBodyReciprocal->SetTargetLandmarks( EBRSKtargetLandmarks2D );
+
   beginMTime = elasticBodyReciprocal->GetMTime();
-  ElasticBodyReciprocalSplineKernel::ParametersType elasticBodyReciprocalParams = elasticBodyReciprocal->GetParameters();
+  ElasticBodyReciprocalSplineKernel::ParametersType
+    elasticBodyReciprocalParams = elasticBodyReciprocal->GetParameters();
   elasticBodyReciprocalParams[0] = 1.0;
   elasticBodyReciprocal->SetParameters( elasticBodyReciprocalParams );
   endMTime = elasticBodyReciprocal->GetMTime();
@@ -383,11 +441,25 @@ int itkTransformsSetParametersTest( int , char *[] )
 
 
 
-  std::cout << "ElasticBodySplineKernelTransform->SetParameters() - " << std::flush;
-  typedef itk::ElasticBodySplineKernelTransform< double, 3 > ElasticBodySplineKernel;
-  ElasticBodySplineKernel::Pointer elasticBody = ElasticBodySplineKernel::New();
+  std::cout << "ElasticBodySplineKernelTransform->SetParameters() - "
+            << std::flush;
+  typedef itk::ElasticBodySplineKernelTransform< double, 3 >
+    ElasticBodySplineKernel;
+  ElasticBodySplineKernel::Pointer elasticBody =
+    ElasticBodySplineKernel::New();
+  typedef ElasticBodySplineKernel::PointSetType EBSKPointSetType3D;
+  EBSKPointSetType3D::Pointer EBSKsourceLandmarks2D =
+    EBSKPointSetType3D::New();
+  EBSKPointSetType3D::Pointer EBSKtargetLandmarks2D =
+    EBSKPointSetType3D::New();
+    EBSKsourceLandmarks2D->GetPoints()->Reserve( 4 );
+    EBSKtargetLandmarks2D->GetPoints()->Reserve( 4 );
+    elasticBody->SetSourceLandmarks( EBSKsourceLandmarks2D );
+    elasticBody->SetTargetLandmarks( EBSKtargetLandmarks2D );
+
   beginMTime = elasticBody->GetMTime();
-  ElasticBodySplineKernel::ParametersType elasticBodyParams = elasticBody->GetParameters();
+  ElasticBodySplineKernel::ParametersType elasticBodyParams =
+    elasticBody->GetParameters();
   elasticBodyParams[0] = 1.0;
   elasticBody->SetParameters( elasticBodyParams );
   endMTime = elasticBody->GetMTime();
@@ -400,9 +472,21 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "KernelTransform->SetParameters() - " << std::flush;
   typedef itk::KernelTransform< double, 3 > Kernel;
-  Kernel::Pointer kernel = Kernel::New();
+  Kernel::Pointer kernel =
+    Kernel::New();
+  typedef Kernel::PointSetType KPointSetType3D;
+  KPointSetType3D::Pointer KsourceLandmarks2D =
+    KPointSetType3D::New();
+  KPointSetType3D::Pointer KtargetLandmarks2D =
+    KPointSetType3D::New();
+    KsourceLandmarks2D->GetPoints()->Reserve( 4 );
+    KtargetLandmarks2D->GetPoints()->Reserve( 4 );
+    kernel->SetSourceLandmarks( KsourceLandmarks2D );
+    kernel->SetTargetLandmarks( KtargetLandmarks2D );
+
   beginMTime = kernel->GetMTime();
-  Kernel::ParametersType kernelParams = kernel->GetParameters();
+  Kernel::ParametersType kernelParams =
+    kernel->GetParameters();
   kernelParams[0] = 1.0;
   kernel->SetParameters( kernelParams );
   endMTime = kernel->GetMTime();
@@ -413,11 +497,25 @@ int itkTransformsSetParametersTest( int , char *[] )
 
 
   
-  std::cout << "ThinPlateR2LogRSplineKernelTransform->SetParameters() - " << std::flush;
-  typedef itk::ThinPlateR2LogRSplineKernelTransform< double, 3 > ThinPlateR2LogRSplineKernel;
-  ThinPlateR2LogRSplineKernel::Pointer thinPlateR2 = ThinPlateR2LogRSplineKernel::New();
+  std::cout << "ThinPlateR2LogRSplineKernelTransform->SetParameters() - "
+            << std::flush;
+  typedef itk::ThinPlateR2LogRSplineKernelTransform< double, 3 >
+    ThinPlateR2LogRSplineKernel;
+  ThinPlateR2LogRSplineKernel::Pointer thinPlateR2 =
+    ThinPlateR2LogRSplineKernel::New();
+  typedef ThinPlateR2LogRSplineKernel::PointSetType TPR2PointSetType3D;
+  TPR2PointSetType3D::Pointer TPR2sourceLandmarks2D =
+    TPR2PointSetType3D::New();
+  TPR2PointSetType3D::Pointer TPR2targetLandmarks2D =
+    TPR2PointSetType3D::New();
+    TPR2sourceLandmarks2D->GetPoints()->Reserve( 4 );
+    TPR2targetLandmarks2D->GetPoints()->Reserve( 4 );
+    thinPlateR2->SetSourceLandmarks( TPR2sourceLandmarks2D );
+    thinPlateR2->SetTargetLandmarks( TPR2targetLandmarks2D );
+
   beginMTime = thinPlateR2->GetMTime();
-  ThinPlateR2LogRSplineKernel::ParametersType thinPlateR2Params = thinPlateR2->GetParameters();
+  ThinPlateR2LogRSplineKernel::ParametersType thinPlateR2Params =
+    thinPlateR2->GetParameters();
   thinPlateR2Params[0] = 1.0;
   thinPlateR2->SetParameters( thinPlateR2Params );
   endMTime = thinPlateR2->GetMTime();
@@ -428,11 +526,23 @@ int itkTransformsSetParametersTest( int , char *[] )
   
 
 
-  std::cout << "ThinPlateSplineKernelTransform->SetParameters() - " << std::flush;
+  std::cout << "ThinPlateSplineKernelTransform->SetParameters() - "
+            << std::flush;
   typedef itk::ThinPlateSplineKernelTransform< double, 3 > ThinPlateSpline;
-  ThinPlateSpline::Pointer thinPlate = ThinPlateSpline::New();
+  ThinPlateSpline::Pointer thinPlate =
+    ThinPlateSpline::New();
+  typedef ThinPlateSpline::PointSetType TPPointSetType3D;
+  TPPointSetType3D::Pointer TPsourceLandmarks2D =
+    TPPointSetType3D::New();
+  TPPointSetType3D::Pointer TPtargetLandmarks2D =
+    TPPointSetType3D::New();
+    TPsourceLandmarks2D->GetPoints()->Reserve( 4 );
+    TPtargetLandmarks2D->GetPoints()->Reserve( 4 );
+    thinPlate->SetSourceLandmarks( TPsourceLandmarks2D );
+    thinPlate->SetTargetLandmarks( TPtargetLandmarks2D );
   beginMTime = thinPlate->GetMTime();
-  ThinPlateSpline::ParametersType thinPlateParams = thinPlate->GetParameters();
+  ThinPlateSpline::ParametersType thinPlateParams =
+    thinPlate->GetParameters();
   thinPlateParams[0] = 1.0;
   thinPlate->SetParameters( thinPlateParams );
   endMTime = thinPlate->GetMTime();
@@ -445,9 +555,11 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "VersorRigid3DTransform->SetParameters() - " << std::flush;
   typedef itk::VersorRigid3DTransform< double > VersorRigid3D;
-  VersorRigid3D::Pointer versorRigid3D = VersorRigid3D::New();
+  VersorRigid3D::Pointer versorRigid3D =
+    VersorRigid3D::New();
   beginMTime = versorRigid3D->GetMTime();
-  VersorRigid3D::ParametersType versorRigid3DParams = versorRigid3D->GetParameters();
+  VersorRigid3D::ParametersType versorRigid3DParams =
+    versorRigid3D->GetParameters();
   versorRigid3DParams[0] = 1.0;
   versorRigid3D->SetParameters( versorRigid3DParams );
   endMTime = versorRigid3D->GetMTime();
@@ -460,9 +572,21 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "VolumeSplineKernelTransform->SetParameters() - " << std::flush;
   typedef itk::VolumeSplineKernelTransform< double, 3 > VolumeSplineKernel;
-  VolumeSplineKernel::Pointer volumeSplineKernel = VolumeSplineKernel::New();
+  VolumeSplineKernel::Pointer volumeSplineKernel =
+    VolumeSplineKernel::New();
+  typedef VolumeSplineKernel::PointSetType VSPointSetType3D;
+  VSPointSetType3D::Pointer VSsourceLandmarks2D =
+    VSPointSetType3D::New();
+  VSPointSetType3D::Pointer VStargetLandmarks2D =
+    VSPointSetType3D::New();
+    VSsourceLandmarks2D->GetPoints()->Reserve( 4 );
+    VStargetLandmarks2D->GetPoints()->Reserve( 4 );
+    volumeSplineKernel->SetSourceLandmarks( TPsourceLandmarks2D );
+    volumeSplineKernel->SetTargetLandmarks( TPtargetLandmarks2D );
+
   beginMTime = volumeSplineKernel->GetMTime();
-  VolumeSplineKernel::ParametersType volumeSplineKernelParams = volumeSplineKernel->GetParameters();
+  VolumeSplineKernel::ParametersType volumeSplineKernelParams =
+    volumeSplineKernel->GetParameters();
   volumeSplineKernelParams[0] = 1.0;
   volumeSplineKernel->SetParameters( volumeSplineKernelParams );
   endMTime = volumeSplineKernel->GetMTime();
