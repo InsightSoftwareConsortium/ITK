@@ -85,12 +85,12 @@ testlib_enter_stealth_mode()
     SetUnhandledExceptionFilter( vxl_exception_filter );
 #endif //defined(VCL_VC)
 
+    // Disable Borland's floating point exceptions.
+#if defined(VCL_BORLAND)
+    _control87(MCW_EM, MCW_EM);
+#endif // defined(VCL_BORLAND)
   }
 
-  // Disable Borland's floating point exceptions.
-#if defined(VCL_BORLAND)
-  _control87(MCW_EM, MCW_EM);
-#endif // defined(VCL_BORLAND)
 }
 
 
