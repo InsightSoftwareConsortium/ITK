@@ -1,0 +1,4 @@
+extern int zqrsl_(doublecomplex *x, integer *ldx, integer *n, integer *k, doublecomplex *qraux, doublecomplex *y, doublecomplex *qy, doublecomplex *qty, doublecomplex *b, doublecomplex *rsd, doublecomplex *xb, integer *job, integer *info);
+/*:ref: zcopy_ 14 5 4 9 4 9 4 */
+/*:ref: zdotc_ 9 6 9 4 9 4 9 4 */
+/*:ref: zaxpy_ 14 6 4 9 9 4 9 4 */

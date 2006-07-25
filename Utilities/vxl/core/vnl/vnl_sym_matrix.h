@@ -45,6 +45,10 @@ class vnl_sym_matrix
   //: Construct a symmetric matrix from a full matrix.
   // If NDEBUG is set, the symmetry of the matrix will be asserted.
   inline explicit vnl_sym_matrix(vnl_matrix<T> const& that);
+
+  //: Copy constructor
+  inline vnl_sym_matrix(vnl_sym_matrix<T> const& that);
+ 
   ~vnl_sym_matrix()
   { vnl_c_vector<T>::deallocate(data_, size());
     vnl_c_vector<T>::deallocate(index_, nn_);}
@@ -180,6 +184,14 @@ inline vnl_sym_matrix<T>::vnl_sym_matrix(vnl_matrix<T> const& that):
       assert( that(i,j) == that(j,i) );
       fast(i,j) = that(i,j);
     }
+}
+
+template <class T>
+inline vnl_sym_matrix<T>::vnl_sym_matrix(vnl_sym_matrix<T> const& that):
+  data_(0), index_(0), nn_(0)
+{
+  set_size(that.rows());
+  update(that);
 }
 
 //: Convert a vnl_sym_matrix to a vnl_matrix.

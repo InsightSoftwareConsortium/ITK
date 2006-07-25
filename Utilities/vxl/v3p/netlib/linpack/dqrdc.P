@@ -1,0 +1,6 @@
+extern int dqrdc_(doublereal *x, integer *ldx, integer *n, integer *p, doublereal *qraux, integer *jpvt, doublereal *work, integer *job);
+/*:ref: dswap_ 14 5 4 7 4 7 4 */
+/*:ref: dnrm2_ 7 3 4 7 4 */
+/*:ref: dscal_ 14 4 4 7 7 4 */
+/*:ref: ddot_ 7 5 4 7 4 7 4 */
+/*:ref: daxpy_ 14 6 4 7 7 4 7 4 */

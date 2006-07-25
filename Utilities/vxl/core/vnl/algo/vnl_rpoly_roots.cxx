@@ -74,10 +74,11 @@ vnl_vector<double> vnl_rpoly_roots::realroots(double tol) const
 // Calls rpoly and interprets failure codes.
 bool vnl_rpoly_roots::compute()
 {
-  int fail = 0;
-  int n = coeffs_.size() - 1;
-
-  rpoly_(coeffs_.data_block(), &n, r_.data_block(), i_.data_block(), &fail);
+  long fail = 0;
+  long n = coeffs_.size() - 1;
+  v3p_netlib_rpoly_global_t rpoly_global;
+  v3p_netlib_rpoly_(coeffs_.data_block(), &n,
+                    r_.data_block(), i_.data_block(), &fail, &rpoly_global);
 
   if (!fail) {
     num_roots_found_ = n;

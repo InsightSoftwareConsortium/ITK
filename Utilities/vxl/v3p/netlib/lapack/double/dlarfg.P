@@ -1,0 +1,5 @@
+extern int dlarfg_(integer *n, doublereal *alpha, doublereal *x, integer *incx, doublereal *tau);
+/*:ref: dnrm2_ 7 3 4 7 4 */
+/*:ref: dlapy2_ 7 2 7 7 */
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: dscal_ 14 4 4 7 7 4 */

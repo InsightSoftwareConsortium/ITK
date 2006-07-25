@@ -1,0 +1,3 @@
+extern int dpodi_(doublereal *a, integer *lda, integer *n, doublereal *det, integer *job);
+/*:ref: dscal_ 14 4 4 7 7 4 */
+/*:ref: daxpy_ 14 6 4 7 7 4 7 4 */

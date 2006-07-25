@@ -53,8 +53,9 @@
 #else
 # include <math.h>
 #endif
-#include "f2c.h"
-#include "netlib.h"
+
+#define V3P_NETLIB_SRC
+#include "v3p_netlib.h"
 
 /* Table of constant values */
 

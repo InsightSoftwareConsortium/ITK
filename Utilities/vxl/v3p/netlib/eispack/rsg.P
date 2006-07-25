@@ -1,0 +1,7 @@
+extern int rsg_(integer *nm, integer *n, doublereal *a, doublereal *b, doublereal *w, integer *matz, doublereal *z__, doublereal *fv1, doublereal *fv2, integer *ierr);
+/*:ref: reduc_ 14 6 4 4 7 7 7 4 */
+/*:ref: tred1_ 14 6 4 4 7 7 7 7 */
+/*:ref: tqlrat_ 14 4 4 7 7 4 */
+/*:ref: tred2_ 14 6 4 4 7 7 7 7 */
+/*:ref: tql2_ 14 6 4 4 7 7 7 4 */
+/*:ref: rebak_ 14 6 4 4 7 7 4 7 */

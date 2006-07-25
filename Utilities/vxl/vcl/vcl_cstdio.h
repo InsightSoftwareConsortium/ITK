@@ -25,6 +25,10 @@
 # include <cstdio>
 # define vcl_generic_cstdio_STD /* */
 # include "generic/vcl_cstdio.h"
+#elif defined(VCL_VC_70) || defined(VCL_VC_71)|| defined(VCL_VC_80)
+# define vcl_snprintf _snprintf
+# include "vcl_cstddef.h" // for size_t
+# include "iso/vcl_cstdio.h"
 #else
 # include "vcl_cstddef.h" // for size_t
 # include "iso/vcl_cstdio.h"

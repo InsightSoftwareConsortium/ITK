@@ -1,0 +1,169 @@
+# vxl/config/cmake/VXLConfig_export.cmake.in
+#   also configured by CMake to
+# @vxl_BINARY_DIR@/config/cmake/export/VXLConfig.cmake
+#
+# This CMake module is configured by VXL's build process to export the
+# project settings for use by client projects.  A client project may
+# find VXL and include this module using the FIND_PACKAGE command:
+#
+#  FIND_PACKAGE(VXL)
+#
+# After this command executes, projects may test VXL_FOUND for whether
+# VXL has been found.  If so, the settings listed below in this file
+# have been loaded and are available for use.
+#
+# Typically, a client project will include UseVXL.cmake from the
+# directory specified by the VXL_CMAKE_DIR setting:
+#
+#  FIND_PACKAGE(VXL)
+#  IF(VXL_FOUND)
+#    INCLUDE(${VXL_CMAKE_DIR}/UseVXL.cmake)
+#  ELSE(VXL_FOUND)
+#    MESSAGE("VXL_DIR should be set to the VXL build directory.")
+#  ENDIF(VXL_FOUND)
+#
+# See vxl/config/cmake/UseVXL.cmake for details.
+#
+
+# The build settings file.
+SET(VXL_BUILD_SETTINGS_FILE "@VXL_EXPORT_BUILD_SETTINGS_FILE@")
+
+# The VXL library dependencies.
+IF(NOT VXL_NO_LIBRARY_DEPENDS)
+  INCLUDE("@VXL_INSTALL_LIBRARY_DEPENDS_FILE@")
+ENDIF(NOT VXL_NO_LIBRARY_DEPENDS)
+
+# The VXL library directory.
+SET(VXL_LIBRARY_DIR "@CMAKE_INSTALL_PREFIX@/lib")
+
+# The VXL CMake support directory.
+# Clients projects should not use the Find*.cmake files in this directory.
+SET(VXL_CMAKE_DIR "@CMAKE_INSTALL_PREFIX@/share/vxl/cmake")
+
+# VXL Configuration options.
+SET(VXL_BUILD_SHARED_LIBS "@BUILD_SHARED_LIBS@")
+SET(VXL_BUILD_TESTS "@BUILD_TESTS@")
+SET(VXL_BUILD_EXAMPLES "@BUILD_EXAMPLES@")
+
+# VXL has many parts that are optional, depending on selections made
+# when building.  The stanzas below give a consistent (though
+# pedantic) interface to each part.  Clients use these settings to
+# determine whether a part was built (_FOUND), where its headers are
+# located (_INCLUDE_DIR) and in some cases what libraries must be
+# linked to use the part (_LIBRARIES).  Most client projects will
+# likely still refer to vcl by hard-wired "vcl" instead of using the
+# variable VXL_VCL_LIBRARIES, but it is there just in case.
+
+SET(VXL_VCL_FOUND "YES" ) # VXL vcl is always FOUND.  It is not optional.
+SET(VXL_VCL_INCLUDE_DIR "@VCL_INSTALL_INCLUDE_DIR@")
+SET(VXL_VCL_LIBRARIES "vcl")
+
+SET(VXL_CORE_FOUND "YES" ) # VXL core is always FOUND.  It is not optional.
+SET(VXL_CORE_INCLUDE_DIR "@VXLCORE_INSTALL_INCLUDE_DIR@")
+# VXL core has many libraries
+
+SET(VXL_VGUI_FOUND "@VGUI_FOUND@")
+SET(VXL_VGUI_INCLUDE_DIR "@OPENGL_INCLUDE_DIR@")
+SET(VXL_VGUI_LIBRARIES "vgui")
+
+SET(VXL_CONTRIB_FOUND "@BUILD_CONTRIB@")
+# VXL contrib has subdirectories handled independently below
+# VXL contrib has many libraries
+
+SET(VXL_BRL_FOUND "@BUILD_BRL@")
+SET(VXL_BRL_INCLUDE_DIR "@BRL_INSTALL_INCLUDE_DIR@")
+# VXL BRL has many libraries
+
+SET(VXL_GEL_FOUND "@BUILD_GEL@")
+SET(VXL_GEL_INCLUDE_DIR "@GEL_INSTALL_INCLUDE_DIR@")
+# VXL GEL has many libraries
+
+SET(VXL_MUL_FOUND "@BUILD_MUL@")
+SET(VXL_MUL_INCLUDE_DIR "@MUL_INSTALL_INCLUDE_DIR@")
+# VXL MUL has many libraries
+
+SET(VXL_OUL_FOUND "@BUILD_OUL@")
+SET(VXL_OUL_INCLUDE_DIR "@OUL_INSTALL_INCLUDE_DIR@")
+# VXL OUL has many libraries
+
+SET(VXL_OXL_FOUND "@BUILD_OXL@")
+SET(VXL_OXL_INCLUDE_DIR "@OXL_INSTALL_INCLUDE_DIR@")
+# VXL OXL has many libraries
+
+SET(VXL_PRIP_FOUND "@BUILD_PRIP@")
+SET(VXL_PRIP_INCLUDE_DIR "@PRIP_INSTALL_INCLUDE_DIR@")
+# VXL PRIP has many libraries
+
+SET(VXL_RPL_FOUND "@BUILD_RPL@")
+SET(VXL_RPL_INCLUDE_DIR "@RPL_INSTALL_INCLUDE_DIR@")
+# VXL RPL has many libraries
+
+SET(VXL_TBL_FOUND "@BUILD_TBL@")
+SET(VXL_TBL_INCLUDE_DIR "@TBL_INSTALL_INCLUDE_DIR@")
+# VXL TBL has many libraries
+
+SET(VXL_CONVERSIONS_FOUND "@BUILD_CONVERSIONS@")
+SET(VXL_CONVERSIONS_INCLUDE_DIR "@CONVERSIONS_INSTALL_INCLUDE_DIR@")
+# VXL CONVERSIONS has no libraries
+
+SET(VXL_TARGETJR_FOUND "@BUILD_TARGETJR@")
+
+# Client projects use these setting to find and use the 3rd party
+# libraries that VXL either found on the system or built for itself.
+# Sometimes, VXL will point client projects to the library VXL built
+# for itself, and sometimes VXL will point client projects to the
+# system library it found.
+
+SET(VXL_NETLIB_FOUND "@NETLIB_FOUND@")
+SET(VXL_NETLIB_INCLUDE_DIR "@NETLIB_INSTALL_INCLUDE_DIR@")
+SET(VXL_NETLIB_LIBRARIES "@NETLIB_LIBRARIES@")
+
+SET(VXL_QV_FOUND "@QV_FOUND@")
+SET(VXL_QV_INCLUDE_DIR "@QV_INSTALL_INCLUDE_DIR@")
+SET(VXL_QV_LIBRARIES "@QV_LIBRARIES@")
+
+SET(VXL_ZLIB_FOUND "@ZLIB_FOUND@")
+SET(VXL_ZLIB_INCLUDE_DIR "@ZLIB_INSTALL_INCLUDE_DIR@")
+SET(VXL_ZLIB_LIBRARIES "@ZLIB_LIBRARIES@")
+
+SET(VXL_PNG_FOUND "@PNG_FOUND@")
+SET(VXL_PNG_INCLUDE_DIR "@PNG_INSTALL_INCLUDE_DIR@")
+SET(VXL_PNG_LIBRARIES "@PNG_LIBRARIES@")
+
+SET(VXL_JPEG_FOUND "@JPEG_FOUND@")
+SET(VXL_JPEG_INCLUDE_DIR "@JPEG_INSTALL_INCLUDE_DIR@")
+SET(VXL_JPEG_LIBRARIES "@JPEG_LIBRARIES@")
+
+SET(VXL_TIFF_FOUND "@TIFF_FOUND@")
+SET(VXL_TIFF_INCLUDE_DIR "@TIFF_INCLUDE_DIR@")
+SET(VXL_TIFF_LIBRARIES "@TIFF_LIBRARIES@")
+
+SET(VXL_MPEG2_FOUND "@MPEG2_FOUND@")
+SET(VXL_MPEG2_INCLUDE_DIR "@MPEG2_INSTALL_INCLUDE_DIR@")
+SET(VXL_MPEG2_LIBRARIES "@MPEG2_LIBRARIES@")
+
+# Tell UseVXL.cmake that VXLConfig.cmake has been included.
+SET(VXL_CONFIG_CMAKE 1)
+
+### deprecated variables set below ###
+# These should be removed after some time to upgrade has passed.
+
+# VXL include directories.
+# There is no need for clients to use this directly
+SET(VXL_V3P_INCLUDE_DIR_deprecated "@VTHREEP_INSTALL_INCLUDE_DIR@")
+
+# Would a client project need to use these variables ever?
+# These are needed for backward compatibility mode for now, see UseVXL.cmake
+SET(VXL_VGUI_USE_GLUT_deprecated "@VGUI_USE_GLUT@")
+SET(VXL_VGUI_USE_QT_deprecated "@VGUI_USE_QT@")
+SET(VXL_VGUI_USE_MFC_deprecated "@VGUI_USE_MFC@")
+SET(VXL_VGUI_USE_GTK_deprecated "@VGUI_USE_GTK@")
+SET(VXL_VGUI_USE_GTK2_deprecated "@VGUI_USE_GTK2@")
+
+# There is no need for clients to know this.
+# These are needed for backward compatibility mode for now, see UseVXL.cmake
+SET(VXL_FORCE_V3P_ZLIB_deprecated "@VXL_FORCE_V3P_ZLIB@")
+SET(VXL_FORCE_V3P_JPEG_deprecated "@VXL_FORCE_V3P_JPEG@")
+SET(VXL_FORCE_V3P_TIFF_deprecated "@VXL_FORCE_V3P_TIFF@")
+SET(VXL_FORCE_V3P_PNG_deprecated "@VXL_FORCE_V3P_PNG@")
+SET(VXL_FORCE_V3P_MPEG2_deprecated "@VXL_FORCE_V3P_MPEG2@")

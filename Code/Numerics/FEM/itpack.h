@@ -18,16 +18,11 @@
 #ifndef __itpack_h
 #define __itpack_h
 
+#include "v3p_netlib.h"
+
+#include "v3p_f2c_mangle.h"
 
 extern "C" {
-
-/* Avoid conflict with <complex> header when there is no std namespace.  */
-#define real f2cReal
-#define complex f2cComplex
-#include "f2c.h"
-#undef real
-#undef complex
-
 
 /**
  * \file itpack.h
@@ -721,7 +716,7 @@ extern doublereal tau_(integer *ii);
 /*
  * FIXME: add doc
  */
-extern E_f timer_(f2cReal *timdmy);
+extern E_f timer_(v3p_netlib_real *timdmy);
 
 
 /*
@@ -775,5 +770,7 @@ extern int wevmw_(integer *n, doublereal *v, doublereal *w);
 extern int zbrent_(integer *n, doublereal *tri, doublereal *eps, integer *nsig, doublereal *aa, doublereal *bb, integer *maxfnn, integer *ier);
 
 }
+
+#include "v3p_f2c_unmangle.h"
 
 #endif // #ifndef __itpack_h

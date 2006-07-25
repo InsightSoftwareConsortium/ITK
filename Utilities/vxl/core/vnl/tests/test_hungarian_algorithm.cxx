@@ -66,7 +66,7 @@ static void test_hungarian_algorithm( int, char*[] )
     testlib_test_perform( assign.size()==4 &&
                           assign[0]==1 &&
                           assign[1]==0 &&
-                          assign[2]==-1u &&
+                          assign[2]==(unsigned int)(-1) &&
                           assign[3]==2 );
   }
 
@@ -83,9 +83,9 @@ static void test_hungarian_algorithm( int, char*[] )
     vcl_vector<unsigned> assign = vnl_hungarian_algorithm( cost );
     testlib_test_perform( assign.size()==5 &&
                           assign[0]==1 &&
-                          assign[1]==-1u &&
+                          assign[1]==(unsigned int)(-1) &&
                           assign[2]==0 &&
-                          assign[3]==-1u &&
+                          assign[3]==(unsigned int)(-1) &&
                           assign[4]==2 );
 
     testlib_test_begin( "Test 3x5 cost matrix" );
@@ -110,9 +110,9 @@ static void test_hungarian_algorithm( int, char*[] )
     vcl_vector<unsigned> assign = vnl_hungarian_algorithm( cost );
     testlib_test_perform( assign.size()==5 &&
                           assign[0]==1 &&
-                          assign[1]==-1u &&
+                          assign[1]==(unsigned int)(-1) &&
                           assign[2]==0 &&
-                          assign[3]==-1u &&
+                          assign[3]==(unsigned int)(-1) &&
                           assign[4]==2 );
 
     testlib_test_begin( "Test 3x5 cost matrix with Inf" );

@@ -36,7 +36,7 @@ void vnl_fft_base<D, T>::transform(vcl_complex<T> *signal, int dir)
         // a valid assumption for all sane C++ libraries.
         T *data = (T *) (signal + n1*N2*N3 + n3);
 
-        int info = 0;
+        long info = 0;
         vnl_fft_gpfa (/* A */     data,
                       /* B */     data + 1,
                       /* TRIGS */ factors_[i].trigs (),

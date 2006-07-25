@@ -1,0 +1,12 @@
+extern int dtgsy2_(char *trans, integer *ijob, integer *m, integer *n, doublereal *a, integer *lda, doublereal *b, integer *ldb, doublereal *c__, integer *ldc, doublereal *d__, integer *ldd, doublereal *e, integer *lde, doublereal *f, integer *ldf, doublereal *scale, doublereal *rdsum, doublereal *rdscal, integer *iwork, integer *pq, integer *info, ftnlen trans_len);
+/*:ref: lsame_ 12 4 13 13 124 124 */
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: dgetc2_ 14 6 4 7 4 4 4 4 */
+/*:ref: dgesc2_ 14 7 4 7 4 7 4 4 7 */
+/*:ref: dscal_ 14 4 4 7 7 4 */
+/*:ref: dlatdf_ 14 9 4 4 7 4 7 7 7 4 4 */
+/*:ref: daxpy_ 14 6 4 7 7 4 7 4 */
+/*:ref: dger_ 14 9 4 4 7 7 4 7 4 7 4 */
+/*:ref: dgemv_ 14 12 13 4 4 7 7 4 7 4 7 7 4 124 */
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */
+/*:ref: dgemm_ 14 15 13 13 4 4 4 7 7 4 7 4 7 7 4 124 124 */

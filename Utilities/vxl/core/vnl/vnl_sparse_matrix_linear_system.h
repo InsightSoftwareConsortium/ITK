@@ -49,7 +49,7 @@ class vnl_sparse_matrix_linear_system : public vnl_linear_system
   vnl_vector<double> jacobi_precond_;
 };
 
-#if !defined(VCL_VC70)
+#if !defined(VCL_VC_7)
 VCL_DEFINE_SPECIALIZATION
 void vnl_sparse_matrix_linear_system<double>::get_rhs(vnl_vector<double>& b) const;
 VCL_DEFINE_SPECIALIZATION

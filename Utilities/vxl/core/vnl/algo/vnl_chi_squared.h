@@ -17,7 +17,7 @@
 
 
 //: Compute cumulative distribution function value for chi-squared distribution
-extern double vnl_chi_squared_cumulative(double chisq, int dof);
+extern double vnl_chi_squared_cumulative(double chisq, long dof);
 
 //------------------------------------------------------------
 

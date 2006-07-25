@@ -42,6 +42,10 @@ ELSE(PNG_FOUND)
       SET( PNG_FOUND "YES" )
       SET( PNG_LIBRARIES png)
       SET( PNG_INCLUDE_DIR ${vxl_SOURCE_DIR}/v3p/png ${ZLIB_INCLUDE_DIR} )
+      SET( PNG_INSTALL_INCLUDE_DIR 
+        ${CMAKE_INSTALL_PREFIX}/include/v3p/png
+        ${ZLIB_INSTALL_INCLUDE_DIR}
+      )
 
       IF (CYGWIN)
         IF(BUILD_SHARED_LIBS)

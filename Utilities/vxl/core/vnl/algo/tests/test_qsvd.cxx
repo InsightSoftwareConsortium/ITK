@@ -3,25 +3,22 @@
 #undef printf // to work around a bug in libintl.h
 #include <vcl_cstdio.h>
 
-extern "C"
-int sggsvd_(char const *jobu, char const *jobv, char const *jobq, int *m, int *n, int *p,
-            int *k, int *l, float *a, int *lda, float *b, int *ldb,
-            float *alpha, float *beta, float *u, int *ldu, float *v,
-            int *ldv, float *q, int *ldq, float *work, int *iwork,
-            int *info);
+#include "v3p_netlib.h"
 
 static
 void test_qsvd() {
   float AA[9]={2.f/3, -1.36f/3, .2f/3,   2.8f/3, .4f/3, 1.f/3,   1, .16f, -.2f};
   float BB[9]={.16f, -.224f, -.768f,  .8f, .36f, -.48f,  1.12f, -.168f, -.576f};
   float U[9], V[9], Q[9], Alpha[3], Beta[3], Work[12];
-  int m=3, n=3, p=3, k, l, Iwork[3], info;
+  long m=3, n=3, p=3, k, l, Iwork[3], info;
 
   vcl_printf("m = 3, n = 3, p = 3\n");
-  sggsvd_("U", "V", "Q", &m, &n, &p, &k, &l, AA, &n, BB, &n, Alpha, Beta,
-          U, &n, V, &n, Q, &n, Work, Iwork, &info);
+  v3p_netlib_sggsvd_(
+    "U", "V", "Q", &m, &n, &p, &k, &l, AA, &n, BB, &n, Alpha, Beta,
+    U, &n, V, &n, Q, &n, Work, Iwork, &info, 1, 1, 1
+    );
 
-  vcl_printf("k = %d, l = %d, return = %d\n", k, l, info);
+  vcl_printf("k = %ld, l = %ld, return = %ld\n", k, l, info);
   testlib_test_assert("(k,l) must be (0,3)", k==0 && l==3);
   testlib_test_assert("sggsvd should return 0", info==0);
 

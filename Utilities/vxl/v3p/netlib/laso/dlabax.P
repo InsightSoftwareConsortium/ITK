@@ -1,0 +1,2 @@
+extern int dlabax_(integer *n, integer *nband, doublereal *a, doublereal *x, doublereal *y);
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */

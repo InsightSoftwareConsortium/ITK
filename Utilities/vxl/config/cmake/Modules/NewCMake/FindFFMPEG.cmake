@@ -13,27 +13,44 @@ FIND_PATH( FFMPEG_INCLUDE_DIR ffmpeg/avcodec.h
   /usr/local/include
 )
 
-FIND_LIBRARY( FFMPEG_avcodec_LIBRARY avcodec
-  /usr/lib
-  /usr/local/lib
-  /usr/lib64
-  /usr/local/lib64
-)
-
-FIND_LIBRARY( FFMPEG_avformat_LIBRARY avformat
-  /usr/lib
-  /usr/local/lib
-  /usr/lib64
-  /usr/local/lib64
-)
-
 IF( FFMPEG_INCLUDE_DIR )
-IF( FFMPEG_avcodec_LIBRARY )
-IF( FFMPEG_avformat_LIBRARY )
 
+FIND_PROGRAM( FFMPEG_CONFIG ffmpeg-config
+  /usr/bin
+  /usr/local/bin
+  ${HOME}/bin
+)
+
+IF( FFMPEG_CONFIG )
+  EXEC_PROGRAM( ${FFMPEG_CONFIG} ARGS "--libs avformat" OUTPUT_VARIABLE FFMPEG_LIBS )
   SET( FFMPEG_FOUND "YES" )
-  SET( FFMPEG_LIBRARIES ${FFMPEG_avformat_LIBRARY} ${FFMPEG_avcodec_LIBRARY} )
+  SET( FFMPEG_LIBRARIES "${FFMPEG_LIBS}" )
+  
+ELSE( FFMPEG_CONFIG )
 
-ENDIF( FFMPEG_avformat_LIBRARY )
-ENDIF( FFMPEG_avcodec_LIBRARY )
+  FIND_LIBRARY( FFMPEG_avcodec_LIBRARY avcodec
+    /usr/lib
+    /usr/local/lib
+    /usr/lib64
+    /usr/local/lib64
+  )
+
+  FIND_LIBRARY( FFMPEG_avformat_LIBRARY avformat
+    /usr/lib
+    /usr/local/lib
+    /usr/lib64
+    /usr/local/lib64
+  )
+  
+  IF( FFMPEG_avcodec_LIBRARY )
+  IF( FFMPEG_avformat_LIBRARY )
+
+    SET( FFMPEG_FOUND "YES" )
+    SET( FFMPEG_LIBRARIES ${FFMPEG_avformat_LIBRARY} ${FFMPEG_avcodec_LIBRARY} )
+
+  ENDIF( FFMPEG_avformat_LIBRARY )
+  ENDIF( FFMPEG_avcodec_LIBRARY )
+
+ENDIF( FFMPEG_CONFIG )
+
 ENDIF( FFMPEG_INCLUDE_DIR )

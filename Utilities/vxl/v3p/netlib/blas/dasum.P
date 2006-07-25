@@ -1,0 +1,1 @@
+extern doublereal dasum_(integer *n, doublereal *dx, integer *incx);

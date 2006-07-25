@@ -41,13 +41,13 @@ class vnl_lsqr
 
   ~vnl_lsqr();
 
-  void set_max_iterations(int max_iter) { max_iter_ = max_iter; }
+  void set_max_iterations(long max_iter) { max_iter_ = max_iter; }
 
   //: Perform the minimization starting from x=0 and putting the result into x.
   // Return code may be translated with translate_return_code().
   int minimize(vnl_vector<double>& x);
 
-  int get_number_of_iterations() const { return num_iter_; }
+  long get_number_of_iterations() const { return num_iter_; }
 
   //: Pontificate about the outcome of the last minimization.
   void diagnose_outcome(vcl_ostream& os) const;
@@ -56,18 +56,17 @@ class vnl_lsqr
 
  protected:
   vnl_linear_system* ls_;
-  int max_iter_;
-  int num_iter_;
+  long max_iter_;
+  long num_iter_;
   double resid_norm_estimate_;
   double result_norm_estimate_;
   double A_condition_estimate_;
   double result_norm_;
-  int return_code_;
+  long return_code_;
 
-  static void aprod_(int* mode, int* m, int* n, double* x, double* y,
-                     int* leniw, int* lenrw, int* iw, double* rw );
-
-  friend class vnl_lsqr_Activate;
+  static int aprod_(long* mode, long* m, long* n, double* x, double* y,
+                    long* leniw, long* lenrw, long* iw, double* rw,
+                    void* userdata);
 };
 
 #endif // vnl_lsqr_h_

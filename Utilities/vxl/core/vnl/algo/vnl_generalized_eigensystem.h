@@ -27,7 +27,7 @@ class vnl_generalized_eigensystem
 {
  public:
 // Public data members because they're unique.
-  int n;
+  long n;
 
 //: Solves the generalized eigenproblem Ax=Bx
 //  Solve real generalized eigensystem $A x = \lambda B x$ for

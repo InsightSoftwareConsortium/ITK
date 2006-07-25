@@ -15,7 +15,9 @@
 
 #include <vnl/vnl_cost_function.h>
 #include <vnl/vnl_vector_ref.h>
+#include <vnl/algo/vnl_netlib.h>
 
+#if 0
 // external netlib function
 extern "C"
 int cg_( double *x,                     // IO start guess
@@ -36,30 +38,7 @@ int cg_( double *x,                     // IO start guess
          int pre( double *y,
                   double *z),           // I preconditions (not necessarily needed) pre(y,z)
          double *h );                   // I space to work size h = 3*n
-
-/////////////////////////////////////
-
-class vnl_conjugate_gradient_Activate
-{
- public:
-  static vnl_conjugate_gradient* current;
-
-  vnl_conjugate_gradient_Activate(vnl_conjugate_gradient* minimizer) {
-    if (current) {
-      vcl_cerr << "vnl_conjugate_gradient: ERROR: Nested minimizations not supported.\n";
-      vcl_abort();
-      // This is a copy of what goes on in LevenbergMarquardt, so if awf decides to
-      // fix that one, then maybe he could do the same here...
-    }
-    current = minimizer;
-  }
-  ~vnl_conjugate_gradient_Activate() {
-    current = 0;
-  }
-};
-
-vnl_conjugate_gradient *vnl_conjugate_gradient_Activate::current= 0;
-
+#endif
 
 /////////////////////////////////////
 
@@ -78,75 +57,73 @@ void vnl_conjugate_gradient::init(vnl_cost_function &f)
 
 ///////////////////////////////////////
 
-double vnl_conjugate_gradient::valuecomputer_(double *x)
+double vnl_conjugate_gradient::valuecomputer_(double *x, void* userdata)
 {
-  vnl_conjugate_gradient* active = vnl_conjugate_gradient_Activate::current;
-  vnl_cost_function* f = active->f_;
+  vnl_conjugate_gradient* self =
+    static_cast<vnl_conjugate_gradient*>(userdata);
+  vnl_cost_function* f = self->f_;
   vnl_vector_ref<double> ref_x(f->get_number_of_unknowns(), x);
 
-  active->num_evaluations_++;
+  self->num_evaluations_++;
 
   return f->f(ref_x);
 }
 
-int vnl_conjugate_gradient::gradientcomputer_(double *g, double *x)
+void vnl_conjugate_gradient::gradientcomputer_(double *g, double *x, void* userdata)
 {
-  vnl_conjugate_gradient* active = vnl_conjugate_gradient_Activate::current;
-  vnl_cost_function* f = active->f_;
+  vnl_conjugate_gradient* self =
+    static_cast<vnl_conjugate_gradient*>(userdata);
+  vnl_cost_function* f = self->f_;
   vnl_vector_ref<double> ref_x(f->get_number_of_unknowns(), x);
   vnl_vector_ref<double> ref_g(f->get_number_of_unknowns(), g);
 
   f->gradf(ref_x, ref_g);
-
-  return 0;
 }
 
-int vnl_conjugate_gradient::valueandgradientcomputer_(double *v, double *g, double *x)
+void vnl_conjugate_gradient::valueandgradientcomputer_(double *v, double *g, double *x, void* userdata)
 {
-  vnl_conjugate_gradient* active = vnl_conjugate_gradient_Activate::current;
-  vnl_cost_function* f = active->f_;
+  vnl_conjugate_gradient* self =
+    static_cast<vnl_conjugate_gradient*>(userdata);
+  vnl_cost_function* f = self->f_;
   vnl_vector_ref<double> ref_x(f->get_number_of_unknowns(), x);
   vnl_vector_ref<double> ref_g(f->get_number_of_unknowns(), g);
 
   f->compute(ref_x, v, &ref_g);
-
-  return 0;
 }
 
-int vnl_conjugate_gradient::preconditioner_( double *out, double *in)
+void vnl_conjugate_gradient::preconditioner_( double *out, double *in, void* userdata)
 {
   // FIXME - there should be some way to set a preconditioner if you have one
   // e.g. P = inv(diag(A'A)) for linear least squares systems.
 
-  vnl_conjugate_gradient* active = vnl_conjugate_gradient_Activate::current;
-  vnl_cost_function* f = active->f_;
+  vnl_conjugate_gradient* self =
+    static_cast<vnl_conjugate_gradient*>(userdata);
+  vnl_cost_function* f = self->f_;
 
   int n = f->get_number_of_unknowns();
   for (int i=0; i < n; ++i)
     out[i] = in[i];
-
-  return 0;
 }
 
 ///////////////////////////////////////
 
 // avoid anachronism warning from fussy compilers
 #ifdef VCL_SUNPRO_CC
-extern "C" double vnl_conjugate_gradient__valuecomputer_( double *x)
+extern "C" double vnl_conjugate_gradient__valuecomputer_( double *x, void* userdata)
 {
-  return vnl_conjugate_gradient::valuecomputer_(x);
+  return vnl_conjugate_gradient::valuecomputer_(x, userdata);
 }
-extern "C" int vnl_conjugate_gradient__gradientcomputer_( double *g, double *x)
+extern "C" void vnl_conjugate_gradient__gradientcomputer_( double *g, double *x, void* userdata)
 {
-  return vnl_conjugate_gradient::gradientcomputer_(g,x);
+  vnl_conjugate_gradient::gradientcomputer_(g,x, userdata);
 }
-extern "C" int vnl_conjugate_gradient__valueandgradientcomputer_( double *v, double *g, double *x)
+extern "C" void vnl_conjugate_gradient__valueandgradientcomputer_( double *v, double *g, double *x, void* userdata)
 {
-  return vnl_conjugate_gradient::valueandgradientcomputer_(v,g,x);
+  vnl_conjugate_gradient::valueandgradientcomputer_(v,g,x, userdata);
 }
-extern "C" int vnl_conjugate_gradient__preconditioner_( double *out, double *in)
+extern "C" void vnl_conjugate_gradient__preconditioner_( double *out, double *in, void* userdata)
 {
-  return vnl_conjugate_gradient::preconditioner_(out,in);
+  vnl_conjugate_gradient::preconditioner_(out,in, userdata);
 }
 #endif
 
@@ -154,18 +131,17 @@ bool vnl_conjugate_gradient::minimize( vnl_vector<double> &x)
 {
   double *xp = x.data_block();
   double max_norm_of_gradient;
-  int number_of_iterations;
+  long number_of_iterations;
   final_step_size_ = 0;
   double gradient_tolerance = gtol;
   vnl_vector<double> workspace(f_->get_number_of_unknowns()*3);
-  int number_of_unknowns = f_->get_number_of_unknowns();
+  long number_of_unknowns = f_->get_number_of_unknowns();
 
-  vnl_conjugate_gradient_Activate activator(this);
-
-  start_error_ = valuecomputer_(xp);
+  start_error_ = valuecomputer_(xp, this);
   num_evaluations_ = 0;
 
-  cg_( xp,
+  v3p_netlib_cg_(
+       xp,
        &max_norm_of_gradient,
        &number_of_iterations,
        &final_step_size_,
@@ -184,9 +160,10 @@ bool vnl_conjugate_gradient::minimize( vnl_vector<double> &x)
        valueandgradientcomputer_,
        preconditioner_,
 #endif
-       workspace.data_block());
+       workspace.data_block(),
+       this);
 
-  end_error_= valuecomputer_(xp);
+  end_error_= valuecomputer_(xp, this);
   num_iterations_ = number_of_iterations;
 
   return true;

@@ -35,7 +35,7 @@ class vnl_sparse_symmetric_eigensystem
   // Find n eigenvalue/eigenvectors.  If smallest is true, will
   // calculate the n smallest eigenpairs, else the n largest.
   int CalculateNPairs(vnl_sparse_matrix<double>& M, int n,
-                      bool smallest = true, int nfigures = 10);
+                      bool smallest = true, long nfigures = 10);
 
   // Recover specified eigenvector after computation.  The argument
   // must be less than the requested number of eigenvectors.

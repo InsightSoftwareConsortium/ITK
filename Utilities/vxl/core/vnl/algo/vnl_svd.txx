@@ -19,7 +19,7 @@
 // use C++ overloading to call the right linpack routine from the template code :
 #define macro(p, T) \
 inline void vnl_linpack_svdc(vnl_netlib_svd_proto(T)) \
-{ p##svdc_(vnl_netlib_svd_params); }
+{ v3p_netlib_##p##svdc_(vnl_netlib_svd_params); }
 macro(s, float);
 macro(d, double);
 macro(c, vcl_complex<float>);
@@ -44,9 +44,9 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
   assert(n_ > 0);
 
   {
-    int n = M.rows();
-    int p = M.columns();
-    int mm = vcl_min(n+1,p);
+    long n = M.rows();
+    long p = M.columns();
+    long mm = vcl_min(n+1,p);
 
     // Copy source matrix into fortran storage
     // SVD is slow, don't worry about the cost of this transpose.
@@ -60,8 +60,8 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
     vnl_vector<T> espace(p, T(0));
 
     // Call Linpack SVD
-    int info = 0;
-    const int job = 21; // min(n,p) svs in U, n svs in V (i.e. economy size)
+    long info = 0;
+    const long job = 21; // min(n,p) svs in U, n svs in V (i.e. economy size)
     vnl_linpack_svdc((T*)X, &n, &n, &p,
                      wspace.data_block(),
                      espace.data_block(),

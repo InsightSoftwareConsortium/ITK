@@ -8,6 +8,7 @@ IF(NOT ITK_SOURCE_DIR)
 ENDIF(NOT ITK_SOURCE_DIR)
 
 # CMake support directory.
+INCLUDE(${vxl_SOURCE_DIR}/config/cmake/config/vxl_utils.cmake)
 SET(VXL_CMAKE_DIR ${vxl_SOURCE_DIR}/config/cmake/Modules)
 SET(MODULE_PATH ${vxl_SOURCE_DIR}/config/cmake/Modules)
 

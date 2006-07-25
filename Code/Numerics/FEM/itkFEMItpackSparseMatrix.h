@@ -39,7 +39,7 @@ class ItpackSparseMatrix
 public:
 
   /** typedefs from f2c.h  */
-  typedef int       integer;
+  typedef long      integer;
   typedef double    doublereal;
 
   /** Constructor */
@@ -252,7 +252,7 @@ class FEMExceptionItpackSparseMatrixSbagn : public FEMException
 public:
 
   /** typedefs from f2c.h  */
-  typedef int       integer;
+  typedef long      integer;
   typedef double    doublereal;
 
   /**
@@ -280,7 +280,7 @@ class FEMExceptionItpackSparseMatrixSbsij : public FEMException
 {
 public:
   /** typedefs from f2c.h  */
-  typedef int       integer;
+  typedef long      integer;
   typedef double    doublereal;
 
   /**

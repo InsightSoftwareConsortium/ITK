@@ -1,5 +1,6 @@
 .git*            export-ignore
 
+*.bat           -crlf
 *.bin           -crlf
 *.jpg           -crlf
 *.mha           -crlf

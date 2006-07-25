@@ -10,7 +10,8 @@
                 http://www.netlib.org/f2c/libf2c.zip
 */
 
-#include "f2c.h"
+#define V3P_NETLIB_SRC
+#include "v3p_netlib.h"
 
 /* Table of constant values */
 

@@ -22,7 +22,7 @@
 bool vnl_amoeba::default_verbose = false;
 
 vnl_amoeba::vnl_amoeba(vnl_cost_function& f)
-  : fptr(&f)
+  : fptr(&f), num_evaluations_(0)
 {
   verbose = default_verbose;
   maxiter = f.get_number_of_unknowns() * 200;

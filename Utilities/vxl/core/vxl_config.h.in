@@ -111,6 +111,7 @@
 
 #define VXL_HAS_PTHREAD_H         @VXL_HAS_PTHREAD_H@
 #define VXL_HAS_SEMAPHORE_H       @VXL_HAS_SEMAPHORE_H@
+#define VXL_HAS_DBGHELP_H         @VXL_HAS_DBGHELP_H@
 
 /* -------------------- library quirks */
 
@@ -125,6 +126,7 @@
 #define VXL_UNISTD_HAS_PREAD      @VXL_UNISTD_HAS_PREAD@
 #define VXL_UNISTD_HAS_PWRITE     @VXL_UNISTD_HAS_PWRITE@
 #define VXL_UNISTD_HAS_TELL       @VXL_UNISTD_HAS_TELL@
+#define VXL_UNISTD_HAS_GETPID     @VXL_UNISTD_HAS_GETPID@
 
 /* true if <stdlib.h> declares qsort() */
 #define VXL_STDLIB_HAS_QSORT      @VXL_STDLIB_HAS_QSORT@
@@ -152,6 +154,9 @@
 
 /* true if <math.h> declares sqrtf() for the C compiler */
 #define VXL_C_MATH_HAS_SQRTF      @VXL_C_MATH_HAS_SQRTF@
+
+/* true if <math.h> declares lround() */
+#define VXL_C_MATH_HAS_LROUND      @VXL_C_MATH_HAS_LROUND@
 
 /* true if usleep() returns void */
 #define VXL_UNISTD_USLEEP_IS_VOID @VXL_UNISTD_USLEEP_IS_VOID@

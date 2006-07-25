@@ -1,0 +1,7 @@
+extern int zlahqr_(logical *wantt, logical *wantz, integer *n, integer *ilo, integer *ihi, doublecomplex *h__, integer *ldh, doublecomplex *w, integer *iloz, integer *ihiz, doublecomplex *z__, integer *ldz, integer *info);
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: zlanhs_ 7 6 13 4 9 4 7 124 */
+/*:ref: zladiv_ 9 3 9 9 9 */
+/*:ref: zcopy_ 14 5 4 9 4 9 4 */
+/*:ref: zlarfg_ 14 5 4 9 9 4 9 */
+/*:ref: zscal_ 14 4 4 9 9 4 */

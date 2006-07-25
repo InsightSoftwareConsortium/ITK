@@ -113,7 +113,7 @@ bool vnl_symmetric_eigensystem_compute(vnl_matrix<double> const & A,
                                        vnl_vector<double>       & D)
 {
   A.assert_finite();
-  const int n = A.rows();
+  const long n = A.rows();
 
   // Set the size of the eigenvalue vector D (output) if it does not match the size of A:
   if (D.size() != A.rows())
@@ -123,12 +123,12 @@ bool vnl_symmetric_eigensystem_compute(vnl_matrix<double> const & A,
   vnl_vector<double> work2(n);
   vnl_vector<double> Vvec(n*n);
 
-  int want_eigenvectors = 1;
-  int ierr = 0;
+  long want_eigenvectors = 1;
+  long ierr = 0;
 
   // No need to transpose A, cos it's symmetric...
   vnl_matrix<double> B = A; // since A is read-only and rs_ might change its third argument...
-  rs_(&n, &n, B.data_block(), &D[0], &want_eigenvectors, &Vvec[0], &work1[0], &work2[0], &ierr);
+  v3p_netlib_rs_(&n, &n, B.data_block(), &D[0], &want_eigenvectors, &Vvec[0], &work1[0], &work2[0], &ierr);
 
   if (ierr) {
     vcl_cerr << "vnl_symmetric_eigensystem: ierr = " << ierr << vcl_endl;

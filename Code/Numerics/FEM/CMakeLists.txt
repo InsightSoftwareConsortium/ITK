@@ -59,6 +59,7 @@ SET(FEM_SRCS
   itkFEMUtility.cxx
   itkFEMInitialization.cxx
 
+  dsrc2c.c
 )
 
 

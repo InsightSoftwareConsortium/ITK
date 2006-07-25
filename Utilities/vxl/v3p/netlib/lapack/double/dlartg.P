@@ -1,0 +1,2 @@
+extern int dlartg_(doublereal *f, doublereal *g, doublereal *cs, doublereal *sn, doublereal *r__);
+/*:ref: dlamch_ 7 2 13 124 */

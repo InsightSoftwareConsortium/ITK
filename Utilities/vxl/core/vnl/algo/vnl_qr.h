@@ -69,7 +69,7 @@ class vnl_qr
  private:
   vnl_matrix<T> qrdc_out_;
   vnl_vector<T> qraux_;
-  vnl_vector<int> jpvt_;
+  vnl_vector<long> jpvt_;
   vnl_matrix<T>* Q_;
   vnl_matrix<T>* R_;
 

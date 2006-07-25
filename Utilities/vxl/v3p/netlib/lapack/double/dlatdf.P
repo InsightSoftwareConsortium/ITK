@@ -1,0 +1,10 @@
+extern int dlatdf_(integer *ijob, integer *n, doublereal *z__, integer *ldz, doublereal *rhs, doublereal *rdsum, doublereal *rdscal, integer *ipiv, integer *jpiv);
+/*:ref: dlaswp_ 14 7 4 7 4 4 4 4 4 */
+/*:ref: ddot_ 7 5 4 7 4 7 4 */
+/*:ref: daxpy_ 14 6 4 7 7 4 7 4 */
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */
+/*:ref: dlassq_ 14 5 4 7 4 7 7 */
+/*:ref: dgecon_ 14 10 13 4 7 4 7 7 7 4 4 124 */
+/*:ref: dscal_ 14 4 4 7 7 4 */
+/*:ref: dgesc2_ 14 7 4 7 4 7 4 4 7 */
+/*:ref: dasum_ 7 3 4 7 4 */

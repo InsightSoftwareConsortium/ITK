@@ -48,7 +48,8 @@ void vnl_c_vector<T>::apply(T const* v, unsigned n, T (*f)(T const&), T* v_out)
 }
 
 template <class T>
-void vnl_c_vector<T>::apply(T const* v, unsigned n, T (*f)(T), T* v_out) {
+void vnl_c_vector<T>::apply(T const* v, unsigned n, T (*f)(T), T* v_out)
+{
   for (unsigned i = 0; i < n; ++i)
     v_out[i] = f(v[i]);
 }
@@ -61,7 +62,8 @@ void vnl_c_vector<T>::copy(T const *src, T *dst, unsigned n)
 }
 
 template <class T>
-void vnl_c_vector<T>::scale(T const *x, T *y, unsigned n, T const &a_) {
+void vnl_c_vector<T>::scale(T const *x, T *y, unsigned n, T const &a_)
+{
   T a = a_;
   if (x == y)
     for (unsigned i=0; i<n; ++i)
@@ -110,42 +112,50 @@ void vnl_c_vector<T>::scale(T const *x, T *y, unsigned n, T const &a_) {
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
 template <class T>
-void vnl_c_vector<T>::add(T const *x, T const *y, T *z, unsigned n) {
+void vnl_c_vector<T>::add(T const *x, T const *y, T *z, unsigned n)
+{
   impl_elmt_wise_commutative(+);
 }
 
 template <class T>
-void vnl_c_vector<T>::add(T const *x, T const& y, T *z, unsigned n) {
+void vnl_c_vector<T>::add(T const *x, T const& y, T *z, unsigned n)
+{
   impl_elmt_wise_commutative_a(+);
 }
 
 template <class T>
-void vnl_c_vector<T>::subtract(T const *x, T const *y, T *z, unsigned n) {
+void vnl_c_vector<T>::subtract(T const *x, T const *y, T *z, unsigned n)
+{
   impl_elmt_wise_non_commutative(-);
 }
 
 template <class T>
-void vnl_c_vector<T>::subtract(T const *x, T const& y, T *z, unsigned n) {
+void vnl_c_vector<T>::subtract(T const *x, T const& y, T *z, unsigned n)
+{
   impl_elmt_wise_commutative_a(-);
 }
 
 template <class T>
-void vnl_c_vector<T>::multiply(T const *x, T const *y, T *z, unsigned n) {
+void vnl_c_vector<T>::multiply(T const *x, T const *y, T *z, unsigned n)
+{
   impl_elmt_wise_commutative(*);
 }
 
 template <class T>
-void vnl_c_vector<T>::multiply(T const *x, T const& y, T *z, unsigned n) {
+void vnl_c_vector<T>::multiply(T const *x, T const& y, T *z, unsigned n)
+{
   impl_elmt_wise_commutative_a(*);
 }
 
 template <class T>
-void vnl_c_vector<T>::divide(T const *x, T const *y, T *z, unsigned n) {
+void vnl_c_vector<T>::divide(T const *x, T const *y, T *z, unsigned n)
+{
   impl_elmt_wise_non_commutative(/);
 }
 
 template <class T>
-void vnl_c_vector<T>::divide(T const *x, T const& y, T *z, unsigned n) {
+void vnl_c_vector<T>::divide(T const *x, T const& y, T *z, unsigned n)
+{
   impl_elmt_wise_commutative_a(/);
 }
 
@@ -154,7 +164,8 @@ void vnl_c_vector<T>::divide(T const *x, T const& y, T *z, unsigned n) {
 //--------------------------------------------------------------------------
 
 template <class T>
-void vnl_c_vector<T>::negate(T const *x, T *y, unsigned n) {
+void vnl_c_vector<T>::negate(T const *x, T *y, unsigned n)
+{
   if (x == y)
     for (unsigned i=0; i<n; ++i)
       y[i] = -y[i];
@@ -164,7 +175,8 @@ void vnl_c_vector<T>::negate(T const *x, T *y, unsigned n) {
 }
 
 template <class T>
-void vnl_c_vector<T>::invert(T const *x, T *y, unsigned n) {
+void vnl_c_vector<T>::invert(T const *x, T *y, unsigned n)
+{
   if (x == y)
     for (unsigned i=0; i<n; ++i)
       y[i] = T(1)/y[i];
@@ -174,21 +186,24 @@ void vnl_c_vector<T>::invert(T const *x, T *y, unsigned n) {
 }
 
 template <class T>
-void vnl_c_vector<T>::saxpy(T const &a_, T const *x, T *y, unsigned n) {
+void vnl_c_vector<T>::saxpy(T const &a_, T const *x, T *y, unsigned n)
+{
   T a = a_;
   for (unsigned i=0; i<n; ++i)
     y[i] += a*x[i];
 }
 
 template <class T>
-void vnl_c_vector<T>::fill(T *x, unsigned n, T const &v_) {
+void vnl_c_vector<T>::fill(T *x, unsigned n, T const &v_)
+{
   T v = v_;
   for (unsigned i=0; i<n; ++i)
     x[i] = v;
 }
 
 template <class T>
-void vnl_c_vector<T>::reverse(T *x, unsigned n) {
+void vnl_c_vector<T>::reverse(T *x, unsigned n)
+{
   for (unsigned i=0; 2*i+1<n; ++i) {
     T tmp = x[i];
     x[i] = x[n-1-i];
@@ -198,7 +213,8 @@ void vnl_c_vector<T>::reverse(T *x, unsigned n) {
 
 // non-conjugating "dot" product.
 template<class T>
-T vnl_c_vector<T>::dot_product(T const *a, T const *b, unsigned n) {
+T vnl_c_vector<T>::dot_product(T const *a, T const *b, unsigned n)
+{
   T ip(0);
   for (unsigned i=0; i<n; ++i)
     ip += a[i] * b[i];
@@ -207,7 +223,8 @@ T vnl_c_vector<T>::dot_product(T const *a, T const *b, unsigned n) {
 
 // conjugating "dot" product.
 template<class T>
-T vnl_c_vector<T>::inner_product(T const *a, T const *b, unsigned n) {
+T vnl_c_vector<T>::inner_product(T const *a, T const *b, unsigned n)
+{
   T ip(0);
   for (unsigned i=0; i<n; ++i)
     ip += a[i] * vnl_complex_traits<T>::conjugate(b[i]);
@@ -216,7 +233,8 @@ T vnl_c_vector<T>::inner_product(T const *a, T const *b, unsigned n) {
 
 // conjugates one block of data into another block.
 template<class T>
-void vnl_c_vector<T>::conjugate(T const *src, T *dst, unsigned n) {
+void vnl_c_vector<T>::conjugate(T const *src, T *dst, unsigned n)
+{
   for (unsigned i=0; i<n; ++i)
     dst[i] = vnl_complex_traits<T>::conjugate( src[i] );
 }
@@ -225,7 +243,8 @@ void vnl_c_vector<T>::conjugate(T const *src, T *dst, unsigned n) {
 
 //: Returns max value of the vector.
 template<class T>
-T vnl_c_vector<T>::max_value(T const *src, unsigned n) {
+T vnl_c_vector<T>::max_value(T const *src, unsigned n)
+{
   assert(n!=0); // max_value of an empty vector is undefined
   T tmp = src[0];
   for (unsigned i=1; i<n; ++i)
@@ -236,7 +255,8 @@ T vnl_c_vector<T>::max_value(T const *src, unsigned n) {
 
 //: Returns min value of the vector.
 template<class T>
-T vnl_c_vector<T>::min_value(T const *src, unsigned n) {
+T vnl_c_vector<T>::min_value(T const *src, unsigned n)
+{
   assert(n!=0); // min_value of an empty vector is undefined
   T tmp = src[0];
   for (unsigned i=1; i<n; ++i)
@@ -251,7 +271,7 @@ T vnl_c_vector<T>::euclid_dist_sq(T const *a, T const *b, unsigned n)
 {
   //IMS: Unable to optimise this any further for MSVC compiler
   T sum(0);
-#ifdef VCL_VC60
+#ifdef VCL_VC_6
   for (unsigned i=0; i<n; ++i)
   {
     const T diff = a[i] - b[i];

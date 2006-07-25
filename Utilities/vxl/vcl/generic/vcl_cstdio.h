@@ -157,6 +157,10 @@
 #ifndef vcl_sprintf
 #define vcl_sprintf vcl_generic_cstdio_STD :: sprintf
 #endif
+// snprintf
+#ifndef vcl_snprintf
+#define vcl_snprintf vcl_generic_cstdio_STD :: snprintf
+#endif
 // fprintf
 #ifndef vcl_fprintf
 #define vcl_fprintf vcl_generic_cstdio_STD :: fprintf

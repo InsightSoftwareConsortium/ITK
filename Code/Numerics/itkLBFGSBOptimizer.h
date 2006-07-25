@@ -72,7 +72,7 @@ public:
   /** BoundSelection type
    * Use for defining the boundary condition for each variables. 
    */
-  typedef Array<int>                BoundSelectionType;
+  typedef Array<long>                BoundSelectionType;
 
   /** Start optimization with an initial value. */
   void StartOptimization( void );

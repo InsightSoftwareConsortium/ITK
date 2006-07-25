@@ -1,7 +1,8 @@
 /* xermsg.f -- this is a dummy implementation which just calls fprintf
 */
 
-#include "f2c.h"
+#define V3P_NETLIB_SRC
+#include "v3p_netlib.h"
 #include "stdio.h"
 
 /* Table of constant values */

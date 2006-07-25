@@ -19,6 +19,10 @@
 #ifndef vcl_clog
 #define vcl_clog vcl_generic_iostream_STD :: clog
 #endif
+// wcout
+#ifndef vcl_wcout
+#define vcl_wcout vcl_generic_iostream_STD :: wcout
+#endif
 // the following are not actually in the
 // <iostream> synopsis. for example, endl
 // and ends actually come from <ostream>.

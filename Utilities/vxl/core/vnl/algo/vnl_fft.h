@@ -11,9 +11,9 @@
 #include <vcl_compiler.h>
 
 //: use C++ overloading to find the correct FORTRAN routine from templated FFT code.
-void vnl_fft_setgpfa(float  *triggs, int size, int pqr[3], int *info);
+void vnl_fft_setgpfa(float  *triggs, long size, long pqr[3], long *info);
 //: use C++ overloading to find the correct FORTRAN routine from templated FFT code.
-void vnl_fft_setgpfa(double *triggs, int size, int pqr[3], int *info);
+void vnl_fft_setgpfa(double *triggs, long size, long pqr[3], long *info);
 
 
 //        CALL GPFA(A,B,TRIGS,INC,JUMP,N,LOT,ISIGN,NIPQ,INFO)
@@ -39,10 +39,10 @@ void vnl_fft_setgpfa(double *triggs, int size, int pqr[3], int *info);
 // The signal is stored in two real arrays (A, B), with consecutive elements separated
 // by a stride (INC). The separation between the LOT signals to be transformed is JUMP.
 void vnl_fft_gpfa(float  *a, float  *b, float const  *triggs,
-                  int inc, int jump, int n,
-                  int lot, int isign, int const pqr[3], int *info);
+                  long inc, long jump, long n,
+                  long lot, long isign, long const pqr[3], long *info);
 void vnl_fft_gpfa(double *a, double *b, double const *triggs,
-                  int inc, int jump, int n,
-                  int lot, int isign, int const pqr[3], int *info);
+                  long inc, long jump, long n,
+                  long lot, long isign, long const pqr[3], long *info);
 
 #endif // vnl_fft_h_

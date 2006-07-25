@@ -1,6 +1,7 @@
 // This is vcl/tests/test_vector.cxx
 #include <vcl_iostream.h>
 #include <vcl_vector.h>
+#include <vcl_algorithm.h>
 
 vcl_ostream &delim(vcl_ostream &os)
 {
@@ -45,6 +46,12 @@ int test_vector_main(int /*argc*/,char* /*argv*/[])
 
       v.push_back(13.141592653589793 * i);
     }
+  }
+  {
+      vcl_vector<bool> bv(2);
+      bv[0] = true;
+      bv[1] = false;
+      vcl_nth_element(bv.begin(), bv.begin()+1, bv.end());
   }
   { // check contiguity
 #define macro(T) do { \

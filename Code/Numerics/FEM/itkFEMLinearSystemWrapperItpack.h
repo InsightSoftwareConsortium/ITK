@@ -465,7 +465,7 @@ private:
 
 
   /** typedefs from f2c.h  */
-  typedef int       integer;
+  typedef long      integer;
   typedef double    doublereal;
 
   /** pointer to vector of matrices */
@@ -505,12 +505,15 @@ private:
 class FEMExceptionItpackSolver : public FEMException
 {
 public:
+  /** typedefs from f2c.h  */
+  typedef long      integer;
+
   /**
    * Constructor. In order to construct this exception object, four parameters
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception.
    */
-  FEMExceptionItpackSolver(const char *file, unsigned int lineNumber, std::string location, int errorCode);
+  FEMExceptionItpackSolver(const char *file, unsigned int lineNumber, std::string location, integer errorCode);
  
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionItpackSolver() throw() {}

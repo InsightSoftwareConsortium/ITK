@@ -36,6 +36,7 @@ int test_string_main(int, char*[]);
 int test_sstream_main(int, char*[]);
 int test_vector_main(int, char*[]);
 int test_cstdio_main(int, char*[]);
+int test_preprocessor_main(int, char*[]);
 
 int passed;
 int failed;
@@ -103,7 +104,8 @@ int main( int argc, char* argv[] )
   DO_TEST(string);
   DO_TEST(sstream);
   DO_TEST(vector);
-
+  DO_TEST(preprocessor)
+;
   if (test_run == 0)
   {
     vcl_cout << "Unsupported test " << name

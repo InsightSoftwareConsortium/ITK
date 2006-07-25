@@ -1,0 +1,6 @@
+extern int cg_(doublereal *x, doublereal *e, integer *it, doublereal *step, doublereal *t, integer *limit, integer *n, integer *m, D_fp value, S_fp grad, S_fp both, S_fp pre, doublereal *h__);
+extern doublereal fv_(doublereal *a, doublereal *x, doublereal *h__, integer *n, D_fp value);
+extern doublereal fd_(doublereal *a, doublereal *x, doublereal *h__, integer *n, S_fp grad);
+extern int fvd_(doublereal *v, doublereal *d__, doublereal *a, doublereal *x, doublereal *h__, integer *n, S_fp both);
+extern int cub_(doublereal *x, doublereal *a, doublereal *b, doublereal *c__, doublereal *d__, doublereal *e, doublereal *f);
+extern int ins_(doublereal *s, doublereal *f, doublereal *a, doublereal *b, doublereal *c__, doublereal *fa, doublereal *fb, doublereal *fc, integer *j, doublereal *y, doublereal *z__);

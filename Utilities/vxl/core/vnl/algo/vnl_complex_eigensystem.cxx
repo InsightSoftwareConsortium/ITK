@@ -34,15 +34,16 @@ void vnl_complex_eigensystem::compute(vnl_matrix<vcl_complex<double> > const & A
   //
   vnl_matrix<vcl_complex<double> > tmp(A);
 
-  int work_space=10*N;
+  long work_space=10*N;
   vnl_vector<vcl_complex<double> > work(work_space);
 
-  int rwork_space=2*N;
+  long rwork_space=2*N;
   vnl_vector<double> rwork(rwork_space);
 
-  int info;
-  int tmpN = N;
-  zgeev_(right ? "V" : "N",          // jobvl
+  long info;
+  long tmpN = N;
+  v3p_netlib_zgeev_(
+         right ? "V" : "N",          // jobvl
          left  ? "V" : "N",          // jobvr
          &tmpN,                      // n
          tmp.data_block(),           // a
@@ -55,8 +56,8 @@ void vnl_complex_eigensystem::compute(vnl_matrix<vcl_complex<double> > const & A
          work.data_block(),          // work
          &work_space,                // lwork
          rwork.data_block(),         // rwork
-         &info                       // info
-         );
+         &info,                      // info
+         1, 1);
   assert(tmpN == int(N));
 
   if (right) {

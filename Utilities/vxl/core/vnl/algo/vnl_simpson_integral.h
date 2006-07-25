@@ -20,7 +20,7 @@ class vnl_simpson_integral : public vnl_definite_integral
   //: a and b are integral limits respectively.
   // n is the number of intervals used in integral.
   // The actual subinterval used is 2* num_intervals_
-  double integral(vnl_integrant_fnct *f, double a, double b, int n);
+  double integral(vnl_integrant_fnct *f, double a, double b, long n);
 };
 
 #endif

@@ -1,0 +1,8 @@
+extern int csvdc_(complex *x, integer *ldx, integer *n, integer *p, complex *s, complex *e, complex *u, integer *ldu, complex *v, integer *ldv, complex *work, integer *job, integer *info);
+/*:ref: scnrm2_ 6 3 4 8 4 */
+/*:ref: cscal_ 14 4 4 8 8 4 */
+/*:ref: cdotc_ 8 6 8 4 8 4 8 4 */
+/*:ref: caxpy_ 14 6 4 8 8 4 8 4 */
+/*:ref: srotg_ 14 4 6 6 6 6 */
+/*:ref: csrot_ 14 7 4 8 4 8 4 6 6 */
+/*:ref: cswap_ 14 5 4 8 4 8 4 */

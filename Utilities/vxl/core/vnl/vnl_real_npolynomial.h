@@ -11,14 +11,17 @@
 // Implements a polynomial with N variables
 //
 // \author Marc Pollefeys, ESAT-VISICS, K.U.Leuven
-// \date   12-08-97
+// \date   1997-08-12
 //
 // \verbatim
 //  Modifications
-//   Peter Vanroose 10 Oct 1999 - added simplify();
+//   Peter Vanroose   1999-10-10  added simplify();
 //                                determine nterms_ nvar_ ideg_ automatically
-//   Peter Vanroose 20 Oct 1999 - Added operator+(), - * and vcl_ostream <<
-//   dac (Manchester) 15/03/2001: Tidied up the documentation + added binary_io
+//   Peter Vanroose   1999-10-20  Added operator+(), - * and vcl_ostream <<
+//   dac, Manchester  2001-03-15  Tidied up the documentation + added binary_io
+//   Lee Worden, Berkeley 2006-06-22 Minor fixes to simplify() and operator<<()
+//   Peter Vanroose   2006-06-24  Added method asString implementing oper<<()
+//   Peter Vanroose   2006-06-24  Bug fix in degree(), and added degrees() & maxdegree()
 // \endverbatim
 
 
@@ -26,6 +29,8 @@
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
+#include <vcl_vector.h>
+#include <vcl_string.h>
 #include <vcl_iosfwd.h>
 
 //: real polynomial in N variables.
@@ -47,18 +52,30 @@
 
 class vnl_real_npolynomial
 {
+  //: coefficients
+  vnl_vector<double>       coeffs_;
+  //: degrees of every term for every variable
+  vnl_matrix<unsigned int> polyn_;
+  //: number of variables = # columns of polyn_
+  unsigned int             nvar_;
+  //: number of terms of polynomial
+  unsigned int             nterms_;
+  //: max. degree of polynomial
+  unsigned int             ideg_;
+
   friend class vnl_rnpoly_solve;
 
  public:
 
   // Constructor-----------------------------------------------------------------
-  vnl_real_npolynomial() { } // don't use this. only here for the STL vector class.
+  vnl_real_npolynomial() : nvar_(0), nterms_(0), ideg_(0) {} // don't use this: only here for the STL vector class.
+
+  //: Construct the poylnomial with coefficients vector c and with exponents matrix p
   vnl_real_npolynomial(const vnl_vector<double>& c, const vnl_matrix<unsigned int>& p);
 
   // Computations--------------------------------------------------------------
 
   double eval(const vnl_vector<double>& x);
-  unsigned int degree();
   vnl_real_npolynomial operator-() const; // unary minus
   vnl_real_npolynomial operator+(vnl_real_npolynomial const& ) const;
   vnl_real_npolynomial operator-(vnl_real_npolynomial const& ) const;
@@ -75,8 +92,14 @@ class vnl_real_npolynomial
 
   //--- Data Access------------------------------------------------------------
 
-  //: Return the degree (highest power of x) of the polynomial.
-  unsigned int degree() const { return coeffs_.size() - 1; }
+  //: Return the degree (highest total power of all terms) of the polynomial.
+  unsigned int degree() const;
+
+  //: Return the highest degree of the polynomial in an individual variable.
+  unsigned int maxdegree() const { return ideg_; }
+
+  //: Return the degrees (highest power of all terms) in each of the variables.
+  vcl_vector<unsigned int> degrees() const;
 
   //: Access to the polynomial coefficients
   double& operator [] (unsigned int i)       { return coeffs_[i]; }
@@ -98,22 +121,12 @@ class vnl_real_npolynomial
   //: Return the vector of coefficients
   vnl_matrix<unsigned int>& polyn() { return polyn_; }
 
+  //: Return the textual representation of this polynomial
+  vcl_string asString() const;
+
  private:
   void simplify();
   double eval(const vnl_matrix<double>& xn);
-
-  // Data Members--------------------------------------------------------------
-
-  //: coefficients
-  vnl_vector<double>       coeffs_;
-  //: degrees of every term for every variable
-  vnl_matrix<unsigned int> polyn_;
-  //: number of variables = # columns of polyn_
-  unsigned int             nvar_;
-  //: number of terms of polynomial
-  unsigned int             nterms_;
-  //: max. degree of polynomial
-  unsigned int             ideg_;
 };
 
 #endif // vnl_real_npolynomial_h_

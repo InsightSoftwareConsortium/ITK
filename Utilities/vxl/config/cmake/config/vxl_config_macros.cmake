@@ -261,10 +261,14 @@ MACRO( DETERMINE_TYPE VAR INTEGRAL_TYPE SIZE TYPE_LIST )
         IF( NOT RUN_RESULT )
           SET( VXL_${VAR} ${TYPE} )
           SET( VXL_HAS_${VAR} 1 )
+        ELSE( NOT RUN_RESULT )
+          WRITE_FILE( ${CMAKE_BINARY_DIR}/CMakeError.log 
+            "${MSG} Failed to run with the following output:\n(FLAGS=${MACRO_DETERMINE_TYPE_FLAGS})\n${OUTPUT}\n"
+            APPEND )
         ENDIF( NOT RUN_RESULT )
       ELSE( COMPILE_RESULT )
         WRITE_FILE( ${CMAKE_BINARY_DIR}/CMakeError.log 
-          "${MSG} Failed with the following output:\n(FLAGS=${MACRO_DETERMINE_TYPE_FLAGS})\n${OUTPUT}\n"
+          "${MSG} Failed to compile with the following output:\n(FLAGS=${MACRO_DETERMINE_TYPE_FLAGS})\n${OUTPUT}\n"
           APPEND )
       ENDIF( COMPILE_RESULT )
     ENDFOREACH( TYPE )

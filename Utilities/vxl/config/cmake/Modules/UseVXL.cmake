@@ -69,8 +69,12 @@ ENDIF(NOT VXL_CONFIG_CMAKE)
 IF(VXL_CONFIG_CMAKE)
   # Load the compiler settings used for VXL.
   IF(VXL_BUILD_SETTINGS_FILE)
-    INCLUDE(${CMAKE_ROOT}/Modules/CMakeImportBuildSettings.cmake)
-    CMAKE_IMPORT_BUILD_SETTINGS(${VXL_BUILD_SETTINGS_FILE})
+    OPTION( VXL_IMPORT_BUILD_SETTINGS "Import build settings (compiler flags, generator) from VXL?" YES )
+    MARK_AS_ADVANCED( VXL_IMPORT_BUILD_SETTINGS )
+    IF( VXL_IMPORT_BUILD_SETTINGS )
+      INCLUDE(${CMAKE_ROOT}/Modules/CMakeImportBuildSettings.cmake)
+      CMAKE_IMPORT_BUILD_SETTINGS(${VXL_BUILD_SETTINGS_FILE})
+    ENDIF( VXL_IMPORT_BUILD_SETTINGS )
   ENDIF(VXL_BUILD_SETTINGS_FILE)
   
   # Use the standard VXL include directories.

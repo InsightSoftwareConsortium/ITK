@@ -120,8 +120,7 @@ vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost_in 
   // the starred zero. Continue in this manner until there are no
   // uncovered zeros left. Save the smallest uncovered value and Go to
   // Step 6.
-  Z0_r = -1u;
-  Z0_c = -1u;
+  Z0_r = Z0_c = (unsigned int)(-1);
   // Find an uncovered zero
   // This loop will exit with a goto step_five or step_six.
   while ( true )
@@ -268,7 +267,7 @@ vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost_in 
   // associated with column j.
   step_done:
   {
-    vcl_vector<unsigned> assign( cost_in.rows(), -1u );
+    vcl_vector<unsigned> assign( cost_in.rows(), (unsigned int)(-1) );
 
     // Find the stars and generate the resulting assignment. Only
     // check the sub-matrix of cost that corresponds to the input cost

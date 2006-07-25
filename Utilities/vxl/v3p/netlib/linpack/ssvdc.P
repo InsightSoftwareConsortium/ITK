@@ -1,0 +1,8 @@
+extern int ssvdc_(real *x, integer *ldx, integer *n, integer *p, real *s, real *e, real *u, integer *ldu, real *v, integer *ldv, real *work, integer *job, integer *info);
+/*:ref: snrm2_ 6 3 4 6 4 */
+/*:ref: sscal_ 14 4 4 6 6 4 */
+/*:ref: sdot_ 6 5 4 6 4 6 4 */
+/*:ref: saxpy_ 14 6 4 6 6 4 6 4 */
+/*:ref: srotg_ 14 4 6 6 6 6 */
+/*:ref: srot_ 14 7 4 6 4 6 4 6 6 */
+/*:ref: sswap_ 14 5 4 6 4 6 4 */

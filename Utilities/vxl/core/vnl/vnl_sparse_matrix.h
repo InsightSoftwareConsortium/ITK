@@ -173,21 +173,21 @@ class vnl_sparse_matrix
   void resize( int r, int c );
 
   //: Resets the internal iterator
-  void reset();
+  void reset() const;
 
   //: Moves the internal iterator to next non-zero entry in matrix.
   // Returns true if there is another value, false otherwise. Use
   // in combination with methods reset, getrow, getcolumn, and value.
-  bool next();
+  bool next() const;
 
   //: Returns the row of the entry pointed to by internal iterator.
-  int getrow();
+  int getrow() const;
 
   //: Returns the column of the entry pointed to by internal iterator.
-  int getcolumn();
+  int getcolumn() const;
 
   //: Returns the value pointed to by the internal iterator.
-  T value();
+  T value() const;
 
 
  protected:
@@ -195,9 +195,9 @@ class vnl_sparse_matrix
   unsigned int rs_, cs_;
 
   // internal iterator
-  unsigned int itr_row;
-  typename row::iterator itr_cur;
-  bool itr_isreset;
+  mutable unsigned int itr_row;
+  mutable typename row::const_iterator itr_cur;
+  mutable bool itr_isreset;
 };
 
 

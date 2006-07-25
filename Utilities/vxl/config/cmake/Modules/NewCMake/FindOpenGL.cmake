@@ -100,7 +100,7 @@ ELSE (WIN32)
   # think this is always true.
 
   IF (OPENGL_gl_LIBRARY)
-    INCLUDE( ${MODULE_PATH}/NewCMake/FindX11.cmake )
+    INCLUDE( ${VXL_CMAKE_DIR}/NewCMake/FindX11.cmake )
     IF (X11_FOUND)
       SET (OPENGL_LIBRARIES ${X11_LIBRARIES})
     ENDIF (X11_FOUND)

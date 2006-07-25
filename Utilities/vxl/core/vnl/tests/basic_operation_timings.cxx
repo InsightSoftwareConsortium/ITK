@@ -36,7 +36,7 @@ void fill_with_rng(float * begin, float * end, float a, float b, vnl_random &rng
 
 template <class T>
 void distance_squared(const vcl_vector<vnl_vector<T> > &s1,
-                      const vcl_vector<vnl_vector<T> > &s2, 
+                      const vcl_vector<vnl_vector<T> > &s2,
                       vcl_vector<T> & d, int n_loops)
 {
   vnl_vector<double> stats(nstests);
@@ -125,26 +125,28 @@ void print_pointers(const vcl_vector<vnl_vector<T> >&va, const vcl_vector<vnl_ve
                     const vcl_vector<vnl_vector<T> >&vc, const vcl_vector<T>&na,
                     const vnl_matrix<T>&ma, const vcl_string& file)
 {
+#ifdef DEBUG
   unsigned i;
   vcl_ofstream os(file.c_str());
   os << "Data values\n"
      << "\nva:" << &va.front() << ' ' << &va.back() << '\n';
-  for (i=0;i<va.size();++i)
+  for (i=0; i<va.size(); ++i)
   { os << va[i].data_block() << va[i].size() << '\n'; }
 
   os << "\n\nvb:" << &vb.front() << ' ' << &vb.back() << '\n';
-  for (i=0;i<vb.size();++i)
+  for (i=0; i<vb.size(); ++i)
   { os << vb[i].data_block() << vb[i].size() << '\n'; }
 
   os << "\n\nvc:" << &vc.front() << ' ' << &vc.back() << '\n';
-  for (i=0;i<vc.size();++i)
+  for (i=0; i<vc.size(); ++i)
   { os << vc[i].data_block() << vc[i].size() << '\n'; }
 
   os << "\n\nna:" << &na.front() << ' ' << &na.back() << '\n'
 
      << "\n\nma:" << ma.data_block() << ' ' << ma.rows() << ' ' << ma.cols() << '\n';
-  for (i=0;i<ma.rows();++i)
+  for (i=0; i<ma.rows(); ++i)
   { os << ma[i] << '\n'; }
+#endif // DEBUG
 }
 
 template <class T>
@@ -172,17 +174,19 @@ void run_for_size(unsigned m, unsigned n, T /*dummy*/, const char * type, const 
           <<m<<" x "<<n<<" matrices, size " << size << '\n'
           <<"Sum of square differences       " << vcl_flush;
   distance_squared(z,y,v,n_loops);
-//  print_pointers(z, y, x, v, A, vcl_string("testA")+type+size);
+  print_pointers(z, y, x, v, A, vcl_string("testA")+type+size);
   vcl_cout<<"Vector dot product              " << vcl_flush;
-//  print_pointers(z, y, x, v, A, vcl_string("testB")+type+size);
+  print_pointers(z, y, x, v, A, vcl_string("testB")+type+size);
   dot_product(z,y,v,n_loops);
-//  print_pointers(z, y, x, v, A, vcl_string("testC")+type+size);
+  print_pointers(z, y, x, v, A, vcl_string("testC")+type+size);
   vcl_cout<<"Matrix x Vector multiplication  " << vcl_flush;
   mat_x_vec(A,x,n_loops/n+1);
-//  print_pointers(z, y, x, v, A, vcl_string("testD")+type+size);
-//  vcl_cout<<"Vector x Matrix multiplication  " << vcl_flush;
-//  vec_x_mat(y,A,n_loops/n+1);
-//  print_pointers(z, y, x, v, A, vcl_string("testE")+type+size);
+  print_pointers(z, y, x, v, A, vcl_string("testD")+type+size);
+#if 0
+  vcl_cout<<"Vector x Matrix multiplication  " << vcl_flush;
+  vec_x_mat(y,A,n_loops/n+1);
+#endif
+  print_pointers(z, y, x, v, A, vcl_string("testE")+type+size);
 }
 
 int main(int, char *[])

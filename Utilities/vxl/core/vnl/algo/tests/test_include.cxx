@@ -19,9 +19,11 @@
 #include <vnl/algo/vnl_generalized_eigensystem.h>
 #include <vnl/algo/vnl_generalized_schur.h>
 #include <vnl/algo/vnl_lbfgs.h>
+#include <vnl/algo/vnl_ldl_cholesky.h>
 #include <vnl/algo/vnl_levenberg_marquardt.h>
 #include <vnl/algo/vnl_lsqr.h>
 #include <vnl/algo/vnl_matrix_inverse.h>
+#include <vnl/algo/vnl_matrix_update.h>
 #include <vnl/algo/vnl_netlib.h>
 #include <vnl/algo/vnl_orthogonal_complement.h>
 #include <vnl/algo/vnl_powell.h>
@@ -31,6 +33,7 @@
 #include <vnl/algo/vnl_rpoly_roots.h>
 #include <vnl/algo/vnl_scatter_3x3.h>
 #include <vnl/algo/vnl_simpson_integral.h>
+#include <vnl/algo/vnl_solve_qp.h>
 #include <vnl/algo/vnl_sparse_symmetric_eigensystem.h>
 #include <vnl/algo/vnl_svd.h>
 #include <vnl/algo/vnl_svd_economy.h>

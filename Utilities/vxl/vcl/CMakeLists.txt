@@ -342,7 +342,6 @@ SET( vcl_sources
 # with modern, more compliant compilers.
 #AUX_SOURCE_DIRECTORY(Templates vcl_sources)
 
-
 ADD_LIBRARY(itkvcl ${vcl_sources})
 
 IF(WIN32)
@@ -351,38 +350,27 @@ IF(WIN32)
   ENDIF(NOT CYGWIN)
 ENDIF(WIN32)
 
-
 IF(UNIX)
   TARGET_LINK_LIBRARIES( itkvcl m )
 ENDIF(UNIX)
-
-# INCLUDE( ${vxl_SOURCE_DIR}/vcl/LinkSTLPort.cmake )
-
-IF( BUILD_TESTING)
-  SUBDIRS(tests)
-ENDIF( BUILD_TESTING)
 
 IF(ITK_LIBRARY_PROPERTIES)
   SET_TARGET_PROPERTIES(itkvcl PROPERTIES ${ITK_LIBRARY_PROPERTIES})
 ENDIF(ITK_LIBRARY_PROPERTIES)
 
+# Installation
 IF(NOT VXL_INSTALL_NO_LIBRARIES)
   INSTALL_TARGETS(
     ${VXL_INSTALL_LIB_DIR}
     RUNTIME_DIRECTORY ${VXL_INSTALL_BIN_DIR}
     itkvcl)
 ENDIF(NOT VXL_INSTALL_NO_LIBRARIES)
-
 IF(NOT VXL_INSTALL_NO_DEVELOPMENT)
-  INSTALL_FILES(${VXL_INSTALL_ROOT}/vcl "(\\.h|\\.txx)$")
-  INSTALL_FILES(${VXL_INSTALL_ROOT}/vcl ".h"
-    "vcl_config_compiler"
-    "vcl_config_headers"
-    "vcl_config_manual")
+  INSTALL_NOBASE_HEADER_FILES(${VXL_INSTALL_ROOT}/vcl ${vcl_sources})
 ENDIF(NOT VXL_INSTALL_NO_DEVELOPMENT)
 
-SUBDIRS(borland55 borland56 egcs emulation gcc generic iso mwerks sgi
-        sunpro vcl_sys)
-IF(NOT BORLAND)
-  SUBDIRS(gcc-295 gcc-libstdcxx-v3 win32-vc60 win32-vc70)
-ENDIF(NOT BORLAND)
+# INCLUDE( ${vxl_SOURCE_DIR}/vcl/LinkSTLPort.cmake )
+
+IF( BUILD_TESTING)
+  SUBDIRS(tests)
+ENDIF( BUILD_TESTING)

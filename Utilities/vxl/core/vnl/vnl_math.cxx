@@ -171,7 +171,8 @@ bool vnl_math_isnan(long double x)
 // scope of vnl_math causes vnl_math_isinf to be called. This blows the stack.
 // Plausible theory : 'finite' is a preprocessor macro, defined in terms of a
 // macro called 'isinf'.
-#if defined(isinf)
+// Doesn't seem to be an issue with ICC 8
+#if defined(isinf) && !defined(VCL_ICC_8)
 # if defined(__GNUC__) || defined(VCL_METRO_WERKS) || defined(__INTEL_COMPILER)
 // I do not know if MW accepts #warning. Comment out the #undef if not.
 #  warning macro isinf is defined
@@ -239,8 +240,26 @@ bool vnl_math_isinf(long double x)
 
 //: Type-accessible infinities for use in templates.
 template <class T> T vnl_huge_val(T);
+#ifndef VCL_ICC_81
 double vnl_huge_val(double) { return HUGE_VAL; }
 float  vnl_huge_val(float)  { return (float)HUGE_VAL; }
+#else
+// workaround ICC warning that 0x1.0p2047 cannot be represented exactly.
+double vnl_huge_val(double) { return // 2^2047
+16158503035655503650357438344334975980222051334857742016065172713762\
+32756943394544659860070576145673184435898046094900974705977957524546\
+05475440761932241415603154386836504980458750988751948260533980288191\
+92033784138396109321309878080919047169238085235290822926018152521443\
+78794577053290430377619956196519276095716669483417121034248739328228\
+47474280880176631610290389028296655130963542301570751292964320885583\
+62971801859230928678799175576150822952201848806616643615613562842355\
+41010486257855086346566173483927129032834896752299863417649931910776\
+25831947186677718010677166148023226592393024760740967779268055297981\
+15328.0; }
+float  vnl_huge_val(float)  { return // 2^255
+57896044618658097711785492504343953926634992332820282019728792003956\
+564819968.0f; }
+#endif
 #ifdef _INT_64BIT_
 long int vnl_huge_val(long int) { return 0x7fffffffffffffffL; }
 int    vnl_huge_val(int)    { return 0x7fffffffffffffffL; }

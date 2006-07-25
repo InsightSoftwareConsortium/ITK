@@ -1,0 +1,15 @@
+extern int zlatrs_(char *uplo, char *trans, char *diag, char *normin, integer *n, doublecomplex *a, integer *lda, doublecomplex *x, doublereal *scale, doublereal *cnorm, integer *info, ftnlen uplo_len, ftnlen trans_len, ftnlen diag_len, ftnlen normin_len);
+/*:ref: lsame_ 12 4 13 13 124 124 */
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: dlabad_ 14 2 7 7 */
+/*:ref: dzasum_ 7 3 4 9 4 */
+/*:ref: idamax_ 4 3 4 7 4 */
+/*:ref: dscal_ 14 4 4 7 7 4 */
+/*:ref: ztrsv_ 14 11 13 13 13 4 9 4 9 4 124 124 124 */
+/*:ref: zdscal_ 14 4 4 7 9 4 */
+/*:ref: zladiv_ 9 3 9 9 9 */
+/*:ref: zaxpy_ 14 6 4 9 9 4 9 4 */
+/*:ref: izamax_ 4 3 4 9 4 */
+/*:ref: zdotu_ 9 6 9 4 9 4 9 4 */
+/*:ref: zdotc_ 9 6 9 4 9 4 9 4 */

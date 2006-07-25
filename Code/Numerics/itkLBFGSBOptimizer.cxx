@@ -19,12 +19,15 @@
 
 #include "itkLBFGSBOptimizer.h"
 
+#include "v3p_netlib.h"
+#include "v3p_f2c_mangle.h"
+
 namespace itk
 {
 
-typedef int integer;
+typedef long integer;
 typedef double doublereal;
-typedef int logical; // not bool
+typedef long logical; // not bool
 typedef long int ftnlen;
 
 extern "C" void s_copy(char*,const char*,ftnlen,ftnlen);
@@ -267,7 +270,7 @@ LBFGSBOptimizer
     /** Call the L-BFGS-B code */
     setulb_(&n, &m, this->GetCurrentPosition().data_block(), 
            (double *)m_LowerBound.data_block(), (double *)m_UpperBound.data_block(), 
-           (int *)m_BoundSelection.data_block(),
+           (long *)m_BoundSelection.data_block(),
            &m_Value, gradient.data_block(), 
            &m_CostFunctionConvergenceFactor, &m_ProjectedGradientTolerance, 
            wa.data_block(), iwa.data_block(),

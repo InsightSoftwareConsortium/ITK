@@ -35,11 +35,11 @@ vnl_generalized_eigensystem::vnl_generalized_eigensystem(const vnl_matrix<double
   vnl_vector<double> work2(n);
   vnl_vector<double> V1(n*n);
 
-  int want_eigenvectors = 1;
-  int ierr = -1;
+  long want_eigenvectors = 1;
+  long ierr = -1;
 
   // Call EISPACK rsg.
-  rsg_ (&n, &n, a, b, D.data_block(),
+  v3p_netlib_rsg_ (&n, &n, a, b, D.data_block(),
         &want_eigenvectors,
         V1.begin(),
         work1.begin(),

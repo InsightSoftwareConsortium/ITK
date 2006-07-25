@@ -1,0 +1,2 @@
+extern int zaxpy_(integer *n, doublecomplex *za, doublecomplex *zx, integer *incx, doublecomplex *zy, integer *incy);
+/*:ref: dcabs1_ 7 1 9 */

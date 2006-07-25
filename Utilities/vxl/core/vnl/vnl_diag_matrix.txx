@@ -11,7 +11,7 @@
 
 //: Return inv(D) * b.
 template <class T>
-vnl_vector<T> vnl_diag_matrix<T>::solve(vnl_vector<T> const& b)
+vnl_vector<T> vnl_diag_matrix<T>::solve(vnl_vector<T> const& b) const
 {
   unsigned len = diagonal_.size();
   vnl_vector<T> ret(len);
@@ -22,7 +22,7 @@ vnl_vector<T> vnl_diag_matrix<T>::solve(vnl_vector<T> const& b)
 
 //: Return inv(D) * b.
 template <class T>
-void vnl_diag_matrix<T>::solve(vnl_vector<T> const& b, vnl_vector<T>* out)
+void vnl_diag_matrix<T>::solve(vnl_vector<T> const& b, vnl_vector<T>* out) const
 {
   unsigned len = diagonal_.size();
   for (unsigned i = 0; i < len; ++i)

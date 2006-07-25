@@ -1,0 +1,1 @@
+extern int setgpfa_(real *trigs, integer *n, integer *npqr, integer *info);

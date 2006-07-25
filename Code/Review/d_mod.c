@@ -1,4 +1,5 @@
-#include "f2c.h"
+#define V3P_NETLIB_SRC
+#include "v3p_netlib.h"
 
 #ifdef KR_headers
 #ifdef IEEE_drem

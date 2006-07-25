@@ -6,7 +6,7 @@ double vnl_simpson_integral::int_fnct_(double* x)
   return  pfnct_->f_(*x);
 }
 
-double vnl_simpson_integral::integral(vnl_integrant_fnct* f, double a, double b, int n)
+double vnl_simpson_integral::integral(vnl_integrant_fnct* f, double a, double b, long n)
 {
 
   double res = 0;
@@ -14,7 +14,7 @@ double vnl_simpson_integral::integral(vnl_integrant_fnct* f, double a, double b,
   //set the function
   pfnct_ = f;
   
-  simpru_(&vnl_simpson_integral::int_fnct_, &a, &b, &n, &res);
+  v3p_netlib_simpru_(&vnl_simpson_integral::int_fnct_, &a, &b, &n, &res);
 
   return res;
 }

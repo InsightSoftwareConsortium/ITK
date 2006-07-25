@@ -29,7 +29,7 @@
 vnl_cholesky::vnl_cholesky(vnl_matrix<double> const & M, Operation mode):
   A_(M)
 {
-  int n = M.columns();
+  long n = M.columns();
   assert(n == (int)(M.rows()));
   num_dims_rank_def_ = -1;
   if (vcl_fabs(M(0,n-1) - M(n-1,0)) > 1e-8) {
@@ -38,12 +38,12 @@ vnl_cholesky::vnl_cholesky(vnl_matrix<double> const & M, Operation mode):
 
   if (mode != estimate_condition) {
     // Quick factorization
-    dpofa_(A_.data_block(), &n, &n, &num_dims_rank_def_);
+    v3p_netlib_dpofa_(A_.data_block(), &n, &n, &num_dims_rank_def_);
     if (mode == verbose && num_dims_rank_def_ != 0)
       vcl_cerr << "vnl_cholesky: " << num_dims_rank_def_ << " dimensions of non-posdeffness\n";
   } else {
     vnl_vector<double> nullvector(n);
-    dpoco_(A_.data_block(), &n, &n, &rcond_, nullvector.data_block(), &num_dims_rank_def_);
+    v3p_netlib_dpoco_(A_.data_block(), &n, &n, &rcond_, nullvector.data_block(), &num_dims_rank_def_);
     if (num_dims_rank_def_ != 0)
       vcl_cerr << "vnl_cholesky: rcond=" << rcond_ << " so " << num_dims_rank_def_ << " dimensions of non-posdeffness\n";
   }
@@ -57,8 +57,8 @@ void vnl_cholesky::solve(vnl_vector<double> const& b, vnl_vector<double>* x) con
   assert(b.size() == A_.columns());
 
   *x = b;
-  int n = A_.columns();
-  dposl_(A_.data_block(), &n, &n, x->data_block());
+  long n = A_.columns();
+  v3p_netlib_dposl_(A_.data_block(), &n, &n, x->data_block());
 }
 
 //: Solve least squares problem M x = b.
@@ -66,20 +66,20 @@ vnl_vector<double> vnl_cholesky::solve(vnl_vector<double> const& b) const
 {
   assert(b.size() == A_.columns());
 
-  int n = A_.columns();
+  long n = A_.columns();
   vnl_vector<double> ret = b;
-  dposl_(A_.data_block(), &n, &n, ret.data_block());
+  v3p_netlib_dposl_(A_.data_block(), &n, &n, ret.data_block());
   return ret;
 }
 
 //: Compute determinant.
 double vnl_cholesky::determinant() const
 {
-  int n = A_.columns();
+  long n = A_.columns();
   vnl_matrix<double> I = A_;
   double det[2];
-  int job = 10;
-  dpodi_(I.data_block(), &n, &n, det, &job);
+  long job = 10;
+  v3p_netlib_dpodi_(I.data_block(), &n, &n, det, &job);
   return det[0] * vcl_pow(10.0, det[1]);
 }
 
@@ -91,10 +91,10 @@ vnl_matrix<double> vnl_cholesky::inverse() const
     return vnl_matrix<double>();
   }
 
-  int n = A_.columns();
+  long n = A_.columns();
   vnl_matrix<double> I = A_;
-  int job = 01;
-  dpodi_(I.data_block(), &n, &n, 0, &job);
+  long job = 01;
+  v3p_netlib_dpodi_(I.data_block(), &n, &n, 0, &job);
 
   // Copy lower triangle into upper
   for (int i = 0; i < n; ++i)

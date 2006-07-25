@@ -1,0 +1,2 @@
+extern int fdjac2_(S_fp fcn, integer *m, integer *n, doublereal *x, doublereal *fvec, doublereal *fjac, integer *ldfjac, integer *iflag, doublereal *epsfcn, doublereal *wa);
+/*:ref: dpmpar_ 7 1 4 */

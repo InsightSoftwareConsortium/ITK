@@ -28,20 +28,20 @@ bool vnl_generalized_schur(vnl_matrix<double> *A,
   assert(A->cols() == B->rows());
   assert(A->cols() == B->cols());
 
-  int n = A->rows();
+  long n = A->rows();
   assert(alphar!=0); alphar->set_size(n);    alphar->fill(0);
   assert(alphai!=0); alphai->set_size(n);    alphai->fill(0);
   assert(beta!=0);   beta  ->set_size(n);    beta  ->fill(0);
   assert(L!=0);      L     ->set_size(n, n); L     ->fill(0);
   assert(R!=0);      R     ->set_size(n, n); R     ->fill(0);
 
-  int sdim = 0;
-  int lwork = 1000 + (8*n + 16);
+  long sdim = 0;
+  long lwork = 1000 + (8*n + 16);
   double *work = new double[lwork];
-  int info = 0;
+  long info = 0;
   A->inplace_transpose();
   B->inplace_transpose();
-  dgges_ ("V", "V",
+  v3p_netlib_dgges_ ("V", "V",
           "N",
           0,
           &n,
@@ -55,7 +55,7 @@ bool vnl_generalized_schur(vnl_matrix<double> *A,
           R->data_block(), &n,
           &work[0], &lwork,
           0,
-          &info);
+          &info, 1, 1, 1);
   A->inplace_transpose();
   B->inplace_transpose();
   L->inplace_transpose();

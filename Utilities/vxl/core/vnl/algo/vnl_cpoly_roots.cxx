@@ -5,7 +5,8 @@
 #include <vcl_cassert.h>
 #include <vnl/algo/vnl_complex_eigensystem.h>
 
-void vnl_cpoly_roots::compute(vnl_vector<vcl_complex<double> > const &a) {
+void vnl_cpoly_roots::compute(vnl_vector<vcl_complex<double> > const &a)
+{
   // construct companion matrix
   vnl_matrix<vcl_complex<double> > comp(N, N);
   comp.fill(0);
@@ -18,6 +19,9 @@ void vnl_cpoly_roots::compute(vnl_vector<vcl_complex<double> > const &a) {
   solns = vnl_complex_eigensystem(comp,
                                   false,    // we only want
                                   false).W; // the eigenvalues.
+#ifdef DEBUG
+  vcl_cerr << "s = " << solns << '\n';
+#endif
 }
 
 vnl_cpoly_roots::vnl_cpoly_roots(vnl_vector<vcl_complex<double> > const & a)
@@ -37,7 +41,8 @@ vnl_cpoly_roots::vnl_cpoly_roots(vnl_vector<double> const & a_real,
   for (unsigned i=0; i<N; ++i)
     a[i] = vcl_complex<double>(a_real[i], a_imag[i]);
 
-  //vcl_cerr << "a = " << a << vcl_endl;
+#ifdef DEBUG
+  vcl_cerr << "a = " << a << '\n';
+#endif
   compute(a);
-  //vcl_cerr << "s = " << solns << vcl_endl;
 }

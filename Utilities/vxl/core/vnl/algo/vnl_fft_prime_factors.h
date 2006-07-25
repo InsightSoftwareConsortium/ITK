@@ -41,7 +41,7 @@ public:
   int number () const { return number_; }
 
   //: exponents P, Q, R.
-  int const *pqr () const { return pqr_; }
+  long const *pqr () const { return pqr_; }
 
   operator safe_bool () const
     { return (trigs_ && info_ >= 0)? VCL_SAFE_BOOL_TRUE : 0; }
@@ -55,9 +55,9 @@ public:
 
  private:
   T *trigs_;
-  int number_;   // the number that is being split into prime-facs
-  int pqr_[3];   // store P, Q and R
-  int info_;
+  long number_;   // the number that is being split into prime-facs
+  long pqr_[3];   // store P, Q and R
+  long info_;
 
   void construct(int N);
   void destruct();

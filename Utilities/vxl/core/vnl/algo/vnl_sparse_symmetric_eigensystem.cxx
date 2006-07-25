@@ -26,8 +26,8 @@ static vnl_sparse_symmetric_eigensystem * current_system = 0;
 //  The input is p, which is an NxM matrix.
 //  This function returns q = A p, where A is the current sparse matrix.
 FUNCTION
-void sse_op_callback(const int* n,
-                     const int* m,
+void sse_op_callback(const long* n,
+                     const long* m,
                      const double* p,
                      double* q)
 {
@@ -42,11 +42,11 @@ void sse_op_callback(const int* n,
 // vectors.  If k=1 then return the (j-m+1)th through jth vectors in
 // q.
 FUNCTION
-void sse_iovect_callback(const int* n,
-                         const int* m,
+void sse_iovect_callback(const long* n,
+                         const long* m,
                          double* q,
-                         const int* j,
-                         const int* k)
+                         const long* j,
+                         const long* k)
 {
   assert(current_system != 0);
 
@@ -80,7 +80,7 @@ vnl_sparse_symmetric_eigensystem::~vnl_sparse_symmetric_eigensystem()
 int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>& M,
                                                       int n,
                                                       bool smallest,
-                                                      int nfigures)
+                                                      long nfigures)
 {
   mat = &M;
 
@@ -93,23 +93,23 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
 
   current_system = this;
 
-  int dim = mat->columns();
-  int nvals = (smallest)?-n:n;
-  int nperm = 0;
-  int nmval = n;
-  int nmvec = dim;
+  long dim = mat->columns();
+  long nvals = (smallest)?-n:n;
+  long nperm = 0;
+  long nmval = n;
+  long nmvec = dim;
   vcl_vector<double> temp_vals(n*4);
   vcl_vector<double> temp_vecs(n*dim);
 
   // set nblock = vcl_max(10, dim/6) :
-  int nblock = (dim<60) ? dim/6 : 10;
+  long nblock = (dim<60) ? dim/6 : 10;
 
   // isn't this rather a lot ? -- fsm
-  int maxop = dim*10;      // dim*20;
+  long maxop = dim*10;      // dim*20;
 
   // set maxj = vcl_max(40, maxop*nblock, 6*nblock+1) :
-  int maxj = maxop*nblock; // 2*n+1;
-  int t1 = 6*nblock+1;
+  long maxj = maxop*nblock; // 2*n+1;
+  long t1 = 6*nblock+1;
   if (maxj < t1) maxj = t1;
   if (maxj < 40) maxj = 40;
 
@@ -125,11 +125,11 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
   for (int i=0; i<dim*nblock; ++i)
     work[i] = 0.0;
 
-  vcl_vector<int> ind(n);
+  vcl_vector<long> ind(n);
 
-  int ierr = 0;
+  long ierr = 0;
 
-  dnlaso_(sse_op_callback, sse_iovect_callback,
+  v3p_netlib_dnlaso_(sse_op_callback, sse_iovect_callback,
           &dim, &nvals, &nfigures, &nperm,
           &nmval, &temp_vals[0],
           &nmvec, &temp_vecs[0],
@@ -139,53 +139,42 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
           &work[0],
           &ind[0],
           &ierr);
-  if (ierr > 0) {
-    if (ierr & 0x1) {
+  if (ierr > 0)
+  {
+    if (ierr & 0x1)
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: N < 6*NBLOCK\n";
-    }
-    if (ierr & 0x2) {
+    if (ierr & 0x2)
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NFIG < 0\n";
-    }
-    if (ierr & 0x4) {
+    if (ierr & 0x4)
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NMVEC < N\n";
-    }
-    if (ierr & 0x8) {
+    if (ierr & 0x8)
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NPERM < 0\n";
-    }
-    if (ierr & 0x10) {
+    if (ierr & 0x10)
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: MAXJ < 6*NBLOCK\n";
-    }
-    if (ierr & 0x20) {
+    if (ierr & 0x20)
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL < max(1,NPERM)\n";
-    }
-    if (ierr & 0x40) {
+    if (ierr & 0x40)
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL > NMVAL\n";
-    }
-    if (ierr & 0x80) {
+    if (ierr & 0x80)
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL > MAXOP\n";
-    }
-    if (ierr & 0x100) {
+    if (ierr & 0x100)
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL > MAXJ/2\n";
-    }
-    if (ierr & 0x200) {
+    if (ierr & 0x200)
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NBLOCK < 1\n";
-    }
   }
-  else if (ierr < 0) {
-    if (ierr == -1) {
+  else if (ierr < 0)
+  {
+    if (ierr == -1)
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem:\n"
                << "  poor initial vectors chosen\n";
-    }
-    else if (ierr == -2) {
+    else if (ierr == -2)
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem:\n"
                << "  reached maximum operations " << maxop
                << " without finding all eigenvalues,\n"
                << "  found " << nperm << " eigenvalues\n";
-    }
-    else if (ierr == -8) {
+    else if (ierr == -8)
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem:\n"
                << "  disastrous loss of orthogonality - internal error\n";
-    }
   }
 
   // Copy the eigenvalues and vectors.
@@ -240,7 +229,9 @@ int vnl_sparse_symmetric_eigensystem::SaveVectors(int n, int m,
 
   double* temp = new double[n*m];
   vcl_memcpy(temp,q,n*m*sizeof(double));
-  //  vcl_cout << "Save vectors " << base << " " << temp << vcl_endl;
+#ifdef DEBUG
+    vcl_cout << "Save vectors " << base << ' ' << temp << '\n';
+#endif
 
   temp_store.push_back(temp);
 
@@ -261,7 +252,9 @@ int vnl_sparse_symmetric_eigensystem::RestoreVectors(int n, int m,
 
   double* temp = temp_store[read_idx];
   vcl_memcpy(q,temp,n*m*sizeof(double));
-  //  vcl_cout << "Restore vectors " << base << " " << temp << vcl_endl;
+#ifdef DEBUG
+    vcl_cout << "Restore vectors " << base << ' ' << temp << '\n';
+#endif
 
   read_idx++;
   return 0;

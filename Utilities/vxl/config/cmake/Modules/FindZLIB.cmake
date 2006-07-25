@@ -38,6 +38,7 @@ ELSE(ZLIB_FOUND)
 
     SET( ZLIB_FOUND "YES" )
     SET( ZLIB_INCLUDE_DIR ${vxl_SOURCE_DIR}/v3p/zlib)  
+    SET( ZLIB_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/v3p/zlib)  
     SET( ZLIB_LIBRARIES z )
   
   ENDIF(EXISTS ${vxl_SOURCE_DIR}/v3p/zlib/zlib.h)

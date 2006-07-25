@@ -1,0 +1,2 @@
+extern int hqr2_(integer *nm, integer *n, integer *low, integer *igh, doublereal *h__, doublereal *wr, doublereal *wi, doublereal *z__, integer *ierr);
+/*:ref: cdiv_ 14 6 7 7 7 7 7 7 */

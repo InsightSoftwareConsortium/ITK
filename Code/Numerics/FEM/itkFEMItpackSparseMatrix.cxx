@@ -308,7 +308,7 @@ void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
   return;
 }
 
-doublereal ItpackSparseMatrix::Get(integer i, integer j)
+ItpackSparseMatrix::doublereal ItpackSparseMatrix::Get(integer i, integer j)
 {
 
   doublereal returnValue = 0.0; /* set to default return value */
@@ -344,7 +344,7 @@ doublereal ItpackSparseMatrix::Get(integer i, integer j)
 }
 
 
-doublereal* ItpackSparseMatrix::GetA()
+ItpackSparseMatrix::doublereal* ItpackSparseMatrix::GetA()
 {
   if (m_MatrixInitialized == 0) return 0;
   if (m_MatrixFinalized == 0) Finalize();
@@ -353,7 +353,7 @@ doublereal* ItpackSparseMatrix::GetA()
 }
 
 
-integer* ItpackSparseMatrix::GetIA()
+ItpackSparseMatrix::integer* ItpackSparseMatrix::GetIA()
 {
   if (m_MatrixInitialized == 0) return 0;
   if (m_MatrixFinalized == 0) Finalize();
@@ -362,7 +362,7 @@ integer* ItpackSparseMatrix::GetIA()
 }
 
 
-integer* ItpackSparseMatrix::GetJA()
+ItpackSparseMatrix::integer* ItpackSparseMatrix::GetJA()
 {
   if (m_MatrixInitialized == 0) return 0;
   if (m_MatrixFinalized == 0) Finalize();

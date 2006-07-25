@@ -12,65 +12,49 @@
 #include "vnl_matops.h"
 #include <vcl_cassert.h>
 
-vnl_matrix<double> vnl_matops::cat(vnl_matrix<double> const &A, vnl_matrix<double> const &B) {
-  int rowsA = A.rows();
-  int colsA = A.columns();
-  int rowsB = B.rows();
-  int colsB = B.columns();
+vnl_matrix<double> vnl_matops::cat(vnl_matrix<double> const &A, vnl_matrix<double> const &B)
+{
+  assert(A.rows() == B.rows());
 
-  assert(rowsA == rowsB);
-
-  vnl_matrix<double> M(rowsA,colsA+colsB);
+  vnl_matrix<double> M(A.rows(),A.columns()+B.columns());
   M.update(A,0,0);
-  M.update(B,0,colsA);
+  M.update(B,0,A.columns());
 
   return M;
 }
 
-vnl_matrix<double> vnl_matops::cat(vnl_matrix<double> const &A, vnl_vector<double> const &B) {
-  int rowsA = A.rows();
-  int colsA = A.columns();
-  int rowsB = B.size();
+vnl_matrix<double> vnl_matops::cat(vnl_matrix<double> const &A, vnl_vector<double> const &B)
+{
+  assert(A.rows() == B.size());
 
-  assert(rowsA == rowsB);
-
-  vnl_matrix<double> M(rowsA,colsA+1);
+  vnl_matrix<double> M(A.rows(),A.columns()+1);
   M.update(A,0,0);
-  M.set_column(colsA,B);
+  M.set_column(A.columns(),B);
 
   return M;
 }
 
-vnl_matrix<double> vnl_matops::cat(vnl_vector<double> const &A, vnl_matrix<double> const &B) {
-  int rowsA = A.size();
-  int rowsB = B.rows();
-  int colsB = B.columns();
+vnl_matrix<double> vnl_matops::cat(vnl_vector<double> const &A, vnl_matrix<double> const &B)
+{
+  assert(A.size() == B.rows());
 
-  assert(rowsA == rowsB);
-
-  vnl_matrix<double> M(rowsA,colsB+1);
+  vnl_matrix<double> M(B.rows(),B.columns()+1);
   M.set_column(0,A);
   M.update(B,0,1);
 
   return M;
 }
 
-vnl_matrix<double> vnl_matops::vcat(vnl_matrix<double> const &A, vnl_matrix<double> const &B) {
-  int rowsA = A.rows();
-  int colsA = A.columns();
-  int rowsB = B.rows();
-  int colsB = B.columns();
+vnl_matrix<double> vnl_matops::vcat(vnl_matrix<double> const &A, vnl_matrix<double> const &B)
+{
+  assert(A.columns() == B.columns());
 
-  assert(colsA == colsB);
-
-  vnl_matrix<double> M(rowsA+rowsB,colsA);
+  vnl_matrix<double> M(A.rows()+B.rows(),A.columns());
   M.update(A,0,0);
-  M.update(B,rowsA,0);
+  M.update(B,A.rows(),0);
 
   return M;
 }
-
-extern "C" int dtrans_(double *a, const int& m, const int& n, const int& mn, int* move, const int& iwrk, int* iok);
 
 //: Return fro_norm( (A ./ B) - mean(A ./ B) )
 double vnl_matops::homg_diff(vnl_matrix<double> const& A, vnl_matrix<double> const& B)
@@ -88,7 +72,7 @@ vnl_matrix<U> make_matrix_ ## U(vnl_matrix<V> const& M)     \
   vnl_matrix<U> ret(m, n);                                  \
   for (unsigned i = 0; i < m; ++i)                          \
     for (unsigned j = 0; j < n; ++j)                        \
-      ret(i,j) = U(M(i,j));                                 \
+      ret(i,j) = static_cast<U>(M(i,j));                    \
   return ret;                                               \
 }                                                           \
                                                             \
@@ -96,8 +80,8 @@ vnl_vector<U> make_vector_ ## U(vnl_vector<V> const& v)     \
 {                                                           \
   unsigned n = v.size();                                    \
   vnl_vector<U> ret(n);                                     \
-  for (unsigned i = 0; i < n; ++i)                           \
-    ret[i] = U(v[i]);                                       \
+  for (unsigned i = 0; i < n; ++i)                          \
+    ret[i] = static_cast<U>(v[i]);                          \
   return ret;                                               \
 }                                                           \
 
@@ -110,7 +94,6 @@ vnl_matrix<double>  vnl_matops::f2d(vnl_matrix<float> const& M)
   return make_matrix_double(M);
 }
 
-
 vnl_matrix<float>  vnl_matops::d2f(vnl_matrix<double> const& M)
 {
   return make_matrix_float(M);
@@ -120,7 +103,6 @@ vnl_vector<double>  vnl_matops::f2d(vnl_vector<float> const& M)
 {
   return make_vector_double(M);
 }
-
 
 vnl_vector<float>  vnl_matops::d2f(vnl_vector<double> const& M)
 {

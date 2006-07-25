@@ -14,7 +14,7 @@
 
 #define macro(p, T) \
 inline void vnl_linpack_svdc(vnl_netlib_svd_proto(T)) \
-{ p##svdc_(vnl_netlib_svd_params); }
+{ v3p_netlib_##p##svdc_(vnl_netlib_svd_params); }
 macro(s, float);
 macro(d, double);
 macro(c, vcl_complex<float>);
@@ -38,12 +38,13 @@ vnl_svd_economy<real_t>::vnl_svd_economy( vnl_matrix<real_t> const& M ) :
   vnl_vector<real_t> espace(n_, real_t(0));
 
   // Call Linpack SVD
-  int info = 0;
-  const int job = 01; // no U, n svs in V (i.e. super-economy size)
+  long ldu = 0;
+  long info = 0;
+  const long job = 01; // no U, n svs in V (i.e. super-economy size)
   vnl_linpack_svdc((real_t*)X, &m_, &m_, &n_,
                    wspace.data_block(),
                    espace.data_block(),
-                   0, 0,
+                   0, &ldu,
                    vspace.data_block(), &n_,
                    work.data_block(),
                    &job, &info);

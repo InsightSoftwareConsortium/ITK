@@ -1,0 +1,6 @@
+extern int dpoco_(doublereal *a, integer *lda, integer *n, doublereal *rcond, doublereal *z__, integer *info);
+/*:ref: dasum_ 7 3 4 7 4 */
+/*:ref: dpofa_ 14 4 7 4 4 4 */
+/*:ref: dscal_ 14 4 4 7 7 4 */
+/*:ref: daxpy_ 14 6 4 7 7 4 7 4 */
+/*:ref: ddot_ 7 5 4 7 4 7 4 */

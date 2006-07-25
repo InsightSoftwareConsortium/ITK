@@ -20,9 +20,9 @@
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 #define macro(p, T) \
 inline void vnl_linpack_qrdc(vnl_netlib_qrdc_proto(T)) \
-{ p##qrdc_(vnl_netlib_qrdc_params); } \
+{ v3p_netlib_##p##qrdc_(vnl_netlib_qrdc_params); } \
 inline void vnl_linpack_qrsl(vnl_netlib_qrsl_proto(T)) \
-{ p##qrsl_(vnl_netlib_qrsl_params); }
+{ v3p_netlib_##p##qrsl_(vnl_netlib_qrsl_params); }
 macro(s, float);
 macro(d, double);
 macro(c, vcl_complex<float>);
@@ -41,13 +41,13 @@ vnl_qr<T>::vnl_qr(vnl_matrix<T> const& M):
   assert(! M.empty());
 
   // Fill transposed O/P matrix
-  int c = M.columns();
-  int r = M.rows();
+  long c = M.columns();
+  long r = M.rows();
   for (int i = 0; i < r; ++i)
     for (int j = 0; j < c; ++j)
       qrdc_out_(j,i) = M(i,j);
 
-  int do_pivot = 0; // Enable[!=0]/disable[==0] pivoting.
+  long do_pivot = 0; // Enable[!=0]/disable[==0] pivoting.
   jpvt_.fill(0); // Allow all columns to be pivoted if pivoting is enabled.
 
   vnl_vector<T> work(M.rows());
@@ -185,16 +185,16 @@ vnl_matrix<T> vnl_qr<T>::recompose() const
 template <class T>
 vnl_vector<T> vnl_qr<T>::solve(const vnl_vector<T>& b) const
 {
-  int n = qrdc_out_.columns();
-  int p = qrdc_out_.rows();
+  long n = qrdc_out_.columns();
+  long p = qrdc_out_.rows();
   const T* b_data = b.data_block();
   vnl_vector<T> QtB(n);
   vnl_vector<T> x(p);
 
   // see comment above
-  int JOB = 100;
+  long JOB = 100;
 
-  int info = 0;
+  long info = 0;
   vnl_linpack_qrsl(qrdc_out_.data_block(),
                    &n, &n, &p,
                    qraux_.data_block(),
@@ -216,15 +216,15 @@ vnl_vector<T> vnl_qr<T>::solve(const vnl_vector<T>& b) const
 template <class T>
 vnl_vector<T> vnl_qr<T>::QtB(const vnl_vector<T>& b) const
 {
-  int n = qrdc_out_.columns();
-  int p = qrdc_out_.rows();
+  long n = qrdc_out_.columns();
+  long p = qrdc_out_.rows();
   const T* b_data = b.data_block();
   vnl_vector<T> QtB(n);
 
   // see comment above
-  int JOB = 1000;
+  long JOB = 1000;
 
-  int info = 0;
+  long info = 0;
   vnl_linpack_qrsl(qrdc_out_.data_block(),
                    &n, &n, &p,
                    qraux_.data_block(),

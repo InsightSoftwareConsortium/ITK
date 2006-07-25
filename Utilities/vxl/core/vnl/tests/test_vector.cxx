@@ -1,5 +1,6 @@
 // This is core/vnl/tests/test_vector.cxx
 #include <vcl_iostream.h>
+#include <vcl_sstream.h>
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_float_3.h>
@@ -462,6 +463,45 @@ void vnl_vector_test_conversion()
 #endif
 }
 
+static void vnl_vector_test_io()
+{
+  {
+    vcl_stringstream ss;
+    ss << "";
+    vnl_vector<double> p;
+    ss >> p;
+    TEST("number of values read from stream, empty", p.size(), 0);
+  }
+  {
+    vcl_stringstream ss;
+    ss << " \n ";
+    vnl_vector<double> p;
+    ss >> p;
+    TEST("number of values read from stream, just WS", p.size(), 0);
+  }
+  {
+    vcl_stringstream ss;
+    ss << "1 2 3.0";
+    vnl_vector<double> p;
+    ss >> p;
+    TEST("number of values read from stream, no newline", p.size(), 3);
+  }
+  {
+    vcl_stringstream ss;
+    ss << "1 2 3.0\n";
+    vnl_vector<double> p;
+    ss >> p;
+    TEST("number of values read from stream, newline", p.size(), 3);
+  }
+  {
+    vcl_stringstream ss;
+    ss << "1 2 3.0\n ";
+    vnl_vector<double> p;
+    ss >> p;
+    TEST("number of values read from stream, newline + WS", p.size(), 3);
+  }
+}
+
 #ifndef TIMING
 #define TIMING 0
 #endif
@@ -534,6 +574,7 @@ void test_vector()
   vnl_vector_test_float();
   vnl_vector_test_matrix();
   vnl_vector_test_conversion();
+  vnl_vector_test_io();
 #if TIMING
   vnl_vector_test_timing();
 #endif

@@ -16,12 +16,12 @@ ADD_EXECUTABLE( testlib_test_link
 )
 TARGET_LINK_LIBRARIES( testlib_test_link itktestlib )
 
-ADD_TEST( testlib_assert     testlib_test_all test_assert )
-ADD_TEST( testlib_macros     testlib_test_all test_macros )
-ADD_TEST( testlib_args       testlib_test_all test_args one two )
-ADD_TEST( testlib_root_dir   testlib_test_all test_root_dir )
-ADD_TEST( testlib_test_link  testlib_test_link )
-ADD_TEST( testlib_all        testlib_test_all all one two )
+ADD_TEST( testlib_assert     ${EXECUTABLE_OUTPUT_PATH}/testlib_test_all test_assert )
+ADD_TEST( testlib_macros     ${EXECUTABLE_OUTPUT_PATH}/testlib_test_all test_macros )
+ADD_TEST( testlib_args       ${EXECUTABLE_OUTPUT_PATH}/testlib_test_all test_args one two )
+ADD_TEST( testlib_root_dir   ${EXECUTABLE_OUTPUT_PATH}/testlib_test_all test_root_dir )
+ADD_TEST( testlib_test_link  ${EXECUTABLE_OUTPUT_PATH}/testlib_test_link )
+ADD_TEST( testlib_all        ${EXECUTABLE_OUTPUT_PATH}/testlib_test_all all one two )
 
 ADD_EXECUTABLE( testlib_test_include test_include.cxx )
 TARGET_LINK_LIBRARIES( testlib_test_include itktestlib )

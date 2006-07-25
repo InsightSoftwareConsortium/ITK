@@ -17,9 +17,9 @@
 // non-negative chisq.  Thus if a random variable x is drawn from a
 // chi-squared distribution with d degrees of freedom, then P(x < X) =
 // vnl_chi_squared::vnl_chi_squaredCumulative(X,d).
-double vnl_chi_squared_cumulative(double chisq, int dof) {
+double vnl_chi_squared_cumulative(double chisq, long dof) {
   double cdf;
-  dchscdf_(&chisq,&dof,&cdf);
+  v3p_netlib_dchscdf_(&chisq,&dof,&cdf);
   return cdf;
 }
 

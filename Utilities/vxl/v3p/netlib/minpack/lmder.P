@@ -1,0 +1,5 @@
+extern int lmder_(S_fp fcn, integer *m, integer *n, doublereal *x, doublereal *fvec, doublereal *fjac, integer *ldfjac, doublereal *ftol, doublereal *xtol, doublereal *gtol, integer *maxfev, doublereal *diag, integer *mode, doublereal *factor, integer *nprint, integer *info, integer *nfev, integer *njev, integer *ipvt, doublereal *qtf, doublereal *wa1, doublereal *wa2, doublereal *wa3, doublereal *wa4);
+/*:ref: dpmpar_ 7 1 4 */
+/*:ref: enorm_ 7 2 4 7 */
+/*:ref: qrfac_ 14 10 4 4 7 4 12 4 4 7 7 7 */
+/*:ref: lmpar_ 14 12 4 7 4 4 7 7 7 7 7 7 7 7 */

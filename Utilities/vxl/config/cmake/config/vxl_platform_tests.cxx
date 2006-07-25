@@ -1060,3 +1060,46 @@ int main()
 #endif // VCL_CHAR_IS_SIGNED
 
 //-------------------------------------
+
+#ifdef VXL_C_MATH_HAS_LROUND
+
+// This C99 func is a much faster version of standard vnl_math_round
+#include <cmath>
+
+int main() { long c = lround(100.0); }
+
+#endif // VXL_C_MATH_HAS_LRINT
+
+//-------------------------------------
+
+#ifdef VCL_HAS_LFS
+
+// Return 1 if compiler has #define-switchable Large File Support
+#define _LARGEFILE_SOURCE
+#define _FILE_OFFSET_BITS 64
+
+#include <fstream>
+#include <iostream>
+
+int main(int argc, char * argv[])
+{
+ if( sizeof(std::streamoff)==8 )
+   return 0 ;
+ else
+   return 1;
+}
+
+#endif // VCL_HAS_LFS
+
+//-------------------------------------
+
+#ifdef VXL_HAS_DBGHELP_H
+
+// This is a Windows header, and needs windows.h included first to make it compile properly.
+#include <Windows.h>
+#include <DbgHelp.h>
+
+int main() { MINIDUMP_EXCEPTION_INFORMATION dummy; return 0; }
+#endif // VXL_HAS_DBGHELP_H
+
+

@@ -323,20 +323,19 @@ bool vnl_vector<T>::read_ascii(vcl_istream& s)
 {
   bool size_known = (this->size() != 0);
   if (size_known) {
-    for (unsigned i = 0; i < this->size(); ++i)
-      s >> (*this)(i);
-    return s.good() || s.eof();
+    for (unsigned i = 0; i < this->size(); ++i) {
+      if ( ! (s >> (*this)(i)) ) {
+        return false;
+      }
+    }
+    return true;
   }
 
   // Just read until EOF
   vcl_vector<T> allvals;
   unsigned n = 0;
-  while (!s.eof()) {
-    T value;
-    s >> value;
-
-    if (s.bad())
-      break;
+  T value;
+  while ( s >> value ) {
     allvals.push_back(value);
     ++n;
   }
@@ -357,7 +356,8 @@ vnl_vector<T> vnl_vector<T>::read(vcl_istream& s)
 //: Sets all elements of a vector to a specified fill value. O(n).
 
 template<class T>
-void vnl_vector<T>::fill (T const& value) {
+void vnl_vector<T>::fill (T const& value)
+{
   for (unsigned i = 0; i < this->num_elmts; i++)
     this->data[i] = value;
 }
@@ -365,7 +365,8 @@ void vnl_vector<T>::fill (T const& value) {
 //: Sets elements of a vector to those in an array. O(n).
 
 template<class T>
-void vnl_vector<T>::copy_in (T const *ptr) {
+void vnl_vector<T>::copy_in (T const *ptr)
+{
   for (unsigned i = 0; i < num_elmts; ++i)
     data[i] = ptr[i];
 }
@@ -373,7 +374,8 @@ void vnl_vector<T>::copy_in (T const *ptr) {
 //: Sets elements of an array to those in vector. O(n).
 
 template<class T>
-void vnl_vector<T>::copy_out (T *ptr) const {
+void vnl_vector<T>::copy_out (T *ptr) const
+{
   for (unsigned i = 0; i < num_elmts; ++i)
     ptr[i] = data[i];
 }
@@ -382,7 +384,8 @@ void vnl_vector<T>::copy_out (T *ptr) const {
 // Changes the dimension of lhs vector if necessary.
 
 template<class T>
-vnl_vector<T>& vnl_vector<T>::operator= (vnl_vector<T> const& rhs) {
+vnl_vector<T>& vnl_vector<T>::operator= (vnl_vector<T> const& rhs)
+{
   if (this != &rhs) { // make sure *this != m
     if (rhs.data) {
       if (this->num_elmts != rhs.num_elmts)
@@ -401,7 +404,8 @@ vnl_vector<T>& vnl_vector<T>::operator= (vnl_vector<T> const& rhs) {
 //: Increments all elements of vector with value. O(n).
 
 template<class T>
-vnl_vector<T>& vnl_vector<T>::operator+= (T value) {
+vnl_vector<T>& vnl_vector<T>::operator+= (T value)
+{
   for (unsigned i = 0; i < this->num_elmts; i++)
     this->data[i] += value;
   return *this;
@@ -410,7 +414,8 @@ vnl_vector<T>& vnl_vector<T>::operator+= (T value) {
 //: Multiplies all elements of vector with value. O(n).
 
 template<class T>
-vnl_vector<T>& vnl_vector<T>::operator*= (T value) {
+vnl_vector<T>& vnl_vector<T>::operator*= (T value)
+{
   for (unsigned i = 0; i < this->num_elmts; i++)
     this->data[i] *= value;
   return *this;
@@ -419,7 +424,8 @@ vnl_vector<T>& vnl_vector<T>::operator*= (T value) {
 //: Divides all elements of vector by value. O(n).
 
 template<class T>
-vnl_vector<T>& vnl_vector<T>::operator/= (T value) {
+vnl_vector<T>& vnl_vector<T>::operator/= (T value)
+{
   for (unsigned i = 0; i < this->num_elmts; i++)
     this->data[i] /= value;
   return *this;
@@ -429,7 +435,8 @@ vnl_vector<T>& vnl_vector<T>::operator/= (T value) {
 //: Mutates lhs vector with its addition with rhs vector. O(n).
 
 template<class T>
-vnl_vector<T>& vnl_vector<T>::operator+= (vnl_vector<T> const& rhs) {
+vnl_vector<T>& vnl_vector<T>::operator+= (vnl_vector<T> const& rhs)
+{
 #ifndef NDEBUG
   if (this->num_elmts != rhs.num_elmts)
     vnl_error_vector_dimension ("operator+=", this->num_elmts, rhs.num_elmts);
@@ -443,7 +450,8 @@ vnl_vector<T>& vnl_vector<T>::operator+= (vnl_vector<T> const& rhs) {
 //:  Mutates lhs vector with its subtraction with rhs vector. O(n).
 
 template<class T>
-vnl_vector<T>& vnl_vector<T>::operator-= (vnl_vector<T> const& rhs) {
+vnl_vector<T>& vnl_vector<T>::operator-= (vnl_vector<T> const& rhs)
+{
 #ifndef NDEBUG
   if (this->num_elmts != rhs.num_elmts)
     vnl_error_vector_dimension ("operator-=", this->num_elmts, rhs.num_elmts);
@@ -457,7 +465,8 @@ vnl_vector<T>& vnl_vector<T>::operator-= (vnl_vector<T> const& rhs) {
 // v = m * v. O(m*n). Vector is assumed a column matrix.
 
 template<class T>
-vnl_vector<T>& vnl_vector<T>::pre_multiply (vnl_matrix<T> const& m) {
+vnl_vector<T>& vnl_vector<T>::pre_multiply (vnl_matrix<T> const& m)
+{
 #ifndef NDEBUG
   if (m.columns() != this->num_elmts)           // dimensions do not match?
     vnl_error_vector_dimension ("operator*=", this->num_elmts, m.columns());
@@ -479,7 +488,8 @@ vnl_vector<T>& vnl_vector<T>::pre_multiply (vnl_matrix<T> const& m) {
 // v = v * m. O(m*n). Vector is assumed a row matrix.
 
 template<class T>
-vnl_vector<T>& vnl_vector<T>::post_multiply (vnl_matrix<T> const& m) {
+vnl_vector<T>& vnl_vector<T>::post_multiply (vnl_matrix<T> const& m)
+{
 #ifndef NDEBUG
   if (this->num_elmts != m.rows())              // dimensions do not match?
     vnl_error_vector_dimension ("operator*=", this->num_elmts, m.rows());
@@ -501,7 +511,8 @@ vnl_vector<T>& vnl_vector<T>::post_multiply (vnl_matrix<T> const& m) {
 //: Creates new vector containing the negation of THIS vector. O(n).
 
 template<class T>
-vnl_vector<T> vnl_vector<T>::operator- () const {
+vnl_vector<T> vnl_vector<T>::operator- () const
+{
   vnl_vector<T> result(this->num_elmts);
   for (unsigned i = 0; i < this->num_elmts; i++)
     result.data[i] = - this->data[i];           // negate element
@@ -512,8 +523,8 @@ vnl_vector<T> vnl_vector<T>::operator- () const {
 //: Returns new vector which is the multiplication of matrix m with column vector v. O(m*n).
 
 template<class T>
-vnl_vector<T> operator* (vnl_matrix<T> const& m, vnl_vector<T> const& v) {
-
+vnl_vector<T> operator* (vnl_matrix<T> const& m, vnl_vector<T> const& v)
+{
 #ifndef NDEBUG
   if (m.columns() != v.size())                  // dimensions do not match?
     vnl_error_vector_dimension ("operator*", m.columns(), v.size());
@@ -532,8 +543,8 @@ vnl_vector<T> operator* (vnl_matrix<T> const& m, vnl_vector<T> const& v) {
 //: Returns new vector which is the multiplication of row vector v with matrix m. O(m*n).
 
 template<class T>
-vnl_vector<T> vnl_vector<T>::operator* (vnl_matrix<T> const&m) const {
-
+vnl_vector<T> vnl_vector<T>::operator* (vnl_matrix<T> const&m) const
+{
   // rick@aai: casting away const avoids the following error (using gcc272)
   // at m.rows during instantiation of 'template class vnl_vector<double >;'
   // "cannot lookup method in incomplete type `const vnl_matrix<double>`"
@@ -560,7 +571,8 @@ vnl_vector<T> vnl_vector<T>::operator* (vnl_matrix<T> const&m) const {
 //: Replaces elements with index beginning at start, by values of v. O(n).
 
 template<class T>
-vnl_vector<T>& vnl_vector<T>::update (vnl_vector<T> const& v, unsigned start) {
+vnl_vector<T>& vnl_vector<T>::update (vnl_vector<T> const& v, unsigned start)
+{
   unsigned stop = start + v.size();
 #ifndef NDEBUG
   if ( stop > this->num_elmts)
@@ -575,7 +587,8 @@ vnl_vector<T>& vnl_vector<T>::update (vnl_vector<T> const& v, unsigned start) {
 //: Returns a subvector specified by the start index and length. O(n).
 
 template<class T>
-vnl_vector<T> vnl_vector<T>::extract (unsigned len, unsigned start) const {
+vnl_vector<T> vnl_vector<T>::extract (unsigned len, unsigned start) const
+{
 #ifndef NDEBUG
   unsigned stop = start + len;
   if (this->num_elmts < stop)
@@ -590,7 +603,8 @@ vnl_vector<T> vnl_vector<T>::extract (unsigned len, unsigned start) const {
 //: Returns new vector whose elements are the products v1[i]*v2[i]. O(n).
 
 template<class T>
-vnl_vector<T> element_product (vnl_vector<T> const& v1, vnl_vector<T> const& v2) {
+vnl_vector<T> element_product (vnl_vector<T> const& v1, vnl_vector<T> const& v2)
+{
 #ifndef NDEBUG
   if (v1.size() != v2.size())
     vnl_error_vector_dimension ("element_product", v1.size(), v2.size());
@@ -604,7 +618,8 @@ vnl_vector<T> element_product (vnl_vector<T> const& v1, vnl_vector<T> const& v2)
 //: Returns new vector whose elements are the quotients v1[i]/v2[i]. O(n).
 
 template<class T>
-vnl_vector<T> element_quotient (vnl_vector<T> const& v1, vnl_vector<T> const& v2) {
+vnl_vector<T> element_quotient (vnl_vector<T> const& v1, vnl_vector<T> const& v2)
+{
 #ifndef NDEBUG
   if (v1.size() != v2.size())
     vnl_error_vector_dimension ("element_quotient", v1.size(), v2.size());
@@ -617,7 +632,8 @@ vnl_vector<T> element_quotient (vnl_vector<T> const& v1, vnl_vector<T> const& v2
 
 //:
 template <class T>
-vnl_vector<T> vnl_vector<T>::apply(T (*f)(T const&)) const {
+vnl_vector<T> vnl_vector<T>::apply(T (*f)(T const&)) const
+{
   vnl_vector<T> ret(size());
   vnl_c_vector<T>::apply(this->data, num_elmts, f, ret.data);
   return ret;
@@ -625,7 +641,8 @@ vnl_vector<T> vnl_vector<T>::apply(T (*f)(T const&)) const {
 
 //: Return the vector made by applying "f" to each element.
 template <class T>
-vnl_vector<T> vnl_vector<T>::apply(T (*f)(T)) const {
+vnl_vector<T> vnl_vector<T>::apply(T (*f)(T)) const
+{
   vnl_vector<T> ret(num_elmts);
   vnl_c_vector<T>::apply(this->data, num_elmts, f, ret.data);
   return ret;
@@ -634,7 +651,8 @@ vnl_vector<T> vnl_vector<T>::apply(T (*f)(T)) const {
 //: Returns the dot product of two nd-vectors, or [v1]*[v2]^T. O(n).
 
 template<class T>
-T dot_product (vnl_vector<T> const& v1, vnl_vector<T> const& v2) {
+T dot_product (vnl_vector<T> const& v1, vnl_vector<T> const& v2)
+{
 #ifndef NDEBUG
   if (v1.size() != v2.size())
     vnl_error_vector_dimension ("dot_product", v1.size(), v2.size());
@@ -647,7 +665,8 @@ T dot_product (vnl_vector<T> const& v1, vnl_vector<T> const& v2) {
 //: Hermitian inner product. O(n)
 
 template<class T>
-T inner_product (vnl_vector<T> const& v1, vnl_vector<T> const& v2) {
+T inner_product (vnl_vector<T> const& v1, vnl_vector<T> const& v2)
+{
 #ifndef NDEBUG
   if (v1.size() != v2.size())
     vnl_error_vector_dimension ("inner_product", v1.size(), v2.size());
@@ -660,7 +679,8 @@ T inner_product (vnl_vector<T> const& v1, vnl_vector<T> const& v2) {
 //: Returns the 'matrix element' <u|A|v> = u^t * A * v. O(mn).
 
 template<class T>
-T bracket(vnl_vector<T> const &u, vnl_matrix<T> const &A, vnl_vector<T> const &v) {
+T bracket(vnl_vector<T> const &u, vnl_matrix<T> const &A, vnl_vector<T> const &v)
+{
 #ifndef NDEBUG
   if (u.size() != A.rows())
     vnl_error_vector_dimension("bracket",u.size(),A.rows());
@@ -690,7 +710,8 @@ vnl_matrix<T> outer_product (vnl_vector<T> const& v1,
 //--------------------------------------------------------------------------------
 
 template <class T>
-void vnl_vector<T>::flip() {
+void vnl_vector<T>::flip()
+{
   for (unsigned i=0;i<num_elmts/2;i++) {
     T tmp=data[i];
     data[i]=data[num_elmts-1-i];
@@ -717,7 +738,8 @@ void vnl_vector<T>::swap(vnl_vector<T> &that)
 // fsm : cos_angle should return a T, or a double-precision extension
 // of T. "double" is wrong since it won't work if T is complex.
 template <class T>
-T cos_angle(vnl_vector<T> const& a, vnl_vector<T> const& b) {
+T cos_angle(vnl_vector<T> const& a, vnl_vector<T> const& b)
+{
   typedef typename vnl_numeric_traits<T>::real_t real_t;
   typedef typename vnl_numeric_traits<T>::abs_t abs_t;
   typedef typename vnl_numeric_traits<abs_t>::real_t abs_r;
@@ -735,7 +757,8 @@ T cos_angle(vnl_vector<T> const& a, vnl_vector<T> const& b) {
 //: Returns smallest angle between two non-zero n-dimensional vectors. O(n).
 
 template<class T>
-double angle (vnl_vector<T> const& a, vnl_vector<T> const& b) {
+double angle (vnl_vector<T> const& a, vnl_vector<T> const& b)
+{
   typedef typename vnl_numeric_traits<T>::abs_t abs_t;
   typedef typename vnl_numeric_traits<abs_t>::real_t abs_r;
   const abs_r c = abs_r( cos_angle(a, b) );
@@ -746,7 +769,8 @@ double angle (vnl_vector<T> const& a, vnl_vector<T> const& b) {
 }
 
 template <class T>
-bool vnl_vector<T>::is_finite() const {
+bool vnl_vector<T>::is_finite() const
+{
   for (unsigned i = 0; i < this->size();++i)
     if (!vnl_math_isfinite( (*this)[i] ))
       return false;
@@ -766,7 +790,8 @@ bool vnl_vector<T>::is_zero() const
 }
 
 template <class T>
-void vnl_vector<T>::assert_finite_internal() const {
+void vnl_vector<T>::assert_finite_internal() const
+{
   if (this->is_finite())
     return;
 
@@ -775,7 +800,8 @@ void vnl_vector<T>::assert_finite_internal() const {
 }
 
 template <class T>
-void vnl_vector<T>::assert_size_internal(unsigned sz) const {
+void vnl_vector<T>::assert_size_internal(unsigned sz) const
+{
   if (this->size() != sz) {
     vcl_cerr << __FILE__ ": Size is " << this->size() << ". Should be " << sz << '\n';
     vcl_abort();
@@ -783,7 +809,8 @@ void vnl_vector<T>::assert_size_internal(unsigned sz) const {
 }
 
 template<class T>
-bool vnl_vector<T>::operator_eq (vnl_vector<T> const& rhs) const {
+bool vnl_vector<T>::operator_eq (vnl_vector<T> const& rhs) const
+{
   if (this == &rhs)                               // same object => equal.
     return true;
 
@@ -801,7 +828,8 @@ bool vnl_vector<T>::operator_eq (vnl_vector<T> const& rhs) const {
 //: Overloads the output operator to print a vector. O(n).
 
 template<class T>
-vcl_ostream& operator<< (vcl_ostream& s, vnl_vector<T> const& v) {
+vcl_ostream& operator<< (vcl_ostream& s, vnl_vector<T> const& v)
+{
   for (unsigned i = 0; i+1 < v.size(); ++i)   // For each index in vector
     s << v[i] << ' ';                              // Output data element
   if (v.size() > 0)  s << v[v.size()-1];
@@ -812,7 +840,8 @@ vcl_ostream& operator<< (vcl_ostream& s, vnl_vector<T> const& v) {
 // If the vector has nonzero size on input, read that many values.
 // Otherwise, read to EOF.
 template <class T>
-vcl_istream& operator>>(vcl_istream& s, vnl_vector<T>& M) {
+vcl_istream& operator>>(vcl_istream& s, vnl_vector<T>& M)
+{
   M.read_ascii(s); return s;
 }
 

@@ -38,7 +38,7 @@ class vnl_svd_economy
   vnl_vector<real_t> nullvector();
 
  protected:
-  int m_, n_;
+  long m_, n_;
   vnl_matrix<real_t>    V_;
   vnl_vector<singval_t> sv_;
 

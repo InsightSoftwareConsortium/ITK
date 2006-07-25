@@ -1,0 +1,1 @@
+extern int qrsolv_(integer *n, doublereal *r__, integer *ldr, integer *ipvt, doublereal *diag, doublereal *qtb, doublereal *x, doublereal *sdiag, doublereal *wa);

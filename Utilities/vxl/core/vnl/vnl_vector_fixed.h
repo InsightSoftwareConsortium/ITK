@@ -82,6 +82,7 @@ template <class T, unsigned int n>
 class vnl_vector_fixed
 {
  public:
+  typedef vnl_vector_fixed<T,n> self;
   typedef unsigned int size_type;
   // Compile-time accessible attribute to get the dimensionality of the vector.
   enum{ SIZE = n };
@@ -292,42 +293,42 @@ class vnl_vector_fixed
   vnl_vector_fixed<T,n> apply(T (*f)(const T&));
 
   //:
-  vnl_vector_fixed<T,n>& operator+=( T s ) { add( data_, s, data_ ); return *this; }
+  vnl_vector_fixed<T,n>& operator+=( T s ) { self::add( data_, s, data_ ); return *this; }
 
   //:
-  vnl_vector_fixed<T,n>& operator-=( T s ) { sub( data_, s, data_ ); return *this; }
+  vnl_vector_fixed<T,n>& operator-=( T s ) { self::sub( data_, s, data_ ); return *this; }
 
   //:
-  vnl_vector_fixed<T,n>& operator*=( T s ) { mul( data_, s, data_ ); return *this; }
+  vnl_vector_fixed<T,n>& operator*=( T s ) { self::mul( data_, s, data_ ); return *this; }
 
   //:
-  vnl_vector_fixed<T,n>& operator/=( T s ) { div( data_, s, data_ ); return *this; }
+  vnl_vector_fixed<T,n>& operator/=( T s ) { self::div( data_, s, data_ ); return *this; }
 
   //:
-  vnl_vector_fixed<T,n>& operator+=( const vnl_vector_fixed<T,n>& v ) { add( data_, v.data_block(), data_ ); return *this; }
+  vnl_vector_fixed<T,n>& operator+=( const vnl_vector_fixed<T,n>& v ) { self::add( data_, v.data_block(), data_ ); return *this; }
 
   //:
-  vnl_vector_fixed<T,n>& operator-=( const vnl_vector_fixed<T,n>& v ) { sub( data_, v.data_block(), data_ ); return *this; }
+  vnl_vector_fixed<T,n>& operator-=( const vnl_vector_fixed<T,n>& v ) { self::sub( data_, v.data_block(), data_ ); return *this; }
 
   //:
   vnl_vector_fixed<T,n>& operator+=( const vnl_vector<T>& v )
   {
     assert( v.size() == n );
-    add( data_, v.data_block(), data_ ); return *this;
+    self::add( data_, v.data_block(), data_ ); return *this;
   }
 
   //:
   vnl_vector_fixed<T,n>& operator-=( const vnl_vector<T>& v )
   {
     assert( v.size() == n );
-    sub( data_, v.data_block(), data_ ); return *this;
+    self::sub( data_, v.data_block(), data_ ); return *this;
   }
 
   //:
   vnl_vector_fixed<T,n> operator-() const
   {
     vnl_vector_fixed<T,n> result;
-    sub( (T)0, data_, result.data_ );
+    self::sub( (T)0, data_, result.data_ );
     return result;
   }
 

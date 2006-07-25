@@ -1,0 +1,1 @@
+extern int zdscal_(integer *n, doublereal *da, doublecomplex *zx, integer *incx);

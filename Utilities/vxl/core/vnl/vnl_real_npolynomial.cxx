@@ -11,8 +11,8 @@
 
 #include "vnl_real_npolynomial.h"
 #include <vcl_cassert.h>
-#include <vcl_cmath.h>    // vcl_fabs()
 #include <vcl_iostream.h>
+#include <vcl_sstream.h>
 
 //: Constructor
 //<PRE>
@@ -40,7 +40,7 @@ vnl_real_npolynomial::vnl_real_npolynomial(const vnl_vector<double>& c, const vn
 }
 
 //: Combine terms with identical exponents (i.e., identical rows in polyn_).
-// Remove terms with zero coefficient.
+// Remove terms with zero coefficient, also at the end of the vector.
 void vnl_real_npolynomial::simplify()
 {
   for (unsigned int row1=0; row1<nterms_; ++row1)
@@ -50,14 +50,17 @@ void vnl_real_npolynomial::simplify()
       if (col < nvar_) continue; // not all exponents are identical
       coeffs_(row1) += coeffs_(row2); coeffs_(row2) = 0;
     }
+  while (nterms_ > 0 && coeffs_(nterms_-1)==0) --nterms_;
   for (unsigned int row=0; row<nterms_; ++row)
     if (coeffs_(row) == 0) {
       --nterms_; // decrement nterms, and move last element to vacant place:
       coeffs_(row) = coeffs_(nterms_);
-      coeffs_(nterms_) = 0; // not really necessary; to keep coeffs_ consistent
       for (unsigned int i=0; i<nvar_; ++i)
         polyn_(row,i) = polyn_(nterms_,i);
     }
+  // Now physically remove those rows that became "invisible":
+  if (nterms_ < polyn_.rows())
+    this->set(coeffs_.extract(nterms_), polyn_.extract(nterms_,nvar_));
 }
 
 double vnl_real_npolynomial::eval(const vnl_matrix<double>& xn)
@@ -84,8 +87,6 @@ double vnl_real_npolynomial::eval(const vnl_vector<double>& x)
   return eval(xn);
 }
 
-
-//: Set the coefficients and degree of variable
 void vnl_real_npolynomial::set(const vnl_vector<double>& c, const vnl_matrix<unsigned int>& p)
 {
   coeffs_= c;
@@ -95,8 +96,7 @@ void vnl_real_npolynomial::set(const vnl_vector<double>& c, const vnl_matrix<uns
   ideg_ = p.max_value();
 }
 
-
-unsigned int vnl_real_npolynomial::degree()
+unsigned int vnl_real_npolynomial::degree() const
 {
   unsigned int d=0;
   for (unsigned int i=0; i<nterms_; i++)
@@ -105,6 +105,18 @@ unsigned int vnl_real_npolynomial::degree()
     for (unsigned int j=0; j<nvar_; j++)
       dt+=polyn_(i,j);
     if (dt>d) d=dt;
+  }
+  return d;
+}
+
+vcl_vector<unsigned int> vnl_real_npolynomial::degrees() const
+{
+  vcl_vector<unsigned int> d(nvar_);
+  for (unsigned int j=0; j<nvar_; ++j)
+  {
+    d[j]=0;
+    for (unsigned int i=0; i<nterms_; ++i)
+      if (polyn_(i,j)>d[j]) d[j]=polyn_(i,j);
   }
   return d;
 }
@@ -207,34 +219,44 @@ vnl_real_npolynomial vnl_real_npolynomial::operator*(double P) const
 
 vcl_ostream& operator<<(vcl_ostream& os, vnl_real_npolynomial const& P)
 {
-  if (P.nvar_ <= 3)
-    for (unsigned int i=0; i<P.nterms_; ++i)
+  return os << P.asString() << vcl_endl;
+}
+
+vcl_string vnl_real_npolynomial::asString() const
+{
+  vcl_ostringstream os;
+  if (nvar_ <= 3)
+    for (unsigned int i=0; i<nterms_; ++i)
     {
-      os << ' ';
-      if (i>0 && P.coeffs_(i) > 0) os << '+';
-      if (vcl_fabs(P.coeffs_(i)) != 1) os << P.coeffs_(i) << ' ';
+      if (i>0) os << ' ';
+      if (i>0 && coeffs_(i) >= 0) os << "+ ";
+      double abs_coef = coeffs_(i);
+      if (coeffs_(i) < 0) { abs_coef = -abs_coef; os << "- "; }
+      if (abs_coef != 1) os << abs_coef << ' ';
       unsigned int totaldeg = 0;
-      if (P.nvar_ > 0 && P.polyn_(i,0) > 0)  { os << 'X'; totaldeg += P.polyn_(i,0); }
-      if (P.nvar_ > 0 && P.polyn_(i,0) > 1)  os << '^' << P.polyn_(i,0);
-      if (P.nvar_ > 1 && P.polyn_(i,1) > 0)  { os << 'Y'; totaldeg += P.polyn_(i,1); }
-      if (P.nvar_ > 1 && P.polyn_(i,1) > 1)  os << '^' << P.polyn_(i,1);
-      if (P.nvar_ > 2 && P.polyn_(i,2) > 0)  { os << 'Z'; totaldeg += P.polyn_(i,2); }
-      if (P.nvar_ > 2 && P.polyn_(i,2) > 1)  os << '^' << P.polyn_(i,2);
-      if (totaldeg == 0 && vcl_fabs(P.coeffs_(i)) == 1) os << P.coeffs_(i);
+      if (nvar_ > 0 && polyn_(i,0) > 0)  { os << 'X'; totaldeg += polyn_(i,0); }
+      if (nvar_ > 0 && polyn_(i,0) > 1)  os << '^' << polyn_(i,0) << ' ';
+      if (nvar_ > 1 && polyn_(i,1) > 0)  { os << 'Y'; totaldeg += polyn_(i,1); }
+      if (nvar_ > 1 && polyn_(i,1) > 1)  os << '^' << polyn_(i,1) << ' ';
+      if (nvar_ > 2 && polyn_(i,2) > 0)  { os << 'Z'; totaldeg += polyn_(i,2); }
+      if (nvar_ > 2 && polyn_(i,2) > 1)  os << '^' << polyn_(i,2) << ' ';
+      if (totaldeg == 0 && abs_coef == 1) os << abs_coef;
     }
   else
-    for (unsigned int i=0; i<P.nterms_; ++i)
+    for (unsigned int i=0; i<nterms_; ++i)
     {
-      os << ' ';
-      if (i>0 && P.coeffs_(i) > 0) os << '+';
-      if (vcl_fabs(P.coeffs_(i)) != 1) os << P.coeffs_(i) << ' ';
+      if (i>0) os << ' ';
+      if (i>0 && coeffs_(i) >= 0) os << "+ ";
+      double abs_coef = coeffs_(i);
+      if (coeffs_(i) < 0) { abs_coef = -abs_coef; os << "- "; }
+      if (abs_coef != 1) os << abs_coef << ' ';
       unsigned int totaldeg = 0;
-      for (unsigned int j=0; j<P.nvar_; ++j) {
-        if (P.polyn_(i,j) > 0)  os << 'X' << j;
-        if (P.polyn_(i,j) > 1)  os << '^' << P.polyn_(i,j);
-        totaldeg += P.polyn_(i,j);
+      for (unsigned int j=0; j<nvar_; ++j) {
+        if (polyn_(i,j) > 0)  os << 'X' << j;
+        if (polyn_(i,j) > 1)  os << '^' << polyn_(i,j) << ' ';
+        totaldeg += polyn_(i,j);
       }
-      if (totaldeg == 0 && vcl_fabs(P.coeffs_(i)) == 1) os << P.coeffs_(i);
+      if (totaldeg == 0 && abs_coef == 1) os << abs_coef;
     }
-  os << vcl_endl; return os;
+  return os.str();
 }

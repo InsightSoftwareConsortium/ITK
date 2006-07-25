@@ -85,7 +85,7 @@ vnl_vector_fixed<T, M> vnl_matrix_fixed_mat_vec_mult(const vnl_matrix_fixed<T, M
 template <class T, unsigned M, unsigned N, unsigned O>
 inline
 vnl_matrix_fixed<T, M, O> vnl_matrix_fixed_mat_mat_mult(const vnl_matrix_fixed<T, M, N>& a, const vnl_matrix_fixed<T, N, O>& b);
-#ifdef VCL_VC60
+#ifdef VCL_VC_6
 template <unsigned num_cols, unsigned num_rows, class T>
 class vnl_matrix_fixed_fake_base
 {
@@ -108,6 +108,7 @@ template <class T, unsigned int num_rows, unsigned int num_cols>
 class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
 {
  public:
+  typedef vnl_matrix_fixed<T,num_rows,num_cols> self;
   typedef unsigned int size_type;
 
  private:
@@ -262,58 +263,59 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
   //: Add \a s to each element of lhs matrix in situ
   vnl_matrix_fixed& operator+= (T s)
   {
-    add( data_block(), s, data_block() ); return *this;
+    self::add( data_block(), s, data_block() ); return *this;
   }
 
   //: Subtract \a s from each element of lhs matrix in situ
   vnl_matrix_fixed& operator-= (T s)
   {
-    sub( data_block(), s, data_block() ); return *this;
+    self::sub( data_block(), s, data_block() ); return *this;
   }
 
   //:
   vnl_matrix_fixed& operator*= (T s)
   {
-    mul( data_block(), s, data_block() ); return *this;
+    self::mul( data_block(), s, data_block() ); return *this;
   }
 
   //:
   vnl_matrix_fixed& operator/= (T s)
   {
-    div( data_block(), s, data_block() ); return *this;
+    self::div( data_block(), s, data_block() ); return *this;
   }
 
   //:
   vnl_matrix_fixed& operator+= (vnl_matrix_fixed const& m)
   {
-    add( data_block(), m.data_block(), data_block() ); return *this;
+    self::add( data_block(), m.data_block(), data_block() ); return *this;
   }
 
   //:
   vnl_matrix_fixed& operator+= (vnl_matrix<T> const& m)
   {
     assert( m.rows() == rows() && m.cols() == cols() );
-    add( data_block(), m.data_block(), data_block() ); return *this;
+    self::add( data_block(), m.data_block(), data_block() ); return *this;
   }
 
   //:
   vnl_matrix_fixed& operator-= (vnl_matrix_fixed const& m)
   {
-    sub( data_block(), m.data_block(), data_block() ); return *this;
+    self::sub( data_block(), m.data_block(), data_block() ); return *this;
   }
 
   //:
   vnl_matrix_fixed& operator-= (vnl_matrix<T> const& m)
   {
     assert( m.rows() == rows() && m.cols() == cols() );
-    sub( data_block(), m.data_block(), data_block() ); return *this;
+    self::sub( data_block(), m.data_block(), data_block() );
+    return *this;
   }
 
   //: Negate all elements of matrix
   vnl_matrix_fixed operator- () const
   {
     vnl_matrix_fixed r;
-    sub( T(0), data_block(), r.data_block() );
+    self::sub( T(0), data_block(), r.data_block() );
     return r;
   }
 
@@ -332,7 +334,7 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
     return *this = out;
   }
 
-#ifdef VCL_VC60
+#ifdef VCL_VC_6
   template <unsigned o>
   vnl_matrix_fixed<T,num_rows,o> operator*( vnl_matrix_fixed_fake_base<o,num_cols,T> const& mat ) const
   {
@@ -773,7 +775,7 @@ vnl_matrix_fixed_mat_mat_mult(const vnl_matrix_fixed<T, M, N>& a,
   return out;
 }
 
-#ifndef VCL_VC60
+#ifndef VCL_VC_6
 // The version for correct compilers
 
 //: Multiply  conformant vnl_matrix_fixed (M x N) and vector_fixed (N)
@@ -794,7 +796,7 @@ vnl_matrix_fixed<T, M, O> operator*(const vnl_matrix_fixed<T, M, N>& a, const vn
 {
   return vnl_matrix_fixed_mat_mat_mult(a,b);
 }
-#endif // VCL_VC60
+#endif // VCL_VC_6
 
 
 // These overloads for the common case of mixing a fixed with a
@@ -874,7 +876,7 @@ vcl_istream& operator>> (vcl_istream& is, vnl_matrix_fixed<T,m,n>& mat)
 // compile time constant when used in the return parameter. So, we
 // have to introduce a helper class to do it.
 //
-#ifdef VCL_VC60
+#ifdef VCL_VC_6
 
 template<class T, unsigned m, class FixedVector>
 struct outer_product_fixed_type_helper

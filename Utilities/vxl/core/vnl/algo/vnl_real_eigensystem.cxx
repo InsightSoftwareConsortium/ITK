@@ -23,20 +23,24 @@ vnl_real_eigensystem::vnl_real_eigensystem(vnl_matrix<double> const & M):
   V(M.rows(), M.columns()),
   D(M.rows())
 {
-  int n = M.rows();
+  long n = M.rows();
   assert(n == (int)(M.columns()));
 
   vnl_fortran_copy<double> mf(M);
 
   vnl_vector<double> wr(n);
   vnl_vector<double> wi(n);
-  vnl_vector<int> iv1(n);
+  vnl_vector<long> iv1(n);
   vnl_vector<double> fv1(n);
   vnl_matrix<double> devout(n, n);
 
-  int ierr = 0;
-  int matz = 1;
-  rg_(&n, &n, mf, wr.data_block(), wi.data_block(), &matz, devout.data_block(), iv1.data_block(), fv1.data_block(), &ierr);
+  long ierr = 0;
+  long matz = 1;
+  v3p_netlib_rg_(&n, &n, mf,
+                 wr.data_block(), wi.data_block(),
+                 &matz, devout.data_block(),
+                 iv1.data_block(), fv1.data_block(),
+                 &ierr);
 
   if (ierr != 0) {
     vcl_cerr << " *** vnl_real_eigensystem: Failed on " << ierr << "th eigenvalue\n"

@@ -1,0 +1,2 @@
+extern int dpofa_(doublereal *a, integer *lda, integer *n, integer *info);
+/*:ref: ddot_ 7 5 4 7 4 7 4 */

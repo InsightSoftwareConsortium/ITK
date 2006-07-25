@@ -10,28 +10,30 @@
 
 #include <vnl/algo/vnl_netlib.h> // dgpfa_()
 
-void vnl_fft_setgpfa(float *triggs, int size, int pqr[3], int *info)
+void vnl_fft_setgpfa(float *triggs, long size, long pqr[3], long *info)
 {
-  setgpfa_(triggs, &size, pqr, info);
+  v3p_netlib_setgpfa_(triggs, &size, pqr, info);
 }
 
-void vnl_fft_setgpfa(double *triggs, int size, int pqr[3], int *info)
+void vnl_fft_setgpfa(double *triggs, long size, long pqr[3], long *info)
 {
-  dsetgpfa_(triggs, &size, pqr, info);
+  v3p_netlib_setdgpfa_(triggs, &size, pqr, info);
 }
 
 //----------------------------------------------------------------------
 
 void vnl_fft_gpfa(float  *a, float  *b, float const  *triggs,
-                  int inc, int jump, int n,
-                  int lot, int isign, int const pqr[3], int *info)
+                  long inc, long jump, long n,
+                  long lot, long isign, long const pqr[3], long *info)
 {
-  gpfa_(a, b, triggs, &inc, &jump, &n, &lot, &isign, pqr, info);
+  v3p_netlib_gpfa_(a, b, triggs, &inc, &jump, &n, &lot, &isign, pqr);
+  *info = 0;
 }
 
 void vnl_fft_gpfa(double *a, double *b, double const *triggs,
-                  int inc, int jump, int n,
-                  int lot, int isign, int const pqr[3], int *info)
+                  long inc, long jump, long n,
+                  long lot, long isign, long const pqr[3], long *info)
 {
-  dgpfa_(a, b, triggs, &inc, &jump, &n, &lot, &isign, pqr, info);
+  v3p_netlib_dgpfa_(a, b, triggs, &inc, &jump, &n, &lot, &isign, pqr);
+  *info = 0;
 }

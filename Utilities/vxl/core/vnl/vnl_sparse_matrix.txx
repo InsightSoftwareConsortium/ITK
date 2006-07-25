@@ -534,7 +534,7 @@ void vnl_sparse_matrix<T>::resize( int r, int c)
 //------------------------------------------------------------
 //: Resets the internal iterator
 template <class T>
-void vnl_sparse_matrix<T>::reset()
+void vnl_sparse_matrix<T>::reset() const
 {
   itr_isreset = true;
   itr_row = 0;
@@ -546,7 +546,7 @@ void vnl_sparse_matrix<T>::reset()
 // in combination with methods reset, getrow, getcolumn, and value.
 //
 template <class T>
-bool vnl_sparse_matrix<T>::next()
+bool vnl_sparse_matrix<T>::next() const
 {
   if ( itr_row >= rows() )
     return false;
@@ -581,7 +581,7 @@ bool vnl_sparse_matrix<T>::next()
 //: Returns the row of the entry pointed to by internal iterator.
 //
 template <class T>
-int vnl_sparse_matrix<T>::getrow()
+int vnl_sparse_matrix<T>::getrow() const
 {
   return itr_row;
 }
@@ -590,7 +590,7 @@ int vnl_sparse_matrix<T>::getrow()
 //: Returns the column of the entry pointed to by internal iterator.
 //
 template <class T>
-int vnl_sparse_matrix<T>::getcolumn()
+int vnl_sparse_matrix<T>::getcolumn() const
 {
   return (*itr_cur).first;
 }
@@ -599,7 +599,7 @@ int vnl_sparse_matrix<T>::getcolumn()
 //: Returns the value pointed to by the internal iterator.
 //
 template <class T>
-T vnl_sparse_matrix<T>::value()
+T vnl_sparse_matrix<T>::value() const
 {
   return (*itr_cur).second;
 }

@@ -16,9 +16,6 @@
 #include <vcl_iomanip.h> // for setw (replaces cout.form())
 
 #include <vnl/algo/vnl_netlib.h> // lbfgs_()
-extern "C" {
-#include <lbfgs.h> // from netlib, for lb3_ data struct
-}
 
 //: Default constructor.
 // memory is set to 5, line_search_accuracy to 0.9.
@@ -51,10 +48,16 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
   /* Local variables */
   /*     The driver for vnl_lbfgs must always declare LB2 as EXTERNAL */
 
-  int n = f_->get_number_of_unknowns();
-  int m = memory; // The number of basis vectors to remember.
+  long n = f_->get_number_of_unknowns();
+  long m = memory; // The number of basis vectors to remember.
 
-  int iprint[2] = {1, 0};
+  // Create an instance of the lbfgs global data to pass as an
+  // argument.  It must persist through all calls in this
+  // minimization.
+  v3p_netlib_lbfgs_global_t lbfgs_global;
+  v3p_netlib_lbfgs_init(&lbfgs_global);
+
+  long iprint[2] = {1, 0};
   vnl_vector<double> g(n);
 
   // Workspace
@@ -78,16 +81,16 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
   bool ok;
   this->num_evaluations_ = 0;
   this->num_iterations_ = 0;
-  int iflag = 0;
+  long iflag = 0;
   while (true) {
     // We do not wish to provide the diagonal matrices Hk0, and therefore set DIAGCO to FALSE.
-    logical diagco = false;
+    v3p_netlib_logical diagco = false;
 
     // Set these every iter in case user changes them to bail out
     double eps = gtol; // Gradient tolerance
     double local_xtol = 1e-16;
-    lb3_.gtol = line_search_accuracy; // set to 0.1 for huge problems or cheap functions
-    lb3_.stpawf = default_step_length;
+    lbfgs_global.gtol = line_search_accuracy; // set to 0.1 for huge problems or cheap functions
+    lbfgs_global.stpinit = default_step_length;
 
     // Call function
     double f;
@@ -131,8 +134,9 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
 
     iprint[0] = trace ? 1 : -1; // -1 no o/p, 0 start and end, 1 every iter.
     iprint[1] = 0; // 1 prints X and G
-    lbfgs_(&n, &m, x.data_block(), &f, g.data_block(), &diagco, diag.data_block(),
-           iprint, &eps, &local_xtol, w.data_block(), &iflag);
+    v3p_netlib_lbfgs_(
+      &n, &m, x.data_block(), &f, g.data_block(), &diagco, diag.data_block(),
+      iprint, &eps, &local_xtol, w.data_block(), &iflag, &lbfgs_global);
     ++this->num_iterations_;
 
     if (we_trace)

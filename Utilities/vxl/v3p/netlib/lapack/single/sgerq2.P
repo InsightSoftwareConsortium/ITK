@@ -1,0 +1,4 @@
+extern int sgerq2_(integer *m, integer *n, real *a, integer *lda, real *tau, real *work, integer *info);
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: slarfg_ 14 5 4 6 6 4 6 */
+/*:ref: slarf_ 14 10 13 4 4 6 4 6 6 4 6 124 */

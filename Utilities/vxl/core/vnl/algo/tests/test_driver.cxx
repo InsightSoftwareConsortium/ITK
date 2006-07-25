@@ -12,8 +12,11 @@ DECLARE( test_fft1d );
 DECLARE( test_fft2d );
 DECLARE( test_functions );
 DECLARE( test_generalized_eigensystem );
+DECLARE( test_ldl_cholesky );
 DECLARE( test_levenberg_marquardt );
+DECLARE( test_matrix_update );
 DECLARE( test_minimizers );
+DECLARE( test_powell );
 DECLARE( test_qr );
 DECLARE( test_qsvd );
 DECLARE( test_rational );
@@ -25,6 +28,7 @@ DECLARE( test_integral );
 DECLARE( test_svd );
 //DECLARE( test_symmetric_eigensystem );
 DECLARE( test_algo );
+DECLARE( test_solve_qp );
 
 void
 register_tests()
@@ -41,8 +45,11 @@ register_tests()
   REGISTER( test_fft2d );
   REGISTER( test_functions );
   REGISTER( test_generalized_eigensystem );
+  REGISTER( test_ldl_cholesky );
   REGISTER( test_levenberg_marquardt );
+  REGISTER( test_matrix_update );
   REGISTER( test_minimizers );
+  REGISTER( test_powell );
   REGISTER( test_qr );
   REGISTER( test_qsvd );
   REGISTER( test_real_eigensystem );
@@ -53,6 +60,7 @@ register_tests()
   REGISTER( test_svd );
   //REGISTER( test_symmetric_eigensystem );
   REGISTER( test_algo );
+  REGISTER( test_solve_qp );
 }
 
 DEFINE_MAIN;

@@ -1,0 +1,2 @@
+extern int dlasv2_(doublereal *f, doublereal *g, doublereal *h__, doublereal *ssmin, doublereal *ssmax, doublereal *snr, doublereal *csr, doublereal *snl, doublereal *csl);
+/*:ref: dlamch_ 7 2 13 124 */

@@ -18,6 +18,11 @@
 #elif defined(VCL_GCC) && !defined(GNU_LIBSTDCXX_V3)
 # include <new.h>
 
+// -------------------- old MSVC
+
+#elif defined(VCL_VC_60)
+# include <new.h>
+
 // -------------------- iso
 #else
 # include <new>
@@ -32,6 +37,18 @@ void vcl_destroy(T *p) { p->~T(); }
 template <class U, class V>
 inline
 void vcl_construct(U * p, V const & value) { new (p) U(value); }
+#endif
+
+#define vcl_bad_alloc std::bad_alloc
+
+#ifdef VCL_VC_60
+// Provide dummy set new handler
+// It should be possible to get set_new_handler to work eith VC6 - 
+// but I don't have a working VC6 to test/debug it - IMS
+typedef void (__cdecl *new_handler)();
+inline new_handler __cdecl vcl_set_new_handler(new_handler) {return 0;}
+#else
+# define vcl_set_new_handler std::set_new_handler
 #endif
 
 #endif // vcl_new_h_

@@ -72,3 +72,26 @@ IF(WARN_DEPRECATED)
     ADD_DEFINITIONS( -DVXL_WARN_DEPRECATED_ABORT )
   ENDIF(WARN_DEPRECATED_ABORT)
 ENDIF(WARN_DEPRECATED)
+
+
+
+IF (VCL_HAS_LFS OR WIN32)
+  OPTION( VXL_USE_LFS "Should VXL use Large File Support?" NO)
+  MARK_AS_ADVANCED( VXL_USE_LFS )
+ENDIF (VCL_HAS_LFS OR WIN32)
+
+IF(VXL_USE_LFS)
+  IF(WIN32)
+    # TODO: MS Version Support
+    #  MESSAGE( SEND_ERROR "Sorry - Large File Support is not quite working on Win32 yet. Turning VXL_USE_LFS off")
+    #  SET(VXL_USE_LFS "NO" CACHE BOOL "Should VXL use Large File Support?" FORCE)
+  ELSE(WIN32)
+    IF (VCL_HAS_LFS)
+      ADD_DEFINITIONS( -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE)
+    ELSE (VCL_HAS_LFS)
+      MESSAGE( SEND_ERROR "This platform does not have Large File Support - turning VXL_USE_LFS off")
+      SET(VXL_USE_LFS "NO" CACHE BOOL "Should VXL use Large File Support?" FORCE)
+    ENDIF (VCL_HAS_LFS)
+  ENDIF(WIN32)
+ENDIF(VXL_USE_LFS)
+

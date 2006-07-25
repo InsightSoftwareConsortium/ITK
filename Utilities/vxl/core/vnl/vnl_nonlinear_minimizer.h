@@ -130,14 +130,14 @@ class vnl_nonlinear_minimizer
   // Data Members--------------------------------------------------------------
   // Input variables
   double xtol;    //!< Termination tolerance on X (solution vector)
-  int    maxfev;  //!< Termination maximum number of iterations
+  long   maxfev;  //!< Termination maximum number of iterations
   double ftol;    //!< Termination tolerance on F (sum of squared residuals)
   double gtol;    //!< Termination tolerance on Grad(F)' * F = 0
   double epsfcn;  //!< Step length for FD Jacobian
 
   // Output variables
   unsigned num_iterations_;
-  int    num_evaluations_;
+  long    num_evaluations_;
   double start_error_;
   double end_error_;
 

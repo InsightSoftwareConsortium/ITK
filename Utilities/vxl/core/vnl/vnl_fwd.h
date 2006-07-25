@@ -5,7 +5,7 @@
 //:
 // \file
 // \author fsm
-#include <vcl_compiler.h> // required to check for VCL_VC60
+#include <vcl_compiler.h> // required to check for VCL_VC_6
 
 template <class T> struct vnl_complex_traits;
 template <class T> class vnl_numeric_traits;
@@ -17,7 +17,7 @@ template <class T> class vnl_vector_ref;
 template <class T> class vnl_matrix;
 template <class T> class vnl_matrix_ref;
 
-#ifdef VCL_VC60
+#ifdef VCL_VC_6
 // VC 6.0 can't forward declare these without barfing.
 // Thereby missing the whole point....
 # include <vnl/vnl_vector_fixed.h>

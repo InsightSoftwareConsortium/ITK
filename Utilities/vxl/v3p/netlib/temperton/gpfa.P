@@ -1,0 +1,4 @@
+extern int gpfa_(real *a, real *b, real *trigs, integer *inc, integer *jump, integer *n, integer *lot, integer *isign, integer *npqr);
+/*:ref: gpfa2f_ 14 9 6 6 6 4 4 4 4 4 4 */
+/*:ref: gpfa3f_ 14 9 6 6 6 4 4 4 4 4 4 */
+/*:ref: gpfa5f_ 14 9 6 6 6 4 4 4 4 4 4 */

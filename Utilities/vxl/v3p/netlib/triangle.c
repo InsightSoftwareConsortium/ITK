@@ -5593,7 +5593,7 @@ int triflaws;
   struct triedge newbotleft, newbotright;
   struct triedge newtopright;
   struct triedge botlcasing, botrcasing;
-  struct triedge toplcasing, toprcasing;
+  struct triedge toplcasing = {0,0}, toprcasing = {0,0};
   struct triedge testtri;
   struct edge botlshelle, botrshelle;
   struct edge toplshelle, toprshelle;

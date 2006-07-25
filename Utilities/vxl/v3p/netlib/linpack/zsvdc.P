@@ -1,0 +1,8 @@
+extern int zsvdc_(doublecomplex *x, integer *ldx, integer *n, integer *p, doublecomplex *s, doublecomplex *e, doublecomplex *u, integer *ldu, doublecomplex *v, integer *ldv, doublecomplex *work, integer *job, integer *info);
+/*:ref: dznrm2_ 7 3 4 9 4 */
+/*:ref: zscal_ 14 4 4 9 9 4 */
+/*:ref: zdotc_ 9 6 9 4 9 4 9 4 */
+/*:ref: zaxpy_ 14 6 4 9 9 4 9 4 */
+/*:ref: drotg_ 14 4 7 7 7 7 */
+/*:ref: zdrot_ 14 7 4 9 4 9 4 7 7 */
+/*:ref: zswap_ 14 5 4 9 4 9 4 */

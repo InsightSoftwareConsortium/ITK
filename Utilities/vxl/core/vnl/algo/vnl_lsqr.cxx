@@ -17,35 +17,14 @@
 
 #include <vnl/algo/vnl_netlib.h> // lsqr_()
 
-class vnl_lsqr_Activate
-{
- public:
-  static vnl_lsqr* current;
-
-  vnl_lsqr_Activate(vnl_lsqr* minimizer) {
-    if (current) {
-      vcl_cerr << "vnl_lsqr: ERROR: Nested minimizations not supported.\n";
-      vcl_abort();
-      // This is a copy of what goes on in LevenbergMarquardt, so if awf decides to
-      // fix that one, then maybe he could do the same here...
-    }
-    current = minimizer;
-  }
-  ~vnl_lsqr_Activate() {
-    current = 0;
-  }
-};
-
-vnl_lsqr *vnl_lsqr_Activate::current= 0;
-
 vnl_lsqr::~vnl_lsqr()
 {
 }
 
 // Requires number_of_residuals() of workspace in rw.
-void vnl_lsqr::aprod_(int* mode, int* m, int* n, double* x, double* y, int* /*leniw*/, int* /*lenrw*/, int* /*iw*/, double* rw )
+int vnl_lsqr::aprod_(long* mode, long* m, long* n, double* x, double* y, long* /*leniw*/, long* /*lenrw*/, long* /*iw*/, double* rw, void* userdata)
 {
-  vnl_lsqr* active = vnl_lsqr_Activate::current;
+  vnl_lsqr* self = static_cast<vnl_lsqr*>(userdata);
 
   //  If MODE = 1, compute  y = y + A*x.
   //  If MODE = 2, compute  x = x + A(transpose)*y.
@@ -55,24 +34,26 @@ void vnl_lsqr::aprod_(int* mode, int* m, int* n, double* x, double* y, int* /*le
 
   if (*mode == 1) {
     vnl_vector_ref<double> tmp(*m,rw);
-    active->ls_->multiply(x_ref, tmp);
+    self->ls_->multiply(x_ref, tmp);
     y_ref += tmp;
   }
   else {
     vnl_vector_ref<double> tmp(*n,rw);
-    active->ls_->transpose_multiply(y_ref, tmp);
+    self->ls_->transpose_multiply(y_ref, tmp);
     x_ref += tmp;
   }
+
+  return 0;
 }
 
 int vnl_lsqr::minimize(vnl_vector<double>& result)
 {
-  int m = ls_->get_number_of_residuals();
-  int n = ls_->get_number_of_unknowns();
+  long m = ls_->get_number_of_residuals();
+  long n = ls_->get_number_of_unknowns();
   double damp = 0;
-  int leniw = 1;
-  int* iw = 0;
-  int lenrw = m;
+  long leniw = 1;
+  long* iw = 0;
+  long lenrw = m;
 #ifdef __GNUC__
   double rw[m];
   double v[n];
@@ -87,18 +68,18 @@ int vnl_lsqr::minimize(vnl_vector<double>& result)
   double atol = 0;
   double btol = 0;
   double conlim = 0;
-  int nout = -1;
+  long nout = -1;
   double anorm, acond, rnorm, arnorm, xnorm;
 
   vnl_vector<double> rhs(m);
   ls_->get_rhs(rhs);
 
-  vnl_lsqr_Activate activator(this); // This variable is not used, but the constructor must be called.
-
-  lsqr_(&m, &n, aprod_, &damp, &leniw, &lenrw, iw, &rw[0],
+  v3p_netlib_lsqr_(
+        &m, &n, aprod_, &damp, &leniw, &lenrw, iw, &rw[0],
         rhs.data_block(), &v[0], &w[0], result.data_block(), &se[0],
         &atol, &btol, &conlim, &max_iter_, &nout, &return_code_,
-        &num_iter_, &anorm, &acond, &rnorm, &arnorm, &xnorm);
+        &num_iter_, &anorm, &acond, &rnorm, &arnorm, &xnorm,
+        this);
 
   resid_norm_estimate_ = rnorm;
   result_norm_estimate_ = xnorm;

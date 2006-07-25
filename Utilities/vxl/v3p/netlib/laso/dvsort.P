@@ -1,0 +1,2 @@
+extern int dvsort_(integer *num, doublereal *val, doublereal *res, integer *iflag, doublereal *v, integer *nmvec, integer *n, doublereal *vec);
+/*:ref: dswap_ 14 5 4 7 4 7 4 */

@@ -86,7 +86,7 @@ class vnl_cholesky
   // Data Members--------------------------------------------------------------
   vnl_matrix<double> A_;
   double rcond_;
-  int num_dims_rank_def_;
+  long num_dims_rank_def_;
   vnl_vector<double> nullvector_;
 
  private:

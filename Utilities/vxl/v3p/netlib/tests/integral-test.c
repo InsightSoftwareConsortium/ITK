@@ -1,5 +1,5 @@
-#include "../f2c.h"
-#include "../netlib.h"
+#include "v3p_netlib.h"
+
 #include <stdio.h>
 
 double f(double *x)
@@ -12,10 +12,10 @@ void test_simpson_integral()
   double a = 0;
   double b = 1;
   double res;
-  int n = 100;
+  long n = 100;
 
-  simpru_(&f, &a, &b, &n, &res);
-  printf("simpson integral of x/(1+x^2) from 0 to 1 (%d grids) is %2.10f\n", n, res);
+  v3p_netlib_simpru_(&f, &a, &b, &n, &res);
+  printf("simpson integral of x/(1+x^2) from 0 to 1 (%ld grids) is %2.10f\n", n, res);
 }
 
 void test_adapted_simpson_integral()
@@ -23,15 +23,15 @@ void test_adapted_simpson_integral()
   double a = 0;
   double b = 1;
   double res;
-  int n = 100;
+  long n = 100;
   double rmat[1111];
   double tol = 1e-10;
   double errbound;
-  int stat;
+  long stat;
 
-  adaptquad_(&f, &a, &b, &tol, rmat, &res, &errbound, &n, &stat);
-  printf("adapted simpson integral (with tol=%g) of x/(1+x^2) from 0 to 1 (%d grids) is %2.10f\n", tol, n,  res);
-  printf("errbound is %f, state is %d\n", errbound,  stat);
+  v3p_netlib_adaptquad_(&f, &a, &b, &tol, rmat, &res, &errbound, &n, &stat);
+  printf("adapted simpson integral (with tol=%g) of x/(1+x^2) from 0 to 1 (%ld grids) is %2.10f\n", tol, n,  res);
+  printf("errbound is %f, state is %ld\n", errbound,  stat);
 }
 
 void test_trapezod_integral()
@@ -39,10 +39,10 @@ void test_trapezod_integral()
   double a = 0;
   double b = 1;
   double res;
-  int n = 500;
+  long n = 500;
 
-  trapru_(&f, &a, &b, &n, &res);
-  printf("trapezod integral of x/(1+x^2) from 0 to 1 (%d grids) is %f\n", n, res);
+  v3p_netlib_trapru_(&f, &a, &b, &n, &res);
+  printf("trapezod integral of x/(1+x^2) from 0 to 1 (%ld grids) is %f\n", n, res);
 }
 
 

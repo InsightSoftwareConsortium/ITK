@@ -13,9 +13,9 @@
 template <class T>
 bool vnl_matrix_exp(vnl_matrix<T> const &X, vnl_matrix<T> &expX, double max_err)
 {
-  unsigned N = X.rows();
-  X.assert_size(N, N);
-  expX.assert_size(N, N);
+  assert(X.rows() == X.cols());
+  assert(X.rows() == expX.rows());
+  assert(X.cols() == expX.cols());
 
   double norm_X = X.operator_inf_norm();
 #ifdef DEBUG

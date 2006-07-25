@@ -69,8 +69,8 @@ class vnl_diag_matrix
 
   void invert_in_place();
   T determinant() const;
-  vnl_vector<T> solve(vnl_vector<T> const& b);
-  void solve(vnl_vector<T> const& b, vnl_vector<T>* out);
+  vnl_vector<T> solve(vnl_vector<T> const& b) const;
+  void solve(vnl_vector<T> const& b, vnl_vector<T>* out) const;
 
   // Data Access---------------------------------------------------------------
 

@@ -8,6 +8,7 @@ IF(NETLIB_FOUND)
 # Direct netlib dependencies are:
 # vnl_chi_squared                  dchscdf_
 # vnl_cholesky                     dpoco_ dpodi_ dpofa_ dposl_
+# vnl_ldl_cholesky                 dpoco_ dpodi_ dpofa_ dposl_
 # vnl_complex_eigensystem          zgeev_
 # vnl_conjugate_gradient           cg_
 # vnl_fft                          dgpfa_ dsetgpfa_ gpfa_ setgpfa_
@@ -37,6 +38,7 @@ IF(NETLIB_FOUND)
     vnl_qr.txx vnl_qr.h
     vnl_scatter_3x3.txx vnl_scatter_3x3.h
     vnl_cholesky.cxx vnl_cholesky.h
+    vnl_ldl_cholesky.cxx vnl_ldl_cholesky.h
     vnl_real_eigensystem.cxx vnl_real_eigensystem.h
     vnl_complex_eigensystem.cxx vnl_complex_eigensystem.h
     vnl_symmetric_eigensystem.cxx vnl_symmetric_eigensystem.h
@@ -53,6 +55,7 @@ IF(NETLIB_FOUND)
     vnl_powell.cxx vnl_powell.h
     vnl_brent.cxx vnl_brent.h
     vnl_lsqr.cxx vnl_lsqr.h
+    vnl_solve_qp.cxx vnl_solve_qp.h
 
     # equation solvers
     vnl_rpoly_roots.cxx vnl_rpoly_roots.h
@@ -73,6 +76,7 @@ IF(NETLIB_FOUND)
     vnl_gaussian_kernel_1d.cxx vnl_gaussian_kernel_1d.h
     vnl_adjugate.txx vnl_adjugate.h
     vnl_orthogonal_complement.txx vnl_orthogonal_complement.h
+    vnl_matrix_update.h
 
     # integral
     vnl_simpson_integral.cxx vnl_simpson_integral.h
@@ -93,13 +97,12 @@ IF(NETLIB_FOUND)
       RUNTIME_DIRECTORY ${VXL_INSTALL_BIN_DIR}
       itkvnl_algo)
   ENDIF(NOT VXL_INSTALL_NO_LIBRARIES)
+  IF(NOT VXL_INSTALL_NO_DEVELOPMENT)
+    INSTALL_NOBASE_HEADER_FILES(${VXL_INSTALL_ROOT}/core/vnl/algo ${vnl_algo_sources})
+  ENDIF(NOT VXL_INSTALL_NO_DEVELOPMENT)
 
   IF( BUILD_TESTING )
     SUBDIRS(tests)
   ENDIF( BUILD_TESTING )
 
 ENDIF(NETLIB_FOUND)
-
-IF(NOT VXL_INSTALL_NO_DEVELOPMENT)
-  INSTALL_FILES(${VXL_INSTALL_ROOT}/core/vnl/algo "(\\.h|\\.txx)$")
-ENDIF(NOT VXL_INSTALL_NO_DEVELOPMENT)

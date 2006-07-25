@@ -36,6 +36,16 @@ void test_cholesky()
     testlib_test_assert_near("Ai * A - I", (chol.inverse() * A - I).fro_norm());
     testlib_test_assert_near("Ai * A - I", (A * chol.inverse() - I).fro_norm());
   }
+
+  {
+    vnl_vector<double> b(3),x0(3),x;
+    test_util_fill_random(x0.begin(), x0.end(), rng);
+    b=A*x0;
+    vnl_cholesky chol(A);
+    x=chol.solve(b);
+    testlib_test_assert_near("Solve Ax=b",(x-x0).one_norm(),0,1e-6);
+  }
+
 }
 
 TESTMAIN(test_cholesky);

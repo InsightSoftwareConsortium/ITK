@@ -90,4 +90,19 @@ class vnl_vector_ref : public vnl_vector<T>
 #endif
 };
 
+//: Create a reference vector with part of an existing vector.
+template <class T>
+inline const vnl_vector_ref<T> vnl_vector_ref_extract(const vnl_vector <T> &v, unsigned start, unsigned len)
+{
+  return vnl_vector_ref<T>(len, const_cast<T *>(v.data_block()+start));
+}
+
+//: Create a reference vector with part of an existing vector.
+template <class T>
+inline vnl_vector_ref<T> vnl_vector_ref_extract(vnl_vector <T> &v, unsigned start, unsigned len)
+{
+  return vnl_vector_ref<T>(len, v.data_block()+start);
+}
+
+
 #endif // vnl_vector_ref_h_

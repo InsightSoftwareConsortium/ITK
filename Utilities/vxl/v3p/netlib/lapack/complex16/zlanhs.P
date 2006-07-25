@@ -1,0 +1,3 @@
+extern doublereal zlanhs_(char *norm, integer *n, doublecomplex *a, integer *lda, doublereal *work, ftnlen norm_len);
+/*:ref: lsame_ 12 4 13 13 124 124 */
+/*:ref: zlassq_ 14 5 4 9 4 7 7 */

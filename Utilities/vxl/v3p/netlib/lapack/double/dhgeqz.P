@@ -1,0 +1,13 @@
+extern int dhgeqz_(char *job, char *compq, char *compz, integer *n, integer *ilo, integer *ihi, doublereal *a, integer *lda, doublereal *b, integer *ldb, doublereal *alphar, doublereal *alphai, doublereal *beta, doublereal *q, integer *ldq, doublereal *z__, integer *ldz, doublereal *work, integer *lwork, integer *info, ftnlen job_len, ftnlen compq_len, ftnlen compz_len);
+/*:ref: lsame_ 12 4 13 13 124 124 */
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: dlaset_ 14 8 13 4 4 7 7 7 4 124 */
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: dlanhs_ 7 6 13 4 7 4 7 124 */
+/*:ref: dlartg_ 14 5 7 7 7 7 7 */
+/*:ref: drot_ 14 7 4 7 4 7 4 7 7 */
+/*:ref: dlag2_ 14 10 7 4 7 4 7 7 7 7 7 7 */
+/*:ref: dlasv2_ 14 9 7 7 7 7 7 7 7 7 7 */
+/*:ref: dlapy3_ 7 3 7 7 7 */
+/*:ref: dlapy2_ 7 2 7 7 */
+/*:ref: dlarfg_ 14 5 4 7 7 4 7 */

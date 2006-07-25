@@ -24,7 +24,7 @@ MARK_AS_ADVANCED( VXL_UPDATE_CONFIGURATION )
 # number. The format follows a DNS-style numbering: the current date
 # followed by a modification time within the day.
 #
-SET( VXL_CONFIG_SERIAL_CURRENT "2004-02-10-001" )
+SET( VXL_CONFIG_SERIAL_CURRENT "2006-16-03-002" )
 
 IF( ${VXL_CONFIG_SERIAL_CURRENT} MATCHES "^${VXL_CONFIG_SERIAL_LAST}$" )
   # The configuration is current
@@ -45,7 +45,6 @@ INCLUDE (${CMAKE_ROOT}/Modules/TestBigEndian.cmake)
 INCLUDE (${CMAKE_ROOT}/Modules/CheckTypeSize.cmake)
 
 INCLUDE (${vxl_SOURCE_DIR}/config/cmake/config/vxl_config_macros.cmake)
-
 #
 # Perform all the specific tests
 #
@@ -99,6 +98,9 @@ PERFORM_CMAKE_TEST_RUN(vxl_platform_tests.cxx VCL_HAS_WORKING_STRINGSTREAM)
 PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VXL_UNISTD_USLEEP_IS_VOID)
   SET_INVERT(VXL_UNISTD_USLEEP_IS_VOID "${VXL_UNISTD_USLEEP_IS_VOID}")
 PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VXL_STDLIB_HAS_QSORT)
+PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VXL_C_MATH_HAS_LROUND)
+PERFORM_CMAKE_TEST_RUN(vxl_platform_tests.cxx VCL_HAS_LFS)
+PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VXL_HAS_DBGHELP_H)
 
 # Test how to define a template specialization, and whether
 # specializations can be properly distinguished by top-level
@@ -253,6 +255,7 @@ IF(HAVE_UNISTD_H)
   CHECK_FUNCTION_EXISTS_ZERO(pread VXL_UNISTD_HAS_PREAD)
   CHECK_FUNCTION_EXISTS_ZERO(pwrite VXL_UNISTD_HAS_PWRITE)
   CHECK_FUNCTION_EXISTS_ZERO(tell VXL_UNISTD_HAS_TELL)
+  CHECK_FUNCTION_EXISTS_ZERO(getpid VXL_UNISTD_HAS_GETPID)
 ELSE(HAVE_UNISTD_H)
   # If there is not unistd.h, assume windows and therefore hardcode results.
   SET(VXL_UNISTD_HAS_USECONDS_T 0)
@@ -263,6 +266,7 @@ ELSE(HAVE_UNISTD_H)
   SET(VXL_UNISTD_HAS_PREAD 1)
   SET(VXL_UNISTD_HAS_PWRITE 1)
   SET(VXL_UNISTD_HAS_TELL 1)
+  SET(VXL_UNISTD_HAS_GETPID 1)
 ENDIF(HAVE_UNISTD_H)
 
 

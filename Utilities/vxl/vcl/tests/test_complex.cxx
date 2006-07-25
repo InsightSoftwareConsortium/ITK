@@ -74,5 +74,14 @@ int test_complex_main(int /*argc*/,char* /*argv*/[])
   vcl_cout << "Implementation defines vcl_pow((0,0),(0,0)) = "
            << vcl_pow(zero, zero) << vcl_endl;
 
+  {
+    vcl_complex<double> x(2, 3);
+    vcl_complex<double> xc = vcl_conj(x);
+    vcl_cout << "Conjugate " << x << " = " << xc << "\n";
+    if( xc != vcl_complex<double>(2,-3) ) {
+      success = false;
+    }
+  }
+
   return success?0:1;
 }
