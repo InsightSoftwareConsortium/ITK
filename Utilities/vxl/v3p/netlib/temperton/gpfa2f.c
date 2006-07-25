@@ -369,7 +369,7 @@ L300:
         if (mu == 3 || mu == 7) {
             c1 = -1.f;
         }
-        c2 = sqrtf(.5f);
+        c2 = (real)sqrt(.5);
         if (mu == 3 || mu == 5) {
             c2 = -c2;
         }
