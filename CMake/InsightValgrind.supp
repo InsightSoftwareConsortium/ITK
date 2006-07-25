@@ -1,4 +1,12 @@
 {
+  Some Error from the itk::MultiThreader::DispatchSingleMethodThread
+   Memcheck:Leak
+   fun:calloc
+   fun:_dl_allocate_tls
+   fun:pthread_create@@GLIBC_2.1
+   fun:_ZN3itk13MultiThreader26DispatchSingleMethodThreadEPNS0_16ThreadInfoStructE
+}
+{
   Some Error from the itk::MultiThreader::SingleMethodExecute
   Memcheck:Leak
   fun:calloc
