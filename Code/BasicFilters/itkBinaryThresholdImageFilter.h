@@ -55,7 +55,13 @@ template< class TInput, class TOutput>
 class BinaryThreshold
 {
 public:
-  BinaryThreshold() {};
+  BinaryThreshold()
+  {
+    m_LowerThreshold = NumericTraits<TInput>::NonpositiveMin();
+    m_UpperThreshold = NumericTraits<TInput>::max();
+    m_OutsideValue   = NumericTraits<TOutput>::Zero;
+    m_InsideValue    = NumericTraits<TOutput>::max();
+  };
   ~BinaryThreshold() {};
 
   void SetLowerThreshold( const TInput & thresh )
