@@ -93,6 +93,10 @@ GDCMImageIO::GDCMImageIO()
 
 GDCMImageIO::~GDCMImageIO()
 {
+  if (this->DICOMHeader->m_Header)
+    {
+    delete this->DICOMHeader->m_Header;
+    }
   delete this->DICOMHeader;
 }
 
@@ -640,6 +644,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   this->GetInstitution(name);
   this->GetModel(name);
   this->GetScanOptions(name);
+
 }
 
 void GDCMImageIO::ReadImageInformation()
