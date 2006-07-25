@@ -1068,7 +1068,7 @@ int main()
 
 int main() { long c = lround(100.0); }
 
-#endif // VXL_C_MATH_HAS_LRINT
+#endif // VXL_C_MATH_HAS_LROUND
 
 //-------------------------------------
 
