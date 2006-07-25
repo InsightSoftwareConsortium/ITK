@@ -10,7 +10,6 @@
 #include <vnl/vnl_math.h>
 #include <vnl/algo/vnl_brent.h>
 #ifdef DEBUG
-#include <vcl_iostream.h>
 #include <vnl/vnl_matlab_print.h>
 #include <vcl_iostream.h>
 #endif

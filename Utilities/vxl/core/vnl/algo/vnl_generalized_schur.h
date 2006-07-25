@@ -10,7 +10,6 @@
 // \author fsm, Oxford RRG
 // \date   2 Oct 2001
 
-#include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_vector.h>
 
