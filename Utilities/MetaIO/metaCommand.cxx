@@ -33,10 +33,11 @@ MetaCommand::MetaCommand()
   m_Author = "Not defined";
   m_Description = "";
   m_ParsedOptionVector.clear();
+  m_Verbose = true;
 }
 
 
-/** Extract the date from the $Date: 2006-06-25 19:20:10 $ cvs command */
+/** Extract the date from the $Date: 2006-07-26 14:01:56 $ cvs command */
 METAIO_STL::string MetaCommand::ExtractDateFromCVS(METAIO_STL::string date)
 {
   METAIO_STL::string newdate;
@@ -1286,7 +1287,7 @@ bool MetaCommand::Parse(int argc, char* argv[])
           args = "";
           }
         }
-      else
+      else if(m_Verbose)
         {
         METAIO_STREAM::cout << "The tag " << tag.c_str() 
                   << " is not a valid argument : skipping this tag" 
@@ -1316,7 +1317,7 @@ bool MetaCommand::Parse(int argc, char* argv[])
         it++;
         }
 
-      if(!found)
+      if(!found && m_Verbose)
         {
         METAIO_STREAM::cout << "Too many arguments specified in your command line! "
                   << "Skipping extra argument: " << argv[i] << METAIO_STREAM::endl;

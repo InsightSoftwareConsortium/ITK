@@ -218,6 +218,8 @@ public:
   METAIO_STL::string TypeToString(TypeEnumType type);
   TypeEnumType StringToType(const char* type);
 
+  void SetVerbose(bool verbose) {m_Verbose = verbose;}
+
 protected:
 
   /** Small XML helper */
@@ -237,6 +239,8 @@ private:
   OptionVector m_OptionVector;
   OptionVector m_ParsedOptionVector; // We store the parsed option in
                                      //   case we have multiple options
+
+  bool         m_Verbose;
 
 }; // end of class
 
