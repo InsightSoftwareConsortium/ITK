@@ -29,7 +29,7 @@ vnl_svd_economy<real_t>::vnl_svd_economy( vnl_matrix<real_t> const& M ) :
 {
   vnl_fortran_copy<real_t> X(M);
 
-  int mm = vcl_min(m_+1,n_);
+  int mm = vcl_min(m_+1L,n_);
 
   // Make workspace vectors.
   vnl_vector<real_t> work(m_, real_t(0));

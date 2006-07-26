@@ -46,7 +46,7 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
   {
     long n = M.rows();
     long p = M.columns();
-    long mm = vcl_min(n+1,p);
+    long mm = vcl_min(n+1L,p);
 
     // Copy source matrix into fortran storage
     // SVD is slow, don't worry about the cost of this transpose.
