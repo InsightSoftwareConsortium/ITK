@@ -3,6 +3,12 @@
 extern "C" {
 #endif
 
+/* The divide by zero below appears to be perhaps on purpose to create
+   a numerical exception.  */
+#ifdef _MSC_VER
+# pragma warning (disable: 4723) /* potential divide by 0 */
+#endif
+
 #ifdef KR_headers
 integer pow_ii(ap, bp) integer *ap, *bp;
 #else
