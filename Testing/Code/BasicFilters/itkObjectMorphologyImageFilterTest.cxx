@@ -24,9 +24,9 @@
 #include <itkImage.h>
 #include <itkIndex.h>
 #include "itkDilateObjectMorphologyImageFilter.h"
+#include "itkErodeObjectMorphologyImageFilter.h"
 #include "itkBinaryErodeImageFilter.h"
 #include "itkBinaryDilateImageFilter.h"
-#include "itkErodeObjectMorphologyImageFilter.h"
 #include <itkBinaryBallStructuringElement.h>
 #include <itkImageRegionIterator.h>
 #include <itkExceptionObject.h>
