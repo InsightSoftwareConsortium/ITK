@@ -1,6 +1,8 @@
 # Root vxl ported to ITK Utilities.
 PROJECT(vxl)
 
+INCLUDE_REGULAR_EXPRESSION("^.*$")
+
 IF(NOT ITK_SOURCE_DIR)
   SET(BUILD_TESTING 1)
   SET(LIBRARY_OUTPUT_PATH ${vxl_BINARY_DIR}/bin)
