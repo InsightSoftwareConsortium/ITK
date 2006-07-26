@@ -25,6 +25,10 @@
 extern "C" {
 #endif
 #include "v3p_f2c_original.h"
+double pow_dd(doublereal *ap, doublereal *bp);
+double pow_di(doublereal *ap, integer *bp);
+double d_lg10(doublereal *x);
+double d_sign(doublereal *a, doublereal *b);
 #ifdef __cplusplus
 }
 #endif
