@@ -28,11 +28,11 @@ extern
 extern "C" {
 #endif
 
- VOID
+int
 #ifdef KR_headers
-s_cat(lp, rpp, rnp, np, ll) char *lp, *rpp[]; ftnint rnp[], *np; ftnlen ll;
+s_cat(lp, rpp, rnp, np, ll) char *lp, **rpp; integer *rnp, *np; ftnlen ll;
 #else
-s_cat(char *lp, char *rpp[], ftnint rnp[], ftnint *np, ftnlen ll)
+s_cat(char *lp, char **rpp, integer *rnp, integer *np, ftnlen ll)
 #endif
 {
         ftnlen i, nc;
@@ -80,6 +80,7 @@ s_cat(char *lp, char *rpp[], ftnint rnp[], ftnint *np, ftnlen ll)
                 free(lp1);
                 }
 #endif
+        return 0;
         }
 #ifdef __cplusplus
 }

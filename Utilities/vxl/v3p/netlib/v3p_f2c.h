@@ -25,10 +25,31 @@
 extern "C" {
 #endif
 #include "v3p_f2c_original.h"
-double pow_dd(doublereal *ap, doublereal *bp);
-double pow_di(doublereal *ap, integer *bp);
+char *F77_aloc(integer Len, char *whence);
+void sig_die(register char *s, int kill);
+integer i_dnnt(doublereal *x);
+double f__cabs(double real, double imag);
+void exit_(integer *rc);
+double c_abs(complex *z);
+void c_div(complex *c, complex *a, complex *b);
+void c_sqrt(complex *r, complex *z);
+VOID d_cnjg(doublecomplex *r, doublecomplex *z);
+double d_imag(doublecomplex *z);
 double d_lg10(doublereal *x);
 double d_sign(doublereal *a, doublereal *b);
+double pow_dd(doublereal *ap, doublereal *bp);
+double pow_di(doublereal *ap, integer *bp);
+double pow_ri(real *ap, integer *bp);
+integer pow_ii(integer *ap, integer *bp);
+VOID r_cnjg(complex *r, complex *z);
+double r_imag(complex *z);
+double r_sign(real *a, real *b);
+int s_copy(char *a, char *b, ftnlen la, ftnlen lb);
+integer s_cmp(char *a0, char *b0, ftnlen la, ftnlen lb);
+int s_cat(char *lp, char **rpp, integer *rnp, integer* np, ftnlen ll);
+double z_abs(doublecomplex *z);
+void z_div(doublecomplex *c, doublecomplex *a, doublecomplex *b);
+void z_sqrt(doublecomplex *r, doublecomplex *z);
 #ifdef __cplusplus
 }
 #endif
