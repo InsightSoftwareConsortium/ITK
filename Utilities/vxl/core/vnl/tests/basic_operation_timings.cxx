@@ -146,6 +146,13 @@ void print_pointers(const vcl_vector<vnl_vector<T> >&va, const vcl_vector<vnl_ve
      << "\n\nma:" << ma.data_block() << ' ' << ma.rows() << ' ' << ma.cols() << '\n';
   for (i=0; i<ma.rows(); ++i)
   { os << ma[i] << '\n'; }
+#else
+  (void)va;
+  (void)vb;
+  (void)vc;
+  (void)na;
+  (void)ma;
+  (void)file;
 #endif // DEBUG
 }
 
