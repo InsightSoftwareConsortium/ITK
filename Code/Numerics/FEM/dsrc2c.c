@@ -35,6 +35,66 @@ extern logical tstchg_(integer *);
 
 /***** END VXL ADDITIONS ****/
 
+int echout_(integer *iparm, doublereal *rparm, integer *imthd);
+int echall_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
+            integer *iparm, doublereal *rparm, integer *icall);
+int ivfill_(integer *n, integer *iv, integer *ival);
+int vfill_(integer *n, doublereal *v, doublereal *val);
+int sbelm_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, integer *iw,
+           doublereal *rw, doublereal *tol, integer *isym, integer *level, integer *nout, integer *ier);
+int prbndx_(integer *n, integer *nblack, integer *ia, integer *ja, integer *p,
+            integer *ip, integer *level, integer *nout, integer *ier);
+int permat_(integer *n, integer *ia, integer *ja, doublereal *a, integer *p,
+            integer *newia, integer *isym, integer * level, integer *nout, integer* ierr);
+int pervec_(integer *n, doublereal *v, integer *p);
+int scal_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
+          doublereal *u, doublereal *d, integer *level, integer *nout, integer *ier);
+int itpackdcopy_(integer *n, doublereal *dx, integer *incx, doublereal *dy, integer *incy);
+int pjac_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs);
+int vevmw_(integer *n, doublereal *v, doublereal *w);
+
+int perror_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
+            doublereal *u, doublereal *w, doublereal *digtt1, doublereal *digtt2, integer *idgtts);
+int itjsi_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
+           doublereal *u, doublereal *u1, doublereal *d, integer *icnt);
+int itsor_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u, doublereal *wk);
+int omeg_(doublereal *dnrm, integer *iflag);
+int pfsor_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs);
+int itsrcg_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs,
+            doublereal *u, doublereal *u1, doublereal *c, doublereal *c1,
+            doublereal *d, doublereal *dl, doublereal *wk, doublereal *tri);
+int itsrsi_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u,
+            doublereal *u1, doublereal *c, doublereal *d, doublereal *ctwd, doublereal *wk);
+int chgcon_(doublereal *tri, doublereal *gamold, doublereal *rhoold, integer *ibmth);
+int pstop_(integer *n, doublereal *u, doublereal *dnrm, doublereal *ccon, integer *iflag, logical *q1);
+int parcon_(doublereal *dtnrm, doublereal *c1, doublereal *c2, doublereal *c3, doublereal *c4,
+            doublereal *gamold, doublereal * rhotmp, integer *ibmth);
+int sum3_(integer *n, doublereal *c1, doublereal *x1, doublereal *c2, doublereal *x2, doublereal *c3, doublereal *x3);
+int iterm_(integer *nn, doublereal *a, doublereal *u, doublereal *wk, integer *imthdd);
+int chgsi_(doublereal *dtnrm, integer *ibmth);
+int itpackdaxpy_(integer *n, doublereal *da, doublereal *dx, integer *incx, doublereal *dy, integer *incy);
+int pfsor1_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs);
+int vevpw_(integer *n, doublereal *v, doublereal *w);
+int pbsor_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *rhs);
+int wevmw_(integer *n, doublereal *v, doublereal *w);
+int pssor1_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *u,
+            doublereal *rhs, doublereal *fr, doublereal *br);
+int zbrent_(integer *n, doublereal *tri, doublereal *eps, integer *nsig,
+            doublereal *aa, doublereal *bb, integer *maxfnn, integer *ier);
+int pmult_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *w);
+int vout_(integer *n, doublereal *v, integer *iswt, integer *nout);
+int unscal_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u, doublereal *d);
+int prsred_(integer *nb, integer *nr, integer *ia, integer *ja, doublereal *a, doublereal *ub, doublereal *vr);
+int itrscg_(integer *n, integer *nb, integer *ia, integer *ja, doublereal *a, doublereal *ub,
+            doublereal *ub1, doublereal *db, doublereal *db1, doublereal *wb, doublereal *tri);
+int itrssi_(integer *n, integer *nb, integer *ia, integer *ja, doublereal *a,
+            doublereal *rhs, doublereal *ub, doublereal *ub1, doublereal *db);
+int parsi_(doublereal *c1, doublereal *c2, doublereal *c3, integer *ibmth);
+int itjcg_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *u1,
+           doublereal *d, doublereal *d1, doublereal *dtwd, doublereal *tri);
+int prsblk_(integer *nb, integer *nr, integer *ia, integer *ja, doublereal *a, doublereal *ur, doublereal *vb);
+int eqrt1s_(doublereal *d, doublereal *e2, integer *n, integer *m, integer *isw, integer *ierr);
+
 /* Common Block Declarations */
 
 static struct {
