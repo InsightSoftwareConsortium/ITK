@@ -15,7 +15,7 @@ void pow_zi(doublecomplex *p, doublecomplex *a, integer *b)     /* p = a**b  */
         unsigned long u;
         double t;
         doublecomplex q, x;
-        static doublecomplex one = {1.0, 0.0};
+        static doublecomplex one = {1.0, 0.0}; /* constant */
 
         n = *b;
         q.r = 1;
