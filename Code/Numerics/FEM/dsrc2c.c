@@ -6300,7 +6300,7 @@ int prsred_(integer *nb, integer *nr, integer *ia, integer *ja, doublereal *a, d
 /*         A       D.P. ARRAY OF SPARSE MATRIX REPRESENTATION       */
 /*         UB      PRESENT ESTIMATE OF BLACK SOLUTION VECTOR        */
 /*         VR      OUTPUT: PRESENT ESTIMATE OF RED SOLUTION VECTOR  */
-
+    (void)nb;
     for (ii = 0; ii < *nr; ++ii) {
         ibgn = ia[ii] - 1;
         iend = ia[ii + 1] - 1;
