@@ -3059,8 +3059,8 @@ void initializetrisegpools()
 
   if (useshelles) {
     /* Initialize the pool of shell edges. */
-    poolinit(&shelles, 6 * sizeof(triangle) + sizeof(int), SHELLEPERBLOCK,
-             POINTER, 4);
+    poolinit(&shelles, (int)(6 * sizeof(triangle) + sizeof(int)),
+             SHELLEPERBLOCK, POINTER, 4);
 
     /* Initialize the "outer space" triangle and omnipresent shell edge. */
     dummyinit(triangles.itemwords, shelles.itemwords);
@@ -7858,8 +7858,8 @@ long sweeplinedelaunay()
   int check4events, farrightflag;
   triangle ptr;   /* Temporary variable used by sym(), onext(), and oprev(). */
 
-  poolinit(&splaynodes, sizeof(struct splaynode), SPLAYNODEPERBLOCK, POINTER,
-           0);
+  poolinit(&splaynodes, (int)sizeof(struct splaynode),
+           SPLAYNODEPERBLOCK, POINTER, 0);
   splayroot = (struct splaynode *) NULL;
 
   if (verbose) {
@@ -9875,7 +9875,7 @@ int regions;
   if (((holes > 0) && !noholes) || !convex || (regions > 0)) {
     /* Initialize a pool of viri to be used for holes, concavities, */
     /*   regional attributes, and/or regional area constraints.     */
-    poolinit(&viri, sizeof(triangle *), VIRUSPERBLOCK, POINTER, 0);
+    poolinit(&viri, (int)sizeof(triangle *), VIRUSPERBLOCK, POINTER, 0);
   }
 
   if (!convex) {
@@ -10434,7 +10434,8 @@ void enforcequality()
     printf("Adding Steiner points to enforce quality.\n");
   }
   /* Initialize the pool of encroached segments. */
-  poolinit(&badsegments, sizeof(struct edge), BADSEGMENTPERBLOCK, POINTER, 0);
+  poolinit(&badsegments, (int)sizeof(struct edge),
+           BADSEGMENTPERBLOCK, POINTER, 0);
   if (verbose) {
     printf("  Looking for encroached segments.\n");
   }
@@ -10462,8 +10463,8 @@ void enforcequality()
   /* Next, we worry about enforcing triangle quality. */
   if ((minangle > 0.0) || vararea || fixedarea) {
     /* Initialize the pool of bad triangles. */
-    poolinit(&badtriangles, sizeof(struct badface), BADTRIPERBLOCK, POINTER,
-             0);
+    poolinit(&badtriangles, (int)sizeof(struct badface),
+             BADTRIPERBLOCK, POINTER, 0);
     /* Initialize the queues of bad triangles. */
     for (i = 0; i < 64; i++) {
       queuefront[i] = (struct badface *) NULL;
