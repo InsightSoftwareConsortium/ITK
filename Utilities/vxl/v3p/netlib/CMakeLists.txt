@@ -345,6 +345,11 @@ IF(CMAKE_COMPILER_IS_GNUCC)
   #  lapack/complex16/zlarfx.c
   #  PROPERTIES COMPILE_FLAGS -O0
   #  )
+  SET_SOURCE_FILES_PROPERTIES(
+    blas/slamch.c
+    blas/dlamch.c
+    PROPERTIES COMPILE_FLAGS -O0
+    )
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
 # Collect full source list.
