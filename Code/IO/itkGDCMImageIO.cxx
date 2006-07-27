@@ -996,7 +996,7 @@ void GDCMImageIO::Write(const void* buffer)
       }
     else
       {
-      itkExceptionMacro(<< "Unknow compression type" );
+      itkExceptionMacro(<< "Unknown compression type" );
       }
     }
   gfile->SetUserData( imageData, numberOfBytes);
@@ -1010,11 +1010,7 @@ void GDCMImageIO::Write(const void* buffer)
     }
 
   // Clean up
-  if( gfile->GetUserData() && gfile->GetUserDataSize()>0 && !m_UseCompression)
-  {
-     delete[] gfile->GetUserData();
-  }
-
+  delete [] imageData;
   delete gfile;
   delete header;
 }

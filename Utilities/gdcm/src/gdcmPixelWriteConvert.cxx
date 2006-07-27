@@ -288,7 +288,7 @@ void PixelWriteConvert::SetCompressJPEG2000UserData(uint8_t *data, size_t size, 
    UserData = new uint8_t[of_size];
    memcpy(UserData, of->str().c_str(), of_size);
    UserDataSize = of_size;
-   
+   delete of;   
 }
 
 bool gdcm_write_JPEG_file8 (std::ostream *fp, char *inputdata, size_t inputlength,
@@ -390,7 +390,7 @@ void PixelWriteConvert::SetCompressJPEGUserData(uint8_t *data, size_t size, File
    UserData = new uint8_t[of_size];
    memcpy(UserData, of->str().c_str(), of_size);
    UserDataSize = of_size;
-
+   delete of;
 }
 
 
