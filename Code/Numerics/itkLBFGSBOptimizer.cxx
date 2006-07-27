@@ -30,9 +30,6 @@ typedef double doublereal;
 typedef long logical; // not bool
 typedef long int ftnlen;
 
-extern "C" void s_copy(char*,const char*,ftnlen,ftnlen);
-extern "C" integer s_cmp(char*,const char*,ftnlen,ftnlen);
-
 extern "C" int
 setulb_(
 integer *n, integer *m,
