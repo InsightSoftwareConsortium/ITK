@@ -45,6 +45,10 @@ echo "" >> ${TEMPDIR}/$$.wikitemp
 grep "^Code/SpatialObject" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
 echo "" >> ${TEMPDIR}/$$.wikitemp
 grep "^Code/Patented" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
+echo "" >> ${TEMPDIR}/$$.wikitemp
+grep "^Code/Patented" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
+echo "" >> ${TEMPDIR}/$$.wikitemp
+grep "^Code/Review" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
 echo "</pre>" >> ${TEMPDIR}/$$.wikitemp
 
 echo "== New Tests in this Release =="  >> ${TEMPDIR}/$$.wikitemp
@@ -62,6 +66,8 @@ echo "" >> ${TEMPDIR}/$$.wikitemp
 grep "^Testing/Code/SpatialObject" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
 echo "" >> ${TEMPDIR}/$$.wikitemp
 grep "^Testing/Code/Patented" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
+echo "" >> ${TEMPDIR}/$$.wikitemp
+grep "^Testing/Code/Review" ${TEMPDIR}/$$.new | sort | uniq >> ${TEMPDIR}/$$.wikitemp
 echo "</pre>" >> ${TEMPDIR}/$$.wikitemp
 
 echo "== New Examples in this Release ==" >> ${TEMPDIR}/$$.wikitemp
