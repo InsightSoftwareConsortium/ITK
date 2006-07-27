@@ -161,9 +161,6 @@ void TransformFileReader
         return;
         }
       transform = ptr;
-      transform->Register();
-      // transform->Print ( std::cout );
-      // ptr->UnRegister();
       m_TransformList.push_back ( transform );
       }
     else if ( Name == "Parameters" || Name == "FixedParameters" )
