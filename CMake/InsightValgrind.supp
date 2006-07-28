@@ -284,3 +284,20 @@
    fun:__cxa_get_globals
    fun:__cxa_allocate_exception
 }
+{
+   Exception allocation
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:__cxa_allocate_exception
+}
+{
+  index(strchr.S)
+  Memcheck:Cond
+  fun:index
+}
+{
+  /lib/libz
+  Memcheck:Cond
+  obj:*/libz.so.1.2.3
+}
