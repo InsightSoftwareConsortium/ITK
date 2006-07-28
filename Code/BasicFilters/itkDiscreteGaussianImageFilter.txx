@@ -119,6 +119,21 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 
+  // Create an internal image to protect the input image's metdata
+  // (e.g. RequestedRegion). The StreamingImageFilter changes the
+  // requested region as poart of its normal provessing.
+  typename TInputImage::Pointer localInput = TInputImage::New();
+  localInput->SetPixelContainer(
+    const_cast<ImportImageContainer<unsigned long, InputPixelType> *>(
+      this->GetInput()->GetPixelContainer()));
+  localInput->SetRequestedRegion(
+    this->GetInput()->GetRequestedRegion() );
+  localInput->SetLargestPossibleRegion(
+    this->GetInput()->GetLargestPossibleRegion() );
+  localInput->SetBufferedRegion(
+    this->GetInput()->GetBufferedRegion() );
+  localInput->CopyInformation(this->GetInput());
+
   // Determine the dimensionality to filter
   unsigned int filterDimensionality = m_FilterDimensionality;
   if (filterDimensionality > ImageDimension)
@@ -128,10 +143,12 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
   if (filterDimensionality == 0)
     {
     // no smoothing, copy input to output
-    ImageRegionConstIterator<InputImageType> inIt(this->GetInput(),
-                                    this->GetOutput()->GetRequestedRegion() );
-    ImageRegionIterator<OutputImageType> outIt(output,
-                                    this->GetOutput()->GetRequestedRegion() );
+    ImageRegionConstIterator<InputImageType> inIt(
+      localInput,
+      this->GetOutput()->GetRequestedRegion() );
+    ImageRegionIterator<OutputImageType> outIt(
+      output,
+      this->GetOutput()->GetRequestedRegion() );
 
     while (!inIt.IsAtEnd())
       {
@@ -187,14 +204,14 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
     oper[i].SetDirection(i);
     if (m_UseImageSpacing == true)
       {
-      if (this->GetInput()->GetSpacing()[i] == 0.0)
+      if (localInput->GetSpacing()[i] == 0.0)
         {
         itkExceptionMacro(<< "Pixel spacing cannot be zero");
         }
       else
         {
         // convert the variance from physical units to pixels
-        double s = this->GetInput()->GetSpacing()[i];
+        double s = localInput->GetSpacing()[i];
         s = s*s;
         oper[i].SetVariance(m_Variance[i] / s);
         }
@@ -218,7 +235,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
     // Use just a single filter
     SingleFilterPointer singleFilter = SingleFilterType::New();
     singleFilter->SetOperator(oper[0]);
-    singleFilter->SetInput( this->GetInput() );
+    singleFilter->SetInput( localInput );
     progress->RegisterInternalFilter(singleFilter,1.0f/m_FilterDimensionality);
 
     // Graft this filters output onto the mini-pipeline so the mini-pipeline
@@ -245,7 +262,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
     FirstFilterPointer firstFilter = FirstFilterType::New();
     firstFilter->SetOperator(oper[0]);
     firstFilter->ReleaseDataFlagOn();
-    firstFilter->SetInput( this->GetInput() );
+    firstFilter->SetInput( localInput );
     progress->RegisterInternalFilter(firstFilter,1.0f/numberOfStages);
     
     // Middle filters convolves from real to real 
