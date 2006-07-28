@@ -271,7 +271,7 @@ extern  const TIFFCodec* TIFFFindCODEC(uint16);
 extern  TIFFCodec* TIFFRegisterCODEC(uint16, const char*, TIFFInitMethod);
 extern  void TIFFUnRegisterCODEC(TIFFCodec*);
 extern  int TIFFIsCODECConfigured(uint16);
-extern  TIFFCodec* TIFFGetConfiguredCODECs();
+extern  TIFFCodec* TIFFGetConfiguredCODECs(void);
 
 extern  tdata_t _TIFFmalloc(tsize_t);
 extern  tdata_t _TIFFrealloc(tdata_t, tsize_t);

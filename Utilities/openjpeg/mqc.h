@@ -78,7 +78,7 @@ typedef struct opj_mqc {
 Create a new MQC handle 
 @return Returns a new MQC handle if successful, returns NULL otherwise
 */
-opj_mqc_t* mqc_create();
+opj_mqc_t* mqc_create(void);
 /**
 Destroy a previously created MQC handle
 @param mqc MQC handle to destroy

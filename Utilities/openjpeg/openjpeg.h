@@ -467,7 +467,7 @@ extern "C" {
 ==========================================================
 */
 
-OPJ_API const char * OPJ_CALLCONV opj_version();
+OPJ_API const char * OPJ_CALLCONV opj_version(void);
 
 /* 
 ==========================================================
