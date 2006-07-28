@@ -262,7 +262,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 
         tempSquareDist=transformedPoint.EuclideanDistanceTo(p);
         
-        double R = 0;
+        double R;
         if(lambda >= 0)
           {
           R = (*it).GetRadius()+lambda*((*it2).GetRadius()-(*it).GetRadius());
