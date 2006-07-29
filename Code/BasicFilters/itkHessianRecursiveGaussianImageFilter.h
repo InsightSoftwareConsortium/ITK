@@ -23,7 +23,6 @@
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkPixelTraits.h"
 #include "itkCommand.h"
-#include "itkProgressAccumulator.h"
 
 
 namespace itk
@@ -177,8 +176,6 @@ private:
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale; 
-
-  ProgressAccumulator::Pointer  m_Progress;
 
 };
 

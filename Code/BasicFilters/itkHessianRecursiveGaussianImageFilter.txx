@@ -19,6 +19,7 @@
 
 #include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkProgressAccumulator.h"
 
 namespace itk
 {
@@ -34,23 +35,12 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   m_NormalizeAcrossScale = false;
 
-  // Create a process accumulator for tracking the progress of this
-  // minipipeline
-  m_Progress = ProgressAccumulator::New();
-  m_Progress->SetMiniPipelineFilter(this);
- 
-  // Compute the contribution of each filter to the total progress.
-  const double weight = 
-     1.0 / ( ImageDimension * ( ImageDimension * ( ImageDimension+1 ) / 2 ));
-
-
   for( unsigned int i = 0; i<NumberOfSmoothingFilters; i++ )
     {
     GaussianFilterPointer filter = GaussianFilterType::New();
     filter->SetOrder( GaussianFilterType::ZeroOrder );
     filter->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
     filter->ReleaseDataFlagOn();
-    m_Progress->RegisterInternalFilter( filter, weight );
     m_SmoothingFilters.push_back( filter );
     }
 
@@ -65,9 +55,6 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   
   m_DerivativeFilterA->SetInput( this->GetInput() );
   m_DerivativeFilterB->SetInput( m_DerivativeFilterA->GetOutput() );
-
-  m_Progress->RegisterInternalFilter( m_DerivativeFilterA, weight );
-  m_Progress->RegisterInternalFilter( m_DerivativeFilterB, weight );
 
   // Deal with the 2D case.
   if( NumberOfSmoothingFilters > 0 )
@@ -179,7 +166,24 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 
   itkDebugMacro(<< "HessianRecursiveGaussianImageFilter generating data ");
 
-  m_Progress->ResetProgress();
+
+  // Create a process accumulator for tracking the progress of this
+  // minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+ 
+  // Compute the contribution of each filter to the total progress.
+  const double weight = 
+     1.0 / ( ImageDimension * ( ImageDimension * ( ImageDimension+1 ) / 2 ));
+
+  for( unsigned int i = 0; i<NumberOfSmoothingFilters; i++ )
+    {
+    progress->RegisterInternalFilter( m_SmoothingFilters[i], weight );
+    }
+  progress->RegisterInternalFilter( m_DerivativeFilterA, weight );
+  progress->RegisterInternalFilter( m_DerivativeFilterB, weight );
+
 
   const typename TInputImage::ConstPointer   inputImage( this->GetInput() );
 
@@ -240,7 +244,7 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage >
         derivativeImage = m_DerivativeFilterB->GetOutput(); 
         }
 
-      m_Progress->ResetFilterProgressAndKeepAccumulatedProgress();
+      progress->ResetFilterProgressAndKeepAccumulatedProgress();
 
       // Copy the results to the corresponding component
       // on the output image of vectors
