@@ -28,7 +28,7 @@ template< typename TInput, typename  TOutput>
 class ModulusTransform
 {
 public:
-  ModulusTransform() {}
+  ModulusTransform() {m_Dividend = 5;}
   ~ModulusTransform() {}
   void SetDividend( TOutput dividend ) { m_Dividend = dividend; }
 

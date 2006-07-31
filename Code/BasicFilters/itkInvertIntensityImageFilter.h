@@ -29,7 +29,7 @@ class InvertIntensityTransform
 {
 public:
   typedef typename NumericTraits< TInput >::RealType RealType;
-  InvertIntensityTransform() {}
+  InvertIntensityTransform() {m_Maximum = NumericTraits< TInput >::max();}
   ~InvertIntensityTransform() {}
 
   void SetMaximum( TOutput max ) { m_Maximum = max; }
