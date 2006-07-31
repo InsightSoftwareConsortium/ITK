@@ -60,6 +60,7 @@ int itkRescaleIntensityImageFilterTest(int, char* [] )
   source->SetMin( static_cast< TestInputImage::PixelType >( minValue ) );
   source->SetMax( static_cast< TestInputImage::PixelType >( maxValue ) );
   
+  filter->SetFunctor(filter->GetFunctor());
   filter->SetInput(source->GetOutput());
 
   const double desiredMinimum = -1.0;
