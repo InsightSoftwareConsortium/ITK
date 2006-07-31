@@ -29,6 +29,7 @@ template <class TInputImage, class TOutputImage, class TBinaryPriorImage>
 VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
 ::VoronoiSegmentationImageFilterBase()
 {
+  m_Size.Fill(0);
   m_MinRegion = 20;
   m_Steps = 0;
   m_LastStepSeeds = 0;
