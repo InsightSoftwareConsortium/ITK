@@ -37,7 +37,7 @@ MetaCommand::MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2006-07-26 14:01:56 $ cvs command */
+/** Extract the date from the $Date: 2006-07-31 19:18:08 $ cvs command */
 METAIO_STL::string MetaCommand::ExtractDateFromCVS(METAIO_STL::string date)
 {
   METAIO_STL::string newdate;
@@ -89,7 +89,8 @@ bool MetaCommand::SetOption(METAIO_STL::string name,
                             bool required,
                             METAIO_STL::string description,
                             TypeEnumType type,
-                            METAIO_STL::string defVal)
+                            METAIO_STL::string defVal,
+                            DataEnumType externalData)
 {
   // need to add some tests here to check if the option is not defined yet
   if(tag == "")
@@ -116,7 +117,7 @@ bool MetaCommand::SetOption(METAIO_STL::string name,
     {
     field.name = name;
     }
-  field.externaldata = DATA_NONE;
+  field.externaldata = externalData;
   field.type = type;
   field.value = defVal;
   field.userDefined = false;

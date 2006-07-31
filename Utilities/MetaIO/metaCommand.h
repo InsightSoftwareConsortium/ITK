@@ -80,7 +80,8 @@ public:
                  bool required,
                  METAIO_STL::string description,
                  TypeEnumType type = FLAG,
-                 METAIO_STL::string defVal = "");
+                 METAIO_STL::string defVal = "",
+                 DataEnumType externalData = DATA_NONE);
 
   /** Fields are added in order */
   bool AddField(METAIO_STL::string name,
