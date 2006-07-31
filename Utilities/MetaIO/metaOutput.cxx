@@ -96,6 +96,9 @@ void MetaOutput::SetMetaCommand(MetaCommand* metaCommand)
                            false,"Generate MetaOutput");
   m_MetaCommand->SetOption("GenerateXMLMetaOutput","oxml",
                            false,"Generate XML MetaOutput to the console");
+  m_MetaCommand->SetOption("GenerateXMLFile","ofxml",
+            false,"Generate XML MetaOutput to a file",MetaCommand::STRING,"",
+            MetaCommand::DATA_OUT);
 }
 
 /** Get the username */
@@ -302,7 +305,20 @@ void MetaOutput::Write()
     {
     METAIO_STL::cout << this->GenerateXML().c_str() << METAIO_STL::endl;
     }
-  
+  if(m_MetaCommand && m_MetaCommand->GetOptionWasSet("GenerateXMLFile"))
+    {
+    //this->GenerateXML();
+    METAIO_STL::string filename = m_MetaCommand->GetValueAsString("GenerateXMLFile");
+    METAIO_STL::ofstream fileStream;
+    fileStream.open(filename.c_str(), METAIO_STL::ios::binary | METAIO_STL::ios::out);
+    if(fileStream.is_open())
+      {
+      fileStream << this->GenerateXML(filename.c_str()).c_str();
+      fileStream.close();
+      }
+      
+    }
+
   if(m_MetaCommand && !m_MetaCommand->GetOptionWasSet("GenerateMetaOutput"))
     {
     return;
