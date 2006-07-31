@@ -78,6 +78,7 @@ int itkVariableLengthVectorTest(int, char*[])
       }    
      x.SetSize( 5 , true); 
      }
+  delete []d;
   } 
 
   std::cout << "[PASSED]" << std::endl;
