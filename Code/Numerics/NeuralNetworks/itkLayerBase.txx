@@ -29,7 +29,12 @@ LayerBase<TVector,TOutput>
 ::LayerBase()
 {
   m_NumberOfNodes = 0;
+  m_LayerId = 0;
   m_LayerType = 0;
+  m_InputWeightSet = 0;
+  m_OutputWeightSet = 0;
+  m_ActivationFunction = 0;;
+  m_NodeInputFunction = 0;
 }
 
 template<class TVector, class TOutput>

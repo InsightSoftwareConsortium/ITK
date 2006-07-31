@@ -23,6 +23,8 @@ WeightSetBase<TVector,TOutput>
   m_RandomGenerator = RandomVariateGeneratorType::New() ;
   RandomVariateGeneratorType::IntegerType randomSeed = 14543;
   m_RandomGenerator->Initialize( randomSeed );
+  m_InputLayerId = 0;
+  m_OutputLayerId = 0;
 }
 
 template<class TVector, class TOutput>
