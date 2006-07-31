@@ -123,16 +123,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
   // (e.g. RequestedRegion). The StreamingImageFilter changes the
   // requested region as poart of its normal provessing.
   typename TInputImage::Pointer localInput = TInputImage::New();
-  localInput->SetPixelContainer(
-    const_cast<ImportImageContainer<unsigned long, InputPixelType> *>(
-      this->GetInput()->GetPixelContainer()));
-  localInput->SetRequestedRegion(
-    this->GetInput()->GetRequestedRegion() );
-  localInput->SetLargestPossibleRegion(
-    this->GetInput()->GetLargestPossibleRegion() );
-  localInput->SetBufferedRegion(
-    this->GetInput()->GetBufferedRegion() );
-  localInput->CopyInformation(this->GetInput());
+  localInput->Graft(this->GetInput());
 
   // Determine the dimensionality to filter
   unsigned int filterDimensionality = m_FilterDimensionality;
