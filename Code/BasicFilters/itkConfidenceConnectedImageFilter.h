@@ -22,8 +22,8 @@
 
 namespace itk{
 
-/** /class ConfidenceConnectedImageFilter
- * /brief Segment pixels with similar statistics using connectivity
+/** \class ConfidenceConnectedImageFilter
+ * \brief Segment pixels with similar statistics using connectivity
  *
  * This filter extracts a connected set of pixels whose pixel
  * intensities are consistent with the pixel statistics of a seed
