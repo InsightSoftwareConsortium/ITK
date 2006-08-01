@@ -1,0 +1,6 @@
+/projects/KWStyle/Insight/Code/Review/*.h*
+/projects/KWStyle/Insight/Code/Review/*.txx
+/projects/KWStyle/Insight/Code/Review/*.cxx
+/projects/KWStyle/Insight/Testing/Code/Review/*.h*
+/projects/KWStyle/Insight/Testing/Code/Review/*.txx
+/projects/KWStyle/Insight/Testing/Code/Review/*.cxx

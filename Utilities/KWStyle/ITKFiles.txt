@@ -1,0 +1,3 @@
+/projects/KWStyle/Insight/Code/Common/*.h
+/projects/KWStyle/Insight/Code/Common/*.txx
+/projects/KWStyle/Insight/Code/Common/*.cxx
