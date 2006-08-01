@@ -324,6 +324,25 @@ SET(V3P_NETLIB_mathews_SOURCES
   mathews/adaquad.c mathews/adaquad.h
   )
 
+# Collect full source list.
+SET(v3p_netlib_sources
+  ${V3P_NETLIB_base_SOURCES}
+  ${V3P_NETLIB_libf2c_SOURCES}
+  ${V3P_NETLIB_blas_SOURCES}
+  ${V3P_NETLIB_linpack_SOURCES}
+  ${V3P_NETLIB_temperton_SOURCES}
+  ${V3P_NETLIB_eispack_SOURCES}
+  ${V3P_NETLIB_laso_SOURCES}
+  ${V3P_NETLIB_lapack_SOURCES}
+  ${V3P_NETLIB_napack_SOURCES}
+  ${V3P_NETLIB_minpack_SOURCES}
+  ${V3P_NETLIB_opt_SOURCES}
+  ${V3P_NETLIB_linalg_SOURCES}
+  ${V3P_NETLIB_toms_SOURCES}
+  ${V3P_NETLIB_datapac_SOURCES}
+  ${V3P_NETLIB_mathews_SOURCES}
+  )
+
 # Adjust the compiler flags to avoid problems with f2c-generated code.
 IF(CMAKE_COMPILER_IS_GNUCC)
   # Hide warnings in f2c-generated code.
@@ -353,25 +372,6 @@ IF(CMAKE_COMPILER_IS_GNUCC)
     PROPERTIES COMPILE_FLAGS -O0
     )
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
-
-# Collect full source list.
-SET(v3p_netlib_sources
-  ${V3P_NETLIB_base_SOURCES}
-  ${V3P_NETLIB_libf2c_SOURCES}
-  ${V3P_NETLIB_blas_SOURCES}
-  ${V3P_NETLIB_linpack_SOURCES}
-  ${V3P_NETLIB_temperton_SOURCES}
-  ${V3P_NETLIB_eispack_SOURCES}
-  ${V3P_NETLIB_laso_SOURCES}
-  ${V3P_NETLIB_lapack_SOURCES}
-  ${V3P_NETLIB_napack_SOURCES}
-  ${V3P_NETLIB_minpack_SOURCES}
-  ${V3P_NETLIB_opt_SOURCES}
-  ${V3P_NETLIB_linalg_SOURCES}
-  ${V3P_NETLIB_toms_SOURCES}
-  ${V3P_NETLIB_datapac_SOURCES}
-  ${V3P_NETLIB_mathews_SOURCES}
-  )
 
 # Create a netlib library with mangled symbols.
 ADD_LIBRARY(itkv3p_netlib ${v3p_netlib_sources})
