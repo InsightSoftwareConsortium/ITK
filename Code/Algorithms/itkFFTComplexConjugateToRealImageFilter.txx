@@ -106,7 +106,10 @@ GenerateInputRequestedRegion()
   // get pointers to the input and output
   typename TInputImageType::Pointer  inputPtr  = 
     const_cast<TInputImageType *>(this->GetInput());
-  inputPtr->SetRequestedRegionToLargestPossibleRegion();
+  if( inputPtr )
+    {
+    inputPtr->SetRequestedRegionToLargestPossibleRegion();
+    }
 }
 
 }

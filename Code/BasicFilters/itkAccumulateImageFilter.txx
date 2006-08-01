@@ -59,6 +59,11 @@ AccumulateImageFilter<TInputImage,TOutputImage>
   typename Superclass::OutputImagePointer output = this->GetOutput();
   typename Superclass::InputImagePointer input = const_cast< TInputImage * >( this->GetInput() );
 
+  if( !input || !output )
+    {
+    return;
+    }
+
   inputIndex = input->GetLargestPossibleRegion().GetIndex();
   inputSize = input->GetLargestPossibleRegion().GetSize();
   inSpacing = input->GetSpacing();

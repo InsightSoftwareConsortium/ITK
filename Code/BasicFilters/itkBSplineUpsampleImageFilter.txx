@@ -89,10 +89,16 @@ BSplineUpsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
 
   // get pointers to the input and output
   InputImagePointer  inputPtr = const_cast< TInputImage * > ( this->GetInput() );
-  inputPtr->SetRequestedRegionToLargestPossibleRegion();
   OutputImagePointer outputPtr = this->GetOutput();
+  
+  if( !outputPtr || !inputPtr )
+    {
+    return;
+    }
+  
+  inputPtr->SetRequestedRegionToLargestPossibleRegion();
 
-  // we need to compute the input requested region (size and start index)
+// we need to compute the input requested region (size and start index)
   unsigned int i;
   const typename TOutputImage::SizeType& outputRequestedRegionSize
     = outputPtr->GetRequestedRegion().GetSize();
@@ -132,7 +138,12 @@ BSplineUpsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
   // get pointers to the input and output
   InputImagePointer inputPtr = const_cast< TInputImage * > ( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
-
+  
+  if( !outputPtr || !inputPtr )
+    {
+    return;
+    }
+  
   // we need to compute the output spacing, the output image size, and the
   // output image start index
   unsigned int i;

@@ -76,6 +76,11 @@ ChangeInformationImageFilter<TInputImage>
   typename Superclass::InputImagePointer input = 
     const_cast< TInputImage * >( this->GetInput() );
 
+  if( !output || !input )
+    {
+    return;
+    }
+
   inputIndex = input->GetLargestPossibleRegion().GetIndex();
 
   // Default is to copy input's information

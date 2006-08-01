@@ -128,7 +128,10 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   // This filter needs all of the input
   typename GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>::InputImagePointer image = const_cast<InputImageType *>( this->GetInput() );
-  image->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
+  if( image )
+    {
+    image->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
+    }
 }
 
 

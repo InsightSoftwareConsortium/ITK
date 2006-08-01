@@ -52,6 +52,11 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
     const_cast< TInputImage * >( this->GetInput(0));
   OutputImagePointer outputPtr = this->GetOutput(0);
 
+  if( !inputPtr || !outputPtr )
+    {
+    return;
+    }
+
   typename TOutputImage::RegionType outputRegion;
   typename TInputImage::RegionType inputRegion;
   typename TInputImage::RegionType::SizeType inputSize;

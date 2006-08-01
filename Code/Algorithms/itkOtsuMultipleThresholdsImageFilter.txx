@@ -75,7 +75,11 @@ void
 OtsuMultipleThresholdsImageFilter<TInputImage, TOutputImage>
 ::GenerateInputRequestedRegion()
 {
-  const_cast<TInputImage *>(this->GetInput())->SetRequestedRegionToLargestPossibleRegion();
+  TInputImage * input = const_cast<TInputImage *>(this->GetInput());
+  if( input )
+    {
+    input->SetRequestedRegionToLargestPossibleRegion();
+    }
 }
 
 template<class TInputImage, class TOutputImage>

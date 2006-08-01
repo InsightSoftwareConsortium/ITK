@@ -98,7 +98,11 @@ TileImageFilter<TInputImage, TOutputImage>
 {
   for (unsigned int i = 0; i < this->GetNumberOfInputs(); i++)
     {
-    const_cast<TInputImage *>(this->GetInput(i))->SetRequestedRegionToLargestPossibleRegion();
+    TInputImage * input = const_cast<TInputImage *>(this->GetInput(i));
+    if( input )
+      {
+      input->SetRequestedRegionToLargestPossibleRegion();
+      }
     }
 }
 
@@ -113,6 +117,12 @@ TileImageFilter<TInputImage, TOutputImage>
   // region and destination index for multiple invocations of the
   // PasteImageFilter.
   OutputImagePointer      outputPtr = this->GetOutput();
+  InputImagePointer inputPtr = const_cast<TInputImage*>(this->GetInput());
+
+  if( !outputPtr || !inputPtr )
+    {
+    return;
+    }
 
   // Spacing(Origin): use the spacing(origin) of the first input for
   // all of the matching output dimensions. For remaining dimensions

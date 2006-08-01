@@ -44,8 +44,10 @@ BlackTopHatImageFilter<TInputImage, TOutputImage, TKernel>
   
   // We need all the input.
   InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
-  
-  input->SetRequestedRegion( input->GetLargestPossibleRegion() );
+  if( input )
+    {
+    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
+    }
 }
 
 
@@ -54,8 +56,12 @@ void
 BlackTopHatImageFilter<TInputImage, TOutputImage, TKernel>
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  OutputImageType * output = this->GetOutput();
+  if( !output )
+    {
+    return;
+    }
+  output->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
 

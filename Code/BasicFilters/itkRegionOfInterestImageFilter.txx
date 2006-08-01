@@ -64,8 +64,11 @@ RegionOfInterestImageFilter<TInputImage,TOutputImage>
   typename Superclass::InputImagePointer  inputPtr = 
     const_cast< TInputImage * >( this->GetInput() );
 
-  // request the region of interest
-  inputPtr->SetRequestedRegion( m_RegionOfInterest );
+  if( inputPtr )
+    {
+    // request the region of interest
+    inputPtr->SetRequestedRegion( m_RegionOfInterest );
+    }
 }
 
 template <class TInputImage, class TOutputImage>

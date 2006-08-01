@@ -74,6 +74,11 @@ PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
     const_cast< TSourceImage * >( this->GetSourceImage() );
   OutputImagePointer outputPtr = this->GetOutput();
 
+  if( !destPtr || !sourcePtr || !outputPtr )
+    {
+    return;
+    }
+
   // second input must include the SourceRegion
   sourcePtr->SetRequestedRegion( m_SourceRegion );
 

@@ -47,8 +47,10 @@ OpeningByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>
   
   // We need all the input.
   InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
-  
-  input->SetRequestedRegion( input->GetLargestPossibleRegion() );
+  if( input )
+    {
+    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
+    }
 }
 
 

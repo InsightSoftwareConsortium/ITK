@@ -27,15 +27,21 @@ void
 CropImageFilter<TInputImage, TOutputImage>
 ::GenerateOutputInformation()
 {
+  const TInputImage * inputPtr = this->GetInput();
+  if( !inputPtr )
+    {
+    return;
+    }
+  
   // Compute the new region size.
   OutputImageRegionType croppedRegion;
   SizeType   sz;
   OutputImageIndexType   idx;
 
   InputImageSizeType input_sz =
-    this->GetInput()->GetLargestPossibleRegion().GetSize();
+    inputPtr->GetLargestPossibleRegion().GetSize();
   InputImageIndexType input_idx =
-    this->GetInput()->GetLargestPossibleRegion().GetIndex();
+    inputPtr->GetLargestPossibleRegion().GetIndex();
   
   idx = input_idx + m_LowerBoundaryCropSize; 
   sz  = input_sz  - (m_UpperBoundaryCropSize + m_LowerBoundaryCropSize); 

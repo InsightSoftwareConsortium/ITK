@@ -358,7 +358,10 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
   // this filter requires the all of the input image to be in
   // the buffer
   InputImagePointer  inputPtr = const_cast< TInputImage * > ( this->GetInput() );
-  inputPtr->SetRequestedRegionToLargestPossibleRegion();
+  if( inputPtr )
+    {
+    inputPtr->SetRequestedRegionToLargestPossibleRegion();
+    }
 }
 
 
@@ -376,7 +379,10 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
   // the buffer
   TOutputImage *imgData;
   imgData = dynamic_cast<TOutputImage*>( output );
-  imgData->SetRequestedRegionToLargestPossibleRegion();
+  if( imgData )
+    {
+    imgData->SetRequestedRegionToLargestPossibleRegion();
+    }
 
 }
 
