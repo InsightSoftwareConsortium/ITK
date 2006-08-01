@@ -344,12 +344,12 @@ IF(CMAKE_COMPILER_IS_GNUCC)
   #  temperton/gpfa5f.c
   #  temperton/dgpfa5f.c
   #  laso/dnlaso.c
-  #  lapack/complex16/zlarfx.c
   #  PROPERTIES COMPILE_FLAGS -O0
   #  )
   SET_SOURCE_FILES_PROPERTIES(
     blas/slamch.c
     blas/dlamch.c
+    lapack/complex16/zlarfx.c
     PROPERTIES COMPILE_FLAGS -O0
     )
 ENDIF(CMAKE_COMPILER_IS_GNUCC)

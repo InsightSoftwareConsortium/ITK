@@ -10,6 +10,10 @@
                 http://www.netlib.org/f2c/libf2c.zip
 */
 
+#ifdef _MSC_VER
+# pragma optimize ("g",off)
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
