@@ -31,7 +31,13 @@ class IntensityLinearTransform
 {
 public:
   typedef typename NumericTraits< TInput >::RealType RealType;
-  IntensityLinearTransform() {}
+  IntensityLinearTransform()
+  {
+    m_Factor = 1.0;
+    m_Offset = 0.0;
+    m_Minimum = NumericTraits<TOutput>::NonpositiveMin();
+    m_Maximum = NumericTraits<TOutput>::max();
+  }
   ~IntensityLinearTransform() {}
   void SetFactor( RealType a ) { m_Factor = a; }
   void SetOffset( RealType b ) { m_Offset = b; }
