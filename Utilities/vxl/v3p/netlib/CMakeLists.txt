@@ -329,13 +329,15 @@ IF(CMAKE_COMPILER_IS_GNUCC)
   # Hide warnings in f2c-generated code.
   SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w")
 
-  # Remove all optimization flags.
-  #Currently this is not needed but is here for reference if someone
-  #finds a need to add it.
-  #FOREACH(c "" "_DEBUG" "_RELEASE" "_MINSIZEREL" "_RELWITHDEBINFO")
-  #  STRING(REGEX REPLACE
-  #    "-O[^ ]*( |$)" "" CMAKE_C_FLAGS${c} ${CMAKE_C_FLAGS${c}})
-  #ENDFOREACH(c)
+  # CMake versions before 2.4 did not put the source-file-specific flags
+  # after the directory-level flags.  Remove optimization flags from the
+  # CMAKE_C_FLAGS* variables so they can be overridden.
+  IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.4)
+    FOREACH(c "" "_DEBUG" "_RELEASE" "_MINSIZEREL" "_RELWITHDEBINFO")
+      STRING(REGEX REPLACE
+        "-O[^ ]*( |$)" "" CMAKE_C_FLAGS${c} "${CMAKE_C_FLAGS${c}}")
+    ENDFOREACH(c)
+  ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.4)
 
   # Disable buggy optimization on some source files.
   #SET_SOURCE_FILES_PROPERTIES(
