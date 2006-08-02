@@ -146,7 +146,7 @@ template <class T> bool vnl_math_isfinite(T);
 // Or in simpler terms - is at least 3 times faster.
 inline int vnl_math_rnd(float  x) { return lroundf(x); }
 inline int vnl_math_rnd(double x) { return lround(x); }
-#elif defined (VCL_VC)
+#elif defined (VCL_VC) && !defined(__GCCXML__)
 // Use assembly inline function from
 // http://mega-nerd.com/FPcast/
 //
