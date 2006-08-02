@@ -147,7 +147,8 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
 ::GetBoundingBoxAsImageRegion() const
 {
   RegionType ans;
-  ans.SetIndex(this->GetIndex(0));
+  typename IndexType::IndexValueType zero = 0;
+  ans.SetIndex(this->GetIndex(zero));
   ans.SetSize(this->GetSize());
   
   return ans;
