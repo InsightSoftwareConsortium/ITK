@@ -153,6 +153,7 @@ public:
   typedef VariableLengthVector<unsigned long> AbsType;
   typedef VariableLengthVector<unsigned long> AccumulateType;
   typedef VariableLengthVector<double> RealType;
+  typedef double ScalarRealType;
   typedef VariableLengthVector<float> FloatType;
   static const VariableLengthVector<unsigned long> ITKCommon_EXPORT 
                         Zero( const VariableLengthVector< unsigned long > & );
