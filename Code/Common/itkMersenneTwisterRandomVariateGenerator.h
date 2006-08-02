@@ -391,26 +391,7 @@ inline void
 inline void 
   MersenneTwisterRandomVariateGenerator::SetSeed()
   {
-  /*
-  // Seed the generator with an array from /dev/urandom if available
-  // Otherwise use a hash of time() and clock() values
-
-  // First try getting an array from /dev/urandom
-  FILE* urandom = fopen( "/dev/urandom", "rb" );
-  if( urandom )
-    {
-    IntegerType bigSeed[MersenneTwisterRandomVariateGenerator::StateVectorLength];
-    register IntegerType *s = bigSeed;
-    register IntegerType i = MersenneTwisterRandomVariateGenerator::StateVectorLength;
-    register bool success = true;
-    while( success && i-- )
-      success = fread( s++, sizeof(IntegerType), 1, urandom );
-    fclose(urandom);
-    if( success ) { seed( bigSeed, MersenneTwisterRandomVariateGenerator::StateVectorLength );  return; }
-    }
-   */
-   // Was not successful, so use time() and clock() instead
-   // /dev/urandom is not portable, just use the clock
+  // use time() and clock() to generate a unlikely-to-repeat seed.
   SetSeed( hash( vcl_time(0), vcl_clock() ) );
   }
 
