@@ -60,7 +60,6 @@ ADD_TEST(itkCannyEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS}
             itkCannyEdgeDetectionImageFilterTest
             ${INPUTDATA}/cthead1.png 
             ${TEMP}/itkCannyEdgeDetectionImageFilterTest.png)
-ADD_TEST(${BASIC_FILTERS_TESTS} itkCannyEdgeDetectionImageFilterTest)
 ADD_TEST(itkChainCodeToFourierSeriesPathFilterTest ${BASIC_FILTERS_TESTS} itkChainCodeToFourierSeriesPathFilterTest)
 ADD_TEST(itkChangeInformationImageFilterTest ${BASIC_FILTERS_TESTS} itkChangeInformationImageFilterTest)
 ADD_TEST(itkChangeLabelImageFilterTest ${BASIC_FILTERS_TESTS} itkChangeLabelImageFilterTest)
