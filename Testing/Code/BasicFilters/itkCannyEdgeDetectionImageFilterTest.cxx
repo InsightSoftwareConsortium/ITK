@@ -21,38 +21,56 @@
 #include <iostream>
 #include "itkImage.h"
 #include "itkCannyEdgeDetectionImageFilter.h"
-#include "itkNullImageToImageFilterDriver.txx"
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 #include "itkVector.h"
-#include "itkFilterWatcher.h"
+#include "itkSimpleFilterWatcher.h"
+#include "itkRescaleIntensityImageFilter.h"
 
-int itkCannyEdgeDetectionImageFilterTest(int , char * [] )
+int itkCannyEdgeDetectionImageFilterTest(int argc, char * argv[] )
 {
+  if(argc < 3)
+    {
+    std::cerr << "Usage: " << argv[0] << " InputImage OutputImage\n";
+    return -1;
+    }
+
+  const unsigned int dimension = 2;
+  typedef float PixelType;
+  typedef itk::Image<float, dimension> InputImage;
+  typedef itk::Image<unsigned char, dimension> OutputImage;
+
+  itk::ImageFileReader<InputImage>::Pointer input 
+    = itk::ImageFileReader<InputImage>::New();
+  input->SetFileName(argv[1]);
+
+  // Set up filter
+  itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>::Pointer 
+    filter =
+    itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>::New();
+  itk::SimpleFilterWatcher watcher(filter);
+  filter->SetInput(input->GetOutput());
+  filter->SetUpperThreshold(30);
+  filter->SetLowerThreshold(10);
+  filter->SetThreshold(30);
+  filter->SetVariance(1.0f);
+  filter->SetMaximumError(.01f);
+
+  itk::RescaleIntensityImageFilter<InputImage, OutputImage>::Pointer
+    rescale =
+    itk::RescaleIntensityImageFilter<InputImage, OutputImage>::New();
+  rescale->SetInput(filter->GetOutput());
+  rescale->SetOutputMinimum(0);
+  rescale->SetOutputMaximum(255);
+  
   try
     {
-      typedef itk::Image<float, 2> ImageType;
-      
-      // Set up filter
-      itk::CannyEdgeDetectionImageFilter<ImageType, ImageType>::Pointer 
-        filter =
-        itk::CannyEdgeDetectionImageFilter<ImageType, ImageType>::New();
-      FilterWatcher watcher(filter);
-      filter->SetUpperThreshold(30);
-      filter->SetLowerThreshold(10);
-      filter->SetThreshold(0);
-      filter->SetVariance(1.0f);
-      filter->SetMaximumError(.01f);
-      std::cout << "filter: " << filter;
-      
-      // Run Test
-      itk::Size<2> sz;
-      sz[0] = 100 ; //atoi(argv[1]);
-      sz[1] = 100 ; // atoi(argv[2]);
-      //      sz[2] = 10;//atoi(argv[3]);
-      //      sz[3] = 5;//atoi(argv[4]);
-      itk::NullImageToImageFilterDriver< ImageType, ImageType > test1;
-      test1.SetImageSize(sz);
-      test1.SetFilter(filter.GetPointer());
-      test1.Execute();
+    // Generate test image
+    itk::ImageFileWriter<OutputImage>::Pointer writer;
+      writer = itk::ImageFileWriter<OutputImage>::New();
+      writer->SetInput( rescale->GetOutput() );
+      writer->SetFileName( argv[2] );
+      writer->Update();
     }
   catch(itk::ExceptionObject &err)
     {
