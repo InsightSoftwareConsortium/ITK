@@ -65,7 +65,7 @@ public:
 
     it.GoToBegin();
 
-    while( it.IsAtEnd() )
+    while( !it.IsAtEnd() )
       {
       it.Set( value );
       ++value;
@@ -134,7 +134,7 @@ public:
 
     while( it1.IsAtEnd() )
       {
-      if( it1.Get() != it1.Get() )
+      if( it1.Get() != it2.Get() )
         {
         m_Error = true;
         break;
