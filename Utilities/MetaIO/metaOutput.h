@@ -185,6 +185,13 @@ public:
                      METAIO_STL::string rangeMax = ""
                      );
 
+  bool AddIntField(METAIO_STL::string name,
+                     METAIO_STL::string description,
+                     int value,
+                     METAIO_STL::string rangeMin = "",
+                     METAIO_STL::string rangeMax = ""
+                     );
+
   /** Set the metaCommand for parsing */
   void SetMetaCommand(MetaCommand* metaCommand);
 

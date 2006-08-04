@@ -88,6 +88,22 @@ bool MetaOutput::AddFloatField(METAIO_STL::string name,
   return true;
 }
 
+/** Add a int field */
+bool MetaOutput::AddIntField(METAIO_STL::string name,
+                               METAIO_STL::string description,
+                               int value,
+                               METAIO_STL::string rangeMin,
+                               METAIO_STL::string rangeMax
+                               )
+{
+  char* val = new char[10];
+  sprintf(val,"%d",value);
+  this->AddField(name,description,INT,val,rangeMin,rangeMax);
+  delete [] val;
+  return true;
+}
+
+
 /** Add meta command */
 void MetaOutput::SetMetaCommand(MetaCommand* metaCommand)
 {
