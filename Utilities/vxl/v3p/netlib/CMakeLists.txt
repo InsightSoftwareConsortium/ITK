@@ -369,6 +369,8 @@ IF(CMAKE_COMPILER_IS_GNUCC)
     blas/slamch.c
     blas/dlamch.c
     lapack/complex16/zlarfx.c
+    lapack/complex16/zlarfx.c
+    linpack/dsvdc.c
     PROPERTIES COMPILE_FLAGS -O0
     )
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
