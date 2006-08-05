@@ -250,6 +250,7 @@ int itkDeformableTest(int , char *[])
 
   m_bmmeshsource->SetInput( shrink->GetOutput() );
   m_bmmeshsource->SetObjectValue( 255 );
+  m_bmmeshsource->Update();
 
   std::cout << "Deformable mesh created using Marching Cube!" << std::endl;
 
