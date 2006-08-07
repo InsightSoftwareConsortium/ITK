@@ -84,7 +84,7 @@
 # if (__GNUC__<=1)
 #  error "forget it."
 # elif (__GNUC__==2)
-#   define VCL_GCC_2
+#  define VCL_GCC_2
 #  if (__GNUC_MINOR__>=100)
 #   error "I need some help here."
 #  elif (__GNUC_MINOR__>=95)
