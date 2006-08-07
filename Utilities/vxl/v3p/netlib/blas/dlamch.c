@@ -10,6 +10,15 @@
                 http://www.netlib.org/f2c/libf2c.zip
 */
 
+/* Disable "global optimizations" to avoid optimizer bugs in this file.
+   For GCC the file should be compiled with the -fno-gcse option.  Here
+   is a note from the GCC man page:
+
+    Note: When compiling a program using computed gotos, a GCC exten-
+    sion, you may get better runtime performance if you disable the
+    global common subexpression elmination pass by adding -fno-gcse to
+    the command line.
+*/
 #ifdef _MSC_VER
 # pragma optimize ("g",off)
 #endif
