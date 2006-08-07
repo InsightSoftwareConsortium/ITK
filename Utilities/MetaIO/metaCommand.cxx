@@ -37,7 +37,7 @@ MetaCommand::MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2006-07-31 19:18:08 $ cvs command */
+/** Extract the date from the $Date: 2006-08-07 20:40:22 $ cvs command */
 METAIO_STL::string MetaCommand::ExtractDateFromCVS(METAIO_STL::string date)
 {
   METAIO_STL::string newdate;
@@ -633,9 +633,13 @@ void MetaCommand::ListOptionsXML()
       METAIO_STREAM::cout << "<value>" << (*itField).value.c_str() << "</value>" 
                              << METAIO_STREAM::endl; 
       METAIO_STREAM::cout << "<external>";
-      if((*itField).externaldata)
+      if((*itField).externaldata == DATA_IN)
         {
         METAIO_STREAM::cout << "1</external>" << METAIO_STREAM::endl;
+        }
+      else if((*itField).externaldata == DATA_OUT)
+        {
+        METAIO_STREAM::cout << "2</external>" << METAIO_STREAM::endl;
         }
       else
         {
