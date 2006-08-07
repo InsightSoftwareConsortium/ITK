@@ -10,6 +10,20 @@
                 http://www.netlib.org/f2c/libf2c.zip
 */
 
+/* This code expects correct IEEE rounding behaviour which is not
+   always provided.  The source should be built with -ffloat-store.
+   A note from the GCC man page:
+
+   -ffloat-store
+    Do  not  store floating point variables in registers.  This pre-
+    vents undesirable excess precision on machines such as the 68000
+    where  the floating registers (of the 68881) keep more precision
+    than a double is supposed to have.
+
+    For most programs, the excess precision does only  good,  but  a
+    few  programs  rely  on  the precise definition of IEEE floating
+    point.  Use `-ffloat-store' for such programs.  */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
