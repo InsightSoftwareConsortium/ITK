@@ -900,7 +900,7 @@ void AnalyzeImageIO::ReadImageInformation()
   itk::EncapsulateMetaData<float>(thisDic,ANALYZE_CAL_MIN,this->m_hdr.dime.cal_min);
   itk::EncapsulateMetaData<int>(thisDic,ANALYZE_GLMAX,this->m_hdr.dime.glmax);
   itk::EncapsulateMetaData<int>(thisDic,ANALYZE_GLMIN,this->m_hdr.dime.glmin);
-
+  
   for (dim=this->GetNumberOfDimensions(); dim>0; dim--)
   {
       if (m_hdr.dime.dim[dim] != 1)
@@ -967,9 +967,10 @@ void AnalyzeImageIO::ReadImageInformation()
     //An error was encountered in code that depends upon the valid coord_orientation.
     typedef SpatialOrientationAdapter<3> OrientAdapterType;
     SpatialOrientationAdapter<3>::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
-    std::vector<double> dirx(3,0),
-      diry(3,0),
-      dirz(3,0);
+    unsigned dims = this->GetNumberOfDimensions();
+    std::vector<double> dirx(dims,0),
+      diry(dims,0),
+      dirz(dims,0);
     dirx[0] = dir[0][0];
     dirx[1] = dir[1][0];
     dirx[2] = dir[2][0];
@@ -979,6 +980,10 @@ void AnalyzeImageIO::ReadImageInformation()
     dirz[0] = dir[0][2];
     dirz[1] = dir[1][2];
     dirz[2] = dir[2][2];
+    for(unsigned i = 3; i < dims; i++)
+      {
+      dirx[i] = diry[i] = dirz[i] = 0;
+      }
     this->SetDirection(0,dirx);
     this->SetDirection(1,diry);
     if(numberOfDimensions > 2)
