@@ -26,7 +26,18 @@ namespace itk
 /** \brief Euler3DTransform of a vector space (e.g. space coordinates)
  *
  * This transform applies a rotation and translation to the space given 3 euler
- * angles and a 3D offset.
+ * angles and a 3D translation. Rotation is about a user specified center.
+ *
+ * The parameters for this transform can be set either using individual Set
+ * methods or in serialized form using SetParameters() and SetFixedParameters().
+ *
+ * The serialization of the optimizable parameters is an array of 6 elements.
+ * The first 3 represents three euler angle of rotation respectively about
+ * the X, Y and Z axis. The last 3 parameters defines the translation in each
+ * dimension.
+ *
+ * The serialization of the fixed parameters is an array of 3 elements defining
+ * the center of rotation.
  *
  * \ingroup Transforms
  */

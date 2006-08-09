@@ -239,7 +239,7 @@ QuaternionRigidTransform<TScalarType>::
 ComputeMatrixParameters()
 {
   VnlQuaternionType quat(this->GetMatrix().GetVnlMatrix());
-  m_Rotation = quat;
+  m_Rotation = quat.conjugate();
 }
  
 } // namespace

@@ -67,6 +67,87 @@ PrintSelf(std::ostream &os, Indent indent) const
   Superclass::PrintSelf(os,indent);
 }
 
+// Check if input matrix is orthogonal to within tolerance
+template<class TScalarType>
+bool
+Rigid3DTransform<TScalarType>
+::MatrixIsOrthogonal( 
+ const MatrixType & matrix,
+ double tolerance )
+{
+  typename MatrixType::InternalMatrixType test =
+    matrix.GetVnlMatrix() * matrix.GetTranspose();
+
+  if( !test.is_identity( tolerance ) ) 
+    {    
+    return false;
+    }
+
+  return true;
+}
+
+
+// Directly set the rotation matrix
+template<class TScalarType>
+void
+Rigid3DTransform<TScalarType>
+::SetMatrix( const MatrixType & matrix )
+{
+  const double tolerance = 1e-10;
+  if( !this->MatrixIsOrthogonal( matrix, tolerance ) ) 
+    {    
+    itkExceptionMacro( << "Attempting to set a non-orthogonal rotation matrix" );
+    }
+
+  this->Superclass::SetMatrix( matrix );
+}
+
+
+// Set optimizable parameters from array
+template<class TScalarType>
+void
+Rigid3DTransform<TScalarType>
+::SetParameters( const ParametersType & parameters )
+{
+  this->m_Parameters = parameters;
+
+  unsigned int par = 0;
+  MatrixType matrix;
+  OutputVectorType translation;
+
+  for(unsigned int row=0; row<3; row++) 
+    {
+    for(unsigned int col=0; col<3; col++) 
+      {
+      matrix[row][col] = this->m_Parameters[par];
+      ++par;
+      }
+    }
+
+  for( unsigned int dim = 0; dim < 3; dim++ )
+    {
+    translation[dim] = this->m_Parameters[par];
+    ++par;
+    }
+  
+  const double tolerance = 1e-10;
+  if( !this->MatrixIsOrthogonal( matrix, tolerance ) ) 
+    {    
+    itkExceptionMacro( << "Attempting to set a non-orthogonal rotation matrix" );
+    }
+
+  this->SetVarMatrix( matrix );
+  this->SetVarTranslation( translation );
+
+  // Update matrix and offset.
+  // Technically ComputeMatrix() is not require as the parameters are
+  // directly the elements of the matrix.
+  this->ComputeMatrix();   
+  this->ComputeOffset(); 
+
+  this->Modified();
+  
+}
 
 // Compose with a translation
 template<class TScalarType>
@@ -79,14 +160,6 @@ Translate(const OffsetType &offset, bool)
   this->SetVarOffset(newOffset);
 }
 
-// TransformCovariantVector
-template<class TScalarType>
-typename Rigid3DTransform<TScalarType>::OutputCovariantVectorType
-Rigid3DTransform<TScalarType>::
-TransformCovariantVector(const InputCovariantVectorType &vec) const 
-{
-  return this->GetMatrix() * vec;
-}
 
 // Back transform a point
 template<class TScalarType>

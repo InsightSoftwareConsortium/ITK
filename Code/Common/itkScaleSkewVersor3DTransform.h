@@ -29,6 +29,19 @@ namespace itk
  * This transform applies a versor rotation and translation & scale/skew
  * to the space
  *
+ * The parameters for this transform can be set either using individual Set
+ * methods or in serialized form using SetParameters() and SetFixedParameters().
+ *
+ * The serialization of the optimizable parameters is an array of 15 elements.
+ * The first 3 elements are the components of the versor representation
+ * of 3D rotation. The next 3 parameters defines the translation in each
+ * dimension. The next 3 parameters defines scaling in each dimension.
+ * The last 6 parameters defines the skew.
+ *
+ * The serialization of the fixed parameters is an array of 3 elements defining
+ * the center of rotation.
+ *
+ *
  * \ingroup Transforms
  */
 template < class TScalarType=double >  // Data type for scalars:float or double
@@ -81,6 +94,11 @@ public:
   typedef Vector<TScalarType, 3> 
                                                       ScaleVectorType;
   typedef Vector<TScalarType, 6 >                     SkewVectorType;
+
+ /** Directly set the matrix of the transform.
+  *
+  * \sa MatrixOffsetTransformBase::SetMatrix() */
+  virtual void SetMatrix(const MatrixType &matrix);
 
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.

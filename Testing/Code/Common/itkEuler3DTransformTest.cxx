@@ -319,6 +319,109 @@ int itkEuler3DTransformTest(int,char *[] )
     }
   std::cout << " [ PASSED ] " << std::endl;
 
+   {
+     // Testing SetMatrix()
+     std::cout << "Testing SetMatrix() ... ";
+     unsigned int par;
+
+     typedef itk::Euler3DTransform<double> TransformType;
+     typedef TransformType::MatrixType MatrixType;
+     MatrixType matrix;
+
+     TransformType::Pointer t = TransformType::New();
+      
+     // attempt to set an non-orthogonal matrix
+     par = 0;
+     for( unsigned int row = 0; row < 3; row++ )
+        {
+        for( unsigned int col = 0; col < 3; col++ )
+          {
+          matrix[row][col] = static_cast<double>( par + 1 );
+          ++par;
+          }
+        }
+
+     Ok = false;
+     try
+      {
+      t->SetMatrix( matrix );
+      }
+     catch ( itk::ExceptionObject & itkNotUsed(err) )
+      {
+      Ok = true;
+      }
+     catch( ... )
+      {
+      std::cout << "Caught unknown exception" << std::endl;
+      }
+
+     if( !Ok )
+      {
+      std::cerr << "Error: expected to catch an exception when attempting";
+      std::cerr << " to set an non-orthogonal matrix." << std::endl;
+      return EXIT_FAILURE;
+      }
+
+      t = TransformType::New();
+
+      // attempt to set an orthogonal matrix
+      matrix.GetVnlMatrix().set_identity();
+
+      double a = 1.0 / 180.0 * vnl_math::pi;
+      matrix[0][0] =        cos( a );
+      matrix[0][1] = -1.0 * sin( a );
+      matrix[1][0] =        sin( a ); 
+      matrix[1][1] =        cos( a );
+
+     Ok = true;
+     try
+      {
+      t->SetMatrix( matrix );
+      }
+     catch ( itk::ExceptionObject & err )
+      {
+      std::cout << err << std::endl;
+      Ok = false;
+      }
+     catch( ... )
+      {
+      std::cout << "Caught unknown exception" << std::endl;
+      Ok = false;
+      }
+
+     if( !Ok )
+      {
+      std::cerr << "Error: caught unexpected exception" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+   // Check the computed parameters
+    typedef TransformType::ParametersType ParametersType;
+    ParametersType e( t->GetNumberOfParameters() );
+    e.Fill( 0.0 );
+    e[2] = a;
+
+    t = TransformType::New();
+    t->SetParameters( e );
+
+    TransformType::Pointer t2 = TransformType::New();
+    t2->SetMatrix( t->GetMatrix() );
+
+    ParametersType p = t2->GetParameters();
+
+    for( unsigned int k = 0; k < e.GetSize(); k++ )
+      {
+      if( fabs( e[k] - p[k] ) > epsilon )
+        {
+        std::cout << " [ FAILED ] " << std::endl;
+        std::cout << "Expected parameters: " << e << std::endl;
+        std::cout << "but got: " << p << std::endl;
+        return EXIT_FAILURE; 
+        }
+      }
+
+    std::cout << "[ PASSED ]" << std::endl;
+    }
 
   return EXIT_SUCCESS;
 

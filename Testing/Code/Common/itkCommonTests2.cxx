@@ -50,6 +50,7 @@ REGISTER_TEST(itkRigid3DTransformTest );
 REGISTER_TEST(itkRigid3DPerspectiveTransformTest );
 REGISTER_TEST(itkScalarToRGBPixelFunctorTest );
 REGISTER_TEST(itkScatterMatrixImageFunctionTest );
+REGISTER_TEST(itkScaleSkewVersor3DTransformTest );
 REGISTER_TEST(itkScaleTransformTest );
 REGISTER_TEST(itkScaleLogarithmicTransformTest );
 REGISTER_TEST(itkSemaphoreTest );

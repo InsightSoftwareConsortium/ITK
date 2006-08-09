@@ -22,9 +22,29 @@
 
 #include "itkRigid3DTransform.h"
 #include "vnl/vnl_vector_fixed.h"
+#include "vnl/vnl_det.h"
+#include "vnl/vnl_math.h"
 #include "itkVector.h"
 
-
+namespace
+{
+bool CheckEqual( 
+ itk::Point<double,2> p1,
+ itk::Point<double,2> p2 )
+{
+  const double epsilon = 1e-10;
+  for( unsigned int i = 0; i < 2; i++ )
+    {
+    if( fabs( p1[i] - p2[i] ) > epsilon )
+      {
+      std::cout << p1 << " != " << p2 << ": FAILED" << std::endl;
+      return false;
+      }
+    }
+  //std::cout << p1 << " == " << p2 << ": PASSED" << std::endl;
+  return true;
+}
+}
 
 
 int itkRigid3DTransformTest(int ,char * [] )
@@ -32,6 +52,7 @@ int itkRigid3DTransformTest(int ,char * [] )
 
 
   typedef itk::Rigid3DTransform<double>  TransformType;
+  typedef TransformType::ParametersType  ParametersType;
 
   const double epsilon = 1e-10;
   const unsigned int N = 3;
@@ -430,7 +451,206 @@ int itkRigid3DTransformTest(int ,char * [] )
     }
 
 
+   {
+     // Testing SetParameters()
+     std::cout << "Testing SetParameters() ... ";
+     unsigned int j;
 
+     TransformType::Pointer t = TransformType::New();
+     ParametersType p( t->GetNumberOfParameters() );
+      
+     // attempt to set an non-orthogonal matrix
+     for( j = 0; j < t->GetNumberOfParameters(); j++ )
+      {
+      p[j] = static_cast<double>( j + 1 );
+      p[j] = vnl_math_sqr( p[j] );
+      }
+
+     Ok = false;
+     try
+      {
+      t->SetParameters( p );
+      }
+     catch ( itk::ExceptionObject & itkNotUsed(err) )
+      {
+      Ok = true;
+      }
+     catch( ... )
+      {
+      std::cout << "Caught unknown exception" << std::endl;
+      }
+
+     if( !Ok )
+      {
+      std::cerr << "Error: expected to catch an exception when attempting";
+      std::cerr << " to set an non-orthogonal matrix." << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    // attempt to set an orthogonal matrix
+    typedef TransformType::MatrixType MatrixType;
+    unsigned int par = 0;
+
+    MatrixType matrix;
+    matrix.GetVnlMatrix().set_identity();
+
+    double a = 1.0 / 180.0 * vnl_math::pi;
+    matrix[0][0] =        cos( a );
+    matrix[0][1] =        sin( a );
+    matrix[1][0] = -1.0 * sin( a ); 
+    matrix[1][1] =        cos( a );
+
+    par = 0;
+    for( unsigned int row = 0; row < 3; row++ )
+      {
+      for( unsigned int col = 0; col < 3; col++ )
+        {
+        p[par] = matrix[row][col];
+        ++par;
+        }
+      }
+
+     Ok = true;
+     try
+      {
+      t->SetParameters( p );
+      }
+     catch ( itk::ExceptionObject & err )
+      {
+      std::cout << err << std::endl;
+      Ok = false;
+      }
+     catch( ... )
+      {
+      std::cout << "Caught unknown exception" << std::endl;
+      Ok = false;
+      }
+
+     if( !Ok )
+      {
+      std::cerr << "Error: caught unexpected exception" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    std::cout << "done." << std::endl;
+    }
+
+
+    {
+    // Testing SetIdentity()
+    std::cout << "Testing SetIdentity() ... ";
+    
+    TransformType::Pointer t = TransformType::New();
+    ParametersType p( t->GetNumberOfParameters() );
+
+    t->SetIdentity();
+    p = t->GetParameters();
+
+    // check if all elements is the expected value to within tolerance
+    ParametersType pIdeal( t->GetNumberOfParameters() );
+    pIdeal.Fill( 0.0 );
+    pIdeal[0] = 1.0;
+    pIdeal[4] = 1.0;
+    pIdeal[8] = 1.0;
+
+    Ok = true;
+    for( unsigned int par = 0; par < t->GetNumberOfParameters(); par++ )
+      {
+      if( vnl_math_abs( p[par] - pIdeal[par] ) > epsilon )
+        {
+        std::cerr << "Expected parameters: " << pIdeal << std::endl;
+        std::cerr << "Actual parameters: " << p << std::endl;
+        Ok = false;
+        break;
+        }
+      }
+
+    if( !Ok )
+      {
+      std::cerr << "Test failed." << std::endl;
+      return EXIT_FAILURE;
+      }
+  
+    std::cout << "done. " << std::endl;
+
+   }
+
+
+   {
+     // Testing SetMatrix()
+     std::cout << "Testing SetMatrix() ... ";
+     unsigned int par;
+
+     typedef TransformType::MatrixType MatrixType;
+     MatrixType matrix;
+
+     TransformType::Pointer t = TransformType::New();
+      
+     // attempt to set an non-orthogonal matrix
+     par = 0;
+     for( unsigned int row = 0; row < 3; row++ )
+        {
+        for( unsigned int col = 0; col < 3; col++ )
+          {
+          matrix[row][col] = static_cast<double>( par + 1 );
+          ++par;
+          }
+        }
+
+     Ok = false;
+     try
+      {
+      t->SetMatrix( matrix );
+      }
+     catch ( itk::ExceptionObject & itkNotUsed(err) )
+      {
+      Ok = true;
+      }
+     catch( ... )
+      {
+      std::cout << "Caught unknown exception" << std::endl;
+      }
+
+     if( !Ok )
+      {
+      std::cerr << "Error: expected to catch an exception when attempting";
+      std::cerr << " to set an non-orthogonal matrix." << std::endl;
+      return EXIT_FAILURE;
+      }
+
+      // attempt to set an orthogonal matrix
+      matrix.GetVnlMatrix().set_identity();
+
+      double a = 1.0 / 180.0 * vnl_math::pi;
+      matrix[0][0] =        cos( a );
+      matrix[0][1] =        sin( a );
+      matrix[1][0] = -1.0 * sin( a ); 
+      matrix[1][1] =        cos( a );
+
+     Ok = true;
+     try
+      {
+      t->SetMatrix( matrix );
+      }
+     catch ( itk::ExceptionObject & err )
+      {
+      std::cout << err << std::endl;
+      Ok = false;
+      }
+     catch( ... )
+      {
+      std::cout << "Caught unknown exception" << std::endl;
+      Ok = false;
+      }
+
+     if( !Ok )
+      {
+      std::cerr << "Error: caught unexpected exception" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    std::cout << "done." << std::endl;
+    }
 
   }
 

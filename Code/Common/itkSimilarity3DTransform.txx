@@ -64,6 +64,36 @@ Similarity3DTransform<TScalarType>
 }
 
 
+// Directly set the matrix
+template<class TScalarType>
+void
+Similarity3DTransform<TScalarType>
+::SetMatrix( const MatrixType & matrix )
+{
+  double s = vnl_math_sqr( matrix[0][0] ) + 
+             vnl_math_sqr( matrix[0][1] );
+
+  if( s <= 0.0 )
+    {
+    itkExceptionMacro( << "Attempting to set a bad matrix" );
+    }
+
+  s = vcl_sqrt( s );
+
+  MatrixType test = matrix;
+  test /= s;
+
+  const double tolerance = 1e-10;
+  if( !this->MatrixIsOrthogonal( test, tolerance ) ) 
+    {    
+    itkExceptionMacro( << "Attempting to set a bad matrix" );
+    }
+
+  typedef MatrixOffsetTransformBase<TScalarType, 3> Baseclass;
+  this->Baseclass::SetMatrix( matrix );
+}
+
+
 // Set Parameters
 template <class TScalarType>
 void
@@ -241,6 +271,25 @@ Similarity3DTransform<TScalarType>
   this->SetVarMatrix(newMatrix);
 }
 
+
+/** Compute the matrix */
+template <class TScalarType>
+void
+Similarity3DTransform<TScalarType>
+::ComputeMatrixParameters( void )
+{
+  MatrixType test = this->GetMatrix();
+
+  m_Scale = vnl_math_sqr( test[0][0] ) + 
+            vnl_math_sqr( test[0][1] );
+  m_Scale = vcl_sqrt( m_Scale );
+  test /= m_Scale;
+
+  VersorType v;
+  v.Set( test );
+  this->SetVarVersor( v );
+
+}
  
 // Print self
 template<class TScalarType>

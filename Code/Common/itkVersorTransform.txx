@@ -189,9 +189,9 @@ GetJacobian( const InputPointType & p ) const
 
   this->m_Jacobian.Fill(0.0);
 
-  const double px = p[0];
-  const double py = p[1];
-  const double pz = p[2];
+  const double px = p[0] - this->GetCenter()[0];
+  const double py = p[1] - this->GetCenter()[1];
+  const double pz = p[2] - this->GetCenter()[2];
 
   const double vxx = vx * vx;
   const double vyy = vy * vy;

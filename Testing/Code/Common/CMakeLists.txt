@@ -161,6 +161,7 @@ ADD_TEST(itkRigid3DTransformTest ${COMMON_TESTS2} itkRigid3DTransformTest)
 ADD_TEST(itkRigid3DPerspectiveTransformTest ${COMMON_TESTS2} itkRigid3DPerspectiveTransformTest)
 ADD_TEST(itkScalarToRGBPixelFunctorTest ${COMMON_TESTS2} itkScalarToRGBPixelFunctorTest)
 ADD_TEST(itkScatterMatrixImageFunctionTest ${COMMON_TESTS2} itkScatterMatrixImageFunctionTest)
+ADD_TEST(itkScaleSkewVersor3DTransformTest ${COMMON_TESTS2} itkScaleSkewVersor3DTransformTest)
 ADD_TEST(itkScaleTransformTest ${COMMON_TESTS2} itkScaleTransformTest)
 ADD_TEST(itkScaleLogarithmicTransformTest ${COMMON_TESTS2} itkScaleLogarithmicTransformTest)
 ADD_TEST(itkSemaphoreTest ${COMMON_TESTS2} itkSemaphoreTest)
@@ -364,6 +365,7 @@ itkRigid3DTransformTest.cxx
 itkRigid3DPerspectiveTransformTest.cxx
 itkScalarToRGBPixelFunctorTest.cxx
 itkScatterMatrixImageFunctionTest.cxx
+itkScaleSkewVersor3DTransformTest.cxx
 itkScaleTransformTest.cxx
 itkScaleLogarithmicTransformTest.cxx
 itkSemaphoreTest.cxx

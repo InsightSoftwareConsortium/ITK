@@ -288,12 +288,7 @@ int itkVersorTransformTest(int, char* [] )
 
   }
 
-
-
   /**  Exercise the SetCenter method  */
-
-  // ENABLE THIS BLOCK AFTER THE TRANSFORM REFACTORING
-  /*  
   {
   bool Ok = true;
 
@@ -310,8 +305,7 @@ int itkVersorTransformTest(int, char* [] )
     center[1] = 62;
     center[2] = 93;
     
-    // FIXME: A center will be available after the Transforms are refactored.
-    // transform->SetCenter( center );
+    transform->SetCenter( center );
 
     TransformType::OutputPointType transformedPoint;
     transformedPoint = transform->TransformPoint( center );
@@ -344,9 +338,6 @@ int itkVersorTransformTest(int, char* [] )
     parameters[0] = versor.GetX();   // Rotation axis * sin(t/2)
     parameters[1] = versor.GetY();
     parameters[2] = versor.GetZ();
-    parameters[3] = 8.0;             // Translation
-    parameters[4] = 7.0;
-    parameters[5] = 6.0;
 
     transform->SetParameters( parameters );
 
@@ -382,27 +373,15 @@ int itkVersorTransformTest(int, char* [] )
 
      TheoreticalJacobian[0][1] = -206.0;
      TheoreticalJacobian[1][1] =    0.0;
-     TheoreticalJacobian[2][1] =  -42.0;
+     TheoreticalJacobian[2][1] =   42.0;
 
      TheoreticalJacobian[0][2] =   84.0;
-     TheoreticalJacobian[1][2] =   42.0;
+     TheoreticalJacobian[1][2] =  -42.0;
      TheoreticalJacobian[2][2] =    0.0;
-
-     TheoreticalJacobian[0][3] = 1.0;
-     TheoreticalJacobian[1][3] = 0.0;
-     TheoreticalJacobian[2][3] = 0.0;
-
-     TheoreticalJacobian[0][4] = 0.0;
-     TheoreticalJacobian[1][4] = 1.0;
-     TheoreticalJacobian[2][4] = 0.0;
-
-     TheoreticalJacobian[0][5] = 0.0;
-     TheoreticalJacobian[1][5] = 0.0;
-     TheoreticalJacobian[2][5] = 1.0;
 
      for(unsigned int ii=0; ii < 3; ii++)
        {
-       for(unsigned int jj=0; jj < 6; jj++)
+       for(unsigned int jj=0; jj < 3; jj++)
          {
          if( vnl_math_abs( TheoreticalJacobian[ii][jj] - jacobian[ii][jj] ) > 1e-5 )
            {
@@ -418,7 +397,119 @@ int itkVersorTransformTest(int, char* [] )
          }
        }
   }
-  */  // ENABLE THIS BLOCK AFTER THE TRANSFORM REFACTORING
+
+  {
+     // Testing SetMatrix()
+     std::cout << "Testing SetMatrix() ... ";
+     unsigned int par;
+     bool Ok;
+
+     typedef TransformType::MatrixType MatrixType;
+     MatrixType matrix;
+
+     TransformType::Pointer t = TransformType::New();
+      
+     // attempt to set an non-orthogonal matrix
+     par = 0;
+     for( unsigned int row = 0; row < 3; row++ )
+        {
+        for( unsigned int col = 0; col < 3; col++ )
+          {
+          matrix[row][col] = static_cast<double>( par + 1 );
+          ++par;
+          }
+        }
+
+     Ok = false;
+     try
+      {
+      t->SetMatrix( matrix );
+      }
+     catch ( itk::ExceptionObject & itkNotUsed(err) )
+      {
+      Ok = true;
+      }
+     catch( ... )
+      {
+      std::cout << "Caught unknown exception" << std::endl;
+      }
+
+     if( !Ok )
+      {
+      std::cerr << "Error: expected to catch an exception when attempting";
+      std::cerr << " to set an non-orthogonal matrix." << std::endl;
+      return EXIT_FAILURE;
+      }
+
+      t = TransformType::New();
+
+      // attempt to set an orthogonal matrix
+      matrix.GetVnlMatrix().set_identity();
+
+      double a = 1.0 / 180.0 * vnl_math::pi;
+      matrix[0][0] =        cos( a );
+      matrix[0][1] = -1.0 * sin( a );
+      matrix[1][0] =        sin( a ); 
+      matrix[1][1] =        cos( a );
+
+     Ok = true;
+     try
+      {
+      t->SetMatrix( matrix );
+      }
+     catch ( itk::ExceptionObject & err )
+      {
+      std::cout << err << std::endl;
+      Ok = false;
+      }
+     catch( ... )
+      {
+      std::cout << "Caught unknown exception" << std::endl;
+      Ok = false;
+      }
+
+     if( !Ok )
+      {
+      std::cerr << "Error: caught unexpected exception" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+   // Check the computed parameters
+
+    typedef TransformType::VersorType VersorType;
+    typedef VersorType::VectorType VectorType;
+    VectorType axis;
+    axis.Fill( 0.0 );
+    axis[2] = 1.0;
+    VersorType v;
+    v.Set( axis, a );
+
+    typedef TransformType::ParametersType ParametersType;
+    ParametersType e( t->GetNumberOfParameters() );
+    e[0] = v.GetX();
+    e[1] = v.GetY();
+    e[2] = v.GetZ();
+
+    t = TransformType::New();
+    t->SetParameters( e );
+
+    TransformType::Pointer t2 = TransformType::New();
+    t2->SetMatrix( t->GetMatrix() );
+
+    ParametersType p = t2->GetParameters();
+
+    for( unsigned int k = 0; k < e.GetSize(); k++ )
+      {
+      if( fabs( e[k] - p[k] ) > epsilon )
+        {
+        std::cout << " [ FAILED ] " << std::endl;
+        std::cout << "Expected parameters: " << e << std::endl;
+        std::cout << "but got: " << p << std::endl;
+        return EXIT_FAILURE; 
+        }
+      }
+  }
+
 
   std::cout << std::endl << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;

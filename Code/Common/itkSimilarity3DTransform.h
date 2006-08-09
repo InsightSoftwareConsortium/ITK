@@ -28,6 +28,17 @@ namespace itk
  *
  * This transform applies a rotation, translation and isotropic scaling to the space.
  *
+ * The parameters for this transform can be set either using individual Set
+ * methods or in serialized form using SetParameters() and SetFixedParameters().
+ *
+ * The serialization of the optimizable parameters is an array of 7 elements.
+ * The first 3 elements are the components of the versor representation
+ * of 3D rotation. The next 3 parameters defines the translation in each
+ * dimension. The last parameter defines the isotropic scaling.
+ *
+ * The serialization of the fixed parameters is an array of 3 elements defining
+ * the center of rotation.
+ *
  * \ingroup Transforms
  *
  * \sa VersorRigid3DTransform
@@ -80,6 +91,13 @@ public:
   typedef typename Superclass::AxisType               AxisType;
   typedef typename Superclass::AngleType              AngleType;
   typedef          TScalarType                        ScaleType;
+
+ /** Directly set the rotation matrix of the transform.
+  * \warning The input matrix must be orthogonal with isotropic scaling
+  * to within a specified tolerance, else an exception is thrown.
+  *
+  * \sa MatrixOffsetTransformBase::SetMatrix() */
+  virtual void SetMatrix(const MatrixType &matrix);
   
   /** Set the transformation from a container of parameters This is typically
    * used by optimizers.  There are 7 parameters. The first three represent the
@@ -111,6 +129,9 @@ protected:
   /** Recomputes the matrix by calling the Superclass::ComputeMatrix() and then
    * applying the scale factor. */
   void ComputeMatrix();
+
+  /** Computes the parameters from an input matrix. */
+  void ComputeMatrixParameters();
   
 private:
   Similarity3DTransform(const Self&); //purposely not implemented

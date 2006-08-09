@@ -54,7 +54,17 @@ ScaleSkewVersor3DTransform( const MatrixType & matrix,
 {
   this->ComputeMatrixParameters();
 }
- 
+
+// Directly set the matrix
+template<class TScalarType>
+void
+ScaleSkewVersor3DTransform<TScalarType>
+::SetMatrix( const MatrixType & matrix )
+{
+  // Any matrix should work - bypass orthogonality testing
+  typedef MatrixOffsetTransformBase<TScalarType, 3> Baseclass;
+  this->Baseclass::SetMatrix( matrix );
+} 
 
 // Set Parameters
 template <class TScalarType>
@@ -236,7 +246,7 @@ void
 ScaleSkewVersor3DTransform<TScalarType>
 ::ComputeMatrixParameters( void )
 {
-    itkExceptionMacro( << "Setting the matrix of a ScaleSkewVersor3D transform is not supported at this time." );
+  itkExceptionMacro( << "Setting the matrix of a ScaleSkewVersor3D transform is not supported at this time." );
 }
 
  

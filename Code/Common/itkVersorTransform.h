@@ -30,7 +30,17 @@ namespace itk
  *
  * VersorTransform of a vector space (e.g. space coordinates)
  *
- * This transform applies a rotation to the space.
+ * This transform applies a rotation to the space. Rotation is about
+ * a user specified center.
+ *
+ * The serialization of the optimizable parameters is an array of 3 elements
+ * representing the right part of the versor.
+ *
+ * The serialization of the fixed parameters is an array of 3 elements defining
+ * the center of rotation.
+ *
+ * \TODO Need to make sure that the translation parameters in the baseclass
+ * cannot be set to non-zero values.
  *
  * \ingroup Transforms
  *

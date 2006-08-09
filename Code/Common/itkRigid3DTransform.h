@@ -28,7 +28,20 @@ namespace itk
 
 /** \brief Rigid3DTransform of a vector space (e.g. space coordinates)
  *
- * This transform applies a rotation and translation to the space
+ * This transform applies a rotation and translation in 3D space.
+ * The transform is specified as a rotation matrix around a arbitrary center
+ * and is followed by a translation.
+ *
+ * The parameters for this transform can be set either using individual Set
+ * methods or in serialized form using SetParameters() and SetFixedParameters().
+ *
+ * The serialization of the optimizable parameters is an array of 12 elements.
+ * The first 9 parameters represents the rotation matrix in column-major order
+ * (where the column index varies the fastest). The last 3 parameters defines
+ * the translation in each dimension.
+ *
+ * The serialization of the fixed parameters is an array of 3 elements defining
+ * the center of rotation in each dimension.
  *
  * \ingroup Transforms
  */
@@ -74,6 +87,25 @@ public:
   typedef typename Superclass::TranslationType            TranslationType;
   typedef typename Superclass::OffsetType                 OffsetType;
 
+  /** Set the transformation from a container of parameters
+   * This is typically used by optimizers.
+   * There are 12 parameters. The first 9 represents the rotation
+   * matrix is column-major order and the last 3 represents the translation.
+   *
+   * \warning The rotation matrix must be orthogonal to within a specified tolerance,
+   * else an exception is thrown.
+   * 
+   * \sa Transform::SetParameters()
+   * \sa Transform::SetFixedParameters() */
+   virtual void SetParameters( const ParametersType & parameters );
+
+ /** Directly set the rotation matrix of the transform.
+  * \warning The input matrix must be orthogonal to within a specified tolerance,
+  * else an exception is thrown.
+  *
+  * \sa MatrixOffsetTransformBase::SetMatrix() */
+  virtual void SetMatrix(const MatrixType &matrix);
+
   /**
    * Get rotation Matrix from an Rigid3DTransform
    *
@@ -108,15 +140,6 @@ public:
   void Translate(const OffsetType & offset, bool pre=false);
 
   /**
-   * TransformCovariantVector can be simplified if the matrix is orthogonal
-   * as is the case for rigid transforms.
-   *
-   * This function call is specialization for rigid transforms.
-   **/
-  OutputCovariantVectorType TransformCovariantVector(
-                                const InputCovariantVectorType &vector) const;
-
-  /**
    * Back transform by an affine transformation
    *
    * This method finds the point or vector that maps to a given
@@ -135,6 +158,12 @@ public:
                                                    &vector) const;
   inline InputCovariantVectorType BackTransform(const OutputCovariantVectorType
                                                    &vector) const;
+
+   /**
+    * Utility function to test if a matrix is orthogonal within a specified 
+    * tolerance
+    */
+  bool MatrixIsOrthogonal( const MatrixType & matrix, double tol = 1e-10 );
 
 protected:
   Rigid3DTransform(unsigned int spaceDim,
