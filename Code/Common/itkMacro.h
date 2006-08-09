@@ -203,7 +203,11 @@ namespace itk
       this->m_##name = ""; \
       } \
     this->Modified(); \
-  } 
+  } \
+  virtual void Set##name (const std::string & _arg) \
+  { \
+    this->Set##name( _arg.c_str() ); \
+  } \
 
 
 /** Get character string.  Creates member Get"name"() 
