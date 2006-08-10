@@ -54,18 +54,18 @@ class METAIO_EXPORT MeshPoint
 public:
 
   MeshPoint(int dim)
-  { 
+    { 
     m_Dim = dim;
     m_X = new float[m_Dim];
     for(unsigned int i=0;i<m_Dim;i++)
-    {
+      {
       m_X[i] = 0;
+      }
     }
-  }
   ~MeshPoint()
-  { 
+    { 
     delete []m_X;
-  };
+    };
   
   unsigned int m_Dim;
   float* m_X;
@@ -81,20 +81,19 @@ class METAIO_EXPORT MeshCell
 public:
 
   MeshCell(int dim)
-  { 
+    { 
     m_Dim = dim;
     m_Id = -1;
     m_PointsId = new int[m_Dim];
     for(unsigned int i=0;i<m_Dim;i++)
-    {
+      {
       m_PointsId[i] = -1;
+      }
     }
-
-  }
   ~MeshCell()
-  { 
+    { 
     delete []m_PointsId;
-  };
+    };
   
   int m_Id;
   unsigned int m_Dim;
@@ -159,14 +158,58 @@ public:
     return MET_GetPixelType(typeid(TElementType));
     }
 
+  double ElementByteOrderSwap(double val)
+  {
+  int eSize;
+  MET_SizeOfType(GetMetaType(), &eSize);    
+  switch(eSize)
+    {
+    default:
+    case 0:
+    case 1: 
+      {
+      break;
+      }
+    case 2:
+      {
+      return MET_ByteOrderSwapShort((MET_USHORT_TYPE)val);
+      break;
+      }
+    case 4:
+      {
+      return MET_ByteOrderSwapLong((MET_UINT_TYPE)val);
+      break;
+      }
+    case 8:
+      {
+      double data = val;
+      MET_ByteOrderSwap8(&data);
+      return data;
+      break;
+      }
+    }
+  return val;
+  }
+
   virtual void Write( METAIO_STREAM::ofstream* stream)
     {
     char* id = new char[sizeof(int)];
+    // The file is written as LSB by default
+    int mid = m_Id;
+    if(MET_SystemByteOrderMSB())
+      {
+      mid = MET_ByteOrderSwapLong((MET_UINT_TYPE)mid);
+      }
     MET_DoubleToValue((double)m_Id,MET_INT,id,0);
     stream->write((char *)id,sizeof(int));
     delete [] id;
     char* data = new char[sizeof(m_Data)];
-    MET_DoubleToValue((double)m_Data,GetMetaType(),data,0);
+    double mdata = m_Data;
+    if(MET_SystemByteOrderMSB())
+      {
+      mdata = this->ElementByteOrderSwap(mdata);
+      }
+    MET_DoubleToValue((double)mdata,GetMetaType(),data,0);
     stream->write((char *)data,sizeof(m_Data));
     delete []data;
     }
