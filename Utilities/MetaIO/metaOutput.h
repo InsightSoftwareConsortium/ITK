@@ -42,7 +42,7 @@ public:
     m_MetaOutput = NULL;
     };
 
-  ~MetaOutputStream() {};
+  virtual ~MetaOutputStream() {};
 
   void SetName(const char* name)
     {
