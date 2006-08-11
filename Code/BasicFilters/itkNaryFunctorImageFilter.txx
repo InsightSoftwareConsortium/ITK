@@ -65,7 +65,7 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
   
   typedef ImageRegionConstIterator<TInputImage> ImageRegionConstIteratorType;
   std::vector< ImageRegionConstIteratorType * > inputItrVector;
-  inputItrVector.reserve(numberOfInputImages);
+  inputItrVector.resize(numberOfInputImages);
   //Array< ImageRegionConstIteratorType > inputItrVector(numberOfInputImages);
   
   // support progress methods/callbacks.
