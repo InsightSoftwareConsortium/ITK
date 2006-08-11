@@ -58,12 +58,23 @@ public:
   virtual void GenerateOutputInformation(); // figure out allocation for output image
   virtual void GenerateInputRequestedRegion();
   virtual bool FullMatrix() = 0; // must be implemented in child  
-
+  void SetActualXDimensionIsOdd(bool isodd) 
+  { 
+    m_ActualXDimensionIsOdd = isodd; 
+  }
+  void SetActualXDimensionIsOddOn() { 
+    this->SetActualXDimensionIsOdd(true);
+  }
+  void SetActualXDimensionIsOddOff() { 
+    this->SetActualXDimensionIsOdd(false);
+  }
+  bool ActualXDimensionIsOdd() { return m_ActualXDimensionIsOdd; }
 protected:
-  FFTComplexConjugateToRealImageFilter() {}
+  FFTComplexConjugateToRealImageFilter() : m_ActualXDimensionIsOdd(false) {}
   virtual ~FFTComplexConjugateToRealImageFilter(){}
 
 private:
+  bool m_ActualXDimensionIsOdd;
   FFTComplexConjugateToRealImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 };

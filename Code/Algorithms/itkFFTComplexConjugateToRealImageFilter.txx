@@ -76,14 +76,18 @@ GenerateOutputInformation()
   typedef typename TInputImageType::SizeType::SizeValueType SizeScalarType;
 
   SizeScalarType x;
-  if(!ExposeMetaData < SizeScalarType > (InputDic,
-                                          std::string("FFT_Actual_RealImage_Size"),x))
+
+  outputSize[0] = (inputSize[0] - 1) * 2;
+  if(this->ActualXDimensionIsOdd())
+    {
+    outputSize[0]++;
+    }
+  // backwards compatible/deprecated version
+  if(!ExposeMetaData < SizeScalarType > 
+          (InputDic,std::string("FFT_Actual_RealImage_Size"),x))
     {
     outputSize[0] = (static_cast<unsigned int>(inputSize[0]) - 1) * 2;
     }
-  else
-    outputSize[0] = x;
-  outputStartIndex[0] = inputStartIndex[0];
 
   for (i = 1; i < TOutputImageType::ImageDimension; i++)
     {
