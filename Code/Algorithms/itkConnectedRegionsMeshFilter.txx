@@ -158,7 +158,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
   input->BuildCellLinks(); //needed to get neighbors
   
   m_RegionSizes.clear();
-  m_Visited.reserve(numCells);
+  m_Visited.resize(numCells);
   unsigned int i;
   for ( i=0; i < numCells; i++ )
     {
