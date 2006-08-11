@@ -119,6 +119,9 @@ test_fft(unsigned int *SizeOfDimensions)
   std::cerr << std::endl << std::endl;
   /*Perform the Inverse FFT to get back the Real Image.C@R is the complex conjugate to real image filter and we give the obtained complex image as input to this filter. This is the Inverse FFT of the image.*/
   C2R->SetInput(complexImage);
+  //
+  // newer method to inform filter that there's an odd # of pixels in the x dimension.
+  C2R->SetActualXDimensionIsOdd(SizeOfDimensions[0] & 1 != 0);
   C2R->Update();
   typename RealImageType::Pointer imageafterInverseFFT = C2R->GetOutput();
    /*The Inverse FFT image iterator is the resultant iterator after we

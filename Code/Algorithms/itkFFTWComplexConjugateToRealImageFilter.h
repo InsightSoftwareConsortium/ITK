@@ -16,33 +16,34 @@
 =========================================================================*/
 #ifndef __itkFFTWComplexConjugateToRealImageFilter_h
 #define __itkFFTWComplexConjugateToRealImageFilter_h
-#if defined(USE_FFTWF) || defined(USE_FFTWD)
+
 #include "itkFFTComplexConjugateToRealImageFilter.h"
-#include "fftw3.h"
+
+//
+// FFTWCommon defines proxy classes based on data types
+#include "itkFFTWCommon.h"
+
 
 namespace itk
 {
-template <typename TPixel,unsigned int Dimension = 3>
-class FFTWComplexConjugateToRealImageFilter:
+
+template <typename TPixel,unsigned int Dimension>
+class FFTWComplexConjugateToRealImageFilter :
     public FFTComplexConjugateToRealImageFilter<TPixel,Dimension>
 {
-//#error Invalid Type Listed for TPixel
-};
-
-template <unsigned int Dimension>
-class FFTWComplexConjugateToRealImageFilter<float,Dimension>:
-    public FFTComplexConjugateToRealImageFilter<float,Dimension>
-{
-/** TODO:  There should be compile time type checks so that
-           if only USE_FFTWF is defined, then only floats are valid.
-           and if USE_FFTWD is defined, then only doubles are valid.
-*/
 public:
-  typedef float TPixel;
   typedef FFTWComplexConjugateToRealImageFilter Self;
   typedef FFTComplexConjugateToRealImageFilter<TPixel,Dimension> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> constPointer;
+  //
+  // the proxy type is a wrapper for the fftw API
+  // since the proxy is only defined over double and float,
+  // trying to use any other pixel type is inoperative, as
+  // is trying to use double if only the float FFTW version is 
+  // configured in, or float if only double is configured.
+  //
+  typedef typename fftw::Proxy<TPixel> FFTWProxyType;
 
   /** Standard class typedefs.*/
   typedef typename Superclass::TInputImageType TInputImageType;
@@ -64,14 +65,18 @@ public:
   virtual void GenerateData();  // generates output from input
   virtual bool FullMatrix();
 protected:
-  FFTWComplexConjugateToRealImageFilter()
+  FFTWComplexConjugateToRealImageFilter() : m_PlanComputed(false),
+                                            m_LastImageSize(0),
+                                            m_InputBuffer(0),
+                                            m_OutputBuffer(0)
   {
-    M_PlanComputed= false;
   }
   virtual ~FFTWComplexConjugateToRealImageFilter(){
-    if(M_PlanComputed)
+    if(m_PlanComputed)
       {
-      fftwf_destroy_plan(M_plan);
+      fftwf_destroy_plan(m_Plan);
+      delete [] m_InputBuffer;
+      delete [] m_OutputBuffer;
       }
   }
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -79,68 +84,19 @@ protected:
 private:
   FFTWComplexConjugateToRealImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  bool M_PlanComputed;
-  fftwf_plan M_plan;
+  bool m_PlanComputed;
+  typename FFTWProxyType::PlanType m_Plan;
+  unsigned int m_LastImageSize;
+  // local storage needed to keep fftw from scribbling on
+  typename FFTWProxyType::ComplexType *m_InputBuffer;
+  TPixel *m_OutputBuffer;
 };
 
-template <unsigned int Dimension>
-class FFTWComplexConjugateToRealImageFilter<double,Dimension>:
-    public FFTComplexConjugateToRealImageFilter<double,Dimension>
-{
-/** TODO:  There should be compile time type checks so that
-           if only USE_FFTWF is defined, then only floats are valid.
-           and if USE_FFTWD is defined, then only doubles are valid.
-*/
-public:
-  typedef double TPixel;
-  typedef FFTWComplexConjugateToRealImageFilter Self;
-  typedef FFTComplexConjugateToRealImageFilter<TPixel,Dimension> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> constPointer;
-
-  /** Standard class typedefs.*/
-  typedef typename Superclass::TInputImageType TInputImageType;
-  typedef typename Superclass::TOutputImageType TOutputImageType;
-
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTWComplexConjugateToRealImageFilter,
-               FFTComplexConjugateToRealImageFilter);
-
-  /** Image type typedef support. */
-  typedef TInputImageType ImageType;
-  typedef typename ImageType::SizeType ImageSizeType;
-
-  //
-  // these should be defined in every FFT filter class
-  virtual void GenerateData();  // generates output from input
-  virtual bool FullMatrix();
-protected:
-  FFTWComplexConjugateToRealImageFilter()
-  {
-    M_PlanComputed= false;
-  }
-  virtual ~FFTWComplexConjugateToRealImageFilter(){
-    if(M_PlanComputed)
-      {
-      fftw_destroy_plan(M_plan);
-      }
-  }
-  void PrintSelf(std::ostream& os, Indent indent) const;
-
-private:
-  FFTWComplexConjugateToRealImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  bool M_PlanComputed;
-  fftw_plan M_plan;
-};
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFFTWComplexConjugateToRealImageFilter.txx"
 #endif
-#endif // defined(USE_FFTWF) || defined(USE_FFTWD)
+
 #endif //__itkFFTWComplexConjugateToRealImageFilter_h

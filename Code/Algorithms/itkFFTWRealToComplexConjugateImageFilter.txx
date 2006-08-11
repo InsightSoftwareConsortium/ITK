@@ -29,10 +29,9 @@ namespace itk
            and if USE_FFTWD is defined, then only doubles are valid.
 */
 
-#if defined(USE_FFTWF)
-template <unsigned int Dimension>
+template <typename TPixel, unsigned int Dimension>
 void
-FFTWRealToComplexConjugateImageFilter<float,Dimension>::
+FFTWRealToComplexConjugateImageFilter<TPixel,Dimension>::
 GenerateData()
 {
   // get pointers to the input and output
@@ -44,147 +43,109 @@ GenerateData()
     return;
     }
 
-  const typename TInputImageType::SizeType&   inputSize
-    = inputPtr->GetLargestPossibleRegion().GetSize();
-  unsigned int num_dims = inputPtr->GetImageDimension();
-
-  if(num_dims != outputPtr->GetImageDimension())
-    return;
-
   // allocate output buffer memory
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
-  std::complex<TPixel> *out = outputPtr->GetBufferPointer();
+  const typename TInputImageType::SizeType&   inputSize
+    = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TOutputImageType::SizeType&   outputSize
+    = outputPtr->GetLargestPossibleRegion().GetSize();
+
+  // figure out sizes
+  // size of input and output aren't the same which is handled in the superclass,
+  // sort of.
+  // the input size and output size only differ in the fastest moving dimension
+  unsigned int total_inputSize = 1;
+  unsigned int total_outputSize = 1;
+
+  for(unsigned i = 0; i < Dimension; i++)
     {
-    float *in =
-      const_cast<float *>(reinterpret_cast<const float *>(inputPtr->GetBufferPointer()));
-    fftwf_complex *dptr = reinterpret_cast<float (*)[2]>(out);
-    switch(num_dims)
+    total_inputSize *= inputSize[i];
+    total_outputSize *= outputSize[i];
+    }
+
+  FFTWProxyType proxy;          // shim class to hide FFTW API
+
+  if(this->m_PlanComputed)            // if we've already computed a plan
+    {
+    // if the image sizes aren't the same,
+    // we have to compute the plan again
+    if(this->m_LastImageSize != total_inputSize)
+      {
+      delete [] this->m_InputBuffer;
+      delete [] this->m_OutputBuffer;
+      proxy.Destroy_plan(this->m_Plan);
+      this->m_PlanComputed = false;
+      }
+    }
+  if(!this->m_PlanComputed)
+    {
+    this->m_InputBuffer = new TPixel[total_inputSize];
+    this->m_OutputBuffer = 
+      new typename FFTWProxyType::ComplexType[total_outputSize];
+    this->m_LastImageSize = total_inputSize;
+    switch(Dimension)
       {
       case 1:
-        M_plan = fftwf_plan_dft_r2c_1d(inputSize[0],
-                                      in,dptr,
-                                      FFTW_ESTIMATE|FFTW_PRESERVE_INPUT);
+        this->m_Plan = proxy.Plan_dft_r2c_1d(inputSize[0],
+                                             this->m_InputBuffer,
+                                             this->m_OutputBuffer,
+                                             FFTW_ESTIMATE);
         break;
       case 2:
-        M_plan = fftwf_plan_dft_r2c_2d(inputSize[1],inputSize[0],
-                                      in,dptr,
-                                      FFTW_ESTIMATE|FFTW_PRESERVE_INPUT);
+        this->m_Plan = proxy.Plan_dft_r2c_2d(inputSize[1],
+                                             inputSize[0],
+                                             this->m_InputBuffer,
+                                             this->m_OutputBuffer,
+                                             FFTW_ESTIMATE);
         break;
       case 3:
-        M_plan = fftwf_plan_dft_r2c_3d(inputSize[2],inputSize[1],inputSize[0],
-                                      in,dptr,
-                                      FFTW_ESTIMATE|FFTW_PRESERVE_INPUT);
+        this->m_Plan = proxy.Plan_dft_r2c_3d(inputSize[2],
+                                             inputSize[1],
+                                             inputSize[0],
+                                             this->m_InputBuffer,
+                                             this->m_OutputBuffer,
+                                             FFTW_ESTIMATE);
         break;
       default:
-        int *sizes = new int[num_dims];
-        for(unsigned int i = 0; i < num_dims; i++)
+        int *sizes = new int[Dimension];
+        for(unsigned int i = 0; i < Dimension; i++)
           {
-          sizes[(num_dims - 1) - i] = inputSize[i];
+          sizes[(Dimension - 1) - i] = inputSize[i];
           }
 
-        M_plan = fftwf_plan_dft_r2c(num_dims,sizes,
-                                   in,dptr,FFTW_ESTIMATE|FFTW_PRESERVE_INPUT);
-        delete []sizes;
+        this->m_Plan = proxy.Plan_dft_r2c(Dimension,sizes,
+                                          this->m_InputBuffer,
+                                          this->m_OutputBuffer,
+                                          FFTW_ESTIMATE);
+        delete [] sizes;
       }
-    M_PlanComputed = true;
-    fftwf_execute(M_plan);
+    this->m_PlanComputed = true;
     }
+  memcpy(this->m_InputBuffer,
+         inputPtr->GetBufferPointer(),
+         total_inputSize * sizeof(TPixel));
+  proxy.Execute(this->m_Plan);
+  memcpy(outputPtr->GetBufferPointer(),
+         this->m_OutputBuffer,
+         total_outputSize * sizeof(typename FFTWProxyType::ComplexType));
 }
 
-template <unsigned int Dimension>
+template <typename TPixel,unsigned int Dimension>
 bool
-FFTWRealToComplexConjugateImageFilter<float,Dimension>::
+FFTWRealToComplexConjugateImageFilter<TPixel,Dimension>::
 FullMatrix()
 {
   return false;
 }
 
-template <unsigned int Dimension>
+template <typename TPixel,unsigned int Dimension>
 void
-FFTWRealToComplexConjugateImageFilter<float,Dimension>::
+FFTWRealToComplexConjugateImageFilter<TPixel,Dimension>::
 PrintSelf(std::ostream& os,Indent indent) const
 {
 }
-#endif //defined(USE_FFTWF)
-
-#if defined(USE_FFTWD)
-template <unsigned int Dimension>
-void
-FFTWRealToComplexConjugateImageFilter<double,Dimension>::
-GenerateData()
-{
-  // get pointers to the input and output
-  typename TInputImageType::ConstPointer  inputPtr  = this->GetInput();
-  typename TOutputImageType::Pointer      outputPtr = this->GetOutput();
-
-  if ( !inputPtr || !outputPtr )
-    {
-    return;
-    }
-
-  const typename TInputImageType::SizeType&   inputSize
-    = inputPtr->GetLargestPossibleRegion().GetSize();
-  unsigned int num_dims = inputPtr->GetImageDimension();
-
-  if(num_dims != outputPtr->GetImageDimension())
-    return;
-
-  // allocate output buffer memory
-  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
-  outputPtr->Allocate();
-
-  std::complex<TPixel> *out = outputPtr->GetBufferPointer();
-    {
-    double *in = const_cast<double *>(reinterpret_cast<const double *>(inputPtr->GetBufferPointer()));
-    fftw_complex *dptr = reinterpret_cast<double (*)[2]>(out);
-    switch(num_dims)
-      {
-      case 1:
-        M_plan = fftw_plan_dft_r2c_1d(inputSize[0],
-                                      in,dptr,
-                                      FFTW_ESTIMATE|FFTW_PRESERVE_INPUT);
-        break;
-      case 2:
-        M_plan = fftw_plan_dft_r2c_2d(inputSize[1],inputSize[0],
-                                      in,dptr,
-                                      FFTW_ESTIMATE|FFTW_PRESERVE_INPUT);
-        break;
-      case 3:
-        M_plan = fftw_plan_dft_r2c_3d(inputSize[2],inputSize[1],inputSize[0],
-                                      in,dptr,
-                                      FFTW_ESTIMATE|FFTW_PRESERVE_INPUT);
-        break;
-      default:
-        int *sizes = new int[num_dims];
-        for(unsigned int i = 0; i < num_dims; i++)
-          {
-          sizes[(num_dims - 1) - i] = inputSize[i];
-          }
-
-        M_plan = fftw_plan_dft_r2c(num_dims,sizes,
-                                   in,dptr,FFTW_ESTIMATE|FFTW_PRESERVE_INPUT);
-        delete []sizes;
-      }
-    M_PlanComputed = true;
-    fftw_execute(M_plan);
-    }
-}
-template <unsigned int Dimension>
-bool
-FFTWRealToComplexConjugateImageFilter<double,Dimension>::
-FullMatrix()
-{
-  return false;
-}
-template <unsigned int Dimension>
-void
-FFTWRealToComplexConjugateImageFilter<double,Dimension>::
-PrintSelf(std::ostream& os,Indent indent) const
-{
-}
-#endif //defined(USE_FFTWD)
 } // namespace itk
 #endif // defined(USE_FFTWF) || defined(USE_FFTWD)
 #endif //_itkFFTWRealToComplexConjugateImageFilter_txx

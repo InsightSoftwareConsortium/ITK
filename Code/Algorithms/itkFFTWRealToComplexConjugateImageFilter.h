@@ -18,34 +18,22 @@
 #define __itkFFTWRealToComplexConjugateImageFilter_h
 #if defined(USE_FFTWF) || defined(USE_FFTWD)
 #include "itkFFTRealToComplexConjugateImageFilter.h"
-#include "fftw3.h"
-
+#include "itkFFTWCommon.h"
 
 
 namespace itk
 {
-/** TODO:  There should be compile time type checks so that
-           if only USE_FFTWF is defined, then only floats are valid.
-           and if USE_FFTWD is defined, then only doubles are valid.
-*/
 /** /class FFTWRealToComplexConjugateImageFilter
  * /brief
  *
  * \ingroup
  */
+
 template <class TPixel, unsigned int Dimension = 3>
 class ITK_EXPORT FFTWRealToComplexConjugateImageFilter :
     public FFTRealToComplexConjugateImageFilter<TPixel,Dimension>
 {
-    //not a real working class.
-};
-
-template <unsigned int Dimension>
-class ITK_EXPORT FFTWRealToComplexConjugateImageFilter<float,Dimension> :
-    public FFTRealToComplexConjugateImageFilter<float,Dimension>
-{
 public:
-  typedef float TPixel;
   typedef FFTWRealToComplexConjugateImageFilter Self;
   typedef FFTRealToComplexConjugateImageFilter<TPixel,Dimension> Superclass;
   typedef SmartPointer<Self> Pointer;
@@ -54,6 +42,15 @@ public:
   /** Standard class typedefs.*/
   typedef typename Superclass::TInputImageType TInputImageType;
   typedef typename Superclass::TOutputImageType TOutputImageType;
+
+  /**
+   * the proxy type is a wrapper for the fftw API
+   * since the proxy is only defined over double and float,
+   * trying to use any other pixel type is inoperative, as
+   * is trying to use double if only the float FFTW version is 
+   * configured in, or float if only double is configured.
+   */
+  typedef typename fftw::Proxy<TPixel> FFTWProxyType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,15 +65,19 @@ public:
   void PrintSelf(std::ostream& os,Indent indent);
 
 protected:
-  FFTWRealToComplexConjugateImageFilter() {
-    M_PlanComputed = false;
-    M_PlanComputed = false;
+  FFTWRealToComplexConjugateImageFilter() : m_PlanComputed(false),
+                                            m_LastImageSize(0),
+                                            m_InputBuffer(0),
+                                            m_OutputBuffer(0)
+  {
   }
   ~FFTWRealToComplexConjugateImageFilter()
   {
-    if(M_PlanComputed)
+    if(m_PlanComputed)
       {
-      fftwf_destroy_plan(M_plan);
+      fftwf_destroy_plan(this->m_Plan);
+      delete [] this->m_InputBuffer;
+      delete [] this->m_OutputBuffer;
       }
   }
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -84,58 +85,13 @@ protected:
 private:
   FFTWRealToComplexConjugateImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  bool M_PlanComputed;
-  fftwf_plan M_plan;
+  bool m_PlanComputed;
+  typename FFTWProxyType::PlanType m_Plan;
+  unsigned int m_LastImageSize;
+  TPixel *m_InputBuffer;
+  typename FFTWProxyType::ComplexType *m_OutputBuffer;
+
 };
-
-template <unsigned int Dimension>
-class ITK_EXPORT FFTWRealToComplexConjugateImageFilter<double,Dimension> :
-    public FFTRealToComplexConjugateImageFilter<double,Dimension>
-{
-public:
-  typedef double TPixel;
-  typedef FFTWRealToComplexConjugateImageFilter Self;
-  typedef FFTRealToComplexConjugateImageFilter<TPixel,Dimension> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> constPointer;
-
-  /** Standard class typedefs.*/
-  typedef typename Superclass::TInputImageType TInputImageType;
-  typedef typename Superclass::TOutputImageType TOutputImageType;
-
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTWRealToComplexConjugateImageFilter,
-               FFTRealToComplexConjugateImageFilter);
-
-  //
-  // these should be defined in every FFT filter class
-  virtual void GenerateData();  // generates output from input
-  void PrintSelf(std::ostream& os,Indent indent);
-
-
-protected:
-  FFTWRealToComplexConjugateImageFilter() {
-    M_PlanComputed = false;
-  }
-  ~FFTWRealToComplexConjugateImageFilter()
-  {
-    if(M_PlanComputed)
-      {
-      fftw_destroy_plan(M_plan);
-      }
-  }
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  virtual bool FullMatrix();
-private:
-  FFTWRealToComplexConjugateImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  bool M_PlanComputed;
-  fftw_plan M_plan;
-};
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
