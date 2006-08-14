@@ -54,9 +54,16 @@ MeanCalculator< TSample >
   typename TSample::ConstIterator end = this->GetInputSample()->End() ;
   double totalFrequency = 0.0 ;
 
+  this->SetMeasurementVectorSize(
+      this->GetInputSample()->GetMeasurementVectorSize());
   const MeasurementVectorSizeType measurementVectorSize 
                         = this->GetMeasurementVectorSize();
   MeasurementVectorTraits::SetLength( m_Output, measurementVectorSize );
+  
+  if (measurementVectorSize == 0)
+    {
+    itkExceptionMacro( << "Length of a measurement vector cannot be zero.");
+    }
 
   while (iter != end)
     {
