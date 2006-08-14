@@ -482,7 +482,7 @@ void TIFFImageIO::ReadGenericImage( void *out,
           {
           inc = this->EvaluateImageAt( image, 
                                        static_cast<unsigned char *>(buf) +
-                                       cc );      
+                                       cc );     
           image += inc;
           }
         }
@@ -646,10 +646,22 @@ int TIFFImageIO::EvaluateImageAt( void* out, void* in )
       increment = m_InternalImage->SamplesPerPixel;
       break;
     case TIFFImageIO::PALETTE_RGB:
-      this->GetColor(*source, &red, &green, &blue);     
-      *(image)   = static_cast<unsigned char>(red >> 8);
-      *(image+1) = static_cast<unsigned char>(green >> 8);
-      *(image+2) = static_cast<unsigned char>(blue >> 8);
+      if(m_ComponentType == USHORT)
+        {
+        unsigned short *image_us = (unsigned short*)out;
+        unsigned short *source_us = (unsigned short*)in;
+        this->GetColor(*source_us, &red, &green, &blue);
+        *(image_us)   = red;
+        *(image_us+1) = green;
+        *(image_us+2) = blue;
+        }
+      else
+        {
+        this->GetColor(*source, &red, &green, &blue);
+        *(image)   = static_cast<unsigned char>(red >> 8);
+        *(image+1) = static_cast<unsigned char>(green >> 8);
+        *(image+2) = static_cast<unsigned char>(blue >> 8);
+        }   
       increment = 3;
       break;
     default:
