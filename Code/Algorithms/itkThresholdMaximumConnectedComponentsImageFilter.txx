@@ -34,8 +34,8 @@ namespace itk
 /** Constructor
  *
  */
-template <class TInputImage>
-ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
+template <class TInputImage, class TOutputImage>
+ThresholdMaximumConnectedComponentsImageFilter<TInputImage,TOutputImage>
 ::ThresholdMaximumConnectedComponentsImageFilter()
 {
 
@@ -84,9 +84,9 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
 /**
  * 
  */
-template <class TInputImage>
+template <class TInputImage, class TOutputImage>
 unsigned long int
-ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
+ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>
 ::ComputeConnectedComponents()
 {
   m_ThresholdFilter->SetLowerThreshold( m_ThresholdValue );
@@ -110,8 +110,8 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
  * Remove the comments on the output statements to see how the search
  * strategy works.
  */
-template <class TInputImage>
-void ThresholdMaximumConnectedComponentsImageFilter< TInputImage >
+template <class TInputImage, class TOutputImage>
+void ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
 ::GenerateData( void )
 {
   
@@ -220,9 +220,9 @@ void ThresholdMaximumConnectedComponentsImageFilter< TInputImage >
 /** Standard Run of the mill PrintSelf
  *  
  */
-template <class TInputImage>
+template <class TInputImage, class TOutputImage>
 void 
-ThresholdMaximumConnectedComponentsImageFilter<TInputImage>
+ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);

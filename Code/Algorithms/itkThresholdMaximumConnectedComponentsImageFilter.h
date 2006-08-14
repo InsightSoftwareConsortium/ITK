@@ -74,14 +74,14 @@ namespace itk
  * Please cc the itk list serve for archival purposes.
  * 
  */
-template <class TInputImage>
+template <class TInputImage, class TOutputImage = TInputImage>
 class ITK_EXPORT ThresholdMaximumConnectedComponentsImageFilter : 
-  public ImageToImageFilter< TInputImage , TInputImage >
+  public ImageToImageFilter< TInputImage , TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef ThresholdMaximumConnectedComponentsImageFilter Self;
-  typedef ImageToImageFilter<TInputImage,TInputImage>    Superclass;
+  typedef ImageToImageFilter<TInputImage,TOutputImage>    Superclass;
   typedef SmartPointer<Self>                             Pointer;
   typedef SmartPointer<const Self>                       ConstPointer;
 
@@ -131,8 +131,8 @@ public:
   /**
    * Returns the number of objects in the image. This information is
    * only valid after the filter has executed. Useful if your counting
-   * something */
-  itkGetMacro( NumberOfObjects, unsigned long );
+   * something */ 
+ itkGetMacro( NumberOfObjects, unsigned long );
 
   /**
    * Returns the automatic threshold setpoint. This information is
@@ -146,7 +146,7 @@ public:
   typedef typename InputImageType::PixelType    InputImagePixelType;
 
   /** Some additional typedefs.  */
-  typedef TInputImage                          OutputImageType;
+  typedef TOutputImage                          OutputImageType;
   typedef typename OutputImageType::Pointer    OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType  OutputImagePixelType;
@@ -190,14 +190,14 @@ private:
   //
   // Binary Threshold Filter
   //
-  typedef BinaryThresholdImageFilter< InputImageType, InputImageType >
+  typedef BinaryThresholdImageFilter< InputImageType, OutputImageType >
   ThresholdFilterType;
 
   
   // 
   // Connected Components Filter  
   //
-  typedef ConnectedComponentImageFilter< InputImageType, FilterImageType >
+  typedef ConnectedComponentImageFilter< OutputImageType, FilterImageType >
   ConnectedFilterType;
 
   
