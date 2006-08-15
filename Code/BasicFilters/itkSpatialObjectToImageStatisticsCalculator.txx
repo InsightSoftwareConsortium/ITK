@@ -116,6 +116,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   m_Sample->SetMeasurementVectorSize( SampleDimension );
    
   m_NumberOfPixels = 0;
+  m_Sum = 0;
 
   // If this is an ImageMaskSpatialObject we cannot use the flood filled iterator
   if(!strcmp(m_SpatialObject->GetTypeName(),"ImageMaskSpatialObject"))
@@ -134,6 +135,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
         IndexType ind = it.GetIndex();
         VectorType mv;
         mv[0] = m_Image->GetPixel(ind);
+        m_Sum += static_cast< AccumulateType >(mv[0]);
         for(unsigned int i=1;i<itkGetStaticConstMacro(SampleDimension);i++)
           {
           ind[m_SampleDirection] += 1;
@@ -177,6 +179,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
       IndexType ind = it.GetIndex();
       VectorType mv ;
       mv[0] = it.Get();
+      m_Sum += static_cast< AccumulateType >(mv[0]);
       for(unsigned int i=1;i<itkGetStaticConstMacro(SampleDimension);i++)
         {
         ind[m_SampleDirection] += 1;
