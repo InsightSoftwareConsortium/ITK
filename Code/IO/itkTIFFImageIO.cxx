@@ -651,9 +651,9 @@ int TIFFImageIO::EvaluateImageAt( void* out, void* in )
         unsigned short *image_us = (unsigned short*)out;
         unsigned short *source_us = (unsigned short*)in;
         this->GetColor(*source_us, &red, &green, &blue);
-        *(image_us)   = red;
-        *(image_us+1) = green;
-        *(image_us+2) = blue;
+        *(image_us)   = red << 8;
+        *(image_us+1) = green << 8;
+        *(image_us+2) = blue << 8;
         }
       else
         {
