@@ -1,15 +1,10 @@
 # This is the root ITK CMakeLists file.
-CMAKE_MINIMUM_REQUIRED(VERSION 2.2)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
 
 PROJECT(ITK)
 INCLUDE_REGULAR_EXPRESSION("^([Nn]rrd|itk|vtk|vnl|vcl|vxl|v3p|f2c|netlib|ce|itpack|DICOM|meta|png|dbh|tif|jpeg|zlib|gdcm).*$")
 SOURCE_GROUP("XML Files" REGULAR_EXPRESSION "[.]xml$")
 
-# We will require CMake 2.4 as of August 15th 2006
-IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.4)
-  MESSAGE("ITK Will require CMake 2.4 as of August 15th 2006. Please update your CMake and this message will go away.")
-  ADD_TEST(Require.CMake.2.4 "ITK will require CMake 2.4. Update CMake and this failed test will go away")
-ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.4)
 
 # On Visual Studio 8 MS deprecated C. This removes all 1.276E1265 security
 # warnings
@@ -36,17 +31,15 @@ IF(WIN32)
   ENDIF(NOT BORLAND)
 ENDIF(WIN32)
 
-# Don't build anything unless the version of CMake is high enough.
-# The matching ELSE/ENDIF should be the last lines in the file.
-IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" GREATER 2.1)
 
 # If CMake is the version we're expecting, don't show the
-# CMAKE_BACKWARDS_COMPATIBILITY option.
-IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.2$")
+# CMAKE_BACKWARDS_COMPATIBILITY option. If the version is higher than the
+# minimal version required, then show the backward compatibility option.
+IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.4$")
   MARK_AS_ADVANCED(FORCE CMAKE_BACKWARDS_COMPATIBILITY)
-ELSE("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.2$")
+ELSE("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.4$")
   MARK_AS_ADVANCED(CLEAR CMAKE_BACKWARDS_COMPATIBILITY)
-ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.2$")
+ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.4$")
 
 #-----------------------------------------------------------------------------
 # ITK version number.  An even minor number corresponds to releases.
@@ -283,12 +276,6 @@ IF(ITK_NEED_CableSwig)
     # CableSwig is not included in the source distribution.  Find it.
     FIND_PACKAGE(CableSwig)
     SET(CMAKE_MODULE_PATH ${CableSwig_DIR}/SWIG/CMake)
-
-    # Hack for CMake 1.6 compatability.
-    IF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 1.7)
-      SET(CableSwig_FOUND ${CABLESWIG_FOUND})
-      SET(CableSwig_DIR ${CABLESWIG_DIR})
-    ENDIF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 1.7)
   ENDIF(EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
   
   IF(NOT CableSwig_FOUND)
@@ -499,10 +486,7 @@ ELSE(QNANHIBIT_VALUE)
    SET(QNANHIBIT 0 CACHE INTERNAL "The 22nd bit of 32-bit floating-point quiet NaN.")
 ENDIF(QNANHIBIT_VALUE)
 
-IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
-ELSE("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
 INCLUDE(CheckTypeSize)
-ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
 
 CHECK_TYPE_SIZE("long long" ITK_SIZEOF_LONG_LONG)
 CHECK_TYPE_SIZE("__int64"   ITK_SIZEOF___INT64)
@@ -697,11 +681,4 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
   ENDFOREACH(COMP_OPTION)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
-# If the version of CMake was too old, complain and build nothing.
-# These should be the last lines in this file.
-ELSE("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" GREATER 2.1)
-  MESSAGE(SEND_ERROR
-          "This version of CMake is too old to build this version of ITK.  "
-          "Please upgrade to CMake 2.2 or higher.")
-ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" GREATER 2.1)
 
