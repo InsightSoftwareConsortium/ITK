@@ -347,8 +347,6 @@ void RescaleFunction(ImageIOBase::IOComponentType bufferType,
 
 void GDCMImageIO::Read(void* buffer)
 {
-  std::ifstream file;
-
   //Should I handle differently dicom lut ?
   //GdcmHeader.HasLUT()
 
@@ -423,8 +421,6 @@ void GDCMImageIO::Read(void* buffer)
 
 //  NOTE: source should not be deleted. gdcm controls the pointer.
 
-  //closing files:
-  file.close();
 }
 
 void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
