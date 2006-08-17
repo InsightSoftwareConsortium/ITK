@@ -208,6 +208,7 @@ void VariableLengthVector<TValueType >
         if(m_NumElements>0)
           {
           delete [] m_Data;
+          m_Data = 0;
           }
         }
       else return;
