@@ -135,10 +135,12 @@ public:
 
   InstanceIdentifier GetInstanceIdentifier(int index) const;
 
-  
+  class ConstIterator;
  
   class Iterator
   {
+    friend class ConstIterator;
+
   public:
     Iterator(typename InstanceIdentifierHolder::iterator iter, 
              Self* classSample)
@@ -248,7 +250,22 @@ public:
       return *this ;
     }
 
+    ConstIterator& operator=(const Iterator& iter)
+    {
+      m_Iter = iter.m_Iter;
+      m_Subsample = iter.m_Subsample ;
+      m_Sample = iter.m_Sample ;
+      return *this ;
+    }
+
     ConstIterator(const ConstIterator& iter)
+    {
+      m_Iter = iter.m_Iter;
+      m_Subsample = iter.m_Subsample ;
+      m_Sample = iter.m_Sample ;
+    }
+
+    ConstIterator(const Iterator& iter)
     {
       m_Iter = iter.m_Iter;
       m_Subsample = iter.m_Subsample ;
