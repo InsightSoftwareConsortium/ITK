@@ -60,6 +60,7 @@ public:
   
   /** Typedefs inherited from the superclass */
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
   typedef typename Superclass::MeasurementType MeasurementType;
   typedef typename Superclass::FrequencyType FrequencyType ;
   typedef typename Superclass::TotalFrequencyType TotalFrequencyType ;
@@ -277,6 +278,16 @@ public:
     ConstIterator iter(m_InternalContainer.end(), m_InternalContainer.size()); 
     return iter; 
   }
+  
+  virtual MeasurementVectorSizeType GetMeasurementVectorSize() const
+    {
+    if ( !this->Superclass::GetMeasurementVectorSize() && this->Size())
+      { // determined from the length of the first vector in the sample
+        // at run time
+      return MeasurementVectorTraits::GetLength(this->GetMeasurementVector(0));
+      }
+    return this->Superclass::GetMeasurementVectorSize();
+    }
  
 protected:
   ListSample() ;
