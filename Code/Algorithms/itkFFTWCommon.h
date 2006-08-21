@@ -32,8 +32,8 @@ namespace itk
     {
       // empty -- only double and float specializations work
     protected:
-      Proxy(); 
-      ~Proxy();
+      Proxy() {}; 
+      ~Proxy() {};
     };
 
 #if defined(USE_FFTWF)
@@ -165,16 +165,16 @@ namespace itk
       }
 
       PlanType Plan_dft_r2c_1d(int n,
-                                        ComplexType *in,
-                                        PixelType *out,
+                                        PixelType *in,
+                                        ComplexType *out,
                                         unsigned flags)
       {
         return fftw_plan_dft_r2c_1d(n,in,out,flags);
       }
       PlanType Plan_dft_r2c_2d(int nx, 
                                         int ny,
-                                        ComplexType *in,
-                                        PixelType *out, 
+                                        PixelType *in,
+                                        ComplexType *out, 
                                         unsigned flags)
       {
         return fftw_plan_dft_r2c_2d(nx,ny,in,out,flags);
@@ -182,16 +182,16 @@ namespace itk
       PlanType Plan_dft_r2c_3d(int nx, 
                                         int ny,
                                         int nz,
-                                        ComplexType *in, 
-                                        PixelType *out, 
+                                        PixelType *in, 
+                                        ComplexType *out, 
                                         unsigned flags)
       {
         return fftw_plan_dft_r2c_3d(nx,ny,nz,in,out,flags);
       }
       PlanType Plan_dft_r2c(int rank, 
                                      const int *n,
-                                     ComplexType *in, 
-                                     PixelType *out, 
+                                     PixelType *in, 
+                                     ComplexType *out, 
                                      unsigned flags)
       {
         return fftw_plan_dft_r2c(rank,n,in,out,flags);
@@ -201,7 +201,7 @@ namespace itk
       {
         fftw_execute(p);
       }
-      DestroyPlan(PlanType plan)
+      void DestroyPlan(PlanType p)
       {
         fftw_destroy_plan(p);
       }
