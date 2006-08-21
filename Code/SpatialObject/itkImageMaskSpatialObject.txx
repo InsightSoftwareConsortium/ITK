@@ -61,8 +61,19 @@ ImageMaskSpatialObject< TDimension >
       {
       index[i] = static_cast<int>( p[i] );
       }
-    bool inside = ( this->GetImage()->GetPixel(index) != NumericTraits<PixelType>::Zero );
-    return inside;
+
+    const bool insideBuffer = 
+            this->GetImage()->GetBufferedRegion().IsInside( index );
+      
+    if( !insideBuffer )
+      {
+      return false;
+      }
+
+    const bool insideMask = 
+          ( this->GetImage()->GetPixel(index) != NumericTraits<PixelType>::Zero );
+
+    return insideMask;
     }
 
   return false;
