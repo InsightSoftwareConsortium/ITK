@@ -74,7 +74,7 @@ protected:
   virtual ~FFTWComplexConjugateToRealImageFilter(){
     if(m_PlanComputed)
       {
-      fftwf_destroy_plan(m_Plan);
+      FFTWProxyType::DestroyPlan(m_Plan);
       delete [] m_InputBuffer;
       delete [] m_OutputBuffer;
       }

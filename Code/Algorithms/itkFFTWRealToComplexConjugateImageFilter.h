@@ -75,7 +75,7 @@ protected:
   {
     if(m_PlanComputed)
       {
-      fftwf_destroy_plan(this->m_Plan);
+      FFTWProxyType::DestroyPlan(this->m_Plan);
       delete [] this->m_InputBuffer;
       delete [] this->m_OutputBuffer;
       }

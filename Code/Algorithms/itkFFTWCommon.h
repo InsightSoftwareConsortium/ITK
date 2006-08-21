@@ -46,14 +46,14 @@ namespace itk
       typedef fftwf_complex ComplexType;
       typedef fftwf_plan PlanType;
 
-      PlanType Plan_dft_c2r_1d(int n,
+      static PlanType Plan_dft_c2r_1d(int n,
                                         ComplexType *in,
                                         PixelType *out,
                                         unsigned flags)
       {
         return fftwf_plan_dft_c2r_1d(n,in,out,flags);
       }
-      PlanType Plan_dft_c2r_2d(int nx, 
+      static PlanType Plan_dft_c2r_2d(int nx, 
                                         int ny,
                                         ComplexType *in,
                                         PixelType *out, 
@@ -61,7 +61,7 @@ namespace itk
       {
         return fftwf_plan_dft_c2r_2d(nx,ny,in,out,flags);
       }
-      PlanType Plan_dft_c2r_3d(int nx, 
+      static PlanType Plan_dft_c2r_3d(int nx, 
                                         int ny,
                                         int nz,
                                         ComplexType *in, 
@@ -70,7 +70,7 @@ namespace itk
       {
         return fftwf_plan_dft_c2r_3d(nx,ny,nz,in,out,flags);
       }
-      PlanType Plan_dft_c2r(int rank, 
+      static PlanType Plan_dft_c2r(int rank, 
                                      const int *n,
                                      ComplexType *in, 
                                      PixelType *out, 
@@ -79,14 +79,14 @@ namespace itk
         return fftwf_plan_dft_c2r(rank,n,in,out,flags);
       }
 
-      PlanType Plan_dft_r2c_1d(int n,
+      static PlanType Plan_dft_r2c_1d(int n,
                                         PixelType *in,
                                         ComplexType *out,
                                         unsigned flags)
       {
         return fftwf_plan_dft_r2c_1d(n,in,out,flags);
       }
-      PlanType Plan_dft_r2c_2d(int nx, 
+      static PlanType Plan_dft_r2c_2d(int nx, 
                                         int ny,
                                         PixelType *in,
                                         ComplexType *out, 
@@ -94,7 +94,7 @@ namespace itk
       {
         return fftwf_plan_dft_r2c_2d(nx,ny,in,out,flags);
       }
-      PlanType Plan_dft_r2c_3d(int nx, 
+      static PlanType Plan_dft_r2c_3d(int nx, 
                                         int ny,
                                         int nz,
                                         PixelType *in, 
@@ -103,7 +103,7 @@ namespace itk
       {
         return fftwf_plan_dft_r2c_3d(nx,ny,nz,in,out,flags);
       }
-      PlanType Plan_dft_r2c(int rank, 
+      static PlanType Plan_dft_r2c(int rank, 
                                      const int *n,
                                      PixelType *in, 
                                      ComplexType *out, 
@@ -112,11 +112,11 @@ namespace itk
         return fftwf_plan_dft_r2c(rank,n,in,out,flags);
       }
 
-      void Execute(PlanType p)
+      static void Execute(PlanType p)
       {
         fftwf_execute(p);
       }
-      void Destroy_plan(PlanType p)
+      static void DestroyPlan(PlanType p)
       {
         fftwf_destroy_plan(p);
       }
@@ -131,14 +131,14 @@ namespace itk
       typedef fftw_complex ComplexType;
       typedef fftw_plan PlanType;
 
-      PlanType Plan_dft_c2r_1d(int n,
+      static PlanType Plan_dft_c2r_1d(int n,
                                         ComplexType *in,
                                         PixelType *out,
                                         unsigned flags)
       {
         return fftw_plan_dft_c2r_1d(n,in,out,flags);
       }
-      PlanType Plan_dft_c2r_2d(int nx, 
+      static PlanType Plan_dft_c2r_2d(int nx, 
                                         int ny,
                                         ComplexType *in,
                                         PixelType *out, 
@@ -146,7 +146,7 @@ namespace itk
       {
         return fftw_plan_dft_c2r_2d(nx,ny,in,out,flags);
       }
-      PlanType Plan_dft_c2r_3d(int nx, 
+      static PlanType Plan_dft_c2r_3d(int nx, 
                                         int ny,
                                         int nz,
                                         ComplexType *in, 
@@ -155,7 +155,7 @@ namespace itk
       {
         return fftw_plan_dft_c2r_3d(nx,ny,nz,in,out,flags);
       }
-      PlanType Plan_dft_c2r(int rank, 
+      static PlanType Plan_dft_c2r(int rank, 
                                      const int *n,
                                      ComplexType *in, 
                                      PixelType *out, 
@@ -164,14 +164,14 @@ namespace itk
         return fftw_plan_dft_c2r(rank,n,in,out,flags);
       }
 
-      PlanType Plan_dft_r2c_1d(int n,
+      static PlanType Plan_dft_r2c_1d(int n,
                                         PixelType *in,
                                         ComplexType *out,
                                         unsigned flags)
       {
         return fftw_plan_dft_r2c_1d(n,in,out,flags);
       }
-      PlanType Plan_dft_r2c_2d(int nx, 
+      static PlanType Plan_dft_r2c_2d(int nx, 
                                         int ny,
                                         PixelType *in,
                                         ComplexType *out, 
@@ -179,7 +179,7 @@ namespace itk
       {
         return fftw_plan_dft_r2c_2d(nx,ny,in,out,flags);
       }
-      PlanType Plan_dft_r2c_3d(int nx, 
+      static PlanType Plan_dft_r2c_3d(int nx, 
                                         int ny,
                                         int nz,
                                         PixelType *in, 
@@ -188,7 +188,7 @@ namespace itk
       {
         return fftw_plan_dft_r2c_3d(nx,ny,nz,in,out,flags);
       }
-      PlanType Plan_dft_r2c(int rank, 
+      static PlanType Plan_dft_r2c(int rank, 
                                      const int *n,
                                      PixelType *in, 
                                      ComplexType *out, 
@@ -197,11 +197,11 @@ namespace itk
         return fftw_plan_dft_r2c(rank,n,in,out,flags);
       }
 
-      void Execute(PlanType p)
+      static void Execute(PlanType p)
       {
         fftw_execute(p);
       }
-      void DestroyPlan(PlanType p)
+      static void DestroyPlan(PlanType p)
       {
         fftw_destroy_plan(p);
       }

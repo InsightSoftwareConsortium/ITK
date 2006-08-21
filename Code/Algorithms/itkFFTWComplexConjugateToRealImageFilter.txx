@@ -64,8 +64,6 @@ GenerateData()
     total_inputSize *= inputSize[i];
     }
 
-  FFTWProxyType proxy;          // shim class to hide FFTW API
-
   if(this->m_PlanComputed)            // if we've already computed a plan
     {
     // if the image sizes aren't the same,
@@ -74,7 +72,7 @@ GenerateData()
       {
       delete [] this->m_InputBuffer;
       delete [] this->m_OutputBuffer;
-      proxy.Destroy_plan(this->m_Plan);
+      FFTWProxyType::DestroyPlan(this->m_Plan);
       this->m_PlanComputed = false;
       }
     }
@@ -89,17 +87,17 @@ GenerateData()
     switch(Dimension)
       {
       case 1:
-        this->m_Plan = proxy.Plan_dft_c2r_1d(outputSize[0],
+        this->m_Plan = FFTWProxyType::Plan_dft_c2r_1d(outputSize[0],
                                        this->m_InputBuffer,this->m_OutputBuffer,
                                        FFTW_ESTIMATE);
         break;
       case 2:
-        this->m_Plan = proxy.Plan_dft_c2r_2d(outputSize[1],outputSize[0],
+        this->m_Plan = FFTWProxyType::Plan_dft_c2r_2d(outputSize[1],outputSize[0],
                                        this->m_InputBuffer,this->m_OutputBuffer,
                                        FFTW_ESTIMATE);
         break;
       case 3:
-        this->m_Plan = proxy.Plan_dft_c2r_3d(outputSize[2],outputSize[1],outputSize[0],
+        this->m_Plan = FFTWProxyType::Plan_dft_c2r_3d(outputSize[2],outputSize[1],outputSize[0],
                                        this->m_InputBuffer,this->m_OutputBuffer,
                                        FFTW_ESTIMATE);
         break;
@@ -109,7 +107,7 @@ GenerateData()
           {
           sizes[(Dimension - 1) - i] = outputSize[i];
           }
-        this->m_Plan = proxy.Plan_dft_c2r(Dimension,sizes,
+        this->m_Plan = FFTWProxyType::Plan_dft_c2r(Dimension,sizes,
                                     this->m_InputBuffer,
                                     this->m_OutputBuffer,FFTW_ESTIMATE);
         delete [] sizes;
@@ -120,7 +118,7 @@ GenerateData()
   memcpy(this->m_InputBuffer,
          inputPtr->GetBufferPointer(),
          total_inputSize * sizeof(typename FFTWProxyType::ComplexType));
-  fftwf_execute(this->m_Plan);
+  fftw::Proxy<TPixel>::Execute(this->m_Plan);
   // copy the output
   memcpy(outputPtr->GetBufferPointer(),
          this->m_OutputBuffer,
