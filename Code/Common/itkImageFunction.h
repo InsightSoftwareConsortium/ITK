@@ -202,10 +202,11 @@ protected:
   InputImageConstPointer  m_Image;
 
   /** Cache some values for testing if indices are inside buffered region. */
-  IndexType               m_StartIndex;
-  IndexType               m_EndIndex;
-  ContinuousIndexType     m_StartContinuousIndex;
-  ContinuousIndexType     m_EndContinuousIndex;
+  IndexType                           m_StartIndex;
+  IndexType                           m_EndIndex;
+  ContinuousIndexType                 m_StartContinuousIndex;
+  ContinuousIndexType                 m_EndContinuousIndex;
+  typename InputImageType::RegionType m_InputImageBufferedRegion;
 
 private:
   ImageFunction(const Self&); //purposely not implemented
