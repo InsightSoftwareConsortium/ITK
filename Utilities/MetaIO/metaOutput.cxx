@@ -81,7 +81,7 @@ bool MetaOutput::AddFloatField(METAIO_STL::string name,
                                METAIO_STL::string rangeMax
                                )
 {
-  char* val = new char[10];
+  char* val = new char[20];
   sprintf(val,"%f",value);
   this->AddField(name,description,FLOAT,val,rangeMin,rangeMax);
   delete [] val;
