@@ -82,7 +82,6 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
       m_EndContinuousIndex[j]   = static_cast<CoordRepType>( m_EndIndex[j] );
       }
 
-    this->m_InputImageBufferedRegion = this->GetInputImage()->GetBufferedRegion();
     }
 }
 

@@ -73,7 +73,6 @@ public:
 
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
-  typedef typename Superclass::PointType           PointType;
 
   /** Evaluate the function at a ContinuousIndex position
    *
@@ -85,28 +84,6 @@ public:
    * calling the method. */
   virtual OutputType EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const;
-
-  /** Check if a continuous index is inside the image buffer.
-   * \warning For efficiency, no validity checking of
-   * the input image is done. */
-  virtual bool IsInsideBuffer( const ContinuousIndexType & index ) const
-    { 
-    for ( unsigned int j = 0; j < ImageDimension; j++ )
-      {
-      if ( (index[j]+0.5) < this->m_StartContinuousIndex[j]) { return false; };
-      if ( (index[j]-0.5) > this->m_EndContinuousIndex[j] ) { return false; };
-      }
-    return true;
-    }
-  virtual bool IsInsideBuffer( const PointType & point ) const
-    { 
-    // This function needed to be overrided cause gcc gets confused if 
-    // the function defintion is not present in this subclass
-    ContinuousIndexType index;
-    this->m_Image->TransformPhysicalPointToContinuousIndex( point, index );
-    return this->IsInsideBuffer( index );
-    }
-  
 
 protected:
   LinearInterpolateImageFunction();

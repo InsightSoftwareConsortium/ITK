@@ -134,11 +134,7 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
     // get neighbor value only if overlap is not zero
     if( overlap )
       {
-      if (this->m_InputImageBufferedRegion.IsInside(neighIndex))
-        {
-        value += overlap * static_cast<RealType>( 
-            this->GetInputImage()->GetPixel( neighIndex ) );
-        }
+      value += overlap * static_cast<RealType>( this->GetInputImage()->GetPixel( neighIndex ) );
       totalOverlap += overlap;
       }
 
