@@ -296,9 +296,9 @@ METAIO_STL::string MetaOutput::GenerateXML(const char* filename)
     buffer += " description=\""+ (*itOutput).description + "\"";
     buffer += " value=\""+ (*itOutput).value + "\"";
     buffer += " type=\""+ this->TypeToString((*itOutput).type) + "\"";
+    buffer += "/>\n";
     itOutput++;
     }
-  buffer += "/>\n";
   buffer += "</Outputs>\n";
   
   // CRC32
