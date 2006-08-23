@@ -22,7 +22,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
 #include <itksys/SystemTools.hxx>
-
+#include "itkMacro.h"
 #include <zlib.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -1172,8 +1172,7 @@ AnalyzeImageIO
       break;
     default:
       this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
-      itkDebugMacro( "Warning: Analyze 7.5 File Format Only Allows RPI, PIR, and RIP Orientation " <<
-                    m_FileName << " written out as RIP which is incorrect." );
+      itkExceptionMacro( "ERROR: Analyze 7.5 File Format Only Allows RPI, PIR, and RIP Orientation " );
     }
 
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_FileOriginator,temp))
