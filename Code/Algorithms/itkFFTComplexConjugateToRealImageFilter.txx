@@ -89,6 +89,8 @@ GenerateOutputInformation()
     outputSize[0] = (static_cast<unsigned int>(inputSize[0]) - 1) * 2;
     }
 
+  outputStartIndex[0] = inputStartIndex[0];
+
   for (i = 1; i < TOutputImageType::ImageDimension; i++)
     {
     outputSize[i] = inputSize[i];
