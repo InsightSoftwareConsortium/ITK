@@ -83,10 +83,10 @@ GenerateOutputInformation()
     outputSize[0]++;
     }
   // backwards compatible/deprecated version
-  if(!ExposeMetaData < SizeScalarType > 
+  if(ExposeMetaData < SizeScalarType > 
           (InputDic,std::string("FFT_Actual_RealImage_Size"),x))
     {
-    outputSize[0] = (static_cast<unsigned int>(inputSize[0]) - 1) * 2;
+    outputSize[0] = x;
     }
 
   outputStartIndex[0] = inputStartIndex[0];
