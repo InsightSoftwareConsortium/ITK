@@ -24,6 +24,11 @@
 template<class T> void CheckTraits(const char *name, T)
 {
   std::cout << "itk::NumericTraits<" << name << ">" << std::endl;
+  std::cout << "\tdigits: " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::digits) << std::endl;
+  std::cout << "\tdigits10: " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::digits10) << std::endl;
+  std::cout << "\tround_error(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::round_error()) << std::endl;
+  std::cout << "\tdenorm_min(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::denorm_min()) << std::endl;
+  std::cout << "\tepsilon(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::epsilon()) << std::endl;
   std::cout << "\tmin(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min()) << std::endl;
   std::cout << "\tmax(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::max()) << std::endl;
   std::cout << "\tNonpositiveMin(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::NonpositiveMin()) << std::endl;
