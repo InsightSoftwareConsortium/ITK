@@ -279,8 +279,9 @@ void IPLCommonImageIO::ReadImageInformation()
   itk::EncapsulateMetaData<std::string>(thisDic, ITK_OnDiskStorageTypeName, std::string("SHORT"));
   itk::EncapsulateMetaData<short int>(thisDic,ITK_OnDiskBitPerPixel,(short int)16);
     
+#if defined(DEPRECATED_METADATA_ORIENTATION)
   itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation,m_ImageHeader->coordinateOrientation);
-
+#endif
   //
   // has to be set before setting dir cosines, 
   // otherwise the vector doesn't get allocated

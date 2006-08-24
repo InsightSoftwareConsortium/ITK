@@ -581,7 +581,9 @@ OrientImageFilter<TInputImage, TOutputImage>
 
   this->GetOutput()->SetMetaDataDictionary( this->GetInput()->GetMetaDataDictionary() );
 
+#if defined(DEPRECATED_METADATA_ORIENTATION)
   itk::EncapsulateMetaData<SpatialOrientation::ValidCoordinateOrientationFlags>( this->GetOutput()->GetMetaDataDictionary(), ITK_CoordinateOrientation, m_DesiredCoordinateOrientation );
+#endif
 
 }
 

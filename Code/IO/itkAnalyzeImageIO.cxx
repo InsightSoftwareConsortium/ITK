@@ -990,8 +990,9 @@ void AnalyzeImageIO::ReadImageInformation()
       {
       this->SetDirection(2,dirz);
       }
+#if defined(DEPRECATED_METADATA_ORIENTATION)
     itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient);
-    
+#endif  
   }
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileOriginator,std::string(this->m_hdr.hist.originator,10));
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_OriginationDate,std::string(this->m_hdr.hist.generated,10));
@@ -1143,8 +1144,10 @@ AnalyzeImageIO
     }
 
   itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
+#if defined(DEPRECATED_METADATA_ORIENTATION)
   if ( !itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient) )
     {
+#endif
     std::vector<double> dirx = this->GetDirection(0),
       diry = this->GetDirection(1),
       dirz = this->GetDirection(2);
@@ -1158,7 +1161,9 @@ AnalyzeImageIO
       }
     coord_orient =
       itk::SpatialOrientationAdapter<3>().FromDirectionCosines(dir);
+#if defined(DEPRECATED_METADATA_ORIENTATION)
     }
+#endif
   switch (coord_orient)
     {
     case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:

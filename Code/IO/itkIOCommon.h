@@ -87,7 +87,9 @@ extern const char *const ITK_VoxelUnits;
 extern const char *const ITK_OnDiskBitPerPixel;
 extern const char *const SPM_ROI_SCALE;
 extern const char *const ITK_FileNotes;
+#if defined(DEPRECATED_METADATA_ORIENTATION)
 extern const char *const ITK_CoordinateOrientation;
+#endif
 extern const char *const ITK_Origin;
 extern const char *const ITK_Spacing;
 extern const char *const ITK_FileOriginator;

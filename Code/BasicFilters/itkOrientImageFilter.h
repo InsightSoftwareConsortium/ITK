@@ -77,6 +77,8 @@ namespace itk {
  * you could do something like the following
  *
  * \code
+ * // DEPRECATED -- using metadata for orientation is no longer supported
+ * //
  * #include "itkAnalyzeImageIO.h"
  * #include "itkMetaDataObject.h"
  * #include "itkImage.h"
@@ -94,12 +96,14 @@ namespace itk {
  *   fileReader->Update();
  *   ImageType::Pointer rval = fileReader->GetOutput();
  *   
- *   itk::SpatialOrientation::ValidCoordinateOrientationFlags fileOrientation;
- *   itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
- *     (rval->GetMetaDataDictionary(),itk::ITK_CoordinateOrientation,fileOrientation);
+ * Deprecated -- use direction cosines
+ *  itk::SpatialOrientation::ValidCoordinateOrientationFlags fileOrientation;
+ *  itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
+ *    (rval->GetMetaDataDictionary(),itk::ITK_CoordinateOrientation,fileOrientation);
  *   itk::OrientImageFilter<ImageType,ImageType>::Pointer orienter =
  *     itk::OrientImageFilter<ImageType,ImageType>::New();
- *   orienter->SetGivenCoordinateOrientation(fileOrientation);
+ *   orienter->SetGivenCoordinateOrientation(fileOrientation); // deprecated
+ *   
  *   orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
  *   orienter->SetInput(rval);
  *   orienter->Update();

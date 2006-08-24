@@ -19,6 +19,7 @@
 #include "itkByteSwapper.h"
 #include "itkIOCommon.h"
 #include "itkMetaDataObject.h"
+#include "itkSpatialOrientationAdapter.h"
 #include <stdio.h>
 #include <zlib.h>
 #include <time.h>
@@ -229,7 +230,9 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
     {
     return false;
     }
+#if defined(DEPRECATED_METADATA_ORIENTATION)
   itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
+#endif
   itk::SpatialOrientation::ValidCoordinateOrientationFlags 
     coord_orient(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
   if(this->m_B2MaskHeader.DoesKeyExist("MASK_ACQ_PLANE:"))
@@ -245,9 +248,10 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
       coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI;
       }
     }
+#if defined(DEPRECATED_METADATA_ORIENTATION)
   itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
     (thisDic,ITK_CoordinateOrientation, coord_orient);
-
+#endif
   local_InputStream.close();
   if(this->m_IPLHeaderInfo.DoesKeyExist("MASK_HEADER_BEGIN")==false)
     {
@@ -421,8 +425,25 @@ Brains2MaskImageIO
   replace_blanks(fname);
   std::string orientation = "UNKNOWN";
   itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
+#if defined(DEPRECATED_METADATA_ORIENTATION)
   if ( itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient) )
     {
+#else
+    {
+    std::vector<double> x = this->GetDirection(0);
+    std::vector<double> y = this->GetDirection(1);
+    std::vector<double> z = this->GetDirection(2);
+    itk::SpatialOrientationAdapter<3>::DirectionType dir;
+    for(unsigned i = 0; i < 3; i++)
+      {
+      dir[0][i] = x[i];
+      dir[1][i] = y[i];
+      dir[2][i] = z[i];
+      }
+    coord_orient = 
+      SpatialOrientationAdapter<3>().FromDirectionCosines(dir);
+    }
+#endif
     switch (coord_orient)
       {
       case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
@@ -439,8 +460,9 @@ Brains2MaskImageIO
       default:
         break;
       }
+#if defined(DEPRECATED_METADATA_ORIENTATION)
     }
-  
+#endif  
   sprintf(buf,mask_header_format,
           patient_id.c_str(),
           "00000",                 // scan_id

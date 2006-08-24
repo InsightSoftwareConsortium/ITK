@@ -444,8 +444,9 @@ void MetaImageIO::ReadImageInformation()
     this->SetOrigin(i, m_MetaImage.Position(i));
     } 
 
+#if defined(DEPRECATED_METADATA_ORIENTATION)
   itk::MetaDataDictionary & thisMetaDict = this->GetMetaDataDictionary();
-
+#endif
   /* TO - DO */
   /*
   Record type read - as in:
@@ -880,13 +881,14 @@ void MetaImageIO::ReadImageInformation()
         break;
         }
       }
+#if defined(DEPRECATED_METADATA_ORIENTATION)
     if(!coordUndefined)
       {
       itk::EncapsulateMetaData
           <itk::SpatialOrientation::ValidCoordinateOrientationFlags>
           (thisMetaDict, ITK_CoordinateOrientation, coordOrient);
       }
-    
+#endif
     // Read direction cosines if the dimension of the image is 3.
     //
     const double *transformMatrix = m_MetaImage.TransformMatrix();
@@ -1060,13 +1062,16 @@ MetaImageIO
 
   if(nDims == 3)
     {
+#if defined(DEPRECATED_METADATA_ORIENTATION)
     itk::MetaDataDictionary & thisMetaDict = this->GetMetaDataDictionary();
-  
+#endif  
     itk::SpatialOrientation::ValidCoordinateOrientationFlags coordOrient;
+#if defined(DEPRECATED_METADATA_ORIENTATION)
     if( !itk::ExposeMetaData
           <itk::SpatialOrientation::ValidCoordinateOrientationFlags>
           (thisMetaDict, ITK_CoordinateOrientation, coordOrient) )
       {
+#endif
       std::vector<double> dirx, diry, dirz;
       itk::SpatialOrientationAdapter<3>::DirectionType dir;
       dirx = this->GetDirection(0);
@@ -1079,7 +1084,10 @@ MetaImageIO
         dir[i][2] = dirz[0];
         }
       coordOrient = itk::SpatialOrientationAdapter<3>().FromDirectionCosines(dir);
+#if defined(DEPRECATED_METADATA_ORIENTATION)
       }
+#endif
+
     switch(coordOrient)
       {
       default:

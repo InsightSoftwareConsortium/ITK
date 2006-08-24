@@ -77,10 +77,12 @@ int itkOrientImageFilterTest(int,char *[])
   PrintImg(randimage);
 
   // act like we're in RIP.
+#if 0
   itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
     (randimage->GetMetaDataDictionary(),
      itk::ITK_CoordinateOrientation,
      itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+#endif
 
   itk::OrientImageFilter<ImageType,ImageType>::Pointer orienter =
     itk::OrientImageFilter<ImageType,ImageType>::New();

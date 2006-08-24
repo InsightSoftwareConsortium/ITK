@@ -488,8 +488,8 @@ int itkNiftiImageIOTest3(int ac, char* av[])
   // swizzle up a random vector image.
   VectorImageType::Pointer vi = VectorImageType::New();
   VectorImageType::RegionType imageRegion;
-  VectorImageType::SizeType size = {2,2,2};
-  VectorImageType::IndexType index = {0,0,0};
+  VectorImageType::SizeType size = {{2,2,2}};
+  VectorImageType::IndexType index = {{0,0,0}};
   double _spacing[] = { 1.0, 1.0, 1.0 };
   VectorImageType::SpacingType spacing(_spacing);
   double _origin[] = { 0, 0, 0 };

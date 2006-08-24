@@ -149,7 +149,11 @@ EndElement(const char *name)
           coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR;
           } 
       //itk::EncapsulateMetaData<itk::SpatialOrientation::ValidAnalyzeOrientationFlags>(thisDic, ITK_AnalyzeOrientation, temporient);
+#if defined(DEPRECATED_METADATA_ORIENTATION)
       itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic, ITK_CoordinateOrientation, coord_orient);
+#endif
+      //
+      // set direction cosines
       }
   else if(itksys::SystemTools::Strucmp(name,"POINT") == 0)
     {
@@ -273,8 +277,13 @@ WriteFile()
                                 "Z-RESOLUTION",output);
   WriteMetaDataAttribute<int>(this,thisDic,ROI_NUM_SEGMENTS,
                               "NUM-SEGMENTS",output);
+  
+#if 0
   itk::SpatialOrientation::ValidCoordinateOrientationFlags orientation;
-
+  //
+  // unfortunately there's no record of the orientation of a spatial object as
+  // there is with an image, and since ITK_CoordinateOrientation in the metadata
+  // is gone, there's no way to guess what the orientation is.
   if(ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,
                                                           ITK_CoordinateOrientation,
                                                           orientation))
@@ -303,7 +312,7 @@ WriteFile()
     output << std::endl;
     }
   }
-
+#endif
   //
   // Write out polygondata
   PolygonGroupType::ChildrenListType *children =
