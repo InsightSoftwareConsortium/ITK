@@ -183,7 +183,6 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     return;
     }
   
-  
   // Check whether we can use a fast path for resampling. Fast path
   // can be used if the transformation is linear.  If the
   // transformation is subclass of MatrixOffsetTransformBase or
@@ -253,6 +252,12 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   // Walk the output region
   outIt.GoToBegin();
 
+
+  // This fix works for images up to approximately 2^25 pixels in
+  // any dimension.  If the image is larger than this, this constant
+  // needs to be made lower.
+  double precisionConstant = 1<<(NumericTraits<double>::digits>>1);
+
   while ( !outIt.IsAtEnd() )
     {
     // Determine the index of the current output pixel
@@ -261,6 +266,24 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     // Compute corresponding input pixel position
     inputPoint = m_Transform->TransformPoint(outputPoint);
     inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
+
+    // The inputIndex is precise to many decimal points, but this precision
+    // involves some error in the last bits.  
+    // Sometimes, when an index should be inside of the image, the
+    // index will be slightly
+    // greater than the largest index in the image, like 255.00000000002
+    // for a image of size 256.  This can cause an empty row to show up
+    // at the bottom of the image.
+    // Therefore, the following routine uses a
+    // precisionConstant that specifies the number of relevant bits,
+    // and the value is truncated to this precision.
+    for (int i=0; i < ImageDimension; ++i)
+      {
+      double roundedInputIndex = vcl_floor(inputIndex[i]);
+      double inputIndexFrac = inputIndex[i] - roundedInputIndex;
+      double newInputIndexFrac = vcl_floor(precisionConstant * inputIndexFrac)/precisionConstant;
+      inputIndex[i] = roundedInputIndex + newInputIndexFrac;
+      }    
     
     // Evaluate input at right position and copy to the output
     if( m_Interpolator->IsInsideBuffer(inputIndex) )
@@ -349,6 +372,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   index = outIt.GetIndex();
   outputPtr->TransformIndexToPhysicalPoint( index, outputPoint );
   
+
   // Compute corresponding input pixel position
   inputPoint = m_Transform->TransformPoint(outputPoint);
   inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
@@ -377,6 +401,33 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
                                                     tmpInputIndex);
   delta = tmpInputIndex - inputIndex;
 
+
+  // This fix works for images up to approximately 2^25 pixels in
+  // any dimension.  If the image is larger than this, this constant
+  // needs to be made lower.
+  double precisionConstant = 1<<(NumericTraits<double>::digits>>1);
+
+  // Delta is precise to many decimal points, but this precision
+  // involves some error in the last bits.  This error can accumulate
+  // as the delta values are added.
+  // Sometimes, when the accumulated delta should be inside of the
+  // image, it will be slightly
+  // greater than the largest index in the image, like 255.00000000002
+  // for a image of size 256.  This can cause an empty column to show up
+  // at the right side of the image. If we instead
+  // truncate this delta value to some precision, this solves the problem.
+  // Therefore, the following routine uses a
+  // precisionConstant that specifies the number of relevant bits,
+  // and the value is truncated to this precision.
+  for (int i=0; i < ImageDimension; ++i)
+    {
+    double roundedDelta = vcl_floor(delta[i]);
+    double deltaFrac = delta[i] - roundedDelta;
+    double newDeltaFrac = vcl_floor(precisionConstant * deltaFrac)/precisionConstant;
+    delta[i] = roundedDelta + newDeltaFrac;
+    }
+
+
   while ( !outIt.IsAtEnd() )
     {
     // Determine the continuous index of the first pixel of output
@@ -386,12 +437,31 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     // First get the position of the pixel in the output coordinate frame
     index = outIt.GetIndex();
     outputPtr->TransformIndexToPhysicalPoint( index, outputPoint );
-  
+
     // Compute corresponding input pixel continuous index, this index
     // will incremented in the scanline loop
     inputPoint = m_Transform->TransformPoint(outputPoint);
     inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
     
+    // The inputIndex is precise to many decimal points, but this precision
+    // involves some error in the last bits.
+    // Sometimes, when an index should be inside of the image, the
+    // index will be slightly
+    // greater than the largest index in the image, like 255.00000000002
+    // for a image of size 256.  This can cause an empty row to show up
+    // at the bottom of the image.
+    // Therefore, the following routine uses a
+    // precisionConstant that specifies the number of relevant bits,
+    // and the value is truncated to this precision.
+    for (int i=0; i < ImageDimension; ++i)
+      {
+      double roundedInputIndex = vcl_floor(inputIndex[i]);
+      double inputIndexFrac = inputIndex[i] - roundedInputIndex;
+      double newInputIndexFrac = vcl_floor(precisionConstant * inputIndexFrac)/precisionConstant;
+      inputIndex[i] = roundedInputIndex + newInputIndexFrac;
+      }    
+
+
     while( !outIt.IsAtEndOfLine() )
       {
       // Evaluate input at right position and copy to the output
