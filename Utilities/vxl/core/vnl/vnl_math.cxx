@@ -61,6 +61,12 @@ extern "C" int finite(double);
 # include <math.h> // dont_vxl_filter: no HUGE_VAL or isnan() in <cmath>
 #endif
 
+// On OSX Tiger in C++ the math.h header defines an inline __isnan
+// that gets compiled here into an internal-linkage symbol.  Then at
+// link time the relocation entry from libm.dylib confuses the linker
+// because it thinks the entry applies to the static version of the
+// symbol.  We need to avoid use of the inline version by never
+// calling __isnan in C++ code.
 #if defined(__APPLE__)
 # include <math.h> // dont_vxl_filter: this is *not* supposed to be <cmath>
 #if VXL_APPLE_HAS_INLINE_ISNAND
