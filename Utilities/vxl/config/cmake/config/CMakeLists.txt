@@ -114,6 +114,17 @@ PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VCL_CANNOT_SPECIALIZE_CV)
   SET_INVERT(VCL_CANNOT_SPECIALIZE_CV "${VCL_CANNOT_SPECIALIZE_CV}")
 SET(CMAKE_REQUIRED_FLAGS)
 
+# Check if apple has __isnand or __inline_isnand
+IF(APPLE)
+  PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VXL_APPLE_HAS_ISNAND)
+  IF(NOT ${VXL_APPLE_HAS_ISNAND})
+    PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VXL_APPLE_HAS_INLINE_ISNAND)
+  ELSE(NOT ${VXL_APPLE_HAS_ISNAND})  
+    MESSAGE(FATAL_ERROR "Neither the __isnand nor the __inline_isnand "
+      "functions are available !")
+  ENDIF(NOT ${VXL_APPLE_HAS_ISNAND})
+ENDIF(APPLE)
+
 #
 # Find header files
 #

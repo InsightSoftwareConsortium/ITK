@@ -1102,4 +1102,25 @@ int main(int argc, char * argv[])
 int main() { MINIDUMP_EXCEPTION_INFORMATION dummy; return 0; }
 #endif // VXL_HAS_DBGHELP_H
 
+//-------------------------------------
+
+#ifdef VXL_APPLE_HAS_ISNAND
+#include <math.h>
+int main()
+{
+  __isnand(0.0);
+  return 0;
+}
+#endif // VXL_APPLE_HAS_ISNAND
+
+//-------------------------------------
+
+#ifdef VXL_APPLE_HAS_INLINE_ISNAND
+#include <math.h>
+int main()
+{
+  __inline_isnand(0.0);
+  return 0;
+}
+#endif // VXL_APPLE_HAS_INLINE_ISNAND
 

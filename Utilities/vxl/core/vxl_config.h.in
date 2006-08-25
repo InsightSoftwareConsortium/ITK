@@ -167,4 +167,9 @@
 /* true if <ieeefp.h> is available */
 #define VXL_HAS_IEEEFP_H          @VXL_HAS_IEEEFP_H@
 
+#ifdef __APPLE__
+/* true if in OsX <math.h> declares __inline_isnand() */
+#define VXL_APPLE_HAS_INLINE_ISNAND @VXL_APPLE_HAS_INLINE_ISNAND@
+#endif 
+
 #endif /* vxl_config_h_ */
