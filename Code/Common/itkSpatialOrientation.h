@@ -59,6 +59,7 @@ namespace SpatialOrientation
     // co-registered and pieced together.... PD-T2 interleaving of slices is handled with choosing
     // which spectrum to load via the prototypical file name. 
     typedef enum {
+        ITK_COORDINATE_ORIENTATION_INVALID=ITK_COORDINATE_UNKNOWN,
         ITK_COORDINATE_ORIENTATION_RIP = (ITK_COORDINATE_Right     << ITK_COORDINATE_PrimaryMinor) 
             + (ITK_COORDINATE_Inferior  << ITK_COORDINATE_SecondaryMinor) 
             + (ITK_COORDINATE_Posterior << ITK_COORDINATE_TertiaryMinor),
