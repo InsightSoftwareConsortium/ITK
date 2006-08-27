@@ -69,10 +69,10 @@ extern "C" int finite(double);
 // calling __isnan in C++ code.
 #if defined(__APPLE__)
 # include <math.h> // dont_vxl_filter: this is *not* supposed to be <cmath>
-# if VXL_APPLE_HAS_INLINE_ISNAND
-#  define isnan(x) __inline_isnand((double)x)
-# else
+# if VXL_APPLE_HAS_ISNAND
 #  define isnan(x) __isnand((double)x)
+# else
+#  define isnan(x) __inline_isnand((double)x)
 # endif
 #endif
 
