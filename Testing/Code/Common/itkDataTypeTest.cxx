@@ -22,7 +22,6 @@
 #include "itkVector.h"
 
 
-// using namespace itk;
 
 int itkDataTypeTest(int, char* [] )
 {
