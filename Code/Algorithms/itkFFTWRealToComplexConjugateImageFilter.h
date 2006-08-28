@@ -62,7 +62,6 @@ public:
   //
   // these should be defined in every FFT filter class
   virtual void GenerateData();  // generates output from input
-  void PrintSelf(std::ostream& os,Indent indent);
 
 protected:
   FFTWRealToComplexConjugateImageFilter() : m_PlanComputed(false),
@@ -80,7 +79,7 @@ protected:
       delete [] this->m_OutputBuffer;
       }
   }
-  void PrintSelf(std::ostream& os, Indent indent) const;
+
   virtual bool FullMatrix();
 private:
   FFTWRealToComplexConjugateImageFilter(const Self&); //purposely not implemented

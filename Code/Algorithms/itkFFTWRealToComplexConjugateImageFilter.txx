@@ -138,12 +138,6 @@ FullMatrix()
   return false;
 }
 
-template <typename TPixel,unsigned int Dimension>
-void
-FFTWRealToComplexConjugateImageFilter<TPixel,Dimension>::
-PrintSelf(std::ostream& os,Indent indent) const
-{
-}
 } // namespace itk
 #endif // defined(USE_FFTWF) || defined(USE_FFTWD)
 #endif //_itkFFTWRealToComplexConjugateImageFilter_txx

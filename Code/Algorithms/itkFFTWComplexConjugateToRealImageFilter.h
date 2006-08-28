@@ -79,7 +79,6 @@ protected:
       delete [] m_OutputBuffer;
       }
   }
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   FFTWComplexConjugateToRealImageFilter(const Self&); //purposely not implemented
