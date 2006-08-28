@@ -31,7 +31,7 @@
 #include <string>
 
 
-int itkMeshSpatialObjectIOTest(int, char*[])
+int itkMeshSpatialObjectIOTest(int argc, char* argv[])
 {
   typedef itk::DefaultDynamicMeshTraits< float , 3, 3 > MeshTrait;
   typedef itk::Mesh<float,3,MeshTrait>                  MeshType;
@@ -132,7 +132,14 @@ int itkMeshSpatialObjectIOTest(int, char*[])
   std::cout<<"Testing Reading MeshSpatialObject: ";
   typedef itk::SpatialObjectReader<3,float,MeshTrait> ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName("metamesh.txt");
+  if(argc>1)
+    {
+    reader->SetFileName(argv[1]);
+    }
+  else
+    {
+    reader->SetFileName("metamesh.txt");
+    }
   reader->Update();
   ReaderType::ScenePointer myScene = reader->GetScene();
   if(!myScene)
