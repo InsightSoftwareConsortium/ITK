@@ -44,6 +44,19 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   typedef MeshType::CellType                            CellType;
   typedef CellType::CellAutoPointer                     CellAutoPointer;
 
+  std::cout << "Size of int = " << sizeof(int) << std::endl;
+  std::cout << "Size of float = " << sizeof(float) << std::endl;
+  std::cout << "Size of double = " << sizeof(double) << std::endl;
+
+  if(MET_SystemByteOrderMSB())
+    {
+    std::cout << "Order is MSB" << std::endl;
+    }
+  else
+    {
+    std::cout << "Order is LSB" << std::endl;
+    }
+
   // Create an itkMesh
   std::cout << "Creating Mesh File: ";
   MeshType::Pointer mesh = MeshType::New();
