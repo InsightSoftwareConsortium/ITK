@@ -87,7 +87,10 @@ ADD_TEST(testMetaScene ${IO_TESTS} testMetaScene)
 ADD_TEST(itkNrrdImageIOTest1 ${IO_TESTS} itkNrrdImageIOTest ${ITK_TEST_OUTPUT_DIR}/testNrrd.nrrd)
 ADD_TEST(itkNrrdImageIOTest2 ${IO_TESTS} itkNrrdImageIOTest ${ITK_TEST_OUTPUT_DIR}/testNrrd.nhdr)
 ADD_TEST(itkReadWriteSpatialObjectTest ${IO_TESTS} itkReadWriteSpatialObjectTest)
-ADD_TEST(itkMeshSpatialObjectIOTest ${IO_TESTS} itkMeshSpatialObjectIOTest)
+ADD_TEST(itkMeshSpatialObjectIOTest ${IO_TESTS} itkMeshSpatialObjectIOTest 
+                                                ${ITK_DATA_ROOT}/Baseline/IO/metamesh.txt)
+
+
 ADD_TEST(itkTransformIOTest ${IO_TESTS} itkTransformIOTest)
 
 ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest
