@@ -30,7 +30,6 @@
 #include "itkThinPlateR2LogRSplineKernelTransform.h"
 #include "itkVolumeSplineKernelTransform.h"
 
-using namespace itk;
 
 int itkSplineKernelTransformTest(int , char* [] )
 {
@@ -40,11 +39,11 @@ int itkSplineKernelTransformTest(int , char* [] )
   // 2-D case
   int i, j;
 
-  typedef ElasticBodySplineKernelTransform<double, 2>           EBSTransform2DType;
-  typedef ElasticBodyReciprocalSplineKernelTransform<double, 2> EBRSTransform2DType;
-  typedef ThinPlateSplineKernelTransform<double, 2>             TPSTransform2DType;
-  typedef ThinPlateR2LogRSplineKernelTransform<double, 2>       TPR2LRSTransform2DType;
-  typedef VolumeSplineKernelTransform<double, 2>                VSTransform2DType;
+  typedef itk::ElasticBodySplineKernelTransform<double, 2>           EBSTransform2DType;
+  typedef itk::ElasticBodyReciprocalSplineKernelTransform<double, 2> EBRSTransform2DType;
+  typedef itk::ThinPlateSplineKernelTransform<double, 2>             TPSTransform2DType;
+  typedef itk::ThinPlateR2LogRSplineKernelTransform<double, 2>       TPR2LRSTransform2DType;
+  typedef itk::VolumeSplineKernelTransform<double, 2>                VSTransform2DType;
 
   typedef EBSTransform2DType::InputPointType PointType2D;
   typedef EBSTransform2DType::PointsIterator Points2DIteratorType;
@@ -188,8 +187,8 @@ int itkSplineKernelTransformTest(int , char* [] )
 
    // 3-D case
   int k;
-  typedef ElasticBodySplineKernelTransform<double, 3> EBSTransform3DType;
-  typedef ThinPlateSplineKernelTransform<double, 3>   TPSTransform3DType;
+  typedef itk::ElasticBodySplineKernelTransform<double, 3> EBSTransform3DType;
+  typedef itk::ThinPlateSplineKernelTransform<double, 3>   TPSTransform3DType;
 
   typedef EBSTransform3DType::InputPointType PointType3D;
   typedef EBSTransform3DType::PointsIterator Points3DIteratorType;
@@ -314,8 +313,8 @@ int itkSplineKernelTransformTest(int , char* [] )
 
   // 4-D case
   int l;
-  typedef ElasticBodySplineKernelTransform<double, 4> EBSTransform4DType;
-  typedef ThinPlateSplineKernelTransform<double, 4>   TPSTransform4DType;
+  typedef itk::ElasticBodySplineKernelTransform<double, 4> EBSTransform4DType;
+  typedef itk::ThinPlateSplineKernelTransform<double, 4>   TPSTransform4DType;
   
   typedef EBSTransform4DType::InputPointType PointType4D;
   typedef EBSTransform4DType::PointsIterator Points4DIteratorType;
