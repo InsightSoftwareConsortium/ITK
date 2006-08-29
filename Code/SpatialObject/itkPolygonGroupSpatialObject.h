@@ -108,8 +108,8 @@ protected:
   PolygonGroupSpatialObject(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  PolygonGroupSpatialObject( void );
-  ~PolygonGroupSpatialObject( void );
+  PolygonGroupSpatialObject( void ) {}
+  ~PolygonGroupSpatialObject( void ) {}
 
 };
 }
