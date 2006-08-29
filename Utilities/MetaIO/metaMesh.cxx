@@ -396,31 +396,22 @@ M_Read(void)
     int d;
     double td;
     for(j=0; j<m_NPoints; j++) 
-    {
+      {
       MeshPoint* pnt = new MeshPoint(m_NDims);
 
       MET_ValueToDouble(MET_INT, _data, i++, &td);
+      MET_SwapByteIfNecessary(&td,MET_INT);
       pnt->m_Id=static_cast<int>(td);
-     
-      // The file is written as LSB by default
-      if(MET_SystemByteOrderMSB())
-        {
-        pnt->m_Id = MET_ByteOrderSwapLong((MET_UINT_TYPE)pnt->m_Id);
-        }
+      std::cout << pnt->m_Id << std::endl;
 
       for(d=0; d<m_NDims; d++)
         {
         MET_ValueToDouble(m_PointType, _data, i++, &td);
-        // The file is written as LSB by default
-        if(MET_SystemByteOrderMSB())
-          {
-          pnt->m_X[d] = (float)MET_ByteOrderSwapLong((MET_UINT_TYPE)td);
-          }
-        else
-          {
-          pnt->m_X[d] = (float)td;
-          }
+        MET_SwapByteIfNecessary(&td,m_PointType);
+        pnt->m_X[d] = (float)td;
+        std::cout << pnt->m_X[d] << std::endl;
         }
+      system("PAUSE");
         m_PointList.push_back(pnt);
       }
     delete [] _data;
@@ -523,25 +514,14 @@ M_Read(void)
         MeshCell* cell = new MeshCell(n);
       
         MET_ValueToDouble(MET_INT, _data, i++, &td);
+        MET_SwapByteIfNecessary(&td,MET_INT);
         cell->m_Id = (int)td;
-        // The file is written as LSB by default
-        if(MET_SystemByteOrderMSB())
-          {
-          cell->m_Id = MET_ByteOrderSwapLong((MET_UINT_TYPE)cell->m_Id);
-          }
 
         for(d=0; d<n; d++)
           {
           MET_ValueToDouble(MET_INT, _data, i++, &td);
-          // The file is written as LSB by default
-          if(MET_SystemByteOrderMSB())
-            {
-            cell->m_PointsId[d] = MET_ByteOrderSwapLong((MET_UINT_TYPE)td);
-            }
-          else
-            {
-            cell->m_PointsId[d] = (int)td;
-            }
+          MET_SwapByteIfNecessary(&td,MET_INT);  
+          cell->m_PointsId[d] = (int)td;
           }
         m_CellListArray[celltype]->push_back(cell);
         }
@@ -614,10 +594,7 @@ M_Read(void)
     if(mF->defined)
       {
       totalCellLink = (int)mF->value[0];
-      if(MET_SystemByteOrderMSB())
-        {
-        totalCellLink = MET_ByteOrderSwapLong((MET_UINT_TYPE)totalCellLink);
-        }
+      MET_SwapByteIfNecessary(&totalCellLink,MET_INT);
       }
     }
 
@@ -644,26 +621,17 @@ M_Read(void)
       MeshCellLink* link = new MeshCellLink();
     
       MET_ValueToDouble(MET_INT, _data, i++, &td);
+      MET_SwapByteIfNecessary(&td,MET_INT);
       link->m_Id = (int)td;
-      if(MET_SystemByteOrderMSB())
-        {
-        link->m_Id = MET_ByteOrderSwapLong((MET_UINT_TYPE)link->m_Id);
-        }  
-
+   
       MET_ValueToDouble(MET_INT, _data, i++, &td);
       int n = (int)td;
 
       for(d=0; d<n; d++)
         {
         MET_ValueToDouble(MET_INT, _data, i++, &td);
-        if(MET_SystemByteOrderMSB())
-          {
-          link->m_Links.push_back(MET_ByteOrderSwapLong((MET_UINT_TYPE)td));
-          }
-        else
-          {
-          link->m_Links.push_back((int)td);
-          }
+        MET_SwapByteIfNecessary(&td,MET_INT);
+        link->m_Links.push_back((int)td);
         }
       m_CellLinks.push_back(link);
       }
@@ -798,114 +766,58 @@ M_Read(void)
     else if(m_PointDataType == MET_SHORT)
       {
       double val = (double)((short*)num)[0];
-      pd = new MeshData<short>(); 
-      if(MET_SystemByteOrderMSB())
-        {
-        static_cast<MeshData<short>*>(pd)->m_Data =  
-                               (short)MET_ByteOrderSwapShort((unsigned short)val);
-        }
-      else
-        {
-        static_cast<MeshData<short>*>(pd)->m_Data = (short)val;
-        }
+      pd = new MeshData<short>();
+      MET_SwapByteIfNecessary(&val,MET_SHORT);
+      static_cast<MeshData<short>*>(pd)->m_Data = (short)val;
       }
     else if(m_PointDataType == MET_USHORT)
       { 
       double val = (double)((unsigned short*)num)[0];
       pd = new MeshData<unsigned short>();
-      if(MET_SystemByteOrderMSB())
-        {
-        static_cast<MeshData<unsigned short>*>(pd)->m_Data =  
-                               (unsigned short)MET_ByteOrderSwapShort((unsigned short)val);
-        }
-      else
-        {
-        static_cast<MeshData<unsigned short>*>(pd)->m_Data = (unsigned short)val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_USHORT);
+      static_cast<MeshData<unsigned short>*>(pd)->m_Data = (unsigned short)val;
       }
     else if(m_PointDataType == MET_INT)
       {
       double val = (double)((int*)num)[0];
       pd = new MeshData<int>();
-      if(MET_SystemByteOrderMSB())
-        {
-        static_cast<MeshData<int>*>(pd)->m_Data =  
-                               (int)MET_ByteOrderSwapLong((int)val);
-        }
-      else
-        {
-        static_cast<MeshData<int>*>(pd)->m_Data = (int)val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_INT);
+      static_cast<MeshData<int>*>(pd)->m_Data = (int)val;
       }
     else if(m_PointDataType == MET_UINT)
       { 
       double val = (double)((char*)num)[0];
       pd = new MeshData<unsigned int>();
-      if(MET_SystemByteOrderMSB())
-        {
-        static_cast<MeshData<unsigned int>*>(pd)->m_Data =  
-                               (unsigned int)MET_ByteOrderSwapLong((unsigned int)val);
-        }
-      else
-        {
-        static_cast<MeshData<unsigned int>*>(pd)->m_Data = (unsigned int)val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_UINT);
+      static_cast<MeshData<unsigned int>*>(pd)->m_Data = (unsigned int)val;
       }
     else if(m_PointDataType == MET_LONG)
       { 
       double val = (double)((long*)num)[0];
       pd = new MeshData<long>(); 
-      if(MET_SystemByteOrderMSB())
-        {
-        static_cast<MeshData<long>*>(pd)->m_Data =  
-                               (long)MET_ByteOrderSwapLong((long)val);
-        }
-      else
-        {
-        static_cast<MeshData<long>*>(pd)->m_Data = (long)val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_LONG);
+      static_cast<MeshData<long>*>(pd)->m_Data = (long)val;
       }
     else if(m_PointDataType == MET_ULONG)
       { 
       double val = (double)((unsigned long*)num)[0];
       pd = new MeshData<unsigned long>();
-      if(MET_SystemByteOrderMSB())
-        {
-        static_cast<MeshData<unsigned long>*>(pd)->m_Data =  
-                               (unsigned long)MET_ByteOrderSwapLong((unsigned long)val);
-        }
-      else
-        {
-        static_cast<MeshData<unsigned long>*>(pd)->m_Data = (unsigned long)val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_ULONG);
+      static_cast<MeshData<unsigned long>*>(pd)->m_Data = (unsigned long)val;
       }
     else if(m_PointDataType == MET_FLOAT)
       { 
-      double val = (double)((float*)num)[0];
+      float val = (float)((float*)num)[0];
       pd = new MeshData<float>();   
-      if(MET_SystemByteOrderMSB())
-        {
-        static_cast<MeshData<float>*>(pd)->m_Data =  
-                               (float)MET_ByteOrderSwapLong((unsigned int)val);
-        }
-      else
-        {
-        static_cast<MeshData<float>*>(pd)->m_Data = (float)val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_FLOAT); 
+      static_cast<MeshData<float>*>(pd)->m_Data = (float)val;
       }
     else if(m_PointDataType == MET_DOUBLE)
       { 
       double val = (double)((double*)num)[0];
       pd = new MeshData<double>();
-      if(MET_SystemByteOrderMSB())
-        {
-        MET_ByteOrderSwap8(&val);
-        static_cast<MeshData<double>*>(pd)->m_Data = val;
-        }
-      else
-        {
-        static_cast<MeshData<double>*>(pd)->m_Data = val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_DOUBLE);
+      static_cast<MeshData<double>*>(pd)->m_Data = val;
       }
     else  // assume double
       { 
@@ -913,15 +825,8 @@ M_Read(void)
                 << METAIO_STREAM::endl;
       double val = (double)((double*)num)[0];
       pd = new MeshData<double>();
-      if(MET_SystemByteOrderMSB())
-        {
-        MET_ByteOrderSwap8(&val);
-        static_cast<MeshData<double>*>(pd)->m_Data = val;
-        }
-      else
-        {
-        static_cast<MeshData<double>*>(pd)->m_Data = val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_DOUBLE);
+      static_cast<MeshData<double>*>(pd)->m_Data = val;
       }
        
     delete [] num;
@@ -1027,113 +932,57 @@ M_Read(void)
       {
       double val = (double)((short*)num)[0];
       cd = new MeshData<short>();
-      if(MET_SystemByteOrderMSB())
-        {
-        static_cast<MeshData<short>*>(cd)->m_Data =  
-                               (short)MET_ByteOrderSwapShort((unsigned short)val);
-        }
-      else
-        {
-        static_cast<MeshData<short>*>(cd)->m_Data = (short)val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_SHORT);
+      static_cast<MeshData<short>*>(cd)->m_Data = (short)val;
       }
     else if(m_CellDataType == MET_USHORT)
       { 
       double val = (double)((unsigned short*)num)[0];
       cd = new MeshData<unsigned short>();
-      if(MET_SystemByteOrderMSB())
-        {
-        static_cast<MeshData<unsigned short>*>(cd)->m_Data =  
-                               (unsigned short)MET_ByteOrderSwapShort((unsigned short)val);
-        }
-      else
-        {
-        static_cast<MeshData<unsigned short>*>(cd)->m_Data = (unsigned short)val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_USHORT);
+      static_cast<MeshData<unsigned short>*>(cd)->m_Data = (unsigned short)val;
       }
     else if(m_CellDataType == MET_INT)
       {
       double val = (double)((int*)num)[0];
       cd = new MeshData<int>();
-      if(MET_SystemByteOrderMSB())
-        {
-        static_cast<MeshData<int>*>(cd)->m_Data =  
-                               (int)MET_ByteOrderSwapLong((int)val);
-        }
-      else
-        {
-        static_cast<MeshData<int>*>(cd)->m_Data = (int)val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_INT);
+      static_cast<MeshData<int>*>(cd)->m_Data = (int)val;
       }
     else if(m_CellDataType == MET_UINT)
       { 
       double val = (double)((unsigned int*)num)[0];
       cd = new MeshData<unsigned int>();
-      if(MET_SystemByteOrderMSB())
-        {
-        static_cast<MeshData<unsigned int>*>(cd)->m_Data =  
-                               (unsigned int)MET_ByteOrderSwapLong((unsigned int)val);
-        }
-      else
-        {
-        static_cast<MeshData<unsigned int>*>(cd)->m_Data = (unsigned int)val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_UINT);
+      static_cast<MeshData<unsigned int>*>(cd)->m_Data = (unsigned int)val;
       }
     else if(m_CellDataType == MET_LONG)
       { 
       double val = (double)((long*)num)[0];
       cd = new MeshData<long>();
-      if(MET_SystemByteOrderMSB())
-        {
-        static_cast<MeshData<long>*>(cd)->m_Data =  
-                               (long)MET_ByteOrderSwapLong((long)val);
-        }
-      else
-        {
-        static_cast<MeshData<long>*>(cd)->m_Data = (long)val;
-        } 
+      MET_SwapByteIfNecessary(&val,MET_LONG);
+      static_cast<MeshData<long>*>(cd)->m_Data = (long)val; 
       }
     else if(m_CellDataType == MET_ULONG)
       { 
       double val = (double)((unsigned long*)num)[0];
       cd = new MeshData<unsigned long>();
-      if(MET_SystemByteOrderMSB())
-        {
-        static_cast<MeshData<unsigned long>*>(cd)->m_Data =  
-                               (unsigned long)MET_ByteOrderSwapLong((long)val);
-        }
-      else
-        {
-        static_cast<MeshData<unsigned long>*>(cd)->m_Data = (long)val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_ULONG);
+      static_cast<MeshData<unsigned long>*>(cd)->m_Data = (long)val;
       }
     else if(m_CellDataType == MET_FLOAT)
       { 
       double val = (double)((float*)num)[0];
       cd = new MeshData<float>();
-      if(MET_SystemByteOrderMSB())
-        {
-        static_cast<MeshData<float>*>(cd)->m_Data =  
-                               (float)MET_ByteOrderSwapLong((unsigned int)val);
-        }
-      else
-        {
-        static_cast<MeshData<float>*>(cd)->m_Data = (float)val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_FLOAT);
+      static_cast<MeshData<float>*>(cd)->m_Data = (float)val;
       }
     else if(m_CellDataType == MET_DOUBLE)
       { 
       double val = (double)((double*)num)[0];
       cd = new MeshData<double>();
-      if(MET_SystemByteOrderMSB())
-        {
-        MET_ByteOrderSwap8(&val);
-        static_cast<MeshData<double>*>(cd)->m_Data = val;
-        }
-      else
-        {
-        static_cast<MeshData<double>*>(cd)->m_Data = val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_DOUBLE);
+      static_cast<MeshData<double>*>(cd)->m_Data = val;
       }
     else
       { 
@@ -1141,15 +990,8 @@ M_Read(void)
                 << METAIO_STREAM::endl;
       double val = (double)((double*)num)[0];
       cd = new MeshData<double>();
-      if(MET_SystemByteOrderMSB())
-        {
-        MET_ByteOrderSwap8(&val);
-        static_cast<MeshData<double>*>(cd)->m_Data = val;
-        }
-      else
-        {
-        static_cast<MeshData<double>*>(cd)->m_Data = val;
-        }
+      MET_SwapByteIfNecessary(&val,MET_DOUBLE);
+      static_cast<MeshData<double>*>(cd)->m_Data = val;
       }
        
     delete [] num;
@@ -1169,7 +1011,6 @@ M_Read(void)
 
   return true;
 }
-
 
 bool MetaMesh::
 M_Write(void)
@@ -1193,22 +1034,14 @@ M_Write(void)
     while(it != m_PointList.end())
       {
       int pntId = (*it)->m_Id;
-      // The file is written as LSB by default
-      if(MET_SystemByteOrderMSB())
-        {
-        pntId = MET_ByteOrderSwapLong((MET_UINT_TYPE)pntId);
-        }
+      MET_SwapByteIfNecessary(&pntId,MET_INT);
       
       MET_DoubleToValue((double)pntId,MET_INT,data,i++);
 
       for(d = 0; d < m_NDims; d++)
         {
         float pntX = (*it)->m_X[d];
-        // The file is written as LSB by default
-        if(MET_SystemByteOrderMSB())
-          {
-          pntX = (float)MET_ByteOrderSwapLong((MET_UINT_TYPE)pntX);
-          }
+        MET_SwapByteIfNecessary(&pntX,MET_FLOAT);
         MET_DoubleToValue((double)pntX,m_PointType,data,i++);
         }
       it++;
@@ -1276,21 +1109,13 @@ M_Write(void)
         while(it != m_CellListArray[i]->end())
         {
         int cellId = (*it)->m_Id;
-        // The file is written as LSB by default
-        if(MET_SystemByteOrderMSB())
-          {
-          cellId = MET_ByteOrderSwapLong((MET_UINT_TYPE)cellId);
-          }
+        MET_SwapByteIfNecessary(&cellId,MET_INT);
         MET_DoubleToValue((double)cellId,MET_INT,data,j++);
 
         for(d = 0; d < (*it)->m_Dim; d++)
             {
             int pntId = (*it)->m_PointsId[d];
-            // The file is written as LSB by default
-            if(MET_SystemByteOrderMSB())
-              {
-              pntId = MET_ByteOrderSwapLong((MET_UINT_TYPE)pntId);
-              }
+            MET_SwapByteIfNecessary(&pntId,MET_INT);
             MET_DoubleToValue((double)pntId,MET_INT,data,j++);
             }
           it++;
@@ -1364,30 +1189,18 @@ M_Write(void)
       while(it != m_CellLinks.end())
         {
         int clId = (*it)->m_Id;
-        // The file is written as LSB by default
-        if(MET_SystemByteOrderMSB())
-          {
-          clId = MET_ByteOrderSwapLong((MET_UINT_TYPE)clId);
-          }
+        MET_SwapByteIfNecessary(&clId,MET_INT);
         MET_DoubleToValue((double)clId,MET_INT,data,j++);
 
         int linkSize = (*it)->m_Links.size();
-        // The file is written as LSB by default
-        if(MET_SystemByteOrderMSB())
-          {
-          linkSize = MET_ByteOrderSwapLong((MET_UINT_TYPE)linkSize);
-          }
+        MET_SwapByteIfNecessary(&linkSize,MET_INT);
         MET_DoubleToValue((double)linkSize,MET_INT,data,j++);
 
         METAIO_STL::list<int>::const_iterator it2 = (*it)->m_Links.begin();
         while(it2 != (*it)->m_Links.end())
           {
           int links = (*it2);
-          // The file is written as LSB by default
-          if(MET_SystemByteOrderMSB())
-            {
-            links = MET_ByteOrderSwapLong((MET_UINT_TYPE)links);
-            }
+          MET_SwapByteIfNecessary(&links,MET_INT);
           MET_DoubleToValue((double)links,MET_INT,data,j++);
           it2++;
           }

@@ -57,6 +57,30 @@ inline unsigned long MET_ByteOrderSwapLong(unsigned int x)
           ((x>>24) & 0x000000ff));
   }
 
+inline void MET_ByteOrderSwap2(void* x)
+  {
+  char one_byte;
+  char *p = reinterpret_cast<char *>(x);
+
+  one_byte    = p[0];
+  p[0] = p[1];
+  p[1] = one_byte;
+  }
+
+inline void MET_ByteOrderSwap4(void* x)
+  {
+  char one_byte;
+  char *p = reinterpret_cast<char *>(x);
+
+  one_byte    = p[0];
+  p[0] = p[3];
+  p[3] = one_byte;
+
+  one_byte    = p[1];
+  p[1] = p[2];
+  p[2] = one_byte;
+  }
+
 inline void MET_ByteOrderSwap8(void* x)
   {
   char one_byte;
@@ -78,11 +102,47 @@ inline void MET_ByteOrderSwap8(void* x)
   p[4] = one_byte;
   }
 
+METAIO_EXPORT bool MET_SizeOfType(MET_ValueEnumType _type, int *_size);
+
+/** Make sure that all the byte are read and written as LSB */
+inline void MET_SwapByteIfNecessary(void* val,MET_ValueEnumType _type)
+  {
+  if(!MET_SystemByteOrderMSB())
+    {
+    return;
+    }
+
+  int eSize;
+  MET_SizeOfType(_type, &eSize);    
+  switch(eSize)
+    {
+    default:
+    case 0:
+    case 1: 
+      {
+      break;
+      }
+    case 2:
+      {
+      MET_ByteOrderSwap2(val);
+      break;
+      }
+    case 4:
+      {
+      MET_ByteOrderSwap4(val);
+      break;
+      }
+    case 8:
+      {
+      MET_ByteOrderSwap8(val);
+      break;
+      }
+    }
+  }
+
 METAIO_EXPORT bool MET_StringToType(const char *_str, MET_ValueEnumType *_type);
 
 METAIO_EXPORT bool MET_TypeToString(MET_ValueEnumType _type, char *_str);
-
-METAIO_EXPORT bool MET_SizeOfType(MET_ValueEnumType _type, int *_size);
 
 METAIO_EXPORT bool MET_ValueToDouble(MET_ValueEnumType _pType,
                               const void *_data,
