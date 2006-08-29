@@ -104,6 +104,13 @@ public:
                          unsigned int depth=0,
                          char * name=NULL) const;
 
+protected:
+  PolygonGroupSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
+  PolygonGroupSpatialObject( void );
+  ~PolygonGroupSpatialObject( void );
+
 };
 }
 #ifndef ITK_MANUAL_INSTANTIATION 

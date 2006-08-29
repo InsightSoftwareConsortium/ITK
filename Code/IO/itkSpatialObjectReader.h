@@ -74,6 +74,9 @@ public:
   void SetEvent(MetaEvent* event) {m_MetaToSpatialConverter.SetEvent(event);} 
 
 protected:
+  SpatialObjectReader(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   std::string m_FileName;
 
   SpatialObjectReader();

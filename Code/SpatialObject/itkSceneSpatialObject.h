@@ -102,6 +102,8 @@ public:
   void Clear();
 
 protected: 
+  SceneSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /** List of the children object plug to the SceneSpatialObject spatial object. */
   ObjectListType m_Objects; 

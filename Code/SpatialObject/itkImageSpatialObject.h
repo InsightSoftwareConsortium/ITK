@@ -113,6 +113,8 @@ public:
     }
 
 protected:
+  ImageSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   ImagePointer m_Image;
 

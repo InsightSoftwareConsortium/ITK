@@ -90,6 +90,8 @@ public:
   virtual bool ComputeLocalBoundingBox() const;
 
 protected:
+  CylinderSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   CylinderSpatialObject( void );
   ~CylinderSpatialObject( void );

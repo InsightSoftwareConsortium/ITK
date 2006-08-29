@@ -83,6 +83,8 @@ public:
   RegionType GetAxisAlignedBoundingBoxRegion() const;
 
 protected:
+  ImageMaskSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   ImageMaskSpatialObject();
   virtual ~ImageMaskSpatialObject();
