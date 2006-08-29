@@ -455,7 +455,6 @@ public:
 
 protected:
   virtual ~SegmentationLevelSetImageFilter() {}
-  SegmentationLevelSetImageFilter(const Self&);
   SegmentationLevelSetImageFilter();
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
@@ -484,6 +483,9 @@ protected:
   bool m_AutoGenerateSpeedAdvection;
   
 private:
+  SegmentationLevelSetImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   SegmentationFunctionType *m_SegmentationFunction;
 };
 

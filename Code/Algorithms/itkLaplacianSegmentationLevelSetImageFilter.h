@@ -132,6 +132,9 @@ protected:
 
   
 private:
+  LaplacianSegmentationLevelSetImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   typename LaplacianFunctionType::Pointer m_LaplacianFunction;  
 };
 

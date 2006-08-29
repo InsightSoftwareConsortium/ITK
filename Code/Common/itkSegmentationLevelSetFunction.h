@@ -171,7 +171,11 @@ protected:
 
   typename InterpolatorType::Pointer m_Interpolator;
   typename VectorInterpolatorType::Pointer m_VectorInterpolator;
-  
+
+ 
+private:
+  SegmentationLevelSetFunction(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namespace
