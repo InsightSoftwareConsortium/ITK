@@ -16,7 +16,7 @@
 =========================================================================*/
 #ifndef __itkFFTWRealToComplexConjugateImageFilter_h
 #define __itkFFTWRealToComplexConjugateImageFilter_h
-#if defined(USE_FFTWF) || defined(USE_FFTWD)
+
 #include "itkFFTRealToComplexConjugateImageFilter.h"
 #include "itkFFTWCommon.h"
 
@@ -96,5 +96,5 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFFTWRealToComplexConjugateImageFilter.txx"
 #endif
-#endif // defined(USE_FFTWF) || defined(USE_FFTWD)
+
 #endif //__itkFFTWRealToComplexConjugateImageFilter_h

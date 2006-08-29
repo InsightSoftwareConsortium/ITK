@@ -59,8 +59,10 @@ See COPYRIGHT.txt for copyright details.
 #include "itkFEMRegistrationFilter.txx"
 #include "itkFFTComplexConjugateToRealImageFilter.txx"
 #include "itkFFTRealToComplexConjugateImageFilter.txx"
+#if defined(USE_FFTWF) || defined(USE_FFTWD)
 #include "itkFFTWComplexConjugateToRealImageFilter.txx"
 #include "itkFFTWRealToComplexConjugateImageFilter.txx"
+#endif // defined(USE_FFTWF) || defined(USE_FFTWD)
 #include "itkFastChamferDistanceImageFilter.txx"
 #include "itkFastMarchingExtensionImageFilter.txx"
 #include "itkFastMarchingImageFilter.txx"

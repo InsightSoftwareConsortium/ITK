@@ -17,8 +17,6 @@
 #ifndef _itkFFTWComplexConjugateToRealImageFilter_txx
 #define _itkFFTWComplexConjugateToRealImageFilter_txx
 
-#if defined(USE_FFTWF) || defined(USE_FFTWD)
-
 #include "itkFFTWComplexConjugateToRealImageFilter.h"
 #include <iostream>
 #include "itkIndent.h"
@@ -143,5 +141,4 @@ FullMatrix()
 }
 
 }// namespace itk
-#endif // defined(USE_FFTWF) || defined(USE_FFTWD)
 #endif // _itkFFTWComplexConjugateToRealImageFilter_txx
