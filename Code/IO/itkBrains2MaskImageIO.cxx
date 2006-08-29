@@ -488,9 +488,9 @@ Brains2MaskImageIO
         orientation = "CORONAL";
         break;
       default:
-        itk::SpatialOrientationAdapter<3>::DirectionType AXIdir=SpatialOrientationAdapter<3>().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI);
-        itk::SpatialOrientationAdapter<3>::DirectionType SAGdir=SpatialOrientationAdapter<3>().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR);
-        itk::SpatialOrientationAdapter<3>::DirectionType CORdir=SpatialOrientationAdapter<3>().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+        itk::SpatialOrientationAdapter<3>::DirectionType AXIdir=itk::SpatialOrientationAdapter<3>().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI);
+        itk::SpatialOrientationAdapter<3>::DirectionType SAGdir=itk::SpatialOrientationAdapter<3>().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR);
+        itk::SpatialOrientationAdapter<3>::DirectionType CORdir=itk::SpatialOrientationAdapter<3>().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
         itkExceptionMacro(<< "Error: Invalid orientation specified for writing mask. \n"
             << "\nGIVEN    " << coord_orient << "\n" << dir
             << "\n Only Axial, Sagital, and Coronal orietations are supported in this file format."

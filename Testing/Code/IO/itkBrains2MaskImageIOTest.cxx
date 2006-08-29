@@ -29,7 +29,8 @@
 #include <itksys/SystemTools.hxx>
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
-#include "itkFlipImageFilter.h"
+//#include "itkFlipImageFilter.h"
+#include "itkSpatialOrientationAdapter.h"
 #include "vnl/vnl_sample.h"
 
 int itkBrains2MaskTest(int ac, char *av[])
@@ -51,6 +52,8 @@ int itkBrains2MaskTest(int ac, char *av[])
   img->SetBufferedRegion(region);
   img->SetRequestedRegion(region);
   img->Allocate();
+  itk::SpatialOrientationAdapter<3>::DirectionType CORdir=itk::SpatialOrientationAdapter<3>().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+  img->SetDirection(CORdir);
 
   vnl_sample_reseed(8775070);
   itk::ImageRegionIterator<ImageType> ri(img,region);
