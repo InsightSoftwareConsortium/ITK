@@ -51,7 +51,7 @@ public:
  * Detection"(IEEE Transactions on Pattern Analysis and Machine Intelligence, 
  * Vol. PAMI-8, No.6, November 1986),  there are four major steps used in the 
  * edge-detection scheme:
- * (1) Smoothe the input image with Gaussian filter.
+ * (1) Smooth the input image with Gaussian filter.
  * (2) Calculate the second directional derivatives of the smoothed image. 
  * (3) Non-Maximum Suppression: the zero-crossings of 2nd derivative are found,
  *     and the sign of third derivative is used to find the correct extrema. 
@@ -203,6 +203,11 @@ public:
   itkSetMacro(OutsideValue, OutputImagePixelType);
   itkGetMacro(OutsideValue, OutputImagePixelType);
   
+  OutputImageType * GetNonMaximumSuppressionImage()
+    {
+      return this->m_MultiplyImageFilter->GetOutput();
+    }
+
   /** CannyEdgeDetectionImageFilter needs a larger input requested
    * region than the output requested region ( derivative operators, etc).  
    * As such, CannyEdgeDetectionImageFilter needs to provide an implementation
