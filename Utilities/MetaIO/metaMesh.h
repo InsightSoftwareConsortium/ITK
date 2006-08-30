@@ -160,19 +160,19 @@ public:
 
   virtual void Write( METAIO_STREAM::ofstream* stream)
     {
-    char* id = new char[sizeof(int)];
+    //char* id = new char[sizeof(int)];
     // The file is written as LSB by default
     int mid = m_Id;
     MET_SwapByteIfNecessary(&mid,MET_INT);
-    MET_DoubleToValue((double)m_Id,MET_INT,id,0);
-    stream->write((char *)id,sizeof(int));
-    delete [] id;
-    char* data = new char[sizeof(m_Data)];
-    double mdata = m_Data;
-    MET_SwapByteIfNecessary(&mdata,GetMetaType());
-    MET_DoubleToValue((double)mdata,GetMetaType(),data,0);
-    stream->write((char *)data,sizeof(m_Data));
-    delete []data;
+    //MET_DoubleToValue((double)m_Id,MET_INT,id,0);
+    stream->write((char *)&mid,sizeof(int));
+    //delete [] id;
+    //char* data = new char[sizeof(m_Data)];
+    //double mdata = m_Data;
+    //MET_DoubleToValue((double)m_Data,GetMetaType(),data,0);
+    TElementType data = m_Data;
+    MET_SwapByteIfNecessary(&data,GetMetaType());
+    stream->write((char *)&data,sizeof(data));
     }
 
   virtual unsigned int GetSize(void)
