@@ -411,7 +411,6 @@ M_Read(void)
         pnt->m_X[d] = (float)td;
         std::cout << pnt->m_X[d] << std::endl;
         }
-      system("PAUSE");
         m_PointList.push_back(pnt);
       }
     delete [] _data;
