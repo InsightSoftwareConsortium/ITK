@@ -22,6 +22,7 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
+#include "itkConfigure.h"
 
 //
 // This example is based on the on that was contributed by Stephan in the users list

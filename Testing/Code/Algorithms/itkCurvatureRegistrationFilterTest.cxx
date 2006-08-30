@@ -18,6 +18,8 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#include "itkConfigure.h"
+
 #if defined(USE_FFTWD)
 
 #include "itkCurvatureRegistrationFilter.h"

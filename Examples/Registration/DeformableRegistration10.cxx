@@ -15,6 +15,8 @@
 
 =========================================================================*/
 
+#include "itkConfigure.h"
+
 #ifndef USE_FFTWD
 #error "This program needs FFTWD to work."
 #endif

@@ -18,6 +18,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#include "itkConfigure.h"
 #include "vnl/vnl_sample.h"
 #include "itkTestMain.h"
 

@@ -16,6 +16,7 @@
 #endif
   /*This test is build for testing forward and Inverse Fast Fourier Transforms
      using vnl , fftw and scsl fft libraries*/
+#include "itkConfigure.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkVnlFFTRealToComplexConjugateImageFilter.h"

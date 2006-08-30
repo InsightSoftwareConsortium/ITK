@@ -18,7 +18,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
+#include "itkConfigure.h"
 
 
 #ifndef USE_FFTWD
