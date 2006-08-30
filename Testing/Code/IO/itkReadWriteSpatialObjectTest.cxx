@@ -26,7 +26,7 @@
 #include "itkSpatialObjectWriter.h"
 #include "itkSpatialObjectReader.h"
 
-int itkReadWriteSpatialObjectTest(int, char*[])
+int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 {
   
   typedef itk::TubeSpatialObject<3>        TubeType;
@@ -353,9 +353,13 @@ int itkReadWriteSpatialObjectTest(int, char*[])
     std::cout<<"[FAILURE]"<<std::endl;
     return EXIT_FAILURE;
     }
-  writer->Update();
-   
 
+  if(argc>1)
+    {
+    writer->SetBinaryPoints(true);
+    }
+  writer->Update();
+  
   std::cout<<"[PASSED]"<<std::endl;
 
   std::cout<<"Testing Reading SceneSpatialObject: ";
@@ -1044,42 +1048,8 @@ int itkReadWriteSpatialObjectTest(int, char*[])
   
   std::cout<<" [PASSED]"<<std::endl; 
 
-
-
   delete mySceneChildren;
 
-
-/*
-  // Now testing to read/write a scene
-  std::cout << "Writing Scene:";
-
-  typedef itk::SceneSpatialObject<3> SceneType;
-  SceneType::Pointer scene2 = SceneType::New();
-  //scene2->AddSpatialObject(ellipse);
-  scene2->AddSpatialObject(surface);
-
-  WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput(scene2);
-  writer2->SeFileName("Scene.meta");
-  writer2->Update();
-
-  std::cout<<"[PASSED]"<<std::endl;
-
-  std::cout<<"Reading Scene: ";
-
-  ReaderType::Pointer reader2 = ReaderType::New();
-  reader2->SetFileName("Scene.meta");
-  reader2->Update();
-  
-  ReaderType::ScenePointer myScene2 = reader2->GetScene();
-
-  if(myScene2->GetNumberOfObjects() != 1)
-    {
-    std::cout << myScene2->GetNumberOfObjects() <<" : [FAILED]" << std::endl;
-    }
-
-  std::cout<<" [PASSED]"<<std::endl; 
-*/
   std::cout << " [TEST DONE]" << std::endl;
   
   return EXIT_SUCCESS;
