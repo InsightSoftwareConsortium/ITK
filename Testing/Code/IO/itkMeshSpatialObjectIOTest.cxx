@@ -44,19 +44,6 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   typedef MeshType::CellType                            CellType;
   typedef CellType::CellAutoPointer                     CellAutoPointer;
 
-  std::cout << "Size of int = " << sizeof(int) << std::endl;
-  std::cout << "Size of float = " << sizeof(float) << std::endl;
-  std::cout << "Size of double = " << sizeof(double) << std::endl;
-
-  if(MET_SystemByteOrderMSB())
-    {
-    std::cout << "Order is MSB" << std::endl;
-    }
-  else
-    {
-    std::cout << "Order is LSB" << std::endl;
-    }
-
   // Create an itkMesh
   std::cout << "Creating Mesh File: ";
   MeshType::Pointer mesh = MeshType::New();
@@ -137,6 +124,11 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   typedef itk::SpatialObjectWriter<3,float,MeshTrait> WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(meshSO);
+  if((argc > 1) && (!strcmp(argv[1],"binary")))
+    {
+    std::cout << "Writing binary points" << std::endl;
+    writer->SetBinaryPoints(true);
+    }
   writer->SetFileName("metamesh.txt");
   writer->Update();
   std::cout<<"[PASSED]"<<std::endl;
@@ -145,7 +137,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   std::cout<<"Testing Reading MeshSpatialObject: ";
   typedef itk::SpatialObjectReader<3,float,MeshTrait> ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
-  if(argc>1)
+  if((argc > 1) && (strcmp(argv[1],"binary")))
     {
     reader->SetFileName(argv[1]);
     }
