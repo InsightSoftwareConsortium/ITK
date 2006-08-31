@@ -56,7 +56,9 @@ public:
   TransformListType * GetTransformList() {return & m_TransformList;}
 
 protected:
-
+  TransformFileReader(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+   
   std::string m_FileName;
 
   TransformFileReader();
