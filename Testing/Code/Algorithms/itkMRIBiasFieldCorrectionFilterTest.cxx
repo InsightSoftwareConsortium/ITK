@@ -42,9 +42,9 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   ImageType::SizeType imageSize ;
   ImageType::IndexType imageIndex ;
   ImageType::RegionType imageRegion ;
-  imageSize[0] = 60 ;
-  imageSize[1] = 60 ;
-  imageSize[2] = 30 ;
+  imageSize[0] = 30 ;
+  imageSize[1] = 30 ;
+  imageSize[2] = 15 ;
   std::cout << "Random Test image size: " << imageSize[0] << "x" 
        << imageSize[1] << "x" << imageSize[2] << std::endl; 
 
