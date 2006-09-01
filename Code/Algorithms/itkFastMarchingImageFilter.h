@@ -51,7 +51,13 @@ namespace itk
  * This class is templated over the level set image type and the speed
  * image type. The initial front is specified by two containers: one
  * containing the known points and one containing the trial
- * points. The speed function can be specified as a speed image or a
+ * points.  Alive points are those that are already part of the
+ * object, and trial points are considered for inclusion.
+ * In order for the filter to evolve, at least some trial
+ * points must be specified.  These can for instance be specified as the layer of
+ * pixels around the alive points.
+
+ * The speed function can be specified as a speed image or a
  * speed constant. The speed image is set using the method
  * SetInput(). If the speed image is NULL, a constant speed function
  * is used and is specified using method the SetSpeedConstant().
