@@ -537,6 +537,7 @@ M_Read(void)
         MET_SwapByteIfNecessary(&td,MET_INT);
         cell->m_Id = td;
         i+= sizeof(int);
+        delete [] num;
         for(d=0; d<n; d++)
           {
           char* num = new char[sizeof(int)];
