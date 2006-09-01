@@ -106,6 +106,10 @@ public:
   NodeContainerPointer GetTargetPoints( )
   { return m_TargetPoints; };
 
+  /** Get the container of Reached Target Points. */
+  NodeContainerPointer GetReachedTargetPoints( )
+  { return m_ReachedTargetPoints; };
+
   /** GradientPixel typedef support. */
   typedef CovariantVector<PixelType, 
           itkGetStaticConstMacro(SetDimension)> GradientPixelType;
@@ -145,6 +149,9 @@ public:
     { this->SetTargetReachedMode(NoTargets); }
   void SetTargetReachedModeToOneTarget() 
     { this->SetTargetReachedMode(OneTarget); }
+  void SetTargetReachedModeToSomeTargets( long numberOfTargets )
+    { this->SetTargetReachedMode(SomeTargets);
+      m_NumberOfTargets = numberOfTargets; }
   void SetTargetReachedModeToAllTargets() 
     { this->SetTargetReachedMode(AllTargets); }
 
@@ -155,6 +162,7 @@ public:
     {
       NoTargets,
       OneTarget,
+      SomeTargets,
       AllTargets
     };
 
@@ -198,6 +206,8 @@ private:
   int m_TargetReachedMode;
 
   double m_TargetValue;
+
+  long m_NumberOfTargets;
 
 };
 
