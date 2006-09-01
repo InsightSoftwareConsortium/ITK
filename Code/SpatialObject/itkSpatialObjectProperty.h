@@ -78,7 +78,9 @@ protected:
   void Modified(void){m_MTime++;}
 
 private:    
-
+  SpatialObjectProperty(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+   
   PixelType m_Color;
   StringType m_Name;
   unsigned long m_MTime;
