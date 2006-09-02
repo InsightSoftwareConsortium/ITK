@@ -7,8 +7,8 @@ IF(ITK_BINARY_DIR)
   ENDIF(TCL_TCLSH)
 ENDIF(ITK_BINARY_DIR)
 
-
-
+SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Statistics)
+SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
 SET(STATISTICS_TESTS ${CXX_TEST_PATH}/itkStatisticsTests)
 
@@ -52,7 +52,12 @@ ADD_TEST(itkSampleClassifierTest ${STATISTICS_TESTS}
 ADD_TEST(itkSampleClassifierWithMaskTest ${STATISTICS_TESTS} 
          itkSampleClassifierWithMaskTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 ADD_TEST(itkSampleMeanShiftClusteringFilterTest ${STATISTICS_TESTS}                itkSampleMeanShiftClusteringFilterTest ${ITK_DATA_ROOT}/Input/sf4.png)
-ADD_TEST(itkSampleSelectiveMeanShiftBlurringFilterTest ${STATISTICS_TESTS}                itkSampleSelectiveMeanShiftBlurringFilterTest ${ITK_DATA_ROOT}/Input/sf4.png)
+ADD_TEST(itkSampleSelectiveMeanShiftBlurringFilterTest ${STATISTICS_TESTS}
+  --compare ${BASELINE}/itkSampleSelectiveMeanShiftBlurringFilterTest.png
+            ${TEMP}/itkSampleSelectiveMeanShiftBlurringFilterTest.png
+            itkSampleSelectiveMeanShiftBlurringFilterTest
+            ${ITK_DATA_ROOT}/Input/sf4.png
+            ${TEMP}/itkSampleSelectiveMeanShiftBlurringFilterTest.png)
 ADD_TEST(itkScalarImageTextureCalculatorTest ${STATISTICS_TESTS} itkScalarImageTextureCalculatorTest)
 ADD_TEST(itkScalarImageToHistogramGeneratorTest ${STATISTICS_TESTS} itkScalarImageToHistogramGeneratorTest)
 ADD_TEST(itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest ${STATISTICS_TESTS} itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest)
