@@ -304,7 +304,7 @@ METAIO_STL::string MetaOutput::GenerateXML(const char* filename)
   // CRC32
   unsigned long crc = crc32(0L,(Bytef*)buffer.c_str(),buffer.size());
   char * crcstring = new char[10];
-  sprintf(crcstring,"%ul",crc);
+  sprintf(crcstring,"%lu",crc);
   // Compute the crc
   buffer += "<CRC32>";
   buffer += crcstring;
