@@ -459,50 +459,106 @@ M_Read(void)
       }
 
     i=0;
-    double td;
     int d;
+    unsigned int k;
     for(j=0; j<m_NPoints; j++) 
       {
       TubePnt* pnt = new TubePnt(m_NDims);
       
       for(d=0; d<m_NDims; d++)
         {
-        MET_ValueToDouble(m_ElementType, _data, i++, &td);
-        pnt->m_X[d] = (float)td;
+        char* num = new char[sizeof(float)];
+        for(k=0;k<sizeof(float);k++)
+          {
+          num[k] = _data[i+k];
+          }
+        float td = (float)((float*)num)[0];
+        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        i++;
+        pnt->m_X[d] = td;
+        delete [] num; 
         }
 
-      MET_ValueToDouble(m_ElementType, _data, i++, &td);
-      pnt->m_R = (float)td;
+      char* num = new char[sizeof(float)];
+      for(k=0;k<sizeof(float);k++)
+        {
+        num[k] = _data[i+k];
+        }
+      float td = (float)((float*)num)[0];
+      MET_SwapByteIfNecessary(&td,MET_FLOAT);
+      i++; 
+      pnt->m_R = td;
+      delete [] num;
 
       for(d = 0; d < m_NDims; d++)
         {
-        MET_ValueToDouble(m_ElementType, _data, i++, &td);
+        char* num = new char[sizeof(float)];
+        for(k=0;k<sizeof(float);k++)
+          {
+          num[k] = _data[i+k];
+          }
+        float td = (float)((float*)num)[0];
+        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        i++; 
         pnt->m_V1[d] = (float)td;
+        delete [] num;
         }
     
       if(m_NDims==3)
         {
         for(d = 0; d < m_NDims; d++)
           {
-          MET_ValueToDouble(m_ElementType, _data, i++, &td);
+          char* num = new char[sizeof(float)];
+          for(k=0;k<sizeof(float);k++)
+            {
+            num[k] = _data[i+k];
+            }
+          float td = (float)((float*)num)[0];
+          MET_SwapByteIfNecessary(&td,MET_FLOAT);
+          i++; 
           pnt->m_V2[d] = (float)td;
+          delete [] num;
           }
         }
       
       for(d = 0; d < m_NDims; d++)
         {
-        MET_ValueToDouble(m_ElementType, _data, i++, &td);
+        char* num = new char[sizeof(float)];
+        for(k=0;k<sizeof(float);k++)
+          {
+          num[k] = _data[i+k];
+          }
+        float td = (float)((float*)num)[0];
+        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        i++; 
         pnt->m_T[d] = (float)td;
+        delete [] num;
         }
            
       for(d=0; d<4; d++)
         {
-        MET_ValueToDouble(m_ElementType, _data, i++, &td);
+        char* num = new char[sizeof(float)];
+        for(k=0;k<sizeof(float);k++)
+          {
+          num[k] = _data[i+k];
+          }
+        float td = (float)((float*)num)[0];
+        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        i++; 
         pnt->m_Color[d] = (float)td;
+        delete [] num;
         }
 
-      MET_ValueToDouble(m_ElementType,_data,i++,&td);
-      pnt->m_ID=(int)td;
+      num = new char[sizeof(int)];
+      for(k=0;k<sizeof(int);k++)
+        {
+        num[k] = _data[i+k];
+        }
+      int id = (int)((int*)num)[0];
+      MET_SwapByteIfNecessary(&id,MET_INT);
+      i++; 
+      pnt->m_ID = id;
+      delete [] num;
 
       m_PointList.push_back(pnt);
       }
@@ -650,36 +706,49 @@ M_Write(void)
       {
       for(d = 0; d < m_NDims; d++)
         {
-        MET_DoubleToValue((double)(*it)->m_X[d],m_ElementType,data,i++);  
+        float pntX = (*it)->m_X[d];
+        MET_SwapByteIfNecessary(&pntX,MET_FLOAT);
+        MET_DoubleToValue((double)pntX,m_ElementType,data,i++);
         }
 
-      MET_DoubleToValue((double)(*it)->m_R,m_ElementType,data,i++);  
+      float r = (*it)->m_R;
+      MET_SwapByteIfNecessary(&r,MET_FLOAT);
+      MET_DoubleToValue((double)r,m_ElementType,data,i++);
       
       for(d = 0; d < m_NDims; d++)
         {
-        MET_DoubleToValue((double)(*it)->m_V1[d],m_ElementType,data,i++);  
+        float v = (*it)->m_V1[d];
+        MET_SwapByteIfNecessary(&v,MET_FLOAT);
+        MET_DoubleToValue((double)v,m_ElementType,data,i++);
         }
     
       if(m_NDims==3)
         {
         for(d = 0; d < m_NDims; d++)
           {
-          MET_DoubleToValue((double)(*it)->m_V2[d],m_ElementType,data,i++);  
+          float v2 = (*it)->m_V2[d];
+          MET_SwapByteIfNecessary(&v2,MET_FLOAT);
+          MET_DoubleToValue((double)v2,m_ElementType,data,i++);
           }
         }
       
       for(d = 0; d < m_NDims; d++)
         {
-        MET_DoubleToValue((double)(*it)->m_T[d],m_ElementType,data,i++);  
+        float t = (*it)->m_T[d];
+        MET_SwapByteIfNecessary(&t,MET_FLOAT);
+        MET_DoubleToValue((double)t,m_ElementType,data,i++);
         }
      
       for(d=0; d<4; d++)
         {
-        MET_DoubleToValue((double)(*it)->m_Color[d],m_ElementType,data,i++);
+        float c = (*it)->m_Color[d];
+        MET_SwapByteIfNecessary(&c,MET_FLOAT);
+        MET_DoubleToValue((double)c,m_ElementType,data,i++);
         }
 
-      MET_DoubleToValue((double)(*it)->m_ID,m_ElementType,data,i++);
-
+      int id = (*it)->m_ID;
+      MET_SwapByteIfNecessary(&id,MET_INT);
+      MET_DoubleToValue((double)id,m_ElementType,data,i++);
       it++;
       }
 
