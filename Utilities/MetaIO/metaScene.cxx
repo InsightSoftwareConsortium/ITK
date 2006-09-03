@@ -253,6 +253,7 @@ Read(const char *_headerName)
       MetaImage* image = new MetaImage();
       image->SetEvent(m_Event);
       image->ReadStream(m_NDims,m_ReadStream);
+      image->ElementByteOrderFix();
       m_ObjectList.push_back(image);
     }
     
