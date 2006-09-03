@@ -578,6 +578,7 @@ M_Read(void)
 
       int d;
       unsigned int k;
+      i=0;
       for(int j=0; j<m_NInterpolatedPoints; j++) 
         {
         ContourInterpolatedPnt* pnt = new ContourInterpolatedPnt(m_NDims);
@@ -689,9 +690,9 @@ M_Write(void)
     int d;
     while(it != m_ControlPointsList.end())
       {
-      int id = (*it)->m_Id;
-      MET_SwapByteIfNecessary(&id,MET_INT);    
-      MET_DoubleToValue((double)id,MET_INT,data,i++);
+      unsigned long id = (*it)->m_Id;
+      MET_SwapByteIfNecessary(&id,MET_ULONG);    
+      MET_DoubleToValue((double)id,MET_ULONG,data,i++);
 
       for(d = 0; d < m_NDims; d++)
         {
@@ -801,9 +802,9 @@ M_Write(void)
     int d;
     while(it != m_InterpolatedPointsList.end())
       {
-      int id = (*it)->m_Id;
-      MET_SwapByteIfNecessary(&id,MET_FLOAT);  
-      MET_DoubleToValue((double)id,MET_FLOAT,data,i++);
+      unsigned long id = (*it)->m_Id;
+      MET_SwapByteIfNecessary(&id,MET_ULONG);  
+      MET_DoubleToValue((double)id,MET_ULONG,data,i++);
 
       for(d = 0; d < m_NDims; d++)
         {
