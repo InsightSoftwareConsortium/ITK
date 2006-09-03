@@ -575,7 +575,6 @@ M_Read(void)
         return false;
         }
 
-      i=0;
       int d;
       unsigned int k;
       for(int j=0; j<m_NInterpolatedPoints; j++) 
