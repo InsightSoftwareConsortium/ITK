@@ -419,11 +419,63 @@ M_Read(void)
           }
         i+=elementSize;
 
-        if(m_PointType == MET_FLOAT)
+        if(m_PointType == MET_CHAR)
           {
+          char val = (char)((char*)num)[0];
+          pnt->m_X[d] = val;
+          }
+        else if(m_PointType == MET_UCHAR)
+          {
+          unsigned char val = (unsigned char)((unsigned char*)num)[0];
+          pnt->m_X[d] = val;
+          }
+        else if(m_PointType == MET_SHORT)
+          {
+          short val = (short)((short*)num)[0];
+          MET_SwapByteIfNecessary(&val,MET_SHORT);
+          pnt->m_X[d] = val;
+          }
+        else if(m_PointType == MET_USHORT)
+          { 
+          unsigned short val = (unsigned short)((unsigned short*)num)[0];
+          MET_SwapByteIfNecessary(&val,MET_USHORT);
+          pnt->m_X[d] = val;
+          }
+        else if(m_PointType == MET_INT)
+          {
+          int val = (int)((int*)num)[0];
+          MET_SwapByteIfNecessary(&val,MET_INT);
+          pnt->m_X[d] = (float)val;
+          }
+        else if(m_PointType == MET_UINT)
+          { 
+          unsigned int val = (unsigned int)((char*)num)[0];
+          MET_SwapByteIfNecessary(&val,MET_UINT);
+          pnt->m_X[d] = (float)val;
+          }
+        else if(m_PointType == MET_LONG)
+          { 
+          long val = (long)((long*)num)[0];
+          MET_SwapByteIfNecessary(&val,MET_LONG);
+          pnt->m_X[d] = (float)val;
+          }
+        else if(m_PointType == MET_ULONG)
+          { 
+          unsigned long val = (unsigned long)((unsigned long*)num)[0];
+          MET_SwapByteIfNecessary(&val,MET_ULONG);
+          pnt->m_X[d] = (float)val;
+          }
+        else if(m_PointType == MET_FLOAT)
+          { 
           float val = (float)((float*)num)[0];
           MET_SwapByteIfNecessary(&val,MET_FLOAT);
           pnt->m_X[d] = val;
+          }
+        else if(m_PointType == MET_DOUBLE)
+          { 
+          double val = (double)((double*)num)[0];
+          MET_SwapByteIfNecessary(&val,MET_DOUBLE);
+          pnt->m_X[d] = (float)val;
           }
         delete [] num;
         }
@@ -1085,8 +1137,7 @@ M_Write(void)
     while(it != m_PointList.end())
       {
       int pntId = (*it)->m_Id;
-      MET_SwapByteIfNecessary(&pntId,MET_INT);
-      
+      MET_SwapByteIfNecessary(&pntId,MET_INT); 
       MET_DoubleToValue((double)pntId,MET_INT,data,i++);
 
       for(d = 0; d < m_NDims; d++)
