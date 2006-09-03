@@ -474,7 +474,7 @@ M_Read(void)
           }
         float td = (float)((float*)num)[0];
         MET_SwapByteIfNecessary(&td,MET_FLOAT);
-        i++;
+        i+=sizeof(float);
         pnt->m_X[d] = td;
         delete [] num; 
         }
@@ -486,7 +486,7 @@ M_Read(void)
         }
       float td = (float)((float*)num)[0];
       MET_SwapByteIfNecessary(&td,MET_FLOAT);
-      i++; 
+      i+=sizeof(float);
       pnt->m_R = td;
       delete [] num;
 
@@ -499,7 +499,7 @@ M_Read(void)
           }
         float td = (float)((float*)num)[0];
         MET_SwapByteIfNecessary(&td,MET_FLOAT);
-        i++; 
+        i+=sizeof(float);
         pnt->m_V1[d] = (float)td;
         delete [] num;
         }
@@ -515,7 +515,7 @@ M_Read(void)
             }
           float td = (float)((float*)num)[0];
           MET_SwapByteIfNecessary(&td,MET_FLOAT);
-          i++; 
+          i+=sizeof(float);
           pnt->m_V2[d] = (float)td;
           delete [] num;
           }
@@ -530,7 +530,7 @@ M_Read(void)
           }
         float td = (float)((float*)num)[0];
         MET_SwapByteIfNecessary(&td,MET_FLOAT);
-        i++; 
+        i+=sizeof(float);
         pnt->m_T[d] = (float)td;
         delete [] num;
         }
@@ -544,7 +544,7 @@ M_Read(void)
           }
         float td = (float)((float*)num)[0];
         MET_SwapByteIfNecessary(&td,MET_FLOAT);
-        i++; 
+        i+=sizeof(float);
         pnt->m_Color[d] = (float)td;
         delete [] num;
         }
@@ -556,7 +556,7 @@ M_Read(void)
         }
       int id = (int)((int*)num)[0];
       MET_SwapByteIfNecessary(&id,MET_INT);
-      i++; 
+      i+=sizeof(int); 
       pnt->m_ID = id;
       delete [] num;
 
