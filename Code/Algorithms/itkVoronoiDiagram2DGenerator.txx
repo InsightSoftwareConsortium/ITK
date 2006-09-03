@@ -1147,7 +1147,10 @@ GenerateVDFortune(void)
         Siteid++;
         insertPQ(newHE, meetSite, dist(meetSite, currentSite));
         }
-      currentSite = &(m_SeedSites[i]);
+      if (i < m_SeedSites.size())
+        {
+        currentSite = &(m_SeedSites[i]);
+        }
       i++;
       }
     else if(m_PQcount != 0)
