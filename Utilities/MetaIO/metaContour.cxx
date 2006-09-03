@@ -375,6 +375,7 @@ M_Read(void)
       }
 
     int d;
+    i = 0;
     unsigned int k;
     for(int j=0; j<m_NControlPoints; j++) 
       {
