@@ -955,7 +955,7 @@ M_Write(void)
       x = (*it)->m_Alpha1;
       MET_SwapByteIfNecessary(&x,MET_FLOAT);  
       MET_DoubleToValue((double)x,m_ElementType,data,i++);
-      x = (*it)->m_Alpha1;
+      x = (*it)->m_Alpha2;
       MET_SwapByteIfNecessary(&x,MET_FLOAT);
       MET_DoubleToValue((double)x,m_ElementType,data,i++);  
 
