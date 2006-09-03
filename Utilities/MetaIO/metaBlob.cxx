@@ -305,21 +305,37 @@ M_Read(void)
 
     i=0;
     int d;
-    double td;
+    unsigned int k;
     for(j=0; j<m_NPoints; j++) 
     {
       BlobPnt* pnt = new BlobPnt(m_NDims);
 
       for(d=0; d<m_NDims; d++)
       {
-        MET_ValueToDouble(m_ElementType, _data, i++, &td);
+        char* num = new char[sizeof(float)];
+        for(k=0;k<sizeof(float);k++)
+          {
+          num[k] = _data[i+k];
+          }
+        float td = (float)((float*)num)[0];
+        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        i+=sizeof(float); 
         pnt->m_X[d] = (float)td;
+        delete [] num;
       }
 
       for(d=0; d<4; d++)
       {
-        MET_ValueToDouble(m_ElementType, _data, i++, &td);
+        char* num = new char[sizeof(float)];
+        for(k=0;k<sizeof(float);k++)
+          {
+          num[k] = _data[i+k];
+          }
+        float td = (float)((float*)num)[0];
+        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        i+=sizeof(float);
         pnt->m_Color[d] = (float)td;
+        delete [] num;
       }
 
       m_PointList.push_back(pnt);
@@ -391,12 +407,16 @@ M_Write(void)
     {
       for(d = 0; d < m_NDims; d++)
       {
-        MET_DoubleToValue((double)(*it)->m_X[d],m_ElementType,data,i++);
+        float pntX = (*it)->m_X[d];
+        MET_SwapByteIfNecessary(&pntX,MET_FLOAT);    
+        MET_DoubleToValue((double)pntX,m_ElementType,data,i++);
       }
 
       for(d = 0; d < 4; d++)
       {
-        MET_DoubleToValue((double)(*it)->m_Color[d],m_ElementType,data,i++);
+        float c = (*it)->m_Color[d];
+        MET_SwapByteIfNecessary(&c,MET_FLOAT);    
+        MET_DoubleToValue((double)c,m_ElementType,data,i++);
       }
       it++;
     }  

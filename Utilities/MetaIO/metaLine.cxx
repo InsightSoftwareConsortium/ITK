@@ -274,31 +274,55 @@ M_Read(void)
     }
 
     int i=0;
-    double td;
     int d;
+    unsigned int k;
     for(int j=0; j<m_NPoints; j++) 
     {
       LinePnt* pnt = new LinePnt(m_NDims);
       
       for(d=0; d<m_NDims; d++)
-      {
-        MET_ValueToDouble(m_ElementType, _data, i++, &td);
+        {
+        char* num = new char[sizeof(float)];
+        for(k=0;k<sizeof(float);k++)
+          {
+          num[k] = _data[i+k];
+          }
+        float td = (float)((float*)num)[0];
+        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        i+=sizeof(float);
         pnt->m_X[d] = (float)td;
-      }
+        delete [] num;
+        }
 
       for(int l=0;l<m_NDims-1;l++)
       {
         for(d=0; d<m_NDims; d++)
         {
-          MET_ValueToDouble(m_ElementType, _data, i++, &td);
+          char* num = new char[sizeof(float)];
+          for(k=0;k<sizeof(float);k++)
+            {
+            num[k] = _data[i+k];
+            }
+          float td = (float)((float*)num)[0];
+          MET_SwapByteIfNecessary(&td,MET_FLOAT);
+          i+=sizeof(float); 
           pnt->m_V[l][d] = (float)td;
+          delete [] num;
         }   
       }
       
       for(d=0; d<4; d++)
       {
-        MET_ValueToDouble(m_ElementType, _data, i++, &td);
+        char* num = new char[sizeof(float)];
+        for(k=0;k<sizeof(float);k++)
+          {
+          num[k] = _data[i+k];
+          }
+        float td = (float)((float*)num)[0];
+        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        i+=sizeof(float);
         pnt->m_Color[d] = (float)td;
+        delete [] num;
       }
 
       m_PointList.push_back(pnt);
@@ -367,16 +391,15 @@ M_Read(void)
 bool MetaLine::
 M_Write(void)
 {
-
   if(!MetaObject::M_Write())
-  {
+    {
     METAIO_STREAM::cout << "MetaLine: M_Read: Error parsing file" << METAIO_STREAM::endl;
     return false;
-  }
+    }
 
   /** Then copy all points */
   if(m_BinaryData)
-  {
+    {
     PointListType::const_iterator it = m_PointList.begin();
     int elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
@@ -385,34 +408,40 @@ M_Write(void)
     int i=0;
     int d;
     while(it != m_PointList.end())
-    {
-      for(d = 0; d < m_NDims; d++)
       {
-        MET_DoubleToValue((double)(*it)->m_X[d],m_ElementType,data,i++);  
-      }
+      for(d = 0; d < m_NDims; d++)
+        {
+        float pntX = (*it)->m_X[d];
+        MET_SwapByteIfNecessary(&pntX,MET_FLOAT);    
+        MET_DoubleToValue((double)pntX,m_ElementType,data,i++);  
+        }
 
       for(int j=0;j<m_NDims-1;j++)
-      {
-        for(d=0; d<m_NDims; d++)
         {
-          MET_DoubleToValue((double)(*it)->m_V[j][d],m_ElementType,data,i++);
+        for(d=0; d<m_NDims; d++)
+          {
+          float v = (*it)->m_V[j][d];
+          MET_SwapByteIfNecessary(&v,MET_FLOAT);
+          MET_DoubleToValue((double)v,m_ElementType,data,i++);
+          }
         }
-      }
 
       for(d=0; d<4; d++)
-      {
-        MET_DoubleToValue((double)(*it)->m_Color[d],m_ElementType,data,i++);
-      }
+        {
+        float c = (*it)->m_Color[d];
+        MET_SwapByteIfNecessary(&c,MET_FLOAT);
+        MET_DoubleToValue((double)c,m_ElementType,data,i++);
+        }
 
       it++;
-    }
+      }
 
     m_WriteStream->write((char *)data,(m_NDims*m_NDims+4)*m_NPoints*elementSize);
     m_WriteStream->write("\n",1);
     delete [] data;
-  }
+   }
   else
-  {
+    {
     PointListType::const_iterator it = m_PointList.begin();
   
     int d;
