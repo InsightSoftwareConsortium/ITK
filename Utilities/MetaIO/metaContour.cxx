@@ -376,36 +376,76 @@ M_Read(void)
 
     i=0;
     int d;
-    double td;
+    unsigned int k;
     for(int j=0; j<m_NControlPoints; j++) 
       {
       ContourControlPnt* pnt = new ContourControlPnt(m_NDims);
      
-      MET_ValueToDouble(MET_FLOAT, _data, i++, &td);
-      pnt->m_Id = (unsigned long)td;
+      char* num = new char[sizeof(int)];
+      for(k=0;k<sizeof(int);k++)
+        {
+        num[k] = _data[i+k];
+        }
+      int id = (int)((int*)num)[0];
+      MET_SwapByteIfNecessary(&id,MET_INT);
+      i+=sizeof(int); 
+      pnt->m_Id = id;
+      delete [] num;
 
       for(d=0; d<m_NDims; d++)
         {
-        MET_ValueToDouble(MET_FLOAT, _data, i++, &td);
-        pnt->m_X[d] = (float)td;
+        char* num = new char[sizeof(float)];
+        for(k=0;k<sizeof(float);k++)
+          {
+          num[k] = _data[i+k];
+          }
+        float td = (float)((float*)num)[0];
+        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        i+=sizeof(float); 
+        pnt->m_X[d] = td;
+        delete [] num;
         }
 
       for(d=0; d<m_NDims; d++)
         {
-        MET_ValueToDouble(MET_FLOAT, _data, i++, &td);
-        pnt->m_XPicked[d] = (float)td;
+        char* num = new char[sizeof(float)];
+        for(k=0;k<sizeof(float);k++)
+          {
+          num[k] = _data[i+k];
+          }
+        float td = (float)((float*)num)[0];
+        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        i+=sizeof(float); 
+        pnt->m_XPicked[d] = td;
+        delete [] num;
         }
 
       for(d=0; d<m_NDims; d++)
         {
-        MET_ValueToDouble(MET_FLOAT, _data, i++, &td);
-        pnt->m_V[d] = (float)td;
+        char* num = new char[sizeof(float)];
+        for(k=0;k<sizeof(float);k++)
+          {
+          num[k] = _data[i+k];
+          }
+        float td = (float)((float*)num)[0];
+        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        i+=sizeof(float); 
+        pnt->m_V[d] = td;
+        delete [] num;
         }
 
       for(d=0; d<4; d++)
         {
-        MET_ValueToDouble(MET_FLOAT, _data, i++, &td);
-        pnt->m_Color[d] = (float)td;
+        char* num = new char[sizeof(float)];
+        for(k=0;k<sizeof(float);k++)
+          {
+          num[k] = _data[i+k];
+          }
+        float td = (float)((float*)num)[0];
+        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        i+=sizeof(float); 
+        pnt->m_Color[d] = td;
+        delete [] num;
         }  
       m_ControlPointsList.push_back(pnt);
       }
@@ -538,24 +578,48 @@ M_Read(void)
 
       i=0;
       int d;
-      double td;
+      unsigned int k;
       for(int j=0; j<m_NInterpolatedPoints; j++) 
         {
         ContourInterpolatedPnt* pnt = new ContourInterpolatedPnt(m_NDims);
        
-        MET_ValueToDouble(MET_FLOAT, _data, i++, &td);
-        pnt->m_Id = (unsigned long)td;
+        char* num = new char[sizeof(int)];
+        for(k=0;k<sizeof(int);k++)
+          {
+          num[k] = _data[i+k];
+          }
+        int id = (int)((int*)num)[0];
+        MET_SwapByteIfNecessary(&id,MET_INT);
+        i+=sizeof(float); 
+        pnt->m_Id = id;
+        delete [] num;
 
         for(d=0; d<m_NDims; d++)
           {
-          MET_ValueToDouble(MET_FLOAT, _data, i++, &td);
-          pnt->m_X[d] = (float)td;
+          char* num = new char[sizeof(float)];
+          for(k=0;k<sizeof(float);k++)
+            {
+            num[k] = _data[i+k];
+            }
+          float x = (float)((float*)num)[0];
+          MET_SwapByteIfNecessary(&x,MET_FLOAT);
+          i+=sizeof(float); 
+          pnt->m_X[d] = x;
+          delete [] num;
           }
 
         for(d=0; d<4; d++)
           {
-          MET_ValueToDouble(MET_FLOAT, _data, i++, &td);
-          pnt->m_Color[d] = (float)td;
+          char* num = new char[sizeof(float)];
+          for(k=0;k<sizeof(float);k++)
+            {
+            num[k] = _data[i+k];
+            }
+          float x = (float)((float*)num)[0];
+          MET_SwapByteIfNecessary(&x,MET_FLOAT);
+          i+=sizeof(float); 
+          pnt->m_Color[d] = x;
+          delete [] num;
           }  
         m_InterpolatedPointsList.push_back(pnt);
         }
@@ -626,26 +690,36 @@ M_Write(void)
     int d;
     while(it != m_ControlPointsList.end())
       {
-      MET_DoubleToValue((double)(*it)->m_Id,MET_FLOAT,data,i++);
+      int id = (*it)->m_Id;
+      MET_SwapByteIfNecessary(&id,MET_INT);    
+      MET_DoubleToValue((double)id,MET_INT,data,i++);
 
       for(d = 0; d < m_NDims; d++)
         {
-        MET_DoubleToValue((double)(*it)->m_X[d],MET_FLOAT,data,i++);
+        float pntX = (*it)->m_X[d];
+        MET_SwapByteIfNecessary(&pntX,MET_FLOAT);
+        MET_DoubleToValue((double)pntX,MET_FLOAT,data,i++);
         }
 
       for(d = 0; d < m_NDims; d++)
         {
-        MET_DoubleToValue((double)(*it)->m_XPicked[d],MET_FLOAT,data,i++);
+        float pntX = (*it)->m_XPicked[d];
+        MET_SwapByteIfNecessary(&pntX,MET_FLOAT);
+        MET_DoubleToValue((double)pntX,MET_FLOAT,data,i++);
         }
 
       for(d = 0; d < m_NDims; d++)
         {
-        MET_DoubleToValue((double)(*it)->m_V[d],MET_FLOAT,data,i++);
+        float pntX = (*it)->m_V[d];
+        MET_SwapByteIfNecessary(&pntX,MET_FLOAT);
+        MET_DoubleToValue((double)pntX,MET_FLOAT,data,i++);
         }
       
       for(d=0; d<4; d++)
         {
-        MET_DoubleToValue((double)(*it)->m_Color[d],MET_FLOAT,data,i++);
+        float pntX = (*it)->m_Color[d];
+        MET_SwapByteIfNecessary(&pntX,MET_FLOAT);
+        MET_DoubleToValue((double)pntX,MET_FLOAT,data,i++);
         }
       it++;
       }
@@ -728,15 +802,21 @@ M_Write(void)
     int d;
     while(it != m_InterpolatedPointsList.end())
       {
-      MET_DoubleToValue((double)(*it)->m_Id,MET_FLOAT,data,i++);
+      int id = (*it)->m_Id;
+      MET_SwapByteIfNecessary(&id,MET_FLOAT);  
+      MET_DoubleToValue((double)id,MET_FLOAT,data,i++);
 
       for(d = 0; d < m_NDims; d++)
         {
-        MET_DoubleToValue((double)(*it)->m_X[d],MET_FLOAT,data,i++);
+        float x = (*it)->m_X[d];
+        MET_SwapByteIfNecessary(&x,MET_FLOAT);
+        MET_DoubleToValue((double)x,MET_FLOAT,data,i++);
         }
       for(d=0; d<4; d++)
         {
-        MET_DoubleToValue((double)(*it)->m_Color[d],MET_FLOAT,data,i++);
+        float x = (*it)->m_Color[d];
+        MET_SwapByteIfNecessary(&x,MET_FLOAT);
+        MET_DoubleToValue((double)x,MET_FLOAT,data,i++);
         }
       it++;
       }
