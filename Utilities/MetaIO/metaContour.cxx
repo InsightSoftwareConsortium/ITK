@@ -589,7 +589,7 @@ M_Read(void)
           }
         int id = (int)((int*)num)[0];
         MET_SwapByteIfNecessary(&id,MET_INT);
-        i+=sizeof(float); 
+        i+=sizeof(int); 
         pnt->m_Id = id;
         delete [] num;
 
