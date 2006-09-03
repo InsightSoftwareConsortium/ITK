@@ -401,22 +401,38 @@ M_Read(void)
       }
 
     i=0;
-    double td;
     int d;
+    unsigned int k;
     for(j=0; j<m_NPoints; j++) 
       {
       DTITubePnt* pnt = new DTITubePnt(m_NDims);
       
       for(d=0; d<m_NDims; d++)
         {
-        MET_ValueToDouble(m_ElementType, _data, i++, &td);
+        char* num = new char[sizeof(float)];
+        for(k=0;k<sizeof(float);k++)
+          {
+          num[k] = _data[i+k];
+          }
+        float td = (float)((float*)num)[0];
+        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        i+=sizeof(float); 
         pnt->m_X[d] = (float)td;
+        delete [] num;
         } 
     
       for(d=0; d<6; d++)
         {
-        MET_ValueToDouble(m_ElementType, _data, i++, &td);
+        char* num = new char[sizeof(float)];
+        for(k=0;k<sizeof(float);k++)
+          {
+          num[k] = _data[i+k];
+          }
+        float td = (float)((float*)num)[0];
+        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        i+=sizeof(float); 
         pnt->m_TensorMatrix[d] = (float)td;
+        delete [] num;
         }
 
       METAIO_STL::vector<PositionType>::const_iterator itFields = m_Positions.begin();
@@ -433,8 +449,16 @@ M_Read(void)
           && strcmp((*itFields).first.c_str(),"tensor6") 
           )
           {
-          MET_ValueToDouble(m_ElementType, _data, i++, &td);
+          char* num = new char[sizeof(float)];
+          for(k=0;k<sizeof(float);k++)
+            {
+            num[k] = _data[i+k];
+            }
+          float td = (float)((float*)num)[0];
+          MET_SwapByteIfNecessary(&td,MET_FLOAT);
+          i+=sizeof(float); 
           pnt->AddField((*itFields).first.c_str(),(float)td);
+          delete [] num;
           }
         itFields++;
         }
@@ -585,13 +609,16 @@ M_Write(void)
       {
       for(d = 0; d < m_NDims; d++)
         {
-        MET_DoubleToValue((double)(*it)->m_X[d],m_ElementType,data,i++);  
+        float x = (*it)->m_X[d];
+        MET_SwapByteIfNecessary(&x,MET_FLOAT);     
+        MET_DoubleToValue((double)x,m_ElementType,data,i++);  
         }
 
       for(d = 0; d < 6; d++)
         {
-        MET_DoubleToValue((double)(*it)->m_TensorMatrix[d],
-                           m_ElementType, data, i++);  
+        float x = (*it)->m_TensorMatrix[d];
+        MET_SwapByteIfNecessary(&x,MET_FLOAT);        
+        MET_DoubleToValue((double)x,m_ElementType, data, i++);  
         }
 
       // Add the extra fields
@@ -599,7 +626,9 @@ M_Write(void)
       DTITubePnt::FieldListType::const_iterator itFields = extraList2.begin();
       while(itFields !=  extraList2.end())
         {
-        MET_DoubleToValue((double)(*itFields).second,m_ElementType,data,i++);  
+        float x = (*itFields).second;
+        MET_SwapByteIfNecessary(&x,MET_FLOAT);
+        MET_DoubleToValue((double)x,m_ElementType,data,i++);  
         itFields++;
         }
 
