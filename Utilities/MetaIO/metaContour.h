@@ -52,7 +52,7 @@ public:
     };
   
   unsigned int m_Dim;
-  unsigned long m_Id;
+  unsigned int m_Id;
   float* m_X;
   float* m_XPicked;
   float* m_V;
@@ -83,7 +83,7 @@ public:
   
   unsigned int m_Dim;
   float* m_X;
-  unsigned long  m_Id;
+  unsigned int  m_Id;
   float  m_Color[4];
 };
 

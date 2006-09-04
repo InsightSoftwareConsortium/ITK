@@ -690,9 +690,9 @@ M_Write(void)
     int d;
     while(it != m_ControlPointsList.end())
       {
-      unsigned long id = (*it)->m_Id;
-      MET_SwapByteIfNecessary(&id,MET_ULONG);    
-      MET_DoubleToValue((double)id,MET_ULONG,data,i++);
+      unsigned int id = (*it)->m_Id;
+      MET_SwapByteIfNecessary(&id,MET_UINT);    
+      MET_DoubleToValue((double)id,MET_UINT,data,i++);
 
       for(d = 0; d < m_NDims; d++)
         {
@@ -802,9 +802,9 @@ M_Write(void)
     int d;
     while(it != m_InterpolatedPointsList.end())
       {
-      unsigned long id = (*it)->m_Id;
-      MET_SwapByteIfNecessary(&id,MET_ULONG);  
-      MET_DoubleToValue((double)id,MET_ULONG,data,i++);
+      unsigned int id = (*it)->m_Id;
+      MET_SwapByteIfNecessary(&id,MET_UINT);  
+      MET_DoubleToValue((double)id,MET_UINT,data,i++);
 
       for(d = 0; d < m_NDims; d++)
         {
