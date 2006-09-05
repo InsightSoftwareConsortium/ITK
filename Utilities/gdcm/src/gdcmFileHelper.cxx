@@ -1475,7 +1475,8 @@ void FileHelper::CheckMandatoryElements()
    itksys_ios::ostringstream s;
    // check 'Bits Allocated' vs decent values
    int nbBitsAllocated = FileInternal->GetBitsAllocated();
-   if ( nbBitsAllocated == 0 || nbBitsAllocated > 32)
+   if ( (nbBitsAllocated == 0 || nbBitsAllocated > 32)
+     || ( nbBitsAllocated > 8 && nbBitsAllocated <16) )
    {
       CopyMandatoryEntry(0x0028,0x0100,"16");
       gdcmWarningMacro("(0028,0100) changed from "

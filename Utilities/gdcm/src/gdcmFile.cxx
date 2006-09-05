@@ -975,6 +975,12 @@ std::string File::GetPixelType()
       bitsAlloc = "8";
    }
 
+   int i= atoi(bitsAlloc.c_str());  // fix a bug in some headers
+   if ( i > 8 &&  i < 16 )
+   {
+      bitsAlloc = "16";
+   }
+
    std::string sign = GetEntryValue(0x0028, 0x0103);//"Pixel Representation"
 
    if (sign == GDCM_UNFOUND )

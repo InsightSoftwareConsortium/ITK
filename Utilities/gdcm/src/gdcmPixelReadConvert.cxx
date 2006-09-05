@@ -95,6 +95,10 @@ void PixelReadConvert::GrabInformationsFromFile( File *file )
    {
       BitsAllocated = 16;
    }
+   else if ( BitsAllocated > 8 && BitsAllocated < 16 && BitsAllocated != 12 )
+   {
+      BitsAllocated = 16;
+   }
 
    // Number of "Bits Stored", defaulted to number of "Bits Allocated"
    // when absent from the file.
@@ -256,7 +260,7 @@ bool PixelReadConvert::ReadAndDecompressPixelData( std::ifstream *fp )
       }
       else
       {
-         fp->read( (char*)Raw, PixelDataLength);
+         fp->read( (char*)Raw, RawSize);
       }
 
       if ( fp->fail() || fp->eof())
