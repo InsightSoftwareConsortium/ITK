@@ -192,7 +192,8 @@ ImageSpatialObject< TDimension,  PixelType >
       index[i] = p[i];
       }
     
-    value = m_Interpolator->EvaluateAtContinuousIndex(index);
+    value = static_cast<double>(DefaultConvertPixelTraits<PixelType>::GetScalarValue(
+                                               m_Interpolator->EvaluateAtContinuousIndex(index)));
 
     return true;
     }
