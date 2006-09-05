@@ -63,6 +63,8 @@ ImageSpatialObject< TDimension,  PixelType >
     {
     std::cout << "itk::ImageSpatialObject() : PixelType not recognized" << std::endl;
     }
+
+  m_Interpolator = NNInterpolatorType::New();
 }
 
 /** Destructor */
@@ -80,6 +82,19 @@ ImageSpatialObject< TDimension,  PixelType >
 ::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
   return IsInside(point, depth, name);
+}
+
+/** Set the interpolator */
+template< unsigned int TDimension, class PixelType >
+void
+ImageSpatialObject< TDimension,  PixelType >
+::SetInterpolator(InterpolatorType * interpolator)
+{
+  m_Interpolator = interpolator;
+  if(m_Image)
+    {
+    m_Interpolator->SetInputImage(m_Image);
+    }
 }
 
 /** Test whether a point is inside or outside the object 
@@ -171,13 +186,13 @@ ImageSpatialObject< TDimension,  PixelType >
 
     PointType p = inverse->TransformPoint(point);
 
-    IndexType index;
+    typename InterpolatorType::ContinuousIndexType index;
     for(unsigned int i=0; i<TDimension; i++)
       {
-      index[i] = (int)p[i];
+      index[i] = p[i];
       }
     
-    value = static_cast<double>(DefaultConvertPixelTraits<PixelType>::GetScalarValue(m_Image->GetPixel(index)));
+    value = m_Interpolator->EvaluateAtContinuousIndex(index);
 
     return true;
     }
@@ -263,6 +278,8 @@ ImageSpatialObject< TDimension,  PixelType >
   this->ComputeObjectToParentTransform(); 
   this->Modified(); 
   this->ComputeBoundingBox();
+
+  m_Interpolator->SetInputImage(m_Image);
 }
 
 /** Get the image inside the spatial object */

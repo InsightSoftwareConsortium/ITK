@@ -21,6 +21,8 @@
 #include "itkImage.h"
 #include "itkExceptionObject.h"
 #include "itkSpatialObject.h"
+#include "itkInterpolateImageFunction.h"
+#include "itkNearestNeighborInterpolateImageFunction.h"
 
 namespace itk
 {
@@ -57,6 +59,8 @@ public:
   typedef typename Superclass::TransformType    TransformType;
   typedef typename Superclass::PointType        PointType;
   typedef typename Superclass::BoundingBoxType  BoundingBoxType;
+  typedef InterpolateImageFunction<ImageType>   InterpolatorType;
+  typedef NearestNeighborInterpolateImageFunction<ImageType>  NNInterpolatorType;
 
   typedef VectorContainer< unsigned long, PointType> PointContainerType;
   typedef typename PointContainerType::Pointer PointContainerPointer;
@@ -112,6 +116,10 @@ public:
     return m_PixelType.c_str();
     }
 
+  /** Set/Get the interpolator */
+  void SetInterpolator(InterpolatorType * interpolator);
+  itkGetObjectMacro(Interpolator,InterpolatorType);
+
 protected:
   ImageSpatialObject(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -125,6 +133,8 @@ protected:
 
   int* m_SlicePosition;
   std::string m_PixelType;
+
+  typename InterpolatorType::Pointer m_Interpolator;
 };
 
 } // end of namespace itk

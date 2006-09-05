@@ -34,6 +34,7 @@
 #include "itkPoint.h"
 
 #include "itkImageSpatialObject.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 
 int itkImageSpatialObjectTest(int, char* [])
@@ -42,17 +43,17 @@ int itkImageSpatialObjectTest(int, char* [])
 
   typedef double ScalarType;
   typedef unsigned short Pixel;
-  typedef itk::Image<Pixel,NDimensions> Image;
+  typedef itk::Image<Pixel,NDimensions> ImageType;
   typedef itk::ImageSpatialObject<NDimensions,Pixel> ImageSpatialObject;
   typedef ImageSpatialObject::BoundingBoxType BoundingBox;
-  typedef itk::ImageRegionIterator<Image> Iterator;
+  typedef itk::ImageRegionIterator<ImageType> Iterator;
   typedef itk::Point<ScalarType,NDimensions> Point;
 
-  Image::Pointer image = Image::New();
-  Image::SizeType size = {{ 10, 10, 10 }};
-  Image::IndexType index = {{ 0, 0, 0 }};
-  Image::RegionType region;
-  Image::PointType origin;
+  ImageType::Pointer image = ImageType::New();
+  ImageType::SizeType size = {{ 10, 10, 10 }};
+  ImageType::IndexType index = {{ 0, 0, 0 }};
+  ImageType::RegionType region;
+  ImageType::PointType origin;
   origin.Fill(5);
   
   region.SetSize(size);
@@ -100,6 +101,7 @@ int itkImageSpatialObjectTest(int, char* [])
     std::cout<<"[PASSED]"<<std::endl;
     }
 
+  q.Fill(15.1);
   expectedValue = 555;
   
   try
@@ -114,8 +116,9 @@ int itkImageSpatialObjectTest(int, char* [])
   std::cout<<"ValueAt()...";
   if( returnedValue != expectedValue )
     {
-    std::cout<<"[FAILED]"<<std::endl;
-    return EXIT_FAILURE;
+    std::cout << "Expected: " << expectedValue << " returned: " << returnedValue << std::endl;
+    std::cout <<"[FAILED]: " << std::endl;
+    return EXIT_FAILURE; 
     }
   else
     {
@@ -142,6 +145,53 @@ int itkImageSpatialObjectTest(int, char* [])
     {
     std::cout<<"[PASSED]"<<std::endl;
     }
+
+  // Now testing the ValueAt() with an interpolator
+  typedef itk::LinearInterpolateImageFunction<ImageType> InterpolatorType;
+  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  imageSO->SetInterpolator(interpolator);
+  expectedValue = 566.1;
+  
+  try
+    {
+    imageSO->ValueAt(q,returnedValue);
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    throw e;
+    }
+
+  std::cout<<"ValueAt() with interpolator...";
+  if( fabs(returnedValue-expectedValue)>0.001 )
+    {
+    std::cout << "Expected: " << expectedValue << " returned: " << returnedValue << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout<<"[PASSED]"<<std::endl;
+    }
+
+
+  imageSO->DerivativeAt(q,1,derivative);
+  expectedDerivative[0]=1;
+  expectedDerivative[1]=10;
+  expectedDerivative[2]=100;
+  std::cout<<"DerivativeAt() with interpolator ...";
+  if( fabs(derivative[0]-expectedDerivative[0])>0.00001
+    || fabs(derivative[1]-expectedDerivative[1])>0.00001
+    || fabs(derivative[2]-expectedDerivative[2])>0.00001
+    )
+    {
+    std::cout << "Expected: " << derivative << " returned: " << expectedDerivative << std::endl;
+    std::cout<<"[FAILED]"<<std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout<<"[PASSED]"<<std::endl;
+    }
+
 
   return EXIT_SUCCESS;
 }
