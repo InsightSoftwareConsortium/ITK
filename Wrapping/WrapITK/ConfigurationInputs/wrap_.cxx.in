@@ -1,0 +1,18 @@
+@CONFIG_WRAPPER_INCLUDES@
+
+#ifdef CABLE_CONFIGURATION
+namespace _cable_
+{
+   const char* const group = "@CONFIG_WRAPPER_MODULE_NAME@";
+   namespace wrappers
+   {
+@CONFIG_WRAPPER_TYPEDEFS@
+   }
+void force_instantiate()
+{
+  using namespace _cable_::wrappers;
+@CONFIG_WRAPPER_FORCE_INSTANTIATE@
+}
+@CONFIG_WRAPPER_EXTRAS@
+}
+#endif

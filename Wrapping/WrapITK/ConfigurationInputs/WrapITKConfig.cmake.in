@@ -1,0 +1,94 @@
+# Set up options needed for ConfigureWrapping
+# Useful Variables:
+# The user should set JAVA_OUTPUT_DIR if they want generated Java classes to go
+# anywhere other than ${PROJECT_BINARY_DIR}/Java.
+# If SWIG needs to include any files in nonstandard locations, the directories 
+# must be added to with INCLUDE_DIRECTORIES().
+
+# Be careful setting up the paths to the ITK and CableSwig dirs that WrapITK
+# already found -- they might not be valid.
+SET(possible_itk_dir "@ITK_DIR@")
+IF(EXISTS "${possible_itk_dir}")
+SET(ITK_DIR "${possible_itk_dir}" CACHE PATH "Path to ITK build or install.")
+ENDIF(EXISTS "${possible_itk_dir}")
+
+SET(possible_cableswig_dir "@CableSwig_DIR@")
+IF(EXISTS "${possible_cableswig_dir}")
+SET(CableSwig_DIR "${possible_cableswig_dir}"  CACHE PATH "Path to CableSwig build or install")
+ENDIF(EXISTS "${possible_cableswig_dir}")
+
+# set WrapITK version
+SET(WrapITK_VERSION_MAJOR @WrapITK_VERSION_MAJOR@)
+SET(WrapITK_VERSION_MINOR @WrapITK_VERSION_MINOR@)
+SET(WrapITK_VERSION_PATCH @WrapITK_VERSION_PATCH@)
+
+# Set up the rest of the variables that WrapITK was built with.
+SET(WRAP_ITK_TCL @WRAP_ITK_TCL@ CACHE BOOL "Build cswig Tcl wrapper support (requires CableSwig).")
+SET(WRAP_ITK_PYTHON @WRAP_ITK_PYTHON@ CACHE BOOL "Build cswig Python wrapper support (requires CableSwig).")
+SET(WRAP_ITK_JAVA @WRAP_ITK_JAVA@ CACHE BOOL "Build cswig Java wrapper support (requires CableSwig).")
+SET(WRAP_unsigned_char @WRAP_unsigned_char@ CACHE BOOL "Wrap unsigned char type")
+SET(WRAP_unsigned_short @WRAP_unsigned_short@ CACHE BOOL "Wrap unsigned short type")
+SET(WRAP_unsigned_long @WRAP_unsigned_long@ CACHE BOOL "Wrap unsigned long type")
+SET(WRAP_signed_char @WRAP_signed_char@ CACHE BOOL "Wrap signed char type")
+SET(WRAP_signed_short @WRAP_signed_short@ CACHE BOOL "Wrap signed short type")
+SET(WRAP_signed_long @WRAP_signed_long@ CACHE BOOL "Wrap signed long type")
+SET(WRAP_float @WRAP_float@ CACHE BOOL "Wrap float type")
+SET(WRAP_double @WRAP_double@ CACHE BOOL "Wrap double type")
+SET(WRAP_vector_float @WRAP_vector_float@ CACHE BOOL "Wrap vector float type")
+SET(WRAP_vector_double @WRAP_vector_double@ CACHE BOOL "Wrap vector double type")
+SET(WRAP_covariant_vector_float @WRAP_covariant_vector_float@ CACHE BOOL "Wrap covariant vector float type")
+SET(WRAP_covariant_vector_double @WRAP_covariant_vector_double@ CACHE BOOL "Wrap covariant vector double type")
+SET(WRAP_rgb_unsigned_char @WRAP_rgb_unsigned_char@ CACHE BOOL "Wrap RGB< unsigned char > type")
+SET(WRAP_rgb_unsigned_short @WRAP_rgb_unsigned_short@ CACHE BOOL "Wrap RGB< unsigned short > type")
+SET(WRAP_complex_float @WRAP_complex_float@ CACHE BOOL "Wrap complex<float> type")
+SET(WRAP_complex_double @WRAP_complex_double@ CACHE BOOL "Wrap complex<double> type")
+SET(WRAP_ITK_DIMS "@WRAP_ITK_DIMS@" CACHE STRING "dimensions available separated by semicolons (;)")
+
+FOREACH(var ITK_DIR CableSwig_DIR WRAP_ITK_TCL WRAP_ITK_PYTHON WRAP_ITK_JAVA 
+    WRAP_unsigned_char WRAP_unsigned_short WRAP_unsigned_long WRAP_signed_char
+    WRAP_signed_short WRAP_signed_long WRAP_float WRAP_double WRAP_vector_float
+    WRAP_vector_double WRAP_covariant_vector_float WRAP_covariant_vector_double
+    WRAP_rgb_unsigned_char WRAP_rgb_unsigned_short WRAP_complex_float WRAP_complex_double
+    WRAP_ITK_DIMS)
+  MARK_AS_ADVANCED(${var})
+ENDFOREACH(var)
+
+SET(WRAP_ITK_CONFIG_DIR "@CONFIG_CONFIG_DIR@")
+SET(WRAP_ITK_CMAKE_DIR "@CONFIG_CMAKE_DIR@")
+IF(JAVA_OUTPUT_DIR)
+  SET(WRAP_ITK_JAVA_DIR "${JAVA_OUTPUT_DIR}")
+ELSE(JAVA_OUTPUT_DIR)
+  SET(WRAP_ITK_JAVA_DIR "${PROJECT_BINARY_DIR}/Java")
+  IF(WRAP_ITK_JAVA)
+    FILE(MAKE_DIRECTORY "${WRAP_ITK_JAVA_DIR}")
+  ENDIF(WRAP_ITK_JAVA)
+ENDIF(JAVA_OUTPUT_DIR)
+
+SET(WRAP_ITK_INSTALL_LOCATION "@CONFIG_WRAP_ITK_INSTALL_LOCATION@")
+SET(WRAP_ITK_SWIG_LIBRARY_DIRECTORY "@CONFIG_WRAP_ITK_SWIG_LIBRARY_DIRECTORY@")
+SET(WRAP_ITK_MASTER_INDEX_DIRECTORY "@CONFIG_WRAP_ITK_MASTER_INDEX_DIRECTORY@")
+SET(WRAP_ITK_MODULES "@CONFIG_WRAP_ITK_MODULES@")
+
+# Tell the world that this is an external project using WrapITK:
+SET(EXTERNAL_WRAP_ITK_PROJECT ON)
+
+# Now include ConfigureWrapping
+INCLUDE("${WRAP_ITK_CMAKE_DIR}/ConfigureWrapping.cmake")
+
+# Some macros require LIBRARY_OUTPUT_PATH to be set. For now, set it to its default.
+# Re-set later if a different library output path is needed.
+SET(LIBRARY_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}")
+
+# If WrapITK has been installed, we need to point the linker at the various
+# language directories, where libSwigRuntime has been installed.
+# Otherwise, we need to point the linker at the bin directory of the build dir.
+MACRO(LINK_IF_EXISTS dir)
+  IF(EXISTS "${dir}")
+    LINK_DIRECTORIES("${dir}")
+  ENDIF(EXISTS "${dir}")
+ENDMACRO(LINK_IF_EXISTS)
+
+LINK_DIRECTORIES("${WrapITK_DIR}/lib")
+
+# libraries are all in the same dir
+SET (LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib" CACHE INTERNAL "Single output directory for building all libraries.")

@@ -1,0 +1,3 @@
+WRAP_CLASS("itk::GradientVectorFlowImageFilter" POINTER)
+  WRAP_IMAGE_FILTER_COV_VECTOR_REAL(2)
+END_WRAP_CLASS()

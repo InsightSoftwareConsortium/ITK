@@ -1,0 +1,3 @@
+WRAP_CLASS("itk::RGBPixel" )
+  SET(WRAPPER_TEMPLATES "${itk_Wrap_RGBPixel}")
+END_WRAP_CLASS()

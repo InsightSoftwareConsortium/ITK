@@ -1,0 +1,3 @@
+import itkBase
+itkBase.LoadModule('@CONFIG_LIBRARY_NAME@')
+del itkBase

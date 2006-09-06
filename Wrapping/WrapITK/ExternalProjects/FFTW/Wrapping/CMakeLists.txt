@@ -1,0 +1,36 @@
+SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
+
+FIND_PACKAGE(WrapITK REQUIRED)
+FIND_PACKAGE(FFTW REQUIRED)
+
+INCLUDE_DIRECTORIES("/home/glehmann/src/contrib-itk/WrapITK-unstable/")
+
+BEGIN_WRAPPER_LIBRARY("${PROJECT_NAME}")
+SET(WRAPPER_LIBRARY_DEPENDS Base FFT)
+
+# find needed libs
+SET(libs ITKCommon ITKAlgorithms)
+
+IF(WRAP_complex_float AND WRAP_float)
+  IF(NOT FFTWF_LIB)
+    MESSAGE(ERROR "FFTWF not found")
+  ENDIF(NOT FFTWF_LIB)
+
+  SET(libs ${libs} ${FFTWF_LIB})
+ENDIF(WRAP_complex_float AND WRAP_float)
+
+IF(WRAP_complex_double AND WRAP_double)
+  IF(NOT FFTWD_LIB)
+    MESSAGE(ERROR "FFTWF not found")
+  ENDIF(NOT FFTWD_LIB)
+
+  SET(libs ${libs} ${FFTWD_LIB})
+ENDIF(WRAP_complex_double AND WRAP_double)
+
+SET(WRAPPER_LIBRARY_LINK_LIBRARIES ${libs})
+
+WRAPPER_LIBRARY_CREATE_WRAP_FILES()
+WRAPPER_LIBRARY_CREATE_LIBRARY()
+
+SUBDIRS(Python)
+

@@ -77,7 +77,7 @@ ENDIF(BUILD_TESTING)
 #-----------------------------------------------------------------------------
 # Output directories.
 IF(NOT LIBRARY_OUTPUT_PATH)
-  SET (LIBRARY_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all libraries.")
+  SET (LIBRARY_OUTPUT_PATH ${ITK_BINARY_DIR}/lib CACHE INTERNAL "Single output directory for building all libraries.")
 ENDIF(NOT LIBRARY_OUTPUT_PATH)
 IF(NOT EXECUTABLE_OUTPUT_PATH)
   SET (EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
@@ -125,18 +125,13 @@ OPTION(ITK_CSWIG_TCL "Build cswig Tcl wrapper support (requires CableSwig)." OFF
 OPTION(ITK_CSWIG_PYTHON "Build cswig Python wrapper support (requires CableSwig)." OFF)
 OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support " OFF)
 
-# Options for building some of the most common core templates
-# explicitly only once.
-OPTION(ITK_EXPLICIT_INSTANTIATION "BETA-Try to explicitly build some of the core templates explictitly rather than over and over again." OFF)
-MARK_AS_ADVANCED(ITK_EXPLICIT_INSTANTIATION)
-IF(ITK_EXPLICIT_INSTANTIATION)
-  SUBDIRS(${ITK_SOURCE_DIR}/Wrapping/ExplicitITK)
-ENDIF(ITK_EXPLICIT_INSTANTIATION)
-
 # perl support does not work, contact bill hoffman at kitware
 # if you are interested in perl wrapping.  It is close, but
 # not there yet.
 #OPTION(ITK_CSWIG_PERL "Build cswig Perl wrapper support " OFF)
+
+# Include Wrapping sub directory
+SUBDIRS(Wrapping)
 
 #-----------------------------------------------------------------------------
 # ITK build patented algorithms
@@ -233,6 +228,10 @@ ELSE(ITK_BUILD_SHARED_LIBS)
     SET(ITK_INSTALL_NO_LIBRARIES 1)
   ENDIF(ITK_INSTALL_NO_DEVELOPMENT)
 ENDIF(ITK_BUILD_SHARED_LIBS)
+
+# set ITK_DIR so it can be used by subprojects
+SET(ITK_DIR "${CMAKE_BINARY_DIR}" CACHE INTERNAL "ITK dir to be used by subprojects")
+
 
 #-----------------------------------------------------------------------------
 # Do we need CableSwig?

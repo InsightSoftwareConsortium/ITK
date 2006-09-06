@@ -1,0 +1,5 @@
+WRAP_CLASS("itk::SpatialFunction")
+  FOREACH(d ${WRAP_ITK_DIMS})
+    WRAP_TEMPLATE("${ITKM_D}${d}${ITKM_PD${d}}" "${ITKT_D},${d},${ITKT_PD${d}}")
+  ENDFOREACH(d)
+END_WRAP_CLASS()

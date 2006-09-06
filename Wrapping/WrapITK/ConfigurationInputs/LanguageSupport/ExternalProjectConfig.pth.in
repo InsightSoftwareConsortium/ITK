@@ -1,0 +1,5 @@
+# Python pth file to add project's path to sys.path.
+@CONFIG_PROJECT_PYTHON_DIR@
+@CONFIG_PROJECT_OUTPUT_DIR@
+@CONFIG_WRAP_ITK_PYTHON_DIR@
+

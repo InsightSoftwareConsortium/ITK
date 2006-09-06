@@ -1,0 +1,17 @@
+import InsightToolkit.*;
+
+// This example illustrates how C++ classes can be used from Java using SWIG.
+// The Java class gets mapped onto the C++ class and behaves as if it is a Java class.
+
+public class simplePipeline@JAVA_TEST_PIXEL_TYPE@@JAVA_TEST_IMAGE_DIMENSION@ {
+  public static void main(String argv[])
+  {
+    itkImageFileReaderI@JAVA_TEST_PIXEL_TYPE@@JAVA_TEST_IMAGE_DIMENSION@_Pointer reader = itkImageFileReaderI@JAVA_TEST_PIXEL_TYPE@@JAVA_TEST_IMAGE_DIMENSION@.itkImageFileReaderI@JAVA_TEST_PIXEL_TYPE@@JAVA_TEST_IMAGE_DIMENSION@_New();
+    reader.SetFileName(argv[0]);
+
+    itkImageFileWriterI@JAVA_TEST_PIXEL_TYPE@@JAVA_TEST_IMAGE_DIMENSION@_Pointer writer = itkImageFileWriterI@JAVA_TEST_PIXEL_TYPE@@JAVA_TEST_IMAGE_DIMENSION@.itkImageFileWriterI@JAVA_TEST_PIXEL_TYPE@@JAVA_TEST_IMAGE_DIMENSION@_New();
+    writer.SetInput(reader.GetOutput());
+    writer.SetFileName(argv[1]);
+    writer.Update();
+  }
+}

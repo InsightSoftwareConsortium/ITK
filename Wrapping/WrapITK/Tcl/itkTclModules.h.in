@@ -1,0 +1,22 @@
+#ifndef _itkTclModules_h
+#define _itkTclModules_h
+
+#ifndef ITK_TCL_NO_TK
+#  include <tk.h>
+#else
+#  include <tcl.h>
+#endif
+
+typedef int (*InitFunctionType)(Tcl_Interp*);
+
+extern "C"
+{
+@CONFIG_MODULE_INIT_DECLARATIONS@
+}
+
+static const unsigned int NumITKModules = @CONFIG_MODULE_COUNT@;
+static const InitFunctionType ModuleInitializers[@CONFIG_MODULE_COUNT@] = {
+@CONFIG_MODULE_INIT_ARRAY_INITIALIZER@
+};
+
+#endif

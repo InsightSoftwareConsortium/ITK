@@ -1,0 +1,1 @@
+As of 2006-2-16, Java wrapping is broken. There are several pieces that need to be re-assembled. One is the JavaCWD command, which should be built in the CWD subdirectory (but is not). The second is figuring out how the java build should work, and then making sure that it does. The third is figuring out how to get java to load the shared libs in the correct order.

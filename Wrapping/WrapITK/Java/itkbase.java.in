@@ -1,0 +1,102 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkbase.java.in
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+  Portions of this code are covered under the VTK copyright.
+  See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+package InsightToolkit;
+
+import java.util.StringTokenizer;
+
+/**
+ * A class used to load shared libs. It must be used to be able to pass
+ * options to dlopen() on some systems.
+ * I will first search in the build tree, then in the install treee, and finally
+ * in the the standard paths of the system (PATH on windows, LD_LIBRARY_PATH on
+ * linux, DYDL_LYBRARY_PATH on mac os x, ...)
+ */
+public class itkbase
+{
+  private static String buildDir = "@ITK_JAVA_BUILD_DIR@";
+  private static String installDir = "@ITK_JAVA_INSTALL_DIR@";
+  private static String libDir = "/InsightToolkit.jar must be in CLASSPATH";
+
+  static
+    {
+    // Detect whether we are in the build or install tree.
+    String sep = System.getProperty("path.separator");
+    String classpath = System.getProperty("java.class.path");
+    StringTokenizer tokenizer = new StringTokenizer(classpath, sep);
+    while(tokenizer.hasMoreTokens())
+      {
+      String dir = tokenizer.nextToken();
+      if(dir.endsWith("InsightToolkit.jar") &&
+         (new java.io.File(dir)).exists())
+        {
+        int index = dir.lastIndexOf("InsightToolkit.jar");
+        String self = dir.substring(0, index);
+        if((new java.io.File(self+"itk_build_tree.mark")).exists())
+          {
+          libDir = buildDir;
+          break;
+          }
+        else
+          {
+          libDir = dir.substring(0, index-1)+installDir;
+          break;
+          }
+        }
+      }
+
+    // Load JavaCWD helper code.
+    sep = System.getProperty("file.separator");
+    String lib = System.mapLibraryName("SwigRuntimeJava");
+    String libPath = libDir + sep + lib;
+    if( (new java.io.File(libPath)).exists() )
+      {
+      System.load(libPath);
+      }
+    else
+      {
+      // must use the name for System.loadLibrary()
+      System.loadLibrary("SwigRuntimeJava");
+      }
+    }
+
+  // Method called by wrapper code to load native libraries.
+  public static void LoadLibrary(String name)
+    {
+    // Change to directory containing libraries so dependents are found.
+    String old = JavaCWD.GetCWD();
+    JavaCWD.SetCWD(libDir);
+    String sep = System.getProperty("file.separator");
+    String lib = System.mapLibraryName(name);
+    String libPath = libDir + sep + lib;
+    if( (new java.io.File(libPath)).exists() )
+      {
+      JavaCWD.Load(libPath);
+      System.load(libPath);
+      }
+    else
+      {
+      // System.loadLibrary() create the lib name by itself, but not JavaCWD.Load()
+      // so one must get lib and the other name
+      JavaCWD.Load(lib);
+      System.loadLibrary(name);
+      }
+    JavaCWD.SetCWD(old);
+    }
+}

@@ -1,0 +1,7 @@
+WRAP_CLASS("itk::SpatialObjectToImageFilter" POINTER)
+  FOREACH(d ${WRAP_ITK_DIMS})
+    FOREACH(t ${WRAP_ITK_SCALAR})
+      WRAP_TEMPLATE("${ITKM_SO${d}}${ITKM_I${t}${d}}" "${ITKT_SO${d}},${ITKT_I${t}${d}}")
+    ENDFOREACH(t)
+  ENDFOREACH(d)
+END_WRAP_CLASS()

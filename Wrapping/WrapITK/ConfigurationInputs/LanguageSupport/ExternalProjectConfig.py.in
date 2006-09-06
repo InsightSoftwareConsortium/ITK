@@ -1,0 +1,5 @@
+import sys
+sys.path.insert(1, '@CONFIG_PROJECT_PYTHON_DIR@')
+sys.path.insert(1, '@CONFIG_PROJECT_OUTPUT_DIR@')
+sys.path.insert(1, '@CONFIG_WRAP_ITK_PYTHON_DIR@')
+

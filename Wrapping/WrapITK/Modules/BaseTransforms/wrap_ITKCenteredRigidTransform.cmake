@@ -1,0 +1,6 @@
+FILTER_DIMS(d2 2)
+IF(d2)
+  WRAP_CLASS("itk::CenteredRigid2DTransform" POINTER)
+    WRAP_TEMPLATE("${ITKM_D}" "${ITKT_D}")
+  END_WRAP_CLASS()
+ENDIF(d2)

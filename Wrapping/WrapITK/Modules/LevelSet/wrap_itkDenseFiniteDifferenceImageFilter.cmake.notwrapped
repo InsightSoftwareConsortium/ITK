@@ -1,0 +1,32 @@
+#------------------------------------------------------------------------------
+# Set the wrapped module
+SET(itk_Module "itkDenseFiniteDifferenceImageFilter")
+# Set the class include
+SET(itk_Include 
+   "DenseFiniteDifferenceImageFilter"
+   "Image"
+)
+# Set the file name
+SET(itk_File "${WrapITK_PART_DIR}/wrap_${itk_Module}.cxx")
+
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# Write file header
+WRITE_WRAP_BEGIN(${itk_File} "${itk_Include}" ${itk_Module})
+
+#------------------------------------------------------------------------------
+# class
+SET(itk_Class "DenseFiniteDifferenceImageFilter")
+SET(itk_Wrap
+   "${ITKM_IVF22}${ITKM_IVF22} # ${ITKT_IVF22},${ITKT_IVF22}"
+   "${ITKM_IVF33}${ITKM_IVF33} # ${ITKT_IVF33},${ITKT_IVF33}"
+)
+WRITE_WRAP_CLASS_POINTER(${itk_File} ${itk_Class} "${itk_Wrap}")
+
+#------------------------------------------------------------------------------
+# Write file footer
+WRITE_WRAP_END(${itk_File})
+
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+

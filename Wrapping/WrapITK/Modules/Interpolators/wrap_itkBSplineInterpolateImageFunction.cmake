@@ -1,0 +1,8 @@
+WRAP_CLASS("itk::BSplineInterpolateImageFunction" POINTER)
+  FOREACH(d ${WRAP_ITK_DIMS})
+    FOREACH(t ${WRAP_ITK_SCALAR})
+      # WRAP_TEMPLATE("${ITKM_I${t}${d}}${ITKM_D}" "${ITKT_I${t}${d}},${ITKT_D}")
+      WRAP_TEMPLATE("${ITKM_I${t}${d}}${ITKM_D}${ITKM_${t}}" "${ITKT_I${t}${d}},${ITKT_D},${ITKT_${t}}")
+    ENDFOREACH(t)
+  ENDFOREACH(d)
+END_WRAP_CLASS()

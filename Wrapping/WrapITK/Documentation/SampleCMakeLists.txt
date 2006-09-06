@@ -1,0 +1,83 @@
+# Sample CMakeLists that demonstrates all of the possible options for creating a
+# wrapper library. In this case, the ITKAlgorirhms library is being created.
+
+################################################################################
+# (1) Set all wrapper library config variables to their default values.
+# The parameter is the name of the wrapper library; this value is stored in
+# the variable WRAPPER_LIBRARY_NAME.
+BEGIN_WRAPPER_LIBRARY("ITKAlgorithms")
+
+################################################################################
+# (2) Set the configuration variables for the library.
+
+# WRAPPER_LIBRARY_SOURCE_DIR: Optional. Directory to be scanned for wrap_*.cmake files. 
+# Defaults to CMAKE_CURRENT_SOURCE_DIR.
+SET(WRAPPER_LIBRARY_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+
+# WRAPPER_LIBRARY_OUTPUT_DIR: Optional. Directory in which generated cxx, xml, and idx
+# files will be placed. Defaults to CMAKE_CURRENT_BINARY_DIR.
+SET(WRAPPER_LIBRARY_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}")
+
+# WRAPPER_LIBRARY_DEPENDS: Optional. List of names of other wrapper libraries that
+# define symbols used by this wrapper library. Defaults to an empty list.
+SET(WRAPPER_LIBRARY_DEPENDS
+  VXLNumerics
+  Base)
+
+# WRAPPER_LIBRARY_LINK_LIBRARIES: Optional. List of other libraries that should
+# be linked to the wrapper library. The SWIG runtime library is always linked.
+# Defaults to an empty list.
+SET(WRAPPER_LIBRARY_LINK_LIBRARIES 
+  ITKAlgorithms)
+
+# WRAPPER_LIBRARY_GROUPS: Optional. List of wrap_*.cmake groups in the source dir
+# that should be included/wrapped before the rest. Just the group name is needed,
+# not the full path or file name. Defaults to an empty list.
+SET(WRAPPER_LIBRARY_GROUPS ) 
+
+# WRAPPER_LIBRARY_CABLESWIG_INPUTS: Optional. List of C++ source files to be used
+# as input for CableSwig. Defaults to an empty list, that is then appended to by
+# WRAPPER_LIBRARY_CREATE_WRAP_FILES. A full path to each input is required.
+# If any of these CableSwig inputs declares a new wrap group, that group's name
+# MUST be added to WRAPPER_LIBRARY_GROUPS above. (It is not an error to declare
+# a group for which no wrap_*.cmake file exists: the build system assumes that
+# this group will be declared elsewhere.)
+# A second option would to append to the WRAPPER_LIBRARY_CABLESWIG_INPUTS variable
+# in a wrap_*.cmake file: then the group gets set automatically. See 
+# wrap_vcl_complex.cmake for an example.
+SET(WRAPPER_LIBRARY_CABLESWIG_INPUTS )
+
+# WRAPPER_LIBRARY_SWIG_INPUTS: Optional. SWIG input files to be fed to swig (not
+# CableSwig). Defaults to an empty list. A full path to each input is required.
+SET(WRAPPER_LIBRARY_SWIG_INPUTS ) 
+
+# WRAPPER_LIBRARY_CXX_SOURCES: Optional. C++ sources to be compiled and linked in
+# to the wrapper library (with no prior processing by swig, etc.)
+# Defaults to an empty list. A full path to each input is required.
+SET(WRAPPER_LIBRARY_CXX_SOURCES ) 
+
+
+################################################################################
+# (3) Include the wrap_*.cmake files in the source dir. This causes equivalent 
+# wrap_*.cxx files to be generated in the output directory, and added to the 
+# WRAPPER_LIBRARY_CABLESWIG_INPUTS list.
+# In addition, this causes the other required wrap_*.cxx files for the entire
+# library and each wrapper language to be created.
+# Finally, this macro records information about the template instances that are
+# wrapped. This information is needed for the language support files created 
+# below.
+
+WRAPPER_LIBRARY_CREATE_WRAP_FILES()
+
+################################################################################
+# (4) Cause the library to be added: this entails (a) generation of xml files
+# from the files in WRAPPER_LIBRARY_CABLESWIG_INPUTS via gcc_xml, (b) generation
+# index files  (and the associated master index file) from the xml via cableidx,
+# (c) generation of C and language-specific wrapper code from index files via 
+# cswig, and (d) adding a library target with the generated C code.
+# This also creates the language support files for properly loading the library
+# and supporting templated instances. (Currently Python-only.)
+
+WRAPPER_LIBRARY_CREATE_LIBRARY()
+
+

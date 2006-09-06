@@ -1,0 +1,60 @@
+"""InsightToolkit configuration module.
+This module contains user options and  paths to libraries and language support
+files used internally.
+User options can be set by importing itkConfig and changing the option values.
+Currently-supported options are:
+  DebugLevel: must be one of SILENT, WARN, or ERROR (these values are defined
+    in itkConfig). Default is WARN.
+  ImportCallback: importing itk libraries can take a while. ImportCallback will
+    be called when each new library is imported in the import process. 
+    ImportCallback must be a function that takes two parameters: the name of 
+    the library being imported, and a float (between 0 and 1) reflecting the
+    fraction of the import that is completed.
+  LazyLoading: Only load an itk library when needed. Before the library is
+    loaded, the namespace will be inhabited with dummy objects."""
+
+
+# User options
+SILENT = 0; WARN = 1; ERROR = 2
+DebugLevel = WARN
+ImportCallback = None
+ProgressCallback = None
+LazyLoading = True
+
+
+
+# Internal settings
+
+import os
+def normalized_path(relative_posix_path):
+  if relative_posix_path != 'None':
+    file_dir = os.path.split(__file__)[0]
+    relative_path = relative_posix_path.replace('/', os.sep)
+    return os.path.normpath(os.path.join(file_dir, relative_path))
+
+# swig_lib: location of the swig-generated shared libraries
+swig_lib = normalized_path('@CONFIG_PYTHON_SWIGLIB_DIR@')
+
+# swig_py: location of the xxxPython.py swig-generated python interfaces
+swig_py = normalized_path('@CONFIG_PYTHON_SWIGPY_DIR@')
+
+# config_py: location of xxxConfix.py CMake-generated library descriptions 
+config_py = normalized_path('@CONFIG_PYTHON_CONFIGPY_DIR@')
+
+# put the itkConfig.py path in the path list
+path = [os.path.join(config_py,'..')]
+# also populate path with the WRAPITK_PYTHON_PATH var
+if os.environ.has_key('WRAPITK_PYTHON_PATH'):
+  path.extend(os.environ['WRAPITK_PYTHON_PATH'].split(':'))
+
+# location for test input
+data_root = normalized_path('@CONFIG_WRAP_ITK_DATA_ROOT@')
+
+# location of test files
+test_root = normalized_path('@CONFIG_WRAP_ITK_TEST_ROOT@')
+
+# location of doxygen-generated man pages
+doxygen_root = '@CONFIG_WRAP_ITK_DOXYGEN_ROOT@'
+
+del normalized_path
+del os
