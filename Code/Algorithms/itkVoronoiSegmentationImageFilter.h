@@ -58,8 +58,8 @@ class ITK_EXPORT VoronoiSegmentationImageFilter:
 public:
   /** Standard class typedefs. */
   typedef VoronoiSegmentationImageFilter       Self;
-  typedef VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage> 
-  Superclass;
+  typedef VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage
+     ,TBinaryPriorImage> Superclass;
   typedef SmartPointer <Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
