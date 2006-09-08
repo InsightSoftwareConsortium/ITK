@@ -1,4 +1,4 @@
-OPTION(USE_WRAP_ITK "Build external languages support" OFF)
+# OPTION(USE_WRAP_ITK "Build external languages support" OFF)
 IF(USE_WRAP_ITK)
   SUBDIRS(WrapITK)
 ENDIF(USE_WRAP_ITK)

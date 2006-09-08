@@ -121,6 +121,8 @@ IF(NOT ITK_NO_LIBRARY_VERSION)
      )
 ENDIF(NOT ITK_NO_LIBRARY_VERSION)
 
+OPTION(USE_WRAP_ITK "Build external languages support" OFF)
+
 OPTION(ITK_CSWIG_TCL "Build cswig Tcl wrapper support (requires CableSwig)." OFF)
 OPTION(ITK_CSWIG_PYTHON "Build cswig Python wrapper support (requires CableSwig)." OFF)
 OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support " OFF)
@@ -129,9 +131,6 @@ OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support " OFF)
 # if you are interested in perl wrapping.  It is close, but
 # not there yet.
 #OPTION(ITK_CSWIG_PERL "Build cswig Perl wrapper support " OFF)
-
-# Include Wrapping sub directory
-SUBDIRS(Wrapping)
 
 #-----------------------------------------------------------------------------
 # ITK build patented algorithms
@@ -236,6 +235,10 @@ SET(ITK_DIR "${CMAKE_BINARY_DIR}" CACHE INTERNAL "ITK dir to be used by subproje
 #-----------------------------------------------------------------------------
 # Do we need CableSwig?
 SET(ITK_NEED_CableSwig 0)
+
+IF(USE_WRAP_ITK)
+  SET(ITK_NEED_CableSwig 1)
+ENDIF(USE_WRAP_ITK)
 
 IF(ITK_CSWIG_TCL)
   SET(ITK_NEED_CableSwig 1)
@@ -386,6 +389,9 @@ ENDIF(ITK_CSWIG_JAVA)
 IF(ITK_CSWIG_DIR)
   SUBDIRS(Wrapping/CSwig)
 ENDIF(ITK_CSWIG_DIR)
+
+# Include Wrapping sub directory
+SUBDIRS(Wrapping)
 
 IF (BUILD_TESTING)
   SUBDIRS(Testing)
