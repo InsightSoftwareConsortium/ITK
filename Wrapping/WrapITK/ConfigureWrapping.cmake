@@ -189,7 +189,7 @@ ENDIF(WRAP_ITK_PERL)
 ###############################################################################
 # Set various variables in order
 ###############################################################################
-SET(CMAKE_SKIP_RPATH ON CACHE BOOL "ITK wrappers must not have runtime path information." FORCE)
+# SET(CMAKE_SKIP_RPATH ON CACHE BOOL "ITK wrappers must not have runtime path information." FORCE)
 
 #------------------------------------------------------------------------------
 # System dependant wraping stuff
