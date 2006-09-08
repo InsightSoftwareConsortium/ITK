@@ -1,27 +1,15 @@
 
+# configure the test driver
+FIND_PROGRAM(ITK_TEST_DRIVER itkTestDriver)
+
+SET(JAVA_DRIVER "${ITK_TEST_DRIVER}"
+  "${JAVA_RUNTIME}"
+  -cp ".:${WrapITK_BINARY_DIR}/Java/${CMAKE_CFG_INTDIR}/InsightToolkit.jar"
+)
+  
+
 # put all generated files in this list
 SET(targets "")
-
-# configure and build the test driver
-FIND_PROGRAM(IMAGE_COMPARE ImageCompare)
-SET(JAVA_TEST_ITK_JAR "${WrapITK_BINARY_DIR}/Java/${CMAKE_CFG_INTDIR}/InsightToolkit.jar")
-CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/javaTestDriver.java.in"
-   "${CMAKE_CURRENT_BINARY_DIR}/javaTestDriver.java"
-   @ONLY IMMEDIATE
-)
-
-ADD_CUSTOM_COMMAND(
-  OUTPUT javaTestDriver.class
-  DEPENDS ${WrapITK_BINARY_DIR}/Java/Tests/javaTestDriver.java
-  COMMAND ${JAVA_COMPILE}
-  ARGS -classpath "${CMAKE_CURRENT_SOURCE_DIR}/argparser.jar"
-  -d "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_BINARY_DIR}/javaTestDriver.java"
-)
-
-SET(targets ${targets} javaTestDriver.class)
-
-# a convenient var to use in tests
-SET(JAVA_DRIVER "${JAVA_RUNTIME}" -classpath ".:${CMAKE_CURRENT_SOURCE_DIR}/argparser.jar" javaTestDriver)
 
 MACRO(BUILD_JAVA_TEST name)
   # a convenient macro to build java tests
