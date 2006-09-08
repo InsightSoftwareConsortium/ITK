@@ -1,28 +1,12 @@
 
 # configure the test driver
-FIND_PROGRAM(IMAGE_COMPARE ImageCompare)
+FIND_PROGRAM(ITK_TEST_DRIVER itkTestDriver)
 
-IF(CMAKE_CONFIGURATION_TYPES)
-  FOREACH(config ${CMAKE_CONFIGURATION_TYPES})
-    SET(PYTHON_TEST_LIB_PATH "${LIBRARY_OUTPUT_PATH}/${config}/")
-    SET(PYTHON_TEST_PYTHON_PATH "${WrapITK_BINARY_DIR}/Python/${config}/;${LIBRARY_OUTPUT_PATH}/${config}/")
-    CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/pythonTestDriver.py.in"
-                "${CMAKE_CURRENT_BINARY_DIR}/${config}/pythonTestDriver.py"
-                @ONLY IMMEDIATE)
-  ENDFOREACH(config)
-ELSE(CMAKE_CONFIGURATION_TYPES)
-  SET(PYTHON_TEST_LIB_PATH "${LIBRARY_OUTPUT_PATH}/")
-  SET(PYTHON_TEST_PYTHON_PATH "${WrapITK_BINARY_DIR}/Python/;${LIBRARY_OUTPUT_PATH}/")
-  CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/pythonTestDriver.py.in"
-              "${CMAKE_CURRENT_BINARY_DIR}/pythonTestDriver.py"
-              @ONLY IMMEDIATE)
-ENDIF(CMAKE_CONFIGURATION_TYPES)
-
-# install pythonTestDriver.py.in, so it can be used by external projects for testing
-WRAP_ITK_INSTALL("/Configuration/Python/Tests" "${CMAKE_CURRENT_SOURCE_DIR}/pythonTestDriver.py.in")
-
-
-SET(PYTHON_DRIVER "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_BINARY_DIR}/\${CTEST_CONFIGURATION_TYPE}/pythonTestDriver.py")
+SET(PYTHON_DRIVER "${ITK_TEST_DRIVER}"
+  --add-before-env PYTHONPATH "${WrapITK_BINARY_DIR}/Python/"
+  --add-before-env PYTHONPATH "${LIBRARY_OUTPUT_PATH}/\${CTEST_CONFIGURATION_TYPE}"
+  "${PYTHON_EXECUTABLE}"
+)
 
 
 ADD_TEST(PythonTestDirectory ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/TestDirectory.py)
