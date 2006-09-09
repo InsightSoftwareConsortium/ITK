@@ -304,7 +304,9 @@ int main(int ac, char* av[] )
   std::vector< char* > args;
   typedef std::pair< char *, char *> ComparePairType;
   std::vector< ComparePairType > compareList;
-
+  // with putenv(), we must keep the string allocated
+  std::vector< std::string > envList;
+  
   // parse the command line
   int i = 1;
   bool skip = false;
@@ -317,33 +319,19 @@ int main(int ac, char* av[] )
         usage();
         return 1;
         }
-      std::string libpath = av[i+1];
+      std::string libpath = KWSYS_SHARED_FORWARD_LDPATH;
+      libpath += "=";
+      libpath += av[i+1];
       char * oldenv = getenv(KWSYS_SHARED_FORWARD_LDPATH);
       if( oldenv )
         {
         libpath += KWSYS_SHARED_FORWARD_PATH_SEP;
         libpath += oldenv;
         }
-      setenv(KWSYS_SHARED_FORWARD_LDPATH, libpath.c_str(), true);
+      envList.push_back( libpath );
+      putenv( const_cast<char *>( envList.back().c_str() ) );
       i += 2;
       }
-/*    else if( strcmp(av[i], "--add-before-path") == 0 )
-      {
-      if( i+2 <= ac )
-        {
-        usage();
-        return 1;
-        }
-      std::string path = av[i+1];
-      char * oldenv = getenv("PATH");
-      if( oldenv )
-        {
-        path += KWSYS_SHARED_FORWARD_PATH_SEP;
-        path += oldenv;
-        }
-      setenv("PATH", path.c_str(), true);
-      i += 2;
-      }*/
     else if( !skip && strcmp(av[i], "--add-before-env") == 0 )
       {
       if( i+2 >= ac )
@@ -351,14 +339,17 @@ int main(int ac, char* av[] )
         usage();
         return 1;
         }
-      std::string env = av[i+2];
+      std::string env = av[i+1];
+      env += "=";
+      env += av[i+2];
       char * oldenv = getenv(av[i+1]);
       if( oldenv )
         {
         env += KWSYS_SHARED_FORWARD_PATH_SEP;
         env += oldenv;
         }
-      setenv(av[i+1], env.c_str(), true);
+      envList.push_back( env );
+      putenv( const_cast<char *>( envList.back().c_str() ) );
       i += 3;
       }
     else if( !skip && strcmp(av[i], "--compare") == 0 )
