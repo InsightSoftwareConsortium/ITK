@@ -384,16 +384,6 @@ IF(WRAP_float AND WRAP_2)
           107 69 5 180 210
   )
 
-  ADD_TEST(PythonAntiAliasBinaryImageFilterTest
-    ${PYTHON_DRIVER}
-    --compare AntiAliasBinaryImageFilter.png
-              ${WrapITK_SOURCE_DIR}/images/AntiAliasBinaryImageFilter.png
-     ${CMAKE_CURRENT_SOURCE_DIR}/AntiAliasBinaryImageFilter.py
-          ${WrapITK_SOURCE_DIR}/images/VentricleModel.png
-          AntiAliasBinaryImageFilter.png
-          .001 50
-  )
-
   ADD_TEST(PythonCannyEdgeDetectionImageFilterTest
     ${PYTHON_DRIVER}
     --compare CannyEdgeDetectionImageFilter.png
@@ -423,6 +413,19 @@ IF(WRAP_float AND WRAP_2)
 
 ENDIF(WRAP_float AND WRAP_2)
 
+
+INTERSECTION(WRAP_3 3 "${WRAP_ITK_DIMS}")
+IF(WRAP_float AND WRAP_3)
+  ADD_TEST(PythonAntiAliasBinaryImageFilterTest
+    ${PYTHON_DRIVER}
+    --compare AntiAliasBinaryImageFilter.png
+              ${WrapITK_SOURCE_DIR}/images/AntiAliasBinaryImageFilter.png
+     ${CMAKE_CURRENT_SOURCE_DIR}/AntiAliasBinaryImageFilter.py
+          ${WrapITK_SOURCE_DIR}/images/VentricleModel.png
+          AntiAliasBinaryImageFilter.png
+          .001 50
+  )
+ENDIF(WRAP_float AND WRAP_3)
 
 
 UNIQUE(types "${WRAP_ITK_SCALAR};UC")
