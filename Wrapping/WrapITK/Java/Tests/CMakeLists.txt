@@ -34,6 +34,8 @@ ENDMACRO(BUILD_JAVA_TEST)
 
 
 UNIQUE(types "${WRAP_ITK_SCALAR};UC")
+# signed char can't be used to store an image with values up to 255
+LIST(REMOVE_ITEM types SC)
 FOREACH(JAVA_TEST_IMAGE_DIMENSION ${WRAP_ITK_DIMS})
   FOREACH(JAVA_TEST_PIXEL_TYPE ${types})
 

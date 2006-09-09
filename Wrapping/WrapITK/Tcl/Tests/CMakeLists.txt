@@ -136,6 +136,8 @@ ENDIF(WRAP_float AND WRAP_2)
 
 
 UNIQUE(types "${WRAP_ITK_SCALAR};UC")
+# signed char can't be used to store an image with values up to 255
+LIST(REMOVE_ITEM types SC)
 FOREACH(TCL_TEST_IMAGE_DIMENSION ${WRAP_ITK_DIMS})
   FOREACH(TCL_TEST_PIXEL_TYPE ${types})
 

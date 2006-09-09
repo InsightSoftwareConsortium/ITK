@@ -429,6 +429,8 @@ ENDIF(WRAP_float AND WRAP_3)
 
 
 UNIQUE(types "${WRAP_ITK_SCALAR};UC")
+# signed char can't be used to store an image with values up to 255
+LIST(REMOVE_ITEM types SC)
 FOREACH(d ${WRAP_ITK_DIMS})
   FOREACH(t ${types})
     ADD_TEST(PythonSimplePipeline${t}${d} ${PYTHON_DRIVER}
