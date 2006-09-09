@@ -386,7 +386,7 @@ int main(int ac, char* av[] )
     }
 
   // a NULL is required at the end of the table
-  char* argv[ args.size() + 1 ];
+  char** argv = new char*[ args.size() + 1 ];
   for( i=0; i<args.size(); i++ )
     {
     argv[ i ] = args[ i ];
@@ -399,6 +399,9 @@ int main(int ac, char* av[] )
   itksysProcess_SetPipeShared( process, itksysProcess_Pipe_STDERR, true);
   itksysProcess_Execute( process );
   itksysProcess_WaitForExit( process, NULL );
+
+  delete []argv;
+
   int retCode = itksysProcess_GetExitValue( process );
   if( retCode != 0 )
     {
