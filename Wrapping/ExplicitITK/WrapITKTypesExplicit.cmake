@@ -33,14 +33,14 @@ ENDMACRO(END_WRAP_EXPLICIT_TYPE)
 
 
 WRAP_EXPLICIT_TYPE("Offset" "O")
-  FOREACH(d ${WRAP_ITK_DIMS})
+  FOREACH(d ${EXPLICIT_ITK_DIMS})
     WRAP_TEMPLATE("${d}"  "${d}")
   ENDFOREACH(d)
 END_WRAP_EXPLICIT_TYPE()
 SET(itk_Wrap_Explicit_Offset ${WRAPPER_TEMPLATES})
 
 WRAP_EXPLICIT_TYPE("Vector" "V")
-  FOREACH(d ${WRAP_ITK_DIMS})
+  FOREACH(d ${EXPLICIT_ITK_DIMS})
     WRAP_TEMPLATE("${ITKM_F}${d}"  "${ITKT_F},${d}")
     WRAP_TEMPLATE("${ITKM_D}${d}"  "${ITKT_D},${d}")
   ENDFOREACH(d)
@@ -48,7 +48,7 @@ END_WRAP_EXPLICIT_TYPE()
 SET(itk_Wrap_Explicit_Vector ${WRAPPER_TEMPLATES})
 
 WRAP_EXPLICIT_TYPE("CovariantVector" "CV")
-  FOREACH(d ${WRAP_ITK_DIMS})
+  FOREACH(d ${EXPLICIT_ITK_DIMS})
     WRAP_TEMPLATE("${ITKM_F}${d}"  "${ITKT_F},${d}")
     WRAP_TEMPLATE("${ITKM_D}${d}"  "${ITKT_D},${d}")
   ENDFOREACH(d)
@@ -56,7 +56,7 @@ END_WRAP_EXPLICIT_TYPE()
 SET(itk_Wrap_Explicit_CovariantVector ${WRAPPER_TEMPLATES})
 
 WRAP_EXPLICIT_TYPE("ContinuousIndex" "CI")
-  FOREACH(d ${WRAP_ITK_DIMS})
+  FOREACH(d ${EXPLICIT_ITK_DIMS})
     WRAP_TEMPLATE("${ITKM_F}${d}"  "${ITKT_F},${d}")
     WRAP_TEMPLATE("${ITKM_D}${d}"  "${ITKT_D},${d}")
   ENDFOREACH(d)
@@ -76,7 +76,7 @@ END_WRAP_EXPLICIT_TYPE()
 SET(itk_Wrap_Explicit_Array2D ${WRAPPER_TEMPLATES})
 
 WRAP_EXPLICIT_TYPE("FixedArray" "FA")
-  UNIQUE(array_sizes "${WRAP_ITK_DIMS};1")
+  UNIQUE(array_sizes "${EXPLICIT_ITK_DIMS};1")
   # make sure that 1-D FixedArrays are wrapped. Also wrap for each selected
   # image dimension.
   # TODO: Do we need fixed arrays for all of these types? For just the selected
@@ -97,13 +97,13 @@ END_WRAP_EXPLICIT_TYPE()
 SET(itk_Wrap_Explicit_FixedArray ${WRAPPER_TEMPLATES})
 
 WRAP_EXPLICIT_TYPE("RGBPixel" "RGB")
-  IF(WRAP_rgb_unsigned_char)
+  IF(EXPLICIT_rgb_unsigned_char)
     WRAP_TEMPLATE("${ITKM_UC}" "${ITKT_UC}")
-  ENDIF(WRAP_rgb_unsigned_char)
+  ENDIF(EXPLICIT_rgb_unsigned_char)
   
-  IF(WRAP_rgb_unsigned_short)
+  IF(EXPLICIT_rgb_unsigned_short)
     WRAP_TEMPLATE("${ITKM_US}" "${ITKT_US}")
-  ENDIF(WRAP_rgb_unsigned_short)
+  ENDIF(EXPLICIT_rgb_unsigned_short)
 END_WRAP_EXPLICIT_TYPE()
 SET(itk_Wrap_Explicit_RGBPixel ${WRAPPER_TEMPLATES})
 
@@ -111,15 +111,15 @@ WRAP_EXPLICIT_TYPE("Image" "I")
   # Make a list of all of the selected image pixel types and also double (for
   # BSplineDeformableTransform), uchar (for 8-bit image output), and ulong
   # (for the watershed and relabel filters).
-  UNIQUE(wrap_image_types "${WRAP_ITK_ALL_TYPES};D;UC;UL")
+  UNIQUE(wrap_image_types "${EXPLICIT_ITK_ALL_TYPES};D;UC;UL")
   
-  FOREACH(d ${WRAP_ITK_DIMS})
+  FOREACH(d ${EXPLICIT_ITK_DIMS})
     FOREACH(type ${wrap_image_types})
-      IF("${WRAP_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
+      IF("${EXPLICIT_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
         # if the type is a vector type with no dimension specified, make the 
         # vector dimension match the image dimension.
         SET(type "${type}${d}")
-      ENDIF("${WRAP_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
+      ENDIF("${EXPLICIT_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
       
       WRAP_TEMPLATE("${ITKM_${type}}${d}"  "${ITKT_${type}},${d}")
     ENDFOREACH(type)
@@ -130,9 +130,9 @@ SET(itk_Wrap_Explicit_Image ${WRAPPER_TEMPLATES})
 WRAP_EXPLICIT_TYPE("VectorImage" "VI")
   # Make a list of all of the selected image pixel types and also uchar 
   # (for 8-bit image output)
-  UNIQUE(wrap_image_types "${WRAP_ITK_SCALAR};UC")
+  UNIQUE(wrap_image_types "${EXPLICIT_ITK_SCALAR};UC")
   
-  FOREACH(d ${WRAP_ITK_DIMS})
+  FOREACH(d ${EXPLICIT_ITK_DIMS})
     FOREACH(type ${wrap_image_types})
       WRAP_TEMPLATE("${ITKM_${type}}${d}"  "${ITKT_${type}},${d}")
     ENDFOREACH(type)
@@ -143,7 +143,7 @@ SET(itk_Wrap_Explicit_VectorImage ${WRAPPER_TEMPLATES})
 WRAP_EXPLICIT_TYPE("VariableLengthVector" "VLV")
   # Make a list of all of the selected image pixel types and also uchar 
   # (for 8-bit image output)
-  UNIQUE(wrap_image_types "${WRAP_ITK_SCALAR};UC")
+  UNIQUE(wrap_image_types "${EXPLICIT_ITK_SCALAR};UC")
   
   FOREACH(type ${wrap_image_types})
     WRAP_TEMPLATE("${ITKM_${type}}"  "${ITKT_${type}}")
@@ -152,7 +152,7 @@ END_WRAP_EXPLICIT_TYPE()
 SET(itk_Wrap_Explicit_VariableLengthVector ${WRAPPER_TEMPLATES})
 
 WRAP_EXPLICIT_TYPE("Point" "P")
-  FOREACH(d ${WRAP_ITK_DIMS})
+  FOREACH(d ${EXPLICIT_ITK_DIMS})
     WRAP_TEMPLATE("${ITKM_F}${d}"  "${ITKT_F},${d}")
     WRAP_TEMPLATE("${ITKM_D}${d}"  "${ITKT_D},${d}")
   ENDFOREACH(d)
@@ -161,8 +161,8 @@ SET(itk_Wrap_Explicit_Point ${WRAPPER_TEMPLATES})
 
 WRAP_EXPLICIT_TYPE("LevelSetNode" "LSN")
   # Only make level set nodes for the selected image pixel types
-  FOREACH(d ${WRAP_ITK_DIMS})
-    FOREACH(type ${WRAP_ITK_SCALAR})
+  FOREACH(d ${EXPLICIT_ITK_DIMS})
+    FOREACH(type ${EXPLICIT_ITK_SCALAR})
       WRAP_TEMPLATE("${ITKM_${type}}${d}"  "${ITKT_${type}},${d}")
     ENDFOREACH(type)
   ENDFOREACH(d)
@@ -171,8 +171,8 @@ SET(itk_Wrap_Explicit_LevelSetNode ${WRAPPER_TEMPLATES})
 
 WRAP_EXPLICIT_TYPE("BinaryBallStructuringElement" "SE")
   # Only make structuring elements for the selected image pixel types
-  FOREACH(d ${WRAP_ITK_DIMS})
-    FOREACH(type ${WRAP_ITK_SCALAR})
+  FOREACH(d ${EXPLICIT_ITK_DIMS})
+    FOREACH(type ${EXPLICIT_ITK_SCALAR})
       WRAP_TEMPLATE("${ITKM_${type}}${d}"  "${ITKT_${type}},${d}")
     ENDFOREACH(type)
     WRAP_TEMPLATE("${ITKM_B}${d}"  "${ITKT_B},${d}")
@@ -181,7 +181,7 @@ END_WRAP_EXPLICIT_TYPE()
 SET(itk_Wrap_Explicit_StructuringElement ${WRAPPER_TEMPLATES})
 
 WRAP_EXPLICIT_TYPE("SpatialObject" "SO")
-  FOREACH(d ${WRAP_ITK_DIMS})
+  FOREACH(d ${EXPLICIT_ITK_DIMS})
     WRAP_TEMPLATE("${d}"  "${d}")
   ENDFOREACH(d)
 END_WRAP_EXPLICIT_TYPE()

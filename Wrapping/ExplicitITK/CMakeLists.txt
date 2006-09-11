@@ -3,32 +3,32 @@ PROJECT(ExplicitITK)
 # check cmake version
 CMAKE_MINIMUM_REQUIRED(VERSION 2.2)
 
-OPTION(WRAP_unsigned_char "Wrap unsigned char type" ON)
-OPTION(WRAP_unsigned_short "Wrap unsigned short type" ON)
-OPTION(WRAP_unsigned_long "Wrap unsigned long type" ON)
-OPTION(WRAP_unsigned_int "Wrap unsigned int type" ON)
+OPTION(EXPLICIT_unsigned_char "Wrap unsigned char type" ON)
+OPTION(EXPLICIT_unsigned_short "Wrap unsigned short type" ON)
+OPTION(EXPLICIT_unsigned_long "Wrap unsigned long type" ON)
+OPTION(EXPLICIT_unsigned_int "Wrap unsigned int type" ON)
 
-OPTION(WRAP_signed_char "Wrap signed char type" OFF)
-OPTION(WRAP_signed_short "Wrap signed short type" OFF)
-OPTION(WRAP_signed_long "Wrap signed long type" OFF)
-OPTION(WRAP_signed_int "Wrap signed int type" ON)
+OPTION(EXPLICIT_signed_char "Wrap signed char type" OFF)
+OPTION(EXPLICIT_signed_short "Wrap signed short type" OFF)
+OPTION(EXPLICIT_signed_long "Wrap signed long type" OFF)
+OPTION(EXPLICIT_signed_int "Wrap signed int type" ON)
 
-OPTION(WRAP_float "Wrap float type" ON)
-OPTION(WRAP_double "Wrap double type" ON)
+OPTION(EXPLICIT_float "Wrap float type" ON)
+OPTION(EXPLICIT_double "Wrap double type" ON)
 
-OPTION(WRAP_vector_float "Wrap vector float type" ON)
-OPTION(WRAP_vector_double "Wrap vector double type" OFF)
+OPTION(EXPLICIT_vector_float "Wrap vector float type" ON)
+OPTION(EXPLICIT_vector_double "Wrap vector double type" OFF)
 
-OPTION(WRAP_covariant_vector_float "Wrap covariant vector float type" ON)
-OPTION(WRAP_covariant_vector_double "Wrap covariant vector double type" OFF)
+OPTION(EXPLICIT_covariant_vector_float "Wrap covariant vector float type" ON)
+OPTION(EXPLICIT_covariant_vector_double "Wrap covariant vector double type" OFF)
 
-OPTION(WRAP_rgb_unsigned_char "Wrap RGB< unsigned char > type" ON)
-OPTION(WRAP_rgb_unsigned_short "Wrap RGB< unsigned short > type" OFF)
+OPTION(EXPLICIT_rgb_unsigned_char "Wrap RGB< unsigned char > type" ON)
+OPTION(EXPLICIT_rgb_unsigned_short "Wrap RGB< unsigned short > type" OFF)
 
-OPTION(WRAP_complex_float "Wrap complex<float> type" OFF)
-OPTION(WRAP_complex_double "Wrap complex<double> type" OFF)
+OPTION(EXPLICIT_complex_float "Wrap complex<float> type" OFF)
+OPTION(EXPLICIT_complex_double "Wrap complex<double> type" OFF)
 
-SET(WRAP_ITK_DIMS "2;3" CACHE STRING "dimensions available separated by semicolons (;)")
+SET(EXPLICIT_ITK_DIMS "2;3" CACHE STRING "dimensions available separated by semicolons (;)")
 
 # Output directories.
 SET(EXPLICIT_ITK_CONFIG_DIR "${ExplicitITK_SOURCE_DIR}/ConfigurationInputs")
@@ -71,10 +71,10 @@ INCLUDE("${ExplicitITK_SOURCE_DIR}/WrapITKTypesExplicit.cmake")
 ###############################################################################
 # Configure specific explicit modules
 ###############################################################################
-SET(WRAP_ITK_MODULES
+SET(EXPLICIT_ITK_MODULES
   Common
 )
 
-FOREACH(module ${WRAP_ITK_MODULES})
+FOREACH(module ${EXPLICIT_ITK_MODULES})
   SUBDIRS(Modules/${module})
 ENDFOREACH(module)

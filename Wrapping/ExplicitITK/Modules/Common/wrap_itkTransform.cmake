@@ -1,8 +1,8 @@
 WRAP_NON_TEMPLATE_CLASS("itk::TransformBase" POINTER)
 
 WRAP_CLASS("itk::Transform" POINTER)
-  FOREACH(d1 ${WRAP_ITK_DIMS})
-    FOREACH(d2 ${WRAP_ITK_DIMS})
+  FOREACH(d1 ${EXPLICIT_ITK_DIMS})
+    FOREACH(d2 ${EXPLICIT_ITK_DIMS})
       IF("${d1}" GREATER "${d2}" OR "${d1}" EQUAL "${d2}")
         WRAP_TEMPLATE("${ITKM_D}${d1}${d2}" "${ITKT_D},${d1},${d2}")
       ENDIF("${d1}" GREATER "${d2}" OR "${d1}" EQUAL "${d2}")

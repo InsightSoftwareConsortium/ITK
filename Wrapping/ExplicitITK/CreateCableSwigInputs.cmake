@@ -131,7 +131,7 @@ MACRO(WRITE_WRAP_CXX file_name)
   # Create the cxx file.
   SET(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${file_name}")
 
-  CONFIGURE_FILE("${WRAP_ITK_CONFIG_DIR}/wrap_.cxx.in"
+  CONFIGURE_FILE("${EXPLICIT_ITK_CONFIG_DIR}/wrap_.cxx.in"
     "${cxx_file}" @ONLY IMMEDIATE)
   
   # And add the cxx file to the list of cableswig inputs.
@@ -161,22 +161,22 @@ MACRO(WRITE_MODULE_FILES)
   
   # Create the cxx file.
   SET(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${WRAPPER_LIBRARY_NAME}.cxx")
-  CONFIGURE_FILE("${WRAP_ITK_CONFIG_DIR}/wrap_ITK.cxx.in"
+  CONFIGURE_FILE("${EXPLICIT_ITK_CONFIG_DIR}/wrap_ITK.cxx.in"
     "${cxx_file}" @ONLY IMMEDIATE)
   
 
-  IF(WRAP_ITK_TCL)
+  IF(EXPLICIT_ITK_TCL)
     WRITE_MODULE_FOR_LANGUAGE("Tcl")
-  ENDIF(WRAP_ITK_TCL)
-  IF(WRAP_ITK_PYTHON)
+  ENDIF(EXPLICIT_ITK_TCL)
+  IF(EXPLICIT_ITK_PYTHON)
     WRITE_MODULE_FOR_LANGUAGE("Python")
-  ENDIF(WRAP_ITK_PYTHON)
-  IF(WRAP_ITK_JAVA)
+  ENDIF(EXPLICIT_ITK_PYTHON)
+  IF(EXPLICIT_ITK_JAVA)
     WRITE_MODULE_FOR_LANGUAGE("Java")
-  ENDIF(WRAP_ITK_JAVA)
-  IF(WRAP_ITK_PERL)
+  ENDIF(EXPLICIT_ITK_JAVA)
+  IF(EXPLICIT_ITK_PERL)
     WRITE_MODULE_FOR_LANGUAGE("Perl")
-  ENDIF(WRAP_ITK_PERL)
+  ENDIF(EXPLICIT_ITK_PERL)
 ENDMACRO(WRITE_MODULE_FILES)
 
 MACRO(WRITE_MODULE_FOR_LANGUAGE language)
@@ -188,7 +188,7 @@ MACRO(WRITE_MODULE_FOR_LANGUAGE language)
   
   # Create the cxx file.
   SET(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${WRAPPER_LIBRARY_NAME}${language}.cxx")  
-  CONFIGURE_FILE("${WRAP_ITK_CONFIG_DIR}/wrap_ITKLang.cxx.in"
+  CONFIGURE_FILE("${EXPLICIT_ITK_CONFIG_DIR}/wrap_ITKLang.cxx.in"
     "${cxx_file}" @ONLY IMMEDIATE)
   
 ENDMACRO(WRITE_MODULE_FOR_LANGUAGE)
@@ -463,46 +463,46 @@ ENDMACRO(WRAP_TEMPLATE)
 # (where n is a number) indicating that instantiations are allowed for dimension
 # n and above.
 #
-# E.g., if only WRAP_unsigned_char is selected and 2- and 3-dimensional images
+# E.g., if only EXPLICIT_unsigned_char is selected and 2- and 3-dimensional images
 # are selected, then WRAP_IMAGE_FILTER_INT(2)  will create instantiations for 
 # filter<itk::Image<unsigned char, 2>, itk::Image<unsigned char, 2> >
 # and
 # filter<itk::Image<unsigned char, 3>, itk::Image<unsigned char, 3> >
 
 MACRO(WRAP_IMAGE_FILTER_ALL param_count)
-  WRAP_IMAGE_FILTER("${WRAP_ITK_ALL}" ${param_count} "${ARGN}")
+  WRAP_IMAGE_FILTER("${EXPLICIT_ITK_ALL}" ${param_count} "${ARGN}")
 ENDMACRO(WRAP_IMAGE_FILTER_ALL)
 
 MACRO(WRAP_IMAGE_FILTER_SCALAR param_count)
-  WRAP_IMAGE_FILTER("${WRAP_ITK_SCALAR}" ${param_count} "${ARGN}")
+  WRAP_IMAGE_FILTER("${EXPLICIT_ITK_SCALAR}" ${param_count} "${ARGN}")
 ENDMACRO(WRAP_IMAGE_FILTER_SCALAR)
 
 MACRO(WRAP_IMAGE_FILTER_VECTOR param_count)
-  WRAP_IMAGE_FILTER("${WRAP_ITK_VECTOR}" ${param_count} "${ARGN}")
+  WRAP_IMAGE_FILTER("${EXPLICIT_ITK_VECTOR}" ${param_count} "${ARGN}")
 ENDMACRO(WRAP_IMAGE_FILTER_VECTOR)
 
 MACRO(WRAP_IMAGE_FILTER_INT param_count)
-  WRAP_IMAGE_FILTER("${WRAP_ITK_INT}" ${param_count} "${ARGN}")
+  WRAP_IMAGE_FILTER("${EXPLICIT_ITK_INT}" ${param_count} "${ARGN}")
 ENDMACRO(WRAP_IMAGE_FILTER_INT)
 
 MACRO(WRAP_IMAGE_FILTER_SIGN_INT param_count)
-  WRAP_IMAGE_FILTER("${WRAP_ITK_SIGN_INT}" ${param_count} "${ARGN}")
+  WRAP_IMAGE_FILTER("${EXPLICIT_ITK_SIGN_INT}" ${param_count} "${ARGN}")
 ENDMACRO(WRAP_IMAGE_FILTER_SIGN_INT)
 
 MACRO(WRAP_IMAGE_FILTER_REAL param_count)
-  WRAP_IMAGE_FILTER("${WRAP_ITK_REAL}" ${param_count} "${ARGN}")
+  WRAP_IMAGE_FILTER("${EXPLICIT_ITK_REAL}" ${param_count} "${ARGN}")
 ENDMACRO(WRAP_IMAGE_FILTER_REAL)
 
 MACRO(WRAP_IMAGE_FILTER_RGB param_count)
-  WRAP_IMAGE_FILTER("${WRAP_ITK_RGB}" ${param_count} "${ARGN}")
+  WRAP_IMAGE_FILTER("${EXPLICIT_ITK_RGB}" ${param_count} "${ARGN}")
 ENDMACRO(WRAP_IMAGE_FILTER_RGB)
 
 MACRO(WRAP_IMAGE_FILTER_VECTOR_REAL param_count)
-  WRAP_IMAGE_FILTER("${WRAP_ITK_VECTOR_REAL}" ${param_count} "${ARGN}")
+  WRAP_IMAGE_FILTER("${EXPLICIT_ITK_VECTOR_REAL}" ${param_count} "${ARGN}")
 ENDMACRO(WRAP_IMAGE_FILTER_VECTOR_REAL)
 
 MACRO(WRAP_IMAGE_FILTER_COV_VECTOR_REAL param_count)
-  WRAP_IMAGE_FILTER("${WRAP_ITK_COV_VECTOR_REAL}" ${param_count} "${ARGN}")
+  WRAP_IMAGE_FILTER("${EXPLICIT_ITK_COV_VECTOR_REAL}" ${param_count} "${ARGN}")
 ENDMACRO(WRAP_IMAGE_FILTER_COV_VECTOR_REAL)
 
 
@@ -514,7 +514,7 @@ MACRO(WRAP_IMAGE_FILTER param_types param_count)
   # template parameters are created (see above). The optional third parameter is
   # a dimensionality condition (see above also).
   # 
-  # E.g. WRAP_IMAGE_FILTER("${WRAP_ITK_ALL}" 2) will create template instantiations
+  # E.g. WRAP_IMAGE_FILTER("${EXPLICIT_ITK_ALL}" 2) will create template instantiations
   # of the filter for every pixel type that the user has selected.
   
   SET(have_dim_cond OFF)
@@ -644,7 +644,7 @@ MACRO(WRAP_IMAGE_FILTER_TYPES)
     FILTER_DIMS(dim_list "${last_arg}")
     DECREMENT(last_arg_number ${last_arg_number})
   ELSE("${last_arg}" MATCHES "^[0-9]")
-    SET(dim_list ${WRAP_ITK_DIMS})
+    SET(dim_list ${EXPLICIT_ITK_DIMS})
   ENDIF("${last_arg}" MATCHES "^[0-9]")
 
   FOREACH(d ${dim_list})
@@ -653,11 +653,11 @@ MACRO(WRAP_IMAGE_FILTER_TYPES)
     SET(comma "") # Don't add a comma before the first template param!
     FOREACH(num RANGE 0 ${last_arg_number})
       SET(type "${arg${num}}")
-      IF("${WRAP_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
+      IF("${EXPLICIT_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
         # if the type is a vector type with no dimension specified, make the 
         # vector dimension match the image dimension.
         SET(type "${type}${d}")
-      ENDIF("${WRAP_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
+      ENDIF("${EXPLICIT_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
       SET(image_type ${ITKT_I${type}${d}})
       SET(mangle_type ${ITKM_I${type}${d}})
       IF(NOT DEFINED image_type)
@@ -684,7 +684,7 @@ MACRO(FILTER_DIMS var_name dimension_condition)
     # selected wrapping dims that are >= that number.
     STRING(REGEX REPLACE "^([0-9]+)\\+$" "\\1" min_dim "${dimension_condition}")
     DECREMENT(max_disallowed ${min_dim})
-    FOREACH(d ${WRAP_ITK_DIMS})
+    FOREACH(d ${EXPLICIT_ITK_DIMS})
       IF("${d}" GREATER "${max_disallowed}")
         SET(${var_name} ${${var_name}} ${d})
       ENDIF("${d}" GREATER "${max_disallowed}")
@@ -692,6 +692,6 @@ MACRO(FILTER_DIMS var_name dimension_condition)
   ELSE("${dimension_condition}" MATCHES "^[0-9]+\\+$")
     # The condition is just a list of dims. Return the intersection of these
     # dims with the selected ones.
-    INTERSECTION(${var_name} "${dimension_condition}" "${WRAP_ITK_DIMS}")
+    INTERSECTION(${var_name} "${dimension_condition}" "${EXPLICIT_ITK_DIMS}")
   ENDIF("${dimension_condition}" MATCHES "^[0-9]+\\+$")
 ENDMACRO(FILTER_DIMS)
