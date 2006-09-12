@@ -80,16 +80,6 @@ ITKDICOMParser
 ITKEXPAT
 ITKniftiio)
 
-ADD_EXECUTABLE(ImageCompare ImageCompare.cxx) 
-TARGET_LINK_LIBRARIES(ImageCompare ITKIO)
-INSTALL_TARGETS(/bin ImageCompare)
-SET(IMAGE_COMPARE "${EXECUTABLE_OUTPUT_PATH}/ImageCompare" CACHE INTERNAL "ImageCompare path to be used by subprojects")
-
-ADD_EXECUTABLE(ImageCopy ImageCopy.cxx) 
-TARGET_LINK_LIBRARIES(ImageCopy ITKIO)
-INSTALL_TARGETS(/bin ImageCopy)
-SET(IMAGE_COPY "${EXECUTABLE_OUTPUT_PATH}/ImageCopy" CACHE INTERNAL "ImageCopy path to be used by subprojects")
-
 ADD_EXECUTABLE(itkTestDriver itkTestDriver.cxx) 
 TARGET_LINK_LIBRARIES(itkTestDriver ITKIO)
 INSTALL_TARGETS(/bin itkTestDriver)

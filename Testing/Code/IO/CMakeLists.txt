@@ -1,4 +1,22 @@
 
+#
+# Build ImageCompare: a helper application for comparing tests outputs
+#
+ADD_EXECUTABLE(ImageCompare ImageCompare.cxx) 
+TARGET_LINK_LIBRARIES(ImageCompare ITKIO)
+INSTALL_TARGETS(/bin ImageCompare)
+SET(IMAGE_COMPARE "${EXECUTABLE_OUTPUT_PATH}/ImageCompare" CACHE INTERNAL "ImageCompare path to be used by subprojects")
+
+#
+# Build ImageCopy: a helper application for moving images around
+#
+ADD_EXECUTABLE(ImageCopy ImageCopy.cxx) 
+TARGET_LINK_LIBRARIES(ImageCopy ITKIO)
+INSTALL_TARGETS(/bin ImageCopy)
+SET(IMAGE_COPY "${EXECUTABLE_OUTPUT_PATH}/ImageCopy" CACHE INTERNAL "ImageCopy path to be used by subprojects")
+
+
+
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
 SET(IO_TESTS ${CXX_TEST_PATH}/itkIOTests)
