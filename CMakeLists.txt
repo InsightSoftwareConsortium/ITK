@@ -228,7 +228,7 @@ IF(EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
 
   # CableSwig is included in the source distribution.
   SET(ITK_BUILD_CABLESWIG 1)
-  SET(CableSwig_DIR ${ITK_BINARY_DIR}/Utilities/CableSwig)
+  SET(CableSwig_DIR ${ITK_BINARY_DIR}/Utilities/CableSwig CACHE PATH "CableSwig_DIR: The directory containing CableSwigConfig.cmake.")
   SET(CableSwig_FOUND 1)
   SET(CableSwig_INSTALL_ROOT ${ITK_INSTALL_LIB_DIR}/CSwig)
   INCLUDE(${CableSwig_DIR}/CableSwigConfig.cmake OPTIONAL) 
