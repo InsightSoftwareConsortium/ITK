@@ -143,7 +143,7 @@ ENDIF("${ITK_VERSION}" STRLESS "${ITK_REQUIRED_VERSION}")
 # Load the CableSwig settings used by ITK, or find CableSwig otherwise.
 #-----------------------------------------------------------------------------
 #
-SET(CableSwig_DIR ${ITK_CableSwig_DIR})
+#SET(CableSwig_DIR ${ITK_CableSwig_DIR})
 FIND_PACKAGE(CableSwig REQUIRED)
 
 
