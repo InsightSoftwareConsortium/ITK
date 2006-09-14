@@ -187,14 +187,15 @@ ImageSpatialObject< TDimension,  PixelType >
     PointType p = inverse->TransformPoint(point);
 
     typename InterpolatorType::ContinuousIndexType index;
+    typedef typename InterpolatorType::OutputType InterpolatorOutputType;
     for(unsigned int i=0; i<TDimension; i++)
       {
       index[i] = p[i];
       }
     
-    value = static_cast<double>(DefaultConvertPixelTraits<PixelType>::GetScalarValue(
+    value = static_cast<double>(DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
                                                m_Interpolator->EvaluateAtContinuousIndex(index)));
-
+  
     return true;
     }
   else
