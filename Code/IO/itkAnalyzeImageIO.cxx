@@ -990,7 +990,7 @@ void AnalyzeImageIO::ReadImageInformation()
       {
       this->SetDirection(2,dirz);
       }
-#if defined(DEPRECATED_METADATA_ORIENTATION)
+#if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
     itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient);
 #endif  
   }
@@ -1144,7 +1144,7 @@ AnalyzeImageIO
     }
 
   itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
-#if defined(DEPRECATED_METADATA_ORIENTATION)
+#if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
   if ( !itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient) )
     {
 #endif
@@ -1161,7 +1161,7 @@ AnalyzeImageIO
       }
     coord_orient =
       itk::SpatialOrientationAdapter<3>().FromDirectionCosines(dir);
-#if defined(DEPRECATED_METADATA_ORIENTATION)
+#if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
     }
 #endif
   switch (coord_orient)

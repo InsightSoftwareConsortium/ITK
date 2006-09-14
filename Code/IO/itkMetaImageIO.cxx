@@ -444,7 +444,7 @@ void MetaImageIO::ReadImageInformation()
     this->SetOrigin(i, m_MetaImage.Position(i));
     } 
 
-#if defined(DEPRECATED_METADATA_ORIENTATION)
+#if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
   itk::MetaDataDictionary & thisMetaDict = this->GetMetaDataDictionary();
 #endif
   /* TO - DO */
@@ -881,7 +881,7 @@ void MetaImageIO::ReadImageInformation()
         break;
         }
       }
-#if defined(DEPRECATED_METADATA_ORIENTATION)
+#if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
     if(!coordUndefined)
       {
       itk::EncapsulateMetaData
@@ -1062,11 +1062,11 @@ MetaImageIO
 
   if(nDims == 3)
     {
-#if defined(DEPRECATED_METADATA_ORIENTATION)
+#if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
     itk::MetaDataDictionary & thisMetaDict = this->GetMetaDataDictionary();
 #endif  
     itk::SpatialOrientation::ValidCoordinateOrientationFlags coordOrient;
-#if defined(DEPRECATED_METADATA_ORIENTATION)
+#if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
     if( !itk::ExposeMetaData
           <itk::SpatialOrientation::ValidCoordinateOrientationFlags>
           (thisMetaDict, ITK_CoordinateOrientation, coordOrient) )
@@ -1084,7 +1084,7 @@ MetaImageIO
         dir[i][2] = dirz[0];
         }
       coordOrient = itk::SpatialOrientationAdapter<3>().FromDirectionCosines(dir);
-#if defined(DEPRECATED_METADATA_ORIENTATION)
+#if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
       }
 #endif
 

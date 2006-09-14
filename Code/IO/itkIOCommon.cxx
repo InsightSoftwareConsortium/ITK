@@ -26,9 +26,9 @@ const char *const ITK_VoxelUnits = "ITK_VoxelUnits";
 const char *const ITK_OnDiskBitPerPixel = "ITK_OnDiskBitPerPixel";
 const char *const SPM_ROI_SCALE = "SPM_ROI_SCALE";
 const char *const ITK_FileNotes = "ITK_FileNotes";
-  //#if defined(DEPRECATED_METADATA_ORIENTATION)
+#if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
 const char *const ITK_CoordinateOrientation = "ITK_CoordinateOrientation";
-  //#endif
+#endif
 const char *const ITK_Origin = "ITK_Origin";
 const char *const ITK_Spacing = "ITK_Spacing";
 const char *const ITK_FileOriginator = "ITK_FileOriginator";

@@ -230,9 +230,7 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
     {
     return false;
     }
-#if defined(DEPRECATED_METADATA_ORIENTATION)
   itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
-#endif
   itk::SpatialOrientation::ValidCoordinateOrientationFlags
     coord_orient(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
   if(this->m_B2MaskHeader.DoesKeyExist("MASK_ACQ_PLANE:"))
@@ -256,10 +254,8 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
       coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
       }
     }
-#if defined(DEPRECATED_METADATA_ORIENTATION)
   itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
     (thisDic,ITK_CoordinateOrientation, coord_orient);
-#endif
     //An error was encountered in code that depends upon the valid coord_orientation.
     typedef SpatialOrientationAdapter<3> OrientAdapterType;
     SpatialOrientationAdapter<3>::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
@@ -454,13 +450,8 @@ Brains2MaskImageIO
   std::string fname = this->m_FileName;
   replace_blanks(fname);
   std::string orientation = "UNKNOWN";
-  itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
-#if defined(DEPRECATED_METADATA_ORIENTATION)
-  if ( itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient) )
-    {
-#else
     itk::SpatialOrientationAdapter<3>::DirectionType dir;
-    {
+    itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
     std::vector<double> dirx = this->GetDirection(0);
     std::vector<double> diry = this->GetDirection(1);
     std::vector<double> dirz = this->GetDirection(2);
@@ -471,8 +462,7 @@ Brains2MaskImageIO
       dir[i][2] = dirz[i];
       }
     coord_orient = SpatialOrientationAdapter<3>().FromDirectionCosines(dir);
-    }
-#endif
+
     switch (coord_orient)
       {
       case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
@@ -500,9 +490,6 @@ Brains2MaskImageIO
             );
         break;
       }
-#if defined(DEPRECATED_METADATA_ORIENTATION)
-    }
-#endif
   sprintf(buf,mask_header_format,
           patient_id.c_str(),
           "00000",                 // scan_id
