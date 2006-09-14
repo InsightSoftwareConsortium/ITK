@@ -220,7 +220,8 @@ public:
   TypeEnumType StringToType(const char* type);
 
   void SetVerbose(bool verbose) {m_Verbose = verbose;}
-
+  void SetParseFailureOnUnrecognizedOption(bool fail) 
+  { m_FailOnUnrecognizedOption = fail; }
 protected:
 
   /** Small XML helper */
@@ -242,7 +243,7 @@ private:
                                      //   case we have multiple options
 
   bool         m_Verbose;
-
+  bool         m_FailOnUnrecognizedOption;
 }; // end of class
 
 #if (METAIO_USE_NAMESPACE)

@@ -34,10 +34,11 @@ MetaCommand::MetaCommand()
   m_Description = "";
   m_ParsedOptionVector.clear();
   m_Verbose = true;
+  m_FailOnUnrecognizedOption = false;
 }
 
 
-/** Extract the date from the $Date: 2006-08-07 20:40:22 $ cvs command */
+/** Extract the date from the $Date: 2006-09-14 18:09:09 $ cvs command */
 METAIO_STL::string MetaCommand::ExtractDateFromCVS(METAIO_STL::string date)
 {
   METAIO_STL::string newdate;
@@ -1292,11 +1293,18 @@ bool MetaCommand::Parse(int argc, char* argv[])
           args = "";
           }
         }
-      else if(m_Verbose)
+      else 
+        {
+        if(m_Verbose)
         {
         METAIO_STREAM::cout << "The tag " << tag.c_str() 
                   << " is not a valid argument : skipping this tag" 
                   << METAIO_STREAM::endl;
+        }
+        if(m_FailOnUnrecognizedOption)
+          {
+          return false;
+          }
         }
       if(inArgument)
         {
