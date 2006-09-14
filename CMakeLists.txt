@@ -146,7 +146,7 @@ IF(ITK_USE_KWSTYLE)
   ADD_CUSTOM_COMMAND(
     OUTPUT ${ITK_BINARY_DIR}/KWStyleReport.txt
     COMMAND ${KWSTYLE_EXECUTABLE}
-    ARGS    -xml ${ITK_BINARY_DIR}/ITK.kws.xml -o ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITKOverwrite.txt -R -v -d ${ITK_SOURCE_DIR} 
+    ARGS    -xml ${ITK_BINARY_DIR}/ITK.kws.xml -o ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITKOverwrite.txt -vim -D ${ITK_BINARY_DIR}/ITKFiles.txt  
     COMMENT "Coding Style Checker"
     )
   ADD_CUSTOM_TARGET(StyleCheck DEPENDS ${ITK_BINARY_DIR}/KWStyleReport.txt)
@@ -473,6 +473,9 @@ CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in
 
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/KWStyle/ITK.kws.xml.in
                ${ITK_BINARY_DIR}/ITK.kws.xml)
+
+CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/KWStyle/ITKFiles.txt.in
+               ${ITK_BINARY_DIR}/ITKFiles.txt)
 
 #-----------------------------------------------------------------------------
 # The entire ITK tree should use the same include path, except for the

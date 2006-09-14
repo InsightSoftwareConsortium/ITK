@@ -9,7 +9,7 @@
 <Tabs>1</Tabs>
 <Spaces>3</Spaces>
 <Comments>/**, *, */,true</Comments>
-<Header>"@ITK_SOURCE_DIR@/Utilities/KWStyle/ITKHeader.h",false,true</Header>
+<Header>@ITK_SOURCE_DIR@/Utilities/KWStyle/ITKHeader.h,false,true</Header>
 <Indent>SPACE,2,true,true</Indent>
 <Namespace>itk</Namespace>
 <NameOfClass>[NameOfClass],itk</NameOfClass>
