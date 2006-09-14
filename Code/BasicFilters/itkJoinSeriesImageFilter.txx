@@ -117,6 +117,30 @@ JoinSeriesImageFilter<TInputImage,TOutputImage>
     // set the spacing and origin
     outputPtr->SetSpacing( outputSpacing );
     outputPtr->SetOrigin( outputOrigin );
+    //
+    // Copy the direction cosines from the input to the output.
+    // On join, the output dim is always >= input dim
+    typedef typename InputImageType::DirectionType InputDirectionType;
+    typedef typename OutputImageType::DirectionType OutputDirectionType;
+    InputDirectionType inputDir = inputPtr->GetDirection();
+    unsigned int inputdim = InputImageType::GetImageDimension();
+    unsigned int outputdim = OutputImageType::GetImageDimension();
+    OutputDirectionType outputDir = outputPtr->GetDirection();
+    for(unsigned int i = 0; i < outputdim; i++)
+      {
+      for(unsigned int j = 0; j < outputdim; j++)
+        {
+        if(j < inputdim && i < inputdim)
+          {
+          outputDir[i][j] = inputDir[i][j];
+          }
+        else
+          {
+          outputDir[i][j] = i == j ? 1.0 : 0.0;
+          }
+        }
+      }
+    outputPtr->SetDirection(outputDir);
     }
   else
     {

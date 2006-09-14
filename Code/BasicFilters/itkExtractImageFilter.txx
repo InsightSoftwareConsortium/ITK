@@ -190,10 +190,15 @@ ExtractImageFilter<TInputImage,TOutputImage>
           {
           outputSpacing[nonZeroCount] = inputSpacing[i];
           outputOrigin[nonZeroCount] = inputOrigin[i];
+          int nonZeroCount2 = 0;
           for (unsigned int dim = 0; dim < OutputImageDimension; ++dim)
             {
-            outputDirection[nonZeroCount][dim] =
-              inputDirection[nonZeroCount][dim];
+            if (m_ExtractionRegion.GetSize()[dim])
+              {
+              outputDirection[nonZeroCount][nonZeroCount2] =
+                inputDirection[nonZeroCount][dim];
+              ++nonZeroCount2;
+              }
             }
           nonZeroCount++;
           }
