@@ -311,21 +311,17 @@ public:
       }
     return *this;
     }
-  inline Self& operator--(int)
+  inline Self operator--(int) // postfix operator v--;
     {
-    for( ElementIdentifier i=0; i< m_NumElements; i++ )
-      {
-      this->m_Data[i] -= static_cast< ValueType >( 1.0 );
-      }
-    return *this;
+      Self tmp(*this);
+      --tmp;
+      return tmp;
     }
-  inline Self& operator++(int) // postfix operator v++;
+  inline Self operator++(int) // postfix operator v++;
     {
-    for( ElementIdentifier i=0; i< m_NumElements; i++ )
-      {
-      this->m_Data[i] += static_cast< ValueType >( 1.0 );
-      }
-    return *this;
+      Self tmp(*this);
+      ++tmp;
+      return tmp;
     }
    template< class T > inline Self& operator-=
                   ( const VariableLengthVector< T > &v )
