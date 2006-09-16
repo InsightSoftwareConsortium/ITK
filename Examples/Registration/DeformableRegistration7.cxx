@@ -489,8 +489,7 @@ int main( int argc, char *argv[] )
       index = fi.GetIndex();
       field->TransformIndexToPhysicalPoint( index, fixedPoint );
       movingPoint = transform->TransformPoint( fixedPoint );
-      displacement[0] = movingPoint[0] - fixedPoint[0];
-      displacement[1] = movingPoint[1] - fixedPoint[1];
+      displacement = movingPoint - fixedPoint;
       fi.Set( displacement );
       ++fi;
       }
