@@ -174,7 +174,8 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 
   InputRegionType region = this->GetInput()->GetRequestedRegion();
   InputSizeType   size   = region.GetSize();
-
+  typename InputImageType::RegionType::IndexType startIndex;
+  startIndex = this->GetInput()->GetRequestedRegion().GetIndex();
 
   for (unsigned int i = 0; i < InputImageDimension; i++)
     {
@@ -210,7 +211,8 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
         idx[ d % InputImageDimension ] =
              static_cast<unsigned int>(
                  static_cast<double>( index ) /
-                 static_cast<double>( k[count] ) );
+                 static_cast<double>( k[count] ) )
+             + startIndex[ d % InputImageDimension ];
 
         index %= k[ count ];
         count++;
@@ -285,13 +287,16 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   vnl_vector<OutputPixelType> g(nd);  g = 0;
   vnl_vector<OutputPixelType> h(nd);  h = 0;
 
+  typename InputImageType::RegionType::IndexType startIndex;
+  startIndex = this->GetInput()->GetRequestedRegion().GetIndex();
+
   OutputPixelType di;
 
   int l = -1;
 
   for( unsigned int i = 0; i < nd; i++ )
     {
-    idx[d] = i;
+    idx[d] = i + startIndex[d];
 
     di = output->GetPixel(idx);
 
@@ -360,7 +365,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
       d1 = d2;
       d2 = vnl_math_abs(g(l+1)) + (h(l+1)-iw)*(h(l+1)-iw);
       }
-    idx[d] = i;
+    idx[d] = i + startIndex[d];
 
     if ( this->GetInput()->GetPixel( idx ) != this->m_BackgroundValue )
       {
