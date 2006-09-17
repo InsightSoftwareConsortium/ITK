@@ -294,6 +294,7 @@ int main( int argc, char* argv[] )
       {
       std::cerr << "Tag " << entryId;
       std::cerr << " not found in the DICOM header" << std::endl;
+      return EXIT_FAILURE;
       }
 // Software Guide : EndCodeSnippet
 
@@ -318,6 +319,11 @@ int main( int argc, char* argv[] )
       std::string tagvalue = entryvalue->GetMetaDataObjectValue();
       std::cout << "Patient's Name (" << entryId <<  ") ";
       std::cout << " is: " << tagvalue << std::endl;
+      }
+    else
+      {
+      std::cerr << "Entry was not of string type" << std::endl;
+      return EXIT_FAILURE;
       }
 // Software Guide : EndCodeSnippet
 
