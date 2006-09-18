@@ -8,6 +8,17 @@ INSTALL_TARGETS(/bin ImageCompare)
 SET(IMAGE_COMPARE "${EXECUTABLE_OUTPUT_PATH}/ImageCompare" CACHE INTERNAL "ImageCompare path to be used by subprojects")
 
 #
+# Build ImageCompareCommand: a helper application for comparing tests outputs.
+# This is a duplicate application of ImageCompare but with a metaCommand arguments
+# interface. This allows to specify in the command line the tolerance parameters 
+# to be used for comparing the images.
+#
+ADD_EXECUTABLE(ImageCompareCommand ImageCompareCommand.cxx) 
+TARGET_LINK_LIBRARIES(ImageCompareCommand ITKIO)
+INSTALL_TARGETS(/bin ImageCompareCommand)
+SET(IMAGE_COMPARE_COMMAND "${EXECUTABLE_OUTPUT_PATH}/ImageCompareCommand" CACHE INTERNAL "ImageCompare path to be used by subprojects")
+
+#
 # Build ImageCopy: a helper application for moving images around
 #
 ADD_EXECUTABLE(ImageCopy ImageCopy.cxx) 
