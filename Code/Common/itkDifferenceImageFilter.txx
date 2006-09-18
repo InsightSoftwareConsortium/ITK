@@ -97,9 +97,11 @@ DifferenceImageFilter<TInputImage, TOutputImage>
   
   // Resize the thread temporaries
   m_ThreadDifferenceSum.SetSize(numberOfThreads);
+  m_ThreadNumberOfPixels.SetSize(numberOfThreads);
   
   // Initialize the temporaries
   m_ThreadDifferenceSum.Fill(NumericTraits<AccumulateType>::Zero);
+  m_ThreadNumberOfPixels.Fill(0);
 }
 
 //----------------------------------------------------------------------------
@@ -186,6 +188,7 @@ DifferenceImageFilter<TInputImage, TOutputImage>
         
         // Update difference image statistics.
         m_ThreadDifferenceSum[threadId] += minimumDifference;
+        m_ThreadNumberOfPixels[threadId]++;
         }
       else
         {
