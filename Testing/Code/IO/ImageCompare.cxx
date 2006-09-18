@@ -9,36 +9,116 @@
 #include "itkExtractImageFilter.h"
 #include "itkDifferenceImageFilter.h"
 
-using namespace std;
+#include "metaCommand.h"
+
 
 #define ITK_TEST_DIMENSION_MAX 6
 
-int RegressionTestImage (const char *, const char *, int, bool);
+int RegressionTestImage (const char *, const char *, int, bool,double,int,int);
 
 int main(int argc, char **argv)
 {
   if(argc < 3)
     {
-    cerr << "Usage:" << endl;
-    cerr << "testImage, baselineImage1, [baselineImage2, baselineImage3, ...]" << endl;
-    cerr << "Note that if you supply more than one baselineImage, this test will pass if any" << endl;
-    cerr << "of them match the testImage" << endl;
+    std::cerr << "Usage:" << std::endl;
+    std::cerr << "testImage, baselineImage1, [baselineImage2, baselineImage3, ...]" << std::endl;
+    std::cerr << "Note that if you supply more than one baselineImage, this test will pass if any" << std::endl;
+    std::cerr << "of them match the testImage" << std::endl;
     return -1;
     }
   int bestBaselineStatus = 2001;
   int bestBaseline = 2;
+
+  // Process some command-line arguments intended for BatchMake
+  MetaCommand command;
+
+  // Option for setting the tolerable difference in intensity values
+  // between the two images.
+  command.SetOption("toleranceIntensity","ToleranceIntensity",false,
+      "Acceptable differences in pixels intensity");
+  command.AddOptionField("toleranceIntensity","value",MetaCommand::FLOAT,true);
+
+  // Option for setting the radius of the neighborhood around a pixel
+  // to search for similar intensity values.
+  command.SetOption("toleranceRadius","ToleranceRadius",false,
+      "Neighbor pixels to look for similar values");
+  command.AddOptionField("toleranceRadius","value",MetaCommand::INT,true);
+
+  // Option for setting the number of pixel that can be tolerated to 
+  // have different intensities.
+  command.SetOption("toleranceNumberOfPixels","ToleranceNumberOfPixels",false,
+      "Number of Pixels that are acceptable to have intensity differences");
+  command.AddOptionField("toleranceNumberOfPixels","value",MetaCommand::INT,true);
+
+  // Option for setting the filename of the test image.
+  command.SetOption("testImage","TestImage",true,
+      "Filename of the image to be tested against the baseline images");
+  command.AddOptionField("testImage","filename",MetaCommand::STRING,true);
+
+
+  command.Parse( argc, argv );
+
+
+  double toleranceIntensity = 0.0;
+  unsigned int  toleranceRadius = 0;
+  unsigned long toleranceNumberOfPixels = 0;
+  std::string testImageFilename;
+  std::string baselineImageFilename;
+
+  // If a value of intensity tolerance was given in the command line
+  if( command.GetOptionWasSet("toleranceIntensity") )
+    {
+    toleranceIntensity = 
+      command.GetValueAsInt("toleranceIntensity","value");
+    }
+ 
+  // If a value of neighborhood radius tolerance was given in the command line
+  if( command.GetOptionWasSet("toleranceRadius") )
+    {
+    toleranceRadius = 
+      command.GetValueAsInt("toleranceRadius","value");
+    }
+ 
+  // If a value of number of pixels tolerance was given in the command line
+  if( command.GetOptionWasSet("toleranceNumberOfPixels") )
+    {
+    toleranceNumberOfPixels = 
+      command.GetValueAsInt("toleranceNumberOfPixels","value");
+    }
+     
+  // Get the filename of the image to be tested
+  if( command.GetOptionWasSet("testImage") )
+    {
+    testImageFilename = 
+      command.GetValueAsInt("testImage","filename");
+    }
+ 
+  // Get the filename of the base line image
+  if( command.GetOptionWasSet("baselineImage") )
+    {
+    baselineImageFilename = 
+      command.GetValueAsInt("baselineImage","filename");
+    }
+ 
   try
     {
-    if(argc == 3)
+    if( argc > 20 ) // FIXME: Can metacommand manage a list of filenames ?
       {
-      bestBaselineStatus = RegressionTestImage(argv[1], argv[2], 0, false);
+      bestBaselineStatus = 
+        RegressionTestImage(
+            testImageFilename.c_str(), baselineImageFilename.c_str(),
+            0, false, toleranceIntensity, toleranceRadius, 
+            toleranceNumberOfPixels);
       }
     else
       {
       int currentStatus = 2001;
       for(int i=2;i<argc;i++)
         {
-        currentStatus = RegressionTestImage(argv[1], argv[i], 0, false);
+        currentStatus = 
+          RegressionTestImage(
+              testImageFilename.c_str(), argv[i], 0, false,
+              toleranceIntensity,toleranceRadius,toleranceNumberOfPixels);
         if(currentStatus < bestBaselineStatus)
           {
           bestBaselineStatus = currentStatus;
@@ -53,11 +133,17 @@ int main(int argc, char **argv)
     // generate images of our closest match
     if(bestBaselineStatus == 0)
       {
-      RegressionTestImage(argv[1], argv[bestBaseline], 1, false);
+      RegressionTestImage(
+        testImageFilename.c_str(),
+        baselineImageFilename.c_str(), 1, false,
+        toleranceIntensity,toleranceRadius,toleranceNumberOfPixels);
       }
     else
       {
-      RegressionTestImage(argv[1], argv[bestBaseline], 1, true);
+      RegressionTestImage(
+        testImageFilename.c_str(), 
+        argv[bestBaseline], 1, true,
+        toleranceIntensity,toleranceRadius,toleranceNumberOfPixels);
       }
     
     }
@@ -79,13 +165,15 @@ int main(int argc, char **argv)
     std::cerr << "ITK test driver caught an unknown exception!!!\n";
     bestBaselineStatus = -1;
     }
-  cout << bestBaselineStatus << endl;
+  std::cout << bestBaselineStatus << std::endl;
   return bestBaselineStatus;
 }
 
 // Regression Testing Code
 int RegressionTestImage (const char *testImageFilename, const char *baselineImageFilename,
-                         int reportErrors, bool differences)
+                         int reportErrors, bool createDifferenceImage, 
+                         double intensityTolerance,
+                         int radiusTolerance, int numberOfPixelsTolerance)
 {
   // Use the factory mechanism to read the test and baseline files and convert them to double
   typedef itk::Image<double,ITK_TEST_DIMENSION_MAX> ImageType;
@@ -140,11 +228,34 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
   DiffType::Pointer diff = DiffType::New();
     diff->SetValidInput(baselineReader->GetOutput());
     diff->SetTestInput(testReader->GetOutput());
-    diff->SetDifferenceThreshold(2.0);
+    
+    diff->SetDifferenceThreshold( intensityTolerance );
+    diff->SetToleranceRadius( radiusTolerance );
+
     diff->UpdateLargestPossibleRegion();
 
-  double status = diff->GetTotalDifference();
+  bool differenceFailed = false;
+  
+  double averageIntensityDifference = diff->GetTotalDifference();
 
+  unsigned long numberOfPixelsWithDifferences = 
+                        diff->GetNumberOfPixelsWithDifferences();
+
+  if( averageIntensityDifference > 0.0 )
+    {
+    if( numberOfPixelsWithDifferences > numberOfPixelsTolerance )
+      {
+      differenceFailed = true;
+      }
+    else
+      {
+      differenceFailed = false;
+      }
+    }
+  else
+    {
+    differenceFailed = false; 
+    }
   
   if (reportErrors)
     {
@@ -177,11 +288,15 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
 
     WriterType::Pointer writer = WriterType::New();
       writer->SetInput(extract->GetOutput());
-    if(differences)
+    if(createDifferenceImage)
       {
       // if there are discrepencies, create an diff image
       std::cout << "<DartMeasurement name=\"ImageError\" type=\"numeric/double\">";
-      std::cout << status;
+      std::cout << averageIntensityDifference;
+      std::cout <<  "</DartMeasurement>" << std::endl;
+
+      std::cout << "<DartMeasurement name=\"NumberOfPixelsError\" type=\"numeric/int\">";
+      std::cout << numberOfPixelsWithDifferences;
       std::cout <<  "</DartMeasurement>" << std::endl;
 
       ::itk::OStringStream diffName;
@@ -262,5 +377,5 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
 
 
     }
-  return (status != 0) ? 1 : 0;
+  return differenceFailed;
 }

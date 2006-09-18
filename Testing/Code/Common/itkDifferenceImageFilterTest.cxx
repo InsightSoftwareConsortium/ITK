@@ -90,5 +90,11 @@ int itkDifferenceImageFilterTest(int argc, char *argv [] )
     return EXIT_FAILURE;
     }
 
+  unsigned long numberOfPixelsWithDifferences =
+    filter->GetNumberOfPixelsWithDifferences();
+
+  std::cout << "Number of pixels with differences = ";
+  std::cout << numberOfPixelsWithDifferences << std::endl;
+
   return EXIT_SUCCESS;
 }

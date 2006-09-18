@@ -79,6 +79,7 @@ public:
   /** Get parameters of the difference image after execution.  */
   itkGetMacro(MeanDifference, RealType);
   itkGetMacro(TotalDifference, AccumulateType);
+  itkGetMacro(NumberOfPixelsWithDifferences, unsigned long);
   
 protected:
   DifferenceImageFilter();
@@ -106,9 +107,11 @@ protected:
   OutputPixelType m_DifferenceThreshold;
   RealType m_MeanDifference;
   AccumulateType m_TotalDifference;
+  unsigned long  m_NumberOfPixelsWithDifferences;
   int m_ToleranceRadius;
   
   Array<AccumulateType> m_ThreadDifferenceSum;
+  Array<unsigned long>  m_ThreadNumberOfPixels;
   
 private:
   DifferenceImageFilter(const Self&); //purposely not implemented

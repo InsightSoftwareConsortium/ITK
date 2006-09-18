@@ -46,6 +46,7 @@ DifferenceImageFilter<TInputImage, TOutputImage>
   // Initialize statistics about difference image.
   m_MeanDifference = NumericTraits<RealType>::Zero;
   m_TotalDifference = NumericTraits<AccumulateType>::Zero;
+  m_NumberOfPixelsWithDifferences = 0;
 }
 
 //----------------------------------------------------------------------------
@@ -92,6 +93,7 @@ DifferenceImageFilter<TInputImage, TOutputImage>
   // Initialize statistics about difference image.
   m_MeanDifference = NumericTraits<RealType>::Zero;
   m_TotalDifference = NumericTraits<AccumulateType>::Zero;
+  m_NumberOfPixelsWithDifferences = 0;
   
   // Resize the thread temporaries
   m_ThreadDifferenceSum.SetSize(numberOfThreads);
@@ -208,9 +210,13 @@ DifferenceImageFilter<TInputImage, TOutputImage>
   for(int i=0; i < numberOfThreads; ++i)
     {
     m_TotalDifference += m_ThreadDifferenceSum[i];
+    m_NumberOfPixelsWithDifferences += m_ThreadNumberOfPixels[i];
     }
   
-  // Get the total number of pixels processed.
+  // Get the total number of pixels processed in the region.
+  // This is different from the m_TotalNumberOfPixels which
+  // is the number of pixels that actually have differences
+  // above the intensity threshold.
   OutputImageRegionType region = this->GetOutput()->GetRequestedRegion();
   AccumulateType numberOfPixels = region.GetNumberOfPixels();
   
