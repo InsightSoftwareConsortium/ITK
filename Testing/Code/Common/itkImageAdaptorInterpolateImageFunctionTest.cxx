@@ -71,9 +71,6 @@ const PointType& point,
 bool isInside,
 OutputType trueValue )
 {
-
-  int k;
-
   std::cout << " Point: " << point;
 
   bool bvalue = interp->IsInsideBuffer( point );
