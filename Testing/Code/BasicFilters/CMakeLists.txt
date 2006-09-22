@@ -1058,10 +1058,6 @@ ADD_EXECUTABLE(itkBasicFiltersTests3 itkBasicFiltersTests3.cxx ${BasicFilters3_S
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests3 ITKStatistics ITKIO ITKNumerics ITKBasicFilters)
 ADD_EXECUTABLE(itkBasicFiltersTests4 itkBasicFiltersTests4.cxx ${BasicFilters4_SRCS})
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests4 ITKStatistics ITKIO ITKNumerics ITKBasicFilters)
-IF(ITK_EXPLICIT_INSTANTIATION)
-TARGET_LINK_LIBRARIES(itkBasicFiltersTests4 ITKCommonExplicit)
-ENDIF(ITK_EXPLICIT_INSTANTIATION)
-
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
 
