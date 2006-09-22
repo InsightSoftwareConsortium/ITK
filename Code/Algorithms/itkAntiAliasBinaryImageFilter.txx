@@ -64,11 +64,20 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
   m_CurvatureFunction = CurvatureFunctionType::New();
   this->SetDifferenceFunction(m_CurvatureFunction);
 
-  if (TInputImage::ImageDimension == 2) this->SetNumberOfLayers(2);
-  else if (TInputImage::ImageDimension == 3) this->SetNumberOfLayers(3);
-  else
+  if (TInputImage::ImageDimension == 2)
     {
-    this->SetNumberOfLayers(3);
+    this->SetNumberOfLayers(2);
+    }
+  else 
+    {
+    if (TInputImage::ImageDimension == 3) 
+      {
+      this->SetNumberOfLayers(3);
+      }
+    else
+      {
+      this->SetNumberOfLayers(TInputImage::ImageDimension);
+      }
     }
     
   this->SetMaximumRMSError(0.07);
