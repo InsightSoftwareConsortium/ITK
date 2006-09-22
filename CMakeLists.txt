@@ -77,7 +77,7 @@ ENDIF(BUILD_TESTING)
 #-----------------------------------------------------------------------------
 # Output directories.
 IF(NOT LIBRARY_OUTPUT_PATH)
-  SET (LIBRARY_OUTPUT_PATH ${ITK_BINARY_DIR}/lib CACHE INTERNAL "Single output directory for building all libraries.")
+  SET (LIBRARY_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all libraries.")
 ENDIF(NOT LIBRARY_OUTPUT_PATH)
 IF(NOT EXECUTABLE_OUTPUT_PATH)
   SET (EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
