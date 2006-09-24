@@ -2,28 +2,6 @@
 
 PROJECT( netlib C )
 
-SET( netlib_sources
-  # The "Triangle" program of Jonathan Richard Shewchuk
-  triangle.c triangle.h
-  )
-
-ADD_LIBRARY( itknetlib ${netlib_sources} )
-
-IF(UNIX)
-  TARGET_LINK_LIBRARIES( itknetlib m )
-ENDIF(UNIX)
-
-IF(ITK_LIBRARY_PROPERTIES)
-  SET_TARGET_PROPERTIES(itknetlib PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-ENDIF(ITK_LIBRARY_PROPERTIES)
-
-IF(NOT VXL_INSTALL_NO_LIBRARIES)
-  INSTALL_TARGETS(
-    ${VXL_INSTALL_LIB_DIR}
-    RUNTIME_DIRECTORY ${VXL_INSTALL_BIN_DIR}
-    itknetlib)
-ENDIF(NOT VXL_INSTALL_NO_LIBRARIES)
-
 # Allow sources in subdirectories to see the include files.
 INCLUDE_DIRECTORIES(${netlib_SOURCE_DIR})
 
