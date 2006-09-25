@@ -8,4 +8,4 @@
 
 SET( NETLIB_FOUND "YES" )
 SET( NETLIB_INCLUDE_DIR ${vxl_SOURCE_DIR}/v3p/netlib )
-SET( NETLIB_LIBRARIES itknetlib itkv3p_netlib)
+SET( NETLIB_LIBRARIES itkv3p_netlib)
