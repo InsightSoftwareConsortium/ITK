@@ -2,9 +2,8 @@
 #Please contact hans-johnson@uiowa.edu for making enhancments/corrections
 PROJECT(FSLEXAMPLES)
 
-INCLUDE_DIRECTORIES(${NIFTILIB_SOURCE_DIR} ${ZNZLIB_SOURCE_DIR} ${FSLIOLIB_SOURCE_DIR} )
+#This file used to contain an example of the use of FSL IO library.
+#The FSLIO code is copyrighted by the University of Oxford and distributed
+#under a license that is incompatible with ITK's. The FSL IO code has now
+#been removed from ITK.
 
-ADD_EXECUTABLE(  ${PACKAGE_PREFIX}fsl_api_driver fsl_api_driver.c )
-TARGET_LINK_LIBRARIES( fsl_api_driver ${PACKAGE_PREFIX}fslio)
-
-INSTALL_TARGETS(${BIN_INSTALL_DIR}  ${PACKAGE_PREFIX}fsl_api_driver)
