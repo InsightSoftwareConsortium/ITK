@@ -1,16 +1,14 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit (ITK)
-  Module:
+  Program:   Insight Segmentation & Registration Toolkit
   Language:  C++
-  Date:
-  Version:
 
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
-
-See COPYRIGHT.txt for copyright details.
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #if defined(_MSC_VER)
@@ -24,10 +22,11 @@ See COPYRIGHT.txt for copyright details.
 #include "itkAnalyzeDbh.h"
 #include "itkAnalyzeImageIO.h"
 #include "itkAnalyzeImageIOFactory.h"
-#include "itkBioRadImageIO.h"
-#include "itkBioRadImageIOFactory.h"
+#include "itkArchetypeSeriesFileNames.h"
 #include "itkBMPImageIO.h"
 #include "itkBMPImageIOFactory.h"
+#include "itkBioRadImageIO.h"
+#include "itkBioRadImageIOFactory.h"
 #include "itkBrains2HeaderBase.h"
 #include "itkBrains2HeaderFactory.h"
 #include "itkBrains2IPLHeaderInfo.h"
@@ -35,12 +34,12 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBrains2MaskImageIO.h"
 #include "itkBrains2MaskImageIOFactory.h"
 #include "itkConvertPixelBuffer.txx"
-#include "itkDICOMImageIO2.h"
-#include "itkDICOMImageIO2Factory.h"
-#include "itkDICOMSeriesFileNames.h"
 #include "itkDefaultConvertPixelTraits.h"
 #include "itkDicomImageIO.h"
 #include "itkDicomImageIOFactory.h"
+#include "itkGDCMImageIO.h"
+#include "itkGDCMImageIOFactory.h"
+#include "itkGDCMSeriesFileNames.h"
 #include "itkGE4ImageIO.h"
 #include "itkGE4ImageIOFactory.h"
 #include "itkGE5ImageIO.h"
@@ -67,6 +66,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMetaImageIO.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkMvtSunf.h"
+#include "itkNiftiImageIO.h"
+#include "itkNiftiImageIOFactory.h"
 #include "itkNrrdImageIO.h"
 #include "itkNrrdImageIOFactory.h"
 #include "itkNumericSeriesFileNames.h"
@@ -84,6 +85,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkStimulateImageIOFactory.h"
 #include "itkTIFFImageIO.h"
 #include "itkTIFFImageIOFactory.h"
+#include "itkTransformFileReader.h"
+#include "itkTransformFileWriter.h"
 #include "itkVTKImageIO.h"
 #include "itkVTKImageIOFactory.h"
 #include "itkXMLFile.h"
