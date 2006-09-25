@@ -31,6 +31,6 @@ ELSE("${ITK_VERSION_MAJOR}" GREATER 0.0)
   SET(NIFTI_INSTALL_NO_LIBRARIES 0)
 
   #Needs an if clause and more work before testing can take place.
-  SUBDIRS(Testing utils fsliolib examples)
+  SUBDIRS(Testing utils examples)
   ENABLE_TESTING()
 ENDIF("${ITK_VERSION_MAJOR}" GREATER 0.0)
