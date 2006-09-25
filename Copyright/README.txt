@@ -30,7 +30,51 @@ They are:
                   CVS repository.
 
 
- 6) Netlib:       More on netlib to be added here...
+ 6) Netlib:       Netlib is a conglomerate of packages. Each 
+                  one having different copyrights and licenses.
+                  Here is a listing of what is included inside
+                  Utilities/vxl/v3p/netlib
+
+    blas:         From www.netlib.org/blas :
+    
+    FAQ: The reference BLAS is a freely-available software package. 
+    It is available from netlib via anonymous ftp and the World Wide Web. 
+    Thus, it can be included in commercial software packages (and has been). 
+    We only ask that proper credit be given to the authors.
+
+
+    datapac:   Written by James Filliben, National Bureau of Standars.
+
+           Our understanding is that the US Government cannot hold
+           copyrights, therefore we assume that this code is in the 
+           public domain...
+
+    eispack:
+
+    lapack:
+
+    laso:
+
+    libf2c:
+
+    linalg:
+
+    linpack:
+
+    mathews:
+
+    minpack:
+
+    napack:
+
+    opt:
+
+    temperton:
+
+    tests:
+
+    toms:
+
 
 
  7) The triangle.c/h and showme.c files have been removed.
