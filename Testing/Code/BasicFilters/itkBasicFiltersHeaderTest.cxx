@@ -1,16 +1,14 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit (ITK)
-  Module:
+  Program:   Insight Segmentation & Registration Toolkit
   Language:  C++
-  Date:
-  Version:
 
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
-
-See COPYRIGHT.txt for copyright details.
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #if defined(_MSC_VER)
@@ -44,12 +42,12 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBSplineResampleImageFilterBase.txx"
 #include "itkBSplineResampleImageFunction.h"
 #include "itkBSplineUpsampleImageFilter.txx"
-#include "itkBinaryMaskToNarrowBandPointSetFilter.txx"
 #include "itkBilateralImageFilter.txx"
 #include "itkBinaryDilateImageFilter.txx"
 #include "itkBinaryErodeImageFilter.txx"
 #include "itkBinaryFunctorImageFilter.txx"
 #include "itkBinaryMagnitudeImageFilter.h"
+#include "itkBinaryMaskToNarrowBandPointSetFilter.txx"
 #include "itkBinaryMedianImageFilter.txx"
 #include "itkBinaryMorphologyImageFilter.txx"
 #include "itkBinaryThresholdImageFilter.txx"
@@ -138,6 +136,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkHMinimaImageFilter.txx"
 #include "itkHardConnectedComponentImageFilter.txx"
 #include "itkHausdorffDistanceImageFilter.txx"
+#include "itkHessian3DToVesselnessMeasureImageFilter.txx"
 #include "itkHessianRecursiveGaussianImageFilter.txx"
 #include "itkHoughTransform2DCirclesImageFilter.txx"
 #include "itkHoughTransform2DLinesImageFilter.txx"
@@ -150,6 +149,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkInterpolateImageFilter.txx"
 #include "itkInterpolateImagePointsFilter.txx"
 #include "itkInverseDeformationFieldImageFilter.txx"
+#include "itkInvertIntensityImageFilter.txx"
 #include "itkIsolatedConnectedImageFilter.txx"
 #include "itkIterativeInverseDeformationFieldImageFilter.txx"
 #include "itkJoinImageFilter.h"
@@ -172,6 +172,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMinimumMaximumImageCalculator.txx"
 #include "itkMinimumMaximumImageFilter.txx"
 #include "itkMirrorPadImageFilter.txx"
+#include "itkModulusImageFilter.txx"
+#include "itkMorphologicalGradientImageFilter.txx"
 #include "itkMorphologyImageFilter.txx"
 #include "itkMultiplyImageFilter.h"
 #include "itkNarrowBand.txx"
@@ -223,6 +225,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkShrinkImageFilter.txx"
 #include "itkSigmoidImageFilter.h"
 #include "itkSignedDanielssonDistanceMapImageFilter.txx"
+#include "itkSignedMaurerDistanceMapImageFilter.txx"
 #include "itkSimilarityIndexImageFilter.txx"
 #include "itkSimpleContourExtractorImageFilter.txx"
 #include "itkSimplexMeshAdaptTopologyFilter.txx"
@@ -293,6 +296,6 @@ See COPYRIGHT.txt for copyright details.
 int main ( int , char*  )
 {
   
-  return 0;
+  return EXIT_SUCCESS;
 }
 

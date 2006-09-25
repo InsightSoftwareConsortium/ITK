@@ -1,16 +1,14 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit (ITK)
-  Module:
+  Program:   Insight Segmentation & Registration Toolkit
   Language:  C++
-  Date:
-  Version:
 
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-Copyright (c) 2000 National Library of Medicine
-All rights reserved.
-
-See COPYRIGHT.txt for copyright details.
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #if defined(_MSC_VER)
@@ -28,6 +26,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCostFunction.h"
 #include "itkCumulativeGaussianCostFunction.h"
 #include "itkCumulativeGaussianOptimizer.h"
+#include "itkExhaustiveOptimizer.h"
+#include "itkFRPROptimizer.h"
 #include "itkGradientDescentOptimizer.h"
 #include "itkLBFGSBOptimizer.h"
 #include "itkLBFGSOptimizer.h"
@@ -40,9 +40,11 @@ See COPYRIGHT.txt for copyright details.
 #include "itkNonLinearOptimizer.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkOptimizer.h"
+#include "itkPowellOptimizer.h"
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 #include "itkRegularStepGradientDescentBaseOptimizer.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
+#include "itkSPSAOptimizer.h"
 #include "itkSingleValuedCostFunction.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkSingleValuedNonLinearVnlOptimizer.h"
@@ -54,6 +56,6 @@ See COPYRIGHT.txt for copyright details.
 int main ( int , char*  )
 {
   
-  return 0;
+  return EXIT_SUCCESS;
 }
 
