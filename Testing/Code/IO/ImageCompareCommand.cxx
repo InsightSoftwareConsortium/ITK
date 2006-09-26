@@ -55,12 +55,12 @@ int main(int argc, char **argv)
   command.AddOptionField("testImage","filename",MetaCommand::STRING,true);
 
   // Option for setting the filename of multiple baseline images.
-  command.SetOption("baselineImages","BaselineImages",true,
+  command.SetOption("baselineImages","BaselineImages",false,
       "List of baseline images <N> <image1> <image2>...<imageN>");
   command.AddOptionField("baselineImages","filename",MetaCommand::LIST,true);
 
   // Option for setting the filename of a single baseline image.
-  command.SetOption("baselineImage","BaselineImage",true,
+  command.SetOption("baselineImage","BaselineImage",false,
       "Baseline images filename");
   command.AddOptionField("baselineImage","filename",MetaCommand::STRING,true);
 
@@ -100,19 +100,25 @@ int main(int argc, char **argv)
   if( command.GetOptionWasSet("testImage") )
     {
     testImageFilename = 
-      command.GetValueAsInt("testImage","filename");
+      command.GetValueAsString("testImage","filename");
     }
  
   std::list< std::string > baselineImageFilenames;
   baselineImageFilenames.clear();
 
   bool singleBaselineImage = true;
+
+  if( !command.GetOptionWasSet("baselineImage") && !command.GetOptionWasSet("baselineImages") )
+    {
+    std::cerr << "You must provide a -BaselineImage or -BaselineImages option" << std::endl;
+    return EXIT_FAILURE;
+    }
      
   // Get the filename of the base line image
   if( command.GetOptionWasSet("baselineImage") )
     {
     singleBaselineImage = true;
-    baselineImageFilename = command.GetValueAsString("baselineImage");
+    baselineImageFilename = command.GetValueAsString("baselineImage","filename");
     }
 
   // Get the filename of the base line image
