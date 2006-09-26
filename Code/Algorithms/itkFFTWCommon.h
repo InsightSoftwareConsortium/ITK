@@ -36,6 +36,7 @@ namespace itk
       ~Proxy() {};
     };
 
+#if defined(USE_FFTWF)
 
     template <>
     class Proxy<float>
@@ -120,8 +121,8 @@ namespace itk
         fftwf_destroy_plan(p);
       }
     };
-
-
+#endif // USE_FFTWF
+#if defined(USE_FFTWD)
     template <> 
     class Proxy<double>
     {
@@ -205,8 +206,7 @@ namespace itk
         fftw_destroy_plan(p);
       }
     };
-
+#endif
   }
-
 }
 #endif
