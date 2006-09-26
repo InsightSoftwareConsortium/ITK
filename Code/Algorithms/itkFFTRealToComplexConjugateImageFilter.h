@@ -51,6 +51,8 @@ public:
   typedef TInputImageType ImageType;
   typedef typename ImageType::SizeType ImageSizeType;
   virtual void GenerateOutputInformation(); // figure out allocation for output image
+  virtual void GenerateInputRequestedRegion(); 
+  virtual void EnlargeOutputRequestedRegion(DataObject *output); 
   virtual bool FullMatrix() = 0; // must be implemented in child
 protected:
   FFTRealToComplexConjugateImageFilter() {}

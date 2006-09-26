@@ -17,7 +17,7 @@
 #ifndef _FFTWCommon_h
 #define _FFTWCommon_h
 
-#if defined(USE_FFTWF) || define(USE_FFTWD)
+#if defined(USE_FFTWF) || defined(USE_FFTWD)
 #include "fftw3.h"
 #endif
 

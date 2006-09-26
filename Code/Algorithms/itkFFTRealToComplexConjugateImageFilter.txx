@@ -88,5 +88,36 @@ FFTRealToComplexConjugateImageFilter < TPixel , Dimension >
   
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 }
+
+template < class TPixel , unsigned int Dimension >
+void
+FFTRealToComplexConjugateImageFilter < TPixel , Dimension >
+::GenerateInputRequestedRegion()
+{
+  // call the superclass' implementation of this method
+  Superclass::GenerateInputRequestedRegion();
+  
+  // get pointers to the inputs
+  typename TInputImageType::Pointer input  = 
+    const_cast<TInputImageType *> (this->GetInput());
+  
+  if ( !input )
+    {
+    return;
+    }
+  
+  input->SetRequestedRegionToLargestPossibleRegion();
+}
+
+ 
+template < class TPixel , unsigned int Dimension >
+void
+FFTRealToComplexConjugateImageFilter < TPixel , Dimension >
+::EnlargeOutputRequestedRegion(DataObject *output)
+{
+  Superclass::EnlargeOutputRequestedRegion(output);
+  output->SetRequestedRegionToLargestPossibleRegion();
+}
+
 }
 #endif
