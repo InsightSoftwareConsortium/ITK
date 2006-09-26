@@ -27,7 +27,6 @@ int main(int argc, char **argv)
     return -1;
     }
   int bestBaselineStatus = 2001;
-  int bestBaseline = 2;
 
   // Process some command-line arguments intended for BatchMake
   MetaCommand command;
@@ -54,6 +53,17 @@ int main(int argc, char **argv)
   command.SetOption("testImage","TestImage",true,
       "Filename of the image to be tested against the baseline images");
   command.AddOptionField("testImage","filename",MetaCommand::STRING,true);
+
+  // Option for setting the filename of multiple baseline images.
+  command.SetOption("baselineImages","BaselineImages",true,
+      "List of baseline images <N> <image1> <image2>...<imageN>");
+  command.AddOptionField("baselineImages","filename",MetaCommand::LIST,true);
+
+  // Option for setting the filename of a single baseline image.
+  command.SetOption("baselineImage","BaselineImage",true,
+      "Baseline images filename");
+  command.AddOptionField("baselineImage","filename",MetaCommand::STRING,true);
+
 
 
   command.Parse( argc, argv );
@@ -93,16 +103,30 @@ int main(int argc, char **argv)
       command.GetValueAsInt("testImage","filename");
     }
  
+  std::list< std::string > baselineImageFilenames;
+  baselineImageFilenames.clear();
+
+  bool singleBaselineImage = true;
+     
   // Get the filename of the base line image
   if( command.GetOptionWasSet("baselineImage") )
     {
-    baselineImageFilename = 
-      command.GetValueAsInt("baselineImage","filename");
+    singleBaselineImage = true;
+    baselineImageFilename = command.GetValueAsString("baselineImage");
     }
- 
+
+  // Get the filename of the base line image
+  if( command.GetOptionWasSet("baselineImages") )
+    {
+    singleBaselineImage = false;
+    baselineImageFilenames = command.GetValueAsList("baselineImages");
+    }
+  
+  std::string bestBaselineFilename; 
+
   try
     {
-    if( argc > 20 ) // FIXME: Can metacommand manage a list of filenames ?
+    if( singleBaselineImage ) 
       {
       bestBaselineStatus = 
         RegressionTestImage(
@@ -113,21 +137,26 @@ int main(int argc, char **argv)
     else
       {
       int currentStatus = 2001;
-      for(int i=2;i<argc;i++)
+
+      typedef std::list< std::string >::const_iterator  nameIterator;
+      nameIterator baselineImageItr = baselineImageFilenames.begin();
+      while( baselineImageItr != baselineImageFilenames.end() )
         {
         currentStatus = 
           RegressionTestImage(
-              testImageFilename.c_str(), argv[i], 0, false,
-              toleranceIntensity,toleranceRadius,toleranceNumberOfPixels);
+              testImageFilename.c_str(), baselineImageItr->c_str(), 
+              0, false, toleranceIntensity, toleranceRadius, 
+              toleranceNumberOfPixels);
         if(currentStatus < bestBaselineStatus)
           {
           bestBaselineStatus = currentStatus;
-          bestBaseline = i;
+          bestBaselineFilename = *baselineImageItr;
           }
         if(bestBaselineStatus == 0)
           {
           break;
           }
+        ++baselineImageItr;
         }
       }
     // generate images of our closest match
@@ -142,7 +171,7 @@ int main(int argc, char **argv)
       {
       RegressionTestImage(
         testImageFilename.c_str(), 
-        argv[bestBaseline], 1, true,
+        bestBaselineFilename.c_str(), 1, true,
         toleranceIntensity,toleranceRadius,toleranceNumberOfPixels);
       }
     
