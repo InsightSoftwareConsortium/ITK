@@ -15,15 +15,17 @@
 # Macros for finding and processing wrap_*.cmake files.
 ################################################################################
 
-MACRO(WRAPPER_LIBRARY_CREATE_WRAP_FILES)
-  # Include the wrap_*.cmake files in WRAPPER_LIBRARY_SOURCE_DIR. This causes 
-  # corresponding wrap_*.cxx files to be generated WRAPPER_LIBRARY_OUTPUT_DIR, 
+MACRO(WRAPPER_LIBRARY_CREATE_WRAP_FILES library_name)
+
+  SET(WRAPPER_LIBRARY_OUTPUT_DIR "${ITK_BINARY_DIR}/Code/${library_name}/Templates")
+  # Include the wrap_*.cmake files in WRAPPER_LIBRARY_SOURCE_DIR. This causes
+  # corresponding wrap_*.cxx files to be generated WRAPPER_LIBRARY_OUTPUT_DIR,
   # and added to the WRAPPER_LIBRARY_CABLESWIG_INPUTS list.
   # In addition, this causes the other required wrap_*.cxx files for the entire
   # library and each wrapper language to be created.
   # Finally, this macro causes the language support files for the templates and
   # library here defined to be created.
-  
+
   # Next, include modules already in WRAPPER_LIBRARY_GROUPS, because those are
   # guaranteed to be processed first.
   FOREACH(module ${WRAPPER_LIBRARY_GROUPS})
@@ -63,7 +65,7 @@ MACRO(WRAPPER_LIBRARY_CREATE_WRAP_FILES)
       INCLUDE_WRAP_CMAKE("${module}")
     ENDIF(${will_include})
   ENDFOREACH(file)
-  
+
   WRITE_MODULE_FILES()
 ENDMACRO(WRAPPER_LIBRARY_CREATE_WRAP_FILES)
 
@@ -85,7 +87,7 @@ MACRO(INCLUDE_WRAP_CMAKE module)
   IF("${upper_module}" STREQUAL "${upper_lib}")
     SET(module "${module}_module")
   ENDIF("${upper_module}" STREQUAL "${upper_lib}")
- 
+
   # preset the vars before include the file
   SET(WRAPPER_MODULE_NAME "${module}")
   SET(WRAPPER_TYPEDEFS)
@@ -98,7 +100,7 @@ MACRO(INCLUDE_WRAP_CMAKE module)
 
   # Write the file, inless the included cmake file told us not to.
   # A file might declare WRAPPER_DO_NOT_CREATE_CXX if that cmake file
-  # provides a custom wrap_*.cxx file and manually appends it to the 
+  # provides a custom wrap_*.cxx file and manually appends it to the
   # WRAPPER_LIBRARY_CABLESWIG_INPUTS list; thus that file would not
   # need or want any cxx file generated.
   IF(NOT WRAPPER_DO_NOT_CREATE_CXX)
@@ -107,12 +109,13 @@ MACRO(INCLUDE_WRAP_CMAKE module)
 ENDMACRO(INCLUDE_WRAP_CMAKE)
 
 
-MACRO(WRITE_WRAP_CXX file_name)
+MACRO(WRITE_WRAP_CXX file_name library_name)
+  SET(WRAPPER_LIBRARY_OUTPUT_DIR "${ITK_BINARY_DIR}/Code/${library_name}/Templates")
   # write the wrap_*.cxx file
   #
   # Global vars used: WRAPPER_INCLUDE_FILES WRAPPER_MODULE_NAME and WRAPPER_TYPEDEFS
   # Global vars modified: none
-  
+
   # Create the '#include' statements.
   SET(CONFIG_WRAPPER_INCLUDES)
   FOREACH(inc ${WRAPPER_INCLUDE_FILES})
@@ -132,24 +135,24 @@ MACRO(WRITE_WRAP_CXX file_name)
 
   CONFIGURE_FILE("${EXPLICIT_ITK_CONFIG_DIR}/wrap_.cxx.in"
     "${cxx_file}" @ONLY IMMEDIATE)
-  
+
   # And add the cxx file to the list of cableswig inputs.
-  SET(WRAPPER_LIBRARY_CABLESWIG_INPUTS 
+  SET(WRAPPER_LIBRARY_CABLESWIG_INPUTS
     ${WRAPPER_LIBRARY_CABLESWIG_INPUTS} "${cxx_file}")
 ENDMACRO(WRITE_WRAP_CXX)
 
 
 ################################################################################
 # Macros for writing the global module CableSwig inputs which specify all the
-# groups to be bundled together into one module. 
+# groups to be bundled together into one module.
 ################################################################################
 
 MACRO(WRITE_MODULE_FILES)
   # Write the wrap_LIBRARY_NAME.cxx file which specifies all the wrapped groups.
-  
+
   MESSAGE(STATUS "${WRAPPER_LIBRARY_NAME}: Creating module wrapper files.")
 
-  
+
   SET(group_list "")
   FOREACH(group_name ${WRAPPER_LIBRARY_GROUPS})
     SET(group_list "${group_list}    \"${group_name}\",\n")
@@ -157,12 +160,12 @@ MACRO(WRITE_MODULE_FILES)
   STRING(REGEX REPLACE ",\n$" "\n" group_list "${group_list}")
 
   SET(CONFIG_GROUP_LIST "${group_list}")
-  
+
   # Create the cxx file.
   SET(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${WRAPPER_LIBRARY_NAME}.cxx")
   CONFIGURE_FILE("${EXPLICIT_ITK_CONFIG_DIR}/wrap_ITK.cxx.in"
     "${cxx_file}" @ONLY IMMEDIATE)
-  
+
 
   IF(EXPLICIT_ITK_TCL)
     WRITE_MODULE_FOR_LANGUAGE("Tcl")
@@ -184,12 +187,12 @@ MACRO(WRITE_MODULE_FOR_LANGUAGE language)
   SET(CONFIG_LANGUAGE "${language}")
   SET(CONFIG_MODULE_NAME ${WRAPPER_LIBRARY_NAME})
   STRING(TOUPPER ${language} CONFIG_UPPER_LANG)
-  
+
   # Create the cxx file.
-  SET(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${WRAPPER_LIBRARY_NAME}${language}.cxx")  
+  SET(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${WRAPPER_LIBRARY_NAME}${language}.cxx")
   CONFIGURE_FILE("${EXPLICIT_ITK_CONFIG_DIR}/wrap_ITKLang.cxx.in"
     "${cxx_file}" @ONLY IMMEDIATE)
-  
+
 ENDMACRO(WRITE_MODULE_FOR_LANGUAGE)
 
 
@@ -200,10 +203,10 @@ ENDMACRO(WRITE_MODULE_FOR_LANGUAGE)
 ################################################################################
 
 MACRO(WRAP_CLASS class)
-  # Wraps the c++ class 'class'. This parameter must be a fully-qualified c++ 
+  # Wraps the c++ class 'class'. This parameter must be a fully-qualified c++
   # name.
   # The class will be named in the SWIG wrappers as the top-level namespace
-  # concatenated to the base class name. E.g. itk::Image -> itkImage or 
+  # concatenated to the base class name. E.g. itk::Image -> itkImage or
   # itk::Statistics::Sample -> itkSample.
   # If the top-level namespace is 'itk' amd WRAPPER_AUTO_INCLUDE_HEADERS is ON
   # then the appropriate itk header for this class will be included. Otherwise
@@ -236,17 +239,17 @@ MACRO(WRAP_CLASS class)
 ENDMACRO(WRAP_CLASS)
 
 MACRO(WRAP_NAMED_CLASS class swig_name)
-  # Begin the wrapping of a new templated class. The 'class' parameter is a 
-  # fully-qualified C++ type name, including the namespace. Between WRAP_CLASS 
-  # and END_WRAP_CLASS various macros should be called to cause certain template 
-  # instances to be automatically added to the wrap_*.cxx file. END_WRAP_CLASS 
-  # actually parses through the template instaces that have been recorded and 
+  # Begin the wrapping of a new templated class. The 'class' parameter is a
+  # fully-qualified C++ type name, including the namespace. Between WRAP_CLASS
+  # and END_WRAP_CLASS various macros should be called to cause certain template
+  # instances to be automatically added to the wrap_*.cxx file. END_WRAP_CLASS
+  # actually parses through the template instaces that have been recorded and
   # creates the content of that cxx file. WRAP_NON_TEMPLATE_CLASS should be used
-  # to create a definition for a non-templated class. (Note that internally, 
+  # to create a definition for a non-templated class. (Note that internally,
   # WRAP_NON_TEMPLATE_CLASS eventually calls this macro. This macro should never
   # be called directly for a non-templated class though.)
   #
-  # The second parameter of this macro is the name that the class should be given 
+  # The second parameter of this macro is the name that the class should be given
   # in SWIG (with template definitions providing additional mangled suffixes to this name)
   #
   # Lastly, this class takes an optional 'wrap method' parameter. Valid values are:
@@ -294,7 +297,7 @@ ENDMACRO(WRAP_NAMED_CLASS)
 
 MACRO(WRAP_NON_TEMPLATE_CLASS class)
   # Similar to WRAP_CLASS in that it generates typedefs for CableSwig input.
-  # However, since no templates need to be declared, there's no need for 
+  # However, since no templates need to be declared, there's no need for
   # WRAP_CLASS ... (declare templates) .. END_WRAP_CLASS. Instead
   # WRAP_NON_TEMPLATE_CLASS takes care of it all.
   # A fully-qualified 'class' parameter is required as above. The swig name for
@@ -309,7 +312,7 @@ ENDMACRO(WRAP_NON_TEMPLATE_CLASS class)
 
 MACRO(WRAP_NAMED_NON_TEMPLATE_CLASS class swig_name)
   # Similar to WRAP_NAMED_CLASS in that it generates typedefs for CableSwig input.
-  # However, since no templates need to be declared, there's no need for 
+  # However, since no templates need to be declared, there's no need for
   # WRAP_CLASS ... (declare templates) .. END_WRAP_CLASS. Instead
   # WRAP_NAMED_NON_TEMPLATE_CLASS takes care of it all.
   # A fully-qualified 'class' parameter is required as above. The swig name for
@@ -323,7 +326,7 @@ ENDMACRO(WRAP_NAMED_NON_TEMPLATE_CLASS class)
 
 
 MACRO(WRAP_INCLUDE include_file)
-  # Add a header file to the list of files to be #included in the final 
+  # Add a header file to the list of files to be #included in the final
   # cxx file. This list is actually processed in WRITE_WRAP_CXX.
   #
   # Global vars used: WRAPPER_INCLUDE_FILES
@@ -334,10 +337,10 @@ MACRO(WRAP_INCLUDE include_file)
       SET(already_included 1)
     ENDIF("${include_file}" STREQUAL "${already_included}")
   ENDFOREACH(included)
-  
+
   IF(NOT already_included)
     # include order IS important. Default values must be before the other ones
-    SET(WRAPPER_INCLUDE_FILES 
+    SET(WRAPPER_INCLUDE_FILES
       ${WRAPPER_INCLUDE_FILES}
       ${include_file}
     )
@@ -351,14 +354,14 @@ MACRO(END_WRAP_CLASS)
   #
   # Global vars used: WRAPPER_CLASS WRAPPER_WRAP_METHOD WRAPPER_TEMPLATES WRAPPER_SWIG_NAME
   # Global vars modified: WRAPPER_TYPEDEFS
-  
+
   # the regexp used to get the values separated by a #
   SET(sharp_regexp "([0-9A-Za-z_]*)[ ]*#[ ]*(.*)")
   FOREACH(wrap ${WRAPPER_TEMPLATES})
     STRING(REGEX REPLACE "${sharp_regexp}" "\\1" mangled_suffix "${wrap}")
     STRING(REGEX REPLACE "${sharp_regexp}" "\\2" template_params "${wrap}")
     #ADD_ONE_TYPEDEF("${WRAPPER_WRAP_METHOD}" "${WRAPPER_CLASS}" "${WRAPPER_SWIG_NAME}${mangled_suffix}" "${template_params}")
-  ENDFOREACH(wrap)  
+  ENDFOREACH(wrap)
 ENDMACRO(END_WRAP_CLASS)
 
 MACRO(ADD_ONE_TYPEDEF wrap_method wrap_class swig_name)
@@ -366,13 +369,13 @@ MACRO(ADD_ONE_TYPEDEF wrap_method wrap_class swig_name)
   # 'wrap_method' is the one of the valid WRAPPER_WRAP_METHODS from WRAP_CLASS,
   # 'wrap_class' is the fully-qualified C++ name of the class
   # 'swig_name' is what the swigged class should be called
-  # The optional last argument is the template parameters that should go between 
+  # The optional last argument is the template parameters that should go between
   # the < > brackets in the C++ template definition.
   # Only pass 3 parameters to wrap a non-templated class
   #
   # Global vars used: none
   # Global vars modified: WRAPPER_TYPEDEFS
-  
+
   # get the base C++ class name (no namespaces) from wrap_class:
   STRING(REGEX REPLACE "(.*::)" "" base_name "${wrap_class}")
 
@@ -383,9 +386,9 @@ MACRO(ADD_ONE_TYPEDEF wrap_method wrap_class swig_name)
   ELSE(template_parameters)
     SET(full_class_name "${wrap_class}")
   ENDIF(template_parameters)
-  
+
   # Add a typedef for the class. We have this funny looking full_name::base_name
-  # thing (it expands to, for example "typedef itk::Foo<baz, 2>::Foo"), to 
+  # thing (it expands to, for example "typedef itk::Foo<baz, 2>::Foo"), to
   # trick gcc_xml into creating code for the class. If we left off the trailing
   # base_name, then gcc_xml wouldn't see the typedef as a class instantiation,
   # and thus wouldn't create XML for any of the methods, etc.
@@ -395,7 +398,7 @@ MACRO(ADD_ONE_TYPEDEF wrap_method wrap_class swig_name)
     # add a pointer typedef if we are so asked
     SET(typedefs ${typedefs} "typedef ${full_class_name}::Pointer::SmartPointer ${swig_name}_Pointer")
   ENDIF("${wrap_method}" MATCHES "POINTER")
- 
+
   IF("${wrap_method}" MATCHES "SUPERCLASS")
     SET(typedefs ${typedefs} "typedef ${full_class_name}::Superclass::Self ${swig_name}_Superclass")
     SET(typedefs ${typedefs} "typedef ${full_class_name}::Superclass::Pointer::SmartPointer ${swig_name}_Superclass_Pointer")
@@ -406,12 +409,12 @@ MACRO(ADD_ONE_TYPEDEF wrap_method wrap_class swig_name)
   FOREACH(typedef ${typedefs})
     SET(WRAPPER_TYPEDEFS "${WRAPPER_TYPEDEFS}      ${typedef};\n")
   ENDFOREACH(typedef)
-  
-  # Note: if there's no template_parameters set, this will just pass an empty  
+
+  # Note: if there's no template_parameters set, this will just pass an empty
   # list as the template_params parameter of LANGUAGE_SUPPORT_ADD_CLASS, as required
   # in non-template cases.
   #LANGUAGE_SUPPORT_ADD_CLASS("${base_name}" "${wrap_class}" "${swig_name}" "${template_parameters}")
-  
+
   #IF("${wrap_method}" MATCHES "POINTER")
   #  LANGUAGE_SUPPORT_ADD_CLASS("SmartPointer" "itk::SmartPointer" "${swig_name}_Pointer" "${full_class_name}")
   #ENDIF("${wrap_method}" MATCHES "POINTER")
@@ -431,11 +434,11 @@ MACRO(WRAP_TEMPLATE name types)
   # 'name' is a mangled suffix to be added to the class name (defined in WRAP_CLASS)
   # to uniquely identify this instantiation.
   # 'types' is a comma-separated list of the template parameters (in C++ form),
-  # some common parameters (e.g. for images) are stored in variables by 
+  # some common parameters (e.g. for images) are stored in variables by
   # WrapBasicTypes.cmake and WrapITKTypes.cmake.
-  # 
+  #
   # The format of the WRAPPER_TEMPLATES list is a series of "name # types" strings
-  # (because there's no CMake support for nested lists, name and types are 
+  # (because there's no CMake support for nested lists, name and types are
   # separated out from the strings with a regex).
   #
   # Global vars used: WRAPPER_TEMPLATES
@@ -449,7 +452,7 @@ ENDMACRO(WRAP_TEMPLATE)
 ###################################
 
 # First, a set of convenience macros for wrapping an image filter with all
-# user-selected image types of a given class. These macros take a 'param_count' 
+# user-selected image types of a given class. These macros take a 'param_count'
 # parameter which indicates how many template parameters the current image filter
 # takes. The parameters are filled with the exact same image type. To wrap image
 # filters which take different image types as different template parameters, use
@@ -463,7 +466,7 @@ ENDMACRO(WRAP_TEMPLATE)
 # n and above.
 #
 # E.g., if only EXPLICIT_unsigned_char is selected and 2- and 3-dimensional images
-# are selected, then WRAP_IMAGE_FILTER_INT(2)  will create instantiations for 
+# are selected, then WRAP_IMAGE_FILTER_INT(2)  will create instantiations for
 # filter<itk::Image<unsigned char, 2>, itk::Image<unsigned char, 2> >
 # and
 # filter<itk::Image<unsigned char, 3>, itk::Image<unsigned char, 3> >
@@ -512,10 +515,10 @@ MACRO(WRAP_IMAGE_FILTER param_types param_count)
   # created. The second is a 'param_count' parameter which controls how many image
   # template parameters are created (see above). The optional third parameter is
   # a dimensionality condition (see above also).
-  # 
+  #
   # E.g. WRAP_IMAGE_FILTER("${EXPLICIT_ITK_ALL}" 2) will create template instantiations
   # of the filter for every pixel type that the user has selected.
-  
+
   SET(have_dim_cond OFF)
   IF("${ARGN}")
     SET(have_dim_cond ON)
@@ -527,7 +530,7 @@ MACRO(WRAP_IMAGE_FILTER param_types param_count)
       SET(param_list ${param_list} ${param_type})
     ENDFOREACH(i)
     IF(have_dim_cond)
-      WRAP_IMAGE_FILTER_TYPES("${ARGN}" ${param_list})  
+      WRAP_IMAGE_FILTER_TYPES("${ARGN}" ${param_list})
     ELSE(have_dim_cond)
       WRAP_IMAGE_FILTER_TYPES(${param_list})
     ENDIF(have_dim_cond)
@@ -541,15 +544,15 @@ MACRO(WRAP_IMAGE_FILTER_COMBINATIONS)
   # A dimensionality condition may be optionally specified as the first parameter.
   #
   # E.g. WRAP_IMAGE_FILTER_COMBINATIONS("UC;US" "UC;US") will create:
-  # filter<itk::Image<unsigned char, d>, itk::Image<unsigned char, d> > 
-  # filter<itk::Image<unsigned char, d>, itk::Image<unsigned short, d> > 
-  # filter<itk::Image<unsigned short, d>, itk::Image<unsigned char, d> > 
-  # filter<itk::Image<unsigned short, d>, itk::Image<unsigned short, d> > 
+  # filter<itk::Image<unsigned char, d>, itk::Image<unsigned char, d> >
+  # filter<itk::Image<unsigned char, d>, itk::Image<unsigned short, d> >
+  # filter<itk::Image<unsigned short, d>, itk::Image<unsigned char, d> >
+  # filter<itk::Image<unsigned short, d>, itk::Image<unsigned short, d> >
   # where 'd' is the image dimension, for each selected image dimension.
-  
+
   # First, store the variable args in real varables, not the macro parameters.
-  # Parameters can't be looked up like this: ${ARGV${num}} because they are 
-  # textually substituted before the macro is evaluated. 
+  # Parameters can't be looked up like this: ${ARGV${num}} because they are
+  # textually substituted before the macro is evaluated.
   SET(arg0 ${ARGV0})
   SET(arg1 ${ARGV1})
   SET(arg2 ${ARGV2})
@@ -571,7 +574,7 @@ MACRO(WRAP_IMAGE_FILTER_COMBINATIONS)
     SET(have_dim_cond ON)
     DECREMENT(last_arg_number ${last_arg_number})
   ENDIF("${last_arg}" MATCHES "^[0-9]")
-  
+
   # Build up a list of all of the combinations of all of the elements in each
   # argument. Each combinarion is stored as a #-delimited list of pixel types.
   # The #-delimiter is needed because CMake can't store nested lists.
@@ -582,7 +585,7 @@ MACRO(WRAP_IMAGE_FILTER_COMBINATIONS)
   ELSE(NOT arg0)
     SET(template_combinations ${arg0})
   ENDIF(NOT arg0)
-  
+
   FOREACH(num RANGE 1 ${last_arg_number})
     SET(types "${arg${num}}")
     IF(NOT types)
@@ -597,7 +600,7 @@ MACRO(WRAP_IMAGE_FILTER_COMBINATIONS)
       SET(template_combinations ${temp})
     ENDIF(NOT types)
   ENDFOREACH(num)
-  
+
   IF(all_args_valid)
     FOREACH(param_set ${template_combinations})
       # Each param_set is a #-delimited list of pixel types. First thing, we unpack
@@ -619,12 +622,12 @@ MACRO(WRAP_IMAGE_FILTER_TYPES)
   # filter, for all the selected dimensions (or dimensions that meet the optional
   # dimensionality condition). This macro takes a variable number of arguments,
   # which should correspond to the image pixel types of the images in the filter's
-  # template parameter list. The optional dimensionality condition should be 
+  # template parameter list. The optional dimensionality condition should be
   # placed in the first parameter.
-  
+
   # First, store the variable args in real varables, not the macro parameters.
-  # Parameters can't be looked up like this: ${ARGV${num}} because they are 
-  # textually substituted before the macro is evaluated. 
+  # Parameters can't be looked up like this: ${ARGV${num}} because they are
+  # textually substituted before the macro is evaluated.
   SET(arg0 ${ARGV0})
   SET(arg1 ${ARGV1})
   SET(arg2 ${ARGV2})
@@ -636,7 +639,7 @@ MACRO(WRAP_IMAGE_FILTER_TYPES)
   SET(arg8 ${ARGV8})
   SET(arg9 ${ARGV9})
   DECREMENT(last_arg_number ${ARGC})
-  
+
   SET(last_arg "${arg${last_arg_number}}")
   IF("${last_arg}" MATCHES "^[0-9]")
     # We have a dimensionality condition
@@ -653,7 +656,7 @@ MACRO(WRAP_IMAGE_FILTER_TYPES)
     FOREACH(num RANGE 0 ${last_arg_number})
       SET(type "${arg${num}}")
       IF("${EXPLICIT_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
-        # if the type is a vector type with no dimension specified, make the 
+        # if the type is a vector type with no dimension specified, make the
         # vector dimension match the image dimension.
         SET(type "${type}${d}")
       ENDIF("${EXPLICIT_ITK_VECTOR}" MATCHES "(^|;)${type}(;|$)")
@@ -662,7 +665,7 @@ MACRO(WRAP_IMAGE_FILTER_TYPES)
       IF(NOT DEFINED image_type)
         MESSAGE(FATAL_ERROR "Wrapping ${WRAPPER_CLASS}: No image type for '${type}' pixels is known.")
       ENDIF(NOT DEFINED image_type)
-      
+
       SET(template_params "${template_params}${comma}${image_type}")
       SET(mangled_name "${mangled_name}${mangle_type}")
       SET(comma ", ") # now add commas after the subsequent template params
@@ -674,10 +677,10 @@ ENDMACRO(WRAP_IMAGE_FILTER_TYPES)
 
 MACRO(FILTER_DIMS var_name dimension_condition)
   # FILTER_DIMS processes a dimension_condition and returns a list of the dimensions
-  # that (a) meet the condition, and (b) were selected to be wrapped. Recall 
+  # that (a) meet the condition, and (b) were selected to be wrapped. Recall
   # that the condition is either a CMake list of dimensions, or a string of the
   # form "n+" where n is a number.
-  
+
   IF("${dimension_condition}" MATCHES "^[0-9]+\\+$")
     # The condition is of the form "n+". Make a list of the
     # selected wrapping dims that are >= that number.

@@ -30,7 +30,6 @@ SET(EXPLICIT_ITK_DIMS "2;3" CACHE STRING "dimensions available separated by semi
 # Output directories.
 SET(EXPLICIT_ITK_CONFIG_DIR "${ExplicitITK_SOURCE_DIR}/ConfigurationInputs")
 SET(EXPLICIT_ITK_CMAKE_DIR "${ExplicitITK_SOURCE_DIR}")
-SET(EXPLICIT_TEMPLATES_OUTPUT_DIR "${ITK_BINARY_DIR}/Templates")
 
 MACRO(BEGIN_WRAPPER_LIBRARY library_name wrap_directory)
   SET(WRAPPER_LIBRARY_NAME "${library_name}")
@@ -43,7 +42,7 @@ MACRO(BEGIN_WRAPPER_LIBRARY library_name wrap_directory)
   
   # WRAPPER_LIBRARY_OUTPUT_DIR. Directory in which generated cxx, xml, and idx
   # files will be placed. 
-  SET(WRAPPER_LIBRARY_OUTPUT_DIR "${EXPLICIT_TEMPLATES_OUTPUT_DIR}")
+  SET(WRAPPER_LIBRARY_OUTPUT_DIR "${ITK_BINARY_DIR}/Code/${library_name}/Templates")
 
   # WRAPPER_LIBRARY_DEPENDS. List of names of other wrapper libraries that
   # define symbols used by this wrapper library.
