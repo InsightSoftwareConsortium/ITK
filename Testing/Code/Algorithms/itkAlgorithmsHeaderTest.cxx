@@ -61,11 +61,13 @@
 #include "itkExtensionVelocitiesImageFilter.txx"
 #include "itkFEMFiniteDifferenceFunctionLoad.txx"
 #include "itkFEMRegistrationFilter.txx"
+#if defined(USE_FFTWF) || defined(USE_FFTWD)
 #include "itkFFTComplexConjugateToRealImageFilter.txx"
 #include "itkFFTRealToComplexConjugateImageFilter.txx"
 #include "itkFFTWCommon.h"
 #include "itkFFTWComplexConjugateToRealImageFilter.txx"
 #include "itkFFTWRealToComplexConjugateImageFilter.txx"
+#endif
 #include "itkFastChamferDistanceImageFilter.txx"
 #include "itkFastMarchingExtensionImageFilter.txx"
 #include "itkFastMarchingImageFilter.txx"
