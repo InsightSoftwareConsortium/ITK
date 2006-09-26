@@ -17,7 +17,9 @@
 #ifndef _FFTWCommon_h
 #define _FFTWCommon_h
 
+#if defined(USE_FFTWF) || define(USE_FFTWD)
 #include "fftw3.h"
+#endif
 
 namespace itk
 {
