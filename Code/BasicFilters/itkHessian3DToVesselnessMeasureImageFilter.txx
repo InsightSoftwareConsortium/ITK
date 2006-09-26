@@ -85,7 +85,7 @@ Hessian3DToVesselnessMeasureImageFilter< TPixel >
     // Similarity measure to a line structure
     if( normalizeValue > 0 )
       {
-      double lineMeasure = 0;
+      double lineMeasure;
       if( eigenValue[2] <= 0 )
         {
         lineMeasure = 
