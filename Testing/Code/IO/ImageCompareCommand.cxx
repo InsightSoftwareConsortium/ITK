@@ -139,6 +139,7 @@ int main(int argc, char **argv)
             testImageFilename.c_str(), baselineImageFilename.c_str(),
             0, false, toleranceIntensity, toleranceRadius, 
             toleranceNumberOfPixels);
+      bestBaselineFilename = baselineImageFilename;
       }
     else
       {
@@ -170,7 +171,7 @@ int main(int argc, char **argv)
       {
       RegressionTestImage(
         testImageFilename.c_str(),
-        baselineImageFilename.c_str(), 1, false,
+        bestBaselineFilename.c_str(), 1, false,
         toleranceIntensity,toleranceRadius,toleranceNumberOfPixels);
       }
     else
