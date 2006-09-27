@@ -437,14 +437,21 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
     iter=samples.begin();
     int count = 0;
+    int samples_found = 0;
     int maxcount = m_NumberOfSpatialSamples * 10;
     while( iter != end )
       {
 
       if ( count > maxcount )
         {
+#if 0
         itkExceptionMacro( "Drew too many samples from the mask (is it too small?): "
                        << maxcount << std::endl );
+#else
+        samples.resize(samples_found);
+        //        this->SetNumberOfSpatialSamples(sample_found);
+        break;
+#endif
         }
       count++;
       
@@ -464,7 +471,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       (*iter).FixedImageValue = randIter.Get();
       // Translate index to point
       (*iter).FixedImagePointValue = inputPoint;
-
+      samples_found++;
       // Jump to random position
       ++randIter;
       ++iter;
