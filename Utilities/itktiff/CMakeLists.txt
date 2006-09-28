@@ -4,47 +4,45 @@ INCLUDE_REGULAR_EXPRESSION("^(itk|tif|fax|port|uv|tconf|t4|mk|itkjpeg|jpeg|mangl
 INCLUDE_DIRECTORIES(BEFORE ${ITKTIFF_SOURCE_DIR})
 INCLUDE_DIRECTORIES(BEFORE ${ITKTIFF_BINARY_DIR})
 
-INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/itkjpeg)
-INCLUDE_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/itkjpeg/8)
-
 # library object files common to compression and decompression
 SET(common_SRCS
-tif_aux.c 
-tif_close.c 
-tif_codec.c 
-tif_compress.c
-tif_color.c
-tif_dir.c 
-tif_dirinfo.c 
-tif_dirread.c
-tif_dirwrite.c 
-tif_dumpmode.c 
-tif_error.c 
-tif_extension.c
-tif_fax3.c 
-tif_flush.c
-tif_getimage.c  
-tif_luv.c 
-tif_lzw.c 
-tif_next.c
-tif_ojpeg.c 
-tif_open.c 
-tif_packbits.c 
-tif_pixarlog.c 
-tif_predict.c
-tif_print.c 
-tif_read.c 
-tif_strip.c 
-tif_swab.c 
-tif_thunder.c 
-tif_tile.c
-tif_version.c 
-tif_warning.c
-tif_write.c 
-tif_zip.c
-tif_jpeg.c)
+  tif_aux.c
+  tif_close.c
+  tif_codec.c
+  tif_compress.c
+  tif_color.c
+  tif_dir.c
+  tif_dirinfo.c
+  tif_dirread.c
+  tif_dirwrite.c
+  tif_dumpmode.c
+  tif_error.c
+  tif_extension.c
+  tif_fax3.c
+  tif_flush.c
+  tif_getimage.c
+  tif_luv.c
+  tif_lzw.c
+  tif_next.c
+  tif_ojpeg.c
+  tif_open.c
+  tif_packbits.c
+  tif_pixarlog.c
+  tif_predict.c
+  tif_print.c
+  tif_read.c
+  tif_strip.c
+  tif_swab.c
+  tif_thunder.c
+  tif_tile.c
+  tif_version.c
+  tif_warning.c
+  tif_write.c
+  tif_zip.c
+  tif_jpeg.c
+  )
 
-ADD_DEFINITIONS(-DJPEG_SUPPORT  -DZIP_SUPPORT -D_HPUX_SOURCE)
+ADD_DEFINITIONS(-DJPEG_SUPPORT -DZIP_SUPPORT -D_HPUX_SOURCE)
 
 IF(WIN32)
   IF(BUILD_SHARED_LIBS)
@@ -60,31 +58,23 @@ IF(NOT UNIX)
     IF (NOT BORLAND)
       IF(NOT MINGW)
         SET(common_SRCS ${common_SRCS} itktiff.def)
-      ENDIF(NOT MINGW) 
+      ENDIF(NOT MINGW)
    ENDIF(NOT BORLAND)
 ELSE (NOT UNIX)
-  IF (CMAKE_MAJOR_VERSION MATCHES [1-9][0-9]*)
-    IF (CMAKE_MINOR_VERSION MATCHES [2-9][0-9]*)
-      SET(TIFF_RIGHT_VERSION 1)
-    ENDIF (CMAKE_MINOR_VERSION MATCHES [2-9][0-9]*)
-  ENDIF (CMAKE_MAJOR_VERSION MATCHES [1-9][0-9]*)
+  SET(TIFF_RIGHT_VERSION 1)
 
-  IF(TIFF_RIGHT_VERSION)
-    SET(common_SRCS ${common_SRCS} tif_unix.c tif_fax3sm.c)
-    SET_SOURCE_FILES_PROPERTIES(tif_fax3sm.c GENERATED)
-    ADD_EXECUTABLE(mkg3states mkg3states.c)    
-    IF(CYGWIN)
-      SET(EXE_EXTENSION .exe)
-    ENDIF(CYGWIN) 
-    ADD_CUSTOM_COMMAND(
-      OUTPUT ${ITKTIFF_BINARY_DIR}/tif_fax3sm.c
-      COMMAND ${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}/mkg3states${EXE_EXTENSION}
-      ARGS -c const ${ITKTIFF_BINARY_DIR}/tif_fax3sm.c
-      DEPENDS mkg3states
+  SET(common_SRCS ${common_SRCS} tif_unix.c tif_fax3sm.c)
+  SET_SOURCE_FILES_PROPERTIES(tif_fax3sm.c GENERATED)
+  ADD_EXECUTABLE(mkg3states mkg3states.c)
+  IF(CYGWIN)
+    SET(EXE_EXTENSION .exe)
+  ENDIF(CYGWIN)
+  ADD_CUSTOM_COMMAND(
+    OUTPUT ${ITKTIFF_BINARY_DIR}/tif_fax3sm.c
+    COMMAND ${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}/mkg3states${EXE_EXTENSION}
+    ARGS -c const ${ITKTIFF_BINARY_DIR}/tif_fax3sm.c
+    DEPENDS mkg3states
     )
-  ELSE(TIFF_RIGHT_VERSION)
-      MESSAGE("The new TIFF reader requires CMake 1.2 or newer. Please get the new version of CMake from www.cmake.org.")
-  ENDIF(TIFF_RIGHT_VERSION)
 ENDIF (NOT UNIX)
 
 INCLUDE (${CMAKE_ROOT}/Modules/CheckIncludeFiles.cmake)
@@ -144,12 +134,13 @@ CONFIGURE_FILE(${ITKTIFF_SOURCE_DIR}/tif_config.h.in
                ${ITKTIFF_BINARY_DIR}/tif_config.h)
 
 ADD_LIBRARY(itktiff ${common_SRCS})
-TARGET_LINK_LIBRARIES( itktiff ${ITK_ZLIB_LIBRARIES} itkjpeg8)
+TARGET_LINK_LIBRARIES(itktiff ${ITK_ZLIB_LIBRARIES} itkjpeg8)
 
 IF(UNIX)
-TARGET_LINK_LIBRARIES(itktiff -lm)
+  TARGET_LINK_LIBRARIES(itktiff -lm)
 ENDIF(UNIX)
 
+# Apply user-defined properties to the library target.
 IF(ITK_LIBRARY_PROPERTIES)
   SET_TARGET_PROPERTIES(itktiff PROPERTIES ${ITK_LIBRARY_PROPERTIES})
 ENDIF(ITK_LIBRARY_PROPERTIES)
@@ -160,3 +151,8 @@ IF(NOT ITK_INSTALL_NO_LIBRARIES)
     RUNTIME_DIRECTORY ${ITK_INSTALL_BIN_DIR}
     itktiff)
 ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
+
+IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
+  INSTALL_FILES(${ITK_INSTALL_INCLUDE_DIR}/Utilities/itktiff .h
+                tiffvers tiff tiffio tconf tiffDllConfig itk_tiff_mangle)
+ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)

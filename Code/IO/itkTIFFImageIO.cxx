@@ -26,9 +26,7 @@
 
 #include <sys/stat.h>
 
-extern "C" {
-#include "tiffio.h"
-}
+#include "itk_tiff.h"
 
 namespace itk
 {

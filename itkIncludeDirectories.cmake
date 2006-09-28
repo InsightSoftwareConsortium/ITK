@@ -166,6 +166,6 @@ ENDIF(ITK_USE_REVIEW)
 
 #-----------------------------------------------------------------------------
 # Include directories for 3rd-party utilities provided by ITK.
+ITK_THIRD_PARTY_INCLUDE2(TIFF)
 ITK_THIRD_PARTY_INCLUDE2(ZLIB)
 ITK_THIRD_PARTY_INCLUDE(PNG  png)
-ITK_THIRD_PARTY_INCLUDE(TIFF tiff)
