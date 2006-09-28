@@ -137,7 +137,7 @@ png_set_gAMA_fixed(png_structp png_ptr, png_infop info_ptr, png_fixed_point
 void PNGAPI
 png_set_hIST(png_structp png_ptr, png_infop info_ptr, png_uint_16p hist)
 {
-   int	i;
+   int  i;
 
    png_debug1(1, "in %s storage function\n", "hIST");
    if (png_ptr == NULL || info_ptr == NULL)
@@ -733,10 +733,10 @@ png_set_tRNS(png_structp png_ptr, png_infop info_ptr,
    if (trans != NULL)
    {
        /*
-	* It may not actually be necessary to set png_ptr->trans here;
-	* we do it for backward compatibility with the way the png_handle_tRNS
-	* function used to do the allocation.
-	*/
+        * It may not actually be necessary to set png_ptr->trans here;
+        * we do it for backward compatibility with the way the png_handle_tRNS
+        * function used to do the allocation.
+        */
 #ifdef PNG_FREE_ME_SUPPORTED
        png_free_data(png_ptr, info_ptr, PNG_FREE_TRNS, 0);
 #endif

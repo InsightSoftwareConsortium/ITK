@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkThirdParty.h.in
+  Module:    itk_png.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -17,12 +17,15 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkThirdParty_h
-#define __itkThirdParty_h
+#ifndef __itk_png_h
+#define __itk_png_h
 
-/* Whether ITK is using its own utility libraries.  */
-#cmakedefine ITK_USE_SYSTEM_PNG
-#cmakedefine ITK_USE_SYSTEM_TIFF
-#cmakedefine ITK_USE_SYSTEM_ZLIB
+/* Use the png library configured for ITK.  */
+#include "itkThirdParty.h"
+#ifdef ITK_USE_SYSTEM_PNG
+# include <png.h>
+#else
+# include <itkpng/png.h>
+#endif
 
 #endif

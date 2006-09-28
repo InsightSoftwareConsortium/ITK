@@ -16,7 +16,7 @@ SUBDIRS(itkjpeg)
 # Build third-party utilities.
 
 ITK_THIRD_PARTY_SUBDIR(ZLIB itkzlib)
-ITK_THIRD_PARTY_SUBDIR(PNG  png)
+ITK_THIRD_PARTY_SUBDIR(PNG  itkpng)
 ITK_THIRD_PARTY_SUBDIR(TIFF itktiff)
 SET(OPJ_PREFIX "itk")
 ITK_THIRD_PARTY_SUBDIR(OpenJPEG openjpeg)
@@ -95,6 +95,6 @@ IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
     ${ITK_BINARY_DIR}/Utilities/itkThirdParty.h
     )
   INSTALL_FILES(${ITK_INSTALL_INCLUDE_DIR}/Utilities .h
-    itk_zlib itk_tiff
+    itk_zlib itk_tiff itk_png
     )
 ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)

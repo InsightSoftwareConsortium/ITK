@@ -10,7 +10,7 @@ ITK.
 
 The following command was used to obtain the symbol list:
 
-nm libitkpng.a |grep " T "
+nm libitkpng.a |grep " [TR] "
 
 */
 
@@ -344,6 +344,7 @@ nm libitkpng.a |grep " T "
 #define png_IEND itk_png_IEND
 #define png_IDAT itk_png_IDAT
 #define png_IHDR itk_png_IHDR
-#define png_sig  itk_png_sig 
+#define png_sig  itk_png_sig
+#define png_sig_bytes itk_png_sig_bytes
 
 #endif

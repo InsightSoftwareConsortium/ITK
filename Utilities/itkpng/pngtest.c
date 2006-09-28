@@ -64,7 +64,7 @@
 #endif
 
 #if !PNG_DEBUG
-#  define SINGLE_ROWBUF_ALLOC	/* makes buffer overruns easier to nail */
+#  define SINGLE_ROWBUF_ALLOC   /* makes buffer overruns easier to nail */
 #endif
 
 /* Turn on CPU timing
