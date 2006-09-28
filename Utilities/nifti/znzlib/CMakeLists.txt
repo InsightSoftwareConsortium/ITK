@@ -2,6 +2,7 @@
 #Please contact hans-johnson@uiowa.edu for making enhancments/corrections
 PROJECT(ZNZLIB)
 SET(ZNZLIB_SRC znzlib.c)
+INCLUDE_REGULAR_EXPRESSION("^.*$")
 
 ADD_LIBRARY(${PACKAGE_PREFIX}znz ${ZNZLIB_SRC} )
 TARGET_LINK_LIBRARIES( ${PACKAGE_PREFIX}znz ${NIFTI_ZLIB_LIBRARIES} )

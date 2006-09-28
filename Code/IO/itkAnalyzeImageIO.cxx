@@ -23,7 +23,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkSpatialOrientationAdapter.h"
 #include <itksys/SystemTools.hxx>
 #include "itkMacro.h"
-#include <zlib.h>
+#include "itk_zlib.h"
 #include <stdio.h>
 #include <stdlib.h>
 

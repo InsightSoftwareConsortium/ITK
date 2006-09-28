@@ -50,7 +50,7 @@ extern "C" {
 #include "config.h"
 
 #ifdef HAVE_ZLIB 
-#include "zlib.h"
+#include "itk_zlib.h"
 #endif
 
 

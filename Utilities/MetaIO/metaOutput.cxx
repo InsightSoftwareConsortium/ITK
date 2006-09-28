@@ -28,7 +28,7 @@
 
 #include "metaOutput.h"
 #include <itksys/SystemTools.hxx>
-#include "zlib.h"
+#include "itk_zlib.h"
 
 #include <typeinfo>
 

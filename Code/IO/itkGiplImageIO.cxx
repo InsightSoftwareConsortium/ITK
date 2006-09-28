@@ -21,7 +21,7 @@
 #include <list>
 #include <string>
 #include <math.h>
-#include <zlib.h>
+#include "itk_zlib.h"
 
 namespace itk
 {

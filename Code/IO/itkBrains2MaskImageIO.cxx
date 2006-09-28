@@ -21,7 +21,7 @@
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
 #include <stdio.h>
-#include <zlib.h>
+#include "itk_zlib.h"
 #include <time.h>
 #include <itksys/SystemTools.hxx>
 

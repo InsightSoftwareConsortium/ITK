@@ -6,7 +6,7 @@
 #include <string.h> // for memcpy
 #include <math.h>
 
-#include "zlib.h"
+#include "itk_zlib.h"
 
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE {

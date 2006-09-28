@@ -22,7 +22,7 @@ PURPOSE.  See the above copyright notices for mwore information.
 #include "itkSpatialOrientationAdapter.h"
 #include <itksys/SystemTools.hxx>
 #include <vnl/vnl_math.h>
-#include <zlib.h>
+#include "itk_zlib.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>

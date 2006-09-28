@@ -4,12 +4,18 @@
 # Experimental testing targets for main ITK and nested projects.
 SET(DART_EXPERIMENTAL_USE_PROJECT_NAME 1)
 
+# Create a header to hold the options for use of third party
+# utilities.
+CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/itkThirdParty.h.in
+               ${ITK_BINARY_DIR}/Utilities/itkThirdParty.h @ONLY IMMEDIATE)
+
 # Build jpeg first because tiff needs it
 SUBDIRS(itkjpeg)
 
 #------------------------------------------------------------------------------
 # Build third-party utilities.
-ITK_THIRD_PARTY_SUBDIR(ZLIB zlib)
+
+ITK_THIRD_PARTY_SUBDIR(ZLIB itkzlib)
 ITK_THIRD_PARTY_SUBDIR(PNG  png)
 ITK_THIRD_PARTY_SUBDIR(TIFF tiff)
 SET(OPJ_PREFIX "itk")
@@ -83,3 +89,12 @@ IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
     ${ITK_BINARY_DIR}/Utilities/ITKConfig.cmake)
 ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
 
+#-----------------------------------------------------------------------------
+IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
+  INSTALL_FILES(${ITK_INSTALL_INCLUDE_DIR}/Utilities FILES
+    ${ITK_BINARY_DIR}/Utilities/itkThirdParty.h
+    )
+  INSTALL_FILES(${ITK_INSTALL_INCLUDE_DIR}/Utilities .h
+    itk_zlib
+    )
+ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)

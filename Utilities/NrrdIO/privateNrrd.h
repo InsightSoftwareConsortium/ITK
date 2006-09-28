@@ -143,7 +143,7 @@ extern int _nrrdSizeCheck(const size_t *size, unsigned int dim, int useBiff);
 extern void _nrrdTraverse(Nrrd *nrrd);
 
 #if TEEM_ZLIB
-#include <zlib.h>
+#include "itk_zlib.h"
 
 /* gzio.c */
 extern gzFile _nrrdGzOpen(FILE* fd, const char *mode);

@@ -87,7 +87,7 @@
  */
 
 #include "tif_predict.h"
-#include "zlib.h"
+#include "itk_zlib.h"
 
 #include <stdio.h>
 #include <stdlib.h>
