@@ -163,9 +163,9 @@ FromImage(const typename ImageType::Pointer image, typename ImageType::PixelType
   res.SetRadius( size );
 //   res.m_Decomposable = false;
 
-  for(int i=0; i<res.Size(); i++ )
+  for(int j=0; j<res.Size(); j++ )
     {
-    res[i] = image->GetPixel( centerIdx + res.GetOffset( i ) );
+    res[j] = image->GetPixel( centerIdx + res.GetOffset( j ) );
     }
 
   return res;
@@ -213,15 +213,15 @@ GetImage(typename ImageType::PixelType foreground, typename ImageType::PixelType
   // std::cout << this->GetRadius() << std::endl;
   // image->Print( std::cout );
 
-  for(int i=0; i<this->Size(); i++ )
+  for(int j=0; j<this->Size(); j++ )
     {
-    if( this->GetElement( i ) )
+    if( this->GetElement( j ) )
       {
-      image->SetPixel( centerIdx+this->GetOffset( i ), foreground );
+      image->SetPixel( centerIdx+this->GetOffset( j ), foreground );
       }
     else
       {
-      image->SetPixel( centerIdx+this->GetOffset( i ), background );
+      image->SetPixel( centerIdx+this->GetOffset( j ), background );
       }
     }
 
