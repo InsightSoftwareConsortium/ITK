@@ -499,7 +499,7 @@ private:
 #if defined(ITK_CPP_FUNCTION)
   #if defined(__BORLANDC__)
     #define ITK_LOCATION __FUNC__
-  #elif defined(_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN__)
+  #elif defined(_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN__) && !defined(CABLE_CONFIGURATION) && !defined(CSWIG)
     #define ITK_LOCATION __FUNCSIG__
   #elif defined(__GNUC__)
     #define ITK_LOCATION __PRETTY_FUNCTION__
