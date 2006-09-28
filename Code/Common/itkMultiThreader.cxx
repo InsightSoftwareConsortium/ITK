@@ -38,6 +38,10 @@
 #include <sys/resource.h>
 #endif
 
+#ifdef __APPLE__
+#include <Carbon/Carbon.h>
+#endif
+    
 namespace itk {
 extern "C"
 {
@@ -114,7 +118,13 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
 #endif  
 #endif  
 #endif
-    
+
+#ifdef __APPLE__
+    // MPProcessors returns the physical number of processors present
+    // MPProcessorsScheduled returns number of active processors
+    num = MPProcessors();
+#endif
+
     // Limit the number of threads
     if (num > ITK_MAX_THREADS)
       {
