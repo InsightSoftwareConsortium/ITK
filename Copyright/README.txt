@@ -10,13 +10,15 @@ copyrights.
 They are:
 
 
-
- 1) DICOMParser:  We are testing an experimental build in which
-                  this files are removed. This is a deprecated
-                  set of files that can be removed before ITK 3.0
+ 1) DICOMParser:  Copyright by Matt Turek.
+                  Distributed under a BSD-Like license.
+                  [This work was funded by NLM so its copyright
+                   should probably be transfered to the ISC.]
 
  2) AnalyzeDB.h:  Vincent is requesting permission to the Mayo
-                  Clinic for transfering the copyright to ITK
+                  Clinic for transfering the copyright to ITK.
+                  Otherwise, a license statement is needed, to
+                  make clear that ITK can distribute it.
 
  3) PixelData:    GE Copyrights,
                   Vincent is contacting the providers of this
@@ -26,7 +28,7 @@ They are:
 
  5) ThresholdMaximumConnectedComponents: Ken Urish is sending
                   the copyright transfer form to Josh Cates.
-                  The copyfight has already been fixed in the
+                  The copyright has already been fixed in the
                   CVS repository.
 
 
@@ -150,11 +152,13 @@ Utilities:
                   its subdirecotry clibs is public domain
 
 
-     in ITK it has a subdir:
-     fsliolib  :  From the FSL package:
-                  University of Oxford: NO FOR COMMERCIAL USE
+     in ITK it had a subdir:
+     
+        fsliolib  :  From the FSL package:
+                     University of Oxford: 
+                     NO FOR COMMERCIAL USE
 
-                       This code has been removed !
+                     Therefore this code has been removed !
 
 
   E) EXPAT     : Thai Open Source Software Center Ltd and Clark Cooper.
@@ -168,12 +172,10 @@ Utilities:
 
   G) TIFF      : Copyright Sam Leffler and Silicon Graphics
 
-
-  H) GDCM      : Copyright: CREATIS:
+  H) GDCM      : Copyright: CREATIS: BSD-Like License
 
   I) ZLIB      : Copyright:  Mark Adler
 
   J) kwsys     : Copyright: Kitware : BSD-Like License 
-
 
 
