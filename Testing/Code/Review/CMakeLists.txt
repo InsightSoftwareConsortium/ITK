@@ -26,11 +26,13 @@ SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
 SET(ReviewTest_SRCS
   itkChiSquareDistributionTest.cxx
+  itkFlatStructuringElementTest.cxx
   itkGaussianDistributionTest.cxx
   itkTDistributionTest.cxx
 )
 
 ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS} itkChiSquareDistributionTest)
+ADD_TEST(itkFlatStructuringElementTest ${REVIEW_TESTS} itkFlatStructuringElementTest)
 ADD_TEST(itkGaussianDistributionTest ${REVIEW_TESTS} itkGaussianDistributionTest)
 ADD_TEST(itkTDistributionTest ${REVIEW_TESTS} itkTDistributionTest)
 

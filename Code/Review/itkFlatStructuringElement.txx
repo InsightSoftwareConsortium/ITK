@@ -20,29 +20,30 @@ namespace itk
 {
 
 
-template<unsigned int VDimension>
-FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
-::Box(RadiusType radius)
+template<class TImage, unsigned int VDimension>
+FlatStructuringElement<TImage, VDimension> 
+FlatStructuringElement<TImage, VDimension>
+::Box( RadiusType radius )
 {
   // this should work for any number of dimensions
   FlatStructuringElement res = FlatStructuringElement();
-  // res.m_Decomposable = true;
+
   res.SetRadius( radius );
 
-//  res.ComputeBufferFromLines();
-   Iterator kernel_it;
-   for( kernel_it=res.Begin(); kernel_it != res.End(); ++kernel_it )
-     {
-     *kernel_it= true;
-     }
 
-  return(res);
+  Iterator kernel_it;
+  for( kernel_it=res.Begin(); kernel_it != res.End(); ++kernel_it )
+    {
+    *kernel_it= true;
+    }
+
+  return res;
 }
 
 
-
-template<unsigned int VDimension>
-FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
+template<class TImage, unsigned int VDimension>
+FlatStructuringElement<TImage, VDimension> 
+FlatStructuringElement<TImage, VDimension>
 ::Ball(RadiusType radius)
 {
   FlatStructuringElement res = FlatStructuringElement();
@@ -144,26 +145,28 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
 }
 
 
-template<unsigned int VDimension>
-template< class ImageType >
-FlatStructuringElement<VDimension>
-FlatStructuringElement<VDimension>::
-FromImage(const typename ImageType::Pointer image, typename ImageType::PixelType foreground)
+template<class TImage, unsigned int VDimension>
+FlatStructuringElement<TImage, VDimension> 
+FlatStructuringElement<TImage, VDimension>
+::FromImage(const ImageType * image, ImagePixelType foreground)
 {
-  image->Update();
   RadiusType size = image->GetLargestPossibleRegion().GetSize();
   Index< VDimension > centerIdx;
-  for( int i=0; i<VDimension; i++ )
+
+  for( unsigned int i=0; i<VDimension; i++ )
     {
-    // TODO: throw an exception if size is not odd
+    if( ( size[i] & 1 ) )
+      {
+      itk::ExceptionObject excp;
+      excp.SetDescription("Size is not odd");
+      }
     size[i] = size[i] / 2;
     centerIdx[i] = size[i];
     }
   FlatStructuringElement res = FlatStructuringElement();
   res.SetRadius( size );
-//   res.m_Decomposable = false;
 
-  for(int j=0; j<res.Size(); j++ )
+  for( unsigned int j=0; j < res.Size(); j++ )
     {
     res[j] = image->GetPixel( centerIdx + res.GetOffset( j ) );
     }
@@ -172,46 +175,37 @@ FromImage(const typename ImageType::Pointer image, typename ImageType::PixelType
 }
 
 
-template< unsigned int VDimension >
-FlatStructuringElement<VDimension>
-FlatStructuringElement<VDimension>::
-FromImageUC(const typename Image<unsigned char, VDimension>::Pointer image, unsigned char foreground)
+template<class TImage, unsigned int VDimension>
+FlatStructuringElement<TImage, VDimension> 
+FlatStructuringElement<TImage, VDimension>
+::FromImageUC(const UnsignedCharImageType * image, unsigned char foreground)
 {
-  return FromImage< Image<unsigned char, VDimension> >( image, foreground );
+  return 
+    FlatStructuringElement< UnsignedCharImageType, VDimension >::FromImage(
+                                                            image, foreground );
 }
 
 
-template< unsigned int VDimension >
-FlatStructuringElement<VDimension>
-FlatStructuringElement<VDimension>::
-FromImageUC(const typename Image<unsigned char, VDimension>::Pointer image)
-{
-  return FromImage< Image<unsigned char, VDimension> >( image );
-}
-
-
-
-template<unsigned int VDimension>
-template< class ImageType >
-typename ImageType::Pointer
-FlatStructuringElement<VDimension>::
-GetImage(typename ImageType::PixelType foreground, typename ImageType::PixelType background)
+template<class TImage, unsigned int VDimension>
+typename FlatStructuringElement<TImage, VDimension>::ImagePointer
+FlatStructuringElement<TImage, VDimension>
+::GetImage(ImagePixelType foreground, ImagePixelType background)
 {
   typename ImageType::Pointer image = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType size = this->GetRadius();
   Index< VDimension > centerIdx;
-  for( int i=0; i<VDimension; i++ )
+  
+  for( unsigned int i = 0; i < VDimension; i++ )
     {
     centerIdx[i] = size[i];
     size[i] = 2*size[i] + 1;
     }
+
   region.SetSize( size );
   image->SetRegions( region );
   image->Allocate();
 
-  // std::cout << this->GetRadius() << std::endl;
-  // image->Print( std::cout );
 
   for(int j=0; j<this->Size(); j++ )
     {
@@ -229,22 +223,23 @@ GetImage(typename ImageType::PixelType foreground, typename ImageType::PixelType
 
 }
 
-
-template<unsigned int VDimension>
-typename Image<unsigned char, VDimension>::Pointer
-FlatStructuringElement<VDimension>::
-GetImageUC( unsigned char foreground, unsigned char background)
+template<class TImage, unsigned int VDimension>
+typename FlatStructuringElement<TImage, VDimension>::UnsignedCharImagePointer 
+FlatStructuringElement<TImage, VDimension>
+::GetImageUC( unsigned char foreground, unsigned char background)
 {
-  return GetImage< Image<unsigned char, VDimension> >( foreground, background );
+  return FlatStructuringElement< UnsignedCharImageType, VDimension >::
+    GetImage( foreground, background );
 }
 
 
-template<unsigned int VDimension>
-typename Image<unsigned char, VDimension>::Pointer
-FlatStructuringElement<VDimension>::
-GetImageUC()
+template<class TImage, unsigned int VDimension>
+typename FlatStructuringElement<TImage, VDimension>::UnsignedCharImagePointer
+FlatStructuringElement<TImage, VDimension>
+::GetImageUC()
 {
-  return GetImage< Image<unsigned char, VDimension> >();
+  return FlatStructuringElement< UnsignedCharImageType, VDimension >::
+    GetImage();
 }
 
 
