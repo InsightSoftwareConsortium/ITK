@@ -18,19 +18,36 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-//
-//  TO COMPILE:
-//  $(CC) -I ../../../Code/Common -LANG:std -o itkExceptionObjectTest
-//     itkExceptionObjectTest.cxx $../../../Code/Common/itkExceptionObject.cxx 
-//
 
 #include "itkExceptionObject.h"
 #include <iostream>
 
 class mammal
- { public:  virtual int GetType()=0;  virtual bool operator== (mammal &); };
-class human : public mammal {  public: int GetType() { return 32; }};
-class naked_mole_rat : public mammal{ public:  int GetType() { return 2; }};
+ {
+ public:  
+   virtual int GetType()=0;  
+   virtual bool operator== (mammal &); 
+   mammal() {};
+   virtual ~mammal() {};
+ };
+
+class human : public mammal 
+{  
+  public: 
+    int GetType() 
+    { 
+      return 32; 
+    }
+};
+
+class naked_mole_rat : public mammal
+{ 
+  public:  
+    int GetType() 
+    { 
+      return 2; 
+    }
+};
 
 bool mammal::operator== (mammal &o)
 {
