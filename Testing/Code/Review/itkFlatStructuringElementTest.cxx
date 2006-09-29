@@ -41,7 +41,7 @@ int itkFlatStructuringElementTest(int argn, char * argv[])
   typedef unsigned char PixelType;
   typedef itk::Image< PixelType, Dimension > ImageType;
 
-  typedef itk::FlatStructuringElement< ImageType, Dimension > 
+  typedef itk::FlatStructuringElement< ImageType > 
                                              StructuringElementType;
 
   StructuringElementType::RadiusType Rad;
@@ -66,7 +66,7 @@ int itkFlatStructuringElementTest(int argn, char * argv[])
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName( argv[4] );
     reader->Update();
-    K = itk::FlatStructuringElement<ImageType,Dimension>::FromImage( 
+    K = itk::FlatStructuringElement<ImageType>::FromImage( 
                                              reader->GetOutput() );
     }
   else

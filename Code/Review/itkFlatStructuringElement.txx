@@ -1,15 +1,23 @@
+/*=========================================================================
 
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkFlatStructuringElement.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #ifndef __itkFlatStructuringElement_txx
 #define __itkFlatStructuringElement_txx
 
 #include "itkFlatStructuringElement.h"
-#include <math.h>
-#include <vector>
-
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
@@ -20,9 +28,9 @@ namespace itk
 {
 
 
-template<class TImage, unsigned int VDimension>
-FlatStructuringElement<TImage, VDimension> 
-FlatStructuringElement<TImage, VDimension>
+template<class TImage>
+FlatStructuringElement<TImage> 
+FlatStructuringElement<TImage>
 ::Box( RadiusType radius )
 {
   // this should work for any number of dimensions
@@ -41,9 +49,9 @@ FlatStructuringElement<TImage, VDimension>
 }
 
 
-template<class TImage, unsigned int VDimension>
-FlatStructuringElement<TImage, VDimension> 
-FlatStructuringElement<TImage, VDimension>
+template<class TImage>
+FlatStructuringElement<TImage> 
+FlatStructuringElement<TImage>
 ::Ball(RadiusType radius)
 {
   FlatStructuringElement res = FlatStructuringElement();
@@ -53,14 +61,14 @@ FlatStructuringElement<TImage, VDimension>
   unsigned int i;
   
   // Image typedef
-  typedef Image<bool, VDimension> ImageType;
+  typedef Image<bool> ImageType;
 
   // Create an image to hold the ellipsoid
   //
   typename ImageType::Pointer sourceImage = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType size = radius;
-  for( int i=0; i<VDimension; i++ )
+  for( int i=0; i<Dimension; i++ )
     {
     size[i] = 2*size[i] + 1;
     }
@@ -84,14 +92,14 @@ FlatStructuringElement<TImage, VDimension>
   //
 
   // Ellipsoid spatial function typedef
-  typedef EllipsoidInteriorExteriorSpatialFunction<VDimension> EllipsoidType;
+  typedef EllipsoidInteriorExteriorSpatialFunction<Dimension> EllipsoidType;
   
   // Create an ellipsoid spatial function for the source image
   typename EllipsoidType::Pointer spatialFunction = EllipsoidType::New();
 
   // Define and set the axes lengths for the ellipsoid
   typename EllipsoidType::InputType axes;
-  for (i=0; i < VDimension; i++)
+  for (i=0; i < Dimension; i++)
     {
     axes[i] = res.GetSize(i);
     }
@@ -99,7 +107,7 @@ FlatStructuringElement<TImage, VDimension>
 
   // Define and set the center of the ellipsoid in physical space
   typename EllipsoidType::InputType center;
-  for (i=0; i < VDimension; i++)
+  for (i=0; i < Dimension; i++)
     {
     // put the center of ellipse in the middle of the center pixel
     center[i] = res.GetRadius(i) + 0.5; 
@@ -114,7 +122,7 @@ FlatStructuringElement<TImage, VDimension>
   spatialFunction->SetOrientations(orientations);
 
   typename ImageType::IndexType seed;
-  for (i=0; i < VDimension; i++)
+  for (i=0; i < Dimension; i++)
     {
     seed[i] = res.GetRadius(i);
     }
@@ -145,15 +153,15 @@ FlatStructuringElement<TImage, VDimension>
 }
 
 
-template<class TImage, unsigned int VDimension>
-FlatStructuringElement<TImage, VDimension> 
-FlatStructuringElement<TImage, VDimension>
+template<class TImage>
+FlatStructuringElement<TImage> 
+FlatStructuringElement<TImage>
 ::FromImage(const ImageType * image, ImagePixelType foreground)
 {
   RadiusType size = image->GetLargestPossibleRegion().GetSize();
-  Index< VDimension > centerIdx;
+  Index< Dimension > centerIdx;
 
-  for( unsigned int i=0; i<VDimension; i++ )
+  for( unsigned int i=0; i<Dimension; i++ )
     {
     if( ( size[i] & 1 ) )
       {
@@ -175,28 +183,28 @@ FlatStructuringElement<TImage, VDimension>
 }
 
 
-template<class TImage, unsigned int VDimension>
-FlatStructuringElement<TImage, VDimension> 
-FlatStructuringElement<TImage, VDimension>
+template<class TImage>
+FlatStructuringElement<TImage> 
+FlatStructuringElement<TImage>
 ::FromImageUC(const UnsignedCharImageType * image, unsigned char foreground)
 {
   return 
-    FlatStructuringElement< UnsignedCharImageType, VDimension >::FromImage(
+    FlatStructuringElement< UnsignedCharImageType>::FromImage(
                                                             image, foreground );
 }
 
 
-template<class TImage, unsigned int VDimension>
-typename FlatStructuringElement<TImage, VDimension>::ImagePointer
-FlatStructuringElement<TImage, VDimension>
+template<class TImage>
+typename FlatStructuringElement<TImage>::ImagePointer
+FlatStructuringElement<TImage>
 ::GetImage(ImagePixelType foreground, ImagePixelType background)
 {
   typename ImageType::Pointer image = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType size = this->GetRadius();
-  Index< VDimension > centerIdx;
+  Index< Dimension > centerIdx;
   
-  for( unsigned int i = 0; i < VDimension; i++ )
+  for( unsigned int i = 0; i < Dimension; i++ )
     {
     centerIdx[i] = size[i];
     size[i] = 2*size[i] + 1;
@@ -223,22 +231,22 @@ FlatStructuringElement<TImage, VDimension>
 
 }
 
-template<class TImage, unsigned int VDimension>
-typename FlatStructuringElement<TImage, VDimension>::UnsignedCharImagePointer 
-FlatStructuringElement<TImage, VDimension>
+template<class TImage>
+typename FlatStructuringElement<TImage>::UnsignedCharImagePointer 
+FlatStructuringElement<TImage>
 ::GetImageUC( unsigned char foreground, unsigned char background)
 {
-  return FlatStructuringElement< UnsignedCharImageType, VDimension >::
+  return FlatStructuringElement< UnsignedCharImageType >::
     GetImage( foreground, background );
 }
 
 
-template<class TImage, unsigned int VDimension>
-typename FlatStructuringElement<TImage, VDimension>::UnsignedCharImagePointer
-FlatStructuringElement<TImage, VDimension>
+template<class TImage>
+typename FlatStructuringElement<TImage>::UnsignedCharImagePointer
+FlatStructuringElement<TImage>
 ::GetImageUC()
 {
-  return FlatStructuringElement< UnsignedCharImageType, VDimension >::
+  return FlatStructuringElement< UnsignedCharImageType >::
     GetImage();
 }
 

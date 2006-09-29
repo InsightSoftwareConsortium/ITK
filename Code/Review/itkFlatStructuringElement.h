@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkFlatStructuringElement.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #ifndef __itkFlatStructuringElement_h
 #define __itkFlatStructuringElement_h
 
@@ -6,6 +22,7 @@
 #include "itkOffset.h"
 #include <vector>
 #include "itkVector.h"
+#include "itkImage.h"
 
 namespace itk {
 
@@ -14,14 +31,24 @@ namespace itk {
 * including versions created by decomposition of lines.
 **/
 
-template<class TImage, unsigned int VDimension>
+template<class TImage>
 class ITK_EXPORT FlatStructuringElement : 
-  public Neighborhood <bool, VDimension>
+  public Neighborhood <bool,
+                       ::itk::GetImageDimension<TImage>::ImageDimension >
 {
 public:
+
+  /** External support for dimensionality. */
+  itkStaticConstMacro(NeighborhoodDimension, unsigned int, 
+                      ::itk::GetImageDimension<TImage>::ImageDimension);
+
+  /** External support for dimensionality. */
+  itkStaticConstMacro(Dimension, unsigned int, 
+                      ::itk::GetImageDimension<TImage>::ImageDimension);
+
   /** Standard class typedefs. */
-  typedef FlatStructuringElement< TImage, VDimension > Self;
-  typedef Neighborhood<bool, VDimension> Superclass;
+  typedef FlatStructuringElement< TImage >             Self;
+  typedef Neighborhood<bool, NeighborhoodDimension>    Superclass;
 
   /** External support for pixel type. */
   typedef typename Superclass::PixelType PixelType;
@@ -32,7 +59,7 @@ public:
   typedef typename ImageType::PixelType  ImagePixelType;
 
   /** Typedefs for specific images */
-  typedef Image< unsigned char, VDimension >        UnsignedCharImageType;
+  typedef Image< unsigned char, Dimension >        UnsignedCharImageType;
   typedef typename UnsignedCharImageType::Pointer   UnsignedCharImagePointer;
   
   /** Iterator typedef support. Note the naming is intentional, i.e.,
@@ -51,9 +78,6 @@ public:
   /** External slice iterator type typedef support. */
   typedef typename Superclass::SliceIteratorType SliceIteratorType;
   
-  /** External support for dimensionality. */
-  itkStaticConstMacro(NeighborhoodDimension, unsigned int, VDimension);
-
   /** Default destructor. */
   virtual ~FlatStructuringElement() {}
 
