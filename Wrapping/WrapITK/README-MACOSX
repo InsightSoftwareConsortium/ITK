@@ -1,0 +1,19 @@
+IMPORTANT NOTE
+
+WrapITK is incompatible with all versions of Python before 2.5 on OS X
+and Darwin platforms. This is due to a subtle bug/limitation in Python
+on these platforms that was patched in version 2.5.
+
+Unfortunately, Python 2.5 is itself subtly incompatible with the
+current version of CableSWIG. Until CableSWIG is fixed, WrapITK must
+be compiled with the '-fpermissive' flag. (Set this in the CPPFLAGS
+variable in CMake.)
+
+If you prefer to use a previous verison of Python, it is possible to
+manually apply the patch and rebuild python yourself.
+The patch is available here:
+http://www.python.org/sf/1454844
+or
+http://sourceforge.net/tracker/index.php?func=detail&aid=1454844&group_id=5470&atid=305470
+The patch ('darwin_use_dlopen2.patch') has been tested with Python
+versions 2.3 and 2.4, and will work on OS X 10.3 and later.
