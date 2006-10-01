@@ -48,7 +48,8 @@ public:
 
   /** Standard class typedefs. */
   typedef FlatStructuringElement< TImage >             Self;
-  typedef Neighborhood<bool, NeighborhoodDimension>    Superclass;
+  typedef Neighborhood<bool, 
+    ::itk::GetImageDimension<TImage>::ImageDimension > Superclass;
 
   /** External support for pixel type. */
   typedef typename Superclass::PixelType PixelType;
