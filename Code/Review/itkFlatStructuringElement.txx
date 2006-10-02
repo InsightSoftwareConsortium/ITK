@@ -58,7 +58,6 @@ FlatStructuringElement<TImage>
   res.SetRadius( radius );
   // res.m_Decomposable = false;
 
-  unsigned int i;
   
   // Image typedef
   typedef Image<bool> ImageType;
@@ -68,7 +67,7 @@ FlatStructuringElement<TImage>
   typename ImageType::Pointer sourceImage = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType size = radius;
-  for( int i=0; i<Dimension; i++ )
+  for(unsigned int i=0; i<Dimension; i++ )
     {
     size[i] = 2*size[i] + 1;
     }
@@ -99,7 +98,7 @@ FlatStructuringElement<TImage>
 
   // Define and set the axes lengths for the ellipsoid
   typename EllipsoidType::InputType axes;
-  for (i=0; i < Dimension; i++)
+  for (unsigned int i=0; i < Dimension; i++)
     {
     axes[i] = res.GetSize(i);
     }
@@ -107,7 +106,7 @@ FlatStructuringElement<TImage>
 
   // Define and set the center of the ellipsoid in physical space
   typename EllipsoidType::InputType center;
-  for (i=0; i < Dimension; i++)
+  for (unsigned int i=0; i < Dimension; i++)
     {
     // put the center of ellipse in the middle of the center pixel
     center[i] = res.GetRadius(i) + 0.5; 
@@ -122,7 +121,7 @@ FlatStructuringElement<TImage>
   spatialFunction->SetOrientations(orientations);
 
   typename ImageType::IndexType seed;
-  for (i=0; i < Dimension; i++)
+  for (unsigned int i=0; i < Dimension; i++)
     {
     seed[i] = res.GetRadius(i);
     }
