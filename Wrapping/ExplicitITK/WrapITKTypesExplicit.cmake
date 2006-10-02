@@ -76,9 +76,10 @@ END_WRAP_EXPLICIT_TYPE()
 SET(itk_Wrap_Explicit_Array2D ${WRAPPER_TEMPLATES})
 
 WRAP_EXPLICIT_TYPE("FixedArray" "FA")
-  UNIQUE(array_sizes "${EXPLICIT_ITK_DIMS};1")
+  UNIQUE(array_sizes "${EXPLICIT_ITK_DIMS};1;4")
   # make sure that 1-D FixedArrays are wrapped. Also wrap for each selected
-  # image dimension.
+  # image dimension. We also wrapped 4D arrays since some of the classes need
+  # it.
   # TODO: Do we need fixed arrays for all of these types? For just the selected
   # pixel types plus some few basic cases? Or just for a basic set of types?
   FOREACH(d ${array_sizes})
