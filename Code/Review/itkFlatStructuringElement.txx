@@ -28,9 +28,9 @@ namespace itk
 {
 
 
-template<class TImage>
-FlatStructuringElement<TImage> 
-FlatStructuringElement<TImage>
+template<unsigned int NDimension>
+FlatStructuringElement<NDimension> 
+FlatStructuringElement<NDimension>
 ::Box( RadiusType radius )
 {
   // this should work for any number of dimensions
@@ -49,9 +49,9 @@ FlatStructuringElement<TImage>
 }
 
 
-template<class TImage>
-FlatStructuringElement<TImage> 
-FlatStructuringElement<TImage>
+template<unsigned int NDimension>
+FlatStructuringElement<NDimension> 
+FlatStructuringElement<NDimension>
 ::Ball(RadiusType radius)
 {
   FlatStructuringElement res = FlatStructuringElement();
@@ -149,104 +149,6 @@ FlatStructuringElement<TImage>
   //   ...temporary image should be cleaned up by SmartPointers automatically
 
   return res;
-}
-
-
-template<class TImage>
-FlatStructuringElement<TImage> 
-FlatStructuringElement<TImage>
-::FromImage(const ImageType * image, ImagePixelType foreground)
-{
-  RadiusType size = image->GetLargestPossibleRegion().GetSize();
-  Index< Dimension > centerIdx;
-
-  for( unsigned int i=0; i<Dimension; i++ )
-    {
-    if( ( size[i] & 1 ) )
-      {
-      itk::ExceptionObject excp;
-      excp.SetDescription("Size is not odd");
-      }
-    size[i] = size[i] / 2;
-    centerIdx[i] = size[i];
-    }
-  FlatStructuringElement res = FlatStructuringElement();
-  res.SetRadius( size );
-
-  for( unsigned int j=0; j < res.Size(); j++ )
-    {
-    res[j] = image->GetPixel( centerIdx + res.GetOffset( j ) );
-    }
-
-  return res;
-}
-
-
-template<class TImage>
-FlatStructuringElement<TImage> 
-FlatStructuringElement<TImage>
-::FromImageUC(const UnsignedCharImageType * image, unsigned char foreground)
-{
-  return 
-    FlatStructuringElement< UnsignedCharImageType>::FromImage(
-                                                            image, foreground );
-}
-
-
-template<class TImage>
-typename FlatStructuringElement<TImage>::ImagePointer
-FlatStructuringElement<TImage>
-::GetImage(ImagePixelType foreground, ImagePixelType background)
-{
-  typename ImageType::Pointer image = ImageType::New();
-  typename ImageType::RegionType region;
-  RadiusType size = this->GetRadius();
-  Index< Dimension > centerIdx;
-  
-  for( unsigned int i = 0; i < Dimension; i++ )
-    {
-    centerIdx[i] = size[i];
-    size[i] = 2*size[i] + 1;
-    }
-
-  region.SetSize( size );
-  image->SetRegions( region );
-  image->Allocate();
-
-
-  for(int j=0; j<this->Size(); j++ )
-    {
-    if( this->GetElement( j ) )
-      {
-      image->SetPixel( centerIdx+this->GetOffset( j ), foreground );
-      }
-    else
-      {
-      image->SetPixel( centerIdx+this->GetOffset( j ), background );
-      }
-    }
-
-  return image;
-
-}
-
-template<class TImage>
-typename FlatStructuringElement<TImage>::UnsignedCharImagePointer 
-FlatStructuringElement<TImage>
-::GetImageUC( unsigned char foreground, unsigned char background)
-{
-  return FlatStructuringElement< UnsignedCharImageType >::
-    GetImage( foreground, background );
-}
-
-
-template<class TImage>
-typename FlatStructuringElement<TImage>::UnsignedCharImagePointer
-FlatStructuringElement<TImage>
-::GetImageUC()
-{
-  return FlatStructuringElement< UnsignedCharImageType >::
-    GetImage();
 }
 
 

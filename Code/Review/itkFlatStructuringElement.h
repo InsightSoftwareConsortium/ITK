@@ -31,38 +31,25 @@ namespace itk {
 * including versions created by decomposition of lines.
 **/
 
-template<class TImage>
+template<unsigned int NDimension>
 class ITK_EXPORT FlatStructuringElement : 
-  public Neighborhood <bool,
-                       ::itk::GetImageDimension<TImage>::ImageDimension >
+  public Neighborhood <bool,NDimension>
 {
 public:
 
   /** External support for dimensionality. */
-  itkStaticConstMacro(NeighborhoodDimension, unsigned int, 
-                      ::itk::GetImageDimension<TImage>::ImageDimension);
+  itkStaticConstMacro(NeighborhoodDimension, unsigned int, NDimension);
 
   /** External support for dimensionality. */
-  itkStaticConstMacro(Dimension, unsigned int, 
-                      ::itk::GetImageDimension<TImage>::ImageDimension);
+  itkStaticConstMacro(Dimension, unsigned int, NDimension);
 
   /** Standard class typedefs. */
-  typedef FlatStructuringElement< TImage >             Self;
-  typedef Neighborhood<bool, 
-    ::itk::GetImageDimension<TImage>::ImageDimension > Superclass;
+  typedef FlatStructuringElement< NDimension >  Self;
+  typedef Neighborhood<bool, NDimension >       Superclass;
 
   /** External support for pixel type. */
   typedef typename Superclass::PixelType PixelType;
 
-  /** Typedefs related to the Image */
-  typedef TImage                         ImageType;
-  typedef typename ImageType::Pointer    ImagePointer;
-  typedef typename ImageType::PixelType  ImagePixelType;
-
-  /** Typedefs for specific images */
-  typedef Image< unsigned char, Dimension >        UnsignedCharImageType;
-  typedef typename UnsignedCharImageType::Pointer   UnsignedCharImagePointer;
-  
   /** Iterator typedef support. Note the naming is intentional, i.e.,
   * ::iterator and ::const_iterator, because the allocator may be a
   * vnl object or other type, which uses this form. */
@@ -74,7 +61,7 @@ public:
   typedef typename Superclass::SizeValueType SizeValueType;
   
   /** Radius typedef support. */
-  typedef ::itk::Size< Dimension >  RadiusType;
+  typedef ::itk::Size< NDimension >          RadiusType;
 
   /** External slice iterator type typedef support. */
   typedef typename Superclass::SliceIteratorType SliceIteratorType;
@@ -86,44 +73,11 @@ public:
   FlatStructuringElement() {}
 
   /** Various constructors */
-
-  static Self Box(RadiusType radius);
+  static Self Box( RadiusType radius );
   
-  static Self Ball(RadiusType radius);
+  static Self Ball( RadiusType radius );
   
-  static Self FromImage( 
-                 const ImageType * image,
-                 ImagePixelType foreground = 
-                     NumericTraits< ImagePixelType >::max() );
-
-  static Self FromImageUC( 
-                  const UnsignedCharImageType * image,
-                  unsigned char foreground = 
-                     NumericTraits< unsigned char >::max() 
-                  );
-
-  /** return an itk::Image from the structuring element. Background defaults to
-   * NumericTraits< PixelType >::Zero and foreground to
-   * NumericTraits< PixelType >::max()
-   */
-  ImagePointer GetImage( 
-      ImagePixelType foreground = NumericTraits< ImagePixelType >::max(),
-      ImagePixelType background = NumericTraits< ImagePixelType >::Zero );
-
-  /** return an itk::Image< unsigned char, VDimension > from the structuring element
-   * This method is there to be used from wrappers. From C++, you should prefer
-   * the GetImage() method.
-   */
-   UnsignedCharImagePointer GetImageUC( unsigned char foreground, 
-                                        unsigned char background );
-   
-  /** return an itk::Image< unsigned char, VDimension > from the structuring element
-   * This method is there to be used from wrappers. From C++, you should prefer
-   * the GetImage() method.
-   */
-   UnsignedCharImagePointer GetImageUC();
-   
-   
+  
 protected:
 
 
