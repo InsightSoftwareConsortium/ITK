@@ -33,8 +33,7 @@ FlatStructuringElement<NDimension>
 FlatStructuringElement<NDimension>
 ::Box( RadiusType radius )
 {
-  // this should work for any number of dimensions
-  FlatStructuringElement res = FlatStructuringElement();
+  Self res = Self();
 
   res.SetRadius( radius );
 
@@ -54,9 +53,9 @@ FlatStructuringElement<NDimension>
 FlatStructuringElement<NDimension>
 ::Ball(RadiusType radius)
 {
-  FlatStructuringElement res = FlatStructuringElement();
+  Self res = Self();
+
   res.SetRadius( radius );
-  // res.m_Decomposable = false;
 
   
   // Image typedef
@@ -75,7 +74,6 @@ FlatStructuringElement<NDimension>
 
   sourceImage->SetRegions( region );
   sourceImage->Allocate();
-  // sourceImage->Print( std::cout );
 
   // Set the background to be zero
   //
