@@ -27,4 +27,5 @@ void RegisterTests()
   REGISTER_TEST(itkChiSquareDistributionTest );
   REGISTER_TEST(itkGaussianDistributionTest );
   REGISTER_TEST(itkTDistributionTest );
+  REGISTER_TEST(itkFlatStructuringElementTest );
 }

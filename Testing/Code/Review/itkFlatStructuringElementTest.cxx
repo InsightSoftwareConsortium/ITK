@@ -20,42 +20,21 @@
 
 #include "itkFlatStructuringElement.h"
 
-int itkFlatStructuringElementTest(int argn, char * argv[])
+int itkFlatStructuringElementTest(int, char *[])
 {
-
-  if( argn < 4 )
-    {
-    std::cerr << "usage: kernelShape fileName radius type [lines|img]" << std::endl;
-    std::cerr << "  type: 0 -> Box" << std::endl;
-    std::cerr << "        1 -> Ball" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  const unsigned int Dimension = 2;
+  const unsigned int Dimension = 3;
   
   typedef itk::FlatStructuringElement< Dimension > StructuringElementType;
 
   StructuringElementType::RadiusType Rad;
 
-  Rad.Fill( atoi( argv[2] ) );
-  
-  int type = atoi( argv[3] );
+  Rad.Fill( 3 );
   
   StructuringElementType K;
-  
-  if( type == 0 )
-    {
-    K = StructuringElementType::Box( Rad );
-    }
-  else if( type == 1 )
-    {
-    K = StructuringElementType::Ball( Rad );
-    }
-  else
-    {
-    return EXIT_FAILURE;
-    }
-
+  K = StructuringElementType::Box( Rad );
+  K.Print(std::cout);
+  K = StructuringElementType::Ball( Rad );
+  K.Print(std::cout);
   
   return EXIT_SUCCESS;
 }
