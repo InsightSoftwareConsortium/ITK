@@ -59,14 +59,14 @@ FlatStructuringElement<NDimension>
 
   
   // Image typedef
-  typedef Image<bool> ImageType;
+  typedef Image<bool,NDimension> ImageType;
 
   // Create an image to hold the ellipsoid
   //
   typename ImageType::Pointer sourceImage = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType size = radius;
-  for(unsigned int i=0; i<Dimension; i++ )
+  for(unsigned int i=0; i<NDimension; i++ )
     {
     size[i] = 2*size[i] + 1;
     }
@@ -89,14 +89,14 @@ FlatStructuringElement<NDimension>
   //
 
   // Ellipsoid spatial function typedef
-  typedef EllipsoidInteriorExteriorSpatialFunction<Dimension> EllipsoidType;
+  typedef EllipsoidInteriorExteriorSpatialFunction<NDimension> EllipsoidType;
   
   // Create an ellipsoid spatial function for the source image
   typename EllipsoidType::Pointer spatialFunction = EllipsoidType::New();
 
   // Define and set the axes lengths for the ellipsoid
   typename EllipsoidType::InputType axes;
-  for (unsigned int i=0; i < Dimension; i++)
+  for (unsigned int i=0; i < NDimension; i++)
     {
     axes[i] = res.GetSize(i);
     }
@@ -104,7 +104,7 @@ FlatStructuringElement<NDimension>
 
   // Define and set the center of the ellipsoid in physical space
   typename EllipsoidType::InputType center;
-  for (unsigned int i=0; i < Dimension; i++)
+  for (unsigned int i=0; i < NDimension; i++)
     {
     // put the center of ellipse in the middle of the center pixel
     center[i] = res.GetRadius(i) + 0.5; 
@@ -119,7 +119,7 @@ FlatStructuringElement<NDimension>
   spatialFunction->SetOrientations(orientations);
 
   typename ImageType::IndexType seed;
-  for (unsigned int i=0; i < Dimension; i++)
+  for (unsigned int i=0; i < NDimension; i++)
     {
     seed[i] = res.GetRadius(i);
     }
