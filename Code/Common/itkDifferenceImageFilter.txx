@@ -181,7 +181,7 @@ DifferenceImageFilter<TInputImage, TOutputImage>
         }
       
       // Check if difference is above threshold.
-      if(minimumDifference >= m_DifferenceThreshold)
+      if(minimumDifference > m_DifferenceThreshold)
         {
         // Store the minimum difference value in the output image.
         out.Set(minimumDifference);
