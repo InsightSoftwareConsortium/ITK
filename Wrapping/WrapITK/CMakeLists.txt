@@ -5,8 +5,14 @@ PROJECT(WrapITK)
 # 2.4.1)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4.2 FATAL_ERROR)
 
+# itk::Command has to be available in all ITK wrapped files
+SET(ITK_WRAPPER_INCLUDE_FILES "itkCommand.h")
+
 # needed for the insight journal
 INCLUDE(IJMacros.txt)
+
+# Include Code/Review directory for itkFlatStructuringElement
+INCLUDE_DIRECTORIES("${ITK_SOURCE_DIR}/Code/Review")
 
 ENABLE_TESTING()
 
@@ -284,3 +290,4 @@ INSTALL_FILES("${WRAP_ITK_INSTALL_PREFIX}/Configuration/Inputs/LanguageSupport" 
 # TODO remove that once included in ITK
 INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}")
 
+MESSAGE("ITK_WRAPPER_INCLUDE_FILES: ${ITK_WRAPPER_INCLUDE_FILES}")

@@ -9,6 +9,12 @@ MACRO(WRAP_TYPE class prefix)
    SET(WRAPPER_TEMPLATES "")
    SET(itk_Wrap_Prefix "${prefix}")
    SET(itk_Wrap_Class "${class}")
+
+   # If the type is ITK class, add apropriate include file
+   IF("${class}" MATCHES "itk::")
+     STRING(REGEX REPLACE "itk::(.*)" "itk\\1" includeFileName "${class}")
+     SET(ITK_WRAPPER_INCLUDE_FILES ${ITK_WRAPPER_INCLUDE_FILES} "${includeFileName}.h")
+   ENDIF("${class}" MATCHES "itk::")
 ENDMACRO(WRAP_TYPE)
 
 MACRO(END_WRAP_TYPE)
@@ -188,7 +194,8 @@ SET(itk_Wrap_SpatialObject ${WRAPPER_TEMPLATES})
 #------------------------------------------------------------------------------
 
 # set the default include files for the generated wrapper files
-SET(WRAPPER_DEFAULT_INCLUDE
+SET(WRAPPER_DEFAULT_INCLUDE)
+SET(__WRAPPER_DEFAULT_INCLUDE
   "itkOffset.h"
   "itkVector.h"
   "itkCovariantVector.h"
