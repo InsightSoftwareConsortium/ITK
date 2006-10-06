@@ -61,7 +61,7 @@ public:
   typedef typename Superclass::SizeValueType SizeValueType;
   
   /** Radius typedef support. */
-  typedef Size< NDimension >          RadiusType;
+  typedef ::itk::Size< NDimension >          RadiusType;
 
   /** External slice iterator type typedef support. */
   typedef typename Superclass::SliceIteratorType SliceIteratorType;
