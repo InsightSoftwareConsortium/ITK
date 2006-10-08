@@ -3,6 +3,10 @@ import itk, re, sys
 
 from itkTemplate import itkTemplate
 
+# sets are not in builtin with python older than 2.4
+import sets
+set = sets.Set
+
 # dirty but easier: a global var to count the empty classes
 count = 0
 
