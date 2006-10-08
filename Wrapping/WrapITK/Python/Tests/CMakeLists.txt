@@ -85,14 +85,14 @@ IF(WRAP_unsigned_short AND WRAP_2)
     --compare BoxGrayscaleDilateImageFilter.png ${WrapITK_SOURCE_DIR}/images/BoxGrayscaleDilateImageFilter.png
   )
 
-  ADD_TEST(PythonStrelFromImageGrayscaleDilateImageFilter
-    ${PYTHON_DRIVER}
-    ${CMAKE_CURRENT_SOURCE_DIR}/StrelFromImageGrayscaleDilateImageFilter.py
-    ${WrapITK_SOURCE_DIR}/images/cthead1.png
-    StrelFromImageGrayscaleDilateImageFilter.png
-    ${WrapITK_SOURCE_DIR}/images/StrelFromImage.png
-    --compare StrelFromImageGrayscaleDilateImageFilter.png ${WrapITK_SOURCE_DIR}/images/StrelFromImageGrayscaleDilateImageFilter.png
-  )
+#   ADD_TEST(PythonStrelFromImageGrayscaleDilateImageFilter
+#     ${PYTHON_DRIVER}
+#     ${CMAKE_CURRENT_SOURCE_DIR}/StrelFromImageGrayscaleDilateImageFilter.py
+#     ${WrapITK_SOURCE_DIR}/images/cthead1.png
+#     StrelFromImageGrayscaleDilateImageFilter.png
+#     ${WrapITK_SOURCE_DIR}/images/StrelFromImage.png
+#     --compare StrelFromImageGrayscaleDilateImageFilter.png ${WrapITK_SOURCE_DIR}/images/StrelFromImageGrayscaleDilateImageFilter.png
+#   )
 
   ADD_TEST(PythonGrayscaleErodeImageFilter
     ${PYTHON_DRIVER}
@@ -102,32 +102,32 @@ IF(WRAP_unsigned_short AND WRAP_2)
     --compare GrayscaleErodeImageFilter.png ${WrapITK_SOURCE_DIR}/images/GrayscaleErodeImageFilter.png
   )
 
-  ADD_TEST(PythonFlatStructuringElementBall
-    ${PYTHON_DRIVER}
-    ${CMAKE_CURRENT_SOURCE_DIR}/FlatStructuringElement.py
-    Ball-5.png
-    Ball
-    5
-    --compare Ball-5.png ${WrapITK_SOURCE_DIR}/images/Ball-5.png
-  )
+#   ADD_TEST(PythonFlatStructuringElementBall
+#     ${PYTHON_DRIVER}
+#     ${CMAKE_CURRENT_SOURCE_DIR}/FlatStructuringElement.py
+#     Ball-5.png
+#     Ball
+#     5
+#     --compare Ball-5.png ${WrapITK_SOURCE_DIR}/images/Ball-5.png
+#   )
 
-  ADD_TEST(PythonFlatStructuringElementBox
-    ${PYTHON_DRIVER}
-    ${CMAKE_CURRENT_SOURCE_DIR}/FlatStructuringElement.py
-    Box-5.png
-    Box
-    5
-    --compare Box-5.png ${WrapITK_SOURCE_DIR}/images/Box-5.png
-  )
+#   ADD_TEST(PythonFlatStructuringElementBox
+#     ${PYTHON_DRIVER}
+#     ${CMAKE_CURRENT_SOURCE_DIR}/FlatStructuringElement.py
+#     Box-5.png
+#     Box
+#     5
+#     --compare Box-5.png ${WrapITK_SOURCE_DIR}/images/Box-5.png
+#   )
 
-  ADD_TEST(PythonFlatStructuringElementFromImage
-    ${PYTHON_DRIVER}
-    ${CMAKE_CURRENT_SOURCE_DIR}/FlatStructuringElement.py
-    StrelFromImage.png
-    FromImage
-    ${WrapITK_SOURCE_DIR}/images/StrelFromImage.png
-    --compare StrelFromImage.png ${WrapITK_SOURCE_DIR}/images/StrelFromImage.png
-  )
+#   ADD_TEST(PythonFlatStructuringElementFromImage
+#     ${PYTHON_DRIVER}
+#     ${CMAKE_CURRENT_SOURCE_DIR}/FlatStructuringElement.py
+#     StrelFromImage.png
+#     FromImage
+#     ${WrapITK_SOURCE_DIR}/images/StrelFromImage.png
+#     --compare StrelFromImage.png ${WrapITK_SOURCE_DIR}/images/StrelFromImage.png
+#   )
 
   ADD_TEST(PythonMeanImageFilter
     ${PYTHON_DRIVER}
