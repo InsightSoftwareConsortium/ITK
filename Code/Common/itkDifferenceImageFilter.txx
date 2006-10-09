@@ -60,6 +60,8 @@ DifferenceImageFilter<TInputImage, TOutputImage>
   os << indent << "DifferenceThreshold: " << m_DifferenceThreshold << "\n";
   os << indent << "MeanDifference: " << m_MeanDifference << "\n";
   os << indent << "TotalDifference: " << m_TotalDifference << "\n";
+  os << indent << "NumberOfPixelsWithDifferences: " 
+               << m_NumberOfPixelsWithDifferences << "\n";
 }
 
 //----------------------------------------------------------------------------
