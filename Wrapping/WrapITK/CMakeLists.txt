@@ -11,9 +11,6 @@ SET(ITK_WRAPPER_INCLUDE_FILES "itkCommand.h")
 # needed for the insight journal
 INCLUDE(IJMacros.txt)
 
-# Include Code/Review directory for itkFlatStructuringElement
-INCLUDE_DIRECTORIES("${ITK_SOURCE_DIR}/Code/Review")
-
 ENABLE_TESTING()
 
 # work around cmake problem (bug ?) on some solaris systems

@@ -1,9 +1,18 @@
 IF("${ITK_COMMON_BUILD_TYPE}" MATCHES "SHARED")
-SET(BUILD_SHARED_LIBS ON)
+  SET(BUILD_SHARED_LIBS ON)
 ENDIF("${ITK_COMMON_BUILD_TYPE}" MATCHES "SHARED")
 
 OPTION(USE_WRAP_ITK "Build external languages support" OFF)
 IF(USE_WRAP_ITK)
+
+  # required for the FlatStructuringElement to be included.
+  # without that, the external projects won't build
+  # TODO: remove this check once FlatStructuringElement will be moved out of
+  #       the review directory
+  IF(NOT ITK_USE_REVIEW)
+    MESSAGE(ERROR "WrapITK requires ITK_USE_REVIEW to be ON.")
+  ENDIF(NOT ITK_USE_REVIEW)
+  
   SUBDIRS(WrapITK)
 ENDIF(USE_WRAP_ITK)
 
