@@ -411,6 +411,17 @@ IF(WRAP_float AND WRAP_2)
           SpatialObject.png
   )
 
+  IF(WRAP_complex_float AND WRAP_FFTW)
+    ADD_TEST(PythonFFTWImageFilter  
+      ${PYTHON_DRIVER}                                                   
+      ${CMAKE_CURRENT_SOURCE_DIR}/FFTWImageFilter.py         
+      ${WrapITK_SOURCE_DIR}/images/cthead1.png         
+      FFTWImageFilter.png                     
+      --compare FFTWImageFilter.png
+                ${WrapITK_SOURCE_DIR}/images/cthead1.png               
+    )
+  ENDIF(WRAP_complex_float AND WRAP_FFTW)
+  
 ENDIF(WRAP_float AND WRAP_2)
 
 

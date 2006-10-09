@@ -139,6 +139,14 @@ SET(WRAP_ITK_MODULES
 # TODO: remove this line when iterators will be usable without patch
 OPTION(WRAP_Iterators "Build Iterators module." OFF)
   
+# Set FFTW to on if USE_FFTWF or USE_FFTWD are on.
+IF(USE_FFTWD OR USE_FFTWF)
+  OPTION(WRAP_FFTW "Build FFTW module." ON)
+ELSE(USE_FFTWD OR USE_FFTWF)
+  OPTION(WRAP_FFTW "Build FFTW module." OFF)
+ENDIF(USE_FFTWD OR USE_FFTWF)
+
+
 SET(optional_modules 
   BinaryMorphology
   Calculators
@@ -148,6 +156,7 @@ SET(optional_modules
   DistanceMap
   EdgesAndContours
   FFT
+  FFTW
   Filtering
   IntensityFilters
   Interpolators
