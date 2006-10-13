@@ -766,7 +766,7 @@ ADD_TEST( FFTDirectInverseTest ${FILTERING_EXAMPLES6}
         ${ITK_SOURCE_DIR}/Examples/Data/Point.png
         ${TEMP}/FFTDirectInversePoint.png
 )
-ENDIF( LUIS_WILL_FIX )
+
 
 IF( USE_FFTWF )
 #${BASELINE}/FFTDirectInverse2Point.png
@@ -778,7 +778,7 @@ IF( USE_FFTWF )
           ${TEMP}/FFTDirectInverse2Point.png
   )
 ENDIF( USE_FFTWF )
-
+ENDIF( LUIS_WILL_FIX )
 
 ADD_TEST( FFTImageFilterTest2 ${FILTERING_EXAMPLES7}
   FFTImageFilterTest
