@@ -69,7 +69,8 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
   const unsigned int      Dimension = 2;
-  typedef unsigned char   OutputPixelType;
+  //  typedef unsigned char   OutputPixelType;
+  typedef unsigned short OutputPixelType;
   typedef float           WorkPixelType;
 
   typedef itk::Image< WorkPixelType,  Dimension > InputImageType;
@@ -123,7 +124,7 @@ int main( int argc, char * argv[] )
   intensityrescaler->SetInput( fftoutput->GetOutput() );
 
   intensityrescaler->SetOutputMinimum(  0  );
-  intensityrescaler->SetOutputMaximum( 255 );
+  intensityrescaler->SetOutputMaximum( 65535 );
 
 // Write the output
   writer->SetInput(intensityrescaler->GetOutput());
