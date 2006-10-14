@@ -112,8 +112,18 @@ private:
   // and MeritValue() access functions.  StepValue() and MeritValue() can each be
   // used on both the left and right hand of assignments for reads & writes, ex: 
   // StepValue(1,1,1) = 2+MeritValue(0,0,3);
-  inline int &StepValue(int   f, int l, int x);
-  inline double &MeritValue(int  f, int l, int x);
+  inline int &StepValue(int   f, int l, int x)
+  {
+    int rows=m_SwathSize[1];
+    return m_StepValues[ (x*rows*rows) + (f*rows) + (l) ];
+  }
+
+  inline double &MeritValue(int  f, int l, int x)
+  {
+    int rows=m_SwathSize[1];
+    return m_MeritValues[ (x*rows*rows) + (f*rows) + (l) ];
+  }
+
   int *m_StepValues; // best y=error coordinate @ x of image for (0,F) -> (x+1,L)
   double *m_MeritValues;
   

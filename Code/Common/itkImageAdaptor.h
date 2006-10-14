@@ -162,7 +162,10 @@ public:
   virtual const RegionType& GetBufferedRegion() const;
 
   /** Allocate the image memory. Dimension and Size must be set a priori. */
-  inline void Allocate();
+  inline void Allocate()
+  {
+    m_Image->Allocate();
+  }
 
 
   /** Restore the data object to its initial state. This means releasing

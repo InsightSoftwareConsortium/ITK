@@ -242,23 +242,6 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>
   StepValue(F,L,x) = bestL;
   return bestL;
 }
-template <class TParametricPath, class TSwathMeritImage>
-inline int &
-OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>
-::StepValue(int f, int l, int x)
-{
-  int rows=m_SwathSize[1];
-  return m_StepValues[ (x*rows*rows) + (f*rows) + (l) ];
-}
-template <class TParametricPath, class TSwathMeritImage>
-inline double &
-OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>
-::MeritValue(int f, int l, int x)
-{
-  int rows=m_SwathSize[1];
-  return m_MeritValues[ (x*rows*rows) + (f*rows) + (l) ];
-}
-
 } // end namespace itk
 
 #endif

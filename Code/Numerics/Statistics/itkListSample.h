@@ -195,7 +195,7 @@ public:
     { return 1 ;}
 
     const MeasurementVectorType & GetMeasurementVector() const
-    { return (MeasurementVectorType&) *m_Iter ;} 
+    { return static_cast<const MeasurementVectorType&>(*m_Iter) ;} 
 
     InstanceIdentifier GetInstanceIdentifier() const
     { return m_InstanceIdentifier ;}

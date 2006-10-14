@@ -19,9 +19,6 @@
 
 #include "itkVariableSizeMatrix.h" 
 #include "itkNumericTraits.h"
-#include "vnl/algo/vnl_matrix_inverse.h"
-#include "vnl/vnl_transpose.h"
-#include "vnl/vnl_matrix.h"
 
 namespace itk
 {
@@ -249,85 +246,56 @@ VariableSizeMatrix<T>
 /**
  *  Assignment
  */
-template<class T>
-const VariableSizeMatrix<T> &
-VariableSizeMatrix<T>
-::operator=( const Self  & matrix )
-{
-  m_Matrix = matrix.m_Matrix;
-  return *this;
-}
+// template<class T>
+// const VariableSizeMatrix<T> &
+// VariableSizeMatrix<T>
+// ::operator=( const Self  & matrix )
+// {
+//   m_Matrix = matrix.m_Matrix;
+//   return *this;
+// }
 
-template<class T>
-const VariableSizeMatrix<T> &
-VariableSizeMatrix<T>
-::operator=( const vnl_matrix<T>  & matrix )
-{
-  m_Matrix = matrix;
-  return *this;
-}
+// template<class T>
+// const VariableSizeMatrix<T> &
+// VariableSizeMatrix<T>
+// ::operator=( const vnl_matrix<T>  & matrix )
+// {
+//   m_Matrix = matrix;
+//   return *this;
+// }
 
-/**
- *  Comparison
- */
-template<class T>
-bool
-VariableSizeMatrix<T>
-::operator==( const Self & matrix ) const  
-{
-  if( (matrix.Rows() != this->Rows()) ||
-      (matrix.Cols() != this->Cols()))
-    { 
-    return false;
-    }
-  bool equal = true;
-  
-  for( unsigned int r=0; r<this->Rows(); r++) 
-    {
-    for( unsigned int c=0; c<this->Cols(); c++ ) 
-      {
-      if (m_Matrix(r,c) != matrix.m_Matrix(r,c))
-        {
-        equal = false;
-        break;
-        }
-      }
-    }
-  return equal;
-}
-
-template<class T>
-bool
-VariableSizeMatrix<T>
-::operator!=( const Self & matrix ) const
-{
-  return !this->operator==(matrix);
-}
+// template<class T>
+// bool
+// VariableSizeMatrix<T>
+// ::operator!=( const Self & matrix ) const
+// {
+//   return !this->operator==(matrix);
+// }
 
 
 /**
  *  Returns the inverse matrix
  */
-template<class T>
-vnl_matrix<T>
-VariableSizeMatrix<T>
-::GetInverse( void ) const
-{
-  vnl_matrix<T> temp = vnl_matrix_inverse<T>( m_Matrix );
-  return temp;
-}
+// template<class T>
+// vnl_matrix<T>
+// VariableSizeMatrix<T>
+// ::GetInverse( void ) const
+// {
+//   vnl_matrix<T> temp = vnl_matrix_inverse<T>( m_Matrix );
+//   return temp;
+// }
 
 
 /**
  *  Returns the transposed matrix
  */
-template<class T>
-vnl_matrix<T>
-VariableSizeMatrix<T>
-::GetTranspose( void ) const
-{
-  return m_Matrix.transpose();
-}
+// template<class T>
+// vnl_matrix<T>
+// VariableSizeMatrix<T>
+// ::GetTranspose( void ) const
+// {
+//   return m_Matrix.transpose();
+// }
 
  
 

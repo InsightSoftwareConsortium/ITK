@@ -318,6 +318,41 @@ private:
   ImageConstPointer m_Image ;
 } ; // end of class ImageToListAdaptor
 
+template < class TImage, class TMeasurementVector >
+inline const TMeasurementVector &
+ImageToListAdaptor< TImage, TMeasurementVector >
+::GetMeasurementVector(const InstanceIdentifier &id) const
+{
+  if ( m_UseBuffer )
+    {
+    return *( reinterpret_cast< const MeasurementVectorType* >(&(*m_PixelContainer)[id]) ) ;
+    }
+  else
+    {
+    return *(reinterpret_cast< const MeasurementVectorType* >
+             ( &(m_Image->GetPixel( m_Image->ComputeIndex( id ) ) ) ) ) ;
+    }
+}
+
+/** returns the number of measurement vectors in this container*/
+template < class TImage, class TMeasurementVector >
+inline unsigned int
+ImageToListAdaptor< TImage, TMeasurementVector >
+::Size() const
+{
+  return m_PixelContainer->Size() ;
+}
+
+template < class TImage, class TMeasurementVector >
+inline typename ImageToListAdaptor< TImage, TMeasurementVector >::FrequencyType
+ImageToListAdaptor< TImage, TMeasurementVector >
+::GetFrequency(const InstanceIdentifier &) const 
+{
+  return NumericTraits< FrequencyType >::One ;
+}
+
+
+
 } // end of namespace Statistics
 } // end of namespace itk
 

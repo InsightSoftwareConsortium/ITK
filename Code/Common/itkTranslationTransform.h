@@ -163,6 +163,52 @@ private:
 }; //class TranslationTransform
 
 
+// Back transform a point
+template<class TScalarType, unsigned int NDimensions>
+inline
+typename TranslationTransform<TScalarType, NDimensions>::InputPointType
+TranslationTransform<TScalarType, NDimensions>::
+BackTransform(const OutputPointType &point) const {
+  return point - m_Offset;
+}
+
+
+
+
+// Back transform a vector
+template<class TScalarType, unsigned int NDimensions>
+inline
+typename TranslationTransform<TScalarType, NDimensions>::InputVectorType
+TranslationTransform<TScalarType, NDimensions>::
+BackTransform(const OutputVectorType &vect ) const 
+{
+  return  vect;
+}
+
+
+
+
+// Back transform a vnl_vector
+template<class TScalarType, unsigned int NDimensions>
+inline
+typename TranslationTransform<TScalarType, NDimensions>::InputVnlVectorType
+TranslationTransform<TScalarType, NDimensions>::
+BackTransform(const OutputVnlVectorType &vect ) const 
+{
+  return  vect;
+}
+
+
+// Back Transform a CovariantVector
+template<class TScalarType, unsigned int NDimensions>
+inline
+typename TranslationTransform<TScalarType, NDimensions>::InputCovariantVectorType
+TranslationTransform<TScalarType, NDimensions>::
+BackTransform(const OutputCovariantVectorType &vect) const 
+{
+  return vect;
+}
+
 }  // namespace itk
 
 // Define instantiation macro for this template.

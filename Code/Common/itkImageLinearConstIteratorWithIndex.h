@@ -167,27 +167,133 @@ public:
   void GoToEndOfLine(void);
 
   /** Test if the index is at the end of line */
-  inline bool IsAtEndOfLine(void);
+  inline bool IsAtEndOfLine(void)
+  {
+    return this->m_PositionIndex[m_Direction] >= this->m_EndIndex[m_Direction];
+  }
 
   /** Test if the index is at the begin of line */
-  inline bool IsAtReverseEndOfLine(void);
+  inline bool IsAtReverseEndOfLine(void)
+  {
+    return this->m_PositionIndex[m_Direction] < this->m_BeginIndex[m_Direction];
+  }
 
   /** Set the direction of movement */
-  inline void SetDirection(unsigned int direction) ;
+  inline void SetDirection(unsigned int direction)
+  {
+    if( direction >= TImage::ImageDimension )
+      {
+      itkGenericExceptionMacro(<<"In image of dimension " << TImage::ImageDimension <<" Direction " << direction << " sas selected");
+      }
+    m_Direction = direction;
+    m_Jump = this->m_OffsetTable[ m_Direction ];
+  }
 
   /** Increment (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator-- */
-  inline Self & operator++();
+  inline Self & operator++()
+  {
+    this->m_PositionIndex[m_Direction]++;
+    this->m_Position += m_Jump;
+    return *this;
+  }
 
   /** Decrement (prefix) the selected dimension.
    * No bounds checking is performed.  \sa GetIndex \sa operator++ */
-  inline Self & operator--();
+  inline Self & operator--()
+  {
+    this->m_PositionIndex[m_Direction]--;
+    this->m_Position -= m_Jump;
+    return *this;
+  }
 
 private:
     unsigned long  m_Jump;
     unsigned int   m_Direction;
 };
 
+  //----------------------------------------------------------------------
+  //  Go to next line
+  //----------------------------------------------------------------------
+  template<class TImage>
+  inline
+  void 
+  ImageLinearConstIteratorWithIndex<TImage>
+  ::NextLine(void)
+  {
+
+    this->m_Position -=   this->m_OffsetTable[ m_Direction ] * 
+      ( this->m_PositionIndex[ m_Direction ] - this->m_BeginIndex[ m_Direction ] ); 
+  
+    this->m_PositionIndex[m_Direction] = this->m_BeginIndex[m_Direction];     
+
+    for( unsigned int n=0; n<TImage::ImageDimension; n++ )
+      {
+
+      this->m_Remaining = false;
+    
+      if( n == m_Direction ) 
+        {
+        continue;
+        }
+    
+      this->m_PositionIndex[ n  ]++;
+      if( this->m_PositionIndex[n] <  this->m_EndIndex[n] )
+        {
+        this->m_Position += this->m_OffsetTable[ n ];
+        this->m_Remaining = true;
+        break;
+        }
+      else 
+        {
+        this->m_Position -= this->m_OffsetTable[ n ] * ( this->m_Region.GetSize()[n]-1 );
+        this->m_PositionIndex[ n ] = this->m_BeginIndex[ n ]; 
+        }
+      }
+  }
+
+
+
+  //----------------------------------------------------------------------
+  //  Pass to the last pixel on the previous line
+  //----------------------------------------------------------------------
+  template<class TImage>
+  inline
+  void 
+  ImageLinearConstIteratorWithIndex<TImage>
+  ::PreviousLine(void)
+  {
+
+    this->m_Position +=   this->m_OffsetTable[ m_Direction ] * 
+      ( this->m_EndIndex[ m_Direction ] - 1 - this->m_PositionIndex[ m_Direction ] ); 
+  
+    this->m_PositionIndex[m_Direction] = this->m_EndIndex[m_Direction]-1;   
+
+
+    for( unsigned int n=0; n<TImage::ImageDimension; n++ )
+      {
+
+      this->m_Remaining = false;
+    
+      if( n == m_Direction ) 
+        {
+        continue;
+        }
+    
+      this->m_PositionIndex[ n  ]--;
+      if( this->m_PositionIndex[ n ] >=  this->m_BeginIndex[ n ] )
+        {
+        this->m_Position -= this->m_OffsetTable[ n ];
+        this->m_Remaining = true;
+        break;
+        }
+      else 
+        {
+        this->m_Position += this->m_OffsetTable[ n ] * ( this->m_Region.GetSize()[n]-1 );
+        this->m_PositionIndex[ n ] = this->m_EndIndex[ n ] - 1; 
+        }
+      }
+  }
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

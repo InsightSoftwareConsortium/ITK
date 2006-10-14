@@ -247,6 +247,51 @@ private:
 }; //class Rigid2DTransform
 
 
+// Back transform a point
+template<class TScalarType>
+typename Rigid2DTransform<TScalarType>::InputPointType
+inline
+Rigid2DTransform<TScalarType>::
+BackTransform(const OutputPointType &point) const 
+{
+  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  return this->GetInverseMatrix() * (point - this->GetOffset());
+}
+
+// Back transform a vector
+template<class TScalarType>
+inline
+typename Rigid2DTransform<TScalarType>::InputVectorType
+Rigid2DTransform<TScalarType>::
+BackTransform(const OutputVectorType &vect ) const 
+{
+  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  return this->GetInverseMatrix() * vect;
+}
+
+// Back transform a vnl_vector
+template<class TScalarType>
+inline
+typename Rigid2DTransform<TScalarType>::InputVnlVectorType
+Rigid2DTransform<TScalarType>::
+BackTransform(const OutputVnlVectorType &vect ) const 
+{
+  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  return this->GetInverseMatrix() * vect;
+}
+
+
+// Back Transform a CovariantVector
+template<class TScalarType>
+inline
+typename Rigid2DTransform<TScalarType>::InputCovariantVectorType
+Rigid2DTransform<TScalarType>::
+BackTransform(const OutputCovariantVectorType &vect) const 
+{
+  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  return this->GetMatrix() * vect;
+}
+
 }  // namespace itk
 
 

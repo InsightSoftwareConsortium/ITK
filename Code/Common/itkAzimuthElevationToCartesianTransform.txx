@@ -124,45 +124,6 @@ TransformAzElToCartesian(const InputPointType &point) const
   return result;
 }
 
-/** Back transform a point */
-template<class TScalarType, unsigned int NDimensions>
-typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>
-::InputPointType
-AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
-BackTransform(const OutputPointType &point) const 
-{
-  InputPointType result; 
-  if( m_ForwardAzimuthElevationToPhysical ) 
-    {
-    result = static_cast<InputPointType>(TransformCartesianToAzEl(point));
-    }
-  else 
-    {
-    result = static_cast<InputPointType>(TransformAzElToCartesian(point));
-    }
-  return result;
-}
-
-/** Back transform a point */
-template<class TScalarType, unsigned int NDimensions>
-typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>
-::InputPointType
-AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
-BackTransformPoint(const OutputPointType &point) const 
-{
-  OutputPointType result; 
-  if (m_ForwardAzimuthElevationToPhysical) 
-    {
-    result = static_cast<InputPointType>( TransformCartesianToAzEl(point) );
-    }
-  else
-    {
-    result = static_cast<InputPointType>( TransformAzElToCartesian(point) );
-    }
-  return result;
-}
-
-
 template<class TScalarType, unsigned int NDimensions>
 typename AzimuthElevationToCartesianTransform<TScalarType, NDimensions>
 ::OutputPointType

@@ -19,9 +19,6 @@
 
 #include "itkMatrix.h" 
 #include "itkNumericTraits.h"
-#include "vnl/algo/vnl_matrix_inverse.h"
-#include "vnl/vnl_transpose.h"
-#include "vnl/vnl_matrix.h"
 
 namespace itk
 {
@@ -253,79 +250,79 @@ Matrix<T, NRows, NColumns>
 /**
  *  Assignment
  */
-template<class T, unsigned int NRows, unsigned int NColumns >
-const Matrix<T, NRows, NColumns> &
-Matrix<T, NRows, NColumns>
-::operator=( const Self  & matrix )
-{
-  m_Matrix = matrix.m_Matrix;
-  return *this;
-}
+// template<class T, unsigned int NRows, unsigned int NColumns >
+// const Matrix<T, NRows, NColumns> &
+// Matrix<T, NRows, NColumns>
+// ::operator=( const Self  & matrix )
+// {
+//   m_Matrix = matrix.m_Matrix;
+//   return *this;
+// }
 
-template<class T, unsigned int NRows, unsigned int NColumns >
-const Matrix<T, NRows, NColumns> &
-Matrix<T, NRows, NColumns>
-::operator=( const vnl_matrix<T>  & matrix )
-{
-  m_Matrix = matrix;
-  return *this;
-}
+// template<class T, unsigned int NRows, unsigned int NColumns >
+// const Matrix<T, NRows, NColumns> &
+// Matrix<T, NRows, NColumns>
+// ::operator=( const vnl_matrix<T>  & matrix )
+// {
+//   m_Matrix = matrix;
+//   return *this;
+// }
 
 /**
  *  Comparison
  */
-template<class T, unsigned int NRows, unsigned int NColumns >
-bool
-Matrix<T, NRows, NColumns>
-::operator==( const Self & matrix )
-{
-  bool equal = true;
-  for( unsigned int r=0; r<NRows; r++) 
-    {
-    for( unsigned int c=0; c<NColumns; c++ ) 
-      {
-      if (m_Matrix(r,c) != matrix.m_Matrix(r,c))
-        {
-        equal = false;
-        break;
-        }
-      }
-    }
-  return equal;
-}
+// template<class T, unsigned int NRows, unsigned int NColumns >
+// bool
+// Matrix<T, NRows, NColumns>
+// ::operator==( const Self & matrix )
+// {
+//   bool equal = true;
+//   for( unsigned int r=0; r<NRows; r++) 
+//     {
+//     for( unsigned int c=0; c<NColumns; c++ ) 
+//       {
+//       if (m_Matrix(r,c) != matrix.m_Matrix(r,c))
+//         {
+//         equal = false;
+//         break;
+//         }
+//       }
+//     }
+//   return equal;
+// }
 
-template<class T, unsigned int NRows, unsigned int NColumns >
-bool
-Matrix<T, NRows, NColumns>
-::operator!=( const Self & matrix )
-{
-  return !this->operator==(matrix);
-}
+// template<class T, unsigned int NRows, unsigned int NColumns >
+// bool
+// Matrix<T, NRows, NColumns>
+// ::operator!=( const Self & matrix )
+// {
+//   return !this->operator==(matrix);
+// }
 
 
 /**
  *  Returns the inverse matrix
  */
-template<class T, unsigned int NRows, unsigned int NColumns >
-vnl_matrix_fixed<T,NColumns,NRows>
-Matrix<T, NRows, NColumns>
-::GetInverse( void ) const
-{
-  vnl_matrix<T> temp = vnl_matrix_inverse<T>( m_Matrix );
-  return temp;
-}
+// template<class T, unsigned int NRows, unsigned int NColumns >
+// vnl_matrix_fixed<T,NColumns,NRows>
+// Matrix<T, NRows, NColumns>
+// ::GetInverse( void ) const
+// {
+//   vnl_matrix<T> temp = vnl_matrix_inverse<T>( m_Matrix );
+//   return temp;
+// }
 
 
 /**
  *  Returns the transposed matrix
  */
-template<class T, unsigned int NRows, unsigned int NColumns >
-vnl_matrix_fixed<T,NColumns,NRows>
-Matrix<T, NRows, NColumns>
-::GetTranspose( void ) const
-{
-  return m_Matrix.transpose();
-}
+// template<class T, unsigned int NRows, unsigned int NColumns >
+// vnl_matrix_fixed<T,NColumns,NRows>
+// Matrix<T, NRows, NColumns>
+// ::GetTranspose( void ) const
+// {
+//   return m_Matrix.transpose();
+// }
 
  
 

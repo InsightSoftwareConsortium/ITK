@@ -93,39 +93,6 @@ ImageToListAdaptor< TImage, TMeasurementVector >
   return m_Image.GetPointer() ; 
 }  
 
-/** returns the number of measurement vectors in this container*/
-template < class TImage, class TMeasurementVector >
-inline unsigned int
-ImageToListAdaptor< TImage, TMeasurementVector >
-::Size() const
-{
-  return m_PixelContainer->Size() ;
-}
-
-template < class TImage, class TMeasurementVector >
-inline const TMeasurementVector &
-ImageToListAdaptor< TImage, TMeasurementVector >
-::GetMeasurementVector(const InstanceIdentifier &id) const
-{
-  if ( m_UseBuffer )
-    {
-    return *( reinterpret_cast< const MeasurementVectorType* >(&(*m_PixelContainer)[id]) ) ;
-    }
-  else
-    {
-    return *(reinterpret_cast< const MeasurementVectorType* >
-             ( &(m_Image->GetPixel( m_Image->ComputeIndex( id ) ) ) ) ) ;
-    }
-}
-
-template < class TImage, class TMeasurementVector >
-inline typename ImageToListAdaptor< TImage, TMeasurementVector >::FrequencyType
-ImageToListAdaptor< TImage, TMeasurementVector >
-::GetFrequency(const InstanceIdentifier &) const 
-{
-  return NumericTraits< FrequencyType >::One ;
-}
-
 template < class TImage, class TMeasurementVector >
 typename ImageToListAdaptor< TImage, TMeasurementVector >::TotalFrequencyType
 ImageToListAdaptor< TImage, TMeasurementVector >

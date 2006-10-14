@@ -186,69 +186,6 @@ TransformCovariantVector(const InputCovariantVectorType &vect) const
 
 
 
-// Back transform a point
-template<class ScalarType, unsigned int NDimensions>
-typename ScaleTransform<ScalarType, NDimensions>::InputPointType
-ScaleTransform<ScalarType, NDimensions>::
-BackTransform(const OutputPointType &point) const {
-  InputPointType result;
-  for( unsigned int i=0; i<SpaceDimension; i++ )
-    {
-    result[i] = ( point[i] + m_Center[i] ) / m_Scale[i] - m_Center[i]; 
-    }
-  return result;
-}
-
-
-
-
-// Back transform a vector
-template<class ScalarType, unsigned int NDimensions>
-typename ScaleTransform<ScalarType, NDimensions>::InputVectorType
-ScaleTransform<ScalarType, NDimensions>::
-BackTransform(const OutputVectorType &vect ) const 
-{
-  InputVectorType result;
-  for( unsigned int i=0; i<SpaceDimension; i++ )
-    {
-    result[i] = vect[i] / m_Scale[i];
-    }
-  return result;
-}
-
-
-
-
-// Back transform a vnl_vector
-template<class ScalarType, unsigned int NDimensions>
-typename ScaleTransform<ScalarType, NDimensions>::InputVnlVectorType
-ScaleTransform<ScalarType, NDimensions>::
-BackTransform(const OutputVnlVectorType &vect ) const 
-{
-  InputVnlVectorType result;
-  for( unsigned int i=0; i<SpaceDimension; i++ )
-    {
-    result[i] = vect[i] / m_Scale[i];
-    }
-  return result;
-}
-
-
-// Back Transform a CovariantVector
-template<class ScalarType, unsigned int NDimensions>
-typename ScaleTransform<ScalarType, NDimensions>::InputCovariantVectorType
-ScaleTransform<ScalarType, NDimensions>::
-BackTransform(const OutputCovariantVectorType &vect) const 
-{
-  // Covariant Vectors are scaled by the inverse
-  InputCovariantVectorType result;
-  for( unsigned int i=0; i<SpaceDimension; i++ )
-    {
-    result[i] = vect[i] * m_Scale[i];
-    }
-  return result;
-}
-
 // Create and return an inverse transformation
 template<class ScalarType, unsigned int NDimensions>
 bool 

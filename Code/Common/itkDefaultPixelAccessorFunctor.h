@@ -68,7 +68,7 @@ public:
   /** Set the pointer index to the start of the buffer. 
    * The method exists to maintain consistency in the API of the 
    * DefaultPixelAccessorFunctor and the DefaultVectorPixelAccessorFunctor. */
-  inline void SetBegin( const InternalPixelType *itkNotUsed(begin) ) {};
+  inline void SetBegin( const InternalPixelType *itkNotUsed(begin) ) {}
   
   /** Set output using the value in input */
   inline void Set( InternalPixelType & output, const ExternalPixelType &input ) const

@@ -47,19 +47,6 @@ ImageAdaptor<TImage , TAccessor>
 {
 }
 
-
-
-
-//----------------------------------------------------------------------------
-template <class TImage, class TAccessor >
-void 
-ImageAdaptor<TImage , TAccessor>
-::Allocate()
-{
-  m_Image->Allocate();
-}
-
-
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
 void 

@@ -22,6 +22,9 @@
 #include "itkVector.h"
 #include "itkCovariantVector.h"
 #include "vnl/vnl_matrix_fixed.h"
+#include "vnl/algo/vnl_matrix_inverse.h"
+#include "vnl/vnl_transpose.h"
+#include "vnl/vnl_matrix.h"
 #include "itkArray.h"
 
 
@@ -129,20 +132,40 @@ public:
     { m_Matrix.fill( value ); }
 
   /** Assignment operator. */
-  inline const Self & operator=( const vnl_matrix<T> & matrix);
+  inline const Self & operator=( const vnl_matrix<T> & matrix)
+  {
+    m_Matrix = matrix;
+    return *this;
+  }
 
   /** Comparison operators. */
   inline bool operator==( const Self & matrix) const;
-  inline bool operator!=( const Self & matrix) const;
+  inline bool operator!=( const Self & matrix) const
+  {
+    return !this->operator==(matrix);
+  }
 
   /** Assignment operator. */
-  inline const Self & operator=( const Self & matrix);
+  inline const Self & operator=( const Self & matrix)
+  {
+    m_Matrix = matrix.m_Matrix;
+    return *this;
+  }
+
 
   /** Return the inverse matrix. */
-  inline vnl_matrix<T> GetInverse( void ) const;
+  inline vnl_matrix<T> GetInverse( void ) const
+  {
+    vnl_matrix<T> temp = vnl_matrix_inverse<T>( m_Matrix );
+    return temp;
+  }
+
  
   /** Return the transposed matrix. */
-  inline vnl_matrix<T> GetTranspose( void ) const;
+  inline vnl_matrix<T> GetTranspose( void ) const
+  {
+    return m_Matrix.transpose();
+  }
 
   /** Default constructor. */
   VariableSizeMatrix() : m_Matrix() {};
@@ -175,6 +198,36 @@ ITK_EXPORT std::ostream& operator<<(std::ostream& os,
 
 
   
+/**
+ *  Comparison
+ */
+template<class T>
+inline
+bool
+VariableSizeMatrix<T>
+::operator==( const Self & matrix ) const  
+{
+  if( (matrix.Rows() != this->Rows()) ||
+      (matrix.Cols() != this->Cols()))
+    { 
+    return false;
+    }
+  bool equal = true;
+  
+  for( unsigned int r=0; r<this->Rows(); r++) 
+    {
+    for( unsigned int c=0; c<this->Cols(); c++ ) 
+      {
+      if (m_Matrix(r,c) != matrix.m_Matrix(r,c))
+        {
+        equal = false;
+        break;
+        }
+      }
+    }
+  return equal;
+}
+
 } // end namespace itk
   
 

@@ -132,8 +132,24 @@ public:
   OutputPointType     TransformPoint (const InputPointType  &point ) const;
 
   /** Back transform from cartesian to azimuth-elevation.  */
-  inline InputPointType  BackTransform(const OutputPointType  &point ) const;
-  InputPointType  BackTransformPoint(const OutputPointType  &point) const;
+  inline InputPointType  BackTransform(const OutputPointType  &point ) const
+  {
+  InputPointType result; 
+  if( m_ForwardAzimuthElevationToPhysical ) 
+    {
+    result = static_cast<InputPointType>(TransformCartesianToAzEl(point));
+    }
+  else 
+    {
+    result = static_cast<InputPointType>(TransformAzElToCartesian(point));
+    }
+  return result;
+
+  } 
+  inline InputPointType  BackTransformPoint(const OutputPointType  &point) const
+  {
+    return BackTransform(point);
+  }
     
   /** Defines that the forward transform goes from azimuth,elevation to 
    *  cartesian. */
