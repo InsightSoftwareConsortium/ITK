@@ -143,13 +143,12 @@ int main(int argc, char **argv)
       }
     else
       {
-      int currentStatus = 2001;
 
       typedef std::list< std::string >::const_iterator  nameIterator;
       nameIterator baselineImageItr = baselineImageFilenames.begin();
       while( baselineImageItr != baselineImageFilenames.end() )
         {
-        currentStatus = 
+        const int currentStatus =
           RegressionTestImage(
               testImageFilename.c_str(), baselineImageItr->c_str(), 
               0, false, toleranceIntensity, toleranceRadius, 

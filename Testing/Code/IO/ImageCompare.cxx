@@ -35,10 +35,9 @@ int main(int argc, char **argv)
       }
     else
       {
-      int currentStatus = 2001;
       for(int i=2;i<argc;i++)
         {
-        currentStatus = RegressionTestImage(argv[1], argv[i], 0, false);
+        const int currentStatus = RegressionTestImage(argv[1], argv[i], 0, false);
         if(currentStatus < bestBaselineStatus)
           {
           bestBaselineStatus = currentStatus;

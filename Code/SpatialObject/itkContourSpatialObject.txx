@@ -199,7 +199,7 @@ ContourSpatialObject< TDimension >
  *  For computational speed purposes, it is faster if the method does not
  *  check the name of the class and the current depth */ 
 template< unsigned int TDimension >
-bool 
+bool
 ContourSpatialObject< TDimension >
 ::IsInside( const PointType & point) const
 {

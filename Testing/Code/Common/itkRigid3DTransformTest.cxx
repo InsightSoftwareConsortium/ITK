@@ -489,7 +489,6 @@ int itkRigid3DTransformTest(int ,char * [] )
 
     // attempt to set an orthogonal matrix
     typedef TransformType::MatrixType MatrixType;
-    unsigned int par = 0;
 
     MatrixType matrix;
     matrix.GetVnlMatrix().set_identity();
@@ -500,7 +499,7 @@ int itkRigid3DTransformTest(int ,char * [] )
     matrix[1][0] = -1.0 * sin( a ); 
     matrix[1][1] =        cos( a );
 
-    par = 0;
+    unsigned int par = 0;
     for( unsigned int row = 0; row < 3; row++ )
       {
       for( unsigned int col = 0; col < 3; col++ )

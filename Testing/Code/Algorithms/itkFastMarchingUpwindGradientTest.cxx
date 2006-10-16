@@ -26,19 +26,19 @@
 
 #include "vnl/vnl_math.h"
 
-namespace{
-// The following class is used to support callbacks
-// on the filter in the pipeline that follows later
-class ShowProgressObject
-{
-public:
-  ShowProgressObject(itk::ProcessObject* o)
-    {m_Process = o;}
-  void ShowProgress()
-    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
-  itk::ProcessObject::Pointer m_Process;
-};
-}
+//namespace{
+//// The following class is used to support callbacks
+//// on the filter in the pipeline that follows later
+//class ShowProgressObject
+//{
+//public:
+//  ShowProgressObject(itk::ProcessObject* o)
+//    {m_Process = o;}
+//  void ShowProgress()
+//    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+//  itk::ProcessObject::Pointer m_Process;
+//};
+//}
 
 int itkFastMarchingUpwindGradientTest(int, char* [] )
 {

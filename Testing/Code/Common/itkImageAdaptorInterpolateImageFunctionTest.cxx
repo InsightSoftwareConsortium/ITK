@@ -73,7 +73,7 @@ OutputType trueValue )
 {
   std::cout << " Point: " << point;
 
-  bool bvalue = interp->IsInsideBuffer( point );
+  const bool bvalue = interp->IsInsideBuffer( point );
   std::cout << " Inside: " << bvalue;
 
   if( bvalue != isInside )
@@ -111,12 +111,9 @@ const ContinuousIndexType& index,
 bool isInside,
 OutputType trueValue )
 {
-
-  int k;
-
   std::cout << " Index: " << index;
 
-  bool bvalue = interp->IsInsideBuffer( index );
+  const bool bvalue = interp->IsInsideBuffer( index );
   std::cout << " Inside: " << bvalue;
 
   if( bvalue != isInside )
