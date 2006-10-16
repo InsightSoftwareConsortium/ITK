@@ -77,7 +77,7 @@ public:
   typedef typename Superclass::PointDataIterator          PointDataIterator;
 
   typedef TDistanceMap                                    DistanceMapType;
-  typedef typename DistanceMapType::Pointer               DistanceMapPointer;
+  typedef typename DistanceMapType::ConstPointer          DistanceMapPointer;
 
 
   /** Get the number of values */
@@ -95,7 +95,7 @@ public:
                               MeasureType& Value, DerivativeType& Derivative ) const;
 
   /** Set/Get the distance map */
-  itkSetObjectMacro(DistanceMap,DistanceMapType);
+  itkSetConstObjectMacro(DistanceMap,DistanceMapType);
   itkGetConstObjectMacro(DistanceMap,DistanceMapType);
 
   /** Set/Get if the distance should be squared. Default is true for computation speed */
