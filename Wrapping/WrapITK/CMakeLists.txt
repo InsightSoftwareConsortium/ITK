@@ -198,7 +198,11 @@ IF(WRAP_ITK_PYTHON)
 ENDIF(WRAP_ITK_PYTHON)
 
 IF(WRAP_ITK_JAVA)
-  SUBDIRS(Java)
+  IF(WIN32)
+    MESSAGE("WRAP_ITK_JAVA is not available for Windows at this point")
+  ELSE(WIN32)
+    SUBDIRS(Java)
+  IF(WIN32)
 ENDIF(WRAP_ITK_JAVA)
 
 ###############################################################################
