@@ -150,7 +150,7 @@ public:
 
 
   /** Comparison operators. */
-  inline bool operator==( const Self & matrix)
+  inline bool operator==( const Self & matrix) const
   {
     bool equal = true;
     for( unsigned int r=0; r<NRows; r++) 
@@ -166,7 +166,7 @@ public:
       }
     return equal;
   }
-  inline bool operator!=( const Self & matrix)
+  inline bool operator!=( const Self & matrix) const
   {
     return !this->operator==(matrix);
   }
