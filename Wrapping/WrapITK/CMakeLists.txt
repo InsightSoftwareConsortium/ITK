@@ -202,7 +202,7 @@ IF(WRAP_ITK_JAVA)
     MESSAGE("WRAP_ITK_JAVA is not available for Windows at this point")
   ELSE(WIN32)
     SUBDIRS(Java)
-  IF(WIN32)
+  ENDIF(WIN32)
 ENDIF(WRAP_ITK_JAVA)
 
 ###############################################################################
