@@ -33,8 +33,8 @@ template <class TInputImage, class TOutputImage>
 RescaleIntensityImageFilter<TInputImage, TOutputImage>
 ::RescaleIntensityImageFilter()
 {
-  m_OutputMaximum   = NumericTraits<OutputPixelType>::Zero;
-  m_OutputMinimum   = NumericTraits<OutputPixelType>::max();
+  m_OutputMaximum   = NumericTraits<OutputPixelType>::max();
+  m_OutputMinimum   = NumericTraits<OutputPixelType>::NonpositiveMin();
 
   m_InputMaximum   = NumericTraits<InputPixelType>::Zero;
   m_InputMinimum   = NumericTraits<InputPixelType>::max();
