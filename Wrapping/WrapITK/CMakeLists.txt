@@ -5,9 +5,6 @@ PROJECT(WrapITK)
 # 2.4.1)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4.2 FATAL_ERROR)
 
-# itk::Command has to be available in all ITK wrapped files
-SET(ITK_WRAPPER_INCLUDE_FILES "itkCommand.h")
-
 # needed for the insight journal
 INCLUDE(IJMacros.txt)
 

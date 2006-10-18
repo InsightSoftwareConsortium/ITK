@@ -21,7 +21,6 @@
 #include "vtkImageImport.h"
 #include "vtkImageData.h"
 #include <vector>
-#include "itkCommand.h"
 
 namespace itk
 {

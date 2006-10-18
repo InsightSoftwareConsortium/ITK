@@ -20,7 +20,6 @@
 #include "itkVTKImageImport.h"
 #include "vtkImageExport.h"
 #include "vtkImageData.h"
-#include "itkCommand.h"
 
 #ifndef vtkFloatingPointType
 #define vtkFloatingPointType float
