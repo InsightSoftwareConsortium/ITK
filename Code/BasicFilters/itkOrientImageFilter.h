@@ -22,6 +22,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkPermuteAxesImageFilter.h"
 #include "itkFlipImageFilter.h"
 #include "itkSpatialOrientation.h"
+#include "itkSpatialOrientationAdapter.h"
 #include <map>
 #include <string>
 
@@ -188,13 +189,23 @@ public:
   /** Set/Get the orientation codes to define the coordinate transform. */
   itkGetMacro(GivenCoordinateOrientation, CoordinateOrientationCode);
   void SetGivenCoordinateOrientation(CoordinateOrientationCode newCode);
+  inline void SetGivenCoordinateDirection(const typename TInputImage::DirectionType &GivenDirection)
+    {
+    SetGivenCoordinateOrientation(
+    itk::SpatialOrientationAdapter<TInputImage::ImageDimension>().FromDirectionCosines(GivenDirection));
+    }
   itkGetMacro(DesiredCoordinateOrientation, CoordinateOrientationCode);
   void SetDesiredCoordinateOrientation(CoordinateOrientationCode newCode);
+  inline void SetDesiredCoordinateDirection(const typename TOutputImage::DirectionType &DesiredDirection)
+    {
+    SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationAdapter<TOutputImage::ImageDimension>().FromDirectionCosines(DesiredDirection));
+    }
 
   /**  Controls how the GivenCoordinateOrientation is determined.
    * If "on", the direction cosines determine the coordinate
    * orientation. If "off", the user must use the
-   * SetGivenCoordinateOrientation method to establis the
+   * SetGivenCoordinateOrientation method to establish the
    * orientation. For compatbility with the original API, the default if
    * "off".
    */
