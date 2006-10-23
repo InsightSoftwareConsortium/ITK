@@ -27,7 +27,6 @@
 #include <vector>
 #include <string>
 
-#include "itkPixelData.h"
 #include "itkGEImageHeader.h"
 #include "itkIOCommon.h"
 
@@ -68,17 +67,17 @@ int GE5ImageIO
   if(!f.is_open())
     return -1;
 
-  PixHdr imageHdr;              /* Header Structure for GE 5x images */
-  char hdr[SU_HDR_LEN];         /* Header to hold GE Suite header */
-  char prod[16];                /* Product name from Suite Header */
+  Ge5xPixelHeader imageHdr;        /* Header Structure for GE 5x images */
+  char hdr[GENESIS_SU_HDR_LEN]; /* Header to hold GE Suite header */
+  char prod[16];                   /* Product name from Suite Header */
 
   // First pass see if image is a raw MR extracted via ximg
   if( !this->ReadBufferAsBinary( f, (void *)&imageHdr,sizeof(imageHdr) ) )
     {
     return -1;
     }
-  ByteSwapper<int>::SwapFromSystemToBigEndian(&imageHdr.img_magic);
-  if (imageHdr.img_magic == IMG_MAGIC)
+  ByteSwapper<int>::SwapFromSystemToBigEndian(&imageHdr.GENESIS_IH_img_magic);
+  if (imageHdr.GENESIS_IH_img_magic == GE_5X_MAGIC_NUMBER)
     {
     return 0;
     }
@@ -88,11 +87,11 @@ int GE5ImageIO
   // Second pass see if image was extracted via tape by Gene's tape
   // reading software.
   //
-  if( !this->ReadBufferAsBinary( f, (void *)hdr,SU_HDR_LEN ) )
+  if( !this->ReadBufferAsBinary( f, (void *)hdr, GENESIS_SU_HDR_LEN ) )
     {
     return -1;
     }
-  strncpy (prod, hdr+SU_PRODID, 13);
+  strncpy (prod, hdr+GENESIS_SU_PRODID, 13);
   prod[13] = '\0';
   if (strcmp (prod, GE_PROD_STR) == 0)
     {
@@ -108,50 +107,51 @@ bool GE5ImageIO::CanReadFile( const char* FileNameToRead )
   return checkGe5xImages(FileNameToRead) == 0 ? true : false;
 }
 
-static void
-swapPixHdr (PixHdr * hdr)
+void
+GE5ImageIO::swapPixHdr (Ge5xPixelHeader * hdr)
 {
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_magic));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_hdr_length));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_width));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_height));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_depth));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_compress));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_dwindow));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_dlevel));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_bgshade));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_ovrflow));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_undflow));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_top_offset));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_bot_offset));
-  ByteSwapper<short int>::SwapFromSystemToBigEndian (&(hdr->img_version));
-  ByteSwapper<unsigned short>::SwapFromSystemToBigEndian (&(hdr->img_checksum));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_p_id));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_l_id));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_p_unpack));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_l_unpack));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_p_compress));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_l_compress));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_p_histo));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_l_histo));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_p_text));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_l_text));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_p_graphics));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_l_graphics));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_p_dbHdr));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_l_dbHdr));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_levelOffset));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_p_user));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_l_user));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_p_suite));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_l_suite));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_p_exam));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_l_exam));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_p_series));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_l_series));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_p_image));
-  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->img_l_image));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_magic));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_hdr_length));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_width));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_height));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_depth));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_compress));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_dwindow));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_dlevel));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_bgshade));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_ovrflow));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_undflow));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_top_offset));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_bot_offset));
+  ByteSwapper<short>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_version));
+  ByteSwapper<unsigned short >::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_checksum));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_p_id));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_l_id));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_p_unpack));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_l_unpack));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_p_compress));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_l_compress));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_p_histo));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_l_histo));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_p_text));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_l_text));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_p_graphics));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_l_graphics));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_p_dbHdr));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_l_dbHdr));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_levelOffset));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_p_user));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_l_user));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_p_suite));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_l_suite));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_p_exam));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_l_exam));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_p_series));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_l_series));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_p_image));
+  ByteSwapper<int>::SwapFromSystemToBigEndian (&(hdr->GENESIS_IH_img_l_image));
 
+  
   return;
 }
 
@@ -166,8 +166,8 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
 #define RGEDEBUG(x)
 #endif
 
-  PixHdr imageHdr;              /* Header Structure for GE 5x images */
-  char hdr[IM_HDR_START + IM_HDR_LEN];  /* Header to hold GE header */
+  Ge5xPixelHeader imageHdr;              /* Header Structure for GE 5x images */
+  char hdr[GENESIS_IM_HDR_START + GENESIS_MR_HDR_LEN];  /* Header to hold GE header */
   struct GEImageHeader *curImage;
   bool pixelHdrFlag;
   int timeStamp;
@@ -189,11 +189,11 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
   f.read((char *)&imageHdr,sizeof(imageHdr));
   IOCHECK();
 
-  swapPixHdr(&imageHdr);
+  this->swapPixHdr(&imageHdr);
 
-  if (imageHdr.img_magic == IMG_MAGIC)
+  if (imageHdr.GENESIS_IH_img_magic == GE_5X_MAGIC_NUMBER)
     {
-    f.seekg(imageHdr.img_p_suite,std::ios::beg);
+    f.seekg(imageHdr.GENESIS_IH_img_p_suite,std::ios::beg);
     IOCHECK();
     pixelHdrFlag = true;
     }
@@ -201,26 +201,29 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
     {
     f.seekg(0,std::ios::beg);
     }
-  f.read(hdr,IM_HDR_START + IM_HDR_LEN);
+  f.read(hdr,GENESIS_IM_HDR_START + GENESIS_MR_HDR_LEN);
   IOCHECK();
 
   /* Set Patient-Name */
-  strncpy (curImage->name, &hdr[EX_HDR_START + EX_PATNAME], EX_PATAGE - EX_PATNAME + 1);
+  strncpy (curImage->name, &hdr[GENESIS_EX_HDR_START + GENESIS_EX_PATNAME], 
+           GENESIS_EX_PATAGE - GENESIS_EX_PATNAME + 1);
   sprintf (curImage->scanner, "GE-5X");
 
   /* Set Hospital-Name */
-  strncpy (curImage->hospital, &hdr[EX_HDR_START + EX_HOSPNAME], EX_DETECT - EX_HOSPNAME + 1);
+  strncpy (curImage->hospital, &hdr[GENESIS_EX_HDR_START + GENESIS_EX_HOSPNAME], 
+           GENESIS_EX_DETECT - GENESIS_EX_HOSPNAME + 1);
 
   /* Set Images-Per-Slice */
-  curImage->imagesPerSlice= hdr2Short(&hdr[IM_HDR_START + IM_CPHASE]);
+  curImage->imagesPerSlice= hdr2Short(&hdr[GENESIS_IM_HDR_START + GENESIS_MR_CPHASE]);
 
   /* Set Date */
-  timeStamp = hdr2Int (&hdr[SE_HDR_START + SE_ACTUAL_DT]);
+  timeStamp = hdr2Int (&hdr[GENESIS_SE_HDR_START + GENESIS_SE_ACTUAL_DT]);
   statTimeToAscii (&timeStamp, curImage->date);
 
   /* Set Patient-Id */
-  strncpy (tmpId, &hdr[EX_HDR_START + EX_PATID], EX_PATNAME - EX_PATID + 1);
-  tmpId[EX_PATNAME - EX_PATID + 1] = '\0';
+  strncpy (tmpId, &hdr[GENESIS_EX_HDR_START + GENESIS_EX_PATID], 
+           GENESIS_EX_PATNAME - GENESIS_EX_PATID + 1);
+  tmpId[GENESIS_EX_PATNAME - GENESIS_EX_PATID + 1] = '\0';
   curImage->patientId[0] = '\0';
 
   ptr = strtok (tmpId, "-");
@@ -233,35 +236,35 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
 
   RGEDEBUG(fprintf (stderr, "Id <%s>\n", curImage->patientId);)
 
-    curImage->seriesNumber = hdr2Short (&hdr[SE_HDR_START + SE_NO]);
+    curImage->seriesNumber = hdr2Short (&hdr[GENESIS_SE_HDR_START + GENESIS_SE_NO]);
   RGEDEBUG(fprintf (stderr, "Series Number %d\n", curImage->seriesNumber);)
 
-    curImage->imageNumber = hdr2Short (&hdr[IM_HDR_START + IM_NO]);
+    curImage->imageNumber = hdr2Short (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_IM_NO]);
   RGEDEBUG(fprintf (stderr, "Image Number %d\n", curImage->imageNumber);)
 
-    curImage->sliceThickness = hdr2Float (&hdr[IM_HDR_START + IM_SLTHICK]);
+    curImage->sliceThickness = hdr2Float (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_SLTHICK]);
   RGEDEBUG(fprintf (stderr, "Thickness %f\n", curImage->sliceThickness);)
 
-    curImage->imageXsize = hdr2Short (&hdr[IM_HDR_START + IM_IMATRIX_X]);
-  curImage->imageYsize = hdr2Short (&hdr[IM_HDR_START + IM_IMATRIX_Y]);
+    curImage->imageXsize = hdr2Short (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_IMATRIX_X]);
+  curImage->imageYsize = hdr2Short (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_IMATRIX_Y]);
   RGEDEBUG(fprintf (stderr, "Acq Size %dx%d\n", curImage->acqXsize, curImage->acqYsize);)
 
-    curImage->xFOV = hdr2Float (&hdr[IM_HDR_START + IM_DFOV]);
-  curImage->yFOV = hdr2Float (&hdr[IM_HDR_START + IM_DFOV]);
+    curImage->xFOV = hdr2Float (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_DFOV]);
+  curImage->yFOV = hdr2Float (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_DFOV]);
   if (curImage->yFOV == 0.0)
     {
     curImage->yFOV = curImage->xFOV;
     }
   RGEDEBUG(fprintf (stderr, "FOV %fx%f\n", curImage->xFOV, curImage->yFOV);)
 
-    curImage->acqXsize = (int) hdr2Float (&hdr[IM_HDR_START + IM_DIM_X]);
-  curImage->acqYsize = (int) hdr2Float (&hdr[IM_HDR_START + IM_DIM_Y]);
+    curImage->acqXsize = (int) hdr2Float (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_DIM_X]);
+  curImage->acqYsize = (int) hdr2Float (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_DIM_Y]);
   RGEDEBUG(fprintf (stderr, "Image Size %dx%d\n", curImage->imageXsize, curImage->imageYsize);)
 
-    curImage->imageXres = hdr2Float (&hdr[IM_HDR_START + IM_PIXSIZE_X]);
-  curImage->imageYres = hdr2Float (&hdr[IM_HDR_START + IM_PIXSIZE_Y]);
+    curImage->imageXres = hdr2Float (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_PIXSIZE_X]);
+  curImage->imageYres = hdr2Float (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_PIXSIZE_Y]);
   RGEDEBUG(fprintf (stderr, "Image Res %fx%f\n", curImage->imageXres, curImage->imageYres);)
-    short int GE_Plane = hdr2Short (&hdr[IM_HDR_START + IM_PLANE]);
+    short int GE_Plane = hdr2Short (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_PLANE]);
   //RGEDEBUG(fprintf (stderr, "Plane %d\n", curImage->imagePlane);)
 
     //RECODE image plane to be brains2 compliant.!!
@@ -288,38 +291,38 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
       curImage->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
       break;
       }
-  curImage->sliceLocation = hdr2Float (&hdr[IM_HDR_START + IM_LOC]);
-  RGEDEBUG(fprintf (stderr, "Location %f %c %c\n", curImage->sliceLocation, hdr[IM_HDR_START + IM_LOC_RAS], hdr[IM_HDR_START + IM_LOC_RAS+1]);)
+  curImage->sliceLocation = hdr2Float (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_LOC]);
+  RGEDEBUG(fprintf (stderr, "Location %f %c %c\n", curImage->sliceLocation, hdr[GENESIS_IM_HDR_START + GENESIS_MR_LOC_RAS], hdr[GENESIS_IM_HDR_START + GENESIS_MR_LOC_RAS+1]);)
 
-    curImage->TR = hdr2Int (&hdr[IM_HDR_START + IM_TR]) / 1000.0;
-  curImage->TI = hdr2Int (&hdr[IM_HDR_START + IM_TI]) / 1000.0;
-  curImage->TE = hdr2Int (&hdr[IM_HDR_START + IM_TE]) / 1000.0;
-  curImage->TE2 = hdr2Int (&hdr[IM_HDR_START + IM_TE2]) / 1000.0;
+    curImage->TR = hdr2Int (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_TR]) / 1000.0;
+  curImage->TI = hdr2Int (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_TI]) / 1000.0;
+  curImage->TE = hdr2Int (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_TE]) / 1000.0;
+  curImage->TE2 = hdr2Int (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_TE2]) / 1000.0;
   RGEDEBUG(fprintf (stderr, "TR %f, TI %f, TE %f, TE2 %f\n", curImage->TR, curImage->TI, curImage->TE, curImage->TE2);)
 
-    curImage->numberOfEchoes = hdr2Short (&hdr[IM_HDR_START + IM_NUMECHO]);
-  curImage->echoNumber = hdr2Short (&hdr[IM_HDR_START + IM_ECHONUM]);
+    curImage->numberOfEchoes = hdr2Short (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_NUMECHO]);
+  curImage->echoNumber = hdr2Short (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_ECHONUM]);
 
   if (curImage->numberOfEchoes == 0)
     curImage->numberOfEchoes = 1;
   RGEDEBUG(fprintf (stderr, "Echos %d,  Number %d\n", curImage->numberOfEchoes, curImage->echoNumber);)
 
-    curImage->NEX = (int) hdr2Float (&hdr[IM_HDR_START + IM_NEX]);
+    curImage->NEX = (int) hdr2Float (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_NEX]);
   RGEDEBUG(fprintf (stderr, "NEX %d\n", curImage->NEX);)
 
-    curImage->flipAngle = hdr2Short (&hdr[IM_HDR_START + IM_MR_FLIP]);
+    curImage->flipAngle = hdr2Short (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_FLIP]);
   RGEDEBUG(fprintf (stderr, "Flip Angle %d\n", curImage->flipAngle);)
 
-    strncpy (curImage->pulseSequence, &hdr[IM_HDR_START + IM_PSDNAME], 31);
+    strncpy (curImage->pulseSequence, &hdr[GENESIS_IM_HDR_START + GENESIS_MR_PSDNAME], 31);
   curImage->pulseSequence[31] = '\0';
   RGEDEBUG(fprintf (stderr, "Sequence %s\n", curImage->pulseSequence);)
 
-    curImage->numberOfSlices = hdr2Short (&hdr[IM_HDR_START + IM_SLQUANT]);
+    curImage->numberOfSlices = hdr2Short (&hdr[GENESIS_IM_HDR_START + GENESIS_MR_SLQUANT]);
   RGEDEBUG(fprintf (stderr, "Number Of Slices %d\n", curImage->numberOfSlices);)
 
     if (pixelHdrFlag)
       {
-      curImage->offset = imageHdr.img_hdr_length;
+      curImage->offset = imageHdr.GENESIS_IH_img_hdr_length;
       }
     else
       {

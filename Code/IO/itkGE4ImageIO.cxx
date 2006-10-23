@@ -19,7 +19,7 @@
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
 #include "itkGEImageHeader.h"
-//#include "idbm_hdr_def.h"
+#include "Ge4xHdr.h"
 #include "itkMvtSunf.h"
 #include "itkDirectory.h"
 #include <itksys/SystemTools.hxx>
@@ -53,13 +53,14 @@ bool GE4ImageIO::CanReadFile( const char* FileNameToRead )
   // This is a weak heuristic but should only be true for GE4 files
   // 
   // Get the Plane from the IMAGE Header.
-  if(this->GetStringAt(f, SEHDR_START * 2 + SEHDR_PNAME * 2,tmpStr,16,false) == -1)
+  if(this->GetStringAt(f, SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_PLANENAME * 2,tmpStr,16,false) == -1)
     return false;
   tmpStr[16] = '\0';
   // if none of these strings show up, most likely not GE4
   if (strstr (tmpStr, "CORONAL") == NULL &&
       strstr (tmpStr, "SAGITTAL") == NULL &&
-      strstr (tmpStr, "AXIAL") == NULL)
+      strstr (tmpStr, "AXIAL") == NULL  &&
+      strstr (tmpStr, "OBLIQUE") == NULL)
     {
     f.close();
     return false;
@@ -109,30 +110,30 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
   if(!f.is_open())
     RAISE_EXCEPTION();
 
-  this->GetStringAt(f, STHDR_START * 2 + STHDR_DATE * 2,tmpStr,10);
+  this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_DATE_ASCII * 2,tmpStr,10);
   tmpStr[10] = '\0';
   strcpy(hdr->date, tmpStr);
 
   RGEDEBUG(std::sprintf (debugbuf, "Date = %s\n", tmpStr); cerr << debugbuf;)
     // Get Patient-Name from the STUDY Header 
-    this->GetStringAt(f, STHDR_START * 2 + STHDR_PNM * 2,tmpStr, 32);
+    this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_PATIENT_NAME * 2,tmpStr, 32);
   tmpStr[32] = '\0';
   strcpy(hdr->hospital, tmpStr);
 
   /* Get Patient-Number from the STUDY Header */
-  this->GetStringAt(f, STHDR_START * 2 + STHDR_PID * 2,tmpStr, 12);
+  this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_PATIENT_ID * 2,tmpStr, 12);
   tmpStr[12] = '\0';
   RGEDEBUG(std::sprintf (debugbuf, "Patient-Number = %s\n", tmpStr); cerr << debugbuf;)
     strcpy(hdr->patientId,tmpStr);
 
   /* Get the Exam-Number from the STUDY Header */
-  this->GetStringAt(f, STHDR_START * 2 + STHDR_STNUM * 2,tmpStr, 6);
+  this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_STUDY_NUM * 2,tmpStr, 6);
   tmpStr[6] = '\0';
   RGEDEBUG(std::sprintf (debugbuf, "Exam-Number = %s\n", tmpStr); cerr << debugbuf;)
     strcpy(hdr->scanId,tmpStr);
 
   /* Get the FOV from the SERIES Header */
-  f.seekg ( SEHDR_START * 2 + SEHDR_FOV * 2, std::ios::beg);
+  f.seekg ( SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_FOV * 2, std::ios::beg);
   IOCHECK();
   f.read ((char *)&intTmp,sizeof(intTmp));
   IOCHECK();
@@ -144,7 +145,7 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
 
 
     /* Get the Plane from the IMAGE Header */
-  this->GetStringAt(f, SEHDR_START * 2 + SEHDR_PNAME * 2,tmpStr,16);
+  this->GetStringAt(f, SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_PLANENAME * 2,tmpStr,16);
   tmpStr[16] = '\0';
 
   if (strstr (tmpStr, "CORONAL") != NULL)
@@ -174,26 +175,26 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
   //RGEDEBUG(std::sprintf (debugbuf, "Plane = %d\n", hdr->imagePlane); cerr << debugbuf;)
 
     /* Get the Scan Matrix from the IMAGE Header */
-    this->GetShortAt(f,SEHDR_START * 2 + SEHDR_SMATRIX * 2,&(hdr->acqXsize));
-  this->GetShortAt(f,(SEHDR_START * 2 + SEHDR_SMATRIX * 2)+sizeof(short),
+    this->GetShortAt(f,SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_SCANMATRIXX * 2,&(hdr->acqXsize));
+  this->GetShortAt(f,(SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_SCANMATRIXY * 2)+sizeof(short),
                    &(hdr->acqYsize));
 
   RGEDEBUG(std::sprintf (debugbuf, "Scan Matrix = %dx%d\n", hdr->acqXsize, hdr->acqYsize); cerr << debugbuf;)
 
     /* Get Series-Number from SERIES Header */
-    this->GetStringAt(f, SEHDR_START * 2 + SEHDR_SERNUM * 2,tmpStr,3);
+    this->GetStringAt(f, SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_SERIES_NUM * 2,tmpStr,3);
   tmpStr[3] = '\0';
   hdr->seriesNumber = atoi (tmpStr);
   RGEDEBUG(std::sprintf (debugbuf, "Series Number = %d\n", hdr->seriesNumber); cerr << debugbuf;)
 
     /* Get Image-Number from IMAGE Header */
-    this->GetStringAt(f, IHDR_START * 2 + IHDR_IMNUM * 2,tmpStr,3);
+    this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_IMAGE_NUM * 2,tmpStr,3);
   tmpStr[3] = '\0';
   hdr->imageNumber = atoi (tmpStr);
   RGEDEBUG(std::sprintf (debugbuf, "Image Number = %d\n", hdr->imageNumber); cerr << debugbuf;)
 
     /* Get Images-Per-Slice from IMAGE Header */
-    this->GetStringAt(f, IHDR_START * 2 + IHDR_CPHASE * 2,tmpStr,3);
+    this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_PHASENUM * 2,tmpStr,3);
   tmpStr[3] = '\0';
   hdr->imagesPerSlice = atoi (tmpStr);
   RGEDEBUG(std::sprintf (debugbuf, "Images Per Slice = %d\n", hdr->imagesPerSlice); cerr << debugbuf;)
@@ -203,14 +204,14 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
     // you read in an integer, but you DON'T byte swap it, and then pass
     // it into the MvtSunf function to get the floating point value.
     // to circumvent byte swapping in GetIntAt, use GetStringAt
-    this->GetStringAt(f,IHDR_START * 2 + IHDR_LOCATN * 2,
+    this->GetStringAt(f,SIGNA_IHDR_START * 2 + SIGNA_IMHDR_SLICELOC * 2,
                       (char *)&intTmp,sizeof(int));
 
   hdr->sliceLocation = MvtSunf (intTmp);
 
   RGEDEBUG(std::sprintf (debugbuf, "Location = %f\n", hdr->sliceLocation); cerr << debugbuf;)
 
-    this->GetStringAt(f,IHDR_START * 2 + IHDR_THICK * 2,
+    this->GetStringAt(f,SIGNA_IHDR_START * 2 + SIGNA_IMHDR_SLICE_THICK * 2,
                       (char *)&intTmp,sizeof(intTmp));
 
   hdr->sliceThickness = MvtSunf (intTmp);
@@ -218,7 +219,7 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
   RGEDEBUG(std::sprintf (debugbuf, "Thickness = %f\n", hdr->sliceThickness); cerr << debugbuf;)
 
     /* Get the Slice Spacing from the IMAGE Header */
-    this->GetStringAt(f, IHDR_START * 2 + IHDR_SPACE * 2,
+    this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_SLICE_SPACING * 2,
                       (char *)&intTmp,sizeof(int));
 
 
@@ -227,7 +228,7 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
   RGEDEBUG(std::sprintf (debugbuf, "Slice Gap = %f\n", hdr->sliceGap); cerr << debugbuf;)
 
     /* Get TR from the IMAGE Header */
-    this->GetStringAt(f, IHDR_START * 2 + IHDR_TR * 2,
+    this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_TR * 2,
                       (char *)&intTmp,sizeof(int));
 
 
@@ -236,7 +237,7 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
   RGEDEBUG(std::sprintf (debugbuf, "TR = %f\n", hdr->TR); cerr << debugbuf;)
 
     /* Get TE from the IMAGE Header */
-    this->GetStringAt(f, IHDR_START * 2 + IHDR_TE * 2,
+    this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_TE * 2,
                       (char *)&intTmp,sizeof(int));
 
 
@@ -245,7 +246,7 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
   RGEDEBUG(std::sprintf (debugbuf, "TE = %f\n", hdr->TE); cerr << debugbuf;)
 
     /* Get TI from the IMAGE Header */
-    this->GetStringAt(f, IHDR_START * 2 + IHDR_TI * 2,
+    this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_TI * 2,
                       (char *)&intTmp,sizeof(int));
 
 
@@ -254,28 +255,28 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
   RGEDEBUG(std::sprintf (debugbuf, "TI = %f\n", hdr->TI); cerr << debugbuf;)
 
     /* Get Number of Echos from the IMAGE Header */
-    this->GetShortAt(f, IHDR_START * 2 + IHDR_NECHO * 2, &(hdr->numberOfEchoes));
+    this->GetShortAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_NUMECHOS * 2, &(hdr->numberOfEchoes));
   RGEDEBUG(std::sprintf (debugbuf, "Number of Echos = %d\n", hdr->numberOfEchoes); cerr << debugbuf;)
 
     /* Get Echo Number from the IMAGE Header */
-    this->GetShortAt(f, IHDR_START * 2 + IHDR_ECHON * 2,&(hdr->echoNumber));
+    this->GetShortAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_ECHONUM * 2,&(hdr->echoNumber));
   RGEDEBUG(std::sprintf (debugbuf, "Echo Number = %d\n", hdr->echoNumber); cerr << debugbuf;)
 
     /* Get PSD-Name from the IMAGE Header */
-    this->GetStringAt(f, IHDR_START * 2 + IHDR_IHDR_DNAME * 2,tmpStr, 12);
+    this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_PSD_NAME * 2,tmpStr, 12);
   tmpStr[12] = '\0';
   RGEDEBUG(std::sprintf (debugbuf, "PSD Name = %s\n", tmpStr); cerr << debugbuf;)
 
     /* Get X Pixel Dimension from the IMAGE Header */
-    this->GetShortAt(f, IHDR_START * 2 + IHDR_X * 2,&(hdr->imageXsize));
+    this->GetShortAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_X_DIM * 2,&(hdr->imageXsize));
   RGEDEBUG(std::sprintf (debugbuf, "X Pixel Dimension = %d\n", hdr->imageXsize); cerr << debugbuf;)
 
     /* Get Y Pixel Dimension from the IMAGE Header */
-    this->GetShortAt(f, IHDR_START * 2 + IHDR_Y * 2,&(hdr->imageYsize));
+    this->GetShortAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_Y_DIM * 2,&(hdr->imageYsize));
   RGEDEBUG(std::sprintf (debugbuf, "Y Pixel Dimension = %d\n", hdr->imageYsize); cerr << debugbuf;)
 
     /* Get Pixel Size from the IMAGE Header */
-    this->GetStringAt(f, IHDR_START * 2 + IHDR_PIXSIZ * 2,
+    this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_PIXELSIZE * 2,
                       (char *)&intTmp,sizeof(int));
 
 
@@ -285,7 +286,7 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
   RGEDEBUG(std::sprintf (debugbuf, "Pixel Size = %fx%f\n", hdr->imageXres, hdr->imageYres); cerr << debugbuf;)
 
     /* Get NEX from the IMAGE Header */
-    this->GetStringAt(f, IHDR_START * 2 + IHDR_NEX * 2,
+    this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_NEX * 2,
                       (char *)&intTmp,sizeof(int));
 
 
@@ -294,7 +295,7 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
   RGEDEBUG(std::sprintf (debugbuf, "NEX = %d\n", hdr->NEX); cerr << debugbuf;)
 
     /* Get Flip Angle from the IMAGE Header */
-    this->GetShortAt(f, IHDR_START * 2 + IHDR_FLPANG * 2,&tmpShort);
+    this->GetShortAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_FLIP * 2,&tmpShort);
 
   if (tmpShort > 0)
     {
@@ -315,7 +316,7 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
 
   
   /* Get the Number of Images from the IMAGE Header */
-  this->GetShortAt(f, IHDR_START * 2 + IHDR_SLQUANT * 2,&(hdr->numberOfSlices));
+  this->GetShortAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_NUMSLICES * 2,&(hdr->numberOfSlices));
   RGEDEBUG(std::sprintf (debugbuf, "Number of SLices = %d\n", hdr->numberOfSlices); cerr << debugbuf;)
 
     //    status = stat (imageFile, &statBuf);

@@ -22,7 +22,7 @@
 
 #include "itkIOCommon.h"
 
-//#include "idbm_hdr_def.h"
+
 enum GE_PANE_STRUCT {
   GE_AXIAL   =2,
   GE_SAGITTAL=4,
