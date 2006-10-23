@@ -27,6 +27,7 @@ SUBDIRS(MetaIO)
 SUBDIRS(NrrdIO)
 SUBDIRS(expat)
 SUBDIRS(nifti)
+SUBDIRS(itkExtHdrs)
 
 #------------------------------------------------------------------------------
 # Create the DICOMParse library for ITK
