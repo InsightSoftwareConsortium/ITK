@@ -36,6 +36,7 @@ SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
   ${ITK_SOURCE_DIR}/Utilities/expat
   ${ITK_SOURCE_DIR}/Utilities/nifti/niftilib
   ${ITK_SOURCE_DIR}/Utilities/nifti/znzlib
+  ${ITK_SOURCE_DIR}/Utilities/itkExtHdrs
   ${ITK_BINARY_DIR}/Utilities
   ${ITK_SOURCE_DIR}/Utilities
 )
