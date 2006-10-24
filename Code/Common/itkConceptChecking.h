@@ -575,6 +575,21 @@ struct HasPixelTraits
   itkConceptConstraintsMacro();
 };
 
+/** Concept requiring T to have Zero */
+template <typename T>
+struct HasZero
+{
+  struct Constraints
+  {
+    void constraints()
+      { 
+      T a;
+      a = NumericTraits<T>::Zero;
+      }
+  };
+  itkConceptConstraintsMacro();
+};
+
 /** Concept requiring T to have JoinTraits */
 template <typename T1, typename T2>
 struct HasJoinTraits
