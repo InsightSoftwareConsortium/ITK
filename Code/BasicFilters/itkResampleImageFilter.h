@@ -190,11 +190,11 @@ public:
   itkGetConstReferenceMacro( OutputSpacing, SpacingType );
 
   /** Set the output image origin. */
-  itkSetMacro(OutputOrigin, PointType);
+  itkSetMacro(OutputOrigin, OriginPointType);
   virtual void SetOutputOrigin( const double* values);
 
   /** Get the output image origin. */
-  itkGetConstReferenceMacro( OutputOrigin, PointType );
+  itkGetConstReferenceMacro( OutputOrigin, OriginPointType );
 
   /** Set the output direciton cosine matrix. */
   itkSetMacro(OutputDirection, DirectionType);

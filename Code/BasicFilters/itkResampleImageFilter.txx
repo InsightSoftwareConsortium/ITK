@@ -113,7 +113,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
 ::SetOutputOrigin(
   const double* origin)
 {
-  PointType p(origin);
+  OriginPointType p(origin);
   this->SetOutputOrigin( p );
 }
 
