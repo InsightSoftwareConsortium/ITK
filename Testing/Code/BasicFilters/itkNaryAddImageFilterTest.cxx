@@ -145,6 +145,11 @@ int itkNaryAddImageFilterTest(int, char* [] )
 
   PrintImage( outputImage, "Resulting image" ); 
 
+  // Testing with vector Images
+  typedef itk::Image< itk::Vector<double,2>, 2> VectorImageType;
+  typedef itk::NaryAddImageFilter< VectorImageType, VectorImageType > NaryAdderType;
+  NaryAdderType::Pointer adder = NaryAdderType::New();
+
   // All objects should be automatically destroyed at this point
   return 0;
 
