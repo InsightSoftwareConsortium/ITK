@@ -62,7 +62,7 @@ public:
   typedef typename NumericTraits< TInput >::AccumulateType AccumulatorType;
   Add1() {}
   ~Add1() {}
-  inline TOutput operator()( const Array< TInput > & B)
+  inline TOutput operator()( const std::vector< TInput > & B)
   {
     AccumulatorType sum = NumericTraits< TOutput >::Zero;
     for( unsigned int i=0; i< B.size(); i++ )

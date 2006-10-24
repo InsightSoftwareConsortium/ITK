@@ -101,7 +101,7 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
   
     
   NaryArrayType naryInputArray; 
-  naryInputArray.SetSize( numberOfInputImages );
+  naryInputArray.resize( numberOfInputImages );
     
   outputIt.GoToBegin();
   

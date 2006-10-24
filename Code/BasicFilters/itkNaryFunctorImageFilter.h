@@ -64,7 +64,7 @@ public:
   typedef typename OutputImageType::Pointer     OutputImagePointer;
   typedef typename OutputImageType::RegionType  OutputImageRegionType;
   typedef typename OutputImageType::PixelType   OutputImagePixelType;
-  typedef Array< InputImagePixelType >         NaryArrayType; 
+  typedef std::vector< InputImagePixelType >    NaryArrayType; 
 
   /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
