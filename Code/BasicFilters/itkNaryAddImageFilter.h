@@ -20,7 +20,6 @@
 #include "itkNaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"
 
-
 namespace itk
 {
   
@@ -105,7 +104,7 @@ public:
     (Concept::Convertible<typename TInputImage::PixelType,
                           typename TOutputImage::PixelType>));
   itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename TInputImage::PixelType>));
+    (Concept::HasZero<typename TInputImage::PixelType>));
   /** End concept checking */
 #endif
 
