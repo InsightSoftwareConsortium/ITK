@@ -97,8 +97,8 @@ public:
   /** Begin concept checking */
   itkConceptMacro(SameDimensionCheck,
     (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<OutputImagePixelType>));
+  itkConceptMacro(OutputHasZeroCheck,
+    (Concept::HasZero<OutputImagePixelType>));
   /** End concept checking */
 #endif
 

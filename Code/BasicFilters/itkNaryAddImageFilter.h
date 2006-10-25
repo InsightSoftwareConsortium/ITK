@@ -103,7 +103,7 @@ public:
   itkConceptMacro(InputConvertibleToOutputCheck,
     (Concept::Convertible<typename TInputImage::PixelType,
                           typename TOutputImage::PixelType>));
-  itkConceptMacro(InputHasNumericTraitsCheck,
+  itkConceptMacro(InputHasZeroCheck,
     (Concept::HasZero<typename TInputImage::PixelType>));
   /** End concept checking */
 #endif
