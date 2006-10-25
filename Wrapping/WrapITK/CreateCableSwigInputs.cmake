@@ -214,7 +214,8 @@ MACRO(WRAP_CLASS class)
   # WRAP_INCLUDE should be manually called from the wrap_*.cmake file that calls
   # this macro.
   # Lastly, this class takes an optional 'wrap method' parameter. Valid values are:
-  # POINTER, POINTER_WITH_SUPERCLASS, DEREF and SELF.
+  # POINTER, POINTER_WITH_SUPERCLASS, POINTER_WITH_2_SUPERCLASSES, FORCE_INSTANTIATE 
+  # and SELF.
   #
   # Global vars used: none
   # Global vars modified: WRAPPER_INCLUDE_FILES
@@ -276,13 +277,13 @@ MACRO(WRAP_NAMED_CLASS class swig_name)
   IF("${ARGC}" EQUAL 3)
     SET(WRAPPER_WRAP_METHOD "${ARGV2}")
     SET(ok 0)
-    FOREACH(opt POINTER POINTER_WITH_SUPERCLASS FORCE_INSTANTIATE)
+    FOREACH(opt POINTER POINTER_WITH_SUPERCLASS POINTER_WITH_2_SUPERCLASSES FORCE_INSTANTIATE)
       IF("${opt}" STREQUAL "${WRAPPER_WRAP_METHOD}")
         SET(ok 1)
       ENDIF("${opt}" STREQUAL "${WRAPPER_WRAP_METHOD}")
     ENDFOREACH(opt)
     IF(ok EQUAL 0)
-      MESSAGE(SEND_ERROR "WRAP_CLASS: Invalid option '${WRAPPER_WRAP_METHOD}'. Possible values are POINTER, POINTER_WITH_SUPERCLASS and FORCE_INSTANTIATE")
+      MESSAGE(SEND_ERROR "WRAP_CLASS: Invalid option '${WRAPPER_WRAP_METHOD}'. Possible values are POINTER, POINTER_WITH_SUPERCLASS, POINTER_WITH_2_SUPERCLASSES and FORCE_INSTANTIATE")
     ENDIF(ok EQUAL 0)
   ENDIF("${ARGC}" EQUAL 3)
 
@@ -415,6 +416,11 @@ MACRO(ADD_ONE_TYPEDEF wrap_method wrap_class swig_name)
     SET(typedefs ${typedefs} "typedef ${full_class_name}::Superclass::Self ${swig_name}_Superclass")
     SET(typedefs ${typedefs} "typedef ${full_class_name}::Superclass::Pointer::SmartPointer ${swig_name}_Superclass_Pointer")
   ENDIF("${wrap_method}" MATCHES "SUPERCLASS")
+
+  IF("${wrap_method}" MATCHES "2_SUPERCLASSES")
+    SET(typedefs ${typedefs} "typedef ${full_class_name}::Superclass::Superclass::Self ${swig_name}_Superclass_Superclass")
+    SET(typedefs ${typedefs} "typedef ${full_class_name}::Superclass::Superclass::Pointer::SmartPointer ${swig_name}_Superclass_Superclass_Pointer")
+  ENDIF("${wrap_method}" MATCHES "2_SUPERCLASSES")
 
   # insert a blank line to separate the classes
   SET(WRAPPER_TYPEDEFS "${WRAPPER_TYPEDEFS}\n")
