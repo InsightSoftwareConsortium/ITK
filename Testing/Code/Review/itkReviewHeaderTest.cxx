@@ -1,7 +1,10 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkReviewHeaderTest.cxx
   Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
@@ -11,6 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,4 +33,3 @@ int main ( int , char*  )
   
   return EXIT_SUCCESS;
 }
-

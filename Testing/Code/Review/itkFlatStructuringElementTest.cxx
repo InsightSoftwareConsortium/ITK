@@ -38,4 +38,3 @@ int itkFlatStructuringElementTest(int, char *[])
   
   return EXIT_SUCCESS;
 }
-

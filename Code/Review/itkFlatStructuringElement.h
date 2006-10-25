@@ -54,14 +54,14 @@ public:
   * ::iterator and ::const_iterator, because the allocator may be a
   * vnl object or other type, which uses this form. */
   typedef typename Superclass::Iterator       Iterator;
-  typedef typename Superclass::ConstIterator ConstIterator;
+  typedef typename Superclass::ConstIterator  ConstIterator;
   
   /** Size and value typedef support. */
-  typedef typename Superclass::SizeType      SizeType;
-  typedef typename Superclass::SizeValueType SizeValueType;
+  typedef typename Superclass::SizeType       SizeType;
+  typedef typename Superclass::SizeValueType  SizeValueType;
   
   /** Radius typedef support. */
-  typedef ::itk::Size< NDimension >          RadiusType;
+  typedef ::itk::Size< NDimension >           RadiusType;
 
   /** External slice iterator type typedef support. */
   typedef typename Superclass::SliceIteratorType SliceIteratorType;
