@@ -11,7 +11,7 @@ IF(USE_WRAP_ITK)
   # TODO: remove this check once FlatStructuringElement will be moved out of
   #       the review directory
   IF(NOT ITK_USE_REVIEW)
-    MESSAGE(ERROR "WrapITK requires ITK_USE_REVIEW to be ON.")
+    MESSAGE(SEND_ERROR "WrapITK requires ITK_USE_REVIEW to be ON.")
   ENDIF(NOT ITK_USE_REVIEW)
   
   SUBDIRS(WrapITK)

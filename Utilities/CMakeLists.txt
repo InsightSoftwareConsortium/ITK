@@ -86,16 +86,19 @@ ENDIF(ITK_BUILD_CABLESWIG)
 #-----------------------------------------------------------------------------
 # Install the UseITK.cmake file configured from the top-level.
 IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
-  INSTALL_FILES(${ITK_INSTALL_PACKAGE_DIR} FILES
-    ${ITK_BINARY_DIR}/Utilities/ITKConfig.cmake)
+  INSTALL(FILES ${ITK_BINARY_DIR}/Utilities/ITKConfig.cmake
+    DESTINATION ${ITK_INSTALL_PACKAGE_DIR_CM24}
+    COMPONENT Development)
 ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
 
 #-----------------------------------------------------------------------------
 IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
-  INSTALL_FILES(${ITK_INSTALL_INCLUDE_DIR}/Utilities FILES
+  INSTALL(FILES
     ${ITK_BINARY_DIR}/Utilities/itkThirdParty.h
-    )
-  INSTALL_FILES(${ITK_INSTALL_INCLUDE_DIR}/Utilities .h
-    itk_zlib itk_tiff itk_png
+    ${ITK_BINARY_DIR}/Utilities/itk_zlib.h
+    ${ITK_BINARY_DIR}/Utilities/itk_tiff.h
+    ${ITK_BINARY_DIR}/Utilities/itk_png.h
+    DESTINATION ${ITK_INSTALL_INCLUDE_DIR}/Utilities
+    COMPONENT Development
     )
 ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)

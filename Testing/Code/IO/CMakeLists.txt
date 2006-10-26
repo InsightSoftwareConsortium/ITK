@@ -4,7 +4,6 @@
 #
 ADD_EXECUTABLE(ImageCompare ImageCompare.cxx) 
 TARGET_LINK_LIBRARIES(ImageCompare ITKIO)
-INSTALL_TARGETS(/bin ImageCompare)
 SET(IMAGE_COMPARE "${EXECUTABLE_OUTPUT_PATH}/ImageCompare" CACHE INTERNAL "ImageCompare path to be used by subprojects")
 
 #
@@ -15,7 +14,6 @@ SET(IMAGE_COMPARE "${EXECUTABLE_OUTPUT_PATH}/ImageCompare" CACHE INTERNAL "Image
 #
 ADD_EXECUTABLE(ImageCompareCommand ImageCompareCommand.cxx) 
 TARGET_LINK_LIBRARIES(ImageCompareCommand ITKIO)
-INSTALL_TARGETS(/bin ImageCompareCommand)
 SET(IMAGE_COMPARE_COMMAND "${EXECUTABLE_OUTPUT_PATH}/ImageCompareCommand" CACHE INTERNAL "ImageCompare path to be used by subprojects")
 
 #
@@ -23,9 +21,13 @@ SET(IMAGE_COMPARE_COMMAND "${EXECUTABLE_OUTPUT_PATH}/ImageCompareCommand" CACHE 
 #
 ADD_EXECUTABLE(ImageCopy ImageCopy.cxx) 
 TARGET_LINK_LIBRARIES(ImageCopy ITKIO)
-INSTALL_TARGETS(/bin ImageCopy)
 SET(IMAGE_COPY "${EXECUTABLE_OUTPUT_PATH}/ImageCopy" CACHE INTERNAL "ImageCopy path to be used by subprojects")
 
+#
+# Install the executables
+#
+INSTALL(TARGETS ImageCompare ImageCompareCommand ImageCopy
+  RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT Development)
 
 
 IF( NOT ITK_DISABLE_CXX_TESTING )
