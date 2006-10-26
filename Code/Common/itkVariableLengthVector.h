@@ -221,7 +221,7 @@ public:
   /** Allocate memory of certain size and return it.  */
   TValueType * AllocateElements( ElementIdentifier size ) const;
 
-  const TValueType* GetDataPointer() { return m_Data; }
+  const TValueType* GetDataPointer() const { return m_Data; }
 
   /** Mathematical operators.
    * \note For efficiency, the operators do not check to see of the length of 
