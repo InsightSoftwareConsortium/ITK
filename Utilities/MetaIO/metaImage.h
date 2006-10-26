@@ -51,60 +51,6 @@ namespace METAIO_NAMESPACE {
 
 class METAIO_EXPORT MetaImage : public MetaObject
   {
-  ////
-  //
-  // PROTECTED
-  //
-  ////
-  protected:
-
-    char  m_ElementDataFileName[255];
-
-    int   m_DimSize[10];
-    int   m_Quantity;
-    int   m_SubQuantity[10];
-
-    MET_ImageModalityEnumType m_Modality;
-
-    int    m_HeaderSize;
-
-    float m_SequenceID[4];
-
-    bool  m_ElementSizeValid;
-    float m_ElementSize[10];
-
-    MET_ValueEnumType m_ElementType;
-    int    m_ElementNumberOfChannels;
-
-    bool   m_ElementMinMaxValid;
-    double m_ElementMin;
-    double m_ElementMax;
-
-    double m_ElementToIntensityFunctionSlope;
-    double m_ElementToIntensityFunctionOffset;
-
-    bool  m_AutoFreeElementData;
-    void  * m_ElementData;
-
-    void  M_Destroy(void);
-
-    void  M_SetupReadFields(void);
-
-    void  M_SetupWriteFields(void);
-
-    bool  M_ReadElements(METAIO_STREAM::ifstream * _fstream, void * _data,
-                         int _dataQuantity);
-
-    bool  M_Read(void);
-
-    unsigned char * m_CompressedElementData;
-    unsigned char * PerformCompression(unsigned char *source,int quantity);
-
-  /////
-  //
-  // PUBLIC
-  //
-  ////
   public:
 
     ////
@@ -142,64 +88,71 @@ class METAIO_EXPORT MetaImage : public MetaObject
 
     ~MetaImage(void);
 
-    void PrintInfo(void) const;
+    virtual void PrintInfo(void) const;
 
-    void CopyInfo(const MetaImage * _im);
+    virtual void CopyInfo(const MetaImage * _im);
 
-    int  HeaderSize(void) const;
-    void HeaderSize(int _headerSize);
+    virtual void Clear(void);
 
-    ////
+    virtual bool InitializeEssential(int _nDims, 
+                                     const int * _dimSize,
+                                     const float * _elementSpacing,
+                                     MET_ValueEnumType _elementType,
+                                     const int _elementNumberOfChannels=1,
+                                     void *_elementData=NULL,
+                                     bool _allocElementMemory=true);
+
     //
-    // Utility Code
     //
-    ////
+    //
+    int   HeaderSize(void) const;
+    void  HeaderSize(int _headerSize);
 
     MET_ImageModalityEnumType  Modality(void) const;
-    void Modality(MET_ImageModalityEnumType _modality);
+    void                       Modality(MET_ImageModalityEnumType _modality);
 
     //    DimSize(...)
     //       REQUIRED Field
     //       Number of elements along each dimension
-    const int * DimSize(void) const;
-    int   DimSize(int _i) const;      
+    const int *  DimSize(void) const;
+    int          DimSize(int _i) const;      
     //void  DimSize(const int * _dimSize);
     //void  DimSize(int _i, int _value);
 
     //    Quantity()
     //       Not a field in file
     //       Total number of elements in image (Prod(dimSize[i]))
-    int   Quantity(void) const;
+    int  Quantity(void) const;
 
     //    SubQuantity(...)
     //       Not a field in file
     //       Number of elements in image spanning sub-dimensions
     //       E.g., elements per line, 2D sub-image, 3D sub-volume,
     const int * SubQuantity(void) const;      
-    int   SubQuantity(int _i) const;  
+    int         SubQuantity(int _i) const;  
 
     //    SequenceID(...)
     //       Optional Field
     //       DICOM designation of this image relative to other images
     //         acquired at the same time
     const float * SequenceID(void) const;
-    float SequenceID(int _i) const;
-    void  SequenceID(const float * _sequenceID);
-    void  SequenceID(int _i, float _value);
+    float         SequenceID(int _i) const;
+    void          SequenceID(const float * _sequenceID);
+    void          SequenceID(int _i, float _value);
 
     //    ElemSize(...)
     //       Optional Field
     //       Physical size (in MM) of each element in the image
     //       (0 = xSize, 1 = ySize, 2 = zSize)
-    void ElementSizeValid(bool _elementSizeValid);
-    bool ElementSizeValid(void) const;
-    const float * ElementSize(void) const;
-    float ElementSize(int i) const;
-    void  ElementSize(const float * _pointSize);
-    void  ElementSize(int _i, float _value);
+    bool           ElementSizeValid(void) const;
+    void           ElementSizeValid(bool _elementSizeValid);
+    const float *  ElementSize(void) const;
+    float          ElementSize(int i) const;
+    void           ElementSize(const float * _pointSize);
+    void           ElementSize(int _i, float _value);
 
     MET_ValueEnumType ElementType(void) const;
-    void  ElementType(MET_ValueEnumType _elementType);
+    void              ElementType(MET_ValueEnumType _elementType);
 
     int   ElementNumberOfChannels(void) const;
     void  ElementNumberOfChannels(int _elementNumberOfChannels);
@@ -216,68 +169,138 @@ class METAIO_EXPORT MetaImage : public MetaObject
     //         ElemNBytes (12 bit uint16_t will give 4096 max).
     //       This may not represent the true max.   Use _reCalc=true
     //         to force a calcuation of the actual max element value.
-    bool  ElementMinMaxValid(void) const;
-    void  ElementMinMaxValid(bool _elementMinMaxValid);
-    void  ElementMinMaxRecalc(void);
+    bool   ElementMinMaxValid(void) const;
+    void   ElementMinMaxValid(bool _elementMinMaxValid);
+    void   ElementMinMaxRecalc(void);
     double ElementMin(void) const;    
-    void  ElementMin(double _elementMin);
+    void   ElementMin(double _elementMin);
     double ElementMax(void) const;
-    void  ElementMax(double _elementMax);
+    void   ElementMax(double _elementMax);
 
+    //
+    //
+    //
     double ElementToIntensityFunctionSlope(void) const;
     void   ElementToIntensityFunctionSlope(double _slope);
     double ElementToIntensityFunctionOffset(void) const;
     void   ElementToIntensityFunctionOffset(double _offset);
 
-    //    ConverTo(...)
-    //       Converts to a new data type
-    //       Rescales using Min and Max (see above)
-    bool  ConvertElementDataTo(MET_ValueEnumType _elementType=MET_USHORT,
-                               double _toMin=0, double _toMax=0);
-    bool  ConvertElementDataToIntensityData(
-                               MET_ValueEnumType _intensityType=MET_SHORT);
-    bool  ConvertIntensityDataToElementData(
-                               MET_ValueEnumType _elementType=MET_USHORT);
+    //
+    //
+    //
+    bool   AutoFreeElementData(void) const;
+    void   AutoFreeElementData(bool _freeData);
+
+
+    //
+    //
+    //
+    const char * ElementDataFileName(void) const;
+    void         ElementDataFileName(const char * _dataFileName);
 
     //
     //
     //
     void * ElementData(void);
     double ElementData(int _i) const;
-    void  ElementData(void * _data);
-    bool  ElementData(int _i, double _v);
+    bool   ElementData(int _i, double _v);
+    void   ElementData(void * _data, bool _autoFreeElementData=false);
 
-    bool  AutoFreeElementData(void) const;
-    void  AutoFreeElementData(bool _freeData);
+    //    ConverTo(...)
+    //       Converts to a new data type
+    //       Rescales using Min and Max (see above)
+    bool  ConvertElementDataTo(MET_ValueEnumType _elementType=MET_USHORT,
+                               double _toMin=0, double _toMax=0);
+    bool  ConvertElementDataToIntensityData( MET_ValueEnumType
+                                             _intensityType=MET_SHORT);
+    bool  ConvertIntensityDataToElementData( MET_ValueEnumType
+                                             _elementType=MET_USHORT);
 
     //
     //
     //
-    const char * ElementDataFileName(void) const;
-    void ElementDataFileName(const char * _dataFileName);
+    virtual bool CanRead(const char *_headerName=NULL) const;
 
-    //
-    //
-    //
-    virtual bool Read(const char *_headerName=NULL, bool _readElements=true,
+    virtual bool Read(const char *_headerName=NULL,
+                      bool _readElements=true,
                       void * _buffer=NULL);
 
-    virtual bool Write(const char *_headName=NULL, const char *_dataName=NULL,
-                       bool _writeElements=true);
+    virtual bool CanReadStream(METAIO_STREAM::ifstream * _stream) const;
+
+    virtual bool ReadStream(int _nDims,
+                            METAIO_STREAM::ifstream * _stream, 
+                            bool _readElements=true,
+                            void * _buffer=NULL);
+
+    virtual bool Write(const char *_headName=NULL,
+                       const char *_dataName=NULL,
+                       bool _writeElements=true,
+                       const void * _constElementData=NULL,
+                       bool _append=false);
+
+    virtual bool WriteStream(METAIO_STREAM::ofstream * _stream,
+                             bool _writeElements=true,
+                             const void * _constElementData=NULL);
 
     virtual bool Append(const char *_headName=NULL);
 
-    bool ReadStream(int _nDims, METAIO_STREAM::ifstream * _stream);
+  ////
+  //
+  // PROTECTED
+  //
+  ////
+  protected:
 
-    void Clear(void);
+    MET_ImageModalityEnumType m_Modality;
 
-    bool InitializeEssential(int _nDims, 
-                                     const int * _dimSize,
-                                     const float * _elementSpacing,
-                                     MET_ValueEnumType _elementType,
-                                     const int _elementNumberOfChannels=1,
-                                     void *_elementData=NULL,
-                                     bool _allocElementMemory=true);
+    int                m_DimSize[10];
+    int                m_SubQuantity[10];
+    int                m_Quantity;
+
+    int                m_HeaderSize;
+
+    float              m_SequenceID[4];
+
+    bool               m_ElementSizeValid;
+    float              m_ElementSize[10];
+
+    MET_ValueEnumType  m_ElementType;
+
+    int                m_ElementNumberOfChannels;
+
+    bool               m_ElementMinMaxValid;
+    double             m_ElementMin;
+    double             m_ElementMax;
+
+    double             m_ElementToIntensityFunctionSlope;
+    double             m_ElementToIntensityFunctionOffset;
+
+    bool               m_AutoFreeElementData;
+
+    void  *            m_ElementData;
+
+    char               m_ElementDataFileName[255];
+
+
+    void  M_Destroy(void);
+
+    void  M_SetupReadFields(void);
+
+    void  M_SetupWriteFields(void);
+
+    bool  M_Read(void);
+
+    bool  M_ReadElements(METAIO_STREAM::ifstream * _fstream, 
+                         void * _data,
+                         int _dataQuantity);
+
+    bool  M_WriteElements(METAIO_STREAM::ofstream * _fstream,
+                          const void * _data,
+                          int _dataQuantity);
+
+    bool  M_WriteElementData(METAIO_STREAM::ofstream * _fstream,
+                             const void * _data,
+                             int _dataQuantity);
 
   };
 

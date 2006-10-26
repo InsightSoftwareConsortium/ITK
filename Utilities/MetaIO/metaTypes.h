@@ -82,7 +82,6 @@ typedef enum
    MET_OTHER
    } MET_ValueEnumType;
 
-
 const unsigned char MET_ValueTypeSize[MET_NUM_VALUE_TYPES] = {
    0, 1, 1, 1, 2, 2, 4, 4, 4, 4, 8, 8, 4, 8, 1, 1, 1, 2, 2, 4, 4, 4, 4, 8, 8, 4, 8, 4, 0 };
 
@@ -118,11 +117,18 @@ const char MET_ValueTypeName[MET_NUM_VALUE_TYPES][21] = {
    {'M','E','T','_','O','T','H','E','R','\0',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '}};
 
 
-typedef enum { MET_ORIENTATION_RL, MET_ORIENTATION_LR, MET_ORIENTATION_AP,
-       MET_ORIENTATION_PA, MET_ORIENTATION_SI, MET_ORIENTATION_IS,
-       MET_ORIENTATION_UNKNOWN } MET_OrientationEnumType;
-
+//
+//
+//
 #define MET_NUM_ORIENTATION_TYPES 7
+
+typedef enum { MET_ORIENTATION_RL,
+               MET_ORIENTATION_LR,
+               MET_ORIENTATION_AP,
+               MET_ORIENTATION_PA,
+               MET_ORIENTATION_SI,
+               MET_ORIENTATION_IS,
+               MET_ORIENTATION_UNKNOWN } MET_OrientationEnumType;
 
 const char MET_OrientationTypeName[MET_NUM_ORIENTATION_TYPES][3] = {
    {'R','L','\0'},
@@ -133,13 +139,15 @@ const char MET_OrientationTypeName[MET_NUM_ORIENTATION_TYPES][3] = {
    {'I','S','\0'},
    {'?','?','\0'}};
    
-
-// Type associated with the units for distance measures reported in the header
-typedef enum { MET_DISTANCE_UNITS_UNKNOWN, MET_DISTANCE_UNITS_UM,
-               MET_DISTANCE_UNITS_MM, MET_DISTANCE_UNITS_CM 
-             } MET_DistanceUnitsEnumType;
-
+//
+//
+//
 #define MET_NUM_DISTANCE_UNITS_TYPES 4
+
+typedef enum { MET_DISTANCE_UNITS_UNKNOWN,
+               MET_DISTANCE_UNITS_UM,
+               MET_DISTANCE_UNITS_MM,
+               MET_DISTANCE_UNITS_CM } MET_DistanceUnitsEnumType;
 
 const char MET_DistanceUnitsTypeName[MET_NUM_DISTANCE_UNITS_TYPES][3] = {
     {'?', '\0', '\0'},
@@ -147,7 +155,27 @@ const char MET_DistanceUnitsTypeName[MET_NUM_DISTANCE_UNITS_TYPES][3] = {
     {'m', 'm', '\0'},
     {'c', 'm', '\0'}};
 
-// Structure used to define a field (variable = value definition) in a MetaFile
+//
+//
+//
+#define MET_NUM_INTERPOLATION_TYPES 4
+
+typedef enum { MET_NO_INTERPOLATION,
+               MET_EXPLICIT_INTERPOLATION,
+               MET_BEZIER_INTERPOLATION,
+               MET_LINEAR_INTERPOLATION } MET_InterpolationEnumType;
+
+const char MET_InterpolationTypeName[MET_NUM_INTERPOLATION_TYPES][17] = {
+   {'M','E','T','_','N','O','N','E','\0',' ',' ',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','E','X','P','L','I','C','I','T','\0',' ',' ',' ',' '},
+   {'M','E','T','_','B','E','Z','I','E','R','\0',' ',' ',' ',' ',' ',' '},
+   {'M','E','T','_','L','I','N','E','A','R','\0',' ',' ',' ',' ',' ',' '}};
+
+
+//
+//
+// Structure used to define a field 
+// (variable = value definition) in a MetaFile
 typedef struct
    {
    char           name[255];  // Fieldname / keyword to designate a variable
@@ -163,19 +191,6 @@ typedef struct
    bool           terminateRead;  // Set to true if field indicates end of 
                                   //   meta data
    } MET_FieldRecordType;
-
-
-typedef enum { MET_NO_INTERPOLATION, MET_EXPLICIT_INTERPOLATION, MET_BEZIER_INTERPOLATION, MET_LINEAR_INTERPOLATION} 
-                                                                        MET_InterpolationEnumType;
-
-#define MET_NUM_INTERPOLATION_TYPES 4
-
-const char MET_InterpolationTypeName[MET_NUM_INTERPOLATION_TYPES][17] = {
-   {'M','E','T','_','N','O','N','E','\0',' ',' ',' ',' ',' ',' ',' ',' '},
-   {'M','E','T','_','E','X','P','L','I','C','I','T','\0',' ',' ',' ',' '},
-   {'M','E','T','_','B','E','Z','I','E','R','\0',' ',' ',' ',' ',' ',' '},
-   {'M','E','T','_','L','I','N','E','A','R','\0',' ',' ',' ',' ',' ',' '}};
-
 
 #if (METAIO_USE_NAMESPACE)
 };

@@ -11,8 +11,6 @@
 namespace METAIO_NAMESPACE {
 #endif
 
-extern int META_DEBUG;
-
 class METAIO_EXPORT MetaObject
   {
   ////
@@ -22,14 +20,15 @@ class METAIO_EXPORT MetaObject
   ////
   protected:
 
-      METAIO_STREAM::ifstream* m_ReadStream;
-      METAIO_STREAM::ofstream* m_WriteStream;
-
       typedef METAIO_STL::vector<MET_FieldRecordType *> FieldsContainerType;
+
+      METAIO_STREAM::ifstream * m_ReadStream;
+      METAIO_STREAM::ofstream * m_WriteStream;
 
       FieldsContainerType m_Fields;
       FieldsContainerType m_UserDefinedWriteFields;
       FieldsContainerType m_UserDefinedReadFields;
+
       char  m_FileName[255];
 
       char  m_Comment[255];            // "Comment = "       ""
@@ -78,7 +77,7 @@ class METAIO_EXPORT MetaObject
     
       virtual void M_PrepareNewReadStream();
 
-      metaEvent*     m_Event;
+      MetaEvent*     m_Event;
       //MET_FieldRecordType * M_GetFieldRecord(const char * _fieldName);
       //int   M_GetFieldRecordNumber(const char * _fieldName);
 
@@ -100,18 +99,18 @@ class METAIO_EXPORT MetaObject
 
       virtual ~MetaObject(void);
 
-      void  FileName(const char *_fileName);
-      const char  * FileName(void) const;
+      virtual void  FileName(const char *_fileName);
+      virtual const char  * FileName(void) const;
 
-      void  CopyInfo(const MetaObject * _object);
+      virtual void  CopyInfo(const MetaObject * _object);
 
-      bool  Read(const char * _fileName=NULL);
+      virtual bool  Read(const char * _fileName=NULL);
 
-      bool  ReadStream(int _nDims, METAIO_STREAM::ifstream * _stream);
+      virtual bool  ReadStream(int _nDims, METAIO_STREAM::ifstream * _stream);
 
-      bool  Write(const char * _fileName=NULL);
+      virtual bool  Write(const char * _fileName=NULL);
 
-      virtual bool Append(const char *_headName=NULL);
+      virtual bool  Append(const char *_headName=NULL);
 
       ////
       //
@@ -248,7 +247,7 @@ class METAIO_EXPORT MetaObject
 
       void ClearFields(void);
 
-      bool InitializeEssential(int m_NDims);
+      virtual bool InitializeEssential(int m_NDims);
 
       //
       //
@@ -279,7 +278,7 @@ class METAIO_EXPORT MetaObject
 
       // Get the user field
       void* GetUserField(const char* _name);
-      void SetEvent(metaEvent* event) {m_Event = event;}
+      void SetEvent(MetaEvent* event) {m_Event = event;}
 
       // Set the double precision for writing
       void SetDoublePrecision(unsigned int precision) 

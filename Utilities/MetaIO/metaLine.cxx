@@ -288,7 +288,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         float td = (float)((float*)num)[0];
-        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
         i+=sizeof(float);
         pnt->m_X[d] = (float)td;
         delete [] num;
@@ -304,7 +304,7 @@ M_Read(void)
             num[k] = _data[i+k];
             }
           float td = (float)((float*)num)[0];
-          MET_SwapByteIfNecessary(&td,MET_FLOAT);
+          MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
           i+=sizeof(float); 
           pnt->m_V[l][d] = (float)td;
           delete [] num;
@@ -319,7 +319,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         float td = (float)((float*)num)[0];
-        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
         i+=sizeof(float);
         pnt->m_Color[d] = (float)td;
         delete [] num;
@@ -412,7 +412,7 @@ M_Write(void)
       for(d = 0; d < m_NDims; d++)
         {
         float pntX = (*it)->m_X[d];
-        MET_SwapByteIfNecessary(&pntX,MET_FLOAT);    
+        MET_SwapByteIfSystemMSB(&pntX,MET_FLOAT);    
         MET_DoubleToValue((double)pntX,m_ElementType,data,i++);  
         }
 
@@ -421,7 +421,7 @@ M_Write(void)
         for(d=0; d<m_NDims; d++)
           {
           float v = (*it)->m_V[j][d];
-          MET_SwapByteIfNecessary(&v,MET_FLOAT);
+          MET_SwapByteIfSystemMSB(&v,MET_FLOAT);
           MET_DoubleToValue((double)v,m_ElementType,data,i++);
           }
         }
@@ -429,7 +429,7 @@ M_Write(void)
       for(d=0; d<4; d++)
         {
         float c = (*it)->m_Color[d];
-        MET_SwapByteIfNecessary(&c,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&c,MET_FLOAT);
         MET_DoubleToValue((double)c,m_ElementType,data,i++);
         }
 

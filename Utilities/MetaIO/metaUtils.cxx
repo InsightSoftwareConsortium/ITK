@@ -18,22 +18,9 @@
 namespace METAIO_NAMESPACE {
 #endif
 
+int META_DEBUG = 0;
+
 char MET_SeperatorChar = '=';
-
-bool MET_SystemByteOrderMSB(void)
-  {
-  const int l = 1;
-  const char * u = (const char *) & l;
-
-  if (u[0])
-    {
-    return false;
-    }
-   else
-    {
-    return true;
-    }
-  }
 
 MET_FieldRecordType * 
 MET_GetFieldRecord(const char * _fieldName,
@@ -66,6 +53,72 @@ MET_GetFieldRecordNumber(const char * _fieldName,
   return -1;
   }
 
+
+//
+// Sizeof METTYPE
+//
+bool MET_SizeOfType(MET_ValueEnumType _vType, int *s)
+  {
+  *s = MET_ValueTypeSize[_vType];
+  if(_vType < MET_STRING)
+    {
+    return true;
+    }
+  else
+    {
+    return false;
+    }
+  }
+
+
+//
+//
+//
+bool MET_SystemByteOrderMSB(void)
+  {
+  const int l = 1;
+  const char * u = (const char *) & l;
+
+  if (u[0])
+    {
+    return false;
+    }
+   else
+    {
+    return true;
+    }
+  }
+
+
+//
+// Read the type of the object
+//
+METAIO_STL::string MET_ReadForm(METAIO_STREAM::istream &_fp)
+  {
+  unsigned int pos = _fp.tellg();
+  METAIO_STL::vector<MET_FieldRecordType *> fields;
+  MET_FieldRecordType* mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "Form", MET_STRING, false);
+  mF->required = false;
+  mF->terminateRead = true;
+  fields.push_back(mF);
+
+  MET_Read(_fp, &fields, '=', true);
+  _fp.seekg(pos);
+
+  METAIO_STL::string value;
+
+  if(mF && mF->defined)
+    {
+    value = (char *)(mF->value);
+    delete mF;
+    return value;
+    }
+    
+  value[0] = '\0';
+  delete mF;
+  return value;
+  }
 
 //
 // Read the type of the object
@@ -165,21 +218,6 @@ bool MET_TypeToString(MET_ValueEnumType _vType, char *_s)
   }
 
 
-//
-// Sizeof METTYPE
-//
-bool MET_SizeOfType(MET_ValueEnumType _vType, int *s)
-  {
-  *s = MET_ValueTypeSize[_vType];
-  if(_vType < MET_STRING)
-    {
-    return true;
-    }
-  else
-    {
-    return false;
-    }
-  }
 
 //
 // Value to Double
@@ -392,6 +430,109 @@ bool MET_ValueToValue(MET_ValueEnumType _fromType, const void *_fromData,
     default:
       return false;
     }
+  }
+
+//
+//
+//
+unsigned char * MET_PerformCompression(const unsigned char * source,
+                                       int sourceSize,
+                                       unsigned int * compressedDataSize)
+  {
+  unsigned char * compressedData;
+
+  z_stream  z;
+  z.zalloc  = (alloc_func)0;
+  z.zfree   = (free_func)0;
+  z.opaque  = (voidpf)0;
+
+  // Compression rate
+  // Choices are Z_BEST_SPEED,Z_BEST_COMPRESSION,Z_DEFAULT_COMPRESSION
+  int compression_rate = Z_DEFAULT_COMPRESSION;
+
+  int             buffer_size     = sourceSize;
+  unsigned char * input_buffer    = const_cast<unsigned char *>(source);
+  unsigned char * output_buffer   = new unsigned char[buffer_size];
+
+  compressedData                  = new unsigned char[buffer_size];
+
+  deflateInit(&z, compression_rate);
+
+  z.avail_in   = buffer_size;
+  z.next_in    = input_buffer;
+  z.next_out   = output_buffer;
+  z.avail_out  = buffer_size;
+   
+  int count;
+  unsigned long j=0;
+  // Perform the compression 
+  for ( ; ; ) 
+    {
+    if ( z.avail_in == 0 ) 
+      {
+      deflate( &z, Z_FINISH );
+      count = buffer_size - z.avail_out;
+      if ( count ) 
+        {
+        memcpy((char*)compressedData+j, (char *)output_buffer, count);
+        }
+      break;
+      }
+
+    deflate( &z, Z_NO_FLUSH );
+    count = buffer_size - z.avail_out;
+    if ( count ) 
+      {
+      memcpy((char*)compressedData+j, (char*)output_buffer, count);
+      }
+
+    j += count;
+    z.next_out = output_buffer;
+    z.avail_out = buffer_size;
+    }
+    
+  delete output_buffer;
+
+  *compressedDataSize = z.total_out;
+
+  // Print the result
+  deflateEnd(&z);
+
+  return compressedData;
+  }
+
+//
+//
+//
+bool MET_PerformUncompression(const unsigned char * sourceCompressed,
+                              int sourceCompressedSize,
+                              unsigned char * uncompressedData,
+                              int uncompressedDataSize)
+  {
+  z_stream d_stream;
+ 
+  d_stream.zalloc = (alloc_func)0;
+  d_stream.zfree = (free_func)0;
+  d_stream.opaque = (voidpf)0;
+  
+  inflateInit(&d_stream);
+  d_stream.next_in  = const_cast<unsigned char *>(sourceCompressed);
+  d_stream.avail_in = sourceCompressedSize;
+ 
+  for (;;) 
+    {
+    d_stream.next_out = (unsigned char *)uncompressedData; 
+    d_stream.avail_out = uncompressedDataSize;
+    int err = inflate(&d_stream, Z_NO_FLUSH);
+    if((err == Z_STREAM_END))
+      {
+      break;
+      }
+    }
+
+  inflateEnd(&d_stream);
+
+  return true;
   }
 
 //

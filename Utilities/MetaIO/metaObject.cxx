@@ -10,7 +10,6 @@ namespace METAIO_NAMESPACE {
 #endif
 
 
-int META_DEBUG = 0;
 //
 // MetaObject Constructors
 //
@@ -63,22 +62,25 @@ MetaObject(unsigned int dim)
 
 MetaObject::
 ~MetaObject(void)
-{
+  {
   M_Destroy();
   delete m_ReadStream;
   delete m_WriteStream;
   
   this->ClearFields();
   this->ClearUserFields();
-}
+  }
 
 
 //
 // Clear Fields only, if the pointer is in the UserField list it is not deleted.
 void MetaObject::
 ClearFields()
-{
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject:ClearFields" << METAIO_STREAM::endl;
+  {
+  if(META_DEBUG)
+    {
+    METAIO_STREAM::cout << "MetaObject:ClearFields" << METAIO_STREAM::endl;
+    }
 
   FieldsContainerType::iterator  it  = m_Fields.begin();
   FieldsContainerType::iterator  end = m_Fields.end();
@@ -122,29 +124,29 @@ ClearFields()
       }
     }
   m_Fields.clear();
-}
+  }
 
 
 // Clear UserFields
 void MetaObject
 ::ClearUserFields()
-{
+  {
   // Clear write field
   FieldsContainerType::iterator  it  = m_UserDefinedWriteFields.begin();
   FieldsContainerType::iterator  end = m_UserDefinedWriteFields.end();
   while( it != end )
-  {
+    {
     MET_FieldRecordType* field = *it;
     it++;
     delete field;
-  }
+    }
    
 
   // Clear read field
   it  = m_UserDefinedReadFields.begin();
   end = m_UserDefinedReadFields.end();
   while( it != end )
-  {
+    {
     MET_FieldRecordType* field = *it;
     
     // check if the pointer has not been deleted yet
@@ -167,11 +169,11 @@ void MetaObject
       {
       delete field;
       }
-  }
+    }
 
   m_UserDefinedWriteFields.clear();
   m_UserDefinedReadFields.clear();
-}
+  }
  
 //
 //
@@ -199,7 +201,7 @@ CopyInfo(const MetaObject * _object)
   if(NDims() != _object->NDims())
     {
     METAIO_STREAM::cout << "MetaObject: CopyInfo: Warning: NDims not same size" 
-              << METAIO_STREAM::endl;
+                        << METAIO_STREAM::endl;
     }
 
   FileName(_object->FileName());
@@ -222,40 +224,49 @@ CopyInfo(const MetaObject * _object)
 bool MetaObject::
 Read(const char *_fileName)
   {
-  if(META_DEBUG)  METAIO_STREAM::cout << "MetaObject: Read" << METAIO_STREAM::endl;
+  if(META_DEBUG)  
+    {
+    METAIO_STREAM::cout << "MetaObject: Read" << METAIO_STREAM::endl;
+    }
+
   if(_fileName != NULL)
     {
     strcpy(m_FileName, _fileName);
     }
 
-  M_Destroy();
+  METAIO_STREAM::ifstream * tmpReadStream = new METAIO_STREAM::ifstream;
 
-  Clear();
+  tmpReadStream->open(m_FileName, METAIO_STREAM::ios::binary |
+                                  METAIO_STREAM::ios::in);
 
-  M_SetupReadFields();
-  M_PrepareNewReadStream();
- 
- // m_ReadStream->precision(30);
-
-
-  m_ReadStream->open(m_FileName);
-  if(!m_ReadStream->is_open())
+  if(!tmpReadStream->is_open())
     {
-    METAIO_STREAM::cout << "MetaObject: Read: Cannot open file" << METAIO_STREAM::endl;
+    delete tmpReadStream;
     return false;
     }
 
-  bool result = M_Read();
+  if( !this->ReadStream(0, tmpReadStream) )
+    {
+    tmpReadStream->close();
+    delete tmpReadStream;
+    return false;
+    }
 
-  m_ReadStream->close();
-  m_ReadStream->clear();
-  return result;
+  tmpReadStream->close();
+
+  delete tmpReadStream;
+
+  return true;
   }
+
 
 bool MetaObject::
 ReadStream(int _nDims, METAIO_STREAM::ifstream * _stream)
-{
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject: ReadStream" << METAIO_STREAM::endl;
+  {
+  if(META_DEBUG)
+    {
+    METAIO_STREAM::cout << "MetaObject: ReadStream" << METAIO_STREAM::endl;
+    }
 
   M_Destroy();
   
@@ -265,22 +276,26 @@ ReadStream(int _nDims, METAIO_STREAM::ifstream * _stream)
   
   M_SetupReadFields();
  
-  MET_FieldRecordType * mF = MET_GetFieldRecord("NDims", &m_Fields);
-  mF->value[0] = _nDims;
-  mF->defined = true;
+  if(_nDims > 0)
+    {
+    MET_FieldRecordType * mF = MET_GetFieldRecord("NDims", &m_Fields);
+    mF->value[0] = _nDims;
+    mF->defined = true;
+    }
  
   if(m_ReadStream)
-  {
+    {
     delete m_ReadStream;
-  }
+    }
 
   m_ReadStream = _stream;
 
   bool result = M_Read();
-  m_ReadStream= NULL;
-  return result;
-}
 
+  m_ReadStream= NULL;
+
+  return result;
+  }
 
 
 bool MetaObject::
@@ -303,7 +318,9 @@ Write(const char *_fileName)
   METAIO_STREAM::ofstream tFile(m_FileName,METAIO_STREAM::ios::out);
   tFile.close();                    
 #endif
-  m_WriteStream->open(m_FileName,METAIO_STREAM::ios::binary | METAIO_STREAM::ios::out);
+
+  m_WriteStream->open(m_FileName, METAIO_STREAM::ios::binary |
+                                  METAIO_STREAM::ios::out);
   if(!m_WriteStream->is_open())
     {
     return false;
@@ -325,10 +342,14 @@ PrintInfo(void) const
   {
   int i, j;
 
-  METAIO_STREAM::cout << "FileName = _" << m_FileName << "_" << METAIO_STREAM::endl;
-  METAIO_STREAM::cout << "Comment = _" << m_Comment << "_" << METAIO_STREAM::endl;
-  METAIO_STREAM::cout << "ObjectType = _" << m_ObjectTypeName << "_" << METAIO_STREAM::endl;
-  METAIO_STREAM::cout << "ObjectSubType = _" << m_ObjectSubTypeName << "_" << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "FileName = _" << m_FileName << "_" 
+                      << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "Comment = _" << m_Comment << "_" 
+                      << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "ObjectType = _" << m_ObjectTypeName << "_" 
+                      << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "ObjectSubType = _" << m_ObjectSubTypeName << "_" 
+                      << METAIO_STREAM::endl;
   METAIO_STREAM::cout << "NDims = " << m_NDims << METAIO_STREAM::endl;
   METAIO_STREAM::cout << "Name = " << m_Name << METAIO_STREAM::endl;
   METAIO_STREAM::cout << "ID = " << m_ID << METAIO_STREAM::endl;
@@ -341,7 +362,8 @@ PrintInfo(void) const
     {
     METAIO_STREAM::cout << "CompressedData = False" << METAIO_STREAM::endl;
     }
-  METAIO_STREAM::cout << "m_CompressedDataSize = " << m_CompressedDataSize << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "m_CompressedDataSize = " << m_CompressedDataSize 
+                      << METAIO_STREAM::endl;
   if(m_BinaryData)
     {
     METAIO_STREAM::cout << "BinaryData = True" << METAIO_STREAM::endl;
@@ -352,11 +374,13 @@ PrintInfo(void) const
     }
   if(m_BinaryData && m_BinaryDataByteOrderMSB)
     {
-    METAIO_STREAM::cout << "BinaryDataByteOrderMSB = True" << METAIO_STREAM::endl;
+    METAIO_STREAM::cout << "BinaryDataByteOrderMSB = True" 
+                        << METAIO_STREAM::endl;
     }
   else
     {
-    METAIO_STREAM::cout << "BinaryDataByteOrderMSB = False" << METAIO_STREAM::endl;
+    METAIO_STREAM::cout << "BinaryDataByteOrderMSB = False" 
+                        << METAIO_STREAM::endl;
     }
   METAIO_STREAM::cout << "Color = " ;
   for(i=0; i<4; i++)
@@ -398,7 +422,8 @@ PrintInfo(void) const
     }
   METAIO_STREAM::cout << METAIO_STREAM::endl;
 
-  METAIO_STREAM::cout << "DistanceUnits = " << this->DistanceUnitsName() << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "DistanceUnits = " << this->DistanceUnitsName() 
+                      << METAIO_STREAM::endl;
 
   // Print User's fields : 
   FieldsContainerType::const_iterator  itw = m_UserDefinedWriteFields.begin();
@@ -866,86 +891,86 @@ ElementSpacing(int _i, float _value)
 
 void  MetaObject::
 Name(const char *_Name)
-{
-  if(_Name != NULL)
   {
+  if(_Name != NULL)
+    {
     strcpy(m_Name, _Name);
+    }
   }
-}
       
 const char  * MetaObject::
 Name(void) const
-{
+  {
   return m_Name;
-}
+  }
 
    
 const float * MetaObject::
 Color(void) const
-{
+  {
   return m_Color;
-}
+  }
 
 void  MetaObject::
 Color(float _r, float _g, float _b, float _a)
-{
+  {
   m_Color[0] = _r;
   m_Color[1] = _g;
   m_Color[2] = _b;
   m_Color[3] = _a;
-}
+  }
 void MetaObject::
 Color(const float * _color)
-{
-  for(unsigned int i=0; i<4; i++)
   {
+  for(unsigned int i=0; i<4; i++)
+    {
     m_Color[i] = _color[i];
+    }
   }
-}
-
+  
 
 void  MetaObject::
 ID(int _id)
-{
+  {
   m_ID = _id;
-}
+  }
       
 int  MetaObject::
 ID(void) const
-{
+  {
   return m_ID;
-}
+  }
 
 void  MetaObject::
 ParentID(int _parentId)
-{
+  {
   m_ParentID = _parentId;
-}
+  }
       
 int   MetaObject::ParentID(void) const
-{
+  {
   return m_ParentID;
-}
+  }
 
 void MetaObject::CompressedData(bool _compressedData)
-{
+  {
   m_CompressedData = _compressedData;
-}
+  }
       
 bool MetaObject::CompressedData(void) const
-{
+  {
   return m_CompressedData;
-}
+  }
 
 void  MetaObject::BinaryData(bool _binaryData)
-{
+  {
   m_BinaryData = _binaryData;
-}
+  }
       
 bool   MetaObject::BinaryData(void) const
-{
+  {
   return m_BinaryData;
-}
+  }
 
 bool MetaObject::
 BinaryDataByteOrderMSB(void) const
@@ -962,7 +987,10 @@ BinaryDataByteOrderMSB(bool _elementByteOrderMSB)
 void MetaObject::
 Clear(void)
   {
-  if(META_DEBUG)  METAIO_STREAM::cout << "MetaObject: Clear()" << METAIO_STREAM::endl;
+  if(META_DEBUG)
+    {
+    METAIO_STREAM::cout << "MetaObject: Clear()" << METAIO_STREAM::endl;
+    }
   strcpy(m_Comment, "");
   strcpy(m_ObjectTypeName, "Object");
   strcpy(m_ObjectSubTypeName, "");
@@ -989,7 +1017,8 @@ Clear(void)
 
   if(META_DEBUG) 
     {
-    METAIO_STREAM::cout << "MetaObject: Clear: m_NDims=" << m_NDims << METAIO_STREAM::endl;
+    METAIO_STREAM::cout << "MetaObject: Clear: m_NDims=" << m_NDims 
+                        << METAIO_STREAM::endl;
     }
   int i;
   for(i=0; i<10; i++)
@@ -1014,7 +1043,10 @@ Clear(void)
 bool MetaObject::
 InitializeEssential(int _nDims)
   {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject: Initialize" << METAIO_STREAM::endl;
+  if(META_DEBUG)
+    {
+    METAIO_STREAM::cout << "MetaObject: Initialize" << METAIO_STREAM::endl;
+    }
 
   M_Destroy();
 
@@ -1046,14 +1078,21 @@ InitializeEssential(int _nDims)
 void MetaObject::
 M_Destroy(void)
   {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject: Destroy" << METAIO_STREAM::endl;
+  if(META_DEBUG)
+    {
+    METAIO_STREAM::cout << "MetaObject: Destroy" << METAIO_STREAM::endl;
+    }
   }
 
 void MetaObject::
 M_SetupReadFields(void)
   {
   this->ClearFields();
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject: M_SetupReadFields" << METAIO_STREAM::endl;
+  if(META_DEBUG) 
+    {
+    METAIO_STREAM::cout << "MetaObject: M_SetupReadFields" 
+                        << METAIO_STREAM::endl;
+    }
 
   MET_FieldRecordType * mF;
 
@@ -1181,12 +1220,19 @@ M_SetupReadFields(void)
 void MetaObject::
 M_SetupWriteFields(void)
   {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject: M_SetupWriteFields" << METAIO_STREAM::endl;
+  if(META_DEBUG)
+    {
+    METAIO_STREAM::cout << "MetaObject: M_SetupWriteFields" 
+                        << METAIO_STREAM::endl;
+    }
 
   this->ClearFields();
 
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject: M_SetupWriteFields: Creating Fields"
-                           << METAIO_STREAM::endl;
+  if(META_DEBUG)
+    {
+    METAIO_STREAM::cout << "MetaObject: M_SetupWriteFields: Creating Fields"
+                        << METAIO_STREAM::endl;
+    }
 
   MET_FieldRecordType * mF;
 
@@ -1254,22 +1300,6 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
-  if(m_CompressedData)
-    {
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "CompressedData", MET_STRING, strlen("True"),
-                       "True");
-    m_Fields.push_back(mF);
-
-    if(m_WriteCompressedDataSize)
-      {
-      mF = new MET_FieldRecordType;
-      MET_InitWriteField(mF, "CompressedDataSize", MET_UINT,
-                         m_CompressedDataSize);
-      m_Fields.push_back(mF);
-      }
-    }
-
   if(m_BinaryData)
     {
     mF = new MET_FieldRecordType;
@@ -1278,16 +1308,47 @@ M_SetupWriteFields(void)
 
     mF = new MET_FieldRecordType;
     if(m_BinaryDataByteOrderMSB)
+      {
       MET_InitWriteField(mF, "BinaryDataByteOrderMSB", MET_STRING,
                          strlen("True"), "True");
+      }
     else
+      {
       MET_InitWriteField(mF, "BinaryDataByteOrderMSB", MET_STRING,
                          strlen("False"), "False");
+      }
+    m_Fields.push_back(mF);
+
+    if(m_CompressedData)
+      {
+      mF = new MET_FieldRecordType;
+      MET_InitWriteField(mF, "CompressedData", MET_STRING, strlen("True"),
+                         "True");
+      m_Fields.push_back(mF);
+  
+      if(m_WriteCompressedDataSize && m_CompressedDataSize>0)
+        {
+        mF = new MET_FieldRecordType;
+        MET_InitWriteField(mF, "CompressedDataSize", MET_UINT,
+                           m_CompressedDataSize);
+        m_Fields.push_back(mF);
+        }
+      }
+    else
+      {
+      mF = new MET_FieldRecordType;
+      MET_InitWriteField(mF, "CompressedData", MET_STRING, strlen("False"),
+                         "False");
+      m_Fields.push_back(mF);
+      }
+    }
+  else
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "BinaryData", MET_STRING, strlen("False"), "False");
     m_Fields.push_back(mF);
     }
 
-  
-  
   valSet = false;
   for(i=0; i<m_NDims*m_NDims; i++)
     {
@@ -1358,7 +1419,8 @@ M_Read(void)
 
   if(!MET_Read(*m_ReadStream, & m_Fields))
     {
-    METAIO_STREAM::cout << "MetaObject: Read: MET_Read Failed" << METAIO_STREAM::endl;
+    METAIO_STREAM::cerr << "MetaObject: Read: MET_Read Failed" 
+                        << METAIO_STREAM::endl;
     return false;
     }
 
@@ -1416,13 +1478,13 @@ M_Read(void)
     {
     if(((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' 
        || ((char *)(mF->value))[0] == '1')
+      {
       m_CompressedData = true;
+      }
     else
+      {
       m_CompressedData = false;
-    }
-  else
-    {
-    m_BinaryData = false;
+      }
     }
 
   mF = MET_GetFieldRecord("CompressedDataSize",  &m_Fields);
@@ -1436,13 +1498,13 @@ M_Read(void)
     {
     if(((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' 
        || ((char *)(mF->value))[0] == '1')
+      {
       m_BinaryData = true;
+      }
     else
+      {
       m_BinaryData = false;
-    }
-  else
-    {
-    m_BinaryData = false;
+      }
     }
 
   mF = MET_GetFieldRecord("ElementByteOrderMSB",  &m_Fields);
@@ -1450,9 +1512,13 @@ M_Read(void)
     {
     if(((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' 
        || ((char *)(mF->value))[0] == '1')
+      {
       m_BinaryDataByteOrderMSB = true;
+      }
     else
+      {
       m_BinaryDataByteOrderMSB = false;
+      }
     }
 
   mF = MET_GetFieldRecord("BinaryDataByteOrderMSB",  &m_Fields);
@@ -1460,9 +1526,13 @@ M_Read(void)
     {
     if(((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' 
        || ((char *)(mF->value))[0] == '1')
+      {
       m_BinaryDataByteOrderMSB = true;
+      }
     else
+      {
       m_BinaryDataByteOrderMSB = false;
+      }
     }
 
   int i;
@@ -1581,8 +1651,11 @@ M_Read(void)
       {
       m_ElementSpacing[i] = static_cast<float>( mF->value[i] );
       if (META_DEBUG) 
-        METAIO_STREAM::cout << "metaObject: M_Read: elementSpacing[" << i << "] = " 
-                  << m_ElementSpacing[i] << METAIO_STREAM::endl;
+        {
+        METAIO_STREAM::cout << "metaObject: M_Read: elementSpacing[" 
+                            << i << "] = " 
+                            << m_ElementSpacing[i] << METAIO_STREAM::endl;
+        }
       }
     }
   else
@@ -1591,8 +1664,11 @@ M_Read(void)
       {
       m_ElementSpacing[i] = 1;
       if (META_DEBUG) 
-        METAIO_STREAM::cout << "metaObject: M_Read: elementSpacing[" << i << "] = " 
-                  << m_ElementSpacing[i] << METAIO_STREAM::endl;
+        {
+        METAIO_STREAM::cout << "metaObject: M_Read: elementSpacing[" 
+                            << i << "] = " 
+                            << m_ElementSpacing[i] << METAIO_STREAM::endl;
+        }
       }
     }
 
@@ -1616,7 +1692,8 @@ M_Write(void)
 
   if(!MET_Write(*m_WriteStream, & m_Fields))
     {
-    METAIO_STREAM::cout << "MetaObject: Write: MET_Write Failed" << METAIO_STREAM::endl;
+    METAIO_STREAM::cerr << "MetaObject: Write: MET_Write Failed" 
+                        << METAIO_STREAM::endl;
     return false;
     }
 
@@ -1627,19 +1704,22 @@ M_Write(void)
 bool MetaObject
 ::Append(const char *_headName)
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaObject: Append" << METAIO_STREAM::endl;
+  if(META_DEBUG) 
+    {
+    METAIO_STREAM::cout << "MetaObject: Append" << METAIO_STREAM::endl;
+    }
 
   if(_headName != NULL)
-  {
+    {
     FileName(_headName);
-  }
+    }
 
   M_SetupWriteFields();
 
   if(!m_WriteStream)
-  {
+    {
     m_WriteStream = new METAIO_STREAM::ofstream;
-  }
+    }
 
 #ifndef __sgi
   m_WriteStream->open(m_FileName,

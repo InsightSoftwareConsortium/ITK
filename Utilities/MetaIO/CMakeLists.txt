@@ -20,6 +20,8 @@ PROJECT( ${METAIO_NAMESPACE} )
 INCLUDE_DIRECTORIES(${${METAIO_NAMESPACE}_SOURCE_DIR})
 
 ADD_LIBRARY(${METAIO_NAMESPACE}
+  metaTypes.h
+  metaUtils.cxx
   metaArrow.cxx
   metaBlob.cxx
   metaCommand.h
@@ -42,11 +44,13 @@ ADD_LIBRARY(${METAIO_NAMESPACE}
   metaScene.cxx
   metaSurface.cxx
   metaTube.cxx
-  metaTypes.h
-  metaUtils.cxx
   metaVesselTube.cxx
   metaTransform.cxx
   metaTubeGraph.cxx
+  metaForm.h
+  metaForm.cxx
+  metaArray.h
+  metaArray.cxx
 )
 
 INCLUDE_REGULAR_EXPRESSION("^.*$")
@@ -64,7 +68,8 @@ IF(METAIO_FOR_VTK)
 ELSE(METAIO_FOR_VTK)
   IF(METAIO_FOR_ITK)
     INCLUDE_DIRECTORIES(${ITK_ZLIB_SOURCE_DIR})
-    TARGET_LINK_LIBRARIES(${METAIO_NAMESPACE} ${ITK_ZLIB_LIBRARIES} ${KWSYS_NAMESPACE})
+    TARGET_LINK_LIBRARIES(${METAIO_NAMESPACE} ${ITK_ZLIB_LIBRARIES} 
+                                              ${KWSYS_NAMESPACE})
     IF(ITK_LIBRARY_PROPERTIES)
       SET_TARGET_PROPERTIES(${METAIO_NAMESPACE} 
                             PROPERTIES ${ITK_LIBRARY_PROPERTIES})
@@ -75,7 +80,7 @@ ELSE(METAIO_FOR_VTK)
   ENDIF(METAIO_FOR_ITK)
 ENDIF(METAIO_FOR_VTK)
 
-#SUBDIRS(tests)
+SUBDIRS(tests)
 
 IF(METAIO_FOR_VTK)
   IF(NOT VTK_INSTALL_NO_LIBRARIES)

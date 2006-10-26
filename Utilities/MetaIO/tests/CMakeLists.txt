@@ -38,3 +38,11 @@ TARGET_LINK_LIBRARIES( testMeta9Landmark ${METAIO_NAMESPACE} )
 SET( testMeta10Contour_SRCS testMeta10Contour.cxx )
 ADD_EXECUTABLE( testMeta10Contour ${testMeta10Contour_SRCS} )
 TARGET_LINK_LIBRARIES( testMeta10Contour ${METAIO_NAMESPACE} )
+
+SET( testMeta11Form_SRCS testMeta11Form.cxx )
+ADD_EXECUTABLE( testMeta11Form ${testMeta11Form_SRCS} )
+TARGET_LINK_LIBRARIES( testMeta11Form ${METAIO_NAMESPACE} )
+
+SET( testMeta12Array_SRCS testMeta12Array.cxx )
+ADD_EXECUTABLE( testMeta12Array ${testMeta12Array_SRCS} )
+TARGET_LINK_LIBRARIES( testMeta12Array ${METAIO_NAMESPACE} )

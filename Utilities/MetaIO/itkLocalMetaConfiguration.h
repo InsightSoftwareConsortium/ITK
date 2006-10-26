@@ -4,25 +4,25 @@
 #ifdef METAIO_NAMESPACE
   #undef METAIO_NAMESPACE 
 #endif
-#ifdef METAIO_STD
-  #undef METAIO_STD 
-#endif
 
-#include "vtkConfigure.h"
+#include "itk_zlib.h"
 
 #define METAIO_USE_NAMESPACE  0
 #define METAIO_NAMESPACE      ITKMetaIO
 
-#define METAIO_STL    std
+#ifndef METAIO_STL
+  #define METAIO_STL    std
+#endif
 
-#define METAIO_STREAM std
+#ifndef METAIO_STD
+  #define METAIO_STREAM std
+#endif
 
 #include <iostream>
 #include <fstream>
 
-#ifdef METAIO_EXPORT
-  #undef METAIO_EXPORT
+#ifndef METAIO_EXPORT
+  #define METAIO_EXPORT 
 #endif 
 
-#define METAIO_EXPORT 
 

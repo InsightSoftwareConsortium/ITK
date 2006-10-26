@@ -553,7 +553,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         float td = (float)((float*)num)[0];
-        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
         i+=sizeof(float); 
         pnt->m_X[d] = (float)td;
         delete [] num;
@@ -565,7 +565,7 @@ M_Read(void)
         num[k] = _data[i+k];
         }
       float td = (float)((float*)num)[0];
-      MET_SwapByteIfNecessary(&td,MET_FLOAT);
+      MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
       i+=sizeof(float); 
       pnt->m_R = (float)td;
       delete [] num;
@@ -576,7 +576,7 @@ M_Read(void)
         num[k] = _data[i+k];
         }
       td = (float)((float*)num)[0];
-      MET_SwapByteIfNecessary(&td,MET_FLOAT);
+      MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
       i+=sizeof(float); 
       pnt->m_Ridgeness = (float)td;
       delete [] num;
@@ -587,7 +587,7 @@ M_Read(void)
         num[k] = _data[i+k];
         }
       td = (float)((float*)num)[0];
-      MET_SwapByteIfNecessary(&td,MET_FLOAT);
+      MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
       i+=sizeof(float); 
       pnt->m_Medialness = (float)td;
       delete [] num;
@@ -598,7 +598,7 @@ M_Read(void)
         num[k] = _data[i+k];
         }
       td = (float)((float*)num)[0];
-      MET_SwapByteIfNecessary(&td,MET_FLOAT);
+      MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
       i+=sizeof(float); 
       pnt->m_Branchness = (float)td;
       delete [] num;
@@ -609,7 +609,7 @@ M_Read(void)
         num[k] = _data[i+k];
         }
       td = (float)((float*)num)[0];
-      MET_SwapByteIfNecessary(&td,MET_FLOAT);
+      MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
       i+=sizeof(float); 
       
       if((float)td == 1.0)
@@ -630,7 +630,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         td = (float)((float*)num)[0];
-        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
         i+=sizeof(float); 
         pnt->m_V1[d] = (float)td;
         delete [] num;
@@ -646,7 +646,7 @@ M_Read(void)
             num[k] = _data[i+k];
             }
           td = (float)((float*)num)[0];
-          MET_SwapByteIfNecessary(&td,MET_FLOAT);
+          MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
           i+=sizeof(float); 
           pnt->m_V2[d] = (float)td;
           delete [] num;
@@ -661,7 +661,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         td = (float)((float*)num)[0];
-        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
         i+=sizeof(float); 
         pnt->m_T[d] = (float)td;
         delete [] num;
@@ -673,7 +673,7 @@ M_Read(void)
         num[k] = _data[i+k];
         }
       td = (float)((float*)num)[0];
-      MET_SwapByteIfNecessary(&td,MET_FLOAT);
+      MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
       i+=sizeof(float); 
       pnt->m_Alpha1 = (float)td;
       delete [] num;
@@ -684,7 +684,7 @@ M_Read(void)
         num[k] = _data[i+k];
         }
       td = (float)((float*)num)[0];
-      MET_SwapByteIfNecessary(&td,MET_FLOAT);
+      MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
       i+=sizeof(float); 
       pnt->m_Alpha2 = (float)td;
       delete [] num;
@@ -697,7 +697,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         td = (float)((float*)num)[0];
-        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
         i+=sizeof(float); 
         pnt->m_Alpha3 = (float)td;
         delete [] num;
@@ -711,7 +711,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         td = (float)((float*)num)[0];
-        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
         i+=sizeof(float); 
         pnt->m_Color[d] = (float)td;
         delete [] num;
@@ -723,7 +723,7 @@ M_Read(void)
         num[k] = _data[i+k];
         }
       int id = (int)((int*)num)[0];
-      MET_SwapByteIfNecessary(&td,MET_FLOAT);
+      MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
       i+=sizeof(int); 
       pnt->m_ID=id;
       delete [] num;      
@@ -907,31 +907,31 @@ M_Write(void)
       for(d = 0; d < m_NDims; d++)
         {
         float x = (*it)->m_X[d];
-        MET_SwapByteIfNecessary(&x,MET_FLOAT);     
+        MET_SwapByteIfSystemMSB(&x,MET_FLOAT);     
         MET_DoubleToValue((double)x,m_ElementType,data,i++);  
         }
       
       float x = (*it)->m_R;
-      MET_SwapByteIfNecessary(&x,MET_FLOAT);         
+      MET_SwapByteIfSystemMSB(&x,MET_FLOAT);         
       MET_DoubleToValue((double)x,m_ElementType,data,i++);
       x = (*it)->m_Ridgeness;
-      MET_SwapByteIfNecessary(&x,MET_FLOAT);              
+      MET_SwapByteIfSystemMSB(&x,MET_FLOAT);              
       MET_DoubleToValue((double)x,m_ElementType,data,i++);
       x = (*it)->m_Medialness;
-      MET_SwapByteIfNecessary(&x,MET_FLOAT);         
+      MET_SwapByteIfSystemMSB(&x,MET_FLOAT);         
       MET_DoubleToValue((double)x,m_ElementType,data,i++);
       x = (*it)->m_Branchness;
-      MET_SwapByteIfNecessary(&x,MET_FLOAT); 
+      MET_SwapByteIfSystemMSB(&x,MET_FLOAT); 
       MET_DoubleToValue((double)x,m_ElementType,data,i++);
       x = (*it)->m_Mark;
-      MET_SwapByteIfNecessary(&x,MET_FLOAT); 
+      MET_SwapByteIfSystemMSB(&x,MET_FLOAT); 
 
       MET_DoubleToValue((double)x,m_ElementType,data,i++);
       
       for(d = 0; d < m_NDims; d++)
         {
         x = (*it)->m_V1[d];
-        MET_SwapByteIfNecessary(&x,MET_FLOAT); 
+        MET_SwapByteIfSystemMSB(&x,MET_FLOAT); 
         MET_DoubleToValue((double)x,m_ElementType,data,i++);  
         }
     
@@ -940,7 +940,7 @@ M_Write(void)
         for(d = 0; d < m_NDims; d++)
           {
           x = (*it)->m_V2[d];
-          MET_SwapByteIfNecessary(&x,MET_FLOAT);   
+          MET_SwapByteIfSystemMSB(&x,MET_FLOAT);   
           MET_DoubleToValue((double)x,m_ElementType,data,i++);  
           }
         }
@@ -948,33 +948,33 @@ M_Write(void)
       for(d = 0; d < m_NDims; d++)
         {
         x = (*it)->m_T[d];
-        MET_SwapByteIfNecessary(&x,MET_FLOAT);   
+        MET_SwapByteIfSystemMSB(&x,MET_FLOAT);   
         MET_DoubleToValue((double)x,m_ElementType,data,i++);  
         }
      
       x = (*it)->m_Alpha1;
-      MET_SwapByteIfNecessary(&x,MET_FLOAT);  
+      MET_SwapByteIfSystemMSB(&x,MET_FLOAT);  
       MET_DoubleToValue((double)x,m_ElementType,data,i++);
       x = (*it)->m_Alpha2;
-      MET_SwapByteIfNecessary(&x,MET_FLOAT);
+      MET_SwapByteIfSystemMSB(&x,MET_FLOAT);
       MET_DoubleToValue((double)x,m_ElementType,data,i++);  
 
       if(m_NDims>=3)
         {
         x = (*it)->m_Alpha3;
-        MET_SwapByteIfNecessary(&x,MET_FLOAT);  
+        MET_SwapByteIfSystemMSB(&x,MET_FLOAT);  
         MET_DoubleToValue((double)x,m_ElementType,data,i++);  
         }
 
       for(d=0; d<4; d++)
         {
         x = (*it)->m_Color[d];
-        MET_SwapByteIfNecessary(&x,MET_FLOAT); 
+        MET_SwapByteIfSystemMSB(&x,MET_FLOAT); 
         MET_DoubleToValue((double)x,m_ElementType,data,i++);
         }
 
       int id = (*it)->m_ID;
-      MET_SwapByteIfNecessary(&id,MET_INT); 
+      MET_SwapByteIfSystemMSB(&id,MET_INT); 
       MET_DoubleToValue((double)id,m_ElementType,data,i++);
 
       it++;

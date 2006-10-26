@@ -415,7 +415,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         float td = (float)((float*)num)[0];
-        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
         i+=sizeof(float); 
         pnt->m_X[d] = (float)td;
         delete [] num;
@@ -429,7 +429,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         float td = (float)((float*)num)[0];
-        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
         i+=sizeof(float); 
         pnt->m_TensorMatrix[d] = (float)td;
         delete [] num;
@@ -455,7 +455,7 @@ M_Read(void)
             num[k] = _data[i+k];
             }
           float td = (float)((float*)num)[0];
-          MET_SwapByteIfNecessary(&td,MET_FLOAT);
+          MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
           i+=sizeof(float); 
           pnt->AddField((*itFields).first.c_str(),(float)td);
           delete [] num;
@@ -610,14 +610,14 @@ M_Write(void)
       for(d = 0; d < m_NDims; d++)
         {
         float x = (*it)->m_X[d];
-        MET_SwapByteIfNecessary(&x,MET_FLOAT);     
+        MET_SwapByteIfSystemMSB(&x,MET_FLOAT);     
         MET_DoubleToValue((double)x,m_ElementType,data,i++);  
         }
 
       for(d = 0; d < 6; d++)
         {
         float x = (*it)->m_TensorMatrix[d];
-        MET_SwapByteIfNecessary(&x,MET_FLOAT);        
+        MET_SwapByteIfSystemMSB(&x,MET_FLOAT);        
         MET_DoubleToValue((double)x,m_ElementType, data, i++);  
         }
 
@@ -627,7 +627,7 @@ M_Write(void)
       while(itFields !=  extraList2.end())
         {
         float x = (*itFields).second;
-        MET_SwapByteIfNecessary(&x,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&x,MET_FLOAT);
         MET_DoubleToValue((double)x,m_ElementType,data,i++);  
         itFields++;
         }

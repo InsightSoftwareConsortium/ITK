@@ -163,7 +163,7 @@ public:
     //char* id = new char[sizeof(int)];
     // The file is written as LSB by default
     int mid = m_Id;
-    MET_SwapByteIfNecessary(&mid,MET_INT);
+    MET_SwapByteIfSystemMSB(&mid,MET_INT);
     //MET_DoubleToValue((double)m_Id,MET_INT,id,0);
     stream->write((char *)&mid,sizeof(int));
     //delete [] id;
@@ -171,7 +171,7 @@ public:
     //double mdata = m_Data;
     //MET_DoubleToValue((double)m_Data,GetMetaType(),data,0);
     TElementType data = m_Data;
-    MET_SwapByteIfNecessary(&data,GetMetaType());
+    MET_SwapByteIfSystemMSB(&data,GetMetaType());
     stream->write((char *)&data,sizeof(data));
     }
 

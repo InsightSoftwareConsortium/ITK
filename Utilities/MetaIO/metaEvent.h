@@ -19,13 +19,13 @@ namespace METAIO_NAMESPACE {
 #endif
 
 
-class METAIO_EXPORT metaEvent
+class METAIO_EXPORT MetaEvent
 {
  
 public:
 
-  metaEvent(){m_Level = -1;};
-  virtual ~metaEvent(){};
+  MetaEvent(){m_Level = -1;};
+  virtual ~MetaEvent(){};
 
   virtual void SetCurrentIteration(unsigned int n) {m_CurrentIteration = n;}
   virtual void StartReading(unsigned int n) 

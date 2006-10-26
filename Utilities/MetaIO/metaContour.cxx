@@ -387,7 +387,7 @@ M_Read(void)
         num[k] = _data[i+k];
         }
       int id = (int)((int*)num)[0];
-      MET_SwapByteIfNecessary(&id,MET_INT);
+      MET_SwapByteIfSystemMSB(&id,MET_INT);
       i+=sizeof(int); 
       pnt->m_Id = id;
       delete [] num;
@@ -400,7 +400,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         float td = (float)((float*)num)[0];
-        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
         i+=sizeof(float); 
         pnt->m_X[d] = td;
         delete [] num;
@@ -414,7 +414,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         float td = (float)((float*)num)[0];
-        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
         i+=sizeof(float); 
         pnt->m_XPicked[d] = td;
         delete [] num;
@@ -428,7 +428,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         float td = (float)((float*)num)[0];
-        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
         i+=sizeof(float); 
         pnt->m_V[d] = td;
         delete [] num;
@@ -442,7 +442,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         float td = (float)((float*)num)[0];
-        MET_SwapByteIfNecessary(&td,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&td,MET_FLOAT);
         i+=sizeof(float); 
         pnt->m_Color[d] = td;
         delete [] num;
@@ -589,7 +589,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         int id = (int)((int*)num)[0];
-        MET_SwapByteIfNecessary(&id,MET_INT);
+        MET_SwapByteIfSystemMSB(&id,MET_INT);
         i+=sizeof(int); 
         pnt->m_Id = id;
         delete [] num;
@@ -602,7 +602,7 @@ M_Read(void)
             num[k] = _data[i+k];
             }
           float x = (float)((float*)num)[0];
-          MET_SwapByteIfNecessary(&x,MET_FLOAT);
+          MET_SwapByteIfSystemMSB(&x,MET_FLOAT);
           i+=sizeof(float); 
           pnt->m_X[d] = x;
           delete [] num;
@@ -616,7 +616,7 @@ M_Read(void)
             num[k] = _data[i+k];
             }
           float x = (float)((float*)num)[0];
-          MET_SwapByteIfNecessary(&x,MET_FLOAT);
+          MET_SwapByteIfSystemMSB(&x,MET_FLOAT);
           i+=sizeof(float); 
           pnt->m_Color[d] = x;
           delete [] num;
@@ -691,34 +691,34 @@ M_Write(void)
     while(it != m_ControlPointsList.end())
       {
       unsigned int id = (*it)->m_Id;
-      MET_SwapByteIfNecessary(&id,MET_UINT);    
+      MET_SwapByteIfSystemMSB(&id,MET_UINT);    
       MET_DoubleToValue((double)id,MET_UINT,data,i++);
 
       for(d = 0; d < m_NDims; d++)
         {
         float pntX = (*it)->m_X[d];
-        MET_SwapByteIfNecessary(&pntX,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&pntX,MET_FLOAT);
         MET_DoubleToValue((double)pntX,MET_FLOAT,data,i++);
         }
 
       for(d = 0; d < m_NDims; d++)
         {
         float pntX = (*it)->m_XPicked[d];
-        MET_SwapByteIfNecessary(&pntX,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&pntX,MET_FLOAT);
         MET_DoubleToValue((double)pntX,MET_FLOAT,data,i++);
         }
 
       for(d = 0; d < m_NDims; d++)
         {
         float pntX = (*it)->m_V[d];
-        MET_SwapByteIfNecessary(&pntX,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&pntX,MET_FLOAT);
         MET_DoubleToValue((double)pntX,MET_FLOAT,data,i++);
         }
       
       for(d=0; d<4; d++)
         {
         float pntX = (*it)->m_Color[d];
-        MET_SwapByteIfNecessary(&pntX,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&pntX,MET_FLOAT);
         MET_DoubleToValue((double)pntX,MET_FLOAT,data,i++);
         }
       it++;
@@ -803,19 +803,19 @@ M_Write(void)
     while(it != m_InterpolatedPointsList.end())
       {
       unsigned int id = (*it)->m_Id;
-      MET_SwapByteIfNecessary(&id,MET_UINT);  
+      MET_SwapByteIfSystemMSB(&id,MET_UINT);  
       MET_DoubleToValue((double)id,MET_UINT,data,i++);
 
       for(d = 0; d < m_NDims; d++)
         {
         float x = (*it)->m_X[d];
-        MET_SwapByteIfNecessary(&x,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&x,MET_FLOAT);
         MET_DoubleToValue((double)x,MET_FLOAT,data,i++);
         }
       for(d=0; d<4; d++)
         {
         float x = (*it)->m_Color[d];
-        MET_SwapByteIfNecessary(&x,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&x,MET_FLOAT);
         MET_DoubleToValue((double)x,MET_FLOAT,data,i++);
         }
       it++;

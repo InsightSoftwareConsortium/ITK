@@ -387,8 +387,9 @@ M_Read(void)
     if(gc != readSize)
     {
       METAIO_STREAM::cout << "MetaMesh: m_Read: Points not read completely" 
-                << METAIO_STREAM::endl;
-      METAIO_STREAM::cout << "   ideal = " << readSize << " : actual = " << gc << METAIO_STREAM::endl;
+                          << METAIO_STREAM::endl;
+      METAIO_STREAM::cout << "   ideal = " << readSize 
+                          << " : actual = " << gc << METAIO_STREAM::endl;
       return false;
     }
 
@@ -405,7 +406,7 @@ M_Read(void)
         num[k] = _data[i+k];
         }
       td = (int)((int*)num)[0];
-      MET_SwapByteIfNecessary(&td,MET_INT);
+      MET_SwapByteIfSystemMSB(&td,MET_INT);
       pnt->m_Id = td;
       i+= sizeof(int);
       delete [] num;
@@ -432,49 +433,49 @@ M_Read(void)
         else if(m_PointType == MET_SHORT)
           {
           short val = (short)((short*)num)[0];
-          MET_SwapByteIfNecessary(&val,MET_SHORT);
+          MET_SwapByteIfSystemMSB(&val,MET_SHORT);
           pnt->m_X[d] = val;
           }
         else if(m_PointType == MET_USHORT)
           { 
           unsigned short val = (unsigned short)((unsigned short*)num)[0];
-          MET_SwapByteIfNecessary(&val,MET_USHORT);
+          MET_SwapByteIfSystemMSB(&val,MET_USHORT);
           pnt->m_X[d] = val;
           }
         else if(m_PointType == MET_INT)
           {
           int val = (int)((int*)num)[0];
-          MET_SwapByteIfNecessary(&val,MET_INT);
+          MET_SwapByteIfSystemMSB(&val,MET_INT);
           pnt->m_X[d] = (float)val;
           }
         else if(m_PointType == MET_UINT)
           { 
           unsigned int val = (unsigned int)((char*)num)[0];
-          MET_SwapByteIfNecessary(&val,MET_UINT);
+          MET_SwapByteIfSystemMSB(&val,MET_UINT);
           pnt->m_X[d] = (float)val;
           }
         else if(m_PointType == MET_LONG)
           { 
           long val = (long)((long*)num)[0];
-          MET_SwapByteIfNecessary(&val,MET_LONG);
+          MET_SwapByteIfSystemMSB(&val,MET_LONG);
           pnt->m_X[d] = (float)val;
           }
         else if(m_PointType == MET_ULONG)
           { 
           unsigned long val = (unsigned long)((unsigned long*)num)[0];
-          MET_SwapByteIfNecessary(&val,MET_ULONG);
+          MET_SwapByteIfSystemMSB(&val,MET_ULONG);
           pnt->m_X[d] = (float)val;
           }
         else if(m_PointType == MET_FLOAT)
           { 
           float val = (float)((float*)num)[0];
-          MET_SwapByteIfNecessary(&val,MET_FLOAT);
+          MET_SwapByteIfSystemMSB(&val,MET_FLOAT);
           pnt->m_X[d] = val;
           }
         else if(m_PointType == MET_DOUBLE)
           { 
           double val = (double)((double*)num)[0];
-          MET_SwapByteIfNecessary(&val,MET_DOUBLE);
+          MET_SwapByteIfSystemMSB(&val,MET_DOUBLE);
           pnt->m_X[d] = (float)val;
           }
         delete [] num;
@@ -586,7 +587,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         td = (int)((int*)num)[0];
-        MET_SwapByteIfNecessary(&td,MET_INT);
+        MET_SwapByteIfSystemMSB(&td,MET_INT);
         cell->m_Id = td;
         i+= sizeof(int);
         delete [] num;
@@ -600,7 +601,7 @@ M_Read(void)
           i+=sizeof(int);
 
           int val = (int)((int*)num)[0];
-          MET_SwapByteIfNecessary(&val,MET_INT);
+          MET_SwapByteIfSystemMSB(&val,MET_INT);
           cell->m_PointsId[d] = val;
           delete [] num;
           }
@@ -707,7 +708,7 @@ M_Read(void)
         num[k] = _data[i+k];
         }
       td = (int)((int*)num)[0];
-      MET_SwapByteIfNecessary(&td,MET_INT);
+      MET_SwapByteIfSystemMSB(&td,MET_INT);
       link->m_Id = (int)td;
       
       i += sizeof(int);
@@ -716,7 +717,7 @@ M_Read(void)
         num[k] = _data[i+k];
         }
       int n = (int)((int*)num)[0];
-      MET_SwapByteIfNecessary(&n,MET_INT);
+      MET_SwapByteIfSystemMSB(&n,MET_INT);
       i += sizeof(int);
       
       for(d=0; d<n; d++)
@@ -727,7 +728,7 @@ M_Read(void)
           num[k] = _data[i+k];
           }
         td = (int)((int*)num)[0];
-        MET_SwapByteIfNecessary(&td,MET_INT);
+        MET_SwapByteIfSystemMSB(&td,MET_INT);
         link->m_Links.push_back((int)td);
         i += sizeof(int);
         }
@@ -837,7 +838,7 @@ M_Read(void)
       num[k] = _data[i+k];
       }
     td = (int)((int*)num)[0];
-    MET_SwapByteIfNecessary(&td,MET_INT);
+    MET_SwapByteIfSystemMSB(&td,MET_INT);
 
     delete [] num;
     i+=sizeof(int);
@@ -868,56 +869,56 @@ M_Read(void)
       {
       short val = (short)((short*)num)[0];
       pd = new MeshData<short>();
-      MET_SwapByteIfNecessary(&val,MET_SHORT);
+      MET_SwapByteIfSystemMSB(&val,MET_SHORT);
       static_cast<MeshData<short>*>(pd)->m_Data = (short)val;
       }
     else if(m_PointDataType == MET_USHORT)
       { 
       unsigned short val = (unsigned short)((unsigned short*)num)[0];
       pd = new MeshData<unsigned short>();
-      MET_SwapByteIfNecessary(&val,MET_USHORT);
+      MET_SwapByteIfSystemMSB(&val,MET_USHORT);
       static_cast<MeshData<unsigned short>*>(pd)->m_Data = (unsigned short)val;
       }
     else if(m_PointDataType == MET_INT)
       {
       int val = (int)((int*)num)[0];
       pd = new MeshData<int>();
-      MET_SwapByteIfNecessary(&val,MET_INT);
+      MET_SwapByteIfSystemMSB(&val,MET_INT);
       static_cast<MeshData<int>*>(pd)->m_Data = (int)val;
       }
     else if(m_PointDataType == MET_UINT)
       { 
       unsigned int val = (unsigned int)((char*)num)[0];
       pd = new MeshData<unsigned int>();
-      MET_SwapByteIfNecessary(&val,MET_UINT);
+      MET_SwapByteIfSystemMSB(&val,MET_UINT);
       static_cast<MeshData<unsigned int>*>(pd)->m_Data = (unsigned int)val;
       }
     else if(m_PointDataType == MET_LONG)
       { 
       long val = (long)((long*)num)[0];
       pd = new MeshData<long>(); 
-      MET_SwapByteIfNecessary(&val,MET_LONG);
+      MET_SwapByteIfSystemMSB(&val,MET_LONG);
       static_cast<MeshData<long>*>(pd)->m_Data = (long)val;
       }
     else if(m_PointDataType == MET_ULONG)
       { 
       unsigned long val = (unsigned long)((unsigned long*)num)[0];
       pd = new MeshData<unsigned long>();
-      MET_SwapByteIfNecessary(&val,MET_ULONG);
+      MET_SwapByteIfSystemMSB(&val,MET_ULONG);
       static_cast<MeshData<unsigned long>*>(pd)->m_Data = (unsigned long)val;
       }
     else if(m_PointDataType == MET_FLOAT)
       { 
       float val = (float)((float*)num)[0];
       pd = new MeshData<float>();   
-      MET_SwapByteIfNecessary(&val,MET_FLOAT); 
+      MET_SwapByteIfSystemMSB(&val,MET_FLOAT); 
       static_cast<MeshData<float>*>(pd)->m_Data = (float)val;
       }
     else if(m_PointDataType == MET_DOUBLE)
       { 
       double val = (double)((double*)num)[0];
       pd = new MeshData<double>();
-      MET_SwapByteIfNecessary(&val,MET_DOUBLE);
+      MET_SwapByteIfSystemMSB(&val,MET_DOUBLE);
       static_cast<MeshData<double>*>(pd)->m_Data = val;
       }
     else  // assume double
@@ -926,7 +927,7 @@ M_Read(void)
                 << METAIO_STREAM::endl;
       double val = (double)((double*)num)[0];
       pd = new MeshData<double>();
-      MET_SwapByteIfNecessary(&val,MET_DOUBLE);
+      MET_SwapByteIfSystemMSB(&val,MET_DOUBLE);
       static_cast<MeshData<double>*>(pd)->m_Data = val;
       }
        
@@ -1005,7 +1006,7 @@ M_Read(void)
       }
 
     td = (int)((int*)num)[0];
-    MET_SwapByteIfNecessary(&td,MET_INT);
+    MET_SwapByteIfSystemMSB(&td,MET_INT);
 
     delete [] num;
     i+=sizeof(int);
@@ -1035,56 +1036,56 @@ M_Read(void)
       {
       short val = (short)((short*)num)[0];
       cd = new MeshData<short>();
-      MET_SwapByteIfNecessary(&val,MET_SHORT);
+      MET_SwapByteIfSystemMSB(&val,MET_SHORT);
       static_cast<MeshData<short>*>(cd)->m_Data = (short)val;
       }
     else if(m_CellDataType == MET_USHORT)
       { 
       unsigned short val = (unsigned short)((unsigned short*)num)[0];
       cd = new MeshData<unsigned short>();
-      MET_SwapByteIfNecessary(&val,MET_USHORT);
+      MET_SwapByteIfSystemMSB(&val,MET_USHORT);
       static_cast<MeshData<unsigned short>*>(cd)->m_Data = (unsigned short)val;
       }
     else if(m_CellDataType == MET_INT)
       {
       int val = (int)((int*)num)[0];
       cd = new MeshData<int>();
-      MET_SwapByteIfNecessary(&val,MET_INT);
+      MET_SwapByteIfSystemMSB(&val,MET_INT);
       static_cast<MeshData<int>*>(cd)->m_Data = (int)val;
       }
     else if(m_CellDataType == MET_UINT)
       { 
       unsigned int val = (unsigned int)((unsigned int*)num)[0];
       cd = new MeshData<unsigned int>();
-      MET_SwapByteIfNecessary(&val,MET_UINT);
+      MET_SwapByteIfSystemMSB(&val,MET_UINT);
       static_cast<MeshData<unsigned int>*>(cd)->m_Data = (unsigned int)val;
       }
     else if(m_CellDataType == MET_LONG)
       { 
       long val = (long)((long*)num)[0];
       cd = new MeshData<long>();
-      MET_SwapByteIfNecessary(&val,MET_LONG);
+      MET_SwapByteIfSystemMSB(&val,MET_LONG);
       static_cast<MeshData<long>*>(cd)->m_Data = (long)val; 
       }
     else if(m_CellDataType == MET_ULONG)
       { 
       unsigned long val = (unsigned long)((unsigned long*)num)[0];
       cd = new MeshData<unsigned long>();
-      MET_SwapByteIfNecessary(&val,MET_ULONG);
+      MET_SwapByteIfSystemMSB(&val,MET_ULONG);
       static_cast<MeshData<unsigned long>*>(cd)->m_Data = (long)val;
       }
     else if(m_CellDataType == MET_FLOAT)
       { 
       float val = (float)((float*)num)[0];
       cd = new MeshData<float>();
-      MET_SwapByteIfNecessary(&val,MET_FLOAT);
+      MET_SwapByteIfSystemMSB(&val,MET_FLOAT);
       static_cast<MeshData<float>*>(cd)->m_Data = (float)val;
       }
     else if(m_CellDataType == MET_DOUBLE)
       { 
       double val = (double)((double*)num)[0];
       cd = new MeshData<double>();
-      MET_SwapByteIfNecessary(&val,MET_DOUBLE);
+      MET_SwapByteIfSystemMSB(&val,MET_DOUBLE);
       static_cast<MeshData<double>*>(cd)->m_Data = val;
       }
     else
@@ -1093,7 +1094,7 @@ M_Read(void)
                 << METAIO_STREAM::endl;
       double val = (double)((double*)num)[0];
       cd = new MeshData<double>();
-      MET_SwapByteIfNecessary(&val,MET_DOUBLE);
+      MET_SwapByteIfSystemMSB(&val,MET_DOUBLE);
       static_cast<MeshData<double>*>(cd)->m_Data = val;
       }
        
@@ -1137,13 +1138,13 @@ M_Write(void)
     while(it != m_PointList.end())
       {
       int pntId = (*it)->m_Id;
-      MET_SwapByteIfNecessary(&pntId,MET_INT); 
+      MET_SwapByteIfSystemMSB(&pntId,MET_INT);
       MET_DoubleToValue((double)pntId,MET_INT,data,i++);
 
       for(d = 0; d < m_NDims; d++)
         {
         float pntX = (*it)->m_X[d];
-        MET_SwapByteIfNecessary(&pntX,MET_FLOAT);
+        MET_SwapByteIfSystemMSB(&pntX,MET_FLOAT);
         MET_DoubleToValue((double)pntX,m_PointType,data,i++);
         }
       it++;
@@ -1211,13 +1212,13 @@ M_Write(void)
         while(it != m_CellListArray[i]->end())
         {
         int cellId = (*it)->m_Id;
-        MET_SwapByteIfNecessary(&cellId,MET_INT);
+        MET_SwapByteIfSystemMSB(&cellId,MET_INT);
         MET_DoubleToValue((double)cellId,MET_INT,data,j++);
 
         for(d = 0; d < (*it)->m_Dim; d++)
             {
             int pntId = (*it)->m_PointsId[d];
-            MET_SwapByteIfNecessary(&pntId,MET_INT);
+            MET_SwapByteIfSystemMSB(&pntId,MET_INT);
             MET_DoubleToValue((double)pntId,MET_INT,data,j++);
             }
           it++;
@@ -1291,18 +1292,18 @@ M_Write(void)
       while(it != m_CellLinks.end())
         {
         int clId = (*it)->m_Id;
-        MET_SwapByteIfNecessary(&clId,MET_INT);
+        MET_SwapByteIfSystemMSB(&clId,MET_INT);
         MET_DoubleToValue((double)clId,MET_INT,data,j++);
 
         int linkSize = (*it)->m_Links.size();
-        MET_SwapByteIfNecessary(&linkSize,MET_INT);
+        MET_SwapByteIfSystemMSB(&linkSize,MET_INT);
         MET_DoubleToValue((double)linkSize,MET_INT,data,j++);
 
         METAIO_STL::list<int>::const_iterator it2 = (*it)->m_Links.begin();
         while(it2 != (*it)->m_Links.end())
           {
           int links = (*it2);
-          MET_SwapByteIfNecessary(&links,MET_INT);
+          MET_SwapByteIfSystemMSB(&links,MET_INT);
           MET_DoubleToValue((double)links,MET_INT,data,j++);
           it2++;
           }
