@@ -315,6 +315,15 @@ ADD_TEST(itkTIFFImageIOTest10 ${IO_TESTS}
             ${ITK_DATA_ROOT}/Input/RGBTestImageZIP.tif
             ${ITK_TEST_OUTPUT_DIR}/RGBTestImageZIP.tif)
 
+ADD_TEST(itkTIFFImageIOTest11 ${IO_TESTS}   
+   --compare ${ITK_DATA_ROOT}/Baseline/IO/ShortTestImage.mha
+             ${ITK_TEST_OUTPUT_DIR}/ShortTestImage.tiff
+  itkTIFFImageIOTest 
+            ${ITK_DATA_ROOT}/Input/ShortTestImage.tiff
+            ${ITK_TEST_OUTPUT_DIR}/ShortTestImage.tiff
+            2
+            2)
+
 ADD_TEST(itkTIFFImageIOMultiPagesTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.tif
             ${ITK_TEST_OUTPUT_DIR}/ramp.tif
