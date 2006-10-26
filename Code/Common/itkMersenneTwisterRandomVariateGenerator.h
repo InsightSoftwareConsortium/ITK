@@ -424,7 +424,7 @@ inline double
   MersenneTwisterRandomVariateGenerator::GetVariateWithClosedRange( 
                                                     const double& n )
   { 
-  return rand() * n; 
+  return GetVariateWithClosedRange() * n; 
   }
 
 /** Get a range variate in the range [0, 1) */
