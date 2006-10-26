@@ -97,6 +97,7 @@ testMetaScene.cxx
 testMetaSurface.cxx
 testMetaTube.cxx
 testMetaUtils.cxx
+testMetaArray.cxx
 )
 
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
@@ -104,8 +105,9 @@ SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 ADD_TEST(itkIOPrintTest ${IO_TESTS} itkIOPrintTest)
 ADD_TEST(itkConvertBufferTest2 ${IO_TESTS} itkConvertBufferTest2)
 ADD_TEST(itkConvertBufferTest ${IO_TESTS} itkConvertBufferTest)
-ADD_TEST(testMetaGroup ${IO_TESTS} testMetaGroup)
 ADD_TEST(testMetaUtils ${IO_TESTS} testMetaUtils)
+ADD_TEST(testMetaArray ${IO_TESTS} testMetaArray)
+ADD_TEST(testMetaGroup ${IO_TESTS} testMetaGroup)
 ADD_TEST(testMetaObject ${IO_TESTS} testMetaObject)
 ADD_TEST(testMetaImage ${IO_TESTS} testMetaImage)
 ADD_TEST(testMetaTube ${IO_TESTS} testMetaTube)

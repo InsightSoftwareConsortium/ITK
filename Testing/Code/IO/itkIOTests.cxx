@@ -83,6 +83,7 @@ void RegisterTests()
   REGISTER_TEST(testMetaTube);
   REGISTER_TEST(testMetaGroup);
   REGISTER_TEST(testMetaMesh);
+  REGISTER_TEST(testMetaArray);
   REGISTER_TEST(itkBrains2MaskTest);
   REGISTER_TEST(itkGEImageIOFactoryTest);
   REGISTER_TEST(itkTIFFImageIOTest);
