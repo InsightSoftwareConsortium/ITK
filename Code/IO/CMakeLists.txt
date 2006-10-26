@@ -59,6 +59,8 @@ SET(ITKIO_SRCS
   itkVTKImageIO.cxx
   itkVTKImageIOFactory.cxx
   itkXMLFile.cxx
+  itkMetaArrayReader.cxx
+  itkMetaArrayWriter.cxx
 )
 
 # Add ITKIO library

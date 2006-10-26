@@ -31,6 +31,7 @@ namespace itk
 
 MetaImageIO::MetaImageIO()
 {
+  m_FileType = Binary;
   if(MET_SystemByteOrderMSB())
     m_ByteOrder = BigEndian;
   else
@@ -965,10 +966,10 @@ MetaImageIO
 {
   int nDims = this->GetNumberOfDimensions();
 
-  bool binaryData = false;
-  if(this->GetFileType() == Binary)
+  bool binaryData = true;
+  if(this->GetFileType() == ASCII)
     {
-    binaryData = true;
+    binaryData = false;
     }
 
   int nChannels = this->GetNumberOfComponents();
