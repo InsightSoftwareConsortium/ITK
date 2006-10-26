@@ -20,6 +20,8 @@
 #include "metaEvent.h"
 
 
+/*
+ 
 namespace itk 
 {
 
@@ -42,5 +44,6 @@ private:
 
 } // end namespace itk
 
+*/
 
 #endif
