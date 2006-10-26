@@ -110,6 +110,11 @@ public:
    */
   const SerieUIDContainer &GetSeriesUIDs();
 
+  /** Recursively parse the input directory */
+  itkSetMacro(Recursive, bool);
+  itkGetMacro(Recursive, bool);
+  itkBooleanMacro(Recursive);
+  
   /** Use additional series information such as ProtocolName
    *   and SeriesName to identify when a single SeriesUID contains
    *   multiple 3D volumes - as can occur with perfusion and DTI imaging
@@ -169,7 +174,6 @@ public:
   itkGetMacro(LoadPrivateTags, bool);
   itkBooleanMacro(LoadPrivateTags);
 
-  
 protected:
   GDCMSeriesFileNames();
   ~GDCMSeriesFileNames();
@@ -196,6 +200,7 @@ private:
   SerieUIDContainer m_SeriesUIDs;
 
   bool              m_UseSeriesDetails;
+  bool              m_Recursive;
   bool m_LoadSequences;
   bool m_LoadPrivateTags;
 

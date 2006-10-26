@@ -35,6 +35,7 @@ GDCMSeriesFileNames::GDCMSeriesFileNames()
   m_InputDirectory = "";
   m_OutputDirectory = "";
   m_UseSeriesDetails = true;
+  m_Recursive = false;
   m_LoadSequences = false;
   m_LoadPrivateTags = false;
 }
@@ -71,7 +72,8 @@ void GDCMSeriesFileNames::SetInputDirectory (std::string const &name)
   m_SerieHelper->SetUseSeriesDetails( m_UseSeriesDetails );
   m_SerieHelper->SetLoadMode( (m_LoadSequences ? 0 : gdcm::LD_NOSEQ)
                               | (m_LoadPrivateTags ? 0: gdcm::LD_NOSHADOW));
-  m_SerieHelper->SetDirectory( name ); //as a side effect it also execute
+  m_SerieHelper->SetDirectory( name, m_Recursive ); 
+  //as a side effect it also execute
   this->Modified();
 }
 
