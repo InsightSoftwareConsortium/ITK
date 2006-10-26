@@ -517,13 +517,13 @@ int main( int argc, char *argv[] )
       index = fi.GetIndex();
       field->TransformIndexToPhysicalPoint( index, fixedPoint );
       movingPoint = transform->TransformPoint( fixedPoint );
-      displacement[0] = movingPoint[0] - fixedPoint[0];
-      displacement[1] = movingPoint[1] - fixedPoint[1];
+      for(unsigned int r=0; r<ImageDimension; r++)
+        {
+        displacement[r] = movingPoint[r] - fixedPoint[r];
+        }
       fi.Set( displacement );
       ++fi;
       }
-
-
 
     typedef itk::ImageFileWriter< DeformationFieldType >  FieldWriterType;
     FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
