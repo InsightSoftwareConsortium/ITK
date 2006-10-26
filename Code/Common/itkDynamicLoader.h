@@ -19,6 +19,12 @@
 
 #include "itkMacro.h"
 
+// Apple specific includes 
+#if defined(__APPLE__)
+  #include <AvailabilityMacros.h>           // defines MAC_OS version symbols
+#endif
+
+
 // Ugly stuff for library handles.
 // They are different on several different OS's
 #if defined(__hpux)

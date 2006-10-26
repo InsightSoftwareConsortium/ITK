@@ -16,9 +16,9 @@
 =========================================================================*/
 #include "itkDynamicLoader.h"
 
-// This file is actually 3 different implementations.
+// This file is actually 4 different implementations.
 // 1. HP machines which uses shl_load
-// 2. Power PC MAC which uses GetSharedLibrary
+// 2. old MAC OS which uses GetSharedLibrary
 // 3. Windows which uses LoadLibrary
 // 4. Most unix systems which use dlopen (default )
 // Each part of the ifdef contains a complete implementation for
@@ -103,8 +103,12 @@ DynamicLoader
 
 
 // ---------------------------------------------------------------
-// 2. Implementation for the Power PC (MAC)
+// 2. Implementation for Mac OS X 10.2.x and earlier (later use normal
+// unix solution) see:
+// http://developer.apple.com/documentation/DeveloperTools/Reference/MachOReference/Reference/reference.html
+//
 #ifdef __APPLE__
+#if MAC_OS_X_VERSION_MIN_REQUIRED < 1030   
 #define ITKDYNAMICLOADER_DEFINED 
 #include <mach-o/dyld.h>
 
@@ -174,7 +178,8 @@ DynamicLoader
 
 } // end namespace itk
 
-#endif
+#endif // MAC_OS_X_VERSION_MIN_REQUIRED < 1030
+#endif // __APPLE__
 
 // ---------------------------------------------------------------
 // 3. Implementation for Windows win32 code
@@ -262,6 +267,16 @@ DynamicLoader
 // Setup for most unix machines
 #include <dlfcn.h>
 
+#if defined(__APPLE__)  
+// newer MacOS uses standard dynamic loading functions
+// but still different filenames
+static const char* const libprefix = "";
+static const char* const libsuffix = ".dylib";
+#else   // not __APPLE__
+static const char* const libprefix = "lib";
+static const char* const libsuffix = ".so";
+#endif  // not __APPLE__
+
 namespace itk
 {
   
@@ -301,7 +316,7 @@ const char*
 DynamicLoader
 ::LibPrefix()
 { 
-  return "lib";
+  return libprefix;     // e.g. "lib" for libx.so 
 }
 
 //----------------------------------------------------------------------------
@@ -309,7 +324,7 @@ const char*
 DynamicLoader
 ::LibExtension()
 {
-  return ".so";
+  return libsuffix;      // e.g. ".so"
 }
 
 //----------------------------------------------------------------------------
