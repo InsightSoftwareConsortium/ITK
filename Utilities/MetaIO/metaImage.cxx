@@ -1959,7 +1959,7 @@ M_WriteElements(METAIO_STREAM::ofstream * _fstream,
         if(!m_CompressedData)
           {
           MetaImage::M_WriteElementData(writeStreamTemp, 
-                             &(((char *)_data)[(i-1)*sliceNumberOfBytes]),
+                             &(((const char *)_data)[(i-1)*sliceNumberOfBytes]),
                              sliceNumberOfBytes);
           }
         else
