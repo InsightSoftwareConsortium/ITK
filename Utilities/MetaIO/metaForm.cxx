@@ -588,7 +588,7 @@ AddUserField(const char* _fieldName, MET_ValueEnumType _type, int _length,
 //
 //
 bool MetaForm::
-CanRead(const char *_fileName)
+CanRead(const char *_fileName) const
   {
   if(_fileName)
     {
@@ -641,7 +641,7 @@ Read(const char *_fileName)
   }
 
 bool MetaForm::
-CanReadStream(METAIO_STREAM::ifstream * _stream)
+CanReadStream(METAIO_STREAM::ifstream * _stream) const
   {
   if(_stream)
     {

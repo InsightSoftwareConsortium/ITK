@@ -120,11 +120,11 @@ class METAIO_EXPORT MetaObject
 
       virtual void  CopyInfo(const MetaObject * _object);
 
-      virtual bool  Read(const char * _fileName=NULL);
+      bool  Read(const char * _fileName=NULL);
 
-      virtual bool  ReadStream(int _nDims, METAIO_STREAM::ifstream * _stream);
+      bool  ReadStream(int _nDims, METAIO_STREAM::ifstream * _stream);
 
-      virtual bool  Write(const char * _fileName=NULL);
+      bool  Write(const char * _fileName=NULL);
 
       virtual bool  Append(const char *_headName=NULL);
 
@@ -263,7 +263,7 @@ class METAIO_EXPORT MetaObject
 
       void ClearFields(void);
 
-      virtual bool InitializeEssential(int m_NDims);
+      bool InitializeEssential(int m_NDims);
 
       //
       //

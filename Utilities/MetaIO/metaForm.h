@@ -142,17 +142,17 @@ class METAIO_EXPORT MetaForm
     //
     //
     //
-    virtual bool  CanRead(const char * _fileName=NULL);
+    virtual bool  CanRead(const char * _fileName=NULL) const;
 
-    virtual bool  Read(const char * _fileName=NULL);
+    bool  Read(const char * _fileName=NULL);
 
-    virtual bool  CanReadStream(METAIO_STREAM::ifstream * _stream);
+    virtual bool  CanReadStream(METAIO_STREAM::ifstream * _stream) const;
 
-    virtual bool  ReadStream(METAIO_STREAM::ifstream * _stream);
+    bool  ReadStream(METAIO_STREAM::ifstream * _stream);
 
-    virtual bool  Write(const char * _fileName=NULL);
+    bool  Write(const char * _fileName=NULL);
 
-    virtual bool  WriteStream(METAIO_STREAM::ofstream * _stream);
+    bool  WriteStream(METAIO_STREAM::ofstream * _stream);
 
   ////
   //
