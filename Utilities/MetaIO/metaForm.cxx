@@ -72,10 +72,12 @@ MetaForm::
   if(m_ReadStream != NULL)
     {
     delete m_ReadStream;
+    m_ReadStream = NULL;
     }
   if(m_WriteStream != NULL)
     {
     delete m_WriteStream;
+    m_WriteStream = NULL;
     }
 
   this->ClearFields();
@@ -608,7 +610,7 @@ Read(const char *_fileName)
   tmpReadStream->open(m_FileName, METAIO_STREAM::ios::binary |
                                   METAIO_STREAM::ios::in);
 
-  if(!m_ReadStream->is_open())
+  if(!tmpReadStream->is_open())
     {
     METAIO_STREAM::cout << "MetaForm: Read: Cannot open file" 
                         << METAIO_STREAM::endl;
@@ -726,16 +728,6 @@ M_Destroy(void)
   if(META_DEBUG)
     {
     METAIO_STREAM::cout << "MetaForm: Destroy" << METAIO_STREAM::endl;
-    }
-  if(m_ReadStream)
-    {
-    m_ReadStream->close();
-    delete m_ReadStream;
-    }
-  if(m_WriteStream)
-    {
-    m_WriteStream->close();
-    delete m_WriteStream;
     }
   }
 
@@ -983,6 +975,8 @@ M_Write(void)
                         << METAIO_STREAM::endl;
     return false;
     }
+
+  m_WriteStream->flush();
 
   return true;
   }

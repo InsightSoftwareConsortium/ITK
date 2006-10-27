@@ -115,8 +115,8 @@ class METAIO_EXPORT MetaObject
 
       virtual ~MetaObject(void);
 
-      virtual void  FileName(const char *_fileName);
-      virtual const char  * FileName(void) const;
+      void  FileName(const char *_fileName);
+      const char  * FileName(void) const;
 
       virtual void  CopyInfo(const MetaObject * _object);
 

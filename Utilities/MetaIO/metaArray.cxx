@@ -643,21 +643,31 @@ bool MetaArray::
 Read(const char *_headerName, bool _readElements,
      void * _elementDataBuffer, bool _autoFreeElementData)
   {
+  if(_headerName != NULL)
+    {
+    strcpy(m_FileName, _headerName);
+    }
+
   METAIO_STREAM::ifstream * tmpStream = new METAIO_STREAM::ifstream;
 
-  tmpStream->open(m_FileName, METAIO_STREAM::ios::binary |
-                              METAIO_STREAM::ios::in);
+  tmpStream->open(m_FileName, METAIO_STREAM::ios::in |
+                              METAIO_STREAM::ios::binary);
 
   if(!tmpStream->is_open())
     {
-    METAIO_STREAM::cout << "MetaArray: Read: Cannot open file" 
-                        << METAIO_STREAM::endl;
+    METAIO_STREAM::cout << "MetaArray: Read: Cannot open file _" 
+                        << m_FileName << "_" << METAIO_STREAM::endl;
     delete tmpStream;
     return false;
     }
 
   bool result = ReadStream(tmpStream, _readElements, 
                            _elementDataBuffer, _autoFreeElementData);
+
+  if(_headerName != NULL)
+    {
+    strcpy(m_FileName, _headerName);
+    }
 
   tmpStream->close();
 
@@ -772,66 +782,38 @@ bool MetaArray::
 Write(const char *_headName, const char *_dataName, bool _writeElements,
       const void *_constElementData)
   {
-  bool tmpDataFileName = false;
-  if(_headName != NULL)
+  if(_headName != NULL && strlen(_headName)>1)
     {
     FileName(_headName);
-    int sPtr = 0;
-    MET_GetFileSuffixPtr(m_FileName, &sPtr);
-    if( _dataName == NULL ||
-        !strcmp(_dataName, "LOCAL"))
+    }
+
+  bool tmpDataFileName = false;
+  if( _dataName != NULL &&
+      strlen(_dataName) > 1 )
+    {
+    tmpDataFileName = true;
+    ElementDataFileName(_dataName);
+    }
+
+  int sPtr = 0;
+  MET_GetFileSuffixPtr(m_FileName, &sPtr);
+  if( strlen(m_ElementDataFileName)>1 &&
+      strcmp(m_ElementDataFileName, "LOCAL") )
+    {
+    MET_SetFileSuffix(m_FileName, "mvh");
+    if(m_CompressedData)
       {
-      MET_SetFileSuffix(m_FileName, "mva");
-      ElementDataFileName("LOCAL");
+      MET_SetFileSuffix(m_ElementDataFileName, "zmvd");
       }
     else
       {
-      tmpDataFileName = true;
-      MET_SetFileSuffix(m_FileName, "mvh");
-      ElementDataFileName(_dataName);
-      if(m_CompressedData)
-        {
-        MET_SetFileSuffix(m_ElementDataFileName, "zmvd");
-        }
-      else
-        {
-        MET_SetFileSuffix(m_ElementDataFileName, "mvd");
-        }
+      MET_SetFileSuffix(m_ElementDataFileName, "mvd");
       }
     }
   else
     {
-    int sPtr = 0;
-    MET_GetFileSuffixPtr(m_FileName, &sPtr);
-    if(_dataName == NULL ||
-       !strcmp(_dataName, "LOCAL") ||
-       !strcmp(&m_FileName[sPtr], "mva") ||
-       !strcmp(m_ElementDataFileName, "LOCAL"))
-      {
-      MET_SetFileSuffix(m_FileName, "mva");
-      ElementDataFileName("LOCAL");
-      }
-    else
-      {
-      tmpDataFileName = true;
-      MET_SetFileSuffix(m_FileName, "mvh");
-      if(_dataName != NULL)
-        {
-        ElementDataFileName(_dataName);
-        }
-      else
-        {
-        ElementDataFileName(m_FileName);
-        }
-      if(m_CompressedData)
-        {
-        MET_SetFileSuffix(m_ElementDataFileName, "zmvd");
-        }
-      else
-        {
-        MET_SetFileSuffix(m_ElementDataFileName, "mvd");
-        }
-      }
+    MET_SetFileSuffix(m_FileName, "mva");
+    ElementDataFileName("LOCAL");
     }
 
   char pathName[255];
@@ -955,6 +937,8 @@ WriteStream(METAIO_STREAM::ofstream * _stream, bool _writeElements,
         }
       }
     }
+
+  m_WriteStream->flush();
 
   m_WriteStream = NULL;
 
@@ -1152,7 +1136,6 @@ M_ReadElements(METAIO_STREAM::ifstream * _fstream, void * _data,
     if(!m_BinaryData)
       {
       double tf;
-      MET_SizeOfType(m_ElementType, &elementSize);
       for(int i=0; i<_dataQuantity; i++)
         {
         *_fstream >> tf;
@@ -1258,7 +1241,7 @@ M_WriteElements(METAIO_STREAM::ofstream * _fstream, const void * _data,
       }
     } 
 
-  if(localData)
+  if(!localData)
     {
     tmpWriteStream->close();
     delete tmpWriteStream; 
