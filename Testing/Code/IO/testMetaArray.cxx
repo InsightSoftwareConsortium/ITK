@@ -27,6 +27,7 @@
 
 int testMetaArray(int , char * [])
   {
+  std::cout << "Array" << std::endl;
   itk::Array<short> arr;
   arr.SetSize(5);
   arr[0] = 1;
@@ -41,6 +42,7 @@ int testMetaArray(int , char * [])
   arrayWriter->SetInput<short>(MET_SHORT, &arr);
   arrayWriter->Update();
 
+  std::cout << "Fixed array" << std::endl;
   itk::FixedArray<short, 5> farr;
   farr[0] = 1;
   farr[1] = 2;
@@ -51,6 +53,7 @@ int testMetaArray(int , char * [])
   arrayWriter->SetInput<short, 5>(MET_SHORT, &farr);
   arrayWriter->Update();
 
+  std::cout << "Vector" << std::endl;
   itk::Vector<float, 5> vec;
   vec[0] = 1;
   vec[1] = 2;
@@ -61,6 +64,7 @@ int testMetaArray(int , char * [])
   arrayWriter->SetInput<float, 5>(MET_FLOAT, &vec);
   arrayWriter->Update();
 
+  std::cout << "CovariantVector" << std::endl;
   itk::CovariantVector<float, 5> cvec;
   cvec[0] = 1;
   cvec[1] = 2;
@@ -71,7 +75,9 @@ int testMetaArray(int , char * [])
   arrayWriter->SetInput<float, 5>(MET_FLOAT, &cvec);
   arrayWriter->Update();
 
-  itk::VariableLengthVector<float> vvec(5);
+  std::cout << "VariableLengthVector" << std::endl;
+  itk::VariableLengthVector<float> vvec;
+  vvec.Reserve(5);
   vvec[0] = 1;
   vvec[1] = 2;
   vvec[2] = 3;
@@ -82,28 +88,33 @@ int testMetaArray(int , char * [])
   arrayWriter->Update();
 
   // Read them
+  std::cout << "Read VariableLengthVector short" << std::endl;
   itk::VariableLengthVector<short> rvecs;
   itk::MetaArrayReader::Pointer arrayReader = itk::MetaArrayReader::New();
   arrayReader->SetFileName("test.mva");
   arrayReader->Update();
   arrayReader->GetOutput<short>(MET_SHORT, & rvecs);
-  std::cout << "vec short = " << rvecs << std::endl;
+  std::cout << "  vec short = " << rvecs << std::endl;
 
+  std::cout << "Read VariableLengthVector float" << std::endl;
   itk::VariableLengthVector<float> rvecf;
   arrayReader->GetOutput<float>(MET_FLOAT, & rvecf);
-  std::cout << "rvec float = " << rvecf << std::endl;
+  std::cout << "  rvec float = " << rvecf << std::endl;
 
+  std::cout << "Read fixed array" << std::endl;
   itk::FixedArray<float, 5> farray;
   arrayReader->GetOutput<float, 5>(MET_FLOAT, & farray);
-  std::cout << "fixed array float = " << farray << std::endl;
+  std::cout << "  fixed array float = " << farray << std::endl;
 
+  std::cout << "Read vector" << std::endl;
   itk::Vector<float, 5> rvecf5;
   arrayReader->GetOutput<float, 5>(MET_FLOAT, & rvecf5);
-  std::cout << "vector float = " << rvecf5 << std::endl;
+  std::cout << "  vector float = " << rvecf5 << std::endl;
 
+  std::cout << "Read CovariantVector" << std::endl;
   itk::CovariantVector<float, 5> rcovec;
   arrayReader->GetOutput<float, 5>(MET_FLOAT, & rcovec);
-  std::cout << "covariant vector float = " << rcovec << std::endl;
+  std::cout << "  covariant vector float = " << rcovec << std::endl;
 
   return EXIT_SUCCESS;
   }
