@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   MetaIO
+  Module:    metaGroup.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #include "metaGroup.h"
 
 #include <stdio.h>
@@ -63,9 +79,9 @@ PrintInfo() const
 }
 
 void MetaGroup::
-CopyInfo(const MetaGroup * _group)
+CopyInfo(const MetaObject * _object)
 {
-  MetaObject::CopyInfo(_group);
+  MetaObject::CopyInfo(_object);
 }
 
 /** Clear group information */

@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   MetaIO
+  Module:    metaScene.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -80,9 +96,9 @@ PrintInfo() const
 }
 
 void MetaScene::
-CopyInfo(const MetaScene * _tube)
+CopyInfo(const MetaObject * _object)
 {
-  MetaObject::CopyInfo(_tube);
+  MetaObject::CopyInfo(_object);
 }
 
 

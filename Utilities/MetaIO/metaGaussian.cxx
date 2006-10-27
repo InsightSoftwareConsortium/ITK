@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   MetaIO
+  Module:    metaGaussian.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #include "metaGaussian.h"
 
 #include <stdio.h>
@@ -67,9 +83,9 @@ PrintInfo() const
 }
 
 void MetaGaussian::
-CopyInfo(const MetaGaussian * _gaussian)
+CopyInfo(const MetaObject * _object)
 {
-  MetaObject::CopyInfo(_gaussian);
+  MetaObject::CopyInfo(_object);
 }
   
 /** Clear gaussian information */

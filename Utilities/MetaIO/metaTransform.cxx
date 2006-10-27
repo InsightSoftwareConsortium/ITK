@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   MetaIO
+  Module:    metaTransform.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #include "metaTransform.h"
 
 #include <stdio.h>
@@ -62,9 +78,9 @@ PrintInfo() const
 }
 
 void MetaTransform::
-CopyInfo(const MetaTransform * _transform)
+CopyInfo(const MetaObject * _object)
 {
-  MetaObject::CopyInfo(_transform);
+  MetaObject::CopyInfo(_object);
 }
 
 /** Clear group information */

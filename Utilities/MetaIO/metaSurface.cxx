@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   MetaIO
+  Module:    metaSurface.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #include "metaSurface.h"
 
 #include <stdio.h>
@@ -73,9 +89,9 @@ PrintInfo() const
 }
 
 void MetaSurface::
-CopyInfo(const MetaSurface * _surface)
+CopyInfo(const MetaObject * _object)
 {
-  MetaObject::CopyInfo(_surface);
+  MetaObject::CopyInfo(_object);
 }
 
     

@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   MetaIO
+  Module:    metaVesselTube.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #include "metaTypes.h"
 
 #ifndef ITKMetaIO_METAVESSELTUBE_H
@@ -114,7 +130,7 @@ class METAIO_EXPORT MetaVesselTube : public MetaObject
 
     void PrintInfo(void) const;
 
-    void CopyInfo(const MetaVesselTube * _VesselTube);
+    void CopyInfo(const MetaObject * _object);
 
     //    NPoints(...)
     //       Required Field
