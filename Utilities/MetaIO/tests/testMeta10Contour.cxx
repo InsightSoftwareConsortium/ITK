@@ -59,15 +59,16 @@ int main(int , char * [])
   while(it != plist.end())
   {
     std::cout << (*it)->m_Id << " ";
-    for(unsigned int d = 0; d < 3; d++)
+    unsigned int d;
+    for(d = 0; d < 3; d++)
       {
       std::cout << (*it)->m_X[d] << " ";
       }
-    for(unsigned int d = 0; d < 3; d++)
+    for(d = 0; d < 3; d++)
       {
       std::cout << (*it)->m_XPicked[d] << " ";
       }
-    for(unsigned int d = 0; d < 3; d++)
+    for(d = 0; d < 3; d++)
       {
       std::cout << (*it)->m_V[d] << " ";
       }
