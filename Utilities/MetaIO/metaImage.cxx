@@ -289,33 +289,50 @@ PrintInfo() const
   }
 
 void MetaImage::
-CopyInfo(const MetaImage * _im)
+CopyInfo(const MetaObject * _object)
   {
-  MetaObject::CopyInfo(_im);
+  MetaObject::CopyInfo(_object);
 
-  Modality(_im->Modality());
-
-  HeaderSize(_im->HeaderSize());
-
-  SequenceID(_im->SequenceID());
-
-  ElementSizeValid(_im->ElementSizeValid());
-  if(_im->ElementSizeValid())
+  if(_object)
     {
-    ElementSize(_im->ElementSize());
-    }
+    const MetaImage * im;
+    try
+      {
+      im = dynamic_cast<const MetaImage *>(_object);
+      }
+    catch( ... )
+      {
+      return;
+      }
 
-  ElementMinMaxValid(_im->ElementMinMaxValid());
-  if(_im->ElementMinMaxValid())
-    {
-    ElementMin(_im->ElementMin());
-    ElementMax(_im->ElementMax());
+    if( im )
+      {
+      Modality(im->Modality());
+    
+      HeaderSize(im->HeaderSize());
+    
+      SequenceID(im->SequenceID());
+    
+      ElementSizeValid(im->ElementSizeValid());
+      if(im->ElementSizeValid())
+        {
+        ElementSize(im->ElementSize());
+        }
+    
+      ElementMinMaxValid(im->ElementMinMaxValid());
+      if(im->ElementMinMaxValid())
+        {
+        ElementMin(im->ElementMin());
+        ElementMax(im->ElementMax());
+        }
+    
+      ElementToIntensityFunctionSlope(im->ElementToIntensityFunctionSlope());
+      ElementToIntensityFunctionOffset(im->ElementToIntensityFunctionOffset());
+      }
     }
-
-  ElementToIntensityFunctionSlope(_im->ElementToIntensityFunctionSlope());
-  ElementToIntensityFunctionOffset(_im->ElementToIntensityFunctionOffset());
   }
 
+    
 void MetaImage::
 Clear(void)
   {
@@ -1420,10 +1437,6 @@ WriteStream(METAIO_STREAM::ofstream * _stream,
       }
     else
       {
-      int elementSize;
-      MET_SizeOfType(m_ElementType, &elementSize);
-      int elementNumberOfBytes = elementSize*m_ElementNumberOfChannels;
-  
       if(_constElementData == NULL)
         {
         M_WriteElements(m_WriteStream,

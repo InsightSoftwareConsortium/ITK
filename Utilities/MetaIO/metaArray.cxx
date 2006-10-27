@@ -166,9 +166,9 @@ PrintInfo() const
   }
 
 void MetaArray::
-CopyInfo(const MetaArray * _vector)
+CopyInfo(const MetaForm * _form)
   {
-  MetaForm::CopyInfo(_vector);
+  MetaForm::CopyInfo(_form);
   }
 
 void MetaArray::

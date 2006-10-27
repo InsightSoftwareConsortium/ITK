@@ -90,7 +90,7 @@ class METAIO_EXPORT MetaImage : public MetaObject
 
     virtual void PrintInfo(void) const;
 
-    virtual void CopyInfo(const MetaImage * _im);
+    virtual void CopyInfo(const MetaObject * _object);
 
     virtual void Clear(void);
 

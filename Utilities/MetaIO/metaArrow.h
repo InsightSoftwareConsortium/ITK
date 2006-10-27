@@ -54,7 +54,7 @@ class METAIO_EXPORT MetaArrow : public MetaObject
 
     void PrintInfo(void) const;
 
-    void CopyInfo(const MetaArrow * _Arrow);
+    void CopyInfo(const MetaObject * _object);
 
     void  Clear(void);
     

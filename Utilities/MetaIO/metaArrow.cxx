@@ -63,11 +63,27 @@ PrintInfo() const
 }
 
 void MetaArrow::
-CopyInfo(const MetaArrow * _Arrow)
-{
-  MetaObject::CopyInfo(_Arrow);
-  M_Length = _Arrow->Length();
-}
+CopyInfo(const MetaObject * _object)
+  {
+  MetaObject::CopyInfo(_object);
+
+  if(_object)
+    {
+    const MetaArrow * arrow;
+    try
+      {
+      arrow = dynamic_cast<const MetaArrow *>(_object);
+      }
+    catch( ... )
+      {
+      return;
+      }
+    if( arrow )
+      {
+      M_Length = arrow->Length();
+      }
+    }
+  }
 
 
 void  MetaArrow::

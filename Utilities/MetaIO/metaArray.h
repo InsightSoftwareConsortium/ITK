@@ -69,7 +69,7 @@ class METAIO_EXPORT MetaArray : public MetaForm
 
     void  PrintInfo(void) const;
 
-    void  CopyInfo(const MetaArray * _vector);
+    void  CopyInfo(const MetaForm * _form);
 
     void  Clear(void);
 
