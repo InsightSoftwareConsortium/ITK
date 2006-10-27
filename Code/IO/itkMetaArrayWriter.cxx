@@ -58,7 +58,7 @@ void MetaArrayWriter
                       true, m_Buffer);
     }
 
-  m_DataFileName.clear();
+  m_DataFileName.erase();
   }
 
 
