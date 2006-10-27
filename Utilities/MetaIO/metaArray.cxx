@@ -1170,10 +1170,6 @@ bool MetaArray::
 M_WriteElements(METAIO_STREAM::ofstream * _fstream, const void * _data,
                int _dataQuantity)
   {
-  int elementSize;
-  MET_SizeOfType(m_ElementType, &elementSize);
-  int elementNumberOfBytes = elementSize*m_ElementNumberOfChannels;
-
   bool localData = false;
   METAIO_STREAM::ofstream* tmpWriteStream;
   if(!strcmp(m_ElementDataFileName, "LOCAL"))
@@ -1215,7 +1211,7 @@ M_WriteElements(METAIO_STREAM::ofstream * _fstream, const void * _data,
   if(!m_BinaryData)
     {
     double tf;
-    for(int i=0; i<_dataQuantity; i++)
+    for(int i=0; i<m_Length; i++)
       {
       MET_ValueToDouble(m_ElementType, _data, i, &tf);
       if((i+1)/10 == (double)(i+1.0)/10.0)
@@ -1230,15 +1226,7 @@ M_WriteElements(METAIO_STREAM::ofstream * _fstream, const void * _data,
     }
    else
     {
-    if(m_CompressedData)
-      {
-      tmpWriteStream->write( (const char *)_data, _dataQuantity );  
-      }
-    else
-      {
-      tmpWriteStream->write( (const char *)_data,
-                             _dataQuantity * elementNumberOfBytes );  
-      }
+    tmpWriteStream->write( (const char *)_data, _dataQuantity );  
     } 
 
   if(!localData)
