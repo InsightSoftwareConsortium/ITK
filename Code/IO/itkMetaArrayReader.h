@@ -136,7 +136,7 @@ public:
   bool GetOutput(MET_ValueEnumType _metaElementType,
                  FixedArray<TValueType, vLength> * _array)
     {
-    if(vLength <= m_MetaArray.Length())
+    if(static_cast<int>(vLength) <= m_MetaArray.Length())
       {
       unsigned int i;
       for(i = 0; i<vLength; i++)
@@ -155,7 +155,7 @@ public:
   bool GetOutput(MET_ValueEnumType _metaElementType,
                  Vector<TValueType, vLength> * _vector)
     {
-    if(vLength <= m_MetaArray.Length())
+    if(static_cast<int>(vLength) <= m_MetaArray.Length())
       {
       unsigned int i;
       for(i = 0; i<vLength; i++)
@@ -176,7 +176,7 @@ public:
   bool GetOutput(MET_ValueEnumType _metaElementType,
                  CovariantVector<TValueType, vLength> * _vector)
     {
-    if(vLength <= m_MetaArray.Length())
+    if(static_cast<int>(vLength) <= m_MetaArray.Length())
       {
       unsigned int i;
       for(i = 0; i<vLength; i++)
