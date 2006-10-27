@@ -231,10 +231,15 @@ STRING(REGEX REPLACE "^/" "" ITK_INSTALL_JAVA_DIR_CM24 "${ITK_INSTALL_JAVA_DIR}"
 # set ITK_DIR so it can be used by subprojects
 SET(ITK_DIR "${CMAKE_BINARY_DIR}" CACHE INTERNAL "ITK dir to be used by subprojects")
 
-
 #-----------------------------------------------------------------------------
+# Perform a setup of ITK Wrapping. This will provide CMake options for
+# individual wrapping as well as determine if CableSwig is required. If it is,
+# ITK_NEED_CableSwig will be set.
+#
+INCLUDE(${ITK_SOURCE_DIR}/Wrapping/itkWrapSetup.cmake)
+
 # Find CableSwig in the source dir
-IF(EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
+IF(ITK_NEED_CableSwig AND EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
   SET(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/Utilities/CableSwig/SWIG/CMake)
 
   # CableSwig is included in the source distribution.
@@ -243,8 +248,7 @@ IF(EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
   SET(CableSwig_FOUND 1)
   SET(CableSwig_INSTALL_ROOT ${ITK_INSTALL_LIB_DIR}/CSwig)
   INCLUDE(${CableSwig_DIR}/CableSwigConfig.cmake OPTIONAL) 
-ENDIF(EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
-
+ENDIF(ITK_NEED_CableSwig AND EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
 
 
 IF(WIN32)
