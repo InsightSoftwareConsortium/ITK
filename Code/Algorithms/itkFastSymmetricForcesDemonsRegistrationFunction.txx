@@ -151,6 +151,8 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformat
   // setup gradient calculator
   m_FixedImageGradientCalculator->SetInputImage( this->GetFixedImage() );
 
+  m_MovingImageWarper->SetOutputSpacing( this->GetFixedImage()->GetSpacing() );
+  m_MovingImageWarper->SetOutputOrigin( this->GetFixedImage()->GetOrigin() );
   m_MovingImageWarper->SetInput( this->GetMovingImage() );
   m_MovingImageWarper->SetDeformationField( this->GetDeformationField() );
   m_MovingImageWarper->Update();
