@@ -127,7 +127,36 @@ protected:
    * buffer */
   virtual UpdateBufferType* GetUpdateBuffer()
     { return m_UpdateBuffer; }
-  
+
+  /** This method populates an update buffer with changes for each pixel in the
+   * output using the ThreadedCalculateChange() method and a multithreading
+   * mechanism. Returns value is a time step to be used for the update. */
+  virtual TimeStepType CalculateChange();
+
+  /** This method allocates storage in m_UpdateBuffer.  It is called from
+   * Superclass::GenerateData(). */
+  virtual void AllocateUpdateBuffer();
+ 
+  /** The type of region used for multithreading */
+  typedef typename UpdateBufferType::RegionType ThreadRegionType;
+
+  /**  Does the actual work of updating the output from the UpdateContainer over
+   *  an output region supplied by the multithreading mechanism.
+   *  \sa ApplyUpdate
+   *  \sa ApplyUpdateThreaderCallback */ 
+  virtual
+  void ThreadedApplyUpdate(TimeStepType dt,
+                           const ThreadRegionType &regionToProcess,
+                           int threadId);
+
+  /** Does the actual work of calculating change over a region supplied by
+   * the multithreading mechanism.
+   * \sa CalculateChange
+   * \sa CalculateChangeThreaderCallback */
+  virtual
+  TimeStepType ThreadedCalculateChange(const ThreadRegionType &regionToProcess,
+                                       int threadId);
+
 private:
   DenseFiniteDifferenceImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -141,55 +170,15 @@ private:
     TimeStepType *TimeStepList;
     bool *ValidTimeStepList;
   };
-  
-  /** The type of region used for multithreading */
-  typedef typename UpdateBufferType::RegionType ThreadRegionType;
-
-  /** This method allocates storage in m_UpdateBuffer.  It is called from
-   * Superclass::GenerateData(). */
-  virtual void AllocateUpdateBuffer();
-  
+    
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire an
    * output region that it passes to ThreadedApplyUpdate for processing. */
   static ITK_THREAD_RETURN_TYPE ApplyUpdateThreaderCallback( void *arg );
   
-  /** This method populates an update buffer with changes for each pixel in the
-   * output using the ThreadedCalculateChange() method and a multithreading
-   * mechanism. Returns value is a time step to be used for the update. */
-  virtual TimeStepType CalculateChange();
-
   /** This callback method uses SplitUpdateContainer to acquire a region
    * which it then passes to ThreadedCalculateChange for processing. */
   static ITK_THREAD_RETURN_TYPE CalculateChangeThreaderCallback( void *arg );
-  
-  /** Split the UpdateBuffer into "num" pieces, returning region "i" as
-   * "splitRegion". This method is called "num" times to return non-overlapping
-   * regions. The method returns the number of pieces that the UpdateBuffer
-   * can be split into by the routine. i.e. return value is less than or equal
-   * to "num".
-   * \sa ImageSource */
-  //  virtual
-  //  int SplitUpdateContainer(int i, int num, ThreadRegionType& splitRegion);
-
-  /**  Does the actual work of updating the output from the UpdateContainer over
-   *  an output region supplied by the multithreading mechanism.
-   *  \sa ApplyUpdate
-   *  \sa ApplyUpdateThreaderCallback */ 
-  virtual
-  void ThreadedApplyUpdate(TimeStepType dt,
-                           const ThreadRegionType &regionToProcess,
-                           int threadId);
-  // FOR ALL: iterator(output, splitRegion), iterator(update, splitRegion)
-
-  /** Does the actual work of calculating change over a region supplied by
-   * the multithreading mechanism.
-   * \sa CalculateChange
-   * \sa CalculateChangeThreaderCallback */
-  virtual
-  TimeStepType ThreadedCalculateChange(const ThreadRegionType &regionToProcess,
-                                       int threadId);
-  // FOR ALL : iterator(input, splitRegion), iterator(update, splitRegion)
-
+ 
   /** The buffer that holds the updates for an iteration of the algorithm. */
   typename UpdateBufferType::Pointer m_UpdateBuffer;
 };

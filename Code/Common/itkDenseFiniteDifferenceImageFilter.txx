@@ -70,6 +70,8 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   // The update buffer looks just like the output.
   typename TOutputImage::Pointer output = this->GetOutput();
 
+  m_UpdateBuffer->SetSpacing(output->GetSpacing());
+  m_UpdateBuffer->SetOrigin(output->GetOrigin());
   m_UpdateBuffer->SetLargestPossibleRegion(output->GetLargestPossibleRegion());
   m_UpdateBuffer->SetRequestedRegion(output->GetRequestedRegion());
   m_UpdateBuffer->SetBufferedRegion(output->GetBufferedRegion());
