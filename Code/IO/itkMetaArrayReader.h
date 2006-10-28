@@ -133,7 +133,7 @@ public:
 
   /** Get itk FixedArray */
   template <typename TValueType, unsigned int vLength>
-  bool GetOutput(MET_ValueEnumType _metaElementType,
+  bool GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType),
                  FixedArray<TValueType, vLength> * _array)
     {
     if(static_cast<int>(vLength) <= m_MetaArray.Length())
@@ -152,7 +152,7 @@ public:
    *    Specify the MetaType of the elements of the itkVector and provide
    *    a pointer to the itkVector into which the data should be copied */
   template <typename TValueType, unsigned int vLength>
-  bool GetOutput(MET_ValueEnumType _metaElementType,
+  bool GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType),
                  Vector<TValueType, vLength> * _vector)
     {
     if(static_cast<int>(vLength) <= m_MetaArray.Length())
@@ -173,7 +173,7 @@ public:
    *    provide a pointer to the itkCovariantVector into which the data
    *    should be copied */
   template <typename TValueType, unsigned int vLength>
-  bool GetOutput(MET_ValueEnumType _metaElementType,
+  bool GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType),
                  CovariantVector<TValueType, vLength> * _vector)
     {
     if(static_cast<int>(vLength) <= m_MetaArray.Length())
