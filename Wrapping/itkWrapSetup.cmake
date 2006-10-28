@@ -9,8 +9,6 @@ IF(USE_WRAP_ITK)
   IF(NOT ITK_USE_REVIEW)
     MESSAGE(SEND_ERROR "WrapITK requires ITK_USE_REVIEW to be ON.")
   ENDIF(NOT ITK_USE_REVIEW)
-  
-  SUBDIRS(WrapITK)
 ENDIF(USE_WRAP_ITK)
 
 #-----------------------------------------------------------------------------
