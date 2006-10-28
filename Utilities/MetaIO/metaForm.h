@@ -44,7 +44,7 @@ class METAIO_EXPORT MetaForm
 
     void          ClearFields(void);
 
-    virtual bool  InitializeEssential();
+    bool  InitializeEssential();
 
     //
     //
