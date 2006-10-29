@@ -114,7 +114,7 @@ class METAIO_EXPORT MetaImage : public MetaObject
                                      const int * _dimSize,
                                      const float * _elementSpacing,
                                      MET_ValueEnumType _elementType,
-                                     const int _elementNumberOfChannels=1,
+                                     int _elementNumberOfChannels=1,
                                      void *_elementData=NULL,
                                      bool _allocElementMemory=true);
 
