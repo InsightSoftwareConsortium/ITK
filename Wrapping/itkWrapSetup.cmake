@@ -51,13 +51,24 @@ IF(ITK_NEED_CableSwig)
   IF(NOT BUILD_SHARED_LIBS)
     MESSAGE(FATAL_ERROR "Wrapping requires a shared build, change BUILD_SHARED_LIBS to ON")
   ENDIF(NOT BUILD_SHARED_LIBS)
-  
-  IF(NOT CableSwig_FOUND)
-    # find cablewig if not already found
+
+  # Search first if CableSwig is in the ITK source tree
+  IF(EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
+    SET(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/Utilities/CableSwig/SWIG/CMake)
+
+    # CableSwig is included in the source distribution.
+    SET(ITK_BUILD_CABLESWIG 1)
+    SET(CableSwig_DIR ${ITK_BINARY_DIR}/Utilities/CableSwig CACHE PATH "CableSwig_DIR: The directory containing CableSwigConfig.cmake.")
+    SET(CableSwig_FOUND 1)
+    SET(CableSwig_INSTALL_ROOT ${ITK_INSTALL_LIB_DIR}/CSwig)
+    INCLUDE(${CableSwig_DIR}/CableSwigConfig.cmake OPTIONAL) 
+  ELSE(EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
+    # If CableSwig is not in the source tree, 
+    # then try to find a binary build of CableSwig
     FIND_PACKAGE(CableSwig)
     SET(CMAKE_MODULE_PATH ${CableSwig_DIR}/SWIG/CMake)
-  ENDIF(NOT CableSwig_FOUND)
-  
+  ENDIF(EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
+ 
   IF(NOT CableSwig_FOUND)
     # We have not found CableSwig.  Complain.
     MESSAGE(FATAL_ERROR "CableSwig is required for CSwig Wrapping.")

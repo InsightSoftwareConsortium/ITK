@@ -234,21 +234,11 @@ SET(ITK_DIR "${CMAKE_BINARY_DIR}" CACHE INTERNAL "ITK dir to be used by subproje
 #-----------------------------------------------------------------------------
 # Perform a setup of ITK Wrapping. This will provide CMake options for
 # individual wrapping as well as determine if CableSwig is required. If it is,
-# ITK_NEED_CableSwig will be set.
+# ITK_NEED_CableSwig will be set. This file also tries to locate CableSwig by
+# searching first in the source tree of ITK, and if that fails, it searches
+# for a binary built of CableSwig.
 #
 INCLUDE(${ITK_SOURCE_DIR}/Wrapping/itkWrapSetup.cmake)
-
-# Find CableSwig in the source dir
-IF(ITK_NEED_CableSwig AND EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
-  SET(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/Utilities/CableSwig/SWIG/CMake)
-
-  # CableSwig is included in the source distribution.
-  SET(ITK_BUILD_CABLESWIG 1)
-  SET(CableSwig_DIR ${ITK_BINARY_DIR}/Utilities/CableSwig CACHE PATH "CableSwig_DIR: The directory containing CableSwigConfig.cmake.")
-  SET(CableSwig_FOUND 1)
-  SET(CableSwig_INSTALL_ROOT ${ITK_INSTALL_LIB_DIR}/CSwig)
-  INCLUDE(${CableSwig_DIR}/CableSwigConfig.cmake OPTIONAL) 
-ENDIF(ITK_NEED_CableSwig AND EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
 
 
 IF(WIN32)
