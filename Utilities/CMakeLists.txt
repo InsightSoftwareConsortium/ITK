@@ -95,10 +95,10 @@ ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
 IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
   INSTALL(FILES
     ${ITK_BINARY_DIR}/Utilities/itkThirdParty.h
-    ${ITK_BINARY_DIR}/Utilities/itk_zlib.h
-    ${ITK_BINARY_DIR}/Utilities/itk_tiff.h
-    ${ITK_BINARY_DIR}/Utilities/itk_png.h
-    DESTINATION ${ITK_INSTALL_INCLUDE_DIR}/Utilities
+    ${ITK_SOURCE_DIR}/Utilities/itk_zlib.h
+    ${ITK_SOURCE_DIR}/Utilities/itk_tiff.h
+    ${ITK_SOURCE_DIR}/Utilities/itk_png.h
+    DESTINATION ${ITK_INSTALL_INCLUDE_DIR_CM24}/Utilities
     COMPONENT Development
     )
 ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)

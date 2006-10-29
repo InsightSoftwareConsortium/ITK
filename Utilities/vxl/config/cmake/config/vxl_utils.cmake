@@ -16,7 +16,11 @@ FOREACH(file ${ARGN})
     STRING(REGEX REPLACE "\\.in$" "" install_file ${file})
     STRING(REGEX REPLACE "^/" "" prefix_cm24 "${prefix}")
     GET_FILENAME_COMPONENT(dir ${install_file} PATH)
-    INSTALL(FILES ${install_file}
+    SET(install_prefix "${CMAKE_CURRENT_BINARY_DIR}")
+    IF(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${install_file}")
+      SET(install_prefix "${CMAKE_CURRENT_SOURCE_DIR}")
+    ENDIF(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${install_file}")
+    INSTALL(FILES "${install_prefix}/${install_file}"
       DESTINATION ${prefix_cm24}/${dir}
       COMPONENT Development)
   ENDIF(${file} MATCHES "\\.(h|txx)(\\.in)?$")
