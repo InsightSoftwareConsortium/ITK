@@ -14,14 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-/*!\verbatim***************************** MH-CRC IPL ******************************************
- * Iowa MH-CRC IPL C++ Source File
- * Copyright (C) 2002 Iowa Mental Health Clinical Research Center
- * \endverbatim
- * \file        itkOctree.cxx
- * \author      Hans J. Johnson
- * \brief       Implements member functions for OctreeNode Classes
- *****************************************************************************************/
 /* Local Include Files */
 #include "itkOctree.h"
 #include "itkOctreeNode.h"

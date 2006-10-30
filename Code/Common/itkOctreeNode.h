@@ -16,15 +16,9 @@
 =========================================================================*/
 #ifndef __itkOctreeNode_h
 #define __itkOctreeNode_h
-/*********************************** MH-CRC IPL *****************************************
- * Iowa MH-CRC IPL C Header File
- * Copyright (C) 1998 Nancy C. Andreasen and Vincent A. Magnotta
- * File Name:        itkOctree.h
- * \author Hans J. Johnson
- * \brief Includes the basic class definitions for using Octtrees.
- *****************************************************************************************/
 #include "itkMacro.h"
 namespace itk {
+
   enum LeafIdentifier { ZERO=0,ONE=1,TWO=2,THREE=3,FOUR=4,FIVE=5,SIX=6,SEVEN=7 };
 
 
