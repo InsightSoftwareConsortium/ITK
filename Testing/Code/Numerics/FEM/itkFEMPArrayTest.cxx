@@ -24,7 +24,6 @@
 #include "itkFEMLoadImplementationGenericLandmarkLoad.h"
 #include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
 #include "itkFEM.h"
-#include "itkFEMLinearSystemWrapperItpack.h"
 
 
 //
