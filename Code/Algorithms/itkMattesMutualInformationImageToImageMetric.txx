@@ -495,8 +495,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     }
 }
 
-
-
 /**
  * Sample the fixed image domain using all pixels in the Fixed image region
  */
@@ -517,12 +515,12 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   if( this->m_FixedImageMask )
     {
-
     typename Superclass::InputPointType inputPoint;
 
     iter=samples.begin();
+    unsigned long nSamplesPicked = 0;
 
-    while( iter != end )
+    while( iter != end && !regionIter.IsAtEnd() )
       {
       // Get sampled index
       FixedImageIndexType index = regionIter.GetIndex();
@@ -541,13 +539,31 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       // Translate index to point
       (*iter).FixedImagePointValue = inputPoint;
 
-      // Jump to random position
       ++regionIter;
       ++iter;
+      ++nSamplesPicked;
+      }
+
+    // If we picked fewer samples than the desired number, 
+    // resize the container
+    if (nSamplesPicked != this->m_NumberOfSpatialSamples)
+      {
+      this->m_NumberOfSpatialSamples = nSamplesPicked;
+      samples.resize(this->m_NumberOfSpatialSamples);
       }
     }
-  else
+  else // not restricting sample throwing to a mask
     {
+
+    // cannot sample more than the number of pixels in the image region
+    if (  this->m_NumberOfSpatialSamples 
+        > this->GetFixedImageRegion().GetNumberOfPixels())
+      {
+      this->m_NumberOfSpatialSamples 
+        = this->GetFixedImageRegion().GetNumberOfPixels();
+      samples.resize(this->m_NumberOfSpatialSamples);
+      }
+      
     for( iter=samples.begin(); iter != end; ++iter )
       {
       // Get sampled index
@@ -557,9 +573,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       // Translate index to point
       this->m_FixedImage->TransformIndexToPhysicalPoint( index,
                                                    (*iter).FixedImagePointValue );
-      // Jump to random position
       ++regionIter;
-
       }
     }
 }
