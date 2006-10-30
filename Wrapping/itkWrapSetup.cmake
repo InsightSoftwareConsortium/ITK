@@ -62,6 +62,7 @@ IF(ITK_NEED_CableSwig)
     SET(CableSwig_FOUND 1)
     SET(CableSwig_INSTALL_ROOT ${ITK_INSTALL_LIB_DIR}/CSwig)
     INCLUDE(${CableSwig_DIR}/CableSwigConfig.cmake OPTIONAL) 
+    SUBDIRS(Utilities/CableSwig)
   ELSE(EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
     # If CableSwig is not in the source tree, 
     # then try to find a binary build of CableSwig

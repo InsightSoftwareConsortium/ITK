@@ -78,12 +78,6 @@ ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
 SUBDIRS(kwsys)
 
 #-----------------------------------------------------------------------------
-# Build CableSwig if necessary.
-IF(ITK_BUILD_CABLESWIG)
-  SUBDIRS(CableSwig)
-ENDIF(ITK_BUILD_CABLESWIG)
-
-#-----------------------------------------------------------------------------
 # Install the UseITK.cmake file configured from the top-level.
 IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
   INSTALL(FILES ${ITK_BINARY_DIR}/Utilities/ITKConfig.cmake
