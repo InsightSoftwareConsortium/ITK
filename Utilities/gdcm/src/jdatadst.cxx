@@ -3,7 +3,9 @@
  *
  * Copyright (C) 1994-1996, Thomas G. Lane.
  * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * For conditions of distribution and use, see the accompanying file:
+ *
+ *            Insight/Utilities/itkjpeg/README
  *
  * This file contains compression data destination routines for the case of
  * emitting JPEG data to a file (or any stdio stream).  While these routines

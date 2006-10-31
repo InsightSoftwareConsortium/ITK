@@ -3,7 +3,9 @@
  *
  * Copyright (C) 1994-1996, Thomas G. Lane.
  * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * For conditions of distribution and use, see the accompanying file:
+ *
+ *            Insight/Utilities/itkjpeg/README
  *
  * This file contains decompression data source routines for the case of
  * reading JPEG data from a file (or any stdio stream).  While these routines
