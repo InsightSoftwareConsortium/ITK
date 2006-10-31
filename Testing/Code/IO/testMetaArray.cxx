@@ -39,7 +39,7 @@ int testMetaArray(int , char * [])
   // Write them
   itk::MetaArrayWriter::Pointer arrayWriter = itk::MetaArrayWriter::New();
   arrayWriter->SetFileName("test.mva");
-  arrayWriter->SetInput<short>(MET_SHORT, &arr);
+  arrayWriter->SetInput(MET_SHORT, &arr);
   arrayWriter->Update();
 
   std::cout << "Fixed array" << std::endl;
@@ -50,7 +50,7 @@ int testMetaArray(int , char * [])
   farr[3] = 2;
   farr[4] = 1;
   arrayWriter->SetFileName("test_far.mva");
-  arrayWriter->SetInput<short, 5>(MET_SHORT, &farr);
+  arrayWriter->SetInput(MET_SHORT, &farr);
   arrayWriter->Update();
 
   std::cout << "Vector" << std::endl;
@@ -61,7 +61,7 @@ int testMetaArray(int , char * [])
   vec[3] = 2;
   vec[4] = 1;
   arrayWriter->SetFileName("test_vec.mva");
-  arrayWriter->SetInput<float, 5>(MET_FLOAT, &vec);
+  arrayWriter->SetInput(MET_FLOAT, &vec);
   arrayWriter->Update();
 
   std::cout << "CovariantVector" << std::endl;
@@ -72,7 +72,7 @@ int testMetaArray(int , char * [])
   cvec[3] = 2;
   cvec[4] = 1;
   arrayWriter->SetFileName("test_cvec.mvh");
-  arrayWriter->SetInput<float, 5>(MET_FLOAT, &cvec);
+  arrayWriter->SetInput(MET_FLOAT, &cvec);
   arrayWriter->Update();
 
   std::cout << "VariableLengthVector" << std::endl;
@@ -84,7 +84,7 @@ int testMetaArray(int , char * [])
   vvec[3] = 2;
   vvec[4] = 1;
   arrayWriter->SetFileName("test_vvec.mvh");
-  arrayWriter->SetInput<float>(MET_FLOAT, &vvec);
+  arrayWriter->SetInput(MET_FLOAT, &vvec);
   arrayWriter->Update();
 
   // Read them
