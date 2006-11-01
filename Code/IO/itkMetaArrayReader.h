@@ -99,10 +99,10 @@ public:
 
   /** GetElement is used by itkArray, itkFixedArray, and VariableLengthVector */
   template <typename TValueType>
-  inline TValueType GetElement( unsigned int i, unsigned int channel=0 ) const
+  inline void GetElement( TValueType & value, unsigned int i, unsigned int channel=0 ) const
     {
-    return static_cast<TValueType>(m_MetaArray.ElementData( 
-            i * m_MetaArray.ElementNumberOfChannels() + channel));
+    value = static_cast<TValueType>(m_MetaArray.ElementData( 
+              i * m_MetaArray.ElementNumberOfChannels() + channel));
     }
 
   /** Get itk Array 
@@ -141,7 +141,7 @@ public:
       unsigned int i;
       for(i = 0; i<vLength; i++)
         {
-        (*_array)[i] = this->GetElement<TValueType>(i);
+        this->GetElement( (*_array)[i], i );
         }
       return true;
       }
@@ -160,7 +160,7 @@ public:
       unsigned int i;
       for(i = 0; i<vLength; i++)
         {
-        (*_vector)[i] = this->GetElement<TValueType>(i);
+        this->GetElement( (*_vector)[i], i );
         }
       return true;
       }
@@ -181,7 +181,7 @@ public:
       unsigned int i;
       for(i = 0; i<vLength; i++)
         {
-        (*_vector)[i] = this->GetElement<TValueType>(i);
+        this->GetElement( (*_vector)[i], i );
         }
       return true;
       }
