@@ -72,9 +72,13 @@ test_fft(unsigned int *SizeOfDimensions)
       TPixel val = vnl_sample_uniform(0.0, 16384.0);
       //TPixel val = static_cast<TPixel>(counter);
       if((counter + 1 ) % SizeOfDimensions[0] == 0)
+        {
         std::cerr << val << std::endl;
+        }
       else
+        {
         std::cerr << val << " ";
+        }
       counter++;
       OriginalImageIterator.Set(val);
       ++OriginalImageIterator;
@@ -122,7 +126,8 @@ test_fft(unsigned int *SizeOfDimensions)
   C2R->SetInput(complexImage);
   //
   // newer method to inform filter that there's an odd # of pixels in the x dimension.
-  C2R->SetActualXDimensionIsOdd(SizeOfDimensions[0] & 1 != 0);
+  const bool dimensionIsOdd = SizeOfDimensions[0] & 1;
+  C2R->SetActualXDimensionIsOdd( dimensionIsOdd );
   C2R->Update();
   typename RealImageType::Pointer imageafterInverseFFT = C2R->GetOutput();
    /*The Inverse FFT image iterator is the resultant iterator after we
