@@ -184,27 +184,16 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     }
   
   // Check whether we can use a fast path for resampling. Fast path
-  // can be used if the transformation is linear.  If the
-  // transformation is subclass of MatrixOffsetTransformBase or
-  // IdentityTransform, then we can use the fast path.
-  if( dynamic_cast<const LinearTransformType *>(m_Transform.GetPointer()))
+  // can be used if the transformation is linear. Transform respond
+  // to the IsLinear() call.
+  if( m_Transform->IsLinear() )
     {
     this->LinearThreadedGenerateData(outputRegionForThread, threadId);
     return;
     }
 
-  if( dynamic_cast<const TranslationTransformType *>(m_Transform.GetPointer()))
-    {
-    this->LinearThreadedGenerateData(outputRegionForThread, threadId);
-    return;
-    }
-
-  if( dynamic_cast<const IdentityTransformType *>(m_Transform.GetPointer()))
-    {
-    this->LinearThreadedGenerateData(outputRegionForThread, threadId);
-    return;
-    }
-
+  // Otherwise, we use the normal method where the transform is called
+  // for computing the transformation of every point.
   this->NonlinearThreadedGenerateData(outputRegionForThread, threadId);
   
 }

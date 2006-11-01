@@ -207,6 +207,21 @@ public:
   /** Generate a platform independant name */
   virtual std::string GetTransformTypeAsString() const;
 
+  /** Indicates if this transform is linear. A transform is defined to be
+   * linear if the transform of a linear combination of points is equal to the
+   * linear combination (with the same coefficients) of the individual
+   * transforms of each point. The transform T will be linear if given two
+   * points P and Q, and scalar coefficients a and b, then
+   *
+   *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
+   * 
+   * By default, we assume this to be the case for most transforms. However,
+   * transforms for which this is not true will overload and reimplement this
+   * method accordingly.
+   * 
+   **/
+  virtual bool IsLinear() const { return true; }
+
 protected:
   Transform(); 
   Transform(unsigned int Dimension, unsigned int NumberOfParameters);

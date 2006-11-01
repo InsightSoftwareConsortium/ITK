@@ -19,9 +19,6 @@
 
 #include "itkFixedArray.h"
 #include "itkTransform.h"
-#include "itkMatrixOffsetTransformBase.h"
-#include "itkIdentityTransform.h"
-#include "itkTranslationTransform.h"
 #include "itkImageFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageToImageFilter.h"
@@ -100,28 +97,12 @@ public:
 
   /** Transform typedef.
    *
-   * \todo Check that input and output images have the same number of 
-   * dimensions; this is required by the current implementation of 
-   * AffineTransform. */
-  typedef Transform<TInterpolatorPrecisionType, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension)> TransformType;
+   **/
+  typedef Transform<TInterpolatorPrecisionType, 
+    itkGetStaticConstMacro(ImageDimension), 
+    itkGetStaticConstMacro(ImageDimension)> TransformType;
   typedef typename TransformType::ConstPointer TransformPointerType;
 
-  /** MatrixOffsetTransform typedef. If the transform being used is a
-   * subclass of MatrixOffsetTransform, then we can use a fast path.
-   */
-  typedef MatrixOffsetTransformBase<TInterpolatorPrecisionType, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension)> LinearTransformType;
-  typedef typename LinearTransformType::ConstPointer LinearTransformPointerType;
-
-  /** IdentityTransform typedef. If the transform being used is an
-   * IdentityTransform, the we can use a fast path. */
-  typedef IdentityTransform<TInterpolatorPrecisionType, itkGetStaticConstMacro(ImageDimension)> IdentityTransformType;
-  typedef typename IdentityTransformType::ConstPointer IdentityTransformPointerType;
-  
-  /** TranslationTransform typedef. If the transform being used is a
-   * TranslationTransform, the we can use a fast path. */
-  typedef TranslationTransform<TInterpolatorPrecisionType, itkGetStaticConstMacro(ImageDimension)> TranslationTransformType;
-  typedef typename TranslationTransformType::ConstPointer TranslationTransformPointerType;
- 
   /** Interpolator typedef. */
   typedef InterpolateImageFunction<InputImageType, TInterpolatorPrecisionType> InterpolatorType;
   typedef typename InterpolatorType::Pointer  InterpolatorPointerType;
@@ -149,10 +130,12 @@ public:
   typedef typename TOutputImage::DirectionType DirectionType;
   
   /** Set the coordinate transformation.
-   * Set the coordinate transform to use for resampling.  Note that this
-   * must be in index coordinates and is the output-to-input transform,
-   * NOT the input-to-output transform that you might naively expect.
-   * The default is itk::AffineTransform<TInterpolatorPrecisionType, ImageDimension>. */
+   * Set the coordinate transform to use for resampling.  Note that this must
+   * be in physical coordinates and it is the output-to-input transform, NOT
+   * the input-to-output transform that you might naively expect.  By default
+   * the filter uses an Identity transform. You must provide a different
+   * transform here, before attempting to run the filter, if you do not want to
+   * use the default Identity transform. */
   itkSetConstObjectMacro( Transform, TransformType ); 
 
   /** Get a pointer to the coordinate transform. */

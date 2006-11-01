@@ -165,6 +165,11 @@ public:
   /** Get Transform Fixed Parameters - Gets the Target Landmarks */
   virtual const ParametersType& GetFixedParameters(void) const;
 
+  /** This transform is not linear, because the transformation of a linear
+   * combination of points is not equal to the linear combination of the
+   * transformations of individual points */
+  virtual bool IsLinear() const { return false; }
+
   /** Stiffness of the spline.  A stiffness of zero results in the
    * standard interpolating spline.  A non-zero stiffness allows the
    * spline to approximate rather than interpolate the landmarks.
