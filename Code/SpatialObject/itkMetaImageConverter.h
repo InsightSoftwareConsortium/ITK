@@ -17,8 +17,12 @@
 #ifndef __MetaImageConverter__h
 #define __MetaImageConverter__h
 
-#include "itkImageSpatialObject.h"
+//
+// metaImage.h must be included before itkImageSpatialObject.h
+// to avoid an Internal Compiler Error in Visual Studio 6.0
+//
 #include "metaImage.h"
+#include "itkImageSpatialObject.h"
 
 namespace itk 
 {
