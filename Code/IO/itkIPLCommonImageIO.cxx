@@ -288,8 +288,8 @@ void IPLCommonImageIO::ReadImageInformation()
   this->SetNumberOfDimensions(3);
   //
   // set direction cosines
-  typedef SpatialOrientationAdapter<3> OrientAdapterType;
-  SpatialOrientationAdapter<3>::DirectionType dir 
+  typedef SpatialOrientationAdapter OrientAdapterType;
+  SpatialOrientationAdapter::DirectionType dir 
     =  OrientAdapterType().ToDirectionCosines(m_ImageHeader->coordinateOrientation);
   std::vector<double> dirx(3,0),
     diry(3,0),

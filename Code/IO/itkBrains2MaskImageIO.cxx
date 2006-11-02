@@ -257,8 +257,8 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
   itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
     (thisDic,ITK_CoordinateOrientation, coord_orient);
     //An error was encountered in code that depends upon the valid coord_orientation.
-    typedef SpatialOrientationAdapter<3> OrientAdapterType;
-    SpatialOrientationAdapter<3>::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
+    typedef SpatialOrientationAdapter OrientAdapterType;
+    SpatialOrientationAdapter::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
     unsigned dims = this->GetNumberOfDimensions();
     std::vector<double> dirx(dims,0), diry(dims,0), dirz(dims,0);
     dirx[0] = dir[0][0];
@@ -450,7 +450,7 @@ Brains2MaskImageIO
   std::string fname = this->m_FileName;
   replace_blanks(fname);
   std::string orientation = "UNKNOWN";
-    itk::SpatialOrientationAdapter<3>::DirectionType dir;
+    itk::SpatialOrientationAdapter::DirectionType dir;
     itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
     std::vector<double> dirx = this->GetDirection(0);
     std::vector<double> diry = this->GetDirection(1);
@@ -461,7 +461,7 @@ Brains2MaskImageIO
       dir[i][1] = diry[i];
       dir[i][2] = dirz[i];
       }
-    coord_orient = SpatialOrientationAdapter<3>().FromDirectionCosines(dir);
+    coord_orient = SpatialOrientationAdapter().FromDirectionCosines(dir);
 
     switch (coord_orient)
       {
@@ -478,9 +478,9 @@ Brains2MaskImageIO
         orientation = "CORONAL";
         break;
       default:
-        itk::SpatialOrientationAdapter<3>::DirectionType AXIdir=itk::SpatialOrientationAdapter<3>().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI);
-        itk::SpatialOrientationAdapter<3>::DirectionType SAGdir=itk::SpatialOrientationAdapter<3>().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR);
-        itk::SpatialOrientationAdapter<3>::DirectionType CORdir=itk::SpatialOrientationAdapter<3>().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+        itk::SpatialOrientationAdapter::DirectionType AXIdir=itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI);
+        itk::SpatialOrientationAdapter::DirectionType SAGdir=itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR);
+        itk::SpatialOrientationAdapter::DirectionType CORdir=itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
         itkExceptionMacro(<< "Error: Invalid orientation specified for writing mask. \n"
             << "\nGIVEN    " << coord_orient << "\n" << dir
             << "\n Only Axial, Sagital, and Coronal orietations are supported in this file format."

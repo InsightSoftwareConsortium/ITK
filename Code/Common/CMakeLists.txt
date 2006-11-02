@@ -60,6 +60,7 @@ SET(ITKCommon_SRCS
   itkSimpleFastMutexLock.cxx
   itkSimpleFilterWatcher.cxx
   itkSimplexMeshGeometry.cxx
+  itkSpatialOrientationAdapter.cxx
   itkStdStreamLogOutput.cxx
   itkTextOutput.cxx
   itkTetrahedronCellTopology.cxx

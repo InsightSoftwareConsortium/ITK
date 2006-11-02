@@ -965,8 +965,8 @@ void AnalyzeImageIO::ReadImageInformation()
           itkDebugMacro( "Unknown orientation in file " << m_FileName );
       }
     //An error was encountered in code that depends upon the valid coord_orientation.
-    typedef SpatialOrientationAdapter<3> OrientAdapterType;
-    SpatialOrientationAdapter<3>::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
+    typedef SpatialOrientationAdapter OrientAdapterType;
+    SpatialOrientationAdapter::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
     unsigned dims = this->GetNumberOfDimensions();
     std::vector<double> dirx(dims,0),
       diry(dims,0),
@@ -1151,7 +1151,7 @@ AnalyzeImageIO
     std::vector<double> dirx = this->GetDirection(0),
       diry = this->GetDirection(1),
       dirz = this->GetDirection(2);
-    typedef itk::SpatialOrientationAdapter<3>::DirectionType DirectionType;
+    typedef itk::SpatialOrientationAdapter::DirectionType DirectionType;
     DirectionType dir;
     for(unsigned int i = 0; i < 3; i++)
       {
@@ -1160,7 +1160,7 @@ AnalyzeImageIO
       dir[i][2] = dirz[i];
       }
     coord_orient =
-      itk::SpatialOrientationAdapter<3>().FromDirectionCosines(dir);
+      itk::SpatialOrientationAdapter().FromDirectionCosines(dir);
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
     }
 #endif

@@ -25,28 +25,67 @@
 
 namespace itk
 {
+
+//
+// Helper functions, better than Macros
+//
+namespace Function
+{
+
+inline unsigned Max3(float x, float y, float z)
+{
+  const double obliquityThresholdCosineValue = 0.001;
+  
+  double absX = vnl_math_abs(x);
+  double absY = vnl_math_abs(y);
+  double absZ = vnl_math_abs(z);
+
+  if ( ( absX > obliquityThresholdCosineValue ) && ( absX > absY ) && ( absX > absZ ))
+    {
+    return 0;
+    }
+  else if (  ( absY > obliquityThresholdCosineValue ) && ( absY > absX ) && ( absY > absZ ) )
+    {
+    return 1;
+    }
+  else if ( ( absZ > obliquityThresholdCosineValue ) && ( absZ > absX ) && ( absZ > absY ) )
+    {
+    return 2;
+    }
+  // they must all be equal, so just say x
+  return 0;
+}
+
+inline int Sign(float x)
+{
+  if(x < 0)
+    {
+    return -1;
+    }
+  return 1;
+}
+
+} // namespace Function
+
+
+
 /** \class SpatialOrientationAdapter
  *  \brief converts SpatialOrientation flags to/from direction cosines
  */
-template <int Dimension>
 class SpatialOrientationAdapter : 
-    public OrientationAdapterBase<SpatialOrientation::ValidCoordinateOrientationFlags,Dimension>
+  public OrientationAdapterBase<SpatialOrientation::ValidCoordinateOrientationFlags,3>
 {
 public:
   /** typedef for superclass */
   typedef SpatialOrientationAdapter Self;
 
-  typedef OrientationAdapterBase<SpatialOrientation::ValidCoordinateOrientationFlags,Dimension>
+  typedef OrientationAdapterBase<SpatialOrientation::ValidCoordinateOrientationFlags,3>
   SuperClass;
 
   typedef SpatialOrientation::ValidCoordinateOrientationFlags OrientationType;
 
-  /** The dimension of the input image must be 3. */
-  itkConceptMacro(DimensionShouldBe3,
-    (Concept::SameDimension<Dimension,3>));
-
   /** typedef for direction cosines */
-  typedef typename SuperClass::DirectionType DirectionType;
+  typedef SuperClass::DirectionType DirectionType;
 
   /** convert from direction cosines. */
   virtual OrientationType FromDirectionCosines(const DirectionType &Dir);
@@ -57,9 +96,5 @@ public:
 };
 
 } // namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialOrientationAdapter.txx"
-#endif
 
 #endif // __itkSpatialOrientationAdapter_h

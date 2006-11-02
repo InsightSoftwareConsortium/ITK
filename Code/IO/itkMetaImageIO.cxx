@@ -1074,7 +1074,7 @@ MetaImageIO
       {
 #endif
       std::vector<double> dirx, diry, dirz;
-      itk::SpatialOrientationAdapter<3>::DirectionType dir;
+      itk::SpatialOrientationAdapter::DirectionType dir;
       dirx = this->GetDirection(0);
       diry = this->GetDirection(1);
       dirz = this->GetDirection(2);
@@ -1084,7 +1084,7 @@ MetaImageIO
         dir[i][1] = diry[0];
         dir[i][2] = dirz[0];
         }
-      coordOrient = itk::SpatialOrientationAdapter<3>().FromDirectionCosines(dir);
+      coordOrient = itk::SpatialOrientationAdapter().FromDirectionCosines(dir);
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
       }
 #endif

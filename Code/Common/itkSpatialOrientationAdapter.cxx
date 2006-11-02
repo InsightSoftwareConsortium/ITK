@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSpatialOrientationAdapter.txx
+  Module:    itkSpatialOrientationAdapter.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -25,50 +25,11 @@
 namespace itk
 {
 
-namespace Function
+SpatialOrientationAdapter::OrientationType 
+SpatialOrientationAdapter
+::FromDirectionCosines(const DirectionType &Dir)
 {
-
-inline unsigned Max3(float x, float y, float z)
-{
-  const double obliquityThresholdCosineValue = 0.001;
-  
-  double absX = vnl_math_abs(x);
-  double absY = vnl_math_abs(y);
-  double absZ = vnl_math_abs(z);
-
-  if ( ( absX > obliquityThresholdCosineValue ) && ( absX > absY ) && ( absX > absZ ))
-    {
-    return 0;
-    }
-  else if (  ( absY > obliquityThresholdCosineValue ) && ( absY > absX ) && ( absY > absZ ) )
-    {
-    return 1;
-    }
-  else if ( ( absZ > obliquityThresholdCosineValue ) && ( absZ > absX ) && ( absZ > absY ) )
-    {
-    return 2;
-    }
-  // they must all be equal, so just say x
-  return 0;
-}
-
-inline int Sign(float x)
-{
-  if(x < 0)
-    return -1;
-  return 1;
-}
-
-} // namespace Function
-
-template <int Dimension>
-typename SpatialOrientationAdapter<Dimension>::OrientationType 
-SpatialOrientationAdapter<Dimension>
-::FromDirectionCosines(const typename SpatialOrientationAdapter<Dimension>::DirectionType &Dir)
-{
-  //  const typename ImageBase<VImageDimension>::DirectionType &direction = 
-  //    this->GetDirection();
- int axes[9] = {0,0,0,0,0,0,0,0,0};
+  int axes[9] = {0,0,0,0,0,0,0,0,0};
   int dominant_axis;
 
   dominant_axis = Function::Max3(Dir[0][0],Dir[1][0],Dir[2][0]);
@@ -78,7 +39,11 @@ SpatialOrientationAdapter<Dimension>
   dominant_axis = Function::Max3(Dir[0][2],Dir[1][2],Dir[2][2]);
   axes[dominant_axis+6] = Function::Sign(Dir[dominant_axis][2]);
     
-  SpatialOrientation::CoordinateTerms terms[3] = {SpatialOrientation::ITK_COORDINATE_UNKNOWN,SpatialOrientation::ITK_COORDINATE_UNKNOWN,SpatialOrientation::ITK_COORDINATE_UNKNOWN};
+  SpatialOrientation::CoordinateTerms terms[3] = {
+     SpatialOrientation::ITK_COORDINATE_UNKNOWN,
+     SpatialOrientation::ITK_COORDINATE_UNKNOWN,
+     SpatialOrientation::ITK_COORDINATE_UNKNOWN
+     };
 
   for(unsigned i = 0; i < 3; i++)
     {
@@ -122,10 +87,9 @@ SpatialOrientationAdapter<Dimension>
       SpatialOrientation::ITK_COORDINATE_TertiaryMinor));
 }
 
-template <int Dimension>
-typename SpatialOrientationAdapter<Dimension>::DirectionType
-SpatialOrientationAdapter<Dimension>
-::ToDirectionCosines(const typename SpatialOrientationAdapter<Dimension>::OrientationType &Or)
+SpatialOrientationAdapter::DirectionType
+SpatialOrientationAdapter
+::ToDirectionCosines(const OrientationType &Or)
 {
   typedef SpatialOrientation::CoordinateTerms CoordinateTerms;
 

@@ -671,15 +671,15 @@ void NiftiImageIO::ReadImageInformation()
     default:
       break;
     }
-  typedef SpatialOrientationAdapter<3> OrientAdapterType;
+  typedef SpatialOrientationAdapter OrientAdapterType;
 
-  SpatialOrientationAdapter<3>::DirectionType dir;
+  SpatialOrientationAdapter::DirectionType dir;
 
   //
   // in the case of an Analyze75 file, use old analyze orient method.
   if(this->m_NiftiImage->qform_code == 0 && this->m_NiftiImage->sform_code == 0)
     {
-    SpatialOrientationAdapter<3>::OrientationType orient;
+    SpatialOrientationAdapter::OrientationType orient;
     switch(this->m_NiftiImage->analyze75_orient)
       {
       case a75_transverse_unflipped:
