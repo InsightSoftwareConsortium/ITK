@@ -472,7 +472,7 @@ DumpDirections(const std::string &prompt, const typename ImageType::Pointer &ima
   const typename ImageType::DirectionType &dir =
     image->GetDirection();
   std::cerr << prompt << " " 
-            << SO_OrientationToString(itk::SpatialOrientationAdapter<3>().FromDirectionCosines(dir))
+            << SO_OrientationToString(itk::SpatialOrientationAdapter().FromDirectionCosines(dir))
             <<    std::endl;
   for(unsigned i = 0; i < 3; i++)
     {
@@ -657,7 +657,7 @@ OrientImageFilter<TInputImage,TOutputImage>
     {
     // Compute the GivenOrientation from the image's direction cosines
     this->SetGivenCoordinateOrientation
-      (SpatialOrientationAdapter<3>().FromDirectionCosines(inputPtr->GetDirection()));
+      (SpatialOrientationAdapter().FromDirectionCosines(inputPtr->GetDirection()));
     }
 
   typedef PermuteAxesImageFilter< InputImageType >  PermuteFilterType;

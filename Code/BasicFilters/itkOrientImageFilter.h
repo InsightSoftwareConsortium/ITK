@@ -192,14 +192,14 @@ public:
   inline void SetGivenCoordinateDirection(const typename TInputImage::DirectionType &GivenDirection)
     {
     SetGivenCoordinateOrientation(
-    itk::SpatialOrientationAdapter<TInputImage::ImageDimension>().FromDirectionCosines(GivenDirection));
+    itk::SpatialOrientationAdapter().FromDirectionCosines(GivenDirection));
     }
   itkGetMacro(DesiredCoordinateOrientation, CoordinateOrientationCode);
   void SetDesiredCoordinateOrientation(CoordinateOrientationCode newCode);
   inline void SetDesiredCoordinateDirection(const typename TOutputImage::DirectionType &DesiredDirection)
     {
     SetDesiredCoordinateOrientation(
-    itk::SpatialOrientationAdapter<TOutputImage::ImageDimension>().FromDirectionCosines(DesiredDirection));
+    itk::SpatialOrientationAdapter().FromDirectionCosines(DesiredDirection));
     }
 
   /**  Controls how the GivenCoordinateOrientation is determined.
