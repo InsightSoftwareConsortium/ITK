@@ -361,6 +361,13 @@ public:
   /** Return the region of the grid wholly within the support region */
   itkGetConstReferenceMacro( ValidRegion, RegionType );
 
+  /** Indicates that this transform is linear. That is, given two
+   * points P and Q, and scalar coefficients a and b, then
+   *
+   *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
+   */
+  virtual bool IsLinear() const { return false; }
+
 protected:
   /** Print contents of an BSplineDeformableTransform. */
   void PrintSelf(std::ostream &os, Indent indent) const;

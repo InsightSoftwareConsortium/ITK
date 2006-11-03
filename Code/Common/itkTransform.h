@@ -215,12 +215,12 @@ public:
    *
    *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
    * 
-   * By default, we assume this to be the case for most transforms. However,
-   * transforms for which this is not true will overload and reimplement this
-   * method accordingly.
+   * By default, we assume this to NOT be the case for most transforms.
+   * However, transforms for which this is true will overload and reimplement
+   * this method accordingly.
    * 
    **/
-  virtual bool IsLinear() const { return true; }
+  virtual bool IsLinear() const { return false; }
 
 protected:
   Transform(); 

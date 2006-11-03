@@ -146,6 +146,12 @@ public:
   virtual unsigned int GetNumberOfParameters(void) const 
                       { return NDimensions; }
 
+  /** Indicates that this transform is linear. That is, given two
+   * points P and Q, and scalar coefficients a and b, then
+   *
+   *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
+   */
+  virtual bool IsLinear() const { return true; }
 
 protected:
   TranslationTransform();
