@@ -17,8 +17,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSpatialOrientationAdapter_txx
-#define _itkSpatialOrientationAdapter_txx
 #include "itkSpatialOrientationAdapter.h"
 #include "itkImageBase.h"
 
@@ -74,17 +72,17 @@ SpatialOrientationAdapter
     }
   //
   // all terms must be defined, otherwise just punt
-  if(terms[0] == SpatialOrientation::ITK_COORDINATE_UNKNOWN || terms[1] == SpatialOrientation::ITK_COORDINATE_UNKNOWN || terms[2] == SpatialOrientation::ITK_COORDINATE_UNKNOWN)
+  if( terms[0] == SpatialOrientation::ITK_COORDINATE_UNKNOWN || 
+      terms[1] == SpatialOrientation::ITK_COORDINATE_UNKNOWN || 
+      terms[2] == SpatialOrientation::ITK_COORDINATE_UNKNOWN)
     {
     return SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
     }
+
   return static_cast<SpatialOrientation::ValidCoordinateOrientationFlags>
-    ((terms[0] << 
-      SpatialOrientation::ITK_COORDINATE_PrimaryMinor) +
-     (terms[1] << 
-      SpatialOrientation::ITK_COORDINATE_SecondaryMinor) +
-     (terms[2] << 
-      SpatialOrientation::ITK_COORDINATE_TertiaryMinor));
+    ((terms[0] << SpatialOrientation::ITK_COORDINATE_PrimaryMinor) +
+     (terms[1] << SpatialOrientation::ITK_COORDINATE_SecondaryMinor) +
+     (terms[2] << SpatialOrientation::ITK_COORDINATE_TertiaryMinor));
 }
 
 SpatialOrientationAdapter::DirectionType
@@ -137,6 +135,5 @@ SpatialOrientationAdapter
   return direction;
 }
 
-}
+} // end namespace itk
 
-#endif // _itkSpatialOrientationAdapter_txx
