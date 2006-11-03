@@ -72,7 +72,7 @@ inline int Sign(float x)
 /** \class SpatialOrientationAdapter
  *  \brief converts SpatialOrientation flags to/from direction cosines
  */
-class SpatialOrientationAdapter : 
+class ITKCommon_EXPORT SpatialOrientationAdapter : 
   public OrientationAdapterBase<SpatialOrientation::ValidCoordinateOrientationFlags,3>
 {
 public:
