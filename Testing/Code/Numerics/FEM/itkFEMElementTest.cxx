@@ -46,7 +46,7 @@ int itkFEMElementTest(int ac, char* av[] )
   char *fname;
 
   // Solvers being tested
-  int numsolvers = 2;
+  int numsolvers = 3;
   int currsolver;
   int s;
 
@@ -146,23 +146,27 @@ int itkFEMElementTest(int ac, char* av[] )
     // Declare and initialize linear system wrapper objects
 
     itk::fem::LinearSystemWrapperDenseVNL lsw_dvnl;
+    itk::fem::LinearSystemWrapperItpack lsw_itpack;
     itk::fem::LinearSystemWrapperVNL lsw_vnl;
 
-    for (s=0; s < numsolvers; s++) 
-      {
+    for (s=0; s < numsolvers; s++) {
  
-      if (s == 1) 
-        {
+      if (s == 2) {
+        // Itpack 
+        std::cout << std::endl << comment << ">>>>>Using LinearSystemWrapperItpack" << std::endl;
+        lsw_itpack.SetMaximumNonZeroValuesInMatrix(1000);
+        S.SetLinearSystemWrapper(&lsw_itpack);
+      }
+      else if (s == 1) {
         // Dense VNL
         std::cout << std::endl << comment << ">>>>>Using LinearSystemWrapperDenseVNL" << std::endl;
         S.SetLinearSystemWrapper(&lsw_dvnl);
-        }
-      else 
-        {
+      }
+      else {
         // Sparse VNL - default
         std::cout << std::endl << comment << ">>>>>Using LinearSystemWrapperVNL" << std::endl;
         S.SetLinearSystemWrapper(&lsw_vnl);
-        }
+      }
 
       std::cout << comment << "AssembleK()" << std::endl;
       S.AssembleK();            // Assemble the global stiffness matrix K

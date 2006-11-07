@@ -18,6 +18,7 @@
 #ifndef _itkFEMRegistrationFilter_h_
 #define _itkFEMRegistrationFilter_h_
 
+#include "itkFEMLinearSystemWrapperItpack.h"
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
 #include "itkFEMGenerateMesh.h"
 #include "itkFEMSolverCrankNicolson.h"
@@ -122,7 +123,7 @@ public:
                       FixedImageType::ImageDimension);
 
   typedef Image< float, itkGetStaticConstMacro(ImageDimension) >            FloatImageType;
-  typedef LinearSystemWrapperDenseVNL               LinearSystemSolverType;
+  typedef LinearSystemWrapperItpack                 LinearSystemSolverType;
   typedef SolverCrankNicolson                       SolverType;
   enum Sign { positive = 1, negative = -1 };
   typedef double                                    Float;

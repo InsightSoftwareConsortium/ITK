@@ -148,8 +148,13 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::RunRegistration(void)
             {
             nzelts=((2*numnodesperelt*ndofpernode*ndof > 25*ndof) ? 2*numnodesperelt*ndofpernode*ndof : 25*ndof);
             }
-        LinearSystemSolverType linearSolverWrapper;
-        mySolver.SetLinearSystemWrapper(&linearSolverWrapper);
+        LinearSystemWrapperItpack itpackWrapper;
+        itpackWrapper.SetMaximumNonZeroValuesInMatrix(nzelts);
+        itpackWrapper.SetMaximumNumberIterations(2*mySolver.GetNumberOfDegreesOfFreedom());
+        itpackWrapper.SetTolerance(1.e-1);
+        //    itpackWrapper.JacobianSemiIterative();
+        itpackWrapper.JacobianConjugateGradient();
+        mySolver.SetLinearSystemWrapper(&itpackWrapper);
 
         if( m_UseMassMatrix )
             {
@@ -1930,9 +1935,13 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::MultiResSolve()
       else nzelts=((2*numnodesperelt*ndofpernode*ndof > 25*ndof) ? 2*numnodesperelt*ndofpernode*ndof : 25*ndof);
 
 
-      LinearSystemSolverType linearSolverWrapper;
+      LinearSystemWrapperItpack itpackWrapper; 
       unsigned int maxits=2*SSS.GetNumberOfDegreesOfFreedom();
-      SSS.SetLinearSystemWrapper(&linearSolverWrapper); 
+      itpackWrapper.SetMaximumNumberIterations(maxits); 
+      itpackWrapper.SetTolerance(1.e-1);
+      itpackWrapper.JacobianConjugateGradient(); 
+      itpackWrapper.SetMaximumNonZeroValuesInMatrix(nzelts);
+      SSS.SetLinearSystemWrapper(&itpackWrapper); 
 
 
 

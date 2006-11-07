@@ -51,12 +51,15 @@ SET(FEM_SRCS
   itkFEMLinearSystemWrapper.cxx
   itkFEMLinearSystemWrapperVNL.cxx
   itkFEMLinearSystemWrapperDenseVNL.cxx
+  itkFEMLinearSystemWrapperItpack.cxx
+  itkFEMItpackSparseMatrix.cxx
 
   itkFEMLightObject.cxx
   itkFEMException.cxx
   itkFEMUtility.cxx
   itkFEMInitialization.cxx
 
+  dsrc2c.c
 )
 
 
@@ -136,6 +139,8 @@ SET(FEM_SRCS ${FEM_SRCS}
   itkFEMLinearSystemWrapper.h
   itkFEMLinearSystemWrapperVNL.h
   itkFEMLinearSystemWrapperDenseVNL.h
+  itkFEMLinearSystemWrapperItpack.h
+  itkFEMItpackSparseMatrix.h
   
   itkFEM.h
   itkFEMLightObject.h
