@@ -63,9 +63,6 @@ namespace itk
 class ITKCommon_EXPORT SimpleFilterWatcher
 {
 public:
-  /** Classes that need access to filter's private data */
-  friend class XMLFilterWatcher;
-
   /** Constructor. Takes a ProcessObject to monitor and an optional
    * comment string that is prepended to each event message. */
   SimpleFilterWatcher(itk::ProcessObject* o, const char *comment="");
@@ -101,7 +98,29 @@ public:
   void TestAbortOn() {m_TestAbort = true;};
   void TestAbortOff() {m_TestAbort = false;};
 
-  
+  /** Methods to access member data */
+  /** Get a pointer to the process object being watched. */
+  ProcessObject *GetProcess () {return m_Process.GetPointer();};
+
+  /** Set/Get the steps completed. */
+  void SetSteps(int val) {m_Steps=val;};
+  int GetSteps() {return m_Steps;};
+
+  /** Set/Get the number of iterations completed. */
+  void SetIterations(int val) {m_Iterations=val;};
+  int GetIterations() {return m_Iterations;};
+
+  /** Set/Get the quiet mode boolean. If true, verbose progess is
+    * reported. */
+  void SetQuiet(bool val) {m_Quiet=val;};
+  bool GetQuiet() {return m_Quiet;};
+
+  /** Get the comment for the watcher. */
+  std::string GetComment() {return m_Comment;};
+
+  /** Get a reference to the TimeProbe */
+  TimeProbe &GetTimeProbe() {return m_TimeProbe;}
+
 protected:
 
   /** Callback method to show the ProgressEvent */

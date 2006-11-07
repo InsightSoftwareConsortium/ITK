@@ -38,13 +38,15 @@ protected:
 /** Callback method to show the ProgressEvent */
 virtual void ShowProgress()
 {
-  if (m_Process)
+  if (this->GetProcess())
     {
-    m_Steps++;
-    if (!m_Quiet)
+    int steps = this->GetSteps();
+    steps++;
+    this->SetSteps(steps);
+    if (!this->GetQuiet())
       {
       std::cout << "<filter-progress>"
-                << m_Process->GetProgress()
+                << this->GetProcess()->GetProgress()
                 << "</filter-progress>"
                 << std::endl;
       std::cout << std::flush;
@@ -55,20 +57,20 @@ virtual void ShowProgress()
 /** Callback method to show the StartEvent */
 virtual void StartFilter()
 {
-  m_Steps = 0;
-  m_Iterations = 0;
-  m_TimeProbe.Start();
-  if (!m_Quiet)
+  this->SetSteps(0);
+  this->SetIterations(0);
+  this->GetTimeProbe().Start();
+  if (!this->GetQuiet())
     {
     std::cout << "<filter-start>"
               << std::endl;
     std::cout << "<filter-name>"
-              << (m_Process.GetPointer()
-                  ? m_Process->GetNameOfClass() : "None")
+              << (this->GetProcess()
+                  ? this->GetProcess()->GetNameOfClass() : "None")
               << "</filter-name>"
               << std::endl;
     std::cout << "<filter-comment>"
-              << " \"" << m_Comment << "\" "
+              << " \"" << this->GetComment() << "\" "
               << "</filter-comment>"
               << std::endl;
     std::cout << "</filter-start>"
@@ -80,23 +82,25 @@ virtual void StartFilter()
 /** Callback method to show the EndEvent */
 virtual void EndFilter()
 {
-  m_TimeProbe.Stop();
-  if (!m_Quiet)
+#if 0
+  this-GetTimeProbe().Stop();
+  if (!this->GetQuiet())
     {
     std::cout << "<filter-end>"
               << std::endl;
     std::cout << "<filter-name>"
-              << (m_Process.GetPointer()
-                  ? m_Process->GetNameOfClass() : "None")
+              << (this->GetProcess()
+                  ? this->GetProcess()->GetNameOfClass() : "None")
               << "</filter-name>"
               << std::endl;
     std::cout << "<filter-time>"
-              << m_TimeProbe.GetMeanTime()
+              << this->GetTimeProbe().GetMeanTime()
               << "</filter-time>"
               << std::endl;
     std::cout << "</filter-end>";
     std::cout << std::flush;
     }
+#endif
 }
   
 };
