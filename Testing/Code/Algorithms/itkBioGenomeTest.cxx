@@ -64,6 +64,9 @@ int itkBioGenomeTest( int, char * [] )
    if( vnl_math_abs( sigmoid - expectedSigmoid ) > tolerance )
      {
      std::cerr << "Error in Sigmoid()" << std::endl;
+     std::cerr << "Expected valued = " << expectedSigmoid << std::endl;
+     std::cerr << "Computed valued = " << sigmoid << std::endl;
+     std::cerr << "Tolerance       = " << tolerance << std::endl;
      return EXIT_FAILURE;
      }
    
