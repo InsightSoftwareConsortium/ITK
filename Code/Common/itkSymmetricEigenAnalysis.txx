@@ -427,7 +427,7 @@ ComputeEigenValuesUsingQL(VectorType &d, double *e) const
       tst1 = h;
       }
     /*     .......... look for small sub-diagonal element .......... */
-    for (m = l; m < m_Order; ++m) 
+    for (m = l; m < m_Order-1; ++m) 
       {
       tst2 = tst1 + vnl_math_abs(e[m]);
       if (tst2 == tst1) 
@@ -575,7 +575,7 @@ ComputeEigenValuesAndVectorsUsingQL(VectorType &d, double *e, double *z) const
       }
     
     /*     .......... look for small sub-diagonal element .......... */
-    for (m = l; m < m_Order; ++m) 
+    for (m = l; m < m_Order-1; ++m) 
       {
       tst2 = tst1 + vnl_math_abs(e[m]);
       if (tst2 == tst1) 
