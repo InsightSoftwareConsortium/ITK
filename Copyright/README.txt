@@ -1,3 +1,4 @@
+
 The main portions of the Insight Toolkit are copyrighted 
 by the Insight Software Consortium and distributed freely
 under the terms listed in the file:
@@ -15,22 +16,13 @@ They are:
                   [This work was funded by NLM so its copyright
                    should probably be transfered to the ISC.]
 
- 2) AnalyzeDB.h:  Vincent is requesting permission to the Mayo
-                  Clinic for transfering the copyright to ITK.
-                  Otherwise, a license statement is needed, to
-                  make clear that ITK can distribute it.
+ 2) AnalyzeDB.h:  The Mayo Clinic aggreed to distribute this file
+                  with ITK. Point of contact: Vincent Magnotta.
+                  The file was moved to Utilities/itkExtHdrs
 
  3) PixelData:    GE Copyrights,
                   Vincent is contacting the providers of this
                   code too.
-
- 4) OctreeNode:   Vincent will transfer copyright to the ISC.
-
- 5) ThresholdMaximumConnectedComponents: Ken Urish is sending
-                  the copyright transfer form to Josh Cates.
-                  The copyright has already been fixed in the
-                  CVS repository.
-
 
  6) Netlib:       Netlib is a conglomerate of packages. Each 
                   one having different copyrights and licenses.
@@ -49,7 +41,7 @@ They are:
 
            Our understanding is that the US Government cannot hold
            copyrights, therefore we assume that this code is in the 
-           public domain...
+           public domain.
 
     eispack:
 
@@ -96,7 +88,12 @@ They are:
 
  10) Code/Numerics/FEM/dsrc2c.c :
 
-                Copyright: 1977 IMSL Inc, no license !!
+                Copyright: 1977 IMSL Inc, no license available.
+                Stephen Aylward removed the specific functions
+                in this file that were copyrighted by IMSL and
+                replaced them with other functions available in
+                netlib. The file is now cleared from copyright
+                concerns.
 
 
  11) Code/Numerics/cvsrmvend
@@ -110,12 +107,13 @@ They are:
 
  12) Testing/Code/IO/itkIOHeaderTest.cxx:
 
-                Copyright: National Library of Medicine !!!
+                Copyright: National Library of Medicine.
                 Actually this is created by the Tcl script
 
           Insight/Utilities/Dart/BuildHeadrTests.tcl
 
-                A fix has been commited for this file...
+                A fix has been commited for this file.
+
 
   13) Testing/Code/Numerics/NeuralNetworks:
 
@@ -146,10 +144,12 @@ Utilities:
                       http://nifti.nimh.nih.gov/nifti-1
 
                   However at http://niftilib.sourceforge.net it
-                  appears as "public domain" license!!, but in
+                  appears as "public domain" license, but in
                   its subdirectory matlibs it has a GPL license.
-                  its subdirectory jlibs is public domain
-                  its subdirecotry clibs is public domain
+                  The matlibs subdirectory is not included in ITK.
+
+                  The subdirectory jlibs is public domain
+                  The subdirecotry clibs is public domain
 
 
      in ITK it had a subdir:
@@ -158,7 +158,7 @@ Utilities:
                      University of Oxford: 
                      NO FOR COMMERCIAL USE
 
-                     Therefore this code has been removed !
+                     This code has now been removed.
 
 
   E) EXPAT     : Thai Open Source Software Center Ltd and Clark Cooper.
