@@ -52,7 +52,12 @@
 #define alist v3p_netlib_alist
 #define cilist v3p_netlib_cilist
 #define cllist v3p_netlib_cllist
+
+#if defined(complex)
+#undef complex
+#endif
 #define complex v3p_netlib_complex
+
 #define doublecomplex v3p_netlib_doublecomplex
 #define doublereal v3p_netlib_doublereal
 #define flag v3p_netlib_flag
