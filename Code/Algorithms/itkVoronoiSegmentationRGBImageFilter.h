@@ -119,7 +119,8 @@ public:
   }
   void TakeAPrior(const BinaryObjectImage* aprior);
 
-  void SetInput(const InputImageType *input); 
+  virtual void SetInput(const InputImageType *input); 
+  virtual void SetInput( unsigned int, const InputImageType * image);
 
   /** ImageDimension enumeration   */
   itkStaticConstMacro(InputImageDimension, unsigned int,

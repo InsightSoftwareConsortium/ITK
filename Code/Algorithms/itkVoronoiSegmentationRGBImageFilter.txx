@@ -85,12 +85,20 @@ SetSTDPercentError(double x[6])
 template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>
+::SetInput(unsigned int inputNumber, const InputImageType *input)
+{
+  this->Superclass::SetInput(inputNumber,input);
+}
+
+
+/* Initialization for the segmentation. */
+template <class TInputImage, class TOutputImage>
+void
+VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>
 ::SetInput(const InputImageType *input)
 {
-//  m_InputImage = this->GetInput();
-//  m_OutputImage = this->GetOutput(); 
 
-  Superclass::SetInput(input);
+  this->Superclass::SetInput(input);
 
   this->SetSize(this->GetInput()->GetLargestPossibleRegion().GetSize());
   IndexType index;
