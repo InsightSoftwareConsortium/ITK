@@ -39,7 +39,7 @@ int itkBioGenomeTest( int, char * [] )
 
    const double outLevel = genome.GetExpressionLevel("Cyclin");
    
-   if( vnl_math_abs( inLevel - outLevel ) > tolerance )
+   if( vnl_math_abs( inLevel - outLevel ) / outLevel > tolerance )
      {
      std::cerr << "Error in SetExpressionLevel()/GetExpressionLevel()" << std::endl;
      return EXIT_FAILURE;
@@ -61,11 +61,12 @@ int itkBioGenomeTest( int, char * [] )
 
    const double expectedSigmoid = vcl_atan(( value - threshold ) / slant ) / 3.1416 + 0.5001;
 
-   if( vnl_math_abs( sigmoid - expectedSigmoid ) > tolerance )
+   if( vnl_math_abs( sigmoid - expectedSigmoid ) / expectedSigmoid > tolerance )
      {
      std::cerr << "Error in Sigmoid()" << std::endl;
      std::cerr << "Expected valued = " << expectedSigmoid << std::endl;
      std::cerr << "Computed valued = " << sigmoid << std::endl;
+     std::cerr << "Difference      = " << ( sigmoid - expectedSigmoid ) << std::endl;
      std::cerr << "Tolerance       = " << tolerance << std::endl;
      return EXIT_FAILURE;
      }
