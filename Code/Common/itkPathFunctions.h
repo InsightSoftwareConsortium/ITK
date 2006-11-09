@@ -24,11 +24,6 @@
 #include "itkOffset.h"
 #include <math.h>
 
-// not all versions of math.h seem to define M_PI:
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
 namespace itk
 {
 
@@ -110,6 +105,8 @@ void MakeFourierSeriesPathTraceChainCode( TFourierSeriesPath & FSPath,
   int         dimension =     OffsetType::GetOffsetDimension();
   unsigned    numSteps  =     chainPath.NumberOfSteps();
   
+  const double PI = 4.0 * atan( 1.0 );
+
   FSPath.Clear();
   
   // Adjust our private copy of numHarmonics if necessary
@@ -127,7 +124,7 @@ void MakeFourierSeriesPathTraceChainCode( TFourierSeriesPath & FSPath,
     for( ChainInputType step=0; step<numSteps; step++ )
       {
       index += chainPath.Evaluate( step );
-      theta = 2*n*M_PI*(double(step+1))/numSteps;
+      theta = 2 * n * PI * ( double(step+1)) / numSteps;
       
       // turn the current index into a vector
       for( int d=0; d<dimension; d++ )

@@ -20,12 +20,6 @@
 #include "itkFourierSeriesPath.h"
 #include <math.h>
 
-// not all versions of math.h seem to define M_PI:
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
-
 
 namespace itk
 {
@@ -42,12 +36,14 @@ FourierSeriesPath<VDimension>
   numHarmonics = m_CosCoefficients->Size(); 
   output.Fill(0);
   
+  const double PI = 4.0 * atan( 1.0 );
+
   if( numHarmonics > 0 ) { output += m_CosCoefficients->ElementAt(0); }
   
   for(int n=1; n<numHarmonics; n++)
     {
     // input defined over [0,1] maps to theta defined over [0,2pi * n]
-    theta = M_PI*2.0*n*input;
+    theta = PI * 2.0 * n * input;
     output += ( m_CosCoefficients->ElementAt(n) * vcl_cos(theta) +
                 m_SinCoefficients->ElementAt(n) * vcl_sin(theta) ) * 2.0;
     }
@@ -69,10 +65,12 @@ FourierSeriesPath<VDimension>
   numHarmonics = m_CosCoefficients->Size(); 
   output.Fill(0);
   
+  const double PI = 4.0 * atan( 1.0 );
+
   for(int n=1; n<numHarmonics; n++)
     {
     // input defined over [0,1] maps to theta defined over [0,2pi * n]
-    theta = M_PI*2.0*n*input;
+    theta = PI * 2.0 * n * input;
     output += ( m_SinCoefficients->ElementAt(n) * vcl_cos(theta) -
                 m_CosCoefficients->ElementAt(n) * vcl_sin(theta) ) * (2.0 * n);
     }
