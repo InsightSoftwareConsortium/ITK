@@ -371,6 +371,7 @@ ADD_TEST(MultiResImageRegistration1Test ${REGISTRATION_EXAMPLES2}
 ADD_TEST(MultiResImageRegistration2Test ${REGISTRATION_EXAMPLES2}
   --compare ${BASELINE}/MultiResImageRegistration2Test.png
             ${TEMP}/MultiResImageRegistration2Test.png
+  --compareNumberOfPixelsTolerance 100
   MultiResImageRegistration2Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
