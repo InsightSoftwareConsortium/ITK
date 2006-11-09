@@ -390,6 +390,7 @@ ADD_TEST(DeformableRegistration2Test ${REGISTRATION_EXAMPLES5}
 ADD_TEST(DeformableRegistration3Test ${REGISTRATION_EXAMPLES5}
   --compare ${BASELINE}/DeformableRegistration3Test.png
             ${TEMP}/DeformableRegistration3Test.png
+  --compareNumberOfPixelsTolerance 100
   DeformableRegistration3Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
