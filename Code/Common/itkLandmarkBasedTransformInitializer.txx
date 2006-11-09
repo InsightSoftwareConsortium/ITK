@@ -23,10 +23,6 @@
 #include "itkSymmetricEigenAnalysis.h"
 
 #include <math.h>
-// not all versions of math.h seem to define M_PI:
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
 
 
 namespace itk
@@ -58,7 +54,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
     return;
     }
 
-
+  const double PI = 4.0 * atan(1.0);
   
   // We will do an explicit typeid check here (via dynamic_cast) to check
   // the transform type. The initialization scheme will generally be different
@@ -395,7 +391,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
           }
         else
           {
-          rotationAngle = -0.5 * M_PI;
+          rotationAngle = -0.5 * PI;
           }
         } 
       else
