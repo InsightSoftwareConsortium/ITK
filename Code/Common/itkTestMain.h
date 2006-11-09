@@ -51,7 +51,13 @@ std::map<std::string, MainFuncPointer> StringToTestFunctionMap;
 extern int test(int, char* [] ); \
 StringToTestFunctionMap[#test] = test
 
-int RegressionTestImage (const char *, const char *, int);
+int RegressionTestImage (const char *testImageFilename, 
+                         const char *baselineImageFilename, 
+                         int reportErrors,
+                         double intensityTolerance = 2.0,
+                         unsigned int numberOfPixelsTolerance = 0,
+                         unsigned int radiusTolerance = 0);
+
 std::map<std::string,int> RegressionTestBaselines (char *);
 
 void RegisterTests();
@@ -72,6 +78,9 @@ int main(int ac, char* av[] )
 {
   char *baselineFilename = NULL;
   char *testFilename = NULL;
+  double intensityTolerance  = 2.0;
+  unsigned int numberOfPixelsTolerance = 0;
+  unsigned int radiusTolerance = 0;
 
   RegisterTests();
   std::string testToRun;
@@ -110,12 +119,32 @@ int main(int ac, char* av[] )
       av += 1;
       ac -= 1;
       }
-    if (strcmp(av[1], "--compare") == 0)
+    if (ac > 3 && strcmp(av[1], "--compare") == 0)
       {
       baselineFilename = av[2];
       testFilename = av[3];
       av += 3;
       ac -= 3;
+      // Advanced options for image comparison (The options must appear in 
+      // this order in the command line because this parser code is not that smart)
+      if (ac > 2 && strcmp(av[1], "--compareNumberOfPixelsTolerance") == 0)
+        {
+        numberOfPixelsTolerance = atoi( av[2] );
+        av += 2;
+        ac -= 2;
+        }
+      if (ac > 2 && strcmp(av[1], "--compareRadiusTolerance") == 0)
+        {
+        radiusTolerance = atoi( av[2] );
+        av += 2;
+        ac -= 2;
+        }
+      if (ac > 2 && strcmp(av[1], "--compareIntensityTolerance") == 0)
+        {
+        intensityTolerance = atof( av[2] );
+        av += 2;
+        ac -= 2;
+        }
       }
     testToRun = av[1];
     }
@@ -140,7 +169,10 @@ int main(int ac, char* av[] )
           {
           baseline->second = RegressionTestImage(testFilename,
                                                  (baseline->first).c_str(),
-                                                 0);
+                                                 0, 
+                                                 intensityTolerance, 
+                                                 numberOfPixelsTolerance, 
+                                                 radiusTolerance );
           if (baseline->second < bestBaselineStatus)
             {
             bestBaseline = baseline->first;
@@ -157,7 +189,10 @@ int main(int ac, char* av[] )
           {
           baseline->second = RegressionTestImage(testFilename,
                                                  bestBaseline.c_str(),
-                                                 1);
+                                                 1, 
+                                                 intensityTolerance,
+                                                 numberOfPixelsTolerance, 
+                                                 radiusTolerance );
           }
 
         // output the matching baseline
@@ -195,7 +230,12 @@ int main(int ac, char* av[] )
 
 // Regression Testing Code
 
-int RegressionTestImage (const char *testImageFilename, const char *baselineImageFilename, int reportErrors)
+int RegressionTestImage (const char *testImageFilename, 
+                         const char *baselineImageFilename, 
+                         int reportErrors,
+                         double intensityTolerance,
+                         unsigned int numberOfPixelsTolerance, 
+                         unsigned int radiusTolerance )
 {
   // Use the factory mechanism to read the test and baseline files and convert them to double
   typedef itk::Image<double,ITK_TEST_DIMENSION_MAX> ImageType;
@@ -250,13 +290,18 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
   DiffType::Pointer diff = DiffType::New();
     diff->SetValidInput(baselineReader->GetOutput());
     diff->SetTestInput(testReader->GetOutput());
-    diff->SetDifferenceThreshold(2.0);
+    diff->SetDifferenceThreshold( intensityTolerance );
+    diff->SetToleranceRadius( radiusTolerance );
     diff->UpdateLargestPossibleRegion();
 
   double status = diff->GetTotalDifference();
 
+  const unsigned int numberOfFailedPixels = 
+    diff->GetNumberOfPixelsWithDifferences();
+
   // if there are discrepencies, create an diff image
-  if (status && reportErrors)
+  if ( status && reportErrors &&  
+      ( numberOfFailedPixels > numberOfPixelsTolerance ) )
     {
     typedef itk::RescaleIntensityImageFilter<ImageType,OutputType> RescaleType;
     typedef itk::ExtractImageFilter<OutputType,DiffOutputType> ExtractType;
