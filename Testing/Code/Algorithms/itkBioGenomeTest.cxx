@@ -32,7 +32,7 @@ int itkBioGenomeTest( int, char * [] )
    genome.InsertGene("Tubulin");
    genome.InsertGene("Cyclin");
 
-   const double tolerance = 1e-30;
+   const double tolerance = 1e-16;
 
    const double inLevel = 0.74;
    genome.SetExpressionLevel("Cyclin",inLevel);
