@@ -201,7 +201,7 @@ ContourSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 ContourSpatialObject< TDimension >
-::IsInside( const PointType & point) const
+::IsInside( const PointType & itkNotUsed(point) ) const
 {
   /*typename ControlPointListType::const_iterator it = m_ControlPoints.begin();
   typename ControlPointListType::const_iterator itEnd = m_ControlPoints.end();
