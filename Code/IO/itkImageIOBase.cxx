@@ -154,7 +154,8 @@ template <typename T>
 bool
 itkSetPixelType(ImageIOBase *This,
               const std::type_info &ptype,
-              ImageIOBase::IOComponentType ntype, T dummy)
+              ImageIOBase::IOComponentType ntype, 
+              T itkNotUsed( dummy ) )
 {
   if( ptype == typeid(T) )
     {
