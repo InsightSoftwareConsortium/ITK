@@ -64,7 +64,7 @@ int main( int argc, char * argv[] )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  fixedImage  movingImage" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
 // Software Guide : BeginLatex
@@ -170,7 +170,7 @@ int main( int argc, char * argv[] )
     {
     std::cerr << "Exception catched !" << std::endl;
     std::cerr << excep << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
 
@@ -244,7 +244,7 @@ int main( int argc, char * argv[] )
 
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 
