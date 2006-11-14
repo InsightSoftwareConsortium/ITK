@@ -178,6 +178,14 @@ public:
     m_Image->TransformPhysicalPointToContinuousIndex( point, cindex );
     }
 
+// The Windows implementaton of vnl_math_rnd() does not round the
+// same way as the linux versions. It appears to round down on
+// .5. This code replaces the standard vnl implementation that uses
+// assembler code. The code below will be slower for windows but will
+// produce consistent results.
+#if defined (VCL_VC) && !defined(__GCCXML__)
+#define vnl_math_rnd(x) ((x>=0.0)?(int)(x + 0.5):(int)(x - 0.5))
+#endif
   /** Convert continuous index to nearest index. */
   void ConvertContinuousIndexToNearestIndex( const ContinuousIndexType & cindex,
     IndexType & index ) const
@@ -186,6 +194,9 @@ public:
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       { index[j] = static_cast<ValueType>( vnl_math_rnd( cindex[j] ) ); }
     }
+#if defined (VCL_VC) && !defined(__GCCXML__)
+#undef vnl_math_rnd
+#endif
   
   itkGetConstReferenceMacro(StartIndex, IndexType);
   itkGetConstReferenceMacro(EndIndex, IndexType);
