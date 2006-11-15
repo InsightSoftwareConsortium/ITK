@@ -138,6 +138,20 @@ int itkImageLinearIteratorTest(int, char* [] )
   std::cout << "   Done ! " << std::endl;
 
 
+  // Test GoToReverseBeginOfLine()
+  cot.GoToBegin();
+  cot.GoToReverseBeginOfLine();
+  index = cot.GetIndex();
+  if( cot.Get() != index )
+    {
+    std::cerr << "Values don't correspond to what was stored "
+              << std::endl;
+    std::cerr << "Test failed at index ";
+    std::cerr << index << " value is " << cot.Get() <<  std::endl;
+    return EXIT_FAILURE;
+    }
+  
+
 
   // Verification 
   std::cout << "Verifying iterator in reverse direction... ";
