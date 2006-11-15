@@ -58,21 +58,27 @@
 // dimension of the subspace of the image that excludes the selected dimension.
 //
 // \index{itk::ImageLinearIteratorWithIndex!GoToBeginOfLine()}
-// \index{itk::ImageLinearIteratorWithIndex!GoToReverseBeginOfLine()}
 //
 // \item \textbf{\code{GoToBeginOfLine()}} Moves the iterator to the beginning
 // pixel of the current line.
 //
+// \index{itk::ImageLinearIteratorWithIndex!GoToEndOfLine()}
+//
 // \item \textbf{\code{GoToEndOfLine()}}  Move the iterator to 
 // \emph{one past} the last valid pixel of the current line.
 //
+// \index{itk::ImageLinearIteratorWithIndex!GoToReverseBeginOfLine()}
+//
+// \item \textbf{\code{GoToReverseBeginOfLine()}}  Move the iterator
+// to \emph{the last valid pixel} of the current line.
 //
 // \index{itk::ImageLinearIteratorWithIndex!IsAtReverseEndOfLine()}
-// \index{itk::ImageLinearIteratorWithIndex!IsAtEndOfLine()}
 //
 // \item \textbf{\code{IsAtReverseEndOfLine()}} 
 // Returns true if the iterator points
 // to \emph{one position before} the beginning pixel of the current line.
+//
+// \index{itk::ImageLinearIteratorWithIndex!IsAtEndOfLine()}
 //
 // \item \textbf{\code{IsAtEndOfLine()}}  
 // Returns true if the iterator points to
