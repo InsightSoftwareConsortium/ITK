@@ -50,7 +50,7 @@ ImageLinearConstIteratorWithIndex<TImage>
   long distanceToEnd = 
     this->m_EndIndex[ m_Direction ] - this->m_PositionIndex[ m_Direction ] - 1;
   this->m_Position += m_Jump * distanceToEnd; 
-  this->m_PositionIndex[m_Direction] = this->m_EndIndex[m_Direction];
+  this->m_PositionIndex[m_Direction] = this->m_EndIndex[m_Direction] - 1;
 }
 
 
