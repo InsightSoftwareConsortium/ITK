@@ -794,13 +794,24 @@ Write(const char *_headName, const char *_dataName, bool _writeElements,
     tmpDataFileName = true;
     ElementDataFileName(_dataName);
     }
+  else
+    {
+    if( strlen(m_ElementDataFileName) == 0 )
+      {
+      tmpDataFileName = true;
+      }
+    }
 
   int sPtr = 0;
   MET_GetFileSuffixPtr(m_FileName, &sPtr);
-  if( strlen(m_ElementDataFileName)>1 &&
-      strcmp(m_ElementDataFileName, "LOCAL") )
+  if( !strcmp(&(m_FileName[sPtr]), "mvh") )
     {
     MET_SetFileSuffix(m_FileName, "mvh");
+    if( strlen(m_ElementDataFileName) == 0 ||
+        !strcmp(m_ElementDataFileName, "LOCAL") )
+      {
+      ElementDataFileName(m_FileName);
+      }
     if(m_CompressedData)
       {
       MET_SetFileSuffix(m_ElementDataFileName, "zmvd");
@@ -1136,9 +1147,10 @@ M_ReadElements(METAIO_STREAM::ifstream * _fstream, void * _data,
     if(!m_BinaryData)
       {
       double tf;
-      for(int i=0; i<_dataQuantity; i++)
+      for(int i=0; i<_dataQuantity*m_ElementNumberOfChannels; i++)
         {
         *_fstream >> tf;
+        std::cout << "tf = " << tf << std::endl;
         MET_DoubleToValue(tf, m_ElementType, _data, i);
         _fstream->get();
         }
@@ -1211,7 +1223,7 @@ M_WriteElements(METAIO_STREAM::ofstream * _fstream, const void * _data,
   if(!m_BinaryData)
     {
     double tf;
-    for(int i=0; i<m_Length; i++)
+    for(int i=0; i<m_Length*m_ElementNumberOfChannels; i++)
       {
       MET_ValueToDouble(m_ElementType, _data, i, &tf);
       if((i+1)/10 == (double)(i+1.0)/10.0)
