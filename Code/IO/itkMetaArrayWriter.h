@@ -59,6 +59,12 @@ public:
   /** Get the filename to which the data will be written */
   itkGetStringMacro(DataFileName);
 
+  /** Set the writer to store the array as binary data */
+  itkSetMacro(Binary, bool);
+  /** Returns true if the file to be produced will store the data in binary
+   *    (instead of ascii) format */
+  itkGetMacro(Binary, bool);
+
   /** Set the input itk Array to write */
   template <typename TValueType>
   void SetInput(MET_ValueEnumType _metaElementType,
@@ -109,6 +115,37 @@ public:
                                     _metaElementType);
     }
 
+  /** Copies the elements from an array of arrays into the output
+   *    buffer.   Requires all sub-arrays to have the same length.
+   *    length of the major array is the "length" of the array, while
+   *    the length of teh sub-arrays is the "number of channels" at each
+   *    array position.   Expected form itk::Array< itk::Array< * > >.
+   *    May work for other sub-array-types that define the [] operator and the
+   *    GetSize() function.  */
+  template <typename TValueType>
+  void SetMultiChannelInput(MET_ValueEnumType _metaElementType,
+                            int _NumberOfChannels,
+                            const Array<TValueType> * _array)
+    {
+    int rows = _array->GetSize();
+    int cols = (*_array)[0].GetSize();
+    m_MetaArray.InitializeEssential(rows, 
+                                    _metaElementType,
+                                    cols,
+                                    NULL,
+                                    true,
+                                    true);
+    m_Buffer = m_MetaArray.ElementData();
+    for(int i=0; i<rows; i++)
+      {
+      for(int j=0; j<cols; j++)
+        {
+        m_MetaArray.ElementData(i*cols+j, (double)((*_array)[i][j]));
+        }
+      }
+    }
+
+
   /** Set/Get the precision of the writing */
   itkSetMacro(Precision, unsigned int);
   itkGetMacro(Precision, unsigned int);
@@ -125,6 +162,8 @@ protected:
   virtual ~MetaArrayWriter();
 
 private:
+
+  bool          m_Binary;
 
   unsigned int  m_Precision;
 

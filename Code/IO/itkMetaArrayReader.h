@@ -99,7 +99,8 @@ public:
 
   /** GetElement is used by itkArray, itkFixedArray, and VariableLengthVector */
   template <typename TValueType>
-  inline void GetElement( TValueType & value, unsigned int i, unsigned int channel=0 ) const
+  inline void GetElement( TValueType & value, unsigned int i,
+                          unsigned int channel=0 ) const
     {
     value = static_cast<TValueType>(m_MetaArray.ElementData( 
               i * m_MetaArray.ElementNumberOfChannels() + channel));
@@ -215,7 +216,32 @@ public:
       }
     }
 
-
+  /** Get an itk Array of Arrays, itk::Array< itk::Array<short> >.  
+   *    Assumes all sub-arrays have the same length.
+   *      Specify the MetaType of the elements of the Array< Array< * > > and
+   *    provide a pointer to the Array of arrays.  Elements are copied 
+   *    into the array of arrays.   */
+  template <typename TValueType>
+  void GetMultiChannelOutput(MET_ValueEnumType _metaElementType,
+                             Array<TValueType> * _array)
+    {
+    if(m_MetaArray.ElementType() != _metaElementType)
+      {
+      m_MetaArray.ConvertElementDataTo(_metaElementType);
+      }
+    int rows = m_MetaArray.Length();
+    int cols = m_MetaArray.ElementNumberOfChannels();
+    _array->SetSize(rows);
+    for(int i=0; i<rows; i++)
+      {
+      (*_array)[i].SetSize(cols);
+      for(int j=0; j<cols; j++)
+        {
+        (*_array)[i][j] = static_cast<typename TValueType::ValueType>
+                                     (m_MetaArray.ElementData(i*cols+j));
+        }
+      }
+    }
 
 protected:
 

@@ -28,6 +28,7 @@ MetaArrayWriter
   m_FileName = "";
   m_Precision = 6;
   m_Buffer = NULL;
+  m_Binary = false;
   }
 
 MetaArrayWriter
@@ -52,6 +53,7 @@ void MetaArrayWriter
   {  
   m_MetaArray.SetDoublePrecision(m_Precision);
 
+  m_MetaArray.BinaryData(m_Binary);
   if(m_Buffer != NULL)
     {
     m_MetaArray.Write(m_FileName.c_str(), m_DataFileName.c_str(),
