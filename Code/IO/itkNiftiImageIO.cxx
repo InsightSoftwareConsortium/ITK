@@ -714,7 +714,8 @@ void NiftiImageIO::ReadImageInformation()
       {
       theMat = this->m_NiftiImage->qto_xyz;
       }
-    else if(this->m_NiftiImage->sform_code > 0)
+    //    else if(this->m_NiftiImage->sform_code > 0)
+    else
       {
       theMat = this->m_NiftiImage->sto_xyz;
       }
