@@ -198,7 +198,11 @@ class lsm( itkExtras.pipeline ):
     return self.GetChannelName( channel )
 
   def UpdateSpacing(self):
-    self[-1].SetOutputSpacing( self[0].GetVoxelSizes() )
+    spacing = self[0].GetVoxelSizes()
+    # some filters (and some users - like... me) are lost with values as small
+    # as 1.9e-7, so turn them in micrometers
+    spacing = [ v * 1e6 for v in spacing ]
+    self[-1].SetOutputSpacing( spacing )
 
   def GetFileName(self):
     return self[0].GetFileName()
