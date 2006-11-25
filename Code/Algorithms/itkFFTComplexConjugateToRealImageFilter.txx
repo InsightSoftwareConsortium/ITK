@@ -21,8 +21,59 @@
 #include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
 
+#include "itkVnlFFTComplexConjugateToRealImageFilter.h"
+
+#if defined(USE_FFTWD) || defined(USE_FFTWF)
+#include "itkFFTWComplexConjugateToRealImageFilter.h"
+#endif
+
 namespace itk
 {
+
+template <class TPixel,unsigned int Dimension> class VnlFFTComplexConjugateToRealImageFilter;
+#if defined(USE_FFTWD) || defined(USE_FFTWF)
+template <class TPixel,unsigned int Dimension> class FFTWComplexConjugateToRealImageFilter;
+#endif
+
+template < class TPixel , unsigned int Dimension >
+typename FFTComplexConjugateToRealImageFilter < TPixel , Dimension >::Pointer
+FFTComplexConjugateToRealImageFilter < TPixel , Dimension >
+::New(void)
+{ 
+  Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
+
+#ifdef USE_FFTWD
+  if(smartPtr.IsNull())
+    {
+    if (typeid(TPixel) == typeid(double))
+      {
+      smartPtr = dynamic_cast<Self *>(
+        FFTWComplexConjugateToRealImageFilter< double, Dimension >
+          ::New().GetPointer() );
+      }
+    }
+#endif
+#ifdef USE_FFTWF
+  if(smartPtr.IsNull())
+    {
+    if (typeid(TPixel) == typeid(float))
+      {
+      smartPtr = dynamic_cast<Self *>(
+        FFTWComplexConjugateToRealImageFilter< float, Dimension >
+          ::New().GetPointer());
+      }
+    }
+#endif
+
+  if(smartPtr.IsNull())
+    {
+    smartPtr = VnlFFTComplexConjugateToRealImageFilter< TPixel, Dimension >
+                  ::New().GetPointer();
+    }
+
+  return smartPtr;
+}
+
 template <class TPixel, unsigned int Dimension>
 void
 FFTComplexConjugateToRealImageFilter<TPixel,Dimension>::

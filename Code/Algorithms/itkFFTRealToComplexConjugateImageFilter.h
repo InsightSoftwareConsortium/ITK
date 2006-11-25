@@ -47,6 +47,13 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FFTRealToComplexConjugateImageFilter, ImageToImageFilter);
 
+  /** Customized object creation methods that support configuration-based 
+    * selection of FFT implementation.
+    *
+    * Default implementation is VnlFFT.
+    */
+  static Pointer New(void);
+
   /** Image type typedef support. */
   typedef TInputImageType ImageType;
   typedef typename ImageType::SizeType ImageSizeType;
