@@ -1,15 +1,14 @@
-WRAP_CLASS("itk::RawImageIO" POINTER)
-  FOREACH(d ${WRAP_ITK_DIMS})
-    WRAP_TEMPLATE("${ITKM_F}${d}" "${ITKT_F},${d}")
-  ENDFOREACH(d)
-END_WRAP_CLASS()
-
-
 # non templated IO classes and factories
 WRAP_NON_TEMPLATE_CLASS("itk::ImageIOBase" POINTER)
 WRAP_NON_TEMPLATE_CLASS("itk::IPLCommonImageIO" POINTER)
 WRAP_NON_TEMPLATE_CLASS("itk::TransformFileReader" POINTER)
 WRAP_NON_TEMPLATE_CLASS("itk::TransformFileWriter" POINTER)
+
+WRAP_CLASS("itk::RawImageIO" POINTER)
+  FOREACH(d ${WRAP_ITK_DIMS})
+    WRAP_TEMPLATE("${ITKM_F}${d}" "${ITKT_F},${d}")
+  ENDFOREACH(d)
+END_WRAP_CLASS()
 
 SET(io_classes
   AnalyzeImageIO
@@ -17,13 +16,14 @@ SET(io_classes
   BMPImageIO
   Brains2MaskImageIO
   DICOMImageIO2
-  DicomImageIO
   GDCMImageIO
+  DicomImageIO
   GE4ImageIO
   GE5ImageIO
   GEAdwImageIO
   GiplImageIO
   JPEGImageIO
+  TIFFImageIO
   LSMImageIO
   MetaImageIO
   NiftiImageIO
@@ -31,7 +31,6 @@ SET(io_classes
   PNGImageIO
   SiemensVisionImageIO
   StimulateImageIO
-  TIFFImageIO
   VTKImageIO
 )
 

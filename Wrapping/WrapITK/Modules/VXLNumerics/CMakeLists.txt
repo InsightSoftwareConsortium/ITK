@@ -1,5 +1,10 @@
 BEGIN_WRAPPER_LIBRARY(VXLNumerics)
 
+SET(WRAPPER_LIBRARY_GROUPS
+  vnl_matrix
+  vnl_vector
+)
+
 SET(WRAPPER_LIBRARY_LINK_LIBRARIES itkvnl itkvnl_inst)
 
 # don't include all the default include for that module

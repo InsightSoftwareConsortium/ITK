@@ -1,5 +1,11 @@
 BEGIN_WRAPPER_LIBRARY(LevelSet)
 
+SET(WRAPPER_LIBRARY_GROUPS
+  itkSparseFieldLevelSetImageFilter
+  itkSparseFieldFourthOrderLevelSetImageFilter
+  itkSegmentationLevelSetImageFilter
+  itkShapePriorSegmentationLevelSetImageFilter
+)
 SET(WRAPPER_LIBRARY_DEPENDS Base BaseNumerics)
 
 SET(WRAPPER_LIBRARY_LINK_LIBRARIES ITKCommon)

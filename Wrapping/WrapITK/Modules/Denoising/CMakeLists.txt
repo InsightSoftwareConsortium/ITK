@@ -1,5 +1,11 @@
 BEGIN_WRAPPER_LIBRARY(Denoising)
 
+SET(WRAPPER_LIBRARY_GROUPS
+  itkCurvatureFlowImageFilter
+  itkMinMaxCurvatureFlowImageFilter
+  itkVotingBinaryImageFilter
+)
+
 SET(WRAPPER_LIBRARY_DEPENDS Base)
 
 SET(WRAPPER_LIBRARY_LINK_LIBRARIES ITKCommon)

@@ -1,4 +1,4 @@
-WRAP_CLASS("itk::GrayscaleDilateImageFilter" POINTER)
+WRAP_CLASS("itk::GrayscaleDilateImageFilter" POINTER_WITH_SUPERCLASS)
   FOREACH(d ${WRAP_ITK_DIMS})
     FOREACH(t ${WRAP_ITK_SCALAR})
       WRAP_TEMPLATE("${ITKM_I${t}${d}}${ITKM_I${t}${d}}${ITKM_SE${d}}"    "${ITKT_I${t}${d}},${ITKT_I${t}${d}},${ITKT_SE${d}}")

@@ -1,5 +1,9 @@
 BEGIN_WRAPPER_LIBRARY(Registration)
 
+SET(WRAPPER_LIBRARY_GROUPS
+  itkPDEDeformableRegistrationFilter
+)
+
 SET(WRAPPER_LIBRARY_DEPENDS 
   Base 
   BaseNumerics
