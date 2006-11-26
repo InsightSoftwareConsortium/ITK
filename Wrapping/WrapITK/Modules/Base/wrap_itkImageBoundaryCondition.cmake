@@ -7,9 +7,9 @@
 #   WRAP_INCLUDE("itkConstantBoundaryConditionStub.h")
 # ENDIF(WIN32)
 
-WRAP_CLASS("itk::ImageBoundaryCondition")
-  WRAP_IMAGE_FILTER_ALL_TYPES(1)
-END_WRAP_CLASS()
+# WRAP_CLASS("itk::ImageBoundaryCondition")
+#   WRAP_IMAGE_FILTER_ALL_TYPES(1)
+# END_WRAP_CLASS()
 
 WRAP_CLASS("itk::PeriodicBoundaryCondition")
   WRAP_IMAGE_FILTER_ALL_TYPES(1)
