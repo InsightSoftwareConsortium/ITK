@@ -369,6 +369,17 @@ IF(CMAKE_COMPILER_IS_GNUCC)
     )
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
+IF(CMAKE_C_COMPILER MATCHES "icc")
+  # Adjust optimization of floating point computation for some sources.
+  SET_SOURCE_FILES_PROPERTIES(
+    blas/slamch.c
+    blas/dlamch.c
+#     PROPERTIES COMPILE_FLAGS -O0
+    PROPERTIES COMPILE_FLAGS -fp_port
+    )
+ENDIF(CMAKE_C_COMPILER MATCHES "icc")
+
+
 # Create a netlib library with mangled symbols.
 ADD_LIBRARY(itkv3p_netlib ${v3p_netlib_sources})
 IF(UNIX)
