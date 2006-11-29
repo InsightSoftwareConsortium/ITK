@@ -339,14 +339,12 @@ namespace itk
 #define itkNewMacro(x) \
 static Pointer New(void) \
 { \
-  Pointer smartPtr; \
-  x *rawPtr = ::itk::ObjectFactory<x>::Create(); \
-  if(rawPtr == NULL) \
+  Pointer smartPtr = ::itk::ObjectFactory<x>::Create(); \
+  if(smartPtr.GetPointer() == NULL) \
     { \
-    rawPtr = new x; \
+    smartPtr = new x; \
     } \
-  smartPtr = rawPtr; \
-  rawPtr->UnRegister(); \
+  smartPtr->UnRegister(); \
   return smartPtr; \
 } \
 virtual ::itk::LightObject::Pointer CreateAnother(void) const \
