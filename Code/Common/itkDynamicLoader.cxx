@@ -108,7 +108,7 @@ DynamicLoader
 // http://developer.apple.com/documentation/DeveloperTools/Reference/MachOReference/Reference/reference.html
 //
 #ifdef __APPLE__
-#if MAC_OS_X_VERSION_MIN_REQUIRED < 1030   
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 1030   
 #define ITKDYNAMICLOADER_DEFINED 
 #include <mach-o/dyld.h>
 
@@ -178,7 +178,7 @@ DynamicLoader
 
 } // end namespace itk
 
-#endif // MAC_OS_X_VERSION_MIN_REQUIRED < 1030
+#endif // MAC_OS_X_VERSION_MAX_ALLOWED < 1030
 #endif // __APPLE__
 
 // ---------------------------------------------------------------
