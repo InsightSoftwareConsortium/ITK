@@ -17,38 +17,9 @@
 #ifndef __itkDynamicLoader_h
 #define __itkDynamicLoader_h
 
-#include "itkMacro.h"
-
-// Apple specific includes 
-#if defined(__APPLE__)
-  #include <AvailabilityMacros.h>           // defines MAC_OS version symbols
-#endif
-
-
-// Ugly stuff for library handles.
-// They are different on several different OS's
-#if defined(__hpux)
-# include <dl.h>
-namespace itk
-{
-typedef shl_t LibHandle;
-} // end namespace itk
-#elif defined(_WIN32)
-#include "itkWindows.h"
-
-namespace itk
-{
-typedef HMODULE LibHandle;
-} // end namespace itk
-#else
-namespace itk
-{
-typedef void* LibHandle;
-} // end namespace itk
-#endif
-
 #include "itkObject.h"
 #include "itkObjectFactory.h"
+#include <itksys/DynamicLoader.hxx>
 
 namespace itk
 {
@@ -62,6 +33,11 @@ namespace itk
  * \ingroup OSSystemObjects
  */
 
+//BTX
+typedef itksys::DynamicLoader::LibraryHandle LibHandle;
+// Cannot use this as this is a void (*)() but ITK old API used to be void*
+typedef itksys::DynamicLoader::SymbolPointer SymbolPointer;
+//ETX
 
 class ITKCommon_EXPORT DynamicLoader : public Object
 {
