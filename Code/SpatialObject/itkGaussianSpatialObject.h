@@ -87,8 +87,8 @@ public:
                         char * name=NULL) const;
      
   /** Always returns true since a Gaussian can be evaluated anywhere. */
-  virtual bool IsEvaluableAt( const PointType & , unsigned int,
-                              char *) const { return true; }
+  virtual bool IsEvaluableAt( const PointType & , unsigned int = 0,
+                              char * = NULL) const { return true; }
 
   /** Test whether a point is inside or outside the object */ 
   virtual bool IsInside( const PointType & point,
