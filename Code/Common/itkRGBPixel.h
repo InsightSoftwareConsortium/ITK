@@ -150,8 +150,6 @@ ITK_EXPORT std::istream& operator>>(std::istream& is,
 
 } // end namespace itk
 
-#include "itkNumericTraitsRGBPixel.h"
-
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_RGBPixel(_, EXPORT, x, y) namespace itk { \
   _(1(class EXPORT RGBPixel< ITK_TEMPLATE_1 x >)) \
@@ -164,6 +162,10 @@ ITK_EXPORT std::istream& operator>>(std::istream& is,
 
 #if ITK_TEMPLATE_TXX
 # include "itkRGBPixel.txx"
+#endif
+
+#ifndef ITKCommon_EXPORTS
+  #include "itkNumericTraitsRGBPixel.h"
 #endif
 
 #endif
