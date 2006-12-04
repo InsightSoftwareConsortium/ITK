@@ -55,7 +55,7 @@ namespace itk
  *
  * The API of this class is similar to Image.
  *
- * \section Caveats:
+ * \par Caveats:
  * When using Iterators on this image, you cannot use the it.Value(). You must use
  * Set/Get() methods instead.
  *
