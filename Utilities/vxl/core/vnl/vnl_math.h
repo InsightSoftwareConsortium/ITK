@@ -146,14 +146,14 @@ template <class T> bool vnl_math_isfinite(T);
 // Or in simpler terms - is at least 3 times faster.
 inline int vnl_math_rnd(float  x) { return lroundf(x); }
 inline int vnl_math_rnd(double x) { return lround(x); }
-#elif defined (VCL_VC) && !defined(__GCCXML__)
+#elif defined (VCL_VC) && !defined(__GCCXML__) && !defined(_WIN64)
 // Use assembly inline function from
 // http://mega-nerd.com/FPcast/
 //
 
  // Win32 doesn't seem to have these functions.
  // Therefore implement inline versions of these functions here.
-
+//  NB But Win64 does not support the non-standard _asm 
  __inline int
  vnl_math_rnd (double flt)
  { int intgr;
