@@ -39,7 +39,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkImageIOBase.h"
 #include "itkIPLCommonImageIO.h"
 #include "itkGEImageHeader.h"
-#include "itkExtHdrs/Ge5xHdr.h"
+#include "Ge5xHdr.h"
 
 namespace itk
 {

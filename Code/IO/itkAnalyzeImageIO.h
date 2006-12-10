@@ -35,7 +35,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include <fstream>
 #include "itkImageIOBase.h"
-#include "itkExtHdrs/itkAnalyzeDbh.h"
+#include "itkAnalyzeDbh.h"
 
 namespace itk
 {
