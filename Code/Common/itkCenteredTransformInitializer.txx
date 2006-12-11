@@ -97,9 +97,13 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     typename FixedImageType::SizeType fixedSize = 
       m_FixedImage->GetLargestPossibleRegion().GetSize();
     
-    typename TransformType::InputPointType centerFixedPoint;
+    InputPointType centerFixedPoint;
 
-    typedef ContinuousIndex< double, InputSpaceDimension >  ContinuousIndexType;
+    typedef typename InputPointType::ValueType CoordRepType;
+
+    typedef ContinuousIndex< CoordRepType, 
+                             InputSpaceDimension >  ContinuousIndexType;
+
     typedef typename ContinuousIndexType::ValueType  ContinuousIndexValueType;
 
     ContinuousIndexType centerFixedIndex;
@@ -116,7 +120,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     typename MovingImageType::SizeType movingSize = 
       m_MovingImage->GetLargestPossibleRegion().GetSize();
     
-    typename TransformType::InputPointType centerMovingPoint;
+    InputPointType centerMovingPoint;
     
     ContinuousIndexType centerMovingIndex;
 
