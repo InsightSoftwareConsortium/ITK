@@ -94,42 +94,45 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     {
     // Here use the geometrical center of each image.
 
-    const typename FixedImageType::SpacingType& 
-      fixedSpacing = m_FixedImage->GetSpacing();
-    const typename FixedImageType::PointType&
-      fixedOrigin  = m_FixedImage->GetOrigin();
-    
     typename FixedImageType::SizeType fixedSize = 
       m_FixedImage->GetLargestPossibleRegion().GetSize();
     
-    typename TransformType::InputPointType centerFixed;
-    
+    typename TransformType::InputPointType centerFixedPoint;
+
+    typedef ContinuousIndex< double, InputSpaceDimension >  ContinuousIndexType;
+    typedef typename ContinuousIndexType::ValueType  ContinuousIndexValueType;
+
+    ContinuousIndexType centerFixedIndex;
+
     for( unsigned int k=0; k<InputSpaceDimension; k++ )
       {
-      centerFixed[k] = fixedOrigin[k] + fixedSpacing[k] * fixedSize[k] / 2.0;
+      centerFixedIndex[k] = 
+        static_cast< ContinuousIndexValueType >( fixedSize[k] ) / 2.0;
       }
 
+    m_FixedImage->TransformContinuousIndexToPhysicalPoint( 
+      centerFixedIndex, centerFixedPoint );
 
-    const typename MovingImageType::SpacingType&
-      movingSpacing = m_MovingImage->GetSpacing();
-    const typename MovingImageType::PointType&
-      movingOrigin  = m_MovingImage->GetOrigin();
-    
     typename MovingImageType::SizeType movingSize = 
       m_MovingImage->GetLargestPossibleRegion().GetSize();
     
-    typename TransformType::InputPointType centerMoving;
+    typename TransformType::InputPointType centerMovingPoint;
     
+    ContinuousIndexType centerMovingIndex;
+
     for( unsigned int m=0; m<InputSpaceDimension; m++ )
       {
-      centerMoving[m] = movingOrigin[m] + movingSpacing[m] 
-                                                   * movingSize[m] / 2.0;
+      centerMovingIndex[m] = 
+        static_cast< ContinuousIndexValueType >( movingSize[m] ) / 2.0;
       }
+
+    m_MovingImage->TransformContinuousIndexToPhysicalPoint( 
+      centerMovingIndex, centerMovingPoint );
 
     for( unsigned int i=0; i<InputSpaceDimension; i++)
       {
-      rotationCenter[i]    = centerFixed[i];
-      translationVector[i] = centerMoving[i] - centerFixed[i];
+      rotationCenter[i]    = centerFixedPoint[i];
+      translationVector[i] = centerMovingPoint[i] - centerFixedPoint[i];
       }
 
     }
