@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkConnectedComponentImageFilter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 
 #ifndef __itkConnectedComponentImageFilter_h
 #define __itkConnectedComponentImageFilter_h
@@ -148,7 +164,7 @@ private:
   typedef typename TOutputImage::RegionType::SizeType OutSizeType;
 
   // types to support the run length encoding of lines
-  typedef class runLength
+   class runLength
     {
     public:
       long int length;  // run length information - may be a more type safe way of doing this

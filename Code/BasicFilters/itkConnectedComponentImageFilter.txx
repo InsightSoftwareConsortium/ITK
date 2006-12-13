@@ -1,8 +1,25 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkConnectedComponentImageFilter.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #ifndef _itkConnectedComponentImageFilter_txx
 #define _itkConnectedComponentImageFilter_txx
 
 #include "itkConnectedComponentImageFilter.h"
 #include "itkNumericTraits.h"
+
 // don't think we need the indexed version as we only compute the
 // index at the start of each run, but there isn't a choice
 #include "itkImageLinearConstIteratorWithIndex.h"  
