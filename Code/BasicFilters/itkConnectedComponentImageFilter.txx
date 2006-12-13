@@ -500,6 +500,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   Superclass::PrintSelf(os,indent);
 
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
+  os << indent << "ObjectCount: "  << m_ObjectCount << std::endl;
 }
 
 } // end namespace itk
