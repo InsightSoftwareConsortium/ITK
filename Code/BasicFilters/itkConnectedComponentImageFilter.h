@@ -1,24 +1,13 @@
-/*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkConnectedComponentImageFilter.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
 #ifndef __itkConnectedComponentImageFilter_h
 #define __itkConnectedComponentImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
+#include "itkConceptChecking.h"
+#include <vector>
+#include <map>
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -28,19 +17,15 @@ namespace itk
  * \brief Label the objects in a binary image
  *
  * ConnectedComponentImageFilter labels the objects in a binary image.
- * Each distinct object is assigned a unique label. The filter makes
- * three passes through the image.  The first pass initialized the
- * output.  The second pass labels each foreground pixel such that all
- * the pixels associated with an object either have the same label or
- * have had their labels entered into a equivalency table.  The third
- * pass through the image flattens the equivalency table such that all
- * pixels for an object have the same label.
+ * Each distinct object is assigned a unique label. The filter experiments
+ * with some improvements to the existing implementation, and is based on
+ * run length encoding along raster lines.
+ * The final object labels start with 1 and are consecutive. Objects
+ * that are reached earlier by a raster order scan have a lower
+ * label. This is different to the behaviour of the original connected
+ * component image filter which did not produce consecutive labels or
+ * impose any particular ordering.
  *
- * The final object labels are in no particular order (and some object
- * labels may not be used on the final objects).  You can reorder the
- * labels such that object labels are consecutive and sorted based on
- * object size by passing the output of this filter to a
- * RelabelComponentImageFilter. 
  *
  * \sa ImageToImageFilter
  */
@@ -70,8 +55,10 @@ public:
   typedef typename TInputImage::PixelType InputPixelType;
   typedef typename TInputImage::InternalPixelType InputInternalPixelType;
   typedef typename TMaskImage::PixelType MaskPixelType;
-  itkStaticConstMacro(ImageDimension, unsigned int,
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
   
   /**
    * Image typedef support
@@ -83,7 +70,6 @@ public:
   typedef   typename TInputImage::SizeType        SizeType;
   typedef   typename TOutputImage::RegionType     RegionType;
   typedef   std::list<IndexType>                  ListType;
-
   typedef typename MaskImageType::Pointer MaskImagePointer;
 
   /** 
@@ -111,6 +97,14 @@ public:
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
+  
+  // only set after completion
+  itkGetConstReferenceMacro(ObjectCount, unsigned long);
+
+  // Concept checking -- input and output dimensions must be the same
+  itkConceptMacro(SameDimension,
+      (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),itkGetStaticConstMacro(OutputImageDimension)>));
+
 
   void SetMaskImage(TMaskImage* mask) {
     this->SetNthInput(1, const_cast<TMaskImage *>( mask ));
@@ -124,12 +118,10 @@ protected:
   ConnectedComponentImageFilter() 
     {
     m_FullyConnected = false;
+    m_ObjectCount = -1;
     }
   virtual ~ConnectedComponentImageFilter() {}
   ConnectedComponentImageFilter(const Self&) {}
-
-  bool m_FullyConnected;
-
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -147,7 +139,50 @@ protected:
    * EnlargeOutputRequestedRegion().
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
+
+  bool m_FullyConnected;
   
+private:
+  unsigned long m_ObjectCount;
+  // some additional types
+  typedef typename TOutputImage::RegionType::SizeType OutSizeType;
+
+  // types to support the run length encoding of lines
+  typedef class runLength
+    {
+    public:
+      long int length;  // run length information - may be a more type safe way of doing this
+      typename InputImageType::IndexType where;  // Index of the start of the run
+      unsigned long int label; // the initial label of the run
+    };
+
+  typedef std::vector<runLength> lineEncoding;
+
+  // the map storing lines
+  typedef std::map<long, lineEncoding> LineMapType;
+  
+  typedef std::vector<long> OffsetVec;
+
+  // the types to support union-find operations
+  typedef std::vector<unsigned long int> UnionFindType;
+  UnionFindType m_UnionFind;
+  UnionFindType m_Consecutive;
+  // functions to support union-find operations
+  void InitUnion(const unsigned long int size) 
+  {
+    m_UnionFind = UnionFindType(size + 1);
+  }
+  void InsertSet(const unsigned long int label);
+  unsigned long int LookupSet(const unsigned long int label);
+  void LinkLabels(const unsigned long int lab1, const unsigned long int lab2);
+  unsigned long int CreateConsecutive();
+  //////////////////
+  void CompareLines(lineEncoding &current, const lineEncoding &Neighbour);
+
+  void FillOutput(const LineMapType &LineMap,
+      ProgressReporter &progress);
+
+  void SetupLineOffsets(OffsetVec &LineOffsets);
 };
   
 } // end namespace itk
