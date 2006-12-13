@@ -94,32 +94,32 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
       InputPixelType PVal = inLineIt.Get();
       //std::cout << inLineIt.GetIndex() << std::endl;
       if (PVal != NumericTraits<InputPixelType>::Zero)
-  {
-  // We've hit the start of a run
-  runLength thisRun;
-  long length=0;
-  typename InputImageType::IndexType thisIndex;
-  ++lab;
-  thisIndex = inLineIt.GetIndex();
-  //std::cout << thisIndex << std::endl;
-  while ((PVal != NumericTraits<InputPixelType>::Zero) &&
-         (! inLineIt.IsAtEndOfLine()))
-    {
-    ++length;
-    ++inLineIt;
-    PVal = inLineIt.Get();
-    }
-  // create the run length object to go in the vector
-  thisRun.length=length;
-  thisRun.label=lab;
-  thisRun.where = thisIndex;
-  ThisLine.push_back(thisRun);
-  //std::cout << thisIndex[0] << " " << thisIndex[1] << " " << length << std::endl;
-  }
+        {
+        // We've hit the start of a run
+        runLength thisRun;
+        long length=0;
+        typename InputImageType::IndexType thisIndex;
+        ++lab;
+        thisIndex = inLineIt.GetIndex();
+        //std::cout << thisIndex << std::endl;
+        while ((PVal != NumericTraits<InputPixelType>::Zero) &&
+               (! inLineIt.IsAtEndOfLine()))
+          {
+          ++length;
+          ++inLineIt;
+          PVal = inLineIt.Get();
+          }
+        // create the run length object to go in the vector
+        thisRun.length=length;
+        thisRun.label=lab;
+        thisRun.where = thisIndex;
+        ThisLine.push_back(thisRun);
+        //std::cout << thisIndex[0] << " " << thisIndex[1] << " " << length << std::endl;
+        }
       else 
-  {
-  ++inLineIt;
-  }
+        {
+        ++inLineIt;
+        }
       }
     if (ThisLine.size() != 0)
       {
@@ -154,16 +154,16 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
     long ThisIdx = LineIt->first;
     //std::cout << "Line number = " << LineIt->first << std::endl;
     for (OffsetVec::const_iterator I = LineOffsets.begin();
-   I != LineOffsets.end(); ++I)
+         I != LineOffsets.end(); ++I)
       {
       long NeighIdx = ThisIdx + (*I);
       // check if the neighbor is in the map
       typename LineMapType::const_iterator NN = LineMap.find(NeighIdx);
       if (NN != MapEnd) 
-  {
-  // Compare the two lines
-  CompareLines(LineIt->second, NN->second);
-  }
+        {
+        // Compare the two lines
+        CompareLines(LineIt->second, NN->second);
+        }
       }
     }
   
@@ -332,46 +332,46 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
       bool eq = false;
       // the logic here can probably be improved a lot
       if ((ss1 >= cStart) && (ee2 <= cLast))
-  {
-  // case 1
-  eq = true;
-  } 
-      else 
-  {
-  if ((ss1 <= cLast) && (ee2 >= cLast))
-    {
-    // case 2
-    eq = true;
-    }
-  else 
-    {
-    if ((ss1 <= cStart) && (ee2 >= cStart))
-      {
-      // case 3 
-      eq = true;
-      }          
-    else 
-      {
-      if ((ss1 <= cStart) && (ee2 >= cLast))
         {
-        // case 4
+        // case 1
         eq = true;
+        } 
+      else 
+        {
+        if ((ss1 <= cLast) && (ee2 >= cLast))
+          {
+          // case 2
+          eq = true;
+          }
+        else 
+          {
+          if ((ss1 <= cStart) && (ee2 >= cStart))
+            {
+            // case 3 
+            eq = true;
+            }                                        
+          else 
+            {
+            if ((ss1 <= cStart) && (ee2 >= cLast))
+              {
+              // case 4
+              eq = true;
+              }
+            }
+          }
         }
-      }
-    }
-  }
       if (eq) 
-  {
-  LinkLabels(nIt->label, cIt->label);
-  } 
+        {
+        LinkLabels(nIt->label, cIt->label);
+        } 
 
       if (ee1 >= cLast)
-  {
-  // No point looking for more overlaps with the current run
-  // because the neighbor run is either case 2 or 4
-  mIt = nIt;
-  break;
-  }
+        {
+        // No point looking for more overlaps with the current run
+        // because the neighbor run is either case 2 or 4
+        mIt = nIt;
+        break;
+        }
       }
     }
 
@@ -381,7 +381,7 @@ template< class TInputImage, class TOutputImage, class TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
 ::FillOutput(const LineMapType &LineMap,
-       ProgressReporter &progress)
+             ProgressReporter &progress)
 {
 
   typename LineMapType::const_iterator MapBegin, MapEnd, LineIt;
@@ -391,7 +391,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   LineIt = MapBegin;
 
   ImageRegionIterator<OutputImageType> oit(output,
-             output->GetRequestedRegion());
+                                           output->GetRequestedRegion());
 
   ImageRegionIterator<OutputImageType> fstart=oit, fend=oit;
   fstart.GoToBegin();
@@ -411,13 +411,13 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
       oit.SetIndex(cIt->where);
       // initialize the non labelled pixels
       for (; fstart != oit; ++fstart)
-  {
-  fstart.Set(NumericTraits<OutputPixelType>::Zero );
-  }
+        {
+        fstart.Set(NumericTraits<OutputPixelType>::Zero );
+        }
       for (long i = 0; i < cIt->length; ++i, ++oit)
-  {
-  oit.Set(lab);
-  }
+        {
+        oit.Set(lab);
+        }
       fstart = oit;
       //++fstart;
       }

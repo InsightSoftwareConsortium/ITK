@@ -103,7 +103,7 @@ public:
 
   // Concept checking -- input and output dimensions must be the same
   itkConceptMacro(SameDimension,
-      (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),itkGetStaticConstMacro(OutputImageDimension)>));
+                  (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),itkGetStaticConstMacro(OutputImageDimension)>));
 
 
   void SetMaskImage(TMaskImage* mask) {
@@ -180,7 +180,7 @@ private:
   void CompareLines(lineEncoding &current, const lineEncoding &Neighbour);
 
   void FillOutput(const LineMapType &LineMap,
-      ProgressReporter &progress);
+                  ProgressReporter &progress);
 
   void SetupLineOffsets(OffsetVec &LineOffsets);
 };
