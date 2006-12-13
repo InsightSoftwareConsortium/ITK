@@ -64,11 +64,6 @@ private:
   void operator=(const Self&); //purposely not implemented
 
 };
-extern "C"   
-#ifdef _WIN32  
-__declspec( dllexport ) 
-#endif
-  itk::ObjectFactoryBase* itkLoad();
   
   
 } // end namespace itk

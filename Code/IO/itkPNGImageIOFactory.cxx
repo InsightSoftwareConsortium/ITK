@@ -19,16 +19,6 @@
 #include "itkPNGImageIO.h"
 #include "itkVersion.h"
 
-extern "C" 
-#ifdef _WIN32
-__declspec( dllexport ) 
-#endif  
-  itk::ObjectFactoryBase* itkLoad()
-{
-  return itk::PNGImageIOFactory::FactoryNew();
-}
-
-  
 namespace itk
 {
 
