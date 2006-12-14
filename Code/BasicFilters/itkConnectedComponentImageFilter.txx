@@ -26,6 +26,7 @@
 #include "itkConstShapedNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkMaskImageFilter.h"
+#include "itkConnectedComponentAlgorithm.h"
 
 namespace itk
 {
@@ -246,32 +247,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   // pixel and face connected (exclude the center pixel from the
   // neighborhood)
   //
-  unsigned int d;
-  typename LineNeighborhoodType::OffsetType offset;
-
-  if (!m_FullyConnected)
-    {
-    // only activate the "previous" neighbors that are face connected
-    // to the current pixel. do not include the center pixel
-    offset.Fill(0);
-    for (d=0; d < PretendImageType::ImageDimension; ++d)
-      {
-      offset[d] = -1;
-      lnit.ActivateOffset(offset);
-      offset[d] = 0;
-      }
-    }
-  else
-    {
-    // activate all "previous" neighbors that are face+edge+vertex
-    // connected to the current pixel. do not include the center pixel
-    unsigned int centerIndex = lnit.GetCenterNeighborhoodIndex();
-    for (d=0; d < centerIndex; d++)
-      {
-      offset = lnit.GetOffset(d);
-      lnit.ActivateOffset(offset);
-      }
-    }
+  setConnectivityPrevious( &lnit, m_FullyConnected );
 
   typename LineNeighborhoodType::IndexListType ActiveIndexes;
   ActiveIndexes = lnit.GetActiveIndexList();
@@ -291,7 +267,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   for (LI=ActiveIndexes.begin(); LI != ActiveIndexes.end(); LI++, pos++)
     {
     unsigned int idx = *LI;
-    offset = lnit.GetOffset(idx);
+    typename LineNeighborhoodType::OffsetType offset = lnit.GetOffset(idx);
     //std::cout << offset << std::endl;
     int vv = 0;
     for (int J = 0; J < PretendImageType::ImageDimension;J++)
