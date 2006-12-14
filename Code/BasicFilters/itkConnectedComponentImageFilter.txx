@@ -343,7 +343,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
       //   current             S       E
       //------------------------------------------
       long ss1 = nStart - offset;
-      long ss2 = nStart + offset;
+      // long ss2 = nStart + offset;
       long ee1 = nLast - offset;
       long ee2 = nLast + offset;
       bool eq = false;
