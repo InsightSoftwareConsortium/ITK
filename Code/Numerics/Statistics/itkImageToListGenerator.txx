@@ -40,6 +40,7 @@ ImageToListGenerator< TImage, TMaskImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+  os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(m_MaskValue) << std::endl;
 }
 
 template < class TImage, class TMaskImage >

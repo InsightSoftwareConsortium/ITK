@@ -393,7 +393,8 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
-  os << indent << "boundary value: " << m_MarkerValue << std::endl;
+  os << indent << "MarkerValue: " << m_MarkerValue << std::endl;
+  os << indent << "UseInternalCopy: " << m_UseInternalCopy << std::endl;
 }
 }
 #endif
