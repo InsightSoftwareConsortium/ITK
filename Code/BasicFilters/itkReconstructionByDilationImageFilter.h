@@ -82,7 +82,7 @@ public:
 protected:
   ReconstructionByDilationImageFilter()
     {
-    this->SetMarkerValue( NumericTraits<typename TOutputImage::PixelType>::NonpositiveMin() );
+    this->SetMarkerValue( NumericTraits<ITK_TYPENAME TOutputImage::PixelType>::NonpositiveMin() );
     }
   virtual ~ReconstructionByDilationImageFilter() {}
 
