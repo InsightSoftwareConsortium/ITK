@@ -134,7 +134,7 @@ protected:
   ConnectedComponentImageFilter() 
     {
     m_FullyConnected = false;
-    m_ObjectCount = -1;
+    m_ObjectCount = 0;
     }
   virtual ~ConnectedComponentImageFilter() {}
   ConnectedComponentImageFilter(const Self&) {}
