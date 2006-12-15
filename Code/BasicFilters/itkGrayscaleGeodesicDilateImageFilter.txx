@@ -270,7 +270,6 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
   typename OutputImageType::Pointer outputPtr = this->GetOutput();
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
-  outputPtr->CopyInformation(this->GetMaskImage());
 
   // walk the output of the singleIteration
   ImageRegionIterator<TInputImage> singleIt(singleIteration->GetOutput(),
