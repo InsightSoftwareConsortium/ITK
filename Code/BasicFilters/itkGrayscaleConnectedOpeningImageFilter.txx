@@ -139,6 +139,7 @@ GrayscaleConnectedOpeningImageFilter<TInputImage, TOutputImage>
   // graft the output of the dilate filter back onto this filter's
   // output. this is needed to get the appropriate regions passed
   // back.
+  dilate->GetOutput()->CopyInformation(this->GetInput());
   this->GraftOutput( dilate->GetOutput() );
 
 }

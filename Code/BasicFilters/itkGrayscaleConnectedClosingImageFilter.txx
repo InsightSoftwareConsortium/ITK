@@ -139,6 +139,7 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>
   // graft the output of the erode filter back onto this filter's
   // output. this is needed to get the appropriate regions passed
   // back.
+  erode->GetOutput()->CopyInformation(this->GetInput());
   this->GraftOutput( erode->GetOutput() );
 }
 
