@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkReconstructionImageFilter.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #ifndef __itkReconstructionImageFilter_txx
 #define __itkReconstructionImageFilter_txx
 
@@ -310,8 +326,6 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
     //typename CNInputIterator::ConstIterator mIt;
     for (oLIt = oIndexList.begin(), mLIt = mIndexList.begin(); oLIt != oIndexList.end();++oLIt, ++mLIt)
       {
-      
-      //std::cout << " " << outNIt.GetIndex(*oLIt);
       InputImagePixelType VN = outNIt.GetPixel(*oLIt);
       InputImagePixelType iN = mskNIt.GetPixel(*mLIt);
       if (compare(V, VN) && compare(iN, VN)) 
@@ -373,6 +387,7 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
     {
     typedef typename itk::CropImageFilter<InputImageType, OutputImageType> CropType;
     typename CropType::Pointer crop = CropType::New();
+
     crop->SetInput( markerImageP );
     crop->SetUpperBoundaryCropSize( padSize );
     crop->SetLowerBoundaryCropSize( padSize );
