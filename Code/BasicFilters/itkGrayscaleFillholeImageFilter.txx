@@ -89,13 +89,8 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
 
   // allocate a marker image
   InputImagePointer markerPtr = InputImageType::New();
-  markerPtr->SetRequestedRegion( this->GetInput()->GetRequestedRegion() );
-  markerPtr->SetBufferedRegion( this->GetInput()->GetBufferedRegion() );
-  markerPtr
-    ->SetLargestPossibleRegion( this->GetInput()->GetLargestPossibleRegion() );
-  markerPtr->SetOrigin(this->GetInput()->GetOrigin());
-  markerPtr->SetSpacing(this->GetInput()->GetSpacing());
-  markerPtr->SetDirection(this->GetInput()->GetDirection());
+  markerPtr->SetRegions( this->GetInput()->GetRequestedRegion() );
+  markerPtr->CopyInformation( this->GetInput() );
   markerPtr->Allocate();
 
   // fill the marker image with the maximum value from the input
