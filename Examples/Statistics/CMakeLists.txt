@@ -23,9 +23,6 @@ TARGET_LINK_LIBRARIES(GaussianDensityFunction ITKCommon)
 ADD_EXECUTABLE(Histogram Histogram.cxx )
 TARGET_LINK_LIBRARIES(Histogram ITKCommon ITKStatistics)
 
-ADD_EXECUTABLE(ImageToListAdaptor ImageToListAdaptor.cxx )
-TARGET_LINK_LIBRARIES(ImageToListAdaptor ITKCommon)
-
 ADD_EXECUTABLE(KdTree KdTree.cxx )
 TARGET_LINK_LIBRARIES(KdTree ITKCommon)
 
@@ -81,9 +78,6 @@ TARGET_LINK_LIBRARIES(WeightedSampleStatistics ITKCommon)
 ADD_EXECUTABLE(ImageHistogram3 ImageHistogram3.cxx )
 TARGET_LINK_LIBRARIES(ImageHistogram3 ITKIO ITKCommon ITKStatistics )
 
-ADD_EXECUTABLE(ImageHistogram4 ImageHistogram4.cxx )
-TARGET_LINK_LIBRARIES(ImageHistogram4 ITKIO ITKCommon ITKStatistics )
-
 ADD_EXECUTABLE(ScalarImageKmeansClassifier ScalarImageKmeansClassifier.cxx )
 TARGET_LINK_LIBRARIES(ScalarImageKmeansClassifier ITKIO ITKCommon )
 
@@ -102,11 +96,17 @@ SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Statistics)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 IF(NOT BORLAND)
+ADD_EXECUTABLE(ImageToListAdaptor ImageToListAdaptor.cxx )
+TARGET_LINK_LIBRARIES(ImageToListAdaptor ITKCommon)
+
 ADD_EXECUTABLE(ImageHistogram1 ImageHistogram1.cxx )
 TARGET_LINK_LIBRARIES(ImageHistogram1 ITKIO ITKCommon ITKStatistics )
 
 ADD_EXECUTABLE(ImageHistogram2 ImageHistogram2.cxx )
 TARGET_LINK_LIBRARIES(ImageHistogram2 ITKIO ITKCommon ITKStatistics )
+
+ADD_EXECUTABLE(ImageHistogram4 ImageHistogram4.cxx )
+TARGET_LINK_LIBRARIES(ImageHistogram4 ITKIO ITKCommon ITKStatistics )
 
 ADD_EXECUTABLE(ImageEntropy1 ImageEntropy1.cxx )
 TARGET_LINK_LIBRARIES(ImageEntropy1 ITKIO ITKCommon ITKStatistics)
