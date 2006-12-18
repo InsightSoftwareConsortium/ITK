@@ -819,8 +819,8 @@ void GDCMImageIO::Write(const void* buffer)
             }
           else
             {
-            std::cerr << "GDCMImageIO: non-DICOM and non-ITK standard key = ";
-            std::cerr << key << std::endl;
+            itkDebugMacro(<<
+              "GDCMImageIO: non-DICOM and non-ITK standard key = " << key );
             }
           }
         }
