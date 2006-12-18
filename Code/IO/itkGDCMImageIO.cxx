@@ -795,34 +795,28 @@ void GDCMImageIO::Write(const void* buffer)
         ExposeMetaData<unsigned int>(dict, key, numberOfDimensions);
         m_GlobalNumberOfDimensions = numberOfDimensions;
         }
+      else if( key == ITK_Origin )
+        {
+        typedef Array< double > DoubleArrayType;
+        DoubleArrayType originArray;
+        ExposeMetaData< DoubleArrayType >( dict, key, originArray );
+        m_Origin[0] = originArray[0];
+        m_Origin[1] = originArray[1];
+        m_Origin[2] = originArray[2];
+        }
+      else if( key == ITK_Spacing )
+        {
+        typedef Array< double > DoubleArrayType;
+        DoubleArrayType spacingArray;
+        ExposeMetaData< DoubleArrayType >( dict, key, spacingArray );
+        m_Spacing[0] = spacingArray[0];
+        m_Spacing[1] = spacingArray[1];
+        m_Spacing[2] = spacingArray[2];
+        }
       else
         {
-        if( key == ITK_Origin )
-          {
-          typedef Array< double > DoubleArrayType;
-          DoubleArrayType originArray;
-          ExposeMetaData< DoubleArrayType >( dict, key, originArray );
-          m_Origin[0] = originArray[0];
-          m_Origin[1] = originArray[1];
-          m_Origin[2] = originArray[2];
-          }
-        else
-          {
-          if( key == ITK_Spacing )
-            {
-            typedef Array< double > DoubleArrayType;
-            DoubleArrayType spacingArray;
-            ExposeMetaData< DoubleArrayType >( dict, key, spacingArray );
-            m_Spacing[0] = spacingArray[0];
-            m_Spacing[1] = spacingArray[1];
-            m_Spacing[2] = spacingArray[2];
-            }
-          else
-            {
-            itkDebugMacro(<<
-              "GDCMImageIO: non-DICOM and non-ITK standard key = " << key );
-            }
-          }
+        itkDebugMacro(<<
+          "GDCMImageIO: non-DICOM and non-ITK standard key = " << key );
         }
       }
 
