@@ -292,15 +292,17 @@ void Dict::DoTheLoadingJob(std::ifstream &from)
    while (!from.eof() && from)
    {
       from >> std::hex;
-      from >> group;
-      from >> elem;
-      from >> vr;
-      from >> vm;
-      from >> std::ws;  //remove white space
-      std::getline(from, name);
+      if( from >> group )
+        {
+        from >> elem;
+        from >> vr;
+        from >> vm;
+        from >> std::ws;  //remove white space
+        std::getline(from, name);
 
-      const DictEntry newEntry(group, elem, vr, vm, name);
-      AddEntry(newEntry);
+        const DictEntry newEntry(group, elem, vr, vm, name);
+        AddEntry(newEntry);
+        }
    }
    from.close();
 }
