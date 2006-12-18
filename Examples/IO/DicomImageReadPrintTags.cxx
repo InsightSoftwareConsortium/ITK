@@ -63,6 +63,8 @@
 #include "itkMetaDataObject.h"
 // Software Guide : EndCodeSnippet
 
+#include "gdcmGlobal.h"
+#include "gdcmDictSet.h"
 
 
 
@@ -78,7 +80,7 @@ int main( int argc, char* argv[] )
 
   if( argc < 2 )
     {
-    std::cerr << "Usage: " << argv[0] << " DicomFile " << std::endl;
+    std::cerr << "Usage: " << argv[0] << " DicomFile [user defined dict]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -101,6 +103,11 @@ int main( int argc, char* argv[] )
 // Software Guide : EndCodeSnippet
 
 
+  if( argc == 3 )
+    {
+    // shared lib is loaded so dictionary should have been initialized
+    gdcm::Global::GetDicts()->GetDefaultPubDict()->AddDict(argv[2]);
+    }
 
 
 
