@@ -146,7 +146,7 @@ int main( int argc, char* argv[] )
 // 
 // Here we override the gdcm default value of 0xfff with a value of 0xffff
 // to allow the loading of long binary stream in the DICOM file.
-// This is particulray usefull when reading the private tag: 0029,1010
+// This is particularly useful when reading the private tag: 0029,1010
 // from Siemens as it allows to completely specify the imaging parameters
 //
 // Software Guide : EndLatex
