@@ -487,7 +487,7 @@ void BMPImageIO::ReadImageInformation()
     ByteSwapper<long>::SwapFromSystemToLittleEndian(&m_BMPCompression);
     // Image Data Size
     m_Ifstream.read((char*)&m_BMPDataSize,4);
-    ByteSwapper<long>::SwapFromSystemToLittleEndian(&m_BMPDataSize);
+    ByteSwapper<unsigned long>::SwapFromSystemToLittleEndian(&m_BMPDataSize);
     // Horizontal Resolution
     m_Ifstream.read((char*)&tmp,4);
     // Vertical Resolution

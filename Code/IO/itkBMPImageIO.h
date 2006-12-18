@@ -93,9 +93,9 @@ private:
   bool            m_FileLowerLeft;
   short           m_Depth;
   bool            m_Allow8BitBMP;
-  short           m_NumberOfColors;
+  unsigned short  m_NumberOfColors;
   long            m_BMPCompression;
-  long            m_BMPDataSize;
+  unsigned long   m_BMPDataSize;
   std::vector<RGBPixelType> m_ColorPalette;
  
 };
