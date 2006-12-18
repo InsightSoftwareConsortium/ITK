@@ -241,17 +241,38 @@ void RescaleFunction(TBuffer* buffer, TSource *source,
     //
     // use Duff's device which exploits "fall through"
     register size_t n = (size + 7) / 8;
-    switch ( size % 8)
+    TSource sintercept = (TSource)intercept;
+    if (sintercept == intercept)
       {
-      case 0: do { *buffer++ = (TBuffer)(*source++ + intercept);
-      case 7:      *buffer++ = (TBuffer)(*source++ + intercept);
-      case 6:      *buffer++ = (TBuffer)(*source++ + intercept);
-      case 5:      *buffer++ = (TBuffer)(*source++ + intercept);
-      case 4:      *buffer++ = (TBuffer)(*source++ + intercept);
-      case 3:      *buffer++ = (TBuffer)(*source++ + intercept);
-      case 2:      *buffer++ = (TBuffer)(*source++ + intercept);
-      case 1:      *buffer++ = (TBuffer)(*source++ + intercept);
-                 }  while (--n > 0);
+      // intercept is "really" the same type as source, e.g. a whole
+      // number intercept when the source is of type short
+      switch ( size % 8)
+        {
+        case 0: do { *buffer++ = (TBuffer)(*source++ + sintercept);
+        case 7:      *buffer++ = (TBuffer)(*source++ + sintercept);
+        case 6:      *buffer++ = (TBuffer)(*source++ + sintercept);
+        case 5:      *buffer++ = (TBuffer)(*source++ + sintercept);
+        case 4:      *buffer++ = (TBuffer)(*source++ + sintercept);
+        case 3:      *buffer++ = (TBuffer)(*source++ + sintercept);
+        case 2:      *buffer++ = (TBuffer)(*source++ + sintercept);
+        case 1:      *buffer++ = (TBuffer)(*source++ + sintercept);
+                   }  while (--n > 0);
+        }
+      }
+    else
+      {
+      switch ( size % 8)
+        {
+        case 0: do { *buffer++ = (TBuffer)(*source++ + intercept);
+        case 7:      *buffer++ = (TBuffer)(*source++ + intercept);
+        case 6:      *buffer++ = (TBuffer)(*source++ + intercept);
+        case 5:      *buffer++ = (TBuffer)(*source++ + intercept);
+        case 4:      *buffer++ = (TBuffer)(*source++ + intercept);
+        case 3:      *buffer++ = (TBuffer)(*source++ + intercept);
+        case 2:      *buffer++ = (TBuffer)(*source++ + intercept);
+        case 1:      *buffer++ = (TBuffer)(*source++ + intercept);
+                   }  while (--n > 0);
+        }
       }
     }
   else if (slope != 1.0 && intercept == 0.0)
