@@ -1888,6 +1888,8 @@ M_ReadElements(METAIO_STREAM::ifstream * _fstream, void * _data,
     
     MET_PerformUncompression(compr, m_CompressedDataSize,
                              (unsigned char *)_data, readSize);
+
+    delete [] compr;
     }
   else // if not compressed
     {
