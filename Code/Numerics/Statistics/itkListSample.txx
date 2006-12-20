@@ -90,6 +90,8 @@ ListSample< TMeasurementVector >
 
   os << indent << "Internal Data Container: "
      << &m_InternalContainer << std::endl;
+  os << indent << "Number of samples: " 
+     << this->m_InternalContainer.size() << std::endl;
 }
 } // end of namespace Statistics
 } // end of namespace itk 
