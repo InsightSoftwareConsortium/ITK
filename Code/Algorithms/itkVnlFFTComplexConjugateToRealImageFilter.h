@@ -21,7 +21,7 @@
 namespace itk
 {
 
-template <typename TPixel, unsigned int Dimension = 3>
+template <class TPixel, unsigned int Dimension = 3>
 class VnlFFTComplexConjugateToRealImageFilter :
     public FFTComplexConjugateToRealImageFilter<TPixel,Dimension>
 {
