@@ -61,6 +61,8 @@ public:
   /** Constructor and copy constructor.  Note that these functions will be
    * called when children are instantiated. */
   EventObject() {}
+   
+  EventObject(const EventObject&){};
   
   /** Virtual destructor needed  */
   virtual ~EventObject() {}
@@ -88,8 +90,6 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
   virtual void PrintHeader(std::ostream& os, Indent indent) const;
   virtual void PrintTrailer(std::ostream& os, Indent indent) const;
-   
-  EventObject(const EventObject&){};
 private:
   typedef  EventObject * EventFactoryFunction();
   void operator=(const EventObject&);
