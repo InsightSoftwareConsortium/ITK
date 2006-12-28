@@ -11,7 +11,9 @@
 #include <vcl_cstdlib.h>
 #ifndef __FreeBSD__ //FreeBSD4 
 #include <vcl_cwchar.h>
+#ifndef __sun
 #include <vcl_cwctype.h>
+#endif
 #endif
 #include <vcl_cerrno.h>
 #include <vcl_clocale.h>
