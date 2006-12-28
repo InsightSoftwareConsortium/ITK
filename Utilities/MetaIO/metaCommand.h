@@ -132,19 +132,28 @@ public:
                          bool complete);  
 
   /** Get the values given the option name */
-  bool GetValueAsBool(METAIO_STL::string optionName,METAIO_STL::string fieldName="");
-  bool GetValueAsBool(Option option,METAIO_STL::string fieldName="");
+  bool GetValueAsBool(METAIO_STL::string optionName,
+                      METAIO_STL::string fieldName="");
+  bool GetValueAsBool(Option option,
+                      METAIO_STL::string fieldName="");
 
-  float GetValueAsFloat(METAIO_STL::string optionName,METAIO_STL::string fieldName="");
-  float GetValueAsFloat(Option option,METAIO_STL::string fieldName="");
+  float GetValueAsFloat(METAIO_STL::string optionName,
+                        METAIO_STL::string fieldName="");
+  float GetValueAsFloat(Option option,
+                        METAIO_STL::string fieldName="");
 
-  int GetValueAsInt(METAIO_STL::string optionName,METAIO_STL::string fieldName="");
-  int GetValueAsInt(Option option,METAIO_STL::string fieldName="");
+  int GetValueAsInt(METAIO_STL::string optionName,
+                    METAIO_STL::string fieldName="");
+  int GetValueAsInt(Option option,
+                    METAIO_STL::string fieldName="");
 
-  METAIO_STL::string GetValueAsString(METAIO_STL::string optionName,METAIO_STL::string fieldName="");
-  METAIO_STL::string GetValueAsString(Option option,METAIO_STL::string fieldName="");
+  METAIO_STL::string GetValueAsString(METAIO_STL::string optionName,
+                                      METAIO_STL::string fieldName="");
+  METAIO_STL::string GetValueAsString(Option option,
+                                      METAIO_STL::string fieldName="");
 
-  METAIO_STL::list< METAIO_STL::string > GetValueAsList(METAIO_STL::string optionName);
+  METAIO_STL::list< METAIO_STL::string > GetValueAsList(
+                                            METAIO_STL::string optionName);
   METAIO_STL::list< METAIO_STL::string > GetValueAsList(Option option);
 
   bool GetOptionWasSet(METAIO_STL::string optionName);
@@ -171,6 +180,9 @@ public:
 
   /** Extract the date from cvs date */
   METAIO_STL::string ExtractDateFromCVS(METAIO_STL::string date);
+
+  /** Extract the version from cvs date */
+  METAIO_STL::string ExtractVersionFromCVS(METAIO_STL::string version);
 
   /** Set the version of the app */
   METAIO_STL::string GetVersion() 
@@ -225,7 +237,9 @@ public:
 protected:
 
   /** Small XML helper */
-  METAIO_STL::string GetXML(const char* buffer,const char* desc,unsigned long pos);
+  METAIO_STL::string GetXML(const char* buffer,
+                            const char* desc,
+                            unsigned long pos);
 
   METAIO_STL::string m_Version;
   METAIO_STL::string m_Date;
