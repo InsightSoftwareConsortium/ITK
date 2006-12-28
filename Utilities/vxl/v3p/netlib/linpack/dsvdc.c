@@ -24,6 +24,10 @@
     few  programs  rely  on  the precise definition of IEEE floating
     point.  Use `-ffloat-store' for such programs.  */
 
+#ifdef __INTEL_COMPILER
+# pragma optimize("", off)
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
