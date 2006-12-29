@@ -180,9 +180,11 @@ public:
 
   /** Extract the date from cvs date */
   METAIO_STL::string ExtractDateFromCVS(METAIO_STL::string date);
+  void               SetDateFromCVS(METAIO_STL::string date);
 
   /** Extract the version from cvs date */
   METAIO_STL::string ExtractVersionFromCVS(METAIO_STL::string version);
+  void               SetVersionFromCVS(METAIO_STL::string version);
 
   /** Set the version of the app */
   METAIO_STL::string GetVersion() 

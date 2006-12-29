@@ -39,7 +39,7 @@ MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2006-12-28 02:39:58 $ cvs command */
+/** Extract the date from the $Date: 2006-12-29 20:45:13 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractDateFromCVS(METAIO_STL::string date)
 {
@@ -51,7 +51,13 @@ ExtractDateFromCVS(METAIO_STL::string date)
   return newdate.c_str();
 }
 
-/** Extract the version from the $Revision: 1.22 $ cvs command */
+void MetaCommand::
+SetDateFromCVS(METAIO_STL::string cvsDate)
+  {
+  this->SetDate( this->ExtractDateFromCVS( cvsDate ).c_str() );
+  }
+
+/** Extract the version from the $Revision: 1.23 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractVersionFromCVS(METAIO_STL::string version)
 {
@@ -62,6 +68,12 @@ ExtractVersionFromCVS(METAIO_STL::string version)
     }
   return newversion.c_str();
 }
+
+void MetaCommand::
+SetVersionFromCVS(METAIO_STL::string cvsVersion)
+  {
+  this->SetVersion( this->ExtractVersionFromCVS( cvsVersion ).c_str() );
+  }
 
 
 /** */
