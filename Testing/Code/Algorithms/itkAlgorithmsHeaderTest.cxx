@@ -61,19 +61,13 @@
 #include "itkExtensionVelocitiesImageFilter.txx"
 #include "itkFEMFiniteDifferenceFunctionLoad.txx"
 #include "itkFEMRegistrationFilter.txx"
-
+#if defined(USE_FFTWF) || defined(USE_FFTWD)
 #include "itkFFTComplexConjugateToRealImageFilter.txx"
 #include "itkFFTRealToComplexConjugateImageFilter.txx"
-
-#include "itkVnlFFTRealToComplexConjugateImageFilter.txx"
-#include "itkVnlFFTComplexConjugateToRealImageFilter.txx"
-
-#if defined(USE_FFTWF) || defined(USE_FFTWD)
 #include "itkFFTWCommon.h"
 #include "itkFFTWComplexConjugateToRealImageFilter.txx"
 #include "itkFFTWRealToComplexConjugateImageFilter.txx"
 #endif
-
 #include "itkFastChamferDistanceImageFilter.txx"
 #include "itkFastMarchingExtensionImageFilter.txx"
 #include "itkFastMarchingImageFilter.txx"
@@ -183,6 +177,8 @@
 #include "itkUnsharpMaskLevelSetImageFilter.txx"
 #include "itkVectorThresholdSegmentationLevelSetFunction.txx"
 #include "itkVectorThresholdSegmentationLevelSetImageFilter.txx"
+#include "itkVnlFFTComplexConjugateToRealImageFilter.txx"
+#include "itkVnlFFTRealToComplexConjugateImageFilter.txx"
 #include "itkVoronoiDiagram2D.txx"
 #include "itkVoronoiDiagram2DGenerator.txx"
 #include "itkVoronoiPartitioningImageFilter.txx"

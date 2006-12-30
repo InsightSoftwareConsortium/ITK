@@ -28,11 +28,6 @@
 namespace itk
 {
 
-template <class TPixel,unsigned int Dimension> class VnlFFTRealToComplexConjugateImageFilter;
-#if defined(USE_FFTWD) || defined(USE_FFTWF)
-template <class TPixel,unsigned int Dimension> class FFTWRealToComplexConjugateImageFilter;
-#endif
-
 template < class TPixel , unsigned int Dimension >
 typename FFTRealToComplexConjugateImageFilter < TPixel , Dimension >::Pointer
 FFTRealToComplexConjugateImageFilter < TPixel , Dimension >
