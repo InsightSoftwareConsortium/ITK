@@ -85,9 +85,19 @@ private:
   FFTComplexConjugateToRealImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 };
+
 } // end namespace itk
+
 #ifndef ITK_MANUAL_INSTANTIATION
+#ifndef __itkVnlFFTComplexConjugateToRealImageFilter_h
+#ifndef __itkVnlFFTComplexConjugateToRealImageFilter_txx
+#ifndef __itkFFTWComplexConjugateToRealImageFilter_h
+#ifndef __itkFFTWComplexConjugateToRealImageFilter_txx
 #include "itkFFTComplexConjugateToRealImageFilter.txx"
+#endif
+#endif
+#endif
+#endif
 #endif
 
 

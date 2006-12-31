@@ -14,10 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFFTWRealToComplexConjugateImageFilter_txx
-#define _itkFFTWRealToComplexConjugateImageFilter_txx
+#ifndef __itkFFTWRealToComplexConjugateImageFilter_txx
+#define __itkFFTWRealToComplexConjugateImageFilter_txx
 
 #include "itkFFTWRealToComplexConjugateImageFilter.h"
+#include "itkFFTRealToComplexConjugateImageFilter.txx"
 #include <iostream>
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"

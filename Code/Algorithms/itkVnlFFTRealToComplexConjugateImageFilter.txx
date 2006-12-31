@@ -14,9 +14,10 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVnlFFTRealToComplexConjugateImageFilter_txx
-#define _itkVnlFFTRealToComplexConjugateImageFilter_txx
+#ifndef __itkVnlFFTRealToComplexConjugateImageFilter_txx
+#define __itkVnlFFTRealToComplexConjugateImageFilter_txx
 #include "itkVnlFFTRealToComplexConjugateImageFilter.h"
+#include "itkFFTRealToComplexConjugateImageFilter.txx"
 #include <iostream>
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"

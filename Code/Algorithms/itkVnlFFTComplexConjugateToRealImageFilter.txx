@@ -14,16 +14,15 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVnlFFTComplexConjugateToRealImageFilter_txx
-#define _itkVnlFFTComplexConjugateToRealImageFilter_txx
+#ifndef __itkVnlFFTComplexConjugateToRealImageFilter_txx
+#define __itkVnlFFTComplexConjugateToRealImageFilter_txx
 
 #include "itkVnlFFTComplexConjugateToRealImageFilter.h"
+#include "itkFFTComplexConjugateToRealImageFilter.txx"
 #include <complex>
 #include "vnl/algo/vnl_fft_1d.h"
 #include "vnl/algo/vnl_fft_2d.h"
 #include "vnl_fft_3d.h"
-//#define DEBUG_PRINT(x) /* */
-//#define DEBUG_PRINT(x) x
 
 namespace itk
 {
