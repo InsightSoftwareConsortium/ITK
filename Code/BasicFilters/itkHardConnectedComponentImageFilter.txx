@@ -34,7 +34,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
 
   unsigned short *eq_tab = new unsigned short[NumericTraits<unsigned short>::max()];
   unsigned char *flags = new unsigned char[NumericTraits<unsigned short>::max()];
-  OutputPixelType    label,max_label = 0;
+  unsigned short     label,max_label = 0;
   IndexType          index,current;
   SizeType           size;
   typename ListType::iterator  iter;
@@ -85,7 +85,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
           }
         else
           {
-          label = output->GetPixel(current);
+          label = static_cast<unsigned short>(output->GetPixel(current));
           }
         if(label)
           {
@@ -93,11 +93,13 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
             {
             ot.Set(label);
             }
-          else if((ot.Get() != label) && (eq_tab[ot.Get()] != eq_tab[label]))
+          else if((ot.Get() != label) 
+                  && (eq_tab[static_cast<unsigned short>(ot.Get())] 
+                      != eq_tab[label]))
             {
-            if(eq_tab[ot.Get()] > eq_tab[label])
+            if(eq_tab[static_cast<unsigned short>(ot.Get())] > eq_tab[label])
               {
-              q = eq_tab[ot.Get()];
+              q = eq_tab[static_cast<unsigned short>(ot.Get())];
               for(p = q;p<=max_label;p++)
                 {
                 if(eq_tab[p] == q)
@@ -113,7 +115,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
                 {
                 if(eq_tab[p] == q)
                   {
-                  eq_tab[p] = eq_tab[ot.Get()];
+                  eq_tab[p] = eq_tab[static_cast<unsigned short>(ot.Get())];
                   }
                 }
               }
@@ -161,7 +163,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   for(iter = m_Seeds.begin();iter!=m_Seeds.end();iter++)
     {
     current = *iter;
-    m = eq_tab[output->GetPixel(current)];
+    m = eq_tab[static_cast<unsigned short>(output->GetPixel(current))];
     for(i = m;i<=max_label;i++)
       {
       if(eq_tab[i] == m)
@@ -176,14 +178,14 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
     {
     for(;!ot.IsAtEnd(); ++ot)
       {
-      ot.Set(eq_tab[ot.Get()]);
+      ot.Set(eq_tab[static_cast<unsigned short>(ot.Get())]);
       }
     }
   else
     {
     for(;!ot.IsAtEnd(); ++ot)
       {
-      ot.Set(flags[ot.Get()]);
+      ot.Set(flags[static_cast<unsigned short>(ot.Get())]);
       }
     }
   delete [] eq_tab;
