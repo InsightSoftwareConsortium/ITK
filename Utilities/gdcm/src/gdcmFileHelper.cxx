@@ -883,7 +883,8 @@ void FileHelper::SetWriteToRaw()
          CopyBinEntry(GetFile()->GetGrPixel(),GetFile()->GetNumPixel(),vr);
       pixel->SetValue(GDCM_BINLOADED);
       pixel->SetBinArea(PixelWriteConverter->GetData(),false);
-      pixel->SetLength(PixelWriteConverter->GetDataSize());
+      pixel->SetLength(
+         static_cast< uint32_t >( PixelWriteConverter->GetDataSize()) );
 
       Archive->Push(photInt);
       Archive->Push(pixel);
@@ -932,7 +933,8 @@ void FileHelper::SetWriteToRGB()
          CopyBinEntry(GetFile()->GetGrPixel(),GetFile()->GetNumPixel(),vr);
       pixel->SetValue(GDCM_BINLOADED);
       pixel->SetBinArea(PixelWriteConverter->GetData(),false);
-      pixel->SetLength(PixelWriteConverter->GetDataSize());
+      pixel->SetLength(
+         static_cast< uint32_t >( PixelWriteConverter->GetDataSize()) );
 
       Archive->Push(spp);
       Archive->Push(planConfig);

@@ -89,13 +89,15 @@ public:
   void SetArchetype(const std::string &archetype);
   itkGetStringMacro(Archetype);
 
+  typedef  size_t VectorSizeType;
+
   /** Get the number of groupings that match the Archetype */
-  unsigned int GetNumberOfGroupings();
+  VectorSizeType GetNumberOfGroupings();
 
   /** Returns a vector containing the series' file names. The file
     * names are ordered by Index. Defaults to returning the filenames
     * to the rightmost grouping. */
-  const std::vector<std::string> &GetFileNames ( unsigned int group = 0);
+  const std::vector<std::string> &GetFileNames ( VectorSizeType group = 0);
 
 
 protected:

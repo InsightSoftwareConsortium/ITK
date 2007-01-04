@@ -406,7 +406,7 @@ XCoherentFileSetmap SerieHelper::SplitOnOrientation(FileList *fileSet)
 {
    XCoherentFileSetmap CoherentFileSet;
 
-   int nb = fileSet->size();
+   size_t nb = fileSet->size();
    if (nb == 0 )
       return CoherentFileSet;
    float iop[6];
@@ -456,7 +456,7 @@ XCoherentFileSetmap SerieHelper::SplitOnPosition(FileList *fileSet)
 {
    XCoherentFileSetmap CoherentFileSet;
 
-   int nb = fileSet->size();
+   size_t nb = fileSet->size();
    if (nb == 0 )
       return CoherentFileSet;
    float pos[3];
@@ -533,7 +533,7 @@ XCoherentFileSetmap SerieHelper::SplitOnTagValue(FileList *fileSet,
 {
    XCoherentFileSetmap CoherentFileSet;
 
-   int nb = fileSet->size();
+   size_t nb = fileSet->size();
    if (nb == 0 )
       return CoherentFileSet;
 
@@ -762,7 +762,7 @@ static void Sort(FileList *fileList, SortFunctor &sf)
 bool SerieHelper::ImageNumberOrdering(FileList *fileList) 
 {
    int min, max, pos;
-   int n = fileList->size();
+   size_t n = fileList->size();
 
    FileList::const_iterator it = fileList->begin();
    min = max = (*it)->GetImageNumber();
@@ -923,7 +923,7 @@ std::string SerieHelper::CreateUniqueSeriesIdentifier( File *inFile )
       }
     // Eliminate non-alnum characters, including whitespace...
     //   that may have been introduced by concats.
-    for(unsigned int i=0; i<id.size(); i++)
+    for(size_t i=0; i<id.size(); i++)
       {
       while(i<id.size() 
         && !( id[i] == '.'

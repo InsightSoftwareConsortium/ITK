@@ -1007,7 +1007,7 @@ static void j2k_read_sod(opj_j2k_t *j2k) {
   opj_cio_t *cio = j2k->cio;
   int curtileno = j2k->curtileno;
   
-  len = int_min(j2k->eot - cio_getbp(cio), cio_numbytesleft(cio) + 1);
+  len = int_min( (int)(j2k->eot - cio_getbp(cio)), cio_numbytesleft(cio) + 1);
   
   if (len == cio_numbytesleft(cio) + 1) {
     truncate = 1;    /* Case of a truncate codestream */

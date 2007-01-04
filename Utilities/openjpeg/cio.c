@@ -95,7 +95,7 @@ void OPJ_CALLCONV opj_cio_close(opj_cio_t *cio) {
  * Get position in byte stream.
  */
 int OPJ_CALLCONV cio_tell(opj_cio_t *cio) {
-  return cio->bp - cio->start;
+  return (int)(cio->bp - cio->start);
 }
 
 /*
@@ -111,7 +111,7 @@ void OPJ_CALLCONV cio_seek(opj_cio_t *cio, int pos) {
  * Number of bytes left before the end of the stream.
  */
 int cio_numbytesleft(opj_cio_t *cio) {
-  return cio->end - cio->bp;
+  return (int)(cio->end - cio->bp);
 }
 
 /*

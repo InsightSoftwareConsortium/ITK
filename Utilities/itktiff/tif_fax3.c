@@ -137,7 +137,7 @@ typedef struct {
     sp->bit = BitsAvail;            \
     sp->data = BitAcc;              \
     sp->EOLcnt = EOLcnt;            \
-    tif->tif_rawcc -= (tidata_t) cp - tif->tif_rawcp;      \
+    tif->tif_rawcc -= (tsize_t)((tidata_t) cp - tif->tif_rawcp);      \
     tif->tif_rawcp = (tidata_t) cp;          \
 } while (0)
 

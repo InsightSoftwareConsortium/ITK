@@ -291,7 +291,7 @@ void LinearSystemWrapper::CuthillMckeeOrdering(ColumnArray& newNumbering, int st
   for (i=0; i<this->m_Order; i++)
   {
     this->GetColumnsOfNonZeroMatrixElementsInRow(i, currentRow, matrixIndex);
-    rowDegree[i] = currentRow.size() - 1;     /* assuming non-zero diagonal */
+    rowDegree[i] = static_cast<unsigned int>( currentRow.size() - 1 );     /* assuming non-zero diagonal */
     reverseMapping[i] = this->m_Order;        /* set to impossible value */
   }
 
@@ -328,13 +328,19 @@ void LinearSystemWrapper::CuthillMckeeOrdering(ColumnArray& newNumbering, int st
 void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int rowNumber, ColumnArray& rowDegree, ColumnArray& reverseMapping, unsigned int nextRowNumber, unsigned int matrixIndex)
 {
 
-  unsigned int i,j,k,temp;
+  int i;  // these must be signed ints since they are compared to size()-1
+  int j;
+  int k;
+  unsigned int temp;
   ColumnArray::iterator rowBufferIt;
   ColumnArray::iterator nextRowsIt;
   ColumnArray bufferArray;
   ColumnArray rowBuffer;
 
-  if (reverseMapping[rowNumber] > (this->m_Order-1) ) return;
+  if (reverseMapping[rowNumber] > (this->m_Order-1) ) 
+    {
+    return;
+    }
 
   /* temp vector of next rows to examine */
   ColumnArray nextRows;

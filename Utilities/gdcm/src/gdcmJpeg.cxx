@@ -101,7 +101,7 @@ bool gdcm_write_JPEG_file (std::ostream *fp, char *inputdata, size_t inputlength
   /* Step 2: specify data destination (eg, a file) */
   /* Note: steps 2 and 3 can be done in either order. */
 
-  int fragment_size = inputlength;
+  int fragment_size = static_cast< int >( inputlength );
   jpeg_stdio_dest(&cinfo, fp, fragment_size, 1);
 
   /* Step 3: set parameters for compression */

@@ -106,11 +106,11 @@ ProcessObject
 /**
  * Get the number of specified inputs
  */
-std::vector<SmartPointer<DataObject> >::size_type
+ProcessObject::DataObjectPointerArraySizeType
 ProcessObject
 ::GetNumberOfValidRequiredInputs() const
 {
-  std::vector<DataObjectPointer>::size_type num;
+  DataObjectPointerArraySizeType num;
   if (m_NumberOfRequiredInputs < m_Inputs.size())
     {
     num = m_NumberOfRequiredInputs;
@@ -142,7 +142,7 @@ void
 ProcessObject
 ::AddInput(DataObject *input)
 {
-  std::vector<DataObjectPointer>::size_type idx;
+  DataObjectPointerArraySizeType idx;
   
   this->Modified();
   
@@ -567,7 +567,7 @@ ProcessObject
   
   if ( m_Inputs.size())
     {
-    std::vector<DataObjectPointer>::size_type idx;
+    DataObjectPointerArraySizeType idx;
     for (idx = 0; idx < m_Inputs.size(); ++idx)
       {
       os << indent << "Input " << static_cast<int>( idx );
@@ -580,7 +580,7 @@ ProcessObject
     }
   if ( m_Outputs.size())
     {
-    std::vector<DataObjectPointer>::size_type idx;
+    DataObjectPointerArraySizeType idx;
     for (idx = 0; idx < m_Outputs.size(); ++idx)
       {
       os << indent << "Output " << static_cast<int>( idx );
@@ -668,7 +668,7 @@ ProcessObject
 ::UpdateOutputInformation()
 {
   unsigned long t1, t2;
-  std::vector<DataObjectPointer>::size_type idx;
+  DataObjectPointerArraySizeType idx;
   DataObject *input;
   DataObject *output;
 
@@ -810,7 +810,7 @@ ProcessObject
    * through all the inputs.
    */
   m_Updating = true;
-  std::vector<DataObjectPointer>::size_type idx;
+  DataObjectPointerArraySizeType idx;
   for (idx = 0; idx < m_Inputs.size(); ++idx)
     {
     if (m_Inputs[idx])
@@ -831,7 +831,7 @@ void
 ProcessObject
 ::GenerateInputRequestedRegion()
 {
-  std::vector<DataObjectPointer>::size_type idx;
+  DataObjectPointerArraySizeType idx;
   for (idx = 0; idx < m_Inputs.size(); ++idx)
     {
     if (m_Inputs[idx])
@@ -849,7 +849,7 @@ void
 ProcessObject
 ::GenerateOutputRequestedRegion(DataObject *output)
 {
-  std::vector<DataObjectPointer>::size_type idx;
+  DataObjectPointerArraySizeType idx;
   for (idx = 0; idx < m_Outputs.size(); ++idx)
     {
     if (m_Outputs[idx] && m_Outputs[idx] != output)
@@ -911,7 +911,7 @@ void
 ProcessObject
 ::UpdateOutputData(DataObject *itkNotUsed(output))
 {
-  std::vector<DataObjectPointer>::size_type idx;
+  DataObjectPointerArraySizeType idx;
 
   /**
    * prevent chasing our tail
@@ -977,7 +977,7 @@ ProcessObject
   /**
    * Count the number of required inputs which have been assigned 
    */
-  unsigned int ninputs = this->GetNumberOfValidRequiredInputs();
+  DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
   if (ninputs < m_NumberOfRequiredInputs)
     {
     itkExceptionMacro(<< "At least " << m_NumberOfRequiredInputs 

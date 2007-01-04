@@ -53,7 +53,7 @@ void raw_destroy(opj_raw_t *raw) {
 }
 
 int raw_numbytes(opj_raw_t *raw) {
-  return raw->bp - raw->start;
+  return (int)(raw->bp - raw->start);
 }
 
 void raw_init_dec(opj_raw_t *raw, unsigned char *bp, int len) {

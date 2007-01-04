@@ -145,7 +145,7 @@ void ValEntry::SetMaxSizePrintEntry(long newSize)
 void ValEntry::SetValue(std::string const &val)
 {
    // Integers have a special treatement for their length:
-   int l = val.length();
+   size_t l = val.length();
    if ( l != 0) // To avoid to be cheated by 'zero length' integers
    {   
       const VRKey &vr = GetVR();
@@ -191,7 +191,7 @@ void ValEntry::SetValue(std::string const &val)
       ContentEntry::SetValue(finalVal);
    }
 
-   SetLength(l);
+   SetLength((uint32_t)(l));
 }
 
 /**

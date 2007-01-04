@@ -45,7 +45,7 @@ namespace gdcm
  ArgMgr::ArgMgr(int argc, char **argv)
  {
    int i;
-   int nblettre;
+   size_t nblettre;
    ArgUsed = NULL;
    Appel   = NULL;
   
@@ -834,14 +834,14 @@ const char *ArgMgr::LoadedParam ( const char *param, FILE *fd )
  +------------------------------------------------------------------------*/
 int ArgMgr::ArgLoadFromFile ( const char *filename )
 {
-  int   nbl = 0;
+  size_t   nbl = 0;
   char  param[ARG_LONG_MAX+1];
   FILE  *fch;
 
   fch = fopen ( filename, ID_RFILE_TEXT );
   while ( LoadedParam (param, fch ) )
   {
-    int n = strlen(param);
+    size_t n = strlen(param);
     if ( param[0]=='@' )
     {
       nbl  += ArgLoadFromFile ( &param[1] );
@@ -856,7 +856,7 @@ int ArgMgr::ArgLoadFromFile ( const char *filename )
     }
   }
   fclose ( fch );
-  return nbl;
+  return static_cast< int >( nbl );
 }
 
 /*------------------------------------------------------------------------

@@ -1225,7 +1225,7 @@ void Document::ParseDES(DocEntrySet *set, long offset,
                                << newDocEntry->GetOffset() << ")");
 
             ParseSQ( newSeqEntry, 
-                     newDocEntry->GetOffset(),
+                     static_cast< long >( newDocEntry->GetOffset() ),
                      l, delim_mode_intern);
 
             gdcmDebugMacro( "Exit from ParseSQ, delim " << delim_mode_intern);
@@ -1337,7 +1337,7 @@ DocEntry *Document::Backtrack(DocEntry *docEntry)
    uint16_t group = PreviousDocEntry->GetGroup();
    uint16_t elem  = PreviousDocEntry->GetElement();
    uint32_t lgt   = PreviousDocEntry->GetLength();
-   long offset    = PreviousDocEntry->GetOffset();
+   long offset    = static_cast< long >( PreviousDocEntry->GetOffset() );
 
    gdcmDebugMacro( "Backtrack :" << std::hex << group 
                                  << "|" << elem

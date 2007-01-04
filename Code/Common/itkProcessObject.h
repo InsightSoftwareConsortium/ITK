@@ -108,11 +108,14 @@ public:
   DataObjectPointerArray& GetInputs() 
     {return m_Inputs;}
 
+  /** Size type of an std::vector */
+  typedef DataObjectPointerArray::size_type DataObjectPointerArraySizeType;
+
   /** Get the size of the input vector.  This is merely the size of
    * the input vector, not the number of inputs that have valid
    * DataObject's assigned. Use GetNumberOfValidRequiredInputs() to
    * determine how many inputs are non-null. */
-  std::vector<DataObjectPointer>::size_type GetNumberOfInputs() const
+  DataObjectPointerArraySizeType GetNumberOfInputs() const
     {return m_Inputs.size();}
 
   /** Get the number of valid inputs.  This is the number of non-null
@@ -122,14 +125,14 @@ public:
    * override this implementation if the required inputs are not
    * the first slots in input vector.
    */
-  virtual std::vector<DataObjectPointer>::size_type GetNumberOfValidRequiredInputs() const;
+  virtual DataObjectPointerArraySizeType GetNumberOfValidRequiredInputs() const;
   
   /** Return an array with all the outputs of this process object.
    * This is useful for tracing forward in the pipeline to contruct
    * graphs etc.  */
   DataObjectPointerArray& GetOutputs()
     { return m_Outputs; }
-  std::vector<DataObjectPointer>::size_type GetNumberOfOutputs() const
+  DataObjectPointerArraySizeType GetNumberOfOutputs() const
     {return m_Outputs.size();}
       
   /** Set the AbortGenerateData flag for the process object. Process objects
@@ -422,14 +425,14 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   /** An array of the inputs to the filter. */
-  std::vector<DataObjectPointer> m_Inputs;
+  DataObjectPointerArray m_Inputs;
   unsigned int m_NumberOfRequiredInputs;
 
   /** An array that caches the ReleaseDataFlags of the inputs */
   std::vector<bool> m_CachedInputReleaseDataFlags;
   
   /** An array of the outputs to the filter. */
-  std::vector<DataObjectPointer> m_Outputs;
+  DataObjectPointerArray m_Outputs;
   unsigned int m_NumberOfRequiredOutputs;
   
   /** These support the progress method and aborting filter execution. */

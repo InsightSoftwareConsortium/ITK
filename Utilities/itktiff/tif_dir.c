@@ -46,7 +46,7 @@ setByteArray(void** vpp, void* vp, size_t nmemb, size_t elem_size)
   if (*vpp)
     _TIFFfree(*vpp), *vpp = 0;
   if (vp) {
-    tsize_t  bytes = nmemb * elem_size;
+    tsize_t  bytes = (tsize_t)(nmemb) * (tsize_t)(elem_size);
     if (elem_size && bytes / elem_size == nmemb)
       *vpp = (void*) _TIFFmalloc(bytes);
     if (*vpp)
@@ -106,7 +106,7 @@ checkInkNamesString(TIFF* tif, int slen, const char* s)
           goto bad;
       cp++;        /* skip \0 */
     }
-    return (cp-s);
+    return (int)(cp-s);
   }
 bad:
   TIFFError("TIFFSetField",
@@ -609,7 +609,7 @@ _TIFFVSetField(TIFF* tif, ttag_t tag, va_list ap)
                             tv->count * tv_size);
             } else if (fip->field_type == TIFF_ASCII) {
                 const char *value = (const char *) va_arg(ap,const char *);
-                tv->count = strlen(value)+1;
+                tv->count = (int)(strlen(value))+1;
                 tv->value = _TIFFmalloc(tv->count);
     if (!tv->value) {
       status = 0;

@@ -1380,7 +1380,7 @@ void File::AnonymizeNoLoad()
          continue;
       }
 
-      offset = d->GetOffset();
+      offset = (uint32_t)(d->GetOffset());
       lgth =   d->GetLength();
       if (valLgth < lgth)
       {
