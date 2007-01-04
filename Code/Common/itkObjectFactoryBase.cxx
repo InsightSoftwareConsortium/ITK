@@ -264,7 +264,7 @@ CreateFullPath(const char* path, const char* file)
    * make sure the end of path is a separator
    */
   ret = path;
-  if ( ret[ret.size()-1] != sep )
+  if ( !ret.empty() && ret[ret.size()-1] != sep )
     {
     ret += sep;
     }
