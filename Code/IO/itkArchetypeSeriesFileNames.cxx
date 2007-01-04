@@ -49,7 +49,7 @@ ArchetypeSeriesFileNames
     }
 }
 
-unsigned int
+ArchetypeSeriesFileNames::VectorSizeType
 ArchetypeSeriesFileNames
 ::GetNumberOfGroupings()
 {
@@ -64,7 +64,7 @@ ArchetypeSeriesFileNames
 
 const std::vector<std::string> &
 ArchetypeSeriesFileNames
-::GetFileNames(unsigned int group)
+::GetFileNames( VectorSizeType group)
 {
   if (m_ScanTime < m_ArchetypeMTime)
     {
@@ -179,8 +179,8 @@ ArchetypeSeriesFileNames
   // It is also necessary to walk backward so that the numGroupStart
   // indices remain correct since the length of numbers we are replacing may
   // be different from the length of regExpString.
-  int i;
-  for (i = (int)numGroupLength.size()-1 ; i >= 0; i--)
+  VectorSizeType i;
+  for (i = numGroupLength.size()-1 ; i >= 0; i--)
     {
     std::string regExpFileName = fileName;
     
@@ -195,7 +195,7 @@ ArchetypeSeriesFileNames
   // Use a RegularExpressionSeriesFileNames to find the files to return
   std::vector<std::string> names;
 
-  for (i = 0; i < (int) regExpFileNameVector.size(); i++)
+  for (i = 0; i < regExpFileNameVector.size(); i++)
     {
     itk::RegularExpressionSeriesFileNames::Pointer fit = itk::RegularExpressionSeriesFileNames::New();
     fit->SetDirectory( fileNamePath.c_str() );
@@ -242,7 +242,7 @@ ArchetypeSeriesFileNames
     {
     os << indent << "Grouping #" << j << std::endl;
     std::vector<std::string> group = const_cast<ArchetypeSeriesFileNames*>(this)->GetFileNames(j);
-    for (unsigned int i = 0; i < group.size(); i++)
+    for (VectorSizeType i = 0; i < group.size(); i++)
       {
       os << indent << indent << "Filenames[" << i << "]: " << group[i] << std::endl;
       }

@@ -88,7 +88,7 @@ JPEGFragment *JPEGFragmentsInfo::GetNextFragment()
 
 unsigned int JPEGFragmentsInfo::GetFragmentCount()
 {
-   return Fragments.size();
+   return static_cast< unsigned int >( Fragments.size() );
 }
 
 //-----------------------------------------------------------------------------

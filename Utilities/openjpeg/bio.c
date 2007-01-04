@@ -125,7 +125,7 @@ void bio_destroy(opj_bio_t *bio) {
 }
 
 int bio_numbytes(opj_bio_t *bio) {
-  return (bio->bp - bio->start);
+  return (int)(bio->bp - bio->start);
 }
 
 void bio_init_enc(opj_bio_t *bio, unsigned char *bp, int len) {

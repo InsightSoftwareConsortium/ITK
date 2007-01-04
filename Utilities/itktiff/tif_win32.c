@@ -292,7 +292,7 @@ _TIFFrealloc(tdata_t p, tsize_t s)
         if(p == NULL)
                 return ((tdata_t)GlobalAlloc(GMEM_FIXED, s));
 
-        old = GlobalSize(p);
+        old = (tsize)(GlobalSize(p));
 
         if (old>=s) {
                 if ((pvTmp = GlobalAlloc(GMEM_FIXED, s)) != NULL) {

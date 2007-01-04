@@ -189,7 +189,7 @@ void UpdateBasicOffsetTable(std::ostream *fp, JpegVector const &v, size_t pos)
     {
     const JpegPair &jp = *i;
     if(i == v.begin() ){ assert( jp.first - first.first == 0); }
-    uint32_t offset = jp.first - first.first;
+    uint32_t offset = (uint32_t)(jp.first - first.first);
     gdcm::binary_write(*fp, offset);
     //std::cerr << "Updating Table:" << jp.first - first.first << std::endl;
     }
@@ -267,7 +267,7 @@ void PixelWriteConvert::SetCompressJPEG2000UserData(uint8_t *data, size_t size, 
      size_t end = of->tellp();
      //static int i = 0;
      JpegPair &jp = JpegFragmentSize[i];
-     jp.second = end-beg;
+     jp.second = (uint32_t)(end-beg);
      if( ((end-beg) % 2) )
        {
        of->put( '\0' );
@@ -360,7 +360,7 @@ void PixelWriteConvert::SetCompressJPEGUserData(uint8_t *data, size_t size, File
     size_t end = of->tellp();
     //static int i = 0;
     JpegPair &jp = JpegFragmentSize[i];
-      jp.second = end-beg;
+      jp.second = (uint32_t)(end-beg);
     if( ((end-beg) % 2) )
       {
       of->put( '\0' );

@@ -239,7 +239,8 @@ _biffAddKey(const char *key) {
 void
 _biffAddErr(_biffEntry *e, const char *err) {
   char *buf, me[]="_biffAddErr";
-  int ii, len;
+  int ii; 
+  size_t len;
 
   /* printf("%s: HEY(before): err[%s]->num = %d\n", me, e->key, e->num); */
   airArrayLenIncr(e->AA, 1);
@@ -256,7 +257,7 @@ _biffAddErr(_biffEntry *e, const char *err) {
       buf[ii] = ' ';
     }
   }
-  ii = len-1;
+  ii = (int)(len)-1;
   while (isspace(buf[ii])) {
     buf[ii--] = 0;
   }
@@ -279,7 +280,7 @@ _biffFindMaxAndSum(unsigned int *maxP, unsigned int *sumP, _biffEntry *ent) {
 
   *maxP = *sumP = 0;
   for (ii=0; ii<ent->num; ii++) {
-    len = strlen(ent->err[ii]) + strlen(ent->key) + strlen("[] \n");
+    len = (unsigned int)(strlen(ent->err[ii]) + strlen(ent->key) + strlen("[] \n"));
     *sumP += len;
     *maxP = AIR_MAX(*maxP, len);
   }
@@ -497,7 +498,9 @@ biffDone(const char *key) {
 
 void
 biffMove(const char *destKey, const char *err, const char *srcKey) {
-  unsigned int ii, len, max;
+  unsigned int ii; 
+  size_t len;        // to match signature of strlen() on 64 bits
+  size_t max;
   char me[] = "biffMove", *buf;
   _biffEntry *dest, *src;
 

@@ -211,7 +211,7 @@ SQItem *SeqEntry::GetSQItem(int nb)
  */
 unsigned int SeqEntry::GetNumberOfSQItems()
 {
-   return Items.size();
+   return static_cast< unsigned int >( Items.size() );
 }
 
 //-----------------------------------------------------------------------------

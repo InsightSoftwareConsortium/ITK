@@ -48,7 +48,7 @@ public:
               std::string const &s = "");
 
    /// \brief   Get the count for an element
-   int Count(VRKey const &key) { return vr.count(key); };
+   int Count(VRKey const &key) { return static_cast<int>( vr.count(key) ); };
 
    bool IsVROfBinaryRepresentable(VRKey const &tested);
    bool IsVROfStringRepresentable(VRKey const &tested);

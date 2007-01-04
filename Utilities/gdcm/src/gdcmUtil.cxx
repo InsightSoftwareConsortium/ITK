@@ -286,7 +286,7 @@ std::string Util::NormalizePath(std::string const &pathname)
    const char SEPARATOR_WIN    = '\\';
    const std::string SEPARATOR = "/";
    std::string name = pathname;
-   int size = name.size();
+   std::string::size_type size = name.size();
 
    if ( name[size-1] != SEPARATOR_X && name[size-1] != SEPARATOR_WIN )
    {
@@ -302,8 +302,8 @@ std::string Util::NormalizePath(std::string const &pathname)
 std::string Util::GetPath(std::string const &fullName)
 {
    std::string res = fullName;
-   int pos1 = res.rfind("/");
-   int pos2 = res.rfind("\\");
+   std::string::size_type pos1 = res.rfind("/");
+   std::string::size_type pos2 = res.rfind("\\");
    if ( pos1 > pos2 )
    {
       res.resize(pos1);

@@ -100,6 +100,7 @@ namespace itk {
   public:
     typedef std::vector<IPLFileSortInfo *> ListType;
     typedef ListType::iterator IteratorType;
+    typedef size_t             ListSizeType;
     
    enum { SortGlobalAscend = 0,
           SortGlobalDescend = 1,
@@ -139,7 +140,7 @@ namespace itk {
         return 0;
       return *it;
     }
-    signed int NumFiles() const {
+    ListSizeType NumFiles() const {
       return m_List.size();
     }
     bool AddElementToList(char const *const filename, 
@@ -201,7 +202,7 @@ namespace itk {
     void sortImageListAscend();
     void sortImageListDescend();
 
-    int GetnumImageInfoStructs() const
+    ListSizeType GetnumImageInfoStructs() const
     {
        return m_List.size();
     }

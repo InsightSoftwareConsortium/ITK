@@ -84,7 +84,7 @@ void DICOMFile::Close()
 
 long DICOMFile::Tell() 
 {
-  long loc = InputStream.tellg();
+  long loc = static_cast<long>( InputStream.tellg() );
   // dicom_stream::cout << "Tell: " << loc << dicom_stream::endl;
   return loc;
 }

@@ -130,7 +130,7 @@ TS::~TS()
 /// \brief returns occurence number of the given key
 int TS::Count(TSKey const &key) 
 {
-   return TsMap.count(key);
+   return static_cast< int >( TsMap.count(key) );
 }
 
 /// \brief returns the human readable value of a Transfer Syntax string 

@@ -98,8 +98,8 @@ PackBitsEncode(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
        * front of the buffer.
        */
       if (state == LITERAL || state == LITERAL_RUN) {
-        slop = op - lastliteral;
-        tif->tif_rawcc += lastliteral - tif->tif_rawcp;
+        slop = (long)(op - lastliteral);
+        tif->tif_rawcc += (tsize_t)(lastliteral - tif->tif_rawcp);
         if (!TIFFFlushData1(tif))
           return (-1);
         op = tif->tif_rawcp;
@@ -107,7 +107,7 @@ PackBitsEncode(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
           *op++ = *lastliteral++;
         lastliteral = tif->tif_rawcp;
       } else {
-        tif->tif_rawcc += op - tif->tif_rawcp;
+        tif->tif_rawcc += (tsize_t)(op - tif->tif_rawcp);
         if (!TIFFFlushData1(tif))
           return (-1);
         op = tif->tif_rawcp;
@@ -183,7 +183,7 @@ PackBitsEncode(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
       goto again;
     }
   }
-  tif->tif_rawcc += op - tif->tif_rawcp;
+  tif->tif_rawcc += (tsize_t)(op - tif->tif_rawcp);
   tif->tif_rawcp = op;
   return (1);
 }
