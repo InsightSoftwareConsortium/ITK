@@ -78,7 +78,7 @@ void HistogramImageToImageMetric<TFixedImage, TMovingImage>
     itkExceptionMacro(<<"Moving image has not been set.");
     }
 
-  if( !m_LowerBoundSetByUser && !m_UpperBoundSetByUser )
+  if( !m_LowerBoundSetByUser || !m_UpperBoundSetByUser )
     {
     // Calculate min and max image values in fixed image.
     FixedImageConstPointerType pFixedImage = this->m_FixedImage;
