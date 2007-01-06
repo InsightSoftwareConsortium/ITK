@@ -145,10 +145,10 @@ ArchetypeSeriesFileNames
     pathPrefix = "";
     }
 
-  std::vector < std::string > regExpFileNameVector;
+  StringVectorType regExpFileNameVector;
   std::string regExpString = "([0-9]+)";
-  std::vector < int > numGroupStart;
-  std::vector < int > numGroupLength;
+  IntVectorType numGroupStart;
+  IntVectorType numGroupLength;
   int sIndex;
   std::string::iterator sit;
   for (sit = fileName.begin(); sit < fileName.end(); sit++)
@@ -179,27 +179,33 @@ ArchetypeSeriesFileNames
   // It is also necessary to walk backward so that the numGroupStart
   // indices remain correct since the length of numbers we are replacing may
   // be different from the length of regExpString.
-  VectorSizeType i;
-  for (i = numGroupLength.size()-1 ; i >= 0; i--)
+  IntVectorType::reverse_iterator numGroupLengthItr = numGroupLength.rbegin();
+  IntVectorType::reverse_iterator numGroupStartItr  = numGroupStart.rbegin();
+  while( numGroupLengthItr != numGroupLength.rend() &&
+         numGroupStartItr  != numGroupStart.rend()    )
     {
     std::string regExpFileName = fileName;
     
-    regExpFileName.replace(numGroupStart[i],numGroupLength[i],regExpString);
+    regExpFileName.replace(*numGroupStartItr,*numGroupLengthItr,regExpString);
     // Include only filenames that exactly match this regular expression.  Don't
     // match filenames that have this string as a substring (ie. that have extra
     // prefixes or suffixes).
     regExpFileName = "^" + regExpFileName + "$";
     regExpFileNameVector.push_back( regExpFileName );
+    ++numGroupLengthItr;
+    ++numGroupStartItr;
     }
 
   // Use a RegularExpressionSeriesFileNames to find the files to return
-  std::vector<std::string> names;
+  StringVectorType names;
 
-  for (i = 0; i < regExpFileNameVector.size(); i++)
+  StringVectorType::const_iterator regExpFileNameVectorItr =
+    regExpFileNameVector.begin();
+  while( regExpFileNameVectorItr != regExpFileNameVector.end())
     {
     itk::RegularExpressionSeriesFileNames::Pointer fit = itk::RegularExpressionSeriesFileNames::New();
     fit->SetDirectory( fileNamePath.c_str() );
-    fit->SetRegularExpression( regExpFileNameVector[i].c_str() );
+    fit->SetRegularExpression( regExpFileNameVectorItr->c_str() );
     fit->SetSubMatch(1);
     fit->NumericSortOn();
     names = fit->GetFileNames();
@@ -213,6 +219,7 @@ ArchetypeSeriesFileNames
       {
       m_Groupings.push_back(names);
       }
+    ++regExpFileNameVectorItr;
     }
 
   // If the group list is empty, create a single group containing the
@@ -241,10 +248,14 @@ ArchetypeSeriesFileNames
   for (unsigned int j = 0; j < const_cast<ArchetypeSeriesFileNames*>(this)->GetNumberOfGroupings(); j++)
     {
     os << indent << "Grouping #" << j << std::endl;
-    std::vector<std::string> group = const_cast<ArchetypeSeriesFileNames*>(this)->GetFileNames(j);
-    for (VectorSizeType i = 0; i < group.size(); i++)
+    StringVectorType group = const_cast<ArchetypeSeriesFileNames*>(this)->GetFileNames(j);
+    StringVectorType::const_iterator groupItr = group.begin();
+    unsigned int i = 0;
+    while( groupItr != group.end() )
       {
-      os << indent << indent << "Filenames[" << i << "]: " << group[i] << std::endl;
+      os << indent << indent << "Filenames[" << i << "]: " << *groupItr << std::endl;
+      ++i;
+      ++groupItr;
       }
     }
 }
