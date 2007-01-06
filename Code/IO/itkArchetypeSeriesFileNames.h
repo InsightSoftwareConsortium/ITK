@@ -94,10 +94,14 @@ public:
   /** Get the number of groupings that match the Archetype */
   VectorSizeType GetNumberOfGroupings();
 
+  /** Helper types for managing the groups of filenames and their sizes */
+  typedef std::vector < int >         IntVectorType;
+  typedef std::vector < std::string > StringVectorType;
+
   /** Returns a vector containing the series' file names. The file
     * names are ordered by Index. Defaults to returning the filenames
     * to the rightmost grouping. */
-  const std::vector<std::string> &GetFileNames ( VectorSizeType group = 0);
+  const StringVectorType &GetFileNames ( VectorSizeType group = 0);
 
 
 protected:
@@ -115,8 +119,8 @@ private:
   /** A string for formatting the names of files in the series. */
   std::string m_Archetype;
 
-  std::vector<std::vector<std::string> > m_Groupings;
-  std::vector<std::string> m_FileNames;   // ivar for returning by reference
+  std::vector< StringVectorType > m_Groupings;
+  StringVectorType m_FileNames;   // ivar for returning by reference
 
   TimeStamp  m_ArchetypeMTime;
   TimeStamp  m_ScanTime;
