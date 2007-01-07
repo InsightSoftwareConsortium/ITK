@@ -40,9 +40,9 @@ NarrowBand<NodeType>
 {
   unsigned int i;
   std::vector<RegionType> regionList;
-  if (n > m_NodeContainer.size())
+  if (n > static_cast<unsigned int>( m_NodeContainer.size() ) )
     {
-    n = m_NodeContainer.size();
+    n = static_cast<unsigned int>( m_NodeContainer.size() );
     }
   unsigned int regionsize = static_cast<unsigned int> (floor(static_cast<float>(m_NodeContainer.size())/static_cast<float>( n )));
   if (regionsize == 0)

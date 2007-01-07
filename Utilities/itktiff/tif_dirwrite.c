@@ -1003,7 +1003,8 @@ static int
 TIFFWriteTransferFunction(TIFF* tif, TIFFDirEntry* dir)
 {
   TIFFDirectory* td = &tif->tif_dir;
-  tsize_t n = (1L<<td->td_bitspersample) * sizeof (uint16);
+  tsize_t bps = 1L;
+  tsize_t n = (bps<<td->td_bitspersample) * sizeof (uint16);
   uint16** tf = td->td_transferfunction;
   int ncols;
 

@@ -9,7 +9,7 @@ void test_sample()
   unsigned const N = 100000;
   double mu = 1.552;
   double sigma = 3.729;
-  vnl_sample_reseed(vcl_time(0)); // for quasi-random initialization
+  vnl_sample_reseed( static_cast<int>(vcl_time(0))); // for quasi-random initialization
 
   double X[N];
   for (unsigned i=0; i<N; ++i)

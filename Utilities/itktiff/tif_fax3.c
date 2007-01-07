@@ -441,7 +441,7 @@ static char *
 CheckMalloc(TIFF* tif, size_t nmemb, size_t elem_size, const char* what)
 {
   char  *cp = NULL;
-  tsize_t  bytes = nmemb * elem_size;
+  tsize_t  bytes = (tsize_t)(nmemb) * (tsize_t)(elem_size);
 
   if (nmemb && elem_size && bytes / elem_size == nmemb)
     cp = (char*) _TIFFmalloc(bytes);
