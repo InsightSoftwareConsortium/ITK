@@ -78,7 +78,7 @@ class itkTemplate(object):
     # once again, warn the user if the tuple of parameter is already defined
     # so he can fix the problem
     if self.__template__.has_key( param ) :
-      print >>sys.stderr,"Warning: template already defined '%s'" % normalizedFullName
+      print >>sys.stderr,"Warning: template %s\n  already defined as %s\n  is redefined as    %s" % (normalizedFullName, self.__template__[param], cl)
     # and register the parameter tuple
     self.__template__[param] = cl
 
