@@ -71,7 +71,7 @@ ENDMACRO(REMOVE)
 
 MACRO(INCREMENT var_name input)
   # Increment the input variable and store the result in var_name.
-  MATH(EXPR ${var_name} "${input} - 1")
+  MATH(EXPR ${var_name} "${input} + 1")
 ENDMACRO(INCREMENT)
 
 MACRO(DECREMENT var_name input)
