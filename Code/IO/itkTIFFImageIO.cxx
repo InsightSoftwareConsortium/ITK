@@ -1415,7 +1415,7 @@ void TIFFImageIO::ReadImageInformation()
     }
 
    // if the tiff file is multi-pages
-   if(m_InternalImage->NumberOfPages>0)
+   if(m_InternalImage->NumberOfPages>1)
      {
      this->SetNumberOfDimensions(3);
      if(m_InternalImage->SubFiles>0)
@@ -1431,7 +1431,7 @@ void TIFFImageIO::ReadImageInformation()
      }
 
    // if the tiff is tiled
-   if(m_InternalImage->NumberOfTiles>0)
+   if(m_InternalImage->NumberOfTiles>1)
      {
      this->SetNumberOfDimensions(3);
      m_Dimensions[0] = m_InternalImage->TileWidth;
