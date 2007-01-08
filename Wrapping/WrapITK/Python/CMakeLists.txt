@@ -88,7 +88,7 @@ IF ("${WrapITK_BINARY_DIR}" MATCHES "^${WrapITK_SOURCE_DIR}$")
   # In source build -- no need to copy Python file. Do need to set up the install.
   FOREACH(file ${ITK_PYTHON_FILES})
     SET(install_tgt "${CMAKE_CURRENT_SOURCE_DIR}/${file}.py")
-    SET(WRAP_ITK_PYTHON_INSTALL_FILES ${WRAP_ITK_PYTHON_FILES} "${install_tgt}")
+    SET(WRAP_ITK_PYTHON_INSTALL_FILES ${WRAP_ITK_PYTHON_INSTALL_FILES} "${install_tgt}")
   ENDFOREACH(file)
 ELSE ("${WrapITK_BINARY_DIR}" MATCHES "^${WrapITK_SOURCE_DIR}$")
   SET(WRAP_ITK_PYTHON_FILES)
