@@ -169,20 +169,29 @@ import itkExtras
 class lsm( itkExtras.pipeline ):
   """ Use vtk to import LSM image in ITK.
   """
-  def __init__(self, fileName, channel=0, ImageType=None ):
-    from vtk import vtkLSMReader
+  def __init__(self, fileName=None, channel=0, ImageType=None ):
+    from vtk import vtkLSMReader, vtkImageCast
     import itk
     itk.pipeline.__init__(self)
     # if ImageType is None, give it a default value
     # this is useful to avoid loading Base while loading this module
     if ImageType == None:
       ImageType = itk.Image.UC3
+    # remove useless SetInput() method created by the constructor of the pipeline class
+#     del self.SetInput
     # set up the pipeline
     self.connect( vtkLSMReader() )
+    self.connect( vtkImageCast() )
+    PType = itk.template(ImageType)[1][0]
+    if PType == itk.UC:
+      self[-1].SetOutputScalarTypeToUnsignedChar()
+    elif PType == itk.US:
+      self[-1].SetOutputScalarTypeToUnsignedShort()
     self.connect( itk.VTKImageToImageFilter[ImageType].New() )
     self.connect( itk.ChangeInformationImageFilter[ImageType].New( ChangeSpacing=True ) )
-    # a configure the pipeline
-    self.SetFileName( fileName )
+    # and configure the pipeline
+    if fileName:
+      self.SetFileName( fileName )
     self.SetChannel( channel )
 
   def SetFileName( self, fileName ):
@@ -199,8 +208,6 @@ class lsm( itkExtras.pipeline ):
 
   def UpdateSpacing(self):
     spacing = self[0].GetVoxelSizes()
-    # some filters (and some users - like... me) are lost with values as small
-    # as 1.9e-7, so turn them in micrometers
     spacing = [ v * 1e6 for v in spacing ]
     self[-1].SetOutputSpacing( spacing )
 
