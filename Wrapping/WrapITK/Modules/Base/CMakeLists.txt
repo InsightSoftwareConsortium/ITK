@@ -6,6 +6,8 @@ SET(WRAPPER_LIBRARY_GROUPS
   itkArray
   itkFixedArray
   itkPoint
+  itkDefaultStaticMeshTraits
+  itkDefaultDynamicMeshTraits
   itkPointSet
   itkContinuousIndex
   itkCovariantVector
@@ -15,7 +17,6 @@ SET(WRAPPER_LIBRARY_GROUPS
   itkImage
   itkVectorImage
   itkLevelSet
-  itkDefaultStaticMeshTraits
   itkNeighborhood
   ITKRegions
   SwigExtras
