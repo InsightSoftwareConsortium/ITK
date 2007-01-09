@@ -326,7 +326,6 @@ bool ImageIOBase::SetPixelTypeInfo(const std::type_info& ptype)
 
   
   if (!itkSetPixelType(this,ptype,ImageIOBase::CHAR, char(0) ) &&
-      !itkSetPixelType(this,ptype,ImageIOBase::CHAR, signed char(0) ) &&
       !itkSetPixelType(this,ptype,ImageIOBase::UCHAR, (unsigned char)0) &&
       !itkSetPixelType(this,ptype,ImageIOBase::SHORT,(short)(0)) &&
       !itkSetPixelType(this,ptype,ImageIOBase::USHORT,(unsigned short)(0)) &&
