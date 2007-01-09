@@ -29,6 +29,7 @@ SET(ReviewTest_SRCS
   itkFlatStructuringElementTest.cxx
   itkGaussianDistributionTest.cxx
   itkTDistributionTest.cxx
+  itkLabelOverlayImageFilterTest.cxx
 )
 
 ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS} itkChiSquareDistributionTest)
@@ -36,6 +37,18 @@ ADD_TEST(itkFlatStructuringElementTest ${REVIEW_TESTS} itkFlatStructuringElement
 ADD_TEST(itkGaussianDistributionTest ${REVIEW_TESTS} itkGaussianDistributionTest)
 ADD_TEST(itkTDistributionTest ${REVIEW_TESTS} itkTDistributionTest)
 
+
+FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
+  STRING(REGEX REPLACE "\\." "_" op ${opacity})
+  ADD_TEST(itkLabelOverlayImageFilterTest-Opacity-${op} ${REVIEW_TESTS} 
+        --compare ${BASELINE}/cthead1-${op}Overlay.png
+                  ${TEMP}/cthead1-${op}Overlay.png
+                  itkLabelOverlayImageFilterTest
+                  ${INPUTDATA}/cthead1.png
+                  ${INPUTDATA}/cthead1Label.png 
+                  ${opacity} 
+                  ${TEMP}/cthead1-${op}Overlay.png)
+ENDFOREACH(opacity)
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest ITKAlgorithms ITKIO 
