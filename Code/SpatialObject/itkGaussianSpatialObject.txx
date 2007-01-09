@@ -50,14 +50,13 @@ typename GaussianSpatialObject< TDimension >::ScalarType
 GaussianSpatialObject< TDimension > 
 ::SquaredZScore( const PointType& point ) const
 {
-  typename TransformType::Pointer inverse = TransformType::New();
-  if(!this->GetIndexToWorldTransform()->GetInverse(inverse))
+   if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
-    return false;
+    return 0;
     }
 
-  PointType transformedPoint = inverse->TransformPoint(point); 
-  
+  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);  
+   
   ScalarType r = 0;
   for( unsigned int i=0; i<TDimension; i++ )
     {
@@ -74,7 +73,33 @@ bool
 GaussianSpatialObject< TDimension >
 ::IsInside( const PointType & point) const
 {
-  if ( SquaredZScore( point ) < m_Radius * m_Radius )
+  this->ComputeLocalBoundingBox();
+  if( !this->GetBounds()->IsInside(point) )
+    {
+    return false;
+    }
+    
+  if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
+    {
+    return false;
+    }
+
+  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);  
+  double r = 0;
+  for(unsigned int i=0;i<TDimension;i++)
+    {
+    if(m_Radius!=0.0)
+      {
+      r += (transformedPoint[i]*transformedPoint[i])/(m_Radius*m_Radius);
+      }
+    else if(transformedPoint[i]>0.0)  // Degenerate ellipse
+      {
+      r = 2; // Keeps function from returning true here 
+     break;
+      }
+    }
+  
+  if(r<1)
     {
     return true;
     }
@@ -89,9 +114,8 @@ bool
 GaussianSpatialObject< TDimension > 
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const 
 {
-  itkDebugMacro( "Checking whether the point ["
-                 << point << "] is inside the Gaussian" );
-
+  itkDebugMacro( "Checking the point [" << point << "] is inside the GaussianSpatialObject" );
+    
   if(name == NULL)
     {
     if(IsInside(point))
@@ -118,25 +142,55 @@ GaussianSpatialObject< TDimension >
 ::ComputeLocalBoundingBox() const
 { 
   if( this->GetBoundingBoxChildrenName().empty() 
-        || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
+      || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
     {
-    PointType pnt;
-    PointType pnt2;
-    for( unsigned int i=0; i<TDimension; i++ ) 
-      {   
-      pnt[i] = -m_Radius;
-      pnt2[i] = m_Radius;
-      }
-    pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
-    pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
-         
-    const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(pnt);
-    const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(pnt2);
-    }
+    // we need to set the minimum and maximum of the bounding box
+    // the center is always inside the bounding box.  
+    PointType center;
+    center.Fill(0);
+    center = this->GetIndexToWorldTransform()->TransformPoint(center);
+    const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(center);
+    const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(center);
 
+    // First we compute the bounding box in the index space
+    typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
+
+    PointType pntMin;
+    PointType pntMax;
+    unsigned int i;
+    for(i=0; i<TDimension;i++)
+      {
+      pntMin[i]=-m_Radius;
+      pntMax[i]=m_Radius;
+      }
+    
+    bb->SetMinimum(pntMin);
+    bb->SetMaximum(pntMax);
+
+    bb->ComputeBoundingBox();
+
+    typedef typename BoundingBoxType::PointsContainer PointsContainer;
+    const PointsContainer * corners = bb->GetCorners();
+    typename BoundingBoxType::PointsContainer::const_iterator it = corners->begin();
+    while(it != corners->end())
+      {
+      PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(*it);
+      const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pnt);       
+      ++it;
+      }
+    }
   return true;
 } 
 
+/** Returns if the ellipse os evaluable at one point */
+template< unsigned int TDimension >
+bool
+GaussianSpatialObject< TDimension >
+::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
+{
+  itkDebugMacro( "Checking if the ellipse is evaluable at " << point );
+  return IsInside(point, depth, name);
+}
 
 /** Returns the value at one point */
 template< unsigned int TDimension >
@@ -145,14 +199,27 @@ GaussianSpatialObject< TDimension >
 ::ValueAt( const PointType & point, ScalarType & value, unsigned int depth,
            char * name ) const
 {
-  itkDebugMacro( "Getting the value of a Gaussian at " << point );
-  if(name == NULL || strstr(typeid(Self).name(), name) )
+  itkDebugMacro( "Getting the value of the ellipse at " << point );
+  if( IsInside(point, 0, name) )
     {
     double zsq = this->SquaredZScore(point);
     value = m_Maximum * (ScalarType)vcl_exp(-zsq / 2.0 );
     return true;
     }
-  return Superclass::ValueAt( point, value, depth,  name );
+  else
+    {
+    if( Superclass::IsEvaluableAt(point, depth, name) )
+      {
+      Superclass::ValueAt(point, value, depth, name);
+      return true;
+      }
+    else
+      {
+      value = this->GetDefaultOutsideValue();
+      return false;
+      }
+    }
+  return false;
 }
 
 
