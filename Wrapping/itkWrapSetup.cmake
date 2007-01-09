@@ -1,7 +1,7 @@
 OPTION(USE_WRAP_ITK "Build external languages support" OFF)
 MARK_AS_ADVANCED(USE_WRAP_ITK)
 IF(USE_WRAP_ITK)
-  MESSAGE("WrapITK is an experimental system for wrapping ITK. It has been tested only on Linux and it is known not to work on Windows platforms.")
+  MESSAGE("WrapITK is an experimental system for wrapping ITK. It is tested on Linux, Mac OS and Solaris, but is known to have some problems on some Windows platforms.")
   # required for the FlatStructuringElement to be included.
   # without that, the external projects won't build
   # TODO: remove this check once FlatStructuringElement will be moved out of
