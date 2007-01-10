@@ -56,6 +56,8 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
   typedef itk::LabelOverlayImageFilter< IType, IType, CIType> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
+  //Use the background
+  filter->SetUseBackground( true );
   //Set the filter input and label images
   filter->SetInput( reader->GetOutput() );
   filter->SetLabelImage( reader2->GetOutput() );
