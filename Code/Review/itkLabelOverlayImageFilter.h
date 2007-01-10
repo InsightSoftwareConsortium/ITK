@@ -17,6 +17,8 @@
 #ifndef __itkLabelOverlayImageFilter_h
 #define __itkLabelOverlayImageFilter_h
 
+#include "itkLabelToRGBImageFilter.h"
+
 #include "itkBinaryFunctorImageFilter.h"
 
 namespace itk
@@ -24,96 +26,59 @@ namespace itk
 
 namespace Functor {  
  
+/** The functor class used internally by LabelOverlayImageFilter */
 template< class TInputPixel, class TLabel, class TRGBPixel >
 class LabelOverlay
 {
 public:
-  LabelOverlay()
-  {
-    
-    TRGBPixel rgbPixel;
-    // the following colors are from "R", and named:
-    // "red"             "green3"          "blue"            "cyan"           
-    //"magenta"         "darkorange1"     "darkgreen"       "blueviolet"     
-    //"brown4"          "navy"            "yellow4"         "violetred1"     
-    //"salmon4"         "turquoise4"      "sienna3"         "darkorchid1"    
-    //"springgreen4"    "mediumvioletred" "orangered3"      "lightseagreen"  
-    //"slateblue"       "deeppink1"       "aquamarine4"     "royalblue1"     
-    //"tomato3"         "mediumblue"      "violetred4"      "darkmagenta"    
-    //"violet"          "red4"           
-    // They are a good selection of distinct colours for plotting and
-    // overlays.
-    
-    addColor( 255, 0, 0 );
-    addColor( 0, 205, 0 );
-    addColor( 0, 0, 255 );
-    addColor( 0, 255, 255 );
-    addColor( 255, 0, 255 );
-    addColor( 255, 127, 0 );
-    addColor( 0, 100, 0 );
-    addColor( 138, 43, 226 );
-    addColor( 139, 35, 35 );
-    addColor( 0, 0, 128 );
-    addColor( 139, 139, 0 );
-    addColor( 255, 62, 150 );
-    addColor( 139, 76, 57 );
-    addColor( 0, 134, 139 );
-    addColor( 205, 104, 57 );
-    addColor( 191, 62, 255 );
-    addColor( 0, 139, 69 );
-    addColor( 199, 21, 133 );
-    addColor( 205, 55, 0 );
-    addColor( 32, 178, 170 );
-    addColor( 106, 90, 205 );
-    addColor( 255, 20, 147 );
-    addColor( 69, 139, 116 );
-    addColor( 72, 118, 255 );
-    addColor( 205, 79, 57 );
-    addColor( 0, 0, 205 );
-    addColor( 139, 34, 82 );
-    addColor( 139, 0, 139 );
-    addColor( 238, 130, 238 );
-    addColor( 139, 0, 0 );
-  }
+  LabelOverlay() 
+    {
+    // provide some default value for external use (outside LabelOverlayImageFilter)
+    // Inside LabelOverlayImageFilter, the values are always initialized
+    m_UseBackground = false;
+    m_BackgroundValue = NumericTraits<TLabel>::Zero;
+    }
 
-  inline TRGBPixel operator()(  const TInputPixel & p1,
-          const TLabel & p2)
-  {
-    if( p2 == itk::NumericTraits< TLabel >::Zero )
+  inline TRGBPixel operator()(  const TInputPixel & p1, const TLabel & p2)
+    {
+    if( m_UseBackground && p2 == m_BackgroundValue )
       {
+      // value is background
+      // return a gray pixel with the same intensity than the input pixel
       typename TRGBPixel::ValueType p = static_cast< typename TRGBPixel::ValueType >( p1 );
       TRGBPixel rgbPixel;
       rgbPixel.Set( p, p, p );
       return rgbPixel;
       }
+
+     // taint the input pixel with the colored one returned by the color functor.
      TRGBPixel rgbPixel;
+     TRGBPixel opaque = m_RGBFunctor(p2);
      for( int i = 0; i<3; i++)
        {
-       rgbPixel[i] = static_cast< typename TRGBPixel::ValueType >( m_Colors[ p2 % m_Colors.size() ][i] * m_Opacity + p1 * ( 1.0 - m_Opacity ) );
+       rgbPixel[i] = static_cast< typename TRGBPixel::ValueType >( opaque[i] * m_Opacity + p1 * ( 1.0 - m_Opacity ) );
        }
      return rgbPixel;
-  }
-
-  void addColor(unsigned char r, unsigned char g, unsigned char b)
-    {
-    TRGBPixel rgbPixel;
-    typename TRGBPixel::ValueType m = itk::NumericTraits< typename TRGBPixel::ValueType >::max();
-    rgbPixel.Set( static_cast< typename TRGBPixel::ValueType >( static_cast< double >( r ) / 255 * m ),
-                  static_cast< typename TRGBPixel::ValueType >( static_cast< double >( g ) / 255 * m ),
-                  static_cast< typename TRGBPixel::ValueType >( static_cast< double >( b ) / 255 * m ) );
-    m_Colors.push_back( rgbPixel );
     }
 
   bool operator != (const LabelOverlay &l) const
-  { return l.m_Opacity == m_Opacity; }
+  { return l.m_Opacity == m_Opacity || m_UseBackground != l.m_UseBackground || m_BackgroundValue != l.m_BackgroundValue; }
 
   ~LabelOverlay() {}
 
   void SetOpacity( double opacity ) { m_Opacity = opacity; }
 
-  std::vector< TRGBPixel > m_Colors;
+  void SetBackgroundValue( TLabel v ) { m_BackgroundValue = v; }
+
+  void SetUseBackground( bool b ) { m_UseBackground = b; }
 
   double m_Opacity;
+
+  bool m_UseBackground;
+
+  TLabel m_BackgroundValue;
+
+  typename itk::Functor::LabelToRGBFunctor<TLabel, TRGBPixel> m_RGBFunctor;
 };
 }  // end namespace functor
 
@@ -123,12 +88,13 @@ public:
  *
  * Apply a colormap to a label image and put it on top of the input image. The set of colors
  * is a good selection of distinct colors. The opacity of the label image
- * can be defined by the user.
+ * can be defined by the user. The user can also choose if he want to use a background
+ * and which label value is the background. A background label produce a gray pixel
+ * with the same intensity than the input one.
  *
  * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
- * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *
- * \sa ScalarToRGBPixelFunctor
+ * \sa ScalarToRGBPixelFunctor LabelToRGBImageFilter
  * \ingroup Multithreaded
  *
  */
@@ -170,14 +136,23 @@ public:
      { this->SetInput2( input ); }
 
   /** Get the label image */
-  const LabelImageType * GetLabelImage()
+  const LabelImageType * GetLabelImage() const
     { return static_cast<LabelImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1))); }
 
-  /** Set the opacity of the labeled image */
+  /** Set/Get the opacity of the colored label image. The value must be
+   * between 0 and 1
+   */
   itkSetMacro( Opacity, double );
-
-  /** Get the opacity value*/  
   itkGetConstReferenceMacro( Opacity, double );
+
+  /** Set/Get the background value */
+  itkSetMacro( BackgroundValue, LabelPixelType );
+  itkGetConstReferenceMacro( BackgroundValue, LabelPixelType );
+
+  /** Set/Get if one of the labels must be considered as background */
+  itkSetMacro( UseBackground, bool );
+  itkGetConstReferenceMacro( UseBackground, bool );
+  itkBooleanMacro(UseBackground);
 
 protected:
   LabelOverlayImageFilter();
@@ -193,6 +168,9 @@ private:
   LabelOverlayImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   double m_Opacity;
+  bool m_UseBackground;
+  LabelPixelType m_BackgroundValue;
+
 };
 
 
