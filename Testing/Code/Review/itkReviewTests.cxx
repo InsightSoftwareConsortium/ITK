@@ -29,5 +29,5 @@ void RegisterTests()
   REGISTER_TEST(itkTDistributionTest );
   REGISTER_TEST(itkFlatStructuringElementTest );
   REGISTER_TEST(itkLabelOverlayImageFilterTest );
-  REGISTER_TEST(itkContourExtractor2DImageFilterTest);
+//  REGISTER_TEST(itkContourExtractor2DImageFilterTest);
 }
