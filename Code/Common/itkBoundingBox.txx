@@ -101,7 +101,10 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
       pnt[i]=center[i]+vcl_pow(-1.0,((double)(j/(int(vcl_pow(2.0,(double)i))))))
                                                                     *radius[i];
       }
-    m_CornersContainer->push_back(pnt);   
+
+    // Push back is not defined so we insert at the end of the list
+    m_CornersContainer->InsertElement(m_CornersContainer->Size(),pnt); 
+    
     }
 
   return m_CornersContainer.GetPointer();
