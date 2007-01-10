@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQEBaseIterator.h
-// $Revision: 1.3 $
+// $Revision: 1.4 $
 // $Author: sylvain $
 // $Name:  $
-// $Date: 2007-01-10 15:13:16 $
+// $Date: 2007-01-10 17:01:20 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -60,8 +60,8 @@
 // -------------------------------------------------------------------------
 #define itkQEDefineAllIteratorMethodsMacro                              \
     /** Iterator types. */                                              \
-    typedef Iterator< Self >      Iterator;                             \
-    typedef ConstIterator< Self > ConstIterator;                        \
+    typedef Iterator< Self >             Iterator;                      \
+    typedef itkQE::ConstIterator< Self > ConstIterator;                 \
                                                                         \
     itkQEDefineIteratorMethodsMacro( Onext );                           \
     itkQEDefineIteratorMethodsMacro( Sym );                             \
@@ -79,6 +79,9 @@
 
 // -------------------------------------------------------------------------
 #define itkQEDefineAllIteratorGeomMethodsMacro                          \
+    /** Iterator types. */                                              \
+    typedef Iterator< Self >             Iterator;                      \
+    typedef itkQE::ConstIterator< Self > ConstIterator;                 \
                                                                         \
     itkQEDefineIteratorGeomMethodsMacro( Onext );                       \
     itkQEDefineIteratorGeomMethodsMacro( Sym );                         \
