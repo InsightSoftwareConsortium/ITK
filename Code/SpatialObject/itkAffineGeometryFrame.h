@@ -111,6 +111,11 @@ protected:
   typename TransformType::Pointer m_ObjectToNodeTransform;
   typename TransformType::Pointer m_IndexToNodeTransform;
   typename TransformType::Pointer m_IndexToWorldTransform;
+  
+private:
+  AffineGeometryFrame(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };
 
 } // namespace itk
