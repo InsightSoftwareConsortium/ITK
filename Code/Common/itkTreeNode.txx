@@ -38,7 +38,7 @@ TreeNode<TValueType>::~TreeNode()
     m_Parent->Remove(this);
     }
     
- for ( int i=m_Children.size() ; i > 0; i-- )
+ for ( size_t i=m_Children.size() ; i > 0; i-- )
    {
    m_Children[i-1]->SetParent(NULL);
    m_Children[i-1] = 0;
@@ -118,7 +118,7 @@ int
 TreeNode<TValueType>
 ::CountChildren( ) const 
 {
-  return m_Children.size();
+  return static_cast<int>(m_Children.size());
 }
 
 /** Remove a child node from the current node */
@@ -195,11 +195,11 @@ void
 TreeNode<TValueType>
 ::AddChild( int number, TreeNode<TValueType> *node ) 
 {  
-  int size = m_Children.size();
+  size_t size = m_Children.size();
 
   if ( number > size ) 
     {
-    for ( int i=size; i <= number; i++ )
+    for ( size_t i=size; i <= number; i++ )
       {
       m_Children[i] = NULL;
       }
