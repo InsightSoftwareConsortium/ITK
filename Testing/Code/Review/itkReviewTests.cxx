@@ -18,8 +18,7 @@
 // and all it expects is that you have a function called RegisterTests
 
 #include "vnl/vnl_sample.h"
-#include "itkTestMain.h" 
-
+#include "itkTestMain.h"
 
 void RegisterTests()
 {
@@ -29,5 +28,8 @@ void RegisterTests()
   REGISTER_TEST(itkTDistributionTest );
   REGISTER_TEST(itkFlatStructuringElementTest );
   REGISTER_TEST(itkLabelOverlayImageFilterTest );
+  REGISTER_TEST(Mesh1Test);
+  REGISTER_TEST(Mesh2Test);
+  REGISTER_TEST(Mesh3Test);
 //  REGISTER_TEST(itkContourExtractor2DImageFilterTest);
 }
