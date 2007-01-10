@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQEBaseIterator.h
-// $Revision: 1.5 $
+// $Revision: 1.6 $
 // $Author: sylvain $
 // $Name:  $
-// $Date: 2007-01-10 21:08:15 $
+// $Date: 2007-01-10 21:53:19 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -96,8 +96,8 @@
 // -------------------------------------------------------------------------
 #define itkQEDefineAllIteratorGeomMethodsMacro                          \
     /** Iterator types. */                                              \
-    typedef itkQE::Iterator< Self >      Iterator;                      \
-    typedef itkQE::ConstIterator< Self > ConstIterator;                 \
+    typedef itkQE::IteratorGeom< Self >      Iterator;                  \
+    typedef itkQE::ConstIteratorGeom< Self > ConstIterator;             \
                                                                         \
     itkQEDefineIteratorGeomMethodsMacro( Onext );                       \
     itkQEDefineIteratorGeomMethodsMacro( Sym );                         \
@@ -144,8 +144,8 @@ namespace itkQE
             int op = OperatorOnext,
             bool start = true )
           : m_StartEdge( e ), m_Iterator( e ),
-          m_OpType( op ), m_Start( start ) { }
-        virtual ~BaseIterator() { }
+          m_OpType( op ), m_Start( start ) {}
+        virtual ~BaseIterator() {}
 
         Self& operator=( const Self& r )
         {
@@ -270,8 +270,8 @@ template< typename TQuadEdge >
         Iterator( QuadEdgeType* e = (QuadEdgeType*)0,
                   int op = Superclass::OperatorOnext,
                   bool start = true )
-            : Superclass( e, op, start ) { }
-        virtual ~Iterator() { }
+            : Superclass( e, op, start ) {}
+        virtual ~Iterator() {}
         QuadEdgeType* Value() { return( this->m_Iterator ); }
     };
 
@@ -294,7 +294,7 @@ template< typename TQuadEdgeGeom >
         IteratorGeom( QuadEdgeType* e = (QuadEdgeType*)0,
                       int op = Superclass::OperatorOnext,
                       bool start = true )
-            : Superclass( e, op, start ) { }
+            : Superclass( e, op, start ) {}
         OrgRefType operator*() { return( this->m_Iterator->GetOrg() ); }
     };
 
@@ -317,8 +317,8 @@ template< typename TQuadEdge >
         ConstIterator( const QuadEdgeType* e = (QuadEdgeType*)0,
                        int op = Superclass::OperatorOnext,
                        bool start = true )
-            : Superclass( ( QuadEdgeType* )e, op, start ) { }
-        virtual ~ConstIterator() { }
+            : Superclass( ( QuadEdgeType* )e, op, start ) {}
+        virtual ~ConstIterator() {}
         Self& operator=( const NoConstType& r )
         {
             this->m_StartEdge = r.GetStartEdge();
@@ -351,8 +351,8 @@ template< typename TQuadEdgeGeom >
         ConstIteratorGeom( const QuadEdgeType* e = (QuadEdgeType*)0,
                            int op = Superclass::OperatorOnext,
                            bool start = true )
-            : Superclass( e, op, start ) { }
-        virtual ~ConstIteratorGeom() { }
+            : Superclass( e, op, start ) {}
+        virtual ~ConstIteratorGeom() {}
         Self& operator=( const NoConstType& r )
         {
             this->m_StartEdge = r.GetStartEdge();
