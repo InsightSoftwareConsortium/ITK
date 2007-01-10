@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQEBaseIterator.h
-// $Revision: 1.6 $
+// $Revision: 1.7 $
 // $Author: sylvain $
 // $Name:  $
-// $Date: 2007-01-10 21:53:19 $
+// $Date: 2007-01-10 22:11:05 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -25,93 +25,93 @@
 
 // -------------------------------------------------------------------------
 #define itkQEDefineIteratorMethodsMacro( Op )                             \
-    virtual Iterator Begin##Op()                                          \
-      {                                                                   \
-      return( Iterator( this, Self::Iterator::Operator##Op, true ) );     \
-      }                                                                   \
+  virtual Iterator Begin##Op()                                            \
+    {                                                                     \
+    return Iterator( this, Self::Iterator::Operator##Op, true );          \
+    }                                                                     \
                                                                           \
-    virtual ConstIterator Begin##Op() const                               \
-      {                                                                   \
-      return( ConstIterator( this, Self::ConstIterator::Operator##Op,     \
-      true ) );                                                           \
-      }                                                                   \
+  virtual ConstIterator Begin##Op() const                                 \
+    {                                                                     \
+    return ConstIterator( this, Self::ConstIterator::Operator##Op,        \
+    true );                                                               \
+    }                                                                     \
                                                                           \
-    virtual Iterator End##Op()                                            \
-      {                                                                   \
-      return( Iterator( this, Self::Iterator::Operator##Op, false ) );    \
-      }                                                                   \
+  virtual Iterator End##Op()                                              \
+    {                                                                     \
+    return Iterator( this, Self::Iterator::Operator##Op, false );         \
+    }                                                                     \
                                                                           \
-    virtual ConstIterator End##Op() const                                 \
-      {                                                                   \
-      return( ConstIterator( this, Self::ConstIterator::Operator##Op,     \
-      false ) );                                                          \
-      }
+  virtual ConstIterator End##Op() const                                   \
+    {                                                                     \
+    return ConstIterator( this, Self::ConstIterator::Operator##Op,        \
+    false );                                                              \
+    }
 
 // -------------------------------------------------------------------------
 #define itkQEDefineIteratorGeomMethodsMacro( Op )                         \
-    virtual IteratorGeom BeginGeom##Op()                                  \
-      {                                                                   \
-      return( IteratorGeom( this, Self::IteratorGeom::Operator##Op,       \
-      true ) );                                                           \
-      }                                                                   \
+  virtual IteratorGeom BeginGeom##Op()                                    \
+    {                                                                     \
+    return IteratorGeom( this, Self::IteratorGeom::Operator##Op,          \
+    true );                                                               \
+    }                                                                     \
                                                                           \
-    virtual ConstIteratorGeom BeginGeom##Op() const                       \
-      {                                                                   \
-      return( ConstIteratorGeom( this,                                    \
-      Self::ConstIteratorGeom::Operator##Op, true ) );                    \
-      }                                                                   \
+  virtual ConstIteratorGeom BeginGeom##Op() const                         \
+    {                                                                     \
+    return ConstIteratorGeom( this,                                       \
+    Self::ConstIteratorGeom::Operator##Op, true );                        \
+    }                                                                     \
                                                                           \
-    virtual IteratorGeom EndGeom##Op()                                    \
-      {                                                                   \
-      return( IteratorGeom( this, Self::IteratorGeom::Operator##Op,       \
-      false ) );                                                          \
-      }                                                                   \
+  virtual IteratorGeom EndGeom##Op()                                      \
+    {                                                                     \
+    return IteratorGeom( this, Self::IteratorGeom::Operator##Op,          \
+    false );                                                              \
+    }                                                                     \
                                                                           \
-    virtual ConstIteratorGeom EndGeom##Op() const                         \
-      {                                                                   \
-      return( ConstIteratorGeom( this,                                    \
-      Self::ConstIteratorGeom::Operator##Op, false ) );                   \
-      }
+  virtual ConstIteratorGeom EndGeom##Op() const                           \
+    {                                                                     \
+    return ConstIteratorGeom( this,                                       \
+    Self::ConstIteratorGeom::Operator##Op, false );                       \
+    }
 
 // -------------------------------------------------------------------------
-#define itkQEDefineAllIteratorMethodsMacro                              \
-    /** Iterator types. */                                              \
-    typedef itkQE::Iterator< Self >      Iterator;                      \
-    typedef itkQE::ConstIterator< Self > ConstIterator;                 \
-                                                                        \
-    itkQEDefineIteratorMethodsMacro( Onext );                           \
-    itkQEDefineIteratorMethodsMacro( Sym );                             \
-    itkQEDefineIteratorMethodsMacro( Lnext );                           \
-    itkQEDefineIteratorMethodsMacro( Rnext );                           \
-    itkQEDefineIteratorMethodsMacro( Dnext );                           \
-    itkQEDefineIteratorMethodsMacro( Oprev );                           \
-    itkQEDefineIteratorMethodsMacro( Lprev );                           \
-    itkQEDefineIteratorMethodsMacro( Rprev );                           \
-    itkQEDefineIteratorMethodsMacro( Dprev );                           \
-    itkQEDefineIteratorMethodsMacro( InvOnext );                        \
-    itkQEDefineIteratorMethodsMacro( InvLnext );                        \
-    itkQEDefineIteratorMethodsMacro( InvRnext );                        \
-    itkQEDefineIteratorMethodsMacro( InvDnext );
+#define itkQEDefineAllIteratorMethodsMacro                                \
+  /** Iterator types. */                                                  \
+  typedef itkQE::Iterator< Self >      Iterator;                          \
+  typedef itkQE::ConstIterator< Self > ConstIterator;                     \
+                                                                          \
+  itkQEDefineIteratorMethodsMacro( Onext );                               \
+  itkQEDefineIteratorMethodsMacro( Sym );                                 \
+  itkQEDefineIteratorMethodsMacro( Lnext );                               \
+  itkQEDefineIteratorMethodsMacro( Rnext );                               \
+  itkQEDefineIteratorMethodsMacro( Dnext );                               \
+  itkQEDefineIteratorMethodsMacro( Oprev );                               \
+  itkQEDefineIteratorMethodsMacro( Lprev );                               \
+  itkQEDefineIteratorMethodsMacro( Rprev );                               \
+  itkQEDefineIteratorMethodsMacro( Dprev );                               \
+  itkQEDefineIteratorMethodsMacro( InvOnext );                            \
+  itkQEDefineIteratorMethodsMacro( InvLnext );                            \
+  itkQEDefineIteratorMethodsMacro( InvRnext );                            \
+  itkQEDefineIteratorMethodsMacro( InvDnext );
 
 // -------------------------------------------------------------------------
-#define itkQEDefineAllIteratorGeomMethodsMacro                          \
-    /** Iterator types. */                                              \
-    typedef itkQE::IteratorGeom< Self >      Iterator;                  \
-    typedef itkQE::ConstIteratorGeom< Self > ConstIterator;             \
-                                                                        \
-    itkQEDefineIteratorGeomMethodsMacro( Onext );                       \
-    itkQEDefineIteratorGeomMethodsMacro( Sym );                         \
-    itkQEDefineIteratorGeomMethodsMacro( Lnext );                       \
-    itkQEDefineIteratorGeomMethodsMacro( Rnext );                       \
-    itkQEDefineIteratorGeomMethodsMacro( Dnext );                       \
-    itkQEDefineIteratorGeomMethodsMacro( Oprev );                       \
-    itkQEDefineIteratorGeomMethodsMacro( Lprev );                       \
-    itkQEDefineIteratorGeomMethodsMacro( Rprev );                       \
-    itkQEDefineIteratorGeomMethodsMacro( Dprev );                       \
-    itkQEDefineIteratorGeomMethodsMacro( InvOnext );                    \
-    itkQEDefineIteratorGeomMethodsMacro( InvLnext );                    \
-    itkQEDefineIteratorGeomMethodsMacro( InvRnext );                    \
-    itkQEDefineIteratorGeomMethodsMacro( InvDnext );
+#define itkQEDefineAllIteratorGeomMethodsMacro                            \
+  /** Iterator types. */                                                  \
+  typedef itkQE::IteratorGeom< Self >      IteratorGeom;                  \
+  typedef itkQE::ConstIteratorGeom< Self > ConstIteratorGeom;             \
+                                                                          \
+  itkQEDefineIteratorGeomMethodsMacro( Onext );                           \
+  itkQEDefineIteratorGeomMethodsMacro( Sym );                             \
+  itkQEDefineIteratorGeomMethodsMacro( Lnext );                           \
+  itkQEDefineIteratorGeomMethodsMacro( Rnext );                           \
+  itkQEDefineIteratorGeomMethodsMacro( Dnext );                           \
+  itkQEDefineIteratorGeomMethodsMacro( Oprev );                           \
+  itkQEDefineIteratorGeomMethodsMacro( Lprev );                           \
+  itkQEDefineIteratorGeomMethodsMacro( Rprev );                           \
+  itkQEDefineIteratorGeomMethodsMacro( Dprev );                           \
+  itkQEDefineIteratorGeomMethodsMacro( InvOnext );                        \
+  itkQEDefineIteratorGeomMethodsMacro( InvLnext );                        \
+  itkQEDefineIteratorGeomMethodsMacro( InvRnext );                        \
+  itkQEDefineIteratorGeomMethodsMacro( InvDnext );
 
 namespace itkQE
 {
@@ -129,12 +129,18 @@ namespace itkQE
         // Different types of iterators, one for each basic QE operation.
         enum
         {
-          OperatorOnext    =  0, OperatorSym      =  1,
-          OperatorLnext    =  2, OperatorRnext    =  3,
-          OperatorDnext    =  4, OperatorOprev    =  5,
-          OperatorLprev    =  6, OperatorRprev    =  7,
-          OperatorDprev    =  8, OperatorInvOnext =  9,
-          OperatorInvLnext = 10, OperatorInvRnext = 11,
+          OperatorOnext    =  0,
+          OperatorSym      =  1,
+          OperatorLnext    =  2,
+          OperatorRnext    =  3,
+          OperatorDnext    =  4,
+          OperatorOprev    =  5,
+          OperatorLprev    =  6,
+          OperatorRprev    =  7,
+          OperatorDprev    =  8,
+          OperatorInvOnext =  9,
+          OperatorInvLnext = 10,
+          OperatorInvRnext = 11,
           OperatorInvDnext = 12
         };
 
@@ -145,104 +151,105 @@ namespace itkQE
             bool start = true )
           : m_StartEdge( e ), m_Iterator( e ),
           m_OpType( op ), m_Start( start ) {}
+
         virtual ~BaseIterator() {}
 
         Self& operator=( const Self& r )
-        {
+          {
           m_StartEdge = r.m_StartEdge;
           m_Iterator = r.m_Iterator;
           m_OpType = r.m_OpType;
           m_Start = r.m_Start;
-          return( *this );
-        }
+          return *this;
+          }
 
-        QuadEdgeType* GetStartEdge() const { return( m_StartEdge ); }
-        QuadEdgeType* GetIterator() const  { return( m_Iterator ); }
-        int           GetOpType() const    { return( m_OpType ); }
-        bool          GetStart() const     { return( m_Start ); }
+        QuadEdgeType* GetStartEdge() const { return m_StartEdge; }
+        QuadEdgeType* GetIterator() const  { return m_Iterator; }
+        int           GetOpType() const    { return m_OpType; }
+        bool          GetStart() const     { return m_Start; }
 
         /** Iteration methods. */
         bool operator==( BaseIterator& r )
         {
-            return( ( m_StartEdge == r.m_StartEdge ) &&
-                    ( m_Iterator  == r.m_Iterator )  &&
-                    ( m_OpType    == r.m_OpType )  &&
-                    ( m_Start     == r.m_Start ) );
+          return ( m_StartEdge == r.m_StartEdge ) &&
+              ( m_Iterator  == r.m_Iterator )  &&
+              ( m_OpType    == r.m_OpType )  &&
+              ( m_Start     == r.m_Start );
         }
 
         bool operator==( const BaseIterator& r ) const
         {
-            return( ( m_StartEdge == r.m_StartEdge ) &&
+          return ( m_StartEdge == r.m_StartEdge ) &&
                     ( m_Iterator  == r.m_Iterator )  &&
                     ( m_OpType    == r.m_OpType )  &&
-                    ( m_Start     == r.m_Start ) );
+                    ( m_Start     == r.m_Start );
         }
 
         bool operator!=( BaseIterator& r )
         {
-            return( !( this->operator==( r ) ) );
+          return !( this->operator==( r ) );
         }
 
         bool operator!=( const BaseIterator& r ) const
-        {
-            return( !( this->operator==( r ) ) );
-        }
+          {
+          return !( this->operator==( r ) );
+          }
 
         BaseIterator& operator++()
-        {
-            if( m_Start ) {
+          {
+          if( m_Start )
+            {
+              this->GoToNext();
+              m_Start = !( m_Iterator == m_StartEdge );
+            }
 
-                this->GoToNext();
-                m_Start = !( m_Iterator == m_StartEdge );
-
-            } // fi
-            return( *this );
+          return *this;
         }
 
         BaseIterator& operator++( int )
-        {
-            if( m_Start ) {
+          {
+          if( m_Start )
+            {
+            this->GoToNext();
+            m_Start = !( m_Iterator == m_StartEdge );
+            }
 
-                this->GoToNext();
-                m_Start = !( m_Iterator == m_StartEdge );
-
-            } // fi
-            return( *this );
+          return *this;
         }
 
         protected:
         /** Method that should do all the iteration work. */
         virtual void GoToNext()
-        {
-            switch( m_OpType ) {
-            case OperatorOnext    : m_Iterator = m_Iterator->GetOnext();
-                                    break;
-            case OperatorSym      : m_Iterator = m_Iterator->GetSym();
-                                    break;
-            case OperatorLnext    : m_Iterator = m_Iterator->GetLnext();
-                                    break;
-            case OperatorRnext    : m_Iterator = m_Iterator->GetRnext();
-                                    break;
-            case OperatorDnext    : m_Iterator = m_Iterator->GetDnext();
-                                    break;
-            case OperatorOprev    : m_Iterator = m_Iterator->GetOprev();
-                                    break;
-            case OperatorLprev    : m_Iterator = m_Iterator->GetLprev();
-                                    break;
-            case OperatorRprev    : m_Iterator = m_Iterator->GetRprev();
-                                    break;
-            case OperatorDprev    : m_Iterator = m_Iterator->GetDprev();
-                                    break;
-            case OperatorInvOnext : m_Iterator = m_Iterator->GetInvOnext();
-                                    break;
-            case OperatorInvLnext : m_Iterator = m_Iterator->GetInvLnext();
-                                    break;
-            case OperatorInvRnext : m_Iterator = m_Iterator->GetInvRnext();
-                                    break;
-            case OperatorInvDnext : m_Iterator = m_Iterator->GetInvDnext();
-                                    break;
-            default: break;
-            } // hctiws
+          {
+          switch( m_OpType ) {
+          case OperatorOnext    : m_Iterator = m_Iterator->GetOnext();
+                                  break;
+          case OperatorSym      : m_Iterator = m_Iterator->GetSym();
+                                  break;
+          case OperatorLnext    : m_Iterator = m_Iterator->GetLnext();
+                                  break;
+          case OperatorRnext    : m_Iterator = m_Iterator->GetRnext();
+                                  break;
+          case OperatorDnext    : m_Iterator = m_Iterator->GetDnext();
+                                  break;
+          case OperatorOprev    : m_Iterator = m_Iterator->GetOprev();
+                                  break;
+          case OperatorLprev    : m_Iterator = m_Iterator->GetLprev();
+                                  break;
+          case OperatorRprev    : m_Iterator = m_Iterator->GetRprev();
+                                  break;
+          case OperatorDprev    : m_Iterator = m_Iterator->GetDprev();
+                                  break;
+          case OperatorInvOnext : m_Iterator = m_Iterator->GetInvOnext();
+                                  break;
+          case OperatorInvLnext : m_Iterator = m_Iterator->GetInvLnext();
+                                  break;
+          case OperatorInvRnext : m_Iterator = m_Iterator->GetInvRnext();
+                                  break;
+          case OperatorInvDnext : m_Iterator = m_Iterator->GetInvDnext();
+                                  break;
+          default: break;
+          }
         }
 
         protected:
@@ -271,8 +278,10 @@ template< typename TQuadEdge >
                   int op = Superclass::OperatorOnext,
                   bool start = true )
             : Superclass( e, op, start ) {}
+
         virtual ~Iterator() {}
-        QuadEdgeType* Value() { return( this->m_Iterator ); }
+
+        QuadEdgeType* Value() { return this->m_Iterator; }
     };
 
 /**
@@ -295,7 +304,7 @@ template< typename TQuadEdgeGeom >
                       int op = Superclass::OperatorOnext,
                       bool start = true )
             : Superclass( e, op, start ) {}
-        OrgRefType operator*() { return( this->m_Iterator->GetOrg() ); }
+        OrgRefType operator*() { return this->m_Iterator->GetOrg(); }
     };
 
 /**
@@ -318,16 +327,19 @@ template< typename TQuadEdge >
                        int op = Superclass::OperatorOnext,
                        bool start = true )
             : Superclass( ( QuadEdgeType* )e, op, start ) {}
+
         virtual ~ConstIterator() {}
+
         Self& operator=( const NoConstType& r )
         {
             this->m_StartEdge = r.GetStartEdge();
             this->m_Iterator = r.GetIterator();
             this->m_OpType = r.GetOpType();
             this->m_Start = r.GetStart();
-            return( *this );
+            return *this;
         }
-        const QuadEdgeType* Value() const { return( this->m_Iterator ); }
+
+        const QuadEdgeType* Value() const { return this->m_Iterator; }
     };
 
 /**
@@ -352,22 +364,25 @@ template< typename TQuadEdgeGeom >
                            int op = Superclass::OperatorOnext,
                            bool start = true )
             : Superclass( e, op, start ) {}
+
         virtual ~ConstIteratorGeom() {}
+
         Self& operator=( const NoConstType& r )
         {
             this->m_StartEdge = r.GetStartEdge();
             this->m_Iterator = r.GetIterator();
             this->m_OpType = r.GetOpType();
             this->m_Start = r.GetStart();
-            return( *this );
+            return *this;
         }
+
         const OrgRefType operator*() const
         {
-            return( this->m_Iterator->GetOrg() );
+            return this->m_Iterator->GetOrg();
         }
     };
 
-} // enamespace
+} // namespace
 
 #endif // __ITKQUADEDGEMESH__BASEITERATOR__H__
 
