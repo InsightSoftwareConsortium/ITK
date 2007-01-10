@@ -193,7 +193,7 @@ public:
  
   /** Get the number of pixels contained in this region. This just
    * multiplies the size components. */
-  unsigned long GetNumberOfPixels() const;
+//  unsigned long GetNumberOfPixels() const;
 
 protected:
   /** Methods invoked by Print() to print information about the object
