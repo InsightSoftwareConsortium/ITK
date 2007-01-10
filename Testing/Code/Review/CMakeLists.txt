@@ -30,6 +30,9 @@ SET(ReviewTest_SRCS
   itkGaussianDistributionTest.cxx
   itkTDistributionTest.cxx
   itkLabelOverlayImageFilterTest.cxx
+  Mesh1Test.cxx
+  Mesh2Test.cxx
+  Mesh3Test.cxx
 #  itkContourExtractor2DImageFilterTest.cxx
 )
 
@@ -37,6 +40,9 @@ ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS} itkChiSquareDistributionTe
 ADD_TEST(itkFlatStructuringElementTest ${REVIEW_TESTS} itkFlatStructuringElementTest)
 ADD_TEST(itkGaussianDistributionTest ${REVIEW_TESTS} itkGaussianDistributionTest)
 ADD_TEST(itkTDistributionTest ${REVIEW_TESTS} itkTDistributionTest)
+ADD_TEST(Mesh1Test ${REVIEW_TESTS} Mesh1Test)
+ADD_TEST(Mesh2Test ${REVIEW_TESTS} Mesh2Test)
+ADD_TEST(Mesh3Test ${REVIEW_TESTS} Mesh3Test)
 
 FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
   STRING(REGEX REPLACE "\\." "_" op ${opacity})
@@ -66,9 +72,15 @@ ADD_TEST(itkReviewHeaderTest ${REVIEW_HEADER_TESTS})
 
 ADD_EXECUTABLE(itkReviewTests itkReviewTests.cxx ${ReviewTest_SRCS})
 
-TARGET_LINK_LIBRARIES(itkReviewTests 
-                      ITKAlgorithms ITKIO 
-                      ITKBasicFilters ITKFEM ITKStatistics ITKDistributions)
+TARGET_LINK_LIBRARIES(itkReviewTests
+  ITKAlgorithms
+  ITKIO
+  ITKBasicFilters
+  ITKFEM
+  ITKStatistics
+  ITKDistributions
+  ITKQuadEdgeMesh
+  )
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
