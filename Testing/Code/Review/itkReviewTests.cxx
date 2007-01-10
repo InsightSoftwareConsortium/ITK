@@ -28,6 +28,9 @@ void RegisterTests()
   REGISTER_TEST(itkTDistributionTest );
   REGISTER_TEST(itkFlatStructuringElementTest );
   REGISTER_TEST(itkLabelOverlayImageFilterTest );
+  REGISTER_TEST(AddFaceTest);
+  REGISTER_TEST(BasicLayerTest);
+  REGISTER_TEST(DeleteEdgeTest);
   REGISTER_TEST(Mesh1Test);
   REGISTER_TEST(Mesh2Test);
   REGISTER_TEST(Mesh3Test);
