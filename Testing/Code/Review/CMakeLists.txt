@@ -2,7 +2,7 @@ IF( NOT ITK_DISABLE_CXX_TESTING )
 IF(ITK_BINARY_DIR)
   IF(TCL_TCLSH)
     ADD_TEST(PrintSelf-Review ${TCL_TCLSH}
-             ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
+             ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl
              ${ITK_SOURCE_DIR}/Code/Review)
   ENDIF(TCL_TCLSH)
 ENDIF(ITK_BINARY_DIR)
@@ -30,43 +30,63 @@ SET(ReviewTest_SRCS
   itkGaussianDistributionTest.cxx
   itkTDistributionTest.cxx
   itkLabelOverlayImageFilterTest.cxx
+  AddFaceTest.cxx
+  BasicLayerTest.cxx
+  DeleteEdgeTest.cxx
   Mesh1Test.cxx
   Mesh2Test.cxx
   Mesh3Test.cxx
 #  itkContourExtractor2DImageFilterTest.cxx
 )
 
-ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS} itkChiSquareDistributionTest)
-ADD_TEST(itkFlatStructuringElementTest ${REVIEW_TESTS} itkFlatStructuringElementTest)
-ADD_TEST(itkGaussianDistributionTest ${REVIEW_TESTS} itkGaussianDistributionTest)
+ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS}
+  itkChiSquareDistributionTest
+  )
+ADD_TEST(itkFlatStructuringElementTest ${REVIEW_TESTS}
+  itkFlatStructuringElementTest
+  )
+ADD_TEST(itkGaussianDistributionTest ${REVIEW_TESTS}
+  itkGaussianDistributionTest
+  )
 ADD_TEST(itkTDistributionTest ${REVIEW_TESTS} itkTDistributionTest)
+ADD_TEST(AddFaceTest ${REVIEW_TESTS} AddFaceTest)
+ADD_TEST(BasicLayerTest ${REVIEW_TESTS} BasicLayerTest)
+ADD_TEST(DeleteEdgeTest ${REVIEW_TESTS} DeleteEdgeTest)
 ADD_TEST(Mesh1Test ${REVIEW_TESTS} Mesh1Test)
 ADD_TEST(Mesh2Test ${REVIEW_TESTS} Mesh2Test)
 ADD_TEST(Mesh3Test ${REVIEW_TESTS} Mesh3Test)
 
 FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
   STRING(REGEX REPLACE "\\." "_" op ${opacity})
-  ADD_TEST(itkLabelOverlayImageFilterTest-Opacity-${op} ${REVIEW_TESTS} 
+  ADD_TEST(itkLabelOverlayImageFilterTest-Opacity-${op} ${REVIEW_TESTS}
         --compare ${BASELINE}/cthead1-${op}Overlay.png
                   ${TEMP}/cthead1-${op}Overlay.png
                   itkLabelOverlayImageFilterTest
                   ${INPUTDATA}/cthead1.png
-                  ${INPUTDATA}/cthead1Label.png 
-                  ${opacity} 
+                  ${INPUTDATA}/cthead1Label.png
+                  ${opacity}
                   ${TEMP}/cthead1-${op}Overlay.png)
 ENDFOREACH(opacity)
 
-#ADD_TEST(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS} 
+#ADD_TEST(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS}
 #                                  itkContourExtractor2DImageFilterTest
 #                                  ${INPUTDATA}/ContourExtractor2DTest.tif  )
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
-TARGET_LINK_LIBRARIES(itkReviewPrintTest ITKAlgorithms ITKIO 
-                                              ITKBasicFilters ITKFEM)
+TARGET_LINK_LIBRARIES(itkReviewPrintTest
+  ITKAlgorithms
+  ITKIO
+  ITKBasicFilters
+  ITKFEM
+  )
 
 ADD_EXECUTABLE(itkReviewHeaderTest itkReviewHeaderTest.cxx)
-TARGET_LINK_LIBRARIES(itkReviewHeaderTest ITKAlgorithms ITKIO 
-                                              ITKBasicFilters ITKFEM)
+TARGET_LINK_LIBRARIES(itkReviewHeaderTest
+  ITKAlgorithms
+  ITKIO
+  ITKBasicFilters
+  ITKFEM
+  )
 
 ADD_TEST(itkReviewHeaderTest ${REVIEW_HEADER_TESTS})
 
@@ -82,5 +102,4 @@ TARGET_LINK_LIBRARIES(itkReviewTests
   ITKQuadEdgeMesh
   )
 
-ENDIF( NOT ITK_DISABLE_CXX_TESTING )
-
+ENDIF(NOT ITK_DISABLE_CXX_TESTING)
