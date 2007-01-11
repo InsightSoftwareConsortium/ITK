@@ -357,7 +357,7 @@ def New(self, *args, **kargs) :
 
   # now, try to add observer to display progress
   if itkConfig.ProgressCallback :
-    import ITKPyUtils, Base
+    import itk
     # copy the callback so it can be reset to None in itkConfig
     # without pb
     callback = itkConfig.ProgressCallback
@@ -366,9 +366,9 @@ def New(self, *args, **kargs) :
         # newItkObject and callback are kept referenced with a closure
         callback(self.__name__, newItkObject.GetProgress())
 
-      command = ITKPyUtils.PyCommand.New()
+      command = itk.PyCommand.New()
       command.SetCommandCallable(progress)
-      newItkObject.AddObserver(Base.ProgressEvent(), command.GetPointer())
+      newItkObject.AddObserver(itk.ProgressEvent(), command.GetPointer())
     except :
       # it seems that something goes wrong...
       # as this feature is designed for prototyping, it's not really a problem
