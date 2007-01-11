@@ -9,9 +9,7 @@ ENDIF(ITK_BINARY_DIR)
 
 
 SET(REVIEW_TESTS ${CXX_TEST_PATH}/itkReviewTests)
-
 SET(REVIEW_PRINT_TEST ${CXX_TEST_PATH}/itkReviewPrintTest)
-
 SET(REVIEW_HEADER_TESTS ${CXX_TEST_PATH}/itkReviewHeaderTest)
 
 ADD_TEST(itkReviewPrintTest ${REVIEW_PRINT_TEST})
@@ -31,9 +29,11 @@ SET(ReviewTest_SRCS
   itkTDistributionTest.cxx
   itkLabelOverlayImageFilterTest.cxx
   AddFaceTest.cxx
+  AddFaceTest2.cxx
   BasicLayerTest.cxx
   DeleteEdgeTest.cxx
   FrontIteratorTest.cxx
+  #  OppositeOrientationTest.cxx
   Mesh1Test.cxx
   Mesh2Test.cxx
   Mesh3Test.cxx
@@ -51,9 +51,11 @@ ADD_TEST(itkGaussianDistributionTest ${REVIEW_TESTS}
   )
 ADD_TEST(itkTDistributionTest ${REVIEW_TESTS} itkTDistributionTest)
 ADD_TEST(AddFaceTest ${REVIEW_TESTS} AddFaceTest)
+ADD_TEST(AddFaceTest2 ${REVIEW_TESTS} AddFaceTest2)
 ADD_TEST(BasicLayerTest ${REVIEW_TESTS} BasicLayerTest)
 ADD_TEST(DeleteEdgeTest ${REVIEW_TESTS} DeleteEdgeTest)
 ADD_TEST(FrontIteratorTest ${REVIEW_TESTS} FrontIteratorTest)
+#ADD_TEST(OppositeOrientationTest ${REVIEW_TESTS} OppositeOrientationTest)
 ADD_TEST(Mesh1Test ${REVIEW_TESTS} Mesh1Test)
 ADD_TEST(Mesh2Test ${REVIEW_TESTS} Mesh2Test)
 ADD_TEST(Mesh3Test ${REVIEW_TESTS} Mesh3Test)
