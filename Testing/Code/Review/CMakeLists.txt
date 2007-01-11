@@ -33,6 +33,7 @@ SET(ReviewTest_SRCS
   AddFaceTest.cxx
   BasicLayerTest.cxx
   DeleteEdgeTest.cxx
+  FrontIteratorTest.cxx
   Mesh1Test.cxx
   Mesh2Test.cxx
   Mesh3Test.cxx
@@ -52,6 +53,7 @@ ADD_TEST(itkTDistributionTest ${REVIEW_TESTS} itkTDistributionTest)
 ADD_TEST(AddFaceTest ${REVIEW_TESTS} AddFaceTest)
 ADD_TEST(BasicLayerTest ${REVIEW_TESTS} BasicLayerTest)
 ADD_TEST(DeleteEdgeTest ${REVIEW_TESTS} DeleteEdgeTest)
+ADD_TEST(FrontIteratorTest ${REVIEW_TESTS} FrontIteratorTest)
 ADD_TEST(Mesh1Test ${REVIEW_TESTS} Mesh1Test)
 ADD_TEST(Mesh2Test ${REVIEW_TESTS} Mesh2Test)
 ADD_TEST(Mesh3Test ${REVIEW_TESTS} Mesh3Test)
