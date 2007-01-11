@@ -23,7 +23,7 @@ int AddFaceTest2(int , char *[])
     0, 4, 6, };
 
   // Configuration of odd_connectivity mesh:
-  // numVertices=7 , numEdges=9, numFaces=3, numBoundary=1, Chi=1
+  // numVertices=7, numEdges=9, numFaces=3, numBoundaries=1, Chi=2
   //
   //    5 ---------- 4 ---------- 0 ---------- 1
   //    |  [2]   __/ |   [3]  __/   \__  [1]   |
@@ -69,13 +69,13 @@ int AddFaceTest2(int , char *[])
     mesh->SetCell( i, cellpointer );
     }
 
-  int computedNumCells = mesh->GetNumberOfCells();
-  std::cout << "computedNumCells= " << computedNumCells << std::endl;
+  int computedNumFaces = mesh->ComputeNumberOfFaces();
+  std::cout << "computedNumFaces= " << computedNumFaces << std::endl;
 
   std::cout << "Test whether the fourth face was rejected" << std::endl;
 
   if( itkQE::AssertTopologicalInvariants< MeshType >
-      ( mesh, 7, 9, 3, 1, 1 ) )
+      ( mesh, 7, 9, 3, 3, -1 ) )
     {
     std::cout << "Passed" << std::endl;
     }
