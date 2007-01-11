@@ -1,9 +1,9 @@
-
 #include "itkQEMesh.h"
 
 int Mesh1Test( int , char* [] )
 {
-    std::cout << "Testing points... " << std::ends;
+    std::cout << "Testing points..." << std::endl;
+
     typedef double PixelType;
     const unsigned int Dimension = 3;
     typedef itkQE::Mesh< PixelType, Dimension > MeshType;
@@ -22,39 +22,40 @@ int Mesh1Test( int , char* [] )
     mesh->SetPoint( 2, pts[ 2 ] );
     mesh->SetPoint( 3, pts[ 3 ] );
 
-    if( mesh->GetNumberOfPoints( ) != 4 ) {
-
-        std::cout << "Not all points added." << std::endl;
-        return( 1 );
-
-    } // fi
+    if( mesh->GetNumberOfPoints() != 4 )
+      {
+      std::cout << "Not all points added." << std::endl;
+      return EXIT_FAILURE;
+      }
 
     typedef MeshType::PointsContainer::Iterator PointsIterator;
-    PointsIterator  pointIterator = mesh->GetPoints( )->Begin( );  
-    PointsIterator end = mesh->GetPoints( )->End( );
+    PointsIterator  pointIterator = mesh->GetPoints()->Begin();
+    PointsIterator end = mesh->GetPoints()->End();
+
     int nPoints = 0;
-    while( pointIterator != end ) {
+    while( pointIterator != end )
+      {
+      MeshType::PointType p = pointIterator.Value();
 
-        MeshType::PointType p = pointIterator.Value( );
-        if( p != pts[ nPoints ] ) {
+      if( p != pts[ nPoints ] )
+        {
+        std::cout << "Point N. " << nPoints << " differs." << std::endl;
+        return EXIT_FAILURE;
+        }
 
-            std::cout << "Point N. " << nPoints << " differs." << std::endl;
-            return( 1 );
+      pointIterator++;
+      nPoints++;
+      }
 
-        } // fi
-        pointIterator++;
-        nPoints++;
+    if( nPoints != 4 )
+      {
+      std::cout << "Iteration didn't visit all points." << std::endl;
+      return EXIT_FAILURE;
 
-    } // elihw
-    if( nPoints != 4 ) {
+    }
 
-        std::cout << "Iteration didn't visited all points." << std::endl;
-        return( 1 );
-
-    } // fi
-
-    std::cout << "done!" << std::endl;
-    return( 0 );
+    std::cout << "Test passed" << std::endl;
+    return EXIT_SUCCESS;
 }
 
 // eof - Mesh1Test.cxx
