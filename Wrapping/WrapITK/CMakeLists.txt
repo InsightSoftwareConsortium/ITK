@@ -162,6 +162,7 @@ SET(optional_modules
   PixelMath
   Registration
   Resize
+  Review
   SegmentationAndThreshold
   SegmentationValidation
   SimpleFilters
