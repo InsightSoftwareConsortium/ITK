@@ -1,10 +1,10 @@
-// -------------------------------------------------------------------------
+// ------------------------------------------------------------------------
 // itkQEMesh.txx
-// $Revision: 1.1 $
+// $Revision: 1.2 $
 // $Author: sylvain $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
-// -------------------------------------------------------------------------
+// $Date: 2007-01-11 21:31:25 $
+// ------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
 // orientable 2-manifolds and its dual and its mirror, this implementation
@@ -18,7 +18,7 @@
 // - The frog master (Eric Boix)       eboix@ens-lyon.fr
 // - The duck master (Alex Gouaillard) gouaillard@creatis.insa-lyon.fr
 // - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
-// -------------------------------------------------------------------------
+// ------------------------------------------------------------------------
 
 #ifndef __ITKQUADEDGEMESH__MESH__TXX__
 #define __ITKQUADEDGEMESH__MESH__TXX__
@@ -45,9 +45,9 @@ Mesh< TPixel, VDimension, TTraits >::NOFACE
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
     void Mesh< TPixel, VDimension, TTraits >::
-    Clear( )
+    Clear()
 {
-   if( this->GetCells( ) )
+   if( this->GetCells() )
    {
       // First delete all the edges (since it also clears adjacent faces).
       itkQEMeshForAllPrimalEdgesMacro( Self, this, edgeToDelete )
@@ -58,7 +58,7 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
    }
 
    // Clear the points potentialy left behind by LightWeightDeleteEdge():
-   this->GetPoints( )->clear( );
+   this->GetPoints()->clear();
 }
 
 /**
@@ -120,7 +120,7 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
         ////////// Handle the geometrical references:
         // Make sure the Org's edge entry doesn't point to an entry edge
         // that isn't any more in the Onext ring:
-        PointIdentifier orgId = a->GetOrg( );
+        PointIdentifier orgId = a->GetOrg();
         PointType org = this->GetPoint( orgId );
         org.SetEdge( a );
         this->SetPoint( orgId, org );
@@ -132,9 +132,9 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
   
         // ...and inform Onext ring of b that their Org() have changed:
         typename QEPrimal::IteratorGeom it;
-        for( it = b->BeginGeomOnext( ); it != b->EndGeomOnext( ); it++ )
+        for( it = b->BeginGeomOnext(); it != b->EndGeomOnext(); it++ )
         {
-           it.Value( )->SetOrg( newOrgId );
+           it.Value()->SetOrg( newOrgId );
         }
         resultingOrgId = newOrgId;
     }
@@ -184,14 +184,14 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
          *       then the connectivity.
          */
 
-        // Since this is the geometrical version of Splice( ) we 
+        // Since this is the geometrical version of Splice() we 
         // have additional geometrical information that we should use
         // to check the correctness of the situation.
 
         /////////////////////////////////////////////////////////////
         // First, consider the vertices: Org and oldOrg must be different.
-        PointIdentifier oldOrgId = b->GetOrg( );
-        PointIdentifier orgId = a->GetOrg( );
+        PointIdentifier oldOrgId = b->GetOrg();
+        PointIdentifier orgId = a->GetOrg();
         if( oldOrgId == orgId )
         {
            itkWarningMacro( "Trying to fuse the same point!" );
@@ -236,8 +236,8 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
          * and the vertices we wish to splice are at least two vertices aside.
          */
 
-        FaceRefType aLeftFace = a->GetLeft( ); 
-        FaceRefType bLeftFace = b->GetLeft( ); 
+        FaceRefType aLeftFace = a->GetLeft(); 
+        FaceRefType bLeftFace = b->GetLeft(); 
         
         bool MustReconstructFace = false;
         if(    ( aLeftFace == NOFACE && bLeftFace != NOFACE )
@@ -249,10 +249,10 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
         if( aLeftFace != NOFACE && bLeftFace != NOFACE )
         {
            if(   ( aLeftFace == bLeftFace )
-              && ( a->GetLnext( )              != b ) 
-              && ( a->GetLnext( )->GetLnext( ) != b ) 
-              && ( b->GetLnext( )              != a ) 
-              && ( b->GetLnext( )->GetLnext( ) != a ) 
+              && ( a->GetLnext()              != b ) 
+              && ( a->GetLnext()->GetLnext() != b ) 
+              && ( b->GetLnext()              != a ) 
+              && ( b->GetLnext()->GetLnext() != a ) 
               && ( a->IsInLnextRing( b ) )
               && ( b->IsInLnextRing( a ) ) )
            {
@@ -283,9 +283,9 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
         // their Org() have changed. Let's over do it (read, be lazy) and
         // inform the full Onext() ring:
         typename QEPrimal::IteratorGeom it;
-        for( it = a->BeginGeomOnext( ); it != a->EndGeomOnext( ); it++ )
+        for( it = a->BeginGeomOnext(); it != a->EndGeomOnext(); it++ )
         {
-           it.Value( )->SetOrg( orgId );
+           it.Value()->SetOrg( orgId );
         }
         resultingOrgId = oldOrgId;
 
@@ -301,7 +301,7 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
         }
     }
 
-    this->Modified( );
+    this->Modified();
     return resultingOrgId;
 }
 
@@ -313,148 +313,143 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
                       PointIdentifier* pointId ) const
 {
     VectorType vP;
-    vP.Get_vnl_vector( ).copy_in( coords );
-    PointsContainerConstIterator pit = this->GetPoints( )->Begin( );
-    *pointId = pit.Index( );
-    for( ; pit != this->GetPoints( )->End( ); pit++ ) {
+    vP.Get_vnl_vector().copy_in( coords );
+    PointsContainerConstIterator pit = this->GetPoints()->Begin();
+    *pointId = pit.Index();
+    for( ; pit != this->GetPoints()->End(); pit++ ) {
 
-        VectorType v0 = pit.Value( ).GetVectorFromOrigin( );
+        VectorType v0 = pit.Value().GetVectorFromOrigin();
         VectorType v1 = this->GetVector( *pointId );
-        if( ( v0 - vP ).GetNorm( ) < ( v1 - vP ).GetNorm( ) )
-            *pointId = pit.Index( );
+        if( ( v0 - vP ).GetNorm() < ( v1 - vP ).GetNorm() )
+            *pointId = pit.Index();
 
     } // rof
     return( true );
 }
 
-/**
- */
+//////////////////////////////////////////////////////////////////////////
 template< typename TPixel, unsigned int VDimension, typename TTraits >
     void Mesh< TPixel, VDimension, TTraits >::
     SetCell( CellIdentifier cId, CellAutoPointer& cell )
 {
-    (void)cId;
-    EdgeCellType* qe = (EdgeCellType*)0;
-    PolygonCellType* pe = (PolygonCellType*)0;
-    if( ( qe = dynamic_cast< EdgeCellType* >( cell.GetPointer( ) ) ) ) {
+  (void)cId;
 
-        this->AddEdge( qe->GetOrg( ), qe->GetDest( ) );
+  EdgeCellType* qe = (EdgeCellType*) NULL;
+  PolygonCellType* pe = (PolygonCellType*) NULL;
 
-    } else
-       if( ( pe = dynamic_cast< PolygonCellType* >( cell.GetPointer( ) ) ) )
-       {
-           PointIdList points;
-           typename PolygonCellType::PointIdIterator pit =
-               pe->PointIdsBegin( );
-           for( ; pit != pe->PointIdsEnd( ); pit++ )
-               points.push_back( ( *pit ) );
-           this->AddFace( points );
+  if( ( qe = dynamic_cast< EdgeCellType* >( cell.GetPointer() ) ) )
+    {
+    this->AddEdge( qe->GetOrg(), qe->GetDest() );
+    }
+  else if( ( pe = dynamic_cast< PolygonCellType* >( cell.GetPointer() ) ) )
+    {
+    PointIdList points;
 
-       } // fi
+    typename PolygonCellType::PointIdIterator pit = pe->PointIdsBegin();
+
+    for( ; pit != pe->PointIdsEnd(); pit++ )
+      {
+      points.push_back( *pit );
+      }
+
+    this->AddFace( points );
+    }
 }
 
-/**
- */
+//////////////////////////////////////////////////////////////////////////
 template< typename TPixel, unsigned int VDimension, typename TTraits >
-    typename Mesh< TPixel, VDimension, TTraits >::PointIdentifier
-    Mesh< TPixel, VDimension, TTraits >::
-    FindFirstUnusedPointIndex( )
+typename Mesh< TPixel, VDimension, TTraits >::PointIdentifier
+Mesh< TPixel, VDimension, TTraits >::FindFirstUnusedPointIndex()
 {
-    PointIdentifier pid;
-    if( m_FreePointIndexes.size( ) == 0 ) {
+  PointIdentifier pid;
+  if( m_FreePointIndexes.size() == 0 )
+    {
+    pid = this->GetNumberOfPoints();
+    if( pid != 0 )
+      {
+      PointsContainerIterator last = this->GetPoints()->End();
+      last--;
+      pid = last.Index() + 1;
+      }
+    }
+  else
+    {
+    pid = m_FreePointIndexes.front();
+    m_FreePointIndexes.pop();
+    }
 
-        pid = this->GetNumberOfPoints( );
-        if( pid != 0 ) {
-
-            PointsContainerIterator last = this->GetPoints( )->End( );
-            last--;
-            pid = last.Index( ) + 1;
-
-        } // fi
-
-    } else {
-
-        pid = m_FreePointIndexes.front( );
-        m_FreePointIndexes.pop( );
-
-    } // fi
-    return( pid );
+  return pid;
 }
 
-/**
- */
+//////////////////////////////////////////////////////////////////////////
 template< typename TPixel, unsigned int VDimension, typename TTraits >
     typename Mesh< TPixel, VDimension, TTraits >::PointIdentifier
     Mesh< TPixel, VDimension, TTraits >::
     AddPoint( const PointType& p )
 {
-    PointIdentifier pid = this->FindFirstUnusedPointIndex( );
+    PointIdentifier pid = this->FindFirstUnusedPointIndex();
     this->SetPoint( pid, p );
     return( pid );
 }
 
-/**
- */
+//////////////////////////////////////////////////////////////////////////
 template< typename TPixel, unsigned int VDimension, typename TTraits >
     void Mesh< TPixel, VDimension, TTraits >::
     DeletePoint( const PointIdentifier& pid )
 {
-    if( this->GetPoint( pid ).GetEdge( ) ) {
+  if( this->GetPoint( pid ).GetEdge() )
+    {
+    itkDebugMacro( "Point is not isolated." );
+    return;
+    }
 
-        itkDebugMacro( "Point is not isolated." );
-        return;
-
-    } // fi
-    this->GetPoints( )->DeleteIndex( pid );
-    m_FreePointIndexes.push( pid );
+  this->GetPoints()->DeleteIndex( pid );
+  m_FreePointIndexes.push( pid );
 }
 
-/**
- */
+//////////////////////////////////////////////////////////////////////////
 template< typename TPixel, unsigned int VDimension, typename TTraits >
     typename Mesh< TPixel, VDimension, TTraits >::PointType
     Mesh< TPixel, VDimension, TTraits >::
     GetPoint( const PointIdentifier& pid ) const
 {
-    return( this->GetPoints( )->GetElement( pid ) );
+    return( this->GetPoints()->GetElement( pid ) );
 }
 
-/**
- */
+//////////////////////////////////////////////////////////////////////////
 template< typename TPixel, unsigned int VDimension, typename TTraits >
     typename Mesh< TPixel, VDimension, TTraits >::VectorType
     Mesh< TPixel, VDimension, TTraits >::
     GetVector( const PointIdentifier& pid ) const
 {
-    return( this->GetPoint( pid ).GetVectorFromOrigin( ) );
+    return( this->GetPoint( pid ).GetVectorFromOrigin() );
 }
 
-/**
- */
+//////////////////////////////////////////////////////////////////////////
 template< typename TPixel, unsigned int VDimension, typename TTraits >
     typename Mesh< TPixel, VDimension, TTraits >::CellIdentifier
     Mesh< TPixel, VDimension, TTraits >::
-    FindFirstUnusedCellIndex( )
+    FindFirstUnusedCellIndex()
 {
-    CellIdentifier cid;
-    if( m_FreeCellIndexes.size( ) == 0 ) {
+  CellIdentifier cid;
+  if( m_FreeCellIndexes.size() == 0 ) {
 
-        cid = this->GetNumberOfCells( );
-        if( cid != 0 ) {
+      cid = this->GetNumberOfCells();
+      if( cid != 0 ) {
 
-            CellsContainerIterator last = this->GetCells( )->End( );
-            last--;
-            cid = last.Index( ) + 1;
+          CellsContainerIterator last = this->GetCells()->End();
+          last--;
+          cid = last.Index() + 1;
 
-        } // fi
+      } // fi
 
-    } else {
+  } else {
 
-        cid = m_FreeCellIndexes.front( );
-        m_FreeCellIndexes.pop( );
+      cid = m_FreeCellIndexes.front();
+      m_FreeCellIndexes.pop();
 
-    } // fi
-    return( cid );
+  } // fi
+  return( cid );
 }
 
 /**
@@ -470,446 +465,454 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
     AddEdge( const PointIdentifier& orgPid,
              const PointIdentifier& destPid )
 {
-    // Make sure the points are different
-    if( orgPid == destPid )
-    {
-        itkDebugMacro( "Creating an edge between the same point." );
-        return( (QEPrimal*)0 );
-    } // fi
+  // Make sure the points are different
+  if( orgPid == destPid )
+  {
+      itkDebugMacro( "Creating an edge between the same point." );
+      return( (QEPrimal*)0 );
+  } // fi
 
-    // Make sure the points are allready in the Mesh container:
-    if( !( this->GetPoints( )->IndexExists( orgPid ) ) ||
-        !( this->GetPoints( )->IndexExists( destPid ) ) )
-    {
-        itkDebugMacro( "One of the points not in the PointSet." );
-        return( (QEPrimal*)0 );
-    } // fi
+  // Make sure the points are allready in the Mesh container:
+  if( !( this->GetPoints()->IndexExists( orgPid ) ) ||
+      !( this->GetPoints()->IndexExists( destPid ) ) )
+  {
+      itkDebugMacro( "One of the points not in the PointSet." );
+      return( (QEPrimal*)0 );
+  } // fi
 
-    // Make sure the edge is not allready in the container
-    QEPrimal* e = this->FindEdge( orgPid, destPid );
-    if( e != (QEPrimal*)0 )
-    {
-        itkDebugMacro( "Edge allready in Mesh." );
-        return( e );
-    } // fi
+  // Make sure the edge is not allready in the container
+  QEPrimal* e = this->FindEdge( orgPid, destPid );
+  if( e != (QEPrimal*)0 )
+  {
+      itkDebugMacro( "Edge allready in Mesh." );
+      return( e );
+  } // fi
 
-    // Check if the points have room to receive a new edge
-    QEPrimal*  eOrg = this->FindEdge(  orgPid );
-    QEPrimal* eDest = this->FindEdge( destPid );
-    if( eOrg )
-        if( eOrg->IsOrgInternal( ) )
-        {
-            itkDebugMacro( "No room for a new edge in the Org() ring." );
-            return( (QEPrimal*)0 );
-        }
-    if( eDest )
-        if( eDest->IsOrgInternal( ) )
-        {
-            itkDebugMacro( "No room for a new edge in the Dest() ring." );
-            return( (QEPrimal*)0 );
-        }
+  // Check if the points have room to receive a new edge
+  QEPrimal*  eOrg = this->FindEdge(  orgPid );
+  QEPrimal* eDest = this->FindEdge( destPid );
+  if( eOrg )
+      if( eOrg->IsOrgInternal() )
+      {
+          itkDebugMacro( "No room for a new edge in the Org() ring." );
+          return( (QEPrimal*)0 );
+      }
+  if( eDest )
+      if( eDest->IsOrgInternal() )
+      {
+          itkDebugMacro( "No room for a new edge in the Dest() ring." );
+          return( (QEPrimal*)0 );
+      }
 
-    // Ok, there's room and the points exist
-    EdgeCellType* newEdge = new EdgeCellType( true );
+  // Ok, there's room and the points exist
+  EdgeCellType* newEdge = new EdgeCellType( true );
 
-    newEdge->SetOrg (  orgPid );
-    newEdge->SetDest( destPid );
+  newEdge->SetOrg (  orgPid );
+  newEdge->SetDest( destPid );
 
-    if( !eOrg )
-    {
-        PointType pOrg = this->GetPoint( orgPid );
-        pOrg.SetEdge( newEdge );
-        this->SetPoint( orgPid, pOrg );
-    } else
-        eOrg->InsertAfterNextBorderEdgeWithUnsetLeft( newEdge );
+  if( !eOrg )
+  {
+      PointType pOrg = this->GetPoint( orgPid );
+      pOrg.SetEdge( newEdge );
+      this->SetPoint( orgPid, pOrg );
+  } else
+      eOrg->InsertAfterNextBorderEdgeWithUnsetLeft( newEdge );
 
-    if( !eDest )
-    {
-        PointType pDest = this->GetPoint( destPid );
-        pDest.SetEdge( newEdge->GetSym( ) );
-        this->SetPoint( destPid, pDest );
-    } else
-        eDest->InsertAfterNextBorderEdgeWithUnsetLeft( newEdge->GetSym( ) );
+  if( !eDest )
+  {
+      PointType pDest = this->GetPoint( destPid );
+      pDest.SetEdge( newEdge->GetSym() );
+      this->SetPoint( destPid, pDest );
+  } else
+      eDest->InsertAfterNextBorderEdgeWithUnsetLeft( newEdge->GetSym() );
 
-    // Add it to the container
-    this->PushOnContainer( newEdge );
+  // Add it to the container
+  this->PushOnContainer( newEdge );
 
-    return( newEdge );
+  return( newEdge );
 }
 
 /**
- */
+*/
 template< typename TPixel, unsigned int VDimension, typename TTraits >
-    void Mesh< TPixel, VDimension, TTraits >::
-    PushOnContainer( EdgeCellType* newEdge )
+  void Mesh< TPixel, VDimension, TTraits >::
+  PushOnContainer( EdgeCellType* newEdge )
 {
-    // Add it to the container
-    CellIdentifier eid = this->FindFirstUnusedCellIndex( );
-    newEdge->SetIdent( eid );
-    newEdge->GetSym( )->SetIdent( eid );
-    CellAutoPointer edge;
-    edge.TakeOwnership( newEdge );
-    this->Superclass::SetCell( eid, edge );
+  // Add it to the container
+  CellIdentifier eid = this->FindFirstUnusedCellIndex();
+  newEdge->SetIdent( eid );
+  newEdge->GetSym()->SetIdent( eid );
+  CellAutoPointer edge;
+  edge.TakeOwnership( newEdge );
+  this->Superclass::SetCell( eid, edge );
 }
 
 /**
- */
+*/
 template< typename TPixel, unsigned int VDimension, typename TTraits >
-    void Mesh< TPixel, VDimension, TTraits >::
-    DeleteEdge( const PointIdentifier& orgPid,
-                const PointIdentifier& destPid )
+  void Mesh< TPixel, VDimension, TTraits >::
+  DeleteEdge( const PointIdentifier& orgPid,
+              const PointIdentifier& destPid )
 {
-    // Check if the edge exists
-    QEPrimal* e = this->FindEdge( orgPid, destPid );
-    if( e == (QEPrimal*)0 )
-    {
-        itkDebugMacro( "Edge not present in mesh." );
-        return;
-    } // fi
-    this->DeleteEdge( e );
+  // Check if the edge exists
+  QEPrimal* e = this->FindEdge( orgPid, destPid );
+  if( e == (QEPrimal*)0 )
+  {
+      itkDebugMacro( "Edge not present in mesh." );
+      return;
+  } // fi
+  this->DeleteEdge( e );
 }
 
 /**
- */
+*/
 template< typename TPixel, unsigned int VDimension, typename TTraits >
-    void Mesh< TPixel, VDimension, TTraits >::
-    DeleteEdge( QEPrimal* e )
+  void Mesh< TPixel, VDimension, TTraits >::
+  DeleteEdge( QEPrimal* e )
 {
-    const PointIdentifier& orgPid  = e->GetOrg( );
-    const PointIdentifier& destPid = e->GetDest( );
-    // Check if the Org point's edge ring entry should be changed
-    PointType pOrg = this->GetPoint( orgPid );
-    if( pOrg.GetEdge( ) == e )
-    {
-        if( !e->IsOrgDisconnected( ) )
-            pOrg.SetEdge( e->GetOprev( ) );
-        else
-            pOrg.SetEdge( (QEPrimal*)0 );
-        this->SetPoint( orgPid, pOrg );
-    } // fi
+  const PointIdentifier& orgPid  = e->GetOrg();
+  const PointIdentifier& destPid = e->GetDest();
+  // Check if the Org point's edge ring entry should be changed
+  PointType pOrg = this->GetPoint( orgPid );
+  if( pOrg.GetEdge() == e )
+  {
+      if( !e->IsOrgDisconnected() )
+          pOrg.SetEdge( e->GetOprev() );
+      else
+          pOrg.SetEdge( (QEPrimal*)0 );
+      this->SetPoint( orgPid, pOrg );
+  } // fi
 
-    // Same for the Dest point
-    PointType pDest = this->GetPoint( destPid );
-    if( pDest.GetEdge( ) == e->GetSym( ) )
-    {
-        if( !e->IsDestDisconnected( ) )
-            pDest.SetEdge( e->GetLnext( ) );
-        else
-            pDest.SetEdge( (QEPrimal*)0 );
-        this->SetPoint( destPid, pDest );
-    } // fi
+  // Same for the Dest point
+  PointType pDest = this->GetPoint( destPid );
+  if( pDest.GetEdge() == e->GetSym() )
+  {
+      if( !e->IsDestDisconnected() )
+          pDest.SetEdge( e->GetLnext() );
+      else
+          pDest.SetEdge( (QEPrimal*)0 );
+      this->SetPoint( destPid, pDest );
+  } // fi
 
-    // This container serves to avoid the MS .net bug when
-    // one wants to delete a map element using a map::iterator.
-    // Normally, if we delete a map element using an iterator,
-    // it should keep the iterator validity but .net doesn't
-    // like it, so we delay the cell deletion to a later loop.
-    typedef std::vector< CellIdentifier > DeleteCellsCont;
-    DeleteCellsCont cellsToDelete;
+  // This container serves to avoid the MS .net bug when
+  // one wants to delete a map element using a map::iterator.
+  // Normally, if we delete a map element using an iterator,
+  // it should keep the iterator validity but .net doesn't
+  // like it, so we delay the cell deletion to a later loop.
+  typedef std::vector< CellIdentifier > DeleteCellsCont;
+  DeleteCellsCont cellsToDelete;
 
-    // Delete all references to 'e' in the container
-    CellsContainerIterator cit = this->GetCells( )->Begin( );
-    for( ; cit != this->GetCells( )->End( ); cit++ )
-    {
-        EdgeCellType* cell = dynamic_cast< EdgeCellType* >( cit.Value( ) );
-        PolygonCellType* pcell = dynamic_cast< PolygonCellType* >( cit.Value( ) );
-        bool toDelete = false;
-        if( cell != (EdgeCellType*)0 )
-        {
-            QEPrimal* edge = dynamic_cast< QEPrimal* >( cell );
-            toDelete = ( edge == e || edge->GetSym( ) == e );
-        }
-        else if( pcell != (PolygonCellType*)0 )
-        {
-            QEPrimal* edge = pcell->GetEdgeRingEntry( );
-            typename QEPrimal::IteratorGeom it = edge->BeginGeomLnext( );
-            for( ; it != edge->EndGeomLnext( ) && !toDelete; it++ )
-                toDelete = ( ( it.Value( ) == e ) ||
-                             ( it.Value( )->GetSym( ) == e ) );
+  // Delete all references to 'e' in the container
+  CellsContainerIterator cit = this->GetCells()->Begin();
+  for( ; cit != this->GetCells()->End(); cit++ )
+  {
+      EdgeCellType* cell = dynamic_cast< EdgeCellType* >( cit.Value() );
+      PolygonCellType* pcell = dynamic_cast< PolygonCellType* >( cit.Value() );
+      bool toDelete = false;
+      if( cell != (EdgeCellType*)0 )
+      {
+          QEPrimal* edge = dynamic_cast< QEPrimal* >( cell );
+          toDelete = ( edge == e || edge->GetSym() == e );
+      }
+      else if( pcell != (PolygonCellType*)0 )
+      {
+          QEPrimal* edge = pcell->GetEdgeRingEntry();
+          typename QEPrimal::IteratorGeom it = edge->BeginGeomLnext();
+          for( ; it != edge->EndGeomLnext() && !toDelete; it++ )
+              toDelete = ( ( it.Value() == e ) ||
+                           ( it.Value()->GetSym() == e ) );
 
-            // Unset left faces
-            if( toDelete )
-                for( it = edge->BeginGeomLnext( );
-                     it != edge->EndGeomLnext( );
-                     it++ )
-                    it.Value( )->UnsetLeft( );
-        } // fi
+          // Unset left faces
+          if( toDelete )
+              for( it = edge->BeginGeomLnext();
+                   it != edge->EndGeomLnext();
+                   it++ )
+                  it.Value()->UnsetLeft();
+      } // fi
 
-        if( toDelete )
-        {
-            cellsToDelete.push_back( cit.Index( ) );
-            m_FreeCellIndexes.push( cit.Index( ) );
-        }
+      if( toDelete )
+      {
+          cellsToDelete.push_back( cit.Index() );
+          m_FreeCellIndexes.push( cit.Index() );
+      }
 
-    } // rof
+  } // rof
 
-    // Delete the elements in the map
-    typename DeleteCellsCont::iterator dit = cellsToDelete.begin( );
-    for( ; dit != cellsToDelete.end( ); dit++ )
-        this->GetCells( )->DeleteIndex( *dit );
+  // Delete the elements in the map
+  typename DeleteCellsCont::iterator dit = cellsToDelete.begin();
+  for( ; dit != cellsToDelete.end(); dit++ )
+      this->GetCells()->DeleteIndex( *dit );
 
-    // Now, disconnect it and let the garbage collector do the rest
-    e->Disconnect( );
-    this->Modified( );
+  // Now, disconnect it and let the garbage collector do the rest
+  e->Disconnect();
+  this->Modified();
 }
 
 /**
- * Delete the incoming edge and all LOCAL references to this edge.
- * By local we mean the ones we can reasonably be aware of i.e. 
- * the adjacent faces (that we also delete) and the adjacent points
- * (when the incoming edge is their Onext ring entry).
- * This is to be opposed to \ref DeleteEdge that searches for ALL
- * references to the incoming edge (which is a much heavier process
- * because one as to make an exhaustive search in the CellContainer).
- * \note: when deleting the adjacent faces we also handle the 
- *        suppression of the references to those faces in the Lnext()
- *        and Rnext() rings.
- * \warning Nothing is done to remove the potential isolated points
- *        left by this edge deletion (the caller might want to recycle
- *        them). Hence it is the caller's responsability to manage the
- *        clean-up of adjacent points (when necessary).
- */
+* Delete the incoming edge and all LOCAL references to this edge.
+* By local we mean the ones we can reasonably be aware of i.e. 
+* the adjacent faces (that we also delete) and the adjacent points
+* (when the incoming edge is their Onext ring entry).
+* This is to be opposed to \ref DeleteEdge that searches for ALL
+* references to the incoming edge (which is a much heavier process
+* because one as to make an exhaustive search in the CellContainer).
+* \note: when deleting the adjacent faces we also handle the 
+*        suppression of the references to those faces in the Lnext()
+*        and Rnext() rings.
+* \warning Nothing is done to remove the potential isolated points
+*        left by this edge deletion (the caller might want to recycle
+*        them). Hence it is the caller's responsability to manage the
+*        clean-up of adjacent points (when necessary).
+*/
 template< typename TPixel, unsigned int VDimension, typename TTraits >
-    void Mesh< TPixel, VDimension, TTraits >::
-    LightWeightDeleteEdge( QEPrimal* e )
+  void Mesh< TPixel, VDimension, TTraits >::
+  LightWeightDeleteEdge( QEPrimal* e )
 {
-    /////////////////////////////////////////////////////////////////
-    // First make sure the points are not pointing to the edge we are
-    // trying to delete.
-    const PointIdentifier& orgPid  = e->GetOrg( );
-    const PointIdentifier& destPid = e->GetDest( );
-    // Check if the Org point's edge ring entry is the edge we are
-    // trying to delete. When this is the case shift the Org edge entry
-    // to another edge and when no other edge is available leave it
-    // to NULL.
-    PointType pOrg = this->GetPoint( orgPid );
-    if( pOrg.GetEdge( ) == e )
-    {
-        if( !e->IsOrgDisconnected( ) )
-            pOrg.SetEdge( e->GetOprev( ) );
-        else
-            pOrg.SetEdge( (QEPrimal*)0 );
-        this->SetPoint( orgPid, pOrg );
-    } // fi
+  /////////////////////////////////////////////////////////////////
+  // First make sure the points are not pointing to the edge we are
+  // trying to delete.
+  const PointIdentifier& orgPid  = e->GetOrg();
+  const PointIdentifier& destPid = e->GetDest();
+  // Check if the Org point's edge ring entry is the edge we are
+  // trying to delete. When this is the case shift the Org edge entry
+  // to another edge and when no other edge is available leave it
+  // to NULL.
+  PointType pOrg = this->GetPoint( orgPid );
+  if( pOrg.GetEdge() == e )
+  {
+      if( !e->IsOrgDisconnected() )
+          pOrg.SetEdge( e->GetOprev() );
+      else
+          pOrg.SetEdge( (QEPrimal*)0 );
+      this->SetPoint( orgPid, pOrg );
+  } // fi
 
-    // Same thing for the Dest point:
-    PointType pDest = this->GetPoint( destPid );
-    if( pDest.GetEdge( ) == e->GetSym( ) )
-    {
-        if( !e->IsDestDisconnected( ) )
-            pDest.SetEdge( e->GetLnext( ) );
-        else
-            pDest.SetEdge( (QEPrimal*)0 );
-        this->SetPoint( destPid, pDest );
-    } // fi
+  // Same thing for the Dest point:
+  PointType pDest = this->GetPoint( destPid );
+  if( pDest.GetEdge() == e->GetSym() )
+  {
+      if( !e->IsDestDisconnected() )
+          pDest.SetEdge( e->GetLnext() );
+      else
+          pDest.SetEdge( (QEPrimal*)0 );
+      this->SetPoint( destPid, pDest );
+  } // fi
 
-    /////////////////////////////////////////////////////////////////
-    // Second we need to destroy the adjacent faces (both GetLeft()
-    // and GetRight() when they exist) because their very definition
-    // makes reference to the edge we are trying to delete:
-    if( e->IsLeftSet( ) )
-       this->DeleteFace( e->GetLeft() );
-    if( e->IsRightSet( ) )
-       this->DeleteFace( e->GetRight() );
+  /////////////////////////////////////////////////////////////////
+  // Second we need to destroy the adjacent faces (both GetLeft()
+  // and GetRight() when they exist) because their very definition
+  // makes reference to the edge we are trying to delete:
+  if( e->IsLeftSet() )
+     this->DeleteFace( e->GetLeft() );
+  if( e->IsRightSet() )
+     this->DeleteFace( e->GetRight() );
 
-    /////////////////////////////////////////////////////////////////
-    // Third we need to remove from the container the EdgeCell
-    // representing the edge we are trying to destroy at the itk
-    // level. For this we first get our hands back on the EdgeCell
-    // by upcasting to EdgeCellType*:
-    EdgeCellType* edgeCell = dynamic_cast< EdgeCellType* > ( e );
-    if( !edgeCell)
+  /////////////////////////////////////////////////////////////////
+  // Third we need to remove from the container the EdgeCell
+  // representing the edge we are trying to destroy at the itk
+  // level. For this we first get our hands back on the EdgeCell
+  // by upcasting to EdgeCellType*:
+  EdgeCellType* edgeCell = dynamic_cast< EdgeCellType* > ( e );
+  if( !edgeCell)
+  {
+     edgeCell = dynamic_cast< EdgeCellType* > ( e->GetSym() );
+  }
+  if( !edgeCell)
+  {
+     itkWarningMacro( "Neither e nor e->Sym() are upcastable !" );
+     return;
+  }
+  this->GetCells()->DeleteIndex( edgeCell->GetIdent() );
+
+  // Eventually, we disconnect (at the QuadEdge level) the edge we
+  // are trying to delete and let the garbage collector do the rest:
+  e->Disconnect();
+  this->Modified();
+}
+
+/**
+*/
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+  void Mesh< TPixel, VDimension, TTraits >::
+  DeleteFace( FaceRefType faceToDelete )
+{
+  PolygonCellType* cellToDelete = dynamic_cast< PolygonCellType* >
+                       ( this->GetCells()->GetElement( faceToDelete ) );
+  if( !cellToDelete )
+  {
+     itkDebugMacro( "No such face in container" );
+     return;
+  }
+
+  // Iterate on the edges adjacent to face and remove references to
+  // to this face:
+  QEPrimal* e = cellToDelete->GetEdgeRingEntry();
+  if( faceToDelete != e->GetLeft() )
+     e = e->GetSym();
+  if( faceToDelete != e->GetLeft() )
+  {
+     itkWarningMacro( "Neither e nor e->Sym() are the proper face !" );
+     return;
+  }
+  typename QEPrimal::IteratorGeom it;
+  for( it = e->BeginGeomLnext(); it != e->EndGeomLnext(); it++ )
+     it.Value()->UnsetLeft();
+
+  this->GetCells()->DeleteIndex( faceToDelete );
+  this->Modified();
+}
+
+/**
+*/
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+  typename Mesh< TPixel, VDimension, TTraits >::QEPrimal*
+  Mesh< TPixel, VDimension, TTraits >::
+  GetEdge() const
+{
+  QEPrimal* e = (QEPrimal*)0;
+  CellsContainerIterator cit = this->GetCells()->Begin();
+  for( ; cit != this->GetCells()->End() && e == (QEPrimal*)0; cit++ )
+  {
+      e = dynamic_cast< QEPrimal* >( cit.Value() );
+
+      // Check if we can get an edge from a potential polygon
+      if( e == (QEPrimal*)0 )
+      {
+          PolygonCellType* pol =
+              dynamic_cast< PolygonCellType* >( cit.Value() );
+          e = ( pol )?
+              dynamic_cast< QEPrimal* >( pol->GetEdgeRingEntry() ): e;
+      } // fi
+  } // rof
+  return( e );
+}
+
+/**
+*/
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+  typename Mesh< TPixel, VDimension, TTraits >::QEPrimal*
+  Mesh< TPixel, VDimension, TTraits >::
+  GetEdge( const CellIdentifier& eid ) const
+{
+  QEPrimal* cell = ( dynamic_cast< QEPrimal* >
+                   ( this->GetCells()->GetElement( eid ) ) );
+  return( cell );
+}
+
+/**
+*/
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+  typename Mesh< TPixel, VDimension, TTraits >::QEPrimal*
+  Mesh< TPixel, VDimension, TTraits >::
+  FindEdge( const PointIdentifier& pid0 ) const
+{
+  PointType p = this->GetPoint( pid0 );
+  return( dynamic_cast< QEPrimal* >( p.GetEdge() ) );
+}
+
+/**
+*/
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+  typename Mesh< TPixel, VDimension, TTraits >::QEPrimal*
+  Mesh< TPixel, VDimension, TTraits >::
+  FindEdge( const PointIdentifier& pid0,
+            const PointIdentifier& pid1 ) const
+{
+  QEPrimal* e = this->FindEdge( pid0 );
+  if( e )
+  {
+      QEPrimal* d = (QEPrimal*)0;
+      typename QEPrimal::IteratorGeom it = e->BeginGeomOnext();
+      for( ; it != e->EndGeomOnext(); it++ )
+          d = ( it.Value()->GetDest() == pid1 )?
+              dynamic_cast< QEPrimal* >( it.Value() ): d;
+      e = d;
+  } // fi
+  return( e );
+}
+
+//////////////////////////////////////////////////////////////////////////
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+typename Mesh< TPixel, VDimension, TTraits >::QEPrimal*
+Mesh< TPixel, VDimension, TTraits >::AddFace( PointIdList& points )
+{
+  // Check that there are no duplicate points
+  for(unsigned int i=0; i < points.size(); i++)
     {
-       edgeCell = dynamic_cast< EdgeCellType* > ( e->GetSym( ) );
+    if( std::count( points.begin(), points.end(), points[i] ) != 1 )
+      {
+      itkDebugMacro("Point "<<i<<" is duplicated");
+      return (QEPrimal*) NULL;
+      }
     }
-    if( !edgeCell)
-    {
-       itkWarningMacro( "Neither e nor e->Sym() are upcastable !" );
-       return;
-    }
-    this->GetCells( )->DeleteIndex( edgeCell->GetIdent( ) );
 
-    // Eventually, we disconnect (at the QuadEdge level) the edge we
-    // are trying to delete and let the garbage collector do the rest:
-    e->Disconnect( );
-    this->Modified( );
-}
-
-/**
- */
-template< typename TPixel, unsigned int VDimension, typename TTraits >
-    void Mesh< TPixel, VDimension, TTraits >::
-    DeleteFace( FaceRefType faceToDelete )
-{
-    PolygonCellType* cellToDelete = dynamic_cast< PolygonCellType* >
-                         ( this->GetCells( )->GetElement( faceToDelete ) );
-    if( !cellToDelete )
+  // Check that all points exist
+  for(unsigned int i=0; i < points.size(); i++)
     {
-       itkDebugMacro( "No such face in container" );
-       return;
+    if( !this->GetPoints()->IndexExists( points[i] ) )
+      {
+      itkDebugMacro("Point "<<i<<" is missing in the mesh");
+      return (QEPrimal*) NULL;
+      }
     }
 
-    // Iterate on the edges adjacent to face and remove references to
-    // to this face:
-    QEPrimal* e = cellToDelete->GetEdgeRingEntry( );
-    if( faceToDelete != e->GetLeft( ) )
-       e = e->GetSym( );
-    if( faceToDelete != e->GetLeft( ) )
+  // Check if edges have no face on the left.
+  for(unsigned int i=0; i < points.size(); i++)
     {
-       itkWarningMacro( "Neither e nor e->Sym() are the proper face !" );
-       return;
-    }
-    typename QEPrimal::IteratorGeom it;
-    for( it = e->BeginGeomLnext( ); it != e->EndGeomLnext( ); it++ )
-       it.Value( )->UnsetLeft( );
+    PointIdentifier pid0 = points[i];
+    PointIdentifier pid1 = points[ (i+1) % points.size() ];
 
-    this->GetCells( )->DeleteIndex( faceToDelete );
-    this->Modified( );
-}
+    QEPrimal* edge = this->FindEdge( pid0, pid1 );
 
-/**
- */
-template< typename TPixel, unsigned int VDimension, typename TTraits >
-    typename Mesh< TPixel, VDimension, TTraits >::QEPrimal*
-    Mesh< TPixel, VDimension, TTraits >::
-    GetEdge( ) const
-{
-    QEPrimal* e = (QEPrimal*)0;
-    CellsContainerIterator cit = this->GetCells( )->Begin( );
-    for( ; cit != this->GetCells( )->End( ) && e == (QEPrimal*)0; cit++ )
-    {
-        e = dynamic_cast< QEPrimal* >( cit.Value( ) );
-
-        // Check if we can get an edge from a potential polygon
-        if( e == (QEPrimal*)0 )
+    if( edge )
+      {
+      if( edge->IsLeftSet() )
         {
-            PolygonCellType* pol =
-                dynamic_cast< PolygonCellType* >( cit.Value( ) );
-            e = ( pol )?
-                dynamic_cast< QEPrimal* >( pol->GetEdgeRingEntry( ) ): e;
-        } // fi
-    } // rof
-    return( e );
-}
+        itkDebugMacro("Edge [" << i << " " << ((i+1) % points.size())
+            <<" has a left face.");
+        return (QEPrimal*) NULL;
+        }
+      }
+    }
 
-/**
- */
-template< typename TPixel, unsigned int VDimension, typename TTraits >
-    typename Mesh< TPixel, VDimension, TTraits >::QEPrimal*
-    Mesh< TPixel, VDimension, TTraits >::
-    GetEdge( const CellIdentifier& eid ) const
-{
-    QEPrimal* cell = ( dynamic_cast< QEPrimal* >
-                     ( this->GetCells( )->GetElement( eid ) ) );
-    return( cell );
-}
-
-/**
- */
-template< typename TPixel, unsigned int VDimension, typename TTraits >
-    typename Mesh< TPixel, VDimension, TTraits >::QEPrimal*
-    Mesh< TPixel, VDimension, TTraits >::
-    FindEdge( const PointIdentifier& pid0 ) const
-{
-    PointType p = this->GetPoint( pid0 );
-    return( dynamic_cast< QEPrimal* >( p.GetEdge( ) ) );
-}
-
-/**
- */
-template< typename TPixel, unsigned int VDimension, typename TTraits >
-    typename Mesh< TPixel, VDimension, TTraits >::QEPrimal*
-    Mesh< TPixel, VDimension, TTraits >::
-    FindEdge( const PointIdentifier& pid0,
-              const PointIdentifier& pid1 ) const
-{
-    QEPrimal* e = this->FindEdge( pid0 );
-    if( e )
+  // Now create edges as needed.
+  for(unsigned int i=0; i < points.size(); i++)
     {
-        QEPrimal* d = (QEPrimal*)0;
-        typename QEPrimal::IteratorGeom it = e->BeginGeomOnext( );
-        for( ; it != e->EndGeomOnext( ); it++ )
-            d = ( it.Value( )->GetDest( ) == pid1 )?
-                dynamic_cast< QEPrimal* >( it.Value( ) ): d;
-        e = d;
-    } // fi
-    return( e );
-}
+    PointIdentifier pid0 = points[i];
+    PointIdentifier pid1 = points[ (i+1) % points.size() ];
+    QEPrimal* edge = this->FindEdge( pid0, pid1 );
 
-/**
- */
-template< typename TPixel, unsigned int VDimension, typename TTraits >
-    typename Mesh< TPixel, VDimension, TTraits >::QEPrimal*
-    Mesh< TPixel, VDimension, TTraits >::
-    AddFace( PointIdList& points )
-{
-    // Check that there are no duplicated points
-    bool noDuplicates = true;
-    for( unsigned int i = 0; i < points.size( ); i++ )
-        noDuplicates &=
-            ( std::count( points.begin( ), points.end( ),
-                          points[ i ] ) == 1 );
+    if( !edge )
+      {
+      this->AddEdge( pid0, pid1 );
+      }
+    }
 
-    if( !noDuplicates )
+  // Reorder all Onext rings
+  for(unsigned int i=0; i < points.size(); i++)
     {
-        itkDebugMacro( "There are duplicates." );
-        return( (QEPrimal*)0 );
-    } // fi
+    PointIdentifier pid0 = points[ (i+points.size()-1) % points.size() ];
+    PointIdentifier pid1 = points[i];
+    PointIdentifier pid2 = points[ (i+1) % points.size() ];
 
-    // Check that all points exist
-    bool allPoints = true;
-    for( unsigned int i = 0; i < points.size( ); i++ )
-        allPoints &= this->GetPoints( )->IndexExists( points[ i ] );
-    if( !allPoints )
+    QEPrimal* e0 = this->FindEdge( pid1, pid2 );
+    QEPrimal* e1 = this->FindEdge( pid1, pid0 );
+
+    e0->ReorderOnextRingBeforeAddFace( e1 );
+    }
+
+  // all edges are ready to receive a face on the left
+  QEPrimal* entry = this->FindEdge( points[0], points[1] );
+
+  if( !entry )
     {
-        itkDebugMacro( "Not all points exist in the mesh" );
-        return( (QEPrimal*)0 );
-    } // fi
+    itkDebugMacro("entry == NULL");
+    return (QEPrimal*) NULL;
+    }
 
-    // Check if existing edges have no face at left.
-    bool noLeftSet = true;
-    for( unsigned int i = 0; i < points.size( ); i++ )
-    {
-        PointIdentifier pid0 = points[ i ];
-        PointIdentifier pid1 = points[ ( i + 1 ) % points.size( ) ];
-        QEPrimal* edge = this->FindEdge( pid0, pid1 );
-        if( edge )
-            noLeftSet &= !( edge->IsLeftSet( ) );
-    } // rof
-    if( !noLeftSet )
-    {
-        itkDebugMacro( "At least one existing edge has a left face." );
-        return( (QEPrimal*)0 );
-    } // fi
+  this->AddFace(entry);
 
-    // Now the job is to create edges as needed.
-    for( unsigned int i = 0; i < points.size( ); i++ )
-    {
-        PointIdentifier pid0 = points[ i ];
-        PointIdentifier pid1 = points[ ( i + 1 ) % points.size( ) ];
-        QEPrimal* edge = this->FindEdge( pid0, pid1 );
-        if( !edge )
-            this->AddEdge( pid0, pid1 );
-    } // rof
-
-    // All edges exist, if we reorder all Onext rings as needed we're
-    // almost done
-    for( unsigned int i = 0; i < points.size( ); i++ )
-    {
-        PointIdentifier pid0 = 
-                     points[ ( i + points.size( ) - 1 ) % points.size( ) ];
-        PointIdentifier pid1 = points[ i ];
-        PointIdentifier pid2 = points[ ( i + 1 ) % points.size( ) ];
-
-        QEPrimal* e0 = this->FindEdge( pid1, pid2 );
-        QEPrimal* e1 = this->FindEdge( pid1, pid0 );
-        e0->ReorderOnextRingBeforeAddFace( e1 );
-    } // rof
-
-    // Nice, all edges are ready to receive a face at their left faces
-    QEPrimal* entry = this->FindEdge( points[ 0 ], points[ 1 ] );
-    this->AddFace( entry );
-    return( entry );
+  return entry;
 }
 
 /**
@@ -922,27 +925,27 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
     void Mesh< TPixel, VDimension, TTraits >::
     AddFace( QEPrimal* entry )
 {
-    // Create the cell and add it to the container
-    PolygonCellType* faceCell = new PolygonCellType( entry );
-    CellIdentifier fid = this->FindFirstUnusedCellIndex( );
-    faceCell->SetIdent( fid );
+  // Create the cell and add it to the container
+  PolygonCellType* faceCell = new PolygonCellType( entry );
+  CellIdentifier fid = this->FindFirstUnusedCellIndex();
+  faceCell->SetIdent( fid );
 
-    // Associate the above generated CellIndex as the default FaceRefType
-    // of the new face [ i.e. use the itk level CellIdentifier as the
-    // QuadEdgeGeom::m_Org of dual edges (edges of type QEDual) ].
-    typename QEPrimal::IteratorGeom it;
-    for( it = entry->BeginGeomLnext( ); it != entry->EndGeomLnext( ); it++ )
+  // Associate the above generated CellIndex as the default FaceRefType
+  // of the new face [ i.e. use the itk level CellIdentifier as the
+  // QuadEdgeGeom::m_Org of dual edges (edges of type QEDual) ].
+  typename QEPrimal::IteratorGeom it;
+  for( it = entry->BeginGeomLnext(); it != entry->EndGeomLnext(); it++ )
     {
-        it.Value( )->SetLeft( fid );
+    it.Value()->SetLeft( fid );
     }
 
-    CellAutoPointer face;
-    face.TakeOwnership( faceCell );
-    this->Superclass::SetCell( fid, face );
+  CellAutoPointer face;
+  face.TakeOwnership( faceCell );
+  this->Superclass::SetCell( fid, face );
+
 }
 
-/**
- */
+//////////////////////////////////////////////////////////////////////////
 template< typename TPixel, unsigned int VDimension, typename TTraits >
     typename Mesh< TPixel, VDimension, TTraits >::QEPrimal*
     Mesh< TPixel, VDimension, TTraits >::
@@ -951,21 +954,26 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
              const PointIdentifier& p2,
              const PointIdentifier& p3, ... )
 {
-    // Capture point list
-    PointIdList points;
-    va_list argList;
-    va_start( argList, p3 );
-    points.push_back( p1 );
-    points.push_back( p2 );
-    points.push_back( p3 );
-    for( unsigned int i = 3; i < nPoints; i++ ) {
 
-        PointIdentifier pid = va_arg( argList, PointIdentifier );
-        points.push_back( pid );
+  // Capture point list
+  PointIdList points;
 
-    } // rof
-    va_end( argList );
-    return( this->AddFace( points ) );
+  va_list argList;
+  va_start( argList, p3 );
+
+  points.push_back( p1 );
+  points.push_back( p2 );
+  points.push_back( p3 );
+
+  for(unsigned int i=3; i < nPoints; i++)
+    {
+    PointIdentifier pid = va_arg( argList, PointIdentifier );
+    points.push_back( pid );
+    }
+
+  va_end( argList );
+
+  return this->AddFace( points );
 }
 
 /**
@@ -975,35 +983,31 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
  * @param cPid \ref PointIdentifier of third point
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
-    typename Mesh< TPixel, VDimension, TTraits >::QEPrimal*
-    Mesh< TPixel, VDimension, TTraits >::
-    AddFaceTriangle( const PointIdentifier& aPid,
-                     const PointIdentifier& bPid,
-                     const PointIdentifier& cPid )
+typename Mesh< TPixel, VDimension, TTraits >::QEPrimal*
+Mesh< TPixel, VDimension, TTraits >::
+AddFaceTriangle( const PointIdentifier& aPid,
+    const PointIdentifier& bPid,
+    const PointIdentifier& cPid )
 {
-    return( this->AddFace( 3, aPid, bPid, cPid ) );
+  return this->AddFace( 3, aPid, bPid, cPid );
 }
 
-/**
- */
+//////////////////////////////////////////////////////////////////////////
 template< typename TPixel, unsigned int VDimension, typename TTraits >
-    Mesh< TPixel, VDimension, TTraits >::
-    Mesh( )
-        : Superclass( )
+  Mesh< TPixel, VDimension, TTraits >::Mesh() : Superclass()
 {
 }
 
-/**
- */
+//////////////////////////////////////////////////////////////////////////
 template< typename TPixel, unsigned int VDimension, typename TTraits >
     typename Mesh< TPixel, VDimension, TTraits >::CoordRepType
     Mesh< TPixel, VDimension, TTraits >::
     ComputeEdgeLength( QEPrimal* e )
 {
-    PointType org  = this->GetPoint( e->GetOrg( )  );
-    PointType dest = this->GetPoint( e->GetDest( ) );
-    return( (  dest.GetVectorFromOrigin( )
-              - org.GetVectorFromOrigin( ) ).GetNorm( ) );
+ PointType org  = this->GetPoint( e->GetOrg()  );
+ PointType dest = this->GetPoint( e->GetDest() );
+
+ return (dest.GetVectorFromOrigin() - org.GetVectorFromOrigin()).GetNorm();
 }
 
 /**
@@ -1017,37 +1021,39 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
     unsigned long Mesh< TPixel, VDimension, TTraits >::
-    ComputeNumberOfPoints( ) const
+    ComputeNumberOfPoints() const
 {
-    /* \todo The following code couldn't be used because the Macro
-     * has not Const correct version. Preserve it and move it to
-     * the documentation of an example.
-    itkQEMeshForAllPointsMacro( Self, this, point, dummyIndex )
-    {
-        if( point.GetEdge() ) 
-            numberOfPoints++;
-    }
-    itkQEMeshForAllPointsEndMacro;
-     */
-    typedef typename PointsContainer::ConstIterator
-                                                 PointsContainerIterator;
+  /* TODO The following code couldn't be used because the Macro
+   * has not Const correct version. Preserve it and move it to
+   * the documentation of an example.
+   itkQEMeshForAllPointsMacro( Self, this, point, dummyIndex )
+   {
+     if( point.GetEdge() )
+      numberOfPoints++;
+   }
+   itkQEMeshForAllPointsEndMacro;
+   */
+  typedef typename PointsContainer::ConstIterator PointsContainerIterator;
+  const PointsContainer* points = this->GetPoints();
 
-    const PointsContainer* points = this->GetPoints( );
-    if( ! points )
+  if( ! points )
     {
-        itkWarningMacro( "No point container" );
-        return( 0 );
-    }
-
-    unsigned long numberOfPoints = 0;
-    PointsContainerIterator pointIterator = points->Begin();
-    for( ; pointIterator != points->End( ); pointIterator++ )
-    {
-        if( pointIterator.Value( ).GetEdge() )
-           numberOfPoints++;
+    itkWarningMacro( "No point container" );
+    return 0;
     }
 
-    return( numberOfPoints );
+  unsigned long numberOfPoints = 0;
+  PointsContainerIterator pointIterator = points->Begin();
+
+  for( ; pointIterator != points->End(); pointIterator++ )
+    {
+    if( pointIterator.Value().GetEdge() )
+      {
+      numberOfPoints++;
+      }
+    }
+
+  return numberOfPoints;
 }
 
 /**
@@ -1058,14 +1064,14 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
     unsigned long Mesh< TPixel, VDimension, TTraits >::
-    ComputeNumberOfFaces( ) const
+    ComputeNumberOfFaces() const
 {
     unsigned long numberOfFaces = 0;
     CellsContainerConstIterator cellIterator = this->GetCells()->Begin();
     CellsContainerConstIterator cellEnd      = this->GetCells()->End();
     while( cellIterator != cellEnd )
     {
-        if( cellIterator.Value( )->GetNumberOfPoints() > 2 )
+        if( cellIterator.Value()->GetNumberOfPoints() > 2 )
             numberOfFaces++;
         ++cellIterator;
     }
@@ -1080,25 +1086,28 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
     unsigned long Mesh< TPixel, VDimension, TTraits >::
-    ComputeNumberOfEdges( ) const
+    ComputeNumberOfEdges() const
 {
-    unsigned long numberOfEdges = 0;
-    CellsContainerConstIterator cellIterator = this->GetCells()->Begin();
-    CellsContainerConstIterator cellEnd      = this->GetCells()->End();
-    while( cellIterator != cellEnd ) {
+  unsigned long numberOfEdges = 0;
 
-        if ( QEPrimal* edge =
-                          dynamic_cast< QEPrimal* >( cellIterator.Value()) )
-          {
-          (void)edge;
-            numberOfEdges++;
-          }
-        ++cellIterator;
+  CellsContainerConstIterator cellIterator = this->GetCells()->Begin();
+  CellsContainerConstIterator cellEnd      = this->GetCells()->End();
+
+  while( cellIterator != cellEnd )
+    {
+    if( QEPrimal* edge = dynamic_cast< QEPrimal* >( cellIterator.Value()) )
+      {
+      (void)edge;
+      numberOfEdges++;
+      }
+
+      ++cellIterator;
     }
-    return( numberOfEdges );
+
+  return numberOfEdges;
 }
 
-} // enamespace
+} // namespace
 
 #endif // __ITKQUADEDGEMESH__MESH__TXX__
 

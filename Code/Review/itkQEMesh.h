@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQEMesh.h
-// $Revision: 1.1 $
+// $Revision: 1.2 $
 // $Author: sylvain $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
+// $Date: 2007-01-11 21:31:25 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -35,7 +35,7 @@
 #include "itkQEPolygonCell.h"
 #include "itkQEFrontIterator.h"
 
-/** 
+/**
  * \brief Documentation of itkQE namespace
  * \todo More comments here !
  *
