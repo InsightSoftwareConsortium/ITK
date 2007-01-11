@@ -21,8 +21,10 @@ SET(WRAPPER_LIBRARY_GROUPS
   ITKRegions
   SwigExtras
   itkImageSource
-  itkImageToImageFilter
-  itkInPlaceImageFilter
+  itkImageToImageFilterA
+  itkImageToImageFilterB
+  itkInPlaceImageFilterA
+  itkInPlaceImageFilterB
   itkFiniteDifferenceImageFilter
 )
 
