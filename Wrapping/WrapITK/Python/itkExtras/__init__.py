@@ -63,8 +63,9 @@ def simple_progress_callback(name, p):
   This function can be used with itkConfig.ProgressCallback
   """
   import sys
-  print >> sys.stderr, "Running %s..." % name,
-  if p == 1 :
+  if p == 0 :
+    print >> sys.stderr, "Running %s..." % name,
+  elif p == 1 :
     print >> sys.stderr, "done"
 
 
