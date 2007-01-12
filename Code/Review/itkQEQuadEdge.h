@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQEQuadEdge.h
-// $Revision: 1.2 $
-// $Author: sylvain $
+// $Revision: 1.3 $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-10 21:20:01 $
+// $Date: 2007-01-12 21:29:43 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -148,8 +148,26 @@ class QuadEdge
     /** Hierarchy typedefs & values. */
     typedef QuadEdge Self;
 
+    /** Iterator types. */
+    typedef itkQE::Iterator< Self >      Iterator;
+    typedef itkQE::ConstIterator< Self > ConstIterator;
+
     /** Basic iterators methods. */
-    itkQEDefineAllIteratorMethodsMacro;
+    itkQEDefineIteratorMethodsMacro( Onext );
+    itkQEDefineIteratorMethodsMacro( Sym );
+    itkQEDefineIteratorMethodsMacro( Lnext );
+    itkQEDefineIteratorMethodsMacro( Rnext );
+    itkQEDefineIteratorMethodsMacro( Dnext );
+    itkQEDefineIteratorMethodsMacro( Oprev );
+    itkQEDefineIteratorMethodsMacro( Lprev );
+    itkQEDefineIteratorMethodsMacro( Rprev );
+    itkQEDefineIteratorMethodsMacro( Dprev );
+    itkQEDefineIteratorMethodsMacro( InvOnext );
+    itkQEDefineIteratorMethodsMacro( InvLnext );
+    itkQEDefineIteratorMethodsMacro( InvRnext );
+    itkQEDefineIteratorMethodsMacro( InvDnext );
+
+
 
     /** Object creation methods. */
     QuadEdge();

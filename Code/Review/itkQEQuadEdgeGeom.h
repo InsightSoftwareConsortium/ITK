@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQEQuadEdgeGeom.h
-// $Revision: 1.1 $
-// $Author: sylvain $
+// $Revision: 1.2 $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
+// $Date: 2007-01-12 21:29:43 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -71,8 +71,27 @@ class QuadEdgeGeom
     typedef TDData DualDataType;
 
     public:
+    
+    /** Iterator types. */
+    typedef itkQE::IteratorGeom< Self >      IteratorGeom;
+    typedef itkQE::ConstIteratorGeom< Self > ConstIteratorGeom;
+
     /** Basic iterators methods. */
-    itkQEDefineAllIteratorGeomMethodsMacro;
+    itkQEDefineIteratorGeomMethodsMacro( Onext );
+    itkQEDefineIteratorGeomMethodsMacro( Sym );
+    itkQEDefineIteratorGeomMethodsMacro( Lnext );
+    itkQEDefineIteratorGeomMethodsMacro( Rnext );
+    itkQEDefineIteratorGeomMethodsMacro( Dnext );
+    itkQEDefineIteratorGeomMethodsMacro( Oprev );
+    itkQEDefineIteratorGeomMethodsMacro( Lprev );
+    itkQEDefineIteratorGeomMethodsMacro( Rprev );
+    itkQEDefineIteratorGeomMethodsMacro( Dprev );
+    itkQEDefineIteratorGeomMethodsMacro( InvOnext );
+    itkQEDefineIteratorGeomMethodsMacro( InvLnext );
+    itkQEDefineIteratorGeomMethodsMacro( InvRnext );
+    itkQEDefineIteratorGeomMethodsMacro( InvDnext );
+
+
 
     /** QE macros. */
     itkQEMakeEdgeMacro( Self, Dual );
