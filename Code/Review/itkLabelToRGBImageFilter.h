@@ -102,10 +102,13 @@ public:
   void addColor(unsigned char r, unsigned char g, unsigned char b)
     {
     TRGBPixel rgbPixel;
-    typename TRGBPixel::ValueType m = itk::NumericTraits< typename TRGBPixel::ValueType >::max();
-    rgbPixel.Set( static_cast< typename TRGBPixel::ValueType >( static_cast< double >( r ) / 255 * m ),
-                  static_cast< typename TRGBPixel::ValueType >( static_cast< double >( g ) / 255 * m ),
-                  static_cast< typename TRGBPixel::ValueType >( static_cast< double >( b ) / 255 * m ) );
+    typedef typename TRGBPixel::ValueType ValueType;
+
+    ValueType m = itk::NumericTraits< ValueType >::max();
+
+    rgbPixel.Set( static_cast< ValueType >( static_cast< double >( r ) / 255 * m ),
+                  static_cast< ValueType >( static_cast< double >( g ) / 255 * m ),
+                  static_cast< ValueType >( static_cast< double >( b ) / 255 * m ) );
     m_Colors.push_back( rgbPixel );
     }
 
