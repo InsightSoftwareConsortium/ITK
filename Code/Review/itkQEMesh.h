@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQEMesh.h
-// $Revision: 1.2 $
-// $Author: sylvain $
+// $Revision: 1.3 $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-11 21:31:25 $
+// $Date: 2007-01-12 16:46:07 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -23,7 +23,8 @@
 #ifndef __ITKQUADEDGEMESH__MESH__H__
 #define __ITKQUADEDGEMESH__MESH__H__
 
-#include <cstdarg>
+#include "vcl_cstdarg.h"
+
 #include <queue>
 #include <vector>
 #include <list>
