@@ -249,6 +249,7 @@ TreeNode<TValueType>
 }
 
 /** Get children given a name and a depth */
+#if !defined(CABLE_CONFIGURATION)
 template <class TValueType>
 typename TreeNode<TValueType>::ChildrenListType* 
 TreeNode<TValueType>
@@ -285,6 +286,7 @@ TreeNode<TValueType>
 
   return children;
 }
+#endif
 
 
 } // namespace itk

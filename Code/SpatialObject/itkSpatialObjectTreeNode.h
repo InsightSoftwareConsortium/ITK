@@ -65,8 +65,10 @@ public:
   void ComputeNodeToWorldTransform();
 
   /** Return a list of children (the list should be deleted by the user */
+#if !defined(CABLE_CONFIGURATION)
   virtual ChildrenListType* GetChildren( unsigned int depth=0,
                                          char * name=NULL) const;
+#endif
 
 protected:
 
@@ -125,6 +127,7 @@ SpatialObjectTreeNode<TDimension>
 
 
 /** Get children given a name and a depth */
+#if !defined(CABLE_CONFIGURATION)
 template <unsigned int TDimension>
 typename SpatialObjectTreeNode<TDimension>::ChildrenListType* 
 SpatialObjectTreeNode<TDimension>
@@ -162,7 +165,7 @@ SpatialObjectTreeNode<TDimension>
 
   return children;
 }
-
+#endif
 
 } // end namespace itk
 

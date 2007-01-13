@@ -101,10 +101,14 @@ public:
   virtual void AddChild( int number, TreeNode<TValueType> *node );
 
   /** Get the children list */
+#if !defined(CABLE_CONFIGURATION)
   virtual ChildrenListType* GetChildren( unsigned int depth=0, char * name=NULL) const;
-  
+#endif
+
   /** Get the internal list of children */
+#if !defined(CABLE_CONFIGURATION)
   virtual ChildrenListType& GetChildrenList() {return m_Children;}
+#endif
 
   /** Set the data of the node */
   //virtual void SetData(TValueType data) {m_Data = data;}

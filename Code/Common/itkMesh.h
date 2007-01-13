@@ -336,8 +336,11 @@ public:
    * feature identifier distinguishes different boundary features for
    * a given cell at a given dimension.
    */
+#if !defined(CABLE_CONFIGURATION)
   void SetBoundaryAssignments(int dimension,
                               BoundaryAssignmentsContainer*);
+#endif
+
 #ifndef CABLE_CONFIGURATION
   BoundaryAssignmentsContainerPointer GetBoundaryAssignments(int dimension);
   const BoundaryAssignmentsContainerPointer GetBoundaryAssignments(

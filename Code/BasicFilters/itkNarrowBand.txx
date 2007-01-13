@@ -33,6 +33,7 @@ namespace itk
 //  Superclass::PrintSelf(os, indent);
 //}
 
+#if !defined(CABLE_CONFIGURATION)
 template <class NodeType >
 std::vector< ITK_TYPENAME NarrowBand<NodeType>::RegionType>
 NarrowBand<NodeType>
@@ -71,6 +72,7 @@ NarrowBand<NodeType>
   
   return regionList;
 }
+#endif
 
 
 } // end namespace itk

@@ -77,8 +77,10 @@ public:
 
   /** Returns an array of RegionStructs which represent contiguous arrays
       of nodes within the narrow band. */
-  std::vector<struct RegionStruct> SplitBand( unsigned int );
-  
+#if !defined(CABLE_CONFIGURATION)
+ std::vector<struct RegionStruct> SplitBand( unsigned int );
+#endif
+
   Iterator Begin()
   {
     return m_NodeContainer.begin();
