@@ -28,15 +28,15 @@ SET(ReviewTest_SRCS
   itkGaussianDistributionTest.cxx
   itkTDistributionTest.cxx
   itkLabelOverlayImageFilterTest.cxx
-  AddFaceTest.cxx
-  AddFaceTest2.cxx
-  BasicLayerTest.cxx
-  DeleteEdgeTest.cxx
-  FrontIteratorTest.cxx
+  itkQuadEdgeMeshAddFaceTest1.cxx
+  itkQuadEdgeMeshAddFaceTest2.cxx
+  itkQuadEdgeMeshBasicLayerTest.cxx
+  itkQuadEdgeMeshDeleteEdgeTest.cxx
+  itkQuadEdgeMeshFrontIteratorTest.cxx
   #  OppositeOrientationTest.cxx
-  Mesh1Test.cxx
-  Mesh2Test.cxx
-  Mesh3Test.cxx
+  itkQuadEdgeMeshTest1.cxx
+  itkQuadEdgeMeshTest2.cxx
+  itkQuadEdgeMeshTest3.cxx
 #  itkContourExtractor2DImageFilterTest.cxx
 )
 
@@ -50,8 +50,8 @@ ADD_TEST(itkGaussianDistributionTest ${REVIEW_TESTS}
   itkGaussianDistributionTest
   )
 ADD_TEST(itkTDistributionTest ${REVIEW_TESTS} itkTDistributionTest)
-ADD_TEST(AddFaceTest ${REVIEW_TESTS} AddFaceTest)
-ADD_TEST(AddFaceTest2 ${REVIEW_TESTS} AddFaceTest2)
+ADD_TEST(itkQuadEdgeMeshAddFaceTest1 ${REVIEW_TESTS} itkQuadEdgeMeshAddFaceTest1)
+ADD_TEST(itkQuadEdgeMeshAddFaceTest2 ${REVIEW_TESTS} itkQuadEdgeMeshAddFaceTest2)
 ADD_TEST(BasicLayerTest ${REVIEW_TESTS} BasicLayerTest)
 ADD_TEST(DeleteEdgeTest ${REVIEW_TESTS} DeleteEdgeTest)
 ADD_TEST(FrontIteratorTest ${REVIEW_TESTS} FrontIteratorTest)

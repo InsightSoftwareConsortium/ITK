@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQEExtendedMeshTraits.h
-// $Revision: 1.1 $
-// $Author: sylvain $
+// $Revision: 1.2 $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
+// $Date: 2007-01-13 12:42:15 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -108,7 +108,7 @@ class ExtendedMeshTraits
    typedef std::set< CellIdentifier > PointCellLinksContainer;
 
    /** Quad edge typedefs. */
-   typedef QuadEdgeGeom< PointIdentifier, CellIdentifier,
+   typedef GeometricalQuadEdge< PointIdentifier, CellIdentifier,
                          PrimalDataType, DualDataType > QEPrimal;
    typedef typename QEPrimal::Dual           QEDual;
    typedef typename QEPrimal::OrgRefType     VertexRefType;

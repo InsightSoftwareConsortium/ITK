@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQEPlugHolesMeshFunction.txx
-// $Revision: 1.1 $
-// $Author: sylvain $
+// $Revision: 1.2 $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
+// $Date: 2007-01-13 12:42:15 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -23,9 +23,9 @@
 #define __ITKQUADEDGEMESH__ITKQEPLUGHOLESMESHFUNCTION__TXX__
 
 #include "itkQEMesh.h"  // Just to mark the dependance towards this class.
-#include "itkQEBoundaryRepresentativeEdgesMeshFunction.h"
+#include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
 
-namespace itkQE
+namespace itk
 {
 
 template < class TMesh >
@@ -33,44 +33,41 @@ template < class TMesh >
   PlugHolesMeshFunction< TMesh >::
   Evaluate( )
 {
-   if( !this->m_Mesh )
-   {
-       itkWarningMacro( "No mesh present." );
-       return;
-   } // fi
+  if( !this->m_Mesh )
+    {
+    itkWarningMacro( "No mesh present." );
+    return;
+    } 
 
-   typedef itkQE::BoundaryRepresentativeEdgesMeshFunction< MeshType >
-                                           BoundaryRepresentativeEdges;
-   typename BoundaryRepresentativeEdges::Pointer boundaryRepresentativeEdges =
-                                           BoundaryRepresentativeEdges::New( );
+  typedef QuadEdgeMeshBoundaryEdgesMeshFunction< MeshType > BoundaryEdges;
+  typename BoundaryEdges::Pointer boundaryEdges = BoundaryEdges::New( );
 
-   typename MeshType::EdgeListType* boundaries =
-                        boundaryRepresentativeEdges->Evaluate( *this->m_Mesh );
+  typename MeshType::EdgeListType* boundaries =
+                       boundaryEdges->Evaluate( *this->m_Mesh );
 
-   if( boundaries->empty( ) )
-   {
-      return;
-   }
+  if( boundaries->empty( ) )
+    {
+    return;
+    }
 
-   typedef typename MeshType::QEPrimal QEPrimal;
-   while( ! boundaries->empty( ) )
-   {
-      QEPrimal* bdryEdge = boundaries->front( );
-      boundaries->pop_front( );
-      // Follow, with Lnext(), the boundary:
-      typename MeshType::PointIdList pList;
-      typename QEPrimal::IteratorGeom it = bdryEdge->BeginGeomLnext( );
-      for( ; it != bdryEdge->EndGeomLnext( ); it++ )
+  typedef typename MeshType::QEPrimal QEPrimal;
+  while( ! boundaries->empty( ) )
+    {
+    QEPrimal* boundaryEdge = boundaries->front( );
+    boundaries->pop_front( );
+    // Follow, with Lnext(), the boundary:
+    typename MeshType::PointIdList pList;
+    typename QEPrimal::IteratorGeom it = boundaryEdge->BeginGeomLnext( );
+    for( ; it != boundaryEdge->EndGeomLnext( ); it++ )
       {
-          pList.push_back( it.Value( )->GetOrg( ) );
+      pList.push_back( it.Value( )->GetOrg( ) );
       }
-      this->m_Mesh->AddFace( pList );
-   } // elihw
+    this->m_Mesh->AddFace( pList );
+    } 
 }
 
-} // namespace itkQE
+} 
 
-#endif // __ITKQUADEDGEMESH__ITKQEPLUGHOLESMESHFUNCTION__TXX__
+#endif 
 
-// eof - itkQEPlugHolesMeshFunction.txx
 

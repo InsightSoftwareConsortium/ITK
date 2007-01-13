@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
-// itkQEMesh.h
-// $Revision: 1.3 $
+// itkQuadEdgeMesh.h
+// $Revision: 1.1 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-12 16:46:07 $
+// $Date: 2007-01-13 12:42:15 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -20,31 +20,31 @@
 // - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
 // -------------------------------------------------------------------------
 
-#ifndef __ITKQUADEDGEMESH__MESH__H__
-#define __ITKQUADEDGEMESH__MESH__H__
+#ifndef __itkQuadEdgeMesh_h
+#define __itkQuadEdgeMesh_h
 
 #include "vcl_cstdarg.h"
-
 #include <queue>
 #include <vector>
 #include <list>
 
-#include <itkMesh.h>
+#include "itkMesh.h"
 
-#include "itkQEMeshTraits.h"
+#include "itkQuadEdgeMeshTraits.h"
 #include "itkQELineCell.h"
 #include "itkQEPolygonCell.h"
-#include "itkQEFrontIterator.h"
+
+#include "itkQuadEdgeMeshFrontIterator.h"
 
 /**
  * \brief Documentation of itkQE namespace
  * \todo More comments here !
  *
- * \note Design notes: some Mesh algorithms are based on iterating various
+ * \note Design notes: some QuadEdgeMesh algorithms are based on iterating various
  *    connectivity operators e.g. curvature driven surface deformation. 
  *    Many of those connectivity altering operators (e.g. the Euler operators)
  *    are lightweight in the sense that they only modify very limited regions
- *    of a Mesh: they typically act within the range of couple edges of
+ *    of a QuadEdgeMesh: they typically act within the range of couple edges of
  *    distance from a considered vertex, edge or face.
  *    On the one side, we cannot choose to implement those atomic operations
  *    as "classical" itk filters since each filter invocation yields a new
@@ -54,13 +54,13 @@
  *    implemeted as filters: the filter is more at the scale of the 
  *    application of a large number of such atomic operations.
  *    One the other hand, we cannot choose to implement those atomic operations
- *    as methods ot this Mesh class (or a derived one) a the risk of rapid
+ *    as methods ot this QuadEdgeMesh class (or a derived one) a the risk of rapid
  *    code bloat.
  *    Maybe we could choose to make thematic regroupment within derived
  *    classes, but his would force and end user to multiple inheritance which
  *    can prove to be a drag in a templated context.
  *    Eventually, we chose to implement them as function object: the 
- *    loosely coupling of those operation methods with the targeted Mesh
+ *    loosely coupling of those operation methods with the targeted QuadEdgeMesh
  *    object and heavier invocation syntax are a small price to pay in
  *    exchange for optimal memory usage and end user modularity.
  *    But we couldn't inherit from \ref itk::FunctionBase since it's 
@@ -69,16 +69,16 @@
  *    Hence we created the \ref itkQE::MeshFunctionBase class whose main
  *    difference with \ref itk::FunctionBase is that it's Evaluate( )
  *    method allows to modify the considered mesh.
- *    When considering a new Mesh method we are left with four possible
+ *    When considering a new QuadEdgeMesh method we are left with four possible
  *    "slots" to implement it:
- *      - the Mesh method
+ *      - the QuadEdgeMesh method
  *      - a derived class from itk::FunctionBase when the method leaves
  *        the mesh constant.
  *      - a derived class from \ref itkQE::MeshFunctionBase when the
  *        method modifies the mesh (typically in the case of Euler operators)
  *      - as a classic Mesh filter.
  *    The choice of the slot is a mere matter of trade-of and in order
- *    to keep itkQE::Mesh tiny and humanly readable key decision factors 
+ *    to keep QuadEdgeMesh tiny and humanly readable key decision factors 
  *    can be the occurence of the calls and the human level complexity of
  *    the code.
  *    With those criteria in mind we made the following choices:
@@ -89,7 +89,7 @@
  *        \ref itk::FunctionBase.
  *      - methods with the same weight (measured e.g. in number of lines of
  *        code) but that modify the considered mesh, like 
- *        \ref BoundaryRepresentativeEdgesMeshFunction or
+ *        \ref BoundaryEdgesMeshFunction or
  *        \ref ZipMeshFunction, were implemented as derived classes of
  *        \ref itkQE::MeshFunctionBase. Still we mesh modifications are
  *        really limited and concern a couple edges.
@@ -98,15 +98,17 @@
  *       like \ref itkQE::MeshExtractComponentFilter, and inherit from
  *       \ref itk::MeshToMeshFilter.
  */
-namespace itkQE
+namespace itk
 {
 /**
- * QE-based itk::Mesh.
+ * \class QuadEdgeMesh
+ *
+ * \brief Mesh class for 2D manifolds embedded in ND space.
  */
 template< typename TPixel, unsigned int VDimension,
-          typename TTraits = itkQE::MeshTraits< TPixel, VDimension, bool, bool > >
-class Mesh
-: public itk::Mesh< TPixel, VDimension, TTraits >
+          typename TTraits = QuadEdgeMeshTraits< TPixel, VDimension, bool, bool > >
+class QuadEdgeMesh
+: public Mesh< TPixel, VDimension, TTraits >
 {
     public:
     /** Input template parameters. */
@@ -114,8 +116,8 @@ class Mesh
     typedef TPixel  PixelType;
    
     /** Standard typedefs. */
-    typedef Mesh                                    Self;
-    typedef itk::Mesh< TPixel, VDimension, Traits > Superclass;
+    typedef QuadEdgeMesh                            Self;
+    typedef Mesh< TPixel, VDimension, Traits > Superclass;
     typedef itk::SmartPointer< Self >               Pointer;
     typedef itk::SmartPointer< const Self >         ConstPointer;
 
@@ -226,14 +228,18 @@ class Mesh
     /// Reserved CellIdentifier designated to represent the absence of Face
     static const CellIdentifier NOFACE;
 
-    public:
+  public:
+
     /** Basic itk::Object interface. */
     itkNewMacro( Self );
-    itkTypeMacro( Mesh, itkMesh );
+    itkTypeMacro( QuadEdgeMesh, Mesh );
+
     /** FrontIterator definitions */
     itkQEDefineFrontIteratorMethodsMacro( Self );
 
-    public:
+
+  public:
+
     virtual bool RequestedRegionIsOutsideOfTheBufferedRegion( )
         { return( false ); }
 
@@ -273,7 +279,7 @@ class Mesh
                                        const PointIdentifier& bPid,
                                        const PointIdentifier& cPid );
 
-    // ////////////////// Deletion methods
+    /** Deletion methods */
     virtual void DeletePoint( const PointIdentifier& pid );
     virtual void DeleteEdge( const PointIdentifier& orgPid,
                              const PointIdentifier& destPid );
@@ -299,16 +305,23 @@ class Mesh
 
     PointIdentifier Splice( QEPrimal* a, QEPrimal* b );
 
-    protected:
-    /** Memory management methods. */
-    Mesh( );
-    virtual ~Mesh( ) { }
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(DimensionShouldBe3,
+    (Concept::SameDimension<itkGetStaticConstMacro(PointDimension),3>));
+  /** End concept checking */
+#endif
 
-    private:
-    Mesh( const Self& );           // Not impl.
-    void operator=( const Self& ); // Not impl.
+  protected:
+    /** Constructor and Destructor. */
+    QuadEdgeMesh( );
+    virtual ~QuadEdgeMesh( ) { }
 
-    protected:
+  private:
+    QuadEdgeMesh( const Self& );    //purposely not implemented 
+    void operator=( const Self& );  //purposely not implemented 
+
+  protected:
     FreePointIndexesType m_FreePointIndexes;
     FreeCellIndexesType  m_FreeCellIndexes;
 
@@ -316,9 +329,12 @@ class Mesh
 
 } // enamespace
 
+
+#if ITK_TEMPLATE_TXX
 #include "itkQEMeshMacro.h"
-#include "itkQEMesh.txx"
+#include "itkQuadEdgeMesh.txx"
+#endif
 
-#endif // __ITKQUADEDGEMESH__MESH__H__
+#endif 
 
-// eof - itkQEMesh.h
+

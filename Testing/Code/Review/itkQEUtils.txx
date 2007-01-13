@@ -2,9 +2,9 @@
 #define __ITKQUADEDGEMESH__LIGHTWEIGHTVTKUTILS__H__
 
 #include "itkQESanityCheckMeshFunction.h"
-#include "itkQEBoundaryRepresentativeEdgesMeshFunction.h"
+#include "itkQuadEdgeMeshBoundaryRepresentativeEdgesMeshFunction.h"
 
-namespace itkQE
+namespace itk
 {
 /**
  * A small utility that checks the topological invariants
@@ -29,7 +29,7 @@ template< class TMesh>
       long refNumBounds  = -1,
       long refTwiceGenus = -1 )
 {
-  typedef itkQE::BoundaryRepresentativeEdgesMeshFunction< TMesh >
+  typedef QuadEdgeMeshBoundaryRepresentativeEdgesMeshFunction< TMesh >
     BoundaryRepresentativeEdges;
   typename BoundaryRepresentativeEdges::Pointer boundaryRepresentativeEdges
     = BoundaryRepresentativeEdges::New();

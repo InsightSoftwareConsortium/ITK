@@ -1,8 +1,7 @@
-#include <iostream>
 
-#include "itkQEMesh.h"
+#include "itkQuadEdgeMesh.h"
 
-int DeleteEdgeTest( int , char* [] )
+int itkQuadEdgeMeshDeleteEdgeTest( int , char* [] )
 {
     typedef double                            PixelType;
     typedef itk::QuadEdgeMesh< PixelType, 3 > MeshType;
@@ -63,4 +62,4 @@ int DeleteEdgeTest( int , char* [] )
     }
 }
 
-// eof - DeleteEdgeTest.cxx
+// eof - itkQuadEdgeMeshDeleteEdgeTest.cxx

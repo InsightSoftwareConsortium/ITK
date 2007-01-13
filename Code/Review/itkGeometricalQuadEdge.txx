@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
-// itkQEQuadEdgeGeom.txx
+// itkGeometricalQuadEdge.txx
 // $Revision: 1.1 $
-// $Author: sylvain $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
+// $Date: 2007-01-13 12:42:15 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -20,29 +20,29 @@
 // - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
 // -------------------------------------------------------------------------
 
-#ifndef __ITKQUADEDGEMESH__QUADEDGEGEOM__TXX__
-#define __ITKQUADEDGEMESH__QUADEDGEGEOM__TXX__
+#ifndef __itkGeometricalQuadEdge_txx
+#define __itkGeometricalQuadEdge_txx
 
 #include <vcl_limits.h>
 
-namespace itkQE
+namespace itk
 {
 
 /**
  */
 template< typename TVRef, typename TFRef,
           typename TPRef, typename TDRef, bool PrimalDual >
-const typename QuadEdgeGeom< TVRef, TFRef,
+const typename GeometricalQuadEdge< TVRef, TFRef,
                              TPRef, TDRef, PrimalDual >::OrgRefType
-QuadEdgeGeom< TVRef, TFRef, TPRef, TDRef, PrimalDual >::NOPOINT
+GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::NOPOINT
                        = vcl_numeric_limits< OrgRefType >::max( );
 
 /**
  */
 template< typename TVRef, typename TFRef,
           typename TPRef, typename TDRef, bool PrimalDual >
-    QuadEdgeGeom< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
-    QuadEdgeGeom( )
+    GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
+    GeometricalQuadEdge( )
         : Superclass( ),
           m_Org( NOPOINT ),
           m_DataSet( false )
@@ -53,7 +53,7 @@ template< typename TVRef, typename TFRef,
  */
 template< typename TVRef, typename TFRef,
           typename TPRef, typename TDRef, bool PrimalDual >
-    bool QuadEdgeGeom< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
+    bool GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
     SetLnextRingWithSameLeftFace( const DualOrgRefType faceGeom,
                                   int maxSize )
 {
@@ -77,7 +77,7 @@ template< typename TVRef, typename TFRef,
  */
 template< typename TVRef, typename TFRef,
           typename TPRef, typename TDRef, bool PrimalDual >
-    bool QuadEdgeGeom< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
+    bool GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
     IsLnextOfTriangle( )
 {
     return( this->IsLnextSharingSameFace( 3 ) ); 
@@ -92,7 +92,7 @@ template< typename TVRef, typename TFRef,
  */
 template< typename TVRef, typename TFRef,
           typename TPRef, typename TDRef, bool PrimalDual >
-    bool QuadEdgeGeom< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
+    bool GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
     IsInOnextRing( Self* b )
 {
     for( IteratorGeom it  = this->BeginGeomOnext( );
@@ -114,7 +114,7 @@ template< typename TVRef, typename TFRef,
  */
 template< typename TVRef, typename TFRef,
           typename TPRef, typename TDRef, bool PrimalDual >
-    bool QuadEdgeGeom< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
+    bool GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
     IsInLnextRing( Self* b )
 {
     for( IteratorGeom it  = this->BeginGeomLnext( );
@@ -135,7 +135,7 @@ template< typename TVRef, typename TFRef,
  */
 template< typename TVRef, typename TFRef,
           typename TPRef, typename TDRef, bool PrimalDual >
-    bool QuadEdgeGeom< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
+    bool GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
     IsOrgInternal( )
 {
     bool ret = true;
@@ -154,7 +154,7 @@ template< typename TVRef, typename TFRef,
  */
 template< typename TVRef, typename TFRef,
           typename TPRef, typename TDRef, bool PrimalDual >
-    bool QuadEdgeGeom< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
+    bool GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
     IsLnextSharingSameFace( int maxSize )
 {
     IteratorGeom it = this->BeginGeomLnext( );
@@ -178,8 +178,8 @@ template< typename TVRef, typename TFRef,
  */
 template< typename TVRef, typename TFRef,
           typename TPRef, typename TDRef, bool PrimalDual >
-    typename QuadEdgeGeom< TVRef, TFRef, TPRef, TDRef, PrimalDual >::Self*
-    QuadEdgeGeom< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
+    typename GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::Self*
+    GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
     GetNextBorderEdgeWithUnsetLeft( Self* edgeTest )
 {
     /* Definition: an edge is said to be a boundary edge when it is
@@ -289,7 +289,7 @@ template< typename TVRef, typename TFRef,
  */
 template< typename TVRef, typename TFRef,
           typename TPRef, typename TDRef, bool PrimalDual >
-    bool QuadEdgeGeom< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
+    bool GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
     InsertAfterNextBorderEdgeWithUnsetLeft( Self* isol, Self* hint )
 {
     // When the geometry of isol is set it must match the
@@ -359,7 +359,7 @@ template< typename TVRef, typename TFRef,
  */
 template< typename TVRef, typename TFRef,
           typename TPRef, typename TDRef, bool PrimalDual >
-    bool QuadEdgeGeom< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
+    bool GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
     ReorderOnextRingBeforeAddFace( Self* second )
 {
     /* Assume "this->Orgv()" is a boundary point P that is thrice adjacent
@@ -552,7 +552,7 @@ template< typename TVRef, typename TFRef,
 // ---------------------------------------------------------------------
 template< typename TVRef, typename TFRef,
           typename TPRef, typename TDRef, bool PrimalDual >
-    void QuadEdgeGeom< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
+    void GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
     Disconnect( )
 {
     if( this->IsDisconnected( ) )
@@ -600,8 +600,7 @@ template< typename TVRef, typename TFRef,
     this->UnsetRight( );
 }
 
-} // enamespace
+} 
 
-#endif // __ITKQUADEDGEMESH__QUADEDGEGEOM__TXX__
+#endif 
 
-// eof - itkQEQuadEdgeGeom.txx

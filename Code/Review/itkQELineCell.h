@@ -3,7 +3,7 @@
 // $Revision $
 // $Author $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
+// $Date: 2007-01-13 12:42:15 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -24,7 +24,7 @@
 #define __ITKQUADEDGEMESH__LINECELL__H__
 
 #include <itkAutoPointer.h>
-#include "itkQEQuadEdgeGeom.h"
+#include "itkGeometricalQuadEdge.h"
 
 namespace itkQE
 {

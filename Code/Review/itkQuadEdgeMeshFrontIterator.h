@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
-// itkQEFrontIterator.h
+// itkQuadEdgeMeshFrontIterator.h
 // $Revision: 1.1 $
-// $Author: sylvain $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
+// $Date: 2007-01-13 12:42:15 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -20,29 +20,31 @@
 // - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
 // -------------------------------------------------------------------------
 
-#ifndef __ITKQUADEDGEMESH__FRONTITERATOR__H__
-#define __ITKQUADEDGEMESH__FRONTITERATOR__H__
+#ifndef __itkQuadEdgeMeshFrontIterator_h
+#define __itkQuadEdgeMeshFrontIterator_h
 
 // -------------------------------------------------------------------------
 #define itkQEDefineFrontIteratorMethodsMacro( MeshTypeArg )                  \
     /* Dual definition placed before others because of .NET that cannot */   \
     /* cope with definition of FrontIterator (that further hides the    */   \
     /* defintion of the template).                                      */   \
-    typedef FrontIterator< MeshTypeArg,                                      \
-                           typename MeshTypeArg::QEDual > FrontDualIterator; \
-    typedef ConstFrontIterator< MeshTypeArg,                                 \
-                                typename MeshTypeArg::QEDual >               \
+    typedef typename MeshTypeArg::QEDual QEDualType;                         \
+    typedef typename MeshTypeArg::QEPrimal QEPrimalType;                     \
+    typedef QuadEdgeMeshFrontIterator< MeshTypeArg,                          \
+                                             QEDualType > FrontDualIterator; \
+    typedef QuadEdgeMeshConstFrontIterator< MeshTypeArg,                     \
+                                                  QEDualType >               \
                                                      ConstFrontDualIterator; \
-    typedef FrontIterator< MeshTypeArg,                                      \
-                           typename MeshTypeArg::QEPrimal >   FrontIterator; \
-    typedef ConstFrontIterator< MeshTypeArg,                                 \
-                                typename MeshTypeArg::QEPrimal >             \
+    typedef QuadEdgeMeshFrontIterator< MeshTypeArg,                          \
+                                             QEPrimalType >   FrontIterator; \
+    typedef QuadEdgeMeshConstFrontIterator< MeshTypeArg,                     \
+                                                  QEPrimalType >             \
                                                          ConstFrontIterator; \
                                                                              \
-    virtual FrontIterator BeginFront( QEPrimal* seed =(QEPrimal*)0 )         \
+    virtual FrontIterator BeginFront( QEPrimalType* seed =(QEPrimalType*)0 ) \
     { return( FrontIterator( this, true, seed ) ); }                         \
                                                                              \
-    virtual ConstFrontIterator BeginFront( QEPrimal* seed ) const            \
+    virtual ConstFrontIterator BeginFront( QEPrimalType* seed ) const        \
     { return( ConstFrontIterator( this, true, seed ) ); }                    \
                                                                              \
     virtual FrontIterator EndFront( )                                        \
@@ -51,10 +53,10 @@
     virtual ConstFrontIterator EndFront( ) const                             \
     { return( ConstFrontIterator( this, false ) ); }                         \
                                                                              \
-    virtual FrontDualIterator BeginDualFront( QEDual* seed =(QEDual*) 0 )    \
+    virtual FrontDualIterator BeginDualFront( QEDualType* seed =(QEDualType*) 0 )    \
     { return( FrontDualIterator( this, true, seed ) ); }                     \
                                                                              \
-    virtual ConstFrontDualIterator BeginDualFront( QEDual* seed ) const      \
+    virtual ConstFrontDualIterator BeginDualFront( QEDualType* seed ) const      \
     { return( ConstFrontDualIterator( this, true, seed ) ); }                \
                                                                              \
     virtual FrontDualIterator EndDualFront( )                                \
@@ -63,18 +65,18 @@
     virtual ConstFrontDualIterator EndDualFront( ) const                     \
     { return( ConstFrontDualIterator( this, false ) ); }
 
-namespace itkQE
+namespace itk
 {
 
 /**
  * Front iterator on Mesh class.
  */
 template< typename TMesh, typename TQE >
-class FrontBaseIterator
+class QuadEdgeMeshFrontBaseIterator
 {
     public:
     /// Hierarchy typedefs & values.
-    typedef FrontBaseIterator Self;
+    typedef QuadEdgeMeshFrontBaseIterator Self;
 
     // Template types
     typedef TMesh  MeshType;
@@ -125,10 +127,10 @@ class FrontBaseIterator
 
     public:
     /** Object creation methods. */
-    FrontBaseIterator( MeshType* mesh  = (MeshType*)0,
+    QuadEdgeMeshFrontBaseIterator( MeshType* mesh  = (MeshType*)0,
                        bool      start = true,
                        QEType*   seed  = (QEType*)0 );
-    virtual ~FrontBaseIterator( ) { }
+    virtual ~QuadEdgeMeshFrontBaseIterator( ) { }
 
     Self& operator=( const Self& r )
     {
@@ -142,29 +144,29 @@ class FrontBaseIterator
     }
 
     // Iteration methods.
-    bool operator==( FrontBaseIterator& r )
+    bool operator==( Self & r )
     {
         return( m_Start == r.m_Start );
     }
 
-    bool operator==( const FrontBaseIterator& r ) const
+    bool operator==( const Self & r ) const
     {
         return( m_Start == r.m_Start );
     }
 
-    bool operator!=( FrontBaseIterator& r )
+    bool operator!=( Self & r )
     {
         return( !( this->operator==( r ) ) );
     }
 
-    bool operator!=( const FrontBaseIterator& r ) const
+    bool operator!=( const Self & r ) const
     {
         return( !( this->operator==( r ) ) );
     }
 
-    FrontBaseIterator& operator++( );
+    Self & operator++( );
 
-    FrontBaseIterator& operator++( int ) { return( this->operator++( ) ); }
+    Self & operator++( int ) { return( this->operator++( ) ); }
 
     protected:
     /** Find a default seed by taking any edge (with proper type) in
@@ -196,23 +198,23 @@ class FrontBaseIterator
  * No const iterator.
  */
 template< typename TMesh, typename TQE >
-class FrontIterator
-    : public FrontBaseIterator< TMesh, TQE  >
+class QuadEdgeMeshFrontIterator
+    : public QuadEdgeMeshFrontBaseIterator< TMesh, TQE  >
 {
     public:
     /** Hierarchy typedefs and values. */
-    typedef FrontIterator                   Self;
-    typedef FrontBaseIterator< TMesh, TQE > Superclass;
+    typedef QuadEdgeMeshFrontIterator                   Self;
+    typedef QuadEdgeMeshFrontBaseIterator< TMesh, TQE > Superclass;
     typedef typename Superclass::MeshType   MeshType;
     typedef typename Superclass::QEType     QEType;
 
     public:
     /** Object creation methods. */
-    FrontIterator( MeshType* mesh = (MeshType*)0,
+    QuadEdgeMeshFrontIterator( MeshType* mesh = (MeshType*)0,
                    bool      start = true,
                    QEType*   seed  = (QEType*)0 )
         : Superclass( mesh, start, seed ) { }
-    virtual ~FrontIterator( ) { }
+    virtual ~QuadEdgeMeshFrontIterator( ) { }
     QEType* Value( ) { return( this->m_CurrentEdge ); }
 };
 
@@ -220,20 +222,20 @@ class FrontIterator
  * Const iterator.
  */
 template< class TMesh, class TQE = typename TMesh::QEType >
-class ConstFrontIterator
-    : public FrontBaseIterator< TMesh, TQE >
+class QuadEdgeMeshConstFrontIterator
+    : public QuadEdgeMeshFrontBaseIterator< TMesh, TQE >
 {
     public:
     /** Hierarchy typedefs & values. */
-    typedef ConstFrontIterator                Self;
-    typedef FrontBaseIterator< TMesh, TQE >   Superclass;
+    typedef QuadEdgeMeshConstFrontIterator                Self;
+    typedef QuadEdgeMeshFrontBaseIterator< TMesh, TQE >   Superclass;
     typedef typename Superclass::QEType       QEType;
     typedef typename Superclass::MeshType     MeshType;
-    typedef FrontIterator< MeshType, QEType > NoConstType;
+    typedef QuadEdgeMeshFrontIterator< MeshType, QEType > NoConstType;
 
     public:
     /** Object creation methods. */
-    ConstFrontIterator( const MeshType* mesh = (MeshType*)0,
+    QuadEdgeMeshConstFrontIterator( const MeshType* mesh = (MeshType*)0,
                               bool     start = true,
                               QEType*  seed  = (QEType*)0 ){
       (void)mesh;
@@ -241,7 +243,7 @@ class ConstFrontIterator
       (void)seed;
     }
     /** \todo do we need here a    : Superclass( mesh, start, seed ) { } */
-    virtual ~ConstFrontIterator( ) { }
+    virtual ~QuadEdgeMeshConstFrontIterator( ) { }
     Self& operator=( const NoConstType& r )
     {
         this->m_Mesh  = r.GetMesh( );
@@ -250,10 +252,9 @@ class ConstFrontIterator
     const QEType* Value( ) const { return( this->m_CurrentEdge ); }
 };
 
-} // enamespace
+} 
 
-#include "itkQEFrontIterator.txx"
+#include "itkQuadEdgeMeshFrontIterator.txx"
 
-#endif // __ITKQUADEDGEMESH__FRONTITERATOR__H__
+#endif 
 
-// eof - itkQEFrontIterator.h

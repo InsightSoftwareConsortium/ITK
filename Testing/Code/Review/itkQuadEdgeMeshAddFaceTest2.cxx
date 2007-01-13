@@ -1,7 +1,9 @@
-#include "itkQEMesh.h"
-#include "itkQEUtils.txx"
 
-int AddFaceTest2(int , char *[])
+#include "itkQuadEdgeMesh.h"
+#include "itkQuadEdgeMeshTopologyChecker.h"
+
+
+int itkQuadEdgeMeshAddFaceTest2(int , char *[])
 {
   typedef itk::QuadEdgeMesh< double, 3 >  MeshType;
   typedef MeshType::Pointer               MeshPointer;
@@ -74,8 +76,17 @@ int AddFaceTest2(int , char *[])
 
   std::cout << "Test whether the fourth face was rejected" << std::endl;
 
-  if( itkQE::AssertTopologicalInvariants< MeshType >
-      ( mesh, 7, 9, 3, 3, -1 ) )
+  typedef itk::QuadEdgeMeshTopologyChecker< MeshType >  TopologyCheckerType;
+  TopologyCheckerType::Pointer checker = TopologyCheckerType::New();
+
+  checker->SetMesh( mesh );
+  checker->SetExpectedNumberOfPoints( 7 );
+  checker->SetExpectedNumberOfEdges( 9 );
+  checker->SetExpectedNumberOfFaces( 3 );
+  checker->SetExpectedNumberOfBoundaries( 3 );
+  checker->SetExpectedGenus( 0 ); // FIXME find the correct genus value
+  
+  if( checker->ValidateEulerCharacteristic() )
     {
     std::cout << "Passed" << std::endl;
     }

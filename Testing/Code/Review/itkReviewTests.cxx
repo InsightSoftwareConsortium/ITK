@@ -28,13 +28,13 @@ void RegisterTests()
   REGISTER_TEST(itkTDistributionTest);
   REGISTER_TEST(itkFlatStructuringElementTest);
   REGISTER_TEST(itkLabelOverlayImageFilterTest);
-  REGISTER_TEST(AddFaceTest);
-  REGISTER_TEST(AddFaceTest2);
-  REGISTER_TEST(BasicLayerTest);
-  REGISTER_TEST(DeleteEdgeTest);
-  REGISTER_TEST(FrontIteratorTest);
-  REGISTER_TEST(Mesh1Test);
-  REGISTER_TEST(Mesh2Test);
-  REGISTER_TEST(Mesh3Test);
+  REGISTER_TEST(itkQuadEdgeMeshAddFaceTest1);
+  REGISTER_TEST(itkQuadEdgeMeshAddFaceTest2);
+  REGISTER_TEST(itkQuadEdgeMeshBasicLayerTest);
+  REGISTER_TEST(itkQuadEdgeMeshDeleteEdgeTest);
+  REGISTER_TEST(itkQuadEdgeMeshFrontIteratorTest);
+  REGISTER_TEST(itkQuadEdgeMeshTest1);
+  REGISTER_TEST(itkQuadEdgeMeshTest2);
+  REGISTER_TEST(itkQuadEdgeMeshTest3);
 //  REGISTER_TEST(itkContourExtractor2DImageFilterTest);
 }

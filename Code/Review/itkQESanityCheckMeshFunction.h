@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQESanityCheckMeshFunction.h
-// $Revision: 1.1 $
-// $Author: sylvain $
+// $Revision: 1.2 $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
+// $Date: 2007-01-13 12:42:15 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -24,7 +24,7 @@
 
 #include<itkFunctionBase.h>
 
-namespace itkQE
+namespace itk
 {
 
 /** \brief Make some basic checks in order to assert that the considered
@@ -36,14 +36,14 @@ namespace itkQE
  */
 template< class TMesh >
 class ITK_EXPORT SanityCheckMeshFunction
-   : public itk::FunctionBase< TMesh, bool >
+   : public FunctionBase< TMesh, bool >
 {
 public:
    // Standard types
    typedef SanityCheckMeshFunction          Self;
-   typedef itk::FunctionBase< TMesh, bool > Superclass;
-   typedef itk::SmartPointer< Self >        Pointer;
-   typedef itk::SmartPointer< const Self >  ConstPointer;
+   typedef FunctionBase< TMesh, bool > Superclass;
+   typedef SmartPointer< Self >        Pointer;
+   typedef SmartPointer< const Self >  ConstPointer;
 
    // Types in superclass:
    typedef typename Superclass::InputType  InputType;
@@ -64,10 +64,11 @@ public:
 
 };
 
-} // enamespace
+} 
 
+#if ITK_TEMPLATE_TXX
 #include "itkQESanityCheckMeshFunction.txx"
+#endif 
 
-#endif // __ITKQUADEDGEMESH__ITKQESANITYCHECKMESHFUNCTION__H__
+#endif 
 
-// eof - itkQESanityCheckMeshFunction.h

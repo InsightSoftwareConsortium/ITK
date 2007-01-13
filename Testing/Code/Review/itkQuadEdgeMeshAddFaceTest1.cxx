@@ -1,7 +1,8 @@
-#include "itkQEMesh.h"
-#include "itkQEBoundaryRepresentativeEdgesMeshFunction.h"
 
-int AddFaceTest( int , char *[] )
+#include "itkQuadEdgeMesh.h"
+#include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
+
+int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
 {
   typedef itk::QuadEdgeMesh< double, 3 > MeshType;
   typedef MeshType::PointType            PointType;

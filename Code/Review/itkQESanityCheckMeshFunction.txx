@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQESanityCheckMeshFunction.txx
-// $Revision: 1.1 $
-// $Author: sylvain $
+// $Revision: 1.2 $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
+// $Date: 2007-01-13 12:42:15 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -22,10 +22,10 @@
 #ifndef __ITKQUADEDGEMESH__ITKQESANITYCHECKMESHFUNCTION__TXX__
 #define __ITKQUADEDGEMESH__ITKQESANITYCHECKMESHFUNCTION__TXX__
 
-#include "itkQEMesh.h"  // Just to mark the dependance towards this class.
-#include "itkQEBoundaryRepresentativeEdgesMeshFunction.h"
+#include "itkQESanityCheckMeshFunction.h" 
+#include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
 
-namespace itkQE
+namespace itk
 {
 
 template< typename TMesh >
@@ -36,8 +36,7 @@ template< typename TMesh >
    typedef typename MeshType::QEPrimal        QEPrimal;  
    typedef typename MeshType::CellsContainerConstIterator
                                               CellsContainerConstIterator; 
-   typedef itkQE::BoundaryRepresentativeEdgesMeshFunction< MeshType >
-                                              BoundaryEdges;
+   typedef QuadEdgeMeshBoundaryEdgesMeshFunction< MeshType > BoundaryEdges;
    typename BoundaryEdges::Pointer boundaryEdges = BoundaryEdges::New( );
 
    unsigned long numPoints = mesh.ComputeNumberOfPoints( );
@@ -46,10 +45,10 @@ template< typename TMesh >
    unsigned long numBounds = boundaryEdges->Evaluate( mesh )->size( );
 
    if( mesh.GetNumberOfPoints() != numPoints )
-   {
-      // They are isolated vertices:
-      return( false );
-   }
+     {
+     // They are isolated vertices:
+     return( false );
+     }
 
    // The euler formula states:
    //     numFaces - numEdges + numPoints == 2 - 2 * genus - numBounds
@@ -58,9 +57,9 @@ template< typename TMesh >
    unsigned long twiceGenus = 2 - numBounds - numFaces + numEdges - numPoints;
 
    if ( twiceGenus % 2 )
-   {
-      return( false );
-   }
+     {
+     return( false );
+     }
 
    // Look is they are isolated edges
    CellsContainerConstIterator cellIterator = mesh.GetCells()->Begin();

@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
-// itkQEMeshTraits.h
-// $Revision: 1.2 $
+// itkQuadEdgeMeshTraits.h
+// $Revision: 1.1 $
 // $Author: ibanez $
 // $Name:  $
 // $Date: 2007-01-13 12:42:15 $
@@ -20,8 +20,8 @@
 // - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
 // -------------------------------------------------------------------------
 
-#ifndef __ITKQUADEDGEMESH__MESHTRAITS__H__
-#define __ITKQUADEDGEMESH__MESHTRAITS__H__
+#ifndef __itkQuadEdgeMeshTraits_h
+#define __itkQuadEdgeMeshTraits_h
 
 #include <set>
 #include <itkCellInterface.h>
@@ -29,7 +29,7 @@
 #include "itkQEPoint.h"
 #include "itkGeometricalQuadEdge.h"
 
-namespace itkQE
+namespace itk
 {
 /**
  */
@@ -38,7 +38,7 @@ template< int VPointDimension, typename TCoordRep,
           typename TCellIdentifier, typename TCellFeatureIdentifier,
           typename TPoint, typename TPointsContainer,
           typename TUsingCellsContainer, typename TQE >
-class CellTraitsInfo
+class QuadEdgeMeshCellTraitsInfo
 {
     public:
     itkStaticConstMacro( PointDimension, unsigned int, VPointDimension );
@@ -62,11 +62,11 @@ class CellTraitsInfo
  */
 template< typename TPixel, unsigned int VPointDimension,
           typename TPData, typename TDData >
-class MeshTraits
+class QuadEdgeMeshTraits
 {
     public:
     /** Basic types for a mesh trait class. */
-    typedef MeshTraits Self;
+    typedef QuadEdgeMeshTraits Self;
     typedef TPixel     PixelType;
     typedef TPixel     CellPixelType;
     typedef TPixel     CoordRepType;
@@ -96,11 +96,11 @@ class MeshTraits
     typedef typename QEPrimal::DualOrgRefType FaceRefType;
 
     /** Points have an entry in the Onext ring */
-    typedef Point< CoordRepType, VPointDimension, QEPrimal >  PointType;
+    typedef ::itkQE::Point< CoordRepType, VPointDimension, QEPrimal >  PointType;
     typedef itk::MapContainer< PointIdentifier, PointType >   PointsContainer;
 
     /** Standard itk cell interface. */
-    typedef CellTraitsInfo< VPointDimension,         CoordRepType,
+    typedef QuadEdgeMeshCellTraitsInfo< VPointDimension,         CoordRepType,
                             InterpolationWeightType, PointIdentifier,
                             CellIdentifier,          CellFeatureIdentifier,
                             PointType,               PointsContainer,
@@ -119,8 +119,8 @@ class MeshTraits
     typedef typename PointType::VectorType VectorType;
 };
 
-} // enamespace
+} 
 
-#endif // __ITKQUADEDGEMESH__MESHTRAITS__H__
+#endif 
 
-// eof - itkQEMeshTraits.h
+

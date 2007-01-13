@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
-// itkQEBoundaryRepresentativeEdgesMeshFunction.h
+// itkQuadEdgeMeshBoundaryEdgesMeshFunction.h
 // $Revision: 1.1 $
-// $Author: sylvain $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
+// $Date: 2007-01-13 12:42:15 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -19,30 +19,31 @@
 // - The duck master (Alex Gouaillard) alexandre.gouaillard@sun.com
 // - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
 // -------------------------------------------------------------------------
-#ifndef __ITKQUADEDGEMESH__ITKQEBOUNDARYREPRESENTATIVEEDGESMESHFUNCTION__H__
-#define __ITKQUADEDGEMESH__ITKQEBOUNDARYREPRESENTATIVEEDGESMESHFUNCTION__H__
+#ifndef __itkQuadEdgeMeshBoundaryEdgesMeshFunction_h
+#define __itkQuadEdgeMeshBoundaryEdgesMeshFunction_h
+
 
 #include<itkFunctionBase.h>
 
-namespace itkQE
+namespace itk
 {
 
 /**
- * \brief Build a list of references to edges (as \ref QuadEdgeGeom::RawPointer)
+ * \brief Build a list of references to edges (as \ref GeometricalQuadEdge::RawPointer)
  *        each one representing a different boundary component.
- * \note  Each resulting edge as the surface on it's right and is hence
+ * \note  Each resulting edge has the surface on its right and is hence
  *        ready for an walk on with the help of
  *        \ref QEPrimal::IteratorGeom::BeginGeomLnext().
  * \note  The size() of the resulting list is the number of boundary
  *        components.
  */
 template< class TMesh >
-class ITK_EXPORT BoundaryRepresentativeEdgesMeshFunction
+class ITK_EXPORT QuadEdgeMeshBoundaryEdgesMeshFunction
    : public itk::FunctionBase< TMesh, typename TMesh::EdgeListPointerType >
 {
 public:
    // Standard types
-   typedef BoundaryRepresentativeEdgesMeshFunction  Self;
+   typedef QuadEdgeMeshBoundaryEdgesMeshFunction  Self;
    typedef itk::SmartPointer< Self >                Pointer;
    typedef itk::SmartPointer< const Self >          ConstPointer;
    typedef itk::FunctionBase< TMesh,
@@ -57,24 +58,27 @@ public:
    typedef typename MeshType::QEPrimal     QEPrimal;
    typedef typename MeshType::EdgeListType EdgeListType;
 
-   public:
    itkNewMacro( Self );
-   itkTypeMacro( BoundaryRepresentativeEdgesMeshFunction, FunctionBase );
+   itkTypeMacro( QuadEdgeMeshBoundaryEdgesMeshFunction, FunctionBase );
 
-   public:
    virtual OutputType Evaluate( const InputType& mesh ) const;
 
-   private:
-   BoundaryRepresentativeEdgesMeshFunction( ) { };
-   BoundaryRepresentativeEdgesMeshFunction( const Self& );  // Not impl.
-   void operator=( const Self& );                           // Not impl.
+ protected:
+   QuadEdgeMeshBoundaryEdgesMeshFunction( ) { };
+
+ private:
+   QuadEdgeMeshBoundaryEdgesMeshFunction( const Self& ); //purposely not implemented 
+   void operator=( const Self& );     //purposely not implemented 
 
 };
 
-} // enamespace
+} 
 
-#include "itkQEBoundaryRepresentativeEdgesMeshFunction.txx"
+#if ITK_TEMPLATE_TXX
+#include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.txx"
+#endif
 
-#endif // __ITKQUADEDGEMESH__ITKQEBOUNDARYREPRESENTATIVEEDGESMESHFUNCTION__H__
+#endif 
 
-// eof - itkQEBoundaryRepresentativeEdgesMeshFunction.h
+
+

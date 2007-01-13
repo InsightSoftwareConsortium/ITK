@@ -49,7 +49,7 @@ ENDIF(ITK_LIBRARY_PROPERTIES)
 # Build ITKQuadEdgeMesh library
 
 ADD_LIBRARY(ITKQuadEdgeMesh ${ITK_REVIEW_BUILD_TYPE}
-  itkQEQuadEdge.cxx
+  itkQuadEdge.cxx
   )
 
 TARGET_LINK_LIBRARIES(ITKQuadEdgeMesh ITKCommon)

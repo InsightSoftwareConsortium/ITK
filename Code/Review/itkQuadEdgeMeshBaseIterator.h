@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
-// itkQEBaseIterator.h
-// $Revision: 1.8 $
+// itkQuadEdgeMeshBaseIterator.h
+// $Revision: 1.1 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-12 21:29:43 $
+// $Date: 2007-01-13 12:42:15 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -20,8 +20,8 @@
 // - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
 // -------------------------------------------------------------------------
 
-#ifndef __ITKQUADEDGEMESH__BASEITERATOR__H__
-#define __ITKQUADEDGEMESH__BASEITERATOR__H__
+#ifndef __itkQuadEdgeMeshBaseIterator_h
+#define __itkQuadEdgeMeshBaseIterator_h
 
 // -------------------------------------------------------------------------
 #define itkQEDefineIteratorMethodsMacro( Op )                             \
@@ -74,17 +74,17 @@
     }
 
 
-namespace itkQE
+namespace itk
 {
   /**
    *  Base iterator class.
    */
   template< typename TQuadEdge >
-    class BaseIterator
+    class QuadEdgeMeshBaseIterator
     {
       public:
         // Hierarchy typedefs & values.
-        typedef BaseIterator Self;
+        typedef QuadEdgeMeshBaseIterator Self;
         typedef TQuadEdge    QuadEdgeType;
 
         // Different types of iterators, one for each basic QE operation.
@@ -107,13 +107,13 @@ namespace itkQE
 
       public:
         // Object creation methods.
-        BaseIterator( QuadEdgeType* e,
+        QuadEdgeMeshBaseIterator( QuadEdgeType* e,
             int op = OperatorOnext,
             bool start = true )
           : m_StartEdge( e ), m_Iterator( e ),
           m_OpType( op ), m_Start( start ) {}
 
-        virtual ~BaseIterator() {}
+        virtual ~QuadEdgeMeshBaseIterator() {}
 
         Self& operator=( const Self& r )
           {
@@ -130,7 +130,7 @@ namespace itkQE
         bool          GetStart() const     { return m_Start; }
 
         /** Iteration methods. */
-        bool operator==( BaseIterator& r )
+        bool operator==( Self & r )
         {
           return ( m_StartEdge == r.m_StartEdge ) &&
               ( m_Iterator  == r.m_Iterator )  &&
@@ -138,7 +138,7 @@ namespace itkQE
               ( m_Start     == r.m_Start );
         }
 
-        bool operator==( const BaseIterator& r ) const
+        bool operator==( const Self & r ) const
         {
           return ( m_StartEdge == r.m_StartEdge ) &&
                     ( m_Iterator  == r.m_Iterator )  &&
@@ -146,17 +146,17 @@ namespace itkQE
                     ( m_Start     == r.m_Start );
         }
 
-        bool operator!=( BaseIterator& r )
+        bool operator!=( Self & r )
         {
           return !( this->operator==( r ) );
         }
 
-        bool operator!=( const BaseIterator& r ) const
+        bool operator!=( const Self & r ) const
           {
           return !( this->operator==( r ) );
           }
 
-        BaseIterator& operator++()
+        Self & operator++()
           {
           if( m_Start )
             {
@@ -167,7 +167,7 @@ namespace itkQE
           return *this;
         }
 
-        BaseIterator& operator++( int )
+        Self & operator++( int )
           {
           if( m_Start )
             {
@@ -224,23 +224,23 @@ namespace itkQE
  * No const iterator.
  */
 template< typename TQuadEdge >
-    class Iterator
-    : public BaseIterator< TQuadEdge >
+    class QuadEdgeMeshIterator
+    : public QuadEdgeMeshBaseIterator< TQuadEdge >
     {
         public:
         /** Hierarchy typedefs and values. */
-        typedef Iterator                  Self;
-        typedef BaseIterator< TQuadEdge > Superclass;
+        typedef QuadEdgeMeshIterator                  Self;
+        typedef QuadEdgeMeshBaseIterator< TQuadEdge > Superclass;
         typedef TQuadEdge                 QuadEdgeType;
 
         public:
         /** Object creation methods. */
-        Iterator( QuadEdgeType* e = (QuadEdgeType*)0,
+        QuadEdgeMeshIterator( QuadEdgeType* e = (QuadEdgeType*)0,
                   int op = Superclass::OperatorOnext,
                   bool start = true )
             : Superclass( e, op, start ) {}
 
-        virtual ~Iterator() {}
+        virtual ~QuadEdgeMeshIterator() {}
 
         QuadEdgeType* Value() { return this->m_Iterator; }
     };
@@ -248,20 +248,20 @@ template< typename TQuadEdge >
 /**
  * No const geometrical iterator.
  */
-template< typename TQuadEdgeGeom >
-    class IteratorGeom
-    : public Iterator< TQuadEdgeGeom >
+template< typename TGeometricalQuadEdge >
+    class QuadEdgeMeshIteratorGeom
+    : public QuadEdgeMeshIterator< TGeometricalQuadEdge >
     {
         public:
         /** Hierarchy typedefs and values. */
-        typedef Iterator< TQuadEdgeGeom >       Superclass;
-        typedef TQuadEdgeGeom                   QuadEdgeType;
+        typedef QuadEdgeMeshIterator< TGeometricalQuadEdge >       Superclass;
+        typedef TGeometricalQuadEdge                   QuadEdgeType;
 
         /** Geometric value type. */
         typedef typename QuadEdgeType::OrgRefType OrgRefType;
 
         public:
-        IteratorGeom( QuadEdgeType* e = (QuadEdgeType*)0,
+        QuadEdgeMeshIteratorGeom( QuadEdgeType* e = (QuadEdgeType*)0,
                       int op = Superclass::OperatorOnext,
                       bool start = true )
             : Superclass( e, op, start ) {}
@@ -272,24 +272,24 @@ template< typename TQuadEdgeGeom >
  * Const iterator.
  */
 template< typename TQuadEdge >
-    class ConstIterator
-    : public BaseIterator< TQuadEdge >
+    class QuadEdgeMeshConstIterator
+    : public QuadEdgeMeshBaseIterator< TQuadEdge >
     {
         public:
         /** Hierarchy typedefs & values. */
-        typedef ConstIterator             Self;
-        typedef BaseIterator< TQuadEdge > Superclass;
-        typedef Iterator< TQuadEdge >     NoConstType;
+        typedef QuadEdgeMeshConstIterator             Self;
+        typedef QuadEdgeMeshBaseIterator< TQuadEdge > Superclass;
+        typedef QuadEdgeMeshIterator< TQuadEdge >     NoConstType;
         typedef TQuadEdge                 QuadEdgeType;
 
         public:
         /** Object creation methods. */
-        ConstIterator( const QuadEdgeType* e = (QuadEdgeType*)0,
+        QuadEdgeMeshConstIterator( const QuadEdgeType* e = (QuadEdgeType*)0,
                        int op = Superclass::OperatorOnext,
                        bool start = true )
             : Superclass( ( QuadEdgeType* )e, op, start ) {}
 
-        virtual ~ConstIterator() {}
+        virtual ~QuadEdgeMeshConstIterator() {}
 
         Self& operator=( const NoConstType& r )
         {
@@ -306,27 +306,27 @@ template< typename TQuadEdge >
 /**
  * Const geometrical iterator.
  */
-template< typename TQuadEdgeGeom >
-    class ConstIteratorGeom
-    : public ConstIterator< TQuadEdgeGeom >
+template< typename TGeometricalQuadEdge >
+    class QuadEdgeMeshConstIteratorGeom
+    : public QuadEdgeMeshConstIterator< TGeometricalQuadEdge >
     {
         public:
         /** Hierarchy typedefs and values. */
-        typedef ConstIteratorGeom              Self;
-        typedef ConstIterator< TQuadEdgeGeom > Superclass;
-        typedef IteratorGeom< TQuadEdgeGeom >  NoConstType;
-        typedef TQuadEdgeGeom                  QuadEdgeType;
+        typedef QuadEdgeMeshConstIteratorGeom              Self;
+        typedef QuadEdgeMeshConstIterator< TGeometricalQuadEdge > Superclass;
+        typedef QuadEdgeMeshIteratorGeom< TGeometricalQuadEdge >  NoConstType;
+        typedef TGeometricalQuadEdge                  QuadEdgeType;
 
         /** Geometric value type. */
         typedef typename QuadEdgeType::OrgRefType OrgRefType;
 
         public:
-        ConstIteratorGeom( const QuadEdgeType* e = (QuadEdgeType*)0,
+        QuadEdgeMeshConstIteratorGeom( const QuadEdgeType* e = (QuadEdgeType*)0,
                            int op = Superclass::OperatorOnext,
                            bool start = true )
             : Superclass( e, op, start ) {}
 
-        virtual ~ConstIteratorGeom() {}
+        virtual ~QuadEdgeMeshConstIteratorGeom() {}
 
         Self& operator=( const NoConstType& r )
         {
@@ -343,8 +343,8 @@ template< typename TQuadEdgeGeom >
         }
     };
 
-} // namespace
+} 
 
-#endif // __ITKQUADEDGEMESH__BASEITERATOR__H__
+#endif 
 
-// eof - itkQEBaseIterator.h
+

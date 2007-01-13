@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQEPoint.txx
-// $Revision: 1.1 $
-// $Author: sylvain $
+// $Revision: 1.2 $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
+// $Date: 2007-01-13 12:42:15 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -23,7 +23,6 @@
 #ifndef __ITKQUADEDGEMESH__POINT__TXX__
 #define __ITKQUADEDGEMESH__POINT__TXX__
 
-#include "itkQEBaseIterator.h"
 
 namespace itkQE
 {
