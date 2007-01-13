@@ -196,12 +196,7 @@ IF(WRAP_ITK_PYTHON)
 ENDIF(WRAP_ITK_PYTHON)
 
 IF(WRAP_ITK_JAVA)
-  IF(WIN32)
-    MESSAGE("WRAP_ITK_JAVA is not available for Windows at this point")
-    SET(WRAP_ITK_JAVA "OFF" CACHE BOOL "Java wrapping with WrapITK is disabled in Windows")
-  ELSE(WIN32)
-    SUBDIRS(Java)
-  ENDIF(WIN32)
+  SUBDIRS(Java)
 ENDIF(WRAP_ITK_JAVA)
 
 ###############################################################################
