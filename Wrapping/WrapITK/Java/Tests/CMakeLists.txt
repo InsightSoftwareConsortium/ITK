@@ -2,10 +2,17 @@
 # configure the test driver
 FIND_PROGRAM(ITK_TEST_DRIVER itkTestDriver)
 
-SET(JAVA_DRIVER "${ITK_TEST_DRIVER}"
-  "${JAVA_RUNTIME}"
-  -cp ".:${WrapITK_BINARY_DIR}/Java/${CMAKE_CFG_INTDIR}/InsightToolkit.jar"
-)
+IF(WIN32)
+  SET(JAVA_DRIVER "${ITK_TEST_DRIVER}"
+    "${JAVA_RUNTIME}"
+    -cp "${CMAKE_CURRENT_BINARY_DIR}\;${WrapITK_BINARY_DIR}/Java/\${CTEST_CONFIGURATION_TYPE}/InsightToolkit.jar"
+  )
+ELSE(WIN32)
+  SET(JAVA_DRIVER "${ITK_TEST_DRIVER}"
+    "${JAVA_RUNTIME}"
+    -cp "${CMAKE_CURRENT_BINARY_DIR}:${WrapITK_BINARY_DIR}/Java/\${CTEST_CONFIGURATION_TYPE}/InsightToolkit.jar"
+  )
+ENDIF(WIN32)
   
 
 # put all generated files in this list
