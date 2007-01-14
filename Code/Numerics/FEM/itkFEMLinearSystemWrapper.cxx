@@ -358,20 +358,20 @@ void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int row
 
   /* order by degree */
   if (nextRows.size() > 1) 
-  {
-    for (i=0; i<nextRows.size()-1; i++)
     {
-      for (j=0; j<nextRows.size()-1-i; j++)
+    for( i=0; i < (int)(nextRows.size()) - 1; i++ )
       {
-        if ( rowDegree[nextRows[j+1]] < rowDegree[nextRows[j]] )
+      for( j=0; j < (int)(nextRows.size()) - 1 - i; j++ )
         {
+        if ( rowDegree[nextRows[j+1]] < rowDegree[nextRows[j]] )
+          {
           temp = nextRows[j+1];
           nextRows[j+1] = nextRows[j];
           nextRows[j] = temp;
+          }
         }
       }
     }
-  }
 
   /* while there are more rows to examine */
   while ( (nextRows.size() != 0 ) && (nextRowNumber < this->m_Order) ) 
@@ -380,58 +380,58 @@ void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int row
 
     bufferArray.clear();
 
-    for (i=0; i<nextRows.size(); i++) 
-    {
+    for (i=0; i<(int)(nextRows.size()); i++) 
+      {
       reverseMapping[ nextRows[i] ] = nextRowNumber++;
-    }
+      }
 
 
     /* renumber rows in nextRows */
-    for (i=0; i<nextRows.size(); i++) 
-    {
+    for (i=0; i<(int)(nextRows.size()); i++) 
+      {
 
       /* connections of current row */
       this->GetColumnsOfNonZeroMatrixElementsInRow( nextRows[i], rowBuffer, matrixIndex );
 
       /* remove previously renumbered rows */
       for (rowBufferIt = rowBuffer.begin(); rowBufferIt != rowBuffer.end(); ++rowBufferIt)
-      {
-        if (reverseMapping[*rowBufferIt] < this->m_Order )
         {
+        if (reverseMapping[*rowBufferIt] < this->m_Order )
+          {
           rowBuffer.erase(rowBufferIt);
           --rowBufferIt;
+          }
         }
-      }
 
       /* order by degree */
       if (rowBuffer.size() > 1)
-      {
-        for (k=0; k<rowBuffer.size()-1; k++)
         {
-          for (j=0; j<rowBuffer.size()-1-k; j++)
+        for( k=0; k < (int)(rowBuffer.size()) - 1; k++)
           {
-            if ( rowDegree[rowBuffer[j+1]] < rowDegree[rowBuffer[j]] )
+          for( j=0; j < (int)(rowBuffer.size()) - 1-k; j++)
             {
+            if ( rowDegree[rowBuffer[j+1]] < rowDegree[rowBuffer[j]] )
+              {
               temp = rowBuffer[j+1];
               rowBuffer[j+1] = rowBuffer[j];
               rowBuffer[j] = temp;
+              }
             }
           }
         }
-      }
 
       /* add rows in rowBuffer to bufferArray (don't add repeats) */
       unsigned int repeatFlag;
-      for (k=0; k<rowBuffer.size(); k++)
-      {
-        repeatFlag = 0;
-        for (j=0; j<bufferArray.size(); j++)
+      for( k=0; k < (int)(rowBuffer.size()); k++)
         {
-          if (bufferArray[j] == rowBuffer[k])
+        repeatFlag = 0;
+        for( j=0; j < (int)(bufferArray.size()); j++)
           {
+          if (bufferArray[j] == rowBuffer[k])
+            {
             repeatFlag = 1;
+            }
           }
-        }
 
         if (!repeatFlag)
         {
