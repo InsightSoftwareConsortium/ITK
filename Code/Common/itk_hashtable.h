@@ -188,6 +188,7 @@ struct hashtable_iterator
   typedef hashtable_node<Value> node;
   typedef size_t size_type;
   typedef Value& reference;
+  typedef Value* pointer;
   typedef const Value& const_reference;
 
   node* cur;
@@ -198,6 +199,8 @@ struct hashtable_iterator
   reference operator*() const { 
         return cur->val; 
   }
+  pointer operator->() const { return &(operator*()); }
+  
   IUEi_STL_INLINE iterator& operator++();
   IUEi_STL_INLINE iterator operator++(int);
   bool operator==(const iterator& it) const { 
@@ -222,6 +225,7 @@ struct hashtable_const_iterator
   typedef size_t size_type;
   typedef Value& reference;
   typedef const Value& const_reference;
+  typedef const Value* pointer;
 
   const node* cur;
   const hash_table* ht;
@@ -233,6 +237,7 @@ struct hashtable_const_iterator
   const_reference operator*() const { 
       return cur->val; 
   }
+  pointer operator->() const { return &(operator*()); }
   IUEi_STL_INLINE const_iterator& operator++();
   IUEi_STL_INLINE const_iterator operator++(int);
   bool operator==(const const_iterator& it) const { 
