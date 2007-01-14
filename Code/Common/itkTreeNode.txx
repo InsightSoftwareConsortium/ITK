@@ -197,9 +197,9 @@ TreeNode<TValueType>
 {  
   size_t size = m_Children.size();
 
-  if ( number > size ) 
+  if ( (size_t)number > size ) 
     {
-    for ( size_t i=size; i <= number; i++ )
+    for ( size_t i=size; i <= (size_t)number; i++ )
       {
       m_Children[i] = NULL;
       }
