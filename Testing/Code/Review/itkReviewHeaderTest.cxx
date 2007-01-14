@@ -27,6 +27,7 @@
 #include "itkGaussianDistribution.h"
 #include "itkProbabilityDistribution.h"
 #include "itkTDistribution.h"
+#include "itkContourExtractor2DImageFilterTest.h"
 
 int main ( int , char*  )
 {
