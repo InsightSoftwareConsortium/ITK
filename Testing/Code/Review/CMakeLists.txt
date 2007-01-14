@@ -37,7 +37,7 @@ SET(ReviewTest_SRCS
   itkQuadEdgeMeshTest1.cxx
   itkQuadEdgeMeshTest2.cxx
   itkQuadEdgeMeshTest3.cxx
-#  itkContourExtractor2DImageFilterTest.cxx
+  itkContourExtractor2DImageFilterTest.cxx
 )
 
 ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS}
@@ -72,9 +72,9 @@ FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
                   ${TEMP}/cthead1-${op}Overlay.png)
 ENDFOREACH(opacity)
 
-#ADD_TEST(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS}
-#                                  itkContourExtractor2DImageFilterTest
-#                                  ${INPUTDATA}/ContourExtractor2DTest.tif  )
+ADD_TEST(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS}
+                                  itkContourExtractor2DImageFilterTest
+                                  ${INPUTDATA}/ContourExtractor2DTest.tif  )
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest
