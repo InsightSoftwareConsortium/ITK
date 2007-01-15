@@ -85,6 +85,7 @@ itkStimulateImageIOTest2.cxx
 itkTIFFImageIOTest.cxx
 itkTransformIOTest.cxx
 itkVTKImageIOTest.cxx
+itkVTKImageIOTest2.cxx
 itkVectorImageReadWriteTest.cxx
 testMetaBlob.cxx
 testMetaGroup.cxx
@@ -132,6 +133,9 @@ ADD_TEST(itkTransformIOTest ${IO_TESTS} itkTransformIOTest)
 
 ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest
                            ${TEMP}/test1.vtk ${TEMP}/test2.vtk)
+ADD_TEST(itkVTKImageIOTest2 ${IO_TESTS} itkVTKImageIOTest2
+                           ${ITK_DATA_ROOT}/Input/mini-vector-fast.nrrd 
+                           ${TEMP}/testVector.vtk)
 ADD_TEST(itkRawImageIOTest ${IO_TESTS} itkRawImageIOTest
                            ${TEMP}/raw1.raw ${TEMP}/raw2.raw
 )

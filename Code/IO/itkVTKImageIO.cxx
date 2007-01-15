@@ -478,10 +478,19 @@ void VTKImageIO::Write(const void* buffer)
   file.precision( originalPrecision );
 
   file << "POINT_DATA " << this->GetImageSizeInPixels() << "\n";
-  file << "SCALARS scalars " 
-       << this->GetComponentTypeAsString(m_ComponentType) << " "
-       << this->GetNumberOfComponents() << "\n";
-  file << "LOOKUP_TABLE default\n";
+  if( this->GetPixelType() == ImageIOBase::VECTOR )
+    {
+    file << "VECTORS vectors " 
+         << this->GetComponentTypeAsString(m_ComponentType) << "\n";
+    file << "LOOKUP_TABLE default\n";
+    }
+  else
+    {
+    file << "SCALARS scalars " 
+         << this->GetComponentTypeAsString(m_ComponentType) << " "
+         << this->GetNumberOfComponents() << "\n";
+    file << "LOOKUP_TABLE default\n";
+    }
 
   // Write the actual pixel data
   if ( m_FileType == ASCII )
