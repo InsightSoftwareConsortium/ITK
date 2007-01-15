@@ -383,9 +383,11 @@ ContourExtractor2DImageFilter<TInputImage>
     
     // Now put all the points from the contour deque into the path and 
     // mark output as modified
+
+    typedef typename ContourType::const_iterator ConstIteratorType;
     if (m_ReverseContourOrientation)
       {
-      ContourType::const_iterator itC = (*it).end();
+      ConstIteratorType  itC = (*it).end();
       do
         {
         itC--;
@@ -395,7 +397,7 @@ ContourExtractor2DImageFilter<TInputImage>
       }
     else
       {
-      ContourType::const_iterator itC = (*it).begin();
+     ConstIteratorType  itC = (*it).begin();
       while(itC != (*it).end());
         {
         path->push_back(*itC);
