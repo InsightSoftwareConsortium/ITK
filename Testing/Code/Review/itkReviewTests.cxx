@@ -36,5 +36,5 @@ void RegisterTests()
   REGISTER_TEST(itkQuadEdgeMeshTest1);
   REGISTER_TEST(itkQuadEdgeMeshTest2);
   REGISTER_TEST(itkQuadEdgeMeshTest3);
-  REGISTER_TEST(itkContourExtractor2DImageFilterTest);
+//  REGISTER_TEST(itkContourExtractor2DImageFilterTest);
 }
