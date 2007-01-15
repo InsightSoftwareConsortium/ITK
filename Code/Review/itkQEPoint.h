@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQEPoint.h
-// $Revision: 1.1 $
+// $Revision: 1.2 $
 // $Author: sylvain $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
+// $Date: 2007-01-15 19:41:07 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -54,11 +54,11 @@ class Point
     public:
     Point( );
     Point( const Self& r );
-    Point( const ValueType r[ PointDimension ] );
+    Point( const ValueType r[ Superclass::PointDimension ] );
     Point( const VectorType& vec );
     Self& operator=( const Self& r );
     Self& operator=( const Superclass& r );
-    Self& operator=( const ValueType r[ PointDimension ] );
+    Self& operator=( const ValueType r[ Superclass::PointDimension ] );
     Self& operator=( const VectorType& vec );
 
     /** Accessor on \ref m_Edge */
@@ -66,7 +66,7 @@ class Point
     /** Accessor on \ref m_Edge */
     QEType* GetEdge( ) const { return( m_Edge ); }
     bool IsInternal( );
-    int GetValence( );  
+    int GetValence( );
 
     protected:
     void Initialise( );

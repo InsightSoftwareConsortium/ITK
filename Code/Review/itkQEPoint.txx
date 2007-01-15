@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQEPoint.txx
-// $Revision: 1.2 $
-// $Author: ibanez $
+// $Revision: 1.3 $
+// $Author: sylvain $
 // $Name:  $
-// $Date: 2007-01-13 12:42:15 $
+// $Date: 2007-01-15 19:41:10 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -57,7 +57,7 @@ template< class TCoordRep, unsigned int VPointDimension, typename QEType >
 // ---------------------------------------------------------------------
 template< class TCoordRep, unsigned int VPointDimension, typename QEType >
     Point< TCoordRep, VPointDimension, QEType >::
-    Point( const ValueType r[ PointDimension ] )
+    Point( const ValueType r[ Superclass::PointDimension ] )
         : Superclass( r )
 {
     this->Initialise( );
@@ -102,7 +102,7 @@ template< class TCoordRep, unsigned int VPointDimension, typename QEType >
     typename Point< TCoordRep, VPointDimension, QEType >::
     Self&
     Point< TCoordRep, VPointDimension, QEType >::
-    operator=( const ValueType r[ PointDimension ] )
+    operator=( const ValueType r[ Superclass::PointDimension ] )
 {
     this->Superclass::operator=( r );
     this->Initialise( );
