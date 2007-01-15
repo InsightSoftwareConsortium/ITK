@@ -35,7 +35,6 @@ int itkVTKImageIOTest2(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  int status = 0;
 
   const unsigned int Dimension = 3;
 
