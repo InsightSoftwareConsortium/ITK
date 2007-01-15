@@ -19,31 +19,27 @@
 
 #include "metaEvent.h"
 
-
-/*
- 
 namespace itk 
 {
 
-class MetaEvent : public metaEvent
+class MetaEvent : public ::MetaEvent
 {
 
 public:
 
   MetaEvent(){};
-  ~MetaEvent(){};
-
+  virtual ~MetaEvent(){};
+/*
   virtual void StartReading(unsigned int n) {metaEvent::StartReading(n);}
   virtual void StopReading() {metaEvent::StopReading();}
   virtual void SetCurrentIteration(unsigned int n) {metaEvent::SetCurrentIteration(n);}
 
 private:
-
+*/
 
 };
 
 } // end namespace itk
 
-*/
 
 #endif
