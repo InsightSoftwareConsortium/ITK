@@ -39,7 +39,7 @@ box = itk.BoxSpatialObject[dim].New( Size=20 )
 box.GetObjectToParentTransform().SetOffset( [20,40] )
 box.ComputeObjectToWorldTransform()
 
-gaussian = itk.GaussianSpatialObject[dim].New()
+gaussian = itk.GaussianSpatialObject[dim].New( Radius=100 )
 gaussian.GetObjectToParentTransform().SetOffset( [60,60] )
 gaussian.GetObjectToParentTransform().SetScale( 10 )
 gaussian.ComputeObjectToWorldTransform()
