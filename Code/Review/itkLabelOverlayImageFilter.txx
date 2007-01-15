@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkLabelOverlayImageFilter_txx
-#define _itkLabelOverlayImageFilter_txx
+#ifndef __itkLabelOverlayImageFilter_txx
+#define __itkLabelOverlayImageFilter_txx
 
 #include "itkLabelOverlayImageFilter.h"
 
@@ -36,8 +36,8 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
 }
 
 /**
-* Destructor method
-*/
+ * Destructor method
+ */
 template <class TInputImage, class TLabelImage, class TOutputImage>
 void
 LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
@@ -62,7 +62,8 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
      << static_cast<typename NumericTraits<double>::PrintType>(m_Opacity)
      << std::endl
      << indent << "BackgroundValue: "
-     << static_cast<typename NumericTraits<LabelPixelType>::PrintType>(m_BackgroundValue)
+     << static_cast<
+          typename NumericTraits<LabelPixelType>::PrintType>(m_BackgroundValue)
      << std::endl
      << indent << "UseBackground: "
      << static_cast<typename NumericTraits<bool>::PrintType>(m_UseBackground)

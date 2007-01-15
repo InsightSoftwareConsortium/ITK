@@ -33,8 +33,9 @@ class LabelOverlay
 public:
   LabelOverlay() 
     {
-    // provide some default value for external use (outside LabelOverlayImageFilter)
-    // Inside LabelOverlayImageFilter, the values are always initialized
+    // provide some default value for external use (outside 
+    // LabelOverlayImageFilter) Inside LabelOverlayImageFilter, 
+    // the values are always initialized
     m_UseBackground = false;
     m_BackgroundValue = NumericTraits<TLabel>::Zero;
     }
@@ -45,24 +46,28 @@ public:
       {
       // value is background
       // return a gray pixel with the same intensity than the input pixel
-      typename TRGBPixel::ValueType p = static_cast< typename TRGBPixel::ValueType >( p1 );
+      typename TRGBPixel::ValueType p = 
+                        static_cast< typename TRGBPixel::ValueType >( p1 );
       TRGBPixel rgbPixel;
       rgbPixel.Set( p, p, p );
       return rgbPixel;
       }
 
-     // taint the input pixel with the colored one returned by the color functor.
-     TRGBPixel rgbPixel;
-     TRGBPixel opaque = m_RGBFunctor(p2);
-     for( int i = 0; i<3; i++)
-       {
-       rgbPixel[i] = static_cast< typename TRGBPixel::ValueType >( opaque[i] * m_Opacity + p1 * ( 1.0 - m_Opacity ) );
-       }
-     return rgbPixel;
+     // taint the input pixel with the colored one returned by 
+     // the color functor.
+    TRGBPixel rgbPixel;
+    TRGBPixel opaque = m_RGBFunctor(p2);
+    for( int i = 0; i<3; i++)
+      {
+      rgbPixel[i] = static_cast< typename TRGBPixel::ValueType >( 
+                          opaque[i] * m_Opacity + p1 * ( 1.0 - m_Opacity ) );
+      }
+    return rgbPixel;
     }
 
   bool operator != (const LabelOverlay &l) const
-  { return l.m_Opacity == m_Opacity || m_UseBackground != l.m_UseBackground || m_BackgroundValue != l.m_BackgroundValue; }
+  { return l.m_Opacity == m_Opacity || m_UseBackground != 
+         l.m_UseBackground || m_BackgroundValue != l.m_BackgroundValue; }
 
   ~LabelOverlay() {}
 
@@ -84,15 +89,18 @@ public:
 
 
 /** \class LabelOverlayImageFilter
- * \brief Apply a colormap to a label image and put it on top of the input image
+ * \brief Apply a colormap to a label image and put it on top of the 
+ *  input image
  *
- * Apply a colormap to a label image and put it on top of the input image. The set of colors
- * is a good selection of distinct colors. The opacity of the label image
- * can be defined by the user. The user can also choose if he want to use a background
- * and which label value is the background. A background label produce a gray pixel
- * with the same intensity than the input one.
+ * Apply a colormap to a label image and put it on top of the input image. 
+ * The set of colors is a good selection of distinct colors. The opacity of
+ * the label image can be defined by the user. The user can also choose if 
+ * the want to use a background and which label value is the background. 
+ * A background label produce a gray pixel with the same intensity 
+ * than the input one.
  *
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, 
+ * INRA de Jouy-en-Josas, France.
  *
  * \sa ScalarToRGBPixelFunctor LabelToRGBImageFilter
  * \ingroup Multithreaded
@@ -101,7 +109,7 @@ public:
 template <typename  TInputImage, class TLabelImage, typename  TOutputImage>
 class ITK_EXPORT LabelOverlayImageFilter :
     public
-BinaryFunctorImageFilter<TInputImage, TLabelImage, TOutputImage, 
+     BinaryFunctorImageFilter<TInputImage, TLabelImage, TOutputImage, 
                         Functor::LabelOverlay< 
   typename TInputImage::PixelType, 
   typename TLabelImage::PixelType, 
@@ -110,17 +118,20 @@ BinaryFunctorImageFilter<TInputImage, TLabelImage, TOutputImage,
 public:
   /** Standard class typedefs. */
   typedef LabelOverlayImageFilter  Self;
+
   typedef BinaryFunctorImageFilter<TInputImage, TLabelImage, TOutputImage, 
                         Functor::LabelOverlay< 
                             typename TInputImage::PixelType, 
                             typename TLabelImage::PixelType, 
                             typename TOutputImage::PixelType>   >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   typedef TOutputImage OutputImageType;
   typedef TLabelImage  LabelImageType;
   typedef TInputImage  InputImageType;
+
   typedef typename TOutputImage::PixelType OutputPixelType;
   typedef typename TLabelImage::PixelType  LabelPixelType;
   typedef typename TInputImage::PixelType  InputPixelType;
@@ -137,7 +148,10 @@ public:
 
   /** Get the label image */
   const LabelImageType * GetLabelImage() const
-    { return static_cast<LabelImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1))); }
+    { 
+      return static_cast<LabelImageType*>(
+            const_cast<DataObject *>(this->ProcessObject::GetInput(1))); 
+    }
 
   /** Set/Get the opacity of the colored label image. The value must be
    * between 0 and 1
@@ -167,9 +181,10 @@ protected:
 private:
   LabelOverlayImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  double m_Opacity;
-  bool m_UseBackground;
-  LabelPixelType m_BackgroundValue;
+
+  double                        m_Opacity;
+  bool                          m_UseBackground;
+  LabelPixelType                m_BackgroundValue;
 
 };
 
@@ -182,4 +197,3 @@ private:
 #endif
 
 #endif
-
