@@ -385,11 +385,22 @@ ContourExtractor2DImageFilter<TInputImage>
     // mark output as modified
     if (m_ReverseContourOrientation)
       {
-      path->insert(path->begin(), it->rbegin(), it->rend());
+      ContourType::const_iterator itC = (*it).end();
+      do
+        {
+        itC--;
+        path->push_back(*itC);
+        }
+      while(itC != (*it).begin());
       }
     else
       {
-      path->insert(path->begin(), it->begin(), it->end());
+      ContourType::const_iterator itC = (*it).begin();
+      while(itC != (*it).end());
+        {
+        path->push_back(*itC);
+        itC++;
+        }
       }
     output->Modified();
     }

@@ -37,7 +37,7 @@ SET(ReviewTest_SRCS
   itkQuadEdgeMeshTest1.cxx
   itkQuadEdgeMeshTest2.cxx
   itkQuadEdgeMeshTest3.cxx
-#  itkContourExtractor2DImageFilterTest.cxx
+  itkContourExtractor2DImageFilterTest.cxx
 )
 
 ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS}
