@@ -25,7 +25,7 @@
 #include "itkImageToListGenerator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
-typedef itk::Image< unsigned char, 2 > ImageType;
+typedef itk::Image< unsigned int , 2 > ImageType;
 typedef itk::Image< unsigned char, 2 > MaskImageType;
 
 //------------------------------------------------------------------------
@@ -56,7 +56,7 @@ static ImageType::Pointer CreateImage()
 // 255 and rest as 0 
 static MaskImageType::Pointer CreateMaskImage()
 {
-  MaskImageType::Pointer image = ImageType::New();
+  MaskImageType::Pointer image = MaskImageType::New();
   MaskImageType::IndexType start = {0,0};
   MaskImageType::SizeType  size = {10, 10};
   MaskImageType::RegionType region( start, size );
