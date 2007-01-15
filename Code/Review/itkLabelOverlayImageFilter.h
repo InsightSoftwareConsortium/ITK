@@ -26,7 +26,10 @@ namespace itk
 
 namespace Functor {  
  
-/** The functor class used internally by LabelOverlayImageFilter */
+/**  
+ \class LabelOverlay
+ * \brief A functor class used internally by LabelOverlayImageFilter 
+ */
 template< class TInputPixel, class TLabel, class TRGBPixel >
 class LabelOverlay
 {
@@ -53,8 +56,8 @@ public:
       return rgbPixel;
       }
 
-     // taint the input pixel with the colored one returned by 
-     // the color functor.
+    // taint the input pixel with the colored one returned by 
+    // the color functor.
     TRGBPixel rgbPixel;
     TRGBPixel opaque = m_RGBFunctor(p2);
     for( int i = 0; i<3; i++)
@@ -77,11 +80,12 @@ public:
 
   void SetUseBackground( bool b ) { m_UseBackground = b; }
 
-  double m_Opacity;
+protected:
 
-  bool m_UseBackground;
-
-  TLabel m_BackgroundValue;
+private: 
+  double          m_Opacity;
+  bool            m_UseBackground;
+  TLabel          m_BackgroundValue;
 
   typename itk::Functor::LabelToRGBFunctor<TLabel, TRGBPixel> m_RGBFunctor;
 };
@@ -149,7 +153,7 @@ public:
   /** Get the label image */
   const LabelImageType * GetLabelImage() const
     { 
-      return static_cast<LabelImageType*>(
+    return static_cast<LabelImageType*>(
             const_cast<DataObject *>(this->ProcessObject::GetInput(1))); 
     }
 
