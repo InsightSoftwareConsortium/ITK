@@ -38,11 +38,11 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
     return 1;
     }
  
-  typedef unsigned char PType;
-  typedef itk::Image< PType, Dimension > IType;
-  typedef itk::RGBPixel<unsigned char> CPType;
-  typedef itk::Image< CPType, Dimension > CIType;
-  typedef itk::ImageFileReader< IType > ReaderType;
+  typedef unsigned char                           PType;
+  typedef itk::Image< PType, Dimension >          IType;
+  typedef itk::RGBPixel<unsigned char>            CPType;
+  typedef itk::Image< CPType, Dimension >         CIType;
+  typedef itk::ImageFileReader< IType >           ReaderType;
 
   //Read in the input image
   ReaderType::Pointer reader = ReaderType::New();
@@ -77,4 +77,3 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
 
   return EXIT_SUCCESS;
 }
-
