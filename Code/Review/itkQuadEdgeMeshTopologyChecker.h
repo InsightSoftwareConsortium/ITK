@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshTopologyChecker.h
-// $Revision: 1.1 $
-// $Author: ibanez $
+// $Revision: 1.2 $
+// $Author: sylvain $
 // $Name:  $
-// $Date: 2007-01-13 12:42:15 $
+// $Date: 2007-01-15 19:52:55 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -64,6 +64,7 @@ public:
 
 protected:
   QuadEdgeMeshTopologyChecker();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   QuadEdgeMeshTopologyChecker( const Self& ); //purposely not implemented 

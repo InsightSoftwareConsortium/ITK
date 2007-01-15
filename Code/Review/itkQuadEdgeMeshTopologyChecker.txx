@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshTopologyChecker.txx
-// $Revision: 1.1 $
-// $Author: ibanez $
+// $Revision: 1.2 $
+// $Author: sylvain $
 // $Name:  $
-// $Date: 2007-01-13 12:42:15 $
+// $Date: 2007-01-15 19:52:58 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -43,9 +43,25 @@ QuadEdgeMeshTopologyChecker< TMesh >
   return true;
 }
 
+template< class TMesh >
+void
+QuadEdgeMeshTopologyChecker< TMesh >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
 
+  os << indent << "ExpectedNumberOfPoints: "
+    << static_cast<long>(m_ExpectedNumberOfPoints) << std::endl;
+  os << indent << "ExpectedNumberOfEdges: "
+    << static_cast<long>(m_ExpectedNumberOfEdges) << std::endl;
+  os << indent << "ExpectedNumberOfFaces: "
+    << static_cast<long>(m_ExpectedNumberOfFaces) << std::endl;
+  os << indent << "ExpectedNumberOfBoundaries: "
+    << static_cast<long>(m_ExpectedNumberOfBoundaries) << std::endl;
+  os << indent << "ExpectedGenus: "
+    << static_cast<long>(m_ExpectedGenus) << std::endl;
 }
 
-
+}
 #endif 
 
