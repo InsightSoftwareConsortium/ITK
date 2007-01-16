@@ -34,20 +34,23 @@ int itkSumProjectionImageFilterTest(int argc, char * argv[])
 
   const int dim = 3;
   
-  typedef unsigned char PixelType;
-  typedef itk::Image< PixelType, dim > ImageType;
+  typedef unsigned char InputPixelType;
+  typedef itk::Image< InputPixelType, dim > InputImageType;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  typedef unsigned short OutpuPixelType;
+  typedef itk::Image< OutpuPixelType, dim > OutputImageType;
+
+  typedef itk::ImageFileReader< InputImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::SumProjectionImageFilter< ImageType, ImageType > FilterType;
+  typedef itk::SumProjectionImageFilter< InputImageType, OutputImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
