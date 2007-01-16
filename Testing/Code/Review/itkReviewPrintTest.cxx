@@ -23,6 +23,15 @@
 #include "itkRGBPixel.h"
 #include "itkQuadEdgeMesh.h"
 
+#include "itkMinimumProjectionImageFilter.h"
+#include "itkBinaryProjectionImageFilter.h"
+#include "itkMedianProjectionImageFilter.h"
+#include "itkSumProjectionImageFilter.h"
+#include "itkSigmaProjectionImageFilter.h"
+#include "itkMeanProjectionImageFilter.h"
+#include "itkMaximumProjectionImageFilter.h"
+
+
 int main(int , char* [])
 {
   typedef itk::Image<float,2>           InputType; 
@@ -54,6 +63,47 @@ int main(int , char* [])
   std:: cout << "-------------QuadEdgeMesh "
              << QuadEdgeMeshObj;
 
+  itk::MinimumProjectionImageFilter<InputType,InputType>::Pointer
+    MinimumProjectionImageFilterObj =
+    itk::MinimumProjectionImageFilter<InputType,InputType>::New();
+  std:: cout << "-------------MinimumProjectionImageFilterObj "
+             << MinimumProjectionImageFilterObj;
+
+  itk::MaximumProjectionImageFilter<InputType,InputType>::Pointer
+    MaximumProjectionImageFilterObj =
+    itk::MaximumProjectionImageFilter<InputType,InputType>::New();
+  std:: cout << "-------------MaximumProjectionImageFilterObj "
+             << MaximumProjectionImageFilterObj;
+
+  itk::MeanProjectionImageFilter<InputType,InputType>::Pointer
+    MeanProjectionImageFilterObj =
+    itk::MeanProjectionImageFilter<InputType,InputType>::New();
+  std:: cout << "-------------MeanProjectionImageFilterObj "
+             << MeanProjectionImageFilterObj;
+
+  itk::MedianProjectionImageFilter<InputType,InputType>::Pointer
+    MedianProjectionImageFilterObj =
+    itk::MedianProjectionImageFilter<InputType,InputType>::New();
+  std:: cout << "-------------MedianProjectionImageFilterObj "
+             << MedianProjectionImageFilterObj;
+
+  itk::SumProjectionImageFilter<InputType,InputType>::Pointer
+    SumProjectionImageFilterObj =
+    itk::SumProjectionImageFilter<InputType,InputType>::New();
+  std:: cout << "-------------SumProjectionImageFilterObj "
+             << SumProjectionImageFilterObj;
+
+  itk::SigmaProjectionImageFilter<InputType,InputType>::Pointer
+    SigmaProjectionImageFilterObj =
+    itk::SigmaProjectionImageFilter<InputType,InputType>::New();
+  std:: cout << "-------------SigmaProjectionImageFilterObj "
+             << SigmaProjectionImageFilterObj;
+
+  itk::BinaryProjectionImageFilter<InputType,InputType>::Pointer
+    BinaryProjectionImageFilterObj =
+    itk::BinaryProjectionImageFilter<InputType,InputType>::New();
+  std:: cout << "-------------BinaryProjectionImageFilterObj "
+             << BinaryProjectionImageFilterObj;
 
   return 0;
 
