@@ -31,7 +31,7 @@ typedef std::vector<MyVertexType>                       MyVertexListType;
 typedef std::vector<MyVertexListType>                   MyVertexListList;
 const float FLOAT_EPSILON = 0.0001;
 
-#include "PrecomputedContourData.h"
+#include "itkContourExtractor2DImageFilterTest.h"
 
 bool HasCorrectOutput(ExtractorType::Pointer extractor, 
                       MyVertexListList& correct)
