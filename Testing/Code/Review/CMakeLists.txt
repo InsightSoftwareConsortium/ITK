@@ -34,6 +34,7 @@ SET(ReviewTest_SRCS
   itkQuadEdgeMeshDeleteEdgeTest.cxx
   itkQuadEdgeMeshFrontIteratorTest.cxx
   #  OppositeOrientationTest.cxx
+  itkQuadEdgeMeshPointTest1.cxx
   itkQuadEdgeMeshTest1.cxx
   itkQuadEdgeMeshTest2.cxx
   itkQuadEdgeMeshTest3.cxx
@@ -65,6 +66,7 @@ ADD_TEST(itkQuadEdgeMeshBasicLayerTest ${REVIEW_TESTS} itkQuadEdgeMeshBasicLayer
 ADD_TEST(itkQuadEdgeMeshDeleteEdgeTest ${REVIEW_TESTS} itkQuadEdgeMeshDeleteEdgeTest)
 ADD_TEST(itkQuadEdgeMeshFrontIteratorTest ${REVIEW_TESTS} itkQuadEdgeMeshFrontIteratorTest)
 #ADD_TEST(OppositeOrientationTest ${REVIEW_TESTS} OppositeOrientationTest)
+ADD_TEST(itkQuadEdgeMeshPointTest1 ${REVIEW_TESTS} itkQuadEdgeMeshPointTest1)
 ADD_TEST(itkQuadEdgeMeshTest1 ${REVIEW_TESTS} itkQuadEdgeMeshTest1)
 ADD_TEST(itkQuadEdgeMeshTest2 ${REVIEW_TESTS} itkQuadEdgeMeshTest2)
 ADD_TEST(itkQuadEdgeMeshTest3 ${REVIEW_TESTS} itkQuadEdgeMeshTest3)
