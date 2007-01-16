@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQEPoint.txx
-// $Revision: 1.3 $
-// $Author: sylvain $
+// $Revision: 1.4 $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-15 19:41:10 $
+// $Date: 2007-01-16 17:44:37 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -57,7 +57,7 @@ template< class TCoordRep, unsigned int VPointDimension, typename QEType >
 // ---------------------------------------------------------------------
 template< class TCoordRep, unsigned int VPointDimension, typename QEType >
     Point< TCoordRep, VPointDimension, QEType >::
-    Point( const ValueType r[ Superclass::PointDimension ] )
+    Point( const ValueArrayType & r )
         : Superclass( r )
 {
     this->Initialise( );
@@ -102,7 +102,7 @@ template< class TCoordRep, unsigned int VPointDimension, typename QEType >
     typename Point< TCoordRep, VPointDimension, QEType >::
     Self&
     Point< TCoordRep, VPointDimension, QEType >::
-    operator=( const ValueType r[ Superclass::PointDimension ] )
+    operator=( const ValueArrayType & r )
 {
     this->Superclass::operator=( r );
     this->Initialise( );
@@ -144,8 +144,30 @@ template< class TCoordRep, unsigned int VPointDimension, typename QEType >
    return( this->GetEdge( )->GetOrder( ) );
 }
 
-} // fnamespace
+/** Set Edge
+ *  
+ */
+template< class TCoordRep, unsigned int VPointDimension, typename QEType >
+void
+Point< TCoordRep, VPointDimension, QEType >
+::SetEdge( QEType* in_Edge ) 
+{ 
+  m_Edge = in_Edge; 
+}
 
-#endif // __ITKQUADEDGEMESH__POINT__TXX__
+/** Get Edge
+ *  
+ */
+template< class TCoordRep, unsigned int VPointDimension, typename QEType >
+QEType* 
+Point< TCoordRep, VPointDimension, QEType >
+::GetEdge() const 
+{ 
+  return( m_Edge ); 
+}
+
+} 
+
+#endif 
 
 // eof - itkQEPoint.txx

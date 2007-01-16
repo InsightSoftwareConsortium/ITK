@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQEPoint.h
-// $Revision: 1.2 $
-// $Author: sylvain $
+// $Revision: 1.3 $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-15 19:41:07 $
+// $Date: 2007-01-16 17:44:37 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -35,7 +35,7 @@ template< class TCoordRep, unsigned int VPointDimension, typename QEType >
 class Point
     : public itk::Point< TCoordRep, VPointDimension >
 {
-    public:
+  public:
     /** Standard typedefs. */
     typedef Point                                    Self;
     typedef itk::Point< TCoordRep, VPointDimension > Superclass;
@@ -51,27 +51,31 @@ class Point
     typedef typename Superclass::ConstIterator ConstIterator;
     typedef typename Superclass::VectorType    VectorType;
 
-    public:
+    typedef ValueType ValueArrayType[ 
+      itkGetStaticConstMacro( PointDimension ) ];
+
+  public:
     Point( );
     Point( const Self& r );
-    Point( const ValueType r[ Superclass::PointDimension ] );
+    Point( const ValueArrayType & r );
     Point( const VectorType& vec );
     Self& operator=( const Self& r );
     Self& operator=( const Superclass& r );
-    Self& operator=( const ValueType r[ Superclass::PointDimension ] );
+    Self& operator=( const ValueArrayType & r );
     Self& operator=( const VectorType& vec );
 
     /** Accessor on \ref m_Edge */
-    void SetEdge( QEType* in_Edge ) { m_Edge = in_Edge; }
+    void SetEdge( QEType* in_Edge );
     /** Accessor on \ref m_Edge */
-    QEType* GetEdge( ) const { return( m_Edge ); }
+    QEType* GetEdge() const;
+
     bool IsInternal( );
     int GetValence( );
 
-    protected:
+  protected:
     void Initialise( );
 
-    protected:
+  protected:
     QEType* m_Edge; /// Entry edge for this point into an Onext ring
 };
 
