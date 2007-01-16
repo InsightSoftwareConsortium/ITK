@@ -28,6 +28,7 @@ void RegisterTests()
   REGISTER_TEST(itkTDistributionTest);
   REGISTER_TEST(itkFlatStructuringElementTest);
   REGISTER_TEST(itkLabelOverlayImageFilterTest);
+
   REGISTER_TEST(itkQuadEdgeMeshAddFaceTest1);
   REGISTER_TEST(itkQuadEdgeMeshAddFaceTest2);
   REGISTER_TEST(itkQuadEdgeMeshBasicLayerTest);
@@ -36,5 +37,16 @@ void RegisterTests()
   REGISTER_TEST(itkQuadEdgeMeshTest1);
   REGISTER_TEST(itkQuadEdgeMeshTest2);
   REGISTER_TEST(itkQuadEdgeMeshTest3);
+
   REGISTER_TEST(itkContourExtractor2DImageFilterTest);
+ 
+  REGISTER_TEST(itkSumProjectionImageFilterTest);
+  REGISTER_TEST(itkMaximumProjectionImageFilterTest);
+  REGISTER_TEST(itkMaximumProjectionImageFilterTest2);
+  REGISTER_TEST(itkMaximumProjectionImageFilterTest3);
+  REGISTER_TEST(itkMeanProjectionImageFilterTest);
+  REGISTER_TEST(itkMedianProjectionImageFilterTest);
+  REGISTER_TEST(itkMinimumProjectionImageFilterTest);
+  REGISTER_TEST(itkSigmaProjectionImageFilterTest);
+ 
 }

@@ -38,6 +38,14 @@ SET(ReviewTest_SRCS
   itkQuadEdgeMeshTest2.cxx
   itkQuadEdgeMeshTest3.cxx
   itkContourExtractor2DImageFilterTest.cxx
+  itkSumProjectionImageFilterTest.cxx
+  itkMaximumProjectionImageFilterTest.cxx
+  itkMaximumProjectionImageFilterTest2.cxx
+  itkMaximumProjectionImageFilterTest3.cxx
+  itkMeanProjectionImageFilterTest.cxx
+  itkMedianProjectionImageFilterTest.cxx
+  itkMinimumProjectionImageFilterTest.cxx
+  itkSigmaProjectionImageFilterTest.cxx  
 )
 
 ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS}
@@ -75,6 +83,13 @@ ENDFOREACH(opacity)
 ADD_TEST(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS}
                                   itkContourExtractor2DImageFilterTest
                                   ${INPUTDATA}/ContourExtractor2DTest.tif  )
+
+#ADD_TEST(itkMaximumProjectionImageFilterTest ${REVIEW_TESTS}
+#        --compare ${BASELINE}/EScellsMaximumProjection.tif
+#                  ${TEMP}/EScellsMaximumProjection.tif
+#                  itkMaximumProjectionImageFilterTest
+#                  ${INPUTDATA}/ESCells.hdr
+#                  ${TEMP}/EScellsMaximumProjecion.tif)
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest
