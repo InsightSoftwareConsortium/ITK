@@ -1,3 +1,4 @@
+
 #ifndef __itkBinaryProjectionImageFilter_h
 #define __itkBinaryProjectionImageFilter_h
 
@@ -8,7 +9,8 @@ namespace itk {
 /** \class BinaryProjectionImageFilter
  * \brief Binary projection
  *
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
+ * INRA de Jouy-en-Josas, France.
  *
  * \sa ProjectionImageFilter
  */
@@ -30,15 +32,21 @@ public:
   inline TInputPixel operator()( const TInputPixel &input )
     {
     if( input == m_ForegroundValue )
-      { m_IsForeground = true; }
+      {
+      m_IsForeground = true; 
+      }
     }
 
   inline TOutputPixel GetValue()
     {
     if( m_IsForeground )
-      { return (TOutputPixel)m_ForegroundValue; }
+      {
+      return (TOutputPixel)m_ForegroundValue; 
+      }
     else
-      { return m_BackgroundValue; }
+      {
+      return m_BackgroundValue; 
+      }
     }
 
   bool m_IsForeground;
@@ -52,12 +60,17 @@ public:
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT BinaryProjectionImageFilter :
-    public
-    ProjectionImageFilter<TInputImage, TOutputImage, Function::BinaryAccumulator< typename TInputImage::PixelType, typename TOutputImage::PixelType > >
+    public ProjectionImageFilter<TInputImage, TOutputImage, 
+      Function::BinaryAccumulator< 
+        typename TInputImage::PixelType, 
+        typename TOutputImage::PixelType > >
 {
 public:
   typedef BinaryProjectionImageFilter Self;
-  typedef ProjectionImageFilter<TInputImage, TOutputImage, Function::BinaryAccumulator< typename TInputImage::PixelType, typename TOutputImage::PixelType > > Superclass;
+  typedef ProjectionImageFilter<TInputImage, TOutputImage, 
+    Function::BinaryAccumulator< 
+      typename TInputImage::PixelType, 
+      typename TOutputImage::PixelType > > Superclass;
 
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
