@@ -488,16 +488,12 @@ ContourExtractor2DImageFilter<TInputImage>
       // store what we tried to request (prior to trying to crop)
       input->SetRequestedRegion( requestedRegion );
 
-// USE THIS CODE WHEN INTEGRATING INTO ITK CVS. DOES NOT BUILD AGAINST ITK 2.4.1
-//      // build an exception
-//      InvalidRequestedRegionError e(__FILE__, __LINE__);
-//      e.SetLocation(ITK_LOCATION);
-//      e.SetDescription("Requested region is outside the largest possible region.");
-//      e.SetDataObject(input);
-//      throw e;
-// TEMPORARY FIX FOR EARLIER ITK VERSION -- it would be better to set the data object of the
-// exception as above, and use the proper exception type.
-      itkExceptionMacro(<<"Requested region is outside the largest possible region.");
+      // build an exception
+      InvalidRequestedRegionError e(__FILE__, __LINE__);
+      e.SetLocation(ITK_LOCATION);
+      e.SetDescription("Requested region is outside the largest possible region.");
+      e.SetDataObject(input);
+      throw e;
       }
     
     }
@@ -521,12 +517,14 @@ ContourExtractor2DImageFilter<TInputImage>
   os << indent << "VertexConnectHighPixels: " << m_VertexConnectHighPixels << std::endl;
   os << indent << "UseCustomRegion: " << m_UseCustomRegion << std::endl;
   os << indent << "NumericTraits: " << m_UseCustomRegion << std::endl;
+  os << indent << "NumberOfContoursCreated: " << m_NumberOfContoursCreated << std::endl;
   if (m_UseCustomRegion)
     {
     os << indent << "Custom region: " << m_RequestedRegion << std::endl;
     }
   os << indent << "Contour value: " 
-     << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_ContourValue) << std::endl;
+     << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_ContourValue) 
+     << std::endl;
 }
   
 } // end namespace itk

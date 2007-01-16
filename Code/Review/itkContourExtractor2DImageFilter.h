@@ -29,24 +29,24 @@
 namespace itk
 {
 /** \class ContourExtractor2DImageFilter
-* \brief Computes a list of PolyLineParametricPath objects from the contours 
-*  in a 2D image.
+* \brief Computes a list of PolyLineParametricPath objects from the contours in
+* a 2D image.
 *
-* Uses the "marching squares" method to compute a the iso-valued contours of 
-* the input 2D image for a given intensity value. Multiple outputs may be 
+* Uses the "marching squares" method to compute a the iso-valued contours of
+* the input 2D image for a given intensity value. Multiple outputs may be
 * produced because an image can have multiple contours at a given level, so it
-* is advised to call GetNumberOfOutputs() and GetOutput(n) to retrieve all of 
-* the contours. The contour value to be extracted can be set with 
-* SetContourValue(). Image intensities will be linearly interpolated to 
-* provide sub-pixel resolution for the output contours.
+* is advised to call GetNumberOfOutputs() and GetOutput(n) to retrieve all of
+* the contours. The contour value to be extracted can be set with
+* SetContourValue(). Image intensities will be linearly interpolated to provide
+* sub-pixel resolution for the output contours.
 *
-* The marching squares algorithm is a special case of the marching cubes 
-* algorithm (Lorensen, William and Harvey E. Cline. Marching Cubes: A High 
-* Resolution 3D Surface Construction Algorithm. Computer Graphics (SIGGRAPH 87 
+* The marching squares algorithm is a special case of the marching cubes
+* algorithm (Lorensen, William and Harvey E. Cline. Marching Cubes: A High
+* Resolution 3D Surface Construction Algorithm. Computer Graphics (SIGGRAPH 87
 * Proceedings) 21(4) July 1987, p. 163-170). A simple explanation is available
 * here: http://www.essi.fr/~lingrand/MarchingCubes/algo.html
 *
-* There is a single ambiguous case in the marching squares algorithm: if a 
+* There is a single ambiguous case in the marching squares algorithm: if a
 * given 2x2-pixel square has two high-valued and two low-valued pixels, each
 * pair diagonally adjacent. (Where high- and low-valued is with respect to the
 * contour value sought.) In this case, either the high-valued pixels can be
@@ -54,13 +54,13 @@ namespace itk
 * contour are considered an object), or the low-valued pixels can be connected.
 * This is the "face connected" versus "face + vertex connected" (or 4- versus
 * 4-connected) distinction: high-valued pixels most be treated as one, and
-* low-valued as the other. By default, high-valued pixels are treated as 
-* "face-connected" and low-valued pixels are treated as "face + vertex" 
+* low-valued as the other. By default, high-valued pixels are treated as
+* "face-connected" and low-valued pixels are treated as "face + vertex"
 * connected. To reverse this, call VertexConnectHighPixelsOn();
 *
-* Outputs are not guaranteed to be closed paths: contours which intersect the 
-* image edge will be left open. All other paths will be closed. (The 
-* closed-ness of a path can be tested by checking whether the beginning point 
+* Outputs are not guaranteed to be closed paths: contours which intersect the
+* image edge will be left open. All other paths will be closed. (The
+* closed-ness of a path can be tested by checking whether the beginning point
 * is the same as the end point.)
 *
 * Produced paths are oriented. Following the path from beginning to end, image
@@ -69,9 +69,9 @@ namespace itk
 * words, the image gradient at a path segment is (approximately) in the direct
 * of that segment rotated right by 90 degrees, because the image intensity
 * values increase from left-to-right across the segment. This means that the
-* generated contours will circle clockwise around "hills" of 
+* generated contours will circle clockwise around "hills" of
 * above-contour-value intensity, and counter-clockwise around "depressions" of
-* below-contour-value intensity. This convention can be reversed by calling 
+* below-contour-value intensity. This convention can be reversed by calling
 * ReverseContourOrientationOn().
 *
 * By default the input image's largest possible region will be processed; call
@@ -204,7 +204,7 @@ private:
   //slower, or by storing additional data as to which pixel was first.
   class ContourType : public vcl_deque<VertexType>
     {
-      public:
+    public:
       unsigned int m_ContourNumber;
     };
   
@@ -224,17 +224,25 @@ private:
       // first by some number, so that identical (x,y) vertex indices 
       // don't all hash to the same bucket. This is a decent if not 
       // optimal hash. 
-      return this->float_hash(k[0] * 0xbeef) ^ this->float_hash(k[1]);
+      const size_t = hashVertex1 = this->float_hash(k[0] * 0xbeef);
+      const size_t = hashVertex2 = this->float_hash(k[1]);
+      const size_t hashValue = hashVertex1 ^ hashVertex2;
+      return hashValue;
       }
       
     // Define hash function for floats. Based on method from
     // http://www.brpreiss.com/books/opus4/html/page217.html
     inline size_t float_hash(const CoordinateType &k) const 
       {
-      if (k == 0) return 0;
+      if (k == 0) 
+        {
+        return 0;
+        }
       int exponent;
       CoordinateType mantissa = vcl_frexp(k, &exponent);
-      return (2 * static_cast<size_t>(vcl_fabs(mantissa)) - 1) * ~0U;
+      size_t value = static_cast<size_t>(vcl_fabs(mantissa));
+      value = ( 2 * value - 1 ) * ~0U;
+      return value;
       }
     };
   
@@ -260,9 +268,6 @@ private:
   // And indexed by their beginning and ending points here
   VertexToContourMap                                      m_ContourStarts;
   VertexToContourMap                                      m_ContourEnds;
-  
-  
-  
 
 };
   
