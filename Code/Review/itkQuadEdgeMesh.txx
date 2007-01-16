@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------------
 // itkQuadEdgeMesh.txx
-// $Revision: 1.3 $
+// $Revision: 1.4 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-16 15:22:02 $
+// $Date: 2007-01-16 16:01:26 $
 // ------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -911,7 +911,7 @@ FindEdge( const PointIdentifier& pid0,
 //////////////////////////////////////////////////////////////////////////
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
-QuadEdgeMesh< TPixel, VDimension, TTraits >::AddFace( PointIdList& points )
+QuadEdgeMesh< TPixel, VDimension, TTraits >::AddFace( const PointIdList& points )
 {
   // Check that there are no duplicate points
   for(unsigned int i=0; i < points.size(); i++)
@@ -1021,37 +1021,6 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
   this->Superclass::SetCell( fid, face );
 }
 
-/*
-template< typename TPixel, unsigned int VDimension, typename TTraits >
-  typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
-  QuadEdgeMesh< TPixel, VDimension, TTraits >::
-  AddFace( unsigned int nPoints,
-           const PointIdentifier& p1,
-           const PointIdentifier& p2,
-           const PointIdentifier& p3, ... )
-{
-
-// Capture point list
-PointIdList points;
-
-va_list argList;
-va_start( argList, p3 );
-
-points.push_back( p1 );
-points.push_back( p2 );
-points.push_back( p3 );
-
-for(unsigned int i=3; i < nPoints; i++)
-  {
-  PointIdentifier pid = va_arg( argList, PointIdentifier );
-  points.push_back( pid );
-  }
-
-va_end( argList );
-
-return this->AddFace( points );
-}
-*/
 /**
 * Add a triangle face to this QuadEdgeMesh.
 * @param aPid \ref PointIdentifier of first point

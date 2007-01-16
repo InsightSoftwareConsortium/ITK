@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMesh.h
-// $Revision: 1.3 $
-// $Author: sylvain $
+// $Revision: 1.4 $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-15 20:56:07 $
+// $Date: 2007-01-16 16:01:26 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -272,13 +272,12 @@ public:
   virtual PointIdentifier AddPoint( const PointType& p );
   virtual QEPrimal* AddEdge( const PointIdentifier& orgPid,
                              const PointIdentifier& destPid );
+
+  /** Add a polygonal face to the Mesh */                             
   virtual void      AddFace( QEPrimal* e );
-  virtual QEPrimal* AddFace( PointIdList& points );
-  //REMOVEME: this method has a major bug
-  //virtual QEPrimal* AddFace( unsigned int nPoints,
-    //                         const PointIdentifier& p1,
-      //                       const PointIdentifier& p2,
-        //                     const PointIdentifier& p3, ... );
+  virtual QEPrimal* AddFace( const PointIdList& points );
+
+  /** Adds a triangular face to the Mesh */
   virtual QEPrimal* AddFaceTriangle( const PointIdentifier& aPid,
                                      const PointIdentifier& bPid,
                                      const PointIdentifier& cPid );
