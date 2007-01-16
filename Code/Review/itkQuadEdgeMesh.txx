@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------------
 // itkQuadEdgeMesh.txx
-// $Revision: 1.4 $
+// $Revision: 1.5 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-16 16:01:26 $
+// $Date: 2007-01-16 17:19:44 $
 // ------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -311,22 +311,21 @@ Splice( QEPrimal* a, QEPrimal* b )
 */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 bool QuadEdgeMesh< TPixel, VDimension, TTraits >::
-FindClosestPoint( CoordRepType coords[ PointDimension ],
-    PointIdentifier* pointId ) const
+FindClosestPoint( const CoordRepArrayType coords, PointIdentifier & pointId ) const
 {
   VectorType vP;
   vP.Get_vnl_vector().copy_in( coords );
   PointsContainerConstIterator pit = this->GetPoints()->Begin();
-  *pointId = pit.Index();
+  pointId = pit.Index();
 
   for( ; pit != this->GetPoints()->End(); pit++ )
     {
     VectorType v0 = pit.Value().GetVectorFromOrigin();
-    VectorType v1 = this->GetVector( *pointId );
+    VectorType v1 = this->GetVector( pointId );
 
     if( ( v0 - vP ).GetNorm() < ( v1 - vP ).GetNorm() )
       {
-      *pointId = pit.Index();
+      pointId = pit.Index();
       }
     }
 

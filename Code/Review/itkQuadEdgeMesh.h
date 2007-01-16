@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMesh.h
-// $Revision: 1.4 $
+// $Revision: 1.5 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-16 16:01:26 $
+// $Date: 2007-01-16 17:19:44 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -118,7 +118,7 @@ class QuadEdgeMesh
 
   /** Standard typedefs. */
   typedef QuadEdgeMesh                            Self;
-  typedef Mesh< TPixel, VDimension, Traits > Superclass;
+  typedef Mesh< TPixel, VDimension, Traits >      Superclass;
   typedef itk::SmartPointer< Self >               Pointer;
   typedef itk::SmartPointer< const Self >         ConstPointer;
 
@@ -140,6 +140,8 @@ class QuadEdgeMesh
   typedef typename Superclass::PointsContainerPointer PointsContainerPointer;
   typedef typename Superclass::PointLocatorPointer    PointLocatorPointer;
   typedef typename Superclass::PointLocatorType       PointLocatorType;
+  typedef CoordRepType  CoordRepArrayType[ 
+                              itkGetStaticConstMacro( PointDimension ) ];
 
   // Point data section:
   typedef typename Superclass::PointDataContainer     PointDataContainer;
@@ -224,9 +226,10 @@ class QuadEdgeMesh
   typedef std::list< QEPrimal* > EdgeListType;
   typedef EdgeListType* EdgeListPointerType;
 
-  /// Reserved PointIdentifier designated to represent the absence of Point
+  /** Reserved PointIdentifier designated to represent the absence of Point */
   static const PointIdentifier NOPOINT;
-  /// Reserved CellIdentifier designated to represent the absence of Face
+
+  /** Reserved CellIdentifier designated to represent the absence of Face */
   static const CellIdentifier NOFACE;
 
 public:
@@ -254,11 +257,12 @@ public:
    * http://public.kitware.com/pipermail/insight-users/2005-April/012613.html
    */
   virtual void CopyInformation( const itk::DataObject* data ) { (void)data; }
+
   /// One of the reasons of itkQE is precisely to avoid updating connexions.
   void BuildCellLinks() { }
 
-  virtual bool FindClosestPoint( CoordRepType coords[ PointDimension ],
-                                 PointIdentifier* pointId ) const;
+  virtual bool FindClosestPoint( const CoordRepArrayType coords,
+                                 PointIdentifier & pointId ) const;
 
   /** Overloaded methods for itk-syntax compatilibity. */
   void SetCell( CellIdentifier cId, CellAutoPointer& cell );
