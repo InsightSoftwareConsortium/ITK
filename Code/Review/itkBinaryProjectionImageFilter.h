@@ -44,7 +44,7 @@ public:
     m_IsForeground = false;
     }
 
-  inline TInputPixel operator()( const TInputPixel &input )
+  inline void operator()( const TInputPixel &input )
     {
     if( input == m_ForegroundValue )
       {
