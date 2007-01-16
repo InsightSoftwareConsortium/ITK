@@ -42,6 +42,14 @@
 #include "itkProbabilityDistribution.h"
 #include "itkProjectionImageFilter.h"
 
+#include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
+#include "itkQuadEdgeMeshFrontIterator.h"
+#include "itkQuadEdgeMeshBaseIterator.h"
+#include "itkQuadEdgeMeshTopologyChecker.h"
+#include "itkQuadEdgeMeshTraits.h"
+#include "itkQuadEdgeMesh.h"
+#include "itkQuadEdge.h"
+
 int main ( int , char*  )
 {
   
