@@ -20,7 +20,7 @@
 #define __itkLabelToRGBImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
-#include "itkLabelRGBFunctor.h"
+#include "itkLabelToRGBFunctor.h"
 
 namespace itk
 {
