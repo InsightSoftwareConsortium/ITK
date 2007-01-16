@@ -224,8 +224,8 @@ private:
       // first by some number, so that identical (x,y) vertex indices 
       // don't all hash to the same bucket. This is a decent if not 
       // optimal hash. 
-      const size_t = hashVertex1 = this->float_hash(k[0] * 0xbeef);
-      const size_t = hashVertex2 = this->float_hash(k[1]);
+      const size_t hashVertex1 = this->float_hash(k[0] * 0xbeef);
+      const size_t hashVertex2 = this->float_hash(k[1]);
       const size_t hashValue = hashVertex1 ^ hashVertex2;
       return hashValue;
       }
