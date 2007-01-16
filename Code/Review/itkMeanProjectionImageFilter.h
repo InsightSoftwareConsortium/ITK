@@ -1,3 +1,20 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkMeanProjectionImageFilter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
 #ifndef __itkMeanProjectionImageFilter_h
 #define __itkMeanProjectionImageFilter_h
 
@@ -48,7 +65,7 @@ public:
 } // end namespace Function
 
 
-template <class TInputImage, class TOutputImage, class TAccumulate=typename NumericTraits< typename TOutputImage::PixelType >::AccumulateType >
+template <class TInputImage, class TOutputImage, class TAccumulate= ITK_TYPENAME NumericTraits< ITK_TYPENAME TOutputImage::PixelType >::AccumulateType >
 class ITK_EXPORT MeanProjectionImageFilter :
     public
     ProjectionImageFilter<TInputImage, TOutputImage,

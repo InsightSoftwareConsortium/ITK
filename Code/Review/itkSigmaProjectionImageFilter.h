@@ -63,11 +63,11 @@ public:
 } // end namespace Function
 
 
-template <class TInputImage, class TOutputImage, class TAccumulate=typename NumericTraits< typename TOutputImage::PixelType >::AccumulateType >
+template <class TInputImage, class TOutputImage, class TAccumulate= ITK_TYPENAME NumericTraits< ITK_TYPENAME TOutputImage::PixelType >::AccumulateType >
 class ITK_EXPORT SigmaProjectionImageFilter :
     public
     ProjectionImageFilter<TInputImage, TOutputImage,
-      Function::SigmaAccumulator< typename TInputImage::PixelType, TAccumulate > >
+      Function::SigmaAccumulator< ITK_TYPENAME TInputImage::PixelType, TAccumulate > >
 {
 public:
   typedef SigmaProjectionImageFilter Self;
