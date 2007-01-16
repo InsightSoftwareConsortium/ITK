@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkGeometricalQuadEdge.txx
-// $Revision: 1.2 $
+// $Revision: 1.3 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-14 15:49:44 $
+// $Date: 2007-01-16 22:30:06 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -143,16 +143,18 @@ template< typename TVRef, typename TFRef,
  */
 template< typename TVRef, typename TFRef,
           typename TPRef, typename TDRef, bool PrimalDual >
-    bool GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
-    IsOrgInternal( )
+bool 
+GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >
+::IsOrgInternal() const
 {
-  bool ret = true;
-  IteratorGeom it = this->BeginGeomOnext( );
-  for( ; it != this->EndGeomOnext( ); it++ )
+  bool internal = true;
+  ConstIteratorGeom it = this->BeginGeomOnext();
+  while( it != this->EndGeomOnext() )
     {
-    ret &= ( it.Value( )->IsInternal( ) );
+    internal &= ( it.Value()->IsInternal() );
+    ++it;
     }
-  return( ret );
+  return  internal;
 }
 
 /**

@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
-// itkQEPoint.h
-// $Revision: 1.3 $
+// itkQuadEdgeMeshPoint.h
+// $Revision: 1.1 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-16 17:44:37 $
+// $Date: 2007-01-16 22:30:06 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -20,25 +20,25 @@
 // - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
 // -------------------------------------------------------------------------
 
-#ifndef __ITKQUADEDGEMESH__POINT__H__
-#define __ITKQUADEDGEMESH__POINT__H__
+#ifndef __itkQuadEdgeMeshPoint_h
+#define __itkQuadEdgeMeshPoint_h
 
-#include <itkPoint.h>
+#include "itkPoint.h"
+#include "itkConceptChecking.h"
 
-namespace itkQE
+namespace itk
 {
 /**
  * Wrapper around a itk::Point in order to add a reference
  * to an entry in the edge ring.
  */
-template< class TCoordRep, unsigned int VPointDimension, typename QEType >
-class Point
-    : public itk::Point< TCoordRep, VPointDimension >
+template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+class QuadEdgeMeshPoint : public Point< TCoordRep, VPointDimension >
 {
   public:
     /** Standard typedefs. */
-    typedef Point                                    Self;
-    typedef itk::Point< TCoordRep, VPointDimension > Superclass;
+    typedef QuadEdgeMeshPoint                         Self;
+    typedef Point< TCoordRep, VPointDimension >       Superclass;
 
     /** Types & values defined in superclass. */
     itkStaticConstMacro( PointDimension, unsigned int,
@@ -54,35 +54,48 @@ class Point
     typedef ValueType ValueArrayType[ 
       itkGetStaticConstMacro( PointDimension ) ];
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+/** Begin concept checking */
+itkConceptMacro(DimensionShouldBe3,
+  (Concept::SameDimension<itkGetStaticConstMacro(PointDimension),3>));
+/** End concept checking */
+#endif
+
   public:
-    Point( );
-    Point( const Self& r );
-    Point( const ValueArrayType & r );
-    Point( const VectorType& vec );
-    Self& operator=( const Self& r );
-    Self& operator=( const Superclass& r );
-    Self& operator=( const ValueArrayType & r );
-    Self& operator=( const VectorType& vec );
+    QuadEdgeMeshPoint();
+    QuadEdgeMeshPoint( const Self & r );
+    QuadEdgeMeshPoint( const ValueArrayType & r );
+// FIXME: It shouldn't be here:    QuadEdgeMeshPoint( const VectorType & vec );
+    Self & operator=( const Self & r );
+    Self & operator=( const Superclass & r );
+    Self & operator=( const ValueArrayType & r );
+// FIXME: It shouldn't be here:    Self & operator=( const VectorType & vec );
 
     /** Accessor on \ref m_Edge */
-    void SetEdge( QEType* in_Edge );
+    void SetEdge( const TQuadEdge * inputEdge );
+
     /** Accessor on \ref m_Edge */
-    QEType* GetEdge() const;
+    const TQuadEdge * GetEdge();
+    const TQuadEdge * GetEdge() const;
 
-    bool IsInternal( );
-    int GetValence( );
+    /** FIXME Documentation missing */
+    bool IsInternal() const;
+
+    /** FIXME Documentation missing */
+    int GetValence() const;
 
   protected:
-    void Initialise( );
+    void Initialize();
 
   protected:
-    QEType* m_Edge; /// Entry edge for this point into an Onext ring
+    const TQuadEdge * m_Edge; /// Entry edge for this point into an Onext ring
 };
 
-} // fnamespace
+} // end namespace itk
 
-#include "itkQEPoint.txx"
+#if ITK_TEMPLATE_TXX
+#include "itkQuadEdgeMeshPoint.txx"
+#endif
 
-#endif // __ITKQUADEDGEMESH__POINT__H__
+#endif 
 
-// eof - itkQEPoint.h

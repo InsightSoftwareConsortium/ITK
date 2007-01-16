@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshTraits.h
-// $Revision: 1.1 $
+// $Revision: 1.2 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-13 12:42:15 $
+// $Date: 2007-01-16 22:30:06 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -26,7 +26,7 @@
 #include <set>
 #include <itkCellInterface.h>
 #include <itkMapContainer.h>
-#include "itkQEPoint.h"
+#include "itkQuadEdgeMeshPoint.h"
 #include "itkGeometricalQuadEdge.h"
 
 namespace itk
@@ -96,7 +96,7 @@ class QuadEdgeMeshTraits
     typedef typename QEPrimal::DualOrgRefType FaceRefType;
 
     /** Points have an entry in the Onext ring */
-    typedef ::itkQE::Point< CoordRepType, VPointDimension, QEPrimal >  PointType;
+    typedef QuadEdgeMeshPoint< CoordRepType, VPointDimension, QEPrimal >  PointType;
     typedef itk::MapContainer< PointIdentifier, PointType >   PointsContainer;
 
     /** Standard itk cell interface. */

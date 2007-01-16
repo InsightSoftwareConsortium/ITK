@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------------
 // itkQuadEdgeMesh.txx
-// $Revision: 1.7 $
+// $Revision: 1.8 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-16 18:07:58 $
+// $Date: 2007-01-16 22:30:06 $
 // ------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -877,7 +877,9 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >::
 FindEdge( const PointIdentifier& pid0 ) const
 {
   PointType p = this->GetPoint( pid0 );
-  return dynamic_cast< QEPrimal* >( p.GetEdge() );
+  const QEPrimal * edge =
+    dynamic_cast< const QEPrimal* >( p.GetEdge() );
+  return const_cast< QEPrimal * >( edge ); 
 }
 
 /**
@@ -886,24 +888,29 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >::
 FindEdge( const PointIdentifier& pid0,
-    const PointIdentifier& pid1 ) const
+          const PointIdentifier& pid1 ) const
 {
-  QEPrimal* e = this->FindEdge( pid0 );
+  QEPrimal * initialEdge = this->FindEdge( pid0 );
 
-  if( e )
+  QEPrimal * edgeFound = static_cast< QEPrimal * >(NULL);
+
+  if( initialEdge )
     {
-    QEPrimal* d = (QEPrimal*)0;
-    typename QEPrimal::IteratorGeom it = e->BeginGeomOnext();
+    typename QEPrimal::IteratorGeom it = initialEdge->BeginGeomOnext();
 
-    for( ; it != e->EndGeomOnext(); it++ )
-        d = it.Value()->GetDest() == pid1 ?
-            dynamic_cast< QEPrimal* >( it.Value() ) : d;
+    while( it != initialEdge->EndGeomOnext() )
       {
-      e = d;
+      if(  it.Value()->GetDest() == pid1 )
+        {
+        edgeFound = dynamic_cast< QEPrimal* >( it.Value() );
+        break;
+        }
+      ++it;
       }
+    
     }
 
-  return e;
+  return edgeFound;
 }
 
 //////////////////////////////////////////////////////////////////////////

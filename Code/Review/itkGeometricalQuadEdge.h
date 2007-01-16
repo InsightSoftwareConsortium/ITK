@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkGeometricalQuadEdge.h
-// $Revision: 1.1 $
+// $Revision: 1.2 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-13 12:42:15 $
+// $Date: 2007-01-16 22:30:06 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -138,10 +138,10 @@ public:
   DualOrgRefType GetLeft( )  { return( this->GetInvRot( )->GetOrg( ) ); }
 
   /** Boolean accessors. */
-  bool IsOrgSet( )   { return( m_Org != NOPOINT ); }
-  bool IsDestSet( )  { return( this->GetSym( )->IsOrgSet( ) ); }
-  bool IsRightSet( ) { return( this->GetRot( )->IsOrgSet( ) ); }
-  bool IsLeftSet( )  { return( this->GetInvRot( )->IsOrgSet( ) ); }
+  bool IsOrgSet( ) const  { return( m_Org != NOPOINT ); }
+  bool IsDestSet( ) const { return( this->GetSym( )->IsOrgSet( ) ); }
+  bool IsRightSet( ) const { return( this->GetRot( )->IsOrgSet( ) ); }
+  bool IsLeftSet() const { return( this->GetInvRot( )->IsOrgSet( ) ); }
 
   /** Extra data set methods. */
   void SetPrimalData( const PrimalDataType data )
@@ -187,10 +187,10 @@ public:
    * @return Returns true when "this" has faces set on both sides.
    *         Return false otherwise.
    */
-  bool IsInternal( )
-     { return( this->IsLeftSet( ) && this->IsRightSet( ) ); }
+  bool IsInternal() const
+     { return( this->IsLeftSet() && this->IsRightSet() ); }
 
-  bool IsOrgInternal( );
+  bool IsOrgInternal() const;
   bool IsLnextSharingSameFace( int maxSize = 100 );
   bool IsLnextOfTriangle( );
   bool IsInOnextRing( Self* );

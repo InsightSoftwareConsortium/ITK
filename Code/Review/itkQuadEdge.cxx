@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.cxx
-// $Revision: 1.1 $
+// $Revision: 1.2 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-13 12:42:15 $
+// $Date: 2007-01-16 22:30:06 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -47,12 +47,12 @@ QuadEdge( ) : m_Onext( 0 ), m_Rot( 0 )
  */
 void QuadEdge::Splice( Self* b )
 {
-  Self* aNext     = this->GetOnext( );
-  Self* bNext     = b->GetOnext( );
-  Self* alpha     = aNext->GetRot( );
-  Self* beta      = bNext->GetRot( );
-  Self* alphaNext = alpha->GetOnext( );
-  Self* betaNext  = beta->GetOnext( );
+  Self* aNext     = this->GetOnext();
+  Self* bNext     = b->GetOnext();
+  Self* alpha     = aNext->GetRot();
+  Self* beta      = bNext->GetRot();
+  Self* alphaNext = alpha->GetOnext();
+  Self* betaNext  = beta->GetOnext();
 
   this->SetOnext( bNext );
   b->SetOnext( aNext );
@@ -62,9 +62,9 @@ void QuadEdge::Splice( Self* b )
 
 // ---------------------------------------------------------------------
 bool QuadEdge::
-    IsEdgeInOnextRing( Self* testEdge )
+    IsEdgeInOnextRing( Self* testEdge ) const
 {
-  Iterator it = this->BeginOnext( ); 
+  ConstIterator it = this->BeginOnext( ); 
   for( ; it != this->EndOnext( ); it++ )
     {
     if( this == testEdge )
@@ -76,13 +76,14 @@ bool QuadEdge::
 }
 
 // ---------------------------------------------------------------------
-bool QuadEdge::
-    IsLnextGivenSizeCyclic( const int size )
+bool 
+QuadEdge
+::IsLnextGivenSizeCyclic( const int size ) const
 {
   // Verify that when iterating size times with Lnext()
   // we end up on "this": this would prove that the size of Lnext()
   // ring is the given argument.
-  Self* iterated = this;
+  const Self* iterated = this;
 
   for( int i = 0; i < size; i++ )
     {
