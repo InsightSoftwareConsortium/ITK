@@ -28,6 +28,27 @@
 namespace itk
 {
 
+// Constructor
+template< class TInputImage>
+ContourExtractor2DImageFilter< TInputImage>
+::ContourExtractor2DImageFilter()
+{
+  this->m_ContourValue = NumericTraits<InputRealType>::Zero; 
+  this->m_ReverseContourOrientation = false;
+  this->m_VertexConnectHighPixels = false;
+  this->m_UseCustomRegion = false;
+  this->m_NumberOfContoursCreated = 0;
+}
+ 
+
+// Destructor
+template< class TInputImage>
+ContourExtractor2DImageFilter< TInputImage>
+::~ContourExtractor2DImageFilter()
+{
+}
+
+
 template< class TInputImage>
 void
 ContourExtractor2DImageFilter< TInputImage>
@@ -499,6 +520,7 @@ ContourExtractor2DImageFilter<TInputImage>
      << std::endl;
   os << indent << "VertexConnectHighPixels: " << m_VertexConnectHighPixels << std::endl;
   os << indent << "UseCustomRegion: " << m_UseCustomRegion << std::endl;
+  os << indent << "NumericTraits: " << m_UseCustomRegion << std::endl;
   if (m_UseCustomRegion)
     {
     os << indent << "Custom region: " << m_RequestedRegion << std::endl;

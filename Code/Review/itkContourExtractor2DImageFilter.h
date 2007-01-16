@@ -21,6 +21,7 @@
 #include "itkImageToPathFilter.h"
 #include "itkNumericTraits.h"
 #include "itkPolyLineParametricPath.h"
+#include "itkConceptChecking.h"
 #include "itk_hash_map.h"
 #include "vcl_deque.h"
 #include "vcl_list.h"
@@ -147,16 +148,18 @@ public:
   void SetRequestedRegion(const InputRegionType region);
   itkGetConstReferenceMacro(RequestedRegion, InputRegionType);
   void ClearRequestedRegion();
-  
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(DimensionShouldBe2,
+    (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),2>));
+  /** End concept checking */
+#endif
+ 
 protected:
-  ContourExtractor2DImageFilter() : 
-    m_ContourValue(NumericTraits<InputRealType>::Zero), 
-    m_ReverseContourOrientation(false),
-    m_VertexConnectHighPixels(false), 
-    m_UseCustomRegion(false),
-    m_NumberOfContoursCreated(0) {}
-  
-  virtual ~ContourExtractor2DImageFilter() {}
+
+  ContourExtractor2DImageFilter(); 
+  virtual ~ContourExtractor2DImageFilter();
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   void GenerateData();
