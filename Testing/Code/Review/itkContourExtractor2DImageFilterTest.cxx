@@ -21,34 +21,32 @@
 #include <cmath>
 
 const unsigned int Dimension = 2;
-typedef unsigned char PixelType;
-typedef itk::Image<PixelType, Dimension>  ImageType;
-typedef itk::ImageFileReader<ImageType> ReaderType;
-typedef itk::ContourExtractor2DImageFilter<ImageType> ExtractorType;
-typedef ExtractorType::VertexType VertexType;
-typedef std::pair<double, double> MyVertexType;
-typedef std::vector<MyVertexType> MyVertexListType;
-typedef std::vector<MyVertexListType> MyVertexListList;
+typedef unsigned char                                   PixelType;
+typedef itk::Image<PixelType, Dimension>                ImageType;
+typedef itk::ImageFileReader<ImageType>                 ReaderType;
+typedef itk::ContourExtractor2DImageFilter<ImageType>   ExtractorType;
+typedef ExtractorType::VertexType                       VertexType;
+typedef std::pair<double, double>                       MyVertexType;
+typedef std::vector<MyVertexType>                       MyVertexListType;
+typedef std::vector<MyVertexListType>                   MyVertexListList;
 const float FLOAT_EPSILON = 0.0001;
 
 #include "PrecomputedContourData.h"
 
-bool HasCorrectOutput(ExtractorType::Pointer extractor, MyVertexListList& correct)
+bool HasCorrectOutput(ExtractorType::Pointer extractor, 
+                      MyVertexListList& correct)
 {
   if (extractor->GetNumberOfOutputs() != correct.size()) return false;
-  //std::cout << "  Correct number of paths found." << std::endl;
   for(unsigned int i = 0; i < correct.size(); i++)
     {
-    //std::cout << "  Path " << i << std::endl;
-    ExtractorType::VertexListConstPointer vertices = extractor->GetOutput(i)->GetVertexList();
+    ExtractorType::VertexListConstPointer vertices = 
+                extractor->GetOutput(i)->GetVertexList();
     MyVertexListType& correctVertices = correct[i];
     if (vertices->Size() != correctVertices.size()) return false;
-    //std::cout << "  ... has correct number of vertices." << std::endl;
     for(unsigned int j = 0; j < correctVertices.size(); j++)
       {
       const MyVertexType& correctVertex = correctVertices[j];
       const VertexType& vertex = vertices->ElementAt(j);
-      //std::cout << "    "  << correctVertex.first << " , " << correctVertex.second <<" <-> "<<vertex[0] <<" , "<<vertex[1]<<std::endl;
       if (fabs(correctVertex.first - vertex[0]) > FLOAT_EPSILON ||
           fabs(correctVertex.second - vertex[1]) > FLOAT_EPSILON) return false;
       }
@@ -88,7 +86,8 @@ int itkContourExtractor2DImageFilterTest(int argc, char *argv[])
     extractor->ReverseContourOrientationOn();
     extractor->Update();
     std::cout << "Test 2... ";
-    if (!HasCorrectOutput(extractor, expected_disconnected_counterclockwise_outputs))
+    if (!HasCorrectOutput(extractor, 
+            expected_disconnected_counterclockwise_outputs))
       {
       testsPassed = false;
       std::cout << "failed." << std::endl;
@@ -109,7 +108,8 @@ int itkContourExtractor2DImageFilterTest(int argc, char *argv[])
     extractor->VertexConnectHighPixelsOff();
     extractor->ReverseContourOrientationOff();
     // Move the region to evaluate in by one on the top and bottom
-    ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
+    ImageType::RegionType region = 
+                        reader->GetOutput()->GetLargestPossibleRegion();
     ImageType::IndexType index = region.GetIndex();
     ImageType::SizeType size = region.GetSize();
     index[1] += 1;
@@ -117,18 +117,19 @@ int itkContourExtractor2DImageFilterTest(int argc, char *argv[])
     extractor->SetRequestedRegion(ImageType::RegionType(index, size));
     extractor->Update();
     std::cout << "Test 4... ";
-   if (!HasCorrectOutput(extractor, expected_disconnected_clockwise_cropped_outputs))
+    if (!HasCorrectOutput(extractor, 
+          expected_disconnected_clockwise_cropped_outputs))
       {
       testsPassed = false;
       std::cout << "failed." << std::endl;
       }
     else std::cout << "passed." << std::endl;
 
-  } catch( itk::ExceptionObject & err ) { 
+    } catch( itk::ExceptionObject & err ) { 
     std::cout << "ExceptionObject caught !" << std::endl; 
     std::cout << err << std::endl; 
     return -1;
-  }
+    }
   if (testsPassed)
     {
     std::cout << "All tests passed." << std::endl;

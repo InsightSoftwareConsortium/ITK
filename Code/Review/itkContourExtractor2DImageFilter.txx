@@ -43,9 +43,10 @@ ContourExtractor2DImageFilter< TInputImage>
   // Set up an iterator to "march the squares" across the image.
   // We associate each 2px-by-2px square with the pixel in the upper left of
   // that square. We then iterate across the image, examining these 2x2 squares
-  // and building the contour. By iterating the upper-left pixel of our "current
-  // square" across every pixel in the image except those on the bottom row and 
-  // rightmost column, we have visited every valid square in the image.
+  // and building the contour. By iterating the upper-left pixel of our 
+  // "current square" across every pixel in the image except those on the 
+  // bottom row and rightmost column, we have visited every valid square in the
+  // image.
   
   InputRegionType region = this->GetInput()->GetRequestedRegion();
   typename InputRegionType::SizeType shrunkSize = region.GetSize();
@@ -60,10 +61,10 @@ ContourExtractor2DImageFilter< TInputImage>
   // 0 1 2
   // 3 4 5
   // 6 7 8
-  // We are interested only in the square of 4,5,7,8 which is the 2x2 square with
-  // the center pixel at the top-left. So we only activate the coresponding
-  // offsets, and only query pixels 4, 5, 7, and 8 with the iterator's GetPixel
-  // method.
+  // We are interested only in the square of 4,5,7,8 which is the 2x2 square 
+  // with the center pixel at the top-left. So we only activate the 
+  // coresponding offsets, and only query pixels 4, 5, 7, and 8 with the 
+  // iterator's GetPixel method.
   typedef ConstShapedNeighborhoodIterator<InputImageType> SquareIterator;
   typename SquareIterator::RadiusType radius = {{1,1}};
   SquareIterator it(radius, this->GetInput(), shrunkRegion);
@@ -94,17 +95,17 @@ ContourExtractor2DImageFilter< TInputImage>
     //
     // The position of the line segment that cuts through (or doesn't, in case
     // 0 and 15) each square is clear, except in cases  6 and 9. In this case, 
-    // where the segments are placed is determined by m_VertexConnectHighPixels.
-    // If m_VertexConnectHighPixels is false, then lines like \\ are drawn 
-    // through square 6, and lines like // are drawn through square 9. Otherwise,
-    // the situation is reversed.
-    // Finally, recall that we draw the lines so that (moving from tail to head)
-    // the lower-valued pixels are on the left of the line. So, for example,
-    // case 1 entails a line slanting from the middle of the top of the square
-    // to the middle of the left side of the square.
+    // where the segments are placed is determined by 
+    // m_VertexConnectHighPixels. If m_VertexConnectHighPixels is false, then
+    // lines like are drawn through square 6, and lines like are drawn through
+    // square 9. Otherwise, the situation is reversed.
+    // Finally, recall that we draw the lines so that (moving from tail to 
+    // head) the lower-valued pixels are on the left of the line. So, for 
+    // example, case 1 entails a line slanting from the middle of the top of 
+    // the square to the middle of the left side of the square.
     
-    // (1) Determine what number square we are currently inspecting. Remember that
-    // as far as the neighborhood iterator is concerned, our square
+    // (1) Determine what number square we are currently inspecting. Remember 
+    // that as far as the neighborhood iterator is concerned, our square
     // 01    is numbered as    45
     // 23                      78
 
@@ -122,11 +123,11 @@ ContourExtractor2DImageFilter< TInputImage>
 
 // Set up macros to find the ContinuousIndex where the contour intersects one
 // of the sides of the square.
-// Normally macros should, of course, be eschewed, but since this is an inner loop
-// not calling the function four times when two would do is probably worth while.
-// Plus, copy-pasting these into the switch below is even worse.
-// InterpolateContourPosition takes the values at two vertices, the index of the
-// first vertex, and the offset between the two vertices.
+// Normally macros should, of course, be eschewed, but since this is an inner
+// loop not calling the function four times when two would do is probably 
+// worth while. Plus, copy-pasting these into the switch below is even worse.
+// InterpolateContourPosition takes the values at two vertices, the index of 
+// the first vertex, and the offset between the two vertices.
 #define TOP     this->InterpolateContourPosition(v0, v1, index,         right)
 #define BOTTOM  this->InterpolateContourPosition(v2, v3, index + down,  right)
 #define LEFT    this->InterpolateContourPosition(v0, v2, index,         down)
@@ -292,10 +293,12 @@ ContourExtractor2DImageFilter<TInputImage>
         // tail from everything.
         head->insert(head->end(), tail->begin(), tail->end());
         
-        // Now remove 'tail' from the list and the maps because it has been subsumed.
+        // Now remove 'tail' from the list and the maps because it has been 
+        // subsumed.
         m_ContourStarts.erase(newTail); 
         int erased = m_ContourEnds.erase(tail->back());
-        assert(erased == 1); // There should be exactly one entry in the hash for that endpoint
+        assert(erased == 1); // There should be exactly one entry in the hash for that 
+                             // endpoint
         m_Contours.erase(tail); // remove from the master list
         
         // Now remove the old end of 'head' from the ends map and add the new end.
@@ -311,7 +314,8 @@ ContourExtractor2DImageFilter<TInputImage>
         // Now remove 'head' from the list and the maps because it has been subsumed.
         m_ContourEnds.erase(newHead); 
         int erased = m_ContourStarts.erase(head->front());
-        assert(erased == 1); // There should be exactly one entry in the hash for that endpoint
+        assert(erased == 1); // There should be exactly one entry in the hash
+                             // for that endpoint
         m_Contours.erase(head); // remove from the master list
         
         // Now remove the old start of 'tail' from the starts map and add the new start.
@@ -330,7 +334,8 @@ ContourExtractor2DImageFilter<TInputImage>
     contour.m_ContourNumber = m_NumberOfContoursCreated++;
     // Add the contour to the end of the list and get a reference to it.
     m_Contours.push_back(contour);
-    ContourRef newContour = --m_Contours.end(); // recall that end() is an iterator to one past the back!
+    ContourRef newContour = --m_Contours.end(); // recall that end() is an 
+                                                // iterator to one past the back!
     // add the endpoints and an iterator pointing to the contour in the list to the maps.
     m_ContourStarts.insert(VertexContourRefPair(from, newContour));
     m_ContourEnds.insert(VertexContourRefPair(to, newContour));
@@ -371,11 +376,13 @@ ContourExtractor2DImageFilter<TInputImage>
     OutputPathPointer output = this->GetOutput(i);
     if (output.IsNull())
       {
-      // Static cast is OK because we know PathSource will make its templated class type
+      // Static cast is OK because we know PathSource will make its templated 
+      // class type
       output = static_cast<OutputPathType*>(this->MakeOutput(i).GetPointer()); 
       this->SetNthOutput( i, output.GetPointer() );
       }
-    typename VertexListType::Pointer path = const_cast<VertexListType*>(output->GetVertexList());
+    typename VertexListType::Pointer path = 
+                   const_cast<VertexListType*>(output->GetVertexList());
     path->Initialize();
     path->reserve(it->size()); // use std::vector version of 'reserve()' 
     //instead of VectorContainer::Reserve() to work around the fact that the latter
@@ -488,7 +495,8 @@ ContourExtractor2DImageFilter<TInputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
-  os << indent << "ReverseContourOrientation: " << m_ReverseContourOrientation << std::endl;
+  os << indent << "ReverseContourOrientation: " << m_ReverseContourOrientation
+     << std::endl;
   os << indent << "VertexConnectHighPixels: " << m_VertexConnectHighPixels << std::endl;
   os << indent << "UseCustomRegion: " << m_UseCustomRegion << std::endl;
   if (m_UseCustomRegion)
