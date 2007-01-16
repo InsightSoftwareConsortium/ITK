@@ -36,13 +36,19 @@ const float FLOAT_EPSILON = 0.0001;
 bool HasCorrectOutput(ExtractorType::Pointer extractor, 
                       MyVertexListList& correct)
 {
-  if (extractor->GetNumberOfOutputs() != correct.size()) return false;
+  if (extractor->GetNumberOfOutputs() != correct.size()) 
+    {
+    return false;
+    }
   for(unsigned int i = 0; i < correct.size(); i++)
     {
     ExtractorType::VertexListConstPointer vertices = 
                 extractor->GetOutput(i)->GetVertexList();
     MyVertexListType& correctVertices = correct[i];
-    if (vertices->Size() != correctVertices.size()) return false;
+    if (vertices->Size() != correctVertices.size()) 
+      {
+      return false;
+      }
     for(unsigned int j = 0; j < correctVertices.size(); j++)
       {
       const MyVertexType& correctVertex = correctVertices[j];
@@ -92,7 +98,10 @@ int itkContourExtractor2DImageFilterTest(int argc, char *argv[])
       testsPassed = false;
       std::cout << "failed." << std::endl;
       }
-    else std::cout << "passed." << std::endl;
+    else 
+      {
+      std::cout << "passed." << std::endl;
+      }
 
     extractor->VertexConnectHighPixelsOn();
     extractor->ReverseContourOrientationOff();
@@ -103,7 +112,10 @@ int itkContourExtractor2DImageFilterTest(int argc, char *argv[])
       testsPassed = false;
       std::cout << "failed." << std::endl;
       }
-    else std::cout << "passed." << std::endl;
+    else
+      {
+       std::cout << "passed." << std::endl;
+      }
 
     extractor->VertexConnectHighPixelsOff();
     extractor->ReverseContourOrientationOff();
@@ -123,8 +135,10 @@ int itkContourExtractor2DImageFilterTest(int argc, char *argv[])
       testsPassed = false;
       std::cout << "failed." << std::endl;
       }
-    else std::cout << "passed." << std::endl;
-
+    else
+      {
+       std::cout << "passed." << std::endl;
+      }
     } catch( itk::ExceptionObject & err ) { 
     std::cout << "ExceptionObject caught !" << std::endl; 
     std::cout << err << std::endl; 
