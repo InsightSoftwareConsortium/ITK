@@ -85,12 +85,97 @@ ADD_TEST(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS}
                                   itkContourExtractor2DImageFilterTest
                                   ${INPUTDATA}/ContourExtractor2DTest.tif  )
 
-#ADD_TEST(itkMaximumProjectionImageFilterTest ${REVIEW_TESTS}
-#        --compare ${BASELINE}/EScellsMaximumProjection.tif
-#                  ${TEMP}/EScellsMaximumProjection.tif
-#                  itkMaximumProjectionImageFilterTest
-#                  ${INPUTDATA}/ESCells.hdr
-#                  ${TEMP}/EScellsMaximumProjecion.tif)
+ADD_TEST(itkMaximumProjectionImageFilterTest ${REVIEW_TESTS}
+        --compare ${BASELINE}/ESCellsMaximumProjection.tif
+                  ${TEMP}/EScellsMaximumProjection.tif
+                  itkMaximumProjectionImageFilterTest
+                  ${INPUTDATA}/ESCells.hdr
+                  ${TEMP}/EScellsMaximumProjection.tif)
+
+ADD_TEST(itkMaximumProjectionImageFilterTest2_1 ${REVIEW_TESTS}
+        --compare ${BASELINE}/ESCellsMaximumProjection0.tif
+                  ${TEMP}/EScellsMaximumProjection0.tif
+                  itkMaximumProjectionImageFilterTest2
+                  0
+                  ${INPUTDATA}/ESCells.hdr
+                  ${TEMP}/EScellsMaximumProjection0.tif)
+
+ADD_TEST(itkMaximumProjectionImageFilterTest2_2 ${REVIEW_TESTS}
+        --compare ${BASELINE}/ESCellsMaximumProjection1.tif
+                  ${TEMP}/EScellsMaximumProjection1.tif
+                  itkMaximumProjectionImageFilterTest2
+                  1
+                  ${INPUTDATA}/ESCells.hdr
+                  ${TEMP}/EScellsMaximumProjection1.tif)
+
+ADD_TEST(itkMaximumProjectionImageFilterTest3_1 ${REVIEW_TESTS}
+        --compare ${BASELINE}/ESCellsMaximumProjection2D0.tif
+                  ${TEMP}/EScellsMaximumProjection2D0.tif
+                  itkMaximumProjectionImageFilterTest3
+                  0
+                  ${INPUTDATA}/ESCells.hdr
+                  ${TEMP}/EScellsMaximumProjection2D0.tif)
+
+ADD_TEST(itkMaximumProjectionImageFilterTest3_2 ${REVIEW_TESTS}
+        --compare ${BASELINE}/ESCellsMaximumProjection2D1.tif
+                  ${TEMP}/EScellsMaximumProjection2D1.tif
+                  itkMaximumProjectionImageFilterTest3
+                  1
+                  ${INPUTDATA}/ESCells.hdr
+                  ${TEMP}/EScellsMaximumProjection2D1.tif)
+
+ADD_TEST(itkMinimumProjectionImageFilterTest ${REVIEW_TESTS}
+        --compare ${BASELINE}/ESCellsMinimumProjection.tif
+                  ${TEMP}/EScellsMinimumProjection.tif
+                  itkMinimumProjectionImageFilterTest
+                  ${INPUTDATA}/ESCells.hdr
+                  ${TEMP}/EScellsMinimumProjection.tif)
+
+ADD_TEST(itkMedianProjectionImageFilterTest ${REVIEW_TESTS}
+        --compare ${BASELINE}/ESCellsMedianProjection.tif
+                  ${TEMP}/EScellsMedianProjection.tif
+                  itkMedianProjectionImageFilterTest
+                  ${INPUTDATA}/ESCells.hdr
+                  ${TEMP}/EScellsMedianProjection.tif)
+
+ADD_TEST(itkMeanProjectionImageFilterTest ${REVIEW_TESTS}
+        --compare ${BASELINE}/ESCellsMeanProjection.tif
+                  ${TEMP}/EScellsMeanProjection.tif
+                  itkMeanProjectionImageFilterTest
+                  ${INPUTDATA}/ESCells.hdr
+                  ${TEMP}/EScellsMeanProjection.tif)
+
+ADD_TEST(itkSigmaProjectionImageFilterTest ${REVIEW_TESTS}
+        --compare ${BASELINE}/ESCellsSigmaProjection.tif
+                  ${TEMP}/EScellsSigmaProjection.tif
+                  itkSigmaProjectionImageFilterTest
+                  ${INPUTDATA}/ESCells.hdr
+                  ${TEMP}/EScellsSigmaProjection.tif)
+
+ADD_TEST(itkSumProjectionImageFilterTest ${REVIEW_TESTS}
+        --compare ${BASELINE}/ESCellsSumProjection.tif
+                  ${TEMP}/ESCellsSumProjection.tif
+                  itkSumProjectionImageFilterTest
+                  ${INPUTDATA}/ESCells.hdr
+                  ${TEMP}/ESCellsSumProjection.tif)
+
+ADD_TEST(itkBinaryProjectionImageFilterTest1 ${REVIEW_TESTS}
+        --compare ${BASELINE}/ESCellsBinaryProjection100.tif
+                  ${TEMP}/ESCellsBinaryProjection100.tif
+                  itkBinaryProjectionImageFilterTest
+                  ${INPUTDATA}/ESCells.hdr
+                  ${TEMP}/ESCellsBinaryProjection100.tif
+                  100
+                  255)
+
+ADD_TEST(itkBinaryProjectionImageFilterTest2 ${REVIEW_TESTS}
+        --compare ${BASELINE}/ESCellsBinaryProjection200.tif
+                  ${TEMP}/ESCellsBinaryProjection200.tif
+                  itkBinaryProjectionImageFilterTest
+                  ${INPUTDATA}/ESCells.hdr
+                  ${TEMP}/ESCellsBinaryProjection200.tif
+                  200
+                  0)
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest
