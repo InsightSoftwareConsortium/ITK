@@ -28,6 +28,20 @@
 #include "itkProbabilityDistribution.h"
 #include "itkTDistribution.h"
 
+#include "itkBinaryProjectionImageFilter.h"
+#include "itkContourExtractor2DImageFilter.h"
+#include "itkFlatStructuringElement.h"
+#include "itkImageToPathFilter.h"
+#include "itkLabelOverlayImageFilter.h"
+#include "itkLabelToRGBFunctor.h"
+#include "itkLabelToRGBImageFilter.h"
+#include "itkMaximumProjectionImageFilter.h"
+#include "itkMeanProjectionImageFilter.h"
+#include "itkMedianProjectionImageFilter.h"
+#include "itkMinimumProjectionImageFilter.h"
+#include "itkProbabilityDistribution.h"
+#include "itkProjectionImageFilter.h"
+
 int main ( int , char*  )
 {
   
