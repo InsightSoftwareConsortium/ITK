@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------------
 // itkQuadEdgeMesh.txx
-// $Revision: 1.5 $
+// $Revision: 1.6 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-16 17:19:44 $
+// $Date: 2007-01-16 17:45:16 $
 // ------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -23,7 +23,7 @@
 #ifndef __itkQuadEdgeMesh_txx
 #define __itkQuadEdgeMesh_txx
 
-#include <algorithm>
+#include "vcl_algorithm.h"
 #include <vector>
 
 namespace itk
@@ -915,7 +915,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >::AddFace( const PointIdList& points 
   // Check that there are no duplicate points
   for(unsigned int i=0; i < points.size(); i++)
     {
-    if( std::count( points.begin(), points.end(), points[i] ) != 1 )
+    if( vcl_count( points.begin(), points.end(), points[i] ) != 1 )
       {
       itkDebugMacro("Point "<<i<<" is duplicated");
       return (QEPrimal*) NULL;
