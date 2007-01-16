@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshAddFaceTest1.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 
 #include "itkQuadEdgeMesh.h"
 #include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
@@ -31,20 +47,31 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
    *                    \ /             \ /
    *                    p5---------------p6
    */
-  int NumPoints = 7;
-  PointIdentifier pid[7];
+  const int NumPoints = 7;
+  PointIdentifier pid[NumPoints];
 
-  MeshType::PixelType a = sqrt( 3.0 ) / 2.0;
-  MeshType::PixelType points[7][3] = { {  0.0, 0.0, 0.0 },
-                                       {  1.0, 0.0, 0.0 },
-                                       {  0.5,   a, 0.0 },
-                                       { -0.5,   a, 0.0 },
-                                       { -1.0, 0.0, 0.0 },
-                                       { -0.5,  -a, 0.0 },
-                                       {  0.5,  -a, 0.0 } };
+  PointType::CoordRepType        a = sqrt( 3.0 ) / 2.0;
+
+  typedef PointType::ValueArrayType ValueArrayType;
+
+  ValueArrayType pointCoordinates[NumPoints]= 
+  { {  0.0, 0.0, 0.0 },
+    {  1.0, 0.0, 0.0 },
+    {  0.5,   a, 0.0 },
+    { -0.5,   a, 0.0 },
+    { -1.0, 0.0, 0.0 },
+    { -0.5,  -a, 0.0 },
+    {  0.5,  -a, 0.0 } };
+
+  PointType points[NumPoints];
+  for(int j = 0; j < NumPoints; j++)
+    {
+    points[j] = pointCoordinates[j];
+    }
+
   for(int i = 0; i < NumPoints; i++)
     {
-    pid[i] = mesh->AddPoint( PointType( points[i] ) );
+    pid[i] = mesh->AddPoint( points[i] );
     }
 
   /////////////////////////////////////////////////////////////
@@ -190,7 +217,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
 
   for(int i=0; i < NumPoints; i++)
     {
-    pid[i] = mesh->AddPoint( PointType( points[i] ) );
+    pid[i] = mesh->AddPoint( points[i] );
     }
 
   ///////////////////////////////////////////////////////////////////////
@@ -358,7 +385,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
 
   for(int i=0; i < NumPoints; i++)
     {
-    pid[i] = inconsistentMesh->AddPoint( PointType( points[i] ) );
+    pid[i] = inconsistentMesh->AddPoint( points[i] );
     }
 
   if( inconsistentMesh->AddFaceTriangle( pid[0], pid[1], pid[2] )
@@ -404,7 +431,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
   std::cout << "Adding a quadrangle where pid4 = pid3 + 1" << std::endl;
   for( int i=0; i < NumPoints; i++)
     {
-    pid[i] = mesh->AddPoint( PointType( points[i] ) );
+    pid[i] = mesh->AddPoint( points[i] );
     }
 
   PointIdList quadPointIds;
@@ -430,7 +457,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
   std::cout << "Adding a quadrangle where pid4 != pid3 + 1" << std::endl;
   for(int i=0; i < NumPoints; i++)
     {
-    pid[i] = mesh->AddPoint( PointType( points[i] ) );
+    pid[i] = mesh->AddPoint( points[i] );
     }
 
   PointIdList quadPointIds2;
@@ -495,7 +522,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
 
   for(int i=0; i < NumPoints; i++)
     {
-    pid[i] = mesh->AddPoint( PointType( points[i] ) );
+    pid[i] = mesh->AddPoint( points[i] );
     }
 
   PointIdList fivePointIds;
@@ -541,10 +568,10 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
 
   MeshType::Pointer moebiusMesh = MeshType::New();
 
-  int moebNumPoints = 6;
-  PointIdentifier moebPid[6];
+  const int moebNumPoints = 6;
+  PointIdentifier moebPid[moebNumPoints];
 
-  MeshType::PixelType moebPoints[6][3] =
+  ValueArrayType moebPointCoordinates[moebNumPoints] =
   { { 0.0, 0.0, 0.0 },
     { 0.0, 1.0, 0.0 },
     { 1.0, 0.0, 0.0 },
@@ -552,9 +579,16 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
     { 2.0, 0.0, 0.0 },
     { 2.0, 1.0, 0.0 } };
 
+
+  PointType moebPoints[moebNumPoints];
+  for(int j = 0; j < moebNumPoints; j++)
+    {
+    moebPoints[j] = moebPointCoordinates[j];
+    }
+
   for( int i=0; i < moebNumPoints; i++ )
     {
-    moebPid[i] = moebiusMesh->AddPoint( PointType( moebPoints[i] ) );
+    moebPid[i] = moebiusMesh->AddPoint( moebPoints[i] );
     }
 
   std::cout << "Adding triangles of a non-orientable surface but one "
@@ -590,3 +624,5 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
    std::cout << "AddFaceTest passed" << std::endl;
    return EXIT_SUCCESS;
 }
+
+
