@@ -21,6 +21,7 @@
 #include "itkContourExtractor2DImageFilter.h"
 #include "itkLabelOverlayImageFilter.h"
 #include "itkRGBPixel.h"
+#include "itkQuadEdgeMesh.h"
 
 int main(int , char* [])
 {
@@ -35,6 +36,8 @@ int main(int , char* [])
   typedef itk::Vector<float,2>      VectorType;
   typedef itk::Image<VectorType, 2> VectorImageType;
 
+  typedef itk::QuadEdgeMesh< double, 3 > QuadEdgeMeshType;
+
   itk::ContourExtractor2DImageFilter<InputType>::Pointer
     ContourExtractor2DImageFilterObj =
     itk::ContourExtractor2DImageFilter<InputType>::New();
@@ -46,6 +49,10 @@ int main(int , char* [])
     itk::LabelOverlayImageFilter<InputType,CharType,RGBImageType>::New();
   std:: cout << "-------------LabelOverlayImageFilter "
              << LabelOverlayImageFilterObj;
+
+  QuadEdgeMeshType::Pointer QuadEdgeMeshObj = QuadEdgeMeshType::New();
+  std:: cout << "-------------QuadEdgeMesh "
+             << QuadEdgeMeshObj;
 
 
   return 0;

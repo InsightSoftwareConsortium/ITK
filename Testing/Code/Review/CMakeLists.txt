@@ -97,6 +97,7 @@ TARGET_LINK_LIBRARIES(itkReviewPrintTest
   ITKIO
   ITKBasicFilters
   ITKFEM
+  ITKQuadEdgeMesh
   )
 
 ADD_EXECUTABLE(itkReviewHeaderTest itkReviewHeaderTest.cxx)
@@ -105,6 +106,7 @@ TARGET_LINK_LIBRARIES(itkReviewHeaderTest
   ITKIO
   ITKBasicFilters
   ITKFEM
+  ITKQuadEdgeMesh
   )
 
 ADD_TEST(itkReviewHeaderTest ${REVIEW_HEADER_TESTS})
