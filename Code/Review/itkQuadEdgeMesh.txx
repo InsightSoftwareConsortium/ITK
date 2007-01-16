@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------------
 // itkQuadEdgeMesh.txx
-// $Revision: 1.2 $
-// $Author: sylvain $
+// $Revision: 1.3 $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-15 20:56:02 $
+// $Date: 2007-01-16 15:22:02 $
 // ------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -1065,7 +1065,11 @@ AddFaceTriangle( const PointIdentifier& aPid,
   const PointIdentifier& bPid,
   const PointIdentifier& cPid )
 {
-  return this->AddFace( 3, aPid, bPid, cPid );
+  PointIdList points;
+  points.push_back( aPid );
+  points.push_back( bPid );
+  points.push_back( cPid );
+  return this->AddFace( points );
 }
 
 //////////////////////////////////////////////////////////////////////////
