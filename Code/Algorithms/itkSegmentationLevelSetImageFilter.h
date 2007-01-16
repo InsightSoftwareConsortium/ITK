@@ -211,6 +211,12 @@ public:
     this->SetInput(f);
   }
 
+   /** Set the feature image */
+  void SetInput2(const FeatureImageType *input)
+     {
+     this->SetFeatureImage( input );
+     }
+
   /** This function is for advanced applications.  Set the image sampled as the
    * speed term of this segmentation method.  In  general, the speed image is 
    * generated automatically by a subclass of this filter. */

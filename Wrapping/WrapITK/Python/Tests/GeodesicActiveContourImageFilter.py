@@ -86,8 +86,7 @@ def main():
 			OutputSize=reader.GetOutput().GetBufferedRegion().GetSize() )
     
     
-    geodesicActiveContour = itk.GeodesicActiveContourLevelSetImageFilter[InternalImageType, InternalImageType, InternalPixelType].New(fastMarching,
-                        FeatureImage=sigmoid.GetOutput(), # it is required to use the explicitly the FeatureImage - itk segfault without that :-(
+    geodesicActiveContour = itk.GeodesicActiveContourLevelSetImageFilter[InternalImageType, InternalImageType, InternalPixelType].New(fastMarching, sigmoid,
                         PropagationScaling=float(argv[9]),
 			CurvatureScaling=1.0,
 			AdvectionScaling=1.0,
