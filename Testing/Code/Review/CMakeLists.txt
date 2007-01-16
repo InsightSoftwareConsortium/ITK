@@ -46,6 +46,7 @@ SET(ReviewTest_SRCS
   itkMedianProjectionImageFilterTest.cxx
   itkMinimumProjectionImageFilterTest.cxx
   itkSigmaProjectionImageFilterTest.cxx  
+  itkBinaryProjectionImageFilterTest.cxx  
 )
 
 ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS}

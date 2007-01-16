@@ -1,3 +1,20 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkSumProjectionImageFilterTest.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkCommand.h"
@@ -5,32 +22,46 @@
 
 #include "itkSumProjectionImageFilter.h"
 
-
-int itkSumProjectionImageFilterTest(int, char * argv[])
+int itkSumProjectionImageFilterTest(int argc, char * argv[])
 {
+  if( argc < 3 )
+    {
+    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << " InputImage OutputImage  " << std::endl;
+    return EXIT_FAILURE;
+    }
+
   const int dim = 3;
   
-  typedef unsigned char PType;
-  typedef itk::Image< PType, dim > IType;
-  typedef unsigned short LPType;
-  typedef itk::Image< LPType, dim > LIType;
+  typedef unsigned char PixelType;
+  typedef itk::Image< PixelType, dim > ImageType;
 
-  typedef itk::ImageFileReader< IType > ReaderType;
+  typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::SumProjectionImageFilter< IType, LIType > FilterType;
+  typedef itk::SumProjectionImageFilter< ImageType, ImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  typedef itk::ImageFileWriter< LIType > WriterType;
+  typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
-  writer->Update();
 
-  return 0;
+  try
+    {
+    writer->Update();
+    } 
+  catch ( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  return EXIT_SUCCESS;
 }
 

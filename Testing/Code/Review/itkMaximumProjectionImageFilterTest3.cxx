@@ -1,3 +1,20 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkMaximumProjectionImageFilterTest3.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkCommand.h"
@@ -7,8 +24,16 @@
 #include "itkExtractImageFilter.h"
 
 
-int itkMaximumProjectionImageFilterTest3(int, char * argv[])
+int itkMaximumProjectionImageFilterTest3(int argc, char * argv[])
 {
+  if( argc < 4 )
+    {
+    std::cerr << "Missing parameters " << std::endl;
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Dimension Inputimage Outputimage " << std::endl;
+    return EXIT_FAILURE;
+    }
+
   int dim = atoi(argv[1]);
 
   typedef unsigned char PType;
@@ -33,8 +58,17 @@ int itkMaximumProjectionImageFilterTest3(int, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[3] );
-  writer->Update();
 
-  return 0;
+  try
+  {
+  writer->Update();
+  } 
+  catch ( itk::ExceptionObject & excp )
+  {
+  std::cerr << excp << std::endl;
+  return EXIT_FAILURE;
+  }
+
+  return EXIT_SUCCESS;
 }
 

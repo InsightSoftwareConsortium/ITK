@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMaximumProjectionImageFilterTest.cxx
+  Module:    itkBinaryProjectionImageFilterTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -20,16 +20,16 @@
 #include "itkCommand.h"
 #include "itkSimpleFilterWatcher.h"
 
-#include "itkMaximumProjectionImageFilter.h"
+#include "itkBinaryProjectionImageFilter.h"
+#include "itkNumericTraits.h"
 
-
-int itkMaximumProjectionImageFilterTest(int argc, char * argv[])
+int itkBinaryProjectionImageFilterTest(int argc, char * argv[])
 {
   if( argc < 3 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " InputImage OutputImage " << std::endl;
+    std::cerr << " InputImage OutputImage" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -42,9 +42,29 @@ int itkMaximumProjectionImageFilterTest(int argc, char * argv[])
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::MaximumProjectionImageFilter< ImageType, ImageType > FilterType;
+  typedef itk::BinaryProjectionImageFilter< ImageType, ImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
+
+  //Exercise Set/Get methods for Foreground Value
+  filter->SetForegroundValue( 255 );
+  
+  if ( filter->GetForegroundValue( ) != 255 )
+    {
+    std::cerr << "Set/Get Foreground value problem" << std::endl; 
+    return EXIT_FAILURE;
+    }
+  filter->SetForegroundValue( itk::NumericTraits<PixelType>::max() );
+
+  //Exercise Set/Get methods for Background Value
+  filter->SetBackgroundValue( 255 );
+  
+  if ( filter->GetBackgroundValue( ) != 0 )
+    {
+    std::cerr << "Set/Get Background value problem" << std::endl; 
+    return EXIT_FAILURE;
+    }
+  filter->SetBackgroundValue( itk::NumericTraits<PixelType>::NonpositiveMin() );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
@@ -53,16 +73,16 @@ int itkMaximumProjectionImageFilterTest(int argc, char * argv[])
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
 
- try
-  {
-  writer->Update();
-  } 
- catch ( itk::ExceptionObject & excp )
-  {
-  std::cerr << excp << std::endl;
-  return EXIT_FAILURE;
-  }
+  try
+    {
+    writer->Update();
+    } 
+  catch ( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
 
- return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }
 

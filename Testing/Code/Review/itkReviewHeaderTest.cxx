@@ -39,6 +39,7 @@
 #include "itkMeanProjectionImageFilter.h"
 #include "itkMedianProjectionImageFilter.h"
 #include "itkMinimumProjectionImageFilter.h"
+#include "itkBinaryProjectionImageFilter.h"
 #include "itkProbabilityDistribution.h"
 #include "itkProjectionImageFilter.h"
 
