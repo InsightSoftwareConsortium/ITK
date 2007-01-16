@@ -17,8 +17,7 @@
 #ifndef __itkLabelOverlayImageFilter_h
 #define __itkLabelOverlayImageFilter_h
 
-#include "itkLabelToRGBImageFilter.h"
-
+#include "itkLabelToRGBFunctor.h"
 #include "itkBinaryFunctorImageFilter.h"
 
 namespace itk
