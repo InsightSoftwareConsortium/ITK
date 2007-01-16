@@ -69,16 +69,30 @@ public:
     }
 
   bool operator != (const LabelOverlay &l) const
-  { return l.m_Opacity == m_Opacity || m_UseBackground != 
-         l.m_UseBackground || m_BackgroundValue != l.m_BackgroundValue; }
+    {
+    bool value = l.m_Opacity != m_Opacity || 
+                 m_UseBackground != l.m_UseBackground || 
+                 m_BackgroundValue != l.m_BackgroundValue; 
+
+    return value;
+    }
 
   ~LabelOverlay() {}
 
-  void SetOpacity( double opacity ) { m_Opacity = opacity; }
+  void SetOpacity( double opacity ) 
+    { 
+    m_Opacity = opacity; 
+    }
 
-  void SetBackgroundValue( TLabel v ) { m_BackgroundValue = v; }
+  void SetBackgroundValue( TLabel v ) 
+    { 
+    m_BackgroundValue = v; 
+    }
 
-  void SetUseBackground( bool b ) { m_UseBackground = b; }
+  void SetUseBackground( bool b ) 
+    {
+    m_UseBackground = b; 
+    }
 
 protected:
 
@@ -114,10 +128,10 @@ template <typename  TInputImage, class TLabelImage, typename  TOutputImage>
 class ITK_EXPORT LabelOverlayImageFilter :
     public
      BinaryFunctorImageFilter<TInputImage, TLabelImage, TOutputImage, 
-                        Functor::LabelOverlay< 
-  typename TInputImage::PixelType, 
-  typename TLabelImage::PixelType, 
-  typename TOutputImage::PixelType>   >
+       Functor::LabelOverlay< 
+          typename TInputImage::PixelType, 
+          typename TLabelImage::PixelType, 
+          typename TOutputImage::PixelType>   >
 {
 public:
   /** Standard class typedefs. */
@@ -147,15 +161,10 @@ public:
   itkNewMacro(Self);
   
    /** Set the label image */
-  void SetLabelImage(TLabelImage *input)
-     { this->SetInput2( input ); }
+  void SetLabelImage( const TLabelImage *input);
 
   /** Get the label image */
-  const LabelImageType * GetLabelImage() const
-    { 
-    return static_cast<LabelImageType*>(
-            const_cast<DataObject *>(this->ProcessObject::GetInput(1))); 
-    }
+  const LabelImageType * GetLabelImage() const;
 
   /** Set/Get the opacity of the colored label image. The value must be
    * between 0 and 1

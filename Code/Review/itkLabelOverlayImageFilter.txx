@@ -49,6 +49,30 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
 }
 
 /**
+ * Set Label Image
+ */
+template <class TInputImage, class TLabelImage, class TOutputImage>
+void 
+LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
+::SetLabelImage( const TLabelImage *input)
+{
+  this->SetInput2( input ); 
+}
+
+ /**
+ * Get Label Image
+ */
+template <class TInputImage, class TLabelImage, class TOutputImage>
+const 
+typename LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::LabelImageType * 
+LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
+::GetLabelImage() const
+{ 
+return static_cast<LabelImageType*>(
+        const_cast<DataObject *>(this->ProcessObject::GetInput(1))); 
+}
+
+/**
  * Standard PrintSelf method 
  */
 template <class TInputImage, class TLabelImage, class TOutputImage>
