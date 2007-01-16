@@ -25,11 +25,11 @@
 
 int itkBinaryProjectionImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 3 )
+  if( argc < 5 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " InputImage OutputImage" << std::endl;
+    std::cerr << " InputImage OutputImage Foreground Background" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -51,20 +51,22 @@ int itkBinaryProjectionImageFilterTest(int argc, char * argv[])
   
   if ( filter->GetForegroundValue( ) != 255 )
     {
-    std::cerr << "Set/Get Foreground value problem" << std::endl; 
+    std::cerr << "Set/Get Foreground value problem: " << filter->GetForegroundValue() << std::endl; 
     return EXIT_FAILURE;
     }
-  filter->SetForegroundValue( itk::NumericTraits<PixelType>::max() );
+
+  filter->SetForegroundValue( atoi(argv[3]) );
 
   //Exercise Set/Get methods for Background Value
-  filter->SetBackgroundValue( 255 );
+  filter->SetBackgroundValue( 0 );
   
   if ( filter->GetBackgroundValue( ) != 0 )
     {
     std::cerr << "Set/Get Background value problem" << std::endl; 
     return EXIT_FAILURE;
     }
-  filter->SetBackgroundValue( itk::NumericTraits<PixelType>::NonpositiveMin() );
+
+  filter->SetBackgroundValue( atoi(argv[4]) );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
