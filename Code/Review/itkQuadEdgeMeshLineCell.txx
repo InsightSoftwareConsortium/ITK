@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshLineCell.txx
-// $Revision: 1.2 $
+// $Revision: 1.3 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-17 19:18:04 $
+// $Date: 2007-01-17 22:43:23 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -235,6 +235,41 @@ QuadEdgeMeshLineCell< TCellInterface >
   return this->m_Identifier;
 }
 
+// ---------------------------------------------------------------------
+template< class TCellInterface >
+typename QuadEdgeMeshLineCell< TCellInterface >::CellGeometry 
+QuadEdgeMeshLineCell< TCellInterface >
+::GetType() const 
+{ 
+  return  Superclass::LINE_CELL; 
+}
+
+// ---------------------------------------------------------------------
+template< class TCellInterface >
+int
+QuadEdgeMeshLineCell< TCellInterface >
+::GetTopologyId() 
+{ 
+  return Superclass::LINE_CELL; 
+}
+
+// ---------------------------------------------------------------------
+template< class TCellInterface >
+unsigned int
+QuadEdgeMeshLineCell< TCellInterface >
+::GetDimension() const
+{ 
+  return Self::CellDimension; 
+}
+
+// ---------------------------------------------------------------------
+template< class TCellInterface >
+unsigned int
+QuadEdgeMeshLineCell< TCellInterface >
+::GetNumberOfPoints() const
+{ 
+  return 2; 
+}
 
 } // end namespace itk
 

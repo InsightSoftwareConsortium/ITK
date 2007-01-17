@@ -3,7 +3,7 @@
 // $Revision $
 // $Author $
 // $Name:  $
-// $Date: 2007-01-17 19:18:04 $
+// $Date: 2007-01-17 22:43:23 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -36,10 +36,13 @@ namespace itk
  *
  * \param TCellInterface Basic type for the itk*Cell. 
  *        This usually comes from the MeshTraits.
+ *
+ * \author  Eric Boix, Alex Gouaillard, Leonardo Florez  
+ *
  */
 template< class TCellInterface >
-    class QuadEdgeMeshLineCell
-    : public TCellInterface, public TCellInterface::CellTraits::QuadEdgeType
+class QuadEdgeMeshLineCell 
+  : public TCellInterface, public TCellInterface::CellTraits::QuadEdgeType
 {
 public:
   /** Standard class typedefs. */
@@ -94,7 +97,7 @@ public:
   itkTypeMacro( QuadEdgeMeshLineCell, TCellInterface );
 
   /** Methods for a QECell. */
-  virtual void MakeEdge( );
+  virtual void MakeEdge();
  
   itkQEAccessorsMacro( QEType, Self, QEDual );
 
@@ -112,15 +115,13 @@ public:
 
   /** TCellInterface abstract methods definition. */
   virtual void Accept( unsigned long cellId, MultiVisitor* mv );
-  virtual CellGeometry GetType( ) const { return( Superclass::LINE_CELL ); }
+  virtual CellGeometry GetType() const;
 
-  /** itk topology related methods. */
-  static int GetTopologyId( )
-  { return( Superclass::LINE_CELL ); }
-  virtual unsigned int GetDimension( ) const
-  { return( Self::CellDimension ); }
-  virtual unsigned int GetNumberOfPoints( ) const
-  { return( 2 ); }
+  /** Topology related methods. */
+  static int GetTopologyId();
+  virtual unsigned int GetDimension() const;
+  virtual unsigned int GetNumberOfPoints() const;
+  
   virtual CellFeatureCount GetNumberOfBoundaryFeatures( int dimension ) const;
   virtual bool GetBoundaryFeature( int dimension,
                                    CellFeatureIdentifier cellId,
@@ -135,16 +136,16 @@ public:
                             PointIdConstIterator last );
   virtual void SetPointId( int localId, PointIdentifier pId );
 
-  virtual PointIdIterator PointIdsBegin( );
-  virtual PointIdIterator PointIdsEnd( );
+  virtual PointIdIterator PointIdsBegin();
+  virtual PointIdIterator PointIdsEnd();
 
-  virtual PointIdConstIterator GetPointIds( ) const;
-  virtual PointIdConstIterator PointIdsBegin( ) const;
-  virtual PointIdConstIterator PointIdsEnd( ) const;
+  virtual PointIdConstIterator GetPointIds() const;
+  virtual PointIdConstIterator PointIdsBegin() const;
+  virtual PointIdConstIterator PointIdsEnd() const;
 
 private:
-  QuadEdgeMeshLineCell( const Self& );  // Not impl.
-  void operator=( const Self& ); // Not impl.
+  QuadEdgeMeshLineCell( const Self& );  //purposely not implemented
+  void operator=( const Self& ); //purposely not implemented
 
   /**
    * In order to have constant time access at the itk level instead of 
