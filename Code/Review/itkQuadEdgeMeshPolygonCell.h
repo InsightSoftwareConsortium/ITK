@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
-// itkQEPolygonCell.h
+// itkQuadEdgeMeshPolygonCell.h
 // $Revision: 1.1 $
-// $Author: sylvain $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
+// $Date: 2007-01-17 16:34:38 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -153,8 +153,8 @@ template< class TCellInterface >
 
 } // enamespace
 
-#include "itkQEPolygonCell.txx"
+#include "itkQuadEdgeMeshPolygonCell.txx"
 
 #endif // __ITKQUADEDGEMESH__POLYGONCELL__H__
 
-// eof - itkQEPolygonCell.h
+// eof - itkQuadEdgeMeshPolygonCell.h

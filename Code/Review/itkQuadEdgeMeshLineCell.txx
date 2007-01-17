@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
-// itkQELineCell.txx
+// itkQuadEdgeMeshLineCell.txx
 // $Revision: 1.1 $
-// $Author: sylvain $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
+// $Date: 2007-01-17 16:34:38 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -20,28 +20,32 @@
 // - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
 // -------------------------------------------------------------------------
 
-#ifndef __ITKQUADEDGEMESH__LINECELL__TXX__
-#define __ITKQUADEDGEMESH__LINECELL__TXX__
+#ifndef __itkQuadEdgeMeshLineCell_txx
+#define __itkQuadEdgeMeshLineCell_txx
 
-#include <itkCellInterfaceVisitor.h>
+#include "itkCellInterfaceVisitor.h"
+#include "itkQuadEdgeMeshLineCell.h"
 
-namespace itkQE
+namespace itk
 {
+
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    LineCell< TCellInterface >::
-    LineCell( bool makeEdge )
-        : Superclass( ), QEType( ),
-          m_Ident( 0 )
+QuadEdgeMeshLineCell< TCellInterface >
+::QuadEdgeMeshLineCell( bool makeEdge )
 {
-    if( makeEdge )
-        this->MakeEdge( );
+  m_Ident = 0;
+
+  if( makeEdge )
+    {
+    this->MakeEdge( );
+    }
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    typename LineCell< TCellInterface >::SelfAutoPointer
-    LineCell< TCellInterface >::
+    typename QuadEdgeMeshLineCell< TCellInterface >::SelfAutoPointer
+    QuadEdgeMeshLineCell< TCellInterface >::
     New( )
 {
     SelfAutoPointer ptr( new Self );
@@ -51,7 +55,7 @@ template< class TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    void LineCell< TCellInterface >::
+    void QuadEdgeMeshLineCell< TCellInterface >::
     Accept( unsigned long cellId, MultiVisitor* mv )
 {
     typedef itk::CellInterfaceVisitor< PixelType, CellTraits > IntVis;
@@ -61,8 +65,8 @@ template< class TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    typename LineCell< TCellInterface >::CellFeatureCount
-    LineCell< TCellInterface >::
+    typename QuadEdgeMeshLineCell< TCellInterface >::CellFeatureCount
+    QuadEdgeMeshLineCell< TCellInterface >::
     GetNumberOfBoundaryFeatures( int dimension ) const
 {
     if( dimension == 0 )      return( 2 );
@@ -72,7 +76,7 @@ template< class TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    bool LineCell< TCellInterface >::
+    bool QuadEdgeMeshLineCell< TCellInterface >::
     GetBoundaryFeature( int dimension, CellFeatureIdentifier cellId,
                         CellAutoPointer& cell )
 {
@@ -85,7 +89,7 @@ template< class TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    void LineCell< TCellInterface >::
+    void QuadEdgeMeshLineCell< TCellInterface >::
     SetPointIds( PointIdConstIterator first )
 {
     PointIdConstIterator i = first;
@@ -96,7 +100,7 @@ template< class TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    void LineCell< TCellInterface >::
+    void QuadEdgeMeshLineCell< TCellInterface >::
     SetPointIds( PointIdConstIterator first,
                  PointIdConstIterator last )
 {
@@ -106,7 +110,7 @@ template< class TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    void LineCell< TCellInterface >::
+    void QuadEdgeMeshLineCell< TCellInterface >::
     SetPointId( int localId, PointIdentifier pId )
 {
     if( localId == 0 )      this->SetOrg( pId );
@@ -115,8 +119,8 @@ template< class TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    typename LineCell< TCellInterface >::PointIdIterator
-    LineCell< TCellInterface >::
+    typename QuadEdgeMeshLineCell< TCellInterface >::PointIdIterator
+    QuadEdgeMeshLineCell< TCellInterface >::
     PointIdsBegin( )
 {
     return( this->BeginGeomSym( ) );
@@ -124,8 +128,8 @@ template< class TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    typename LineCell< TCellInterface >::PointIdIterator
-    LineCell< TCellInterface >::
+    typename QuadEdgeMeshLineCell< TCellInterface >::PointIdIterator
+    QuadEdgeMeshLineCell< TCellInterface >::
     PointIdsEnd( )
 {
     return( this->EndGeomSym( ) );
@@ -133,8 +137,8 @@ template< class TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    typename LineCell< TCellInterface >::PointIdConstIterator
-    LineCell< TCellInterface >::
+    typename QuadEdgeMeshLineCell< TCellInterface >::PointIdConstIterator
+    QuadEdgeMeshLineCell< TCellInterface >::
     GetPointIds( ) const
 {
     return( this->BeginGeomSym( ) );
@@ -142,8 +146,8 @@ template< class TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    typename LineCell< TCellInterface >::PointIdConstIterator
-    LineCell< TCellInterface >::
+    typename QuadEdgeMeshLineCell< TCellInterface >::PointIdConstIterator
+    QuadEdgeMeshLineCell< TCellInterface >::
     PointIdsBegin( ) const
 {
     return( this->BeginGeomSym( ) );
@@ -151,15 +155,14 @@ template< class TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    typename LineCell< TCellInterface >::PointIdConstIterator
-    LineCell< TCellInterface >::
+    typename QuadEdgeMeshLineCell< TCellInterface >::PointIdConstIterator
+    QuadEdgeMeshLineCell< TCellInterface >::
     PointIdsEnd( ) const
 {
     return( this->EndGeomSym( ) );
 }
 
-} // enamespace
+} // end namespace itk
 
-#endif // __ITKQUADEDGEMESH__LINECELL__TXX__
+#endif 
 
-// eof - itkQELineCell.txx

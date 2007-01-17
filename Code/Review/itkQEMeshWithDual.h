@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQEMeshWithDual.h
-// $Revision: 1.1 $
-// $Author: sylvain $
+// $Revision: 1.2 $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-09 00:58:17 $
+// $Date: 2007-01-17 16:34:38 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -25,7 +25,7 @@
 
 #include "itkPointSet.h"
 #include "itkQEMesh.h"
-#include "itkQEMeshTraits.h"
+#include "itkQuadEdgeMeshTraits.h"
 
 namespace itkQE
 {
@@ -33,7 +33,7 @@ namespace itkQE
 * QE-based itk::Mesh.
 */
 template< typename TPixel, unsigned int VDimension,
-   typename TTraits = itkQE::MeshTraits< TPixel, VDimension, bool, bool > >
+   typename TTraits = ::itk::QuadEdgeMeshTraits< TPixel, VDimension, bool, bool > >
 class MeshWithDual
 : public itkQE::Mesh< TPixel, VDimension, TTraits >
 {
