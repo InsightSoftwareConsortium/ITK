@@ -69,7 +69,8 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
   // Set the LargestPossibleRegion of the output.
   // Reduce the size of the accumulated dimension.
 
-  if( InputImageDimension == OutputImageDimension )
+  if( static_cast< unsigned int >( InputImageDimension ) == 
+      static_cast< unsigned int >( OutputImageDimension )    )
     {
     for(unsigned int i = 0; i<InputImageDimension; i++)
       {
@@ -91,7 +92,7 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
     }
   else
     {
-    // assume OutputImageDimension = InputImageDimension - 1
+    // Then OutputImageDimension = InputImageDimension - 1
     for(unsigned int i = 0; i<OutputImageDimension; i++)
       {
       if (i != m_ProjectionDimension)
@@ -144,7 +145,8 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
     inputLargSize = this->GetInput()->GetLargestPossibleRegion().GetSize();
     inputLargIndex = this->GetInput()->GetLargestPossibleRegion().GetIndex();
 
-    if( InputImageDimension == OutputImageDimension )
+    if( static_cast< unsigned int >( InputImageDimension ) == 
+        static_cast< unsigned int >( OutputImageDimension )    )
       {
       for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
         {
@@ -228,7 +230,9 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
   typename TInputImage::RegionType inputRegionForThread = inputRegion;
   typename TInputImage::SizeType inputSizeForThread = inputSize;
   typename TInputImage::IndexType inputIndexForThread = inputIndex;
-  if( InputImageDimension == OutputImageDimension )
+  
+  if( static_cast< unsigned int >( InputImageDimension ) == 
+      static_cast< unsigned int >( OutputImageDimension )    )
     {
     for( unsigned int i=0; i< InputImageDimension; i++ )
       {
@@ -288,7 +292,9 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
     // move the ouput iterator and set the output value
     typename TOutputImage::IndexType oIdx;
     typename TInputImage::IndexType iIdx = iIt.GetIndex();
-    if( InputImageDimension == OutputImageDimension )
+
+    if( static_cast< unsigned int >( InputImageDimension ) == 
+        static_cast< unsigned int >( OutputImageDimension )    )
       {
       for( unsigned int i=0; i< InputImageDimension; i++ )
         {
