@@ -31,6 +31,12 @@ ImageToHistogramGenerator< TImage >
   m_ImageToListAdaptor = AdaptorType::New();
   m_HistogramGenerator = GeneratorType::New();
   m_HistogramGenerator->SetListSample( m_ImageToListAdaptor );
+
+  // set a usable default value
+  SizeType size;
+  size.Fill( 128 );
+  this->SetNumberOfBins( size );
+
 }
 
 
