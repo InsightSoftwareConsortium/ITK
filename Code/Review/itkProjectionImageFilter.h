@@ -78,10 +78,16 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Input and output images must be the same dimension. */
-//   itkConceptMacro(ImageDimensionCheck,
-//       (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
-//                               itkGetStaticConstMacro(OutputImageDimension)>));
+  /** Input and output images must be the same dimension, or the output's
+      dimension must be one less than that of the input. */
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(ImageDimensionCheck,
+      (Concept::SameDimensionOrMinusOne<itkGetStaticConstMacro(InputImageDimension),
+                                        itkGetStaticConstMacro(OutputImageDimension)>));
+  /** End concept checking */
+#endif
+
 
   /** Set the direction in which to accumulate the data.  It must be
    * set before the update of the filter. Defaults to the last
