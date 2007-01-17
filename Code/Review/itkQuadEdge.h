@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.h
-// $Revision: 1.2 $
+// $Revision: 1.3 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-16 22:30:06 $
+// $Date: 2007-01-17 15:52:40 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -24,7 +24,29 @@
 #define __itkQuadEdge_h
 
 #include "itkQuadEdgeMeshBaseIterator.h"
-#include "itkQECommon.h"
+
+#include "itkMacro.h"
+
+// Debugging macros for classes that do not derive from the itkObject.
+// FIXME: Maybe variations of these macros should be moved into itkMacro.h
+//
+#define itkQEDebugMacro( x )                                            \
+    {                                                                   \
+        ::itk::OStringStream itkmsg;                                    \
+        itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n"   \
+               << " (" << this << "): " x                               \
+               << "\n\n";                                               \
+        ::itk::OutputWindowDisplayDebugText( itkmsg.str( ).c_str( ) );  \
+    }
+#define itkQEWarningMacro( x )                                          \
+    {                                                                   \
+        ::itk::OStringStream itkmsg;                                    \
+        itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
+               << " (" << this << "): " x                               \
+               << "\n\n";                                               \
+        ::itk::OutputWindowDisplayWarningText( itkmsg.str( ).c_str( ) ); \
+    }
+
 
 // -------------------------------------------------------------------------
 /**
