@@ -87,101 +87,98 @@ ADD_TEST(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS}
                                   itkContourExtractor2DImageFilterTest
                                   ${INPUTDATA}/ContourExtractor2DTest.tif  )
 
-IF(PROJECTION_TESTS_FIXED)
 
 ADD_TEST(itkMaximumProjectionImageFilterTest ${REVIEW_TESTS}
-        --compare ${BASELINE}/ESCellsMaximumProjection.tif
-                  ${TEMP}/EScellsMaximumProjection.tif
+        --compare ${BASELINE}/HeadMRVolumeMaximumProjection.tif
+                  ${TEMP}/HeadMRVolumeMaximumProjection.tif
                   itkMaximumProjectionImageFilterTest
-                  ${INPUTDATA}/ESCells.hdr
-                  ${TEMP}/EScellsMaximumProjection.tif)
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMaximumProjection.tif)
 
 ADD_TEST(itkMaximumProjectionImageFilterTest2_1 ${REVIEW_TESTS}
-        --compare ${BASELINE}/ESCellsMaximumProjection0.tif
-                  ${TEMP}/EScellsMaximumProjection0.tif
+        --compare ${BASELINE}/HeadMRVolumeMaximumProjection0.tif
+                  ${TEMP}/HeadMRVolumeMaximumProjection0.tif
                   itkMaximumProjectionImageFilterTest2
                   0
-                  ${INPUTDATA}/ESCells.hdr
-                  ${TEMP}/EScellsMaximumProjection0.tif)
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMaximumProjection0.tif)
 
 ADD_TEST(itkMaximumProjectionImageFilterTest2_2 ${REVIEW_TESTS}
-        --compare ${BASELINE}/ESCellsMaximumProjection1.tif
-                  ${TEMP}/EScellsMaximumProjection1.tif
+        --compare ${BASELINE}/HeadMRVolumeMaximumProjection1.tif
+                  ${TEMP}/HeadMRVolumeMaximumProjection1.tif
                   itkMaximumProjectionImageFilterTest2
                   1
-                  ${INPUTDATA}/ESCells.hdr
-                  ${TEMP}/EScellsMaximumProjection1.tif)
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMaximumProjection1.tif)
 
 ADD_TEST(itkMaximumProjectionImageFilterTest3_1 ${REVIEW_TESTS}
-        --compare ${BASELINE}/ESCellsMaximumProjection2D0.tif
-                  ${TEMP}/EScellsMaximumProjection2D0.tif
+        --compare ${BASELINE}/HeadMRVolumeMaximumProjection2D0.tif
+                  ${TEMP}/HeadMRVolumeMaximumProjection2D0.tif
                   itkMaximumProjectionImageFilterTest3
                   0
-                  ${INPUTDATA}/ESCells.hdr
-                  ${TEMP}/EScellsMaximumProjection2D0.tif)
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMaximumProjection2D0.tif)
 
 ADD_TEST(itkMaximumProjectionImageFilterTest3_2 ${REVIEW_TESTS}
-        --compare ${BASELINE}/ESCellsMaximumProjection2D1.tif
-                  ${TEMP}/EScellsMaximumProjection2D1.tif
+        --compare ${BASELINE}/HeadMRVolumeMaximumProjection2D1.tif
+                  ${TEMP}/HeadMRVolumeMaximumProjection2D1.tif
                   itkMaximumProjectionImageFilterTest3
                   1
-                  ${INPUTDATA}/ESCells.hdr
-                  ${TEMP}/EScellsMaximumProjection2D1.tif)
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMaximumProjection2D1.tif)
 
 ADD_TEST(itkMinimumProjectionImageFilterTest ${REVIEW_TESTS}
-        --compare ${BASELINE}/ESCellsMinimumProjection.tif
-                  ${TEMP}/EScellsMinimumProjection.tif
+        --compare ${BASELINE}/HeadMRVolumeMinimumProjection.tif
+                  ${TEMP}/HeadMRVolumeMinimumProjection.tif
                   itkMinimumProjectionImageFilterTest
-                  ${INPUTDATA}/ESCells.hdr
-                  ${TEMP}/EScellsMinimumProjection.tif)
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMinimumProjection.tif)
 
 ADD_TEST(itkMedianProjectionImageFilterTest ${REVIEW_TESTS}
-        --compare ${BASELINE}/ESCellsMedianProjection.tif
-                  ${TEMP}/EScellsMedianProjection.tif
+        --compare ${BASELINE}/HeadMRVolumeMedianProjection.tif
+                  ${TEMP}/HeadMRVolumeMedianProjection.tif
                   itkMedianProjectionImageFilterTest
-                  ${INPUTDATA}/ESCells.hdr
-                  ${TEMP}/EScellsMedianProjection.tif)
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMedianProjection.tif)
 
 ADD_TEST(itkMeanProjectionImageFilterTest ${REVIEW_TESTS}
-        --compare ${BASELINE}/ESCellsMeanProjection.tif
-                  ${TEMP}/EScellsMeanProjection.tif
+        --compare ${BASELINE}/HeadMRVolumeMeanProjection.tif
+                  ${TEMP}/HeadMRVolumeMeanProjection.tif
                   itkMeanProjectionImageFilterTest
-                  ${INPUTDATA}/ESCells.hdr
-                  ${TEMP}/EScellsMeanProjection.tif)
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMeanProjection.tif)
 
 ADD_TEST(itkSigmaProjectionImageFilterTest ${REVIEW_TESTS}
-        --compare ${BASELINE}/ESCellsSigmaProjection.tif
-                  ${TEMP}/EScellsSigmaProjection.tif
+        --compare ${BASELINE}/HeadMRVolumeSigmaProjection.tif
+                  ${TEMP}/HeadMRVolumeSigmaProjection.tif
                   itkSigmaProjectionImageFilterTest
-                  ${INPUTDATA}/ESCells.hdr
-                  ${TEMP}/EScellsSigmaProjection.tif)
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeSigmaProjection.tif)
 
 ADD_TEST(itkSumProjectionImageFilterTest ${REVIEW_TESTS}
-        --compare ${BASELINE}/ESCellsSumProjection.tif
-                  ${TEMP}/ESCellsSumProjection.tif
+        --compare ${BASELINE}/HeadMRVolumeSumProjection.tif
+                  ${TEMP}/HeadMRVolumeSumProjection.tif
                   itkSumProjectionImageFilterTest
-                  ${INPUTDATA}/ESCells.hdr
-                  ${TEMP}/ESCellsSumProjection.tif)
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeSumProjection.tif)
 
 ADD_TEST(itkBinaryProjectionImageFilterTest1 ${REVIEW_TESTS}
-        --compare ${BASELINE}/ESCellsBinaryProjection100.tif
-                  ${TEMP}/ESCellsBinaryProjection100.tif
+        --compare ${BASELINE}/HeadMRVolumeBinaryProjection100.tif
+                  ${TEMP}/HeadMRVolumeBinaryProjection100.tif
                   itkBinaryProjectionImageFilterTest
-                  ${INPUTDATA}/ESCells.hdr
-                  ${TEMP}/ESCellsBinaryProjection100.tif
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeBinaryProjection100.tif
                   100
                   255)
 
 ADD_TEST(itkBinaryProjectionImageFilterTest2 ${REVIEW_TESTS}
-        --compare ${BASELINE}/ESCellsBinaryProjection200.tif
-                  ${TEMP}/ESCellsBinaryProjection200.tif
+        --compare ${BASELINE}/HeadMRVolumeBinaryProjection200.tif
+                  ${TEMP}/HeadMRVolumeBinaryProjection200.tif
                   itkBinaryProjectionImageFilterTest
-                  ${INPUTDATA}/ESCells.hdr
-                  ${TEMP}/ESCellsBinaryProjection200.tif
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeBinaryProjection200.tif
                   200
                   0)
-
-ENDIF(PROJECTION_TESTS_FIXED)
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest
