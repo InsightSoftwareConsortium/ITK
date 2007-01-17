@@ -220,8 +220,6 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
 
   typename TOutputImage::Pointer outputImage = this->GetOutput();
   typename TOutputImage::RegionType outputRegion = outputImage->GetLargestPossibleRegion();
-  typename TOutputImage::SizeType outputSize = outputRegion.GetSize();
-  typename TOutputImage::IndexType outputIndex = outputRegion.GetIndex();
 
   typename TOutputImage::SizeType outputSizeForThread = outputRegionForThread.GetSize();
   typename TOutputImage::IndexType outputIndexForThread = outputRegionForThread.GetIndex();
