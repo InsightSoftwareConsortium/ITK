@@ -130,17 +130,11 @@ HistogramToImageFilter<THistogram, TFunction>
 
 
 
-//----------------------------------------------------------------------------
-
-/** Update */
 template <class THistogram, class TFunction>
 void
 HistogramToImageFilter<THistogram, TFunction>
-::GenerateData(void)
+::GenerateOutputInformation()
 {
-  unsigned int i;
-  itkDebugMacro(<< "HistogramToImageFilter::Update() called");
-
   // Get the input and output pointers 
   // Get from decorator
   const HistogramType *inputHistogram = this->GetInput()->Get();
@@ -148,7 +142,7 @@ HistogramToImageFilter<THistogram, TFunction>
 
   
   // Set the image size to the number of bins along each dimension.
-  for( i=0; i< ImageDimension; i++)
+  for( unsigned int i=0; i< ImageDimension; i++)
     { 
     m_Size[i]    = inputHistogram->GetSize(i);
     m_Origin[i]  = inputHistogram->GetBinMin(i,0);
@@ -161,14 +155,32 @@ HistogramToImageFilter<THistogram, TFunction>
   outputImage->SetRegions( region );
   outputImage->SetSpacing( m_Spacing );   // set spacing
   outputImage->SetOrigin(  m_Origin  );   // and origin
-  outputImage->Allocate();   // allocate the image   
+}
+
+//----------------------------------------------------------------------------
+
+/** Update */
+template <class THistogram, class TFunction>
+void
+HistogramToImageFilter<THistogram, TFunction>
+::GenerateData(void)
+{
+  unsigned int i;
+  itkDebugMacro(<< "HistogramToImageFilter::Update() called");
+
+  this->AllocateOutputs();
+
+  // Get the input and output pointers 
+  // Get from decorator
+  const HistogramType *inputHistogram = this->GetInput()->Get();
+  OutputImageType     *outputImage    = this->GetOutput();
  
   // Set the TotalFrequency in the functor
   this->SetTotalFrequency( static_cast< unsigned long >(
         inputHistogram->GetTotalFrequency() ));
  
   // Fill image with frequencies from Histogram
-  ImageIteratorType iter( outputImage, region );
+  ImageIteratorType iter( outputImage, outputImage->GetRequestedRegion() );
   while( !iter.IsAtEnd() )
     {
     typename OutputImageType::IndexType idx = iter.GetIndex();

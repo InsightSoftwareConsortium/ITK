@@ -154,7 +154,7 @@ protected:
   HistogramToImageFilter();
   ~HistogramToImageFilter();
 
-  virtual void GenerateOutputInformation(){}; // do nothing
+  virtual void GenerateOutputInformation();
   virtual void GenerateData();
   
   FunctorType m_Functor;
