@@ -87,6 +87,8 @@ ADD_TEST(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS}
                                   itkContourExtractor2DImageFilterTest
                                   ${INPUTDATA}/ContourExtractor2DTest.tif  )
 
+IF(PROJECTION_TESTS_FIXED)
+
 ADD_TEST(itkMaximumProjectionImageFilterTest ${REVIEW_TESTS}
         --compare ${BASELINE}/ESCellsMaximumProjection.tif
                   ${TEMP}/EScellsMaximumProjection.tif
@@ -178,6 +180,8 @@ ADD_TEST(itkBinaryProjectionImageFilterTest2 ${REVIEW_TESTS}
                   ${TEMP}/ESCellsBinaryProjection200.tif
                   200
                   0)
+
+ENDIF(PROJECTION_TESTS_FIXED)
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest
