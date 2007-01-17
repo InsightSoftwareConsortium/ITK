@@ -1,7 +1,5 @@
 #include <vcl_cstdio.h>
 
-int close_stdin();
-
 int test_cstdio_main(int argc,char* argv[])
 {
   vcl_printf( "Hello. %d %f %03x.\n", 1, 2.0f, 3 );
@@ -16,7 +14,7 @@ int test_cstdio_main(int argc,char* argv[])
 
   // Close the standard input. All reads from
   // stdin should fail after this.
-  rc = close_stdin();
+  rc = vcl_fclose(stdin);
   ASSERT(rc==0, "couldn't close standard input")
 
   rc = vcl_getchar();
@@ -44,22 +42,3 @@ int test_cstdio_main(int argc,char* argv[])
 
   return fail ? 1 : 0;
 }
-
-// Implement this below the main tests so that the includes don't
-// accidently provide something that shouldn't be provided.
-
-// Closing the input stream using a file descriptor is not portable,
-// since there *may* be some systems that don't use file
-// descriptors. However, I think it should work on all the common
-// platforms. If someone has a conflicting platform, perhaps they
-// could conditionally define the appropriate code for their platform.
-
-// Return 0 on success, non-zero on error.
-
-#if defined(VCL_WIN32)
-# include <io.h>
-int close_stdin() { return _close(0); }
-#else
-# include <unistd.h>
-int close_stdin() { return close(0); }
-#endif
