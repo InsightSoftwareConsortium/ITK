@@ -3,7 +3,7 @@
 // $Revision $
 // $Author $
 // $Name:  $
-// $Date: 2007-01-17 16:34:38 $
+// $Date: 2007-01-17 19:18:04 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -30,10 +30,12 @@ namespace itk
 {
 
 /**
- * Class that connects the QuadEdgeMesh with the Mesh
+ * \class QuadEdgeMeshLineCell
  *
- * \param TCellInterface Basic type for the itk*Cell. This usually comes
- *        from the MeshTraits.
+ * \brief Class that connects the QuadEdgeMesh with the Mesh
+ *
+ * \param TCellInterface Basic type for the itk*Cell. 
+ *        This usually comes from the MeshTraits.
  */
 template< class TCellInterface >
     class QuadEdgeMeshLineCell
@@ -45,8 +47,8 @@ public:
   typedef QuadEdgeMeshLineCell           Self;
   typedef itk::AutoPointer< const Self > ConstSelfAutoPointer;
   typedef itk::AutoPointer< Self >       SelfAutoPointer;
-  typedef Self*                          RawPointer;
-  typedef const Self*                    ConstRawPointer;
+  typedef Self *                         RawPointer;
+  typedef const Self *                   ConstRawPointer;
 
   // itkCellInheritedTypedefs
   typedef TCellInterface                                Superclass;
@@ -92,34 +94,21 @@ public:
   itkTypeMacro( QuadEdgeMeshLineCell, TCellInterface );
 
   /** Methods for a QECell. */
-  virtual void MakeEdge( )           
-  {                                   
-    Self* e2 = new Self( false );   
-    QEDual* e1 = new QEDual( );             
-    QEDual* e3 = new QEDual( );             
-    this->SetRot( e1 );             
-    e1->SetRot( e2 );               
-    e2->SetRot( e3 );               
-    e3->SetRot( this );             
-    this->SetOnext( this );         
-    e1->SetOnext( e3 );             
-    e2->SetOnext( e2 );             
-    e3->SetOnext( e1 );             
-  }
+  virtual void MakeEdge( );
  
   itkQEAccessorsMacro( QEType, Self, QEDual );
 
 public:
   /** Object memory management methods. */
   QuadEdgeMeshLineCell( bool makeEdge = true );
-  virtual ~QuadEdgeMeshLineCell( ) { }
+  virtual ~QuadEdgeMeshLineCell();
 
-  /** Accessors for m_Ident. */
-  void SetIdent( CellIdentifier cid ) { m_Ident = cid; }
-  CellIdentifier GetIdent( )          { return( m_Ident ); }
+  /** Accessors for m_Identifier. */
+  void SetIdent( CellIdentifier cid );
+  CellIdentifier GetIdent();
 
   /** Implement the standard CellInterface. */
-  SelfAutoPointer New( );
+  SelfAutoPointer New();
 
   /** TCellInterface abstract methods definition. */
   virtual void Accept( unsigned long cellId, MultiVisitor* mv );
@@ -161,7 +150,7 @@ private:
    * In order to have constant time access at the itk level instead of 
    * of doing a search in the Mesh::Cell container.
    */
-  CellIdentifier m_Ident;
+  CellIdentifier m_Identifier;
 };
 
 } // end namespace itk
