@@ -51,6 +51,14 @@
 #include "itkQuadEdgeMesh.h"
 #include "itkQuadEdge.h"
 
+#include "itkInvertIntensityImageFilter.h"
+#include "itkConnectedComponentAlgorithm.h"
+#include "itkValuedRegionalExtremaImageFilter.h"
+#include "itkValuedRegionalMaximaImageFilter.h"
+#include "itkValuedRegionalMinimaImageFilter.h"
+#include "itkRegionalMaximaImageFilter.h"
+#include "itkRegionalMinimaImageFilter.h"
+
 int main ( int , char*  )
 {
   

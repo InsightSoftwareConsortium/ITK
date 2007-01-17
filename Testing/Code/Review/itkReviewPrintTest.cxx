@@ -31,6 +31,11 @@
 #include "itkMeanProjectionImageFilter.h"
 #include "itkMaximumProjectionImageFilter.h"
 
+#include "itkValuedRegionalMinimaImageFilter.h"
+#include "itkValuedRegionalMaximaImageFilter.h"
+#include "itkRegionalMaximaImageFilter.h"
+#include "itkRegionalMinimaImageFilter.h"
+
 
 int main(int , char* [])
 {
@@ -104,6 +109,30 @@ int main(int , char* [])
     itk::BinaryProjectionImageFilter<InputType,InputType>::New();
   std:: cout << "-------------BinaryProjectionImageFilterObj "
              << BinaryProjectionImageFilterObj;
+
+  itk::ValuedRegionalMaximaImageFilter<InputType,InputType>::Pointer
+    ValuedRegionalMaximaImageFilterObj =
+    itk::ValuedRegionalMaximaImageFilter<InputType,InputType>::New();
+  std:: cout << "-------------ValuedRegionalMaximaImageFilterObj "
+             << ValuedRegionalMaximaImageFilterObj;
+
+  itk::ValuedRegionalMinimaImageFilter<InputType,InputType>::Pointer
+    ValuedRegionalMinimaImageFilterObj =
+    itk::ValuedRegionalMinimaImageFilter<InputType,InputType>::New();
+  std:: cout << "-------------ValuedRegionalMinimaImageFilterObj "
+             << ValuedRegionalMinimaImageFilterObj;
+
+  itk::RegionalMaximaImageFilter<InputType,InputType>::Pointer
+    RegionalMaximaImageFilterObj =
+    itk::RegionalMaximaImageFilter<InputType,InputType>::New();
+  std:: cout << "-------------RegionalMaximaImageFilterObj "
+             << RegionalMaximaImageFilterObj;
+
+  itk::RegionalMinimaImageFilter<InputType,InputType>::Pointer
+    RegionalMinimaImageFilterObj =
+    itk::RegionalMinimaImageFilter<InputType,InputType>::New();
+  std:: cout << "-------------RegionalMinimaImageFilterObj "
+             << RegionalMinimaImageFilterObj;
 
   return 0;
 
