@@ -1,16 +1,16 @@
 
 #include "itkQuadEdgeMesh.h"
-#include "itkQELineCell.h"
+#include "itkQuadEdgeMeshLineCell.h"
 
 int itkQuadEdgeMeshTest2( int , char* [] )
 {
     std::cout << "Testing points and simple edges... " << std::ends;
 
-    typedef double                              PixelType;
-    typedef itk::QuadEdgeMesh< PixelType, 3 >   MeshType;
-    typedef MeshType::CellType                  CellType;
-    typedef itkQE::LineCell< CellType >         LineType;
-    typedef CellType::CellAutoPointer           CellAutoPointer;
+    typedef double                                   PixelType;
+    typedef itk::QuadEdgeMesh< PixelType, 3 >        MeshType;
+    typedef MeshType::CellType                       CellType;
+    typedef itk::QuadEdgeMeshLineCell< CellType >    LineType;
+    typedef CellType::CellAutoPointer                CellAutoPointer;
 
     MeshType::Pointer  mesh = MeshType::New( );
 

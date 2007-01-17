@@ -1,7 +1,7 @@
 
 #include "itkQuadEdgeMesh.h"
-#include "itkQELineCell.h"
-#include "itkQEPolygonCell.h"
+#include "itkQuadEdgeMeshLineCell.h"
+#include "itkQuadEdgeMeshPolygonCell.h"
 
 int itkQuadEdgeMeshTest3( int , char* [] )
 {
@@ -9,7 +9,7 @@ int itkQuadEdgeMeshTest3( int , char* [] )
   typedef itk::QuadEdgeMesh< PixelType, 3 >    MeshType;
   typedef MeshType::CellType                   CellType;
   typedef MeshType::QEPrimal                   QEPrimal;
-  typedef itkQE::LineCell< CellType >          LineType;
+  typedef itk::QuadEdgeMeshLineCell< CellType >          LineType;
   typedef itkQE::PolygonCell< CellType >       QEPolygonCellType;
 
   MeshType::Pointer mesh = MeshType::New();
