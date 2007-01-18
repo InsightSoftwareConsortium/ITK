@@ -148,6 +148,10 @@ public:
     return *this;
   }
 
+  /**For every operator=, there should be an equivalent copy constructor. */
+  inline Matrix(const vnl_matrix<T> & matrix) {
+    this->operator=(matrix);
+  }
 
   /** Comparison operators. */
   inline bool operator==( const Self & matrix) const
