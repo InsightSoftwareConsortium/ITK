@@ -426,7 +426,7 @@ ContourExtractor2DImageFilter<TInputImage>
     else
       {
      ConstIteratorType  itC = (*it).begin();
-      while(itC != (*it).end());
+      while(itC != (*it).end())
         {
         path->push_back(*itC);
         itC++;
