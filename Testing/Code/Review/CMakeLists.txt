@@ -191,6 +191,12 @@ ADD_TEST(itkBinaryProjectionImageFilterTest2 ${REVIEW_TESTS}
                   200
                   0)
 
+ADD_TEST(itkNeuralNetworkIOTest ${REVIEW_TESTS}
+                  itkNeuralNetworkIOTest
+                  ${INPUTDATA}/xornet.txt
+                  ${INPUTDATA}/xortest.txt
+                  )
+
 ADD_TEST(itkConformalFlatteningFilterTest ${REVIEW_TESTS}
   itkConformalFlatteningFilterTest
   ${INPUTDATA}/nice.vtk
