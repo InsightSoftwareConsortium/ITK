@@ -58,5 +58,7 @@ void RegisterTests()
   REGISTER_TEST(itkRegionalMinimaImageFilterTest);
   REGISTER_TEST(itkRegionalMinimaImageFilterTest2);
 
+  REGISTER_TEST(itkNeuralNetworkIOTest);
+ 
   REGISTER_TEST(itkConformalFlatteningFilterTest);
 }

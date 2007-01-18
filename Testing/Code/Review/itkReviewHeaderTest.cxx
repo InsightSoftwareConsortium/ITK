@@ -59,6 +59,9 @@
 #include "itkRegionalMaximaImageFilter.h"
 #include "itkRegionalMinimaImageFilter.h"
 
+#include "itkNeuralNetworkFileReader.h"
+#include "itkNeuralNetworkFileWriter.h"
+
 #include "itkConformalFlatteningFilter.h"
 
 int main ( int , char*  )

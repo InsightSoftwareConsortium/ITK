@@ -56,6 +56,8 @@ SET(ReviewTest_SRCS
   itkRegionalMinimaImageFilterTest.cxx
   itkRegionalMinimaImageFilterTest2.cxx
 
+  itkNeuralNetworkIOTest.cxx
+
   itkConformalFlatteningFilterTest.cxx
 )
 
