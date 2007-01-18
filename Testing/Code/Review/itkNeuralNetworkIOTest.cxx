@@ -30,7 +30,7 @@
 #define ROUND(x) (floor(x+0.5))
 #define same_sign(a, b) (((a)*(b))>0)
 
-int itkNNetIOTest(int argc,char* argv[])
+int itkNeuralNetworkIOTest(int argc,char* argv[])
 {
   if( argc < 2 )
   {
