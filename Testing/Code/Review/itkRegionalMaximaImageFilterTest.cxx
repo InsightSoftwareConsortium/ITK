@@ -31,6 +31,15 @@
 
 int itkRegionalMaximaImageFilterTest(int, char * argv[])
 {
+  if( argc < 5 )
+    {
+    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << " Connection InputImage  OutputImageFile  " 
+              << "OutputImageFile2" << std::endl;
+    return EXIT_FAILURE;
+    }
+ 
   const int dim = 3;
   
   typedef unsigned char PType;

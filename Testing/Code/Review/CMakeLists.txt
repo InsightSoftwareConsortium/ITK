@@ -197,6 +197,89 @@ ADD_TEST(itkConformalFlatteningFilterTest ${REVIEW_TESTS}
   niceFlat.vtk
   )
 
+
+ADD_TEST(itkValuedRegionalMinimaImageFilterTest ${REVIEW_TESTS}
+        --compare ${BASELINE}/cthead1ValuedRegionalMinimal-ref.png
+                  ${TEMP}/cthead1ValuedRegionalMinimal.png
+                  itkValuedRegionalMinimaImageFilterTest
+                  1
+                  ${INPUTDATA}/cthead1.png
+                  ${TEMP}/cthead1ValuedRegionalMinimal.png
+                  ${TEMP}/cthead1ValuedRegionalMinimal-ref.png
+                  )
+
+ADD_TEST(itkValuedRegionalMinimaImageFilterTest2 ${REVIEW_TESTS}
+        --compare ${BASELINE}/cthead1ValuedRegionalMinimal-ref2.png
+                  ${TEMP}/cthead1ValuedRegionalMinimal2.png
+                  itkValuedRegionalMinimaImageFilterTest
+                  0
+                  ${INPUTDATA}/cthead1.png
+                  ${TEMP}/cthead1ValuedRegionalMinimal2.png
+                  ${TEMP}/cthead1ValuedRegionalMinimal-ref2.png
+                  )
+
+ADD_TEST(itkValuedRegionalMaximaImageFilterTest ${REVIEW_TESTS}
+        --compare ${BASELINE}/cthead1ValuedRegionalMaximal-ref.png
+                  ${TEMP}/cthead1ValuedRegionalMaximal.png
+                  itkValuedRegionalMaximaImageFilterTest
+                  1
+                  ${INPUTDATA}/cthead1.png
+                  ${TEMP}/cthead1ValuedRegionalMaximal.png
+                  ${TEMP}/cthead1ValuedRegionalMaximal-ref.png
+                  )
+
+ADD_TEST(itkValuedRegionalMaximaImageFilterTest2 ${REVIEW_TESTS}
+        --compare ${BASELINE}/cthead1ValuedRegionalMaximal-ref2.png
+                  ${TEMP}/cthead1ValuedRegionalMaximal2.png
+                  itkValuedRegionalMaximaImageFilterTest
+                  0
+                  ${INPUTDATA}/cthead1.png
+                  ${TEMP}/cthead1ValuedRegionalMaximal2.png
+                  ${TEMP}/cthead1ValuedRegionalMaximal-ref2.png
+                  )
+
+ADD_TEST(itkRegionalMinimaImageFilterTest2_1 ${REVIEW_TESTS}
+        --compare ${BASELINE}/cthead1RegionalMinimal-ref2_1.png
+                  ${TEMP}/cthead1RegionalMinimal2_1.png
+                  itkRegionalMaximaImageFilterTest2
+                  1
+                  1
+                  ${INPUTDATA}/cthead1.png
+                  ${TEMP}/cthead1RegionalMinimal2_1.png
+                  ${TEMP}/cthead1RegionalMinimal-ref2_1.png
+                  )
+ADD_TEST(itkRegionalMinimaImageFilterTest2_2 ${REVIEW_TESTS}
+        --compare ${BASELINE}/cthead1RegionalMinimal-ref2_2.png
+                  ${TEMP}/cthead1RegionalMinimal2_2.png
+                  itkRegionalMaximaImageFilterTest2
+                  0
+                  1
+                  ${INPUTDATA}/cthead1.png
+                  ${TEMP}/cthead1RegionalMinimal2_2.png
+                  ${TEMP}/cthead1RegionalMinimal-ref2_2.png
+                  )
+
+ADD_TEST(itkRegionalMaximaImageFilterTest2_1 ${REVIEW_TESTS}
+        --compare ${BASELINE}/cthead1RegionalMaximal-ref2_1.png
+                  ${TEMP}/cthead1RegionalMaximal2_1.png
+                  itkRegionalMaximaImageFilterTest2
+                  1
+                  1
+                  ${INPUTDATA}/cthead1.png
+                  ${TEMP}/cthead1RegionalMaximal2_1.png
+                  ${TEMP}/cthead1RegionalMaximal-ref2_1.png
+                  )
+ADD_TEST(itkRegionalMaximaImageFilterTest2_2 ${REVIEW_TESTS}
+        --compare ${BASELINE}/cthead1RegionalMaximal-ref2_2.png
+                  ${TEMP}/cthead1RegionalMaximal2_2.png
+                  itkRegionalMaximaImageFilterTest2
+                  0
+                  1
+                  ${INPUTDATA}/cthead1.png
+                  ${TEMP}/cthead1RegionalMaximal2_2.png
+                  ${TEMP}/cthead1RegionalMaximal-ref2_2.png
+                  )
+
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest
   ITKAlgorithms

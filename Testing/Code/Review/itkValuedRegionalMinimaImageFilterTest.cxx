@@ -34,6 +34,15 @@ int itkValuedRegionalMinimaImageFilterTest(int argc, char * argv[])
 {
   const int dim = 2;
   
+  if( argc < 5 )
+    {
+    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << " InputImage  OutputImageFile1 OutputImageFile2  " 
+              << "OutputImageFile3" << std::endl;
+    return EXIT_FAILURE;
+    }
+ 
   typedef unsigned char PType;
   typedef itk::Image< PType, dim > IType;
 
@@ -52,7 +61,6 @@ int itkValuedRegionalMinimaImageFilterTest(int argc, char * argv[])
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[3] );
   writer->Update();
-
 
   // produce the same output with other filters
   typedef itk::HConcaveImageFilter< IType, IType > ConcaveType;
@@ -95,6 +103,6 @@ int itkValuedRegionalMinimaImageFilterTest(int argc, char * argv[])
   writer2->SetFileName( argv[4] );
   writer2->Update();
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
