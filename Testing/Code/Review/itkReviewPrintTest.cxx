@@ -39,7 +39,7 @@
 
 int main(int , char* [])
 {
-  typedef itk::Image<float,2>           InputType; 
+  typedef itk::Image<float,2>           InputType;
   typedef itk::Image<float,2>           OutputType;
   typedef itk::Image<unsigned short,2>  UShortImageType;
   typedef itk::Image<unsigned char,2>   CharType;
@@ -51,6 +51,8 @@ int main(int , char* [])
   typedef itk::Image<VectorType, 2> VectorImageType;
 
   typedef itk::QuadEdgeMesh< double, 3 > QuadEdgeMeshType;
+
+  typedef itk::Mesh< float, 3 >     MeshType;
 
   itk::ContourExtractor2DImageFilter<InputType>::Pointer
     ContourExtractor2DImageFilterObj =
@@ -134,6 +136,11 @@ int main(int , char* [])
   std:: cout << "-------------RegionalMinimaImageFilterObj "
              << RegionalMinimaImageFilterObj;
 
-  return 0;
+  itk::ConformalFlatteningFilter<MeshType,MeshType>::Pointer
+    ConformalFlatteningFilterObj =
+    itk::ConformalFlatteningFilter<MeshType,MeshType>::New();
+  std::cout << "--------------ConformalFlatteningFilterObj "
+            << ConformalFlatteningFilterObj;
 
+  return EXIT_SUCCESS;
 }
