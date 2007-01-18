@@ -55,7 +55,8 @@ SET(ReviewTest_SRCS
   itkRegionalMaximaImageFilterTest2.cxx
   itkRegionalMinimaImageFilterTest.cxx
   itkRegionalMinimaImageFilterTest2.cxx
-  
+
+  itkConformalFlatteningFilterTest.cxx
 )
 
 ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS}
@@ -187,6 +188,12 @@ ADD_TEST(itkBinaryProjectionImageFilterTest2 ${REVIEW_TESTS}
                   ${TEMP}/HeadMRVolumeBinaryProjection200.tif
                   200
                   0)
+
+ADD_TEST(itkConformalFlatteningFilterTest ${REVIEW_TESTS}
+  itkConformalFlatteningFilterTest
+  ${INPUTDATA}/nice.vtk
+  niceFlat.vtk
+  )
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest
