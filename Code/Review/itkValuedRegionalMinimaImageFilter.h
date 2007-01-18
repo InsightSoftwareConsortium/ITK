@@ -63,7 +63,7 @@ public:
 protected:
   ValuedRegionalMinimaImageFilter() 
   {
-    SetMarkerValue(NumericTraits<typename TOutputImage::PixelType>::max());
+    SetMarkerValue(NumericTraits<ITK_TYPENAME TOutputImage::PixelType>::max());
   }
   virtual ~ValuedRegionalMinimaImageFilter() {}
 
