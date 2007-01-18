@@ -57,5 +57,6 @@ void RegisterTests()
   REGISTER_TEST(itkRegionalMaximaImageFilterTest2);
   REGISTER_TEST(itkRegionalMinimaImageFilterTest);
   REGISTER_TEST(itkRegionalMinimaImageFilterTest2);
- 
+
+  REGISTER_TEST(itkConformalFlatteningFilterTest);
 }
