@@ -29,7 +29,7 @@
 #include "itkSimpleFilterWatcher.h"
 
 
-int itkRegionalMaximaImageFilterTest(int, char * argv[])
+int itkRegionalMaximaImageFilterTest(int argc, char * argv[])
 {
   if( argc < 5 )
     {
