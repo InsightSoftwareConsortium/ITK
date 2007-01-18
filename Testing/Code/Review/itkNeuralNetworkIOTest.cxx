@@ -14,23 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
 
-/*=========================================================================
-
-  Program:   itkUNC
-  Module:    itkNeuralNetworkIOTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) 2002 CADDLab @ UNC. All rights reserved.
-  See itkUNCCopyright.txt for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
 
 #include "itkNeuralNetworkFileReader.h"
 #include "itkNeuralNetworkFileWriter.h"
@@ -45,128 +32,142 @@
 
 int itkNNetIOTest(int argc,char* argv[])
 {
- if( argc < 2 )
- {
+  if( argc < 2 )
+  {
     std::cerr << "Usage: " << argv[0] << 
       " NetworkConfigurationFile  TrainingData" << std::endl;
     return EXIT_FAILURE;
- }
+  }
 
- const unsigned int num_input_nodes=2;
- const unsigned int num_output_nodes=1;
- typedef itk::Vector<double, num_input_nodes> MeasurementVectorType;
- typedef itk::Vector<double, num_output_nodes> TargetVectorType;
- typedef itk::Statistics::MultilayerNeuralNetworkBase<MeasurementVectorType, TargetVectorType> NetworkType;
- typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
- typedef itk::Statistics::ListSample<TargetVectorType> TargetType;
- typedef itk::Statistics::IterativeSupervisedTrainingFunction<SampleType, TargetType, double> TrainingFcnType;
+  const unsigned int num_input_nodes=2;
+  const unsigned int num_output_nodes=1;
+  typedef itk::Vector<double, num_input_nodes>   MeasurementVectorType;
+  typedef itk::Vector<double, num_output_nodes>  TargetVectorType;
 
- char* dataFileName = argv[2] ;
- typedef itk::NeuralNetworkFileReader<MeasurementVectorType,TargetVectorType> readertype;
- typedef itk::NeuralNetworkFileWriter<MeasurementVectorType,TargetVectorType> writertype;
- readertype::Pointer r=readertype::New(); 
- 
- // Read the Network topology from the configuration file
- r->SetFileName(argv[1]);
- r->Update();
- NetworkType::Pointer network=r->GetNetwork();
- 
- // Initialize network
- network->Initialize();
- 
- // Read in training data
- MeasurementVectorType mv;
- TargetVectorType tv;
- SampleType::Pointer sample = SampleType::New();
- TargetType::Pointer targets = TargetType::New();
- sample->SetMeasurementVectorSize( num_input_nodes);
- targets->SetMeasurementVectorSize( num_output_nodes);
- std::ifstream infile1;
- infile1.open(dataFileName, std::ios::in);
+  typedef itk::Statistics::MultilayerNeuralNetworkBase<
+                          MeasurementVectorType, TargetVectorType> NetworkType;
 
- infile1 >> mv[0] >> mv[1] >> tv[0];
+  typedef itk::Statistics::ListSample<MeasurementVectorType>    SampleType;
+  typedef itk::Statistics::ListSample<TargetVectorType>         TargetType;
 
- while (!infile1.eof())
- {
-   std::cout << "Input =" << mv << std::endl;
-   std::cout << "target =" << tv << std::endl;
-   sample->PushBack(mv);
-   targets->PushBack(tv);
-   infile1 >> mv[0] >> mv[1] >> tv[0];
- }
- infile1.close();
+  typedef itk::Statistics::IterativeSupervisedTrainingFunction<
+                          SampleType, TargetType, double> TrainingFcnType;
 
- std::cout << sample->Size() << std::endl;
+  char* dataFileName = argv[2];
+
+  typedef itk::NeuralNetworkFileReader<
+                       MeasurementVectorType,TargetVectorType> ReaderType;
+
+  typedef itk::NeuralNetworkFileWriter<
+                       MeasurementVectorType,TargetVectorType> WriterType;
+
+  ReaderType::Pointer r=ReaderType::New(); 
+
+  // Read the Network topology from the configuration file
+  r->SetFileName(argv[1]);
+  r->Update();
+  NetworkType::Pointer network=r->GetNetwork();
+
+  // Initialize network
+  network->Initialize();
+
+  // Read in training data
+  MeasurementVectorType mv;
+  TargetVectorType tv;
+  SampleType::Pointer sample = SampleType::New();
+  TargetType::Pointer targets = TargetType::New();
+  sample->SetMeasurementVectorSize( num_input_nodes);
+  targets->SetMeasurementVectorSize( num_output_nodes);
+  std::ifstream infile1;
+  infile1.open(dataFileName, std::ios::in);
+
+  infile1 >> mv[0] >> mv[1] >> tv[0];
+
+  while (!infile1.eof())
+    {
+    std::cout << "Input =" << mv << std::endl;
+    std::cout << "target =" << tv << std::endl;
+    sample->PushBack(mv);
+    targets->PushBack(tv);
+    infile1 >> mv[0] >> mv[1] >> tv[0];
+    }
+
+  infile1.close();
+
+  std::cout << sample->Size() << std::endl;
 
 
   //Network Simulation
- std::cout << sample->Size() << std::endl;
- std::cout << "Network Simulation" << std::endl;
- TargetVectorType ov;
- SampleType::ConstIterator iter1 = sample->Begin();
- TargetType::ConstIterator iter2 = targets->Begin();
- unsigned int error1 = 0 ;
- unsigned int error2 = 0 ;
- int flag = 0;
- 
- while (iter1 != sample->End())
- {
-   mv = iter1.GetMeasurementVector();
-   tv = iter2.GetMeasurementVector();
-   ov.Set_vnl_vector(network->GenerateOutput(mv));
-   flag = 0;
-   if (fabs(tv[0]-ov[0])>0.5 && !same_sign(tv[0],ov[0]))
-   {
-     flag = 1;
-   }
-   if (flag == 1 && ROUND(tv[0]) == 1)
-   {
-     ++error1;
-   }
-   else if (flag == 1 && ROUND(tv[0]) == -1)
-   {
-    ++error2;
-   }
-   std::cout << "Network Input = " << mv << std::endl;
-   std::cout << "Network Output = " << ov << std::endl;
-   std::cout << "Target = " << tv << std::endl;
-   ++iter1;
-   ++iter2;
- }
- std::cout << "Among 4 measurement vectors, " << error1 + error2
-            << " vectors are misclassified." << std::endl ;
- std::cout<<"Network Weights and Biases after Training= "<<std::endl;
- std::cout << network << std::endl;
+  std::cout << sample->Size() << std::endl;
+  std::cout << "Network Simulation" << std::endl;
+  TargetVectorType ov;
+  SampleType::ConstIterator iter1 = sample->Begin();
+  TargetType::ConstIterator iter2 = targets->Begin();
+  unsigned int error1 = 0;
+  unsigned int error2 = 0;
+  int flag = 0;
 
- 
- //Write out network as it was read in
+  while (iter1 != sample->End())
+    {
+    mv = iter1.GetMeasurementVector();
+    tv = iter2.GetMeasurementVector();
+    ov.Set_vnl_vector(network->GenerateOutput(mv));
+    flag = 0;
+    if (fabs(tv[0]-ov[0])>0.5 && !same_sign(tv[0],ov[0]))
+      {
+      flag = 1;
+      }
+    if (flag == 1 && ROUND(tv[0]) == 1)
+      {
+      ++error1;
+      }
+    else if (flag == 1 && ROUND(tv[0]) == -1)
+      {
+      ++error2;
+      }
 
- writertype::Pointer w=writertype::New();
- w->SetWriteWeightValuesType(1);
- w->SetFileName("xornetASCII.txt");
- w->SetInput(network);
- w->Update();
+    std::cout << "Network Input = " << mv << std::endl;
+    std::cout << "Network Output = " << ov << std::endl;
+    std::cout << "Target = " << tv << std::endl;
+    ++iter1;
+    ++iter2;
+    }
 
- 
- //Reinitialize network and train
+  std::cout << "Among 4 measurement vectors, " << error1 + error2
+            << " vectors are misclassified." << std::endl;
+  std::cout<<"Network Weights and Biases after Training= "<<std::endl;
+  std::cout << network << std::endl;
 
- network->InitializeWeights();
- TrainingFcnType::Pointer trainingfcn = TrainingFcnType::New();
- trainingfcn->SetIterations(2000);
- trainingfcn->SetThreshold(0.001); 
- trainingfcn->Train(network, sample, targets);
 
- writertype::Pointer w2=writertype::New();
- w2->SetWriteWeightValuesType(2);
- w2->SetFileName("xornetBinary.txt");
- w2->SetInput(network);
- w2->Update();
+  //Write out network as it was read in
 
-if ((error1 + error2) > 2)
- {
+  WriterType::Pointer w=WriterType::New();
+  w->SetWriteWeightValuesType(1);
+  w->SetFileName("xornetASCII.txt");
+  w->SetInput(network);
+  w->Update();
+
+
+  //Reinitialize network and train
+
+  network->InitializeWeights();
+  TrainingFcnType::Pointer trainingfcn = TrainingFcnType::New();
+  trainingfcn->SetIterations(2000);
+  trainingfcn->SetThreshold(0.001); 
+  trainingfcn->Train(network, sample, targets);
+
+  WriterType::Pointer w2=WriterType::New();
+  w2->SetWriteWeightValuesType(2);
+  w2->SetFileName("xornetBinary.txt");
+  w2->SetInput(network);
+  w2->Update();
+
+  if ((error1 + error2) > 2)
+    {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
- }
- std::cout << "Test passed." << std::endl;
- return EXIT_SUCCESS;
+    }
+
+  std::cout << "Test passed." << std::endl;
+  return EXIT_SUCCESS;
 }

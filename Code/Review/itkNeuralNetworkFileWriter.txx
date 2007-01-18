@@ -86,7 +86,6 @@ void
 NeuralNetworkFileWriter<TVector,TOutput>
 ::Update()
 {  
-  //std::ofstream of;
   netOutputfile.open(m_FileName.c_str(), std::ios::binary | std::ios::out);
   
   if(!netOutputfile.is_open())
