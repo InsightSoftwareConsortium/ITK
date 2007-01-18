@@ -30,7 +30,7 @@
 
 
 
-int itkValuedRegionalMaximaImageFilterTest(int, char * argv[])
+int itkValuedRegionalMaximaImageFilterTest(int argc, char * argv[])
 {
   const int dim = 2;
   
