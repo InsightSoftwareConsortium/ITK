@@ -97,4 +97,5 @@ private:
 }; // end SigmaProjectionImageFilter
 
 } //end namespace itk
+
 #endif

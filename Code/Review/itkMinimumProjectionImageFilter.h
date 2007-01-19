@@ -25,7 +25,8 @@ namespace itk {
 /** \class MinimumProjectionImageFilter
  * \brief Minimum projection
  *
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
+ * INRA de Jouy-en-Josas, France.
  *
  * \sa ProjectionImageFilter
  */
@@ -60,13 +61,15 @@ public:
 
 
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT MinimumProjectionImageFilter :
-    public
-    ProjectionImageFilter<TInputImage, TOutputImage, Function::MinimumAccumulator< typename TInputImage::PixelType > >
+class ITK_EXPORT MinimumProjectionImageFilter : public
+  ProjectionImageFilter<TInputImage, TOutputImage, 
+    Function::MinimumAccumulator< typename TInputImage::PixelType > >
 {
 public:
   typedef MinimumProjectionImageFilter Self;
-  typedef ProjectionImageFilter<TInputImage, TOutputImage, Function::MinimumAccumulator< typename TInputImage::PixelType > > Superclass;
+  typedef ProjectionImageFilter<TInputImage, TOutputImage, 
+    Function::MinimumAccumulator< 
+      typename TInputImage::PixelType > > Superclass;
 
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -91,4 +94,5 @@ private:
 }; // end MinimumProjectionImageFilter
 
 } //end namespace itk
+
 #endif

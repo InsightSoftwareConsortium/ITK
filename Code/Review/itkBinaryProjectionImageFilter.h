@@ -159,4 +159,5 @@ private:
 }; // end BinaryProjectionImageFilter
 
 } //end namespace itk
+
 #endif

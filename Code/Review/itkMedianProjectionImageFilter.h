@@ -27,7 +27,8 @@ namespace itk {
 /** \class MedianProjectionImageFilter
  * \brief Median projection
  *
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
+ * INRA de Jouy-en-Josas, France.
  *
  * \sa ProjectionImageFilter
  */
@@ -56,7 +57,8 @@ public:
 
   inline TInputPixel GetValue()
     {
-    const typename std::vector<TInputPixel>::iterator medianIterator = m_Values.begin() +  m_Values.size() / 2;
+    typedef typename std::vector<TInputPixel>::iterator ContainerIterator;
+    ContainerIterator medianIterator = m_Values.begin() +  m_Values.size() / 2;
     std::nth_element(m_Values.begin(), medianIterator, m_Values.end() );
     return *medianIterator;
     }
@@ -67,13 +69,15 @@ public:
 
 
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT MedianProjectionImageFilter :
-    public
-    ProjectionImageFilter<TInputImage, TOutputImage, Function::MedianAccumulator< typename TInputImage::PixelType > >
+class ITK_EXPORT MedianProjectionImageFilter : public
+  ProjectionImageFilter<TInputImage, TOutputImage, 
+    Function::MedianAccumulator< typename TInputImage::PixelType > >
 {
 public:
   typedef MedianProjectionImageFilter Self;
-  typedef ProjectionImageFilter<TInputImage, TOutputImage, Function::MedianAccumulator< typename TInputImage::PixelType > > Superclass;
+  typedef ProjectionImageFilter<TInputImage, TOutputImage, 
+    Function::MedianAccumulator< 
+      typename TInputImage::PixelType > > Superclass;
 
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -98,4 +102,5 @@ private:
 }; // end MedianProjectionImageFilter
 
 } //end namespace itk
+
 #endif

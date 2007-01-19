@@ -25,7 +25,8 @@ namespace itk {
 /** \class MeanProjectionImageFilter
  * \brief Mean projection
  *
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
+ * INRA de Jouy-en-Josas, France.
  *
  * \sa ProjectionImageFilter
  */
@@ -65,16 +66,19 @@ public:
 } // end namespace Function
 
 
-template <class TInputImage, class TOutputImage, class TAccumulate= ITK_TYPENAME NumericTraits< ITK_TYPENAME TOutputImage::PixelType >::AccumulateType >
-class ITK_EXPORT MeanProjectionImageFilter :
-    public
-    ProjectionImageFilter<TInputImage, TOutputImage,
-      Function::MeanAccumulator< typename TInputImage::PixelType, TAccumulate > >
+template <class TInputImage, class TOutputImage, 
+class TAccumulate= 
+  ITK_TYPENAME NumericTraits<
+    ITK_TYPENAME TOutputImage::PixelType >::AccumulateType >
+class ITK_EXPORT MeanProjectionImageFilter : public
+  ProjectionImageFilter<TInputImage, TOutputImage,
+    Function::MeanAccumulator< typename TInputImage::PixelType, TAccumulate > >
 {
 public:
   typedef MeanProjectionImageFilter Self;
   typedef ProjectionImageFilter<TInputImage, TOutputImage, 
-    Function::MeanAccumulator< typename TInputImage::PixelType, TAccumulate > > Superclass;
+    Function::MeanAccumulator< 
+      typename TInputImage::PixelType, TAccumulate > > Superclass;
 
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -99,4 +103,5 @@ private:
 }; // end MeanProjectionImageFilter
 
 } //end namespace itk
+
 #endif

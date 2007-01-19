@@ -77,4 +77,5 @@ private:
 }; // end SumProjectionImageFilter
 
 } //end namespace itk
+
 #endif

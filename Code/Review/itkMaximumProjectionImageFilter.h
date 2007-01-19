@@ -60,12 +60,13 @@ public:
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT MaximumProjectionImageFilter :
-    public
-    ProjectionImageFilter<TInputImage, TOutputImage, Function::MaximumAccumulator< typename TInputImage::PixelType > >
+public ProjectionImageFilter<TInputImage, TOutputImage, 
+    Function::MaximumAccumulator< typename TInputImage::PixelType > >
 {
 public:
   typedef MaximumProjectionImageFilter Self;
-  typedef ProjectionImageFilter<TInputImage, TOutputImage, Function::MaximumAccumulator< typename TInputImage::PixelType > > Superclass;
+  typedef ProjectionImageFilter<TInputImage, TOutputImage, 
+  Function::MaximumAccumulator< typename TInputImage::PixelType > > Superclass;
 
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -90,4 +91,5 @@ private:
 }; // end MaximumProjectionImageFilter
 
 } //end namespace itk
+
 #endif

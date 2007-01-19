@@ -40,12 +40,14 @@ namespace itk
  * the type of the output image.
  *
  * \author Emiliano Beronich
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
+ * INRA de Jouy-en-Josas, France.
  *
  * \ingroup   IntensityImageFilters     Singlethreaded
  */
 template <class TInputImage, class TOutputImage, class TAccumulator>
-class ITK_EXPORT ProjectionImageFilter : public ImageToImageFilter<TInputImage,TOutputImage>
+class ITK_EXPORT ProjectionImageFilter : 
+  public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -83,8 +85,9 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(ImageDimensionCheck,
-      (Concept::SameDimensionOrMinusOne<itkGetStaticConstMacro(InputImageDimension),
-                                        itkGetStaticConstMacro(OutputImageDimension)>));
+    (Concept::SameDimensionOrMinusOne<
+       itkGetStaticConstMacro(InputImageDimension),
+       itkGetStaticConstMacro(OutputImageDimension)>));
   /** End concept checking */
 #endif
 
@@ -107,7 +110,8 @@ protected:
   /** Apply changes to the input image requested region. */
   virtual void GenerateInputRequestedRegion();
 
-  virtual void ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, int threadId );
+  virtual void ThreadedGenerateData( 
+   const OutputImageRegionType& outputRegionForThread, int threadId );
 
   virtual AccumulatorType NewAccumulator( unsigned long );
 

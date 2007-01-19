@@ -59,7 +59,8 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
 
   // Get pointers to the input and output
   typename Superclass::OutputImagePointer output = this->GetOutput();
-  typename Superclass::InputImagePointer input = const_cast< TInputImage * >( this->GetInput() );
+  typename Superclass::InputImagePointer input = 
+    const_cast< TInputImage * >( this->GetInput() );
 
   inputIndex = input->GetLargestPossibleRegion().GetIndex();
   inputSize = input->GetLargestPossibleRegion().GetSize();
