@@ -201,7 +201,7 @@ ADD_TEST(itkConformalFlatteningMeshFilterTest1 ${REVIEW_TESTS}
                  itkConformalFlatteningMeshFilterTest
                  ${INPUTDATA}/genusZeroSurface01.vtk
                  genusZeroMesh01ConformalFlattenedToSphere.vtk
-                 1073
+                 319
                  100.0
                  1
                  )
@@ -210,7 +210,7 @@ ADD_TEST(itkConformalFlatteningMeshFilterTest2 ${REVIEW_TESTS}
                  itkConformalFlatteningMeshFilterTest
                  ${INPUTDATA}/genusZeroSurface01.vtk
                  genusZeroMesh01ConformalFlattenedToPlane.vtk
-                 1073
+                 319
                  100.0
                  0
                  )
