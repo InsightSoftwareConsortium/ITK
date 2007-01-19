@@ -38,116 +38,119 @@ PURPOSE.  See the above copyright notices for more information.
 namespace itk
 {
 
-  /** \class ConformalFlatteningMeshFilter
-   * \brief This filter maps a Surface in 3D to a plane or to a sphere.
-   *
-   * \author John Melonakos et al
-   *
-   * FIXME: Add reference to the Insight Journal paper
-   *
-   * FIXME: Add credits to NAMIC funding
-   * 
-   * \ingroup MeshFilters
-   */
-  template <class TInputMesh, class TOutputMesh>
-  class ITK_EXPORT ConformalFlatteningMeshFilter : 
-    public MeshToMeshFilter<TInputMesh,TOutputMesh>
-  {
-  public:
-    /** Standard class typedefs. */
-    typedef ConformalFlatteningMeshFilter              Self;
-    typedef MeshToMeshFilter<TInputMesh,TOutputMesh>   Superclass;
-    typedef SmartPointer<Self>                         Pointer;
-    typedef SmartPointer<const Self>                   ConstPointer;
+/** \class ConformalFlatteningMeshFilter
+ * \brief This filter maps a Surface in 3D to a plane or to a sphere.
+ *
+ * \author John Melonakos et al
+ *
+ * FIXME: Add reference to the Insight Journal paper
+ *
+ * FIXME: Add credits to NAMIC funding
+ * 
+ * \ingroup MeshFilters
+ */
+template <class TInputMesh, class TOutputMesh>
+class ITK_EXPORT ConformalFlatteningMeshFilter : 
+  public MeshToMeshFilter<TInputMesh,TOutputMesh>
+{
+public:
+  /** Standard class typedefs. */
+  typedef ConformalFlatteningMeshFilter              Self;
+  typedef MeshToMeshFilter<TInputMesh,TOutputMesh>   Superclass;
+  typedef SmartPointer<Self>                         Pointer;
+  typedef SmartPointer<const Self>                   ConstPointer;
+
+  typedef TInputMesh InputMeshType;
+  typedef TOutputMesh OutputMeshType;
+  typedef typename InputMeshType::Pointer InputMeshPointer;
+  typedef typename OutputMeshType::Pointer OutputMeshPointer;
+
+  /** Type for representing coordinates. */
+  typedef typename TInputMesh::CoordRepType  CoordRepType;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ConformalFlatteningMeshFilter, MeshToMeshFilter);
+
+  /** Convenient constants obtained from TMeshTraits template parameter. */
+  itkStaticConstMacro(PointDimension, unsigned int,
+     ::itk::GetMeshDimension< TInputMesh >::PointDimension );
+
+  ///////////////////////
+  typedef typename InputMeshType::PointsContainer           PointsContainer;
+  typedef typename InputMeshType::CellsContainer            CellsContainer;
+  typedef typename PointsContainer::ConstIterator           PointIterator;
+  typedef typename CellsContainer::ConstIterator            CellIterator;  
+  typedef typename InputMeshType::CellType                  CellType;
+  typedef typename CellType::PointIdIterator                PointIdIterator;
+  typedef typename InputMeshType::PointType                 PointType;
+
+  /** Select the point that will be used as reference for the flattening.
+   *  This value must be the identifier of a point existing in the input
+   *  Mesh. */
+  void SetPolarPoint( int );
   
-    typedef TInputMesh InputMeshType;
-    typedef TOutputMesh OutputMeshType;
-    typedef typename InputMeshType::Pointer InputMeshPointer;
-    typedef typename OutputMeshType::Pointer OutputMeshPointer;
-
-    /** Type for representing coordinates. */
-    typedef typename TInputMesh::CoordRepType  CoordRepType;
-
-    /** Method for creation through the object factory. */
-    itkNewMacro(Self);
+  /** Define the scale of the mapping */
+  void SetScale( double );
   
-    /** Run-time type information (and related methods). */
-    itkTypeMacro(ConformalFlatteningMeshFilter, MeshToMeshFilter);
-
-    /** Convenient constants obtained from TMeshTraits template parameter. */
-    itkStaticConstMacro(PointDimension, unsigned int,
-       ::itk::GetMeshDimension< TInputMesh >::PointDimension );
-
-    ///////////////////////
-    typedef typename InputMeshType::PointsContainer           PointsContainer;
-    typedef typename InputMeshType::CellsContainer            CellsContainer;
-    typedef typename PointsContainer::ConstIterator           PointIterator;
-    typedef typename CellsContainer::ConstIterator            CellIterator;  
-    typedef typename InputMeshType::CellType                  CellType;
-    typedef typename CellType::PointIdIterator                PointIdIterator;
-    typedef typename InputMeshType::PointType                 PointType;
-
-    typedef vnl_vector< CoordRepType >                        Tvnl_vector;
-    
-    /** Select the point that will be used as reference for the flattening.
-     *  This value must be the identifier of a point existing in the input
-     *  Mesh. */
-    void SetPolarPoint( int );
-    
-    /** Define the scale of the mapping */
-    void SetScale( double );
-    
-    /** Define that the input surface will be mapped to a sphere */
-    void MapToSphere( void );
-    
-    /** Define that the input surface will be mapped to a plane.
-     *  This skips the steps of the stereographic projection. */
-    void MapToPlane( void );
-    
+  /** Define that the input surface will be mapped to a sphere */
+  void MapToSphere( void );
+  
+  /** Define that the input surface will be mapped to a plane.
+   *  This skips the steps of the stereographic projection. */
+  void MapToPlane( void );
+  
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
-  itkConceptMacro(DimensionShouldBe3,
-    (Concept::SameDimension<itkGetStaticConstMacro(PointDimension),3>));
-  /** End concept checking */
+/** Begin concept checking */
+itkConceptMacro(DimensionShouldBe3,
+  (Concept::SameDimension<itkGetStaticConstMacro(PointDimension),3>));
+/** End concept checking */
 #endif
- 
-  protected:
-    ConformalFlatteningMeshFilter();
-    ~ConformalFlatteningMeshFilter() {};
-    void PrintSelf(std::ostream& os, Indent indent) const;
+
+protected:
+  ConformalFlatteningMeshFilter();
+  ~ConformalFlatteningMeshFilter() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** Generate Requested Data */
+  virtual void GenerateData( void );
+
+private:
+  ConformalFlatteningMeshFilter( const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
+
+  void PerformMapping( 
+    InputMeshPointer inputMesh, OutputMeshPointer outputMesh);
+
+  typedef vnl_vector< CoordRepType >       VectorCoordType;
+  typedef vnl_sparse_matrix<CoordRepType>  SparseMatrixCoordType;
+
+  void StereographicProject( VectorCoordType const& x,
+                             VectorCoordType const& y,
+                             OutputMeshPointer outputMesh);
+
+  void PrepareLinearSystem(OutputMeshPointer mesh, 
+             SparseMatrixCoordType & D,
+             VectorCoordType & bR,
+             VectorCoordType & bI);  
+
+  VectorCoordType 
+  SolveLinearSystem( SparseMatrixCoordType const& A, 
+                     VectorCoordType const& b);
+                                         
+  /** Cell Id  in which the point P, which is used 
+   * to define the mapping, lies in. */
+  unsigned int m_CellIdentifierHavingPolarPoint;
   
-    /** Generate Requested Data */
-    virtual void GenerateData( void );
-
-  private:
-    ConformalFlatteningMeshFilter( const Self &); //purposely not implemented
-    void operator=(const Self &); //purposely not implemented
-
-    void PerformMapping( 
-      InputMeshPointer inputMesh, OutputMeshPointer outputMesh);
-
-    void StereographicProject( vnl_vector<CoordRepType> const& x,
-                               vnl_vector<CoordRepType> const& y,
-                               OutputMeshPointer outputMesh);
-
-    void getDb(OutputMeshPointer mesh, 
-               vnl_sparse_matrix<CoordRepType> &D,
-               vnl_vector<CoordRepType> &bR,
-               vnl_vector<CoordRepType> &bI);  
-
-    vnl_vector<CoordRepType> 
-    SolveLinearSystem( vnl_sparse_matrix<CoordRepType> const& A, 
-                       vnl_vector<CoordRepType> const& b);
-                                           
-    /** Cell Id  in which the point P, which is used to define the mapping, lies in. */
-    unsigned int m_CellIdentifierHavingPolarPoint;
-    
-    /** Whether the result is sphere or plane.  */
-    bool      m_MapToSphere;
-    
-    /** The scale when mapping to the plane. Determines how far the farthest point goes. */
-    double    m_MapScale;
-  };
+  /** Whether the result is sphere or plane.  */
+  bool      m_MapToSphere;
+  
+  /** The scale when mapping to the plane. 
+   *  Determines how far the farthest point goes. */
+  double    m_MapScale;
+};
 
 } // end namespace itk
 

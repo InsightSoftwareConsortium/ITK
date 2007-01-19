@@ -57,8 +57,9 @@ namespace itk
 
   // overload construction function for sparse matrix A
   template <class matrixDataType>
-  conformalFlatteningFunction<matrixDataType>::conformalFlatteningFunction(vnl_sparse_matrix<matrixDataType> const& A, 
-                                                                   VectorType const& b)
+  conformalFlatteningFunction<matrixDataType>
+  ::conformalFlatteningFunction(vnl_sparse_matrix<matrixDataType> const& A, 
+                                VectorType const& b)
     : vnl_cost_function(b.size())
   {
     _Asparse = &A;  // The A in Ax = b;
@@ -66,10 +67,11 @@ namespace itk
     _dim = b.size(); // The dimension, i.e., the number of the unknowns.
     
     if (A.rows() != b.size())
-    {
-      std::cerr<<"The # of rows in A must be the same as the length of b!"<<std::endl;
-        exit(-1);
-    } // if (A.rows() != b.size())
+      {
+      itk::ExceptionObject excp(__FILE__,__LINE__,
+       "The # of rows in A must be the same as the length of b!");
+      throw excp;
+      } // if (A.rows() != b.size())
   } // conformalFlatteningFunction::conformalFlatteningFunction(A, b)
 
 
@@ -196,7 +198,7 @@ namespace itk
   {
     // The main function realizing the conformal mapping process.
     // It will call two functions:
-    // 1. getDb() function generate the matrics for computating Dx=b
+    // 1. PrepareLinearSystem() function generate the matrics for computating Dx=b
     // 2. SolveLinearSystem() function use the matrics generated above to 
     // compute the mapping function(complex function) by solving the
     //  linear equation for both real and imaginary parts.
@@ -213,19 +215,19 @@ namespace itk
     std::cerr<<"Begin mapping......"<<std::endl<<std::endl;
 
     const unsigned int numberOfPoints = iMesh->GetNumberOfPoints();
-    vnl_sparse_matrix<CoordRepType> D(numberOfPoints, numberOfPoints);
-    vnl_vector<CoordRepType> bR(numberOfPoints, 0);
-    vnl_vector<CoordRepType> bI(numberOfPoints, 0);
+    SparseMatrixCoordType D(numberOfPoints, numberOfPoints);
+    VectorCoordType bR(numberOfPoints, 0);
+    VectorCoordType bI(numberOfPoints, 0);
 
     std::cerr<<"Calculating matrix D and vector b..."<<std::endl;
-    getDb( iMesh, D , bR, bI);  
+    PrepareLinearSystem( iMesh, D , bR, bI);  
     
     std::cerr<<"Solving linear equation Dx=b by Conjugate gradient method(real part) ...";
-    vnl_vector<CoordRepType> zR = SolveLinearSystem(D, bR);
+    VectorCoordType zR = SolveLinearSystem(D, bR);
     std::cerr<<"Done!"<<std::endl;
     
     std::cerr<<"Solving linear equation Dx=b by Conjugate gradient method(imaginary part) ...";
-    vnl_vector<CoordRepType> zI = SolveLinearSystem(D, bI);
+    VectorCoordType zI = SolveLinearSystem(D, bI);
     std::cerr<<"Done!"<<std::endl;
      
     std::cerr<<"Mapping to a plane or a sphere...";
@@ -239,10 +241,10 @@ namespace itk
   template <class TInputMesh, class TOutputMesh>
   void
   ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::
-  getDb(OutputMeshPointer mesh, 
-        vnl_sparse_matrix<CoordRepType> &D,
-        vnl_vector<CoordRepType> &bR,
-        vnl_vector<CoordRepType> &bI) 
+  PrepareLinearSystem(OutputMeshPointer mesh, 
+        SparseMatrixCoordType &D,
+        VectorCoordType &bR,
+        VectorCoordType &bI) 
   {        
   // please refer to the .tex file for how the D and b are calculated.  
     int numOfPoints = mesh->GetNumberOfPoints();
@@ -527,49 +529,48 @@ namespace itk
     bI(cellPoint[ m_CellIdentifierHavingPolarPoint ][2]) = -1 / CEnorm;
   
     return; 
-  } //getDb()
+  } 
 
 
-  template <class TInputMesh, class TOutputMesh>
-  typename ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::Tvnl_vector
-  ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
-  ::SolveLinearSystem(vnl_sparse_matrix<CoordRepType> const& A, 
-                  vnl_vector<CoordRepType> const& b) 
-  {
-    // Solve the linear system Ax=b using the Conjugate Gradient method. 
-    // So it requires that the matrix A be symmetric and
-    // positive defined. In many cases of the numerical computation for
-    // the solution of partial differential equations, those properties of
-    // A hold. 
-    // However, the symmetry and positive define properties are
-    // not checked within this but left for the user. Basically, this
-    // class optimizes the function y=\frac{1}{2}(x^T)*A*x - (b^T)*x.
+template <class TInputMesh, class TOutputMesh>
+typename ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::VectorCoordType
+ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
+::SolveLinearSystem( SparseMatrixCoordType const& A, VectorCoordType const& b )
+{
+  // Solve the linear system Ax=b using the Conjugate Gradient method. 
+  // So it requires that the matrix A be symmetric and
+  // positive defined. In many cases of the numerical computation for
+  // the solution of partial differential equations, those properties of
+  // A hold. 
+  // However, the symmetry and positive define properties are
+  // not checked within this but left for the user. Basically, this
+  // class optimizes the function y=\frac{1}{2}(x^T)*A*x - (b^T)*x.
 
-    // The above function is defined by the class conformalFlatteningFunction
-    // which is derived from the vnl_cost_function.
-    conformalFlatteningFunction<CoordRepType> f(A, b);
+  // The above function is defined by the class conformalFlatteningFunction
+  // which is derived from the vnl_cost_function.
+  conformalFlatteningFunction<CoordRepType> f(A, b);
 
-    vnl_conjugate_gradient cg(f);
-    vnl_vector<double> x(f.dim(), 0);
-    cg.minimize(x);
+  vnl_conjugate_gradient cg(f);
+  vnl_vector<double> x(f.dim(), 0);
+  cg.minimize(x);
 
-    if( typeid(CoordRepType) == typeid(double) )
-      {
-      return *(reinterpret_cast< vnl_vector<CoordRepType> * >(&x));
-      }
-    else
-      {
-      vnl_vector<CoordRepType> y(f.dim(), 0);
-      for (unsigned int i = 0; i < f.dim(); i++) { y[i] = x[i]; }
-      return y;
-      }
-  }
+  if( typeid(CoordRepType) == typeid(double) )
+    {
+    return *(reinterpret_cast< VectorCoordType * >(&x));
+    }
+  else
+    {
+    VectorCoordType y(f.dim(), 0);
+    for (unsigned int i = 0; i < f.dim(); i++) { y[i] = x[i]; }
+    return y;
+    }
+}
 
 template <class TInputMesh,class TOutputMesh>
 void
 ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
-::StereographicProject( vnl_vector<CoordRepType> const& zR,
-                        vnl_vector<CoordRepType> const& zI,
+::StereographicProject( VectorCoordType const& zR,
+                        VectorCoordType const& zI,
                         OutputMeshPointer oMesh) 
 {
                           
