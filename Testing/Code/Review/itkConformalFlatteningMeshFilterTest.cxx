@@ -133,40 +133,6 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
     mesh->SetPoint( pointId++, point );
     }
 
-/*
-  while( !inputFile.eof() )
-    {
-    getline( inputFile, line );
-
-    if( line.find("POLYGONS") != std::string::npos )
-      {
-      break;
-      }
-
-    if( sscanf( line.c_str(), "%lf %lf %lf", &doublePoint[0],
-          &doublePoint[1], &doublePoint[2] ) != 3 )
-      {
-      std::cout << "ERROR: Cannot read 3 point coordinates from line"
-        << std::endl;
-      std::cout << "       line= " << line << std::endl;
-      return EXIT_FAILURE;
-      }
-
-    //std::cout << "doublePoint"
-    //<< " " << doublePoint[0]
-    //<< " " << doublePoint[1]
-    //<< " " << doublePoint[2] << std::endl;
-
-    point[0] = doublePoint[0];
-    point[1] = doublePoint[1];
-    point[2] = doublePoint[2];
-
-    std::cout << point[0] << " " << point[1] << " " << point[2]
-      << std::endl;
-
-    mesh->SetPoint( pointId++, point );
-    }
-*/
   std::cout << "pointId= " << pointId << std::endl;
   std::cout << "numberOfPoints= " << numberOfPoints << std::endl;
 
@@ -355,8 +321,8 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
 
   // Write the point coordinates to the file
 
-  PointIterator pointIterator = mesh->GetPoints()->Begin();
-  PointIterator pointItEnd = mesh->GetPoints()->End();
+  PointIterator pointIterator = newMesh->GetPoints()->Begin();
+  PointIterator pointItEnd = newMesh->GetPoints()->End();
 
   int numberOfPointsWritten = 0;
 
@@ -384,8 +350,8 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   outputFile << "POLYGONS " << numberOfPolygons << " "
     << numberOfIndices << std::endl;
 
-  CellIterator cellIt = mesh->GetCells()->Begin();
-  CellIterator cellItEnd = mesh->GetCells()->End();
+  CellIterator cellIt = newMesh->GetCells()->Begin();
+  CellIterator cellItEnd = newMesh->GetCells()->End();
 
   int numberOfPolygonsWritten = 0;
 
