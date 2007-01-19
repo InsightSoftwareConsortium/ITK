@@ -1,4 +1,6 @@
-#include "itkConformalFlatteningFilterTest.h"
+#include <iostream>
+#include "itkConformalFlatteningFilter.h"
+
 #if 0
 int itkTransformMeshFilterTest(char* fileNameIn, char* fileNameOut) {
 
@@ -63,6 +65,8 @@ int itkConformalFlatteningFilterTest(int argc, char *argv[])
     std::cerr << "Usage: vtkPolyDataInput vtkPolyDataOutput" << std::endl;
     return EXIT_FAILURE;
     }
+
+  typedef itk::Mesh< int, 3 >      MeshType;
 
   std::string inputFilename =
     "/home/Sylvain/Insight/Testing/Data/Input/nice.vtk";
