@@ -30,6 +30,9 @@ template< class TLabel, class TRGBPixel >
 class LabelToRGBFunctor
 {
 public:
+
+  typedef LabelToRGBFunctor Self;
+
   LabelToRGBFunctor()
     {
     
@@ -46,36 +49,36 @@ public:
     // They are a good selection of distinct colours for plotting and
     // overlays.
     
-    addColor( 255, 0, 0 );
-    addColor( 0, 205, 0 );
-    addColor( 0, 0, 255 );
-    addColor( 0, 255, 255 );
-    addColor( 255, 0, 255 );
-    addColor( 255, 127, 0 );
-    addColor( 0, 100, 0 );
-    addColor( 138, 43, 226 );
-    addColor( 139, 35, 35 );
-    addColor( 0, 0, 128 );
-    addColor( 139, 139, 0 );
-    addColor( 255, 62, 150 );
-    addColor( 139, 76, 57 );
-    addColor( 0, 134, 139 );
-    addColor( 205, 104, 57 );
-    addColor( 191, 62, 255 );
-    addColor( 0, 139, 69 );
-    addColor( 199, 21, 133 );
-    addColor( 205, 55, 0 );
-    addColor( 32, 178, 170 );
-    addColor( 106, 90, 205 );
-    addColor( 255, 20, 147 );
-    addColor( 69, 139, 116 );
-    addColor( 72, 118, 255 );
-    addColor( 205, 79, 57 );
-    addColor( 0, 0, 205 );
-    addColor( 139, 34, 82 );
-    addColor( 139, 0, 139 );
-    addColor( 238, 130, 238 );
-    addColor( 139, 0, 0 );
+    AddColor( 255, 0, 0 );
+    AddColor( 0, 205, 0 );
+    AddColor( 0, 0, 255 );
+    AddColor( 0, 255, 255 );
+    AddColor( 255, 0, 255 );
+    AddColor( 255, 127, 0 );
+    AddColor( 0, 100, 0 );
+    AddColor( 138, 43, 226 );
+    AddColor( 139, 35, 35 );
+    AddColor( 0, 0, 128 );
+    AddColor( 139, 139, 0 );
+    AddColor( 255, 62, 150 );
+    AddColor( 139, 76, 57 );
+    AddColor( 0, 134, 139 );
+    AddColor( 205, 104, 57 );
+    AddColor( 191, 62, 255 );
+    AddColor( 0, 139, 69 );
+    AddColor( 199, 21, 133 );
+    AddColor( 205, 55, 0 );
+    AddColor( 32, 178, 170 );
+    AddColor( 106, 90, 205 );
+    AddColor( 255, 20, 147 );
+    AddColor( 69, 139, 116 );
+    AddColor( 72, 118, 255 );
+    AddColor( 205, 79, 57 );
+    AddColor( 0, 0, 205 );
+    AddColor( 139, 34, 82 );
+    AddColor( 139, 0, 139 );
+    AddColor( 238, 130, 238 );
+    AddColor( 139, 0, 0 );
 
     // provide some default value for external use (outside LabelToRGBImageFilter)
     // Inside LabelToRGBImageFilter, the values are always initialized
@@ -98,7 +101,7 @@ public:
     return m_Colors[ p % m_Colors.size()];
     }
 
-  void addColor(unsigned char r, unsigned char g, unsigned char b)
+  void AddColor(unsigned char r, unsigned char g, unsigned char b)
     {
     TRGBPixel rgbPixel;
     typedef typename TRGBPixel::ValueType ValueType;
@@ -111,12 +114,26 @@ public:
     m_Colors.push_back( rgbPixel );
     }
 
-  bool operator != (const LabelToRGBFunctor &l) const
-    { return m_UseBackground != l.m_UseBackground || m_BackgroundValue != l.m_BackgroundValue; }
+  bool operator != (const Self &l) const
+    { 
+    const bool areDifferent = m_UseBackground != l.m_UseBackground || 
+                            m_BackgroundValue != l.m_BackgroundValue; 
+    return areDifferent;
+    }
 
-  void SetBackgroundValue( TLabel v ) { m_BackgroundValue = v; }
+  bool operator==( const Self & other ) const
+  {
+    return !(*this != other);
+  }
+  void SetBackgroundValue( TLabel v ) 
+    { 
+    m_BackgroundValue = v; 
+    }
 
-  void SetUseBackground( bool b ) { m_UseBackground = b; }
+  void SetUseBackground( bool b ) 
+    {
+    m_UseBackground = b; 
+    }
 
   ~LabelToRGBFunctor() {}
 
