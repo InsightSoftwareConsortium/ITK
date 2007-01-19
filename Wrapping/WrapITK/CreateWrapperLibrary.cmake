@@ -477,6 +477,11 @@ MACRO(CREATE_WRAPPER_LIBRARY library_name sources language library_type custom_l
     SET_TARGET_PROPERTIES(${library_name} PROPERTIES PREFIX "")
   ENDIF(custom_library_prefix)
   
+  IF(CMAKE_CXX_COMPILER MATCHES "icpc")
+    # disable warning #191: type qualifier is meaningless on cast type
+    SET_TARGET_PROPERTIES(${library_name} PROPERTIES COMPILE_FLAGS -wd191 )
+  ENDIF(CMAKE_CXX_COMPILER MATCHES "icpc")
+
   SET_TARGET_PROPERTIES(${library_name} PROPERTIES LINK_FLAGS "${CSWIG_EXTRA_LINKFLAGS}")
   TARGET_LINK_LIBRARIES(${library_name} 
     ${WRAPPER_LIBRARY_LINK_LIBRARIES} 
