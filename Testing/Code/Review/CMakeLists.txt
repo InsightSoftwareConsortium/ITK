@@ -58,7 +58,7 @@ SET(ReviewTest_SRCS
 
   itkNeuralNetworkIOTest.cxx
 
-  itkConformalFlatteningFilterTest.cxx
+  #itkConformalFlatteningFilterTest.cxx
 )
 
 ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS}
@@ -197,11 +197,11 @@ ADD_TEST(itkNeuralNetworkIOTest ${REVIEW_TESTS}
                   ${INPUTDATA}/xortest.txt
                   )
 
-ADD_TEST(itkConformalFlatteningFilterTest ${REVIEW_TESTS}
-  itkConformalFlatteningFilterTest
-  ${INPUTDATA}/nice.vtk
-  niceFlat.vtk
-  )
+# ADD_TEST(itkConformalFlatteningFilterTest ${REVIEW_TESTS}
+#  itkConformalFlatteningFilterTest
+#  ${INPUTDATA}/nice.vtk
+#  niceFlat.vtk
+#  )
 
 
 ADD_TEST(itkValuedRegionalMinimaImageFilterTest ${REVIEW_TESTS}
