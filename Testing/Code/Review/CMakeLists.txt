@@ -58,7 +58,7 @@ SET(ReviewTest_SRCS
 
   itkNeuralNetworkIOTest.cxx
 
-  #itkConformalFlatteningFilterTest.cxx
+  itkConformalFlatteningFilterTest.cxx
 )
 
 ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS}
