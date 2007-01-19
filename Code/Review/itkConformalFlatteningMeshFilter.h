@@ -79,8 +79,11 @@ public:
   itkTypeMacro(ConformalFlatteningMeshFilter, MeshToMeshFilter);
 
   /** Convenient constants obtained from TMeshTraits template parameter. */
-  itkStaticConstMacro(PointDimension, unsigned int,
+  itkStaticConstMacro(InputPointDimension, unsigned int,
      ::itk::GetMeshDimension< TInputMesh >::PointDimension );
+  itkStaticConstMacro(OutputPointDimension, unsigned int,
+     ::itk::GetMeshDimension< TOutputMesh >::PointDimension );
+
 
   ///////////////////////
   typedef typename InputMeshType::PointsContainer           PointsContainer;
@@ -99,7 +102,8 @@ public:
    * whose curvature is relatively flat. */
   void SetPolarCellIdentifier( CellIdentifier cellId );
   
-  /** Define the scale of the mapping */
+  /** Define the scale of the mapping. The largest coordinates of the furthest
+   * point in the plane is m_MapScale. */
   void SetScale( double );
   
   /** Define that the input surface will be mapped to a sphere */
@@ -112,7 +116,9 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
 /** Begin concept checking */
 itkConceptMacro(DimensionShouldBe3,
-  (Concept::SameDimension<itkGetStaticConstMacro(PointDimension),3>));
+  (Concept::SameDimension<itkGetStaticConstMacro(InputPointDimension),3>));
+//itkConceptMacro(DimensionShouldBe3,
+//  (Concept::SameDimension<itkGetStaticConstMacro(OutputPointDimension),3>));
 /** End concept checking */
 #endif
 
