@@ -19,12 +19,8 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkConformalFlatteningMeshFilter.h"
 #include "itkExceptionObject.h"
-#endif
 
-#ifndef _DISPLAY_DEBUG_INFO_
-#define _DISPLAY_DEBUG_INFO_
-
-#include <math.h>
+#include "vnl/vnl_math.h"
 
 
 namespace itk
@@ -33,32 +29,36 @@ namespace itk
   // define a function class derived from vnl_cost_function to compute the 
   // conformal flattening mapping by conjugate gradient method.
   template <class matrixDataType>
-  class conformalFlatteningFunc : public vnl_cost_function 
+  class conformalFlatteningFunction : public vnl_cost_function 
   {
   public:  
 
-    conformalFlatteningFunc(vnl_sparse_matrix<matrixDataType> const& A, 
-                            vnl_vector<matrixDataType> const& b);
+    typedef vnl_vector<matrixDataType> VectorType;
 
-    double f(vnl_vector<matrixDataType> const& x);
-    void gradf(vnl_vector<matrixDataType> const& x, vnl_vector<matrixDataType> & g);
+    conformalFlatteningFunction(
+      vnl_sparse_matrix<matrixDataType> const& A, 
+      VectorType const& b);
+
+    double f(VectorType const& x);
+
+    void gradf(VectorType const& x, VectorType & g);
 
     inline unsigned int dim() {return _dim;}
 
   private:
     vnl_sparse_matrix<matrixDataType> const* _Asparse;
-    vnl_vector<matrixDataType> const* _b;
+    VectorType const* _b;
     unsigned int _dim;
   };
 
 
   ////////////////////////////////////////////////////////////////////
-  // implementation of class conformalFlatteningFunc
+  // implementation of class conformalFlatteningFunction
 
   // overload construction function for sparse matrix A
   template <class matrixDataType>
-  conformalFlatteningFunc<matrixDataType>::conformalFlatteningFunc(vnl_sparse_matrix<matrixDataType> const& A, 
-                                                                   vnl_vector<matrixDataType> const& b)
+  conformalFlatteningFunction<matrixDataType>::conformalFlatteningFunction(vnl_sparse_matrix<matrixDataType> const& A, 
+                                                                   VectorType const& b)
     : vnl_cost_function(b.size())
   {
     _Asparse = &A;  // The A in Ax = b;
@@ -70,32 +70,32 @@ namespace itk
       std::cerr<<"The # of rows in A must be the same as the length of b!"<<std::endl;
         exit(-1);
     } // if (A.rows() != b.size())
-  } // conformalFlatteningFunc::conformalFlatteningFunc(A, b)
+  } // conformalFlatteningFunction::conformalFlatteningFunction(A, b)
 
 
   template <class matrixDataType>
-  double conformalFlatteningFunc<matrixDataType>::f(vnl_vector<matrixDataType> const& x) 
+  double conformalFlatteningFunction<matrixDataType>::f(VectorType const& x) 
   {  
     matrixDataType r;
-      vnl_vector<matrixDataType> tmp;
+      VectorType tmp;
       _Asparse -> pre_mult(x, tmp);
       r = 0.5*inner_product(tmp,x)-inner_product((*_b),x);
 
     return r;
-  } // conformalFlatteningFunc::f(), the unary function to be optimized.
+  } // conformalFlatteningFunction::f(), the unary function to be optimized.
   // The minimizer of this function \frac{1}{2}x^{T}Ax - b^{T}x, is 
   // the solution of Ax=b when A is positive defined, symmetric.
 
   template <class matrixDataType>
-  void conformalFlatteningFunc<matrixDataType>::gradf(vnl_vector<matrixDataType> const& x, 
-                                                      vnl_vector<matrixDataType> & g) 
+  void conformalFlatteningFunction<matrixDataType>::gradf(VectorType const& x, 
+                                                      VectorType & g) 
   { 
-      vnl_vector<matrixDataType> tmp;
+      VectorType tmp;
       _Asparse -> mult(x, tmp);
       g = tmp - (*_b);
-   } // conformalFlatteningFunc::gradf(), the gradient of the function to be optimized.
+   } // conformalFlatteningFunction::gradf(), the gradient of the function to be optimized.
 
-  // implementation of class conformalFlatteningFunc
+  // implementation of class conformalFlatteningFunction
   ////////////////////////////////////////////////////////////////////
 
   
@@ -106,10 +106,12 @@ namespace itk
   ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
   ::ConformalFlatteningMeshFilter()
   {
-    _cellHavePntP = 0; //set the p point of delta function in the 0-th cell
-    _mapToSphere = true;
+    //set the p point of delta function in the 0-th cell
+    m_CellIdentifierHavingPolarPoint = 0; 
+
+    m_MapToSphere = true;
     
-    _mapScale = 100; // The largest corrdinates of the furthest point in the plane is _mapScale.
+    m_MapScale = 100; // The largest corrdinates of the furthest point in the plane is m_MapScale.
   }
 
 
@@ -174,8 +176,9 @@ namespace itk
     outputMesh->SetCells(  inputMesh->GetCells() );
     outputMesh->SetCellData(  inputMesh->GetCellData() );
   
-    mapping(inputMesh, outputMesh);
-    // The actual conformal flattening mapping process. Everything is done here.
+    // The actual conformal flattening mapping process.
+    // Everything is done here.
+    this->PerformMapping( inputMesh, outputMesh );
   
     unsigned int maxDimension = TInputMesh::MaxTopologicalDimension;
 
@@ -189,12 +192,12 @@ namespace itk
   template <class TInputMesh, class TOutputMesh>
   void
   ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::
-  mapping( InputMeshPointer iMesh, OutputMeshPointer oMesh) 
+  PerformMapping( InputMeshPointer iMesh, OutputMeshPointer oMesh) 
   {
     // The main function realizing the conformal mapping process.
     // It will call two functions:
     // 1. getDb() function generate the matrics for computating Dx=b
-    // 2. solveLinearEq() function use the matrics generated above to 
+    // 2. SolveLinearSystem() function use the matrics generated above to 
     // compute the mapping function(complex function) by solving the
     //  linear equation for both real and imaginary parts.
     // With the transform function defined on every points of the mesh,
@@ -218,15 +221,15 @@ namespace itk
     getDb( iMesh, D , bR, bI);  
     
     std::cerr<<"Solving linear equation Dx=b by Conjugate gradient method(real part) ...";
-    vnl_vector<CoordRepType> zR = solveLinearEq(D, bR);
+    vnl_vector<CoordRepType> zR = SolveLinearSystem(D, bR);
     std::cerr<<"Done!"<<std::endl;
     
     std::cerr<<"Solving linear equation Dx=b by Conjugate gradient method(imaginary part) ...";
-    vnl_vector<CoordRepType> zI = solveLinearEq(D, bI);
+    vnl_vector<CoordRepType> zI = SolveLinearSystem(D, bI);
     std::cerr<<"Done!"<<std::endl;
      
     std::cerr<<"Mapping to a plane or a sphere...";
-    stereographicProject(zR, zI, oMesh);
+    this->StereographicProject( zR, zI, oMesh );
     std::cerr<<"Done!"<<std::endl;
         
     return;
@@ -488,9 +491,9 @@ namespace itk
     } // if eulerNum
 
     // compute b = bR + i*bI separately
-    std::vector<CoordRepType> A( pointXYZ[ cellPoint[ _cellHavePntP ][ 0 ] ] ), 
-      B( pointXYZ[ cellPoint[ _cellHavePntP ][ 1 ] ] ), 
-      C( pointXYZ[ cellPoint[ _cellHavePntP ][ 2 ] ] );
+    std::vector<CoordRepType> A( pointXYZ[ cellPoint[ m_CellIdentifierHavingPolarPoint ][ 0 ] ] ), 
+      B( pointXYZ[ cellPoint[ m_CellIdentifierHavingPolarPoint ][ 1 ] ] ), 
+      C( pointXYZ[ cellPoint[ m_CellIdentifierHavingPolarPoint ][ 2 ] ] );
     double ABnorm, CA_BAip; // the inner product of vector C-A and B-A;
     ABnorm = (A[0] - B[0]) * (A[0] - B[0])
       + (A[1] - B[1]) * (A[1] - B[1])
@@ -516,12 +519,12 @@ namespace itk
       + (C[2] - E[2]) * (C[2] - E[2]);
     CEnorm = sqrt(CEnorm); // This is real norm of vector CE.
 
-    bR(cellPoint[ _cellHavePntP ][0]) = -1 / ABnorm;
-    bR(cellPoint[ _cellHavePntP ][1]) = 1 / ABnorm;
+    bR(cellPoint[ m_CellIdentifierHavingPolarPoint ][0]) = -1 / ABnorm;
+    bR(cellPoint[ m_CellIdentifierHavingPolarPoint ][1]) = 1 / ABnorm;
 
-    bI(cellPoint[ _cellHavePntP ][0]) = (1-theta)/ CEnorm;
-    bI(cellPoint[ _cellHavePntP ][1]) = theta/ CEnorm;
-    bI(cellPoint[ _cellHavePntP ][2]) = -1 / CEnorm;
+    bI(cellPoint[ m_CellIdentifierHavingPolarPoint ][0]) = (1-theta)/ CEnorm;
+    bI(cellPoint[ m_CellIdentifierHavingPolarPoint ][1]) = theta/ CEnorm;
+    bI(cellPoint[ m_CellIdentifierHavingPolarPoint ][2]) = -1 / CEnorm;
   
     return; 
   } //getDb()
@@ -530,7 +533,7 @@ namespace itk
   template <class TInputMesh, class TOutputMesh>
   typename ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::Tvnl_vector
   ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
-  ::solveLinearEq(vnl_sparse_matrix<CoordRepType> const& A, 
+  ::SolveLinearSystem(vnl_sparse_matrix<CoordRepType> const& A, 
                   vnl_vector<CoordRepType> const& b) 
   {
     // Solve the linear system Ax=b using the Conjugate Gradient method. 
@@ -542,9 +545,9 @@ namespace itk
     // not checked within this but left for the user. Basically, this
     // class optimizes the function y=\frac{1}{2}(x^T)*A*x - (b^T)*x.
 
-    // The above function is defined by the class conformalFlatteningFunc
+    // The above function is defined by the class conformalFlatteningFunction
     // which is derived from the vnl_cost_function.
-    conformalFlatteningFunc<CoordRepType> f(A, b);
+    conformalFlatteningFunction<CoordRepType> f(A, b);
 
     vnl_conjugate_gradient cg(f);
     vnl_vector<double> x(f.dim(), 0);
@@ -560,50 +563,54 @@ namespace itk
       for (unsigned int i = 0; i < f.dim(); i++) { y[i] = x[i]; }
       return y;
       }
-  }// solveLinearEq()
+  }
 
-  template <class TInputMesh,class TOutputMesh>
-  void
-  ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
-  ::stereographicProject( vnl_vector<CoordRepType> const& zR,
-                          vnl_vector<CoordRepType> const& zI,
-                          OutputMeshPointer oMesh) 
-  {
-                            
-    CoordRepType xmin = zR(0), xmax = zR(0), ymin = zI(0) , ymax = zI(0);
-                            
-    const unsigned int numberOfPoints = oMesh->GetNumberOfPoints();
-    
-    for (int it = 0; it < numberOfPoints;  ++it) 
+template <class TInputMesh,class TOutputMesh>
+void
+ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
+::StereographicProject( vnl_vector<CoordRepType> const& zR,
+                        vnl_vector<CoordRepType> const& zI,
+                        OutputMeshPointer oMesh) 
+{
+                          
+  CoordRepType xmin = zR(0), xmax = zR(0), ymin = zI(0) , ymax = zI(0);
+                          
+  const unsigned int numberOfPoints = oMesh->GetNumberOfPoints();
+  
+  for (int it = 0; it < numberOfPoints;  ++it) 
     {      
-      xmin = (xmin<zR(it))?xmin:zR(it);
-      xmax = (xmax>zR(it))?xmax:zR(it);
-      ymin = (ymin<zI(it))?ymin:zI(it);
-      ymax = (ymax>zI(it))?ymax:zI(it);                
-    } // for it    
+    xmin = (xmin<zR(it))?xmin:zR(it);
+    xmax = (xmax>zR(it))?xmax:zR(it);
+    ymin = (ymin<zI(it))?ymin:zI(it);
+    ymax = (ymax>zI(it))?ymax:zI(it);                
+    }
+
+// FIXME: Remove commented lines: they seem to be remanents of
+//        debugging. Maybe add itkDebugMacros ??
 //    std::cout<<"The max X in plane: "<<xmax<<std::endl;
 //    std::cout<<"The min X in plane: "<<xmin<<std::endl;
 //    std::cout<<"The max Y in plane: "<<ymax<<std::endl;
 //    std::cout<<"The min Y in plane: "<<ymin<<std::endl;
 
-    CoordRepType temp1 = ( fabs(xmin)>fabs(xmax) )?fabs(xmin):fabs(xmax); 
-    CoordRepType temp2 = ( fabs(ymin)>fabs(ymax) )?fabs(ymin):fabs(ymax);
+  CoordRepType temp1 = ( fabs(xmin)>fabs(xmax) )?fabs(xmin):fabs(xmax); 
+  CoordRepType temp2 = ( fabs(ymin)>fabs(ymax) )?fabs(ymin):fabs(ymax);
 //    std::cout<<std::max( temp1, temp2 )<<std::endl;
-    CoordRepType factor = _mapScale/( ( temp1>temp2 )?temp1:temp2 );
+  CoordRepType factor = m_MapScale / ( ( temp1>temp2 )?temp1:temp2 );
 
-    // the factor is used to re-scale the points in the plane.
-    
-    
-    std::vector<double> x(numberOfPoints), y(numberOfPoints), z(numberOfPoints);
-    std::vector<double>::iterator
-      itX = x.begin(), 
-      itY = y.begin(), 
-      itZ = z.begin(), 
-      itXend = x.end();
-  if (_mapToSphere == true) 
-  {
+  // the factor is used to re-scale the points in the plane.
+  
+  
+  std::vector<double> x(numberOfPoints), y(numberOfPoints), z(numberOfPoints);
+  std::vector<double>::iterator
+    itX = x.begin(), 
+    itY = y.begin(), 
+    itZ = z.begin(), 
+    itXend = x.end();
+
+  if (m_MapToSphere == true) 
+    {
     for (int it = 0; itX != itXend; ++itX, ++itY, ++itZ, ++it) 
-    {            
+      {            
       double r2 = factor*zR(it)*factor*zR(it) + factor*zI(it)*factor*zI(it);
       *itX = 2*factor*zR(it)/(1+r2);
       *itY = 2*factor*zI(it)/(1+r2);
@@ -613,63 +620,68 @@ namespace itk
       //CoordRepType apoint[3] = {zR(it), zI(it), 0}; // map to a plane
 
       oMesh->SetPoint( it,typename TOutputMesh::PointType( apoint ));
-    } // for it
-  } // if (_mapToSphere == 1)
+      }
+    } 
   else 
-  {
-    for (int it = 0; it < numberOfPoints;  ++it) 
     {
+    for (int it = 0; it < numberOfPoints;  ++it) 
+      {
               
       CoordRepType apoint[3] = {zR(it), zI(it), 0}; // map to a plane
 
       oMesh->SetPoint( it,typename TOutputMesh::PointType( apoint ));
-    } // for it    
-  } //else of if (_mapToSphere == 1)  
-}//stereographicProject
+      }
+    }
+
+}
 
 template <class TInputMesh, class TOutputMesh>
 void 
-ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::setPointP( int p )
+ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
+::SetPolarPoint( int p )
+{
+  if (p >= 0 && p < this->GetInput()->GetNumberOfCells() )
   {
-    if (p >= 0 && p < this->GetInput()->GetNumberOfCells() )
-    {
-      _cellHavePntP = p;
-    }
-    else
-    {
-      std::cerr<<"Location of point p exceeds number of cells. Set to default value 0."<<std::endl<<std::endl;
-      _cellHavePntP = 0;
-    }
+    m_CellIdentifierHavingPolarPoint = p;
   }
+  else
+  {
+    std::cerr<<"Location of point p exceeds number of cells. Set to default value 0."<<std::endl<<std::endl;
+    m_CellIdentifierHavingPolarPoint = 0;
+  }
+}
 
 template <class TInputMesh, class TOutputMesh>
 void 
-ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::setScale( double scale )
+ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
+::SetScale( double scale )
   {
     if (scale > 0)
     {
-      _mapScale = scale;
+      m_MapScale = scale;
     }
     else
     {
       std::cerr<<"Scale should be larger than 0. Set to 100."<<std::endl<<std::endl;
-      _mapScale = 100;
+      m_MapScale = 100;
     }
   }
 
 template <class TInputMesh, class TOutputMesh>
 void 
-ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::mapToSphere( void )
-  {
-    _mapToSphere = true;
-  }
+ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
+::MapToSphere( void )
+{
+  m_MapToSphere = true;
+}
   
 template <class TInputMesh, class TOutputMesh>
 void 
-ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::mapToPlane( void )
-  {
-    _mapToSphere = false;
-  }
+ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
+::MapToPlane( void )
+{
+    m_MapToSphere = false;
+}
 
 } // end namespace itk
 

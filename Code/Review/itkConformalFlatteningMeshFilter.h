@@ -39,8 +39,13 @@ namespace itk
 {
 
   /** \class ConformalFlatteningMeshFilter
-   * \brief 
+   * \brief This filter maps a Surface in 3D to a plane or to a sphere.
    *
+   * \author John Melonakos et al
+   *
+   * FIXME: Add reference to the Insight Journal paper
+   *
+   * FIXME: Add credits to NAMIC funding
    * 
    * \ingroup MeshFilters
    */
@@ -50,10 +55,10 @@ namespace itk
   {
   public:
     /** Standard class typedefs. */
-    typedef ConformalFlatteningMeshFilter  Self;
-    typedef MeshToMeshFilter<TInputMesh,TOutputMesh> Superclass;
-    typedef SmartPointer<Self>  Pointer;
-    typedef SmartPointer<const Self>  ConstPointer;
+    typedef ConformalFlatteningMeshFilter              Self;
+    typedef MeshToMeshFilter<TInputMesh,TOutputMesh>   Superclass;
+    typedef SmartPointer<Self>                         Pointer;
+    typedef SmartPointer<const Self>                   ConstPointer;
   
     typedef TInputMesh InputMeshType;
     typedef TOutputMesh OutputMeshType;
@@ -84,17 +89,20 @@ namespace itk
 
     typedef vnl_vector< CoordRepType >                        Tvnl_vector;
     
-    void setPointP( int );
-    // The point P used to define the mapping is put according to the input of this function.
+    /** Select the point that will be used as reference for the flattening.
+     *  This value must be the identifier of a point existing in the input
+     *  Mesh. */
+    void SetPolarPoint( int );
     
-    void setScale( double );
+    /** Define the scale of the mapping */
+    void SetScale( double );
     
+    /** Define that the input surface will be mapped to a sphere */
+    void MapToSphere( void );
     
-    void mapToSphere( void );
-    // Output a sphere, default choice.
-    
-    void mapToPlane( void );
-    // Output a plane, i.e., no stereographic projection step.
+    /** Define that the input surface will be mapped to a plane.
+     *  This skips the steps of the stereographic projection. */
+    void MapToPlane( void );
     
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -112,29 +120,33 @@ namespace itk
     virtual void GenerateData( void );
 
   private:
-    ConformalFlatteningMeshFilter(const ConformalFlatteningMeshFilter&); //purposely not implemented
-    void operator=(const ConformalFlatteningMeshFilter&); //purposely not implemented
+    ConformalFlatteningMeshFilter( const Self &); //purposely not implemented
+    void operator=(const Self &); //purposely not implemented
 
-    void mapping( InputMeshPointer inputMesh, OutputMeshPointer outputMesh);
-    void stereographicProject( vnl_vector<CoordRepType> const& x,
+    void PerformMapping( 
+      InputMeshPointer inputMesh, OutputMeshPointer outputMesh);
+
+    void StereographicProject( vnl_vector<CoordRepType> const& x,
                                vnl_vector<CoordRepType> const& y,
                                OutputMeshPointer outputMesh);
+
     void getDb(OutputMeshPointer mesh, 
                vnl_sparse_matrix<CoordRepType> &D,
                vnl_vector<CoordRepType> &bR,
                vnl_vector<CoordRepType> &bI);  
 
-    vnl_vector<CoordRepType> solveLinearEq(vnl_sparse_matrix<CoordRepType> const& A, 
-                                           vnl_vector<CoordRepType> const& b);
+    vnl_vector<CoordRepType> 
+    SolveLinearSystem( vnl_sparse_matrix<CoordRepType> const& A, 
+                       vnl_vector<CoordRepType> const& b);
                                            
-    unsigned int _cellHavePntP;
-    // Store the cell Id in which the point P, which is used to define the mapping, lies in.
+    /** Cell Id  in which the point P, which is used to define the mapping, lies in. */
+    unsigned int m_CellIdentifierHavingPolarPoint;
     
-    bool _mapToSphere;
-    // Whether the result is sphere or plane.  
+    /** Whether the result is sphere or plane.  */
+    bool      m_MapToSphere;
     
-    double _mapScale;
-    // The scale when mapping to the plane. Determines how far the farthest point goes.           
+    /** The scale when mapping to the plane. Determines how far the farthest point goes. */
+    double    m_MapScale;
   };
 
 } // end namespace itk
