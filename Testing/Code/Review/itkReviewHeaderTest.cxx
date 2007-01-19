@@ -62,7 +62,7 @@
 #include "itkNeuralNetworkFileReader.h"
 #include "itkNeuralNetworkFileWriter.h"
 
-#include "itkConformalFlatteningFilter.h"
+#include "itkConformalFlatteningMeshFilter.h"
 
 int main ( int , char*  )
 {

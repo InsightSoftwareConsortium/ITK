@@ -1,7 +1,7 @@
 /*=========================================================================
 
 Program:   Insight Segmentation & Registration Toolkit
-Module:    itkConformalFlatteningFilter.h
+Module:    itkConformalFlatteningMeshFilter.h
 Language:  C++
 Date:      $Date$
 Version:   $Revision$
@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkConformalFlatteningFilter_h
-#define __itkConformalFlatteningFilter_h
+#ifndef __itkConformalFlatteningMeshFilter_h
+#define __itkConformalFlatteningMeshFilter_h
 
 // ITK headers
 #include "itkMeshToMeshFilter.h"
@@ -38,19 +38,19 @@ PURPOSE.  See the above copyright notices for more information.
 namespace itk
 {
 
-  /** \class ConformalFlatteningFilter
+  /** \class ConformalFlatteningMeshFilter
    * \brief 
    *
    * 
    * \ingroup MeshFilters
    */
   template <class TInputMesh, class TOutputMesh>
-  class ITK_EXPORT ConformalFlatteningFilter : 
+  class ITK_EXPORT ConformalFlatteningMeshFilter : 
     public MeshToMeshFilter<TInputMesh,TOutputMesh>
   {
   public:
     /** Standard class typedefs. */
-    typedef ConformalFlatteningFilter  Self;
+    typedef ConformalFlatteningMeshFilter  Self;
     typedef MeshToMeshFilter<TInputMesh,TOutputMesh> Superclass;
     typedef SmartPointer<Self>  Pointer;
     typedef SmartPointer<const Self>  ConstPointer;
@@ -67,7 +67,7 @@ namespace itk
     itkNewMacro(Self);
   
     /** Run-time type information (and related methods). */
-    itkTypeMacro(ConformalFlatteningFilter, MeshToMeshFilter);
+    itkTypeMacro(ConformalFlatteningMeshFilter, MeshToMeshFilter);
 
     /** Convenient constants obtained from TMeshTraits template parameter. */
     itkStaticConstMacro(PointDimension, unsigned int,
@@ -104,16 +104,16 @@ namespace itk
 #endif
  
   protected:
-    ConformalFlatteningFilter();
-    ~ConformalFlatteningFilter() {};
+    ConformalFlatteningMeshFilter();
+    ~ConformalFlatteningMeshFilter() {};
     void PrintSelf(std::ostream& os, Indent indent) const;
   
     /** Generate Requested Data */
     virtual void GenerateData( void );
 
   private:
-    ConformalFlatteningFilter(const ConformalFlatteningFilter&); //purposely not implemented
-    void operator=(const ConformalFlatteningFilter&); //purposely not implemented
+    ConformalFlatteningMeshFilter(const ConformalFlatteningMeshFilter&); //purposely not implemented
+    void operator=(const ConformalFlatteningMeshFilter&); //purposely not implemented
 
     void mapping( InputMeshPointer inputMesh, OutputMeshPointer outputMesh);
     void stereographicProject( vnl_vector<CoordRepType> const& x,
@@ -140,7 +140,7 @@ namespace itk
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConformalFlatteningFilter.txx"
+#include "itkConformalFlatteningMeshFilter.txx"
 #endif
 
 #endif

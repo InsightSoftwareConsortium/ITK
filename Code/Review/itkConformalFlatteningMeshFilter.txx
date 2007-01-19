@@ -1,7 +1,7 @@
 /*=========================================================================
 
 Program:   Insight Segmentation & Registration Toolkit
-Module:    itkConformalFlatteningFilter.txx
+Module:    itkConformalFlatteningMeshFilter.txx
 Language:  C++
 Date:      $Date$
 Version:   $Revision$
@@ -14,10 +14,10 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkConformalFlatteningFilter_txx
-#define _itkConformalFlatteningFilter_txx
+#ifndef _itkConformalFlatteningMeshFilter_txx
+#define _itkConformalFlatteningMeshFilter_txx
 
-#include "itkConformalFlatteningFilter.h"
+#include "itkConformalFlatteningMeshFilter.h"
 #include "itkExceptionObject.h"
 #endif
 
@@ -103,8 +103,8 @@ namespace itk
    *
    */
   template <class TInputMesh, class TOutputMesh>
-  ConformalFlatteningFilter<TInputMesh,TOutputMesh>
-  ::ConformalFlatteningFilter()
+  ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
+  ::ConformalFlatteningMeshFilter()
   {
     _cellHavePntP = 0; //set the p point of delta function in the 0-th cell
     _mapToSphere = true;
@@ -118,7 +118,7 @@ namespace itk
    */
   template <class TInputMesh, class TOutputMesh>
   void 
-  ConformalFlatteningFilter<TInputMesh,TOutputMesh>
+  ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
   ::PrintSelf(std::ostream& os, Indent indent) const
   {
     Superclass::PrintSelf(os,indent);
@@ -130,7 +130,7 @@ namespace itk
    */
   template <class TInputMesh, class TOutputMesh>
   void 
-  ConformalFlatteningFilter<TInputMesh,TOutputMesh>
+  ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
   ::GenerateData(void) 
   {
     // The commented out typedef's are not used here. Should they be commented out or still be defined for consistancy?
@@ -188,7 +188,7 @@ namespace itk
 
   template <class TInputMesh, class TOutputMesh>
   void
-  ConformalFlatteningFilter<TInputMesh,TOutputMesh>::
+  ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::
   mapping( InputMeshPointer iMesh, OutputMeshPointer oMesh) 
   {
     // The main function realizing the conformal mapping process.
@@ -235,7 +235,7 @@ namespace itk
         
   template <class TInputMesh, class TOutputMesh>
   void
-  ConformalFlatteningFilter<TInputMesh,TOutputMesh>::
+  ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::
   getDb(OutputMeshPointer mesh, 
         vnl_sparse_matrix<CoordRepType> &D,
         vnl_vector<CoordRepType> &bR,
@@ -528,8 +528,8 @@ namespace itk
 
 
   template <class TInputMesh, class TOutputMesh>
-  typename ConformalFlatteningFilter<TInputMesh,TOutputMesh>::Tvnl_vector
-  ConformalFlatteningFilter<TInputMesh,TOutputMesh>
+  typename ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::Tvnl_vector
+  ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
   ::solveLinearEq(vnl_sparse_matrix<CoordRepType> const& A, 
                   vnl_vector<CoordRepType> const& b) 
   {
@@ -564,7 +564,7 @@ namespace itk
 
   template <class TInputMesh,class TOutputMesh>
   void
-  ConformalFlatteningFilter<TInputMesh,TOutputMesh>
+  ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
   ::stereographicProject( vnl_vector<CoordRepType> const& zR,
                           vnl_vector<CoordRepType> const& zI,
                           OutputMeshPointer oMesh) 
@@ -629,7 +629,7 @@ namespace itk
 
 template <class TInputMesh, class TOutputMesh>
 void 
-ConformalFlatteningFilter<TInputMesh,TOutputMesh>::setPointP( int p )
+ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::setPointP( int p )
   {
     if (p >= 0 && p < this->GetInput()->GetNumberOfCells() )
     {
@@ -644,7 +644,7 @@ ConformalFlatteningFilter<TInputMesh,TOutputMesh>::setPointP( int p )
 
 template <class TInputMesh, class TOutputMesh>
 void 
-ConformalFlatteningFilter<TInputMesh,TOutputMesh>::setScale( double scale )
+ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::setScale( double scale )
   {
     if (scale > 0)
     {
@@ -659,14 +659,14 @@ ConformalFlatteningFilter<TInputMesh,TOutputMesh>::setScale( double scale )
 
 template <class TInputMesh, class TOutputMesh>
 void 
-ConformalFlatteningFilter<TInputMesh,TOutputMesh>::mapToSphere( void )
+ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::mapToSphere( void )
   {
     _mapToSphere = true;
   }
   
 template <class TInputMesh, class TOutputMesh>
 void 
-ConformalFlatteningFilter<TInputMesh,TOutputMesh>::mapToPlane( void )
+ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>::mapToPlane( void )
   {
     _mapToSphere = false;
   }

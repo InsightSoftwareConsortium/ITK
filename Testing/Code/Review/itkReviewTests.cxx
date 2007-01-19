@@ -60,5 +60,5 @@ void RegisterTests()
 
   REGISTER_TEST(itkNeuralNetworkIOTest);
  
-  REGISTER_TEST(itkConformalFlatteningFilterTest);
+  REGISTER_TEST(itkConformalFlatteningMeshFilterTest);
 }

@@ -39,7 +39,7 @@
 #include "itkNeuralNetworkFileReader.h"
 #include "itkNeuralNetworkFileWriter.h"
 
-#include "itkConformalFlatteningFilter.h"
+#include "itkConformalFlatteningMeshFilter.h"
 
 int main(int , char* [])
 {
@@ -155,11 +155,11 @@ int main(int , char* [])
   std:: cout << "-------------NeuralNetworkFileWriterObj "
              << NeuralNetworkFileWriterObj;
 
-  itk::ConformalFlatteningFilter<MeshType,MeshType>::Pointer
-    ConformalFlatteningFilterObj =
-    itk::ConformalFlatteningFilter<MeshType,MeshType>::New();
-  std::cout << "--------------ConformalFlatteningFilterObj "
-            << ConformalFlatteningFilterObj;
+  itk::ConformalFlatteningMeshFilter<MeshType,MeshType>::Pointer
+    ConformalFlatteningMeshFilterObj =
+    itk::ConformalFlatteningMeshFilter<MeshType,MeshType>::New();
+  std::cout << "--------------ConformalFlatteningMeshFilterObj "
+            << ConformalFlatteningMeshFilterObj;
 
   return EXIT_SUCCESS;
 }

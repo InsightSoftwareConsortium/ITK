@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkConformalFlatteningFilterTest.cxx
+  Module:    itkConformalFlatteningMeshFilterTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -18,10 +18,10 @@
 #include <iostream>
 #include <fstream>
 
-#include "itkConformalFlatteningFilter.h"
+#include "itkConformalFlatteningMeshFilter.h"
 #include "itkMesh.h"
 
-class itkConformalFlatteningFilterTestHelper
+class itkConformalFlatteningMeshFilterTestHelper
 {
 public:
   typedef itk::Mesh< int, 3 >               InputMeshType;
@@ -37,7 +37,8 @@ public:
 public:
 
   // Helper method for reading a vtkPolyData into an ITK Mesh.
-  InputMeshType::Pointer vtkPolyDataToITKMesh( const std::string & inputFilename )
+  InputMeshType::Pointer 
+  vtkPolyDataToITKMesh( const std::string & inputFilename )
   {
 
   std::ifstream inputFile;
@@ -71,7 +72,7 @@ public:
 }; // end of helper class
 
 
-int itkConformalFlatteningFilterTest(int argc, char *argv[])
+int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
 {
   // Check for input argument
   if( argc < 2 )
@@ -81,7 +82,7 @@ int itkConformalFlatteningFilterTest(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itkConformalFlatteningFilterTestHelper         HelperType;
+  typedef itkConformalFlatteningMeshFilterTestHelper         HelperType;
 
   typedef HelperType::InputMeshType                      InputMeshType;
   typedef HelperType::OutputMeshType                     OutputMeshType;
@@ -92,10 +93,10 @@ int itkConformalFlatteningFilterTest(int argc, char *argv[])
 
   InputMeshType::Pointer mesh = helper.vtkPolyDataToITKMesh(inputFilename);
 
-  typedef itk::ConformalFlatteningFilter< 
-    InputMeshType, OutputMeshType > FlatteningFilterType;
+  typedef itk::ConformalFlatteningMeshFilter< 
+    InputMeshType, OutputMeshType > FlatteningMeshFilterType;
 
-  FlatteningFilterType::Pointer filter = FlatteningFilterType::New();
+  FlatteningMeshFilterType::Pointer filter = FlatteningMeshFilterType::New();
 
   filter->SetInput( mesh );
 
