@@ -17,12 +17,15 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef __itkConformalFlatteningFilter_h
 #define __itkConformalFlatteningFilter_h
 
+// ITK headers
 #include "itkMeshToMeshFilter.h"
+#include "itkNumericTraits.h"
 #include "itkConceptChecking.h"
+#include "itkMesh.h"
 
+// Standard headers
 #include <assert.h>
 #include <vector>
-
 
 // vnl headers
 #include <vcl_iostream.h>
@@ -66,14 +69,20 @@ namespace itk
     /** Run-time type information (and related methods). */
     itkTypeMacro(ConformalFlatteningFilter, MeshToMeshFilter);
 
-    ///////////////////////
-    typedef typename InputMeshType::PointsContainer::ConstIterator PointIterator;
-    typedef typename InputMeshType::CellsContainer::ConstIterator CellIterator;  
-    typedef typename InputMeshType::CellType CellType;
-    typedef typename InputMeshType::CellType::PointIdIterator PointIdIterator;
-    typedef typename InputMeshType::PointType PointType;
+    /** Convenient constants obtained from TMeshTraits template parameter. */
+    itkStaticConstMacro(PointDimension, unsigned int,
+       ::itk::GetMeshDimension< TInputMesh >::PointDimension );
 
-    typedef vnl_vector<CoordRepType> Tvnl_vector;
+    ///////////////////////
+    typedef typename InputMeshType::PointsContainer           PointsContainer;
+    typedef typename InputMeshType::CellsContainer            CellsContainer;
+    typedef typename PointsContainer::ConstIterator           PointIterator;
+    typedef typename CellsContainer::ConstIterator            CellIterator;  
+    typedef typename InputMeshType::CellType                  CellType;
+    typedef typename CellType::PointIdIterator                PointIdIterator;
+    typedef typename InputMeshType::PointType                 PointType;
+
+    typedef vnl_vector< CoordRepType >                        Tvnl_vector;
     
     void setPointP( int );
     // The point P used to define the mapping is put according to the input of this function.
@@ -87,7 +96,13 @@ namespace itk
     void mapToPlane( void );
     // Output a plane, i.e., no stereographic projection step.
     
-
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(DimensionShouldBe3,
+    (Concept::SameDimension<itkGetStaticConstMacro(PointDimension),3>));
+  /** End concept checking */
+#endif
+ 
   protected:
     ConformalFlatteningFilter();
     ~ConformalFlatteningFilter() {};
