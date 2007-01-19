@@ -59,13 +59,18 @@ public:
   itkNewMacro(Self);
 
   typedef Statistics::MultilayerNeuralNetworkBase<TVector,TOutput> NetworkType;
-  typedef typename NetworkType::Pointer NetworkPointer;
+  typedef typename NetworkType::Pointer        NetworkPointer;
+  typedef typename NetworkType::ConstPointer   NetworkConstPointer;
   
   typedef Statistics::LayerBase<TVector,TOutput> LayerType;
-  typedef typename LayerType::Pointer LayerPointer;
+  typedef typename LayerType::Pointer      LayerPointer;
+  typedef typename LayerType::ConstPointer LayerConstPointer;
   typedef typename LayerType::TransferFunctionPointer TransferFunctionPointer;
+  typedef typename LayerType::TransferFunctionConstPointer TransferFunctionConstPointer;
   typedef typename LayerType::InputFunctionPointer InputFunctionPointer;
+  typedef typename LayerType::InputFunctionConstPointer InputFunctionConstPointer;
   typedef typename LayerType::WeightSetPointer WeightSetPointer;
+  typedef typename LayerType::WeightSetConstPointer WeightSetConstPointer;
   typedef typename LayerType::ValueType ValueType;
 
   typedef typename NetworkType::WeightSetType WeightSetType;
@@ -85,8 +90,8 @@ public:
   itkGetStringMacro(FileName);
 
  /** Set/Get the input transform to write */
-  void SetInput(NetworkType* network);
-  const NetworkType * GetInput() {return *(m_Network.GetPointer());}
+  void SetInput( const NetworkType* network );
+  const NetworkType * GetInput() const;
 
   /** Read NeuralNetwork */
   void Update(void);
@@ -94,12 +99,6 @@ public:
   itkSetMacro(WriteWeightValuesType, unsigned int);
   itkGetMacro(WriteWeightValuesType, unsigned int);
   
-  NetworkType* GetNetwork();
-
- //flag =1 Binary
- //flag =2 ASCII
-  void WriteWeights(int flag,float* values, int size);
-
 protected:
   std::ofstream netOutputfile;
   typedef std::vector<MET_FieldRecordType *> FieldsContainerType;
@@ -110,8 +109,8 @@ protected:
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
 private:
-  NetworkPointer    m_Network;
-  unsigned int m_WriteWeightValuesType;
+  NetworkConstPointer    m_Network;
+  unsigned int           m_WriteWeightValuesType;
 };
 
 } // namespace itk

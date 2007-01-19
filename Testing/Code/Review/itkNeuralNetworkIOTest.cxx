@@ -133,7 +133,7 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
 
   std::cout << "Among 4 measurement vectors, " << error1 + error2
             << " vectors are misclassified." << std::endl;
-  std::cout<<"Network Weights and Biases after Training= "<<std::endl;
+  std::cout << "Network Weights and Biases after Training= " << std::endl;
   std::cout << network << std::endl;
 
 
@@ -143,8 +143,22 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
   w->SetWriteWeightValuesType(1);
   w->SetFileName("xornetASCII.txt");
   w->SetInput(network);
-  w->Update();
 
+  if( w->GetInput() != network )
+    {
+    std::cerr << "Error in SetInput()/GetInput() " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  try
+    {
+    w->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
 
   //Reinitialize network and train
 
