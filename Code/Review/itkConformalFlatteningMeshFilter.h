@@ -66,8 +66,9 @@ public:
 
   typedef TInputMesh InputMeshType;
   typedef TOutputMesh OutputMeshType;
-  typedef typename InputMeshType::Pointer InputMeshPointer;
-  typedef typename OutputMeshType::Pointer OutputMeshPointer;
+  typedef typename InputMeshType::Pointer                   InputMeshPointer;
+  typedef typename OutputMeshType::Pointer                  OutputMeshPointer;
+  typedef typename OutputMeshType::PointType                OutputPointType;
 
   /** Type for representing coordinates. */
   typedef typename TInputMesh::CoordRepType  CoordRepType;
@@ -92,7 +93,7 @@ public:
   typedef typename CellsContainer::ConstIterator            CellIterator;  
   typedef typename InputMeshType::CellType                  CellType;
   typedef typename CellType::PointIdIterator                PointIdIterator;
-  typedef typename InputMeshType::PointType                 PointType;
+  typedef typename InputMeshType::PointType                 InputPointType;
   typedef typename InputMeshType::CellIdentifier            CellIdentifier;
 
   /** Select the cell that will be used as reference for the flattening.  This

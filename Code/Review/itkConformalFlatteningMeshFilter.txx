@@ -252,13 +252,13 @@ PrepareLinearSystem(OutputMeshPointer mesh,
   PointIterator pntIterator = mesh->GetPoints()->Begin();
 
   for ( int it = 0; it < numOfPoints; ++it, ++pntIterator) 
-  {
-    PointType pnt = pntIterator.Value();
+    {
+    InputPointType pnt = pntIterator.Value();
   
     pointXYZ[it][0] = pnt[0];
     pointXYZ[it][1] = pnt[1];
     pointXYZ[it][2] = pnt[2];
-  } // for it
+    }
 
   // 2. store the relationship from point to cell, i.e. for each
   // point, which cells contain it?  For each point in the mesh,
@@ -594,7 +594,7 @@ ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
 
       CoordRepType apoint[3] = {*itX, *itY, *itZ};
 
-      oMesh->SetPoint( it,typename TOutputMesh::PointType( apoint ));
+      oMesh->SetPoint( it, OutputPointType( apoint ));
       }
     } 
   else 
@@ -604,7 +604,7 @@ ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
               
       CoordRepType apoint[3] = {zR(it), zI(it), 0}; // map to a plane
 
-      oMesh->SetPoint( it,typename TOutputMesh::PointType( apoint ));
+      oMesh->SetPoint( it, OutputPointType( apoint ));
       }
     }
 
