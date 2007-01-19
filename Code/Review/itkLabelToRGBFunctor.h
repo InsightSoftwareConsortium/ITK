@@ -122,9 +122,10 @@ public:
     }
 
   bool operator==( const Self & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
+
   void SetBackgroundValue( TLabel v ) 
     { 
     m_BackgroundValue = v; 
