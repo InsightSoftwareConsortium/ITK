@@ -343,7 +343,7 @@ PrepareLinearSystem(OutputMeshPointer mesh,
   
     vcl_sort(neighborOfP.begin(), neighborOfP.end());
     std::vector<int>::iterator it;
-    it = unique(neighborOfP.begin(), neighborOfP.end());
+    it = vcl_unique(neighborOfP.begin(), neighborOfP.end());
     neighborOfP.erase(it, neighborOfP.end());
     
     numOfEdges += neighborOfP.size();
@@ -376,11 +376,18 @@ PrepareLinearSystem(OutputMeshPointer mesh,
       vcl_sort(cellsContainingP.begin(), cellsContainingP.end());
       vcl_sort(cellsContainingQ.begin(), cellsContainingQ.end());
 
-      endIter = set_intersection(cellsContainingP.begin(), cellsContainingP.end(),
-                                 cellsContainingQ.begin(), cellsContainingQ.end(),
-                                 cells.begin());
+      endIter = vcl_set_intersection(
+        cellsContainingP.begin(), cellsContainingP.end(),
+        cellsContainingQ.begin(), cellsContainingQ.end(),
+        cells.begin());
+
       cells.erase(endIter, cells.end());
-      if (cells.size() != 2) continue;
+
+      if (cells.size() != 2) 
+        {
+        continue;
+        }
+
       // If P and Q are not shared by two triangles, i.e. 1: are not
       // connected by and edge, or, 2: are on the surface boundary
       // thus only shared by one triangle. then skip.  However, in
