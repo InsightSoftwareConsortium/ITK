@@ -3,7 +3,7 @@
 // $Revision $
 // $Author $
 // $Name:  $
-// $Date: 2007-01-17 22:43:23 $
+// $Date: 2007-01-19 19:30:46 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -156,7 +156,7 @@ private:
 
 } // end namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkQuadEdgeMeshLineCell.txx"
 #endif 
 

@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQESanityCheckMeshFunction.h
-// $Revision: 1.2 $
+// $Revision: 1.3 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-13 12:42:15 $
+// $Date: 2007-01-19 19:30:46 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -66,7 +66,7 @@ public:
 
 } 
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkQESanityCheckMeshFunction.txx"
 #endif 
 

@@ -18,8 +18,8 @@
 #ifndef __itkNeuralNetworkFileReader_h
 #define __itkNeuralNetworkFileReader_h
 
-#include <metaTypes.h>
-#include <metaUtils.h>
+#include "metaTypes.h"
+#include "metaUtils.h"
 
 #include "itkMultilayerNeuralNetworkBase.h"
 
@@ -40,6 +40,18 @@
 namespace itk
 {
 
+/** \class NeuralNetworkFileReader
+ * \brief Reader for Neural Network
+ *
+ * FIXME: Add Author from the IJ paper
+ *        Add reference to the IJ paper
+ *        Add paragraph or two of documentation
+ *
+ * FIXME Add \sa Writer and NN classes
+ *
+ * \group IOFilter
+ *
+ */
 template<class TVector, class TOutput>
 class NeuralNetworkFileReader : public Object
 {
@@ -75,12 +87,17 @@ public:
   typedef typename CompletelyConnectedWeighttype::Pointer CompletelyWeightSetPointer;
   typedef typename WeightSetType::Pointer WeightSetPointer;
  
-  std::vector<LayerPointer> m_layers;
-  std::vector<WeightSetPointer> m_weights;
-  struct lines{ std::string name;
-                std::string value;
-                };
-  std::list<lines> m_namevalue;  
+  typedef std::vector< LayerPointer >             LayersContainer;
+  typedef std::vector<WeightSetPointer>           WeightsContainer;
+
+  typedef struct 
+    { 
+    std::string name;
+    std::string value;
+    }                                              LineType;
+
+  typedef std::list< LineType >                    LinesContainer;
+  
 
   /** Set the filename  */
   itkSetStringMacro(FileName);
@@ -108,7 +125,11 @@ protected:
   
 private:
   NetworkPointer    m_Network;
-  int m_ReadWeightValuesType;
+  int               m_ReadWeightValuesType;
+  LayerContainer    m_Layers;
+  WeightsContainer  m_Weights;
+  LinesContainer    m_NameValue;  
+
 };
 
 } // namespace itk

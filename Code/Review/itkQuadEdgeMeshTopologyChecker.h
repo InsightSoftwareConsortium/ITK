@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshTopologyChecker.h
-// $Revision: 1.2 $
-// $Author: sylvain $
+// $Revision: 1.3 $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-15 19:52:55 $
+// $Date: 2007-01-19 19:30:46 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -83,7 +83,7 @@ private:
 
 } 
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkQuadEdgeMeshTopologyChecker.txx"
 #endif 
 

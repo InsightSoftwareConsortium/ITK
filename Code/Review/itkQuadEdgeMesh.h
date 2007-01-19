@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMesh.h
-// $Revision: 1.6 $
+// $Revision: 1.7 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-17 16:34:38 $
+// $Date: 2007-01-19 19:30:46 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -337,7 +337,7 @@ protected:
 }
 
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkQEMeshMacro.h"
 #include "itkQuadEdgeMesh.txx"
 #endif
