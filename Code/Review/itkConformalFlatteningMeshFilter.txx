@@ -21,6 +21,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkExceptionObject.h"
 
 #include "vnl/vnl_math.h"
+#include "vcl_algorithm.h"
 
 
 namespace itk
@@ -340,7 +341,7 @@ PrepareLinearSystem(OutputMeshPointer mesh,
         neighborOfP.push_back(cellPoint[*itCell][2]);
     }// for itCell. Ok, now all neighbors of P is stored in neighborOfP;
   
-    sort(neighborOfP.begin(), neighborOfP.end());
+    vcl_sort(neighborOfP.begin(), neighborOfP.end());
     std::vector<int>::iterator it;
     it = unique(neighborOfP.begin(), neighborOfP.end());
     neighborOfP.erase(it, neighborOfP.end());
@@ -372,8 +373,8 @@ PrepareLinearSystem(OutputMeshPointer mesh,
       std::vector<int> cells(cellsContainingP.size() + cellsContainingQ.size());
       std::vector<int>::iterator itv, endIter;
 
-      sort(cellsContainingP.begin(), cellsContainingP.end());
-      sort(cellsContainingQ.begin(), cellsContainingQ.end());
+      vcl_sort(cellsContainingP.begin(), cellsContainingP.end());
+      vcl_sort(cellsContainingQ.begin(), cellsContainingQ.end());
 
       endIter = set_intersection(cellsContainingP.begin(), cellsContainingP.end(),
                                  cellsContainingQ.begin(), cellsContainingQ.end(),
