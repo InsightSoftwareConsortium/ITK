@@ -41,6 +41,8 @@
 
 #include "itkConformalFlatteningMeshFilter.h"
 
+#include "itkVTKPolyDataReader.h"
+
 int main(int , char* [])
 {
   typedef itk::Image<float,2>           InputType;
@@ -160,6 +162,12 @@ int main(int , char* [])
     itk::ConformalFlatteningMeshFilter<MeshType,MeshType>::New();
   std::cout << "--------------ConformalFlatteningMeshFilterObj "
             << ConformalFlatteningMeshFilterObj;
+
+  itk::VTKPolyDataReader<MeshType>::Pointer
+    VTKPolyDataReaderObj =
+    itk::VTKPolyDataReader<MeshType>::New();
+  std::cout << "--------------VTKPolyDataReaderObj "
+            << VTKPolyDataReaderObj;
 
   return EXIT_SUCCESS;
 }

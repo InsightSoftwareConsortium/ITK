@@ -59,6 +59,8 @@ SET(ReviewTest_SRCS
   itkNeuralNetworkIOTest.cxx
 
   itkConformalFlatteningMeshFilterTest.cxx
+
+  itkVTKPolyDataReaderTest.cxx
 )
 
 ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS}
@@ -200,7 +202,7 @@ ADD_TEST(itkNeuralNetworkIOTest ${REVIEW_TESTS}
 ADD_TEST(itkConformalFlatteningMeshFilterTest1 ${REVIEW_TESTS}
                  itkConformalFlatteningMeshFilterTest
                  ${INPUTDATA}/genusZeroSurface01.vtk
-                 genusZeroMesh01ConformalFlattenedToSphere.vtk
+                 ${TEMP}/genusZeroMesh01ConformalFlattenedToSphere.vtk
                  319
                  100.0
                  1
@@ -209,7 +211,7 @@ ADD_TEST(itkConformalFlatteningMeshFilterTest1 ${REVIEW_TESTS}
 ADD_TEST(itkConformalFlatteningMeshFilterTest2 ${REVIEW_TESTS}
                  itkConformalFlatteningMeshFilterTest
                  ${INPUTDATA}/genusZeroSurface01.vtk
-                 genusZeroMesh01ConformalFlattenedToPlane.vtk
+                 ${TEMP}/genusZeroMesh01ConformalFlattenedToPlane.vtk
                  319
                  100.0
                  0
@@ -296,6 +298,11 @@ ADD_TEST(itkRegionalMaximaImageFilterTest2_2 ${REVIEW_TESTS}
                   ${TEMP}/cthead1RegionalMaximal2_2.png
                   ${TEMP}/cthead1RegionalMaximal-ref2_2.png
                   )
+
+ADD_TEST(itkVTKPolyDataReaderTest ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/genusZeroSurface01.vtk
+  )
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest

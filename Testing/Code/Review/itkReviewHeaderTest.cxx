@@ -64,6 +64,8 @@
 
 #include "itkConformalFlatteningMeshFilter.h"
 
+#include "itkVTKPolyDataReader.h"
+
 int main ( int , char*  )
 {
   return EXIT_SUCCESS;
