@@ -136,7 +136,6 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   // Load the point coordinates into the itk::Mesh
   //
 
-  double doublePoint[3];
   InputMeshType::PointType inputPoint;
   long pointId = 0;
 
