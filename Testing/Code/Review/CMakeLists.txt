@@ -180,7 +180,7 @@ ADD_TEST(itkBinaryProjectionImageFilterTest1 ${REVIEW_TESTS}
                   ${INPUTDATA}/HeadMRVolume.mhd
                   ${TEMP}/HeadMRVolumeBinaryProjection100.tif
                   100
-                  255)
+                  0)
 
 ADD_TEST(itkBinaryProjectionImageFilterTest2 ${REVIEW_TESTS}
         --compare ${BASELINE}/HeadMRVolumeBinaryProjection200.tif
