@@ -36,32 +36,46 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  const unsigned int pointDimension   = 3;
+  const unsigned int inputPointDimension   = 3;
+  const unsigned int outputPointDimension  = 3;
+
   const unsigned int maxCellDimension = 2;
 
   typedef double FloatingPointType;
 
   typedef itk::DefaultStaticMeshTraits<
     FloatingPointType,
-    pointDimension,
+    inputPointDimension,
     maxCellDimension,
     FloatingPointType,
-    FloatingPointType  >       MeshTraits;
+    FloatingPointType  >       InputMeshTraits;
 
   typedef itk::Mesh<
     FloatingPointType,
-    pointDimension,
-    MeshTraits              >     MeshType;
+    inputPointDimension,
+    InputMeshTraits              >     InputMeshType;
 
 
-  typedef MeshType::PointsContainer::ConstIterator PointIterator;
+  typedef itk::DefaultStaticMeshTraits<
+    FloatingPointType,
+    outputPointDimension,
+    maxCellDimension,
+    FloatingPointType,
+    FloatingPointType  >       OutputMeshTraits;
 
-  typedef MeshType::CellType CellType;
-  typedef MeshType::CellsContainer::ConstIterator CellIterator;
+  typedef itk::Mesh<
+    FloatingPointType,
+    inputPointDimension,
+    OutputMeshTraits              >     OutputMeshType;
 
-  typedef CellType::PointIdIterator PointIdIterator;
 
-  typedef itk::TriangleCell< CellType > TriangleCellType;
+  typedef OutputMeshType::CellType OutputCellType;
+  typedef OutputMeshType::CellsContainer::ConstIterator CellIterator;
+  typedef OutputCellType::PointIdIterator OutputPointIdIterator;
+
+  typedef InputMeshType::CellType InputCellType;
+
+  typedef itk::TriangleCell< InputCellType > InputTriangleCellType;
 
   //
   // Read mesh file
@@ -76,7 +90,7 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
     }
 
   // Create a new mesh
-  MeshType::Pointer mesh = MeshType::New();
+  InputMeshType::Pointer mesh = InputMeshType::New();
 
   std::string line;
 
@@ -123,14 +137,14 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   //
 
   double doublePoint[3];
-  MeshType::PointType point;
+  InputMeshType::PointType inputPoint;
   long pointId = 0;
 
   for( unsigned int pn=0; pn < numberOfPoints; pn++ )
     {
-    inputFile >> point;
-    std::cout << point << std::endl;
-    mesh->SetPoint( pointId++, point );
+    inputFile >> inputPoint;
+    std::cout << inputPoint << std::endl;
+    mesh->SetPoint( pointId++, inputPoint );
     }
 
   std::cout << "pointId= " << pointId << std::endl;
@@ -239,8 +253,8 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
     pointIds[1] = ids[1];
     pointIds[2] = ids[2];
 
-    MeshType::CellAutoPointer cell;
-    TriangleCellType * triangleCell = new TriangleCellType;
+    InputMeshType::CellAutoPointer cell;
+    InputTriangleCellType * triangleCell = new InputTriangleCellType;
     triangleCell->SetPointIds( (unsigned long*)pointIds );
 
     cell.TakeOwnership( triangleCell );
@@ -267,13 +281,15 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   // Test itkConformalFlatteningMeshFilter
   //
 
-  typedef itk::ConformalFlatteningMeshFilter< MeshType, MeshType>  FilterType;
+  typedef itk::ConformalFlatteningMeshFilter< 
+    InputMeshType, OutputMeshType>  FilterType;
+
   FilterType::Pointer filter = FilterType::New();
 
   // Connect the inputs
   filter->SetInput( mesh );
 
-  typedef MeshType::CellIdentifier  CellIdentifier;
+  typedef InputMeshType::CellIdentifier  CellIdentifier;
 
   CellIdentifier  polarCellId = atoi( argv[3] );
   filter->SetPolarCellIdentifier( polarCellId );
@@ -305,7 +321,7 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
     
 
   // Get the Smart Pointer to the Filter Output
-  MeshType::Pointer newMesh = filter->GetOutput();
+  OutputMeshType::Pointer newMesh = filter->GetOutput();
 
   //
   // Write to file
@@ -321,16 +337,20 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
 
   // Write the point coordinates to the file
 
-  PointIterator pointIterator = newMesh->GetPoints()->Begin();
-  PointIterator pointItEnd = newMesh->GetPoints()->End();
+  typedef OutputMeshType::PointsContainer::ConstIterator OutputPointIterator;
+  OutputPointIterator pointIterator = newMesh->GetPoints()->Begin();
+  OutputPointIterator pointItEnd = newMesh->GetPoints()->End();
 
   int numberOfPointsWritten = 0;
 
+  OutputMeshType::PointType outputPoint;
+
   while( pointIterator != pointItEnd )
     {
-    point = pointIterator.Value();
+    outputPoint = pointIterator.Value();
 
-    outputFile << point[0] << " " << point[1] << " " << point[2]
+// FIXME    outputFile << outputPoint[0] << " " << outputPoint[1] << " " << outputPoint[2]
+    outputFile << outputPoint[0] << " " << outputPoint[1] << " 0.0 "
       << std::endl;
 
     pointIterator++;
@@ -357,10 +377,10 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
 
   for(unsigned int i=0; cellIt != cellItEnd; ++i, ++cellIt)
     {
-    CellType * cellptr = cellIt.Value();
+    OutputCellType * cellptr = cellIt.Value();
 
-    PointIdIterator pntIdIter = cellptr->PointIdsBegin();
-    PointIdIterator pntIdEnd = cellptr->PointIdsEnd();
+    OutputPointIdIterator pntIdIter = cellptr->PointIdsBegin();
+    OutputPointIdIterator pntIdEnd = cellptr->PointIdsEnd();
 
     outputFile << "3";
 
