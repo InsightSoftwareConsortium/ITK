@@ -34,7 +34,10 @@ namespace itk {
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.
  *
- * \sa ValuedRegionalMinimaImageFilter, ValuedRegionalExtremaImageFilter, HMinimaImageFilter
+ * \sa ValuedRegionalMinimaImageFilter
+ * \sa ValuedRegionalExtremaImageFilter
+ * \sa HMinimaImageFilter
+ *
  * \ingroup MathematicalMorphologyImageFilters
  */
 
@@ -62,7 +65,8 @@ public:
 protected:
   ValuedRegionalMaximaImageFilter() 
   {
-    SetMarkerValue(NumericTraits<ITK_TYPENAME TOutputImage::PixelType>::NonpositiveMin());
+    SetMarkerValue( 
+      NumericTraits<ITK_TYPENAME TOutputImage::PixelType>::NonpositiveMin());
   }
   virtual ~ValuedRegionalMaximaImageFilter() {}
 
@@ -75,4 +79,5 @@ private:
 }; // end ValuedRegionalMaximaImageFilter
 
 } //end namespace itk
+
 #endif
