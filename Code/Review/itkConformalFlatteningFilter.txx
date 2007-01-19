@@ -550,7 +550,7 @@ namespace itk
     vnl_vector<double> x(f.dim(), 0);
     cg.minimize(x);
 
-    if( typeid(TInputMesh::CoordRepType) == typeid(double) )
+    if( typeid(CoordRepType) == typeid(double) )
       {
       return *(reinterpret_cast< vnl_vector<CoordRepType> * >(&x));
       }
