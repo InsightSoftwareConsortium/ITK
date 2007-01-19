@@ -48,6 +48,7 @@ public:
 
   typedef typename TVector::ValueType ValueType;
   typedef ValueType* ValuePointer;
+  typedef const ValueType* ValueConstPointer;
 
   void Initialize();
 
@@ -60,10 +61,10 @@ public:
   void SetConnectivityMatrix(vnl_matrix < int>);
 
   void SetNumberOfInputNodes(unsigned int n);
-  unsigned int GetNumberOfInputNodes();
+  unsigned int GetNumberOfInputNodes() const;
 
   void SetNumberOfOutputNodes(unsigned int n);
-  unsigned int GetNumberOfOutputNodes();
+  unsigned int GetNumberOfOutputNodes() const;
 
   void SetRange(ValueType Range);
  
@@ -102,6 +103,7 @@ public:
   ValuePointer GetPrevDeltaBValues();
 
   ValuePointer GetWeightValues();
+  ValueConstPointer GetWeightValues() const;
 
   
   void SetWeightValues(ValuePointer weights);
@@ -127,13 +129,13 @@ public:
   void InitializeWeights();
 
   itkSetMacro(WeightSetId,unsigned int);
-  itkGetMacro(WeightSetId,unsigned int);
+  itkGetConstMacro(WeightSetId,unsigned int);
   
   itkSetMacro(InputLayerId,unsigned int);
-  itkGetMacro(InputLayerId,unsigned int);
+  itkGetConstMacro(InputLayerId,unsigned int);
   
   itkSetMacro(OutputLayerId,unsigned int);
-  itkGetMacro(OutputLayerId,unsigned int);
+  itkGetConstMacro(OutputLayerId,unsigned int);
   
 protected: 
   

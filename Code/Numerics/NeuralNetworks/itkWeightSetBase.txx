@@ -54,7 +54,7 @@ WeightSetBase<TVector,TOutput>
 template<class TVector, class TOutput>
 unsigned int
 WeightSetBase<TVector,TOutput>
-::GetNumberOfInputNodes()
+::GetNumberOfInputNodes() const
 {
   return m_NumberOfInputNodes;
 }
@@ -71,7 +71,7 @@ WeightSetBase<TVector,TOutput>
 template<class TVector, class TOutput>
 unsigned int
 WeightSetBase<TVector,TOutput>
-::GetNumberOfOutputNodes()
+::GetNumberOfOutputNodes() const
 {
   return m_NumberOfOutputNodes;
 }
@@ -356,6 +356,14 @@ template<class TVector, class TOutput>
 typename WeightSetBase<TVector,TOutput>::ValuePointer
 WeightSetBase<TVector,TOutput>
 ::GetWeightValues()
+{
+  return m_WeightMatrix.data_block();
+}
+
+template<class TVector, class TOutput>
+typename WeightSetBase<TVector,TOutput>::ValueConstPointer
+WeightSetBase<TVector,TOutput>
+::GetWeightValues() const
 {
   return m_WeightMatrix.data_block();
 }

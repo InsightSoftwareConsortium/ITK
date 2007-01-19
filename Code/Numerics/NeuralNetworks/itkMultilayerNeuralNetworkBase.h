@@ -61,9 +61,11 @@ public:
 
   void AddLayer(LayerType*);
   LayerType* GetLayer(int layer_id);
+  const LayerType* GetLayer(int layer_id) const;
 
   void AddWeightSet(WeightSetType*);
   WeightSetType* GetWeightSet(unsigned int id);
+  const WeightSetType* GetWeightSet(unsigned int id) const;
 
   void SetLearningFunction(LearningFunctionType* f);
 

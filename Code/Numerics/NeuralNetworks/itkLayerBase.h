@@ -60,13 +60,16 @@ public:
   typedef InputFunctionBase<ValueType*, ValueType> InputFunctionType;
 
   typedef typename InputFunctionType::Pointer InputFunctionPointer;
+  typedef typename InputFunctionType::ConstPointer InputFunctionConstPointer;
 
   typedef typename TransferFunctionType::Pointer TransferFunctionPointer;
+  typedef typename TransferFunctionType::ConstPointer TransferFunctionConstPointer;
 
   typedef typename WeightSetType::Pointer WeightSetPointer;
+  typedef typename WeightSetType::ConstPointer WeightSetConstPointer;
 
   virtual void SetNumberOfNodes(unsigned int);
-  unsigned int GetNumberOfNodes();
+  unsigned int GetNumberOfNodes() const;
 
   virtual ValueType GetInputValue(unsigned int) = 0;
   virtual ValueType GetOutputValue(unsigned int) = 0;
@@ -96,9 +99,11 @@ public:
 
   void SetNodeInputFunction(InputFunctionType* f);
   itkGetObjectMacro(NodeInputFunction, InputFunctionType);
+  itkGetConstObjectMacro(NodeInputFunction, InputFunctionType);
 
   void SetTransferFunction(TransferFunctionType* f);
   itkGetObjectMacro(ActivationFunction, TransferFunctionType);
+  itkGetConstObjectMacro(ActivationFunction, TransferFunctionType);
 
   virtual ValueType Activation(ValueType) = 0;
   virtual ValueType DActivation(ValueType) = 0;

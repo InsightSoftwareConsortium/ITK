@@ -54,7 +54,7 @@ LayerBase<TVector,TOutput>
 template<class TVector, class TOutput>
 unsigned int
 LayerBase<TVector,TOutput>
-::GetNumberOfNodes()
+::GetNumberOfNodes() const
 {
   return m_NumberOfNodes;
 }

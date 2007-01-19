@@ -76,6 +76,15 @@ MultilayerNeuralNetworkBase<TVector,TOutput>
 }
 
 
+template<class TVector, class TOutput>
+const typename MultilayerNeuralNetworkBase<TVector, TOutput>::LayerType*
+MultilayerNeuralNetworkBase<TVector,TOutput>
+::GetLayer(int layer_id) const
+{
+  return m_Layers[layer_id].GetPointer();
+}
+
+
 
 template<class TVector, class TOutput>
 typename MultilayerNeuralNetworkBase<TVector, TOutput>::NetworkOutputType
@@ -152,6 +161,15 @@ template<class TVector, class TOutput>
 typename MultilayerNeuralNetworkBase<TVector, TOutput>::WeightSetType*
 MultilayerNeuralNetworkBase<TVector,TOutput>
 ::GetWeightSet(unsigned int id)
+{
+  return m_Weights[id].GetPointer();
+}
+
+
+template<class TVector, class TOutput>
+const typename MultilayerNeuralNetworkBase<TVector, TOutput>::WeightSetType*
+MultilayerNeuralNetworkBase<TVector,TOutput>
+::GetWeightSet(unsigned int id) const
 {
   return m_Weights[id].GetPointer();
 }
