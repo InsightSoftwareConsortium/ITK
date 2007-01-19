@@ -197,10 +197,22 @@ ADD_TEST(itkNeuralNetworkIOTest ${REVIEW_TESTS}
                   ${INPUTDATA}/xortest.txt
                   )
 
-ADD_TEST(itkConformalFlatteningMeshFilterTest ${REVIEW_TESTS}
+ADD_TEST(itkConformalFlatteningMeshFilterTest1 ${REVIEW_TESTS}
                  itkConformalFlatteningMeshFilterTest
-                 ${INPUTDATA}/nice.vtk
-                 niceFlat.vtk
+                 ${INPUTDATA}/genusZeroSurface01.vtk
+                 genusZeroMesh01ConformalFlattenedToSphere.vtk
+                 1073
+                 100.0
+                 1
+                 )
+
+ADD_TEST(itkConformalFlatteningMeshFilterTest2 ${REVIEW_TESTS}
+                 itkConformalFlatteningMeshFilterTest
+                 ${INPUTDATA}/genusZeroSurface01.vtk
+                 genusZeroMesh01ConformalFlattenedToPlane.vtk
+                 1073
+                 100.0
+                 0
                  )
 
 ADD_TEST(itkValuedRegionalMinimaImageFilterTest ${REVIEW_TESTS}
