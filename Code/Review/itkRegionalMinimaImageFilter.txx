@@ -48,7 +48,9 @@ RegionalMinimaImageFilter<TInputImage, TOutputImage>
   // We need all the input.
   InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
   if ( !input )
-    { return; }
+    {
+    return; 
+    }
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
@@ -83,10 +85,18 @@ RegionalMinimaImageFilter<TInputImage, TOutputImage>
   progress->RegisterInternalFilter( rmin, 0.67f );
   rmin->Update();
 
+  OutputImageType * outputImage = this->GetOutput();
+
   if( rmin->GetFlat() )
     {
-    ProgressReporter progress2(this, 0, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels(), 33, 0.67, 0.33);
-    ImageRegionIterator< TOutputImage > outIt(this->GetOutput(), this->GetOutput()->GetRequestedRegion() );
+    ProgressReporter progress2(this, 0, 
+     outputImage->GetRequestedRegion().GetNumberOfPixels(), 
+     33, 0.67, 0.33);
+
+    typedef ImageRegionIterator< TOutputImage > IteratorType;
+
+    IteratorType outIt(outputImage, outputImage->GetRequestedRegion() );
+
     if( m_FlatIsMinima )
       {
       for( outIt.Begin(); !outIt.IsAtEnd(); ++outIt )
@@ -106,18 +116,21 @@ RegionalMinimaImageFilter<TInputImage, TOutputImage>
     }
   else
     {
-    typedef BinaryThresholdImageFilter< InputImageType, OutputImageType > ThresholdType;
-    typename ThresholdType::Pointer th = ThresholdType::New();
-    th->SetInput( rmin->GetOutput() );
-    th->SetUpperThreshold( rmin->GetMarkerValue() );
-    th->SetLowerThreshold( rmin->GetMarkerValue() );
-    th->SetOutsideValue( m_ForegroundValue );
-    th->SetInsideValue( m_BackgroundValue );
-    progress->RegisterInternalFilter( th, 0.33f );
+    typedef BinaryThresholdImageFilter< 
+      InputImageType, OutputImageType > ThresholdType;
 
-    th->GraftOutput( this->GetOutput() );
-    th->Update();
-    this->GraftOutput( th->GetOutput() );
+    typename ThresholdType::Pointer threshold = ThresholdType::New();
+
+    threshold->SetInput( rmin->GetOutput() );
+    threshold->SetUpperThreshold( rmin->GetMarkerValue() );
+    threshold->SetLowerThreshold( rmin->GetMarkerValue() );
+    threshold->SetOutsideValue( m_ForegroundValue );
+    threshold->SetInsideValue( m_BackgroundValue );
+    progress->RegisterInternalFilter( threshold, 0.33f );
+
+    threshold->GraftOutput( outputImage );
+    threshold->Update();
+    this->GraftOutput( threshold->GetOutput() );
     }
 
 }
@@ -132,6 +145,7 @@ RegionalMinimaImageFilter<TInputImage, TOutputImage>
 
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
   os << indent << "FlatIsMinima: "  << m_FlatIsMinima << std::endl;
+  // FIXME : missing member variables here
 }
   
 }// end namespace itk

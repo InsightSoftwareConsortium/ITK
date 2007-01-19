@@ -22,17 +22,23 @@
 namespace itk {
 
 /** \class RegionalMinimaImageFilter
- * \brief Produce a binary image where foreground is the regional minima of the input image
+ * \brief Produce a binary image where foreground is the regional minima of the
+ * input image
  *
  * Regional minima are flat zones surounded by pixels of greater value.
  *
- * If the input image is constant, the entire image can be considered as a minima or not.
- * The SetFlatIsMinima() method let the user choose which behavior to use.
+ * If the input image is constant, the entire image can be considered as a
+ * minima or not.  The SetFlatIsMinima() method let the user choose which
+ * behavior to use.
  * 
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
+ * INRA de Jouy-en-Josas, France.
  *
- * \sa ValuedRegionalMinimaImageFilter, HConcaveImageFilter, RegionalMaximaImageFilter
- * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * FIXME: Add reference to IJ paper
+ *
+ * \sa ValuedRegionalMinimaImageFilter, HConcaveImageFilter,
+ * RegionalMaximaImageFilter \ingroup ImageEnhancement
+ * MathematicalMorphologyImageFilters
  */
 template<class TInputImage, class TOutputImage>
 class ITK_EXPORT RegionalMinimaImageFilter : 
