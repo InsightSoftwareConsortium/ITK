@@ -41,7 +41,11 @@ namespace itk
 /** \class ConformalFlatteningMeshFilter
  * \brief This filter maps a Surface in 3D to a plane or to a sphere.
  *
- * \author John Melonakos et al
+ * FIXME: Add a couple of paragraphs describing the filter. It may well
+ *        be the introductory paragraph from the paper, or even the 
+ *        abstract.
+ *
+ * FIXME: Add all the authors in the paper \author John Melonakos et al
  *
  * FIXME: Add reference to the Insight Journal paper
  *
@@ -86,11 +90,14 @@ public:
   typedef typename InputMeshType::CellType                  CellType;
   typedef typename CellType::PointIdIterator                PointIdIterator;
   typedef typename InputMeshType::PointType                 PointType;
+  typedef typename InputMeshType::CellIdentifier            CellIdentifier;
 
-  /** Select the point that will be used as reference for the flattening.
-   *  This value must be the identifier of a point existing in the input
-   *  Mesh. */
-  void SetPolarPoint( int );
+  /** Select the cell that will be used as reference for the flattening.  This
+   * value must be the identifier of a cell existing in the input Mesh.  A
+   * point of this cell will be mapped to infinity on the plane, or it will be
+   * mapped to the north-pole on the sphere. It is recommended to select a cell
+   * whose curvature is relatively flat. */
+  void SetPolarCellIdentifier( CellIdentifier cellId );
   
   /** Define the scale of the mapping */
   void SetScale( double );
@@ -142,7 +149,7 @@ private:
                                          
   /** Cell Id  in which the point P, which is used 
    * to define the mapping, lies in. */
-  unsigned int m_CellIdentifierHavingPolarPoint;
+  unsigned int m_PolarCellIdentifier;
   
   /** Whether the result is sphere or plane.  */
   bool      m_MapToSphere;

@@ -101,95 +101,90 @@ namespace itk
   ////////////////////////////////////////////////////////////////////
 
   
-  /**
-   *
-   */
-  template <class TInputMesh, class TOutputMesh>
-  ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
-  ::ConformalFlatteningMeshFilter()
-  {
-    //set the p point of delta function in the 0-th cell
-    m_CellIdentifierHavingPolarPoint = 0; 
+/**
+ *
+ */
+template <class TInputMesh, class TOutputMesh>
+ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
+::ConformalFlatteningMeshFilter()
+{
+  //set the cellId of delta function in the 0-th cell
+  m_PolarCellIdentifier = itk::NumericTraits< CellIdentifier >::Zero; 
 
-    m_MapToSphere = true;
-    
-    m_MapScale = 100; // The largest corrdinates of the furthest point in the plane is m_MapScale.
-  }
+  m_MapToSphere = true;
 
-
-  /**
-   *
-   */
-  template <class TInputMesh, class TOutputMesh>
-  void 
-  ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
-  ::PrintSelf(std::ostream& os, Indent indent) const
-  {
-    Superclass::PrintSelf(os,indent);
-  }
+  // The largest corrdinates of the furthest point in the plane is m_MapScale.
+  m_MapScale = 100; 
+}
 
 
-  /**
-   * This method causes the filter to generate its output.
-   */
-  template <class TInputMesh, class TOutputMesh>
-  void 
-  ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
-  ::GenerateData(void) 
-  {
-    // The commented out typedef's are not used here. Should they be commented out or still be defined for consistancy?
-    // typedef typename TInputMesh::PointsContainer  InputPointsContainer;
-    // typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
+/**
+ *
+ */
+template <class TInputMesh, class TOutputMesh>
+void 
+ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  // FIXME: Add here all the member variables
+}
 
-    //    typedef typename TInputMesh::PointsContainerPointer  InputPointsContainerPointer;
-    typedef typename TOutputMesh::PointsContainerPointer OutputPointsContainerPointer;
 
-    InputMeshPointer    inputMesh      =  this->GetInput();
-    OutputMeshPointer   outputMesh     =  this->GetOutput();
-  
-    if( !inputMesh )
-      {
-        itkExceptionMacro(<<"Missing Input Mesh");
-      }
+/**
+ * This method causes the filter to generate its output.
+ */
+template <class TInputMesh, class TOutputMesh>
+void 
+ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
+::GenerateData(void) 
+{
 
-    if( !outputMesh )
-      {
-        itkExceptionMacro(<<"Missing Output Mesh");
-      }
+  typedef typename TOutputMesh::PointsContainerPointer 
+                                          OutputPointsContainerPointer;
 
-    outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
+  InputMeshPointer    inputMesh      =  this->GetInput();
+  OutputMeshPointer   outputMesh     =  this->GetOutput();
 
-    //    InputPointsContainerPointer  inPoints  = inputMesh->GetPoints();
-    OutputPointsContainerPointer outPoints = outputMesh->GetPoints();
-
-    outPoints->Reserve( inputMesh->GetNumberOfPoints() );
-    outPoints->Squeeze();  // in case the previous mesh had 
-    // allocated a larger memory
-
-    //    typename InputPointsContainer::ConstIterator  inputPoint  = inPoints->Begin();
-    //    typename OutputPointsContainer::Iterator      outputPoint = outPoints->Begin();
-
-    // Create duplicate references to the rest of data on the mesh
-
-    outputMesh->SetPointData(  inputMesh->GetPointData() );
-  
-    outputMesh->SetCellLinks(  inputMesh->GetCellLinks() );
-  
-    outputMesh->SetCells(  inputMesh->GetCells() );
-    outputMesh->SetCellData(  inputMesh->GetCellData() );
-  
-    // The actual conformal flattening mapping process.
-    // Everything is done here.
-    this->PerformMapping( inputMesh, outputMesh );
-  
-    unsigned int maxDimension = TInputMesh::MaxTopologicalDimension;
-
-    for( unsigned int dim = 0; dim < maxDimension; dim++ ) 
+  if( !inputMesh )
     {
-      outputMesh->SetBoundaryAssignments( dim,
-                                          inputMesh->GetBoundaryAssignments( dim ) );
+    itkExceptionMacro(<<"Missing Input Mesh");
     }
-  }// GenerateData()
+
+  if( !outputMesh )
+    {
+    itkExceptionMacro(<<"Missing Output Mesh");
+    }
+
+  outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
+
+  OutputPointsContainerPointer outPoints = outputMesh->GetPoints();
+
+  outPoints->Reserve( inputMesh->GetNumberOfPoints() );
+  outPoints->Squeeze();  // in case the previous mesh had 
+  // allocated a larger memory
+
+  // Create duplicate references to the rest of data on the mesh
+
+  outputMesh->SetPointData(  inputMesh->GetPointData() );
+
+  outputMesh->SetCellLinks(  inputMesh->GetCellLinks() );
+
+  outputMesh->SetCells(  inputMesh->GetCells() );
+  outputMesh->SetCellData(  inputMesh->GetCellData() );
+
+  // The actual conformal flattening mapping process.
+  // Everything is done here.
+  this->PerformMapping( inputMesh, outputMesh );
+
+  unsigned int maxDimension = TInputMesh::MaxTopologicalDimension;
+
+  for( unsigned int dim = 0; dim < maxDimension; dim++ ) 
+    {
+    outputMesh->SetBoundaryAssignments( dim,
+                                        inputMesh->GetBoundaryAssignments( dim ) );
+    }
+}
 
   template <class TInputMesh, class TOutputMesh>
   void
@@ -314,38 +309,6 @@ namespace itk
       }
     } // for itPointCell
     std::cerr<<"No boundary found!"<<std::endl;
-
-    //   //--------------------------------------------------------------
-    //   // print out the result for debuging
-    //   std::cout<<std::endl;
-    //   std::cout<<std::endl;
-    //   std::cout<<std::endl;
-    //   std::cout<<std::endl;
-
-    //   for (int it = 0; it < numOfPoints; ++it) {
-    //     std::cout<<"point# "<<it<<" :"
-    //              <<"       X: "<<pointXYZ[it][0]
-    //              <<"       Y: "<<pointXYZ[it][1]
-    //              <<"       Z: "<<pointXYZ[it][2]<<std::endl;
-    //   }
-
-    //   for (int it = 0; it < numOfPoints; ++it) {
-    //     std::cout<<"point# "<<it<<" is contained by    "<<pointCell[it].size()<<"   cells:"<<std::endl;
-    //     for (std::vector<int>::const_iterator vi = pointCell[it].begin();
-    //          vi != pointCell[it].end();
-    //          ++vi) {
-    //       std::cout<<*vi<<"     ";      
-    //     }
-    //     std::cout<<std::endl;
-    //   }
-
-    //   for (int it = 0; it < numOfCells; ++it) {
-    //     std::cout<<"cell# "<<it<<" has points: "
-    //              <<cellPoint[it][0]<<"  "
-    //              <<cellPoint[it][1]<<"  "
-    //              <<cellPoint[it][2]<<std::endl;
-    //   }
-    //   //---------------------------------------------------------------
 
 
     // 1. Iterate point P from 0 to the last point in the mesh. 
@@ -493,17 +456,18 @@ namespace itk
     } // if eulerNum
 
     // compute b = bR + i*bI separately
-    std::vector<CoordRepType> A( pointXYZ[ cellPoint[ m_CellIdentifierHavingPolarPoint ][ 0 ] ] ), 
-      B( pointXYZ[ cellPoint[ m_CellIdentifierHavingPolarPoint ][ 1 ] ] ), 
-      C( pointXYZ[ cellPoint[ m_CellIdentifierHavingPolarPoint ][ 2 ] ] );
-    double ABnorm, CA_BAip; // the inner product of vector C-A and B-A;
-    ABnorm = (A[0] - B[0]) * (A[0] - B[0])
-      + (A[1] - B[1]) * (A[1] - B[1])
-      + (A[2] - B[2]) * (A[2] - B[2]);
+    std::vector< CoordRepType > A( pointXYZ[ cellPoint[ m_PolarCellIdentifier ][ 0 ] ] ); 
+    std::vector< CoordRepType > B( pointXYZ[ cellPoint[ m_PolarCellIdentifier ][ 1 ] ] ); 
+    std::vector< CoordRepType > C( pointXYZ[ cellPoint[ m_PolarCellIdentifier ][ 2 ] ] );
 
-    CA_BAip = (C[0] - A[0]) * (B[0] - A[0])
-      + (C[1] - A[1]) * (B[1] - A[1])
-      + (C[2] - A[2]) * (B[2] - A[2]);
+    double ABnorm, CA_BAip; // the inner product of vector C-A and B-A;
+    ABnorm =  (A[0] - B[0]) * (A[0] - B[0])
+            + (A[1] - B[1]) * (A[1] - B[1])
+            + (A[2] - B[2]) * (A[2] - B[2]);
+
+    CA_BAip =   (C[0] - A[0]) * (B[0] - A[0])
+              + (C[1] - A[1]) * (B[1] - A[1])
+              + (C[2] - A[2]) * (B[2] - A[2]);
 
     double theta = CA_BAip / ABnorm; 
     // Here ABnorm is actually the square of AB's norm, which is what we
@@ -521,12 +485,12 @@ namespace itk
       + (C[2] - E[2]) * (C[2] - E[2]);
     CEnorm = sqrt(CEnorm); // This is real norm of vector CE.
 
-    bR(cellPoint[ m_CellIdentifierHavingPolarPoint ][0]) = -1 / ABnorm;
-    bR(cellPoint[ m_CellIdentifierHavingPolarPoint ][1]) = 1 / ABnorm;
+    bR(cellPoint[ m_PolarCellIdentifier ][0]) = -1 / ABnorm;
+    bR(cellPoint[ m_PolarCellIdentifier ][1]) = 1 / ABnorm;
 
-    bI(cellPoint[ m_CellIdentifierHavingPolarPoint ][0]) = (1-theta)/ CEnorm;
-    bI(cellPoint[ m_CellIdentifierHavingPolarPoint ][1]) = theta/ CEnorm;
-    bI(cellPoint[ m_CellIdentifierHavingPolarPoint ][2]) = -1 / CEnorm;
+    bI(cellPoint[ m_PolarCellIdentifier ][0]) = (1-theta)/ CEnorm;
+    bI(cellPoint[ m_PolarCellIdentifier ][1]) = theta/ CEnorm;
+    bI(cellPoint[ m_PolarCellIdentifier ][2]) = -1 / CEnorm;
   
     return; 
   } 
@@ -639,17 +603,16 @@ ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
 template <class TInputMesh, class TOutputMesh>
 void 
 ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
-::SetPolarPoint( int p )
+::SetPolarCellIdentifier( CellIdentifier cellId )
 {
-  if (p >= 0 && p < this->GetInput()->GetNumberOfCells() )
-  {
-    m_CellIdentifierHavingPolarPoint = p;
-  }
+  if ( cellId < this->GetInput()->GetNumberOfCells() )
+    {
+    m_PolarCellIdentifier = cellId;
+    }
   else
-  {
-    std::cerr<<"Location of point p exceeds number of cells. Set to default value 0."<<std::endl<<std::endl;
-    m_CellIdentifierHavingPolarPoint = 0;
-  }
+    {
+    itkExceptionMacro( "Polar CellId exceeds number of cells.");
+    }
 }
 
 template <class TInputMesh, class TOutputMesh>
