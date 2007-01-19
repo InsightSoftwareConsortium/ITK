@@ -27,9 +27,6 @@
 
 #include <iostream>
 
-#define ROUND(x) (floor(x+0.5))
-#define same_sign(a, b) (((a)*(b))>0)
-
 int itkNeuralNetworkIOTest(int argc,char* argv[])
 {
   if( argc < 2 )
@@ -66,7 +63,8 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
   // Read the Network topology from the configuration file
   r->SetFileName(argv[1]);
   r->Update();
-  NetworkType::Pointer network=r->GetNetwork();
+
+  NetworkType::Pointer network = r->GetOutput();
 
   // Initialize network
   network->Initialize();
@@ -107,21 +105,21 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
   unsigned int error2 = 0;
   int flag = 0;
 
-  while (iter1 != sample->End())
+  while( iter1 != sample->End() )
     {
     mv = iter1.GetMeasurementVector();
     tv = iter2.GetMeasurementVector();
     ov.Set_vnl_vector(network->GenerateOutput(mv));
     flag = 0;
-    if (fabs(tv[0]-ov[0])>0.5 && !same_sign(tv[0],ov[0]))
+    if( fabs(tv[0]-ov[0])>0.5 && !((tv[0]*ov[0])>0) )
       {
       flag = 1;
       }
-    if (flag == 1 && ROUND(tv[0]) == 1)
+    if( flag == 1 && vcl_floor(tv[0]+0.5) )
       {
       ++error1;
       }
-    else if (flag == 1 && ROUND(tv[0]) == -1)
+    else if (flag == 1 && vcl_floor(tv[0]+0.5) == -1)
       {
       ++error2;
       }
@@ -162,7 +160,7 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
   w2->SetInput(network);
   w2->Update();
 
-  if ((error1 + error2) > 2)
+  if( (error1 + error2) > 2 )
     {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
