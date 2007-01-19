@@ -87,6 +87,29 @@ public:
   typedef typename CompletelyConnectedWeighttype::Pointer CompletelyWeightSetPointer;
   typedef typename WeightSetType::Pointer WeightSetPointer;
  
+  /** Set the filename  */
+  itkSetStringMacro( FileName );
+
+  /** Get the filename */
+  itkGetStringMacro( FileName );
+
+  /** Read NeuralNetwork */
+  void Update(void);
+
+  NetworkType * GetOutput() const;
+
+  itkSetMacro( ReadWeightValuesType, unsigned int );
+  itkGetMacro( ReadWeightValuesType, unsigned int );
+
+ 
+protected:
+  NeuralNetworkFileReader();
+  virtual ~NeuralNetworkFileReader();
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  
+private:
+
+  typedef std::vector<MET_FieldRecordType *>      FieldsContainerType;
   typedef std::vector< LayerPointer >             LayersContainer;
   typedef std::vector<WeightSetPointer>           WeightsContainer;
 
@@ -97,38 +120,16 @@ public:
     }                                              LineType;
 
   typedef std::list< LineType >                    LinesContainer;
-  
 
-  /** Set the filename  */
-  itkSetStringMacro(FileName);
 
-  /** Get the filename */
-  itkGetStringMacro(FileName);
-
-  /** Read NeuralNetwork */
-  void Update(void);
-
-  NetworkType* GetNetwork();
-
-  itkSetMacro(ReadWeightValuesType, unsigned int);
-  itkGetMacro(ReadWeightValuesType, unsigned int);
-
- 
-protected:
-  std::ifstream netInputfile;
-  typedef std::vector<MET_FieldRecordType *> FieldsContainerType;
-  FieldsContainerType m_Fields;
-  std::string m_FileName;
-  NeuralNetworkFileReader();
-  virtual ~NeuralNetworkFileReader();
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
-  
-private:
-  NetworkPointer    m_Network;
-  int               m_ReadWeightValuesType;
-  LayerContainer    m_Layers;
-  WeightsContainer  m_Weights;
-  LinesContainer    m_NameValue;  
+  NetworkPointer         m_Network;
+  int                    m_ReadWeightValuesType;
+  LayersContainer        m_Layers;
+  WeightsContainer       m_Weights;
+  LinesContainer         m_NameValue;  
+  std::string            m_FileName;
+  FieldsContainerType    m_Fields;
+  std::ifstream          m_InputFile;
 
 };
 

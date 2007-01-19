@@ -22,6 +22,7 @@
 
 namespace itk
 {
+
 /** Constructor */
 template<class TVector, class TOutput>
 NeuralNetworkFileReader<TVector,TOutput>
@@ -32,11 +33,11 @@ NeuralNetworkFileReader<TVector,TOutput>
 }
 
 template<class TVector, class TOutput>
-typename NeuralNetworkFileReader<TVector,TOutput>::NetworkType*
+typename NeuralNetworkFileReader<TVector,TOutput>::NetworkType *
 NeuralNetworkFileReader<TVector,TOutput>
-::GetNetwork() 
+::GetOutput() const
 {
- return m_Network.GetPointer();
+  return m_Network.GetPointer();
 }
 
 /** Destructor */
@@ -64,13 +65,12 @@ NeuralNetworkFileReader<TVector,TOutput>
 ::Update()
 {  
   //std::ifstream in;
-  netInputfile.open(m_FileName.c_str(), std::ios::binary | std::ios::in);
-  netInputfile.seekg(0,std::ios::beg);
+  m_InputFile.open(m_FileName.c_str(), std::ios::binary | std::ios::in);
+  m_InputFile.seekg(0,std::ios::beg);
 
-   if(!netInputfile.is_open())
+   if(!m_InputFile.is_open())
     {
-    std::cout << "NeuralNetworkFileReader Read: Cannot open file" << std::endl;
-    return;
+    itkExceptionMacro("NeuralNetworkFileReader Read: Cannot open file");
     }
  
   unsigned int num_layers=0;
@@ -95,21 +95,18 @@ NeuralNetworkFileReader<TVector,TOutput>
   mF->terminateRead=true; 
   m_Fields.push_back(mF);
  
-  if(!MET_Read(netInputfile, & m_Fields,'='))
+  if(!MET_Read(m_InputFile, & m_Fields,'='))
     {
-    std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
-    //return false;
+    itkExceptionMacro("MetaObject: Read: MET_Read Failed");
     }
 
   mF = MET_GetFieldRecord("ObjectType", &m_Fields);
-  std::cout<<"Network type = "<<(char *)(mF->value)<<std::endl;
-  std::cout<<"desired type = "<<"MultilayerNeuralNetwork"<<std::endl;
+
+
   if(!strcmp((char *)(mF->value),"MultilayerNeuralNetworkBase"))
-  {  
-  
+    {  
     m_Network= NetworkType::New();
-    std::cout<<"Network declared"<<std::endl;
-  }
+    }
 
   mF = MET_GetFieldRecord("NLayers", &m_Fields);
   num_layers=(unsigned int)mF->value[0];
@@ -120,10 +117,6 @@ NeuralNetworkFileReader<TVector,TOutput>
   mF = MET_GetFieldRecord("WeightValuesType", &m_Fields);
   m_ReadWeightValuesType=(unsigned int)mF->value[0];
  
-  std::cout<<"Num layers = "<<num_layers<<std::endl;
-  std::cout<<"Num weights = "<<num_weights<<std::endl;
-  
-  
   m_Network->SetNumOfLayers(num_layers);
   
   mF = new MET_FieldRecordType;
@@ -152,10 +145,9 @@ NeuralNetworkFileReader<TVector,TOutput>
   // define the layers
   for(int i=0; i<num_layers; i++)
   {
-    if(!MET_Read(netInputfile, & m_Fields,'='))
+    if(!MET_Read(m_InputFile, & m_Fields,'='))
     {
-    std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
-    return;
+    itkExceptionMacro( "MetaObject: Read: MET_Read Failed");
     }
 
     mF = MET_GetFieldRecord("LayerType", &m_Fields);
@@ -170,7 +162,7 @@ NeuralNetworkFileReader<TVector,TOutput>
      mF = MET_GetFieldRecord("NumNodes", &m_Fields);
      layerptr->SetNumberOfNodes((int)mF->value[0]);
      LayerPointer layer = static_cast<LayerPointer>(layerptr);
-     m_layers.push_back(layer);
+     m_Layers.push_back(layer);
 
      mF = MET_GetFieldRecord("TransferFunction", &m_Fields);
      if(!strcmp((char*)mF->value,"IdentityTransferFunction"))
@@ -243,7 +235,7 @@ NeuralNetworkFileReader<TVector,TOutput>
   // define the weightsets
   for(int i=0; i<num_weights; i++)
   {  
-   if(!MET_Read(netInputfile, & m_Fields,'='))
+   if(!MET_Read(m_InputFile, & m_Fields,'='))
    {
     std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
     //return false;
@@ -261,59 +253,60 @@ NeuralNetworkFileReader<TVector,TOutput>
      unsigned int dlayer=(unsigned int)mF->value[0];
      
      w->SetWeightSetId(weightsetid);    
-     w->SetNumberOfInputNodes(m_layers[slayer]->GetNumberOfNodes());
-     w->SetNumberOfOutputNodes(m_layers[dlayer]->GetNumberOfNodes());
+     w->SetNumberOfInputNodes(m_Layers[slayer]->GetNumberOfNodes());
+     w->SetNumberOfOutputNodes(m_Layers[dlayer]->GetNumberOfNodes());
      w->SetCompleteConnectivity();
      w->SetRange(1.0);  //0.5
      w->Initialize(); 
      WeightSetPointer weightset=static_cast<WeightSetPointer>(w);
      m_Network->AddWeightSet(w);
-     m_weights.push_back(weightset); 
-     m_layers[slayer]->SetOutputWeightSet(w);
-     m_layers[dlayer]->SetInputWeightSet(w);         
+     m_Weights.push_back(weightset); 
+     m_Layers[slayer]->SetOutputWeightSet(w);
+     m_Layers[dlayer]->SetInputWeightSet(w);         
    }        
   }
-   std::cout<<"Weightsets defined"<<std::endl;
+
   
   //Read Weight Values
   WeightSetPointer weightset;
   if(m_ReadWeightValuesType>0)
-  {
+    {
     m_Network->Initialize();
     for(int j=0; j<m_Network->GetNumOfWeightSets(); j++)
-    {
-     m_Fields.clear();
-     weightset = m_Network->GetWeightSet(j);
-     unsigned int rows =weightset->GetNumberOfOutputNodes();
-     unsigned int cols =weightset->GetNumberOfInputNodes();
-     
-     mF = new MET_FieldRecordType;
-     MET_InitReadField(mF, "WeightValues",MET_FLOAT_ARRAY, true,-1,
-                                                         rows*cols);
-     mF->required = true;
-     mF->terminateRead=true; 
-     m_Fields.push_back(mF);
-     
-     if(m_ReadWeightValuesType==1) // Read ASCII weights
-     {
-       if(!MET_Read(netInputfile, & m_Fields,'='))
+      {
+       m_Fields.clear();
+       weightset = m_Network->GetWeightSet(j);
+       unsigned int rows =weightset->GetNumberOfOutputNodes();
+       unsigned int cols =weightset->GetNumberOfInputNodes();
+       
+       mF = new MET_FieldRecordType;
+       MET_InitReadField(mF, "WeightValues",MET_FLOAT_ARRAY, true,-1,
+                                                           rows*cols);
+       mF->required = true;
+       mF->terminateRead=true; 
+       m_Fields.push_back(mF);
+       
+       if(m_ReadWeightValuesType==1) // Read ASCII weights
        {
-         std::cout << "MetaObject: Read: MET_Read Failed Weight Values missing" << std::endl;
-         return;
-        }
-       weightset->SetWeightValues(mF->value);
-     }
-     else if (m_ReadWeightValuesType==2) // Read Binary Weights
-     {
-      vnl_matrix<ValueType>WeightMatrix;
-      WeightMatrix.set_size(rows, cols);
-      netInputfile.read((char *)WeightMatrix.data_block(), rows*cols*sizeof(double));
-      std::cout<<"WeightValues = "<<WeightMatrix<<std::endl; 
-      weightset->SetWeightValues(WeightMatrix.data_block());
-     }
-    }
+         if(!MET_Read(m_InputFile, & m_Fields,'='))
+         {
+         //FIXME : use itkExceptionMacro
+           std::cout << "MetaObject: Read: MET_Read Failed Weight Values missing" << std::endl;
+           return;
+          }
+         weightset->SetWeightValues(mF->value);
+       }
+       else if (m_ReadWeightValuesType==2) // Read Binary Weights
+       {
+        vnl_matrix<ValueType>WeightMatrix;
+        WeightMatrix.set_size(rows, cols);
+        m_InputFile.read((char *)WeightMatrix.data_block(), rows*cols*sizeof(double));
+        std::cout<<"WeightValues = "<<WeightMatrix<<std::endl; 
+        weightset->SetWeightValues(WeightMatrix.data_block());
+       }
+      }
   }
-  netInputfile.close();
+  m_InputFile.close();
 }
 
 
