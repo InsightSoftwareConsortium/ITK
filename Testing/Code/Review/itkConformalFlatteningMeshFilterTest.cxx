@@ -97,7 +97,7 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
 
   while( !inputFile.eof() )
     {
-    getline(inputFile,line);
+    std::getline( inputFile, line );
     std::cout << line << std::endl;
 
     if( line.find("POINTS") != std::string::npos )
@@ -161,7 +161,7 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   // Continue searching for the POLYGONS line
   while( !inputFile.eof() && ( line.find("POLYGONS") == std::string::npos ) )
     {
-    getline( inputFile, line );
+    std::getline( inputFile, line );
     }
 
   std::cout << "POLYGONS line" << std::endl;
@@ -208,7 +208,7 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
 
   while( !inputFile.eof() )
     {
-    getline( inputFile, line );
+    std::getline( inputFile, line );
 
     if( line.find("DATA") != std::string::npos )
       {
