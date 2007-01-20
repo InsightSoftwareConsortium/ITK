@@ -454,7 +454,33 @@ int itkContourExtractor2DImageFilterTest(int argc, char *argv[])
       itkContourExtractor2DImageFilterTestNamespace::ExtractorType::New();
 
   extractor->SetInput(reader->GetOutput());
+
+  // exercise Set/Get ContourValue methods 
+  extractor->SetContourValue( 255.0 );
+  if( extractor->GetContourValue() != 255.0 )
+    {
+    std::cerr << " Contour Value Set/Get problem" << std::endl;
+    return EXIT_FAILURE;
+    } 
+
   extractor->SetContourValue(127.5);
+
+  // exercise Set/Get methods of VertexConnectHighPixels 
+  extractor->VertexConnectHighPixelsOn();
+  if( extractor->GetVertexConnectHighPixels() != true )
+    {
+    std::cerr << "VertexConnectHighPixels Set/Get Problem" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // exercise Set/Get methods of ReverseContourOrientation 
+  extractor->ReverseContourOrientationOn();
+  if( extractor->GetReverseContourOrientation() != true )
+    {
+    std::cerr << "ReverseContourOrientation Set/Get Problem" << std::endl;
+    return EXIT_FAILURE;
+    }
+ 
   bool testsPassed = true;
   try {
     extractor->VertexConnectHighPixelsOff();
@@ -515,6 +541,15 @@ int itkContourExtractor2DImageFilterTest(int argc, char *argv[])
     extractor->SetRequestedRegion(
        itkContourExtractor2DImageFilterTestNamespace::ImageType::RegionType(
                    index, size));
+
+    // exercise Set/Get RequestRegion
+    if ( extractor->GetRequestedRegion() != 
+     itkContourExtractor2DImageFilterTestNamespace::ImageType::RegionType(
+                   index, size) ) 
+    {
+    std::cerr << "RequestedRegion Set/Get Problem" << std::endl;
+    return EXIT_FAILURE;
+    }   
 
     extractor->Update();
     std::cout << "Test 4... ";
