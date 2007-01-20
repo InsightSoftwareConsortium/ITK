@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.h
-// $Revision: 1.3 $
+// $Revision: 1.4 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-17 15:52:40 $
+// $Date: 2007-01-20 21:42:46 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -288,13 +288,13 @@ public:
 
   /// SYMmetric edge
   /// (see \ref DoxyWalkingLocalShort "Accessing adjacent edges").
-  Self* GetSym() { return( this->GetRot()->GetRot() ); }
-  const Self* GetSym() const  { return( this->GetRot()->GetRot() ); }
+  Self* GetSym();
+  const Self* GetSym() const; 
 
   /// NEXT edge with same Left face
   /// (see \ref DoxyWalkingLocalShort "Accessing adjacent edges").
-  Self* GetLnext() { return( this->GetInvRot()->GetOnext()->GetRot() ); }
-  const Self* GetLnext() const { return( this->GetInvRot()->GetOnext()->GetRot() ); }
+  Self* GetLnext(); 
+  const Self* GetLnext() const;
 
   /// NEXT edge with same Right face [i.e. the first edge encountered
   /// when moving counter-clockwise from e around e->Right ]
@@ -330,16 +330,16 @@ public:
   const Self* GetDprev() const { return( this->GetInvRot()->GetOnext()->GetInvRot() ); }
 
   // Inverse operators
-  Self * GetInvRot()   { return( this->GetRot()->GetRot()->GetRot() ); }
-  Self * GetInvOnext() { return( this->GetOprev() ); }
-  Self * GetInvLnext() { return( this->GetLprev() ); }
-  Self * GetInvRnext() { return( this->GetRprev() ); }
-  Self * GetInvDnext() { return( this->GetDprev() ); }
-  const Self * GetInvRot()   const { return( this->GetRot()->GetRot()->GetRot() ); }
-  const Self * GetInvOnext() const { return( this->GetOprev() ); }
-  const Self * GetInvLnext() const { return( this->GetLprev() ); }
-  const Self * GetInvRnext() const { return( this->GetRprev() ); }
-  const Self * GetInvDnext() const { return( this->GetDprev() ); }
+  Self * GetInvRot();
+  Self * GetInvOnext();
+  Self * GetInvLnext();
+  Self * GetInvRnext();
+  Self * GetInvDnext();
+  const Self * GetInvRot() const;
+  const Self * GetInvOnext() const;
+  const Self * GetInvLnext() const;
+  const Self * GetInvRnext() const;
+  const Self * GetInvDnext() const;
 
   /** Queries. */
   bool IsHalfEdge() const { return( m_Onext == (Self*)0 || m_Rot == (Self*)0 );}

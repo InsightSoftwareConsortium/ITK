@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkGeometricalQuadEdge.txx
-// $Revision: 1.3 $
+// $Revision: 1.4 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-16 22:30:06 $
+// $Date: 2007-01-20 21:42:46 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -628,7 +628,81 @@ template< typename TVRef, typename TFRef,
   this->UnsetRight( );
 }
 
-} 
+
+// ---------------------------------------------------------------------
+template< typename TVRef, typename TFRef,
+          typename TPRef, typename TDRef, bool PrimalDual >
+bool
+GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >
+::IsOrgSet() const
+{ 
+  return ( this->m_Org != NOPOINT );
+}
+
+// ---------------------------------------------------------------------
+template< typename TVRef, typename TFRef,
+          typename TPRef, typename TDRef, bool PrimalDual >
+bool
+GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >
+::IsDestSet() const
+{
+  const Self * p1 = this->GetSym();
+  if( p1 == NULL )
+    {
+    return false; // FIXME: Is this the right answer ?
+    }
+
+  return p1->IsOrgSet();
+}
+
+
+// ---------------------------------------------------------------------
+template< typename TVRef, typename TFRef,
+          typename TPRef, typename TDRef, bool PrimalDual >
+bool
+GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >
+::IsRightSet() const
+{
+  const Superclass * p1 = this->GetRot();
+  if( p1 == NULL )
+    {
+    return false;  // FIXME: Is this the right answer ?
+    }
+
+  const Self * p2 = dynamic_cast< const Self * >( p1 );
+  if( p2 == NULL )
+    {
+    return false;  // FIXME: Is this the right answer ?
+    }
+
+  return p2->IsOrgSet();
+}
+
+
+// ---------------------------------------------------------------------
+template< typename TVRef, typename TFRef,
+          typename TPRef, typename TDRef, bool PrimalDual >
+bool
+GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >
+::IsLeftSet() const
+{
+  const Superclass * p1 = this->GetInvRot();
+  if( p1 == NULL )
+    {
+    return false;  // FIXME: Is this the right answer ?
+    }
+
+  const Self * p2 = dynamic_cast< const Self * >( p1 );
+  if( p2 == NULL )
+    {
+    return false;  // FIXME: Is this the right answer ?
+    }
+
+  return p2->IsOrgSet();
+}
+
+
+} // end of namespace itk 
 
 #endif 
 

@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkGeometricalQuadEdge.h
-// $Revision: 1.3 $
+// $Revision: 1.4 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-19 19:30:46 $
+// $Date: 2007-01-20 21:42:46 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -138,10 +138,10 @@ public:
   DualOrgRefType GetLeft( )  { return( this->GetInvRot( )->GetOrg( ) ); }
 
   /** Boolean accessors. */
-  bool IsOrgSet( ) const  { return( m_Org != NOPOINT ); }
-  bool IsDestSet( ) const { return( this->GetSym( )->IsOrgSet( ) ); }
-  bool IsRightSet( ) const { return( this->GetRot( )->IsOrgSet( ) ); }
-  bool IsLeftSet() const { return( this->GetInvRot( )->IsOrgSet( ) ); }
+  bool IsOrgSet( ) const;
+  bool IsDestSet( ) const;
+  bool IsRightSet( ) const;
+  bool IsLeftSet() const;
 
   /** Extra data set methods. */
   void SetPrimalData( const PrimalDataType data )
