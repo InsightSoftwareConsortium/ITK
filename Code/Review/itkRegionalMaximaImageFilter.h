@@ -22,18 +22,21 @@
 namespace itk {
 
 /** \class RegionalMaximaImageFilter
- * \brief Produce a binary image where foreground is the regional maxima of the input image
+ * \brief Produce a binary image where foreground is the regional maxima of the
+ * input image
  *
  * Regional maxima are flat zones surounded by pixels of lower value.
  *
- * If the input image is constant, the entire image can be considered as a maxima or not.
- * The desired behavior can be selected with the SetFlatIsMaxima() method.
+ * If the input image is constant, the entire image can be considered as a
+ * maxima or not.  The desired behavior can be selected with the
+ * SetFlatIsMaxima() method.
  * 
- * This class was contributed to the Insight Journal by
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
- *    http://hdl.handle.net/1926/153
+ * This class was contributed to the Insight Journal by \author Gaëtan Lehmann.
+ * Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas,
+ * France.  http://hdl.handle.net/1926/153
  *
- * \sa ValuedRegionalMaximaImageFilter, HConvexImageFilter, RegionalMinimaImageFilter
+ * \sa ValuedRegionalMaximaImageFilter, HConvexImageFilter, 
+ *  \sa RegionalMinimaImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
 template<class TInputImage, class TOutputImage>
@@ -43,14 +46,16 @@ class ITK_EXPORT RegionalMaximaImageFilter :
 public:
   /** Standard class typedefs. */
   typedef RegionalMaximaImageFilter Self;
+
   typedef ImageToImageFilter<TInputImage, TOutputImage>
   Superclass;
+
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                              InputImageType;
+  typedef TOutputImage                             OutputImageType;
   typedef typename InputImageType::Pointer         InputImagePointer;
   typedef typename InputImageType::ConstPointer    InputImageConstPointer;
   typedef typename InputImageType::RegionType      InputImageRegionType;
@@ -113,7 +118,7 @@ protected:
   /** RegionalMaximaImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ;
+  void GenerateInputRequestedRegion();
 
   /** RegionalMaximaImageFilter will produce the entire output. */
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
@@ -127,12 +132,12 @@ private:
   RegionalMaximaImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  bool m_FullyConnected;
-  bool m_FlatIsMaxima;
-  OutputImagePixelType m_ForegroundValue;
-  OutputImagePixelType m_BackgroundValue;
+  bool                                              m_FullyConnected;
+  bool                                              m_FlatIsMaxima;
+  OutputImagePixelType                              m_ForegroundValue;
+  OutputImagePixelType                              m_BackgroundValue;
 
-} ; // end of class
+}; // end of class
 
 } // end namespace itk
   
@@ -141,5 +146,3 @@ private:
 #endif
 
 #endif
-
-

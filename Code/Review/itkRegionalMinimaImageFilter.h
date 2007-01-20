@@ -132,10 +132,10 @@ private:
   RegionalMinimaImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  bool m_FullyConnected;
-  bool m_FlatIsMinima;
-  OutputImagePixelType m_ForegroundValue;
-  OutputImagePixelType m_BackgroundValue;
+  bool                                                m_FullyConnected;
+  bool                                                m_FlatIsMinima;
+  OutputImagePixelType                                m_ForegroundValue;
+  OutputImagePixelType                                m_BackgroundValue;
 
 } ; // end of class
 

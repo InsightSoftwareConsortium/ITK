@@ -53,12 +53,13 @@ class ITK_EXPORT ValuedRegionalMaximaImageFilter :
 {
 public:
   typedef ValuedRegionalMaximaImageFilter Self;
+
   typedef ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage,
              std::greater<typename TInputImage::PixelType>,
              std::greater<typename TOutputImage::PixelType> > Superclass;
 
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                  Pointer;
+  typedef SmartPointer<const Self>                            ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,17 +67,15 @@ public:
 
 protected:
   ValuedRegionalMaximaImageFilter() 
-  {
+    {
     SetMarkerValue( 
       NumericTraits<ITK_TYPENAME TOutputImage::PixelType>::NonpositiveMin());
-  }
+    }
   virtual ~ValuedRegionalMaximaImageFilter() {}
 
 private:
   ValuedRegionalMaximaImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-
 
 }; // end ValuedRegionalMaximaImageFilter
 

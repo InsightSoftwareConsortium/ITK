@@ -50,7 +50,7 @@ namespace itk {
  *    is part of a flat region (consisting of at least one pixel) that
  *    is therefore not a regional minima either. This region is set to
  *    the maximum value for the pixel type using a flooding algorithm.
- *    
+ *
  *    There are some minor complications that prevent pixels being
  *    examined more than once -- basically check that the output value
  *    is less than the maximum for the pixel type.
@@ -62,7 +62,8 @@ namespace itk {
  * Melbourne, Australia.
  *       http://hdl.handle.net/1926/153 
  *
- * \sa ValuedRegionalMinimaImageFilter, ValuedRegionalMaximaImageFilter, HMinimaImageFilter
+ * \sa ValuedRegionalMinimaImageFilter, ValuedRegionalMaximaImageFilter,
+ * \sa  HMinimaImageFilter
  * \ingroup MathematicalMorphologyImageFilters
  */
 
@@ -74,14 +75,16 @@ class ITK_EXPORT ValuedRegionalExtremaImageFilter :
 public:
   /** Standard class typedefs. */
   typedef ValuedRegionalExtremaImageFilter Self;
+
   typedef ImageToImageFilter<TInputImage, TOutputImage>
-  Superclass;
+                                           Superclass;
+
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                              InputImageType;
+  typedef TOutputImage                             OutputImageType;
   typedef typename InputImageType::Pointer         InputImagePointer;
   typedef typename InputImageType::ConstPointer    InputImageConstPointer;
   typedef typename InputImageType::RegionType      InputImageRegionType;
@@ -135,7 +138,7 @@ protected:
   /** ValuedRegionalExtremaImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ;
+  void GenerateInputRequestedRegion();
 
   /** ValuedRegionalExtremaImageFilter will produce the entire output. */
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
@@ -146,24 +149,23 @@ protected:
 private:
   ValuedRegionalExtremaImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  typename TInputImage::PixelType m_MarkerValue;
-  bool                m_FullyConnected;
-  bool  m_Flat;
 
-  typedef typename OutputImageType::IndexType OutIndexType;
-  typedef typename InputImageType::IndexType InIndexType;
-  typedef ConstShapedNeighborhoodIterator<InputImageType> CNInputIterator;
-  typedef ShapedNeighborhoodIterator<OutputImageType> NOutputIterator;
-  typedef std::stack<OutIndexType> IndexStack;
-  //typedef NOutputIterator::IndexListType OIndexListType;
+  typename TInputImage::PixelType                         m_MarkerValue;
+  bool                                                    m_FullyConnected;
+  bool                                                    m_Flat;
 
-} ; // end of class
+  typedef typename OutputImageType::IndexType             OutIndexType;
+  typedef typename InputImageType::IndexType              InIndexType;
+  typedef ConstShapedNeighborhoodIterator<InputImageType> ConstInputIterator;
+  typedef ShapedNeighborhoodIterator<OutputImageType>     NOutputIterator;
+  typedef std::stack<OutIndexType>                        IndexStack;
+
+}; // end of class
 
 } // end namespace itk
   
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkValuedRegionalExtremaImageFilter.txx"
 #endif
-
 
 #endif

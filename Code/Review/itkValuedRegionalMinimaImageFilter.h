@@ -34,7 +34,8 @@ namespace itk {
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.
  *
- * \sa ValuedRegionalMaximaImageFilter, ValuedRegionalExtremaImageFilter, HMinimaImageFilter
+ * \sa ValuedRegionalMaximaImageFilter, ValuedRegionalExtremaImageFilter,
+ * \sa HMinimaImageFilter
  * \ingroup MathematicalMorphologyImageFilters
  */
 
@@ -49,12 +50,13 @@ class ITK_EXPORT ValuedRegionalMinimaImageFilter :
 {
 public:
   typedef ValuedRegionalMinimaImageFilter Self;
+
   typedef ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage,
              std::less<typename TInputImage::PixelType>,
              std::less<typename TOutputImage::PixelType>  > Superclass;
 
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                Pointer;
+  typedef SmartPointer<const Self>                          ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -62,16 +64,14 @@ public:
 
 protected:
   ValuedRegionalMinimaImageFilter() 
-  {
+    {
     SetMarkerValue(NumericTraits<ITK_TYPENAME TOutputImage::PixelType>::max());
-  }
+    }
   virtual ~ValuedRegionalMinimaImageFilter() {}
 
 private:
   ValuedRegionalMinimaImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-
 
 }; // end ValuedRegionalMinimaImageFilter
 

@@ -48,7 +48,9 @@ RegionalMaximaImageFilter<TInputImage, TOutputImage>
   // We need all the input.
   InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
   if ( !input )
-    { return; }
+    { 
+    return;
+    }
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
@@ -85,8 +87,13 @@ RegionalMaximaImageFilter<TInputImage, TOutputImage>
 
   if( rmax->GetFlat() )
     {
-    ProgressReporter progress2(this, 0, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels(), 33, 0.67, 0.33);
-    ImageRegionIterator< TOutputImage > outIt(this->GetOutput(), this->GetOutput()->GetRequestedRegion() );
+    ProgressReporter progress2(this, 0, 
+          this->GetOutput()->GetRequestedRegion().GetNumberOfPixels(),
+          33, 0.67, 0.33);
+
+    ImageRegionIterator< TOutputImage > 
+          outIt(this->GetOutput(), this->GetOutput()->GetRequestedRegion() );
+
     if( m_FlatIsMaxima )
       {
       for( outIt.Begin(); !outIt.IsAtEnd(); ++outIt )
@@ -106,7 +113,9 @@ RegionalMaximaImageFilter<TInputImage, TOutputImage>
     }
   else
     {
-    typedef BinaryThresholdImageFilter< InputImageType, OutputImageType > ThresholdType;
+    typedef BinaryThresholdImageFilter< InputImageType, OutputImageType > 
+                                   ThresholdType;
+
     typename ThresholdType::Pointer th = ThresholdType::New();
     th->SetInput( rmax->GetOutput() );
     th->SetUpperThreshold( rmax->GetMarkerValue() );
@@ -131,7 +140,7 @@ RegionalMaximaImageFilter<TInputImage, TOutputImage>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
-  os << indent << "FlatIsMaxima: "  << m_FlatIsMaxima << std::endl;
+  os << indent << "FlatIsMaxima: "    << m_FlatIsMaxima << std::endl;
   os << indent << "ForegroundValue: " << m_ForegroundValue << std::endl;
   os << indent << "BackgroundValue: " << m_BackgroundValue << std::endl;
 }
