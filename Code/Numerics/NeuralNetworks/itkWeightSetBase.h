@@ -116,11 +116,11 @@ public:
   itkSetMacro( Bias, ValueType );
   itkGetConstReferenceMacro( Bias, ValueType );
 
-  itkSetMacro( FirstPass, ValueType );
-  itkGetConstMacro( FirstPass, ValueType );
+  itkSetMacro( FirstPass, bool );
+  itkGetConstMacro( FirstPass, bool );
 
-  itkSetMacro( SecondPass, ValueType );
-  itkGetConstMacro( SecondPass, ValueType );
+  itkSetMacro( SecondPass, bool );
+  itkGetConstMacro( SecondPass, bool );
 
   void InitializeWeights();
 
