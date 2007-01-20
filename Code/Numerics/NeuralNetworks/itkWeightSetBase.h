@@ -110,21 +110,17 @@ public:
 
   void UpdateWeights(ValueType LearningRate);
 
-  void SetMomentum(ValueType);
+  itkSetMacro( Momentum, ValueType );
+  itkGetConstReferenceMacro( Momentum, ValueType );
 
-  ValueType GetMomentum();
+  itkSetMacro( Bias, ValueType );
+  itkGetConstReferenceMacro( Bias, ValueType );
 
-  void SetBias(ValueType);
+  itkSetMacro( FirstPass, ValueType );
+  itkGetConstMacro( FirstPass, ValueType );
 
-  ValueType GetBias();
-
-  bool GetFirstPass();
-
-  void SetFirstPass(bool);
-
-  bool GetSecondPass();
-
-  void SetSecondPass(bool);
+  itkSetMacro( SecondPass, ValueType );
+  itkGetConstMacro( SecondPass, ValueType );
 
   void InitializeWeights();
 

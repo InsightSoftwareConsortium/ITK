@@ -103,7 +103,7 @@ RBFLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 typename RBFLayer<TVector,TOutput>::ValueType
 RBFLayer<TVector,TOutput>
-::GetInputValue(unsigned int i)
+::GetInputValue(unsigned int i) const
 {
   return m_NodeInputValues[i];
 }
@@ -120,7 +120,7 @@ RBFLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 typename RBFLayer<TVector,TOutput>::ValueType
 RBFLayer<TVector,TOutput>
-::GetOutputValue(unsigned int i)
+::GetOutputValue(unsigned int i) const
 {
   return m_NodeOutputValues(i);
 }
@@ -137,7 +137,7 @@ RBFLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 typename RBFLayer<TVector,TOutput>::ValuePointer
 RBFLayer<TVector,TOutput>
-::GetOutputVector()
+::GetOutputVector() 
 {
   return m_NodeOutputValues.data_block();
 }
@@ -154,7 +154,7 @@ RBFLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 typename RBFLayer<TVector,TOutput>::ValueType
 RBFLayer<TVector,TOutput>
-::GetRadii(unsigned int i)
+::GetRadii(unsigned int i) const
 {
   return m_Radii.GetElement(i);
 }
@@ -176,7 +176,7 @@ RBFLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 typename RBFLayer<TVector,TOutput>::InternalVectorType
 RBFLayer<TVector,TOutput>
-::GetCenter(unsigned int i)
+::GetCenter(unsigned int i) const
 {
   if(m_Centers.size()!=0)
     {
@@ -191,7 +191,7 @@ RBFLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 typename RBFLayer<TVector,TOutput>::ValueType
 RBFLayer<TVector,TOutput>
-::GetInputErrorValue(unsigned int n)
+::GetInputErrorValue(unsigned int n) const
 {
   return m_InputErrorValues[n];
 }
@@ -357,7 +357,7 @@ RBFLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 typename RBFLayer<TVector,TOutput>::ValueType
 RBFLayer<TVector,TOutput>
-::GetOutputErrorValue(unsigned int i)
+::GetOutputErrorValue(unsigned int i) const
 {
   return m_OutputErrorValues[i];
 }
@@ -469,24 +469,6 @@ RBFLayer<TVector,TOutput>
 {
   return this->m_ActivationFunction->EvaluateDerivative(n);
 }
-
-template<class TVector, class TOutput>
-void
-RBFLayer<TVector,TOutput>
-::SetBias(ValueType b)
-{
-  m_Bias = b;
-  this->Modified();
-}
-
-template<class TVector, class TOutput>
-typename RBFLayer<TVector,TOutput>::ValueType
-RBFLayer<TVector,TOutput>
-::GetBias()
-{
-  return m_Bias;
-}
-
 
 /** Print the object */
 template<class TVector, class TOutput>

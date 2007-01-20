@@ -40,23 +40,6 @@ BackPropagationLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 void
 BackPropagationLayer<TVector,TOutput>
-::SetBias(ValueType b)
-{
-  m_Bias = b;
-  this->Modified();
-}
-
-template<class TVector, class TOutput>
-typename BackPropagationLayer<TVector,TOutput>::ValueType
-BackPropagationLayer<TVector,TOutput>
-::GetBias()
-{
-  return m_Bias;
-}
-
-template<class TVector, class TOutput>
-void
-BackPropagationLayer<TVector,TOutput>
 ::SetNumberOfNodes(unsigned int c)
 {
   LayerBase<TVector, TOutput>::SetNumberOfNodes(c);
@@ -79,7 +62,7 @@ BackPropagationLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 typename BackPropagationLayer<TVector,TOutput>::ValueType
 BackPropagationLayer<TVector,TOutput>
-::GetInputValue(unsigned int i)
+::GetInputValue(unsigned int i) const
 {
   return m_NodeInputValues[i];
 }
@@ -95,7 +78,7 @@ BackPropagationLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 typename BackPropagationLayer<TVector,TOutput>::ValueType
 BackPropagationLayer<TVector,TOutput>
-::GetOutputValue(unsigned int i)
+::GetOutputValue(unsigned int i) const
 {
   return m_NodeOutputValues(i);
 }
@@ -112,7 +95,7 @@ BackPropagationLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 typename BackPropagationLayer<TVector,TOutput>::ValuePointer
 BackPropagationLayer<TVector,TOutput>
-::GetOutputVector()
+::GetOutputVector() 
 {
   return m_NodeOutputValues.data_block();
 }
@@ -120,7 +103,7 @@ BackPropagationLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 typename BackPropagationLayer<TVector,TOutput>::ValueType
 BackPropagationLayer<TVector,TOutput>
-::GetInputErrorValue(unsigned int n)
+::GetInputErrorValue(unsigned int n) const
 {
   return m_InputErrorValues[n];
 }
@@ -128,7 +111,7 @@ BackPropagationLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 typename BackPropagationLayer<TVector,TOutput>::ValuePointer
 BackPropagationLayer<TVector,TOutput>
-::GetInputErrorVector()
+::GetInputErrorVector() 
 {
   return m_InputErrorValues.data_block();
 }
@@ -172,13 +155,10 @@ BackPropagationLayer<TVector,TOutput>
   ValuePointer weightvalues = inputweightset->GetWeightValues();
   vnl_matrix<ValueType> weightmatrix(weightvalues,wrows, wcols); 
 
-  //ValuePointer inputvalues = inputweightset->GetOutputValues();
-  
   int rows = this->m_NumberOfNodes;
   int cols = this->m_InputWeightSet->GetNumberOfInputNodes();
   vnl_matrix<ValueType> inputmatrix;
   inputmatrix.set_size(rows, cols);
-  //inputmatrix.copy_in(inputvalues);
   inputmatrix=weightmatrix*PrevLayerOutput;
 
   inputfunction->SetSize(cols); //include bias
@@ -263,7 +243,7 @@ BackPropagationLayer<TVector,TOutput>
 template<class TVector, class TOutput>
 typename BackPropagationLayer<TVector,TOutput>::ValueType
 BackPropagationLayer<TVector,TOutput>
-::GetOutputErrorValue(unsigned int i)
+::GetOutputErrorValue(unsigned int i) const
 {
   return m_OutputErrorValues[i];
 }

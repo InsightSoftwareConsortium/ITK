@@ -40,7 +40,8 @@ namespace Statistics
 {
 
 template<class TVector, class TOutput>
-class OneHiddenLayerBackPropagationNeuralNetwork : public MultilayerNeuralNetworkBase<TVector, TOutput>
+class OneHiddenLayerBackPropagationNeuralNetwork : 
+  public MultilayerNeuralNetworkBase<TVector, TOutput>
 {
 
 public:

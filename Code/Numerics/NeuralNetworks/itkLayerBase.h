@@ -50,6 +50,7 @@ public:
 
   typedef typename TVector::ValueType ValueType;
   typedef ValueType* ValuePointer;
+  typedef const ValueType* ValueConstPointer;
   typedef vnl_vector<ValueType> NodeVectorType;
   typedef Array<ValueType> InternalVectorType;
 
@@ -71,8 +72,8 @@ public:
   virtual void SetNumberOfNodes(unsigned int);
   unsigned int GetNumberOfNodes() const;
 
-  virtual ValueType GetInputValue(unsigned int) = 0;
-  virtual ValueType GetOutputValue(unsigned int) = 0;
+  virtual ValueType GetInputValue(unsigned int) const = 0;
+  virtual ValueType GetOutputValue(unsigned int) const = 0;
   virtual ValuePointer GetOutputVector() = 0;
 
   virtual void ForwardPropagate(){};
@@ -82,20 +83,22 @@ public:
   virtual void BackwardPropagate(InternalVectorType){};
 
   virtual void BackwardPropagate(){};
-  virtual ValueType GetOutputErrorValue(unsigned int) = 0;
+  virtual ValueType GetOutputErrorValue(unsigned int) const = 0;
   virtual void SetOutputErrorValues(TOutput) {};
 
-  virtual ValueType GetInputErrorValue(unsigned int) = 0;
+  virtual ValueType GetInputErrorValue(unsigned int) const = 0;
   virtual ValuePointer GetInputErrorVector() = 0;
   virtual void SetInputErrorValue(ValueType, unsigned int) {};
 
   //itkSetObjectMacro(InputWeightSet, WeightSetType);
   void SetInputWeightSet(WeightSetType*);
   itkGetObjectMacro(InputWeightSet, WeightSetType);
+  itkGetConstObjectMacro(InputWeightSet, WeightSetType);
 
   //itkSetObjectMacro(OutputWeightSet, WeightSetType);
   void SetOutputWeightSet(WeightSetType*);
   itkGetObjectMacro(OutputWeightSet, WeightSetType);
+  itkGetConstObjectMacro(OutputWeightSet, WeightSetType);
 
   void SetNodeInputFunction(InputFunctionType* f);
   itkGetObjectMacro(NodeInputFunction, InputFunctionType);
@@ -109,13 +112,13 @@ public:
   virtual ValueType DActivation(ValueType) = 0;
 
   itkSetMacro(LayerType, unsigned int);
-  itkGetMacro(LayerType, unsigned int);
+  itkGetConstReferenceMacro(LayerType, unsigned int);
 
   itkSetMacro(LayerId,unsigned int);
-  itkGetMacro(LayerId,unsigned int);
+  itkGetConstReferenceMacro(LayerId,unsigned int);
 
   virtual void SetBias(ValueType) = 0;
-  virtual ValueType GetBias() = 0;
+  virtual const ValueType & GetBias() const = 0;
 
   
 protected:

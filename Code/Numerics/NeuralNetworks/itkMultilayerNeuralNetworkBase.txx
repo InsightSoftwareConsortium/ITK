@@ -95,14 +95,17 @@ MultilayerNeuralNetworkBase<TVector,TOutput>
   unsigned int i;
   for (i = 0; i < this->m_Layers.size() && i < this->m_Weights.size(); i++)
     {
-    this->m_Weights[i]->ForwardPropagate(this->m_Layers[i]->GetOutputVector());
+    this->m_Weights[i]->ForwardPropagate(
+        this->m_Layers[i]->GetOutputVector() );
+
     this->m_Layers[i + 1]->ForwardPropagate();
     }
   NetworkOutputType temp_output;
   temp_output.SetSize(this->m_Layers[i]->GetNumberOfNodes());
   for(unsigned int k=0; k<temp_output.Size(); k++)
-       temp_output[k]=this->m_Layers[i]->GetOutputVector()[k];
-//  return this->m_Layers[i]->GetOutputVector();
+    {
+    temp_output[k]=this->m_Layers[i]->GetOutputVector()[k];
+    }
   return temp_output;
 }
 

@@ -58,16 +58,16 @@ public:
   //Member Functions
   void SetNumberOfNodes(unsigned int numNodes);
   //void SetMeasurementVectorSize(unsigned int size);
-  itkGetMacro(RBF_Dim, unsigned int);
+  itkGetConstReferenceMacro(RBF_Dim, unsigned int);
   void SetRBF_Dim(unsigned int size);
  
 
-  ValueType GetInputValue(unsigned int i);
+  ValueType GetInputValue(unsigned int i) const;
   void SetInputValue(unsigned int i,ValueType value);
 
-  itkGetMacro(LayerType, unsigned int);
+  itkGetConstReferenceMacro(LayerType, unsigned int);
 
-  ValueType GetOutputValue(unsigned int);
+  ValueType GetOutputValue(unsigned int) const;
   void SetOutputValue(unsigned int, ValueType);
 
   ValuePointer GetOutputVector();
@@ -80,36 +80,37 @@ public:
   void BackwardPropagate(TOutput itkNotUsed(errors)){};
 
   void SetOutputErrorValues(TOutput);
-  ValueType GetOutputErrorValue(unsigned int node_id);
+  ValueType GetOutputErrorValue(unsigned int node_id) const;
 
   
-  ValueType GetInputErrorValue(unsigned int node_id);
+  ValueType GetInputErrorValue(unsigned int node_id) const;
   ValuePointer GetInputErrorVector();
   void SetInputErrorValue(ValueType, unsigned int node_id);
 
   //TVector GetCenter(int i);
-  InternalVectorType GetCenter(unsigned int i);
+  InternalVectorType GetCenter(unsigned int i) const;
   void SetCenter(TVector c,unsigned int i);
 
-  ValueType GetRadii(unsigned int i);
+  ValueType GetRadii(unsigned int i) const;
   void SetRadii(ValueType c,unsigned int i);
 
 
   ValueType Activation(ValueType);
   ValueType DActivation(ValueType);
 
-  void SetBias(ValueType b);
-
-  ValueType GetBias();
+  itkSetMacro( Bias, ValueType );
+  itkGetConstReferenceMacro( Bias, ValueType ); 
 
   void SetDistanceMetric(DistanceMetricType* f);
-  DistanceMetricPointer GetDistanceMetric(){return m_DistanceMetric;}
+  itkGetObjectMacro( DistanceMetric, DistanceMetricType );
+  itkGetConstObjectMacro( DistanceMetric, DistanceMetricType );
 
   itkSetMacro(NumClasses,unsigned int);
   itkGetConstReferenceMacro(NumClasses,unsigned int);
 
   void SetRBF(RBFType* f);
   itkGetObjectMacro(RBF, RBFType);
+  itkGetConstObjectMacro(RBF, RBFType);
 
 protected:                
 

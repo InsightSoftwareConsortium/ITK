@@ -40,16 +40,17 @@ public:
 
   typedef typename Superclass::ValueType ValueType;
   typedef typename Superclass::ValuePointer ValuePointer;
+  typedef typename Superclass::ValueConstPointer ValueConstPointer;
   typedef vnl_vector<ValueType> NodeVectorType;
   typedef typename Superclass::InternalVectorType InternalVectorType;
   typedef typename Superclass::OutputVectorType OutputVectorType;
 
   //Member Functions
   void SetNumberOfNodes(unsigned int);
-  ValueType GetInputValue(unsigned int i);
+  ValueType GetInputValue(unsigned int i) const;
   void SetInputValue(unsigned int i, ValueType value);
 
-  ValueType GetOutputValue(unsigned int);
+  ValueType GetOutputValue(unsigned int) const;
   void SetOutputValue(unsigned int, ValueType);
 
   ValuePointer GetOutputVector();
@@ -62,9 +63,9 @@ public:
   void BackwardPropagate();
 
   void SetOutputErrorValues(TOutput);
-  ValueType GetOutputErrorValue(unsigned int);
+  ValueType GetOutputErrorValue(unsigned int) const;
 
-  ValueType GetInputErrorValue(unsigned int);
+  ValueType GetInputErrorValue(unsigned int) const;
   ValuePointer GetInputErrorVector();
   void SetInputErrorValue(ValueType, unsigned int);
 
@@ -72,8 +73,8 @@ public:
   ValueType DActivation(ValueType);
 
   /** Set/Get the bias */
-  void SetBias(ValueType b);
-  ValueType GetBias();
+  itkSetMacro( Bias, ValueType );
+  itkGetConstReferenceMacro( Bias, ValueType );
 
 protected:                
 
