@@ -161,7 +161,8 @@ NeuralNetworkFileReader<TVector,TOutput>
 
      mF = MET_GetFieldRecord("NumNodes", &m_Fields);
      layerptr->SetNumberOfNodes((int)mF->value[0]);
-     LayerPointer layer = static_cast<LayerPointer>(layerptr);
+     LayerPointer layer = 
+       dynamic_cast<LayerType *>( layerptr.GetPointer() );
      m_Layers.push_back(layer);
 
      mF = MET_GetFieldRecord("TransferFunction", &m_Fields);
@@ -244,7 +245,8 @@ NeuralNetworkFileReader<TVector,TOutput>
   
    if(!strcmp((char*)(mF->value),"CompletelyConnectedWeightSet"))
    {    
-     typename CompletelyConnectedWeighttype::Pointer w =CompletelyConnectedWeighttype::New();
+     typename CompletelyConnectedWeighttype::Pointer w = 
+       CompletelyConnectedWeighttype::New();
      mF = MET_GetFieldRecord("WeightSet_Id", &m_Fields); 
      unsigned int weightsetid = (unsigned int)mF->value[0];
      mF = MET_GetFieldRecord("SRC_Layer", &m_Fields); 
@@ -258,12 +260,13 @@ NeuralNetworkFileReader<TVector,TOutput>
      w->SetCompleteConnectivity();
      w->SetRange(1.0);  //0.5
      w->Initialize(); 
-     WeightSetPointer weightset=static_cast<WeightSetPointer>(w);
+     WeightSetPointer weightset = 
+       dynamic_cast<WeightSetType *>( w.GetPointer() );
      m_Network->AddWeightSet(w);
      m_Weights.push_back(weightset); 
      m_Layers[slayer]->SetOutputWeightSet(w);
      m_Layers[dlayer]->SetInputWeightSet(w);         
-   }        
+    }
   }
 
   
