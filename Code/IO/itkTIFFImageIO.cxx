@@ -59,6 +59,9 @@ public:
   unsigned int TileHeight;
   unsigned short NumberOfTiles;
   unsigned int SubFiles;
+  unsigned int ResolutionUnit;
+  float XResolution;
+  float YResolution;
   short SampleFormat;
 };
 
@@ -110,8 +113,11 @@ void TIFFReaderInternal::Clean()
   this->TileColumns = 0;
   this->TileWidth = 0;
   this->TileHeight = 0;
+  this->XResolution = 1;
+  this->YResolution = 1;
   this->SubFiles = 0;
   this->SampleFormat = 1;
+  this->ResolutionUnit = 1; // none
   this->IsOpen = false;
 }
 
@@ -130,6 +136,11 @@ int TIFFReaderInternal::Initialize()
       {
       return 0;
       }
+
+    // Get the resolution in each direction
+    TIFFGetField(this->Image, TIFFTAG_XRESOLUTION, &this->XResolution);
+    TIFFGetField(this->Image, TIFFTAG_YRESOLUTION, &this->YResolution);
+    TIFFGetField(this->Image, TIFFTAG_RESOLUTIONUNIT, &this->ResolutionUnit);
 
     // Check the number of pages. First by looking at the number of directories
     this->NumberOfPages = TIFFNumberOfDirectories(this->Image);
@@ -1343,8 +1354,24 @@ void TIFFImageIO::ReadImageInformation()
       }
     }
  
-  m_Spacing[0] = 1.0;  // We'll look for TIFF pixel size information later,
-  m_Spacing[1] = 1.0;  // but set the defaults now
+  m_Spacing[0] = 1.0; 
+  m_Spacing[1] = 1.0;
+
+  // If we have some spacing information we use it
+  if(m_InternalImage->ResolutionUnit>0)
+    {
+    if(m_InternalImage->ResolutionUnit == 2) // inches
+      {
+      m_Spacing[0] = m_InternalImage->XResolution/25.4; 
+      m_Spacing[1] = m_InternalImage->YResolution/25.4; 
+      }
+    else if(m_InternalImage->ResolutionUnit == 3) // cm
+      {
+      m_Spacing[0] = m_InternalImage->XResolution/10.0; 
+      m_Spacing[1] = m_InternalImage->YResolution/10.0; 
+      }
+    }
+
 
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
