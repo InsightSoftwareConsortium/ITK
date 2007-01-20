@@ -24,10 +24,19 @@ namespace itk {
 /** \class BinaryProjectionImageFilter
  * \brief Binary projection
  *
+ * This class was contributed to the Insight Journal by 
  * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
+ *    http://hdl.handle.net/1926/164
  *
  * \sa ProjectionImageFilter
+ * \sa MedianProjectionImageFilter
+ * \sa MeanProjectionImageFilter
+ * \sa MeanProjectionImageFilter
+ * \sa MaximumProjectionImageFilter
+ * \sa MinimumProjectionImageFilter
+ * \sa SigmaProjectionImageFilter
+ * \sa SumProjectionImageFilter
  */
 
 

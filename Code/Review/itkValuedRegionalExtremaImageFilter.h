@@ -56,9 +56,11 @@ namespace itk {
  *    is less than the maximum for the pixel type.
  *
  * The implementation uses the functor model from itkMaximumImageFilter.
- *
+ * 
+ * This class was contributed to the Insight Journal by 
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.
+ *       http://hdl.handle.net/1926/153 
  *
  * \sa ValuedRegionalMinimaImageFilter, ValuedRegionalMaximaImageFilter, HMinimaImageFilter
  * \ingroup MathematicalMorphologyImageFilters

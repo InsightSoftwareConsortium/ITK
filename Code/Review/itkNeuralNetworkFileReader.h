@@ -43,11 +43,15 @@ namespace itk
 /** \class NeuralNetworkFileReader
  * \brief Reader for Neural Network
  *
- * FIXME: Add Author from the IJ paper
- *        Add reference to the IJ paper
- *        Add paragraph or two of documentation
+ * This class will enable the user to load neural network and define
+ * weights and other network parameters from a text file.
+ * 
+ * This class was contributed to the Insight Journal by  Raghu Venkatram  
+ *   http://hdl.handle.net/1926/203
  *
- * FIXME Add \sa Writer and NN classes
+ * \sa NeuralNetworkFileWriter
+ * \sa MultilayerNeuralNetworkBase
+ *  
  *
  * \group IOFilter
  *

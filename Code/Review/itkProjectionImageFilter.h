@@ -39,10 +39,14 @@ namespace itk
  * This class is parameterized over the type of the input image and
  * the type of the output image.
  *
+ * This class was contributed to the Insight Journal by
+ *
  * \author Emiliano Beronich
  * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
+ *      http://hdl.handle.net/1926/164
  *
+ * \sa AccumulateImageFilter
  * \ingroup   IntensityImageFilters     Singlethreaded
  */
 template <class TInputImage, class TOutputImage, class TAccumulator>

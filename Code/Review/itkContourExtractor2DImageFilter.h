@@ -80,6 +80,9 @@ namespace itk
 * set on the output; however since paths have no notion of a "region", this
 * must be set at the filter level.
 *
+* This class was contributed to the Insight Journal by Zachary Pincus. 
+*       http://hdl.handle.net/1926/165 
+*
 * \sa Image
 * \sa Path
 * \sa PolyLineParametricPath

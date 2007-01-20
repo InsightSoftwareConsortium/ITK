@@ -7,10 +7,20 @@
 namespace itk {
 /** \class SigmaProjectionImageFilter
  * \brief Mean projection
- *
+ * 
+ * This class was contributed to Insight Journal by
  * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ *    http://hdl.handle.net/1926/164 
  *
+ * 
  * \sa ProjectionImageFilter
+ * \sa MedianProjectionImageFilter
+ * \sa MeanProjectionImageFilter
+ * \sa SumProjectionImageFilter
+ * \sa MeanProjectionImageFilter
+ * \sa MaximumProjectionImageFilter
+ * \sa MinimumProjectionImageFilter
+ * \sa BinaryProjectionImageFilter
  */
 
 

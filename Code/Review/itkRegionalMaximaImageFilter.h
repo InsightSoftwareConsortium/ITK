@@ -29,7 +29,9 @@ namespace itk {
  * If the input image is constant, the entire image can be considered as a maxima or not.
  * The desired behavior can be selected with the SetFlatIsMaxima() method.
  * 
+ * This class was contributed to the Insight Journal by
  * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ *    http://hdl.handle.net/1926/153
  *
  * \sa ValuedRegionalMaximaImageFilter, HConvexImageFilter, RegionalMinimaImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters

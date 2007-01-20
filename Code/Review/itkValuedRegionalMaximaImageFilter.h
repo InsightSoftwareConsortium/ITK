@@ -30,9 +30,11 @@ namespace itk {
  * Regional maxima are flat zones surrounded by pixels of lower
  * value. A completely flat image will be marked as a regional maxima
  * by this filter.
-
+ * 
+ * This code was contributed to the Insight Journal by 
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.
+ *    http://hdl.handle.net/1926/153
  *
  * \sa ValuedRegionalMinimaImageFilter
  * \sa ValuedRegionalExtremaImageFilter

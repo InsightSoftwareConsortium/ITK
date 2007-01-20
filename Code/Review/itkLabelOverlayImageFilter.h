@@ -119,6 +119,10 @@ private:
  * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, 
  * INRA de Jouy-en-Josas, France.
  *
+ * This class was contributed to the Insight Journal 
+ *     http://hdl.handle.net/1926/172
+ *
+ *
  * \sa ScalarToRGBPixelFunctor LabelToRGBImageFilter
  * \ingroup Multithreaded
  *

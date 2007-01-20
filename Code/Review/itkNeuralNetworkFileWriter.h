@@ -40,7 +40,23 @@
 
 namespace itk
 {
-
+/** \class NeuralNetworkFileWriter
+ * \brief Writer for Neural Network
+ *
+ * This class will enable a user to save a trained neural network to a text
+ * file. The user can also change the network topology by editing the network
+ * configuration file. 
+ * 
+ * This class was contributed to the Insight Journal by  Raghu Venkatram  
+ *   http://hdl.handle.net/1926/203
+ *
+ * \sa NeuralNetworkFileReader
+ * \sa MultilayerNeuralNetworkBase
+ *  
+ *
+ * \group IOFilter
+ *
+ */
 template<class TVector, class TOutput>
 class NeuralNetworkFileWriter : public Object
 {

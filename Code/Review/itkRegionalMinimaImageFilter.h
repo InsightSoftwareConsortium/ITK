@@ -31,10 +31,11 @@ namespace itk {
  * minima or not.  The SetFlatIsMinima() method let the user choose which
  * behavior to use.
  * 
+ * This class was contribtued to the Insight Journal by
  * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
+ *      http://hdl.handle.net/1926/153
  *
- * FIXME: Add reference to IJ paper
  *
  * \sa ValuedRegionalMinimaImageFilter, HConcaveImageFilter,
  * RegionalMaximaImageFilter \ingroup ImageEnhancement
