@@ -128,7 +128,10 @@ XORTest1(int argc, char* argv[])
       {
       ++error2;
       }
-    outfile << mv[0] << " " << mv[1] << " " << tv[0] << " " << ov[0] << std::endl;
+
+    outfile << mv[0] << " " << mv[1] << " " 
+            << tv[0] << " " << ov[0] << std::endl;
+    
     std::cout << "Network Input = " << mv << std::endl;
     std::cout << "Network Output = " << ov << std::endl;
     std::cout << "Target = " << tv << std::endl;
@@ -140,14 +143,6 @@ XORTest1(int argc, char* argv[])
             << " vectors are misclassified." << std::endl ;
   std::cout<<"Network Weights and Biases after Training= "<<std::endl;
   std::cout << net1 << std::endl;
-/*  
-for(int i=0; i<(net1->GetWeightSet(0)->GetNumberOfOutputNodes()*net1->GetWeightSet(0)->GetNumberOfInputNodes()); i++)
-    std::cout<<"weightset 1  = "<<net1->GetWeightSet(0)->GetWeightValues()[i]<<std::endl;
-std::cout<<std::endl;
-for(int i=0; i<(net1->GetWeightSet(1)->GetNumberOfOutputNodes()*net1->GetWeightSet(1)->GetNumberOfInputNodes()); i++)
-    std::cout<<"weightset 2  = "<<net1->GetWeightSet(1)->GetWeightValues()[i]<<std::endl;
-      
-*/    
 
   if ((error1 + error2) > 2)
     {
