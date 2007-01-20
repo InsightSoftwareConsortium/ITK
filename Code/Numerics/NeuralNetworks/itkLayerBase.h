@@ -117,7 +117,7 @@ public:
   itkSetMacro(LayerId,unsigned int);
   itkGetConstReferenceMacro(LayerId,unsigned int);
 
-  virtual void SetBias(ValueType) = 0;
+  virtual void SetBias(const ValueType) = 0;
   virtual const ValueType & GetBias() const = 0;
 
   
