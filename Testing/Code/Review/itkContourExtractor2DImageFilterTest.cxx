@@ -14,11 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+
 #include "itkImageFileReader.h"
 #include "itkContourExtractor2DImageFilter.h"
-#include <iostream>
-#include <vector>
-#include <cmath>
 
 namespace itkContourExtractor2DImageFilterTestNamespace
 {
