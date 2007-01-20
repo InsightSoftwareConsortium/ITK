@@ -46,7 +46,7 @@ public:
 
   inline void operator()( const TInputPixel &input )
     {
-    if( input >= m_ForegroundValue )
+    if( input == m_ForegroundValue )
       {
       m_IsForeground = true; 
       }
