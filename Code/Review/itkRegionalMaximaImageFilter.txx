@@ -132,6 +132,8 @@ RegionalMaximaImageFilter<TInputImage, TOutputImage>
 
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
   os << indent << "FlatIsMaxima: "  << m_FlatIsMaxima << std::endl;
+  os << indent << "ForegroundValue: " << m_ForegroundValue << std::endl;
+  os << indent << "BackgroundValue: " << m_BackgroundValue << std::endl;
 }
   
 }// end namespace itk

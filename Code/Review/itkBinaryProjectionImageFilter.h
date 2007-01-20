@@ -136,6 +136,15 @@ protected:
     }
   virtual ~BinaryProjectionImageFilter() {}
 
+  void PrintSelf(std::ostream& os, Indent indent) const
+    {
+    Superclass::PrintSelf(os,indent);
+
+    os << indent << "ForegroundValue: " << m_ForegroundValue << std::endl;
+    os << indent << "BackgroundValue: " << m_BackgroundValue << std::endl;
+    }
+
+
   virtual AccumulatorType NewAccumulator( unsigned long size )
     {
     AccumulatorType accumulator( size );

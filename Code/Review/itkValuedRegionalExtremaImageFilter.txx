@@ -223,6 +223,7 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
 
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
   os << indent << "Flat: "  << m_Flat << std::endl;
+  os << indent << "MarkerValue: "  << m_MarkerValue << std::endl;
 }
   
 } // end namespace itk

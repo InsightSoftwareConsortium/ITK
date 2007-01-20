@@ -145,7 +145,8 @@ RegionalMinimaImageFilter<TInputImage, TOutputImage>
 
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
   os << indent << "FlatIsMinima: "  << m_FlatIsMinima << std::endl;
-  // FIXME : missing member variables here
+  os << indent << "ForegroundValue: " << m_ForegroundValue << std::endl;
+  os << indent << "BackgroundValue: " << m_BackgroundValue << std::endl;
 }
   
 }// end namespace itk

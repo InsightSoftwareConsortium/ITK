@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshTopologyChecker.txx
-// $Revision: 1.2 $
-// $Author: sylvain $
+// $Revision: 1.3 $
+// $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-15 19:52:58 $
+// $Date: 2007-01-20 15:51:55 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -60,6 +60,7 @@ QuadEdgeMeshTopologyChecker< TMesh >
     << static_cast<long>(m_ExpectedNumberOfBoundaries) << std::endl;
   os << indent << "ExpectedGenus: "
     << static_cast<long>(m_ExpectedGenus) << std::endl;
+  os << indent << "Mesh: " << m_Mesh << std::endl;
 }
 
 }
