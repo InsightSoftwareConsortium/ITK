@@ -149,8 +149,8 @@ protected:
     {
     Superclass::PrintSelf(os,indent);
 
-    os << indent << "ForegroundValue: " << m_ForegroundValue << std::endl;
-    os << indent << "BackgroundValue: " << m_BackgroundValue << std::endl;
+       os << indent << "ForegroundValue: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue) << std::endl;
+       os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_BackgroundValue) << std::endl;
     }
 
 
