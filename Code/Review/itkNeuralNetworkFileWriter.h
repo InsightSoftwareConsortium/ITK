@@ -63,10 +63,10 @@ class NeuralNetworkFileWriter : public Object
 public:
   
   /** SmartPointer typedef support */
-  typedef NeuralNetworkFileWriter Self;
-  typedef Object Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef NeuralNetworkFileWriter           Self;
+  typedef Object                            Superclass;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(NeuralNetworkFileWriter,Object);
@@ -74,38 +74,44 @@ public:
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
-  typedef Statistics::MultilayerNeuralNetworkBase<TVector,TOutput> NetworkType;
+  typedef Statistics::MultilayerNeuralNetworkBase<TVector,TOutput> 
+                                                        NetworkType;
+
   typedef typename NetworkType::Pointer        NetworkPointer;
   typedef typename NetworkType::ConstPointer   NetworkConstPointer;
   
-  typedef Statistics::LayerBase<TVector,TOutput> LayerType;
-  typedef typename LayerType::Pointer      LayerPointer;
-  typedef typename LayerType::ConstPointer LayerConstPointer;
-  typedef typename LayerType::TransferFunctionPointer TransferFunctionPointer;
-  typedef typename LayerType::TransferFunctionConstPointer TransferFunctionConstPointer;
-  typedef typename LayerType::InputFunctionPointer InputFunctionPointer;
-  typedef typename LayerType::InputFunctionConstPointer InputFunctionConstPointer;
-  typedef typename LayerType::WeightSetPointer WeightSetPointer;
-  typedef typename LayerType::WeightSetConstPointer WeightSetConstPointer;
-  typedef typename LayerType::ValueType ValueType;
+  typedef Statistics::LayerBase<TVector,TOutput>                  LayerType;
 
-  typedef typename NetworkType::WeightSetType WeightSetType;
+  typedef typename LayerType::Pointer                      LayerPointer;
+  typedef typename LayerType::ConstPointer                 LayerConstPointer;
+
+  typedef typename LayerType::TransferFunctionPointer 
+                                                     TransferFunctionPointer;
+
+  typedef typename LayerType::TransferFunctionConstPointer 
+                                              TransferFunctionConstPointer;
+
+  typedef typename LayerType::InputFunctionPointer 
+                                                InputFunctionPointer;
+
+  typedef typename LayerType::InputFunctionConstPointer
+                                                      InputFunctionConstPointer;
+
+  typedef typename LayerType::WeightSetPointer        WeightSetPointer;
+  typedef typename LayerType::WeightSetConstPointer   WeightSetConstPointer;
+  typedef typename LayerType::ValueType               ValueType;
+
+  typedef typename NetworkType::WeightSetType               WeightSetType;
   typedef Statistics::BackPropagationLayer<TVector,TOutput> BackPropLayerType;
-  typedef typename BackPropLayerType::Pointer BPLayerPointerType;
+  typedef typename BackPropLayerType::Pointer               BPLayerPointerType;
   
-  std::vector<WeightSetPointer> m_weights;
-  struct lines{ std::string name;
-                std::string value;
-                };
-  std::list<lines> m_namevalue;  
-
   /** Set the filename  */
   itkSetStringMacro(FileName);
 
   /** Get the filename */
   itkGetStringMacro(FileName);
 
- /** Set/Get the input transform to write */
+  /** Set/Get the input transform to write */
   void SetInput( const NetworkType* network );
   const NetworkType * GetInput() const;
 
@@ -116,17 +122,20 @@ public:
   itkGetMacro(WriteWeightValuesType, unsigned int);
   
 protected:
-  std::ofstream netOutputfile;
-  typedef std::vector<MET_FieldRecordType *> FieldsContainerType;
-  FieldsContainerType m_Fields;
-  std::string m_FileName;
   NeuralNetworkFileWriter();
   virtual ~NeuralNetworkFileWriter();
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
 private:
+  typedef std::vector<MET_FieldRecordType *> FieldsContainerType;
+
   NetworkConstPointer    m_Network;
   unsigned int           m_WriteWeightValuesType;
+  
+  std::string            m_FileName;
+  FieldsContainerType    m_Fields;
+
+  std::ofstream          m_OutputFile;
 };
 
 } // namespace itk
@@ -136,4 +145,3 @@ private:
 #endif
 
 #endif 
-

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _NeuralNetworkFileReader_txx
-#define _NeuralNetworkFileReader_txx
+#ifndef __itkNeuralNetworkFileReader_txx
+#define __itkNeuralNetworkFileReader_txx
 
 #include <itksys/ios/sstream>
 #include "itkNeuralNetworkFileReader.h"
@@ -56,8 +56,6 @@ NeuralNetworkFileReader<TVector,TOutput>
   Superclass::PrintSelf( os, indent ); 
 } 
 
-
-
 /** Update the Reader */
 template<class TVector, class TOutput>
 void
@@ -68,7 +66,7 @@ NeuralNetworkFileReader<TVector,TOutput>
   m_InputFile.open(m_FileName.c_str(), std::ios::binary | std::ios::in);
   m_InputFile.seekg(0,std::ios::beg);
 
-   if(!m_InputFile.is_open())
+  if(!m_InputFile.is_open())
     {
     itkExceptionMacro("NeuralNetworkFileReader Read: Cannot open file");
     }
@@ -152,68 +150,67 @@ NeuralNetworkFileReader<TVector,TOutput>
 
     mF = MET_GetFieldRecord("LayerType", &m_Fields);
     if(!strcmp((char*)mF->value,"BackPropagationLayer"))
-    {
-     BPLayerPointerType layerptr = BackPropLayerType::New();
-     layerptr->SetBias(1.0);
+      {
+      BPLayerPointerType layerptr = BackPropLayerType::New();
+      layerptr->SetBias(1.0);
 
-     mF = MET_GetFieldRecord("Layer_Id", &m_Fields);
-     layerptr->SetLayerId((int)mF->value[0]);
+      mF = MET_GetFieldRecord("Layer_Id", &m_Fields);
+      layerptr->SetLayerId((int)mF->value[0]);
 
-     mF = MET_GetFieldRecord("NumNodes", &m_Fields);
-     layerptr->SetNumberOfNodes((int)mF->value[0]);
-     LayerPointer layer = 
+      mF = MET_GetFieldRecord("NumNodes", &m_Fields);
+      layerptr->SetNumberOfNodes((int)mF->value[0]);
+      LayerPointer layer = 
        dynamic_cast<LayerType *>( layerptr.GetPointer() );
-     m_Layers.push_back(layer);
+      m_Layers.push_back(layer);
 
-     mF = MET_GetFieldRecord("TransferFunction", &m_Fields);
-     if(!strcmp((char*)mF->value,"IdentityTransferFunction"))
-     {
-         typedef Statistics::IdentityTransferFunction<ValueType> tfType;
-         typename tfType::Pointer tf=tfType::New();
-         layerptr->SetTransferFunction(tf);
-     }
-     else if(!strcmp((char*)mF->value,"LogSigmoidTransferFunction"))
-     {
-         typedef Statistics::LogSigmoidTransferFunction<ValueType> tfType;
-         typename tfType::Pointer tf=tfType::New();
-         layerptr->SetTransferFunction(tf);
-     }
-     else if(!strcmp((char*)mF->value,"SigmoidTransferFunction"))
-     {
-         typedef Statistics::SigmoidTransferFunction<ValueType> tfType;
-         typename tfType::Pointer tf=tfType::New();
-         layerptr->SetTransferFunction(tf);
-     }
-     else if(!strcmp((char*)mF->value,"TanSigmoidTransferFunction"))
-     {
-         std::cout<<"Tansigmoid"<<std::endl;
-         typedef Statistics::TanSigmoidTransferFunction<ValueType> tfType;
-         typename tfType::Pointer tf=tfType::New();
-         layerptr->SetTransferFunction(tf);
-     }
-     else if(!strcmp((char*)mF->value,"SymmetricSigmoidTransferFunction"))
-     {
-         std::cout<<"SymmetricSigmoidTransferFunction"<<std::endl;
-         typedef Statistics::SymmetricSigmoidTransferFunction<ValueType> tfType;
-         typename tfType::Pointer tf=tfType::New();
-         layerptr->SetTransferFunction(tf);
-     }
+      mF = MET_GetFieldRecord("TransferFunction", &m_Fields);
+      if(!strcmp((char*)mF->value,"IdentityTransferFunction"))
+        {
+        typedef Statistics::IdentityTransferFunction<ValueType> tfType;
+        typename tfType::Pointer tf=tfType::New();
+        layerptr->SetTransferFunction(tf);
+        }
+      else if(!strcmp((char*)mF->value,"LogSigmoidTransferFunction"))
+        {
+        typedef Statistics::LogSigmoidTransferFunction<ValueType> tfType;
+        typename tfType::Pointer tf=tfType::New();
+        layerptr->SetTransferFunction(tf);
+        }
+      else if(!strcmp((char*)mF->value,"SigmoidTransferFunction"))
+        {
+        typedef Statistics::SigmoidTransferFunction<ValueType> tfType;
+        typename tfType::Pointer tf=tfType::New();
+        layerptr->SetTransferFunction(tf);
+        }
+      else if(!strcmp((char*)mF->value,"TanSigmoidTransferFunction"))
+        {
+        std::cout<<"Tansigmoid"<<std::endl;
+        typedef Statistics::TanSigmoidTransferFunction<ValueType> tfType;
+        typename tfType::Pointer tf=tfType::New();
+        layerptr->SetTransferFunction(tf);
+        }
+      else if(!strcmp((char*)mF->value,"SymmetricSigmoidTransferFunction"))
+        {
+        std::cout<<"SymmetricSigmoidTransferFunction"<<std::endl;
+        typedef Statistics::SymmetricSigmoidTransferFunction<ValueType> tfType;
+        typename tfType::Pointer tf=tfType::New();
+        layerptr->SetTransferFunction(tf);
+        }
 
-     mF = MET_GetFieldRecord("InputFunction", &m_Fields);
-     if(!strcmp((char*)(mF->value),"SumInputFunction"))
-     {             
-          typedef Statistics::SumInputFunction
-                       <ValueType*,ValueType>
-                                                ifType;
-          typename  ifType::Pointer ifcn= ifType::New(); 
-          layerptr->SetNodeInputFunction(ifcn);
-     }
- 
-     m_Network->AddLayer(layerptr);      
-   }
+      mF = MET_GetFieldRecord("InputFunction", &m_Fields);
+      if(!strcmp((char*)(mF->value),"SumInputFunction"))
+        {
+        typedef Statistics::SumInputFunction
+                         <ValueType*,ValueType>
+                                                  ifType;
+        typename  ifType::Pointer ifcn= ifType::New(); 
+        layerptr->SetNodeInputFunction(ifcn);
+        }
 
-  } 
- 
+      m_Network->AddLayer(layerptr);
+      }
+    } 
+       
 
   m_Fields.clear();
   mF = new MET_FieldRecordType;
@@ -235,39 +232,39 @@ NeuralNetworkFileReader<TVector,TOutput>
 
   // define the weightsets
   for(int i=0; i<num_weights; i++)
-  {  
-   if(!MET_Read(m_InputFile, & m_Fields,'='))
-   {
-    std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
-    //return false;
-   }
-   mF = MET_GetFieldRecord("WeightSetType", &m_Fields);
-  
-   if(!strcmp((char*)(mF->value),"CompletelyConnectedWeightSet"))
-   {    
-     typename CompletelyConnectedWeighttype::Pointer w = 
+    {  
+    if(!MET_Read(m_InputFile, & m_Fields,'='))
+      {
+       std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
+       //return false;
+      }
+    mF = MET_GetFieldRecord("WeightSetType", &m_Fields);
+
+    if(!strcmp((char*)(mF->value),"CompletelyConnectedWeightSet"))
+      {
+      typename CompletelyConnectedWeighttype::Pointer w = 
        CompletelyConnectedWeighttype::New();
-     mF = MET_GetFieldRecord("WeightSet_Id", &m_Fields); 
-     unsigned int weightsetid = (unsigned int)mF->value[0];
-     mF = MET_GetFieldRecord("SRC_Layer", &m_Fields); 
-     unsigned int slayer=(unsigned int)mF->value[0];
-     mF = MET_GetFieldRecord("DEST_Layer", &m_Fields); 
-     unsigned int dlayer=(unsigned int)mF->value[0];
-     
-     w->SetWeightSetId(weightsetid);    
-     w->SetNumberOfInputNodes(m_Layers[slayer]->GetNumberOfNodes());
-     w->SetNumberOfOutputNodes(m_Layers[dlayer]->GetNumberOfNodes());
-     w->SetCompleteConnectivity();
-     w->SetRange(1.0);  //0.5
-     w->Initialize(); 
-     WeightSetPointer weightset = 
+      mF = MET_GetFieldRecord("WeightSet_Id", &m_Fields); 
+      unsigned int weightsetid = (unsigned int)mF->value[0];
+      mF = MET_GetFieldRecord("SRC_Layer", &m_Fields); 
+      unsigned int slayer=(unsigned int)mF->value[0];
+      mF = MET_GetFieldRecord("DEST_Layer", &m_Fields); 
+      unsigned int dlayer=(unsigned int)mF->value[0];
+
+      w->SetWeightSetId(weightsetid);
+      w->SetNumberOfInputNodes(m_Layers[slayer]->GetNumberOfNodes());
+      w->SetNumberOfOutputNodes(m_Layers[dlayer]->GetNumberOfNodes());
+      w->SetCompleteConnectivity();
+      w->SetRange(1.0);  //0.5
+      w->Initialize(); 
+      WeightSetPointer weightset = 
        dynamic_cast<WeightSetType *>( w.GetPointer() );
-     m_Network->AddWeightSet(w);
-     m_Weights.push_back(weightset); 
-     m_Layers[slayer]->SetOutputWeightSet(w);
-     m_Layers[dlayer]->SetInputWeightSet(w);         
+      m_Network->AddWeightSet(w);
+      m_Weights.push_back(weightset); 
+      m_Layers[slayer]->SetOutputWeightSet(w);
+      m_Layers[dlayer]->SetInputWeightSet(w);
+      }
     }
-  }
 
   
   //Read Weight Values
@@ -277,38 +274,43 @@ NeuralNetworkFileReader<TVector,TOutput>
     m_Network->Initialize();
     for(int j=0; j<m_Network->GetNumOfWeightSets(); j++)
       {
-       m_Fields.clear();
-       weightset = m_Network->GetWeightSet(j);
-       unsigned int rows =weightset->GetNumberOfOutputNodes();
-       unsigned int cols =weightset->GetNumberOfInputNodes();
-       
-       mF = new MET_FieldRecordType;
-       MET_InitReadField(mF, "WeightValues",MET_FLOAT_ARRAY, true,-1,
-                                                           rows*cols);
-       mF->required = true;
-       mF->terminateRead=true; 
-       m_Fields.push_back(mF);
-       
-       if(m_ReadWeightValuesType==1) // Read ASCII weights
-       {
-         if(!MET_Read(m_InputFile, & m_Fields,'='))
-         {
-         //FIXME : use itkExceptionMacro
-           std::cout << "MetaObject: Read: MET_Read Failed Weight Values missing" << std::endl;
+      m_Fields.clear();
+      weightset = m_Network->GetWeightSet(j);
+      unsigned int rows =weightset->GetNumberOfOutputNodes();
+      unsigned int cols =weightset->GetNumberOfInputNodes();
+
+      mF = new MET_FieldRecordType;
+      MET_InitReadField(mF, "WeightValues",MET_FLOAT_ARRAY, true,-1,
+                                                         rows*cols);
+      mF->required = true;
+      mF->terminateRead=true; 
+      m_Fields.push_back(mF);
+
+      if(m_ReadWeightValuesType==1) // Read ASCII weights
+        {
+        if(!MET_Read(m_InputFile, & m_Fields,'='))
+          {
+           //FIXME : use itkExceptionMacro
+           std::cerr << "MetaObject: " 
+                     << "Read: MET_Read Failed Weight Values missing" 
+                     << std::endl;
            return;
           }
-         weightset->SetWeightValues(mF->value);
-       }
-       else if (m_ReadWeightValuesType==2) // Read Binary Weights
-       {
+        weightset->SetWeightValues(mF->value);
+        }
+      else if (m_ReadWeightValuesType==2) // Read Binary Weights
+        {
         vnl_matrix<ValueType>WeightMatrix;
         WeightMatrix.set_size(rows, cols);
-        m_InputFile.read((char *)WeightMatrix.data_block(), rows*cols*sizeof(double));
+
+        m_InputFile.read(
+         (char *)WeightMatrix.data_block(), rows*cols*sizeof(double));
+
         std::cout<<"WeightValues = "<<WeightMatrix<<std::endl; 
         weightset->SetWeightValues(WeightMatrix.data_block());
-       }
+        }
       }
-  }
+    }
   m_InputFile.close();
 }
 

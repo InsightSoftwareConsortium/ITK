@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _NeuralNetworkFileWriter_txx
-#define _NeuralNetworkFileWriter_txx
+#ifndef __itkNeuralNetworkFileWriter_txx
+#define __itkNeuralNetworkFileWriter_txx
 
 #include <itksys/ios/sstream>
 #include "itkNeuralNetworkFileWriter.h"
@@ -72,10 +72,10 @@ void
 NeuralNetworkFileWriter<TVector,TOutput>
 ::Update()
 {  
-  netOutputfile.open(m_FileName.c_str(), std::ios::binary | std::ios::out);
+  this->m_OutputFile.open(m_FileName.c_str(), std::ios::binary | std::ios::out);
   
-  if(!netOutputfile.is_open())
-  {
+  if(!this->m_OutputFile.is_open())
+    {
     std::cout << "NeuralNetworkFileReader Write: Cannot open file" << std::endl;
     return;
     }
@@ -85,7 +85,8 @@ NeuralNetworkFileWriter<TVector,TOutput>
   
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "ObjectType", MET_STRING,
-                     strlen(m_Network->GetNameOfClass()),m_Network->GetNameOfClass()); 
+           strlen(m_Network->GetNameOfClass()),m_Network->GetNameOfClass()); 
+
   m_Fields.push_back(mF);
   
   mF = new MET_FieldRecordType;
@@ -93,7 +94,8 @@ NeuralNetworkFileWriter<TVector,TOutput>
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "NWeightSets", MET_UINT,m_Network->GetNumOfWeightSets());
+  MET_InitWriteField(mF, "NWeightSets", 
+          MET_UINT,m_Network->GetNumOfWeightSets());
   m_Fields.push_back(mF);
  
   std::cout<<"Num of Weights = "<<m_Network->GetNumOfWeightSets()<<std::endl;
@@ -102,7 +104,7 @@ NeuralNetworkFileWriter<TVector,TOutput>
   mF->terminateRead=true; 
   m_Fields.push_back(mF);
 
-  if(!MET_Write(netOutputfile, & m_Fields,'='))
+  if(!MET_Write(this->m_OutputFile, & m_Fields,'='))
     {
     std::cout << "MetaObject: Write: MET_Write Failed" << std::endl;
     //return false;
@@ -112,37 +114,37 @@ NeuralNetworkFileWriter<TVector,TOutput>
   LayerConstPointer layer;
   //Get Layer Information for each layer
   for(int i=0; i<m_Network->GetNumOfLayers(); i++)
-  {
-   layer=m_Network->GetLayer(i);
-   mF = new MET_FieldRecordType;
-   MET_InitWriteField(mF, "Layer_Id", MET_INT, i);
-   m_Fields.push_back(mF);
+    {
+    layer=m_Network->GetLayer(i);
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "Layer_Id", MET_INT, i);
+    m_Fields.push_back(mF);
 
-   mF = new MET_FieldRecordType;
-   MET_InitWriteField(mF, "NumNodes", MET_INT, layer->GetNumberOfNodes());
-   m_Fields.push_back(mF);
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "NumNodes", MET_INT, layer->GetNumberOfNodes());
+    m_Fields.push_back(mF);
 
-   mF = new MET_FieldRecordType;
-   MET_InitWriteField(mF, "LayerType", MET_STRING,
-                      strlen(layer->GetNameOfClass ()), layer->GetNameOfClass ()); 
-   m_Fields.push_back(mF);
- 
-   TransferFunctionConstPointer tf = layer->GetActivationFunction();
-   mF = new MET_FieldRecordType;
-   MET_InitWriteField(mF, "TransferFunction", MET_STRING, 
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "LayerType", MET_STRING,
+               strlen(layer->GetNameOfClass ()), layer->GetNameOfClass ()); 
+    m_Fields.push_back(mF);
+
+    TransferFunctionConstPointer tf = layer->GetActivationFunction();
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "TransferFunction", MET_STRING, 
                      strlen(tf->GetNameOfClass()), tf->GetNameOfClass());
-   m_Fields.push_back(mF);
+    m_Fields.push_back(mF);
 
-   InputFunctionConstPointer inputf = layer->GetNodeInputFunction();
-   mF = new MET_FieldRecordType;
-   MET_InitWriteField(mF, "InputFunction", MET_STRING, 
-                     strlen(inputf->GetNameOfClass()), inputf->GetNameOfClass());
-   mF->terminateRead=true; 
-   m_Fields.push_back(mF);
+    InputFunctionConstPointer inputf = layer->GetNodeInputFunction();
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "InputFunction", MET_STRING, 
+             strlen(inputf->GetNameOfClass()), inputf->GetNameOfClass());
+    mF->terminateRead=true; 
+    m_Fields.push_back(mF);
 
-  }
+    }
 
-  if(!MET_Write(netOutputfile, & m_Fields,'='))
+  if(!MET_Write(this->m_OutputFile, & m_Fields,'='))
     {
     std::cout << "MetaObject: Write: MET_Write Failed" << std::endl;
     //return false;
@@ -151,7 +153,7 @@ NeuralNetworkFileWriter<TVector,TOutput>
   m_Fields.clear();
   WeightSetConstPointer weightset;
   for(int j=0; j<m_Network->GetNumOfWeightSets(); j++)
-  {
+    {
     weightset = m_Network->GetWeightSet(j);
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "WeightSet_Id", MET_INT,weightset->GetWeightSetId());
@@ -159,7 +161,7 @@ NeuralNetworkFileWriter<TVector,TOutput>
 
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "WeightSetType", MET_STRING,
-                      strlen(weightset->GetNameOfClass ()),weightset->GetNameOfClass ()); 
+          strlen(weightset->GetNameOfClass ()),weightset->GetNameOfClass ()); 
     m_Fields.push_back(mF);
 
     mF = new MET_FieldRecordType;
@@ -169,10 +171,9 @@ NeuralNetworkFileWriter<TVector,TOutput>
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "DEST_Layer", MET_INT,weightset->GetOutputLayerId());
     m_Fields.push_back(mF);
-
-  }   
+    }   
   
-  if(!MET_Write(netOutputfile, & m_Fields,'='))
+  if(!MET_Write(this->m_OutputFile, & m_Fields,'='))
     {
     std::cout << "MetaObject: Write: MET_Write Failed" << std::endl;
     //return false;
@@ -181,34 +182,32 @@ NeuralNetworkFileWriter<TVector,TOutput>
   //Writeout the weight values
   m_Fields.clear();
   for(int j=0; j<m_Network->GetNumOfWeightSets(); j++)
-  {
+    {
     weightset = m_Network->GetWeightSet(j);
     unsigned int rows = weightset->GetNumberOfOutputNodes();
     unsigned int cols = weightset->GetNumberOfInputNodes();
    
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "WeightValues", MET_FLOAT_ARRAY,
-                      weightset->GetNumberOfOutputNodes()*weightset->GetNumberOfInputNodes(),
+        weightset->GetNumberOfOutputNodes()*weightset->GetNumberOfInputNodes(),
                       weightset->GetWeightValues());
     m_Fields.push_back(mF);
 
     if(m_WriteWeightValuesType==2)
-    {    
-       //WriteWeights(2,(float*)weightset->GetWeightValues(),
-       //               weightset->GetNumberOfOutputNodes()*weightset->GetNumberOfInputNodes());
-       netOutputfile.write( (char *)weightset->GetWeightValues(),
-                           rows * cols * sizeof(double)); 
-    }
- 
-  } 
+      {
+      this->m_OutputFile.write( (char *)weightset->GetWeightValues(),
+                             rows * cols * sizeof(double)); 
+      }
+    } 
+
   if(m_WriteWeightValuesType==1)
-  {    
-    if(!MET_Write(netOutputfile, & m_Fields,'='))
     {
+    if(!MET_Write(this->m_OutputFile, & m_Fields,'='))
+      {
       std::cout << "MetaObject: Write: MET_Write Failed" << std::endl;
       return;
-    } 
-  }
+      } 
+    }
 }
 
 

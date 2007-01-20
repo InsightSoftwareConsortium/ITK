@@ -62,10 +62,10 @@ class NeuralNetworkFileReader : public Object
 public:
   
   /** SmartPointer typedef support */
-  typedef NeuralNetworkFileReader Self;
-  typedef Object Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef NeuralNetworkFileReader                       Self;
+  typedef Object                                        Superclass;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(NeuralNetworkFileReader,Object);
@@ -76,19 +76,21 @@ public:
   typedef Statistics::MultilayerNeuralNetworkBase<TVector,TOutput> NetworkType;
   typedef typename NetworkType::Pointer NetworkPointer;
   
-  typedef Statistics::LayerBase<TVector,TOutput> LayerType;
-  typedef typename LayerType::Pointer LayerPointer;
+  typedef Statistics::LayerBase<TVector,TOutput>        LayerType;
+  typedef typename LayerType::Pointer                   LayerPointer;
   
   typedef typename LayerType::ValueType ValueType;
 
   typedef typename NetworkType::WeightSetType WeightSetType;
   typedef Statistics::CompletelyConnectedWeightSet<TVector, TOutput> 
-                                                             CompletelyConnectedWeighttype;
+                                          CompletelyConnectedWeighttype;
  
   typedef Statistics::BackPropagationLayer<TVector,TOutput> BackPropLayerType;
-  typedef typename BackPropLayerType::Pointer BPLayerPointerType;
+  typedef typename BackPropLayerType::Pointer               BPLayerPointerType;
    
-  typedef typename CompletelyConnectedWeighttype::Pointer CompletelyWeightSetPointer;
+  typedef typename CompletelyConnectedWeighttype::Pointer 
+                                          CompletelyWeightSetPointer;
+
   typedef typename WeightSetType::Pointer WeightSetPointer;
  
   /** Set the filename  */
@@ -144,4 +146,3 @@ private:
 #endif
 
 #endif 
-
