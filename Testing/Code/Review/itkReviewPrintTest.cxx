@@ -51,7 +51,6 @@ int main(int , char* [])
   typedef itk::Image<unsigned char,2>   CharType;
   typedef itk::RGBPixel<unsigned char>  RGBPixelType;
   typedef itk::Image< RGBPixelType, 2 > RGBImageType;
-  typedef itk::Image<unsigned char,2>   CharType;
 
   typedef itk::Vector<float,2>      VectorType;
   typedef itk::Image<VectorType, 2> VectorImageType;
