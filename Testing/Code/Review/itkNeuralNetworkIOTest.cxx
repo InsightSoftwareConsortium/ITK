@@ -160,8 +160,27 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
 
 
   //Write out network as it was read in
-
   WriterType::Pointer writer=WriterType::New();
+
+  //exercise Set/GetFilename method for code coverage
+  std::string testNameOutput = "Output.txt";
+  writer->SetFileName( testNameOutput );
+
+  if ( writer->GetFileName() != testNameOutput ) 
+    {
+    std::cerr << "Error in Set/Get Filename:" << std::endl;
+    return EXIT_FAILURE; 
+    } 
+
+  //exercise Set/Get WriteWeightValuesType
+  writer->SetWriteWeightValuesType( 0 ); 
+
+  if ( writer->GetWriteWeightValuesType() != 0 ) 
+    {
+    std::cerr << "Error in Set/Get WriteWeightValuesType:" << std::endl;
+    return EXIT_FAILURE; 
+    } 
+
   writer->SetWriteWeightValuesType(1);
   writer->SetFileName("xornetASCII.txt");
   writer->SetInput(network);
