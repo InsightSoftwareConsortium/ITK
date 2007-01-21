@@ -58,13 +58,34 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
   typedef itk::NeuralNetworkFileWriter<
                        MeasurementVectorType,TargetVectorType> WriterType;
 
-  ReaderType::Pointer r=ReaderType::New(); 
+  ReaderType::Pointer reader=ReaderType::New(); 
+  
+  //exercise Set/GetFilename method for code coverage
+  reader->SetFileName( "Input.txt");
+
+  if ( reader->GetFileName() != "Input.txt" ) 
+    {
+    std::cerr << "Error in Set/Get Filename:" << std::endl;
+    return EXIT_FAILURE; 
+    } 
+
+  //exercise Set/GetFilename method for code coverage
+  reader->SetReadWeightValuesType( 1 ); 
+
+  if ( reader->GetReadWeightValuesType() != 1 ) 
+    {
+    std::cerr << "Error in Set/Get ReadWeightValuesType:" << std::endl;
+    return EXIT_FAILURE; 
+    } 
+
+  reader->SetReadWeightValuesType( 0 );
 
   // Read the Network topology from the configuration file
-  r->SetFileName(argv[1]);
-  r->Update();
+  reader->SetFileName(argv[1]);
 
-  NetworkType::Pointer network = r->GetOutput();
+  reader->Update();
+
+  NetworkType::Pointer network = reader->GetOutput();
 
   // Initialize network
   network->Initialize();
@@ -139,12 +160,12 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
 
   //Write out network as it was read in
 
-  WriterType::Pointer w=WriterType::New();
-  w->SetWriteWeightValuesType(1);
-  w->SetFileName("xornetASCII.txt");
-  w->SetInput(network);
+  WriterType::Pointer writer=WriterType::New();
+  writer->SetWriteWeightValuesType(1);
+  writer->SetFileName("xornetASCII.txt");
+  writer->SetInput(network);
 
-  if( w->GetInput() != network )
+  if( writer->GetInput() != network )
     {
     std::cerr << "Error in SetInput()/GetInput() " << std::endl;
     return EXIT_FAILURE;
@@ -152,7 +173,7 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
 
   try
     {
-    w->Update();
+    writer->Update();
     }
   catch( itk::ExceptionObject & excp )
     {
@@ -168,11 +189,11 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
   trainingfcn->SetThreshold(0.001); 
   trainingfcn->Train(network, sample, targets);
 
-  WriterType::Pointer w2=WriterType::New();
-  w2->SetWriteWeightValuesType(2);
-  w2->SetFileName("xornetBinary.txt");
-  w2->SetInput(network);
-  w2->Update();
+  WriterType::Pointer writer2=WriterType::New();
+  writer2->SetWriteWeightValuesType(2);
+  writer2->SetFileName("xornetBinary.txt");
+  writer2->SetInput(network);
+  writer2->Update();
 
   if( (error1 + error2) > 2 )
     {
