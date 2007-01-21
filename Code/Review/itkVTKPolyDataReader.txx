@@ -51,7 +51,8 @@ VTKPolyDataReader<TOutputMesh>
   unsigned long tripoints[3] = {0,1,2};
   typename OutputMeshType::Pointer outputMesh = this->GetOutput();  
 
-  outputMesh->SetCellsAllocationMethod( OutputMeshType::CellsAllocatedDynamicallyCellByCell );
+  outputMesh->SetCellsAllocationMethod( 
+    OutputMeshType::CellsAllocatedDynamicallyCellByCell );
 
   PointsContainerPointer  myPoints = outputMesh->GetPoints();
   
@@ -113,7 +114,7 @@ VTKPolyDataReader<TOutputMesh>
   tripoints[0] = ZMIN; tripoints[1] = YPLUS; tripoints[2] = XPLUS; 
   this->AddCell( outputMesh, tripoints, 4 );
 
-  tripoints[0] = YPLUS; tripoints[1] =ZMIN ; tripoints[2] = XMIN; 
+  tripoints[0] = YPLUS; tripoints[1] =ZMIN; tripoints[2] = XMIN; 
   this->AddCell( outputMesh, tripoints, 5 );
 
   tripoints[0] = ZMIN; tripoints[1] = YMIN; tripoints[2] = XMIN; 
@@ -124,8 +125,10 @@ VTKPolyDataReader<TOutputMesh>
 
   for (unsigned int i = 0; i < m_Resolution; i++) 
     {
-    typename OutputMeshType::CellsContainerPointer myCells = outputMesh->GetCells();
-    typename OutputMeshType::CellsContainer::Iterator cells = myCells->Begin();
+    typename OutputMeshType::CellsContainerPointer myCells =
+      outputMesh->GetCells();
+    typename OutputMeshType::CellsContainer::Iterator cells =
+      myCells->Begin();
     
     typename OutputMeshType::Pointer result = OutputMeshType::New();
     PointType v1, v2, v3;
@@ -155,7 +158,7 @@ VTKPolyDataReader<TOutputMesh>
    
 
       if (!handledEdges->IndexExists(std::make_pair(tp[0], tp[1])) &&
-              !handledEdges->IndexExists(std::make_pair(tp[1], tp[0])))
+          !handledEdges->IndexExists(std::make_pair(tp[1], tp[0])))
         {
         newIdx[0]=pointIdx;
         handledEdges->InsertElement(std::make_pair(tp[0], tp[1]), pointIdx);
@@ -176,7 +179,7 @@ VTKPolyDataReader<TOutputMesh>
 
       // point 2
       if (!handledEdges->IndexExists(std::make_pair(tp[1], tp[2])) &&
-              !handledEdges->IndexExists(std::make_pair(tp[2], tp[1])))
+          !handledEdges->IndexExists(std::make_pair(tp[2], tp[1])))
         {
         newIdx[1] = pointIdx;
         handledEdges->InsertElement(std::make_pair(tp[1], tp[2]), pointIdx);
@@ -197,7 +200,7 @@ VTKPolyDataReader<TOutputMesh>
 
       // point 3
       if (!handledEdges->IndexExists(std::make_pair(tp[2], tp[0])) &&
-              !handledEdges->IndexExists(std::make_pair(tp[0], tp[2])))
+          !handledEdges->IndexExists(std::make_pair(tp[0], tp[2])))
         {
         newIdx[2] = pointIdx;
         handledEdges->InsertElement(std::make_pair(tp[2], tp[0]), pointIdx);
@@ -261,38 +264,40 @@ template<class TOutputMesh>
 typename VTKPolyDataReader<TOutputMesh>::PointType
 VTKPolyDataReader<TOutputMesh>
 ::Divide( const PointType & p1, const PointType & p2) const
-  {
-    PointType p;
-    PointType f;
+{
+  PointType p;
+  PointType f;
+  
+  VectorType d;
+  VectorType c;
 
-    VectorType d;
-    VectorType c;
+  d = p2 - p1;
+  p = p1 + (d * 0.5);
+  c = p - m_Center;
 
-    d = p2 - p1;
-    p = p1 + (d * 0.5);
-    c = p - m_Center;
+  f[0] = m_Scale[0] / c.GetNorm();
+  f[1] = m_Scale[1] / c.GetNorm();
+  f[2] = m_Scale[2] / c.GetNorm();
 
-    f[0] = m_Scale[0] / c.GetNorm();
-    f[1] = m_Scale[1] / c.GetNorm();
-    f[2] = m_Scale[2] / c.GetNorm();
-
-    c[0] *= f[0];
-    c[1] *= f[1];
-    c[2] *= f[2];
+  c[0] *= f[0];
+  c[1] *= f[1];
+  c[2] *= f[2];
     
-    return (m_Center + c);
+  return (m_Center + c);
 }
 
 template<class TOutputMesh>
 void
 VTKPolyDataReader<TOutputMesh>
-::AddCell( OutputMeshType * mesh, const unsigned long * pointIds, unsigned long idx)
-  {
-    CellAutoPointer testCell;
-    testCell.TakeOwnership( new TriCellType );
-    testCell->SetPointIds(pointIds);
-    mesh->SetCell(idx, testCell );
-  }
+::AddCell( OutputMeshType * mesh,
+           const unsigned long * pointIds,
+           unsigned long idx)
+{
+  CellAutoPointer testCell;
+  testCell.TakeOwnership( new TriCellType );
+  testCell->SetPointIds(pointIds);
+  mesh->SetCell(idx, testCell );
+}
 
 
 template<class TOutputMesh>
@@ -301,7 +306,7 @@ VTKPolyDataReader<TOutputMesh>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);
-
+  
   os << indent << "Center: " << m_Center << std::endl;
   os << indent << "Scale: " << m_Scale << std::endl;
   os << indent << "Resolution: " << m_Resolution << std::endl;
@@ -312,4 +317,3 @@ VTKPolyDataReader<TOutputMesh>
 
 
 #endif
-

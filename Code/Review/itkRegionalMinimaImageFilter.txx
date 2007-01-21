@@ -89,9 +89,10 @@ RegionalMinimaImageFilter<TInputImage, TOutputImage>
 
   if( rmin->GetFlat() )
     {
-    ProgressReporter progress2(this, 0, 
-     outputImage->GetRequestedRegion().GetNumberOfPixels(), 
-     33, 0.67, 0.33);
+    ProgressReporter progress2(
+      this, 0, 
+      outputImage->GetRequestedRegion().GetNumberOfPixels(), 
+      33, 0.67, 0.33);
 
     typedef ImageRegionIterator< TOutputImage > IteratorType;
 

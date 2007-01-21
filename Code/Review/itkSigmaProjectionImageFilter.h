@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkSigmaProjectionImageFilter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #ifndef __itkSigmaProjectionImageFilter_h
 #define __itkSigmaProjectionImageFilter_h
 
@@ -56,18 +72,19 @@ public:
     if( m_Size <= 1 )
       return NumericTraits<RealType>::Zero;
 
-    typename NumericTraits<TInputPixel>::RealType mean = ((RealType) m_Sum) / m_Size;
+    typename NumericTraits<TInputPixel>::RealType mean =
+      ((RealType) m_Sum) / m_Size;
     typename std::vector<TInputPixel>::iterator it;
     RealType squaredSum = NumericTraits<RealType>::Zero;
-    for( it=m_Values.begin(); it!=m_Values.end(); it++ )
+    for( it = m_Values.begin(); it != m_Values.end(); it++ )
       {
       squaredSum += vnl_math_sqr(*it - mean);
       }
     return vcl_sqrt( squaredSum / ( m_Size - 1) );
     }
 
-  TAccumulate m_Sum;
-  unsigned long m_Size;
+  TAccumulate              m_Sum;
+  unsigned long            m_Size;
   std::vector<TInputPixel> m_Values;
 };
 } // end namespace Function
@@ -101,8 +118,6 @@ protected:
 private:
   SigmaProjectionImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-
 
 }; // end SigmaProjectionImageFilter
 

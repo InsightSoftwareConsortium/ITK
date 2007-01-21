@@ -36,9 +36,9 @@ class VTKPolyDataReader : public MeshSource<TOutputMesh>
 public:
   /** Standard "Self" typedef. */
   typedef VTKPolyDataReader         Self;
-  typedef itk::MeshSource<TOutputMesh>  Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
+  typedef MeshSource<TOutputMesh>   Superclass;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -47,28 +47,28 @@ public:
   itkTypeMacro(VTKPolyDataReader, MeshSource);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TOutputMesh OutputMeshType;
+  typedef TOutputMesh                           OutputMeshType;
   typedef typename OutputMeshType::MeshTraits   MeshTraits;
   typedef typename OutputMeshType::PointType    PointType;
   typedef typename MeshTraits::PixelType        PixelType;
 
   /** Some convenient typedefs. */
-  typedef typename OutputMeshType::Pointer OutputMeshPointer;
+  typedef typename OutputMeshType::Pointer    OutputMeshPointer;
   typedef typename OutputMeshType::CellTraits CellTraits;
 
   typedef typename OutputMeshType::PointsContainerPointer
-    PointsContainerPointer;
+      PointsContainerPointer;
   typedef typename OutputMeshType::PointsContainer   PointsContainer;
 
   /** Define the triangular cell types which form the surface  */
-  typedef itk::CellInterface<PixelType, CellTraits>   CellInterfaceType;
-  typedef itk::TriangleCell<CellInterfaceType>        TriCellType;
-  typedef typename TriCellType::SelfAutoPointer       TriCellAutoPointer;
-  typedef typename TriCellType::CellAutoPointer       CellAutoPointer;
+  typedef CellInterface<PixelType, CellTraits>   CellInterfaceType;
+  typedef TriangleCell<CellInterfaceType>        TriCellType;
+  typedef typename TriCellType::SelfAutoPointer  TriCellAutoPointer;
+  typedef typename TriCellType::CellAutoPointer  CellAutoPointer;
 
-  typedef std::pair<unsigned long,unsigned long> IndexPairType;
-  typedef itk::MapContainer<IndexPairType, unsigned long> PointMapType;
-  typedef typename PointType::VectorType VectorType;
+  typedef std::pair<unsigned long,unsigned long>     IndexPairType;
+  typedef MapContainer<IndexPairType, unsigned long> PointMapType;
+  typedef typename PointType::VectorType             VectorType;
 
   /** Set the resolution level to be used for generating cells in the
    * Sphere. High values of this parameter will produce sphere with more
@@ -80,7 +80,7 @@ public:
 protected:
   VTKPolyDataReader();
   ~VTKPolyDataReader() {}
-  void PrintSelf(std::ostream& os, itk::Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   void GenerateData();
 
