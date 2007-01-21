@@ -61,9 +61,10 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
   ReaderType::Pointer reader=ReaderType::New(); 
   
   //exercise Set/GetFilename method for code coverage
-  reader->SetFileName( "Input.txt");
+  std::string testName = "Input.txt";
+  reader->SetFileName( testName );
 
-  if ( reader->GetFileName() != "Input.txt" ) 
+  if ( reader->GetFileName() != testName ) 
     {
     std::cerr << "Error in Set/Get Filename:" << std::endl;
     return EXIT_FAILURE; 
