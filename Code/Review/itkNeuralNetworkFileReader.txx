@@ -54,6 +54,11 @@ NeuralNetworkFileReader<TVector,TOutput>
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   Superclass::PrintSelf( os, indent ); 
+  
+  os << indent << "FileName:"           << m_FileName << std::endl;
+  os << indent << "ReadWeightValuesType:" << m_ReadWeightValuesType 
+               << std::endl;
+  
 } 
 
 /** Update the Reader */
