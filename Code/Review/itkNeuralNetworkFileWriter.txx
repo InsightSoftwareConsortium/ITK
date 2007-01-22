@@ -76,6 +76,7 @@ NeuralNetworkFileWriter<TVector,TOutput>
   
   if(!this->m_OutputFile.is_open())
     {
+    // FIXME : use itkExceptionMacro here
     std::cout << "NeuralNetworkFileReader Write: Cannot open file" << std::endl;
     return;
     }
@@ -106,6 +107,7 @@ NeuralNetworkFileWriter<TVector,TOutput>
 
   if(!MET_Write(this->m_OutputFile, & m_Fields,'='))
     {
+    // FIXME : use itkExceptionMacro here
     std::cout << "MetaObject: Write: MET_Write Failed" << std::endl;
     //return false;
     }
@@ -146,6 +148,7 @@ NeuralNetworkFileWriter<TVector,TOutput>
 
   if(!MET_Write(this->m_OutputFile, & m_Fields,'='))
     {
+    // FIXME : use itkExceptionMacro here
     std::cout << "MetaObject: Write: MET_Write Failed" << std::endl;
     //return false;
     }
@@ -175,6 +178,7 @@ NeuralNetworkFileWriter<TVector,TOutput>
   
   if(!MET_Write(this->m_OutputFile, & m_Fields,'='))
     {
+    // FIXME : use itkExceptionMacro here
     std::cout << "MetaObject: Write: MET_Write Failed" << std::endl;
     //return false;
     }
@@ -204,6 +208,7 @@ NeuralNetworkFileWriter<TVector,TOutput>
     {
     if(!MET_Write(this->m_OutputFile, & m_Fields,'='))
       {
+      // FIXME : use itkExceptionMacro here
       std::cout << "MetaObject: Write: MET_Write Failed" << std::endl;
       return;
       } 
