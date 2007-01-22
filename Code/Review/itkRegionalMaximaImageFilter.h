@@ -31,13 +31,17 @@ namespace itk {
  * maxima or not.  The desired behavior can be selected with the
  * SetFlatIsMaxima() method.
  * 
- * This class was contributed to the Insight Journal by \author Gaëtan Lehmann.
- * Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas,
- * France.  http://hdl.handle.net/1926/153
+ * \author Gaetan Lehmann
  *
- * \sa ValuedRegionalMaximaImageFilter, HConvexImageFilter, 
- *  \sa RegionalMinimaImageFilter
- * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * This class was contributed to the Insight Journal by author Gaetan Lehmann.
+ * Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas,
+ * France. The paper can be found at http://hdl.handle.net/1926/153
+ *
+ * \sa ValuedRegionalMaximaImageFilter
+ * \sa HConvexImageFilter 
+ * \sa RegionalMinimaImageFilter
+ *
+ * \ingroup MathematicalMorphologyImageFilters
  */
 template<class TInputImage, class TOutputImage>
 class ITK_EXPORT RegionalMaximaImageFilter : 
@@ -47,8 +51,7 @@ public:
   /** Standard class typedefs. */
   typedef RegionalMaximaImageFilter Self;
 
-  typedef ImageToImageFilter<TInputImage, TOutputImage>
-  Superclass;
+  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
 
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -75,8 +78,7 @@ public:
   itkNewMacro(Self);  
 
   /** Runtime information support. */
-  itkTypeMacro(RegionalMaximaImageFilter, 
-               ImageToImageFilter);
+  itkTypeMacro(RegionalMaximaImageFilter, ImageToImageFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by
@@ -85,7 +87,7 @@ public:
    * FullyConnectedOn.
    */
   itkSetMacro(FullyConnected, bool);
-  itkGetConstReferenceMacro(FullyConnected, bool);
+  itkGetConstMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
   
   /**
