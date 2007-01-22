@@ -154,7 +154,7 @@ protected:
     }
 
 
-  virtual AccumulatorType NewAccumulator( unsigned long size )
+  virtual AccumulatorType NewAccumulator( unsigned long size ) const
     {
     AccumulatorType accumulator( size );
     accumulator.m_ForegroundValue = m_ForegroundValue;

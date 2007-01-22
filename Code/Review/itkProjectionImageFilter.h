@@ -118,7 +118,7 @@ protected:
   virtual void ThreadedGenerateData( 
    const OutputImageRegionType& outputRegionForThread, int threadId );
 
-  virtual AccumulatorType NewAccumulator( unsigned long );
+  virtual AccumulatorType NewAccumulator( unsigned long ) const;
 
 private:
   ProjectionImageFilter(const Self&); //purposely not implemented

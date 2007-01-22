@@ -337,7 +337,7 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
 template <class TInputImage, class TOutputImage, class TAccumulator>
 TAccumulator
 ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>::
-NewAccumulator( unsigned long size )
+NewAccumulator( unsigned long size ) const
 {
   return TAccumulator( size );
 }
