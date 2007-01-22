@@ -144,14 +144,14 @@ public:
   itkSetMacro(OutsideValue,OutputPixelType);
   
   /** Get the "outside" pixel value. */
-  itkGetMacro(OutsideValue,OutputPixelType);
+  itkGetConstReferenceMacro(OutsideValue,OutputPixelType);
 
   /** Set the "inside" pixel value. The default value 
    * NumericTraits<OutputPixelType>::max() */
   itkSetMacro(InsideValue,OutputPixelType);
   
   /** Get the "inside" pixel value. */
-  itkGetMacro(InsideValue,OutputPixelType);
+  itkGetConstReferenceMacro(InsideValue,OutputPixelType);
 
   /** Set the thresholds. The default lower threshold  
    * is NumericTraits<InputPixelType>::NonpositiveMin(). The default upper
