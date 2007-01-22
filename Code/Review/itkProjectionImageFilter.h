@@ -44,6 +44,8 @@ namespace itk
  * \author Emiliano Beronich
  * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
+ *
+ * The original paper in the Insight Journal can be found at 
  *      http://hdl.handle.net/1926/164
  *
  * \sa AccumulateImageFilter
@@ -96,11 +98,10 @@ public:
 #endif
 
 
-  /** Set the direction in which to accumulate the data.  It must be
-   * set before the update of the filter. Defaults to the last
-   * dimension. */
-  itkGetMacro( ProjectionDimension, unsigned int );
+  /** Set/Get the direction in which to accumulate the data.  It must be set
+   * before the update of the filter. Defaults to the last dimension. */
   itkSetMacro( ProjectionDimension, unsigned int );
+  itkGetConstReferenceMacro( ProjectionDimension, unsigned int );
 
 
 protected:
