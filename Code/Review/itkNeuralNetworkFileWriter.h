@@ -119,7 +119,7 @@ public:
   void Update(void);
 
   itkSetMacro(WriteWeightValuesType, unsigned int);
-  itkGetMacro(WriteWeightValuesType, unsigned int);
+  itkGetConstMacro(WriteWeightValuesType, unsigned int);
   
 protected:
   NeuralNetworkFileWriter();
@@ -141,7 +141,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkNeuralNetworkFileWriter.txx"
+#include "itkNeuralNetworkFileWriter.txx"
 #endif
 
 #endif 
