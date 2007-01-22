@@ -212,7 +212,7 @@ ContourExtractor2DImageFilter< TInputImage>
           this->AddSegment(TOP, LEFT);
           // bottom to right
           this->AddSegment(BOTTOM, RIGHT);
-          }        
+          }
         break;
       case 10: // bottom to top
         this->AddSegment(BOTTOM, TOP);
@@ -254,16 +254,21 @@ ContourExtractor2DImageFilter<TInputImage>
   // Now calculate the fraction of the way from 'from' to 'to' that the contour
   // crosses. Interpolate linearly: y = v0 + (v1 - v0) * x, and solve for the
   // x that gives y = m_ContourValue: x = (m_ContourValue - v0) / (v1 - v0).
-  // This assumes that v0 and v1 are separated by exactly ONE unit. So the toOffset
-  // value must have exactly one component 1 and the other component 0.
+  // This assumes that v0 and v1 are separated by exactly ONE unit. So the to
+  // Offset. value must have exactly one component 1 and the other component 0.
   // Also this assumes that fromValue and toValue are different. Otherwise we
   // can't interpolate anything!
   assert(fromValue != toValue);
-  assert((toOffset[0] == 0 && toOffset[1] == 1) || (toOffset[0] == 1 && toOffset[1] == 0));
+
+  assert( (toOffset[0] == 0 && toOffset[1] == 1) || 
+          (toOffset[0] == 1 && toOffset[1] == 0)     );
+
   double x = (m_ContourValue - static_cast<InputRealType>(fromValue)) / 
              (toValue - static_cast<InputRealType>(fromValue));
+
   output[0] = fromIndex[0] + x * toOffset[0];
   output[1] = fromIndex[1] + x * toOffset[1];
+
   return output;
 }
 
@@ -324,7 +329,7 @@ ContourExtractor2DImageFilter<TInputImage>
         
         // Now remove the old end of 'head' from the ends map and add the new end.
         m_ContourEnds.erase(newHead);
-        m_ContourEnds.insert(VertexContourRefPair(head->back(), head));        
+        m_ContourEnds.insert(VertexContourRefPair(head->back(), head));
         }
       else
         {
@@ -341,7 +346,7 @@ ContourExtractor2DImageFilter<TInputImage>
         
         // Now remove the old start of 'tail' from the starts map and add the new start.
         m_ContourStarts.erase(newTail);
-        m_ContourStarts.insert(VertexContourRefPair(tail->front(), tail));                
+        m_ContourStarts.insert(VertexContourRefPair(tail->front(), tail));
         }
       }
     }
