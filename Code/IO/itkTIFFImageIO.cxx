@@ -1362,13 +1362,13 @@ void TIFFImageIO::ReadImageInformation()
     {
     if(m_InternalImage->ResolutionUnit == 2) // inches
       {
-      m_Spacing[0] = m_InternalImage->XResolution/25.4; 
-      m_Spacing[1] = m_InternalImage->YResolution/25.4; 
+      m_Spacing[0] = 25.4/m_InternalImage->XResolution; 
+      m_Spacing[1] = 25.4/m_InternalImage->YResolution; 
       }
     else if(m_InternalImage->ResolutionUnit == 3) // cm
       {
-      m_Spacing[0] = m_InternalImage->XResolution/10.0; 
-      m_Spacing[1] = m_InternalImage->YResolution/10.0; 
+      m_Spacing[0] = 10.0/m_InternalImage->XResolution; 
+      m_Spacing[1] = 10.0/m_InternalImage->YResolution; 
       }
     }
 
