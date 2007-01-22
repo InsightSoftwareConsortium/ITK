@@ -59,17 +59,18 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
   this->SetInput2( input ); 
 }
 
- /**
+/**
  * Get Label Image
  */
 template <class TInputImage, class TLabelImage, class TOutputImage>
 const 
-typename LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::LabelImageType * 
+typename LabelOverlayImageFilter<
+  TInputImage, TLabelImage, TOutputImage>::LabelImageType * 
 LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
 ::GetLabelImage() const
 { 
-return static_cast<LabelImageType*>(
-        const_cast<DataObject *>(this->ProcessObject::GetInput(1))); 
+  return static_cast<LabelImageType*>(
+    const_cast<DataObject *>(this->ProcessObject::GetInput(1))); 
 }
 
 /**

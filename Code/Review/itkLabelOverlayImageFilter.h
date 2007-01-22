@@ -45,20 +45,21 @@ public:
 
   inline TRGBPixel operator()(  const TInputPixel & p1, const TLabel & p2)
     {
+    TRGBPixel rgbPixel;
     if( m_UseBackground && p2 == m_BackgroundValue )
       {
       // value is background
       // return a gray pixel with the same intensity than the input pixel
       typename TRGBPixel::ValueType p = 
                         static_cast< typename TRGBPixel::ValueType >( p1 );
-      TRGBPixel rgbPixel;
-      rgbPixel.Set( p, p, p );
+      rgbPixel[0] = p;
+      rgbPixel[1] = p;
+      rgbPixel[2] = p;
       return rgbPixel;
       }
 
     // taint the input pixel with the colored one returned by 
     // the color functor.
-    TRGBPixel rgbPixel;
     TRGBPixel opaque = m_RGBFunctor(p2);
     for( unsigned int i = 0; i<3; i++ )
       {
@@ -117,7 +118,7 @@ private:
  * A background label produce a gray pixel with the same intensity 
  * than the input one.
  *
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, 
+ * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, 
  * INRA de Jouy-en-Josas, France.
  *
  * This class was contributed to the Insight Journal 
