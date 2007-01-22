@@ -298,9 +298,13 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
       for( unsigned int i=0; i< InputImageDimension; i++ )
         {
         if( i != m_ProjectionDimension )
-          { oIdx[i] = iIdx[i]; }
+          { 
+          oIdx[i] = iIdx[i]; 
+          }
         else
-          { oIdx[i] = 0; }
+          { 
+          oIdx[i] = 0; 
+          }
         }
       }
     else
@@ -308,9 +312,13 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
       for( unsigned int i=0; i< OutputImageDimension; i++ )
         {
         if( i != m_ProjectionDimension )
-          { oIdx[i] = iIdx[i]; }
+          {
+          oIdx[i] = iIdx[i]; 
+          }
         else
-          { oIdx[i] = iIdx[InputImageDimension - 1]; }
+          { 
+          oIdx[i] = iIdx[InputImageDimension - 1]; 
+          }
         }
       }
 
