@@ -51,6 +51,7 @@ void RegisterTests()
   REGISTER_TEST(itkMinimumProjectionImageFilterTest);
   REGISTER_TEST(itkSigmaProjectionImageFilterTest);
   REGISTER_TEST(itkBinaryProjectionImageFilterTest);
+  REGISTER_TEST(itkProjectionImageFilterTest);
 
   REGISTER_TEST(itkValuedRegionalMinimaImageFilterTest);
   REGISTER_TEST(itkValuedRegionalMaximaImageFilterTest);

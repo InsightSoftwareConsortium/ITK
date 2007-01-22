@@ -49,6 +49,7 @@ SET(ReviewTest_SRCS
   itkMinimumProjectionImageFilterTest.cxx
   itkSigmaProjectionImageFilterTest.cxx  
   itkBinaryProjectionImageFilterTest.cxx  
+  itkProjectionImageFilterTest.cxx  
 
   itkValuedRegionalMinimaImageFilterTest.cxx
   itkValuedRegionalMaximaImageFilterTest.cxx
@@ -176,6 +177,15 @@ ADD_TEST(itkSumProjectionImageFilterTest ${REVIEW_TESTS}
                   itkSumProjectionImageFilterTest
                   ${INPUTDATA}/HeadMRVolume.mhd
                   ${TEMP}/HeadMRVolumeSumProjection.tif)
+
+ADD_TEST(itkProjectionImageFilterTest1 ${REVIEW_TESTS}
+        --compare ${BASELINE}/HeadMRVolumeBinaryProjection100.tif
+                  ${TEMP}/HeadMRVolumeProjection100.tif
+                  itkProjectionImageFilterTest
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeProjection100.tif
+                  100
+                  0)
 
 ADD_TEST(itkBinaryProjectionImageFilterTest1 ${REVIEW_TESTS}
         --compare ${BASELINE}/HeadMRVolumeBinaryProjection100.tif
