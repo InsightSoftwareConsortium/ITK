@@ -19,6 +19,7 @@
 
 #include "itkLabelToRGBFunctor.h"
 #include "itkBinaryFunctorImageFilter.h"
+#include "itkConceptChecking.h"
 
 namespace itk
 {
@@ -59,7 +60,7 @@ public:
     // the color functor.
     TRGBPixel rgbPixel;
     TRGBPixel opaque = m_RGBFunctor(p2);
-    for( int i = 0; i<3; i++)
+    for( unsigned int i = 0; i<3; i++ )
       {
       rgbPixel[i] = static_cast< typename TRGBPixel::ValueType >( 
                           opaque[i] * m_Opacity + p1 * ( 1.0 - m_Opacity ) );
@@ -184,6 +185,20 @@ public:
   itkGetConstReferenceMacro( UseBackground, bool );
   itkBooleanMacro(UseBackground);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(OutputHasPixelTraitsCheck,
+    (Concept::HasPixelTraits<OutputPixelType>));
+  itkConceptMacro(OutputPixelShouldHaveValueType,
+    (Concept::HasValueType<OutputPixelType>));
+  itkConceptMacro(OutputPixelShouldHaveBracketOperator,
+    (Concept::BracketOperator<
+        OutputPixelType, 
+        unsigned int,
+        typename OutputPixelType::ValueType>));
+  /** End concept checking */
+#endif
+ 
 protected:
   LabelOverlayImageFilter();
   virtual ~LabelOverlayImageFilter() {};
