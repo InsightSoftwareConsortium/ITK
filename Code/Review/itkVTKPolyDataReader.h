@@ -29,6 +29,8 @@ namespace itk
  * \brief
  * Reads a vtkPolyData file and create an itkMesh.
  *
+ * Caveat: itkVTKPolyDataReader can only read triangle meshes.
+ *         Use vtkTriangleFilter to convert your mesh to a triangle mesh.
  */
 template <class TOutputMesh>
 class VTKPolyDataReader : public MeshSource<TOutputMesh>
@@ -47,24 +49,28 @@ public:
   itkTypeMacro(VTKPolyDataReader, MeshSource);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TOutputMesh                           OutputMeshType;
-  typedef typename OutputMeshType::MeshTraits   MeshTraits;
-  typedef typename OutputMeshType::PointType    PointType;
-  typedef typename MeshTraits::PixelType        PixelType;
+  typedef TOutputMesh                          OutputMeshType;
+  typedef typename OutputMeshType::MeshTraits  MeshTraits;
+  typedef typename OutputMeshType::PointType   PointType;
+  typedef typename MeshTraits::PixelType       PixelType;
 
   /** Some convenient typedefs. */
-  typedef typename OutputMeshType::Pointer    OutputMeshPointer;
-  typedef typename OutputMeshType::CellTraits CellTraits;
+  typedef typename OutputMeshType::Pointer     OutputMeshPointer;
+  typedef typename OutputMeshType::CellTraits  CellTraits;
 
   typedef typename OutputMeshType::PointsContainerPointer
-      PointsContainerPointer;
-  typedef typename OutputMeshType::PointsContainer   PointsContainer;
+    PointsContainerPointer;
+  typedef typename OutputMeshType::PointsContainer
+    PointsContainer;
 
   /** Define the triangular cell types which form the surface  */
-  typedef CellInterface<PixelType, CellTraits>   CellInterfaceType;
-  typedef TriangleCell<CellInterfaceType>        TriCellType;
-  typedef typename TriCellType::SelfAutoPointer  TriCellAutoPointer;
-  typedef typename TriCellType::CellAutoPointer  CellAutoPointer;
+  typedef CellInterface<PixelType, CellTraits> CellInterfaceType;
+  typedef TriangleCell<CellInterfaceType>      TriangleCellType;
+
+  typedef typename TriangleCellType::SelfAutoPointer
+    TriangleCellAutoPointer;
+  typedef typename TriangleCellType::CellAutoPointer
+    CellAutoPointer;
 
   typedef std::pair<unsigned long,unsigned long>     IndexPairType;
   typedef MapContainer<IndexPairType, unsigned long> PointMapType;
@@ -82,31 +88,16 @@ protected:
   ~VTKPolyDataReader() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  /** Reads the file */
   void GenerateData();
-
-  PointType Divide( const PointType & p1, const PointType & p2) const;
-
-  void AddCell( OutputMeshType * mesh, const unsigned long * pointIds,
-      unsigned long idx);
 
   /** Filename to read */
   std::string m_FileName;
 
-  /** model center */
-  PointType m_Center;
-
-  /** models resolution */
-  unsigned int m_Resolution;
-
-  /** model scales */
-  VectorType m_Scale;
-
 private:
-  VTKPolyDataReader(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  VTKPolyDataReader(const Self&); // purposely not implemented
+  void operator=(const Self&); // purposely not implemented
 };
-
-
 
 } // end namespace itk
 
