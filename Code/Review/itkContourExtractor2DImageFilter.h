@@ -119,21 +119,16 @@ public:
   typedef typename InputImageType::IndexType                InputIndexType;
   typedef typename InputImageType::OffsetType               InputOffsetType;
   typedef typename InputImageType::RegionType               InputRegionType;  
-  typedef typename NumericTraits<InputPixelType>::RealType  InputRealType;
   typedef typename OutputPathType::Pointer                  OutputPathPointer;
   typedef typename OutputPathType::VertexType               VertexType;
   typedef typename OutputPathType::VertexListType           VertexListType;
 
+  /** Real type associated to the input pixel type. */
+  typedef typename NumericTraits<InputPixelType>::RealType  InputRealType;
+ 
   typedef typename VertexListType::ConstPointer 
                                                        VertexListConstPointer;
-  
-  /** Set the image intensity value that the contours should follow. */
-  itkSetMacro(ContourValue,InputRealType);
-
-  /** Get the image intensity value that the contours should follow. */
-  itkGetConstReferenceMacro(ContourValue, InputRealType);
-  
-  /** Control the orientation of the contours with reference to the image 
+   /** Control the orientation of the contours with reference to the image 
   * gradient. (See class documentation.) */
   itkSetMacro(ReverseContourOrientation, bool);
   itkGetConstReferenceMacro(ReverseContourOrientation, bool);
@@ -151,14 +146,26 @@ public:
   void SetRequestedRegion(const InputRegionType region);
   itkGetConstReferenceMacro(RequestedRegion, InputRegionType);
   void ClearRequestedRegion();
+ 
+  /** Set/Get the image intensity value that the contours should follow.
+   *  This is the equivalent of an iso-value in Marching Squares. */
+  itkSetMacro(ContourValue,InputRealType);
+  itkGetConstReferenceMacro(ContourValue, InputRealType);
+  
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(DimensionShouldBe2,
     (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),2>));
+  itkConceptMacro(InputPixelTypeComparable,
+    (Concept::Comparable<InputPixelType>));
+  itkConceptMacro(InputHasPixelTraitsCheck,
+    (Concept::HasPixelTraits<InputPixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<InputPixelType>));
   /** End concept checking */
 #endif
- 
+
 protected:
 
   ContourExtractor2DImageFilter(); 
