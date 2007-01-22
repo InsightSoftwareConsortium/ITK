@@ -105,7 +105,7 @@ public:
   NetworkType * GetOutput() const;
 
   itkSetMacro( ReadWeightValuesType, unsigned int );
-  itkGetMacro( ReadWeightValuesType, unsigned int );
+  itkGetConstMacro( ReadWeightValuesType, unsigned int );
 
  
 protected:
@@ -142,7 +142,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkNeuralNetworkFileReader.txx"
+#include "itkNeuralNetworkFileReader.txx"
 #endif
 
 #endif 
