@@ -422,6 +422,31 @@ struct LogicalOperators
   itkConceptConstraintsMacro();
 };
 
+/** Concept requiring T1 to have operators []  in the form 
+    T1 [] T2 = T3.  */
+template <typename T1, typename T2=T1, typename T3=T1>
+struct BracketOperator
+{
+  struct Constraints
+  {
+    void constraints()
+      {
+      a = static_cast<T3>(b [ c ]);
+      const_constraints(b, c);
+      }
+    void const_constraints(const T1& d, const T2& e)
+      {
+      a = static_cast<T3>(b [ c ]);
+      }
+    T3 a;
+    T1 b;
+    T2 c;
+  };
+  
+  itkConceptConstraintsMacro();
+};
+
+
 /** Concept requiring T to have operator !.  */
 template <typename T>
 struct NotOperator
@@ -574,6 +599,22 @@ struct HasPixelTraits
   
   itkConceptConstraintsMacro();
 };
+
+/** Concept requiring T to have a trait called ValueType */
+template <typename T>
+struct HasValueType
+{
+  struct Constraints
+  {
+    void constraints()
+      { 
+      typedef typename T::ValueType ValueType;
+      }
+  };
+  
+  itkConceptConstraintsMacro();
+};
+
 
 /** Concept requiring T to have Zero */
 template <typename T>
