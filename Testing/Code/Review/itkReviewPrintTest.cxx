@@ -47,7 +47,6 @@ int main(int , char* [])
 {
   typedef itk::Image<float,2>           InputType;
   typedef itk::Image<float,2>           OutputType;
-  typedef itk::Image<unsigned short,2>  UShortImageType;
   typedef itk::Image<unsigned char,2>   CharType;
   typedef itk::RGBPixel<unsigned char>  RGBPixelType;
   typedef itk::Image< RGBPixelType, 2 > RGBImageType;
