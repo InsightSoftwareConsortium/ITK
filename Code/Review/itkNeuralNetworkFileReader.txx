@@ -146,12 +146,12 @@ NeuralNetworkFileReader<TVector,TOutput>
   
 
   // define the layers
-  for(int i=0; i<num_layers; i++)
-  {
-    if(!MET_Read(m_InputFile, & m_Fields,'='))
+  for(unsigned int i=0; i<num_layers; i++)
     {
-    itkExceptionMacro( "MetaObject: Read: MET_Read Failed");
-    }
+    if(!MET_Read(m_InputFile, & m_Fields,'='))
+      {
+      itkExceptionMacro( "MetaObject: Read: MET_Read Failed");
+      }
 
     mF = MET_GetFieldRecord("LayerType", &m_Fields);
     if(!strcmp((char*)mF->value,"BackPropagationLayer"))
@@ -240,6 +240,7 @@ NeuralNetworkFileReader<TVector,TOutput>
     {  
     if(!MET_Read(m_InputFile, & m_Fields,'='))
       {
+       // FIXME: use ExceptionMacro here
        std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
        //return false;
       }
@@ -260,12 +261,12 @@ NeuralNetworkFileReader<TVector,TOutput>
       w->SetNumberOfInputNodes(m_Layers[slayer]->GetNumberOfNodes());
       w->SetNumberOfOutputNodes(m_Layers[dlayer]->GetNumberOfNodes());
       w->SetCompleteConnectivity();
-      w->SetRange(1.0);  //0.5
-      w->Initialize(); 
-      WeightSetPointer weightset = 
+      w->SetRange(1.0);
+      w->Initialize();
+      WeightSetPointer weightset =
        dynamic_cast<WeightSetType *>( w.GetPointer() );
       m_Network->AddWeightSet(w);
-      m_Weights.push_back(weightset); 
+      m_Weights.push_back(weightset);
       m_Layers[slayer]->SetOutputWeightSet(w);
       m_Layers[dlayer]->SetInputWeightSet(w);
       }
@@ -277,7 +278,7 @@ NeuralNetworkFileReader<TVector,TOutput>
   if(m_ReadWeightValuesType>0)
     {
     m_Network->Initialize();
-    for(int j=0; j<m_Network->GetNumOfWeightSets(); j++)
+    for(unsigned int j=0; j<m_Network->GetNumOfWeightSets(); j++)
       {
       m_Fields.clear();
       weightset = m_Network->GetWeightSet(j);
@@ -285,8 +286,9 @@ NeuralNetworkFileReader<TVector,TOutput>
       unsigned int cols =weightset->GetNumberOfInputNodes();
 
       mF = new MET_FieldRecordType;
-      MET_InitReadField(mF, "WeightValues",MET_FLOAT_ARRAY, true,-1,
-                                                         rows*cols);
+      MET_InitReadField(
+       mF, "WeightValues",MET_FLOAT_ARRAY, true,-1, rows*cols);
+
       mF->required = true;
       mF->terminateRead=true; 
       m_Fields.push_back(mF);
