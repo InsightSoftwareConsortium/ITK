@@ -403,6 +403,7 @@ itkContourExtractor2DImageFilterTestNamespace::MyVertexListList& correct)
     {
     return false;
     }
+
   for(unsigned int i = 0; i < correct.size(); i++)
     {
     itkContourExtractor2DImageFilterTestNamespace::ExtractorType::
@@ -482,7 +483,8 @@ int itkContourExtractor2DImageFilterTest(int argc, char *argv[])
     }
  
   bool testsPassed = true;
-  try {
+  try 
+    {
     extractor->VertexConnectHighPixelsOff();
     extractor->ReverseContourOrientationOff();
     extractor->Update();
@@ -546,10 +548,10 @@ int itkContourExtractor2DImageFilterTest(int argc, char *argv[])
     if ( extractor->GetRequestedRegion() != 
      itkContourExtractor2DImageFilterTestNamespace::ImageType::RegionType(
                    index, size) ) 
-    {
-    std::cerr << "RequestedRegion Set/Get Problem" << std::endl;
-    return EXIT_FAILURE;
-    }   
+      {
+      std::cerr << "RequestedRegion Set/Get Problem" << std::endl;
+      return EXIT_FAILURE;
+      }   
 
     extractor->Update();
     std::cout << "Test 4... ";
@@ -557,21 +559,25 @@ int itkContourExtractor2DImageFilterTest(int argc, char *argv[])
           expected_disconnected_clockwise_cropped_outputs))
       {
       testsPassed = false;
-      std::cout << "failed." << std::endl;
+      std::cerr << "failed." << std::endl;
       }
     else
       {
       std::cout << "passed." << std::endl;
       }
-    } catch( itk::ExceptionObject & err ) { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    } 
+  catch( itk::ExceptionObject & err ) 
+    { 
+    std::cerr << "ExceptionObject caught !" << std::endl; 
+    std::cerr << err << std::endl; 
     return -1;
     }
+
   if (testsPassed)
     {
     std::cout << "All tests passed." << std::endl;
     return 0;
     }
+
   return 1;
 }
