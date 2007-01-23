@@ -240,9 +240,7 @@ NeuralNetworkFileReader<TVector,TOutput>
     {  
     if(!MET_Read(m_InputFile, & m_Fields,'='))
       {
-       // FIXME: use ExceptionMacro here
-       std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
-       //return false;
+       itkExceptionMacro("MetaObject: Read: MET_Read Failed" );
       }
     mF = MET_GetFieldRecord("WeightSetType", &m_Fields);
 
@@ -297,11 +295,8 @@ NeuralNetworkFileReader<TVector,TOutput>
         {
         if(!MET_Read(m_InputFile, & m_Fields,'='))
           {
-           //FIXME : use itkExceptionMacro
-           std::cerr << "MetaObject: " 
-                     << "Read: MET_Read Failed Weight Values missing" 
-                     << std::endl;
-           return;
+          itkExceptionMacro("MET_Read Failed Weight Values missing" );
+          return;
           }
         weightset->SetWeightValues(mF->value);
         }

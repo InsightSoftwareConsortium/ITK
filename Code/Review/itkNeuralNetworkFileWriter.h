@@ -48,7 +48,11 @@ namespace itk
  * configuration file. 
  * 
  * This class was contributed to the Insight Journal by  Raghu Venkatram  
+ * The original paper can be found at
  *   http://hdl.handle.net/1926/203
+ *
+ *
+ * \author Raghu Venkatram
  *
  * \sa NeuralNetworkFileReader
  * \sa MultilayerNeuralNetworkBase
@@ -74,8 +78,7 @@ public:
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
-  typedef Statistics::MultilayerNeuralNetworkBase<TVector,TOutput> 
-                                                        NetworkType;
+  typedef Statistics::MultilayerNeuralNetworkBase<TVector,TOutput> NetworkType;
 
   typedef typename NetworkType::Pointer        NetworkPointer;
   typedef typename NetworkType::ConstPointer   NetworkConstPointer;
@@ -85,14 +88,12 @@ public:
   typedef typename LayerType::Pointer                      LayerPointer;
   typedef typename LayerType::ConstPointer                 LayerConstPointer;
 
-  typedef typename LayerType::TransferFunctionPointer 
-                                                     TransferFunctionPointer;
+  typedef typename LayerType::TransferFunctionPointer TransferFunctionPointer;
 
   typedef typename LayerType::TransferFunctionConstPointer 
                                               TransferFunctionConstPointer;
 
-  typedef typename LayerType::InputFunctionPointer 
-                                                InputFunctionPointer;
+  typedef typename LayerType::InputFunctionPointer InputFunctionPointer;
 
   typedef typename LayerType::InputFunctionConstPointer
                                                       InputFunctionConstPointer;
