@@ -18,6 +18,7 @@
 #define __itkRegionalMaximaImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkConceptChecking.h"
 
 namespace itk {
 
@@ -111,6 +112,16 @@ public:
   itkSetMacro(FlatIsMaxima, bool);
   itkGetConstMacro(FlatIsMaxima, bool);
   itkBooleanMacro(FlatIsMaxima);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasPixelTraitsCheck,
+    (Concept::HasPixelTraits<InputImagePixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<InputImagePixelType>));
+  /** End concept checking */
+#endif
+
 
 protected:
   RegionalMaximaImageFilter();

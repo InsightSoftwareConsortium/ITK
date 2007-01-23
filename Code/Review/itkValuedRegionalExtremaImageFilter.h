@@ -22,6 +22,7 @@
 #include "itkConstShapedNeighborhoodIterator.h"
 #include "itkShapedNeighborhoodIterator.h"
 #include "itkConstantBoundaryCondition.h"
+#include "itkConceptChecking.h"
 #include <stack>
 
 namespace itk {
@@ -129,6 +130,15 @@ public:
    * Get whether the image is flat or not.
    */
   itkGetMacro(Flat, bool);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputHasPixelTraitsCheck,
+    (Concept::HasPixelTraits<InputImagePixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<InputImagePixelType>));
+  /** End concept checking */
+#endif
 
 protected:
   ValuedRegionalExtremaImageFilter();

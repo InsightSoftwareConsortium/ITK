@@ -20,6 +20,7 @@
 
 #include "itkValuedRegionalExtremaImageFilter.h"
 #include "itkNumericTraits.h"
+#include "itkConceptChecking.h"
 
 namespace itk {
 /** \class ValuedRegionalMaximaImageFilter
@@ -61,9 +62,23 @@ public:
   typedef SmartPointer<Self>                                  Pointer;
   typedef SmartPointer<const Self>                            ConstPointer;
 
+
+  typedef TInputImage                                         InputImageType;
+  typedef typename InputImageType::PixelType                  InputImagePixelType;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputPixelTypeComparable,
+    (Concept::GreaterThanComparable<InputImagePixelType>));
+  itkConceptMacro(InputHasPixelTraitsCheck,
+    (Concept::HasPixelTraits<InputImagePixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<InputImagePixelType>));
+  /** End concept checking */
+#endif
 
 protected:
   ValuedRegionalMaximaImageFilter() 
