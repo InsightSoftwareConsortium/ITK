@@ -142,7 +142,7 @@ public:
   itkBooleanMacro(VertexConnectHighPixels);
   
   /** Control whether the largest possible input region is used, or if a
-    custom requested region is to be used. */
+    * custom requested region is to be used. */
   void SetRequestedRegion(const InputRegionType region);
   itkGetConstReferenceMacro(RequestedRegion, InputRegionType);
   void ClearRequestedRegion();

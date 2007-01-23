@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkContourExtractor2DImageFilter_txx
-#define _itkContourExtractor2DImageFilter_txx
+#ifndef __itkContourExtractor2DImageFilter_txx
+#define __itkContourExtractor2DImageFilter_txx
 
 #include "itkConstShapedNeighborhoodIterator.h"
 #include "itkProgressReporter.h"
@@ -142,17 +142,17 @@ ContourExtractor2DImageFilter< TInputImage>
     if (v2 > m_ContourValue) squareCase += 4;
     if (v3 > m_ContourValue) squareCase += 8;
 
-// Set up macros to find the ContinuousIndex where the contour intersects one
-// of the sides of the square.
-// Normally macros should, of course, be eschewed, but since this is an inner
-// loop not calling the function four times when two would do is probably 
-// worth while. Plus, copy-pasting these into the switch below is even worse.
-// InterpolateContourPosition takes the values at two vertices, the index of 
-// the first vertex, and the offset between the two vertices.
-#define TOP     this->InterpolateContourPosition(v0, v1, index,         right)
-#define BOTTOM  this->InterpolateContourPosition(v2, v3, index + down,  right)
-#define LEFT    this->InterpolateContourPosition(v0, v2, index,         down)
-#define RIGHT   this->InterpolateContourPosition(v1, v3, index + right, down)
+    // Set up macros to find the ContinuousIndex where the contour intersects
+    // one of the sides of the square.  Normally macros should, of course, be
+    // eschewed, but since this is an inner loop not calling the function four
+    // times when two would do is probably worth while. Plus, copy-pasting
+    // these into the switch below is even worse.  InterpolateContourPosition
+    // takes the values at two vertices, the index of the first vertex, and the
+    // offset between the two vertices.
+    #define TOP_     this->InterpolateContourPosition(v0,v1,index,right)
+    #define BOTTOM_  this->InterpolateContourPosition(v2,v3,index + down,right)
+    #define LEFT_    this->InterpolateContourPosition(v0,v2,index,       down)
+    #define RIGHT_   this->InterpolateContourPosition(v1,v3,index + right,down)
 
     // (2) Add line segments to the growing contours as defined by the cases.
     // AddSegment takes a "from" vertex and a "to" vertex, and adds it to the
@@ -162,72 +162,72 @@ ContourExtractor2DImageFilter< TInputImage>
       case 0: // no line
         break;
       case 1:  // top to left
-        this->AddSegment(TOP, LEFT);
+        this->AddSegment(TOP_, LEFT_);
         break;
       case 2: // right to top
-        this->AddSegment(RIGHT, TOP);
+        this->AddSegment(RIGHT_, TOP_);
         break;
       case 3: // right to left
-        this->AddSegment(RIGHT, LEFT);
+        this->AddSegment(RIGHT_, LEFT_);
         break;
       case 4: // left to bottom
-        this->AddSegment(LEFT, BOTTOM);
+        this->AddSegment(LEFT_, BOTTOM_);
         break;
       case 5: // top to bottom
-        this->AddSegment(TOP, BOTTOM);
+        this->AddSegment(TOP_, BOTTOM_);
         break;
       case 6:
         if (m_VertexConnectHighPixels)
           {
           // left to top
-          this->AddSegment(LEFT, TOP);
+          this->AddSegment(LEFT_, TOP_);
           // right to bottom
-          this->AddSegment(RIGHT, BOTTOM);
+          this->AddSegment(RIGHT_, BOTTOM_);
           }
         else
           {
           // right to top
-          this->AddSegment(RIGHT, TOP);
+          this->AddSegment(RIGHT_, TOP_);
           // left to bottom
-          this->AddSegment(LEFT, BOTTOM);
+          this->AddSegment(LEFT_, BOTTOM_);
           }
         break;
       case 7: // right to bottom
-        this->AddSegment(RIGHT, BOTTOM);
+        this->AddSegment(RIGHT_, BOTTOM_);
         break;
       case 8: // bottom to right
-        this->AddSegment(BOTTOM, RIGHT);
+        this->AddSegment(BOTTOM_, RIGHT_);
         break;
       case 9:
         if (m_VertexConnectHighPixels)
           {
           // top to right
-          this->AddSegment(TOP, RIGHT);
+          this->AddSegment(TOP_, RIGHT_);
           // bottom to left
-          this->AddSegment(BOTTOM, LEFT);
+          this->AddSegment(BOTTOM_, LEFT_);
           }
         else
           {
           // top to left
-          this->AddSegment(TOP, LEFT);
+          this->AddSegment(TOP_, LEFT_);
           // bottom to right
-          this->AddSegment(BOTTOM, RIGHT);
+          this->AddSegment(BOTTOM_, RIGHT_);
           }
         break;
       case 10: // bottom to top
-        this->AddSegment(BOTTOM, TOP);
+        this->AddSegment(BOTTOM_, TOP_);
         break;
       case 11: // bottom to left
-        this->AddSegment(BOTTOM, LEFT);
+        this->AddSegment(BOTTOM_, LEFT_);
         break;
       case 12: // left to right
-        this->AddSegment(LEFT, RIGHT);
+        this->AddSegment(LEFT_, RIGHT_);
         break;
       case 13: // top to right
-        this->AddSegment(TOP, RIGHT);
+        this->AddSegment(TOP_, RIGHT_);
         break;
       case 14: // left to top
-        this->AddSegment(LEFT, TOP);
+        this->AddSegment(LEFT_, TOP_);
         break;
       case 15: // no line
         break;
@@ -279,9 +279,10 @@ ContourExtractor2DImageFilter<TInputImage>
 {
   if (from == to)
     {
-    // Arc is degenerate: ignore, and the from/two point will be connected later
-    // by other squares. Degeneracy happens when (and only when) a square has exactly
-    // one vertex that is the contour value, and the rest are above that value.
+    // Arc is degenerate: ignore, and the from/two point will be connected
+    // later by other squares. Degeneracy happens when (and only when) a square
+    // has exactly one vertex that is the contour value, and the rest are above
+    // that value.
     return;
     }
   
@@ -303,18 +304,19 @@ ContourExtractor2DImageFilter<TInputImage>
       // We've closed a contour. Add the end point, and remove from the maps
       head->push_back(to);
       m_ContourStarts.erase(newTail); 
-      // erase the front of tail. Because head and tail are the same contour, don't
-      // worry about erasing the front of head!
+      // erase the front of tail. Because head and tail are the same contour,
+      // don't worry about erasing the front of head!
       m_ContourEnds.erase(newHead); // erase the end of head/tail.
       }
     else
       {
-      // We have found two distinct contours that need to be joined.
-      // Careful here: we want to keep the first segment in the list when merging
-      // so that contours are always returned in top-to-bottom, right-to-left order
-      // (with regard to the image pixel found to be inside the contour).
-      if (tail->m_ContourNumber > head->m_ContourNumber) // if tail was created later than head...
+      // We have found two distinct contours that need to be joined.  Careful
+      // here: we want to keep the first segment in the list when merging so
+      // that contours are always returned in top-to-bottom, right-to-left
+      // order (with regard to the image pixel found to be inside the contour).
+      if (tail->m_ContourNumber > head->m_ContourNumber)
         {
+        // if tail was created later than head...
         // Copy tail to the end of head and remove
         // tail from everything.
         head->insert(head->end(), tail->begin(), tail->end());
@@ -323,11 +325,12 @@ ContourExtractor2DImageFilter<TInputImage>
         // subsumed.
         m_ContourStarts.erase(newTail); 
         int erased = m_ContourEnds.erase(tail->back());
-        assert(erased == 1); // There should be exactly one entry in the hash for that 
-                             // endpoint
+        // There should be exactly one entry in the hash for that endpoint
+        assert(erased == 1);
         m_Contours.erase(tail); // remove from the master list
         
-        // Now remove the old end of 'head' from the ends map and add the new end.
+        // Now remove the old end of 'head' from the ends map and add 
+        // the new end.
         m_ContourEnds.erase(newHead);
         m_ContourEnds.insert(VertexContourRefPair(head->back(), head));
         }
@@ -337,14 +340,16 @@ ContourExtractor2DImageFilter<TInputImage>
         // head from everything.
         tail->insert(tail->begin(), head->begin(), head->end());
         
-        // Now remove 'head' from the list and the maps because it has been subsumed.
+        // Now remove 'head' from the list and the maps because
+        // it has been subsumed.
         m_ContourEnds.erase(newHead); 
         int erased = m_ContourStarts.erase(head->front());
         assert(erased == 1); // There should be exactly one entry in the hash
                              // for that endpoint
         m_Contours.erase(head); // remove from the master list
         
-        // Now remove the old start of 'tail' from the starts map and add the new start.
+        // Now remove the old start of 'tail' from the starts map and
+        // add the new start.
         m_ContourStarts.erase(newTail);
         m_ContourStarts.insert(VertexContourRefPair(tail->front(), tail));
         }
@@ -353,16 +358,20 @@ ContourExtractor2DImageFilter<TInputImage>
   else if (newTail == m_ContourStarts.end() && newHead == m_ContourEnds.end())
     {
     // No contours found: add a new one.
-    ContourType contour; // Make it on the heap. It will be copied into m_Contours.
+    // Make it on the heap. It will be copied into m_Contours.
+    ContourType contour; 
+
     // Add the endpoints
     contour.push_front(from);
     contour.push_back(to);
     contour.m_ContourNumber = m_NumberOfContoursCreated++;
     // Add the contour to the end of the list and get a reference to it.
     m_Contours.push_back(contour);
-    ContourRef newContour = --m_Contours.end(); // recall that end() is an 
-                                                // iterator to one past the back!
-    // add the endpoints and an iterator pointing to the contour in the list to the maps.
+
+    // recall that end() is an iterator to one past the back!
+    ContourRef newContour = --m_Contours.end();
+    // add the endpoints and an iterator pointing to the contour
+    // in the list to the maps.
     m_ContourStarts.insert(VertexContourRefPair(from, newContour));
     m_ContourEnds.insert(VertexContourRefPair(to, newContour));
     }
@@ -411,8 +420,9 @@ ContourExtractor2DImageFilter<TInputImage>
                    const_cast<VertexListType*>(output->GetVertexList());
     path->Initialize();
     path->reserve(it->size()); // use std::vector version of 'reserve()' 
-    //instead of VectorContainer::Reserve() to work around the fact that the latter
-    // is essentially std::vector::resize(), which is not what we want.
+    //instead of VectorContainer::Reserve() to work around 
+    // the fact that the latter is essentially std::vector::resize(), 
+    // which is not what we want.
     
     // Now put all the points from the contour deque into the path and 
     // mark output as modified
@@ -430,7 +440,7 @@ ContourExtractor2DImageFilter<TInputImage>
       }
     else
       {
-     ConstIteratorType  itC = (*it).begin();
+      ConstIteratorType  itC = (*it).begin();
       while(itC != (*it).end())
         {
         path->push_back(*itC);
@@ -460,12 +470,12 @@ void
 ContourExtractor2DImageFilter<TInputImage>
 ::ClearRequestedRegion() 
 { 
-itkDebugMacro("Clearing RequestedRegion."); 
-if (this->m_UseCustomRegion == true) 
-  {
-  this->m_UseCustomRegion = false; 
-  this->Modified(); 
-  }
+  itkDebugMacro("Clearing RequestedRegion."); 
+  if (this->m_UseCustomRegion == true) 
+    {
+    this->m_UseCustomRegion = false; 
+    this->Modified(); 
+    }
 }   
   
   
@@ -496,7 +506,8 @@ ContourExtractor2DImageFilter<TInputImage>
       // build an exception
       InvalidRequestedRegionError e(__FILE__, __LINE__);
       e.SetLocation(ITK_LOCATION);
-      e.SetDescription("Requested region is outside the largest possible region.");
+      e.SetDescription(
+         "Requested region is outside the largest possible region.");
       e.SetDataObject(input);
       throw e;
       }
@@ -519,16 +530,21 @@ ContourExtractor2DImageFilter<TInputImage>
   Superclass::PrintSelf( os, indent );
   os << indent << "ReverseContourOrientation: " << m_ReverseContourOrientation
      << std::endl;
-  os << indent << "VertexConnectHighPixels: " << m_VertexConnectHighPixels << std::endl;
+  os << indent << "VertexConnectHighPixels: " << m_VertexConnectHighPixels
+     << std::endl;
   os << indent << "UseCustomRegion: " << m_UseCustomRegion << std::endl;
   os << indent << "NumericTraits: " << m_UseCustomRegion << std::endl;
-  os << indent << "NumberOfContoursCreated: " << m_NumberOfContoursCreated << std::endl;
+  os << indent << "NumberOfContoursCreated: " << m_NumberOfContoursCreated 
+     << std::endl;
   if (m_UseCustomRegion)
     {
     os << indent << "Custom region: " << m_RequestedRegion << std::endl;
     }
+  
+  typedef typename  NumericTraits<InputRealType>::PrintType InputRealPrintType;
+
   os << indent << "Contour value: " 
-     << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_ContourValue) 
+     << static_cast<InputRealPrintType> (m_ContourValue) 
      << std::endl;
 }
   
