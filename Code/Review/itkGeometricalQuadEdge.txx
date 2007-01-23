@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkGeometricalQuadEdge.txx
-// $Revision: 1.6 $
+// $Revision: 1.7 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-23 17:49:06 $
+// $Date: 2007-01-23 22:32:42 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -24,6 +24,7 @@
 #define __itkGeometricalQuadEdge_txx
 
 #include <vcl_limits.h>
+#include <iostream>
 
 namespace itk
 {
@@ -38,16 +39,44 @@ GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::NOPOINT
                        = vcl_numeric_limits< OrgRefType >::max( );
 
 /**
+ *   Constructor
  */
 template< typename TVRef, typename TFRef,
           typename TPRef, typename TDRef, bool PrimalDual >
-    GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >::
-    GeometricalQuadEdge( )
-        : Superclass( ),
-          m_Org( NOPOINT ),
-          m_DataSet( false )
+GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >
+::GeometricalQuadEdge()
 {
+  this->m_Org     = NOPOINT;
+  this->m_DataSet = false;
 }
+
+
+/**
+ *   Destructor
+ */
+template< typename TVRef, typename TFRef,
+          typename TPRef, typename TDRef, bool PrimalDual >
+GeometricalQuadEdge< TVRef, TFRef, TPRef, TDRef, PrimalDual >
+::~GeometricalQuadEdge()
+{
+  Dual * e1 = this->GetRot();
+  if( e1 )
+    {
+    Self * e2 = e1->GetRot();
+    if( e2 )
+      {
+      Dual * e3 = e2->GetRot();
+      if( e3 )
+        {
+        delete e3;
+        }
+      delete e2;
+      }
+    delete e1;
+    }
+  std::cout << "GeometricalQuadEdge::Destructor" << std::endl;
+}
+
 
 /**
  */

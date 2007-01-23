@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkGeometricalQuadEdge.h
-// $Revision: 1.5 $
+// $Revision: 1.6 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-23 17:49:06 $
+// $Date: 2007-01-23 22:32:42 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -101,8 +101,8 @@ public:
 
 public:
   /** Memory creation methods. */
-  GeometricalQuadEdge( );
-  virtual ~GeometricalQuadEdge( ) { }
+  GeometricalQuadEdge();
+  virtual ~GeometricalQuadEdge();
 
   /** Set methods. */
   void SetOrg( const OrgRefType v )
