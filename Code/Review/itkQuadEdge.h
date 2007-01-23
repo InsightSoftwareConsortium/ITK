@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.h
-// $Revision: 1.7 $
+// $Revision: 1.8 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-23 17:49:06 $
+// $Date: 2007-01-23 18:04:40 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -248,7 +248,6 @@ public:
   itkQEDefineIteratorMethodsMacro( InvDnext );
 
 
-
   /** Object creation methods. */
   QuadEdge();
   virtual ~QuadEdge();
@@ -270,7 +269,9 @@ public:
    * \brief Basic quad-edge topological method.
    *
    * This method describes all possible topological operations on an edge.
+   *
    * It is its own inverse. It works in two ways:
+   *
    *   1. If this->GetOrg() != b->GetOrg(), it slice a face in two.
    *   2. If this->GetOrg() == b->GetOrg(), it unifies two faces.
    *
@@ -278,13 +279,15 @@ public:
    *    of the geometry that lies at the \ref GeometricalQuadEdge level.
    *    It is strongly discouraged to use this method. Instead you should
    *    use \ref itkQE::Mesh::Splice it's geometry aware version.
+   *
    * \sa \ref DoxySurgeryConnectivity
    */
   void Splice( Self* b );
 
+
   //  Second order accessors.
 
-  /** SYMmetric edge
+  /** Returns the symetric edge
    * (see \ref DoxyWalkingLocalShort "Accessing adjacent edges"). */
   Self* GetSym();
   const Self* GetSym() const; 
@@ -312,25 +315,24 @@ public:
   const Self* GetOprev() const;
 
   /** Returns previous edge with same Left face. The first edge
-   * encountered when moving clockwise from e around e->Left.  (see
-   * \ref DoxyWalkingLocalShort "Accessing adjacent edges"). */
+   *  encountered when moving clockwise from e around e->Left.  
+   * (see \ref DoxyWalkingLocalShort "Accessing adjacent edges"). */
   Self* GetLprev();
   const Self* GetLprev() const;
 
-  /// PREVious edge with same Right face [i.e. the first edge
-  /// encountered when moving clockwise from e around e->Right ]
-  /// (see \ref DoxyWalkingLocalShort "Accessing adjacent edges").
-  Self* GetRprev() { return( this->GetSym()->GetOnext() ); }
-  const Self* GetRprev() const { return( this->GetSym()->GetOnext() ); }
+  /** Returns the previous edge with same Right face. The first edge
+   *  encountered when moving clockwise from e around e->Right.
+   *  (see \ref DoxyWalkingLocalShort "Accessing adjacent edges"). */
+  Self* GetRprev();
+  const Self* GetRprev() const;
 
-  /// PREVious edge with same Right face and same Destination
-  /// [i.e. the first edge encountered when moving clockwise from e
-  /// around e->Dest ]
-  /// (see \ref DoxyWalkingLocalShort "Accessing adjacent edges").
-  Self* GetDprev() { return( this->GetInvRot()->GetOnext()->GetInvRot() ); }
-  const Self* GetDprev() const { return( this->GetInvRot()->GetOnext()->GetInvRot() ); }
+  /** Returns the previous edge with same Right face and same Destination.
+   *  The first edge encountered when moving clockwise from e around e->Dest.
+   *  (see \ref DoxyWalkingLocalShort "Accessing adjacent edges"). */
+  Self* GetDprev();
+  const Self* GetDprev() const;
 
-  // Inverse operators
+  /** Inverse operators */
   Self * GetInvRot();
   Self * GetInvOnext();
   Self * GetInvLnext();
@@ -343,13 +345,13 @@ public:
   const Self * GetInvDnext() const;
 
   /** Queries. */
-  bool IsHalfEdge() const { return( m_Onext == (Self*)0 || m_Rot == (Self*)0 );}
-  bool IsIsolated() const { return( this == this->GetOnext() ); }
+  bool IsHalfEdge() const;
+  bool IsIsolated() const;
   bool IsEdgeInOnextRing( Self* testEdge ) const;
   bool IsLnextGivenSizeCyclic( const int size ) const;
   unsigned int GetOrder() const;
 
-protected:
+protected: // FIXME: should be private
   Self* m_Onext; /// Onext ring
   Self* m_Rot;   /// Rot ring
 };
@@ -357,4 +359,3 @@ protected:
 } 
 
 #endif 
-

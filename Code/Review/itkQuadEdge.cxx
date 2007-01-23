@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.cxx
-// $Revision: 1.7 $
+// $Revision: 1.8 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-23 17:29:53 $
+// $Date: 2007-01-23 18:04:40 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -107,44 +107,6 @@ QuadEdge
 ::GetRot() const
 {
   return this->m_Rot; 
-}
-
-// ---------------------------------------------------------------------
-bool 
-QuadEdge
-::IsEdgeInOnextRing( Self* testEdge ) const
-{
-  ConstIterator it = this->BeginOnext(); 
-  while( it != this->EndOnext() )
-    {
-    if( this == testEdge )
-      {
-      return true;
-      }
-    it++;  
-    }
-  return false;
-}
-
-// ---------------------------------------------------------------------
-bool 
-QuadEdge
-::IsLnextGivenSizeCyclic( const int size ) const
-{
-  // Verify that when iterating size times with Lnext()
-  // we end up on "this": this would prove that the size of Lnext()
-  // ring is the given argument.
-  const Self* iterated = this;
-
-  for( int i = 0; i < size; i++ )
-    {
-    iterated = iterated->GetLnext();
-    if( !iterated )
-      {
-      return false;
-      }
-    }
-  return ( this == iterated );
 }
 
 // ---------------------------------------------------------------------
@@ -459,7 +421,97 @@ QuadEdge
     return NULL;
     }
 
-  const Self * p3 = p2->GetRot();
+  return p2;
+}
+
+
+// ---------------------------------------------------------------------
+QuadEdge * 
+QuadEdge
+::GetRprev() 
+{
+  Self * p1 = this->GetSym();
+  if( p1 == NULL )
+    {
+    return NULL;
+    }
+
+  Self * p2 = p1->GetOnext();
+  if( p2 == NULL )
+    {
+    return NULL;
+    }
+
+  return p2;
+}
+
+
+// ---------------------------------------------------------------------
+const QuadEdge * 
+QuadEdge
+::GetRprev() const
+{
+  const Self * p1 = this->GetSym();
+  if( p1 == NULL )
+    {
+    return NULL;
+    }
+
+  const Self * p2 = p1->GetOnext();
+  if( p2 == NULL )
+    {
+    return NULL;
+    }
+
+  return p2;
+}
+
+
+// ---------------------------------------------------------------------
+QuadEdge * 
+QuadEdge
+::GetDprev() 
+{
+  Self * p1 = this->GetInvRot();
+  if( p1 == NULL )
+    {
+    return NULL;
+    }
+
+  Self * p2 = p1->GetOnext();
+  if( p2 == NULL )
+    {
+    return NULL;
+    }
+
+  Self * p3 = p2->GetInvRot();
+  if( p3 == NULL )
+    {
+    return NULL;
+    }
+
+  return p3;
+}
+
+
+// ---------------------------------------------------------------------
+const QuadEdge * 
+QuadEdge
+::GetDprev() const
+{
+  const Self * p1 = this->GetInvRot();
+  if( p1 == NULL )
+    {
+    return NULL;
+    }
+
+  const Self * p2 = p1->GetOnext();
+  if( p2 == NULL )
+    {
+    return NULL;
+    }
+
+  const Self * p3 = p2->GetInvRot();
   if( p3 == NULL )
     {
     return NULL;
@@ -579,6 +631,7 @@ QuadEdge
   return this->GetRprev(); 
 }
 
+
 // ---------------------------------------------------------------------
 const QuadEdge * 
 QuadEdge
@@ -586,6 +639,67 @@ QuadEdge
 {
   return this->GetDprev(); 
 }
+
+
+// ---------------------------------------------------------------------
+bool
+QuadEdge
+::IsHalfEdge() const
+{
+  const bool isHalfEdge = ( m_Onext == NULL ) || ( m_Rot == NULL );
+  return isHalfEdge; 
+}
+
+
+// ---------------------------------------------------------------------
+bool
+QuadEdge
+::IsIsolated() const
+{
+  const bool isIsolated = ( this == this->GetOnext() );
+  return isIsolated; 
+}
+
+
+// ---------------------------------------------------------------------
+bool 
+QuadEdge
+::IsEdgeInOnextRing( Self* testEdge ) const
+{
+  ConstIterator it = this->BeginOnext(); 
+  while( it != this->EndOnext() )
+    {
+    if( this == testEdge )
+      {
+      return true;
+      }
+    it++;  
+    }
+  return false;
+}
+
+
+// ---------------------------------------------------------------------
+bool 
+QuadEdge
+::IsLnextGivenSizeCyclic( const int size ) const
+{
+  // Verify that when iterating size times with Lnext()
+  // we end up on "this": this would prove that the size of Lnext()
+  // ring is the given argument.
+  const Self* iterated = this;
+
+  for( int i = 0; i < size; i++ )
+    {
+    iterated = iterated->GetLnext();
+    if( !iterated )
+      {
+      return false;
+      }
+    }
+  return ( this == iterated );
+}
+
 
 } // end namespace itk
 
