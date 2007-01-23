@@ -42,7 +42,7 @@ int itkQuadEdgeTest1( int , char* [] )
   // Test the const version
   if( quadEdge1c->GetRot() != quadEdge2 )
     {
-    std::cerr << "Error in SetRot() / GetRot() " << std::endl;
+    std::cerr << "Error in const GetRot() " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -51,13 +51,13 @@ int itkQuadEdgeTest1( int , char* [] )
   quadEdge1->SetRot( quadEdge3 );
   if( quadEdge1->GetRot() != quadEdge3 )
     {
-    std::cerr << "Error in SetRot() / GetRot() " << std::endl;
+    std::cerr << "Error in changing SetRot() / GetRot() " << std::endl;
     return EXIT_FAILURE;
     }
   // Test the const version
-  if( quadEdge1c->GetRot() != quadEdge2 )
+  if( quadEdge1c->GetRot() != quadEdge3 )
     {
-    std::cerr << "Error in SetRot() / GetRot() " << std::endl;
+    std::cerr << "Error in changed const GetRot() " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -88,7 +88,7 @@ int itkQuadEdgeTest1( int , char* [] )
   // Test the const version
   if( quadEdge1c->GetOnext() != quadEdge2 )
     {
-    std::cerr << "Error in SetOnext() / GetOnext() " << std::endl;
+    std::cerr << "Error in const GetOnext() " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -97,13 +97,13 @@ int itkQuadEdgeTest1( int , char* [] )
   quadEdge1->SetOnext( quadEdge3 );
   if( quadEdge1->GetOnext() != quadEdge3 )
     {
-    std::cerr << "Error in SetOnext() / GetOnext() " << std::endl;
+    std::cerr << "Error in changing SetOnext() / GetOnext() " << std::endl;
     return EXIT_FAILURE;
     }
   // Test the const version
-  if( quadEdge1c->GetOnext() != quadEdge2 )
+  if( quadEdge1c->GetOnext() != quadEdge3 )
     {
-    std::cerr << "Error in SetOnext() / GetOnext() " << std::endl;
+    std::cerr << "Error changed const GetOnext() " << std::endl;
     return EXIT_FAILURE;
     }
 
