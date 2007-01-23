@@ -30,7 +30,7 @@ int itkQuadEdgeTest1( int , char* [] )
   QuadEdgeType * quadEdge3 = new QuadEdgeType;
   const QuadEdgeType * quadEdge1c = quadEdge1;
 
-  quadEdge1->GetRot();
+  quadEdge1->GetRot(); // testing null case
 
   // Verify that it can be set.
   quadEdge1->SetRot( quadEdge2 );
@@ -61,13 +61,15 @@ int itkQuadEdgeTest1( int , char* [] )
     return EXIT_FAILURE;
     }
 
-
+  std::cout << "GetRot()/SetRot() Test passed ! " << std::endl;
   std::cout << "Test passed" << std::endl;
 
   delete quadEdge1;
   delete quadEdge2;
   delete quadEdge3;
   } // end of local scope for tests
+
+
 
   // Tests for the GetOnext() SetOnext() methods
   { // create a local scope for these tests
@@ -76,7 +78,7 @@ int itkQuadEdgeTest1( int , char* [] )
   QuadEdgeType * quadEdge3 = new QuadEdgeType;
   const QuadEdgeType * quadEdge1c = quadEdge1;
 
-  quadEdge1->GetOnext();
+  quadEdge1->GetOnext(); // testing null case
 
   // Verify that it can be set.
   quadEdge1->SetOnext( quadEdge2 );
@@ -107,15 +109,90 @@ int itkQuadEdgeTest1( int , char* [] )
     return EXIT_FAILURE;
     }
 
-
-  std::cout << "Test passed" << std::endl;
+  std::cout << "GetOnext()/SetOnext() Test passed ! " << std::endl;
 
   delete quadEdge1;
   delete quadEdge2;
   delete quadEdge3;
   } // end of local scope for tests
 
+
+
  
+  // Tests for the GetSym() methods
+  { // create a local scope for these tests
+  QuadEdgeType * quadEdge1 = new QuadEdgeType;
+  QuadEdgeType * quadEdge2 = new QuadEdgeType;
+  QuadEdgeType * quadEdge3 = new QuadEdgeType;
+  QuadEdgeType * quadEdge4 = new QuadEdgeType;
+  const QuadEdgeType * quadEdge1c = quadEdge1;
+  const QuadEdgeType * quadEdge2c = quadEdge2;
+  const QuadEdgeType * quadEdge3c = quadEdge3;
+  const QuadEdgeType * quadEdge4c = quadEdge4;
+
+  quadEdge1->GetSym(); // testing null case
+
+  quadEdge1->SetRot( quadEdge2 );
+  quadEdge2->SetRot( quadEdge3 );
+  quadEdge3->SetRot( quadEdge4 );
+  quadEdge4->SetRot( quadEdge1 );
+
+  if( quadEdge1->GetSym() != quadEdge3 )
+    {
+    std::cerr << "Error in GetSym() " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( quadEdge1c->GetSym() != quadEdge3 )
+    {
+    std::cerr << "Error in const GetSym() " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( quadEdge2->GetSym() != quadEdge4 )
+    {
+    std::cerr << "Error in GetSym() B " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( quadEdge2c->GetSym() != quadEdge4 )
+    {
+    std::cerr << "Error in const GetSym() B" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( quadEdge3->GetSym() != quadEdge1 )
+    {
+    std::cerr << "Error in GetSym() C " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( quadEdge3c->GetSym() != quadEdge1 )
+    {
+    std::cerr << "Error in const GetSym() C" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( quadEdge4->GetSym() != quadEdge2 )
+    {
+    std::cerr << "Error in GetSym() D " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( quadEdge4c->GetSym() != quadEdge2 )
+    {
+    std::cerr << "Error in const GetSym() D" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  delete quadEdge1;
+  delete quadEdge2;
+  delete quadEdge3;
+  delete quadEdge4;
+
+  std::cout << "GetSym() Test passed ! " << std::endl;
+  }
+
   return EXIT_SUCCESS;
 }
 
