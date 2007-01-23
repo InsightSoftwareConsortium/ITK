@@ -19,6 +19,7 @@
 
 #include "itkVTKPolyDataReader.h"
 #include <fstream>
+#include <stdio.h>
 
 namespace itk
 {
