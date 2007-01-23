@@ -52,6 +52,74 @@ int itkRegionalMaximaImageFilterTest(int argc, char * argv[])
   typedef itk::RegionalMaximaImageFilter< ImageType, ImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
+
+
+  // exercise Set/Get Fully connected methods for 
+  // testing purpose
+  filter->SetFullyConnected ( true ); 
+
+  if( filter->GetFullyConnected() != true )
+    {
+    std::cerr << "Set/Get FullyConnected error" << std::endl; 
+    return EXIT_FAILURE;
+    }
+
+  filter->FullyConnectedOn(); 
+  if( filter->GetFullyConnected() != true )
+    {
+    std::cerr << "Set/Get FullyConnected error" << std::endl; 
+    return EXIT_FAILURE;
+    }
+
+  filter->FullyConnectedOff(); 
+  if( filter->GetFullyConnected() != false )
+    {
+    std::cerr << "Set/Get FullyConnected error" << std::endl; 
+    return EXIT_FAILURE;
+    }
+
+  // exercise Set/Get FlatIsMaxima flag for 
+  // testing purpose
+  filter->SetFlatIsMaxima ( true ); 
+
+  if( filter->GetFlatIsMaxima() != true )
+    {
+    std::cerr << "Set/Get FlatIsMaxima error" << std::endl; 
+    return EXIT_FAILURE;
+    }
+
+  filter->FlatIsMaximaOn(); 
+  if( filter->GetFlatIsMaxima() != true )
+    {
+    std::cerr << "Set/Get FlatIsMaxima error" << std::endl; 
+    return EXIT_FAILURE;
+    }
+
+  filter->FlatIsMaximaOff(); 
+  if( filter->GetFlatIsMaxima() != false )
+    {
+    std::cerr << "Set/Get FlatIsMaxima error" << std::endl; 
+    return EXIT_FAILURE;
+    }
+
+
+  filter->SetForegroundValue( 255 ); 
+  if( filter->GetForegroundValue() != 255 )
+    {
+    std::cerr << "Set/Get ForegroundValue error" << std::endl; 
+    return EXIT_FAILURE;
+    }
+
+  filter->SetBackgroundValue( 0 ); 
+  if( filter->GetBackgroundValue() != 0 )
+    {
+    std::cerr << "Set/Get BackgroundValue error" << std::endl; 
+    return EXIT_FAILURE;
+    }
+
+  filter->SetForegroundValue( itk::NumericTraits< PixelType>::max() );  
+  filter->SetBackgroundValue( itk::NumericTraits< PixelType>::NonpositiveMin());
+
   filter->SetFullyConnected( atoi(argv[1]) );
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
