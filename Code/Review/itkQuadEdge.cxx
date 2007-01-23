@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.cxx
-// $Revision: 1.6 $
+// $Revision: 1.7 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-23 17:03:00 $
+// $Date: 2007-01-23 17:29:53 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -257,6 +257,217 @@ QuadEdge
 
   return p3;
 }
+
+
+// ---------------------------------------------------------------------
+QuadEdge * 
+QuadEdge
+::GetRnext() 
+{
+  Self * p1 = this->GetRot();
+  if( p1 == NULL )
+    {
+    return NULL;
+    }
+
+  Self * p2 = p1->GetOnext();
+  if( p2 == NULL )
+    {
+    return NULL;
+    }
+
+  Self * p3 = p2->GetInvRot();
+  if( p3 == NULL )
+    {
+    return NULL;
+    }
+
+  return p3;
+}
+
+
+// ---------------------------------------------------------------------
+const QuadEdge * 
+QuadEdge
+::GetRnext() const
+{
+  const Self * p1 = this->GetRot();
+  if( p1 == NULL )
+    {
+    return NULL;
+    }
+
+  const Self * p2 = p1->GetOnext();
+  if( p2 == NULL )
+    {
+    return NULL;
+    }
+
+  const Self * p3 = p2->GetInvRot();
+  if( p3 == NULL )
+    {
+    return NULL;
+    }
+
+  return p3;
+}
+
+
+// ---------------------------------------------------------------------
+QuadEdge * 
+QuadEdge
+::GetDnext() 
+{
+  Self * p1 = this->GetSym();
+  if( p1 == NULL )
+    {
+    return NULL;
+    }
+
+  Self * p2 = p1->GetOnext();
+  if( p2 == NULL )
+    {
+    return NULL;
+    }
+
+  Self * p3 = p2->GetSym();
+  if( p3 == NULL )
+    {
+    return NULL;
+    }
+
+  return p3;
+}
+
+
+// ---------------------------------------------------------------------
+const QuadEdge * 
+QuadEdge
+::GetDnext() const
+{
+  const Self * p1 = this->GetSym();
+  if( p1 == NULL )
+    {
+    return NULL;
+    }
+
+  const Self * p2 = p1->GetOnext();
+  if( p2 == NULL )
+    {
+    return NULL;
+    }
+
+  const Self * p3 = p2->GetSym();
+  if( p3 == NULL )
+    {
+    return NULL;
+    }
+
+  return p3;
+}
+
+
+// ---------------------------------------------------------------------
+QuadEdge * 
+QuadEdge
+::GetOprev() 
+{
+  Self * p1 = this->GetRot();
+  if( p1 == NULL )
+    {
+    return NULL;
+    }
+
+  Self * p2 = p1->GetOnext();
+  if( p2 == NULL )
+    {
+    return NULL;
+    }
+
+  Self * p3 = p2->GetRot();
+  if( p3 == NULL )
+    {
+    return NULL;
+    }
+
+  return p3;
+}
+
+
+// ---------------------------------------------------------------------
+const QuadEdge * 
+QuadEdge
+::GetOprev() const
+{
+  const Self * p1 = this->GetRot();
+  if( p1 == NULL )
+    {
+    return NULL;
+    }
+
+  const Self * p2 = p1->GetOnext();
+  if( p2 == NULL )
+    {
+    return NULL;
+    }
+
+  const Self * p3 = p2->GetRot();
+  if( p3 == NULL )
+    {
+    return NULL;
+    }
+
+  return p3;
+}
+
+
+// ---------------------------------------------------------------------
+QuadEdge * 
+QuadEdge
+::GetLprev() 
+{
+  Self * p1 = this->GetOnext();
+  if( p1 == NULL )
+    {
+    return NULL;
+    }
+
+  Self * p2 = p1->GetSym();
+  if( p2 == NULL )
+    {
+    return NULL;
+    }
+
+  return p2;
+}
+
+
+// ---------------------------------------------------------------------
+const QuadEdge * 
+QuadEdge
+::GetLprev() const
+{
+  const Self * p1 = this->GetRot();
+  if( p1 == NULL )
+    {
+    return NULL;
+    }
+
+  const Self * p2 = p1->GetOnext();
+  if( p2 == NULL )
+    {
+    return NULL;
+    }
+
+  const Self * p3 = p2->GetRot();
+  if( p3 == NULL )
+    {
+    return NULL;
+    }
+
+  return p3;
+}
+
 
 // ---------------------------------------------------------------------
 QuadEdge * 

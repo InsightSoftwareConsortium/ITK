@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.h
-// $Revision: 1.5 $
+// $Revision: 1.6 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-23 17:00:59 $
+// $Date: 2007-01-23 17:29:53 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -28,7 +28,8 @@
 #include "itkMacro.h"
 
 // Debugging macros for classes that do not derive from the itkObject.
-// FIXME: Maybe variations of these macros should be moved into itkMacro.h
+// FIXME: Maybe variations of these macros should be moved into
+// itkMacro.h
 //
 #define itkQEDebugMacro( x )                                            \
     {                                                                   \
@@ -50,8 +51,8 @@
 
 // -------------------------------------------------------------------------
 /**
- * Macro that defines overloaded members for the second order topological
- * accessors.
+ * Macro that defines overloaded members for the second order
+ * topological accessors.
  *
  * @param st Superclass type.
  * @param pt Primal edge type.
@@ -208,9 +209,8 @@
     }
 
 // -------------------------------------------------------------------------
-/**
- * Macro that defines the method that creates a complete definition of a
- * quad-edge: The Onext ring and the Rot sub-algebra.
+/** Macro that defines the method that creates a complete definition
+ * of a quad-edge: The Onext ring and the Rot sub-algebra.
  *
  * \param pt Primal edge type.
  * \param dt Dual edge type.
@@ -233,9 +233,16 @@
 
 namespace itk
 {
-/**
- * Base class for the implementation of a quad-edge data structure as
+
+/** \class QuadEdge
+ * \brief Base class for the implementation of a quad-edge data structure as
  * proposed in \ref DoxyReferencesGuibasStolfi "Guibas and Stolfi 1985"
+ *
+ * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
+ *
+ * This implementation was contributed as a paper to the Insight Journal
+ * http://hdl.handle.net/1926/306
+ *
  * \sa \ref DoxyWalkingLocalShort "Accessing adjacent edges."
  */
 class QuadEdge
@@ -269,6 +276,19 @@ public:
   QuadEdge();
   virtual ~QuadEdge();
 
+  /** Sub-algebra Set methods. */
+  void SetOnext( Self* onext );
+  void SetRot( Self* rot );
+
+  /** Sub-algebra Get methods. 
+   *  Returns edge with same Origin (see \ref DoxyWalkingLocalShort
+   *  "Accessing adjacent edges"). */
+  Self* GetOnext();
+  Self* GetRot();
+  const Self* GetOnext() const;
+  const Self* GetRot() const;
+
+
   /**
    * \brief Basic quad-edge topological method.
    *
@@ -285,19 +305,6 @@ public:
    */
   void Splice( Self* b );
 
-  /** Sub-algebra Set methods. */
-  void SetOnext( Self* onext );
-  void SetRot( Self* rot );
-
-  /** Sub-algebra Get methods. 
-   *  NEXT edge with same Origin (see \ref DoxyWalkingLocalShort
-   *  "Accessing adjacent edges"). */
-  Self* GetOnext();
-  Self* GetRot();
-  const Self* GetOnext() const;
-  const Self* GetRot() const;
-
-
   //  Second order accessors.
 
   /** SYMmetric edge
@@ -305,33 +312,33 @@ public:
   Self* GetSym();
   const Self* GetSym() const; 
 
-  /** NEXT edge with same Left face
+  /** Returns next edge with same Left face
    * (see \ref DoxyWalkingLocalShort "Accessing adjacent edges"). */
   Self* GetLnext(); 
   const Self* GetLnext() const;
 
-  /// NEXT edge with same Right face [i.e. the first edge encountered
-  /// when moving counter-clockwise from e around e->Right ]
-  /// (see \ref DoxyWalkingLocalShort "Accessing adjacent edges").
-  Self* GetRnext() { return( this->GetRot()->GetOnext()->GetInvRot() ); }
-  const Self* GetRnext() const { return( this->GetRot()->GetOnext()->GetInvRot() ); }
+  /** Returns next edge with same Right face. The first edge
+   * encountered when moving counter-clockwise from e around e->Right.
+   * (see \ref DoxyWalkingLocalShort "Accessing adjacent edges"). */
+  Self* GetRnext();
+  const Self* GetRnext() const;
 
-  /// NEXT edge with same right face and same Destination [i.e. the
-  /// first edge encountered when moving counter-clockwise from e
-  /// (see \ref DoxyWalkingLocalShort "Accessing adjacent edges").
-  Self* GetDnext() { return( this->GetSym()->GetOnext()->GetSym() ); }
-  const Self* GetDnext() const { return( this->GetSym()->GetOnext()->GetSym() ); }
+  /** Returns next edge with same right face and same Destination. The
+   *  first edge encountered when moving counter-clockwise from e
+   *  (see \ref DoxyWalkingLocalShort "Accessing adjacent edges"). */
+  Self* GetDnext();
+  const Self* GetDnext() const;
 
-  /// PREVious edge with same Origin
-  /// (see \ref DoxyWalkingLocalShort "Accessing adjacent edges").
-  Self* GetOprev() { return( this->GetRot()->GetOnext()->GetRot() ); }
-  const Self* GetOprev() const { return( this->GetRot()->GetOnext()->GetRot() ); }
+  /** Returns previous edge with same Origin
+   *  (see \ref DoxyWalkingLocalShort "Accessing adjacent edges"). */
+  Self* GetOprev();
+  const Self* GetOprev() const;
 
-  /// PREVious edge with same Left face [i.e. the first edge encountered
-  /// when moving clockwise from e around e->Left ]
-  /// (see \ref DoxyWalkingLocalShort "Accessing adjacent edges").
-  Self* GetLprev() { return( this->GetOnext()->GetSym() ); }
-  const Self* GetLprev() const { return( this->GetOnext()->GetSym() ); }
+  /** Returns previous edge with same Left face. The first edge
+   * encountered when moving clockwise from e around e->Left.  (see
+   * \ref DoxyWalkingLocalShort "Accessing adjacent edges"). */
+  Self* GetLprev();
+  const Self* GetLprev() const;
 
   /// PREVious edge with same Right face [i.e. the first edge
   /// encountered when moving clockwise from e around e->Right ]
