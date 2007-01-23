@@ -39,14 +39,14 @@ namespace itk
  * This class is parameterized over the type of the input image and
  * the type of the output image.
  *
- * This class was contributed to the Insight Journal by
+ * This class was contributed to the Insight Journal by Emilian Beronich and
+ * Gaetan Lehmann. The original paper can be found at 
+ *      http://hdl.handle.net/1926/164
  *
  * \author Emiliano Beronich
  * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
  *
- * The original paper in the Insight Journal can be found at 
- *      http://hdl.handle.net/1926/164
  *
  * \sa AccumulateImageFilter
  * \ingroup   IntensityImageFilters     Singlethreaded
@@ -57,10 +57,10 @@ class ITK_EXPORT ProjectionImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef ProjectionImageFilter  Self;
+  typedef ProjectionImageFilter                         Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -69,11 +69,11 @@ public:
   itkTypeMacro(ProjectionImageFilter, ImageToImageFilter);
 
   /** Some convenient typedefs. */
-  typedef TInputImage InputImageType;
-  typedef typename    InputImageType::Pointer    InputImagePointer;
-  typedef typename    InputImageType::RegionType InputImageRegionType;
-  typedef typename    InputImageType::PixelType  InputImagePixelType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                              InputImageType;
+  typedef typename    InputImageType::Pointer      InputImagePointer;
+  typedef typename    InputImageType::RegionType   InputImageRegionType;
+  typedef typename    InputImageType::PixelType    InputImagePixelType;
+  typedef TOutputImage                             OutputImageType;
   typedef typename     OutputImageType::Pointer    OutputImagePointer;
   typedef typename     OutputImageType::RegionType OutputImageRegionType;
   typedef typename     OutputImageType::PixelType  OutputImagePixelType;
@@ -135,5 +135,3 @@ private:
 #endif
 
 #endif
-
-

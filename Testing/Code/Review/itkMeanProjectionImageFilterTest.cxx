@@ -34,7 +34,7 @@ int itkMeanProjectionImageFilterTest(int argc, char * argv[])
 
   const int dim = 3;
   
-  typedef unsigned char PixelType;
+  typedef unsigned char                PixelType;
   typedef itk::Image< PixelType, dim > ImageType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
@@ -64,4 +64,3 @@ int itkMeanProjectionImageFilterTest(int argc, char * argv[])
 
   return EXIT_SUCCESS;
 }
-

@@ -24,7 +24,12 @@ namespace itk {
 /** \class BinaryThresholdProjectionImageFilter
  * \brief BinaryThreshold projection
  *
- * This class was contributed to the Insight Journal by 
+ *
+ * This class was contributed to the Insight Journal by Gaetan Lehmann.
+ * the original paper can be found at 
+ *          http://hdl.handle.net/1926/164
+ *
+ *
  * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
  *    http://hdl.handle.net/1926/164
@@ -35,7 +40,7 @@ namespace itk {
  * \sa MeanProjectionImageFilter
  * \sa MaximumProjectionImageFilter
  * \sa MinimumProjectionImageFilter
- * \sa SigmaProjectionImageFilter
+ * \sa StandardDeviationProjectionImageFilter
  * \sa SumProjectionImageFilter
  */
 
@@ -96,7 +101,7 @@ public:
       typename TInputImage::PixelType, 
       typename TOutputImage::PixelType > > Superclass;
 
-  typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Runtime information support. */
@@ -106,11 +111,11 @@ public:
   itkNewMacro(Self);
 
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage           InputImageType;
+  typedef TOutputImage          OutputImageType;
 
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType InputPixelType;
+  typedef typename InputImageType::PixelType  InputPixelType;
   typedef typename OutputImageType::PixelType OutputPixelType;
 
   typedef typename Superclass::AccumulatorType AccumulatorType;
@@ -144,8 +149,23 @@ protected:
     {
     Superclass::PrintSelf(os,indent);
 
-       os << indent << "ForegroundValue: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue) << std::endl;
-       os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_BackgroundValue) << std::endl;
+    typedef typename NumericTraits<InputPixelType>::PrintType
+                                              InputPixelPrintType;
+
+    os << indent << "ForegroundValue: " 
+                    << static_cast< InputPixelPrintType > (m_ForegroundValue) 
+                    << std::endl;
+ 
+    typedef typename NumericTraits<OutputPixelType>::PrintType
+                                              OutputPixelPrintType;
+
+    os << indent << "BackgroundValue: " 
+                    << static_cast< OutputPixelPrintType > (m_BackgroundValue) 
+                    << std::endl;
+
+    os << indent << "ThresholdValue: " 
+                    << static_cast< InputPixelPrintType > (m_ThresholdValue) 
+                    << std::endl;
     }
 
 
@@ -169,8 +189,6 @@ protected:
 private:
   BinaryThresholdProjectionImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-
 
 }; // end BinaryThresholdProjectionImageFilter
 

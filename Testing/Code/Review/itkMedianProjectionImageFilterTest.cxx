@@ -35,20 +35,20 @@ int itkMedianProjectionImageFilterTest(int argc, char * argv[])
 
   const int dim = 3;
   
-  typedef unsigned char PType;
-  typedef itk::Image< PType, dim > IType;
+  typedef unsigned char                     PixelType;
+  typedef itk::Image< PixelType, dim >      ImageType;
 
-  typedef itk::ImageFileReader< IType > ReaderType;
+  typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::MedianProjectionImageFilter< IType, IType > FilterType;
+  typedef itk::MedianProjectionImageFilter< ImageType, ImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  typedef itk::ImageFileWriter< IType > WriterType;
+  typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
@@ -65,4 +65,3 @@ int itkMedianProjectionImageFilterTest(int argc, char * argv[])
 
   return EXIT_SUCCESS;
 }
-

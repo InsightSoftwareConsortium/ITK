@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkProjectionImageFilter_txx
-#define _itkProjectionImageFilter_txx
+#ifndef __itkProjectionImageFilter_txx
+#define __itkProjectionImageFilter_txx
 
 #include "itkProjectionImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -180,8 +180,10 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
           inputIndex[InputImageDimension - 1] = outputIndex[i];
           }
         }
-        inputSize[m_ProjectionDimension] = inputLargSize[m_ProjectionDimension];
-        inputIndex[m_ProjectionDimension] = inputLargIndex[m_ProjectionDimension];
+        inputSize[m_ProjectionDimension] = 
+                     inputLargSize[m_ProjectionDimension];
+        inputIndex[m_ProjectionDimension] = 
+                     inputLargIndex[m_ProjectionDimension];
       }
 
     RequestedRegion.SetSize(inputSize);
@@ -200,30 +202,39 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
 template <class TInputImage, class TOutputImage, class TAccumulator>
 void
 ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId )
+::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, 
+                       int threadId )
 {
   if(m_ProjectionDimension>=TInputImage::ImageDimension)
     {
-    itkExceptionMacro(<<"ProjectionImageFilter: invalid dimension to accumulate. ProjectionDimension = " << m_ProjectionDimension);
+    itkExceptionMacro(<<"Invalid dimension to accumulate. ProjectionDimension="
+                      << m_ProjectionDimension);
     }
 
-  // use the output image to report the progress: there is no need to call CompletedPixel()
-  // for all input pixel
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  // use the output image to report the progress: there is no need to 
+  // call CompletedPixel() for all input pixel
+  ProgressReporter progress(this, threadId, 
+                            outputRegionForThread.GetNumberOfPixels());
 
   typedef typename TOutputImage::PixelType OutputPixelType;
   
   // get some values, just to be easier to manipulate
   typename Superclass::InputImageConstPointer  inputImage = this->GetInput();
-  typename TInputImage::RegionType inputRegion = inputImage->GetLargestPossibleRegion();
+
+  typename TInputImage::RegionType inputRegion = 
+                       inputImage->GetLargestPossibleRegion();
+
   typename TInputImage::SizeType inputSize = inputRegion.GetSize();
   typename TInputImage::IndexType inputIndex = inputRegion.GetIndex();
 
   typename TOutputImage::Pointer outputImage = this->GetOutput();
-  typename TOutputImage::RegionType outputRegion = outputImage->GetLargestPossibleRegion();
+  typename TOutputImage::RegionType outputRegion = 
+                       outputImage->GetLargestPossibleRegion();
 
-  typename TOutputImage::SizeType outputSizeForThread = outputRegionForThread.GetSize();
-  typename TOutputImage::IndexType outputIndexForThread = outputRegionForThread.GetIndex();
+  typename TOutputImage::SizeType outputSizeForThread = 
+                       outputRegionForThread.GetSize();
+  typename TOutputImage::IndexType outputIndexForThread = 
+                       outputRegionForThread.GetIndex();
 
   // compute the input region for this thread
   typename TInputImage::RegionType inputRegionForThread = inputRegion;
@@ -259,8 +270,10 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
         inputIndexForThread[InputImageDimension - 1] = outputIndexForThread[i];
         }
       }
-      inputSizeForThread[m_ProjectionDimension] = inputSize[m_ProjectionDimension];
-      inputIndexForThread[m_ProjectionDimension] = inputIndex[m_ProjectionDimension];
+      inputSizeForThread[m_ProjectionDimension] = 
+                                 inputSize[m_ProjectionDimension];
+      inputIndexForThread[m_ProjectionDimension] = 
+                                 inputIndex[m_ProjectionDimension];
     }
   inputRegionForThread.SetSize( inputSizeForThread );
   inputRegionForThread.SetIndex( inputIndexForThread );
@@ -322,7 +335,8 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
         }
       }
 
-    outputImage->SetPixel( oIdx, static_cast<OutputPixelType>( accumulator.GetValue() ) );
+    outputImage->SetPixel( oIdx, 
+                        static_cast<OutputPixelType>( accumulator.GetValue() ) );
 
     // one more line done !
     progress.CompletedPixel();

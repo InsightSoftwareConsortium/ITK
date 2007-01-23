@@ -24,15 +24,13 @@ namespace itk {
 /** \class StandardDeviationProjectionImageFilter
  * \brief Mean projection
  * 
- * This class was contributed to Insight Journal by Gaetan Lehman
+ * This class was contributed to the Insight Journal by Gaetan Lehmann.
+ * The original paper can be found at 
+ *          http://hdl.handle.net/1926/164
  * 
  * \author Gaetan Lehmann. Biologie du Développement et de la Reproduction, 
  * INRA de Jouy-en-Josas, France.
  * 
- * The original contribution can be found at 
- *
- *    http://hdl.handle.net/1926/164 
- *
  * 
  * \sa ProjectionImageFilter
  * \sa MedianProjectionImageFilter
@@ -95,18 +93,25 @@ public:
 } // end namespace Function
 
 
-template <class TInputImage, class TOutputImage, class TAccumulate= ITK_TYPENAME NumericTraits< ITK_TYPENAME TOutputImage::PixelType >::AccumulateType >
+template <class TInputImage, 
+          class TOutputImage, 
+          class TAccumulate= ITK_TYPENAME 
+          NumericTraits< ITK_TYPENAME TOutputImage::PixelType >
+                           ::AccumulateType >
 class ITK_EXPORT StandardDeviationProjectionImageFilter :
     public
     ProjectionImageFilter<TInputImage, TOutputImage,
-      Function::StandardDeviationAccumulator< ITK_TYPENAME TInputImage::PixelType, TAccumulate > >
+      Function::StandardDeviationAccumulator< ITK_TYPENAME 
+                         TInputImage::PixelType, TAccumulate > >
 {
 public:
   typedef StandardDeviationProjectionImageFilter Self;
-  typedef ProjectionImageFilter<TInputImage, TOutputImage, 
-    Function::StandardDeviationAccumulator< typename TInputImage::PixelType, TAccumulate > > Superclass;
 
-  typedef SmartPointer<Self>   Pointer;
+  typedef ProjectionImageFilter<TInputImage, TOutputImage, 
+    Function::StandardDeviationAccumulator< typename 
+                  TInputImage::PixelType, TAccumulate > > Superclass;
+
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Runtime information support. */
@@ -121,7 +126,9 @@ protected:
   virtual ~StandardDeviationProjectionImageFilter() {}
 
 private:
-  StandardDeviationProjectionImageFilter(const Self&); //purposely not implemented
+  //purposely not implemented
+  StandardDeviationProjectionImageFilter(const Self&); 
+
   void operator=(const Self&); //purposely not implemented
 
 }; // end StandardDeviationProjectionImageFilter

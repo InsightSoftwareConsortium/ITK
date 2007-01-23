@@ -25,13 +25,16 @@ namespace itk {
 /** \class MinimumProjectionImageFilter
  * \brief Minimum projection
  *
- * This class was contributed to the Insight Journal by
+ * This class was contributed to the Insight Journal by Gaetan Lehmann.
+ * The original paper can be found at 
+ *          http://hdl.handle.net/1926/164
+ * 
+ *
  * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
- *    http://hdl.handle.net/1926/164
  *
  * \sa ProjectionImageFilter
- * \sa SigmaProjectionImageFilter
+ * \sa StandardDeviationProjectionImageFilter
  * \sa SumProjectionImageFilter
  * \sa BinaryProjectionImageFilter
  * \sa MaximumProjectionImageFilter
@@ -78,7 +81,7 @@ public:
     Function::MinimumAccumulator< 
       typename TInputImage::PixelType > > Superclass;
 
-  typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Runtime information support. */
@@ -95,8 +98,6 @@ protected:
 private:
   MinimumProjectionImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-
 
 }; // end MinimumProjectionImageFilter
 

@@ -35,7 +35,7 @@ int itkMaximumProjectionImageFilterTest(int argc, char * argv[])
 
   const int dim = 3;
   
-  typedef unsigned char PixelType;
+  typedef unsigned char                PixelType;
   typedef itk::Image< PixelType, dim > ImageType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
@@ -53,16 +53,15 @@ int itkMaximumProjectionImageFilterTest(int argc, char * argv[])
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
 
- try
-  {
-  writer->Update();
-  } 
- catch ( itk::ExceptionObject & excp )
-  {
-  std::cerr << excp << std::endl;
-  return EXIT_FAILURE;
-  }
+  try
+    {
+    writer->Update();
+    } 
+  catch ( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
 
- return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }
-

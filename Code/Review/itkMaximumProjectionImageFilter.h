@@ -24,15 +24,18 @@ namespace itk {
 /** \class MaximumProjectionImageFilter
  * \brief Maximum projection
  *
- * This class was contributed to the Insight Journal by
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
- *  http://hdl.handle.net/1926/164
+ * this class was contributed to the insight journal by Gaetan Lehmann.
+ * the original paper can be found at 
+ *          http://hdl.handle.net/1926/164
  *
+ * \author Gaetan Lehmann. Biologie du Développement et de la reproduction,
+ *  inra de jouy-en-josas, France.
+ *  
  * \sa ProjectionImageFilter
  * \sa MedianProjectionImageFilter
  * \sa MeanProjectionImageFilter
  * \sa MinimumProjectionImageFilter
- * \sa SigmaProjectionImageFilter
+ * \sa StandardDeviationProjectionImageFilter
  * \sa SumProjectionImageFilter
  * \sa BinaryProjectionImageFilter
  */
@@ -76,7 +79,7 @@ public:
   typedef ProjectionImageFilter<TInputImage, TOutputImage, 
   Function::MaximumAccumulator< typename TInputImage::PixelType > > Superclass;
 
-  typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Runtime information support. */
@@ -93,7 +96,6 @@ protected:
 private:
   MaximumProjectionImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
 
 
 }; // end MaximumProjectionImageFilter

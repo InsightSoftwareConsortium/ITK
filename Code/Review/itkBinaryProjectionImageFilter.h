@@ -24,10 +24,14 @@ namespace itk {
 /** \class BinaryProjectionImageFilter
  * \brief Binary projection
  *
- * This class was contributed to the Insight Journal by 
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
- * INRA de Jouy-en-Josas, France.
- *    http://hdl.handle.net/1926/164
+ * This class was contributed to the Insight Journal by Gaetan Lehmann.
+ * the original paper can be found at 
+ *          http://hdl.handle.net/1926/164
+ *
+ *
+ * \author Gaetan Lehmann. Biologie du Développement et de la Reproduction,
+ *  INRA de Jouy-en-Josas, France.
+ *
  *
  * \sa ProjectionImageFilter
  * \sa MedianProjectionImageFilter
@@ -35,7 +39,7 @@ namespace itk {
  * \sa MeanProjectionImageFilter
  * \sa MaximumProjectionImageFilter
  * \sa MinimumProjectionImageFilter
- * \sa SigmaProjectionImageFilter
+ * \sa StandardDeviationProjectionImageFilter
  * \sa SumProjectionImageFilter
  */
 
@@ -96,7 +100,7 @@ public:
       typename TInputImage::PixelType, 
       typename TOutputImage::PixelType > > Superclass;
 
-  typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Runtime information support. */
@@ -106,12 +110,12 @@ public:
   itkNewMacro(Self);
 
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage           InputImageType;
+  typedef TOutputImage          OutputImageType;
 
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  typedef typename InputImageType::PixelType      InputPixelType;
+  typedef typename OutputImageType::PixelType     OutputPixelType;
 
   typedef typename Superclass::AccumulatorType AccumulatorType;
 
@@ -149,8 +153,19 @@ protected:
     {
     Superclass::PrintSelf(os,indent);
 
-       os << indent << "ForegroundValue: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue) << std::endl;
-       os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_BackgroundValue) << std::endl;
+    typedef typename NumericTraits<InputPixelType>::PrintType
+                                              InputPixelPrintType;
+
+    os << indent << "ForegroundValue: " 
+                    << static_cast< InputPixelPrintType > (m_ForegroundValue) 
+                    << std::endl;
+ 
+    typedef typename NumericTraits<OutputPixelType>::PrintType
+                                              OutputPixelPrintType;
+
+    os << indent << "BackgroundValue: " 
+                    << static_cast< OutputPixelPrintType > (m_BackgroundValue) 
+                    << std::endl;
     }
 
 
@@ -171,8 +186,6 @@ protected:
 private:
   BinaryProjectionImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-
 
 }; // end BinaryProjectionImageFilter
 

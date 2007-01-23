@@ -37,7 +37,7 @@ int itkBinaryProjectionImageFilterTest(int argc, char * argv[])
 
   const int dim = 3;
   
-  typedef unsigned char PixelType;
+  typedef unsigned char                PixelType;
   typedef itk::Image< PixelType, dim > ImageType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
@@ -69,7 +69,8 @@ int itkBinaryProjectionImageFilterTest(int argc, char * argv[])
   
   if ( filter->GetForegroundValue( ) != 255 )
     {
-    std::cerr << "Set/Get Foreground value problem: " << filter->GetForegroundValue() << std::endl; 
+    std::cerr << "Set/Get Foreground value problem: " 
+              << filter->GetForegroundValue() << std::endl; 
     return EXIT_FAILURE;
     }
 
@@ -105,4 +106,3 @@ int itkBinaryProjectionImageFilterTest(int argc, char * argv[])
 
   return EXIT_SUCCESS;
 }
-

@@ -71,8 +71,6 @@ public:
 
 } // end namespace itkProjectionImageFilterNamespace
 
-
-
 int itkProjectionImageFilterTest(int argc, char * argv[])
 {
   if( argc < 5 )
@@ -85,7 +83,7 @@ int itkProjectionImageFilterTest(int argc, char * argv[])
 
   const int dim = 3;
   
-  typedef unsigned char PixelType;
+  typedef unsigned char                PixelType;
   typedef itk::Image< PixelType, dim > ImageType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
@@ -136,4 +134,3 @@ int itkProjectionImageFilterTest(int argc, char * argv[])
 
   return EXIT_SUCCESS;
 }
-

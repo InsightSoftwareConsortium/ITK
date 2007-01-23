@@ -24,10 +24,12 @@ namespace itk {
 /** \class SumProjectionImageFilter
  * \brief Sum projection
  *
- * This class was contributed to the Insight Journal by 
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction
+ * This class was contributed to the Insight Journal by Gaetan Lehmann.
+ * The original paper can be found at 
+ *          http://hdl.handle.net/1926/164
+ *
+ * \author Gaetan Lehmann. Biologie du Développement et de la Reproduction
  * , INRA de Jouy-en-Josas, France.
- *   http://hdl.handle.net/1926/164 
  *
  * \sa ProjectionImageFilter
  * \sa MedianProjectionImageFilter
@@ -36,7 +38,7 @@ namespace itk {
  * \sa MaximumProjectionImageFilter
  * \sa MinimumProjectionImageFilter
  * \sa BinaryProjectionImageFilter
- * \sa SigmaProjectionImageFilter
+ * \sa StandardDeviationProjectionImageFilter
  */
 
 
@@ -73,12 +75,15 @@ template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SumProjectionImageFilter :
     public
     ProjectionImageFilter<TInputImage, TOutputImage,
-      Function::SumAccumulator< typename TInputImage::PixelType, typename TOutputImage::PixelType > >
+      Function::SumAccumulator< 
+          typename TInputImage::PixelType, typename TOutputImage::PixelType > >
 {
 public:
   typedef SumProjectionImageFilter Self;
   typedef ProjectionImageFilter<TInputImage, TOutputImage, 
-    Function::SumAccumulator< typename TInputImage::PixelType, typename TOutputImage::PixelType > > Superclass;
+    Function::SumAccumulator< 
+             typename TInputImage::PixelType, 
+             typename TOutputImage::PixelType > > Superclass;
 
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;

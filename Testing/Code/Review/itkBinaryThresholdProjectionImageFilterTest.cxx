@@ -31,20 +31,22 @@ int itkBinaryThresholdProjectionImageFilterTest(int argc, char * argv[])
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " InputImage OutputImage Threshold Foreground Background" << std::endl;
+    std::cerr << " InputImage OutputImage Threshold Foreground Background" 
+              << std::endl;
     return EXIT_FAILURE;
     }
 
   const int dim = 3;
   
-  typedef unsigned char PixelType;
+  typedef unsigned char                PixelType;
   typedef itk::Image< PixelType, dim > ImageType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   
-  typedef itk::BinaryThresholdProjectionImageFilter< ImageType, ImageType > FilterType;
+  typedef itk::BinaryThresholdProjectionImageFilter< ImageType, ImageType > 
+                                                                   FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
 
@@ -64,7 +66,8 @@ int itkBinaryThresholdProjectionImageFilterTest(int argc, char * argv[])
   
   if ( filter->GetForegroundValue( ) != 255 )
     {
-    std::cerr << "Set/Get Foreground value problem: " << filter->GetForegroundValue() << std::endl; 
+    std::cerr << "Set/Get Foreground value problem: " 
+              << filter->GetForegroundValue() << std::endl; 
     return EXIT_FAILURE;
     }
 
@@ -101,4 +104,3 @@ int itkBinaryThresholdProjectionImageFilterTest(int argc, char * argv[])
 
   return EXIT_SUCCESS;
 }
-
