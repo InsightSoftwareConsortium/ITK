@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.cxx
-// $Revision: 1.4 $
+// $Revision: 1.5 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-23 16:18:43 $
+// $Date: 2007-01-23 17:00:58 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -33,21 +33,20 @@ QuadEdge
   this->m_Rot   = NULL;
 }
 
-/**
- * \brief Basic quad-edge topological method.
- *
- * This method describes all possible topological operations on an edge.
- * It is its own inverse. It works in two ways:
- *   1. If this->GetOrg() != b->GetOrg(), it slice a face in two.
- *   2. If this->GetOrg() == b->GetOrg(), it unifies two faces.
- *
- * \warning This class only handles of the connectivity and is not aware
- *    of the geometry that lies at the \ref GeometricalQuadEdge level.
- *    It is strongly discouraged to use this method. Instead you should
- *    use \ref itkQE::Mesh::Splice it's geometry aware version.
- * \sa \ref DoxySurgeryConnectivity
- */
-void QuadEdge::Splice( Self* b )
+
+// ---------------------------------------------------------------------
+QuadEdge
+::~QuadEdge()
+{
+  this->m_Onext = NULL;
+  this->m_Rot   = NULL;
+}
+
+
+// ---------------------------------------------------------------------
+void 
+QuadEdge
+::Splice( Self* b )
 {
   Self * aNext     = this->GetOnext();
   Self * bNext     = b->GetOnext();
@@ -60,6 +59,54 @@ void QuadEdge::Splice( Self* b )
   b->SetOnext( aNext );
   alpha->SetOnext( betaNext );
   beta->SetOnext( alphaNext );
+}
+
+// ---------------------------------------------------------------------
+void 
+QuadEdge
+::SetONext( Self * next  )
+{
+  this->m_Onext = onext; 
+}
+
+// ---------------------------------------------------------------------
+void 
+QuadEdge
+::SetRot( Self * rot  )
+{
+  this->m_Rot = rot; 
+}
+
+// ---------------------------------------------------------------------
+QuadEdge * 
+QuadEdge
+::GetONext()
+{
+  return this->m_Onext; 
+}
+
+// ---------------------------------------------------------------------
+QuadEdge * 
+QuadEdge
+::GetRot()
+{
+  return this->m_Rot; 
+}
+
+// ---------------------------------------------------------------------
+const QuadEdge * 
+QuadEdge
+::GetONext() const
+{
+  return this->m_Onext; 
+}
+
+// ---------------------------------------------------------------------
+const QuadEdge * 
+QuadEdge
+::GetRot() const
+{
+  return this->m_Rot; 
 }
 
 // ---------------------------------------------------------------------

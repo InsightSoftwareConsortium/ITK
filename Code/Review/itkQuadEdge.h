@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.h
-// $Revision: 1.4 $
+// $Revision: 1.5 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-20 21:42:46 $
+// $Date: 2007-01-23 17:00:59 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -267,32 +267,46 @@ public:
 
   /** Object creation methods. */
   QuadEdge();
-  virtual ~QuadEdge() { }
+  virtual ~QuadEdge();
 
+  /**
+   * \brief Basic quad-edge topological method.
+   *
+   * This method describes all possible topological operations on an edge.
+   * It is its own inverse. It works in two ways:
+   *   1. If this->GetOrg() != b->GetOrg(), it slice a face in two.
+   *   2. If this->GetOrg() == b->GetOrg(), it unifies two faces.
+   *
+   * \warning This class only handles of the connectivity and is not aware
+   *    of the geometry that lies at the \ref GeometricalQuadEdge level.
+   *    It is strongly discouraged to use this method. Instead you should
+   *    use \ref itkQE::Mesh::Splice it's geometry aware version.
+   * \sa \ref DoxySurgeryConnectivity
+   */
   void Splice( Self* b );
 
-  /** Sub-algebra set methods. */
-  void SetOnext( Self* onext ) { m_Onext = onext; }
-  void SetRot( Self* rot )     { m_Rot = rot; }
+  /** Sub-algebra Set methods. */
+  void SetOnext( Self* onext );
+  void SetRot( Self* rot );
 
-  /** Sub-algebra get methods. */
-  /// NEXT edge with same Origin
-  /// (see \ref DoxyWalkingLocalShort "Accessing adjacent edges").
-  Self* GetOnext() { return( m_Onext ); }
-  Self* GetRot() { return( m_Rot ); }
-  const Self* GetOnext() const { return( m_Onext ); }
-  const Self* GetRot() const  { return( m_Rot ); }
+  /** Sub-algebra Get methods. 
+   *  NEXT edge with same Origin (see \ref DoxyWalkingLocalShort
+   *  "Accessing adjacent edges"). */
+  Self* GetOnext();
+  Self* GetRot();
+  const Self* GetOnext() const;
+  const Self* GetRot() const;
 
 
   //  Second order accessors.
 
-  /// SYMmetric edge
-  /// (see \ref DoxyWalkingLocalShort "Accessing adjacent edges").
+  /** SYMmetric edge
+   * (see \ref DoxyWalkingLocalShort "Accessing adjacent edges"). */
   Self* GetSym();
   const Self* GetSym() const; 
 
-  /// NEXT edge with same Left face
-  /// (see \ref DoxyWalkingLocalShort "Accessing adjacent edges").
+  /** NEXT edge with same Left face
+   * (see \ref DoxyWalkingLocalShort "Accessing adjacent edges"). */
   Self* GetLnext(); 
   const Self* GetLnext() const;
 
@@ -301,15 +315,18 @@ public:
   /// (see \ref DoxyWalkingLocalShort "Accessing adjacent edges").
   Self* GetRnext() { return( this->GetRot()->GetOnext()->GetInvRot() ); }
   const Self* GetRnext() const { return( this->GetRot()->GetOnext()->GetInvRot() ); }
+
   /// NEXT edge with same right face and same Destination [i.e. the
   /// first edge encountered when moving counter-clockwise from e
   /// (see \ref DoxyWalkingLocalShort "Accessing adjacent edges").
   Self* GetDnext() { return( this->GetSym()->GetOnext()->GetSym() ); }
   const Self* GetDnext() const { return( this->GetSym()->GetOnext()->GetSym() ); }
+
   /// PREVious edge with same Origin
   /// (see \ref DoxyWalkingLocalShort "Accessing adjacent edges").
   Self* GetOprev() { return( this->GetRot()->GetOnext()->GetRot() ); }
   const Self* GetOprev() const { return( this->GetRot()->GetOnext()->GetRot() ); }
+
   /// PREVious edge with same Left face [i.e. the first edge encountered
   /// when moving clockwise from e around e->Left ]
   /// (see \ref DoxyWalkingLocalShort "Accessing adjacent edges").
