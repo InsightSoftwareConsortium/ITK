@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.cxx
-// $Revision: 1.5 $
+// $Revision: 1.6 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-23 17:00:58 $
+// $Date: 2007-01-23 17:03:00 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -64,9 +64,9 @@ QuadEdge
 // ---------------------------------------------------------------------
 void 
 QuadEdge
-::SetONext( Self * next  )
+::SetOnext( Self * next  )
 {
-  this->m_Onext = onext; 
+  this->m_Onext = next; 
 }
 
 // ---------------------------------------------------------------------
@@ -80,7 +80,7 @@ QuadEdge
 // ---------------------------------------------------------------------
 QuadEdge * 
 QuadEdge
-::GetONext()
+::GetOnext()
 {
   return this->m_Onext; 
 }
@@ -96,7 +96,7 @@ QuadEdge
 // ---------------------------------------------------------------------
 const QuadEdge * 
 QuadEdge
-::GetONext() const
+::GetOnext() const
 {
   return this->m_Onext; 
 }
