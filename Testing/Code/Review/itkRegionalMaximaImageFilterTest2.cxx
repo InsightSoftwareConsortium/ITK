@@ -28,7 +28,6 @@
 #include "itkSimpleFilterWatcher.h"
 
 
-
 int itkRegionalMaximaImageFilterTest2(int argc, char * argv[])
 {
   const int dim = 2;
@@ -37,26 +36,27 @@ int itkRegionalMaximaImageFilterTest2(int argc, char * argv[])
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " Connection FlatIsMaxima InputImage OutputImageFile OutputImageFile2  " 
+    std::cerr << " Connection FlatIsMaxima InputImage OutputImageFile "
+              << " OutputImageFile2  " 
               << std::endl; 
     return EXIT_FAILURE;
     }
   
-  typedef unsigned char PType;
-  typedef itk::Image< PType, dim > IType;
+  typedef unsigned char                PixelType;
+  typedef itk::Image< PixelType, dim > ImageType;
 
-  typedef itk::ImageFileReader< IType > ReaderType;
+  typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[3] );
 
-  typedef itk::RegionalMaximaImageFilter< IType, IType > FilterType;
+  typedef itk::RegionalMaximaImageFilter< ImageType, ImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
   filter->SetFullyConnected( atoi(argv[1]) );
   filter->SetFlatIsMaxima( atoi(argv[2]) );
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  typedef itk::ImageFileWriter< IType > WriterType;
+  typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[4] );
@@ -64,7 +64,7 @@ int itkRegionalMaximaImageFilterTest2(int argc, char * argv[])
 
 
   // produce the same output with other filters
-  typedef itk::HConvexImageFilter< IType, IType > ConvexType;
+  typedef itk::HConvexImageFilter< ImageType, ImageType > ConvexType;
   ConvexType::Pointer convex = ConvexType::New();
   convex->SetInput( reader->GetOutput() );
   convex->SetFullyConnected( atoi(argv[1]) );
@@ -72,7 +72,7 @@ int itkRegionalMaximaImageFilterTest2(int argc, char * argv[])
 
   // convex gives maxima with value=1 and others with value=0
   // rescale the image so we have maxima=255 other=0
-  typedef itk::RescaleIntensityImageFilter< IType, IType > RescaleType;
+  typedef itk::RescaleIntensityImageFilter< ImageType, ImageType > RescaleType;
   RescaleType::Pointer rescale = RescaleType::New();
   rescale->SetInput( convex->GetOutput() );
   rescale->SetOutputMaximum( 255 );
@@ -85,4 +85,3 @@ int itkRegionalMaximaImageFilterTest2(int argc, char * argv[])
 
   return 0;
 }
-

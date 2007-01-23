@@ -28,7 +28,6 @@
 #include "itkCommand.h"
 #include "itkSimpleFilterWatcher.h"
 
-
 int itkRegionalMinimaImageFilterTest2(int argc, char * argv[])
 {
   const int dim = 2;
@@ -37,27 +36,28 @@ int itkRegionalMinimaImageFilterTest2(int argc, char * argv[])
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " Connection FlatIsMinima InputImage OutputImageFile OutputImageFile2  " 
+    std::cerr << " Connection FlatIsMinima InputImage OutputImageFile "
+              << " OutputImageFile2  " 
               << std::endl; 
     return EXIT_FAILURE;
     }
  
 
-  typedef unsigned char PType;
-  typedef itk::Image< PType, dim > IType;
+  typedef unsigned char                PixelType;
+  typedef itk::Image< PixelType, dim > ImageType;
 
-  typedef itk::ImageFileReader< IType > ReaderType;
+  typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[3] );
 
-  typedef itk::RegionalMinimaImageFilter< IType, IType > FilterType;
+  typedef itk::RegionalMinimaImageFilter< ImageType, ImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
   filter->SetFullyConnected( atoi(argv[1]) );
   filter->SetFlatIsMinima( atoi(argv[2]) );
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  typedef itk::ImageFileWriter< IType > WriterType;
+  typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[4] );
@@ -65,7 +65,7 @@ int itkRegionalMinimaImageFilterTest2(int argc, char * argv[])
 
 
   // produce the same output with other filters
-  typedef itk::HConcaveImageFilter< IType, IType > ConcaveType;
+  typedef itk::HConcaveImageFilter< ImageType, ImageType > ConcaveType;
   ConcaveType::Pointer concave = ConcaveType::New();
   concave->SetInput( reader->GetOutput() );
   concave->SetFullyConnected( atoi(argv[1]) );
@@ -73,7 +73,7 @@ int itkRegionalMinimaImageFilterTest2(int argc, char * argv[])
 
   // concave gives maxima with value=1 and others with value=0
   // rescale the image so we have maxima=255 other=0
-  typedef itk::RescaleIntensityImageFilter< IType, IType > RescaleType;
+  typedef itk::RescaleIntensityImageFilter< ImageType, ImageType > RescaleType;
   RescaleType::Pointer rescale = RescaleType::New();
   rescale->SetInput( concave->GetOutput() );
   rescale->SetOutputMaximum( 255 );
@@ -86,4 +86,3 @@ int itkRegionalMinimaImageFilterTest2(int argc, char * argv[])
 
   return EXIT_FAILURE;
 }
-

@@ -86,32 +86,21 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-
-
-  filter->SetUseBackground( true );
-
   // Exercising Background Value methods
-  filter->SetBackgroundValue( 200 );
-  if( filter->GetUseBackground() != true )
+  filter->SetBackgroundValue( 10 );
+  if( filter->GetBackgroundValue() != 10 )
     {
-    std::cerr << "UseBackground Set/Get Problem" << std::endl;
+    std::cerr << "Background value Set/Get Problem" << std::endl;
     return EXIT_FAILURE;
     }
- 
 
-  //Set the filter input and label images
-  filter->SetInput( reader->GetOutput() );
-  filter->SetLabelImage( reader2->GetOutput() );
-
-  
+  // Exercise set/get opacity values
   filter->SetOpacity( 2 );
   if( filter->GetOpacity() != 2 )
     {
     std::cerr << "Opacity Set/Get Problem" << std::endl;
     return EXIT_FAILURE;
     }
-
- 
   filter->SetOpacity( 3 );
   if( filter->GetOpacity() != 3 )
     {
@@ -120,6 +109,12 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
     }
 
 
+  //Set the filter input and label images
+  filter->SetInput( reader->GetOutput() );
+  filter->SetLabelImage( reader2->GetOutput() );
+  filter->SetUseBackground( true );
+  filter->SetBackgroundValue( 13 );
+  
   //Set opacity 
   filter->SetOpacity( atof(argv[3]) );
 
