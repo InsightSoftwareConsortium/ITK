@@ -1,7 +1,6 @@
 /*=========================================================================
 
-
-Program:   Insight Segmentation & Registration Toolkit
+  Program:   Insight Segmentation & Registration Toolkit
   Module:    itkPoint.txx
   Language:  C++
   Date:      $Date$
@@ -15,8 +14,9 @@ Program:   Insight Segmentation & Registration Toolkit
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPoint_txx
-#define _itkPoint_txx
+
+#ifndef __itkPoint_txx
+#define __itkPoint_txx
 #include "itkPoint.h" 
 #include <vnl/vnl_math.h>
 #include "itkObject.h"
@@ -26,7 +26,7 @@ namespace itk
 {
 
 
-/*
+/**
  * Assignment Operator
  */
 template<class T, unsigned int TPointDimension>
@@ -39,8 +39,8 @@ Point<T, TPointDimension>
 }
 
 
-/*
- * Assignemt from a plain array
+/**
+ * Assignment from a plain array
  */
 template<class T, unsigned int TPointDimension>
 Point<T, TPointDimension>&
@@ -52,7 +52,7 @@ Point<T, TPointDimension>
 }
 
 
-/*
+/**
  * In place increment by a vector
  */
 template<class T, unsigned int TPointDimension>
@@ -68,7 +68,7 @@ Point<T, TPointDimension>
 }
 
  
-/*
+/**
  * In place subtract a vector
  */
 template<class T, unsigned int TPointDimension>
@@ -101,8 +101,6 @@ Point<T, TPointDimension>
   return result;
 }
 
-
-
 /*
  * Subtract a vector, return a point
  */
@@ -118,8 +116,6 @@ Point<T, TPointDimension>
     }
   return result;
 }
-
-
 
 /*
  * Difference between two points
@@ -164,7 +160,7 @@ Point<T, TPointDimension>
                             const_cast<T*>(this->GetDataPointer()));
 }
 
-/*
+/**
  * Return a vnl_vector_ref
  */
 template<class T, unsigned int TPointDimension >
@@ -200,9 +196,7 @@ Point<T, TPointDimension>
   return &(*this)[0];
 }
 
-
-
-/*
+/**
  * Set the point to the median point of the two arguments
  */
 template<class T, unsigned int TPointDimension>
@@ -216,11 +210,7 @@ Point<T, TPointDimension>
     }
 }
 
-
-
-
-
-/*
+/**
  * Set the point to the barycentric combination of two points
  */
 template<class T, unsigned int TPointDimension>
@@ -238,9 +228,7 @@ Point<T, TPointDimension>
     }
 }
 
-
-
-/*
+/**
  * Set the point to the barycentric combination of three points
  */
 template<class T, unsigned int TPointDimension>
@@ -259,9 +247,7 @@ Point<T, TPointDimension>
     }
 }
 
-
-
-/*
+/**
  * Set the point to the barycentric combination of N points
  */
 template<class T, unsigned int TPointDimension>
@@ -278,21 +264,18 @@ Point<T, TPointDimension>
     weightSum += weight;
     for( unsigned int i=0; i<TPointDimension; i++) 
       {
-      (*this)[i] +=  weight * P[j][i];
+      (*this)[i] += weight * P[j][i];
       }
     }
   const double weight = ( 1.0 - weightSum );
   for( unsigned int i=0; i<TPointDimension; i++) 
     {
-    (*this)[i] +=  weight * P[N-1][i];
+    (*this)[i] += weight * P[N-1][i];
     }
 
 }
 
-
-
-
-/*
+/**
  * Set the point to the barycentric combination of N points in a Container
  */
 template< class TPointContainer, class TWeightContainer >
@@ -325,7 +308,7 @@ BarycentricCombination<TPointContainer,TWeightContainer>
     weightSum += weight;
     for( unsigned int i=0; i<PointDimension; i++) 
       {
-      barycentre[i] +=  weight * (point->Value())[i];
+      barycentre[i] += weight * (point->Value())[i];
       }
     point++;
     }
@@ -335,18 +318,14 @@ BarycentricCombination<TPointContainer,TWeightContainer>
   const double weight = ( 1.0 - weightSum );
   for( unsigned int i=0; i<PointDimension; i++) 
     {
-    barycentre[i] +=  weight * (last->Value())[i];
+    barycentre[i] += weight * (last->Value())[i];
     }
 
   return barycentre;
 
 }
 
-
-
-
-
-/*
+/**
  * Print content to an ostream
  */
 template<class T, unsigned int TPointDimension>
@@ -370,9 +349,7 @@ operator<<(std::ostream& os,const Point<T,TPointDimension> & vct )
   return os;
 }
 
-
-
-/*
+/**
  * Read content from an istream
  */
 template<class T, unsigned int TPointDimension>
@@ -386,9 +363,6 @@ operator>>(std::istream& is, Point<T,TPointDimension> & vct )
   return is;
 }
 
-
-
 } // end namespace itk
-
 
 #endif

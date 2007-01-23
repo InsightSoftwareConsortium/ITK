@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPhasedArray3DSpecialCoordinatesImage_txx
-#define _itkPhasedArray3DSpecialCoordinatesImage_txx
+#ifndef __itkPhasedArray3DSpecialCoordinatesImage_txx
+#define __itkPhasedArray3DSpecialCoordinatesImage_txx
 #include "itkPhasedArray3DSpecialCoordinatesImage.h"
 
 namespace itk
@@ -34,10 +34,21 @@ PhasedArray3DSpecialCoordinatesImage<TPixel>
 {
   Superclass::PrintSelf(os,indent);
   
-  os << indent << "m_RadiusSampleSize = "<<m_RadiusSampleSize<<std::endl;
-  os << indent << "m_AzimuthAngularSeparation = "<<m_AzimuthAngularSeparation<<std::endl;
-  os << indent << "m_ElevationAngularSeparation = "<<m_ElevationAngularSeparation<<std::endl;
-  os << indent << "m_FirstSampleDistance = "<<m_FirstSampleDistance<<std::endl;
+  os << indent
+     << "m_RadiusSampleSize = " << m_RadiusSampleSize
+     << std::endl;
+  os << indent
+     << "m_AzimuthAngularSeparation = "
+     << m_AzimuthAngularSeparation
+     << std::endl;
+  os << indent
+     << "m_ElevationAngularSeparation = "
+     << m_ElevationAngularSeparation
+     << std::endl;
+  os << indent 
+     << "m_FirstSampleDistance = "
+     << m_FirstSampleDistance
+     << std::endl;
 }
 
 

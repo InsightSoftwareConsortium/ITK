@@ -28,7 +28,8 @@ namespace itk
 {
 
 /** \class PhasedArray3DSpecialCoordinatesImage
- *  \brief Templated 3D nonrectilinear-coordinate image class for phased-array "range" images.
+ *  \brief Templated 3D nonrectilinear-coordinate image class for
+ *  phased-array "range" images.
  *
  * y-axis <--------------------+
  *                             |\
@@ -42,11 +43,12 @@ namespace itk
  *                             v z-axis
  * 
  * 
- * In a phased array "range" image, a point in space is represented by the angle
- * between its projection onto the x-z plane and the z-axis (the azimuth
- * coordinate), the angle between its projection onto the y-z plane and the
- * z-axis (the elevation coordinate), and by its distance from the origin
- * (the radius).  See the diagram above, which illustrates elevation.
+ * In a phased array "range" image, a point in space is represented by
+ * the angle  between its projection onto the x-z plane and the z-axis
+ * (the azimuth coordinate), the angle between its projection onto the
+ * y-z plane and the z-axis (the elevation coordinate), and by its
+ * distance from the origin (the radius).  See the diagram above,
+ * which illustrates elevation.
  * 
  * The equations form performing the conversion from Cartesian coordinates to
  * 3D phased array coordinates are as follows:
@@ -61,23 +63,26 @@ namespace itk
  * x = z * vcl_tan(azimuth)
  * y = z * vcl_tan(elevation)
  * 
- * PhasedArray3DSpecialCoordinatesImages are templated over a pixel type and
- * follow the SpecialCoordinatesImage interface.  The data in an image is
- * arranged in a 1D array as [radius-index][elevation-index][azimuth-index] with
- * azimuth-index varying most rapidly.  The Index type reverses the order so
- * that Index[0] = azimuth-index, Index[1] = elevation-index, and
- * Index[2] = radius-index.
+ * PhasedArray3DSpecialCoordinatesImages are templated over a pixel
+ * type and follow the SpecialCoordinatesImage interface.  The data in
+ * an image is  arranged in a 1D array as
+ * [radius-index][elevation-index][azimuth-index] with azimuth-index
+ * varying most rapidly.  The Index type reverses the order so that
+ * Index[0] = azimuth-index, Index[1] = elevation-index, and Index[2]
+ * = radius-index.
  * 
- * Azimuth is discretized into m_AzimuthAngularSeparation intervals per angular
- * voxel, the most negative azimuth interval containing data is then mapped to
- * azimuth-index=0, and the largest azimuth interval containing data is then
- * mapped to azimuth-index=( number of samples along azimuth axis - 1 ).
- * Elevation is discretized in the same manner.  This way, the mapping to
- * Cartesian space is symmetric about the z axis such that the line defined by
+ * Azimuth is discretized into m_AzimuthAngularSeparation intervals
+ * per angular voxel, the most negative azimuth interval containing
+ * data is then mapped to azimuth-index=0, and the largest azimuth
+ * interval containing data is then mapped to azimuth-index=( number
+ * of samples along azimuth axis - 1 ). Elevation is discretized in
+ * the same manner.  This way, the mapping to Cartesian space is
+ * symmetric about the z axis such that the line defined by
  * azimuth/2,elevation/2 = z-axis.  Radius is discretized into
- * m_RadiusSampleSize units per angular voxel.  The smallest range interval
- * containing data is then mapped to radius-index=0, such that
- * radius = m_FirstSampleDistance + (radius-index * m_RadiusSampleSize).
+ * m_RadiusSampleSize units per angular voxel.  The smallest range
+ * interval containing data is then mapped to radius-index=0, such
+ * that radius = m_FirstSampleDistance + (radius-index *
+ * m_RadiusSampleSize).
  *
  * \sa SpecialCoordinatesImage
  *
@@ -88,11 +93,11 @@ public SpecialCoordinatesImage<TPixel,3>
 {
 public:
   /** Standard class typedefs */
-  typedef PhasedArray3DSpecialCoordinatesImage            Self;
-  typedef SpecialCoordinatesImage<TPixel,3> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  typedef WeakPointer<const Self>  ConstWeakPointer;
+  typedef PhasedArray3DSpecialCoordinatesImage Self;
+  typedef SpecialCoordinatesImage<TPixel,3>    Superclass;
+  typedef SmartPointer<Self>                   Pointer;
+  typedef SmartPointer<const Self>             ConstPointer;
+  typedef WeakPointer<const Self>              ConstWeakPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -105,7 +110,7 @@ public:
   typedef TPixel PixelType;
 
   /** Typedef alias for PixelType */
-  typedef TPixel ValueType ;
+  typedef TPixel ValueType;
 
   /** Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
@@ -142,17 +147,23 @@ public:
   /** Size typedef support. A size is used to define region bounds. */
   typedef typename Superclass::SizeType   SizeType;
 
-  /** Region typedef support. A region is used to specify a subset of an image. */
+  /** Region typedef support. A region is used to specify a subset of
+   *  an image.
+   */
   typedef typename Superclass::RegionType RegionType;
 
-  /** Spacing typedef support.  Spacing holds the "fake" size of a pixel, making
-   * each pixel look like a 1 unit hyper-cube to filters that were designed for
-   * normal images and that therefore use m_Spacing.  The spacing is the
-   * geometric distance between image samples. */
+  /** Spacing typedef support.  Spacing holds the "fake" size of a
+   *  pixel, making each pixel look like a 1 unit hyper-cube to filters
+   *  that were designed for normal images and that therefore use
+   *  m_Spacing.  The spacing is the geometric distance between image
+   *  samples.
+   */
   typedef typename Superclass::SpacingType SpacingType;
 
-  /** Origin typedef support.  The origin is the "fake" geometric coordinates
-   * of the index (0,0).  Also for use w/ filters designed for normal images. */
+  /** Origin typedef support.  The origin is the "fake" geometric
+   *  coordinates of the index (0,0).  Also for use w/ filters designed
+   *  for normal images.
+   */
   typedef typename Superclass::PointType PointType;
 
   /** A pointer to the pixel container. */
@@ -216,12 +227,15 @@ public:
                                 + point[2] * point[2] );
     
     // Convert the "proper" angular coordinates into index format
-    index[0] = static_cast<IndexValueType>( (azimuth/m_AzimuthAngularSeparation)
-                                            + (maxAzimuth/2.0) );
-    index[1] = static_cast<IndexValueType>( (elevation/m_ElevationAngularSeparation)
-                                            + (maxElevation/2.0) );
-    index[2] = static_cast<IndexValueType>( ( (radius-m_FirstSampleDistance)
-                                                  / m_RadiusSampleSize ) );
+    index[0] = static_cast<IndexValueType>(
+      (azimuth/m_AzimuthAngularSeparation)
+      + (maxAzimuth/2.0) );
+    index[1] = static_cast<IndexValueType>(
+      (elevation/m_ElevationAngularSeparation)
+      + (maxElevation/2.0) );
+    index[2] = static_cast<IndexValueType>(
+      ((radius-m_FirstSampleDistance)
+       / m_RadiusSampleSize ) );
     
     // Now, check to see if the index is within allowed bounds
     const bool isInside = region.IsInside( index );
@@ -253,7 +267,9 @@ public:
     TCoordRep tanOfAzimuth    = vcl_tan(azimuth);
     TCoordRep tanOfElevation  = vcl_tan(elevation);
     point[2] = static_cast<TCoordRep>( radius /
-           vcl_sqrt(1 + tanOfAzimuth*tanOfAzimuth + tanOfElevation*tanOfElevation));
+           vcl_sqrt(1 +
+                    tanOfAzimuth*tanOfAzimuth +
+                    tanOfElevation*tanOfElevation));
     point[1] = static_cast<TCoordRep>( point[2] * tanOfElevation );
     point[0] = static_cast<TCoordRep>( point[2] * tanOfAzimuth );
     }
@@ -273,18 +289,22 @@ public:
     double maxElevation =  region.GetSize(1) - 1;
     
     // Convert the index into proper angular coordinates
-    TCoordRep azimuth   = ( static_cast<double>(index[0]) - (maxAzimuth/2.0) )
-                          * m_AzimuthAngularSeparation;
-    TCoordRep elevation = ( static_cast<double>(index[1]) - (maxElevation/2.0) )
-                          * m_ElevationAngularSeparation;
-    TCoordRep radius    = (static_cast<double>(index[2]) * m_RadiusSampleSize)
-                          + m_FirstSampleDistance;
+    TCoordRep azimuth = 
+      (static_cast<double>(index[0]) - (maxAzimuth/2.0) )
+      * m_AzimuthAngularSeparation;
+    TCoordRep elevation =
+      (static_cast<double>(index[1]) - (maxElevation/2.0) )
+      * m_ElevationAngularSeparation;
+    TCoordRep radius =
+      (static_cast<double>(index[2]) * m_RadiusSampleSize)
+      + m_FirstSampleDistance;
     
     // Convert the angular coordinates into Cartesian coordinates
     TCoordRep tanOfAzimuth    = vcl_tan(azimuth);
     TCoordRep tanOfElevation  = vcl_tan(elevation);
-    point[2] = static_cast<TCoordRep>( radius / vcl_sqrt(
-            1.0 + tanOfAzimuth*tanOfAzimuth + tanOfElevation*tanOfElevation) );
+    point[2] = static_cast<TCoordRep>(
+      radius / vcl_sqrt(
+        1.0 + tanOfAzimuth*tanOfAzimuth + tanOfElevation*tanOfElevation) );
     point[1] = static_cast<TCoordRep>( point[2] * tanOfElevation );
     point[0] = static_cast<TCoordRep>( point[2] * tanOfAzimuth );
     }
@@ -306,7 +326,7 @@ protected:
   PhasedArray3DSpecialCoordinatesImage()
     {
     m_RadiusSampleSize = 1;
-    m_AzimuthAngularSeparation =    1 * (2.0*vnl_math::pi/360.0); // 1 degree
+    m_AzimuthAngularSeparation   =  1 * (2.0*vnl_math::pi/360.0); // 1 degree
     m_ElevationAngularSeparation =  1 * (2.0*vnl_math::pi/360.0); // 1 degree
     m_FirstSampleDistance = 0;
     }
@@ -314,7 +334,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
   
 private:
-  PhasedArray3DSpecialCoordinatesImage(const Self&); //purposely not implemented
+  PhasedArray3DSpecialCoordinatesImage(const Self&);//purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   double  m_AzimuthAngularSeparation;   // in radians
@@ -329,4 +349,3 @@ private:
 #endif
 
 #endif
-
