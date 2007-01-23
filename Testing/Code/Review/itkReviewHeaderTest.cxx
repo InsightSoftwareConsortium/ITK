@@ -42,7 +42,7 @@
 #include "itkBinaryProjectionImageFilter.h"
 #include "itkBinaryThresholdProjectionImageFilter.h"
 #include "itkProjectionImageFilter.h"
-#include "itkStandardDeviationImageFilter.h"
+#include "itkStandardDeviationProjectionImageFilter.h"
 
 #include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
 #include "itkQuadEdgeMeshFrontIterator.h"
