@@ -29,6 +29,7 @@ SET(ReviewTest_SRCS
   itkTDistributionTest.cxx
   itkLabelOverlayImageFilterTest.cxx
   itkQuadEdgeTest1.cxx
+  itkGeometricalQuadEdgeTest1.cxx
   itkQuadEdgeMeshAddFaceTest1.cxx
   itkQuadEdgeMeshAddFaceTest2.cxx
   itkQuadEdgeMeshBasicLayerTest.cxx
@@ -77,6 +78,7 @@ ADD_TEST(itkGaussianDistributionTest ${REVIEW_TESTS}
   )
 ADD_TEST(itkTDistributionTest ${REVIEW_TESTS} itkTDistributionTest)
 ADD_TEST(itkQuadEdgeTest1 ${REVIEW_TESTS} itkQuadEdgeTest1)
+ADD_TEST(itkGeometricalQuadEdgeTest1 ${REVIEW_TESTS} itkGeometricalQuadEdgeTest1)
 ADD_TEST(itkQuadEdgeMeshAddFaceTest1 ${REVIEW_TESTS} itkQuadEdgeMeshAddFaceTest1)
 ADD_TEST(itkQuadEdgeMeshAddFaceTest2 ${REVIEW_TESTS} itkQuadEdgeMeshAddFaceTest2)
 ADD_TEST(itkQuadEdgeMeshBasicLayerTest ${REVIEW_TESTS} itkQuadEdgeMeshBasicLayerTest)
