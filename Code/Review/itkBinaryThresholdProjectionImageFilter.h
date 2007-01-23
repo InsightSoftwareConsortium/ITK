@@ -54,7 +54,7 @@ public:
   BinaryThresholdAccumulator( unsigned long size ) {}
   ~BinaryThresholdAccumulator(){}
 
-  inline void Init()
+  inline void Initialize()
     {
     m_IsForeground = false;
     }
@@ -184,6 +184,7 @@ protected:
     AccumulatorType accumulator( size );
     accumulator.m_ForegroundValue = m_ForegroundValue;
     accumulator.m_BackgroundValue = m_BackgroundValue;
+    accumulator.m_ThresholdValue = m_ThresholdValue;
     return accumulator;
     }
 
