@@ -193,6 +193,35 @@ int itkQuadEdgeTest1( int , char* [] )
   std::cout << "GetSym() Test passed ! " << std::endl;
   }
 
+ 
+  // Tests for the GetLnext() methods
+  { // create a local scope for these tests
+  QuadEdgeType * quadEdge1 = new QuadEdgeType;
+  QuadEdgeType * quadEdge2 = new QuadEdgeType;
+  QuadEdgeType * quadEdge3 = new QuadEdgeType;
+  QuadEdgeType * quadEdge4 = new QuadEdgeType;
+  const QuadEdgeType * quadEdge1c = quadEdge1;
+  const QuadEdgeType * quadEdge2c = quadEdge2;
+  const QuadEdgeType * quadEdge3c = quadEdge3;
+  const QuadEdgeType * quadEdge4c = quadEdge4;
+
+  quadEdge1->GetLnext(); // testing null case
+
+  quadEdge1->SetRot( quadEdge2 );
+  quadEdge2->SetRot( quadEdge3 );
+  quadEdge3->SetRot( quadEdge4 );
+  quadEdge4->SetRot( quadEdge1 );
+
+  delete quadEdge1;
+  delete quadEdge2;
+  delete quadEdge3;
+  delete quadEdge4;
+
+  std::cout << "GetLnext() Test passed ! " << std::endl;
+  }
+
+
+
   return EXIT_SUCCESS;
 }
 
