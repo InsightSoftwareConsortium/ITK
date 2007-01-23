@@ -28,6 +28,7 @@ int itkQuadEdgeTest1( int , char* [] )
   QuadEdgeType * quadEdge1 = new QuadEdgeType;
   QuadEdgeType * quadEdge2 = new QuadEdgeType;
   QuadEdgeType * quadEdge3 = new QuadEdgeType;
+  const QuadEdgeType * quadEdge1c = quadEdge1;
 
   quadEdge1->GetRot();
 
@@ -38,6 +39,13 @@ int itkQuadEdgeTest1( int , char* [] )
     std::cerr << "Error in SetRot() / GetRot() " << std::endl;
     return EXIT_FAILURE;
     }
+  // Test the const version
+  if( quadEdge1c->GetRot() != quadEdge2 )
+    {
+    std::cerr << "Error in SetRot() / GetRot() " << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   // Verify that it can be changed.
   quadEdge1->SetRot( quadEdge3 );
@@ -46,6 +54,13 @@ int itkQuadEdgeTest1( int , char* [] )
     std::cerr << "Error in SetRot() / GetRot() " << std::endl;
     return EXIT_FAILURE;
     }
+  // Test the const version
+  if( quadEdge1c->GetRot() != quadEdge2 )
+    {
+    std::cerr << "Error in SetRot() / GetRot() " << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   std::cout << "Test passed" << std::endl;
 
@@ -59,6 +74,7 @@ int itkQuadEdgeTest1( int , char* [] )
   QuadEdgeType * quadEdge1 = new QuadEdgeType;
   QuadEdgeType * quadEdge2 = new QuadEdgeType;
   QuadEdgeType * quadEdge3 = new QuadEdgeType;
+  const QuadEdgeType * quadEdge1c = quadEdge1;
 
   quadEdge1->GetOnext();
 
@@ -69,6 +85,13 @@ int itkQuadEdgeTest1( int , char* [] )
     std::cerr << "Error in SetOnext() / GetOnext() " << std::endl;
     return EXIT_FAILURE;
     }
+  // Test the const version
+  if( quadEdge1c->GetOnext() != quadEdge2 )
+    {
+    std::cerr << "Error in SetOnext() / GetOnext() " << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   // Verify that it can be changed.
   quadEdge1->SetOnext( quadEdge3 );
@@ -77,6 +100,13 @@ int itkQuadEdgeTest1( int , char* [] )
     std::cerr << "Error in SetOnext() / GetOnext() " << std::endl;
     return EXIT_FAILURE;
     }
+  // Test the const version
+  if( quadEdge1c->GetOnext() != quadEdge2 )
+    {
+    std::cerr << "Error in SetOnext() / GetOnext() " << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   std::cout << "Test passed" << std::endl;
 
