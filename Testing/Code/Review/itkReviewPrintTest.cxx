@@ -25,6 +25,7 @@
 
 #include "itkMinimumProjectionImageFilter.h"
 #include "itkBinaryProjectionImageFilter.h"
+#include "itkBinaryThresholdProjectionImageFilter.h"
 #include "itkMedianProjectionImageFilter.h"
 #include "itkSumProjectionImageFilter.h"
 #include "itkStandardDeviationProjectionImageFilter.h"
@@ -118,6 +119,12 @@ int main(int , char* [])
     itk::BinaryProjectionImageFilter<InputType,InputType>::New();
   std:: cout << "-------------BinaryProjectionImageFilterObj "
              << BinaryProjectionImageFilterObj;
+
+  itk::BinaryThresholdProjectionImageFilter<InputType,InputType>::Pointer
+    BinaryThresholdProjectionImageFilterObj =
+    itk::BinaryThresholdProjectionImageFilter<InputType,InputType>::New();
+  std:: cout << "-------------BinaryThresholdProjectionImageFilterObj "
+             << BinaryThresholdProjectionImageFilterObj;
 
   itk::ValuedRegionalMaximaImageFilter<InputType,InputType>::Pointer
     ValuedRegionalMaximaImageFilterObj =

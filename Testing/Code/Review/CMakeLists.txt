@@ -49,6 +49,7 @@ SET(ReviewTest_SRCS
   itkMinimumProjectionImageFilterTest.cxx
   itkStandardDeviationProjectionImageFilterTest.cxx  
   itkBinaryProjectionImageFilterTest.cxx  
+  itkBinaryThresholdProjectionImageFilterTest.cxx  
   itkProjectionImageFilterTest.cxx  
 
   itkValuedRegionalMinimaImageFilterTest.cxx
@@ -204,6 +205,17 @@ ADD_TEST(itkBinaryProjectionImageFilterTest2 ${REVIEW_TESTS}
                   ${TEMP}/HeadMRVolumeBinaryProjection200.tif
                   200
                   0)
+
+ADD_TEST(itkBinaryThresholdProjectionImageFilterTest ${REVIEW_TESTS}
+        --compare ${BASELINE}/HeadMRVolumeBinaryThresholdProjection.tif
+                  ${TEMP}/HeadMRVolumeBinaryThresholdProjection.tif
+                  itkBinaryThresholdProjectionImageFilterTest
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeBinaryThresholdProjection.tif
+                  100
+                  255
+                  0)
+
 
 ADD_TEST(itkNeuralNetworkIOTest ${REVIEW_TESTS}
                   itkNeuralNetworkIOTest

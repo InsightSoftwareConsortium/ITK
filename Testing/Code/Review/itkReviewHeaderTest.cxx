@@ -28,7 +28,6 @@
 #include "itkProbabilityDistribution.h"
 #include "itkTDistribution.h"
 
-#include "itkBinaryProjectionImageFilter.h"
 #include "itkContourExtractor2DImageFilter.h"
 #include "itkFlatStructuringElement.h"
 #include "itkImageToPathFilter.h"
@@ -41,7 +40,7 @@
 #include "itkMedianProjectionImageFilter.h"
 #include "itkMinimumProjectionImageFilter.h"
 #include "itkBinaryProjectionImageFilter.h"
-#include "itkProbabilityDistribution.h"
+#include "itkBinaryThresholdProjectionImageFilter.h"
 #include "itkProjectionImageFilter.h"
 #include "itkStandardDeviationImageFilter.h"
 
