@@ -52,67 +52,17 @@ double vnl_brent::minimize_given_bounds(double ax, double bx, double cx,
                                         double tol,
                                         double *xmin)
 {
-  int iter;
-  double a,b,d=0.0,etemp,fu,fv,fw,fx,p1,q,r,tol1,tol2,u,v,w,x,xm;
-  double e=0.0;
-
-  a=(ax < cx ? ax : cx);
-  b=(ax > cx ? ax : cx);
-  x=w=v=bx;
-  fw=fv=fx=p->f(x);
-  if (verbose_) vcl_cerr << "vnl_brent f("<<x<<") \t= "<<fx <<'\n';
-  for (iter=1;iter<=ITMAX;iter++)
-  {
-    xm=0.5*(a+b);
-    tol1=tol*vcl_fabs(x)+ZEPS;
-    tol2=2.0*(tol1);
-    if (vcl_fabs(x-xm) <= (tol2-0.5*(b-a))) {
-      *xmin=x;
-      return fx;
-    }
-    if (vcl_fabs(e) > tol1) {
-      r=(x-w)*(fx-fv);
-      q=(x-v)*(fx-fw);
-      p1=(x-v)*q-(x-w)*r;
-      q=2.0*(q-r);
-      if (q > 0.0) p1 = -p1;
-      q=vcl_fabs(q);
-      etemp=e;
-      e=d; // Warning: The variable d has not yet been assigned a value.
-      if (vcl_fabs(p1) >= vcl_fabs(0.5*q*etemp) || p1 <= q*(a-x) || p1 >= q*(b-x))
-        d=CGOLD*(e=(x >= xm ? a-x : b-x));
-      else {
-        d=p1/q;
-        u=x+d;
-        if (u-a < tol2 || b-u < tol2)
-          d=tol1 * vnl_math_sgn(xm-x);
-      }
-    } else {
-      d=CGOLD*(e=(x >= xm ? a-x : b-x));
-    }
-    u=(vcl_fabs(d) >= tol1 ? x+d : x + tol1 * vnl_math_sgn(d));
-    fu= p->f(u);
-    if (verbose_) vcl_cerr << "vnl_brent f("<<u<<") \t= "<<fu <<'\n';
-    if (fu <= fx) {
-      if (u >= x) a=x; else b=x;
-      SHFT(&v,&w,&x,u);
-      SHFT(&fv,&fw,&fx,fu);
-    } else {
-      if (u < x) a=u; else b=u;
-      if (fu <= fw || w == x) {
-        v=w;
-        w=u;
-        fv=fw;
-        fw=fu;
-      } else if (fu <= fv || v == x || v == w) {
-        v=u;
-        fv=fu;
-      }
-    }
-  }
-  vcl_cerr << "Too many iterations in brent\n";
-  *xmin=x;
-  return fx;
+  //
+  // This code has been removed after it was pointed out
+  // to ITK developers that it was a copy of code from
+  // Numerical Recipies. January 23 2007
+  //
+  // The distribution license of numerical recipies is not
+  // compatible with the BSD-License used by ITK.
+  // 
+  vcl_cerr << "vnl_brent::minimize_given_bounds TEMPORARILY DISABLED\n";
+  *xmin=0.0;
+  return 0.0;
 }
 
 double vnl_brent::minimize_given_bounds_and_1st_f(double ax, double bx,
@@ -127,7 +77,8 @@ double vnl_brent::minimize_given_bounds_and_1st_f(double ax, double bx,
   // The distribution license of numerical recipies is not
   // compatible with the BSD-License used by ITK.
   // 
-  vcl_cerr << "vnl_brent::bracket_minimum TEMPORARILY DISABLED\n";
+  vcl_cerr << "vnl_brent::minimize_given_bounds_and_1st_f TEMPORARILY DISABLED\n";
+  return 0.0;
 }
 
 
