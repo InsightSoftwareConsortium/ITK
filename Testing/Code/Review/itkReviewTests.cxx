@@ -49,7 +49,7 @@ void RegisterTests()
   REGISTER_TEST(itkMeanProjectionImageFilterTest);
   REGISTER_TEST(itkMedianProjectionImageFilterTest);
   REGISTER_TEST(itkMinimumProjectionImageFilterTest);
-  REGISTER_TEST(itkSigmaProjectionImageFilterTest);
+  REGISTER_TEST(itkStandardDeviationProjectionImageFilterTest);
   REGISTER_TEST(itkBinaryProjectionImageFilterTest);
   REGISTER_TEST(itkProjectionImageFilterTest);
 

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSigmaProjectionImageFilter.h
+  Module:    itkStandardDeviationProjectionImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,18 +14,23 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSigmaProjectionImageFilter_h
-#define __itkSigmaProjectionImageFilter_h
+#ifndef __itkStandardDeviationProjectionImageFilter_h
+#define __itkStandardDeviationProjectionImageFilter_h
 
 #include "itkProjectionImageFilter.h"
 #include "itkNumericTraits.h"
 
 namespace itk {
-/** \class SigmaProjectionImageFilter
+/** \class StandardDeviationProjectionImageFilter
  * \brief Mean projection
  * 
- * This class was contributed to Insight Journal by
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * This class was contributed to Insight Journal by Gaetan Lehman
+ * 
+ * \author Gaetan Lehmann. Biologie du Développement et de la Reproduction, 
+ * INRA de Jouy-en-Josas, France.
+ * 
+ * The original contribution can be found at 
+ *
  *    http://hdl.handle.net/1926/164 
  *
  * 
@@ -42,17 +47,17 @@ namespace itk {
 
 namespace Function {
 template <class TInputPixel, class TAccumulate>
-class SigmaAccumulator
+class StandardDeviationAccumulator
 {
 public:
   typedef typename NumericTraits<TInputPixel>::RealType RealType;
 
-  SigmaAccumulator( unsigned long size )
+  StandardDeviationAccumulator( unsigned long size )
     {
     m_Size = size;
     m_Values.reserve( size );
     }
-  ~SigmaAccumulator(){}
+  ~StandardDeviationAccumulator(){}
 
   inline void Init()
     {
@@ -91,35 +96,35 @@ public:
 
 
 template <class TInputImage, class TOutputImage, class TAccumulate= ITK_TYPENAME NumericTraits< ITK_TYPENAME TOutputImage::PixelType >::AccumulateType >
-class ITK_EXPORT SigmaProjectionImageFilter :
+class ITK_EXPORT StandardDeviationProjectionImageFilter :
     public
     ProjectionImageFilter<TInputImage, TOutputImage,
-      Function::SigmaAccumulator< ITK_TYPENAME TInputImage::PixelType, TAccumulate > >
+      Function::StandardDeviationAccumulator< ITK_TYPENAME TInputImage::PixelType, TAccumulate > >
 {
 public:
-  typedef SigmaProjectionImageFilter Self;
+  typedef StandardDeviationProjectionImageFilter Self;
   typedef ProjectionImageFilter<TInputImage, TOutputImage, 
-    Function::SigmaAccumulator< typename TInputImage::PixelType, TAccumulate > > Superclass;
+    Function::StandardDeviationAccumulator< typename TInputImage::PixelType, TAccumulate > > Superclass;
 
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Runtime information support. */
-  itkTypeMacro(SigmaProjectionImageFilter, ProjectionImageFilter);
+  itkTypeMacro(StandardDeviationProjectionImageFilter, ProjectionImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
 
 protected:
-  SigmaProjectionImageFilter() {}
-  virtual ~SigmaProjectionImageFilter() {}
+  StandardDeviationProjectionImageFilter() {}
+  virtual ~StandardDeviationProjectionImageFilter() {}
 
 private:
-  SigmaProjectionImageFilter(const Self&); //purposely not implemented
+  StandardDeviationProjectionImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-}; // end SigmaProjectionImageFilter
+}; // end StandardDeviationProjectionImageFilter
 
 } //end namespace itk
 

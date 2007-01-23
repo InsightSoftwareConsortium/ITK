@@ -27,7 +27,7 @@
 #include "itkBinaryProjectionImageFilter.h"
 #include "itkMedianProjectionImageFilter.h"
 #include "itkSumProjectionImageFilter.h"
-#include "itkSigmaProjectionImageFilter.h"
+#include "itkStandardDeviationProjectionImageFilter.h"
 #include "itkMeanProjectionImageFilter.h"
 #include "itkMaximumProjectionImageFilter.h"
 
@@ -107,11 +107,11 @@ int main(int , char* [])
   std:: cout << "-------------SumProjectionImageFilterObj "
              << SumProjectionImageFilterObj;
 
-  itk::SigmaProjectionImageFilter<InputType,InputType>::Pointer
-    SigmaProjectionImageFilterObj =
-    itk::SigmaProjectionImageFilter<InputType,InputType>::New();
-  std:: cout << "-------------SigmaProjectionImageFilterObj "
-             << SigmaProjectionImageFilterObj;
+  itk::StandardDeviationProjectionImageFilter<InputType,InputType>::Pointer
+    StandardDeviationProjectionImageFilterObj =
+    itk::StandardDeviationProjectionImageFilter<InputType,InputType>::New();
+  std:: cout << "-------------StandardDeviationProjectionImageFilterObj "
+             << StandardDeviationProjectionImageFilterObj;
 
   itk::BinaryProjectionImageFilter<InputType,InputType>::Pointer
     BinaryProjectionImageFilterObj =

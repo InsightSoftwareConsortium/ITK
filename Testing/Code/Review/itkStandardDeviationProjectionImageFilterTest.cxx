@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSigmaProjectionImageFilterTest.cxx
+  Module:    itkStandardDeviationProjectionImageFilterTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -20,10 +20,10 @@
 #include "itkCommand.h"
 #include "itkSimpleFilterWatcher.h"
 
-#include "itkSigmaProjectionImageFilter.h"
+#include "itkStandardDeviationProjectionImageFilter.h"
 
 
-int itkSigmaProjectionImageFilterTest(int argc, char * argv[])
+int itkStandardDeviationProjectionImageFilterTest(int argc, char * argv[])
 {
   if( argc < 3 )
     {
@@ -42,7 +42,7 @@ int itkSigmaProjectionImageFilterTest(int argc, char * argv[])
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::SigmaProjectionImageFilter< ImageType, ImageType > FilterType;
+  typedef itk::StandardDeviationProjectionImageFilter< ImageType, ImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
 

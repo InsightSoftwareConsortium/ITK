@@ -47,7 +47,7 @@ SET(ReviewTest_SRCS
   itkMeanProjectionImageFilterTest.cxx
   itkMedianProjectionImageFilterTest.cxx
   itkMinimumProjectionImageFilterTest.cxx
-  itkSigmaProjectionImageFilterTest.cxx  
+  itkStandardDeviationProjectionImageFilterTest.cxx  
   itkBinaryProjectionImageFilterTest.cxx  
   itkProjectionImageFilterTest.cxx  
 
@@ -164,12 +164,12 @@ ADD_TEST(itkMeanProjectionImageFilterTest ${REVIEW_TESTS}
                   ${INPUTDATA}/HeadMRVolume.mhd
                   ${TEMP}/HeadMRVolumeMeanProjection.tif)
 
-ADD_TEST(itkSigmaProjectionImageFilterTest ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeSigmaProjection.tif
-                  ${TEMP}/HeadMRVolumeSigmaProjection.tif
-                  itkSigmaProjectionImageFilterTest
+ADD_TEST(itkStandardDeviationProjectionImageFilterTest ${REVIEW_TESTS}
+        --compare ${BASELINE}/HeadMRVolumeStandardDeviationProjection.tif
+                  ${TEMP}/HeadMRVolumeStandardDeviationProjection.tif
+                  itkStandardDeviationProjectionImageFilterTest
                   ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeSigmaProjection.tif)
+                  ${TEMP}/HeadMRVolumeStandardDeviationProjection.tif)
 
 ADD_TEST(itkSumProjectionImageFilterTest ${REVIEW_TESTS}
         --compare ${BASELINE}/HeadMRVolumeSumProjection.tif

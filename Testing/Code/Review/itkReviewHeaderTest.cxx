@@ -35,6 +35,7 @@
 #include "itkLabelOverlayImageFilter.h"
 #include "itkLabelToRGBFunctor.h"
 #include "itkLabelToRGBImageFilter.h"
+
 #include "itkMaximumProjectionImageFilter.h"
 #include "itkMeanProjectionImageFilter.h"
 #include "itkMedianProjectionImageFilter.h"
@@ -42,6 +43,7 @@
 #include "itkBinaryProjectionImageFilter.h"
 #include "itkProbabilityDistribution.h"
 #include "itkProjectionImageFilter.h"
+#include "itkStandardDeviationImageFilter.h"
 
 #include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
 #include "itkQuadEdgeMeshFrontIterator.h"
