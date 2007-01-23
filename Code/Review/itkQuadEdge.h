@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.h
-// $Revision: 1.6 $
+// $Revision: 1.7 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-23 17:29:53 $
+// $Date: 2007-01-23 17:49:06 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -206,29 +206,6 @@
   const pt* GetInvDnext() const                                         \
     {                                                                   \
     return( dynamic_cast< const pt* >( this->st::GetInvDnext() ) );     \
-    }
-
-// -------------------------------------------------------------------------
-/** Macro that defines the method that creates a complete definition
- * of a quad-edge: The Onext ring and the Rot sub-algebra.
- *
- * \param pt Primal edge type.
- * \param dt Dual edge type.
- */
-#define itkQEMakeEdgeMacro( pt, dt )    \
-    virtual void MakeEdge()            \
-    {                                   \
-        pt* e2 = new pt();             \
-        dt* e1 = new dt();             \
-        dt* e3 = new dt();             \
-        this->SetRot( e1 );             \
-        e1->SetRot( e2 );               \
-        e2->SetRot( e3 );               \
-        e3->SetRot( this );             \
-        this->SetOnext( this );         \
-        e1->SetOnext( e3 );             \
-        e2->SetOnext( e2 );             \
-        e3->SetOnext( e1 );             \
     }
 
 namespace itk

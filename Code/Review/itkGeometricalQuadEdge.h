@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkGeometricalQuadEdge.h
-// $Revision: 1.4 $
+// $Revision: 1.5 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-20 21:42:46 $
+// $Date: 2007-01-23 17:49:06 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -92,8 +92,11 @@ public:
   itkQEDefineIteratorGeomMethodsMacro( InvDnext );
 
 
+  /** Method that creates a complete definition of a quad-edge.
+   *  The Onext ring and the Rot sub-algebra.  */
+  virtual void MakeEdge();
+
   /** QE macros. */
-  itkQEMakeEdgeMacro( Self, Dual );
   itkQEAccessorsMacro( Superclass, Self, Dual );
 
 public:
