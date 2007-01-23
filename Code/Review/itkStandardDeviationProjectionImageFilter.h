@@ -19,6 +19,7 @@
 
 #include "itkProjectionImageFilter.h"
 #include "itkNumericTraits.h"
+#include "itkConceptChecking.h"
 
 namespace itk {
 /** \class StandardDeviationProjectionImageFilter
@@ -111,6 +112,9 @@ public:
     Function::StandardDeviationAccumulator< typename 
                   TInputImage::PixelType, TAccumulate > > Superclass;
 
+  typedef TInputImage                        InputImageType;
+  typedef typename InputImageType::PixelType InputPixelType; 
+
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -119,6 +123,21 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputPixelToOutputPixelTypeGreaterAdditiveOperatorCheck,
+    (Concept::AdditiveOperators<TAccumulate,
+                                InputPixelType,
+                                TAccumulate>));
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<InputPixelType>));
+
+  itkConceptMacro(AccumulateHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<TAccumulate>));
+ 
+  /** End concept checking */
+#endif
 
 
 protected:

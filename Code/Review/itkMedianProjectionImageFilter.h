@@ -20,6 +20,8 @@
 
 #include "itkProjectionImageFilter.h"
 #include "itkNumericTraits.h"
+#include "itkConceptChecking.h"
+
 #include <vector>
 #include <algorithm>
 
@@ -99,6 +101,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  /** End concept checking */
+#endif
 
 protected:
   MedianProjectionImageFilter() {}

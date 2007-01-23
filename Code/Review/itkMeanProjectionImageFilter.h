@@ -20,6 +20,7 @@
 
 #include "itkProjectionImageFilter.h"
 #include "itkNumericTraits.h"
+#include "itkConceptChecking.h"
 
 namespace itk {
 /** \class MeanProjectionImageFilter
@@ -94,11 +95,30 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  typedef TInputImage                        InputImageType;
+  typedef typename InputImageType::PixelType InputPixelType; 
+
+  typedef TOutputImage                        OutputImageType;
+  typedef typename OutputImageType::PixelType OutputPixelType; 
+
   /** Runtime information support. */
   itkTypeMacro(MeanProjectionImageFilter, ProjectionImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputPixelToOutputPixelTypeGreaterAdditiveOperatorCheck,
+    (Concept::AdditiveOperators<OutputPixelType,
+                                InputPixelType,
+                                OutputPixelType>));
+
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<InputPixelType>));
+  /** End concept checking */
+#endif
+
 
 
 protected:

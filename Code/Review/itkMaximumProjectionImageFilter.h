@@ -19,6 +19,7 @@
 
 #include "itkProjectionImageFilter.h"
 #include "itkNumericTraits.h"
+#include "itkConceptChecking.h"
 
 namespace itk {
 /** \class MaximumProjectionImageFilter
@@ -79,6 +80,9 @@ public:
   typedef ProjectionImageFilter<TInputImage, TOutputImage, 
   Function::MaximumAccumulator< typename TInputImage::PixelType > > Superclass;
 
+  typedef TInputImage                        InputImageType;
+  typedef typename InputImageType::PixelType InputPixelType; 
+
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -87,6 +91,15 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro(InputPixelTypeGreaterThanComparable,
+    (Concept::GreaterThanComparable<InputPixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck,
+    (Concept::HasNumericTraits<InputPixelType>));
+  /** End concept checking */
+#endif
 
 
 protected:
