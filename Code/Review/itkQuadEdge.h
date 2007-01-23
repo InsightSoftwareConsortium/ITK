@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.h
-// $Revision: 1.8 $
+// $Revision: 1.9 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-23 18:04:40 $
+// $Date: 2007-01-23 23:01:16 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -351,9 +351,11 @@ public:
   bool IsLnextGivenSizeCyclic( const int size ) const;
   unsigned int GetOrder() const;
 
-protected: // FIXME: should be private
+private: 
+
   Self* m_Onext; /// Onext ring
   Self* m_Rot;   /// Rot ring
+
 };
 
 } 
