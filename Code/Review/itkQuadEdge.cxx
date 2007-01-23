@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.cxx
-// $Revision: 1.3 $
+// $Revision: 1.4 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-20 21:42:46 $
+// $Date: 2007-01-23 16:18:43 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -26,9 +26,11 @@ namespace itk
 {
 
 // ---------------------------------------------------------------------
-QuadEdge::
-QuadEdge( ) : m_Onext( 0 ), m_Rot( 0 )
+QuadEdge
+::QuadEdge()
 {
+  this->m_Onext = NULL;
+  this->m_Rot   = NULL;
 }
 
 /**
@@ -36,8 +38,8 @@ QuadEdge( ) : m_Onext( 0 ), m_Rot( 0 )
  *
  * This method describes all possible topological operations on an edge.
  * It is its own inverse. It works in two ways:
- *   1. If this->GetOrg( ) != b->GetOrg( ), it slice a face in two.
- *   2. If this->GetOrg( ) == b->GetOrg( ), it unifies two faces.
+ *   1. If this->GetOrg() != b->GetOrg(), it slice a face in two.
+ *   2. If this->GetOrg() == b->GetOrg(), it unifies two faces.
  *
  * \warning This class only handles of the connectivity and is not aware
  *    of the geometry that lies at the \ref GeometricalQuadEdge level.
@@ -47,12 +49,12 @@ QuadEdge( ) : m_Onext( 0 ), m_Rot( 0 )
  */
 void QuadEdge::Splice( Self* b )
 {
-  Self* aNext     = this->GetOnext();
-  Self* bNext     = b->GetOnext();
-  Self* alpha     = aNext->GetRot();
-  Self* beta      = bNext->GetRot();
-  Self* alphaNext = alpha->GetOnext();
-  Self* betaNext  = beta->GetOnext();
+  Self * aNext     = this->GetOnext();
+  Self * bNext     = b->GetOnext();
+  Self * alpha     = aNext->GetRot();
+  Self * beta      = bNext->GetRot();
+  Self * alphaNext = alpha->GetOnext();
+  Self * betaNext  = beta->GetOnext();
 
   this->SetOnext( bNext );
   b->SetOnext( aNext );
@@ -61,16 +63,18 @@ void QuadEdge::Splice( Self* b )
 }
 
 // ---------------------------------------------------------------------
-bool QuadEdge::
-    IsEdgeInOnextRing( Self* testEdge ) const
+bool 
+QuadEdge
+::IsEdgeInOnextRing( Self* testEdge ) const
 {
-  ConstIterator it = this->BeginOnext( ); 
-  for( ; it != this->EndOnext( ); it++ )
+  ConstIterator it = this->BeginOnext(); 
+  while( it != this->EndOnext() )
     {
     if( this == testEdge )
       {
       return true;
       }
+    it++;  
     }
   return false;
 }
@@ -87,18 +91,23 @@ QuadEdge
 
   for( int i = 0; i < size; i++ )
     {
-    iterated = iterated->GetLnext( );
+    iterated = iterated->GetLnext();
+    if( !iterated )
+      {
+      return false;
+      }
     }
   return ( this == iterated );
 }
 
 // ---------------------------------------------------------------------
-unsigned int QuadEdge::
-    GetOrder( ) const
+unsigned int 
+QuadEdge
+::GetOrder() const
 {
   unsigned int order = 0;
-  ConstIterator it = this->BeginOnext( ); 
-  while( it != this->EndOnext( ) )
+  ConstIterator it = this->BeginOnext(); 
+  while( it != this->EndOnext() )
     {
     it++;
     order++;
