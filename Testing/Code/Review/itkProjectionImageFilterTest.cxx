@@ -43,7 +43,7 @@ public:
 
   inline void operator()( const TInputPixel &input )
     {
-    if( input == m_ForegroundValue )
+    if( input == 100 )
       {
       m_IsForeground = true; 
       }
@@ -53,19 +53,15 @@ public:
     {
     if( m_IsForeground )
       {
-      return (TOutputPixel)m_ForegroundValue; 
+      return 100;
       }
     else
       {
-      return m_BackgroundValue; 
+      return 0;
       }
     }
 
   bool m_IsForeground;
-
-  TInputPixel m_ForegroundValue;
-
-  TOutputPixel m_BackgroundValue;
 };
 } // end namespace Function
 
