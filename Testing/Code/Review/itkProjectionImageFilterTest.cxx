@@ -36,7 +36,7 @@ public:
   BinaryAccumulator( unsigned long size ) {}
   ~BinaryAccumulator(){}
 
-  inline void Init()
+  inline void Initialize()
     {
     m_IsForeground = false;
     }
