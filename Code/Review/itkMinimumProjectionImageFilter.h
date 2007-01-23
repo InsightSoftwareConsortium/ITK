@@ -51,7 +51,7 @@ public:
   MinimumAccumulator( unsigned long size ) {}
   ~MinimumAccumulator(){}
 
-  inline void Init()
+  inline void Initialize()
     {
     m_Minimum = NumericTraits< TInputPixel >::max();
     }

@@ -293,7 +293,7 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
   while( !iIt.IsAtEnd() )
     {
     // init the accumulator before a new set of pixels
-    accumulator.Init();
+    accumulator.Initialize();
 
     while( !iIt.IsAtEndOfLine() )
       {

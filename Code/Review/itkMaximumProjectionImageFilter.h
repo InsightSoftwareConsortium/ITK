@@ -50,7 +50,7 @@ public:
   MaximumAccumulator( unsigned long size ) {}
   ~MaximumAccumulator(){}
 
-  inline void Init()
+  inline void Initialize()
     {
     m_Maximum = NumericTraits< TInputPixel >::NonpositiveMin();
     }

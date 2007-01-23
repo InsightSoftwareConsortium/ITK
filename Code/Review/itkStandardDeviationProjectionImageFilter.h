@@ -58,7 +58,7 @@ public:
     }
   ~StandardDeviationAccumulator(){}
 
-  inline void Init()
+  inline void Initialize()
     {
     m_Sum = NumericTraits< TAccumulate >::Zero;
     m_Values.clear();

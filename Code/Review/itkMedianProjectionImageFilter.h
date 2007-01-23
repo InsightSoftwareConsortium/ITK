@@ -58,7 +58,7 @@ public:
     }
   ~MedianAccumulator(){}
 
-  inline void Init()
+  inline void Initialize()
     {
     m_Values.clear();
     }

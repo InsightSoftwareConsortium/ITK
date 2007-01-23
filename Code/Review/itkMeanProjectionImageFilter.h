@@ -57,7 +57,7 @@ public:
     }
   ~MeanAccumulator(){}
 
-  inline void Init()
+  inline void Initialize()
     {
     m_Sum = NumericTraits< TAccumulate >::Zero;
     }

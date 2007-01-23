@@ -51,7 +51,7 @@ public:
   SumAccumulator( unsigned long size ) {}
   ~SumAccumulator(){}
 
-  inline void Init()
+  inline void Initialize()
     {
     m_Sum = NumericTraits< TOuputPixel >::Zero;
     }
