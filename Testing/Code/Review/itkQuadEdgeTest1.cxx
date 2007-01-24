@@ -631,6 +631,53 @@ int itkQuadEdgeTest1( int , char* [] )
   std::cout << "GetDprev() Test passed ! " << std::endl;
   }
 
+
+  // Tests for the GetInvRot() methods
+  { // create a local scope for these tests
+  QuadEdgeType * quadEdge1 = new QuadEdgeType;
+  QuadEdgeType * quadEdge2 = new QuadEdgeType;
+  QuadEdgeType * quadEdge3 = new QuadEdgeType;
+  QuadEdgeType * quadEdge4 = new QuadEdgeType;
+
+  const QuadEdgeType * quadEdge1c = quadEdge1;
+
+  // Testing incomplete connections.
+  quadEdge1->GetInvRot(); // testing null case
+  quadEdge1->SetRot( quadEdge2 );
+  quadEdge1->GetInvRot(); 
+  quadEdge2->SetRot( quadEdge3 );
+  quadEdge1->GetInvRot(); 
+  quadEdge3->SetRot( quadEdge4 );
+  quadEdge1->GetInvRot(); 
+
+  // Finally, the well constructed case
+  quadEdge1->SetRot( quadEdge2 );
+  quadEdge2->SetRot( quadEdge3 );
+  quadEdge3->SetRot( quadEdge4 );
+  quadEdge4->SetRot( quadEdge1 );
+
+  if( quadEdge1->GetInvRot() != quadEdge4 )
+    {
+    std::cerr << "Error in GetInvRot()" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( quadEdge1c->GetInvRot() != quadEdge4 )
+    {
+    std::cerr << "Error in const GetInvRot()" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  delete quadEdge1;
+  delete quadEdge2;
+  delete quadEdge3;
+  delete quadEdge4;
+
+  std::cout << "GetInvRot() Test passed ! " << std::endl;
+  }
+
+
+
   return EXIT_SUCCESS;
 }
 
