@@ -92,8 +92,8 @@ double vnl_brent::minimize_given_bounds(double ax, double bx, double cx,
   if( fa * fb >= 0.0 )
     {
     vcl_cerr << "vnl_brent f("<<a<<") has same sign as f("<<b<<") \n";
-    // *xmin =x;
-    // return fx;
+    *xmin = x;
+    return fx;
     }
 
   if( vcl_fabs(fa) < vcl_fabs(fb) )
