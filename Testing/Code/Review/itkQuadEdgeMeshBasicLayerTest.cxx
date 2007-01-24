@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshBasicLayerTest.cxx
-// $Revision: 1.2 $
+// $Revision: 1.3 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-24 22:53:21 $
+// $Date: 2007-01-24 23:33:11 $
 // -------------------------------------------------------------------------
 
 // Program test for the basic QE layer.
@@ -11,10 +11,38 @@
 #include "itkQuadEdgeMeshBaseIterator.h"
 #include "itkGeometricalQuadEdge.h"
 
-int itkQuadEdgeMeshBasicLayerTest( int , char* [] )
+class itkQuadEdgeMeshBasicLayerTestHelper
 {
+public:
   typedef itk::GeometricalQuadEdge< int, int, bool, bool >  PrimalType;
   typedef PrimalType::Dual                                  DualType;
+
+  static PrimalType * MakeQuadEdges()
+  {
+    PrimalType * e1 = new PrimalType();
+    DualType   * e2 = new DualType();
+    PrimalType * e3 = new PrimalType();
+    DualType   * e4 = new DualType();
+    
+    e1->SetRot( e2 );
+    e2->SetRot( e3 );
+    e3->SetRot( e4 );
+    e4->SetRot( e1 );
+    
+    e1->SetOnext( e1 );
+    e2->SetOnext( e4 );
+    e3->SetOnext( e3 );
+    e4->SetOnext( e4 );
+
+    return e1;
+  }
+};
+
+int itkQuadEdgeMeshBasicLayerTest( int , char* [] )
+{
+  typedef itkQuadEdgeMeshBasicLayerTestHelper::PrimalType  PrimalType;
+  typedef itkQuadEdgeMeshBasicLayerTestHelper::DualType    DualType;
+  
   PrimalType* e[5];
 
   //////////////////////////////////////////////////////////
@@ -29,7 +57,7 @@ int itkQuadEdgeMeshBasicLayerTest( int , char* [] )
   std::cout << "Testing MakeEdge" << std::endl;
   for( int i=0; i < 5; i++ )
     {
-    e[i]->MakeEdge();
+    e[i] = itkQuadEdgeMeshBasicLayerTestHelper::MakeQuadEdges();
     }
   std::cout << "Passed" << std::endl;
 
