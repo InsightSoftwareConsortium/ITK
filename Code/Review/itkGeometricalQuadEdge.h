@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkGeometricalQuadEdge.h
-// $Revision: 1.6 $
+// $Revision: 1.7 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-23 22:32:42 $
+// $Date: 2007-01-24 22:52:01 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -34,7 +34,7 @@ namespace itk
  * always different (in the sense that their typeid() are different).
  * If we only had the four first parameters and assume that
  * GeometricalQuadEdge<...> gets instantiated with types such that TVRef = TFRef 
- * and TPData = TDData then this instantiation GeometricalQuadEdge<...> and
+ * and TPrimalData = TDualData then this instantiation GeometricalQuadEdge<...> and
  * GeometricalQuadEdge<...>::Dual would be the same types (this is simply due to
  * the very definition of GeometricalQuadEdge<...>::Dual). This would in turn
  * make the types QEType and QEDual of \ref itkQE::Mesh identical and
@@ -44,7 +44,7 @@ namespace itk
  * it's default value.
  */
 template< typename TVRef,  typename TFRef,
-          typename TPData, typename TDData, bool PrimalDual = true >
+          typename TPrimalData, typename TDualData, bool PrimalDual = true >
 class GeometricalQuadEdge
     : public QuadEdge
 {
@@ -61,14 +61,14 @@ public:
    * WARNING: Recursive template definitions work fine in linux.
    *          I haven't run tests on Win$-based PCs.
    */
-  typedef GeometricalQuadEdge< TFRef, TVRef, TDData, TPData,
+  typedef GeometricalQuadEdge< TFRef, TVRef, TDualData, TPrimalData,
                         !PrimalDual > Dual;
 
   /** Input template parameters & values convenient renaming. */
-  typedef TVRef  OrgRefType;
-  typedef TFRef  DualOrgRefType;
-  typedef TPData PrimalDataType;
-  typedef TDData DualDataType;
+  typedef TVRef  OriginRefType;
+  typedef TFRef  DualOriginRefType;
+  typedef TPrimalData PrimalDataType;
+  typedef TDualData DualDataType;
 
 public:
 
@@ -105,17 +105,17 @@ public:
   virtual ~GeometricalQuadEdge();
 
   /** Set methods. */
-  void SetOrg( const OrgRefType v )
-     { m_Org = v; }
+  void SetOrigin( const OriginRefType v )
+     { m_Origin = v; }
 
-  void SetDest( const OrgRefType v )
-     { this->GetSym( )->SetOrg( v ); }
+  void SetDestination( const OriginRefType v )
+     { this->GetSym( )->SetOrigin( v ); }
 
-  void SetRight( const DualOrgRefType v )
-     { this->GetRot( )->SetOrg( v ); }
+  void SetRight( const DualOriginRefType v )
+     { this->GetRot( )->SetOrigin( v ); }
 
-  void SetLeft( const DualOrgRefType v )
-     { this->GetInvRot( )->SetOrg( v ); }
+  void SetLeft( const DualOriginRefType v )
+     { this->GetInvRot( )->SetOrigin( v ); }
 
   /**
    * Set the Left() of all the edges in the Lnext() ring of "this"
@@ -124,25 +124,25 @@ public:
    * @param  maxSize Sets at most maxSize edges in the Lnext() ring.
    * @return Returns true on success. False otherwise.
    */
-  bool SetLnextRingWithSameLeftFace( const DualOrgRefType faceGeom,
+  bool SetLnextRingWithSameLeftFace( const DualOriginRefType faceGeom,
                                      int maxSize = 100 );
 
-  void UnsetOrg( )   { m_Org = NOPOINT; }
-  void UnsetDest( )  { this->GetSym( )->UnsetOrg( ); }
-  void UnsetRight( ) { this->GetRot( )->UnsetOrg( ); }
-  void UnsetLeft( )  { this->GetInvRot( )->UnsetOrg( ); }
+  void UnsetOrigin( )   { m_Origin = NOPOINT; }
+  void UnsetDestination( )  { this->GetSym( )->UnsetOrigin( ); }
+  void UnsetRight( ) { this->GetRot( )->UnsetOrigin( ); }
+  void UnsetLeft( )  { this->GetInvRot( )->UnsetOrigin( ); }
 
   /** Get methods. */
   //ORIENTATION_NOTE: this definition of GetLeft (or GetRight)
   // implicitely assumes that the Onext order is counter-clockwise !
-  OrgRefType     GetOrg( )   { return( m_Org ); }
-  OrgRefType     GetDest( )  { return( this->GetSym( )->GetOrg( ) ); }
-  DualOrgRefType GetRight( ) { return( this->GetRot( )->GetOrg( ) ); }
-  DualOrgRefType GetLeft( )  { return( this->GetInvRot( )->GetOrg( ) ); }
+  OriginRefType     GetOrigin( )   { return( m_Origin ); }
+  OriginRefType     GetDestination( )  { return( this->GetSym( )->GetOrigin( ) ); }
+  DualOriginRefType GetRight( ) { return( this->GetRot( )->GetOrigin( ) ); }
+  DualOriginRefType GetLeft( )  { return( this->GetInvRot( )->GetOrigin( ) ); }
 
   /** Boolean accessors. */
-  bool IsOrgSet( ) const;
-  bool IsDestSet( ) const;
+  bool IsOriginSet( ) const;
+  bool IsDestinationSet( ) const;
   bool IsRightSet( ) const;
   bool IsLeftSet() const;
 
@@ -193,7 +193,7 @@ public:
   bool IsInternal() const
      { return( this->IsLeftSet() && this->IsRightSet() ); }
 
-  bool IsOrgInternal() const;
+  bool IsOriginInternal() const;
   bool IsLnextSharingSameFace( int maxSize = 100 );
   bool IsLnextOfTriangle( );
   bool IsInOnextRing( Self* );
@@ -207,23 +207,23 @@ public:
   bool ReorderOnextRingBeforeAddFace( Self* second );
 
   /** Disconnection methods. */
-  bool IsOrgDisconnected( )
+  bool IsOriginDisconnected( )
   { return( this == this->GetOnext( ) ); }
-  bool IsDestDisconnected( )
-  { return( this->GetSym( )->IsOrgDisconnected( ) ); }
+  bool IsDestinationDisconnected( )
+  { return( this->GetSym( )->IsOriginDisconnected( ) ); }
   bool IsDisconnected( )
-  { return( this->IsOrgDisconnected( ) &&
-            this->IsDestDisconnected( ) ); }
+  { return( this->IsOriginDisconnected( ) &&
+            this->IsDestinationDisconnected( ) ); }
   void Disconnect( );
 
 public:
-  /// Reserved OrgRefType designated to represent the absence of Org
-  static const OrgRefType NOPOINT;
+  /// Reserved OriginRefType designated to represent the absence of Origin
+  static const OriginRefType NOPOINT;
 
 protected:
-  OrgRefType     m_Org;     /// Geometrical information
-  PrimalDataType m_Data;    /// User data associated to this edge.
-  bool           m_DataSet; /// Indicates if the data is set.
+  OriginRefType     m_Origin;    // Geometrical information
+  PrimalDataType    m_Data;      // User data associated to this edge.
+  bool              m_DataSet;   // Indicates if the data is set.
 };
 
 } 
