@@ -19,13 +19,13 @@
 #include "itkGeometricalQuadEdge.h"
 #include <iostream>
 
-int itkGeometricalQuadEdgeTest1( int , char* [] )
+class itkGeometricalQuadEdgeTest1Helper
 {
+public:
   typedef unsigned int PointIdentifier;
   typedef unsigned int FaceIdentifier;
   typedef float        PointData;
   typedef std::string  FaceData;
-
 
   typedef itk::GeometricalQuadEdge<
      PointIdentifier, FaceIdentifier, 
@@ -36,6 +36,38 @@ int itkGeometricalQuadEdgeTest1( int , char* [] )
      PointIdentifier, FaceIdentifier, 
      PointData, FaceData, false >       DualQuadEdgeType;
 
+ 
+  static PrimalQuadEdgeType * MakeQuadEdges()
+  {
+    PrimalQuadEdgeType * e1 = new PrimalQuadEdgeType();
+    DualQuadEdgeType   * e2 = new DualQuadEdgeType();
+    PrimalQuadEdgeType * e3 = new PrimalQuadEdgeType();
+    DualQuadEdgeType   * e4 = new DualQuadEdgeType();
+    
+    e1->SetRot( e2 );
+    e2->SetRot( e3 );
+    e3->SetRot( e4 );
+    e4->SetRot( e1 );
+    
+    e1->SetOnext( e1 );
+    e2->SetOnext( e4 );
+    e3->SetOnext( e3 );
+    e4->SetOnext( e4 );
+
+    return e1;
+  }
+};
+
+
+int itkGeometricalQuadEdgeTest1( int , char* [] )
+{
+
+  typedef itkGeometricalQuadEdgeTest1Helper  HelperType;
+
+  typedef HelperType::PrimalQuadEdgeType     PrimalQuadEdgeType;
+  typedef HelperType::DualQuadEdgeType       DualQuadEdgeType;
+
+  PrimalQuadEdgeType * e1 = HelperType::MakeQuadEdges();
  
   return EXIT_SUCCESS;
 }
