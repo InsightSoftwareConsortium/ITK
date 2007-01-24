@@ -209,11 +209,11 @@ ADD_TEST(itkBinaryProjectionImageFilterTest2 ${REVIEW_TESTS}
                   0)
 
 ADD_TEST(itkBinaryThresholdProjectionImageFilterTest ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeBinaryThresholdProjection.tif
-                  ${TEMP}/HeadMRVolumeBinaryThresholdProjection.tif
+        --compare ${BASELINE}/HeadMRVolumeBinaryThresholdProjection.png
+                  ${TEMP}/HeadMRVolumeBinaryThresholdProjection.png
                   itkBinaryThresholdProjectionImageFilterTest
                   ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeBinaryThresholdProjection.tif
+                  ${TEMP}/HeadMRVolumeBinaryThresholdProjection.png
                   100
                   255
                   0)
