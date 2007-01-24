@@ -189,7 +189,7 @@ int itkQuadEdgeTest1( int , char* [] )
   delete quadEdge3;
   delete quadEdge4;
 
-  std::cout << "GetSym() Test passed ! " << std::endl;
+  std::cout << "GetSym()   Test passed ! " << std::endl;
   }
 
  
@@ -565,6 +565,71 @@ int itkQuadEdgeTest1( int , char* [] )
   }
 
 
+  // Tests for the GetDprev() methods
+  // returns the previous edge with same right face
+  // and same destination
+  { // create a local scope for these tests
+  QuadEdgeType * quadEdge1 = new QuadEdgeType;
+  QuadEdgeType * quadEdge2 = new QuadEdgeType;
+  QuadEdgeType * quadEdge3 = new QuadEdgeType;
+  QuadEdgeType * quadEdge4 = new QuadEdgeType;
+
+  QuadEdgeType * quadEdgeA = new QuadEdgeType;
+  QuadEdgeType * quadEdgeB = new QuadEdgeType;
+  QuadEdgeType * quadEdgeC = new QuadEdgeType;
+  QuadEdgeType * quadEdgeD = new QuadEdgeType;
+
+  const QuadEdgeType * quadEdge1c = quadEdge1;
+
+  quadEdge1->GetDprev(); // testing null case
+
+  //                       |  
+  //                       |  
+  //                       |  
+  //                       | quadEdgeA 
+  //                       |  
+  //                       |
+  //                       V
+  //  -------------------> 0 
+  //      quadEdge1
+  //
+ 
+  quadEdgeA->SetRot( quadEdgeB );
+  quadEdgeB->SetRot( quadEdgeC );
+  quadEdgeC->SetRot( quadEdgeD );
+  quadEdgeD->SetRot( quadEdgeA );
+
+  quadEdge1->SetRot( quadEdge2 );
+  quadEdge2->SetRot( quadEdge3 );
+  quadEdge3->SetRot( quadEdge4 );
+  quadEdge4->SetRot( quadEdge1 );
+
+  quadEdge4->SetOnext( quadEdgeB );
+
+  if( quadEdge1->GetDprev() != quadEdgeA )
+    {
+    std::cerr << "Error in GetDprev()" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( quadEdge1c->GetDprev() != quadEdgeA )
+    {
+    std::cerr << "Error in const GetDprev()" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  delete quadEdge1;
+  delete quadEdge2;
+  delete quadEdge3;
+  delete quadEdge4;
+
+  delete quadEdgeA;
+  delete quadEdgeB;
+  delete quadEdgeC;
+  delete quadEdgeD;
+
+  std::cout << "GetDprev() Test passed ! " << std::endl;
+  }
 
   return EXIT_SUCCESS;
 }
