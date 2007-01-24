@@ -60,9 +60,129 @@ double vnl_brent::minimize_given_bounds(double ax, double bx, double cx,
   // The distribution license of numerical recipies is not
   // compatible with the BSD-License used by ITK.
   // 
-  vcl_cerr << "vnl_brent::minimize_given_bounds TEMPORARILY DISABLED\n";
-  *xmin=0.0;
-  return 0.0;
+  // -----------------------------------------------------------
+  //
+  // The following implementation was based on the description
+  // of the Brent's method presented in the Wikipedia:
+  //
+  //    http://en.wikipedia.org/wiki/Brent%27s_method
+  //
+  double a = ax;
+  double b = cx;
+
+  bool mflag;
+
+  if( ax > cx )
+    {
+    a = cx;
+    b = ax;
+    }
+
+  double x = bx;
+
+  double fa = p->f(a);
+  double fb = p->f(b);
+  double fx = p->f(x);
+
+  if (verbose_) 
+    {
+    vcl_cerr << "vnl_brent f("<<x<<") \t= "<<fx <<'\n';
+    }
+
+  if( fa * fb >= 0.0 )
+    {
+    vcl_cerr << "vnl_brent f("<<a<<") has same sign as f("<<b<<") \n";
+    // *xmin =x;
+    // return fx;
+    }
+
+  if( vcl_fabs(fa) < vcl_fabs(fb) )
+    {
+    const double t= a;
+    a = b;
+    b = t;
+    const double ft = fa;
+    fa = fb;
+    fb = ft;
+    }
+
+  double c = a;
+  double d = a;   // it is not clear how to initialize d
+  double fc = fa;
+
+  double s;
+
+  for( unsigned int iteration = 1; iteration <= ITMAX; iteration++)
+    {
+
+    if (verbose_) 
+      {
+      vcl_cerr << "vnl_brent f("<<b<<") \t= "<<fb <<'\n';
+      }
+
+    if( vcl_fabs(fb) <= ZEPS || vcl_fabs( a - b ) <= ZEPS )
+      {
+      *xmin=b;
+      return fb;
+      }
+
+    const double fac = fa - fc;
+    const double fbc = fb - fc;
+    const double fab = fa - fb;
+
+    if( vcl_fabs( fac ) < ZEPS || vcl_fabs(fbc) < ZEPS )
+      {
+      // Apply secant rule
+      s = b - fb * (b - a) / ( fb - fa );
+      }
+    else
+      {
+      // Inverse quadratic interpolation
+      const double afbfc = ( a * fb * fc ) / ( fab * fac );
+      const double bfafc = ( b * fa * fc ) / ( fab * fbc );
+      const double cfafb = ( c * fa * fb ) / ( fac * fbc );
+      s = afbfc - bfafc + cfafb;
+      }
+
+    if( !( s > ( 3 * a + b ) / 4.0 && s < b ) ||
+         (  mflag && ( vcl_fabs( s - b ) >= vcl_fabs( b - c ) / 2.0 ) ) ||
+         ( !mflag && ( vcl_fabs( s - b ) >= vcl_fabs( c - d ) / 2.0 ) )    )
+      {
+      s = ( a + b ) / 2;
+      mflag = true;
+      }
+    else
+      {
+      mflag = false;
+      }
+       
+    double fs = p->f(s);
+
+    d = c;
+    c = b;
+
+    if( fa * fs < 0.0 )
+      {
+      b = s;
+      fb = fs;
+      }
+    else
+      {
+      a = s;
+      fa = fs;
+      }
+
+    if( vcl_fabs( fa ) < vcl_fabs( fb ) )
+      {
+      const double temp = a;
+      a = b;
+      b = temp;
+      }
+    
+    }
+
+  *xmin = b;
+  return fb;
 }
 
 double vnl_brent::minimize_given_bounds_and_1st_f(double ax, double bx,
