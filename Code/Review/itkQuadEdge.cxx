@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.cxx
-// $Revision: 1.10 $
+// $Revision: 1.11 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-24 17:40:18 $
+// $Date: 2007-01-24 18:22:08 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -107,21 +107,6 @@ QuadEdge
 ::GetRot() const
 {
   return this->m_Rot; 
-}
-
-// ---------------------------------------------------------------------
-unsigned int 
-QuadEdge
-::GetOrder() const
-{
-  unsigned int order = 0;
-  ConstIterator it = this->BeginOnext(); 
-  while( it != this->EndOnext() )
-    {
-    it++;
-    order++;
-    }
-  return order;
 }
 
 // ---------------------------------------------------------------------
@@ -704,6 +689,20 @@ QuadEdge
   return ( this == iterated );
 }
 
+// ---------------------------------------------------------------------
+unsigned int 
+QuadEdge
+::GetOrder() const
+{
+  unsigned int order = 1; // count this edge
+  const Self * it = this->GetOnext();
+  while( it && it != this )
+    {
+    order++;
+    it = it->GetOnext();
+    }
+  return order;
+}
 
 } // end namespace itk
 
