@@ -1,4 +1,4 @@
-WRAP_CLASS("itk::SigmaProjectionImageFilter" POINTER_WITH_SUPERCLASS)
+WRAP_CLASS("itk::StandardDeviationProjectionImageFilter" POINTER_WITH_SUPERCLASS)
   WRAP_IMAGE_FILTER_SCALAR(2)
 
   # reduce the output dimension by 1, if possible
