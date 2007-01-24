@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.cxx
-// $Revision: 1.8 $
+// $Revision: 1.9 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-23 18:04:40 $
+// $Date: 2007-01-24 15:53:18 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -409,13 +409,13 @@ const QuadEdge *
 QuadEdge
 ::GetLprev() const
 {
-  const Self * p1 = this->GetRot();
+  const Self * p1 = this->GetOnext();
   if( p1 == NULL )
     {
     return NULL;
     }
 
-  const Self * p2 = p1->GetOnext();
+  const Self * p2 = p1->GetSym();
   if( p2 == NULL )
     {
     return NULL;
