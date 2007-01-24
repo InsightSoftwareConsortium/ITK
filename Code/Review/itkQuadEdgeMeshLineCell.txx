@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshLineCell.txx
-// $Revision: 1.3 $
+// $Revision: 1.4 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-17 22:43:23 $
+// $Date: 2007-01-24 22:52:30 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -114,9 +114,9 @@ QuadEdgeMeshLineCell< TCellInterface >
 ::SetPointIds( PointIdConstIterator first )
 {
   PointIdConstIterator i = first;
-  this->SetOrg( *i );
+  this->SetOrigin( *i );
   i++;
-  this->SetDest( *i );
+  this->SetDestination( *i );
 }
 
 // ---------------------------------------------------------------------
@@ -126,8 +126,8 @@ QuadEdgeMeshLineCell< TCellInterface >
 ::SetPointIds( PointIdConstIterator first,
                PointIdConstIterator last )
 {
-  this->SetOrg( *first );
-  this->SetDest( *last );
+  this->SetOrigin( *first );
+  this->SetDestination( *last );
 }
 
 // ---------------------------------------------------------------------
@@ -140,12 +140,12 @@ QuadEdgeMeshLineCell< TCellInterface >
     {
     case 0:
       {
-      this->SetOrg( pId );
+      this->SetOrigin( pId );
       break;
       }
     case 1:
       {
-      this->SetDest( pId );
+      this->SetDestination( pId );
       break;
       }
     }

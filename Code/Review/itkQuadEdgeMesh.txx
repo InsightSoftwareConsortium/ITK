@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------------
 // itkQuadEdgeMesh.txx
-// $Revision: 1.8 $
+// $Revision: 1.9 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-16 22:30:06 $
+// $Date: 2007-01-24 22:52:30 $
 // ------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -68,15 +68,15 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::PointIdentifier
 QuadEdgeMesh< TPixel, VDimension, TTraits >::
 Splice( QEPrimal* a, QEPrimal* b )
 {
-  bool SplitingOrg = a->IsInOnextRing( b );
-  PointIdentifier resultingOrgId;
+  bool SplitingOrigin = a->IsInOnextRing( b );
+  PointIdentifier resultingOriginId;
 
-  if( SplitingOrg )
+  if( SplitingOrigin )
     {
     // see TODO's entry dated 2006-01-24
     /* We consider the following situation which depicts the Onext()
-     * ring around the point Org (which is both a->GetOrg() and
-     * b->GetOrg():
+     * ring around the point Origin (which is both a->GetOrigin() and
+     * b->GetOrigin():
      *
      *              \         /
      *               \       /
@@ -117,32 +117,32 @@ Splice( QEPrimal* a, QEPrimal* b )
     a->Splice( b );
 
     ////////// Handle the geometrical references:
-    // Make sure the Org's edge entry doesn't point to an entry edge
+    // Make sure the Origin's edge entry doesn't point to an entry edge
     // that isn't any more in the Onext ring:
-    PointIdentifier orgId = a->GetOrg();
+    PointIdentifier orgId = a->GetOrigin();
     PointType org = this->GetPoint( orgId );
     org.SetEdge( a );
     this->SetPoint( orgId, org );
 
-    // Create a newOrg point by duplicating the geometry of Org...
-    PointType newOrg  = org;
-    newOrg.SetEdge( b );
-    PointIdentifier newOrgId = this->AddPoint( newOrg );
+    // Create a newOrigin point by duplicating the geometry of Origin...
+    PointType newOrigin  = org;
+    newOrigin.SetEdge( b );
+    PointIdentifier newOriginId = this->AddPoint( newOrigin );
 
-    // ...and inform Onext ring of b that their Org() have changed:
+    // ...and inform Onext ring of b that their Origin() have changed:
     typename QEPrimal::IteratorGeom it;
     for( it = b->BeginGeomOnext(); it != b->EndGeomOnext(); it++ )
       {
-      it.Value()->SetOrg( newOrgId );
+      it.Value()->SetOrigin( newOriginId );
       }
-      resultingOrgId = newOrgId;
+      resultingOriginId = newOriginId;
    }
  else
    {
    // see TODO's entry dated 2006-01-24
    /* We consider the following situation which depicts the Onext()
-    * rings around the point Org = a->GetOrg() and
-    * oldOrg = b->GetOrg():
+    * rings around the point Origin = a->GetOrigin() and
+    * oldOrigin = b->GetOrigin():
     *
     *         \         /
     *          \       /
@@ -188,11 +188,11 @@ Splice( QEPrimal* a, QEPrimal* b )
     // to check the correctness of the situation.
 
     /////////////////////////////////////////////////////////////
-    // First, consider the vertices: Org and oldOrg must be different.
-    PointIdentifier oldOrgId = b->GetOrg();
-    PointIdentifier orgId = a->GetOrg();
+    // First, consider the vertices: Origin and oldOrigin must be different.
+    PointIdentifier oldOriginId = b->GetOrigin();
+    PointIdentifier orgId = a->GetOrigin();
 
-    if( oldOrgId == orgId )
+    if( oldOriginId == orgId )
       {
       itkWarningMacro( "Trying to fuse the same point!" );
       return NOPOINT;
@@ -203,7 +203,7 @@ Splice( QEPrimal* a, QEPrimal* b )
      * an epsilon threshold distance above which the two points
      * are considered distinct.
      */
-    PointType oldOrg = this->GetPoint( oldOrgId );
+    PointType oldOrigin = this->GetPoint( oldOriginId );
     PointType org = this->GetPoint( orgId );
 
     /////////////////////////////////////////////////////////////
@@ -276,19 +276,19 @@ Splice( QEPrimal* a, QEPrimal* b )
 
     ///////////////////////////////////////////////////////////////
     // Back to dealing with the geometrical references. First
-    // make sure the oldOrg's edge entry won't be used any more:
-    oldOrg.SetEdge( (QEPrimal*)0 );
-    this->SetPoint( oldOrgId, oldOrg );
+    // make sure the oldOrigin's edge entry won't be used any more:
+    oldOrigin.SetEdge( (QEPrimal*)0 );
+    this->SetPoint( oldOriginId, oldOrigin );
 
     // We need to inform the edges ranging from a->Onext() to b that
-    // their Org() have changed. Let's over do it (read, be lazy) and
+    // their Origin() have changed. Let's over do it (read, be lazy) and
     // inform the full Onext() ring:
     typename QEPrimal::IteratorGeom it;
     for( it = a->BeginGeomOnext(); it != a->EndGeomOnext(); it++ )
       {
-      it.Value()->SetOrg( orgId );
+      it.Value()->SetOrigin( orgId );
       }
-    resultingOrgId = oldOrgId;
+    resultingOriginId = oldOriginId;
 
     ///////////////////////////////////////////////////////////////
     // Now that we are done with the handling of the geometry of
@@ -303,7 +303,7 @@ Splice( QEPrimal* a, QEPrimal* b )
   }
 
   this->Modified();
-  return resultingOrgId;
+  return resultingOriginId;
 }
 
 /**
@@ -343,7 +343,7 @@ SetCell( CellIdentifier cId, CellAutoPointer& cell )
 
   if( ( qe = dynamic_cast< EdgeCellType* >( cell.GetPointer() ) ) )
     {
-    this->AddEdge( qe->GetOrg(), qe->GetDest() );
+    this->AddEdge( qe->GetOrigin(), qe->GetDestination() );
     }
   else if( ( pe = dynamic_cast< PolygonCellType* >( cell.GetPointer() ) ) )
     {
@@ -496,47 +496,47 @@ AddEdge( const PointIdentifier& orgPid,
     }
 
   // Check if the points have room to receive a new edge
-  QEPrimal*  eOrg = this->FindEdge(  orgPid );
-  QEPrimal* eDest = this->FindEdge( destPid );
+  QEPrimal*  eOrigin = this->FindEdge(  orgPid );
+  QEPrimal* eDestination = this->FindEdge( destPid );
 
-  if( eOrg && eOrg->IsOrgInternal() )
+  if( eOrigin && eOrigin->IsOriginInternal() )
     {
-    itkDebugMacro("No room for a new edge in the Org() ring.");
+    itkDebugMacro("No room for a new edge in the Origin() ring.");
     return (QEPrimal*)NULL;
     }
 
-  if( eDest && eDest->IsOrgInternal() )
+  if( eDestination && eDestination->IsOriginInternal() )
     {
-    itkDebugMacro("No room for a new edge in the Dest() ring.");
+    itkDebugMacro("No room for a new edge in the Destination() ring.");
     return (QEPrimal*)NULL;
     }
 
   // Ok, there's room and the points exist
   EdgeCellType* newEdge = new EdgeCellType( true );
 
-  newEdge->SetOrg (  orgPid );
-  newEdge->SetDest( destPid );
+  newEdge->SetOrigin (  orgPid );
+  newEdge->SetDestination( destPid );
 
-  if( !eOrg )
+  if( !eOrigin )
     {
-    PointType pOrg = this->GetPoint( orgPid );
-    pOrg.SetEdge( newEdge );
-    this->SetPoint( orgPid, pOrg );
+    PointType pOrigin = this->GetPoint( orgPid );
+    pOrigin.SetEdge( newEdge );
+    this->SetPoint( orgPid, pOrigin );
     }
   else
     {
-    eOrg->InsertAfterNextBorderEdgeWithUnsetLeft( newEdge );
+    eOrigin->InsertAfterNextBorderEdgeWithUnsetLeft( newEdge );
     }
 
-  if( !eDest )
+  if( !eDestination )
     {
-    PointType pDest = this->GetPoint( destPid );
-    pDest.SetEdge( newEdge->GetSym() );
-    this->SetPoint( destPid, pDest );
+    PointType pDestination = this->GetPoint( destPid );
+    pDestination.SetEdge( newEdge->GetSym() );
+    this->SetPoint( destPid, pDestination );
     }
   else
     {
-    eDest->InsertAfterNextBorderEdgeWithUnsetLeft( newEdge->GetSym() );
+    eDestination->InsertAfterNextBorderEdgeWithUnsetLeft( newEdge->GetSym() );
     }
 
   // Add it to the container
@@ -585,40 +585,40 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
 void QuadEdgeMesh< TPixel, VDimension, TTraits >::
 DeleteEdge( QEPrimal* e )
 {
-  const PointIdentifier& orgPid  = e->GetOrg();
-  const PointIdentifier& destPid = e->GetDest();
+  const PointIdentifier& orgPid  = e->GetOrigin();
+  const PointIdentifier& destPid = e->GetDestination();
 
-  // Check if the Org point's edge ring entry should be changed
-  PointType pOrg = this->GetPoint( orgPid );
-  if( pOrg.GetEdge() == e )
+  // Check if the Origin point's edge ring entry should be changed
+  PointType pOrigin = this->GetPoint( orgPid );
+  if( pOrigin.GetEdge() == e )
     {
-    if( !e->IsOrgDisconnected() )
+    if( !e->IsOriginDisconnected() )
       {
-      pOrg.SetEdge( e->GetOprev() );
+      pOrigin.SetEdge( e->GetOprev() );
       }
     else
       {
-      pOrg.SetEdge( (QEPrimal*)NULL );
+      pOrigin.SetEdge( (QEPrimal*)NULL );
       }
 
-    this->SetPoint( orgPid, pOrg );
+    this->SetPoint( orgPid, pOrigin );
     }
 
-  // Same for the Dest point
-  PointType pDest = this->GetPoint( destPid );
+  // Same for the Destination point
+  PointType pDestination = this->GetPoint( destPid );
 
-  if( pDest.GetEdge() == e->GetSym() )
+  if( pDestination.GetEdge() == e->GetSym() )
     {
-    if( !e->IsDestDisconnected() )
+    if( !e->IsDestinationDisconnected() )
       {
-      pDest.SetEdge( e->GetLnext() );
+      pDestination.SetEdge( e->GetLnext() );
       }
     else
       {
-      pDest.SetEdge( (QEPrimal*)0 );
+      pDestination.SetEdge( (QEPrimal*)0 );
       }
 
-    this->SetPoint( destPid, pDest );
+    this->SetPoint( destPid, pDestination );
     }
 
   // This container serves to avoid the MS .net bug when
@@ -709,43 +709,43 @@ LightWeightDeleteEdge( QEPrimal* e )
   /////////////////////////////////////////////////////////////////
   // First make sure the points are not pointing to the edge we are
   // trying to delete.
-  const PointIdentifier& orgPid  = e->GetOrg();
-  const PointIdentifier& destPid = e->GetDest();
-  // Check if the Org point's edge ring entry is the edge we are
-  // trying to delete. When this is the case shift the Org edge entry
+  const PointIdentifier& orgPid  = e->GetOrigin();
+  const PointIdentifier& destPid = e->GetDestination();
+  // Check if the Origin point's edge ring entry is the edge we are
+  // trying to delete. When this is the case shift the Origin edge entry
   // to another edge and when no other edge is available leave it
   // to NULL.
-  PointType pOrg = this->GetPoint( orgPid );
+  PointType pOrigin = this->GetPoint( orgPid );
 
-  if( pOrg.GetEdge() == e )
+  if( pOrigin.GetEdge() == e )
     {
-    if( !e->IsOrgDisconnected() )
+    if( !e->IsOriginDisconnected() )
       {
-      pOrg.SetEdge( e->GetOprev() );
+      pOrigin.SetEdge( e->GetOprev() );
       }
     else
       {
-      pOrg.SetEdge( (QEPrimal*)NULL );
+      pOrigin.SetEdge( (QEPrimal*)NULL );
       }
 
-    this->SetPoint( orgPid, pOrg );
+    this->SetPoint( orgPid, pOrigin );
     }
 
-  // Same thing for the Dest point:
-  PointType pDest = this->GetPoint( destPid );
+  // Same thing for the Destination point:
+  PointType pDestination = this->GetPoint( destPid );
 
-  if( pDest.GetEdge() == e->GetSym() )
+  if( pDestination.GetEdge() == e->GetSym() )
     {
-    if( !e->IsDestDisconnected() )
+    if( !e->IsDestinationDisconnected() )
       {
-      pDest.SetEdge( e->GetLnext() );
+      pDestination.SetEdge( e->GetLnext() );
       }
     else
       {
-      pDest.SetEdge( (QEPrimal*)NULL );
+      pDestination.SetEdge( (QEPrimal*)NULL );
       }
 
-    this->SetPoint( destPid, pDest );
+    this->SetPoint( destPid, pDestination );
     }
 
   /////////////////////////////////////////////////////////////////
@@ -900,7 +900,7 @@ FindEdge( const PointIdentifier& pid0,
 
     while( it != initialEdge->EndGeomOnext() )
       {
-      if(  it.Value()->GetDest() == pid1 )
+      if(  it.Value()->GetDestination() == pid1 )
         {
         edgeFound = dynamic_cast< QEPrimal* >( it.Value() );
         break;
@@ -1026,7 +1026,7 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
 
   // Associate the above generated CellIndex as the default FaceRefType
   // of the new face [ i.e. use the itk level CellIdentifier as the
-  // GeometricalQuadEdge::m_Org of dual edges (edges of type QEDual) ].
+  // GeometricalQuadEdge::m_Origin of dual edges (edges of type QEDual) ].
   typename QEPrimal::IteratorGeom it;
   for( it = entry->BeginGeomLnext(); it != entry->EndGeomLnext(); it++ )
     {
@@ -1070,8 +1070,8 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
   QuadEdgeMesh< TPixel, VDimension, TTraits >::
   ComputeEdgeLength( QEPrimal* e )
 {
-  PointType org  = this->GetPoint( e->GetOrg()  );
-  PointType dest = this->GetPoint( e->GetDest() );
+  PointType org  = this->GetPoint( e->GetOrigin()  );
+  PointType dest = this->GetPoint( e->GetDestination() );
 
   return ( dest.GetVectorFromOrigin() -
       org.GetVectorFromOrigin() ).GetNorm();

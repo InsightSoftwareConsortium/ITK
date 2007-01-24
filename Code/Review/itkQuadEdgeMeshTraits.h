@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshTraits.h
-// $Revision: 1.3 $
+// $Revision: 1.4 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-17 13:32:35 $
+// $Date: 2007-01-24 22:52:30 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -93,8 +93,8 @@ public:
   typedef typename QEPrimal::Dual             QEDual;
   /// FOR LEO typedef typename QEPrimal::Superclass     QEType;
   /// FOR LEO typedef typename QEPrimal::Dual           QEDual;
-  typedef typename QEPrimal::OrgRefType     VertexRefType;
-  typedef typename QEPrimal::DualOrgRefType FaceRefType;
+  typedef typename QEPrimal::OriginRefType     VertexRefType;
+  typedef typename QEPrimal::DualOriginRefType FaceRefType;
 
   /** Points have an entry in the Onext ring */
   typedef QuadEdgeMeshPoint< CoordRepType, VPointDimension, QEPrimal >  PointType;

@@ -3,7 +3,7 @@
 // $Revision $
 // $Author $
 // $Name:  $
-// $Date: 2007-01-19 19:30:46 $
+// $Date: 2007-01-24 22:52:30 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -82,8 +82,8 @@ public:
 
   /** QE types. */
   typedef typename Superclass::CellTraits::QuadEdgeType  QEType;
-  typedef typename QEType::OrgRefType                    VertexRefType;
-  typedef typename QEType::DualOrgRefType                FaceRefType;
+  typedef typename QEType::OriginRefType                 VertexRefType;
+  typedef typename QEType::DualOriginRefType             FaceRefType;
   typedef typename QEType::PrimalDataType                PrimalDataType;
   typedef typename QEType::DualDataType                  DualDataType;
   typedef typename QEType::Dual                          QEDual;

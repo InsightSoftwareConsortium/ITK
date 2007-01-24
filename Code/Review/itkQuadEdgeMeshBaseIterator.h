@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshBaseIterator.h
-// $Revision: 1.2 $
+// $Revision: 1.3 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-16 22:30:06 $
+// $Date: 2007-01-24 22:52:30 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -258,14 +258,14 @@ template< typename TGeometricalQuadEdge >
         typedef TGeometricalQuadEdge                   QuadEdgeType;
 
         /** Geometric value type. */
-        typedef typename QuadEdgeType::OrgRefType OrgRefType;
+        typedef typename QuadEdgeType::OriginRefType OriginRefType;
 
         public:
         QuadEdgeMeshIteratorGeom( QuadEdgeType* e = (QuadEdgeType*)0,
                       int op = Superclass::OperatorOnext,
                       bool start = true )
             : Superclass( e, op, start ) {}
-        OrgRefType operator*() { return this->m_Iterator->GetOrg(); }
+        OriginRefType operator*() { return this->m_Iterator->GetOrigin(); }
     };
 
 /**
@@ -318,7 +318,7 @@ template< typename TGeometricalQuadEdge >
         typedef TGeometricalQuadEdge                  QuadEdgeType;
 
         /** Geometric value type. */
-        typedef typename QuadEdgeType::OrgRefType OrgRefType;
+        typedef typename QuadEdgeType::OriginRefType OriginRefType;
 
         public:
         QuadEdgeMeshConstIteratorGeom( const QuadEdgeType* e = (QuadEdgeType*)0,
@@ -337,9 +337,9 @@ template< typename TGeometricalQuadEdge >
             return *this;
         }
 
-        const OrgRefType operator*() const
+        const OriginRefType operator*() const
         {
-            return this->m_Iterator->GetOrg();
+            return this->m_Iterator->GetOrigin();
         }
     };
 

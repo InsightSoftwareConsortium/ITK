@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshPolygonCell.txx
-// $Revision: 1.1 $
+// $Revision: 1.2 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-17 16:34:38 $
+// $Date: 2007-01-24 22:52:30 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -125,7 +125,7 @@ template< class TCellInterface >
     PointIdIterator i1 = this->PointIdsBegin( );
     PointIdConstIterator i2 = first;
     for( ; i1 != this->PointIdsEnd( ); i1++, i2++ )
-        i1.Value( )->SetOrg( *i2 );
+        i1.Value( )->SetOrigin( *i2 );
 }
 
 // ---------------------------------------------------------------------
@@ -137,7 +137,7 @@ template< class TCellInterface >
     PointIdIterator i1 = this->PointIdsBegin( );
     PointIdConstIterator i2 = first;
     for( ; i1 != this->PointIdsEnd( ) && i2 != last; i1++, i2++ )
-        i1.Value( )->SetOrg( *i2 );
+        i1.Value( )->SetOrigin( *i2 );
 }
 
 // ---------------------------------------------------------------------
@@ -151,8 +151,8 @@ template< class TCellInterface >
     {
         if( n == localId )
         {
-            it.Value( )->SetOrg( pId );
-            it.Value( )->GetOnext( )->SetOrg( pId );
+            it.Value( )->SetOrigin( pId );
+            it.Value( )->GetOnext( )->SetOrigin( pId );
         } // fi
     } // rof
 }

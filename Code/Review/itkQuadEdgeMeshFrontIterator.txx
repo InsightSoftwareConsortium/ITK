@@ -3,7 +3,7 @@
 // $Revision $
 // $Author $
 // $Name $
-// $Date: 2007-01-13 12:42:15 $
+// $Date: 2007-01-24 22:52:30 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -55,8 +55,8 @@ template< class TMesh, class TQE >
         m_Front = new FrontType;
         m_Front->push_back( FrontAtom( seed, 0 ) );
         m_IsPointVisited = IsVisitedContainerType::New( );
-        m_IsPointVisited->SetElement( seed->GetOrg( ), true );
-        m_IsPointVisited->SetElement( seed->GetDest( ), true );
+        m_IsPointVisited->SetElement( seed->GetOrigin( ), true );
+        m_IsPointVisited->SetElement( seed->GetDestination( ), true );
         m_CurrentEdge = seed;
     }
 
@@ -85,7 +85,7 @@ template< class TMesh, class TQE >
        FrontTypeIterator fit = m_Front->begin( );
        QEType* edge = fit->Edge;
                                                                                 
-        // Traverse the Onext ring in search of an unvisited Org:
+        // Traverse the Onext ring in search of an unvisited Origin:
         typedef typename QEType::IteratorGeom      QEIterator;
         for( QEIterator qit  = edge->BeginGeomOnext( );
                         qit != edge->EndGeomOnext( );
@@ -93,21 +93,21 @@ template< class TMesh, class TQE >
         {
            QEType* oEdge = qit.Value( );
            // Things are quite straightforward except when QEType 
-           // is in fact a QEDual (in disguise) AND oEdge->GetDest( )
-           // is NOFACE [in which case oEdge->GetDest() has a value
-           // but oEdge->IsDestSet() is false]. When this is the case
-           // we consider oEdge->GetDest() as allready visited.
-           if(    ( m_IsPointVisited->IndexExists( oEdge->GetDest( ) ) )
-               || ( ! oEdge->IsDestSet( ) ) )
+           // is in fact a QEDual (in disguise) AND oEdge->GetDestination( )
+           // is NOFACE [in which case oEdge->GetDestination() has a value
+           // but oEdge->IsDestination() is false]. When this is the case
+           // we consider oEdge->GetDestination() as allready visited.
+           if(    ( m_IsPointVisited->IndexExists( oEdge->GetDestination() ) )
+               || ( ! oEdge->IsDestinationSet() ) )
            {
               continue;
            }
            else
            {
               // Mark the destination as visited:
-              m_IsPointVisited->SetElement( oEdge->GetDest( ), true );
+              m_IsPointVisited->SetElement( oEdge->GetDestination( ), true );
 
-              // Compute the Cost of the new OrgType:
+              // Compute the Cost of the new OriginType:
               CoordRepType oCost = this->GetCost( oEdge ) + fit->Cost;
 
               // Push the Sym() on the front:
@@ -119,7 +119,7 @@ template< class TMesh, class TQE >
            }
         }
                                                                                 
-        // All the edge->Org() neighbours were allready visited. Remove
+        // All the edge->Origin() neighbours were allready visited. Remove
         // the edge from the front, and move to next edge...
         m_Front->pop_front( );
         m_CurrentEdge = (QEType*)0;

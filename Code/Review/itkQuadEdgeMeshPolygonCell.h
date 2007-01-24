@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshPolygonCell.h
-// $Revision: 1.1 $
+// $Revision: 1.2 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-17 16:34:38 $
+// $Date: 2007-01-24 22:52:30 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -74,8 +74,8 @@ template< class TCellInterface >
 
    /** QE types. */
    typedef typename Superclass::CellTraits::QuadEdgeType  QEType;
-   typedef typename QEType::OrgRefType                    VertexRefType;
-   typedef typename QEType::DualOrgRefType                FaceRefType;
+   typedef typename QEType::OriginRefType                 VertexRefType;
+   typedef typename QEType::DualOriginRefType             FaceRefType;
    typedef typename QEType::PrimalDataType                PrimalDataType;
    typedef typename QEType::DualDataType                  DualDataType;
    typedef typename QEType::Dual                          QEDual;

@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshFrontIterator.h
-// $Revision: 1.1 $
+// $Revision: 1.2 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-13 12:42:15 $
+// $Date: 2007-01-24 22:52:30 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -86,7 +86,7 @@ class QuadEdgeMeshFrontBaseIterator
     // Mesh types
     typedef typename MeshType::CoordRepType    CoordRepType;
     // QE types
-    typedef typename QEType::OrgRefType     QEOrgType;
+    typedef typename QEType::OriginRefType     QEOriginType;
 
     /** Atomic information associated to each edge of the front. Note that
      *  when sorting this list, the sorting criteria is the Cost attribute.
@@ -119,10 +119,10 @@ class QuadEdgeMeshFrontBaseIterator
     typedef typename FrontType::iterator FrontTypeIterator;
     typedef FrontType*                   FrontTypePointer;
 
-    /** Wether an Org (i.e. a vertex or a face since we either deal with
+    /** Wether an Origin (i.e. a vertex or a face since we either deal with
      *  primal or dual edges) was allready visited.
      */
-    typedef itk::MapContainer< QEOrgType, bool > IsVisitedContainerType;
+    typedef itk::MapContainer< QEOriginType, bool > IsVisitedContainerType;
     typedef typename IsVisitedContainerType::Pointer IsVisitedPointerType;
 
     public:
