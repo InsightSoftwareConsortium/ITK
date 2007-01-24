@@ -1115,6 +1115,9 @@ int itkQuadEdgeTest1( int , char* [] )
   QuadEdgeType * quadEdgeC4 = new QuadEdgeType;
 
   const QuadEdgeType * quadEdgeA1c = quadEdgeA1;
+  const QuadEdgeType * quadEdgeB1c = quadEdgeB1;
+  const QuadEdgeType * quadEdgeC1c = quadEdgeC1;
+  const QuadEdgeType * quadEdgeA4c = quadEdgeA4;
 
   quadEdgeA1c->IsLnextGivenSizeCyclic( 3 ); // testing null case
 
@@ -1153,6 +1156,46 @@ int itkQuadEdgeTest1( int , char* [] )
   quadEdgeB1->SetOnext( quadEdgeA3 );
   quadEdgeC1->SetOnext( quadEdgeB3 );
 
+  const unsigned int quadEdgeA1Order = quadEdgeA1c->GetOrder();
+  const unsigned int quadEdgeA1ExpectedOrder = 2;
+  if( quadEdgeA1Order  != quadEdgeA1ExpectedOrder )
+    {
+    std::cerr << "Error in GetOrder() A" << std::endl;
+    std::cerr << "Expected " << quadEdgeA1ExpectedOrder;
+    std::cerr << ", but got " << quadEdgeA1Order << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  const unsigned int quadEdgeB1Order = quadEdgeB1c->GetOrder();
+  const unsigned int quadEdgeB1ExpectedOrder = 2;
+  if( quadEdgeB1Order  != quadEdgeB1ExpectedOrder )
+    {
+    std::cerr << "Error in GetOrder() B" << std::endl;
+    std::cerr << "Expected " << quadEdgeB1ExpectedOrder;
+    std::cerr << ", but got " << quadEdgeB1Order << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  const unsigned int quadEdgeC1Order = quadEdgeC1c->GetOrder();
+  const unsigned int quadEdgeC1ExpectedOrder = 2;
+  if( quadEdgeC1Order  != quadEdgeC1ExpectedOrder )
+    {
+    std::cerr << "Error in GetOrder() C" << std::endl;
+    std::cerr << "Expected " << quadEdgeC1ExpectedOrder;
+    std::cerr << ", but got " << quadEdgeC1Order << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  const unsigned int quadEdgeA4Order = quadEdgeA4c->GetOrder();
+  const unsigned int quadEdgeA4ExpectedOrder = 3;
+  if( quadEdgeA4Order  != quadEdgeA4ExpectedOrder )
+    {
+    std::cerr << "Error in GetOrder() D" << std::endl;
+    std::cerr << "Expected " << quadEdgeA4ExpectedOrder;
+    std::cerr << ", but got " << quadEdgeA4Order << std::endl;
+    return EXIT_FAILURE;
+    }
+
   // Check with the right period 
   if( quadEdgeA1c->IsLnextGivenSizeCyclic( 3 ) == false )
     {
@@ -1185,6 +1228,7 @@ int itkQuadEdgeTest1( int , char* [] )
   std::cout << "IsLnextGivenSizeCyclic() Test passed ! " << std::endl;
   } // end of local scope for tests
 
+  std::cout << "QuadEdge Test Passed !" << std::endl;
 
   return EXIT_SUCCESS;
 }
