@@ -941,6 +941,50 @@ int itkQuadEdgeTest1( int , char* [] )
   }
 
 
+  // Tests for the IsHalfEdge() method
+  { // create a local scope for these tests
+  QuadEdgeType * quadEdge1 = new QuadEdgeType;
+  QuadEdgeType * quadEdge2 = new QuadEdgeType;
+  QuadEdgeType * quadEdgeA = new QuadEdgeType;
+
+  const QuadEdgeType * quadEdge1c = quadEdge1;
+
+  if( quadEdge1c->IsHalfEdge() != true )
+    {
+    std::cerr << "Error in IsHalfEdge() A" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  quadEdge1->SetRot( quadEdge2 );
+
+  if( quadEdge1c->IsHalfEdge() != true )
+    {
+    std::cerr << "Error in IsHalfEdge() B" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  quadEdge1->SetOnext( quadEdgeA );
+
+  if( quadEdge1c->IsHalfEdge() != false )
+    {
+    std::cerr << "Error in IsHalfEdge() C" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  quadEdge1->SetRot( NULL );
+
+  if( quadEdge1c->IsHalfEdge() != true )
+    {
+    std::cerr << "Error in IsHalfEdge() D" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  delete quadEdge1;
+  delete quadEdge2;
+  delete quadEdgeA;
+
+  std::cout << "IsHalfEdge() Test passed ! " << std::endl;
+  }
 
 
   return EXIT_SUCCESS;
