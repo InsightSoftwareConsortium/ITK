@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshPolygonCell.txx
-// $Revision: 1.2 $
+// $Revision: 1.3 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-24 22:52:30 $
+// $Date: 2007-01-24 23:32:37 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -35,15 +35,13 @@ template< class TCellInterface >
           m_Ident( 0 ), m_EdgeRingEntry( 0 )
 {
     // Create entry point
-    m_EdgeRingEntry = new QEType( );
-    m_EdgeRingEntry->MakeEdge( );
+    m_EdgeRingEntry = this->MakeQuadEdges();
 
     // Create the rest
     QEType* last = m_EdgeRingEntry;
     for( int i = 1; i < nPoints; i++ )
     {
-        QEType* edge = new QEType( );
-        edge->MakeEdge( );
+        QEType * edge = this->MakeQuadEdges( );
 
         edge->Splice( last->GetSym( ) );
         last = edge;
@@ -63,14 +61,39 @@ template< class TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    typename PolygonCell< TCellInterface >::SelfAutoPointer
-    PolygonCell< TCellInterface >::
-    New( )
+typename PolygonCell< TCellInterface >::SelfAutoPointer
+PolygonCell< TCellInterface >
+::New()
 {
     SelfAutoPointer ptr( new Self );
     ptr.TakeOwnership( );
     return( ptr );
 }
+
+// ---------------------------------------------------------------------
+template< class TCellInterface >
+typename PolygonCell< TCellInterface >::QEType *
+PolygonCell< TCellInterface >
+::MakeQuadEdges()
+{
+  QEType * e1 = new QEType();
+  QEDual * e2 = new QEDual();
+  QEType * e3 = new QEType();
+  QEDual * e4 = new QEDual();
+  
+  e1->SetRot( e2 );
+  e2->SetRot( e3 );
+  e3->SetRot( e4 );
+  e4->SetRot( e1 );
+  
+  e1->SetOnext( e1 );
+  e2->SetOnext( e4 );
+  e3->SetOnext( e3 );
+  e4->SetOnext( e4 );
+
+  return e1;
+}
+
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
