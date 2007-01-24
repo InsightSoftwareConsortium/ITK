@@ -1024,6 +1024,168 @@ int itkQuadEdgeTest1( int , char* [] )
   }
 
 
+  // Tests for the IsEdgeInOnextRing() method
+  { // create a local scope for these tests
+  QuadEdgeType * quadEdge1 = new QuadEdgeType;
+  QuadEdgeType * quadEdge2 = new QuadEdgeType;
+  QuadEdgeType * quadEdge3 = new QuadEdgeType;
+  QuadEdgeType * quadEdge4 = new QuadEdgeType;
+  QuadEdgeType * quadEdge5 = new QuadEdgeType;
+  QuadEdgeType * quadEdge6 = new QuadEdgeType;
+
+  const QuadEdgeType * quadEdge1c = quadEdge1;
+
+  quadEdge1c->IsEdgeInOnextRing( NULL ); // testing null case
+
+  if( quadEdge1c->IsEdgeInOnextRing( quadEdge6 ) == true )
+    {
+    std::cerr << "Error in IsEdgeInOnextRing() A" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Create a ring
+  quadEdge1->SetOnext( quadEdge2 );
+  quadEdge2->SetOnext( quadEdge3 );
+  quadEdge3->SetOnext( quadEdge4 );
+  quadEdge4->SetOnext( quadEdge5 );
+  quadEdge5->SetOnext( quadEdge1 );
+
+  if( quadEdge1c->IsEdgeInOnextRing( quadEdge6 ) == true )
+    {
+    std::cerr << "Error in IsEdgeInOnextRing() B" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Close the ring by adding 
+  quadEdge5->SetOnext( quadEdge6 );
+  quadEdge6->SetOnext( quadEdge1 );
+
+  if( quadEdge1c->IsEdgeInOnextRing( quadEdge6 ) == false )
+    {
+    std::cerr << "Error in IsEdgeInOnextRing() C" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  delete quadEdge1;
+  delete quadEdge2;
+  delete quadEdge3;
+  delete quadEdge4;
+  delete quadEdge5;
+  delete quadEdge6;
+
+  std::cout << "IsEdgeInOnextRing() Test passed ! " << std::endl;
+  } // end of local scope for tests
+
+
+
+  // Tests for the IsLnextGivenSizeCyclic() method
+  { // create a local scope for these tests
+  //
+  //
+  // Create quad-edges on the three physical 
+  // edges (A,B,C) of a triangular face
+  //
+  //
+  //                   /\
+  //                  /  \
+  //                 /    \
+  //                /      \
+  //           B   /        \  A 
+  //              /          \
+  //             /            \
+  //            /              \
+  //           /                \
+  //           ------------------ 
+  //                   C   quadEdgeC1-->
+  //
+  //
+  QuadEdgeType * quadEdgeA1 = new QuadEdgeType;
+  QuadEdgeType * quadEdgeA2 = new QuadEdgeType;
+  QuadEdgeType * quadEdgeA3 = new QuadEdgeType;
+  QuadEdgeType * quadEdgeA4 = new QuadEdgeType;
+
+  QuadEdgeType * quadEdgeB1 = new QuadEdgeType;
+  QuadEdgeType * quadEdgeB2 = new QuadEdgeType;
+  QuadEdgeType * quadEdgeB3 = new QuadEdgeType;
+  QuadEdgeType * quadEdgeB4 = new QuadEdgeType;
+
+  QuadEdgeType * quadEdgeC1 = new QuadEdgeType;
+  QuadEdgeType * quadEdgeC2 = new QuadEdgeType;
+  QuadEdgeType * quadEdgeC3 = new QuadEdgeType;
+  QuadEdgeType * quadEdgeC4 = new QuadEdgeType;
+
+  const QuadEdgeType * quadEdgeA1c = quadEdgeA1;
+
+  quadEdgeA1c->IsLnextGivenSizeCyclic( 3 ); // testing null case
+
+  if( quadEdgeA1c->IsLnextGivenSizeCyclic( 3 ) == true )
+    {
+    std::cerr << "Error in IsLnextGivenSizeCyclic() A" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  // Connect quad-edges inside physical edge A
+  quadEdgeA1->SetRot( quadEdgeA2 );
+  quadEdgeA2->SetRot( quadEdgeA3 );
+  quadEdgeA3->SetRot( quadEdgeA4 );
+  quadEdgeA4->SetRot( quadEdgeA1 );
+
+  // Connect quad-edges inside physical edge B
+  quadEdgeB1->SetRot( quadEdgeB2 );
+  quadEdgeB2->SetRot( quadEdgeB3 );
+  quadEdgeB3->SetRot( quadEdgeB4 );
+  quadEdgeB4->SetRot( quadEdgeB1 );
+
+  // Connect quad-edges inside physical edge C
+  quadEdgeC1->SetRot( quadEdgeC2 );
+  quadEdgeC2->SetRot( quadEdgeC3 );
+  quadEdgeC3->SetRot( quadEdgeC4 );
+  quadEdgeC4->SetRot( quadEdgeC1 );
+
+  // Connect the Oring of quad-edges inside the face
+  quadEdgeA4->SetOnext( quadEdgeB4 );
+  quadEdgeB4->SetOnext( quadEdgeC4 );
+  quadEdgeC4->SetOnext( quadEdgeA4 );
+
+  // Connect the Oring of the three vertices
+  quadEdgeA1->SetOnext( quadEdgeC3 );
+  quadEdgeB1->SetOnext( quadEdgeA3 );
+  quadEdgeC1->SetOnext( quadEdgeB3 );
+
+  // Check with the right period 
+  if( quadEdgeA1c->IsLnextGivenSizeCyclic( 3 ) == false )
+    {
+    std::cerr << "Error in IsLnextGivenSizeCyclic() B" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Check a wrong period on purpose
+  if( quadEdgeA1c->IsLnextGivenSizeCyclic( 4 ) == true )
+    {
+    std::cerr << "Error in IsLnextGivenSizeCyclic() C" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  delete quadEdgeA1;
+  delete quadEdgeA2;
+  delete quadEdgeA3;
+  delete quadEdgeA4;
+
+  delete quadEdgeB1;
+  delete quadEdgeB2;
+  delete quadEdgeB3;
+  delete quadEdgeB4;
+
+  delete quadEdgeC1;
+  delete quadEdgeC2;
+  delete quadEdgeC3;
+  delete quadEdgeC4;
+
+  std::cout << "IsLnextGivenSizeCyclic() Test passed ! " << std::endl;
+  } // end of local scope for tests
+
+
   return EXIT_SUCCESS;
 }
 
