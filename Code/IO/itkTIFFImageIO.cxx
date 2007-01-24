@@ -1358,7 +1358,10 @@ void TIFFImageIO::ReadImageInformation()
   m_Spacing[1] = 1.0;
 
   // If we have some spacing information we use it
-  if(m_InternalImage->ResolutionUnit>0)
+  if(m_InternalImage->ResolutionUnit>0
+    && m_InternalImage->XResolution>0
+    && m_InternalImage->YResolution>0
+    )
     {
     if(m_InternalImage->ResolutionUnit == 2) // inches
       {
@@ -1372,10 +1375,8 @@ void TIFFImageIO::ReadImageInformation()
       }
     }
 
-
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
-
 
   int width  = m_InternalImage->Width;
   int height = m_InternalImage->Height;
