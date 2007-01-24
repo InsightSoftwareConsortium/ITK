@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkGeometricalQuadEdge.h
-// $Revision: 1.7 $
+// $Revision: 1.8 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-24 22:52:01 $
+// $Date: 2007-01-24 23:31:54 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -65,10 +65,10 @@ public:
                         !PrimalDual > Dual;
 
   /** Input template parameters & values convenient renaming. */
-  typedef TVRef  OriginRefType;
-  typedef TFRef  DualOriginRefType;
-  typedef TPrimalData PrimalDataType;
-  typedef TDualData DualDataType;
+  typedef TVRef               OriginRefType;
+  typedef TFRef               DualOriginRefType;
+  typedef TPrimalData         PrimalDataType;
+  typedef TDualData           DualDataType;
 
 public:
 
@@ -91,10 +91,6 @@ public:
   itkQEDefineIteratorGeomMethodsMacro( InvRnext );
   itkQEDefineIteratorGeomMethodsMacro( InvDnext );
 
-
-  /** Method that creates a complete definition of a quad-edge.
-   *  The Onext ring and the Rot sub-algebra.  */
-  virtual void MakeEdge();
 
   /** QE macros. */
   itkQEAccessorsMacro( Superclass, Self, Dual );
@@ -217,7 +213,7 @@ public:
   void Disconnect( );
 
 public:
-  /// Reserved OriginRefType designated to represent the absence of Origin
+  // Reserved OriginRefType designated to represent the absence of Origin
   static const OriginRefType NOPOINT;
 
 protected:
