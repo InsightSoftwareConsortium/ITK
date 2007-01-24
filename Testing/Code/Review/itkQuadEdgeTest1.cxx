@@ -247,6 +247,59 @@ int itkQuadEdgeTest1( int , char* [] )
   }
 
 
+  // Tests for the GetRnext() methods
+  // returns the next edge with same left face
+  { // create a local scope for these tests
+  QuadEdgeType * quadEdge1 = new QuadEdgeType;
+  QuadEdgeType * quadEdge2 = new QuadEdgeType;
+  QuadEdgeType * quadEdge3 = new QuadEdgeType;
+  QuadEdgeType * quadEdge4 = new QuadEdgeType;
+  QuadEdgeType * quadEdgeA = new QuadEdgeType;
+  QuadEdgeType * quadEdgeB = new QuadEdgeType;
+  const QuadEdgeType * quadEdgeAc = quadEdgeA;
+
+  quadEdge1->GetRnext(); // testing null case
+
+  //
+  //        quadEdge1
+  //   --------------------->O
+  //                        /
+  //                       / 
+  //          Face        /
+  //                     /quadEdgeA
+  //                    /
+  //
+  
+  quadEdgeA->SetRot( quadEdgeB );
+  quadEdgeB->SetOnext( quadEdge2 );
+
+  quadEdge1->SetRot( quadEdge2 );
+  quadEdge2->SetRot( quadEdge3 );
+  quadEdge3->SetRot( quadEdge4 );
+  quadEdge4->SetRot( quadEdge1 );
+
+  if( quadEdgeA->GetRnext() != quadEdge1 )
+    {
+    std::cerr << "Error in GetRnext()" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( quadEdgeAc->GetRnext() != quadEdge1 )
+    {
+    std::cerr << "Error in const GetRnext()" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  delete quadEdge1;
+  delete quadEdge2;
+  delete quadEdge3;
+  delete quadEdge4;
+  delete quadEdgeA;
+  delete quadEdgeB;
+
+  std::cout << "GetRnext() Test passed ! " << std::endl;
+  }
+
 
   return EXIT_SUCCESS;
 }
