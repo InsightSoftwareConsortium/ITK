@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkGeometricalQuadEdge.txx
-// $Revision: 1.9 $
+// $Revision: 1.10 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-24 23:31:54 $
+// $Date: 2007-01-24 23:57:41 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -59,13 +59,13 @@ template< typename TVRef, typename TFRef,
 GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
 ::~GeometricalQuadEdge()
 {
-  Dual * e1 = this->GetRot();
+  DualType * e1 = this->GetRot();
   if( e1 )
     {
     Self * e2 = e1->GetRot();
     if( e2 )
       {
-      Dual * e3 = e2->GetRot();
+      DualType * e3 = e2->GetRot();
       if( e3 )
         {
         delete e3;

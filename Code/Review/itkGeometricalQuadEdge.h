@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkGeometricalQuadEdge.h
-// $Revision: 1.8 $
+// $Revision: 1.9 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-24 23:31:54 $
+// $Date: 2007-01-24 23:57:41 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -28,25 +28,44 @@
 namespace itk
 {
 
-/**
- * The only purpose of the last paramater of the template is to guarantee
- * that the two types GeometricalQuadEdge<...> and GeometricalQuadEdge<...>::Dual are
- * always different (in the sense that their typeid() are different).
- * If we only had the four first parameters and assume that
- * GeometricalQuadEdge<...> gets instantiated with types such that TVRef = TFRef 
- * and TPrimalData = TDualData then this instantiation GeometricalQuadEdge<...> and
- * GeometricalQuadEdge<...>::Dual would be the same types (this is simply due to
- * the very definition of GeometricalQuadEdge<...>::Dual). This would in turn
- * make the types QEType and QEDual of \ref itkQE::Mesh identical and
- * would prevent any algorithm requiring to distinguish those types
- * (e.g. by relying on a dynamic_cast<QEType*>) to be effective.
- * This justifies the existence of last dummy template parameter and
- * it's default value.
+/** \class GeometricalQuadEdge
+ * \brief This class extends the QuadEdge by adding a reference to the Origin.
+ *
+ * The class is implemented in such a way that it can generate its own Dual.
+ * In a physical edge, there will be four GeometricalQuadEdge. Two of them will
+ * be Primal and two will be Dual. The Primal ones are parallel to the physical
+ * edge and their origins relate to the mesh points. The Dual ones are
+ * orthogonal to the physical edge and their origins relate to the faces at
+ * each side of the physical edge.
+ *
+ * The only purpose of the last paramater of the template is to guarantee that
+ * the two types GeometricalQuadEdge<...> and GeometricalQuadEdge<...>::Dual
+ * are always different (in the sense that their typeid() are different).  If
+ * we only had the four first parameters and assume that
+ * GeometricalQuadEdge<...> gets instantiated with types such that TVRef =
+ * TFRef and TPrimalData = TDualData then this instantiation
+ * GeometricalQuadEdge<...> and GeometricalQuadEdge<...>::Dual would be the
+ * same types (this is simply due to the very definition of
+ * GeometricalQuadEdge<...>::Dual). This would in turn make the types QEType
+ * and QEDual of \ref itkQE::Mesh identical and would prevent any algorithm
+ * requiring to distinguish those types (e.g. by relying on a
+ * dynamic_cast<QEType*>) to be effective.  This justifies the existence of
+ * last dummy template parameter and it's default value.
+ *
+ * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
+ *
+ * This implementation was contributed as a paper to the Insight Journal
+ * http://hdl.handle.net/1926/306
+ 
+ *
+ * \sa QuadEdge
+ *
+ * \ingroup MeshObjects
  */
 template< typename TVRef,  typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual = true >
-class GeometricalQuadEdge
-    : public QuadEdge
+          typename TPrimalData, typename TDualData, 
+          bool PrimalDual = true >
+class GeometricalQuadEdge : public QuadEdge
 {
 public:
   /** Hierarchy typedefs. */
@@ -58,11 +77,9 @@ public:
    * Dual type, basically the same type with swapped template
    * parameters.
    *
-   * WARNING: Recursive template definitions work fine in linux.
-   *          I haven't run tests on Win$-based PCs.
    */
-  typedef GeometricalQuadEdge< TFRef, TVRef, TDualData, TPrimalData,
-                        !PrimalDual > Dual;
+  typedef GeometricalQuadEdge< TFRef, TVRef, 
+    TDualData, TPrimalData, !PrimalDual >         DualType;
 
   /** Input template parameters & values convenient renaming. */
   typedef TVRef               OriginRefType;
@@ -93,7 +110,7 @@ public:
 
 
   /** QE macros. */
-  itkQEAccessorsMacro( Superclass, Self, Dual );
+  itkQEAccessorsMacro( Superclass, Self, DualType );
 
 public:
   /** Memory creation methods. */
