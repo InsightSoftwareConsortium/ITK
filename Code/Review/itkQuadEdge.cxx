@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.cxx
-// $Revision: 1.9 $
+// $Revision: 1.10 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-24 15:53:18 $
+// $Date: 2007-01-24 17:40:18 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -669,7 +669,11 @@ QuadEdge
   ConstIterator it = this->BeginOnext(); 
   while( it != this->EndOnext() )
     {
-    if( this == testEdge )
+    if( it.Value() == NULL )
+      {
+      return false;
+      }
+    if( it.Value() == testEdge ) 
       {
       return true;
       }
