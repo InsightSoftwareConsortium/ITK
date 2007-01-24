@@ -156,16 +156,16 @@ int itkQuadEdgeMeshFrontIteratorTest( int , char *[] )
     {
     QEType* edge = it.Value();
 
-    PointIdentifier org  = edge->GetOrg();
-    PointIdentifier dest = edge->GetDest();
+    PointIdentifier origin  = edge->GetOrigin();
+    PointIdentifier destination = edge->GetDestination();
 
-    if( !visitedSet.count( org ) )
+    if( !visitedSet.count( origin ) )
       {
-      visitedSet.insert( org );
+      visitedSet.insert( origin );
       }
-    if( !visitedSet.count( dest ) )
+    if( !visitedSet.count( destination ) )
       {
-      visitedSet.insert( dest );
+      visitedSet.insert( destination );
       }
     }
 
