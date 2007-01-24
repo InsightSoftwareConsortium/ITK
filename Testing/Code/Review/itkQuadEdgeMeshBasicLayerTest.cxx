@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshBasicLayerTest.cxx
-// $Revision: 1.3 $
+// $Revision: 1.4 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-24 23:33:11 $
+// $Date: 2007-01-24 23:58:31 $
 // -------------------------------------------------------------------------
 
 // Program test for the basic QE layer.
@@ -15,7 +15,7 @@ class itkQuadEdgeMeshBasicLayerTestHelper
 {
 public:
   typedef itk::GeometricalQuadEdge< int, int, bool, bool >  PrimalType;
-  typedef PrimalType::Dual                                  DualType;
+  typedef PrimalType::DualType                              DualType;
 
   static PrimalType * MakeQuadEdges()
   {

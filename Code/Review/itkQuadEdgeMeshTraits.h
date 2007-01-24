@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshTraits.h
-// $Revision: 1.4 $
+// $Revision: 1.5 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-24 22:52:30 $
+// $Date: 2007-01-24 23:58:14 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -90,7 +90,7 @@ public:
   typedef GeometricalQuadEdge< PointIdentifier, CellIdentifier,
                         PrimalDataType, DualDataType > QEPrimal;
   //typedef QEPrimal QEType;
-  typedef typename QEPrimal::Dual             QEDual;
+  typedef typename QEPrimal::DualType             QEDual;
   /// FOR LEO typedef typename QEPrimal::Superclass     QEType;
   /// FOR LEO typedef typename QEPrimal::Dual           QEDual;
   typedef typename QEPrimal::OriginRefType     VertexRefType;

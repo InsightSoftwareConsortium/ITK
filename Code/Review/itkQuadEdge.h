@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdge.h
-// $Revision: 1.9 $
+// $Revision: 1.10 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-23 23:01:16 $
+// $Date: 2007-01-24 23:58:14 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -221,6 +221,8 @@ namespace itk
  * http://hdl.handle.net/1926/306
  *
  * \sa \ref DoxyWalkingLocalShort "Accessing adjacent edges."
+ *
+ * \ingroup MeshObjects
  */
 class QuadEdge
 {

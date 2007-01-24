@@ -3,7 +3,7 @@
 // $Revision $
 // $Author $
 // $Name $
-// $Date: 2007-01-24 22:52:30 $
+// $Date: 2007-01-24 23:58:14 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -143,7 +143,7 @@ template< class TMesh, class TQE >
         {
            return edge;
         }
-        typedef typename QEType::Dual QEDual;
+        typedef typename QEType::DualType QEDual;
         if( QEDual* edge = dynamic_cast< QEDual* >( cellIterator.Value()) )
         {
            return edge->GetRot( );
