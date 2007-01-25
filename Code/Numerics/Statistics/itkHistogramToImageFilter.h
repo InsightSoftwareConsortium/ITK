@@ -55,26 +55,26 @@ class ITK_EXPORT HistogramToImageFilter :
 public:
 
   /** Standard class typedefs. */
-  typedef TFunction                            FunctorType;
-  typedef typename FunctorType::OutputPixelType           OutputPixelType;
-  typedef HistogramToImageFilter               Self;
+  typedef TFunction                             FunctorType;
+  typedef typename FunctorType::OutputPixelType OutputPixelType;
+  typedef HistogramToImageFilter                Self;
   typedef ImageSource< Image<OutputPixelType, 
-    ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> >           
-                                                                       Superclass;
+    ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> >
+    Superclass;
   typedef SmartPointer<Self>                   Pointer;
   typedef SmartPointer<const Self>             ConstPointer;
   
   typedef Image<OutputPixelType, 
-    ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension >           
+    ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension >
     OutputImageType; 
   typedef typename Superclass::Pointer    OutputImagePointer;
   typedef typename OutputImageType::SpacingType SpacingType;
-  typedef typename OutputImageType::PointType PointType;
+  typedef typename OutputImageType::PointType   PointType;
 
   
   // Define an iterator to iterate through the image
   typedef itk::ImageRegionIteratorWithIndex< Image<OutputPixelType, 
-    ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> >           
+    ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> >
                                                              ImageIteratorType;
 
   /** Method for creation through the object factory. */
@@ -87,7 +87,7 @@ public:
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
   /** Some convenient typedefs. */
-  typedef THistogram  HistogramType;
+  typedef THistogram                                     HistogramType;
   typedef typename HistogramType::MeasurementVectorType  MeasurementVectorType;
   typedef typename HistogramType::SizeType               HistogramSizeType;
   typedef typename HistogramType::SizeType               SizeType;
@@ -135,16 +135,16 @@ public:
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
   void SetFunctor(const FunctorType& functor)
-  {
+    {
     m_Functor = functor;
     this->Modified();
-  }
+    }
   /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer.) */
-  FunctorType& GetFunctor() { return m_Functor; };
-  const FunctorType& GetFunctor() const { return m_Functor; };
+  FunctorType& GetFunctor() { return m_Functor; }
+  const FunctorType& GetFunctor() const { return m_Functor; }
   
   void SetTotalFrequency( unsigned long n );
   

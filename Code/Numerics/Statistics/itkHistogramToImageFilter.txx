@@ -14,11 +14,12 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkHistogramToImageFilter_txx
-#define _itkHistogramToImageFilter_txx
+#ifndef __itkHistogramToImageFilter_txx
+#define __itkHistogramToImageFilter_txx
 
 #include "itkHistogramToImageFilter.h"
 #include <itkNumericTraits.h>
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -68,7 +69,7 @@ HistogramToImageFilter<THistogram, TFunction>
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(0, 
-                       const_cast< InputHistogramObjectType * >( inputObject ) );
+                     const_cast< InputHistogramObjectType * >( inputObject ) );
 }
 
 template <class THistogram, class TFunction>
@@ -113,7 +114,7 @@ HistogramToImageFilter<THistogram, TFunction>
 {
   if( n < 1 ) 
     {
-    itkExceptionMacro("Total frequency in the histogram must be at least 1.") ;
+    itkExceptionMacro("Total frequency in the histogram must be at least 1.");
     }
   
   if( n == this->GetFunctor().GetTotalFrequency() )
@@ -126,8 +127,6 @@ HistogramToImageFilter<THistogram, TFunction>
     this->Modified();
     }
 }
-    
-
 
 
 template <class THistogram, class TFunction>
@@ -179,6 +178,9 @@ HistogramToImageFilter<THistogram, TFunction>
   this->SetTotalFrequency( static_cast< unsigned long >(
         inputHistogram->GetTotalFrequency() ));
  
+  ProgressReporter progress( this, 0,
+    outputImage->GetRequestedRegion().GetNumberOfPixels() );
+
   // Fill image with frequencies from Histogram
   ImageIteratorType iter( outputImage, outputImage->GetRequestedRegion() );
   while( !iter.IsAtEnd() )
@@ -189,6 +191,7 @@ HistogramToImageFilter<THistogram, TFunction>
     iter.Set( m_Functor( static_cast< unsigned long >(
             inputHistogram->GetFrequency( idx))));
     ++iter;
+    progress.CompletedPixel();
     }
 
 } // end update function  
