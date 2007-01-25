@@ -76,8 +76,6 @@ public:
   /** End concept checking */
 #endif
 
-
-
 protected:
   ValuedRegionalMinimaImageFilter() 
     {

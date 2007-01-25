@@ -63,8 +63,8 @@ public:
   typedef SmartPointer<const Self>                            ConstPointer;
 
 
-  typedef TInputImage                                         InputImageType;
-  typedef typename InputImageType::PixelType                  InputImagePixelType;
+  typedef TInputImage                                    InputImageType;
+  typedef typename InputImageType::PixelType             InputImagePixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
