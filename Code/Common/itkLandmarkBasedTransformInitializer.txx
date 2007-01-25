@@ -120,44 +120,39 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
       typedef typename VersorRigid3DTransformType::OutputPointType PointType;
       typedef typename VersorRigid3DTransformType::CenterType RotationCenterType;
       
-      RotationCenterType rotationCenter = transform->GetCenter();
-      VectorType fixedVector;
-      fixedVector.Fill( 0.0 );
 
       // Compute the centroids
+      PointType fixedCentroid;
+      fixedCentroid.Fill(0.0);
       PointsContainerConstIterator fixedItr = m_FixedLandmarks.begin();
       while( fixedItr != m_FixedLandmarks.end() )
         {
-        fixedVector[0] += (*fixedItr)[0] - rotationCenter[0];
-        fixedVector[1] += (*fixedItr)[1] - rotationCenter[1];
-        fixedVector[2] += (*fixedItr)[2] - rotationCenter[2];
+        fixedCentroid[0] += (*fixedItr)[0];
+        fixedCentroid[1] += (*fixedItr)[1];
+        fixedCentroid[2] += (*fixedItr)[2];
         ++fixedItr;
         }
 
-      VectorType movingVector;
-      movingVector.Fill( 0.0 );
+      fixedCentroid[0] /= m_FixedLandmarks.size();
+      fixedCentroid[1] /= m_FixedLandmarks.size();
+      fixedCentroid[2] /= m_FixedLandmarks.size();
 
       PointsContainerConstIterator movingItr = m_MovingLandmarks.begin();
+      PointType movingCentroid;
+      movingCentroid.Fill(0.0);
       while( movingItr != m_MovingLandmarks.end() )
         {
-        movingVector[0] += (*movingItr)[0] - rotationCenter[0];
-        movingVector[1] += (*movingItr)[1] - rotationCenter[1];
-        movingVector[2] += (*movingItr)[2] - rotationCenter[2];
+        movingCentroid[0] += (*movingItr)[0];
+        movingCentroid[1] += (*movingItr)[1];
+        movingCentroid[2] += (*movingItr)[2];
         ++movingItr;
         }
 
-      VectorType fixedCentroidFromRotationCenter;
-      VectorType movingCentroidFromRotationCenter;
+      movingCentroid[0] /= m_MovingLandmarks.size();
+      movingCentroid[1] /= m_MovingLandmarks.size();
+      movingCentroid[2] /= m_MovingLandmarks.size();
 
-      for(unsigned int ic=0; ic<ImageDimension; ic++)
-        {
-        fixedCentroidFromRotationCenter[ic]  = fixedVector[ic]  / m_FixedLandmarks.size();
-        movingCentroidFromRotationCenter[ic] = movingVector[ic] / m_MovingLandmarks.size();
-        }
 
-      PointType fixedCentroid  = rotationCenter + fixedCentroidFromRotationCenter;
-      PointType movingCentroid = rotationCenter + movingCentroidFromRotationCenter;
-      
       itkDebugMacro(<< "fixed centroid  = " <<  fixedCentroid);
       itkDebugMacro(<< "moving centroid  = " << movingCentroid);
       
@@ -296,43 +291,34 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
 
       //Initialize the transform to identity
       transform->SetIdentity();
-      PointType rotationCenter = transform->GetCenter();
-      
-      VectorType fixedVector;
-      fixedVector.Fill( 0.0 );
 
       // Compute the centroids
+      PointType fixedCentroid;
+      fixedCentroid.Fill(0.0);
       PointsContainerConstIterator fixedItr = m_FixedLandmarks.begin();
       while( fixedItr != m_FixedLandmarks.end() )
         {
-        fixedVector[0] += (*fixedItr)[0] - rotationCenter[0];
-        fixedVector[1] += (*fixedItr)[1] - rotationCenter[1];
+        fixedCentroid[0] += (*fixedItr)[0];
+        fixedCentroid[1] += (*fixedItr)[1];
         ++fixedItr;
         }
 
-      VectorType movingVector;
-      movingVector.Fill( 0.0 );
+      fixedCentroid[0] /= m_FixedLandmarks.size();
+      fixedCentroid[1] /= m_FixedLandmarks.size();
 
       PointsContainerConstIterator movingItr = m_MovingLandmarks.begin();
+      PointType movingCentroid;
+      movingCentroid.Fill(0.0);
       while( movingItr != m_MovingLandmarks.end() )
         {
-        movingVector[0] += (*movingItr)[0] - rotationCenter[0];
-        movingVector[1] += (*movingItr)[1] - rotationCenter[1];
+        movingCentroid[0] += (*movingItr)[0];
+        movingCentroid[1] += (*movingItr)[1];
         ++movingItr;
         }
 
-      VectorType fixedCentroidFromRotationCenter;
-      VectorType movingCentroidFromRotationCenter;
+      movingCentroid[0] /= m_MovingLandmarks.size();
+      movingCentroid[1] /= m_MovingLandmarks.size();
 
-      for(unsigned int ic=0; ic<ImageDimension; ic++)
-        {
-        fixedCentroidFromRotationCenter[ic]  = fixedVector[ic]  / m_FixedLandmarks.size();
-        movingCentroidFromRotationCenter[ic] = movingVector[ic] / m_MovingLandmarks.size();
-        }
-
-      PointType fixedCentroid  = rotationCenter + fixedCentroidFromRotationCenter;
-      PointType movingCentroid = rotationCenter + movingCentroidFromRotationCenter;
-      
       itkDebugMacro(<< "fixed centroid  = " <<  fixedCentroid);
       itkDebugMacro(<< "moving centroid  = " << movingCentroid);
       
