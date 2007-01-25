@@ -1,21 +1,21 @@
 /*=========================================================================
 
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkBinaryErodeImageFilter.txx
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkBinaryErodeImageFilter.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-PURPOSE.  See the above copyright notices for more information.
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBinaryErodeImageFilter_txx
-#define _itkBinaryErodeImageFilter_txx
+#ifndef __itkBinaryErodeImageFilter_txx
+#define __itkBinaryErodeImageFilter_txx
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodIterator.h"
@@ -36,46 +36,17 @@ template <class TInputImage, class TOutputImage, class TKernel>
 BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
 ::BinaryErodeImageFilter()
 {
+  this->m_BoundaryToForeground = true;
 }
+
 
 template< class TInputImage, class TOutputImage, class TKernel>
 void
 BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
-::BeforeThreadedGenerateData( void )
+::GenerateData()
 {
-  // Get values from superclass
-  KernelType kernel = this->GetKernel();
+  this->AllocateOutputs();
 
-  // Allocate and reset output. We copy the input to the output,
-  // except for pixels with DilateValue.  These pixels are initially
-  // replaced with BackgroundValue and potentially replaced later with
-  // DilateValue as the Minkowski sums are performed.
-  typename OutputImageType::RegionType outputRequestedRegion = this->GetOutput()->GetRequestedRegion();
-  ImageRegionIterator<OutputImageType> outIt
-    = ImageRegionIterator<OutputImageType>(this->GetOutput(),
-                                           this->GetOutput()->GetRequestedRegion());
-  ImageRegionConstIterator<InputImageType> inIt
-    = ImageRegionConstIterator<InputImageType>(this->GetInput(),
-                                               this->GetOutput()->GetRequestedRegion());
-  InputPixelType value;
-  inIt.GoToBegin();
-  outIt.GoToBegin();
-
-  while ( !outIt.IsAtEnd() )
-    {
-    value = inIt.Get();
-    outIt.Set( static_cast<OutputPixelType>(value) );
-    ++outIt;
-    ++inIt;
-    }
-
-}
-
-template< class TInputImage, class TOutputImage, class TKernel>
-void
-BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,int threadId)
-{
   unsigned int i,j;
     
   // Retrieve input and output pointers
@@ -87,28 +58,57 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
   InputPixelType backgroundValue = this->GetBackgroundValue();
   KernelType kernel = this->GetKernel();
   InputSizeType radius = this->GetRadius();
+  typename TInputImage::RegionType inputRegion = input->GetBufferedRegion();
+  typename TOutputImage::RegionType outputRegion = output->GetBufferedRegion();
   
-  // Create a temp image for surface encoding
-  // The temp image size is equal to the output requested region for thread
-  // padded by max( connectivity neighborhood radius, SE kernel radius ).
-  typedef itk::Image< unsigned char, TInputImage::ImageDimension >
-    TempImageType;
-  typename TempImageType::Pointer tmpImage = TempImageType::New();
-
-  // Retrieve output region for thread
-  typename TempImageType::RegionType tmpRequestedRegion = outputRegionForThread;
-  
+  // compute the size of the temp image. It is needed to create the progress
+  // reporter.
   // The tmp image needs to be large enough to support:
   //   1. The size of the structuring element
   //   2. The size of the connectivity element (typically one)
+  typename TInputImage::RegionType tmpRequestedRegion = outputRegion;
+  typename TInputImage::RegionType paddedInputRegion
+    = input->GetBufferedRegion();
+  paddedInputRegion.PadByRadius( radius ); // to support boundary values
   InputSizeType padBy = radius;
   for (i=0; i < KernelDimension; ++i)
     {
-    padBy[i] =
-      (padBy[i]>kernel.GetRadius(i) ? padBy[i] : kernel.GetRadius(i));
+    padBy[i] = (padBy[i]>kernel.GetRadius(i) ? padBy[i] : kernel.GetRadius(i));
     }
   tmpRequestedRegion.PadByRadius( padBy );
-  tmpRequestedRegion.Crop(input->GetBufferedRegion());
+  tmpRequestedRegion.Crop( paddedInputRegion );
+
+  typename TInputImage::RegionType requiredInputRegion
+    = input->GetBufferedRegion();
+  requiredInputRegion.Crop( tmpRequestedRegion );
+
+  // Support progress methods/callbacks
+  // Setup a progress reporter.  We have 4 stages to the algorithm so
+  // pretend we have 4 times the number of pixels
+  ProgressReporter progress(this, 0,
+                            outputRegion.GetNumberOfPixels() * 3
+                            + tmpRequestedRegion.GetNumberOfPixels()
+                            + requiredInputRegion.GetNumberOfPixels() );
+  
+  // Allocate and reset output. We copy the input to the output,
+  // except for pixels with DilateValue.  These pixels are initially
+  // replaced with BackgroundValue and potentially replaced later with
+  // DilateValue as the Minkowski sums are performed.
+  ImageRegionIterator<OutputImageType> outIt( output, outputRegion );
+  //ImageRegionConstIterator<InputImageType> inIt( input, outputRegion );
+
+  for( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
+    {
+    outIt.Set( foregroundValue );
+    progress.CompletedPixel();
+    }
+
+
+  // Create the temp image for surface encoding
+  // The temp image size is equal to the output requested region for thread
+  // padded by max( connectivity neighborhood radius, SE kernel radius ).
+  typedef itk::Image<unsigned char, TInputImage::ImageDimension> TempImageType;
+  typename TempImageType::Pointer tmpImage = TempImageType::New();
 
   // Define regions of temp image
   tmpImage->SetRegions( tmpRequestedRegion );
@@ -119,84 +119,69 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
   // consider that you reserve som memory space for output)
   tmpImage->Allocate();
   
-  // Iterators on input and tmp image
-  ImageRegionConstIterator<TInputImage> iRegIt;   // iterator on input
-  ImageRegionIterator<TempImageType> tmpRegIt;    // iterator on tmp image
-  iRegIt = ImageRegionConstIterator<InputImageType>(input, tmpRequestedRegion);
-  tmpRegIt = ImageRegionIterator<TempImageType>(tmpImage, tmpRequestedRegion);
-
-  // Support progress methods/callbacks
-  // Setup a progress reporter.  We have 4 stages to the algorithm so
-  // pretend we have 4 times the number of pixels
-  ProgressReporter progress(this, threadId,
-                            outputRegionForThread.GetNumberOfPixels()
-                            + 3*tmpRequestedRegion.GetNumberOfPixels() );
-  
   // First Stage
+  // Copy the input image to the tmp image.
   // Tag the tmp Image.
   //     zero means background
   //     one means pixel on but not treated
   //     two means border pixel
   //     three means inner pixel
   static const unsigned char backgroundTag  = 0;
-  static const unsigned char onTag   = 1;
-  static const unsigned char borderTag      = 2;       
+  static const unsigned char onTag          = 1;
+  static const unsigned char borderTag      = 2;
   static const unsigned char innerTag       = 3;
   
-  // Copy the input image to the tmp image.
-  iRegIt.GoToBegin();
-  tmpRegIt.GoToBegin();
+  if( !this->m_BoundaryToForeground )
+    { tmpImage->FillBuffer( onTag ); }
+  else
+    { tmpImage->FillBuffer( backgroundTag ); }
 
-  while(!tmpRegIt.IsAtEnd())
+  // Iterators on input and tmp image
+  // iterator on input
+  ImageRegionConstIterator<TInputImage> iRegIt( input, requiredInputRegion );
+  // iterator on tmp image
+  ImageRegionIterator<TempImageType> tmpRegIt( tmpImage, requiredInputRegion );
+
+  for( iRegIt.GoToBegin(), tmpRegIt.GoToBegin();
+    !tmpRegIt.IsAtEnd();
+    ++iRegIt, ++tmpRegIt )
     {
     OutputPixelType pxl = iRegIt.Get();
     if( pxl != foregroundValue )
-      {
-      tmpRegIt.Set( onTag );    
-      }
+      { tmpRegIt.Set( onTag ); }
     else
       {
       // by default if it is not foreground, consider
       // it as background
       tmpRegIt.Set( backgroundTag ); 
       }
-    ++tmpRegIt;
-    ++iRegIt;
     progress.CompletedPixel();
     }
-
 
   // Second stage
   // Border tracking and encoding
 
   // Need to record index, use an iterator with index
-  ImageRegionIteratorWithIndex<TempImageType> tmpRegIndexIt;
-  
-  // Define iterators that will traverse the OUTPUT requested region for thread
-  // and not the padded one. The tmp image has been padded because in
-  // that way we will take care carefully at boundary pixels of output
-  // requested region.  Take care means that we will check if a
-  // boundary pixel is or not a border pixel.
-  tmpRegIndexIt
-    = ImageRegionIteratorWithIndex<TempImageType>( tmpImage, tmpRequestedRegion );
-  tmpRegIndexIt.GoToBegin();
+  // Define iterators that will traverse the OUTPUT requested region
+  // for thread and not the padded one. The tmp image has been padded
+  // because in that way we will take care carefully at boundary
+  // pixels of output requested region.  Take care means that we will
+  // check if a boundary pixel is or not a border pixel.
+  ImageRegionIteratorWithIndex<TempImageType>
+    tmpRegIndexIt( tmpImage, tmpRequestedRegion );
 
-  ConstNeighborhoodIterator<TempImageType> oNeighbIt;
-  oNeighbIt = ConstNeighborhoodIterator<TempImageType>( radius, tmpImage,
-                                                        tmpRequestedRegion );
-  oNeighbIt.GoToBegin();
+  ConstNeighborhoodIterator<TempImageType>
+    oNeighbIt( radius, tmpImage, tmpRequestedRegion );
   
   // Define boundaries conditions
   ConstantBoundaryCondition<TempImageType> cbc;
-  cbc.SetConstant( innerTag );
+  cbc.SetConstant( backgroundTag );
   oNeighbIt.OverrideBoundaryCondition(&cbc);
   
-  unsigned int neighborhoodSize       = oNeighbIt.Size();
+  unsigned int neighborhoodSize = oNeighbIt.Size();
   unsigned int centerPixelCode = neighborhoodSize / 2;
   
   std::queue<IndexType> propagQueue;
-  BorderCellContainer borderContainer;
-  unsigned long numberOfBorderPixels  = 0;
 
   // Neighborhood iterators used to track the surface.
   //
@@ -207,21 +192,25 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
   // condition pixel.  Since we call SetLocation on the neighbor of a
   // specified pixel, we have to set the region for the interator to
   // include any pixel we may set our location to.
-  NeighborhoodIterator<TempImageType> nit
-    = NeighborhoodIterator<TempImageType>( radius, tmpImage,
-                                           tmpRequestedRegion );
+  NeighborhoodIterator<TempImageType>
+    nit( radius, tmpImage, tmpRequestedRegion );
   nit.OverrideBoundaryCondition(&cbc);
+  nit.GoToBegin();
 
-  ConstNeighborhoodIterator<TempImageType> nnit
-    = ConstNeighborhoodIterator<TempImageType>( radius, tmpImage,
-                                                tmpRequestedRegion);
+  ConstNeighborhoodIterator<TempImageType>
+    nnit( radius, tmpImage, tmpRequestedRegion );
   nnit.OverrideBoundaryCondition(&cbc);
-
+  nnit.GoToBegin();
   
-  while( !tmpRegIndexIt.IsAtEnd() )
+  for( tmpRegIndexIt.GoToBegin(), oNeighbIt.GoToBegin();
+        !tmpRegIndexIt.IsAtEnd();
+        ++tmpRegIndexIt, ++oNeighbIt )
     {
+
+    unsigned char tmpValue = tmpRegIndexIt.Get();
+
     // Test current pixel: it is active ( on ) or not?
-    if( tmpRegIndexIt.Get() == onTag )
+    if( tmpValue == onTag )
       {
       // The current pixel has not been treated previously.  That
       // means that we do not know that it is an inner pixel of a
@@ -234,18 +223,14 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
         {
         // If at least one neighbour pixel is off the center pixel
         // belongs to contour
-        if( oNeighbIt.GetPixel(i) == backgroundTag )
+        if( oNeighbIt.GetPixel( i ) == backgroundTag )
           {
           bIsOnContour = true;
           break;
           }
         }
 
-      if( !bIsOnContour )
-        {
-        tmpRegIndexIt.Set( innerTag );
-        }
-      else
+      if( bIsOnContour )
         {
         // center pixel is a border pixel and due to the parsing, it is also
         // a pixel which belongs to a new border connected component
@@ -257,11 +242,19 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
         // add it to border container.
         // its code is center pixel code because it is the first pixel
         // of the connected component border
-        BorderCell cell;
-        cell.index    = tmpRegIndexIt.GetIndex();
-        cell.code     = centerPixelCode;
-        borderContainer.push_back( cell );
-        ++numberOfBorderPixels;
+
+        // paint the structuring element
+        typename NeighborIndexContainer::const_iterator itIndex;
+        NeighborIndexContainer& indexDifferenceSet
+          = this->GetDifferenceSet( centerPixelCode );
+        for( itIndex = indexDifferenceSet.begin();
+          itIndex != indexDifferenceSet.end();
+          ++itIndex )
+          {
+          IndexType idx = tmpRegIndexIt.GetIndex() + *itIndex;
+          if( outputRegion.IsInside( idx ) )
+            { output->SetPixel( idx, backgroundValue ); }
+          }
  
         // add it to queue
         propagQueue.push( tmpRegIndexIt.GetIndex() );
@@ -273,7 +266,7 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
           IndexType currentIndex = propagQueue.front();
           propagQueue.pop();
    
-          nit.SetLocation( currentIndex );
+          nit += currentIndex - nit.GetIndex();
    
           for (i = 0; i < neighborhoodSize; ++i)
             {
@@ -291,7 +284,7 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
               IndexType neighbIndex = nit.GetIndex( i );
        
               // Force location of neighbour iterator
-              nnit.SetLocation( neighbIndex );
+              nnit += neighbIndex - nnit.GetIndex();
 
               bool bIsOnBorder = false;
        
@@ -307,13 +300,7 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
                 }
        
        
-              if( !bIsOnBorder )
-                {
-                // neighbour pixel is an inner pixel
-                bool status;
-                nit.SetPixel( i, innerTag, status );
-                }
-              else
+              if( bIsOnBorder )
                 {
                 // neighbour pixel is a border pixel
                 // mark it
@@ -327,15 +314,28 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
                   // add it to queue
                   propagQueue.push( neighbIndex );
     
-                  // add the pixel index to border container
-                  BorderCell celln;
-                  celln.index = neighbIndex;
-                  celln.code  = i;
-                  borderContainer.push_back( celln );
-                  ++numberOfBorderPixels;
+                  // paint the structuring element
+                  typename NeighborIndexContainer::const_iterator itIndex;
+                  NeighborIndexContainer& indexDifferenceSet
+                    = this->GetDifferenceSet( i );
+                  for( itIndex = indexDifferenceSet.begin();
+                    itIndex != indexDifferenceSet.end();
+                    ++itIndex )
+                    {
+                    IndexType idx = neighbIndex + *itIndex;
+                    if( outputRegion.IsInside( idx ) )
+                      { output->SetPixel( idx, backgroundValue ); }
+                    }
                   }
                 }
-       
+              else
+                {
+                // neighbour pixel is an inner pixel
+                bool status;
+                nit.SetPixel( i, innerTag, status );
+                }
+              
+              progress.CompletedPixel();
               } // if( nit.GetPixel( i ) == onTag )
      
             } // for (i = 0; i < neighborhoodSize; ++i)
@@ -343,24 +343,22 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
           } // while ( !propagQueue.empty() )
  
         } // if( bIsOnCountour )
+      else
+        { tmpRegIndexIt.Set( innerTag ); }
+
+      progress.CompletedPixel();
       
       } // if( tmpRegIndexIt.Get() == onTag )
-    
+    else if( tmpValue == backgroundTag )
+      { progress.CompletedPixel(); }
     // Here, the pixel is a background pixel ( value at 0 ) or an
     // already treated pixel:
     //     2 for border pixel, 3 for inner pixel
-    
-    ++tmpRegIndexIt;
-    ++oNeighbIt;
-    progress.CompletedPixel();
-    
-    } // while( !tmpRegIndexIt.IsAtEnd() )
+    }
   
-  
+
   // Deallocate tmpImage
   tmpImage->Initialize();
-  
-  
   
   // Third Stage
   // traverse structure of border and SE CCs, and paint output image
@@ -385,88 +383,106 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
   
   // Define boundaries conditions
   ConstantBoundaryCondition<TOutputImage> obc;
-  obc.SetConstant( foregroundValue );
+  obc.SetConstant( backgroundValue );
   
-  NeighborhoodIterator<OutputImageType> onit;
-  onit = NeighborhoodIterator<OutputImageType>( kernel.GetRadius(), output,
-                                                outputRegionForThread );
-  
+  NeighborhoodIterator<OutputImageType>
+    onit( kernel.GetRadius(), output, outputRegion );
   onit.OverrideBoundaryCondition(&obc);
-  // Paint SE     --> "( BORDER(X) (+) B )"
-  for( typename BorderCellContainer::iterator it = borderContainer.begin();
-       it != borderContainer.end(); ++it )
-    {
-    // Retrieve pixel index
-    BorderCell cell    = *it;
-    IndexType index = cell.index;
-    unsigned int code = cell.code;
-    
-    // Force location of neighbour iterator 
-    onit.SetLocation( index );
+  onit.GoToBegin();
 
-    // Thanks to code, we know the exact index of the region to paint
-    typename NeighborIndexContainer::const_iterator itIndex;
-    NeighborIndexContainer& indexDifferenceSet
-      = this->GetDifferenceSet(code);
-    
-    bool bIsInBound;
-    for( itIndex = indexDifferenceSet.begin(); itIndex != indexDifferenceSet.end(); ++itIndex )
-      {
-      onit.SetPixel( *itIndex, backgroundValue, bIsInBound );
-      }
-    
-    progress.CompletedPixel();
-    }
-  
-  // Fake progress in order to complete the progress
-  unsigned long numberOfOutputPixels
-    = tmpRequestedRegion.GetNumberOfPixels();
-  for( i = numberOfBorderPixels; i < numberOfOutputPixels; ++i )
-    {
-    progress.CompletedPixel();
-    }
   
   // Paint input image translated with respect to the SE CCs vectors
   // --> "( Xb0 UNION Xb1 UNION ... Xbn )"
-
+  typename Superclass::ComponentVectorConstIterator vecIt;
+  typename Superclass::ComponentVectorConstIterator vecBeginIt
+    = this->KernelCCVectorBegin();
+  typename Superclass::ComponentVectorConstIterator vecEndIt
+    = this->KernelCCVectorEnd();
+  
   // iterator on output image
-  ImageRegionIteratorWithIndex<OutputImageType> ouRegIndexIt;
-  ouRegIndexIt
-    = ImageRegionIteratorWithIndex<OutputImageType>(output,
-                                                    outputRegionForThread );
-
-  // iterator on input image
-  ImageRegionConstIterator<InputImageType> inRegIt = ImageRegionConstIterator<InputImageType>(input,
-                                                                                              outputRegionForThread );
+  ImageRegionIteratorWithIndex<OutputImageType>
+    ouRegIndexIt(output, outputRegion );
   ouRegIndexIt.GoToBegin(); 
-  inRegIt.GoToBegin(); 
-
+  
   // InputRegionForThread is the output region for thread padded by
-  // kernel radius We must traverse this padded region because some
+  // kerne lradius We must traverse this padded region because some
   // border pixel in the added band ( the padded band is the region
   // added after padding ) may be responsible to the painting of some
   // pixel in the non padded region.  This happens typically when a
   // non centered SE is used, a kind of shift is done on the "on"
   // pixels of image. Consequently some pixels in the added band can
   // appear in the current region for thread due to shift effect.
-  typename InputImageType::RegionType inputRegionForThread = outputRegionForThread;
+  typename InputImageType::RegionType inputRegionForThread = outputRegion;
   
   // Pad the input region by the kernel
   inputRegionForThread.PadByRadius( kernel.GetRadius() );
-  inputRegionForThread.Crop(input->GetBufferedRegion());  
-  
-  while( !ouRegIndexIt.IsAtEnd() )
-    {
-    if( inRegIt.Get() != foregroundValue )
-      {
-      ouRegIndexIt.Set( static_cast<OutputPixelType>( inRegIt.Get() ) );
-      }
+  inputRegionForThread.Crop( input->GetBufferedRegion() );  
 
-    ++ouRegIndexIt;
-    ++inRegIt;
+  if( !this->m_BoundaryToForeground )
+    {
+    while( !ouRegIndexIt.IsAtEnd() )
+      {
+      // Retrieve index of current output pixel
+      IndexType currentIndex  = ouRegIndexIt.GetIndex();
+      for( vecIt = vecBeginIt; vecIt != vecEndIt; ++vecIt )
+        {
+        // Translate
+        IndexType translatedIndex = currentIndex - *vecIt;
+  
+        // translated index now is an index in input image in the 
+        // output requested region padded. Theoretically, this translated
+        // index must be inside the padded region.
+        // If the pixel in the input image at the translated index
+        // has a value equal to the dilate one, this means
+        // that the output pixel at currentIndex will be on in the output.
+        if( !inputRegionForThread.IsInside( translatedIndex )
+          || input->GetPixel( translatedIndex ) != foregroundValue )
+          {
+          ouRegIndexIt.Set( backgroundValue );
+          break; // Do not need to examine other offsets because at least one
+          // input pixel has been translated on current output pixel.
+          }
+        }
+  
+      ++ouRegIndexIt;
+      progress.CompletedPixel();
+      }
+    }
+  else
+    {
+    while( !ouRegIndexIt.IsAtEnd() )
+      {
+      IndexType currentIndex  = ouRegIndexIt.GetIndex();
+      for( vecIt = vecBeginIt; vecIt != vecEndIt; ++vecIt )
+        {
+        IndexType translatedIndex = currentIndex - *vecIt;
+  
+        if( inputRegionForThread.IsInside( translatedIndex )
+          && input->GetPixel( translatedIndex ) != foregroundValue )
+          {
+          ouRegIndexIt.Set( backgroundValue );
+          break;
+          }
+        }
+  
+      ++ouRegIndexIt;
+      progress.CompletedPixel();
+      }
+    }
+
+  // now, we must to restore the background values
+  ImageRegionConstIterator<InputImageType> inIt( input, outputRegion );
+
+  for( inIt.GoToBegin(), outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++inIt )
+    {
+    InputPixelType inValue = inIt.Get();
+    OutputPixelType outValue = outIt.Get();
+    if ( outValue == backgroundValue && inValue != foregroundValue )
+      { outIt.Set( static_cast<OutputPixelType>( inValue ) ); }
     progress.CompletedPixel();
     }
-  
+
+
 }
 
 

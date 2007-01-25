@@ -35,7 +35,7 @@ namespace itk
  * \class BinaryErodeImageFilter
  * \brief Fast binary erosion
  *
- * BinaryErodeImageFilter is a binary erosion
+ * BinaryErodeImageFilter is a binary dilation
  * morphologic operation. This implementation is based on the papers:
  *
  * L.Vincent "Morphological transformations of binary images with
@@ -61,12 +61,43 @@ namespace itk
  * reasonable choice of structuring element is
  * itk::BinaryBallStructuringElement.
  *
- * This class was contributed by Gaetan Lehmann from INRA de Jouy-en-Josas.
+ *
+ * Description of the algorithm:
+ * ----------------------------------------------
+ * Let's consider the set of the ON elements of the input image as X.
+ *
+ * Let's consider the structuring element as B = {B0, B1, ..., Bn},
+ * where Bi denotes a connected component of B.
+ *
+ * Let's consider bi, i in [0,n], an arbitrary point of Bi.
+ *
+ * We use hence the next property in order to compute minkoswki
+ * addition ( which will be written (+) ):
+ *
+ * X (+) B = ( Xb0 UNION Xb1 UNION ... Xbn ) UNION ( BORDER(X) (+) B ),
+ *
+ * where Xbi is the set X translated with respect to vector bi :
+ *
+ * Xbi ={ x + bi, x belongs to X }
+ *
+ * where BORDER(X) is the extracted border of X ( 8 connectivity in
+ * 2D, 26 in 3D ) 
+ *
+ * Our implementation for dilation is defined as:
+ *
+ *     X (+) SYM(B) = DILATION(X)_B
+ *
+ * Where DILATION(X)_B is the dilation of set with structuring element B.
+ * Where SYM(B) is the symmetric of the structuring element relatively
+ * to its center. 
+ *
+ * This class was contributed by Jerome Schmid from the University of
+ * Strasbourg.
  *
  * \todo Implement a threaded version ?
  *
  * \sa ImageToImageFilter
- * \sa BinaryDilateImageFilter
+ * \sa BinaryErodeImageFilter
  */
 template <class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT BinaryErodeImageFilter :
@@ -75,24 +106,25 @@ class ITK_EXPORT BinaryErodeImageFilter :
 public:
   /** Extract dimension from input and output image. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
-        TInputImage::ImageDimension);
+                      TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
-        TOutputImage::ImageDimension);
+                      TOutputImage::ImageDimension);
 
   /** Extract the dimension of the kernel */
   itkStaticConstMacro(KernelDimension, unsigned int,
-        TKernel::NeighborhoodDimension);
+                      TKernel::NeighborhoodDimension);
   
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage InputImageType;
+  typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
-  typedef TKernel KernelType;
+  typedef TKernel      KernelType;
   
 
   /** Standard class typedefs. */
-  typedef BinaryErodeImageFilter Self;
-  typedef BinaryMorphologyImageFilter< InputImageType, OutputImageType, KernelType> Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef BinaryErodeImageFilter    Self;
+  typedef BinaryMorphologyImageFilter<InputImageType, OutputImageType,
+    KernelType> Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */
@@ -102,18 +134,18 @@ public:
   itkTypeMacro(BinaryErodeImageFilter, BinaryMorphologyImageFilter);
 
   /** Kernel (structuring element) iterator. */
-  typedef typename KernelType::ConstIterator KernelIteratorType ;
+  typedef typename KernelType::ConstIterator KernelIteratorType;
 
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  typedef typename InputImageType::PixelType               InputPixelType;
+  typedef typename OutputImageType::PixelType              OutputPixelType;
   typedef typename NumericTraits<InputPixelType>::RealType InputRealType;
-  typedef typename InputImageType::OffsetType OffsetType;
-  typedef typename InputImageType::IndexType IndexType;
+  typedef typename InputImageType::OffsetType              OffsetType;
+  typedef typename InputImageType::IndexType               IndexType;
 
-  typedef typename InputImageType::RegionType InputImageRegionType;
+  typedef typename InputImageType::RegionType  InputImageRegionType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename InputImageType::SizeType InputSizeType;
+  typedef typename InputImageType::SizeType    InputSizeType;
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. This is an alias to the
@@ -132,25 +164,11 @@ protected:
   virtual ~BinaryErodeImageFilter(){}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** BinaryErodeImageFilter can be implemented as a multithreaded filter.
-   * Therefore, this implementation provides a ThreadedGenerateData()
-   * routine which is called for each processing thread. The output
-   * image data is allocated automatically by the superclass prior to
-   * calling ThreadedGenerateData().  ThreadedGenerateData can only
-   * write to the portion of the output image specified by the
-   * parameter "outputRegionForThread"
-   *
-   * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId );
-    
-  void BeforeThreadedGenerateData();
+  void GenerateData();
 
   // type inherited from the superclass
   typedef typename Superclass::NeighborIndexContainer NeighborIndexContainer;
-  typedef typename Superclass::BorderCellContainer BorderCellContainer;
-  typedef typename Superclass::BorderCell BorderCell;
-  
+
 private:
   BinaryErodeImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

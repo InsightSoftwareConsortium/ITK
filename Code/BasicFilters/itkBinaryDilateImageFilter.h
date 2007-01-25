@@ -115,15 +115,16 @@ public:
                       TKernel::NeighborhoodDimension);
   
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage InputImageType;
+  typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
-  typedef TKernel KernelType;
+  typedef TKernel      KernelType;
   
 
   /** Standard class typedefs. */
-  typedef BinaryDilateImageFilter Self;
-  typedef BinaryMorphologyImageFilter<InputImageType, OutputImageType, KernelType> Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef BinaryDilateImageFilter   Self;
+  typedef BinaryMorphologyImageFilter<InputImageType, OutputImageType,
+    KernelType> Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */
@@ -133,18 +134,18 @@ public:
   itkTypeMacro(BinaryDilateImageFilter, BinaryMorphologyImageFilter);
 
   /** Kernel (structuring element) iterator. */
-  typedef typename KernelType::ConstIterator KernelIteratorType ;
+  typedef typename KernelType::ConstIterator KernelIteratorType;
 
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  typedef typename InputImageType::PixelType               InputPixelType;
+  typedef typename OutputImageType::PixelType              OutputPixelType;
   typedef typename NumericTraits<InputPixelType>::RealType InputRealType;
-  typedef typename InputImageType::OffsetType OffsetType;
-  typedef typename InputImageType::IndexType IndexType;
+  typedef typename InputImageType::OffsetType              OffsetType;
+  typedef typename InputImageType::IndexType               IndexType;
 
-  typedef typename InputImageType::RegionType InputImageRegionType;
+  typedef typename InputImageType::RegionType  InputImageRegionType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename InputImageType::SizeType InputSizeType;
+  typedef typename InputImageType::SizeType    InputSizeType;
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. This is an alias to the
@@ -163,25 +164,10 @@ protected:
   virtual ~BinaryDilateImageFilter(){}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** BinaryDilateImageFilter can be implemented as a multithreaded filter.
-   * Therefore, this implementation provides a ThreadedGenerateData()
-   * routine which is called for each processing thread. The output
-   * image data is allocated automatically by the superclass prior to
-   * calling ThreadedGenerateData().  ThreadedGenerateData can only
-   * write to the portion of the output image specified by the
-   * parameter "outputRegionForThread"
-   *
-   * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
-  
-  void BeforeThreadedGenerateData();
+  void GenerateData();
 
   // type inherited from the superclass
   typedef typename Superclass::NeighborIndexContainer NeighborIndexContainer;
-  typedef typename Superclass::BorderCellContainer BorderCellContainer;
-  typedef typename Superclass::BorderCell BorderCell;
 
 private:
   BinaryDilateImageFilter(const Self&); //purposely not implemented

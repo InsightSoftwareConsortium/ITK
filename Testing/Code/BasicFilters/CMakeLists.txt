@@ -42,6 +42,28 @@ ADD_TEST(itkBasicArchitectureTest ${BASIC_FILTERS_TESTS} itkBasicArchitectureTes
 ADD_TEST(itkBilateralImageFilterTest ${BASIC_FILTERS_TESTS} itkBilateralImageFilterTest)
 ADD_TEST(itkBinaryDilateImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryDilateImageFilterTest)
 ADD_TEST(itkBinaryDilateImageFilterTest2 ${BASIC_FILTERS_TESTS} itkBinaryDilateImageFilterTest2)
+
+FOREACH(fg 100 200)
+  FOREACH(bg 0 150)
+    FOREACH(border 0 1)
+      ADD_TEST(itkBinaryDilateImageFilterTest-${fg}-${bg}-${border} ${BASIC_FILTERS_TESTS} 
+        --compare ${BASELINE}/itkBinaryDilateImageFilterTest-${fg}-${bg}-${border}.png
+                  ${TEMP}/itkBinaryDilateImageFilterTest-${fg}-${bg}-${border}.png
+        itkBinaryDilateImageFilterTest3
+                  ${INPUTDATA}/2th_cthead1.png
+                  ${TEMP}/itkBinaryDilateImageFilterTest-${fg}-${bg}-${border}.png
+                  ${fg} ${bg} ${border} 10)
+      ADD_TEST(itkBinaryErodeImageFilterTest-${fg}-${bg}-${border} ${BASIC_FILTERS_TESTS} 
+        --compare ${BASELINE}/itkBinaryErodeImageFilterTest-${fg}-${bg}-${border}.png
+                  ${TEMP}/itkBinaryErodeImageFilterTest-${fg}-${bg}-${border}.png
+        itkBinaryErodeImageFilterTest3
+                  ${INPUTDATA}/2th_cthead1.png
+                  ${TEMP}/itkBinaryErodeImageFilterTest-${fg}-${bg}-${border}.png
+                  ${fg} ${bg} ${border} 10)
+    ENDFOREACH(border)
+  ENDFOREACH(bg)
+ENDFOREACH(fg)
+
 ADD_TEST(itkBinaryErodeImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryErodeImageFilterTest)
 ADD_TEST(itkBinaryMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryMagnitudeImageFilterTest)
 ADD_TEST(itkBinaryMaskToNarrowBandPointSetFilterTest ${BASIC_FILTERS_TESTS} itkBinaryMaskToNarrowBandPointSetFilterTest)
@@ -805,7 +827,9 @@ itkBilateralImageFilterTest2.cxx
 itkBilateralImageFilterTest3.cxx
 itkBinaryDilateImageFilterTest.cxx
 itkBinaryDilateImageFilterTest2.cxx
+itkBinaryDilateImageFilterTest3.cxx
 itkBinaryErodeImageFilterTest.cxx
+itkBinaryErodeImageFilterTest3.cxx
 itkBinaryMagnitudeImageFilterTest.cxx
 itkBinaryMaskToNarrowBandPointSetFilterTest.cxx
 itkBinaryMedianImageFilterTest.cxx

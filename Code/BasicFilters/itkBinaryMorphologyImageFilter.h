@@ -120,14 +120,14 @@ public:
                       TKernel::NeighborhoodDimension);
   
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage InputImageType;
+  typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
 
   /** Standard class typedefs. */
-  typedef BinaryMorphologyImageFilter Self;
+  typedef BinaryMorphologyImageFilter                          Self;
   typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                   Pointer;
+  typedef SmartPointer<const Self>                             ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -139,35 +139,30 @@ public:
   typedef TKernel KernelType;
 
   /** Kernel (structuring element) iterator. */
-  typedef typename KernelType::ConstIterator KernelIteratorType ;
+  typedef typename KernelType::ConstIterator KernelIteratorType;
 
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  typedef typename InputImageType::PixelType               InputPixelType;
+  typedef typename OutputImageType::PixelType              OutputPixelType;
   typedef typename NumericTraits<InputPixelType>::RealType InputRealType;
-  typedef typename InputImageType::OffsetType OffsetType;
-  typedef typename InputImageType::IndexType IndexType;
+  typedef typename InputImageType::OffsetType              OffsetType;
+  typedef typename InputImageType::IndexType               IndexType;
 
-  typedef typename InputImageType::RegionType InputImageRegionType;
+  typedef typename InputImageType::RegionType  InputImageRegionType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename InputImageType::SizeType InputSizeType;
+  typedef typename InputImageType::SizeType    InputSizeType;
 
   /** Input and output images must be the same dimension. */
-#ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
   itkConceptMacro(ImageDimensionCheck,
       (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
                               itkGetStaticConstMacro(OutputImageDimension)>));
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<InputPixelType>));
+
 // Cannot get this to work with gcc compiler
 #if 0
   /** Input and structuring element must be the same dimnesion. */
   itkConceptMacro(KernelDimensionCheck,
       (Concept::SameDimension<itkGetStaticConstMacro(KernelDimension),
                               itkGetStaticConstMacro(InputImageDimension)>));
-#endif
-  /** End concept checking */
 #endif
 
   /** Set kernel (structuring element).*/
@@ -185,18 +180,24 @@ public:
    * maximum value of PixelType. */
   itkGetConstMacro(ForegroundValue, InputPixelType);
 
-  /** Set the value used as "background".  Any pixel value which is
+  /** Set the value used as "background". Any pixel value which is
    * not DilateValue is considered background. BackgroundValue is used
-   * for defining boundary conditions. Defaults to
-   * NumericTraits<PixelType>::NonpositiveMin(). */
+   * to fill the removed pixels.
+   */
   itkSetMacro(BackgroundValue, OutputPixelType);
 
   /** Get the value used as "background". Any pixel value which is
    * not DilateValue is considered background. BackgroundValue is used
-   * for defining boundary conditions. Defaults to
-   * NumericTraits<PixelType>::NonpositiveMin(). */
+   * to fill the removed pixels.
+   */
   itkGetConstMacro(BackgroundValue, OutputPixelType);
   
+  /** Get/Set the borders as foreground (true) or background (false).
+   */
+  itkSetMacro(BoundaryToForeground, bool);
+  itkGetConstReferenceMacro(BoundaryToForeground, bool);
+  itkBooleanMacro(BoundaryToForeground);
+
 protected:
   BinaryMorphologyImageFilter();
   virtual ~BinaryMorphologyImageFilter(){}
@@ -217,18 +218,8 @@ protected:
    * input, the request is cropped by the LargestPossibleRegion. */
   void GenerateInputRequestedRegion() throw (InvalidRequestedRegionError);
   
-  // Structure for border encoding of input binarized image
-  struct BorderCell
-  {
-    IndexType index;
-    unsigned int code;
-  };
-
-  // typedef of container of border cells
-  typedef std::vector< BorderCell > BorderCellContainer;
-
   // type definition of container of neighbourhood index
-  typedef std::vector< unsigned int > NeighborIndexContainer;
+  typedef std::vector< OffsetType > NeighborIndexContainer;
 
   // type definition of container of container of neighbourhood index
   typedef std::vector<NeighborIndexContainer> NeighborIndexContainerContainer;
@@ -237,7 +228,8 @@ protected:
   typedef std::vector< OffsetType > ComponentVectorType;
 
   // iterator for ComponentVectorType
-  typedef typename ComponentVectorType::const_iterator ComponentVectorConstIterator;
+  typedef typename ComponentVectorType::const_iterator
+    ComponentVectorConstIterator;
 
   /**
    * Get the difference set for a particular offset
@@ -262,6 +254,8 @@ protected:
    */
   InputSizeType GetRadius() const
     { return m_Radius; }
+
+  bool m_BoundaryToForeground;
 
 private:
   BinaryMorphologyImageFilter(const Self&); //purposely not implemented
