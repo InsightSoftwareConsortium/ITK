@@ -213,13 +213,13 @@ protected:
 
 private:
 
-  double m_InnerRadius;
-  double m_Thickness;
-  bool m_Normalize;
-  bool m_BrightCenter;
-  PixelType m_InteriorValue;
-  PixelType m_AnnulusValue;
-  PixelType m_ExteriorValue;
+  double      m_InnerRadius;
+  double      m_Thickness;
+  bool        m_Normalize;
+  bool        m_BrightCenter;
+  PixelType   m_InteriorValue;
+  PixelType   m_AnnulusValue;
+  PixelType   m_ExteriorValue;
   SpacingType m_Spacing;
 };
 

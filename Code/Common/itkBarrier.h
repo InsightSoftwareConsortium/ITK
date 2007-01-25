@@ -88,10 +88,10 @@ private:
   ~Barrier();
 
 #if defined ITK_USE_FETCHOP_BARRIERS
-  static bool  m_ReservoirInitialized;
+  static bool               m_ReservoirInitialized;
   static atomic_reservoir_t m_Reservoir;
-  static int m_MaxBarriers;
-  atomic_var_t *m_Pvar;
+  static int                m_MaxBarriers;
+  atomic_var_t *            m_Pvar;
 
   char pad1[128];              // Attempt to put
   volatile int m_FetchopFlag;  // m_Fetchop on its
@@ -102,8 +102,8 @@ private:
 
 #else
   ConditionVariable::Pointer m_ConditionVariable;
-  unsigned int m_NumberArrived;
-  SimpleMutexLock m_Mutex;
+  unsigned int               m_NumberArrived;
+  SimpleMutexLock            m_Mutex;
 
 #endif
 

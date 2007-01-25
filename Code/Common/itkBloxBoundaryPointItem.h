@@ -44,16 +44,28 @@ public:
   typedef CovariantVector<double, VImageDimension> GradientType;
 
   /** Set the position of the boundary point in physical space */
-  void SetPhysicalPosition(PositionType physPos){m_PhysicalPosition = physPos;};
+  void SetPhysicalPosition(PositionType physPos)
+    {
+    m_PhysicalPosition = physPos;
+    }
 
   /** Get the position of the boundary point in physical space */
-  PositionType GetPhysicalPosition(){return m_PhysicalPosition;};
+  PositionType GetPhysicalPosition()
+    {
+    return m_PhysicalPosition;
+    }
 
   /** Set the gradient of the boundary point */
-  void SetGradient(GradientType grad){m_Gradient = grad;};
+  void SetGradient(GradientType grad)
+    {
+    m_Gradient = grad;
+    }
 
   /** Get the gradient of the boundary point */
-  GradientType GetGradient(){return m_Gradient;};
+  GradientType GetGradient()
+    {
+    return m_Gradient;
+    }
   
   BloxBoundaryPointItem();
   ~BloxBoundaryPointItem();

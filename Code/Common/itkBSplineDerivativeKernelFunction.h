@@ -71,7 +71,7 @@ protected:
   BSplineDerivativeKernelFunction()
     {
     m_KernelFunction = KernelType::New();
-    };
+    }
 
   ~BSplineDerivativeKernelFunction(){};
   void PrintSelf(std::ostream& os, Indent indent) const

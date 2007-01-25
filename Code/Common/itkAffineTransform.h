@@ -257,7 +257,7 @@ public:
    *
    * \deprecated Please use GetInverseTransform and then call the
    *   forward transform function **/
-  inline InputPointType  BackTransformPoint(const OutputPointType  &point) const;
+  inline InputPointType BackTransformPoint(const OutputPointType  &point) const;
 
   /** Compute distance between two affine transformations
    *
@@ -402,7 +402,8 @@ BackTransform(const OutputPointType &point) const
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_AffineTransform(_, EXPORT, x, y) namespace itk { \
   _(2(class EXPORT AffineTransform< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef AffineTransform< ITK_TEMPLATE_2 x > AffineTransform##y; } \
+  namespace Templates { typedef AffineTransform< ITK_TEMPLATE_2 x > \
+                                                  AffineTransform##y; } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

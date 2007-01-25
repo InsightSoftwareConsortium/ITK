@@ -133,23 +133,23 @@ public:
 
   /** Back transform from cartesian to azimuth-elevation.  */
   inline InputPointType  BackTransform(const OutputPointType  &point ) const
-  {
-  InputPointType result; 
-  if( m_ForwardAzimuthElevationToPhysical ) 
     {
-    result = static_cast<InputPointType>(TransformCartesianToAzEl(point));
-    }
-  else 
-    {
-    result = static_cast<InputPointType>(TransformAzElToCartesian(point));
-    }
-  return result;
+    InputPointType result; 
+    if( m_ForwardAzimuthElevationToPhysical ) 
+      {
+      result = static_cast<InputPointType>(TransformCartesianToAzEl(point));
+      }
+    else 
+      {
+      result = static_cast<InputPointType>(TransformAzElToCartesian(point));
+      }
+    return result;
+    } 
 
-  } 
   inline InputPointType  BackTransformPoint(const OutputPointType  &point) const
-  {
+    {
     return BackTransform(point);
-  }
+    }
     
   /** Defines that the forward transform goes from azimuth,elevation to 
    *  cartesian. */
@@ -220,9 +220,12 @@ private:
 }  // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_AzimuthElevationToCartesianTransform(_, EXPORT, x, y) namespace itk { \
+#define ITK_TEMPLATE_AzimuthElevationToCartesianTransform(_, EXPORT, x, y) \
+  namespace itk { \
   _(2(class EXPORT AzimuthElevationToCartesianTransform< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef AzimuthElevationToCartesianTransform< ITK_TEMPLATE_2 x > AzimuthElevationToCartesianTransform##y; } \
+  namespace Templates { \
+  typedef AzimuthElevationToCartesianTransform< ITK_TEMPLATE_2 x > \
+  AzimuthElevationToCartesianTransform##y; } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
