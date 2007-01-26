@@ -58,8 +58,8 @@ public:
 
   /** Badly named methods that require renaming and documentation. */ 
   void    useDiscrete(void){UseDiscreteColors();};
-  void    useGray(unsigned int n=256){UseGrayColors(n);};
-  void    useHeat(unsigned int n=256){UseHeatColors(n);};
+  void    useGray(unsigned int n=256){UseGrayColors(n);}
+  void    useHeat(unsigned int n=256){UseHeatColors(n);}
 
   itkGetMacro(NumberOfColors, unsigned int);
   unsigned int     size(void);

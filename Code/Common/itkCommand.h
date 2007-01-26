@@ -384,7 +384,7 @@ public:
       {
       m_Callback(caller, event, m_ClientData );
       }
-    };
+    }
 
   /** Execute the callback function with a const Object */
   void Execute(const Object *caller, const EventObject & event )
@@ -393,7 +393,7 @@ public:
       {
       m_ConstCallback(caller, event, m_ClientData );
       }
-    };
+    }
 
 protected:
   CStyleCommand(): m_ClientData(0), m_Callback(0), m_ConstCallback(0),
@@ -407,7 +407,8 @@ protected:
       {
       m_ClientDataDeleteCallback(m_ClientData);
       }
-    };
+    }
+
   void *                    m_ClientData;
   FunctionPointer           m_Callback;
   ConstFunctionPointer      m_ConstCallback;

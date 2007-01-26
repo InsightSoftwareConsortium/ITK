@@ -103,7 +103,7 @@ private:
   CoreAtomImageToDistanceMatrixProcess(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  CoreAtomImagePointer m_CoreAtomImage;
+  CoreAtomImagePointer  m_CoreAtomImage;
   DistanceMatrixPointer m_DistanceMatrix;
 
   int m_NumberOfNodes;

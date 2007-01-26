@@ -66,6 +66,7 @@ public:
                                                      InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType  
                                                      OutputCovariantVectorType;
+
   typedef typename Superclass::InputVnlVectorType         InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType        OutputVnlVectorType;
   typedef typename Superclass::InputPointType             InputPointType;

@@ -74,7 +74,7 @@ protected:
 
 private:
 
-  mutable int m_ListPosition;
+  mutable int          m_ListPosition;
   TreeNode<ValueType>* m_ParentNode;
 };
 

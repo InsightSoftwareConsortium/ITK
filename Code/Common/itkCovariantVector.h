@@ -30,21 +30,21 @@ namespace itk
 /** \class CovariantVector
  * \brief A templated class holding a n-Dimensional covariant vector.
  * 
- * CovariantVector is a templated class that holds a single vector (i.e., an array
- * of values).  CovariantVector can be used as the data type held at each pixel in
- * an Image or at each vertex of an Mesh. The template parameter T can
- * be any data type that behaves like a primitive (or atomic) data type (int,
- * short, float, complex).  The NVectorDimension defines the number of
- * components in the vector array. 
+ * CovariantVector is a templated class that holds a single vector 
+ * (i.e., an array of values).  CovariantVector can be used as the data 
+ * type held at each pixel in an Image or at each vertex of an Mesh. 
+ * The template parameter T can be any data type that behaves like a 
+ * primitive (or atomic) data type (int, short, float, complex).  
+ * The NVectorDimension defines the number of components in the vector array. 
  *
  * CovariantVector is not a dynamically extendible array like std::vector. It is
  * intended to be used like a mathematical vector.
  *
  * If you wish a simpler pixel types, you can use Scalar, which represents
  * a single data value at a pixel. There is also the more complex type
- * ScalarCovariantVector, which supports (for a given pixel) a single scalar value
- * plus an array of vector values. (The scalar and vectors can be of
- * different data type.)
+ * ScalarCovariantVector, which supports (for a given pixel) 
+ * a single scalar value plus an array of vector values. 
+ * (The scalar and vectors can be of different data type.)
  * 
  * CovariantVector is the type that should be used for representing normals
  * to surfaces and gradients of functions. AffineTransform transform
@@ -63,15 +63,16 @@ namespace itk
 template<class T, unsigned int NVectorDimension=3>
 class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
 {
- public:
+
+public:
   /** Standard class typedefs. */
-  typedef CovariantVector  Self;
+  typedef CovariantVector                 Self;
   typedef FixedArray<T,NVectorDimension>  Superclass;
 
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an CovariantVector.   */
-  typedef T ValueType;
-  typedef typename NumericTraits< ValueType >::RealType   RealValueType;
+  typedef T                                              ValueType;
+  typedef typename NumericTraits< ValueType >::RealType  RealValueType;
 
   /** Dimension of the Space */
   itkStaticConstMacro(Dimension, unsigned int, NVectorDimension);
@@ -155,7 +156,8 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
   /** CovariantVector operator-=.  Subtracts a vector from a current vector. */
   const Self& operator-=(const Self &vec);
 
-  /** CovariantVector negation.  Negate all the elements of a vector. Return a new vector */
+  /** CovariantVector negation.  Negate all the elements of a vector. 
+   *  Return a new vector */
   Self operator-() const;
   
   /** CovariantVector addition. Add two vectors. Return a new vector. */
@@ -164,7 +166,8 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
   /** CovariantVector subtraction. Subtract two vectors. Return a new vector. */
   Self operator-(const Self &vec) const;
   
-  /** CovariantVector operator*.  Performs the inner product of two covariant vectors.
+  /** CovariantVector operator*.  
+   * Performs the inner product of two covariant vectors.
    * \warning This is equivalent to the scalar product only if the reference
    * system has orthogonal axis and equal scales.  */
   ValueType operator*(const Self &vec) const;
@@ -213,12 +216,12 @@ class ITK_EXPORT CovariantVector : public FixedArray<T,NVectorDimension>
    *  Casting is done with C-Like rules  */
   template < typename TCoordRepB >
   void CastFrom( const CovariantVector<TCoordRepB,NVectorDimension> & pa )
-  {
+    {
     for(unsigned int i=0; i<NVectorDimension; i++ )
       {
       (*this)[i] = static_cast<T>( pa[i] );
       }
-  }
+    }
 
 };
 
@@ -254,7 +257,8 @@ ITKCommon_EXPORT void CrossProduct(  CovariantVector<int,3>,
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_CovariantVector(_, EXPORT, x, y) namespace itk { \
   _(2(class EXPORT CovariantVector< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef CovariantVector< ITK_TEMPLATE_2 x > CovariantVector##y; } \
+  namespace Templates { typedef CovariantVector< ITK_TEMPLATE_2 x > \
+                        CovariantVector##y; } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

@@ -32,7 +32,7 @@ class CreateObjectFunctionBase: public Object
 public:
   /** Standard typedefs. */
   typedef CreateObjectFunctionBase  Self;
-  typedef Object  Superclass;
+  typedef Object                    Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -80,5 +80,3 @@ private:
 } // end namespace itk
 
 #endif
-
-

@@ -127,7 +127,7 @@ private:
   double m_DistanceMin;
   double m_DistanceMax;
   double m_Epsilon;
-  bool m_Polarity;
+  bool   m_Polarity;
 
 };
 

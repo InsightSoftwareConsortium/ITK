@@ -99,7 +99,7 @@ private:
   const Self & operator=( const Self & );
 #ifdef ITK_USE_PTHREADS
   pthread_cond_t m_ConditionVariable;
-  MutexType m_Mutex;
+  MutexType      m_Mutex;
 #else
   int m_NumberOfWaiters;                   // number of waiting threads
 #ifdef WIN32

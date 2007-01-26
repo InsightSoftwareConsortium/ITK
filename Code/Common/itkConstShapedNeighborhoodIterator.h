@@ -345,7 +345,7 @@ protected:
   virtual void ActivateIndex(const unsigned int);
   virtual void DeactivateIndex(const unsigned int);
 
-  bool m_CenterIsActive;
+  bool          m_CenterIsActive;
   IndexListType m_ActiveIndexList;
   ConstIterator m_ConstEndIterator;
   ConstIterator m_ConstBeginIterator;
