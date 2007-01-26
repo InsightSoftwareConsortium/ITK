@@ -99,7 +99,7 @@ int itkBinaryErodeImageFilterTest3(int argc, char * argv[])
     }
 
   filter->SetBoundaryToForeground( atoi(argv[5]) );
-  if ( filter->GetBoundaryToForeground( ) != atoi(argv[5]) )
+  if ( filter->GetBoundaryToForeground( ) != (bool)atoi(argv[5]) )
     {
     std::cerr << "Set/Get BoundaryToForeground value problem." << std::endl;
     return EXIT_FAILURE;
