@@ -62,6 +62,9 @@ int main(int , char* [])
 
   typedef itk::Mesh< float, 3 >     MeshType;
 
+  // Dummy variable just to force the full instantiation of the class
+  CharType::Pointer dummyImage = CharType::New();
+
   itk::ContourExtractor2DImageFilter<InputType>::Pointer
     ContourExtractor2DImageFilterObj =
     itk::ContourExtractor2DImageFilter<InputType>::New();
