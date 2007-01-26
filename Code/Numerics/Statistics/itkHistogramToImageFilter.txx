@@ -164,7 +164,6 @@ void
 HistogramToImageFilter<THistogram, TFunction>
 ::GenerateData(void)
 {
-  unsigned int i;
   itkDebugMacro(<< "HistogramToImageFilter::Update() called");
 
   this->AllocateOutputs();
