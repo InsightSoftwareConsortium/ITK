@@ -406,6 +406,7 @@ BinaryMorphologyImageFilter<TInputImage, TOutput, TKernel>
   os << indent << "Kernel: " << m_Kernel << std::endl;
   os << indent << "Foreground Value: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue) << std::endl;
   os << indent << "Background Value: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_BackgroundValue) << std::endl;
+  os << indent << "BoundaryToForeground: " << m_BoundaryToForeground << std::endl;
 }
 
 } // end namespace itk
