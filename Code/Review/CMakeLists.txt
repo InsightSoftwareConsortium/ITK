@@ -63,7 +63,11 @@ ENDIF(ITK_LIBRARY_PROPERTIES)
 
 # install the development files
 IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
-  INSTALL_FILES(${ITK_INSTALL_INCLUDE_DIR}/Review "(\\.h|\\.txx)$")
+  FILE(GLOB __files1 "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+  FILE(GLOB __files2 "${CMAKE_CURRENT_SOURCE_DIR}/*.txx")
+  INSTALL(FILES ${__files1} ${__files2}
+    DESTINATION ${ITK_INSTALL_INCLUDE_DIR_CM24}/Review
+    COMPONENT Development)
 ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
 
 # Warn the user about the license issues and lack of stability of the API
