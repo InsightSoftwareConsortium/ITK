@@ -188,7 +188,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   unsigned long int totalLabs = CreateConsecutive();
   m_ObjectCount = totalLabs;
   // check for overflow exception here
-  if (totalLabs > static_cast<long int>(NumericTraits<OutputPixelType>::max())) 
+  if (totalLabs > static_cast<unsigned long int>(NumericTraits<OutputPixelType>::max())) 
     {
     itkExceptionMacro( << "Number of objects greater than maximum of output pixel type " );
     }
