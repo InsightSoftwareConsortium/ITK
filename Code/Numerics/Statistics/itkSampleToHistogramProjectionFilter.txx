@@ -275,7 +275,7 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
   const MeasurementVectorSizeType measurementVectorSize = 
                             this->GetMeasurementVectorSize();
   if( !measurementVectorSize || 
-      ( MeasurementVectorTraits::GetLength( m_Mean ) != measurementVectorSize ) ||
+      ( MeasurementVectorTraits::GetLength( *m_Mean ) != measurementVectorSize ) ||
       ( m_ProjectionAxis->Size() != measurementVectorSize ) )
     {
     itkExceptionMacro( << "Size of measurement vectors in the sample must be "
