@@ -53,7 +53,7 @@ int itkVectorImageTest( int, char* argv[] )
 
   const unsigned int VectorLength = 6;
   const unsigned int Dimension    = 3;
-  typedef float PixelType;
+  typedef unsigned short PixelType;
 
   {
   // Test 1.

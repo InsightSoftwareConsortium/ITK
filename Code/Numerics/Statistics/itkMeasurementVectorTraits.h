@@ -149,7 +149,11 @@ public:
                GetLength( const std::vector< TValueType > *m )
     {return m->size(); }
 
-
+  template< class TValueType >
+  static MeasurementVectorLength
+               GetLength( const TValueType & )
+    { return 1; }
+  
   template< class TValueType1, unsigned int TLength, class TValueType2 >
   static MeasurementVectorLength Assert( const FixedArray< TValueType1, TLength > &, 
                       const Array< TValueType2 > &b, const char *errMsg="Length Mismatch")

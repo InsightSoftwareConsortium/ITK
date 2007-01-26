@@ -22,6 +22,7 @@
 
 #include "itkImage.h"
 #include "itkProcessObject.h"
+#include "itkMeasurementVectorTraits.h"
 
 namespace itk
 {
@@ -137,6 +138,14 @@ Image<TPixel, VImageDimension>
     }
 }
 
+//----------------------------------------------------------------------------
+template<class TPixel, unsigned int VImageDimension>
+unsigned int
+Image<TPixel, VImageDimension>
+::GetNumberOfComponentsPerPixel() const
+{
+  return MeasurementVectorTraits::GetLength( PixelType() );
+}
 
 /**
  *
