@@ -71,6 +71,8 @@ public:
   typedef typename TInputImage::PixelType InputPixelType;
   typedef typename TInputImage::InternalPixelType InputInternalPixelType;
   typedef typename TMaskImage::PixelType MaskPixelType;
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   itkStaticConstMacro(InputImageDimension, unsigned int,
