@@ -152,16 +152,14 @@ protected:
   void GenerateData();
   
   /**
-   * Set/Get the value of the border - used in boundary condition.
+   * the value of the border - used in boundary condition.
    */
-  itkSetMacro(MarkerValue, typename TInputImage::PixelType);
-  itkGetConstReferenceMacro(MarkerValue, typename TInputImage::PixelType);
+  typename TInputImage::PixelType m_MarkerValue;
 
 
 private:
   ReconstructionImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  typename TInputImage::PixelType m_MarkerValue;
   bool                m_FullyConnected;
   bool                m_UseInternalCopy;
 
