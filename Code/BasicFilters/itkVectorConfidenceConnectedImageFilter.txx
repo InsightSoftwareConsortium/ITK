@@ -28,7 +28,6 @@
 #include "itkNumericTraits.h"
 #include "itkNumericTraitsRGBPixel.h"
 #include "itkProgressReporter.h"
-#include "itkMeasurementVectorTraits.h"
 
 namespace itk
 {
@@ -136,8 +135,8 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   typedef typename InputPixelType::ValueType                      ComponentPixelType;
   typedef typename NumericTraits< ComponentPixelType >::RealType  ComponentRealType;
 
-  const unsigned int dimension = inputImage->GetNumberOfComponentsPerPixel();
-    
+  const unsigned int dimension = InputPixelType::Dimension;
+
   covariance = CovarianceMatrixType( dimension, dimension );
   mean       = MeanVectorType( dimension );
 

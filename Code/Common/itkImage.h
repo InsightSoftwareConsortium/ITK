@@ -359,9 +359,6 @@ public:
       }
     }
 
-  /** Get/Set the number of components each pixel has, ie the VectorLength */
-  virtual unsigned int GetNumberOfComponentsPerPixel() const;
-
 protected:
   Image();
   void PrintSelf(std::ostream& os, Indent indent) const;
