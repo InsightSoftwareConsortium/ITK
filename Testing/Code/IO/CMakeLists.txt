@@ -24,10 +24,12 @@ TARGET_LINK_LIBRARIES(ImageCopy ITKIO)
 SET(IMAGE_COPY "${EXECUTABLE_OUTPUT_PATH}/ImageCopy" CACHE INTERNAL "ImageCopy path to be used by subprojects")
 
 #
-# Install the executables
+# Install the executables if we have a destination for them.
 #
-INSTALL(TARGETS ImageCompare ImageCompareCommand ImageCopy
-  RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT Development)
+IF(ITK_INSTALL_BIN_DIR_CM24)
+  INSTALL(TARGETS ImageCompare ImageCompareCommand ImageCopy
+    RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT Development)
+ENDIF(ITK_INSTALL_BIN_DIR_CM24)
 
 
 IF( NOT ITK_DISABLE_CXX_TESTING )
