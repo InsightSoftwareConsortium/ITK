@@ -67,6 +67,15 @@ int itkGeometricalQuadEdgeTest1( int , char* [] )
   typedef HelperType::PrimalQuadEdgeType     PrimalQuadEdgeType;
   typedef HelperType::DualQuadEdgeType       DualQuadEdgeType;
 
+
+  { // Define a local scope for testing constructors
+
+  DualQuadEdgeType     dummyQuadEdge1;  // test constructor
+  PrimalQuadEdgeType   dummyQuadEdge2;  // test constructor
+
+  dummyQuadEdge1.SetRot( &dummyQuadEdge2 );  // Test SetRot()
+  }
+
   PrimalQuadEdgeType * e1 = HelperType::MakeQuadEdges();
  
   return EXIT_SUCCESS;
