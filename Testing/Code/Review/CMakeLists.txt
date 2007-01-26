@@ -65,6 +65,9 @@ SET(ReviewTest_SRCS
   itkConformalFlatteningMeshFilterTest.cxx
 
   itkVTKPolyDataReaderTest.cxx
+
+  itkMorphologicalWatershedImageFilterTest.cxx
+  itkMorphologicalWatershedFromMarkersImageFilterTest.cxx
 )
 
 ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS}
@@ -331,6 +334,68 @@ ADD_TEST(itkVTKPolyDataReaderTest ${REVIEW_TESTS}
   itkVTKPolyDataReaderTest
   ${INPUTDATA}/genusZeroSurface01.vtk
   )
+
+FOREACH(M 0 1)
+  FOREACH(F 0 1)
+    ADD_TEST(itkMorphologicalWatershedImageFilterTestButtonHoleM${M}F${F} ${REVIEW_TESTS}
+            --compare ${BASELINE}/itkMorphologicalWatershedImageFilterTestButtonHoleM${M}F${F}.png
+                      ${TEMP}/itkMorphologicalWatershedImageFilterTestButtonHoleM${M}F${F}.png
+                      itkMorphologicalWatershedImageFilterTest
+                      ${INPUTDATA}/button-hole.png
+                      ${TEMP}/itkMorphologicalWatershedImageFilterTestButtonHoleM${M}F${F}.png
+                      ${M} ${F} 0
+                      )
+    
+    ADD_TEST(itkMorphologicalWatershedImageFilterTestPassValuesM${M}F${F} ${REVIEW_TESTS}
+            --compare ${BASELINE}/itkMorphologicalWatershedImageFilterTestPassValuesM${M}F${F}.png
+                      ${TEMP}/itkMorphologicalWatershedImageFilterTestPassValuesM${M}F${F}.png
+                      itkMorphologicalWatershedImageFilterTest
+                      ${INPUTDATA}/pass-values.png
+                      ${TEMP}/itkMorphologicalWatershedImageFilterTestPassValuesM${M}F${F}.png
+                      ${M} ${F} 0
+                      )
+    
+    ADD_TEST(itkMorphologicalWatershedImageFilterTestPlateauM${M}F${F} ${REVIEW_TESTS}
+            --compare ${BASELINE}/itkMorphologicalWatershedImageFilterTestPlateauM${M}F${F}.png
+                      ${TEMP}/itkMorphologicalWatershedImageFilterTestPlateauM${M}F${F}.png
+                      itkMorphologicalWatershedImageFilterTest
+                      ${INPUTDATA}/plateau.png
+                      ${TEMP}/itkMorphologicalWatershedImageFilterTestPlateauM${M}F${F}.png
+                      ${M} ${F} 0
+                      )
+    
+    ADD_TEST(itkMorphologicalWatershedImageFilterTestThickLinesM${M}F${F} ${REVIEW_TESTS}
+            --compare ${BASELINE}/itkMorphologicalWatershedImageFilterTestThickLinesM${M}F${F}.png
+                      ${TEMP}/itkMorphologicalWatershedImageFilterTestThickLinesM${M}F${F}.png
+                      itkMorphologicalWatershedImageFilterTest
+                      ${INPUTDATA}/thick-lines.png
+                      ${TEMP}/itkMorphologicalWatershedImageFilterTestThickLinesM${M}F${F}.png
+                      ${M} ${F} 0
+                      )
+    
+    ADD_TEST(itkMorphologicalWatershedFromMarkersImageFilterTestM${M}F${F} ${REVIEW_TESTS}
+            --compare ${BASELINE}/itkMorphologicalWatershedFromMarkersImageFilterTestM${M}F${F}.png
+                      ${TEMP}/itkMorphologicalWatershedFromMarkersImageFilterTestM${M}F${F}.png
+                      itkMorphologicalWatershedFromMarkersImageFilterTest
+                      ${INPUTDATA}/cthead1.png
+                      ${INPUTDATA}/cthead1-markers.png
+                      ${TEMP}/itkMorphologicalWatershedFromMarkersImageFilterTestM${M}F${F}.png
+                      ${M} ${F}
+                      )
+  ENDFOREACH(F)
+ENDFOREACH(M)
+
+FOREACH(level 00 10 20 30 40 50)
+  ADD_TEST(itkMorphologicalWatershedImageFilterTestLevel${level} ${REVIEW_TESTS}
+          --compare ${BASELINE}/itkMorphologicalWatershedImageFilterTestLevel${level}.png
+                    ${TEMP}/itkMorphologicalWatershedImageFilterTestLevel${level}.png
+                    itkMorphologicalWatershedImageFilterTest
+                    ${INPUTDATA}/level.png
+                    ${TEMP}/itkMorphologicalWatershedImageFilterTestLevel${level}.png
+                    1 0 ${level}
+                    )
+ENDFOREACH(level)
+
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest

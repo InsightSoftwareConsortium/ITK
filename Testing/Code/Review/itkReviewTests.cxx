@@ -67,4 +67,8 @@ void RegisterTests()
   REGISTER_TEST(itkConformalFlatteningMeshFilterTest);
 
   REGISTER_TEST(itkVTKPolyDataReaderTest);
+
+  REGISTER_TEST(itkMorphologicalWatershedImageFilterTest);
+  REGISTER_TEST(itkMorphologicalWatershedFromMarkersImageFilterTest);
+
 }

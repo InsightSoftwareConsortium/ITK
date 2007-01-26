@@ -67,6 +67,9 @@
 
 #include "itkVTKPolyDataReader.h"
 
+#include "itkMorphologicalWatershedImageFilter.h"
+#include "itkMorphologicalWatershedFromMarkersImageFilter.h"
+
 int main ( int , char*  )
 {
   return EXIT_SUCCESS;
