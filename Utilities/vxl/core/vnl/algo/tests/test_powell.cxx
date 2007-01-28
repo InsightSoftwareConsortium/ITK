@@ -160,9 +160,13 @@ static void test_rosenbrock_2d()
 //-------------------------------------------------------------------------
 void test_powell()
 {
+#if NUMERICAL_RECIPES_CODE_HAS_BEEN_REMOVED
   test_quadratic_2d();
   test_quadratic_nd();
   test_rosenbrock_2d();
+#else
+  vcl_cout<<"test_powell has been removed until Numerical Recipes code is removed."<<vcl_endl;
+#endif
 }
 
 

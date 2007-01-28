@@ -24,6 +24,7 @@
 // \date 20 September 2003
 
 #include <vcl_complex.h>
+#include <vcl_iostream.h>
 #include <testlib/testlib_test.h>
 
 #include <vnl/algo/vnl_adjugate.h>
@@ -148,7 +149,11 @@ void test_algo()
   test_matrix_inverse();
   test_fft();
   test_orthogonal_complement();
+#if NUMERICAL_RECIPES_CODE_HAS_BEEN_REMOVED
   test_powell();
+#else
+  vcl_cout<<"test_powell has been removed until Numerical Recipes code is removed."<<vcl_endl;
+#endif
   test_lsqr();
   test_discrete_diff();
   test_generalized_schur();
