@@ -184,7 +184,7 @@ ImageMaskSpatialObject< TDimension >
             {
             if( rit.Get() !=  outsideValue )
               {
-              size[axis] = rit.GetIndex()[axis] - index[axis];
+              size[axis] = rit.GetIndex()[axis] - index[axis] + 1;
               rit.GoToBegin(); //Skip to reverse end
               break;
               }
