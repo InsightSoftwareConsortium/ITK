@@ -14,11 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __GaussianSpatialObject_txx
-#define __GaussianSpatialObject_txx
+#ifndef __itkGaussianSpatialObject_txx
+#define __itkGaussianSpatialObject_txx
 
 #include <math.h>
-
 #include "itkGaussianSpatialObject.h" 
 
 namespace itk 
@@ -50,12 +49,14 @@ typename GaussianSpatialObject< TDimension >::ScalarType
 GaussianSpatialObject< TDimension > 
 ::SquaredZScore( const PointType& point ) const
 {
-   if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if(!this->GetIndexToWorldTransform()->GetInverse(
+          const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return 0;
     }
 
-  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);  
+  PointType transformedPoint = 
+                  this->GetInternalInverseTransform()->TransformPoint(point);  
    
   ScalarType r = 0;
   for( unsigned int i=0; i<TDimension; i++ )
@@ -79,12 +80,14 @@ GaussianSpatialObject< TDimension >
     return false;
     }
     
-  if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if(!this->GetIndexToWorldTransform()->GetInverse(
+           const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
-  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);  
+  PointType transformedPoint = 
+                    this->GetInternalInverseTransform()->TransformPoint(point);
   double r = 0;
   for(unsigned int i=0;i<TDimension;i++)
     {
@@ -95,7 +98,7 @@ GaussianSpatialObject< TDimension >
     else if(transformedPoint[i]>0.0)  // Degenerate ellipse
       {
       r = 2; // Keeps function from returning true here 
-     break;
+      break;
       }
     }
   
@@ -114,7 +117,8 @@ bool
 GaussianSpatialObject< TDimension > 
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const 
 {
-  itkDebugMacro( "Checking the point [" << point << "] is inside the GaussianSpatialObject" );
+  itkDebugMacro( "Checking the point [" << point 
+                 << "] is inside the GaussianSpatialObject" );
     
   if(name == NULL)
     {
@@ -142,7 +146,8 @@ GaussianSpatialObject< TDimension >
 ::ComputeLocalBoundingBox() const
 { 
   if( this->GetBoundingBoxChildrenName().empty() 
-      || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
+      || strstr(typeid(Self).name(), 
+                this->GetBoundingBoxChildrenName().c_str()) )
     {
     // we need to set the minimum and maximum of the bounding box
     // the center is always inside the bounding box.  
@@ -171,11 +176,12 @@ GaussianSpatialObject< TDimension >
 
     typedef typename BoundingBoxType::PointsContainer PointsContainer;
     const PointsContainer * corners = bb->GetCorners();
-    typename BoundingBoxType::PointsContainer::const_iterator it = corners->begin();
+    typename BoundingBoxType::PointsContainer::const_iterator 
+                                                     it = corners->begin();
     while(it != corners->end())
       {
       PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(*it);
-      const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pnt);       
+      const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pnt);
       ++it;
       }
     }
@@ -186,7 +192,8 @@ GaussianSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 GaussianSpatialObject< TDimension >
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
+::IsEvaluableAt( const PointType & point, 
+                 unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking if the ellipse is evaluable at " << point );
   return IsInside(point, depth, name);
@@ -255,9 +262,6 @@ GaussianSpatialObject< TDimension >
     this->GetIndexToWorldTransform()->GetMatrix() );
   ellipse->GetIndexToWorldTransform()->SetOffset(
     this->GetIndexToWorldTransform()->GetOffset() );
-  
-//  ellipse->GetWorldToIndexTransform()->SetParameters(
-//    this->GetWorldToIndexTransform()->GetParameters() );
   
   return ellipse;
 }

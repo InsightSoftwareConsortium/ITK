@@ -43,19 +43,20 @@ template< unsigned int TDimension>  class SpatialObject;
  * \ingroup DataRepresentation 
  */
 template <unsigned int TDimension>
-class SpatialObjectTreeContainer : public TreeContainer<itk::SpatialObject<TDimension>*>
+class SpatialObjectTreeContainer : 
+             public TreeContainer<itk::SpatialObject<TDimension>*>
 {
 
 public:
 
   /** Standard typedefs */
-  typedef SpatialObject<TDimension>           SpatialObjectType;
-  typedef SpatialObjectType*                  SpatialObjectPointer;
-  typedef TreeContainer<SpatialObjectPointer> Superclass;
+  typedef SpatialObject<TDimension>              SpatialObjectType;
+  typedef SpatialObjectType*                     SpatialObjectPointer;
+  typedef TreeContainer<SpatialObjectPointer>    Superclass;
   typedef SpatialObjectTreeContainer<TDimension> Self;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  typedef SpatialObjectTreeNode<TDimension> TreeNodeType;
+  typedef SmartPointer<Self>                     Pointer;
+  typedef SmartPointer<const Self>               ConstPointer;
+  typedef SpatialObjectTreeNode<TDimension>      TreeNodeType;
 
   /** Iterators typedef */
   typedef typename Superclass::IteratorType IteratorType;

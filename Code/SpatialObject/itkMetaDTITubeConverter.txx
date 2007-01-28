@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaDTITubeConverter__txx
-#define __MetaDTITubeConverter__txx
+#ifndef __itkMetaDTITubeConverter_txx
+#define __itkMetaDTITubeConverter_txx
 
 #include "itkMetaDTITubeConverter.h"
 
@@ -24,7 +24,7 @@ namespace itk
 
 
 /** Constructor */ 
-template <unsigned int NDimensions>                                          
+template <unsigned int NDimensions>
 MetaDTITubeConverter<NDimensions>
 ::MetaDTITubeConverter()
 {
@@ -33,13 +33,14 @@ MetaDTITubeConverter<NDimensions>
 
 
 /** Convert a MetaDTITube into an Tube SpatialObject  */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaDTITubeConverter<NDimensions>::SpatialObjectPointer
 MetaDTITubeConverter<NDimensions>
 ::MetaDTITubeToDTITubeSpatialObject(MetaDTITube * tube)
 { 
   typedef itk::DTITubeSpatialObject<NDimensions> DTITubeSpatialObjectType;
-  typename DTITubeSpatialObjectType::Pointer tub = DTITubeSpatialObjectType::New();
+  typename DTITubeSpatialObjectType::Pointer tub = 
+                                          DTITubeSpatialObjectType::New();
   double spacing[NDimensions];
 
   unsigned int ndims = tube->NDims();
@@ -59,7 +60,7 @@ MetaDTITubeConverter<NDimensions>
   tub->GetProperty()->SetAlpha(tube->Color()[3]);
 
   typedef itk::DTITubeSpatialObjectPoint<NDimensions> TubePointType;
-  typedef TubePointType* TubePointPointer;
+  typedef TubePointType*                              TubePointPointer;
 
   typedef MetaDTITube::PointListType ListType;
   ListType::iterator it2 = tube->GetPoints().begin();
@@ -88,14 +89,14 @@ MetaDTITubeConverter<NDimensions>
       if( ((*extraIt).first != "r")
         && ((*extraIt).first != "v1x")
         && ((*extraIt).first != "v1y")
-        && ((*extraIt).first != "v1z")    
-        && ((*extraIt).first != "v2x")       
+        && ((*extraIt).first != "v1z") 
+        && ((*extraIt).first != "v2x")
         && ((*extraIt).first != "v2y")
         && ((*extraIt).first != "v2z")
-        && ((*extraIt).first != "tx")       
+        && ((*extraIt).first != "tx")
         && ((*extraIt).first != "ty")
         && ((*extraIt).first != "tz")
-        && ((*extraIt).first != "red")       
+        && ((*extraIt).first != "red")
         && ((*extraIt).first != "green")
         && ((*extraIt).first != "blue")
         && ((*extraIt).first != "alpha")
@@ -120,7 +121,7 @@ MetaDTITubeConverter<NDimensions>
     delete []tensor;
 
 
-   // This attribute are optional
+    // This attribute are optional
     if((*it2)->GetField("r") != -1)
       {
       pnt.SetRadius((*it2)->GetField("r"));
@@ -134,7 +135,7 @@ MetaDTITubeConverter<NDimensions>
         {
         v[2]= (*it2)->GetField("v1z");
         } 
-      pnt.SetNormal1(v);     
+      pnt.SetNormal1(v);
       }
    
     
@@ -146,7 +147,7 @@ MetaDTITubeConverter<NDimensions>
         {
         v[2]= (*it2)->GetField("v2z");
         } 
-      pnt.SetNormal1(v);     
+      pnt.SetNormal1(v);
       }
   
     if((*it2)->GetField("tx") != -1)
@@ -194,7 +195,7 @@ MetaDTITubeConverter<NDimensions>
 }
 
 /** Convert an Tube SpatialObject into a MetaDTITube */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 MetaDTITube*
 MetaDTITubeConverter<NDimensions>
 ::DTITubeSpatialObjectToMetaDTITube(SpatialObjectType * spatialObject)
@@ -314,7 +315,7 @@ MetaDTITubeConverter<NDimensions>
         }
       }
 
-   if(writeTangent)
+    if(writeTangent)
       {
       pnt->AddField("tx",(*i).GetTangent()[0]);
       pnt->AddField("ty",(*i).GetTangent()[1]);
@@ -328,7 +329,7 @@ MetaDTITubeConverter<NDimensions>
     if(writeColor)
       {
       pnt->AddField("red",(*i).GetRed());
-      pnt->AddField("green",(*i).GetGreen());     
+      pnt->AddField("green",(*i).GetGreen());
       pnt->AddField("blue",(*i).GetBlue());
       }
       
@@ -368,7 +369,7 @@ MetaDTITubeConverter<NDimensions>
 
 
 /** Read a meta file give the type */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaDTITubeConverter<NDimensions>::SpatialObjectPointer
 MetaDTITubeConverter<NDimensions>
 ::ReadMeta(const char* name)

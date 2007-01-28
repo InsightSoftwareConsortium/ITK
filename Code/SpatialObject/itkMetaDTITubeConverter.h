@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaDTITubeConverter__h
-#define __MetaDTITubeConverter__h
+#ifndef __itkMetaDTITubeConverter_h
+#define __itkMetaDTITubeConverter_h
 
 
 #include "metaDTITube.h"
@@ -48,7 +48,8 @@ public:
   bool WriteMeta(SpatialObjectType* spatialObject,const char* name);
 
   SpatialObjectPointer MetaDTITubeToDTITubeSpatialObject(MetaDTITube * Tube);
-  MetaDTITube* DTITubeSpatialObjectToMetaDTITube(SpatialObjectType * spatialObject);
+  MetaDTITube* DTITubeSpatialObjectToMetaDTITube(
+                                          SpatialObjectType * spatialObject);
 
 };
 

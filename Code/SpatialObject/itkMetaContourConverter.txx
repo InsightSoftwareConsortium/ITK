@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaContourConverter__txx
-#define __MetaContourConverter__txx
+#ifndef __itkMetaContourConverter_txx
+#define __itkMetaContourConverter_txx
 
 #include "itkMetaContourConverter.h"
 
@@ -23,21 +23,22 @@ namespace itk
 {
 
 /** Constructor */ 
-template <unsigned int NDimensions>                                          
+template <unsigned int NDimensions>
 MetaContourConverter<NDimensions>
 ::MetaContourConverter()
 {
 }
 
 /** Convert a metaContour into an Contour SpatialObject  */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaContourConverter<NDimensions>::SpatialObjectPointer
 MetaContourConverter<NDimensions>
 ::MetaContourToContourSpatialObject(MetaContour * Contour)
 { 
 
   typedef itk::ContourSpatialObject<NDimensions> ContourSpatialObjectType;
-  typename ContourSpatialObjectType::Pointer contour = ContourSpatialObjectType::New();
+  typename ContourSpatialObjectType::Pointer contour = 
+                                          ContourSpatialObjectType::New();
 
   double spacing[NDimensions];
   
@@ -105,8 +106,9 @@ MetaContourConverter<NDimensions>
     }
 
   // Then the interpolated points
-  typedef typename ContourSpatialObjectType::InterpolatedPointType InterpolatedPointType;
-  typedef MetaContour::InterpolatedPointListType InterpolatedListType;
+  typedef typename ContourSpatialObjectType::InterpolatedPointType 
+                                                        InterpolatedPointType;
+  typedef MetaContour::InterpolatedPointListType        InterpolatedListType;
 
   InterpolatedListType::iterator itI = Contour->GetInterpolatedPoints().begin();
       
@@ -140,7 +142,7 @@ MetaContourConverter<NDimensions>
 }
 
 /** Convert an Contour SpatialObject into a metaContour */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 MetaContour*
 MetaContourConverter<NDimensions>
 ::ContourSpatialObjectToMetaContour(SpatialObjectType * spatialObject)
@@ -222,7 +224,7 @@ MetaContourConverter<NDimensions>
 
   // Set the interpolation type
   switch(spatialObject->GetInterpolationType())
-    {    
+    {
     case SpatialObjectType::EXPLICIT_INTERPOLATION :
       Contour->Interpolation(MET_EXPLICIT_INTERPOLATION);
       break;
@@ -262,7 +264,7 @@ MetaContourConverter<NDimensions>
 
 
 /** Read a meta file give the type */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaContourConverter<NDimensions>::SpatialObjectPointer
 MetaContourConverter<NDimensions>
 ::ReadMeta(const char* name)

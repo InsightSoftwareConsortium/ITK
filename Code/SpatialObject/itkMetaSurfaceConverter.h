@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaSurfaceConverter__h
-#define __MetaSurfaceConverter__h
+#ifndef __itkMetaSurfaceConverter_h
+#define __itkMetaSurfaceConverter_h
 
 
 #include "metaSurface.h"
@@ -48,7 +48,8 @@ public:
   bool WriteMeta(SpatialObjectType* spatialObject,const char* name);
 
   SpatialObjectPointer MetaSurfaceToSurfaceSpatialObject(MetaSurface * Surface);
-  MetaSurface* SurfaceSpatialObjectToMetaSurface(SpatialObjectType * spatialObject);
+  MetaSurface* SurfaceSpatialObjectToMetaSurface(
+                                             SpatialObjectType * spatialObject);
 
 };
 

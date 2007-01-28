@@ -45,10 +45,10 @@ public:
   typedef Point< double, TPointDimension >         PointType;
   typedef CovariantVector<double,TPointDimension>  VectorType;
 
-  /** Constructor. This one defines the # of dimensions in the SurfaceSpatialObjectPoint */
+  /** Constructor */
   SurfaceSpatialObjectPoint( void );
 
-  /** Default destructor. */
+  /** Destructor */
   virtual ~SurfaceSpatialObjectPoint( void );
 
   /** Get Normal */
@@ -57,7 +57,8 @@ public:
   /** Set Normal */
   void SetNormal(const VectorType & normal);
   void SetNormal(const double normalx, const double normaly);
-  void SetNormal(const double normalx, const double normaly, const double normalz);
+  void SetNormal(const double normalx, const double normaly,
+                                       const double normalz);
 
   /** Copy one SurfaceSpatialObjectPoint to another */
   Self & operator=(const SurfaceSpatialObjectPoint & rhs);

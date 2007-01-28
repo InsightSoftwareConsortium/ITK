@@ -49,15 +49,15 @@ class GaussianSpatialObject
 
 public:
 
-  typedef GaussianSpatialObject               Self;
-  typedef double                              ScalarType;
-  typedef SmartPointer < Self >               Pointer;
-  typedef SmartPointer < const Self >         ConstPointer;
-  typedef SpatialObject< TDimension >         Superclass;
-  typedef SmartPointer< Superclass >          SuperclassPointer;
-  typedef typename Superclass::PointType      PointType;
-  typedef typename Superclass::TransformType  TransformType;
-  typedef typename Superclass::BoundingBoxType        BoundingBoxType;
+  typedef GaussianSpatialObject                Self;
+  typedef double                               ScalarType;
+  typedef SmartPointer < Self >                Pointer;
+  typedef SmartPointer < const Self >          ConstPointer;
+  typedef SpatialObject< TDimension >          Superclass;
+  typedef SmartPointer< Superclass >           SuperclassPointer;
+  typedef typename Superclass::PointType       PointType;
+  typedef typename Superclass::TransformType   TransformType;
+  typedef typename Superclass::BoundingBoxType BoundingBoxType;
 
   itkStaticConstMacro(NumberOfDimensions, unsigned int,
                       TDimension);

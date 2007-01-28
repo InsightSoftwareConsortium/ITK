@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPolygonGroupOrientation_h
-#define _itkPolygonGroupOrientation_h
+#ifndef __itkPolygonGroupOrientation_h
+#define __itkPolygonGroupOrientation_h
 namespace itk {
 /**
  * \enum PolygonGroupOrientation

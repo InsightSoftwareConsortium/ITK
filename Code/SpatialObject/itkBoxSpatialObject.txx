@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __BoxSpatialObject_txx
-#define __BoxSpatialObject_txx
+#ifndef __itkBoxSpatialObject_txx
+#define __itkBoxSpatialObject_txx
 
 #include "itkBoxSpatialObject.h" 
 #include "itkNumericTraits.h"
@@ -56,12 +56,14 @@ BoxSpatialObject< TDimension >
     return false;
     }
     
-  if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if(!this->GetIndexToWorldTransform()->GetInverse(
+          const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
-  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);  
+  PointType transformedPoint = 
+                   this->GetInternalInverseTransform()->TransformPoint(point);
   bool isInside = true;
   for(unsigned int i=0;i<TDimension;i++)
     {
@@ -82,8 +84,6 @@ BoxSpatialObject< TDimension >
   return isInside;
 }
 
-
-
 /** Test if the given point is inside the box. A point on the border is 
  *  considered inside. */
 template< unsigned int TDimension >
@@ -91,7 +91,8 @@ bool
 BoxSpatialObject< TDimension > 
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const 
 {
-  itkDebugMacro( "Checking the point [" << point << "] is inside the AxisAlignedBox" );
+  itkDebugMacro( "Checking the point [" 
+                 << point << "] is inside the AxisAlignedBox" );
     
   if(name == NULL)
     {
@@ -111,8 +112,6 @@ BoxSpatialObject< TDimension >
   return Superclass::IsInside(point, depth, name);
 } 
 
-
-
 /** Compute the bounds of the box */
 template< unsigned int TDimension >
 bool
@@ -122,7 +121,8 @@ BoxSpatialObject< TDimension >
   itkDebugMacro( "Computing BoxSpatialObject bounding box" );
 
   if( this->GetBoundingBoxChildrenName().empty() 
-      || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
+      || strstr(typeid(Self).name(), 
+                this->GetBoundingBoxChildrenName().c_str()) )
     {
     
     // First we compute the bounding box in the index space
@@ -147,11 +147,12 @@ BoxSpatialObject< TDimension >
 
     typedef typename BoundingBoxType::PointsContainer PointsContainer;
     const PointsContainer * corners = bb->GetCorners();
-    typename BoundingBoxType::PointsContainer::const_iterator it = corners->begin();
+    typename BoundingBoxType::PointsContainer::const_iterator 
+                                                      it = corners->begin();
     while(it != corners->end())
       {
       PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(*it);
-      const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pnt);       
+      const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pnt);
       ++it;
       }
     }
@@ -163,7 +164,8 @@ BoxSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 BoxSpatialObject< TDimension >
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
+::IsEvaluableAt( const PointType & point, 
+                 unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking if the BoxSpatialObject is evaluable at " << point );
   return IsInside(point, depth, name);

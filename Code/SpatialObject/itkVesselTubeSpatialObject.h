@@ -31,15 +31,16 @@ namespace itk
 *
 * The tube is basically defined by a set of points. Each tube can
 * be connected to a tube network, by using the AddSpatialObject() methods
-* of a VesselTubeSpatialObject Object. A tube is also identified by an id number when connected
-* to a network.
+* of a VesselTubeSpatialObject Object. 
+* A tube is also identified by an id number when connected to a network.
 *
 * \sa VesselTubeSpatialObjectPoint 
 */
 
 template < unsigned int TDimension = 3 >
 class VesselTubeSpatialObject 
-  :public TubeSpatialObject< TDimension, VesselTubeSpatialObjectPoint< TDimension >  >
+  :public TubeSpatialObject< TDimension, 
+                             VesselTubeSpatialObjectPoint< TDimension >  >
 {
 
 public:

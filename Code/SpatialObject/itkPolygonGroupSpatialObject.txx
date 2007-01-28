@@ -41,7 +41,8 @@ DeleteStrand(PolygonSpatialObject<TDimension> *toDelete)
 
 template <unsigned int TDimension >
 bool PolygonGroupSpatialObject<TDimension>::
-ReplaceStrand(PolygonSpatialObject<TDimension> *toReplace,PolygonSpatialObject<TDimension> *replacement)
+ReplaceStrand(PolygonSpatialObject<TDimension> *toReplace,
+              PolygonSpatialObject<TDimension> *replacement)
 {
   TreeNodeChildrenListType & children = this->GetTreeNode()->GetChildrenList();
   typename TreeNodeChildrenListType::iterator it = children.begin();

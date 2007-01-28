@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaGaussianConverter__h
-#define __MetaGaussianConverter__h
+#ifndef __itkMetaGaussianConverter_h
+#define __itkMetaGaussianConverter_h
 
 #include "itkGaussianSpatialObject.h"
 #include "metaGaussian.h"
@@ -32,7 +32,7 @@ public:
   MetaGaussianConverter();
   ~MetaGaussianConverter() {};
 
-  typedef itk::GaussianSpatialObject<NDimensions> SpatialObjectType;
+  typedef itk::GaussianSpatialObject<NDimensions>   SpatialObjectType;
   typedef typename SpatialObjectType::TransformType TransformType;
 
   typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
@@ -41,8 +41,10 @@ public:
 
   bool WriteMeta(SpatialObjectType* spatialObject,const char* name);
 
-  SpatialObjectPointer MetaGaussianToGaussianSpatialObject(MetaGaussian * gaussian);
-  MetaGaussian* GaussianSpatialObjectToMetaGaussian(SpatialObjectType * spatialObject);
+  SpatialObjectPointer MetaGaussianToGaussianSpatialObject(
+                                                      MetaGaussian * gaussian);
+  MetaGaussian* GaussianSpatialObjectToMetaGaussian(
+                                            SpatialObjectType * spatialObject);
 
 };
 

@@ -25,8 +25,8 @@
 namespace itk 
 {
 
- /** \brief Describes the geometry of a data object
-  *  
+ /** \class AffineGeometryFrame
+  * \brief Describes the geometry of a data object  
   */
 template <class TScalarType = double, unsigned int NDimensions = 3>
 class AffineGeometryFrame : public itk::Object
@@ -37,10 +37,10 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  typedef ScalableAffineTransform<TScalarType, NDimensions>  TransformType;
+  typedef ScalableAffineTransform<TScalarType, NDimensions>    TransformType;
   typedef BoundingBox<unsigned long, NDimensions, TScalarType> BoundingBoxType;
-  typedef typename BoundingBoxType::BoundsArrayType BoundsArrayType;
-  typedef typename BoundingBoxType::Pointer BoundingBoxPointer;
+  typedef typename BoundingBoxType::BoundsArrayType            BoundsArrayType;
+  typedef typename BoundingBoxType::Pointer                 BoundingBoxPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,8 +57,9 @@ public:
     return m_BoundingBox->GetBounds();
     }
 
-  /** Set the bounding box Only possible via the BoundsArray to make clear that a copy of the 
-   * bounding-box is stored, not a reference to it.*/
+  /** Set the bounding box Only possible via the BoundsArray 
+   * to make clear that a copy of the bounding-box is stored, 
+   * not a reference to it.*/
   virtual void SetBounds(const BoundsArrayType& bounds);
 
   /** Get the extent of the bounding box */
@@ -103,7 +104,8 @@ protected:
 
   /** used in clone to initialize the newly created geometry */
   virtual void InitializeGeometry(Self * newGeometry) const;
-  void SetBoundsArray(const BoundsArrayType& bounds, BoundingBoxPointer& boundingBox);
+  void SetBoundsArray(const BoundsArrayType& bounds, 
+                      BoundingBoxPointer& boundingBox);
   mutable BoundingBoxPointer m_BoundingBox;
 
   /** Transform from unit coordinates to object coordinates */

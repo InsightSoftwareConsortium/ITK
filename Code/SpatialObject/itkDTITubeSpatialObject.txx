@@ -14,12 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkDTITubeSpatialObject_txx
+#define __itkDTITubeSpatialObject_txx
+
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-
-#ifndef __itkDTITubeSpatialObject_txx
-#define __itkDTITubeSpatialObject_txx
 
 #include "itkDTITubeSpatialObject.h" 
 

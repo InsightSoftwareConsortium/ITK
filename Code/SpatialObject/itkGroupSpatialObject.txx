@@ -14,12 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkGroupSpatialObject_txx
+#define __itkGroupSpatialObject_txx
+
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-
-#ifndef __itkGroupSpatialObject_txx
-#define __itkGroupSpatialObject_txx
 
 #include "itkGroupSpatialObject.h" 
 

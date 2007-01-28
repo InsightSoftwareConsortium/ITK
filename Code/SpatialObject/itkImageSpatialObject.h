@@ -60,10 +60,12 @@ public:
   typedef typename Superclass::PointType        PointType;
   typedef typename Superclass::BoundingBoxType  BoundingBoxType;
   typedef InterpolateImageFunction<ImageType>   InterpolatorType;
-  typedef NearestNeighborInterpolateImageFunction<ImageType>  NNInterpolatorType;
+
+  typedef NearestNeighborInterpolateImageFunction<ImageType>  
+                                                NNInterpolatorType;
 
   typedef VectorContainer< unsigned long, PointType> PointContainerType;
-  typedef typename PointContainerType::Pointer PointContainerPointer;
+  typedef typename PointContainerType::Pointer       PointContainerPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -131,7 +133,7 @@ protected:
 
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
-  int* m_SlicePosition;
+  int*        m_SlicePosition;
   std::string m_PixelType;
 
   typename InterpolatorType::Pointer m_Interpolator;

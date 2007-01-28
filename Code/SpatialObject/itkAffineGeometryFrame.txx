@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkAffineGeometryFrame_txx
-#define _itkAffineGeometryFrame_txx
+#ifndef __itkAffineGeometryFrame_txx
+#define __itkAffineGeometryFrame_txx
 
 #include "itkAffineGeometryFrame.h"
 
@@ -109,8 +109,6 @@ AffineGeometryFrame<TScalarType, NDimensions>
   return newGeometry;
 }
 
-
-
 /** Initialize the geometry */
 template<class TScalarType, unsigned int NDimensions>
 void 
@@ -141,8 +139,6 @@ AffineGeometryFrame<TScalarType, NDimensions>
     newGeometry->SetIndexToWorldTransform(indexToWorldTransform);
     }
 }
-
-
 
 } //namespace
 

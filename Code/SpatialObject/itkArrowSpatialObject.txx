@@ -91,8 +91,10 @@ ArrowSpatialObject< TDimension >
     pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
     pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
       
-    const_cast<typename Superclass::BoundingBoxType*>(this->GetBounds())->SetMinimum(pnt);
-    const_cast<typename Superclass::BoundingBoxType*>(this->GetBounds())->SetMaximum(pnt2);
+    const_cast<typename Superclass::BoundingBoxType*>(
+                                          this->GetBounds())->SetMinimum(pnt);
+    const_cast<typename Superclass::BoundingBoxType*>(
+                                          this->GetBounds())->SetMaximum(pnt2);
     }
   return true;
 }
@@ -132,12 +134,14 @@ bool
 ArrowSpatialObject< TDimension >
 ::IsInside( const PointType & point) const
 {
-  if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if(!this->GetIndexToWorldTransform()->GetInverse(
+            const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
-  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);
+  PointType transformedPoint = 
+                   this->GetInternalInverseTransform()->TransformPoint(point);
 
   this->ComputeLocalBoundingBox();
   
@@ -189,10 +193,10 @@ ArrowSpatialObject< TDimension >
     m_Length = vcl_sqrt(m_Length);
     }
   else
-  {
-  this->Modified();
-  return;
-  }
+    {
+    this->Modified();
+    return;
+    }
 
   m_Direction.Normalize();
 
@@ -205,8 +209,8 @@ ArrowSpatialObject< TDimension >
   double angley;
   double anglez = 0;
     
-  #ifndef PI    
-    const double PI = 4.0 * vcl_atan(1.0 );
+  #ifndef PI
+  const double PI = 4.0 * vcl_atan(1.0 );
   #endif
 
   if(m_Direction[0] == 0.0)

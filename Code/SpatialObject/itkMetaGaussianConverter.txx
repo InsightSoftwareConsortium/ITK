@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaGaussianConverter__txx
-#define __MetaGaussianConverter__txx
+#ifndef __itkMetaGaussianConverter_txx
+#define __itkMetaGaussianConverter_txx
 
 #include "itkMetaGaussianConverter.h"
 
@@ -23,7 +23,7 @@ namespace itk
 {
 
 /** Constructor */ 
-template <unsigned int NDimensions>                                          
+template <unsigned int NDimensions>
 MetaGaussianConverter<NDimensions>
 ::MetaGaussianConverter()
 {
@@ -32,7 +32,7 @@ MetaGaussianConverter<NDimensions>
 
 
 /** Convert a metaGaussian into a gaussian SpatialObject  */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaGaussianConverter<NDimensions>::SpatialObjectPointer
 MetaGaussianConverter<NDimensions>
 ::MetaGaussianToGaussianSpatialObject(MetaGaussian * gaussian)
@@ -47,7 +47,7 @@ MetaGaussianConverter<NDimensions>
 }
 
 /** Convert a gaussian SpatialObject into a metaGaussian */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 MetaGaussian*
 MetaGaussianConverter<NDimensions>
 ::GaussianSpatialObjectToMetaGaussian(SpatialObjectType * spatialObject)
@@ -55,9 +55,9 @@ MetaGaussianConverter<NDimensions>
   MetaGaussian* gaussian = new MetaGaussian(NDimensions);
 
   if(spatialObject->GetParent())
-  {
+    {
     gaussian->ParentID(spatialObject->GetParent()->GetId());
-  }
+    }
   gaussian->Maximum( spatialObject->GetMaximum() );
   gaussian->Radius( spatialObject->GetRadius() );
   gaussian->ID(spatialObject->GetId());
@@ -66,7 +66,7 @@ MetaGaussianConverter<NDimensions>
 
 
 /** Read a meta file give the type */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaGaussianConverter<NDimensions>::SpatialObjectPointer
 MetaGaussianConverter<NDimensions>
 ::ReadMeta(const char* name)

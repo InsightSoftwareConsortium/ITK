@@ -14,12 +14,13 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkBlobSpatialObject_txx
+#define __itkBlobSpatialObject_txx
+
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifndef __itkBlobSpatialObject_txx
-#define __itkBlobSpatialObject_txx
 
 #include "itkBlobSpatialObject.h" 
 
@@ -79,7 +80,7 @@ BlobSpatialObject< TDimension >
   m_Points.clear();
         
   typename PointListType::iterator it,end;
-  it = points.begin();    
+  it = points.begin();
   end = points.end();
   while(it != end)
     {
@@ -99,7 +100,8 @@ BlobSpatialObject< TDimension >
 { 
   os << indent << "BlobSpatialObject(" << this << ")" << std::endl; 
   os << indent << "ID: " << this->GetId() << std::endl; 
-  os << indent << "nb of points: "<< static_cast<unsigned long>( m_Points.size() ) << std::endl;
+  os << indent << "nb of points: " 
+               << static_cast<unsigned long>( m_Points.size() ) << std::endl;
   Superclass::PrintSelf( os, indent ); 
 } 
   
@@ -111,7 +113,9 @@ BlobSpatialObject< TDimension >
 { 
   itkDebugMacro( "Computing blob bounding box" );
 
-  if( this->GetBoundingBoxChildrenName().empty() || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
+  if( this->GetBoundingBoxChildrenName().empty() 
+     || strstr(typeid(Self).name(), 
+               this->GetBoundingBoxChildrenName().c_str()) )
     {
     typename PointListType::const_iterator it  = m_Points.begin();
     typename PointListType::const_iterator end = m_Points.end();
@@ -122,13 +126,15 @@ BlobSpatialObject< TDimension >
       }
     else
       {
-      PointType pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
+      PointType pt = 
+         this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
       const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(pt);
       const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(pt);
       it++;
       while(it!= end) 
         {  
-        pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
+        pt = 
+          this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
         const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pt);
         it++;
         }
@@ -149,12 +155,14 @@ BlobSpatialObject< TDimension >
   typename PointListType::const_iterator it = m_Points.begin();
   typename PointListType::const_iterator itEnd = m_Points.end();
     
-  if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if(!this->GetIndexToWorldTransform()->GetInverse(
+          const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
-  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);
+  PointType transformedPoint = 
+                    this->GetInternalInverseTransform()->TransformPoint(point);
   
   if( this->GetBounds()->IsInside(transformedPoint) )
     {
@@ -186,7 +194,6 @@ BlobSpatialObject< TDimension >
 }
 
 
-
 /** Test if the given point is inside the blob
  *  Note: ComputeBoundingBox should be called before. */
 template< unsigned int TDimension >
@@ -194,7 +201,7 @@ bool
 BlobSpatialObject< TDimension > 
 ::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
-  itkDebugMacro( "Checking the point [" << point << "] is inside the blob" );    
+  itkDebugMacro( "Checking the point [" << point << "] is inside the blob" );
   if(name == NULL)
     {
     if(IsInside(point))
@@ -218,7 +225,8 @@ BlobSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 BlobSpatialObject< TDimension > 
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
+::IsEvaluableAt( const PointType & point, 
+                 unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking if the blob is evaluable at " << point );
   return IsInside(point, depth, name);

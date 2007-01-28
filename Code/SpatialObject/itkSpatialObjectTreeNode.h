@@ -109,10 +109,9 @@ SpatialObjectTreeNode<TDimension>
   data->SetTreeNode(this); // give the pointer to the node to the spatial object
 }
   
-/** Compute the NodeToWorld transform based on the parent*/
+/** Compute the NodeToWorld transform based on the parent */
 template <unsigned int TDimension>
-void
-SpatialObjectTreeNode<TDimension>
+void SpatialObjectTreeNode<TDimension>
 ::ComputeNodeToWorldTransform()
 {
   m_NodeToWorldTransform->SetMatrix(m_NodeToParentNodeTransform->GetMatrix());

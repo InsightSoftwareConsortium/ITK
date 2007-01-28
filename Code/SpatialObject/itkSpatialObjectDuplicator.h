@@ -23,16 +23,17 @@
 namespace itk
 {
 
-/** This helper class create an SpatialObject which is perfect copy of the input SpatialObject
- */
-template <class TInputSpatialObject>            
+/** \class SpatialObjectDuplicator
+ *  This helper class create an SpatialObject which is perfect 
+ *  copy of the input SpatialObject */
+template <class TInputSpatialObject>
 class ITK_EXPORT SpatialObjectDuplicator : public Object 
 {
 public:
   /** Standard class typedefs. */
-  typedef SpatialObjectDuplicator Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  typedef SpatialObjectDuplicator   Self;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */
@@ -42,14 +43,15 @@ public:
   itkTypeMacro(SpatialObjectDuplicator, Object);
 
   /** Type definitions for the input SpatialObject. */
-  typedef TInputSpatialObject  SpatialObjectType;
-  typedef typename TInputSpatialObject::Pointer  SpatialObjectPointer;
+  typedef TInputSpatialObject                        SpatialObjectType;
+  typedef typename TInputSpatialObject::Pointer      SpatialObjectPointer;
   typedef typename TInputSpatialObject::ConstPointer SpatialObjectConstPointer;
 
   itkStaticConstMacro(ObjectDimension, unsigned int,
                       SpatialObjectType::ObjectDimension);
 
-  typedef SpatialObject<itkGetStaticConstMacro(ObjectDimension)> InternalSpatialObjectType;
+  typedef SpatialObject<itkGetStaticConstMacro(ObjectDimension)> 
+                                                     InternalSpatialObjectType;
 
   /** Set the input SpatialObject. */
   itkSetConstObjectMacro(Input,SpatialObjectType);
@@ -65,7 +67,8 @@ protected:
   virtual ~SpatialObjectDuplicator() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  void CopyObject(const InternalSpatialObjectType* source,InternalSpatialObjectType* destination);
+  void CopyObject(const InternalSpatialObjectType* source,
+                  InternalSpatialObjectType* destination);
 
 private:
   SpatialObjectDuplicator(const Self&); //purposely not implemented

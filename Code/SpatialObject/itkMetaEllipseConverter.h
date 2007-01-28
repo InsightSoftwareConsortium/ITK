@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaEllipseConverter__h
-#define __MetaEllipseConverter__h
+#ifndef __itkMetaEllipseConverter_h
+#define __itkMetaEllipseConverter_h
 
 #include "itkEllipseSpatialObject.h"
 #include "metaEllipse.h"
@@ -32,7 +32,7 @@ public:
   MetaEllipseConverter();
   ~MetaEllipseConverter() {};
 
-  typedef itk::EllipseSpatialObject<NDimensions> SpatialObjectType;
+  typedef itk::EllipseSpatialObject<NDimensions>    SpatialObjectType;
   typedef typename SpatialObjectType::TransformType TransformType;
 
   typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
@@ -42,7 +42,8 @@ public:
   bool WriteMeta(SpatialObjectType* spatialObject,const char* name);
 
   SpatialObjectPointer MetaEllipseToEllipseSpatialObject(MetaEllipse * ellipse);
-  MetaEllipse* EllipseSpatialObjectToMetaEllipse(SpatialObjectType * spatialObject);
+  MetaEllipse* EllipseSpatialObjectToMetaEllipse(
+                                             SpatialObjectType * spatialObject);
 
 };
 

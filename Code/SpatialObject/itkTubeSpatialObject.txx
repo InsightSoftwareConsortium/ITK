@@ -14,12 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkTubeSpatialObject_txx
+#define __itkTubeSpatialObject_txx
+
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-
-#ifndef __itkTubeSpatialObject_txx
-#define __itkTubeSpatialObject_txx
 
 #include "itkTubeSpatialObject.h" 
 
@@ -66,7 +66,8 @@ TubeSpatialObject< TDimension, TTubePointType >
 
 /** Get the list of points composing the tube */
 template< unsigned int TDimension, typename TTubePointType >
-const typename TubeSpatialObject< TDimension, TTubePointType >::PointListType &  
+const typename 
+TubeSpatialObject< TDimension, TTubePointType >::PointListType &  
 TubeSpatialObject< TDimension, TTubePointType > 
 ::GetPoints() const
 { 
@@ -85,7 +86,7 @@ TubeSpatialObject< TDimension, TTubePointType >
   m_Points.clear();
          
   typename PointListType::iterator it,end;
-  it = points.begin();    
+  it = points.begin();
   end = points.end();
   while(it != end)
     {
@@ -93,7 +94,7 @@ TubeSpatialObject< TDimension, TTubePointType >
     it++;
     }
    
-  this->ComputeBoundingBox();     
+  this->ComputeBoundingBox();
   this->Modified();
 }
 
@@ -114,7 +115,8 @@ TubeSpatialObject< TDimension, TTubePointType >
 { 
   os << indent << "TubeSpatialObject(" << this << ")" << std::endl; 
   os << indent << "ID: " << this->GetId() << std::endl; 
-  os << indent << "nb of points: "<< static_cast<unsigned long>( m_Points.size() )<< std::endl;
+  os << indent << "nb of points: "
+     << static_cast<unsigned long>( m_Points.size()) << std::endl;
   os << indent << "End Type : " << m_EndType << std::endl;
   os << indent << "Parent Point : " << m_ParentPoint << std::endl; 
   os << indent << "Root : " << m_Root << std::endl; 
@@ -132,7 +134,8 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   // Check if the IndexToWorldTransform or the object itself has been modified
   if( (this->GetMTime() == m_OldMTime)
-     && (m_IndexToWorldTransformMTime == this->GetIndexToWorldTransform()->GetMTime())
+     && (m_IndexToWorldTransformMTime == 
+                                 this->GetIndexToWorldTransform()->GetMTime())
     )
     {
     return true; // if not modified we return
@@ -177,11 +180,13 @@ TubeSpatialObject< TDimension, TTubePointType >
 
       typedef typename BoundingBoxType::PointsContainer PointsContainer;
       const PointsContainer * corners = bb->GetCorners();
-      typename BoundingBoxType::PointsContainer::const_iterator itBB = corners->begin();
+      typename BoundingBoxType::PointsContainer::const_iterator 
+                                                     itBB = corners->begin();
       while(itBB != corners->end())
         {
-        PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(*itBB);
-        const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pnt);       
+        PointType pnt = 
+                     this->GetIndexToWorldTransform()->TransformPoint(*itBB);
+        const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pnt);
         ++itBB;
         }
       }
@@ -210,12 +215,14 @@ TubeSpatialObject< TDimension, TTubePointType >
   typename PointListType::const_iterator end = m_Points.end(); 
   typename PointListType::const_iterator min;
   
-  if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if(!this->GetIndexToWorldTransform()->GetInverse(
+            const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
-  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);
+  PointType transformedPoint = 
+                 this->GetInternalInverseTransform()->TransformPoint(point);
        
   if(m_EndType == 0) // flat end-type
     {
@@ -240,7 +247,7 @@ TubeSpatialObject< TDimension, TTubePointType >
       if( ((it != m_Points.begin()) && 
           (lambda>-((*it).GetRadius()/(2*vcl_sqrt(B))))
           && (lambda<0))
-          || ((lambda <= 1.0) && (lambda >= 0.0))       
+          || ((lambda <= 1.0) && (lambda >= 0.0))
         )
         {
         PointType p;
@@ -380,7 +387,7 @@ TubeSpatialObject< TDimension, TTubePointType >
   if( length == 0 )
     {
     return false; 
-    }    
+    }
   
   PointType x1, x3; 
   VectorType t;
@@ -508,7 +515,8 @@ TubeSpatialObject< TDimension, TTubePointType >
 template< unsigned int TDimension, typename TTubePointType >
 bool
 TubeSpatialObject< TDimension, TTubePointType > 
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
+::IsEvaluableAt( const PointType & point, 
+                 unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking if the tube is evaluable at " << point );
   return IsInside(point, depth, name);
@@ -554,7 +562,8 @@ TubeSpatialObject< TDimension, TTubePointType >
   const Self* source = dynamic_cast<const Self*>(data);
   if(!source)
     {
-    std::cout << "CopyInformation: objects are not of the same type" << std::endl;
+    std::cout << "CopyInformation: objects are not of the same type" 
+              << std::endl;
     return;
     }
 

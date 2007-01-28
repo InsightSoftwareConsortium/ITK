@@ -40,16 +40,16 @@ class LineSpatialObjectPoint
 
 public:
 
-  typedef LineSpatialObjectPoint                      Self;
-  typedef SpatialObjectPoint<TPointDimension>         Superclass;
-  typedef Point< double, TPointDimension >            PointType;
-  typedef CovariantVector<double,TPointDimension>     VectorType;
-  typedef FixedArray<VectorType,TPointDimension-1> NormalArrayType;
+  typedef LineSpatialObjectPoint                    Self;
+  typedef SpatialObjectPoint<TPointDimension>       Superclass;
+  typedef Point< double, TPointDimension >          PointType;
+  typedef CovariantVector<double,TPointDimension>   VectorType;
+  typedef FixedArray<VectorType,TPointDimension-1>  NormalArrayType;
 
-  /** Constructor. This one defines the # of dimensions in the LineSpatialObjectPoint */
+  /** Constructor */
   LineSpatialObjectPoint( void );
 
-  /** Default destructor. */
+  /** Destructor */
   virtual ~LineSpatialObjectPoint( void );
 
   /** Get Normal */

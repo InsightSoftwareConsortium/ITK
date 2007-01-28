@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __PlaneSpatialObject_txx
-#define __PlaneSpatialObject_txx
+#ifndef __itkPlaneSpatialObject_txx
+#define __itkPlaneSpatialObject_txx
 
 #include "itkPlaneSpatialObject.h" 
 
@@ -112,7 +112,8 @@ PlaneSpatialObject<TDimension >
   itkDebugMacro( "Computing tube bounding box" );
 
   if( this->GetBoundingBoxChildrenName().empty() 
-      || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
+      || strstr(typeid(Self).name(), 
+                this->GetBoundingBoxChildrenName().c_str()) )
     {
     PointType pnt;
     PointType pnt2;
@@ -124,11 +125,11 @@ PlaneSpatialObject<TDimension >
       pnt2[i]=m_UpperPoint[i];
       }
     
-      pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
-      pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
+    pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
+    pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
          
-      const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(pnt);
-      const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(pnt2);
+    const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(pnt);
+    const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(pnt2);
     }
   return true;
 } 
@@ -138,7 +139,8 @@ PlaneSpatialObject<TDimension >
 template< unsigned int TDimension >
 bool
 PlaneSpatialObject<TDimension >
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
+::IsEvaluableAt( const PointType & point, 
+                 unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking if the Plane is evaluable at " << point );
   return IsInside(point, depth, name );

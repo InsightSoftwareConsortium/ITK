@@ -28,8 +28,8 @@ namespace itk
 * \class PointBasedSpatialObject
 * \brief This class serves as the base class for point-based spatial objects
 *
-* A PointBasedSpatialObject is an abstract class to support PointBasedSpatialObject
-* filters and algorithms.
+* A PointBasedSpatialObject is an abstract class to support 
+* PointBasedSpatialObject filters and algorithms.
 *
 */
 

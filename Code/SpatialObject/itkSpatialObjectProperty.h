@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __SpatialObjectProperty_h
-#define __SpatialObjectProperty_h
+#ifndef __itkSpatialObjectProperty_h
+#define __itkSpatialObjectProperty_h
 
 #include <string>
 
@@ -24,7 +24,7 @@
 #include "itkRGBAPixel.h"
 #include "itkLightObject.h"
 
-namespace itk{
+namespace itk {
 
 /**
  * This class contains the objects properties such as colors, opacity, etc...
@@ -38,11 +38,11 @@ class ITK_EXPORT SpatialObjectProperty
 public:
 
   typedef SpatialObjectProperty< TComponentType > Self;
-  typedef LightObject Superclass;
-  typedef RGBAPixel< TComponentType > PixelType;
-  typedef std::string StringType;
+  typedef LightObject                             Superclass;
+  typedef RGBAPixel< TComponentType >             PixelType;
+  typedef std::string                             StringType;
 
-  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   itkNewMacro( Self );
@@ -77,19 +77,17 @@ protected:
   void PrintSelf(std::ostream &os, Indent indent) const;
   void Modified(void){m_MTime++;}
 
-private:    
+private:
   SpatialObjectProperty(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
    
-  PixelType m_Color;
-  StringType m_Name;
+  PixelType     m_Color;
+  StringType    m_Name;
   unsigned long m_MTime;
 
 };
 
 }
-
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSpatialObjectProperty.txx"

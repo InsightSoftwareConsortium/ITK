@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaArrowConverter__txx
-#define __MetaArrowConverter__txx
+#ifndef __itkMetaArrowConverter_txx
+#define __itkMetaArrowConverter_txx
 
 #include "itkMetaArrowConverter.h"
 
@@ -23,7 +23,7 @@ namespace itk
 {
 
 /** Constructor */ 
-template <unsigned int NDimensions>                                          
+template <unsigned int NDimensions>
 MetaArrowConverter<NDimensions>
 ::MetaArrowConverter()
 {
@@ -32,7 +32,7 @@ MetaArrowConverter<NDimensions>
 
 
 /** Convert a metaArrow into an arrow SpatialObject  */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaArrowConverter<NDimensions>::SpatialObjectPointer
 MetaArrowConverter<NDimensions>
 ::MetaArrowToArrowSpatialObject(MetaArrow * arrow)
@@ -61,7 +61,7 @@ MetaArrowConverter<NDimensions>
 }
 
 /** Convert an arrow SpatialObject into a metaArrow */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 MetaArrow*
 MetaArrowConverter<NDimensions>
 ::ArrowSpatialObjectToMetaArrow(SpatialObjectType * spatialObject)
@@ -93,7 +93,7 @@ MetaArrowConverter<NDimensions>
 
 
 /** Read a meta file give the type */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaArrowConverter<NDimensions>::SpatialObjectPointer
 MetaArrowConverter<NDimensions>
 ::ReadMeta(const char* name)

@@ -30,7 +30,7 @@ namespace itk
 * \class LandmarkSpatialObject
 * \brief Representation of a Landmark based on the spatial object classes.
 *
-* The Landmark is basically defined by a set of points which are inside this blob
+* The Landmark is basically defined by a set of points with spatial locations.
 *
 * \sa SpatialObjectPoint
 */
@@ -73,7 +73,10 @@ public:
 
   
   /** Return a point in the list given the index */
-  const SpatialObjectPointType* GetPoint(unsigned long id) const {return &(m_Points[id]);}
+  const SpatialObjectPointType* GetPoint(unsigned long id) const 
+    {
+    return &(m_Points[id]);
+    }
 
   /** Return a point in the list given the index */
   SpatialObjectPointType* GetPoint(unsigned long id) {return &(m_Points[id]);}

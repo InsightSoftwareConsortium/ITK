@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaSceneConverter__txx
-#define __MetaSceneConverter__txx
+#ifndef __itkMetaSceneConverter_txx
+#define __itkMetaSceneConverter_txx
 
 #include "itkMetaSceneConverter.h"
 #include "itkMetaEllipseConverter.h"
@@ -54,7 +54,7 @@ namespace itk
 {
 
 /** Constructor */ 
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>                                        
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::MetaSceneConverter()
 {
@@ -67,7 +67,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 }
 
 /** Destructor */ 
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>                                          
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::~MetaSceneConverter()
 {
@@ -86,7 +86,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
                                      transform->GetOffset();
 
   unsigned int p = 0;
-  for ( unsigned int row = 0 ; row<NDimensions; row++)
+  for ( unsigned int row = 0; row<NDimensions; row++)
     {
     for( unsigned int col = 0; col<NDimensions; col++)
       {
@@ -96,13 +96,13 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 
   for ( unsigned int i = 0; i<NDimensions; i++)
     {
-    m_Position[i] = offset[i] ;
-    m_CenterOfRotation[i] = center[i] ;
+    m_Position[i] = offset[i];
+    m_CenterOfRotation[i] = center[i];
     }
 
   obj->CenterOfRotation(m_CenterOfRotation);
-  obj->TransformMatrix(m_Orientation) ;
-  obj->Offset(m_Position) ;
+  obj->TransformMatrix(m_Orientation);
+  obj->Offset(m_Position);
   obj->SetDoublePrecision(m_TransformPrecision);
 }
 
@@ -112,14 +112,14 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::SetTransform(SpatialObjectType* so, MetaObject* meta)
 {
   typename SpatialObjectType::TransformType::Pointer transform = 
-    SpatialObjectType::TransformType::New() ;
+    SpatialObjectType::TransformType::New();
 
   typename SpatialObjectType::TransformType::InputPointType center;
   typename SpatialObjectType::TransformType::MatrixType matrix;
   typename SpatialObjectType::TransformType::OffsetType offset;
 
   unsigned int p = 0;
-  for ( unsigned int row = 0 ; row<NDimensions; row++)
+  for ( unsigned int row = 0; row<NDimensions; row++)
     {
     for( unsigned int col = 0; col<NDimensions; col++)
       {
@@ -161,16 +161,18 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
         {
         MetaVesselTubeConverter<NDimensions> tubeConverter;
         typename itk::VesselTubeSpatialObject<NDimensions>::Pointer so =
-                 tubeConverter.MetaVesselTubeToVesselTubeSpatialObject((MetaVesselTube*)*it);
-        this->SetTransform(so, *it) ;
+           tubeConverter.MetaVesselTubeToVesselTubeSpatialObject(
+                                                        (MetaVesselTube*)*it);
+        this->SetTransform(so, *it);
         soScene->AddSpatialObject(so);
         }
       else if(!strncmp((*it)->ObjectSubTypeName(),"DTI",3))
         {
         MetaDTITubeConverter<NDimensions> tubeConverter;
         typename itk::DTITubeSpatialObject<NDimensions>::Pointer so =
-                 tubeConverter.MetaDTITubeToDTITubeSpatialObject((MetaDTITube*)*it);
-        this->SetTransform(so, *it) ;
+                 tubeConverter.MetaDTITubeToDTITubeSpatialObject(
+                                                           (MetaDTITube*)*it);
+        this->SetTransform(so, *it);
         soScene->AddSpatialObject(so);
         }
       else
@@ -178,7 +180,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
         MetaTubeConverter<NDimensions> tubeConverter;
         typename itk::TubeSpatialObject<NDimensions>::Pointer so =
                  tubeConverter.MetaTubeToTubeSpatialObject((MetaTube*)*it);
-        this->SetTransform(so, *it) ;
+        this->SetTransform(so, *it);
         soScene->AddSpatialObject(so);
         }
       }
@@ -189,7 +191,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       MetaGroupConverter<NDimensions> groupConverter;
       typename itk::GroupSpatialObject<NDimensions>::Pointer so =
                groupConverter.MetaGroupToGroupSpatialObject((MetaGroup*)*it);
-      this->SetTransform(so, *it) ;
+      this->SetTransform(so, *it);
       soScene->AddSpatialObject(so);
       }
 
@@ -198,7 +200,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       MetaEllipseConverter<NDimensions> ellipseConverter;
       typename itk::EllipseSpatialObject<NDimensions>::Pointer so = 
           ellipseConverter.MetaEllipseToEllipseSpatialObject((MetaEllipse*)*it);
-      this->SetTransform(so, *it) ;
+      this->SetTransform(so, *it);
       soScene->AddSpatialObject( so);
       }
 
@@ -207,7 +209,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       MetaArrowConverter<NDimensions> arrowConverter;
       typename itk::ArrowSpatialObject<NDimensions>::Pointer so = 
           arrowConverter.MetaArrowToArrowSpatialObject((MetaArrow*)*it);
-      this->SetTransform(so, *it) ;
+      this->SetTransform(so, *it);
       soScene->AddSpatialObject( so);
       }
 
@@ -216,7 +218,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       MetaImageConverter<NDimensions,PixelType> imageConverter;
       typename itk::ImageSpatialObject<NDimensions,PixelType>::Pointer so =
           imageConverter.MetaImageToImageSpatialObject((MetaImage*)*it);
-      this->SetTransform(so, *it) ;
+      this->SetTransform(so, *it);
       soScene->AddSpatialObject(so);
       }
 
@@ -225,7 +227,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       MetaBlobConverter<NDimensions> blobConverter;
       typename itk::BlobSpatialObject<NDimensions>::Pointer
       so = blobConverter.MetaBlobToBlobSpatialObject((MetaBlob*)*it);
-      this->SetTransform(so, *it) ;
+      this->SetTransform(so, *it);
       soScene->AddSpatialObject((SpatialObjectType*) so.GetPointer());
       }
 
@@ -243,7 +245,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       MetaSurfaceConverter<NDimensions> surfaceConverter;
       typename itk::SurfaceSpatialObject<NDimensions>::Pointer so =
           surfaceConverter.MetaSurfaceToSurfaceSpatialObject((MetaSurface*)*it);
-      this->SetTransform(so, *it) ;
+      this->SetTransform(so, *it);
       soScene->AddSpatialObject( so);
       }
 
@@ -252,7 +254,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       MetaLineConverter<NDimensions> lineConverter;
       typename itk::LineSpatialObject<NDimensions>::Pointer so =
           lineConverter.MetaLineToLineSpatialObject((MetaLine*)*it);
-      this->SetTransform(so, *it) ;
+      this->SetTransform(so, *it);
       soScene->AddSpatialObject( so);
       }
   
@@ -262,7 +264,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       MetaMeshConverter<NDimensions,PixelType,TMeshTraits> meshConverter;
       typename itk::MeshSpatialObject<MeshType>::Pointer so =
           meshConverter.MetaMeshToMeshSpatialObject((MetaMesh*)*it);
-      this->SetTransform(so, *it) ;
+      this->SetTransform(so, *it);
       soScene->AddSpatialObject( so);
       }
     
@@ -276,7 +278,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       }
 
     it++;
-  }
+    }
 
   soScene->FixHierarchy();
 
@@ -284,9 +286,8 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 }
 
 
-
 /** Read a meta file give the type */
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>     
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 typename MetaSceneConverter<NDimensions,PixelType,TMeshTraits>::ScenePointer
 MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::ReadMeta(const char* name)
@@ -304,7 +305,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 
 
 /** Write a meta file give the type */
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>      
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 MetaScene *
 MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::CreateMetaScene(SceneType * scene, unsigned int depth, char * name)
@@ -328,7 +329,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
   typename ListType::iterator itEnd = childrenList->end();
     
   while(it != itEnd)
-    {    
+    {
     if(!strncmp((*it)->GetTypeName(),"GroupSpatialObject",18) ||
        !strncmp((*it)->GetTypeName(),"AffineTransformSpatialObject",28))
       {
@@ -341,7 +342,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
         group->ParentID((*it)->GetParent()->GetId());
         }
       group->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(group, (*it)->GetObjectToParentTransform()) ;
+      this->SetTransform(group, (*it)->GetObjectToParentTransform());
       metaScene->AddObject(group);
       }
     if(!strncmp((*it)->GetTypeName(),"TubeSpatialObject",17))
@@ -355,7 +356,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
         tube->ParentID((*it)->GetParent()->GetId());
         }
       tube->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(tube, (*it)->GetObjectToParentTransform()) ;
+      this->SetTransform(tube, (*it)->GetObjectToParentTransform());
       metaScene->AddObject(tube);
       }
    
@@ -363,13 +364,14 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       {
       MetaVesselTubeConverter<NDimensions> converter;
       MetaVesselTube* tube = converter.VesselTubeSpatialObjectToMetaVesselTube(
-          dynamic_cast<itk::VesselTubeSpatialObject<NDimensions>*>((*it).GetPointer()));
+          dynamic_cast<itk::VesselTubeSpatialObject<NDimensions>*>(
+                                                          (*it).GetPointer()));
       if((*it)->GetParent())
         {
         tube->ParentID((*it)->GetParent()->GetId());
         }
       tube->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(tube, (*it)->GetObjectToParentTransform()) ;
+      this->SetTransform(tube, (*it)->GetObjectToParentTransform());
       metaScene->AddObject(tube);
       }
 
@@ -377,13 +379,14 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       {
       MetaDTITubeConverter<NDimensions> converter;
       MetaDTITube* tube = converter.DTITubeSpatialObjectToMetaDTITube(
-          dynamic_cast<itk::DTITubeSpatialObject<NDimensions>*>((*it).GetPointer()));
+          dynamic_cast<itk::DTITubeSpatialObject<NDimensions>*>(
+                                                         (*it).GetPointer()));
       if((*it)->GetParent())
         {
         tube->ParentID((*it)->GetParent()->GetId());
         }
       tube->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(tube, (*it)->GetObjectToParentTransform()) ;
+      this->SetTransform(tube, (*it)->GetObjectToParentTransform());
       metaScene->AddObject(tube);
       }
 
@@ -399,7 +402,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
         ellipse->ParentID((*it)->GetParent()->GetId());
         }
       ellipse->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(ellipse, (*it)->GetObjectToParentTransform()) ;
+      this->SetTransform(ellipse, (*it)->GetObjectToParentTransform());
       metaScene->AddObject(ellipse);
       }
 
@@ -416,7 +419,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
         arrow->ParentID((*it)->GetParent()->GetId());
         }
       arrow->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(arrow, (*it)->GetObjectToParentTransform()) ;
+      this->SetTransform(arrow, (*it)->GetObjectToParentTransform());
       metaScene->AddObject(arrow);
       }
     
@@ -435,7 +438,8 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
         {
         if((*it)->GetProperty()->GetName().size() == 0)
           {
-          std::cout << "Error: you should set the image name when using WriteImagesInSeparateFile." << std::endl;
+          std::cout << "Error: you should set the image name when using" 
+                    << " WriteImagesInSeparateFile." << std::endl;
           std::cout << "The image will be written locally." << std::endl;
           }
         else
@@ -447,7 +451,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
         }
 
       image->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(image, (*it)->GetObjectToParentTransform()) ;
+      this->SetTransform(image, (*it)->GetObjectToParentTransform());
       metaScene->AddObject(image);
       }
   
@@ -463,7 +467,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
         }
       blob->BinaryData(true);
       blob->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(blob, (*it)->GetObjectToParentTransform()) ;
+      this->SetTransform(blob, (*it)->GetObjectToParentTransform());
       metaScene->AddObject(blob);
       }
   
@@ -508,7 +512,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
         surface->ParentID((*it)->GetParent()->GetId());
         }
       surface->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(surface, (*it)->GetObjectToParentTransform()) ;
+      this->SetTransform(surface, (*it)->GetObjectToParentTransform());
       metaScene->AddObject(surface);
       }
   
@@ -523,7 +527,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
         line->ParentID((*it)->GetParent()->GetId());
         }
       line->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(line, (*it)->GetObjectToParentTransform()) ;
+      this->SetTransform(line, (*it)->GetObjectToParentTransform());
       metaScene->AddObject(line);
       }
 
@@ -538,7 +542,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
         mesh->ParentID((*it)->GetParent()->GetId());
         }
       mesh->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(mesh, (*it)->GetObjectToParentTransform()) ;
+      this->SetTransform(mesh, (*it)->GetObjectToParentTransform());
       metaScene->AddObject(mesh);
       }
     
@@ -553,7 +557,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 
 
 /** Write a meta file give the type */
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>     
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 bool
 MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 ::WriteMeta(SceneType * scene, const char* fileName,

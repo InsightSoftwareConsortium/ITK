@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __ImageSpatialObject_txx
-#define __ImageSpatialObject_txx
+#ifndef __itkImageSpatialObject_txx
+#define __itkImageSpatialObject_txx
 
 
 #include "itkImageSpatialObject.h"
@@ -61,7 +61,8 @@ ImageSpatialObject< TDimension,  PixelType >
     }
   else
     {
-    std::cout << "itk::ImageSpatialObject() : PixelType not recognized" << std::endl;
+    std::cout << "itk::ImageSpatialObject() : PixelType not recognized" 
+              << std::endl;
     }
 
   m_Interpolator = NNInterpolatorType::New();
@@ -79,7 +80,8 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, class PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
+::IsEvaluableAt( const PointType & point, 
+                 unsigned int depth, char * name ) const
 {
   return IsInside(point, depth, name);
 }
@@ -111,12 +113,14 @@ ImageSpatialObject< TDimension,  PixelType >
     return false;
     }
     
-  if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if(!this->GetIndexToWorldTransform()->GetInverse(
+       const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
-  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);
+  PointType transformedPoint = 
+               this->GetInternalInverseTransform()->TransformPoint(point);
 
   bool isInside = true;
   typename ImageType::RegionType region = m_Image->GetLargestPossibleRegion();
@@ -193,8 +197,9 @@ ImageSpatialObject< TDimension,  PixelType >
       index[i] = p[i];
       }
     
-    value = static_cast<double>(DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
-                                               m_Interpolator->EvaluateAtContinuousIndex(index)));
+    value = static_cast<double>(
+            DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
+                            m_Interpolator->EvaluateAtContinuousIndex(index)));
   
     return true;
     }
@@ -222,28 +227,29 @@ bool
 ImageSpatialObject< TDimension,  PixelType >
 ::ComputeLocalBoundingBox() const
 {
-    if( this->GetBoundingBoxChildrenName().empty() 
-        || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
-      {
-      typename ImageType::RegionType region =
+  if( this->GetBoundingBoxChildrenName().empty() 
+        || strstr(typeid(Self).name(), 
+                  this->GetBoundingBoxChildrenName().c_str()) )
+    {
+    typename ImageType::RegionType region =
         m_Image->GetLargestPossibleRegion();
-      itk::Size<TDimension> size = region.GetSize();
-      PointType pointLow,pointHigh;
+    itk::Size<TDimension> size = region.GetSize();
+    PointType pointLow,pointHigh;
   
-      for( unsigned int i=0; i<TDimension; i++ )
-        {
-        pointLow[i] = 0;
-        pointHigh[i] = size[i];
-        }
-
-      pointLow = this->GetIndexToWorldTransform()->TransformPoint(pointLow);
-      pointHigh = this->GetIndexToWorldTransform()->TransformPoint(pointHigh);
-
-      const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(pointLow);
-      const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(pointHigh);
-
-      return true;
+    for( unsigned int i=0; i<TDimension; i++ )
+      {
+      pointLow[i] = 0;
+      pointHigh[i] = size[i];
       }
+
+    pointLow = this->GetIndexToWorldTransform()->TransformPoint(pointLow);
+    pointHigh = this->GetIndexToWorldTransform()->TransformPoint(pointHigh);
+
+    const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(pointLow);
+    const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(pointHigh);
+
+    return true;
+    }
   
   return false;
 }

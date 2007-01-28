@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaMeshConverter__txx
-#define __MetaMeshConverter__txx
+#ifndef __itkMetaMeshConverter_txx
+#define __itkMetaMeshConverter_txx
 
 #include "itkMetaMeshConverter.h"
 #include "itkVertexCell.h"
@@ -31,7 +31,7 @@ namespace itk
 {
 
 /** Constructor */ 
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>                                                
+template <unsigned int NDimensions, typename PixelType,typename TMeshTraits>
 MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
 ::MetaMeshConverter()
 {
@@ -40,8 +40,9 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
 
 
 /** Convert a metaMesh into an Mesh SpatialObject  */
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>             
-typename MetaMeshConverter<NDimensions,PixelType,TMeshTraits>::SpatialObjectPointer
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+typename 
+MetaMeshConverter<NDimensions,PixelType,TMeshTraits>::SpatialObjectPointer
 MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
 ::MetaMeshToMeshSpatialObject(MetaMesh * _mesh)
 { 
@@ -51,9 +52,9 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
  
   unsigned int ndims = _mesh->NDims();
   for(unsigned int i=0;i<ndims;i++)
-  {
+    {
     spacing[i]=_mesh->ElementSpacing()[i];
-  }
+    }
   meshSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   meshSO->GetProperty()->SetName(_mesh->Name());
   meshSO->SetId(_mesh->ID());
@@ -84,9 +85,10 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
     }
 
   // Add Cells
-  typedef typename MeshType::CellType         CellType;
+  typedef typename MeshType::CellType                  CellType;
   typedef typename CellType::CellAutoPointer           CellAutoPointer;
-  mesh->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
+  mesh->SetCellsAllocationMethod(
+                       MeshType::CellsAllocatedDynamicallyCellByCell );
   
 
   for(unsigned int celltype=0;celltype<MET_NUM_CELL_TYPES;celltype++)
@@ -95,16 +97,17 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
     const CellListType cells = _mesh->GetCells((MET_CellGeometry)celltype);
     typename CellListType::const_iterator it_cells = cells.begin();
     
-    typedef typename MeshType::CellType  CellInterfaceType;
-    typedef itk::VertexCell<CellInterfaceType> VertexCellType;
-    typedef itk::LineCell<CellInterfaceType> LineCellType;
-    typedef itk::TriangleCell<CellInterfaceType> TriangleCellType;
-    typedef itk::QuadrilateralCell<CellInterfaceType> QuadrilateralCellType;
-    typedef itk::PolygonCell<CellInterfaceType> PolygonCellType;
-    typedef itk::TetrahedronCell<CellInterfaceType> TetraCellType;
-    typedef itk::HexahedronCell<CellInterfaceType> HexahedronCellType;
-    typedef itk::QuadraticEdgeCell<CellInterfaceType> QuadraticEdgeCellType;
-    typedef itk::QuadraticTriangleCell<CellInterfaceType> QuadraticTriangleCellType;
+    typedef typename MeshType::CellType                   CellInterfaceType;
+    typedef itk::VertexCell<CellInterfaceType>            VertexCellType;
+    typedef itk::LineCell<CellInterfaceType>              LineCellType;
+    typedef itk::TriangleCell<CellInterfaceType>          TriangleCellType;
+    typedef itk::QuadrilateralCell<CellInterfaceType>     QuadrilateralCellType;
+    typedef itk::PolygonCell<CellInterfaceType>           PolygonCellType;
+    typedef itk::TetrahedronCell<CellInterfaceType>       TetraCellType;
+    typedef itk::HexahedronCell<CellInterfaceType>        HexahedronCellType;
+    typedef itk::QuadraticEdgeCell<CellInterfaceType>     QuadraticEdgeCellType;
+    typedef itk::QuadraticTriangleCell<CellInterfaceType> 
+                                                      QuadraticTriangleCellType;
 
     while(it_cells != cells.end())
       {
@@ -161,7 +164,8 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
 
 
   typedef typename MeshType::CellLinksContainer CellLinksContainerType;
-  typename CellLinksContainerType::Pointer linkContainer = CellLinksContainerType::New();
+  typename CellLinksContainerType::Pointer linkContainer 
+                                                = CellLinksContainerType::New();
 
   while(it_links != links.end())
     {
@@ -189,7 +193,8 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
      
   while(it_pd != _mesh->GetPointData().end())
     {
-    pointData->InsertElement((*it_pd)->m_Id , static_cast<MeshData<PixelType>*>(*it_pd)->m_Data);
+    pointData->InsertElement((*it_pd)->m_Id , 
+                           static_cast<MeshData<PixelType>*>(*it_pd)->m_Data);
     it_pd++;
     }
   mesh->SetPointData(pointData);
@@ -203,7 +208,8 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
   while(it_cd != _mesh->GetCellData().end())
     {
     typedef typename MeshType::CellPixelType CellPixelType;
-    cellData->InsertElement((*it_cd)->m_Id , static_cast<MeshData<CellPixelType>*>(*it_cd)->m_Data);
+    cellData->InsertElement((*it_cd)->m_Id , 
+                       static_cast<MeshData<CellPixelType>*>(*it_cd)->m_Data);
     it_cd++;
     }
 
@@ -215,7 +221,7 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
 }
 
 /** Convert an Mesh SpatialObject into a metaMesh */
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>             
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 MetaMesh*
 MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
 ::MeshSpatialObjectToMetaMesh(SpatialObjectType * spatialObject)
@@ -225,7 +231,8 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
   
   if(!mesh)
     {
-    std::cout << "MetaMeshConverter : GetMesh() returned a NULL Pointer" << std::endl;
+    std::cout << "MetaMeshConverter : GetMesh() returned a NULL Pointer" 
+              << std::endl;
     return NULL;
     }
 
@@ -244,7 +251,7 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
       {
       pnt->m_X[i]=(*it_points)->Value()[i];
       }
-    pnt->m_Id=(*it_points)->Index();;
+    pnt->m_Id=(*it_points)->Index();
     metamesh->GetPoints().push_back(pnt);
     it_points++;
     }
@@ -259,7 +266,8 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
     unsigned int celldim = (*it_cells)->Value()->GetNumberOfPoints();
     MeshCell* cell = new MeshCell(celldim);
 
-    typename MeshType::CellTraits::PointIdConstIterator itptids = (*it_cells)->Value()->GetPointIds();
+    typename MeshType::CellTraits::PointIdConstIterator 
+                                itptids = (*it_cells)->Value()->GetPointIds();
     unsigned int i=0;
     while(itptids != (*it_cells)->Value()->PointIdsEnd())
       {
@@ -268,7 +276,8 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
       }
     cell->m_Id=(*it_cells)->Index();
     
-    typename MeshType::MeshTraits::CellType::CellGeometry geom = (*it_cells)->Value()->GetType();
+    typename MeshType::MeshTraits::CellType::CellGeometry 
+                                       geom = (*it_cells)->Value()->GetType();
     typedef typename MeshType::MeshTraits::CellType CellType;
 
     switch(geom)
@@ -312,14 +321,16 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
 
   if(links)
     {
-    typename MeshType::CellLinksContainer::ConstIterator it_celllinks = links->Begin();
+    typename MeshType::CellLinksContainer::ConstIterator 
+                                                it_celllinks = links->Begin();
  
     while(it_celllinks != links->End())
       {
       MeshCellLink* link = new MeshCellLink();
       link->m_Id = (*it_celllinks)->Index();
 
-      typename MeshType::PointCellLinksContainer::const_iterator it = (*it_celllinks)->Value().begin();
+      typename MeshType::PointCellLinksContainer::const_iterator 
+                                        it = (*it_celllinks)->Value().begin();
       while(it != (*it_celllinks)->Value().end())
         {
         link->m_Links.push_back(*it);
@@ -372,8 +383,9 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
 
 
 /** Read a meta file give the type */
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>             
-typename MetaMeshConverter<NDimensions,PixelType,TMeshTraits>::SpatialObjectPointer
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+typename MetaMeshConverter<NDimensions,PixelType,
+                                       TMeshTraits>::SpatialObjectPointer
 MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
 ::ReadMeta(const char* name)
 {
@@ -387,7 +399,7 @@ MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
 
 
 /** Write a meta Mesh file */
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>      
+template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 bool
 MetaMeshConverter<NDimensions,PixelType,TMeshTraits>
 ::WriteMeta(SpatialObjectType* spatialObject,const char* name)

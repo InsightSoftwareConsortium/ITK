@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSpatialObjectDuplicator_txx
-#define _itkSpatialObjectDuplicator_txx
+#ifndef __itkSpatialObjectDuplicator_txx
+#define __itkSpatialObjectDuplicator_txx
 
 #include "itkSpatialObjectDuplicator.h"
 #include "itkSpatialObjectFactoryBase.h"
@@ -38,7 +38,8 @@ SpatialObjectDuplicator<TInputSpatialObject>
 template<class TInputSpatialObject>
 void
 SpatialObjectDuplicator<TInputSpatialObject>
-::CopyObject(const InternalSpatialObjectType* source,InternalSpatialObjectType* destination)
+::CopyObject(const InternalSpatialObjectType* source,
+             InternalSpatialObjectType* destination)
 {
   // Create the new Spatial Object using the SpatialObjectFactory
   LightObject::Pointer i;
@@ -54,7 +55,8 @@ SpatialObjectDuplicator<TInputSpatialObject>
         << "The usual cause of this error is not registering the "
         << "SpatialObject with SpatialFactory" << std::endl;
     std::cout << "Currently registered Transforms: " << std::endl;
-    std::list<std::string> names = SpatialObjectFactoryBase::GetFactory()->GetClassOverrideWithNames();
+    std::list<std::string> names = 
+         SpatialObjectFactoryBase::GetFactory()->GetClassOverrideWithNames();
     std::list<std::string>::iterator it;
     for ( it = names.begin(); it != names.end(); it++ )
       {
@@ -118,7 +120,8 @@ SpatialObjectDuplicator<TInputSpatialObject>
         << "The usual cause of this error is not registering the "
         << "SpatialObject with SpatialFactory" << std::endl;
     std::cout << "Currently registered Transforms: " << std::endl;
-    std::list<std::string> names = SpatialObjectFactoryBase::GetFactory()->GetClassOverrideWithNames();
+    std::list<std::string> names = 
+          SpatialObjectFactoryBase::GetFactory()->GetClassOverrideWithNames();
     std::list<std::string>::iterator it;
     for ( it = names.begin(); it != names.end(); it++ )
       {
@@ -150,7 +153,8 @@ SpatialObjectDuplicator<TInputSpatialObject>
   Superclass::PrintSelf(os,indent);
   os << indent << "Input SpatialObject: " << m_Input << std::endl;
   os << indent << "Output SpatialObject: " << m_Output << std::endl;
-  os << indent << "Internal SpatialObject Time: " << m_InternalSpatialObjectTime << std::endl;
+  os << indent << "Internal SpatialObject Time: " 
+     << m_InternalSpatialObjectTime << std::endl;
 }
 
 } // end namespace itk

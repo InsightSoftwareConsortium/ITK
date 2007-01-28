@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkMetaEvent__h
-#define __itkMetaEvent__h
+#ifndef __itkMetaEvent_h
+#define __itkMetaEvent_h
 
 #include "metaEvent.h"
 
@@ -29,13 +29,6 @@ public:
 
   MetaEvent(){};
   virtual ~MetaEvent(){};
-/*
-  virtual void StartReading(unsigned int n) {metaEvent::StartReading(n);}
-  virtual void StopReading() {metaEvent::StopReading();}
-  virtual void SetCurrentIteration(unsigned int n) {metaEvent::SetCurrentIteration(n);}
-
-private:
-*/
 
 };
 

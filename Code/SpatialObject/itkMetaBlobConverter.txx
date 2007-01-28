@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaBlobConverter__txx
-#define __MetaBlobConverter__txx
+#ifndef __itkMetaBlobConverter_txx
+#define __itkMetaBlobConverter_txx
 
 #include "itkMetaBlobConverter.h"
 
@@ -23,16 +23,15 @@ namespace itk
 {
 
 /** Constructor */ 
-template <unsigned int NDimensions>                                          
+template <unsigned int NDimensions>
 MetaBlobConverter<NDimensions>
 ::MetaBlobConverter()
 {
   
 }
 
-
 /** Convert a metaBlob into an Blob SpatialObject  */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaBlobConverter<NDimensions>::SpatialObjectPointer
 MetaBlobConverter<NDimensions>
 ::MetaBlobToBlobSpatialObject(MetaBlob * Blob)
@@ -47,9 +46,10 @@ MetaBlobConverter<NDimensions>
   unsigned int ndims = Blob->NDims();
   double spacing[NDimensions];
   for(unsigned int i=0;i<ndims;i++)
-  {
+    {
     spacing[i]=Blob->ElementSpacing()[i];
-  }
+    }
+
   blob->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   blob->GetProperty()->SetName(Blob->Name());
   blob->SetId(Blob->ID());
@@ -60,7 +60,7 @@ MetaBlobConverter<NDimensions>
   blob->GetProperty()->SetAlpha(Blob->Color()[3]);
 
   typedef itk::SpatialObjectPoint<NDimensions> BlobPointType;
-  typedef BlobPointType* BlobPointPointer;
+  typedef BlobPointType*                       BlobPointPointer;
 
   
   typedef MetaBlob::PointListType ListType;
@@ -69,16 +69,16 @@ MetaBlobConverter<NDimensions>
   vnl_vector<double> v(ndims);
   
   for(unsigned int id=0;id< Blob->GetPoints().size();id++)
-  {
+    {
     BlobPointType pnt;
     
     typedef typename BlobSpatialObjectType::PointType PointType;
     PointType point;
 
     for(unsigned int i=0;i<ndims;i++)
-    {
+      {
       point[i]=(*it2)->m_X[i];
-    }
+      }
 
     pnt.SetPosition(point);
 
@@ -89,13 +89,13 @@ MetaBlobConverter<NDimensions>
 
     blob->GetPoints().push_back(pnt);
     it2++;
-  }
+    }
  
   return blob;
 }
 
 /** Convert an Blob SpatialObject into a metaBlob */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 MetaBlob*
 MetaBlobConverter<NDimensions>
 ::BlobSpatialObjectToMetaBlob(SpatialObjectType * spatialObject)
@@ -105,14 +105,16 @@ MetaBlobConverter<NDimensions>
   // fill in the Blob information
    
   typename SpatialObjectType::PointListType::const_iterator i;
-  for(i = dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().begin(); i != dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().end(); i++)
-  {
+  for(i = dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().begin();
+      i != dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().end(); 
+      i++)
+    {
     BlobPnt* pnt = new BlobPnt(NDimensions);
 
     for(unsigned int d=0;d<NDimensions;d++)
-    {
+      {
       pnt->m_X[d]=(*i).GetPosition()[d];
-    }
+      }
      
     pnt->m_Color[0] = (*i).GetRed();
     pnt->m_Color[1] = (*i).GetGreen();
@@ -120,44 +122,44 @@ MetaBlobConverter<NDimensions>
     pnt->m_Color[3] = (*i).GetAlpha();
 
     Blob->GetPoints().push_back(pnt); 
-  }
+    }
     
   if(NDimensions == 2)
-  {
+    {
     Blob->PointDim("x y red green blue alpha");
-  }
+    }
   else
-  {
+    {
     Blob->PointDim("x y z red green blue alpha");
-  }
+    }
 
   float color[4];
   for(unsigned int i=0;i<4;i++)
-  {
+    {
     color[i]=spatialObject->GetProperty()->GetColor()[i];
-  }
+    }
 
   Blob->Color(color);
   Blob->ID( spatialObject->GetId());
   if(spatialObject->GetParent())
-  {
+    {
     Blob->ParentID(spatialObject->GetParent()->GetId());
-  }
+    }
   Blob->NPoints(Blob->GetPoints().size());
 
   
   for(unsigned int i=0;i<NDimensions;i++)
-  {
+    {
     Blob->ElementSpacing(i, spatialObject->GetIndexToObjectTransform()
                                          ->GetScaleComponent()[i]);
-  }
+    }
 
   return Blob;
 }
 
 
 /** Read a meta file give the type */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaBlobConverter<NDimensions>::SpatialObjectPointer
 MetaBlobConverter<NDimensions>
 ::ReadMeta(const char* name)

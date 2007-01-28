@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __SpatialObjectProperty_txx
-#define __SpatialObjectProperty_txx
+#ifndef __itkSpatialObjectProperty_txx
+#define __itkSpatialObjectProperty_txx
 
 #include "itkSpatialObjectProperty.h"
 
@@ -97,7 +97,7 @@ SpatialObjectProperty< TComponentType >
   this->Modified(); 
 }
 
-template< class TComponentType >    
+template< class TComponentType >
 TComponentType
 SpatialObjectProperty< TComponentType >
 ::GetGreen( void ) const

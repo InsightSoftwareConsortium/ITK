@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaArrowConverter__h
-#define __MetaArrowConverter__h
+#ifndef __itkMetaArrowConverter_h
+#define __itkMetaArrowConverter_h
 
 #include "itkArrowSpatialObject.h"
 #include "metaArrow.h"
@@ -32,7 +32,7 @@ public:
   MetaArrowConverter();
   ~MetaArrowConverter() {};
 
-  typedef itk::ArrowSpatialObject<NDimensions> SpatialObjectType;
+  typedef itk::ArrowSpatialObject<NDimensions>      SpatialObjectType;
   typedef typename SpatialObjectType::TransformType TransformType;
 
   typedef typename SpatialObjectType::Pointer SpatialObjectPointer;

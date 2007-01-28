@@ -36,13 +36,14 @@ public:
   static void RegisterSpatialObject()
     {
     typename T::Pointer t = T::New();
-    SpatialObjectFactoryBase::Pointer f = SpatialObjectFactoryBase::GetFactory();
+    SpatialObjectFactoryBase::Pointer f = 
+                                    SpatialObjectFactoryBase::GetFactory();
     f->RegisterSpatialObject ( t->GetSpatialObjectTypeAsString().c_str(),
                                t->GetSpatialObjectTypeAsString().c_str(),
                                t->GetSpatialObjectTypeAsString().c_str(),
                                1,
                                CreateObjectFunction<T>::New() );
-    };
+    }
 };
 } // end namespace itk
 

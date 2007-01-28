@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaGroupConverter__h
-#define __MetaGroupConverter__h
+#ifndef __itkMetaGroupConverter_h
+#define __itkMetaGroupConverter_h
 
 #include "itkGroupSpatialObject.h"
 #include "metaGroup.h"
@@ -32,7 +32,7 @@ public:
   MetaGroupConverter();
   ~MetaGroupConverter() {};
 
-  typedef itk::GroupSpatialObject<NDimensions> SpatialObjectType;
+  typedef itk::GroupSpatialObject<NDimensions>      SpatialObjectType;
   typedef typename SpatialObjectType::TransformType TransformType;
 
   typedef typename SpatialObjectType::Pointer SpatialObjectPointer;

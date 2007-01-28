@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __ImageMaskSpatialObject_txx
-#define __ImageMaskSpatialObject_txx
+#ifndef __itkImageMaskSpatialObject_txx
+#define __itkImageMaskSpatialObject_txx
 
 
 #include "itkImageMaskSpatialObject.h"
@@ -50,7 +50,8 @@ ImageMaskSpatialObject< TDimension >
 {
   if(this->GetBounds()->IsInside(point))
     {
-    if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
+    if(!this->GetIndexToWorldTransform()->GetInverse(
+           const_cast<TransformType *>(this->GetInternalInverseTransform())))
       {
       return false;
       }
@@ -71,7 +72,7 @@ ImageMaskSpatialObject< TDimension >
       }
 
     const bool insideMask = 
-          ( this->GetImage()->GetPixel(index) != NumericTraits<PixelType>::Zero );
+      (this->GetImage()->GetPixel(index) != NumericTraits<PixelType>::Zero);
 
     return insideMask;
     }
@@ -156,7 +157,7 @@ ImageMaskSpatialObject< TDimension >
           {
           while( !fit.IsAtEndOfLine() )
             {
-            if( fit.Get() !=  outsideValue )
+            if( fit.Get() != outsideValue )
               {
               index[axis] = fit.GetIndex()[axis];
               fit.GoToReverseBegin(); // skip to the end
@@ -182,7 +183,7 @@ ImageMaskSpatialObject< TDimension >
           {
           while( !rit.IsAtReverseEndOfLine() )
             {
-            if( rit.Get() !=  outsideValue )
+            if( rit.Get() != outsideValue )
               {
               size[axis] = rit.GetIndex()[axis] - index[axis] + 1;
               rit.GoToBegin(); //Skip to reverse end
@@ -202,12 +203,11 @@ ImageMaskSpatialObject< TDimension >
   else
     {
     itkExceptionMacro( << "ImageDimension must be 3!" );
-    }    
+    }
   
   return region;
    
 }
-
 
 
 /** Print the object */
@@ -223,4 +223,3 @@ ImageMaskSpatialObject< TDimension >
 } // end namespace itk
 
 #endif //__ImageMaskSpatialObject_txx
-

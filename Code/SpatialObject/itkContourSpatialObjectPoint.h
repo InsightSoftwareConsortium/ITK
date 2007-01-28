@@ -45,7 +45,8 @@ public:
   typedef Point< double, TPointDimension >         PointType;
   typedef CovariantVector<double,TPointDimension>  VectorType;
 
-  /** Constructor. This one defines the # of dimensions in the ContourSpatialObjectPoint */
+  /** Constructor. This one defines the # of dimensions 
+   *  in the ContourSpatialObjectPoint */
   ContourSpatialObjectPoint( void );
 
   /** Default destructor. */
@@ -57,7 +58,8 @@ public:
   /** Set Picked Point */
   void SetPickedPoint(const PointType & point);
   void SetPickedPoint(const double pointx, const double pointy);
-  void SetPickedPoint(const double pointx, const double pointy, const double pointz);
+  void SetPickedPoint(const double pointx, 
+                      const double pointy, const double pointz);
 
   /** Get Normal */
   const VectorType & GetNormal( void ) const;
@@ -65,7 +67,8 @@ public:
   /** Set Normal */
   void SetNormal(const VectorType & normal);
   void SetNormal(const double normalx, const double normaly);
-  void SetNormal(const double normalx, const double normaly, const double normalz);
+  void SetNormal(const double normalx, 
+                 const double normaly, const double normalz);
 
   /** Copy one ContourSpatialObjectPoint to another */
   Self & operator=(const ContourSpatialObjectPoint & rhs);

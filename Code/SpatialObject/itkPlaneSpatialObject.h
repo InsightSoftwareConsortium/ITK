@@ -38,17 +38,17 @@ class PlaneSpatialObject
 public:
 
   /** Standard typedefs */
-  typedef PlaneSpatialObject Self;
-  typedef double ScalarType;
-  typedef SmartPointer < Self > Pointer;
-  typedef SmartPointer < const Self > ConstPointer;
-  typedef SpatialObject< TDimension > Superclass;
-  typedef SmartPointer<Superclass> SuperclassPointer;
-  typedef typename Superclass::PointType              PointType;
-  typedef typename Superclass::TransformType          TransformType;
-  typedef VectorContainer<unsigned long,PointType>    PointContainerType;
-  typedef SmartPointer<PointContainerType>            PointContainerPointer;
-  typedef typename Superclass::BoundingBoxType        BoundingBoxType;
+  typedef PlaneSpatialObject                        Self;
+  typedef double                                    ScalarType;
+  typedef SmartPointer < Self >                     Pointer;
+  typedef SmartPointer < const Self >               ConstPointer;
+  typedef SpatialObject< TDimension >               Superclass;
+  typedef SmartPointer<Superclass>                  SuperclassPointer;
+  typedef typename Superclass::PointType            PointType;
+  typedef typename Superclass::TransformType        TransformType;
+  typedef VectorContainer<unsigned long,PointType>  PointContainerType;
+  typedef SmartPointer<PointContainerType>          PointContainerPointer;
+  typedef typename Superclass::BoundingBoxType      BoundingBoxType;
 
 
   itkStaticConstMacro(NumberOfDimension, unsigned int,

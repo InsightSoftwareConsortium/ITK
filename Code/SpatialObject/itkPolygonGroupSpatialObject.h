@@ -37,8 +37,8 @@ namespace itk
  * in a medical image that has some significance as a component of the
  * scan.  Different components of brain anatomy, for instance are Regions
  * of Interest in the human brain.
- * The primary difference between PolygonGroupSpatialObject and other descendants
- * of SpatialObject are these:
+ * The primary difference between PolygonGroupSpatialObject and other 
+ * descendants of SpatialObject are these:
  * 1. For now, an PolygonGroup needs to comprise a series of slices parallel to
  * a plane swept by any two of the major axes. In other words, the points
  * in each slice (or strand) all need to have one of the X,Y,Z values to

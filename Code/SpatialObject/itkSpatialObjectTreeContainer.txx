@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSpatialObjectTreeContainer_txx
-#define _itkSpatialObjectTreeContainer_txx
+#ifndef __itkSpatialObjectTreeContainer_txx
+#define __itkSpatialObjectTreeContainer_txx
 
 #include "itkSpatialObjectTreeContainer.h"
 

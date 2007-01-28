@@ -69,14 +69,15 @@ public:
   bool IsInside( const PointType & point,
                  unsigned int depth, char *name) const;
 
-   /** Test whether a point is inside or outside the object 
+  /** Test whether a point is inside or outside the object 
    *  For computational speed purposes, it is faster if the method does not
    *  check the name of the class and the current depth */ 
   virtual bool IsInside( const PointType & point) const;
 
   /** Compute axis aligned bounding box from the image mask. The bounding box
    * is returned as an image region. Each call to this function will recompute
-   * the region. This function is useful in cases, where you may have a mask image
+   * the region. 
+   * This function is useful in cases, where you may have a mask image
    * resulting from say a segmentation and you want to get the smallest box
    * region that encapsulates the mask image. Currently this is done only for 3D
    * volumes. */
@@ -100,4 +101,3 @@ protected:
 #endif
 
 #endif //__itkImageMaskSpatialObject_h
-

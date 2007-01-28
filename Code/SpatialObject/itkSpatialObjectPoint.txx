@@ -103,7 +103,7 @@ SpatialObjectPoint< TPointDimension >
 }
 
 /** Return the green channel of the point */
-template< unsigned int TPointDimension >    
+template< unsigned int TPointDimension >
 float
 SpatialObjectPoint< TPointDimension >
 ::GetGreen( void ) const
@@ -214,7 +214,7 @@ SpatialObjectPoint< TPointDimension >
 {
   m_ID = rhs.m_ID;
   m_X = rhs.m_X;
-  m_Color = rhs.m_Color ;
+  m_Color = rhs.m_Color;
   return * this;
 }
 
@@ -241,7 +241,7 @@ SpatialObjectPoint< TPointDimension >
   os << indent << "Position: ";
   for(unsigned int i=1;i<TPointDimension;i++)
     {
-    os << m_X[i-1] << "," ;
+    os << m_X[i-1] << ",";
     }
   os <<  m_X[TPointDimension-1] << std::endl;
 }

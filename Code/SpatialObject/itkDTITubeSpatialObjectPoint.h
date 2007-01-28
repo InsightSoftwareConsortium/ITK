@@ -39,13 +39,13 @@ class DTITubeSpatialObjectPoint
 
 public:
 
-  typedef DTITubeSpatialObjectPoint              Self;
-  typedef SpatialObjectPoint<TPointDimension> Superclass;
-  typedef Point< double, TPointDimension >    PointType;
-  typedef Vector<double, TPointDimension >    VectorType;
-  typedef CovariantVector<double, TPointDimension >    CovariantVectorType;
-  typedef std::pair<std::string,float>  FieldType;
-  typedef std::vector<FieldType>        FieldListType;
+  typedef DTITubeSpatialObjectPoint                 Self;
+  typedef SpatialObjectPoint<TPointDimension>       Superclass;
+  typedef Point< double, TPointDimension >          PointType;
+  typedef Vector<double, TPointDimension >          VectorType;
+  typedef CovariantVector<double, TPointDimension > CovariantVectorType;
+  typedef std::pair<std::string,float>              FieldType;
+  typedef std::vector<FieldType>                    FieldListType;
 
   // If you add a type here you need to modify the TranslateEnumToChar
   // to translate the enum to a string

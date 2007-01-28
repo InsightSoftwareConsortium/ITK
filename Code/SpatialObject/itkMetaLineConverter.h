@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaLineConverter__h
-#define __MetaLineConverter__h
+#ifndef __itkMetaLineConverter_h
+#define __itkMetaLineConverter_h
 
 
 #include "metaLine.h"

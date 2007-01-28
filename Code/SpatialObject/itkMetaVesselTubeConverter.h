@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaVesselTubeConverter__h
-#define __MetaVesselTubeConverter__h
+#ifndef __itkMetaVesselTubeConverter_h
+#define __itkMetaVesselTubeConverter_h
 
 
 #include "metaVesselTube.h"
@@ -47,8 +47,10 @@ public:
 
   bool WriteMeta(SpatialObjectType* spatialObject,const char* name);
 
-  SpatialObjectPointer MetaVesselTubeToVesselTubeSpatialObject(MetaVesselTube * Tube);
-  MetaVesselTube* VesselTubeSpatialObjectToMetaVesselTube(SpatialObjectType * spatialObject);
+  SpatialObjectPointer MetaVesselTubeToVesselTubeSpatialObject(
+                                                        MetaVesselTube * Tube);
+  MetaVesselTube* VesselTubeSpatialObjectToMetaVesselTube(
+                                            SpatialObjectType * spatialObject);
 
 };
 

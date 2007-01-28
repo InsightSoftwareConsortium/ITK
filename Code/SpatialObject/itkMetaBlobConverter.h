@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaBlobConverter__h
-#define __MetaBlobConverter__h
+#ifndef __itkMetaBlobConverter_h
+#define __itkMetaBlobConverter_h
 
 
 #include "metaBlob.h"
@@ -34,9 +34,9 @@ public:
   MetaBlobConverter();
   ~MetaBlobConverter() {};
 
-  typedef itk::BlobSpatialObject<NDimensions> SpatialObjectType;
+  typedef itk::BlobSpatialObject<NDimensions>       SpatialObjectType;
   typedef typename SpatialObjectType::TransformType TransformType;
-  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
+  typedef typename SpatialObjectType::Pointer       SpatialObjectPointer;
 
   SpatialObjectPointer ReadMeta(const char* name);
 

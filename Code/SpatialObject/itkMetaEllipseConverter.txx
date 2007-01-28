@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaEllipseConverter__txx
-#define __MetaEllipseConverter__txx
+#ifndef __itkMetaEllipseConverter_txx
+#define __itkMetaEllipseConverter_txx
 
 #include "itkMetaEllipseConverter.h"
 
@@ -23,7 +23,7 @@ namespace itk
 {
 
 /** Constructor */ 
-template <unsigned int NDimensions>                                          
+template <unsigned int NDimensions>
 MetaEllipseConverter<NDimensions>
 ::MetaEllipseConverter()
 {
@@ -32,7 +32,7 @@ MetaEllipseConverter<NDimensions>
 
 
 /** Convert a metaEllipse into an ellipse SpatialObject  */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaEllipseConverter<NDimensions>::SpatialObjectPointer
 MetaEllipseConverter<NDimensions>
 ::MetaEllipseToEllipseSpatialObject(MetaEllipse * ellipse)
@@ -61,7 +61,7 @@ MetaEllipseConverter<NDimensions>
 }
 
 /** Convert an ellipse SpatialObject into a metaEllipse */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 MetaEllipse*
 MetaEllipseConverter<NDimensions>
 ::EllipseSpatialObjectToMetaEllipse(SpatialObjectType * spatialObject)
@@ -70,14 +70,14 @@ MetaEllipseConverter<NDimensions>
 
   float* radius = new float[NDimensions];
   for(unsigned int i=0;i<NDimensions;i++)
-  {
+    {
     radius[i] = spatialObject->GetRadius()[i];
-  }
+    }
 
   if(spatialObject->GetParent())
-  {
+    {
     ellipse->ParentID(spatialObject->GetParent()->GetId());
-  }
+    }
   ellipse->Radius(radius);
   ellipse->ID(spatialObject->GetId());
 
@@ -99,7 +99,7 @@ MetaEllipseConverter<NDimensions>
 
 
 /** Read a meta file give the type */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaEllipseConverter<NDimensions>::SpatialObjectPointer
 MetaEllipseConverter<NDimensions>
 ::ReadMeta(const char* name)

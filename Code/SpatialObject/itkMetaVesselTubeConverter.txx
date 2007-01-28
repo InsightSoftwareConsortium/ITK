@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaVesselTubeConverter__txx
-#define __MetaVesselTubeConverter__txx
+#ifndef __itkMetaVesselTubeConverter_txx
+#define __itkMetaVesselTubeConverter_txx
 
 #include "itkMetaVesselTubeConverter.h"
 
@@ -24,7 +24,7 @@ namespace itk
 
 
 /** Constructor */ 
-template <unsigned int NDimensions>                                          
+template <unsigned int NDimensions>
 MetaVesselTubeConverter<NDimensions>
 ::MetaVesselTubeConverter()
 {
@@ -33,20 +33,21 @@ MetaVesselTubeConverter<NDimensions>
 
 
 /** Convert a MetaVesselTube into an Tube SpatialObject  */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaVesselTubeConverter<NDimensions>::SpatialObjectPointer
 MetaVesselTubeConverter<NDimensions>
 ::MetaVesselTubeToVesselTubeSpatialObject(MetaVesselTube * tube)
 { 
   typedef itk::VesselTubeSpatialObject<NDimensions> VesselTubeSpatialObjectType;
-  typename VesselTubeSpatialObjectType::Pointer tub = VesselTubeSpatialObjectType::New();
+  typename VesselTubeSpatialObjectType::Pointer 
+                                       tub = VesselTubeSpatialObjectType::New();
   double spacing[NDimensions];
 
   unsigned int ndims = tube->NDims();
   for(unsigned int i=0;i<ndims;i++)
-  {
+    {
     spacing[i]=tube->ElementSpacing()[i];
-  }
+    }
 
   tub->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   tub->GetProperty()->SetName(tube->Name());
@@ -61,7 +62,7 @@ MetaVesselTubeConverter<NDimensions>
   tub->GetProperty()->SetAlpha(tube->Color()[3]);
 
   typedef itk::VesselTubeSpatialObjectPoint<NDimensions> TubePointType;
-  typedef TubePointType* TubePointPointer;
+  typedef TubePointType*                                 TubePointPointer;
 
   typedef MetaVesselTube::PointListType ListType;
   ListType::iterator it2 = tube->GetPoints().begin();
@@ -70,16 +71,16 @@ MetaVesselTubeConverter<NDimensions>
   itk::Vector<double,NDimensions> t;
   
   for(unsigned int id=0;id< tube->GetPoints().size();id++)
-  {
+    {
     TubePointType pnt;
     
     typedef typename VesselTubeSpatialObjectType::PointType PointType;
     PointType point;
 
     for(unsigned int i=0;i<ndims;i++)
-    {
+      {
       point[i]=(*it2)->m_X[i];
-    }
+      }
 
     pnt.SetPosition(point);
     pnt.SetRadius((*it2)->m_R);
@@ -120,13 +121,13 @@ MetaVesselTubeConverter<NDimensions>
     tub->GetPoints().push_back(pnt);
 
     it2++;
-  }
+    }
  
   return tub;
 }
 
 /** Convert an Tube SpatialObject into a MetaVesselTube */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 MetaVesselTube*
 MetaVesselTubeConverter<NDimensions>
 ::VesselTubeSpatialObjectToMetaVesselTube(SpatialObjectType * spatialObject)
@@ -139,13 +140,13 @@ MetaVesselTubeConverter<NDimensions>
   for(i = dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().begin(); 
       i != dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().end();
       i++)
-  {
+    {
     VesselTubePnt* pnt = new VesselTubePnt(NDimensions);
 
     for(unsigned int d=0;d<NDimensions;d++)
-    {
+      {
       pnt->m_X[d] = (*i).GetPosition()[d];
-    }
+      }
       
     pnt->m_ID = (*i).GetID();
     pnt->m_R=(*i).GetRadius();
@@ -158,19 +159,19 @@ MetaVesselTubeConverter<NDimensions>
     pnt->m_Mark=(*i).GetMark();
 
     for(unsigned int d=0;d<NDimensions;d++)
-    {
+      {
       pnt->m_V1[d]=(*i).GetNormal1()[d];
-    }
+      }
 
     for(unsigned int d=0;d<NDimensions;d++)
-    {
+      {
       pnt->m_V2[d]=(*i).GetNormal2()[d];
-    }
+      }
 
     for(unsigned int d=0;d<NDimensions;d++)
-    {
+      {
       pnt->m_T[d]=(*i).GetTangent()[d];
-    }
+      }
               
     pnt->m_Color[0] = (*i).GetRed();
     pnt->m_Color[1] = (*i).GetGreen();
@@ -178,25 +179,22 @@ MetaVesselTubeConverter<NDimensions>
     pnt->m_Color[3] = (*i).GetAlpha();
 
     tube->GetPoints().push_back(pnt); 
-
-  }
-
-
+    }
     
   if(NDimensions == 2)
-  {
+    {
     tube->PointDim("x y r rn mn bn mk v1x v1y tx ty a1 a2 red green blue alpha id");
-  }
+    }
   else
-  {
+    {
     tube->PointDim("x y z r rn mn bn mk v1x v1y v1z v2x v2y v2z tx ty tz a1 a2 a3 red green blue alpha id");
-  }
+    }
 
   float color[4];
   for(unsigned int i=0;i<4;i++)
-  {
+    {
     color[i]=spatialObject->GetProperty()->GetColor()[i];
-  }
+    }
 
   tube->Color(color);
   tube->ID( spatialObject->GetId());
@@ -204,23 +202,23 @@ MetaVesselTubeConverter<NDimensions>
   tube->Artery( spatialObject->GetArtery());
 
   if(spatialObject->GetParent())
-  {
+    {
     tube->ParentID(spatialObject->GetParent()->GetId());
-  }
+    }
   tube->ParentPoint(spatialObject->GetParentPoint());
   tube->NPoints(tube->GetPoints().size());
 
   for(unsigned int i=0;i<NDimensions;i++)
-  {
+    {
     tube->ElementSpacing(i, spatialObject->GetIndexToObjectTransform()
                                          ->GetScaleComponent()[i]);
-  }
+    }
   return tube;
 }
 
 
 /** Read a meta file give the type */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaVesselTubeConverter<NDimensions>::SpatialObjectPointer
 MetaVesselTubeConverter<NDimensions>
 ::ReadMeta(const char* name)

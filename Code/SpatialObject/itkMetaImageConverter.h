@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaImageConverter__h
-#define __MetaImageConverter__h
+#ifndef __itkMetaImageConverter_h
+#define __itkMetaImageConverter_h
 
 //
 // metaImage.h must be included before itkImageSpatialObject.h
@@ -37,7 +37,7 @@ public:
   ~MetaImageConverter() {};
 
   typedef itk::ImageSpatialObject<NDimensions,PixelType > SpatialObjectType;
-  typedef typename SpatialObjectType::TransformType TransformType;
+  typedef typename SpatialObjectType::TransformType       TransformType;
 
   typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
 

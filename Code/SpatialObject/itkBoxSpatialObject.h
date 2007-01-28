@@ -28,11 +28,10 @@ namespace itk
 /** \class BoxSpatialObject
  *  
  * \brief
- * The class may be used to represent N-dimensional boxes. In two dimensions it is a
- * rectangle, In three dimensions it is a cuboid...
+ * The class may be used to represent N-dimensional boxes. 
+ * In two dimensions it is a rectangle, In three dimensions it is a cuboid...
  *  
  */
-
 template < unsigned int TDimension = 3 >
 class BoxSpatialObject 
   : public SpatialObject< TDimension >
@@ -40,17 +39,17 @@ class BoxSpatialObject
 
 public:
 
-  typedef BoxSpatialObject Self;
-  typedef double ScalarType;
-  typedef SmartPointer < Self > Pointer;
-  typedef SmartPointer < const Self > ConstPointer;
-  typedef SpatialObject< TDimension > Superclass;
-  typedef SmartPointer<Superclass> SuperclassPointer;
-  typedef typename Superclass::PointType              PointType;
-  typedef typename Superclass::TransformType          TransformType;
-  typedef typename Superclass::BoundingBoxType        BoundingBoxType;
-  typedef FixedArray<double,TDimension>               SizeType;
-  typedef VectorContainer<unsigned long,PointType>    PointContainerType;
+  typedef BoxSpatialObject                          Self;
+  typedef double                                    ScalarType;
+  typedef SmartPointer < Self >                     Pointer;
+  typedef SmartPointer < const Self >               ConstPointer;
+  typedef SpatialObject< TDimension >               Superclass;
+  typedef SmartPointer<Superclass>                  SuperclassPointer;
+  typedef typename Superclass::PointType            PointType;
+  typedef typename Superclass::TransformType        TransformType;
+  typedef typename Superclass::BoundingBoxType      BoundingBoxType;
+  typedef FixedArray<double,TDimension>             SizeType;
+  typedef VectorContainer<unsigned long,PointType>  PointContainerType;
   
   itkNewMacro( Self );
   itkTypeMacro( BoxSpatialObject, SpatialObject );
@@ -107,4 +106,3 @@ protected:
 #endif
 
 #endif // __itkBoxSpatialObject_h
-

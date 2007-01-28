@@ -37,17 +37,17 @@ class EllipseSpatialObject
 
 public:
 
-  typedef EllipseSpatialObject Self;
-  typedef double ScalarType;
-  typedef SmartPointer < Self > Pointer;
-  typedef SmartPointer < const Self > ConstPointer;
-  typedef SpatialObject< TDimension > Superclass;
-  typedef SmartPointer<Superclass> SuperclassPointer;
-  typedef typename Superclass::PointType              PointType;
-  typedef typename Superclass::TransformType          TransformType;
-  typedef typename Superclass::BoundingBoxType        BoundingBoxType;
-  typedef VectorContainer<unsigned long,PointType>    PointContainerType;
-  typedef SmartPointer<PointContainerType>            PointContainerPointer;
+  typedef EllipseSpatialObject                     Self;
+  typedef double                                   ScalarType;
+  typedef SmartPointer < Self >                    Pointer;
+  typedef SmartPointer < const Self >              ConstPointer;
+  typedef SpatialObject< TDimension >              Superclass;
+  typedef SmartPointer<Superclass>                 SuperclassPointer;
+  typedef typename Superclass::PointType           PointType;
+  typedef typename Superclass::TransformType       TransformType;
+  typedef typename Superclass::BoundingBoxType     BoundingBoxType;
+  typedef VectorContainer<unsigned long,PointType> PointContainerType;
+  typedef SmartPointer<PointContainerType>         PointContainerPointer;
 
   typedef FixedArray<double,TDimension> ArrayType;
   itkStaticConstMacro(NumberOfDimension, unsigned int,

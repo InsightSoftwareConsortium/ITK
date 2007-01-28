@@ -98,7 +98,8 @@ DTITubeSpatialObjectPoint< TPointDimension >
   FieldListType::iterator it = m_Fields.begin();
   while(it != m_Fields.end())
     {
-    if(!strcmp((*it).first.c_str(),itksys::SystemTools::LowerCase(name).c_str()))
+    if(!strcmp((*it).first.c_str(),
+               itksys::SystemTools::LowerCase(name).c_str()))
       {
       (*it).second = value;
       }
@@ -106,7 +107,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
     }
 }
 
-/** Set a value to a field in the point list*/
+/** Set a value to a field in the point list */
 template< unsigned int TPointDimension >
 void
 DTITubeSpatialObjectPoint< TPointDimension >
@@ -120,7 +121,8 @@ DTITubeSpatialObjectPoint< TPointDimension >
     }
   else
     {
-    std::cout << "DTITubeSpatialObjectPoint::SetField() : enum not defined" << std::endl;
+    std::cout << "DTITubeSpatialObjectPoint::SetField(): enum not defined"
+              << std::endl;
     }
 
 }
@@ -140,7 +142,8 @@ DTITubeSpatialObjectPoint< TPointDimension >
     }
   else
     {
-    std::cout << "DTITubeSpatialObjectPoint::AddField() : enum not defined" << std::endl;
+    std::cout << "DTITubeSpatialObjectPoint::AddField() : enum not defined" 
+              << std::endl;
     }
 
 }
@@ -154,7 +157,8 @@ DTITubeSpatialObjectPoint< TPointDimension >
   FieldListType::const_iterator it = m_Fields.begin();
   while(it != m_Fields.end())
     {
-    if(!strcmp((*it).first.c_str(),itksys::SystemTools::LowerCase(name).c_str()))
+    if(!strcmp((*it).first.c_str(),
+               itksys::SystemTools::LowerCase(name).c_str()))
       {
       return (*it).second;
       }
@@ -163,7 +167,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
   return -1;
 }
 
-/** Add a field to the point list*/
+/** Add a field to the point list */
 template< unsigned int TPointDimension >
 float
 DTITubeSpatialObjectPoint< TPointDimension >
@@ -176,7 +180,8 @@ DTITubeSpatialObjectPoint< TPointDimension >
     }
   else
     {
-    std::cout << "DTITubeSpatialObjectPoint::GetField() : enum not defined" << std::endl;
+    std::cout << "DTITubeSpatialObjectPoint::GetField() : enum not defined" 
+              << std::endl;
     return -1;
     }
 

@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __SpatialObject_txx
-#define __SpatialObject_txx
+#ifndef __itkSpatialObject_txx
+#define __itkSpatialObject_txx
 
 #include "itkSpatialObject.h"
 #include <itkNumericTraits.h>
@@ -65,7 +65,8 @@ SpatialObject< TDimension >
   this->Clear();
 }
 
-/** Clear the spatial object by deleting all lists of children and subchildren */
+/** Clear the spatial object by deleting all 
+ *  lists of children and subchildren */
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
@@ -120,8 +121,8 @@ SpatialObject< TDimension >
       
       // should get the spacing from the transform
       const double * spacing = this->GetIndexToObjectTransform()->GetScale();
-      p1[i]-=spacing[i];
-      p2[i]+=spacing[i];
+      p1[i] -= spacing[i];
+      p2[i] += spacing[i];
 
       try
         {
@@ -559,17 +560,17 @@ SpatialObject< TDimension >
       m_Bounds->ConsiderPoint((*it)->Get()->GetBoundingBox()->GetMaximum());
       it++;
       }
-      delete children;
-      return true;
+    delete children;
+    return true;
     }
 
-    typename BoundingBoxType::PointType pnt;
-    pnt.Fill( itk::NumericTraits< ITK_TYPENAME 
+  typename BoundingBoxType::PointType pnt;
+  pnt.Fill( itk::NumericTraits< ITK_TYPENAME 
               BoundingBoxType::PointType::ValueType>::Zero );
-    m_Bounds->SetMinimum(pnt);
-    m_Bounds->SetMaximum(pnt);
-    m_BoundsMTime = this->GetMTime();
-    return false;
+  m_Bounds->SetMinimum(pnt);
+  m_Bounds->SetMaximum(pnt);
+  m_BoundsMTime = this->GetMTime();
+  return false;
 }
   
 /** Get the children list.
@@ -602,7 +603,7 @@ SpatialObject< TDimension >
   return childrenSO;
 }
 
-/** Set children list*/
+/** Set children list */
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
@@ -614,7 +615,8 @@ SpatialObject< TDimension >
   
   while(it != itEnd)
     {
-    static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->AddChild((*it)->GetTreeNode());  
+    static_cast<TreeNodeType*>(
+                   m_TreeNode.GetPointer())->AddChild((*it)->GetTreeNode());
     it++;
     }
 }
@@ -804,8 +806,7 @@ SpatialObject< TDimension >
     = m_LargestPossibleRegion.GetIndex();
 
   const SizeType& requestedRegionSize = m_RequestedRegion.GetSize();
-  const SizeType& largestPossibleRegionSize
-    = m_LargestPossibleRegion.GetSize();
+  const SizeType& largestPossibleRegionSize = m_LargestPossibleRegion.GetSize();
   
   for (i=0; i< m_Dimension; i++)
     {
@@ -850,7 +851,9 @@ SpatialObject< TDimension >
   else
     {
     // pointer could not be cast back down
-    itkExceptionMacro( << "itk::ImageBase::SetRequestedRegion(DataObject*) cannot cast " << typeid(data).name() << " to " << typeid(SpatialObject*).name() );
+    itkExceptionMacro( 
+        << "itk::ImageBase::SetRequestedRegion(DataObject*) cannot cast "
+        << typeid(data).name() << " to " << typeid(SpatialObject*).name() );
     }
 }
 
@@ -904,7 +907,8 @@ SpatialObject< TDimension >
 {
   if(!m_TreeNode)
     {
-    static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->SetNodeToParentNodeTransform(transform);
+    static_cast<TreeNodeType*>(
+            m_TreeNode.GetPointer())->SetNodeToParentNodeTransform(transform);
     }
 }
   
@@ -915,7 +919,8 @@ SpatialObject< TDimension >
 {
   if(m_TreeNode)
     {
-    return static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->GetNodeToParentNodeTransform();
+    return static_cast<TreeNodeType*>(
+                     m_TreeNode.GetPointer())->GetNodeToParentNodeTransform();
     }
   return NULL;
 }
@@ -927,7 +932,8 @@ SpatialObject< TDimension >
 {
   if(m_TreeNode)
     {
-    return static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->GetNodeToParentNodeTransform();
+    return static_cast<TreeNodeType*>(
+                      m_TreeNode.GetPointer())->GetNodeToParentNodeTransform();
     }
   return NULL;
 }
@@ -976,7 +982,8 @@ void  SpatialObject< TDimension >
   const Self* source = dynamic_cast<const Self*>(data);
   if(!source)
     {
-    std::cout << "CopyInformation: objects are not of the same type" << std::endl;
+    std::cout << "CopyInformation: objects are not of the same type" 
+              << std::endl;
     return;
     }
 

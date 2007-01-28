@@ -82,9 +82,9 @@ public:
   unsigned int GetMaximumDepth() { return MaximumDepth; }
 
   typedef SpatialObject<TDimension> Self;
-  typedef DataObject Superclass; 
+  typedef DataObject                Superclass; 
   
-  typedef SmartPointer< Self > Pointer;
+  typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
   
   typedef Point < ScalarType, TDimension > PointType; 
@@ -102,8 +102,8 @@ public:
   typedef OutputVectorType *                    OutputVectorPointer;
 
   typedef ScalableAffineTransform< double, TDimension > TransformType;
-  typedef typename TransformType::Pointer       TransformPointer;
-  typedef const TransformType*                  TransformConstPointer;
+  typedef typename TransformType::Pointer               TransformPointer;
+  typedef const TransformType*                          TransformConstPointer;
   
   typedef VectorContainer< unsigned long int, PointType > VectorContainerType;
   
@@ -111,7 +111,7 @@ public:
                        VectorContainerType > BoundingBoxType; 
   typedef typename BoundingBoxType::Pointer BoundingBoxPointer; 
 
-  typedef AffineGeometryFrame<double,TDimension> AffineGeometryFrameType;
+  typedef AffineGeometryFrame<double,TDimension>    AffineGeometryFrameType;
   typedef typename AffineGeometryFrameType::Pointer AffineGeometryFramePointer;
 
   /** Return type for the list of children */
@@ -120,17 +120,17 @@ public:
 
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index<TDimension>  IndexType;
+  typedef Index<TDimension>                   IndexType;
   typedef typename IndexType::IndexValueType  IndexValueType;
 
   /** Offset typedef support. An offset represent relative position
    * between indices. */
-  typedef Offset<TDimension>  OffsetType;
+  typedef Offset<TDimension>                   OffsetType;
   typedef typename OffsetType::OffsetValueType OffsetValueType;
-  typedef ImageRegion<TDimension> RegionType;
-  typedef Size<TDimension>    SizeType; 
-  typedef SpatialObjectProperty< float > PropertyType; 
-  typedef typename PropertyType::Pointer  PropertyPointer; 
+  typedef ImageRegion<TDimension>              RegionType;
+  typedef Size<TDimension>                     SizeType; 
+  typedef SpatialObjectProperty< float >       PropertyType; 
+  typedef typename PropertyType::Pointer       PropertyPointer; 
 
   typedef SpatialObjectTreeNode<TDimension> TreeNodeType;
 
@@ -206,9 +206,9 @@ public:
    * and conditional iterators for defining regions of interest.
    */
   bool Evaluate( const PointType & point ) const
-  {
+    {
     return this->IsInside( point );
-  };
+    };
 
   /** Return the n-th order derivative value at the specified point. */
   virtual void DerivativeAt( const PointType & point,
@@ -290,7 +290,7 @@ public:
   /** Compute an offset from the beginning of the buffer for a pixel
    * at the specified index. */
   OffsetValueType ComputeOffset(const IndexType &ind) const
-  {
+    {
     // need to add bounds checking for the region/buffer?
     OffsetValueType offset=0;
     const IndexType &bufferedRegionIndex = m_BufferedRegion.GetIndex();
@@ -304,12 +304,12 @@ public:
     offset += (ind[0] - bufferedRegionIndex[0]);
 
     return offset;
-  }
+    }
 
   /** Compute the index of the pixel at a specified offset from the
    * beginning of the buffered region. */
   IndexType ComputeIndex(OffsetValueType offset) const
-  {
+    {
     IndexType index;
     const IndexType &bufferedRegionIndex = m_BufferedRegion.GetIndex();
     
@@ -322,7 +322,7 @@ public:
     index[0] = bufferedRegionIndex[0] + static_cast<IndexValueType>(offset);
 
     return index;
-  }
+    }
 
   /** Copy information from the specified data set.  This method is
    * part of the pipeline execution model. By default, a ProcessObject
@@ -406,7 +406,7 @@ public:
     {return this->GetIndexToObjectTransform()->GetScale();}
 
 
- /** Transform points from the internal data coordinate system
+  /** Transform points from the internal data coordinate system
    * of the object (typically the indices of the image from which
    * the object was defined) to "physical" space (which accounts
    * for the spacing, orientation, and offset of the indices)
@@ -427,8 +427,8 @@ public:
   TransformType * GetObjectToNodeTransform( void );
   const TransformType * GetObjectToNodeTransform( void ) const;
 
-
-  /** Theses functions are just calling the itkSpatialObjectTreeNode functions */
+  /** Theses functions are just calling the itkSpatialObjectTreeNode 
+   *  functions */
 
   /** Add an object to the list of children. */ 
   void AddSpatialObject( Self * pointer ); 
@@ -470,7 +470,8 @@ public:
    * resulting bounding box is stored in this->m_Bounds.  
    *
    * By default, the bounding box children depth is maximum, meaning that
-   * the bounding box for the object and all its recursive children is computed. 
+   * the bounding box for the object and all its recursive children is 
+   * computed. 
    * This depth can be set (before calling ComputeBoundingBox) using
    * SetBoundingBoxChildrenDepth().
    *
@@ -490,7 +491,7 @@ public:
     {
     std::cerr << "SpatialObject::ComputeLocalBoundingBox Not Implemented!" 
               << std::endl;
-     return false;
+    return false;
     }
   
   /** Get the bounding box of the object.
@@ -517,11 +518,13 @@ public:
   TransformType * GetNodeToParentNodeTransform( void );
   const TransformType * GetNodeToParentNodeTransform( void ) const;
 
-  /** Set/Get the default inside value (ValueAt()) of the object. Default is 1.0 */
+  /** Set/Get the default inside value (ValueAt()) of the object. 
+   *  Default is 1.0 */
   itkSetMacro(DefaultInsideValue,double);
   itkGetConstMacro(DefaultInsideValue,double);
 
-  /** Set/Get the default outside value (ValueAt()) of the object. Default is 0.0 */
+  /** Set/Get the default outside value (ValueAt()) of the object. 
+   *  Default is 0.0 */
   itkSetMacro(DefaultOutsideValue,double);
   itkGetConstMacro(DefaultOutsideValue,double);
 
@@ -574,8 +577,8 @@ private:
   RegionType          m_RequestedRegion;
   RegionType          m_BufferedRegion;
     
-  std::string  m_BoundingBoxChildrenName;
-  unsigned int m_BoundingBoxChildrenDepth;
+  std::string     m_BoundingBoxChildrenName;
+  unsigned int    m_BoundingBoxChildrenDepth;
   PropertyPointer m_Property; 
 
   /** Object Identification Number */

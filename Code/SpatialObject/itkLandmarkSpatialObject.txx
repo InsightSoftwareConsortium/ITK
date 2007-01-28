@@ -14,15 +14,14 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkLandmarkSpatialObject_txx
+#define __itkLandmarkSpatialObject_txx
+
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifndef __itkLandmarkSpatialObject_txx
-#define __itkLandmarkSpatialObject_txx
-
-#include "itkLandmarkSpatialObject.h" 
-
+#include "itkLandmarkSpatialObject.h"
 #include <itkNumericTraits.h>
 
 namespace itk  
@@ -79,7 +78,7 @@ LandmarkSpatialObject< TDimension >
   m_Points.clear();
         
   typename PointListType::iterator it,end;
-  it = points.begin();    
+  it = points.begin();
   end = points.end();
   while(it != end)
     {
@@ -98,7 +97,8 @@ LandmarkSpatialObject< TDimension >
 { 
   os << indent << "LandmarkSpatialObject(" << this << ")" << std::endl; 
   os << indent << "ID: " << this->GetId() << std::endl; 
-  os << indent << "nb of points: "<< static_cast< unsigned long>( m_Points.size() ) << std::endl;
+  os << indent << "nb of points: " 
+               << static_cast< unsigned long>( m_Points.size() ) << std::endl;
   Superclass::PrintSelf( os, indent ); 
 } 
   
@@ -110,7 +110,9 @@ LandmarkSpatialObject< TDimension >
 { 
   itkDebugMacro( "Computing blob bounding box" );
  
-  if( this->GetBoundingBoxChildrenName().empty() || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
+  if( this->GetBoundingBoxChildrenName().empty() 
+      || strstr(typeid(Self).name(),
+                this->GetBoundingBoxChildrenName().c_str()) )
     {
     typename PointListType::const_iterator it  = m_Points.begin();
     typename PointListType::const_iterator end = m_Points.end();
@@ -120,15 +122,17 @@ LandmarkSpatialObject< TDimension >
       return false;
       }
     else
-      {     
-      PointType pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
+      {
+      PointType pt = 
+        this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
       const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(pt);
       const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(pt);
       it++;
 
       while(it!= end) 
         {  
-        pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
+        pt = 
+         this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
         const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pt);
         it++;
         }
@@ -150,12 +154,14 @@ LandmarkSpatialObject< TDimension >
   typename PointListType::const_iterator it = m_Points.begin();
   typename PointListType::const_iterator itEnd = m_Points.end();
     
-  if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if(!this->GetIndexToWorldTransform()->GetInverse(
+         const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
-  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);
+  PointType transformedPoint = 
+                this->GetInternalInverseTransform()->TransformPoint(point);
 
   if( this->GetBounds()->IsInside(transformedPoint) )
     {
@@ -203,7 +209,8 @@ LandmarkSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 LandmarkSpatialObject< TDimension > 
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
+::IsEvaluableAt( const PointType & point, 
+                 unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking if the blob is evaluable at " << point );
   return IsInside(point, depth, name);

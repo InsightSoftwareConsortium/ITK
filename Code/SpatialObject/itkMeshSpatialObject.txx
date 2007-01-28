@@ -14,9 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MeshSpatialObject_txx
-#define __MeshSpatialObject_txx
-
+#ifndef __itkMeshSpatialObject_txx
+#define __itkMeshSpatialObject_txx
 
 #include "itkMeshSpatialObject.h"
 #include "itkSize.h"
@@ -47,7 +46,8 @@ MeshSpatialObject< TMesh >
 template <class TMesh>
 bool
 MeshSpatialObject< TMesh >
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
+::IsEvaluableAt( const PointType & point, 
+                 unsigned int depth, char * name ) const
 {
   return IsInside(point, depth, name);
 }
@@ -60,29 +60,34 @@ bool
 MeshSpatialObject< TMesh >
 ::IsInside( const PointType & point) const
 {
-  if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if(!this->GetIndexToWorldTransform()->GetInverse(
+            const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
-  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);
+  PointType transformedPoint = 
+                   this->GetInternalInverseTransform()->TransformPoint(point);
 
   if( this->GetBounds()->IsInside(transformedPoint) )
-    {     
+    {
     typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
     typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
     while(it!=cells->End())
       {
-      typename MeshType::CoordRepType position[itkGetStaticConstMacro(Dimension)];
+      typename MeshType::CoordRepType 
+                               position[itkGetStaticConstMacro(Dimension)];
       for(unsigned int i=0;i<itkGetStaticConstMacro(Dimension);i++)
         {
         position[i] = transformedPoint[i];
         }
 
-      typename MeshType::CoordRepType closestPoint[itkGetStaticConstMacro(Dimension)];
+      typename MeshType::CoordRepType closestPoint[
+                                        itkGetStaticConstMacro(Dimension)];
       double minDist;
 
-      if(it.Value()->EvaluatePosition(position,m_Mesh->GetPoints(),closestPoint,NULL,&minDist,NULL))
+      if(it.Value()->EvaluatePosition(position,m_Mesh->GetPoints(),
+                                      closestPoint,NULL,&minDist,NULL))
         {
         // If this is a triangle cell we need to check the distance
         if(it.Value()->GetNumberOfPoints() == 3)
@@ -163,7 +168,8 @@ MeshSpatialObject< TMesh >
 ::ComputeLocalBoundingBox() const
 {
   if( this->GetBoundingBoxChildrenName().empty() 
-      || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
+      || strstr(typeid(Self).name(), 
+      this->GetBoundingBoxChildrenName().c_str()) )
     {
     PointType pnt;
     PointType pnt2;

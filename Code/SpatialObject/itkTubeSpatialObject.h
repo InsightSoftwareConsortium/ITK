@@ -32,8 +32,8 @@ namespace itk
 *
 * The tube is basically defined by a set of points. Each tube can
 * be connected to a tube network, by using the AddSpatialObject() methods
-* of a TubeSpatialObject Object. A tube is also identified by an id number when connected
-* to a network.
+* of a TubeSpatialObject Object.
+* A tube is also identified by an id number when connected to a network.
 *
 * \sa TubeSpatialObjectPoint 
 */
@@ -80,7 +80,7 @@ public:
 
   /** Return a point in the list given the index */
   virtual const SpatialObjectPointType* GetPoint(unsigned long ind) const 
-      {return &(m_Points[ind]);}
+    {return &(m_Points[ind]);}
   
   /** Return a point in the list given the index */
   virtual SpatialObjectPointType* GetPoint(unsigned long ind) 
@@ -88,15 +88,15 @@ public:
   
   /** Set a point in the list at the specified index */
   virtual void SetPoint(unsigned long ind, const TubePointType & pnt) 
-      {m_Points[ind] = pnt;}
+    {m_Points[ind] = pnt;}
   
   /** Remove a point in the list given the index */
   virtual void RemovePoint(unsigned long ind)
-      { m_Points.erase(m_Points.begin()+ind); }
+    {m_Points.erase(m_Points.begin()+ind);}
   
   /** Return the number of points in the list */
   virtual unsigned long GetNumberOfPoints(void) const 
-      {return m_Points.size();}
+    {return m_Points.size();}
 
   /** Set the type of tube end-type: 0 = flat, 1 = rounded */
   itkSetMacro(EndType,unsigned int);

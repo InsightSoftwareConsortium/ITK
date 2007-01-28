@@ -14,15 +14,14 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkContourSpatialObject_txx
+#define __itkContourSpatialObject_txx
+
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifndef __itkContourSpatialObject_txx
-#define __itkContourSpatialObject_txx
-
 #include "itkContourSpatialObject.h" 
-
 #include <itkNumericTraits.h>
 
 namespace itk  
@@ -81,7 +80,7 @@ ContourSpatialObject< TDimension >
   m_ControlPoints.clear();
         
   typename ControlPointListType::iterator it,end;
-  it = points.begin();    
+  it = points.begin();
   end = points.end();
   while(it != end)
     {
@@ -103,7 +102,7 @@ ContourSpatialObject< TDimension >
 
 /** Get the list of interpolated points*/
 template< unsigned int TDimension >
-const typename ContourSpatialObject< TDimension > ::InterpolatedPointListType &  
+const typename ContourSpatialObject< TDimension >::InterpolatedPointListType &
 ContourSpatialObject< TDimension > 
 ::GetInterpolatedPoints() const
 { 
@@ -120,7 +119,7 @@ ContourSpatialObject< TDimension >
   m_InterpolatedPoints.clear();
         
   typename InterpolatedPointListType::iterator it,end;
-  it = points.begin();    
+  it = points.begin();
   end = points.end();
   while(it != end)
     {
@@ -167,24 +166,28 @@ ContourSpatialObject< TDimension >
       return false;
       }
     else
-      {     
-      PointType pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
+      {
+      PointType pt = 
+        this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
       const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(pt);
       const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(pt);
       it++;
 
       while(it!= end)
         {  
-        pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
+        pt = 
+         this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
         const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pt);
         it++;
         }
 
       // Add the interpolated points (if any)
-      typename InterpolatedPointListType::const_iterator itI  = m_InterpolatedPoints.begin();
+      typename InterpolatedPointListType::const_iterator itI 
+                                               = m_InterpolatedPoints.begin();
       while(itI != m_InterpolatedPoints.end()) 
         {  
-        pt = this->GetIndexToWorldTransform()->TransformPoint((*itI).GetPosition());
+        pt = this->GetIndexToWorldTransform()->TransformPoint(
+                                                        (*itI).GetPosition());
         const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pt);
         itI++;
         }
@@ -203,15 +206,18 @@ bool
 ContourSpatialObject< TDimension >
 ::IsInside( const PointType & itkNotUsed(point) ) const
 {
-  /*typename ControlPointListType::const_iterator it = m_ControlPoints.begin();
+  /*
+  typename ControlPointListType::const_iterator it = m_ControlPoints.begin();
   typename ControlPointListType::const_iterator itEnd = m_ControlPoints.end();
     
-  if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if(!this->GetIndexToWorldTransform()->GetInverse(
+            const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
-  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);
+  PointType transformedPoint = 
+                    this->GetInternalInverseTransform()->TransformPoint(point);
 
   if( this->GetBounds()->IsInside(transformedPoint) )
     {
@@ -259,7 +265,8 @@ ContourSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 ContourSpatialObject< TDimension > 
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
+::IsEvaluableAt( const PointType & point, 
+                 unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking if the blob is evaluable at " << point );
   return IsInside(point, depth, name);

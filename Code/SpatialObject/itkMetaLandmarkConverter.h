@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaLandmarkConverter__h
-#define __MetaLandmarkConverter__h
+#ifndef __itkMetaLandmarkConverter_h
+#define __itkMetaLandmarkConverter_h
 
 
 #include "metaLandmark.h"
@@ -47,8 +47,10 @@ public:
 
   bool WriteMeta(SpatialObjectType* spatialObject,const char* name);
 
-  SpatialObjectPointer MetaLandmarkToLandmarkSpatialObject(MetaLandmark * landmark);
-  MetaLandmark* LandmarkSpatialObjectToMetaLandmark(SpatialObjectType * spatialObject);
+  SpatialObjectPointer MetaLandmarkToLandmarkSpatialObject(
+                                                   MetaLandmark * landmark);
+  MetaLandmark* LandmarkSpatialObjectToMetaLandmark(
+                                         SpatialObjectType * spatialObject);
 
 };
 

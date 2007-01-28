@@ -32,9 +32,9 @@ class SpatialObjectFactoryBase : public ObjectFactoryBase
 {
 public:  
   /** Standard class typedefs. */
-  typedef SpatialObjectFactoryBase   Self;
-  typedef ObjectFactoryBase  Superclass;
-  typedef SmartPointer< Self >   Pointer;
+  typedef SpatialObjectFactoryBase    Self;
+  typedef ObjectFactoryBase           Superclass;
+  typedef SmartPointer< Self >        Pointer;
   typedef SmartPointer< const Self >  ConstPointer;
   
   /** Class methods used to interface with the registered factories. */
@@ -69,9 +69,10 @@ public:
       const char* description,
       bool enableFlag,
       CreateObjectFunctionBase* createFunction)
-  {
-    this->RegisterOverride ( classOverride, overrideClassName, description, enableFlag, createFunction );
-  }
+    {
+    this->RegisterOverride ( classOverride, overrideClassName, 
+                           description, enableFlag, createFunction );
+    }
   
 protected:
   SpatialObjectFactoryBase();
@@ -82,6 +83,6 @@ private:
   void operator=(const Self&); //purposely not implemented
   static SpatialObjectFactoryBase* m_Factory;
 };
-} // end namespace itk
 
+} // end namespace itk
 #endif

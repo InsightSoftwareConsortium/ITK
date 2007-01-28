@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaMeshConverter__h
-#define __MetaMeshConverter__h
+#ifndef __itkMetaMeshConverter_h
+#define __itkMetaMeshConverter_h
 
 
 #include "metaMesh.h"
@@ -27,7 +27,8 @@ namespace itk
 
 template <unsigned int NDimensions, 
           typename PixelType = unsigned char,
-          typename TMeshTraits = DefaultStaticMeshTraits< PixelType , NDimensions, NDimensions >
+          typename TMeshTraits = 
+            DefaultStaticMeshTraits< PixelType , NDimensions, NDimensions >
          >
 class MetaMeshConverter
 {
@@ -38,7 +39,7 @@ public:
   ~MetaMeshConverter() {};
 
   typedef itk::Mesh<PixelType,NDimensions,TMeshTraits> MeshType;
-  typedef itk::MeshSpatialObject<MeshType> SpatialObjectType;
+  typedef itk::MeshSpatialObject<MeshType>             SpatialObjectType;
 
   typedef typename SpatialObjectType::TransformType TransformType;
 

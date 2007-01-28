@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaTubeConverter__h
-#define __MetaTubeConverter__h
+#ifndef __itkMetaTubeConverter_h
+#define __itkMetaTubeConverter_h
 
 
 #include "metaTube.h"

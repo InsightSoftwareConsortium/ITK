@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaGroupConverter__txx
-#define __MetaGroupConverter__txx
+#ifndef __itkMetaGroupConverter_txx
+#define __itkMetaGroupConverter_txx
 
 #include "itkMetaGroupConverter.h"
 
@@ -23,7 +23,7 @@ namespace itk
 {
 
 /** Constructor */ 
-template <unsigned int NDimensions>                                          
+template <unsigned int NDimensions>
 MetaGroupConverter<NDimensions>
 ::MetaGroupConverter()
 {
@@ -32,7 +32,7 @@ MetaGroupConverter<NDimensions>
 
 
 /** Convert a metaGroup into an group SpatialObject  */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaGroupConverter<NDimensions>::SpatialObjectPointer
 MetaGroupConverter<NDimensions>
 ::MetaGroupToGroupSpatialObject(MetaGroup * group)
@@ -56,7 +56,7 @@ MetaGroupConverter<NDimensions>
 }
 
 /** Convert an group SpatialObject into a metaGroup */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 MetaGroup*
 MetaGroupConverter<NDimensions>
 ::GroupSpatialObjectToMetaGroup(SpatialObjectType * spatialObject)
@@ -87,7 +87,7 @@ MetaGroupConverter<NDimensions>
 
 
 /** Read a meta file give the type */
-template <unsigned int NDimensions>       
+template <unsigned int NDimensions>
 typename MetaGroupConverter<NDimensions>::SpatialObjectPointer
 MetaGroupConverter<NDimensions>
 ::ReadMeta(const char* name)

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MetaContourConverter__h
-#define __MetaContourConverter__h
+#ifndef __itkMetaContourConverter_h
+#define __itkMetaContourConverter_h
 
 
 #include "metaContour.h"
@@ -44,7 +44,8 @@ public:
   bool WriteMeta(SpatialObjectType* spatialObject,const char* name);
 
   SpatialObjectPointer MetaContourToContourSpatialObject(MetaContour * Contour);
-  MetaContour* ContourSpatialObjectToMetaContour(SpatialObjectType * spatialObject);
+  MetaContour* ContourSpatialObjectToMetaContour(
+                                             SpatialObjectType * spatialObject);
 
 };
 
