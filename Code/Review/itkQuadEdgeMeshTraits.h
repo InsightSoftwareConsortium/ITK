@@ -1,24 +1,19 @@
-// -------------------------------------------------------------------------
-// itkQuadEdgeMeshTraits.h
-// $Revision: 1.5 $
-// $Author: ibanez $
-// $Name:  $
-// $Date: 2007-01-24 23:58:14 $
-// -------------------------------------------------------------------------
-// This code is an implementation of the well known quad edge (QE) data
-// structure in the ITK library. Although the original QE can handle non
-// orientable 2-manifolds and its dual and its mirror, this implementation
-// is specifically dedicated to handle orientable 2-manifolds along with
-// their dual.
-//
-// Any comment, criticism and/or donation is welcome.
-//
-// Please contact any member of the team:
-//
-// - The frog master (Eric Boix)       eboix@ens-lyon.fr
-// - The duck master (Alex Gouaillard) alexandre.gouaillard@sun.com
-// - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
-// -------------------------------------------------------------------------
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshTraits.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 
 #ifndef __itkQuadEdgeMeshTraits_h
 #define __itkQuadEdgeMeshTraits_h
@@ -31,7 +26,14 @@
 
 namespace itk
 {
-/**
+/** \class QuadEdgeMeshCellTraitsInfo
+ *  \brief Helper class holding the traits of QuadEdge cells.
+ *
+ * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
+ *
+ * This implementation was contributed as a paper to the Insight Journal
+ * http://hdl.handle.net/1926/306
+ *
  */
 template< int VPointDimension, typename TCoordRep,
           typename TInterpolationWeight, typename TPointIdentifier,
@@ -57,8 +59,19 @@ public:
   typedef typename TQE::ConstIteratorGeom PointIdConstIterator;
 };
 
-/**
- * Traits for a QuadEdgeMesh
+/** \class QuadEdgeMeshTraits
+ *  \brief Class holding the traits of the QuadEdgeMesh.
+ * 
+ *  This class is a variant of the MeshTraits that adds the traits 
+ *  defined in the QuadEdgeMeshCellTraitsInfo class.
+ *
+ * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
+ *
+ * This implementation was contributed as a paper to the Insight Journal
+ * http://hdl.handle.net/1926/306
+ *
+ *  \sa DefaultDynamicMeshTraits
+ *  \sa DefaultStaticMeshTraits
  */
 template< typename TPixel, unsigned int VPointDimension,
           typename TPData, typename TDData, 
@@ -97,17 +110,19 @@ public:
   typedef typename QEPrimal::DualOriginRefType FaceRefType;
 
   /** Points have an entry in the Onext ring */
-  typedef QuadEdgeMeshPoint< CoordRepType, VPointDimension, QEPrimal >  PointType;
-  typedef MapContainer< PointIdentifier, PointType >   PointsContainer;
+  typedef QuadEdgeMeshPoint< 
+    CoordRepType, VPointDimension, QEPrimal >           PointType;
+  typedef MapContainer< PointIdentifier, PointType >    PointsContainer;
 
   /** Standard cell interface. */
-  typedef QuadEdgeMeshCellTraitsInfo< VPointDimension, CoordRepType,
-                          InterpolationWeightType, PointIdentifier,
-                          CellIdentifier,          CellFeatureIdentifier,
-                          PointType,               PointsContainer,
-                          UsingCellsContainer,     QEPrimal > CellTraits;
-  typedef CellInterface< CellPixelType, CellTraits > CellType;
-  typedef typename CellType::CellAutoPointer              CellAutoPointer;
+  typedef QuadEdgeMeshCellTraitsInfo< 
+    VPointDimension, CoordRepType,
+    InterpolationWeightType, PointIdentifier,
+    CellIdentifier,          CellFeatureIdentifier,
+    PointType,               PointsContainer,
+    UsingCellsContainer,     QEPrimal >                 CellTraits;
+  typedef CellInterface< CellPixelType, CellTraits >    CellType;
+  typedef typename CellType::CellAutoPointer            CellAutoPointer;
 
   /** Containers types. */
   typedef MapContainer< PointIdentifier,
@@ -123,5 +138,3 @@ public:
 } 
 
 #endif 
-
-
