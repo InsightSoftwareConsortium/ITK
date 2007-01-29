@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkGeometricalQuadEdge.txx
-// $Revision: 1.10 $
+// $Revision: 1.11 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-24 23:57:41 $
+// $Date: 2007-01-29 15:18:59 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -35,7 +35,7 @@ template< typename TVRef, typename TFRef,
           typename TPrimalData, typename TDualData, bool PrimalDual >
 const typename GeometricalQuadEdge< TVRef, TFRef,
                              TPrimalData, TDualData, PrimalDual >::OriginRefType
-GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::NOPOINT
+GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::m_NoPoint
                        = vcl_numeric_limits< OriginRefType >::max( );
 
 /**
@@ -46,7 +46,7 @@ template< typename TVRef, typename TFRef,
 GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
 ::GeometricalQuadEdge()
 {
-  this->m_Origin     = NOPOINT;
+  this->m_Origin     = m_NoPoint;
   this->m_DataSet = false;
 }
 
@@ -529,7 +529,7 @@ template< typename TVRef, typename TFRef,
    *             /             \ /             \
    *            p-------b3------P------b7-------p
    * 
-   *                         NOFACE
+   *                         NO FACE
    *
    *                           /|\
    *                          / | \
@@ -674,7 +674,7 @@ bool
 GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
 ::IsOriginSet() const
 { 
-  return ( this->m_Origin != NOPOINT );
+  return ( this->m_Origin != m_NoPoint );
 }
 
 // ---------------------------------------------------------------------

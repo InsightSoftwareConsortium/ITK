@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkGeometricalQuadEdge.h
-// $Revision: 1.9 $
+// $Revision: 1.10 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-24 23:57:41 $
+// $Date: 2007-01-29 15:18:59 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -140,7 +140,7 @@ public:
   bool SetLnextRingWithSameLeftFace( const DualOriginRefType faceGeom,
                                      int maxSize = 100 );
 
-  void UnsetOrigin( )   { m_Origin = NOPOINT; }
+  void UnsetOrigin( )   { m_Origin = m_NoPoint; }
   void UnsetDestination( )  { this->GetSym( )->UnsetOrigin( ); }
   void UnsetRight( ) { this->GetRot( )->UnsetOrigin( ); }
   void UnsetLeft( )  { this->GetInvRot( )->UnsetOrigin( ); }
@@ -231,7 +231,7 @@ public:
 
 public:
   // Reserved OriginRefType designated to represent the absence of Origin
-  static const OriginRefType NOPOINT;
+  static const OriginRefType m_NoPoint;
 
 protected:
   OriginRefType     m_Origin;    // Geometrical information

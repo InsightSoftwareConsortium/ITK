@@ -3,7 +3,7 @@
 // $Revision $
 // $Author $
 // $Name $
-// $Date: 2007-01-24 23:58:14 $
+// $Date: 2007-01-29 15:18:59 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -94,7 +94,7 @@ template< class TMesh, class TQE >
            QEType* oEdge = qit.Value( );
            // Things are quite straightforward except when QEType 
            // is in fact a QEDual (in disguise) AND oEdge->GetDestination( )
-           // is NOFACE [in which case oEdge->GetDestination() has a value
+           // is m_NoFace [in which case oEdge->GetDestination() has a value
            // but oEdge->IsDestination() is false]. When this is the case
            // we consider oEdge->GetDestination() as allready visited.
            if(    ( m_IsPointVisited->IndexExists( oEdge->GetDestination() ) )
