@@ -54,7 +54,7 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   typedef itk::Mesh<
     FloatingPointType,
     inputPointDimension,
-    InputMeshTraits              >     InputMeshType;
+    InputMeshTraits              >             InputMeshType;
 
 
   typedef itk::DefaultStaticMeshTraits<
@@ -62,21 +62,22 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
     outputPointDimension,
     maxCellDimension,
     FloatingPointType,
-    FloatingPointType  >       OutputMeshTraits;
+    FloatingPointType  >                       OutputMeshTraits;
 
   typedef itk::Mesh<
     FloatingPointType,
     inputPointDimension,
-    OutputMeshTraits              >     OutputMeshType;
+    OutputMeshTraits              >            OutputMeshType;
 
 
-  typedef OutputMeshType::CellType OutputCellType;
-  typedef OutputMeshType::CellsContainer::ConstIterator CellIterator;
-  typedef OutputCellType::PointIdIterator OutputPointIdIterator;
+  typedef OutputMeshType::CellType             OutputCellType;
+  typedef OutputMeshType::CellsContainer       CellsContainer;
+  typedef CellsContainer::ConstIterator        CellIterator;
+  typedef OutputCellType::PointIdIterator      OutputPointIdIterator;
 
-  typedef InputMeshType::CellType InputCellType;
+  typedef InputMeshType::CellType              InputCellType;
 
-  typedef itk::TriangleCell< InputCellType > InputTriangleCellType;
+  typedef itk::TriangleCell< InputCellType >   InputTriangleCellType;
 
   //
   // Read mesh file
@@ -330,7 +331,8 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   std::ofstream outputFile( argv[2] );
 
   outputFile << "# vtk DataFile Version 2.0" << std::endl;
-  outputFile << "Output of the itkConformalFlatteningMeshFilter Test" << std::endl;
+  outputFile << "Output of the itkConformalFlatteningMeshFilter Test"
+    << std::endl;
   outputFile << "ASCII" << std::endl;
   outputFile << "DATASET POLYDATA" << std::endl;
   outputFile << "POINTS " << numberOfPoints << " float" << std::endl;
@@ -349,7 +351,8 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
     {
     outputPoint = pointIterator.Value();
 
-// FIXME    outputFile << outputPoint[0] << " " << outputPoint[1] << " " << outputPoint[2]
+    // FIXME    outputFile << outputPoint[0] << " " << outputPoint[1] << " " <<
+    // outputPoint[2]
     outputFile << outputPoint[0] << " " << outputPoint[1] << " 0.0 "
       << std::endl;
 
@@ -407,4 +410,3 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
 
   return EXIT_SUCCESS;
 }
-
