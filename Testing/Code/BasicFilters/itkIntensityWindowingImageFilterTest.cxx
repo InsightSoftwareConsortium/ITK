@@ -25,6 +25,7 @@
 
 #include "itkIntensityWindowingImageFilter.h"
 #include "itkRandomImageSource.h"
+#include "itkMinimumMaximumImageCalculator.h"
 
 int itkIntensityWindowingImageFilterTest(int, char* [] )
 {

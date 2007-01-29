@@ -21,6 +21,7 @@
 #include "itkBinaryMaskToNarrowBandPointSetFilter.h"
 #include "itkMesh.h"
 #include "itkImage.h"
+#include "itkImageRegionIterator.h"
 
 
 

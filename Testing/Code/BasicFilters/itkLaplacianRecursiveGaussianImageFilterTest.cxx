@@ -24,6 +24,8 @@
 #include "itkImageFileWriter.h"
 #include "itkCastImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkZeroCrossingImageFilter.h"
+#include "itkImage.h"
 
 int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
 {

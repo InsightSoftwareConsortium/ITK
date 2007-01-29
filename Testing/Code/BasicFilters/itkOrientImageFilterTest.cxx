@@ -25,6 +25,7 @@
 #include "itkSpatialOrientation.h"
 #include "itkOrientImageFilter.h"
 #include "itkIOCommon.h"
+#include "itkImageRegionIterator.h"
 #include <vnl/vnl_sample.h>
 
 typedef itk::Image<unsigned int,3> ImageType;

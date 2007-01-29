@@ -22,6 +22,7 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkVotingBinaryHoleFillingImageFilter.h"
 #include "itkTextOutput.h"
+#include "itkImageRegionIterator.h"
 
 
 int itkVotingBinaryHoleFillingImageFilterTest(int, char* [] )

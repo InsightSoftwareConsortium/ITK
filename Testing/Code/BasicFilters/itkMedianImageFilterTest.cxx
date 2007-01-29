@@ -21,6 +21,7 @@
 #include "itkRandomImageSource.h"
 #include "itkMedianImageFilter.h"
 #include "itkTextOutput.h"
+#include "itkImageRegionIterator.h"
 
 
 int itkMedianImageFilterTest(int, char* [] )

@@ -18,6 +18,7 @@
 #define _itkFilterWatcher_h
 
 #include "itkCommand.h"
+#include "itkProcessObject.h"
 #include <time.h>
 // The following class is a convenience  to watch the progress of a filter
 

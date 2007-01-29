@@ -26,7 +26,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkResampleImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-
+#include "itkLinearInterpolateImageFunction.h"
 
 enum {NDimensions = 2};
 

@@ -20,8 +20,7 @@
 
 #include "itkBinaryMaskToNarrowBandPointSetFilter.h"
 #include "itkPointSet.h"
-
-
+#include "itkImageRegionIterator.h"
 
 int itkBinaryMaskToNarrowBandPointSetFilterTest(int , char *[] )
 {
