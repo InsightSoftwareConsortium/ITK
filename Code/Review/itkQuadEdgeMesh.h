@@ -1,24 +1,19 @@
-// -------------------------------------------------------------------------
-// itkQuadEdgeMesh.h
-// $Revision: 1.8 $
-// $Author: ibanez $
-// $Name:  $
-// $Date: 2007-01-23 22:05:00 $
-// -------------------------------------------------------------------------
-// This code is an implementation of the well known quad edge (QE) data
-// structure in the ITK library. Although the original QE can handle non
-// orientable 2-manifolds and its dual and its mirror, this implementation
-// is specifically dedicated to handle orientable 2-manifolds along with
-// their dual.
-//
-// Any comment, criticism and/or donation is welcome.
-//
-// Please contact any member of the team:
-//
-// - The frog master (Eric Boix)       eboix@ens-lyon.fr
-// - The duck master (Alex Gouaillard) alexandre.gouaillard@sun.com
-// - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
-// -------------------------------------------------------------------------
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMesh.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 
 #ifndef __itkQuadEdgeMesh_h
 #define __itkQuadEdgeMesh_h
@@ -163,28 +158,30 @@ class QuadEdgeMesh
   typedef typename Superclass::CellMultiVisitorType   CellMultiVisitorType;
   typedef typename Superclass::CellsContainer         CellsContainer;
   typedef typename Superclass::CellsContainerPointer  CellsContainerPointer;
+
   typedef typename Superclass::CellsContainerConstIterator
-                               CellsContainerConstIterator;
+                                                  CellsContainerConstIterator;
   typedef typename Superclass::CellsContainerIterator
-                               CellsContainerIterator;
-  typedef typename Superclass::CellLinksContainer     CellLinksContainer;
+                                                  CellsContainerIterator;
+
+  typedef typename Superclass::CellLinksContainer CellLinksContainer;
   typedef typename Superclass::CellLinksContainerPointer
-                               CellLinksContainerPointer;
+                                                  CellLinksContainerPointer;
   typedef typename Superclass::CellLinksContainerIterator
-                               CellLinksContainerIterator;
+                                                  CellLinksContainerIterator;
 
   // Cell data section:
-  typedef typename Superclass::CellDataContainer      CellDataContainer;
+  typedef typename Superclass::CellDataContainer  CellDataContainer;
   typedef typename Superclass::CellDataContainerPointer
-                               CellDataContainerPointer;
+                                                  CellDataContainerPointer;
   typedef typename Superclass::CellDataContainerIterator
-                               CellDataContainerIterator;
+                                                  CellDataContainerIterator;
 
   // Point / Cell correspondance section:
   typedef typename Superclass::PointCellLinksContainer
-                               PointCellLinksContainer;
+                                        PointCellLinksContainer;
   typedef typename Superclass::PointCellLinksContainerIterator
-                               PointCellLinksContainerIterator;
+                                        PointCellLinksContainerIterator;
 
   // BoundaryAssignMents section:
   typedef typename Superclass::BoundaryAssignmentsContainer
@@ -214,23 +211,23 @@ class QuadEdgeMesh
   typedef typename Traits::VectorType     VectorType;
 
   /** Possible specialized cell types. */
-  typedef QuadEdgeMeshLineCell< CellType >     EdgeCellType;
-  typedef itkQE::PolygonCell< CellType >  PolygonCellType;
+  typedef QuadEdgeMeshLineCell< CellType >  EdgeCellType;
+  typedef itkQE::PolygonCell< CellType >    PolygonCellType;
 
   /** Free insertion indexes. */
   typedef std::queue< PointIdentifier > FreePointIndexesType;
   typedef std::queue< CellIdentifier >  FreeCellIndexesType;
 
   /** Auxiliary types. */
-  typedef std::vector< PointIdentifier > PointIdList;
-  typedef std::list< QEPrimal* > EdgeListType;
-  typedef EdgeListType* EdgeListPointerType;
+  typedef std::vector< PointIdentifier >    PointIdList;
+  typedef std::list< QEPrimal* >            EdgeListType;
+  typedef EdgeListType*                     EdgeListPointerType;
 
   /** Reserved PointIdentifier designated to represent the absence of Point */
-  static const PointIdentifier NOPOINT;
+  static const PointIdentifier m_NoPoint;
 
   /** Reserved CellIdentifier designated to represent the absence of Face */
-  static const CellIdentifier NOFACE;
+  static const CellIdentifier m_NoFace;
 
 public:
 

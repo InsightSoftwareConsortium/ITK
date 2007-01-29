@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------------
 // itkQuadEdgeMesh.txx
-// $Revision: 1.9 $
+// $Revision: 1.10 $
 // $Author: ibanez $
 // $Name:  $
-// $Date: 2007-01-24 22:52:30 $
+// $Date: 2007-01-29 15:18:38 $
 // ------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -30,13 +30,13 @@ namespace itk
 
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 const typename QuadEdgeMesh< TPixel, VDimension, TTraits >::PointIdentifier
-QuadEdgeMesh< TPixel, VDimension, TTraits >::NOPOINT =
-QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal::NOPOINT;
+QuadEdgeMesh< TPixel, VDimension, TTraits >::m_NoPoint =
+QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal::m_NoPoint;
 
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 const typename QuadEdgeMesh< TPixel, VDimension, TTraits >::CellIdentifier
-QuadEdgeMesh< TPixel, VDimension, TTraits >::NOFACE =
-QuadEdgeMesh< TPixel, VDimension, TTraits >::QEDual::NOPOINT;
+QuadEdgeMesh< TPixel, VDimension, TTraits >::m_NoFace =
+QuadEdgeMesh< TPixel, VDimension, TTraits >::QEDual::m_NoPoint;
 
 /**
  * Clear all this mesh by deleting all contained edges which as
@@ -195,7 +195,7 @@ Splice( QEPrimal* a, QEPrimal* b )
     if( oldOriginId == orgId )
       {
       itkWarningMacro( "Trying to fuse the same point!" );
-      return NOPOINT;
+      return m_NoPoint;
       }
 
     /** \todo Compare the geometry of the two points and accept
@@ -240,14 +240,14 @@ Splice( QEPrimal* a, QEPrimal* b )
     FaceRefType bLeftFace = b->GetLeft();
 
     bool MustReconstructFace = false;
-    if( ( aLeftFace == NOFACE && bLeftFace != NOFACE )
-        || ( aLeftFace != NOFACE && bLeftFace == NOFACE ) )
+    if( ( aLeftFace == m_NoFace && bLeftFace != m_NoFace )
+        || ( aLeftFace != m_NoFace && bLeftFace == m_NoFace ) )
       {
       itkWarningMacro("Face on one side but not the other. Cancel.");
-      return NOPOINT;
+      return m_NoPoint;
       }
 
-    if( aLeftFace != NOFACE && bLeftFace != NOFACE )
+    if( aLeftFace != m_NoFace && bLeftFace != m_NoFace )
       {
       if( ( aLeftFace == bLeftFace ) && ( a->GetLnext() != b )
           && ( a->GetLnext()->GetLnext() != b )
@@ -262,11 +262,11 @@ Splice( QEPrimal* a, QEPrimal* b )
       else
         {
         itkWarningMacro( "Face is not at least and hexagon." );
-        return( NOPOINT );
+        return( m_NoPoint );
         }
       }
 
-    // Notice that when aLeftFace == NOFACE and bLeftFace == NOFACE
+    // Notice that when aLeftFace == m_NoFace and bLeftFace == m_NoFace
     // we simply proceed... (with MustReconstructFace initialy set to
     // false.
 
