@@ -100,13 +100,18 @@ namespace itk
  * \class QuadEdgeMesh
  *
  * \brief Mesh class for 2D manifolds embedded in ND space.
+ *
+ * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
+ *
+ * This implementation was contributed as a paper to the Insight Journal
+ * http://hdl.handle.net/1926/306
+ *
  */
 template< typename TPixel, unsigned int VDimension,
   typename TTraits = QuadEdgeMeshTraits< TPixel, VDimension, bool, bool > >
-class QuadEdgeMesh
-: public Mesh< TPixel, VDimension, TTraits >
+class QuadEdgeMesh : public Mesh< TPixel, VDimension, TTraits >
 {
-  public:
+public:
   /** Input template parameters. */
   typedef TTraits Traits;
   typedef TPixel  PixelType;
@@ -315,10 +320,10 @@ public:
   PointIdentifier Splice( QEPrimal* a, QEPrimal* b );
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-/** Begin concept checking */
-itkConceptMacro(DimensionShouldBe3,
-  (Concept::SameDimension<itkGetStaticConstMacro(PointDimension),3>));
-/** End concept checking */
+  /** Begin concept checking */
+  itkConceptMacro(DimensionShouldBe3,
+    (Concept::SameDimension<itkGetStaticConstMacro(PointDimension),3>));
+  /** End concept checking */
 #endif
 
 protected:
