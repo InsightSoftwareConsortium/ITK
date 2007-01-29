@@ -52,8 +52,8 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     itkQEMeshForAllPrimalEdgesEndMacro
     }
 
- // Clear the points potentialy left behind by LightWeightDeleteEdge():
- this->GetPoints()->clear();
+  // Clear the points potentialy left behind by LightWeightDeleteEdge():
+  this->GetPoints()->clear();
 }
 
 /**
@@ -71,43 +71,43 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     {
     // see TODO's entry dated 2006-01-24
     /* We consider the following situation which depicts the Onext()
-     * ring around the point Origin (which is both a->GetOrigin() and
-     * b->GetOrigin():
-     *
-     *              \         /
-     *               \       /
-     *               e3     e2              counter-clockwise
-     *                 \   /                Onext() order.
-     *                  \ /
-     *      -----b------Org------a----
-     *                  / \
-     *                 /   \
-     *                /     \
-     *               /       \
-     *              /         \
-     *            e5           e6
-     *            /             \
-     *           /               \
-     *
-     * The result of this method is then:
-     *
-     *         \         /
-     *          \       /
-     *          e3     e2
-     *            \   /
-     *             \ /
-     * ----b------newOrg
-     *
-     *                  Org------a-----
-     *                  / \
-     *                 /   \
-     *                /     \
-     *               /       \
-     *              /         \
-     *            e5           e7
-     *            /             \
-     *           /               \
-     */
+    * ring around the point Origin (which is both a->GetOrigin() and
+    * b->GetOrigin():
+    *
+    *              \         /
+    *               \       /
+    *               e3     e2              counter-clockwise
+    *                 \   /                Onext() order.
+    *                  \ /
+    *      -----b------Org------a----
+    *                  / \
+    *                 /   \
+    *                /     \
+    *               /       \
+    *              /         \
+    *            e5           e6
+    *            /             \
+    *           /               \
+    *
+    * The result of this method is then:
+    *
+    *         \         /
+    *          \       /
+    *          e3     e2
+    *            \   /
+    *             \ /
+    * ----b------newOrg
+    *
+    *                  Org------a-----
+    *                  / \
+    *                 /   \
+    *                /     \
+    *               /       \
+    *              /         \
+    *            e5           e7
+    *            /             \
+    *           /               \
+    */
 
     // Handle connectivity at QEQuadEdge level:
     a->Splice( b );
@@ -131,12 +131,12 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       {
       it.Value()->SetOrigin( newOriginId );
       }
-      resultingOriginId = newOriginId;
-   }
- else
-   {
-   // see TODO's entry dated 2006-01-24
-   /* We consider the following situation which depicts the Onext()
+    resultingOriginId = newOriginId;
+    }
+  else
+    {
+    // see TODO's entry dated 2006-01-24
+    /* We consider the following situation which depicts the Onext()
     * rings around the point Origin = a->GetOrigin() and
     * oldOrigin = b->GetOrigin():
     *
@@ -178,63 +178,62 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     * Note: in this case we must handle the geometry first and
     *       then the connectivity.
     */
-
+  
     // Since this is the geometrical version of Splice() we
     // have additional geometrical information that we should use
     // to check the correctness of the situation.
-
+  
     /////////////////////////////////////////////////////////////
     // First, consider the vertices: Origin and oldOrigin must be different.
     PointIdentifier oldOriginId = b->GetOrigin();
     PointIdentifier orgId = a->GetOrigin();
-
+  
     if( oldOriginId == orgId )
       {
       itkWarningMacro( "Trying to fuse the same point!" );
       return m_NoPoint;
       }
-
+  
     /** \todo Compare the geometry of the two points and accept
-     * splicing when their geometry matches. We could fix
-     * an epsilon threshold distance above which the two points
-     * are considered distinct.
-     */
+    * splicing when their geometry matches. We could fix
+    * an epsilon threshold distance above which the two points
+    * are considered distinct. */
     PointType oldOrigin = this->GetPoint( oldOriginId );
     PointType org = this->GetPoint( orgId );
-
+  
     /////////////////////////////////////////////////////////////
     /* We are done with the vertices and we might need to consider the
-     * possible initial adjacent face[s]. We shall accept to proceed
-     * with Splicing if and only if the following conditions are met:
-     * [1] a and b both share the SAME Left face,
-     * [2] a and b and in the same Lnext() ring,
-     * [3] a and b are not too close followers in the Lnext() ring
-     *    [this is to avoid to create a face with only two edges which
-     *     is equivalent to two different edges adjacent to the same two
-     *     vertices].
-     *
-     *                   V ---<-b---- V
-     *                  /              \
-     *                 /                \
-     *                /              a.Lnext().Lnext()
-     *               /                    \
-     *              /        Face          \
-     *             V                        V
-     *              \     a.Splice(b)      /
-     *               \     is OK          /
-     *                \               a.Lnext()
-     *                 \                /
-     *                  \              /
-     *                   V ----a->--- V
-     *
-     * Basically, we accept to proceed with spliting if there is a
-     * single face on the left and this face is at least an hexagone
-     * and the vertices we wish to splice are at least two vertices aside.
-     */
-
+    * possible initial adjacent face[s]. We shall accept to proceed
+    * with Splicing if and only if the following conditions are met:
+    * [1] a and b both share the SAME Left face,
+    * [2] a and b and in the same Lnext() ring,
+    * [3] a and b are not too close followers in the Lnext() ring
+    *    [this is to avoid to create a face with only two edges which
+    *     is equivalent to two different edges adjacent to the same two
+    *     vertices].
+    *
+    *                   V ---<-b---- V
+    *                  /              \
+    *                 /                \
+    *                /              a.Lnext().Lnext()
+    *               /                    \
+    *              /        Face          \
+    *             V                        V
+    *              \     a.Splice(b)      /
+    *               \     is OK          /
+    *                \               a.Lnext()
+    *                 \                /
+    *                  \              /
+    *                   V ----a->--- V
+    *
+    * Basically, we accept to proceed with spliting if there is a
+    * single face on the left and this face is at least an hexagone
+    * and the vertices we wish to splice are at least two vertices aside.
+    */
+  
     FaceRefType aLeftFace = a->GetLeft();
     FaceRefType bLeftFace = b->GetLeft();
-
+  
     bool MustReconstructFace = false;
     if( ( aLeftFace == m_NoFace && bLeftFace != m_NoFace )
         || ( aLeftFace != m_NoFace && bLeftFace == m_NoFace ) )
@@ -242,7 +241,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       itkWarningMacro("Face on one side but not the other. Cancel.");
       return m_NoPoint;
       }
-
+  
     if( aLeftFace != m_NoFace && bLeftFace != m_NoFace )
       {
       if( ( aLeftFace == bLeftFace ) && ( a->GetLnext() != b )
@@ -261,21 +260,21 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
         return( m_NoPoint );
         }
       }
-
+  
     // Notice that when aLeftFace == m_NoFace and bLeftFace == m_NoFace
     // we simply proceed... (with MustReconstructFace initialy set to
     // false.
-
+  
     ///////////////////////////////////////////////////////////////
     // Handle connectivity at QEQuadEdge level:
     a->Splice( b );
-
+  
     ///////////////////////////////////////////////////////////////
     // Back to dealing with the geometrical references. First
     // make sure the oldOrigin's edge entry won't be used any more:
     oldOrigin.SetEdge( (QEPrimal*)0 );
     this->SetPoint( oldOriginId, oldOrigin );
-
+  
     // We need to inform the edges ranging from a->Onext() to b that
     // their Origin() have changed. Let's over do it (read, be lazy) and
     // inform the full Onext() ring:
@@ -285,7 +284,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       it.Value()->SetOrigin( orgId );
       }
     resultingOriginId = oldOriginId;
-
+  
     ///////////////////////////////////////////////////////////////
     // Now that we are done with the handling of the geometry of
     // vertices proceed with the geometry of the faces. When we
@@ -296,18 +295,17 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       this->AddFace( a );
       this->AddFace( b );
       }
-  }
+    }
 
   this->Modified();
   return resultingOriginId;
 }
 
-/**
-*/
+/**      */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 bool QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::FindClosestPoint( 
- const CoordRepArrayType coords, PointIdentifier & pointId ) const
+  const CoordRepArrayType coords, PointIdentifier & pointId ) const
 {
   VectorType vP;
   vP.Get_vnl_vector().copy_in( coords );
@@ -460,12 +458,12 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 }
 
 /**
-*\brief  Construct a new edge ending at points with identifiers given
-*        as arguments.
-* @param  orgPid first endpoint (origin) of the edge to Add.
-* @param destPid second endpoint (destination) of the edge to Add.
-* @sa \ref GeometricalQuadEdge::InsertAfterNextBorderEdgeWithUnsetLeft
-*/
+ *\brief  Construct a new edge ending at points with identifiers given
+ *        as arguments.
+ * @param  orgPid first endpoint (origin) of the edge to Add.
+ * @param destPid second endpoint (destination) of the edge to Add.
+ * @sa \ref GeometricalQuadEdge::InsertAfterNextBorderEdgeWithUnsetLeft
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -545,7 +543,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 }
 
 /**
-*/
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 void 
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -561,7 +559,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 }
 
 /**
-*/
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 void 
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -580,12 +578,11 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 }
 
 /**
-*/
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 void 
 QuadEdgeMesh< TPixel, VDimension, TTraits >
-::
-DeleteEdge( QEPrimal* e )
+::DeleteEdge( QEPrimal* e )
 {
   const PointIdentifier& orgPid  = e->GetOrigin();
   const PointIdentifier& destPid = e->GetDestination();
@@ -653,18 +650,18 @@ DeleteEdge( QEPrimal* e )
       while( it != edge->EndGeomLnext() && !toDelete )
         {
         toDelete = ( ( it.Value() == e ) ||
-                         ( it.Value()->GetSym() == e ) );
+                     ( it.Value()->GetSym() == e ) );
         it++;
         }
 
       // Unset left faces
       if( toDelete )
         {
-        for( it = edge->BeginGeomLnext();
-            it != edge->EndGeomLnext();
-            it++ )
+        it = edge->BeginGeomLnext();
+        while( it != edge->EndGeomLnext() )
           {
           it.Value()->UnsetLeft();
+          it++;
           }
         }
       }
@@ -692,21 +689,21 @@ DeleteEdge( QEPrimal* e )
 }
 
 /**
-* Delete the incoming edge and all LOCAL references to this edge.
-* By local we mean the ones we can reasonably be aware of i.e.
-* the adjacent faces (that we also delete) and the adjacent points
-* (when the incoming edge is their Onext ring entry).
-* This is to be opposed to \ref DeleteEdge that searches for ALL
-* references to the incoming edge (which is a much heavier process
-* because one as to make an exhaustive search in the CellContainer).
-* \note: when deleting the adjacent faces we also handle the
-*        suppression of the references to those faces in the Lnext()
-*        and Rnext() rings.
-* \warning Nothing is done to remove the potential isolated points
-*        left by this edge deletion (the caller might want to recycle
-*        them). Hence it is the caller's responsability to manage the
-*        clean-up of adjacent points (when necessary).
-*/
+ * Delete the incoming edge and all LOCAL references to this edge.
+ * By local we mean the ones we can reasonably be aware of i.e.
+ * the adjacent faces (that we also delete) and the adjacent points
+ * (when the incoming edge is their Onext ring entry).
+ * This is to be opposed to \ref DeleteEdge that searches for ALL
+ * references to the incoming edge (which is a much heavier process
+ * because one as to make an exhaustive search in the CellContainer).
+ * \note: when deleting the adjacent faces we also handle the
+ *        suppression of the references to those faces in the Lnext()
+ *        and Rnext() rings.
+ * \warning Nothing is done to remove the potential isolated points
+ *        left by this edge deletion (the caller might want to recycle
+ *        them). Hence it is the caller's responsability to manage the
+ *        clean-up of adjacent points (when necessary).
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 void 
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -795,7 +792,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 }
 
 /**
-*/
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 void
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -837,7 +834,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 }
 
 /**
-*/
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -865,7 +862,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 }
 
 /**
-*/
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -878,7 +875,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 }
 
 /**
-*/
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -891,7 +888,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 }
 
 /**
-*/
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -1081,36 +1078,37 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::CoordRepType
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::ComputeEdgeLength( QEPrimal* e )
 {
-  PointType org  = this->GetPoint( e->GetOrigin()  );
-  PointType dest = this->GetPoint( e->GetDestination() );
+  const PointType org  = this->GetPoint( e->GetOrigin()  );
+  const PointType dest = this->GetPoint( e->GetDestination() );
 
-  return ( dest.GetVectorFromOrigin() -
-      org.GetVectorFromOrigin() ).GetNorm();
+  const CoordRepType length = org.EuclideanDistanceTo( dest );
+  
+  return length;
 }
 
 /**
-* \brief Compute the total number of USED points. This differs from
-* \ref itk::Mesh::GetNumberOfPoints() that will return the total number of
-* points including the ones that have no entry in the edge ring.
-*
-* \note This method is an optional utility of the class: its
-* understanding is not usefull at first contact with the class.
-*/
+ * \brief Compute the total number of USED points. This differs from
+ * \ref itk::Mesh::GetNumberOfPoints() that will return the total number of
+ * points including the ones that have no entry in the edge ring.
+ *
+ * \note This method is an optional utility of the class: its
+ * understanding is not usefull at first contact with the class.
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 unsigned long 
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::ComputeNumberOfPoints() const
 {
-/* TODO The following code couldn't be used because the Macro
- * has not Const correct version. Preserve it and move it to
- * the documentation of an example.
- itkQEMeshForAllPointsMacro( Self, this, point, dummyIndex )
- {
-   if( point.GetEdge() )
-    numberOfPoints++;
- }
- itkQEMeshForAllPointsEndMacro;
- */
+  // FIXME The following code couldn't be used because the Macro
+  // has not Const correct version. Preserve it and move it to
+  // the documentation of an example.
+  // itkQEMeshForAllPointsMacro( Self, this, point, dummyIndex )
+  // {
+  //  if( point.GetEdge() )
+  //   numberOfPoints++;
+  // }
+  // itkQEMeshForAllPointsEndMacro;
+  // 
   typedef typename PointsContainer::ConstIterator PointsContainerIterator;
   const PointsContainer* points = this->GetPoints();
 
@@ -1157,7 +1155,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       numberOfFaces++;
       }
     ++cellIterator;
-  }
+    }
 
   return numberOfFaces;
 }
@@ -1179,15 +1177,15 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   CellsContainerConstIterator cellEnd      = this->GetCells()->End();
 
   while( cellIterator != cellEnd )
-  {
-  if( QEPrimal* edge = dynamic_cast< QEPrimal* >( cellIterator.Value()) )
     {
-    (void)edge;
-    numberOfEdges++;
-    }
+    QEPrimal* edge = dynamic_cast< QEPrimal* >( cellIterator.Value());
+    if( edge )
+      {
+      numberOfEdges++;
+      }
 
-    ++cellIterator;
-  }
+      ++cellIterator;
+    }
 
 return numberOfEdges;
 }
