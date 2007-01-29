@@ -1184,10 +1184,10 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       numberOfEdges++;
       }
 
-      ++cellIterator;
+    ++cellIterator;
     }
 
-return numberOfEdges;
+  return numberOfEdges;
 }
 
 } // namespace itk
