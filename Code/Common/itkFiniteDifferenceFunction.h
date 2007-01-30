@@ -200,8 +200,18 @@ private:
   
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFiniteDifferenceFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_FiniteDifferenceFunction(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT FiniteDifferenceFunction< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef FiniteDifferenceFunction< ITK_TEMPLATE_1 x > FiniteDifferenceFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkFiniteDifferenceFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkFiniteDifferenceFunction.txx"
 #endif
 
 #endif

@@ -18,6 +18,7 @@
 #define __itkMatrixResizeableDataObject_h
 
 #include "itkDataObject.h"
+#include "itkObjectFactory.h"
 #include "vnl/vnl_matrix.h"
 
 namespace itk
@@ -58,8 +59,19 @@ protected:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMatrixResizeableDataObject.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_MatrixResizeableDataObject(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT MatrixResizeableDataObject< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef MatrixResizeableDataObject< ITK_TEMPLATE_1 x > \
+                                     MatrixResizeableDataObject##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkMatrixResizeableDataObject+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkMatrixResizeableDataObject.txx"
 #endif
 
 #endif

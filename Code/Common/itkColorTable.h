@@ -97,8 +97,19 @@ private:
 
 }// namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkColorTable.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ColorTable(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT ColorTable< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef ColorTable< ITK_TEMPLATE_1 x > \
+                                            ColorTable##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkColorTable+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkColorTable.txx"
 #endif
 
 #endif

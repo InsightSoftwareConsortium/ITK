@@ -128,8 +128,19 @@ public:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDiffusionTensor3D.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_DiffusionTensor3D(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT DiffusionTensor3D< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef DiffusionTensor3D< ITK_TEMPLATE_1 x > \
+                                            DiffusionTensor3D##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkDiffusionTensor3D+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkDiffusionTensor3D.txx"
 #endif
 
 #endif

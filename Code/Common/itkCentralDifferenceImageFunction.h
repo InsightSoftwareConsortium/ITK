@@ -124,8 +124,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCentralDifferenceImageFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_CentralDifferenceImageFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT CentralDifferenceImageFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef CentralDifferenceImageFunction< ITK_TEMPLATE_2 x > \
+                                            CentralDifferenceImageFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkCentralDifferenceImageFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkCentralDifferenceImageFunction.txx"
 #endif
 
 #endif

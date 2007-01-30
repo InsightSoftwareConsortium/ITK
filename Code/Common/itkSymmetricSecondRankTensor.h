@@ -194,8 +194,21 @@ inline SymmetricSecondRankTensor< TValueType, VLength> operator*
 
 #include "itkNumericTraitsTensorPixel.h"
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSymmetricSecondRankTensor.txx"
+
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_SymmetricSecondRankTensor(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT SymmetricSecondRankTensor< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef SymmetricSecondRankTensor< ITK_TEMPLATE_2 x > \
+                                         SymmetricSecondRankTensor##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkSymmetricSecondRankTensor+-.h"
 #endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkSymmetricSecondRankTensor.txx"
+#endif
+
 
 #endif

@@ -150,8 +150,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryThresholdImageFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_BinaryThresholdImageFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT BinaryThresholdImageFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef BinaryThresholdImageFunction< ITK_TEMPLATE_2 x > \
+                               BinaryThresholdImageFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkBinaryThresholdImageFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkBinaryThresholdImageFunction.txx"
 #endif
 
 #endif

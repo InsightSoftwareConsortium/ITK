@@ -371,7 +371,10 @@ public:
   
   /** Set the pixel value */
   void Set( const PixelType & value) const  
-    { m_PixelAccessorFunctor.Set(*(m_Buffer+m_Offset),value); }
+    { 
+    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(
+            this->m_Buffer+this->m_Offset)),value);
+    }
 
   /** Return a const reference to the pixel 
    * This method will provide the fastest access to pixel
@@ -382,7 +385,7 @@ public:
   /** Return a reference to the pixel 
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  PixelType & Value(void) 
+  const PixelType & Value(void) 
     { return *(m_Buffer+m_Offset); }
 
   /** Return an iterator for the beginning of the region. "Begin" for a reverse
@@ -439,8 +442,18 @@ protected: //made protected so other iterators can access
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageReverseConstIterator.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ImageReverseConstIterator(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT ImageReverseConstIterator< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef ImageReverseConstIterator< ITK_TEMPLATE_1 x > ImageReverseConstIterator##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkImageReverseConstIterator+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkImageReverseConstIterator.txx"
 #endif
 
 #endif 

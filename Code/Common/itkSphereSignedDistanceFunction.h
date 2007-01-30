@@ -103,8 +103,20 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSphereSignedDistanceFunction.txx"
+
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_SphereSignedDistanceFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT SphereSignedDistanceFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef SphereSignedDistanceFunction< ITK_TEMPLATE_2 x > \
+                                         SphereSignedDistanceFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkSphereSignedDistanceFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkSphereSignedDistanceFunction.txx"
 #endif
 
 #endif

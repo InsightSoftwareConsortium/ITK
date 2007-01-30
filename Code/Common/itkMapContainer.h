@@ -284,8 +284,19 @@ public:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMapContainer.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_MapContainer(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT MapContainer< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef MapContainer< ITK_TEMPLATE_2 x > \
+                                                  MapContainer##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkMapContainer+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkMapContainer.txx"
 #endif
 
 #endif

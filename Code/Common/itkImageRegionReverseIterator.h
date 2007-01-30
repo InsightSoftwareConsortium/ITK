@@ -134,8 +134,18 @@ protected:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageRegionReverseIterator.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ImageRegionReverseIterator(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT ImageRegionReverseIterator< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef ImageRegionReverseIterator< ITK_TEMPLATE_1 x > ImageRegionReverseIterator##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkImageRegionReverseIterator+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkImageRegionReverseIterator.txx"
 #endif
 
 #endif 

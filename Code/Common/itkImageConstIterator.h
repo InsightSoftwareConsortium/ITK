@@ -386,8 +386,4 @@ protected: //made protected so other iterators can access
 # include "itkImageConstIterator.txx"
 #endif
 
-// #ifndef ITK_MANUAL_INSTANTIATION
-// #include "itkImageConstIterator.txx"
-// #endif
-
 #endif 

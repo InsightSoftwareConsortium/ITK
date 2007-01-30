@@ -101,8 +101,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLinearInterpolateImageFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_LinearInterpolateImageFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT LinearInterpolateImageFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef LinearInterpolateImageFunction< ITK_TEMPLATE_2 x > \
+                                                  LinearInterpolateImageFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkLinearInterpolateImageFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkLinearInterpolateImageFunction.txx"
 #endif
 
 #endif

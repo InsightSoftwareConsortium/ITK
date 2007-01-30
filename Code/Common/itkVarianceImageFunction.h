@@ -119,8 +119,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVarianceImageFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_VarianceImageFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT VarianceImageFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef VarianceImageFunction< ITK_TEMPLATE_2 x > \
+                                                  VarianceImageFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkVarianceImageFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkVarianceImageFunction.txx"
 #endif
 
 #endif

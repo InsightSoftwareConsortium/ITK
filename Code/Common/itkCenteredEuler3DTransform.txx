@@ -44,7 +44,7 @@ CenteredEuler3DTransform(unsigned int spaceDimension,
 template<class TScalarType>
 CenteredEuler3DTransform<TScalarType>::
 CenteredEuler3DTransform(const MatrixType & matrix,
-                         const OutputVectorType & offset) :
+                         const OutputPointType & offset) :
   Superclass(matrix, offset)
 {
 }

@@ -116,9 +116,19 @@ private:
 
 }  // namespace itk
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ScaleLogarithmicTransform(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT ScaleLogarithmicTransform< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef ScaleLogarithmicTransform< ITK_TEMPLATE_2 x > \
+                                                  ScaleLogarithmicTransform##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScaleLogarithmicTransform.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkScaleLogarithmicTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkScaleLogarithmicTransform.txx"
 #endif
 
 #endif /* __itkScaleLogarithmicTransform_h */

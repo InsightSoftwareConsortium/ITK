@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <iostream>
 #include <itkObject.h>
+#include <itkObjectFactory.h>
 
 namespace itk
 {
@@ -127,8 +128,20 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTreeNode.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_TreeNode(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT TreeNode< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef TreeNode< ITK_TEMPLATE_1 x > \
+                                                  TreeNode##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkTreeNode+-.h"
 #endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkTreeNode.txx"
+#endif
+
 
 #endif

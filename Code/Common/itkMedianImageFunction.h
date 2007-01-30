@@ -108,8 +108,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMedianImageFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_MedianImageFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT MedianImageFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef MedianImageFunction< ITK_TEMPLATE_2 x > \
+                                     MedianImageFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkMedianImageFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkMedianImageFunction.txx"
 #endif
 
 #endif

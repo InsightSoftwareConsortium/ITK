@@ -119,8 +119,19 @@ protected:
 
 } // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkElasticBodySplineKernelTransform.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ElasticBodySplineKernelTransform(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT ElasticBodySplineKernelTransform< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef ElasticBodySplineKernelTransform< ITK_TEMPLATE_2 x > \
+                                            ElasticBodySplineKernelTransform##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkElasticBodySplineKernelTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkElasticBodySplineKernelTransform.txx"
 #endif
 
 #endif // __itkElasticBodySplineKernelTransform_h

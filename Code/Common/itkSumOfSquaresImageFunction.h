@@ -132,9 +132,21 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSumOfSquaresImageFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_SumOfSquaresImageFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT SumOfSquaresImageFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef SumOfSquaresImageFunction< ITK_TEMPLATE_2 x > \
+                                         SumOfSquaresImageFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkSumOfSquaresImageFunction+-.h"
 #endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkSumOfSquaresImageFunction.txx"
+#endif
+
 
 #endif
 

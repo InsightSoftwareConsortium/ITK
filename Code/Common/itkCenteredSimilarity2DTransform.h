@@ -171,9 +171,19 @@ private:
 
 }  // namespace itk
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_CenteredSimilarity2DTransform(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT CenteredSimilarity2DTransform< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef CenteredSimilarity2DTransform< ITK_TEMPLATE_1 x > \
+                                            CenteredSimilarity2DTransform##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCenteredSimilarity2DTransform.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkCenteredSimilarity2DTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkCenteredSimilarity2DTransform.txx"
 #endif
 
 #endif /* __itkCenteredSimilarity2DTransform_h */

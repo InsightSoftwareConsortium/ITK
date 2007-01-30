@@ -97,9 +97,9 @@ public:
   /** Return a reference to the pixel 
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  PixelType & Value(void) 
+  const PixelType & Value(void) 
     {
-    return this->GetImage()->GetPixel(this->m_ImageIndex);
+    return (this->m_Image->GetPixel(this->m_CurrentImageIndex));
     }
 
   /** operator= is provided to make sure the handle to the image is properly
@@ -116,8 +116,19 @@ public:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLineIterator.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_LineIterator(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT LineIterator< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef LineIterator< ITK_TEMPLATE_1 x > \
+                                     LineIterator##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkLineIterator+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkLineIterator.txx"
 #endif
 
 #endif 

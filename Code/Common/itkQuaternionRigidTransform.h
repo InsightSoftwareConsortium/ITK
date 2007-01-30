@@ -151,9 +151,19 @@ private:
 
 }  // namespace itk
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_QuaternionRigidTransform(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT QuaternionRigidTransform< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef QuaternionRigidTransform< ITK_TEMPLATE_1 x > \
+                                                  QuaternionRigidTransform##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuaternionRigidTransform.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkQuaternionRigidTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkQuaternionRigidTransform.txx"
 #endif
 
 #endif /* __itkQuaternionRigidTransform_h */

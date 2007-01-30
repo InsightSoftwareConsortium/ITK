@@ -20,6 +20,7 @@
 #include "itkPath.h"
 #include "itkIndex.h"
 #include "itkOffset.h"
+#include "itkObjectFactory.h"
 
 #include <vector>
 
@@ -96,10 +97,6 @@ public:
     {
     return NumberOfSteps();  // 0 is before the first step, 1 is after it
     }
-  
-
-
-  // Functions specific to ChainCodePath
 
   /** New() method for dynamic construction */
   itkNewMacro( Self );
@@ -158,8 +155,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkChainCodePath.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ChainCodePath(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT ChainCodePath< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef ChainCodePath< ITK_TEMPLATE_1 x > \
+                               ChainCodePath##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkChainCodePath+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkChainCodePath.txx"
 #endif
 
 #endif

@@ -327,8 +327,19 @@ protected:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKernelTransform.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_KernelTransform(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT KernelTransform< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef KernelTransform< ITK_TEMPLATE_2 x > \
+                                                  KernelTransform##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkKernelTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkKernelTransform.txx"
 #endif
 
 #endif // __itkKernelTransform_h

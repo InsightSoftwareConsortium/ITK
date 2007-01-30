@@ -317,8 +317,21 @@ private:
   PixelContainerPointer m_Buffer;
 };
 } // end namespace itk
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpecialCoordinatesImage.txx"
+
+
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_SpecialCoordinatesImage(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT SpecialCoordinatesImage< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef SpecialCoordinatesImage< ITK_TEMPLATE_2 x > \
+                                         SpecialCoordinatesImage##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkSpecialCoordinatesImage+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkSpecialCoordinatesImage.txx"
 #endif
 
 #endif

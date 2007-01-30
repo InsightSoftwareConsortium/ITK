@@ -122,8 +122,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhoodOperatorImageFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_NeighborhoodOperatorImageFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT NeighborhoodOperatorImageFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef NeighborhoodOperatorImageFunction< ITK_TEMPLATE_2 x > \
+                                  NeighborhoodOperatorImageFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkNeighborhoodOperatorImageFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkNeighborhoodOperatorImageFunction.txx"
 #endif
 
 #endif

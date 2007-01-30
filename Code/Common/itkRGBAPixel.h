@@ -144,8 +144,18 @@ ITK_EXPORT std::istream& operator>>(std::istream& is,
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRGBAPixel.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_RGBAPixel(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT RGBAPixel< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef RGBAPixel< ITK_TEMPLATE_1 x > RGBAPixel##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkRGBAPixel+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkRGBAPixel.txx"
 #endif
 
 #endif

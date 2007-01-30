@@ -106,9 +106,19 @@ private:
 
 } // end namespace itk
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_BloxCoreAtomItem(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT BloxCoreAtomItem< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef BloxCoreAtomItem< ITK_TEMPLATE_1 x > \
+                               BloxCoreAtomItem##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBloxCoreAtomItem.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkBloxCoreAtomItem+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkBloxCoreAtomItem.txx"
 #endif
 
 #endif

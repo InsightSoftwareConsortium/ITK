@@ -32,7 +32,7 @@ public:
   typedef typename Superclass::TreeNodeType TreeNodeType;
  
   /** Constructor */
-  PreOrderTreeIterator( const TTreeType* tree, TreeNodeType* start = NULL );
+  PreOrderTreeIterator( const TTreeType* tree,const TreeNodeType* start = NULL );
 
   /** Get the type of the iterator */
   int GetType() const;
@@ -55,7 +55,7 @@ private:
 
 /** Constructor */
 template <class TTreeType>
-PreOrderTreeIterator<TTreeType>::PreOrderTreeIterator( const TTreeType* tree, TreeNodeType* start )
+PreOrderTreeIterator<TTreeType>::PreOrderTreeIterator( const TTreeType* tree,const TreeNodeType* start )
   :TreeIteratorBase<TTreeType>(tree,start) 
 {
 

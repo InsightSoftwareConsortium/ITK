@@ -49,8 +49,20 @@ public:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBloxBoundaryProfilePixel.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_BloxBoundaryProfilePixel(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT BloxBoundaryProfilePixel< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef BloxBoundaryProfilePixel< ITK_TEMPLATE_1 x > \
+                               BloxBoundaryProfilePixel##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkBloxBoundaryProfilePixel+-.h"
 #endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkBloxBoundaryProfilePixel.txx"
+#endif
+
 
 #endif

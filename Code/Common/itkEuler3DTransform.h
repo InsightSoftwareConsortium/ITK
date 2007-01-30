@@ -143,9 +143,19 @@ private:
 
 }  // namespace itk
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_Euler3DTransform(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT Euler3DTransform< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef Euler3DTransform< ITK_TEMPLATE_1 x > \
+                                            Euler3DTransform##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkEuler3DTransform.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkEuler3DTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkEuler3DTransform.txx"
 #endif
 
 #endif /* __itkEuler3DTransform_h */

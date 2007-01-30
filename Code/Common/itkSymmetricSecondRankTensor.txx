@@ -44,7 +44,7 @@ SymmetricSecondRankTensor<T,NDimension>&
 SymmetricSecondRankTensor<T,NDimension>
 ::operator= (const ComponentType & r)
 {
-  BaseArray::operator=(r);
+  BaseArray::operator=(&r);
   return *this;
 }
 

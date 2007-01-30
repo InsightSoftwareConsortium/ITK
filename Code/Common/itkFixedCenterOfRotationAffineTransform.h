@@ -122,9 +122,19 @@ private:
   
 }  // namespace itk
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_FixedCenterOfRotationAffineTransform(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT FixedCenterOfRotationAffineTransform< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef FixedCenterOfRotationAffineTransform< ITK_TEMPLATE_2 x > \
+                                            FixedCenterOfRotationAffineTransform##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFixedCenterOfRotationAffineTransform.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkFixedCenterOfRotationAffineTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkFixedCenterOfRotationAffineTransform.txx"
 #endif
 
 #endif /* __itkFixedCenterOfRotationAffineTransform_h */

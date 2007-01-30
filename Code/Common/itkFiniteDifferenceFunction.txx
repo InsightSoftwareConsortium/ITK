@@ -17,6 +17,8 @@
 #ifndef __itkFiniteDifferenceFunction_txx_
 #define __itkFiniteDifferenceFunction_txx_
 
+#include "itkFiniteDifferenceFunction.h"
+
 namespace itk
 {
 template<class TImageType>

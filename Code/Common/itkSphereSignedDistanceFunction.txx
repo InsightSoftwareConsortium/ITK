@@ -18,6 +18,7 @@
 #define __itkSphereSignedDistanceFunction_txx
 
 #include "itkSphereSignedDistanceFunction.h"
+#include "vnl/vnl_math.h"
 
 namespace itk
 {

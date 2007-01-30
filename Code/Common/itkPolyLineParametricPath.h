@@ -134,8 +134,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPolyLineParametricPath.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_PolyLineParametricPath(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT PolyLineParametricPath< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef PolyLineParametricPath< ITK_TEMPLATE_1 x > \
+                                                  PolyLineParametricPath##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkPolyLineParametricPath+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkPolyLineParametricPath.txx"
 #endif
 
 #endif

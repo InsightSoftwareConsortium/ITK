@@ -344,8 +344,20 @@ private:
   
 };
 } // end namespace itk
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPhasedArray3DSpecialCoordinatesImage.txx"
+
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_PhasedArray3DSpecialCoordinatesImage(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT PhasedArray3DSpecialCoordinatesImage< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef PhasedArray3DSpecialCoordinatesImage< ITK_TEMPLATE_1 x > \
+                                         PhasedArray3DSpecialCoordinatesImage##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkPhasedArray3DSpecialCoordinatesImage+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkPhasedArray3DSpecialCoordinatesImage.txx"
 #endif
 
 #endif

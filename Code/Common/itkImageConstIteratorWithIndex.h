@@ -298,8 +298,19 @@ protected: //made protected so other iterators can access
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageConstIteratorWithIndex.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ImageConstIteratorWithIndex(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT ImageConstIteratorWithIndex< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef ImageConstIteratorWithIndex< ITK_TEMPLATE_1 x > ImageConstIteratorWithIndex##y; } \
+  }
+
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkImageConstIteratorWithIndex+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkImageConstIteratorWithIndex.txx"
 #endif
 
 #endif 

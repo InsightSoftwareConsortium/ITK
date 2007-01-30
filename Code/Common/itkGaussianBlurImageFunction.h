@@ -201,8 +201,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianBlurImageFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_GaussianBlurImageFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT GaussianBlurImageFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef GaussianBlurImageFunction< ITK_TEMPLATE_2 x > \
+                                                  GaussianBlurImageFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkGaussianBlurImageFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkGaussianBlurImageFunction.txx"
 #endif
 
 #endif

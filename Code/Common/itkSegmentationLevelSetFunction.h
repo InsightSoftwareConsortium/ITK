@@ -180,8 +180,20 @@ private:
 
 } // end namespace
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSegmentationLevelSetFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_SegmentationLevelSetFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT SegmentationLevelSetFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef SegmentationLevelSetFunction< ITK_TEMPLATE_2 x > \
+                                         SegmentationLevelSetFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkSegmentationLevelSetFunction+-.h"
 #endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkSegmentationLevelSetFunction.txx"
+#endif
+
 
 #endif

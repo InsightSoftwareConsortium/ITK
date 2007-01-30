@@ -98,9 +98,21 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSimpleDataObjectDecorator.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_SimpleDataObjectDecorator(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT SimpleDataObjectDecorator< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef SimpleDataObjectDecorator< ITK_TEMPLATE_1 x > \
+                                         SimpleDataObjectDecorator##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkSimpleDataObjectDecorator+-.h"
 #endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkSimpleDataObjectDecorator.txx"
+#endif
+
 
 #endif
 

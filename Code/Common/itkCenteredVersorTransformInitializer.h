@@ -106,9 +106,19 @@ private:
 
 }  // namespace itk
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_CenteredVersorTransformInitializer(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT CenteredVersorTransformInitializer< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef CenteredVersorTransformInitializer< ITK_TEMPLATE_2 x > \
+                               CenteredVersorTransformInitializer##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCenteredVersorTransformInitializer.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkCenteredVersorTransformInitializer+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkCenteredVersorTransformInitializer.txx"
 #endif
 
 #endif /* __itkCenteredVersorTransformInitializer_h */

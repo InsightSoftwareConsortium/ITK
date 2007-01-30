@@ -102,8 +102,19 @@ protected:
 
 } // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkThinPlateSplineKernelTransform.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ThinPlateSplineKernelTransform(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT ThinPlateSplineKernelTransform< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef ThinPlateSplineKernelTransform< ITK_TEMPLATE_2 x > \
+                                                  ThinPlateSplineKernelTransform##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkThinPlateSplineKernelTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkThinPlateSplineKernelTransform.txx"
 #endif
 
 #endif // __itkThinPlateSplineKernelTransform_h

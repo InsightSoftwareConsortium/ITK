@@ -127,8 +127,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBloxBoundaryProfileItem.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_BloxBoundaryProfileItem(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT BloxBoundaryProfileItem< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef BloxBoundaryProfileItem< ITK_TEMPLATE_1 x > \
+                               BloxBoundaryProfileItem##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkBloxBoundaryProfileItem+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkBloxBoundaryProfileItem.txx"
 #endif
 
 #endif

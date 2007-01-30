@@ -158,10 +158,6 @@ protected:
 # include "itkImageRegionIterator.txx"
 #endif
 
-// #ifndef ITK_MANUAL_INSTANTIATION
-// #include "itkImageRegionIterator.txx"
-// #endif
-
 #endif 
 
 

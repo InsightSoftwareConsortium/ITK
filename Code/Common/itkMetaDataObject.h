@@ -288,9 +288,21 @@ void \
   ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image< STORAGE_TYPE , 7 >::Pointer) \
   ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image< STORAGE_TYPE , 8 >::Pointer) \
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMetaDataObject.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_MetaDataObject(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT MetaDataObject< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef MetaDataObject< ITK_TEMPLATE_1 x > \
+                                         MetaDataObject##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkMetaDataObject+-.h"
 #endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkMetaDataObject.txx"
+#endif
+
 
 #endif //itkMetaDataObject_h
 

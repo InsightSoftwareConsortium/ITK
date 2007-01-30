@@ -305,9 +305,20 @@ public:
 };
 
 } // end namespace itk
-  
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorContainer.txx"
+
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_VectorContainer(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT VectorContainer< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef VectorContainer< ITK_TEMPLATE_2 x > \
+                                                  VectorContainer##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkVectorContainer+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkVectorContainer.txx"
 #endif
 
 #endif

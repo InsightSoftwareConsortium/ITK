@@ -122,8 +122,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeanImageFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_MeanImageFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT MeanImageFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef MeanImageFunction< ITK_TEMPLATE_2 x > \
+                                                  MeanImageFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkMeanImageFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkMeanImageFunction.txx"
 #endif
 
 #endif

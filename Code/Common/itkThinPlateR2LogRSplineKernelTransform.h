@@ -104,8 +104,19 @@ protected:
 
 } // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkThinPlateR2LogRSplineKernelTransform.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ThinPlateR2LogRSplineKernelTransform(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT ThinPlateR2LogRSplineKernelTransform< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef ThinPlateR2LogRSplineKernelTransform< ITK_TEMPLATE_2 x > \
+                                                  ThinPlateR2LogRSplineKernelTransform##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkThinPlateR2LogRSplineKernelTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkThinPlateR2LogRSplineKernelTransform.txx"
 #endif
 
 #endif // __itkThinPlateR2LogRSplineKernelTransform_h

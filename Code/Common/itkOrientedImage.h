@@ -259,8 +259,19 @@ private:
   DirectionType m_PhysicalPointToIndex;
 };
 } // end namespace itk
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOrientedImage.txx"
+
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_OrientedImage(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT OrientedImage< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef Image< ITK_TEMPLATE_2 x > OrientedImage##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkOrientedImage+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkOrientedImage.txx"
 #endif
 
 #endif

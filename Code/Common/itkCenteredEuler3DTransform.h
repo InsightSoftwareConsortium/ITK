@@ -100,7 +100,7 @@ protected:
   CenteredEuler3DTransform(unsigned int SpaceDimension,
                            unsigned int ParametersDimension);
   CenteredEuler3DTransform(const MatrixType & matrix,
-                           const OutputVectorType & offset);
+                           const OutputPointType & offset);
   ~CenteredEuler3DTransform();
 
   /**
@@ -117,9 +117,19 @@ private:
 
 }  // namespace itk
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_CenteredEuler3DTransform(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT CenteredEuler3DTransform< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef CenteredEuler3DTransform< ITK_TEMPLATE_1 x > \
+                                            CenteredEuler3DTransform##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCenteredEuler3DTransform.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkCenteredEuler3DTransform+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkCenteredEuler3DTransform.txx"
 #endif
 
 #endif /* __itkCenteredEuler3DTransform_h */

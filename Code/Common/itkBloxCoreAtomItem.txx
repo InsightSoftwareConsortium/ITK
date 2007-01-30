@@ -42,8 +42,8 @@ BloxCoreAtomItem<VImageDimension>
 ::CalcCenterAndDiameter()
 {
   // Get boundary points
-  PositionType P1 = m_BoundaryPointA->GetPosition();
-  PositionType P2 = m_BoundaryPointB->GetPosition();
+  PositionType P1 = m_BoundaryPointA->GetPhysicalPosition();
+  PositionType P2 = m_BoundaryPointB->GetPhysicalPosition();
 
   // Calculate the center of the core atom  
   m_CenterPosition = P1 + (P2 - P1) / 2;
