@@ -282,7 +282,7 @@ PrepareLinearSystem(OutputMeshPointer mesh,
 
     for (int itPntInCell = 0; pntIdIter != pntIdEnd; ++pntIdIter, ++itPntInCell)
       {
-      pointCell[ *pntIdIter ].pushm_Back(itCell);
+      pointCell[ *pntIdIter ].push_back(itCell);
       cellPoint[itCell][itPntInCell] = *pntIdIter;
       } // for itPntInCell
     } // for itCell
