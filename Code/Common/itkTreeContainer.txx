@@ -281,7 +281,7 @@ template <class TValueType>
 bool 
 TreeContainer<TValueType>::SetRoot( IteratorType& pos ) 
 {
-  if( m_SubTree )
+  if( this->m_SubTree )
     {
     return false;
     }
