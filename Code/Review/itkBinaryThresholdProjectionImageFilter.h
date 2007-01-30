@@ -146,7 +146,6 @@ public:
 #endif
 
 
-
 protected:
   BinaryThresholdProjectionImageFilter()
     {

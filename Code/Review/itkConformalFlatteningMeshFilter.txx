@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkConformalFlatteningMeshFilter_txx
-#define _itkConformalFlatteningMeshFilter_txx
+#ifndef __itkConformalFlatteningMeshFilter_txx
+#define __itkConformalFlatteningMeshFilter_txx
 
 #include "itkConformalFlatteningMeshFilter.h"
 #include "itkExceptionObject.h"
@@ -27,84 +27,79 @@ PURPOSE.  See the above copyright notices for more information.
 namespace itk
 {
 
-  // define a function class derived from vnl_cost_function to compute the 
-  // conformal flattening mapping by conjugate gradient method.
-  template <class matrixDataType>
-  class conformalFlatteningFunction : public vnl_cost_function 
-  {
-  public:  
+// define a function class derived from vnl_cost_function to compute the 
+// conformal flattening mapping by conjugate gradient method.
+template <class matrixDataType>
+class conformalFlatteningFunction : public vnl_cost_function 
+{
+public:  
 
-    typedef vnl_vector<matrixDataType> VectorType;
+  typedef vnl_vector<matrixDataType> VectorType;
 
-    conformalFlatteningFunction(
-      vnl_sparse_matrix<matrixDataType> const& A, 
-      VectorType const& b);
+  conformalFlatteningFunction(
+    vnl_sparse_matrix<matrixDataType> const& A, 
+    VectorType const& b);
 
-    double f(VectorType const& x);
+  double f(VectorType const& x);
 
-    void gradf(VectorType const& x, VectorType & g);
+  void gradf(VectorType const& x, VectorType & g);
 
-    inline unsigned int dim() {return _dim;}
+  inline unsigned int dim() {return m_Dim;}
 
-  private:
-    vnl_sparse_matrix<matrixDataType> const* _Asparse;
-    VectorType const* _b;
-    unsigned int _dim;
-  };
+private:
+  vnl_sparse_matrix<matrixDataType> const* m_Asparse;
+  VectorType const*                        m_B;
+  unsigned int                             m_Dim;
+};
 
 
-  ////////////////////////////////////////////////////////////////////
-  // implementation of class conformalFlatteningFunction
+////////////////////////////////////////////////////////////////////
+// implementation of class conformalFlatteningFunction
 
-  // overload construction function for sparse matrix A
-  template <class matrixDataType>
-  conformalFlatteningFunction<matrixDataType>
-  ::conformalFlatteningFunction(vnl_sparse_matrix<matrixDataType> const& A, 
-                                VectorType const& b)
+/** overload construction function for sparse matrix A */
+template <class matrixDataType>
+conformalFlatteningFunction<matrixDataType>
+::conformalFlatteningFunction(vnl_sparse_matrix<matrixDataType> const& A, 
+                              VectorType const& b)
     : vnl_cost_function(b.size())
-  {
-    _Asparse = &A;  // The A in Ax = b;
-    _b = &b;  // The b in Ax = b;
-    _dim = b.size(); // The dimension, i.e., the number of the unknowns.
-    
-    if (A.rows() != b.size())
-      {
-      itk::ExceptionObject excp(__FILE__,__LINE__,
-       "The # of rows in A must be the same as the length of b!");
-      throw excp;
-      } // if (A.rows() != b.size())
-  } // conformalFlatteningFunction::conformalFlatteningFunction(A, b)
-
-
-  template <class matrixDataType>
-  double conformalFlatteningFunction<matrixDataType>::f(VectorType const& x) 
-  {  
-    matrixDataType r;
-      VectorType tmp;
-      _Asparse -> pre_mult(x, tmp);
-      r = 0.5*inner_product(tmp,x)-inner_product((*_b),x);
-
-    return r;
-  } // conformalFlatteningFunction::f(), the unary function to be optimized.
-  // The minimizer of this function \frac{1}{2}x^{T}Ax - b^{T}x, is 
-  // the solution of Ax=b when A is positive defined, symmetric.
-
-  template <class matrixDataType>
-  void conformalFlatteningFunction<matrixDataType>::gradf(VectorType const& x, 
-                                                      VectorType & g) 
-  { 
-      VectorType tmp;
-      _Asparse -> mult(x, tmp);
-      g = tmp - (*_b);
-   } // conformalFlatteningFunction::gradf(), the gradient of the function to be optimized.
-
-  // implementation of class conformalFlatteningFunction
-  ////////////////////////////////////////////////////////////////////
-
+{
+  m_Asparse = &A;  // The A in Ax = b;
+  m_B = &b;  // The b in Ax = b;
+  m_Dim = b.size(); // The dimension, i.e., the number of the unknowns.
   
-/**
- *
- */
+  if (A.rows() != b.size())
+    {
+    itk::ExceptionObject excp(__FILE__,__LINE__,
+     "The # of rows in A must be the same as the length of b!");
+    throw excp;
+    } // if (A.rows() != b.size())
+}
+
+/** conformalFlatteningFunction::f(), the unary function to be optimized.
+ * The minimizer of this function \frac{1}{2}x^{T}Ax - b^{T}x, is 
+ * the solution of Ax=b when A is positive defined, symmetric. */
+template <class matrixDataType>
+double conformalFlatteningFunction<matrixDataType>::f(VectorType const& x) 
+{  
+  matrixDataType r;
+  VectorType tmp;
+  m_Asparse -> pre_mult(x, tmp);
+  r = 0.5*inner_product(tmp,x)-inner_product((*m_B),x);
+
+  return r;
+} 
+
+/** The gradient of the function to be optimized. */
+template <class matrixDataType>
+void conformalFlatteningFunction<matrixDataType>::gradf(VectorType const& x, 
+                                                      VectorType & g) 
+{ 
+  VectorType tmp;
+  m_Asparse -> mult(x, tmp);
+  g = tmp - (*m_B);
+}
+  
+/** */
 template <class TInputMesh, class TOutputMesh>
 ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
 ::ConformalFlatteningMeshFilter()
@@ -119,9 +114,7 @@ ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
 }
 
 
-/**
- *
- */
+/** */
 template <class TInputMesh, class TOutputMesh>
 void 
 ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
@@ -132,15 +125,12 @@ ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
 }
 
 
-/**
- * This method causes the filter to generate its output.
- */
+/** This method causes the filter to generate its output. */
 template <class TInputMesh, class TOutputMesh>
 void 
 ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
 ::GenerateData(void) 
 {
-
   typedef typename TOutputMesh::PointsContainerPointer 
                                           OutputPointsContainerPointer;
 
@@ -183,7 +173,7 @@ ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
   for( unsigned int dim = 0; dim < maxDimension; dim++ ) 
     {
     outputMesh->SetBoundaryAssignments( dim,
-                                        inputMesh->GetBoundaryAssignments( dim ) );
+                                   inputMesh->GetBoundaryAssignments( dim ) );
     }
 }
 
@@ -215,20 +205,22 @@ PerformMapping( InputMeshPointer iMesh, OutputMeshPointer oMesh)
   VectorCoordType bR(numberOfPoints, 0);
   VectorCoordType bI(numberOfPoints, 0);
 
-  std::cerr<<"Calculating matrix D and vector b..."<<std::endl;
+  std::cerr << "Calculating matrix D and vector b..."<<std::endl;
   PrepareLinearSystem( iMesh, D , bR, bI);  
   
-  std::cerr<<"Solving linear equation Dx=b by Conjugate gradient method(real part) ...";
+  std::cerr << "Solving linear equation Dx=b by Conjugate \
+                                  gradient method(real part) ...";
   VectorCoordType zR = SolveLinearSystem(D, bR);
   std::cerr<<"Done!"<<std::endl;
   
-  std::cerr<<"Solving linear equation Dx=b by Conjugate gradient method(imaginary part) ...";
+  std::cerr << "Solving linear equation Dx=b by Conjugate \
+                              gradient method(imaginary part) ...";
   VectorCoordType zI = SolveLinearSystem(D, bI);
   std::cerr<<"Done!"<<std::endl;
    
-  std::cerr<<"Mapping to a plane or a sphere...";
+  std::cerr << "Mapping to a plane or a sphere...";
   this->StereographicProject( zR, zI, oMesh );
-  std::cerr<<"Done!"<<std::endl;
+  std::cerr << "Done!" << std::endl;
       
   return;
 }
@@ -241,13 +233,14 @@ PrepareLinearSystem(OutputMeshPointer mesh,
       SparseMatrixCoordType &D,
       VectorCoordType &bR,
       VectorCoordType &bI) 
-{        
-// please refer to the .tex file for how the D and b are calculated.  
+{
+  // please refer to the .tex file for how the D and b are calculated.  
   int numOfPoints = mesh->GetNumberOfPoints();
-  int numOfCells = mesh->GetNumberOfCells();     
+  int numOfCells = mesh->GetNumberOfCells();
 
   // 1. store the points coordinates: pointXYZ
-  std::vector< std::vector<CoordRepType> > pointXYZ( numOfPoints, std::vector<CoordRepType>(3, 0) );
+  std::vector< std::vector<CoordRepType> > 
+                     pointXYZ( numOfPoints, std::vector<CoordRepType>(3, 0) );
 
   PointIterator pntIterator = mesh->GetPoints()->Begin();
 
@@ -269,7 +262,8 @@ PrepareLinearSystem(OutputMeshPointer mesh,
   // 3. store the relationship from cell to point, i.e. for each cell,
   // which points does it contains? store in vector: cellPoint
   std::vector< std::vector<int> > pointCell( numOfPoints );
-  std::vector< std::vector<int> > cellPoint( numOfCells, std::vector<int>(3, 0) );
+  std::vector< std::vector<int> > cellPoint( numOfCells, 
+                                             std::vector<int>(3, 0) );
 
   CellIterator cellIt = mesh->GetCells()->Begin();
 
@@ -288,16 +282,17 @@ PrepareLinearSystem(OutputMeshPointer mesh,
 
     for (int itPntInCell = 0; pntIdIter != pntIdEnd; ++pntIdIter, ++itPntInCell)
       {
-        pointCell[ *pntIdIter ].push_back(itCell);
-        cellPoint[itCell][itPntInCell] = *pntIdIter;
+      pointCell[ *pntIdIter ].pushm_Back(itCell);
+      cellPoint[itCell][itPntInCell] = *pntIdIter;
       } // for itPntInCell
-  } // for itCell
+    } // for itCell
 
   std::vector< std::vector<int> >::iterator itPointCell;
   std::vector< std::vector<int> >::iterator itPointCellEnd = pointCell.end();
     
   std::cerr<<"  Checking the existence of boundary...";
-  for ( itPointCell = pointCell.begin(); itPointCell != itPointCellEnd; ++itPointCell) 
+  for ( itPointCell = pointCell.begin(); 
+        itPointCell != itPointCellEnd; ++itPointCell) 
   {
     if ((*itPointCell).size() < 3) 
     {
@@ -315,31 +310,38 @@ PrepareLinearSystem(OutputMeshPointer mesh,
 
   // 1. Iterate point P from 0 to the last point in the mesh. 
   // 2. For each P, find its neighbors, each neighbor must:
-  //    1) has at least two triangles containing P and itself ---not the boundary.
+  //    1) has at least two triangles containing P and itself 
+  //       ---not the boundary.
   //    2) has larger pointId, to avoid re-calculation.
   // 3. For each of P's neighbors, Q, calculate R, S
   // 4. Write the value in matrix.
   std::vector< std::vector<int> >::iterator itP, itPEnd = pointCell.end();
-  int idP = 0;    
+  int idP = 0;
   unsigned long numOfEdges = 0;
   for ( itP = pointCell.begin(); itP != itPEnd; ++itP, ++idP) 
-  {
+    {
     std::vector<int> neighborOfP;
     // for each point P, traverse all cells containing it.
     std::vector<int>::iterator itCell = (*itP).begin();
     std::vector<int>::iterator itCellEnd = (*itP).end();
 
     for (; itCell != itCellEnd; ++itCell) 
-    {
+      {
       // for each cell containing P, store the point with larger point Id.
       // only three points, don't use for-loop to save time.
-      if ( cellPoint[*itCell][0] > idP )  // FIXME: Add brackets
-        neighborOfP.push_back(cellPoint[*itCell][0]);
+      if ( cellPoint[*itCell][0] > idP )
+        {
+        neighborOfP.pushm_Back(cellPoint[*itCell][0]);
+        }
       if ( cellPoint[*itCell][1] > idP ) 
-        neighborOfP.push_back(cellPoint[*itCell][1]);
+        {
+        neighborOfP.pushm_Back(cellPoint[*itCell][1]);
+        }
       if ( cellPoint[*itCell][2] > idP ) 
-        neighborOfP.push_back(cellPoint[*itCell][2]);
-    }// for itCell. Ok, now all neighbors of P is stored in neighborOfP;
+        {
+        neighborOfP.pushm_Back(cellPoint[*itCell][2]);
+        }
+      }// for itCell. Ok, now all neighbors of P is stored in neighborOfP;
   
     vcl_sort(neighborOfP.begin(), neighborOfP.end());
     std::vector<int>::iterator it;
@@ -362,15 +364,18 @@ PrepareLinearSystem(OutputMeshPointer mesh,
 
     // next, from P to each neighbor...
     // note: itP and itQ point at different type of vectors...
-    // *itP is a vector containing a list of cell Ids, all of which contains point P
+    // *itP is a vector containing a list of cell Ids, 
+    // all of which contains point P
     // idP is the point Id of P
     // *itQ is the point Id of Q (so idP and *itQ are same type)
     std::vector<int>::iterator itQ, itQEnd = neighborOfP.end();
     for ( itQ = neighborOfP.begin(); itQ != itQEnd; ++itQ) 
-    {
+      {
       // first check whether PQ is a boundary edge:
-      std::vector<int> cellsContainingP(*itP), cellsContainingQ(pointCell[*itQ]);
-      std::vector<int> cells(cellsContainingP.size() + cellsContainingQ.size());
+      std::vector<int> cellsContainingP(*itP), 
+                                        cellsContainingQ(pointCell[*itQ]);
+      std::vector<int> cells(cellsContainingP.size() 
+                                               + cellsContainingQ.size());
       std::vector<int>::iterator itv, endIter;
 
       vcl_sort(cellsContainingP.begin(), cellsContainingP.end());
@@ -398,37 +403,41 @@ PrepareLinearSystem(OutputMeshPointer mesh,
       // which are the Id of the triangles containing P and Q
 
 
-      //       //------------------------------------------------------------
-      //       //print out valid edge
-      //       std::cerr<<idP<<" and "<<*itQ<<" are two valid points"<<std::endl;
-      //       std::cerr<<(endIter == cells.end())<<std::endl;
-      //       //-----------------------------------------------------------
-
+      //------------------------------------------------------------
+      //print out valid edge
+      //std::cerr<<idP<<" and "<<*itQ<<" are two valid points"<<std::endl;
+      //std::cerr<<(endIter == cells.end())<<std::endl;
+      //-----------------------------------------------------------
 
       // Next we extract R and S from cells
       int itS, itR; // the Id of point S and R;
       for (int it = 0; it < 3; ++it) 
-      {
-        if (cellPoint[cells[0]][it] != idP && cellPoint[cells[0]][it] != *itQ) // FIXME: Add brackets
+        {
+        if (cellPoint[cells[0]][it] != idP && cellPoint[cells[0]][it] != *itQ)
+          {
           itS = cellPoint[cells[0]][it];
+          }
         if (cellPoint[cells[1]][it] != idP && cellPoint[cells[1]][it] != *itQ) 
+          {
           itR = cellPoint[cells[1]][it];
-      }
+          }
+        }
 
-      std::vector< CoordRepType > P(pointXYZ[idP]),  // FIXME: it should be one declaration per line
-        Q(pointXYZ[*itQ]), 
-        R(pointXYZ[itR]),
-        S(pointXYZ[itS]);
+      std::vector< CoordRepType > P(pointXYZ[idP]), Q(pointXYZ[*itQ]);
+      std::vector< CoordRepType > R(pointXYZ[itR]), S(pointXYZ[itS]);
 
-      std::vector< CoordRepType > SP(3), SQ(3), RP(3), RQ(3);  // FIXME: it should be one declaration per line
-      double SPnorm = 0, SQnorm = 0, RPnorm = 0, RQnorm = 0, SPSQinnerProd = 0, RPRQinnerProd = 0;
+      std::vector< CoordRepType > SP(3), SQ(3), RP(3), RQ(3);
+      double SPnorm = 0, SQnorm = 0, RPnorm = 0, RQnorm = 0;
+      double SPSQinnerProd = 0, RPRQinnerProd = 0;
       for (int it = 0; it<3; ++it) 
-      {
+        {
         SP[it] = P[it] - S[it]; SPnorm += SP[it]*SP[it];
-        SQ[it] = Q[it] - S[it]; SQnorm += SQ[it]*SQ[it]; SPSQinnerProd += SP[it]*SQ[it];
+        SQ[it] = Q[it] - S[it]; SQnorm += SQ[it]*SQ[it]; 
+        SPSQinnerProd += SP[it]*SQ[it];
         RP[it] = P[it] - R[it]; RPnorm += RP[it]*RP[it];
-        RQ[it] = Q[it] - R[it]; RQnorm += RQ[it]*RQ[it]; RPRQinnerProd += RP[it]*RQ[it];
-      } //it
+        RQ[it] = Q[it] - R[it]; RQnorm += RQ[it]*RQ[it]; 
+        RPRQinnerProd += RP[it]*RQ[it];
+        } //it
       SPnorm = sqrt(SPnorm);
       SQnorm = sqrt(SQnorm);
       RPnorm = sqrt(RPnorm);
@@ -445,14 +454,13 @@ PrepareLinearSystem(OutputMeshPointer mesh,
       D(*itQ, idP) = -0.5*(ctgS + ctgR); // symmetric
       D(*itQ, *itQ) += 0.5*(ctgS + ctgR); 
       // add to the diagonal element of this line.
-    } // itQ
-  } // itP  
-  
-  
-  
+      } // itQ
+    } // itP  
+   
   ////////////////////////////////////////////////////////
-  // calculate Euler Number to test whether the mesh is genus 0. i.e. Euler Num is 2;
-////    std::cout<<"Total number of edges: "<<numOfEdges<<std::endl;
+  // calculate Euler Number to test whether the mesh is genus 0. 
+  // i.e. Euler Num is 2;
+  ////    std::cout<<"Total number of edges: "<<numOfEdges<<std::endl;
   int eulerNum = numOfPoints - numOfEdges + numOfCells;
   
   std::cerr<<"  Calculating Euler characteristics......"<<std::endl;
@@ -461,26 +469,32 @@ PrepareLinearSystem(OutputMeshPointer mesh,
   
   if (eulerNum != 2) 
     {
-    std::cerr<<"    Euler characteristics is "<<eulerNum<<", not 2! Not genus 0 surface."<<std::endl<<"exiting..."<<std::endl;
-      exit(-1);
+    std::cerr << "    Euler characteristics is "
+              << eulerNum 
+              << ", not 2! Not genus 0 surface." 
+              <<std::endl << "exiting..." << std::endl;
+    exit(-1);
       //FIXME: Shuld use ExceptionMacro
     } // if eulerNum
 
   // compute b = bR + i*bI separately
-  std::vector< CoordRepType > A( pointXYZ[ cellPoint[ m_PolarCellIdentifier ][ 0 ] ] ); 
-  std::vector< CoordRepType > B( pointXYZ[ cellPoint[ m_PolarCellIdentifier ][ 1 ] ] ); 
-  std::vector< CoordRepType > C( pointXYZ[ cellPoint[ m_PolarCellIdentifier ][ 2 ] ] );
+  std::vector< CoordRepType > A( 
+                        pointXYZ[ cellPoint[ m_PolarCellIdentifier ][ 0 ] ] );
+  std::vector< CoordRepType > B( 
+                        pointXYZ[ cellPoint[ m_PolarCellIdentifier ][ 1 ] ] );
+  std::vector< CoordRepType > C( 
+                        pointXYZ[ cellPoint[ m_PolarCellIdentifier ][ 2 ] ] );
 
-  double ABnorm, CA_BAip; // the inner product of vector C-A and B-A;
+  double ABnorm, CAm_BAip; // the inner product of vector C-A and B-A;
   ABnorm =  (A[0] - B[0]) * (A[0] - B[0])
           + (A[1] - B[1]) * (A[1] - B[1])
           + (A[2] - B[2]) * (A[2] - B[2]);
 
-  CA_BAip =   (C[0] - A[0]) * (B[0] - A[0])
+  CAm_BAip =   (C[0] - A[0]) * (B[0] - A[0])
             + (C[1] - A[1]) * (B[1] - A[1])
             + (C[2] - A[2]) * (B[2] - A[2]);
 
-  double theta = CA_BAip / ABnorm;   // FIXME : Check norm for zero ... maybe throw exception...
+  double theta = CAm_BAip / ABnorm;   // FIXME : Check norm for zero
   // Here ABnorm is actually the square of AB's norm, which is what we
   // want. So don't bother square the square root.
 
@@ -554,39 +568,37 @@ ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
   const unsigned int numberOfPoints = oMesh->GetNumberOfPoints();
   
   for (int it = 0; it < numberOfPoints;  ++it) 
-    {      
+    {
     xmin = (xmin<zR(it))?xmin:zR(it);
     xmax = (xmax>zR(it))?xmax:zR(it);
     ymin = (ymin<zI(it))?ymin:zI(it);
-    ymax = (ymax>zI(it))?ymax:zI(it);                
+    ymax = (ymax>zI(it))?ymax:zI(it);
     }
 
-// FIXME: Remove commented lines: they seem to be remanents of
-//        debugging. Maybe add itkDebugMacros ??
-//    std::cout<<"The max X in plane: "<<xmax<<std::endl;
-//    std::cout<<"The min X in plane: "<<xmin<<std::endl;
-//    std::cout<<"The max Y in plane: "<<ymax<<std::endl;
-//    std::cout<<"The min Y in plane: "<<ymin<<std::endl;
+  // FIXME: Remove commented lines: they seem to be remanents of
+  //        debugging. Maybe add itkDebugMacros ??
+  //    std::cout<<"The max X in plane: "<<xmax<<std::endl;
+  //    std::cout<<"The min X in plane: "<<xmin<<std::endl;
+  //    std::cout<<"The max Y in plane: "<<ymax<<std::endl;
+  //    std::cout<<"The min Y in plane: "<<ymin<<std::endl;
 
   CoordRepType temp1 = ( fabs(xmin)>fabs(xmax) )?fabs(xmin):fabs(xmax); 
   CoordRepType temp2 = ( fabs(ymin)>fabs(ymax) )?fabs(ymin):fabs(ymax);
-//    std::cout<<std::max( temp1, temp2 )<<std::endl;
+  //    std::cout<<std::max( temp1, temp2 )<<std::endl;
   CoordRepType factor = m_MapScale / ( ( temp1>temp2 )?temp1:temp2 );
 
-  // the factor is used to re-scale the points in the plane.
-  
-  
+  // the factor is used to re-scale the points in the plane. 
   std::vector<double> x(numberOfPoints), y(numberOfPoints), z(numberOfPoints);
   std::vector<double>::iterator
-    itX = x.begin(), 
-    itY = y.begin(), 
-    itZ = z.begin(), 
-    itXend = x.end();
+  itX = x.begin(), 
+  itY = y.begin(), 
+  itZ = z.begin(), 
+  itXend = x.end();
 
   if (m_MapToSphere == true) 
     {
     for (int it = 0; itX != itXend; ++itX, ++itY, ++itZ, ++it) 
-      {            
+      {
       double r2 = factor*zR(it)*factor*zR(it) + factor*zI(it)*factor*zI(it);
       *itX = 2*factor*zR(it)/(1+r2);
       *itY = 2*factor*zI(it)/(1+r2);
@@ -629,18 +641,19 @@ template <class TInputMesh, class TOutputMesh>
 void 
 ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
 ::SetScale( double scale )
-  {
-    if (scale > 0)
-    {     // FIXME: Indent brackert
-      m_MapScale = scale;
-    }
-    else
+{
+  if (scale > 0)
     {
-      // FIXME: Use itkExceptionMacro
-      std::cerr<<"Scale should be larger than 0. Set to 100."<<std::endl<<std::endl;
-      m_MapScale = 100;
+    m_MapScale = scale;
     }
-  }
+  else
+    {
+    // FIXME: Use itkExceptionMacro
+    std::cerr << "Scale should be larger than 0. Set to 100." 
+              << std::endl << std::endl;
+    m_MapScale = 100;
+    }
+}
 
 template <class TInputMesh, class TOutputMesh>
 void 
@@ -655,12 +668,9 @@ void
 ConformalFlatteningMeshFilter<TInputMesh,TOutputMesh>
 ::MapToPlane( void )
 {
-    m_MapToSphere = false;
+  m_MapToSphere = false;
 }
 
 } // end namespace itk
 
-
-
 #endif
-

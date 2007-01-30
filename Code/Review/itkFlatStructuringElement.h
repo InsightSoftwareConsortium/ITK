@@ -92,6 +92,4 @@ private:
 #include "itkFlatStructuringElement.txx"
 #endif
 
-
-
 #endif

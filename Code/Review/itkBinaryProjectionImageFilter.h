@@ -152,7 +152,6 @@ public:
 #endif
 
 
-
 protected:
   BinaryProjectionImageFilter()
     {
