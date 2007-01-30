@@ -103,10 +103,8 @@ bool
 MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex( const IndexType & index ) const
 {
-  double mahalanobisDistance = 
-    m_MahalanobisDistanceMembershipFunction->Evaluate( 
-                                    this->GetInputImage()->GetPixel( index ) );
-  return ( vcl_sqrt(mahalanobisDistance ) <= m_Threshold );
+  double mahalanobisDistance = this->EvaluateDistanceAtIndex( index );
+  return ( mahalanobisDistance <= m_Threshold );
 }
 
 
@@ -128,11 +126,24 @@ double
 MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
 ::EvaluateDistanceAtIndex( const IndexType& index ) const
 {
-  const double mahalanobisDistanceSquared = 
+  double mahalanobisDistanceSquared = 
     m_MahalanobisDistanceMembershipFunction->Evaluate( 
                                   this->GetInputImage()->GetPixel( index ) );
-  
-  const double mahalanobisDistance = vcl_sqrt(mahalanobisDistanceSquared );
+
+  double mahalanobisDistance;
+
+  // Deal with cases that are barely negative. 
+  // In theory they should never appear, but
+  // they may happen and would produce NaNs
+  // in the vcl_sqrt
+  if( mahalanobisDistanceSquared < 0.0 )
+    {
+    mahalanobisDistance = 0.0;
+    }
+  else
+    {
+    mahalanobisDistance = vcl_sqrt( mahalanobisDistanceSquared );
+    }
 
   return  mahalanobisDistance;
 }
