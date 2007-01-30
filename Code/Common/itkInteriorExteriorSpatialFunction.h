@@ -83,8 +83,15 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkInteriorExteriorSpatialFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_InteriorExteriorSpatialFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT InteriorExteriorSpatialFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef InteriorExteriorSpatialFunction< ITK_TEMPLATE_2 x > \
+                                  InteriorExteriorSpatialFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkInteriorExteriorSpatialFunction+-.h"
 #endif
 
 #endif

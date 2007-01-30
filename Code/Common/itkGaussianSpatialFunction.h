@@ -102,8 +102,20 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGaussianSpatialFunction.txx"
+
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_GaussianSpatialFunction(_, EXPORT, x, y) namespace itk { \
+  _(3(class EXPORT GaussianSpatialFunction< ITK_TEMPLATE_3 x >)) \
+  namespace Templates { typedef GaussianSpatialFunction< ITK_TEMPLATE_3 x >\
+                                                 GaussianSpatialFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkGaussianSpatialFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkGaussianSpatialFunction.txx"
 #endif
 
 #endif

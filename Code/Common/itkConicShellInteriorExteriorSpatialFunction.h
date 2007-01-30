@@ -133,8 +133,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConicShellInteriorExteriorSpatialFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ConicShellInteriorExteriorSpatialFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT ConicShellInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef ConicShellInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 x > \
+                                                  ConicShellInteriorExteriorSpatialFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkConicShellInteriorExteriorSpatialFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkConicShellInteriorExteriorSpatialFunction.txx"
 #endif
 
 #endif

@@ -128,8 +128,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFrustumSpatialFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_FrustumSpatialFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT FrustumSpatialFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef FrustumSpatialFunction< ITK_TEMPLATE_2 x > \
+                                                  FrustumSpatialFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkFrustumSpatialFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkFrustumSpatialFunction.txx"
 #endif
 
 #endif

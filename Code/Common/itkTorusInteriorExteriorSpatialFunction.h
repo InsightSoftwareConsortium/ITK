@@ -98,8 +98,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTorusInteriorExteriorSpatialFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_TorusInteriorExteriorSpatialFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT TorusInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef TorusInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 x > \
+                                           TorusInteriorExteriorSpatialFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkTorusInteriorExteriorSpatialFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkTorusInteriorExteriorSpatialFunction.txx"
 #endif
 
 #endif

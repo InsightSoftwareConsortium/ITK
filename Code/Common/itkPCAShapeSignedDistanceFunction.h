@@ -203,8 +203,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPCAShapeSignedDistanceFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_PCAShapeSignedDistanceFunction(_, EXPORT, x, y) namespace itk { \
+  _(3(class EXPORT PCAShapeSignedDistanceFunction< ITK_TEMPLATE_3 x >)) \
+  namespace Templates { typedef PCAShapeSignedDistanceFunction< ITK_TEMPLATE_3 x > \
+                                          PCAShapeSignedDistanceFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkPCAShapeSignedDistanceFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkPCAShapeSignedDistanceFunction.txx"
 #endif
 
 #endif
