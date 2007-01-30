@@ -98,7 +98,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   /** Current direction */
-  unsigned int m_Direction;
+  mutable unsigned int m_Direction;
 
   /** The standard deviation in each direction. */
   ArrayType m_Sigma;
