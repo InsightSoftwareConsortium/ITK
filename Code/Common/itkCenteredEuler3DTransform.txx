@@ -133,7 +133,7 @@ CenteredEuler3DTransform<TScalarType>
 
 // Get jacobian
 template<class TScalarType>
-const typename Euler3DTransform<TScalarType>::JacobianType &
+const typename CenteredEuler3DTransform<TScalarType>::JacobianType &
 CenteredEuler3DTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {
