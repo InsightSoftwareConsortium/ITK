@@ -38,17 +38,17 @@ class WeightSetBase : public LightProcessObject
 {
 public:
   
-  typedef WeightSetBase Self;
-  typedef LightProcessObject Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef WeightSetBase            Self;
+  typedef LightProcessObject       Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
-  itkTypeMacro(WeightSetBase, LightProcessObject);        
+  itkTypeMacro(WeightSetBase, LightProcessObject);
 
   typedef MersenneTwisterRandomVariateGenerator  RandomVariateGeneratorType;
 
   typedef typename TVector::ValueType ValueType;
-  typedef ValueType* ValuePointer;
-  typedef const ValueType* ValueConstPointer;
+  typedef ValueType*                  ValuePointer;
+  typedef const ValueType*            ValueConstPointer;
 
   void Initialize();
 
@@ -135,15 +135,16 @@ public:
   
 protected: 
   
-  WeightSetBase();        
+  WeightSetBase();
   ~WeightSetBase();
 
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
   typename RandomVariateGeneratorType::Pointer m_RandomGenerator;
-  unsigned int                       m_NumberOfInputNodes;
-  unsigned int                       m_NumberOfOutputNodes;
+
+  unsigned int              m_NumberOfInputNodes;
+  unsigned int              m_NumberOfOutputNodes;
   vnl_matrix<ValueType>     m_OutputValues;
   vnl_matrix<ValueType>     m_InputErrorValues;
   
@@ -164,18 +165,19 @@ protected:
   vnl_vector<ValueType> m_DB_m_1;        // delta values for bias update
   vnl_vector<ValueType> m_DB_m_2;        // delta values for bias update
   
-  vnl_matrix<ValueType> m_del;           // dw=lr * del * y
-  vnl_matrix<ValueType> m_del_new;       // dw=lr * del * y
-  vnl_matrix<ValueType> m_del_m_1;       // dw=lr * del * y
-  vnl_matrix<ValueType> m_del_m_2;       // dw=lr * del * y
+  vnl_matrix<ValueType> m_Del;           // dw=lr * del * y
+  vnl_matrix<ValueType> m_Del_new;       // dw=lr * del * y
+  vnl_matrix<ValueType> m_Del_m_1;       // dw=lr * del * y
+  vnl_matrix<ValueType> m_Del_m_2;       // dw=lr * del * y
   
-  vnl_vector<ValueType> m_delb;          // delta values for bias update
-  vnl_vector<ValueType> m_delb_new;      // delta values for bias update
-  vnl_vector<ValueType> m_delb_m_1;      // delta values for bias update
-  vnl_vector<ValueType> m_delb_m_2;      // delta values for bias update
+  vnl_vector<ValueType> m_Delb;          // delta values for bias update
+  vnl_vector<ValueType> m_Delb_new;      // delta values for bias update
+  vnl_vector<ValueType> m_Delb_m_1;      // delta values for bias update
+  vnl_vector<ValueType> m_Delb_m_2;      // delta values for bias update
 
   vnl_matrix<ValueType> m_InputLayerOutput;
-  vnl_matrix<ValueType> m_WeightMatrix;       // composed of weights and a column of biases
+  vnl_matrix<ValueType> m_WeightMatrix;  // composed of weights and a column
+                                         // of biases
   vnl_matrix<int>       m_ConnectivityMatrix;
   
   ValueType m_Momentum;
@@ -183,6 +185,7 @@ protected:
   bool      m_FirstPass;
   bool      m_SecondPass;
   ValueType m_Range;
+
   unsigned int m_InputLayerId;
   unsigned int m_OutputLayerId;
   unsigned int m_WeightSetId;

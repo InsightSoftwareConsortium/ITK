@@ -24,8 +24,8 @@
 #include "itkDataObjectDecorator.h"
 #include "itkFixedArray.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class ImageToListGenerator
  *  \brief The class takes an image as input and generates a list sample as 
@@ -62,23 +62,23 @@ public:
   typedef SmartPointer<const Self>    ConstPointer;
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToListGenerator, ProcessObject) ;
+  itkTypeMacro(ImageToListGenerator, ProcessObject);
   
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
   /** Image typedefs */
   typedef TImage                           ImageType;
-  typedef typename ImageType::Pointer      ImagePointer ;
-  typedef typename ImageType::ConstPointer ImageConstPointer ;
-  typedef typename ImageType::PixelType    PixelType ;
+  typedef typename ImageType::Pointer      ImagePointer;
+  typedef typename ImageType::ConstPointer ImageConstPointer;
+  typedef typename ImageType::PixelType    PixelType;
   typedef FixedArray< PixelType, 1 >       MeasurementVectorType;
 
   /** Mask Image typedefs */
   typedef TMaskImage                           MaskImageType;
-  typedef typename MaskImageType::Pointer      MaskImagePointer ;
-  typedef typename MaskImageType::ConstPointer MaskImageConstPointer ;
-  typedef typename MaskImageType::PixelType    MaskPixelType ;
+  typedef typename MaskImageType::Pointer      MaskImagePointer;
+  typedef typename MaskImageType::ConstPointer MaskImageConstPointer;
+  typedef typename MaskImageType::PixelType    MaskPixelType;
   
    /** Type of the output list sample */
   typedef ListSample< MeasurementVectorType >  ListSampleType;
@@ -109,23 +109,25 @@ public:
     // set the dimension to a different value. 
     if( s != MeasurementVectorSize )
       {
-      itkExceptionMacro( << "Measurement vector size for the image adaptor obtained"
-          << " from the pixel dimension is: " << MeasurementVectorSize << " but you "
-          << "are setting it to " << s);
+      itkExceptionMacro(
+        << "Measurement vector size for the image adaptor obtained"
+        << " from the pixel dimension is: "
+        << MeasurementVectorSize << " but you "
+        << "are setting it to " << s);
       }
     }
 
- unsigned int GetMeasurementVectorSize() const 
-   {
-   return MeasurementVectorSize;
-   } 
+  unsigned int GetMeasurementVectorSize() const 
+    {
+    return MeasurementVectorSize;
+    } 
 
   /** Method to set/get the image */
-  void SetInput( const ImageType* image ) ;
+  void SetInput( const ImageType* image );
   const ImageType* GetInput() const;
 
   /** Method to set/get the mask */
-  void SetMaskImage( const MaskImageType* image ) ;
+  void SetMaskImage( const MaskImageType* image );
   const MaskImageType* GetMaskImage() const;
 
   /** Method to get the list sample, the generated output. Note that this does
@@ -145,18 +147,19 @@ public:
 
   /** This method ensures that a mask image if specified has requested regions 
    * that at least contain the input image's buffered region. */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+  virtual void GenerateInputRequestedRegion()
+    throw(InvalidRequestedRegionError);
   
   virtual void GenerateOutputInformation();
 
 protected:
-  ImageToListGenerator() ;
+  ImageToListGenerator();
   virtual ~ImageToListGenerator() {}
   void PrintSelf(std::ostream& os, Indent indent) const;  
 
 private:
-  ImageToListGenerator(const Self&) ; //purposely not implemented
-  void operator=(const Self&) ; //purposely not implemented
+  ImageToListGenerator(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   MaskPixelType m_MaskValue;
 

@@ -14,14 +14,14 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageToListGenerator_txx
-#define _itkImageToListGenerator_txx
+#ifndef __itkImageToListGenerator_txx
+#define __itkImageToListGenerator_txx
 
 #include "itkImageToListGenerator.h"
 #include "itkImageRegionConstIterator.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template < class TImage, class TMaskImage >
 ImageToListGenerator< TImage, TMaskImage >
@@ -40,7 +40,10 @@ ImageToListGenerator< TImage, TMaskImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(m_MaskValue) << std::endl;
+  os << indent << "MaskValue: "
+     << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(
+       m_MaskValue)
+     << std::endl;
 }
 
 template < class TImage, class TMaskImage >
@@ -96,7 +99,8 @@ typename ImageToListGenerator< TImage, TMaskImage >::DataObjectPointer
 ImageToListGenerator< TImage, TMaskImage >
 ::MakeOutput(unsigned int itkNotUsed(idx))
 {
-  typename ListSampleOutputType::Pointer decoratedOutput = ListSampleOutputType::New();
+  typename ListSampleOutputType::Pointer decoratedOutput =
+    ListSampleOutputType::New();
   decoratedOutput->Set( ListSampleType::New() );
   return static_cast< DataObject * >(decoratedOutput.GetPointer());
 }
@@ -106,8 +110,9 @@ void
 ImageToListGenerator< TImage, TMaskImage >
 ::GenerateData()
 {
-  ListSampleOutputType * decoratedOutput = static_cast< ListSampleOutputType * >(
-                                 this->ProcessObject::GetOutput(0));
+  ListSampleOutputType * decoratedOutput =
+    static_cast< ListSampleOutputType * >(
+      this->ProcessObject::GetOutput(0));
   ListSampleType *output = decoratedOutput->Get();
   ImageType *input = const_cast< ImageType * >(this->GetInput());
   MaskImageType *maskImage = NULL;
@@ -159,11 +164,12 @@ ImageToListGenerator< TImage, TMaskImage >
 {
   Superclass::GenerateOutputInformation();
 
-  ListSampleOutputType * decoratedOutput = static_cast< ListSampleOutputType * >(
-                                 this->ProcessObject::GetOutput(0));
+  ListSampleOutputType * decoratedOutput =
+    static_cast< ListSampleOutputType * >(
+      this->ProcessObject::GetOutput(0));
   ListSampleType *output = decoratedOutput->Get();
   output->SetMeasurementVectorSize( 
-      itkGetStaticConstMacro( MeasurementVectorSize ));
+    itkGetStaticConstMacro( MeasurementVectorSize ));
 }
 
 template < class TImage, class TMaskImage >
@@ -184,8 +190,10 @@ ImageToListGenerator< TImage, TMaskImage >
   //
   if (this->GetNumberOfInputs() > 1)
     {
-    MaskImageType *maskImage = const_cast< MaskImageType * >(this->GetMaskImage());
-    ImageType         *image = const_cast< ImageType * >( this->GetInput() );
+    MaskImageType *maskImage =
+      const_cast< MaskImageType * >(this->GetMaskImage());
+    ImageType     *image =
+      const_cast< ImageType * >( this->GetInput() );
     if (!image->GetBufferedRegion().IsInside( maskImage->GetBufferedRegion()) )
       {
       maskImage->SetRequestedRegion( image->GetBufferedRegion() );
@@ -198,8 +206,9 @@ typename ImageToListGenerator< TImage, TMaskImage >::ListSampleType *
 ImageToListGenerator< TImage, TMaskImage >
 ::GetListSample()
 {
-  ListSampleOutputType * decoratedOutput = static_cast< ListSampleOutputType * >(
-                                 this->ProcessObject::GetOutput(0));
+  ListSampleOutputType * decoratedOutput =
+    static_cast< ListSampleOutputType * >(
+      this->ProcessObject::GetOutput(0));
   return decoratedOutput->Get();
 }
 
@@ -207,6 +216,3 @@ ImageToListGenerator< TImage, TMaskImage >
 } // end of namespace itk
 
 #endif
-
-
-
