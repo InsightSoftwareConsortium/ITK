@@ -331,15 +331,15 @@ PrepareLinearSystem(OutputMeshPointer mesh,
       // only three points, don't use for-loop to save time.
       if ( cellPoint[*itCell][0] > idP )
         {
-        neighborOfP.pushm_Back(cellPoint[*itCell][0]);
+        neighborOfP.push_back(cellPoint[*itCell][0]);
         }
       if ( cellPoint[*itCell][1] > idP ) 
         {
-        neighborOfP.pushm_Back(cellPoint[*itCell][1]);
+        neighborOfP.push_back(cellPoint[*itCell][1]);
         }
       if ( cellPoint[*itCell][2] > idP ) 
         {
-        neighborOfP.pushm_Back(cellPoint[*itCell][2]);
+        neighborOfP.push_back(cellPoint[*itCell][2]);
         }
       }// for itCell. Ok, now all neighbors of P is stored in neighborOfP;
   
