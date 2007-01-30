@@ -352,20 +352,32 @@ def New(self, *args, **kargs) :
     # use Set as prefix. It allow to use a shorter and more intuitive
     # call (Ex: itk.ImageFileReader.UC2.New(FileName='image.png')) than with the
     # full name (Ex: itk.ImageFileReader.UC2.New(SetFileName='image.png'))
-    attrib = getattr(newItkObject, 'Set' + attribName)
-    attrib(value)
+    if attribName != "auto_progress" :
+      attrib = getattr(newItkObject, 'Set' + attribName)
+      attrib(value)
 
   # now, try to add observer to display progress
-  if itkConfig.ProgressCallback :
-    import itk
-    # copy the callback so it can be reset to None in itkConfig
-    # without pb
+  if "auto_progress" in kargs.keys() :
+    if kargs["auto_progress"] in [True, 1] :
+      import itk
+      callback = itk.terminal_progress_callback
+    elif kargs["auto_progress"] == 2 :
+      import itk
+      callback = itk.simple_progress_callback
+    else :
+      callback = None
+  elif itkConfig.ProgressCallback :
     callback = itkConfig.ProgressCallback
+  else :
+    callback = None
+      
+  if callback :
+    import itk
     try :
       def progress() :
         # newItkObject and callback are kept referenced with a closure
-        callback(self.__name__, newItkObject.GetProgress())
-
+	callback(self.__name__, newItkObject.GetProgress())
+	
       command = itk.PyCommand.New()
       command.SetCommandCallable(progress)
       newItkObject.AddObserver(itk.ProgressEvent(), command.GetPointer())
