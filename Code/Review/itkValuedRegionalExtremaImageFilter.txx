@@ -31,13 +31,14 @@ template <class TInputImage, class TOutputImage, class TFunction1,
          class TFunction2> 
 ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1,
          TFunction2>
-::ValuedRegionalExtremaImageFilter()
+::ValuedRegionalExtremaImageFilter() : m_MarkerValue(0)
 {
   m_FullyConnected = false;
 
   // not really useful, just to always have the same value before 
   //the filter has run
   m_Flat = false;
+
 }
 
 template <class TInputImage, class TOutputImage, class TFunction1,
