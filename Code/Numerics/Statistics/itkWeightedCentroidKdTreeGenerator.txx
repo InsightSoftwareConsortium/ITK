@@ -35,7 +35,7 @@ WeightedCentroidKdTreeGenerator< TSample >
 }
 
 template< class TSample >
-inline typename KdTreeGenerator< TSample >::KdTreeNodeType*
+inline typename WeightedCentroidKdTreeGenerator< TSample >::KdTreeNodeType*
 WeightedCentroidKdTreeGenerator< TSample >
 ::GenerateNonterminalNode(int beginIndex,
                           int endIndex,
