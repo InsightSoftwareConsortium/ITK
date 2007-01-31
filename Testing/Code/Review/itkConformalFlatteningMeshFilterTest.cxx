@@ -32,7 +32,7 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   if( argc != 6 )
     {
     std::cerr << "Usage: itkConformalFlatteningMeshFilterTest "
-     << "vtkInputFilename vtkOutputFilename " 
+     << "vtkInputFilename vtkOutputFilename "
      << "polarCellId scale mapToSphere[0:1]" << std::endl;
     return EXIT_FAILURE;
     }
@@ -44,40 +44,20 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
 
   typedef double FloatingPointType;
 
-  typedef itk::DefaultStaticMeshTraits<
-    FloatingPointType,
-    inputPointDimension,
-    maxCellDimension,
-    FloatingPointType,
-    FloatingPointType  >       InputMeshTraits;
+  typedef itk::ConformalFlatteningMeshFilter<FloatingPointType>  FilterType;
 
-  typedef itk::Mesh<
-    FloatingPointType,
-    inputPointDimension,
-    InputMeshTraits              >             InputMeshType;
+  typedef FilterType::InputMeshType
+    InputMeshType;
+  typedef FilterType::OutputMeshType
+    OutputMeshType;
 
+  typedef OutputMeshType::CellType OutputCellType;
+  typedef OutputMeshType::CellsContainer::ConstIterator CellIterator;
+  typedef OutputCellType::PointIdIterator OutputPointIdIterator;
 
-  typedef itk::DefaultStaticMeshTraits<
-    FloatingPointType,
-    outputPointDimension,
-    maxCellDimension,
-    FloatingPointType,
-    FloatingPointType  >                       OutputMeshTraits;
+  typedef InputMeshType::CellType InputCellType;
 
-  typedef itk::Mesh<
-    FloatingPointType,
-    inputPointDimension,
-    OutputMeshTraits              >            OutputMeshType;
-
-
-  typedef OutputMeshType::CellType             OutputCellType;
-  typedef OutputMeshType::CellsContainer       CellsContainer;
-  typedef CellsContainer::ConstIterator        CellIterator;
-  typedef OutputCellType::PointIdIterator      OutputPointIdIterator;
-
-  typedef InputMeshType::CellType              InputCellType;
-
-  typedef itk::TriangleCell< InputCellType >   InputTriangleCellType;
+  typedef itk::TriangleCell< InputCellType > InputTriangleCellType;
 
   //
   // Read mesh file
@@ -144,11 +124,11 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   for( unsigned int pn=0; pn < numberOfPoints; pn++ )
     {
     inputFile >> inputPoint;
-    std::cout << inputPoint << std::endl;
+    //std::cout << inputPoint << std::endl;
     mesh->SetPoint( pointId++, inputPoint );
     }
 
-  std::cout << "pointId= " << pointId << std::endl;
+  //std::cout << "pointId= " << pointId << std::endl;
   std::cout << "numberOfPoints= " << numberOfPoints << std::endl;
 
   if( pointId != numberOfPoints )
@@ -160,7 +140,7 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
     }
 
   // Continue searching for the POLYGONS line
-  while( !inputFile.eof() && ( line.find("POLYGONS") == std::string::npos ) )
+  while( !inputFile.eof() && line.find("POLYGONS") == std::string::npos )
     {
     std::getline( inputFile, line );
     }
@@ -282,9 +262,6 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   // Test itkConformalFlatteningMeshFilter
   //
 
-  typedef itk::ConformalFlatteningMeshFilter< 
-    InputMeshType, OutputMeshType>  FilterType;
-
   FilterType::Pointer filter = FilterType::New();
 
   // Connect the inputs
@@ -293,7 +270,7 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   typedef InputMeshType::CellIdentifier  CellIdentifier;
 
   CellIdentifier  polarCellId = atoi( argv[3] );
-  filter->SetPolarCellIdentifier( polarCellId );
+  //filter->SetPolarCellIdentifier( polarCellId );
 
   int mapToSphere = atoi( argv[5] );
   if( mapToSphere == 1 )
@@ -319,7 +296,6 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
-    
 
   // Get the Smart Pointer to the Filter Output
   OutputMeshType::Pointer newMesh = filter->GetOutput();
@@ -351,10 +327,8 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
     {
     outputPoint = pointIterator.Value();
 
-    // FIXME    outputFile << outputPoint[0] << " " << outputPoint[1] << " " <<
-    // outputPoint[2]
-    outputFile << outputPoint[0] << " " << outputPoint[1] << " 0.0 "
-      << std::endl;
+    outputFile << outputPoint[0] << " " << outputPoint[1] << " "
+      << outputPoint[2] << std::endl;
 
     pointIterator++;
     numberOfPointsWritten++;
