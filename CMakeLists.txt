@@ -66,6 +66,11 @@ INCLUDE(${CMAKE_ROOT}/Modules/Dart.cmake)
 MARK_AS_ADVANCED(TCL_TCLSH DART_ROOT)
 ENABLE_TESTING()
 IF(BUILD_TESTING)
+  CONFIGURE_FILE(${ITK_SOURCE_DIR}/CMake/CTestCustom.ctest.in
+    ${ITK_BINARY_DIR}/CMake/CTestCustom.ctest @ONLY)
+  FILE(WRITE ${ITK_BINARY_DIR}/CTestCustom.cmake
+    "INCLUDE(\"${ITK_BINARY_DIR}/CMake/CTestCustom.ctest\")\n")
+
   CONFIGURE_FILE(${ITK_SOURCE_DIR}/InsightLogo.gif
                  ${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Icons/Logo.gif
                  COPYONLY IMMEDIATE)
