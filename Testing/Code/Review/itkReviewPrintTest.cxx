@@ -60,7 +60,8 @@ int main(int , char* [])
   typedef itk::Vector<double, 2> MeasurementVectorType;
   typedef itk::Vector<double, 1> TargetVectorType;
 
-  typedef itk::Mesh< float, 3 >     MeshType;
+  typedef unsigned short         PixelType;
+  typedef itk::Mesh< float, 3 >  MeshType;
 
   // Dummy variable just to force the full instantiation of the class
   CharType::Pointer dummyImage = CharType::New();
@@ -165,9 +166,9 @@ int main(int , char* [])
   std:: cout << "-------------NeuralNetworkFileWriterObj "
              << NeuralNetworkFileWriterObj;
 
-  itk::ConformalFlatteningMeshFilter<MeshType,MeshType>::Pointer
+  itk::ConformalFlatteningMeshFilter<PixelType>::Pointer
     ConformalFlatteningMeshFilterObj =
-    itk::ConformalFlatteningMeshFilter<MeshType,MeshType>::New();
+    itk::ConformalFlatteningMeshFilter<PixelType>::New();
   std::cout << "--------------ConformalFlatteningMeshFilterObj "
             << ConformalFlatteningMeshFilterObj;
 
