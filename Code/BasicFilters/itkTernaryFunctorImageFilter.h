@@ -84,6 +84,15 @@ public:
    * SmartPointer). */
   FunctorType& GetFunctor(void) { return m_Functor; };
 
+  /** Get the functor object.  The functor is returned by reference.
+   * (Functors do not have to derive from itk::LightObject, so they do
+   * not necessarily have a reference count. So we cannot return a
+   * SmartPointer.) */
+  const FunctorType& GetFunctor() const
+    {
+    return m_Functor;
+    };
+
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
    * functor that has ivars set differently than the default functor.
