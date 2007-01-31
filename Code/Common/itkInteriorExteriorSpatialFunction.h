@@ -94,4 +94,8 @@ private:
 # include "Templates/itkInteriorExteriorSpatialFunction+-.h"
 #endif
 
+#if ITK_TEMPLATE_TXX
+# include "itkInteriorExteriorSpatialFunction.txx"
+#endif
+
 #endif
