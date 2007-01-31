@@ -125,9 +125,18 @@ public:
   itkNewMacro(Self);
  
   /** Method to explicitly set the outside value of the mask. Defaults to 0 */
-  void SetOutsideValue( const typename TOutputImage::PixelType & outsudeValue ) 
+  void SetOutsideValue( const typename TOutputImage::PixelType & outsideValue ) 
     {
-    this->GetFunctor().SetOutsideValue( outsudeValue );
+    if( this->GetOutsideValue() != outsideValue )
+      {
+      this->Modified();
+      this->GetFunctor().SetOutsideValue( outsideValue );
+      }
+    }
+
+  const typename TOutputImage::PixelType & GetOutsideValue() const
+    {
+    return this->GetFunctor().GetOutsideValue();
     }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -143,6 +152,12 @@ public:
 protected:
   MaskImageFilter() {}
   virtual ~MaskImageFilter() {}
+
+  void PrintSelf(std::ostream &os, Indent indent) const
+    {
+    Superclass::PrintSelf(os, indent);
+    os << indent << "OutsideValue: "  << this->GetOutsideValue() << std::endl;
+    }
 
 private:
   MaskImageFilter(const Self&); //purposely not implemented
