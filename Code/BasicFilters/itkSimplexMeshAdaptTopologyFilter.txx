@@ -174,18 +174,17 @@ namespace itk
         inputMesh->AddNeighbor(secondNewIndex, firstNewIndex);
         inputMesh->AddNeighbor(secondNewIndex, lineTwoFirstIdx);
 
-        InputPointType lineOneFirstNormal = inputMesh->ComputeNormal(lineOneFirstIdx);
-        InputPointType firstNewNormal = inputMesh->ComputeNormal(firstNewIndex);
+        CovariantVectorType lineOneFirstNormal = inputMesh->ComputeNormal(lineOneFirstIdx);
+        CovariantVectorType firstNewNormal = inputMesh->ComputeNormal(firstNewIndex);
 
-        InputPointType lineTwoFirstNormal = inputMesh->ComputeNormal(lineTwoFirstIdx);
-        InputPointType secondNewNormal = inputMesh->ComputeNormal(secondNewIndex);
+        CovariantVectorType lineTwoFirstNormal = inputMesh->ComputeNormal(lineTwoFirstIdx);
+        CovariantVectorType secondNewNormal = inputMesh->ComputeNormal(secondNewIndex);
 
-        InputVectorType v1, v2;
+        
         double prod;
-        v1 = firstNewNormal.GetVectorFromOrigin();
-        v2 = lineOneFirstNormal.GetVectorFromOrigin();
+        
 
-        prod = dot_product( v1.GetVnlVector() , v2.GetVnlVector() );
+        prod = dot_product( firstNewNormal.GetVnlVector() , lineOneFirstNormal.GetVnlVector() );
 
         if (prod < 0) 
           {
@@ -193,8 +192,7 @@ namespace itk
           firstNewNormal = inputMesh->ComputeNormal(firstNewIndex);
           }
 
-        prod = dot_product(secondNewNormal.GetVectorFromOrigin().GetVnlVector() ,
-                        lineTwoFirstNormal.GetVectorFromOrigin().GetVnlVector() );
+        prod = dot_product(secondNewNormal.GetVnlVector(), lineTwoFirstNormal.GetVnlVector());
         if (prod < 0) 
           {
           inputMesh->SwapNeighbors( secondNewIndex, lineTwoFirstIdx, lineTwoSecondIdx);
