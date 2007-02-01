@@ -46,7 +46,6 @@ SET(ITKCommon_SRCS
   itkOneWayEquivalencyTable.cxx
   itkOrthogonallyCorrected2DParametricPath.cxx
   itkOutputWindow.cxx
-  itkParametricPath.cxx
   itkProcessObject.cxx
   itkProgressReporter.cxx
   itkQuadraticTriangleCellTopology.cxx
@@ -77,6 +76,14 @@ SET(ITKCommon_SRCS
   itkMetaDataDictionary.cxx
   itkOctreeNode.cxx
 )
+
+IF(NOT ITK_EXPLICIT_INSTANTIATION)
+  SET(ITKCommon_SRCS
+      ${ITKCommon_SRCS}
+      itkParametricPath.cxx
+     )
+ENDIF(NOT ITK_EXPLICIT_INSTANTIATION)
+
 
 IF (WIN32)
    SET(ITKCommon_SRCS ${ITKCommon_SRCS};itkWin32OutputWindow.cxx;itkSmartPointerForwardReferenceProcessObject.cxx)
