@@ -436,7 +436,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename SimplexMesh<TPixelType, VDimension, TMeshTraits>::PointType 
+typename SimplexMesh<TPixelType, VDimension, TMeshTraits>::CovariantVectorType 
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
 ::ComputeNormal(unsigned long idx ) const
 {
@@ -449,9 +449,9 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
   this->GetPoint(neighbors[2],&n3);
 
   // compute normals
-  PointType normal;
+  CovariantVectorType normal;
   normal.Fill(0.0);
-  VectorType z;
+  CovariantVectorType z;
   z.SetVnlVector( itk_cross_3d((n2-n1).GetVnlVector() , (n3-n1).GetVnlVector()) );
   z.Normalize();
   normal += z;

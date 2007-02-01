@@ -29,6 +29,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkMapContainer.h"
 #include "itkFixedArray.h"
 #include "itkNumericTraits.h"
+#include <itkCovariantVector.h>
 #include <vector>
 #include <algorithm>
 #include <set>
@@ -85,6 +86,10 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
 
     /** */
     typedef typename PointType::VectorType VectorType;
+
+    /** */ 
+    typedef CovariantVector<typename VectorType::ValueType, 3>  CovariantVectorType;
+
 
     /** */
     typedef typename Superclass::CellType                       CellType;
@@ -255,7 +260,7 @@ class SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
     double GetDistance(unsigned long idx) const;
 
     /** compute the normal vector in the specified mesh point */
-    PointType ComputeNormal(unsigned long idx ) const;
+    CovariantVectorType ComputeNormal(unsigned long idx ) const;
 
   protected:
     //  /** Constructor for use by New() method. */
