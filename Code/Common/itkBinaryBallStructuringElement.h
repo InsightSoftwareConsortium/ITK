@@ -113,8 +113,19 @@ private:
 
 } // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryBallStructuringElement.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_BinaryBallStructuringElement(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT BinaryBallStructuringElement< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef BinaryBallStructuringElement< ITK_TEMPLATE_2 x > \
+                                                  BinaryBallStructuringElement##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkBinaryBallStructuringElement+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkBinaryBallStructuringElement.txx"
 #endif
 
 #endif

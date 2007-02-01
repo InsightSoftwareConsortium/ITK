@@ -103,8 +103,19 @@ private:
 
 } // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkDerivativeOperator.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_DerivativeOperator(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT DerivativeOperator< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef DerivativeOperator< ITK_TEMPLATE_2 x > \
+                                                  DerivativeOperator##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkDerivativeOperator+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkDerivativeOperator.txx"
 #endif
 
 #endif

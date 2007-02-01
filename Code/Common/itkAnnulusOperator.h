@@ -225,8 +225,19 @@ private:
 
 } // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnnulusOperator.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_AnnulusOperator(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT AnnulusOperator< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef AnnulusOperator< ITK_TEMPLATE_2 x > \
+                                                  AnnulusOperator##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkAnnulusOperator+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkAnnulusOperator.txx"
 #endif
 
 #endif

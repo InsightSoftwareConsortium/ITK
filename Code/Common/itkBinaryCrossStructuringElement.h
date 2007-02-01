@@ -108,8 +108,19 @@ private:
 
 } // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryCrossStructuringElement.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_BinaryCrossStructuringElement(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT BinaryCrossStructuringElement< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef BinaryCrossStructuringElement< ITK_TEMPLATE_2 x > \
+                                                  BinaryCrossStructuringElement##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkBinaryCrossStructuringElement+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkBinaryCrossStructuringElement.txx"
 #endif
 
 #endif

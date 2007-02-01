@@ -16,6 +16,9 @@
 =========================================================================*/
 #ifndef _itkNeighborhood_txx
 #define _itkNeighborhood_txx
+
+#include "itkNeighborhood.h"
+
 namespace itk {
   
 template<class TPixel, unsigned int VDimension, class TContainer>

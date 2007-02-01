@@ -16,6 +16,9 @@
 =========================================================================*/
 #ifndef _itkNeighborhoodOperator_txx
 #define _itkNeighborhoodOperator_txx
+
+#include "itkNeighborhoodOperator.h"
+
 namespace itk
 {
 template <class TPixel, unsigned int VDimension, class TAllocator>

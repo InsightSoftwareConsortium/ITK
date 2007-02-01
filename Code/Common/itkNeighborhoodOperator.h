@@ -172,8 +172,19 @@ private:
 
 } // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhoodOperator.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_NeighborhoodOperator(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT NeighborhoodOperator< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef NeighborhoodOperator< ITK_TEMPLATE_2 x > \
+                                                  NeighborhoodOperator##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkNeighborhoodOperator+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkNeighborhoodOperator.txx"
 #endif
 
 #endif
