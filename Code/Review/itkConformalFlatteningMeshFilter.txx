@@ -292,8 +292,8 @@ ConformalFlatteningMeshFilter<TPixelType>
 
   double normCE2 = CE[0] * CE[0] + CE[1] * CE[1] + CE[2] * CE[2];
 
-  double normAB = sqrt(normAB2);
-  double normCE = sqrt(normCE2);
+  double normAB = vcl_sqrt(normAB2);
+  double normCE = vcl_sqrt(normCE2);
 
   itkDebugMacro("scale " << this->m_MapScale);
 
@@ -390,9 +390,9 @@ ConformalFlatteningMeshFilter<TPixelType>
       return;
       }
 
-    normAB = std::sqrt( normAB2 );
-    normBC = std::sqrt( normBC2 );
-    normCA = std::sqrt( normCA2 );
+    normAB = vcl_sqrt( normAB2 );
+    normBC = vcl_sqrt( normBC2 );
+    normCA = vcl_sqrt( normCA2 );
 
     prodABBC = AB[0] * BC[0] + AB[1] * BC[1] + AB[2] * BC[2];
     prodBCCA = BC[0] * CA[0] + BC[1] * CA[1] + BC[2] * CA[2];
@@ -420,9 +420,9 @@ ConformalFlatteningMeshFilter<TPixelType>
       return;
       }
 
-    sinABC = std::sqrt( 1.0 - cosABC * cosABC );
-    sinBCA = std::sqrt( 1.0 - cosBCA * cosBCA );
-    sinCAB = std::sqrt( 1.0 - cosCAB * cosCAB );
+    sinABC = vcl_sqrt( 1.0 - cosABC * cosABC );
+    sinBCA = vcl_sqrt( 1.0 - cosBCA * cosBCA );
+    sinCAB = vcl_sqrt( 1.0 - cosCAB * cosCAB );
 
     if( sinABC < 1e-6 )
       {
