@@ -94,6 +94,17 @@ ConformalFlatteningMeshFilter<TPixelType>
   this->m_MapToSphere = false;
   this->m_MapScale = 1.0;
 }
+
+/**
+ * Set the triangle used to define the boundary of the flattened region.
+ */
+template <class TPixelType>
+void ConformalFlatteningMeshFilter<TPixelType>
+::SetPolarCellIdentifier( CellIdentifier cellId )
+{
+  this->m_PolarCellIdentifier = cellId;
+};
+
 /**
  * Define the scale of the mapping. The largest coordinates of the
  * furthest point in the plane is m_MapScale.
@@ -210,7 +221,6 @@ ConformalFlatteningMeshFilter<TPixelType>
     }
 
   PointIdIterator pointIditer = cell->PointIdsBegin();
-  PointIdIterator pointIdend  = cell->PointIdsEnd();
 
   unsigned int boundaryId0 = *pointIditer;
   pointIditer++;
@@ -341,7 +351,6 @@ ConformalFlatteningMeshFilter<TPixelType>
       }
 
     PointIdIterator pointIditer = cell->PointIdsBegin();
-    PointIdIterator pointIdend  = cell->PointIdsEnd();
 
     ptIdA = *pointIditer;
     pointIditer++;
