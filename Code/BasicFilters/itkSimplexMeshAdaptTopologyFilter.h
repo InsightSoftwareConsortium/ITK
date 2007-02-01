@@ -26,6 +26,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkSimplexMeshGeometry.h"
 #include "itkMeshToMeshFilter.h"
 #include "itkVectorContainer.h"
+#include <itkCovariantVector.h>
 
 #include <vxl_version.h>
 #if VXL_VERSION_DATE_FULL > 20040406
@@ -82,7 +83,8 @@ class SimplexMeshAdaptTopologyFilter : public MeshToMeshFilter<TInputMesh, TOutp
     typedef          itk::PolygonCell<InputCellType>                InputPolygonType;
     typedef typename InputPolygonType::PointIdIterator              InputPolygonPointIdIterator;
 
-
+    typedef CovariantVector< 
+                    typename InputVectorType::ValueType, 3 >        CovariantVectorType;
     typedef  TOutputMesh                                            OutputMeshType;
     typedef typename OutputMeshType::Pointer                        OutputMeshPointer;
     typedef typename OutputMeshType::CellType                       OutputCellType;
