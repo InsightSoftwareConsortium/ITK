@@ -43,6 +43,7 @@
 #include "itkConformalFlatteningMeshFilter.h"
 
 #include "itkVTKPolyDataReader.h"
+#include "itkVTKPolyDataWriter.h"
 
 int main(int , char* [])
 {
@@ -176,7 +177,13 @@ int main(int , char* [])
     VTKPolyDataReaderObj =
     itk::VTKPolyDataReader<MeshType>::New();
   std::cout << "--------------VTKPolyDataReaderObj "
-            << VTKPolyDataReaderObj;
+           << VTKPolyDataReaderObj;
+
+  itk::VTKPolyDataWriter<MeshType>::Pointer
+    VTKPolyDataWriterObj =
+    itk::VTKPolyDataWriter<MeshType>::New();
+  std::cout << "--------------VTKPolyDataWriterObj "
+            << VTKPolyDataWriterObj;
 
   return EXIT_SUCCESS;
 }

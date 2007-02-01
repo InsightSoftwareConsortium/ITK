@@ -66,6 +66,7 @@
 #include "itkConformalFlatteningMeshFilter.h"
 
 #include "itkVTKPolyDataReader.h"
+#include "itkVTKPolyDataWriter.h"
 
 #include "itkMorphologicalWatershedImageFilter.h"
 #include "itkMorphologicalWatershedFromMarkersImageFilter.h"

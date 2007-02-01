@@ -65,6 +65,7 @@ SET(ReviewTest_SRCS
   itkConformalFlatteningMeshFilterTest.cxx
 
   itkVTKPolyDataReaderTest.cxx
+  itkVTKPolyDataWriterTest.cxx
 
   itkMorphologicalWatershedImageFilterTest.cxx
   itkMorphologicalWatershedFromMarkersImageFilterTest.cxx
@@ -333,6 +334,11 @@ ADD_TEST(itkRegionalMaximaImageFilterTest2_2 ${REVIEW_TESTS}
 ADD_TEST(itkVTKPolyDataReaderTest ${REVIEW_TESTS}
   itkVTKPolyDataReaderTest
   ${INPUTDATA}/genusZeroSurface01.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataWriterTest01 ${REVIEW_TESTS}
+  itkVTKPolyDataWriterTest
+  ${TEMP}/VTKPolyDataWriterTest01.vtk
   )
 
 FOREACH(M 0 1)
