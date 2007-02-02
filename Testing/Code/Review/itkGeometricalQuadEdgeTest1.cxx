@@ -32,9 +32,7 @@ public:
      PointData, FaceData, true >        PrimalQuadEdgeType;
 
 
-  typedef itk::GeometricalQuadEdge<
-     PointIdentifier, FaceIdentifier, 
-     PointData, FaceData, false >       DualQuadEdgeType;
+  typedef PrimalQuadEdgeType::DualType  DualQuadEdgeType;
 
  
   static PrimalQuadEdgeType * MakeQuadEdges()
