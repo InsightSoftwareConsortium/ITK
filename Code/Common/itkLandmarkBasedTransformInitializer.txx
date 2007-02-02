@@ -260,7 +260,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
       transform->SetRotation( versor );
 
       VectorType translation = transform->GetTranslation(); 
-      translation += movingCentroid - fixedCentroid;
+      translation = movingCentroid - fixedCentroid;
       transform->SetTranslation( translation );
  
       break;
@@ -394,7 +394,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
 
       VectorType translation = transform->GetTranslation(); 
       itkDebugMacro(<< "Initial transform translation: " << translation);
-      translation += movingCentroid - fixedCentroid;
+      translation = movingCentroid - fixedCentroid;
       itkDebugMacro(<< "translation computed as difference of centroids: " << translation);
       transform->SetTranslation( translation );
  
