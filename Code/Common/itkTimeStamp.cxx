@@ -33,9 +33,7 @@ TimeStamp
   return new Self;
 }
   
-/** Used for mutex locking */
-static SimpleFastMutexLock TimeStampMutex;
-  
+ 
 /**
  * Make sure the new time stamp is greater than all others so far.
  */
@@ -47,6 +45,9 @@ TimeStamp
    * Initialize static member
    */
   static unsigned long itkTimeStampTime = 0;
+
+  /** Used for mutex locking */
+  static SimpleFastMutexLock TimeStampMutex;
   
   TimeStampMutex.Lock();
   m_ModifiedTime = ++itkTimeStampTime;
