@@ -27,8 +27,8 @@ PeriodicBoundaryCondition<TImage>
              const NeighborhoodType *data) const
 {
   typedef typename OffsetType::OffsetValueType OffsetValueType;
-  const ConstNeighborhoodIterator<TImage,Self> * iterator
-    = dynamic_cast<const ConstNeighborhoodIterator<TImage,Self> *>(data);
+  const ConstNeighborhoodIterator<TImage> * iterator
+    = dynamic_cast<const ConstNeighborhoodIterator<TImage> *>(data);
   typename TImage::PixelType *ptr;
   int linear_index = 0;
   unsigned int i;
@@ -81,8 +81,8 @@ PeriodicBoundaryCondition<TImage>
              const NeighborhoodAccessorFunctorType &neighborhoodAccessorFunctor) const
 {
   typedef typename OffsetType::OffsetValueType OffsetValueType;
-  const ConstNeighborhoodIterator<TImage,Self> * iterator
-    = dynamic_cast<const ConstNeighborhoodIterator<TImage,Self> *>(data);
+  const ConstNeighborhoodIterator<TImage> * iterator
+    = dynamic_cast<const ConstNeighborhoodIterator<TImage> *>(data);
   typename TImage::PixelType *ptr;
   int linear_index = 0;
   unsigned int i;
