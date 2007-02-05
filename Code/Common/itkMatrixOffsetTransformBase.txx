@@ -422,13 +422,15 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 
   this->m_Jacobian.Fill( 0.0 );
 
+  const InputVectorType v = p - this->GetCenter();
+    
   unsigned int blockOffset = 0;
   
   for(unsigned int block=0; block < NInputDimensions; block++) 
     {
     for(unsigned int dim=0; dim < NOutputDimensions; dim++ ) 
       {
-      this->m_Jacobian( block , blockOffset + dim ) = p[dim];
+      this->m_Jacobian( block , blockOffset + dim ) = v[dim];
       }
 
     blockOffset += NInputDimensions;
