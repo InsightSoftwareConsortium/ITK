@@ -161,8 +161,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBloxCoreAtomPixel.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_BloxCoreAtomPixel(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT BloxCoreAtomPixel< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef BloxCoreAtomPixel< ITK_TEMPLATE_1 x > \
+                               BloxCoreAtomPixel##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkBloxCoreAtomPixel+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkBloxCoreAtomPixel.txx"
 #endif
 
 #endif

@@ -117,6 +117,7 @@ private:
 
 } // end namespace itk
 
+/*
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_NeighborhoodBinaryThresholdImageFunction(_, EXPORT, x, y) namespace itk { \
   _(2(class EXPORT NeighborhoodBinaryThresholdImageFunction< ITK_TEMPLATE_2 x >)) \
@@ -130,6 +131,11 @@ private:
 
 #if ITK_TEMPLATE_TXX
 # include "itkNeighborhoodBinaryThresholdImageFunction.txx"
+#endif
+*/
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkNeighborhoodBinaryThresholdImageFunction.txx"
 #endif
 
 #endif

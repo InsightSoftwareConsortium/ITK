@@ -125,8 +125,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScatterMatrixImageFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_ScatterMatrixImageFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT ScatterMatrixImageFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef ScatterMatrixImageFunction< ITK_TEMPLATE_2 x > \
+                                                ScatterMatrixImageFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkScatterMatrixImageFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkScatterMatrixImageFunction.txx"
 #endif
 
 #endif

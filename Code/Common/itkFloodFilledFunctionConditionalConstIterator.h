@@ -237,8 +237,19 @@ protected: //made protected so other iterators can access
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFloodFilledFunctionConditionalConstIterator.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_FloodFilledFunctionConditionalConstIterator(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT FloodFilledFunctionConditionalConstIterator< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef FloodFilledFunctionConditionalConstIterator< ITK_TEMPLATE_2 x > \
+                        FloodFilledFunctionConditionalConstIterator##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkFloodFilledFunctionConditionalConstIterator+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkFloodFilledFunctionConditionalConstIterator.txx"
 #endif
 
 #endif 

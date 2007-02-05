@@ -128,8 +128,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorMeanImageFunction.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_VectorMeanImageFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT VectorMeanImageFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef VectorMeanImageFunction< ITK_TEMPLATE_2 x > \
+                        VectorMeanImageFunction##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkVectorMeanImageFunction+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkVectorMeanImageFunction.txx"
 #endif
 
 #endif

@@ -125,8 +125,19 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBloxImage.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_BloxImage(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT BloxImage< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef BloxImage< ITK_TEMPLATE_2 x > \
+                               BloxImage##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkBloxImage+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkBloxImage.txx"
 #endif
 
 #endif

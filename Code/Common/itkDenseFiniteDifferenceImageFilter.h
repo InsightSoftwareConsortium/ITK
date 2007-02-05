@@ -195,6 +195,7 @@ private:
 
 #if ITK_TEMPLATE_EXPLICIT
 # include "Templates/itkDenseFiniteDifferenceImageFilter+-.h"
+#include "itkNeighborgoodAlgorithm.txx"
 #endif
 
 #if ITK_TEMPLATE_TXX
