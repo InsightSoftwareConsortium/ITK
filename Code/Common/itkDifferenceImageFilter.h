@@ -137,7 +137,7 @@ private:
 #endif
 */
 
-#if ITK_MANUAL_INSTANTIATION
+#ifndef ITK_MANUAL_INSTANTIATION
 # include "itkDifferenceImageFilter.txx"
 #endif
 
