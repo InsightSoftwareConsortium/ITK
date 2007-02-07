@@ -33,6 +33,23 @@ Euler3DTransform<TScalarType>
   m_AngleX = m_AngleY = m_AngleZ = 0.0;
 }
 
+// Constructor with default arguments
+template <class TScalarType>
+Euler3DTransform<TScalarType>
+::Euler3DTransform(const MatrixType & matrix,
+                   const OutputPointType & offset) 
+{
+  m_ComputeZYX = false;
+  this->SetMatrix(matrix);
+
+  OffsetType off;
+  off[0] = offset[0];
+  off[1] = offset[1];
+  off[2] = offset[2];
+  this->SetOffset(off);
+}
+
+
 // Constructor with arguments
 template <class TScalarType>
 Euler3DTransform<TScalarType>
