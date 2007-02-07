@@ -127,8 +127,18 @@ private:
 
 } // namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPath.txx"
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_Path(_, EXPORT, x, y) namespace itk { \
+  _(3(class EXPORT Path< ITK_TEMPLATE_3 x >)) \
+  namespace Templates { typedef Path< ITK_TEMPLATE_3 x > Image##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkPath+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkPath.txx"
 #endif
   
 #endif

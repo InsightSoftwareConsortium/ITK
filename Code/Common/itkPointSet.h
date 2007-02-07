@@ -254,9 +254,28 @@ private:
 }; // End Class: PointSet
 
 } // end namespace itk
-  
+
+
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_PointSet(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT PointSet< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef PointSet< ITK_TEMPLATE_2 x > \
+                                            PointSet##y; } \
+  }
+
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkPointSet+-.h"
+#endif
+
+#if ITK_TEMPLATE_TXX
+# include "itkPointSet.txx"
+#endif
+
+/*
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPointSet.txx"
 #endif
-  
+*/
+
+
 #endif
