@@ -86,11 +86,10 @@ public:
 
 } // end namespace itk
   
-/*
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_NeighborhoodInnerProduct(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT NeighborhoodInnerProduct< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef NeighborhoodInnerProduct< ITK_TEMPLATE_1 x > \
+  _(3(class EXPORT NeighborhoodInnerProduct< ITK_TEMPLATE_3 x >)) \
+  namespace Templates { typedef NeighborhoodInnerProduct< ITK_TEMPLATE_3 x > \
                         NeighborhoodInnerProduct##y; } \
   }
 
@@ -101,10 +100,11 @@ public:
 #if ITK_TEMPLATE_TXX
 # include "itkNeighborhoodInnerProduct.txx"
 #endif
-*/
 
+/*
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkNeighborhoodInnerProduct.txx"
 #endif
+*/
 
 #endif

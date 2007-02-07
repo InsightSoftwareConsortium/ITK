@@ -542,7 +542,6 @@ operator-(const ConstNeighborhoodIterator<TImage> &it,
 
 } // namespace itk
 
-/*
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_ConstNeighborhoodIterator(_, EXPORT, x, y) namespace itk { \
   _(2(class EXPORT ConstNeighborhoodIterator< ITK_TEMPLATE_2 x >)) \
@@ -557,10 +556,10 @@ operator-(const ConstNeighborhoodIterator<TImage> &it,
 #if ITK_TEMPLATE_TXX
 # include "itkConstNeighborhoodIterator.txx"
 #endif
-*/
 
+/*
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkConstNeighborhoodIterator.txx"
 #endif
-
+*/
 #endif
