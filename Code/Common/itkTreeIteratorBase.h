@@ -107,8 +107,8 @@ public:
   virtual const TreeNodeType* GetNode() const;
 
   /** Get the root */
-  TreeNodeType* &GetRoot();
-  const TreeNodeType* &GetRoot() const;
+  TreeNodeType* GetRoot();
+  const TreeNodeType* GetRoot() const;
   
   /** Get the tree */
   TTreeType* GetTree() const;
@@ -186,7 +186,6 @@ protected:
   mutable TreeNodeType* m_End;
   const TreeNodeType* m_Root;
   TTreeType* m_Tree;
-  int Count(TreeNodeType* node);
 
   virtual bool HasNext() const = 0;
   virtual const ValueType& Next() = 0;
@@ -194,10 +193,19 @@ protected:
 
 } //end namespace itk
 
+// Define instantiation macro for this template.
+#define ITK_TEMPLATE_TreeIteratorBase(_, EXPORT, x, y) namespace itk { \
+  _(1(class EXPORT TreeIteratorBase< ITK_TEMPLATE_1 x >)) \
+  namespace Templates { typedef TreeIteratorBase< ITK_TEMPLATE_1 x > \
+                                                  TreeIteratorBase##y; } \
+  }
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTreeIteratorBase.txx"
+#if ITK_TEMPLATE_EXPLICIT
+# include "Templates/itkTreeIteratorBase+-.h"
 #endif
 
+#if ITK_TEMPLATE_TXX
+# include "itkTreeIteratorBase.txx"
+#endif
 
 #endif
