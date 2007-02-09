@@ -1,3 +1,5 @@
 WRAP_CLASS("itk::Array")
-  SET(WRAPPER_TEMPLATES "${itk_Wrap_Array}")
+WRAP_TEMPLATE("D" "double")
+WRAP_TEMPLATE("F" "float")
+WRAP_TEMPLATE("UL" "unsigned long")
 END_WRAP_CLASS()

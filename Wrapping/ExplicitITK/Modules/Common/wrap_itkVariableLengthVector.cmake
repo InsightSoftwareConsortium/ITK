@@ -1,3 +1,4 @@
 WRAP_CLASS("itk::VariableLengthVector")
-  SET(WRAPPER_TEMPLATES "${itk_Wrap_VariableLengthVector}")
+WRAP_TEMPLATE("F" "float")
+WRAP_TEMPLATE("US" "unsigned short")
 END_WRAP_CLASS()

@@ -1,3 +1,3 @@
-WRAP_CLASS("itk::Similarity3DTransform" POINTER)
-  WRAP_TEMPLATE("${ITKM_D}" "${ITKT_D}")
+WRAP_CLASS("itk::Similarity3DTransform")
+WRAP_TEMPLATE("D" "double")
 END_WRAP_CLASS()

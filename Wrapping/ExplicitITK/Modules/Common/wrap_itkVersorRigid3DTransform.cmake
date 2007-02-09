@@ -1,6 +1,3 @@
-WRAP_CLASS("itk::VersorRigidTransform" POINTER)
-  FILTER_DIMS(d3 3)
-  IF(d3)
-    WRAP_TEMPLATE("${ITKM_D}" "${ITKT_D}")
-  ENDIF(d3)
+WRAP_CLASS("itk::VersorRigid3DTransform")
+WRAP_TEMPLATE("D" "double")
 END_WRAP_CLASS()

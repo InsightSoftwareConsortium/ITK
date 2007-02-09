@@ -1,3 +1,5 @@
 WRAP_CLASS("itk::CovariantVector")
-  SET(WRAPPER_TEMPLATES "${itk_Wrap_CovariantVector}")
+WRAP_TEMPLATE("F4" "float,4")
+WRAP_TEMPLATE("D2" "double,2")
+WRAP_TEMPLATE("D3" "double,3")
 END_WRAP_CLASS()
