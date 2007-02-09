@@ -387,7 +387,7 @@ int main(int ac, char* av[] )
 
   // a NULL is required at the end of the table
   char** argv = new char*[ args.size() + 1 ];
-  for( i=0; i<args.size(); i++ )
+  for( i=0; i<static_cast<int>(args.size()); i++ )
     {
     argv[ i ] = args[ i ];
     }
@@ -411,7 +411,7 @@ int main(int ac, char* av[] )
 
   // now compare the images
   try {
-    for( i=0; i<compareList.size(); i++)
+    for( i=0; i<static_cast<int>(compareList.size()); i++)
       {
       char * testFilename = compareList[i].first;
       char * baselineFilename = compareList[i].second;

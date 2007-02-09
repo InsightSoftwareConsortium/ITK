@@ -278,7 +278,7 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
 
   if( averageIntensityDifference > 0.0 )
     {
-    if( numberOfPixelsWithDifferences > numberOfPixelsTolerance )
+    if( static_cast<int>(numberOfPixelsWithDifferences) > numberOfPixelsTolerance )
       {
       differenceFailed = true;
       }

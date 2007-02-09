@@ -229,7 +229,7 @@ TakeAPrior(const BinaryObjectImage* aprior)
   itk::ImageRegionConstIteratorWithIndex <BinaryObjectImage> ait(aprior, region);
   itk::ImageRegionIteratorWithIndex <RGBHCVImage> iit(m_WorkingImage, region);
 
-  int minx=0,miny=0,maxx=0,maxy=0;
+  unsigned int minx=0,miny=0,maxx=0,maxy=0;
   bool status=0;
   for(unsigned int i=0;i<this->GetSize()[1];i++)
     {
@@ -265,8 +265,8 @@ TakeAPrior(const BinaryObjectImage* aprior)
 
   ait.GoToBegin();
   iit.GoToBegin();
-  int k;
-  for(int i=0;i<miny;i++)
+  unsigned int k;
+  for(unsigned int i=0;i<miny;i++)
     {
     for(unsigned int j=0;j<this->GetSize()[0];j++)
       {
@@ -274,14 +274,14 @@ TakeAPrior(const BinaryObjectImage* aprior)
       ++iit;
       }
     }
-  for(int i=miny;i<=maxy;i++)
+  for(unsigned int i=miny;i<=maxy;i++)
     {
-    for(int j=0;j<minx;j++)
+    for(unsigned int j=0;j<minx;j++)
       {
       ++ait;
       ++iit;
       }
-    for(int j=minx;j<=maxx;j++)
+    for(unsigned int j=minx;j<=maxx;j++)
       {
       currp = iit.Get();
       if(ait.Get())
@@ -304,7 +304,7 @@ TakeAPrior(const BinaryObjectImage* aprior)
         }
       ++ait;++iit;
       }
-    for(int j=maxx+1;j<this->GetSize()[0];j++)
+    for(unsigned int j=maxx+1;j<this->GetSize()[0];j++)
       {
       ++ait;
       ++iit;
