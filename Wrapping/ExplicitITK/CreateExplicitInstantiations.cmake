@@ -165,6 +165,11 @@ MACRO(INCLUDE_EXPLICIT_INSTANTIATION_CMAKE module library_name)
   ENDIF(NOT WRAPPER_DO_NOT_CREATE_CXX)
 ENDMACRO(INCLUDE_EXPLICIT_INSTANTIATION_CMAKE)
 
+# Keep a list of files that shouldn't be included
+MACRO(WRAP_NO_INCLUDE type_name)
+  SET(EXPLICIT_ITK_NO_INCLUDES ${EXPLICIT_ITK_NO_INCLUDES} ${WRAPPER_MODULE_NAME}${type_name})
+ENDMACRO(WRAP_NO_INCLUDE module_name)
+
 MACRO(WRITE_EXPLICIT_INSTANTIATION_H_CXX module_name)
 
   SET(CONFIG_MODULE_NAME "${WRAPPER_MODULE_NAME}")
@@ -201,6 +206,27 @@ MACRO(WRITE_EXPLICIT_INSTANTIATION_H_CXX module_name)
       IF(${param_nospace} MATCHES "Matrix*")
         SET(CONFIG_EXTRA_INCLUDES "${CONFIG_EXTRA_INCLUDES}#include \"Templates/itk${param_nospace}.h\"\n")
       ENDIF(${param_nospace} MATCHES "Matrix*")
+      IF(${param_nospace} MATCHES "FixedArray*")
+        SET(CONFIG_EXTRA_INCLUDES "${CONFIG_EXTRA_INCLUDES}#include \"Templates/itk${param_nospace}.h\"\n")
+      ENDIF(${param_nospace} MATCHES "FixedArray*")
+      IF(${param_nospace} MATCHES "Neighborhood*")
+        SET(CONFIG_EXTRA_INCLUDES "${CONFIG_EXTRA_INCLUDES}#include \"Templates/itk${param_nospace}.h\"\n")
+      ENDIF(${param_nospace} MATCHES "Neighborhood*")
+ IF(${param_nospace} MATCHES "TreeContainer*")
+        SET(CONFIG_EXTRA_INCLUDES "${CONFIG_EXTRA_INCLUDES}#include \"Templates/itk${param_nospace}.h\"\n")
+      ENDIF(${param_nospace} MATCHES "TreeContainer*")
+  IF(${param_nospace} MATCHES "EllipsoidInteriorExteriorSpatialFunction*")
+        SET(CONFIG_EXTRA_INCLUDES "${CONFIG_EXTRA_INCLUDES}#include \"Templates/itk${param_nospace}.h\"\n")
+      ENDIF(${param_nospace} MATCHES "EllipsoidInteriorExteriorSpatialFunction*")
+  IF(${param_nospace} MATCHES "ZeroFluxNeumann*")
+        SET(CONFIG_EXTRA_INCLUDES "${CONFIG_EXTRA_INCLUDES}#include \"Templates/itk${param_nospace}.h\"\n")
+      ENDIF(${param_nospace} MATCHES "ZeroFluxNeumann*")
+ IF(${param_nospace} MATCHES "Item*")
+        SET(CONFIG_EXTRA_INCLUDES "${CONFIG_EXTRA_INCLUDES}#include \"Templates/itk${param_nospace}.h\"\n")
+      ENDIF(${param_nospace} MATCHES "Item*")
+ IF(${param_nospace} MATCHES "BloxBoundaryPoint*")
+        SET(CONFIG_EXTRA_INCLUDES "${CONFIG_EXTRA_INCLUDES}#include \"Templates/itk${param_nospace}.h\"\n")
+      ENDIF(${param_nospace} MATCHES "BloxBoundaryPoint*")
     ENDFOREACH(param ${template_params_list})
 
 
@@ -215,9 +241,21 @@ MACRO(WRITE_EXPLICIT_INSTANTIATION_H_CXX module_name)
     CONFIGURE_FILE("${EXPLICIT_ITK_CONFIG_DIR}/explicit_.cxx.in"
       "${cxx_file}" @ONLY IMMEDIATE)
 
+   SET(add_to_include 1)
+   FOREACH(no_include ${EXPLICIT_ITK_NO_INCLUDES})
+      SET(word ${module_name}${mangled_suffix})
+      IF(${word} MATCHES ${no_include})
+      SET(add_to_include 0)
+      ENDIF(${word} MATCHES ${no_include})
+   ENDFOREACH(no_include ${EXPLICIT_ITK_NO_INCLUDES})
+
     # And add the h file to the list of includes.
-    SET(WRAPPER_EXPLICIT_INSTANTIATION_INCLUDES
-      ${WRAPPER_EXPLICIT_INSTANTIATION_INCLUDES} "${module_name}${mangled_suffix}.h")
+    IF(add_to_include)
+      SET(WRAPPER_EXPLICIT_INSTANTIATION_INCLUDES
+        ${WRAPPER_EXPLICIT_INSTANTIATION_INCLUDES} "${module_name}${mangled_suffix}.h")
+    ENDIF(add_to_include)
+    
+    # Add the source
     SET(WRAPPER_EXPLICIT_INSTANTIATION_SOURCES
       ${WRAPPER_EXPLICIT_INSTANTIATION_SOURCES} ${cxx_file})
   ENDFOREACH(wrap)

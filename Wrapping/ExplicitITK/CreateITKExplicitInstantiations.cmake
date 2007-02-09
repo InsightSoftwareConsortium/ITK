@@ -1,5 +1,8 @@
 SET(ExplicitITK_SOURCE_DIR ${ITK_SOURCE_DIR}/Wrapping/ExplicitITK)
 
+SET(EXPLICIT_MANUAL 0)
+
+IF(EXPLICIT_MANUAL)
 OPTION(EXPLICIT_unsigned_char "Wrap unsigned char type" ON)
 OPTION(EXPLICIT_unsigned_short "Wrap unsigned short type" ON)
 OPTION(EXPLICIT_unsigned_long "Wrap unsigned long type" ON)
@@ -27,9 +30,12 @@ OPTION(EXPLICIT_complex_double "Wrap complex<double> type" OFF)
 
 SET(EXPLICIT_ITK_DIMS "2;3" CACHE STRING "dimensions available separated by semicolons (;)")
 
+ENDIF(EXPLICIT_MANUAL)
+
 # Output directories.
 SET(EXPLICIT_ITK_CONFIG_DIR "${ExplicitITK_SOURCE_DIR}/ConfigurationInputs")
 SET(EXPLICIT_ITK_CMAKE_DIR "${ExplicitITK_SOURCE_DIR}")
+SET(EXPLICIT_ITK_NO_INCLUDES "")
 
 MACRO(BEGIN_WRAPPER_LIBRARY library_name wrap_directory)
   SET(WRAPPER_LIBRARY_NAME "${library_name}")
