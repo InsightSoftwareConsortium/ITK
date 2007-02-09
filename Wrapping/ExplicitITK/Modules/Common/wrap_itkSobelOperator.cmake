@@ -1,0 +1,5 @@
+WRAP_CLASS("itk::SobelOperator")
+WRAP_TEMPLATE("D2" "double,2")
+WRAP_TEMPLATE("F2" "float,2")
+WRAP_TEMPLATE("F3" "float,3")
+END_WRAP_CLASS()

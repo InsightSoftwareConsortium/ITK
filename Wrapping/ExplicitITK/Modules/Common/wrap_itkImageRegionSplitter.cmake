@@ -1,0 +1,5 @@
+WRAP_CLASS("itk::ImageRegionSplitter")
+WRAP_TEMPLATE("2" "2")
+WRAP_TEMPLATE("3" "3")
+WRAP_TEMPLATE("4" "4")
+END_WRAP_CLASS()

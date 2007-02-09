@@ -1,0 +1,5 @@
+WRAP_CLASS("itk::ImageRegionReverseConstIterator")
+WRAP_TEMPLATE("ID2" "Templates::ImageD2")
+WRAP_TEMPLATE("ID3" "Templates::ImageD3")
+WRAP_TEMPLATE("IVUS53" "Templates::ImageVUS53")
+END_WRAP_CLASS()

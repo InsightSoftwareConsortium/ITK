@@ -1,0 +1,5 @@
+WRAP_CLASS("itk::ColorTable")
+WRAP_TEMPLATE("F" "float")
+WRAP_TEMPLATE("SS" "short")
+WRAP_TEMPLATE("UC" "unsigned char")
+END_WRAP_CLASS()

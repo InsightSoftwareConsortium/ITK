@@ -1,0 +1,7 @@
+WRAP_CLASS("itk::GaussianSpatialFunction")
+WRAP_TEMPLATE("SC3PD3" "char,3,Templates::PointD3")
+WRAP_TEMPLATE("D1PD1" "double,1,Templates::PointD1")
+WRAP_TEMPLATE("D2PD2" "double,2,Templates::PointD2")
+WRAP_TEMPLATE("D3PD3" "double,3,Templates::PointD3")
+WRAP_TEMPLATE("F2PF2" "float,2,Templates::PointF2")
+END_WRAP_CLASS()

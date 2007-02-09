@@ -1,0 +1,7 @@
+WRAP_CLASS("itk::BSplineInterpolationWeightFunction")
+WRAP_TEMPLATE("D23" "double,2,3")
+WRAP_TEMPLATE("D32" "double,3,2")
+WRAP_TEMPLATE("D33" "double,3,3")
+WRAP_TEMPLATE("F23" "float,2,3")
+WRAP_TEMPLATE("F33" "float,3,3")
+END_WRAP_CLASS()

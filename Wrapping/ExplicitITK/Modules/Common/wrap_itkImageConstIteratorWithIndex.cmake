@@ -1,0 +1,6 @@
+WRAP_CLASS("itk::ImageConstIteratorWithIndex")
+WRAP_TEMPLATE("IF3" "Templates::ImageF3")
+WRAP_TEMPLATE("ISC2" "Templates::ImageSC2")
+WRAP_TEMPLATE("ISC3" "Templates::ImageSC3")
+WRAP_TEMPLATE("ID2" "Templates::ImageD2")
+END_WRAP_CLASS()

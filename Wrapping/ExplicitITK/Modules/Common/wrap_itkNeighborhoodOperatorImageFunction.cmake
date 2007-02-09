@@ -1,0 +1,5 @@
+WRAP_CLASS("itk::NeighborhoodOperatorImageFunction")
+WRAP_TEMPLATE("ID2D" "Templates::ImageD2,double")
+WRAP_TEMPLATE("IF2D" "Templates::ImageF2,double")
+WRAP_TEMPLATE("IF3F" "Templates::ImageF3,float")
+END_WRAP_CLASS()

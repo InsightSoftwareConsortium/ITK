@@ -1,0 +1,6 @@
+WRAP_CLASS("itk::SpecialCoordinatesImage")
+WRAP_TEMPLATE("D2" "double,2")
+WRAP_TEMPLATE("F2" "float,2")
+WRAP_TEMPLATE("F3" "float,3")
+WRAP_TEMPLATE("UC2" "unsigned char,2")
+END_WRAP_CLASS()

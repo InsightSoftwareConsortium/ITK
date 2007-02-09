@@ -1,0 +1,5 @@
+WRAP_CLASS("itk::DifferenceImageFilter")
+WRAP_TEMPLATE("ID6ID6" "Templates::ImageD6,Templates::ImageD6")
+WRAP_TEMPLATE("IF2IF2" "Templates::ImageF2,Templates::ImageF2")
+WRAP_TEMPLATE("ISS2IUS2" "Templates::ImageSS2,Templates::ImageUS2")
+END_WRAP_CLASS()

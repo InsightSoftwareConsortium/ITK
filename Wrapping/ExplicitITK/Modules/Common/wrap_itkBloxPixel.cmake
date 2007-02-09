@@ -1,0 +1,5 @@
+WRAP_CLASS("itk::BloxPixel")
+WRAP_TEMPLATE("BCAI3" "Templates::BloxCoreAtomItem3")
+WRAP_TEMPLATE("BBPI3" "Templates::BloxBoundaryPointItem3")
+WRAP_TEMPLATE("BBPrI3" "Templates::BloxBoundaryProfileItem3")
+END_WRAP_CLASS()
