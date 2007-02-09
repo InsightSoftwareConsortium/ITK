@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkConnectedComponentImageFilter_txx
-#define _itkConnectedComponentImageFilter_txx
+#ifndef __itkConnectedComponentImageFilter_txx
+#define __itkConnectedComponentImageFilter_txx
 
 #include "itkConnectedComponentImageFilter.h"
 #include "itkNumericTraits.h"
@@ -69,13 +69,15 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
 ::GenerateData()
 {
   // create a line iterator
-  typedef itk::ImageLinearConstIteratorWithIndex<InputImageType> InputLineIteratorType;
+  typedef itk::ImageLinearConstIteratorWithIndex<InputImageType>
+    InputLineIteratorType;
 
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TInputImage::ConstPointer input = this->GetInput();
   typename TMaskImage::ConstPointer mask = this->GetMaskImage();
 
-  typedef MaskImageFilter< TInputImage, TMaskImage, TInputImage > MaskFilterType;
+  typedef MaskImageFilter< TInputImage, TMaskImage, TInputImage >
+    MaskFilterType;
   typename MaskFilterType::Pointer maskFilter = MaskFilterType::New();
   if( mask )
     {
@@ -103,7 +105,9 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
 
   SetupLineOffsets(LineOffsets);
 
-  for (inLineIt.GoToBegin(); ! inLineIt.IsAtEnd(); inLineIt.NextLine(), ++LineIdx)
+  for( inLineIt.GoToBegin();
+    !inLineIt.IsAtEnd();
+    inLineIt.NextLine(), ++LineIdx)
     {
     inLineIt.GoToBeginOfLine();
     lineEncoding ThisLine;
@@ -132,7 +136,6 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
         thisRun.label=lab;
         thisRun.where = thisIndex;
         ThisLine.push_back(thisRun);
-        //std::cout << thisIndex[0] << " " << thisIndex[1] << " " << length << std::endl;
         }
       else 
         {
@@ -179,8 +182,14 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
       typename LineMapType::const_iterator NN = LineMap.find(NeighIdx);
       if (NN != MapEnd) 
         {
-        // Compare the two lines
-        CompareLines(LineIt->second, NN->second);
+        // Now check whether they are really neighbors
+        bool areNeighbors
+          = CheckNeighbors(LineIt->second[0].where, NN->second[0].where);
+        if (areNeighbors)
+          {
+          // Compare the two lines
+          CompareLines(LineIt->second, NN->second);
+          }
         }
       }
     }
@@ -188,9 +197,11 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   unsigned long int totalLabs = CreateConsecutive();
   m_ObjectCount = totalLabs;
   // check for overflow exception here
-  if (totalLabs > static_cast<unsigned long int>(NumericTraits<OutputPixelType>::max())) 
+  if( totalLabs > static_cast<unsigned long int>(
+           NumericTraits<OutputPixelType>::max() ) )
     {
-    itkExceptionMacro( << "Number of objects greater than maximum of output pixel type " );
+    itkExceptionMacro(
+      << "Number of objects greater than maximum of output pixel type " );
     }
   // create the output
   // A more complex version that is intended to minimize the number of
@@ -217,9 +228,10 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   // offset for us. All this messing around produces an array of
   // offsets that will be used to index the map
   typename TOutputImage::Pointer output = this->GetOutput();
-  typedef Image<long, TOutputImage::ImageDimension - 1> PretendImageType;
+  typedef Image<long, TOutputImage::ImageDimension - 1>   PretendImageType;
   typedef typename PretendImageType::RegionType::SizeType PretendSizeType;
-  typedef ConstShapedNeighborhoodIterator<PretendImageType> LineNeighborhoodType;
+  typedef ConstShapedNeighborhoodIterator<PretendImageType>
+    LineNeighborhoodType;
 
   typename PretendImageType::Pointer fakeImage;
   fakeImage = PretendImageType::New();
@@ -280,6 +292,29 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   
   // LineOffsets is the thing we wanted.
 }
+
+
+template< class TInputImage, class TOutputImage, class TMaskImage >
+bool
+ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
+::CheckNeighbors(const typename TOutputImage::IndexType &A, 
+                 const typename TOutputImage::IndexType &B)
+{
+  // this checks whether the line encodings are really neighbors. The
+  // first dimension gets ignored because the encodings are along that
+  // axis
+  typename TOutputImage::OffsetType Off = A - B;
+  for (unsigned i = 1; i < OutputImageDimension; i++)
+    {
+    if (abs(Off[i]) > 1)
+      {
+      return(false);
+      }
+    }
+  return(true);
+}
+
+
 template< class TInputImage, class TOutputImage, class TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
@@ -287,7 +322,9 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
 {
   long offset = 0;
   if (m_FullyConnected)
+    {
     offset = 1;
+    }
 
   typename lineEncoding::const_iterator nIt, mIt;
   typename lineEncoding::iterator cIt;
@@ -342,7 +379,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
             {
             // case 3 
             eq = true;
-            }                                        
+            }
           else 
             {
             if ((ss1 <= cStart) && (ee2 >= cLast))

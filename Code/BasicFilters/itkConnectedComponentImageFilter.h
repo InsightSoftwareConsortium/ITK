@@ -54,7 +54,7 @@ public:
   /**
    * Standard "Self" & Superclass typedef.
    */
-  typedef ConnectedComponentImageFilter Self;
+  typedef ConnectedComponentImageFilter                   Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
 
   /**
@@ -66,11 +66,11 @@ public:
    * Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same.
    */
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TOutputImage::PixelType         OutputPixelType;
   typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename TInputImage::PixelType InputPixelType;
-  typedef typename TInputImage::InternalPixelType InputInternalPixelType;
-  typedef typename TMaskImage::PixelType MaskPixelType;
+  typedef typename TInputImage::PixelType          InputPixelType;
+  typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
+  typedef typename TMaskImage::PixelType           MaskPixelType;
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
@@ -81,19 +81,19 @@ public:
   /**
    * Image typedef support
    */
-  typedef TInputImage  InputImageType;
-  typedef TMaskImage   MaskImageType;
-  typedef TOutputImage OutputImageType;
-  typedef   typename TInputImage::IndexType       IndexType;
-  typedef   typename TInputImage::SizeType        SizeType;
-  typedef   typename TOutputImage::RegionType     RegionType;
-  typedef   std::list<IndexType>                  ListType;
-  typedef typename MaskImageType::Pointer MaskImagePointer;
+  typedef TInputImage                       InputImageType;
+  typedef TMaskImage                        MaskImageType;
+  typedef TOutputImage                      OutputImageType;
+  typedef typename TInputImage::IndexType   IndexType;
+  typedef typename TInputImage::SizeType    SizeType;
+  typedef typename TOutputImage::RegionType RegionType;
+  typedef std::list<IndexType>              ListType;
+  typedef typename MaskImageType::Pointer   MaskImagePointer;
 
   /** 
    * Smart pointer typedef support 
    */
-  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /**
@@ -121,16 +121,19 @@ public:
 
   // Concept checking -- input and output dimensions must be the same
   itkConceptMacro(SameDimension,
-                  (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),itkGetStaticConstMacro(OutputImageDimension)>));
+    (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
+       itkGetStaticConstMacro(OutputImageDimension)>));
 
 
-  void SetMaskImage(TMaskImage* mask) {
+  void SetMaskImage(TMaskImage* mask)
+    {
     this->SetNthInput(1, const_cast<TMaskImage *>( mask ));
-  }
+    }
 
-  const TMaskImage* GetMaskImage() const {
+  const TMaskImage* GetMaskImage() const
+    {
     return (static_cast<const TMaskImage*>(this->ProcessObject::GetInput(1)));
-  }
+    }
   
 protected:
   ConnectedComponentImageFilter() 
@@ -166,12 +169,13 @@ private:
   typedef typename TOutputImage::RegionType::SizeType OutSizeType;
 
   // types to support the run length encoding of lines
-   class runLength
+  class runLength
     {
     public:
-      long int length;  // run length information - may be a more type safe way of doing this
-      typename InputImageType::IndexType where;  // Index of the start of the run
-      unsigned long int label; // the initial label of the run
+    // run length information - may be a more type safe way of doing this
+    long int length;
+    typename InputImageType::IndexType where; // Index of the start of the run
+    unsigned long int label; // the initial label of the run
     };
 
   typedef std::vector<runLength> lineEncoding;
@@ -187,14 +191,17 @@ private:
   UnionFindType m_Consecutive;
   // functions to support union-find operations
   void InitUnion(const unsigned long int size) 
-  {
+    {
     m_UnionFind = UnionFindType(size + 1);
-  }
+    }
   void InsertSet(const unsigned long int label);
   unsigned long int LookupSet(const unsigned long int label);
   void LinkLabels(const unsigned long int lab1, const unsigned long int lab2);
   unsigned long int CreateConsecutive();
   //////////////////
+  bool CheckNeighbors(const typename TOutputImage::IndexType &A, 
+                      const typename TOutputImage::IndexType &B);
+
   void CompareLines(lineEncoding &current, const lineEncoding &Neighbour);
 
   void FillOutput(const LineMapType &LineMap,
