@@ -402,11 +402,19 @@ void NrrdImageIO::ReadImageInformation()
   double spaceDir[NRRD_SPACE_DIM_MAX];
   std::vector<double> spaceDirStd(domainAxisNum);
   int spacingStatus;
+  
+  int iFlipFactors[3];  // used to flip the measurement frame later on
+  for (unsigned int iI=0; iI<3; iI++ )
+    {
+    iFlipFactors[iI] = 1;
+    }
+
   for (unsigned int axii=0; axii < domainAxisNum; axii++)
     {
     unsigned int naxi = domainAxisIdx[axii];
     this->SetDimensions(axii, nrrd->axis[naxi].size);
     spacingStatus = nrrdSpacingCalculate(nrrd, naxi, &spacing, spaceDir);
+
     switch(spacingStatus) 
       {
       case nrrdSpacingStatusNone:
@@ -426,9 +434,12 @@ void NrrdImageIO::ReadImageInformation()
             case nrrdSpaceRightAnteriorSuperior:
               spaceDir[0] *= -1;   // R -> L
               spaceDir[1] *= -1;   // A -> P
+              iFlipFactors[0] = -1;
+              iFlipFactors[1] = -1;
               break;
             case nrrdSpaceLeftAnteriorSuperior:
               spaceDir[0] *= -1;   // R -> L
+              iFlipFactors[0] = -1;
               break;
             case nrrdSpaceLeftPosteriorSuperior:
               // no change needed
@@ -439,6 +450,7 @@ void NrrdImageIO::ReadImageInformation()
               break;
             }
           this->SetSpacing(axii, spacing);
+
           for (unsigned int saxi=0; saxi < nrrd->spaceDim; saxi++)
             {
             spaceDirStd[saxi] = spaceDir[saxi];
@@ -604,20 +616,52 @@ void NrrdImageIO::ReadImageInformation()
     sprintf(key, "%s%s", KEY_PREFIX,
             airEnumStr(nrrdField, nrrdField_space));
     val = airEnumStr(nrrdSpace, nrrd->space);
-    EncapsulateMetaData<std::string>(thisDic, std::string(key),
-                                     std::string(val));
+
+    // keep everything consistent: so enter it as LPS in the meta data
+    // dictionary in case it could get converted, otherwise leave it
+    // as is
+
+    switch (nrrd->space) 
+      {
+      case nrrdSpaceRightAnteriorSuperior:
+      case nrrdSpaceLeftAnteriorSuperior:
+      case nrrdSpaceLeftPosteriorSuperior:
+        // in all these cases we could convert
+        EncapsulateMetaData<std::string>(thisDic, std::string(key),
+                                         std::string( airEnumStr(nrrdSpace, nrrdSpaceLeftPosteriorSuperior )));
+        break;
+      default:
+        // we're not coming from a space for which the conversion
+        // to LPS is well-defined
+        EncapsulateMetaData<std::string>(thisDic, std::string(key),
+                                         std::string(val));
+        break;
+      }
     }
+
   if (AIR_EXISTS(nrrd->measurementFrame[0][0]))
     {
     sprintf(key, "%s%s", KEY_PREFIX,
             airEnumStr(nrrdField, nrrdField_measurement_frame));
     std::vector<std::vector<double> > msrFrame(domainAxisNum);
+
+    // flip the measurement frame here if we have to 
+    // so that everything is consistent with the ITK LPS space directions
+    // but only do this if we have a three dimensional space or smaller
+
     for (unsigned int saxi=0; saxi < domainAxisNum; saxi++) 
       {
       msrFrame[saxi].resize(domainAxisNum);
       for (unsigned int saxj=0; saxj < domainAxisNum; saxj++)
         {
-        msrFrame[saxi][saxj] = nrrd->measurementFrame[saxi][saxj];
+        if ( domainAxisNum<=3 ) 
+          {
+          msrFrame[saxi][saxj] = iFlipFactors[saxi]*nrrd->measurementFrame[saxi][saxj];
+          }
+        else
+          {
+          msrFrame[saxi][saxj] = nrrd->measurementFrame[saxi][saxj];
+          }
         }
       }
     EncapsulateMetaData<std::vector<std::vector<double> > >(thisDic,
@@ -749,6 +793,7 @@ void NrrdImageIO::Read(void* buffer)
       }
     else
       {
+
       // false alarm; we didn't need to allocate the data ourselves
       memcpy(buffer, nrrd->data,
              nrrdElementSize(nrrd)*nrrdElementNumber(nrrd));
@@ -757,6 +802,7 @@ void NrrdImageIO::Read(void* buffer)
     }
   else // 
     {
+
     // "buffer" == nrrd->data was ITK-allocated; lose the nrrd struct
     nrrdNix(nrrd);
     }
@@ -962,6 +1008,7 @@ void NrrdImageIO::Write( const void* buffer)
         {
         ExposeMetaData<double>(thisDic, *keyIt, nrrd->oldMax);
         }
+
       field = airEnumStr(nrrdField, nrrdField_space);
       if (!strncmp(keyField, field, strlen(field)))
         {
@@ -975,6 +1022,7 @@ void NrrdImageIO::Write( const void* buffer)
           nrrd->space = space;
           }
         }
+
       field = airEnumStr(nrrdField, nrrdField_content);
       if (!strncmp(keyField, field, strlen(field)))
         {
