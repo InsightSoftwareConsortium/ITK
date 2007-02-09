@@ -656,7 +656,7 @@ void NrrdImageIO::ReadImageInformation()
         {
         if ( domainAxisNum<=3 ) 
           {
-          msrFrame[saxi][saxj] = iFlipFactors[saxi]*nrrd->measurementFrame[saxi][saxj];
+          msrFrame[saxi][saxj] = iFlipFactors[saxj]*nrrd->measurementFrame[saxi][saxj];
           }
         else
           {
