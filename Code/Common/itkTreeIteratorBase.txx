@@ -70,7 +70,7 @@ TreeIteratorBase<TTreeType>::Get() const
 
 /** Set the current value of the node */
 template <class TTreeType>
-typename TreeIteratorBase<TTreeType>::ValueType& 
+typename TreeIteratorBase<TTreeType>::ValueType 
 TreeIteratorBase<TTreeType>::Set(ValueType element) 
 {
   ValueType oldValue = m_Position->Get();
