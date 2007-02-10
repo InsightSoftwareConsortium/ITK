@@ -130,7 +130,7 @@ private:
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_Path(_, EXPORT, x, y) namespace itk { \
   _(3(class EXPORT Path< ITK_TEMPLATE_3 x >)) \
-  namespace Templates { typedef Path< ITK_TEMPLATE_3 x > Image##y; } \
+  namespace Templates { typedef Path< ITK_TEMPLATE_3 x > Path##y; } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
