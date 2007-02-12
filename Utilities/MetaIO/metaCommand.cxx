@@ -39,7 +39,7 @@ MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2006-12-29 20:45:13 $ cvs command */
+/** Extract the date from the $Date: 2007-02-12 12:35:58 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractDateFromCVS(METAIO_STL::string date)
 {
@@ -57,7 +57,7 @@ SetDateFromCVS(METAIO_STL::string cvsDate)
   this->SetDate( this->ExtractDateFromCVS( cvsDate ).c_str() );
   }
 
-/** Extract the version from the $Revision: 1.23 $ cvs command */
+/** Extract the version from the $Revision: 1.24 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractVersionFromCVS(METAIO_STL::string version)
 {
@@ -1349,6 +1349,7 @@ Parse(int argc, char* argv[])
   unsigned int currentField = 0; // current field position
   int currentOption = 0; // id of the option to fill
   unsigned int valuesRemaining=0;
+  unsigned int optionalValuesRemaining=0;
   bool isComplete = false; // check if the option should be parse until
                            // the next tag is found
   METAIO_STL::string completeString = "";
@@ -1399,15 +1400,25 @@ Parse(int argc, char* argv[])
 
     // If this is a tag
     if(argv[i][0] == '-' && (atof(argv[i])==0) && (strlen(argv[i])>1))
-      {    
+      {
       // if we have a tag before the expected values we throw an exception
       if(valuesRemaining!=0)
         {
         if(!isComplete)
           {
-          METAIO_STREAM::cout << "Found tag before end of value list!" 
+          if(optionalValuesRemaining >0)
+            {
+            valuesRemaining = 0;
+            m_OptionVector[currentOption].userDefined = true;
+            m_ParsedOptionVector.push_back(m_OptionVector[currentOption]);
+            }
+          else
+            {
+            METAIO_STREAM::cout << "Found tag " << argv[i] 
+                              << " before end of value list!" 
                               << METAIO_STREAM::endl;
-          return false;
+            return false;
+            }
           }
         else
           {
@@ -1425,7 +1436,19 @@ Parse(int argc, char* argv[])
       if(this->OptionExistsByMinusTag(tag))
         {
         inArgument = true;
-        valuesRemaining = this->GetOptionByMinusTag(tag)->fields.size();
+        
+        // We check the number of mandatory and optional values for
+        // this tag
+        METAIO_STL::vector<Field>::const_iterator fIt = this->GetOptionByMinusTag(tag)->fields.begin();
+        while(fIt != this->GetOptionByMinusTag(tag)->fields.end())
+          {
+          if(!(*fIt).required)
+            {
+            optionalValuesRemaining++;
+            }
+          valuesRemaining++;
+          fIt++;
+          }
         currentOption = this->GetOptionId(this->GetOptionByMinusTag(tag));
 
         if(currentOption < 0)
@@ -1443,6 +1466,7 @@ Parse(int argc, char* argv[])
             // the tag exists by default
             m_OptionVector[currentOption].fields[0].value = "true"; 
             valuesRemaining = 0;
+            optionalValuesRemaining = 0;
             inArgument = false;
             }
           else if(m_OptionVector[currentOption].fields[0].type == LIST)
@@ -1524,25 +1548,44 @@ Parse(int argc, char* argv[])
         completeString += argv[i];
         }
       }
-    else if(inArgument && i<(unsigned int)argc && valuesRemaining>0)
+    else if(inArgument && i<(unsigned int)argc && (valuesRemaining>0))
       {
-      if(currentOption >=0 && currentOption < (int)(m_OptionVector.size()))
+      // We check that the current value is not a tag.
+      // This might be the case when we have optional fields
+      if(this->OptionExistsByMinusTag(argv[i]) && optionalValuesRemaining>0)
+        {
+        valuesRemaining = 0;
+        optionalValuesRemaining = 0;
+        i--; // the outter loop will take care of incrementing it.
+        }    
+      else if(currentOption >=0 && currentOption < (int)(m_OptionVector.size()))
         {
         unsigned long s = m_OptionVector[currentOption].fields.size();
-        m_OptionVector[currentOption].fields[s-valuesRemaining].value = argv[i];
-        m_OptionVector[currentOption].fields[s-valuesRemaining].userDefined =
+        m_OptionVector[currentOption].fields[s-(valuesRemaining)].value = argv[i];
+        m_OptionVector[currentOption].fields[s-(valuesRemaining)].userDefined =
                                                                            true;
+
+       if(! m_OptionVector[currentOption].fields[s-(valuesRemaining)].required)
+         {
+         optionalValuesRemaining--;
+         }
+
+        valuesRemaining--;
         }
-      valuesRemaining--;
+      else if(valuesRemaining>0)
+        {
+        valuesRemaining--;
+        }
       }
 
     if(valuesRemaining == 0)
-      {         
+      {
       inArgument = false;
       m_OptionVector[currentOption].userDefined = true;
       m_ParsedOptionVector.push_back(m_OptionVector[currentOption]);
-      }    
-    }
+      }
+
+    } // end loop command line arguments
 
   if(valuesRemaining>0)
     {
