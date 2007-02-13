@@ -150,7 +150,9 @@ GaussianImageSource<TOutputImage>
   // The position at which the function is evaluated
   Point<double, TOutputImage::ImageDimension> evalPoint;
 
-  ProgressReporter progress(this, 0, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+  ProgressReporter progress(this, 0,
+                            outputPtr->GetRequestedRegion()
+                                         .GetNumberOfPixels());
   // Walk the output image, evaluating the spatial function at each pixel
   for ( ; !outIt.IsAtEnd(); ++outIt)
     {
