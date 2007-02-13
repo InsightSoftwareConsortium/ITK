@@ -177,6 +177,7 @@ ADD_TEST(itkGradientToMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkGradien
 ADD_TEST(itkHardConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS} itkHardConnectedComponentImageFilterTest)
 ADD_TEST(itkHausdorffDistanceImageFilterTest ${BASIC_FILTERS_TESTS} itkHausdorffDistanceImageFilterTest)
 ADD_TEST(itkHessianRecursiveGaussianFilterTest ${BASIC_FILTERS_TESTS3} itkHessianRecursiveGaussianFilterTest)
+ADD_TEST(itkHessian3DToVesselnessMeasureImageFilterTest ${BASIC_FILTERS_TESTS4} itkHessian3DToVesselnessMeasureImageFilterTest)
 
 ADD_TEST(itkLabelStatisticsImageFilterTest ${BASIC_FILTERS_TESTS3} 
          itkLabelStatisticsImageFilterTest
