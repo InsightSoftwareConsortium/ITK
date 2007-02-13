@@ -45,8 +45,21 @@ template<class TVector, class TOutput>
 NeuralNetworkFileReader<TVector,TOutput>
 ::~NeuralNetworkFileReader()
 {
+  this->ClearFields();
 }
 
+
+template<class TVector, class TOutput>
+void
+NeuralNetworkFileReader<TVector,TOutput>
+::ClearFields()
+{
+  for (FieldsContainerType::size_type i = 0; i < m_Fields.size(); i++)
+    {
+    delete m_Fields[i];
+    }
+  m_Fields.clear();
+}
 
 template<class TVector, class TOutput>
 void
@@ -217,7 +230,7 @@ NeuralNetworkFileReader<TVector,TOutput>
     } 
        
 
-  m_Fields.clear();
+  this->ClearFields();
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "WeightSet_Id", MET_UINT, true);
   m_Fields.push_back(mF);
@@ -278,7 +291,7 @@ NeuralNetworkFileReader<TVector,TOutput>
     m_Network->Initialize();
     for(unsigned int j=0; j<m_Network->GetNumOfWeightSets(); j++)
       {
-      m_Fields.clear();
+      this->ClearFields();
       weightset = m_Network->GetWeightSet(j);
       unsigned int rows =weightset->GetNumberOfOutputNodes();
       unsigned int cols =weightset->GetNumberOfInputNodes();

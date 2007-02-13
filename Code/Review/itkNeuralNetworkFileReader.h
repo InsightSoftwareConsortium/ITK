@@ -118,6 +118,7 @@ protected:
   
 private:
 
+  void ClearFields();
   typedef std::vector<MET_FieldRecordType *>      FieldsContainerType;
   typedef std::vector< LayerPointer >             LayersContainer;
   typedef std::vector<WeightSetPointer>           WeightsContainer;
