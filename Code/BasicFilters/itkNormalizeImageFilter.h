@@ -59,7 +59,7 @@ public:
   typedef typename TOutputImage::Pointer OutputImagePointer;
 
   /** NormalizeImageFilter must call modified on its internal filters */
-  virtual void Modified();
+  virtual void Modified() const;
 
 protected:
   NormalizeImageFilter();

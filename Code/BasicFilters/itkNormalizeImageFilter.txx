@@ -53,7 +53,7 @@ NormalizeImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 NormalizeImageFilter<TInputImage, TOutputImage>
-::Modified()
+::Modified() const
 {
   Superclass::Modified();
   m_StatisticsFilter->Modified();
