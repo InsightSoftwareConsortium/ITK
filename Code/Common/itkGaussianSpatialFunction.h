@@ -40,7 +40,8 @@ namespace itk
 template <typename TOutput=double, 
           unsigned int VImageDimension=3,
           typename TInput=Point<double, VImageDimension> >
-class ITK_EXPORT GaussianSpatialFunction : public SpatialFunction<TOutput, VImageDimension, TInput>
+class ITK_EXPORT GaussianSpatialFunction 
+: public SpatialFunction<TOutput, VImageDimension, TInput>
 {
 public:
   /** Standard class typedefs. */
