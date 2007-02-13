@@ -128,6 +128,7 @@ protected:
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
 private:
+  void ClearFields();
   typedef std::vector<MET_FieldRecordType *> FieldsContainerType;
 
   NetworkConstPointer    m_Network;

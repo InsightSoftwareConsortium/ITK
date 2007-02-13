@@ -46,8 +46,21 @@ template<class TVector, class TOutput>
 NeuralNetworkFileWriter<TVector,TOutput>
 ::~NeuralNetworkFileWriter()
 {
+  this->ClearFields();
 }
 
+
+template<class TVector, class TOutput>
+void
+NeuralNetworkFileWriter<TVector,TOutput>
+::ClearFields()
+{
+  for (FieldsContainerType::size_type i = 0; i < m_Fields.size(); i++)
+    {
+    delete m_Fields[i];
+    }
+  m_Fields.clear();
+}
 
 template<class TVector, class TOutput>
 void
@@ -112,7 +125,8 @@ NeuralNetworkFileWriter<TVector,TOutput>
     //return false;
     }
   
-  m_Fields.clear();
+  this->ClearFields();
+
   LayerConstPointer layer;
   //Get Layer Information for each layer
   for(int i=0; i<m_Network->GetNumOfLayers(); i++)
@@ -153,7 +167,7 @@ NeuralNetworkFileWriter<TVector,TOutput>
     //return false;
     }
   
-  m_Fields.clear();
+  this->ClearFields();
   WeightSetConstPointer weightset;
   for(int j=0; j<m_Network->GetNumOfWeightSets(); j++)
     {
@@ -184,7 +198,7 @@ NeuralNetworkFileWriter<TVector,TOutput>
     }
   
   //Writeout the weight values
-  m_Fields.clear();
+  this->ClearFields();
   for(int j=0; j<m_Network->GetNumOfWeightSets(); j++)
     {
     weightset = m_Network->GetWeightSet(j);
