@@ -124,12 +124,13 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
         ++lab;
         thisIndex = inLineIt.GetIndex();
         //std::cout << thisIndex << std::endl;
-        while ((PVal != NumericTraits<InputPixelType>::Zero) &&
-               (! inLineIt.IsAtEndOfLine()))
+        ++length;
+        ++inLineIt;
+        while( !inLineIt.IsAtEndOfLine()
+          && inLineIt.Get() != NumericTraits<InputPixelType>::Zero )
           {
           ++length;
           ++inLineIt;
-          PVal = inLineIt.Get();
           }
         // create the run length object to go in the vector
         thisRun.length=length;
