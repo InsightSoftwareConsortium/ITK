@@ -150,13 +150,13 @@ public:
    *   transform using the result.
    *
    **/
-  inline InputPointType      BackTransform(const OutputPointType 
+  InputPointType      BackTransform(const OutputPointType 
                                                    &point ) const;
-  inline InputVectorType     BackTransform(const OutputVectorType 
+  InputVectorType     BackTransform(const OutputVectorType 
                                                    &vector) const;
-  inline InputVnlVectorType  BackTransform( const OutputVnlVectorType
+  InputVnlVectorType  BackTransform( const OutputVnlVectorType
                                                    &vector) const;
-  inline InputCovariantVectorType BackTransform(const OutputCovariantVectorType
+  InputCovariantVectorType BackTransform(const OutputCovariantVectorType
                                                    &vector) const;
 
    /**
