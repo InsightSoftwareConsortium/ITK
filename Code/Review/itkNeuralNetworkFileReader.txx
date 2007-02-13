@@ -129,7 +129,7 @@ NeuralNetworkFileReader<TVector,TOutput>
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "NumNodes", MET_UINT, true);
   m_Fields.push_back(mF);
-  int num_nodes = (int)mF->value[0];
+  //int num_nodes = (int)mF->value[0];
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "LayerType", MET_STRING, true);

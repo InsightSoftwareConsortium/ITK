@@ -3,7 +3,7 @@
 // $Revision $
 // $Author $
 // $Name $
-// $Date: 2007-01-29 15:18:59 $
+// $Date: 2007-02-13 18:34:17 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -135,8 +135,8 @@ template< class TMesh, class TQE >
     QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::
     FindDefaultSeed( )
     {
-        QEType* edgeFound = (QEType*)0;
-        (void)edgeFound;
+        //QEType* edgeFound = (QEType*)0;
+        //(void)edgeFound;
         typename MeshType::CellsContainerIterator cellIterator;
         cellIterator = m_Mesh->GetCells()->Begin();
         if( QEType* edge = dynamic_cast< QEType* >( cellIterator.Value()) )

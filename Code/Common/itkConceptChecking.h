@@ -626,8 +626,10 @@ struct HasZero
       { 
       T a;
       a = NumericTraits<T>::Zero;
+      Detail::IgnoreUnusedVariable(a);
       }
   };
+
   itkConceptConstraintsMacro();
 };
 

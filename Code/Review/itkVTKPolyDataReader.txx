@@ -198,7 +198,9 @@ VTKPolyDataReader<TOutputMesh>
       return;
       }
 
-    if( ids[0] < 0 || ids[1] < 0 || ids[2] < 0 )
+    if( static_cast<long>(ids[0]) < 0 ||
+      static_cast<long>(ids[1]) < 0 ||
+      static_cast<long>(ids[2]) < 0 )
       {
       itkExceptionMacro("ERROR: Incorrect point ids\n"
           "ids=" << ids[0] << " " << ids[1] << " " << ids[2]);

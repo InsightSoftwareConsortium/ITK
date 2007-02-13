@@ -250,7 +250,7 @@ airOneLinify(char *s) {
 
   /* lose trailing white space */
   len = airStrlen(s);
-  for (i=len-1; i>=0 && ' ' == s[i]; i--) {
+  for (i=len-1; ((int)i)>=0 && ' ' == s[i]; i--) {
     s[i] = '\0';
   }
 
