@@ -58,6 +58,9 @@ public:
   typedef typename TInputImage::Pointer InputImagePointer;
   typedef typename TOutputImage::Pointer OutputImagePointer;
 
+  /** NormalizeImageFilter must call modified on its internal filters */
+  virtual void Modified();
+
 protected:
   NormalizeImageFilter();
 

@@ -53,6 +53,16 @@ NormalizeImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 NormalizeImageFilter<TInputImage, TOutputImage>
+::Modified()
+{
+  Superclass::Modified();
+  m_StatisticsFilter->Modified();
+  m_ShiftScaleFilter->Modified();
+}
+
+template <class TInputImage, class TOutputImage>
+void 
+NormalizeImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
