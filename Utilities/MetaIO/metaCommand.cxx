@@ -39,7 +39,7 @@ MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2007-02-12 12:35:58 $ cvs command */
+/** Extract the date from the $Date: 2007-02-14 20:05:27 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractDateFromCVS(METAIO_STL::string date)
 {
@@ -57,7 +57,7 @@ SetDateFromCVS(METAIO_STL::string cvsDate)
   this->SetDate( this->ExtractDateFromCVS( cvsDate ).c_str() );
   }
 
-/** Extract the version from the $Revision: 1.24 $ cvs command */
+/** Extract the version from the $Revision: 1.25 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractVersionFromCVS(METAIO_STL::string version)
 {
@@ -1493,7 +1493,7 @@ Parse(int argc, char* argv[])
           METAIO_STREAM::cout << "The tag " << tag.c_str() 
                               << " is not a valid argument : skipping this tag" 
                               << METAIO_STREAM::endl;
-        }
+          }
         if(m_FailOnUnrecognizedOption)
           {
           return false;
@@ -1576,6 +1576,14 @@ Parse(int argc, char* argv[])
         {
         valuesRemaining--;
         }
+      }
+    else if(i==(unsigned int)argc && (optionalValuesRemaining>0)) // if this is the last argument
+      {
+      if(this->OptionExistsByMinusTag(argv[i-1]))
+        {
+        valuesRemaining = 0;
+        optionalValuesRemaining = 0;
+        } 
       }
 
     if(valuesRemaining == 0)
