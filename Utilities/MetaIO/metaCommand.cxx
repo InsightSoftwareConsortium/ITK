@@ -39,7 +39,7 @@ MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2007-02-14 23:30:15 $ cvs command */
+/** Extract the date from the $Date: 2007-02-14 23:34:06 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractDateFromCVS(METAIO_STL::string date)
 {
@@ -57,7 +57,7 @@ SetDateFromCVS(METAIO_STL::string cvsDate)
   this->SetDate( this->ExtractDateFromCVS( cvsDate ).c_str() );
   }
 
-/** Extract the version from the $Revision: 1.27 $ cvs command */
+/** Extract the version from the $Revision: 1.28 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractVersionFromCVS(METAIO_STL::string version)
 {
@@ -1565,11 +1565,15 @@ Parse(int argc, char* argv[])
         unsigned long s = m_OptionVector[currentOption].fields.size();
 
         // We change the value only if this is not a tag
-        //if(!this->OptionExistsByMinusTag(argv[i]))
-        //  {
-        m_OptionVector[currentOption].fields[s-(valuesRemaining)].value = argv[i];
-        //  }
+        if(this->OptionExistsByMinusTag(argv[i]))
+          {
+          std::cout << "WARNING: Option " << m_OptionVector[currentOption].name 
+                    << " expect a value and got tag: " << argv[i] 
+                    << std::endl;
+          }
 
+        m_OptionVector[currentOption].fields[s-(valuesRemaining)].value = argv[i];
+       
         m_OptionVector[currentOption].fields[s-(valuesRemaining)].userDefined =
                                                                            true;
 
