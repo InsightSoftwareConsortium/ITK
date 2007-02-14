@@ -39,7 +39,7 @@ MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2007-02-14 20:17:35 $ cvs command */
+/** Extract the date from the $Date: 2007-02-14 23:30:15 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractDateFromCVS(METAIO_STL::string date)
 {
@@ -57,7 +57,7 @@ SetDateFromCVS(METAIO_STL::string cvsDate)
   this->SetDate( this->ExtractDateFromCVS( cvsDate ).c_str() );
   }
 
-/** Extract the version from the $Revision: 1.26 $ cvs command */
+/** Extract the version from the $Revision: 1.27 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractVersionFromCVS(METAIO_STL::string version)
 {
@@ -1563,12 +1563,17 @@ Parse(int argc, char* argv[])
       else if(currentOption >=0 && currentOption <(int)(m_OptionVector.size()))
         {
         unsigned long s = m_OptionVector[currentOption].fields.size();
+
+        // We change the value only if this is not a tag
+        //if(!this->OptionExistsByMinusTag(argv[i]))
+        //  {
         m_OptionVector[currentOption].fields[s-(valuesRemaining)].value = argv[i];
+        //  }
+
         m_OptionVector[currentOption].fields[s-(valuesRemaining)].userDefined =
                                                                            true;
 
-
-       if(! m_OptionVector[currentOption].fields[s-(valuesRemaining)].required)
+       if(!m_OptionVector[currentOption].fields[s-(valuesRemaining)].required)
          {
          optionalValuesRemaining--;
          }
@@ -1582,7 +1587,7 @@ Parse(int argc, char* argv[])
       }
     else if(i==(unsigned int)argc && (optionalValuesRemaining>0)) // if this is the last argument
       {
-      if(this->OptionExistsByMinusTag(argv[i-1]))
+      if(this->OptionExistsByMinusTag(argv[i-1]) )
         {
         valuesRemaining = 0;
         optionalValuesRemaining = 0;
@@ -1597,6 +1602,22 @@ Parse(int argc, char* argv[])
       }
 
     } // end loop command line arguments
+
+  if(isComplete) // If we are still in the isComplete mode we add the option
+    {
+    m_OptionVector[currentOption].fields[0].value = completeString;
+    m_OptionVector[currentOption].fields[0].userDefined = true;
+    m_OptionVector[currentOption].userDefined = true;
+    m_ParsedOptionVector.push_back(m_OptionVector[currentOption]);
+    valuesRemaining = 0;
+    }
+
+  if(optionalValuesRemaining >0)
+    {
+    valuesRemaining = 0;
+    m_OptionVector[currentOption].userDefined = true;
+    m_ParsedOptionVector.push_back(m_OptionVector[currentOption]);
+    }
 
   if(valuesRemaining>0)
     {
