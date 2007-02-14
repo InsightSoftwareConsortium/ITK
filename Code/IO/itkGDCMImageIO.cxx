@@ -791,7 +791,7 @@ void GDCMImageIO::Write(const void* buffer)
       // This is not a DICOM entry, then check if it is one of the ITK standard ones
       if( key == ITK_NumberOfDimensions )
         {
-        unsigned int numberOfDimensions;
+        unsigned int numberOfDimensions = 0;
         ExposeMetaData<unsigned int>(dict, key, numberOfDimensions);
         m_GlobalNumberOfDimensions = numberOfDimensions;
         }

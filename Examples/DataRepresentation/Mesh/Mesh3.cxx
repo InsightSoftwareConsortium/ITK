@@ -174,7 +174,7 @@ int main(int, char *[])
   // Software Guide : BeginCodeSnippet
   for(unsigned int cellId=0; cellId<numberOfCells; cellId++)
     {
-    PixelType value;
+    PixelType value = static_cast<PixelType>(0.0);
     mesh->GetCellData( cellId, &value );
     std::cout << "Cell " << cellId << " = " << value << std::endl;
     }
@@ -186,6 +186,8 @@ int main(int, char *[])
   //  Neither \code{SetCellData()} or \code{GetCellData()} are efficient ways
   //  to access cell data. More efficient access to cell data can be achieved
   //  by using the Iterators built into the \code{CellDataContainer}.
+  //
+  //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::CellDataContainer::ConstIterator CellDataIterator;

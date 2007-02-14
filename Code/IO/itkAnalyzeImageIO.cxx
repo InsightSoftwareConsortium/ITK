@@ -1143,7 +1143,8 @@ AnalyzeImageIO
     strncpy(this->m_hdr.hist.aux_file,temp.c_str(),24);//Note this is necessary because the array is not necessarily null terminated.
     }
 
-  itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
+  itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient =
+    itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_INVALID;
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
   if ( !itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient) )
     {

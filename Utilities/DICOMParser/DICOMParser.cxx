@@ -340,7 +340,7 @@ void DICOMParser::ReadNextRecord(DICOMSource &source, doublebyte& group, doubleb
     //
     // Only read the data if there's a registered callback.
     //
-    unsigned char* tempdata;
+    unsigned char* tempdata = 0;
 
     if (static_cast<unsigned long>(length) != static_cast<unsigned long>(-1))
       {
@@ -458,7 +458,10 @@ void DICOMParser::ReadNextRecord(DICOMSource &source, doublebyte& group, doubleb
       this->ParseSequence(tempdata, length);
       }
 
-    delete [] tempdata;
+    if (tempdata)
+      {
+      delete [] tempdata;
+      }
     }
   else
     {

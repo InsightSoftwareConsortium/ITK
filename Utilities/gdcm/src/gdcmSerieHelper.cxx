@@ -775,7 +775,7 @@ bool SerieHelper::ImageNumberOrdering(FileList *fileList)
    }
 
    // Find out if image numbers are coherent (consecutive)
-   if ( min == max || max == 0 || max >= (n+min) )
+   if ( min == max || max == 0 || max >= (static_cast<int>(n)+min) )
    {
       gdcmWarningMacro( " 'Image numbers' not coherent. "
                         << " No ImageNumberOrdering sort performed.");

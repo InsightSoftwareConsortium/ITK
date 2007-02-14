@@ -132,7 +132,8 @@ EndElement(const char *name)
   else if(itksys::SystemTools::Strucmp(name,"PLANE") == 0)
       {
       //itk::IOCommon::ValidAnalyzeOrientationFlags temporient;
-      itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
+      itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient =
+        itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_INVALID;
       if(itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(),"AXIAL"))
           {
           //temporient = IOCommon::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;

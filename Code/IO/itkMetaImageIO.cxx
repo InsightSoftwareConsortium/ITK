@@ -974,7 +974,7 @@ MetaImageIO
 
   int nChannels = this->GetNumberOfComponents();
 
-  MET_ValueEnumType eType;
+  MET_ValueEnumType eType = MET_OTHER;
   switch(m_ComponentType)
     {
     default:
@@ -1066,7 +1066,8 @@ MetaImageIO
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
     itk::MetaDataDictionary & thisMetaDict = this->GetMetaDataDictionary();
 #endif  
-    itk::SpatialOrientation::ValidCoordinateOrientationFlags coordOrient;
+    itk::SpatialOrientation::ValidCoordinateOrientationFlags coordOrient =
+      itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_INVALID;
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
     if( !itk::ExposeMetaData
           <itk::SpatialOrientation::ValidCoordinateOrientationFlags>

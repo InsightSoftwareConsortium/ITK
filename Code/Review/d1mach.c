@@ -23,6 +23,6 @@ double d1mach_(int *i)
     case 4: return DBL_EPSILON;
     case 5: return log10((double)FLT_RADIX); 
     } 
-  fprintf(stderr, "invalid argument: d1mach(%ld)\n", *i); 
+  fprintf(stderr, "invalid argument: d1mach(%ld)\n", (long) *i);
   return 0; /* some compilers demand return values */
 } 

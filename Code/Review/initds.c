@@ -26,7 +26,7 @@ integer initds_(doublereal *os, integer *nos, real *eta)
     real r__1;
 
     /* Local variables */
-    integer i__, ii;
+    integer i__ = 0, ii;
     real err;
     extern /* Subroutine */ int xermsg_(char *, char *, char *, integer *, 
             integer *, ftnlen, ftnlen, ftnlen);

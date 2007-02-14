@@ -76,7 +76,7 @@ doublereal dlnrel_(doublereal *x)
 
     /* System generated locals */
     real r__1;
-    doublereal ret_val, d__1;
+    doublereal ret_val = 0., d__1;
 
     /* Builtin functions */
     double sqrt(doublereal), log(doublereal);

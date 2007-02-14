@@ -85,7 +85,7 @@ TreeIteratorBase<TTreeType>::Add(ValueType element)
 {
   if ( m_Position == NULL && m_Root == NULL ) 
     {
-    bool returnValue;
+    bool returnValue = false;
     if ( m_Tree )
       {
       returnValue = const_cast<TTreeType*>(m_Tree)->SetRoot( element );

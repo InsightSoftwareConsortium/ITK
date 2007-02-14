@@ -106,6 +106,7 @@ doublereal dcsevl_(doublereal *x, doublereal *cs, integer *n)
                 c__1, (ftnlen)6, (ftnlen)6, (ftnlen)30);
     }
 
+    b2 = 0.;
     b1 = 0.;
     b0 = 0.;
     twox = *x * 2.;

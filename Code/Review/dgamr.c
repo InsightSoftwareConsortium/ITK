@@ -15,7 +15,7 @@
 
 /* Table of constant values */
 
-static integer c__1 = 1;
+//static integer c__1 = 1;
 
 /* DECK DGAMR */
 doublereal dgamr_(doublereal *x)

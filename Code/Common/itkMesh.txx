@@ -264,7 +264,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   /**
    * Ask the container if the cell identifier exists.
    */
-  CellType * cellptr;
+  CellType * cellptr = 0;
   const bool found = m_CellsContainer->GetElementIfIndexExists(cellId, &cellptr);
   if( found )
     {

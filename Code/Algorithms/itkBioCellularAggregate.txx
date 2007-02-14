@@ -504,9 +504,9 @@ CellularAggregate<NSpaceDimension>
 
       const IdentifierType cell2Id = (*neighbor);  
 
-      BioCellType     * cell2;
+      BioCellType     * cell2 = 0;
       PointType  position2;
-      
+
       if( !m_Mesh->GetPoint(      cell2Id, &position2 ) )
         {
         neighbor++;  // if the neigbor has been removed, skip it
@@ -563,7 +563,7 @@ CellularAggregate<NSpaceDimension>
 
     PointsConstIterator   point2It   = beginPoints;
 
-    BioCellType  * cell1;
+    BioCellType  * cell1 = 0;
 
     IdentifierType cell1Id = point1It.Index();
     m_Mesh->GetPointData( cell1Id, &cell1 );

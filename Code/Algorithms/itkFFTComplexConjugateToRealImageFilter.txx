@@ -121,7 +121,7 @@ GenerateOutputInformation()
 
   typedef typename TInputImageType::SizeType::SizeValueType SizeScalarType;
 
-  SizeScalarType x;
+  SizeScalarType x = 0;
 
   outputSize[0] = (inputSize[0] - 1) * 2;
   if(this->ActualXDimensionIsOdd())

@@ -117,6 +117,11 @@ ObjectStore<TObjectType>
     default:
       return m_LinearGrowthSize;
     }
+
+  // Strictly to avoid compiler warning regarding "control may reach end of
+  // non-void function":
+  //
+  return m_LinearGrowthSize;
 }
 
 template <class TObjectType>

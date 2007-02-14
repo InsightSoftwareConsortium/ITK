@@ -99,6 +99,11 @@ NrrdToITKComponentType( const int nrrdComponentType ) const
       return DOUBLE;
       break;
     }
+
+  // Strictly to avoid compiler warning regarding "control may reach end of
+  // non-void function":
+  //
+  return UNKNOWNCOMPONENTTYPE;
 }
 
 int
@@ -148,7 +153,12 @@ ITKToNrrdComponentType( const ImageIOBase::IOComponentType itkComponentType ) co
     case DOUBLE:
       return nrrdTypeDouble;
       break;
-    }  
+    }
+
+  // Strictly to avoid compiler warning regarding "control may reach end of
+  // non-void function":
+  //
+  return nrrdTypeUnknown;
 }
 
 bool NrrdImageIO::CanReadFile( const char* filename ) 
@@ -958,7 +968,7 @@ void NrrdImageIO::Write( const void* buffer)
         if (1 == sscanf(keyField + strlen(field), "[%d]", &axi)
             && axi + baseDim < nrrd->dim)
           {
-          double thickness;  // local for Borland
+          double thickness = 0.0;  // local for Borland
           ExposeMetaData<double>(thisDic, *keyIt, thickness);
           nrrd->axis[axi+baseDim].thickness = thickness;
           }
