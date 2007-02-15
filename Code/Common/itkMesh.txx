@@ -1221,17 +1221,9 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   this->m_CellLinksContainer = mesh->m_CellLinksContainer;
   this->m_BoundaryAssignmentsContainers = mesh->m_BoundaryAssignmentsContainers;
 
-  // Transfer the responsibility for releasing cells memory
+  // The cell allocation method must be maintained. The reference count
+  // test on the container will prevent premature deletion of cells.
   this->m_CellsAllocationMethod = mesh->m_CellsAllocationMethod;
-
-
-  // Tell the original mesh that the cells were allocated statically 
-  // in order to prevent it from trying to delete the cells.
-  //
-  // Casting away constness here is ugly but necessary...
-  Self * nonConstMesh = const_cast< Self *>( mesh );
-  nonConstMesh->m_CellsAllocationMethod = CellsAllocatedAsStaticArray; 
-
 }
 
 
