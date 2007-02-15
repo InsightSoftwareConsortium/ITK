@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <Description>
-<LineLength>81</LineLength>
+<LineLength>200</LineLength>
 <DeclarationOrder>0,1,2</DeclarationOrder>
 <Typedefs>[A-Z]</Typedefs>
 <InternalVariables>m_[A-Z]</InternalVariables>
