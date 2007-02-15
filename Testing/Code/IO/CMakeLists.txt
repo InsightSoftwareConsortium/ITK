@@ -101,6 +101,7 @@ testMetaSurface.cxx
 testMetaTube.cxx
 testMetaUtils.cxx
 testMetaArray.cxx
+testMetaCommand.cxx
 )
 
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
@@ -120,6 +121,20 @@ ADD_TEST(testMetaLine ${IO_TESTS} testMetaLine)
 ADD_TEST(testMetaLandmark ${IO_TESTS} testMetaLandmark)
 ADD_TEST(testMetaMesh ${IO_TESTS} testMetaMesh )
 ADD_TEST(testMetaScene ${IO_TESTS} testMetaScene)
+
+ADD_TEST( MetaCommandRequiredOptionsWithMultipleStrings ${IO_TESTS} testMetaCommand -ExpectedFailStatus 0 -sum 7 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7)
+ADD_TEST( MetaCommandRequiredOptionsWithMultipleStringsAtEnd ${IO_TESTS} testMetaCommand -ExpectedFailStatus 0 -sum 7 -r2_ri 7 -r1c_rs StringValue1 StringValue2 StringValue3)
+ADD_TEST( MetaCommandOptionalWithRequired  ${IO_TESTS} testMetaCommand -ExpectedFailStatus 0 -sum 107 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_ri 1 -o2_ri 99)
+ADD_TEST( MetaCommandOptionalOptoinsWithOutArguments  ${IO_TESTS} testMetaCommand -ExpectedFailStatus 0 -sum 207 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_oi   -o2_oi )
+ADD_TEST( MetaCommandOptionalOptoinsWithOutArguments  ${IO_TESTS} testMetaCommand -ExpectedFailStatus 0 -sum 107 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_oi 1  -o2_oi 99)
+ADD_TEST( MetaCommandRequiredAndOptionalOptoinsWithArguments ${IO_TESTS} testMetaCommand -ExpectedFailStatus 0 -sum 207 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_ri 1 -o2_ri 99 -o3_ri_oi 50 50)
+ADD_TEST( MetaCommandRequiredAndOptionalOptoinsWithOutArguments ${IO_TESTS}  testMetaCommand -ExpectedFailStatus 0 -sum 257 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_ri 1 -o2_ri 99 -o3_ri_oi 50)
+ADD_TEST( MetaCommandRequiredAndOptionalOptoinsWithOutArguments-1 ${IO_TESTS} testMetaCommand -ExpectedFailStatus 0 -sum 457 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_ri 1 -o2_ri 99 -o3_ri_oi 50 -o1_oi -o2_oi )
+ADD_TEST( MetaCommandRequiredOptionsWithMissingMultipleStrings  ${IO_TESTS} testMetaCommand -ExpectedFailStatus 1 -sum 7 -r1c_rs  -r2_ri 7)
+ADD_TEST( MetaCommandRequiredOptionsWithMissingMultipleStringsAtEnd ${IO_TESTS}  testMetaCommand -ExpectedFailStatus 1 -sum 7 -r2_ri 7 -r1c_rs )
+ADD_TEST( MetaCommandOptionalWithRequiredMissing  ${IO_TESTS} testMetaCommand -ExpectedFailStatus 1 -sum 107 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri  -o1_ri 1 -o2_ri 99)
+ADD_TEST( MetaCommandRequiredAndOptionalOptoinsWithArgumentsMissing  ${IO_TESTS} testMetaCommand -ExpectedFailStatus 1 -sum 207 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o3_ri_oi )
+
 ADD_TEST(itkNrrdImageIOTest1 ${IO_TESTS} itkNrrdImageIOTest ${ITK_TEST_OUTPUT_DIR}/testNrrd.nrrd)
 ADD_TEST(itkNrrdImageIOTest2 ${IO_TESTS} itkNrrdImageIOTest ${ITK_TEST_OUTPUT_DIR}/testNrrd.nhdr)
 ADD_TEST(itkReadWriteSpatialObjectTest ${IO_TESTS} itkReadWriteSpatialObjectTest)
@@ -166,6 +181,7 @@ ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
 ADD_EXECUTABLE(itkIOTests itkIOTests.cxx ${IOTest_SRCS})
 TARGET_LINK_LIBRARIES(itkIOHeaderTest ITKIO)
 TARGET_LINK_LIBRARIES(itkIOTests ITKIO ITKEXPAT ITKSpatialObject ITKAlgorithms)
+ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
 
 ##Add tests that depend on finding data
 FIND_PATH(VW_RAW_DATA_PATH avfCROP.1023c.raw 
