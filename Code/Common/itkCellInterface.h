@@ -183,7 +183,7 @@ public:
       
     /** Method for creation through the object factory.   */
     //itkNewMacro(Self);
-    static  Pointer New(void) { return new Self; }
+    static  Pointer New(void) { Pointer smartPtr = new Self; smartPtr->UnRegister(); return smartPtr;}
   
     /** Run-time type information (and related methods).   */
     itkTypeMacro(MultiVisitor,LightObject);
