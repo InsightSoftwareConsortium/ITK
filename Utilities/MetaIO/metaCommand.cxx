@@ -39,7 +39,7 @@ MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2007-02-14 23:34:06 $ cvs command */
+/** Extract the date from the $Date: 2007-02-15 15:31:39 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractDateFromCVS(METAIO_STL::string date)
 {
@@ -57,7 +57,7 @@ SetDateFromCVS(METAIO_STL::string cvsDate)
   this->SetDate( this->ExtractDateFromCVS( cvsDate ).c_str() );
   }
 
-/** Extract the version from the $Revision: 1.28 $ cvs command */
+/** Extract the version from the $Revision: 1.29 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractVersionFromCVS(METAIO_STL::string version)
 {
@@ -1451,7 +1451,7 @@ Parse(int argc, char* argv[])
           fIt++;
           }
         currentOption = this->GetOptionId(this->GetOptionByMinusTag(tag));
-          
+      
         if(currentOption < 0)
           {
           METAIO_STREAM::cout << "Error processing tag " << tag.c_str()
@@ -1537,7 +1537,7 @@ Parse(int argc, char* argv[])
       }
 
     // We collect the values
-    if(isComplete)
+    if(isComplete && (int)i<argc)
       {
       if(completeString.size()==0)
         {
@@ -1567,9 +1567,11 @@ Parse(int argc, char* argv[])
         // We change the value only if this is not a tag
         if(this->OptionExistsByMinusTag(argv[i]))
           {
-          std::cout << "WARNING: Option " << m_OptionVector[currentOption].name 
+          std::cout << "Option " << m_OptionVector[currentOption].name 
                     << " expect a value and got tag: " << argv[i] 
                     << std::endl;
+          this->ListOptionsSimplified();
+          return false;
           }
 
         m_OptionVector[currentOption].fields[s-(valuesRemaining)].value = argv[i];
@@ -1589,7 +1591,8 @@ Parse(int argc, char* argv[])
         valuesRemaining--;
         }
       }
-    else if(i==(unsigned int)argc && (optionalValuesRemaining>0)) // if this is the last argument
+    else if(valuesRemaining==optionalValuesRemaining  // if this is the last argument and all the remaining values are optionals
+            && i==(unsigned int)argc && (optionalValuesRemaining>0)) 
       {
       if(this->OptionExistsByMinusTag(argv[i-1]) )
         {
@@ -1616,7 +1619,7 @@ Parse(int argc, char* argv[])
     valuesRemaining = 0;
     }
 
-  if(optionalValuesRemaining >0)
+  if(optionalValuesRemaining >0 && optionalValuesRemaining==valuesRemaining)
     {
     valuesRemaining = 0;
     m_OptionVector[currentOption].userDefined = true;
