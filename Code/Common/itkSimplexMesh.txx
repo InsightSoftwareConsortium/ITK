@@ -304,6 +304,10 @@ void
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
 ::SetGeometryData(unsigned long pointId, SimplexMeshGeometry* geometryData)
 {
+  if (m_GeometryData->IndexExists(pointId))
+    {
+    delete m_GeometryData->GetElement(pointId);
+    }
   m_GeometryData->InsertElement(pointId, geometryData);
 }
 
