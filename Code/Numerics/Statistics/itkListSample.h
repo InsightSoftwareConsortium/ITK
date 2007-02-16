@@ -143,25 +143,30 @@ public:
     { return m_InstanceIdentifier ;}
 
     Iterator& operator++()
-    { ++m_Iter ; ++m_InstanceIdentifier ; return *this ;}
+    { 
+      ++m_Iter; 
+      ++m_InstanceIdentifier; 
+      return *this;
+    }
     
     Iterator& operator--()
     { 
       --m_Iter ; 
-
-      if ( m_InstanceIdentifier > 1 )
-        m_InstanceIdentifier; 
-      
+      --m_InstanceIdentifier;
       return *this ;
     }
 
     bool operator!=(const Iterator &it)
-    { return (m_Iter != it.m_Iter) ;}
+    { 
+      return (m_Iter != it.m_Iter);
+    }
     
     bool operator==(const Iterator &it)
-    { return (m_Iter == it.m_Iter) ;}
+    { 
+      return (m_Iter == it.m_Iter);
+    }
     
-    Iterator& operator = (const Iterator & iter)
+    Iterator& operator =(const Iterator & iter)
     { 
       m_Iter = iter.m_Iter; 
       m_InstanceIdentifier = iter.m_InstanceIdentifier ;
@@ -201,23 +206,28 @@ public:
     { return m_InstanceIdentifier ;}
 
     ConstIterator& operator++()
-    { ++m_Iter ; ++m_InstanceIdentifier ; return *this ;}
+    { 
+      ++m_Iter; 
+      ++m_InstanceIdentifier; 
+      return *this;
+    }
     
     ConstIterator& operator--()
     { 
-      --m_Iter ; 
-
-      if ( m_InstanceIdentifier > 1 )
-        m_InstanceIdentifier; 
-      
+      --m_Iter; 
+      --m_InstanceIdentifier; 
       return *this ;
     }
 
     bool operator!=(const ConstIterator &it)
-    { return (m_Iter != it.m_Iter) ;}
+    { 
+      return (m_Iter != it.m_Iter);
+    }
     
     bool operator==(const ConstIterator &it)
-    { return (m_Iter == it.m_Iter) ;}
+    { 
+      return (m_Iter == it.m_Iter);
+    }
     
     ConstIterator& operator = (const ConstIterator iter)
     { 
