@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkListSampleTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkListSampleTest.cxx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) Insight Software Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #if defined(_MSC_VER)
@@ -28,15 +28,13 @@ int itkListSampleTest(int argc, char *argv[] )
     std::cerr << "itkListSampleTest LengthOfMeasurementVector" << std::endl;
     }
     
-  bool pass = true;
-  std::string whereFail = "" ;
-
   typedef itk::Array< float > MeasurementVectorType ;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
 
   SampleType::MeasurementVectorSizeType measurementVectorSize = atoi(argv[1]);
-  
-  unsigned int sampleSize = 50 ;
+  std::cerr << "Measurement vector size: " << measurementVectorSize << std::endl;
+
+  unsigned int sampleSize = 25;
 
   SampleType::Pointer sample = SampleType::New() ;
 
@@ -45,90 +43,193 @@ int itkListSampleTest(int argc, char *argv[] )
   MeasurementVectorType mv( measurementVectorSize ) ;
   for ( unsigned int i = 0 ; i < sampleSize ; i++ )
     {
-      for (unsigned int j = 0 ; j < measurementVectorSize ; j++ )
-        {
-          mv[j] = rand() / (RAND_MAX+1.0)  ;
-        }
-      sample->PushBack(mv) ;
+    for (unsigned int j = 0 ; j < measurementVectorSize ; j++ )
+      {
+      mv[j] = rand() / (RAND_MAX+1.0)  ;
+      }
+    sample->PushBack(mv) ;
     }
 
   // tests begin
 
+  //
+  // general interface
+  //
+  std::cerr << "General interface..." << std::endl;
   if ( sampleSize != sample->Size() )
     {
-      pass = false ;
-      whereFail = "Size()" ;
+    std::cerr << "Size() failed" << std::endl;
+    return EXIT_FAILURE;
     }
 
   mv = sample->GetMeasurementVector(4) ;
   if ( mv != sample->GetMeasurementVector(4) )
     {
-      pass = false ;
-      whereFail = "GetMeasurementVector()" ;
-    }
-
-  // iterator test
-  SampleType::Iterator s_iter = sample->Begin() ;
-  unsigned int id = 0 ;
-  while (s_iter != sample->End())
-    {
-      if (sample->GetMeasurementVector(id) != 
-          s_iter.GetMeasurementVector())
-        {
-          pass = false ;
-          whereFail = "Iterator: GetMeasurementVector()" ;
-        }
-      ++id ;
-      ++s_iter ;
-    }
-
-  if (s_iter != sample->End())
-    {
-      pass = false ;
-      whereFail = "Iterator: End()" ;
-    }
-
-
-
-  // ConstIterator test
-  {
-  SampleType::ConstIterator s_iter = sample->Begin();
-  SampleType::ConstIterator s_end = sample->End();
-  unsigned int id = 0 ;
-  while ( s_iter != s_end )
-    {
-      if (sample->GetMeasurementVector(id) != 
-          s_iter.GetMeasurementVector())
-        {
-          pass = false ;
-          whereFail = "Iterator: GetMeasurementVector()" ;
-        }
-      ++id ;
-      ++s_iter ;
-    }
-
-  if (s_iter != sample->End())
-    {
-      pass = false ;
-      whereFail = "Iterator: End()" ;
-    }
-
-  }
-
-
-  SampleType::SearchResultVectorType searchResult ;
-  sample->Search(sample->GetMeasurementVector(25), 0.01, searchResult) ;
-
-  if( !pass )
-    {
-      std::cout << "Test failed in " << whereFail << "." << std::endl;
+    std::cerr << "GetMeasurementVector failed" << std::endl;
     return EXIT_FAILURE;
     }
 
-  std::cout << "Test passed." << std::endl;
-  return EXIT_SUCCESS;
+  //
+  // iterator tests
+  //
+  std::cerr << "Iterators..." << std::endl;
+    {
+    // forward iterator
+    SampleType::Iterator s_iter = sample->Begin() ;
+    
+    // copy constructor
+    SampleType::Iterator bs_iter(s_iter);
+    if (bs_iter != s_iter)
+      {
+      std::cerr << "Iterator::Copy Constructor failed" << std::endl;
+      return EXIT_FAILURE;    
+      }
+    
+    SampleType::InstanceIdentifier id = 0 ;
+    while (s_iter != sample->End())
+      {
+      if (sample->GetMeasurementVector(id) != 
+          s_iter.GetMeasurementVector())
+        {
+        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << std::endl;
+        return EXIT_FAILURE;
+        }
+      if (id != s_iter.GetInstanceIdentifier())
+        {
+        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << std::endl;
+        return EXIT_FAILURE;
+        }
+      if (s_iter.GetFrequency() != 1)
+        {
+        std::cerr << "Iterator::GetFrequency (forward) failed" << std::endl;
+        return EXIT_FAILURE;
+        }
+      ++id ;
+      ++s_iter ;
+      }
+    
+    if (s_iter != sample->End())
+      {
+      std::cerr << "Iterator::End (forward) failed" << std::endl;
+      return EXIT_FAILURE;    
+      }
+    
+    // backwards iterator
+    do 
+      {
+      --s_iter;
+      --id;
+      if (sample->GetMeasurementVector(id) != 
+          s_iter.GetMeasurementVector())
+        {
+        std::cerr << "Iterator::GetMeasurementVector (backward) failed" << std::endl;
+        return EXIT_FAILURE;
+        }
+      if (id != s_iter.GetInstanceIdentifier())
+        {
+        std::cerr << "Iterator::GetInstanceIdentifier (backward) failed" << std::endl;
+        return EXIT_FAILURE;
+        }      
+      } while (!(s_iter == sample->Begin())); // explicitly test ==
+        
+    if (!(s_iter == sample->Begin()))
+      {
+      std::cerr << "Iterator::Begin (backward) failed" << std::endl;
+      return EXIT_FAILURE;    
+      }
+    }
+
+  // ConstIterator test
+    std::cerr << "Const Iterators..." << std::endl;
+    {
+    // forward iterator
+    SampleType::ConstIterator s_iter = sample->Begin() ;
+    
+    // copy constructor
+    SampleType::ConstIterator bs_iter(s_iter);
+    if (bs_iter != s_iter)
+      {
+      std::cerr << "Iterator::Copy Constructor (from const) failed" << std::endl;
+      return EXIT_FAILURE;    
+      }
+
+    // copy from non-const iterator
+    SampleType::Iterator nonconst_iter = sample->Begin();
+    SampleType::ConstIterator s2_iter(nonconst_iter);
+    if (s2_iter != s_iter)
+      {
+      std::cerr << "Iterator::Copy Constructor (from non-const) failed" << std::endl;
+      return EXIT_FAILURE;    
+      }
+    // assignment from non-const iterator
+    s2_iter = nonconst_iter;
+    if (s2_iter != s_iter)
+      {
+      std::cerr << "Iterator::assignment (from non-const) failed" << std::endl;
+      return EXIT_FAILURE;    
+      }
+    
+    SampleType::InstanceIdentifier id = 0 ;
+    while (s_iter != sample->End())
+      {
+      if (sample->GetMeasurementVector(id) != 
+          s_iter.GetMeasurementVector())
+        {
+        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << std::endl;
+        return EXIT_FAILURE;
+        }
+      if (id != s_iter.GetInstanceIdentifier())
+        {
+        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << std::endl;
+        return EXIT_FAILURE;
+        }
+      if (s_iter.GetFrequency() != 1)
+        {
+        std::cerr << "Iterator::GetFrequency (forward) failed" << std::endl;
+        return EXIT_FAILURE;
+        }
+      ++id ;
+      ++s_iter ;
+      }
+    
+    if (s_iter != sample->End())
+      {
+      std::cerr << "Iterator::End (forward) failed" << std::endl;
+      return EXIT_FAILURE;    
+      }
+    
+    // backwards iterator
+    do 
+      {
+      --s_iter;
+      --id;
+      if (sample->GetMeasurementVector(id) != 
+          s_iter.GetMeasurementVector())
+        {
+        std::cerr << "Iterator::GetMeasurementVector (backward) failed" << std::endl;
+        return EXIT_FAILURE;
+        }
+      if (id != s_iter.GetInstanceIdentifier())
+        {
+        std::cerr << "Iterator::GetInstanceIdentifier (backward) failed" << std::endl;
+        return EXIT_FAILURE;
+        }      
+      } while (!(s_iter == sample->Begin())); // explicitly test ==
+        
+    if (!(s_iter == sample->Begin()))
+      {
+      std::cerr << "Iterator::Begin (backward) failed" << std::endl;
+      return EXIT_FAILURE;    
+      }
+    }
+
+    std::cerr << "Search..." << std::endl;    
+    SampleType::SearchResultVectorType searchResult ;
+    sample->Search(sample->GetMeasurementVector(sampleSize/2), 0.01, searchResult) ;
 
 
+    std::cout << "Test passed." << std::endl;
+    return EXIT_SUCCESS;
 }
 
 
