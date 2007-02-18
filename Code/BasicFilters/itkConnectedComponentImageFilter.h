@@ -83,10 +83,16 @@ public:
    */
   typedef TInputImage                       InputImageType;
   typedef TMaskImage                        MaskImageType;
-  typedef TOutputImage                      OutputImageType;
   typedef typename TInputImage::IndexType   IndexType;
   typedef typename TInputImage::SizeType    SizeType;
+  typedef typename TInputImage::OffsetType  OffsetType;
+
+  typedef TOutputImage                      OutputImageType;
   typedef typename TOutputImage::RegionType RegionType;
+  typedef typename TOutputImage::IndexType  OutputIndexType;
+  typedef typename TOutputImage::SizeType   OutputSizeType;
+  typedef typename TOutputImage::OffsetType OutputOffsetType;
+
   typedef std::list<IndexType>              ListType;
   typedef typename MaskImageType::Pointer   MaskImagePointer;
 
@@ -199,8 +205,8 @@ private:
   void LinkLabels(const unsigned long int lab1, const unsigned long int lab2);
   unsigned long int CreateConsecutive();
   //////////////////
-  bool CheckNeighbors(const typename TOutputImage::IndexType &A, 
-                      const typename TOutputImage::IndexType &B);
+  bool CheckNeighbors(const OutputIndexType &A, 
+                      const OutputIndexType &B);
 
   void CompareLines(lineEncoding &current, const lineEncoding &Neighbour);
 

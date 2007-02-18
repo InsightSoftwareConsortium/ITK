@@ -120,7 +120,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
         // We've hit the start of a run
         runLength thisRun;
         long length=0;
-        typename InputImageType::IndexType thisIndex;
+        IndexType thisIndex;
         ++lab;
         thisIndex = inLineIt.GetIndex();
         //std::cout << thisIndex << std::endl;
@@ -298,13 +298,13 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
 template< class TInputImage, class TOutputImage, class TMaskImage >
 bool
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
-::CheckNeighbors(const typename TOutputImage::IndexType &A, 
-                 const typename TOutputImage::IndexType &B)
+::CheckNeighbors(const OutputIndexType &A, 
+                 const OutputIndexType &B)
 {
   // this checks whether the line encodings are really neighbors. The
   // first dimension gets ignored because the encodings are along that
   // axis
-  typename TOutputImage::OffsetType Off = A - B;
+  OutputOffsetType Off = A - B;
   for (unsigned i = 1; i < OutputImageDimension; i++)
     {
     if (abs(Off[i]) > 1)
