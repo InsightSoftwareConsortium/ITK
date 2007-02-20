@@ -231,6 +231,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   typename TOutputImage::Pointer output = this->GetOutput();
   typedef Image<long, TOutputImage::ImageDimension - 1>   PretendImageType;
   typedef typename PretendImageType::RegionType::SizeType PretendSizeType;
+  typedef typename PretendImageType::RegionType::IndexType PretendIndexType;
   typedef ConstShapedNeighborhoodIterator<PretendImageType>
     LineNeighborhoodType;
 
@@ -240,11 +241,9 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   typename PretendImageType::RegionType LineRegion;
   //LineRegion = PretendImageType::RegionType::New();
 
-  OutSizeType OutSize;
-  OutSize = output->GetRequestedRegion().GetSize();
+  OutSizeType OutSize = output->GetRequestedRegion().GetSize();
 
   PretendSizeType PretendSize;
-  PretendSize = fakeImage->GetRequestedRegion().GetSize();
   // The first dimension has been collapsed
   for (unsigned int i = 0; i<PretendSize.GetSizeDimension(); i++)
     {
@@ -252,6 +251,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
     }
 
   LineRegion.SetSize(PretendSize);
+  fakeImage->SetRegions( LineRegion );
   PretendSizeType kernelRadius;
   kernelRadius.Fill(1);
   LineNeighborhoodType lnit(kernelRadius, fakeImage, LineRegion);
@@ -265,30 +265,14 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   typename LineNeighborhoodType::IndexListType ActiveIndexes;
   ActiveIndexes = lnit.GetActiveIndexList();
 
-  typedef std::vector<long> OffsetVec;
-
   typename LineNeighborhoodType::IndexListType::const_iterator LI;
   
-  PretendSizeType SizeBuff;
-  SizeBuff[0] = 1;
-  // should do this with a copy
-  for (int i =0; i < PretendImageType::ImageDimension - 1; i++)
+  PretendIndexType idx = LineRegion.GetIndex();
+  long offset = fakeImage->ComputeOffset( idx );
+
+  for (LI=ActiveIndexes.begin(); LI != ActiveIndexes.end(); LI++)
     {
-    SizeBuff[i+1] = PretendSize[i];
-    }
-  unsigned int pos = 0;
-  for (LI=ActiveIndexes.begin(); LI != ActiveIndexes.end(); LI++, pos++)
-    {
-    unsigned int idx = *LI;
-    typename LineNeighborhoodType::OffsetType offset = lnit.GetOffset(idx);
-    //std::cout << offset << std::endl;
-    int vv = 0;
-    for (int J = 0; J < PretendImageType::ImageDimension;J++)
-      {
-      vv += offset[J] * SizeBuff[J];
-      }
-    //std::cout << vv << std::endl;
-    LineOffsets.push_back( vv);
+    LineOffsets.push_back( fakeImage->ComputeOffset( idx + lnit.GetOffset( *LI ) ) - offset );
     }
   
   // LineOffsets is the thing we wanted.
