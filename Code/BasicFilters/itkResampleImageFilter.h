@@ -185,9 +185,8 @@ public:
 
   /** Helper method to set the output parameters based on this image */
   void SetOutputParametersFromImage ( typename OutputImageType::Pointer Image ) {
-    this->SetOutputOrigin ( Image->GetOrigin() );
-    this->SetOutputSpacing ( Image->GetSpacing() );
-    this->SetSize ( Image->GetLargestPossibleRegion().GetSize() );
+    this->SetUseReferenceImage ( true );
+    this->SetReferenceImage ( Image );
   }
 
   /** Set the start index of the output largest possible region. 
