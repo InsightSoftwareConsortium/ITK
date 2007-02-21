@@ -445,9 +445,9 @@ void GDCMImageIO::Read(void* buffer)
 }
 
 template <typename PixelType>
-IOComponentType ComputeInterval(double slope, double intercept)
+ImageIOBase::IOComponentType ComputeInterval(double slope, double intercept)
 {
-  IOComponentType comptype;
+  ImageIOBase::IOComponentType comptype;
   PixelType maximum = NumericTraits<PixelType>::min() ;
   PixelType minimum = NumericTraits<PixelType>::max() ;
 
@@ -456,29 +456,29 @@ IOComponentType ComputeInterval(double slope, double intercept)
   dmin = minimum * slope + intercept;
 
   // do the case in order:
-  if( dmin >= NumericTraits<UCHAR>::min() && dmax <= NumericTraits<UCHAR>::max() )
+  if( dmin >= NumericTraits<unsigned char>::min() && dmax <= NumericTraits<unsigned char>::max() )
     {
-    comptype = UCHAR;
+    comptype = ImageIOBase::UCHAR;
     }
-  else if( dmin >= NumericTraits<CHAR>::min() && dmax <= NumericTraits<CHAR>::max() )
+  else if( dmin >= NumericTraits<char>::min() && dmax <= NumericTraits<char>::max() )
     {
-    comptype = CHAR;
+    comptype = ImageIOBase::CHAR;
     }
-  else if( dmin >= NumericTraits<USHORT>::min() && dmax <= NumericTraits<USHORT>::max() )
+  else if( dmin >= NumericTraits<unsigned short>::min() && dmax <= NumericTraits<unsigned short>::max() )
     {
-    comptype = USHORT;
+    comptype = ImageIOBase::USHORT;
     }
-  else if( dmin >= NumericTraits<SHORT>::min() && dmax <= NumericTraits<SHORT>::max() )
+  else if( dmin >= NumericTraits<short>::min() && dmax <= NumericTraits<short>::max() )
     {
-    comptype = SHORT;
+    comptype = ImageIOBase::SHORT;
     }
-  else if( dmin >= NumericTraits<UINT>::min() && dmax <= NumericTraits<UINT>::max() )
+  else if( dmin >= NumericTraits<unsigned int>::min() && dmax <= NumericTraits<unsigned int>::max() )
     {
-    comptype = UINT;
+    comptype = ImageIOBase::UINT;
     }
   else
     {
-    comptype = UNKNOWNCOMPONENTTYPE;
+    comptype = ImageIOBase::UNKNOWNCOMPONENTTYPE;
     }
   return comptype;
 }
@@ -617,22 +617,22 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   switch (m_ComponentType)
     {
   case ImageIOBase::UCHAR:
-    m_ComponentType = ComputeInterval<UCHAR>(m_RescaleSlope, m_RescaleIntercept);
+    m_ComponentType = ComputeInterval<unsigned char>(m_RescaleSlope, m_RescaleIntercept);
     break;
   case ImageIOBase::CHAR:
-    m_ComponentType = ComputeInterval<CHAR>(m_RescaleSlope, m_RescaleIntercept);
+    m_ComponentType = ComputeInterval<char>(m_RescaleSlope, m_RescaleIntercept);
     break;
   case ImageIOBase::USHORT:
-    m_ComponentType = ComputeInterval<USHORT>(m_RescaleSlope, m_RescaleIntercept);
+    m_ComponentType = ComputeInterval<unsigned short>(m_RescaleSlope, m_RescaleIntercept);
     break;
   case ImageIOBase::SHORT:
-    m_ComponentType = ComputeInterval<SHORT>(m_RescaleSlope, m_RescaleIntercept);
+    m_ComponentType = ComputeInterval<short>(m_RescaleSlope, m_RescaleIntercept);
     break;
   case ImageIOBase::UINT:
-    m_ComponentType = ComputeInterval<UINT>(m_RescaleSlope, m_RescaleIntercept);
+    m_ComponentType = ComputeInterval<unsigned int>(m_RescaleSlope, m_RescaleIntercept);
     break;
   case ImageIOBase::INT:
-    m_ComponentType = ComputeInterval<INT>(m_RescaleSlope, m_RescaleIntercept);
+    m_ComponentType = ComputeInterval<int>(m_RescaleSlope, m_RescaleIntercept);
     break;
   default:
     m_ComponentType = UNKNOWNCOMPONENTTYPE;
