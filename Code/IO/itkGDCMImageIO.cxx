@@ -444,6 +444,45 @@ void GDCMImageIO::Read(void* buffer)
 
 }
 
+template <typename PixelType>
+IOComponentType ComputeInterval(double slope, double intercept)
+{
+  IOComponentType comptype;
+  PixelType maximum = NumericTraits<PixelType>::min() ;
+  PixelType minimum = NumericTraits<PixelType>::max() ;
+
+  double dmax, dmin; // do computation in double
+  dmax = maximum * slope + intercept;
+  dmin = minimum * slope + intercept;
+
+  // do the case in order:
+  if( dmin >= NumericTraits<UCHAR>::min() && dmax <= NumericTraits<UCHAR>::max() )
+    {
+    comptype = UCHAR;
+    }
+  else if( dmin >= NumericTraits<CHAR>::min() && dmax <= NumericTraits<CHAR>::max() )
+    {
+    comptype = CHAR;
+    }
+  else if( dmin >= NumericTraits<USHORT>::min() && dmax <= NumericTraits<USHORT>::max() )
+    {
+    comptype = USHORT;
+    }
+  else if( dmin >= NumericTraits<SHORT>::min() && dmax <= NumericTraits<SHORT>::max() )
+    {
+    comptype = SHORT;
+    }
+  else if( dmin >= NumericTraits<UINT>::min() && dmax <= NumericTraits<UINT>::max() )
+    {
+    comptype = UINT;
+    }
+  else
+    {
+    comptype = UNKNOWNCOMPONENTTYPE;
+    }
+  return comptype;
+}
+
 void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
 {
   //read header
@@ -573,29 +612,31 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
       }
     }
 
-  // If the intercept is negative, unsigned integral values need to be
-  // changed to signed integral values. Otherwise, the rescale intercept
-  // code will overflow.
-
-  if (m_RescaleIntercept < 0)
+  // Let's make sure that the Stored pixel component type will be large enough to cover
+  // the actual pixel values:
+  switch (m_ComponentType)
     {
-    switch (m_ComponentType)
-      {
-      case ImageIOBase::UCHAR:
-        m_ComponentType = ImageIOBase::CHAR;
-        break;
-      case ImageIOBase::UINT:
-        m_ComponentType = ImageIOBase::INT;
-        break;
-      case ImageIOBase::USHORT:
-        m_ComponentType = ImageIOBase::SHORT;
-        break;
-      case ImageIOBase::ULONG:
-        m_ComponentType = ImageIOBase::LONG;
-        break;
-      default:
-        break;
-      }
+  case ImageIOBase::UCHAR:
+    m_ComponentType = ComputeInterval<UCHAR>(m_RescaleSlope, m_RescaleIntercept);
+    break;
+  case ImageIOBase::CHAR:
+    m_ComponentType = ComputeInterval<CHAR>(m_RescaleSlope, m_RescaleIntercept);
+    break;
+  case ImageIOBase::USHORT:
+    m_ComponentType = ComputeInterval<USHORT>(m_RescaleSlope, m_RescaleIntercept);
+    break;
+  case ImageIOBase::SHORT:
+    m_ComponentType = ComputeInterval<SHORT>(m_RescaleSlope, m_RescaleIntercept);
+    break;
+  case ImageIOBase::UINT:
+    m_ComponentType = ComputeInterval<UINT>(m_RescaleSlope, m_RescaleIntercept);
+    break;
+  case ImageIOBase::INT:
+    m_ComponentType = ComputeInterval<INT>(m_RescaleSlope, m_RescaleIntercept);
+    break;
+  default:
+    m_ComponentType = UNKNOWNCOMPONENTTYPE;
+    break;
     }
 
   //Now copying the gdcm dictionary to the itk dictionary:
