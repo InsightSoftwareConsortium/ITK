@@ -30,6 +30,18 @@ namespace gdcm
 class RLEFramesInfo;
 class JPEGFragmentsInfo;
 
+#ifdef CS
+#undef CS
+#endif
+#ifdef DS
+#undef DS
+#endif
+#ifdef ES
+#undef ES
+#endif
+#ifdef FS
+#undef FS
+#endif
 //-----------------------------------------------------------------------------
 // Dicom Part 3.3 Compliant
 enum ModalityType {
