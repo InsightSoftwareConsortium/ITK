@@ -481,6 +481,10 @@ ImageIOBase::IOComponentType ComputeInterval(double slope, double intercept)
     {
     comptype = ImageIOBase::UINT;
     }
+  else if( dmin >= NumericTraits<int>::min() && dmax <= NumericTraits<int>::max() )
+    {
+    comptype = ImageIOBase::INT;
+    }
   else
     {
     comptype = ImageIOBase::UNKNOWNCOMPONENTTYPE;
@@ -657,7 +661,8 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     // Because BinEntry is a ValEntry...
     if ( gdcm::BinEntry* b = dynamic_cast<gdcm::BinEntry*>(d) )
       {
-      if (b->GetName() != "Pixel Data" && b->GetName() != "unkn")
+      if (b->GetName() != "Pixel Data" && b->GetName() != gdcm::GDCM_UNKNOWN 
+        && b->GetVR() != "UN" )
         {
         if (b->GetValue() == gdcm::GDCM_BINLOADED )
           {
@@ -680,7 +685,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     else if ( gdcm::ValEntry* v = dynamic_cast<gdcm::ValEntry*>(d) )
       {
       // Only copying field from the public DICOM dictionary
-      if( v->GetName() != "unkn")
+      if( v->GetName() != gdcm::GDCM_UNKNOWN )
         {
         EncapsulateMetaData<std::string>(dico, v->GetKey(), v->GetValue() );
         }
