@@ -195,8 +195,13 @@ bool GDCMImageIO::CanReadFile(const char* filename)
   // Check to see if its a valid dicom file gdcm is able to parse:
   // We are parsing the header one time here:
 
-  bool pre;
-  return gdcm::Document::CanReadFile(file, pre);
+  bool preamble;
+  if( gdcm::Document::CanReadFile(file, preamble) )
+    {
+    // By default only support DICOM with preamble (DICM magic number):
+    return preamble;
+    }
+  return false;
 }
 
 // Internal function to rescale pixel according to Rescale Slope/Intercept
