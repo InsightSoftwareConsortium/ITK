@@ -106,7 +106,7 @@ public:
    GDCM_LEGACY( void AddRestriction(TagKey const &key, std::string const &value) )
    /// Allow user to specify that the serie should also be consistent (== operation),
    /// on the particular tag (group,element)
-   void AddRestriction(uint16_t group, uint16_t elem); 
+   void AddRestriction(uint16_t group, uint16_t elem);
    /// Same as above accept use the format: "0x1234|0x5678"
    void AddRestriction(const std::string & tag)
      {

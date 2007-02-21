@@ -117,6 +117,7 @@ public:
    int GetYSize();
    int GetZSize();
 
+   bool GetSpacing(float &xspacing, float &yspacing, float &zspacing);
    float GetXSpacing();
    float GetYSpacing();
    float GetZSpacing();
@@ -144,8 +145,9 @@ public:
    int GetLUTNbits();
 
    // For rescaling graylevel:
-   float GetRescaleIntercept();
-   float GetRescaleSlope();
+   bool GetRescaleSlopeIntercept(double &slope, double &intercept);
+   double GetRescaleIntercept();
+   double GetRescaleSlope();
 
    int GetNumberOfScalarComponents();
    int GetNumberOfScalarComponentsRaw();
