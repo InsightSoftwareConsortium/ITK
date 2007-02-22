@@ -94,6 +94,7 @@ void ValEntry::WriteContent(std::ofstream *fp, FileType filetype)
          binary_write( *fp, val_uint16);
       }
       tokens.clear();
+      return;
    }
    else if (vr == "SS" )
    {
@@ -109,6 +110,7 @@ void ValEntry::WriteContent(std::ofstream *fp, FileType filetype)
          binary_write( *fp, val_int16);
       }
       tokens.clear();
+      return;
    }
    else if (vr == "UL")
    {
