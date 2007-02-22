@@ -982,6 +982,23 @@ std::ostream &binary_write(std::ostream &os, const uint16_t &val)
 
 /**
  * \brief binary_write binary_write
+ * @param os ostream to write to 
+ * @param val 16 bits value to write
+ */ 
+std::ostream &binary_write(std::ostream &os, const int16_t &val)
+{
+#if defined(GDCM_WORDS_BIGENDIAN) || defined(GDCM_FORCE_BIGENDIAN_EMULATION)
+   int16_t swap;
+   swap = ( val << 8 | val >> 8 );
+
+   return os.write(reinterpret_cast<const char*>(&swap), 2);
+#else
+   return os.write(reinterpret_cast<const char*>(&val), 2);
+#endif //GDCM_WORDS_BIGENDIAN
+}
+
+/**
+ * \brief binary_write binary_write
  * @param os ostream to write to
  * @param val 32 bits value to write
  */ 
@@ -989,6 +1006,23 @@ std::ostream &binary_write(std::ostream &os, const uint32_t &val)
 {
 #if defined(GDCM_WORDS_BIGENDIAN) || defined(GDCM_FORCE_BIGENDIAN_EMULATION)
    uint32_t swap;
+   swap = (  (val<<24)               | ((val<<8)  & 0x00ff0000) | 
+            ((val>>8)  & 0x0000ff00) |  (val>>24)               );
+   return os.write(reinterpret_cast<const char*>(&swap), 4);
+#else
+   return os.write(reinterpret_cast<const char*>(&val), 4);
+#endif //GDCM_WORDS_BIGENDIAN
+}
+
+/**
+ * \brief binary_write binary_write
+ * @param os ostream to write to
+ * @param val 32 bits value to write
+ */ 
+std::ostream &binary_write(std::ostream &os, const int32_t &val)
+{
+#if defined(GDCM_WORDS_BIGENDIAN) || defined(GDCM_FORCE_BIGENDIAN_EMULATION)
+   int32_t swap;
    swap = (  (val<<24)               | ((val<<8)  & 0x00ff0000) | 
             ((val>>8)  & 0x0000ff00) |  (val>>24)               );
    return os.write(reinterpret_cast<const char*>(&swap), 4);

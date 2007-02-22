@@ -1442,17 +1442,31 @@ void Document::LoadDocEntry(DocEntry *entry, bool forceLoad)
 
    if ( IsDocEntryAnInteger(entry) )
    {   
-      uint32_t NewInt;
       int nbInt;
       // When short integer(s) are expected, read and convert the following 
       // (n * 2) characters properly i.e. consider them as short integers as
       // opposed to strings.
       // Elements with Value Multiplicity > 1
       // contain a set of integers (not a single one)       
-      if (vr == "US" || vr == "SS")
+      if (vr == "US")
       {
          nbInt = length / 2;
-         NewInt = ReadInt16();
+         uint16_t NewInt = ReadInt16();
+         s << NewInt;
+         if (nbInt > 1)
+         {
+            for (int i=1; i < nbInt; i++)
+            {
+               s << '\\';
+               NewInt = ReadInt16();
+               s << NewInt;
+            }
+         }
+      }
+      else if (vr == "SS")
+      {
+         nbInt = length / 2;
+         int16_t NewInt = ReadInt16();
          s << NewInt;
          if (nbInt > 1)
          {
@@ -1465,10 +1479,25 @@ void Document::LoadDocEntry(DocEntry *entry, bool forceLoad)
          }
       }
       // See above comment on multiple integers (mutatis mutandis).
-      else if (vr == "UL" || vr == "SL")
+      else if (vr == "UL")
       {
          nbInt = length / 4;
-         NewInt = ReadInt32();
+         uint32_t NewInt = ReadInt32();
+         s << NewInt;
+         if (nbInt > 1)
+         {
+            for (int i=1; i < nbInt; i++)
+            {
+               s << '\\';
+               NewInt = ReadInt32();
+               s << NewInt;
+            }
+         }
+      }
+      else if (vr == "SL")
+      {
+         nbInt = length / 4;
+         int32_t NewInt = ReadInt32();
          s << NewInt;
          if (nbInt > 1)
          {

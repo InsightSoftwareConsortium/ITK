@@ -80,7 +80,7 @@ void ValEntry::WriteContent(std::ofstream *fp, FileType filetype)
    const VRKey &vr = GetVR();
    unsigned int lgth = GetLength();
    (void)lgth;
-   if (vr == "US" || vr == "SS")
+   if (vr == "US" )
    {
       // some 'Short integer' fields may be multivaluated
       // each single value is separated from the next one by '\'
@@ -94,9 +94,23 @@ void ValEntry::WriteContent(std::ofstream *fp, FileType filetype)
          binary_write( *fp, val_uint16);
       }
       tokens.clear();
-      return;
    }
-   if (vr == "UL" || vr == "SL")
+   else if (vr == "SS" )
+   {
+      // some 'Short integer' fields may be multivaluated
+      // each single value is separated from the next one by '\'
+      // we split the string and write each value as a short int
+      std::vector<std::string> tokens;
+      tokens.erase(tokens.begin(),tokens.end()); // clean any previous value
+      Util::Tokenize (GetValue(), tokens, "\\");
+      for (unsigned int i=0; i<tokens.size();i++)
+      {
+         int16_t val_int16 = atoi(tokens[i].c_str());
+         binary_write( *fp, val_int16);
+      }
+      tokens.clear();
+   }
+   else if (vr == "UL")
    {
       // Some 'Integer' fields may be multivaluated (multiple instances 
       // of integer). But each single integer value is separated from the
@@ -109,6 +123,23 @@ void ValEntry::WriteContent(std::ofstream *fp, FileType filetype)
       {
          uint32_t val_uint32 = atoi(tokens[i].c_str());
          binary_write( *fp, val_uint32);
+      }
+      tokens.clear();
+      return;
+   } 
+   else if (vr == "SL")
+   {
+      // Some 'Integer' fields may be multivaluated (multiple instances 
+      // of integer). But each single integer value is separated from the
+      // next one by '\' (backslash character). Hence we split the string
+      // along the '\' and write each value as an int:
+      std::vector<std::string> tokens;
+      tokens.erase(tokens.begin(),tokens.end()); // clean any previous value
+      Util::Tokenize (GetValue(), tokens, "\\");
+      for (unsigned int i=0; i<tokens.size();i++)
+      {
+         int32_t val_int32 = atoi(tokens[i].c_str());
+         binary_write( *fp, val_int32);
       }
       tokens.clear();
       return;

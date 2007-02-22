@@ -87,7 +87,9 @@ private:
 };
 
 GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const uint16_t &val);
+GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const int16_t &val);
 GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const uint32_t &val);
+GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const int32_t &val);
 GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const double &val);
 GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const char *val);
 GDCM_EXPORT std::ostream &binary_write(std::ostream &os, std::string const &val);
