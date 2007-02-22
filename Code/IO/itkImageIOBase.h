@@ -28,24 +28,24 @@
 namespace itk
 {
 
-/** \class ImageIOBase 
+/** \class ImageIOBase
  * \brief Abstract superclass defines image IO interface.
  *
  * ImageIOBase is a class that reads and/or writes image data
  * of a particular format (such as PNG or raw binary). The
  * ImageIOBase encapsulates both the reading and writing of data. The
  * ImageIOBase is used by the ImageFileReader class (to read data)
- * and the ImageFileWriter (to write data) into a single file. The 
+ * and the ImageFileWriter (to write data) into a single file. The
  * ImageSeriesReader and ImageSeriesWriter classes are used to read
- * and write data (in conjunction with ImageIOBase) when the data is 
+ * and write data (in conjunction with ImageIOBase) when the data is
  * represented by a series of files. Normally the user does not directly
  * manipulate this class other than to instantiate it, set the FileName,
- * and assign it to a ImageFileReader/ImageFileWriter or 
+ * and assign it to a ImageFileReader/ImageFileWriter or
  * ImageSeriesReader/ImageSeriesWriter.
  *
  * A Pluggable factory pattern is used this allows different kinds of readers
  * to be registered (even at run time) without having to modify the
- * code in this class.  
+ * code in this class.
  *
  * \sa ImageFileWriter
  * \sa ImageFileReader
@@ -62,14 +62,14 @@ public:
   typedef ImageIOBase            Self;
   typedef LightProcessObject  Superclass;
   typedef SmartPointer<Self>  Pointer;
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageIOBase, Superclass);
 
   /** Set/Get the name of the file to be read. */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
-  
+
   /** Used to return information when types are unknown. */
   class UnknownType {};
 
@@ -93,14 +93,14 @@ public:
   void SetNumberOfDimensions(unsigned int);
   itkGetMacro(NumberOfDimensions, unsigned int);
 
-  /** Set/Get the image dimensions in the x, y, z, etc. directions. 
+  /** Set/Get the image dimensions in the x, y, z, etc. directions.
    * GetDimensions() is typically used after reading the data; the
    * SetDimensions() is used prior to writing the data. */
   virtual void SetDimensions(unsigned int i, unsigned int dim);
   virtual unsigned int GetDimensions(unsigned int i) const
   { return m_Dimensions[i]; }
 
-  /** Set/Get the image origin on a axis-by-axis basis. The SetOrigin() method 
+  /** Set/Get the image origin on a axis-by-axis basis. The SetOrigin() method
    * is required when writing the image. */
   virtual void SetOrigin(unsigned int i, double origin);
   virtual double GetOrigin(unsigned int i) const
@@ -143,13 +143,13 @@ public:
    * in. The function returns false if the pixel type is not
    * supported. */
   virtual bool SetPixelTypeInfo(const std::type_info& ptype);
-  
+
   /** Set/Get the component type of the image. This is always a native
    * type. */
   itkSetMacro(ComponentType,IOComponentType);
   itkGetConstReferenceMacro(ComponentType,IOComponentType);
   virtual const std::type_info& GetComponentTypeInfo() const;
-  
+
   /** Set/Get the number of components per pixel in the image. This may
    * be set by the reading process. For SCALAR pixel types,
    * NumberOfComponents will be 1.  For other pixel types,
@@ -168,15 +168,15 @@ public:
   /** Convenience method returns the IOPixelType as a string. This can be
    * used for writing output files. */
   std::string GetPixelTypeAsString(IOPixelType) const;
-  
+
   /** Enums used to specify write style: whether binary or ASCII. Some
    * subclasses use this, some ignore it. */
   typedef  enum {ASCII,Binary,TypeNotApplicable} FileType;
-  
+
   /** Enums used to specify byte order; whether Big Endian or Little Endian.
    * Some subclasses use this, some ignore it. */
   typedef  enum {BigEndian,LittleEndian,OrderNotApplicable} ByteOrder;
-  
+
   /** These methods control whether the file is written binary or ASCII.
    * Many file formats (i.e., subclasses) ignore this flag. */
   itkSetMacro(FileType,FileType);
@@ -203,7 +203,7 @@ public:
   { this->SetByteOrder(BigEndian); }
   void SetByteOrderToLittleEndian()
   { this->SetByteOrder(LittleEndian); }
-  
+
   /** Convenience method returns the FileType as a string. This can be
    * used for writing output files. */
   std::string GetFileTypeAsString(FileType) const;
@@ -212,7 +212,7 @@ public:
    * used for writing output files. */
   std::string GetByteOrderAsString(ByteOrder) const;
 
-  /** Convenient method for accessing the number of bytes to get to 
+  /** Convenient method for accessing the number of bytes to get to
    * the next pixel. Returns m_Strides[1]; */
   virtual unsigned int GetPixelStride () const;
 
@@ -221,8 +221,8 @@ public:
 
   /** Return the number of bytes in the image. */
   unsigned int GetImageSizeInBytes() const;
-  
-  /** Return the number of pixels times the number 
+
+  /** Return the number of pixels times the number
    * of components in the image. */
   unsigned int GetImageSizeInComponents() const;
 
@@ -235,11 +235,11 @@ public:
   /** Determine if the ImageIO can stream reading from this
       file. Default is false. */
   virtual bool CanStreamRead() { return false; };
-  
+
   /** Read the spacing and dimentions of the image.
    * Assumes SetFileName has been called with a valid file name. */
   virtual void ReadImageInformation() = 0;
-  
+
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer) = 0;
 
@@ -257,9 +257,9 @@ public:
   /** Writes the spacing and dimentions of the image.
    * Assumes SetFileName has been called with a valid file name. */
   virtual void WriteImageInformation() = 0;
-  
+
   /** Writes the data to disk from the memory buffer provided. Make sure
-   * that the IORegions has been set properly. The buffer is cast to a 
+   * that the IORegions has been set properly. The buffer is cast to a
    * pointer to the beginning of the image data. */
   virtual void Write( const void* buffer) = 0;
 
