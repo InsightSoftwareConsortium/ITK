@@ -71,16 +71,17 @@ class ITK_EXPORT ResampleImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef ResampleImageFilter         Self;
+  typedef ResampleImageFilter                           Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
+
+  typedef TInputImage                           InputImageType;
+  typedef TOutputImage                          OutputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
-  typedef typename InputImageType::RegionType InputImageRegionType;
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -125,8 +126,8 @@ public:
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** Image spacing,origin and direction typedef */
-  typedef typename TOutputImage::SpacingType SpacingType;
-  typedef typename TOutputImage::PointType   OriginPointType;
+  typedef typename TOutputImage::SpacingType   SpacingType;
+  typedef typename TOutputImage::PointType     OriginPointType;
   typedef typename TOutputImage::DirectionType DirectionType;
   
   /** Set the coordinate transformation.
@@ -184,10 +185,13 @@ public:
   itkGetConstReferenceMacro(OutputDirection, DirectionType);
 
   /** Helper method to set the output parameters based on this image */
-  void SetOutputParametersFromImage ( typename OutputImageType::Pointer Image ) {
-    this->SetUseReferenceImage ( true );
-    this->SetReferenceImage ( Image );
-  }
+  void SetOutputParametersFromImage ( typename OutputImageType::Pointer Image )
+    {
+    this->SetOutputOrigin ( Image->GetOrigin() );
+    this->SetOutputSpacing ( Image->GetSpacing() );
+    this->SetOutputDirection ( Image->GetDirection() );
+    this->SetSize ( Image->GetLargestPossibleRegion().GetSize() );
+    }
 
   /** Set the start index of the output largest possible region. 
    * The default is an index of all zeros. */
@@ -202,12 +206,12 @@ public:
    *  Reference image must be present to override the defaul behavior.*/
   void SetReferenceImage (TOutputImage *image)
   {
-    if (image != m_ReferenceImage)
-      {
-      m_ReferenceImage = image;
-      this->ProcessObject::SetNthInput(1, image);
-      this->Modified();
-      }
+  if (image != m_ReferenceImage)
+    {
+    m_ReferenceImage = image;
+    this->ProcessObject::SetNthInput(1, image);
+    this->Modified();
+    }
   }
   itkGetObjectMacro(ReferenceImage, TOutputImage);
 
@@ -268,10 +272,12 @@ protected:
   void NonlinearThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                                      int threadId );
 
-  /** Implementation for resampling that works for with linear 
-   * transformation types. */
-  void LinearThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                                     int threadId );
+  /** Implementation for resampling that works for with linear
+   *  transformation types. 
+   */
+  void LinearThreadedGenerateData(const OutputImageRegionType&
+                                  outputRegionForThread,
+                                  int threadId );
   
 
 private:
@@ -280,16 +286,18 @@ private:
 
   OutputImagePointer      m_ReferenceImage;
 
-  SizeType                m_Size;       // Size of the output image
-  TransformPointerType    m_Transform;  // Coordinate transform to use
-  InterpolatorPointerType m_Interpolator; // Image function for interpolation
-  PixelType               m_DefaultPixelValue; // default pixel value if the point 
-                                               // is outside the image
-  SpacingType             m_OutputSpacing; // output image spacing
-  OriginPointType         m_OutputOrigin;  // output image origin
-  DirectionType           m_OutputDirection; // output image direction cosines
-  IndexType               m_OutputStartIndex; // output image start index
-  bool m_UseReferenceImage;
+  SizeType                m_Size;              // Size of the output image
+  TransformPointerType    m_Transform;         // Coordinate transform to use
+  InterpolatorPointerType m_Interpolator;      // Image function for
+                                               // interpolation
+  PixelType               m_DefaultPixelValue; // default pixel value
+                                               // if the point is
+                                               // outside the image
+  SpacingType             m_OutputSpacing;     // output image spacing
+  OriginPointType         m_OutputOrigin;      // output image origin
+  DirectionType           m_OutputDirection;   // output image direction cosines
+  IndexType               m_OutputStartIndex;  // output image start index
+  bool                    m_UseReferenceImage;
 
 };
 
