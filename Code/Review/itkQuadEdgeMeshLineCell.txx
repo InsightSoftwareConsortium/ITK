@@ -1,24 +1,19 @@
-// -------------------------------------------------------------------------
-// itkQuadEdgeMeshLineCell.txx
-// $Revision: 1.4 $
-// $Author: ibanez $
-// $Name:  $
-// $Date: 2007-01-24 22:52:30 $
-// -------------------------------------------------------------------------
-// This code is an implementation of the well known quad edge (QE) data
-// structure in the ITK library. Although the original QE can handle non
-// orientable 2-manifolds and its dual and its mirror, this implementation
-// is specifically dedicated to handle orientable 2-manifolds along with
-// their dual.
-//
-// Any comment, criticism and/or donation is welcome.
-//
-// Please contact any member of the team:
-//
-// - The frog master (Eric Boix)       eboix@ens-lyon.fr
-// - The duck master (Alex Gouaillard) gouaillard@creatis.insa-lyon.fr
-// - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
-// -------------------------------------------------------------------------
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshLineCell.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 
 #ifndef __itkQuadEdgeMeshLineCell_txx
 #define __itkQuadEdgeMeshLineCell_txx
@@ -62,13 +57,13 @@ QuadEdgeMeshLineCell< TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-void 
+void
 QuadEdgeMeshLineCell< TCellInterface >
 ::Accept( unsigned long cellId, MultiVisitor* mv )
 {
   typedef itk::CellInterfaceVisitor< PixelType, CellTraits > IntVis;
   typename IntVis::Pointer v = mv->GetVisitor( this->GetType() );
-  if( v ) 
+  if( v )
     {
     v->VisitFromCell( cellId, this );
     }
@@ -85,7 +80,7 @@ QuadEdgeMeshLineCell< TCellInterface >
     return  2;
     }
 
-  if( dimension == 1 ) 
+  if( dimension == 1 )
     {
     return 1;
     }
@@ -95,7 +90,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-bool 
+bool
 QuadEdgeMeshLineCell< TCellInterface >
 ::GetBoundaryFeature( int dimension, CellFeatureIdentifier cellId,
                         CellAutoPointer& cell )
@@ -121,7 +116,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-void 
+void
 QuadEdgeMeshLineCell< TCellInterface >
 ::SetPointIds( PointIdConstIterator first,
                PointIdConstIterator last )
@@ -132,7 +127,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-void 
+void
 QuadEdgeMeshLineCell< TCellInterface >
 ::SetPointId( int localId, PointIdentifier pId )
 {
@@ -204,53 +199,53 @@ QuadEdgeMeshLineCell< TCellInterface >
 {
   Self *   e2 = new Self( false );
   QEDual * e1 = new QEDual();
-  QEDual * e3 = new QEDual();             
-  
-  this->SetRot( e1 );             
-  e1->SetRot( e2 );               
-  e2->SetRot( e3 );               
-  e3->SetRot( this );             
-  
-  this->SetOnext( this );         
-  e1->SetOnext( e3 );             
-  e2->SetOnext( e2 );             
-  e3->SetOnext( e1 );             
+  QEDual * e3 = new QEDual();
+
+  this->SetRot( e1 );
+  e1->SetRot( e2 );
+  e2->SetRot( e3 );
+  e3->SetRot( this );
+
+  this->SetOnext( this );
+  e1->SetOnext( e3 );
+  e2->SetOnext( e2 );
+  e3->SetOnext( e1 );
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
 void
 QuadEdgeMeshLineCell< TCellInterface >
-::SetIdent( CellIdentifier cid ) 
+::SetIdent( CellIdentifier cid )
 {
   this->m_Identifier = cid;
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-typename QuadEdgeMeshLineCell< TCellInterface >::CellIdentifier 
+typename QuadEdgeMeshLineCell< TCellInterface >::CellIdentifier
 QuadEdgeMeshLineCell< TCellInterface >
 ::GetIdent()
-{ 
+{
   return this->m_Identifier;
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-typename QuadEdgeMeshLineCell< TCellInterface >::CellGeometry 
+typename QuadEdgeMeshLineCell< TCellInterface >::CellGeometry
 QuadEdgeMeshLineCell< TCellInterface >
-::GetType() const 
-{ 
-  return  Superclass::LINE_CELL; 
+::GetType() const
+{
+  return  Superclass::LINE_CELL;
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
 int
 QuadEdgeMeshLineCell< TCellInterface >
-::GetTopologyId() 
-{ 
-  return Superclass::LINE_CELL; 
+::GetTopologyId()
+{
+  return Superclass::LINE_CELL;
 }
 
 // ---------------------------------------------------------------------
@@ -258,8 +253,8 @@ template< class TCellInterface >
 unsigned int
 QuadEdgeMeshLineCell< TCellInterface >
 ::GetDimension() const
-{ 
-  return Self::CellDimension; 
+{
+  return Self::CellDimension;
 }
 
 // ---------------------------------------------------------------------
@@ -267,11 +262,11 @@ template< class TCellInterface >
 unsigned int
 QuadEdgeMeshLineCell< TCellInterface >
 ::GetNumberOfPoints() const
-{ 
-  return 2; 
+{
+  return 2;
 }
 
 } // end namespace itk
 
-#endif 
+#endif
 
