@@ -43,7 +43,7 @@ class ITK_EXPORT ConformalFlatteningMeshFilter :
 public:
   /** Standard class typedefs. */
   typedef ConformalFlatteningMeshFilter  Self;
-  typedef Mesh< TPixelType, 3 > Mesh3DType;
+  typedef Mesh< TPixelType, 3 >          Mesh3DType;
 
   typedef Mesh3DType   TInputMesh;
   typedef Mesh3DType   TOutputMesh;

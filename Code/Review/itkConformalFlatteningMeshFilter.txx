@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkConformalFlatteningMeshFilter_txx
-#define _itkConformalFlatteningMeshFilter_txx
+#ifndef __itkConformalFlatteningMeshFilter_txx
+#define __itkConformalFlatteningMeshFilter_txx
 
 #include "itkConformalFlatteningMeshFilter.h"
 #include "itkExceptionObject.h"
@@ -30,23 +30,23 @@ namespace itk
 {
 
 class ConformalFlatteningFunction :  public vnl_cost_function
-  {
-  public:
-    typedef vnl_vector<double>        VectorType;
-    typedef vnl_sparse_matrix<double> MatrixType;
+{
+public:
+  typedef vnl_vector<double>        VectorType;
+  typedef vnl_sparse_matrix<double> MatrixType;
 
-    ConformalFlatteningFunction( MatrixType const& A, VectorType const& b );
+  ConformalFlatteningFunction( MatrixType const& A, VectorType const& b );
 
-    double f(const VectorType& x);
+  double f(const VectorType& x);
 
-    void gradf(const VectorType& x, VectorType& g);
+  void gradf(const VectorType& x, VectorType& g);
 
-    inline unsigned int GetDimension() { return m_Dimension; }
+  inline unsigned int GetDimension() { return m_Dimension; }
 
-  private:
-    MatrixType const* m_Matrix;
-    VectorType const* m_Vector;
-    unsigned int m_Dimension;
+private:
+  MatrixType const*    m_Matrix;
+  VectorType const*    m_Vector;
+  unsigned int         m_Dimension;
 };
 
 ConformalFlatteningFunction
