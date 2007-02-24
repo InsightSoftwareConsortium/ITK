@@ -3,6 +3,33 @@ ADD_LIBRARY(ITKStatistics
   itkNormalVariateGenerator.cxx
   itkDenseFrequencyContainer.cxx
   itkSparseFrequencyContainer.cxx
+
+  # Distributions
+  itkGaussianDistribution.cxx
+  itkTDistribution.cxx
+  itkChiSquareDistribution.cxx
+
+  # from SLATEC/FNLIB
+  d1mach.c
+  d9lgmc.c
+  d9gmit.c
+  d9lgic.c
+  d9lgit.c
+  dbetai.c
+  dcsevl.c
+  dgami.c
+  dgamit.c
+  dgamlm.c
+  dgamma.c
+  dgamr.c
+  dlbeta.c
+  dlgams.c
+  dlngam.c
+  dlnrel.c
+  initds.c
+  xermsg.c
+  d_int.c
+  d_mod.c
  )
 
 TARGET_LINK_LIBRARIES(ITKStatistics ITKCommon)
@@ -11,8 +38,9 @@ IF(ITK_LIBRARY_PROPERTIES)
   SET_TARGET_PROPERTIES(ITKStatistics PROPERTIES ${ITK_LIBRARY_PROPERTIES})
 ENDIF(ITK_LIBRARY_PROPERTIES)
 
+
 IF(NOT ITK_INSTALL_NO_LIBRARIES)
-  INSTALL(TARGETS ITKStatistics
+  INSTALL(TARGETS ITKStatistics 
     RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT RuntimeLibraries
     LIBRARY DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
     ARCHIVE DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
