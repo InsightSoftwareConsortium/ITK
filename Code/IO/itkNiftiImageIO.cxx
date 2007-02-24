@@ -362,8 +362,15 @@ void NiftiImageIO::Read(void* buffer)
     }
   dumpdata(this->m_NiftiImage->data);
   dumpdata(buffer);
-  if(m_RescaleSlope > 1 ||
-     m_RescaleIntercept != 0)
+
+  // If the scl_slope field is nonzero, then rescale each voxel value in the dataset
+  // Complete description of can be found in nifti1.h under "DATA SCALING"
+  if(vcl_abs(m_RescaleSlope) > vcl_numeric_limits<double>::epsilon() &&
+      (
+      vcl_abs(m_RescaleSlope-1.0) > vcl_numeric_limits<double>::epsilon() ||
+      vcl_abs(m_RescaleIntercept) > vcl_numeric_limits<double>::epsilon()
+      )
+    )
     {
     switch(m_ComponentType)
       {
