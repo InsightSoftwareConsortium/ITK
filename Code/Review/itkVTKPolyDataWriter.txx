@@ -23,9 +23,9 @@
 namespace itk
 {
 
-/**
-  * Constructor
-  */
+// 
+// Constructor
+// 
 template<class TInputMesh>
 VTKPolyDataWriter<TInputMesh>
 ::VTKPolyDataWriter()
@@ -34,18 +34,18 @@ VTKPolyDataWriter<TInputMesh>
   this->m_FileName = "";
 }
 
-/**
-  * Destructor
-  */
+// 
+// Destructor
+// 
 template<class TInputMesh>
 VTKPolyDataWriter<TInputMesh>
 ::~VTKPolyDataWriter()
 {
 }
 
-/**
-  * Set the input mesh
-  */
+// 
+// Set the input mesh
+// 
 template<class TInputMesh>
 void
 VTKPolyDataWriter<TInputMesh>
@@ -54,9 +54,9 @@ VTKPolyDataWriter<TInputMesh>
   this->m_Input = input;
 }
 
-/**
-  * Write the input mesh to the output file
-  */
+// 
+// Write the input mesh to the output file
+// 
 template<class TInputMesh>
 void VTKPolyDataWriter<TInputMesh>
 ::Update()
@@ -64,9 +64,9 @@ void VTKPolyDataWriter<TInputMesh>
   this->GenerateData();
 }
 
-/**
-  * Write the input mesh to the output file
-  */
+// 
+// Write the input mesh to the output file
+// 
 template<class TInputMesh>
 void VTKPolyDataWriter<TInputMesh>
 ::Write()

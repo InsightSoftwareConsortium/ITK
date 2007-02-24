@@ -24,9 +24,9 @@
 namespace itk
 {
 
-/*
- * Constructor
- */
+// 
+// Constructor
+// 
 template<class TOutputMesh>
 VTKPolyDataReader<TOutputMesh>
 ::VTKPolyDataReader()
