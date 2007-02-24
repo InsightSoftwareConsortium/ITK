@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshTest3.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 
 #include "itkQuadEdgeMesh.h"
 #include "itkQuadEdgeMeshLineCell.h"
@@ -5,12 +21,12 @@
 
 int itkQuadEdgeMeshTest3( int , char* [] )
 {
-  typedef double                               PixelType;
-  typedef itk::QuadEdgeMesh< PixelType, 3 >    MeshType;
-  typedef MeshType::CellType                   CellType;
-  typedef MeshType::QEPrimal                   QEPrimal;
-  typedef itk::QuadEdgeMeshLineCell< CellType >          LineType;
-  typedef itkQE::PolygonCell< CellType >       QEPolygonCellType;
+  typedef double                                 PixelType;
+  typedef itk::QuadEdgeMesh< PixelType, 3 >      MeshType;
+  typedef MeshType::CellType                     CellType;
+  typedef MeshType::QEPrimal                     QEPrimal;
+  typedef itk::QuadEdgeMeshLineCell< CellType >  LineType;
+  typedef itkQE::PolygonCell< CellType >         QEPolygonCellType;
 
   MeshType::Pointer mesh = MeshType::New();
 
@@ -156,5 +172,3 @@ int itkQuadEdgeMeshTest3( int , char* [] )
   std::cout << "Mesh3Test passed" << std::endl;
   return EXIT_SUCCESS;
 }
-
-// eof - itkQuadEdgeMeshTest3.cxx

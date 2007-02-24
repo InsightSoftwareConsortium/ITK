@@ -28,7 +28,7 @@ int itkQuadEdgeMeshTest2( int , char* [] )
   typedef itk::QuadEdgeMeshLineCell< CellType >    LineType;
   typedef CellType::CellAutoPointer                CellAutoPointer;
 
-  MeshType::Pointer  mesh = MeshType::New( );
+  MeshType::Pointer  mesh = MeshType::New();
 
   MeshType::PointType p0;
   MeshType::PointType p1;
@@ -60,29 +60,29 @@ int itkQuadEdgeMeshTest2( int , char* [] )
   line2->SetPointId( 1, 0 );
   mesh->SetCell( 2, line2 );
 
-  if( mesh->GetNumberOfPoints( ) != 3 )
+  if( mesh->GetNumberOfPoints() != 3 )
     {
     std::cout << "Not all points added." << std::endl;
     return EXIT_FAILURE;
     }
 
-  if( mesh->GetNumberOfCells( ) != 3 )
+  if( mesh->GetNumberOfCells() != 3 )
     {
     std::cout << "Not all cells added." << std::endl;
     return EXIT_FAILURE;
     }
 
   typedef MeshType::CellsContainer::Iterator CellIterator;
-  CellIterator cellIterator = mesh->GetCells( )->Begin( );
+  CellIterator cellIterator = mesh->GetCells()->Begin();
   unsigned int ids[ ] = { 0, 1, 2, 1, 2, 0, 2, 0, 1 };
   int itIds = 0;
 
-  for( ; cellIterator != mesh->GetCells( )->End( ); cellIterator++ )
+  while( cellIterator != mesh->GetCells()->End() )
     {
-    MeshType::CellType* cellptr = cellIterator.Value( );
+    MeshType::CellType* cellptr = cellIterator.Value();
     LineType* line = dynamic_cast< LineType* >( cellptr );
-    LineType::IteratorGeom git = line->BeginGeomLnext( );
-    for( ; git != line->EndGeomLnext( ); git++ )
+    LineType::IteratorGeom git = line->BeginGeomLnext();
+    while( git != line->EndGeomLnext() )
       {
       if( ids[ itIds ] != *git )
         {
@@ -90,7 +90,9 @@ int itkQuadEdgeMeshTest2( int , char* [] )
         return EXIT_FAILURE;
         }
       itIds++;
+      git++;
       }
+    cellIterator++;
     }
 
   std::cout << "done!" << std::endl;
