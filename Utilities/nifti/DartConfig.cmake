@@ -9,7 +9,7 @@ SET (PROJECT_URL "http://sourceforge.net/projects/niftilib")
 
 # Dart server to submit results (used by client)
 SET (DROP_METHOD "xmlrpc")
-SET (DROP_SITE "delta.psychiatry.uiowa.edu:8081")
+SET (DROP_SITE "testing.psychiatry.uiowa.edu:8081")
 SET (DROP_LOCATION "NIFTI")
 
 SET (CVS_WEB_URL "http://cvs.sourceforge.net/viewcvs.py/niftilib/")
