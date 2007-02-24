@@ -11,6 +11,7 @@ SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Statistics)
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
 SET(STATISTICS_TESTS ${CXX_TEST_PATH}/itkStatisticsTests)
+SET(STATISTICS_HEADER_TESTS ${CXX_TEST_PATH}/itkStatisticsHeaderTest)
 
 ADD_TEST(itkStatisticsAlgorithmTest ${STATISTICS_TESTS} itkStatisticsAlgorithmTest)
 ADD_TEST(itkStatisticsPrintTest ${STATISTICS_TESTS} itkStatisticsPrintTest)
@@ -70,6 +71,13 @@ ADD_TEST(itkWeightedMeanCalculatorTest ${STATISTICS_TESTS} itkWeightedMeanCalcul
 ADD_TEST(itkWeightedCovarianceCalculatorTest ${STATISTICS_TESTS} 
          itkWeightedCovarianceCalculatorTest)
 
+ADD_TEST(itkChiSquareDistributionTest ${STATISTICS_TESTS}
+  itkChiSquareDistributionTest
+  )
+ADD_TEST(itkGaussianDistributionTest ${STATISTICS_TESTS}
+  itkGaussianDistributionTest
+  )
+ADD_TEST(itkTDistributionTest ${STATISTICS_TESTS} itkTDistributionTest)
 
 SET(Statistics_SRCS
 itkStatisticsPrintTest.cxx
@@ -109,10 +117,18 @@ itkSubsampleTest.cxx
 itkVariableDimensionHistogramTest.cxx
 itkWeightedMeanCalculatorTest.cxx
 itkWeightedCovarianceCalculatorTest.cxx
+itkGaussianDistributionTest.cxx
+itkChiSquareDistributionTest.cxx
+itkTDistributionTest.cxx
 )
 
 ADD_EXECUTABLE(itkStatisticsTests itkStatisticsTests.cxx ${Statistics_SRCS})
 TARGET_LINK_LIBRARIES(itkStatisticsTests ITKIO ITKCommon ITKNumerics ITKStatistics)
+
+ADD_EXECUTABLE(itkStatisticsHeaderTest itkStatisticsHeaderTest.cxx)
+TARGET_LINK_LIBRARIES(itkStatisticsHeaderTest ITKIO ITKCommon ITKNumerics ITKStatistics)
+
+ADD_TEST(itkStatisticsHeaderTest ${STATISTICS_HEADER_TESTS})
 
 
 

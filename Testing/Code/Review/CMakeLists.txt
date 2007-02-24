@@ -23,10 +23,7 @@ SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 #
 
 SET(ReviewTest_SRCS
-  itkChiSquareDistributionTest.cxx
   itkFlatStructuringElementTest.cxx
-  itkGaussianDistributionTest.cxx
-  itkTDistributionTest.cxx
   itkLabelOverlayImageFilterTest.cxx
   itkQuadEdgeTest1.cxx
   itkGeometricalQuadEdgeTest1.cxx
@@ -71,16 +68,9 @@ SET(ReviewTest_SRCS
   itkMorphologicalWatershedFromMarkersImageFilterTest.cxx
 )
 
-ADD_TEST(itkChiSquareDistributionTest ${REVIEW_TESTS}
-  itkChiSquareDistributionTest
-  )
 ADD_TEST(itkFlatStructuringElementTest ${REVIEW_TESTS}
   itkFlatStructuringElementTest
   )
-ADD_TEST(itkGaussianDistributionTest ${REVIEW_TESTS}
-  itkGaussianDistributionTest
-  )
-ADD_TEST(itkTDistributionTest ${REVIEW_TESTS} itkTDistributionTest)
 ADD_TEST(itkQuadEdgeTest1 ${REVIEW_TESTS} itkQuadEdgeTest1)
 ADD_TEST(itkGeometricalQuadEdgeTest1 ${REVIEW_TESTS} itkGeometricalQuadEdgeTest1)
 ADD_TEST(itkQuadEdgeMeshPointTest1 ${REVIEW_TESTS} itkQuadEdgeMeshPointTest1)
@@ -431,7 +421,6 @@ TARGET_LINK_LIBRARIES(itkReviewTests
   ITKBasicFilters
   ITKFEM
   ITKStatistics
-  ITKDistributions
   ITKQuadEdgeMesh
   )
 

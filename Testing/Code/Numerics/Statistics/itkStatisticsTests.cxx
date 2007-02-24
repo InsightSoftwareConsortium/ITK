@@ -21,12 +21,17 @@
 // this file defines the itkStatisticsTest for the test driver
 // and all it expects is that you have a function called RegisterTests
 #include <iostream>
+#include "vnl/vnl_sample.h"
 #include "itkTestMain.h" 
 
 
 void RegisterTests()
 {
+  vnl_sample_reseed(8775070);
   REGISTER_TEST(itkStatisticsPrintTest);
+  REGISTER_TEST(itkChiSquareDistributionTest);
+  REGISTER_TEST(itkGaussianDistributionTest);
+  REGISTER_TEST(itkTDistributionTest);
   REGISTER_TEST(itkCovarianceCalculatorTest);
   REGISTER_TEST(itkDenseFrequencyContainerTest);
   REGISTER_TEST(itkExpectationMaximizationMixtureModelEstimatorTest);

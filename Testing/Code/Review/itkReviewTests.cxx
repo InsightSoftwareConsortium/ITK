@@ -23,9 +23,6 @@
 void RegisterTests()
 {
   vnl_sample_reseed(8775070);
-  REGISTER_TEST(itkChiSquareDistributionTest);
-  REGISTER_TEST(itkGaussianDistributionTest);
-  REGISTER_TEST(itkTDistributionTest);
   REGISTER_TEST(itkFlatStructuringElementTest);
   REGISTER_TEST(itkLabelOverlayImageFilterTest);
 
