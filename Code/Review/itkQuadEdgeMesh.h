@@ -216,8 +216,8 @@ public:
   typedef typename Traits::VectorType     VectorType;
 
   /** Possible specialized cell types. */
-  typedef QuadEdgeMeshLineCell< CellType >  EdgeCellType;
-  typedef itkQE::PolygonCell< CellType >    PolygonCellType;
+  typedef QuadEdgeMeshLineCell< CellType >    EdgeCellType;
+  typedef QuadEdgeMeshPolygonCell< CellType > PolygonCellType;
 
   /** Free insertion indexes. */
   typedef std::queue< PointIdentifier > FreePointIndexesType;

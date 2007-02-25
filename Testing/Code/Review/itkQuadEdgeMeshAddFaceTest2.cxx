@@ -10,7 +10,7 @@ int itkQuadEdgeMeshAddFaceTest2(int , char *[])
   typedef MeshType::QEType                QEType;
   typedef MeshType::PointIdentifier       PointIdentifier;
   typedef MeshType::CellType              CellType;
-  typedef itkQE::PolygonCell< CellType >  QEPolygonCellType;
+  typedef itk::QuadEdgeMeshPolygonCell< CellType >  QEPolygonCellType;
 
   int numPts = 7;
   int numCells = 4;

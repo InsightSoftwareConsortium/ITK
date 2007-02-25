@@ -1,84 +1,80 @@
-// -------------------------------------------------------------------------
-// itkQuadEdgeMeshPolygonCell.txx
-// $Revision: 1.3 $
-// $Author: ibanez $
-// $Name:  $
-// $Date: 2007-01-24 23:32:37 $
-// -------------------------------------------------------------------------
-// This code is an implementation of the well known quad edge (QE) data
-// structure in the ITK library. Although the original QE can handle non
-// orientable 2-manifolds and its dual and its mirror, this implementation
-// is specifically dedicated to handle orientable 2-manifolds along with
-// their dual.
-//
-// Any comment, criticism and/or donation is welcome.
-//
-// Please contact any member of the team:
-//
-// - The frog master (Eric Boix)       eboix@ens-lyon.fr
-// - The duck master (Alex Gouaillard) gouaillard@creatis.insa-lyon.fr
-// - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
-// -------------------------------------------------------------------------
+/*=========================================================================
 
-#ifndef __ITKQUADEDGEMESH__POLYGONCELL__TXX__
-#define __ITKQUADEDGEMESH__POLYGONCELL__TXX__
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshPolygonCell.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-#include <itkCellInterfaceVisitor.h>
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-namespace itkQE
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
+#ifndef __itkQuadEdgeMeshPolygonCell_txx
+#define __itkQuadEdgeMeshPolygonCell_txx
+
+#include "itkCellInterfaceVisitor.h"
+
+namespace itk
 {
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    PolygonCell< TCellInterface >::
-    PolygonCell( int nPoints )
-        : Superclass( ),
-          m_Ident( 0 ), m_EdgeRingEntry( 0 )
+QuadEdgeMeshPolygonCell< TCellInterface >
+::QuadEdgeMeshPolygonCell( unsigned int nPoints )
 {
-    // Create entry point
-    m_EdgeRingEntry = this->MakeQuadEdges();
+  this->m_Ident = 0;
 
-    // Create the rest
-    QEType* last = m_EdgeRingEntry;
-    for( int i = 1; i < nPoints; i++ )
+  // Create entry point
+  this->m_EdgeRingEntry = this->MakeQuadEdges();
+
+  // Create the rest
+  QuadEdgeType* last = m_EdgeRingEntry;
+  for( unsigned int i = 1; i < nPoints; i++ )
     {
-        QEType * edge = this->MakeQuadEdges( );
+    QuadEdgeType * edge = this->MakeQuadEdges();
 
-        edge->Splice( last->GetSym( ) );
-        last = edge;
-    } // rof
+    edge->Splice( last->GetSym() );
+    last = edge;
+    }
 
-    // Last topological connection, i.e., close the face
-    m_EdgeRingEntry->Splice( last->GetSym( ) );
+  // Last topological connection, i.e., close the face
+  m_EdgeRingEntry->Splice( last->GetSym() );
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    PolygonCell< TCellInterface >::
-    PolygonCell( QEType* e )
-        : Superclass( ),
-          m_Ident( 0 ), m_EdgeRingEntry( e )
-{ }
+QuadEdgeMeshPolygonCell< TCellInterface >
+::QuadEdgeMeshPolygonCell( QuadEdgeType* e )
+{
+  this->m_Ident = 0;
+  this->m_EdgeRingEntry = e;
+}
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-typename PolygonCell< TCellInterface >::SelfAutoPointer
-PolygonCell< TCellInterface >
+typename QuadEdgeMeshPolygonCell< TCellInterface >::SelfAutoPointer
+QuadEdgeMeshPolygonCell< TCellInterface >
 ::New()
 {
-    SelfAutoPointer ptr( new Self );
-    ptr.TakeOwnership( );
-    return( ptr );
+  SelfAutoPointer ptr( new Self );
+  ptr.TakeOwnership();
+  return( ptr );
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-typename PolygonCell< TCellInterface >::QEType *
-PolygonCell< TCellInterface >
+typename QuadEdgeMeshPolygonCell< TCellInterface >::QuadEdgeType *
+QuadEdgeMeshPolygonCell< TCellInterface >
 ::MakeQuadEdges()
 {
-  QEType * e1 = new QEType();
+  QuadEdgeType * e1 = new QuadEdgeType();
   QEDual * e2 = new QEDual();
-  QEType * e3 = new QEType();
+  QuadEdgeType * e3 = new QuadEdgeType();
   QEDual * e4 = new QEDual();
   
   e1->SetRot( e2 );
@@ -97,136 +93,160 @@ PolygonCell< TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    void PolygonCell< TCellInterface >::
-    Accept( unsigned long cellId, MultiVisitor* mv )
+void QuadEdgeMeshPolygonCell< TCellInterface >
+::Accept( unsigned long cellId, MultiVisitor* mv )
 {
-    typedef itk::CellInterfaceVisitor< PixelType, CellTraits > IntVis;
-    typename IntVis::Pointer v = mv->GetVisitor( this->GetType( ) );
-    if( v ) v->VisitFromCell( cellId, this );
+  typedef itk::CellInterfaceVisitor< PixelType, CellTraits > IntVis;
+  typename IntVis::Pointer v = mv->GetVisitor( this->GetType() );
+  if( v ) 
+    {
+    v->VisitFromCell( cellId, this );
+    }
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    unsigned int PolygonCell< TCellInterface >::
-    GetNumberOfPoints( ) const
+unsigned int QuadEdgeMeshPolygonCell< TCellInterface >
+::GetNumberOfPoints() const
 {
-    unsigned int n = 0;
-    PointIdConstIterator it = this->PointIdsBegin( );
-    for( ; it != this->PointIdsEnd( ); it++, n++ );
-    return( n );
+  unsigned int n = 0;
+  PointIdConstIterator it = this->PointIdsBegin();
+  while( it != this->PointIdsEnd() );
+    {
+    it++;
+    n++;
+    }
+  return n;
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    typename PolygonCell< TCellInterface >::CellFeatureCount
-    PolygonCell< TCellInterface >::
-    GetNumberOfBoundaryFeatures( int dimension ) const
+typename QuadEdgeMeshPolygonCell< TCellInterface >::CellFeatureCount
+QuadEdgeMeshPolygonCell< TCellInterface >
+::GetNumberOfBoundaryFeatures( int dimension ) const
 {
-    /// \todo
-    (void)dimension;
-    return( 0 );
+  /// \todo
+  (void)dimension;
+  return 0;
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    bool PolygonCell< TCellInterface >::
+    bool QuadEdgeMeshPolygonCell< TCellInterface >::
     GetBoundaryFeature( int dimension, CellFeatureIdentifier cellId,
                         CellAutoPointer& cell )
 {
-    /// \todo
-    (void)dimension;
-    (void)cellId;
-    (void)cell;
-    return( false );
+  /// \todo
+  (void)dimension;
+  (void)cellId;
+  (void)cell;
+  return( false );
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    void PolygonCell< TCellInterface >::
-    SetPointIds( PointIdConstIterator first )
+void 
+QuadEdgeMeshPolygonCell< TCellInterface >
+::SetPointIds( PointIdConstIterator first )
 {
-    PointIdIterator i1 = this->PointIdsBegin( );
-    PointIdConstIterator i2 = first;
-    for( ; i1 != this->PointIdsEnd( ); i1++, i2++ )
-        i1.Value( )->SetOrigin( *i2 );
-}
-
-// ---------------------------------------------------------------------
-template< class TCellInterface >
-    void PolygonCell< TCellInterface >::
-    SetPointIds( PointIdConstIterator first,
-                 PointIdConstIterator last )
-{
-    PointIdIterator i1 = this->PointIdsBegin( );
-    PointIdConstIterator i2 = first;
-    for( ; i1 != this->PointIdsEnd( ) && i2 != last; i1++, i2++ )
-        i1.Value( )->SetOrigin( *i2 );
-}
-
-// ---------------------------------------------------------------------
-template< class TCellInterface >
-    void PolygonCell< TCellInterface >::
-    SetPointId( int localId, PointIdentifier pId )
-{
-    int n = 0;
-    PointIdIterator it = this->PointIdsBegin( );
-    for( ; it != this->PointIdsEnd( ) && n <= localId; it++, n++ )
+  PointIdConstIterator i2 = first;
+  PointIdIterator i1 = this->PointIdsBegin();
+  while( i1 != this->PointIdsEnd() )
     {
-        if( n == localId )
-        {
-            it.Value( )->SetOrigin( pId );
-            it.Value( )->GetOnext( )->SetOrigin( pId );
-        } // fi
-    } // rof
+    i1.Value()->SetOrigin( *i2 );
+    i1++;
+    i2++;
+    }
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    typename PolygonCell< TCellInterface >::PointIdIterator
-    PolygonCell< TCellInterface >::
-    PointIdsBegin( )
+void QuadEdgeMeshPolygonCell< TCellInterface >
+::SetPointIds( PointIdConstIterator first,
+               PointIdConstIterator last )
 {
-    return( m_EdgeRingEntry->BeginGeomLnext( ) );
+  PointIdIterator i1 = this->PointIdsBegin();
+  PointIdConstIterator i2 = first;
+  while( i1 != this->PointIdsEnd() && i2 != last )
+    {
+    i1.Value()->SetOrigin( *i2 );
+    i1++;
+    i2++;
+    }
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    typename PolygonCell< TCellInterface >::PointIdIterator
-    PolygonCell< TCellInterface >::
-    PointIdsEnd( )
+void QuadEdgeMeshPolygonCell< TCellInterface >
+::SetPointId( int localId, PointIdentifier pId )
 {
-    return( m_EdgeRingEntry->EndGeomLnext( ) );
+  int n = 0;
+  PointIdIterator it = this->PointIdsBegin();
+  while( it != this->PointIdsEnd() && n <= localId )
+    {
+    if( n == localId )
+      {
+      it.Value()->SetOrigin( pId );
+      it.Value()->GetOnext()->SetOrigin( pId );
+      }
+    it++; 
+    n++;
+    }
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    typename PolygonCell< TCellInterface >::PointIdConstIterator
-    PolygonCell< TCellInterface >::
-    GetPointIds( ) const
+typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdIterator
+QuadEdgeMeshPolygonCell< TCellInterface >
+::PointIdsBegin()
 {
-   return( const_cast< const QEType* >( m_EdgeRingEntry )-> BeginGeomLnext( ) );
+  return  m_EdgeRingEntry->BeginGeomLnext();
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    typename PolygonCell< TCellInterface >::PointIdConstIterator
-    PolygonCell< TCellInterface >::
-    PointIdsBegin( ) const
+typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdIterator
+QuadEdgeMeshPolygonCell< TCellInterface >
+::PointIdsEnd()
 {
-   return( const_cast< const QEType* >( m_EdgeRingEntry )-> BeginGeomLnext( ) );
+  return m_EdgeRingEntry->EndGeomLnext();
+}
+
+// ---------------------------------------------------------------------
+// FIXME: This method has a suspicious API and an implementation that
+// is the duplicate of PointIdsBegin();
+template< class TCellInterface >
+typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdConstIterator
+QuadEdgeMeshPolygonCell< TCellInterface >
+::GetPointIds() const
+{
+  const QuadEdgeType * edge = const_cast< QuadEdgeType* >( m_EdgeRingEntry );
+  PointIdConstIterator iterator( edge->BeginGeomLnext() );
+  return iterator;
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-    typename PolygonCell< TCellInterface >::PointIdConstIterator
-    PolygonCell< TCellInterface >::
-    PointIdsEnd( ) const
+typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdConstIterator
+QuadEdgeMeshPolygonCell< TCellInterface >
+::PointIdsBegin() const
 {
-   return( const_cast< const QEType* >( m_EdgeRingEntry )-> EndGeomLnext( ) );
+  const QuadEdgeType * edge = const_cast< QuadEdgeType* >( m_EdgeRingEntry );
+  PointIdConstIterator iterator( edge->BeginGeomLnext() );
+  return iterator;
 }
 
-} // enamespace
+// ---------------------------------------------------------------------
+template< class TCellInterface >
+typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdConstIterator
+QuadEdgeMeshPolygonCell< TCellInterface >
+::PointIdsEnd() const
+{
+  const QuadEdgeType * edge = const_cast< const QuadEdgeType* >( m_EdgeRingEntry );
+  PointIdConstIterator iterator = edge->EndGeomLnext();
+  return iterator;
+}
 
-#endif // __ITKQUADEDGEMESH__POLYGONCELL__TXX__
+} // end namespace itk
 
-// eof - itkQuadEdgeMeshPolygonCell.txx
+#endif
