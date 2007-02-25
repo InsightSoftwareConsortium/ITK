@@ -37,10 +37,10 @@ class ITK_EXPORT ImageToPathFilter : public PathSource<TOutputPath>
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageToPathFilter  Self;
-  typedef PathSource<TOutputPath>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ImageToPathFilter           Self;
+  typedef PathSource<TOutputPath>     Superclass;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
   
   
   /** Run-time type information (and related methods). */
@@ -48,7 +48,7 @@ public:
 
   
   /** Some convenient typedefs. */
-  typedef TInputImage InputImageType;
+  typedef TInputImage                             InputImageType;
   typedef typename InputImageType::Pointer        InputImagePointer;
   typedef typename InputImageType::ConstPointer   InputImageConstPointer;
   typedef typename InputImageType::RegionType     InputImageRegionType; 
@@ -65,7 +65,7 @@ public:
   const InputImageType * GetInput(unsigned int idx);
 
 
- protected:
+protected:
   ImageToPathFilter();
   ~ImageToPathFilter();
 

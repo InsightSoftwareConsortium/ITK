@@ -14,8 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageToPathFilter_txx
-#define _itkImageToPathFilter_txx
+
+#ifndef __itkImageToPathFilter_txx
+#define __itkImageToPathFilter_txx
+
 #include "itkImageToPathFilter.h"
 
 namespace itk
@@ -70,7 +72,6 @@ ImageToPathFilter<TInputImage,TOutputPath>
 }
 
 
-
 /**
  *
  */
@@ -108,7 +109,6 @@ ImageToPathFilter<TInputImage,TOutputPath>
 {
   Superclass::PrintSelf(os, indent);
 }
-
 
 
 } // end namespace itk
