@@ -173,14 +173,12 @@ int main(int , char* [])
   std::cout << "--------------ConformalFlatteningMeshFilterObj "
             << ConformalFlatteningMeshFilterObj;
 
-  itk::VTKPolyDataReader<MeshType>::Pointer
-    VTKPolyDataReaderObj =
+  itk::VTKPolyDataReader<MeshType>::Pointer VTKPolyDataReaderObj =
     itk::VTKPolyDataReader<MeshType>::New();
   std::cout << "--------------VTKPolyDataReaderObj "
            << VTKPolyDataReaderObj;
 
-  itk::VTKPolyDataWriter<MeshType>::Pointer
-    VTKPolyDataWriterObj =
+  itk::VTKPolyDataWriter<MeshType>::Pointer VTKPolyDataWriterObj =
     itk::VTKPolyDataWriter<MeshType>::New();
   std::cout << "--------------VTKPolyDataWriterObj "
             << VTKPolyDataWriterObj;
