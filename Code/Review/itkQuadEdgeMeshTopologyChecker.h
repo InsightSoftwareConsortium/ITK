@@ -1,24 +1,20 @@
-// -------------------------------------------------------------------------
-// itkQuadEdgeMeshTopologyChecker.h
-// $Revision: 1.3 $
-// $Author: ibanez $
-// $Name:  $
-// $Date: 2007-01-19 19:30:46 $
-// -------------------------------------------------------------------------
-// This code is an implementation of the well known quad edge (QE) data
-// structure in the ITK library. Although the original QE can handle non
-// orientable 2-manifolds and its dual and its mirror, this implementation
-// is specifically dedicated to handle orientable 2-manifolds along with
-// their dual.
-//
-// Any comment, criticism and/or donation is welcome.
-//
-// Please contact any member of the team:
-//
-// - The frog master (Eric Boix)       eboix@ens-lyon.fr
-// - The duck master (Alex Gouaillard) alexandre.gouaillard@sun.com
-// - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
-// -------------------------------------------------------------------------
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshTopologyChecker.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
 #ifndef __itkQuadEdgeMeshTopologyChecker_h
 #define __itkQuadEdgeMeshTopologyChecker_h
 
@@ -26,12 +22,19 @@
 namespace itk
 {
 
-/** \brief Make some basic checks in order to assert that the considered
+/** \class QuadEdgeMeshTopologyChecker
+ *  \brief Make some basic checks in order to assert that the considered
  *         mesh is not degenerated and correctly represents a surface
  *         with a potential boundary.
  *
  * We check that they are no isolated vertices, no isolated edges and
  * that the Euler formula is possible.
+ *
+ * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
+ *
+ * This implementation was contributed as a paper to the Insight Journal
+ * http://hdl.handle.net/1926/306
+ *
  */
 template< class TMesh >
 class ITK_EXPORT QuadEdgeMeshTopologyChecker : public Object
@@ -68,7 +71,7 @@ protected:
 
 private:
   QuadEdgeMeshTopologyChecker( const Self& ); //purposely not implemented 
-  void operator=( const Self& );     //purposely not implemented    
+  void operator=( const Self& );     //purposely not implemented
 
   typedef typename MeshType::ConstPointer   MeshPointer;
 
@@ -88,4 +91,3 @@ private:
 #endif 
 
 #endif 
-
