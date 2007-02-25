@@ -25,10 +25,13 @@
 #include "itkProjectionImageFilter.h"
 #include "itkNumericTraits.h"
 
-namespace itkProjectionImageFilterNamespace 
+namespace itk
+{
+namespace ProjectionImageFilterNamespace 
+{
+namespace Function 
 {
 
-namespace Function {
 template <class TInputPixel, class TOutputPixel>
 class BinaryAccumulator
 {
@@ -65,7 +68,8 @@ public:
 };
 } // end namespace Function
 
-} // end namespace itkProjectionImageFilterNamespace
+} // end namespace ProjectionImageFilterNamespace
+} // end namespace itk
 
 int itkProjectionImageFilterTest(int argc, char * argv[])
 {
@@ -102,7 +106,7 @@ int itkProjectionImageFilterTest(int argc, char * argv[])
   change->SetChange( 1, 100 );
   change->SetChange( 2, 200 );
 
-  typedef itkProjectionImageFilterNamespace::Function::BinaryAccumulator<
+  typedef itk::ProjectionImageFilterNamespace::Function::BinaryAccumulator<
     PixelType, PixelType>  FunctionType;
 
   typedef itk::ProjectionImageFilter< 
