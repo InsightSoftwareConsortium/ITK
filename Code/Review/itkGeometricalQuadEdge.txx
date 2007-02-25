@@ -1,24 +1,19 @@
-// -------------------------------------------------------------------------
-// itkGeometricalQuadEdge.txx
-// $Revision: 1.11 $
-// $Author: ibanez $
-// $Name:  $
-// $Date: 2007-01-29 15:18:59 $
-// -------------------------------------------------------------------------
-// This code is an implementation of the well known quad edge (QE) data
-// structure in the ITK library. Although the original QE can handle non
-// orientable 2-manifolds and its dual and its mirror, this implementation
-// is specifically dedicated to handle orientable 2-manifolds along with
-// their dual.
-//
-// Any comment, criticism and/or donation is welcome.
-//
-// Please contact any member of the team:
-//
-// - The frog master (Eric Boix)       eboix@ens-lyon.fr
-// - The duck master (Alex Gouaillard) gouaillard@creatis.insa-lyon.fr
-// - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
-// -------------------------------------------------------------------------
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkGeometricalQuadEdge.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 
 #ifndef __itkGeometricalQuadEdge_txx
 #define __itkGeometricalQuadEdge_txx
@@ -36,7 +31,7 @@ template< typename TVRef, typename TFRef,
 const typename GeometricalQuadEdge< TVRef, TFRef,
                              TPrimalData, TDualData, PrimalDual >::OriginRefType
 GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::m_NoPoint
-                       = vcl_numeric_limits< OriginRefType >::max( );
+                       = vcl_numeric_limits< OriginRefType >::max();
 
 /**
  *   Constructor
@@ -92,11 +87,13 @@ template< typename TVRef, typename TFRef,
     return( false );
     }
 
-  IteratorGeom it = this->BeginGeomLnext( );
+  IteratorGeom it = this->BeginGeomLnext();
 
-  for( ; maxSize && ( it != this->EndGeomLnext( ) ); it++, maxSize-- )
+  while( maxSize && ( it != this->EndGeomLnext() ) )
     {
-    it.Value( )->SetLeft( faceGeom );
+    it.Value()->SetLeft( faceGeom );
+    it++;
+    maxSize--;
     }
 
   return( true );
@@ -111,7 +108,7 @@ template< typename TVRef, typename TFRef,
 template< typename TVRef, typename TFRef,
           typename TPrimalData, typename TDualData, bool PrimalDual >
     bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::
-    IsLnextOfTriangle( )
+    IsLnextOfTriangle()
 {
   return( this->IsLnextSharingSameFace( 3 ) ); 
 }
@@ -128,11 +125,11 @@ template< typename TVRef, typename TFRef,
     bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::
     IsInOnextRing( Self* b )
 {
-  for( IteratorGeom it  = this->BeginGeomOnext( );
-                      it != this->EndGeomOnext( );
+  for( IteratorGeom it  = this->BeginGeomOnext();
+                      it != this->EndGeomOnext();
                       it++ )
     {
-    if( b == it.Value( ) )
+    if( b == it.Value() )
       {
       return true;
       }
@@ -152,11 +149,11 @@ template< typename TVRef, typename TFRef,
     bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::
     IsInLnextRing( Self* b )
 {
-  for( IteratorGeom it  = this->BeginGeomLnext( );
-                      it != this->EndGeomLnext( );
+  for( IteratorGeom it  = this->BeginGeomLnext();
+                      it != this->EndGeomLnext();
                       it++ )
     {
-    if( b == it.Value( ) )
+    if( b == it.Value() )
       {
       return true;
       }
@@ -200,23 +197,23 @@ GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
  *         Check wether those edges all share the same Left().
  * @param  maxSize Looks at most maxSize edges in the Lnext() ring.
  * @return Returns true when the Lnext() ring share THE same
- *         Left( ) faces. Return false otherwise.
+ *         Left() faces. Return false otherwise.
  */
 template< typename TVRef, typename TFRef,
           typename TPrimalData, typename TDualData, bool PrimalDual >
     bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::
     IsLnextSharingSameFace( int maxSize )
 {
-  IteratorGeom it = this->BeginGeomLnext( );
+  IteratorGeom it = this->BeginGeomLnext();
   
-  for( ; maxSize && ( it != this->EndGeomLnext( ) ); it++, maxSize-- )
+  while( maxSize && ( it != this->EndGeomLnext() ) )
     {
     // The condition isn't complicated: if left faces aren't set,
     // continue, if just one is set return false, if both are set
     // check if the face is the same
     bool facesAreNotSet = !this->IsLeftSet() && !it.Value()->IsLeftSet();
     bool facesAreTheSame = this->GetLeft() == it.Value()->GetLeft();
-    bool facesAreSet = this->IsLeftSet( ) && it.Value( )->IsLeftSet();
+    bool facesAreSet = this->IsLeftSet() && it.Value()->IsLeftSet();
     //
     // FIXME: This boolean expression can be simplified.
     // 
@@ -224,9 +221,11 @@ template< typename TVRef, typename TFRef,
       {
       return( false );
       }
+    it++; 
+    maxSize--;
     }
 
-  if( it != this->EndGeomLnext( ) )
+  if( it != this->EndGeomLnext() )
     {
     // The Lnext ring is bigger than the caller expected
     return( false );
@@ -242,25 +241,23 @@ template< typename TVRef, typename TFRef,
     GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::
     GetNextBorderEdgeWithUnsetLeft( Self* edgeTest )
 {
-  /* Definition: an edge is said to be a boundary edge when it is
-   * adjacent to noface i.e. when at least one of the faces
-   * edge->GetLeft() or edge->GetRight() is unset.
-   * Definition: an point is said to be a boundary point when at
-   * least one of the edges of it's Onext() ring is a boundary
+  /* Definition: an edge is said to be a boundary edge when it is adjacent to
+   * noface i.e. when at least one of the faces edge->GetLeft() or
+   * edge->GetRight() is unset.  Definition: an point is said to be a boundary
+   * point when at least one of the edges of it's Onext() ring is a boundary
    * edge.
-   * 
-   * Assume "this" edge belongs to a triangulation (i.e. it belongs
-   * to a QEMesh which represents a 2-manifold) which possesses a boundary.
-   * Assume "this" edge instance is a boundary edge. Let us denote by
-   * P the point which is the origin of "this" edge i.e. P is this->Origin().
-   * By definition P is a boundary point.
-   * Then AT LEAST two [see the note below] edges of the Onext() ring
-   * of P [which all have the point P as Origin()] are themselves
-   * boundary edges. And among those boundary edges AT LEAST one has
-   * it's Left() face unset.
-   * By iterating over the Onext() ring (which defines a local
-   * ordering on edges) this method searches for the first edge whose
+   *
+   * Assume "this" edge belongs to a triangulation (i.e. it belongs to a QEMesh
+   * which represents a 2-manifold) which possesses a boundary.  Assume "this"
+   * edge instance is a boundary edge. Let us denote by P the point which is
+   * the origin of "this" edge i.e. P is this->Origin().  By definition P is a
+   * boundary point.  Then AT LEAST two [see the note below] edges of the
+   * Onext() ring of P [which all have the point P as Origin()] are themselves
+   * boundary edges. And among those boundary edges AT LEAST one has it's
+   * Left() face unset.  By iterating over the Onext() ring (which defines a
+   * local ordering on edges) this method searches for the first edge whose
    * Left() face is unset AND which is encountered AFTER edgeTest.
+   *
    * @param edgeTest When present, this edge will be considered as
    *        the entry edge in the Onext() ring. When absent it shall
    *        be defaulted to "this" edge. (see the warning below).
@@ -320,7 +317,7 @@ template< typename TVRef, typename TFRef,
    */
 
   // Be sure the Onext ring isn't already full
-  if( this->IsOriginInternal( ) ) 
+  if( this->IsOriginInternal() ) 
     {
     itkQEDebugMacro( "Internal point." );
     return( 0 );
@@ -330,19 +327,20 @@ template< typename TVRef, typename TFRef,
   edgeTest = ( !edgeTest )? this: edgeTest;
 
   // On efficiency purposes
-  if( edgeTest->IsIsolated( ) )
+  if( edgeTest->IsIsolated() )
     {
     return( edgeTest );
     }
 
   // Ok, no more special cases
-  IteratorGeom it = edgeTest->BeginGeomOnext( );
-  for( ; it != edgeTest->EndGeomOnext( ); it++ )
+  IteratorGeom it = edgeTest->BeginGeomOnext();
+  while( it != edgeTest->EndGeomOnext() )
     {
-    if( !it.Value( )->IsLeftSet( ) )
+    if( !it.Value()->IsLeftSet() )
       {
-      return( it.Value( ) );
+      return( it.Value() );
       }
+    it++;
     }
 
   // No border edge found
@@ -393,9 +391,9 @@ template< typename TVRef, typename TFRef,
   // |      1    |         1      |           1              |    0   |
   // +-----------+----------------+--------------------------+--------+
   //
-  if( !(   !( IsOriginSet( ) || isol->IsOriginSet( ) )
-         || (    IsOriginSet( )
-              && isol->IsOriginSet( )
+  if( !(   !( IsOriginSet() || isol->IsOriginSet() )
+         || (    IsOriginSet()
+              && isol->IsOriginSet()
               && ( m_Origin == isol->m_Origin ) )
         ) 
     )
@@ -566,35 +564,35 @@ template< typename TVRef, typename TFRef,
   Self* bsplice = 0;
 
   // Making sure point adjacency is correct:
-  if( first->GetOrigin( ) != second->GetOrigin( ) )
+  if( first->GetOrigin() != second->GetOrigin() )
     {
     itkQEDebugMacro( "Edges not adjacent at same point!" );
     return( false );
     } 
 
-  if( first->GetOnext( ) == second )
+  if( first->GetOnext() == second )
     {
     itkQEDebugMacro( "Nothing to be done." );
     return( true );
     } 
 
-  if( first->IsLeftSet( ) )
+  if( first->IsLeftSet() )
     {
     itkQEDebugMacro( "First should NOT have a left face." );
     return( false );
     } 
 
-  if( second->IsInternal( ) )
+  if( second->IsInternal() )
     {
     itkQEDebugMacro( "Second is an internal edge." );
     return( false );
     } 
 
   // Disconnect the triangles containing second:
-  if( second->IsLeftSet( ) )
+  if( second->IsLeftSet() )
     {
-    bsplice = second->GetNextBorderEdgeWithUnsetLeft( );
-    second->GetOprev( )->Splice( bsplice );
+    bsplice = second->GetNextBorderEdgeWithUnsetLeft();
+    second->GetOprev()->Splice( bsplice );
     }
   else
     {
@@ -603,7 +601,7 @@ template< typename TVRef, typename TFRef,
     itkQEWarningMacro( "This code was never tested (it requires "
                        "heterogenously oriented triangles)." );
     bsplice = second;
-    second->GetOprev( )->Splice( bsplice );
+    second->GetOprev()->Splice( bsplice );
     }
  
   // Reconnect second after first:
@@ -615,55 +613,56 @@ template< typename TVRef, typename TFRef,
 template< typename TVRef, typename TFRef,
           typename TPrimalData, typename TDualData, bool PrimalDual >
     void GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::
-    Disconnect( )
+    Disconnect()
 {
-  if( this->IsDisconnected( ) )
+  if( this->IsDisconnected() )
     {
     itkQEDebugMacro( "Edge already disconnected." );
     return;
     } 
 
   // Update faces if the edge isn't a wire
-  if( this->IsAtBorder( ) )
+  if( this->IsAtBorder() )
     {
-    Self* e = ( this->IsRightSet( ) )? this->GetSym( ): this;
-    IteratorGeom it = e->BeginGeomLnext( );
-    for( ; it != e->EndGeomLnext( ); it++ )
+    Self* e = ( this->IsRightSet() )? this->GetSym(): this;
+    IteratorGeom it = e->BeginGeomLnext();
+    while( it != e->EndGeomLnext() )
       {
-      it.Value( )->UnsetLeft( );
+      it.Value()->UnsetLeft();
+      it++;
       }
     }
-  else if( this->IsInternal( ) )
+  else if( this->IsInternal() )
     {
     // Consolidate face
-    DualOriginRefType face = this->GetRight( );
-    for( IteratorGeom it  = this->BeginGeomLnext( );
-                      it != this->EndGeomLnext( );
+    DualOriginRefType face = this->GetRight();
+    for( IteratorGeom it  = this->BeginGeomLnext();
+                      it != this->EndGeomLnext();
                       it++ )
       {
-      it.Value( )->SetLeft( face );
+      it.Value()->SetLeft( face );
       }
     } 
 
   // Hint edges
-  Self* e0 = this->GetOprev( );
-  Self* e1 = this->GetLnext( );
+  Self* e0 = this->GetOprev();
+  Self* e1 = this->GetLnext();
 
   // Disconnect entries
-  if( !this->IsOriginDisconnected( ) )
+  if( !this->IsOriginDisconnected() )
     {
     e0->Splice( this );
     }
-  if( !this->IsDestinationDisconnected( ) )
+  if( !this->IsDestinationDisconnected() )
     {
-    e1->Splice( this->GetSym( ) );
+    e1->Splice( this->GetSym() );
     }
 
   // Normally, this edge is converted to a simple wire
-  this->UnsetOrigin( );
-  this->UnsetDestination( );
-  this->UnsetLeft( );
-  this->UnsetRight( );
+  this->UnsetOrigin();
+  this->UnsetDestination();
+  this->UnsetLeft();
+  this->UnsetRight();
 }
 
 
@@ -743,4 +742,3 @@ GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
 } // end of namespace itk 
 
 #endif 
-
