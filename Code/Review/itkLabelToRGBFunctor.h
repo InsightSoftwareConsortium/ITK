@@ -15,17 +15,28 @@
 
 =========================================================================*/
 
-
 #ifndef __itkLabelToRGBFunctor_h
 #define __itkLabelToRGBFunctor_h
-
 
 namespace itk
 {
 
 namespace Functor {
  
-/** The functor class used internally by LabelToRGBImageFilter */
+/** \class LabelToRGBFunctor
+ *  \brief Functor for converting labels into RGB triplets.
+ *
+ * This functor class used internally by LabelToRGBImageFilter
+ *
+ * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
+ * INRA de Jouy-en-Josas, France.  
+ *
+ * \author Richard Beare. Department of
+ * Medicine, Monash University, Melbourne, Australia.
+ *
+ * \sa LabelToRGBImageFilter
+ *
+ **/
 template< class TLabel, class TRGBPixel >
 class LabelToRGBFunctor
 {
@@ -38,14 +49,14 @@ public:
     
     TRGBPixel rgbPixel;
     // the following colors are from "R", and named:
-    // "red"             "green3"          "blue"            "cyan"           
-    //"magenta"         "darkorange1"     "darkgreen"       "blueviolet"     
-    //"brown4"          "navy"            "yellow4"         "violetred1"     
-    //"salmon4"         "turquoise4"      "sienna3"         "darkorchid1"    
-    //"springgreen4"    "mediumvioletred" "orangered3"      "lightseagreen"  
-    //"slateblue"       "deeppink1"       "aquamarine4"     "royalblue1"     
-    //"tomato3"         "mediumblue"      "violetred4"      "darkmagenta"    
-    //"violet"          "red4"           
+    // "red"             "green3"          "blue"            "cyan"
+    //"magenta"         "darkorange1"     "darkgreen"       "blueviolet"
+    //"brown4"          "navy"            "yellow4"         "violetred1"
+    //"salmon4"         "turquoise4"      "sienna3"         "darkorchid1"
+    //"springgreen4"    "mediumvioletred" "orangered3"      "lightseagreen"
+    //"slateblue"       "deeppink1"       "aquamarine4"     "royalblue1"
+    //"tomato3"         "mediumblue"      "violetred4"      "darkmagenta"
+    //"violet"          "red4"
     // They are a good selection of distinct colours for plotting and
     // overlays.
     
@@ -150,4 +161,3 @@ public:
 }  // end namespace itk
 
 #endif
-
