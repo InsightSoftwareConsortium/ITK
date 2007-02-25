@@ -1,24 +1,19 @@
-// -------------------------------------------------------------------------
-// itkGeometricalQuadEdge.h
-// $Revision: 1.10 $
-// $Author: ibanez $
-// $Name:  $
-// $Date: 2007-01-29 15:18:59 $
-// -------------------------------------------------------------------------
-// This code is an implementation of the well known quad edge (QE) data
-// structure in the ITK library. Although the original QE can handle non
-// orientable 2-manifolds and its dual and its mirror, this implementation
-// is specifically dedicated to handle orientable 2-manifolds along with
-// their dual.
-//
-// Any comment, criticism and/or donation is welcome.
-//
-// Please contact any member of the team:
-//
-// - The frog master (Eric Boix)       eboix@ens-lyon.fr
-// - The duck master (Alex Gouaillard) alexandre.gouaillard@sun.com
-// - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
-// -------------------------------------------------------------------------
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkGeometricalQuadEdge.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 
 #ifndef __itkGeometricalQuadEdge_h
 #define __itkGeometricalQuadEdge_h
@@ -69,9 +64,9 @@ class GeometricalQuadEdge : public QuadEdge
 {
 public:
   /** Hierarchy typedefs. */
-  typedef GeometricalQuadEdge Self;
-  typedef QuadEdge     Superclass;
-  typedef Self*        RawPointer;
+  typedef GeometricalQuadEdge   Self;
+  typedef QuadEdge              Superclass;
+  typedef Self*                 RawPointer;
 
   /**
    * Dual type, basically the same type with swapped template
@@ -119,16 +114,16 @@ public:
 
   /** Set methods. */
   void SetOrigin( const OriginRefType v )
-     { m_Origin = v; }
+    { m_Origin = v; }
 
   void SetDestination( const OriginRefType v )
-     { this->GetSym( )->SetOrigin( v ); }
+    { this->GetSym()->SetOrigin( v ); }
 
   void SetRight( const DualOriginRefType v )
-     { this->GetRot( )->SetOrigin( v ); }
+    { this->GetRot()->SetOrigin( v ); }
 
   void SetLeft( const DualOriginRefType v )
-     { this->GetInvRot( )->SetOrigin( v ); }
+    { this->GetInvRot()->SetOrigin( v ); }
 
   /**
    * Set the Left() of all the edges in the Lnext() ring of "this"
@@ -140,75 +135,75 @@ public:
   bool SetLnextRingWithSameLeftFace( const DualOriginRefType faceGeom,
                                      int maxSize = 100 );
 
-  void UnsetOrigin( )   { m_Origin = m_NoPoint; }
-  void UnsetDestination( )  { this->GetSym( )->UnsetOrigin( ); }
-  void UnsetRight( ) { this->GetRot( )->UnsetOrigin( ); }
-  void UnsetLeft( )  { this->GetInvRot( )->UnsetOrigin( ); }
+  void UnsetOrigin()   { m_Origin = m_NoPoint; }
+  void UnsetDestination()  { this->GetSym()->UnsetOrigin(); }
+  void UnsetRight() { this->GetRot()->UnsetOrigin(); }
+  void UnsetLeft()  { this->GetInvRot()->UnsetOrigin(); }
 
   /** Get methods. */
   //ORIENTATION_NOTE: this definition of GetLeft (or GetRight)
   // implicitely assumes that the Onext order is counter-clockwise !
-  OriginRefType     GetOrigin( )   { return( m_Origin ); }
-  OriginRefType     GetDestination( )  { return( this->GetSym( )->GetOrigin( ) ); }
-  DualOriginRefType GetRight( ) { return( this->GetRot( )->GetOrigin( ) ); }
-  DualOriginRefType GetLeft( )  { return( this->GetInvRot( )->GetOrigin( ) ); }
+  OriginRefType     GetOrigin()   { return( m_Origin ); }
+  OriginRefType     GetDestination()  { return( this->GetSym()->GetOrigin() ); }
+  DualOriginRefType GetRight() { return( this->GetRot()->GetOrigin() ); }
+  DualOriginRefType GetLeft()  { return( this->GetInvRot()->GetOrigin() ); }
 
   /** Boolean accessors. */
-  bool IsOriginSet( ) const;
-  bool IsDestinationSet( ) const;
-  bool IsRightSet( ) const;
+  bool IsOriginSet() const;
+  bool IsDestinationSet() const;
+  bool IsRightSet() const;
   bool IsLeftSet() const;
 
   /** Extra data set methods. */
   void SetPrimalData( const PrimalDataType data )
-  { m_Data = data; this->SetPrimalData( ); }
+  { m_Data = data; this->SetPrimalData(); }
   void SetDualData( const DualDataType data )
-  { this->GetRot( )->SetPrimalData( data ); }
+  { this->GetRot()->SetPrimalData( data ); }
 
-  void SetPrimalData( ) { m_DataSet = true; }
-  void SetDualData( )   { this->GetRot( )->SetPrimalData( ); }
+  void SetPrimalData() { m_DataSet = true; }
+  void SetDualData()   { this->GetRot()->SetPrimalData(); }
 
-  void UnsetPrimalData( ) { m_Data = false; }
-  void UnsetDualData( )   { this->GetRot( )->UnsetPrimalData( ); }
+  void UnsetPrimalData() { m_Data = false; }
+  void UnsetDualData()   { this->GetRot()->UnsetPrimalData(); }
 
   /** Extra data get methods. */
-  PrimalDataType GetPrimalData( ) { return( m_Data ); }
-  DualDataType   GetDualData( )
-  { return( this->GetRot( )->GetPrimalData( ) ); }
+  PrimalDataType GetPrimalData() { return( m_Data ); }
+  DualDataType   GetDualData()
+    { return( this->GetRot()->GetPrimalData() ); }
 
   /** Boolean accessors. */
-  bool IsPrimalDataSet( ) { return( m_DataSet ); }
-  bool IsDualDataSet( )
-  { return( this->GetRot( )->IsPrimalDataSet( ) ); }
+  bool IsPrimalDataSet() { return( m_DataSet ); }
+  bool IsDualDataSet()
+    { return( this->GetRot()->IsPrimalDataSet() ); }
 
   /**
    * @return Returns true when "this" has no faces set on both sides.
    *         Return false otherwise.
    */
-  bool IsWire( )
-  { return( !( this->IsLeftSet( ) ) && !( this->IsRightSet( ) ) ); }
+  bool IsWire()
+    { return( !( this->IsLeftSet() ) && !( this->IsRightSet() ) ); }
 
   /**
    * @return Returns true when "this" is on the boundary i.e.
    *         one and only one of the faces is set. Return false
    *         otherwise.
    */
-  bool IsAtBorder( )
-  {
-      return( ( this->IsLeftSet( ) && !this->IsRightSet( ) ) ||
-              ( !this->IsLeftSet( ) && this->IsRightSet( ) ) );
-  }
+  bool IsAtBorder()
+    {
+    return( ( this->IsLeftSet() && !this->IsRightSet() ) ||
+            ( !this->IsLeftSet() && this->IsRightSet() ) );
+    }
 
   /**
    * @return Returns true when "this" has faces set on both sides.
    *         Return false otherwise.
    */
   bool IsInternal() const
-     { return( this->IsLeftSet() && this->IsRightSet() ); }
+    { return( this->IsLeftSet() && this->IsRightSet() ); }
 
   bool IsOriginInternal() const;
   bool IsLnextSharingSameFace( int maxSize = 100 );
-  bool IsLnextOfTriangle( );
+  bool IsLnextOfTriangle();
   bool IsInOnextRing( Self* );
   bool IsInLnextRing( Self* );
 
@@ -220,14 +215,14 @@ public:
   bool ReorderOnextRingBeforeAddFace( Self* second );
 
   /** Disconnection methods. */
-  bool IsOriginDisconnected( )
-  { return( this == this->GetOnext( ) ); }
-  bool IsDestinationDisconnected( )
-  { return( this->GetSym( )->IsOriginDisconnected( ) ); }
-  bool IsDisconnected( )
-  { return( this->IsOriginDisconnected( ) &&
-            this->IsDestinationDisconnected( ) ); }
-  void Disconnect( );
+  bool IsOriginDisconnected()
+    { return( this == this->GetOnext() ); }
+  bool IsDestinationDisconnected()
+    { return( this->GetSym()->IsOriginDisconnected() ); }
+  bool IsDisconnected()
+    { return( this->IsOriginDisconnected() &&
+              this->IsDestinationDisconnected() ); }
+  void Disconnect();
 
 public:
   // Reserved OriginRefType designated to represent the absence of Origin
@@ -246,4 +241,3 @@ protected:
 #endif
 
 #endif 
-
