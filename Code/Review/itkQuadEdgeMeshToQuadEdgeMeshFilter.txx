@@ -1,88 +1,86 @@
-// -------------------------------------------------------------------------
-// itkQuadEdgeMeshToQuadEdgeMeshFilter.txx
-// $Revision: 1.1 $
-// $Author: sylvain $
-// $Name:  $
-// $Date: 2007-01-18 19:22:19 $
-// -------------------------------------------------------------------------
-// This code is an implementation of the well known quad edge (QE) data
-// structure in the ITK library. Although the original QE can handle non
-// orientable 2-manifolds and its dual and its mirror, this implementation
-// is specifically dedicated to handle orientable 2-manifolds along with
-// their dual.
-//
-// Any comment, criticism and/or donation is welcome.
-//
-// Please contact any member of the team:
-//
-// - The frog master (Eric Boix)       eboix@ens-lyon.fr
-// - The duck master (Alex Gouaillard) gouaillard@creatis.insa-lyon.fr
-// - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
-// -------------------------------------------------------------------------
+/*=========================================================================
 
-#ifndef __ITKQUADEDGEMESH__MESHCOPY__TXX__
-#define __ITKQUADEDGEMESH__MESHCOPY__TXX__
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshToQuadEdgeMeshFilter.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-namespace itkQE
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
+#ifndef __itkQuadEdgeMeshToQuadEdgeMeshFilter_txx
+#define __itkQuadEdgeMeshToQuadEdgeMeshFilter_txx
+
+namespace itk
 {
-    // ---------------------------------------------------------------------
-    template< class TInputMesh, class TOutputMesh >
-        MeshCopy< TInputMesh, TOutputMesh >::
-        MeshCopy( )
-            : Superclass( )
+// ---------------------------------------------------------------------
+template< class TInputMesh, class TOutputMesh >
+MeshCopy< TInputMesh, TOutputMesh >
+::MeshCopy()
+{
+  this->Superclass::SetNumberOfRequiredInputs( 1 );
+  this->Superclass::SetNumberOfRequiredOutputs( 1 );
+
+  typename TInputMesh::Pointer out = TInputMesh::New();
+  this->Superclass::SetNthOutput( 0, out.GetPointer() );
+}
+
+// ---------------------------------------------------------------------
+template< class TInputMesh, class TOutputMesh >
+void 
+MeshCopy< TInputMesh, TOutputMesh >
+::GenerateData()
+{
+  InputMeshConstPointer in = this->GetInput();
+  OutputMeshPointer out = this->GetOutput();
+
+  // Copy points
+  InputPointsContainerConstIterator inIt = in->GetPoints()->Begin();
+  while( inIt != in->GetPoints()->End() )
     {
-        this->Superclass::SetNumberOfRequiredInputs( 1 );
-        this->Superclass::SetNumberOfRequiredOutputs( 1 );
+    OutputPointType pOut;
+    pOut.CastFrom( inIt.Value() );
+    out->SetPoint( inIt.Index(), pOut );
+    inIt++;
+    } 
 
-        typename TInputMesh::Pointer out = TInputMesh::New( );
-        this->Superclass::SetNthOutput( 0, out.GetPointer( ) );
-    }
-
-    // ---------------------------------------------------------------------
-    template< class TInputMesh, class TOutputMesh >
-        void MeshCopy< TInputMesh, TOutputMesh >::
-        GenerateData( )
+  // Copy cells
+  InputCellsContainerConstIterator cIt = in->GetCells()->Begin();
+  for( cIt != in->GetCells()->End(); cIt++ )
     {
-        InputMeshConstPointer in = this->GetInput( );
-        OutputMeshPointer out = this->GetOutput( );
-
-        // Copy points
-        InputPointsContainerConstIterator inIt = in->GetPoints( )->Begin( );
-        for( ; inIt != in->GetPoints( )->End( ); inIt++ )
+    InputEdgeCellType* qe = (InputEdgeCellType*)0;
+    InputPolygonCellType* pe = (InputPolygonCellType*)0;
+    if( ( qe = dynamic_cast< InputEdgeCellType* >( cIt.Value() ) ) )
+      {
+      out->AddEdge( qe->GetOrg(), qe->GetDest() );
+      }
+    else
+      {
+      pe = dynamic_cast< InputPolygonCellType* >( cIt.Value());
+      if( pe )
         {
-            OutputPointType pOut;
-            pOut.CastFrom( inIt.Value( ) );
-            out->SetPoint( inIt.Index( ), pOut );
-        } // rof
-
-        // Copy cells
-        InputCellsContainerConstIterator cIt = in->GetCells( )->Begin( );
-        for( ; cIt != in->GetCells( )->End( ); cIt++ )
-        {
-            InputEdgeCellType* qe = (InputEdgeCellType*)0;
-            InputPolygonCellType* pe = (InputPolygonCellType*)0;
-            if( ( qe = dynamic_cast< InputEdgeCellType* >( cIt.Value( ) ) ) )
-            {
-                out->AddEdge( qe->GetOrg( ), qe->GetDest( ) );
-            }
-            else
-            {
-                if(( pe = dynamic_cast< InputPolygonCellType* >( cIt.Value( ))))
-                {
-                    InputPointIdList points;
-                    typename InputPolygonCellType::PointIdIterator pit =
-                        pe->PointIdsBegin( );
-                    for( ; pit != pe->PointIdsEnd( ); pit++ )
-                        points.push_back( ( *pit ) );
-                    out->AddFace( points );
-                } // fi
-            } //fi
-        } // rof
+        InputPointIdList points;
+        typename InputPolygonCellType::PointIdIterator pit =
+          pe->PointIdsBegin();
+        while( pit != pe->PointIdsEnd();)
+          {
+          points.push_back( ( *pit ) );
+          pit++;
+          }
+        out->AddFace( points );
+        } 
+      }
+    cIt++;
     }
+}
 
-} // enamespace
+} // end namespace itk
 
-
-#endif // __ITKQUADEDGEMESH__MESHCOPY__TXX__
-
-// eof - itkQuadEdgeMeshToQuadEdgeMeshFilter.txx
+#endif 

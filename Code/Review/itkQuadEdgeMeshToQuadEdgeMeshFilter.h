@@ -1,97 +1,100 @@
-// -------------------------------------------------------------------------
-// itkQuadEdgeMeshToQuadEdgeMeshFilter.h
-// $Revision: 1.1 $
-// $Author: sylvain $
-// $Name:  $
-// $Date: 2007-01-18 19:22:19 $
-// -------------------------------------------------------------------------
-// This code is an implementation of the well known quad edge (QE) data
-// structure in the ITK library. Although the original QE can handle non
-// orientable 2-manifolds and its dual and its mirror, this implementation
-// is specifically dedicated to handle orientable 2-manifolds along with
-// their dual.
-//
-// Any comment, criticism and/or donation is welcome.
-//
-// Please contact any member of the team:
-//
-// - The frog master (Eric Boix)       eboix@ens-lyon.fr
-// - The duck master (Alex Gouaillard) alexandre.gouaillard@sun.com
-// - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
-// -------------------------------------------------------------------------
+/*=========================================================================
 
-#ifndef __ITKQUADEDGEMESH__MESHCOPY__H__
-#define __ITKQUADEDGEMESH__MESHCOPY__H__
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshToQuadEdgeMeshFilter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-#include <itkMeshToMeshFilter.h>
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-namespace itkQE
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
+#ifndef __itkQuadEdgeMeshToQuadEdgeMeshFilter_h
+#define __itkQuadEdgeMeshToQuadEdgeMeshFilter_h
+
+#include "itkMeshToMeshFilter.h"
+
+namespace itk
 {
-    /**
-     */
-    template< typename TInputMesh, typename TOutputMesh >
-        class MeshCopy
-        : public itk::MeshToMeshFilter< TInputMesh, TOutputMesh >
-        {
-            public:
-            /** Basic types. */
-            typedef MeshCopy                                         Self;
-            typedef itk::MeshToMeshFilter< TInputMesh, TOutputMesh > Superclass;
-            typedef itk::SmartPointer< Self >                        Pointer;
-            typedef itk::SmartPointer< const Self >                  ConstPointer;
+/** \class MeshCopy
+ *  \brief Duplicates the content of a Mesh.
+ *
+ * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
+ *
+ * This implementation was contributed as a paper to the Insight Journal
+ * http://hdl.handle.net/1926/306
+ *
+ */
+template< typename TInputMesh, typename TOutputMesh >
+class MeshCopy
+  : public itk::MeshToMeshFilter< TInputMesh, TOutputMesh >
+{
+public:
+  /** Basic types. */
+  typedef MeshCopy                                         Self;
+  typedef itk::MeshToMeshFilter< TInputMesh, TOutputMesh > Superclass;
+  typedef itk::SmartPointer< Self >                        Pointer;
+  typedef itk::SmartPointer< const Self >                  ConstPointer;
 
-            /** Input types. */
-            typedef TInputMesh                              InputMeshType;
-            typedef typename InputMeshType::Pointer         InputMeshPointer;
-            typedef typename InputMeshType::ConstPointer    InputMeshConstPointer;
-            typedef typename InputMeshType::CoordRepType    InputCoordRepType;
-            typedef typename InputMeshType::PointType       InputPointType;
-            typedef typename InputMeshType::PointIdentifier InputPointIdentifier;
-            typedef typename InputMeshType::QEPrimal        InputQEPrimal;
-            typedef typename InputMeshType::VectorType      InputVectorType;
+  /** Input types. */
+  typedef TInputMesh                              InputMeshType;
+  typedef typename InputMeshType::Pointer         InputMeshPointer;
+  typedef typename InputMeshType::ConstPointer    InputMeshConstPointer;
+  typedef typename InputMeshType::CoordRepType    InputCoordRepType;
+  typedef typename InputMeshType::PointType       InputPointType;
+  typedef typename InputMeshType::PointIdentifier InputPointIdentifier;
+  typedef typename InputMeshType::QEPrimal        InputQEPrimal;
+  typedef typename InputMeshType::VectorType      InputVectorType;
 
-            typedef typename InputMeshType::PointsContainerConstIterator
-                InputPointsContainerConstIterator;
-            typedef typename InputMeshType::CellsContainerConstIterator
-                InputCellsContainerConstIterator;
-            typedef typename InputMeshType::EdgeCellType    InputEdgeCellType;
-            typedef typename InputMeshType::PolygonCellType InputPolygonCellType;
-            typedef typename InputMeshType::PointIdList     InputPointIdList;
+  typedef typename InputMeshType::PointsContainerConstIterator
+      InputPointsContainerConstIterator;
+  typedef typename InputMeshType::CellsContainerConstIterator
+      InputCellsContainerConstIterator;
 
-            typedef typename InputQEPrimal::IteratorGeom    InputQEIterator;
+  typedef typename InputMeshType::EdgeCellType    InputEdgeCellType;
+  typedef typename InputMeshType::PolygonCellType InputPolygonCellType;
+  typedef typename InputMeshType::PointIdList     InputPointIdList;
 
-            /** Output types. */
-            typedef TOutputMesh                               OutputMeshType;
-            typedef typename OutputMeshType::Pointer          OutputMeshPointer;
-            typedef typename OutputMeshType::ConstPointer     OutputMeshConstPointer;
-            typedef typename OutputMeshType::CoordRepType     OutputCoordRepType;
-            typedef typename OutputMeshType::PointType        OutputPointType;
-            typedef typename OutputMeshType::PointIdentifier  OutputPointIdentifier;
-            typedef typename OutputMeshType::QEPrimal         OutputQEPrimal;
-            typedef typename OutputMeshType::VectorType       OutputVectorType;
-            typedef typename OutputQEPrimal::IteratorGeom     OutputQEIterator;
-            typedef typename OutputMeshType::PointsContainerIterator
-                OutputPointsContainerIterator;
+  typedef typename InputQEPrimal::IteratorGeom    InputQEIterator;
 
-            public:
-            itkNewMacro( Self );
-            itkTypeMacro( MeshCopy, itk::MeshToMeshFilter );
+  /** Output types. */
+  typedef TOutputMesh                               OutputMeshType;
+  typedef typename OutputMeshType::Pointer          OutputMeshPointer;
+  typedef typename OutputMeshType::ConstPointer     OutputMeshConstPointer;
+  typedef typename OutputMeshType::CoordRepType     OutputCoordRepType;
+  typedef typename OutputMeshType::PointType        OutputPointType;
+  typedef typename OutputMeshType::PointIdentifier  OutputPointIdentifier;
+  typedef typename OutputMeshType::QEPrimal         OutputQEPrimal;
+  typedef typename OutputMeshType::VectorType       OutputVectorType;
+  typedef typename OutputQEPrimal::IteratorGeom     OutputQEIterator;
+  typedef typename OutputMeshType::PointsContainerIterator
+      OutputPointsContainerIterator;
 
-            protected:
-            MeshCopy( );
-            virtual ~MeshCopy( ) { }
+public:
+  itkNewMacro( Self );
+  itkTypeMacro( MeshCopy, itk::MeshToMeshFilter );
 
-            virtual void GenerateData( );
+protected:
+  MeshCopy( );
+  virtual ~MeshCopy( ) { }
 
-            private:
-            MeshCopy( const Self& ); // Not impl.
-            void operator=( const Self& );  // Not impl.
-        };
+  virtual void GenerateData( );
 
-} // enamespace
+private:
+  MeshCopy( const Self& ); // Not impl.
+  void operator=( const Self& );  // Not impl.
+};
 
+} // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkQEMeshCopy.txx"
+#endif
 
-#endif // __ITKQUADEDGEMESH__MESHCOPY__H__
-
-// eof - itkQuadEdgeMeshToQuadEdgeMeshFilter.h
+#endif
