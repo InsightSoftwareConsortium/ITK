@@ -70,7 +70,7 @@ public:
     ScalarType height;
 
     /** Necessary operator for sorting the adjacency lists */
-    bool operator<(edge_pair_t &o)
+    bool operator<( const edge_pair_t & o)
     {
       if ( this->height < o.height ) return true;
       else return false;
