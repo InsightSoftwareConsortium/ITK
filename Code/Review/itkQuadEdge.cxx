@@ -506,19 +506,19 @@ QuadEdge *
 QuadEdge
 ::GetInvRot() 
 {
-   Self * p1 = this->GetRot();
+  Self * p1 = this->GetRot();
   if( p1 == NULL )
     {
     return NULL;
     }
 
-   Self * p2 = p1->GetRot();
+  Self * p2 = p1->GetRot();
   if( p2 == NULL )
     {
     return NULL;
     }
 
-   Self * p3 = p2->GetRot();
+  Self * p3 = p2->GetRot();
   if( p3 == NULL )
     {
     return NULL;
@@ -558,7 +558,6 @@ QuadEdge
 {
   return this->GetDprev(); 
 }
-
 
 
 // ---------------------------------------------------------------------
@@ -700,4 +699,3 @@ QuadEdge
 }
 
 } // end namespace itk
-
