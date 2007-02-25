@@ -50,16 +50,18 @@ UnaryFunctorImageFilter<TLabelImage, TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef LabelToRGBImageFilter  Self;
+  typedef LabelToRGBImageFilter     Self;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+
   typedef UnaryFunctorImageFilter<TLabelImage, TOutputImage, 
                         Functor::LabelToRGBFunctor< 
                             typename TLabelImage::PixelType, 
                             typename TOutputImage::PixelType>   >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
 
   typedef TOutputImage OutputImageType;
   typedef TLabelImage  LabelImageType;
+
   typedef typename TOutputImage::PixelType OutputPixelType;
   typedef typename TLabelImage::PixelType  LabelPixelType;
 
@@ -91,8 +93,9 @@ protected:
 private:
   LabelToRGBImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  bool m_UseBackground;
-  LabelPixelType m_BackgroundValue;
+  
+  bool              m_UseBackground;
+  LabelPixelType    m_BackgroundValue;
 };
 
 
@@ -104,4 +107,3 @@ private:
 #endif
   
 #endif
-
