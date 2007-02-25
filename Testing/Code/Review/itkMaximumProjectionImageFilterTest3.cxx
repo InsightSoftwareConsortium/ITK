@@ -36,39 +36,42 @@ int itkMaximumProjectionImageFilterTest3(int argc, char * argv[])
 
   int dim = atoi(argv[1]);
 
-  typedef unsigned char PType;
-  typedef itk::Image< PType, 3 > IType;
-  typedef itk::Image< PType, 2 > IType2;
+  typedef unsigned char PixelType;
 
-  typedef itk::ImageFileReader< IType > ReaderType;
+  typedef itk::Image< PixelType, 3 > ImageType;
+  typedef itk::Image< PixelType, 2 > Image2DType;
+
+  typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[2] );
 
-  typedef itk::MaximumProjectionImageFilter< IType, IType2 > FilterType;
+  typedef itk::MaximumProjectionImageFilter< 
+    ImageType, Image2DType > FilterType;
+
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
   filter->SetProjectionDimension( dim );
+  
   // to be sure that the result is ok with several threads, even on a single
   // proc computer
   filter->SetNumberOfThreads( 2 );
 
-//   itk::SimpleFilterWatcher watcher(filter, "filter");
+  itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  typedef itk::ImageFileWriter< IType2 > WriterType;
+  typedef itk::ImageFileWriter< Image2DType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[3] );
 
   try
-  {
-  writer->Update();
-  } 
+    {
+    writer->Update();
+    } 
   catch ( itk::ExceptionObject & excp )
-  {
-  std::cerr << excp << std::endl;
-  return EXIT_FAILURE;
-  }
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 }
-
