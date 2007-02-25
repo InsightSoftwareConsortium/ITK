@@ -57,6 +57,54 @@ bool GDCMImageIO::m_LoadSequencesDefault = false;
 bool GDCMImageIO::m_LoadPrivateTagsDefault = false;
 
 
+template <typename PixelType>
+class IntervalCalculator
+{
+public:
+ static ImageIOBase::IOComponentType 
+   Compute(double slope, double intercept)
+{
+  ImageIOBase::IOComponentType comptype;
+  PixelType maximum = NumericTraits<PixelType>::max() ;
+  PixelType minimum = NumericTraits<PixelType>::min() ;
+
+  double dmax, dmin; // do computation in double
+  dmax = maximum * slope + intercept;
+  dmin = minimum * slope + intercept;
+
+  // do the case in order:
+  if( dmin >= NumericTraits<unsigned char>::min() && dmax <= NumericTraits<unsigned char>::max() )
+    {
+    comptype = ImageIOBase::UCHAR;
+    }
+  else if( dmin >= NumericTraits<char>::min() && dmax <= NumericTraits<char>::max() )
+    {
+    comptype = ImageIOBase::CHAR;
+    }
+  else if( dmin >= NumericTraits<unsigned short>::min() && dmax <= NumericTraits<unsigned short>::max() )
+    {
+    comptype = ImageIOBase::USHORT;
+    }
+  else if( dmin >= NumericTraits<short>::min() && dmax <= NumericTraits<short>::max() )
+    {
+    comptype = ImageIOBase::SHORT;
+    }
+  else if( dmin >= NumericTraits<unsigned int>::min() && dmax <= NumericTraits<unsigned int>::max() )
+    {
+    comptype = ImageIOBase::UINT;
+    }
+  else if( dmin >= NumericTraits<int>::min() && dmax <= NumericTraits<int>::max() )
+    {
+    comptype = ImageIOBase::INT;
+    }
+  else
+    {
+    comptype = ImageIOBase::UNKNOWNCOMPONENTTYPE;
+    }
+  return comptype;
+}
+};
+
 GDCMImageIO::GDCMImageIO()
   : m_LoadSequences( m_LoadSequencesDefault ),
     m_LoadPrivateTags( m_LoadPrivateTagsDefault )
@@ -449,48 +497,6 @@ void GDCMImageIO::Read(void* buffer)
 
 }
 
-template <typename PixelType>
-ImageIOBase::IOComponentType ComputeInterval(double slope, double intercept)
-{
-  ImageIOBase::IOComponentType comptype;
-  PixelType maximum = NumericTraits<PixelType>::max() ;
-  PixelType minimum = NumericTraits<PixelType>::min() ;
-
-  double dmax, dmin; // do computation in double
-  dmax = maximum * slope + intercept;
-  dmin = minimum * slope + intercept;
-
-  // do the case in order:
-  if( dmin >= NumericTraits<unsigned char>::min() && dmax <= NumericTraits<unsigned char>::max() )
-    {
-    comptype = ImageIOBase::UCHAR;
-    }
-  else if( dmin >= NumericTraits<char>::min() && dmax <= NumericTraits<char>::max() )
-    {
-    comptype = ImageIOBase::CHAR;
-    }
-  else if( dmin >= NumericTraits<unsigned short>::min() && dmax <= NumericTraits<unsigned short>::max() )
-    {
-    comptype = ImageIOBase::USHORT;
-    }
-  else if( dmin >= NumericTraits<short>::min() && dmax <= NumericTraits<short>::max() )
-    {
-    comptype = ImageIOBase::SHORT;
-    }
-  else if( dmin >= NumericTraits<unsigned int>::min() && dmax <= NumericTraits<unsigned int>::max() )
-    {
-    comptype = ImageIOBase::UINT;
-    }
-  else if( dmin >= NumericTraits<int>::min() && dmax <= NumericTraits<int>::max() )
-    {
-    comptype = ImageIOBase::INT;
-    }
-  else
-    {
-    comptype = ImageIOBase::UNKNOWNCOMPONENTTYPE;
-    }
-  return comptype;
-}
 
 void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
 {
@@ -627,22 +633,28 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     switch (m_ComponentType)
       {
     case ImageIOBase::UCHAR:
-      m_ComponentType = ComputeInterval<unsigned char>(m_RescaleSlope, m_RescaleIntercept);
+      m_ComponentType = 
+        IntervalCalculator<unsigned char>::Compute(m_RescaleSlope, m_RescaleIntercept);
       break;
     case ImageIOBase::CHAR:
-      m_ComponentType = ComputeInterval<char>(m_RescaleSlope, m_RescaleIntercept);
+      m_ComponentType = 
+        IntervalCalculator<char>::Compute(m_RescaleSlope, m_RescaleIntercept);
       break;
     case ImageIOBase::USHORT:
-      m_ComponentType = ComputeInterval<unsigned short>(m_RescaleSlope, m_RescaleIntercept);
+      m_ComponentType = 
+        IntervalCalculator<unsigned short>::Compute(m_RescaleSlope, m_RescaleIntercept);
       break;
     case ImageIOBase::SHORT:
-      m_ComponentType = ComputeInterval<short>(m_RescaleSlope, m_RescaleIntercept);
+      m_ComponentType = 
+        IntervalCalculator<short>::Compute(m_RescaleSlope, m_RescaleIntercept);
       break;
     case ImageIOBase::UINT:
-      m_ComponentType = ComputeInterval<unsigned int>(m_RescaleSlope, m_RescaleIntercept);
+      m_ComponentType = 
+        IntervalCalculator<unsigned int>::Compute(m_RescaleSlope, m_RescaleIntercept);
       break;
     case ImageIOBase::INT:
-      m_ComponentType = ComputeInterval<int>(m_RescaleSlope, m_RescaleIntercept);
+      m_ComponentType = 
+        IntervalCalculator<int>::Compute(m_RescaleSlope, m_RescaleIntercept);
       break;
     default:
       m_ComponentType = UNKNOWNCOMPONENTTYPE;
