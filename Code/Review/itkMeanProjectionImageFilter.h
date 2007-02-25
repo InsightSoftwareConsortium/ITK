@@ -120,7 +120,6 @@ public:
 #endif
 
 
-
 protected:
   MeanProjectionImageFilter() {}
   virtual ~MeanProjectionImageFilter() {}
