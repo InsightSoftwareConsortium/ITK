@@ -959,10 +959,11 @@ void AnalyzeImageIO::ReadImageInformation()
           coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR;
           break;
       case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL:
-          // fall thru
+          coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
+          break;
       default:
           coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
-          itkDebugMacro( "Unknown orientation in file " << m_FileName );
+          itkWarningMacro( "Unknown orientation in file " << m_FileName );
       }
     //An error was encountered in code that depends upon the valid coord_orientation.
     typedef SpatialOrientationAdapter OrientAdapterType;
@@ -1178,7 +1179,7 @@ AnalyzeImageIO
       break;
     default:
       this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
-      itkExceptionMacro( "ERROR: Analyze 7.5 File Format Only Allows RPI, PIR, and RIP Orientation " );
+      itkWarningMacro( "ERROR: Analyze 7.5 File Format Only Allows RPI, PIR, and RIP Orientation " );
     }
 
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_FileOriginator,temp))
