@@ -326,7 +326,10 @@ ContourExtractor2DImageFilter<TInputImage>
         m_ContourStarts.erase(newTail); 
         int erased = m_ContourEnds.erase(tail->back());
         // There should be exactly one entry in the hash for that endpoint
-        assert(erased == 1);
+        if (erased != 1)
+          {
+          itkWarningMacro (<< "There should be exactly one entry in the hash for that endpoint, but there are " << erased);
+          }
         m_Contours.erase(tail); // remove from the master list
         
         // Now remove the old end of 'head' from the ends map and add 
@@ -344,8 +347,10 @@ ContourExtractor2DImageFilter<TInputImage>
         // it has been subsumed.
         m_ContourEnds.erase(newHead); 
         int erased = m_ContourStarts.erase(head->front());
-        assert(erased == 1); // There should be exactly one entry in the hash
-                             // for that endpoint
+        if (erased != 1)
+          {
+          itkWarningMacro (<< "There should be exactly one entry in the hash for that endpoint, but there are " << erased);
+          }
         m_Contours.erase(head); // remove from the master list
         
         // Now remove the old start of 'tail' from the starts map and

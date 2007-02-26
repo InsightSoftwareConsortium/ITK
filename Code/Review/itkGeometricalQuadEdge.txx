@@ -561,7 +561,7 @@ template< typename TVRef, typename TFRef,
   //                            p-------p
   //
   Self* first = this;
-  Self* bsplice = 0;
+  Self* bsplice;
 
   // Making sure point adjacency is correct:
   if( first->GetOrigin() != second->GetOrigin() )

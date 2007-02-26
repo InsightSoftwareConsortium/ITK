@@ -359,7 +359,6 @@ ConformalFlatteningMeshFilter<TPixelType>
     pointIditer++;
 
     ptIdC = *pointIditer;
-    pointIditer++;
 
     inputMesh->GetPoint( ptIdA, &ptA );
     inputMesh->GetPoint( ptIdB, &ptB );
