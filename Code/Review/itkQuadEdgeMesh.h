@@ -119,8 +119,8 @@ public:
   /** Standard typedefs. */
   typedef QuadEdgeMesh                            Self;
   typedef Mesh< TPixel, VDimension, Traits >      Superclass;
-  typedef itk::SmartPointer< Self >               Pointer;
-  typedef itk::SmartPointer< const Self >         ConstPointer;
+  typedef SmartPointer< Self >                    Pointer;
+  typedef SmartPointer< const Self >              ConstPointer;
 
   /** Convenient constants obtained from MeshTraits. */
   itkStaticConstMacro( PointDimension, unsigned int,
@@ -258,7 +258,7 @@ public:
    * and
    * http://public.kitware.com/pipermail/insight-users/2005-April/012613.html
    */
-  virtual void CopyInformation( const itk::DataObject* data ) { (void)data; }
+  virtual void CopyInformation( const DataObject* data ) { (void)data; }
 
   /// One of the reasons of itkQE is precisely to avoid updating connexions.
   void BuildCellLinks() { }
@@ -345,7 +345,7 @@ protected:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQEMeshMacro.h"
+#include "itkQuadEdgeMeshMacro.h"
 #include "itkQuadEdgeMesh.txx"
 #endif
 

@@ -1088,7 +1088,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
 /**
  * \brief Compute the total number of USED points. This differs from
- * \ref itk::Mesh::GetNumberOfPoints() that will return the total number of
+ * \ref Mesh::GetNumberOfPoints() that will return the total number of
  * points including the ones that have no entry in the edge ring.
  *
  * \note This method is an optional utility of the class: its

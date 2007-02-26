@@ -28,19 +28,19 @@
 //
 #define itkQEDebugMacro( x )                                        \
 {                                                                   \
-    ::itk::OStringStream itkmsg;                                    \
+    OStringStream itkmsg;                                    \
     itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n"   \
            << " (" << this << "): " x                               \
            << "\n\n";                                               \
-    ::itk::OutputWindowDisplayDebugText( itkmsg.str( ).c_str( ) );  \
+    OutputWindowDisplayDebugText( itkmsg.str( ).c_str( ) );  \
 }
 #define itkQEWarningMacro( x )                                      \
 {                                                                   \
-    ::itk::OStringStream itkmsg;                                    \
+    OStringStream itkmsg;                                    \
     itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
            << " (" << this << "): " x                               \
            << "\n\n";                                               \
-    ::itk::OutputWindowDisplayWarningText( itkmsg.str( ).c_str( ) );\
+    OutputWindowDisplayWarningText( itkmsg.str( ).c_str( ) );\
 }
 
 

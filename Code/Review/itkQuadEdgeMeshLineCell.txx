@@ -61,7 +61,7 @@ void
 QuadEdgeMeshLineCell< TCellInterface >
 ::Accept( unsigned long cellId, MultiVisitor* mv )
 {
-  typedef itk::CellInterfaceVisitor< PixelType, CellTraits > IntVis;
+  typedef CellInterfaceVisitor< PixelType, CellTraits > IntVis;
   typename IntVis::Pointer v = mv->GetVisitor( this->GetType() );
   if( v )
     {
@@ -93,7 +93,7 @@ template< class TCellInterface >
 bool
 QuadEdgeMeshLineCell< TCellInterface >
 ::GetBoundaryFeature( int dimension, CellFeatureIdentifier cellId,
-                        CellAutoPointer& cell )
+                      CellAutoPointer& cell )
 {
   // TODO : FIXME
   (void)dimension;
@@ -269,4 +269,3 @@ QuadEdgeMeshLineCell< TCellInterface >
 } // end namespace itk
 
 #endif
-

@@ -1,9 +1,19 @@
-// -------------------------------------------------------------------------
-// itkQuadEdgeMeshBoundaryEdgesMeshFunction.h
-// $Revision: 1.2 $
-// $Author: ibanez $
-// $Name:  $
-// $Date: 2007-01-19 19:30:46 $
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshBoundaryEdgesMeshFunction.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -29,6 +39,8 @@ namespace itk
 {
 
 /**
+ * \class QuadEdgeMeshBoundaryEdgesMeshFunction
+ *
  * \brief Build a list of references to edges (as \ref GeometricalQuadEdge::RawPointer)
  *        each one representing a different boundary component.
  * \note  Each resulting edge has the surface on its right and is hence
@@ -39,37 +51,36 @@ namespace itk
  */
 template< class TMesh >
 class ITK_EXPORT QuadEdgeMeshBoundaryEdgesMeshFunction
-   : public itk::FunctionBase< TMesh, typename TMesh::EdgeListPointerType >
+   : public FunctionBase< TMesh, typename TMesh::EdgeListPointerType >
 {
 public:
-   // Standard types
-   typedef QuadEdgeMeshBoundaryEdgesMeshFunction  Self;
-   typedef itk::SmartPointer< Self >                Pointer;
-   typedef itk::SmartPointer< const Self >          ConstPointer;
-   typedef itk::FunctionBase< TMesh,
-                              typename  TMesh::EdgeListPointerType > Superclass;
+  // Standard types
+  typedef QuadEdgeMeshBoundaryEdgesMeshFunction  Self;
+  typedef SmartPointer< Self >                   Pointer;
+  typedef SmartPointer< const Self >             ConstPointer;
+  typedef FunctionBase< TMesh,
+                        typename  TMesh::EdgeListPointerType > Superclass;
 
-   // Types in superclass:
-   typedef typename Superclass::InputType  InputType;
-   typedef typename Superclass::OutputType OutputType;
+  // Types in superclass:
+  typedef typename Superclass::InputType  InputType;
+  typedef typename Superclass::OutputType OutputType;
 
-   // Local aliases
-   typedef InputType MeshType;
-   typedef typename MeshType::QEPrimal     QEPrimal;
-   typedef typename MeshType::EdgeListType EdgeListType;
+  // Local aliases
+  typedef InputType                       MeshType;
+  typedef typename MeshType::QEPrimal     QEPrimal;
+  typedef typename MeshType::EdgeListType EdgeListType;
 
-   itkNewMacro( Self );
-   itkTypeMacro( QuadEdgeMeshBoundaryEdgesMeshFunction, FunctionBase );
+  itkNewMacro( Self );
+  itkTypeMacro( QuadEdgeMeshBoundaryEdgesMeshFunction, FunctionBase );
 
-   virtual OutputType Evaluate( const InputType& mesh ) const;
+  virtual OutputType Evaluate( const InputType& mesh ) const;
 
- protected:
-   QuadEdgeMeshBoundaryEdgesMeshFunction( ) { };
+protected:
+  QuadEdgeMeshBoundaryEdgesMeshFunction( ) { };
 
- private:
-   QuadEdgeMeshBoundaryEdgesMeshFunction( const Self& ); //purposely not implemented 
-   void operator=( const Self& );     //purposely not implemented 
-
+private:
+  QuadEdgeMeshBoundaryEdgesMeshFunction( const Self& ); //purposely not implemented 
+  void operator=( const Self& );     //purposely not implemented 
 };
 
 } 
@@ -79,6 +90,3 @@ public:
 #endif
 
 #endif 
-
-
-

@@ -33,14 +33,14 @@ namespace itk
  */
 template< typename TInputMesh, typename TOutputMesh >
 class MeshCopy
-  : public itk::MeshToMeshFilter< TInputMesh, TOutputMesh >
+  : public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
   /** Basic types. */
-  typedef MeshCopy                                         Self;
-  typedef itk::MeshToMeshFilter< TInputMesh, TOutputMesh > Superclass;
-  typedef itk::SmartPointer< Self >                        Pointer;
-  typedef itk::SmartPointer< const Self >                  ConstPointer;
+  typedef MeshCopy                                    Self;
+  typedef MeshToMeshFilter< TInputMesh, TOutputMesh > Superclass;
+  typedef SmartPointer< Self >                        Pointer;
+  typedef SmartPointer< const Self >                  ConstPointer;
 
   /** Input types. */
   typedef TInputMesh                              InputMeshType;
@@ -78,7 +78,7 @@ public:
 
 public:
   itkNewMacro( Self );
-  itkTypeMacro( MeshCopy, itk::MeshToMeshFilter );
+  itkTypeMacro( MeshCopy, MeshToMeshFilter );
 
 protected:
   MeshCopy( );

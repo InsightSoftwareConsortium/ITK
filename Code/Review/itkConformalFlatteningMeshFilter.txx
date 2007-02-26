@@ -59,7 +59,7 @@ ConformalFlatteningFunction
 
   if( A.rows() != b.size() )
     {
-    itk::ExceptionObject excp(__FILE__,__LINE__,
+    ExceptionObject excp(__FILE__,__LINE__,
     "The # of rows in A must be the same as the length of b");
     throw excp;
     }

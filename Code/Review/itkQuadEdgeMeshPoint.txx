@@ -1,9 +1,19 @@
-// -------------------------------------------------------------------------
-// itkQuadEdgeMeshPoint.txx
-// $Revision: 1.1 $
-// $Author: ibanez $
-// $Name:  $
-// $Date: 2007-01-16 22:30:06 $
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshPoint.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -62,7 +72,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
   this->Initialize();
 }
 
-/*
+#if 0
 // ---------------------------------------------------------------------
 template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
@@ -71,7 +81,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
   this->operator=( vec );
   this->Initialize();
 }
-*/
+#endif
 
 // ---------------------------------------------------------------------
 template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
@@ -106,7 +116,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
   return *this;
 }
 
-/*
+#if 0
 // ---------------------------------------------------------------------
 template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge > &
@@ -117,18 +127,18 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
   this->Initialize();
   return *this;
 }
-*/
+#endif
 
 template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 bool 
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::IsInternal() const
 {
-   if( this->GetEdge() )
-     {
-     return this->GetEdge()->IsOrgInternal();
-     }
-   return false;
+  if( this->GetEdge() )
+    {
+    return this->GetEdge()->IsOrgInternal();
+    }
+  return false;
 }
 
 /** Return the valence of this QuadEdgeMeshPoint i.e. the number of edges constituting
@@ -140,14 +150,14 @@ template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 int QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::GetValence() const
 {
-   int valence = -1; // error code by default
+  int valence = -1; // error code by default
 
-   if( this->GetEdge() )
-     {
-     valence =  this->GetEdge()->GetOrder();
-     }
+  if( this->GetEdge() )
+    {
+    valence =  this->GetEdge()->GetOrder();
+    }
 
-   return valence;
+  return valence;
 }
 
 /** Set Edge
@@ -183,9 +193,6 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
   return  m_Edge; 
 }
 
-
 } 
 
 #endif 
-
-// eof - itkQuadEdgeMeshPoint.txx

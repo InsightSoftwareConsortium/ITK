@@ -117,7 +117,7 @@ public:
     TRGBPixel rgbPixel;
     typedef typename TRGBPixel::ValueType ValueType;
 
-    ValueType m = itk::NumericTraits< ValueType >::max();
+    ValueType m = NumericTraits< ValueType >::max();
 
     rgbPixel.Set( static_cast< ValueType >( static_cast< double >( r ) / 255 * m ),
                   static_cast< ValueType >( static_cast< double >( g ) / 255 * m ),

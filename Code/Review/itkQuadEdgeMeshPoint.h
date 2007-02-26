@@ -1,9 +1,19 @@
-// -------------------------------------------------------------------------
-// itkQuadEdgeMeshPoint.h
-// $Revision: 1.2 $
-// $Author: ibanez $
-// $Name:  $
-// $Date: 2007-01-19 19:30:46 $
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshPoint.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -29,66 +39,67 @@
 namespace itk
 {
 /**
- * Wrapper around a itk::Point in order to add a reference
+ * \class QuadEdgeMeshPoint
+ * 
+ * \brief Wrapper around a itk::Point in order to add a reference
  * to an entry in the edge ring.
  */
 template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 class QuadEdgeMeshPoint : public Point< TCoordRep, VPointDimension >
 {
-  public:
-    /** Standard typedefs. */
-    typedef QuadEdgeMeshPoint                         Self;
-    typedef Point< TCoordRep, VPointDimension >       Superclass;
+public:
+  /** Standard typedefs. */
+  typedef QuadEdgeMeshPoint                         Self;
+  typedef Point< TCoordRep, VPointDimension >       Superclass;
+  
+  /** Types & values defined in superclass. */
+  itkStaticConstMacro( PointDimension, unsigned int,
+                       Superclass::PointDimension );
+  typedef typename Superclass::ValueType     ValueType;
+  typedef typename Superclass::CoordRepType  CoordRepType;
+  typedef typename Superclass::RealType      RealType;
+  typedef typename Superclass::BaseArray     BaseArray;
+  typedef typename Superclass::Iterator      Iterator;
+  typedef typename Superclass::ConstIterator ConstIterator;
+  typedef typename Superclass::VectorType    VectorType;
 
-    /** Types & values defined in superclass. */
-    itkStaticConstMacro( PointDimension, unsigned int,
-                         Superclass::PointDimension );
-    typedef typename Superclass::ValueType     ValueType;
-    typedef typename Superclass::CoordRepType  CoordRepType;
-    typedef typename Superclass::RealType      RealType;
-    typedef typename Superclass::BaseArray     BaseArray;
-    typedef typename Superclass::Iterator      Iterator;
-    typedef typename Superclass::ConstIterator ConstIterator;
-    typedef typename Superclass::VectorType    VectorType;
-
-    typedef ValueType ValueArrayType[ 
-      itkGetStaticConstMacro( PointDimension ) ];
+  typedef ValueType ValueArrayType[ itkGetStaticConstMacro( PointDimension ) ];
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-/** Begin concept checking */
-itkConceptMacro(DimensionShouldBe3,
-  (Concept::SameDimension<itkGetStaticConstMacro(PointDimension),3>));
-/** End concept checking */
+  /** Begin concept checking */
+  itkConceptMacro(DimensionShouldBe3,
+                  (Concept::SameDimension<itkGetStaticConstMacro(PointDimension),3>));
+  /** End concept checking */
 #endif
 
-  public:
-    QuadEdgeMeshPoint();
-    QuadEdgeMeshPoint( const Self & r );
-    QuadEdgeMeshPoint( const ValueArrayType & r );
-// FIXME: It shouldn't be here:    QuadEdgeMeshPoint( const VectorType & vec );
-    Self & operator=( const Self & r );
-    Self & operator=( const Superclass & r );
-    Self & operator=( const ValueArrayType & r );
-// FIXME: It shouldn't be here:    Self & operator=( const VectorType & vec );
+public:
+  QuadEdgeMeshPoint();
+  QuadEdgeMeshPoint( const Self & r );
+  QuadEdgeMeshPoint( const ValueArrayType & r );
+  // FIXME: It shouldn't be here:    QuadEdgeMeshPoint( const VectorType & vec );
+  Self & operator=( const Self & r );
+  Self & operator=( const Superclass & r );
+  Self & operator=( const ValueArrayType & r );
+  // FIXME: It shouldn't be here:    Self & operator=( const VectorType & vec );
 
-    /** Accessor on \ref m_Edge */
-    void SetEdge( const TQuadEdge * inputEdge );
+  /** Accessor on \ref m_Edge */
+  void SetEdge( const TQuadEdge * inputEdge );
 
-    /** Accessor on \ref m_Edge */
-    const TQuadEdge * GetEdge();
-    const TQuadEdge * GetEdge() const;
+  /** Accessor on \ref m_Edge */
+  const TQuadEdge * GetEdge();
+  const TQuadEdge * GetEdge() const;
 
-    /** FIXME Documentation missing */
-    bool IsInternal() const;
+  /** FIXME Documentation missing */
+  bool IsInternal() const;
 
-    /** FIXME Documentation missing */
-    int GetValence() const;
+  /** FIXME Documentation missing */
+  int GetValence() const;
 
-  protected:
-    void Initialize();
+protected:
+  void Initialize();
 
-  protected:
-    const TQuadEdge * m_Edge; /// Entry edge for this point into an Onext ring
+protected:
+  const TQuadEdge * m_Edge; /// Entry edge for this point into an Onext ring
 };
 
 } // end namespace itk
@@ -98,4 +109,3 @@ itkConceptMacro(DimensionShouldBe3,
 #endif
 
 #endif 
-

@@ -1,9 +1,19 @@
-// -------------------------------------------------------------------------
-// itkQuadEdgeMeshBaseIterator.h
-// $Revision: 1.3 $
-// $Author: ibanez $
-// $Name:  $
-// $Date: 2007-01-24 22:52:30 $
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshBaseIterator.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -76,20 +86,21 @@
 
 namespace itk
 {
-  /**
-   *  Base iterator class.
-   */
-  template< typename TQuadEdge >
-    class QuadEdgeMeshBaseIterator
+/**
+ * \class QuadEdgeMeshBaseIterator
+ *
+ * \brief Base iterator class for QuadEdgeMesh
+ */
+template< typename TQuadEdge > class QuadEdgeMeshBaseIterator
 {
 public:
   // Hierarchy typedefs & values.
   typedef QuadEdgeMeshBaseIterator Self;
-  typedef TQuadEdge    QuadEdgeType;
+  typedef TQuadEdge                QuadEdgeType;
 
   // Different types of iterators, one for each basic QE operation.
   enum
-  {
+    {
     OperatorOnext    =  0,
     OperatorSym      =  1,
     OperatorLnext    =  2,
@@ -103,18 +114,18 @@ public:
     OperatorInvLnext = 10,
     OperatorInvRnext = 11,
     OperatorInvDnext = 12
-  };
-
+    };
+  
 public:
-  // Object creation methods.
+// Object creation methods.
   QuadEdgeMeshBaseIterator( QuadEdgeType* e,
-      int op = OperatorOnext,
-      bool start = true )
+                            int op = OperatorOnext,
+                            bool start = true )
     : m_StartEdge( e ), m_Iterator( e ),
-    m_OpType( op ), m_Start( start ) {}
-
+      m_OpType( op ), m_Start( start ) {}
+  
   virtual ~QuadEdgeMeshBaseIterator() {}
-
+  
   Self& operator=( const Self& r )
     {
     m_StartEdge = r.m_StartEdge;
@@ -131,43 +142,32 @@ public:
 
   /** Iteration methods. */
   bool operator==( Self & r )
-  {
+    {
     return ( m_StartEdge == r.m_StartEdge ) &&
-        ( m_Iterator  == r.m_Iterator )  &&
-        ( m_OpType    == r.m_OpType )  &&
-        ( m_Start     == r.m_Start );
-  }
-
+      ( m_Iterator  == r.m_Iterator )  &&
+      ( m_OpType    == r.m_OpType )  &&
+      ( m_Start     == r.m_Start );
+    }
+    
   bool operator==( const Self & r ) const
-  {
+    {
     return ( m_StartEdge == r.m_StartEdge ) &&
-              ( m_Iterator  == r.m_Iterator )  &&
-              ( m_OpType    == r.m_OpType )  &&
-              ( m_Start     == r.m_Start );
-  }
+      ( m_Iterator  == r.m_Iterator )  &&
+      ( m_OpType    == r.m_OpType )  &&
+      ( m_Start     == r.m_Start );
+    }
 
   bool operator!=( Self & r )
-  {
+    { 
     return !( this->operator==( r ) );
-  }
-
+    }
+  
   bool operator!=( const Self & r ) const
     {
     return !( this->operator==( r ) );
     }
-
+  
   Self & operator++()
-    {
-    if( m_Start )
-      {
-        this->GoToNext();
-        m_Start = !( m_Iterator == m_StartEdge );
-      }
-
-    return *this;
-    }
-
-  Self & operator++( int )
     {
     if( m_Start )
       {
@@ -177,51 +177,65 @@ public:
 
     return *this;
     }
-
+  
+  Self & operator++( int )
+    {
+    if( m_Start )
+      {
+      this->GoToNext();
+      m_Start = !( m_Iterator == m_StartEdge );
+      }
+    
+    return *this;
+    }
+  
 protected:
   /** Method that should do all the iteration work. */
   virtual void GoToNext()
     {
-    switch( m_OpType ) {
-    case OperatorOnext    : m_Iterator = m_Iterator->GetOnext();
-                            break;
-    case OperatorSym      : m_Iterator = m_Iterator->GetSym();
-                            break;
-    case OperatorLnext    : m_Iterator = m_Iterator->GetLnext();
-                            break;
-    case OperatorRnext    : m_Iterator = m_Iterator->GetRnext();
-                            break;
-    case OperatorDnext    : m_Iterator = m_Iterator->GetDnext();
-                            break;
-    case OperatorOprev    : m_Iterator = m_Iterator->GetOprev();
-                            break;
-    case OperatorLprev    : m_Iterator = m_Iterator->GetLprev();
-                            break;
-    case OperatorRprev    : m_Iterator = m_Iterator->GetRprev();
-                            break;
-    case OperatorDprev    : m_Iterator = m_Iterator->GetDprev();
-                            break;
-    case OperatorInvOnext : m_Iterator = m_Iterator->GetInvOnext();
-                            break;
-    case OperatorInvLnext : m_Iterator = m_Iterator->GetInvLnext();
-                            break;
-    case OperatorInvRnext : m_Iterator = m_Iterator->GetInvRnext();
-                            break;
-    case OperatorInvDnext : m_Iterator = m_Iterator->GetInvDnext();
-                            break;
-    default: break;
+    switch( m_OpType )
+      {
+      case OperatorOnext    : m_Iterator = m_Iterator->GetOnext();
+        break;
+      case OperatorSym      : m_Iterator = m_Iterator->GetSym();
+        break;
+      case OperatorLnext    : m_Iterator = m_Iterator->GetLnext();
+        break;
+      case OperatorRnext    : m_Iterator = m_Iterator->GetRnext();
+        break;
+      case OperatorDnext    : m_Iterator = m_Iterator->GetDnext();
+        break;
+      case OperatorOprev    : m_Iterator = m_Iterator->GetOprev();
+        break;
+      case OperatorLprev    : m_Iterator = m_Iterator->GetLprev();
+        break;
+      case OperatorRprev    : m_Iterator = m_Iterator->GetRprev();
+        break;
+      case OperatorDprev    : m_Iterator = m_Iterator->GetDprev();
+        break;
+      case OperatorInvOnext : m_Iterator = m_Iterator->GetInvOnext();
+        break;
+      case OperatorInvLnext : m_Iterator = m_Iterator->GetInvLnext();
+        break;
+      case OperatorInvRnext : m_Iterator = m_Iterator->GetInvRnext();
+        break;
+      case OperatorInvDnext : m_Iterator = m_Iterator->GetInvDnext();
+        break;
+      default: break;
+      }
     }
-  }
-
+  
 protected:
   QuadEdgeType * m_StartEdge; /// Start edge
   QuadEdgeType * m_Iterator;  /// Current iteration position
-  int           m_OpType;    /// Operation type
-  bool          m_Start;     /// Indicates iteration has just started
+  int            m_OpType;    /// Operation type
+  bool           m_Start;     /// Indicates iteration has just started
 };
 
 /**
- * No const iterator.
+ * \class QuadEdgeMeshIterator
+ *
+ * \brief Non const iterator for QuadMesh
  */
 template< typename TQuadEdge >
 class QuadEdgeMeshIterator : public QuadEdgeMeshBaseIterator< TQuadEdge >
@@ -230,7 +244,7 @@ public:
   /** Hierarchy typedefs and values. */
   typedef QuadEdgeMeshIterator                  Self;
   typedef QuadEdgeMeshBaseIterator< TQuadEdge > Superclass;
-  typedef TQuadEdge                 QuadEdgeType;
+  typedef TQuadEdge                             QuadEdgeType;
 
 public:
   /** Object creation methods. */
@@ -246,105 +260,109 @@ public:
 };
 
 /**
- * No const geometrical iterator.
+ * \class QuadEdgeMeshIteratorGeom
+ *
+ * \brief Non const geometrical iterator
  */
 template< typename TGeometricalQuadEdge >
-    class QuadEdgeMeshIteratorGeom
-    : public QuadEdgeMeshIterator< TGeometricalQuadEdge >
-    {
-        public:
-        /** Hierarchy typedefs and values. */
-        typedef QuadEdgeMeshIterator< TGeometricalQuadEdge >       Superclass;
-        typedef TGeometricalQuadEdge                   QuadEdgeType;
+class QuadEdgeMeshIteratorGeom
+  : public QuadEdgeMeshIterator< TGeometricalQuadEdge >
+{
+public:
+  /** Hierarchy typedefs and values. */
+  typedef QuadEdgeMeshIterator< TGeometricalQuadEdge > Superclass;
+  typedef TGeometricalQuadEdge                         QuadEdgeType;
 
-        /** Geometric value type. */
-        typedef typename QuadEdgeType::OriginRefType OriginRefType;
-
-        public:
-        QuadEdgeMeshIteratorGeom( QuadEdgeType* e = (QuadEdgeType*)0,
-                      int op = Superclass::OperatorOnext,
-                      bool start = true )
-            : Superclass( e, op, start ) {}
-        OriginRefType operator*() { return this->m_Iterator->GetOrigin(); }
-    };
+  /** Geometric value type. */
+  typedef typename QuadEdgeType::OriginRefType OriginRefType;
+  
+public:
+  QuadEdgeMeshIteratorGeom( QuadEdgeType* e = (QuadEdgeType*)0,
+                            int op = Superclass::OperatorOnext,
+                            bool start = true )
+    : Superclass( e, op, start ) {}
+  OriginRefType operator*() { return this->m_Iterator->GetOrigin(); }
+};
 
 /**
- * Const iterator.
+ * \class QuadEdgeMeshConstIterator
+ *
+ * \brief Const iterator for QuadEdgeMesh
  */
 template< typename TQuadEdge >
-    class QuadEdgeMeshConstIterator
-    : public QuadEdgeMeshBaseIterator< TQuadEdge >
+class QuadEdgeMeshConstIterator
+  : public QuadEdgeMeshBaseIterator< TQuadEdge >
+{
+public:
+  /** Hierarchy typedefs & values. */
+  typedef QuadEdgeMeshConstIterator             Self;
+  typedef QuadEdgeMeshBaseIterator< TQuadEdge > Superclass;
+  typedef QuadEdgeMeshIterator< TQuadEdge >     NoConstType;
+  typedef TQuadEdge                             QuadEdgeType;
+  
+public:
+  /** Object creation methods. */
+  QuadEdgeMeshConstIterator( const QuadEdgeType* e = (QuadEdgeType*)0,
+                             int op = Superclass::OperatorOnext,
+                             bool start = true )
+    : Superclass( ( QuadEdgeType* )e, op, start ) {}
+  
+  virtual ~QuadEdgeMeshConstIterator() {}
+
+  Self& operator=( const NoConstType& r )
     {
-        public:
-        /** Hierarchy typedefs & values. */
-        typedef QuadEdgeMeshConstIterator             Self;
-        typedef QuadEdgeMeshBaseIterator< TQuadEdge > Superclass;
-        typedef QuadEdgeMeshIterator< TQuadEdge >     NoConstType;
-        typedef TQuadEdge                 QuadEdgeType;
+    this->m_StartEdge = r.GetStartEdge();
+    this->m_Iterator = r.GetIterator();
+    this->m_OpType = r.GetOpType();
+    this->m_Start = r.GetStart();
+    return *this;
+    }
 
-        public:
-        /** Object creation methods. */
-        QuadEdgeMeshConstIterator( const QuadEdgeType* e = (QuadEdgeType*)0,
-                       int op = Superclass::OperatorOnext,
-                       bool start = true )
-            : Superclass( ( QuadEdgeType* )e, op, start ) {}
-
-        virtual ~QuadEdgeMeshConstIterator() {}
-
-        Self& operator=( const NoConstType& r )
-        {
-            this->m_StartEdge = r.GetStartEdge();
-            this->m_Iterator = r.GetIterator();
-            this->m_OpType = r.GetOpType();
-            this->m_Start = r.GetStart();
-            return *this;
-        }
-
-        const QuadEdgeType* Value() const { return this->m_Iterator; }
-    };
+  const QuadEdgeType* Value() const { return this->m_Iterator; }
+};
 
 /**
- * Const geometrical iterator.
+ * \class QuadEdgeMeshConstIteratorGeom
+ *
+ * \brief Const geometrical iterator
  */
 template< typename TGeometricalQuadEdge >
-    class QuadEdgeMeshConstIteratorGeom
-    : public QuadEdgeMeshConstIterator< TGeometricalQuadEdge >
+class QuadEdgeMeshConstIteratorGeom
+  : public QuadEdgeMeshConstIterator< TGeometricalQuadEdge >
+{
+public:
+  /** Hierarchy typedefs and values. */
+  typedef QuadEdgeMeshConstIteratorGeom                     Self;
+  typedef QuadEdgeMeshConstIterator< TGeometricalQuadEdge > Superclass;
+  typedef QuadEdgeMeshIteratorGeom< TGeometricalQuadEdge >  NoConstType;
+  typedef TGeometricalQuadEdge                              QuadEdgeType;
+
+  /** Geometric value type. */
+  typedef typename QuadEdgeType::OriginRefType OriginRefType;
+  
+public:
+  QuadEdgeMeshConstIteratorGeom( const QuadEdgeType* e = (QuadEdgeType*)0,
+                                 int op = Superclass::OperatorOnext,
+                                 bool start = true )
+    : Superclass( e, op, start ) {}
+  
+  virtual ~QuadEdgeMeshConstIteratorGeom() {}
+  
+  Self& operator=( const NoConstType& r )
     {
-        public:
-        /** Hierarchy typedefs and values. */
-        typedef QuadEdgeMeshConstIteratorGeom              Self;
-        typedef QuadEdgeMeshConstIterator< TGeometricalQuadEdge > Superclass;
-        typedef QuadEdgeMeshIteratorGeom< TGeometricalQuadEdge >  NoConstType;
-        typedef TGeometricalQuadEdge                  QuadEdgeType;
-
-        /** Geometric value type. */
-        typedef typename QuadEdgeType::OriginRefType OriginRefType;
-
-        public:
-        QuadEdgeMeshConstIteratorGeom( const QuadEdgeType* e = (QuadEdgeType*)0,
-                           int op = Superclass::OperatorOnext,
-                           bool start = true )
-            : Superclass( e, op, start ) {}
-
-        virtual ~QuadEdgeMeshConstIteratorGeom() {}
-
-        Self& operator=( const NoConstType& r )
-        {
-            this->m_StartEdge = r.GetStartEdge();
-            this->m_Iterator = r.GetIterator();
-            this->m_OpType = r.GetOpType();
-            this->m_Start = r.GetStart();
-            return *this;
-        }
-
-        const OriginRefType operator*() const
-        {
-            return this->m_Iterator->GetOrigin();
-        }
-    };
+    this->m_StartEdge = r.GetStartEdge();
+    this->m_Iterator = r.GetIterator();
+    this->m_OpType = r.GetOpType();
+    this->m_Start = r.GetStart();
+    return *this;
+    }
+  
+  const OriginRefType operator*() const
+    {
+    return this->m_Iterator->GetOrigin();
+    }
+};
 
 } 
 
 #endif 
-
-

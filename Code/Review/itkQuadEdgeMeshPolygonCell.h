@@ -38,11 +38,11 @@ class QuadEdgeMeshPolygonCell : public TCellInterface
 public:
   /** Standard class typedefs. */
   // itkCellCommonTypedefs
-  typedef QuadEdgeMeshPolygonCell        Self;
-  typedef itk::AutoPointer< const Self > ConstSelfAutoPointer;
-  typedef itk::AutoPointer< Self >       SelfAutoPointer;
-  typedef Self*                          RawPointer;
-  typedef const Self*                    ConstRawPointer;
+  typedef QuadEdgeMeshPolygonCell   Self;
+  typedef AutoPointer< const Self > ConstSelfAutoPointer;
+  typedef AutoPointer< Self >       SelfAutoPointer;
+  typedef Self*                     RawPointer;
+  typedef const Self*               ConstRawPointer;
   
   // itkCellInheritedTypedefs
   typedef TCellInterface                                Superclass;

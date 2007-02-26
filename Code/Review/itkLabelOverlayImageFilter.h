@@ -102,7 +102,7 @@ private:
   bool            m_UseBackground;
   TLabel          m_BackgroundValue;
 
-  typename itk::Functor::LabelToRGBFunctor<TLabel, TRGBPixel> m_RGBFunctor;
+  typename Functor::LabelToRGBFunctor<TLabel, TRGBPixel> m_RGBFunctor;
 };
 }  // end namespace functor
 

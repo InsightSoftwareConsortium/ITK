@@ -241,80 +241,80 @@ template< typename TVRef, typename TFRef,
     GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::
     GetNextBorderEdgeWithUnsetLeft( Self* edgeTest )
 {
-  /* Definition: an edge is said to be a boundary edge when it is adjacent to
-   * noface i.e. when at least one of the faces edge->GetLeft() or
-   * edge->GetRight() is unset.  Definition: an point is said to be a boundary
-   * point when at least one of the edges of it's Onext() ring is a boundary
-   * edge.
-   *
-   * Assume "this" edge belongs to a triangulation (i.e. it belongs to a QEMesh
-   * which represents a 2-manifold) which possesses a boundary.  Assume "this"
-   * edge instance is a boundary edge. Let us denote by P the point which is
-   * the origin of "this" edge i.e. P is this->Origin().  By definition P is a
-   * boundary point.  Then AT LEAST two [see the note below] edges of the
-   * Onext() ring of P [which all have the point P as Origin()] are themselves
-   * boundary edges. And among those boundary edges AT LEAST one has it's
-   * Left() face unset.  By iterating over the Onext() ring (which defines a
-   * local ordering on edges) this method searches for the first edge whose
-   * Left() face is unset AND which is encountered AFTER edgeTest.
-   *
-   * @param edgeTest When present, this edge will be considered as
-   *        the entry edge in the Onext() ring. When absent it shall
-   *        be defaulted to "this" edge. (see the warning below).
-   * @return When "this" edge is a boundary edge, return the first
-   *         edge in "this" Onext() ring whose Left() face is unset
-   *         AND located after edgeTest.
-   *         When "this" edge is NOT a boundary edge the 0 is
-   *         returned.
-   * @warning When the Mesh possesing "this" edge is a 2-manifold
-   *          then result of this method is unique in the sense that
-   *          it is independant from the edgeTest parameter.
-   *          But when the Mesh is not 2-manifold (this state can
-   *          happen at intermediary stages of the building process,
-   *          or during "surgical" operations on the Mesh, and
-   *          even though the Mesh represents a triangulation)
-   *          the result of this method is not unique in the sense
-   *          that the result depends on the edgeTest parameter.
-   *          Let us illusatre this dependance by considering a
-   *          Mesh (which is a triangulation) which is not a 2-manifold.
-   *          Assume the point P (the origin of "this" edge i.e.
-   *          P = this->Originv()) is TWICE on the border i.e. it
-   *          is adjacent twice to noface. We can consider the situation
-   *          of the following diagram, which depicts some Onext()
-   *          ring around point P:
-   *
-   *                       \         /
-   *                        \   *   /
-   *                        i3     b2              counter-clockwise
-   *                  *       \   /   NO FACE      Onext() order.
-   *                           \ /
-   *                 ----b4-----P----b1------
-   *                           /|\
-   *               NO FACE    / | \
-   *                         /  |  \    *  <------ a * indicates the
-   *                        /   |   \              the presence of a face
-   *                       /    |    \
-   *                     b5    i6     i7
-   *                     /   *  |  *   \
-   *                    /       |       \
-   *
-   *          On this example, and if we assume the Onext() oder is
-   *          represented counter-clockwise, the edges are ordered as
-   *          follows:
-   *             b1, b2, i3, b4, b5, i6, i7
-   *          (when arbitrarily starting at edge b1).
-   *          We have four Boundary edges labeled b1, b2, b4, b5 and
-   *          we have three internal edges (i.e. non boundary edges)
-   *          labeled i3, i6 and i7.
-   *          Depending on edgeTest, the result of this method
-   *          will NOT return the same edge:
-   *            - when edgeTest == b5 (or i6 or i7 or b1) then the edge
-   *              b1 will be returned,
-   *            - when edgeTest == b2 (or i3 or b4) then the edge
-   *              b4 will be returned,
-   *          Eventually, when edgeTest is absent, the result shall
-   *          depend on the position of "this" in the Onext() ring().
-   */
+  // Definition: an edge is said to be a boundary edge when it is adjacent to
+  // noface i.e. when at least one of the faces edge->GetLeft() or
+  // edge->GetRight() is unset.  Definition: an point is said to be a boundary
+  // point when at least one of the edges of it's Onext() ring is a boundary
+  // edge.
+  //
+  // Assume "this" edge belongs to a triangulation (i.e. it belongs to a QEMesh
+  // which represents a 2-manifold) which possesses a boundary.  Assume "this"
+  // edge instance is a boundary edge. Let us denote by P the point which is
+  // the origin of "this" edge i.e. P is this->Origin().  By definition P is a
+  // boundary point.  Then AT LEAST two [see the note below] edges of the
+  // Onext() ring of P [which all have the point P as Origin()] are themselves
+  // boundary edges. And among those boundary edges AT LEAST one has it's
+  // Left() face unset.  By iterating over the Onext() ring (which defines a
+  // local ordering on edges) this method searches for the first edge whose
+  // Left() face is unset AND which is encountered AFTER edgeTest.
+  //
+  // @param edgeTest When present, this edge will be considered as
+  //        the entry edge in the Onext() ring. When absent it shall
+  //        be defaulted to "this" edge. (see the warning below).
+  // @return When "this" edge is a boundary edge, return the first
+  //         edge in "this" Onext() ring whose Left() face is unset
+  //         AND located after edgeTest.
+  //         When "this" edge is NOT a boundary edge the 0 is
+  //         returned.
+  // @warning When the Mesh possesing "this" edge is a 2-manifold
+  //          then result of this method is unique in the sense that
+  //          it is independant from the edgeTest parameter.
+  //          But when the Mesh is not 2-manifold (this state can
+  //          happen at intermediary stages of the building process,
+  //          or during "surgical" operations on the Mesh, and
+  //          even though the Mesh represents a triangulation)
+  //          the result of this method is not unique in the sense
+  //          that the result depends on the edgeTest parameter.
+  //          Let us illusatre this dependance by considering a
+  //          Mesh (which is a triangulation) which is not a 2-manifold.
+  //          Assume the point P (the origin of "this" edge i.e.
+  //          P = this->Originv()) is TWICE on the border i.e. it
+  //          is adjacent twice to noface. We can consider the situation
+  //          of the following diagram, which depicts some Onext()
+  //          ring around point P:
+  //
+  //                       \         /
+  //                        \   *   /
+  //                        i3     b2              counter-clockwise
+  //                  *       \   /   NO FACE      Onext() order.
+  //                           \ /
+  //                 ----b4-----P----b1------
+  //                           /|\
+  //               NO FACE    / | \
+  //                         /  |  \    *  <------ a * indicates the
+  //                        /   |   \              the presence of a face
+  //                       /    |    \
+  //                     b5    i6     i7
+  //                     /   *  |  *   \
+  //                    /       |       \
+  //
+  //          On this example, and if we assume the Onext() oder is
+  //          represented counter-clockwise, the edges are ordered as
+  //          follows:
+  //             b1, b2, i3, b4, b5, i6, i7
+  //          (when arbitrarily starting at edge b1).
+  //          We have four Boundary edges labeled b1, b2, b4, b5 and
+  //          we have three internal edges (i.e. non boundary edges)
+  //          labeled i3, i6 and i7.
+  //          Depending on edgeTest, the result of this method
+  //          will NOT return the same edge:
+  //            - when edgeTest == b5 (or i6 or i7 or b1) then the edge
+  //              b1 will be returned,
+  //            - when edgeTest == b2 (or i3 or b4) then the edge
+  //              b4 will be returned,
+  //          Eventually, when edgeTest is absent, the result shall
+  //          depend on the position of "this" in the Onext() ring().
+  //
 
   // Be sure the Onext ring isn't already full
   if( this->IsOriginInternal() ) 
@@ -422,144 +422,144 @@ template< typename TVRef, typename TFRef,
     bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::
     ReorderOnextRingBeforeAddFace( Self* second )
 {
-  /* Assume "this->Originv()" is a boundary point P that is thrice adjacent
-   * to noface and consider the given situation is the one depicted by
-   * the following diagram where:
-   *   - P is "this->Originv()" instance,
-   *   - the * (star) indicates the presence of a face,
-   *   - b1, b2, b3, b4, b5, b6 denote boundary edges,
-   *   - p denotes some generic point,
-   *   - A and B denote some specific points we want to discuss,
-   *   - the Onext() ring order is represented counter-clockwise
-   *     [which is coherent with the definition of edge->GetRigth()]
-   *     i.e. the ordering of the edges is:
-   *          b1, b2, b3, b4, b5, b6, b1...
-   *
-   *                    p       N       p
-   *                   / \      O      / \
-   *                  /   \           /   \
-   *                 /     \    F    /     \         counter-clockwise
-   *                /      b3   A   b2      \        Onext() ring order
-   *               /         \  C  /         \
-   *              /     *     \ E /     *     \
-   *             /             \ /             \
-   *             A------b4------P------b1-------B
-   *                           / \
-   *                          /   \
-   *             NO FACE     /     \      NO FACE
-   *                        /       \
-   *                      b5         b6
-   *                      /     *     \
-   *                     /             \
-   *                    p---------------p
-   *
-   * At P this Mesh doesn't represent a 2-manifold (since we are thrice
-   * on the boundary). Nevertheless such a situation could arise in
-   * intermediary stages (e.g. when building the Mesh, or during
-   * surgical changes on the Mesh).
-   *    Now, assume we are asked to build the triangle [P, A, B]. Note
-   * that this request is not absurd since the current situation at
-   * P isn't the one of a 2-manifold: hence when building the current
-   * Onext() ring of P, we had not enough information to decide
-   * wheter b4.Onext() should be b5 or b1. It is ONLY when we are
-   * required to build the triangle [P, A, B] that we have the
-   * additional information that b4.Onext() is indeed b1.
-   *    When we are required to build triangle [P, A, B], we hence
-   * need to change the Onext() ring order at P, i.e. we need to deal
-   * with the triangle [P, b5, b6] which currently prevents
-   * b4.Onext() to be b1. In other terms, when considering the
-   * additional information that b4.Onext() is b1, and before
-   * building the triangle [P, A, B], we need to reorder
-   * the Onext() ring of P from it's current state
-   *    b1, b2, b3, b4, b5, b6, b1...
-   * to an order coherent with the [P, A, B] request, i.e.
-   *     b1, b2, b5, b6, b3, b4, b1...
-   *
-   * In order to establish the "proper" Onext() ring at P we use
-   * two Splice operations. The algorithm goes:
-   *   - first disconnect the piece of the surface containing the edge
-   *     [PB] (it would be the same process if we chose [PA]) from
-   *     the Onext() ring at P.
-   *   - second, re-integrate the disconnected piece at the desired
-   *     location i.e. side by side with [PA] (respectively [PB] if
-   *     we chose [PA] at first stage).
-   * By "piece of surface containing the edge [PB]" we mean [all]
-   * the triangle[s] starting at [PB] in the Onext() order and
-   * having a left face set.
-   *
-   * We can illustrate this process on bit more general diagram than 
-   * the last case (where the "piece of surface containing the edge
-   * [PB]" is constituted by two triangles) and when using
-   * the arguments of this method (i.e. [PA] = this and [PB] = second).
-   * The initial stage is the following (we note first=this=[PA] and
-   * second=[PB]) where the Onext() ring order is:
-   *     first, b2, b3, second, b5, bsplice, b7, first...
-   *
-   *                    p       N       A
-   *                   / \      O      / \
-   *                  /   \           /   \
-   *                 /     \    F    /     \       counter-clockwise
-   *                /      b2   A  first    \      Onext() ring order
-   *               /         \  C  /         \
-   *              /     *     \ E /     *     \
-   *             /             \ /             \
-   *            p-------b3------P------b7-------p
-   *                           /|\
-   *                          / | \
-   *          NO FACE        /  |  \      NO FACE
-   *                        /   |   \
-   *                  second   b5   bsplice
-   *                      /  *  |  *  \
-   *                     /      |      \
-   *                    B-------p-------p
-   *
-   * The first stage, implemented as
-   *     second->Oprev()->Splice( bsplice ),
-   * yields the following diagram:
-   *
-   *                    p       N       A
-   *                   / \      O      / \
-   *                  /   \     F     /   \
-   *                 /     \    A    /     \        counter-clockwise
-   *                /      b2   C  first    \       Onext() ring order
-   *               /         \  E  /         \ 
-   *              /     *     \   /     *     \
-   *             /             \ /             \
-   *            p-------b3------P------b7-------p
-   * 
-   *                         NO FACE
-   *
-   *                           /|\
-   *                          / | \
-   *                         /  |  \
-   *                        /   |   \
-   *                  second   b5   bsplice
-   *                      /  *  |  *  \
-   *                     /      |      \
-   *                    B-------p-------p
-   *
-   * and the second stage, implemented as
-   *      first->Splice( bsplice ),
-   * yields the following diagram:
-   *
-   *                                    A
-   *         B__        NO FACE        / \
-   *         |  \__                   /   \
-   *         |     \__               /     \       counter-
-   *         |      second         first    \      clockwise for all
-   *         |           \__       /         \
-   *         |     *        \__   /     *     \
-   *         |                 \ /             \
-   *         p-------b5---------P------b7-------p
-   *         |               __/|\
-   *         |     *      __/   | \
-   *         |           /      |  \      NO FACE
-   *         |     bsplice      |   \
-   *         |   __/           b2    b3
-   *         p__/               |  *  \
-   *                NO FACE     |      \
-   *                            p-------p
-   */
+  // Assume "this->Originv()" is a boundary point P that is thrice adjacent
+  // to noface and consider the given situation is the one depicted by
+  // the following diagram where:
+  //   - P is "this->Originv()" instance,
+  //   - the * (star) indicates the presence of a face,
+  //   - b1, b2, b3, b4, b5, b6 denote boundary edges,
+  //   - p denotes some generic point,
+  //   - A and B denote some specific points we want to discuss,
+  //   - the Onext() ring order is represented counter-clockwise
+  //     [which is coherent with the definition of edge->GetRigth()]
+  //     i.e. the ordering of the edges is:
+  //          b1, b2, b3, b4, b5, b6, b1...
+  //
+  //                    p       N       p
+  //                   / \      O      / \
+  //                  /   \           /   \
+  //                 /     \    F    /     \         counter-clockwise
+  //                /      b3   A   b2      \        Onext() ring order
+  //               /         \  C  /         \
+  //              /     *     \ E /     *     \
+  //             /             \ /             \
+  //             A------b4------P------b1-------B
+  //                           / \
+  //                          /   \
+  //             NO FACE     /     \      NO FACE
+  //                        /       \
+  //                      b5         b6
+  //                      /     *     \
+  //                     /             \
+  //                    p---------------p
+  //
+  // At P this Mesh doesn't represent a 2-manifold (since we are thrice
+  // on the boundary). Nevertheless such a situation could arise in
+  // intermediary stages (e.g. when building the Mesh, or during
+  // surgical changes on the Mesh).
+  //    Now, assume we are asked to build the triangle [P, A, B]. Note
+  // that this request is not absurd since the current situation at
+  // P isn't the one of a 2-manifold: hence when building the current
+  // Onext() ring of P, we had not enough information to decide
+  // wheter b4.Onext() should be b5 or b1. It is ONLY when we are
+  // required to build the triangle [P, A, B] that we have the
+  // additional information that b4.Onext() is indeed b1.
+  //    When we are required to build triangle [P, A, B], we hence
+  // need to change the Onext() ring order at P, i.e. we need to deal
+  // with the triangle [P, b5, b6] which currently prevents
+  // b4.Onext() to be b1. In other terms, when considering the
+  // additional information that b4.Onext() is b1, and before
+  // building the triangle [P, A, B], we need to reorder
+  // the Onext() ring of P from it's current state
+  //    b1, b2, b3, b4, b5, b6, b1...
+  // to an order coherent with the [P, A, B] request, i.e.
+  //     b1, b2, b5, b6, b3, b4, b1...
+  //
+  // In order to establish the "proper" Onext() ring at P we use
+  // two Splice operations. The algorithm goes:
+  //   - first disconnect the piece of the surface containing the edge
+  //     [PB] (it would be the same process if we chose [PA]) from
+  //     the Onext() ring at P.
+  //   - second, re-integrate the disconnected piece at the desired
+  //     location i.e. side by side with [PA] (respectively [PB] if
+  //     we chose [PA] at first stage).
+  // By "piece of surface containing the edge [PB]" we mean [all]
+  // the triangle[s] starting at [PB] in the Onext() order and
+  // having a left face set.
+  //
+  // We can illustrate this process on bit more general diagram than 
+  // the last case (where the "piece of surface containing the edge
+  // [PB]" is constituted by two triangles) and when using
+  // the arguments of this method (i.e. [PA] = this and [PB] = second).
+  // The initial stage is the following (we note first=this=[PA] and
+  // second=[PB]) where the Onext() ring order is:
+  //     first, b2, b3, second, b5, bsplice, b7, first...
+  //
+  //                    p       N       A
+  //                   / \      O      / \
+  //                  /   \           /   \
+  //                 /     \    F    /     \       counter-clockwise
+  //                /      b2   A  first    \      Onext() ring order
+  //               /         \  C  /         \
+  //              /     *     \ E /     *     \
+  //             /             \ /             \
+  //            p-------b3------P------b7-------p
+  //                           /|\
+  //                          / | \
+  //          NO FACE        /  |  \      NO FACE
+  //                        /   |   \
+  //                  second   b5   bsplice
+  //                      /  *  |  *  \
+  //                     /      |      \
+  //                    B-------p-------p
+  //
+  // The first stage, implemented as
+  //     second->Oprev()->Splice( bsplice ),
+  // yields the following diagram:
+  //
+  //                    p       N       A
+  //                   / \      O      / \
+  //                  /   \     F     /   \
+  //                 /     \    A    /     \        counter-clockwise
+  //                /      b2   C  first    \       Onext() ring order
+  //               /         \  E  /         \ 
+  //              /     *     \   /     *     \
+  //             /             \ /             \
+  //            p-------b3------P------b7-------p
+  // 
+  //                         NO FACE
+  //
+  //                           /|\
+  //                          / | \
+  //                         /  |  \
+  //                        /   |   \
+  //                  second   b5   bsplice
+  //                      /  *  |  *  \
+  //                     /      |      \
+  //                    B-------p-------p
+  //
+  // and the second stage, implemented as
+  //      first->Splice( bsplice ),
+  // yields the following diagram:
+  //
+  //                                    A
+  //         B__        NO FACE        / \
+  //         |  \__                   /   \
+  //         |     \__               /     \       counter-
+  //         |      second         first    \      clockwise for all
+  //         |           \__       /         \
+  //         |     *        \__   /     *     \
+  //         |                 \ /             \
+  //         p-------b5---------P------b7-------p
+  //         |               __/|\
+  //         |     *      __/   | \
+  //         |           /      |  \      NO FACE
+  //         |     bsplice      |   \
+  //         |   __/           b2    b3
+  //         p__/               |  *  \
+  //                NO FACE     |      \
+  //                            p-------p
+  //
   Self* first = this;
   Self* bsplice = 0;
 

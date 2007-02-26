@@ -1,9 +1,19 @@
-// -------------------------------------------------------------------------
-// itkQuadEdgeMeshFrontIterator.h
-// $Revision: 1.2 $
-// $Author: ibanez $
-// $Name:  $
-// $Date: 2007-01-24 22:52:30 $
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshFrontIterator.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -69,187 +79,199 @@ namespace itk
 {
 
 /**
- * Front iterator on Mesh class.
+ * \class QuadEdgeMeshFrontBaseIterator
+ *
+ * \brief Front iterator on Mesh class
  */
 template< typename TMesh, typename TQE >
 class QuadEdgeMeshFrontBaseIterator
 {
+public:
+  // Hierarchy typedefs & values.
+  typedef QuadEdgeMeshFrontBaseIterator Self;
+
+  // Template types
+  typedef TMesh  MeshType;
+  typedef TQE    QEType;
+
+protected:
+  // Mesh types
+  typedef typename MeshType::CoordRepType    CoordRepType;
+  // QE types
+  typedef typename QEType::OriginRefType     QEOriginType;
+
+  /**
+   * \class FrontAtom
+   *
+   * \brief Atomic information associated to each edge of the front.
+   *   
+   * Note that when sorting this list, the sorting criteria is the
+   * Cost attribute.
+   */
+  class FrontAtom
+    {
     public:
-    /// Hierarchy typedefs & values.
-    typedef QuadEdgeMeshFrontBaseIterator Self;
-
-    // Template types
-    typedef TMesh  MeshType;
-    typedef TQE    QEType;
-
-    protected:
-    // Mesh types
-    typedef typename MeshType::CoordRepType    CoordRepType;
-    // QE types
-    typedef typename QEType::OriginRefType     QEOriginType;
-
-    /** Atomic information associated to each edge of the front. Note that
-     *  when sorting this list, the sorting criteria is the Cost attribute.
-     */
-    class FrontAtom
-    {
-        public:
-        FrontAtom( QEType* e = (QEType*)0, const CoordRepType c = 0 )
-            : Edge( e ), Cost( c )
-        { }
-        virtual ~FrontAtom( ) { }
-        FrontAtom& operator=( const FrontAtom& r )
-        { Edge = r.Edge; Cost = r.Cost; }
-        bool operator==( const FrontAtom& r ) const
-        { return( Edge == r.Edge ); }
-        bool operator!=( const FrontAtom& r ) const
-        { return( Edge != r.Edge ); }
-        bool operator<( const FrontAtom& r ) const
-        { return( Cost < r.Cost ); }
-                                                                       
-        public:
-        QEType* Edge;
-        CoordRepType Cost;
-    };
-
-    /** The active front is simply a list of edges that can be sorted on
-     *  the sort attribute FrontAtom 
-     */
-    typedef std::list< FrontAtom >       FrontType;
-    typedef typename FrontType::iterator FrontTypeIterator;
-    typedef FrontType*                   FrontTypePointer;
-
-    /** Wether an Origin (i.e. a vertex or a face since we either deal with
-     *  primal or dual edges) was allready visited.
-     */
-    typedef itk::MapContainer< QEOriginType, bool > IsVisitedContainerType;
-    typedef typename IsVisitedContainerType::Pointer IsVisitedPointerType;
-
+    FrontAtom( QEType* e = (QEType*)0, const CoordRepType c = 0 )
+      : m_Edge( e ), m_Cost( c )
+      { }
+      virtual ~FrontAtom( ) { }
+      FrontAtom& operator=( const FrontAtom& r )
+      { m_Edge = r.m_Edge; m_Cost = r.m_Cost; }
+      bool operator==( const FrontAtom& r ) const
+      { return( m_Edge == r.m_Edge ); }
+      bool operator!=( const FrontAtom& r ) const
+      { return( m_Edge != r.m_Edge ); }
+      bool operator<( const FrontAtom& r ) const
+      { return( m_Cost < r.m_Cost ); }
+    
     public:
-    /** Object creation methods. */
-    QuadEdgeMeshFrontBaseIterator( MeshType* mesh  = (MeshType*)0,
-                       bool      start = true,
-                       QEType*   seed  = (QEType*)0 );
-    virtual ~QuadEdgeMeshFrontBaseIterator( ) { }
+      QEType*      m_Edge;
+      CoordRepType m_Cost;
+  };
 
-    Self& operator=( const Self& r )
+  /** The active front is simply a list of edges that can be sorted on
+   *  the sort attribute FrontAtom 
+   */
+  typedef std::list< FrontAtom >       FrontType;
+  typedef typename FrontType::iterator FrontTypeIterator;
+  typedef FrontType*                   FrontTypePointer;
+
+  /** Whether an Origin (i.e. a vertex or a face since we either deal with
+   *  primal or dual edges) was allready visited.
+   */
+  typedef MapContainer< QEOriginType, bool >       IsVisitedContainerType;
+  typedef typename IsVisitedContainerType::Pointer IsVisitedPointerType;
+
+public:
+  /** Object creation methods. */
+  QuadEdgeMeshFrontBaseIterator( MeshType* mesh  = (MeshType*)0,
+                                 bool      start = true,
+                                 QEType*   seed  = (QEType*)0 );
+  virtual ~QuadEdgeMeshFrontBaseIterator( ) { }
+
+  Self& operator=( const Self& r )
     {
-        m_Mesh  = r.m_Mesh;
-        m_Start = r.m_Start;
-        m_Seed  = r.m_Seed;
-        m_Front = r.m_Front;
-        m_IsPointVisited = r.m_IsPointVisited;
-        m_CurrentEdge = r.m_CurrentEdge;
-        return( *this );
+    m_Mesh  = r.m_Mesh;
+    m_Start = r.m_Start;
+    m_Seed  = r.m_Seed;
+    m_Front = r.m_Front;
+    m_IsPointVisited = r.m_IsPointVisited;
+    m_CurrentEdge = r.m_CurrentEdge;
+    return( *this );
     }
 
-    // Iteration methods.
-    bool operator==( Self & r )
+  // Iteration methods.
+  bool operator==( Self & r )
     {
-        return( m_Start == r.m_Start );
+    return( m_Start == r.m_Start );
     }
 
-    bool operator==( const Self & r ) const
+  bool operator==( const Self & r ) const
     {
-        return( m_Start == r.m_Start );
+    return( m_Start == r.m_Start );
     }
 
-    bool operator!=( Self & r )
+  bool operator!=( Self & r )
     {
-        return( !( this->operator==( r ) ) );
+    return( !( this->operator==( r ) ) );
     }
 
-    bool operator!=( const Self & r ) const
+  bool operator!=( const Self & r ) const
     {
-        return( !( this->operator==( r ) ) );
+    return( !( this->operator==( r ) ) );
     }
 
-    Self & operator++( );
+  Self & operator++( );
 
-    Self & operator++( int ) { return( this->operator++( ) ); }
+  Self & operator++( int ) { return( this->operator++( ) ); }
 
-    protected:
-    /** Find a default seed by taking any edge (with proper type) in
-     *  the current mesh.
-     */
-    QEType* FindDefaultSeed( );
+protected:
+  /** Find a default seed by taking any edge (with proper type) in
+   *  the current mesh.
+   */
+  QEType* FindDefaultSeed( );
+  
+  /** The default cost associated to an edge is simply 1. This corresponds
+   *  to the "topological metric" i.e. all edges have unit length.
+   */
+  virtual CoordRepType GetCost( QEType* edge ){ (void)edge; return( 1 ); }
 
-    /** The default cost associated to an edge is simply 1. This corresponds
-     *  to the "topological metric" i.e. all edges have unit length.
-     */
-    virtual CoordRepType GetCost( QEType* edge ){ (void)edge; return( 1 ); }
-
-    protected:
-    /// Mesh on which we propagate the front
-    MeshType* m_Mesh;
-    /// Initial seed of the front
-    QEType* m_Seed;
-    /// Wether the iterator is active
-    bool m_Start;
-    /// The active front
-    FrontTypePointer m_Front;
-    /// The allready visited points
-    IsVisitedPointerType m_IsPointVisited;
-    /// The current edge at this stage of iteration
-    QEType* m_CurrentEdge;
+protected:
+  /// Mesh on which we propagate the front
+  MeshType* m_Mesh;
+  /// Initial seed of the front
+  QEType* m_Seed;
+  /// Whether the iterator is active
+  bool m_Start;
+  /// The active front
+  FrontTypePointer m_Front;
+  /// The already visited points
+  IsVisitedPointerType m_IsPointVisited;
+  /// The current edge at this stage of iteration
+  QEType* m_CurrentEdge;
 };
 
 /**
- * No const iterator.
+ * \class QuadEdgeMeshFrontIterator
+ *
+ * \brief Non const quad edge front iterator.
  */
 template< typename TMesh, typename TQE >
 class QuadEdgeMeshFrontIterator
-    : public QuadEdgeMeshFrontBaseIterator< TMesh, TQE  >
+  : public QuadEdgeMeshFrontBaseIterator< TMesh, TQE  >
 {
-    public:
-    /** Hierarchy typedefs and values. */
-    typedef QuadEdgeMeshFrontIterator                   Self;
-    typedef QuadEdgeMeshFrontBaseIterator< TMesh, TQE > Superclass;
-    typedef typename Superclass::MeshType   MeshType;
-    typedef typename Superclass::QEType     QEType;
+public:
+  /** Hierarchy typedefs and values. */
+  typedef QuadEdgeMeshFrontIterator                   Self;
+  typedef QuadEdgeMeshFrontBaseIterator< TMesh, TQE > Superclass;
+  typedef typename Superclass::MeshType               MeshType;
+  typedef typename Superclass::QEType                 QEType;
 
-    public:
-    /** Object creation methods. */
-    QuadEdgeMeshFrontIterator( MeshType* mesh = (MeshType*)0,
-                   bool      start = true,
-                   QEType*   seed  = (QEType*)0 )
-        : Superclass( mesh, start, seed ) { }
-    virtual ~QuadEdgeMeshFrontIterator( ) { }
-    QEType* Value( ) { return( this->m_CurrentEdge ); }
+public:
+  /** Object creation methods. */
+  QuadEdgeMeshFrontIterator( MeshType* mesh = (MeshType*)0,
+                             bool      start = true,
+                             QEType*   seed  = (QEType*)0 )
+    : Superclass( mesh, start, seed ) { }
+  virtual ~QuadEdgeMeshFrontIterator( ) { }
+  QEType* Value( ) { return( this->m_CurrentEdge ); }
 };
 
 /**
- * Const iterator.
+ * \class QuadEdgeMeshConstFrontIterator
+ * 
+ * \brief Const quad edge mesh front iterator.
  */
 template< class TMesh, class TQE = typename TMesh::QEType >
 class QuadEdgeMeshConstFrontIterator
-    : public QuadEdgeMeshFrontBaseIterator< TMesh, TQE >
+  : public QuadEdgeMeshFrontBaseIterator< TMesh, TQE >
 {
-    public:
-    /** Hierarchy typedefs & values. */
-    typedef QuadEdgeMeshConstFrontIterator                Self;
-    typedef QuadEdgeMeshFrontBaseIterator< TMesh, TQE >   Superclass;
-    typedef typename Superclass::QEType       QEType;
-    typedef typename Superclass::MeshType     MeshType;
-    typedef QuadEdgeMeshFrontIterator< MeshType, QEType > NoConstType;
+public:
+  /** Hierarchy typedefs & values. */
+  typedef QuadEdgeMeshConstFrontIterator                Self;
+  typedef QuadEdgeMeshFrontBaseIterator< TMesh, TQE >   Superclass;
+  typedef typename Superclass::QEType                   QEType;
+  typedef typename Superclass::MeshType                 MeshType;
+  typedef QuadEdgeMeshFrontIterator< MeshType, QEType > NoConstType;
 
-    public:
-    /** Object creation methods. */
-    QuadEdgeMeshConstFrontIterator( const MeshType* mesh = (MeshType*)0,
-                              bool     start = true,
-                              QEType*  seed  = (QEType*)0 ){
-      (void)mesh;
-      (void)start;
-      (void)seed;
-    }
-    /** \todo do we need here a    : Superclass( mesh, start, seed ) { } */
-    virtual ~QuadEdgeMeshConstFrontIterator( ) { }
-    Self& operator=( const NoConstType& r )
+public:
+  /** Object creation methods. */
+  QuadEdgeMeshConstFrontIterator( const MeshType* mesh = (MeshType*)0,
+                                  bool     start = true,
+                                  QEType*  seed  = (QEType*)0 )
     {
-        this->m_Mesh  = r.GetMesh( );
-        return( *this );
+    (void)mesh;
+    (void)start;
+    (void)seed;
     }
-    const QEType* Value( ) const { return( this->m_CurrentEdge ); }
+  /** \todo do we need here a    : Superclass( mesh, start, seed ) { } */
+  virtual ~QuadEdgeMeshConstFrontIterator( ) { }
+  Self& operator=( const NoConstType& r )
+    {
+    this->m_Mesh  = r.GetMesh( );
+    return( *this );
+    }
+  const QEType* Value( ) const { return( this->m_CurrentEdge ); }
 };
 
 } 
@@ -257,4 +279,3 @@ class QuadEdgeMeshConstFrontIterator
 #include "itkQuadEdgeMeshFrontIterator.txx"
 
 #endif 
-
