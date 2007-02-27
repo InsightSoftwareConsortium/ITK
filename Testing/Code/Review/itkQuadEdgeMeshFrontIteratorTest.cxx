@@ -1,6 +1,22 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshFrontIteratorTest.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 /**
  * This test verifies that a \ref itkQE::Mesh::FrontIterator walkthrough on
- * a Mesh correctely visits all the points. Therefore, we count the points
+ * a Mesh correctly visits all the points. Therefore, we count the points
  * and assert that the result is identical to the one obtained with
  * \ref itkQE::Mesh::ComputeNumberOfPoints .
  * This can only work when the instance of the Mesh we are considering has
@@ -15,18 +31,18 @@
 
 int itkQuadEdgeMeshFrontIteratorTest( int , char *[] )
 {
-  typedef itk::QuadEdgeMesh< double, 3 >  MeshType;
-  typedef MeshType::Pointer MeshPointer;
+  typedef itk::QuadEdgeMesh< double, 3 >      MeshType;
+  typedef MeshType::Pointer                   MeshPointer;
   typedef MeshType::CellsContainer::Iterator  CellIterator;
 
-  typedef MeshType::PointIdentifier PointIdentifier;
+  typedef MeshType::PointIdentifier   PointIdentifier;
   typedef std::set< PointIdentifier > PointIdSet;
 
   typedef MeshType::CellType                        CellType;
   typedef itk::QuadEdgeMeshPolygonCell< CellType >  QEPolygonCellType;
 
   typedef MeshType::FrontIterator FrontIterator;
-  typedef FrontIterator::QEType QEType;
+  typedef FrontIterator::QEType   QEType;
 
   int expectedNumPts = 25;
   int expectedNumCells = 32;
@@ -187,5 +203,5 @@ int itkQuadEdgeMeshFrontIteratorTest( int , char *[] )
     return EXIT_FAILURE;
     }
 
- return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }

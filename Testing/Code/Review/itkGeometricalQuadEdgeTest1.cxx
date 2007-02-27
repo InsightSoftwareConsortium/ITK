@@ -36,7 +36,7 @@ public:
 
  
   static PrimalQuadEdgeType * MakeQuadEdges()
-  {
+    {
     PrimalQuadEdgeType * e1 = new PrimalQuadEdgeType();
     DualQuadEdgeType   * e2 = new DualQuadEdgeType();
     PrimalQuadEdgeType * e3 = new PrimalQuadEdgeType();
@@ -53,7 +53,7 @@ public:
     e4->SetOnext( e4 );
 
     return e1;
-  }
+    }
 };
 
 
@@ -66,16 +66,15 @@ int itkGeometricalQuadEdgeTest1( int , char* [] )
   typedef HelperType::DualQuadEdgeType       DualQuadEdgeType;
 
 
-  { // Define a local scope for testing constructors
+    { // Define a local scope for testing constructors
 
-  DualQuadEdgeType     dummyQuadEdge1;  // test constructor
-  PrimalQuadEdgeType   dummyQuadEdge2;  // test constructor
+    DualQuadEdgeType     dummyQuadEdge1;  // test constructor
+    PrimalQuadEdgeType   dummyQuadEdge2;  // test constructor
 
-  dummyQuadEdge1.SetRot( &dummyQuadEdge2 );  // Test SetRot()
-  }
+    dummyQuadEdge1.SetRot( &dummyQuadEdge2 );  // Test SetRot()
+    }
 
-  PrimalQuadEdgeType * e1 = HelperType::MakeQuadEdges();
+  HelperType::MakeQuadEdges();
  
   return EXIT_SUCCESS;
 }
-
