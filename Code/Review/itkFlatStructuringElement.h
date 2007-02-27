@@ -18,11 +18,6 @@
 #define __itkFlatStructuringElement_h
 
 #include "itkNeighborhood.h"
-#include "itkSize.h"
-#include "itkOffset.h"
-#include <vector>
-#include "itkVector.h"
-#include "itkImage.h"
 
 namespace itk {
 
@@ -61,7 +56,7 @@ public:
   typedef typename Superclass::SizeValueType  SizeValueType;
   
   /** Radius typedef support. */
-  typedef Size< NDimension >           RadiusType;
+  typedef typename Superclass::RadiusType     RadiusType;
 
   /** External slice iterator type typedef support. */
   typedef typename Superclass::SliceIteratorType SliceIteratorType;
