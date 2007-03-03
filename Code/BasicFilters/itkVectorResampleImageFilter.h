@@ -167,34 +167,6 @@ public:
   /** Get the start index of the output largest possible region. */
   itkGetConstReferenceMacro( OutputStartIndex, IndexType );
 
-  /** Helper method to set the output parameters based on this image */
-  void SetOutputParametersFromImage ( typename OutputImageType::Pointer Image )
-    {
-    this->SetOutputOrigin ( Image->GetOrigin() );
-    this->SetOutputSpacing ( Image->GetSpacing() );
-    this->SetOutputDirection ( Image->GetDirection() );
-    this->SetSize ( Image->GetLargestPossibleRegion().GetSize() );
-    }
-  
-  /** Copy the output information from another Image.  By default,
-   *  the information is specified with the SetOutputSpacing, Origin,
-   *  and Direction methods. UseReferenceImage must be On and a
-   *  Reference image must be present to override the defaul behavior.*/
-  void SetReferenceImage (TOutputImage *image)
-  {
-  if (image != m_ReferenceImage)
-    {
-    m_ReferenceImage = image;
-    this->ProcessObject::SetNthInput(1, image);
-    this->Modified();
-    }
-  }
-  itkGetObjectMacro(ReferenceImage, TOutputImage);
-
-  itkSetMacro(UseReferenceImage, bool);
-  itkBooleanMacro(UseReferenceImage);
-  itkGetMacro(UseReferenceImage, bool);
-
   /** VectorResampleImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
    * for GenerateOutputInformation() in order to inform the pipeline
@@ -249,8 +221,6 @@ private:
   VectorResampleImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  OutputImagePointer      m_ReferenceImage;
-  bool                    m_UseReferenceImage;
   SizeType                m_Size;       // Size of the output image
   TransformPointerType    m_Transform;  // Coordinate transform to use
   InterpolatorPointerType m_Interpolator;
