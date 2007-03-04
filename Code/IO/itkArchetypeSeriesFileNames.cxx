@@ -160,7 +160,7 @@ ArchetypeSeriesFileNames
       numGroupStart.push_back( sIndex );
       
       // Loop to one past the end of the group of numbers.
-      while ((*sit) >= '0' && (*sit) <= '9' && sit != fileName.end() )
+      while ( sit != fileName.end() && (*sit) >= '0' && (*sit) <= '9' )
         {
         ++sit;
         }
