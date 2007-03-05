@@ -14,23 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-// -------------------------------------------------------------------------
-// This code is an implementation of the well known quad edge (QE) data
-// structure in the ITK library. Although the original QE can handle non
-// orientable 2-manifolds and its dual and its mirror, this implementation
-// is specifically dedicated to handle orientable 2-manifolds along with
-// their dual.
-//
-// Any comment, criticism and/or donation is welcome.
-//
-// Please contact any member of the team:
-//
-// - The frog master (Eric Boix)       eboix@ens-lyon.fr
-// - The duck master (Alex Gouaillard) alexandre.gouaillard@sun.com
-// - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
-// -------------------------------------------------------------------------
+#ifndef __itkQuadEdgeMeshMacro_h
+#define __itkQuadEdgeMeshMacro_h
 
-namespace itkQE
+namespace itk
 {
 
 //////////////////////////////////////////////////////////////////////////////
@@ -46,6 +33,12 @@ namespace itkQE
  *        designate the index within the MeshType::PointContainer container
  *        and corresponding to PointVariable at current stage of iteration.
  *        The variable PointIndex is of type itkQE::Mesh::PointIdentifier .
+ *
+ * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
+ *
+ * This implementation was contributed as a paper to the Insight Journal
+ * http://hdl.handle.net/1926/306
+ *
  * \warning Don't forget to close the opened block with the corresponding
  *          itkQE::itkQEMeshForAllPointsMacro macro.
  * \example itkQE::MeshExtractComponentFilter::GetOutput().
@@ -64,26 +57,27 @@ namespace itkQE
    PointsContainer* points = (MeshInstance)->GetPoints( );                   \
    /* If no points container are present, do nothing */                      \
    if( ! points )                                                            \
-   {                                                                         \
-       itkWarningMacro( "No point container in itkQEMeshForAllPointsMacro" );\
-   }                                                                         \
+     {                                                                       \
+     itkWarningMacro( "No point container in itkQEMeshForAllPointsMacro" );  \
+     }                                                                       \
    else                                                                      \
-   {                                                                         \
-       PointsContainerIterator pointIterator = points->Begin();              \
-       for( ; pointIterator != points->End( ); pointIterator++ )             \
+     {                                                                       \
+     PointsContainerIterator pointIterator = points->Begin();                \
+     while( pointIterator != points->End( ) )                                \
        {                                                                     \
-          PointType PointVariable = pointIterator.Value( );                  \
-          PointIdentifier PointIndex = pointIterator.Index( );
+       PointType PointVariable = pointIterator.Value( );                     \
+       PointIdentifier PointIndex = pointIterator.Index( );
       
-/** \def itkQEMeshForAllPointsEndMacro
- * \brief Terminates a block of code started with the macro
- *        itkQE::itkQEMeshForAllPointsMacro
- * \warning Should only be used with the corresponding
- *          itkQE::itkQEMeshForAllPointsMacro
- */
+      /** \def itkQEMeshForAllPointsEndMacro
+       * \brief Terminates a block of code started with the macro
+       *        itkQE::itkQEMeshForAllPointsMacro
+       * \warning Should only be used with the corresponding
+       *          itkQE::itkQEMeshForAllPointsMacro
+       */
 #define itkQEMeshForAllPointsEndMacro                                        \
-       } /* rof */                                                           \
-   } /* if */                                                                \
+       pointIterator++;                                                      \
+       } /* while */                                                         \
+     } /* if */                                                              \
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -95,6 +89,13 @@ namespace itkQE
  * @param cellIterator  The name of the variable the caller wants to use to
  *        designate the MeshType::CellContainerIterator at current stage of
  *        iteration.
+ *
+ * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
+ *
+ * This implementation was contributed as a paper to the Insight Journal
+ * http://hdl.handle.net/1926/306
+ *
+
  * \warning Don't forget to close the opened block with the corresponding
  *          itkQE::itkQEMeshForAllCellsEndMacro macro.
  * \example itkQE::itkQEMeshForAllPrimalEdgesMacro
@@ -108,15 +109,15 @@ namespace itkQE
                               CellsContainerIterator;                        \
    /* If no cells are present, do nothing */                                 \
    if( ! MeshInstance->GetCells( ) )                                         \
-   {                                                                         \
-       itkWarningMacro( "No Cells container in itkQEMeshForAllCellsMacro" ); \
-   }                                                                         \
-   else                                                                      \
-   {                                                                         \
-     CellsContainerIterator cellIterator = MeshInstance->GetCells()->Begin();\
-     for( ; cellIterator != MeshInstance->GetCells()->End(); cellIterator++ )\
      {                                                                       \
-         /* Users code comes here: */
+     itkWarningMacro( "No Cells container in itkQEMeshForAllCellsMacro" );   \
+     }                                                                       \
+   else                                                                      \
+     {                                                                       \
+     CellsContainerIterator cellIterator = MeshInstance->GetCells()->Begin();\
+     while( cellIterator != MeshInstance->GetCells()->End() )                \
+       {                                                                     \
+       /* Users code comes here: */
 
 /** \def itkQEMeshForAllCellsEndMacro
  * \brief Terminates a block of code started with the macro
@@ -125,8 +126,9 @@ namespace itkQE
  *          itkQE::itkQEMeshForAllCellsMacro
  */
 #define itkQEMeshForAllCellsEndMacro                                         \
-     } /* rof */                                                             \
-   } /* fi */                                                                \
+       cellIterator++;                                                       \
+       } /* while */                                                           \
+     } /* if */                                                              \
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -137,6 +139,12 @@ namespace itkQE
  * @param MeshInstance  The instance of the above MeshType we are considering
  * @param EdgeVariable  The name of the variable the caller wants to use to
  *        designate the MeshType::QEPrimal* at current stage of iteration.
+ *
+ * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
+ *
+ * This implementation was contributed as a paper to the Insight Journal
+ * http://hdl.handle.net/1926/306
+ *
  * \warning Don't forget to close the opened block with the corresponding
  *          itkQE::itkQEMeshForAllPrimalEdgesMacro macro.
  */
@@ -151,14 +159,14 @@ namespace itkQE
       if( QEPrimal* EdgeVariable =                                           \
                         dynamic_cast< QEPrimal* >( cellIterator.Value( ) ) ) \
       {                                                                      \
-         /* Users code comes here: */
+      /* Users code comes here: */
 
-/** \def itkQEMeshForAllPrimalEdgesEndMacro
- * \brief Terminates a block of code started with the macro
- *        itkQE::itkQEMeshForAllPrimalEdgesMacro
- * \warning Should only be used with the corresponding
- *          itkQE::itkQEMeshForAllPrimalEdgesMacro
- */
+      /** \def itkQEMeshForAllPrimalEdgesEndMacro
+       * \brief Terminates a block of code started with the macro
+       *        itkQE::itkQEMeshForAllPrimalEdgesMacro
+       * \warning Should only be used with the corresponding
+       *          itkQE::itkQEMeshForAllPrimalEdgesMacro
+       */
 #define itkQEMeshForAllPrimalEdgesEndMacro                                   \
       } /* fi */                                                             \
    }                                                                         \
@@ -166,6 +174,6 @@ namespace itkQE
 }
 
 
-} //ecapseman
+} // end namespace
 
-// eof - itkQuadEdgeMeshMacro.h
+#endif
