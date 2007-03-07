@@ -47,6 +47,10 @@ namespace itk
  * the current parameters and at the local extreme are likely (within a second
  * order approximation) to be within this is tolerance.
  *
+ * \warning This class contains code that is covered by the Numerical
+ * Recipies copyright. The code is scheduled to be replaced/removed as
+ * soon as possible.
+ *
  * \ingroup Numerics Optimizers
  *
  */

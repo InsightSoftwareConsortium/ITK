@@ -209,6 +209,16 @@ PowellOptimizer
                         double itkNotUsed(fa), double fb, double itkNotUsed(fc),
                         double * extX, double * extVal) 
 {
+  itkWarningMacro("This code has been identified to be covered by the Numerical Recipes copyright. The code will be removed/replaced as soon as possible");
+  // For details, please look at:
+  //
+  // http://www.pit.physik.uni-tuebingen.de/~hehl/CP/brent.c
+  //
+  // and the discussions on the ITK Wiki:
+  //
+  // http://www.itk.org/Wiki/Agenda%26Status_022307
+  //
+  //
   double a, b;
   double d=0.0;
   double etemp,fu,fv,fw,fx,p,q,r,tol1,tol2,u,v,w,x,xm;
