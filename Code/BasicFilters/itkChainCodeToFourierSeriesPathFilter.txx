@@ -22,11 +22,6 @@
 #include "itkOffset.h"
 #include <math.h>
 
-// not all versions of math.h seem to define M_PI:
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
 namespace itk
 {
 
@@ -71,6 +66,8 @@ ChainCodeToFourierSeriesPathFilter<TInputChainCodePath,TOutputFourierSeriesPath>
   numSteps = inputPtr->NumberOfSteps();
   outputPtr->Clear();
   
+  const double nPI = 4.0 * vcl_atan( 1.0 );
+
   // Adjust our private copy of numHarmonics if necessary
   if( numHarmonics <= 1 )
     numHarmonics = 2;
@@ -86,7 +83,7 @@ ChainCodeToFourierSeriesPathFilter<TInputChainCodePath,TOutputFourierSeriesPath>
     for( InputPathInputType step=0; step<numSteps; step++ )
       {
       index += inputPtr->Evaluate( step );
-      theta = 2*n*M_PI*(double(step+1))/numSteps;
+      theta = 2 * n * nPI * (double(step+1)) / numSteps;
       
       // turn the current index into a vector
       for( int d=0; d<dimension; d++ )

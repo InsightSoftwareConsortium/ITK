@@ -33,6 +33,8 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
   typedef   itk::Image< HoughSpacePixelType, 2>      HoughImageType;
   typedef   itk::Image< PixelType, 2>                ImageType;
 
+  const double nPI = 4.0 * vcl_atan( 1.0 );
+
   /** Create a black image */
   std::cout << "Creating simulated image" << std::endl;
   ImageType::Pointer m_Image = ImageType::New();
@@ -56,7 +58,7 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
 
   for(double i=0;i<=radius[0];i+=0.1)
   {
-    for(double angle = 0; angle <= 2*PI ; angle += PI/1000)
+    for(double angle = 0; angle <= 2 * nPI; angle += nPI / 1000 )
     {
       index[0] = (long int)(center[0][0] + i * cos(angle));
       index[1] = (long int)(center[0][1] + i * sin(angle));
@@ -70,7 +72,7 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
 
   for(double i=0;i<=radius[1];i+=0.1)
   {
-    for(double angle = 0; angle <= 2*PI ; angle += PI/1000)
+    for(double angle = 0; angle <= 2 * nPI; angle += nPI / 1000 )
     {
       index[0] = (long int)(center[1][0] + i * cos(angle));
       index[1] = (long int)(center[1][1] + i * sin(angle));
@@ -84,7 +86,7 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
 
   for(double i=0;i<=radius[2];i+=0.1)
   {
-    for(double angle = 0; angle <= 2*PI ; angle += PI/1000)
+    for(double angle = 0; angle <= 2 * nPI; angle += nPI / 1000)
     {
       index[0] = (long int)(center[2][0] + i * cos(angle));
       index[1] = (long int)(center[2][1] + i * sin(angle));
@@ -194,7 +196,7 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
       radius_result[circles]=radius;
 
       /** Draw the circle */
-      for(double angle = 0; angle <= 2*PI ; angle += PI/1000)
+      for(double angle = 0; angle <= 2 * nPI; angle += nPI / 1000)
       {
         index[0] = (long int)(it_output.GetIndex()[0] + radius * cos(angle));
         index[1] = (long int)(it_output.GetIndex()[1] + radius * sin(angle));

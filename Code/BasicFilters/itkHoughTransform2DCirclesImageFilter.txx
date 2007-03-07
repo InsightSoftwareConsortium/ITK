@@ -25,11 +25,6 @@
 #include "itkMinimumMaximumImageCalculator.h"
 
 
-#ifndef PI 
-#define PI 3.1415926535897932384626433832795
-#endif
-
-
 namespace itk
 {
 
@@ -221,6 +216,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
   unsigned int circles=0;
   bool found;
 
+  const double nPI = 4.0 * vcl_atan( 1.0 );
+
   // Find maxima
   do
     {
@@ -247,7 +244,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
         m_CirclesList.push_back(Circle);
        
         // Remove a black disc from the hough space domain
-        for(double angle = 0; angle <= 2*PI ; angle += PI/1000)
+        for(double angle = 0; angle <= 2*nPI ; angle += nPI/1000)
           {     
           for(double length = 0; length < m_DiscRadiusRatio*Circle->GetRadius()[0];length += 1)
             {

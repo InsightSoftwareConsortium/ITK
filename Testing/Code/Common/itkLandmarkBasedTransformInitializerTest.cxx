@@ -3,11 +3,6 @@
 #include <math.h>
 #include <iostream>
 
-// not all versions of math.h seem to define M_PI:
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
 
 //
 // The test specifies a bunch of fixed and moving landmarks and test if the 
@@ -16,7 +11,9 @@
 
 int itkLandmarkBasedTransformInitializerTest(int, char * [])
 {
-  
+
+  const double nPI = 4.0 * vcl_atan( 1.0 );  
+
   {
     // Test LandmarkBasedTransformInitializer for Rigid 3D landmark
     // based alignment
@@ -72,7 +69,7 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
     // Moving Landmarks = Fixed Landmarks rotated by 'angle' degrees and then
     //    translated by the 'translation'. Offset can be used to move the fixed 
     //    landmarks around.
-    double angle = 10 * M_PI/180;
+    double angle = 10 * nPI / 180.0;
     TransformInitializerType::LandmarkPointType translation;
     translation[0] = 6;
     translation[1] = 10;
@@ -231,7 +228,7 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
     // Moving Landmarks = Fixed Landmarks rotated by 'angle' degrees and then
     //    translated by the 'translation'. Offset can be used to move the fixed 
     //    landmarks around.
-    double angle = 10 * M_PI/180;
+    double angle = 10 * nPI / 180.0;
     TransformInitializerType::LandmarkPointType translation;
     translation[0] = 6;
     translation[1] = 10;

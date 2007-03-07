@@ -55,9 +55,9 @@ int itkGaussianDensityFunctionTest(int, char* [] )
 
   const double value1 = densityFunction->Evaluate( inputValue );
 
-  const double PI = 4.0 * atan( 1.0 );
+  const double nPI = 4.0 * atan( 1.0 );
 
-  const double gaussianNorm = 1.0 / ( sqrt( 2 * PI ) * Sigma );
+  const double gaussianNorm = 1.0 / ( sqrt( 2 * nPI ) * Sigma );
 
   if( fabs( gaussianNorm - value1 ) > 1e-6 )
     {

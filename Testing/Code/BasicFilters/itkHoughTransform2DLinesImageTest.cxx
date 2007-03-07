@@ -82,6 +82,7 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
        
   unsigned int maxval = size[0]*size[1];
 
+  const double nPI = 4.0 * vcl_atan( 1.0 );
     
   for(unsigned int i=0;i<maxval;i+=1)
   {    
@@ -204,12 +205,12 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
       { 
         houghPoint m_HoughPoint;
         m_HoughPoint.radius = it_input.GetIndex()[0];
-        m_HoughPoint.angle  = ((it_input.GetIndex()[1])*2*PI/houghFilter->GetAngleResolution())-PI ;
+        m_HoughPoint.angle  = ((it_input.GetIndex()[1])*2*nPI/houghFilter->GetAngleResolution())-nPI ;
         
         m_LinesList.push_back(m_HoughPoint);
         
         // Remove a black disc from the hough space domain
-        for(double angle = 0; angle <= 2*PI ; angle += PI/1000)
+        for(double angle = 0; angle <= 2 * nPI; angle += nPI / 1000 )
         {     
           for(double length = 0; length < m_HoughDiscRadius;length += 1)
           {

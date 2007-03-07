@@ -24,10 +24,6 @@
 #include <itkMinimumMaximumImageCalculator.h>
 #include <itkCastImageFilter.h>
 
-#ifndef PI 
-#define PI 3.1415926535897932384626433832795
-#endif
-
 
 namespace itk
 {
@@ -119,6 +115,8 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
   this->AllocateOutputs();
   outputImage->FillBuffer(0);
 
+  const double nPI = 4.0 * vcl_atan( 1.0 );
+
   ImageRegionConstIteratorWithIndex< InputImageType >  image_it( inputImage,  inputImage->GetRequestedRegion() );
   image_it.Begin();
 
@@ -128,10 +126,10 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
     {
     if(image_it.Get()>m_Threshold)
       { 
-      for(double angle=-PI;angle<PI;angle+=PI/m_AngleResolution)
+      for(double angle = -nPI; angle < nPI; angle += nPI / m_AngleResolution )
         {  
         index[0]=(long unsigned int)(image_it.GetIndex()[0]*vcl_cos(angle)+image_it.GetIndex()[1]*vcl_sin(angle)); // m_R
-        index[1]= (long unsigned int)((m_AngleResolution/2)+m_AngleResolution*angle/(2*PI)); // m_Theta
+        index[1]= (long unsigned int)((m_AngleResolution/2)+m_AngleResolution*angle/(2*nPI)); // m_Theta
   
         if ( (index[0]>0) && (index[0]<=(long)outputImage->GetBufferedRegion().GetSize()[0])) // the preceeding "if" should be replacable with "if ( outputImage->GetBufferedRegion().IsInside(index) )" but the algorithm fails if it is
           {
@@ -179,6 +177,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
   ImageRegionConstIteratorWithIndex< InputImageType >  image_it( inputImage,  inputImage->GetRequestedRegion() );
   image_it.GoToBegin();
 
+  const double nPI = 4.0 * vcl_atan( 1.0 );
 
   while( !image_it.IsAtEnd() )
     {
@@ -188,10 +187,10 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
       valuemax = -1;
       maxIndex[0]=0;
       maxIndex[1]=0;
-      for(double angle=-PI;angle<PI;angle+=PI/m_AngleResolution)
+      for(double angle = -nPI; angle < nPI; angle += nPI / m_AngleResolution )
         {  
         index[0]= (long int)(image_it.GetIndex()[0]*vcl_cos(angle)+image_it.GetIndex()[1]*vcl_sin(angle)); // m_R
-        index[1]= (long int)((m_AngleResolution/2)+m_AngleResolution*angle/(2*PI)); // m_Theta
+        index[1]= (long int)((m_AngleResolution/2)+m_AngleResolution*angle/(2*nPI)); // m_Theta
   
         if ( outputImage->GetBufferedRegion().IsInside(index) )
           {
@@ -271,6 +270,8 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
   itk::ImageRegionIterator<InternalImageType> 
                      it_input(postProcessImage,postProcessImage->GetLargestPossibleRegion());
 
+  const double nPI = 4.0 * vcl_atan( 1.0 );
+
   itk::Index<2> index;
 
   unsigned int lines=0;
@@ -292,16 +293,16 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
         LineType::PointListType list; // insert two points per line
 
         double radius = it_input.GetIndex()[0]; 
-        double teta   = ((it_input.GetIndex()[1])*2*PI/this->GetAngleResolution())-PI ;
+        double teta   = ((it_input.GetIndex()[1])*2*nPI/this->GetAngleResolution())-nPI ;
         double Vx = radius*vcl_cos(teta );
         double Vy = radius*vcl_sin(teta );
         double norm = vcl_sqrt(Vx*Vx+Vy*Vy);
         double VxNorm = Vx/norm;
         double VyNorm = Vy/norm;
 
-        if((teta<=0) || (teta >= PI/2) )
+        if((teta<=0) || (teta >= nPI / 2 ) )
           {
-          if(teta >= PI/2)
+          if(teta >= nPI/2)
             {
             VyNorm = - VyNorm;
             VxNorm = - VxNorm;
@@ -332,7 +333,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
         m_LinesList.push_back(Line);
        
         // Remove a black disc from the hough space domain
-        for(double angle = 0; angle <= 2*PI ; angle += PI/1000)
+        for(double angle = 0; angle <= 2*nPI ; angle += nPI/1000)
           {     
           for(double length = 0; length < m_DiscRadius;length += 1)
             {
