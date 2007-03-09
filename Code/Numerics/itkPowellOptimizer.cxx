@@ -206,146 +206,168 @@ PowellOptimizer
 void
 PowellOptimizer
 ::BracketedLineOptimize(double ax, double bx, double cx,
-                        double itkNotUsed(fa), double fb, double itkNotUsed(fc),
+                        double itkNotUsed(fa), double functionValueOfb, double itkNotUsed(fc),
                         double * extX, double * extVal) 
 {
-  itkWarningMacro("This code has been identified to be covered by the Numerical Recipes copyright. The code will be removed/replaced as soon as possible");
-  // For details, please look at:
-  //
-  // http://www.pit.physik.uni-tuebingen.de/~hehl/CP/brent.c
-  //
-  // and the discussions on the ITK Wiki:
-  //
-  // http://www.itk.org/Wiki/Agenda%26Status_022307
-  //
-  //
-  double a, b;
-  double d=0.0;
-  double etemp,fu,fv,fw,fx,p,q,r,tol1,tol2,u,v,w,x,xm;
-  double e=0.0;
+  double x;
+  double v;
+  double w;        /* Abscissae, descr. see above  */
+  double a;
+  double b;
 
   a = (ax < cx ? ax : cx);
   b = (ax > cx ? ax : cx);
-  x = w = v = bx;
-  fw = fv = fx = fb;
+
+  x = bx;
+  w = bx;
+
+  const double goldenSectionRatio = (3.0-sqrt(5.0))/2;  /* Gold section ratio    */
+
+  double functionValueOfX;        /* f(x)        */
+  double functionValueOfV;        /* f(v)        */
+  double functionValueOfW;        /* f(w)        */
+
+  functionValueOfV   =    functionValueOfb;
+  functionValueOfX   =    functionValueOfV;
+  functionValueOfW   =    functionValueOfV;
+
   for (m_CurrentLineIteration = 0;
        m_CurrentLineIteration < m_MaximumLineIteration;
        m_CurrentLineIteration++)
     {
-    xm = 0.5*(a+b);
-    tol1 = m_StepTolerance * vcl_fabs(x) + POWELL_TINY;
-    tol2 = 2.0 * tol1;
-    if (vcl_fabs(x-xm) <= (tol2 - 0.5*(b-a))
+  
+    double range = b-a;      /* Range over which the minimum */
+    double middle_range = (a+b)/2;
+
+    double new_step;          /* Step at this iteration       */
+
+    double tolerance1;
+    double tolerance2;
+
+    tolerance1 = m_StepTolerance * vcl_fabs(x) + POWELL_TINY;
+    tolerance2 = 2.0 * tolerance1;
+
+    if (vcl_fabs(x-middle_range) <= (tolerance2 - 0.5*(b-a))
         || 0.5*(b-a) < m_StepTolerance)
       {
-      *extX = x;
-      *extVal = fx;
-      this->SetCurrentLinePoint(x, fx);
-      return;
+      *extX = x; 
+      *extVal = functionValueOfX;
+      this->SetCurrentLinePoint(x, functionValueOfX);
+      return ;        /* Acceptable approx. is found  */
       }
-    if (vcl_fabs(e) > tol1) 
+
+    /* Obtain the gold section step  */
+    new_step = goldenSectionRatio * ( x<middle_range ? b-x : a-x );
+
+
+    /* Decide if the interpolation can be tried  */
+    if( fabs(x-w) >= tolerance1  )    /* If x and w are distinct      */
+      {    
+      double t;
+      t = (x-w) * (functionValueOfX-functionValueOfV);
+
+      double q;    /* ted as p/q; division operation*/
+      q = (x-v) * (functionValueOfX-functionValueOfW);
+
+       double p;     /* Interpolation step is calcula-*/
+      p = (x-v)*q - (x-w)*t;
+
+      q = 2*(q-t);
+
+      if( q>(double)0 )    /* q was calculated with the op-*/
+        {
+        p = -p;      /* posite sign; make q positive  */
+        }
+      else        /* and assign possible minus to  */
+        {
+        q = -q;      /* p        */
+        }
+
+      /* Chec if x+p/q falls in [a,b] and  not too close to a and b
+           and isn't too large */
+      if( fabs(p) < fabs(new_step*q) &&  
+          p > q*(a-x+2*tolerance1) &&    
+          p < q*(b-x-2*tolerance1)  )            
+          {
+          new_step = p/q;      /* it is accepted         */
+          }
+
+      /* If p/q is too large then the  gold section procedure can   
+         reduce [a,b] range to more  extent      */
+      }
+
+     /* Adjust the step to be not less than tolerance*/
+    if( fabs(new_step) < tolerance1 ) 
       {
-      r = (x-w) * (fx-fv);
-      q = (x-v) * (fx-fw);
-      p = (x-v)*q - (x-w)*r;
-      q = 2.0 * (q-r);
-      if (q > 0.0) 
+      if ( new_step > 0.0 )  
         {
-        p = -p;
-        }
-      q = vcl_fabs(q);
-      etemp = e;
-      e = d;
-      if (vcl_fabs(p) >= vcl_fabs(0.5*q*etemp) 
-          || p <= q*(a-x) 
-          || p >= q*(b-x))
-        {
-        if(x >= xm)
-          {
-          e = a - x;
-          }
-        else
-          {
-          e = b - x;
-          }
-        d = POWELL_BRENT_GOLD * e;
-        }
-      else 
-        {
-        d = p/q;
-        u = x+d;
-        if (u-a < tol2 || b-u < tol2)
-          {
-          d = tol1 * vnl_math_sgn(xm-x);
-          }
-        }
-      } 
-    else 
-      {
-      if(x >= xm)
-        {
-        e = a - x;
+        new_step = tolerance1;
         }
       else
         {
-        e = b - x;
+        new_step = -tolerance1;
         }
-      d = POWELL_BRENT_GOLD * e;
       }
-    if(vcl_fabs(d) >= tol1)
-      {
-      u = x + d;
-      }
-    else
-      {
-      u = x + tol1 * vnl_math_sgn(d);
-      }
-    fu = this->GetLineValue(u);
-    if (fu <= fx) 
-      {
-      if (u >= x) 
+
+    /* Obtain the next approximation to min  */
+    /* and reduce the enveloping range  */
+    double t = x + new_step;  /* Tentative point for the min  */
+
+    double functionValueOft;
+
+    functionValueOft = this->GetLineValue(t);
+
+    if( functionValueOft <= functionValueOfX )
+    {                     
+      if( t < x )      /* Reduce the range so that  */
+        {
+        b = x;        /* t would fall within it  */
+        }
+      else
         {
         a = x;
         }
-      else 
-        {
-        b = x;
-        }
-      this->Shift(&v, &w, &x, u);
-      this->Shift(&fv, &fw, &fx, fu);
-      } 
-    else 
+   
+     /* assing the best approximation to x */ 
+    v = w;
+    w = x;
+    x = t;    
+
+    functionValueOfV = functionValueOfW;
+    functionValueOfW = functionValueOfX;
+    functionValueOfX = functionValueOft;
+    }
+    else                              /* x remains the better approx  */
+    {                         
+    if( t < x )      /* Reduce the range enclosing x  */
       {
-      if (u < x) 
-        {
-        a = u;
-        }
-      else
-        {
-        b = u;
-        }
-      if (fu <= fw || w == x) 
+      a = t;                   
+      }
+    else
+      {
+      b = t;
+      }
+    
+      if( functionValueOft <= functionValueOfW || w==x )
         {
         v = w;
-        w = u;
-        fv = fw;
-        fw = fu;
-        } 
-      else if (fu <= fv || v == x || v == w) 
-        {
-        v = u;
-        fv = fu;
+        w = t;
+        functionValueOfV = functionValueOfW;
+        functionValueOfW = functionValueOft;
         }
-      }
+      else if( functionValueOft<=functionValueOfV || v==x || v==w )
+        {
+        v = t;
+        functionValueOfV=functionValueOft;
+        }
+     }       
+  }    
 
-    this->SetCurrentLinePoint(x, fx);
-    this->InvokeEvent( IterationEvent() );
+  *extX = x; 
+  *extVal = functionValueOfX;
 
-    }
+  this->SetCurrentLinePoint(x, functionValueOfX);
 
-  *extX = x;
-  *extVal = fx;
-  this->SetCurrentLinePoint(x, fx);
 }
 
 void
