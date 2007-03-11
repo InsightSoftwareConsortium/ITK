@@ -124,83 +124,162 @@ PowellOptimizer
   *c = d;
 }
 
+// 
+// This code was implemented from the description of
+// the Golden section search available in the Wikipedia
+//
+// http://en.wikipedia.org/wiki/Golden_section_search
+// 
+// 
+// The inputs to this function are
+//
+// x1 and its function value f1
+// x2 
+//
+// (f2 is not yet evaluated, it will be computed inside)
+// (x2 and its function value f3 are also computed inside)
+// 
+// The outputs are the values of x2 and f2 at 
+// the end of the iterations.
+// 
 void
 PowellOptimizer
-::LineBracket(double * ax, double * bx, double * cx,
-              double * fa, double * fb, double * fc) 
+::LineBracket(double * x1, double * x2, double * x3,
+              double * f1, double * f2, double * f3) 
 {
-  double ulim,u,r,q,fu,dq;
+  //
+  // Compute the golden ratio as a constant to be 
+  // used when extrapolating the bracket
+  //
+  const double goldenRatio = ( 1.0 + vcl_sqrt( 5.0 ) ) / 2.0;
 
-  //*fa = this->GetLineValue(*ax);
-  *fb = this->GetLineValue(*bx);
-  if (*fb > *fa) 
+  //
+  // Get the value of the function for point x2
+  //
+  *f2 = this->GetLineValue( *x2 );
+
+  //
+  // Compute extrapolated point using the golden ratio
+  // 
+  if( *f2 < *f1 ) 
     {
-    this->Swap(ax, bx);
-    this->Swap(fa, fb);
+    // compute x3 on the side of x2
+    *x3 = *x1 + goldenRatio * ( *x2 - *x1 );
+    *f3 = this->GetLineValue( *x3 );
+
+    // If the new point is a minimum
+    // then continue extrapolating in 
+    // that direction until we find a
+    // value of f3 that makes f2 to be
+    // a minimum.
+    while( *f3 < *f2 )
+      {
+      *x2 = *x3;
+      *f2 = *f3;
+      *x3 = *x1 + goldenRatio * ( *x2 - *x1 );
+      *f3 = this->GetLineValue( *x3 );
+      }
+    }
+  else
+    {
+    // compute x3 on the side of x1
+    *x3 = *x2 + goldenRatio * ( *x1 - *x2 );
+    *f3 = this->GetLineValue( *x3 );
+
+    // If the new point is a minimum
+    // then continue extrapolating in 
+    // that direction until we find a
+    // value of f3 that makes f2 to be
+    // a minimum.
+    while( *f3 < *f1 )
+      {
+      *x1 = *x3;
+      *f1 = *f3;
+      *x3 = *x2 + goldenRatio * ( *x1 - *x2 );
+      *f3 = this->GetLineValue( *x3 );
+      }
     }
 
-  *cx = (*bx) + POWELL_BRACKET_GOLD * (*bx - *ax);
-  *fc = this->GetLineValue(*cx);
-  while (*fb > *fc) 
+
+
+  const double POWELL_TINY = 1.0e-20;
+
+  double intervalWidth;
+  double floatingPointPrecision;
+
+  double x4memory;
+  double f4memory;
+
+  double * x4 = & x4memory;
+  double * f4 = & f4memory;
+
+  //
+  // Now that the function is bracketed as
+  //
+  //      f1 >  f2  < f3
+  //
+  // then start searching for the minimum 
+  // inside of the bracket by using a golden
+  // section search
+  //
+  do
     {
-    r = (*bx - *ax) * (*fb - *fc);
-    q = (*bx - *cx) * (*fb - *fa);
+    //
+    // Compute the next point using the golden ratio.
+    // At this point this can be done by simply using
+    // the additive property of the golden ratio, there
+    // is no need for using it as a factor.
+    // 
+    *x4 = *x1 - *x2 + *x3;
+    *f4 = this->GetLineValue( *x4 );
 
-    dq = q - r;
-    if (vcl_abs(dq) < POWELL_TINY)
+    // 
+    // If the new value f4 at x4 is larger than f2
+    // then the minimum should be between x1 and x4,
+    //
+    if( *f2 < *f4 )
       {
-      dq = vnl_math_sgn(dq) * POWELL_TINY;
+      // Therefore the new triplet should be 
+      // composed of x1,x2,x4. We make x3,f3
+      // take the values of x4,f4 and we are
+      // back to having a bracket x1,x2,x3.
+      //
+      *x3 = *x4;
+      *f3 = *f4;
       }
-    u = (*bx) - ( (*bx - *cx) * q - (*bx - *ax) * r ) / (2.0 * dq);
-    ulim = (*bx) + POWELL_GLIMIT * (*cx - *bx);
-
-    if ( (*bx - u) * (u - *cx) > 0.0 ) 
+    else
       {
-      fu = this->GetLineValue(u);
-      if (fu < *fc) 
-        {
-        *ax = (*bx);
-        *bx = u;
-        *fa = (*fb);
-        *fb = fu;
-        return; 
-        } 
-      else if (fu > *fb) 
-        {
-        *cx=u;
-        *fc=fu;
-        return;
-        }
-      u = (*cx) + POWELL_BRACKET_GOLD * (*cx - *bx);
-      fu = this->GetLineValue(u);
-      } 
-    else if ( (*cx - u) * (u - ulim) > 0.0 ) 
-      {
-      fu = this->GetLineValue(u);
-      if (fu < *fc) 
-        {
-        //SHFT(bx,cx,&u,*cx+GOLD*(*cx-*bx)); awf dumped -- c is useless
-        this->Shift(bx, cx, &u, u + POWELL_BRACKET_GOLD * (u - *cx));
-        this->Shift(fb, fc, &fu, this->GetLineValue(u));
-        }
-      } 
-    else if ( (u - ulim) * (ulim - *cx) >= 0.0) 
-      {
-      u = ulim;
-      fu = this->GetLineValue(u); 
-      } 
-    else 
-      {
-      u = (*cx) + POWELL_BRACKET_GOLD * (*cx - *bx);
-      fu = this->GetLineValue(u);
+      //
+      // Otherwise the minimum should be between x2 and x3
+      // Therefore the new triplet should be 
+      // composed of x2,x4,x3. We make x1,f1
+      // take the values of x2,f2, and we make
+      // x2,f2 take the values of x4,f4. At that
+      // point we are back to having a bracket x1,x2,x3.
+      //
+      *x1 = *x2;
+      *f1 = *f2;
+      *x2 = *x4;
+      *f2 = *f4;
       }
 
-    this->Shift(ax, bx, cx, u);
-    this->Shift(fa, fb, fc, fu);
+    //
+    // Check if the interval is so small that the
+    // floating point precision will not change
+    // in a further search
+    //
+    intervalWidth = vcl_abs( *x3 - *x1 );
+
+    floatingPointPrecision = 
+     POWELL_TINY * vcl_abs( *x2 ) + vcl_abs( *x4 );
+
     }
+  while( intervalWidth > floatingPointPrecision );
 
-  this->SetCurrentLinePoint(*bx, *fb);
-
+  //
+  // Report the central point as the minimum
+  // 
+  this->SetCurrentLinePoint( *x2, *f2 );
 }
 
 void
@@ -428,7 +507,7 @@ PowellOptimizer
       ax = 0.0;
       fa = fx;
       xx = m_StepLength;
-      this->LineBracket(&ax, &xx, &bx, &fa, &fx, &fb);
+      this->LineBracket( &ax, &xx, &bx, &fa, &fx, &fb);
       this->BracketedLineOptimize(ax, xx, bx, fa, fx, fb, &xx, &fx);
       this->SetCurrentLinePoint(xx, fx);
       p = this->GetCurrentPosition();
@@ -468,7 +547,7 @@ PowellOptimizer
         ax = 0.0;
         fa = fx;
         xx = 1;
-        this->LineBracket(&ax, &xx, &bx, &fa, &fx, &fb);
+        this->LineBracket( &ax, &xx, &bx, &fa, &fx, &fb);
         this->BracketedLineOptimize(ax, xx, bx, fa, fx, fb, &xx, &fx);
         this->SetCurrentLinePoint(xx, fx);
         p = this->GetCurrentPosition();

@@ -155,10 +155,14 @@ protected:
    * Adapted from NRC */
   void   Shift(double *a, double *b, double *c, double d) const;
 
-  /** The LineBracket routine from NRC. Uses current origin and line direction
-   * (from SetLine) to find a triple of points (ax, bx, cx) that bracket the
-   * extreme "near" the origin.  Search first considers the point StepLength 
-   * distance from ax.
+  /** The LineBracket routine from NRC. Later reimplemented from the description
+   * of the method available in the Wikipedia, this was done to replace code
+   * that was copyrighted by Numerical Recipes.
+   *
+   * Uses current origin and line direction (from SetLine) to find a triple of
+   * points (ax, bx, cx) that bracket the extreme "near" the origin.  Search
+   * first considers the point StepLength distance from ax.
+   *
    * IMPORTANT: The value of ax and the value of the function at ax (i.e., fa),
    * must both be provided to this function. */
   virtual void   LineBracket(double *ax, double *bx, double *cx,
