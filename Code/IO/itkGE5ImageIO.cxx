@@ -452,7 +452,7 @@ GE5ImageIO::ModifyImageInformation()
   dirx[1] = -(m_ImageHeader->trhcA - m_ImageHeader->tlhcA);
   dirx[2] = -(m_ImageHeader->trhcS - m_ImageHeader->tlhcS);
   len = dirx[0]*dirx[0] + dirx[1]*dirx[1] + dirx[2]*dirx[2];
-  len = std::sqrt(len);
+  len = vcl_sqrt(len);
   for (unsigned int i = 0; i < 3; i++)
     {
     dirx[i] /= len;
@@ -461,7 +461,7 @@ GE5ImageIO::ModifyImageInformation()
   diry[1] = m_ImageHeader->trhcA - m_ImageHeader->brhcA;
   diry[2] = m_ImageHeader->brhcS - m_ImageHeader->trhcS;
   len = diry[0]*diry[0] + diry[1]*diry[1] + diry[2]*diry[2];
-  len = std::sqrt(len);
+  len = vcl_sqrt(len);
   for (unsigned int i = 0; i < 3; i++)
     {
     diry[i] /= len;
@@ -470,7 +470,7 @@ GE5ImageIO::ModifyImageInformation()
   dirz[1] = m_ImageHeader->normA;
   dirz[2] = m_ImageHeader->normS;
   len = dirz[0]*dirz[0] + dirz[1]*dirz[1] + dirz[2]*dirz[2];
-  len = std::sqrt(len);
+  len = vcl_sqrt(len);
   for (unsigned int i = 0; i < 3; i++)
     {
     dirz[i] /= len;
@@ -508,7 +508,7 @@ GE5ImageIO::ModifyImageInformation()
     origin2[1] = hdr2->tlhcA;
     origin2[2] = hdr2->tlhcS;
 
-    float distanceBetweenTwoSlices = std::sqrt(
+    float distanceBetweenTwoSlices = vcl_sqrt(
       (origin1[0] - origin2[0]) * (origin1[0] - origin2[0]) +
       (origin1[1] - origin2[1]) * (origin1[1] - origin2[1]) +
       (origin1[2] - origin2[2]) * (origin1[2] - origin2[2]));
