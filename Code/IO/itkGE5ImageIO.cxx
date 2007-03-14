@@ -447,7 +447,7 @@ GE5ImageIO::ModifyImageInformation()
 {
   std::vector<double> dirx(3,0), diry(3,0), dirz(3,0);
 
-  double len = 0;
+  double len;
   dirx[0] = -(m_ImageHeader->trhcR - m_ImageHeader->tlhcR);
   dirx[1] = -(m_ImageHeader->trhcA - m_ImageHeader->tlhcA);
   dirx[2] = -(m_ImageHeader->trhcS - m_ImageHeader->tlhcS);
