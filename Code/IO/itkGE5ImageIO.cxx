@@ -517,6 +517,9 @@ GE5ImageIO::ModifyImageInformation()
       2,
       distanceBetweenTwoSlices
       );
+    // Cleanup
+    delete hdr1;
+    delete hdr2;
     }
 }
 } // end namespace itk
