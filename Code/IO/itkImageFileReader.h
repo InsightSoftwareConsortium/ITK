@@ -27,7 +27,10 @@
 namespace itk
 {
 
-/** \brief Base exception class for IO conflicts. */
+/** \class ImageFileReaderException
+ *
+ * \brief Base exception class for IO conflicts.
+ */
 class ImageFileReaderException : public ExceptionObject 
 {
 public:
@@ -82,6 +85,8 @@ public:
  * \ingroup IOFilters
  *
  */
+/** \class ImageFileReader
+ */
 template <class TOutputImage,
           class ConvertPixelTraits=DefaultConvertPixelTraits< 
                    ITK_TYPENAME TOutputImage::IOPixelType > >
@@ -89,9 +94,9 @@ class ITK_EXPORT ImageFileReader : public ImageSource<TOutputImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageFileReader         Self;
-  typedef ImageSource<TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef ImageFileReader           Self;
+  typedef ImageSource<TOutputImage> Superclass;
+  typedef SmartPointer<Self>        Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -132,8 +137,6 @@ public:
    * enlarge the RequestedRegion to the size of the image on disk. */
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
-
-
 protected:
   ImageFileReader();
   ~ImageFileReader();
@@ -142,21 +145,21 @@ protected:
   /** Convert a block of pixels from one type to another. */
   void DoConvertBuffer(void* buffer, unsigned long numberOfPixels);
 
-  /** Test whether the given filename exist and it is readable,
-      this is intended to be called before attempting to use 
-      ImageIO classes for actually reading the file. If the file
-      doesn't exist or it is not readable, and exception with an
-      approriate message will be thrown. */
+  /** Test whether the given filename exist and it is readable, this
+    * is intended to be called before attempting to use  ImageIO
+    * classes for actually reading the file. If the file doesn't exist
+    * or it is not readable, and exception with an approriate message
+    * will be thrown. */
   void TestFileExistanceAndReadability();
 
   /** Does the real work. */
   virtual void GenerateData();
 
   ImageIOBase::Pointer m_ImageIO;
-  bool m_UserSpecifiedImageIO; //keep track whether the ImageIO is user specified
+  bool                 m_UserSpecifiedImageIO; // keep track whether the
+                                               // ImageIO is user specified 
 
-  /** The file to be read. */
-  std::string m_FileName;
+  std::string m_FileName; // The file to be read
   
 private:
   ImageFileReader(const Self&); //purposely not implemented

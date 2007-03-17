@@ -58,8 +58,8 @@ class ITK_EXPORT GDCMImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef GDCMImageIO Self;
-  typedef ImageIOBase Superclass;
+  typedef GDCMImageIO         Self;
+  typedef ImageIOBase         Superclass;
   typedef SmartPointer<Self>  Pointer;
   
   /** Method for creation through the object factory. */
@@ -206,7 +206,7 @@ public:
   static bool GetLoadPrivateTagsDefault()
     { return m_LoadPrivateTagsDefault; }
 
-   /** Set/Get a boolean to use the JPEG2000 compression or not. */
+  /** Set/Get a boolean to use the JPEG2000 compression or not. */
   typedef enum { JPEG = 0, JPEG2000 } TCompressionType;
   itkSetMacro(CompressionType,TCompressionType);
   itkGetConstReferenceMacro(CompressionType,TCompressionType);
@@ -227,8 +227,8 @@ protected:
   std::string m_StudyInstanceUID;
   std::string m_SeriesInstanceUID;
   std::string m_FrameOfReferenceInstanceUID;
-  bool m_KeepOriginalUID;
-  long m_MaxSizeLoadEntry;
+  bool        m_KeepOriginalUID;
+  long        m_MaxSizeLoadEntry;
 
 private:
   GDCMImageIO(const Self&); //purposely not implemented
@@ -251,18 +251,18 @@ private:
   std::string m_Model;
   std::string m_ScanOptions;
 
-  bool m_LoadSequences;
-  bool m_LoadPrivateTags;
+  bool        m_LoadSequences;
+  bool        m_LoadPrivateTags;
   static bool m_LoadSequencesDefault;
   static bool m_LoadPrivateTagsDefault;
   
   /** defines whether this image is a 2D out of a 2D image
    *  or a 2D out of a 3D image. */
-  unsigned int m_GlobalNumberOfDimensions;
+  unsigned int     m_GlobalNumberOfDimensions;
   TCompressionType m_CompressionType;
   
   ImageIOBase::IOComponentType m_InternalComponentType;
-  InternalHeader *DICOMHeader;
+  InternalHeader *             m_DICOMHeader;
 };
 
 } // end namespace itk

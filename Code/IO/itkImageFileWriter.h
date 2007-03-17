@@ -26,7 +26,10 @@
 namespace itk
 {
 
-/** \brief Base exception class for IO problems during writing. */
+/** \brief Base exception class for IO problems during writing.
+ *
+ * \class ImageFileWriterException
+ */
 class ImageFileWriterException : public ExceptionObject 
 {
 public:
@@ -89,10 +92,10 @@ public:
   itkTypeMacro(ImageFileWriter,ProcessObject);
 
   /** Some convenient typedefs. */
-  typedef TInputImage InputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef TInputImage                         InputImageType;
+  typedef typename InputImageType::Pointer    InputImagePointer;
   typedef typename InputImageType::RegionType InputImageRegionType; 
-  typedef typename InputImageType::PixelType InputImagePixelType; 
+  typedef typename InputImageType::PixelType  InputImagePixelType; 
   
   /** Set/Get the image input of this writer.  */
   void SetInput(const InputImageType *input);
@@ -114,14 +117,14 @@ public:
    * the file extension. If the factory has set the ImageIO, the
    * extension must be supported by the specified ImageIO. */
   void SetImageIO (ImageIOBase* io)
-  {
+    {
     if (this->m_ImageIO != io)
       {
       this->Modified();
       this->m_ImageIO = io;
       }
     m_FactorySpecifiedImageIO = false;
-  }
+    }
   itkGetObjectMacro(ImageIO,ImageIOBase);
   
   /** A special version of the Update() method for writers.  It
@@ -141,7 +144,9 @@ public:
   /** Aliased to the Write() method to be consistent with the rest of the
    * pipeline. */
   virtual void Update()
-  {this->Write();}
+    {
+    this->Write();\
+    }
 
   /** Set the compression On or Off */
   itkSetMacro(UseCompression,bool);
@@ -174,14 +179,18 @@ private:
   std::string        m_FileName;
   
   ImageIOBase::Pointer m_ImageIO;
-  bool m_UserSpecifiedImageIO; //track whether the ImageIO is user specified
+  bool                 m_UserSpecifiedImageIO; // track whether the ImageIO
+                                                // is user specified
   
   ImageIORegion m_IORegion;
-  bool m_UserSpecifiedIORegion; //
-                                //track whether the region is user specified
-  bool m_FactorySpecifiedImageIO; //track whether the factory mechanism set the ImageIO
+  bool          m_UserSpecifiedIORegion;    // track whether the region
+                                            // is user specified
+  bool          m_FactorySpecifiedImageIO;  //track whether the factory
+                                            //  mechanism set the ImageIO
   bool m_UseCompression;
-  bool m_UseInputMetaDataDictionary; // whether to use the MetaDataDictionary from the input or not.
+  bool m_UseInputMetaDataDictionary;        // whether to use the
+                                            // MetaDataDictionary from the
+                                            // input or not.
 };
 
   
@@ -192,4 +201,3 @@ private:
 #endif
 
 #endif // __itkImageFileWriter_h
-  

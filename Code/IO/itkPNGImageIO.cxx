@@ -1,6 +1,5 @@
 /*=========================================================================
 
-
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkPNGImageIO.cxx
   Language:  C++
@@ -30,9 +29,9 @@ extern "C"
      Therefore we must use this ugly longjmp call.  */
   void itkPNGWriteErrorFunction(png_structp png_ptr,
                                 png_const_charp itkNotUsed(error_msg))
-  {
+    {
     longjmp(png_ptr->jmpbuf, 1);
-  }
+    }
 }
 
 
@@ -40,8 +39,8 @@ extern "C"
 {
   void itkPNGWriteWarningFunction(png_structp itkNotUsed(png_ptr),
                                   png_const_charp itkNotUsed(warning_msg))
-  {
-  }
+    {
+    }
 }
 
 
@@ -51,16 +50,16 @@ class PNGFileWrapper
 {
 public:
   PNGFileWrapper(const char * const fname, const char * const openMode):m_FilePointer(NULL)
-  {
+    {
     m_FilePointer = fopen(fname, openMode);
-  }
+    }
   virtual ~PNGFileWrapper()
-  {
+    {
     if(m_FilePointer)
       {
       fclose(m_FilePointer);
       }
-  }
+    }
   FILE* m_FilePointer;
 };
 
@@ -177,7 +176,7 @@ void PNGImageIO::Read(void* buffer)
     {
     png_destroy_read_struct( &png_ptr, &info_ptr, &end_info );
     itkExceptionMacro("File is not png type " << this->GetFileName());
-    return;    
+    return;
     }
 
   png_init_io(png_ptr, fp);
@@ -566,4 +565,3 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
 
 
 } // end namespace itk
-

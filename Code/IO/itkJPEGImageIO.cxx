@@ -1,6 +1,5 @@
 /*=========================================================================
 
-
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkJPEGImageIO.cxx
   Language:  C++
@@ -49,18 +48,18 @@ namespace itk
 // fclose on destruct
 class JPEGFileWrapper
 {
-  public:
+public:
   JPEGFileWrapper(const char * const fname, const char * const openMode):m_FilePointer(NULL)
-  {
+    {
     m_FilePointer = fopen(fname, openMode);
-  }
+    }
   virtual ~JPEGFileWrapper()
-  {
+    {
     if(m_FilePointer!=NULL)
       {
       fclose(m_FilePointer);
       }
-  }
+    }
   FILE* m_FilePointer;
 };
 
@@ -241,7 +240,7 @@ JPEGImageIO::JPEGImageIO()
 {
   this->SetNumberOfDimensions(2);
   m_PixelType = SCALAR;
-// 12bits is not working right now, but this should be doable
+  // 12bits is not working right now, but this should be doable
 #if BITS_IN_JSAMPLE == 8 
   m_ComponentType = UCHAR;
 #else
@@ -503,4 +502,3 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
 
 
 } // end namespace itk
-

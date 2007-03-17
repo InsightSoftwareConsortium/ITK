@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageFileReader_txx
-#define _itkImageFileReader_txx
+#ifndef __itkImageFileReader_txx
+#define __itkImageFileReader_txx
 #include "itkImageFileReader.h"
 
 #include "itkObjectFactory.h"
@@ -164,8 +164,9 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
       dimSize[i] = m_ImageIO->GetDimensions(i);
       spacing[i] = m_ImageIO->GetSpacing(i);
       origin[i]  = m_ImageIO->GetOrigin(i);
-// Please note: direction cosines are stored as columns of the
-// direction matrix
+
+      // Please note: direction cosines are stored as columns of the
+      // direction matrix
       axis = m_ImageIO->GetDirection(i);
       for (unsigned j=0; j<TOutputImage::ImageDimension; j++)
         {
@@ -229,46 +230,41 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   output->SetLargestPossibleRegion(region);
 }
 
-
-
 template <class TOutputImage, class ConvertPixelTraits>
 void
 ImageFileReader<TOutputImage, ConvertPixelTraits>
 ::TestFileExistanceAndReadability()
 {
-    // Test if the file exists.
-    if( ! itksys::SystemTools::FileExists( m_FileName.c_str() ) )
-      {
-      ImageFileReaderException e(__FILE__, __LINE__);
-      OStringStream msg;
-      msg <<"The file doesn't exist. "
-          << std::endl << "Filename = " << m_FileName
-          << std::endl;
-      e.SetDescription(msg.str().c_str());
-      throw e;
-      return;
-      }
+  // Test if the file exists.
+  if( ! itksys::SystemTools::FileExists( m_FileName.c_str() ) )
+    {
+    ImageFileReaderException e(__FILE__, __LINE__);
+    OStringStream msg;
+    msg <<"The file doesn't exist. "
+        << std::endl << "Filename = " << m_FileName
+        << std::endl;
+    e.SetDescription(msg.str().c_str());
+    throw e;
+    return;
+    }
 
-    // Test if the file can be open for reading access.
-    std::ifstream readTester;
-    readTester.open( m_FileName.c_str() );
-    if( readTester.fail() )
-      {
-      readTester.close();
-      OStringStream msg;
-      msg <<"The file couldn't be opened for reading. "
-          << std::endl << "Filename: " << m_FileName
-          << std::endl;
-      ImageFileReaderException e(__FILE__, __LINE__,msg.str().c_str(),ITK_LOCATION);
-      throw e;
-      return;
-
-      }
+  // Test if the file can be open for reading access.
+  std::ifstream readTester;
+  readTester.open( m_FileName.c_str() );
+  if( readTester.fail() )
+    {
     readTester.close();
+    OStringStream msg;
+    msg <<"The file couldn't be opened for reading. "
+        << std::endl << "Filename: " << m_FileName
+        << std::endl;
+    ImageFileReaderException e(__FILE__, __LINE__,msg.str().c_str(),ITK_LOCATION);
+    throw e;
+    return;
+    
+    }
+  readTester.close();
 }
-
-
-
 
 template <class TOutputImage, class ConvertPixelTraits>
 void
@@ -395,9 +391,6 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
     }
 }
 
-
-
-
 template <class TOutputImage, class ConvertPixelTraits>
 void 
 ImageFileReader<TOutputImage, ConvertPixelTraits>
@@ -416,15 +409,14 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   // vector magnitude.
   
   
-// Create a macro as this code is a bit lengthy and repetitive
-// if the ImageIO pixel type is typeid(type) then use the ConvertPixelBuffer
-// class to convert the data block to TOutputImage's pixel type
-// see DefaultConvertPixelTraits and ConvertPixelBuffer
+  // Create a macro as this code is a bit lengthy and repetitive
+  // if the ImageIO pixel type is typeid(type) then use the ConvertPixelBuffer
+  // class to convert the data block to TOutputImage's pixel type
+  // see DefaultConvertPixelTraits and ConvertPixelBuffer
 
- 
-// The first else if block applies only to images of type itk::VectorImage  
-// VectorImage needs to copy out the buffer differently.. The buffer is of
-// type InternalPixelType, but each pixel is really 'k' consecutive pixels.
+  // The first else if block applies only to images of type itk::VectorImage  
+  // VectorImage needs to copy out the buffer differently.. The buffer is of
+  // type InternalPixelType, but each pixel is really 'k' consecutive pixels.
 
 #define ITK_CONVERT_BUFFER_IF_BLOCK(type)               \
  else if( m_ImageIO->GetComponentTypeInfo() == typeid(type) )   \
@@ -460,39 +452,39 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
     {
     }
   ITK_CONVERT_BUFFER_IF_BLOCK(unsigned char)
-    ITK_CONVERT_BUFFER_IF_BLOCK(char)
-    ITK_CONVERT_BUFFER_IF_BLOCK(unsigned short)
-    ITK_CONVERT_BUFFER_IF_BLOCK( short)
-    ITK_CONVERT_BUFFER_IF_BLOCK(unsigned int)
-    ITK_CONVERT_BUFFER_IF_BLOCK( int)
-    ITK_CONVERT_BUFFER_IF_BLOCK(unsigned long)
-    ITK_CONVERT_BUFFER_IF_BLOCK( long)
-    ITK_CONVERT_BUFFER_IF_BLOCK(float)
-    ITK_CONVERT_BUFFER_IF_BLOCK( double)
-    else
-      {
-      ImageFileReaderException e(__FILE__, __LINE__);
-      OStringStream msg;
-      msg <<"Couldn't convert component type: "
-          << std::endl << "    "
-          << m_ImageIO->GetComponentTypeAsString(m_ImageIO->GetComponentType())
-          << std::endl << "to one of: "
-          << std::endl << "    " << typeid(unsigned char).name()
-          << std::endl << "    " << typeid(char).name()
-          << std::endl << "    " << typeid(unsigned short).name()
-          << std::endl << "    " << typeid(short).name()
-          << std::endl << "    " << typeid(unsigned int).name()
-          << std::endl << "    " << typeid(int).name()
-          << std::endl << "    " << typeid(unsigned long).name()
-          << std::endl << "    " << typeid(long).name()
-          << std::endl << "    " << typeid(float).name()
-          << std::endl << "    " << typeid(double).name()
-          << std::endl;
-      e.SetDescription(msg.str().c_str());
-      e.SetLocation(ITK_LOCATION);
-      throw e;
-      return;
-      }
+  ITK_CONVERT_BUFFER_IF_BLOCK(char)
+  ITK_CONVERT_BUFFER_IF_BLOCK(unsigned short)
+  ITK_CONVERT_BUFFER_IF_BLOCK( short)
+  ITK_CONVERT_BUFFER_IF_BLOCK(unsigned int)
+  ITK_CONVERT_BUFFER_IF_BLOCK( int)
+  ITK_CONVERT_BUFFER_IF_BLOCK(unsigned long)
+  ITK_CONVERT_BUFFER_IF_BLOCK( long)
+  ITK_CONVERT_BUFFER_IF_BLOCK(float)
+  ITK_CONVERT_BUFFER_IF_BLOCK( double)
+  else
+    {
+    ImageFileReaderException e(__FILE__, __LINE__);
+    OStringStream msg;
+    msg <<"Couldn't convert component type: "
+        << std::endl << "    "
+        << m_ImageIO->GetComponentTypeAsString(m_ImageIO->GetComponentType())
+        << std::endl << "to one of: "
+        << std::endl << "    " << typeid(unsigned char).name()
+        << std::endl << "    " << typeid(char).name()
+        << std::endl << "    " << typeid(unsigned short).name()
+        << std::endl << "    " << typeid(short).name()
+        << std::endl << "    " << typeid(unsigned int).name()
+        << std::endl << "    " << typeid(int).name()
+        << std::endl << "    " << typeid(unsigned long).name()
+        << std::endl << "    " << typeid(long).name()
+        << std::endl << "    " << typeid(float).name()
+        << std::endl << "    " << typeid(double).name()
+        << std::endl;
+    e.SetDescription(msg.str().c_str());
+    e.SetLocation(ITK_LOCATION);
+    throw e;
+    return;
+    }
 #undef ITK_CONVERT_BUFFER_IF_BLOCK
 }
 

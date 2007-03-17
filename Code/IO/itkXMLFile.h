@@ -101,9 +101,10 @@ public:
   /** Constructor
    * Sets object pointer to zero.
    */
-  XMLWriterBase() {
+  XMLWriterBase()
+    {
     m_InputObject = 0;
-  }
+    }
   /** Set the filename to write */
   itkSetStringMacro(Filename);
   /** Get the filename to write */
@@ -116,36 +117,36 @@ public:
   virtual int WriteFile() = 0;
   /** Write out a start element tag */
   void WriteStartElement(const char *const tag,std::ofstream &file)
-  {
+    {
     file << '<' << tag << '>';
-  }
+    }
   /** Write an end element tag */
   void WriteEndElement(const char *const tag,std::ofstream &file) 
-  {
+    {
     file << '<' << '/'  << tag << '>';
-  }
+    }
   /** Write character data inside a tag. */
   void WriteCharacterData(const char *const data,std::ofstream &file) 
-  {
+    {
     file << data;
-  }
+    }
   /** Write a start element tag */
   void WriteStartElement(std::string &tag,std::ofstream &file) 
-  {
+    {
     WriteStartElement(tag.c_str(),file);
-  }
+    }
   /** Write an end element tag */
   void WriteEndElement(std::string &tag,std::ofstream &file) 
-  {
+    {
     WriteEndElement(tag.c_str(),file);
-  }
+    }
   /** Write character data inside a tag. */
   void WriteCharacterData(std::string &data,std::ofstream &file)
-  {
+    {
     WriteCharacterData(data.c_str(),file);
-  }
+    }
 protected:
-  T *m_InputObject;             // object to write out to an XML file
+  T          *m_InputObject;    // object to write out to an XML file
   std::string m_Filename;       // name of file to write.
 };
 

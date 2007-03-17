@@ -37,9 +37,9 @@ class ITK_EXPORT JPEGImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef JPEGImageIO            Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef JPEGImageIO        Self;
+  typedef ImageIOBase        Superclass;
+  typedef SmartPointer<Self> Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -107,4 +107,3 @@ private:
 } // end namespace itk
 
 #endif // __itkJPEGImageIO_h
-

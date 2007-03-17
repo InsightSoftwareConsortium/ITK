@@ -1,4 +1,5 @@
 /*=========================================================================
+
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkIPLCommonImageIO.cxx
   Language:  C++
@@ -8,11 +9,11 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-  This software is distributed WITHOUT ANY WARRANTY; without even
-  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-  PURPOSE.  See the above copyright notices for more information.
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
 
-  =========================================================================*/
+=========================================================================*/
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #pragma warning ( disable : 4284 ) // return type for 'identifier::operator ->'

@@ -1,4 +1,5 @@
 /*=========================================================================
+
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkGE5ImageIO.cxx
   Language:  C++
@@ -8,11 +9,11 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-  This software is distributed WITHOUT ANY WARRANTY; without even
-  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-  PURPOSE.  See the above copyright notices for more information.
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
 
- =========================================================================*/
+=========================================================================*/
 #include "itkGE5ImageIO.h"
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
@@ -513,10 +514,8 @@ GE5ImageIO::ModifyImageInformation()
       (origin1[1] - origin2[1]) * (origin1[1] - origin2[1]) +
       (origin1[2] - origin2[2]) * (origin1[2] - origin2[2]));
 
-    this->SetSpacing(
-      2,
-      distanceBetweenTwoSlices
-      );
+    this->SetSpacing(2, distanceBetweenTwoSlices);
+
     // Cleanup
     delete hdr1;
     delete hdr2;

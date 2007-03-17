@@ -61,55 +61,55 @@ template <typename PixelType>
 class IntervalCalculator
 {
 public:
- static ImageIOBase::IOComponentType 
-   Compute(double slope, double intercept)
-{
-  ImageIOBase::IOComponentType comptype;
-  PixelType maximum = NumericTraits<PixelType>::max() ;
-  PixelType minimum = NumericTraits<PixelType>::min() ;
+  static ImageIOBase::IOComponentType 
+  Compute(double slope, double intercept)
+    {
+    ImageIOBase::IOComponentType comptype;
+    PixelType maximum = NumericTraits<PixelType>::max();
+    PixelType minimum = NumericTraits<PixelType>::min();
+    
+    double dmax, dmin; // do computation in double
+    dmax = maximum * slope + intercept;
+    dmin = minimum * slope + intercept;
 
-  double dmax, dmin; // do computation in double
-  dmax = maximum * slope + intercept;
-  dmin = minimum * slope + intercept;
-
-  // do the case in order:
-  if( dmin >= NumericTraits<unsigned char>::min() && dmax <= NumericTraits<unsigned char>::max() )
-    {
-    comptype = ImageIOBase::UCHAR;
+    // do the case in order:
+    if( dmin >= NumericTraits<unsigned char>::min() && dmax <= NumericTraits<unsigned char>::max() )
+      {
+      comptype = ImageIOBase::UCHAR;
+      }
+    else if( dmin >= NumericTraits<char>::min() && dmax <= NumericTraits<char>::max() )
+      {
+      comptype = ImageIOBase::CHAR;
+      }
+    else if( dmin >= NumericTraits<unsigned short>::min() && dmax <= NumericTraits<unsigned short>::max() )
+      {
+      comptype = ImageIOBase::USHORT;
+      }
+    else if( dmin >= NumericTraits<short>::min() && dmax <= NumericTraits<short>::max() )
+      {
+      comptype = ImageIOBase::SHORT;
+      }
+    else if( dmin >= NumericTraits<unsigned int>::min() && dmax <= NumericTraits<unsigned int>::max() )
+      {
+      comptype = ImageIOBase::UINT;
+      }
+    else if( dmin >= NumericTraits<int>::min() && dmax <= NumericTraits<int>::max() )
+      {
+      comptype = ImageIOBase::INT;
+      }
+    else
+      {
+      comptype = ImageIOBase::UNKNOWNCOMPONENTTYPE;
+      }
+    return comptype;
     }
-  else if( dmin >= NumericTraits<char>::min() && dmax <= NumericTraits<char>::max() )
-    {
-    comptype = ImageIOBase::CHAR;
-    }
-  else if( dmin >= NumericTraits<unsigned short>::min() && dmax <= NumericTraits<unsigned short>::max() )
-    {
-    comptype = ImageIOBase::USHORT;
-    }
-  else if( dmin >= NumericTraits<short>::min() && dmax <= NumericTraits<short>::max() )
-    {
-    comptype = ImageIOBase::SHORT;
-    }
-  else if( dmin >= NumericTraits<unsigned int>::min() && dmax <= NumericTraits<unsigned int>::max() )
-    {
-    comptype = ImageIOBase::UINT;
-    }
-  else if( dmin >= NumericTraits<int>::min() && dmax <= NumericTraits<int>::max() )
-    {
-    comptype = ImageIOBase::INT;
-    }
-  else
-    {
-    comptype = ImageIOBase::UNKNOWNCOMPONENTTYPE;
-    }
-  return comptype;
-}
 };
 
 GDCMImageIO::GDCMImageIO()
   : m_LoadSequences( m_LoadSequencesDefault ),
     m_LoadPrivateTags( m_LoadPrivateTagsDefault )
 {
-  this->DICOMHeader = new InternalHeader;
+  this->m_DICOMHeader = new InternalHeader;
   this->SetNumberOfDimensions(3); //needed for getting the 3 coordinates of
                                   // the origin, even if it is a 2D slice.
   m_ByteOrder = LittleEndian; //default
@@ -141,11 +141,11 @@ GDCMImageIO::GDCMImageIO()
 
 GDCMImageIO::~GDCMImageIO()
 {
-  if (this->DICOMHeader->m_Header)
+  if (this->m_DICOMHeader->m_Header)
     {
-    delete this->DICOMHeader->m_Header;
+    delete this->m_DICOMHeader->m_Header;
     }
-  delete this->DICOMHeader;
+  delete this->m_DICOMHeader;
 }
 
 bool GDCMImageIO::OpenGDCMFileForReading(std::ifstream& os,
@@ -272,15 +272,16 @@ void RescaleFunction(TBuffer* buffer, TSource *source,
     register size_t n = (size + 7) / 8;
     switch ( size % 8)
       {
-      case 0: do { *buffer++ = (TBuffer)((*source++)*slope + intercept);
-      case 7:      *buffer++ = (TBuffer)((*source++)*slope + intercept);
-      case 6:      *buffer++ = (TBuffer)((*source++)*slope + intercept);
-      case 5:      *buffer++ = (TBuffer)((*source++)*slope + intercept);
-      case 4:      *buffer++ = (TBuffer)((*source++)*slope + intercept);
-      case 3:      *buffer++ = (TBuffer)((*source++)*slope + intercept);
-      case 2:      *buffer++ = (TBuffer)((*source++)*slope + intercept);
-      case 1:      *buffer++ = (TBuffer)((*source++)*slope + intercept);
-                 }  while (--n > 0);
+      case 0:
+        do { *buffer++ = (TBuffer)((*source++)*slope + intercept);
+        case 7: *buffer++ = (TBuffer)((*source++)*slope + intercept);
+        case 6: *buffer++ = (TBuffer)((*source++)*slope + intercept);
+        case 5: *buffer++ = (TBuffer)((*source++)*slope + intercept);
+        case 4: *buffer++ = (TBuffer)((*source++)*slope + intercept);
+        case 3: *buffer++ = (TBuffer)((*source++)*slope + intercept);
+        case 2: *buffer++ = (TBuffer)((*source++)*slope + intercept);
+        case 1: *buffer++ = (TBuffer)((*source++)*slope + intercept);
+        }  while (--n > 0);
       }
     }
   else if (slope == 1.0 && intercept != 0.0)
@@ -301,30 +302,32 @@ void RescaleFunction(TBuffer* buffer, TSource *source,
       // number intercept when the source is of type short
       switch ( size % 8)
         {
-        case 0: do { *buffer++ = (TBuffer)(*source++ + sintercept);
-        case 7:      *buffer++ = (TBuffer)(*source++ + sintercept);
-        case 6:      *buffer++ = (TBuffer)(*source++ + sintercept);
-        case 5:      *buffer++ = (TBuffer)(*source++ + sintercept);
-        case 4:      *buffer++ = (TBuffer)(*source++ + sintercept);
-        case 3:      *buffer++ = (TBuffer)(*source++ + sintercept);
-        case 2:      *buffer++ = (TBuffer)(*source++ + sintercept);
-        case 1:      *buffer++ = (TBuffer)(*source++ + sintercept);
-                   }  while (--n > 0);
+        case 0:
+          do { *buffer++ = (TBuffer)(*source++ + sintercept);
+          case 7: *buffer++ = (TBuffer)(*source++ + sintercept);
+          case 6: *buffer++ = (TBuffer)(*source++ + sintercept);
+          case 5: *buffer++ = (TBuffer)(*source++ + sintercept);
+          case 4: *buffer++ = (TBuffer)(*source++ + sintercept);
+          case 3: *buffer++ = (TBuffer)(*source++ + sintercept);
+          case 2: *buffer++ = (TBuffer)(*source++ + sintercept);
+          case 1: *buffer++ = (TBuffer)(*source++ + sintercept);
+          } while (--n > 0);
         }
       }
     else
       {
       switch ( size % 8)
         {
-        case 0: do { *buffer++ = (TBuffer)(*source++ + intercept);
-        case 7:      *buffer++ = (TBuffer)(*source++ + intercept);
-        case 6:      *buffer++ = (TBuffer)(*source++ + intercept);
-        case 5:      *buffer++ = (TBuffer)(*source++ + intercept);
-        case 4:      *buffer++ = (TBuffer)(*source++ + intercept);
-        case 3:      *buffer++ = (TBuffer)(*source++ + intercept);
-        case 2:      *buffer++ = (TBuffer)(*source++ + intercept);
-        case 1:      *buffer++ = (TBuffer)(*source++ + intercept);
-                   }  while (--n > 0);
+        case 0:
+          do { *buffer++ = (TBuffer)(*source++ + intercept);
+          case 7: *buffer++ = (TBuffer)(*source++ + intercept);
+          case 6: *buffer++ = (TBuffer)(*source++ + intercept);
+          case 5: *buffer++ = (TBuffer)(*source++ + intercept);
+          case 4: *buffer++ = (TBuffer)(*source++ + intercept);
+          case 3: *buffer++ = (TBuffer)(*source++ + intercept);
+          case 2: *buffer++ = (TBuffer)(*source++ + intercept);
+          case 1: *buffer++ = (TBuffer)(*source++ + intercept);
+          }  while (--n > 0);
         }
       }
     }
@@ -341,15 +344,16 @@ void RescaleFunction(TBuffer* buffer, TSource *source,
     register size_t n = (size + 7) / 8;
     switch ( size % 8)
       {
-      case 0: do { *buffer++ = (TBuffer)((*source++)*slope);
-      case 7:      *buffer++ = (TBuffer)((*source++)*slope);
-      case 6:      *buffer++ = (TBuffer)((*source++)*slope);
-      case 5:      *buffer++ = (TBuffer)((*source++)*slope);
-      case 4:      *buffer++ = (TBuffer)((*source++)*slope);
-      case 3:      *buffer++ = (TBuffer)((*source++)*slope);
-      case 2:      *buffer++ = (TBuffer)((*source++)*slope);
-      case 1:      *buffer++ = (TBuffer)((*source++)*slope);
-                 }  while (--n > 0);
+      case 0:
+        do { *buffer++ = (TBuffer)((*source++)*slope);
+        case 7: *buffer++ = (TBuffer)((*source++)*slope);
+        case 6: *buffer++ = (TBuffer)((*source++)*slope);
+        case 5: *buffer++ = (TBuffer)((*source++)*slope);
+        case 4: *buffer++ = (TBuffer)((*source++)*slope);
+        case 3: *buffer++ = (TBuffer)((*source++)*slope);
+        case 2: *buffer++ = (TBuffer)((*source++)*slope);
+        case 1: *buffer++ = (TBuffer)((*source++)*slope);
+        }  while (--n > 0);
       }
     }
   else
@@ -365,15 +369,16 @@ void RescaleFunction(TBuffer* buffer, TSource *source,
     register size_t n = (size + 7) / 8;
     switch ( size % 8)
       {
-      case 0: do { *buffer++ = (TBuffer)(*source++);
-      case 7:      *buffer++ = (TBuffer)(*source++);
-      case 6:      *buffer++ = (TBuffer)(*source++);
-      case 5:      *buffer++ = (TBuffer)(*source++);
-      case 4:      *buffer++ = (TBuffer)(*source++);
-      case 3:      *buffer++ = (TBuffer)(*source++);
-      case 2:      *buffer++ = (TBuffer)(*source++);
-      case 1:      *buffer++ = (TBuffer)(*source++);
-                 }  while (--n > 0);
+      case 0:
+        do { *buffer++ = (TBuffer)(*source++);
+        case 7: *buffer++ = (TBuffer)(*source++);
+        case 6: *buffer++ = (TBuffer)(*source++);
+        case 5: *buffer++ = (TBuffer)(*source++);
+        case 4: *buffer++ = (TBuffer)(*source++);
+        case 3: *buffer++ = (TBuffer)(*source++);
+        case 2: *buffer++ = (TBuffer)(*source++);
+        case 1: *buffer++ = (TBuffer)(*source++);
+        }  while (--n > 0);
       }
     }
 }
@@ -424,7 +429,7 @@ void GDCMImageIO::Read(void* buffer)
   //Should I handle differently dicom lut ?
   //GdcmHeader.HasLUT()
 
-  gdcm::File *header = this->DICOMHeader->m_Header;
+  gdcm::File *header = this->m_DICOMHeader->m_Header;
   gdcm::FileHelper gfile(header);
 
   size_t size = gfile.GetImageDataSize();
@@ -483,7 +488,7 @@ void GDCMImageIO::Read(void* buffer)
                         m_RescaleSlope, m_RescaleIntercept, size);
         }
         break;
-       default:
+      default:
         itkExceptionMacro(<< "Unknown component type :" << m_ComponentType);
       }
     }
@@ -507,8 +512,8 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     }
 
   gdcm::File *header = new gdcm::File;
-  delete this->DICOMHeader->m_Header;
-  this->DICOMHeader->m_Header = header;
+  delete this->m_DICOMHeader->m_Header;
+  this->m_DICOMHeader->m_Header = header;
   header->SetMaxSizeLoadEntry(m_MaxSizeLoadEntry);
   header->SetFileName( m_FileName );
   header->SetLoadMode( (m_LoadSequences ? 0 : gdcm::LD_NOSEQ)
@@ -632,33 +637,33 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     // the actual pixel values:
     switch (m_ComponentType)
       {
-    case ImageIOBase::UCHAR:
-      m_ComponentType = 
-        IntervalCalculator<unsigned char>::Compute(m_RescaleSlope, m_RescaleIntercept);
-      break;
-    case ImageIOBase::CHAR:
-      m_ComponentType = 
-        IntervalCalculator<char>::Compute(m_RescaleSlope, m_RescaleIntercept);
-      break;
-    case ImageIOBase::USHORT:
-      m_ComponentType = 
-        IntervalCalculator<unsigned short>::Compute(m_RescaleSlope, m_RescaleIntercept);
-      break;
-    case ImageIOBase::SHORT:
-      m_ComponentType = 
-        IntervalCalculator<short>::Compute(m_RescaleSlope, m_RescaleIntercept);
-      break;
-    case ImageIOBase::UINT:
-      m_ComponentType = 
-        IntervalCalculator<unsigned int>::Compute(m_RescaleSlope, m_RescaleIntercept);
-      break;
-    case ImageIOBase::INT:
-      m_ComponentType = 
-        IntervalCalculator<int>::Compute(m_RescaleSlope, m_RescaleIntercept);
-      break;
-    default:
-      m_ComponentType = UNKNOWNCOMPONENTTYPE;
-      break;
+      case ImageIOBase::UCHAR:
+        m_ComponentType = 
+          IntervalCalculator<unsigned char>::Compute(m_RescaleSlope, m_RescaleIntercept);
+        break;
+      case ImageIOBase::CHAR:
+        m_ComponentType = 
+          IntervalCalculator<char>::Compute(m_RescaleSlope, m_RescaleIntercept);
+        break;
+      case ImageIOBase::USHORT:
+        m_ComponentType = 
+          IntervalCalculator<unsigned short>::Compute(m_RescaleSlope, m_RescaleIntercept);
+        break;
+      case ImageIOBase::SHORT:
+        m_ComponentType = 
+          IntervalCalculator<short>::Compute(m_RescaleSlope, m_RescaleIntercept);
+        break;
+      case ImageIOBase::UINT:
+        m_ComponentType = 
+          IntervalCalculator<unsigned int>::Compute(m_RescaleSlope, m_RescaleIntercept);
+        break;
+      case ImageIOBase::INT:
+        m_ComponentType = 
+          IntervalCalculator<int>::Compute(m_RescaleSlope, m_RescaleIntercept);
+        break;
+      default:
+        m_ComponentType = UNKNOWNCOMPONENTTYPE;
+        break;
       }
     }
 
@@ -669,12 +674,12 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
 
   // Copy of the header->content
   while(d)
-  {
+    {
     // Because BinEntry is a ValEntry...
     if ( gdcm::BinEntry* b = dynamic_cast<gdcm::BinEntry*>(d) )
       {
       if (b->GetName() != "Pixel Data" && b->GetName() != gdcm::GDCM_UNKNOWN 
-        && b->GetVR() != "UN" )
+          && b->GetVR() != "UN" )
         {
         if (b->GetValue() == gdcm::GDCM_BINLOADED )
           {
@@ -706,7 +711,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     // We skip pb of SQ recursive exploration, and we do not copy binary entries
 
     d = header->GetNextEntry();
-  }
+    }
 
   // Now is a good time to fill in the class member:
   char name[512];
@@ -803,7 +808,7 @@ void GDCMImageIO::Write(const void* buffer)
   // GetKeys will duplicate the entire DICOM header
   std::vector<std::string> keys = dict.GetKeys();
   for( std::vector<std::string>::const_iterator it = keys.begin();
-    it != keys.end(); ++it )
+       it != keys.end(); ++it )
     {
     const std::string &key = *it; //Needed for bcc32
 #else
@@ -853,7 +858,8 @@ void GDCMImageIO::Write(const void* buffer)
       }
     else
       {
-      // This is not a DICOM entry, then check if it is one of the ITK standard ones
+      // This is not a DICOM entry, then check if it is one of the
+      // ITK standard ones
       if( key == ITK_NumberOfDimensions )
         {
         unsigned int numberOfDimensions = 0;
@@ -880,8 +886,8 @@ void GDCMImageIO::Write(const void* buffer)
         }
       else
         {
-        itkDebugMacro(<<
-          "GDCMImageIO: non-DICOM and non-ITK standard key = " << key );
+        itkDebugMacro(
+          << "GDCMImageIO: non-DICOM and non-ITK standard key = " << key );
         }
       }
 
@@ -919,7 +925,7 @@ void GDCMImageIO::Write(const void* buffer)
     {
     str.str("");
     str << m_Spacing[2];
-    header->InsertValEntry(str.str(),0x0018,0x0088); // Spacing Between Slices
+    header->InsertValEntry(str.str(),0x0018,0x0088); // Spacing Between Slices 
     }
 
 // This code still needs work. Spacing, origin and direction are all 3D, yet
@@ -931,7 +937,7 @@ void GDCMImageIO::Write(const void* buffer)
 // image position patient and the row/column direction cosines.
 
   if( ( m_Dimensions.size() > 2 && m_Dimensions[2]>1 ) || 
-        m_GlobalNumberOfDimensions == 3 )
+      m_GlobalNumberOfDimensions == 3 )
     {
     str.str("");
     str << m_Origin[0] << "\\" << m_Origin[1] << "\\" << m_Origin[2];
@@ -940,11 +946,11 @@ void GDCMImageIO::Write(const void* buffer)
     // Handle Direction = Image Orientation Patient
     str.str("");
     str << m_Direction[0][0] << "\\"
-      << m_Direction[1][0] << "\\"
-      << m_Direction[2][0] << "\\"
-      << m_Direction[0][1] << "\\"
-      << m_Direction[1][1] << "\\"
-      << m_Direction[2][1];
+        << m_Direction[1][0] << "\\"
+        << m_Direction[2][0] << "\\"
+        << m_Direction[0][1] << "\\"
+        << m_Direction[1][1] << "\\"
+        << m_Direction[2][1];
     header->InsertValEntry(str.str(),0x0020,0x0037); // Image Orientation (Patient)
     }
 
@@ -1012,14 +1018,14 @@ void GDCMImageIO::Write(const void* buffer)
         highBit       = "7"; // High Bit
         pixelRep      = "0"; // Pixel Representation
         break;
-
-      default:
+     default:
         itkExceptionMacro(<<"DICOM does not support this component type");
       }
     }
-  else
-    {
-    itkExceptionMacro(<<"DICOM does not support RGBPixels with components != 3");
+    else
+      {
+    itkExceptionMacro(
+      <<"DICOM does not support RGBPixels with components != 3");
     }
 
   // Write component specific information in the header:
@@ -1033,17 +1039,17 @@ void GDCMImageIO::Write(const void* buffer)
   header->InsertValEntry(str.str(),0x0028,0x0002); // Samples per Pixel
 
   if( !m_KeepOriginalUID )
-  {
+    {
     // UID generation part:
     // We only create *ONE* Study/Series.Frame of Reference Instance UID
     if( m_StudyInstanceUID.empty() )
-    {
+      {
       // As long as user maintain there gdcmIO they will keep the same
       // Study/Series instance UID.
       m_StudyInstanceUID = gdcm::Util::CreateUniqueUID( m_UIDPrefix );
       m_SeriesInstanceUID = gdcm::Util::CreateUniqueUID( m_UIDPrefix );
       m_FrameOfReferenceInstanceUID = gdcm::Util::CreateUniqueUID( m_UIDPrefix );
-    }
+      }
     std::string uid = gdcm::Util::CreateUniqueUID( m_UIDPrefix );
 
     header->InsertValEntry( uid, 0x0008, 0x0018); //[SOP Instance UID]
@@ -1053,7 +1059,7 @@ void GDCMImageIO::Write(const void* buffer)
     header->InsertValEntry( m_FrameOfReferenceInstanceUID, 0x0020, 0x0052); //[Frame of Reference UID] 
     // Secondary Capture Image Storage SOP Class
     header->InsertValEntry( "1.2.840.10008.5.1.4.1.1.7", 0x0002, 0x0012); //[Implementation Class UID]
-  }
+    }
 
   //copy data from buffer to DICOM buffer
   uint8_t* imageData = new uint8_t[numberOfBytes];
@@ -1212,10 +1218,10 @@ bool GDCMImageIO::GetValueFromTag(const std::string & tag, std::string & value)
 }
 
 bool GDCMImageIO::GetLabelFromTag( const std::string & tagkey,
-                                         std::string & labelId )
+                                   std::string & labelId )
 {
   gdcm::Dict *pubDict = gdcm::Global::GetDicts()->GetDefaultPubDict();
-
+  
   gdcm::DictEntry *dictentry = pubDict->GetEntry( tagkey );
 
   bool found;
@@ -1269,9 +1275,6 @@ void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "Institution Name:" << m_Institution << std::endl;
   os << indent << "Model:" << m_Model << std::endl;
   os << indent << "Scan Options:" << m_ScanOptions << std::endl;
-
-
-}
-
+  }
 
 } // end namespace itk

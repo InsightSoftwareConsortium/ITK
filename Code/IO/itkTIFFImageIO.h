@@ -39,9 +39,9 @@ class ITK_EXPORT TIFFImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef TIFFImageIO            Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef TIFFImageIO        Self;
+  typedef ImageIOBase        Superclass;
+  typedef SmartPointer<Self> Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -84,13 +84,14 @@ public:
   enum { NOFORMAT, RGB_, GRAYSCALE, PALETTE_RGB, PALETTE_GRAYSCALE, OTHER };
 
   //BTX
-  enum { // Compression types
+  enum
+    { // Compression types
     NoCompression,
     PackBits,
     JPEG,
     Deflate,
     LZW
-  };
+    };
   //ETX
 
   // Description:
@@ -151,19 +152,18 @@ protected:
   void *ReadRawByteFromTag( unsigned int t, short &value_count );
 
   TIFFReaderInternal * m_InternalImage;
-  int m_Compression;
+  int                  m_Compression;
 private:
   TIFFImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  unsigned short *ColorRed;
-  unsigned short *ColorGreen;
-  unsigned short *ColorBlue;
-  int TotalColors;
-  unsigned int ImageFormat;
+  unsigned short *m_ColorRed;
+  unsigned short *m_ColorGreen;
+  unsigned short *m_ColorBlue;
+  int             m_TotalColors;
+  unsigned int    m_ImageFormat;
 };
 
 } // end namespace itk
 
 #endif // __itkTIFFImageIO_h
-
