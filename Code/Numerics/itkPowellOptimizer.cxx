@@ -22,10 +22,6 @@
 namespace itk
 {
 
-const double POWELL_BRACKET_GOLD = 1.618034;
-const double POWELL_BRENT_GOLD = 0.3819660;
-const double POWELL_GLIMIT = 100.0;
-const double POWELL_TINY = 1.0e-20;
 
 PowellOptimizer
 ::PowellOptimizer()
@@ -301,6 +297,7 @@ PowellOptimizer
   w = bx;
 
   const double goldenSectionRatio = (3.0-sqrt(5.0))/2;  /* Gold section ratio    */
+  const double POWELL_TINY = 1.0e-20;
 
   double functionValueOfX;        /* f(x)        */
   double functionValueOfV;        /* f(v)        */
@@ -315,7 +312,6 @@ PowellOptimizer
        m_CurrentLineIteration++)
     {
   
-    double range = b-a;      /* Range over which the minimum */
     double middle_range = (a+b)/2;
 
     double new_step;          /* Step at this iteration       */
