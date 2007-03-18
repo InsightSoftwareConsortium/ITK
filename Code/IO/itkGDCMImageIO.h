@@ -208,8 +208,8 @@ public:
 
   /** Set/Get a boolean to use the JPEG2000 compression or not. */
   typedef enum { JPEG = 0, JPEG2000 } TCompressionType;
-  itkSetMacro(CompressionType,TCompressionType);
-  itkGetConstReferenceMacro(CompressionType,TCompressionType);
+  itkSetEnumMacro(CompressionType,TCompressionType);
+  itkGetEnumMacro(CompressionType,TCompressionType);
 
 protected:
   GDCMImageIO();

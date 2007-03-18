@@ -133,8 +133,8 @@ public:
    * SCALAR, RGB, RGBA, VECTOR, COVARIANTVECTOR, POINT, INDEX. If
    * the PIXELTYPE is SCALAR, then the NumberOfComponents should be 1.
    * Anyother of PIXELTYPE will have more than one component.*/
-  itkSetMacro(PixelType, IOPixelType);
-  itkGetConstReferenceMacro(PixelType, IOPixelType);
+  itkSetEnumMacro(PixelType, IOPixelType);
+  itkGetEnumMacro(PixelType, IOPixelType);
 
   /** SetPixelTypeInfo is used by writers to convert from an ITK
    * strongly typed pixel to a ImageIO (weaker) typed pixel. This
@@ -146,8 +146,8 @@ public:
 
   /** Set/Get the component type of the image. This is always a native
    * type. */
-  itkSetMacro(ComponentType,IOComponentType);
-  itkGetConstReferenceMacro(ComponentType,IOComponentType);
+  itkSetEnumMacro(ComponentType,IOComponentType);
+  itkGetEnumMacro(ComponentType,IOComponentType);
   virtual const std::type_info& GetComponentTypeInfo() const;
 
   /** Set/Get the number of components per pixel in the image. This may
@@ -179,8 +179,8 @@ public:
 
   /** These methods control whether the file is written binary or ASCII.
    * Many file formats (i.e., subclasses) ignore this flag. */
-  itkSetMacro(FileType,FileType);
-  itkGetConstReferenceMacro(FileType,FileType);
+  itkSetEnumMacro(FileType,FileType);
+  itkGetEnumMacro(FileType,FileType);
   void SetFileTypeToASCII()
   { this->SetFileType(ASCII); }
   void SetFileTypeToBinary()
@@ -197,8 +197,8 @@ public:
    * a VAX or PC, SetByteOrderToLittleEndian() otherwise
    * SetByteOrderToBigEndian().  Some ImageIOBase subclasses
    * ignore these methods. */
-  itkSetMacro(ByteOrder,ByteOrder);
-  itkGetConstReferenceMacro(ByteOrder,ByteOrder);
+  itkSetEnumMacro(ByteOrder,ByteOrder);
+  itkGetEnumMacro(ByteOrder,ByteOrder);
   void SetByteOrderToBigEndian()
   { this->SetByteOrder(BigEndian); }
   void SetByteOrderToLittleEndian()

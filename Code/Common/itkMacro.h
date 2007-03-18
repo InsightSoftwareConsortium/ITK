@@ -186,6 +186,30 @@ namespace itk
     itkDebugMacro("returning " << #name " of " << this->m_##name ); \
     return this->m_##name; \
   }
+  
+  /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility());
+  * This should be use when the type is an enum. It is use to avoid warnings on
+  * some compilers with non specified enum types passed to itkDebugMacro.*/
+#define itkSetEnumMacro(name,type) \
+  virtual void Set##name (const type _arg) \
+  { \
+    itkDebugMacro("setting " #name " to " << static_cast<long>(_arg)); \
+    if (this->m_##name != _arg) \
+      { \
+      this->m_##name = _arg; \
+      this->Modified(); \
+      } \
+  } 
+
+/** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility()); 
+  * This should be use when the type is an enum. It is use to avoid warnings on
+  * some compilers with non specified enum types passed to itkDebugMacro.*/
+#define itkGetEnumMacro(name,type) \
+  virtual type Get##name () const \
+  { \
+    itkDebugMacro("returning " << #name " of " << static_cast<long>(this->m_##name) ); \
+    return this->m_##name; \
+  }
 
 /** Set character string.  Creates member Set"name"() 
  * (e.g., SetFilename(char *)). The macro assumes that

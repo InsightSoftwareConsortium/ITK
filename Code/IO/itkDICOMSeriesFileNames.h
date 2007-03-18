@@ -128,8 +128,8 @@ public:
    * or the position of the image computed using the
    * ImagePositionPatient and ImageOrientationPatient DICOM fields. */
   typedef enum {SortByImageNumber, SortBySliceLocation, SortByImagePositionPatient} FileNameSortingOrderType;
-  itkSetMacro(FileNameSortingOrder, FileNameSortingOrderType);
-  itkGetMacro(FileNameSortingOrder, FileNameSortingOrderType);
+  itkSetEnumMacro(FileNameSortingOrder, FileNameSortingOrderType);
+  itkGetEnumMacro(FileNameSortingOrder, FileNameSortingOrderType);
   void SetFileNameSortingOrderToSortByImageNumber()
     { this->SetFileNameSortingOrder(SortByImageNumber); }
   void SetFileNameSortingOrderToSortBySliceLocation()
