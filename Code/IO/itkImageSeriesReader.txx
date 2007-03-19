@@ -233,6 +233,8 @@ void ImageSeriesReader<TOutputImage>
 
   ImageRegionIterator<TOutputImage> ot (output, requestedRegion );
 
+  std::cout << requestedRegion << std::endl;
+
 
   // Clear the eventual previous content of the MetaDictionary array
   if( m_MetaDataDictionaryArray.size() )

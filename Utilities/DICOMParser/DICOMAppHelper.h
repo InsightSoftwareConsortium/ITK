@@ -38,6 +38,7 @@ class DICOMParser;
 // Function object for sorting strings
 struct ltstdstr
 {
+  ltstdstr() {}
   bool operator()(const dicom_stl::string s1, const dicom_stl::string s2) const
   {
     return s1 < s2;

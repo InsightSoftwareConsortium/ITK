@@ -71,7 +71,10 @@ public:
 
   /** Print the region. */
   virtual void Print(std::ostream& os, Indent indent=0) const;
+
+  Region() {}
   virtual ~Region() {}
+
 protected:
   /** Methods invoked by Print() to print information about the object
    * including superclasses. Typically not called by the user (use Print()
